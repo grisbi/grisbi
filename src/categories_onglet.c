@@ -412,8 +412,8 @@ void categories_exporter_list ( void )
     dialog = gtk_file_chooser_dialog_new ( _("Export categories"),
 					   GTK_WINDOW ( run.window ),
 					   GTK_FILE_CHOOSER_ACTION_SAVE,
-					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					   GTK_STOCK_SAVE, GTK_RESPONSE_OK,
+					   "gtk-cancel", GTK_RESPONSE_CANCEL,
+					   "gtk-save", GTK_RESPONSE_OK,
 					   NULL);
 
     gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER ( dialog ),  _("Categories.cgsb"));
@@ -453,8 +453,8 @@ void categories_importer_list ( void )
     dialog = gtk_file_chooser_dialog_new ( _("Import categories"),
 					   GTK_WINDOW ( run.window ),
 					   GTK_FILE_CHOOSER_ACTION_OPEN,
-					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					   GTK_STOCK_OPEN, GTK_RESPONSE_OK,
+					   "gtk-cancel", GTK_RESPONSE_CANCEL,
+					   "gtk-open", GTK_RESPONSE_OK,
 					   NULL);
 
     gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( dialog ), gsb_file_get_last_path () );
@@ -502,8 +502,8 @@ void categories_importer_list ( void )
 				 NULL );
 
     gtk_dialog_add_buttons ( GTK_DIALOG(dialog),
-			     GTK_STOCK_CANCEL, 0,
-			     GTK_STOCK_OK, 1,
+			     "gtk-cancel", 0,
+			     "gtk-ok", 1,
 			     NULL );
 
     resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
@@ -572,7 +572,7 @@ GtkWidget *creation_barre_outils_categ ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Import button */
-    item = gtk_tool_button_new_from_stock ( GTK_STOCK_OPEN );
+    item = gtk_tool_button_new_from_stock ( "gtk-open" );
     gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Import") );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Import a Grisbi category file (.cgsb)") );
     g_signal_connect ( G_OBJECT ( item ),
@@ -582,7 +582,7 @@ GtkWidget *creation_barre_outils_categ ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Export button */
-    item = gtk_tool_button_new_from_stock ( GTK_STOCK_SAVE );
+    item = gtk_tool_button_new_from_stock ( "gtk-save" );
     gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Export") );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Export a Grisbi category file (.cgsb)") );
     g_signal_connect ( G_OBJECT ( item ),
@@ -592,7 +592,7 @@ GtkWidget *creation_barre_outils_categ ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Delete button */
-    item = gtk_tool_button_new_from_stock ( GTK_STOCK_DELETE );
+    item = gtk_tool_button_new_from_stock ( "gtk-delete" );
     metatree_register_widget_as_linked ( GTK_TREE_MODEL ( categ_tree_model ),
                         GTK_WIDGET ( item ),
                         "selection" );
@@ -604,7 +604,7 @@ GtkWidget *creation_barre_outils_categ ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Properties button */
-    item = gtk_tool_button_new_from_stock ( GTK_STOCK_EDIT );
+    item = gtk_tool_button_new_from_stock ( "gtk-edit" );
     metatree_register_widget_as_linked ( GTK_TREE_MODEL ( categ_tree_model ),
                         GTK_WIDGET ( item ),
                         "selection" );
@@ -616,7 +616,7 @@ GtkWidget *creation_barre_outils_categ ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* View button */
-    item = gtk_tool_button_new_from_stock ( GTK_STOCK_SELECT_COLOR );
+    item = gtk_tool_button_new_from_stock ( "gtk-select-color" );
     gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("View") );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Change view mode"));
     g_signal_connect ( G_OBJECT ( item ),
@@ -726,8 +726,8 @@ gboolean edit_category ( GtkTreeView *tree_view )
     dialog = gtk_dialog_new_with_buttons ( title,
 					   GTK_WINDOW ( run.window ),
 					   GTK_DIALOG_MODAL,
-					   GTK_STOCK_CANCEL, GTK_RESPONSE_NO,
-					   GTK_STOCK_APPLY, GTK_RESPONSE_OK,
+					   "gtk-cancel", GTK_RESPONSE_NO,
+					   "gtk-apply", GTK_RESPONSE_OK,
 					   NULL );
 
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
@@ -1092,7 +1092,7 @@ void category_list_popup_context_menu ( void )
 
         menu_item = gtk_image_menu_item_new_with_label ( title );
         gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_stock ( GTK_STOCK_CONVERT,
+                        gtk_image_new_from_stock ( "gtk-convert",
                         GTK_ICON_SIZE_MENU ) );
         g_signal_connect_swapped ( G_OBJECT ( menu_item ),
                         "activate",
@@ -1114,7 +1114,7 @@ void category_list_popup_context_menu ( void )
 
         menu_item = gtk_image_menu_item_new_with_label ( title );
         gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                            gtk_image_new_from_stock ( GTK_STOCK_EDIT,
+                            gtk_image_new_from_stock ( "gtk-edit",
                             GTK_ICON_SIZE_MENU ) );
         g_signal_connect_swapped ( G_OBJECT ( menu_item ),
                             "activate",
@@ -1139,7 +1139,7 @@ void category_list_popup_context_menu ( void )
 
         menu_item = gtk_image_menu_item_new_with_label ( title );
         gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_stock ( GTK_STOCK_CONVERT,
+                        gtk_image_new_from_stock ( "gtk-convert",
                         GTK_ICON_SIZE_MENU ) );
         g_signal_connect_swapped ( G_OBJECT ( menu_item ),
                         "activate",
