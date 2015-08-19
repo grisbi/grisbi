@@ -418,7 +418,7 @@ gboolean export_enter_resume_page ( GtkWidget * assistant )
 				 page, page - 1, -1, G_CALLBACK ( NULL ) );
 
 	/* Replace the "next" button of resume page */
-	gsb_assistant_change_button_next ( assistant, GTK_STOCK_GO_FORWARD,
+	gsb_assistant_change_button_next ( assistant, "gtk-go-forward",
 					   GTK_RESPONSE_YES );
     }
 
