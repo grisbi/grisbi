@@ -294,8 +294,8 @@ static gboolean saisie_echeance_accueil ( GtkWidget *event_box,
     dialog = gtk_dialog_new_with_buttons ( _("Enter a scheduled transaction"),
 					   GTK_WINDOW ( run.window ),
 					   GTK_DIALOG_MODAL,
-					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					   GTK_STOCK_OK, GTK_RESPONSE_OK,
+					   "gtk-cancel", GTK_RESPONSE_CANCEL,
+					   "gtk-ok", GTK_RESPONSE_OK,
 					   NULL );
 
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
