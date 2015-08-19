@@ -1485,7 +1485,7 @@ void bet_historical_context_menu ( GtkWidget *tree_view )
     /* Add last amount menu */
     menu_item = gtk_image_menu_item_new_with_label ( _("Assign the amount of the last operation") );
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_stock ( GTK_STOCK_ADD,
+                        gtk_image_new_from_stock ( "gtk-add",
                         GTK_ICON_SIZE_MENU ) );
 
     g_signal_connect ( G_OBJECT ( menu_item ),
@@ -1508,7 +1508,7 @@ void bet_historical_context_menu ( GtkWidget *tree_view )
     /* Add average amount menu */
     menu_item = gtk_image_menu_item_new_with_label ( _("Copy the average amount") );
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_stock ( GTK_STOCK_COPY,
+                        gtk_image_new_from_stock ( "gtk-copy",
                         GTK_ICON_SIZE_MENU ) );
 
     g_signal_connect ( G_OBJECT ( menu_item ),
@@ -1948,7 +1948,7 @@ GtkWidget *bet_historical_create_toolbar ( GtkWidget *parent,
     g_object_set_data ( G_OBJECT ( toolbar ), "page", parent );
 
     /* print button */
-    item = gtk_tool_button_new_from_stock ( GTK_STOCK_PRINT );
+    item = gtk_tool_button_new_from_stock ( "gtk-print" );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Print the array") );
     g_signal_connect ( G_OBJECT ( item ),
                         "clicked",
@@ -1957,7 +1957,7 @@ GtkWidget *bet_historical_create_toolbar ( GtkWidget *parent,
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Export button */
-    item = gtk_tool_button_new_from_stock ( GTK_STOCK_SAVE );
+    item = gtk_tool_button_new_from_stock ( "gtk-save" );
     gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Export") );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Export the array") );
     g_signal_connect ( G_OBJECT ( item ),
@@ -2017,8 +2017,8 @@ void bet_historical_export_tab ( GtkWidget *menu_item,
     dialog = gtk_file_chooser_dialog_new ( _("Export the historical data"),
 					   GTK_WINDOW ( run.window ),
 					   GTK_FILE_CHOOSER_ACTION_SAVE,
-					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					   GTK_STOCK_SAVE, GTK_RESPONSE_OK,
+					   "gtk-cancel", GTK_RESPONSE_CANCEL,
+					   "gtk-save", GTK_RESPONSE_OK,
 					   NULL);
 
     gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER ( dialog ), "division.csv");

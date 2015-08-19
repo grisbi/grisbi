@@ -1031,7 +1031,7 @@ void bet_finance_data_list_context_menu ( GtkWidget *tree_view, gint page_num )
     /* Print list */
     menu_item = gtk_image_menu_item_new_with_label ( _("Print the array") );
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_stock ( GTK_STOCK_PRINT, GTK_ICON_SIZE_MENU ) );
+                        gtk_image_new_from_stock ( "gtk-print", GTK_ICON_SIZE_MENU ) );
     g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( print_tree_view_list ),
@@ -1041,7 +1041,7 @@ void bet_finance_data_list_context_menu ( GtkWidget *tree_view, gint page_num )
     /* Export list */
     menu_item = gtk_image_menu_item_new_with_label ( _("Export the array") );
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_stock ( GTK_STOCK_SAVE, GTK_ICON_SIZE_MENU ) );
+                        gtk_image_new_from_stock ( "gtk-save", GTK_ICON_SIZE_MENU ) );
     g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_finance_ui_export_tab ),
@@ -1825,7 +1825,7 @@ static GtkWidget *bet_finance_create_simulator_toolbar ( GtkWidget *parent,
     }
 
     /* création du bouton print */
-    item = gtk_tool_button_new_from_stock ( GTK_STOCK_PRINT );
+    item = gtk_tool_button_new_from_stock ( "gtk-print" );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Print the array") );
     g_signal_connect ( G_OBJECT ( item ),
                         "clicked",
@@ -1834,7 +1834,7 @@ static GtkWidget *bet_finance_create_simulator_toolbar ( GtkWidget *parent,
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Export button */
-    item = gtk_tool_button_new_from_stock ( GTK_STOCK_SAVE );
+    item = gtk_tool_button_new_from_stock ( "gtk-save" );
     gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Export") );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Export the array") );
     g_signal_connect ( G_OBJECT ( item ),
@@ -1846,7 +1846,7 @@ static GtkWidget *bet_finance_create_simulator_toolbar ( GtkWidget *parent,
     if ( simulator )
     {
         /* création du bouton calculer */
-        item = gtk_tool_button_new_from_stock ( GTK_STOCK_EXECUTE );
+        item = gtk_tool_button_new_from_stock ( "gtk-execute" );
         gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Calculate") );
         gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Calculate") );
         g_signal_connect ( G_OBJECT ( item ),
@@ -1878,8 +1878,8 @@ void bet_finance_ui_export_tab ( GtkWidget *menu_item, GtkTreeView *tree_view )
     dialog = gtk_file_chooser_dialog_new ( _("Export the array"),
 					   GTK_WINDOW ( run.window ),
 					   GTK_FILE_CHOOSER_ACTION_SAVE,
-					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					   GTK_STOCK_SAVE, GTK_RESPONSE_OK,
+					   "gtk-cancel", GTK_RESPONSE_CANCEL,
+					   "gtk-save", GTK_RESPONSE_OK,
 					   NULL);
 
     gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER ( dialog ),  _("credit.csv"));
