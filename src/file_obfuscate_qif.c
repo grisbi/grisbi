@@ -80,7 +80,7 @@ gboolean file_obfuscate_qif_run ( void )
 				      "with -obfuscate at the end."),
 				    "bug.png",
 				    NULL );
-    gsb_assistant_change_button_next (assistant, GTK_STOCK_GO_FORWARD, GTK_RESPONSE_APPLY);
+    gsb_assistant_change_button_next (assistant, "gtk-go-forward", GTK_RESPONSE_APPLY);
     result = gsb_assistant_run ( assistant );
 
     if (result == GTK_RESPONSE_APPLY)
@@ -92,8 +92,8 @@ gboolean file_obfuscate_qif_run ( void )
     file_selection = gtk_file_chooser_dialog_new ( _("Open a QIF file"),
 					   GTK_WINDOW ( assistant ),
 					   GTK_FILE_CHOOSER_ACTION_OPEN,
-					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					   GTK_STOCK_OPEN, GTK_RESPONSE_OK,
+					   "gtk-cancel", GTK_RESPONSE_CANCEL,
+					   "gtk-open", GTK_RESPONSE_OK,
 					   NULL);
 
     gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( file_selection ), gsb_file_get_last_path () );
