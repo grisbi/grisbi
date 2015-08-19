@@ -3100,9 +3100,9 @@ static void etats_prefs_init ( EtatsPrefs *prefs )
         exit ( 1 );
 
     gtk_dialog_add_buttons ( GTK_DIALOG ( prefs ),
-                        GTK_STOCK_CANCEL,
+                        "gtk-cancel",
                         GTK_RESPONSE_CANCEL,
-                        GTK_STOCK_OK,
+                        "gtk-ok",
                         GTK_RESPONSE_OK,
                         NULL );
 

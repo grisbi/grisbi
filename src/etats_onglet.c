@@ -158,7 +158,7 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Import button */
-    item = gtk_tool_button_new_from_stock ( GTK_STOCK_OPEN );
+    item = gtk_tool_button_new_from_stock ( "gtk-open" );
     gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Import") );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Import a Grisbi report file (.egsb)") );
     g_signal_connect ( G_OBJECT ( item ),
@@ -168,7 +168,7 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Export button */
-    bouton_exporter_etat = GTK_WIDGET ( gtk_tool_button_new_from_stock ( GTK_STOCK_SAVE ) );
+    bouton_exporter_etat = GTK_WIDGET ( gtk_tool_button_new_from_stock ( "gtk-save" ) );
     gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( bouton_exporter_etat ), _("Export") );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( bouton_exporter_etat ),
                         _("Export selected report to egsb, HTML, Tex, CSV, PostScript") );
@@ -179,7 +179,7 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), GTK_TOOL_ITEM ( bouton_exporter_etat ), -1 );
 
     /* print button */
-    bouton_imprimer_etat = GTK_WIDGET ( gtk_tool_button_new_from_stock ( GTK_STOCK_PRINT ) );
+    bouton_imprimer_etat = GTK_WIDGET ( gtk_tool_button_new_from_stock ( "gtk-print" ) );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( bouton_imprimer_etat ), _("Print selected report") );
     g_signal_connect ( G_OBJECT ( bouton_imprimer_etat ),
                         "clicked",
@@ -188,7 +188,7 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), GTK_TOOL_ITEM ( bouton_imprimer_etat ), -1 );
 
     /* delete button */
-    bouton_effacer_etat = GTK_WIDGET ( gtk_tool_button_new_from_stock ( GTK_STOCK_DELETE ) );
+    bouton_effacer_etat = GTK_WIDGET ( gtk_tool_button_new_from_stock ( "gtk-delete" ) );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( bouton_effacer_etat ),
                         _("Delete selected report") );
     g_signal_connect ( G_OBJECT ( bouton_effacer_etat ),
@@ -198,7 +198,7 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), GTK_TOOL_ITEM ( bouton_effacer_etat ), -1 );
 
     /* edit button */
-    bouton_personnaliser_etat = GTK_WIDGET ( gtk_tool_button_new_from_stock ( GTK_STOCK_PROPERTIES ) );
+    bouton_personnaliser_etat = GTK_WIDGET ( gtk_tool_button_new_from_stock ( "gtk-properties" ) );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( bouton_personnaliser_etat ),
                         _("Edit selected report") );
     g_signal_connect ( G_OBJECT ( bouton_personnaliser_etat ),
@@ -209,11 +209,11 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
 
     /* clone button */
     bouton_dupliquer_etat = gsb_automem_stock_button_new ( conf.display_toolbar,
-							  GTK_STOCK_COPY,
+							  "gtk-copy",
 							  _("Clone"),
 							  G_CALLBACK (dupliquer_etat),
 							  NULL ),
-    bouton_dupliquer_etat = GTK_WIDGET ( gtk_tool_button_new_from_stock ( GTK_STOCK_COPY ) );
+    bouton_dupliquer_etat = GTK_WIDGET ( gtk_tool_button_new_from_stock ( "gtk-copy" ) );
     gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( bouton_dupliquer_etat ), _("Clone") );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( bouton_dupliquer_etat ),
                         _("Clone selected report") );
@@ -1129,8 +1129,8 @@ void exporter_etat ( void )
     fenetre_nom = gtk_file_chooser_dialog_new ( _("Export report"),
 					   GTK_WINDOW ( run.window ),
 					   GTK_FILE_CHOOSER_ACTION_SAVE,
-					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					   GTK_STOCK_SAVE, GTK_RESPONSE_OK,
+					   "gtk-cancel", GTK_RESPONSE_CANCEL,
+					   "gtk-save", GTK_RESPONSE_OK,
 					   NULL);
 
     gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( fenetre_nom ), gsb_file_get_last_path () );
@@ -1215,8 +1215,8 @@ void importer_etat ( void )
     fenetre_nom = gtk_file_chooser_dialog_new ( _("Import a report"),
 					   GTK_WINDOW ( run.window ),
 					   GTK_FILE_CHOOSER_ACTION_OPEN,
-					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					   GTK_STOCK_OPEN, GTK_RESPONSE_OK,
+					   "gtk-cancel", GTK_RESPONSE_CANCEL,
+					   "gtk-open", GTK_RESPONSE_OK,
 					   NULL);
 
     gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( fenetre_nom ), gsb_file_get_last_path () );
