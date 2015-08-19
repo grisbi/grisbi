@@ -256,7 +256,7 @@ static GtkWidget *onglet_accueil ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), vbox2, FALSE, FALSE, 0 );
 
     /* Button "Add" */
-    button = gtk_button_new_from_stock (GTK_STOCK_ADD);
+    button = gtk_button_new_from_stock ("gtk-add");
     g_signal_connect ( G_OBJECT ( button ),
                         "clicked",
                         G_CALLBACK  ( gsb_partial_balance_add ),
@@ -265,7 +265,7 @@ static GtkWidget *onglet_accueil ( void )
     g_object_set_data ( G_OBJECT (vbox_pref), "add_button", button );
 
     /* Button "Edit" */
-    button = gtk_button_new_from_stock (GTK_STOCK_EDIT);
+    button = gtk_button_new_from_stock ("gtk-edit");
     g_signal_connect ( G_OBJECT ( button ),
                         "clicked",
                         G_CALLBACK  ( gsb_partial_balance_edit ),
@@ -275,7 +275,7 @@ static GtkWidget *onglet_accueil ( void )
     g_object_set_data ( G_OBJECT (vbox_pref), "edit_button", button );
 
     /* Button "Remove" */
-    button = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
+    button = gtk_button_new_from_stock ("gtk-remove");
     g_signal_connect ( G_OBJECT ( button ),
                         "clicked",
                         G_CALLBACK ( gsb_partial_balance_delete ),
@@ -542,7 +542,7 @@ gboolean preferences ( gint page )
     fenetre_preferences = gtk_dialog_new_with_buttons (_("Grisbi preferences"),
                         GTK_WINDOW ( run.window ),
                         GTK_DIALOG_MODAL,
-                        GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
+                        "gtk-close", GTK_RESPONSE_CLOSE,
                         NULL );
 
     if ( conf.prefs_width && conf.prefs_width > 830 )
