@@ -142,9 +142,9 @@ void display_tip ( gboolean force )
     gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog )  ), checkbox, FALSE, FALSE, 6 );
     gtk_widget_show ( checkbox );
 
-    btn_back =    gtk_dialog_add_button (GTK_DIALOG(dialog), GTK_STOCK_GO_BACK, 1);
-    btn_forward = gtk_dialog_add_button (GTK_DIALOG(dialog), GTK_STOCK_GO_FORWARD, 2);
-    btn_close =   gtk_dialog_add_button (GTK_DIALOG(dialog), GTK_STOCK_CLOSE, 3);
+    btn_back =    gtk_dialog_add_button (GTK_DIALOG(dialog), "gtk-go-back", 1);
+    btn_forward = gtk_dialog_add_button (GTK_DIALOG(dialog), "gtk-go-forward", 2);
+    btn_close =   gtk_dialog_add_button (GTK_DIALOG(dialog), "gtk-close", 3);
 
     /* gtk_widget_set_size_request ( dialog, 450, -1 ); */
     /* We iterate as user can select several tips. */
