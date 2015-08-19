@@ -329,7 +329,7 @@ GtkWidget *gsb_currency_config_create_page ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), vbox, FALSE, FALSE, 0 );
 
     /* Button "Add" */
-    button = gtk_button_new_from_stock (GTK_STOCK_ADD);
+    button = gtk_button_new_from_stock ("gtk-add");
     g_signal_connect ( G_OBJECT ( button ),
 		       "clicked",
 		       G_CALLBACK  ( gsb_currency_config_add_currency ),
@@ -337,7 +337,7 @@ GtkWidget *gsb_currency_config_create_page ( void )
     gtk_box_pack_start ( GTK_BOX ( vbox ), button, FALSE, FALSE, 5 );
 
     /* Button "Remove" */
-    button = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
+    button = gtk_button_new_from_stock ("gtk-remove");
     g_signal_connect ( G_OBJECT ( button ),
 		       "clicked",
 		       G_CALLBACK ( gsb_currency_config_remove_currency ),
@@ -935,7 +935,7 @@ gboolean gsb_currency_config_add_currency ( GtkWidget *button,
     dialog = gtk_dialog_new_with_buttons ( _("Add a currency"),
 					   GTK_WINDOW ( run.window ),
 					   GTK_DIALOG_MODAL,
-					   GTK_STOCK_CLOSE, 1,
+					   "gtk-close", 1,
 					   NULL );
 
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );

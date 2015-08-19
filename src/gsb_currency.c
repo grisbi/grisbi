@@ -526,8 +526,8 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
     dialog = gtk_dialog_new_with_buttons ( _("Enter exchange rate"),
                         GTK_WINDOW ( run.window ),
                         GTK_DIALOG_MODAL,
-                        GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-                        GTK_STOCK_OK, GTK_RESPONSE_OK,
+                        "gtk-cancel", GTK_RESPONSE_CANCEL,
+                        "gtk-ok", GTK_RESPONSE_OK,
                         NULL );
 
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );

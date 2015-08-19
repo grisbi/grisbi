@@ -138,7 +138,7 @@ GtkWidget *gsb_currency_link_config_create_page ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), vbox, FALSE, FALSE, 0 );
 
     /* Button "Add" */
-    button = gtk_button_new_from_stock (GTK_STOCK_ADD);
+    button = gtk_button_new_from_stock ("gtk-add");
     g_signal_connect_swapped ( G_OBJECT ( button ),
 			       "clicked",
 			       G_CALLBACK  ( gsb_currency_link_config_add_link ),
@@ -146,7 +146,7 @@ GtkWidget *gsb_currency_link_config_create_page ( void )
     gtk_box_pack_start ( GTK_BOX ( vbox ), button, FALSE, FALSE, 5 );
 
     /* Button "Remove" */
-    button = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
+    button = gtk_button_new_from_stock ("gtk-remove");
     g_signal_connect_swapped ( G_OBJECT ( button ),
 			       "clicked",
 			       G_CALLBACK ( gsb_currency_link_config_remove_link ),
@@ -377,7 +377,7 @@ void gsb_currency_link_config_append_line ( GtkTreeModel *model,
     strdate = gsb_format_gdate ( gsb_data_currency_link_get_modified_date ( link_number ) );
 
     if ( gsb_data_currency_link_get_invalid_link (link_number))
-	invalid = GTK_STOCK_DIALOG_WARNING;
+	invalid = "gtk-dialog-warning";
     else
 	invalid = NULL;
 
@@ -562,7 +562,7 @@ gboolean gsb_currency_link_config_modify_link ( GtkWidget *tree_view )
     strdate = gsb_format_gdate ( gsb_data_currency_link_get_modified_date ( link_number ) );
 
     if ( gsb_data_currency_link_get_invalid_link (link_number))
-	invalid = GTK_STOCK_DIALOG_WARNING;
+	invalid = "gtk-dialog-warning";
     else
 	invalid = NULL;
 
