@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C) 2007 Dominique Parisot                                   */
 /*          zionly@free.org                                                   */
-/*          2008-2011 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          2008-2015 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -2965,7 +2965,8 @@ GtkWidget *bet_array_list_create_toolbar ( GtkWidget *parent,
     g_object_set_data ( G_OBJECT ( toolbar ), "page", parent );
 
     /* print button */
-    item = gtk_tool_button_new_from_stock ( "gtk-print" );
+    item = gtk_tool_button_new ( NULL, _("Print") );
+    gtk_tool_button_set_icon_name ( GTK_TOOL_BUTTON ( item ), "gtk-print" );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Print the array") );
     g_signal_connect ( G_OBJECT ( item ),
                         "clicked",
@@ -2974,8 +2975,8 @@ GtkWidget *bet_array_list_create_toolbar ( GtkWidget *parent,
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Export button */
-    item = gtk_tool_button_new_from_stock ( "gtk-save" );
-    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Export") );
+    item = gtk_tool_button_new ( NULL,  _("Export") );
+    gtk_tool_button_set_icon_name ( GTK_TOOL_BUTTON ( item ), "gtk-save" );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Export the array of forecast") );
     g_signal_connect ( G_OBJECT ( item ),
                         "clicked",
