@@ -42,9 +42,11 @@
 
 
 /**
- * retourne le nom long du fichier de l'interface graphique
+ * returns the full name of the GUI file
  *
+ * \param name  name of Xml file
  *
+ * \return      full filename
  *
  * */
 gchar *utils_gtkbuilder_get_full_path ( const gchar *name )
