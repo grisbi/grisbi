@@ -1825,6 +1825,10 @@ void gsb_localisation_decimal_point_changed ( GtkComboBox *widget, gpointer user
         }
     }
 
+    /* on sort si on est dans l'assistant de sélection d'un nouveau fichier */
+    if ( GPOINTER_TO_INT ( user_data ) == GTK_ORIENTATION_HORIZONTAL )
+        return;
+
     /* reset capital */
     entry = bet_finance_get_capital_entry ( );
     str_capital = utils_real_get_string_with_currency ( gsb_real_double_to_real (
@@ -1834,9 +1838,6 @@ void gsb_localisation_decimal_point_changed ( GtkComboBox *widget, gpointer user
 
     gtk_entry_set_text ( GTK_ENTRY ( entry ), str_capital );
     g_free ( str_capital );
-
-    if ( GPOINTER_TO_INT ( user_data ) == GTK_ORIENTATION_HORIZONTAL )
-        return;
 
     gsb_localisation_update_affichage ( 1 );
 }
@@ -1885,6 +1886,10 @@ void gsb_localisation_thousands_sep_changed ( GtkComboBox *widget, gpointer user
     else
         gsb_locale_set_mon_thousands_sep ( NULL );
 
+    /* on sort si on est dans l'assistant de sélection d'un nouveau fichier */
+    if ( GPOINTER_TO_INT ( user_data ) == GTK_ORIENTATION_HORIZONTAL )
+        return;
+
     /* reset capital */
     entry = bet_finance_get_capital_entry ( );
     str_capital = utils_real_get_string_with_currency ( gsb_real_double_to_real (
@@ -1894,9 +1899,6 @@ void gsb_localisation_thousands_sep_changed ( GtkComboBox *widget, gpointer user
 
     gtk_entry_set_text ( GTK_ENTRY ( entry ), str_capital );
     g_free ( str_capital );
-
-    if ( GPOINTER_TO_INT ( user_data ) == GTK_ORIENTATION_HORIZONTAL )
-        return;
 
     gsb_localisation_update_affichage ( 1 );
 }
