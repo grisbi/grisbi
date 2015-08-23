@@ -920,9 +920,16 @@ gchar *utils_str_dtostr ( gdouble number, gint nbre_decimal, gboolean canonical 
     str_number = g_strndup ( buffer, nbre_char );
 
     if ( canonical && g_strrstr ( str_number, "," ) )
-        str_number = my_strdelimit ( str_number, ",", "." );
+    {
+        gchar *tmp_str;
 
-    return str_number;
+        tmp_str = my_strdelimit ( str_number, ",", "." );
+        g_free ( str_number );
+
+        return tmp_str;
+    }
+    else
+        return str_number;
 }
 
 
