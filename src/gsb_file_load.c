@@ -2741,6 +2741,9 @@ void gsb_file_load_category ( const gchar **attribute_names,
                         buffer_new_div_sous_div->no_div,
                         buffer_new_div_sous_div->name,
                         buffer_new_div_sous_div->type );
+
+    if ( buffer_new_div_sous_div->name )
+        g_free ( buffer_new_div_sous_div->name );
 }
 
 
@@ -2808,8 +2811,12 @@ void gsb_file_load_sub_category ( const gchar **attribute_names,
                         buffer_new_div_sous_div->new_no_div,
                         buffer_new_div_sous_div->no_sub_div,
                         buffer_new_div_sous_div->name );
+
         devel_debug ( tmpstr );
     }
+
+    if ( buffer_new_div_sous_div->name )
+        g_free ( buffer_new_div_sous_div->name );
 }
 
 
