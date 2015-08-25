@@ -1535,7 +1535,7 @@ gboolean gsb_account_property_focus_out ( GtkWidget *widget,
         payees_fill_list ();
         break;
     case PROPERTY_HOLDER_NAME:
-        gsb_main_set_grisbi_title ( account_number );
+        grisbi_win_set_grisbi_title ( account_number );
         break;
     }
 

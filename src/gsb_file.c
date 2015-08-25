@@ -475,7 +475,7 @@ gboolean gsb_file_open_file ( gchar *filename )
     }
 
     /* set Grisbi title */
-    gsb_main_set_grisbi_title ( -1 );
+    grisbi_win_set_grisbi_title ( -1 );
 
     /* update the main page */
     mise_a_jour_accueil (TRUE);
@@ -604,7 +604,7 @@ gboolean gsb_file_save_file ( gint origine )
 	/* update variables */
 	etat.fichier_deja_ouvert = 0;
         gsb_file_set_modified ( FALSE );
-	gsb_main_set_grisbi_title ( gsb_gui_navigation_get_current_account ( ) );
+	grisbi_win_set_grisbi_title ( gsb_gui_navigation_get_current_account ( ) );
 	gsb_file_append_name_to_opened_list ( nom_fichier_comptes );
     }
 
@@ -975,7 +975,7 @@ gboolean gsb_file_close ( void )
         gsb_gui_init_general_vbox ( );
         gsb_account_property_clear_config ( );
 
-        gsb_main_set_grisbi_title ( -1 );
+        grisbi_win_set_grisbi_title ( -1 );
 
         /* unsensitive the necessaries menus */
         gsb_menu_set_menus_with_file_sensitive ( FALSE );

@@ -54,7 +54,7 @@
 GtkWidget *window = NULL;
 struct gsb_run_t run;
 extern gchar *nom_fichier_comptes;
-gboolean gsb_main_grisbi_close( void )
+gboolean grisbi_app_quit( void )
 {
 	return FALSE;
 }

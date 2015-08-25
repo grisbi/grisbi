@@ -264,7 +264,7 @@ GtkWidget *init_menus ( GtkWidget *vbox )
          G_CALLBACK ( gsb_file_close ) },
 	#endif
         {"QuitAction", "gtk-quit", _("_Quit"), NULL, NULL,
-         G_CALLBACK ( gsb_main_grisbi_close ) },
+         G_CALLBACK ( grisbi_app_quit ) },
 
         /* Editmenu */
         {"EditMenuAction", NULL, _("_Edit"), NULL, NULL, NULL },

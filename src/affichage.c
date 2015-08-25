@@ -651,7 +651,7 @@ gboolean update_homepage_title (GtkEntry *entry, gchar *value,
     titre_fichier = my_strdup ( gtk_entry_get_text ( GTK_ENTRY ( entry ) ) );
 
     /* set Grisbi title */
-    gsb_main_set_grisbi_title ( -1 );
+    grisbi_win_set_grisbi_title ( -1 );
 
     /* Mark file as modified */
     gsb_file_set_modified ( TRUE );
@@ -973,7 +973,7 @@ gboolean change_grisbi_title_type ( GtkRadioButton *button, GtkWidget *entry )
     }
 
     /* set Grisbi title */
-    gsb_main_set_grisbi_title ( gsb_gui_navigation_get_current_account ( ) );
+    grisbi_win_set_grisbi_title ( gsb_gui_navigation_get_current_account ( ) );
 
     return FALSE;
 }

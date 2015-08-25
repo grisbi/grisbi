@@ -998,7 +998,7 @@ gboolean navigation_change_account ( gint new_account )
 
     /* Update the title of the file if needed */
     if ( conf.display_grisbi_title == GSB_ACCOUNT_HOLDER )
-        gsb_main_set_grisbi_title ( new_account );
+        grisbi_win_set_grisbi_title ( new_account );
 
     /* select the good tab */
     bet_data_select_bet_pages ( new_account );
