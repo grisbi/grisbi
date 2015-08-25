@@ -1744,9 +1744,9 @@ void gsb_assistant_payees_modifie_operations ( GSList *sup_payees,
                 if ( question_conditional_yes_no_with_struct (
                  &overwrite_payee ) == FALSE )
                     question = FALSE;
-                g_free ( overwrite_payee.name );
-                g_free ( overwrite_payee.hint );
-                g_free ( overwrite_payee.message );
+                g_free ( (gchar*) overwrite_payee.name );
+                g_free ( (gchar*) overwrite_payee.hint );
+                g_free ( (gchar*) overwrite_payee.message );
                 g_free ( tmpstr );
             }
             else
