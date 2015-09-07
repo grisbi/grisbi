@@ -28,6 +28,14 @@ libgrisbi_la_SOURCES = \
 	accueil.c		\
 	affichage.c		\
 	affichage_liste.c	\
+	bet_config.c \
+	bet_data.c \
+	bet_data_finance.c \
+	bet_finance_ui.c \
+	bet_future.c \
+	bet_graph.c \
+	bet_hist.c \
+	bet_tab.c	\
 	categories_onglet.c	\
 	classement_echeances.c	\
 	csv_parse.c		\
@@ -50,6 +58,8 @@ libgrisbi_la_SOURCES = \
 	file_obfuscate_qif.c	\
 	go-charmap-sel.c	\
 	go-optionmenu.c		\
+	grisbi_app.c		\
+	grisbi_win.c		\
 	grisbi_osx.c \
 	gsb_account.c		\
 	gsb_account_property.c	\
@@ -161,14 +171,6 @@ libgrisbi_la_SOURCES = \
 	utils_operations.c	\
 	utils_real.c		\
 	utils_str.c		\
-	bet_config.c \
-	bet_data.c \
-	bet_data_finance.c \
-	bet_finance_ui.c \
-	bet_future.c \
-	bet_graph.c \
-	bet_hist.c \
-	bet_tab.c	\
 	accueil.h		\
 	affichage.h		\
 	affichage_liste.h	\
@@ -204,6 +206,8 @@ libgrisbi_la_SOURCES = \
 	file_obfuscate_qif.h	\
 	go-charmap-sel.h        \
 	go-optionmenu.h         \
+	grisbi_app.h		\
+	grisbi_win.h		\
 	grisbi_osx.h \
 	gsb_account.h		\
 	gsb_account_property.h	\
@@ -317,11 +321,20 @@ libgrisbi_la_SOURCES = \
 	utils_gtkbuilder.h	\
 	utils_operations.h	\
 	utils_real.h		\
-	utils_str.h
+	utils_str.h		\
+	grisbi.gresource.xml
 
 grisbi_SOURCES = 		\
 	main.c				\
-	main.h
+	main.h				\
+	grisbi_resources.c
+
+BUILT_SOURCES = grisbi_resources.c
+
+grisbi_resources.c: grisbi.gresource.xml $(shell $(GLIB_COMPILE_RESOURCES) --sourcedir=$(srcdir)/ui --generate-dependencies $(srcdir)/grisbi.gresource.xml)
+	$(AM_V_GEN) $(GLIB_COMPILE_RESOURCES) --target=$@ --sourcedir=$(srcdir)/ui --generate-source $(srcdir)/grisbi.gresource.xml
+
+CLEANFILES = $(BUILT_SOURCES)
 
 SUBDIRS = ui plugins/gnucash plugins/ofx plugins/openssl
 
@@ -329,7 +342,7 @@ if HAVE_CUNIT
 SUBDIRS += tests
 endif
 
-EXTRA_DIST = grisbi.keys grisbi.mime
+EXTRA_DIST = grisbi.keys grisbi.mime grisbi.gresource.xml
 
 mimedir = $(datadir)/mime-info
 mime_DATA = grisbi.keys grisbi.mime
