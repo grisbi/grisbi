@@ -1,0 +1,258 @@
+<?xml version="1.0"?>
+<interface>
+  <!-- interface-requires gtk+ 3.0 -->
+ <menu id="appmenu">
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">New window</attribute>
+        <attribute name="action">app.new_window</attribute>
+        <attribute name="accel">&lt;Primary&gt;n</attribute>
+        <attribute name="icon">/usr/share/icons/Mint-X/actions/32/document-new.png</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Open...</attribute>
+        <attribute name="action">app.open</attribute>
+          <attribute name="accel">&lt;Primary&gt;o</attribute>
+        <attribute name="icon">document-open-symbolic</attribute>
+
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">About</attribute>
+        <attribute name="action">app.about</attribute>
+        <attribute name="icon">dialog-information-symbolic</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Quit</attribute>
+        <attribute name="action">app.quit</attribute>
+        <attribute name="accel">&lt;Primary&gt;q</attribute>
+        <attribute name="icon">emblem-ohno</attribute>
+      </item>
+    </section>
+  </menu>
+  <menu id="menubar">
+    <submenu>
+      <attribute name="label" translatable="yes">File</attribute>
+      <section>
+        <item>
+          <attribute name="label" translatable="yes">New account file...</attribute>
+          <attribute name="action">app.new_acc_file</attribute>
+          <attribute name="accel">&lt;Primary&gt;n</attribute>
+        <attribute name="icon">/usr/share/icons/Mint-X/actions/32/document-new.png</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">Open...</attribute>
+          <attribute name="action">app.open</attribute>
+          <attribute name="accel">&lt;Primary&gt;o</attribute>
+          <attribute name="icon">document-open-symbolic</attribute>
+        </item>
+      </section>
+      <section>
+        <submenu>
+          <attribute name="label" translatable="yes">Recently opened files</attribute>
+        </submenu>
+      </section>
+      <section>
+      	<item>
+		      <attribute name="label" translatable="yes">Save</attribute>
+		      <attribute name="action">app.save</attribute>
+		      <attribute name="accel">&lt;Primary&gt;s</attribute>
+          <attribute name="icon">document-save-symbolic</attribute>
+		    </item>
+		    <item>
+		      <attribute name="label" translatable="yes">Save As...</attribute>
+		      <attribute name="action">app.save-as</attribute>
+          <attribute name="icon">document-save-as-symbolic</attribute>
+		    </item>
+		  </section>
+      <section>
+        <item>
+          <attribute name="label" translatable="yes">Import file...</attribute>
+          <attribute name="action">app.import</attribute>
+          <attribute name="accel">&lt;Primary&gt;I</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">Export accounts as QIF/CSV file...</attribute>
+          <attribute name="action">app.export</attribute>
+        </item>
+      </section>
+      <section>
+        <item>
+          <attribute name="label" translatable="yes">Archive transactions...</attribute>
+          <attribute name="action">app.create_archive</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">Export an archive as GSB/QIF/CSV file...</attribute>
+          <attribute name="action">app.export_archive</attribute>
+        </item>
+      </section>
+      <section>
+        <item>
+          <attribute name="label" translatable="yes">Debug account file...</attribute>
+          <attribute name="action">win.debug_acc_file</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">Obfuscate account file...</attribute>
+          <attribute name="action">win.obf_acc_file_archive</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">Obfuscate QIF file...</attribute>
+          <attribute name="action">win.obf_qif_file</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">Debug mode</attribute>
+          <attribute name="action">win.debug_mode</attribute>
+        </item>
+      </section>
+      <section>
+        <item>
+          <attribute name="label" translatable="yes">Close</attribute>
+          <attribute name="action">win.close</attribute>
+          <attribute name="accel">&lt;Primary&gt;w</attribute>
+        </item>
+    </section>
+    </submenu>
+    <submenu>
+      <attribute name="label" translatable="yes">Edit</attribute>
+      <section>
+        <item>
+          <attribute name="label" translatable="yes">Edit transaction</attribute>
+          <attribute name="action">win.edit_ope</attribute>
+        </item>
+      </section>
+      <section>
+        <item>
+          <attribute name="label" translatable="yes">New transaction</attribute>
+          <attribute name="action">win.new_ope</attribute>
+          <attribute name="accel">&lt;Primary&gt;t</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">Remove transaction</attribute>
+          <attribute name="action">win.remove_ope</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">Use selected transaction as a template</attribute>
+          <attribute name="action">win.template_ope</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">Clone transaction</attribute>
+          <attribute name="action">win.clone_ope</attribute>
+        </item>
+      </section>
+      <section>
+        <item>
+          <attribute name="label" translatable="yes">Convert to scheduled transaction</attribute>
+          <attribute name="action">win.convert_ope</attribute>
+        </item>
+        <submenu>
+          <attribute name="label" translatable="yes">Move transaction to another account</attribute>
+        </submenu>
+      </section>
+      <section>
+        <item>
+          <attribute name="label" translatable="yes">New account</attribute>
+          <attribute name="action">win.new_acc</attribute>
+          <attribute name="accel">&lt;Shift&gt;&lt;Primary&gt;n</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">Remove current account</attribute>
+          <attribute name="action">win.remove_acc</attribute>
+        </item>
+      </section>
+      <section>
+        <item>
+          <attribute name="label" translatable="yes">Preferences</attribute>
+          <attribute name="action">app.prefs</attribute>
+          <attribute name="accel">&lt;Alt&gt;p</attribute>
+        </item>
+      </section>
+    </submenu>
+    <submenu>
+      <attribute name="label" translatable="yes">View</attribute>
+      <section>
+        <item>
+          <attribute name="label" translatable="yes">Show transaction form</attribute>
+          <attribute name="action">win.show_form</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">Show reconciled</attribute>
+          <attribute name="action">win.show_reconciled</attribute>
+          <attribute name="accel">&lt;Alt&gt;r</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">Show lines archives</attribute>
+          <attribute name="action">win.show_arch</attribute>
+          <attribute name="accel">&lt;Alt&gt;l</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">Show closed accounts</attribute>
+          <attribute name="action">win.show_closed_acc</attribute>
+        </item>
+      </section>
+      <section>
+        <item>
+          <attribute name="label" translatable="yes">Show one line per transaction</attribute>
+          <attribute name="action">win.show_ope</attribute>
+          <attribute name="target">1</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">Show two lines per transaction</attribute>
+          <attribute name="action">win.show_ope</attribute>
+          <attribute name="target">2</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">Show three lines per transaction</attribute>
+          <attribute name="action">win.show_ope</attribute>
+          <attribute name="target">3</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">Show four lines per transaction</attribute>
+          <attribute name="action">win.show_ope</attribute>
+          <attribute name="target">4</attribute>
+        </item>
+      </section>
+      <section>
+        <item>
+          <attribute name="label" translatable="yes">Reset the column width</attribute>
+          <attribute name="action">win.reset_width_col</attribute>
+          <attribute name="target">1</attribute>
+        </item>
+      </section>
+    </submenu>
+    <submenu>
+      <attribute name="label" translatable="yes">Help</attribute>
+		  <section>
+        <item>
+          <attribute name="label" translatable="yes">Manual</attribute>
+          <attribute name="action">app.manual</attribute>
+          <attribute name="accel">&lt;Primary&gt;h</attribute>
+        <attribute name="icon">dialog-question-symbolic</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">Quick start</attribute>
+          <attribute name="action">app.quick_start</attribute>
+        </item>
+      </section>
+      <section>
+        <item>
+          <attribute name="label" translatable="yes">Grisbi website</attribute>
+          <attribute name="action">app.web_site</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">Report a bug</attribute>
+          <attribute name="action">app.report_bug</attribute>
+        </item>
+      </section>
+      <section>
+        <item>
+          <attribute name="label" translatable="yes">Tip of the day</attribute>
+          <attribute name="action">app.day_tip</attribute>
+        </item>
+      </section>
+    </submenu>
+  </menu>
+</interface>
+
