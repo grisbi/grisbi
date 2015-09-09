@@ -305,31 +305,47 @@ void debug_initialize_debugging ( gint level )
 }
 
 /**
- * return a string with the current time
- * use to debug lines
+ * set commande line mode for debugging
  *
  * \param
  *
- * \return a string with the date and time, don't free it
- * */
-gchar *get_debug_time ( void )
+ * \return
+ **/
+void debug_set_cmd_line_debug_level ( gint debug_level )
 {
-    /* le temps courant et une chaine dans laquelle on stocke le temps courant */
-    time_t debug_time;
-    gchar *str_debug_time;
+    /* un int pour stocker le level de debug et une chaine qui contient sa version texte */
+    const gchar *str_debug_level = "";
+	gchar* tmpstr1;
+	gchar* tmpstr2;
 
-    /* on choppe le temps courant et on va le mettre dans une chaine */
-    time(&debug_time);
-    str_debug_time=ctime(&debug_time);
+	/* on verifie que la variable est cohérente */
+	if ( debug_level > MAX_DEBUG_LEVEL)
+		debug_level = 5;
 
-    /* on fait sauter le retour a la ligne */
-    str_debug_time[strlen(str_debug_time) - 1] = '\0';
+	/* on renseigne le texte du level de debug */
+	debugging_grisbi = debug_level;
 
-    /* on renvoit le temps */
-    return str_debug_time;
+	switch ( debug_level )
+	{
+		case DEBUG_NO_DEBUG: { str_debug_level="No message"; break; }
+		case DEBUG_LEVEL_ALERT: { str_debug_level="Alert"; break; }
+		case DEBUG_LEVEL_IMPORTANT: { str_debug_level="Important"; break; }
+		case DEBUG_LEVEL_NOTICE: { str_debug_level="Notice"; break; }
+		case DEBUG_LEVEL_INFO: { str_debug_level="Info"; break; }
+		case DEBUG_LEVEL_DEBUG: { str_debug_level="Debug"; break; }
+	}
+
+	/* on affiche un message de debug pour indiquer que le debug est actif */
+	tmpstr1 = g_strdup_printf ( _("GRISBI %s Debug"), VERSION );
+	tmpstr2 = g_strdup_printf ( _("Debug updated by cmd line, level is '%s'"), str_debug_level );
+
+	debug_message_string ( tmpstr1,
+			   __FILE__, __LINE__, __PRETTY_FUNCTION__,
+			   tmpstr2,
+			   DEBUG_LEVEL_INFO, TRUE);
+	g_free ( tmpstr1 );
+	g_free ( tmpstr2 );
 }
-
-
 
 /**
  * show a debug message in the terminal
