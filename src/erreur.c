@@ -232,7 +232,7 @@ void debug_traitement_sigsegv ( gint signal_nb )
     g_free ( tmpstr );
 
     gtk_expander_set_use_markup ( GTK_EXPANDER ( expander ), TRUE );
-    gtk_container_add ( GTK_CONTAINER ( expander ), print_backtrace() );
+    gtk_container_add ( GTK_CONTAINER ( expander ), debug_print_backtrace() );
     gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), expander, FALSE, FALSE, 6 );
 
     gtk_widget_show_all ( dialog );
@@ -254,7 +254,7 @@ void debug_traitement_sigsegv ( gint signal_nb )
  *
  * \return
  **/
-void initialize_debugging ( void )
+void debug_initialize_debugging ( gint level )
 {
     /* un int pour stocker le level de debug et une chaine qui contient sa version texte */
     gint debug_variable=0;
@@ -363,11 +363,11 @@ void debug_message_string ( const gchar *prefixe,
         /* on affiche dans la console le message */
         if (message)
             tmp_str = g_strdup_printf(_("%s, %2f : %s - %s:%d:%s - %s\n"),
-                        get_debug_time (), (double )clock()/ CLOCKS_PER_SEC, prefixe,
+                        debug_get_debug_time (), (double )clock()/ CLOCKS_PER_SEC, prefixe,
                         file, line, function, message);
         else
             tmp_str = g_strdup_printf(_("%s, %2f : %s - %s:%d:%s\n"),
-                        get_debug_time (), (double )clock()/ CLOCKS_PER_SEC, prefixe,
+                        debug_get_debug_time (), (double )clock()/ CLOCKS_PER_SEC, prefixe,
                         file, line, function);
 
         if ( etat.debug_mode )
@@ -412,7 +412,7 @@ void debug_message_int ( const gchar *prefixe,
 
         /* on affiche dans la console le message */
         tmp_str = g_strdup_printf(_("%s, %2f : %s - %s:%d:%s - %d\n"),
-                        get_debug_time (), (double )clock()/ CLOCKS_PER_SEC, prefixe,
+                        debug_get_debug_time (), (double )clock()/ CLOCKS_PER_SEC, prefixe,
                         file, line, function, message);
 
         if (etat.debug_mode)
@@ -458,7 +458,7 @@ void debug_message_real ( const gchar *prefixe,
 
         /* on affiche dans la console le message */
         tmp_str = g_strdup_printf ("%s, %2f : %s - %s:%d:%s - %"G_GINT64_MODIFIER"d E %d\n",
-                        get_debug_time (), (double )clock()/ CLOCKS_PER_SEC, prefixe,
+                        debug_get_debug_time (), (double )clock()/ CLOCKS_PER_SEC, prefixe,
                         file, line, function, message.mantissa, message.exponent );
 
         if ( etat.debug_mode )
@@ -480,7 +480,7 @@ void debug_message_real ( const gchar *prefixe,
  *
  * \return FALSE
  * */
-gboolean gsb_debug_start_log ( void )
+gboolean debug_start_log ( void )
 {
     gchar *tmp_str;
     gchar *debug_filename;
@@ -535,7 +535,7 @@ gboolean gsb_debug_start_log ( void )
 
         /* début du mode de débogage */
         tmp_str = g_strdup_printf(_("%s, %2f : Debug - %s:%d:%s\n\n"),
-                        get_debug_time ( ),
+                        debug_get_debug_time ( ),
                         (double ) clock ( )/ CLOCKS_PER_SEC,
                         __FILE__,
                         __LINE__,
@@ -594,7 +594,7 @@ gboolean gsb_debug_start_log ( void )
 /**
  *
  * */
-void gsb_debug_finish_log ( void )
+void debug_finish_log ( void )
 {
     if ( debug_file )
         fclose (debug_file);
@@ -624,7 +624,7 @@ void debug_print_log_string ( const gchar *prefixe,
         message = g_strdup ( "(null)" );
 
     tmp_str = g_strdup_printf(_("%s, %2f : %s - %s:%d:%s - %s\n"),
-                        get_debug_time ( ),
+                        debug_get_debug_time ( ),
                         (double ) clock ( )/ CLOCKS_PER_SEC,
                         prefixe,
                         file,
