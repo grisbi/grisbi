@@ -39,6 +39,7 @@
 #include "gsb_file.h"
 #include "gsb_file_save.h"
 #include "gsb_file_util.h"
+#include "gsb_locale.h"
 #include "gsb_real.h"
 #include "gsb_status.h"
 #include "import.h"
@@ -54,8 +55,6 @@
 
 
 /*START_STATIC*/
-static gchar *get_debug_time ( void );
-static GtkWidget * print_backtrace ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -68,8 +67,78 @@ static gint debugging_grisbi;
  * this values should not be freed when begin a new file to continue the log */
 static FILE *debug_file = NULL;
 
-/*************************************************************************************************************/
-void traitement_sigsegv ( gint signal_nb )
+ /**
+ * return a string with the current time
+ * use to debug lines
+ *
+ * \param
+ *
+ * \return a string with the date and time, don't free it
+ * */
+static gchar *debug_get_debug_time ( void )
+{
+    /* le temps courant et une chaine dans laquelle on stocke le temps courant */
+    time_t debug_time;
+    gchar *str_debug_time;
+
+    /* on choppe le temps courant et on va le mettre dans une chaine */
+    time(&debug_time);
+    str_debug_time=ctime(&debug_time);
+
+    /* on fait sauter le retour a la ligne */
+    str_debug_time[strlen(str_debug_time) - 1] = '\0';
+
+    /* on renvoit le temps */
+    return str_debug_time;
+}
+
+/**
+ * Print the backtrace upon segfault
+ *
+ * \param
+ *
+ * \return
+ **/
+GtkWidget *debug_print_backtrace ( void )
+{
+#ifdef HAVE_BACKTRACE
+    void *backtrace_content[15];
+    int backtrace_size;
+    size_t i;
+    gchar **backtrace_strings, *text = g_strdup("");
+    GtkWidget * label;
+
+    backtrace_size = backtrace (backtrace_content, 15);
+    backtrace_strings = backtrace_symbols (backtrace_content, backtrace_size);
+
+    g_print ("%s : %d elements in stack.\n", debug_get_debug_time(), backtrace_size);
+
+    for (i = 0; i < backtrace_size; i++)
+    {
+	g_print ("\t%s\n", backtrace_strings[i]);
+	gchar* old_text = text;
+	text = g_strconcat ( text, g_strconcat ( "\t", backtrace_strings[i], "\n", NULL ),
+			     NULL );
+	g_free ( old_text );
+    }
+
+    label = gtk_label_new ( text );
+    g_free ( text );
+    gtk_label_set_selectable ( GTK_LABEL ( label ), TRUE );
+    return label;
+#else
+    return NULL;
+#endif
+}
+
+/**
+ * traitement des interruptions SIGINT, SIGTERM, SIGSEGV
+ *
+ * \param gint 	signal_nb
+ *
+ * \return
+ **/
+void debug_traitement_sigsegv ( gint signal_nb )
 {
     const gchar *gsb_file_default_dir;
     gchar *errmsg = g_strdup ( "" );
@@ -177,9 +246,14 @@ void traitement_sigsegv ( gint signal_nb )
     exit(1);
 }
 
-/*************************************************************************************************************/
-/* initialise show_grisbi_debug a TRUE si on souhaite le debug																							 */
-/*************************************************************************************************************/
+/**
+ * initialise show_grisbi_debug a TRUE si on souhaite le debug
+ * updated by command line
+ *
+ * \param
+ *
+ * \return
+ **/
 void initialize_debugging ( void )
 {
     /* un int pour stocker le level de debug et une chaine qui contient sa version texte */
@@ -208,8 +282,8 @@ void initialize_debugging ( void )
 	    }
 
 	    /* on affiche un message de debug pour indiquer que le debug est actif */
-	    tmpstr1 = g_strdup_printf(_("GRISBI %s Debug"),VERSION);
-	    tmpstr2 = g_strdup_printf(_("Debug enabled, level is '%s'"),debug_level);
+	    tmpstr1 = g_strdup_printf ( _("GRISBI %s Debug"), VERSION );
+	    tmpstr2 = g_strdup_printf ( _("Debug enabled, level is '%s'"),debug_level);
 	    debug_message_string ( tmpstr1 ,
 				   __FILE__, __LINE__, __PRETTY_FUNCTION__,
 				   tmpstr2,
@@ -398,44 +472,6 @@ void debug_message_real ( const gchar *prefixe,
     }
 }
 
-
-
-
-/**
- * Print the backtrace upon segfault.
- */
-GtkWidget * print_backtrace ( void )
-{
-#ifdef HAVE_BACKTRACE
-    void *backtrace_content[15];
-    int backtrace_size;
-    size_t i;
-    gchar **backtrace_strings, *text = g_strdup("");
-    GtkWidget * label;
-
-    backtrace_size = backtrace (backtrace_content, 15);
-    backtrace_strings = backtrace_symbols (backtrace_content, backtrace_size);
-
-    g_print ("%s : %d elements in stack.\n", get_debug_time(), backtrace_size);
-
-    for (i = 0; i < backtrace_size; i++)
-    {
-	g_print ("\t%s\n", backtrace_strings[i]);
-	gchar* old_text = text;
-	text = g_strconcat ( text, g_strconcat ( "\t", backtrace_strings[i], "\n", NULL ),
-			     NULL );
-	g_free ( old_text );
-    }
-
-    label = gtk_label_new ( text );
-    g_free ( text );
-    gtk_label_set_selectable ( GTK_LABEL ( label ), TRUE );
-    return label;
-#else
-    return NULL;
-#endif
-}
-
 /**
  * called by menu : begin the debug mode
  * show a message to say where the log will be saved
@@ -510,7 +546,7 @@ gboolean gsb_debug_start_log ( void )
         g_free ( tmp_str );
 
         /* write locales */
-        tmp_str = grisbi_app_get_print_locale_var ();
+        tmp_str = gsb_locale_get_print_locale_var ();
 
         fwrite ( tmp_str, sizeof (gchar), strlen ( tmp_str ), debug_file );
 	    fflush ( debug_file );
@@ -527,7 +563,7 @@ gboolean gsb_debug_start_log ( void )
 
         g_free ( tmp_str );
 
-        tmp_str = grisbi_app_get_print_dir_var ( );
+        tmp_str = gsb_dirs_get_print_dir_var ( );
 
         fwrite ( tmp_str, sizeof (gchar), strlen ( tmp_str ), debug_file );
 	    fflush ( debug_file );
@@ -554,7 +590,6 @@ gboolean gsb_debug_start_log ( void )
 
     return FALSE;
 }
-
 
 /**
  *
@@ -604,6 +639,13 @@ void debug_print_log_string ( const gchar *prefixe,
     g_free ( message );
 }
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
