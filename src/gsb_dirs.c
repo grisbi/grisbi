@@ -42,17 +42,20 @@ static gchar *user_default_dir;
 
 static gchar *grisbirc_filename;
 static gchar *accelerator_filename;
-static gchar *grisbi_dir;
-
+/*static gchar *grisbi_dir;
+*/
 
 void gsb_dirs_init ( char* gsb_bin_path )
 {
+	gchar *grisbi_dir;
     gchar *local_ui_dir;
     GDir *local_ui_handle;
 
     /* Get the grisbi executable directory as it may be useful when running dev instances */
     grisbi_dir = g_path_get_dirname ( gsb_bin_path );
     local_ui_dir = g_strconcat ( grisbi_dir, "/ui", NULL );
+
+	g_free ( grisbi_dir );
 
 #ifdef G_OS_WIN32
 {
@@ -129,6 +132,9 @@ void gsb_dirs_init ( char* gsb_bin_path )
         g_free ( ui_dir );
         ui_dir = local_ui_dir;
     }
+	else
+		g_free ( local_ui_dir );
+
     accelerator_filename = g_build_filename ( user_config_dir, "grisbi-accels", NULL );
 }
 
@@ -142,10 +148,8 @@ void gsb_dirs_shutdown ( void )
     g_free ( ui_dir );
     g_free ( user_config_dir );
     g_free ( user_data_dir );
-
     g_free ( grisbirc_filename );
     g_free ( accelerator_filename );
-    g_free ( grisbi_dir );
     g_free ( user_default_dir );
 }
 

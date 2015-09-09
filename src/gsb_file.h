@@ -29,5 +29,7 @@ void gsb_file_set_backup_path ( const gchar *path );
 void gsb_file_update_last_path ( const gchar *last_path );
 void gsb_file_set_modified ( gboolean modified );
 gboolean gsb_file_get_modified ( void );
+void gsb_file_free_last_path ( void );
+void gsb_file_free_backup_path ( void );
 /* END_DECLARATION */
 #endif

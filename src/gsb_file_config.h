@@ -8,6 +8,7 @@
 /* START_DECLARATION */
 gboolean gsb_file_config_load_config ( void );
 gboolean gsb_file_config_save_config ( void );
+void grisbi_app_free_struct_conf ( void );
 /* END_DECLARATION */
 
 #endif

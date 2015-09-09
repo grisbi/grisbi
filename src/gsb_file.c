@@ -318,6 +318,10 @@ const gchar *gsb_file_get_backup_path ( void )
  * */
 void gsb_file_set_backup_path ( const gchar *path )
 {
+	/* first free backup_path */
+	if ( backup_path )
+		g_free ( backup_path );
+
     if ( path == NULL || strlen ( path ) == 0 )
         backup_path = my_strdup ( gsb_dirs_get_user_data_dir () );
     else
@@ -1219,6 +1223,38 @@ gboolean gsb_file_get_modified ( void )
         return FALSE;
     else
         return TRUE;
+}
+
+/**
+ * free the last_path path
+ *
+ * \param
+ *
+ * \return
+ * */
+void gsb_file_free_last_path ( void )
+{
+	if ( last_path_used )
+    {
+		g_free ( last_path_used );
+		last_path_used = NULL;
+    }
+}
+
+/**
+ * free the backup path
+ *
+ * \param
+ *
+ * \return
+ * */
+void gsb_file_free_backup_path ( void )
+{
+	if ( backup_path )
+    {
+		g_free ( backup_path );
+		backup_path = NULL;
+    }
 }
 
 

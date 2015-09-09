@@ -115,8 +115,8 @@ static void gsb_file_config_clean_config ( void )
 
     if ( conf.font_string )
     {
-    g_free ( conf.font_string );
-    conf.font_string = NULL;
+		g_free ( conf.font_string );
+		conf.font_string = NULL;
     }
 
     conf.force_enregistrement = 1;     /* par défaut, on force l'enregistrement */
@@ -420,6 +420,7 @@ gboolean gsb_file_config_load_config ( void )
     gboolean result;
     const gchar *filename;
     gchar *name;
+	gchar *tmp_str;
     gint i;
     gint int_ret;
     GError* err = NULL;
@@ -519,10 +520,15 @@ gboolean gsb_file_config_load_config ( void )
                         "Can modify R",
                         NULL );
 
-    gsb_file_update_last_path ( g_key_file_get_string ( config,
+    tmp_str = ( g_key_file_get_string ( config,
                         "General",
                         "Path",
                         NULL ));
+	if ( tmp_str )
+	{
+		gsb_file_update_last_path ( tmp_str );
+		g_free ( tmp_str );
+	}
 
     conf.alerte_permission = g_key_file_get_integer ( config,
                         "General",
@@ -546,10 +552,16 @@ gboolean gsb_file_config_load_config ( void )
 
     conf.font_string = g_key_file_get_string ( config, "General", "Font name", NULL );
 
-    conf.browser_command = g_key_file_get_string ( config,
+    tmp_str = g_key_file_get_string ( config,
                         "General",
                         "Web",
                         NULL );
+	if ( tmp_str )
+	{
+		if ( conf.browser_command )
+			g_free ( conf.browser_command );
+		conf.browser_command = tmp_str;
+	}
 
     conf.pluriel_final = g_key_file_get_integer ( config,
                         "General",
@@ -593,10 +605,16 @@ gboolean gsb_file_config_load_config ( void )
                         "Compress backup",
                         NULL );
 
-    gsb_file_set_backup_path ( g_key_file_get_string ( config,
+    tmp_str = ( g_key_file_get_string ( config,
                         "Backup",
                         "Backup path",
                         NULL ));
+
+	if ( tmp_str )
+	{
+		gsb_file_set_backup_path ( tmp_str );
+		g_free ( tmp_str );
+	}
 
     /* get input/output */
     conf.dernier_fichier_auto = g_key_file_get_integer ( config,
@@ -634,6 +652,7 @@ gboolean gsb_file_config_load_config ( void )
                         "Names last files",
                         &conf.nb_derniers_fichiers_ouverts,
                         NULL );
+
     if (tab_noms_derniers_fichiers_ouverts)
         nom_fichier_comptes = my_strdup (tab_noms_derniers_fichiers_ouverts [ 0 ]);
     else
@@ -1166,9 +1185,41 @@ gboolean gsb_file_config_save_config ( void )
 
 
 /**
- * load the xml file config for grisbi before 0.6.0
- * try to find it, if not, return FALSE
- * */
+ * libération de la mémoire de la variable conf
+ *
+ * \param
+ *
+ * \return
+ **/
+ void grisbi_app_free_struct_conf ( void )
+{
+    devel_debug (NULL);
+
+	if ( conf.font_string )
+    {
+		g_free ( conf.font_string );
+		conf.font_string = NULL;
+    }
+	if ( conf.browser_command )
+	{
+        g_free ( conf.browser_command );
+		conf.browser_command = NULL;
+	}
+
+	gsb_file_free_last_path ();
+	gsb_file_free_backup_path ();
+
+	g_strfreev ( tab_noms_derniers_fichiers_ouverts );
+}
+
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
