@@ -6,15 +6,8 @@
       <item>
         <attribute name="label" translatable="yes">New window</attribute>
         <attribute name="action">app.new_window</attribute>
-        <attribute name="accel">&lt;Primary&gt;n</attribute>
-        <attribute name="icon">/usr/share/icons/Mint-X/actions/32/document-new.png</attribute>
-      </item>
-      <item>
-        <attribute name="label" translatable="yes">Open...</attribute>
-        <attribute name="action">app.open</attribute>
-          <attribute name="accel">&lt;Primary&gt;o</attribute>
-        <attribute name="icon">document-open-symbolic</attribute>
-
+        <attribute name="accel">&lt;Alt&gt;N</attribute>
+        <attribute name="icon">/usr/share/icons/gnome-colors-common/scalable/actions/window-new.svg</attribute>
       </item>
     </section>
     <section>
@@ -41,7 +34,7 @@
           <attribute name="label" translatable="yes">New account file...</attribute>
           <attribute name="action">app.new_acc_file</attribute>
           <attribute name="accel">&lt;Primary&gt;n</attribute>
-        <attribute name="icon">/usr/share/icons/Mint-X/actions/32/document-new.png</attribute>
+        <attribute name="icon">/usr/share/icons/mate/scalable/actions/document-new-symbolic.svg</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Open...</attribute>
@@ -112,6 +105,7 @@
           <attribute name="label" translatable="yes">Close</attribute>
           <attribute name="action">win.close</attribute>
           <attribute name="accel">&lt;Primary&gt;w</attribute>
+          <attribute name="icon">window-close-symbolic</attribute>
         </item>
     </section>
     </submenu>
@@ -229,7 +223,7 @@
           <attribute name="label" translatable="yes">Manual</attribute>
           <attribute name="action">app.manual</attribute>
           <attribute name="accel">&lt;Primary&gt;h</attribute>
-        <attribute name="icon">dialog-question-symbolic</attribute>
+          <attribute name="icon">dialog-question-symbolic</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Quick start</attribute>
@@ -240,6 +234,7 @@
         <item>
           <attribute name="label" translatable="yes">Grisbi website</attribute>
           <attribute name="action">app.web_site</attribute>
+          <attribute name="icon">web-browser-symbolic</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Report a bug</attribute>
