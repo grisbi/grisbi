@@ -87,7 +87,7 @@ void gsb_dirs_init ( char* gsb_bin_path )
             if ( gtkosx_application_get_bundle_id ( ) )
             {
                 gchar *res_path = gtkosx_application_get_resource_path ();
-                
+
                 categories_dir = g_build_filename ( res_path, "share/grisbi/categories", NULL );
                 help_dir = g_build_filename ( res_path, "share/doc/grisbi", NULL );
                 locale_dir = g_build_filename (res_path, "/share/locale", NULL );
@@ -233,3 +233,49 @@ const gchar *gsb_dirs_get_default_dir ( void )
     return user_default_dir;
 }
 
+/**
+ *
+ *
+ * \param
+ *
+ *  \return string  must be freed
+ */
+gchar *gsb_dirs_get_print_dir_var ( void )
+{
+    gchar *path_str = NULL;
+
+    path_str = g_strdup_printf ( "Paths\n"
+                        "\tg_get_user_data_dir ()               = %s\n"
+                        "\tgsb_dirs_get_user_data_dir ()        = %s\n\n"
+                        "\tg_get_user_config_dir ()             = %s\n"
+                        "\tgsb_dirs_get_user_config_dir ()      = %s\n"
+                        "\tgsb_dirs_get_grisbirc_filename ()    = %s\n"
+                        "\tgsb_dirs_get_accelerator_filename () = %s\n\n"
+                        "\tgsb_dirs_get_categories_dir ()       = %s\n"
+                        "\tgsb_dirs_get_locale_dir ()           = %s\n"
+                        "\tgsb_dirs_get_pixmaps_dir ()          = %s\n"
+                        "\tgsb_dirs_get_ui_dir ()               = %s\n\n",
+                        g_get_user_data_dir (),
+                        gsb_dirs_get_user_data_dir (),
+                        g_get_user_config_dir (),
+                        gsb_dirs_get_user_config_dir (),
+                        gsb_dirs_get_grisbirc_filename (),
+                        gsb_dirs_get_accelerator_filename (),
+                        gsb_dirs_get_categories_dir (),
+                        gsb_dirs_get_locale_dir (),
+                        gsb_dirs_get_pixmaps_dir (),
+                        gsb_dirs_get_ui_dir () );
+
+    return path_str;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */
