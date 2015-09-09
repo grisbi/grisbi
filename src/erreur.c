@@ -143,11 +143,29 @@ void debug_traitement_sigsegv ( gint signal_nb )
     const gchar *gsb_file_default_dir;
     gchar *errmsg = g_strdup ( "" );
 	gchar *old_errmsg;
-    gchar *tmpstr;
-    GtkWidget * dialog;
+    gchar *tmp_str;
+    GtkWidget *dialog;
 #ifdef HAVE_BACKTRACE
-    GtkWidget * expander;
+    GtkWidget *expander;
 #endif
+
+	switch ( signal_nb )
+	{
+		case 2:
+			tmp_str = "SIGINT";
+			break;
+		case 11:
+			tmp_str = "SIGSEGV";
+			break;
+		case 15:
+			tmp_str = "SIGTERM";
+			break;
+		default:
+			tmp_str = "NA";
+			printf ("signal number: %d\n", signal_nb );
+	}
+
+	printf ("signal name = %s\n", tmp_str );
 
     /*   il y a 3 possibilités : */
     /*     soit on était en train de charger un fichier, c'est que celui-ci est corrompu */
@@ -227,9 +245,9 @@ void debug_traitement_sigsegv ( gint signal_nb )
     g_free ( errmsg );
 
 #ifdef HAVE_BACKTRACE
-    tmpstr = g_strconcat ( "<b>", _("Backtrace"), "</b>", NULL );
-    expander = gtk_expander_new ( tmpstr );
-    g_free ( tmpstr );
+    tmp_str = g_strconcat ( "<b>", _("Backtrace"), "</b>", NULL );
+    expander = gtk_expander_new ( tmp_str );
+    g_free ( tmp_str );
 
     gtk_expander_set_use_markup ( GTK_EXPANDER ( expander ), TRUE );
     gtk_container_add ( GTK_CONTAINER ( expander ), debug_print_backtrace() );
@@ -259,8 +277,8 @@ void debug_initialize_debugging ( gint level )
     /* un int pour stocker le level de debug et une chaine qui contient sa version texte */
     gint debug_variable=0;
     const gchar *debug_level="";
-	gchar* tmpstr1;
-	gchar* tmpstr2;
+	gchar* tmp_str1;
+	gchar* tmp_str2;
 
     if (getenv ("DEBUG_GRISBI"))
     {
@@ -282,24 +300,24 @@ void debug_initialize_debugging ( gint level )
 	    }
 
 	    /* on affiche un message de debug pour indiquer que le debug est actif */
-	    tmpstr1 = g_strdup_printf ( _("GRISBI %s Debug"), VERSION );
-	    tmpstr2 = g_strdup_printf ( _("Debug enabled, level is '%s'"),debug_level);
-	    debug_message_string ( tmpstr1 ,
+	    tmp_str1 = g_strdup_printf ( _("GRISBI %s Debug"), VERSION );
+	    tmp_str2 = g_strdup_printf ( _("Debug enabled, level is '%s'"),debug_level);
+	    debug_message_string ( tmp_str1 ,
 				   __FILE__, __LINE__, __PRETTY_FUNCTION__,
-				   tmpstr2,
+				   tmp_str2,
 				   DEBUG_LEVEL_INFO, TRUE);
-	    g_free ( tmpstr1 );
-	    g_free ( tmpstr2 );
+	    g_free ( tmp_str1 );
+	    g_free ( tmp_str2 );
 	}
 	else
 	{
 	    /* on affiche un message de debug pour indiquer que le debug est actif */
-	    gchar* tmpstr = g_strdup_printf(_("GRISBI %s Debug"),VERSION);
-	    debug_message_string (tmpstr ,
+	    gchar* tmp_str = g_strdup_printf(_("GRISBI %s Debug"),VERSION);
+	    debug_message_string (tmp_str ,
 				  __FILE__, __LINE__, __PRETTY_FUNCTION__,
 				  _("Wrong debug level, please check DEBUG_GRISBI environnement variable"),
 				  DEBUG_LEVEL_INFO, TRUE);
-	    g_free ( tmpstr );
+	    g_free ( tmp_str );
 	}
     }
 }
@@ -315,8 +333,8 @@ void debug_set_cmd_line_debug_level ( gint debug_level )
 {
     /* un int pour stocker le level de debug et une chaine qui contient sa version texte */
     const gchar *str_debug_level = "";
-	gchar* tmpstr1;
-	gchar* tmpstr2;
+	gchar* tmp_str1;
+	gchar* tmp_str2;
 
 	/* on verifie que la variable est cohérente */
 	if ( debug_level > MAX_DEBUG_LEVEL)
@@ -336,15 +354,15 @@ void debug_set_cmd_line_debug_level ( gint debug_level )
 	}
 
 	/* on affiche un message de debug pour indiquer que le debug est actif */
-	tmpstr1 = g_strdup_printf ( _("GRISBI %s Debug"), VERSION );
-	tmpstr2 = g_strdup_printf ( _("Debug updated by cmd line, level is '%s'"), str_debug_level );
+	tmp_str1 = g_strdup_printf ( _("GRISBI %s Debug"), VERSION );
+	tmp_str2 = g_strdup_printf ( _("Debug updated by cmd line, level is '%s'"), str_debug_level );
 
-	debug_message_string ( tmpstr1,
+	debug_message_string ( tmp_str1,
 			   __FILE__, __LINE__, __PRETTY_FUNCTION__,
-			   tmpstr2,
+			   tmp_str2,
 			   DEBUG_LEVEL_INFO, TRUE);
-	g_free ( tmpstr1 );
-	g_free ( tmpstr2 );
+	g_free ( tmp_str1 );
+	g_free ( tmp_str2 );
 }
 
 /**
