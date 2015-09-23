@@ -11,6 +11,15 @@
       </item>
     </section>
     <section>
+      <attribute name="id">preferences-section</attribute>
+      <item>
+        <attribute name="label" translatable="yes">Preferences</attribute>
+        <attribute name="action">app.prefs</attribute>
+        <attribute name="accel">&lt;Alt&gt;p</attribute>
+        <attribute name="icon">preferences-system-search-symbolic</attribute>
+      </item>
+    </section>
+    <section>
       <item>
         <attribute name="label" translatable="yes">About</attribute>
         <attribute name="action">app.about</attribute>
@@ -27,25 +36,29 @@
     </section>
   </menu>
   <menu id="menubar">
-    <submenu>
+    <submenu id="file">
       <attribute name="label" translatable="yes">File</attribute>
       <section>
         <item>
           <attribute name="label" translatable="yes">New account file...</attribute>
-          <attribute name="action">app.new_acc_file</attribute>
+          <attribute name="action">win.new_acc_file</attribute>
           <attribute name="accel">&lt;Primary&gt;n</attribute>
-        <attribute name="icon">/usr/share/icons/mate/scalable/actions/document-new-symbolic.svg</attribute>
+          <attribute name="icon">/usr/share/icons/mate/scalable/actions/document-new-symbolic.svg</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Open...</attribute>
-          <attribute name="action">app.open</attribute>
+          <attribute name="action">win.open_file</attribute>
           <attribute name="accel">&lt;Primary&gt;o</attribute>
           <attribute name="icon">document-open-symbolic</attribute>
         </item>
       </section>
       <section>
-        <submenu>
+        <submenu id="recent_file">
           <attribute name="label" translatable="yes">Recently opened files</attribute>
+          <item>
+            <attribute name="label" translatable="yes">file_1</attribute>
+            <attribute name="action">win.open_file</attribute>
+          </item>
         </submenu>
       </section>
       <section>
@@ -64,7 +77,7 @@
       <section>
         <item>
           <attribute name="label" translatable="yes">Import file...</attribute>
-          <attribute name="action">app.import</attribute>
+          <attribute name="action">win.import_file</attribute>
           <attribute name="accel">&lt;Primary&gt;I</attribute>
         </item>
         <item>
@@ -250,4 +263,3 @@
     </submenu>
   </menu>
 </interface>
-
