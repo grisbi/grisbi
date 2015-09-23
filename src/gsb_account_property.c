@@ -57,7 +57,6 @@
 #include "accueil.h"
 #include "menu.h"
 #include "gsb_scheduler_list.h"
-#include "main.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
 #include "utils.h"

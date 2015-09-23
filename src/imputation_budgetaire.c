@@ -44,7 +44,6 @@
 #include "gsb_form_widget.h"
 #include "gsb_transactions_list.h"
 #include "gtk_combofix.h"
-#include "main.h"
 #include "meta_budgetary.h"
 #include "metatree.h"
 #include "mouse.h"

@@ -57,7 +57,6 @@
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
 #include "imputation_budgetaire.h"
-#include "main.h"
 #include "menu.h"
 #include "metatree.h"
 #include "mouse.h"

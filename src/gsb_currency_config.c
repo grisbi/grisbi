@@ -45,7 +45,6 @@
 #include "gsb_data_transaction.h"
 #include "gsb_file.h"
 #include "gsb_locale.h"
-#include "main.h"
 #include "traitement_variables.h"
 #include "utils.h"
 #include "tiers_onglet.h"

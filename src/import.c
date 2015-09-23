@@ -76,7 +76,6 @@
 #include "gsb_transactions_list.h"
 #include "gtk_combofix.h"
 #include "traitement_variables.h"
-#include "main.h"
 #include "accueil.h"
 #include "parametres.h"
 #include "qif.h"

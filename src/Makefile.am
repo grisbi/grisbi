@@ -324,7 +324,6 @@ libgrisbi_la_SOURCES = \
 
 grisbi_SOURCES = 		\
 	main.c				\
-	main.h				\
 	grisbi_resources.c
 
 BUILT_SOURCES = grisbi_resources.c

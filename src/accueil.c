@@ -48,7 +48,6 @@
 #include "gsb_scheduler_list.h"
 #include "gsb_select_icon.h"
 #include "gsb_transactions_list.h"
-#include "main.h"
 #include "navigation.h"
 #include "structures.h"
 #include "utils.h"

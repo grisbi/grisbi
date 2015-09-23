@@ -44,7 +44,6 @@
 #include "gsb_file.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
-#include "main.h"
 #include "structures.h"
 #include "traitement_variables.h"
 #include "utils_dates.h"

@@ -43,7 +43,6 @@
 #include "gsb_real.h"
 #include "gsb_status.h"
 #include "import.h"
-#include "main.h"
 #include "utils.h"
 #include "utils_str.h"
 #include "menu.h"
