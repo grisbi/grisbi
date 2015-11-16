@@ -1330,7 +1330,9 @@ static gboolean gtk_combofix_entry_changed ( GtkComboFix *combofix, gboolean ins
     }
 
     /* show the popup */
-    if ( priv -> visible_items && strlen ( entry_string )
+    if ( priv -> visible_items
+     &&
+     gtk_entry_get_text_length ( GTK_ENTRY ( combofix -> entry ) )
      &&
      completed_string
      &&
