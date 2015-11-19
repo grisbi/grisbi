@@ -160,7 +160,7 @@ void gsb_form_config_make_configuration_box ( GtkWidget *vbox_parent )
     sw = gtk_scrolled_window_new ( NULL, NULL);
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( sw ),
                         GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-    gtk_box_pack_start ( GTK_BOX ( paddingbox), sw, TRUE, TRUE, 0 );
+    //gtk_box_pack_start ( GTK_BOX ( paddingbox), sw, TRUE, TRUE, 0 );
 
     /* create the tree_view */
     list_store = gsb_form_config_create_store ();
@@ -170,13 +170,15 @@ void gsb_form_config_make_configuration_box ( GtkWidget *vbox_parent )
                         form_config_tree_view );
 
     /* set the buttons line to increase/decrease the form */
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ),
-                        gsb_form_config_create_sizing_buttons_line (), FALSE, FALSE, 0 );
+    /*gtk_box_pack_start ( GTK_BOX ( paddingbox ),
+                        gsb_form_config_create_sizing_buttons_line (), FALSE, FALSE, 0 );*/
 
     /* set the box with the buttons */
     paddingbox = new_paddingbox_with_title ( vbox_parent, FALSE, _("Form structure content") );
+    /*
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
                         gsb_form_config_create_buttons_table (), FALSE, FALSE, 0 );
+    */
 
     gtk_widget_show_all (paddingbox);
 }
@@ -268,10 +270,12 @@ GtkWidget *gsb_form_config_create_tree_view ( GtkListStore *store )
 		       NULL );
 
     /* save and modify the form when change the size of the columns */
+	/*
     g_signal_connect ( G_OBJECT (tree_view),
 		       "size_allocate",
 		       G_CALLBACK ( gsb_form_config_change_column_size ),
 		       NULL );
+	*/
 
     /* enable the drag'n drop, we need to use low-level api because
      * gtk_tree_view api can only move the entire row, not only a cell

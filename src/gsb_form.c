@@ -247,10 +247,12 @@ void gsb_form_create_widgets ( void )
 			transaction_form );
 
     /* play with that widget to tell to the tree view to scroll to keep the selection visible */
+    /*
     g_signal_connect_after ( G_OBJECT (transaction_form),
 			     "size-allocate",
 			     G_CALLBACK (gsb_form_size_allocate),
 			     NULL );
+    */
 
     /* the scheduled part is a table of SCHEDULED_WIDTH col x SCHEDULED_HEIGHT rows */
 
@@ -291,10 +293,12 @@ void gsb_form_create_widgets ( void )
 
     form_transaction_part = gtk_table_new ( 1, 1, FALSE );
     gtk_table_set_col_spacings ( GTK_TABLE (form_transaction_part), 6 );
+    /*
     g_signal_connect ( G_OBJECT (form_transaction_part),
 		       "size-allocate",
 		       G_CALLBACK (gsb_form_allocate_size),
 		       NULL );
+    */
     gtk_container_add ( GTK_CONTAINER (event_box),
 			form_transaction_part );
 
