@@ -792,8 +792,6 @@ gchar *gsb_data_budget_get_name ( gint no_budget,
 
     devel_debug (NULL);
 
-printf ("no_budget = %d no_sub_budget = %d\n", no_budget, no_sub_budget );
-
     budget = gsb_data_budget_get_structure ( no_budget );
 
     if (!budget || !no_budget)
@@ -810,14 +808,13 @@ printf ("no_budget = %d no_sub_budget = %d\n", no_budget, no_sub_budget );
 
 	if (sub_budget)
 	{
-printf ("sub_budget -> sub_budget_name = %s\n", sub_budget -> sub_budget_name );
 	    return_value = g_strconcat ( return_value,
 					 " : ",
 					 sub_budget -> sub_budget_name,
 					 NULL );
 	}
     }
-printf ("return_value = %s\n", return_value );
+
     return return_value;
 }
 
