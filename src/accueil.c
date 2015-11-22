@@ -611,9 +611,14 @@ static void gsb_main_page_diplays_accounts ( GtkWidget *pTable,
                         list_tmp = list_tmp -> next;
                         continue;
                     }
-
-                    /* on traite le solde partiel */
-                    partial_number = partial_buffer->partial_number;
+                    /* on traite le solde partiel si nécéssaire */
+					if ( partial_buffer->partial_number == 0 )
+                    {
+                        list_tmp = list_tmp -> next;
+                        continue;
+                    }
+					else
+						partial_number = partial_buffer->partial_number;
 
                     /* on affiche tous les comptes du solde partiel */
                     /* on affiche la ligne du compte avec les soldes pointé et courant */
