@@ -727,20 +727,22 @@ void dialog_message ( gchar *label, ... )
 const gchar *dialogue_hint_with_entry ( gchar *text, gchar *hint, gchar *entry_description )
 {
     GtkWidget *dialog;
-    gchar *format_text;
+    const gchar *primary_text = hint ? hint : text;
     GtkWidget *entry;
     GtkWidget *hbox;
     GtkWidget *label;
     const gchar *string;
-
-    format_text = make_hint ( hint, text );
 
     dialog = gtk_message_dialog_new ( GTK_WINDOW ( run.window ),
                         GTK_DIALOG_DESTROY_WITH_PARENT,
                         GTK_MESSAGE_INFO,
                         GTK_BUTTONS_CLOSE,
                         NULL );
-    gtk_message_dialog_set_markup ( GTK_MESSAGE_DIALOG ( dialog ), format_text );
+    gtk_message_dialog_set_markup ( GTK_MESSAGE_DIALOG ( dialog ), primary_text );
+
+    if ( hint )
+        gtk_message_dialog_format_secondary_text ( GTK_MESSAGE_DIALOG ( dialog ),
+                                                   "%s", text );
 
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
     gtk_box_pack_start ( GTK_BOX ( gtk_dialog_get_content_area ( GTK_DIALOG ( dialog ) ) ),
