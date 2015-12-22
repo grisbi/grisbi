@@ -621,8 +621,10 @@ gboolean gsb_form_set_sensitive ( gboolean split,
             case TRANSACTION_FORM_TYPE:
             case TRANSACTION_FORM_CHEQUE:
             case TRANSACTION_FORM_BANK:
-            case TRANSACTION_FORM_VOUCHER:
-                gtk_widget_set_sensitive ( element -> element_widget, FALSE );
+			/* Modifié le 22/12/2015 à la demande des utilisateurs
+			case TRANSACTION_FORM_VOUCHER:
+*/
+				gtk_widget_set_sensitive ( element -> element_widget, FALSE );
                 break;
             }
             /* specific widgets for scheduled transactions */
