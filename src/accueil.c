@@ -307,7 +307,11 @@ static gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 	hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
 	gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), hbox, TRUE, TRUE, 0 );
 	gtk_container_set_border_width ( GTK_CONTAINER(hbox), 12 );
-	gtk_widget_reparent ( form_transaction_part, hbox );
+	/* gtk_widget_reparent is broken according to upstream gtk+ devs, so use
+	 * gtk_container_add/remove instead to prevent segfaults. */
+	g_object_ref ( form_transaction_part );
+	gtk_container_remove ( parent_save, form_transaction_part );
+	gtk_container_add ( hbox, form_transaction_part );
     gtk_widget_show_all ( hbox );
 
     /* next we fill the form,
@@ -331,7 +335,9 @@ static gboolean saisie_echeance_accueil ( GtkWidget *event_box,
     if ( result == GTK_RESPONSE_OK )
 	 gsb_form_finish_edition ();
 
-    gtk_widget_reparent ( form_transaction_part, parent_save );
+    gtk_container_remove ( hbox, form_transaction_part );
+    gtk_container_add ( parent_save, form_transaction_part );
+    g_object_unref ( form_transaction_part );
     gtk_widget_destroy ( dialog );
 
     /* update the home page */
