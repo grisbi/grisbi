@@ -1,0 +1,23 @@
+#! /bin/bash -xe
+
+set -o pipefail
+
+brew install gtk+3
+brew install libofx
+brew install goffice
+brew install autoconf automake
+brew install gtk-mac-integration
+brew install intltool libtool
+
+GETTEXT=$(ls -d /usr/local/Cellar/gettext/*)
+export CFLAGS="-I$GETTEXT/include -Wno-deprecated-declarations"
+export LDFLAGS=-L$GETTEXT/lib
+export PATH="$PATH:$GETTEXT/bin"
+if ! test -e configure; then
+  mkdir m4
+  ln -sf $GETTEXT/share/aclocal/nls.m4 m4
+  ./autogen.sh
+fi
+
+./configure --with-ofx
+make

@@ -1,78 +1,19 @@
 How to rebuild Grisbi on Mac OS X:
 ==================================
 
-A. Using homebrew and gtk+3
-"""""""""""""""""""""""""""
-
 1. Requirements:
 ----------------
 
-- install homebrew
-  Follow instructions at brew.sh
-
-- install grisbi dependencies
-
-$ brew install gtk+3
-$ brew install libofx
-$ brew install goffice
-
-Notes:
-- I had to patch hombrew formulas for gtk+3 and cairo to build for
-  Quartz and not X11
-- I have to patch homebrew formula for goffice and librsvg to build the
-  latest versions
-
-- GtkOSXApplication
-  https://wiki.gnome.org/Projects/GTK%2B/OSX/Integration
-
-$ jhbuild buildone gtk-mac-integration
-
+Follow instructions at http://brew.sh to install HomeBrew
 
 2. Configuration steps:
 -----------------------
 
-Get the Grisbi source code at:
-https://sourceforge.net/p/grisbi/code/ref/master/
+Run the build script:
 
-$ git clone git://git.code.sf.net/p/grisbi/code grisbi-code
+$ ./osx/build
 
-- libxml2 is not installed in /usr/local by homebrew. So you have to
-  tell pkg-config how to find it.
-- gtk-mac-integration is also not installed in /usr/local
-export PKG_CONFIG_PATH=/usr/local/Cellar/libxml2/2.9.1/lib/pkgconfig:/opt/gnome/lib/pkgconfig
+3. Bundling
+-----------
 
-- gettext commands are not inslaued in /usr/local by homebrew
-export PATH="$PATH:/usr/local/Cellar/gettext/0.18.3.1/bin"
-
-And then the classic
-$ ./configure --with-ofx
-$ make
-
-
-B. Using jhbuild for gtk+2
-""""""""""""""""""""""""""
-
-Moi je construit tout l'environnement (pour gtk+2).
-jhbuild bootstrap
-jhbuild meta-gtk-osx-bootstrap
-jhbuild meta-gtk-osx-core
-jhbuld meta-gtk-osx-themes
-jhbuild -m grisbi grisbi-devel (pour la 0.9.3)
-ou
-jhbuild -m grisbi grisbi-testing (pour la branche 1.* de GIT)
-
-Ensuite j'utilise gtk-mac-bundler pour produire le bundle.
-
-Tu peux récupérer tout ce qu'il faut ici :
-http://www.grisbi.org/download/sources/
-
-Le moduleset n'est pas à jour.
-Dans grisbi-devel et testing il faut rajouter une dépendance à
-freetype, sinon et si X11 est installé ça va cherché les librairie X11
-et ça plante.
-Il faut aussi (sous Mavericks) ignorer cmake dans .jhbuildrc-custom.
-L'installation de gnome-doc-utils plante, mais à ce moment il suffit
-de continuer.
-Et pour OpenSP, au configure, quand ça plante, ouvrir le shell, editer
-configure.in et relancer la configuration.
-À l'occas faudra faire un patch…
+Follow instructions at https://wiki.gnome.org/Projects/GTK+/OSX/Building
