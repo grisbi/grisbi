@@ -20,7 +20,7 @@ gboolean csv_import_parse_split ( struct struct_ope_importation * ope, gchar * s
 gboolean csv_import_parse_sub_budget ( struct struct_ope_importation * ope, gchar * string );
 gboolean csv_import_parse_sub_category ( struct struct_ope_importation * ope, gchar * string );
 gboolean csv_import_parse_value_date ( struct struct_ope_importation * ope, gchar * string );
-gboolean csv_import_parse_voucher ( struct struct_ope_importation * ope, gchar * string );
+gboolean csv_import_parse_cheque ( struct struct_ope_importation * ope, gchar * string );
 gboolean csv_import_validate_amount ( gchar * string );
 gboolean csv_import_validate_date ( gchar * string );
 gboolean csv_import_validate_number ( gchar * string );

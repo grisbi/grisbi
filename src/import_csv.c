@@ -82,7 +82,7 @@ struct csv_field csv_fields[18] = {
     { N_("Value date"),	    0.0, csv_import_validate_date,   csv_import_parse_value_date, "" },
     { N_("Payee"),	    0.0, csv_import_validate_string, csv_import_parse_payee, N_("Wording") },
     { N_("Notes"),	    0.0, csv_import_validate_string, csv_import_parse_notes, "" },
-    { N_("Voucher number"), 0.0, csv_import_validate_number, csv_import_parse_voucher, "" },
+    { N_("Cheque number"), 0.0, csv_import_validate_number, csv_import_parse_cheque, "" },
     { N_("Category"),	    0.0, csv_import_validate_string, csv_import_parse_category, "" },
     { N_("Sub-categories"),   0.0, csv_import_validate_string, csv_import_parse_sub_category, "" },
 	{ N_("Budgetary lines"), 0.0, csv_import_validate_string, csv_import_parse_budget, "" },
