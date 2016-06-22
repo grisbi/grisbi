@@ -551,12 +551,19 @@ static gboolean gsb_assistant_archive_switch_to_menu ( GtkWidget *assistant,
 	    date = gsb_data_transaction_get_date (transaction_number);
 	tmp_list = tmp_list -> next;
     }
-    if (date)
+    if ( date )
     {
-	gtk_entry_set_text ( GTK_ENTRY (initial_date),
-			     gsb_format_gdate (date));
-	gtk_editable_select_region ( GTK_EDITABLE (initial_date),
-				 0, -1);
+		gint fyear_number = 0;
+
+		gtk_entry_set_text ( GTK_ENTRY (initial_date), gsb_format_gdate ( date ) );
+		gtk_editable_select_region ( GTK_EDITABLE ( initial_date ), 0, -1 );
+
+		/* set the fyear */
+		fyear_number = gsb_data_fyear_get_from_date  ( date );
+		if ( fyear_number )
+		{
+			gsb_fyear_set_combobox_history ( financial_year_button, fyear_number );
+		}
     }
     gtk_widget_grab_focus (initial_date);
 
