@@ -207,7 +207,7 @@ AC_ARG_ENABLE(werror,
  	enable_werror=no)
 if test "x$enable_werror" = xyes ; then
 	if test "x$GCC" = "xyes" ; then
-		CFLAGS="$CFLAGS -ansi -Wall -Wunused -Wno-unused-parameter -Wno-unused-function -Wno-unused-but-set-variable -Wno-unused-result"
+		CFLAGS="$CFLAGS -ansi -Wall -Wno-unused-parameter -Wno-unused-function -Wno-unused-but-set-variable -Wno-unused-result -Wnodeprecated-declarations"
 		AC_MSG_WARN([Wall and Wunused flags are enabled])
 	else
 		AC_MSG_WARN([Wall and Wunused can be enabled only with gcc])
