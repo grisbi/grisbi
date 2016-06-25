@@ -64,11 +64,6 @@
 static gboolean gsb_gui_toggle_show_closed_accounts ( void );
 static gboolean gsb_gui_toggle_show_form ( void );
 
-static gboolean help_bugreport ( void );
-static gboolean help_manual ( void );
-static gboolean help_quick_start ( void );
-static gboolean help_translation ( void );
-static gboolean help_website ( void );
 static gboolean gsb_menu_reinit_largeur_col_menu ( void );
 /*END_STATIC*/
 
@@ -85,6 +80,94 @@ static GtkActionGroup *move_to_account_action_group = NULL;
 static gint move_to_account_merge_id = -1;
 
 /* fonctions statiques */
+/**
+ * Start a browser processus with Grisbi bug report page displayed.
+ *
+ * \return FALSE
+ */
+static gboolean gsb_menu_help_bugreport ( void )
+{
+    lance_navigateur_web ( "http://www.grisbi.org/bugtracking/" );
+
+    return FALSE;
+}
+
+/**
+ * Start a browser processus with local copy of the quick start page
+ * on command line.
+ *
+ * \return FALSE
+ */
+static gboolean gsb_menu_help_quick_start ( void )
+{
+    gchar *lang = _("en");
+
+    gchar* tmpstr = g_build_filename ( HELP_PATH, lang, "quickstart.html", NULL );
+    lance_navigateur_web ( tmpstr );
+    g_free ( tmpstr );
+
+    return FALSE;
+}
+
+/**
+ * Start a browser processus with local copy of manual on command
+ * line.
+ *
+ * \return FALSE
+ */
+static gboolean gsb_menu_help_manual ( void )
+{
+    gchar *lang = _("en");
+    gchar *string;
+
+    string = g_build_filename ( gsb_dirs_get_help_dir (), lang, "manual.html", NULL );
+
+    if (g_file_test ( string,
+		      G_FILE_TEST_EXISTS ))
+    {
+	lance_navigateur_web (string);
+	g_free (string);
+    }
+    else
+    {
+	g_free (string);
+	string = g_build_filename ( gsb_dirs_get_help_dir (), lang, "grisbi-manuel.html", NULL );
+	lance_navigateur_web (string);
+	g_free (string);
+    }
+
+    return FALSE;
+}
+
+/**
+ * Start a browser processus with local copy of the translation page
+ * on command line.
+ *
+ * \return FALSE
+ */
+static gboolean gsb_menu_help_translation ( void )
+{
+    gchar *lang = _("en");
+
+    gchar* tmpstr = g_build_filename ( HELP_PATH, lang, "translation.html", NULL );
+    lance_navigateur_web ( tmpstr );
+    g_free ( tmpstr );
+
+    return FALSE;
+}
+
+/**
+ * Start a browser processus with Grisbi website displayed.
+ *
+ * \return FALSE
+ */
+static gboolean gsb_menu_help_website ( void )
+{
+    lance_navigateur_web ( "http://www.grisbi.org/" );
+
+    return FALSE;
+}
+
 /* fonctions de commande liées aux actions */
 /* APP MENU */
 /**
@@ -158,7 +241,7 @@ void grisbi_cmd_manual ( GSimpleAction *action,
 						GVariant *parameter,
 						gpointer app )
 {
-	help_manual ();
+	gsb_menu_help_manual ();
 }
 
 /**
@@ -174,7 +257,7 @@ void grisbi_cmd_quick_start ( GSimpleAction *action,
 						GVariant *parameter,
 						gpointer app )
 {
-	help_quick_start ();
+	gsb_menu_help_quick_start ();
 }
 
 /**
@@ -190,7 +273,7 @@ void grisbi_cmd_web_site ( GSimpleAction *action,
 						GVariant *parameter,
 						gpointer app )
 {
-	help_website ();
+	gsb_menu_help_website ();
 }
 
 /**
@@ -206,7 +289,7 @@ void grisbi_cmd_report_bug ( GSimpleAction *action,
 						GVariant *parameter,
 						gpointer app )
 {
-	help_bugreport ();
+	gsb_menu_help_bugreport ();
 }
 
 /**
@@ -961,101 +1044,17 @@ gboolean affiche_derniers_fichiers_ouverts ( void )
 
 
 
-/**
- * Start a browser processus with local copy of manual on command
- * line.
- *
- * \return FALSE
- */
-gboolean help_manual ( void )
-{
-    gchar *lang = _("en");
-    gchar *string;
-
-    string = g_build_filename ( gsb_dirs_get_help_dir (), lang, "manual.html", NULL );
-
-    if (g_file_test ( string,
-		      G_FILE_TEST_EXISTS ))
-    {
-	lance_navigateur_web (string);
-	g_free (string);
-    }
-    else
-    {
-	g_free (string);
-	string = g_build_filename ( gsb_dirs_get_help_dir (), lang, "grisbi-manuel.html", NULL );
-	lance_navigateur_web (string);
-	g_free (string);
-    }
-
-    return FALSE;
-}
 
 
 
-/**
- * Start a browser processus with local copy of the quick start page
- * on command line.
- *
- * \return FALSE
- */
-gboolean help_quick_start ( void )
-{
-    gchar *lang = _("en");
-
-    gchar* tmpstr = g_build_filename ( HELP_PATH, lang, "quickstart.html", NULL );
-    lance_navigateur_web ( tmpstr );
-    g_free ( tmpstr );
-
-    return FALSE;
-}
 
 
 
-/**
- * Start a browser processus with local copy of the translation page
- * on command line.
- *
- * \return FALSE
- */
-gboolean help_translation ( void )
-{
-    gchar *lang = _("en");
-
-    gchar* tmpstr = g_build_filename ( HELP_PATH, lang, "translation.html", NULL );
-    lance_navigateur_web ( tmpstr );
-    g_free ( tmpstr );
-
-    return FALSE;
-}
 
 
 
-/**
- * Start a browser processus with Grisbi website displayed.
- *
- * \return FALSE
- */
-gboolean help_website ( void )
-{
-    lance_navigateur_web ( "http://www.grisbi.org/" );
-
-    return FALSE;
-}
 
 
-
-/**
- * Start a browser processus with Grisbi bug report page displayed.
- *
- * \return FALSE
- */
-gboolean help_bugreport ( void )
-{
-    lance_navigateur_web ( "http://www.grisbi.org/bugtracking/" );
-
-    return FALSE;
-}
 
 
 
@@ -1201,7 +1200,7 @@ gboolean gsb_menu_update_view_menu ( gint account_number )
     block_menu_cb = TRUE;
 
     /* update the showing of reconciled transactions */
-    tmpstr = "/menubar/ViewMenu/ShowReconciled";
+/*    tmpstr = "/menubar/ViewMenu/ShowReconciled";
     gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
                         gtk_ui_manager_get_action ( ui_manager, tmpstr) ),
 				        gsb_data_account_get_r ( account_number ) );
@@ -1210,15 +1209,15 @@ gboolean gsb_menu_update_view_menu ( gint account_number )
     gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
                         gtk_ui_manager_get_action ( ui_manager, tmpstr) ),
 				        gsb_form_is_visible ( ) );
-
+*/
     /* update the showing of archived transactions */
-    tmpstr = "/menubar/ViewMenu/ShowArchived";
+/*    tmpstr = "/menubar/ViewMenu/ShowArchived";
     gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
                         gtk_ui_manager_get_action ( ui_manager, tmpstr) ),
 				        gsb_data_account_get_l ( account_number ) );
-
+*/
     /* update the number of line showed */
-    switch ( gsb_data_account_get_nb_rows (account_number))
+/*    switch ( gsb_data_account_get_nb_rows (account_number))
     {
 	default:
 	case 1 :
@@ -1238,7 +1237,7 @@ gboolean gsb_menu_update_view_menu ( gint account_number )
     gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
                         gtk_ui_manager_get_action ( ui_manager, item_name ) ),
 				        TRUE );
-    block_menu_cb = FALSE;
+*/    block_menu_cb = FALSE;
 
     return FALSE;
 }
@@ -1254,6 +1253,8 @@ gboolean gsb_menu_update_view_menu ( gint account_number )
 gboolean gsb_menu_update_accounts_in_menus ( void )
 {
     GSList *list_tmp;
+
+	return FALSE;
 
     if ( move_to_account_action_group )
     {
