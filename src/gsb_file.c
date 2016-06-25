@@ -46,6 +46,8 @@
 #include "affichage_liste.h"
 #include "dialog.h"
 #include "fenetre_principale.h"
+#include "grisbi_app.h"
+#include "grisbi_win.h"
 #include "gsb_account_property.h"
 #include "gsb_assistant_account.h"
 #include "gsb_assistant_file.h"
@@ -58,7 +60,6 @@
 #include "gsb_real.h"
 #include "gsb_status.h"
 #include "gsb_transactions_list.h"
-#include "main.h"
 #include "menu.h"
 #include "navigation.h"
 #include "parametres.h"
@@ -73,7 +74,6 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void gsb_file_append_name_to_opened_list ( gchar * path_fichier );
 static gboolean gsb_file_automatic_backup ( gpointer null );
 static gchar *gsb_file_dialog_ask_name ( void );
 static gint gsb_file_dialog_save ( void );
@@ -95,12 +95,55 @@ gint id_timeout = 0;
 /*START_EXTERN*/
 extern gchar *copy_old_filename;
 extern gchar *nom_fichier_comptes;
-extern gchar **tab_noms_derniers_fichiers_ouverts;
 extern GtkWidget *table_etat;
 extern gchar *titre_fichier;
 extern GtkWidget *tree_view_vbox;
 /*END_EXTERN*/
 
+/**
+ * teste la validité d'un fichier
+ *
+ * \param const gchar 	filename
+ *
+ * \return TRUE if OK FALSE other
+ **/
+gboolean gsb_file_test_file ( const gchar *filename )
+ {
+	gchar* tmp_str1;
+	gchar* tmp_str2;
+
+	if ( !filename || !strlen ( filename ) || !g_file_test ( filename, G_FILE_TEST_EXISTS ) )
+    {
+        tmp_str1 = g_strdup_printf ( _("Cannot open file '%s': %s"),
+                        filename,
+                        _("File does not exist") );
+
+        tmp_str2 = g_strdup_printf ( _("Error loading file '%s'"), filename );
+        dialogue_error_hint ( tmp_str1, tmp_str2 );
+
+        g_free ( tmp_str1 );
+        g_free ( tmp_str2 );
+        gsb_menu_recent_manager_remove_item ( NULL, filename );
+
+        return FALSE;
+    }
+    /* check here if it's not a regular file */
+    if ( !g_file_test ( filename, G_FILE_TEST_IS_REGULAR ) )
+    {
+        tmp_str1 = g_strdup_printf (
+                        _("%s doesn't seem to be a regular file,\nplease check it and try again."),
+                        filename );
+        gchar* tmp_str2 = g_strdup_printf ( _("Error loading file '%s'"), filename);
+        dialogue_error_hint ( tmp_str1 , tmp_str2);
+
+        g_free ( tmp_str1 );
+        g_free ( tmp_str2 );
+        gsb_menu_recent_manager_remove_item ( NULL, filename );
+
+        return ( FALSE );
+    }
+	return TRUE;
+ }
 
 /**
  * Called by menu file -> new,
@@ -145,9 +188,6 @@ gboolean gsb_file_new_finish ( void )
         return FALSE;
     }
 
-    /* the the name in the last opened files */
-    gsb_file_append_name_to_opened_list ( nom_fichier_comptes );
-
     /* init the gui */
     gsb_file_new_gui ();
 
@@ -164,28 +204,29 @@ gboolean gsb_file_new_finish ( void )
  */
 void gsb_file_new_gui ( void )
 {
-    GtkWidget *main_vbox;
+    GtkWidget *main_box;
     GtkWidget *tree_view_widget;
     GtkWidget *notebook_general;
 
     /* dégrise les menus nécessaire */
-    gsb_menu_set_menus_with_file_sensitive ( TRUE );
-
-    /*     récupère l'organisation des colonnes  */
+/*    gsb_menu_set_menus_with_file_sensitive ( TRUE );
+*/
+    /* récupère l'organisation des colonnes */
     recuperation_noms_colonnes_et_tips ();
 
     /* Create main widget. */
     gsb_status_message ( _("Creating main window") );
-    main_vbox = g_object_get_data ( G_OBJECT ( run.window ), "main_vbox" );
-    gtk_box_pack_start ( GTK_BOX ( main_vbox ), gsb_gui_create_general_widgets ( ), TRUE, TRUE, 0 );
+    main_box = grisbi_win_get_main_box ( grisbi_app_get_active_window ( NULL ) );
+    gtk_box_pack_start ( GTK_BOX ( main_box ), gsb_gui_create_general_widgets (), TRUE, TRUE, 0 );
 
     /* create the model */
-    if (!transaction_list_create ())
+    if ( !transaction_list_create () )
     {
-    dialogue_error (_("The model of the list couldn't be created... "
-                        "Bad things will happen very soon..."));
-    return;
+		dialogue_error ( _("The model of the list couldn't be created... "
+                        "Bad things will happen very soon...") );
+		return;
     }
+printf ("phase 1\n");
 
     /* Create transaction list. */
     tree_view_widget = gsb_transactions_list_make_gui_list ();
@@ -195,6 +236,7 @@ void gsb_file_new_gui ( void )
                 TRUE,
                 0 );
     gtk_widget_show ( tree_view_widget );
+printf ("phase 2\n");
 
     navigation_change_account ( gsb_gui_navigation_get_current_account () );
 
@@ -335,29 +377,6 @@ void gsb_file_set_backup_path ( const gchar *path )
 
 
 /**
- * called by file -> last files -> click on the name
- *
- * \param item
- * \param file_number_ptr the number of file in a pointer format
- *
- * \return FALSE
- * */
-gboolean gsb_file_open_direct_menu ( GtkMenuItem *item,
-                        gint *file_number_ptr )
-{
-    /* continue only if can close the current file */
-    if ( !gsb_file_close() )
-	return FALSE;
-
-    nom_fichier_comptes = my_strdup (tab_noms_derniers_fichiers_ouverts[GPOINTER_TO_INT (file_number_ptr)]);
-    gsb_file_open_file (nom_fichier_comptes);
-
-    return FALSE;
-}
-
-
-
-/**
  * open a new grisbi file, don't check anything about another opened file that must
  * have been done before
  *
@@ -371,10 +390,8 @@ gboolean gsb_file_open_file ( gchar *filename )
 
     devel_debug (filename);
 
-    if ( !filename
-	 ||
-	 !strlen (filename))
-	return FALSE;
+	if ( !gsb_file_test_file ( filename ) )
+		return FALSE;
 
     gsb_status_wait ( TRUE );
     gsb_status_message ( _("Loading accounts") );
@@ -384,7 +401,7 @@ gboolean gsb_file_open_file ( gchar *filename )
      * when returning from gsb_file_load_open_file!
      * making application crashes! */
 
-    if ( gsb_file_load_open_file (filename))
+    if ( gsb_file_load_open_file ( filename) )
     {
         /* the file has been opened succesfully */
         /* we make a backup if necessary */
@@ -396,97 +413,93 @@ gboolean gsb_file_open_file ( gchar *filename )
     }
     else
     {
+		gchar *tmp_str1;
+		gchar *tmp_str2;
+
         /* Loading failed. */
         gsb_status_message ( _("Failed to load accounts") );
 
+		tmp_str1 = g_strdup_printf ( _("Error loading file '%s'"), filename );
+
         if ( conf.sauvegarde_demarrage || conf.make_backup || conf.make_backup_every_minutes )
         {
-            gchar *tmpstr = g_strdup_printf ( _("Error loading file '%s'"), filename);
-            gchar *tmpstr2 = g_strdup_printf (
+            tmp_str2 = g_strdup_printf (
                                 _("Grisbi was unable to load file. You should find the last "
                                   "backups in '%s', they are saved with date and time into "
                                   "their name so you should find easily the last backup "
                                   "saved.\n"
                                   "Please contact the Grisbi's team on devel@listes.grisbi.org "
                                   "to find what happened to you current file."),
-                                gsb_file_get_backup_path ());
-            dialogue_error_hint ( tmpstr2, tmpstr );
-            g_free ( tmpstr );
-            g_free ( tmpstr2 );
-            gsb_status_stop_wait ( TRUE );
-            return FALSE;
+                                gsb_file_get_backup_path () );
         }
         else
         {
-            gchar *tmpstr = g_strdup_printf ( _("Error loading file '%s'"), filename);
-            gchar *tmpstr2;
-
-            if (gsb_file_get_backup_path ())
-            tmpstr2 = g_strdup_printf (
+            if ( gsb_file_get_backup_path () )
+            tmp_str2 = g_strdup_printf (
                             _("Grisbi was unable to load file and the backups seem not to "
                               "be activated... This is a bad thing.\nYour backup path is '%s', "
                               "try to find if earlier you had some backups in there ?\n"
                               "Please contact the Grisbi's team on devel@listes.grisbi.org "
                               "to find what happened to you current file."),
-                            gsb_file_get_backup_path ());
+                            gsb_file_get_backup_path () );
             else
-            tmpstr2 = my_strdup ( _("Grisbi was unable to load file and the backups seem not "
+            tmp_str2 = my_strdup ( _("Grisbi was unable to load file and the backups seem not "
                                     "to be activated... This is a bad thing.\n"
                                     "Please contact the Grisbi's team on "
                                     "devel@listes.grisbi.org to find what happened to you "
                                     "current file."));
+		}
+		dialogue_error_hint ( tmp_str2, tmp_str1 );
+		g_free ( tmp_str1 );
+		g_free ( tmp_str2 );
 
-            dialogue_error_hint ( tmpstr2, tmpstr );
-            g_free ( tmpstr );
-            g_free ( tmpstr2 );
-            gsb_status_stop_wait ( TRUE );
-            return FALSE;
-        }
+		gsb_status_stop_wait ( TRUE );
+        gsb_menu_recent_manager_remove_item ( NULL, filename );
+
+		return FALSE;
     }
 
     /* ok, here the file or backup is loaded */
-    gsb_status_message ( _("Checking schedulers"));
+    gsb_status_message ( _("Checking schedulers") );
 
-    /* the the name in the last opened files */
-    gsb_file_append_name_to_opened_list ( filename );
-
-    /* create the archives store data, ie the transaction wich will replace the archive in
+	/* create the archives store data, ie the transaction wich will replace the archive in
      * the list of transactions */
     gsb_data_archive_store_create_list ();
 
     /* create all the gui */
     gsb_file_new_gui ();
 
-    /* check the amounts of all the accounts */
+	/* check the amounts of all the accounts */
     gsb_status_message ( _("Checking amounts"));
     list_tmp = gsb_data_account_get_list_accounts ();
 
     while ( list_tmp )
     {
-	gint account_number;
-	volatile gint value;
+		gint account_number;
+		volatile gint value;
 
-	account_number = gsb_data_account_get_no_account ( list_tmp -> data );
+		account_number = gsb_data_account_get_no_account ( list_tmp -> data );
 
-	/* set the minimum balances to be shown or not */
-	value = gsb_real_cmp ( gsb_data_account_get_current_balance (account_number),
-                          gsb_data_account_get_mini_balance_authorized (account_number) ) == -1;
-    gsb_data_account_set_mini_balance_authorized_message ( account_number, value);
-    value = gsb_real_cmp ( gsb_data_account_get_current_balance (account_number),
-                          gsb_data_account_get_mini_balance_wanted (account_number) ) == -1;
-    gsb_data_account_set_mini_balance_wanted_message ( account_number, value);
-	list_tmp = list_tmp -> next;
+		/* set the minimum balances to be shown or not */
+		value = gsb_real_cmp ( gsb_data_account_get_current_balance (account_number),
+							  gsb_data_account_get_mini_balance_authorized ( account_number ) ) == -1;
+		gsb_data_account_set_mini_balance_authorized_message ( account_number, value );
+		value = gsb_real_cmp ( gsb_data_account_get_current_balance ( account_number ),
+							  gsb_data_account_get_mini_balance_wanted ( account_number) ) == -1;
+		gsb_data_account_set_mini_balance_wanted_message ( account_number, value );
+
+		list_tmp = list_tmp -> next;
     }
 
     /* set Grisbi title */
     grisbi_win_set_grisbi_title ( -1 );
 
     /* update the main page */
-    mise_a_jour_accueil (TRUE);
+    mise_a_jour_accueil ( TRUE );
 
     /* for now, the flag for modification of the file is ok, but the menu couldn't be set
      * as sensitive/unsensitive so do it now */
-    gsb_file_set_modified ( gsb_file_get_modified ( ) );
+    gsb_file_set_modified ( gsb_file_get_modified () );
 
     gsb_status_message ( _("Done") );
     gsb_status_stop_wait ( TRUE );
@@ -609,7 +622,6 @@ gboolean gsb_file_save_file ( gint origine )
 	etat.fichier_deja_ouvert = 0;
         gsb_file_set_modified ( FALSE );
 	grisbi_win_set_grisbi_title ( gsb_gui_navigation_get_current_account ( ) );
-	gsb_file_append_name_to_opened_list ( nom_fichier_comptes );
     }
 
     gsb_status_message ( _("Done") );
@@ -995,137 +1007,6 @@ gboolean gsb_file_close ( void )
 
 
 /**
- * append a new name to the list of recently opened file
- *
- * \param path_fichier
- *
- * \return
- * */
-void gsb_file_append_name_to_opened_list ( gchar * path_fichier )
-{
-    gint i, position;
-    gchar * dernier, * real_name;
-
-    devel_debug (path_fichier);
-
-    if ( !path_fichier )
-        return;
-
-    if ( conf.nb_max_derniers_fichiers_ouverts == 0 )
-        return;
-
-    if ( conf.nb_derniers_fichiers_ouverts < 0 )
-        conf.nb_derniers_fichiers_ouverts = 0;
-
-    if ( !g_path_is_absolute ( nom_fichier_comptes ) )
-    {
-        real_name = g_strdup( (gchar*)realpath ( nom_fichier_comptes, NULL ));
-        if ( ! real_name )
-        {
-            notice_debug ( "could not resolve relative file name" );
-            return;
-        }
-        devel_debug ( real_name );
-    }
-    else
-    {
-        real_name = g_strdup ( path_fichier );
-    }
-
-    /* on commence par vérifier si ce fichier n'est pas dans les nb_derniers_fichiers_ouverts
-     * noms */
-    position = 0;
-
-    if ( conf.nb_derniers_fichiers_ouverts )
-    {
-        for ( i = 0; i < conf.nb_derniers_fichiers_ouverts; i++ )
-        {
-            if ( !strcmp ( real_name, tab_noms_derniers_fichiers_ouverts[i] ) )
-            {
-                /* 	si ce fichier est déjà le dernier ouvert, on laisse tomber */
-                if ( !i )
-                {
-                    g_free ( real_name );
-                    return;
-                }
-
-                position = i;
-            }
-        }
-
-        efface_derniers_fichiers_ouverts ( );
-
-        if ( position )
-        {
-            /* le fichier a été trouvé, on fait juste une rotation */
-            for ( i = position; i > 0 ; i-- )
-                tab_noms_derniers_fichiers_ouverts[i] = tab_noms_derniers_fichiers_ouverts[i-1];
-            if ( real_name )
-                tab_noms_derniers_fichiers_ouverts[0] = my_strdup ( real_name );
-            else
-                tab_noms_derniers_fichiers_ouverts[0] = my_strdup ( "<no file>" );
-
-            affiche_derniers_fichiers_ouverts ( );
-            g_free ( real_name );
-
-            return;
-        }
-        /* le fichier est nouveau, on décale tout d'un cran et on met le nouveau à 0 */
-
-        /* si on est déjà au max, c'est juste un décalage avec perte du dernier */
-        /* on garde le ptit dernier dans le cas contraire */
-        dernier = tab_noms_derniers_fichiers_ouverts[conf.nb_derniers_fichiers_ouverts-1];
-        for ( i = conf.nb_derniers_fichiers_ouverts - 1 ; i > 0 ; i-- )
-            tab_noms_derniers_fichiers_ouverts[i] = tab_noms_derniers_fichiers_ouverts[i-1];
-    }
-    else
-        dernier = NULL;
-
-    if ( conf.nb_derniers_fichiers_ouverts < conf.nb_max_derniers_fichiers_ouverts )
-    {
-        tab_noms_derniers_fichiers_ouverts = g_realloc ( tab_noms_derniers_fichiers_ouverts,
-						    ( ++conf.nb_derniers_fichiers_ouverts ) * sizeof ( gpointer ) );
-        tab_noms_derniers_fichiers_ouverts[conf.nb_derniers_fichiers_ouverts-1] = dernier;
-    }
-
-    tab_noms_derniers_fichiers_ouverts[0] = my_strdup ( real_name );
-
-    affiche_derniers_fichiers_ouverts();
-    g_free ( real_name );
-}
-
-
-/**
- * remove the filename from the list of recently opened file
- *
- * \param filename
- *
- * \return
- * */
-void gsb_file_remove_name_from_opened_list ( gchar *filename )
-{
-    gint i, j;
-
-    devel_debug ( filename );
-    efface_derniers_fichiers_ouverts();
-    devel_debug_int ( conf.nb_derniers_fichiers_ouverts );
-
-    for ( i = 0 ; i < conf.nb_derniers_fichiers_ouverts; i++ )
-    {
-        if ( strcmp (filename, tab_noms_derniers_fichiers_ouverts[i]) == 0 )
-        {
-            for ( j = i; ( j + 1 ) < conf.nb_derniers_fichiers_ouverts; j++ )
-            {
-                tab_noms_derniers_fichiers_ouverts[j] = tab_noms_derniers_fichiers_ouverts[j+1];
-            }
-            conf.nb_derniers_fichiers_ouverts--;
-        }
-    }
-    affiche_derniers_fichiers_ouverts();
-}
-
-
-/**
  * efface la copie du fichier de comptes ancienne version
  *
  * \param filename  le chemein du fichier à effacer
@@ -1257,7 +1138,13 @@ void gsb_file_free_backup_path ( void )
     }
 }
 
-
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

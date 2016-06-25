@@ -18,8 +18,6 @@ const gchar *gsb_file_get_last_path ( void );
 gboolean gsb_file_new ( void );
 gboolean gsb_file_new_finish ( void );
 void gsb_file_new_gui ( void );
-gboolean gsb_file_open_direct_menu ( GtkMenuItem *item,
-                        gint *file_number_ptr );
 gboolean gsb_file_open_file ( gchar *filename );
 gboolean gsb_file_open_menu ( void );
 void gsb_file_remove_name_from_opened_list ( gchar *filename );

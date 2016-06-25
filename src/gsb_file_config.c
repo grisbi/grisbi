@@ -43,7 +43,7 @@
 #include "fenetre_principale.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
-#include "main.h"
+#include "menu.h"
 #include "structures.h"
 #include "utils_buttons.h"
 #include "utils_files.h"
@@ -64,9 +64,6 @@ extern gchar *nom_fichier_comptes;
 
 /* global variable, see structures.h */
 struct gsb_conf_t conf;
-
-
-gchar **tab_noms_derniers_fichiers_ouverts = NULL;
 
 #if IS_DEVELOPMENT_VERSION == 1
 /* flag de chargement du fichier modèle */
@@ -132,7 +129,6 @@ static void gsb_file_config_clean_config ( void )
 
     conf.nb_derniers_fichiers_ouverts = 0;
     conf.nb_max_derniers_fichiers_ouverts = 3;
-    tab_noms_derniers_fichiers_ouverts = NULL;
 
     /* no compress by default */
     conf.compress_file = 0;
@@ -335,17 +331,6 @@ static void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
     }
 
     if ( !strcmp ( element_name,
-		   "fichier" ))
-    {
-	if (!tab_noms_derniers_fichiers_ouverts)
-	    tab_noms_derniers_fichiers_ouverts = g_malloc0 ( conf.nb_max_derniers_fichiers_ouverts * sizeof(gchar *) );
-
-	tab_noms_derniers_fichiers_ouverts[conf.nb_derniers_fichiers_ouverts] = my_strdup (text);
-	conf.nb_derniers_fichiers_ouverts++;
-	return;
-    }
-
-    if ( !strcmp ( element_name,
 		   "Delai_rappel_echeances" ))
     {
 	nb_days_before_scheduled = utils_str_atoi (text);
@@ -421,6 +406,7 @@ gboolean gsb_file_config_load_config ( void )
     const gchar *filename;
     gchar *name;
 	gchar *tmp_str;
+	gchar **recent_array = NULL;
     gint i;
     gint int_ret;
     GError* err = NULL;
@@ -647,16 +633,20 @@ gboolean gsb_file_config_load_config ( void )
                         "Force saving",
                         NULL );
 
-    tab_noms_derniers_fichiers_ouverts = g_key_file_get_string_list ( config,
+    recent_array = g_key_file_get_string_list ( config,
                         "IO",
                         "Names last files",
                         &conf.nb_derniers_fichiers_ouverts,
                         NULL );
 
-    if (tab_noms_derniers_fichiers_ouverts)
-        nom_fichier_comptes = my_strdup (tab_noms_derniers_fichiers_ouverts [ 0 ]);
+    if ( recent_array )
+	{
+		gsb_menu_recent_manager_set_recent_array ( recent_array );
+        nom_fichier_comptes = my_strdup ( recent_array[0]);
+	}
     else
         nom_fichier_comptes = NULL;
+
 
     conf.check_for_archival = g_key_file_get_integer ( config,
                         "IO",
@@ -825,6 +815,7 @@ gboolean gsb_file_config_save_config ( void )
     gchar *file_content;
     gchar *name;
     gsize length;
+	gchar **recent_array = NULL;
     FILE *conf_file;
     gint i;
 
@@ -1006,14 +997,13 @@ gboolean gsb_file_config_save_config ( void )
                         "Force saving",
                         conf.force_enregistrement );
 
-    if ( conf.nb_derniers_fichiers_ouverts > 0
-     &&
-     tab_noms_derniers_fichiers_ouverts)
-        g_key_file_set_string_list ( config,
+	/* sauvegarde des fichiers récents */
+	recent_array = gsb_menu_recent_manager_get_recent_array ();
+	g_key_file_set_string_list ( config,
                         "IO",
                         "Names last files",
-                        (const gchar **) tab_noms_derniers_fichiers_ouverts,
-                        conf.nb_derniers_fichiers_ouverts);
+                        (const gchar **) recent_array,
+                        conf.nb_derniers_fichiers_ouverts );
 
     g_key_file_set_integer ( config,
                         "IO",
@@ -1178,6 +1168,7 @@ gboolean gsb_file_config_save_config ( void )
     fclose ( conf_file );
     g_free ( file_content);
     g_key_file_free (config);
+	g_strfreev ( recent_array );
 
     return TRUE;
 }
@@ -1209,7 +1200,6 @@ gboolean gsb_file_config_save_config ( void )
 	gsb_file_free_last_path ();
 	gsb_file_free_backup_path ();
 
-	g_strfreev ( tab_noms_derniers_fichiers_ouverts );
 }
 
 
