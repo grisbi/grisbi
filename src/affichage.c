@@ -40,7 +40,6 @@
 #include "gsb_file.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_select_icon.h"
-#include "main.h"
 #include "navigation.h"
 #include "parametres.h"
 #include "structures.h"
