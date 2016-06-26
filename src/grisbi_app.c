@@ -522,8 +522,8 @@ static void grisbi_app_init ( GrisbiApp *app )
     g_application_add_main_option_entries ( G_APPLICATION ( app ), options );
 }
 
-/** lancement de l'application
- *
+/**
+ * lancement de l'application
  *
  * \param GApplication *app
  *
@@ -556,9 +556,6 @@ static void grisbi_app_activate ( GApplication *app )
 	GtkBuilder *builder;
 	GMenuModel *menubar;
 	GError *error = NULL;
-	GdkGeometry size_hints = {
-    800, 600, 1350, 900, 1000, 750, 10, 10, 1.5, 1.5, GDK_GRAVITY_NORTH_WEST
-  };
 
 	devel_debug ( NULL );
 	priv = grisbi_app_get_instance_private ( GRISBI_APP ( app ) );
@@ -594,15 +591,6 @@ static void grisbi_app_activate ( GApplication *app )
 
 	/* création de la fenêtre pincipale */
     win = grisbi_app_create_window ( GRISBI_APP ( app ), NULL );
-
-	/* limitation de la fenêtre */
-	gtk_window_set_geometry_hints ( GTK_WINDOW ( win ),
-	  			    GTK_WIDGET ( grisbi_win_get_main_box ( win ) ),
-				    &size_hints,
-					GDK_HINT_MIN_SIZE |
-				    GDK_HINT_MAX_SIZE |
-				    GDK_HINT_BASE_SIZE |
-				    GDK_HINT_RESIZE_INC);
 
 	if ( priv->geometry )
 		gtk_window_parse_geometry ( GTK_WINDOW ( win ), priv->geometry );
@@ -770,8 +758,19 @@ static gboolean grisbi_win_change_state_window ( GtkWidget *window,
         gtk_window_set_has_resize_grip ( GTK_WINDOW ( window ), show );
         conf.maximize_screen = !show;
     }
+    else if ( event->changed_mask & GDK_WINDOW_STATE_FULLSCREEN )
+    {
+        show = !( event->new_window_state & GDK_WINDOW_STATE_FULLSCREEN );
 
-	/* return value */
+/*        if ( show )
+            gtk_widget_show  ( gsb_status_get_status_bar () );
+        else
+            gtk_widget_hide  ( gsb_status_get_status_bar () );
+*/
+        conf.full_screen = !show;
+    }
+
+    /* return value */
     return FALSE;
 }
 
@@ -817,6 +816,23 @@ static void grisbi_win_destroy_event ( GtkWidget *win,
     run.window = NULL;
 }
 
+static gboolean grisbi_win_key_press_event ( GtkWidget *widget,
+                        GdkEventKey *event,
+                        gpointer data )
+{
+    switch ( event -> keyval )
+    {
+        case GDK_KEY_F11 :
+            if ( conf.full_screen )
+                gtk_window_unfullscreen ( GTK_WINDOW ( widget ) );
+            else
+                gtk_window_fullscreen ( GTK_WINDOW ( widget ) );
+        return TRUE;
+    }
+
+    return FALSE;
+}
+
 /**
  * Création d'une fenêtre GrisbiWin.
  *
@@ -853,7 +869,12 @@ GrisbiWin *grisbi_app_create_window ( GrisbiApp *app,
                         G_CALLBACK ( grisbi_win_destroy_event ),
                         app );
 
-    if ( screen != NULL )
+    g_signal_connect ( G_OBJECT ( run.window ),
+                        "key-press-event",
+                        G_CALLBACK ( grisbi_win_key_press_event ),
+                        NULL );
+
+	if ( screen != NULL )
         gtk_window_set_screen ( GTK_WINDOW ( win ), screen );
 
     return win;
