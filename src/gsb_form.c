@@ -983,6 +983,9 @@ gboolean gsb_form_set_expander_visible ( gboolean visible,
  * */
 gboolean gsb_form_switch_expander ( void )
 {
+	if ( !form_expander )
+		return FALSE;
+
     gtk_expander_set_expanded ( GTK_EXPANDER (form_expander),
 				!gsb_form_is_visible ());
 

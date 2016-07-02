@@ -962,10 +962,10 @@ gboolean navigation_change_account ( gint new_account )
     tmp_menu_path = g_strconcat ( "/menubar/EditMenu/MoveToAnotherAccount/",
                         gsb_data_account_get_name (current_account),
                         NULL );
-    gsb_gui_sensitive_menu_item ( tmp_menu_path, TRUE );
+    gsb_gui_sensitive_win_menu_item ( tmp_menu_path, TRUE );
     g_free ( tmp_menu_path );
 
-    gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/NewTransaction", TRUE );
+    gsb_gui_sensitive_win_menu_item ( "/menubar/EditMenu/NewTransaction", TRUE );
 
     /* save the row_align of the last account */
     gsb_data_account_set_row_align ( current_account,
@@ -985,7 +985,7 @@ gboolean navigation_change_account ( gint new_account )
     tmp_menu_path = g_strconcat ( "/menubar/EditMenu/MoveToAnotherAccount/",
                         gsb_data_account_get_name (new_account),
                         NULL );
-    gsb_gui_sensitive_menu_item ( tmp_menu_path, FALSE );
+    gsb_gui_sensitive_win_menu_item ( tmp_menu_path, FALSE );
 
     g_free ( tmp_menu_path );
 
@@ -1142,8 +1142,8 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 
     if ( page_number != GSB_ACCOUNT_PAGE )
     {
-        gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/NewTransaction", FALSE );
-        gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/RemoveAccount", FALSE );
+        gsb_gui_sensitive_win_menu_item ( "/menubar/EditMenu/NewTransaction", FALSE );
+        gsb_gui_sensitive_win_menu_item ( "/menubar/EditMenu/RemoveAccount", FALSE );
         gsb_menu_set_menus_view_account_sensitive ( FALSE );
         gsb_menu_set_menus_select_transaction_sensitive ( FALSE );
     }
@@ -1160,7 +1160,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 
         title = g_strdup(_("My accounts"));
 
-        gsb_gui_sensitive_menu_item ( "/menubar/ViewMenu/ShowClosed", TRUE );
+        gsb_gui_sensitive_win_menu_item ( "/menubar/ViewMenu/ShowClosed", TRUE );
 
 	    /* what to be done if switch to that page */
 	    mise_a_jour_accueil ( FALSE );
@@ -1171,7 +1171,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    notice_debug ("Account page selected");
 
         gsb_menu_set_menus_view_account_sensitive ( TRUE );
-	    gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/RemoveAccount", TRUE );
+	    gsb_gui_sensitive_win_menu_item ( "/menubar/EditMenu/RemoveAccount", TRUE );
 
 	    account_number = gsb_gui_navigation_get_current_account ();
 
@@ -1225,10 +1225,10 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    gtk_widget_show_all ( scheduler_calendar );
 
         /* show menu NewTransaction */
-        gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/NewTransaction", TRUE );
+        gsb_gui_sensitive_win_menu_item ( "/menubar/EditMenu/NewTransaction", TRUE );
 
         /* show menu InitwidthCol */
-        gsb_gui_sensitive_menu_item ( "/menubar/ViewMenu/InitwidthCol", TRUE );
+        gsb_gui_sensitive_win_menu_item ( "/menubar/ViewMenu/InitwidthCol", TRUE );
 	    break;
 
 	case GSB_PAYEES_PAGE:

@@ -66,8 +66,9 @@ void grisbi_cmd_file_new ( GSimpleAction *action,
 void grisbi_cmd_file_open_menu ( GSimpleAction *action,
 						GVariant *parameter,
 						gpointer user_data );
-void grisbi_cmd_file_open_direct_menu ( GtkRecentManager *recent_manager,
-						GtkRecentChooser *chooser );
+void grisbi_cmd_file_open_direct_menu ( GSimpleAction *action,
+						GVariant *parameter,
+						gpointer win );
 void grisbi_cmd_file_save ( GSimpleAction *action,
 						GVariant *parameter,
 						gpointer user_data );
@@ -139,7 +140,7 @@ void grisbi_cmd_show_archived_toggle ( GSimpleAction *action,
 void grisbi_cmd_show_closed_acc_toggle ( GSimpleAction *action,
 						GVariant *parameter,
 						gpointer user_data );
-void grisbi_cmd_show_ope ( GSimpleAction *action,
+void grisbi_cmd_show_ope_radio ( GSimpleAction *action,
 						GVariant *parameter,
 						gpointer user_data );
 void grisbi_cmd_reset_width_col ( GSimpleAction *action,
@@ -150,7 +151,7 @@ void grisbi_cmd_reset_width_col ( GSimpleAction *action,
 
 gboolean affiche_derniers_fichiers_ouverts ( void );
 void efface_derniers_fichiers_ouverts ( void );
-gboolean gsb_gui_sensitive_menu_item ( gchar *item_name, gboolean state );
+gboolean gsb_gui_sensitive_win_menu_item ( gchar *item_name, gboolean state );
 void gsb_gui_toggle_line_view_mode ( GtkRadioAction *action,
                         GtkRadioAction *current,
                         gpointer user_data );

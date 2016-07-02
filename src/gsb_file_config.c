@@ -641,7 +641,7 @@ gboolean gsb_file_config_load_config ( void )
 
     if ( recent_array )
 	{
-		gsb_menu_recent_manager_set_recent_array ( recent_array );
+		grisbi_app_init_recent_manager ( recent_array );
         nom_fichier_comptes = my_strdup ( recent_array[0]);
 	}
     else

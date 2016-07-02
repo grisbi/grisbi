@@ -171,7 +171,7 @@ gboolean desensitive_widget ( gpointer object, GtkWidget *widget )
  * sous Windows si la commande est vide ou egale a la valeur par defaut
  * on lance le butineur par defaut (open)
  */
-gboolean lance_navigateur_web_old ( const gchar *url )
+gboolean lance_navigateur_web ( const gchar *url )
 {
     gchar **split;
     gchar *chaine = NULL;
@@ -246,7 +246,7 @@ gboolean lance_navigateur_web_old ( const gchar *url )
     return FALSE;
 }
 
-gboolean lance_navigateur_web ( const gchar *uri )
+gboolean lance_navigateur_web_new ( const gchar *uri )
 {
     GError *error = NULL;
     gchar *str;
@@ -257,7 +257,7 @@ gboolean lance_navigateur_web ( const gchar *uri )
     }
     else
     {
-        str = g_strconcat ( "file://", uri, NULL );
+        str = g_strconcat ( "file:///", uri, NULL );
     }
 
     if ( gtk_show_uri ( NULL, str, GDK_CURRENT_TIME, &error ) == FALSE )

@@ -225,7 +225,6 @@ void gsb_file_new_gui ( void )
                         "Bad things will happen very soon...") );
 		return;
     }
-printf ("phase 1\n");
 
     /* Create transaction list. */
     tree_view_widget = gsb_transactions_list_make_gui_list ();
@@ -235,7 +234,6 @@ printf ("phase 1\n");
                 TRUE,
                 0 );
     gtk_widget_show ( tree_view_widget );
-printf ("phase 2\n");
 
     navigation_change_account ( gsb_gui_navigation_get_current_account () );
 
@@ -1081,13 +1079,13 @@ void gsb_file_set_modified ( gboolean modified )
         if ( ! run.file_modification )
         {
             run.file_modification = time ( NULL );
-            gsb_gui_sensitive_menu_item ( "/menubar/FileMenu/Save", TRUE );
+            gsb_gui_sensitive_win_menu_item ( "/menubar/FileMenu/Save", TRUE );
         }
     }
     else
     {
         run.file_modification = 0;
-        gsb_gui_sensitive_menu_item ( "/menubar/FileMenu/Save", FALSE );
+        gsb_gui_sensitive_win_menu_item ( "/menubar/FileMenu/Save", FALSE );
     }
 }
 

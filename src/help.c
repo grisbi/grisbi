@@ -158,7 +158,7 @@ NULL };
 "Flavio Henrique Somensi (<flavio@opens.com.br>): ", _("Brazilian Portuguese"), CSUFFIX,
 "Giorgio Mandolfo (<giorgio@pollycoke.org>): ", _("Italian"), CSUFFIX,
 "Martin Stromberger (<ma.stromberger@gmx.at>): ", _("German"), CSUFFIX,
-"Ryszard Jeziorski (<rjeziorski@eagleW): ", _("Polish"), CSUFFIX,
+"Ryszard Jeziorski (<rjeziorski@eagleW>): ", _("Polish"), CSUFFIX,
 "Achilleas Kaskamanidis (<alterna55@users.sourceforge.net>): ", _("Greek"), CSUFFIX,
 NULL);
 
