@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-29 22:47+0200\n"
+"POT-Creation-Date: 2016-07-04 21:09+0200\n"
 "PO-Revision-Date: 2010-05-09 11:48+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <cmcamara@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -576,7 +576,7 @@ msgstr "Por defecto"
 #: ../src/bet_config.c:700 ../src/bet_hist.c:189 ../src/bet_hist.c:2091
 #: ../src/bet_hist.c:2097 ../src/categories_onglet.c:368
 #: ../src/etats_prefs.c:675 ../src/etats_prefs.c:2016
-#: ../src/fenetre_principale.c:297 ../src/navigation.c:1993
+#: ../src/fenetre_principale.c:297 ../src/navigation.c:1977
 #: ../src/ui/etats_prefs.ui.h:45
 msgid "Categories"
 msgstr "Categorías"
@@ -585,7 +585,7 @@ msgstr "Categorías"
 #: ../src/bet_config.c:709 ../src/bet_hist.c:198 ../src/bet_hist.c:2095
 #: ../src/etats_prefs.c:680 ../src/etats_prefs.c:2068 ../src/export_csv.c:822
 #: ../src/fenetre_principale.c:302 ../src/import_csv.c:88
-#: ../src/imputation_budgetaire.c:371 ../src/navigation.c:1997
+#: ../src/imputation_budgetaire.c:371 ../src/navigation.c:1981
 #: ../src/ui/etats_prefs.ui.h:51
 msgid "Budgetary lines"
 msgstr "Líneas presupuestarias"
@@ -720,7 +720,7 @@ msgid "Confirmation of the change of period"
 msgstr "Configuración de la página principal"
 
 #: ../src/bet_finance_ui.c:222 ../src/fenetre_principale.c:292
-#: ../src/navigation.c:1246 ../src/navigation.c:1989
+#: ../src/navigation.c:1230 ../src/navigation.c:1973
 #, fuzzy
 msgid "Credits simulator"
 msgstr "Tarjeta de crédito"
@@ -1656,7 +1656,7 @@ msgstr "Predicción"
 #: ../src/gsb_assistant_reconcile_config.c:602
 #: ../src/gsb_payment_method_config.c:171 ../src/gsb_reconcile_config.c:104
 #: ../src/gsb_scheduler_list.c:600 ../src/imputation_budgetaire.c:191
-#: ../src/navigation.c:1088 ../src/tiers_onglet.c:246
+#: ../src/navigation.c:1074 ../src/tiers_onglet.c:246
 msgid "Account"
 msgstr "Cuenta"
 
@@ -1677,7 +1677,7 @@ msgid "Grisbi category files (*.cgsb)"
 msgstr "Archivos de categorías de Grisbi (*.cgsb)"
 
 #: ../src/categories_onglet.c:469 ../src/etats_onglet.c:1234
-#: ../src/file_obfuscate_qif.c:109 ../src/gsb_file.c:280 ../src/import.c:869
+#: ../src/file_obfuscate_qif.c:109 ../src/gsb_file.c:281 ../src/import.c:869
 #: ../src/imputation_budgetaire.c:503
 msgid "All files"
 msgstr "Todos los archivos"
@@ -1752,18 +1752,18 @@ msgstr "Importar un archivo de lista de categorías de Grisbi (.cgsb)"
 msgid "Export a Grisbi category file (.cgsb)"
 msgstr "Exportar un archivo de categorías de Grisbi (.cgsb)"
 
-#: ../src/categories_onglet.c:598 ../src/navigation.c:2250
+#: ../src/categories_onglet.c:598 ../src/navigation.c:2234
 msgid "Delete selected category"
 msgstr "Borrar la categoría seleccionada"
 
 #: ../src/categories_onglet.c:610 ../src/categories_onglet.c:1110
-#: ../src/navigation.c:2265
+#: ../src/navigation.c:2249
 msgid "Edit selected category"
 msgstr "Editar la categoría seleccionada"
 
 #: ../src/categories_onglet.c:619 ../src/gsb_scheduler_list.c:447
 #: ../src/gsb_transactions_list.c:387 ../src/imputation_budgetaire.c:669
-#: ../src/tiers_onglet.c:368
+#: ../src/tiers_onglet.c:368 ../src/ui/grisbi_menu.ui.h:29
 msgid "View"
 msgstr "Vista"
 
@@ -2120,6 +2120,14 @@ msgstr ""
 "Por favor envíe ese fichero con el fichero truncado dentro del informe de "
 "fallos."
 
+#. GtkUIManager *ui_manager = gsb_menu_get_ui_manager ( );
+#.
+#. widget = gtk_ui_manager_get_widget ( ui_manager, "/menubar/FileMenu/DebugMode" );
+#.
+#. unsensitive the menu, we cannot reverse the debug mode
+#. if ( widget && GTK_IS_WIDGET ( widget ) )
+#. gtk_widget_set_sensitive ( widget, FALSE );
+#.
 #. début du mode de débogage
 #: ../src/erreur.c:570
 #, fuzzy, c-format
@@ -2714,12 +2722,12 @@ msgid "Cannot open file '%s' for writing"
 msgstr "No se puede abrir para escritura el archivo '%s'"
 
 #: ../src/etats_onglet.c:119 ../src/fenetre_principale.c:307
-#: ../src/navigation.c:1279 ../src/navigation.c:2001
+#: ../src/navigation.c:1263 ../src/navigation.c:1985
 msgid "Reports"
 msgstr "Informes"
 
 #. New report button
-#: ../src/etats_onglet.c:152 ../src/navigation.c:2370
+#: ../src/etats_onglet.c:152 ../src/navigation.c:2354
 msgid "New report"
 msgstr "Nuevo informe"
 
@@ -2920,8 +2928,8 @@ msgstr "Archivo CSV"
 msgid "Exporting report..."
 msgstr "Exportando el informe ..."
 
-#: ../src/etats_onglet.c:1194 ../src/gsb_debug.c:247 ../src/gsb_file.c:501
-#: ../src/gsb_file.c:624 ../src/gsb_file.c:695
+#: ../src/etats_onglet.c:1194 ../src/gsb_debug.c:247 ../src/gsb_file.c:512
+#: ../src/gsb_file.c:635 ../src/gsb_file.c:706
 msgid "Done"
 msgstr "Hecho"
 
@@ -2947,7 +2955,7 @@ msgid "Transfers"
 msgstr "Transferencias"
 
 #: ../src/etats_prefs.c:665 ../src/fenetre_principale.c:250
-#: ../src/navigation.c:1977 ../src/ui/etats_prefs.ui.h:39
+#: ../src/navigation.c:1961 ../src/ui/etats_prefs.ui.h:39
 msgid "Accounts"
 msgstr "Cuentas"
 
@@ -3006,7 +3014,7 @@ msgid "Account selection"
 msgstr "Selección de cuentas"
 
 #. on fixe le titre et le suffixe de la barre d'information
-#: ../src/etats_prefs.c:1758 ../src/navigation.c:1985
+#: ../src/etats_prefs.c:1758 ../src/navigation.c:1969
 #: ../src/tiers_onglet.c:236 ../src/tiers_onglet.c:637
 msgid "Payees"
 msgstr "Terceros"
@@ -3346,7 +3354,7 @@ msgstr "Estimar tabla"
 msgid "Properties"
 msgstr "Propiedades"
 
-#: ../src/fenetre_principale.c:282 ../src/navigation.c:1981
+#: ../src/fenetre_principale.c:282 ../src/navigation.c:1965
 #: ../src/parametres.c:630 ../src/parametres.c:1390
 msgid "Scheduler"
 msgstr "Planificador"
@@ -4388,7 +4396,7 @@ msgstr ""
 "si fuera necesario.\n"
 
 #. create the assistant
-#: ../src/gsb_assistant_archive.c:152
+#: ../src/gsb_assistant_archive.c:152 ../src/ui/grisbi_menu.ui.h:13
 msgid "Archive transactions"
 msgstr "Archivar transacciones"
 
@@ -4773,7 +4781,7 @@ msgstr ""
 "Importar datos de un servicio de banca online o de un programa de "
 "contabilidad"
 
-#: ../src/gsb_assistant_file.c:582 ../src/navigation.c:1161
+#: ../src/gsb_assistant_file.c:582 ../src/navigation.c:1145
 #: ../src/traitement_variables.c:218
 msgid "My accounts"
 msgstr "Mis cuentas"
@@ -7028,7 +7036,7 @@ msgstr "No hay tercero definido"
 #. on récupère le nom de l'état
 #: ../src/gsb_data_payee.c:563 ../src/gsb_form.c:3069 ../src/gsb_form.c:3070
 #: ../src/gtk_combofix.c:243 ../src/gtk_combofix.c:680
-#: ../src/gtk_combofix.c:761 ../src/navigation.c:1277
+#: ../src/gtk_combofix.c:761 ../src/navigation.c:1261
 msgid "Report"
 msgstr "Informe"
 
@@ -7364,7 +7372,7 @@ msgstr "No se puede abrir el archivo '%s': %s"
 msgid "File does not exist"
 msgstr "El fichero no existe"
 
-#: ../src/gsb_file.c:120 ../src/gsb_file.c:135 ../src/gsb_file.c:419
+#: ../src/gsb_file.c:120 ../src/gsb_file.c:135 ../src/gsb_file.c:422
 #, c-format
 msgid "Error loading file '%s'"
 msgstr "Error abriendo el archivo '%s'"
@@ -7390,24 +7398,24 @@ msgid ""
 "soon..."
 msgstr "El modelo de la lista no puedo crearse... Algo malo sucederá pronto..."
 
-#: ../src/gsb_file.c:263
+#: ../src/gsb_file.c:264
 msgid "Open an accounts file"
 msgstr "Abrir un fichero de cuentas"
 
-#: ../src/gsb_file.c:274
+#: ../src/gsb_file.c:275
 msgid "Grisbi files (*.gsb)"
 msgstr "Archivos de Grisbi (*.gsb)"
 
-#: ../src/gsb_file.c:394
+#: ../src/gsb_file.c:397
 msgid "Loading accounts"
 msgstr "Cargando cuentas"
 
 #. Loading failed.
-#: ../src/gsb_file.c:417
+#: ../src/gsb_file.c:420
 msgid "Failed to load accounts"
 msgstr "Fallo al cargar las cuentas"
 
-#: ../src/gsb_file.c:424
+#: ../src/gsb_file.c:427
 #, c-format
 msgid ""
 "Grisbi was unable to load file. You should find the last backups in '%s', "
@@ -7423,7 +7431,7 @@ msgstr ""
 "Por favor, póngase en contacto con el equipo de Grisbi en devel@listes."
 "grisbi.org para averiguar que le ocurrió a su último fichero."
 
-#: ../src/gsb_file.c:436
+#: ../src/gsb_file.c:439
 #, c-format
 msgid ""
 "Grisbi was unable to load file and the backups seem not to be activated... "
@@ -7440,7 +7448,7 @@ msgstr ""
 "Por favor, contacte con el equipo de Grisbi en devel@listes.grisbi.org para "
 "averiguar qué ocurrió con su fichero actual."
 
-#: ../src/gsb_file.c:443
+#: ../src/gsb_file.c:446
 msgid ""
 "Grisbi was unable to load file and the backups seem not to be activated... "
 "This is a bad thing.\n"
@@ -7452,17 +7460,16 @@ msgstr ""
 "Por favor, contacte con el equipo de Grisbi en devel@listes.grisbi.org para "
 "averiguar qué le sucedió a su fichero actual."
 
-#. ok, here the file or backup is loaded
-#: ../src/gsb_file.c:460
+#: ../src/gsb_file.c:471
 msgid "Checking schedulers"
 msgstr "Comprobando los planificadores"
 
 #. check the amounts of all the accounts
-#: ../src/gsb_file.c:470
+#: ../src/gsb_file.c:481
 msgid "Checking amounts"
 msgstr "Comprobando cantidades"
 
-#: ../src/gsb_file.c:577
+#: ../src/gsb_file.c:588
 #, c-format
 msgid ""
 "Grisbi was unable to save this file because it is locked.  Please save it "
@@ -7472,30 +7479,30 @@ msgstr ""
 "guárdelo con otro nombre o active la opción \"%s\" en la configuración."
 
 #. Warn if file is used by someone else?
-#: ../src/gsb_file.c:578 ../src/gsb_file.c:830 ../src/parametres.c:1165
+#: ../src/gsb_file.c:589 ../src/gsb_file.c:841 ../src/parametres.c:1165
 msgid "Force saving of locked files"
 msgstr "Forzar guardar en los fichero bloqueados"
 
-#: ../src/gsb_file.c:579
+#: ../src/gsb_file.c:590
 #, c-format
 msgid "Can not save file \"%s\""
 msgstr "No se puede guardar el archivo \"%s\""
 
 #. on a maintenant un nom de fichier
 #. et on sait qu'on peut sauvegarder
-#: ../src/gsb_file.c:602
+#: ../src/gsb_file.c:613
 msgid "Saving file"
 msgstr "Guardando archivo"
 
-#: ../src/gsb_file.c:650
+#: ../src/gsb_file.c:661
 msgid "Saving backup"
 msgstr "Guardando la copia de seguridad"
 
-#: ../src/gsb_file.c:827
+#: ../src/gsb_file.c:838
 msgid "Save locked files?"
 msgstr "¿Guardar archivos bloqueados?"
 
-#: ../src/gsb_file.c:828
+#: ../src/gsb_file.c:839
 #, c-format
 msgid ""
 "The document '%s' is locked but modified. If you want to save it, you must "
@@ -7505,50 +7512,50 @@ msgstr ""
 "debe cancelar y guardarlo con otro nombre o activar la  opción \"%s\" en la "
 "configuración."
 
-#: ../src/gsb_file.c:829 ../src/gsb_file.c:840
+#: ../src/gsb_file.c:840 ../src/gsb_file.c:851
 msgid "unnamed"
 msgstr "Sin nombre"
 
-#: ../src/gsb_file.c:832 ../src/gsb_file.c:843
+#: ../src/gsb_file.c:843 ../src/gsb_file.c:854
 msgid "Close without saving"
 msgstr "Cerrar sin guardar"
 
-#: ../src/gsb_file.c:839
+#: ../src/gsb_file.c:850
 #, c-format
 msgid "Save changes to document '%s' before closing?"
 msgstr "¿Guardar los cambios al documento '%s' antes de cerrar?"
 
-#: ../src/gsb_file.c:852
+#: ../src/gsb_file.c:863
 #, c-format
 msgid "%d minutes and %d seconds"
 msgstr "%d minutos y %d segundos"
 
-#: ../src/gsb_file.c:857
+#: ../src/gsb_file.c:868
 #, c-format
 msgid "1 minute and %d seconds"
 msgstr "1 minuto y %d segundos"
 
-#: ../src/gsb_file.c:862
+#: ../src/gsb_file.c:873
 #, c-format
 msgid "%d seconds"
 msgstr "%d segundos"
 
-#: ../src/gsb_file.c:865
+#: ../src/gsb_file.c:876
 #, c-format
 msgid ""
 "If you close without saving, all of your changes since %s will be discarded."
 msgstr "Si cierra sin guardar, todos los cambios desde %s se perderán."
 
-#: ../src/gsb_file.c:900
+#: ../src/gsb_file.c:911
 msgid "Name the accounts file"
 msgstr "Nombre de los ficheros de cuentas"
 
-#: ../src/gsb_file.c:1022
+#: ../src/gsb_file.c:1034
 #, fuzzy
 msgid "Delete file copy from a previous version of Grisbi"
 msgstr "Borrar una copia del fichero de la versión antigua de Grisbi"
 
-#: ../src/gsb_file.c:1041
+#: ../src/gsb_file.c:1053
 #, fuzzy, c-format
 msgid ""
 "Caution, you are about to delete a file copy\n"
@@ -7760,7 +7767,7 @@ msgid "Auto"
 msgstr "Auto"
 
 #: ../src/gsb_form.c:942 ../src/gsb_form_scheduler.c:152
-#: ../src/gsb_scheduler_list.c:1396 ../src/ui/grisbi_menu.ui.h:41
+#: ../src/gsb_scheduler_list.c:1396 ../src/ui/grisbi_menu.ui.h:40
 msgid "Manual"
 msgstr "Manual"
 
@@ -8419,7 +8426,7 @@ msgstr "días"
 msgid "weeks"
 msgstr "semanas"
 
-#: ../src/gsb_scheduler_list.c:195 ../src/navigation.c:1209
+#: ../src/gsb_scheduler_list.c:195 ../src/navigation.c:1193
 msgid "Scheduled transactions"
 msgstr "Transacciones programadas"
 
@@ -8599,7 +8606,7 @@ msgid "Execute transaction"
 msgstr "Ejecutar la transacción"
 
 #: ../src/gsb_scheduler_list.c:2822 ../src/transaction_list.c:164
-#: ../src/transaction_list.c:1064 ../src/transaction_list.c:1971
+#: ../src/transaction_list.c:1061 ../src/transaction_list.c:1968
 #, fuzzy, c-format
 msgid "Total: %s (variance : %s)"
 msgstr "Total : %s (variación : %s)"
@@ -8621,7 +8628,7 @@ msgstr ""
 "\n"
 "Los números de hijos implicados son :\n"
 
-#: ../src/gsb_scheduler_list.c:2935 ../src/gsb_transactions_list.c:4647
+#: ../src/gsb_scheduler_list.c:2935 ../src/gsb_transactions_list.c:4575
 #, fuzzy
 msgid "Remove orphan children"
 msgstr "Recuperar los hijos"
@@ -8736,7 +8743,7 @@ msgstr "Vista de tres líneas"
 msgid "Show reconciled transactions"
 msgstr "Mostrar transacciones reconciliadas"
 
-#: ../src/gsb_transactions_list.c:610 ../src/ui/grisbi_menu.ui.h:33
+#: ../src/gsb_transactions_list.c:610 ../src/ui/grisbi_menu.ui.h:32
 msgid "Show lines archives"
 msgstr "Mostrar archivos de líneas"
 
@@ -8880,7 +8887,7 @@ msgid "Convert transaction to scheduled transaction"
 msgstr "Convertir la transacción en un transacción programada"
 
 #. Move to another account
-#: ../src/gsb_transactions_list.c:2572 ../src/ui/grisbi_menu.ui.h:27
+#: ../src/gsb_transactions_list.c:2572
 msgid "Move transaction to another account"
 msgstr "Mover la transacción a otra cuenta"
 
@@ -8956,13 +8963,13 @@ msgstr ""
 "\n"
 "Muestre las transacciones R para hacerlas visibles."
 
-#: ../src/gsb_transactions_list.c:4583
+#: ../src/gsb_transactions_list.c:4511
 #, fuzzy
 msgid "Do you really want to delete this file import rule?"
 msgstr ""
 "¿ Está seguro de que quiere borrar la transacción con la tercera parte '%s' ?"
 
-#: ../src/gsb_transactions_list.c:4641
+#: ../src/gsb_transactions_list.c:4569
 #, fuzzy, c-format
 msgid ""
 "Some children didn't find their mother in the list, this shouldn't happen "
@@ -9707,16 +9714,16 @@ msgstr "Exportar un fichero de presupuestos de Grisbi (.igsb)"
 msgid "Delete"
 msgstr "Borrar"
 
-#: ../src/imputation_budgetaire.c:644 ../src/navigation.c:2314
+#: ../src/imputation_budgetaire.c:644 ../src/navigation.c:2298
 msgid "Delete selected budgetary line"
 msgstr "Borrar la línea presupuestaria seleccionada"
 
-#: ../src/imputation_budgetaire.c:653
+#: ../src/imputation_budgetaire.c:653 ../src/ui/grisbi_menu.ui.h:47
 msgid "Edit"
 msgstr "Editar"
 
 #: ../src/imputation_budgetaire.c:660 ../src/imputation_budgetaire.c:1154
-#: ../src/navigation.c:2329
+#: ../src/navigation.c:2313
 msgid "Edit selected budgetary line"
 msgstr "Editar la línea presupuestaria seleccionada"
 
@@ -9792,10 +9799,6 @@ msgstr "Transferir las transacciones a %s"
 msgid "en"
 msgstr "en"
 
-#: ../src/menu.c:1297
-msgid "Unnamed account"
-msgstr "Cuenta sin nombre"
-
 #. * Find a unique name for budget
 #: ../src/meta_budgetary.c:219
 msgid "New budget"
@@ -9816,7 +9819,7 @@ msgid "No sub-category"
 msgstr "Sin subcategoría"
 
 #. * Find a unique name for category
-#: ../src/meta_categories.c:279 ../src/navigation.c:2242
+#: ../src/meta_categories.c:279 ../src/navigation.c:2226
 msgid "New category"
 msgstr "Nueva categoría"
 
@@ -9841,7 +9844,7 @@ msgstr "Sin subtercero"
 
 #. * Find a unique name for payee
 #. New payee button
-#: ../src/meta_payee.c:326 ../src/navigation.c:2176 ../src/tiers_onglet.c:334
+#: ../src/meta_payee.c:326 ../src/navigation.c:2160 ../src/tiers_onglet.c:334
 msgid "New payee"
 msgstr "Nuevo tercero"
 
@@ -10019,84 +10022,84 @@ msgstr "Debe seleccionar al menos dos cuentas."
 msgid "WARNING"
 msgstr ""
 
-#: ../src/navigation.c:1017
+#: ../src/navigation.c:1003
 msgid ""
 "This account cannot be negative.\n"
 "\n"
 "You must make positive the balance of this account before you can use it."
 msgstr ""
 
-#: ../src/navigation.c:1053
+#: ../src/navigation.c:1039
 msgid "Last statement: "
 msgstr "Última anotación:"
 
-#: ../src/navigation.c:1054 ../src/navigation.c:1066
+#: ../src/navigation.c:1040 ../src/navigation.c:1052
 msgid "Reconciled balance: "
 msgstr "Balance reconciliado:"
 
-#: ../src/navigation.c:1065 ../src/navigation.c:1073
+#: ../src/navigation.c:1051 ../src/navigation.c:1059
 msgid "Last statement: none"
 msgstr "Última operación: ninguna"
 
-#: ../src/navigation.c:1094
+#: ../src/navigation.c:1080
 msgid "closed"
 msgstr "Cerrado"
 
-#: ../src/navigation.c:2147 ../src/ui/grisbi_menu.ui.h:28
+#: ../src/navigation.c:2131 ../src/ui/grisbi_menu.ui.h:27
 #, fuzzy
 msgid "New account"
 msgstr "_Nueva cuenta"
 
-#: ../src/navigation.c:2161
+#: ../src/navigation.c:2145
 #, fuzzy
 msgid "Remove this account"
 msgstr "_Borrar la cuenta actual"
 
-#: ../src/navigation.c:2184 ../src/tiers_onglet.c:347
+#: ../src/navigation.c:2168 ../src/tiers_onglet.c:347
 msgid "Delete selected payee"
 msgstr "Borrar el tercero seleccionado"
 
-#: ../src/navigation.c:2199 ../src/tiers_onglet.c:359
+#: ../src/navigation.c:2183 ../src/tiers_onglet.c:359
 msgid "Edit selected payee"
 msgstr "Editar el tercero seleccionado"
 
 #. Manage payees button
-#: ../src/navigation.c:2220 ../src/tiers_onglet.c:377
+#: ../src/navigation.c:2204 ../src/tiers_onglet.c:377
 msgid "Manage payees"
 msgstr "Administrar terceras partes"
 
-#: ../src/navigation.c:2228 ../src/tiers_onglet.c:387
+#: ../src/navigation.c:2212 ../src/tiers_onglet.c:387
 msgid "Remove unused payees"
 msgstr "Eliminar terceros que no se usan"
 
-#: ../src/navigation.c:2283
+#: ../src/navigation.c:2267
 #, fuzzy
 msgid "Import a file of categories (.cgsb)"
 msgstr "Importar un archivo de lista de categorías de Grisbi (.cgsb)"
 
-#: ../src/navigation.c:2292
+#: ../src/navigation.c:2276
 #, fuzzy
 msgid "Export the list of categories (.cgsb)"
 msgstr "Exportar un archivo de categorías de Grisbi (.cgsb)"
 
-#: ../src/navigation.c:2306
+#: ../src/navigation.c:2290
 #, fuzzy
 msgid "New budgetary line"
 msgstr ""
 "Nueva\n"
 "línea presupuestaria"
 
-#: ../src/navigation.c:2347
+#: ../src/navigation.c:2331
 #, fuzzy
 msgid "Import a file of budgetary lines (.igsb)"
 msgstr "Exportar un fichero de presupuestos de Grisbi (.igsb)"
 
-#: ../src/navigation.c:2356
+#: ../src/navigation.c:2340
 #, fuzzy
 msgid "Export the list of budgetary lines (.igsb)"
 msgstr "Exportar un fichero de presupuestos de Grisbi (.igsb)"
 
-#: ../src/navigation.c:2382
+#: ../src/navigation.c:2366
 #, fuzzy
 msgid "Remove this report"
 msgstr "Eliminar la regla"
@@ -10208,7 +10211,7 @@ msgid "Balance estimate"
 msgstr "Balance estimado"
 
 #. Tip of the day
-#: ../src/parametres.c:945 ../src/ui/grisbi_menu.ui.h:45
+#: ../src/parametres.c:945 ../src/ui/grisbi_menu.ui.h:44
 msgid "Tip of the day"
 msgstr "Consejo del día"
 
@@ -10239,6 +10242,11 @@ msgstr "Comprimir el fichero de Grisbi"
 msgid "Memorise last opened files: "
 msgstr "Recordar los últimos archivos abiertos:"
 
+#. button = gsb_automem_spin_button_new ( &conf.nb_max_derniers_fichiers_ouverts,
+#. G_CALLBACK ( affiche_derniers_fichiers_ouverts ), NULL );
+#. gtk_widget_set_size_request ( button, width_spin_button, -1 );
+#. gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
+#.
 #. Backups
 #: ../src/parametres.c:1192
 msgid "Backups"
@@ -11131,7 +11139,7 @@ msgstr "Mostrar consejos al iniciar la próxima vez"
 
 #. this value should not be changed here, check later if i'm right,
 #. * for now just show a message
-#: ../src/transaction_list.c:1605
+#: ../src/transaction_list.c:1602
 #, fuzzy
 msgid ""
 "Try to change a visible line by transaction_list_set. It shouldn't append! "
@@ -11140,7 +11148,7 @@ msgstr ""
 "Intente cambiar una línea visible por transaction_list_set ¡ Debería "
 "añadirlo !Comprobar eso."
 
-#: ../src/transaction_list.c:1800
+#: ../src/transaction_list.c:1797
 #, c-format
 msgid ""
 "Trying to append the child number %d to the mother %d in the model, but no "
@@ -11802,12 +11810,12 @@ msgstr "_Archivo"
 
 #: ../src/ui/grisbi_menu.ui.h:6
 #, fuzzy
-msgid "New account file..."
+msgid "New account file"
 msgstr "_Nuevo archivo de cuentas..."
 
 #: ../src/ui/grisbi_menu.ui.h:7
 #, fuzzy
-msgid "Open..."
+msgid "Open"
 msgstr "_Abrir..."
 
 #: ../src/ui/grisbi_menu.ui.h:8
@@ -11822,40 +11830,37 @@ msgstr "_Guardar"
 
 #: ../src/ui/grisbi_menu.ui.h:10
 #, fuzzy
-msgid "Save As..."
+msgid "Save As"
 msgstr "_Guardar como..."
 
 #: ../src/ui/grisbi_menu.ui.h:11
-msgid "_Import file..."
+#, fuzzy
+msgid "_Import file"
 msgstr "_Importar archivo"
 
 #: ../src/ui/grisbi_menu.ui.h:12
 #, fuzzy
-msgid "Export as QIF/CSV file..."
+msgid "Export as QIF/CSV file"
 msgstr "_Exportar Cuentas como archivo QIF/CSV ..."
-
-#: ../src/ui/grisbi_menu.ui.h:13
-msgid "Archive transactions..."
-msgstr "Archivar algunas transacciones..."
 
 #: ../src/ui/grisbi_menu.ui.h:14
 #, fuzzy
-msgid "Export an archive as GSB/QIF/CSV file..."
+msgid "Export an archive as GSB/QIF/CSV file"
 msgstr "_Export un archivo a un fichero GSB/QIF/CSV ..."
 
 #: ../src/ui/grisbi_menu.ui.h:15
 #, fuzzy
-msgid "Debug account file..."
+msgid "Debug account file"
 msgstr "_Reparar archivo de cuentas"
 
 #: ../src/ui/grisbi_menu.ui.h:16
 #, fuzzy
-msgid "Obfuscate account file..."
+msgid "Obfuscate account file"
 msgstr "_Truncar archivo de cuentas..."
 
 #: ../src/ui/grisbi_menu.ui.h:17
 #, fuzzy
-msgid "Obfuscate QIF file..."
+msgid "Obfuscate QIF file"
 msgstr "_Truncar fichero QIF..."
 
 #: ../src/ui/grisbi_menu.ui.h:18
@@ -11881,73 +11886,83 @@ msgstr "_Borrar la transacción"
 msgid "Convert to scheduled transaction"
 msgstr "_Introduzca una transacción programada"
 
-#: ../src/ui/grisbi_menu.ui.h:29
+#: ../src/ui/grisbi_menu.ui.h:28
 #, fuzzy
 msgid "Remove current account"
 msgstr "_Borrar la cuenta actual"
 
 #: ../src/ui/grisbi_menu.ui.h:30
-msgid "_View"
-msgstr "_Vista"
-
-#: ../src/ui/grisbi_menu.ui.h:31
 #, fuzzy
 msgid "Show transaction form"
 msgstr "Muestra el _formulario de transacción"
 
-#: ../src/ui/grisbi_menu.ui.h:32
+#: ../src/ui/grisbi_menu.ui.h:31
 #, fuzzy
 msgid "Show reconciled"
 msgstr "Mostrar _reconciliados"
 
-#: ../src/ui/grisbi_menu.ui.h:34
+#: ../src/ui/grisbi_menu.ui.h:33
 #, fuzzy
 msgid "Show closed accounts"
 msgstr "Mostrar _cuentas cerradas"
 
-#: ../src/ui/grisbi_menu.ui.h:35
+#: ../src/ui/grisbi_menu.ui.h:34
 #, fuzzy
 msgid "Show one line per transaction"
 msgstr "Muestra _una línea por transacción"
 
-#: ../src/ui/grisbi_menu.ui.h:36
+#: ../src/ui/grisbi_menu.ui.h:35
 #, fuzzy
 msgid "Show two lines per transaction"
 msgstr "Muestra _dos líneas por transacción"
 
-#: ../src/ui/grisbi_menu.ui.h:37
+#: ../src/ui/grisbi_menu.ui.h:36
 #, fuzzy
 msgid "Show three lines per transaction"
 msgstr "Muestra _tres líneas por transacción"
 
-#: ../src/ui/grisbi_menu.ui.h:38
+#: ../src/ui/grisbi_menu.ui.h:37
 #, fuzzy
 msgid "Show four lines per transaction"
 msgstr "Muestra _cuatro líneas por transacción"
 
-#: ../src/ui/grisbi_menu.ui.h:39
+#: ../src/ui/grisbi_menu.ui.h:38
 #, fuzzy
 msgid "Reset the column width"
 msgstr "Elegir la cuenta"
 
-#: ../src/ui/grisbi_menu.ui.h:40
+#: ../src/ui/grisbi_menu.ui.h:39
 msgid "_Help"
 msgstr "_Ayuda"
 
-#: ../src/ui/grisbi_menu.ui.h:42
+#: ../src/ui/grisbi_menu.ui.h:41
 #, fuzzy
 msgid "Quick start"
 msgstr "_Comienzo rápido"
 
-#: ../src/ui/grisbi_menu.ui.h:43
+#: ../src/ui/grisbi_menu.ui.h:42
 #, fuzzy
 msgid "Grisbi website"
 msgstr "_Sitio web de Grisbi"
 
-#: ../src/ui/grisbi_menu.ui.h:44
+#: ../src/ui/grisbi_menu.ui.h:43
 #, fuzzy
 msgid "Report a bug"
 msgstr "_Informar de un fallo"
+
+#: ../src/ui/grisbi_menu.ui.h:45
+#, fuzzy
+msgid "Import file"
+msgstr "_Importar archivo"
+
+#: ../src/ui/grisbi_menu.ui.h:46
+#, fuzzy
+msgid "Export accounts as QIF/CSV file"
+msgstr "_Exportar Cuentas como archivo QIF/CSV ..."
+
+#: ../src/ui/grisbi_menu.ui.h:48
+msgid "_View"
+msgstr "_Vista"
 
 #: ../src/ui/grisbi_win.ui.h:1
 #, fuzzy
@@ -11968,16 +11983,33 @@ msgid "Personnal finances manager"
 msgstr "Gestor de finanzas personal para todo el mundo\n"
 
 #, fuzzy
-#~ msgid "Import file..."
-#~ msgstr "_Importar archivo"
+#~ msgid "Open..."
+#~ msgstr "_Abrir..."
+
+#~ msgid "Archive transactions..."
+#~ msgstr "Archivar algunas transacciones..."
+
+#, fuzzy
+#~ msgid "New account file..."
+#~ msgstr "_Nuevo archivo de cuentas..."
+
+#, fuzzy
+#~ msgid "Quit"
+#~ msgstr "_Salir"
+
+#, fuzzy
+#~ msgid "Preferences"
+#~ msgstr "_Preferencias"
 
 #, fuzzy
 #~ msgid "Help"
 #~ msgstr "_Ayuda"
 
-#, fuzzy
-#~ msgid "New account file"
-#~ msgstr "_Nuevo archivo de cuentas..."
+#~ msgid "File"
+#~ msgstr "Archivo"
+
+#~ msgid "Unnamed account"
+#~ msgstr "Cuenta sin nombre"
 
 #, fuzzy
 #~ msgid "Recent files"
@@ -11986,13 +12018,6 @@ msgstr "Gestor de finanzas personal para todo el mundo\n"
 #, fuzzy
 #~ msgid "file_1"
 #~ msgstr "archivo"
-
-#, fuzzy
-#~ msgid "Quit"
-#~ msgstr "_Salir"
-
-#~ msgid "File"
-#~ msgstr "Archivo"
 
 #, fuzzy
 #~ msgid "Save as..."
@@ -12087,18 +12112,11 @@ msgstr "Gestor de finanzas personal para todo el mundo\n"
 #~ msgid "Show _closed accounts"
 #~ msgstr "Mostrar _cuentas cerradas"
 
-#, fuzzy
-#~ msgid "Open"
-#~ msgstr "_Abrir..."
-
 #~ msgid "_Recently opened files"
 #~ msgstr "_Archivos abiertos recientemente"
 
 #~ msgid "_Save"
 #~ msgstr "_Guardar"
-
-#~ msgid "_Export accounts as QIF/CSV file..."
-#~ msgstr "_Exportar Cuentas como archivo QIF/CSV ..."
 
 #~ msgid "_Export an archive as GSB/QIF/CSV file..."
 #~ msgstr "_Export un archivo a un fichero GSB/QIF/CSV ..."

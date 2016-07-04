@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zh_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-29 22:47+0200\n"
+"POT-Creation-Date: 2016-07-04 21:09+0200\n"
 "PO-Revision-Date: 2005-12-19 11:25+0100\n"
 "Last-Translator: Jianyu Tang <jianyunet@gmail.com>\n"
 "Language-Team: zh_CN <LL@li.org>\n"
@@ -603,7 +603,7 @@ msgstr "恢复默认值"
 #: ../src/bet_config.c:700 ../src/bet_hist.c:189 ../src/bet_hist.c:2091
 #: ../src/bet_hist.c:2097 ../src/categories_onglet.c:368
 #: ../src/etats_prefs.c:675 ../src/etats_prefs.c:2016
-#: ../src/fenetre_principale.c:297 ../src/navigation.c:1993
+#: ../src/fenetre_principale.c:297 ../src/navigation.c:1977
 #: ../src/ui/etats_prefs.ui.h:45
 msgid "Categories"
 msgstr "类别"
@@ -612,7 +612,7 @@ msgstr "类别"
 #: ../src/bet_config.c:709 ../src/bet_hist.c:198 ../src/bet_hist.c:2095
 #: ../src/etats_prefs.c:680 ../src/etats_prefs.c:2068 ../src/export_csv.c:822
 #: ../src/fenetre_principale.c:302 ../src/import_csv.c:88
-#: ../src/imputation_budgetaire.c:371 ../src/navigation.c:1997
+#: ../src/imputation_budgetaire.c:371 ../src/navigation.c:1981
 #: ../src/ui/etats_prefs.ui.h:51
 msgid "Budgetary lines"
 msgstr "预算行"
@@ -747,7 +747,7 @@ msgid "Confirmation of the change of period"
 msgstr "确认删除银行"
 
 #: ../src/bet_finance_ui.c:222 ../src/fenetre_principale.c:292
-#: ../src/navigation.c:1246 ../src/navigation.c:1989
+#: ../src/navigation.c:1230 ../src/navigation.c:1973
 #, fuzzy
 msgid "Credits simulator"
 msgstr "信用卡"
@@ -1702,7 +1702,7 @@ msgstr ""
 #: ../src/gsb_assistant_reconcile_config.c:602
 #: ../src/gsb_payment_method_config.c:171 ../src/gsb_reconcile_config.c:104
 #: ../src/gsb_scheduler_list.c:600 ../src/imputation_budgetaire.c:191
-#: ../src/navigation.c:1088 ../src/tiers_onglet.c:246
+#: ../src/navigation.c:1074 ../src/tiers_onglet.c:246
 msgid "Account"
 msgstr "账户"
 
@@ -1725,7 +1725,7 @@ msgid "Grisbi category files (*.cgsb)"
 msgstr ""
 
 #: ../src/categories_onglet.c:469 ../src/etats_onglet.c:1234
-#: ../src/file_obfuscate_qif.c:109 ../src/gsb_file.c:280 ../src/import.c:869
+#: ../src/file_obfuscate_qif.c:109 ../src/gsb_file.c:281 ../src/import.c:869
 #: ../src/imputation_budgetaire.c:503
 #, fuzzy
 msgid "All files"
@@ -1798,20 +1798,20 @@ msgstr "导入类别清单"
 msgid "Export a Grisbi category file (.cgsb)"
 msgstr "导出类别"
 
-#: ../src/categories_onglet.c:598 ../src/navigation.c:2250
+#: ../src/categories_onglet.c:598 ../src/navigation.c:2234
 #, fuzzy
 msgid "Delete selected category"
 msgstr "请输入一个类别"
 
 #: ../src/categories_onglet.c:610 ../src/categories_onglet.c:1110
-#: ../src/navigation.c:2265
+#: ../src/navigation.c:2249
 #, fuzzy
 msgid "Edit selected category"
 msgstr "类别"
 
 #: ../src/categories_onglet.c:619 ../src/gsb_scheduler_list.c:447
 #: ../src/gsb_transactions_list.c:387 ../src/imputation_budgetaire.c:669
-#: ../src/tiers_onglet.c:368
+#: ../src/tiers_onglet.c:368 ../src/ui/grisbi_menu.ui.h:29
 msgid "View"
 msgstr ""
 
@@ -2134,6 +2134,14 @@ msgid ""
 "that file with the obfuscated file into the bug report."
 msgstr ""
 
+#. GtkUIManager *ui_manager = gsb_menu_get_ui_manager ( );
+#.
+#. widget = gtk_ui_manager_get_widget ( ui_manager, "/menubar/FileMenu/DebugMode" );
+#.
+#. unsensitive the menu, we cannot reverse the debug mode
+#. if ( widget && GTK_IS_WIDGET ( widget ) )
+#. gtk_widget_set_sensitive ( widget, FALSE );
+#.
 #. début du mode de débogage
 #: ../src/erreur.c:570
 #, c-format
@@ -2741,12 +2749,12 @@ msgid "Cannot open file '%s' for writing"
 msgstr "不能打开并写入文件 '%s' "
 
 #: ../src/etats_onglet.c:119 ../src/fenetre_principale.c:307
-#: ../src/navigation.c:1279 ../src/navigation.c:2001
+#: ../src/navigation.c:1263 ../src/navigation.c:1985
 msgid "Reports"
 msgstr "报表"
 
 #. New report button
-#: ../src/etats_onglet.c:152 ../src/navigation.c:2370
+#: ../src/etats_onglet.c:152 ../src/navigation.c:2354
 msgid "New report"
 msgstr "新建报表"
 
@@ -2949,8 +2957,8 @@ msgstr "保存文件"
 msgid "Exporting report..."
 msgstr "导出报表为CSV..."
 
-#: ../src/etats_onglet.c:1194 ../src/gsb_debug.c:247 ../src/gsb_file.c:501
-#: ../src/gsb_file.c:624 ../src/gsb_file.c:695
+#: ../src/etats_onglet.c:1194 ../src/gsb_debug.c:247 ../src/gsb_file.c:512
+#: ../src/gsb_file.c:635 ../src/gsb_file.c:706
 #, fuzzy
 msgid "Done"
 msgstr "无"
@@ -2977,7 +2985,7 @@ msgid "Transfers"
 msgstr "转帐"
 
 #: ../src/etats_prefs.c:665 ../src/fenetre_principale.c:250
-#: ../src/navigation.c:1977 ../src/ui/etats_prefs.ui.h:39
+#: ../src/navigation.c:1961 ../src/ui/etats_prefs.ui.h:39
 msgid "Accounts"
 msgstr "账户"
 
@@ -3041,7 +3049,7 @@ msgid "Account selection"
 msgstr "账户交易"
 
 #. on fixe le titre et le suffixe de la barre d'information
-#: ../src/etats_prefs.c:1758 ../src/navigation.c:1985
+#: ../src/etats_prefs.c:1758 ../src/navigation.c:1969
 #: ../src/tiers_onglet.c:236 ../src/tiers_onglet.c:637
 #, fuzzy
 msgid "Payees"
@@ -3381,7 +3389,7 @@ msgstr ""
 msgid "Properties"
 msgstr "货币属性"
 
-#: ../src/fenetre_principale.c:282 ../src/navigation.c:1981
+#: ../src/fenetre_principale.c:282 ../src/navigation.c:1965
 #: ../src/parametres.c:630 ../src/parametres.c:1390
 msgid "Scheduler"
 msgstr "日程"
@@ -4379,7 +4387,7 @@ msgid ""
 msgstr ""
 
 #. create the assistant
-#: ../src/gsb_assistant_archive.c:152
+#: ../src/gsb_assistant_archive.c:152 ../src/ui/grisbi_menu.ui.h:13
 #, fuzzy
 msgid "Archive transactions"
 msgstr "新增交易"
@@ -4718,7 +4726,7 @@ msgstr "新增账户"
 msgid "Import data from online bank services or from accounting software"
 msgstr ""
 
-#: ../src/gsb_assistant_file.c:582 ../src/navigation.c:1161
+#: ../src/gsb_assistant_file.c:582 ../src/navigation.c:1145
 #: ../src/traitement_variables.c:218
 #, fuzzy
 msgid "My accounts"
@@ -6955,7 +6963,7 @@ msgstr "没有定义第三方"
 #. on récupère le nom de l'état
 #: ../src/gsb_data_payee.c:563 ../src/gsb_form.c:3069 ../src/gsb_form.c:3070
 #: ../src/gtk_combofix.c:243 ../src/gtk_combofix.c:680
-#: ../src/gtk_combofix.c:761 ../src/navigation.c:1277
+#: ../src/gtk_combofix.c:761 ../src/navigation.c:1261
 msgid "Report"
 msgstr "报表"
 
@@ -7250,7 +7258,7 @@ msgstr "不能打开文件 '%s': %s"
 msgid "File does not exist"
 msgstr "文件已经存在"
 
-#: ../src/gsb_file.c:120 ../src/gsb_file.c:135 ../src/gsb_file.c:419
+#: ../src/gsb_file.c:120 ../src/gsb_file.c:135 ../src/gsb_file.c:422
 #, fuzzy, c-format
 msgid "Error loading file '%s'"
 msgstr "打开文件 '%s'.发生错误"
@@ -7276,26 +7284,26 @@ msgid ""
 "soon..."
 msgstr ""
 
-#: ../src/gsb_file.c:263
+#: ../src/gsb_file.c:264
 msgid "Open an accounts file"
 msgstr "打开账户文件"
 
-#: ../src/gsb_file.c:274
+#: ../src/gsb_file.c:275
 msgid "Grisbi files (*.gsb)"
 msgstr ""
 
-#: ../src/gsb_file.c:394
+#: ../src/gsb_file.c:397
 #, fuzzy
 msgid "Loading accounts"
 msgstr "载入账户文件"
 
 #. Loading failed.
-#: ../src/gsb_file.c:417
+#: ../src/gsb_file.c:420
 #, fuzzy
 msgid "Failed to load accounts"
 msgstr "选择银行账户"
 
-#: ../src/gsb_file.c:424
+#: ../src/gsb_file.c:427
 #, c-format
 msgid ""
 "Grisbi was unable to load file. You should find the last backups in '%s', "
@@ -7305,7 +7313,7 @@ msgid ""
 "happened to you current file."
 msgstr ""
 
-#: ../src/gsb_file.c:436
+#: ../src/gsb_file.c:439
 #, c-format
 msgid ""
 "Grisbi was unable to load file and the backups seem not to be activated... "
@@ -7316,7 +7324,7 @@ msgid ""
 "happened to you current file."
 msgstr ""
 
-#: ../src/gsb_file.c:443
+#: ../src/gsb_file.c:446
 msgid ""
 "Grisbi was unable to load file and the backups seem not to be activated... "
 "This is a bad thing.\n"
@@ -7324,18 +7332,17 @@ msgid ""
 "happened to you current file."
 msgstr ""
 
-#. ok, here the file or backup is loaded
-#: ../src/gsb_file.c:460
+#: ../src/gsb_file.c:471
 msgid "Checking schedulers"
 msgstr ""
 
 #. check the amounts of all the accounts
-#: ../src/gsb_file.c:470
+#: ../src/gsb_file.c:481
 #, fuzzy
 msgid "Checking amounts"
 msgstr "支票"
 
-#: ../src/gsb_file.c:577
+#: ../src/gsb_file.c:588
 #, fuzzy, c-format
 msgid ""
 "Grisbi was unable to save this file because it is locked.  Please save it "
@@ -7345,81 +7352,81 @@ msgstr ""
 "或者选择下面的 \"%s\" 选项。"
 
 #. Warn if file is used by someone else?
-#: ../src/gsb_file.c:578 ../src/gsb_file.c:830 ../src/parametres.c:1165
+#: ../src/gsb_file.c:589 ../src/gsb_file.c:841 ../src/parametres.c:1165
 msgid "Force saving of locked files"
 msgstr "强制保存加锁的文件"
 
-#: ../src/gsb_file.c:579
+#: ../src/gsb_file.c:590
 #, c-format
 msgid "Can not save file \"%s\""
 msgstr "不能保存文件 \"%s\""
 
 #. on a maintenant un nom de fichier
 #. et on sait qu'on peut sauvegarder
-#: ../src/gsb_file.c:602
+#: ../src/gsb_file.c:613
 #, fuzzy
 msgid "Saving file"
 msgstr "保存文件"
 
-#: ../src/gsb_file.c:650
+#: ../src/gsb_file.c:661
 msgid "Saving backup"
 msgstr "保存备份"
 
-#: ../src/gsb_file.c:827
+#: ../src/gsb_file.c:838
 #, fuzzy
 msgid "Save locked files?"
 msgstr "保存文件"
 
-#: ../src/gsb_file.c:828
+#: ../src/gsb_file.c:839
 #, c-format
 msgid ""
 "The document '%s' is locked but modified. If you want to save it, you must "
 "cancel and save it with another name or activate the \"%s\" option in setup."
 msgstr ""
 
-#: ../src/gsb_file.c:829 ../src/gsb_file.c:840
+#: ../src/gsb_file.c:840 ../src/gsb_file.c:851
 msgid "unnamed"
 msgstr "未命名"
 
-#: ../src/gsb_file.c:832 ../src/gsb_file.c:843
+#: ../src/gsb_file.c:843 ../src/gsb_file.c:854
 msgid "Close without saving"
 msgstr "不保存关闭"
 
-#: ../src/gsb_file.c:839
+#: ../src/gsb_file.c:850
 #, c-format
 msgid "Save changes to document '%s' before closing?"
 msgstr "关闭前保存更新到文件 '%s' 吗？"
 
-#: ../src/gsb_file.c:852
+#: ../src/gsb_file.c:863
 #, c-format
 msgid "%d minutes and %d seconds"
 msgstr ""
 
-#: ../src/gsb_file.c:857
+#: ../src/gsb_file.c:868
 #, c-format
 msgid "1 minute and %d seconds"
 msgstr ""
 
-#: ../src/gsb_file.c:862
+#: ../src/gsb_file.c:873
 #, fuzzy, c-format
 msgid "%d seconds"
 msgstr "%d 月"
 
-#: ../src/gsb_file.c:865
+#: ../src/gsb_file.c:876
 #, fuzzy, c-format
 msgid ""
 "If you close without saving, all of your changes since %s will be discarded."
 msgstr "如果您不保存就关闭文件，将丢失更新的数据"
 
-#: ../src/gsb_file.c:900
+#: ../src/gsb_file.c:911
 msgid "Name the accounts file"
 msgstr "命名账户文件"
 
-#: ../src/gsb_file.c:1022
+#: ../src/gsb_file.c:1034
 msgid "Delete file copy from a previous version of Grisbi"
 msgstr ""
 
-#: ../src/gsb_file.c:1041
+#: ../src/gsb_file.c:1053
 #, c-format
 msgid ""
 "Caution, you are about to delete a file copy\n"
@@ -7610,7 +7617,7 @@ msgid "Auto"
 msgstr "自动"
 
 #: ../src/gsb_form.c:942 ../src/gsb_form_scheduler.c:152
-#: ../src/gsb_scheduler_list.c:1396 ../src/ui/grisbi_menu.ui.h:41
+#: ../src/gsb_scheduler_list.c:1396 ../src/ui/grisbi_menu.ui.h:40
 msgid "Manual"
 msgstr "手动"
 
@@ -8270,7 +8277,7 @@ msgstr "天"
 msgid "weeks"
 msgstr "周"
 
-#: ../src/gsb_scheduler_list.c:195 ../src/navigation.c:1209
+#: ../src/gsb_scheduler_list.c:195 ../src/navigation.c:1193
 #, fuzzy
 msgid "Scheduled transactions"
 msgstr "已结清预定交易"
@@ -8446,7 +8453,7 @@ msgid "Execute transaction"
 msgstr "删除交易"
 
 #: ../src/gsb_scheduler_list.c:2822 ../src/transaction_list.c:164
-#: ../src/transaction_list.c:1064 ../src/transaction_list.c:1971
+#: ../src/transaction_list.c:1061 ../src/transaction_list.c:1968
 #, fuzzy, c-format
 msgid "Total: %s (variance : %s)"
 msgstr "总计 %s: %s (%d 交易)"
@@ -8463,7 +8470,7 @@ msgid ""
 "Do you want to delete it"
 msgstr ""
 
-#: ../src/gsb_scheduler_list.c:2935 ../src/gsb_transactions_list.c:4647
+#: ../src/gsb_scheduler_list.c:2935 ../src/gsb_transactions_list.c:4575
 #, fuzzy
 msgid "Remove orphan children"
 msgstr "删除交易"
@@ -8596,7 +8603,7 @@ msgstr "三行模式"
 msgid "Show reconciled transactions"
 msgstr "没有调整的交易"
 
-#: ../src/gsb_transactions_list.c:610 ../src/ui/grisbi_menu.ui.h:33
+#: ../src/gsb_transactions_list.c:610 ../src/ui/grisbi_menu.ui.h:32
 #, fuzzy
 msgid "Show lines archives"
 msgstr "已知货币"
@@ -8718,7 +8725,7 @@ msgid "Convert transaction to scheduled transaction"
 msgstr "转换交易为计划交易"
 
 #. Move to another account
-#: ../src/gsb_transactions_list.c:2572 ../src/ui/grisbi_menu.ui.h:27
+#: ../src/gsb_transactions_list.c:2572
 msgid "Move transaction to another account"
 msgstr "移动交易到另一个账户"
 
@@ -8783,12 +8790,12 @@ msgid ""
 "Show the R transactions to make them visible."
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:4583
+#: ../src/gsb_transactions_list.c:4511
 #, fuzzy
 msgid "Do you really want to delete this file import rule?"
 msgstr "您想单删除本次事件还是整个定期交易？"
 
-#: ../src/gsb_transactions_list.c:4641
+#: ../src/gsb_transactions_list.c:4569
 #, c-format
 msgid ""
 "Some children didn't find their mother in the list, this shouldn't happen "
@@ -9515,17 +9522,17 @@ msgstr "该文件不是Grisbi预算行文件"
 msgid "Delete"
 msgstr "选择"
 
-#: ../src/imputation_budgetaire.c:644 ../src/navigation.c:2314
+#: ../src/imputation_budgetaire.c:644 ../src/navigation.c:2298
 #, fuzzy
 msgid "Delete selected budgetary line"
 msgstr "删除预算行"
 
-#: ../src/imputation_budgetaire.c:653
+#: ../src/imputation_budgetaire.c:653 ../src/ui/grisbi_menu.ui.h:47
 msgid "Edit"
 msgstr "编辑"
 
 #: ../src/imputation_budgetaire.c:660 ../src/imputation_budgetaire.c:1154
-#: ../src/navigation.c:2329
+#: ../src/navigation.c:2313
 #, fuzzy
 msgid "Edit selected budgetary line"
 msgstr "删除预算行"
@@ -9606,11 +9613,6 @@ msgstr "转移这些交易到"
 msgid "en"
 msgstr "手动"
 
-#: ../src/menu.c:1297
-#, fuzzy
-msgid "Unnamed account"
-msgstr "已导入的账户"
-
 #. * Find a unique name for budget
 #: ../src/meta_budgetary.c:219
 #, fuzzy
@@ -9632,7 +9634,7 @@ msgid "No sub-category"
 msgstr "没有子类"
 
 #. * Find a unique name for category
-#: ../src/meta_categories.c:279 ../src/navigation.c:2242
+#: ../src/meta_categories.c:279 ../src/navigation.c:2226
 msgid "New category"
 msgstr "新增类别"
 
@@ -9658,7 +9660,7 @@ msgstr "没有子类"
 
 #. * Find a unique name for payee
 #. New payee button
-#: ../src/meta_payee.c:326 ../src/navigation.c:2176 ../src/tiers_onglet.c:334
+#: ../src/meta_payee.c:326 ../src/navigation.c:2160 ../src/tiers_onglet.c:334
 #, fuzzy
 msgid "New payee"
 msgstr "新支付方式"
@@ -9828,87 +9830,87 @@ msgstr "选择资产账户"
 msgid "WARNING"
 msgstr ""
 
-#: ../src/navigation.c:1017
+#: ../src/navigation.c:1003
 msgid ""
 "This account cannot be negative.\n"
 "\n"
 "You must make positive the balance of this account before you can use it."
 msgstr ""
 
-#: ../src/navigation.c:1053
+#: ../src/navigation.c:1039
 #, fuzzy
 msgid "Last statement: "
 msgstr "最后声明"
 
-#: ../src/navigation.c:1054 ../src/navigation.c:1066
+#: ../src/navigation.c:1040 ../src/navigation.c:1052
 #, fuzzy
 msgid "Reconciled balance: "
 msgstr "余额调整"
 
-#: ../src/navigation.c:1065 ../src/navigation.c:1073
+#: ../src/navigation.c:1051 ../src/navigation.c:1059
 msgid "Last statement: none"
 msgstr "最后声明：无"
 
-#: ../src/navigation.c:1094
+#: ../src/navigation.c:1080
 #, fuzzy
 msgid "closed"
 msgstr "关闭"
 
-#: ../src/navigation.c:2147 ../src/ui/grisbi_menu.ui.h:28
+#: ../src/navigation.c:2131 ../src/ui/grisbi_menu.ui.h:27
 #, fuzzy
 msgid "New account"
 msgstr "新账户"
 
-#: ../src/navigation.c:2161
+#: ../src/navigation.c:2145
 #, fuzzy
 msgid "Remove this account"
 msgstr "删除账户"
 
-#: ../src/navigation.c:2184 ../src/tiers_onglet.c:347
+#: ../src/navigation.c:2168 ../src/tiers_onglet.c:347
 #, fuzzy
 msgid "Delete selected payee"
 msgstr "删除第三方"
 
-#: ../src/navigation.c:2199 ../src/tiers_onglet.c:359
+#: ../src/navigation.c:2183 ../src/tiers_onglet.c:359
 msgid "Edit selected payee"
 msgstr ""
 
 #. Manage payees button
-#: ../src/navigation.c:2220 ../src/tiers_onglet.c:377
+#: ../src/navigation.c:2204 ../src/tiers_onglet.c:377
 #, fuzzy
 msgid "Manage payees"
 msgstr "首页"
 
-#: ../src/navigation.c:2228 ../src/tiers_onglet.c:387
+#: ../src/navigation.c:2212 ../src/tiers_onglet.c:387
 msgid "Remove unused payees"
 msgstr ""
 
-#: ../src/navigation.c:2283
+#: ../src/navigation.c:2267
 #, fuzzy
 msgid "Import a file of categories (.cgsb)"
 msgstr "导入类别清单"
 
-#: ../src/navigation.c:2292
+#: ../src/navigation.c:2276
 #, fuzzy
 msgid "Export the list of categories (.cgsb)"
 msgstr "导出类别"
 
-#: ../src/navigation.c:2306
+#: ../src/navigation.c:2290
 #, fuzzy
 msgid "New budgetary line"
 msgstr "新的预算行"
 
-#: ../src/navigation.c:2347
+#: ../src/navigation.c:2331
 #, fuzzy
 msgid "Import a file of budgetary lines (.igsb)"
 msgstr "该文件不是Grisbi预算行文件"
 
-#: ../src/navigation.c:2356
+#: ../src/navigation.c:2340
 #, fuzzy
 msgid "Export the list of budgetary lines (.igsb)"
 msgstr "该文件不是Grisbi预算行文件"
 
-#: ../src/navigation.c:2382
+#: ../src/navigation.c:2366
 #, fuzzy
 msgid "Remove this report"
 msgstr "删除报表"
@@ -10032,7 +10034,7 @@ msgid "Balance estimate"
 msgstr "结余"
 
 #. Tip of the day
-#: ../src/parametres.c:945 ../src/ui/grisbi_menu.ui.h:45
+#: ../src/parametres.c:945 ../src/ui/grisbi_menu.ui.h:44
 msgid "Tip of the day"
 msgstr ""
 
@@ -10066,6 +10068,11 @@ msgstr ""
 msgid "Memorise last opened files: "
 msgstr "记住上次打开的文件:"
 
+#. button = gsb_automem_spin_button_new ( &conf.nb_max_derniers_fichiers_ouverts,
+#. G_CALLBACK ( affiche_derniers_fichiers_ouverts ), NULL );
+#. gtk_widget_set_size_request ( button, width_spin_button, -1 );
+#. gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
+#.
 #. Backups
 #: ../src/parametres.c:1192
 msgid "Backups"
@@ -10877,13 +10884,13 @@ msgstr "显示交易"
 
 #. this value should not be changed here, check later if i'm right,
 #. * for now just show a message
-#: ../src/transaction_list.c:1605
+#: ../src/transaction_list.c:1602
 msgid ""
 "Try to change a visible line by transaction_list_set. It shouldn't append! "
 "Check that."
 msgstr ""
 
-#: ../src/transaction_list.c:1800
+#: ../src/transaction_list.c:1797
 #, c-format
 msgid ""
 "Trying to append the child number %d to the mother %d in the model, but no "
@@ -11562,12 +11569,12 @@ msgstr "文件"
 
 #: ../src/ui/grisbi_menu.ui.h:6
 #, fuzzy
-msgid "New account file..."
+msgid "New account file"
 msgstr "新账户文件"
 
 #: ../src/ui/grisbi_menu.ui.h:7
 #, fuzzy
-msgid "Open..."
+msgid "Open"
 msgstr "_打开"
 
 #: ../src/ui/grisbi_menu.ui.h:8
@@ -11582,42 +11589,37 @@ msgstr "保存"
 
 #: ../src/ui/grisbi_menu.ui.h:10
 #, fuzzy
-msgid "Save As..."
+msgid "Save As"
 msgstr "另存为"
 
 #: ../src/ui/grisbi_menu.ui.h:11
 #, fuzzy
-msgid "_Import file..."
+msgid "_Import file"
 msgstr "导出文件"
 
 #: ../src/ui/grisbi_menu.ui.h:12
 #, fuzzy
-msgid "Export as QIF/CSV file..."
+msgid "Export as QIF/CSV file"
 msgstr "导出为QIF文件"
-
-#: ../src/ui/grisbi_menu.ui.h:13
-#, fuzzy
-msgid "Archive transactions..."
-msgstr "新增交易"
 
 #: ../src/ui/grisbi_menu.ui.h:14
 #, fuzzy
-msgid "Export an archive as GSB/QIF/CSV file..."
+msgid "Export an archive as GSB/QIF/CSV file"
 msgstr "导出为QIF文件"
 
 #: ../src/ui/grisbi_menu.ui.h:15
 #, fuzzy
-msgid "Debug account file..."
+msgid "Debug account file"
 msgstr "新账户文件"
 
 #: ../src/ui/grisbi_menu.ui.h:16
 #, fuzzy
-msgid "Obfuscate account file..."
+msgid "Obfuscate account file"
 msgstr "命名账户文件"
 
 #: ../src/ui/grisbi_menu.ui.h:17
 #, fuzzy
-msgid "Obfuscate QIF file..."
+msgid "Obfuscate QIF file"
 msgstr "导出为QIF文件"
 
 #: ../src/ui/grisbi_menu.ui.h:18
@@ -11644,74 +11646,84 @@ msgstr "删除交易"
 msgid "Convert to scheduled transaction"
 msgstr "录入预定交易"
 
-#: ../src/ui/grisbi_menu.ui.h:29
+#: ../src/ui/grisbi_menu.ui.h:28
 #, fuzzy
 msgid "Remove current account"
 msgstr "删除账户"
 
 #: ../src/ui/grisbi_menu.ui.h:30
-msgid "_View"
-msgstr ""
-
-#: ../src/ui/grisbi_menu.ui.h:31
 #, fuzzy
 msgid "Show transaction form"
 msgstr "交易表格"
 
-#: ../src/ui/grisbi_menu.ui.h:32
+#: ../src/ui/grisbi_menu.ui.h:31
 #, fuzzy
 msgid "Show reconciled"
 msgstr "对账"
 
-#: ../src/ui/grisbi_menu.ui.h:34
+#: ../src/ui/grisbi_menu.ui.h:33
 #, fuzzy
 msgid "Show closed accounts"
 msgstr "结算账户"
 
-#: ../src/ui/grisbi_menu.ui.h:35
+#: ../src/ui/grisbi_menu.ui.h:34
 #, fuzzy
 msgid "Show one line per transaction"
 msgstr "每笔交易显示1行"
 
-#: ../src/ui/grisbi_menu.ui.h:36
+#: ../src/ui/grisbi_menu.ui.h:35
 #, fuzzy
 msgid "Show two lines per transaction"
 msgstr "每笔交易显示2行"
 
-#: ../src/ui/grisbi_menu.ui.h:37
+#: ../src/ui/grisbi_menu.ui.h:36
 #, fuzzy
 msgid "Show three lines per transaction"
 msgstr "每笔交易显示3行"
 
-#: ../src/ui/grisbi_menu.ui.h:38
+#: ../src/ui/grisbi_menu.ui.h:37
 #, fuzzy
 msgid "Show four lines per transaction"
 msgstr "每笔交易显示4行"
 
-#: ../src/ui/grisbi_menu.ui.h:39
+#: ../src/ui/grisbi_menu.ui.h:38
 #, fuzzy
 msgid "Reset the column width"
 msgstr "选择账户"
 
-#: ../src/ui/grisbi_menu.ui.h:40
+#: ../src/ui/grisbi_menu.ui.h:39
 #, fuzzy
 msgid "_Help"
 msgstr "帮助"
 
-#: ../src/ui/grisbi_menu.ui.h:42
+#: ../src/ui/grisbi_menu.ui.h:41
 #, fuzzy
 msgid "Quick start"
 msgstr "快速入门"
 
-#: ../src/ui/grisbi_menu.ui.h:43
+#: ../src/ui/grisbi_menu.ui.h:42
 #, fuzzy
 msgid "Grisbi website"
 msgstr "Grisbi官方网站"
 
-#: ../src/ui/grisbi_menu.ui.h:44
+#: ../src/ui/grisbi_menu.ui.h:43
 #, fuzzy
 msgid "Report a bug"
 msgstr "报告软件缺陷"
+
+#: ../src/ui/grisbi_menu.ui.h:45
+#, fuzzy
+msgid "Import file"
+msgstr "导出文件"
+
+#: ../src/ui/grisbi_menu.ui.h:46
+#, fuzzy
+msgid "Export accounts as QIF/CSV file"
+msgstr "导出为QIF文件"
+
+#: ../src/ui/grisbi_menu.ui.h:48
+msgid "_View"
+msgstr ""
 
 #: ../src/ui/grisbi_win.ui.h:1
 #, fuzzy
@@ -11731,16 +11743,31 @@ msgid "Personnal finances manager"
 msgstr ""
 
 #, fuzzy
-#~ msgid "Import file..."
-#~ msgstr "导出文件"
+#~ msgid "Open..."
+#~ msgstr "_打开"
+
+#, fuzzy
+#~ msgid "Archive transactions..."
+#~ msgstr "新增交易"
+
+#, fuzzy
+#~ msgid "New account file..."
+#~ msgstr "新账户文件"
+
+#, fuzzy
+#~ msgid "Preferences"
+#~ msgstr "选项"
 
 #, fuzzy
 #~ msgid "Help"
 #~ msgstr "帮助"
 
+#~ msgid "File"
+#~ msgstr "文件"
+
 #, fuzzy
-#~ msgid "New account file"
-#~ msgstr "新账户文件"
+#~ msgid "Unnamed account"
+#~ msgstr "已导入的账户"
 
 #, fuzzy
 #~ msgid "Recent files"
@@ -11748,9 +11775,6 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "file_1"
-#~ msgstr "文件"
-
-#~ msgid "File"
 #~ msgstr "文件"
 
 #, fuzzy
@@ -11782,20 +11806,12 @@ msgstr ""
 #~ msgstr "结算账户"
 
 #, fuzzy
-#~ msgid "Open"
-#~ msgstr "_打开"
-
-#, fuzzy
 #~ msgid "_Recently opened files"
 #~ msgstr "最近打开的文件"
 
 #, fuzzy
 #~ msgid "_Save"
 #~ msgstr "保存"
-
-#, fuzzy
-#~ msgid "_Export accounts as QIF/CSV file..."
-#~ msgstr "导出为QIF文件"
 
 #, fuzzy
 #~ msgid "_Debug account file..."
