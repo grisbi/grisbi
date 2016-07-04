@@ -132,6 +132,9 @@ extern struct gsb_etat_t etat;
  */
 struct gsb_conf_t
 {
+    /* app menu */
+    gboolean prefer_app_menu;                      /* TRUE validate appmenu */
+
     /* geometry */
     gint root_x;                                    /* main_window x position */
     gint root_y;                                    /* main_window y position */
