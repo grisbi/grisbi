@@ -1183,11 +1183,11 @@ GtkWidget *onglet_fichier ( void )
     label = gtk_label_new ( _("Memorise last opened files: ") );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
 
-    button = gsb_automem_spin_button_new ( &conf.nb_max_derniers_fichiers_ouverts,
+/*    button = gsb_automem_spin_button_new ( &conf.nb_max_derniers_fichiers_ouverts,
                         G_CALLBACK ( affiche_derniers_fichiers_ouverts ), NULL );
     gtk_widget_set_size_request ( button, width_spin_button, -1 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
-
+*/
     /* Backups */
     paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("Backups"));
 

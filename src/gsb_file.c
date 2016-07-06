@@ -208,8 +208,8 @@ void gsb_file_new_gui ( void )
     GtkWidget *notebook_general;
 
     /* dégrise les menus nécessaire */
-/*    gsb_menu_set_menus_with_file_sensitive ( TRUE );
-*/
+    gsb_menu_set_menus_with_file_sensitive ( TRUE );
+
     /* récupère l'organisation des colonnes */
     recuperation_noms_colonnes_et_tips ();
 
@@ -259,6 +259,7 @@ gboolean gsb_file_open_menu ( void )
 {
     GtkWidget *selection_fichier;
     GtkFileFilter * filter;
+    gboolean result = FALSE;
 
     selection_fichier = gtk_file_chooser_dialog_new ( _("Open an accounts file"),
 					   GTK_WINDOW ( run.window ),
@@ -291,7 +292,7 @@ gboolean gsb_file_open_menu ( void )
         gsb_file_update_last_path ( file_selection_get_last_directory (
                         GTK_FILE_CHOOSER ( selection_fichier),
                         TRUE ) );
-		gsb_file_open_file (nom_fichier_comptes);
+		result = gsb_file_open_file ( nom_fichier_comptes );
 	    }
 	    break;
       default:
@@ -299,7 +300,8 @@ gboolean gsb_file_open_menu ( void )
     }
     gsb_file_update_last_path (file_selection_get_last_directory (GTK_FILE_CHOOSER (selection_fichier), TRUE));
     gtk_widget_destroy ( selection_fichier );
-    return FALSE;
+
+    return result;
 }
 
 
@@ -386,6 +388,7 @@ gboolean gsb_file_open_file ( gchar *filename )
     GSList *list_tmp;
 
     devel_debug (filename);
+        printf ("gsb_file_open_file : filename = %s\n", filename);
 
 	if ( !gsb_file_test_file ( filename ) )
 		return FALSE;
@@ -457,6 +460,14 @@ gboolean gsb_file_open_file ( gchar *filename )
     }
 
     /* ok, here the file or backup is loaded */
+    /* on met à jour le nom du fichier */
+    grisbi_win_set_filename ( NULL, filename );
+    if ( g_strcmp0 ( filename, nom_fichier_comptes ) )
+    {
+        g_free ( nom_fichier_comptes );
+        nom_fichier_comptes = g_strdup ( filename );
+    }
+
     gsb_status_message ( _("Checking schedulers") );
 
 	/* create the archives store data, ie the transaction wich will replace the archive in
@@ -992,6 +1003,7 @@ gboolean gsb_file_close ( void )
 
         /* unsensitive the necessaries menus */
         gsb_menu_set_menus_with_file_sensitive ( FALSE );
+        grisbi_win_del_menu_move_to_acc ();
 
         table_etat = NULL;
 
@@ -1079,13 +1091,13 @@ void gsb_file_set_modified ( gboolean modified )
         if ( ! run.file_modification )
         {
             run.file_modification = time ( NULL );
-            gsb_gui_sensitive_win_menu_item ( "/menubar/FileMenu/Save", TRUE );
+            gsb_gui_sensitive_win_menu_item ( "save", TRUE );
         }
     }
     else
     {
         run.file_modification = 0;
-        gsb_gui_sensitive_win_menu_item ( "/menubar/FileMenu/Save", FALSE );
+        gsb_gui_sensitive_win_menu_item ( "save", FALSE );
     }
 }
 

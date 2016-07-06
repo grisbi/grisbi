@@ -38,9 +38,11 @@
 /*START_INCLUDE*/
 #include "grisbi_win.h"
 #include "grisbi_app.h"
+#include "gsb_data_account.h"
 #include "menu.h"
 #include "navigation.h"
 #include "structures.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 
@@ -98,39 +100,9 @@ struct _GrisbiWinPrivate
     gchar               *window_title;
 
     /* Menus et barres d'outils */
-	GtkMenuBar 			*menubar;
-
-	/* File Menu */
-	GtkMenuItem			*item_new_acc_file;
-	GtkMenuItem			*item_open_file;
-	GtkMenuItem			*item_save;
-	GtkMenuItem			*item_save_as;
-	GtkMenuItem			*item_import_file;
-	GtkMenuItem			*item_export_accounts;
-	GtkMenuItem			*item_create_archive;
-	GtkMenuItem			*item_export_archive;
-	GtkMenuItem			*item_debug_acc_file;
-	GtkMenuItem			*item_obf_acc_file;
-	GtkMenuItem			*item_obf_qif_file;
-	GtkMenuItem			*item_debug_mode;
-	GtkMenuItem			*item_file_close;
-	GtkMenuItem			*item_quit;
-
-	/*gestion des fichiers récents */
-	GtkWidget 			*recent_menu;
-	GtkMenuItem			*item_recent_files;		/* item parent du sous_menu recent_files */
-
-	/* Edit Menu */
-	GtkMenuItem			*item_edit_ope;
-	GtkMenuItem			*item_new_ope;
-	GtkMenuItem			*item_remove_ope;
-	GtkMenuItem			*item_template_ope;
-	GtkMenuItem			*item_clone_ope;
-	GtkMenuItem			*item_convert_ope;
-	GtkMenuItem			*item_move_to_account;	/* item parent du sous_menu accounts */
-	GtkMenuItem			*item_new_acc;
-	GtkMenuItem			*item_remove_acc;
-	GtkMenuItem			*item_prefs;
+    /* menu move-to-acc */
+    GMenu               *menu;
+    gboolean            init_move_to_acc;
 
     /* statusbar */
     GtkWidget           *statusbar;
@@ -357,40 +329,174 @@ static void grisbi_win_init_headings_eb ( GrisbiWin *win )
 
 
 /* WIN_MENU */
-static const GActionEntry win_always_enabled_entries[] =
+/**
+ *
+ *
+ * \param GrisbiWin 	win
+ *
+ * \return
+ **/
+void grisbi_win_new_menu_move_to_acc ( void )
 {
-	{ "new_acc_file", grisbi_cmd_file_new, NULL, NULL, NULL },
-	{ "open_file", grisbi_cmd_file_open_menu, NULL, NULL, NULL },
-	{ "import_file", grisbi_cmd_importer_fichier, NULL, NULL, NULL },
-	{ "obf_qif_file", grisbi_cmd_obf_qif_file, NULL, NULL, NULL }
-};
+    GrisbiWin *win;
+    GrisbiWinPrivate *priv;
+    GAction *action;
+    GMenu *menu;
+    GMenu *submenu;
+    GMenuItem *menu_item;
+    GSList *tmp_list;
+    gchar *label;
+    gchar *action_name;
+    printf ("grisbi_win_new_menu_move_to_acc\n");
 
-static const GActionEntry win_context_enabled_entries[] =
+    win = grisbi_app_get_active_window ( NULL );
+    priv = grisbi_win_get_instance_private ( GRISBI_WIN ( win ) );
+
+    menu = grisbi_app_get_menu_by_id ( NULL, "edit" );
+    submenu = g_menu_new ();
+
+    tmp_list = gsb_data_account_get_list_accounts ();
+    while ( tmp_list )
+    {
+        gint i;
+
+        i = gsb_data_account_get_no_account ( tmp_list -> data );
+
+        if ( !gsb_data_account_get_closed_account ( i ) )
+        {
+            gchar *tmp_name;
+            gchar *account_name;
+            gchar *action_name;
+
+            tmp_name = g_strdup_printf ( "move-to-acc%d", i );
+            account_name = gsb_data_account_get_name ( i );
+            if ( !account_name )
+                account_name = _("Unnamed account");
+
+            action = (GAction *) g_simple_action_new ( tmp_name, NULL );
+            g_signal_connect ( action,
+                        "activate",
+                        G_CALLBACK ( grisbi_cmd_move_to_account_menu ),
+                        GINT_TO_POINTER ( i ) );
+            g_simple_action_set_enabled ( G_SIMPLE_ACTION ( action ), FALSE );
+
+            g_action_map_add_action ( G_ACTION_MAP ( grisbi_app_get_active_window ( NULL ) ), action );
+            g_object_unref ( G_OBJECT ( action ) );
+
+            action_name = g_strconcat ("win.", tmp_name, NULL);
+            g_menu_append ( submenu, account_name, action_name );
+
+            g_free ( tmp_name );
+            g_free (action_name);
+        }
+
+        tmp_list = tmp_list -> next;
+    }
+
+    menu_item = g_menu_item_new_submenu ( _("Move transaction to another account"), (GMenuModel*) submenu );
+    g_menu_item_set_detailed_action ( menu_item, "win.move-to-acc" );
+    action = g_action_map_lookup_action ( G_ACTION_MAP ( win ), "move-to-acc" );
+    g_simple_action_set_enabled ( G_SIMPLE_ACTION ( action ), FALSE );
+
+    g_menu_insert_item ( G_MENU ( menu ), 3, menu_item );
+    g_object_unref ( menu_item );
+    g_object_unref ( submenu );
+    priv->init_move_to_acc = TRUE;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void grisbi_win_update_menu_move_to_acc ( gboolean active )
 {
-	{ "save", grisbi_cmd_file_save, NULL, NULL, NULL },
-	{ "save-as", grisbi_cmd_file_save_as, NULL, NULL, NULL },
-	{ "export_accounts", grisbi_cmd_export_accounts, NULL, NULL, NULL },
-	{ "create_archive", grisbi_cmd_create_archive, NULL, NULL, NULL },
-	{ "export_archive", grisbi_cmd_export_archive, NULL, NULL, NULL },
-	{ "debug_acc_file", grisbi_cmd_debug_acc_file, NULL, NULL, NULL },
-	{ "obf_acc_file", grisbi_cmd_obf_acc_file, NULL, NULL, NULL },
-	{ "debug_mode", grisbi_cmd_debug_mode_toggle, NULL, "false", NULL },
-	{ "file_close", grisbi_cmd_file_close, NULL, NULL, NULL },
-	{ "edit_ope", grisbi_cmd_edit_ope, NULL, NULL, NULL },
-	{ "new_ope", grisbi_cmd_new_ope, NULL, NULL, NULL },
-	{ "remove_ope", grisbi_cmd_remove_ope, NULL, NULL, NULL },
-	{ "template_ope", grisbi_cmd_template_ope, NULL, NULL, NULL },
-	{ "clone_ope", grisbi_cmd_clone_ope, NULL, NULL, NULL },
-	{ "convert_ope", grisbi_cmd_convert_ope, NULL, NULL, NULL },
-	{ "new_acc", grisbi_cmd_new_acc, NULL, NULL, NULL },
-	{ "remove_acc", grisbi_cmd_remove_acc, NULL, NULL, NULL },
-	{ "show_form", NULL, NULL, "false", grisbi_cmd_show_form_toggle },
-	{ "show_reconciled", NULL, NULL, "false", grisbi_cmd_show_reconciled_toggle },
-	{ "show_archived", NULL, NULL, "false", grisbi_cmd_show_archived_toggle },
-	{ "show_closed_acc", NULL, NULL, "false", grisbi_cmd_show_closed_acc_toggle },
-	{ "show_ope", grisbi_cmd_show_ope, G_VARIANT_TYPE_STRING, "2", NULL },
-	{ "reset_width_col", grisbi_cmd_reset_width_col, NULL, NULL, NULL }
-};
+    GrisbiWin *win;
+    GAction *action;
+    GSList *tmp_list;
+    gint current_account;
+    printf ("grisbi_win_update_menu_move_to_acc\n");
+
+    win = grisbi_app_get_active_window ( NULL );
+
+    tmp_list = gsb_data_account_get_list_accounts ();
+    while ( tmp_list )
+    {
+        gint i;
+
+        i = gsb_data_account_get_no_account ( tmp_list -> data );
+
+        if ( !gsb_data_account_get_closed_account ( i ) )
+        {
+            gchar *tmp_name;
+
+            tmp_name = g_strdup_printf ( "move-to-acc%d", i );
+            action = g_action_map_lookup_action ( G_ACTION_MAP ( win ), tmp_name );
+
+            if ( gsb_gui_navigation_get_current_account () == i )
+            {
+                g_simple_action_set_enabled ( G_SIMPLE_ACTION ( action ), FALSE );
+                tmp_list = tmp_list -> next;
+                continue;
+            }
+            if ( active )
+                g_simple_action_set_enabled ( G_SIMPLE_ACTION ( action ), TRUE );
+            else
+                g_simple_action_set_enabled ( G_SIMPLE_ACTION ( action ), FALSE );
+
+            g_free ( tmp_name );
+        }
+        tmp_list = tmp_list -> next;
+    }
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void grisbi_win_del_menu_move_to_acc ( void )
+{
+    GrisbiWin *win;
+    GrisbiWinPrivate *priv;
+    GMenu *menu;
+    GSList *tmp_list;
+
+    printf ("grisbi_win_del_menu_move_to_acc\n");
+
+    win = grisbi_app_get_active_window ( NULL );
+    priv = grisbi_win_get_instance_private ( GRISBI_WIN ( win ) );
+
+    if ( priv->init_move_to_acc == FALSE )
+        return;
+
+    tmp_list = gsb_data_account_get_list_accounts ();
+    while ( tmp_list )
+    {
+        gint i;
+
+        i = gsb_data_account_get_no_account ( tmp_list -> data );
+
+        if ( !gsb_data_account_get_closed_account ( i ) )
+        {
+            gchar *tmp_name;
+
+            tmp_name = g_strdup_printf ( "move-to-acc%d", i );
+            g_action_map_remove_action ( G_ACTION_MAP ( win ), tmp_name );
+
+            g_free ( tmp_name );
+        }
+        tmp_list = tmp_list -> next;
+    }
+
+    menu = grisbi_app_get_menu_by_id ( g_application_get_default (), "edit" );
+    g_menu_remove ( menu, 3 );
+    priv->init_move_to_acc = FALSE;
+}
 
 /**
  *
@@ -400,122 +506,56 @@ static const GActionEntry win_context_enabled_entries[] =
  *
  * \return
  **/
-void grisbi_win_set_menubar ( GrisbiWin *win,
+void grisbi_win_init_menubar ( GrisbiWin *win,
 						gpointer app )
 {
 	GrisbiWinPrivate *priv;
 	GAction *action;
-	GtkMenuItem *item = NULL;
-	GtkRecentFilter *filter;
-	GtkRecentManager *recent_manager;
-	gint i = 0;
+    gchar * items[] = {
+        "save",
+        "save-as",
+        "export-accounts",
+        "create-archive",
+        "export-archive",
+        "debug-acc-file",
+        "obf-acc-file",
+        "debug-mode",
+        "file-close",
+        "edit-ope",
+        "new-ope",
+        "remove-ope",
+        "template-ope",
+        "clone-ope",
+        "convert-ope",
+        "new-acc",
+        "remove-acc",
+        "prefs",
+        "show-form",
+        "show-reconciled",
+        "show-archived",
+        "show-closed-acc",
+        "show-ope",
+        "reset-width-col",
+        NULL
+    };
+    gchar **tmp = items;
 
-	printf ("grisbi_win_set_menubar\n");
+	printf ("grisbi_win_init_menubar\n");
 	priv = grisbi_win_get_instance_private ( GRISBI_WIN ( win ) );
 
-	/* chargement des actions */
-	/* actions toujours actives */
-	g_action_map_add_action_entries ( G_ACTION_MAP ( win ),
-						win_always_enabled_entries,
-						G_N_ELEMENTS ( win_always_enabled_entries ),
-						win );
-
-	/* actions actives selon le contexte */
-	g_action_map_add_action_entries ( G_ACTION_MAP ( win ),
-						win_context_enabled_entries,
-						G_N_ELEMENTS ( win_context_enabled_entries ),
-						win );
-
-	/* creation du sous menu fichiers récents */
-	recent_manager = grisbi_app_get_recent_manager ();
-	priv->recent_menu = gtk_recent_chooser_menu_new_for_manager ( recent_manager );
-	gtk_recent_chooser_set_local_only ( GTK_RECENT_CHOOSER ( priv->recent_menu ), TRUE );
-	gtk_recent_chooser_set_show_icons (GTK_RECENT_CHOOSER ( priv->recent_menu ), TRUE );
-	gtk_recent_chooser_set_sort_type (GTK_RECENT_CHOOSER ( priv->recent_menu ),
-						GTK_RECENT_SORT_MRU);
-	gtk_recent_chooser_menu_set_show_numbers (GTK_RECENT_CHOOSER_MENU ( priv->recent_menu ), TRUE);
-	gtk_recent_chooser_set_show_tips (GTK_RECENT_CHOOSER ( priv->recent_menu ), TRUE);
-	filter = gtk_recent_filter_new ();
-	gtk_recent_filter_add_pattern (filter, "*.gsb");
-	gtk_recent_chooser_set_filter ( GTK_RECENT_CHOOSER ( priv->recent_menu ), filter );
-
-	g_signal_connect_swapped ( priv->recent_menu,
-						"item-activated",
-						G_CALLBACK ( grisbi_cmd_file_open_direct_menu ),
-						recent_manager );
-
-	gtk_menu_item_set_submenu ( priv->item_recent_files, priv->recent_menu );
-
-	/* set actions menu "File" */
-	gtk_actionable_set_action_name ( GTK_ACTIONABLE ( priv->item_new_acc_file ), "win.new_acc_file" );
-	gtk_actionable_set_action_name ( GTK_ACTIONABLE ( priv->item_open_file ), "win.open_file" );
-	gtk_actionable_set_action_name ( GTK_ACTIONABLE ( priv->item_save ), "win.save" );
-	gtk_actionable_set_action_name ( GTK_ACTIONABLE ( priv->item_save_as ), "win.save-as" );
-	gtk_actionable_set_action_name ( GTK_ACTIONABLE ( priv->item_import_file ), "win.import_file" );
-	gtk_actionable_set_action_name ( GTK_ACTIONABLE ( priv->item_export_accounts ), "win.export_accounts" );
-	gtk_actionable_set_action_name ( GTK_ACTIONABLE ( priv->item_create_archive ), "win.create_archive" );
-	gtk_actionable_set_action_name ( GTK_ACTIONABLE ( priv->item_export_archive ), "win.export_archive" );
-	gtk_actionable_set_action_name ( GTK_ACTIONABLE ( priv->item_debug_acc_file ), "win.debug_acc_file" );
-	gtk_actionable_set_action_name ( GTK_ACTIONABLE ( priv->item_obf_acc_file ), "win.obf_acc_file" );
-	gtk_actionable_set_action_name ( GTK_ACTIONABLE ( priv->item_obf_qif_file ), "win.obf_qif_file" );
-	gtk_actionable_set_action_name ( GTK_ACTIONABLE ( priv->item_debug_mode ), "win.debug_mode" );
-	gtk_actionable_set_action_name ( GTK_ACTIONABLE ( priv->item_file_close ), "win.file_close" );
-	gtk_actionable_set_action_name ( GTK_ACTIONABLE ( priv->item_quit ), "app.quit" );
-
-	/* set actions menu "Edit" */
-	gtk_actionable_set_action_name ( GTK_ACTIONABLE ( priv->item_edit_ope ), "win.edit_ope" );
-	gtk_actionable_set_action_name ( GTK_ACTIONABLE ( priv->item_new_ope ), "win.new_ope" );
-	gtk_actionable_set_action_name ( GTK_ACTIONABLE ( priv->item_remove_ope ), "win.remove_ope" );
-	gtk_actionable_set_action_name ( GTK_ACTIONABLE ( priv->item_template_ope ), "win.template_ope" );
-	gtk_actionable_set_action_name ( GTK_ACTIONABLE ( priv->item_clone_ope ), "win.clone_ope" );
-	gtk_actionable_set_action_name ( GTK_ACTIONABLE ( priv->item_convert_ope ), "win.convert_ope" );
-	gtk_actionable_set_action_name ( GTK_ACTIONABLE ( priv->item_new_acc ), "win.new_acc" );
-	gtk_actionable_set_action_name ( GTK_ACTIONABLE ( priv->item_remove_acc ), "win.remove_acc" );
-	gtk_actionable_set_action_name ( GTK_ACTIONABLE ( priv->item_prefs ), "app.prefs" );
-
+	/* initialisations sub menus */
+	action = g_action_map_lookup_action ( G_ACTION_MAP ( win ), "show-form");
+    g_action_change_state ( G_ACTION ( action ), g_variant_new_boolean ( conf.formulaire_toujours_affiche ) );
+	action = g_action_map_lookup_action ( G_ACTION_MAP ( win ), "show-closed-acc");
+    g_action_change_state ( G_ACTION ( action ), g_variant_new_boolean ( conf.show_closed_accounts ) );
 
 	/* disabled menus */
-	action = g_action_map_lookup_action (G_ACTION_MAP ( win ), "save");
-	g_simple_action_set_enabled (G_SIMPLE_ACTION ( action ), FALSE );
-	action = g_action_map_lookup_action (G_ACTION_MAP ( win ), "save-as");
-	g_simple_action_set_enabled (G_SIMPLE_ACTION ( action ), FALSE );
-	action = g_action_map_lookup_action (G_ACTION_MAP ( win ), "export_accounts");
-	g_simple_action_set_enabled (G_SIMPLE_ACTION ( action ), FALSE );
-	action = g_action_map_lookup_action (G_ACTION_MAP ( win ), "create_archive");
-	g_simple_action_set_enabled (G_SIMPLE_ACTION ( action ), FALSE );
-	action = g_action_map_lookup_action (G_ACTION_MAP ( win ), "export_archive");
-	g_simple_action_set_enabled (G_SIMPLE_ACTION ( action ), FALSE );
-	action = g_action_map_lookup_action (G_ACTION_MAP ( win ), "debug_acc_file");
-	g_simple_action_set_enabled (G_SIMPLE_ACTION ( action ), FALSE );
-	action = g_action_map_lookup_action (G_ACTION_MAP ( win ), "obf_acc_file");
-	g_simple_action_set_enabled (G_SIMPLE_ACTION ( action ), FALSE );
-	action = g_action_map_lookup_action (G_ACTION_MAP ( win ), "debug_mode");
-	g_simple_action_set_enabled (G_SIMPLE_ACTION ( action ), FALSE );
-	action = g_action_map_lookup_action (G_ACTION_MAP ( win ), "file_close");
-	g_simple_action_set_enabled (G_SIMPLE_ACTION ( action ), FALSE );
-	action = g_action_map_lookup_action (G_ACTION_MAP ( win ), "edit_ope");
-	g_simple_action_set_enabled (G_SIMPLE_ACTION ( action ), FALSE );
-	action = g_action_map_lookup_action (G_ACTION_MAP ( win ), "new_ope");
-	g_simple_action_set_enabled (G_SIMPLE_ACTION ( action ), FALSE );
-	action = g_action_map_lookup_action (G_ACTION_MAP ( win ), "remove_ope");
-	g_simple_action_set_enabled (G_SIMPLE_ACTION ( action ), FALSE );
-	action = g_action_map_lookup_action (G_ACTION_MAP ( win ), "template_ope");
-	g_simple_action_set_enabled (G_SIMPLE_ACTION ( action ), FALSE );
-	action = g_action_map_lookup_action (G_ACTION_MAP ( win ), "clone_ope");
-	g_simple_action_set_enabled (G_SIMPLE_ACTION ( action ), FALSE );
-	action = g_action_map_lookup_action (G_ACTION_MAP ( win ), "convert_ope");
-	g_simple_action_set_enabled (G_SIMPLE_ACTION ( action ), FALSE );
+    while ( *tmp )
+    {
+        gsb_gui_sensitive_win_menu_item ( *tmp, FALSE );
 
-	/* traitement du sous menu Move to account */
-	gtk_widget_set_sensitive ( GTK_WIDGET ( priv->item_move_to_account ), FALSE );
-
-	action = g_action_map_lookup_action (G_ACTION_MAP ( win ), "new_acc");
-	g_simple_action_set_enabled (G_SIMPLE_ACTION ( action ), FALSE );
-	action = g_action_map_lookup_action (G_ACTION_MAP ( win ), "remove_acc");
-	g_simple_action_set_enabled (G_SIMPLE_ACTION ( action ), FALSE );
-	action = g_action_map_lookup_action (G_ACTION_MAP ( win ), "reset_width_col");
-	g_simple_action_set_enabled (G_SIMPLE_ACTION ( action ), FALSE );
-
+        tmp++;
+    }
 }
 
 /* WIN INIT */
@@ -559,38 +599,11 @@ static void grisbi_win_class_init ( GrisbiWinClass *class )
                                                "/org/gtk/grisbi/ui/grisbi_win.ui");
 
 	gtk_widget_class_bind_template_child_private ( GTK_WIDGET_CLASS ( class ), GrisbiWin, main_box );
-	gtk_widget_class_bind_template_child_private ( GTK_WIDGET_CLASS ( class ), GrisbiWin, headings_eb );
+/*	gtk_widget_class_bind_template_child_private ( GTK_WIDGET_CLASS ( class ), GrisbiWin, headings_eb );
 	gtk_widget_class_bind_template_child_private ( GTK_WIDGET_CLASS ( class ), GrisbiWin, arrow_eb_left );
 	gtk_widget_class_bind_template_child_private ( GTK_WIDGET_CLASS ( class ), GrisbiWin, arrow_eb_right );
-	gtk_widget_class_bind_template_child_private ( GTK_WIDGET_CLASS ( class ), GrisbiWin, statusbar );
-	/* Menus */
-	gtk_widget_class_bind_template_child_private ( GTK_WIDGET_CLASS ( class ), GrisbiWin, item_new_acc_file );
-	gtk_widget_class_bind_template_child_private ( GTK_WIDGET_CLASS ( class ), GrisbiWin, item_open_file );
-	gtk_widget_class_bind_template_child_private ( GTK_WIDGET_CLASS ( class ), GrisbiWin, item_recent_files );
-	gtk_widget_class_bind_template_child_private ( GTK_WIDGET_CLASS ( class ), GrisbiWin, item_save );
-	gtk_widget_class_bind_template_child_private ( GTK_WIDGET_CLASS ( class ), GrisbiWin, item_save_as );
-	gtk_widget_class_bind_template_child_private ( GTK_WIDGET_CLASS ( class ), GrisbiWin, item_import_file );
-	gtk_widget_class_bind_template_child_private ( GTK_WIDGET_CLASS ( class ), GrisbiWin, item_export_accounts );
-	gtk_widget_class_bind_template_child_private ( GTK_WIDGET_CLASS ( class ), GrisbiWin, item_create_archive );
-	gtk_widget_class_bind_template_child_private ( GTK_WIDGET_CLASS ( class ), GrisbiWin, item_export_archive );
-	gtk_widget_class_bind_template_child_private ( GTK_WIDGET_CLASS ( class ), GrisbiWin, item_debug_acc_file );
-	gtk_widget_class_bind_template_child_private ( GTK_WIDGET_CLASS ( class ), GrisbiWin, item_obf_acc_file );
-	gtk_widget_class_bind_template_child_private ( GTK_WIDGET_CLASS ( class ), GrisbiWin, item_obf_qif_file );
-	gtk_widget_class_bind_template_child_private ( GTK_WIDGET_CLASS ( class ), GrisbiWin, item_debug_mode );
-	gtk_widget_class_bind_template_child_private ( GTK_WIDGET_CLASS ( class ), GrisbiWin, item_file_close );
-	gtk_widget_class_bind_template_child_private ( GTK_WIDGET_CLASS ( class ), GrisbiWin, item_quit );
-	gtk_widget_class_bind_template_child_private ( GTK_WIDGET_CLASS ( class ), GrisbiWin, item_edit_ope );
-	gtk_widget_class_bind_template_child_private ( GTK_WIDGET_CLASS ( class ), GrisbiWin, item_new_ope );
-	gtk_widget_class_bind_template_child_private ( GTK_WIDGET_CLASS ( class ), GrisbiWin, item_remove_ope );
-	gtk_widget_class_bind_template_child_private ( GTK_WIDGET_CLASS ( class ), GrisbiWin, item_template_ope );
-	gtk_widget_class_bind_template_child_private ( GTK_WIDGET_CLASS ( class ), GrisbiWin, item_clone_ope );
-	gtk_widget_class_bind_template_child_private ( GTK_WIDGET_CLASS ( class ), GrisbiWin, item_convert_ope );
-	gtk_widget_class_bind_template_child_private ( GTK_WIDGET_CLASS ( class ), GrisbiWin, item_move_to_account );
-	gtk_widget_class_bind_template_child_private ( GTK_WIDGET_CLASS ( class ), GrisbiWin, item_new_acc );
-	gtk_widget_class_bind_template_child_private ( GTK_WIDGET_CLASS ( class ), GrisbiWin, item_remove_acc );
-	gtk_widget_class_bind_template_child_private ( GTK_WIDGET_CLASS ( class ), GrisbiWin, item_prefs );
+*/	gtk_widget_class_bind_template_child_private ( GTK_WIDGET_CLASS ( class ), GrisbiWin, statusbar );
 }
-
 
 /**
  *
@@ -601,15 +614,12 @@ static void grisbi_win_class_init ( GrisbiWinClass *class )
  **/
 const gchar *grisbi_win_get_filename ( GrisbiWin *win )
 {
-	GrisbiWin *tmp_win;
 	GrisbiWinPrivate *priv;
 
-	if ( win )
-		tmp_win = win;
-	else
-		tmp_win = grisbi_app_get_active_window ( NULL );
+	if ( win == NULL )
+		win = grisbi_app_get_active_window ( NULL );
 
-	priv = grisbi_win_get_instance_private ( GRISBI_WIN ( tmp_win ) );
+	priv = grisbi_win_get_instance_private ( GRISBI_WIN ( win ) );
 
 	return priv->filename;
 }
@@ -624,15 +634,12 @@ const gchar *grisbi_win_get_filename ( GrisbiWin *win )
 void grisbi_win_set_filename ( GrisbiWin *win,
 						const gchar *filename )
 {
-	GrisbiWin *tmp_win;
 	GrisbiWinPrivate *priv;
 
-	if ( win )
-		tmp_win = win;
-	else
-		tmp_win = grisbi_app_get_active_window ( NULL );
+	if ( !win )
+        win = grisbi_app_get_active_window ( NULL );
 
-	priv = grisbi_win_get_instance_private ( GRISBI_WIN ( tmp_win ) );
+	priv = grisbi_win_get_instance_private ( GRISBI_WIN ( win ) );
 	priv->filename = g_strdup ( filename );
 }
 

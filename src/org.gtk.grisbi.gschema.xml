@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schemalist>
+
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id='org.gtk.grisbi.menu' path='/org/gtk/grisbi/menu/'>
+    <!-- Menu Application settings -->
+    <key name="prefer-app-menu" type="b">
+        <default>false</default>
+        <summary>Show type OSX menu</summary>
+        <description>If true,  the Application's menu of type OSX is displayed otherwise the classic menu is visible.</description>
+    </key>
+  </schema>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id='org.gtk.grisbi.geometry' path='/org/gtk/grisbi/geometry/'>
+    <!-- Geometry settings -->
+    <key name="maximized" type="b">
+    <default>false</default>
+    <summary>Main window maximized state</summary>
+    <description>Whether the main window should start maximized.</description>
+    </key>
+	  <key name="width" type="i">
+	    <default>900</default>
+	    <summary>Width of the main window</summary>
+	    <description>The width of the main window.</description>
+	  </key>
+	  <key name="height" type="i">
+	    <default>600</default>
+	    <summary>Height of main window</summary>
+	    <description>The height of the main window.</description>
+	  </key>
+	  <key name="x-position" type="i">
+	    <default>100</default>
+	    <summary>X position of main window</summary>
+	    <description>The X position of the main window.</description>
+	  </key>
+	  <key name="y-position" type="i">
+	    <default>100</default>
+	    <summary>Y position of main window</summary>
+	    <description>The Y position of the main window.</description>
+	  </key>
+	  <key name="panel-width" type="i">
+	    <default>350</default>
+	    <summary>Width of the Panel of main window</summary>
+	    <description>The width of panel of the main window.</description>
+	  </key>
+	  <key name="prefs-width" type="i">
+	    <default>1000</default>
+	    <summary>Width of the preferences window</summary>
+	    <description>The width of the preferences window.</description>
+	  </key>
+  </schema>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id='org.gtk.grisbi.general' path='/org/gtk/grisbi/general/'>
+    <!-- General settings -->
+  </schema>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id='org.gtk.grisbi.backup' path='/org/gtk/grisbi/backup/'>
+    <!-- Backup settings -->
+  </schema>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id='org.gtk.grisbi.io' path='/org/gtk/grisbi/io/'>
+    <!-- IO settings -->
+  </schema>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id='org.gtk.grisbi.scheduled' path='/org/gtk/grisbi/scheduled/'>
+    <!-- Scheduled settings -->
+  </schema>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id='org.gtk.grisbi.display' path='/org/gtk/grisbi/display/'>
+    <!-- Display settings -->
+  </schema>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id='org.gtk.grisbi.messages' path='/org/gtk/grisbi/messages/'>
+    <!-- Messages settings -->
+  </schema>
+
+</schemalist>

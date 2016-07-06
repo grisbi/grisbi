@@ -557,15 +557,15 @@ gboolean debug_start_log ( void )
     {
         GtkWidget *widget;
         gchar *tmp_str_2;
-        GtkUIManager *ui_manager = gsb_menu_get_ui_manager ( );
+/*        GtkUIManager *ui_manager = gsb_menu_get_ui_manager ( );
 
         widget = gtk_ui_manager_get_widget ( ui_manager, "/menubar/FileMenu/DebugMode" );
-        etat.debug_mode = TRUE;
+*/        etat.debug_mode = TRUE;
 
         /* unsensitive the menu, we cannot reverse the debug mode */
-        if ( widget && GTK_IS_WIDGET ( widget ) )
+/*        if ( widget && GTK_IS_WIDGET ( widget ) )
             gtk_widget_set_sensitive ( widget, FALSE );
-
+*/
         /* début du mode de débogage */
         tmp_str = g_strdup_printf(_("%s, %2f : Debug - %s:%d:%s\n\n"),
                         debug_get_debug_time ( ),

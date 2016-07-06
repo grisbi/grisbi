@@ -712,18 +712,18 @@ void gsb_reconcile_sensitive ( gboolean sensitive )
 {
     GtkUIManager *ui_manager;
 
-    ui_manager = gsb_menu_get_ui_manager ( );
-    gtk_widget_set_sensitive ( gsb_gui_navigation_get_tree_view ( ), sensitive );
+/*    ui_manager = gsb_menu_get_ui_manager ( );
+*/    gtk_widget_set_sensitive ( gsb_gui_navigation_get_tree_view ( ), sensitive );
     gsb_gui_sensitive_headings (sensitive);
     /* add by pbiava 02/11/2009 */
-    gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( ui_manager,
+/*    gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( ui_manager,
                               "/menubar/ViewMenu/ShowReconciled/" ),
 			       sensitive );
     gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( ui_manager,
                               "/menubar/ViewMenu/ShowArchived/" ),
 			       sensitive );
     gtk_widget_set_sensitive ( gtk_ui_manager_get_widget (ui_manager,
-							  "/menubar/ViewMenu/ShowClosed/" ),
+							  "show-closed-acc/" ),
 			       sensitive );
     gtk_widget_set_sensitive ( gtk_ui_manager_get_widget (ui_manager,
 							  "/menubar/EditMenu/ConvertToScheduled/" ),
@@ -732,9 +732,9 @@ void gsb_reconcile_sensitive ( gboolean sensitive )
 							  "/menubar/EditMenu/NewAccount/" ),
 			       sensitive );
     gtk_widget_set_sensitive ( gtk_ui_manager_get_widget (ui_manager,
-							  "/menubar/EditMenu/RemoveAccount/" ),
+							  "remove-acc/" ),
 			       sensitive );
-}
+*/}
 
 
 /**

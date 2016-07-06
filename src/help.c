@@ -145,7 +145,7 @@ _("Packaging"),
 _("Other"),
 "Axel Rousseau (<axel584@axel584.org>) ",
 "Dominique Parisot (<parisot@villey-le-sec.com>) ",
-"Gerald Niel (<gerald.niel@grisbi.org>) ",
+"Gerald Niel (<gerald.niel@grisbi.org>) ", CSUFFIX,
 NULL };
 
   gchar * translators = g_strconcat(
@@ -167,7 +167,7 @@ NULL);
 "Benjamin Drieu (bdrieu[at]april.org)",
 "Daniel Cartron (<doc@grisbi.org>)",
 "Jean-Luc Duflot (jl.duflot[at]laposte.net)",
-"Loic Breilloux (loic.breilloux[at]libertysurf.fr)",
+"Loic Breilloux (loic.breilloux[at]libertysurf.fr)", CSUFFIX,
 NULL};
 
   const gchar *artists [] = {

@@ -730,7 +730,7 @@ gboolean gsb_account_property_changed ( GtkWidget *widget,
         break;
     case PROPERTY_CLOSED_ACCOUNT:
         gsb_gui_navigation_update_account ( account_number );
-        gsb_menu_update_accounts_in_menus ();
+        grisbi_win_update_menu_move_to_acc  ( FALSE );
 
         /* update the name of accounts in form */
         gsb_account_update_combo_list ( gsb_form_scheduler_get_element_widget (
@@ -1520,8 +1520,8 @@ gboolean gsb_account_property_focus_out ( GtkWidget *widget,
         /* update the scheduler list */
         gsb_scheduler_list_fill_list (gsb_scheduler_list_get_tree_view ());
 
-        /*update the the view menu */
-        gsb_menu_update_accounts_in_menus ();
+        /*update the view menu */
+        grisbi_win_update_menu_move_to_acc  ( FALSE );
 
         /* update the name of accounts in form */
         gsb_account_update_combo_list ( gsb_form_scheduler_get_element_widget (

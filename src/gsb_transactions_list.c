@@ -1696,6 +1696,9 @@ void gsb_transactions_list_selection_changed ( gint new_selected_transaction )
         gsb_menu_set_menus_select_transaction_sensitive ( FALSE );
     }
 
+    /* on update le menu de la liste des comptes */
+    grisbi_win_update_menu_move_to_acc ( TRUE );
+
     /* save the new current transaction */
     gsb_data_account_set_current_transaction_number ( account_number,
                         new_selected_transaction);
@@ -1712,9 +1715,6 @@ void gsb_transactions_list_selection_changed ( gint new_selected_transaction )
     if ( transactions_tree_view )
         gtk_widget_grab_focus ( transactions_tree_view );
 }
-
-
-
 
 /**
  * Called to edit a specific transaction
@@ -4318,111 +4318,39 @@ GtkWidget *gsb_transactions_list_get_toolbar ( void )
  */
 gboolean change_aspect_liste ( gint demande )
 {
-    GtkUIManager *ui_manager = gsb_menu_get_ui_manager ( );
-
     switch ( demande )
     {
-	case 0:
-	    /* not used */
-            return ( TRUE );
+        case 0:
+            /* not used */
+                return ( TRUE );
 
-	/* 	1, 2, 3 et 4 sont les nb de lignes qu'on demande à afficher */
+        /* 	1, 2, 3 et 4 sont les nb de lignes qu'on demande à afficher */
+        case 1 :
+        case 2 :
+        case 3 :
+        case 4 :
+            gsb_transactions_list_set_visible_rows_number ( demande );
+            break;
 
-	case 1 :
-	    gsb_menu_set_block_menu_cb ( TRUE );
-	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
-                        gtk_ui_manager_get_action ( ui_manager,
-					    "/menubar/ViewMenu/ShowOneLine" ) ),
-					    TRUE );
-	    gsb_transactions_list_set_visible_rows_number ( demande );
-	    gsb_menu_set_block_menu_cb ( FALSE );
-	    break;
-	case 2 :
-	    gsb_menu_set_block_menu_cb ( TRUE );
-	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
-                        gtk_ui_manager_get_action ( ui_manager,
-					    "/menubar/ViewMenu/ShowTwoLines" ) ),
-					    TRUE );
-	    gsb_transactions_list_set_visible_rows_number ( demande );
-	    gsb_menu_set_block_menu_cb ( FALSE );
-	    break;
-	case 3 :
-	    gsb_menu_set_block_menu_cb ( TRUE );
-	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
-                        gtk_ui_manager_get_action ( ui_manager,
-					    "/menubar/ViewMenu/ShowThreeLines" ) ),
-					    TRUE );
-	    gsb_transactions_list_set_visible_rows_number ( demande );
-	    gsb_menu_set_block_menu_cb ( FALSE );
-	    break;
-	case 4 :
-	    gsb_menu_set_block_menu_cb ( TRUE );
-	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
-                        gtk_ui_manager_get_action ( ui_manager,
-					    "/menubar/ViewMenu/ShowFourLines" ) ),
-					   TRUE );
-	    gsb_transactions_list_set_visible_rows_number ( demande );
-	    gsb_menu_set_block_menu_cb ( FALSE );
-	    break;
+        case 5 :
+            /* ope avec r */
+            mise_a_jour_affichage_r ( 1 );
+            break;
 
-	case 5 :
+        case 6 :
+            /* ope sans r */
+            mise_a_jour_affichage_r ( 0 );
+            break;
 
-	    /* ope avec r */
+        case 7 :
+            /* show archive lines */
+            gsb_transactions_list_show_archives_lines ( 1 );
+            break;
 
-	    mise_a_jour_affichage_r ( 1 );
-
-	    gsb_menu_set_block_menu_cb ( TRUE );
-	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
-                        gtk_ui_manager_get_action ( ui_manager,
-					    "/menubar/ViewMenu/ShowReconciled" ) ),
-					    TRUE );
-	    gsb_menu_set_block_menu_cb ( FALSE );
-
-	    break;
-
-	case 6 :
-
-	    /* ope sans r */
-
-	    mise_a_jour_affichage_r ( 0 );
-
-	    gsb_menu_set_block_menu_cb ( TRUE );
-	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
-                        gtk_ui_manager_get_action ( ui_manager,
-					    "/menubar/ViewMenu/ShowReconciled" ) ),
-					    FALSE );
-	    gsb_menu_set_block_menu_cb ( FALSE );
-
-	    break;
-	case 7 :
-
-	    /* show archive lines */
-
-	    gsb_transactions_list_show_archives_lines ( 1 );
-
-	    gsb_menu_set_block_menu_cb ( TRUE );
-	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
-                        gtk_ui_manager_get_action ( ui_manager,
-						"/menubar/ViewMenu/ShowArchived" ) ),
-					    TRUE );
-	    gsb_menu_set_block_menu_cb ( FALSE );
-
-	    break;
-
-	case 8 :
-
-	    /* hide archive lines */
-
-	    gsb_transactions_list_show_archives_lines ( 0 );
-
-	    gsb_menu_set_block_menu_cb ( TRUE );
-	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
-                        gtk_ui_manager_get_action ( ui_manager,
-					    "/menubar/ViewMenu/ShowArchived" ) ),
-					    FALSE );
-	    gsb_menu_set_block_menu_cb ( FALSE );
-
-	    break;
+        case 8 :
+            /* hide archive lines */
+            gsb_transactions_list_show_archives_lines ( 0 );
+            break;
     }
 
     gsb_file_set_modified ( TRUE );

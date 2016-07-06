@@ -87,7 +87,7 @@ static gint move_to_account_merge_id = -1;
  */
 static gboolean gsb_menu_help_bugreport ( void )
 {
-    lance_navigateur_web ( "http://www.grisbi.org/bugtracking/" );
+    lance_navigateur_web ( "http://www.grisbi.org/bugsreports/" );
 
     return FALSE;
 }
@@ -165,7 +165,7 @@ static gboolean gsb_menu_help_website ( void )
 {
     lance_navigateur_web ( "http://www.grisbi.org/" );
 
-    return FALSE;
+    return TRUE;
 }
 
 /* fonctions de commande liées aux actions */
@@ -321,7 +321,7 @@ void grisbi_cmd_day_tip ( GSimpleAction *action,
  * */
 void grisbi_cmd_file_new ( GSimpleAction *action,
 						GVariant *parameter,
-						gpointer win )
+						gpointer app )
 {
 	 gsb_file_new ();
 }
@@ -337,9 +337,55 @@ void grisbi_cmd_file_new ( GSimpleAction *action,
  * */
 void grisbi_cmd_file_open_menu ( GSimpleAction *action,
 						GVariant *parameter,
-						gpointer win )
+						gpointer app )
 {
-	gsb_file_open_menu ();
+	devel_debug (NULL);
+
+	if ( gsb_file_open_menu () )
+    {
+        GtkRecentManager *recent_manager;
+        GList *tmp_list;
+        const gchar *uri;
+        const gchar *filename;
+        gchar *tmp_uri;
+        gint index_gsb = 0;
+        gboolean trouve = FALSE;
+
+        filename = grisbi_win_get_filename ( NULL );
+        tmp_uri = g_filename_to_uri ( filename, NULL, NULL );
+
+        recent_manager = grisbi_app_get_recent_manager ();
+        tmp_list = gtk_recent_manager_get_items ( recent_manager );
+        while ( tmp_list )
+        {
+            GtkRecentInfo *info;
+
+            info = tmp_list->data;
+            uri = gtk_recent_info_get_uri ( info );
+            if ( g_str_has_suffix ( uri, ".gsb" ) )
+            {
+                index_gsb++;
+
+                if ( g_strcmp0 ( uri, tmp_uri ) == 0 )
+                {
+                    if ( index_gsb > 1 )
+                    {
+                        gtk_recent_manager_remove_item ( recent_manager, uri, NULL );
+                        gtk_recent_manager_add_item ( recent_manager, tmp_uri );
+                    }
+                    trouve = TRUE;
+                    break;
+                }
+            }
+            tmp_list = tmp_list->next;
+        }
+        if ( trouve == FALSE )
+            gtk_recent_manager_add_item ( recent_manager, tmp_uri );
+
+        g_free ( tmp_uri );
+        g_list_free_full ( tmp_list, ( GDestroyNotify ) gtk_recent_info_unref );
+        grisbi_app_set_recent_files_menu ( NULL, TRUE );
+   }
 }
 
 /**
@@ -351,28 +397,57 @@ void grisbi_cmd_file_open_menu ( GSimpleAction *action,
  *
  * \return
  * */
-void grisbi_cmd_file_open_direct_menu ( GtkRecentManager *recent_manager,
-						GtkRecentChooser *chooser )
+void grisbi_cmd_file_open_direct_menu ( GSimpleAction *action,
+						GVariant *parameter,
+						gpointer app )
 {
-	gchar *uri;
+    GtkRecentManager *recent_manager;
+    GList *tmp_list;
+	const gchar *target;
+	const gchar *uri;
 	gchar *tmp_str;
-	GError *error = NULL;
+    gint index_target = 0;
+    gint index_gsb = 0;
 
-	uri = gtk_recent_chooser_get_current_uri ( chooser );
-	tmp_str = g_filename_from_uri ( uri, NULL, &error );
-	if ( tmp_str )
+	devel_debug (NULL);
+
+    /* continue only if can close the current file */
+    if ( !gsb_file_close () )
+        return;
+
+	target = g_variant_get_string ( parameter, NULL );
+    index_target = atoi ( target );
+
+    recent_manager = grisbi_app_get_recent_manager ();
+    tmp_list = gtk_recent_manager_get_items ( recent_manager );
+    while ( tmp_list )
+    {
+        GtkRecentInfo *info;
+
+        info = tmp_list->data;
+        uri = gtk_recent_info_get_uri ( info );
+        if ( g_str_has_suffix ( uri, ".gsb" ) )
+        {
+            index_gsb++;
+            if ( index_gsb == index_target )
+                break;
+        }
+        tmp_list = tmp_list->next;
+    }
+	tmp_str = g_filename_from_uri ( uri, NULL, NULL );
+
+    /* on supprime l'item de la liste. On le mettra en premier si le fichier a été ouvert*/
+    gtk_recent_manager_remove_item ( recent_manager, uri, NULL );
+
+    if ( tmp_str )
 	{
-		if ( gsb_file_open_file ( tmp_str ) == FALSE )
-			gtk_recent_manager_remove_item ( recent_manager, uri, NULL );
-
+		if ( gsb_file_open_file ( tmp_str ) )
+            gtk_recent_manager_add_item ( recent_manager, uri );
 		g_free ( tmp_str );
 	}
-	else
-	{
-		gtk_recent_manager_remove_item ( recent_manager, uri, NULL );
-        g_error_free ( error );
-	}
-	g_free ( uri );
+    g_list_free_full ( tmp_list, ( GDestroyNotify ) gtk_recent_info_unref );
+
+    grisbi_app_set_recent_files_menu ( NULL, TRUE );
 }
 
 /**
@@ -386,7 +461,7 @@ void grisbi_cmd_file_open_direct_menu ( GtkRecentManager *recent_manager,
  * */
 void grisbi_cmd_file_save ( GSimpleAction *action,
 						GVariant *parameter,
-						gpointer user_data )
+						gpointer app )
 {
 	gsb_file_save ();
 }
@@ -402,7 +477,7 @@ void grisbi_cmd_file_save ( GSimpleAction *action,
  * */
 void grisbi_cmd_file_save_as ( GSimpleAction *action,
 						GVariant *parameter,
-						gpointer user_data )
+						gpointer app )
 {
 	gsb_file_save_as ();
 }
@@ -418,7 +493,7 @@ void grisbi_cmd_file_save_as ( GSimpleAction *action,
  * */
 void grisbi_cmd_importer_fichier ( GSimpleAction *action,
 						GVariant *parameter,
-						gpointer user_data )
+						gpointer app )
 {
 	importer_fichier ();
 }
@@ -434,7 +509,7 @@ void grisbi_cmd_importer_fichier ( GSimpleAction *action,
  * */
 void grisbi_cmd_export_accounts ( GSimpleAction *action,
 						GVariant *parameter,
-						gpointer user_data )
+						gpointer app )
 {
 	export_accounts ();
 }
@@ -450,7 +525,7 @@ void grisbi_cmd_export_accounts ( GSimpleAction *action,
  * */
 void grisbi_cmd_create_archive ( GSimpleAction *action,
 						GVariant *parameter,
-						gpointer user_data )
+						gpointer app )
 {
 	gsb_assistant_archive_run_by_menu ();
 }
@@ -466,7 +541,7 @@ void grisbi_cmd_create_archive ( GSimpleAction *action,
  * */
 void grisbi_cmd_export_archive ( GSimpleAction *action,
 						GVariant *parameter,
-						gpointer user_data )
+						gpointer app )
 {
 	gsb_assistant_archive_export_run ();
 }
@@ -482,7 +557,7 @@ void grisbi_cmd_export_archive ( GSimpleAction *action,
  * */
 void grisbi_cmd_debug_acc_file ( GSimpleAction *action,
 						GVariant *parameter,
-						gpointer user_data )
+						gpointer app )
 {
 	gsb_debug ();
 }
@@ -498,7 +573,7 @@ void grisbi_cmd_debug_acc_file ( GSimpleAction *action,
  * */
 void grisbi_cmd_obf_acc_file ( GSimpleAction *action,
 						GVariant *parameter,
-						gpointer user_data )
+						gpointer app )
 {
 	file_obfuscate_run ();
 }
@@ -514,7 +589,7 @@ void grisbi_cmd_obf_acc_file ( GSimpleAction *action,
  * */
 void grisbi_cmd_obf_qif_file ( GSimpleAction *action,
 						GVariant *parameter,
-						gpointer user_data )
+						gpointer app )
 {
 	file_obfuscate_qif_run ();
 }
@@ -530,7 +605,7 @@ void grisbi_cmd_obf_qif_file ( GSimpleAction *action,
  * */
 void grisbi_cmd_debug_mode_toggle ( GSimpleAction *action,
 						GVariant *parameter,
-						gpointer user_data )
+						gpointer app )
 {
 	GVariant *val;
 	gboolean state;
@@ -562,7 +637,7 @@ void grisbi_cmd_debug_mode_toggle ( GSimpleAction *action,
  * */
 void grisbi_cmd_file_close ( GSimpleAction *action,
 						GVariant *parameter,
-						gpointer user_data )
+						gpointer app )
 {
 	gsb_file_close ();
 }
@@ -579,7 +654,7 @@ void grisbi_cmd_file_close ( GSimpleAction *action,
  * */
 void grisbi_cmd_edit_ope ( GSimpleAction *action,
 						GVariant *parameter,
-						gpointer user_data )
+						gpointer app )
 {
 	gsb_data_mix_edit_current_transaction ();
 }
@@ -595,7 +670,7 @@ void grisbi_cmd_edit_ope ( GSimpleAction *action,
  * */
 void grisbi_cmd_new_ope ( GSimpleAction *action,
 						GVariant *parameter,
-						gpointer user_data )
+						gpointer app )
 {
 	gsb_data_mix_new_transaction_by_menu ();
 }
@@ -611,7 +686,7 @@ void grisbi_cmd_new_ope ( GSimpleAction *action,
  * */
 void grisbi_cmd_remove_ope ( GSimpleAction *action,
 						GVariant *parameter,
-						gpointer user_data )
+						gpointer app )
 {
 	gsb_data_mix_delete_current_transaction ();
 }
@@ -627,7 +702,7 @@ void grisbi_cmd_remove_ope ( GSimpleAction *action,
  * */
 void grisbi_cmd_template_ope ( GSimpleAction *action,
 						GVariant *parameter,
-						gpointer user_data )
+						gpointer app )
 {
 	gsb_transactions_list_clone_template ( NULL, NULL );
 }
@@ -643,7 +718,7 @@ void grisbi_cmd_template_ope ( GSimpleAction *action,
  * */
 void grisbi_cmd_clone_ope ( GSimpleAction *action,
 						GVariant *parameter,
-						gpointer user_data )
+						gpointer app )
 {
 	gsb_data_mix_clone_current_transaction ();
 }
@@ -659,7 +734,7 @@ void grisbi_cmd_clone_ope ( GSimpleAction *action,
  * */
 void grisbi_cmd_convert_ope ( GSimpleAction *action,
 						GVariant *parameter,
-						gpointer user_data )
+						gpointer app )
 {
 	schedule_selected_transaction ();
 }
@@ -673,9 +748,32 @@ void grisbi_cmd_convert_ope ( GSimpleAction *action,
  *
  * \return
  * */
+void grisbi_cmd_move_to_account_menu ( GSimpleAction *action,
+						GVariant *parameter,
+						gpointer win )
+{
+	const gchar *target;
+    gint index_target = 0;
+
+	devel_debug (NULL);
+
+/*	target = g_variant_get_string ( parameter, NULL );
+    index_target = atoi ( target );
+*/    printf ("grisbi_cmd_move_to_account_menu\n");
+}
+
+/**
+ *
+ *
+ * \param GSimpleAction 	action
+ * \param GVariant 			parameter
+ * \param gpointer 			app
+ *
+ * \return
+ * */
 void grisbi_cmd_new_acc ( GSimpleAction *action,
 						GVariant *parameter,
-						gpointer user_data )
+						gpointer app )
 {
 	gsb_assistant_account_run ();
 }
@@ -691,7 +789,7 @@ void grisbi_cmd_new_acc ( GSimpleAction *action,
  * */
 void grisbi_cmd_remove_acc ( GSimpleAction *action,
 						GVariant *parameter,
-						gpointer user_data )
+						gpointer app )
 {
 	gsb_account_delete ();
 }
@@ -708,15 +806,14 @@ void grisbi_cmd_remove_acc ( GSimpleAction *action,
  * */
 void grisbi_cmd_show_form_toggle ( GSimpleAction *action,
 						GVariant *parameter,
-						gpointer user_data )
+						gpointer app )
 {
-	devel_debug (NULL);
+    devel_debug (NULL);
 
-    /* FIXME benj: ugly but I cannot find a way to block this ... */
-    if ( block_menu_cb )
-        return;
+    gsb_form_switch_expander ();
+    conf.formulaire_toujours_affiche = !conf.formulaire_toujours_affiche;
 
-    gsb_form_switch_expander ( );
+    g_action_change_state ( G_ACTION ( action ), g_variant_new_boolean ( conf.formulaire_toujours_affiche ) );
 }
 
 /**
@@ -730,23 +827,25 @@ void grisbi_cmd_show_form_toggle ( GSimpleAction *action,
  * */
 void grisbi_cmd_show_reconciled_toggle ( GSimpleAction *action,
 						GVariant *state,
-						gpointer user_data )
+						gpointer app )
 {
     gint current_account;
-
-    if ( block_menu_cb )
-	    return;
+	devel_debug (NULL);
 
     current_account = gsb_gui_navigation_get_current_account ( );
     if ( current_account == -1 || run.equilibrage == 1 )
         return;
 
     if ( gsb_data_account_get_r ( current_account ) )
-	    change_aspect_liste ( 6 );
+    {
+	    mise_a_jour_affichage_r ( FALSE );
+        g_action_change_state ( G_ACTION ( action ), g_variant_new_boolean ( FALSE ) );
+    }
     else
-	    change_aspect_liste ( 5 );
-
-    return;
+    {
+	    mise_a_jour_affichage_r ( TRUE );
+        g_action_change_state ( G_ACTION ( action ), g_variant_new_boolean ( TRUE ) );
+    }
 }
 
 /**
@@ -760,23 +859,24 @@ void grisbi_cmd_show_reconciled_toggle ( GSimpleAction *action,
  * */
 void grisbi_cmd_show_archived_toggle ( GSimpleAction *action,
 						GVariant *state,
-						gpointer user_data )
+						gpointer app )
 {
     gint current_account;
-
-    if ( block_menu_cb )
-	    return;
 
     current_account = gsb_gui_navigation_get_current_account ( );
     if ( current_account == -1 )
         return;
 
     if ( gsb_data_account_get_l ( current_account ) )
-	    change_aspect_liste ( 8 );
+    {
+	    gsb_transactions_list_show_archives_lines ( FALSE );
+        g_action_change_state ( G_ACTION ( action ), g_variant_new_boolean ( FALSE ) );
+    }
     else
-	    change_aspect_liste ( 7 );
-
-    return;
+    {
+	    gsb_transactions_list_show_archives_lines ( TRUE );
+        g_action_change_state ( G_ACTION ( action ), g_variant_new_boolean ( TRUE ) );
+    }
 }
 
 /**
@@ -790,16 +890,15 @@ void grisbi_cmd_show_archived_toggle ( GSimpleAction *action,
  * */
 void grisbi_cmd_show_closed_acc_toggle ( GSimpleAction *action,
 						GVariant *state,
-						gpointer user_data )
+						gpointer app )
 {
     conf.show_closed_accounts = !conf.show_closed_accounts;
 
     gsb_gui_navigation_create_account_list ( gsb_gui_navigation_get_model ( ) );
     gsb_gui_navigation_update_home_page ( );
+    g_action_change_state ( G_ACTION ( action ), g_variant_new_boolean ( conf.show_closed_accounts ) );
 
     gsb_file_set_modified ( TRUE );
-
-    return;
 }
 
 /**
@@ -811,11 +910,20 @@ void grisbi_cmd_show_closed_acc_toggle ( GSimpleAction *action,
  *
  * \return
  * */
-void grisbi_cmd_show_ope ( GSimpleAction *action,
+void grisbi_cmd_show_ope_radio ( GSimpleAction *action,
 						GVariant *parameter,
-						gpointer user_data )
+						gpointer app )
 {
-	printf ("grisbi_cmd_show_ope = %s\n", g_variant_get_string ( parameter, NULL ) );
+	const gchar *target;
+    gint index_target = 0;
+
+	devel_debug (NULL);
+
+	target = g_variant_get_string ( parameter, NULL );
+    index_target = atoi ( target );
+    gsb_transactions_list_set_visible_rows_number ( index_target );
+
+    g_action_change_state ( G_ACTION ( action ), parameter );
 }
 
 /**
@@ -829,7 +937,7 @@ void grisbi_cmd_show_ope ( GSimpleAction *action,
  * */
 void grisbi_cmd_reset_width_col ( GSimpleAction *action,
 						GVariant *state,
-						gpointer user_data )
+						gpointer app )
 {
 	gsb_menu_reinit_largeur_col_menu ();
 }
@@ -923,7 +1031,7 @@ gchar **gsb_menu_recent_manager_get_recent_array ( void )
 	gchar *tmp_str = NULL;
 	gint index = 0;
 
-	recent_manager = grisbi_app_get_recent_manager ();
+    recent_manager = grisbi_app_get_recent_manager ();
 
 	/* initialisation du tableau des fichiers récents */
 	recent_array = g_malloc ( ( conf.nb_max_derniers_fichiers_ouverts +1 ) * sizeof ( *recent_array ) );
@@ -942,7 +1050,6 @@ gchar **gsb_menu_recent_manager_get_recent_array ( void )
 
 		if ( g_str_has_suffix ( uri, ".gsb" ) )
 		{
-
 			if ( index < conf.nb_max_derniers_fichiers_ouverts )
 			{
 				tmp_str = g_filename_from_uri ( uri, NULL, NULL );
@@ -952,11 +1059,11 @@ gchar **gsb_menu_recent_manager_get_recent_array ( void )
 				index++;
 			}
 		}
-		gtk_recent_info_unref ( info );
 
 		tmp_list = tmp_list->next;
     }
-	g_list_free ( tmp_list );
+
+    g_list_free_full ( tmp_list, ( GDestroyNotify ) gtk_recent_info_unref );
 
 	if ( index < conf.nb_max_derniers_fichiers_ouverts )
 	{
@@ -996,120 +1103,24 @@ void gsb_menu_recent_manager_set_recent_array ( gchar **recent_array )
 
 /* A MODIFIER / SUPPRIMER */
 /**
- * remove all actions of an action group
+ * sensitive a menu defined by an action
  *
- * \param action_group
- *
- * \return
- * */
-static void gsb_menu_action_group_remove_actions ( GtkActionGroup *action_group )
-{
-}
-
-
-/**
- * initialise un action_group temporaire
- *
- * \param manager
- * \param action_group
+ * \param item_name		name of action.
+ * \param state			Whether menu should be 'sensitive' or not.
  *
  * \return
- **/
-static void gsb_menu_ui_manager_remove_action_group ( GtkUIManager *manager,
-                        GtkActionGroup *action_group,
-                        gint merge_id )
-{
-}
-
-
-/**
- * Blank the "Recent files submenu".
- *
- * \param
- *
- * \return
- * */
-void efface_derniers_fichiers_ouverts ( void )
-{
-}
-
-
-/**
- * Add menu items to the "Recent files" submenu.
  */
-gboolean affiche_derniers_fichiers_ouverts ( void )
+void gsb_gui_sensitive_win_menu_item ( gchar *item_name,
+                        gboolean state )
 {
-    return FALSE;
-}
+    GrisbiWin *win;
+    GAction *action;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/**
- * Set sensitiveness of a menu item according to a string
- * representation of its position in the menu.
- * menu.
- *
- * \param item_name		Path of the menu item.
- * \param state			Whether widget should be 'sensitive' or not.
- *
- * \return TRUE on success.
- */
-gboolean gsb_gui_sensitive_menu_item ( gchar *item_name, gboolean state )
-{
-    GtkWidget * widget;
-
-/*    widget = gtk_ui_manager_get_widget ( ui_manager, item_name );
-
-    if ( widget && GTK_IS_WIDGET(widget) )
-    {
-	gtk_widget_set_sensitive ( widget, state );
-	return TRUE;
-    }
-    return FALSE;
-*/}
-
-
-
-/**
- * Callback called when an item of the "View/Show ... lines" menu is
- * triggered.
- */
-void gsb_gui_toggle_line_view_mode ( GtkRadioAction *action,
-                        GtkRadioAction *current,
-                        gpointer user_data )
-{
-    /* FIXME benj: ugly but I cannot find a way to block this ... */
-    if ( block_menu_cb ) return;
-
-    switch ( gtk_radio_action_get_current_value(current) )
-    {
-	case ONE_LINE_PER_TRANSACTION:
-	    change_aspect_liste (1);
-	    break;
-	case TWO_LINES_PER_TRANSACTION:
-	    change_aspect_liste (2);
-	    break;
-	case THREE_LINES_PER_TRANSACTION:
-	    change_aspect_liste (3);
-	    break;
-	case FOUR_LINES_PER_TRANSACTION:
-	    change_aspect_liste (4);
-	    break;
-    }
+/*    printf ("gsb_gui_sensitive_win_menu_item : %s sensitive = %d\n", item_name, state );
+*/
+    win = grisbi_app_get_active_window ( NULL );
+    action = g_action_map_lookup_action (G_ACTION_MAP ( win ), item_name );
+	g_simple_action_set_enabled ( G_SIMPLE_ACTION ( action ), state );
 }
 
 
@@ -1256,7 +1267,7 @@ gboolean gsb_menu_update_accounts_in_menus ( void )
 
 	return FALSE;
 
-    if ( move_to_account_action_group )
+/*    if ( move_to_account_action_group )
     {
         gsb_menu_ui_manager_remove_action_group ( ui_manager,
                         move_to_account_action_group,
@@ -1268,8 +1279,8 @@ gboolean gsb_menu_update_accounts_in_menus ( void )
     move_to_account_merge_id = gtk_ui_manager_new_merge_id ( ui_manager );
     move_to_account_action_group = gtk_action_group_new ( "Group3" );
 
-    /* create the closed accounts and accounts in the menu to move a transaction */
-    list_tmp = gsb_data_account_get_list_accounts ();
+*/    /* create the closed accounts and accounts in the menu to move a transaction */
+/*    list_tmp = gsb_data_account_get_list_accounts ();
 
     while ( list_tmp )
     {
@@ -1315,7 +1326,7 @@ gboolean gsb_menu_update_accounts_in_menus ( void )
 
     gtk_ui_manager_insert_action_group ( ui_manager, move_to_account_action_group, 2 );
     gtk_ui_manager_ensure_update ( ui_manager );
-
+*/
     return FALSE;
 }
 
@@ -1331,14 +1342,25 @@ gboolean gsb_menu_update_accounts_in_menus ( void )
  */
 gboolean gsb_menu_set_menus_select_transaction_sensitive ( gboolean sensitive )
 {
-    devel_debug ( sensitive ? "item sensitive" : "item unsensitive" );
+    gchar * items[] = {
+        "edit-ope",
+        "new-ope",
+        "remove-ope",
+        "template-ope",
+        "clone-ope",
+        "convert-ope",
+        "remove-acc",
+        NULL
+    };
+    gchar **tmp = items;
 
-    gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/EditTransaction", sensitive );
-    gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/RemoveTransaction", sensitive );
-    gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/TemplateTransaction", sensitive );
-    gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/CloneTransaction", sensitive );
-    gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/ConvertToScheduled", sensitive );
-    gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/MoveToAnotherAccount", sensitive );
+    devel_debug_int (sensitive);
+
+    while ( *tmp )
+    {
+        gsb_gui_sensitive_win_menu_item ( *tmp, sensitive );
+        tmp++;
+    }
 
     return FALSE;
 }
@@ -1354,41 +1376,22 @@ gboolean gsb_menu_set_menus_select_transaction_sensitive ( gboolean sensitive )
  */
 gboolean gsb_menu_set_menus_select_scheduled_sensitive ( gboolean sensitive )
 {
-    devel_debug ( sensitive ? "item sensitive" : "item unsensitive" );
+    gchar * items[] = {
+        "edit-ope",
+        "remove-ope",
+        "clone-ope",
+        NULL
+    };
+    gchar **tmp = items;
 
-    gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/EditTransaction", sensitive );
-    gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/RemoveTransaction", sensitive );
-    gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/CloneTransaction", sensitive );
-
+    devel_debug_int (sensitive);
+    printf ("gsb_menu_set_menus_select_transaction_sensitive : sensitive = %d\n", sensitive );
+    while ( *tmp )
+    {
+        gsb_gui_sensitive_win_menu_item ( *tmp, sensitive );
+        tmp++;
+    }
     return FALSE;
-}
-
-
-/**
- *
- *
- *
- *
- **/
-GtkUIManager *gsb_menu_get_ui_manager ( void )
-{
-    return ui_manager;
-}
-
-
-/**
- *
- *
- *
- *
- **/
-void gsb_menu_free_ui_manager ( void )
-{
-    if ( ! ui_manager )
-        return;
-
-    g_object_unref ( G_OBJECT ( ui_manager ) );
-    ui_manager = NULL;
 }
 
 
@@ -1422,20 +1425,6 @@ gboolean gsb_menu_reinit_largeur_col_menu ( void )
 
 
 /**
- *
- *
- *
- */
-gboolean gsb_menu_set_block_menu_cb ( gboolean etat )
-{
-
-    block_menu_cb = etat;
-
-    return FALSE;
-}
-
-
-/**
  * Initialise la barre de menus en fonction de la présence ou non d'un fichier de comptes
  *
  * \param sensitif
@@ -1445,51 +1434,33 @@ gboolean gsb_menu_set_block_menu_cb ( gboolean etat )
 void gsb_menu_set_menus_with_file_sensitive ( gboolean sensitive )
 {
     gchar * items[] = {
-        "/menubar/FileMenu/Save",
-        "/menubar/FileMenu/SaveAs",
-        "/menubar/FileMenu/DebugFile",
-        "/menubar/FileMenu/Obfuscate",
-        "/menubar/FileMenu/DebugMode",
-        "/menubar/FileMenu/ExportFile",
-        "/menubar/FileMenu/CreateArchive",
-        "/menubar/FileMenu/ExportArchive",
-        "/menubar/FileMenu/Close",
-        "/menubar/EditMenu/NewTransaction",
-        "/menubar/EditMenu/RemoveTransaction",
-        "/menubar/EditMenu/TemplateTransaction",
-        "/menubar/EditMenu/CloneTransaction",
-        "/menubar/EditMenu/EditTransaction",
-        "/menubar/EditMenu/ConvertToScheduled",
-        "/menubar/EditMenu/MoveToAnotherAccount",
-        "/menubar/EditMenu/Preferences",
-        "/menubar/EditMenu/RemoveAccount",
-        "/menubar/EditMenu/NewAccount",
-        "/menubar/ViewMenu/ShowTransactionForm",
-        "/menubar/ViewMenu/ShowReconciled",
-        "/menubar/ViewMenu/ShowArchived",
-        "/menubar/ViewMenu/ShowClosed",
-        "/menubar/ViewMenu/ShowOneLine",
-        "/menubar/ViewMenu/ShowTwoLines",
-        "/menubar/ViewMenu/ShowThreeLines",
-        "/menubar/ViewMenu/ShowFourLines",
-        "/menubar/ViewMenu/InitwidthCol",
+        "save-as",
+        "export-accounts",
+        "create-archive",
+        "export-archive",
+        "debug-acc-file",
+        "obf-acc-file",
+        "debug-mode",
+        "file-close",
+        "new-acc",
+        "prefs",
         NULL
     };
-    gchar ** tmp = items;
+    gchar **tmp = items;
 
     devel_debug_int (sensitive);
+    printf ("gsb_menu_set_menus_with_file_sensitive : sensitive = %d\n", sensitive );
+
+    if ( sensitive )
+    {
+        grisbi_win_new_menu_move_to_acc ();
+    }
 
     while ( *tmp )
     {
-        gsb_gui_sensitive_menu_item ( *tmp, sensitive );
+        gsb_gui_sensitive_win_menu_item ( *tmp, sensitive );
         tmp++;
     }
-
-    /* As this function may only be called when a new account is
-     * created and the like, it is unlikely that we want to sensitive
-     * transaction-related menus. */
-    gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/NewTransaction", FALSE );
-    gsb_menu_set_menus_select_transaction_sensitive ( FALSE );
 }
 
 /**
@@ -1502,14 +1473,13 @@ void gsb_menu_set_menus_with_file_sensitive ( gboolean sensitive )
 void gsb_menu_set_menus_view_account_sensitive ( gboolean sensitive )
 {
     gchar * items[] = {
-        "/menubar/ViewMenu/ShowTransactionForm",
-        "/menubar/ViewMenu/ShowReconciled",
-        "/menubar/ViewMenu/ShowArchived",
-        "/menubar/ViewMenu/ShowOneLine",
-        "/menubar/ViewMenu/ShowTwoLines",
-        "/menubar/ViewMenu/ShowThreeLines",
-        "/menubar/ViewMenu/ShowFourLines",
-        "/menubar/ViewMenu/InitwidthCol",
+        "remove-acc",
+        "show-form",
+        "show-reconciled",
+        "show-archived",
+        "show-closed-acc",
+        "show-ope",
+        "reset-width-col",
         NULL
     };
     gchar **tmp = items;
@@ -1518,7 +1488,7 @@ void gsb_menu_set_menus_view_account_sensitive ( gboolean sensitive )
 
     while ( *tmp )
     {
-        gsb_gui_sensitive_menu_item ( *tmp, sensitive );
+        gsb_gui_sensitive_win_menu_item ( *tmp, sensitive );
         tmp++;
     }
 }
