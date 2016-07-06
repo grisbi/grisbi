@@ -143,6 +143,7 @@ src/utils_font.c
 src/utils_gtkbuilder.c
 src/utils_operations.c
 src/utils_str.c
+src/org.gtk.grisbi.gschema.xml
 [type: gettext/glade]src/ui/bet_graph.ui
 [type: gettext/glade]src/ui/etats_prefs.ui
 [type: gettext/glade]src/ui/grisbi_menu.ui

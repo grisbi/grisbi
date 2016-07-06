@@ -331,7 +331,10 @@ BUILT_SOURCES = grisbi_resources.c
 grisbi_resources.c: grisbi.gresource.xml $(shell $(GLIB_COMPILE_RESOURCES) --sourcedir=$(srcdir)/ui --generate-dependencies $(srcdir)/grisbi.gresource.xml)
 	$(AM_V_GEN) $(GLIB_COMPILE_RESOURCES) --target=$@ --sourcedir=$(srcdir)/ui --generate-source $(srcdir)/grisbi.gresource.xml
 
-CLEANFILES = $(BUILT_SOURCES)
+gsettings_SCHEMAS = org.gtk.grisbi.gschema.xml
+@GSETTINGS_RULES@
+
+@INTLTOOL_XML_NOMERGE_RULE@
 
 SUBDIRS = ui plugins/gnucash plugins/ofx plugins/openssl
 
@@ -339,7 +342,12 @@ if HAVE_CUNIT
 SUBDIRS += tests
 endif
 
-EXTRA_DIST = grisbi.keys grisbi.mime grisbi.gresource.xml
+EXTRA_DIST = grisbi.keys grisbi.mime \
+	grisbi.gresource.xml \
+	$(gsettings_SCHEMAS)
+
+CLEANFILES = $(BUILT_SOURCES)
+
 
 mimedir = $(datadir)/mime-info
 mime_DATA = grisbi.keys grisbi.mime

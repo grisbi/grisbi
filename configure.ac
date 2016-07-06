@@ -41,6 +41,9 @@ dnl Initialize libtool
 LT_INIT
 LT_LIB_M
 
+dnl GSettings
+GLIB_GSETTINGS
+
 dnl ================================================================
 dnl Check for NLS support.
 dnl ================================================================
