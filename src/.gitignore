@@ -4,3 +4,4 @@
 .deps
 *.bak
 grisbi
+grisbi_resources.c
