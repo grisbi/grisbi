@@ -86,7 +86,6 @@ static void gsb_file_config_clean_config ( void )
 
     conf.force_enregistrement = 1;
 
-    conf.r_modifiable = 0;       /* we can not change the reconciled transaction */
     conf.dernier_fichier_auto = 1;   /*  on n'ouvre pas directement le dernier fichier */
     conf.sauvegarde_auto = 0;    /* on NE sauvegarde PAS * automatiquement par défaut */
     conf.entree = 1;    /* la touche entree provoque l'enregistrement de l'opération */
@@ -186,13 +185,6 @@ static void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
 		   "Height" ))
     {
 	conf.main_height = utils_str_atoi (text);
-	return;
-    }
-
-    if ( !strcmp ( element_name,
-		   "Modification_operations_rapprochees" ))
-    {
-	conf.r_modifiable = utils_str_atoi (text);
 	return;
     }
 
@@ -501,11 +493,6 @@ gboolean gsb_file_config_load_config ( void )
                         NULL );
 
     /* get general */
-    conf.r_modifiable = g_key_file_get_integer ( config,
-                        "General",
-                        "Can modify R",
-                        NULL );
-
     tmp_str = ( g_key_file_get_string ( config,
                         "General",
                         "Path",
@@ -875,11 +862,6 @@ gboolean gsb_file_config_save_config ( void )
                         conf.prefs_width );
 
     /* save general */
-    g_key_file_set_integer ( config,
-                        "General",
-                        "Can modify R",
-                        conf.r_modifiable );
-
     g_key_file_set_string ( config,
                         "General",
                         "Path",

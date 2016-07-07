@@ -146,7 +146,6 @@ struct gsb_conf_t
     gint prefs_width;                               /* preferences width */
 
     /* general part */
-    gint r_modifiable;                              /* Changes in reconciled transactions */
     gint entree;                                    /* si etat.entree = 1, la touche entrée finit l'opération */
     gint alerte_mini;
     gint utilise_fonte_listes;                      /* TRUE to use a custom font for the lists */
