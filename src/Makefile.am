@@ -61,6 +61,7 @@ libgrisbi_la_SOURCES = \
 	grisbi_app.c		\
 	grisbi_win.c		\
 	grisbi_osx.c \
+	grisbi_settings.c		\
 	gsb_account.c		\
 	gsb_account_property.c	\
 	gsb_archive_config.c	\
@@ -208,6 +209,7 @@ libgrisbi_la_SOURCES = \
 	grisbi_app.h		\
 	grisbi_win.h		\
 	grisbi_osx.h \
+	grisbi_settings.h		\
 	gsb_account.h		\
 	gsb_account_property.h	\
 	gsb_archive_config.h	\
@@ -330,7 +332,7 @@ BUILT_SOURCES = grisbi_resources.c
 
 grisbi_resources.c: grisbi.gresource.xml $(shell $(GLIB_COMPILE_RESOURCES) --sourcedir=$(srcdir)/ui --generate-dependencies $(srcdir)/grisbi.gresource.xml)
 	$(AM_V_GEN) $(GLIB_COMPILE_RESOURCES) --target=$@ --sourcedir=$(srcdir)/ui --generate-source $(srcdir)/grisbi.gresource.xml
-
+	
 gsettings_SCHEMAS = org.gtk.grisbi.gschema.xml
 @GSETTINGS_RULES@
 

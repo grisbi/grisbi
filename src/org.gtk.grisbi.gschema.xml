@@ -1,29 +1,187 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<schemalist>
+<schemalist gettext-domain="@GETTEXT_PACKAGE@">
 
-  <schema gettext-domain="@GETTEXT_PACKAGE@" id='org.gtk.grisbi.menu' path='/org/gtk/grisbi/menu/'>
-    <!-- Menu Application settings -->
+  <schema path="/org/gtk/grisbi/" id='org.gtk.grisbi'>
     <key name="prefer-app-menu" type="b">
         <default>false</default>
-        <summary>Show type OSX menu</summary>
-        <description>If true,  the Application's menu of type OSX is displayed otherwise the classic menu is visible.</description>
+        <summary>Show menu type OSX</summary>
+        <description>If TRUE, the Application's menu of type OSX is displayed otherwise the classic menu is visible. This option requires restarting Grisbi</description>
+    </key>
+    <key name="stable-config-file-model" type="b">
+        <default>false</default>
+        <summary>Use copy of stable config file</summary>
+        <description>If TRUE, Grisbi use a copy of the stable config file for development version.</description>
     </key>
   </schema>
-  <schema gettext-domain="@GETTEXT_PACKAGE@" id='org.gtk.grisbi.geometry' path='/org/gtk/grisbi/geometry/'>
-    <!-- Geometry settings -->
+  <schema path="/org/gtk/grisbi/backup/" id='org.gtk.grisbi.backup'>
+    <key name="backup-path" type="s">
+      <default>""</default>
+      <summary>Backup directory</summary>
+      <description>Backup directory.</description>
+    </key>
+	  <key name="compress-backup" type="b">
+        <default>false</default>
+	    <summary>Compress the backup file</summary>
+	    <description>TRUE if you want to compress the backup file.</description>
+	  </key>
+	  <key name="make-backup" type="b">
+        <default>true</default>
+	    <summary>Create a backup when save file</summary>
+	    <description>If TRUE, create a backup when save file.</description>
+	  </key>
+	  <key name="make-backup-every-minutes" type="b">
+        <default>false</default>
+	    <summary>Make backup every x mn</summary>
+	    <description>If TRUE, make backup every x mn.</description>
+	  </key>
+	  <key name="make-backup-nb-minutes" type="i">
+	    <default>0</default>
+	    <summary>Number of minutes to make a backup</summary>
+	    <description>The number of minutes we want to make a backup.</description>
+	  </key>
+	  <key name="make-backup-single-file" type="b">
+        <default>false</default>
+	    <summary>Make single backup file</summary>
+	    <description>If TRUE, make a single backup file. Warning this is dangerous if this file is'nt saving regularly.</description>
+	  </key>
+  </schema>
+  <schema path="/org/gtk/grisbi/display/" id='org.gtk.grisbi.display'>
+	  <key name="display-grisbi-title" type="i">
+	    <default>0</default>
+	    <summary>Select the name of the main window of Grisbi</summary>
+	    <description>Select the name of the main window of Grisbi : 0 = Title name 1 = Holder name of the account 2 = Filename.</description>
+	  </key>
+	  <key name="display-toolbar" type="b">
+        <default>true</default>
+	    <summary>Show toolbar</summary>
+	    <description>If TRUE, toolbar is displayed.</description>
+	  </key>
+	  <key name="show-closed-accounts" type="b">
+        <default>false</default>
+	    <summary>Show closed accounts</summary>
+	    <description>If TRUE, the closed accounts are displayed.</description>
+	  </key>
+	  <key name="show-headings-bar" type="b">
+        <default>true</default>
+	    <summary>Show heading bar</summary>
+	    <description>If TRUE, heading bar is displayed.</description>
+	  </key>
+  </schema>
+  <schema path="/org/gtk/grisbi/file/" id='org.gtk.grisbi.file'>
+	  <key name="compress-file" type="b">
+        <default>false</default>
+	    <summary>Compress the account file</summary>
+	    <description>TRUE if you want to compress the account file.</description>
+	  </key>
+    <key name="dernier-fichier-auto" type="b">
+    <default>false</default>
+    <summary>Automatically open the last file</summary>
+    <description>If TRUE, the last account file is open automatically.</description>
+    </key>
+	  <key name="force-enregistrement" type="b">
+        <default>false</default>
+	    <summary>Forced recording of locked files</summary>
+	    <description>TRUE if you want to save the account file, even if it is already open in another window.</description>
+	  </key>
+    <key name="nb-derniers-fichiers-ouverts" type="i">
+    <default>0</default>
+    <summary>Number of files in list of recently files</summary>
+    <description>Actual number of files in the list of recently opened files.</description>
+    </key>
+    <key name="nb-max-derniers-fichiers-ouverts" type="i">
+    <default>3</default>
+    <summary>Maximum of files in list of recently files</summary>
+    <description>Maximum number of files in the list of recently opened files.</description>
+    </key>
+    <key name="sauvegarde-auto" type="b">
+    <default>false</default>
+    <summary>Automatic backup before closing the account file</summary>
+    <description>If TRUE, automatic backup before closing the account file.</description>
+    </key>
+    <key name="sauvegarde-demarrage" type="b">
+    <default>true</default>
+    <summary>Backup before using file</summary>
+    <description>If TRUE, backup the account file before use.</description>
+    </key>
+  </schema>
+  <schema path="/org/gtk/grisbi/form/" id='org.gtk.grisbi.form'>
+	  <key name="affichage-exercice-automatique" type="b">
+        <default>false</default>
+	    <summary>Selecting the date that determines the fiscal year</summary>
+	    <description>If TRUE, the value date determines the financial year, otherwise this is the date of transaction.</description>
+	  </key>
+	  <key name="automatic-completion-payee" type="b">
+        <default>false</default>
+	    <summary>Allow automatic completion of payees</summary>
+	    <description>TRUE to allow automatic completion of payees in transactions.</description>
+	  </key>
+	  <key name="automatic-erase-credit-debit" type="b">
+        <default>false</default>
+	    <summary>Erase debit and credit</summary>
+	    <description>If TRUE, the fields Credit and Debit are not initialized during the completion of payee.</description>
+	  </key>
+	  <key name="automatic-recover-splits" type="b">
+        <default>false</default>
+	    <summary>Recover splits in payee completion</summary>
+	    <description>If TRUE, splits transactions are recovered along with the parent during the completion of payee.</description>
+	  </key>
+	  <key name="formulaire-toujours-affiche" type="b">
+        <default>true</default>
+	    <summary>Form always displayed</summary>
+	    <description>If TRUE, form is always displayed.</description>
+	  </key>
+	  <key name="form-enter-key" type="b">
+        <default>false</default>
+	    <summary>"Enter" key finishes the transaction</summary>
+	    <description>If TRUE, the "Enter" key finishes the transaction.</description>
+	  </key>
+	  <key name="limit-completion-current-account" type="b">
+        <default>false</default>
+	    <summary>Limit completion to current account</summary>
+	    <description>If TRUE, limit the payee completion to the current account, otherwise do a full search.</description>
+	  </key>
+  </schema>
+  <schema path="/org/gtk/grisbi/general/" id='org.gtk.grisbi.general'>
+    <key name="utilise-fonte-listes" type="b">
+    <default>false</default>
+    <summary>Use custom fonts for lists</summary>
+    <description>If TRUE, Grisbi uses custom fonts for lists.</description>
+    </key>
+    <key name="font-string" type="s">
+      <default>""</default>
+      <summary>Font name</summary>
+      <description>If utilise-fonte-listes = TRUE, this is the name of the custom font.</description>
+    </key>
+    <key name="browser-command" type="s">
+      <default>""</default>
+      <summary>Browser command</summary>
+      <description>Browser command.</description>
+    </key>
+    <key name="pluriel-final" type="b">
+    <default>false</default>
+    <summary>Fixe orthographe pluriel</summary>
+    <description>Specific in french : Fixe l'orthographe de pluriel : FALSE = finals, TRUE = finaux.</description>
+    </key>
+  </schema>
+  <schema path="/org/gtk/grisbi/geometry/" id='org.gtk.grisbi.geometry'>
     <key name="maximized" type="b">
     <default>false</default>
     <summary>Main window maximized state</summary>
     <description>Whether the main window should start maximized.</description>
     </key>
-	  <key name="width" type="i">
-	    <default>900</default>
+    <key name="fullscreen" type="b">
+    <default>false</default>
+    <summary>Main window fullscreen state</summary>
+    <description>Whether the main window should start in fullscreen.</description>
+    </key>
+	  <key name="main-width" type="i">
+	    <default>1300</default>
 	    <summary>Width of the main window</summary>
 	    <description>The width of the main window.</description>
 	  </key>
-	  <key name="height" type="i">
-	    <default>600</default>
+	  <key name="main-height" type="i">
+	    <default>900</default>
 	    <summary>Height of main window</summary>
 	    <description>The height of the main window.</description>
 	  </key>
@@ -37,34 +195,29 @@
 	    <summary>Y position of main window</summary>
 	    <description>The Y position of the main window.</description>
 	  </key>
+  </schema>
+  <schema path="/org/gtk/grisbi/messages/" id='org.gtk.grisbi.messages'>
+  </schema>
+  <schema path="/org/gtk/grisbi/panel/" id='org.gtk.grisbi.panel'>
+    <key name="active-scrolling-left-pane" type="b">
+    <default>false</default>
+    <summary>Active mouse scrolling in the left_panel.</summary>
+    <description>If TRUE, the scrolling with the mouse is actived in the left panel.</description>
+    </key>
 	  <key name="panel-width" type="i">
-	    <default>350</default>
-	    <summary>Width of the Panel of main window</summary>
-	    <description>The width of panel of the main window.</description>
+	    <default>300</default>
+	    <summary>Width of the navigation panel</summary>
+	    <description>The width of the navigation panel.</description>
 	  </key>
+  </schema>
+  <schema path="/org/gtk/grisbi/prefs/" id='org.gtk.grisbi.prefs'>
 	  <key name="prefs-width" type="i">
-	    <default>1000</default>
-	    <summary>Width of the preferences window</summary>
-	    <description>The width of the preferences window.</description>
+	    <default>1150</default>
+	    <summary>Width of the preference window</summary>
+	    <description>The width of the preference window.</description>
 	  </key>
   </schema>
-  <schema gettext-domain="@GETTEXT_PACKAGE@" id='org.gtk.grisbi.general' path='/org/gtk/grisbi/general/'>
-    <!-- General settings -->
+  <schema path="/org/gtk/grisbi/scheduled/" id='org.gtk.grisbi.scheduled'>
   </schema>
-  <schema gettext-domain="@GETTEXT_PACKAGE@" id='org.gtk.grisbi.backup' path='/org/gtk/grisbi/backup/'>
-    <!-- Backup settings -->
-  </schema>
-  <schema gettext-domain="@GETTEXT_PACKAGE@" id='org.gtk.grisbi.io' path='/org/gtk/grisbi/io/'>
-    <!-- IO settings -->
-  </schema>
-  <schema gettext-domain="@GETTEXT_PACKAGE@" id='org.gtk.grisbi.scheduled' path='/org/gtk/grisbi/scheduled/'>
-    <!-- Scheduled settings -->
-  </schema>
-  <schema gettext-domain="@GETTEXT_PACKAGE@" id='org.gtk.grisbi.display' path='/org/gtk/grisbi/display/'>
-    <!-- Display settings -->
-  </schema>
-  <schema gettext-domain="@GETTEXT_PACKAGE@" id='org.gtk.grisbi.messages' path='/org/gtk/grisbi/messages/'>
-    <!-- Messages settings -->
-  </schema>
-
-</schemalist>
+  
+  </schemalist>

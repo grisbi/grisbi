@@ -132,22 +132,23 @@ extern struct gsb_etat_t etat;
  */
 struct gsb_conf_t
 {
+
     /* app menu */
     gboolean prefer_app_menu;                      /* TRUE validate appmenu */
 
     /* geometry */
-    gint root_x;                                    /* main_window x position */
-    gint root_y;                                    /* main_window y position */
+    gint x_position;                                /* main_window x position */
+    gint y_position;                                /* main_window y position */
     gint main_width;                                /* main_window width */
     gint main_height;                               /* main_window height */
-    gint full_screen;                               /* 1 to full screen, 0 else */
-    gint maximize_screen;                           /* 1 to maximize screen, 0 else */
-    gint panel_width;                               /* panel width */
+    gboolean full_screen;                           /* TRUE to full screen, 0 else */
+    gboolean maximize_screen;                       /* TRUE to maximize screen, 0 else */
+    gint panel_width;                               /* navigation panel width */
     gint prefs_width;                               /* preferences width */
 
     /* general part */
-    gint entree;                                    /* si etat.entree = 1, la touche entrée finit l'opération */
-    gint alerte_mini;
+    gboolean entree;                                /* si conf.entree = 1, la touche entrée finit l'opération */
+    /*gint alerte_mini;*/
     gint utilise_fonte_listes;                      /* TRUE to use a custom font for the lists */
     gchar *font_string;                             /* contain the description of the font, or NULL */
     gchar *browser_command;
@@ -156,26 +157,26 @@ struct gsb_conf_t
     gint display_grisbi_title;                      /* selection du titre principal de grisbi */
     gboolean active_scrolling_left_pane;            /* active mouse scrolling in the left_pane. */
 
-    gint display_toolbar;                           /* Display mode of toolbar. */
+    gboolean display_toolbar;                           /* Display mode of toolbar. */
     gboolean show_headings_bar;                     /* Show headings bar or not. */
     gboolean show_closed_accounts;
 
     /* files part */
-    gint sauvegarde_demarrage;                      /* utilisé pour enregistrer le fichier s'il s'est bien ouvert */
-    gint sauvegarde_auto;                           /* utilisé pour enregistrer le fichier automatiquementà la fermeture */
+    gboolean sauvegarde_demarrage;                      /* utilisé pour enregistrer le fichier s'il s'est bien ouvert */
+    gboolean sauvegarde_auto;                           /* utilisé pour enregistrer le fichier automatiquementà la fermeture */
     gint dernier_fichier_auto;
-    gint compress_file;                             /* TRUE if we want to compress the Grisbi file */
-    gint alerte_permission;                         /* à un si le message d'alerte s'affiche */
-    gint force_enregistrement;                      /* à un si on force l'enregistrement */
+    gboolean compress_file;                             /* TRUE if we want to compress the Grisbi file */
+    /*gboolean alerte_permission;*/                         /* à un si le message d'alerte s'affiche */
+    gboolean force_enregistrement;                      /* à un si on force l'enregistrement */
     gint nb_max_derniers_fichiers_ouverts;          /* contient le nb max que peut contenir nb_derniers_fichiers_ouverts */
     gsize nb_derniers_fichiers_ouverts;             /* contient le nb de derniers fichiers ouverts */
 
     /* backup part */
-    gint make_backup;                               /* TRUE for create a backup when save file */
-    gint make_backup_every_minutes;                 /* TRUE to make backup every x mn */
+    gboolean make_backup;                           /* TRUE for create a backup when save file */
+    gboolean make_backup_every_minutes;             /* TRUE to make backup every x mn */
     gint make_backup_nb_minutes;                    /* the number of minutes we want to make a backup */
-    gint make_bakup_single_file;                    /* TRUE if a single backup file */
-    gint compress_backup;                           /* TRUE if we want to compress the backup */
+    gboolean make_bakup_single_file;                /* TRUE if a single backup file */
+    gboolean compress_backup;                       /* TRUE if we want to compress the backup */
 
     /* formulaire */
     gint automatic_completion_payee;                /* 1 pour autoriser la completion automatique des opérations */

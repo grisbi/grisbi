@@ -32,7 +32,10 @@ src/file_obfuscate.c
 src/file_obfuscate_qif.c
 src/go-charmap-sel.c
 src/go-optionmenu.c
+src/grisbi_app.c
+src/grisbi_win.c
 src/grisbi_osx.c
+src/grisbi_settings.c
 src/gsb_account.c
 src/gsb_account_property.c
 src/gsb_archive_config.c

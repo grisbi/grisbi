@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2001-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
-/*          2009-2015 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          2009-2016 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -226,7 +226,7 @@ void grisbi_win_set_size_and_position ( GtkWindow *win )
         gtk_window_set_default_size ( GTK_WINDOW ( win ), 900, 600 );
 
     /* display window at position */
-    gtk_window_move ( GTK_WINDOW ( win ), conf.root_x, conf.root_y );
+    gtk_window_move ( GTK_WINDOW ( win ), conf.x_position, conf.y_position );
 
     /* set the full screen if necessary */
     if ( conf.full_screen )
@@ -352,7 +352,11 @@ void grisbi_win_new_menu_move_to_acc ( void )
     win = grisbi_app_get_active_window ( NULL );
     priv = grisbi_win_get_instance_private ( GRISBI_WIN ( win ) );
 
-    menu = grisbi_app_get_menu_by_id ( NULL, "edit" );
+    if ( conf.prefer_app_menu )
+        menu = grisbi_app_get_menu_by_id ( NULL, "edit" );
+    else
+        menu = grisbi_app_get_menu_by_id ( NULL, "classic-edit" );
+
     submenu = g_menu_new ();
 
     tmp_list = gsb_data_account_get_list_accounts ();
@@ -387,7 +391,7 @@ void grisbi_win_new_menu_move_to_acc ( void )
             g_menu_append ( submenu, account_name, action_name );
 
             g_free ( tmp_name );
-            g_free (action_name);
+            g_free ( action_name );
         }
 
         tmp_list = tmp_list -> next;
@@ -529,7 +533,6 @@ void grisbi_win_init_menubar ( GrisbiWin *win,
         "convert-ope",
         "new-acc",
         "remove-acc",
-        "prefs",
         "show-form",
         "show-reconciled",
         "show-archived",
@@ -556,9 +559,26 @@ void grisbi_win_init_menubar ( GrisbiWin *win,
 
         tmp++;
     }
+
+    /* sensibilise le menu preferences */
+    action = grisbi_app_get_prefs_action ();
+    g_simple_action_set_enabled ( G_SIMPLE_ACTION ( action ), FALSE );
 }
 
 /* WIN INIT */
+static void grisbi_win_dispose ( GObject *object )
+{
+    GrisbiWin *win = GRISBI_WIN ( object );
+    GrisbiWinPrivate *priv;
+
+    priv = grisbi_win_get_instance_private ( GRISBI_WIN ( win ) );
+    g_free ( priv->filename );
+    g_free ( priv->file_title );
+    g_free ( priv->window_title );
+
+    G_OBJECT_CLASS (grisbi_win_parent_class)->dispose ( object );
+}
+
 /**
  *
  *
@@ -593,16 +613,21 @@ static void grisbi_win_init ( GrisbiWin *win )
  *
  * \return
  **/
-static void grisbi_win_class_init ( GrisbiWinClass *class )
+static void grisbi_win_class_init ( GrisbiWinClass *klass )
 {
-	gtk_widget_class_set_template_from_resource (GTK_WIDGET_CLASS (class),
+    GObjectClass *object_class = G_OBJECT_CLASS (klass);
+    GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
+
+    object_class->dispose = grisbi_win_dispose;
+
+	gtk_widget_class_set_template_from_resource (GTK_WIDGET_CLASS (klass),
                                                "/org/gtk/grisbi/ui/grisbi_win.ui");
 
-	gtk_widget_class_bind_template_child_private ( GTK_WIDGET_CLASS ( class ), GrisbiWin, main_box );
+	gtk_widget_class_bind_template_child_private ( GTK_WIDGET_CLASS ( klass ), GrisbiWin, main_box );
 /*	gtk_widget_class_bind_template_child_private ( GTK_WIDGET_CLASS ( class ), GrisbiWin, headings_eb );
 	gtk_widget_class_bind_template_child_private ( GTK_WIDGET_CLASS ( class ), GrisbiWin, arrow_eb_left );
 	gtk_widget_class_bind_template_child_private ( GTK_WIDGET_CLASS ( class ), GrisbiWin, arrow_eb_right );
-*/	gtk_widget_class_bind_template_child_private ( GTK_WIDGET_CLASS ( class ), GrisbiWin, statusbar );
+*/	gtk_widget_class_bind_template_child_private ( GTK_WIDGET_CLASS ( klass ), GrisbiWin, statusbar );
 }
 
 /**
