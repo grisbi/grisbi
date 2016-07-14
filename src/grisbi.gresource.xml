@@ -2,6 +2,6 @@
 <gresources>
   <gresource prefix="/org/gtk/grisbi/ui">
     <file preprocess="xml-stripblanks">grisbi_win.ui</file>
-	<file preprocess="xml-stripblanks">grisbi_menu.ui</file>
+    <file preprocess="xml-stripblanks">grisbi_menu.ui</file>
   </gresource>
 </gresources>

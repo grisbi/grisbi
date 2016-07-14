@@ -5,4 +5,4 @@
 *.bak
 grisbi
 grisbi_resources.c
-src/org.gtk.grisbi.gschema.valid
+org.gtk.grisbi.gschema.valid
