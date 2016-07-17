@@ -73,6 +73,7 @@
 #include "gsb_select_icon.h"
 #include "gsb_scheduler_list.h"
 #include "import.h"
+#include "menu.h"
 #include "navigation.h"
 #include "structures.h"
 #include "traitement_variables.h"
@@ -380,7 +381,32 @@ gboolean gsb_file_load_open_file ( gchar *filename )
         return FALSE;
     }
 
-    return gsb_file_load_update_previous_version ();
+/*     return gsb_file_load_update_previous_version ();  */
+    /* Reprise fin du fichier gsb_file_load_update_previous_version () */
+    if ( conf.sauvegarde_demarrage )
+        gsb_file_set_modified ( TRUE );
+
+    /* check now if a lot of transactions,
+     * if yes, we propose to file the transactions
+     * by default take the 3000 transactions as limit */
+    if ( conf.check_for_archival
+     &&
+     g_slist_length ( gsb_data_transaction_get_transactions_list () ) >
+     conf.max_non_archived_transactions_for_check )
+        gsb_assistant_archive_run ( TRUE );
+
+    /* if we opened an archive, we say it here */
+    if ( etat.is_archive )
+        dialogue_hint ( _("You have opened an archive.\nThere is no limit in Grisbi, "
+                        "you can do whatever you want and save it later (new reports...) "
+                        "but remember it's an archive before modifying some transactions "
+                        "or important information."),
+                        _("Grisbi archive opened") );
+
+    /* positionnement de l'option bet_show_onglets pour tous les comptes */
+    gsb_data_account_set_bet_show_onglets_all_accounts ();
+
+    return TRUE;
 }
 
 
