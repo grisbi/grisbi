@@ -57,7 +57,7 @@
         <submenu id="recent-file">
           <attribute name="label" translatable="yes">Recently opened files</attribute>
         </submenu>
-	  </section>
+      </section>
       <section>
       	<item>
 		      <attribute name="label" translatable="yes">Save</attribute>
@@ -119,6 +119,7 @@
         </item>
     </section>
     </submenu>
+
     <submenu id="edit">
       <attribute name="label" translatable="yes">E_dit</attribute>
       <section>
@@ -151,8 +152,6 @@
           <attribute name="label" translatable="yes">Convert to scheduled transaction</attribute>
           <attribute name="action">win.convert-ope</attribute>
         </item>
-        <item><link name="submenu" id="move-to-acc">
-        </link></item>
       </section>
       <section>
         <item>
@@ -166,6 +165,7 @@
         </item>
       </section>
     </submenu>
+
     <submenu id="view">
       <attribute name="label" translatable="yes">View</attribute>
       <section>
@@ -218,6 +218,7 @@
         </item>
       </section>
     </submenu>
+
     <submenu id="help">
       <attribute name="label" translatable="yes">_Help</attribute>
 		  <section>
@@ -253,7 +254,7 @@
   </menu>
 
   <menu id="classic">
-    <submenu id="file">
+    <submenu id="classic-file">
       <attribute name="label" translatable="yes">_File</attribute>
       <section>
         <item>
@@ -270,7 +271,7 @@
         </item>
       </section>
       <section>
-        <submenu id="recent-file">
+        <submenu id="classic-recent-file">
           <attribute name="label" translatable="yes">Recently opened files</attribute>
         </submenu>
       </section>
@@ -341,7 +342,8 @@
         </item>
     </section>
     </submenu>
-    <submenu id="edit">
+
+    <submenu id="classic-edit">
       <attribute name="label" translatable="yes">Edit</attribute>
       <section>
         <item>
@@ -395,7 +397,7 @@
       </section>
     </submenu>
 
-    <submenu id="view">
+    <submenu id="classic-view">
       <attribute name="label" translatable="yes">_View</attribute>
       <section>
         <item>
@@ -448,7 +450,7 @@
       </section>
     </submenu>
 
-    <submenu id="help">
+    <submenu id="classic-help">
       <attribute name="label" translatable="yes">_Help</attribute>
 		  <section>
         <item>
