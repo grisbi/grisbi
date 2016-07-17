@@ -1162,7 +1162,7 @@ GtkWidget *onglet_fichier ( void )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     /* Warn if file is used by someone else? */
-    button = gsb_automem_checkbutton_new ( _("Force saving of locked files"),
+    button = gsb_automem_checkbutton_new ( _("Forced recording of locked files"),
                         &conf.force_enregistrement, NULL, NULL );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
