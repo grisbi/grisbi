@@ -4,6 +4,7 @@
 #include <gtk/gtk.h>
 
 /*START_INCLUDE*/
+#include "grisbi_settings.h"
 #include "grisbi_win.h"
 #include "structures.h"
 /*END_INCLUDE*/
@@ -32,13 +33,12 @@ struct _GrisbiAppClass
 GType grisbi_app_get_type ( void );
 
 GrisbiApp *         grisbi_app_new                      ( char *app_name );
-GrisbiWin *         grisbi_app_create_window            ( GrisbiApp *app,
-                                                          GdkScreen *screen );
 GrisbiWin *         grisbi_app_get_active_window        ( GrisbiApp *app );
+GrisbiSettings *    grisbi_app_get_grisbi_settings      ( void );
 GMenu *             grisbi_app_get_menu_by_id           ( GApplication *app,
                                                           const gchar *id );
 GAction *           grisbi_app_get_prefs_action         ( void );
-GtkRecentManager *  grisbi_app_get_recent_manager       ( void );
+gchar **            grisbi_app_get_recent_files_array   ( void );
 void                grisbi_app_init_recent_manager      ( gchar **recent_array );
 gboolean            grisbi_app_is_duplicated_file       ( const gchar *filename );
 void                grisbi_app_set_recent_files_menu    ( GApplication *app,

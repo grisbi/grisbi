@@ -38,6 +38,7 @@
 /*START_INCLUDE*/
 #include "grisbi_win.h"
 #include "grisbi_app.h"
+#include "accueil.h"
 #include "gsb_data_account.h"
 #include "menu.h"
 #include "navigation.h"
@@ -220,6 +221,7 @@ void grisbi_win_set_size_and_position ( GtkWindow *win )
 	priv = grisbi_win_get_instance_private ( GRISBI_WIN ( win ) );
 
     /* set the size of the window */
+    printf ("conf.main_width = %d conf.main_height = %d\n", conf.main_width, conf.main_height );
     if ( conf.main_width && conf.main_height )
         gtk_window_set_default_size ( GTK_WINDOW ( win ), conf.main_width, conf.main_height );
     else
@@ -353,9 +355,9 @@ void grisbi_win_new_menu_move_to_acc ( void )
     priv = grisbi_win_get_instance_private ( GRISBI_WIN ( win ) );
 
     if ( conf.prefer_app_menu )
-        menu = grisbi_app_get_menu_by_id ( NULL, "edit" );
+        menu = grisbi_app_get_menu_by_id ( g_application_get_default (), "edit" );
     else
-        menu = grisbi_app_get_menu_by_id ( NULL, "classic-edit" );
+        menu = grisbi_app_get_menu_by_id ( g_application_get_default (), "classic-edit" );
 
     submenu = g_menu_new ();
 
@@ -566,10 +568,40 @@ void grisbi_win_init_menubar ( GrisbiWin *win,
 }
 
 /* WIN INIT */
+/**
+ * check on any change on the main window
+ * for now, only to check if we set/unset the full-screen
+ *
+ * \param window
+ * \param event
+ * \param null
+ *
+ * \return FALSE
+ * */
+static gboolean grisbi_win_change_state_window ( GtkWidget *window,
+                        GdkEventWindowState *event,
+                        gpointer null )
+{
+    gboolean show;
+
+    if ( event->changed_mask & GDK_WINDOW_STATE_MAXIMIZED )
+    {
+        show = !( event->new_window_state & GDK_WINDOW_STATE_MAXIMIZED );
+
+/*        gtk_window_set_has_resize_grip ( GTK_WINDOW ( window ), show );
+*/        conf.maximize_screen = !show;
+    }
+
+    /* return value */
+    return FALSE;
+}
+
 static void grisbi_win_dispose ( GObject *object )
 {
     GrisbiWin *win = GRISBI_WIN ( object );
     GrisbiWinPrivate *priv;
+
+    printf ("grisbi_win_dispose\n");
 
     priv = grisbi_win_get_instance_private ( GRISBI_WIN ( win ) );
     g_free ( priv->filename );
@@ -604,6 +636,13 @@ static void grisbi_win_init ( GrisbiWin *win )
 /*	grisbi_win_init_headings_eb ( GRISBI_WIN ( win ) );
 */
 	run.window = GTK_WIDGET ( win );
+
+    /* signaux */
+    g_signal_connect ( win,
+                        "window-state-event",
+                        G_CALLBACK ( grisbi_win_change_state_window ),
+                        NULL );
+
 }
 
 /**

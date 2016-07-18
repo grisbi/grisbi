@@ -5,7 +5,7 @@
 /*                                                                               */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)               */
 /*                      2003-2008 Benjamin Drieu (bdrieu@april.org)              */
-/*          2008-2015 Pierre Biava (grisbi@pierre.biava.name)                    */
+/*          2008-2016 Pierre Biava (grisbi@pierre.biava.name)                    */
 /*          http://www.grisbi.org                                                */
 /*                                                                               */
 /*     This program is free software; you can redistribute it and/or modify      */
@@ -30,6 +30,7 @@
 
 #include "include.h"
 #include <stdlib.h>
+#include <glib/gprintf.h>
 #include <glib/gi18n.h>
 #include <errno.h>
 
@@ -40,11 +41,15 @@
 /*START_INCLUDE*/
 #include "grisbi_app.h"
 #include "grisbi_settings.h"
+#include "gsb_color.h"
 #include "gsb_dirs.h"
+#include "gsb_file.h"
 #include "gsb_file_config.h"
 #include "gsb_locale.h"
 #include "help.h"
+#include "import.h"
 #include "menu.h"
+#include "traitement_variables.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -75,7 +80,6 @@ struct _GrisbiAppPrivate
 	GMenuModel 			*menubar;
 
     GMenu               *item_recent_files;
-	GtkRecentManager 	*recent_manager;
 
     GAction             *prefs_action;
 };
@@ -183,106 +187,6 @@ static const GActionEntry win_context_enabled_entries[] =
 };
 
 /**
- * grisbi_app_get_menu_by_id
- *
- * \param GApplication 	app
- * \param const gchar  	id of GMenu
- *
- * \return GMenu
- * */
-GMenu *grisbi_app_get_menu_by_id ( GApplication *app,
-						const gchar *id )
-{
-	GObject *object;
-	GrisbiAppPrivate *priv;
-	printf ("grisbi_app_get_menu_by_id : %s\n", id);
-
-    if ( app == NULL )
-        app = g_application_get_default ();
-
-	priv = grisbi_app_get_instance_private ( GRISBI_APP ( app ) );
-	if ( !priv->menus_builder )
-		return NULL;
-
-	object = gtk_builder_get_object ( priv->menus_builder, id );
-
-	if ( !object || !G_IS_MENU ( object ) )
-		return NULL;
-
-	return G_MENU ( object );
-}
-
-/**
- * crée et initialise le sous menu des fichiers récents.
- *
- * \param GApplication  *app
- * \param gboolean      reset 0 = création 1 = update
- *
- * \return
- * */
-void grisbi_app_set_recent_files_menu ( GApplication *app,
-                        gboolean reset )
-{
-    GrisbiAppPrivate *priv;
-    GList *tmp_list;
-    gchar *detailled_action;
-    gchar *uri;
-    gint index = 0;
-    GError *error = NULL;
-
-    printf ("grisbi_app_set_recent_files_menu\n");
-    if ( app == NULL );
-        app = g_application_get_default ();
-
-    priv = grisbi_app_get_instance_private ( GRISBI_APP ( app ) );
-
-    if ( reset )
-    {
-        GMenuItem *menu_item;
-        const gchar *filename;
-
-        g_menu_remove_all ( priv->item_recent_files );
-        filename = grisbi_win_get_filename ( NULL );
-        detailled_action = g_strdup_printf ("win.direct-open-file::%d", index+1 );
-        menu_item = g_menu_item_new ( filename, detailled_action );
-        g_menu_append_item ( priv->item_recent_files, menu_item );
-        index++;
-        g_free ( detailled_action );
-        g_object_unref ( menu_item );
-    }
-    tmp_list = gtk_recent_manager_get_items ( priv->recent_manager );
-    while ( tmp_list )
-    {
-        GtkRecentInfo *info;
-
-        info = tmp_list->data;
-        uri = gtk_recent_info_get_uri_display ( info );
-        if ( g_str_has_suffix ( uri, ".gsb" ) )
-		{
-            if ( !g_file_test ( uri, G_FILE_TEST_EXISTS ) )
-            {
-                tmp_list = tmp_list->next;
-                continue;
-            }
-			if ( index < conf.nb_derniers_fichiers_ouverts )
-			{
-                GMenuItem *menu_item;
-
-                detailled_action = g_strdup_printf ("win.direct-open-file::%d", index+1 );
-                menu_item = g_menu_item_new ( uri, detailled_action );
-                g_menu_append_item ( priv->item_recent_files, menu_item );
-				index++;
-                g_free ( detailled_action );
-                g_object_unref ( menu_item );
-			}
-		}
-        g_free ( uri );
-        tmp_list = tmp_list->next;
-    }
-    g_list_free_full ( tmp_list, ( GDestroyNotify ) gtk_recent_info_unref );
-}
-
-/**
  * crée et initialise le menu de grisbi.
  *
  * \param GApplication *app
@@ -339,54 +243,67 @@ static void grisbi_app_set_main_menu ( GApplication *app )
     grisbi_app_set_recent_files_menu ( app, FALSE );
 }
 
-GtkRecentManager *grisbi_app_get_recent_manager ( void )
+/* WINDOWS */
+/**
+ * Création d'une fenêtre GrisbiWin.
+ *
+ * \param app
+ * \param screen
+ *
+ * \return une fenêtre pour Grisbi
+ */
+static GrisbiWin *grisbi_app_create_window ( GrisbiApp *app,
+                        GdkScreen *screen )
 {
-	GApplication *app;
-	GrisbiAppPrivate *priv;
+    GrisbiWin *win;
+    GrisbiAppPrivate *priv;
+    gchar *string;
 
-    printf ("grisbi_app_get_recent_manager\n");
-	app = g_application_get_default ();
+    printf ("grisbi_app_create_window\n");
 	priv = grisbi_app_get_instance_private ( GRISBI_APP ( app ) );
 
-	return priv->recent_manager;
-}
+	win = g_object_new ( GRISBI_WIN_TYPE, "application", app, NULL );
+	gtk_application_add_window ( GTK_APPLICATION ( app ), GTK_WINDOW ( win ) );
 
-void grisbi_app_init_recent_manager ( gchar **recent_array )
-{
-	GtkRecentManager *recent_manager;
-	gchar *uri = NULL;
-	gint i;
-    gint nb_effectif = 0;
-	gboolean result;
-    GList *tmp_list;
+    /* create the icon of grisbi (set in the panel of gnome or other) */
+    string = g_build_filename ( gsb_dirs_get_pixmaps_dir (), "grisbi-logo.png", NULL );
+    if ( g_file_test ( string, G_FILE_TEST_EXISTS ) )
+        gtk_window_set_default_icon_from_file ( string, NULL );
 
-	recent_manager = grisbi_app_get_recent_manager ();
+    g_free (string);
 
-	if ( !conf.nb_derniers_fichiers_ouverts || !conf.nb_max_derniers_fichiers_ouverts )
-		return;
+	grisbi_win_set_size_and_position ( GTK_WINDOW ( win ) );
 
-    if ( conf.nb_derniers_fichiers_ouverts > conf.nb_max_derniers_fichiers_ouverts )
+    /* set menubar */
+	/* Win Menu : actions toujours actives */
+	g_action_map_add_action_entries ( G_ACTION_MAP ( win ),
+						win_always_enabled_entries,
+						G_N_ELEMENTS ( win_always_enabled_entries ),
+						app );
+
+	/* Win Menu : actions actives selon le contexte */
+	g_action_map_add_action_entries ( G_ACTION_MAP ( win ),
+						win_context_enabled_entries,
+						G_N_ELEMENTS ( win_context_enabled_entries ),
+						app );
+
+    /* Actions du menu Application à intégrer dans le menu classique */
+    if ( !conf.prefer_app_menu )
     {
-        conf.nb_derniers_fichiers_ouverts = conf.nb_max_derniers_fichiers_ouverts;
+        g_action_map_add_action_entries ( G_ACTION_MAP ( win ),
+                        app_entries,
+						G_N_ELEMENTS ( app_entries ),
+                        app );
+
+        priv->prefs_action = g_action_map_lookup_action ( G_ACTION_MAP ( win ), "prefs" );
     }
 
-    tmp_list = gtk_recent_manager_get_items ( recent_manager );
+    grisbi_win_init_menubar ( win, app );
 
-	for ( i=0 ; i < conf.nb_derniers_fichiers_ouverts ; i++ )
-    {
-		uri = g_filename_to_uri ( recent_array[i], NULL, NULL );
-        if ( g_file_test ( recent_array[i], G_FILE_TEST_EXISTS ) )
-        {
-            result = gtk_recent_manager_add_item (  recent_manager, uri );
-            if ( result )
-            {
-                nb_effectif++;
-            }
-        }
-        g_free ( uri );
-	}
-    conf.nb_derniers_fichiers_ouverts = nb_effectif;
-    g_list_free_full ( tmp_list, ( GDestroyNotify ) gtk_recent_info_unref );
+	if ( screen != NULL )
+        gtk_window_set_screen ( GTK_WINDOW ( win ), screen );
+
+    return win;
 }
 
 /* Fonctions propres à l'initialisation de l'application */
@@ -561,13 +478,13 @@ static gboolean grisbi_app_cmdline ( GApplication *app,
 static gint grisbi_app_handle_local_options ( GApplication *app,
                         GVariantDict *options)
 {
-	if ( g_variant_dict_contains ( options, "version" ) )
-	{
-		g_print ( "%s - Version %s\n", g_get_application_name (), VERSION );
-		g_print( "\n\n" );
-		g_print( "%s", extra_support () );
-		return 0;
-	}
+    if ( g_variant_dict_contains ( options, "version" ) )
+    {
+        g_print ( "%s - Version %s\n", g_get_application_name (), VERSION );
+        g_print( "\n\n" );
+        g_print( "%s", extra_support () );
+        return 0;
+    }
 
 /*	if (g_variant_dict_contains (options, "standalone"))
 	{
@@ -753,14 +670,11 @@ static void grisbi_app_activate ( GApplication *app )
     init_variables ();
     register_import_formats ();
 
-    /* initiate recent_manager */
-	priv->recent_manager = gtk_recent_manager_get_default ();
-
     /* firt use ? */
-    priv->first_use = FALSE;
+/*    priv->first_use = FALSE;
     if ( !gsb_file_config_load_config () )
         priv->first_use = TRUE;
-
+*/
 	/* app menu */
 	grisbi_app_set_main_menu ( app );
 
@@ -834,21 +748,21 @@ static void grisbi_app_shutdown ( GApplication *app )
     /* on récupère la dernière fenêtre active */
 	win = gtk_application_get_active_window ( GTK_APPLICATION ( app ) );
 
-    /* sauvegarde la position de la fenetre principale */
+    printf ("conf.main_width = %d conf.main_height = %d\n", conf.main_width, conf.main_height );
+
     if ( win && conf.full_screen == 0 && conf.maximize_screen == 0 )
+    {
+        /* sauvegarde la position de la fenetre principale */
         gtk_window_get_position ( GTK_WINDOW ( win ), &conf.x_position, &conf.y_position );
 
-    /* sauvegarde de la taille de la fenêtre si nécessaire */
-    if ( win && conf.full_screen == 0 && conf.maximize_screen == 0 )
+        /* sauvegarde de la taille de la fenêtre si nécessaire */
         gtk_window_get_size ( GTK_WINDOW ( win ), &conf.main_width, &conf.main_height );
+    }
 
     /* clean finish of the debug file */
     if ( etat.debug_mode )
         debug_finish_log ();
 
-	/* on sauvegarde la configuration générale de grisbi */
-/*	gsb_file_config_save_config ();
-*/
 	/* on libère la mémoire utilisée par etat */
 	free_variables ();
 
@@ -897,6 +811,9 @@ static void grisbi_app_class_init ( GrisbiAppClass *klass )
     app_class->handle_local_options = grisbi_app_handle_local_options;
 }
 
+/*******************************************************************************
+ * Public Methods
+ ******************************************************************************/
 /**
  *
  *
@@ -919,103 +836,6 @@ GrisbiApp *grisbi_app_new ( char *app_name )
     return app;
 }
 
-/* WINDOWS */
-/**
- * check on any change on the main window
- * for now, only to check if we set/unset the full-screen
- *
- * \param window
- * \param event
- * \param null
- *
- * \return FALSE
- * */
-static gboolean grisbi_win_change_state_window ( GtkWidget *window,
-                        GdkEventWindowState *event,
-                        gpointer null )
-{
-    gboolean show;
-
-    if ( event->changed_mask & GDK_WINDOW_STATE_MAXIMIZED )
-    {
-        show = !( event->new_window_state & GDK_WINDOW_STATE_MAXIMIZED );
-
-        gtk_window_set_has_resize_grip ( GTK_WINDOW ( window ), show );
-        conf.maximize_screen = !show;
-    }
-
-    /* return value */
-    return FALSE;
-}
-
-/**
- * Création d'une fenêtre GrisbiWin.
- *
- * \param app
- * \param screen
- *
- * \return une fenêtre pour Grisbi
- */
-GrisbiWin *grisbi_app_create_window ( GrisbiApp *app,
-                        GdkScreen *screen )
-{
-    GrisbiWin *win;
-    GrisbiAppPrivate *priv;
-    gchar *string;
-
-    printf ("grisbi_app_create_window\n");
-	priv = grisbi_app_get_instance_private ( GRISBI_APP ( app ) );
-
-	win = g_object_new ( GRISBI_WIN_TYPE, "application", app, NULL );
-	gtk_application_add_window ( GTK_APPLICATION ( app ), GTK_WINDOW ( win ) );
-
-    /* create the icon of grisbi (set in the panel of gnome or other) */
-    string = g_build_filename ( gsb_dirs_get_pixmaps_dir (), "grisbi-logo.png", NULL );
-    if ( g_file_test ( string, G_FILE_TEST_EXISTS ) )
-        gtk_window_set_default_icon_from_file ( string, NULL );
-
-    g_free (string);
-
-	grisbi_win_set_size_and_position ( GTK_WINDOW ( win ) );
-
-    /* set menubar */
-	/* Win Menu : actions toujours actives */
-	g_action_map_add_action_entries ( G_ACTION_MAP ( win ),
-						win_always_enabled_entries,
-						G_N_ELEMENTS ( win_always_enabled_entries ),
-						app );
-
-	/* Win Menu : actions actives selon le contexte */
-	g_action_map_add_action_entries ( G_ACTION_MAP ( win ),
-						win_context_enabled_entries,
-						G_N_ELEMENTS ( win_context_enabled_entries ),
-						app );
-
-    /* Actions du menu Application à intégrer dans le menu classique */
-    if ( !conf.prefer_app_menu )
-    {
-        g_action_map_add_action_entries ( G_ACTION_MAP ( win ),
-                        app_entries,
-						G_N_ELEMENTS ( app_entries ),
-                        app );
-
-        priv->prefs_action = g_action_map_lookup_action ( G_ACTION_MAP ( win ), "prefs" );
-    }
-
-    grisbi_win_init_menubar ( win, app );
-
-    /* signaux */
-    g_signal_connect ( win,
-                        "window-state-event",
-                        G_CALLBACK ( grisbi_win_change_state_window ),
-                        NULL );
-
-	if ( screen != NULL )
-        gtk_window_set_screen ( GTK_WINDOW ( win ), screen );
-
-    return win;
-}
-
 /**
  * get active window.
  *
@@ -1033,6 +853,104 @@ GrisbiWin *grisbi_app_get_active_window ( GrisbiApp *app )
 	win = GRISBI_WIN ( gtk_application_get_active_window ( GTK_APPLICATION ( app ) ) );
 
     return win;
+}
+
+GrisbiSettings *grisbi_app_get_grisbi_settings ( void )
+{
+    GrisbiAppPrivate *priv;
+
+    priv = grisbi_app_get_instance_private ( GRISBI_APP ( g_application_get_default () ) );
+
+    return priv->settings;
+}
+
+/**
+ * grisbi_app_get_menu_by_id
+ *
+ * \param GApplication 	app
+ * \param const gchar  	id of GMenu
+ *
+ * \return GMenu
+ * */
+GMenu *grisbi_app_get_menu_by_id ( GApplication *app,
+                        const gchar *id )
+{
+	GObject *object;
+	GrisbiAppPrivate *priv;
+	printf ("grisbi_app_get_menu_by_id : %s\n", id);
+
+    if ( app == NULL )
+        app = g_application_get_default ();
+
+	priv = grisbi_app_get_instance_private ( GRISBI_APP ( app ) );
+	if ( !priv->menus_builder )
+		return NULL;
+
+	object = gtk_builder_get_object ( priv->menus_builder, id );
+
+	if ( !object || !G_IS_MENU ( object ) )
+		return NULL;
+
+	return G_MENU ( object );
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+GAction *grisbi_app_get_prefs_action ( void )
+{
+    GrisbiAppPrivate *priv;
+
+    priv = grisbi_app_get_instance_private ( GRISBI_APP ( g_application_get_default () ) );
+
+    return priv->prefs_action;
+}
+
+/**
+ *
+ *
+ * \param gchar **  recent_array
+ *
+ * \return
+ **/
+void grisbi_app_init_recent_manager ( gchar **recent_array )
+{
+	GtkRecentManager *recent_manager;
+	gchar *uri = NULL;
+	gint i;
+    gint nb_effectif = 0;
+	gboolean result;
+    GList *tmp_list;
+	printf ("grisbi_app_init_recent_manager : %s\n", recent_array[0]);
+
+	recent_manager = gtk_recent_manager_get_default ();
+
+    if ( conf.nb_derniers_fichiers_ouverts > conf.nb_max_derniers_fichiers_ouverts )
+    {
+        conf.nb_derniers_fichiers_ouverts = conf.nb_max_derniers_fichiers_ouverts;
+    }
+
+    tmp_list = gtk_recent_manager_get_items ( recent_manager );
+	for ( i=0 ; i < conf.nb_derniers_fichiers_ouverts ; i++ )
+    {
+		uri = g_filename_to_uri ( recent_array[i], NULL, NULL );
+        if ( g_file_test ( recent_array[i], G_FILE_TEST_EXISTS ) )
+        {
+            if ( !gtk_recent_manager_has_item ( recent_manager, uri ) )
+                result = gtk_recent_manager_add_item (  recent_manager, uri );
+            if ( result )
+            {
+                nb_effectif++;
+            }
+        }
+        g_free ( uri );
+	}
+    conf.nb_derniers_fichiers_ouverts = nb_effectif;
+    g_list_free_full ( tmp_list, ( GDestroyNotify ) gtk_recent_info_unref );
 }
 
 /**
@@ -1076,6 +994,7 @@ gboolean grisbi_app_is_duplicated_file ( const gchar *filename )
 		tmp_list = tmp_list->next;
 	}
 }
+
 /**
  *
  *
@@ -1083,13 +1002,121 @@ gboolean grisbi_app_is_duplicated_file ( const gchar *filename )
  *
  * \return
  **/
-GAction *grisbi_app_get_prefs_action ( void )
+gchar **grisbi_app_get_recent_files_array ( void )
+{
+	GtkRecentManager *recent_manager;
+    GList *tmp_list;
+    gchar **recent_array = NULL;
+	gchar *uri = NULL;
+    gint index = 0;
+
+    printf ("grisbi_app_get_recent_files_array\n");
+	/* initialisation du tableau des fichiers récents */
+    recent_array = g_new ( gchar *, conf.nb_max_derniers_fichiers_ouverts + 1);
+
+    recent_manager = gtk_recent_manager_get_default ();
+
+    tmp_list = gtk_recent_manager_get_items ( recent_manager );
+    while ( tmp_list )
+    {
+        GtkRecentInfo *info;
+
+        info = tmp_list->data;
+        uri = gtk_recent_info_get_uri_display ( info );
+        if ( g_str_has_suffix ( uri, ".gsb" ) )
+		{
+            if ( !g_file_test ( uri, G_FILE_TEST_EXISTS ) )
+            {
+                tmp_list = tmp_list->next;
+                continue;
+            }
+			if ( index < conf.nb_max_derniers_fichiers_ouverts )
+			{
+                printf ("uri = %s\n", uri );
+				recent_array[index++] = uri;
+			}
+            else
+                g_free ( uri );
+		}
+		tmp_list = tmp_list->next;
+    }
+    recent_array[index] = NULL;
+    conf.nb_derniers_fichiers_ouverts = index;
+    g_list_free_full ( tmp_list, ( GDestroyNotify ) gtk_recent_info_unref );
+    printf ("conf.nb_derniers_fichiers_ouverts = %d\n", conf.nb_derniers_fichiers_ouverts);
+
+    return recent_array;
+}
+
+/**
+ * crée et initialise le sous menu des fichiers récents.
+ *
+ * \param GApplication  *app
+ * \param gboolean      reset 0 = création 1 = update
+ *
+ * \return
+ * */
+void grisbi_app_set_recent_files_menu ( GApplication *app,
+                        gboolean reset )
 {
     GrisbiAppPrivate *priv;
+    GList *tmp_list;
+    gchar *detailled_action;
+    gchar *uri;
+    gint index = 0;
+    GError *error = NULL;
 
-    priv = grisbi_app_get_instance_private ( GRISBI_APP ( g_application_get_default () ) );
+    printf ("grisbi_app_set_recent_files_menu\n");
 
-    return priv->prefs_action;
+    if ( app == NULL );
+        app = g_application_get_default ();
+
+    priv = grisbi_app_get_instance_private ( GRISBI_APP ( app ) );
+
+    if ( reset )
+    {
+        GMenuItem *menu_item;
+        const gchar *filename;
+
+        g_menu_remove_all ( priv->item_recent_files );
+        filename = grisbi_win_get_filename ( NULL );
+        detailled_action = g_strdup_printf ("win.direct-open-file::%d", index+1 );
+        menu_item = g_menu_item_new ( filename, detailled_action );
+        g_menu_append_item ( priv->item_recent_files, menu_item );
+        index++;
+        g_free ( detailled_action );
+        g_object_unref ( menu_item );
+    }
+    tmp_list = gtk_recent_manager_get_items ( gtk_recent_manager_get_default () );
+    while ( tmp_list )
+    {
+        GtkRecentInfo *info;
+
+        info = tmp_list->data;
+        uri = gtk_recent_info_get_uri_display ( info );
+        if ( g_str_has_suffix ( uri, ".gsb" ) )
+		{
+            if ( !g_file_test ( uri, G_FILE_TEST_EXISTS ) )
+            {
+                tmp_list = tmp_list->next;
+                continue;
+            }
+			if ( index < conf.nb_max_derniers_fichiers_ouverts )
+			{
+                GMenuItem *menu_item;
+
+                detailled_action = g_strdup_printf ("win.direct-open-file::%d", index+1 );
+                menu_item = g_menu_item_new ( uri, detailled_action );
+                g_menu_append_item ( priv->item_recent_files, menu_item );
+				index++;
+                g_free ( detailled_action );
+                g_object_unref ( menu_item );
+			}
+		}
+        g_free ( uri );
+        tmp_list = tmp_list->next;
+    }
+    g_list_free_full ( tmp_list, ( GDestroyNotify ) gtk_recent_info_unref );
 }
 
 /**
