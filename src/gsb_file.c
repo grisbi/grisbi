@@ -44,8 +44,10 @@
 #include "gsb_file.h"
 #include "accueil.h"
 #include "affichage_liste.h"
+#include "dialog.h"
 #include "fenetre_principale.h"
 #include "grisbi_app.h"
+#include "grisbi_settings.h"
 #include "grisbi_win.h"
 #include "gsb_account_property.h"
 #include "gsb_assistant_account.h"
@@ -306,6 +308,28 @@ gboolean gsb_file_open_menu ( void )
 
 
 /**
+ * init the variable last_path_used with the path given in param
+ *
+ * \param last_path
+ *
+ * \return
+ * */
+void gsb_file_init_last_path ( const gchar *last_path )
+{
+    GSettings *settings;
+
+    devel_debug ( last_path );
+
+    if (last_path && strlen ( last_path ) )
+    {
+        if ( last_path_used )
+            g_free ( last_path_used );
+
+        last_path_used = my_strdup ( last_path );
+    }
+}
+
+/**
  * update the variable last_path_used with the path given in param
  *
  * \param last_path
@@ -314,14 +338,17 @@ gboolean gsb_file_open_menu ( void )
  * */
 void gsb_file_update_last_path ( const gchar *last_path )
 {
-devel_debug ( last_path );
-    if (last_path
-	&&
-	strlen (last_path))
+    GSettings *settings;
+
+    devel_debug ( last_path );
+
+    if (last_path && strlen ( last_path ) )
     {
-	if (last_path_used)
-	    g_free (last_path_used);
-	last_path_used = my_strdup (last_path);
+        if ( last_path_used )
+            g_free ( last_path_used );
+        last_path_used = my_strdup ( last_path );
+        settings = grisbi_settings_get_settings ( SETTINGS_GENERAL );
+        g_settings_set_string ( G_SETTINGS ( settings ), "last-path", last_path_used );
     }
 }
 
@@ -388,7 +415,7 @@ gboolean gsb_file_open_file ( gchar *filename )
     GSList *list_tmp;
 
     devel_debug (filename);
-        printf ("gsb_file_open_file : filename = %s\n", filename);
+    printf ("gsb_file_open_file : filename = %s\n", filename);
 
 	if ( !gsb_file_test_file ( filename ) )
 		return FALSE;
@@ -467,6 +494,9 @@ gboolean gsb_file_open_file ( gchar *filename )
         g_free ( nom_fichier_comptes );
         nom_fichier_comptes = g_strdup ( filename );
     }
+
+    /* mark the file as opened */
+    gsb_file_util_modify_lock ( TRUE );
 
     gsb_status_message ( _("Checking schedulers") );
 
@@ -1045,7 +1075,7 @@ void gsb_file_save_remove_old_file ( gchar *filename )
     gtk_container_set_border_width ( GTK_CONTAINER( hbox ), 6 );
     gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), hbox, FALSE, FALSE, 5 );
 
-    image = gtk_image_new_from_stock ("gtk-dialog-warning",
+    image = gtk_image_new_from_icon_name ("gtk-dialog-warning",
                         GTK_ICON_SIZE_DIALOG );
     gtk_box_pack_start ( GTK_BOX ( hbox ), image, FALSE, FALSE, 5 );
 

@@ -23,6 +23,8 @@
 #define CSV_MAX_TOP_LINES 10	/** How many lines to show in CSV preview.  */
 #define GSB_EPSILON 0.0000005   /* Sert à comparer des doubles */
 
+typedef enum _SettingsSchema SettingsSchema;
+
 /** structure etat
  * variables contenant juste 0 ou 1
  * FIXME : scinder cette structure en 3 parties :
@@ -169,7 +171,7 @@ struct gsb_conf_t
     /*gboolean alerte_permission;*/                         /* à un si le message d'alerte s'affiche */
     gboolean force_enregistrement;                      /* à un si on force l'enregistrement */
     gint nb_max_derniers_fichiers_ouverts;          /* contient le nb max que peut contenir nb_derniers_fichiers_ouverts */
-    gsize nb_derniers_fichiers_ouverts;             /* contient le nb de derniers fichiers ouverts */
+    gint nb_derniers_fichiers_ouverts;             /* contient le nb de derniers fichiers ouverts */
 
     /* backup part */
     gboolean make_backup;                           /* TRUE for create a backup when save file */
@@ -188,7 +190,7 @@ struct gsb_conf_t
 
 #if IS_DEVELOPMENT_VERSION == 1
     /* config file */
-    gint stable_config_file_model;                  /* TRUE for use the stable config file as model */
+    gboolean stable_config_file_model;                  /* TRUE for use the stable config file as model */
 #endif
 
     /* variables pour l'échéancier */
@@ -204,8 +206,8 @@ struct gsb_conf_t
     gboolean transactions_list_primary_sorting;     /* Primary sorting option for the transactions */
     gboolean transactions_list_secondary_sorting;   /* Secondary sorting option for the transactions */
 
-    /* variables for the list of transactions */
-    gint metatree_action_2button_press;             /* 0 default gtk, 1 edit_function, 1 manage division if possible */
+    /* variables for the list of categories */
+    gint metatree_action_2button_press;             /* 0 default gtk, 1 edit_function, 2 manage division if possible */
 
     /* archive stuff */
     gint check_for_archival;                        /* TRUE if we want to check the number of non archived transactions at the opening */
@@ -339,6 +341,20 @@ enum direction_move {
     GSB_RIGHT,
     GSB_UP,
     GSB_DOWN
+};
+
+enum _SettingsSchema {
+    SETTINGS_ROOT = 0,
+    SETTINGS_BACKUP,
+    SETTINGS_DISPLAY,
+    SETTINGS_FILE,
+    SETTINGS_FORM,
+    SETTINGS_GENERAL,
+    SETTINGS_GEOMETRY,
+    SETTINGS_MESSAGES,
+    SETTINGS_PANEL,
+    SETTINGS_PREFS,
+    SETTINGS_SCHEDULED
 };
 
 #endif

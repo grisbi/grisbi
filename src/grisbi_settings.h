@@ -36,8 +36,7 @@ struct _GrisbiSettingsClass
 /* START_DECLARATION */
 GType grisbi_settings_get_type ( void );
 GrisbiSettings *grisbi_settings_get ( void );
-
-
+GSettings *grisbi_settings_get_settings ( gint schema );
 void    grisbi_settings_save_app_config     ( GrisbiSettings *settings );
 
 /* END_DECLARATION */
