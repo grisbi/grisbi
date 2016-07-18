@@ -489,7 +489,7 @@ void change_logo_accueil ( GtkWidget * file_selector )
         {
             if ( logo_accueil && GTK_IS_WIDGET ( logo_accueil ) )
                 gtk_widget_hide ( logo_accueil );
-            preview = gtk_image_new_from_stock ( "gtk-missing-image",
+            preview = gtk_image_new_from_icon_name ( "gtk-missing-image",
                              GTK_ICON_SIZE_BUTTON );
         }
         else
@@ -500,7 +500,7 @@ void change_logo_accueil ( GtkWidget * file_selector )
             {
                 if ( logo_accueil && GTK_IS_WIDGET ( logo_accueil ))
                     gtk_widget_hide ( logo_accueil );
-                preview = gtk_image_new_from_stock ( "gtk-missing-image",
+                preview = gtk_image_new_from_icon_name ( "gtk-missing-image",
                                     GTK_ICON_SIZE_BUTTON );
             }
             else

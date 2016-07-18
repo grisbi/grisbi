@@ -1031,7 +1031,7 @@ void bet_finance_data_list_context_menu ( GtkWidget *tree_view, gint page_num )
     /* Print list */
     menu_item = gtk_image_menu_item_new_with_label ( _("Print the array") );
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_stock ( "gtk-print", GTK_ICON_SIZE_MENU ) );
+                        gtk_image_new_from_icon_name ( "gtk-print", GTK_ICON_SIZE_MENU ) );
     g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( print_tree_view_list ),
@@ -1041,7 +1041,7 @@ void bet_finance_data_list_context_menu ( GtkWidget *tree_view, gint page_num )
     /* Export list */
     menu_item = gtk_image_menu_item_new_with_label ( _("Export the array") );
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_stock ( "gtk-save", GTK_ICON_SIZE_MENU ) );
+                        gtk_image_new_from_icon_name ( "gtk-save", GTK_ICON_SIZE_MENU ) );
     g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_finance_ui_export_tab ),

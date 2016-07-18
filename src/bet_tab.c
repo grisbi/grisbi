@@ -1562,14 +1562,14 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
     {
         menu_item = gtk_image_menu_item_new_with_label ( _("Subtract to the balance") );
         gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                            gtk_image_new_from_stock ( "gtk-remove",
+                            gtk_image_new_from_icon_name ( "gtk-remove",
                             GTK_ICON_SIZE_MENU ) );
     }
     else
     {
         menu_item = gtk_image_menu_item_new_with_label ( _("Adding to the balance") );
         gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                            gtk_image_new_from_stock ( "gtk-add",
+                            gtk_image_new_from_icon_name ( "gtk-add",
                             GTK_ICON_SIZE_MENU ) );
     }
     g_signal_connect ( G_OBJECT ( menu_item ),
@@ -1586,7 +1586,7 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
     /* Insert Row */
     menu_item = gtk_image_menu_item_new_with_label ( _("Insert row") );
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                    gtk_image_new_from_stock ( "gtk-add",
+                    gtk_image_new_from_icon_name ( "gtk-add",
                     GTK_ICON_SIZE_MENU ) );
     g_signal_connect ( G_OBJECT ( menu_item ),
                     "activate",
@@ -1602,7 +1602,7 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
             {
                 menu_item = gtk_image_menu_item_new_with_label ( _("Delete selection") );
                 gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_stock ( "gtk-delete",
+                        gtk_image_new_from_icon_name ( "gtk-delete",
                         GTK_ICON_SIZE_MENU ) );
                 g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
@@ -1616,7 +1616,7 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
         case SPP_ORIGIN_HISTORICAL:
             menu_item = gtk_image_menu_item_new_with_label ( _("Delete selection") );
             gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_stock ( "gtk-delete",
+                        gtk_image_new_from_icon_name ( "gtk-delete",
                         GTK_ICON_SIZE_MENU ) );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
@@ -1627,7 +1627,7 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
         case SPP_ORIGIN_FUTURE:
             menu_item = gtk_image_menu_item_new_with_label ( _("Change selection") );
             gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_stock ( "gtk-edit",
+                        gtk_image_new_from_icon_name ( "gtk-edit",
                         GTK_ICON_SIZE_MENU ) );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
@@ -1637,7 +1637,7 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
 
             menu_item = gtk_image_menu_item_new_with_label ( _("Delete selection") );
             gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_stock ( "gtk-delete",
+                        gtk_image_new_from_icon_name ( "gtk-delete",
                         GTK_ICON_SIZE_MENU ) );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
@@ -1648,7 +1648,7 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
             menu_item = gtk_image_menu_item_new_with_label (
                         _("Delete all occurences of the selection") );
             gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_stock ( "gtk-delete",
+                        gtk_image_new_from_icon_name ( "gtk-delete",
                         GTK_ICON_SIZE_MENU ) );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
@@ -1663,7 +1663,7 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
             menu_item = gtk_image_menu_item_new_with_label (
                                 _("Convert selection to scheduled transaction") );
             gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                                gtk_image_new_from_stock ( "gtk-convert",
+                                gtk_image_new_from_icon_name ( "gtk-convert",
                                 GTK_ICON_SIZE_MENU ) );
             g_signal_connect ( G_OBJECT ( menu_item ),
                                 "activate",
@@ -1696,7 +1696,7 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
         {
             menu_item = gtk_image_menu_item_new_with_label ( _("Delete selection") );
             gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_stock ( "gtk-delete",
+                        gtk_image_new_from_icon_name ( "gtk-delete",
                         GTK_ICON_SIZE_MENU ) );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
@@ -1712,7 +1712,7 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
     /* redo item */
     menu_item = gtk_image_menu_item_new_with_label ( _("Reset data") );
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_stock ( "gtk-refresh",
+                        gtk_image_new_from_icon_name ( "gtk-refresh",
                         GTK_ICON_SIZE_MENU ) );
     g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
@@ -1726,7 +1726,7 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
     /* Print list */
     menu_item = gtk_image_menu_item_new_with_label ( _("Print the array") );
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_stock ( "gtk-print", GTK_ICON_SIZE_MENU ) );
+                        gtk_image_new_from_icon_name ( "gtk-print", GTK_ICON_SIZE_MENU ) );
     g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( print_tree_view_list ),
@@ -1736,7 +1736,7 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
     /* Export list */
     menu_item = gtk_image_menu_item_new_with_label ( _("Export the array") );
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_stock ( "gtk-save", GTK_ICON_SIZE_MENU ) );
+                        gtk_image_new_from_icon_name ( "gtk-save", GTK_ICON_SIZE_MENU ) );
     g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_array_export_tab ),

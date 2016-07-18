@@ -3691,7 +3691,7 @@ gboolean gsb_form_button_press ( GtkWidget *vbox,
     /* propose to configure the form */
     menu_item = gtk_image_menu_item_new_with_label ( _("Configure the form") );
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
-				    gtk_image_new_from_stock ( "gtk-properties",
+				    gtk_image_new_from_icon_name ( "gtk-properties",
 							       GTK_ICON_SIZE_MENU ));
     g_signal_connect ( G_OBJECT(menu_item),
 		       "activate",

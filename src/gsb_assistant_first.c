@@ -347,7 +347,7 @@ static GtkWidget *gsb_assistant_first_page_3 ( GtkWidget *assistant )
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 15 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 15 );
 
-    image = gtk_image_new_from_stock ( "gtk-dialog-error", GTK_ICON_SIZE_DIALOG );
+    image = gtk_image_new_from_icon_name ( "gtk-dialog-error", GTK_ICON_SIZE_DIALOG );
     gtk_box_pack_start ( GTK_BOX ( hbox ), image, FALSE, FALSE, 0);
 
     label = gtk_label_new ( _("When importing the file from the previous version, "

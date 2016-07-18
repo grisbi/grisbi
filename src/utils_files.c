@@ -540,7 +540,7 @@ gchar *utils_files_create_sel_charset ( GtkWidget *assistant,
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 );
 
-    warn = gtk_image_new_from_stock ( "gtk-dialog-warning", GTK_ICON_SIZE_BUTTON );
+    warn = gtk_image_new_from_icon_name ( "gtk-dialog-warning", GTK_ICON_SIZE_BUTTON );
     gtk_box_pack_start ( GTK_BOX ( hbox ), warn, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( NULL );

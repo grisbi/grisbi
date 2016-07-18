@@ -178,7 +178,7 @@ GtkWidget * import_create_csv_preview_page ( GtkWidget * assistant )
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
     gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
 
-    warn = gtk_image_new_from_stock ( "gtk-dialog-warning", GTK_ICON_SIZE_BUTTON );
+    warn = gtk_image_new_from_icon_name ( "gtk-dialog-warning", GTK_ICON_SIZE_BUTTON );
     gtk_box_pack_start ( GTK_BOX(hbox), warn, FALSE, FALSE, 0 );
     g_object_set_data ( G_OBJECT(assistant), "validity_icon", warn );
 
