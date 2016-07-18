@@ -24,7 +24,6 @@ enum view_menu_action {
 void gsb_menu_recent_manager_purge_gsb_items ( GtkRecentManager *recent_manager );
 void gsb_menu_recent_manager_remove_item ( GtkRecentManager *recent_manager,
 						const gchar *path );
-gchar **gsb_menu_recent_manager_get_recent_array ( void );
 void gsb_menu_recent_manager_set_recent_array ( gchar **recent_array );
 
 /* APP MENU */

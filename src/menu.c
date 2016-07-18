@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2004-2009 Benjamin Drieu (bdrieu@april.org)                       */
-/*          2009-2015 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          2009-2016 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -27,6 +27,7 @@
 
 #include "include.h"
 #include <glib/gi18n.h>
+#include <stdlib.h>
 
 /*START_INCLUDE*/
 #include "menu.h"
@@ -224,6 +225,7 @@ void grisbi_cmd_prefs ( GSimpleAction *action,
 						GVariant *parameter,
 						gpointer app )
 {
+    printf ("grisbi_cmd_prefs\n");
 	preferences ( -1 );
 }
 
@@ -340,6 +342,7 @@ void grisbi_cmd_file_open_menu ( GSimpleAction *action,
 						gpointer app )
 {
 	devel_debug (NULL);
+    printf ("grisbi_cmd_file_open_menu\n");
 
 	if ( gsb_file_open_menu () )
     {
@@ -351,10 +354,14 @@ void grisbi_cmd_file_open_menu ( GSimpleAction *action,
         gint index_gsb = 0;
         gboolean trouve = FALSE;
 
+        conf.nb_derniers_fichiers_ouverts++;
+        if ( conf.nb_derniers_fichiers_ouverts > conf.nb_max_derniers_fichiers_ouverts )
+            conf.nb_derniers_fichiers_ouverts = conf.nb_max_derniers_fichiers_ouverts;
+
         filename = grisbi_win_get_filename ( NULL );
         tmp_uri = g_filename_to_uri ( filename, NULL, NULL );
 
-        recent_manager = grisbi_app_get_recent_manager ();
+        recent_manager = gtk_recent_manager_get_default ();
         tmp_list = gtk_recent_manager_get_items ( recent_manager );
         while ( tmp_list )
         {
@@ -418,7 +425,7 @@ void grisbi_cmd_file_open_direct_menu ( GSimpleAction *action,
 	target = g_variant_get_string ( parameter, NULL );
     index_target = atoi ( target );
 
-    recent_manager = grisbi_app_get_recent_manager ();
+    recent_manager = gtk_recent_manager_get_default ();
     tmp_list = gtk_recent_manager_get_items ( recent_manager );
     while ( tmp_list )
     {
@@ -1010,7 +1017,7 @@ void gsb_menu_recent_manager_remove_item ( GtkRecentManager *recent_manager,
 	{
 		GtkRecentManager *tmp_recent_manager;
 
-		tmp_recent_manager = grisbi_app_get_recent_manager ();
+		tmp_recent_manager = gtk_recent_manager_get_default ();
 		gtk_recent_manager_remove_item ( tmp_recent_manager, uri, &error );
 	}
 
@@ -1021,84 +1028,6 @@ void gsb_menu_recent_manager_remove_item ( GtkRecentManager *recent_manager,
 	}
 
   g_free ( uri );
-}
-
-gchar **gsb_menu_recent_manager_get_recent_array ( void )
-{
-	GtkRecentManager *recent_manager;
-	GList *tmp_list;
-	gchar **recent_array = NULL;
-	gchar *tmp_str = NULL;
-	gint index = 0;
-
-    recent_manager = grisbi_app_get_recent_manager ();
-
-	/* initialisation du tableau des fichiers récents */
-	recent_array = g_malloc ( ( conf.nb_max_derniers_fichiers_ouverts +1 ) * sizeof ( *recent_array ) );
-	recent_array[conf.nb_max_derniers_fichiers_ouverts] = NULL;
-
-	tmp_list = gtk_recent_manager_get_items ( recent_manager );
-
-	while ( tmp_list )
-    {
-		GtkRecentInfo *info;
-		const gchar *uri;
-
-		info = tmp_list->data;
-
-		uri = gtk_recent_info_get_uri ( info );
-
-		if ( g_str_has_suffix ( uri, ".gsb" ) )
-		{
-			if ( index < conf.nb_max_derniers_fichiers_ouverts )
-			{
-				tmp_str = g_filename_from_uri ( uri, NULL, NULL );
-				if ( tmp_str )
-					recent_array[index] = tmp_str;
-
-				index++;
-			}
-		}
-
-		tmp_list = tmp_list->next;
-    }
-
-    g_list_free_full ( tmp_list, ( GDestroyNotify ) gtk_recent_info_unref );
-
-	if ( index < conf.nb_max_derniers_fichiers_ouverts )
-	{
-		recent_array[index] = NULL;
-		conf.nb_derniers_fichiers_ouverts = index;
-	}
-
-	else
-		conf.nb_derniers_fichiers_ouverts = conf.nb_max_derniers_fichiers_ouverts;
-
-	return recent_array;
-}
-
-void gsb_menu_recent_manager_set_recent_array ( gchar **recent_array )
-{
-	GtkRecentManager *recent_manager;
-	gchar *uri = NULL;
-	gint i;
-	gboolean result;
-
-	recent_manager = grisbi_app_get_recent_manager ();
-
-	if ( !conf.nb_derniers_fichiers_ouverts || !conf.nb_max_derniers_fichiers_ouverts )
-		return;
-
-    if ( conf.nb_derniers_fichiers_ouverts > conf.nb_max_derniers_fichiers_ouverts )
-    {
-        conf.nb_derniers_fichiers_ouverts = conf.nb_max_derniers_fichiers_ouverts;
-    }
-
-	for ( i=0 ; i < conf.nb_derniers_fichiers_ouverts ; i++ )
-    {
-		uri = g_filename_to_uri ( recent_array[i], NULL, NULL );
-		result = gtk_recent_manager_add_item (  recent_manager, uri );
-	}
 }
 
 /* A MODIFIER / SUPPRIMER */
@@ -1433,6 +1362,7 @@ gboolean gsb_menu_reinit_largeur_col_menu ( void )
  * */
 void gsb_menu_set_menus_with_file_sensitive ( gboolean sensitive )
 {
+    GAction *action;
     gchar * items[] = {
         "save-as",
         "export-accounts",
@@ -1443,7 +1373,6 @@ void gsb_menu_set_menus_with_file_sensitive ( gboolean sensitive )
         "debug-mode",
         "file-close",
         "new-acc",
-        "prefs",
         NULL
     };
     gchar **tmp = items;
@@ -1461,6 +1390,9 @@ void gsb_menu_set_menus_with_file_sensitive ( gboolean sensitive )
         gsb_gui_sensitive_win_menu_item ( *tmp, sensitive );
         tmp++;
     }
+    /* sensibilise le menu preferences */
+    action = grisbi_app_get_prefs_action ();
+    g_simple_action_set_enabled ( G_SIMPLE_ACTION ( action ), sensitive );
 }
 
 /**
