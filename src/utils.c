@@ -1034,14 +1034,27 @@ GtkWidget *utils_menu_new_item_from_image_label ( const gchar *image_name,
     filename = g_build_filename ( gsb_dirs_get_pixmaps_dir (), image_name, NULL );
     if ( filename )
     {
+        GtkWidget *box;
         GtkWidget *image;
+        GtkWidget *label;
 
+        box = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
         image = gtk_image_new_from_file ( filename );
+        gtk_image_set_pixel_size ( GTK_IMAGE ( image ), GTK_ICON_SIZE_MENU) ;
+        label = gtk_label_new ( label_name );
+        menu_item = gtk_menu_item_new ();
+
+        gtk_container_add ( GTK_CONTAINER ( box ), image );
+        gtk_container_add ( GTK_CONTAINER ( box ), label );
+        gtk_container_add ( GTK_CONTAINER ( menu_item ), box );
+
         g_free ( filename );
 
-        menu_item = gtk_image_menu_item_new_with_label ( label_name );
-        gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ), image );
     }
+    else
+        menu_item = gtk_menu_item_new_with_label ( label_name );
+
+    gtk_widget_show_all ( menu_item );
 
     return menu_item;
 }
