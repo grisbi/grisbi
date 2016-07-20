@@ -435,7 +435,7 @@ static void gsb_main_page_account_affiche_solde_partiel ( GtkWidget *table,
     gtk_label_set_use_markup ( GTK_LABEL ( label ), TRUE );
     g_free ( tmp_str );
     g_free ( tmp_str2 );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_LEFT, MISC_VERT_CENTER );
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, i, i+1 );
     gtk_widget_show ( label );
@@ -445,7 +445,7 @@ static void gsb_main_page_account_affiche_solde_partiel ( GtkWidget *table,
     label = gtk_label_new ( tmp_str );
     gtk_label_set_markup ( GTK_LABEL ( label ), tmp_str );
     g_free ( tmp_str );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 1, 2, i, i+1 );
     gtk_widget_show ( label );
 
@@ -454,7 +454,7 @@ static void gsb_main_page_account_affiche_solde_partiel ( GtkWidget *table,
     label = gtk_label_new ( NULL );
     gtk_label_set_markup ( GTK_LABEL ( label ), tmp_str );
     g_free ( tmp_str );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 2, 3, i, i+1 );
     gtk_widget_show ( label );
 
@@ -463,7 +463,7 @@ static void gsb_main_page_account_affiche_solde_partiel ( GtkWidget *table,
     /* on finit par une ligne vide */
     label = gtk_label_new ( chaine_espace );
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, i, i+1 );
     gtk_widget_show ( label );
 }
@@ -1036,15 +1036,15 @@ GtkWidget *gsb_main_page_get_table_for_accounts ( gint nb_lignes, gint nb_col )
 	/* Création et remplissage de la première ligne du tableau */
     label = gtk_label_new ( chaine_espace );
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
 	gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, 0, 1 );
 	gtk_widget_show ( label );
 	label = gtk_label_new (_("Reconciled balance"));
-	gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
+	utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
 	gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 1, 2, 0, 1 );
 	gtk_widget_show ( label );
 	label = gtk_label_new (_("Current balance"));
-	gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
+	utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
 	gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 2, 4, 0, 1 );
 	gtk_widget_show ( label );
 
@@ -1079,7 +1079,7 @@ void gsb_main_page_affiche_ligne_du_compte ( GtkWidget *pTable,
     tmp_str = g_strconcat ( gsb_data_account_get_name (account_number), " : ", NULL );
     pLabel = gtk_label_new ( tmp_str );
     g_free ( tmp_str );
-    gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
+    utils_labels_set_alignement ( GTK_LABEL ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), pLabel );
     gtk_widget_set_style ( pLabel, pStyleLabelNomCompte );
     g_object_unref ( pStyleLabelNomCompte );
@@ -1111,7 +1111,7 @@ void gsb_main_page_affiche_ligne_du_compte ( GtkWidget *pTable,
             gsb_data_account_get_currency (account_number), TRUE);
     pLabel = gtk_label_new ( tmp_str );
     g_free ( tmp_str );
-    gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
+    utils_labels_set_alignement ( GTK_LABEL ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
 
     /* Mise en place du style du label en fonction du solde pointé */
     pStyleLabelSoldePointe = gtk_style_copy ( gtk_widget_get_style ( pLabel ));
@@ -1171,7 +1171,7 @@ void gsb_main_page_affiche_ligne_du_compte ( GtkWidget *pTable,
             gsb_data_account_get_currency (account_number), TRUE);
     pLabel = gtk_label_new ( tmp_str );
     g_free ( tmp_str );
-    gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
+    utils_labels_set_alignement ( GTK_LABEL ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
 
     /* Mise en place du style du label en fonction du solde courant */
     pStyleLabelSoldeCourant = gtk_style_copy ( gtk_widget_get_style ( pLabel ));
@@ -1268,7 +1268,7 @@ gint affiche_soldes_partiels ( GtkWidget *table,
                     /* on commence par une ligne vide */
                 label = gtk_label_new ( chaine_espace );
                 gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
-                gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
+                utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
                 gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, i, i+1 );
                 gtk_widget_show ( label );
                 i ++;
@@ -1282,16 +1282,16 @@ gint affiche_soldes_partiels ( GtkWidget *table,
 				    tmp_str = g_strconcat ("<span weight=\"bold\">", _("Partial balances: "), "</span>", NULL );
 				gtk_label_set_markup ( GTK_LABEL ( label ), tmp_str );
 				g_free ( tmp_str );
-				gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
+				utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_LEFT, MISC_VERT_CENTER );
                 gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
                 gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, i, i+1 );
                 gtk_widget_show ( label );
                 label = gtk_label_new (_("Reconciled balance"));
-                gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
+                utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
                 gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 1, 2, i, i+1 );
                 gtk_widget_show ( label );
                 label = gtk_label_new (_("Current balance"));
-                gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
+                utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
                 gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 2, 4, i, i+1 );
                 gtk_widget_show ( label );
                 i ++;
@@ -1303,7 +1303,7 @@ gint affiche_soldes_partiels ( GtkWidget *table,
                             " : ", NULL );
             label = gtk_label_new ( tmp_str );
             g_free ( tmp_str );
-            gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
+            utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_LEFT, MISC_VERT_CENTER );
             gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
             gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, i, i+1 );
             gtk_widget_show ( label );
@@ -1313,7 +1313,7 @@ gint affiche_soldes_partiels ( GtkWidget *table,
             label = gtk_label_new ( tmp_str );
             gtk_label_set_markup ( GTK_LABEL ( label ), tmp_str );
             g_free ( tmp_str );
-            gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
+            utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
             gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 1, 2, i, i+1 );
             gtk_widget_show ( label );
 
@@ -1322,7 +1322,7 @@ gint affiche_soldes_partiels ( GtkWidget *table,
             label = gtk_label_new ( NULL );
             gtk_label_set_markup ( GTK_LABEL ( label ), tmp_str );
             g_free ( tmp_str );
-            gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
+            utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
             gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 2, 3, i, i+1 );
             gtk_widget_show ( label );
 
@@ -1353,7 +1353,7 @@ void affiche_solde_des_comptes ( GtkWidget *table,
     /* on commence par une ligne vide */
     label = gtk_label_new ( chaine_espace );
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, i, i+1 );
     gtk_widget_show ( label );
     i ++;
@@ -1369,7 +1369,7 @@ void affiche_solde_des_comptes ( GtkWidget *table,
     gtk_label_set_markup ( GTK_LABEL ( label ), tmp_str );
     g_free ( tmp_str );
 
-    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_LEFT, MISC_VERT_CENTER );
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, i, i+1 );
     gtk_widget_show ( label );
@@ -1378,7 +1378,7 @@ void affiche_solde_des_comptes ( GtkWidget *table,
     tmp_str = utils_real_get_string_with_currency ( solde_global_pointe, currency_number, TRUE );
     label = gtk_label_new ( tmp_str );
     g_free ( tmp_str );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 1, 2, i, i+1 );
     gtk_widget_show ( label );
 
@@ -1386,7 +1386,7 @@ void affiche_solde_des_comptes ( GtkWidget *table,
     tmp_str = utils_real_get_string_with_currency ( solde_global_courant, currency_number, TRUE );
     label = gtk_label_new ( tmp_str );
     g_free ( tmp_str );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 2, 3, i, i+1 );
     gtk_widget_show ( label );
 }
@@ -1406,7 +1406,7 @@ gint affiche_soldes_additionnels ( GtkWidget *table, gint i, GSList *liste )
     /* on commence par une ligne vide */
     label = gtk_label_new ( chaine_espace );
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, i, i+1 );
     gtk_widget_show ( label );
     i ++;
@@ -1439,7 +1439,7 @@ gint affiche_soldes_additionnels ( GtkWidget *table, gint i, GSList *liste )
             g_free ( tmp_str );
             g_free ( tmp_str2 );
 
-            gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
+            utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_LEFT, MISC_VERT_CENTER );
             gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
             gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, i, i+1 );
             gtk_widget_show ( label );
@@ -1449,7 +1449,7 @@ gint affiche_soldes_additionnels ( GtkWidget *table, gint i, GSList *liste )
             label = gtk_label_new ( NULL );
             gtk_label_set_markup ( GTK_LABEL ( label ), tmp_str );
             g_free ( tmp_str );
-            gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
+            utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
             gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 1, 2, i, i+1 );
             gtk_widget_show ( label );
 
@@ -1458,7 +1458,7 @@ gint affiche_soldes_additionnels ( GtkWidget *table, gint i, GSList *liste )
             label = gtk_label_new ( NULL );
             gtk_label_set_markup ( GTK_LABEL ( label ), tmp_str );
             g_free ( tmp_str );
-            gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
+            utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
             gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 2, 3, i, i+1 );
             gtk_widget_show ( label );
 
@@ -1594,7 +1594,7 @@ void update_liste_echeances_manuelles_accueil ( gboolean force )
 	    g_free ( tmpstr );
 
 	    gtk_widget_set_style ( label, style_label );
-	    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
+	    utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_LEFT, MISC_VERT_CENTER );
 	    gtk_container_add ( GTK_CONTAINER ( event_box ), label );
 	    gtk_widget_show ( label  );
 
@@ -1620,7 +1620,7 @@ void update_liste_echeances_manuelles_accueil ( gboolean force )
 		g_free ( tmpstr );
 	    }
 
-	    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
+	    utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
 	    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, TRUE, 0 );
 	    gtk_widget_show (  label );
 
@@ -1716,7 +1716,7 @@ void update_liste_echeances_auto_accueil ( gboolean force )
 	    label = gtk_label_new ( tmpstr );
 	    g_free ( tmpstr );
 
-	    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
+	    utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_LEFT, MISC_VERT_CENTER );
 	    gtk_widget_set_style ( label, style_selectable );
 	    gtk_box_pack_start ( GTK_BOX ( hbox ), event_box, TRUE, TRUE, 5 );
 	    gtk_container_add ( GTK_CONTAINER ( event_box ), label );
@@ -1745,7 +1745,7 @@ void update_liste_echeances_auto_accueil ( gboolean force )
 	        g_free ( tmpstr );
 	    }
 
-	    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
+	    utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
 	    gtk_box_pack_start ( GTK_BOX ( hbox ), label, TRUE, TRUE, 5 );
 	    gtk_widget_show ( label );
 
@@ -1831,7 +1831,7 @@ void update_soldes_minimaux ( gboolean force )
             }
             label = gtk_label_new ( gsb_data_account_get_name (i) );
             gtk_box_pack_start ( GTK_BOX ( vbox_1 ), label, FALSE, FALSE, 0 );
-            gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_TOP );
+            utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_LEFT, MISC_TOP );
             gtk_widget_show ( label );
 
             show_paddingbox ( frame_etat_soldes_minimaux_autorises );
@@ -1857,7 +1857,7 @@ void update_soldes_minimaux ( gboolean force )
             }
 
             label = gtk_label_new ( gsb_data_account_get_name (i) );
-            gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
+            utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_LEFT, MISC_VERT_CENTER );
             gtk_box_pack_start ( GTK_BOX ( vbox_2 ), label, FALSE, FALSE, 0 );
             gtk_widget_show ( label );
 
@@ -2135,7 +2135,7 @@ void update_fin_comptes_passifs ( gboolean force )
 	{
 	    label = gtk_label_new (pointeur -> data );
 	    gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 0 );
-	    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
+	    utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_LEFT, MISC_VERT_CENTER );
 	    gtk_widget_show ( label );
 
 	    pointeur = pointeur -> next;
@@ -2184,7 +2184,7 @@ gboolean gsb_main_page_update_finished_scheduled_transactions ( gint scheduled_n
 
     g_free ( tmp_str );
 
-    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_LEFT, MISC_VERT_CENTER );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, TRUE, TRUE, 0 );
     gtk_widget_show ( label  );
 
@@ -2208,7 +2208,7 @@ gboolean gsb_main_page_update_finished_scheduled_transactions ( gint scheduled_n
     label = gtk_label_new ( tmp_str );
     g_free ( tmp_str );
 
-    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
     gtk_box_pack_end ( GTK_BOX (hbox), label, FALSE, TRUE, 0 );
     gtk_widget_show (  label );
 
