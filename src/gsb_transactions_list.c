@@ -70,6 +70,7 @@
 #include "transaction_list_select.h"
 #include "transaction_list_sort.h"
 #include "transaction_model.h"
+#include "utils.h"
 #include "utils_dates.h"
 #include "utils_operations.h"
 #include "utils_real.h"
@@ -2050,7 +2051,7 @@ gint gsb_transactions_list_choose_reconcile ( gint account_number,
     gtk_container_set_border_width ( GTK_CONTAINER ( dialog ), 12 );
 
     label = gtk_label_new ( _("Select the reconciliation to associate to the selected transaction: ") );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.0 );
     gtk_box_pack_start ( GTK_BOX ( gtk_dialog_get_content_area GTK_DIALOG ( dialog ) ),
 			 label,
 			 FALSE, FALSE, 10 );

@@ -194,7 +194,7 @@ GtkWidget *gsb_fyear_config_create_page ( void )
 
     /* Financial year name */
     label = gtk_label_new ( _("Name: ") );
-	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+	utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       label, 0, 1, 0, 1,
@@ -212,7 +212,7 @@ GtkWidget *gsb_fyear_config_create_page ( void )
 
     /* Start */
     label = gtk_label_new ( _("Start: ") );
-    gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+    utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       label, 0, 1, 1, 2,
@@ -230,7 +230,7 @@ GtkWidget *gsb_fyear_config_create_page ( void )
 
     /* End */
     label = gtk_label_new ( _("End: ") );
-    gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+    utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       label, 0, 1, 2, 3,

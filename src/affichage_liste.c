@@ -171,7 +171,7 @@ GtkWidget *onglet_affichage_operations ( void )
 
     /* set the line title */
     label = gtk_label_new ( display_mode_lines_text[i] );
-    gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+    utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_RIGHT );
     gtk_box_pack_start ( GTK_BOX (vbox_label), label, FALSE, FALSE, 0);
 

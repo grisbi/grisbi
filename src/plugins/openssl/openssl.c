@@ -313,7 +313,7 @@ gchar *gsb_file_util_ask_for_crypt_key ( const gchar * file_name, gchar * additi
 
     label = gtk_label_new ("");
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_LEFT );
-    gtk_misc_set_alignment (GTK_MISC (label), 0, 0);
+    utils_labels_set_alignement ( GTK_LABEL (label), 0, 0);
     gtk_label_set_line_wrap ( GTK_LABEL(label), TRUE );
 
     if ( encrypt )

@@ -2914,7 +2914,7 @@ gboolean metatree_find_destination_blob ( MetatreeInterface *iface,
         gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), hbox, FALSE, FALSE, 0 );
 
         label = gtk_label_new ( _("Select the destination: ") );
-        gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0 );
+        utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0 );
         gtk_box_pack_start ( GTK_BOX ( hbox ), label, TRUE, TRUE, 0 );
 
         vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
@@ -2935,7 +2935,7 @@ gboolean metatree_find_destination_blob ( MetatreeInterface *iface,
         gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), hbox, FALSE, FALSE, 0 );
 
         label = gtk_label_new ( _("Select the destination: ") );
-        gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0 );
+        utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0 );
         gtk_box_pack_start ( GTK_BOX ( hbox ), label, TRUE, TRUE, 0 );
 
         combofix = metatree_get_combofix ( iface, division, sub_division,  type_division );
@@ -3786,7 +3786,7 @@ static gboolean metatree_select_transactions_destination ( MetatreeInterface *if
     gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Select the destination: ") );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0 );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, TRUE, TRUE, 0 );
 
     vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );

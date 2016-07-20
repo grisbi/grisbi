@@ -45,6 +45,8 @@ void utils_gtk_combo_box_set_text_renderer ( GtkComboBox *combo,
 GtkListStore *utils_list_store_create_from_string_array ( gchar **array );
 GtkWidget *utils_menu_new_item_from_image_label ( const gchar *image_name,
                         const gchar *label_name );
+void utils_labels_set_alignement ( GtkLabel *label, gfloat xalign,
+                        gfloat yalign );
 gboolean utils_set_image_with_etat ( GtkWidget *widget,
                         gint etat );
 void utils_set_tree_view_selection_and_text_color ( GtkWidget *tree_view );

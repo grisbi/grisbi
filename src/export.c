@@ -443,7 +443,7 @@ GtkWidget * create_export_account_resume_page ( struct exported_account * accoun
                         gsb_data_account_get_name ( account -> account_nb ) ) );
 
     label = gtk_label_new ( NULL );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
+    utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_label_set_markup ( GTK_LABEL ( label ), tmpstr );
     g_free ( tmpstr );

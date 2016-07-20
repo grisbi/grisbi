@@ -795,7 +795,7 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
 
     /* Name entry */
     label = gtk_label_new ( _("Name"));
-    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.5 );
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 0, 1,
 		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
 
@@ -820,7 +820,7 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
     {
 	/* Description entry */
 	label = gtk_label_new ( _("Type"));
-	gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
+	utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.5 );
 	gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 1, 2,
 			   GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
 

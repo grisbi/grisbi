@@ -178,7 +178,7 @@ static GtkWidget *gsb_assistant_account_page_2 ( GtkWidget *assistant )
     label = gtk_label_new (_("Please select type for this account.\n"
 			     "The account will be created with default payment methods chosen according to your choice.\n"
 			     "If you are unsure and novice to accounting, we advise that you choose a bank account.\n"));
-    gtk_misc_set_alignment ( GTK_MISC (label),
+    utils_labels_set_alignement ( GTK_LABEL (label),
 			     0, 0.5 );
     gtk_box_pack_start ( GTK_BOX (vbox),
 			 label,
@@ -241,7 +241,7 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
 
     /* choose the currency */
     label = gtk_label_new ( _("Currency for the account: ") );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.5 );
     gtk_table_attach ( GTK_TABLE ( table ), label,
 		       0, 1, 0, 1,
 		       GTK_SHRINK | GTK_FILL,
@@ -279,7 +279,7 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
 
     /* choose the bank */
     label = gtk_label_new ( _("Bank for the account: ") );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.5 );
     gtk_table_attach ( GTK_TABLE ( table ), label,
 		       0, 1, 1, 2,
 		       GTK_SHRINK | GTK_FILL,
@@ -304,7 +304,7 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
 
     /* set the initial amount */
     label = gtk_label_new ( _("Opening balance: ") );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.5 );
     gtk_table_attach ( GTK_TABLE ( table ), label,
 		       0, 1, 2, 3,
 		       GTK_SHRINK | GTK_FILL,
@@ -374,7 +374,7 @@ static GtkWidget *gsb_assistant_account_page_finish ( GtkWidget *assistant )
     label = gtk_label_new (_("You are about to validate the new account.\n"
 			     "You juste have to enter a name and finish the assistant.\n"
 			     "More options are available in the account configuration page once you created it.\n"));
-    gtk_misc_set_alignment ( GTK_MISC (label),
+    utils_labels_set_alignement ( GTK_LABEL (label),
 			     0.5, 0.5 );
     gtk_box_pack_start ( GTK_BOX (vbox),
 			 label,

@@ -552,7 +552,7 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
 
     /* echange line label */
     label = gtk_label_new ( _("Currencies") );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.0 );
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, row, row+1,
                         GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
@@ -566,7 +566,7 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
 
     /* echange line label */
     label = gtk_label_new ( _("Exchange rate") );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.5, 0.0 );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), 0.5, 0.0 );
     gtk_table_attach ( GTK_TABLE(table), label, 2, 3, row, row+1,
                         GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
@@ -589,7 +589,7 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
 
     /* amount line */
     label = gtk_label_new ( _("Amounts: ") );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.0 );
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, row, row+1,
                         GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
@@ -662,7 +662,7 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
 
     /* exchange fees line label */
     label = gtk_label_new ( _("Exchange fees: ") );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.0 );
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, row, row+1,
                         GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
@@ -674,7 +674,7 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
 
     /* exchange fees currency for fees */
     label = gtk_label_new (gsb_data_currency_get_name ( account_currency_number ) );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.0 );
     gtk_table_attach ( GTK_TABLE(table), label, 2, 3, row, row+1,
                         GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 

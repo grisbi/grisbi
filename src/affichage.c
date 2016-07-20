@@ -427,7 +427,7 @@ GtkWidget *onglet_display_addresses ( void )
 
     /* Common address */
     label = gtk_label_new ( _("Common address: ") );
-    gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+    utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), label,
 			 TRUE, TRUE, 0);
@@ -446,7 +446,7 @@ GtkWidget *onglet_display_addresses ( void )
     /* Secondary address */
     /** \note This is not implemented yet */
     label = gtk_label_new ( _("Secondary address: ") );
-    gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+    utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), label,
 			 TRUE, TRUE, 0);

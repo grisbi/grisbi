@@ -41,6 +41,7 @@
 #include "gsb_real.h"
 #include "gsb_status.h"
 #include "traitement_variables.h"
+#include "utils.h"
 #include "utils_real.h"
 #include "utils_str.h"
 #include "structures.h"
@@ -287,7 +288,7 @@ void gsb_debug_add_report_page ( GtkWidget * assistant, gint page,
     gtk_label_set_markup ( GTK_LABEL(label), tmp_str );
     gtk_label_set_line_wrap ( GTK_LABEL(label), TRUE );
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_LEFT );
-    gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+    utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     g_free ( tmp_str );
 
     gtk_box_pack_start ( GTK_BOX(vbox), label, FALSE, FALSE, 0 );
