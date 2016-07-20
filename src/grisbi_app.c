@@ -855,6 +855,13 @@ GrisbiWin *grisbi_app_get_active_window ( GrisbiApp *app )
     return win;
 }
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 GrisbiSettings *grisbi_app_get_grisbi_settings ( void )
 {
     GrisbiAppPrivate *priv;
