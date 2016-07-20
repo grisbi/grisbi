@@ -670,7 +670,7 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 
     /* Bank name item */
     label = gtk_label_new ( _("Name: ") );
-    gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+    utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ),
                 label, 0, 1, 0, 1,
@@ -693,7 +693,7 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 
     /* Bank Sort code item */
     label = gtk_label_new ( _("Sort code: ") );
-    gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+    utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       label, 0, 1, 1, 2,
@@ -716,7 +716,7 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 
     /* Bank BIC code item */
     label = gtk_label_new ( _("BIC code: ") );
-    gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+    utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       label, 0, 1, 2, 3,
@@ -739,7 +739,7 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 
     /* Bank address */
     label = gtk_label_new ( _("Address: ") );
-    gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+    utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       label, 0, 1, 4, 5,
@@ -771,7 +771,7 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 
     /* Phone number */
     label = gtk_label_new ( _("Phone: ") );
-    gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+    utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       label, 0, 1, 5, 6,
@@ -794,7 +794,7 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 
     /* E-mail */
     label = gtk_label_new ( _("E-Mail: ") );
-    gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+    utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       label, 0, 1, 7, 8,
@@ -817,7 +817,7 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 
     /* Website */
     label = gtk_label_new ( _("Website: ") );
-    gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+    utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       label, 0, 1, 9, 10,
@@ -847,7 +847,7 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 
     /* Name */
     label = gtk_label_new ( _("Name: ") );
-    gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+    utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       label, 0, 1, 0, 1,
@@ -870,7 +870,7 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 
     /* Phone number */
     label = gtk_label_new ( _("Phone: ") );
-    gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+    utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       label, 0, 1, 1, 2,
@@ -894,7 +894,7 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 
     /* Fax */
     label = gtk_label_new ( _("Fax: ") );
-    gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+    utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       label, 0, 1, 3, 4,
@@ -917,7 +917,7 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 
     /* E-Mail */
     label = gtk_label_new ( _("E-Mail: ") );
-    gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+    utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       label, 0, 1, 2, 3,
