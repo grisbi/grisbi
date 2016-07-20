@@ -730,7 +730,7 @@ gboolean edit_payee ( GtkTreeView * view )
 
     /* Name entry */
     label = gtk_label_new ( _("Name"));
-    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.5 );
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 0, 1,
                         GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
 
@@ -743,7 +743,7 @@ gboolean edit_payee ( GtkTreeView * view )
 
     /* Description entry */
     label = gtk_label_new ( _("Description"));
-    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.5 );
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 1, 2,
                         GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
 
@@ -1098,7 +1098,7 @@ static GtkWidget *gsb_assistant_payees_page_2 ( GtkWidget *assistant )
                         "   %string, string%\n"
                         "   %string%, string_1%string_2") );
 	label = gtk_label_new ( texte );
-	gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0);
+	utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0);
 	gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
 	g_free ( texte );
 	gtk_box_pack_start ( GTK_BOX(paddingbox), label, FALSE, FALSE, 6 );
@@ -1115,7 +1115,7 @@ static GtkWidget *gsb_assistant_payees_page_2 ( GtkWidget *assistant )
 
     texte = g_strdup ( _("Enter the name of the new payee") );
     label = gtk_label_new ( texte );
-	gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0);
+	utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0);
 	gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     g_free ( texte );
     gtk_box_pack_start ( GTK_BOX(paddingbox), label, FALSE, FALSE, 6 );
@@ -1172,13 +1172,13 @@ static GtkWidget *gsb_assistant_payees_page_3 ( GtkWidget *assistant )
                         _("List of payees who will be modified"));
 
     label = gtk_label_new ( "" );
-	gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0);
+	utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0);
 	gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX (paddingbox), label, FALSE, FALSE, 6 );
     g_object_set_data ( G_OBJECT (assistant), "payee_search_label", label );
 
     label = gtk_label_new ( "" );
-	gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0);
+	utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0);
 	gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX (paddingbox), label, FALSE, FALSE, 0 );
     g_object_set_data ( G_OBJECT (assistant), "new_payee_label", label );
@@ -1250,14 +1250,14 @@ static GtkWidget *gsb_assistant_payees_page_3 ( GtkWidget *assistant )
     gtk_box_pack_start ( GTK_BOX (page), table, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Total number of payees: ") );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0 );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0 );
     gtk_table_attach ( GTK_TABLE ( table ), label,
 		       0, 1, 0, 1,
 		       GTK_SHRINK | GTK_FILL,
 		       0,
 		       0, 0 );
     label = gtk_label_new ( "   0" );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 1 );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 1 );
     gtk_table_attach ( GTK_TABLE ( table ), label,
 		       1, 2, 0, 1,
 		       GTK_EXPAND | GTK_FILL,
@@ -1267,14 +1267,14 @@ static GtkWidget *gsb_assistant_payees_page_3 ( GtkWidget *assistant )
 
     /* ajoute le nombre de tiers sélectionnés */
     label = gtk_label_new ( _("Number of selected payees: ") );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0 );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0 );
     gtk_table_attach ( GTK_TABLE ( table ), label,
 		      2, 3, 0, 1,
 		       GTK_SHRINK | GTK_FILL,
 		       0,
 		       0, 0 );
     label = gtk_label_new ( "   0" );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 1 );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 1 );
     gtk_table_attach ( GTK_TABLE ( table ), label,
 		       3, 4, 0, 1,
 		       GTK_EXPAND | GTK_FILL,
@@ -1316,7 +1316,7 @@ static GtkWidget *gsb_assistant_payees_page_finish ( GtkWidget *assistant )
     gtk_container_set_border_width ( GTK_CONTAINER( page ), 12 );
 
     label = gtk_label_new ( NULL );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.0 );
     gtk_box_pack_start ( GTK_BOX (page), label, FALSE, FALSE, 0 );
     g_object_set_data ( G_OBJECT (assistant), "finish_label", label );
 
