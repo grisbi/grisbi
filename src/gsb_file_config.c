@@ -172,7 +172,7 @@ static void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
     const gchar *element_name;
     gint i;
 
-    element_name = g_markup_parse_context_get_element ( context );
+/*    element_name = g_markup_parse_context_get_element ( context );
 
     if ( !strcmp ( element_name,
 		   "Width" ))
@@ -379,7 +379,7 @@ static void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
 	    messages[i].hidden = utils_str_atoi (text);
 	}
     }
-}
+*/}
 
 
 /**
@@ -443,7 +443,7 @@ gboolean gsb_file_config_load_config ( void )
 #endif
 
     /* get the geometry */
-    conf.root_x = g_key_file_get_integer ( config,
+/*    conf.root_x = g_key_file_get_integer ( config,
                         "Geometry",
                         "Root_x",
                         NULL );
@@ -472,9 +472,9 @@ gboolean gsb_file_config_load_config ( void )
                         "Geometry",
                         "Maximize_screen",
                         NULL );
-
+*/
     /* Remember size of main panel */
-    int_ret = g_key_file_get_integer ( config,
+/*    int_ret = g_key_file_get_integer ( config,
                         "Geometry",
                         "Panel_width",
                         &err );
@@ -486,14 +486,14 @@ gboolean gsb_file_config_load_config ( void )
         err = NULL;
     }
 
-    /* preferences size */
-    conf.prefs_width = g_key_file_get_integer ( config,
+*/    /* preferences size */
+/*    conf.prefs_width = g_key_file_get_integer ( config,
                         "Geometry",
                         "Prefs_width",
                         NULL );
 
-    /* get general */
-    tmp_str = ( g_key_file_get_string ( config,
+*/    /* get general */
+/*    tmp_str = ( g_key_file_get_string ( config,
                         "General",
                         "Path",
                         NULL ));
@@ -546,8 +546,8 @@ gboolean gsb_file_config_load_config ( void )
                         "Metatree_action_2button_press",
                         NULL );
 
-    /* get backup part */
-    conf.make_backup = g_key_file_get_integer ( config,
+*/    /* get backup part */
+/*    conf.make_backup = g_key_file_get_integer ( config,
                         "Backup",
                         "Make backup",
                         NULL );
@@ -566,9 +566,9 @@ gboolean gsb_file_config_load_config ( void )
                         "Backup",
                         "Make backup nb minutes",
                         NULL );
-
+*/
     /* exec gsb_file_automatic_backup_start ( ) if necessary */
-    if ( conf.make_backup_every_minutes
+/*    if ( conf.make_backup_every_minutes
      &&
      conf.make_backup_nb_minutes )
         gsb_file_automatic_backup_start ( NULL, NULL );
@@ -588,9 +588,9 @@ gboolean gsb_file_config_load_config ( void )
 		gsb_file_set_backup_path ( tmp_str );
 		g_free ( tmp_str );
 	}
-
+*/
     /* get input/output */
-    conf.dernier_fichier_auto = g_key_file_get_integer ( config,
+/*    conf.dernier_fichier_auto = g_key_file_get_integer ( config,
                         "IO",
                         "Load last file",
                         NULL );
@@ -620,7 +620,7 @@ gboolean gsb_file_config_load_config ( void )
                         "Force saving",
                         NULL );
 
-    recent_array = g_key_file_get_string_list ( config,
+*//*    recent_array = g_key_file_get_string_list ( config,
                         "IO",
                         "Names last files",
                         &conf.nb_derniers_fichiers_ouverts,
@@ -632,10 +632,10 @@ gboolean gsb_file_config_load_config ( void )
         nom_fichier_comptes = my_strdup ( recent_array[0]);
 	}
     else
-        nom_fichier_comptes = NULL;
+        nom_fichier_comptes = NULL;*/
 
 
-    conf.check_for_archival = g_key_file_get_integer ( config,
+/*    conf.check_for_archival = g_key_file_get_integer ( config,
                         "IO",
                         "Check_archival_at_opening",
                         NULL );
@@ -644,9 +644,9 @@ gboolean gsb_file_config_load_config ( void )
                         "IO",
                         "Max_transactions_before_warn_archival",
                         NULL );
-
+*/
     /* get scheduled section */
-    nb_days_before_scheduled = g_key_file_get_integer ( config,
+/*    nb_days_before_scheduled = g_key_file_get_integer ( config,
                         "Scheduled",
                         "Days before remind",
                         NULL );
@@ -670,8 +670,8 @@ gboolean gsb_file_config_load_config ( void )
                         "Group_partial_balance",
                         NULL );
 
-    /* get shown section */
-    conf.formulaire_toujours_affiche = g_key_file_get_integer ( config,
+*/    /* get shown section */
+/*    conf.formulaire_toujours_affiche = g_key_file_get_integer ( config,
                         "Display",
                         "Show transaction form",
                         NULL );
@@ -750,7 +750,7 @@ gboolean gsb_file_config_load_config ( void )
                         "Display grisbi title",
                         NULL );
 
-    /* get messages */
+*/    /* get messages */
     for ( i = 0; messages[i].name; i ++ )
     {
         name = g_strconcat ( messages[i].name , "-answer", NULL );
@@ -808,18 +808,18 @@ gboolean gsb_file_config_save_config ( void )
 
     devel_debug (NULL);
 
-    filename = gsb_dirs_get_grisbirc_filename ();
+/*    filename = gsb_dirs_get_grisbirc_filename ();
     config = g_key_file_new ();
-
-#if IS_DEVELOPMENT_VERSION == 1
-    /* set config model */
-    g_key_file_set_integer ( config,
+*/
+/*#if IS_DEVELOPMENT_VERSION == 1
+*/    /* set config model */
+/*    g_key_file_set_integer ( config,
                         "Model",
                         "Stable_config_file_model",
                         conf.stable_config_file_model );
 #endif
-
-    g_key_file_set_integer ( config,
+*/
+/*    g_key_file_set_integer ( config,
                         "Geometry",
                         "Root_x",
                         conf.root_x );
@@ -849,51 +849,51 @@ gboolean gsb_file_config_save_config ( void )
                         "Maximize_screen",
                         conf.maximize_screen );
 
-    /* Remember size of main panel */
-    g_key_file_set_integer ( config,
+*/    /* Remember size of main panel */
+/*    g_key_file_set_integer ( config,
                         "Geometry",
                         "Panel_width",
                         conf.panel_width );
-
+*/
     /* preferences size */
-    g_key_file_set_integer ( config,
+/*    g_key_file_set_integer ( config,
                         "Geometry",
                         "Prefs_width",
                         conf.prefs_width );
-
+*/
     /* save general */
-    g_key_file_set_string ( config,
+/*    g_key_file_set_string ( config,
                         "General",
                         "Path",
                         gsb_file_get_last_path () );
-
-    g_key_file_set_integer ( config,
+*/
+/*    g_key_file_set_integer ( config,
                         "General",
                         "Show permission alert",
                         conf.alerte_permission );
-
-    g_key_file_set_integer ( config,
+*/
+/*    g_key_file_set_integer ( config,
                         "General",
                         "Function of enter",
                         conf.entree );
-
-    g_key_file_set_integer ( config,
+*/
+/*    g_key_file_set_integer ( config,
                         "General",
                         "Show alert messages",
                         conf.alerte_mini );
-
-    g_key_file_set_integer ( config,
+*/
+/*    g_key_file_set_integer ( config,
                         "General",
                         "Use user font",
                         conf.utilise_fonte_listes );
-
-    if ( conf.font_string )
+*/
+/*    if ( conf.font_string )
         g_key_file_set_string ( config,
                         "General",
                         "Font name",
                         conf.font_string );
-
-    if ( conf.browser_command )
+*/
+/*    if ( conf.browser_command )
     {
         gchar *string;
 
@@ -905,8 +905,8 @@ gboolean gsb_file_config_save_config ( void )
                         string );
         g_free (string);
     }
-
-    g_key_file_set_integer ( config,
+*/
+/*    g_key_file_set_integer ( config,
                         "General",
                         "Pluriel_final",
                         conf.pluriel_final );
@@ -915,9 +915,9 @@ gboolean gsb_file_config_save_config ( void )
                         "General",
                         "Metatree_action_2button_press",
                         conf.metatree_action_2button_press );
-
+*/
      /* save backup part */
-    g_key_file_set_integer ( config,
+/*    g_key_file_set_integer ( config,
                         "Backup",
                         "Make backup",
                         conf.make_backup );
@@ -947,9 +947,9 @@ gboolean gsb_file_config_save_config ( void )
                         "Backup",
                         "Backup path",
                         gsb_file_get_backup_path ());
-
+*/
     /* save input/output */
-    g_key_file_set_integer ( config,
+/*    g_key_file_set_integer ( config,
                         "IO",
                         "Load last file",
                         conf.dernier_fichier_auto );
@@ -978,16 +978,16 @@ gboolean gsb_file_config_save_config ( void )
                         "IO",
                         "Force saving",
                         conf.force_enregistrement );
-
+*/
 	/* sauvegarde des fichiers récents */
-	recent_array = gsb_menu_recent_manager_get_recent_array ();
+/*	recent_array = gsb_menu_recent_manager_get_recent_array ();
 	g_key_file_set_string_list ( config,
                         "IO",
                         "Names last files",
                         (const gchar **) recent_array,
                         conf.nb_derniers_fichiers_ouverts );
-
-    g_key_file_set_integer ( config,
+*/
+/*    g_key_file_set_integer ( config,
                         "IO",
                         "Check_archival_at_opening",
                         conf.check_for_archival );
@@ -996,9 +996,9 @@ gboolean gsb_file_config_save_config ( void )
                         "IO",
                         "Max_transactions_before_warn_archival",
                         conf.max_non_archived_transactions_for_check );
-
+*/
     /* save scheduled section */
-    g_key_file_set_integer ( config,
+/*    g_key_file_set_integer ( config,
                         "Scheduled",
                         "Days before remind",
                         nb_days_before_scheduled );
@@ -1017,9 +1017,9 @@ gboolean gsb_file_config_save_config ( void )
                         "Scheduled",
                         "Group_partial_balance",
                         conf.group_partial_balance_under_accounts );
-
+*/
     /* save shown section */
-    g_key_file_set_integer ( config,
+/*    g_key_file_set_integer ( config,
                         "Display",
                         "Show transaction form",
                         conf.formulaire_toujours_affiche );
@@ -1093,7 +1093,7 @@ gboolean gsb_file_config_save_config ( void )
                         "Display",
                         "Display grisbi title",
                         conf.display_grisbi_title );
-
+*/
     /* save messages */
     for ( i = 0; messages[i].name; i ++ )
     {
@@ -1121,7 +1121,7 @@ gboolean gsb_file_config_save_config ( void )
                         conf.show_tip );
 
     /* save into a file */
-    file_content = g_key_file_to_data ( config, &length, NULL );
+/*    file_content = g_key_file_to_data ( config, &length, NULL );
 
     conf_file = fopen ( filename, "w" );
 
@@ -1151,7 +1151,7 @@ gboolean gsb_file_config_save_config ( void )
     g_free ( file_content);
     g_key_file_free (config);
 	g_strfreev ( recent_array );
-
+*/
     return TRUE;
 }
 
