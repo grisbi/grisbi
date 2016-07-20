@@ -1224,7 +1224,7 @@ GtkWidget *cree_ligne_recapitulatif ( struct struct_compte_importation * compte 
     }
 
     label = gtk_label_new ( NULL );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
+    utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     tmpstr = g_markup_printf_escaped ( _("<span size=\"x-large\">%s</span>\n\n"
                         "What do you want to do with contents from <span "
@@ -2302,7 +2302,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
                         "Please select the transactions to import.") );
     }
     label = gtk_label_new ( tmpstr );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.0 );
     gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ),
 			 label,
 			 FALSE,
@@ -3290,7 +3290,7 @@ void gsb_import_show_orphan_transactions ( GSList *orphan_list,
 
 	label = gtk_label_new ( _("Mark transactions you want to add to the list and click the "
                               "OK button"));
-    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.0 );
 	gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ),
                         label,
                         FALSE,
@@ -3787,7 +3787,7 @@ GtkWidget * gsb_import_associations_gere_tiers ( void )
                          "landlord.") );
     label = gtk_label_new ( texte );
     gtk_label_set_line_wrap ( GTK_LABEL ( label ), TRUE );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0);
+    utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     g_free ( texte );
     gtk_box_pack_start ( GTK_BOX(paddingbox), label, FALSE, FALSE, 6 );
@@ -3883,7 +3883,7 @@ GtkWidget * gsb_import_associations_gere_tiers ( void )
 
     /* Create entry liste des tiers */
     label = gtk_label_new ( _("Payee name: ") );
-    gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+    utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 0, 1,
                         GTK_SHRINK | GTK_FILL, 0, 0, 0 );
@@ -3906,7 +3906,7 @@ GtkWidget * gsb_import_associations_gere_tiers ( void )
 
     /* Create entry search string */
     label = gtk_label_new ( _("Search string: ") );
-    gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+    utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 1, 2,
                         GTK_SHRINK | GTK_FILL, 0, 0, 0 );
@@ -4646,14 +4646,14 @@ gchar **gsb_import_by_rule_ask_filename ( gint rule )
     }
 
     label = gtk_label_new ( tmpstr );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.0 );
     gtk_table_attach ( GTK_TABLE(table), label, 0, 3, 0, 1,
                GTK_SHRINK | GTK_FILL, 0, 0, 0 );
     g_free ( tmpstr );
 
     /* label filename */
     label = gtk_label_new ( _("Name of the file to import: ") );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.0 );
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 1, 2,
                GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
