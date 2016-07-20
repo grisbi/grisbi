@@ -284,7 +284,7 @@ gboolean ajout_etat ( void )
 
     /* on ajoute maintenant le label */
     label_description = gtk_label_new ( NULL );
-    gtk_misc_set_alignment ( GTK_MISC ( label_description ), 0, 0 );
+    utils_labels_set_alignement ( GTK_LABEL ( label_description ), 0, 0 );
     gtk_label_set_line_wrap ( GTK_LABEL ( label_description ), TRUE );
     gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( scrolled_window ),
 					    label_description );

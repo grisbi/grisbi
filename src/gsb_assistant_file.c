@@ -283,7 +283,7 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
 
 	/* label account name */
 	label = gtk_label_new ( _("Name of accounting entity: ") );
-	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+	utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
 	gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 0, 1,
 			GTK_SHRINK | GTK_FILL, 0, 0, 0 );
@@ -305,7 +305,7 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
 
 	/* filename */
 	label = gtk_label_new ( _("Filename: ") );
-	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+	utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
 	gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 1, 2,
 			GTK_SHRINK | GTK_FILL, 0, 0, 0 );
@@ -494,7 +494,7 @@ static GtkWidget *gsb_assistant_file_page_finish ( GtkWidget *assistant,
 			     "Next assistant will help you creating a new account.\n\n"
 			     "Remember that all of the values can be changed in the 'Preferences' dialog.\n\n"
 			     "Select a way to populate your account file and press the 'Close' button."));
-    gtk_misc_set_alignment ( GTK_MISC (label),
+    utils_labels_set_alignement ( GTK_LABEL (label),
 			     0, 0.5 );
     gtk_box_pack_start ( GTK_BOX (vbox),
 			 label,

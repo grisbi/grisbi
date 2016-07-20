@@ -249,7 +249,7 @@ GtkWidget *gsb_payment_method_config_create ( void )
 			 TRUE, TRUE, 6 );
 
     label = gtk_label_new ( _("Name: ") );
-    gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+    utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       label, 0, 1, 0, 1,
@@ -278,7 +278,7 @@ GtkWidget *gsb_payment_method_config_create ( void )
 
     /* Automatic numbering */
     label = gtk_label_new ( _("Automatic numbering: ") );
-    gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+    utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       label, 0, 1, 1, 2,
@@ -307,7 +307,7 @@ GtkWidget *gsb_payment_method_config_create ( void )
 
     /* Payment method method_ptr */
     label = gtk_label_new ( _("Type: ") );
-    gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+    utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       label, 0, 1, 2, 3,
@@ -1307,7 +1307,7 @@ gboolean gsb_payment_method_config_switch_payment ( gint payment_number )
     else
 	label = gtk_label_new (_("No target method of payment to switch the transactions to another method of payment. If you continue, the transactions with this method of payment will have no new one."));
     gtk_label_set_line_wrap ( GTK_LABEL (label), TRUE );
-	gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
+	utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.0 );
     gtk_widget_set_size_request ( label, 400, -1 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), label, FALSE, FALSE, 0 );
     gtk_widget_show (label);
@@ -1316,7 +1316,7 @@ gboolean gsb_payment_method_config_switch_payment ( gint payment_number )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Associate transactions with: "));
-	gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
+	utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.5 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, TRUE, TRUE, 0 );
 
     /* the combo_box was created before */

@@ -549,7 +549,7 @@ gchar *utils_files_create_sel_charset ( GtkWidget *assistant,
                         filename );
     gtk_label_set_markup ( GTK_LABEL ( label ),
                         make_pango_attribut ( "weight=\"bold\"",tmpstr ) );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
+    utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, TRUE, TRUE, 0 );
     g_free ( tmpstr );
@@ -599,7 +599,7 @@ gchar *utils_files_create_sel_charset ( GtkWidget *assistant,
     /* select an other encoding */
     label = gtk_label_new ( _("If no proposals above are correct you can choose a "
                         "different charset.") );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
+    utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( vbox ), label, TRUE, TRUE, 0 );
 
@@ -615,7 +615,7 @@ gchar *utils_files_create_sel_charset ( GtkWidget *assistant,
     gtk_box_pack_start ( GTK_BOX ( hbox ), go_charmap_sel, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Select a charset") );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
+    utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, TRUE, TRUE, 0 );
     g_object_set_data ( G_OBJECT ( dialog ), "charset_label", label );

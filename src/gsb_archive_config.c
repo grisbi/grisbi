@@ -188,7 +188,7 @@ GtkWidget *gsb_archive_config_create ( void )
 			 FALSE, FALSE, 6 );
 
     label = gtk_label_new ( _("Name: ") );
-    gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+    utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_table_attach ( GTK_TABLE ( table ),
 		       label, 0, 1, 0, 1,
 		       GTK_SHRINK | GTK_FILL, 0,

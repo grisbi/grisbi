@@ -197,7 +197,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
 
     /* set the name */
 	label = gtk_label_new ( _("Reconciliation reference: ") );
-	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+	utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
 	gtk_table_attach ( GTK_TABLE ( table_selection ), label, 0, 1, 0, 1,
 			GTK_SHRINK | GTK_FILL, 0, 0, 0 );
@@ -211,7 +211,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
 
 	/* set the initial date */
 	label = gtk_label_new ( _("Initial date: ") );
-	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+	utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
 	gtk_table_attach ( GTK_TABLE ( table_selection ), label, 0, 1, 1, 2,
 			GTK_SHRINK | GTK_FILL, 0, 0, 0 );
@@ -225,7 +225,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
 
     /* set the final date */
 	label = gtk_label_new ( _("Final date: ") );
-	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+	utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
 	gtk_table_attach ( GTK_TABLE ( table_selection ), label, 0, 1, 2, 3,
 			GTK_SHRINK | GTK_FILL, 0, 0, 0 );
@@ -249,7 +249,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
 
 	/* set the initial balance */
 	label = gtk_label_new ( _("Initial balance: ") );
-	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+	utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
 	gtk_table_attach ( GTK_TABLE ( table_selection ), label, 2, 3, 1, 2,
 			GTK_SHRINK | GTK_FILL, 0, 10, 0 );
@@ -263,7 +263,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
 
     /* set the final balance */
 	label = gtk_label_new ( _("Final balance: ") );
-	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+	utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
 	gtk_table_attach ( GTK_TABLE ( table_selection ), label, 2, 3, 2, 3,
 			GTK_SHRINK | GTK_FILL, 0, 10, 0 );

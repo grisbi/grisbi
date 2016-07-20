@@ -1344,7 +1344,7 @@ GtkWidget *onglet_programmes (void)
 
     label = gtk_label_new ( _("Web browser command: ") );
     gtk_size_group_add_widget ( size_group, label );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.5 );
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 0, 1,
                         GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
     entry = gsb_automem_entry_new ( &conf.browser_command, NULL, NULL );
@@ -1355,7 +1355,7 @@ GtkWidget *onglet_programmes (void)
                         NULL ) );
     label = gtk_label_new ( text );
     gtk_label_set_use_markup ( GTK_LABEL(label), TRUE );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.5 );
     gtk_table_attach ( GTK_TABLE(table), label, 1, 2, 1, 2,
                         GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
     g_free ( text );
@@ -1712,7 +1712,7 @@ GtkWidget *gsb_config_number_format_chosen ( GtkWidget *parent, gint sens )
 
     dec_hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
     label = gtk_label_new ( _("Decimal point: ") );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_LEFT, MISC_VERT_CENTER );
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), label );
     gtk_box_pack_start ( GTK_BOX ( dec_hbox ), label, FALSE, FALSE, 0 );
 
@@ -1725,7 +1725,7 @@ GtkWidget *gsb_config_number_format_chosen ( GtkWidget *parent, gint sens )
 
     thou_hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
     label = gtk_label_new (_("Thousands separator: ") );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_LEFT, MISC_VERT_CENTER );
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), label );
     gtk_box_pack_start ( GTK_BOX ( thou_hbox ), label, FALSE, FALSE, 0 );
 

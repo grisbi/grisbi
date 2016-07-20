@@ -1711,7 +1711,7 @@ GtkWidget *gsb_partial_balance_create_dialog ( gint action, gint spin_value )
 
     /* Partial balance name */
     label = gtk_label_new ( _("Name: ") );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 1 );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 1 );
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 0, 1,
                         GTK_SHRINK | GTK_FILL, 0, 0, 0 );
@@ -1722,7 +1722,7 @@ GtkWidget *gsb_partial_balance_create_dialog ( gint action, gint spin_value )
 
     /* List of the accounts */
     label = gtk_label_new ( _("Accounts list: ") );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 1);
+    utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 1);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 1, 2,
                         GTK_SHRINK | GTK_FILL, 0, 0, 0 );
@@ -1737,7 +1737,7 @@ GtkWidget *gsb_partial_balance_create_dialog ( gint action, gint spin_value )
 
     /* create the position */
     label = gtk_label_new ( _("Position in the list of accounts: ") );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 1);
+    utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 1);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 4, 5,
                         GTK_SHRINK | GTK_FILL, 0, 0, 0 );
@@ -1785,7 +1785,7 @@ gint gsb_partial_balance_request_currency ( GtkWidget *parent )
     gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area( dialog ) ), hbox, TRUE, FALSE, 0 );
 
     label = gtk_label_new ( _("Select the currency of the partial balance: ") );
-    gtk_misc_set_alignment ( GTK_MISC  ( label ), 0, 1 );
+    utils_labels_set_alignement ( GTK_LABEL  ( label ), 0, 1 );
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, TRUE, TRUE, 0 );
 

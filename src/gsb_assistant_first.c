@@ -219,7 +219,7 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
 
     label = gtk_label_new ( _("Web browser command: ") );
     gtk_size_group_add_widget ( size_group, label );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.5 );
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 1, 2,
 		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
     entry = gsb_automem_entry_new ( &conf.browser_command, NULL, NULL );
@@ -228,7 +228,7 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
     text = make_blue ( _("You may use %s to expand the URL - I.e: 'firefox %s' ") );
     label = gtk_label_new ( text );
     gtk_label_set_use_markup ( GTK_LABEL(label), TRUE );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.5 );
     gtk_table_attach ( GTK_TABLE(table), label, 1, 2, 2, 3,
                         GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
     g_free ( text );
