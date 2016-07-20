@@ -268,7 +268,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_menu ( GtkWidget *assistan
 								   transactions_to_link);
     label_transactions_to_link_1 = gtk_label_new (tmpstr );
     g_free ( tmpstr );
-    gtk_misc_set_alignment ( GTK_MISC (label_transactions_to_link_1),
+    utils_labels_set_alignement ( GTK_LABEL (label_transactions_to_link_1),
 			     0, 0.5 );
 
     gtk_box_pack_start ( GTK_BOX (page),
@@ -282,7 +282,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_menu ( GtkWidget *assistan
 
     /* set up the menu */
     label = gtk_label_new (_("Choose the next operation to do: "));
-    gtk_misc_set_alignment ( GTK_MISC (label),
+    utils_labels_set_alignement ( GTK_LABEL (label),
 			     0, 0.5 );
     gtk_box_pack_start ( GTK_BOX (page),
 			 label,
@@ -303,7 +303,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_menu ( GtkWidget *assistan
 
     label = gtk_label_new (_("	After a long use, some transactions may be before the first known reconciliation.\n"
 			     "	You can create all the previous needed reconciliations here."));
-    gtk_misc_set_alignment ( GTK_MISC (label),
+    utils_labels_set_alignement ( GTK_LABEL (label),
 			     0, 0.5 );
     gtk_box_pack_start ( GTK_BOX (page),
 			 label,
@@ -325,7 +325,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_menu ( GtkWidget *assistan
     label = gtk_label_new (_("	This will make all the work for you if you create "
                         "previously all the needed reconciliations\n"
                         "	and adjust the date of the known reconciliations."));
-    gtk_misc_set_alignment ( GTK_MISC (label),
+    utils_labels_set_alignement ( GTK_LABEL (label),
 			     0, 0.5 );
     gtk_box_pack_start ( GTK_BOX (page),
 			 label,
@@ -347,7 +347,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_menu ( GtkWidget *assistan
 
     label = gtk_label_new (_("	You control all and have a lot of time to spend on your computer !\n"
 			     "	(you will be able to choose a reconciliation for each orphan transaction)."));
-    gtk_misc_set_alignment ( GTK_MISC (label),
+    utils_labels_set_alignement ( GTK_LABEL (label),
 			     0, 0.5 );
     gtk_box_pack_start ( GTK_BOX (page),
 			 label,
@@ -392,7 +392,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile ( void )
 
 	/* set the name */
 	label = gtk_label_new ( _("Reconciliation reference: ") );
-	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+	utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
 	gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 0, 1,
 			GTK_SHRINK | GTK_FILL, 0, 0, 0 );
@@ -403,7 +403,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile ( void )
 
 	/* set the choice of account */
 	label = gtk_label_new ( _("Account: ") );
-	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+	utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
 	gtk_table_attach ( GTK_TABLE ( table ), label, 2, 3, 0, 1,
 			GTK_SHRINK | GTK_FILL, 0, 10, 0 );
@@ -415,7 +415,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile ( void )
 
 	/* set the initial date */
 	label = gtk_label_new ( _("Initial date: ") );
-	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+	utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
 	gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 1, 2,
 			GTK_SHRINK | GTK_FILL, 0, 0, 0 );
@@ -426,7 +426,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile ( void )
 
 	/* set the final date */
 	label = gtk_label_new ( _("Final date: ") );
-	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+	utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
 	gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 2, 3,
 			GTK_SHRINK | GTK_FILL, 0, 0, 0 );
@@ -437,7 +437,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile ( void )
 
 	/* set the initial balance */
 	label = gtk_label_new ( _("Initial balance: ") );
-	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+	utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
 	gtk_table_attach ( GTK_TABLE ( table ), label, 2, 3, 1, 2,
 			GTK_SHRINK | GTK_FILL, 0, 10, 0 );
@@ -448,7 +448,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile ( void )
 
     /* set the final balance */
 	label = gtk_label_new ( _("Final balance: ") );
-	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+	utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
 	gtk_table_attach ( GTK_TABLE ( table ), label, 2, 3, 2, 3,
 			GTK_SHRINK | GTK_FILL, 0, 10, 0 );
@@ -545,7 +545,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_automatically_associate ( 
 			     "If all the orphan transactions cannot be linked here, you should check\n"
 			     "if you did create all the necessary reconciliations (first choice in the assistant\n"
 			     "menu page) or check the transactions themselves."));
-    gtk_misc_set_alignment ( GTK_MISC (label),
+    utils_labels_set_alignement ( GTK_LABEL (label),
 			     0, 0.5 );
     gtk_box_pack_start ( GTK_BOX (page),
 			 label,
@@ -622,7 +622,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_manually_associate ( GtkWi
 
     /* now we can show the list of orphans transactions */
     label = gtk_label_new (_("Select the transaction(s) you want to associate with a reconciliation: "));
-    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.0 );
     gtk_box_pack_start ( GTK_BOX (page),
 			 label,
 			 FALSE, FALSE, 10 );
@@ -896,7 +896,7 @@ gboolean gsb_assistant_reconcile_config_update_auto_asso ( GtkWidget *assistant,
     gtk_label_set_text ( GTK_LABEL (label_transactions_to_link_2),
 			 string);
     g_free (string);
-    gtk_misc_set_alignment ( GTK_MISC (label_transactions_to_link_2),
+    utils_labels_set_alignement ( GTK_LABEL (label_transactions_to_link_2),
 			     0, 0.5 );
 
     /* calculate how many transactions can be associated automatically,
@@ -1014,7 +1014,7 @@ static gboolean gsb_assistant_reconcile_config_lauch_auto_asso ( GtkWidget *butt
 	gtk_label_set_text ( GTK_LABEL (label_transactions_to_link_2),
 			     string);
 	g_free (string);
-	gtk_misc_set_alignment ( GTK_MISC (label_transactions_to_link_2),
+	utils_labels_set_alignement ( GTK_LABEL (label_transactions_to_link_2),
 				 0, 0.5 );
 
 	gtk_label_set_text ( GTK_LABEL (label_possible_association),
@@ -1057,7 +1057,7 @@ gboolean gsb_assistant_reconcile_config_update_manu_asso ( GtkWidget *assistant,
     gtk_label_set_text ( GTK_LABEL (label_transactions_to_link_3),
 			 string);
     g_free (string);
-    gtk_misc_set_alignment ( GTK_MISC (label_transactions_to_link_3),
+    utils_labels_set_alignement ( GTK_LABEL (label_transactions_to_link_3),
 			     0, 0.5 );
 
     /* fill the list with the transactions to link */
@@ -1200,7 +1200,7 @@ static gboolean gsb_assistant_reconcile_config_lauch_manu_asso ( GtkWidget *butt
     gtk_container_set_border_width ( GTK_CONTAINER ( dialog ), 12 );
 
     label = gtk_label_new ( _("Select the reconciliation to associate to the selected transactions: ") );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.0 );
     gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ),
 			 label,
 			 FALSE, FALSE,
