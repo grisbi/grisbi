@@ -656,19 +656,19 @@ gboolean popup_category_view_mode_menu ( GtkWidget *button )
     menu = gtk_menu_new ();
 
     /* Edit transaction */
-    menu_item = gtk_image_menu_item_new_with_label ( _("Category view") );
+    menu_item = gtk_menu_item_new_with_label ( _("Category view") );
     g_signal_connect ( G_OBJECT(menu_item), "activate",
 		       G_CALLBACK(expand_arbre_division), (gpointer) 0 );
     g_object_set_data ( G_OBJECT(menu_item), "tree-view", arbre_categ );
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
-    menu_item = gtk_image_menu_item_new_with_label ( _("Subcategory view") );
+    menu_item = gtk_menu_item_new_with_label ( _("Subcategory view") );
     g_signal_connect ( G_OBJECT(menu_item), "activate",
 		       G_CALLBACK(expand_arbre_division), (gpointer) 1 );
     g_object_set_data ( G_OBJECT(menu_item), "tree-view", arbre_categ );
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
-    menu_item = gtk_image_menu_item_new_with_label ( _("Complete view") );
+    menu_item = gtk_menu_item_new_with_label ( _("Complete view") );
     g_signal_connect ( G_OBJECT(menu_item), "activate",
 		       G_CALLBACK(expand_arbre_division), (gpointer) 2 );
     g_object_set_data ( G_OBJECT(menu_item), "tree-view", arbre_categ );
@@ -1089,7 +1089,7 @@ void category_list_popup_context_menu ( void )
     {
         title = g_strdup ( _("Transfers the identical transactions in another sub-category") );
 
-        menu_item = gtk_image_menu_item_new_with_label ( title );
+        menu_item = gtk_menu_item_new_with_label ( title );
         gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
                         gtk_image_new_from_icon_name ( "gtk-convert",
                         GTK_ICON_SIZE_MENU ) );
@@ -1111,7 +1111,7 @@ void category_list_popup_context_menu ( void )
         else
             title = g_strdup ( _("Edit selected sub-category") );
 
-        menu_item = gtk_image_menu_item_new_with_label ( title );
+        menu_item = gtk_menu_item_new_with_label ( title );
         gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
                             gtk_image_new_from_icon_name ( "gtk-edit",
                             GTK_ICON_SIZE_MENU ) );
@@ -1136,7 +1136,7 @@ void category_list_popup_context_menu ( void )
         else
             title = g_strdup ( _("Transfer all transactions in another sub-category") );
 
-        menu_item = gtk_image_menu_item_new_with_label ( title );
+        menu_item = gtk_menu_item_new_with_label ( title );
         gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
                         gtk_image_new_from_icon_name ( "gtk-convert",
                         GTK_ICON_SIZE_MENU ) );

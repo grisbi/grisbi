@@ -2484,7 +2484,7 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
 
     if ( contra_number > 0 )
     {
-        menu_item = gtk_image_menu_item_new_with_label ( _("Displays the contra-transaction") );
+        menu_item = gtk_menu_item_new_with_label ( _("Displays the contra-transaction") );
         gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
 				    gtk_image_new_from_icon_name ( "gtk-jump-to",
 							       GTK_ICON_SIZE_MENU ));
@@ -2500,7 +2500,7 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
     }
 
     /* Edit transaction */
-    menu_item = gtk_image_menu_item_new_with_label ( _("Edit transaction") );
+    menu_item = gtk_menu_item_new_with_label ( _("Edit transaction") );
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
 				    gtk_image_new_from_icon_name ( "gtk-edit",
 							       GTK_ICON_SIZE_MENU ));
@@ -2515,7 +2515,7 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
 
     /* New transaction */
-    menu_item = gtk_image_menu_item_new_with_label ( _("New transaction") );
+    menu_item = gtk_menu_item_new_with_label ( _("New transaction") );
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
 				    gtk_image_new_from_icon_name ( "gtk-new",
 							       GTK_ICON_SIZE_MENU ));
@@ -2523,7 +2523,7 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
     /* Delete transaction */
-    menu_item = gtk_image_menu_item_new_with_label ( _("Delete transaction") );
+    menu_item = gtk_menu_item_new_with_label ( _("Delete transaction") );
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
 				    gtk_image_new_from_icon_name ( "gtk-delete",
 							       GTK_ICON_SIZE_MENU ));
@@ -2537,7 +2537,7 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
     /* use transaction as template */
-    menu_item = gtk_image_menu_item_new_with_label ( _("Use selected transaction as a template") );
+    menu_item = gtk_menu_item_new_with_label ( _("Use selected transaction as a template") );
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
 				    gtk_image_new_from_icon_name ( "gtk-copy",
 							       GTK_ICON_SIZE_MENU ));
@@ -2547,7 +2547,7 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
     /* Clone transaction */
-    menu_item = gtk_image_menu_item_new_with_label ( _("Clone transaction") );
+    menu_item = gtk_menu_item_new_with_label ( _("Clone transaction") );
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
 				    gtk_image_new_from_icon_name ( "gtk-copy",
 							       GTK_ICON_SIZE_MENU ));
@@ -2560,7 +2560,7 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
 
     /* Convert to scheduled transaction */
-    menu_item = gtk_image_menu_item_new_with_label ( _("Convert transaction to scheduled transaction") );
+    menu_item = gtk_menu_item_new_with_label ( _("Convert transaction to scheduled transaction") );
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
 				    gtk_image_new_from_icon_name ( "gtk-convert",
 							       GTK_ICON_SIZE_MENU ));
@@ -2569,7 +2569,7 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
     /* Move to another account */
-    menu_item = gtk_image_menu_item_new_with_label ( _("Move transaction to another account") );
+    menu_item = gtk_menu_item_new_with_label ( _("Move transaction to another account") );
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
 				    gtk_image_new_from_icon_name ( "gtk-jump-to",
 							       GTK_ICON_SIZE_MENU ));

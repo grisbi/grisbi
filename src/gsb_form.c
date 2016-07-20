@@ -3689,7 +3689,7 @@ gboolean gsb_form_button_press ( GtkWidget *vbox,
     menu = gtk_menu_new ();
 
     /* propose to configure the form */
-    menu_item = gtk_image_menu_item_new_with_label ( _("Configure the form") );
+    menu_item = gtk_menu_item_new_with_label ( _("Configure the form") );
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
 				    gtk_image_new_from_icon_name ( "gtk-properties",
 							       GTK_ICON_SIZE_MENU ));
