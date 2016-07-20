@@ -56,7 +56,7 @@
       <default>false</default>
 	    <summary>Make single backup file</summary>
 	    <description>
-        If TRUE, make a single backup file. Warning this is dangerous
+        If TRUE, make a single backup file. Warning: this is dangerous
         if this file is'nt saving regularly.
       </description>
 	  </key>
@@ -97,17 +97,24 @@
     <key name="dernier-fichier-auto" type="b">
       <default>false</default>
       <summary>Automatically open the last file</summary>
-      <description>If TRUE, the last account file is open automatically.</description>
+      <description>
+        If TRUE, the last account file is open automatically.
+      </description>
     </key>
     <key name="sauvegarde-auto" type="b">
       <default>false</default>
       <summary>Automatic backup before closing the account file</summary>
-      <description>If TRUE, automatic backup before closing the account file.</description>
+      <description>
+        If TRUE, automatic backup before closing the account file.
+      </description>
     </key>
 	  <key name="force-enregistrement" type="b">
       <default>false</default>
 	    <summary>Forced recording of locked files</summary>
-	    <description>TRUE if you want to save the account file, even if it is already open in another window.</description>
+	    <description>
+	        TRUE if you want to save the account file, even if it is already
+	        open in another window.
+	    </description>
 	  </key>
 	  <key name="compress-file" type="b">
       <default>false</default>
@@ -122,7 +129,9 @@
     <key name="nb-max-derniers-fichiers-ouverts" type="i">
       <default>3</default>
       <summary>Maximum of files in list of recently files</summary>
-      <description>Maximum number of files in the list of recently opened files.</description>
+      <description>
+        Maximum number of files in the list of recently opened files.
+      </description>
     </key>
   </schema>
 
@@ -138,17 +147,24 @@
 	  <key name="automatic-completion-payee" type="b">
       <default>false</default>
 	    <summary>Allow automatic completion of payees</summary>
-	    <description>TRUE to allow automatic completion of payees in transactions.</description>
+	    <description>
+	        TRUE to allow automatic completion of payees in transactions.
+	    </description>
 	  </key>
 	  <key name="automatic-erase-credit-debit" type="b">
       <default>false</default>
 	    <summary>Erase debit and credit</summary>
-	    <description>If TRUE, the fields Credit and Debit are not initialized during the completion of payee.</description>
+	    <description>
+	        If TRUE, the fields Credit and Debit are not initialized
+	        during the completion of payee.</description>
 	  </key>
 	  <key name="automatic-recover-splits" type="b">
         <default>false</default>
 	    <summary>Recover splits in payee completion</summary>
-	    <description>If TRUE, splits transactions are recovered along with the parent during the completion of payee.</description>
+	    <description>
+	        If TRUE, splits transactions are recovered along with the parent
+	        during the completion of payee.
+        </description>
 	  </key>
 	  <key name="formulaire-toujours-affiche" type="b">
       <default>true</default>
@@ -158,12 +174,17 @@
 	  <key name="form-enter-key" type="b">
       <default>false</default>
 	    <summary>"Enter" key finishes the transaction</summary>
-	    <description>If TRUE, the "Enter" key finishes the transaction.</description>
+	    <description>
+	      If TRUE, the "Enter" key finishes the transaction.
+	    </description>
 	  </key>
 	  <key name="limit-completion-current-account" type="b">
       <default>false</default>
 	    <summary>Limit completion to current account</summary>
-	    <description>If TRUE, limit the payee completion to the current account, otherwise do a full search.</description>
+	    <description>
+	      If TRUE, limit the payee completion to the current account,
+	      otherwise do a full search.
+	    </description>
 	  </key>
   </schema>
 
@@ -176,7 +197,9 @@
     <key name="font-string" type="s">
       <default>"Monospace 12"</default>
       <summary>Font name</summary>
-      <description>If utilise-fonte-listes = TRUE, this is the name of the custom font.</description>
+      <description>
+        If utilise-fonte-listes = TRUE, this is the name of the custom font.
+      </description>
     </key>
     <key name="browser-command" type="s">
       <default>""</default>
@@ -186,7 +209,9 @@
     <key name="last-path" type="s">
       <default>""</default>
       <summary>Last path used by Grisbi</summary>
-      <description>This is the last path used by Grisbi to open a file.</description>
+      <description>
+        This is the last path used by Grisbi to open a file.
+      </description>
     </key>
     <key name="pluriel-final" type="b">
       <default>false</default>
@@ -204,7 +229,10 @@
         </choices>
 	    <default>"gtk default"</default>
 	    <summary>Action of the right mouse button in Categories</summary>
-	    <description>Action double click of the mouse in Categories: gtk default, Edit Category, manage division if possible .</description>
+	    <description>
+	      Action double click of the mouse in Categories: gtk default,
+	      Edit Category, manage division if possible.
+	    </description>
 	  </key>
   </schema>
 
@@ -217,7 +245,9 @@
     <key name="fullscreen" type="b">
       <default>false</default>
       <summary>Main window fullscreen state</summary>
-      <description>Whether the main window should start in fullscreen.</description>
+      <description>
+        Whether the main window should start in fullscreen.
+      </description>
     </key>
 	  <key name="main-width" type="i">
 	    <default>1300</default>
@@ -246,7 +276,9 @@
     <key name="active-scrolling-left-pane" type="b">
       <default>false</default>
       <summary>Active mouse scrolling in the left_panel.</summary>
-      <description>If TRUE, the scrolling with the mouse is actived in the left panel.</description>
+      <description>
+        If TRUE, the scrolling with the mouse is actived in the left panel.
+      </description>
     </key>
 	  <key name="panel-width" type="i">
 	    <default>300</default>
