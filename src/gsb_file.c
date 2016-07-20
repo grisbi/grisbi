@@ -431,6 +431,16 @@ gboolean gsb_file_open_file ( gchar *filename )
     if ( gsb_file_load_open_file ( filename) )
     {
         /* the file has been opened succesfully */
+        /* on met à jour le nom du fichier */
+        grisbi_win_set_filename ( NULL, filename );
+        if ( g_strcmp0 ( filename, nom_fichier_comptes ) )
+        {
+            g_free ( nom_fichier_comptes );
+            nom_fichier_comptes = g_strdup ( filename );
+        }
+        /* mark the file as opened */
+        gsb_file_util_modify_lock ( TRUE );
+
         /* we make a backup if necessary */
         if ( conf.sauvegarde_demarrage )
         {
@@ -487,17 +497,6 @@ gboolean gsb_file_open_file ( gchar *filename )
     }
 
     /* ok, here the file or backup is loaded */
-    /* on met à jour le nom du fichier */
-    grisbi_win_set_filename ( NULL, filename );
-    if ( g_strcmp0 ( filename, nom_fichier_comptes ) )
-    {
-        g_free ( nom_fichier_comptes );
-        nom_fichier_comptes = g_strdup ( filename );
-    }
-
-    /* mark the file as opened */
-    gsb_file_util_modify_lock ( TRUE );
-
     gsb_status_message ( _("Checking schedulers") );
 
 	/* create the archives store data, ie the transaction wich will replace the archive in
