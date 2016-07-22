@@ -40,7 +40,6 @@
 #endif /* HAVE_GOFFICE */
 #include "gsb_dirs.h"
 #include "gsb_file.h"
-#include "gsb_file_config.h"
 #include "structures.h"
 #include "utils_file_selection.h"
 #include "utils_str.h"

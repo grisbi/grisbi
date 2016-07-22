@@ -44,7 +44,6 @@
 #include "gsb_color.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
-#include "gsb_file_config.h"
 #include "gsb_locale.h"
 #include "help.h"
 #include "import.h"

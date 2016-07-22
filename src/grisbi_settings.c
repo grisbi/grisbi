@@ -43,7 +43,6 @@
 #include "grisbi_app.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
-#include "gsb_file_config.h"
 /*
 #include "fenetre_principale.h"
 #include "menu.h"

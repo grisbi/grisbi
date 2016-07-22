@@ -108,7 +108,6 @@ libgrisbi_la_SOURCES = \
 	gsb_debug.c		\
 	gsb_dirs.c		\
 	gsb_file.c		\
-	gsb_file_config.c	\
 	gsb_file_load.c		\
 	gsb_file_others.c	\
 	gsb_file_save.c		\
@@ -256,7 +255,6 @@ libgrisbi_la_SOURCES = \
 	gsb_debug.h		\
 	gsb_dirs.h		\
 	gsb_file.h		\
-	gsb_file_config.h	\
 	gsb_file_load.h		\
 	gsb_file_others.h	\
 	gsb_file_save.h		\

@@ -22,6 +22,7 @@
 
 #define CSV_MAX_TOP_LINES 10	/** How many lines to show in CSV preview.  */
 #define GSB_EPSILON 0.0000005   /* Sert à comparer des doubles */
+#define ETAT_WWW_BROWSER "xdg-open" /* définit le browser par défaut */
 
 /* global variable, see structures.h */
 struct gsb_conf_t conf;
