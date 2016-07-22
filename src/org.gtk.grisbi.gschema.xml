@@ -3,6 +3,7 @@
 <schemalist gettext-domain="@GETTEXT_PACKAGE@">
 
   <schema path="/org/gtk/grisbi/" id='org.gtk.grisbi'>
+  <!-- options niveau root -->
     <key name="prefer-app-menu" type="b">
       <default>false</default>
       <summary>Show menu type OSX</summary>
@@ -22,6 +23,7 @@
   </schema>
 
   <schema path="/org/gtk/grisbi/files/backup/" id='org.gtk.grisbi.files.backup'>
+  <!-- options de l'onglet Fichiers -->
 	  <key name="backup-path" type="s">
       <default>""</default>
       <summary>Backup directory</summary>
@@ -63,6 +65,7 @@
   </schema>
 
   <schema path="/org/gtk/grisbi/display/" id='org.gtk.grisbi.display'>
+  <!-- options des onglets Adresse et titre, Eléments de l'interface et menu Affichage-->
 	  <key name="display-grisbi-title" type="s">
 	    <choices>
 		    <choice value="Title name"/>
@@ -81,6 +84,17 @@
 	    <summary>Show toolbar</summary>
 	    <description>If TRUE, toolbar is displayed.</description>
 	  </key>
+	  <key name="formulaire-toujours-affiche" type="b">
+      <default>true</default>
+	    <summary>Form always displayed</summary>
+	    <description>If TRUE, form is always displayed.</description>
+	  </key>
+	  <key name="group-partial-balance-under-accounts" type="b">
+      <default>true</default>
+	    <summary></summary>
+	    <description>.</description>
+	  </key>
+
 	  <key name="show-closed-accounts" type="b">
         <default>false</default>
 	    <summary>Show closed accounts</summary>
@@ -91,9 +105,11 @@
 	    <summary>Show heading bar</summary>
 	    <description>If TRUE, heading bar is displayed.</description>
 	  </key>
+
   </schema>
 
   <schema path="/org/gtk/grisbi/files/file/" id='org.gtk.grisbi.files.file'>
+  <!-- options de l'onglet Fichiers -->
     <key name="dernier-fichier-auto" type="b">
       <default>false</default>
       <summary>Automatically open the last file</summary>
@@ -136,6 +152,7 @@
   </schema>
 
   <schema path="/org/gtk/grisbi/form/" id='org.gtk.grisbi.form'>
+  <!-- options de l'onglet Formulaire des opérations -->
 	  <key name="affichage-exercice-automatique" type="b">
       <default>false</default>
       <summary>Selecting the date that determines the fiscal year</summary>
@@ -165,11 +182,6 @@
 	        If TRUE, splits transactions are recovered along with the parent
 	        during the completion of payee.
         </description>
-	  </key>
-	  <key name="formulaire-toujours-affiche" type="b">
-      <default>true</default>
-	    <summary>Form always displayed</summary>
-	    <description>If TRUE, form is always displayed.</description>
 	  </key>
 	  <key name="form-enter-key" type="b">
       <default>false</default>
@@ -270,8 +282,111 @@
 	    <description>The Y position of the main window.</description>
 	  </key>
   </schema>
-  <schema path="/org/gtk/grisbi/messages/" id='org.gtk.grisbi.messages'>
+
+  <schema path="/org/gtk/grisbi/messages/delete/" id='org.gtk.grisbi.messages.delete'>
+	  <key name="delete-child-transaction" type="b">
+	    <default>true</default>
+	    <summary></summary>
+	    <description>.</description>
+	  </key>
+	  <key name="delete-transaction" type="b">
+	    <default>true</default>
+	    <summary></summary>
+	    <description>.</description>
+	  </key>
+	  <key name="delete-child-scheduled" type="b">
+	    <default>true</default>
+	    <summary></summary>
+	    <description>.</description>
+	  </key>
+	  <key name="delete-scheduled" type="b">
+	    <default>true</default>
+	    <summary></summary>
+	    <description>.</description>
+	  </key>
+	  <key name="delete-scheduled-occurences" type="b">
+	    <default>true</default>
+	    <summary></summary>
+	    <description>.</description>
+	  </key>
+	  <key name="delete-rule" type="b">
+	    <default>true</default>
+	    <summary></summary>
+	    <description>.</description>
+	  </key>
   </schema>
+
+  <schema path="/org/gtk/grisbi/messages/tips/" id='org.gtk.grisbi.messages.tips'>
+	  <key name="last-tip" type="i">
+	    <default>0</default>
+	    <summary>Last tip</summary>
+	    <description>The last visited tip .</description>
+	  </key>
+	  <key name="show-tip" type="b">
+	    <default>true</default>
+	    <summary>Show tip</summary>
+	    <description>True if we show the tips.</description>
+	  </key>
+  </schema>
+
+  <schema path="/org/gtk/grisbi/messages/warnings/" id='org.gtk.grisbi.messages.warnings'>
+	  <key name="ofx-security-not-implemented" type="b">
+	    <default>true</default>
+	    <summary></summary>
+	    <description>.</description>
+	  </key>
+	  <key name="encryption-is-irreversible" type="b">
+	    <default>true</default>
+	    <summary></summary>
+	    <description>.</description>
+	  </key>
+	  <key name="account-file-readable" type="b">
+	    <default>true</default>
+	    <summary></summary>
+	    <description>.</description>
+	  </key>
+	  <key name="account-already-opened" type="b">
+	    <default>true</default>
+	    <summary></summary>
+	    <description>.</description>
+	  </key>
+	  <key name="minimum-balance-alert" type="b">
+	    <default>true</default>
+	    <summary></summary>
+	    <description>.</description>
+	  </key>
+	  <key name="no-budgetary-line" type="b">
+	    <default>true</default>
+	    <summary></summary>
+	    <description>.</description>
+	  </key>
+	  <key name="recover-split" type="b">
+	    <default>true</default>
+	    <summary></summary>
+	    <description>.</description>
+	  </key>
+	  <key name="no-inconsistency-found" type="b">
+	    <default>true</default>
+	    <summary></summary>
+	    <description>.</description>
+	  </key>
+	  <key name="reconcile-transaction" type="b">
+	    <default>true</default>
+	    <summary></summary>
+	    <description>.</description>
+	  </key>
+	  <key name="reconcile-start-end-dates" type="b">
+	    <default>true</default>
+	    <summary></summary>
+	    <description>.</description>
+	  </key>
+	  <key name="development-version" type="b">
+	    <default>true</default>
+	    <summary></summary>
+	    <description>.</description>
+	  </key>
+  </schema>
+
   <schema path="/org/gtk/grisbi/panel/" id='org.gtk.grisbi.panel'>
     <key name="active-scrolling-left-pane" type="b">
       <default>false</default>
@@ -293,7 +408,28 @@
 	    <description>The width of the preference window.</description>
 	  </key>
   </schema>
+
   <schema path="/org/gtk/grisbi/scheduled/" id='org.gtk.grisbi.scheduled'>
+	  <key name="check-for-archival" type="b">
+	    <default>true</default>
+	    <summary></summary>
+	    <description>.</description>
+	  </key>
+	  <key name="max-transactions-before-warn-archival" type="i">
+	    <default>3000</default>
+	    <summary></summary>
+	    <description>.</description>
+	  </key>
+	  <key name="execute-scheduled-of-month" type="b">
+	    <default>false</default>
+	    <summary></summary>
+	    <description>.</description>
+	  </key>
+	  <key name="balances-with-scheduled" type="b">
+	    <default>true</default>
+	    <summary></summary>
+	    <description>.</description>
+	  </key>
   </schema>
 
   </schemalist>

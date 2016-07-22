@@ -112,10 +112,6 @@ static gboolean selectionne_liste_preference ( GtkTreeSelection *selection,
                         GtkTreeModel *model );
 /*END_STATIC*/
 
-
-/* global "etat" structure shared in the entire program */
-struct gsb_etat_t etat;
-
 GtkWidget *fenetre_preferences = NULL;
 
 static GtkTreeStore *preference_tree_model = NULL;
@@ -1310,11 +1306,18 @@ gboolean gsb_config_backup_dir_chosen ( GtkWidget *button,
     gchar *path;
 
     path = gtk_file_chooser_get_filename ( GTK_FILE_CHOOSER ( button ) );
-    devel_debug ( path );
-    gsb_file_set_backup_path ( path );
-    if ( path && strlen ( path ) > 0 )
-        g_free ( path );
 
+    if ( path && strlen ( path ) > 0 )
+    {
+        GSettings *settings;
+
+        settings = grisbi_settings_get_settings ( SETTINGS_BACKUP );
+        g_settings_set_string ( G_SETTINGS ( settings ), "backup-path", path );
+        gsb_file_set_backup_path ( path );
+    }
+    else
+        path = my_strdup ( gsb_dirs_get_user_data_dir () );
+    g_free ( path );
     gsb_file_set_modified ( TRUE );
 
     return FALSE;

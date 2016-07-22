@@ -86,6 +86,34 @@ struct _GrisbiAppPrivate
 
 G_DEFINE_TYPE_WITH_PRIVATE(GrisbiApp, grisbi_app, GTK_TYPE_APPLICATION);
 
+/* STRUCTURE CONF */
+/**
+ * libération de la mémoire de la variable conf
+ *
+ * \param
+ *
+ * \return
+ **/
+ void grisbi_app_free_struct_conf ( void )
+{
+    devel_debug (NULL);
+
+	if ( conf.font_string )
+    {
+		g_free ( conf.font_string );
+		conf.font_string = NULL;
+    }
+	if ( conf.browser_command )
+	{
+        g_free ( conf.browser_command );
+		conf.browser_command = NULL;
+	}
+
+	gsb_file_free_last_path ();
+	gsb_file_free_backup_path ();
+
+}
+
 /* MENU APP*/
 /**
  *

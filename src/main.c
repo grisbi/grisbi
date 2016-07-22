@@ -40,9 +40,6 @@
 /*START_EXTERN*/
 /*END_EXTERN*/
 
-/* variables initialisées lors de l'exécution de grisbi PROVISOIRE */
-struct gsb_run_t run;
-
 
 /**
  * Main function

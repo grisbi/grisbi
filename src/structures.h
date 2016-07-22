@@ -23,6 +23,15 @@
 #define CSV_MAX_TOP_LINES 10	/** How many lines to show in CSV preview.  */
 #define GSB_EPSILON 0.0000005   /* Sert à comparer des doubles */
 
+/* global variable, see structures.h */
+struct gsb_conf_t conf;
+/* variables initialisées lors de l'exécution de grisbi PROVISOIRE */
+struct gsb_run_t run;
+/* global "etat" structure shared in the entire program */
+struct gsb_etat_t etat;
+
+typedef enum _bet_type_onglets bet_type_onglets;
+
 typedef enum _SettingsSchema SettingsSchema;
 
 /** structure etat
@@ -123,10 +132,6 @@ struct gsb_etat_t
     gchar *scheduler_column_width;
 };
 
-/* declared in parametres.c */
-extern struct gsb_etat_t etat;
-
-
 /** structure conf
  * variables containing just 0 or 1
  * configured by the file grisbi.conf
@@ -210,16 +215,13 @@ struct gsb_conf_t
     gint metatree_action_2button_press;             /* 0 default gtk, 1 edit_function, 2 manage division if possible */
 
     /* archive stuff */
-    gint check_for_archival;                        /* TRUE if we want to check the number of non archived transactions at the opening */
+    gboolean check_for_archival;                        /* TRUE if we want to check the number of non archived transactions at the opening */
     gint max_non_archived_transactions_for_check;   /* the max number of transaction before grisbi warm at the opening */
 
     /* Tips */
     gint last_tip;
-    gint show_tip;
+    gboolean show_tip;
 };
-
-/* declared in gsb_file_config.c */
-extern struct gsb_conf_t conf;
 
 /** structure run
  * variables containing just 0 or 1
@@ -256,9 +258,6 @@ struct gsb_run_t
     gboolean mise_a_jour_soldes_minimaux;
     gboolean mise_a_jour_fin_comptes_passifs;
 };
-
-/* declared in main.c */
-extern struct gsb_run_t run;
 
 /* structure définissant une association entre un tiers
  * et une chaine de recherche contenant un ou des jokers (%)
@@ -325,7 +324,6 @@ enum bet_type_maj
 
 
 /* définition du type d'onglets du module budgétaire affiché */
-typedef enum _bet_type_onglets bet_type_onglets;
 enum _bet_type_onglets
 {
     BET_ONGLETS_SANS = 0,
@@ -351,7 +349,9 @@ enum _SettingsSchema {
     SETTINGS_FORM,
     SETTINGS_GENERAL,
     SETTINGS_GEOMETRY,
-    SETTINGS_MESSAGES,
+    SETTINGS_MESSAGES_DELETE,
+    SETTINGS_MESSAGES_TIPS,
+    SETTINGS_MESSAGES_WARNINGS,
     SETTINGS_PANEL,
     SETTINGS_PREFS,
     SETTINGS_SCHEDULED
