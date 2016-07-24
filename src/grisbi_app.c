@@ -974,7 +974,7 @@ void grisbi_app_init_recent_manager ( gchar **recent_array )
 		uri = g_filename_to_uri ( recent_array[i], NULL, NULL );
         if ( g_file_test ( recent_array[i], G_FILE_TEST_EXISTS ) )
         {
-            if ( !gtk_recent_manager_has_item ( recent_manager, uri ) )
+            if ( tmp_list == NULL || !gtk_recent_manager_has_item ( recent_manager, uri ) )
                 result = gtk_recent_manager_add_item (  recent_manager, uri );
             if ( result )
             {
@@ -1066,7 +1066,6 @@ gchar **grisbi_app_get_recent_files_array ( void )
             }
 			if ( index < conf.nb_max_derniers_fichiers_ouverts )
 			{
-                printf ("uri = %s\n", uri );
 				recent_array[index++] = uri;
 			}
             else
@@ -1077,7 +1076,6 @@ gchar **grisbi_app_get_recent_files_array ( void )
     recent_array[index] = NULL;
     conf.nb_derniers_fichiers_ouverts = index;
     g_list_free_full ( tmp_list, ( GDestroyNotify ) gtk_recent_info_unref );
-    printf ("conf.nb_derniers_fichiers_ouverts = %d\n", conf.nb_derniers_fichiers_ouverts);
 
     return recent_array;
 }
@@ -1097,6 +1095,7 @@ void grisbi_app_set_recent_files_menu ( GApplication *app,
     GList *tmp_list;
     gchar *detailled_action;
     gchar *uri;
+    const gchar *filename;
     gint index = 0;
     GError *error = NULL;
 
@@ -1110,7 +1109,6 @@ void grisbi_app_set_recent_files_menu ( GApplication *app,
     if ( reset )
     {
         GMenuItem *menu_item;
-        const gchar *filename;
 
         g_menu_remove_all ( priv->item_recent_files );
         filename = grisbi_win_get_filename ( NULL );
@@ -1134,6 +1132,14 @@ void grisbi_app_set_recent_files_menu ( GApplication *app,
             {
                 tmp_list = tmp_list->next;
                 continue;
+            }
+            if ( reset )
+            {
+                if ( strcmp ( uri, filename ) == 0 )
+                {
+                    tmp_list = tmp_list->next;
+                    continue;
+                }
             }
 			if ( index < conf.nb_max_derniers_fichiers_ouverts )
 			{
