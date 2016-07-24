@@ -297,7 +297,7 @@ static void grisbi_settings_init_settings_messages_delete ( GSettings *settings 
 
     for ( i = 0; delete_msg[i].name; i ++ )
     {
-        delete_msg[i].hidden = g_settings_get_boolean ( G_SETTINGS ( settings ),
+        delete_msg[i].hidden = !g_settings_get_boolean ( G_SETTINGS ( settings ),
                         delete_msg[i].name );
         if ( delete_msg[i].hidden == 1 )
             delete_msg[i].default_answer = 1;
@@ -330,12 +330,11 @@ static void grisbi_settings_init_settings_messages_warnings ( GSettings *setting
 
     for ( i = 0; messages[i].name; i ++ )
     {
-        messages[i].hidden = g_settings_get_boolean ( G_SETTINGS ( settings ),
+        messages[i].hidden = !g_settings_get_boolean ( G_SETTINGS ( settings ),
                         messages[i].name );
         if ( messages[i].hidden == 1 )
             messages[i].default_answer = 1;
     }
-
 }
 
 /**
@@ -706,7 +705,7 @@ void grisbi_settings_save_app_config ( GrisbiSettings *settings )
     {
         g_settings_set_boolean ( G_SETTINGS ( priv->settings_messages_delete ),
                         delete_msg[i].name,
-                        delete_msg[i].hidden );
+                        !delete_msg[i].hidden );
     }
 
 
@@ -723,7 +722,7 @@ void grisbi_settings_save_app_config ( GrisbiSettings *settings )
     {
         g_settings_set_boolean ( G_SETTINGS ( priv->settings_messages_warnings ),
                         messages[i].name,
-                        messages[i].hidden );
+                        !messages[i].hidden );
     }
 
 
