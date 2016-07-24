@@ -43,11 +43,11 @@
 #include "grisbi_app.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
+#include "utils_buttons.h"
 /*
 #include "fenetre_principale.h"
 #include "menu.h"
 #include "structures.h"
-#include "utils_buttons.h"
 #include "utils_files.h"
 */#include "utils_str.h"
 #include "erreur.h"
@@ -153,8 +153,17 @@ void grisbi_settings_init_settings_display ( GSettings *settings )
         conf.display_grisbi_title = 2;
     else
         conf.display_grisbi_title = 0;
+    g_free ( tmp_str );
 
-    conf.display_toolbar = g_settings_get_boolean ( settings, "display-toolbar" );
+    tmp_str = g_settings_get_string ( settings, "display-toolbar" );
+    if ( g_strcmp0 ( tmp_str, "Text" ) == 0 )
+        conf.display_toolbar = GSB_BUTTON_TEXT;
+    else if ( g_strcmp0 ( tmp_str, "Icons" ) == 0 )
+        conf.display_toolbar = GSB_BUTTON_ICON;
+    else
+        conf.display_toolbar = GSB_BUTTON_BOTH;
+    g_free ( tmp_str );
+
     conf.formulaire_toujours_affiche = g_settings_get_boolean ( settings, "formulaire-toujours-affiche" );
     conf.group_partial_balance_under_accounts = g_settings_get_boolean ( settings, "group-partial-balance-under-accounts" );
     conf.show_closed_accounts = g_settings_get_boolean ( settings, "show-closed-accounts" );
@@ -580,9 +589,6 @@ void grisbi_settings_save_app_config ( GrisbiSettings *settings )
                         "display-grisbi-title",
                         tmp_str );
 
-    g_settings_set_boolean ( G_SETTINGS ( priv->settings_display ),
-                        "display-toolbar",
-                        conf.display_toolbar );
     g_settings_set_boolean (  G_SETTINGS ( priv->settings_display ),
                         "formulaire-toujours-affiche",
                         conf.formulaire_toujours_affiche );

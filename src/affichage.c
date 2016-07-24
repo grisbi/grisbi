@@ -33,6 +33,7 @@
 #include "accueil.h"
 #include "custom_list.h"
 #include "fenetre_principale.h"
+#include "grisbi_settings.h"
 #include "gsb_automem.h"
 #include "gsb_color.h"
 #include "gsb_data_account.h"
@@ -670,6 +671,9 @@ gboolean update_homepage_title (GtkEntry *entry, gchar *value,
  */
 gboolean change_toolbar_display_mode ( GtkRadioButton *button )
 {
+    GSettings *settings;
+    gchar *tmp_str;
+
     /* Do not execute this callback twice,
      * as it is triggered for both unselected button and newly selected one.
      * We keep the call for the newly selected radio button */
@@ -678,6 +682,24 @@ gboolean change_toolbar_display_mode ( GtkRadioButton *button )
 
     /* save the new parameter */
     conf.display_toolbar = GPOINTER_TO_INT (g_object_get_data ( G_OBJECT(button), "display" ));
+
+    /* update GSettings */
+    switch ( conf.display_toolbar )
+    {
+        case GSB_BUTTON_TEXT:
+            tmp_str = "Text";
+            break;
+        case GSB_BUTTON_ICON:
+            tmp_str = "Icons";
+            break;
+        default:
+            tmp_str = "Text + Icons";
+    }
+    settings = grisbi_settings_get_settings ( SETTINGS_DISPLAY );
+    g_settings_set_string ( G_SETTINGS ( settings ),
+                        "display-toolbar",
+                        tmp_str );
+
 
     /* update toolbars */
     gsb_gui_update_all_toolbars ( );

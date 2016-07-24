@@ -9,7 +9,7 @@
       <summary>Show menu type OSX</summary>
       <description>
           If TRUE, the Application's menu of type OSX is displayed otherwise
-          the classic menu is visible. This option requires restarting Grisbi
+          the classic menu is visible. This option requires restarting Grisbi.
       </description>
     </key>
   </schema>
@@ -71,8 +71,13 @@
         1 = Holder name of the account 2 = Filename.
       </description>
 	  </key>
-	  <key name="display-toolbar" type="b">
-      <default>true</default>
+	  <key name="display-toolbar" type="s">
+	  	    <choices>
+		    <choice value="Text"/>
+		    <choice value="Icons"/>
+		    <choice value="Text + Icons"/>
+		</choices>
+      <default>"Text + Icons"</default>
 	    <summary>Show toolbar</summary>
 	    <description>If TRUE, toolbar is displayed.</description>
 	  </key>
