@@ -12,14 +12,6 @@
           the classic menu is visible. This option requires restarting Grisbi
       </description>
     </key>
-    <key name="stable-config-file-model" type="b">
-      <default>false</default>
-      <summary>Use copy of stable config file</summary>
-      <description>
-        If TRUE, Grisbi use a copy of the stable config file for
-        development version.
-      </description>
-    </key>
   </schema>
 
   <schema path="/org/gtk/grisbi/files/backup/" id='org.gtk.grisbi.files.backup'>

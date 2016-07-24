@@ -98,10 +98,6 @@ static void grisbi_settings_init_settings_root ( GSettings *settings )
 {
     /* Menu type OSX : FALSE par défaut */
     conf.prefer_app_menu = g_settings_get_boolean ( settings, "prefer-app-menu" );
-
-    /* utiliser une copie du fichier de configuration de grisbi stable pour la version de développement
-     * ça permet de ne pas polluer le fonctionnement de la version stable de Grisbi */
-    conf.stable_config_file_model = g_settings_get_boolean ( settings, "stable-config-file-model" );
 }
 
 /**
@@ -547,9 +543,6 @@ void grisbi_settings_save_app_config ( GrisbiSettings *settings )
     g_settings_set_boolean ( G_SETTINGS ( priv->settings_root ),
                         "prefer-app-menu",
                         conf.prefer_app_menu );
-    g_settings_set_boolean ( G_SETTINGS ( priv->settings_root ),
-                        "stable-config-file-model",
-                        conf.stable_config_file_model );
 
     /* priv->settings_backup */
     g_settings_set_boolean ( G_SETTINGS ( priv->settings_backup ),
