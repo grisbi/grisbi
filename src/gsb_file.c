@@ -1032,7 +1032,7 @@ gboolean gsb_file_close ( void )
 
         /* unsensitive the necessaries menus */
         gsb_menu_set_menus_with_file_sensitive ( FALSE );
-        grisbi_win_del_menu_move_to_acc ();
+        grisbi_win_menu_move_to_acc_delete ();
 
         table_etat = NULL;
 

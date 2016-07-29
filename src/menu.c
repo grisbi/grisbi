@@ -1382,7 +1382,7 @@ void gsb_menu_set_menus_with_file_sensitive ( gboolean sensitive )
 
     if ( sensitive )
     {
-        grisbi_win_new_menu_move_to_acc ();
+        grisbi_win_menu_move_to_acc_new ();
     }
 
     while ( *tmp )

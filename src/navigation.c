@@ -1135,7 +1135,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	gtk_widget_hide ( scheduler_calendar );
     }
     /* on update le menu de la liste des comptes */
-     grisbi_win_update_menu_move_to_acc ( FALSE );
+     grisbi_win_menu_move_to_acc_update ( FALSE );
 
     switch ( page_number )
     {

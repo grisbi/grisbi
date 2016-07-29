@@ -332,7 +332,7 @@ gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
 {
     gint account_number;
 
-    grisbi_win_update_menu_move_to_acc  ( FALSE );
+    grisbi_win_menu_move_to_acc_update  ( FALSE );
     if ( page_number != GSB_TRANSACTIONS_PAGE )
     {
         gsb_menu_set_menus_view_account_sensitive ( FALSE );

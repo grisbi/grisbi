@@ -1698,7 +1698,7 @@ void gsb_transactions_list_selection_changed ( gint new_selected_transaction )
     }
 
     /* on update le menu de la liste des comptes */
-    grisbi_win_update_menu_move_to_acc ( TRUE );
+    grisbi_win_menu_move_to_acc_update ( TRUE );
 
     /* save the new current transaction */
     gsb_data_account_set_current_transaction_number ( account_number,
