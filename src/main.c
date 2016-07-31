@@ -31,9 +31,16 @@
 
 #include "include.h"
 #include <gtk/gtk.h>
+#include <libintl.h>
+
+#ifdef HAVE_GOFFICE
+#include <goffice/goffice.h>
+#endif /* HAVE_GOFFICE */
 
 /*START_INCLUDE*/
 #include "grisbi_app.h"
+#include "gsb_dirs.h"
+#include "gsb_locale.h"
 #include "structures.h"
 /*END_INCLUDE*/
 
@@ -51,7 +58,45 @@
  */
 int main ( int argc, char **argv )
 {
-    return g_application_run ( G_APPLICATION ( grisbi_app_new ( argv[0] ) ), argc, argv );
+    GrisbiApp *app;
+	gint status;
+
+    /* On commence par initialiser les répertoires */
+    gsb_dirs_init ( argv[0] );
+
+    /* Setup locale/gettext */
+    setlocale ( LC_ALL, "" );
+    gsb_locale_init ();
+
+    bindtextdomain ( PACKAGE, gsb_dirs_get_locale_dir () );
+    bind_textdomain_codeset ( PACKAGE, "UTF-8" );
+    textdomain ( PACKAGE );
+
+#ifdef HAVE_GOFFICE
+    /* initialisation libgoffice */
+    libgoffice_init ( );
+    /* Initialize plugins manager */
+    go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);
+#endif /* HAVE_GOFFICE */
+
+    app = g_object_new ( GRISBI_TYPE_APP,
+                        "application-id",   "org.gtk.grisbi",
+                        "flags",            G_APPLICATION_HANDLES_COMMAND_LINE | G_APPLICATION_NON_UNIQUE,
+                        "register-session", TRUE,
+                        NULL );
+
+    /* option en attente : G_APPLICATION_HANDLES_OPEN,voir GApplicationFlags pour détails */
+
+    status = g_application_run ( G_APPLICATION ( app ), argc, argv );
+
+    g_object_unref (app);
+
+#ifdef HAVE_GOFFICE
+    /* liberation libgoffice */
+    libgoffice_shutdown ();
+#endif /* HAVE_GOFFICE */
+
+    return status;
 }
 
 

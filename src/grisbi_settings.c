@@ -58,7 +58,6 @@
 extern struct conditional_message delete_msg[];
 extern struct conditional_message messages[];
 extern gint nb_days_before_scheduled;
-
 extern gchar *nom_fichier_comptes;
 /*END_EXTERN*/
 
@@ -200,6 +199,7 @@ static void grisbi_settings_init_settings_file ( GSettings *settings )
         {
             nom_fichier_comptes = NULL;
         }
+        g_strfreev ( recent_array );
     }
 }
 
@@ -617,10 +617,13 @@ void grisbi_settings_save_app_config ( GrisbiSettings *settings )
                         conf.compress_file );
 
     recent_array = grisbi_app_get_recent_files_array ();
-    if ( recent_array )
+    if ( g_strv_length ( recent_array ) )
+    {
         g_settings_set_strv ( G_SETTINGS ( priv->settings_file ),
                         "names-last-files",
                         (const gchar * const *) recent_array );
+    }
+    g_strfreev ( recent_array );
 
     g_settings_set_int ( G_SETTINGS ( priv->settings_file ),
                         "nb-max-derniers-fichiers-ouverts",

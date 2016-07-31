@@ -12,8 +12,9 @@
 
 G_BEGIN_DECLS
 
-#define GRISBI_TYPE_SETTINGS (grisbi_settings_get_type ())
-#define GRISBI_SETTINGS(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), GRISBI_TYPE_SETTINGS, GrisbiSettings))
+#define GRISBI_TYPE_SETTINGS    (grisbi_settings_get_type ())
+#define GRISBI_SETTINGS(obj)    (G_TYPE_CHECK_INSTANCE_CAST ((obj), GRISBI_TYPE_SETTINGS, GrisbiSettings))
+#define GRISBI_IS_SETTINGS(obj) (G_TYPE_CHECK_INSTANCE_TYPE((obj), GRISBI_TYPE_SETTINGS))
 
 typedef struct _GrisbiSettings          GrisbiSettings;
 typedef struct _GrisbiSettingsClass     GrisbiSettingsClass;
@@ -30,14 +31,14 @@ struct _GrisbiSettings
 
 struct _GrisbiSettingsClass
 {
-    GObjectClass parent;
+    GObjectClass parent_class;
 };
 
 /* START_DECLARATION */
-GType grisbi_settings_get_type ( void );
-GrisbiSettings *grisbi_settings_get ( void );
-GSettings *grisbi_settings_get_settings ( gint schema );
-void    grisbi_settings_save_app_config     ( GrisbiSettings *settings );
+GType               grisbi_settings_get_type            ( void ) G_GNUC_CONST;
+GrisbiSettings *    grisbi_settings_get                 ( void );
+GSettings *         grisbi_settings_get_settings        ( gint schema );
+void                grisbi_settings_save_app_config     ( GrisbiSettings *settings );
 
 /* END_DECLARATION */
 
