@@ -225,7 +225,7 @@
         <item>
           <attribute name="label" translatable="yes">Manual</attribute>
           <attribute name="action">win.manual</attribute>
-          <attribute name="accel">&lt;Primary&gt;h</attribute>
+          <attribute name="accel">F1</attribute>
           <attribute name="icon">dialog-question-symbolic</attribute>
         </item>
         <item>
@@ -456,7 +456,7 @@
         <item>
           <attribute name="label" translatable="yes">Manual</attribute>
           <attribute name="action">win.manual</attribute>
-          <attribute name="accel">&lt;Primary&gt;h</attribute>
+          <attribute name="accel">F1</attribute>
           <attribute name="icon">dialog-question-symbolic</attribute>
         </item>
         <item>

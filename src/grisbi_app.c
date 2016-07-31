@@ -112,6 +112,23 @@ typedef struct  /* GrisbiAppPrivate */
 
 }
 
+/* ACCELERATORS*/
+/**
+ * Charge les raccourcis claviers (non modifiables)
+ *
+ * \param GrisbiApp     *app
+ *
+ * \return
+ **/
+static void grisbi_app_setup_accelerators ( GApplication *app )
+{
+    const gchar *accels[] = {NULL, NULL, NULL, NULL};
+
+    accels[0] = "F11";
+    gtk_application_set_accels_for_action ( GTK_APPLICATION ( app ), "win.fullscreen", accels );
+
+}
+
 /* MENU APP*/
 /**
  *
@@ -712,6 +729,8 @@ static void grisbi_app_startup ( GApplication *app )
 	/* app menu */
 	grisbi_app_set_main_menu ( app );
 
+    /* charge les raccourcis claviers */
+    grisbi_app_setup_accelerators ( app );
 }
 
 /**
@@ -741,10 +760,6 @@ static void grisbi_app_activate ( GApplication *app )
     if ( !gsb_file_config_load_config () )
         priv->first_use = TRUE;
 */
-    /* charge les raccourcis claviers */
-    gtk_application_add_accelerator ( GTK_APPLICATION ( app ),
-                        "F11", "win.fullscreen", NULL );
-
 	/* création de la fenêtre pincipale */
     win = grisbi_app_create_window ( GRISBI_APP ( app ), NULL );
 
@@ -939,7 +954,7 @@ GrisbiSettings *grisbi_app_get_grisbi_settings ( void )
  * */
 GMenu *grisbi_app_get_menu_edit ( void )
 {
-	GrisbiApp *app;
+	GApplication *app;
 	GrisbiAppPrivate *priv;
 	printf ("grisbi_app_get_menu_edit\n");
 
