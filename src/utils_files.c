@@ -41,6 +41,7 @@
 #include "gsb_dirs.h"
 #include "gsb_file.h"
 #include "structures.h"
+#include "utils.h"
 #include "utils_file_selection.h"
 #include "utils_str.h"
 #include "erreur.h"
@@ -476,7 +477,7 @@ GSList *utils_files_check_UTF8_validity ( const gchar *contents,
                     if ( tmp_str )
                     {
                         result = g_malloc0 ( sizeof ( struct struc_check_encoding ) );
-                        result -> charset = charset_array[i];
+                        result -> charset = g_strdup ( charset_array[i] );
                         result -> result = tmp_str;
                         list = g_slist_append ( list, result );
                     }
