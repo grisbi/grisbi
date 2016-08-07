@@ -24,8 +24,9 @@
 #define GSB_EPSILON 0.0000005   /* Sert à comparer des doubles */
 #define ETAT_WWW_BROWSER "xdg-open" /* définit le browser par défaut */
 
-/* global variable, see structures.h */
-struct gsb_conf_t conf;
+/* global variable, see grisbi_app.c */
+extern struct GrisbiAppConf conf;
+
 /* variables initialisées lors de l'exécution de grisbi PROVISOIRE */
 struct gsb_run_t run;
 /* global "etat" structure shared in the entire program */
@@ -130,90 +131,83 @@ struct gsb_etat_t
  * configured by the file grisbi.conf
  *
  */
-struct gsb_conf_t
+struct GrisbiAppConf
 {
 
     /* app menu */
-    gboolean prefer_app_menu;                      /* TRUE validate appmenu */
+    gboolean    prefer_app_menu;                            /* TRUE validate appmenu */
 
     /* geometry */
-    gint x_position;                                /* main_window x position */
-    gint y_position;                                /* main_window y position */
-    gint main_width;                                /* main_window width */
-    gint main_height;                               /* main_window height */
-    gboolean full_screen;                           /* TRUE to full screen, 0 else */
-    gboolean maximize_screen;                       /* TRUE to maximize screen, 0 else */
-    gint panel_width;                               /* navigation panel width */
-    gint prefs_width;                               /* preferences width */
+    gint        x_position;                                 /* main_window x position */
+    gint         y_position;                                /* main_window y position */
+    gint        main_width;                                 /* main_window width */
+    gint        main_height;                                /* main_window height */
+    gboolean    full_screen;                                /* TRUE to full screen, 0 else */
+    gboolean    maximize_screen;                            /* TRUE to maximize screen, 0 else */
+    gint        panel_width;                                /* navigation panel width */
+    gint        prefs_width;                                /* preferences width */
 
     /* general part */
-    gboolean entree;                                /* si conf.entree = 1, la touche entrée finit l'opération */
-    /*gint alerte_mini;*/
-    gint utilise_fonte_listes;                      /* TRUE to use a custom font for the lists */
-    gchar *font_string;                             /* contain the description of the font, or NULL */
-    gchar *browser_command;
-    gint pluriel_final;                             /* 0 = finals 1 = finaux */
+    gboolean    entree;                                     /* si conf.entree = 1, la touche entrée finit l'opération */
+    gint        utilise_fonte_listes;                       /* TRUE to use a custom font for the lists */
+    gchar *     font_string;                                /* contain the description of the font, or NULL */
+    gchar *     browser_command;
+    gint        pluriel_final;                              /* 0 = finals 1 = finaux */
 
-    gint display_grisbi_title;                      /* selection du titre principal de grisbi */
-    gboolean active_scrolling_left_pane;            /* active mouse scrolling in the left_pane. */
+    gint display_grisbi_title;                              /* selection du titre principal de grisbi */
+    gboolean active_scrolling_left_pane;                    /* active mouse scrolling in the left_pane. */
 
-    gboolean display_toolbar;                           /* Display mode of toolbar. */
-    gboolean show_headings_bar;                     /* Show headings bar or not. */
-    gboolean show_closed_accounts;
+    gboolean    display_toolbar;                            /* Display mode of toolbar. */
+    gboolean    show_headings_bar;                          /* Show headings bar or not. */
+    gboolean    show_closed_accounts;
 
     /* files part */
-    gboolean sauvegarde_demarrage;                      /* utilisé pour enregistrer le fichier s'il s'est bien ouvert */
-    gboolean sauvegarde_auto;                           /* utilisé pour enregistrer le fichier automatiquementà la fermeture */
-    gint dernier_fichier_auto;
-    gboolean compress_file;                             /* TRUE if we want to compress the Grisbi file */
-    /*gboolean alerte_permission;*/                         /* à un si le message d'alerte s'affiche */
-    gboolean force_enregistrement;                      /* à un si on force l'enregistrement */
-    gint nb_max_derniers_fichiers_ouverts;          /* contient le nb max que peut contenir nb_derniers_fichiers_ouverts */
-    gint nb_derniers_fichiers_ouverts;             /* contient le nb de derniers fichiers ouverts */
+    gboolean    sauvegarde_demarrage;                       /* utilisé pour enregistrer le fichier s'il s'est bien ouvert */
+    gboolean    sauvegarde_auto;                            /* utilisé pour enregistrer le fichier automatiquementà la fermeture */
+    gint        dernier_fichier_auto;                       /* chargement du dernier fichier utilisé */
+    gboolean    compress_file;                              /* TRUE if we want to compress the Grisbi file */
+    gboolean    force_enregistrement;                       /* à un si on force l'enregistrement */
+    gint        nb_max_derniers_fichiers_ouverts;           /* contient le nb max que peut contenir nb_derniers_fichiers_ouverts */
+    gint        nb_derniers_fichiers_ouverts;               /* contient le nb de derniers fichiers ouverts */
 
     /* backup part */
-    gboolean make_backup;                           /* TRUE for create a backup when save file */
-    gboolean make_backup_every_minutes;             /* TRUE to make backup every x mn */
-    gint make_backup_nb_minutes;                    /* the number of minutes we want to make a backup */
-    gboolean make_bakup_single_file;                /* TRUE if a single backup file */
-    gboolean compress_backup;                       /* TRUE if we want to compress the backup */
+    gboolean    make_backup;                                /* TRUE for create a backup when save file */
+    gboolean    make_backup_every_minutes;                  /* TRUE to make backup every x mn */
+    gint        make_backup_nb_minutes;                     /* the number of minutes we want to make a backup */
+    gboolean    make_bakup_single_file;                     /* TRUE if a single backup file */
+    gboolean    compress_backup;                            /* TRUE if we want to compress the backup */
 
     /* formulaire */
-    gint automatic_completion_payee;                /* 1 pour autoriser la completion automatique des opérations */
-    gboolean limit_completion_to_current_account;   /* Limit payee completion to current account or do a full search. */
-    gboolean automatic_recover_splits;              /* 1 pour recréer automatiquement les sous opérations */
-    gboolean automatic_erase_credit_debit;          /* 1 pour effacer les champs crédit et débit */
-    gboolean formulaire_toujours_affiche;           /* TRUE formulaire toujours affiché */
-    gint affichage_exercice_automatique;            /* automatic fyear :0 to set according to the date, 1 according to value date */
-
-#if IS_DEVELOPMENT_VERSION == 1
-    /* config file */
-    gboolean stable_config_file_model;                  /* TRUE for use the stable config file as model */
-#endif
+    gint        automatic_completion_payee;                 /* 1 pour autoriser la completion automatique des opérations */
+    gboolean    limit_completion_to_current_account;        /* Limit payee completion to current account or do a full search. */
+    gboolean    automatic_recover_splits;                   /* 1 pour recréer automatiquement les sous opérations */
+    gboolean    automatic_erase_credit_debit;               /* 1 pour effacer les champs crédit et débit */
+    gboolean    formulaire_toujours_affiche;                /* TRUE formulaire toujours affiché */
+    gint        affichage_exercice_automatique;             /* automatic fyear :0 to set according to the date, 1 according to value date */
 
     /* variables pour l'échéancier */
-    gboolean execute_scheduled_of_month;            /* warn/execute scheduled at expiration (FALSE) or of the month (TRUE) */
+    gboolean    execute_scheduled_of_month;                 /* warn/execute scheduled at expiration (FALSE) or of the month (TRUE) */
 
     /* variables pour le calcul des soldes */
-    gboolean balances_with_scheduled;               /* TRUE = the balance incorporates the scheduled operations */
-    gboolean group_partial_balance_under_accounts;  /* TRUE = in home page group the partial balance with accounts */
+    gboolean    balances_with_scheduled;                    /* TRUE = the balance incorporates the scheduled operations */
+    gboolean    group_partial_balance_under_accounts;       /* TRUE = in home page group the partial balance with accounts */
 
     /* variables for the list of transactions */
-    gint show_transaction_selected_in_form;         /* TRUE will show the selected transaction in the form */
-    gint show_transaction_gives_balance;            /* TRUE si on visualise l'opération qui donne le solde du jour */
-    gboolean transactions_list_primary_sorting;     /* Primary sorting option for the transactions */
-    gboolean transactions_list_secondary_sorting;   /* Secondary sorting option for the transactions */
+    gint        show_transaction_selected_in_form;          /* TRUE will show the selected transaction in the form */
+    gint        show_transaction_gives_balance;             /* TRUE si on visualise l'opération qui donne le solde du jour */
+    gboolean    transactions_list_primary_sorting;          /* Primary sorting option for the transactions */
+    gboolean    transactions_list_secondary_sorting;        /* Secondary sorting option for the transactions */
 
     /* variables for the list of categories */
-    gint metatree_action_2button_press;             /* 0 default gtk, 1 edit_function, 2 manage division if possible */
+    gint        metatree_action_2button_press;              /* 0 default gtk, 1 edit_function, 2 manage division if possible */
 
     /* archive stuff */
-    gboolean check_for_archival;                        /* TRUE if we want to check the number of non archived transactions at the opening */
-    gint max_non_archived_transactions_for_check;   /* the max number of transaction before grisbi warm at the opening */
+    gboolean    check_for_archival;                         /* TRUE if we want to check the number of non archived transactions at the opening */
+    gint        max_non_archived_transactions_for_check;    /* the max number of transaction before grisbi warm at the opening */
 
     /* Tips */
-    gint last_tip;
-    gboolean show_tip;
+    gint        last_tip;
+    gboolean    show_tip;
 };
 
 /** structure run

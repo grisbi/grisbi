@@ -1250,19 +1250,6 @@ GtkWidget *onglet_fichier ( void )
                         dialog );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0);
 
-    /* Config file */
-#if IS_DEVELOPMENT_VERSION == 1
-    paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE, _("Config file") );
-
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6);
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0);
-
-    button = gsb_automem_checkbutton_new (_("Use the config file of version stable as model"),
-                        &conf.stable_config_file_model,
-                        NULL, NULL);
-    gtk_box_pack_start ( GTK_BOX (hbox), button, FALSE, FALSE, 0 );
-#endif
-
     gtk_widget_show_all ( vbox_pref );
 
     if ( !gsb_data_account_get_accounts_amount () )

@@ -530,7 +530,7 @@ GrisbiSettings *grisbi_settings_get ( void )
 }
 
  /**
- * FONCTION PROVISOIRE AVANT TRAITEMENT DES PREFERENCESconf.check_for_archival
+ * FONCTION PROVISOIRE AVANT TRAITEMENT DES PREFERENCES
  *
  * \param
  *

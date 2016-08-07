@@ -85,6 +85,9 @@ typedef struct  /* GrisbiAppPrivate */
  G_DEFINE_TYPE_WITH_PRIVATE (GrisbiApp, grisbi_app, GTK_TYPE_APPLICATION);
 
 /* STRUCTURE CONF */
+/* global variable, see structures.h */
+struct GrisbiAppConf conf;
+
 /**
  * libération de la mémoire de la variable conf
  *
