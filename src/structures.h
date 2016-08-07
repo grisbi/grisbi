@@ -71,14 +71,6 @@ struct gsb_etat_t
 
     gboolean automatic_separator;   /* TRUE if do automatic separator */
 
-    /* Various display message stuff    */
-    gint display_message_lock_active;
-    gint display_message_file_readable;
-    gint display_message_minimum_alert;
-    gint display_message_no_budgetary_line;
-    gint display_message_qif_export_currency;
-    gint display_message_ofx_security;
-
     /* import files */
     gint get_extract_number_for_check;      /* TRUE if Extracting a number and save it in the field No Cheque/Virement */
     gint get_copy_payee_in_note;            /* TRUE si recopie le tiers dans les notes FALSE par défaut */
