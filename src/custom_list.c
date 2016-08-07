@@ -662,28 +662,34 @@ static gboolean custom_list_iter_next (GtkTreeModel  *tree_model,
     /* 2 way now, either we are on a mother, either on a child */
     if (record -> mother_row)
     {
-	/* it's a child iter */
-	CustomRecord  *mother_record;
+        /* it's a child iter */
+        CustomRecord  *mother_record;
 
-	mother_record = record -> mother_row;
-	if (record -> pos == (mother_record -> number_of_children - 1))
-	    /* we are on the list child, no next */
-	    return FALSE;
-
-	/* go to the next child */
-	iter->stamp     = custom_list->stamp;
-	iter->user_data = mother_record -> children_rows[record -> pos + 1];
+        mother_record = record -> mother_row;
+        if (record -> pos == (mother_record -> number_of_children - 1))
+        {
+            /* we are on the list child, no next */
+            iter->stamp     = 0;
+            return FALSE;
+        }
+        /* go to the next child */
+        iter->stamp     = custom_list->stamp;
+        iter->user_data = mother_record -> children_rows[record -> pos + 1];
     }
     else
     {
-	/* it's a mother iter */
-	if (record -> filtered_pos == (custom_list -> num_visibles_rows - 1))
-	    /* we are on the last mother, no next */
-	    return FALSE;
-
-	iter->stamp     = custom_list->stamp;
-	iter->user_data = custom_list -> visibles_rows[record -> filtered_pos + 1];
+        /* it's a mother iter */
+        if (record -> filtered_pos == (custom_list -> num_visibles_rows - 1))
+        {
+           /* we are on the last mother, no next */
+            iter->stamp     = 0;
+            return FALSE;
+        }
+        iter->stamp     = custom_list->stamp;
+        iter->user_data = custom_list -> visibles_rows[record -> filtered_pos + 1];
     }
+
+    /* return */
     return TRUE;
 }
 
@@ -770,7 +776,7 @@ static gboolean custom_list_iter_has_child (GtkTreeModel *tree_model,
 
     /* the transaction can have some children but they can be displayed in another row */
     if (!parent_record -> has_expander)
-	return FALSE;
+        return FALSE;
 
     return TRUE;
 }
