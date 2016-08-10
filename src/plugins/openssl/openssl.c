@@ -34,6 +34,7 @@
 /*START_INCLUDE*/
 #include "openssl.h"
 #include "structures.h"
+#include "utils.h"
 /*END_INCLUDE*/
 
 /*START_EXTERN*/
