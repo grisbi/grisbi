@@ -391,7 +391,6 @@ static GrisbiWin *grisbi_app_create_window ( GrisbiApp *app,
     return win;
 }
 
-/* Fonctions propres à l'initialisation de l'application */
 static const GOptionEntry options[] =
 {
 	/* Version */
@@ -679,30 +678,6 @@ static void grisbi_app_load_file_if_necessary ( GrisbiApp *app )
 }
 
 /**
- * grisbi_app_init
- *
- * \param GApplication *app
- *
- * \return
- **/
-static void grisbi_app_init ( GrisbiApp *app )
-{
-    GrisbiAppPrivate *priv;
-
-    printf ("grisbi_app_init\n");
-	priv = grisbi_app_get_instance_private ( GRISBI_APP ( app ) );
-
-	/* initialize debugging */
-    if ( IS_DEVELOPMENT_VERSION == 1 )
-        debug_initialize_debugging ( 5 );
-
-    g_set_application_name ("Grisbi");
-
-	/* add options for app */
-    g_application_add_main_option_entries ( G_APPLICATION ( app ), options );
-}
-
-/**
  * lancement de l'application
  *
  * \param GApplication *app
@@ -807,6 +782,8 @@ static void grisbi_app_open ( GApplication *app,
     gtk_window_present ( GTK_WINDOW ( win ) );
 }
 
+/* Fonctions propres à l'initialisation de l'application
+ ******************************************************************************/
 /**
  * grisbi_app_dispose
  *
@@ -889,6 +866,30 @@ static void grisbi_app_shutdown ( GApplication *app )
 }
 
 /**
+ * grisbi_app_init
+ *
+ * \param GApplication *app
+ *
+ * \return
+ **/
+static void grisbi_app_init ( GrisbiApp *app )
+{
+    GrisbiAppPrivate *priv;
+
+    printf ("grisbi_app_init\n");
+	priv = grisbi_app_get_instance_private ( GRISBI_APP ( app ) );
+
+	/* initialize debugging */
+    if ( IS_DEVELOPMENT_VERSION == 1 )
+        debug_initialize_debugging ( 5 );
+
+    g_set_application_name ("Grisbi");
+
+	/* add options for app */
+    g_application_add_main_option_entries ( G_APPLICATION ( app ), options );
+}
+
+/**
  * grisbi_app_class_init
  *
  * \param GrisbiAppClass    *class
@@ -910,8 +911,7 @@ static void grisbi_app_class_init ( GrisbiAppClass *klass )
     object_class->dispose = grisbi_app_dispose;
 }
 
-/*******************************************************************************
- * Public Methods
+/* Public functions
  ******************************************************************************/
 /**
  * get active window.
