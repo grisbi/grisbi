@@ -464,7 +464,7 @@ GtkToolItem *utils_buttons_tool_button_new_from_stock ( const gchar *icon_name )
  *
  * \return a GtkToolItem or NULL
  * */
-GtkToolItem *utils_buttons_menu_new_from_image_label ( const gchar *image_name,
+GtkToolItem *utils_buttons_tool_menu_new_from_image_label ( const gchar *image_name,
                         const gchar *label_name )
 {
     GtkToolItem *button = NULL;

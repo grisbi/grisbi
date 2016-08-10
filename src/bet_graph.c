@@ -1951,7 +1951,7 @@ GtkToolItem *bet_graph_button_menu_new ( GtkWidget *toolbar,
     if ( prefs->type_graph == 0 )
     {
         self->is_visible = TRUE;
-        item = utils_buttons_menu_new_from_image_label ( self->filename, self->name );
+        item = utils_buttons_tool_menu_new_from_image_label ( self->filename, self->name );
         self->button = item;
         g_object_set_data ( G_OBJECT ( self->button ), "service_id", self->service_id );
         g_object_set_data ( G_OBJECT ( self->button ), "origin_tab", GINT_TO_POINTER ( origin_tab ) );
@@ -1978,7 +1978,7 @@ GtkToolItem *bet_graph_button_menu_new ( GtkWidget *toolbar,
     if ( prefs->type_graph == 1 )
     {
         self->is_visible = TRUE;
-        item = utils_buttons_menu_new_from_image_label ( self->filename, self->name );
+        item = utils_buttons_tool_menu_new_from_image_label ( self->filename, self->name );
         self->button = item;
         g_object_set_data ( G_OBJECT ( self->button ), "service_id", self->service_id );
         g_object_set_data ( G_OBJECT ( self->button ), "origin_tab", GINT_TO_POINTER ( origin_tab ) );
