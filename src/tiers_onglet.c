@@ -333,7 +333,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
     toolbar = gtk_toolbar_new ();
 
     /* New payee button */
-    item = utils_buttons_new_from_image_label ( "new-payee.png", _("New payee") );
+    item = utils_buttons_tool_button_new_from_image_label ( "new-payee.png", _("New payee") );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Create a new payee") );
     g_signal_connect_swapped ( G_OBJECT ( item ),
                         "clicked",
@@ -378,7 +378,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Manage payees button */
-    item = utils_buttons_new_from_image_label ( "payeesmg.png", _("Manage payees") );
+    item = utils_buttons_tool_button_new_from_image_label ( "payeesmg.png", _("Manage payees") );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Manage the payees") );
     g_signal_connect ( G_OBJECT ( item ),
                         "clicked",
