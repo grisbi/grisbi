@@ -1825,7 +1825,8 @@ static GtkWidget *bet_finance_create_simulator_toolbar ( GtkWidget *parent,
     }
 
     /* création du bouton print */
-    item = gtk_tool_button_new_from_stock ( "gtk-print" );
+    item = utils_buttons_tool_button_new_from_stock ( "gtk-print" );
+    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Print") );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Print the array") );
     g_signal_connect ( G_OBJECT ( item ),
                         "clicked",
@@ -1834,7 +1835,7 @@ static GtkWidget *bet_finance_create_simulator_toolbar ( GtkWidget *parent,
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Export button */
-    item = gtk_tool_button_new_from_stock ( "gtk-save" );
+    item = utils_buttons_tool_button_new_from_stock ( "gtk-save" );
     gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Export") );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Export the array") );
     g_signal_connect ( G_OBJECT ( item ),
@@ -1846,7 +1847,7 @@ static GtkWidget *bet_finance_create_simulator_toolbar ( GtkWidget *parent,
     if ( simulator )
     {
         /* création du bouton calculer */
-        item = gtk_tool_button_new_from_stock ( "gtk-execute" );
+        item = utils_buttons_tool_button_new_from_stock ( "gtk-execute" );
         gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Calculate") );
         gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Calculate") );
         g_signal_connect ( G_OBJECT ( item ),
