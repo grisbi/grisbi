@@ -757,7 +757,7 @@ void grisbi_cmd_convert_ope ( GSimpleAction *action,
  * */
 void grisbi_cmd_move_to_account_menu ( GSimpleAction *action,
 						GVariant *parameter,
-						gpointer win )
+						gpointer app )
 {
 	const gchar *target;
     gint index_target = 0;
