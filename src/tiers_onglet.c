@@ -311,6 +311,8 @@ GtkWidget *payees_create_list ( void )
     /* création de la structure de sauvegarde de la position */
     payee_hold_position = g_malloc0 ( sizeof ( struct metatree_hold_position ) );
 
+    gtk_widget_show_all ( frame );
+
     return ( onglet );
 }
 
@@ -340,7 +342,8 @@ GtkWidget *creation_barre_outils_tiers ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* delete button */
-    item = gtk_tool_button_new_from_stock ( "gtk-delete" );
+    item = utils_buttons_tool_button_new_from_stock ( "gtk-delete" );
+    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Delete") );
     metatree_register_widget_as_linked ( GTK_TREE_MODEL ( payee_tree_model ),
                         GTK_WIDGET ( item ),
                         "selection" );
@@ -352,7 +355,8 @@ GtkWidget *creation_barre_outils_tiers ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* edit button */
-    item = gtk_tool_button_new_from_stock ( "gtk-edit" );
+    item = utils_buttons_tool_button_new_from_stock ( "gtk-edit" );
+    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Edit") );
     metatree_register_widget_as_linked ( GTK_TREE_MODEL ( payee_tree_model ),
                         GTK_WIDGET ( item ),
                         "selection" );
@@ -364,7 +368,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Change view mode button */
-    item = gtk_tool_button_new_from_stock ( "gtk-select-color" );
+    item = utils_buttons_tool_button_new_from_stock ( "gtk-select-color" );
     gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("View") );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Change view mode") );
     g_signal_connect ( G_OBJECT ( item ),
@@ -383,7 +387,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Remove unused payees button */
-    item = gtk_tool_button_new_from_stock ( "gtk-delete" );
+    item = utils_buttons_tool_button_new_from_stock ( "gtk-delete" );
     gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Remove unused payees") );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Remove orphan payees") );
     g_signal_connect ( G_OBJECT ( item ),

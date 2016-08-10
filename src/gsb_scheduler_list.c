@@ -401,7 +401,8 @@ GtkWidget *creation_barre_outils_echeancier ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* delete button */
-    scheduler_button_delete = GTK_WIDGET ( gtk_tool_button_new_from_stock ( "gtk-delete" ) );
+    scheduler_button_delete = GTK_WIDGET ( utils_buttons_tool_button_new_from_stock ( "gtk-delete" ) );
+    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( scheduler_button_delete ), _("Delete") );
     gtk_widget_set_sensitive ( scheduler_button_delete, FALSE );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( scheduler_button_delete ),
                         _("Delete selected scheduled transaction"));
@@ -412,7 +413,8 @@ GtkWidget *creation_barre_outils_echeancier ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), GTK_TOOL_ITEM ( scheduler_button_delete ), -1 );
 
     /* edit button */
-    scheduler_button_edit = GTK_WIDGET ( gtk_tool_button_new_from_stock ( "gtk-edit" ) );
+    scheduler_button_edit = GTK_WIDGET ( utils_buttons_tool_button_new_from_stock ( "gtk-edit" ) );
+    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( scheduler_button_edit ), _("Edit") );
     gtk_widget_set_sensitive ( scheduler_button_edit, FALSE );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( scheduler_button_edit ),
                         _("Edit selected transaction"));
@@ -433,7 +435,8 @@ GtkWidget *creation_barre_outils_echeancier ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), GTK_TOOL_ITEM ( scheduler_display_hide_notes ), -1 );
 
     /* Execute transaction */
-    scheduler_button_execute = GTK_WIDGET ( gtk_tool_button_new_from_stock ( "gtk-execute" ) );
+    scheduler_button_execute = GTK_WIDGET ( utils_buttons_tool_button_new_from_stock ( "gtk-execute" ) );
+    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( scheduler_button_execute ), _("Execute") );
     gtk_widget_set_sensitive ( scheduler_button_execute, FALSE );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( scheduler_button_execute ),
                         _("Execute current scheduled transaction"));
@@ -443,7 +446,7 @@ GtkWidget *creation_barre_outils_echeancier ( void )
                         NULL );
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), GTK_TOOL_ITEM ( scheduler_button_execute ), -1 );
 
-    item = gtk_tool_button_new_from_stock ( "gtk-select-color" );
+    item = utils_buttons_tool_button_new_from_stock ( "gtk-select-color" );
     gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("View") );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ),
                         _("Change display mode of scheduled transaction list"));

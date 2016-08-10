@@ -38,6 +38,8 @@ void utils_togglebutton_select_unselect_all_rows ( GtkToggleButton *togglebutton
 void utils_togglebutton_set_label_position_unselect ( GtkWidget *togglebutton,
                         GCallback callback,
                         GtkWidget *tree_view );
+GtkToolItem *utils_buttons_tool_button_new_from_stock ( const gchar *icon_name );
+GtkToolItem *utils_buttons_tool_menu_new_from_stock ( const gchar *icon_name );
 /*END_DECLARATION*/
 
 #endif

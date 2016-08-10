@@ -611,7 +611,7 @@ GtkWidget *creation_barre_outils_ib ( void )
                                 _("Import"),
                                 G_CALLBACK ( budgetary_lines_importer_list ),
                                 NULL );
-    item = gtk_tool_button_new_from_stock ( "gtk-open" );
+    item = utils_buttons_tool_button_new_from_stock ( "gtk-open" );
     gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Import") );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ),
                         _("Import a Grisbi budgetary line file (.igsb)"
@@ -623,7 +623,7 @@ GtkWidget *creation_barre_outils_ib ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Export button */
-    item = gtk_tool_button_new_from_stock ( "gtk-save" );
+    item = utils_buttons_tool_button_new_from_stock ( "gtk-save" );
     gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Export") );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ),
                         _("Export a Grisbi budgetary line file (.igsb)") );
@@ -638,7 +638,8 @@ GtkWidget *creation_barre_outils_ib ( void )
                                 "gtk-delete", _("Delete"),
                                 G_CALLBACK ( supprimer_division ),
                                 budgetary_line_tree );
-    item = gtk_tool_button_new_from_stock ( "gtk-delete" );
+    item = utils_buttons_tool_button_new_from_stock ( "gtk-delete" );
+    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Delete") );
     metatree_register_widget_as_linked ( GTK_TREE_MODEL ( budgetary_line_tree_model ),
                         GTK_WIDGET ( item ),
                         "selection" );
@@ -654,7 +655,8 @@ GtkWidget *creation_barre_outils_ib ( void )
                                 "gtk-edit", _("Edit"),
                                 G_CALLBACK ( edit_budgetary_line ),
                                 budgetary_line_tree );
-    item = gtk_tool_button_new_from_stock ( "gtk-edit" );
+    item = utils_buttons_tool_button_new_from_stock ( "gtk-edit" );
+    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Edit") );
     metatree_register_widget_as_linked ( GTK_TREE_MODEL ( budgetary_line_tree_model ),
                         GTK_WIDGET ( item ),
                         "selection" );
@@ -666,7 +668,7 @@ GtkWidget *creation_barre_outils_ib ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* View button */
-    item = gtk_tool_button_new_from_stock ( "gtk-select-color" );
+    item = utils_buttons_tool_button_new_from_stock ( "gtk-select-color" );
     gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("View") );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Change display mode") );
     g_signal_connect ( G_OBJECT ( item ),

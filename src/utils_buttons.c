@@ -438,6 +438,23 @@ GtkToolItem *utils_buttons_tool_button_new_from_image_label ( const gchar *image
     return button;
 }
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ * */
+GtkToolItem *utils_buttons_tool_button_new_from_stock ( const gchar *icon_name )
+{
+    GtkToolItem *button = NULL;
+    GtkWidget *image;
+
+    image = gtk_image_new_from_icon_name ( icon_name, GTK_ICON_SIZE_SMALL_TOOLBAR );
+    button = gtk_tool_button_new ( image, NULL );
+
+    return button;
+}
 
 /**
  * Création d'un GtkMenuToolButton à partir d'une image et d'un label
@@ -465,6 +482,23 @@ GtkToolItem *utils_buttons_menu_new_from_image_label ( const gchar *image_name,
     return button;
 }
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ * */
+GtkToolItem *utils_buttons_tool_menu_new_from_stock ( const gchar *icon_name )
+{
+    GtkToolItem *button = NULL;
+    GtkWidget *image;
+
+    image = gtk_image_new_from_icon_name ( icon_name, GTK_ICON_SIZE_SMALL_TOOLBAR );
+    button = gtk_menu_tool_button_new ( image, NULL );
+
+    return button;
+}
 
 /**
  *

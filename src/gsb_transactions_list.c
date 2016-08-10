@@ -349,7 +349,8 @@ GtkWidget *creation_barre_outils_transaction ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* delete button */
-    item = gtk_tool_button_new_from_stock ( "gtk-delete" );
+    item = utils_buttons_tool_button_new_from_stock ( "gtk-delete" );
+    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Delete") );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Delete selected transaction") );
     g_signal_connect ( G_OBJECT ( item ),
                         "clicked",
@@ -358,7 +359,8 @@ GtkWidget *creation_barre_outils_transaction ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* edit button */
-    item = gtk_tool_button_new_from_stock ( "gtk-edit" );
+    item = utils_buttons_tool_button_new_from_stock ( "gtk-edit" );
+    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Edit") );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Edit current transaction") );
     g_signal_connect ( G_OBJECT ( item ),
                         "clicked",
@@ -376,7 +378,8 @@ GtkWidget *creation_barre_outils_transaction ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* print button */
-    item = gtk_tool_button_new_from_stock ( "gtk-print" );
+    item = utils_buttons_tool_button_new_from_stock ( "gtk-print" );
+    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Print") );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Print the transactions list") );
     g_signal_connect ( G_OBJECT ( item ),
                         "clicked",
@@ -385,7 +388,7 @@ GtkWidget *creation_barre_outils_transaction ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* select the number of lines */
-    item = gtk_tool_button_new_from_stock ( "gtk-select-color" );
+    item = utils_buttons_tool_button_new_from_stock ( "gtk-select-color" );
     gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("View") );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Change display mode of the list") );
     g_signal_connect ( G_OBJECT ( item ),
@@ -395,7 +398,7 @@ GtkWidget *creation_barre_outils_transaction ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* select the rule */
-    menu_import_rules = GTK_WIDGET ( gtk_tool_button_new_from_stock ( "gtk-execute" ) );
+    menu_import_rules = GTK_WIDGET ( utils_buttons_tool_button_new_from_stock ( "gtk-execute" ) );
     gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( menu_import_rules ), _("Import rules") );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( menu_import_rules ), _("Quick file import by rules") );
     g_signal_connect ( G_OBJECT ( menu_import_rules ),
