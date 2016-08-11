@@ -448,7 +448,7 @@ void grisbi_win_init_menubar ( GrisbiWin *win,
 	/* disabled menus */
     while ( *tmp )
     {
-        gsb_gui_sensitive_win_menu_item ( *tmp, FALSE );
+        gsb_menu_gui_sensitive_win_menu_item ( *tmp, FALSE );
 
         tmp++;
     }

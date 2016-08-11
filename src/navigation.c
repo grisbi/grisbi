@@ -959,7 +959,7 @@ gboolean navigation_change_account ( gint new_account )
      * have to use a buffer variable to get the last account */
     current_account = gsb_gui_navigation_get_last_account ();
 
-    gsb_gui_sensitive_win_menu_item ( "new-ope", TRUE );
+    gsb_menu_gui_sensitive_win_menu_item ( "new-ope", TRUE );
 
     /* save the row_align of the last account */
     gsb_data_account_set_row_align ( current_account,
@@ -1144,7 +1144,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 
         title = g_strdup(_("My accounts"));
 
-        gsb_gui_sensitive_win_menu_item ( "show-closed-acc", TRUE );
+        gsb_menu_gui_sensitive_win_menu_item ( "show-closed-acc", TRUE );
 
 	    /* what to be done if switch to that page */
 	    mise_a_jour_accueil ( FALSE );
@@ -1155,7 +1155,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    notice_debug ("Account page selected");
 
         gsb_menu_set_menus_view_account_sensitive ( TRUE );
-	    gsb_gui_sensitive_win_menu_item ( "remove-acc", TRUE );
+	    gsb_menu_gui_sensitive_win_menu_item ( "remove-acc", TRUE );
 
 	    account_number = gsb_gui_navigation_get_current_account ();
 
@@ -1209,10 +1209,10 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    gtk_widget_show_all ( scheduler_calendar );
 
         /* show menu NewTransaction */
-        gsb_gui_sensitive_win_menu_item ( "new-ope", TRUE );
+        gsb_menu_gui_sensitive_win_menu_item ( "new-ope", TRUE );
 
         /* show menu InitwidthCol */
-        gsb_gui_sensitive_win_menu_item ( "reset-width-col", TRUE );
+        gsb_menu_gui_sensitive_win_menu_item ( "reset-width-col", TRUE );
 	    break;
 
 	case GSB_PAYEES_PAGE:

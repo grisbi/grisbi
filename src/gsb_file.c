@@ -1120,13 +1120,13 @@ void gsb_file_set_modified ( gboolean modified )
         if ( ! run.file_modification )
         {
             run.file_modification = time ( NULL );
-            gsb_gui_sensitive_win_menu_item ( "save", TRUE );
+            gsb_menu_gui_sensitive_win_menu_item ( "save", TRUE );
         }
     }
     else
     {
         run.file_modification = 0;
-        gsb_gui_sensitive_win_menu_item ( "save", FALSE );
+        gsb_menu_gui_sensitive_win_menu_item ( "save", FALSE );
     }
 }
 

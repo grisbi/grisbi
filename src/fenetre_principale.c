@@ -336,7 +336,7 @@ gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
     if ( page_number != GSB_TRANSACTIONS_PAGE )
     {
         gsb_menu_set_menus_view_account_sensitive ( FALSE );
-        gsb_gui_sensitive_win_menu_item ( "new-ope", FALSE );
+        gsb_menu_gui_sensitive_win_menu_item ( "new-ope", FALSE );
     }
 
     switch ( page_number )
@@ -344,7 +344,7 @@ gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
     case GSB_TRANSACTIONS_PAGE:
         gsb_form_set_expander_visible ( TRUE, TRUE );
         gsb_menu_set_menus_view_account_sensitive ( TRUE );
-        gsb_gui_sensitive_win_menu_item ( "new-ope", TRUE );
+        gsb_menu_gui_sensitive_win_menu_item ( "new-ope", TRUE );
         break;
     case GSB_ESTIMATE_PAGE:
         gsb_form_set_expander_visible (FALSE, FALSE );
