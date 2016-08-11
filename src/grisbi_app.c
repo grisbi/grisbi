@@ -200,7 +200,6 @@ static void grisbi_app_change_radio_state ( GSimpleAction *action,
                         GVariant *state,
                         gpointer user_data )
 {
-    printf ("grisbi_app_change_radio_state = %s\n", g_variant_get_string (state, NULL) );
     g_simple_action_set_state ( action, state );
 }
 
