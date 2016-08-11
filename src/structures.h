@@ -162,6 +162,7 @@ struct GrisbiAppConf
     gboolean    show_closed_accounts;
 
     /* files part */
+    gchar *     last_open_file;                             /* dernier fichier ouvert */
     gboolean    sauvegarde_demarrage;                       /* utilisé pour enregistrer le fichier s'il s'est bien ouvert */
     gboolean    sauvegarde_auto;                            /* utilisé pour enregistrer le fichier automatiquementà la fermeture */
     gint        dernier_fichier_auto;                       /* chargement du dernier fichier utilisé */

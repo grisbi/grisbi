@@ -50,6 +50,7 @@
 #include "import.h"
 #include "menu.h"
 #include "traitement_variables.h"
+#include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -89,13 +90,29 @@ typedef struct  /* GrisbiAppPrivate */
 struct GrisbiAppConf conf;
 
 /**
+ * initialisation de la variable conf
+ *
+ * \param
+ *
+ * \return
+ **/
+static void grisbi_app_struct_conf_init ( void )
+{
+    devel_debug (NULL);
+
+    conf.font_string = NULL;
+    conf.browser_command = NULL;
+    conf.last_open_file = NULL;
+}
+
+/**
  * libération de la mémoire de la variable conf
  *
  * \param
  *
  * \return
  **/
- void grisbi_app_free_struct_conf ( void )
+static void grisbi_app_struct_conf_free ( void )
 {
     devel_debug (NULL);
 
@@ -109,6 +126,12 @@ struct GrisbiAppConf conf;
         g_free ( conf.browser_command );
 		conf.browser_command = NULL;
 	}
+
+    if ( conf.last_open_file )
+    {
+        g_free ( conf.last_open_file );
+        conf.last_open_file = NULL;
+    }
 
 	gsb_file_free_last_path ();
 	gsb_file_free_backup_path ();
@@ -491,11 +514,6 @@ static gboolean grisbi_app_cmdline ( GApplication *app,
 	/* initialisation de debug_level à -1 */
 	priv->debug_level = -1;
 
-	/* initialisation des répertoires de grisbi */
-	args = g_application_command_line_get_arguments ( cmdline, &argc );
-
-	g_strfreev ( args );
-
 	/* traitement des autres options */
 	options = g_application_command_line_get_options_dict ( cmdline );
 
@@ -645,34 +663,27 @@ static void grisbi_app_load_file_if_necessary ( GrisbiApp *app )
 
 		tmp_list = 	priv->file_list;
 
-		while ( tmp_list )
-		{
-			tmp_str = tmp_list -> data;
+        /* on n'ouvre que le premier fichier de la liste */
+        tmp_str = tmp_list -> data;
 
-			if ( gsb_file_open_file ( tmp_str ) )
-			{
-				if ( nom_fichier_comptes )
-					g_free ( nom_fichier_comptes );
-				nom_fichier_comptes = tmp_str;
-			}
-			else
-			{
-				if ( nom_fichier_comptes )
-					g_free ( nom_fichier_comptes );
-				nom_fichier_comptes = NULL;
-			}
+        if ( gsb_file_open_file ( tmp_str ) )
+        {
+            gchar *tmp_uri;
 
-			tmp_list = tmp_list -> next;
-		}
-
+            tmp_uri = g_filename_to_uri ( tmp_str, NULL, NULL );
+            gsb_menu_recent_manager_remove_item ( NULL, tmp_str );
+            gtk_recent_manager_add_item ( gtk_recent_manager_get_default (), tmp_uri );
+            g_free ( tmp_uri );
+            grisbi_app_set_recent_files_menu ( NULL, TRUE );
+        }
 	}
     else
     {
         /* open the last file if needed, nom_fichier_comptes was filled while loading the configuration */
-        if ( conf.dernier_fichier_auto && nom_fichier_comptes )
+        if ( conf.dernier_fichier_auto && conf.last_open_file )
         {
-            if ( !gsb_file_open_file ( nom_fichier_comptes ) )
-                g_free ( nom_fichier_comptes );
+            if ( !gsb_file_open_file ( conf.last_open_file ) )
+                g_free ( conf.last_open_file );
         }
     }
 }
@@ -782,8 +793,8 @@ static void grisbi_app_open ( GApplication *app,
     gtk_window_present ( GTK_WINDOW ( win ) );
 }
 
-/* Fonctions propres à l'initialisation de l'application
- ******************************************************************************/
+/* Fonctions propres à l'initialisation de l'application                      */
+/******************************************************************************/
 /**
  * grisbi_app_dispose
  *
@@ -860,7 +871,7 @@ static void grisbi_app_shutdown ( GApplication *app )
     grisbi_settings_save_app_config ( priv->settings );
 
 	/* on libère la mémoire utilisée par conf */
-    grisbi_app_free_struct_conf ();
+    grisbi_app_struct_conf_free ();
 
     G_APPLICATION_CLASS (grisbi_app_parent_class)->shutdown (app);
 }
@@ -887,6 +898,9 @@ static void grisbi_app_init ( GrisbiApp *app )
 
 	/* add options for app */
     g_application_add_main_option_entries ( G_APPLICATION ( app ), options );
+
+    /* initialisation de la variable conf */
+    grisbi_app_struct_conf_init ();
 }
 
 /**
@@ -911,8 +925,8 @@ static void grisbi_app_class_init ( GrisbiAppClass *klass )
     object_class->dispose = grisbi_app_dispose;
 }
 
-/* Public functions
- ******************************************************************************/
+/* Public functions                                                           */
+/******************************************************************************/
 /**
  * get active window.
  *
@@ -1196,6 +1210,10 @@ void grisbi_app_set_recent_files_menu ( GApplication *app,
                 detailled_action = g_strdup_printf ("win.direct-open-file::%d", index+1 );
                 menu_item = g_menu_item_new ( uri, detailled_action );
                 g_menu_append_item ( priv->item_recent_files, menu_item );
+                if ( index == 0 )
+                {
+                    conf.last_open_file = my_strdup ( uri );
+                }
 				index++;
                 g_free ( detailled_action );
                 g_object_unref ( menu_item );

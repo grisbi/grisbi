@@ -295,6 +295,10 @@ static void grisbi_win_init ( GrisbiWin *win )
 	printf ("grisbi_win_init\n");
 	priv = grisbi_win_get_instance_private ( GRISBI_WIN ( win ) );
 
+    priv->filename = NULL;
+    priv->file_title = NULL;
+    priv->window_title = NULL;
+
 	gtk_widget_init_template ( GTK_WIDGET ( win ) );
 
 	/* initialisation de la barre d'état */

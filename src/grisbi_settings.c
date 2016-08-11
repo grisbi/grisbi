@@ -49,7 +49,8 @@
 #include "menu.h"
 #include "structures.h"
 #include "utils_files.h"
-*/#include "utils_str.h"
+*/
+#include "utils_str.h"
 #include "erreur.h"
 
 /*END_INCLUDE*/
@@ -58,7 +59,6 @@
 extern struct conditional_message delete_msg[];
 extern struct conditional_message messages[];
 extern gint nb_days_before_scheduled;
-extern gchar *nom_fichier_comptes;
 /*END_EXTERN*/
 
 struct _GrisbiSettingsPrivate
@@ -193,11 +193,7 @@ static void grisbi_settings_init_settings_file ( GSettings *settings )
         if ( conf.nb_derniers_fichiers_ouverts > 0 )
         {
             grisbi_app_init_recent_manager ( recent_array );
-            nom_fichier_comptes = my_strdup ( recent_array[0]);
-        }
-        else
-        {
-            nom_fichier_comptes = NULL;
+            conf.last_open_file = my_strdup ( recent_array[0]);
         }
         g_strfreev ( recent_array );
     }
