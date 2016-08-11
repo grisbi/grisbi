@@ -151,10 +151,11 @@ void        grisbi_cmd_reset_width_col          ( GSimpleAction *action,
 
 
 
-void        gsb_gui_sensitive_win_menu_item                 ( gchar *item_name,
+void        gsb_menu_gui_sensitive_win_menu_item                 ( gchar *item_name,
                                                              gboolean state );
-gboolean    gsb_gui_toggle_show_archived                    ( void );
-gboolean    gsb_gui_toggle_show_reconciled                  ( void );
+gboolean    gsb_menu_gui_toggle_show_archived                    ( void );
+gboolean    gsb_menu_gui_toggle_show_form                        ( void );
+gboolean    gsb_menu_gui_toggle_show_reconciled                  ( void );
 gboolean    gsb_menu_set_menus_select_scheduled_sensitive   ( gboolean sensitive );
 gboolean    gsb_menu_set_menus_select_transaction_sensitive ( gboolean sensitive );
 void        gsb_menu_set_menus_view_account_sensitive       ( gboolean sensitive );

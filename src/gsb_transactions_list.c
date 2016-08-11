@@ -608,7 +608,7 @@ static gboolean popup_transaction_view_mode_menu ( GtkWidget *button,
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
     g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
-			            G_CALLBACK ( gsb_gui_toggle_show_reconciled ),
+			            G_CALLBACK ( gsb_menu_gui_toggle_show_reconciled ),
                         NULL );
 
     menu_item = gtk_check_menu_item_new_with_label ( _("Show lines archives") );
@@ -622,7 +622,7 @@ static gboolean popup_transaction_view_mode_menu ( GtkWidget *button,
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
     g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
-			            G_CALLBACK ( gsb_gui_toggle_show_archived ),
+			            G_CALLBACK ( gsb_menu_gui_toggle_show_archived ),
                         NULL );
 
     gtk_menu_set_active ( GTK_MENU(menu),
@@ -3628,37 +3628,38 @@ void mise_a_jour_affichage_r ( gboolean show_r )
 
     current_account = gsb_gui_navigation_get_current_account ();
 
+    /* show r est déjà positionné on met à jour l'affichage */
+    if ( show_r == gsb_data_account_get_r ( current_account ) )
+    {
+        gsb_transactions_list_update_tree_view ( current_account, show_r );
+
+        return;
+    }
+
     /*  we check all the accounts */
     /* 	if etat.retient_affichage_par_compte is set, only gsb_gui_navigation_get_current_account () will change */
     /* 	else, all the accounts change */
 
-    if ( show_r == gsb_data_account_get_r ( current_account ) )
+    if ( etat.retient_affichage_par_compte )
+        gsb_data_account_set_r ( current_account, show_r );
+    else
     {
-        gsb_transactions_list_update_tree_view ( current_account, show_r );
-        gsb_menu_update_view_menu ( current_account );
-        return;
-    }
+        GSList *list_tmp;
 
-    gsb_data_account_set_r ( current_account, show_r );
+        list_tmp = gsb_data_account_get_list_accounts ();
 
-    if ( !etat.retient_affichage_par_compte )
-    {
-	GSList *list_tmp;
+        while ( list_tmp )
+        {
+            gint i;
 
-	list_tmp = gsb_data_account_get_list_accounts ();
+            i = gsb_data_account_get_no_account ( list_tmp -> data );
+            gsb_data_account_set_r ( i, show_r );
 
-	while ( list_tmp )
-	{
-	    gint i;
-
-	    i = gsb_data_account_get_no_account ( list_tmp -> data );
-	    gsb_data_account_set_r ( i, show_r );
-
-	    list_tmp = list_tmp -> next;
-	}
+            list_tmp = list_tmp -> next;
+        }
     }
     gsb_transactions_list_update_tree_view ( current_account, show_r );
-    gsb_menu_update_view_menu ( current_account );
+    gsb_file_set_modified ( TRUE );
 
     return;
 }
@@ -3686,7 +3687,7 @@ void gsb_transactions_list_show_archives_lines ( gboolean show_l )
     if ( show_l == gsb_data_account_get_l ( current_account ) )
     {
         gsb_transactions_list_update_tree_view ( current_account, show_l );
-            return;
+        return;
     }
 
     gsb_data_account_set_l ( current_account, show_l );
@@ -3708,6 +3709,8 @@ void gsb_transactions_list_show_archives_lines ( gboolean show_l )
         }
     }
     gsb_transactions_list_update_tree_view ( current_account, show_l );
+
+    gsb_file_set_modified ( TRUE );
 
     return;
 }

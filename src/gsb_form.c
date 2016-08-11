@@ -1027,7 +1027,7 @@ gboolean gsb_form_activate_expander ( GtkWidget *expander,
 	gsb_form_show ( FALSE );
 	conf.formulaire_toujours_affiche = FALSE;
     }
-    gsb_menu_update_view_menu ( gsb_gui_navigation_get_current_account () );
+    gsb_menu_gui_toggle_show_form ();
 
     return FALSE;
 }

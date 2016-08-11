@@ -62,9 +62,6 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gboolean gsb_gui_toggle_show_closed_accounts ( void );
-static gboolean gsb_gui_toggle_show_form ( void );
-
 static gboolean gsb_menu_reinit_largeur_col_menu ( void );
 /*END_STATIC*/
 
@@ -72,9 +69,24 @@ static gboolean gsb_menu_reinit_largeur_col_menu ( void );
 /*END_EXTERN*/
 
 
-static gboolean block_menu_cb = FALSE;
-
 /* fonctions statiques */
+/**
+ * Show or hide closed accounts.
+ *
+ * \return FALSE
+ */
+static gboolean gsb_gui_toggle_show_closed_accounts ( void )
+{
+    conf.show_closed_accounts = !conf.show_closed_accounts;
+
+    gsb_gui_navigation_create_account_list ( gsb_gui_navigation_get_model ( ) );
+    gsb_gui_navigation_update_home_page ( );
+
+    gsb_file_set_modified ( TRUE );
+
+    return FALSE;
+}
+
 /**
  * Start a browser processus with Grisbi bug report page displayed.
  *
@@ -161,6 +173,35 @@ static gboolean gsb_menu_help_website ( void )
     lance_navigateur_web ( "http://www.grisbi.org/" );
 
     return TRUE;
+}
+
+/**
+ * Réinitialise la largeur des colonnes de la vue des opérations
+ *
+ * \param
+ *
+ * \return  FALSE
+ * */
+static gboolean gsb_menu_reinit_largeur_col_menu ( void )
+{
+    gint current_page;
+
+    current_page = gsb_gui_navigation_get_current_page ( );
+
+    if ( current_page == GSB_ACCOUNT_PAGE )
+    {
+        initialise_largeur_colonnes_tab_affichage_ope ( GSB_ACCOUNT_PAGE, NULL );
+
+        gsb_transactions_list_set_largeur_col ( );
+    }
+    else if ( current_page == GSB_SCHEDULER_PAGE )
+    {
+        initialise_largeur_colonnes_tab_affichage_ope ( GSB_SCHEDULER_PAGE, NULL );
+
+        gsb_scheduler_list_set_largeur_col ( );
+    }
+
+    return FALSE;
 }
 
 /* fonctions de commande liées aux actions */
@@ -336,7 +377,6 @@ void grisbi_cmd_file_open_menu ( GSimpleAction *action,
 						gpointer app )
 {
 	devel_debug (NULL);
-    printf ("grisbi_cmd_file_open_menu\n");
 
 	if ( gsb_file_open_menu () )
     {
@@ -832,7 +872,7 @@ void grisbi_cmd_show_reconciled_toggle ( GSimpleAction *action,
 {
     gint current_account;
 	devel_debug (NULL);
-
+printf ("grisbi_cmd_show_reconciled_toggle\n");
     current_account = gsb_gui_navigation_get_current_account ( );
     if ( current_account == -1 || run.equilibrage == 1 )
         return;
@@ -1033,13 +1073,13 @@ void gsb_menu_recent_manager_remove_item ( GtkRecentManager *recent_manager,
  *
  * \return
  */
-void gsb_gui_sensitive_win_menu_item ( gchar *item_name,
+void gsb_menu_gui_sensitive_win_menu_item ( gchar *item_name,
                         gboolean state )
 {
     GrisbiWin *win;
     GAction *action;
 
-/*    printf ("gsb_gui_sensitive_win_menu_item : %s sensitive = %d\n", item_name, state );
+/*    printf ("gsb_menu_gui_sensitive_win_menu_item : %s sensitive = %d\n", item_name, state );
 */
     win = grisbi_app_get_active_window ( NULL );
     action = g_action_map_lookup_action (G_ACTION_MAP ( win ), item_name );
@@ -1053,12 +1093,9 @@ void gsb_gui_sensitive_win_menu_item ( gchar *item_name,
  *
  * \return FALSE
  */
-gboolean gsb_gui_toggle_show_reconciled ( void )
+gboolean gsb_menu_gui_toggle_show_reconciled ( void )
 {
     gint current_account;
-
-    if ( block_menu_cb )
-	    return FALSE;
 
     current_account = gsb_gui_navigation_get_current_account ( );
     if ( current_account == -1 || run.equilibrage == 1 )
@@ -1078,12 +1115,9 @@ gboolean gsb_gui_toggle_show_reconciled ( void )
  *
  * \return FALSE
  */
-gboolean gsb_gui_toggle_show_archived ( void )
+gboolean gsb_menu_gui_toggle_show_archived ( void )
 {
     gint current_account;
-
-    if ( block_menu_cb )
-	    return FALSE;
 
     current_account = gsb_gui_navigation_get_current_account ( );
     if ( current_account == -1 )
@@ -1099,23 +1133,22 @@ gboolean gsb_gui_toggle_show_archived ( void )
 
 
 /**
- * Show or hide closed accounts.
+ * Met à jour
  *
  * \return FALSE
  */
-gboolean gsb_gui_toggle_show_closed_accounts ( void )
+gboolean gsb_menu_gui_toggle_show_form ( void )
 {
-    conf.show_closed_accounts = !conf.show_closed_accounts;
+    GrisbiWin *win;
+    GAction *action;
 
-    gsb_gui_navigation_create_account_list ( gsb_gui_navigation_get_model ( ) );
-    gsb_gui_navigation_update_home_page ( );
-
-    gsb_file_set_modified ( TRUE );
+    win = grisbi_app_get_active_window ( NULL );
+    action = g_action_map_lookup_action ( G_ACTION_MAP ( win ), "show-form" );
+    g_action_change_state ( G_ACTION ( action ),
+                           g_variant_new_boolean ( conf.formulaire_toujours_affiche ) );
 
     return FALSE;
 }
-
-
 
 /**
  * Update the view menu in the menu bar
@@ -1126,56 +1159,48 @@ gboolean gsb_gui_toggle_show_closed_accounts ( void )
  * */
 gboolean gsb_menu_update_view_menu ( gint account_number )
 {
-    gchar * item_name = NULL;
-    gchar *tmpstr;
+    GrisbiWin *win;
+    GAction *action;
+    GVariant *parameter;
 
     devel_debug_int (account_number);
 
-    block_menu_cb = TRUE;
+    win = grisbi_app_get_active_window ( NULL );
 
     /* update the showing of reconciled transactions */
-/*    tmpstr = "/menubar/ViewMenu/ShowReconciled";
-    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
-                        gtk_ui_manager_get_action ( ui_manager, tmpstr) ),
-				        gsb_data_account_get_r ( account_number ) );
+    action = g_action_map_lookup_action ( G_ACTION_MAP ( win ), "show-reconciled" );
+    g_action_change_state ( G_ACTION ( action ),
+                           g_variant_new_boolean ( gsb_data_account_get_r (account_number ) ) );
 
-    tmpstr = "/menubar/ViewMenu/ShowTransactionForm";
-    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
-                        gtk_ui_manager_get_action ( ui_manager, tmpstr) ),
-				        gsb_form_is_visible ( ) );
-*/
     /* update the showing of archived transactions */
-/*    tmpstr = "/menubar/ViewMenu/ShowArchived";
-    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
-                        gtk_ui_manager_get_action ( ui_manager, tmpstr) ),
-				        gsb_data_account_get_l ( account_number ) );
-*/
+    action = g_action_map_lookup_action ( G_ACTION_MAP ( win ), "show-archived" );
+    g_action_change_state ( G_ACTION ( action ),
+                           g_variant_new_boolean ( gsb_data_account_get_l (account_number ) ) );
+
     /* update the number of line showed */
-/*    switch ( gsb_data_account_get_nb_rows (account_number))
+    switch ( gsb_data_account_get_nb_rows ( account_number ) )
     {
 	default:
 	case 1 :
-	    item_name = "/menubar/ViewMenu/ShowOneLine";
+        parameter = g_variant_new_string ( "1" );
 	    break;
 	case 2 :
-	    item_name = "/menubar/ViewMenu/ShowTwoLines";
+        parameter = g_variant_new_string ( "2" );
 	    break;
 	case 3 :
-	    item_name = "/menubar/ViewMenu/ShowThreeLines";
+        parameter = g_variant_new_string ( "3" );
 	    break;
 	case 4 :
-	    item_name = "/menubar/ViewMenu/ShowFourLines";
+        parameter = g_variant_new_string ( "4" );
 	    break;
     }
 
-    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
-                        gtk_ui_manager_get_action ( ui_manager, item_name ) ),
-				        TRUE );
-*/    block_menu_cb = FALSE;
+    action = g_action_map_lookup_action ( G_ACTION_MAP ( win ), "show-ope" );
+    g_action_change_state ( G_ACTION ( action ), parameter );
 
+    /* return value*/
     return FALSE;
 }
-
 
 /**
  * Update the clickable list of closed accounts and target
@@ -1281,7 +1306,7 @@ gboolean gsb_menu_set_menus_select_transaction_sensitive ( gboolean sensitive )
 
     while ( *tmp )
     {
-        gsb_gui_sensitive_win_menu_item ( *tmp, sensitive );
+        gsb_menu_gui_sensitive_win_menu_item ( *tmp, sensitive );
         tmp++;
     }
 
@@ -1311,41 +1336,11 @@ gboolean gsb_menu_set_menus_select_scheduled_sensitive ( gboolean sensitive )
     printf ("gsb_menu_set_menus_select_transaction_sensitive : sensitive = %d\n", sensitive );
     while ( *tmp )
     {
-        gsb_gui_sensitive_win_menu_item ( *tmp, sensitive );
+        gsb_menu_gui_sensitive_win_menu_item ( *tmp, sensitive );
         tmp++;
     }
     return FALSE;
 }
-
-
-/**
- *
- *
- *
- *
- **/
-gboolean gsb_menu_reinit_largeur_col_menu ( void )
-{
-    gint current_page;
-
-    current_page = gsb_gui_navigation_get_current_page ( );
-
-    if ( current_page == GSB_ACCOUNT_PAGE )
-    {
-        initialise_largeur_colonnes_tab_affichage_ope ( GSB_ACCOUNT_PAGE, NULL );
-
-        gsb_transactions_list_set_largeur_col ( );
-    }
-    else if ( current_page == GSB_SCHEDULER_PAGE )
-    {
-        initialise_largeur_colonnes_tab_affichage_ope ( GSB_SCHEDULER_PAGE, NULL );
-
-        gsb_scheduler_list_set_largeur_col ( );
-    }
-
-    return FALSE;
-}
-
 
 /**
  * Initialise la barre de menus en fonction de la présence ou non d'un fichier de comptes
@@ -1381,7 +1376,7 @@ void gsb_menu_set_menus_with_file_sensitive ( gboolean sensitive )
 
     while ( *tmp )
     {
-        gsb_gui_sensitive_win_menu_item ( *tmp, sensitive );
+        gsb_menu_gui_sensitive_win_menu_item ( *tmp, sensitive );
         tmp++;
     }
     /* sensibilise le menu preferences */
@@ -1414,10 +1409,11 @@ void gsb_menu_set_menus_view_account_sensitive ( gboolean sensitive )
 
     while ( *tmp )
     {
-        gsb_gui_sensitive_win_menu_item ( *tmp, sensitive );
+        gsb_menu_gui_sensitive_win_menu_item ( *tmp, sensitive );
         tmp++;
     }
 }
+
 /**
  *
  *
