@@ -73,12 +73,6 @@ static gboolean gsb_menu_reinit_largeur_col_menu ( void );
 
 
 static gboolean block_menu_cb = FALSE;
-static GtkUIManager *ui_manager;
-static gint merge_id = -1;
-static GtkActionGroup *recent_files_action_group = NULL;
-static gint recent_files_merge_id = -1;
-static GtkActionGroup *move_to_account_action_group = NULL;
-static gint move_to_account_merge_id = -1;
 
 /* fonctions statiques */
 /**
