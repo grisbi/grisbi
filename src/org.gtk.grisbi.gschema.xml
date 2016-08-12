@@ -4,6 +4,13 @@
 
   <schema path="/org/gtk/grisbi/" id='org.gtk.grisbi'>
   <!-- options niveau root -->
+    <key name="first-use" type="b">
+      <default>true</default>
+      <summary>First use of Grisbi</summary>
+      <description>
+          If TRUE, a wizard starts to configure Grisbi at its first use.
+      </description>
+    </key>
     <key name="prefer-app-menu" type="b">
       <default>false</default>
       <summary>Show menu type OSX</summary>

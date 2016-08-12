@@ -70,7 +70,6 @@ static gboolean gsb_automem_textview_changed ( GtkTextBuffer *buffer,
 
 
 
-
 /*
  * Creates a new GtkEntry with a pointer to a string that will be
  * modified according to the entry's value.
@@ -618,7 +617,7 @@ GtkWidget *gsb_automem_radiobutton3_new ( const gchar *choice1,
  * this is a gint spin button
  * this function is the same as gsb_automem_spin_button_new_full, but
  * set defaults parameters
- * by default : between 0 and G_MAXDOUBLE ; value is integer, step increment is 1 and page is 5
+ * by default : between 0 and GSB_MAX_SPIN_BUTTON ; value is integer, step increment is 1 and page is 5
  *
  * \param value a pointer to an integer wich will change with the value of the spin button
  * \param hook An optional hook to run at each change
@@ -634,7 +633,7 @@ GtkWidget *gsb_automem_spin_button_new ( gint *value,
     gdouble page_size, climb_rate;
 
     lower = 0.0;
-    upper = G_MAXDOUBLE;
+    upper = GSB_MAX_SPIN_BUTTON;
     step_increment = 1.0;
     page_increment = 5.0;
     page_size = 0.0;

@@ -42,6 +42,7 @@
 #include "grisbi_app.h"
 #include "grisbi_settings.h"
 #include "grisbi_win.h"
+#include "gsb_assistant_first.h"
 #include "gsb_color.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
@@ -49,6 +50,7 @@
 #include "help.h"
 #include "import.h"
 #include "menu.h"
+#include "tip.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
 #include "erreur.h"
@@ -63,9 +65,6 @@ typedef struct  /* GrisbiAppPrivate */
 {
 	/* Settings */
     GrisbiSettings      *settings;              /* Utilisation GSettings pour remplacer grisbi.conf */
-
-    /* voir si on conserve */
-	gint                first_use;
 
     /* command line parsing */
     gboolean 			new_window;
@@ -647,7 +646,7 @@ static void grisbi_app_trappe_signaux ( void )
  *
  * \return
  **/
-static void grisbi_app_load_file_if_necessary ( GrisbiApp *app )
+static gboolean grisbi_app_load_file_if_necessary ( GrisbiApp *app )
 {
     GrisbiAppPrivate *priv;
 
@@ -674,7 +673,11 @@ static void grisbi_app_load_file_if_necessary ( GrisbiApp *app )
             gtk_recent_manager_add_item ( gtk_recent_manager_get_default (), tmp_uri );
             g_free ( tmp_uri );
             grisbi_app_set_recent_files_menu ( NULL, TRUE );
+
+            return TRUE;
         }
+        else
+            return FALSE;
 	}
     else
     {
@@ -682,9 +685,17 @@ static void grisbi_app_load_file_if_necessary ( GrisbiApp *app )
         if ( conf.dernier_fichier_auto && conf.last_open_file )
         {
             if ( !gsb_file_open_file ( conf.last_open_file ) )
+            {
                 g_free ( conf.last_open_file );
+
+                return FALSE;
+            }
+            else
+                return TRUE;
         }
     }
+
+    return FALSE;
 }
 
 /**
@@ -735,6 +746,7 @@ static void grisbi_app_activate ( GApplication *app )
 	GtkBuilder *builder;
 	GMenuModel *menubar;
     gint number = 0;
+    gboolean load_file = FALSE;
 	GError *error = NULL;
 
 	devel_debug ( NULL );
@@ -743,11 +755,6 @@ static void grisbi_app_activate ( GApplication *app )
 	priv = grisbi_app_get_instance_private ( GRISBI_APP ( app ) );
 
 
-    /* firt use ? */
-/*    priv->first_use = FALSE;
-    if ( !gsb_file_config_load_config () )
-        priv->first_use = TRUE;
-*/
 	/* création de la fenêtre pincipale */
     win = grisbi_app_create_window ( GRISBI_APP ( app ), NULL );
 
@@ -758,7 +765,16 @@ static void grisbi_app_activate ( GApplication *app )
 	gtk_window_present ( GTK_WINDOW ( win ) );
 
 	/* ouvre un fichier si demandé */
-	grisbi_app_load_file_if_necessary ( GRISBI_APP ( app ) );
+	load_file = grisbi_app_load_file_if_necessary ( GRISBI_APP ( app ) );
+
+    /* lance un assistant si première utilisation */
+    if ( conf.first_use && !load_file )
+    {
+        gsb_assistant_first_run ();
+        conf.first_use = FALSE;
+    }
+    else
+        display_tip ( FALSE );
 }
 
 /**

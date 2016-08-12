@@ -22,6 +22,7 @@
 
 #define CSV_MAX_TOP_LINES 10	/** How many lines to show in CSV preview.  */
 #define GSB_EPSILON 0.0000005   /* Sert à comparer des doubles */
+#define GSB_MAX_SPIN_BUTTON 1000000000.0
 #define ETAT_WWW_BROWSER "xdg-open" /* définit le browser par défaut */
 
 /* global variable, see grisbi_app.c */
@@ -133,6 +134,7 @@ struct gsb_etat_t
  */
 struct GrisbiAppConf
 {
+	gint        first_use;                                  /* première utilisation ou réinitialisation de grisbi */
 
     /* app menu */
     gboolean    prefer_app_menu;                            /* TRUE validate appmenu */
