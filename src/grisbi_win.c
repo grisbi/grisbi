@@ -202,7 +202,7 @@ static void grisbi_win_init_headings_eb ( GrisbiWin *win )
 }
 
 
-/* WIN INIT */
+/* WIN STATE */
 /**
  * check on any change on the main window
  * for now, only to check if we set/unset the full-screen
@@ -231,6 +231,8 @@ static gboolean grisbi_win_change_state_window ( GtkWidget *window,
     return FALSE;
 }
 
+/* Fonctions propres à l'initialisation des fenêtres                          */
+/******************************************************************************/
 /**
  *
  *

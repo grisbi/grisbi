@@ -205,9 +205,7 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
 
     vbox = new_vbox_with_title_and_icon ( _("General configuration of Grisbi"),
 					  "generalities.png" );
-    gtk_box_pack_start ( GTK_BOX (page),
-			 vbox,
-			 TRUE, TRUE, 0 );
+    gtk_box_pack_start ( GTK_BOX (page), vbox, TRUE, TRUE, 0 );
 
     /* configure the browser */
     paddingbox = new_paddingbox_with_title (vbox, FALSE, _("Web"));
@@ -240,8 +238,7 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
     /* Automatically load last file on startup? */
     button = gsb_automem_checkbutton_new (_("Automatically load last file on startup"),
 					  &conf.dernier_fichier_auto, NULL, NULL );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
-			 FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     /* automatically save file at closing */
     button = gsb_automem_checkbutton_new (_("Automatically save on exit"),
@@ -254,8 +251,7 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
     {
         button = gsb_automem_checkbutton_new ( _("Encrypt Grisbi file"),
                                                &(etat.crypt_file), G_CALLBACK (gsb_gui_encryption_toggled), NULL);
-        gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
-                             FALSE, FALSE, 0 );
+        gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
         if ( etat.crypt_file )
             run.new_crypted_file = TRUE;
@@ -269,28 +265,24 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
     /* Automatic backup ? */
     button = gsb_automem_checkbutton_new (_("Make a backup copy before saving files"),
 					  &conf.make_backup, NULL, NULL);
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
-			 FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     /* Automatic backup every x minutes */
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6);
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
-			 FALSE, FALSE, 0);
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0);
 
     button = gsb_automem_checkbutton_new (_("Make a backup copy every "),
 					  &conf.make_backup_every_minutes,
 					  G_CALLBACK (gsb_file_automatic_backup_start), NULL);
-    gtk_box_pack_start ( GTK_BOX (hbox), button,
-			 FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX (hbox), button, FALSE, FALSE, 0 );
 
     button = gsb_automem_spin_button_new ( &conf.make_backup_nb_minutes,
 					   G_CALLBACK (gsb_file_automatic_backup_change_time), NULL );
-    gtk_box_pack_start ( GTK_BOX (hbox), button,
-			 FALSE, FALSE, 0 );
+
+    gtk_box_pack_start ( GTK_BOX (hbox), button, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _(" minutes") );
-    gtk_box_pack_start ( GTK_BOX (hbox), label,
-			 FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX (hbox), label, FALSE, FALSE, 0 );
 
     /* if automatic backup, choose a dir */
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
@@ -298,8 +290,7 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
 			 FALSE, FALSE, 0);
 
     label = gtk_label_new ( _("Backup directory: ") );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), label,
-			 FALSE, FALSE, 0);
+    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0);
 
     dialog = utils_files_create_file_chooser ( run.window,
                         _("Select/Create backup directory") );
@@ -310,8 +301,7 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
                         "selection-changed",
                         G_CALLBACK (gsb_config_backup_dir_chosen),
                         dialog );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button,
-			 FALSE, TRUE, 0);
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0);
 
     gtk_widget_show_all (page);
     return page;
