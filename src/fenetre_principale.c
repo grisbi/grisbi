@@ -38,6 +38,7 @@
 #include "bet_tab.h"
 #include "categories_onglet.h"
 #include "etats_onglet.h"
+#include "grisbi_win.h"
 #include "gsb_account_property.h"
 #include "gsb_data_account.h"
 #include "gsb_form.h"
