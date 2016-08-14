@@ -214,7 +214,6 @@
         <item>
           <attribute name="label" translatable="yes">Reset the column width</attribute>
           <attribute name="action">win.reset-width-col</attribute>
-          <attribute name="target">1</attribute>
         </item>
       </section>
     </submenu>
@@ -445,7 +444,6 @@
         <item>
           <attribute name="label" translatable="yes">Reset the column width</attribute>
           <attribute name="action">win.reset-width-col</attribute>
-          <attribute name="target">1</attribute>
         </item>
       </section>
     </submenu>

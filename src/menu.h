@@ -156,8 +156,8 @@ void        gsb_menu_gui_sensitive_win_menu_item                 ( gchar *item_n
 gboolean    gsb_menu_gui_toggle_show_archived                    ( void );
 gboolean    gsb_menu_gui_toggle_show_form                        ( void );
 gboolean    gsb_menu_gui_toggle_show_reconciled                  ( void );
-gboolean    gsb_menu_set_menus_select_scheduled_sensitive   ( gboolean sensitive );
-gboolean    gsb_menu_set_menus_select_transaction_sensitive ( gboolean sensitive );
+void        gsb_menu_set_menus_select_scheduled_sensitive   ( gboolean sensitive );
+void        gsb_menu_set_menus_select_transaction_sensitive ( gboolean sensitive );
 void        gsb_menu_set_menus_view_account_sensitive       ( gboolean sensitive );
 void        gsb_menu_set_menus_with_file_sensitive          ( gboolean sensitive );
 gboolean    gsb_menu_update_accounts_in_menus               ( void );

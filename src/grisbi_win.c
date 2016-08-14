@@ -596,7 +596,12 @@ void grisbi_win_menu_move_to_acc_update ( gboolean active )
     GAction *action;
     GSList *tmp_list;
     gint current_account;
-    printf ("grisbi_win_menu_move_to_acc_update\n");
+    static gboolean flag_active = FALSE;
+
+    printf ("grisbi_win_menu_move_to_acc_update : active = %d\n", active);
+
+    if ( flag_active == active )
+        return;
 
     win = grisbi_app_get_active_window ( NULL );
 
@@ -629,6 +634,7 @@ void grisbi_win_menu_move_to_acc_update ( gboolean active )
         }
         tmp_list = tmp_list -> next;
     }
+    flag_active = active;
 }
 
 /* MAIN WINDOW */

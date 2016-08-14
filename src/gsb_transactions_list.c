@@ -1694,6 +1694,8 @@ void gsb_transactions_list_selection_changed ( gint new_selected_transaction )
     {
         account_number = gsb_data_transaction_get_account_number (new_selected_transaction);
         gsb_menu_set_menus_select_transaction_sensitive ( TRUE );
+        /* on update le menu de la liste des comptes */
+        grisbi_win_menu_move_to_acc_update ( TRUE );
     }
     else
     {
@@ -1701,8 +1703,6 @@ void gsb_transactions_list_selection_changed ( gint new_selected_transaction )
         gsb_menu_set_menus_select_transaction_sensitive ( FALSE );
     }
 
-    /* on update le menu de la liste des comptes */
-    grisbi_win_menu_move_to_acc_update ( TRUE );
 
     /* save the new current transaction */
     gsb_data_account_set_current_transaction_number ( account_number,

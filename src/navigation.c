@@ -38,6 +38,7 @@
 #include "dialog.h"
 #include "etats_onglet.h"
 #include "fenetre_principale.h"
+#include "grisbi_win.h"
 #include "gsb_account.h"
 #include "gsb_account_property.h"
 #include "gsb_assistant_account.h"
@@ -949,7 +950,7 @@ gboolean navigation_change_account ( gint new_account )
 {
     gint current_account;
     gchar *tmp_menu_path;
-    printf ("navigation_change_account\n");
+    printf ("navigation_change_account : new_account = %d\n", new_account);
 
     devel_debug_int (new_account);
     if ( new_account < 0 )
@@ -959,6 +960,7 @@ gboolean navigation_change_account ( gint new_account )
      * have to use a buffer variable to get the last account */
     current_account = gsb_gui_navigation_get_last_account ();
 
+    /* mise à jour du menu Editer */
     gsb_menu_gui_sensitive_win_menu_item ( "new-ope", TRUE );
 
     /* save the row_align of the last account */
@@ -1122,20 +1124,23 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
     gboolean clear_suffix = TRUE;
 
     devel_debug (NULL);
-
     page_number = gsb_gui_navigation_get_current_page ();
+
     gtk_notebook_set_current_page ( GTK_NOTEBOOK ( gsb_gui_get_general_notebook ( ) ), page_number );
 
     if ( page_number != GSB_ACCOUNT_PAGE )
     {
+        /* on update le menu de la liste des comptes */
+        grisbi_win_menu_move_to_acc_update ( FALSE );
+
+        /* on dé-sensibilise le menu view account */
+        gsb_menu_set_menus_view_account_sensitive ( FALSE );
     }
 
     if ( page_number != GSB_SCHEDULER_PAGE )
     {
-	gtk_widget_hide ( scheduler_calendar );
+        gtk_widget_hide ( scheduler_calendar );
     }
-    /* on update le menu de la liste des comptes */
-     grisbi_win_menu_move_to_acc_update ( FALSE );
 
     switch ( page_number )
     {
@@ -1143,8 +1148,6 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    notice_debug ("Home page selected");
 
         title = g_strdup(_("My accounts"));
-
-        gsb_menu_gui_sensitive_win_menu_item ( "show-closed-acc", TRUE );
 
 	    /* what to be done if switch to that page */
 	    mise_a_jour_accueil ( FALSE );
@@ -1154,7 +1157,6 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	case GSB_ACCOUNT_PAGE:
 	    notice_debug ("Account page selected");
 
-        gsb_menu_set_menus_view_account_sensitive ( TRUE );
 	    gsb_menu_gui_sensitive_win_menu_item ( "remove-acc", TRUE );
 
 	    account_number = gsb_gui_navigation_get_current_account ();

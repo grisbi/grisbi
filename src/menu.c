@@ -62,7 +62,6 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gboolean gsb_menu_reinit_largeur_col_menu ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -981,6 +980,7 @@ void grisbi_cmd_reset_width_col ( GSimpleAction *action,
 						gpointer app )
 {
 	gsb_menu_reinit_largeur_col_menu ();
+        gsb_file_set_modified ( TRUE );
 }
 
 /* RECENT FILES MANAGER */
@@ -1064,30 +1064,8 @@ void gsb_menu_recent_manager_remove_item ( GtkRecentManager *recent_manager,
   g_free ( uri );
 }
 
-/* A MODIFIER / SUPPRIMER */
-/**
- * sensitive a menu defined by an action
- *
- * \param item_name		name of action.
- * \param state			Whether menu should be 'sensitive' or not.
- *
- * \return
- */
-void gsb_menu_gui_sensitive_win_menu_item ( gchar *item_name,
-                        gboolean state )
-{
-    GrisbiWin *win;
-    GAction *action;
 
-/*    printf ("gsb_menu_gui_sensitive_win_menu_item : %s sensitive = %d\n", item_name, state );
-*/
-    win = grisbi_app_get_active_window ( NULL );
-    action = g_action_map_lookup_action (G_ACTION_MAP ( win ), item_name );
-	g_simple_action_set_enabled ( G_SIMPLE_ACTION ( action ), state );
-}
-
-
-
+/* CALLBACK VIEW MENUS */
 /**
  * Show or hide display of reconciled transactions.
  *
@@ -1278,7 +1256,27 @@ gboolean gsb_menu_update_accounts_in_menus ( void )
     return FALSE;
 }
 
+/* SENSITIVE MENUS */
+/**
+ * sensitive a menu defined by an action
+ *
+ * \param item_name		name of action.
+ * \param state			Whether menu should be 'sensitive' or not.
+ *
+ * \return
+ */
+void gsb_menu_gui_sensitive_win_menu_item ( gchar *item_name,
+                        gboolean state )
+{
+    GrisbiWin *win;
+    GAction *action;
 
+    printf ("gsb_menu_gui_sensitive_win_menu_item : \"%s\" sensitive = %d\n", item_name, state );
+
+    win = grisbi_app_get_active_window ( NULL );
+    action = g_action_map_lookup_action (G_ACTION_MAP ( win ), item_name );
+	g_simple_action_set_enabled ( G_SIMPLE_ACTION ( action ), state );
+}
 
 /**
  * Set sensitiveness of all menu items that work on the selected transaction.
@@ -1288,8 +1286,9 @@ gboolean gsb_menu_update_accounts_in_menus ( void )
  *
  * \return		FALSE
  */
-gboolean gsb_menu_set_menus_select_transaction_sensitive ( gboolean sensitive )
+void gsb_menu_set_menus_select_transaction_sensitive ( gboolean sensitive )
 {
+    static gboolean flag_sensitive = FALSE;
     gchar * items[] = {
         "edit-ope",
         "new-ope",
@@ -1304,13 +1303,15 @@ gboolean gsb_menu_set_menus_select_transaction_sensitive ( gboolean sensitive )
 
     devel_debug_int (sensitive);
 
+    if ( flag_sensitive == sensitive )
+        return;
+
     while ( *tmp )
     {
         gsb_menu_gui_sensitive_win_menu_item ( *tmp, sensitive );
         tmp++;
     }
-
-    return FALSE;
+    flag_sensitive = sensitive;
 }
 
 
@@ -1322,8 +1323,9 @@ gboolean gsb_menu_set_menus_select_transaction_sensitive ( gboolean sensitive )
  *
  * \return		FALSE
  */
-gboolean gsb_menu_set_menus_select_scheduled_sensitive ( gboolean sensitive )
+void gsb_menu_set_menus_select_scheduled_sensitive ( gboolean sensitive )
 {
+    static gboolean flag_sensitive = FALSE;
     gchar * items[] = {
         "edit-ope",
         "remove-ope",
@@ -1333,13 +1335,17 @@ gboolean gsb_menu_set_menus_select_scheduled_sensitive ( gboolean sensitive )
     gchar **tmp = items;
 
     devel_debug_int (sensitive);
-    printf ("gsb_menu_set_menus_select_transaction_sensitive : sensitive = %d\n", sensitive );
+
+    if ( flag_sensitive == sensitive )
+        return;
+
     while ( *tmp )
     {
         gsb_menu_gui_sensitive_win_menu_item ( *tmp, sensitive );
         tmp++;
     }
-    return FALSE;
+
+    flag_sensitive = sensitive;
 }
 
 /**
@@ -1393,6 +1399,7 @@ void gsb_menu_set_menus_with_file_sensitive ( gboolean sensitive )
  * */
 void gsb_menu_set_menus_view_account_sensitive ( gboolean sensitive )
 {
+    static gboolean flag_sensitive = FALSE;
     gchar * items[] = {
         "remove-acc",
         "show-form",
@@ -1406,12 +1413,17 @@ void gsb_menu_set_menus_view_account_sensitive ( gboolean sensitive )
     gchar **tmp = items;
 
     devel_debug_int (sensitive);
+    printf ("gsb_menu_set_menus_view_account_sensitive : sensitive = %d\n", sensitive );
+
+    if ( flag_sensitive == sensitive )
+        return;
 
     while ( *tmp )
     {
         gsb_menu_gui_sensitive_win_menu_item ( *tmp, sensitive );
         tmp++;
     }
+    flag_sensitive = sensitive;
 }
 
 /**
