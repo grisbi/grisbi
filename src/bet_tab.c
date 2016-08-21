@@ -3066,6 +3066,7 @@ void bet_array_export_tab ( GtkWidget *menu_item, GtkTreeView *tree_view )
     GtkWidget *dialog;
     gint resultat;
     gchar *filename;
+    gchar *tmp_last_directory;
 
     dialog = gtk_file_chooser_dialog_new ( _("Export the array of forecast"),
 					   GTK_WINDOW ( run.window ),
@@ -3085,7 +3086,9 @@ void bet_array_export_tab ( GtkWidget *menu_item, GtkTreeView *tree_view )
     {
 	case GTK_RESPONSE_OK :
 	    filename = file_selection_get_filename ( GTK_FILE_CHOOSER ( dialog ) );
-	    gsb_file_update_last_path ( file_selection_get_last_directory ( GTK_FILE_CHOOSER ( dialog ), TRUE ) );
+        tmp_last_directory = file_selection_get_last_directory ( GTK_FILE_CHOOSER ( dialog ), TRUE );
+        gsb_file_update_last_path ( tmp_last_directory );
+        g_free ( tmp_last_directory );
 	    gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
 
 	    /* vérification que c'est possible est faite par la boite de dialogue */

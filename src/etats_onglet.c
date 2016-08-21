@@ -1121,6 +1121,7 @@ void exporter_etat ( void )
     gint resultat;
     gchar * nom_etat;
     GtkWidget *notebook_general;
+    gchar *tmp_last_directory;
 
     notebook_general = gsb_gui_get_general_notebook ( );
     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != GSB_REPORTS_PAGE )
@@ -1191,7 +1192,9 @@ void exporter_etat ( void )
 
 	gsb_status_message ( _("Done") );
     }
-    gsb_file_update_last_path (file_selection_get_last_directory (GTK_FILE_CHOOSER (fenetre_nom), TRUE));
+    tmp_last_directory = file_selection_get_last_directory ( GTK_FILE_CHOOSER ( fenetre_nom ), TRUE );
+    gsb_file_update_last_path ( tmp_last_directory );
+    g_free ( tmp_last_directory );
     gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
 }
 
@@ -1207,6 +1210,7 @@ void importer_etat ( void )
     gint resultat;
     gchar *nom_etat;
     GtkFileFilter * filter;
+    gchar *tmp_last_directory;
 
     notebook_general = gsb_gui_get_general_notebook ( );
     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != GSB_REPORTS_PAGE )
@@ -1239,7 +1243,9 @@ void importer_etat ( void )
     {
 	case GTK_RESPONSE_OK :
 	    nom_etat =file_selection_get_filename ( GTK_FILE_CHOOSER ( fenetre_nom ));
-	    gsb_file_update_last_path (file_selection_get_last_directory (GTK_FILE_CHOOSER (fenetre_nom), TRUE));
+        tmp_last_directory = file_selection_get_last_directory ( GTK_FILE_CHOOSER ( fenetre_nom ), TRUE );
+        gsb_file_update_last_path ( tmp_last_directory );
+        g_free ( tmp_last_directory );
 	    gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
 
 	    /* la vérification que c'est possible a �t� faite par la boite de selection*/

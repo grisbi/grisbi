@@ -560,6 +560,7 @@ gboolean modification_logo_accueil ( )
 {
     GtkWidget *file_selector;
     GtkWidget *preview;
+    gchar *tmp_last_directory;
 
     file_selector = gtk_file_chooser_dialog_new ( _("Select a new logo"),
 					   GTK_WINDOW ( fenetre_preferences ),
@@ -589,8 +590,9 @@ gboolean modification_logo_accueil ( )
     {
 	case GTK_RESPONSE_OK:
 	    change_logo_accueil ( file_selector );
-	    gsb_file_update_last_path ( file_selection_get_last_directory (
-                        GTK_FILE_CHOOSER ( file_selector ), TRUE ) );
+        tmp_last_directory = file_selection_get_last_directory ( GTK_FILE_CHOOSER ( file_selector ), TRUE );
+        gsb_file_update_last_path ( tmp_last_directory );
+        g_free ( tmp_last_directory );
 
 	default:
 	    gtk_widget_destroy ( file_selector );

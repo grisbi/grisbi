@@ -182,6 +182,7 @@ static gchar *all_charset_array[] = {
 void browse_file ( GtkButton *button, gpointer data )
 {
     GtkWidget * file_selector;
+    gchar *tmp_last_directory;
 
     file_selector = file_selection_new (_("Print to file"),FILE_SELECTION_IS_SAVE_DIALOG);
     gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (file_selector),
@@ -195,7 +196,9 @@ void browse_file ( GtkButton *button, gpointer data )
 	case GTK_RESPONSE_OK:
 	    gtk_entry_set_text ( GTK_ENTRY(data),
 				 file_selection_get_filename (GTK_FILE_CHOOSER (file_selector)));
-	    gsb_file_update_last_path (file_selection_get_last_directory (GTK_FILE_CHOOSER (file_selector), TRUE));
+        tmp_last_directory = file_selection_get_last_directory ( GTK_FILE_CHOOSER ( file_selector ), TRUE );
+        gsb_file_update_last_path ( tmp_last_directory );
+        g_free ( tmp_last_directory );
 
 	default:
 	    gtk_widget_destroy ( file_selector );
