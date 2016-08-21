@@ -262,6 +262,7 @@ gboolean gsb_file_open_menu ( void )
     GtkWidget *selection_fichier;
     GtkFileFilter * filter;
     gboolean result = FALSE;
+    gchar *tmp_last_directory;
 
     selection_fichier = gtk_file_chooser_dialog_new ( _("Open an accounts file"),
 					   GTK_WINDOW ( run.window ),
@@ -291,16 +292,18 @@ gboolean gsb_file_open_menu ( void )
 	    {
 		gtk_widget_hide ( selection_fichier );
 		nom_fichier_comptes = file_selection_get_filename ( GTK_FILE_CHOOSER ( selection_fichier ) );
-        gsb_file_update_last_path ( file_selection_get_last_directory (
-                        GTK_FILE_CHOOSER ( selection_fichier),
-                        TRUE ) );
-		result = gsb_file_open_file ( nom_fichier_comptes );
+        tmp_last_directory = file_selection_get_last_directory ( GTK_FILE_CHOOSER ( selection_fichier), TRUE );
+        gsb_file_update_last_path ( tmp_last_directory );
+        g_free ( tmp_last_directory );
+		result = gsb_file_open_file (nom_fichier_comptes);
 	    }
 	    break;
       default:
 	  break;
     }
-    gsb_file_update_last_path (file_selection_get_last_directory (GTK_FILE_CHOOSER (selection_fichier), TRUE));
+        tmp_last_directory = file_selection_get_last_directory ( GTK_FILE_CHOOSER ( selection_fichier), TRUE );
+        gsb_file_update_last_path ( tmp_last_directory );
+        g_free ( tmp_last_directory );
     gtk_widget_destroy ( selection_fichier );
 
     return result;
@@ -415,7 +418,6 @@ gboolean gsb_file_open_file ( gchar *filename )
     GSList *list_tmp;
 
     devel_debug (filename);
-    printf ("gsb_file_open_file : filename = %s\n", filename);
 
 	if ( !gsb_file_test_file ( filename ) )
 		return FALSE;
@@ -936,6 +938,7 @@ static gchar *gsb_file_dialog_ask_name ( void )
     gchar *new_name;
     GtkWidget *dialog;
     gint result;
+    gchar *tmp_last_directory;
 
     dialog = gtk_file_chooser_dialog_new ( _("Name the accounts file"),
 					   GTK_WINDOW ( run.window ),
@@ -965,7 +968,9 @@ static gchar *gsb_file_dialog_ask_name ( void )
     {
 	case GTK_RESPONSE_OK :
 	    new_name = file_selection_get_filename ( GTK_FILE_CHOOSER ( dialog ));
-	    gsb_file_update_last_path (file_selection_get_last_directory (GTK_FILE_CHOOSER (dialog), TRUE));
+        tmp_last_directory = file_selection_get_last_directory ( GTK_FILE_CHOOSER ( dialog ), TRUE );
+        gsb_file_update_last_path ( tmp_last_directory );
+        g_free ( tmp_last_directory );
 	    gtk_widget_destroy ( GTK_WIDGET ( dialog ));
 	    break;
 

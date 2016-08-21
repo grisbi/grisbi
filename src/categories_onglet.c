@@ -407,6 +407,7 @@ void categories_exporter_list ( void )
     GtkWidget *dialog;
     gint resultat;
     gchar *nom_categ;
+    gchar *tmp_last_directory;
 
     dialog = gtk_file_chooser_dialog_new ( _("Export categories"),
 					   GTK_WINDOW ( run.window ),
@@ -429,7 +430,9 @@ void categories_exporter_list ( void )
     }
 
     nom_categ = file_selection_get_filename ( GTK_FILE_CHOOSER ( dialog ));
-    gsb_file_update_last_path (file_selection_get_last_directory (GTK_FILE_CHOOSER (dialog), TRUE));
+    tmp_last_directory = file_selection_get_last_directory ( GTK_FILE_CHOOSER ( dialog ), TRUE );
+    gsb_file_update_last_path ( tmp_last_directory );
+    g_free ( tmp_last_directory );
     gtk_widget_destroy ( GTK_WIDGET ( dialog ));
 
     gsb_file_others_save_category ( nom_categ );
@@ -448,6 +451,7 @@ void categories_importer_list ( void )
     gchar *category_name;
     gint last_transaction_number;
     GtkFileFilter * filter;
+    gchar *tmp_last_directory;
 
     dialog = gtk_file_chooser_dialog_new ( _("Import categories"),
 					   GTK_WINDOW ( run.window ),
@@ -479,7 +483,9 @@ void categories_importer_list ( void )
     }
 
     category_name = file_selection_get_filename ( GTK_FILE_CHOOSER ( dialog ));
-    gsb_file_update_last_path (file_selection_get_last_directory (GTK_FILE_CHOOSER (dialog), TRUE));
+    tmp_last_directory = file_selection_get_last_directory ( GTK_FILE_CHOOSER ( dialog ), TRUE );
+    gsb_file_update_last_path ( tmp_last_directory );
+    g_free ( tmp_last_directory );
     gtk_widget_destroy ( GTK_WIDGET ( dialog ));
 
     last_transaction_number = gsb_data_transaction_get_last_number();

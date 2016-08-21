@@ -428,6 +428,7 @@ void budgetary_lines_exporter_list ( void )
     GtkWidget *dialog;
     gint resultat;
     gchar *nom_ib;
+    gchar *tmp_last_directory;
 
     dialog = gtk_file_chooser_dialog_new ( _("Export the budgetary lines"),
 					   GTK_WINDOW ( run.window ),
@@ -447,7 +448,9 @@ void budgetary_lines_exporter_list ( void )
     {
 	case GTK_RESPONSE_OK :
 	    nom_ib = file_selection_get_filename ( GTK_FILE_CHOOSER ( dialog ));
-	    gsb_file_update_last_path (file_selection_get_last_directory (GTK_FILE_CHOOSER (dialog), TRUE));
+        tmp_last_directory = file_selection_get_last_directory ( GTK_FILE_CHOOSER ( dialog ), TRUE );
+        gsb_file_update_last_path ( tmp_last_directory );
+        g_free ( tmp_last_directory );
 	    gtk_widget_destroy ( GTK_WIDGET ( dialog ));
 
 	    /* vérification que c'est possible est faite par la boite de dialogue */
@@ -477,6 +480,7 @@ void budgetary_lines_importer_list ( void )
     gchar *budget_name;
     gint last_transaction_number;
     GtkFileFilter * filter;
+    gchar *tmp_last_directory;
 
     dialog = gtk_file_chooser_dialog_new ( _("Import budgetary lines"),
 					   GTK_WINDOW ( run.window ),
@@ -513,7 +517,9 @@ void budgetary_lines_importer_list ( void )
     }
 
     budget_name = file_selection_get_filename ( GTK_FILE_CHOOSER ( dialog ));
-    gsb_file_update_last_path (file_selection_get_last_directory (GTK_FILE_CHOOSER (dialog), TRUE));
+    tmp_last_directory = file_selection_get_last_directory ( GTK_FILE_CHOOSER ( dialog ), TRUE );
+    gsb_file_update_last_path ( tmp_last_directory );
+    g_free ( tmp_last_directory );
     gtk_widget_destroy ( GTK_WIDGET ( dialog ));
 
     last_transaction_number = gsb_data_transaction_get_last_number();

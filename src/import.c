@@ -796,6 +796,7 @@ GSList *gsb_import_create_file_chooser ( const char *enc, GtkWidget *parent )
     gchar* old_str;
     gchar* tmpstr;
     gchar* tmpchar;
+    gchar *tmp_last_directory;
 
     dialog = gtk_file_chooser_dialog_new ( _("Choose files to import."),
                         GTK_WINDOW ( parent ),
@@ -887,7 +888,9 @@ GSList *gsb_import_create_file_chooser ( const char *enc, GtkWidget *parent )
     /* save charmap */
     charmap_imported = g_strdup (go_charmap_sel_get_encoding ( (GOCharmapSel * )go_charmap_sel ));
 
-    gsb_file_update_last_path (file_selection_get_last_directory (GTK_FILE_CHOOSER (dialog), TRUE));
+    tmp_last_directory = file_selection_get_last_directory ( GTK_FILE_CHOOSER ( dialog ), TRUE );
+    gsb_file_update_last_path ( tmp_last_directory );
+    g_free ( tmp_last_directory );
     gtk_widget_destroy (dialog);
     return filenames;
 }
