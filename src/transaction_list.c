@@ -2247,8 +2247,6 @@ gboolean transaction_list_remove_archive_line ( gint archive_number,
         custom_list->rows = g_realloc(custom_list->rows, newsize);
         custom_list->visibles_rows = g_realloc(custom_list->visibles_rows, newsize);
 
-        /* free the record */
-        g_free (record);
         return_val = TRUE;
     }
 
