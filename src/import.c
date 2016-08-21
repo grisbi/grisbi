@@ -3243,6 +3243,9 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account,
         list_tmp = list_tmp -> next;
     }
 
+    if ( ope_list )
+        g_slist_free ( ope_list );
+
     /* a ce niveau, liste_opes_import_celibataires contient les opés d'import dont on
      * n'a pas retrouvé l'opé correspondante
      * on les affiche dans une liste en proposant de les ajouter à la liste */
