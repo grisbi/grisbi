@@ -184,13 +184,13 @@ GtkWidget * onglet_display_fonts ( void )
                         _("Use a custom font for the transactions: "));
     gtk_box_pack_start ( GTK_BOX ( hbox ), check_button, FALSE, FALSE, 0 );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( check_button ),
-				        conf.utilise_fonte_listes );
+				        conf.custom_fonte_listes );
 
     /*     on crée la vbox qui contiendra la font button et le raz */
     vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 10 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), vbox, FALSE, FALSE, 0 );
 
-    gtk_widget_set_sensitive ( vbox, conf.utilise_fonte_listes );
+    gtk_widget_set_sensitive ( vbox, conf.custom_fonte_listes );
     g_signal_connect ( G_OBJECT ( check_button ), "toggled",
 		       G_CALLBACK ( change_choix_utilise_fonte_liste ), vbox );
 
@@ -308,9 +308,9 @@ gboolean change_choix_utilise_logo ( GtkWidget *check_button,
 gboolean change_choix_utilise_fonte_liste ( GtkWidget *check_button,
                         GtkWidget *vbox )
 {
-    conf.utilise_fonte_listes = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( check_button ));
+    conf.custom_fonte_listes = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( check_button ));
     gtk_widget_set_sensitive ( vbox,
-			       conf.utilise_fonte_listes );
+			       conf.custom_fonte_listes );
 
     update_fonte_listes ( conf.font_string, NULL );
 
@@ -334,7 +334,7 @@ void update_fonte_listes ( gchar *fontname,
 
     devel_debug (NULL);
 
-    if ( conf.utilise_fonte_listes )
+    if ( conf.custom_fonte_listes )
 	font = fontname;
     else
 	font = NULL;
