@@ -950,7 +950,7 @@ gboolean navigation_change_account ( gint new_account )
 {
     gint current_account;
     gchar *tmp_menu_path;
-    printf ("navigation_change_account : new_account = %d\n", new_account);
+    //~ printf ("navigation_change_account : new_account = %d\n", new_account);
 
     devel_debug_int (new_account);
     if ( new_account < 0 )

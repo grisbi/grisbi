@@ -1271,7 +1271,7 @@ void gsb_menu_gui_sensitive_win_menu_item ( gchar *item_name,
     GrisbiWin *win;
     GAction *action;
 
-    printf ("gsb_menu_gui_sensitive_win_menu_item : \"%s\" sensitive = %d\n", item_name, state );
+    //~ printf ("gsb_menu_gui_sensitive_win_menu_item : \"%s\" sensitive = %d\n", item_name, state );
 
     win = grisbi_app_get_active_window ( NULL );
     action = g_action_map_lookup_action (G_ACTION_MAP ( win ), item_name );
@@ -1373,7 +1373,7 @@ void gsb_menu_set_menus_with_file_sensitive ( gboolean sensitive )
     gchar **tmp = items;
 
     devel_debug_int (sensitive);
-    printf ("gsb_menu_set_menus_with_file_sensitive : sensitive = %d\n", sensitive );
+    //~ printf ("gsb_menu_set_menus_with_file_sensitive : sensitive = %d\n", sensitive );
 
     if ( sensitive )
     {
@@ -1413,7 +1413,7 @@ void gsb_menu_set_menus_view_account_sensitive ( gboolean sensitive )
     gchar **tmp = items;
 
     devel_debug_int (sensitive);
-    printf ("gsb_menu_set_menus_view_account_sensitive : sensitive = %d\n", sensitive );
+    //~ printf ("gsb_menu_set_menus_view_account_sensitive : sensitive = %d\n", sensitive );
 
     if ( flag_sensitive == sensitive )
         return;
