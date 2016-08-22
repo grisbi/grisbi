@@ -2,7 +2,7 @@ dnl Process this file with autoconf to produce a configure script.
 
 m4_define(grisbi_major_version, 1)
 m4_define(grisbi_minor_version, 0)
-m4_define(grisbi_micro_version, 0)
+m4_define(grisbi_micro_version, 1)
 m4_define(grisbi_version, grisbi_major_version.grisbi_minor_version.grisbi_micro_version)
 
 m4_pattern_allow([AM_PROG_AR])
@@ -346,7 +346,7 @@ cat << EOF
 This is an unstable version of grisbi. It is for test purposes only.
 Please, DO NOT use it in a production environment. It will probably crash and you will lose your data.
 
-If you are looking for a stable release of grisbi (0.8.x), either download it from:
+If you are looking for a stable release of grisbi (1.0.x), either download it from:
 http://sourceforge.net/projects/grisbi/files/grisbi%20stable/
 
 Thanks,
