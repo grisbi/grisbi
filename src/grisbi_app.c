@@ -266,7 +266,7 @@ static void grisbi_app_set_main_menu ( GApplication *app )
 	GtkBuilder *builder;
 	GError *error = NULL;
 
-    printf ("grisbi_app_set_main_menu\n");
+    //~ printf ("grisbi_app_set_main_menu\n");
     priv = grisbi_app_get_instance_private ( GRISBI_APP ( app ) );
 
 	/* chargement des actions */
@@ -359,7 +359,7 @@ static GrisbiWin *grisbi_app_create_window ( GrisbiApp *app,
     GrisbiAppPrivate *priv;
     gchar *string;
 
-    printf ("grisbi_app_create_window\n");
+    //~ printf ("grisbi_app_create_window\n");
 	priv = grisbi_app_get_instance_private ( GRISBI_APP ( app ) );
 
 	win = g_object_new ( GRISBI_TYPE_WIN, "application", app, NULL );
@@ -506,7 +506,7 @@ static gboolean grisbi_app_cmdline ( GApplication *app,
 	const gchar **remaining_args;
 	gint argc;
 
-    printf ("grisbi_app_cmdline\n");
+    //~ printf ("grisbi_app_cmdline\n");
 	priv = grisbi_app_get_instance_private ( GRISBI_APP ( app ) );
 
 	/* initialisation de debug_level à -1 */
@@ -650,7 +650,7 @@ static gboolean grisbi_app_load_file_if_necessary ( GrisbiApp *app )
 {
     GrisbiAppPrivate *priv;
 
-	printf ("grisbi_app_load_file_if_necessary\n");
+	//~ printf ("grisbi_app_load_file_if_necessary\n");
     priv = grisbi_app_get_instance_private ( GRISBI_APP ( app ) );
 
     /* check the command line, if there is something to open */
@@ -708,7 +708,7 @@ static gboolean grisbi_app_load_file_if_necessary ( GrisbiApp *app )
 static void grisbi_app_startup ( GApplication *app )
 {
     GrisbiAppPrivate *priv;
-    printf ("grisbi_app_startup\n");
+    //~ printf ("grisbi_app_startup\n");
 
 	priv = grisbi_app_get_instance_private ( GRISBI_APP ( app ) );
 
@@ -750,7 +750,7 @@ static void grisbi_app_activate ( GApplication *app )
 	GError *error = NULL;
 
 	devel_debug ( NULL );
-    printf ("grisbi_app_activate\n");
+    //~ printf ("grisbi_app_activate\n");
 
 	priv = grisbi_app_get_instance_private ( GRISBI_APP ( app ) );
 
@@ -821,7 +821,7 @@ static void grisbi_app_dispose ( GObject *object )
 {
     GrisbiAppPrivate *priv;
 
-    printf ("grisbi_app_dispose\n");
+    //~ printf ("grisbi_app_dispose\n");
 	devel_debug (NULL);
 
 	priv = grisbi_app_get_instance_private ( GRISBI_APP ( object ) );
@@ -846,7 +846,7 @@ static void grisbi_app_shutdown ( GApplication *app )
 	GtkWindow *win;
     GrisbiAppPrivate *priv;
 
-    printf ("grisbi_app_shutdown\n");
+    //~ printf ("grisbi_app_shutdown\n");
 	devel_debug (NULL);
 
 	priv = grisbi_app_get_instance_private ( GRISBI_APP ( app ) );
@@ -902,7 +902,7 @@ static void grisbi_app_init ( GrisbiApp *app )
 {
     GrisbiAppPrivate *priv;
 
-    printf ("grisbi_app_init\n");
+    //~ printf ("grisbi_app_init\n");
 	priv = grisbi_app_get_instance_private ( GRISBI_APP ( app ) );
 
 	/* initialize debugging */
@@ -988,7 +988,7 @@ GMenu *grisbi_app_get_menu_edit ( void )
 {
 	GApplication *app;
 	GrisbiAppPrivate *priv;
-	printf ("grisbi_app_get_menu_edit\n");
+	//~ printf ("grisbi_app_get_menu_edit\n");
 
     app = g_application_get_default ();
 	priv = grisbi_app_get_instance_private ( GRISBI_APP ( app ) );
@@ -1026,7 +1026,7 @@ void grisbi_app_init_recent_manager ( gchar **recent_array )
 	gint i;
     gint nb_effectif = 0;
 	gboolean result;
-	printf ("grisbi_app_init_recent_manager : %s\n", recent_array[0]);
+	//~ printf ("grisbi_app_init_recent_manager : %s\n", recent_array[0]);
 
     uri = g_build_filename ( g_get_user_data_dir (), "recently-used.xbel", NULL);
     if ( !g_file_test ( uri,  G_FILE_TEST_EXISTS ) )
@@ -1174,7 +1174,7 @@ void grisbi_app_set_recent_files_menu ( GApplication *app,
     gint index = 0;
     GError *error = NULL;
 
-    printf ("grisbi_app_set_recent_files_menu : reset = %d\n", reset);
+    //~ printf ("grisbi_app_set_recent_files_menu : reset = %d\n", reset);
     devel_debug_int (reset);
 
     if ( app == NULL );
