@@ -161,6 +161,11 @@ gint gsb_transactions_list_sort (CustomRecord **a,
 	/* get the element used to sort the list */
 	element_number = gsb_data_account_get_element_sort ( account_number,
 							     custom_list -> sort_col);
+
+		/* if element_number = 0 it's forced to ELEMENT_VALUE_DATE */
+		if ( element_number == 0 )
+			element_number = ELEMENT_VALUE_DATE;
+
 	return_value = gsb_transactions_list_sort_by_no_sort ( transaction_number_1,
 							       transaction_number_2,
 							       element_number );
@@ -168,6 +173,7 @@ gint gsb_transactions_list_sort (CustomRecord **a,
 
     if (custom_list -> sort_order == GTK_SORT_DESCENDING)
 	return_value = -return_value;
+
     return return_value;
 }
 
