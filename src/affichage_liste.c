@@ -237,7 +237,7 @@ GtkWidget *onglet_affichage_operations ( void )
     g_signal_connect ( G_OBJECT ( button ),
                         "changed",
                         G_CALLBACK ( gsb_transactions_list_display_sort_changed ),
-                        &conf.transactions_list_primary_sorting );
+                        GINT_TO_POINTER ( PRIMARY_SORT ));
 
     for ( i = 0 ; i < 2 ; i++ )
     {
@@ -257,7 +257,7 @@ GtkWidget *onglet_affichage_operations ( void )
     g_signal_connect ( G_OBJECT ( button ),
                         "changed",
                         G_CALLBACK ( gsb_transactions_list_display_sort_changed ),
-                        &conf.transactions_list_secondary_sorting );
+                        GINT_TO_POINTER ( SECONDARY_SORT ) );
 
     for ( i = 0 ; i < 4 ; i++ )
     {
@@ -293,27 +293,59 @@ GtkWidget *onglet_affichage_operations ( void )
 static gboolean gsb_transactions_list_display_sort_changed ( GtkComboBox *widget,
                         gint *pointeur )
 {
+    GSettings *settings;
     gint page_number;
     gint account_nb;
+    gint value = 0;
+    gint sort_type = 0;
+
+    settings = grisbi_settings_get_settings ( SETTINGS_GENERAL );
 
     page_number = gsb_gui_navigation_get_current_page ( );
+    value = gtk_combo_box_get_active ( widget );
+    sort_type = GPOINTER_TO_INT ( pointeur );
 
-    if ( pointeur )
+    switch ( sort_type )
     {
-        gint value = 0;
+        case PRIMARY_SORT:
+            conf.transactions_list_primary_sorting = value;
+            if ( value )
+                g_settings_set_string ( G_SETTINGS ( settings ), "transactions-list-primary-sorting",
+                                       "Sort by value date and then by date" );
+            else
+                g_settings_reset ( G_SETTINGS ( settings ), "transactions-list-primary-sorting" );
 
-        value = gtk_combo_box_get_active ( widget );
-        *pointeur = value;
-        gsb_file_set_modified ( TRUE );
+            break;
+        case SECONDARY_SORT:
+            conf.transactions_list_secondary_sorting = value;
+            switch ( value )
+            {
+                case 0:
+                    g_settings_reset ( G_SETTINGS ( settings ), "transactions-list-secondary-sorting" );
+                    break;
+                case 1:
+                    g_settings_set_string ( G_SETTINGS ( settings ), "transactions-list-secondary-sorting",
+                                           "Sort by type of amount" );
+                    break;
+                case 2:
+                    g_settings_set_string ( G_SETTINGS ( settings ), "transactions-list-secondary-sorting",
+                                           "Sort by payee name" );
+                    break;
+                case 3:
+                    g_settings_set_string ( G_SETTINGS ( settings ), "transactions-list-secondary-sorting",
+                                           "Sort by date and then by transaction number" );
+            }
+            break;
     }
+    gsb_file_set_modified ( TRUE );
 
     switch ( page_number )
     {
-	case GSB_ACCOUNT_PAGE:
-        account_nb = gsb_gui_navigation_get_current_account ();
-        if (account_nb != -1)
-            gsb_transactions_list_update_tree_view (account_nb, TRUE);
-	    break;
+        case GSB_ACCOUNT_PAGE:
+            account_nb = gsb_gui_navigation_get_current_account ();
+            if ( account_nb != -1 )
+                gsb_transactions_list_update_tree_view ( account_nb, TRUE );
+            break;
     }
 
     return FALSE;

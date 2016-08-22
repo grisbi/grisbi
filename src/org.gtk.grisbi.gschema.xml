@@ -153,6 +153,16 @@
         Maximum number of files in the list of recently opened files.
       </description>
     </key>
+	  <key name="check-for-archival" type="b">
+	    <default>true</default>
+	    <summary></summary>
+	    <description>.</description>
+	  </key>
+	  <key name="max-transactions-before-warn-archival" type="i">
+	    <default>3000</default>
+	    <summary></summary>
+	    <description>.</description>
+	  </key>
   </schema>
 
   <schema path="/org/gtk/grisbi/form/" id='org.gtk.grisbi.form'>
@@ -205,7 +215,7 @@
   </schema>
 
   <schema path="/org/gtk/grisbi/general/" id='org.gtk.grisbi.general'>
-    <key name="utilise-fonte-listes" type="b">
+    <key name="custom-fonte-listes" type="b">
       <default>false</default>
       <summary>Use custom fonts for lists</summary>
       <description>If TRUE, Grisbi uses custom fonts for lists.</description>
@@ -250,6 +260,48 @@
 	      Edit Category, manage division if possible.
 	    </description>
 	  </key>
+    <key name="show-transaction-gives-balance" type="b">
+      <default>false</default>
+      <summary></summary>
+      <description>
+
+      </description>
+    </key>
+    <key name="show-transaction-selected-in-form" type="b">
+      <default>true</default>
+      <summary></summary>
+      <description>
+
+      </description>
+    </key>
+    <key name="transactions-list-primary-sorting" type="s">
+        <choices>
+            <choice value="Sort by value date"/>
+            <choice value="Sort by value date and then by date"/>
+        </choices>
+      <default>"Sort by value date"</default>
+      <summary>Primary sorting option</summary>
+      <description>
+        Sort by value date, if fail, try with the date,
+        Sort by value date and then by date.
+      </description>
+    </key>
+    <key name="transactions-list-secondary-sorting" type="s">
+        <choices>
+            <choice value="Sort by transaction number"/>
+            <choice value="Sort by type of amount"/>
+            <choice value="Sort by payee name"/>
+            <choice value="Sort by date and then by transaction number"/>
+        </choices>
+      <default>"Sort by transaction number"</default>
+      <summary>Secondary sorting option</summary>
+      <description>
+        Sort by transaction number,
+        Sort by type of amount : credit, debit,
+        Sort by payee name, if fail, by transaction number,
+        Sort by date and then by transaction number.
+      </description>
+    </key>
   </schema>
 
   <schema path="/org/gtk/grisbi/geometry/" id='org.gtk.grisbi.geometry'>
@@ -414,16 +466,6 @@
   </schema>
 
   <schema path="/org/gtk/grisbi/scheduled/" id='org.gtk.grisbi.scheduled'>
-	  <key name="check-for-archival" type="b">
-	    <default>true</default>
-	    <summary></summary>
-	    <description>.</description>
-	  </key>
-	  <key name="max-transactions-before-warn-archival" type="i">
-	    <default>3000</default>
-	    <summary></summary>
-	    <description>.</description>
-	  </key>
 	  <key name="execute-scheduled-of-month" type="b">
 	    <default>false</default>
 	    <summary></summary>

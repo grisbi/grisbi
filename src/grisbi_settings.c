@@ -123,12 +123,12 @@ static void grisbi_settings_init_settings_backup ( GSettings *settings )
     gsb_file_set_backup_path ( tmp_path );
     g_free ( tmp_path );
 
-    conf.make_bakup_single_file = g_settings_get_boolean ( settings, "make-backup-single-file" );
     conf.compress_backup = g_settings_get_boolean ( settings, "compress-backup" );
-    conf.sauvegarde_demarrage = g_settings_get_boolean ( settings, "sauvegarde-ouverture" );
+    conf.make_bakup_single_file = g_settings_get_boolean ( settings, "make-backup-single-file" );
     conf.make_backup = g_settings_get_boolean ( settings, "sauvegarde-fermeture" );
     conf.make_backup_every_minutes = g_settings_get_boolean ( settings, "make-backup-every-minutes" );
     conf.make_backup_nb_minutes = g_settings_get_int ( settings, "make-backup-nb-minutes" );
+    conf.sauvegarde_demarrage = g_settings_get_boolean ( settings, "sauvegarde-ouverture" );
 
     /* Si sauvegarde automatique on la lance ici */
     if ( conf.make_backup_every_minutes
@@ -183,11 +183,11 @@ static void grisbi_settings_init_settings_file ( GSettings *settings )
 {
     gchar **recent_array = NULL;
 
-    conf.dernier_fichier_auto = g_settings_get_boolean ( settings, "dernier-fichier-auto" );
-    conf.sauvegarde_auto = g_settings_get_boolean ( settings, "sauvegarde-auto" );
-    conf.force_enregistrement = g_settings_get_boolean ( settings, "force-enregistrement" );
     conf.compress_file = g_settings_get_boolean ( settings, "compress-file" );
+    conf.dernier_fichier_auto = g_settings_get_boolean ( settings, "dernier-fichier-auto" );
+    conf.force_enregistrement = g_settings_get_boolean ( settings, "force-enregistrement" );
     conf.nb_max_derniers_fichiers_ouverts = g_settings_get_int ( settings, "nb-max-derniers-fichiers-ouverts" );
+    conf.sauvegarde_auto = g_settings_get_boolean ( settings, "sauvegarde-auto" );
 
     recent_array = g_settings_get_strv ( settings, "names-last-files" );
     if ( recent_array )
@@ -200,6 +200,10 @@ static void grisbi_settings_init_settings_file ( GSettings *settings )
         }
         g_strfreev ( recent_array );
     }
+
+    /* archive stuff */
+    conf.check_for_archival = g_settings_get_boolean ( settings, "check-for-archival" );
+    conf.max_non_archived_transactions_for_check = g_settings_get_int ( settings, "max-transactions-before-warn-archival" );
 }
 
 /**
@@ -230,8 +234,8 @@ static void grisbi_settings_init_settings_general ( GSettings *settings )
 {
     gchar *tmp_str;
 
-    conf.utilise_fonte_listes = g_settings_get_boolean ( settings, "utilise-fonte-listes" );
-    if ( conf.utilise_fonte_listes )
+    conf.custom_fonte_listes = g_settings_get_boolean ( settings, "custom-fonte-listes" );
+    if ( conf.custom_fonte_listes )
     {
         conf.font_string = g_settings_get_string ( settings, "font-string" );
     }
@@ -257,9 +261,10 @@ static void grisbi_settings_init_settings_general ( GSettings *settings )
     gsb_file_init_last_path ( tmp_str );
     g_free ( tmp_str );
 
-
+    /* Home page */
     conf.pluriel_final = g_settings_get_boolean ( settings, "pluriel-final" );
 
+    /* variables for the list of categories */
     tmp_str = g_settings_get_string ( settings, "metatree-action-2button-press" );
     if ( g_strcmp0 ( tmp_str, "Edit Category" ) == 0 )
         conf.metatree_action_2button_press = 1;
@@ -267,6 +272,28 @@ static void grisbi_settings_init_settings_general ( GSettings *settings )
         conf.metatree_action_2button_press = 2;
     else
         conf.metatree_action_2button_press = 0;
+    g_free ( tmp_str );
+
+    /* variables for the list of transactions */
+    conf.show_transaction_gives_balance = g_settings_get_boolean ( settings, "show-transaction-gives-balance" );
+    conf.show_transaction_selected_in_form = g_settings_get_boolean ( settings, "show-transaction-selected-in-form" );
+
+    tmp_str = g_settings_get_string ( settings, "transactions-list-primary-sorting" );
+    if ( g_strcmp0 ( tmp_str, "Sort by value date" ) == 0 )
+        conf.transactions_list_primary_sorting = 0;
+    else
+        conf.transactions_list_primary_sorting = 1;
+    g_free ( tmp_str );
+
+    tmp_str = g_settings_get_string ( settings, "transactions-list-secondary-sorting" );
+    if ( g_strcmp0 ( tmp_str, "Sort by transaction number" ) == 0 )
+        conf.transactions_list_secondary_sorting = 0;
+    else if ( g_strcmp0 ( tmp_str, "Sort by type of amount" ) == 0 )
+        conf.transactions_list_secondary_sorting = 1;
+    else if ( g_strcmp0 ( tmp_str, "Sort by payee name" ) == 0 )
+        conf.transactions_list_secondary_sorting = 2;
+    else
+        conf.transactions_list_secondary_sorting = 3;
     g_free ( tmp_str );
 }
 
@@ -375,10 +402,8 @@ static void grisbi_settings_init_settings_prefs ( GSettings *settings )
  **/
 static void grisbi_settings_init_settings_scheduled ( GSettings *settings )
 {
-    conf.check_for_archival = g_settings_get_boolean ( settings, "check-for-archival" );
-    conf.max_non_archived_transactions_for_check = g_settings_get_int ( settings, "max-transactions-before-warn-archival" );
-    conf.execute_scheduled_of_month = g_settings_get_boolean ( settings, "execute-scheduled-of-month" );
     conf.balances_with_scheduled = g_settings_get_boolean ( settings, "balances-with-scheduled" );
+    conf.execute_scheduled_of_month = g_settings_get_boolean ( settings, "execute-scheduled-of-month" );
 }
 
 /**
@@ -393,7 +418,7 @@ static void grisbi_settings_init ( GrisbiSettings *self )
     GrisbiSettingsPrivate *priv;
 
     devel_debug (NULL);
-    printf ("grisbi_settings_init\n");
+    //~ printf ("grisbi_settings_init\n");
 
     priv = grisbi_settings_get_instance_private ( self );
 
@@ -514,7 +539,7 @@ static void grisbi_settings_class_init ( GrisbiSettingsClass *klass )
  **/
 GrisbiSettings *grisbi_settings_get ( void )
 {
-    printf ("grisbi_settings_get\n");
+    //~ printf ("grisbi_settings_get\n");
     if (!singleton)
     {
         singleton = GRISBI_SETTINGS ( g_object_new ( GRISBI_TYPE_SETTINGS, NULL) );
@@ -631,6 +656,13 @@ void grisbi_settings_save_app_config ( GrisbiSettings *settings )
                         "nb-max-derniers-fichiers-ouverts",
                         conf.nb_max_derniers_fichiers_ouverts );
 
+    g_settings_set_boolean ( priv->settings_file,
+                        "check-for-archival",
+                        conf.check_for_archival );
+    g_settings_set_int ( priv->settings_file,
+                        "max-transactions-before-warn-archival",
+                        conf.max_non_archived_transactions_for_check );
+
     /* priv->settings_form */
     g_settings_set_boolean (  G_SETTINGS ( priv->settings_form ),
                         "affichage-exercice-automatique",
@@ -652,9 +684,9 @@ void grisbi_settings_save_app_config ( GrisbiSettings *settings )
 
     /* priv->settings_general */
     g_settings_set_boolean ( G_SETTINGS ( priv->settings_general ),
-                        "utilise-fonte-listes",
-                        conf.utilise_fonte_listes );
-    if ( conf.utilise_fonte_listes )
+                        "custom-fonte-listes",
+                        conf.custom_fonte_listes );
+    if ( conf.custom_fonte_listes )
     {
         g_settings_set_string ( G_SETTINGS ( priv->settings_general ),
                         "font-string",
@@ -745,12 +777,6 @@ void grisbi_settings_save_app_config ( GrisbiSettings *settings )
 
     /* priv->settings_scheduled */
     g_settings_set_boolean ( priv->settings_scheduled,
-                        "check-for-archival",
-                        conf.check_for_archival );
-    g_settings_set_int ( priv->settings_scheduled,
-                        "max-transactions-before-warn-archival",
-                        conf.max_non_archived_transactions_for_check );
-    g_settings_set_boolean ( priv->settings_scheduled,
                         "execute-scheduled-of-month",
                         conf.execute_scheduled_of_month );
     g_settings_set_boolean ( priv->settings_scheduled,
@@ -773,13 +799,13 @@ GSettings *grisbi_settings_get_settings ( gint schema )
         case SETTINGS_ROOT:
             settings = priv->settings_root;
             break;
-        case SETTINGS_BACKUP:
+        case SETTINGS_FILES_BACKUP:
             settings = priv->settings_backup;
             break;
         case SETTINGS_DISPLAY:
             settings = priv->settings_display;
             break;
-        case SETTINGS_FILE:
+        case SETTINGS_FILES_FILE:
             settings = priv->settings_file;
             break;
         case SETTINGS_FORM:
