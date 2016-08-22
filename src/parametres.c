@@ -44,6 +44,7 @@
 #include "categories_onglet.h"
 #include "dialog.h"
 #include "fenetre_principale.h"
+#include "grisbi_settings.h"
 #include "gsb_archive_config.h"
 #include "gsb_automem.h"
 #include "gsb_bank.h"
@@ -1298,7 +1299,7 @@ gboolean gsb_config_backup_dir_chosen ( GtkWidget *button,
     {
         GSettings *settings;
 
-        settings = grisbi_settings_get_settings ( SETTINGS_BACKUP );
+        settings = grisbi_settings_get_settings ( SETTINGS_FILES_BACKUP );
         g_settings_set_string ( G_SETTINGS ( settings ), "backup-path", path );
         gsb_file_set_backup_path ( path );
     }
