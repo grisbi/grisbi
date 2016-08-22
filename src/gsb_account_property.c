@@ -40,6 +40,7 @@
 /*START_INCLUDE*/
 #include "gsb_account_property.h"
 #include "dialog.h"
+#include "grisbi_win.h"
 #include "gsb_account.h"
 #include "gsb_autofunc.h"
 #include "gsb_bank.h"
