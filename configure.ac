@@ -44,6 +44,9 @@ LT_LIB_M
 dnl GSettings
 GLIB_GSETTINGS
 
+dnl GLIB_COMPILE_RESOURCES
+AC_PATH_PROG(GLIB_COMPILE_RESOURCES, glib-compile-resources)
+
 dnl ================================================================
 dnl Check for NLS support.
 dnl ================================================================
@@ -210,7 +213,7 @@ AC_ARG_ENABLE(werror,
  	enable_werror=no)
 if test "x$enable_werror" = xyes ; then
 	if test "x$GCC" = "xyes" ; then
-		CFLAGS="$CFLAGS -ansi -Wall -Wno-unused-parameter -Wno-unused-function -Wno-unused-but-set-variable -Wno-unused-result -Wnodeprecated-declarations"
+		CFLAGS="$CFLAGS -Wall -Wunused"
 		AC_MSG_WARN([Wall and Wunused flags are enabled])
 	else
 		AC_MSG_WARN([Wall and Wunused can be enabled only with gcc])
