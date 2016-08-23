@@ -309,8 +309,8 @@ static gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 	/* gtk_widget_reparent is broken according to upstream gtk+ devs, so use
 	 * gtk_container_add/remove instead to prevent segfaults. */
 	g_object_ref ( form_transaction_part );
-	gtk_container_remove ( parent_save, form_transaction_part );
-	gtk_container_add ( hbox, form_transaction_part );
+	gtk_container_remove ( GTK_CONTAINER ( parent_save ), form_transaction_part );
+	gtk_container_add ( GTK_CONTAINER ( hbox ), form_transaction_part );
     gtk_widget_show_all ( hbox );
 
     /* next we fill the form,
@@ -334,8 +334,8 @@ static gboolean saisie_echeance_accueil ( GtkWidget *event_box,
     if ( result == GTK_RESPONSE_OK )
 	 gsb_form_finish_edition ();
 
-    gtk_container_remove ( hbox, form_transaction_part );
-    gtk_container_add ( parent_save, form_transaction_part );
+    gtk_container_remove ( GTK_CONTAINER ( hbox ), form_transaction_part );
+    gtk_container_add ( GTK_CONTAINER ( parent_save ), form_transaction_part );
     g_object_unref ( form_transaction_part );
     gtk_widget_destroy ( dialog );
 
