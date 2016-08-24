@@ -3203,58 +3203,62 @@ void bet_array_create_transaction_from_transfert ( struct_transfert_data *transf
                  g_date_compare ( date, date_fin_comparaison ) > 0 )
                     continue;
 
-                if ( transfert->main_category_number )
+                /* find the transaction which has the same payee */
+                if ( gsb_data_transaction_get_party_number ( transaction_number ) == transfert->main_payee_number )
                 {
-                    div_number = gsb_data_transaction_get_category_number ( transaction_number );
-                    if ( transfert->main_sub_category_number )
+                    if ( transfert->main_category_number )
                     {
-                        sub_div_number = gsb_data_transaction_get_sub_category_number ( transaction_number );
+                        div_number = gsb_data_transaction_get_category_number ( transaction_number );
+                        if ( transfert->main_sub_category_number )
+                        {
+                            sub_div_number = gsb_data_transaction_get_sub_category_number ( transaction_number );
+                        }
+                        if ( transfert->main_category_number == div_number
+                         &&
+                         transfert->main_sub_category_number == sub_div_number )
+                        {
+                            if ( transfert->type == 0 )
+                            {
+                                amount = gsb_data_account_get_balance_at_date ( transfert->replace_account, date_bascule );
+                            }
+                            else
+                            {
+                                amount = gsb_data_partial_balance_get_balance_at_date ( transfert -> replace_account, date_bascule );
+                            }
+                            gsb_data_transaction_set_amount ( transaction_number, amount );
+                            gsb_data_transaction_set_date ( transaction_number, transfert->date );
+                            gsb_transactions_list_update_transaction ( transaction_number );
+                            gsb_transactions_list_update_tree_view ( transfert->account_number, FALSE );
+                            find = TRUE;
+                            break;
+                        }
                     }
-                    if ( transfert->main_category_number == div_number
-                     &&
-                     transfert->main_sub_category_number == sub_div_number )
+                    else if ( transfert->main_budgetary_number )
                     {
-                        if ( transfert->type == 0 )
+                        div_number = gsb_data_transaction_get_budgetary_number ( transaction_number );
+                        if ( transfert->main_sub_budgetary_number )
                         {
-                            amount = gsb_data_account_get_balance_at_date ( transfert->replace_account, date_bascule );
+                            sub_div_number = gsb_data_transaction_get_sub_budgetary_number ( transaction_number );
                         }
-                        else
+                        if ( transfert->main_budgetary_number == div_number
+                         &&
+                         transfert->main_sub_budgetary_number == sub_div_number )
                         {
-                            amount = gsb_data_partial_balance_get_balance_at_date ( transfert -> replace_account, date_bascule );
+                            if ( transfert -> type == 0 )
+                            {
+                                amount = gsb_data_account_get_balance_at_date ( transfert->replace_account, date_bascule );
+                            }
+                            else
+                            {
+                                amount = gsb_data_partial_balance_get_balance_at_date ( transfert -> replace_account, date_bascule );
+                            }
+                            gsb_data_transaction_set_amount ( transaction_number, amount );
+                            gsb_data_transaction_set_date ( transaction_number, transfert->date );
+                            gsb_transactions_list_update_transaction ( transaction_number );
+                            gsb_transactions_list_update_tree_view ( transfert->account_number, FALSE );
+                            find = TRUE;
+                            break;
                         }
-                        gsb_data_transaction_set_amount ( transaction_number, amount );
-                        gsb_data_transaction_set_date ( transaction_number, transfert->date );
-                        gsb_transactions_list_update_transaction ( transaction_number );
-                        gsb_transactions_list_update_tree_view ( transfert->account_number, FALSE );
-                        find = TRUE;
-                        break;
-                    }
-                }
-                else if ( transfert->main_budgetary_number )
-                {
-                    div_number = gsb_data_transaction_get_budgetary_number ( transaction_number );
-                    if ( transfert->main_sub_budgetary_number )
-                    {
-                        sub_div_number = gsb_data_transaction_get_sub_budgetary_number ( transaction_number );
-                    }
-                    if ( transfert->main_budgetary_number == div_number
-                     &&
-                     transfert->main_sub_budgetary_number == sub_div_number )
-                    {
-                        if ( transfert -> type == 0 )
-                        {
-                            amount = gsb_data_account_get_balance_at_date ( transfert->replace_account, date_bascule );
-                        }
-                        else
-                        {
-                            amount = gsb_data_partial_balance_get_balance_at_date ( transfert -> replace_account, date_bascule );
-                        }
-                        gsb_data_transaction_set_amount ( transaction_number, amount );
-                        gsb_data_transaction_set_date ( transaction_number, transfert->date );
-                        gsb_transactions_list_update_transaction ( transaction_number );
-                        gsb_transactions_list_update_tree_view ( transfert->account_number, FALSE );
-                        find = TRUE;
-                        break;
                     }
                 }
             }
@@ -3296,34 +3300,38 @@ void bet_array_create_transaction_from_transfert ( struct_transfert_data *transf
              g_date_compare ( date, date_fin_comparaison ) > 0 )
                 continue;
 
-            if ( transfert->main_category_number )
+            /* find the transaction which has the same payee */
+            if ( gsb_data_scheduled_get_party_number ( scheduled_number ) == transfert->main_payee_number )
             {
-                div_number = gsb_data_scheduled_get_category_number ( scheduled_number );
-                if ( transfert->main_sub_category_number )
+                if ( transfert->main_category_number )
                 {
-                    sub_div_number = gsb_data_scheduled_get_sub_category_number ( scheduled_number );
+                    div_number = gsb_data_scheduled_get_category_number ( scheduled_number );
+                    if ( transfert->main_sub_category_number )
+                    {
+                        sub_div_number = gsb_data_scheduled_get_sub_category_number ( scheduled_number );
+                    }
+                    if ( transfert->main_category_number == div_number
+                     &&
+                     transfert->main_sub_category_number == sub_div_number )
+                    {
+                        find = TRUE;
+                        break;
+                    }
                 }
-                if ( transfert->main_category_number == div_number
-                 &&
-                 transfert->main_sub_category_number == sub_div_number )
+                else if ( transfert->main_budgetary_number )
                 {
-                    find = TRUE;
-                    break;
-                }
-            }
-            else if ( transfert->main_budgetary_number )
-            {
-                div_number = gsb_data_scheduled_get_budgetary_number ( scheduled_number );
-                if ( transfert->main_sub_budgetary_number )
-                {
-                    sub_div_number = gsb_data_scheduled_get_sub_budgetary_number ( scheduled_number );
-                }
-                if ( transfert->main_budgetary_number == div_number
-                 &&
-                 transfert->main_sub_budgetary_number == sub_div_number )
-                {
-                    find = TRUE;
-                    break;
+                    div_number = gsb_data_scheduled_get_budgetary_number ( scheduled_number );
+                    if ( transfert->main_sub_budgetary_number )
+                    {
+                        sub_div_number = gsb_data_scheduled_get_sub_budgetary_number ( scheduled_number );
+                    }
+                    if ( transfert->main_budgetary_number == div_number
+                     &&
+                     transfert->main_sub_budgetary_number == sub_div_number )
+                    {
+                        find = TRUE;
+                        break;
+                    }
                 }
             }
         }
