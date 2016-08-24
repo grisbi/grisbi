@@ -68,7 +68,7 @@ typedef struct
     gchar *transaction_id;              /**< filled by ofx */
     gint account_number;
     gsb_real transaction_amount;
-    gint party_number;
+    gint party_number;                  /* payee in transaction */
     gchar *notes;
     gint marked_transaction;            /**<  OPERATION_NORMALE=nothing, OPERATION_POINTEE=P, OPERATION_TELERAPPROCHEE=T, OPERATION_RAPPROCHEE=R */
     gint archive_number;                /**< if it's an archived transaction, contains the number of the archive */
