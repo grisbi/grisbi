@@ -568,7 +568,6 @@ void grisbi_settings_save_app_config ( GrisbiSettings *settings )
     gint i;
 
     devel_debug (NULL);
-    printf ("grisbi_settings_save_app_config\n");
 
     priv = grisbi_settings_get_instance_private ( settings );
 

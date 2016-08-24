@@ -1118,8 +1118,6 @@ gchar **grisbi_app_get_recent_files_array ( void )
 	gchar *uri = NULL;
     gint index = 0;
 
-    printf ("grisbi_app_get_recent_files_array\n");
-
 	/* initialisation du tableau des fichiers récents */
     recent_array = g_new ( gchar *, conf.nb_max_derniers_fichiers_ouverts + 1);
 
