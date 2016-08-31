@@ -60,10 +60,10 @@ struct _CustomRecord
     /* first the 7 visibles columns */
     gchar *visible_col[7];
 
-    GdkColor *row_bg;			/* bg color */
-    GdkColor *row_bg_save;		/* save bg */
+    GdkRGBA *row_bg;			/* bg color */
+    GdkRGBA *row_bg_save;		/* save bg */
     gchar *amount_color;		/* amout color */
-    GdkColor *text_color;		/* color of the text (to highlight the splitted transactions not finished */
+    GdkRGBA *text_color;		/* color of the text (to highlight the splitted transactions not finished */
 
     gpointer transaction_pointer;	/* transaction struct address */
     gint what_is_line;			/* IS_TRANSACTION /IS_ARCHIVE */

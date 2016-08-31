@@ -43,6 +43,7 @@
 #include "gsb_file.h"
 #include "gsb_form_widget.h"
 #include "gsb_real.h"
+#include "gsb_rgba.h"
 #include "mouse.h"
 #include "navigation.h"
 #include "print_tree_view_list.h"
@@ -471,7 +472,7 @@ GtkWidget *bet_finance_create_data_tree_view ( GtkWidget *container )
                         G_TYPE_DOUBLE,      /* BET_FINANCE_ECHEANCE_DOUBLE        */
                         G_TYPE_STRING,      /* BET_FINANCE_COUT_COLUMN            */
                         G_TYPE_DOUBLE,      /* BET_FINANCE_COUT_DOUBLE            */
-                        GDK_TYPE_COLOR );   /* BET_FINANCE_BACKGROUND_COLOR       */
+                        GDK_TYPE_RGBA );   /* BET_FINANCE_BACKGROUND_COLOR       */
     gtk_tree_view_set_model ( GTK_TREE_VIEW ( tree_view ), GTK_TREE_MODEL ( tree_model ) );
     g_object_unref ( G_OBJECT ( tree_model ) );
 
@@ -485,7 +486,7 @@ GtkWidget *bet_finance_create_data_tree_view ( GtkWidget *container )
     column = gtk_tree_view_column_new_with_attributes ( title,
                         cell,
                         "text", BET_FINANCE_DURATION_COLUMN,
-                        "cell-background-gdk", BET_FINANCE_BACKGROUND_COLOR,
+                        "cell-background-rgba", BET_FINANCE_BACKGROUND_COLOR,
                         NULL);
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
                         GTK_TREE_VIEW_COLUMN ( column ) );
@@ -504,7 +505,7 @@ GtkWidget *bet_finance_create_data_tree_view ( GtkWidget *container )
     column = gtk_tree_view_column_new_with_attributes ( title,
                         cell,
                         "text", BET_FINANCE_NBRE_ECHEANCE_COLUMN,
-                        "cell-background-gdk", BET_FINANCE_BACKGROUND_COLOR,
+                        "cell-background-rgba", BET_FINANCE_BACKGROUND_COLOR,
                         NULL);
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
                         GTK_TREE_VIEW_COLUMN ( column ) );
@@ -523,7 +524,7 @@ GtkWidget *bet_finance_create_data_tree_view ( GtkWidget *container )
     column = gtk_tree_view_column_new_with_attributes ( title,
                         cell,
                         "text", BET_FINANCE_CAPITAL_COLUMN,
-                        "cell-background-gdk", BET_FINANCE_BACKGROUND_COLOR,
+                        "cell-background-rgba", BET_FINANCE_BACKGROUND_COLOR,
                         NULL);
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
                         GTK_TREE_VIEW_COLUMN ( column ) );
@@ -542,7 +543,7 @@ GtkWidget *bet_finance_create_data_tree_view ( GtkWidget *container )
     column = gtk_tree_view_column_new_with_attributes ( title,
                         cell,
                         "text", BET_FINANCE_TAUX_COLUMN,
-                        "cell-background-gdk", BET_FINANCE_BACKGROUND_COLOR,
+                        "cell-background-rgba", BET_FINANCE_BACKGROUND_COLOR,
                         NULL);
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
                         GTK_TREE_VIEW_COLUMN ( column ) );
@@ -561,7 +562,7 @@ GtkWidget *bet_finance_create_data_tree_view ( GtkWidget *container )
     column = gtk_tree_view_column_new_with_attributes ( title,
                         cell,
                         "text", BET_FINANCE_HORS_FRAIS_COLUMN,
-                        "cell-background-gdk", BET_FINANCE_BACKGROUND_COLOR,
+                        "cell-background-rgba", BET_FINANCE_BACKGROUND_COLOR,
                         NULL);
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
                         GTK_TREE_VIEW_COLUMN ( column ) );
@@ -580,7 +581,7 @@ GtkWidget *bet_finance_create_data_tree_view ( GtkWidget *container )
     column = gtk_tree_view_column_new_with_attributes ( title,
                         cell,
                         "text", BET_FINANCE_FRAIS_COLUMN,
-                        "cell-background-gdk", BET_FINANCE_BACKGROUND_COLOR,
+                        "cell-background-rgba", BET_FINANCE_BACKGROUND_COLOR,
                         NULL);
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
                         GTK_TREE_VIEW_COLUMN ( column ) );
@@ -599,7 +600,7 @@ GtkWidget *bet_finance_create_data_tree_view ( GtkWidget *container )
     column = gtk_tree_view_column_new_with_attributes ( title,
                         cell,
                         "text", BET_FINANCE_ECHEANCE_COLUMN,
-                        "cell-background-gdk", BET_FINANCE_BACKGROUND_COLOR,
+                        "cell-background-rgba", BET_FINANCE_BACKGROUND_COLOR,
                         NULL);
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
                         GTK_TREE_VIEW_COLUMN ( column ) );
@@ -618,7 +619,7 @@ GtkWidget *bet_finance_create_data_tree_view ( GtkWidget *container )
     column = gtk_tree_view_column_new_with_attributes ( title,
                         cell,
                         "text", BET_FINANCE_COUT_COLUMN,
-                        "cell-background-gdk", BET_FINANCE_BACKGROUND_COLOR,
+                        "cell-background-rgba", BET_FINANCE_BACKGROUND_COLOR,
                         NULL);
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
                         GTK_TREE_VIEW_COLUMN ( column ) );
@@ -1175,7 +1176,7 @@ GtkWidget *bet_finance_create_amortization_tree_view ( GtkWidget *container, gin
                         G_TYPE_STRING,      /* BET_AMORTIZATION_PRINCIPAL_COLUMN    */
                         G_TYPE_STRING,      /* BET_AMORTIZATION_FRAIS_COLUMN        */
                         G_TYPE_STRING,      /* BET_AMORTIZATION_ECHEANCE_COLUMN     */
-                        GDK_TYPE_COLOR );   /* BET_AMORTIZATION_BACKGROUND_COLOR    */
+                        GDK_TYPE_RGBA );    /* BET_AMORTIZATION_BACKGROUND_COLOR    */
     gtk_tree_view_set_model ( GTK_TREE_VIEW ( tree_view ), GTK_TREE_MODEL ( tree_model ) );
     g_object_unref ( G_OBJECT ( tree_model ) );
 
@@ -1191,7 +1192,7 @@ GtkWidget *bet_finance_create_amortization_tree_view ( GtkWidget *container, gin
         column = gtk_tree_view_column_new_with_attributes ( title,
                         cell,
                         "text", BET_AMORTIZATION_DATE_COLUMN,
-                        "cell-background-gdk", BET_AMORTIZATION_BACKGROUND_COLOR,
+                        "cell-background-rgba", BET_AMORTIZATION_BACKGROUND_COLOR,
                         NULL);
         g_object_set_data ( G_OBJECT ( column ), "num_col_model",
                         GINT_TO_POINTER ( BET_AMORTIZATION_DATE_COLUMN ) );
@@ -1203,7 +1204,7 @@ GtkWidget *bet_finance_create_amortization_tree_view ( GtkWidget *container, gin
         column = gtk_tree_view_column_new_with_attributes ( title,
                         cell,
                         "text", BET_AMORTIZATION_NUMBER_COLUMN,
-                        "cell-background-gdk", BET_AMORTIZATION_BACKGROUND_COLOR,
+                        "cell-background-rgba", BET_AMORTIZATION_BACKGROUND_COLOR,
                         NULL);
         g_object_set_data ( G_OBJECT ( column ), "num_col_model",
                         GINT_TO_POINTER ( BET_AMORTIZATION_NUMBER_COLUMN ) );
@@ -1224,7 +1225,7 @@ GtkWidget *bet_finance_create_amortization_tree_view ( GtkWidget *container, gin
     column = gtk_tree_view_column_new_with_attributes ( title,
                         cell,
                         "text", BET_AMORTIZATION_CAPITAL_DU_COLUMN,
-                        "cell-background-gdk", BET_AMORTIZATION_BACKGROUND_COLOR,
+                        "cell-background-rgba", BET_AMORTIZATION_BACKGROUND_COLOR,
                         NULL);
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
                         GTK_TREE_VIEW_COLUMN ( column ) );
@@ -1243,7 +1244,7 @@ GtkWidget *bet_finance_create_amortization_tree_view ( GtkWidget *container, gin
     column = gtk_tree_view_column_new_with_attributes ( title,
                         cell,
                         "text", BET_AMORTIZATION_INTERETS_COLUMN,
-                        "cell-background-gdk", BET_AMORTIZATION_BACKGROUND_COLOR,
+                        "cell-background-rgba", BET_AMORTIZATION_BACKGROUND_COLOR,
                         NULL);
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
                         GTK_TREE_VIEW_COLUMN ( column ) );
@@ -1262,7 +1263,7 @@ GtkWidget *bet_finance_create_amortization_tree_view ( GtkWidget *container, gin
     column = gtk_tree_view_column_new_with_attributes ( title,
                         cell,
                         "text", BET_AMORTIZATION_PRINCIPAL_COLUMN,
-                        "cell-background-gdk", BET_AMORTIZATION_BACKGROUND_COLOR,
+                        "cell-background-rgba", BET_AMORTIZATION_BACKGROUND_COLOR,
                         NULL);
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
                         GTK_TREE_VIEW_COLUMN ( column ) );
@@ -1281,7 +1282,7 @@ GtkWidget *bet_finance_create_amortization_tree_view ( GtkWidget *container, gin
     column = gtk_tree_view_column_new_with_attributes ( title,
                         cell,
                         "text", BET_AMORTIZATION_FRAIS_COLUMN,
-                        "cell-background-gdk", BET_AMORTIZATION_BACKGROUND_COLOR,
+                        "cell-background-rgba", BET_AMORTIZATION_BACKGROUND_COLOR,
                         NULL);
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
                         GTK_TREE_VIEW_COLUMN ( column ) );
@@ -1300,7 +1301,7 @@ GtkWidget *bet_finance_create_amortization_tree_view ( GtkWidget *container, gin
     column = gtk_tree_view_column_new_with_attributes ( title,
                         cell,
                         "text", BET_AMORTIZATION_ECHEANCE_COLUMN,
-                        "cell-background-gdk", BET_AMORTIZATION_BACKGROUND_COLOR,
+                        "cell-background-rgba", BET_AMORTIZATION_BACKGROUND_COLOR,
                         NULL);
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
                         GTK_TREE_VIEW_COLUMN ( column ) );

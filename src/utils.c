@@ -35,6 +35,7 @@
 #include "gsb_color.h"
 #include "gsb_data_account.h"
 #include "gsb_dirs.h"
+#include "gsb_rgba.h"
 #include "structures.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -549,7 +550,7 @@ gboolean utils_set_tree_view_background_color ( GtkWidget *tree_view, gint color
         {
             gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                         &iter,
-                        color_column, gsb_color_get_couleur_with_indice ( "couleur_fond", current_color ),
+                        color_column, gsb_rgba_get_couleur_with_indice ( "couleur_fond", current_color ),
                         -1 );
 
             current_color = !current_color;
@@ -565,7 +566,7 @@ gboolean utils_set_tree_view_background_color ( GtkWidget *tree_view, gint color
                 {
                     gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                                 &fils_iter,
-                                color_column, gsb_color_get_couleur_with_indice ( "couleur_fond", current_color ),
+                                color_column, gsb_rgba_get_couleur_with_indice ( "couleur_fond", current_color ),
                                 -1 );
 
                     current_color = !current_color;
@@ -580,7 +581,7 @@ gboolean utils_set_tree_view_background_color ( GtkWidget *tree_view, gint color
                         {
                             gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                                         &third_iter,
-                                        color_column, gsb_color_get_couleur_with_indice ( "couleur_fond", current_color ),
+                                        color_column, gsb_rgba_get_couleur_with_indice ( "couleur_fond", current_color ),
                                         -1 );
 
                             current_color = !current_color;

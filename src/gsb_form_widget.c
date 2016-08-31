@@ -759,18 +759,18 @@ void gsb_form_widget_set_empty ( GtkWidget *entry,
     if ( ! empty )
     {
 	gtk_widget_modify_text ( entry,
-				 GTK_STATE_NORMAL,
+				 GTK_STATE_FLAG_NORMAL,
 				 &black );
     }
     else
     {
 	gtk_widget_modify_text ( entry,
-				 GTK_STATE_NORMAL,
+				 GTK_STATE_FLAG_NORMAL,
 				 &gray );
     }
 
 	gtk_widget_modify_base ( entry,
-				 GTK_STATE_NORMAL,
+				 GTK_STATE_FLAG_NORMAL,
 				 NULL );
 
     g_object_set_data ( G_OBJECT(entry), "empty", GINT_TO_POINTER( empty ) );

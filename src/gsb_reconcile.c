@@ -50,6 +50,7 @@
 #include "gsb_form_widget.h"
 #include "gsb_real.h"
 #include "gsb_reconcile_list.h"
+#include "gsb_rgba.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
 #include "menu.h"

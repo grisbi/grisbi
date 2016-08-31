@@ -699,7 +699,7 @@ void gsb_transactions_list_create_tree_view_columns ( void )
                         _(titres_colonnes_liste_operations[i]),
 					    cell_renderer,
 					    "text", i,
-					    "cell-background-gdk", CUSTOM_MODEL_BACKGROUND,
+					    "cell-background-rgba", CUSTOM_MODEL_BACKGROUND,
 					    "font", CUSTOM_MODEL_FONT,
 					    NULL );
 
@@ -713,7 +713,7 @@ void gsb_transactions_list_create_tree_view_columns ( void )
 	else
 	    gtk_tree_view_column_add_attribute ( transactions_tree_view_columns[i],
 						cell_renderer,
-						"foreground-gdk", CUSTOM_MODEL_TEXT_COLOR );
+						"foreground-rgba", CUSTOM_MODEL_TEXT_COLOR );
 
 
 	if ( i == find_element_col (ELEMENT_MARK))
@@ -726,7 +726,7 @@ void gsb_transactions_list_create_tree_view_columns ( void )
 						"active", CUSTOM_MODEL_CHECKBOX_ACTIVE,
 						"activatable", CUSTOM_MODEL_CHECKBOX_VISIBLE,
 						"visible", CUSTOM_MODEL_CHECKBOX_VISIBLE,
-						"cell-background-gdk", CUSTOM_MODEL_BACKGROUND,
+						"cell-background-rgba", CUSTOM_MODEL_BACKGROUND,
 						NULL );
 	    g_object_set_data ( G_OBJECT ( transactions_tree_view_columns[i] ),
                         "radio_renderer", radio_renderer );

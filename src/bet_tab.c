@@ -52,6 +52,7 @@
 #include "gsb_dirs.h"
 #include "gsb_file.h"
 #include "gsb_real.h"
+#include "gsb_rgba.h"
 #include "gsb_scheduler.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
@@ -641,7 +642,7 @@ void bet_array_refresh_estimate_tab ( gint account_number )
                         SPP_ESTIMATE_TREE_BALANCE_COLUMN, str_current_balance,
                         SPP_ESTIMATE_TREE_AMOUNT_COLUMN, str_amount,
                         SPP_ESTIMATE_TREE_BALANCE_COLOR, color_str,
-                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, gsb_color_get_couleur ( "couleur_bet_solde" ),
+                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, gsb_rgba_get_couleur ( "couleur_bet_solde" ),
                         -1);
 
     g_value_unset ( &date_value );
@@ -822,7 +823,7 @@ GtkWidget *bet_array_create_tree_view ( GtkWidget *container )
                     G_TYPE_DATE,        /* SPP_ESTIMATE_TREE_SORT_DATE_COLUMN */
                     G_TYPE_STRING,      /* SPP_ESTIMATE_TREE_AMOUNT_COLUMN */
                     G_TYPE_STRING,      /* SPP_ESTIMATE_TREE_BALANCE_COLOR */
-                    GDK_TYPE_COLOR,     /* SPP_ESTIMATE_TREE_BACKGROUND_COLOR */
+                    GDK_TYPE_RGBA,     /* SPP_ESTIMATE_TREE_BACKGROUND_COLOR */
                     G_TYPE_STRING );    /* SPP_ESTIMATE_TREE_COLOR_STRING */
 
     gtk_tree_view_set_model ( GTK_TREE_VIEW ( tree_view ), GTK_TREE_MODEL ( tree_model ) );
@@ -855,7 +856,7 @@ GtkWidget *bet_array_create_tree_view ( GtkWidget *container )
     bet_array_tree_view_columns[i] = gtk_tree_view_column_new_with_attributes (
                         _("Date"), cell,
                         "text", SPP_ESTIMATE_TREE_DATE_COLUMN,
-                        "cell-background-gdk", SPP_ESTIMATE_TREE_BACKGROUND_COLOR,
+                        "cell-background-rgba", SPP_ESTIMATE_TREE_BACKGROUND_COLOR,
                         NULL);
 
     gtk_tree_view_column_set_alignment ( bet_array_tree_view_columns[i], 0.5 );
@@ -872,7 +873,7 @@ GtkWidget *bet_array_create_tree_view ( GtkWidget *container )
     bet_array_tree_view_columns[i] = gtk_tree_view_column_new_with_attributes (
 					    _("Description"), cell,
 					    "text", SPP_ESTIMATE_TREE_DESC_COLUMN,
-                        "cell-background-gdk", SPP_ESTIMATE_TREE_BACKGROUND_COLOR,
+                        "cell-background-rgba", SPP_ESTIMATE_TREE_BACKGROUND_COLOR,
 					    NULL);
 
     gtk_tree_view_append_column (GTK_TREE_VIEW ( tree_view ), bet_array_tree_view_columns[i] );
@@ -889,7 +890,7 @@ GtkWidget *bet_array_create_tree_view ( GtkWidget *container )
     bet_array_tree_view_columns[i] = gtk_tree_view_column_new_with_attributes (
 						_("Debit"), cell,
 					    "text", SPP_ESTIMATE_TREE_DEBIT_COLUMN,
-                        "cell-background-gdk", SPP_ESTIMATE_TREE_BACKGROUND_COLOR,
+                        "cell-background-rgba", SPP_ESTIMATE_TREE_BACKGROUND_COLOR,
 					    NULL);
 
     gtk_tree_view_column_set_alignment ( bet_array_tree_view_columns[i], 1 );
@@ -907,7 +908,7 @@ GtkWidget *bet_array_create_tree_view ( GtkWidget *container )
     bet_array_tree_view_columns[i] = gtk_tree_view_column_new_with_attributes (
 					    _("Credit"), cell,
 					    "text", SPP_ESTIMATE_TREE_CREDIT_COLUMN,
-                        "cell-background-gdk", SPP_ESTIMATE_TREE_BACKGROUND_COLOR,
+                        "cell-background-rgba", SPP_ESTIMATE_TREE_BACKGROUND_COLOR,
 						NULL);
 
     gtk_tree_view_column_set_alignment ( bet_array_tree_view_columns[i], 1 );
@@ -926,7 +927,7 @@ GtkWidget *bet_array_create_tree_view ( GtkWidget *container )
 					    _("Balance"), cell,
 					    "text", SPP_ESTIMATE_TREE_BALANCE_COLUMN,
                         "foreground", SPP_ESTIMATE_TREE_BALANCE_COLOR,
-                        "cell-background-gdk", SPP_ESTIMATE_TREE_BACKGROUND_COLOR,
+                        "cell-background-rgba", SPP_ESTIMATE_TREE_BACKGROUND_COLOR,
 					    NULL);
 
     gtk_tree_view_column_set_alignment ( bet_array_tree_view_columns[i], 1 );
@@ -2273,36 +2274,36 @@ gboolean bet_array_list_set_background_color ( GtkWidget *tree_view )
                 gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                         &iter,
                         SPP_ESTIMATE_TREE_BACKGROUND_COLOR,
-                        gsb_color_get_couleur_with_indice ( "couleur_fond", current_color ),
+                        gsb_rgba_get_couleur_with_indice ( "couleur_fond", current_color ),
                         -1 );
                 current_color = !current_color;
                 break;
             case SPP_ORIGIN_HISTORICAL:
                 gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                         &iter,
-                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, gsb_color_get_couleur ( "couleur_bet_division" ),
-                        SPP_ESTIMATE_TREE_COLOR_STRING, gsb_color_get_couleur_to_string ( "couleur_bet_division" ),
+                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, gsb_rgba_get_couleur ( "couleur_bet_division" ),
+                        SPP_ESTIMATE_TREE_COLOR_STRING, gsb_rgba_get_couleur_to_string ( "couleur_bet_division" ),
                         -1 );
                 break;
             case SPP_ORIGIN_FUTURE:
                 gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                         &iter,
-                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, gsb_color_get_couleur ( "couleur_bet_future" ),
-                        SPP_ESTIMATE_TREE_COLOR_STRING, gsb_color_get_couleur_to_string ( "couleur_bet_future" ),
+                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, gsb_rgba_get_couleur ( "couleur_bet_future" ),
+                        SPP_ESTIMATE_TREE_COLOR_STRING, gsb_rgba_get_couleur_to_string ( "couleur_bet_future" ),
                         -1 );
                 break;
             case SPP_ORIGIN_ACCOUNT:
                 gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                         &iter,
-                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, gsb_color_get_couleur ( "couleur_bet_transfert" ),
-                        SPP_ESTIMATE_TREE_COLOR_STRING, gsb_color_get_couleur_to_string ( "couleur_bet_transfert" ),
+                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, gsb_rgba_get_couleur ( "couleur_bet_transfert" ),
+                        SPP_ESTIMATE_TREE_COLOR_STRING, gsb_rgba_get_couleur_to_string ( "couleur_bet_transfert" ),
                         -1 );
                 break;
             case SPP_ORIGIN_SOLDE:
                 gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                         &iter,
-                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, gsb_color_get_couleur ( "couleur_bet_solde" ),
-                        SPP_ESTIMATE_TREE_COLOR_STRING, gsb_color_get_couleur_to_string ( "couleur_bet_solde" ),
+                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, gsb_rgba_get_couleur ( "couleur_bet_solde" ),
+                        SPP_ESTIMATE_TREE_COLOR_STRING, gsb_rgba_get_couleur_to_string ( "couleur_bet_solde" ),
                         -1 );
             }
 
@@ -2323,8 +2324,8 @@ gboolean bet_array_list_set_background_color ( GtkWidget *tree_view )
                     absent = FALSE;
                     gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                                     prev,
-                                    SPP_ESTIMATE_TREE_BACKGROUND_COLOR, gsb_color_get_couleur ( "couleur_jour" ),
-                                    SPP_ESTIMATE_TREE_COLOR_STRING, gsb_color_get_couleur_to_string ( "couleur_jour" ),
+                                    SPP_ESTIMATE_TREE_BACKGROUND_COLOR, gsb_rgba_get_couleur ( "couleur_jour" ),
+                                    SPP_ESTIMATE_TREE_COLOR_STRING, gsb_rgba_get_couleur_to_string ( "couleur_jour" ),
                                     -1 );
                 }
 
@@ -3041,7 +3042,7 @@ gboolean bet_array_shows_balance_at_beginning_of_month ( GtkTreeModel *tab_model
                         SPP_ESTIMATE_TREE_DESC_COLUMN, str_description,
                         SPP_ESTIMATE_TREE_AMOUNT_COLUMN, str_amount,
                         SPP_ESTIMATE_TREE_BALANCE_COLOR, NULL,
-                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, gsb_color_get_couleur ( "couleur_bet_solde" ),
+                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, gsb_rgba_get_couleur ( "couleur_bet_solde" ),
                         -1);
 
         g_value_unset ( &date_value );

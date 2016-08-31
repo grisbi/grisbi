@@ -236,7 +236,7 @@ GtkWidget *payees_create_list ( void )
     column = gtk_tree_view_column_new_with_attributes (_("Payees"), cell,
 						       "text", META_TREE_TEXT_COLUMN,
 						       "weight", META_TREE_FONT_COLUMN,
-                               "cell-background-gdk", META_TREE_BACKGROUND_COLOR,
+                               "cell-background-rgba", META_TREE_BACKGROUND_COLOR,
 						       NULL);
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( payee_tree ),
 				  GTK_TREE_VIEW_COLUMN ( column ) );
@@ -246,7 +246,7 @@ GtkWidget *payees_create_list ( void )
     column = gtk_tree_view_column_new_with_attributes (_("Account"), cell,
 						       "text", META_TREE_ACCOUNT_COLUMN,
 						       "weight", META_TREE_FONT_COLUMN,
-                               "cell-background-gdk", META_TREE_BACKGROUND_COLOR,
+                               "cell-background-rgba", META_TREE_BACKGROUND_COLOR,
 						       NULL);
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( payee_tree ),
 				  GTK_TREE_VIEW_COLUMN ( column ) );
@@ -257,7 +257,7 @@ GtkWidget *payees_create_list ( void )
 						       "text", META_TREE_BALANCE_COLUMN,
 						       "weight", META_TREE_FONT_COLUMN,
 						       "xalign", META_TREE_XALIGN_COLUMN,
-                               "cell-background-gdk", META_TREE_BACKGROUND_COLOR,
+                               "cell-background-rgba", META_TREE_BACKGROUND_COLOR,
 						       NULL);
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( payee_tree ),
 				  GTK_TREE_VIEW_COLUMN ( column ) );

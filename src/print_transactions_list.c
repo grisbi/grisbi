@@ -40,6 +40,7 @@
 #include "gsb_color.h"
 #include "gsb_data_print_config.h"
 #include "gsb_data_transaction.h"
+#include "gsb_rgba.h"
 #include "utils.h"
 #include "print_dialog_config.h"
 #include "transaction_model.h"
@@ -806,9 +807,9 @@ static void print_transactions_list_draw_background ( CustomRecord *record,
 
     if (record -> what_is_line == IS_ARCHIVE)
     {
-        GdkColor *color;
+        GdkRGBA *color;
 
-        color = gsb_color_get_couleur ( "archive_background_color" );
+        color = gsb_rgba_get_couleur ( "archive_background_color" );
         cairo_rectangle ( cr, 0, line_position, page_width, size_row + 2*gsb_data_print_config_get_draw_lines ( ) );
         cairo_set_source_rgb ( cr,
                         (gdouble) color -> red/65535,
@@ -818,12 +819,12 @@ static void print_transactions_list_draw_background ( CustomRecord *record,
     else
     {
         CustomList *custom_list = transaction_model_get_model ( );
-        GdkColor *color;
+        GdkRGBA *color;
 
         if ( color_bg )
-            color = gsb_color_get_couleur_with_indice ( "couleur_fond", 0 );
+            color = gsb_rgba_get_couleur_with_indice ( "couleur_fond", 0 );
         else
-            color = gsb_color_get_couleur_with_indice ( "couleur_fond", 1 );
+            color = gsb_rgba_get_couleur_with_indice ( "couleur_fond", 1 );
 
         cairo_rectangle (cr, 0, line_position, page_width,
                         custom_list -> nb_rows_by_transaction * size_row + 2*gsb_data_print_config_get_draw_lines ( ) );
