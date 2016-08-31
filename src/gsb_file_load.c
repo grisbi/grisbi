@@ -70,6 +70,7 @@
 #include "gsb_file_util.h"
 #include "gsb_locale.h"
 #include "gsb_real.h"
+#include "gsb_rgba.h"
 #include "gsb_select_icon.h"
 #include "gsb_scheduler_list.h"
 #include "import.h"
@@ -274,6 +275,108 @@ struct new_div_sous_div_struct
 };
 static struct new_div_sous_div_struct *buffer_new_div_sous_div;
 
+/**
+ * load the rgba part in the Grisbi file
+ *
+ * \param attribute_names
+ * \param attribute_values
+ *
+ * */
+static void gsb_file_load_rgba_part ( const gchar **attribute_names,
+                        const gchar **attribute_values )
+{
+    gint i=0;
+
+    if ( !attribute_names[i] )
+    return;
+
+    do
+    {
+    /*     we test at the beginning if the attribute_value is NULL, if yes, */
+    /*        go to the next */
+
+    if ( !strcmp (attribute_values[i], "(null)") )
+    {
+        /* Nothing */
+    }
+
+    else if ( !strcmp ( attribute_names[i], "Background_color_0" ) )
+    {
+        gsb_rgba_set_couleur_with_indice ( "couleur_fond", 0, attribute_values[i] );
+    }
+
+    else if ( !strcmp ( attribute_names[i], "Background_color_1" ) )
+    {
+        gsb_rgba_set_couleur_with_indice ( "couleur_fond", 1, attribute_values[i] );
+    }
+
+    else if ( !strcmp ( attribute_names[i], "Couleur_jour" ) )
+    {
+        gsb_rgba_set_couleur ( "couleur_jour", attribute_values[i] );
+    }
+
+    else if ( !strcmp ( attribute_names[i], "Background_scheduled" ) )
+    {
+        gsb_rgba_set_couleur ( "background_scheduled", attribute_values[i] );
+    }
+
+    else if ( !strcmp ( attribute_names[i], "Background_archive" ) )
+    {
+        gsb_rgba_set_couleur ( "background_archive", attribute_values[i] );
+    }
+
+    else if ( !strcmp ( attribute_names[i], "Selection" ) )
+    {
+        gsb_rgba_set_couleur ( "couleur_selection", attribute_values[i] );
+    }
+
+    else if ( !strcmp ( attribute_names[i], "Background_split" ) )
+    {
+        gsb_rgba_set_couleur ( "background_split", attribute_values[i] );
+    }
+
+    else if ( !strcmp ( attribute_names[i], "Text_color_0" ) )
+    {
+        gsb_rgba_set_couleur_with_indice ( "text_color", 0, attribute_values[i] );
+    }
+
+    else if ( !strcmp ( attribute_names[i], "Text_color_1" ) )
+    {
+        gsb_rgba_set_couleur_with_indice ( "text_color", 1, attribute_values[i] );
+    }
+
+    else if ( !strcmp ( attribute_names[i], "Entry_error_color" ) )
+    {
+        gsb_rgba_set_couleur ( "entry_error_color", attribute_values[i] );
+    }
+
+    else if ( !strcmp ( attribute_names[i], "Couleur_bet_division" ) )
+    {
+        gsb_rgba_set_couleur ( "couleur_bet_division", attribute_values[i] );
+    }
+
+    else if ( !strcmp ( attribute_names[i], "Couleur_bet_future" ) )
+    {
+        gsb_rgba_set_couleur ( "couleur_bet_future", attribute_values[i] );
+    }
+
+    else if ( !strcmp ( attribute_names[i], "Couleur_bet_solde" ) )
+    {
+        gsb_rgba_set_couleur ( "couleur_bet_solde", attribute_values[i] );
+    }
+
+    else if ( !strcmp ( attribute_names[i], "Couleur_bet_transfert" ) )
+    {
+        gsb_rgba_set_couleur ( "couleur_bet_transfert", attribute_values[i] );
+    }
+
+    i++;
+    }
+    while ( attribute_names[i] );
+}
+
+/* Public functions                                                           */
+/******************************************************************************/
 /**
  * called to open the grisbi file given in param
  *
@@ -657,6 +760,12 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
             else if ( !strcmp ( element_name, "Report" ))
             {
                 gsb_file_load_report ( attribute_names,
+                        attribute_values );
+            }
+
+            else if ( !strcmp ( element_name, "RGBA" ))
+            {
+                gsb_file_load_rgba_part ( attribute_names,
                         attribute_values );
             }
 
@@ -1358,7 +1467,6 @@ void gsb_file_load_color_part ( const gchar **attribute_names,
     }
     while ( attribute_names[i] );
 }
-
 
 /**
  * load the print part in the Grisbi file

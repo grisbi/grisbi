@@ -73,6 +73,7 @@
 #include "navigation.h"
 #include "gsb_locale.h"
 #include "gsb_real.h"
+#include "gsb_rgba.h"
 #include "gsb_select_icon.h"
 #include "utils_str.h"
 #include "structures.h"
@@ -108,8 +109,7 @@ static gulong gsb_file_save_bet_graph_part ( gulong iterator,
 #endif /* HAVE_GOFFICE */
 static gulong gsb_file_save_color_part ( gulong iterator,
                         gulong *length_calculated,
-                        gchar **file_content,
-                        gint archive_number );
+                        gchar **file_content );
 static gulong gsb_file_save_currency_link_part ( gulong iterator,
                         gulong *length_calculated,
                         gchar **file_content );
@@ -171,6 +171,33 @@ extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/
 
 /**
+ * save the rgba part
+ *
+ * \param iterator the current iterator
+ * \param length_calculated a pointer to the variable lengh_calculated
+ * \param file_content a pointer to the variable file_content
+ *
+ * \return the new iterator
+ * */
+static gulong gsb_file_save_rgba_part ( gulong iterator,
+                        gulong *length_calculated,
+                        gchar **file_content )
+{
+    gchar *new_string;
+
+    new_string = gsb_rgba_get_strings_to_save ();
+
+    /* append the new string to the file content
+     * and return the new iterator */
+    return gsb_file_save_append_part ( iterator,
+				       length_calculated,
+				       file_content,
+				       new_string );
+}
+
+/* Public functions                                                           */
+/******************************************************************************/
+/**
  * save the grisbi file or an archive
  * we don't check anything here, all must be done before, here we just write
  * the file and set the permissions
@@ -213,7 +240,8 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
     gint account_icon_part = 4500;
     gint bet_part = 500;
     gint bet_graph_part = 100;
-
+    gint color_part  = 3000;
+    gint rgba_part = 1000;
     struct stat buf;
 
     devel_debug (filename);
@@ -257,7 +285,9 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
     + logo_part
     + account_icon_part * g_slist_length ( gsb_select_icon_list_accounts_icon () )
     + bet_part
-    + bet_graph_part;
+    + bet_graph_part
+    + color_part
+    + rgba_part;
 
     iterator = 0;
     file_content = g_malloc0 ( length_calculated * sizeof ( gchar ) );
@@ -275,8 +305,11 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
 
     iterator = gsb_file_save_color_part ( iterator,
 					  &length_calculated,
-					  &file_content,
-					  archive_number );
+					  &file_content );
+
+    iterator = gsb_file_save_rgba_part ( iterator,
+					  &length_calculated,
+					  &file_content );
 
     iterator = gsb_file_save_print_part ( iterator,
 					  &length_calculated,
@@ -861,8 +894,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
  * */
 gulong gsb_file_save_color_part ( gulong iterator,
                         gulong *length_calculated,
-                        gchar **file_content,
-                        gint archive_number )
+                        gchar **file_content )
 {
     gchar *new_string;
 

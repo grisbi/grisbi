@@ -129,6 +129,7 @@ libgrisbi_la_SOURCES = \
 	gsb_reconcile_sort_config.c	\
 	gsb_regex.c		\
 	gsb_report.c		\
+	gsb_rgba.c  \
 	gsb_scheduler.c		\
 	gsb_scheduler_list.c	\
 	gsb_select_icon.c \
@@ -276,6 +277,7 @@ libgrisbi_la_SOURCES = \
 	gsb_reconcile_sort_config.h	\
 	gsb_regex.h		\
 	gsb_report.h		\
+	gsb_rgba.h  \
 	gsb_status.h            \
 	gsb_select_icon.h 	\
 	gsb_scheduler.h		\
@@ -330,7 +332,7 @@ BUILT_SOURCES = grisbi_resources.c
 
 grisbi_resources.c: grisbi.gresource.xml $(shell $(GLIB_COMPILE_RESOURCES) --sourcedir=$(srcdir)/ui --generate-dependencies $(srcdir)/grisbi.gresource.xml)
 	$(AM_V_GEN) $(GLIB_COMPILE_RESOURCES) --target=$@ --sourcedir=$(srcdir)/ui --generate-source $(srcdir)/grisbi.gresource.xml
-	
+
 gsettings_SCHEMAS = org.gtk.grisbi.gschema.xml
 @GSETTINGS_RULES@
 

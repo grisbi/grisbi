@@ -72,6 +72,7 @@
 #include "gsb_real.h"
 #include "gsb_regex.h"
 #include "gsb_report.h"
+#include "gsb_rgba.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_select_icon.h"
 #include "gsb_transactions_list.h"
@@ -282,6 +283,7 @@ void init_variables ( void )
 
     /* set colors to default */
     gsb_color_set_colors_to_default ( );
+    gsb_rgba_set_colors_to_default ();
 
     /* divers */
     etat.add_archive_in_total_balance = TRUE;   /* add the archived transactions by default */
