@@ -1028,7 +1028,7 @@ static gboolean gsb_bank_edit_bank ( gint bank_number,
     dialog = gtk_dialog_new_with_buttons ( _("Edit bank"),
 					   GTK_WINDOW ( run.window ),
 					   GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-					   "gtk-cancel""gtk-cancel", GTK_RESPONSE_CANCEL,
+					   "gtk-cancel", GTK_RESPONSE_CANCEL,
 					   "gtk-apply", GTK_RESPONSE_APPLY,
 					   NULL );
 
@@ -1046,9 +1046,7 @@ static gboolean gsb_bank_edit_bank ( gint bank_number,
     vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
     gtk_container_set_border_width ( GTK_CONTAINER (vbox), 12 );
     form = gsb_bank_create_form ( vbox, combobox );
-    gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(scrolled_window), vbox);
-    gtk_viewport_set_shadow_type ( GTK_VIEWPORT ( gtk_bin_get_child ( GTK_BIN ( scrolled_window ) ) ),
-				   GTK_SHADOW_NONE );
+    gtk_container_add ( GTK_CONTAINER ( scrolled_window ), vbox );
 
     gtk_widget_show_all ( dialog );
 
