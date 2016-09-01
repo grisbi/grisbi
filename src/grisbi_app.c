@@ -328,8 +328,6 @@ static gboolean grisbi_app_window_delete_event ( GrisbiWin *win,
                         GdkEvent *event,
                         GrisbiApp *app )
 {
-    printf ("window_delete_event\n");
-
     if ( win && conf.full_screen == 0 && conf.maximize_screen == 0 )
     {
         /* sauvegarde la position de la fenetre principale */
@@ -848,7 +846,6 @@ static void grisbi_app_shutdown ( GApplication *app )
 	GtkWindow *win;
     GrisbiAppPrivate *priv;
 
-    //~ printf ("grisbi_app_shutdown\n");
 	devel_debug (NULL);
 
 	priv = grisbi_app_get_instance_private ( GRISBI_APP ( app ) );

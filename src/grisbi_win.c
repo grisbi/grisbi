@@ -244,7 +244,6 @@ static void grisbi_win_finalize ( GObject *object )
 {
     GrisbiWinPrivate *priv;
 
-    printf ("grisbi_win_finalize\n");
     devel_debug (NULL);
     priv = grisbi_win_get_instance_private ( GRISBI_WIN ( object ) );
 
@@ -272,7 +271,6 @@ static void grisbi_win_dispose ( GObject *object )
     GrisbiWin *win = GRISBI_WIN ( object );
     GrisbiWinPrivate *priv;
 
-    printf ("grisbi_win_dispose\n");
     priv = grisbi_win_get_instance_private ( GRISBI_WIN ( win ) );
 
     g_clear_object ( &priv->builder );
