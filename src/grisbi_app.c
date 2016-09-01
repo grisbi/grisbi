@@ -850,6 +850,10 @@ static void grisbi_app_shutdown ( GApplication *app )
 
 	priv = grisbi_app_get_instance_private ( GRISBI_APP ( app ) );
 
+    /* on sauvegarde si besoin */
+    if ( gsb_file_get_modified () )
+        gsb_file_save ();
+
     /* on récupère la dernière fenêtre active */
     win = gtk_application_get_active_window ( GTK_APPLICATION ( app ) );
 
