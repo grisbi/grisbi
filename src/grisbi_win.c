@@ -292,7 +292,6 @@ static void grisbi_win_init ( GrisbiWin *win )
 	GtkWidget *statusbar;
     GtkWidget *headings_eb;
 
-	//~ printf ("grisbi_win_init\n");
 	priv = grisbi_win_get_instance_private ( GRISBI_WIN ( win ) );
 
     priv->filename = NULL;
@@ -436,7 +435,6 @@ void grisbi_win_init_menubar ( GrisbiWin *win,
     };
     gchar **tmp = items;
 
-	//~ printf ("grisbi_win_init_menubar\n");
 	priv = grisbi_win_get_instance_private ( GRISBI_WIN ( win ) );
 
 	/* initialisations sub menus */
@@ -471,8 +469,6 @@ void grisbi_win_menu_move_to_acc_delete ( void )
     GrisbiWinPrivate *priv;
     GMenu *menu;
     GSList *tmp_list;
-
-    //~ printf ("grisbi_win_menu_move_to_acc_delete\n");
 
     win = grisbi_app_get_active_window ( NULL );
     priv = grisbi_win_get_instance_private ( GRISBI_WIN ( win ) );
@@ -523,7 +519,6 @@ void grisbi_win_menu_move_to_acc_new ( void )
     GSList *tmp_list;
     gchar *label;
     gchar *action_name;
-    //~ printf ("grisbi_win_menu_move_to_acc_new\n");
 
     win = grisbi_app_get_active_window ( NULL );
     priv = grisbi_win_get_instance_private ( GRISBI_WIN ( win ) );
@@ -595,8 +590,6 @@ void grisbi_win_menu_move_to_acc_update ( gboolean active )
     GSList *tmp_list;
     gint current_account;
     static gboolean flag_active = FALSE;
-
-    //~ printf ("grisbi_win_menu_move_to_acc_update : active = %d\n", active);
 
     if ( flag_active == active )
         return;
@@ -724,8 +717,6 @@ gboolean grisbi_win_set_grisbi_title ( gint account_number )
 void grisbi_win_set_size_and_position ( GtkWindow *win )
 {
 	GrisbiWinPrivate *priv;
-
-	//~ printf ("grisbi_win_set_size_and_position\n");
 
 	priv = grisbi_win_get_instance_private ( GRISBI_WIN ( win ) );
 
