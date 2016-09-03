@@ -150,6 +150,9 @@ gchar * gsb_select_icon_create_window ( gchar *name_icon )
     GtkWidget *scroll;
     GtkWidget *icon_view;
 	gint result;
+    GdkGeometry size_hints = {
+    400, 450, 450, 500, 400, 450, 10, 10, 1.5, 1.5, GDK_GRAVITY_NORTH_WEST
+    };
 
     devel_debug ( name_icon );
 
@@ -175,7 +178,7 @@ gchar * gsb_select_icon_create_window ( gchar *name_icon )
     bouton_OK = gtk_dialog_add_button (GTK_DIALOG ( dialog ),
                                 "gtk-ok",
                                 GTK_RESPONSE_ACCEPT);
-    gtk_widget_set_size_request ( dialog, 400, 450 );
+
     content_area = gtk_dialog_get_content_area ( GTK_DIALOG ( dialog ) );
 
     /* création hbox pour GtkEntry répertoire et bouton sélection des répertoires */
@@ -199,6 +202,15 @@ gchar * gsb_select_icon_create_window ( gchar *name_icon )
     icon_view = gsb_select_icon_create_icon_view ( name_icon );
     gtk_container_set_border_width ( GTK_CONTAINER( scroll ), 6 );
     gtk_container_add ( GTK_CONTAINER ( scroll ), icon_view );
+
+    /* limitation de la fenêtre */
+    gtk_window_set_geometry_hints ( GTK_WINDOW ( dialog ),
+                    GTK_WIDGET ( icon_view ),
+                    &size_hints,
+                    GDK_HINT_MIN_SIZE |
+                    GDK_HINT_MAX_SIZE |
+                    GDK_HINT_BASE_SIZE |
+                    GDK_HINT_RESIZE_INC);
 
     /* gestion des signaux */
     g_signal_connect ( G_OBJECT ( icon_view ),
@@ -292,13 +304,12 @@ GtkWidget * gsb_select_icon_create_icon_view ( gchar * name_icon )
     gtk_icon_view_set_pixbuf_column (GTK_ICON_VIEW ( icon_view ), PIXBUF_COLUMN);
     gtk_icon_view_set_text_column (GTK_ICON_VIEW ( icon_view ), TEXT_COLUMN);
 
-
     /* remplissage et positionnement initial du curseur dans le GtkIconView */
     tree_path = gsb_select_icon_fill_icon_view ( name_icon );
 
     gtk_icon_view_select_path ( GTK_ICON_VIEW ( icon_view ), tree_path );
     gtk_icon_view_set_cursor (GTK_ICON_VIEW ( icon_view ), tree_path,
-                            NULL, TRUE);
+                            NULL, FALSE);
     gtk_icon_view_scroll_to_path (GTK_ICON_VIEW ( icon_view ),
                             tree_path, TRUE, 0.5, 0 );
 
