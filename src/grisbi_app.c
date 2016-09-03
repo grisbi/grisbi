@@ -328,6 +328,12 @@ static gboolean grisbi_app_window_delete_event ( GrisbiWin *win,
                         GdkEvent *event,
                         GrisbiApp *app )
 {
+	devel_debug (NULL);
+
+    /* on sauvegarde le fichier si besoin */
+    if ( gsb_file_get_modified () )
+        gsb_file_save ();
+
     if ( win && conf.full_screen == 0 && conf.maximize_screen == 0 )
     {
         /* sauvegarde la position de la fenetre principale */
@@ -850,15 +856,15 @@ static void grisbi_app_shutdown ( GApplication *app )
 
 	priv = grisbi_app_get_instance_private ( GRISBI_APP ( app ) );
 
-    /* on sauvegarde si besoin */
-    if ( gsb_file_get_modified () )
-        gsb_file_save ();
-
     /* on récupère la dernière fenêtre active */
     win = gtk_application_get_active_window ( GTK_APPLICATION ( app ) );
 
     if ( win )
     {
+        /* on sauvegarde le fichier si besoin */
+        if ( gsb_file_get_modified () )
+            gsb_file_save ();
+
         if ( win && conf.full_screen == 0 && conf.maximize_screen == 0 )
         {
             /* sauvegarde la position de la fenetre principale */
