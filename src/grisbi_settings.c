@@ -418,7 +418,6 @@ static void grisbi_settings_init ( GrisbiSettings *self )
     GrisbiSettingsPrivate *priv;
 
     devel_debug (NULL);
-    //~ printf ("grisbi_settings_init\n");
 
     priv = grisbi_settings_get_instance_private ( self );
 
@@ -539,7 +538,6 @@ static void grisbi_settings_class_init ( GrisbiSettingsClass *klass )
  **/
 GrisbiSettings *grisbi_settings_get ( void )
 {
-    //~ printf ("grisbi_settings_get\n");
     if (!singleton)
     {
         singleton = GRISBI_SETTINGS ( g_object_new ( GRISBI_TYPE_SETTINGS, NULL) );
@@ -789,7 +787,6 @@ GSettings *grisbi_settings_get_settings ( gint schema )
     GrisbiSettingsPrivate *priv = NULL;
 
     devel_debug (NULL);
-    printf ("grisbi_settings_get_settings\n");
 
     priv = grisbi_settings_get_instance_private ( grisbi_app_get_grisbi_settings () );
 

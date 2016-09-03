@@ -259,7 +259,6 @@ void grisbi_cmd_prefs ( GSimpleAction *action,
 						GVariant *parameter,
 						gpointer app )
 {
-    printf ("grisbi_cmd_prefs\n");
 	preferences ( -1 );
 }
 
@@ -870,8 +869,7 @@ void grisbi_cmd_show_reconciled_toggle ( GSimpleAction *action,
 						gpointer app )
 {
     gint current_account;
-	devel_debug (NULL);
-printf ("grisbi_cmd_show_reconciled_toggle\n");
+
     current_account = gsb_gui_navigation_get_current_account ( );
     if ( current_account == -1 || run.equilibrage == 1 )
         return;
@@ -1275,7 +1273,7 @@ void gsb_menu_gui_sensitive_win_menu_item ( gchar *item_name,
 
     win = grisbi_app_get_active_window ( NULL );
     action = g_action_map_lookup_action (G_ACTION_MAP ( win ), item_name );
-	g_simple_action_set_enabled ( G_SIMPLE_ACTION ( action ), state );
+    g_simple_action_set_enabled ( G_SIMPLE_ACTION ( action ), state );
 }
 
 /**
@@ -1373,7 +1371,6 @@ void gsb_menu_set_menus_with_file_sensitive ( gboolean sensitive )
     gchar **tmp = items;
 
     devel_debug_int (sensitive);
-    //~ printf ("gsb_menu_set_menus_with_file_sensitive : sensitive = %d\n", sensitive );
 
     if ( sensitive )
     {
@@ -1413,7 +1410,6 @@ void gsb_menu_set_menus_view_account_sensitive ( gboolean sensitive )
     gchar **tmp = items;
 
     devel_debug_int (sensitive);
-    //~ printf ("gsb_menu_set_menus_view_account_sensitive : sensitive = %d\n", sensitive );
 
     if ( flag_sensitive == sensitive )
         return;
