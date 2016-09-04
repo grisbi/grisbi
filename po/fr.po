@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-31 23:23+0200\n"
+"POT-Creation-Date: 2016-09-02 07:02+0200\n"
 "PO-Revision-Date: 2016-08-31 23:31+0200\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: français <>\n"
@@ -1087,17 +1087,17 @@ msgstr "Remarques"
 msgid "Transfer"
 msgstr "Virement"
 
-#: ../src/bet_future.c:2162 ../src/gsb_account_property.c:692
+#: ../src/bet_future.c:2162 ../src/gsb_account_property.c:690
 #: ../src/gsb_assistant_account.c:431 ../src/gsb_data_partial_balance.c:230
 msgid "Bank account"
 msgstr "Compte bancaire"
 
-#: ../src/bet_future.c:2165 ../src/gsb_account_property.c:692
+#: ../src/bet_future.c:2165 ../src/gsb_account_property.c:690
 #: ../src/gsb_data_partial_balance.c:218
 msgid "Cash account"
 msgstr "Compte de caisse"
 
-#: ../src/bet_future.c:2168 ../src/gsb_account_property.c:692
+#: ../src/bet_future.c:2168 ../src/gsb_account_property.c:690
 #: ../src/gsb_assistant_account.c:444 ../src/gsb_data_partial_balance.c:222
 #, c-format
 msgid "Liabilities account"
@@ -3910,60 +3910,60 @@ msgstr "Menu"
 msgid "The menu of options"
 msgstr "Menu des options"
 
-#: ../src/grisbi_app.c:421
+#: ../src/grisbi_app.c:419
 msgid "Show the application's version"
 msgstr "Montrer la version de Grisbi"
 
-#: ../src/grisbi_app.c:434
+#: ../src/grisbi_app.c:432
 msgid "Debug mode: level 0-5"
 msgstr "Mode de débogage : niveau de 0 à 5"
 
-#: ../src/grisbi_app.c:435
+#: ../src/grisbi_app.c:433
 msgid "DEBUG"
 msgstr "DEBUG"
 
-#: ../src/grisbi_app.c:441
+#: ../src/grisbi_app.c:439
 msgid "Set the size and position of the window (WIDTHxHEIGHT+X+Y)"
 msgstr "Fixe la taille de la fenêtre (Largeur, Hauteur, position x et y)"
 
-#: ../src/grisbi_app.c:442
+#: ../src/grisbi_app.c:440
 msgid "GEOMETRY"
 msgstr "GEOMETRY"
 
-#: ../src/grisbi_app.c:455
+#: ../src/grisbi_app.c:453
 msgid "[FILE...]"
 msgstr "[FILE...]"
 
-#: ../src/grisbi_app.c:633
+#: ../src/grisbi_app.c:631
 #, c-format
 msgid "Error on sigaction: SIGINT won't be trapped\n"
 msgstr "Erreur sur sigaction, le signal SIGSINT ne sera pas détourné\n"
 
-#: ../src/grisbi_app.c:636
+#: ../src/grisbi_app.c:634
 #, c-format
 msgid "Error on sigaction: SIGTERM won't be trapped\n"
 msgstr "Erreur sur sigaction, le signal SIGTERM ne sera pas détourné\n"
 
-#: ../src/grisbi_app.c:639
+#: ../src/grisbi_app.c:637
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Erreur sur sigaction, le signal SIGSEGV ne sera pas détourné\n"
 
-#: ../src/grisbi_win.c:553
+#: ../src/grisbi_win.c:551
 msgid "Unnamed account"
 msgstr "Compte anonyme"
 
 #. Move to another account
-#: ../src/grisbi_win.c:575 ../src/gsb_transactions_list.c:2580
+#: ../src/grisbi_win.c:573 ../src/gsb_transactions_list.c:2580
 msgid "Move transaction to another account"
 msgstr "Déplacer l'opération vers un autre compte"
 
-#: ../src/grisbi_win.c:657 ../src/grisbi_win.c:697
+#: ../src/grisbi_win.c:655 ../src/grisbi_win.c:695
 #: ../share/grisbi.desktop.in.h:1
 msgid "Grisbi"
 msgstr "Grisbi"
 
-#: ../src/grisbi_win.c:704 ../src/gsb_file.c:871 ../src/gsb_file.c:882
+#: ../src/grisbi_win.c:702 ../src/gsb_file.c:871 ../src/gsb_file.c:882
 msgid "unnamed"
 msgstr "sans nom"
 
@@ -3983,103 +3983,107 @@ msgstr ""
 "C'est généralement le meilleur moyen de clôturer un compte."
 
 #. création de la ligne des détails du compte
-#: ../src/gsb_account_property.c:232
+#: ../src/gsb_account_property.c:228
 msgid "Account details"
 msgstr "Détails du compte"
 
-#: ../src/gsb_account_property.c:238 ../src/import.c:1297 ../src/import.c:1322
+#: ../src/gsb_account_property.c:234 ../src/import.c:1297 ../src/import.c:1322
 msgid "Account name: "
 msgstr "Nom du compte : "
 
-#: ../src/gsb_account_property.c:259 ../src/import.c:1250
+#: ../src/gsb_account_property.c:255 ../src/import.c:1250
 msgid "Account type: "
 msgstr "Type du compte : "
 
-#: ../src/gsb_account_property.c:277 ../src/import.c:1352
+#: ../src/gsb_account_property.c:273 ../src/import.c:1352
 msgid "Account currency: "
 msgstr "Devise du compte : "
 
 #. create closed account line
-#: ../src/gsb_account_property.c:291
+#: ../src/gsb_account_property.c:287
 msgid "Closed account"
 msgstr "Compte clos"
 
 #. création de la ligne du titulaire du compte
-#: ../src/gsb_account_property.c:308
+#: ../src/gsb_account_property.c:304
 msgid "Account holder"
 msgstr "Titulaire du compte"
 
-#: ../src/gsb_account_property.c:312
+#: ../src/gsb_account_property.c:308
 msgid "Holder name: "
 msgstr "Nom du titulaire : "
 
-#: ../src/gsb_account_property.c:345
+#: ../src/gsb_account_property.c:341
 msgid "Holder's own address: "
 msgstr "Adresse du titulaire : "
 
 #. création de la ligne de l'établissement financier
-#: ../src/gsb_account_property.c:375 ../src/gsb_bank.c:453
+#: ../src/gsb_account_property.c:373 ../src/gsb_bank.c:453
 msgid "Bank"
 msgstr "Banque"
 
-#: ../src/gsb_account_property.c:379
+#: ../src/gsb_account_property.c:377
 msgid "Financial institution: "
 msgstr "Etablissement financier : "
 
+#: ../src/gsb_account_property.c:389
+msgid "Modify"
+msgstr "Modifier"
+
 #. Bank BIC code item
-#: ../src/gsb_account_property.c:403 ../src/gsb_bank.c:718
+#: ../src/gsb_account_property.c:401 ../src/gsb_bank.c:718
 msgid "BIC code: "
 msgstr "Code BIC : "
 
-#: ../src/gsb_account_property.c:417
+#: ../src/gsb_account_property.c:415
 msgid "IBAN number: "
 msgstr "N° IBAN : "
 
-#: ../src/gsb_account_property.c:446
+#: ../src/gsb_account_property.c:444
 msgid "Bank sort code: "
 msgstr "Code Banque : "
 
-#: ../src/gsb_account_property.c:460
+#: ../src/gsb_account_property.c:458
 msgid "Bank branch code: "
 msgstr "Guichet / Agence : "
 
-#: ../src/gsb_account_property.c:481
+#: ../src/gsb_account_property.c:479
 msgid "Account number / Key: "
 msgstr "N° de compte / Clé : "
 
 #. création de la ligne du solde initial
-#: ../src/gsb_account_property.c:513
+#: ../src/gsb_account_property.c:511
 msgid "Balances"
 msgstr "Soldes"
 
 #. set the initial balance
-#: ../src/gsb_account_property.c:518
+#: ../src/gsb_account_property.c:516
 #: ../src/gsb_assistant_reconcile_config.c:439 ../src/gsb_reconcile.c:218
 #: ../src/gsb_reconcile_config.c:251
 msgid "Initial balance: "
 msgstr "Solde initial : "
 
-#: ../src/gsb_account_property.c:534
+#: ../src/gsb_account_property.c:532
 msgid "Minimum authorised balance: "
 msgstr "Solde minimal autorisé : "
 
-#: ../src/gsb_account_property.c:551
+#: ../src/gsb_account_property.c:549
 msgid "Minimum desired balance: "
 msgstr "Solde minimal voulu : "
 
 #. comments line
-#: ../src/gsb_account_property.c:562
+#: ../src/gsb_account_property.c:560
 msgid "Comments"
 msgstr "Commentaires"
 
-#: ../src/gsb_account_property.c:692 ../src/gsb_assistant_account.c:440
+#: ../src/gsb_account_property.c:690 ../src/gsb_assistant_account.c:440
 #: ../src/gsb_data_partial_balance.c:226
 #, c-format
 msgid "Assets account"
 msgstr "Compte d'actif"
 
 #. ask for the currency of the transactions
-#: ../src/gsb_account_property.c:812
+#: ../src/gsb_account_property.c:810
 #, c-format
 msgid ""
 "You are changing the currency of the account, do you want to change the "
@@ -4096,11 +4100,11 @@ msgstr ""
 "\n"
 "Les opérations archivées et rapprochées ne seront pas modifiées."
 
-#: ../src/gsb_account_property.c:815
+#: ../src/gsb_account_property.c:813
 msgid "Change the transactions currency"
 msgstr "Changer la devise des opérations"
 
-#: ../src/gsb_account_property.c:1029
+#: ../src/gsb_account_property.c:1027
 #, c-format
 msgid "Your IBAN number is not correct. Please check your entry."
 msgstr "Votre numéro IBAN n'est pas correct. Vérifiez votre saisie."
@@ -4317,8 +4321,8 @@ msgstr "Veuillez entrer le nom du nouveau compte : "
 #. Do not use a bank name if no bank is set or if its
 #. * name has not been changed.
 #. create the new bank
-#: ../src/gsb_assistant_account.c:428 ../src/gsb_bank.c:1059
-#: ../src/gsb_bank.c:1072 ../src/gsb_bank.c:1164 ../src/gsb_bank.c:1349
+#: ../src/gsb_assistant_account.c:428 ../src/gsb_bank.c:1057
+#: ../src/gsb_bank.c:1070 ../src/gsb_bank.c:1162 ../src/gsb_bank.c:1347
 msgid "New bank"
 msgstr "Nouvelle banque"
 
@@ -5217,7 +5221,7 @@ msgstr "Fax : "
 msgid "Edit bank"
 msgstr "Éditer la banque"
 
-#: ../src/gsb_bank.c:1264
+#: ../src/gsb_bank.c:1262
 #, c-format
 msgid ""
 "Bank \"%s\" is used by one or several accounts.\n"
@@ -5226,11 +5230,11 @@ msgstr ""
 "La banque « %s » est utilisée pour un ou plusieurs comptes. Voulez-vous "
 "vraiment l'effacer ?"
 
-#: ../src/gsb_bank.c:1266 ../src/gsb_bank.c:1274
+#: ../src/gsb_bank.c:1264 ../src/gsb_bank.c:1272
 msgid "Confirmation of bank removal"
 msgstr "Confirmation de suppression de banque"
 
-#: ../src/gsb_bank.c:1272
+#: ../src/gsb_bank.c:1270
 #, c-format
 msgid "Are you sure you want to remove bank \"%s\"?\n"
 msgstr "Êtes-vous sûr de vouloir supprimer la banque « %s » ?\n"
@@ -8565,16 +8569,16 @@ msgstr ""
 msgid "Remove orphan children"
 msgstr "Supprimer les opérations orphelines"
 
-#: ../src/gsb_select_icon.c:165
+#: ../src/gsb_select_icon.c:168
 msgid "Browse icons"
 msgstr "Parcourir les fichiers d'icônes"
 
 #. création du bouton de sélection des répertoires
-#: ../src/gsb_select_icon.c:191
+#: ../src/gsb_select_icon.c:194
 msgid "Browse"
 msgstr "Parcourir"
 
-#: ../src/gsb_select_icon.c:403
+#: ../src/gsb_select_icon.c:414
 msgid "Select icon directory"
 msgstr "Sélectionner le répertoire des icônes"
 
