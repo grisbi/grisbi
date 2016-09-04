@@ -166,8 +166,7 @@ void gsb_form_config_make_configuration_box ( GtkWidget *vbox_parent )
     list_store = gsb_form_config_create_store ();
     form_config_tree_view = gsb_form_config_create_tree_view (list_store);
     g_object_unref (G_OBJECT(list_store));
-    gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( sw ),
-                        form_config_tree_view );
+    gtk_container_add ( GTK_CONTAINER ( sw ), form_config_tree_view );
 
     /* set the buttons line to increase/decrease the form */
     /*gtk_box_pack_start ( GTK_BOX ( paddingbox ),

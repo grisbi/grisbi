@@ -184,7 +184,7 @@ GtkWidget *creation_onglet_accueil ( void )
 
     base = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 15 );
     gtk_container_set_border_width ( GTK_CONTAINER ( base ), 12 );
-    gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( base_scroll ), base );
+    gtk_container_add ( GTK_CONTAINER ( base_scroll ), base );
     gtk_widget_show ( base_scroll );
     gtk_widget_show ( base );
 

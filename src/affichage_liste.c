@@ -868,7 +868,7 @@ GtkWidget *onglet_affichage_liste ( void )
     /* create the tree_view */
     tree_view = gsb_transaction_list_config_create_tree_view ( list_store );
     g_object_unref ( G_OBJECT ( list_store ) );
-    gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( sw ), tree_view );
+    gtk_container_add ( GTK_CONTAINER ( sw ), tree_view );
 
     /* partie 2 Source des données */
 	paddingbox = new_paddingbox_with_title ( onglet, FALSE, _("Transactions list contents") );
