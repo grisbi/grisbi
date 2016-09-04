@@ -270,9 +270,11 @@ gboolean gsb_bank_edit_from_button ( GtkWidget *button,
 
     /* if bank_number = 0, it's none ; -1 : it's new bank, so don't edit */
     if ( bank_number <= 0 )
-	return FALSE;
+        return FALSE;
 
+    delete_bank_button = NULL;
     gsb_bank_edit_bank ( bank_number, combobox );
+
     return FALSE;
 }
 
@@ -352,12 +354,12 @@ static gboolean gsb_bank_update_selected_line_model ( GtkWidget *combobox )
                         BANK_NAME_COL, NULL,
                         -1 );
 
-    /* item to add a bank : the number is -2 */
+    /* item to add a bank : the number is -1 */
     gtk_list_store_append ( GTK_LIST_STORE ( bank_list_model ), &iter );
     gtk_list_store_set ( GTK_LIST_STORE ( bank_list_model ),
                         &iter,
                         BANK_NAME_COL, _("Add new bank"),
-                        BANK_NUMBER_COL, -2,
+                        BANK_NUMBER_COL, -1,
                         -1 );
 
     /* restore the selection */
@@ -413,8 +415,8 @@ static gboolean gsb_bank_list_changed ( GtkWidget *combobox,
 
     bank_number = gsb_bank_list_get_bank_number (combobox);
 
-    /* check if not new bank, ie -2 */
-    if ( bank_number != -2 )
+    /* check if not new bank, ie -1 */
+    if ( bank_number != -1 )
     {
         gsb_data_account_set_bank ( gsb_gui_navigation_get_current_account ( ), bank_number );
         /* Mark file as modified */
@@ -460,7 +462,7 @@ GtkWidget *gsb_bank_create_page ( gboolean default_sensitive )
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Banks"), "banks.png" );
 
-    vpaned = gtk_vpaned_new ();
+    vpaned = gtk_paned_new (GTK_ORIENTATION_VERTICAL);
     gtk_box_pack_start ( GTK_BOX (vbox_pref),
 			 vpaned,
 			 TRUE, TRUE, 0 );
@@ -1050,7 +1052,7 @@ static gboolean gsb_bank_edit_bank ( gint bank_number,
 
     gtk_widget_show_all ( dialog );
 
-    if ( bank_number == -2 )
+    if ( bank_number == -1 )
     {
         gchar *tmp_str;
 
@@ -1066,8 +1068,13 @@ static gboolean gsb_bank_edit_bank ( gint bank_number,
 
     if ( result == GTK_RESPONSE_APPLY )
     {
-        if ( bank_number == -2 )
+        if ( bank_number == -1 )
             bank_number = gsb_data_bank_new ( _("New bank") );
+
+        /* on bloque la fonction de callback */
+        g_signal_handlers_block_by_func ( G_OBJECT ( combobox ),
+                        gsb_bank_list_changed,
+                        NULL );
 
         gsb_bank_update_bank_data ( bank_number );
         gsb_bank_update_selected_line_model ( combobox );
@@ -1075,10 +1082,16 @@ static gboolean gsb_bank_edit_bank ( gint bank_number,
 
         /* Mark file as modified */
         gsb_file_set_modified ( TRUE );
+
+        /* on débloque la fonction de callback */
+        g_signal_handlers_unblock_by_func ( G_OBJECT ( combobox ),
+                        gsb_bank_list_changed,
+                        NULL );
+
     }
     else
     {
-        if ( bank_number == -2 )
+        if ( bank_number == -1 )
         {
             gint account_number;
 
