@@ -75,7 +75,6 @@ static void gsb_main_page_affiche_ligne_du_compte ( GtkWidget *pTable,
                         gint account_number,
                         gint i );
 static gboolean gsb_main_page_click_on_account ( gint *account_number );
-static GtkStyle *gsb_main_page_get_default_label_style ( );
 static gboolean gsb_main_page_get_devise_is_used ( gint currency_number, gint type_compte );
 static GtkWidget *gsb_main_page_get_table_for_accounts ( gint nb_lignes, gint nb_col );
 static gboolean saisie_echeance_accueil ( GtkWidget *event_box,
@@ -104,10 +103,8 @@ static GtkWidget *frame_etat_echeances_auto_accueil = NULL;
 static GtkWidget *main_page_finished_scheduled_transactions_part = NULL;
 static GtkWidget *frame_etat_soldes_minimaux_autorises = NULL;
 static GtkWidget *frame_etat_soldes_minimaux_voulus = NULL;
-static GtkStyle *style_label;
 static GtkSizeGroup * size_group_accueil;
 static gchar *chaine_espace = "                         ";
-
 
 #define show_paddingbox(child) gtk_widget_show_all (gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(GTK_WIDGET(child)))))
 #define hide_paddingbox(child) gtk_widget_hide (gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(GTK_WIDGET(child)))))
@@ -126,7 +123,14 @@ struct _StructAccountPartial
 /* structure buffer qui conserve un pointer sur le dernier compte possédant un solde partiel */
 static StructAccountPartial *partial_buffer = NULL;
 
+/******************************************************************************/
+/* Private Methods                                                            */
+/******************************************************************************/
 
+
+/******************************************************************************/
+/* Public Methods                                                             */
+/******************************************************************************/
 /**
  * Create the home page of Grisbi
  *
@@ -141,7 +145,6 @@ GtkWidget *creation_onglet_accueil ( void )
     GtkWidget *base;
     GtkWidget *base_scroll;
     GtkWidget *eb;
-    GtkStyle *style;
 
     devel_debug ( NULL );
 
@@ -152,8 +155,7 @@ GtkWidget *creation_onglet_accueil ( void )
     hbox_title = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
 
     eb = gtk_event_box_new ();
-    style = gtk_widget_get_style ( eb );
-    gtk_widget_modify_bg ( eb, 0, &(style -> bg[GTK_STATE_ACTIVE]) );
+    gtk_widget_set_name ( eb, "grey_box");
 
     label_titre_fichier = gtk_label_new ( NULL );
     g_object_add_weak_pointer ( G_OBJECT ( label_titre_fichier ),
@@ -180,7 +182,7 @@ GtkWidget *creation_onglet_accueil ( void )
                         GTK_POLICY_NEVER,
                         GTK_POLICY_AUTOMATIC );
     gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW ( base_scroll ),
-                        GTK_SHADOW_NONE );
+                        GTK_SHADOW_IN );
 
     base = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 15 );
     gtk_container_set_border_width ( GTK_CONTAINER ( base ), 12 );
@@ -268,7 +270,6 @@ void mise_a_jour_accueil ( gboolean force )
     update_soldes_minimaux (force);
     update_fin_comptes_passifs (force);
 }
-
 
 /**
  * Fonction appelée lorsqu'on clicke sur une échéance à saisir
@@ -393,20 +394,17 @@ static gint gsb_main_page_account_get_account_displayed ( gint account_number,
 static void gsb_main_page_account_get_ligne_somme ( GtkWidget *table,
                         gint i )
 {
-    GtkWidget *alignement;
     GtkWidget *separator;
 
-    alignement = gtk_alignment_new ( 1.0, 0.0, 0.4, 1.0) ;
     separator = gtk_separator_new ( GTK_ORIENTATION_HORIZONTAL );
-    gtk_container_add ( GTK_CONTAINER ( alignement ), separator );
-    gtk_widget_show_all ( alignement );
-    gtk_table_attach_defaults ( GTK_TABLE ( table ), alignement, 1, 2, i, i+1 );
+    gtk_widget_set_halign (separator, GTK_ALIGN_BASELINE );
+    gtk_widget_show ( separator );
+    gtk_table_attach_defaults ( GTK_TABLE ( table ), separator, 1, 2, i, i+1 );
 
-    alignement = gtk_alignment_new ( 1.0, 0.0, 0.4, 1.0) ;
     separator = gtk_separator_new ( GTK_ORIENTATION_HORIZONTAL );
-    gtk_container_add ( GTK_CONTAINER ( alignement ), separator );
-    gtk_widget_show_all ( alignement );
-    gtk_table_attach_defaults ( GTK_TABLE ( table ), alignement, 2, 4, i, i+1 );
+    gtk_widget_set_halign (separator, GTK_ALIGN_BASELINE );
+    gtk_widget_show ( separator );
+    gtk_table_attach_defaults ( GTK_TABLE ( table ), separator, 2, 4, i, i+1 );
 }
 
 
@@ -538,6 +536,7 @@ static void gsb_main_page_diplays_accounts ( GtkWidget *pTable,
     gint j = 0;
 
     devel_debug_int ( new_comptes);
+
     /* Affichage des comptes et de leur solde */
     i = 1;
     solde_global_courant = null_real;
@@ -982,7 +981,7 @@ static void update_liste_comptes_accueil ( gboolean force )
  *
  * \return TRUE si un compte utilise la devise FALSE sinon;
  * */
-gboolean gsb_main_page_get_devise_is_used ( gint currency_number, gint type_compte )
+static gboolean gsb_main_page_get_devise_is_used ( gint currency_number, gint type_compte )
 {
     GSList *list_tmp;
 
@@ -1010,35 +1009,11 @@ gboolean gsb_main_page_get_devise_is_used ( gint currency_number, gint type_comp
 
 
 /**
- *
- *
- * \return style_label
- * */
-GtkStyle *gsb_main_page_get_default_label_style ( )
-{
-    GtkWidget *label;
-    GtkStyle * style_label;
-
-    /* Création d'un label juste pour en récupérer le style */
-    label = gtk_label_new (NULL);
-
-    /* Initialisation du style « Nom du compte » */
-    style_label = gtk_style_copy ( gtk_widget_get_style ( label ) );
-    style_label -> fg[GTK_STATE_NORMAL] = *( gsb_color_get_couleur ( "couleur_nom_compte_normal" ) );
-    style_label ->fg[GTK_STATE_PRELIGHT] = *( gsb_color_get_couleur ( "couleur_nom_compte_prelight" ) );
-    g_object_ref_sink ( G_OBJECT ( label ) );
-    g_object_unref ( G_OBJECT ( label ) );
-
-    return style_label;
-}
-
-
-/**
  * Crée la table et sa première ligne
  *
  * \return table
  * */
-GtkWidget *gsb_main_page_get_table_for_accounts ( gint nb_lignes, gint nb_col )
+static GtkWidget *gsb_main_page_get_table_for_accounts ( gint nb_lignes, gint nb_col )
 {
     GtkWidget *table, *label;
 
@@ -1077,14 +1052,9 @@ void gsb_main_page_affiche_ligne_du_compte ( GtkWidget *pTable,
 {
     GtkWidget *pEventBox;
     GtkWidget *pLabel;
-    GtkStyle *pStyleLabelNomCompte;
-    GtkStyle *pStyleLabelSoldeCourant;
-	GtkStyle *pStyleLabelSoldePointe;
+    GtkStyleContext* context;
     GSList *list = NULL;
 	gchar *tmp_str;
-
-    /* Initialisation du style « Nom du compte » */
-    pStyleLabelNomCompte = gsb_main_page_get_default_label_style ( );
 
     /* Première colonne : elle contient le nom du compte */
     tmp_str = g_strconcat ( gsb_data_account_get_name (account_number), " : ", NULL );
@@ -1092,20 +1062,22 @@ void gsb_main_page_affiche_ligne_du_compte ( GtkWidget *pTable,
     g_free ( tmp_str );
     utils_labels_set_alignement ( GTK_LABEL ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), pLabel );
-    gtk_widget_set_style ( pLabel, pStyleLabelNomCompte );
-    g_object_unref ( pStyleLabelNomCompte );
 
     /* Création d'une boite à évènement qui sera rattachée au nom du compte */
     pEventBox = gtk_event_box_new ();
+    gtk_widget_set_name ( pEventBox, "accueil_nom_compte");
+    context = gtk_widget_get_style_context  ( pEventBox );
+    gtk_style_context_set_state ( context, GTK_STATE_FLAG_ACTIVE );
+
     list = g_slist_append ( list, pEventBox );
     g_signal_connect ( G_OBJECT ( pEventBox ),
                  "enter-notify-event",
-                 G_CALLBACK ( met_en_prelight ),
-                 list );
+                 G_CALLBACK ( utils_event_box_change_state ),
+                 context );
     g_signal_connect ( G_OBJECT ( pEventBox ),
                  "leave-notify-event",
-                 G_CALLBACK ( met_en_normal ),
-                 list );
+                 G_CALLBACK ( utils_event_box_change_state ),
+                 context );
     g_signal_connect_swapped ( G_OBJECT ( pEventBox ),
                     "button-press-event",
                     G_CALLBACK ( gsb_main_page_click_on_account ),
@@ -1124,48 +1096,40 @@ void gsb_main_page_affiche_ligne_du_compte ( GtkWidget *pTable,
     g_free ( tmp_str );
     utils_labels_set_alignement ( GTK_LABEL ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
 
-    /* Mise en place du style du label en fonction du solde pointé */
-    pStyleLabelSoldePointe = gtk_style_copy ( gtk_widget_get_style ( pLabel ));
+    /* Création d'une boite à évènement qui sera rattachée au solde pointé du compte */
+    pEventBox = gtk_event_box_new ();
+
+    /* Mise en place du style du label en fonction du solde courant */
     if ( gsb_real_cmp ( gsb_data_account_get_marked_balance (account_number),
                 gsb_data_account_get_mini_balance_wanted (account_number)) != -1)
     {
-            pStyleLabelSoldePointe->fg[GTK_STATE_NORMAL] = *( gsb_color_get_couleur (
-                        "couleur_solde_alarme_verte_normal" ) );
-            pStyleLabelSoldePointe->fg[GTK_STATE_PRELIGHT] = *( gsb_color_get_couleur (
-                        "couleur_solde_alarme_verte_prelight" ) );
+        gtk_widget_set_name ( pEventBox, "accueil_solde_alarme_verte");
     }
     else
     {
         if ( gsb_real_cmp ( gsb_data_account_get_marked_balance (account_number),
                 gsb_data_account_get_mini_balance_authorized (account_number)) != -1 )
         {
-            pStyleLabelSoldePointe->fg[GTK_STATE_NORMAL] = *( gsb_color_get_couleur (
-                        "couleur_solde_alarme_orange_normal" ) );
-            pStyleLabelSoldePointe->fg[GTK_STATE_PRELIGHT] = *( gsb_color_get_couleur (
-                        "couleur_solde_alarme_orange_prelight" ) );
+            gtk_widget_set_name ( pEventBox, "accueil_solde_alarme_orange");
         }
         else
         {
-            pStyleLabelSoldePointe->fg[GTK_STATE_NORMAL] = *( gsb_color_get_couleur (
-                        "couleur_solde_alarme_rouge_normal" ) );
-            pStyleLabelSoldePointe->fg[GTK_STATE_PRELIGHT] = *( gsb_color_get_couleur (
-                        "couleur_solde_alarme_rouge_prelight" ) );
+            gtk_widget_set_name ( pEventBox, "accueil_solde_alarme_rouge");
         }
     }
-    gtk_widget_set_style ( pLabel, pStyleLabelSoldePointe );
-    g_object_unref ( pStyleLabelSoldePointe );
 
-    /* Création d'une boite à évènement qui sera rattachée au solde pointé du compte */
-    pEventBox = gtk_event_box_new ();
+    context = gtk_widget_get_style_context  ( pEventBox );
+    gtk_style_context_set_state ( context, GTK_STATE_FLAG_ACTIVE );
+
     list = g_slist_append ( list, pEventBox );
     g_signal_connect ( G_OBJECT ( pEventBox ),
                  "enter-notify-event",
-                 G_CALLBACK ( met_en_prelight ),
-                 list );
+                 G_CALLBACK ( utils_event_box_change_state ),
+                 context );
     g_signal_connect ( G_OBJECT ( pEventBox ),
                  "leave-notify-event",
-                 G_CALLBACK ( met_en_normal ),
-                 list );
+                 G_CALLBACK ( utils_event_box_change_state ),
+                 context );
     g_signal_connect_swapped ( G_OBJECT ( pEventBox ),
                     "button-press-event",
                     G_CALLBACK ( gsb_main_page_click_on_account ),
@@ -1184,48 +1148,40 @@ void gsb_main_page_affiche_ligne_du_compte ( GtkWidget *pTable,
     g_free ( tmp_str );
     utils_labels_set_alignement ( GTK_LABEL ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
 
+    /* Création d'une boite à évènement qui sera rattachée au solde courant du compte */
+    pEventBox = gtk_event_box_new ();
+
     /* Mise en place du style du label en fonction du solde courant */
-    pStyleLabelSoldeCourant = gtk_style_copy ( gtk_widget_get_style ( pLabel ));
     if ( gsb_real_cmp ( gsb_data_account_get_current_balance (account_number),
                 gsb_data_account_get_mini_balance_wanted (account_number)) != -1)
     {
-        pStyleLabelSoldeCourant->fg[GTK_STATE_NORMAL] = *( gsb_color_get_couleur (
-                        "couleur_solde_alarme_verte_normal" ) );
-        pStyleLabelSoldeCourant->fg[GTK_STATE_PRELIGHT] = *( gsb_color_get_couleur (
-                        "couleur_solde_alarme_verte_prelight" ) );
+        gtk_widget_set_name ( pEventBox, "accueil_solde_alarme_verte");
     }
     else
     {
         if ( gsb_real_cmp ( gsb_data_account_get_current_balance (account_number),
                 gsb_data_account_get_mini_balance_authorized (account_number)) != -1 )
         {
-            pStyleLabelSoldeCourant->fg[GTK_STATE_NORMAL] = *( gsb_color_get_couleur (
-                        "couleur_solde_alarme_orange_normal" ) );
-            pStyleLabelSoldeCourant->fg[GTK_STATE_PRELIGHT] = *( gsb_color_get_couleur (
-                        "couleur_solde_alarme_orange_prelight" ) );
+            gtk_widget_set_name ( pEventBox, "accueil_solde_alarme_orange");
         }
         else
         {
-            pStyleLabelSoldeCourant->fg[GTK_STATE_NORMAL] = *( gsb_color_get_couleur (
-                        "couleur_solde_alarme_rouge_normal" ) );
-            pStyleLabelSoldeCourant->fg[GTK_STATE_PRELIGHT] = *( gsb_color_get_couleur (
-                        "couleur_solde_alarme_rouge_prelight" ) );
+            gtk_widget_set_name ( pEventBox, "accueil_solde_alarme_rouge");
         }
     }
-    gtk_widget_set_style ( pLabel, pStyleLabelSoldeCourant );
-    g_object_unref ( pStyleLabelSoldeCourant );
 
-    /* Création d'une boite à évènement qui sera rattachée au solde courant du compte */
-    pEventBox = gtk_event_box_new ();
+    context = gtk_widget_get_style_context  ( pEventBox );
+    gtk_style_context_set_state ( context, GTK_STATE_FLAG_ACTIVE );
+
     list = g_slist_append ( list, pEventBox );
     g_signal_connect ( G_OBJECT ( pEventBox ),
                  "enter-notify-event",
-                 G_CALLBACK ( met_en_prelight ),
-                 list );
+                 G_CALLBACK ( utils_event_box_change_state ),
+                 context );
     g_signal_connect ( G_OBJECT ( pEventBox ),
                  "leave-notify-event",
-                 G_CALLBACK ( met_en_normal ),
-                 list );
+                 G_CALLBACK ( utils_event_box_change_state ),
+                 context );
     g_signal_connect_swapped ( G_OBJECT ( pEventBox ),
                     "button-press-event",
                     G_CALLBACK (gsb_main_page_click_on_account),
@@ -1548,15 +1504,7 @@ void update_liste_echeances_manuelles_accueil ( gboolean force )
 	/* création du style normal -> bleu */
 	/* pointeur dessus -> jaune-rouge */
 
-	style_label = gtk_style_copy ( gtk_widget_get_style (label));
 	gtk_widget_destroy (label);
-
-	style_label->fg[GTK_STATE_PRELIGHT] = *( gsb_color_get_couleur ( "couleur_jaune" ) );
-	style_label->fg[GTK_STATE_NORMAL] = *( gsb_color_get_couleur ( "couleur_bleue" ) );
-	style_label->fg[GTK_STATE_INSENSITIVE] = *( gsb_color_get_couleur ( "couleur_bleue" ) );
-	style_label->fg[GTK_STATE_SELECTED] = *( gsb_color_get_couleur ( "couleur_bleue" ) );
-	style_label->fg[GTK_STATE_ACTIVE] = *( gsb_color_get_couleur ( "couleur_bleue" ) );
-
 
 	pointeur_liste = g_slist_sort_with_data ( scheduled_transactions_to_take,
 				        (GCompareDataFunc) classement_sliste_echeance_par_date,
@@ -1568,6 +1516,7 @@ void update_liste_echeances_manuelles_accueil ( gboolean force )
 	    gint account_number;
 	    gint currency_number;
 		gchar* tmpstr;
+        GtkStyleContext* context;
 
 	    scheduled_number = GPOINTER_TO_INT (pointeur_liste -> data);
 	    account_number = gsb_data_scheduled_get_account_number (scheduled_number);
@@ -1579,16 +1528,19 @@ void update_liste_echeances_manuelles_accueil ( gboolean force )
 	    gtk_widget_show (  hbox );
 
 	    /* bouton à gauche */
-
 	    event_box = gtk_event_box_new ();
+        gtk_widget_set_name ( event_box, "accueil_nom_compte");
+        context = gtk_widget_get_style_context  ( event_box );
+        gtk_style_context_set_state ( context, GTK_STATE_FLAG_ACTIVE );
+
 	    g_signal_connect ( G_OBJECT ( event_box ),
 				 "enter-notify-event",
-				 G_CALLBACK ( met_en_prelight ),
-				 NULL );
+                 G_CALLBACK ( utils_event_box_change_state ),
+                 context );
 	    g_signal_connect ( G_OBJECT ( event_box ),
 				 "leave-notify-event",
-				 G_CALLBACK ( met_en_normal ),
-				 NULL );
+                 G_CALLBACK ( utils_event_box_change_state ),
+                 context );
 	    g_signal_connect ( G_OBJECT ( event_box ),
 				 "button-press-event",
 				 G_CALLBACK ( saisie_echeance_accueil ),
@@ -1604,7 +1556,7 @@ void update_liste_echeances_manuelles_accueil ( gboolean force )
 	    label = gtk_label_new ( tmpstr );
 	    g_free ( tmpstr );
 
-	    gtk_widget_set_style ( label, style_label );
+	    //~ gtk_widget_set_style ( label, style_label );
 	    utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_LEFT, MISC_VERT_CENTER );
 	    gtk_container_add ( GTK_CONTAINER ( event_box ), label );
 	    gtk_widget_show ( label  );
@@ -1660,25 +1612,15 @@ void update_liste_echeances_auto_accueil ( gboolean force )
     {
 	GtkWidget *vbox, *label, *event_box, *hbox;
 	GSList *pointeur_liste;
-	GtkStyle *style_selectable;
-	GdkColor gray_color;
     gint manual = 0;
 
 	/* s'il y avait déjà un fils dans la frame, le détruit */
     utils_container_remove_children ( frame_etat_echeances_auto_accueil );
+
 	/* on affiche la seconde frame dans laquelle on place les échéances à saisir */
 	show_paddingbox ( frame_etat_echeances_auto_accueil );
 
-	gray_color.red =   0.61 * 65535 ;
-	gray_color.green = 0.61 * 65535 ;
-	gray_color.blue =  0.61 * 65535 ;
-	gray_color.pixel = 1;
-
-	style_selectable = gtk_style_copy ( gtk_widget_get_style ( frame_etat_echeances_auto_accueil ));
-	style_selectable->fg[GTK_STATE_PRELIGHT] = gray_color;
-
 	/* on y place la liste des échéances */
-
 	vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
 	gtk_container_add ( GTK_CONTAINER ( frame_etat_echeances_auto_accueil ), vbox);
 	gtk_widget_show ( vbox);
@@ -1693,6 +1635,7 @@ void update_liste_echeances_auto_accueil ( gboolean force )
 	    gint account_number;
 	    gint currency_number;
 		gchar* tmpstr;
+        GtkStyleContext* context;
 
 	    transaction_number = GPOINTER_TO_INT ( pointeur_liste -> data );
 	    account_number = gsb_data_transaction_get_account_number (transaction_number);
@@ -1705,14 +1648,18 @@ void update_liste_echeances_auto_accueil ( gboolean force )
 	    gtk_widget_show (  hbox );
 
 	    event_box = gtk_event_box_new ();
+        gtk_widget_set_name ( event_box, "accueil_nom_compte");
+        context = gtk_widget_get_style_context  ( event_box );
+        gtk_style_context_set_state ( context, GTK_STATE_FLAG_ACTIVE );
+
 	    g_signal_connect ( G_OBJECT ( event_box ),
 				 "enter-notify-event",
-				 G_CALLBACK ( met_en_prelight ),
-				 NULL );
+                 G_CALLBACK ( utils_event_box_change_state ),
+                 context );
 	    g_signal_connect ( G_OBJECT ( event_box ),
 				 "leave-notify-event",
-				 G_CALLBACK ( met_en_normal ),
-				 NULL );
+                 G_CALLBACK ( utils_event_box_change_state ),
+                 context );
 	    g_signal_connect_swapped ( G_OBJECT ( event_box ),
 				       "button-press-event",
 				       G_CALLBACK (gsb_transactions_list_edit_transaction_by_pointer),
@@ -1720,7 +1667,7 @@ void update_liste_echeances_auto_accueil ( gboolean force )
 	    gtk_widget_show ( event_box );
 
 	    /* label à gauche */
-            tmpstr = g_strconcat ( gsb_format_gdate ( gsb_data_transaction_get_date (transaction_number)),
+        tmpstr = g_strconcat ( gsb_format_gdate ( gsb_data_transaction_get_date (transaction_number)),
 					  " : ",
 					  gsb_data_payee_get_name (gsb_data_transaction_get_party_number (transaction_number), FALSE),
 					  NULL );
@@ -1728,13 +1675,11 @@ void update_liste_echeances_auto_accueil ( gboolean force )
 	    g_free ( tmpstr );
 
 	    utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_LEFT, MISC_VERT_CENTER );
-	    gtk_widget_set_style ( label, style_selectable );
 	    gtk_box_pack_start ( GTK_BOX ( hbox ), event_box, TRUE, TRUE, 5 );
 	    gtk_container_add ( GTK_CONTAINER ( event_box ), label );
 	    gtk_widget_show ( label  );
 
 	    /* label à droite */
-
 	    if ( gsb_data_transaction_get_amount (transaction_number).mantissa >= 0 )
 	    {
 		gchar* tmpstr2 = utils_real_get_string_with_currency (

@@ -8,7 +8,11 @@
 
 
 /* START_DECLARATION */
-gboolean assert_account_loaded ();
+gboolean        utils_event_box_change_state    (GtkWidget *event_box,
+                                                 GdkEventMotion *event,
+                                                 GtkStyleContext *context);
+
+gboolean assert_account_loaded ( void );
 GtkWidget *utils_combo_box_make_from_string_array ( gchar **array );
 gboolean desensitive_widget ( gpointer object,
                         GtkWidget *widget );
