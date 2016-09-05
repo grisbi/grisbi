@@ -97,14 +97,13 @@ GtkWidget *gsb_gui_create_general_widgets ( void )
 {
     GtkWidget *hpaned_general;
     GtkWidget * hbox, * arrow_eb, * arrow_left, * arrow_right;
-    GtkStyle * style;
 
     /* All stuff will be put in a huge vbox, with an hbox containing
      * quick summary. */
     vbox_general = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
 
     headings_eb = gtk_event_box_new ();
-    style = gtk_widget_get_style ( headings_eb );
+    gtk_widget_set_name ( headings_eb, "grey_box");
 
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
     gtk_widget_set_margin_end (hbox, MARGIN_END );
@@ -112,7 +111,6 @@ GtkWidget *gsb_gui_create_general_widgets ( void )
     /* Create two arrows. */
     arrow_left = gtk_arrow_new ( GTK_ARROW_LEFT, GTK_SHADOW_OUT );
     arrow_eb = gtk_event_box_new ();
-    gtk_widget_modify_bg ( arrow_eb, 0, &(style -> bg[GTK_STATE_ACTIVE]) );
     gtk_container_add ( GTK_CONTAINER ( arrow_eb ), arrow_left );
     g_signal_connect ( G_OBJECT ( arrow_eb ), "button-press-event",
 		       G_CALLBACK ( on_simpleclick_event_run ),
@@ -121,7 +119,6 @@ GtkWidget *gsb_gui_create_general_widgets ( void )
 
     arrow_right = gtk_arrow_new ( GTK_ARROW_RIGHT, GTK_SHADOW_OUT );
     arrow_eb = gtk_event_box_new ();
-    gtk_widget_modify_bg ( arrow_eb, 0, &(style -> bg[GTK_STATE_ACTIVE]) );
     gtk_container_add ( GTK_CONTAINER ( arrow_eb ), arrow_right );
     g_signal_connect ( G_OBJECT ( arrow_eb ), "button-press-event",
 		       G_CALLBACK ( on_simpleclick_event_run ),
@@ -138,7 +135,6 @@ GtkWidget *gsb_gui_create_general_widgets ( void )
 
     /* Change color with an event box trick. */
     gtk_container_add ( GTK_CONTAINER ( headings_eb ), hbox );
-    gtk_widget_modify_bg ( headings_eb, 0, &(style -> bg[GTK_STATE_ACTIVE]) );
     gtk_container_set_border_width ( GTK_CONTAINER ( hbox ), 6 );
 
     gtk_box_pack_start ( GTK_BOX( vbox_general ), headings_eb, FALSE, FALSE, 0 );
@@ -154,19 +150,15 @@ GtkWidget *gsb_gui_create_general_widgets ( void )
     gtk_paned_add1 ( GTK_PANED ( hpaned_general ), gsb_gui_navigation_create_navigation_pane ( ) );
     gtk_paned_add2 ( GTK_PANED ( hpaned_general ), gsb_gui_create_general_notebook ( ) );
     gtk_container_set_border_width ( GTK_CONTAINER ( hpaned_general ), 6 );
-    if ( conf.panel_width == -1 )
+
+    if ( conf.panel_width > 0 )
+        gtk_paned_set_position ( GTK_PANED ( hpaned_general ), conf.panel_width );
+    else
     {
         gint width, height;
 
         gtk_window_get_size ( GTK_WINDOW ( run.window ), &width, &height );
         gtk_paned_set_position ( GTK_PANED ( hpaned_general ), (gint) width / 4 );
-    }
-    else
-    {
-        if ( conf.panel_width )
-            gtk_paned_set_position ( GTK_PANED ( hpaned_general ), conf.panel_width );
-        else
-            gtk_paned_set_position ( GTK_PANED ( hpaned_general ), 1 );
     }
 
     gtk_widget_show ( hpaned_general );
