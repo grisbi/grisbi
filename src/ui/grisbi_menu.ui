@@ -31,7 +31,7 @@
         <attribute name="label" translatable="yes">_Quit</attribute>
         <attribute name="action">app.quit</attribute>
         <attribute name="accel">&lt;Primary&gt;q</attribute>
-        <attribute name="icon">emblem-ohno</attribute>
+        <attribute name="icon">/usr/share/icons/gnome-colors-common/scalable/actions/gtk-quit.svg</attribute>
       </item>
     </section>
   </menu>
@@ -337,7 +337,7 @@
           <attribute name="label" translatable="yes">_Quit</attribute>
           <attribute name="action">win.quit</attribute>
           <attribute name="accel">&lt;Primary&gt;q</attribute>
-          <attribute name="icon">emblem-ohno</attribute>
+          <attribute name="icon">/usr/share/icons/gnome-colors-common/scalable/actions/gtk-quit.svg</attribute>
         </item>
     </section>
     </submenu>
