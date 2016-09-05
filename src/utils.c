@@ -51,7 +51,30 @@
 /*START_EXTERN*/
 /*END_EXTERN*/
 
+/**
+ * Bascule de l'état NORMAL à PRELIGHT et inversemment
+ *
+ * \param GtkWidget         event_box
+ * \param GdkEventMotion    event
+ * \param GtkStyleContext   context
+ *
+ * \return FALSE
+ * */
+gboolean utils_event_box_change_state ( GtkWidget *event_box,
+                                 GdkEventMotion *event,
+                                 GtkStyleContext *context )
+{
+    GtkStateFlags state;
 
+    state = gtk_style_context_get_state ( context );
+
+    if ( state == GTK_STATE_FLAG_ACTIVE )
+        gtk_style_context_set_state ( context, GTK_STATE_FLAG_PRELIGHT );
+    else if ( state == GTK_STATE_FLAG_PRELIGHT )
+        gtk_style_context_set_state ( context, GTK_STATE_FLAG_ACTIVE );
+
+    return FALSE;
+}
 
 /**
  *
