@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*            2003-2008 Benjamin Drieu (bdrieu@april.org)                     */
-/*            2008-2012 Pierre Biava (grisbi@pierre.biava.name)               */
+/*            2008-2016 Pierre Biava (grisbi@pierre.biava.name)               */
 /*             http://www.grisbi.org                                          */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -59,33 +59,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void affiche_solde_des_comptes ( GtkWidget *table,
-                        gint i,
-                        gint nb_comptes,
-                        gint currency_number,
-                        gsb_real solde_global_courant,
-                        gsb_real solde_global_pointe );
-static gint affiche_soldes_additionnels ( GtkWidget *table, gint i, GSList *liste );
-static gint affiche_soldes_partiels ( GtkWidget *table,
-                        gint i,
-                        gint nb_comptes,
-                        GSList *liste,
-                        gint currency_number,
-                        gint type_compte );
-static void gsb_main_page_affiche_ligne_du_compte ( GtkWidget *pTable,
-                        gint account_number,
-                        gint i );
-static gboolean gsb_main_page_click_on_account ( gint *account_number );
-static gboolean gsb_main_page_get_devise_is_used ( gint currency_number, gint type_compte );
-static GtkWidget *gsb_main_page_get_table_for_accounts ( gint nb_lignes, gint nb_col );
-static gboolean saisie_echeance_accueil ( GtkWidget *event_box,
-                        GdkEventButton *event,
-                        gint scheduled_number );
-static void update_fin_comptes_passifs ( gboolean force );
-static void update_liste_comptes_accueil ( gboolean force );
-static void update_liste_echeances_auto_accueil ( gboolean force );
 static void update_liste_echeances_manuelles_accueil ( gboolean force );
-static void update_soldes_minimaux ( gboolean force );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -127,221 +101,6 @@ static StructAccountPartial *partial_buffer = NULL;
 /******************************************************************************/
 /* Private Methods                                                            */
 /******************************************************************************/
-
-
-/******************************************************************************/
-/* Public Methods                                                             */
-/******************************************************************************/
-/**
- * Create the home page of Grisbi
- *
- * \param   none
- *
- * \return
- * */
-GtkWidget *creation_onglet_accueil ( void )
-{
-    GtkWidget *vbox;
-    GtkWidget *paddingbox;
-    GtkWidget *base;
-    GtkWidget *base_scroll;
-    GtkWidget *eb;
-
-    devel_debug ( NULL );
-
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 15 );
-    gtk_widget_show ( vbox );
-
-    /* on met le titre du fichier */
-    hbox_title = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
-
-    eb = gtk_event_box_new ();
-    gtk_widget_set_name ( eb, "grey_box");
-
-    label_titre_fichier = gtk_label_new ( NULL );
-    g_object_add_weak_pointer ( G_OBJECT ( label_titre_fichier ),
-                                (gpointer*)&label_titre_fichier );
-
-    if ( etat.utilise_logo )
-    {
-        logo_accueil =  gtk_image_new_from_pixbuf ( gsb_select_icon_get_logo_pixbuf ( ) );
-
-        gtk_box_pack_start ( GTK_BOX ( hbox_title ), logo_accueil, FALSE, FALSE, 20 );
-        gtk_widget_set_size_request ( hbox_title, -1, LOGO_HEIGHT + 20 );
-    }
-
-    gtk_box_pack_end ( GTK_BOX ( hbox_title ), label_titre_fichier, TRUE, TRUE, 20 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( hbox_title ), 6 );
-    gtk_container_add ( GTK_CONTAINER ( eb ), hbox_title );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), eb, FALSE, FALSE, 0 );
-    gtk_widget_show_all ( eb );
-
-    /* on crée à ce niveau base_scroll qui est aussi une vbox mais qui peut
-       scroller verticalement */
-    base_scroll = gtk_scrolled_window_new ( NULL, NULL);
-    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( base_scroll ),
-                        GTK_POLICY_NEVER,
-                        GTK_POLICY_AUTOMATIC );
-    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW ( base_scroll ),
-                        GTK_SHADOW_IN );
-
-    base = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 15 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( base ), 12 );
-    gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( base_scroll ), base );
-    gtk_widget_show ( base_scroll );
-    gtk_widget_show ( base );
-
-    /* on crée le size_group pour l'alignement des tableaux */
-    size_group_accueil = gtk_size_group_new ( GTK_SIZE_GROUP_HORIZONTAL );
-
-    /* on crée la première frame dans laquelle on met les états des comptes */
-    frame_etat_comptes_accueil = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
-    gtk_box_pack_start ( GTK_BOX ( base ), frame_etat_comptes_accueil, FALSE, FALSE, 0 );
-
-    /* on met la liste des comptes et leur état dans la frame */
-    run.mise_a_jour_liste_comptes_accueil = TRUE;
-    gtk_widget_show_all ( frame_etat_comptes_accueil );
-
-
-    /* mise en place de la partie fin des comptes passif */
-    paddingbox = new_paddingbox_with_title ( base, FALSE, _("Closed liabilities accounts") );
-    frame_etat_fin_compte_passif = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), frame_etat_fin_compte_passif, FALSE, FALSE, 0 );
-    run.mise_a_jour_fin_comptes_passifs = TRUE;
-
-
-    /* mise en place de la partie des échéances manuelles ( non affiché ) */
-    /*     sera mis à jour automatiquement si nécessaire */
-    paddingbox = new_paddingbox_with_title ( base, FALSE, _("Run out manual scheduled transactions") );
-    frame_etat_echeances_manuelles_accueil = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
-    gtk_box_set_spacing ( GTK_BOX ( paddingbox ), 6 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), frame_etat_echeances_manuelles_accueil, FALSE, FALSE, 6 );
-
-
-    /* mise en place de la partie des échéances auto  ( non affiché )*/
-    /*     sera mis à jour automatiquement si nécessaire */
-    paddingbox = new_paddingbox_with_title ( base, FALSE, _("Automatic scheduled transactions entered") );
-    frame_etat_echeances_auto_accueil = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
-    gtk_box_set_spacing ( GTK_BOX ( paddingbox ), 6 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), frame_etat_echeances_auto_accueil, FALSE, FALSE, 6 );
-
-
-    /* partie des fin d'échéances */
-    paddingbox = new_paddingbox_with_title ( base, FALSE, _("Closed scheduled transactions") );
-    main_page_finished_scheduled_transactions_part = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
-    gtk_box_set_spacing ( GTK_BOX ( paddingbox ), 6 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), main_page_finished_scheduled_transactions_part, FALSE, FALSE, 6 );
-
-
-    /* partie des soldes minimaux autorisés */
-    paddingbox = new_paddingbox_with_title ( base, FALSE, _("Accounts under authorized balance") );
-    frame_etat_soldes_minimaux_autorises = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
-    gtk_box_set_spacing ( GTK_BOX ( paddingbox ), 6 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), frame_etat_soldes_minimaux_autorises, FALSE, FALSE, 6 );
-
-
-    /* partie des soldes minimaux voulus */
-    paddingbox = new_paddingbox_with_title ( base, FALSE, _("Accounts under desired balance") );
-    frame_etat_soldes_minimaux_voulus = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
-    gtk_box_set_spacing ( GTK_BOX ( paddingbox ), 6 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), frame_etat_soldes_minimaux_voulus, FALSE, FALSE, 6 );
-
-    run.mise_a_jour_soldes_minimaux = TRUE;
-
-    gtk_box_pack_start ( GTK_BOX ( vbox ), base_scroll, TRUE, TRUE, 0 );
-
-    return ( vbox );
-}
-
-
-/**
- * update the first page, force the updating if asked,
- * else, each function will decide if it need to be
- * updated or not
- *
- * \param force TRUE if we want to update all
- *
- * \return
- * */
-void mise_a_jour_accueil ( gboolean force )
-{
-    update_liste_comptes_accueil (force);
-    update_liste_echeances_manuelles_accueil (force);
-    update_liste_echeances_auto_accueil (force);
-    update_soldes_minimaux (force);
-    update_fin_comptes_passifs (force);
-}
-
-/**
- * Fonction appelée lorsqu'on clicke sur une échéance à saisir
- *
- * \param event_box         object clicked
- * \param event
- * \param scheduled_number  scheduled transaction numnber
- *
- * \return
- * */
-static gboolean saisie_echeance_accueil ( GtkWidget *event_box,
-                        GdkEventButton *event,
-                        gint scheduled_number )
-{
-    GtkWidget *parent_save, *dialog, *hbox;
-    GtkWidget *button;
-    gint result;
-
-    parent_save = gtk_widget_get_parent ( form_transaction_part );
-
-    /* Create the dialog */
-    dialog = gtk_dialog_new_with_buttons ( _("Enter a scheduled transaction"),
-					   GTK_WINDOW ( run.window ),
-					   GTK_DIALOG_MODAL,
-					   "gtk-cancel", GTK_RESPONSE_CANCEL,
-					   "gtk-ok", GTK_RESPONSE_OK,
-					   NULL );
-
-    gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
-    gtk_widget_set_size_request ( dialog, 700, -1 );
-    gtk_window_set_resizable ( GTK_WINDOW ( dialog ), TRUE );
-    gtk_dialog_set_default_response ( GTK_DIALOG (dialog), GTK_RESPONSE_OK );
-
-	/* first we reparent the form in the dialog */
-	hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
-	gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), hbox, TRUE, TRUE, 0 );
-	gtk_container_set_border_width ( GTK_CONTAINER(hbox), 12 );
-	gtk_widget_reparent ( form_transaction_part, hbox );
-    gtk_widget_show_all ( hbox );
-
-    /* next we fill the form,
-     * don't use gsb_form_show because we are neither on transactions list, neither scheduled list */
-    button = gsb_form_scheduler_get_element_widget( SCHEDULED_FORM_ACCOUNT );
-    g_signal_handlers_block_by_func ( G_OBJECT ( button ),
-                        G_CALLBACK (gsb_form_scheduler_change_account),
-                        NULL );
-
-    gsb_form_fill_from_account (gsb_data_scheduled_get_account_number (scheduled_number));
-
-    /* fill the form with the scheduled transaction */
-    gsb_scheduler_list_execute_transaction(scheduled_number);
-
-    g_signal_handlers_unblock_by_func ( G_OBJECT ( button ),
-                        G_CALLBACK (gsb_form_scheduler_change_account),
-                        NULL );
-
-	result = gtk_dialog_run ( GTK_DIALOG ( dialog ));
-
-    if ( result == GTK_RESPONSE_OK )
-	 gsb_form_finish_edition ();
-
-    gtk_widget_reparent ( form_transaction_part, parent_save );
-    gtk_widget_destroy ( dialog );
-
-    /* update the home page */
-    update_liste_echeances_manuelles_accueil (TRUE);
-    update_liste_comptes_accueil (TRUE);
-    return FALSE;
-}
-
-
 /**
  * fonction renvoie TRUE si le compte a déjà été affiché
  *
@@ -377,7 +136,6 @@ static gint gsb_main_page_account_get_account_displayed ( gint account_number,
     return FALSE;
 }
 
-
 /**
  * retourne une ligne pour séparer les comptes de leur somme partielle
  *
@@ -401,7 +159,6 @@ static void gsb_main_page_account_get_ligne_somme ( GtkWidget *table,
     gtk_widget_show ( separator );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), separator, 2, 4, i, i+1 );
 }
-
 
 /**
  * affiche une ligne de solde partiel
@@ -466,13 +223,12 @@ static void gsb_main_page_account_affiche_solde_partiel ( GtkWidget *table,
     gtk_widget_show ( label );
 }
 
-
 /**
  * fonction si le compte passé en paramètre appartient à un solde partiel
  *
  * \param account_number    compte à tester
-  * \param list_partial      liste des structures concernées
-*
+ * \param list_partial      liste des structures concernées
+ *
  * \return TRUE si compte appartient à un solde partiel FALSE autrement
  * */
 static gint gsb_main_page_account_have_partial_balance ( gint account_number,
@@ -506,6 +262,342 @@ static gint gsb_main_page_account_have_partial_balance ( gint account_number,
     return FALSE;
 }
 
+/**
+ * called by a click on an account name or balance of accounts on the main page
+ * it's just a mediator between the signal and gsb_navigation_show_account
+ *
+ * \param account_number a pointer wich is the number of account we want to switch
+ *
+ * \return FALSE
+ * */
+static gboolean gsb_main_page_click_on_account ( gint *account_number )
+{
+    devel_debug_int (GPOINTER_TO_INT (account_number));
+    gsb_gui_navigation_set_selection ( GSB_ACCOUNT_PAGE,
+				       GPOINTER_TO_INT (account_number),
+				       NULL );
+    return FALSE;
+}
+
+/**
+ * Affiche une ligne pour le compte donné en paramètre
+ *
+ * \param table
+ * \param account number
+ * \param ligne dans la table
+ *
+ * \return FALSE
+ * */
+static void gsb_main_page_affiche_ligne_du_compte ( GtkWidget *pTable,
+                        gint account_number,
+                        gint i )
+{
+    GtkWidget *pEventBox;
+    GtkWidget *pLabel;
+    GtkStyleContext* context;
+    GSList *list = NULL;
+	gchar *tmp_str;
+
+    /* Première colonne : elle contient le nom du compte */
+    tmp_str = g_strconcat ( gsb_data_account_get_name (account_number), " : ", NULL );
+    pLabel = gtk_label_new ( tmp_str );
+    g_free ( tmp_str );
+    utils_labels_set_alignement ( GTK_LABEL ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
+    gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), pLabel );
+
+    /* Création d'une boite à évènement qui sera rattachée au nom du compte */
+    pEventBox = gtk_event_box_new ();
+    gtk_widget_set_name ( pEventBox, "accueil_nom_compte");
+    context = gtk_widget_get_style_context  ( pEventBox );
+    gtk_style_context_set_state ( context, GTK_STATE_FLAG_ACTIVE );
+
+    list = g_slist_append ( list, pEventBox );
+    g_signal_connect ( G_OBJECT ( pEventBox ),
+                 "enter-notify-event",
+                 G_CALLBACK ( utils_event_box_change_state ),
+                 context );
+    g_signal_connect ( G_OBJECT ( pEventBox ),
+                 "leave-notify-event",
+                 G_CALLBACK ( utils_event_box_change_state ),
+                 context );
+    g_signal_connect_swapped ( G_OBJECT ( pEventBox ),
+                    "button-press-event",
+                    G_CALLBACK ( gsb_main_page_click_on_account ),
+                    GINT_TO_POINTER (account_number) );
+    gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pEventBox,
+                    0, 1, i, i+1 );
+    gtk_widget_show ( pEventBox );
+    gtk_container_add ( GTK_CONTAINER ( pEventBox ), pLabel );
+    gtk_widget_show ( pLabel );
+
+    /* Deuxième colonne : elle contient le solde pointé du compte */
+    tmp_str = utils_real_get_string_with_currency (
+            gsb_data_account_get_marked_balance ( account_number ),
+            gsb_data_account_get_currency (account_number), TRUE);
+    pLabel = gtk_label_new ( tmp_str );
+    g_free ( tmp_str );
+    utils_labels_set_alignement ( GTK_LABEL ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
+
+    /* Création d'une boite à évènement qui sera rattachée au solde pointé du compte */
+    pEventBox = gtk_event_box_new ();
+
+    /* Mise en place du style du label en fonction du solde courant */
+    if ( gsb_real_cmp ( gsb_data_account_get_marked_balance (account_number),
+                gsb_data_account_get_mini_balance_wanted (account_number)) != -1)
+    {
+        gtk_widget_set_name ( pEventBox, "accueil_solde_alarme_verte");
+    }
+    else
+    {
+        if ( gsb_real_cmp ( gsb_data_account_get_marked_balance (account_number),
+                gsb_data_account_get_mini_balance_authorized (account_number)) != -1 )
+        {
+            gtk_widget_set_name ( pEventBox, "accueil_solde_alarme_orange");
+        }
+        else
+        {
+
+            gtk_widget_set_name ( pEventBox, "accueil_solde_alarme_rouge");
+        }
+    }
+
+    context = gtk_widget_get_style_context  ( pEventBox );
+    gtk_style_context_set_state ( context, GTK_STATE_FLAG_ACTIVE );
+
+    list = g_slist_append ( list, pEventBox );
+    g_signal_connect ( G_OBJECT ( pEventBox ),
+                 "enter-notify-event",
+                 G_CALLBACK ( utils_event_box_change_state ),
+                 context );
+    g_signal_connect ( G_OBJECT ( pEventBox ),
+                 "leave-notify-event",
+                 G_CALLBACK ( utils_event_box_change_state ),
+                 context );
+    g_signal_connect_swapped ( G_OBJECT ( pEventBox ),
+                    "button-press-event",
+                    G_CALLBACK ( gsb_main_page_click_on_account ),
+                    GINT_TO_POINTER (account_number) );
+    gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pEventBox,
+                    1, 2, i, i+1 );
+    gtk_widget_show ( pEventBox );
+    gtk_container_add ( GTK_CONTAINER ( pEventBox ), pLabel );
+    gtk_widget_show ( pLabel );
+
+    /* Troisième colonne : elle contient le solde courant du compte */
+    tmp_str = utils_real_get_string_with_currency (
+            gsb_data_account_get_current_balance (account_number),
+            gsb_data_account_get_currency (account_number), TRUE);
+    pLabel = gtk_label_new ( tmp_str );
+    g_free ( tmp_str );
+    utils_labels_set_alignement ( GTK_LABEL ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
+
+    /* Création d'une boite à évènement qui sera rattachée au solde courant du compte */
+    pEventBox = gtk_event_box_new ();
+
+    /* Mise en place du style du label en fonction du solde courant */
+    if ( gsb_real_cmp ( gsb_data_account_get_current_balance (account_number),
+                gsb_data_account_get_mini_balance_wanted (account_number)) != -1)
+    {
+        gtk_widget_set_name ( pEventBox, "accueil_solde_alarme_verte");
+    }
+    else
+    {
+        if ( gsb_real_cmp ( gsb_data_account_get_current_balance (account_number),
+                gsb_data_account_get_mini_balance_authorized (account_number)) != -1 )
+        {
+            gtk_widget_set_name ( pEventBox, "accueil_solde_alarme_orange");
+        }
+        else
+        {
+            gtk_widget_set_name ( pEventBox, "accueil_solde_alarme_rouge");
+        }
+    }
+
+    context = gtk_widget_get_style_context  ( pEventBox );
+    gtk_style_context_set_state ( context, GTK_STATE_FLAG_ACTIVE );
+
+    list = g_slist_append ( list, pEventBox );
+    g_signal_connect ( G_OBJECT ( pEventBox ),
+                 "enter-notify-event",
+                 G_CALLBACK ( utils_event_box_change_state ),
+                 context );
+    g_signal_connect ( G_OBJECT ( pEventBox ),
+                 "leave-notify-event",
+                 G_CALLBACK ( utils_event_box_change_state ),
+                 context );
+    g_signal_connect_swapped ( G_OBJECT ( pEventBox ),
+                    "button-press-event",
+                    G_CALLBACK (gsb_main_page_click_on_account),
+                    GINT_TO_POINTER (account_number) );
+    gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pEventBox,
+                    2, 3, i, i+1 );
+    gtk_widget_show ( pEventBox );
+    gtk_container_add ( GTK_CONTAINER ( pEventBox ), pLabel );
+    gtk_widget_show ( pLabel );
+}
+
+/**
+ * Création de ou des lignes de solde partiels
+ *
+ * */
+static gint affiche_soldes_partiels ( GtkWidget *table,
+                        gint i,
+                        gint nb_comptes,
+                        GSList *liste,
+                        gint currency_number,
+                        gint type_compte )
+{
+    GtkWidget *label;
+    gchar *tmp_str;
+    gint nbre_lignes = 0;
+    gboolean concerne = FALSE;
+
+    while ( liste )
+    {
+        gint partial_number;
+        kind_account kind;
+
+        partial_number = gsb_data_partial_balance_get_number ( liste -> data );
+        kind = gsb_data_partial_balance_get_kind ( partial_number );
+
+        if ( kind == -1 )
+        {
+            liste = liste -> next;
+            continue;
+        }
+        else if (
+            ( kind == type_compte
+            ||
+            ( kind < GSB_TYPE_LIABILITIES && type_compte < GSB_TYPE_LIABILITIES ) )
+         &&
+         gsb_data_partial_balance_get_currency ( partial_number ) == currency_number )
+        {
+            if ( concerne == FALSE )
+            {
+                    /* on commence par une ligne vide */
+                label = gtk_label_new ( chaine_espace );
+                gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
+                utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
+                gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, i, i+1 );
+                gtk_widget_show ( label );
+                i ++;
+                nbre_lignes ++;
+
+                /* On met les titres du sous ensemble solde(s) partiel(s) */
+				label = gtk_label_new ( NULL );
+                if ( nb_comptes == 1 )
+                    tmp_str = g_strconcat ("<span weight=\"bold\">", _("Partial balance: "), "</span>", NULL );
+                else
+				    tmp_str = g_strconcat ("<span weight=\"bold\">", _("Partial balances: "), "</span>", NULL );
+				gtk_label_set_markup ( GTK_LABEL ( label ), tmp_str );
+				g_free ( tmp_str );
+				utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_LEFT, MISC_VERT_CENTER );
+                gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
+                gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, i, i+1 );
+                gtk_widget_show ( label );
+                label = gtk_label_new (_("Reconciled balance"));
+                utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
+                gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 1, 2, i, i+1 );
+                gtk_widget_show ( label );
+                label = gtk_label_new (_("Current balance"));
+                utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
+                gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 2, 4, i, i+1 );
+                gtk_widget_show ( label );
+                i ++;
+                nbre_lignes ++;
+                concerne = TRUE;
+            }
+            /* Première colonne : elle contient le nom du solde partiel */
+            tmp_str = g_strconcat ( gsb_data_partial_balance_get_name ( partial_number ),
+                            " : ", NULL );
+            label = gtk_label_new ( tmp_str );
+            g_free ( tmp_str );
+            utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_LEFT, MISC_VERT_CENTER );
+            gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
+            gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, i, i+1 );
+            gtk_widget_show ( label );
+
+            /* Deuxième colonne : elle contient le solde pointé du solde partiel */
+            tmp_str = gsb_data_partial_balance_get_marked_balance ( partial_number );
+            label = gtk_label_new ( tmp_str );
+            gtk_label_set_markup ( GTK_LABEL ( label ), tmp_str );
+            g_free ( tmp_str );
+            utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
+            gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 1, 2, i, i+1 );
+            gtk_widget_show ( label );
+
+            /* Troisième colonne : elle contient le solde courant du solde partiel */
+            tmp_str = gsb_data_partial_balance_get_current_balance ( partial_number );
+            label = gtk_label_new ( NULL );
+            gtk_label_set_markup ( GTK_LABEL ( label ), tmp_str );
+            g_free ( tmp_str );
+            utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
+            gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 2, 3, i, i+1 );
+            gtk_widget_show ( label );
+
+            i++;
+            nbre_lignes ++;
+        }
+        liste = liste -> next;
+    }
+
+    return nbre_lignes;
+}
+
+/**
+ * Création de la ligne de solde des comptes
+ *
+ * */
+static void affiche_solde_des_comptes ( GtkWidget *table,
+                        gint i,
+                        gint nb_comptes,
+                        gint currency_number,
+                        gsb_real solde_global_courant,
+                        gsb_real solde_global_pointe )
+{
+    GtkWidget *label;
+    gchar *tmp_str;
+
+    /* on commence par une ligne vide */
+    label = gtk_label_new ( chaine_espace );
+    gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
+    gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, i, i+1 );
+    gtk_widget_show ( label );
+    i ++;
+
+    /* Première colonne */
+    label = gtk_label_new ( NULL );
+    if ( nb_comptes == 1 )
+        tmp_str = g_strconcat ("<span weight=\"bold\">", _("Global balance: "), "</span>", NULL );
+    else if ( conf.pluriel_final )
+        tmp_str = g_strconcat ("<span weight=\"bold\">", "Soldes finaux: ", "</span>", NULL );
+    else
+        tmp_str = g_strconcat ("<span weight=\"bold\">", _("Global balances: "), "</span>", NULL );
+    gtk_label_set_markup ( GTK_LABEL ( label ), tmp_str );
+    g_free ( tmp_str );
+
+    utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_LEFT, MISC_VERT_CENTER );
+    gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
+    gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, i, i+1 );
+    gtk_widget_show ( label );
+
+    /* Deuxième colonne : elle contient le solde total pointé des comptes */
+    tmp_str = utils_real_get_string_with_currency ( solde_global_pointe, currency_number, TRUE );
+    label = gtk_label_new ( tmp_str );
+    g_free ( tmp_str );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
+    gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 1, 2, i, i+1 );
+    gtk_widget_show ( label );
+
+    /* Troisième colonne : elle contient le solde total courant des comptes */
+    tmp_str = utils_real_get_string_with_currency ( solde_global_courant, currency_number, TRUE );
+    label = gtk_label_new ( tmp_str );
+    g_free ( tmp_str );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
+    gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 2, 3, i, i+1 );
+    gtk_widget_show ( label );
+}
 
 /**
  * routine qui affiche les comptes dans la bonne frame
@@ -611,8 +703,14 @@ static void gsb_main_page_diplays_accounts ( GtkWidget *pTable,
                         continue;
                     }
 
-                    /* on traite le solde partiel */
-                    partial_number = partial_buffer->partial_number;
+                    /* on traite le solde partiel si nécéssaire */
+					if ( partial_buffer->partial_number == 0 )
+                    {
+                        list_tmp = list_tmp -> next;
+                        continue;
+                    }
+					else
+						partial_number = partial_buffer->partial_number;
 
                     /* on affiche tous les comptes du solde partiel */
                     /* on affiche la ligne du compte avec les soldes pointé et courant */
@@ -715,6 +813,151 @@ static void gsb_main_page_diplays_accounts ( GtkWidget *pTable,
                         solde_global_courant, solde_global_pointe );
 }
 
+/**
+ * teste si au moins 1 compte utilise la devise passée en paramètre.
+ *
+ * \param currency_number
+ *
+ * \return TRUE si un compte utilise la devise FALSE sinon;
+ * */
+static gboolean gsb_main_page_get_devise_is_used ( gint currency_number,
+                        gint type_compte )
+{
+    GSList *list_tmp;
+
+    list_tmp = gsb_data_account_get_list_accounts ( );
+
+    while ( list_tmp )
+    {
+        gint i;
+
+        i = gsb_data_account_get_no_account ( list_tmp -> data );
+
+        if ( gsb_data_account_get_currency ( i ) == currency_number
+         &&
+         !gsb_data_account_get_closed_account ( i )
+         &&
+         gsb_data_account_get_kind ( i ) == type_compte )
+
+            return TRUE;
+
+        list_tmp = list_tmp -> next;
+    }
+
+    return FALSE;
+}
+
+/**
+ * Crée la table et sa première ligne
+ *
+ * \return table
+ * */
+static GtkWidget *gsb_main_page_get_table_for_accounts ( gint nb_lignes,
+                        gint nb_col )
+{
+    GtkWidget *table, *label;
+
+	table = gtk_table_new ( nb_lignes, nb_col, FALSE );
+
+	/* Création et remplissage de la première ligne du tableau */
+    label = gtk_label_new ( chaine_espace );
+    gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
+	gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, 0, 1 );
+	gtk_widget_show ( label );
+	label = gtk_label_new (_("Reconciled balance"));
+	utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
+	gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 1, 2, 0, 1 );
+	gtk_widget_show ( label );
+	label = gtk_label_new (_("Current balance"));
+	utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
+	gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 2, 4, 0, 1 );
+	gtk_widget_show ( label );
+
+    return table;
+}
+
+/**
+ * Création de ou des lignes de solde additionnel
+ *
+ * */
+static gint affiche_soldes_additionnels ( GtkWidget *table,
+                        gint i,
+                        GSList *liste )
+{
+    GtkWidget *label;
+    gchar *tmp_str;
+    gchar *tmp_str2;
+    gint nbre_lignes = 0;
+    gint currency_number;
+
+    /* on commence par une ligne vide */
+    label = gtk_label_new ( chaine_espace );
+    gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
+    gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, i, i+1 );
+    gtk_widget_show ( label );
+    i ++;
+    nbre_lignes ++;
+
+    while ( liste )
+    {
+        gint partial_number;
+        kind_account kind;
+
+        partial_number = gsb_data_partial_balance_get_number ( liste -> data );
+        kind = gsb_data_partial_balance_get_kind ( partial_number );
+
+        if ( kind == - 1 )
+        {
+            /* Première colonne : elle contient le nom du solde partiel */
+            currency_number = gsb_data_partial_balance_get_currency ( partial_number );
+            tmp_str2 = g_strdup_printf (_(" in %s"), gsb_data_currency_get_name (
+                        currency_number ) );
+            tmp_str = g_strconcat ( gsb_data_partial_balance_get_name ( partial_number ),
+                            tmp_str2,
+                            " : ", NULL );
+			g_free ( tmp_str2 );
+            if ( conf.group_partial_balance_under_accounts )
+                tmp_str2 = make_blue ( tmp_str );
+            else
+                tmp_str2 = g_strdup ( tmp_str );
+            label = gtk_label_new ( NULL );
+            gtk_label_set_markup ( GTK_LABEL ( label ), tmp_str2 );
+            g_free ( tmp_str );
+            g_free ( tmp_str2 );
+
+            utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_LEFT, MISC_VERT_CENTER );
+            gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
+            gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, i, i+1 );
+            gtk_widget_show ( label );
+
+            /* Deuxième colonne : elle contient le solde pointé du solde partiel */
+            tmp_str = gsb_data_partial_balance_get_marked_balance ( partial_number );
+            label = gtk_label_new ( NULL );
+            gtk_label_set_markup ( GTK_LABEL ( label ), tmp_str );
+            g_free ( tmp_str );
+            utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
+            gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 1, 2, i, i+1 );
+            gtk_widget_show ( label );
+
+            /* Troisième colonne : elle contient le solde courant du solde partiel */
+            tmp_str = gsb_data_partial_balance_get_current_balance ( partial_number );
+            label = gtk_label_new ( NULL );
+            gtk_label_set_markup ( GTK_LABEL ( label ), tmp_str );
+            g_free ( tmp_str );
+            utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
+            gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 2, 3, i, i+1 );
+            gtk_widget_show ( label );
+
+            i++;
+            nbre_lignes ++;
+        }
+        liste = liste -> next;
+    }
+
+    return nbre_lignes;
+}
 
 /**
  * affiche la liste des comptes et leur solde courant dans la frame qui leur
@@ -962,496 +1205,88 @@ static void update_liste_comptes_accueil ( gboolean force )
     gtk_widget_show_all (vbox);
 }
 
-
 /**
- * teste si au moins 1 compte utilise la devise passée en paramètre.
+ * Fonction appelée lorsqu'on clicke sur une échéance à saisir
  *
- * \param currency_number
+ * \param event_box         object clicked
+ * \param event
+ * \param scheduled_number  scheduled transaction numnber
  *
- * \return TRUE si un compte utilise la devise FALSE sinon;
+ * \return
  * */
-static gboolean gsb_main_page_get_devise_is_used ( gint currency_number, gint type_compte )
+static gboolean saisie_echeance_accueil ( GtkWidget *event_box,
+                        GdkEventButton *event,
+                        gint scheduled_number )
 {
-    GSList *list_tmp;
+    GtkWidget *parent_save, *dialog, *hbox;
+    GtkWidget *button;
+    gint result;
 
-    list_tmp = gsb_data_account_get_list_accounts ( );
+    parent_save = gtk_widget_get_parent ( form_transaction_part );
 
-    while ( list_tmp )
-    {
-        gint i;
+    /* Create the dialog */
+    dialog = gtk_dialog_new_with_buttons ( _("Enter a scheduled transaction"),
+					   GTK_WINDOW ( run.window ),
+					   GTK_DIALOG_MODAL,
+					   "gtk-cancel", GTK_RESPONSE_CANCEL,
+					   "gtk-ok", GTK_RESPONSE_OK,
+					   NULL );
 
-        i = gsb_data_account_get_no_account ( list_tmp -> data );
+    gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
+    gtk_widget_set_size_request ( dialog, 700, -1 );
+    gtk_window_set_resizable ( GTK_WINDOW ( dialog ), TRUE );
+    gtk_dialog_set_default_response ( GTK_DIALOG (dialog), GTK_RESPONSE_OK );
 
-        if ( gsb_data_account_get_currency ( i ) == currency_number
-         &&
-         !gsb_data_account_get_closed_account ( i )
-         &&
-         gsb_data_account_get_kind ( i ) == type_compte )
+	/* first we reparent the form in the dialog */
+	hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
+	gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), hbox, TRUE, TRUE, 0 );
+	gtk_container_set_border_width ( GTK_CONTAINER(hbox), 12 );
+	/* gtk_widget_reparent is broken according to upstream gtk+ devs, so use
+	 * gtk_container_add/remove instead to prevent segfaults. */
+	g_object_ref ( form_transaction_part );
+	gtk_container_remove ( GTK_CONTAINER ( parent_save ), form_transaction_part );
+	gtk_container_add ( GTK_CONTAINER ( hbox ), form_transaction_part );
+    gtk_widget_show_all ( hbox );
 
-            return TRUE;
+    /* next we fill the form,
+     * don't use gsb_form_show because we are neither on transactions list, neither scheduled list */
+    button = gsb_form_scheduler_get_element_widget( SCHEDULED_FORM_ACCOUNT );
+    g_signal_handlers_block_by_func ( G_OBJECT ( button ),
+                        G_CALLBACK (gsb_form_scheduler_change_account),
+                        NULL );
 
-        list_tmp = list_tmp -> next;
-    }
+    gsb_form_fill_from_account (gsb_data_scheduled_get_account_number (scheduled_number));
 
+    /* fill the form with the scheduled transaction */
+    gsb_scheduler_list_execute_transaction(scheduled_number);
+
+    g_signal_handlers_unblock_by_func ( G_OBJECT ( button ),
+                        G_CALLBACK (gsb_form_scheduler_change_account),
+                        NULL );
+
+	result = gtk_dialog_run ( GTK_DIALOG ( dialog ));
+
+    if ( result == GTK_RESPONSE_OK )
+	 gsb_form_finish_edition ();
+
+    gtk_container_remove ( GTK_CONTAINER ( hbox ), form_transaction_part );
+    gtk_container_add ( GTK_CONTAINER ( parent_save ), form_transaction_part );
+    g_object_unref ( form_transaction_part );
+    gtk_widget_destroy ( dialog );
+
+    /* update the home page */
+    update_liste_echeances_manuelles_accueil (TRUE);
+    update_liste_comptes_accueil (TRUE);
     return FALSE;
 }
 
-
-/**
- * Crée la table et sa première ligne
- *
- * \return table
- * */
-static GtkWidget *gsb_main_page_get_table_for_accounts ( gint nb_lignes, gint nb_col )
-{
-    GtkWidget *table, *label;
-
-	table = gtk_table_new ( nb_lignes, nb_col, FALSE );
-
-	/* Création et remplissage de la première ligne du tableau */
-    label = gtk_label_new ( chaine_espace );
-    gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
-    utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
-	gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, 0, 1 );
-	gtk_widget_show ( label );
-	label = gtk_label_new (_("Reconciled balance"));
-	utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
-	gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 1, 2, 0, 1 );
-	gtk_widget_show ( label );
-	label = gtk_label_new (_("Current balance"));
-	utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
-	gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 2, 4, 0, 1 );
-	gtk_widget_show ( label );
-
-    return table;
-
-}
-/**
- * Affiche une ligne pour le compte donné en paramètre
- *
- * \param table
- * \param account number
- * \param ligne dans la table
- *
- * \return FALSE
- * */
-void gsb_main_page_affiche_ligne_du_compte ( GtkWidget *pTable,
-                        gint account_number,
-                        gint i )
-{
-    GtkWidget *pEventBox;
-    GtkWidget *pLabel;
-    GtkStyleContext* context;
-    GSList *list = NULL;
-	gchar *tmp_str;
-
-    /* Première colonne : elle contient le nom du compte */
-    tmp_str = g_strconcat ( gsb_data_account_get_name (account_number), " : ", NULL );
-    pLabel = gtk_label_new ( tmp_str );
-    g_free ( tmp_str );
-    utils_labels_set_alignement ( GTK_LABEL ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
-    gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), pLabel );
-
-    /* Création d'une boite à évènement qui sera rattachée au nom du compte */
-    pEventBox = gtk_event_box_new ();
-    gtk_widget_set_name ( pEventBox, "accueil_nom_compte");
-    context = gtk_widget_get_style_context  ( pEventBox );
-    gtk_style_context_set_state ( context, GTK_STATE_FLAG_ACTIVE );
-
-    list = g_slist_append ( list, pEventBox );
-    g_signal_connect ( G_OBJECT ( pEventBox ),
-                 "enter-notify-event",
-                 G_CALLBACK ( utils_event_box_change_state ),
-                 context );
-    g_signal_connect ( G_OBJECT ( pEventBox ),
-                 "leave-notify-event",
-                 G_CALLBACK ( utils_event_box_change_state ),
-                 context );
-    g_signal_connect_swapped ( G_OBJECT ( pEventBox ),
-                    "button-press-event",
-                    G_CALLBACK ( gsb_main_page_click_on_account ),
-                    GINT_TO_POINTER (account_number) );
-    gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pEventBox,
-                    0, 1, i, i+1 );
-    gtk_widget_show ( pEventBox );
-    gtk_container_add ( GTK_CONTAINER ( pEventBox ), pLabel );
-    gtk_widget_show ( pLabel );
-
-    /* Deuxième colonne : elle contient le solde pointé du compte */
-    tmp_str = utils_real_get_string_with_currency (
-            gsb_data_account_get_marked_balance ( account_number ),
-            gsb_data_account_get_currency (account_number), TRUE);
-    pLabel = gtk_label_new ( tmp_str );
-    g_free ( tmp_str );
-    utils_labels_set_alignement ( GTK_LABEL ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
-
-    /* Création d'une boite à évènement qui sera rattachée au solde pointé du compte */
-    pEventBox = gtk_event_box_new ();
-
-    /* Mise en place du style du label en fonction du solde courant */
-    if ( gsb_real_cmp ( gsb_data_account_get_marked_balance (account_number),
-                gsb_data_account_get_mini_balance_wanted (account_number)) != -1)
-    {
-        gtk_widget_set_name ( pEventBox, "accueil_solde_alarme_verte");
-    }
-    else
-    {
-        if ( gsb_real_cmp ( gsb_data_account_get_marked_balance (account_number),
-                gsb_data_account_get_mini_balance_authorized (account_number)) != -1 )
-        {
-            gtk_widget_set_name ( pEventBox, "accueil_solde_alarme_orange");
-        }
-        else
-        {
-            gtk_widget_set_name ( pEventBox, "accueil_solde_alarme_rouge");
-        }
-    }
-
-    context = gtk_widget_get_style_context  ( pEventBox );
-    gtk_style_context_set_state ( context, GTK_STATE_FLAG_ACTIVE );
-
-    list = g_slist_append ( list, pEventBox );
-    g_signal_connect ( G_OBJECT ( pEventBox ),
-                 "enter-notify-event",
-                 G_CALLBACK ( utils_event_box_change_state ),
-                 context );
-    g_signal_connect ( G_OBJECT ( pEventBox ),
-                 "leave-notify-event",
-                 G_CALLBACK ( utils_event_box_change_state ),
-                 context );
-    g_signal_connect_swapped ( G_OBJECT ( pEventBox ),
-                    "button-press-event",
-                    G_CALLBACK ( gsb_main_page_click_on_account ),
-                    GINT_TO_POINTER (account_number) );
-    gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pEventBox,
-                    1, 2, i, i+1 );
-    gtk_widget_show ( pEventBox );
-    gtk_container_add ( GTK_CONTAINER ( pEventBox ), pLabel );
-    gtk_widget_show ( pLabel );
-
-    /* Troisième colonne : elle contient le solde courant du compte */
-    tmp_str = utils_real_get_string_with_currency (
-            gsb_data_account_get_current_balance (account_number),
-            gsb_data_account_get_currency (account_number), TRUE);
-    pLabel = gtk_label_new ( tmp_str );
-    g_free ( tmp_str );
-    utils_labels_set_alignement ( GTK_LABEL ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
-
-    /* Création d'une boite à évènement qui sera rattachée au solde courant du compte */
-    pEventBox = gtk_event_box_new ();
-
-    /* Mise en place du style du label en fonction du solde courant */
-    if ( gsb_real_cmp ( gsb_data_account_get_current_balance (account_number),
-                gsb_data_account_get_mini_balance_wanted (account_number)) != -1)
-    {
-        gtk_widget_set_name ( pEventBox, "accueil_solde_alarme_verte");
-    }
-    else
-    {
-        if ( gsb_real_cmp ( gsb_data_account_get_current_balance (account_number),
-                gsb_data_account_get_mini_balance_authorized (account_number)) != -1 )
-        {
-            gtk_widget_set_name ( pEventBox, "accueil_solde_alarme_orange");
-        }
-        else
-        {
-            gtk_widget_set_name ( pEventBox, "accueil_solde_alarme_rouge");
-        }
-    }
-
-    context = gtk_widget_get_style_context  ( pEventBox );
-    gtk_style_context_set_state ( context, GTK_STATE_FLAG_ACTIVE );
-
-    list = g_slist_append ( list, pEventBox );
-    g_signal_connect ( G_OBJECT ( pEventBox ),
-                 "enter-notify-event",
-                 G_CALLBACK ( utils_event_box_change_state ),
-                 context );
-    g_signal_connect ( G_OBJECT ( pEventBox ),
-                 "leave-notify-event",
-                 G_CALLBACK ( utils_event_box_change_state ),
-                 context );
-    g_signal_connect_swapped ( G_OBJECT ( pEventBox ),
-                    "button-press-event",
-                    G_CALLBACK (gsb_main_page_click_on_account),
-                    GINT_TO_POINTER (account_number) );
-    gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pEventBox,
-                    2, 3, i, i+1 );
-    gtk_widget_show ( pEventBox );
-    gtk_container_add ( GTK_CONTAINER ( pEventBox ), pLabel );
-    gtk_widget_show ( pLabel );
-}
-
-
-/**
- * Création de ou des lignes de solde partiels
- *
- * */
-gint affiche_soldes_partiels ( GtkWidget *table,
-                        gint i,
-                        gint nb_comptes,
-                        GSList *liste,
-                        gint currency_number,
-                        gint type_compte )
-{
-    GtkWidget *label;
-    gchar *tmp_str;
-    gint nbre_lignes = 0;
-    gboolean concerne = FALSE;
-
-    while ( liste )
-    {
-        gint partial_number;
-        kind_account kind;
-
-        partial_number = gsb_data_partial_balance_get_number ( liste -> data );
-        kind = gsb_data_partial_balance_get_kind ( partial_number );
-
-        if ( kind == -1 )
-        {
-            liste = liste -> next;
-            continue;
-        }
-        else if (
-            ( kind == type_compte
-            ||
-            ( kind < GSB_TYPE_LIABILITIES && type_compte < GSB_TYPE_LIABILITIES ) )
-         &&
-         gsb_data_partial_balance_get_currency ( partial_number ) == currency_number )
-        {
-            if ( concerne == FALSE )
-            {
-                    /* on commence par une ligne vide */
-                label = gtk_label_new ( chaine_espace );
-                gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
-                utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
-                gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, i, i+1 );
-                gtk_widget_show ( label );
-                i ++;
-                nbre_lignes ++;
-
-                /* On met les titres du sous ensemble solde(s) partiel(s) */
-				label = gtk_label_new ( NULL );
-                if ( nb_comptes == 1 )
-                    tmp_str = g_strconcat ("<span weight=\"bold\">", _("Partial balance: "), "</span>", NULL );
-                else
-				    tmp_str = g_strconcat ("<span weight=\"bold\">", _("Partial balances: "), "</span>", NULL );
-				gtk_label_set_markup ( GTK_LABEL ( label ), tmp_str );
-				g_free ( tmp_str );
-				utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_LEFT, MISC_VERT_CENTER );
-                gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
-                gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, i, i+1 );
-                gtk_widget_show ( label );
-                label = gtk_label_new (_("Reconciled balance"));
-                utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
-                gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 1, 2, i, i+1 );
-                gtk_widget_show ( label );
-                label = gtk_label_new (_("Current balance"));
-                utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
-                gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 2, 4, i, i+1 );
-                gtk_widget_show ( label );
-                i ++;
-                nbre_lignes ++;
-                concerne = TRUE;
-            }
-            /* Première colonne : elle contient le nom du solde partiel */
-            tmp_str = g_strconcat ( gsb_data_partial_balance_get_name ( partial_number ),
-                            " : ", NULL );
-            label = gtk_label_new ( tmp_str );
-            g_free ( tmp_str );
-            utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_LEFT, MISC_VERT_CENTER );
-            gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
-            gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, i, i+1 );
-            gtk_widget_show ( label );
-
-            /* Deuxième colonne : elle contient le solde pointé du solde partiel */
-            tmp_str = gsb_data_partial_balance_get_marked_balance ( partial_number );
-            label = gtk_label_new ( tmp_str );
-            gtk_label_set_markup ( GTK_LABEL ( label ), tmp_str );
-            g_free ( tmp_str );
-            utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
-            gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 1, 2, i, i+1 );
-            gtk_widget_show ( label );
-
-            /* Troisième colonne : elle contient le solde courant du solde partiel */
-            tmp_str = gsb_data_partial_balance_get_current_balance ( partial_number );
-            label = gtk_label_new ( NULL );
-            gtk_label_set_markup ( GTK_LABEL ( label ), tmp_str );
-            g_free ( tmp_str );
-            utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
-            gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 2, 3, i, i+1 );
-            gtk_widget_show ( label );
-
-            i++;
-            nbre_lignes ++;
-        }
-        liste = liste -> next;
-    }
-
-    return nbre_lignes;
-}
-
-
-/**
- * Création de la ligne de solde des comptes
- *
- * */
-void affiche_solde_des_comptes ( GtkWidget *table,
-                        gint i,
-                        gint nb_comptes,
-                        gint currency_number,
-                        gsb_real solde_global_courant,
-                        gsb_real solde_global_pointe )
-{
-    GtkWidget *label;
-    gchar *tmp_str;
-
-    /* on commence par une ligne vide */
-    label = gtk_label_new ( chaine_espace );
-    gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
-    utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
-    gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, i, i+1 );
-    gtk_widget_show ( label );
-    i ++;
-
-    /* Première colonne */
-    label = gtk_label_new ( NULL );
-    if ( nb_comptes == 1 )
-        tmp_str = g_strconcat ("<span weight=\"bold\">", _("Global balance: "), "</span>", NULL );
-    else if ( conf.pluriel_final )
-        tmp_str = g_strconcat ("<span weight=\"bold\">", "Soldes finaux: ", "</span>", NULL );
-    else
-        tmp_str = g_strconcat ("<span weight=\"bold\">", _("Global balances: "), "</span>", NULL );
-    gtk_label_set_markup ( GTK_LABEL ( label ), tmp_str );
-    g_free ( tmp_str );
-
-    utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_LEFT, MISC_VERT_CENTER );
-    gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
-    gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, i, i+1 );
-    gtk_widget_show ( label );
-
-    /* Deuxième colonne : elle contient le solde total pointé des comptes */
-    tmp_str = utils_real_get_string_with_currency ( solde_global_pointe, currency_number, TRUE );
-    label = gtk_label_new ( tmp_str );
-    g_free ( tmp_str );
-    utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
-    gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 1, 2, i, i+1 );
-    gtk_widget_show ( label );
-
-    /* Troisième colonne : elle contient le solde total courant des comptes */
-    tmp_str = utils_real_get_string_with_currency ( solde_global_courant, currency_number, TRUE );
-    label = gtk_label_new ( tmp_str );
-    g_free ( tmp_str );
-    utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
-    gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 2, 3, i, i+1 );
-    gtk_widget_show ( label );
-}
-
-/**
- * Création de ou des lignes de solde additionnel
- *
- * */
-gint affiche_soldes_additionnels ( GtkWidget *table, gint i, GSList *liste )
-{
-    GtkWidget *label;
-    gchar *tmp_str;
-    gchar *tmp_str2;
-    gint nbre_lignes = 0;
-    gint currency_number;
-
-    /* on commence par une ligne vide */
-    label = gtk_label_new ( chaine_espace );
-    gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
-    utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
-    gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, i, i+1 );
-    gtk_widget_show ( label );
-    i ++;
-    nbre_lignes ++;
-
-    while ( liste )
-    {
-        gint partial_number;
-        kind_account kind;
-
-        partial_number = gsb_data_partial_balance_get_number ( liste -> data );
-        kind = gsb_data_partial_balance_get_kind ( partial_number );
-
-        if ( kind == - 1 )
-        {
-            /* Première colonne : elle contient le nom du solde partiel */
-            currency_number = gsb_data_partial_balance_get_currency ( partial_number );
-            tmp_str2 = g_strdup_printf (_(" in %s"), gsb_data_currency_get_name (
-                        currency_number ) );
-            tmp_str = g_strconcat ( gsb_data_partial_balance_get_name ( partial_number ),
-                            tmp_str2,
-                            " : ", NULL );
-			g_free ( tmp_str2 );
-            if ( conf.group_partial_balance_under_accounts )
-                tmp_str2 = make_blue ( tmp_str );
-            else
-                tmp_str2 = g_strdup ( tmp_str );
-            label = gtk_label_new ( NULL );
-            gtk_label_set_markup ( GTK_LABEL ( label ), tmp_str2 );
-            g_free ( tmp_str );
-            g_free ( tmp_str2 );
-
-            utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_LEFT, MISC_VERT_CENTER );
-            gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
-            gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, i, i+1 );
-            gtk_widget_show ( label );
-
-            /* Deuxième colonne : elle contient le solde pointé du solde partiel */
-            tmp_str = gsb_data_partial_balance_get_marked_balance ( partial_number );
-            label = gtk_label_new ( NULL );
-            gtk_label_set_markup ( GTK_LABEL ( label ), tmp_str );
-            g_free ( tmp_str );
-            utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
-            gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 1, 2, i, i+1 );
-            gtk_widget_show ( label );
-
-            /* Troisième colonne : elle contient le solde courant du solde partiel */
-            tmp_str = gsb_data_partial_balance_get_current_balance ( partial_number );
-            label = gtk_label_new ( NULL );
-            gtk_label_set_markup ( GTK_LABEL ( label ), tmp_str );
-            g_free ( tmp_str );
-            utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
-            gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 2, 3, i, i+1 );
-            gtk_widget_show ( label );
-
-            i++;
-            nbre_lignes ++;
-        }
-        liste = liste -> next;
-    }
-
-    return nbre_lignes;
-}
-
-/**
- * called by a click on an account name or balance of accounts on the main page
- * it's just a mediator between the signal and gsb_navigation_show_account
- *
- * \param account_number a pointer wich is the number of account we want to switch
- *
- * \return FALSE
- * */
-gboolean gsb_main_page_click_on_account ( gint *account_number )
-{
-    devel_debug_int (GPOINTER_TO_INT (account_number));
-    gsb_gui_navigation_set_selection ( GSB_ACCOUNT_PAGE,
-				       GPOINTER_TO_INT (account_number),
-				       NULL );
-    return FALSE;
-}
-
-
 /**
  *
  *
  *
  *
  * */
-void update_liste_echeances_manuelles_accueil ( gboolean force )
+static void update_liste_echeances_manuelles_accueil ( gboolean force )
 {
     devel_debug_int (force);
 
@@ -1545,7 +1380,6 @@ void update_liste_echeances_manuelles_accueil ( gboolean force )
 	    label = gtk_label_new ( tmpstr );
 	    g_free ( tmpstr );
 
-	    //~ gtk_widget_set_style ( label, style_label );
 	    utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_LEFT, MISC_VERT_CENTER );
 	    gtk_container_add ( GTK_CONTAINER ( event_box ), label );
 	    gtk_widget_show ( label  );
@@ -1585,8 +1419,14 @@ void update_liste_echeances_manuelles_accueil ( gboolean force )
     }
 }
 
-
-void update_liste_echeances_auto_accueil ( gboolean force )
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ * */
+static void update_liste_echeances_auto_accueil ( gboolean force )
 {
     if ( !force
 	 &&
@@ -1703,7 +1543,6 @@ void update_liste_echeances_auto_accueil ( gboolean force )
     }
 }
 
-
 /**
  * Fonction update_soldes_minimaux
  * vérifie les soldes de tous les comptes, affiche un message d'alerte si nécessaire
@@ -1712,7 +1551,7 @@ void update_liste_echeances_auto_accueil ( gboolean force )
  *
  *
  * */
-void update_soldes_minimaux ( gboolean force )
+static void update_soldes_minimaux ( gboolean force )
 {
     GtkWidget *vbox_1;
     GtkWidget *vbox_2;
@@ -1819,6 +1658,216 @@ void update_soldes_minimaux ( gboolean force )
     run.mise_a_jour_liste_comptes_accueil = TRUE;
 }
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ * */
+static void update_fin_comptes_passifs ( gboolean force )
+{
+    GtkWidget *vbox;
+    GtkWidget *label;
+    GSList *liste_tmp;
+    GSList *pointeur;
+    GSList *list_tmp;
+
+    if ( !force
+	 &&
+	 !run.mise_a_jour_fin_comptes_passifs )
+	return;
+
+    devel_debug (NULL);
+
+    run.mise_a_jour_fin_comptes_passifs = FALSE;
+
+    utils_container_remove_children ( frame_etat_fin_compte_passif );
+    hide_paddingbox ( frame_etat_fin_compte_passif );
+
+    if ( !conf.show_closed_accounts )
+        return;
+
+    list_tmp = gsb_data_account_get_list_accounts ();
+    liste_tmp = NULL;
+
+    while ( list_tmp )
+    {
+	gint i;
+
+	i = gsb_data_account_get_no_account ( list_tmp -> data );
+
+	if ( gsb_data_account_get_kind (i) == GSB_TYPE_LIABILITIES
+	     &&
+	     gsb_data_account_get_current_balance (i).mantissa >= 0 )
+	    liste_tmp = g_slist_append ( liste_tmp, gsb_data_account_get_name (i) );
+
+	list_tmp = list_tmp -> next;
+    }
+
+    if ( g_slist_length ( liste_tmp ) )
+    {
+	vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
+	gtk_container_add ( GTK_CONTAINER ( frame_etat_fin_compte_passif ), vbox );
+	gtk_widget_show ( vbox );
+
+	pointeur = liste_tmp;
+
+	while ( pointeur )
+	{
+	    label = gtk_label_new (pointeur -> data );
+	    gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 0 );
+	    utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_LEFT, MISC_VERT_CENTER );
+	    gtk_widget_show ( label );
+
+	    pointeur = pointeur -> next;
+	}
+
+	show_paddingbox ( frame_etat_fin_compte_passif );
+    }
+}
+
+/******************************************************************************/
+/* Public Methods                                                             */
+/******************************************************************************/
+/**
+ * Create the home page of Grisbi
+ *
+ * \param   none
+ *
+ * \return
+ * */
+GtkWidget *creation_onglet_accueil ( void )
+{
+    GtkWidget *vbox;
+    GtkWidget *paddingbox;
+    GtkWidget *base;
+    GtkWidget *base_scroll;
+    GtkWidget *eb;
+
+    devel_debug ( NULL );
+
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 15 );
+    gtk_widget_show ( vbox );
+
+    /* on met le titre du fichier */
+    hbox_title = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
+
+    eb = gtk_event_box_new ();
+    gtk_widget_set_name ( eb, "grey_box");
+
+    label_titre_fichier = gtk_label_new ( NULL );
+    g_object_add_weak_pointer ( G_OBJECT ( label_titre_fichier ),
+                                (gpointer*)&label_titre_fichier );
+
+    if ( etat.utilise_logo )
+    {
+        logo_accueil =  gtk_image_new_from_pixbuf ( gsb_select_icon_get_logo_pixbuf ( ) );
+
+        gtk_box_pack_start ( GTK_BOX ( hbox_title ), logo_accueil, FALSE, FALSE, 20 );
+        gtk_widget_set_size_request ( hbox_title, -1, LOGO_HEIGHT + 20 );
+    }
+
+    gtk_box_pack_end ( GTK_BOX ( hbox_title ), label_titre_fichier, TRUE, TRUE, 20 );
+    gtk_container_set_border_width ( GTK_CONTAINER ( hbox_title ), 6 );
+    gtk_container_add ( GTK_CONTAINER ( eb ), hbox_title );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), eb, FALSE, FALSE, 0 );
+    gtk_widget_show_all ( eb );
+
+    /* on crée à ce niveau base_scroll qui est aussi une vbox mais qui peut
+       scroller verticalement */
+    base_scroll = gtk_scrolled_window_new ( NULL, NULL);
+    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( base_scroll ),
+                        GTK_POLICY_NEVER,
+                        GTK_POLICY_AUTOMATIC );
+    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW ( base_scroll ),
+                        GTK_SHADOW_IN );
+
+    base = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 15 );
+    gtk_container_set_border_width ( GTK_CONTAINER ( base ), 12 );
+    gtk_container_add ( GTK_CONTAINER ( base_scroll ), base );
+    gtk_widget_show ( base_scroll );
+    gtk_widget_show ( base );
+
+    /* on crée le size_group pour l'alignement des tableaux */
+    size_group_accueil = gtk_size_group_new ( GTK_SIZE_GROUP_HORIZONTAL );
+
+    /* on crée la première frame dans laquelle on met les états des comptes */
+    frame_etat_comptes_accueil = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
+    gtk_box_pack_start ( GTK_BOX ( base ), frame_etat_comptes_accueil, FALSE, FALSE, 0 );
+
+    /* on met la liste des comptes et leur état dans la frame */
+    run.mise_a_jour_liste_comptes_accueil = TRUE;
+    gtk_widget_show_all ( frame_etat_comptes_accueil );
+
+
+    /* mise en place de la partie fin des comptes passif */
+    paddingbox = new_paddingbox_with_title ( base, FALSE, _("Closed liabilities accounts") );
+    frame_etat_fin_compte_passif = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), frame_etat_fin_compte_passif, FALSE, FALSE, 0 );
+    run.mise_a_jour_fin_comptes_passifs = TRUE;
+
+
+    /* mise en place de la partie des échéances manuelles ( non affiché ) */
+    /*     sera mis à jour automatiquement si nécessaire */
+    paddingbox = new_paddingbox_with_title ( base, FALSE, _("Run out manual scheduled transactions") );
+    frame_etat_echeances_manuelles_accueil = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
+    gtk_box_set_spacing ( GTK_BOX ( paddingbox ), 6 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), frame_etat_echeances_manuelles_accueil, FALSE, FALSE, 6 );
+
+
+    /* mise en place de la partie des échéances auto  ( non affiché )*/
+    /*     sera mis à jour automatiquement si nécessaire */
+    paddingbox = new_paddingbox_with_title ( base, FALSE, _("Automatic scheduled transactions entered") );
+    frame_etat_echeances_auto_accueil = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
+    gtk_box_set_spacing ( GTK_BOX ( paddingbox ), 6 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), frame_etat_echeances_auto_accueil, FALSE, FALSE, 6 );
+
+
+    /* partie des fin d'échéances */
+    paddingbox = new_paddingbox_with_title ( base, FALSE, _("Closed scheduled transactions") );
+    main_page_finished_scheduled_transactions_part = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
+    gtk_box_set_spacing ( GTK_BOX ( paddingbox ), 6 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), main_page_finished_scheduled_transactions_part, FALSE, FALSE, 6 );
+
+
+    /* partie des soldes minimaux autorisés */
+    paddingbox = new_paddingbox_with_title ( base, FALSE, _("Accounts under authorized balance") );
+    frame_etat_soldes_minimaux_autorises = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
+    gtk_box_set_spacing ( GTK_BOX ( paddingbox ), 6 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), frame_etat_soldes_minimaux_autorises, FALSE, FALSE, 6 );
+
+
+    /* partie des soldes minimaux voulus */
+    paddingbox = new_paddingbox_with_title ( base, FALSE, _("Accounts under desired balance") );
+    frame_etat_soldes_minimaux_voulus = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
+    gtk_box_set_spacing ( GTK_BOX ( paddingbox ), 6 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), frame_etat_soldes_minimaux_voulus, FALSE, FALSE, 6 );
+
+    run.mise_a_jour_soldes_minimaux = TRUE;
+
+    gtk_box_pack_start ( GTK_BOX ( vbox ), base_scroll, TRUE, TRUE, 0 );
+
+    return ( vbox );
+}
+
+/**
+ * update the first page, force the updating if asked,
+ * else, each function will decide if it need to be
+ * updated or not
+ *
+ * \param force TRUE if we want to update all
+ *
+ * \return
+ * */
+void mise_a_jour_accueil ( gboolean force )
+{
+    update_liste_comptes_accueil (force);
+    update_liste_echeances_manuelles_accueil (force);
+    update_liste_echeances_auto_accueil (force);
+    update_soldes_minimaux (force);
+    update_fin_comptes_passifs (force);
+}
 
 /**
  * cette fonction vérifie les soldes minimaux et affiche une boite de dialogue
@@ -2020,79 +2069,6 @@ void affiche_dialogue_soldes_minimaux ( void )
     g_free ( texte_affiche );
 }
 
-
-/**
- *
- *
- * \param
- *
- * \return
- * */
-void update_fin_comptes_passifs ( gboolean force )
-{
-    GtkWidget *vbox;
-    GtkWidget *label;
-    GSList *liste_tmp;
-    GSList *pointeur;
-    GSList *list_tmp;
-
-    if ( !force
-	 &&
-	 !run.mise_a_jour_fin_comptes_passifs )
-	return;
-
-    devel_debug (NULL);
-
-    run.mise_a_jour_fin_comptes_passifs = FALSE;
-
-    utils_container_remove_children ( frame_etat_fin_compte_passif );
-    hide_paddingbox ( frame_etat_fin_compte_passif );
-
-    if ( !conf.show_closed_accounts )
-        return;
-
-    list_tmp = gsb_data_account_get_list_accounts ();
-    liste_tmp = NULL;
-
-    while ( list_tmp )
-    {
-	gint i;
-
-	i = gsb_data_account_get_no_account ( list_tmp -> data );
-
-	if ( gsb_data_account_get_kind (i) == GSB_TYPE_LIABILITIES
-	     &&
-	     gsb_data_account_get_current_balance (i).mantissa >= 0 )
-	    liste_tmp = g_slist_append ( liste_tmp, gsb_data_account_get_name (i) );
-
-	list_tmp = list_tmp -> next;
-    }
-
-    if ( g_slist_length ( liste_tmp ) )
-    {
-	vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
-	gtk_container_add ( GTK_CONTAINER ( frame_etat_fin_compte_passif ), vbox );
-	gtk_widget_show ( vbox );
-
-	pointeur = liste_tmp;
-
-	while ( pointeur )
-	{
-	    label = gtk_label_new (pointeur -> data );
-	    gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 0 );
-	    utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_LEFT, MISC_VERT_CENTER );
-	    gtk_widget_show ( label );
-
-	    pointeur = pointeur -> next;
-	}
-
-	show_paddingbox ( frame_etat_fin_compte_passif );
-    }
-}
-
-
-
-
 /**
  * update the finished scheduled transactions part in the main page
  * the scheduled transaction in param is finished
@@ -2169,7 +2145,6 @@ gboolean gsb_main_page_update_finished_scheduled_transactions ( gint scheduled_n
     return FALSE;
 }
 
-
 /**
  * update the title of the main page
  *
@@ -2191,7 +2166,6 @@ void gsb_main_page_update_homepage_title ( const gchar *title )
 
     g_free ( tmp_str );
 }
-
 
 /**
  *
