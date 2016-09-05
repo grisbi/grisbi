@@ -85,10 +85,11 @@ typedef struct  /* GrisbiAppPrivate */
 
  G_DEFINE_TYPE_WITH_PRIVATE (GrisbiApp, grisbi_app, GTK_TYPE_APPLICATION);
 
-/* STRUCTURE CONF */
 /* global variable, see structures.h */
-struct GrisbiAppConf conf;
+struct GrisbiAppConf    conf;                   /* conf structure Provisoire */
+GtkCssProvider *        css_provider = NULL;    /* css provider */
 
+/* STRUCTURE CONF */
 /**
  * initialisation de la variable conf
  *
@@ -708,6 +709,8 @@ static gboolean grisbi_app_load_file_if_necessary ( GrisbiApp *app )
  **/
 static void grisbi_app_startup ( GApplication *app )
 {
+    GFile *file = NULL;
+    gchar *tmp_dir;
     GrisbiAppPrivate *priv;
 
 	priv = grisbi_app_get_instance_private ( GRISBI_APP ( app ) );
@@ -718,11 +721,22 @@ static void grisbi_app_startup ( GApplication *app )
     /* on commence par détourner le signal SIGSEGV */
     grisbi_app_trappe_signaux ();
 
-    /* initialisation of the variables */
+    /* initialisation des variables de configuration globales */
     priv->settings = grisbi_settings_get ();
 
+    /* load the CSS properties */
+    css_provider = gtk_css_provider_get_default ();
+    tmp_dir = g_strconcat ( gsb_dirs_get_ui_dir (), "/grisbi.css", NULL );
+    file = g_file_new_for_path ( tmp_dir );
+    if ( !gtk_css_provider_load_from_file ( css_provider, file, NULL ) )
+        warning_debug (tmp_dir);
+    g_free ( tmp_dir );
+
+    /* initialise les couleurs PROVISOIRE */
     gsb_color_initialise_couleurs_par_defaut ();
     gsb_rgba_initialise_couleurs_par_defaut ();
+
+    /* initialise les variables d'état */
     init_variables ();
     register_import_formats ();
 
@@ -754,7 +768,6 @@ static void grisbi_app_activate ( GApplication *app )
 
 	priv = grisbi_app_get_instance_private ( GRISBI_APP ( app ) );
 
-
 	/* création de la fenêtre pincipale */
     win = grisbi_app_create_window ( GRISBI_APP ( app ), NULL );
 
@@ -763,6 +776,13 @@ static void grisbi_app_activate ( GApplication *app )
 
 	/* affiche la fenêtre principale */
 	gtk_window_present ( GTK_WINDOW ( win ) );
+
+    /* set the CSS properties */
+    if ( css_provider )
+        gtk_style_context_add_provider_for_screen ( gdk_display_get_default_screen (
+                                                    gdk_display_get_default () ),
+                                                    GTK_STYLE_PROVIDER ( css_provider ),
+                                                    GTK_STYLE_PROVIDER_PRIORITY_USER );
 
 	/* ouvre un fichier si demandé */
 	load_file = grisbi_app_load_file_if_necessary ( GRISBI_APP ( app ) );

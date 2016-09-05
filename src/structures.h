@@ -29,8 +29,10 @@
 #define PRIMARY_SORT            0
 #define SECONDARY_SORT          1
 
-/* global variable, see grisbi_app.c */
+/* global variables, see grisbi_app.c */
 extern struct GrisbiAppConf conf;
+extern GtkCssProvider *css_provider;
+
 
 /* variables initialisées lors de l'exécution de grisbi PROVISOIRE */
 struct gsb_run_t run;
