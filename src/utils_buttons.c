@@ -3,6 +3,7 @@
 /*                                                                            */
 /*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	          */
 /*			2003-2008 Benjamin Drieu (bdrieu@april.org)	                      */
+/*                 2009-2016 Pierre Biava (grisbi@pierre.biava.name)          */
 /* 			http://www.grisbi.org				                              */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -390,7 +391,25 @@ void utils_radiobutton_set_active_index ( GtkWidget *radiobutton,
     g_slist_free ( liste );
 }
 
+/**
+ * similaire à gtk_button_new_from_stock ()
+ *
+ * \param const gchar   stock item
+ *
+ * \return GtkWidget
+ * */
+GtkWidget *utils_buttons_button_new_from_stock (const gchar *icon_name,
+                                                const gchar *label_name)
+{
+    GtkWidget *button = NULL;
+    GtkWidget *image;
 
+    image = gtk_image_new_from_icon_name (icon_name, GTK_ICON_SIZE_BUTTON);
+    button = gtk_button_new_with_label (label_name);
+    gtk_button_set_image (GTK_BUTTON (button), image);
+
+    return button;
+}
 
 /**
  * Création d'un GtkToolButton à partir d'une image et d'un label
