@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2003-2009 Benjamin Drieu (bdrieu@april.org)                       */
-/*          2008-2012 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          2008-2016 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -90,60 +90,6 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void gsb_file_load_account_icon_part ( const gchar **attribute_names,
-                        const gchar **attribute_values );
-static void gsb_file_load_account_part ( const gchar **attribute_names,
-                        const gchar **attribute_values );
-static void gsb_file_load_archive ( const gchar **attribute_names,
-                        const gchar **attribute_values );
-static void gsb_file_load_bank ( const gchar **attribute_names,
-                        const gchar **attribute_values );
-static void gsb_file_load_bet_future_data ( const gchar **attribute_names,
-                        const gchar **attribute_values );
-static void gsb_file_load_bet_historical ( const gchar **attribute_names,
-                        const gchar **attribute_values );
-static void gsb_file_load_bet_part ( const gchar **attribute_names,
-                        const gchar **attribute_values );
-static void gsb_file_load_bet_graph_part ( const gchar **attribute_names,
-                        const gchar **attribute_values );
-static void gsb_file_load_bet_transfert_part ( const gchar **attribute_names,
-                        const gchar **attribute_values );
-static gboolean gsb_file_load_check_new_structure ( gchar *file_content );
-static void gsb_file_load_color_part ( const gchar **attribute_names,
-                        const gchar **attribute_values );
-static void gsb_file_load_currency ( const gchar **attribute_names,
-                        const gchar **attribute_values );
-static void gsb_file_load_currency_link ( const gchar **attribute_names,
-                        const gchar **attribute_values );
-static void gsb_file_load_financial_year ( const gchar **attribute_names,
-                        const gchar **attribute_values );
-static void gsb_file_load_general_part ( const gchar **attribute_names,
-                        const gchar **attribute_values );
-static void gsb_file_load_import_rule ( const gchar **attribute_names,
-                        const gchar **attribute_values );
-static void gsb_file_load_logo_accueil ( const gchar **attribute_names,
-                        const gchar **attribute_values );
-static void gsb_file_load_partial_balance ( const gchar **attribute_names,
-                        const gchar **attribute_values );
-static void gsb_file_load_party ( const gchar **attribute_names,
-                        const gchar **attribute_values );
-static void gsb_file_load_payment_part ( const gchar **attribute_names,
-                        const gchar **attribute_values );
-static void gsb_file_load_print_part ( const gchar **attribute_names,
-                        const gchar **attribute_values );
-static void gsb_file_load_reconcile ( const gchar **attribute_names,
-                        const gchar **attribute_values );
-static void gsb_file_load_scheduled_transactions ( const gchar **attribute_names,
-                        const gchar **attribute_values );
-static void gsb_file_load_start_element ( GMarkupParseContext *context,
-                        const gchar *element_name,
-                        const gchar **attribute_names,
-                        const gchar **attribute_values,
-                        gpointer user_data,
-                        GError **error);
-static void gsb_file_load_transactions ( const gchar **attribute_names,
-                        const gchar **attribute_values );
-static gboolean gsb_file_load_update_previous_version ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -188,236 +134,12 @@ struct new_div_sous_div_struct
     gint type;
 
 };
+
 static struct new_div_sous_div_struct *buffer_new_div_sous_div;
 
-/**
- * load the rgba part in the Grisbi file
- *
- * \param attribute_names
- * \param attribute_values
- *
- * */
-static void gsb_file_load_rgba_part ( const gchar **attribute_names,
-                        const gchar **attribute_values )
-{
-    gint i=0;
-
-    if ( !attribute_names[i] )
-    return;
-
-    do
-    {
-    /*     we test at the beginning if the attribute_value is NULL, if yes, */
-    /*        go to the next */
-
-    if ( !strcmp (attribute_values[i], "(null)") )
-    {
-        /* Nothing */
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Background_color_0" ) )
-    {
-        gsb_rgba_set_couleur_with_indice ( "couleur_fond", 0, attribute_values[i] );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Background_color_1" ) )
-    {
-        gsb_rgba_set_couleur_with_indice ( "couleur_fond", 1, attribute_values[i] );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Couleur_jour" ) )
-    {
-        gsb_rgba_set_couleur ( "couleur_jour", attribute_values[i] );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Background_scheduled" ) )
-    {
-        gsb_rgba_set_couleur ( "background_scheduled", attribute_values[i] );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Background_archive" ) )
-    {
-        gsb_rgba_set_couleur ( "background_archive", attribute_values[i] );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Selection" ) )
-    {
-        gsb_rgba_set_couleur ( "couleur_selection", attribute_values[i] );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Background_split" ) )
-    {
-        gsb_rgba_set_couleur ( "background_split", attribute_values[i] );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Text_color_0" ) )
-    {
-        gsb_rgba_set_couleur_with_indice ( "text_color", 0, attribute_values[i] );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Text_color_1" ) )
-    {
-        gsb_rgba_set_couleur_with_indice ( "text_color", 1, attribute_values[i] );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Entry_error_color" ) )
-    {
-        gsb_rgba_set_couleur ( "entry_error_color", attribute_values[i] );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Couleur_bet_division" ) )
-    {
-        gsb_rgba_set_couleur ( "couleur_bet_division", attribute_values[i] );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Couleur_bet_future" ) )
-    {
-        gsb_rgba_set_couleur ( "couleur_bet_future", attribute_values[i] );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Couleur_bet_solde" ) )
-    {
-        gsb_rgba_set_couleur ( "couleur_bet_solde", attribute_values[i] );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Couleur_bet_transfert" ) )
-    {
-        gsb_rgba_set_couleur ( "couleur_bet_transfert", attribute_values[i] );
-    }
-
-    i++;
-    }
-    while ( attribute_names[i] );
-}
-
-/* Public functions                                                           */
 /******************************************************************************/
-/**
- * called to open the grisbi file given in param
- *
- * \filename the filename to load with full path
- *
- * \return TRUE if ok
- * */
-gboolean gsb_file_load_open_file ( gchar *filename )
-{
-    struct stat buffer_stat;
-    gint return_value;
-    gchar *file_content;
-    gulong length;
-
-    devel_debug ( filename );
-
-     /* fill the buffer stat to check the permission */
-    return_value = g_stat ( filename, &buffer_stat );
-
-    /* check the access to the file and display a message */
-#ifndef _WIN32
-    if ( buffer_stat.st_mode != 33152 )
-        gsb_file_util_display_warning_permissions ();
-#endif /* _WIN32 */
-
-    /* load the file */
-    if ( gsb_file_util_get_contents ( filename, &file_content, &length ) )
-    {
-        GMarkupParser *markup_parser;
-        GMarkupParseContext *context;
-
-        /* first, we check if the file is crypted, if it is, we decrypt it */
-        if ( !strncmp ( file_content, "Grisbi encrypted file ", 22 ) ||
-             !strncmp ( file_content, "Grisbi encryption v2: ", 22 ) )
-        {
-#ifdef HAVE_SSL
-            length = gsb_file_util_crypt_file ( filename, &file_content, FALSE, length );
-
-            if ( ! length )
-            {
-                g_free (file_content);
-                return FALSE;
-            }
-#else
-            {
-                g_free (file_content);
-                gchar *text = _("This build of Grisbi does not support encryption.\n"
-                        "Please recompile Grisbi with OpenSSL encryption enabled.");
-                gchar *hint = g_strdup_printf ( _("Cannot open encrypted file '%s'"),
-	                                            filename );
-                dialogue_error_hint ( text, hint );
-                g_free ( hint );
-                return FALSE;
-            }
-#endif
-        }
-
-		/* we begin to check if we are in a version under 0.6 or 0.6 and above,
-         * because the xml structure changes after 0.6 */
-        markup_parser = g_malloc0 (sizeof (GMarkupParser));
-        if ( gsb_file_load_check_new_structure (file_content))
-        {
-            /* fill the GMarkupParser for a new xml structure */
-            markup_parser -> start_element = (void *) gsb_file_load_start_element;
-            markup_parser -> error = (void *) gsb_file_load_error;
-            run.old_version = FALSE;
-        }
-        else
-        {
-            run.old_version = TRUE;
-
-            return FALSE;
-        }
-
-        context = g_markup_parse_context_new ( markup_parser,
-                        0,
-                        NULL,
-                        NULL );
-        download_tmp_values.download_ok = FALSE;
-
-        g_markup_parse_context_parse ( context,
-                        file_content,
-                        strlen (file_content),
-                        NULL );
-
-        g_markup_parse_context_free (context);
-        g_free (markup_parser);
-        g_free (file_content);
-
-        if ( !download_tmp_values.download_ok )
-            return FALSE;
-    }
-    else
-    {
-        gsb_menu_recent_manager_remove_item ( NULL, filename );
-
-        return FALSE;
-    }
-
-    if ( conf.sauvegarde_demarrage )
-        gsb_file_set_modified ( TRUE );
-
-    /* check now if a lot of transactions,
-     * if yes, we propose to file the transactions
-     * by default take the 3000 transactions as limit */
-    if ( conf.check_for_archival
-     &&
-     g_slist_length ( gsb_data_transaction_get_transactions_list () ) >
-     conf.max_non_archived_transactions_for_check )
-        gsb_assistant_archive_run ( TRUE );
-
-    /* if we opened an archive, we say it here */
-    if ( etat.is_archive )
-        dialogue_hint ( _("You have opened an archive.\nThere is no limit in Grisbi, "
-                        "you can do whatever you want and save it later (new reports...) "
-                        "but remember it's an archive before modifying some transactions "
-                        "or important information."),
-                        _("Grisbi archive opened") );
-
-    /* positionnement de l'option bet_show_onglets pour tous les comptes */
-    gsb_data_account_set_bet_show_onglets_all_accounts ();
-
-    return TRUE;
-}
-
-
+/* Private Methods                                                            */
+/******************************************************************************/
 /**
  *  check if the xml file is the last structure (before 0.6) or
  * the new structure (after 0.6)
@@ -429,307 +151,9 @@ gboolean gsb_file_load_open_file ( gchar *filename )
 gboolean gsb_file_load_check_new_structure ( gchar *file_content )
 {
     if ( strstr ( file_content, "Generalites" ) )
-    return FALSE;
+        return FALSE;
     return TRUE;
 }
-
-
-
-void gsb_file_load_start_element ( GMarkupParseContext *context,
-                        const gchar *element_name,
-                        const gchar **attribute_names,
-                        const gchar **attribute_values,
-                        gpointer user_data,
-                        GError **error)
-{
-    gint unknown = 0;
-
-    /* the first time we come here, we check if it's a Grisbi file */
-    if ( !download_tmp_values.download_ok )
-    {
-        if ( strcmp ( element_name,
-                    "Grisbi" ))
-        {
-            dialogue_error ( _("This is not a Grisbi file... Loading aborted.") );
-            g_markup_parse_context_end_parse (context,
-                    NULL);
-            return;
-        }
-        download_tmp_values.download_ok = TRUE;
-        return;
-    }
-
-    switch ( element_name[0] )
-    {
-        case 'A':
-            if ( !strcmp ( element_name, "Account" ))
-            {
-                gsb_file_load_account_part ( attribute_names,
-                        attribute_values );
-            }
-
-            else if ( !strcmp ( element_name, "Archive" ))
-            {
-                gsb_file_load_archive ( attribute_names,
-                        attribute_values );
-            }
-
-            else if ( !strcmp ( element_name, "Amount_comparison" ))
-            {
-                gsb_file_load_amount_comparison ( attribute_names,
-                        attribute_values);
-            }
-
-            else if ( !strcmp ( element_name, "Account_icon" ) )
-            {
-                gsb_file_load_account_icon_part ( attribute_names,
-                        attribute_values );
-            }
-
-            else
-                unknown = 1;
-            break;
-
-        case 'C':
-            if ( !strcmp ( element_name, "Category" ))
-            {
-                gsb_file_load_category ( attribute_names,
-                        attribute_values );
-            }
-
-            else if ( !strcmp ( element_name, "Color" ))
-            {
-                gsb_file_load_color_part ( attribute_names,
-                        attribute_values );
-            }
-
-            else if ( !strcmp ( element_name, "Currency" ))
-            {
-                gsb_file_load_currency ( attribute_names,
-                        attribute_values );
-            }
-
-            else if ( !strcmp ( element_name, "Currency_link" ))
-            {
-                gsb_file_load_currency_link ( attribute_names,
-                        attribute_values );
-            }
-
-            else
-                unknown = 1;
-            break;
-
-        case 'B':
-            if ( !strcmp ( element_name, "Bank" ))
-            {
-                gsb_file_load_bank ( attribute_names,
-                        attribute_values );
-            }
-
-            else if ( !strcmp ( element_name, "Budgetary" ))
-            {
-                gsb_file_load_budgetary ( attribute_names,
-                        attribute_values );
-            }
-
-            else if ( !strcmp ( element_name, "Bet" ) )
-            {
-                gsb_file_load_bet_part ( attribute_names,
-                        attribute_values );
-            }
-
-#ifdef HAVE_GOFFICE
-            else if ( !strcmp ( element_name, "Bet_graph" ) )
-            {
-                gsb_file_load_bet_graph_part ( attribute_names, attribute_values );
-            }
-#endif /* HAVE_GOFFICE */
-
-            else if ( !strcmp ( element_name, "Bet_historical" ) )
-            {
-                gsb_file_load_bet_historical ( attribute_names, attribute_values );
-            }
-
-            else if ( !strcmp ( element_name, "Bet_future" ) )
-            {
-                gsb_file_load_bet_future_data ( attribute_names, attribute_values );
-            }
-
-            else if ( !strcmp ( element_name, "Bet_transfert" ) )
-            {
-                gsb_file_load_bet_transfert_part ( attribute_names, attribute_values );
-            }
-
-            else
-                unknown = 1;
-            break;
-
-        case 'G':
-            if ( !strcmp ( element_name, "General" ))
-            {
-                gsb_file_load_general_part ( attribute_names,
-                        attribute_values );
-            }
-
-            else
-                unknown = 1;
-            break;
-
-        case 'P':
-            if ( !strcmp ( element_name, "Partial_balance" ))
-            {
-                gsb_file_load_partial_balance ( attribute_names,
-                        attribute_values );
-            }
-
-            else if ( !strcmp ( element_name, "Print" ))
-            {
-                gsb_file_load_print_part ( attribute_names,
-                        attribute_values );
-            }
-
-            else if ( !strcmp ( element_name, "Payment" ))
-            {
-                gsb_file_load_payment_part ( attribute_names,
-                        attribute_values );
-            }
-
-            else if ( !strcmp ( element_name, "Party" ))
-            {
-                gsb_file_load_party ( attribute_names,
-                        attribute_values );
-            }
-
-            else
-                unknown = 1;
-            break;
-
-        case 'T':
-            if ( !strcmp ( element_name, "Transaction" ))
-            {
-                gsb_file_load_transactions ( attribute_names,
-                        attribute_values );
-            }
-
-            else if ( !strcmp ( element_name, "Text_comparison" ))
-            {
-                gsb_file_load_text_comparison ( attribute_names,
-                        attribute_values);
-            }
-
-            else
-                unknown = 1;
-            break;
-
-        case 'S':
-            if ( !strcmp ( element_name, "Scheduled" ))
-            {
-                gsb_file_load_scheduled_transactions ( attribute_names,
-                        attribute_values );
-            }
-
-            else if ( !strcmp ( element_name, "Sub_category" ))
-            {
-                gsb_file_load_sub_category ( attribute_names,
-                        attribute_values );
-            }
-
-            else if ( !strcmp ( element_name, "Sub_budgetary" ))
-            {
-                gsb_file_load_sub_budgetary ( attribute_names,
-                        attribute_values );
-            }
-
-            else
-                unknown = 1;
-            break;
-
-        case 'F':
-            if ( !strcmp ( element_name, "Financial_year" ))
-            {
-                gsb_file_load_financial_year ( attribute_names,
-                        attribute_values );
-            }
-
-            else
-                unknown = 1;
-            break;
-
-        case 'R':
-            if ( !strcmp ( element_name, "Reconcile" ))
-            {
-                gsb_file_load_reconcile ( attribute_names,
-                        attribute_values );
-            }
-
-            else if ( !strcmp ( element_name, "Report" ))
-            {
-                gsb_file_load_report ( attribute_names,
-                        attribute_values );
-            }
-
-            else if ( !strcmp ( element_name, "RGBA" ))
-            {
-                gsb_file_load_rgba_part ( attribute_names,
-                        attribute_values );
-            }
-
-            else
-                unknown = 1;
-            break;
-
-        case 'I':
-            if ( !strcmp ( element_name, "Import_rule" ))
-            {
-                gsb_file_load_import_rule ( attribute_names,
-                        attribute_values );
-            }
-
-            else
-                unknown = 1;
-            break;
-
-        case 'L':
-            if ( !strcmp ( element_name, "Logo" ) )
-            {
-                if ( etat.utilise_logo )
-                    gsb_file_load_logo_accueil ( attribute_names,
-                            attribute_values );
-            }
-
-            else
-                unknown = 1;
-            break;
-
-        default:
-            /* normally, shouldn't come here */
-            unknown = 1;
-            break;
-    }
-
-    if ( unknown == 1 )
-    {
-        gchar *tmpstr = g_strdup_printf ( "Unknown element '%s'", element_name );
-        devel_debug ( tmpstr );
-        g_free ( tmpstr );
-    }
-}
-
-
-void gsb_file_load_error ( GMarkupParseContext *context,
-                        GError *error,
-                        gpointer user_data )
-{
-    /* the first time we come here, we check if it's a Grisbi file */
-    gchar* tmpstr = g_strdup_printf (
-                        _("An error occured while parsing the file :\nError number : %d\n%s"),
-                        error -> code,
-                        error -> message );
-    dialogue_error ( tmpstr );
-    g_free ( tmpstr );
-}
-
-
 
 /**
  * load the general part in the Grisbi file
@@ -738,7 +162,7 @@ void gsb_file_load_error ( GMarkupParseContext *context,
  * \param attribute_values
  *
  * */
-void gsb_file_load_general_part ( const gchar **attribute_names,
+static  void gsb_file_load_general_part ( const gchar **attribute_names,
                         const gchar **attribute_values )
 {
     gint unknown;
@@ -1140,7 +564,7 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
  * \param attribute_values
  *
  * */
-void gsb_file_load_color_part ( const gchar **attribute_names,
+static  void gsb_file_load_color_part ( const gchar **attribute_names,
                         const gchar **attribute_values )
 {
     gint i=0;
@@ -1374,13 +798,113 @@ void gsb_file_load_color_part ( const gchar **attribute_names,
 }
 
 /**
+ * load the rgba part in the Grisbi file
+ *
+ * \param attribute_names
+ * \param attribute_values
+ *
+ * */
+static void gsb_file_load_rgba_part ( const gchar **attribute_names,
+                        const gchar **attribute_values )
+{
+    gint i=0;
+
+    if ( !attribute_names[i] )
+    return;
+
+    do
+    {
+    /*     we test at the beginning if the attribute_value is NULL, if yes, */
+    /*        go to the next */
+
+    if ( !strcmp (attribute_values[i], "(null)") )
+    {
+        /* Nothing */
+    }
+
+    else if ( !strcmp ( attribute_names[i], "Background_color_0" ) )
+    {
+        gsb_rgba_set_couleur_with_indice ( "couleur_fond", 0, attribute_values[i] );
+    }
+
+    else if ( !strcmp ( attribute_names[i], "Background_color_1" ) )
+    {
+        gsb_rgba_set_couleur_with_indice ( "couleur_fond", 1, attribute_values[i] );
+    }
+
+    else if ( !strcmp ( attribute_names[i], "Couleur_jour" ) )
+    {
+        gsb_rgba_set_couleur ( "couleur_jour", attribute_values[i] );
+    }
+
+    else if ( !strcmp ( attribute_names[i], "Background_scheduled" ) )
+    {
+        gsb_rgba_set_couleur ( "background_scheduled", attribute_values[i] );
+    }
+
+    else if ( !strcmp ( attribute_names[i], "Background_archive" ) )
+    {
+        gsb_rgba_set_couleur ( "background_archive", attribute_values[i] );
+    }
+
+    else if ( !strcmp ( attribute_names[i], "Selection" ) )
+    {
+        gsb_rgba_set_couleur ( "couleur_selection", attribute_values[i] );
+    }
+
+    else if ( !strcmp ( attribute_names[i], "Background_split" ) )
+    {
+        gsb_rgba_set_couleur ( "background_split", attribute_values[i] );
+    }
+
+    else if ( !strcmp ( attribute_names[i], "Text_color_0" ) )
+    {
+        gsb_rgba_set_couleur_with_indice ( "text_color", 0, attribute_values[i] );
+    }
+
+    else if ( !strcmp ( attribute_names[i], "Text_color_1" ) )
+    {
+        gsb_rgba_set_couleur_with_indice ( "text_color", 1, attribute_values[i] );
+    }
+
+    else if ( !strcmp ( attribute_names[i], "Entry_error_color" ) )
+    {
+        gsb_rgba_set_couleur ( "entry_error_color", attribute_values[i] );
+    }
+
+    else if ( !strcmp ( attribute_names[i], "Couleur_bet_division" ) )
+    {
+        gsb_rgba_set_couleur ( "couleur_bet_division", attribute_values[i] );
+    }
+
+    else if ( !strcmp ( attribute_names[i], "Couleur_bet_future" ) )
+    {
+        gsb_rgba_set_couleur ( "couleur_bet_future", attribute_values[i] );
+    }
+
+    else if ( !strcmp ( attribute_names[i], "Couleur_bet_solde" ) )
+    {
+        gsb_rgba_set_couleur ( "couleur_bet_solde", attribute_values[i] );
+    }
+
+    else if ( !strcmp ( attribute_names[i], "Couleur_bet_transfert" ) )
+    {
+        gsb_rgba_set_couleur ( "couleur_bet_transfert", attribute_values[i] );
+    }
+
+    i++;
+    }
+    while ( attribute_names[i] );
+}
+
+/**
  * load the print part in the Grisbi file
  *
  * \param attribute_names
  * \param attribute_values
  *
  * */
-void gsb_file_load_print_part ( const gchar **attribute_names,
+static  void gsb_file_load_print_part ( const gchar **attribute_names,
                         const gchar **attribute_values )
 {
     gint i=0;
@@ -1483,8 +1007,131 @@ void gsb_file_load_print_part ( const gchar **attribute_names,
     while ( attribute_names[i] );
 }
 
+/**
+ * load the currencies in the grisbi file
+ *
+ * \param attribute_names
+ * \param attribute_values
+ *
+ * */
+static  void gsb_file_load_currency ( const gchar **attribute_names,
+                        const gchar **attribute_values )
+{
+    gint i=0;
+    gint currency_number;
 
+    if ( !attribute_names[i] )
+    return;
 
+    currency_number = gsb_data_currency_new (NULL);
+
+    /* Default */
+    gsb_data_currency_set_floating_point ( currency_number, 2 );
+
+    do
+    {
+    /*     we test at the beginning if the attribute_value is NULL, if yes, */
+    /*        go to the next */
+    if ( !strcmp (attribute_values[i],
+         "(null)"))
+    {
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i],
+                                   "Nb" ))
+    {
+        currency_number = gsb_data_currency_set_new_number ( currency_number,
+                                                         utils_str_atoi (attribute_values[i]));
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i],
+                                   "Na" ))
+    {
+        gsb_data_currency_set_name ( currency_number,
+                                         attribute_values[i]);
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i],
+                                   "Co" ))
+    {
+        struct iso_4217_currency * currency = iso_4217_currencies;
+
+        gsb_data_currency_set_code ( currency_number, attribute_values[i]);
+
+        /* Check if a iso code is the same as currency code (old import).  */
+        while ( currency -> country_name )
+        {
+                            if ( !strcmp ( currency -> currency_code, attribute_values[i] ) )
+                            {
+                                gsb_data_currency_set_code_iso4217 ( currency_number,
+                            attribute_values[i]);
+                            }
+                            currency++;
+        }
+
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i],
+                                   "Ico" ))
+    {
+        gsb_data_currency_set_code_iso4217 ( currency_number,
+                             attribute_values[i]);
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i],
+                                   "Fl" ))
+    {
+        gsb_data_currency_set_floating_point ( currency_number,
+                               utils_str_atoi (attribute_values[i]));
+        i++;
+        continue;
+    }
+
+    /* normally, shouldn't come here */
+    i++;
+    }
+    while ( attribute_names[i] );
+
+    /* initialization of the currency for the payees, categories and
+     * budgetary lines in case of need */
+    if ( etat.no_devise_totaux_tiers == 0 )
+    {
+        GSList *tmp_list;
+
+        tmp_list = gsb_data_currency_get_currency_list ( );
+        if ( g_slist_length ( tmp_list ) > 0 )
+            etat.no_devise_totaux_tiers = gsb_data_currency_get_no_currency (
+                g_slist_nth_data ( tmp_list, 0 ) );
+    }
+    if ( etat.no_devise_totaux_categ == 0 )
+    {
+        GSList *tmp_list;
+
+        tmp_list = gsb_data_currency_get_currency_list ( );
+        if ( g_slist_length ( tmp_list ) > 0 )
+            etat.no_devise_totaux_categ = gsb_data_currency_get_no_currency (
+                        g_slist_nth_data ( tmp_list, 0 ) );
+    }
+    if ( etat.no_devise_totaux_ib == 0 )
+    {
+        GSList *tmp_list;
+
+        tmp_list = gsb_data_currency_get_currency_list ( );
+        if ( g_slist_length ( tmp_list ) > 0 )
+            etat.no_devise_totaux_ib = gsb_data_currency_get_no_currency (
+                g_slist_nth_data ( tmp_list, 0 ) );
+    }
+}
 
 /**
  * load the account part in the grisbi file
@@ -1493,7 +1140,7 @@ void gsb_file_load_print_part ( const gchar **attribute_names,
  * \param attribute_values
  *
  * */
-void gsb_file_load_account_part ( const gchar **attribute_names,
+static  void gsb_file_load_account_part ( const gchar **attribute_names,
                         const gchar **attribute_values )
 {
     gint unknown;
@@ -1964,8 +1611,6 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
     while ( attribute_names[i] );
 }
 
-
-
 /**
  * load the payment part in the grisbi file
  *
@@ -1973,7 +1618,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
  * \param attribute_values
  *
  * */
-void gsb_file_load_payment_part ( const gchar **attribute_names,
+static  void gsb_file_load_payment_part ( const gchar **attribute_names,
                         const gchar **attribute_values )
 {
     gint i=0;
@@ -2065,7 +1710,6 @@ void gsb_file_load_payment_part ( const gchar **attribute_names,
     while ( attribute_names[i] );
 }
 
-
 /**
  * load the transactions in the grisbi file
  *
@@ -2073,7 +1717,7 @@ void gsb_file_load_payment_part ( const gchar **attribute_names,
  * \param attribute_values
  *
  * */
-void gsb_file_load_transactions ( const gchar **attribute_names,
+static  void gsb_file_load_transactions ( const gchar **attribute_names,
                         const gchar **attribute_values )
 {
     gint unknown;
@@ -2360,7 +2004,6 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
     while ( attribute_names[i] );
 }
 
-
 /**
  * load the scheduled transactions in the grisbi file
  *
@@ -2368,7 +2011,7 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
  * \param attribute_values
  *
  * */
-void gsb_file_load_scheduled_transactions ( const gchar **attribute_names,
+static  void gsb_file_load_scheduled_transactions ( const gchar **attribute_names,
                         const gchar **attribute_values )
 {
     gint i=0;
@@ -2605,7 +2248,6 @@ void gsb_file_load_scheduled_transactions ( const gchar **attribute_names,
     while ( attribute_names[i] );
 }
 
-
 /**
  * load the parties in the grisbi file
  *
@@ -2613,7 +2255,7 @@ void gsb_file_load_scheduled_transactions ( const gchar **attribute_names,
  * \param attribute_values
  *
  * */
-void gsb_file_load_party ( const gchar **attribute_names,
+static  void gsb_file_load_party ( const gchar **attribute_names,
                         const gchar **attribute_values )
 {
     gint i=0;
@@ -2683,406 +2325,6 @@ void gsb_file_load_party ( const gchar **attribute_names,
     while ( attribute_names[i] );
 }
 
-
-/**
- * load the categories in the grisbi file
- *
- * \param attribute_names
- * \param attribute_values
- *
- * */
-void gsb_file_load_category ( const gchar **attribute_names,
-                        const gchar **attribute_values )
-{
-    gint i=0;
-
-    g_free ( buffer_new_div_sous_div );
-    buffer_new_div_sous_div = g_malloc0 ( sizeof ( struct new_div_sous_div_struct ) );
-
-    if ( !attribute_names[i] )
-    return;
-
-    do
-    {
-    /*     we test at the beginning if the attribute_value is NULL, if yes, */
-    /*        go to the next */
-
-    if ( !strcmp (attribute_values[i],
-         "(null)"))
-    {
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-               "Nb" ))
-    {
-        buffer_new_div_sous_div -> no_div = utils_str_atoi ( attribute_values[i] );
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-               "Na" ))
-    {
-        buffer_new_div_sous_div -> name = g_strdup ( attribute_values[i] );
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-               "Kd" ))
-    {
-        buffer_new_div_sous_div -> type = utils_str_atoi ( attribute_values[i] );
-        i++;
-        continue;
-    }
-
-    /* normally, shouldn't come here */
-    i++;
-    }
-    while ( attribute_names[i] );
-
-    buffer_new_div_sous_div->new_no_div = gsb_data_category_test_create_category (
-                        buffer_new_div_sous_div->no_div,
-                        buffer_new_div_sous_div->name,
-                        buffer_new_div_sous_div->type );
-
-    if ( buffer_new_div_sous_div->name )
-        g_free ( buffer_new_div_sous_div->name );
-}
-
-
-/**
- * load the sub-categories in the grisbi file
- *
- * \param attribute_names
- * \param attribute_values
- *
- * */
-void gsb_file_load_sub_category ( const gchar **attribute_names,
-                        const gchar **attribute_values)
-{
-    gint i=0;
-    gint category_number = 0;
-
-    if ( !attribute_names[i] )
-    return;
-
-    do
-    {
-    /*     we test at the beginning if the attribute_value is NULL, if yes, */
-    /*        go to the next */
-
-    if ( !strcmp (attribute_values[i],
-         "(null)"))
-    {
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-               "Nbc" ))
-    {
-        category_number = utils_str_atoi (attribute_values[i]);
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-               "Nb" ))
-    {
-        if ( category_number == buffer_new_div_sous_div -> no_div )
-            buffer_new_div_sous_div -> no_sub_div = utils_str_atoi ( attribute_values[i] );
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-               "Na" ))
-    {
-        if ( category_number == buffer_new_div_sous_div -> no_div )
-            buffer_new_div_sous_div -> name = g_strdup ( attribute_values[i] );
-        i++;
-        continue;
-    }
-
-    /* normally, shouldn't come here */
-    i++;
-    }
-    while ( attribute_names[i] );
-
-    if ( !gsb_data_category_test_create_sub_category (
-                            buffer_new_div_sous_div -> new_no_div,
-                            buffer_new_div_sous_div -> no_sub_div,
-							buffer_new_div_sous_div -> name ) )
-    {
-        gchar *tmpstr = g_strdup_printf ( "no_category = %d no_sub_category = %d nom = %s\n",
-                            buffer_new_div_sous_div->new_no_div,
-                            buffer_new_div_sous_div->no_sub_div,
-                            buffer_new_div_sous_div->name );
-
-        devel_debug ( tmpstr );
-    }
-
-    if ( buffer_new_div_sous_div->name )
-        g_free ( buffer_new_div_sous_div->name );
-}
-
-
-/**
- * load the budgetaries in the grisbi file
- *
- * \param attribute_names
- * \param attribute_values
- *
- * */
-void gsb_file_load_budgetary ( const gchar **attribute_names,
-                        const gchar **attribute_values )
-{
-    gint i=0;
-    gint budget_number = 0;
-
-    if ( !attribute_names[i] )
-    return;
-
-    do
-    {
-    /*     we test at the beginning if the attribute_value is NULL, if yes, */
-    /*        go to the next */
-
-    if ( !strcmp (attribute_values[i],
-              "(null)"))
-    {
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-               "Nb" ))
-    {
-        budget_number = gsb_data_budget_new_with_number ( utils_str_atoi (attribute_values[i]));
-
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-               "Na" ))
-    {
-        gsb_data_budget_set_name ( budget_number,
-                             attribute_values[i]);
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-                                   "Kd" ))
-    {
-        gsb_data_budget_set_type ( budget_number,
-                                                                                         utils_str_atoi (attribute_values[i]));
-        i++;
-        continue;
-    }
-
-    /* normally, shouldn't come here */
-    i++;
-    }
-    while ( attribute_names[i] );
-}
-
-
-/**
- * load the sub-budgetaries in the grisbi file
- *
- * \param attribute_names
- * \param attribute_values
- *
- * */
-void gsb_file_load_sub_budgetary ( const gchar **attribute_names,
-                        const gchar **attribute_values)
-{
-    gint i=0;
-    gint budget_number = 0;
-    gint sub_budget_number = 0;
-
-    if ( !attribute_names[i] )
-    return;
-
-    do
-    {
-    /*     we test at the beginning if the attribute_value is NULL, if yes, */
-    /*        go to the next */
-
-    if ( !strcmp (attribute_values[i],
-         "(null)"))
-    {
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i], "Nbb" )
-     ||
-     !strcmp ( attribute_names[i], "Nbc" )  )
-    {
-        budget_number = utils_str_atoi (attribute_values[i]);
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-                                   "Nb" ))
-    {
-        sub_budget_number = gsb_data_budget_new_sub_budget_with_number ( utils_str_atoi (attribute_values[i]),
-                                                                 budget_number );
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-                                   "Na" ))
-    {
-        gsb_data_budget_set_sub_budget_name ( budget_number,
-                          sub_budget_number,
-                          attribute_values[i] );
-        i++;
-        continue;
-    }
-
-    /* normally, shouldn't come here */
-    i++;
-    }
-    while ( attribute_names[i] );
-}
-
-
-/**
- * load the currencies in the grisbi file
- *
- * \param attribute_names
- * \param attribute_values
- *
- * */
-void gsb_file_load_currency ( const gchar **attribute_names,
-                        const gchar **attribute_values )
-{
-    gint i=0;
-    gint currency_number;
-
-    if ( !attribute_names[i] )
-    return;
-
-    currency_number = gsb_data_currency_new (NULL);
-
-    /* Default */
-    gsb_data_currency_set_floating_point ( currency_number, 2 );
-
-    do
-    {
-    /*     we test at the beginning if the attribute_value is NULL, if yes, */
-    /*        go to the next */
-    if ( !strcmp (attribute_values[i],
-         "(null)"))
-    {
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-                                   "Nb" ))
-    {
-        currency_number = gsb_data_currency_set_new_number ( currency_number,
-                                                         utils_str_atoi (attribute_values[i]));
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-                                   "Na" ))
-    {
-        gsb_data_currency_set_name ( currency_number,
-                                         attribute_values[i]);
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-                                   "Co" ))
-    {
-        struct iso_4217_currency * currency = iso_4217_currencies;
-
-        gsb_data_currency_set_code ( currency_number, attribute_values[i]);
-
-        /* Check if a iso code is the same as currency code (old import).  */
-        while ( currency -> country_name )
-        {
-                            if ( !strcmp ( currency -> currency_code, attribute_values[i] ) )
-                            {
-                                gsb_data_currency_set_code_iso4217 ( currency_number,
-                            attribute_values[i]);
-                            }
-                            currency++;
-        }
-
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-                                   "Ico" ))
-    {
-        gsb_data_currency_set_code_iso4217 ( currency_number,
-                             attribute_values[i]);
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-                                   "Fl" ))
-    {
-        gsb_data_currency_set_floating_point ( currency_number,
-                               utils_str_atoi (attribute_values[i]));
-        i++;
-        continue;
-    }
-
-    /* normally, shouldn't come here */
-    i++;
-    }
-    while ( attribute_names[i] );
-
-    /* initialization of the currency for the payees, categories and
-     * budgetary lines in case of need */
-    if ( etat.no_devise_totaux_tiers == 0 )
-    {
-        GSList *tmp_list;
-
-        tmp_list = gsb_data_currency_get_currency_list ( );
-        if ( g_slist_length ( tmp_list ) > 0 )
-            etat.no_devise_totaux_tiers = gsb_data_currency_get_no_currency (
-                g_slist_nth_data ( tmp_list, 0 ) );
-    }
-    if ( etat.no_devise_totaux_categ == 0 )
-    {
-        GSList *tmp_list;
-
-        tmp_list = gsb_data_currency_get_currency_list ( );
-        if ( g_slist_length ( tmp_list ) > 0 )
-            etat.no_devise_totaux_categ = gsb_data_currency_get_no_currency (
-                        g_slist_nth_data ( tmp_list, 0 ) );
-    }
-    if ( etat.no_devise_totaux_ib == 0 )
-    {
-        GSList *tmp_list;
-
-        tmp_list = gsb_data_currency_get_currency_list ( );
-        if ( g_slist_length ( tmp_list ) > 0 )
-            etat.no_devise_totaux_ib = gsb_data_currency_get_no_currency (
-                g_slist_nth_data ( tmp_list, 0 ) );
-    }
-}
-
-
 /**
  * load the currency_links in the grisbi file
  *
@@ -3090,7 +2332,7 @@ void gsb_file_load_currency ( const gchar **attribute_names,
  * \param attribute_values
  *
  * */
-void gsb_file_load_currency_link ( const gchar **attribute_names,
+static  void gsb_file_load_currency_link ( const gchar **attribute_names,
                         const gchar **attribute_values )
 {
     gint i=0;
@@ -3177,7 +2419,7 @@ void gsb_file_load_currency_link ( const gchar **attribute_names,
  * \param attribute_values
  *
  * */
-void gsb_file_load_bank ( const gchar **attribute_names,
+static  void gsb_file_load_bank ( const gchar **attribute_names,
                         const gchar **attribute_values )
 {
     gint i=0;
@@ -3322,7 +2564,6 @@ void gsb_file_load_bank ( const gchar **attribute_names,
     while ( attribute_names[i] );
 }
 
-
 /**
  * load the financials years in the grisbi file
  *
@@ -3330,7 +2571,7 @@ void gsb_file_load_bank ( const gchar **attribute_names,
  * \param attribute_values
  *
  * */
-void gsb_file_load_financial_year ( const gchar **attribute_names,
+static  void gsb_file_load_financial_year ( const gchar **attribute_names,
                         const gchar **attribute_values )
 {
     gint i=0;
@@ -3418,7 +2659,7 @@ void gsb_file_load_financial_year ( const gchar **attribute_names,
  * \param attribute_values
  *
  * */
-void gsb_file_load_archive ( const gchar **attribute_names,
+static  void gsb_file_load_archive ( const gchar **attribute_names,
                         const gchar **attribute_values )
 {
     gint i=0;
@@ -3507,7 +2748,6 @@ void gsb_file_load_archive ( const gchar **attribute_names,
     while ( attribute_names[i] );
 }
 
-
 /**
  * load the reconcile structure in the grisbi file
  *
@@ -3515,7 +2755,7 @@ void gsb_file_load_archive ( const gchar **attribute_names,
  * \param attribute_values
  *
  * */
-void gsb_file_load_reconcile ( const gchar **attribute_names,
+static  void gsb_file_load_reconcile ( const gchar **attribute_names,
                         const gchar **attribute_values )
 {
     GDate *date;
@@ -3616,7 +2856,7 @@ void gsb_file_load_reconcile ( const gchar **attribute_names,
  * \param attribute_values
  *
  * */
-void gsb_file_load_import_rule ( const gchar **attribute_names,
+static  void gsb_file_load_import_rule ( const gchar **attribute_names,
                         const gchar **attribute_values )
 {
     gint i=0;
@@ -3716,7 +2956,6 @@ void gsb_file_load_import_rule ( const gchar **attribute_names,
     while ( attribute_names[i] );
 }
 
-
 /**
  * load the partial balance structure in the grisbi file
  *
@@ -3724,7 +2963,7 @@ void gsb_file_load_import_rule ( const gchar **attribute_names,
  * \param attribute_values
  *
  * */
-void gsb_file_load_partial_balance ( const gchar **attribute_names,
+static  void gsb_file_load_partial_balance ( const gchar **attribute_names,
                         const gchar **attribute_values )
 {
     gint i=0;
@@ -3805,7 +3044,6 @@ void gsb_file_load_partial_balance ( const gchar **attribute_names,
     while ( attribute_names[i] );
 }
 
-
 /**
  * load the balance estimate part in the grisbi file
  *
@@ -3813,7 +3051,7 @@ void gsb_file_load_partial_balance ( const gchar **attribute_names,
  * \param attribute_values
  *
  * */
-void gsb_file_load_bet_part ( const gchar **attribute_names,
+static  void gsb_file_load_bet_part ( const gchar **attribute_names,
                         const gchar **attribute_values )
 {
     gint i=0;
@@ -3852,7 +3090,6 @@ void gsb_file_load_bet_part ( const gchar **attribute_names,
     while ( attribute_names[i] );
 }
 
-
 #ifdef HAVE_GOFFICE
  /**
  * load the bet_graph preferences in the grisbi file
@@ -3861,7 +3098,7 @@ void gsb_file_load_bet_part ( const gchar **attribute_names,
  * \param attribute_values
  *
  * */
-void gsb_file_load_bet_graph_part ( const gchar **attribute_names,
+static  void gsb_file_load_bet_graph_part ( const gchar **attribute_names,
                         const gchar **attribute_values )
 {
     gint i=0;
@@ -3894,7 +3131,6 @@ void gsb_file_load_bet_graph_part ( const gchar **attribute_names,
 }
 #endif /* HAVE_GOFFICE */
 
-
 /**
  * load the historical balance part in the grisbi file
  *
@@ -3902,7 +3138,7 @@ void gsb_file_load_bet_graph_part ( const gchar **attribute_names,
  * \param attribute_values
  *
  * */
-void gsb_file_load_bet_historical ( const gchar **attribute_names,
+static  void gsb_file_load_bet_historical ( const gchar **attribute_names,
                         const gchar **attribute_values )
 {
     struct_hist_div *shd;
@@ -3998,7 +3234,6 @@ void gsb_file_load_bet_historical ( const gchar **attribute_names,
     bet_data_insert_div_hist ( shd, sub_shd );
 }
 
-
 /**
  * load the bet future data
  *
@@ -4006,7 +3241,7 @@ void gsb_file_load_bet_historical ( const gchar **attribute_names,
  * \param attribute_values
  *
  * */
-void gsb_file_load_bet_future_data ( const gchar **attribute_names,
+static  void gsb_file_load_bet_future_data ( const gchar **attribute_names,
                         const gchar **attribute_values )
 {
     gint i=0;
@@ -4181,7 +3416,6 @@ void gsb_file_load_bet_future_data ( const gchar **attribute_names,
     bet_data_future_set_lines_from_file ( scheduled );
 }
 
-
 /**
  * load the bet transfert line
  *
@@ -4189,7 +3423,7 @@ void gsb_file_load_bet_future_data ( const gchar **attribute_names,
  * \param attribute_values
  *
  * */
-void gsb_file_load_bet_transfert_part ( const gchar **attribute_names,
+static void gsb_file_load_bet_transfert_part ( const gchar **attribute_names,
                         const gchar **attribute_values )
 {
     gint i=0;
@@ -4358,6 +3592,932 @@ void gsb_file_load_bet_transfert_part ( const gchar **attribute_names,
     bet_data_transfert_set_line_from_file ( transfert );
 }
 
+/**
+ * load the logo_accueil in the grisbi file
+ *
+ * \param attribute_names
+ * \param attribute_values
+ *
+ * */
+static void gsb_file_load_logo_accueil ( const gchar **attribute_names,
+                        const gchar **attribute_values )
+{
+    gint i=0;
+
+    do
+    {
+        /*     we test at the beginning if the attribute_value is NULL, if yes, */
+        /*        go to the next */
+
+        if ( !strcmp (attribute_values[i],
+                  "(null)"))
+        {
+            i++;
+            continue;
+        }
+        if ( !strcmp ( attribute_names[i], "Image" ) )
+        {
+            GdkPixbuf *pixbuf = NULL;
+
+            pixbuf = gsb_select_icon_create_pixbuf_from_chaine_base64 (
+                                (gchar *) attribute_values[i] );
+            etat.is_pixmaps_dir = FALSE;
+
+            gtk_window_set_default_icon ( pixbuf );
+            gsb_select_icon_set_logo_pixbuf ( pixbuf );
+            g_object_unref ( G_OBJECT ( pixbuf ) );
+            i++;
+            continue;
+        }
+    }
+    while ( attribute_names[i] );
+}
+
+/**
+ * charge les icones pour les comptes
+ *
+ * \param attribute_names
+ * \param attribute_values
+ *
+ * */
+static void gsb_file_load_account_icon_part ( const gchar **attribute_names,
+                        const gchar **attribute_values )
+{
+    gint i=0;
+    gint account_number = -1;
+    GdkPixbuf *pixbuf = NULL;
+
+    do
+    {
+        /*     we test at the beginning if the attribute_value is NULL, if yes, */
+        /*        go to the next */
+
+        if ( !strcmp (attribute_values[i], "(null)"))
+        {
+            i++;
+            continue;
+        }
+        if ( !strcmp ( attribute_names[i], "Account_number" ) )
+        {
+            account_number = utils_str_atoi ( attribute_values[i] );
+            i++;
+            continue;
+        }
+
+        if ( !strcmp ( attribute_names[i], "Image" ) )
+        {
+            pixbuf = gsb_select_icon_create_pixbuf_from_chaine_base64 (
+                                (gchar *) attribute_values[i] );
+            i++;
+            continue;
+        }
+    }
+    while ( attribute_names[i] );
+
+    if ( account_number != -1 && pixbuf )
+    {
+        gsb_select_icon_new_account_icon ( account_number, pixbuf );
+        gsb_data_account_set_account_icon_pixbuf ( account_number, pixbuf );
+    }
+}
+
+/**
+ * Fonction de traitement du fichier
+ *
+ * \param
+ * \param
+ * \param
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void gsb_file_load_start_element ( GMarkupParseContext *context,
+                        const gchar *element_name,
+                        const gchar **attribute_names,
+                        const gchar **attribute_values,
+                        gpointer user_data,
+                        GError **error)
+{
+    gint unknown = 0;
+
+    /* the first time we come here, we check if it's a Grisbi file */
+    if ( !download_tmp_values.download_ok )
+    {
+        if ( strcmp ( element_name,
+                    "Grisbi" ))
+        {
+            dialogue_error ( _("This is not a Grisbi file... Loading aborted.") );
+            g_markup_parse_context_end_parse (context,
+                    NULL);
+            return;
+        }
+        download_tmp_values.download_ok = TRUE;
+        return;
+    }
+
+    switch ( element_name[0] )
+    {
+        case 'A':
+            if ( !strcmp ( element_name, "Account" ))
+            {
+                gsb_file_load_account_part ( attribute_names,
+                        attribute_values );
+            }
+
+            else if ( !strcmp ( element_name, "Archive" ))
+            {
+                gsb_file_load_archive ( attribute_names,
+                        attribute_values );
+            }
+
+            else if ( !strcmp ( element_name, "Amount_comparison" ))
+            {
+                gsb_file_load_amount_comparison ( attribute_names,
+                        attribute_values);
+            }
+
+            else if ( !strcmp ( element_name, "Account_icon" ) )
+            {
+                gsb_file_load_account_icon_part ( attribute_names,
+                        attribute_values );
+            }
+
+            else
+                unknown = 1;
+            break;
+
+        case 'C':
+            if ( !strcmp ( element_name, "Category" ))
+            {
+                gsb_file_load_category ( attribute_names,
+                        attribute_values );
+            }
+
+            else if ( !strcmp ( element_name, "Color" ))
+            {
+                gsb_file_load_color_part ( attribute_names,
+                        attribute_values );
+            }
+
+            else if ( !strcmp ( element_name, "Currency" ))
+            {
+                gsb_file_load_currency ( attribute_names,
+                        attribute_values );
+            }
+
+            else if ( !strcmp ( element_name, "Currency_link" ))
+            {
+                gsb_file_load_currency_link ( attribute_names,
+                        attribute_values );
+            }
+
+            else
+                unknown = 1;
+            break;
+
+        case 'B':
+            if ( !strcmp ( element_name, "Bank" ))
+            {
+                gsb_file_load_bank ( attribute_names,
+                        attribute_values );
+            }
+
+            else if ( !strcmp ( element_name, "Budgetary" ))
+            {
+                gsb_file_load_budgetary ( attribute_names,
+                        attribute_values );
+            }
+
+            else if ( !strcmp ( element_name, "Bet" ) )
+            {
+                gsb_file_load_bet_part ( attribute_names,
+                        attribute_values );
+            }
+
+#ifdef HAVE_GOFFICE
+            else if ( !strcmp ( element_name, "Bet_graph" ) )
+            {
+                gsb_file_load_bet_graph_part ( attribute_names, attribute_values );
+            }
+#endif /* HAVE_GOFFICE */
+
+            else if ( !strcmp ( element_name, "Bet_historical" ) )
+            {
+                gsb_file_load_bet_historical ( attribute_names, attribute_values );
+            }
+
+            else if ( !strcmp ( element_name, "Bet_future" ) )
+            {
+                gsb_file_load_bet_future_data ( attribute_names, attribute_values );
+            }
+
+            else if ( !strcmp ( element_name, "Bet_transfert" ) )
+            {
+                gsb_file_load_bet_transfert_part ( attribute_names, attribute_values );
+            }
+
+            else
+                unknown = 1;
+            break;
+
+        case 'G':
+            if ( !strcmp ( element_name, "General" ))
+            {
+                gsb_file_load_general_part ( attribute_names,
+                        attribute_values );
+            }
+
+            else
+                unknown = 1;
+            break;
+
+        case 'P':
+            if ( !strcmp ( element_name, "Partial_balance" ))
+            {
+                gsb_file_load_partial_balance ( attribute_names,
+                        attribute_values );
+            }
+
+            else if ( !strcmp ( element_name, "Print" ))
+            {
+                gsb_file_load_print_part ( attribute_names,
+                        attribute_values );
+            }
+
+            else if ( !strcmp ( element_name, "Payment" ))
+            {
+                gsb_file_load_payment_part ( attribute_names,
+                        attribute_values );
+            }
+
+            else if ( !strcmp ( element_name, "Party" ))
+            {
+                gsb_file_load_party ( attribute_names,
+                        attribute_values );
+            }
+
+            else
+                unknown = 1;
+            break;
+
+        case 'T':
+            if ( !strcmp ( element_name, "Transaction" ))
+            {
+                gsb_file_load_transactions ( attribute_names,
+                        attribute_values );
+            }
+
+            else if ( !strcmp ( element_name, "Text_comparison" ))
+            {
+                gsb_file_load_text_comparison ( attribute_names,
+                        attribute_values);
+            }
+
+            else
+                unknown = 1;
+            break;
+
+        case 'S':
+            if ( !strcmp ( element_name, "Scheduled" ))
+            {
+                gsb_file_load_scheduled_transactions ( attribute_names,
+                        attribute_values );
+            }
+
+            else if ( !strcmp ( element_name, "Sub_category" ))
+            {
+                gsb_file_load_sub_category ( attribute_names,
+                        attribute_values );
+            }
+
+            else if ( !strcmp ( element_name, "Sub_budgetary" ))
+            {
+                gsb_file_load_sub_budgetary ( attribute_names,
+                        attribute_values );
+            }
+
+            else
+                unknown = 1;
+            break;
+
+        case 'F':
+            if ( !strcmp ( element_name, "Financial_year" ))
+            {
+                gsb_file_load_financial_year ( attribute_names,
+                        attribute_values );
+            }
+
+            else
+                unknown = 1;
+            break;
+
+        case 'R':
+            if ( !strcmp ( element_name, "Reconcile" ))
+            {
+                gsb_file_load_reconcile ( attribute_names,
+                        attribute_values );
+            }
+
+            else if ( !strcmp ( element_name, "Report" ))
+            {
+                gsb_file_load_report ( attribute_names,
+                        attribute_values );
+            }
+
+            else if ( !strcmp ( element_name, "RGBA" ))
+            {
+                gsb_file_load_rgba_part ( attribute_names,
+                        attribute_values );
+            }
+
+            else
+                unknown = 1;
+            break;
+
+        case 'I':
+            if ( !strcmp ( element_name, "Import_rule" ))
+            {
+                gsb_file_load_import_rule ( attribute_names,
+                        attribute_values );
+            }
+
+            else
+                unknown = 1;
+            break;
+
+        case 'L':
+            if ( !strcmp ( element_name, "Logo" ) )
+            {
+                if ( etat.utilise_logo )
+                    gsb_file_load_logo_accueil ( attribute_names,
+                            attribute_values );
+            }
+
+            else
+                unknown = 1;
+            break;
+
+        default:
+            /* normally, shouldn't come here */
+            unknown = 1;
+            break;
+    }
+
+    if ( unknown == 1 )
+    {
+        gchar *tmpstr = g_strdup_printf ( "Unknown element '%s'", element_name );
+        devel_debug ( tmpstr );
+        g_free ( tmpstr );
+    }
+}
+
+/******************************************************************************/
+/* Public Methods                                                             */
+/******************************************************************************/
+/**
+ * called to open the grisbi file given in param
+ *
+ * \filename the filename to load with full path
+ *
+ * \return TRUE if ok
+ * */
+gboolean gsb_file_load_open_file ( gchar *filename )
+{
+    struct stat buffer_stat;
+    gint return_value;
+    gchar *file_content;
+    gulong length;
+
+    devel_debug ( filename );
+
+     /* fill the buffer stat to check the permission */
+    return_value = g_stat ( filename, &buffer_stat );
+
+    /* check the access to the file and display a message */
+#ifndef _WIN32
+    if ( buffer_stat.st_mode != 33152 )
+        gsb_file_util_display_warning_permissions ();
+#endif /* _WIN32 */
+
+    /* load the file */
+    if ( gsb_file_util_get_contents ( filename, &file_content, &length ) )
+    {
+        GMarkupParser *markup_parser;
+        GMarkupParseContext *context;
+
+        /* first, we check if the file is crypted, if it is, we decrypt it */
+        if ( !strncmp ( file_content, "Grisbi encrypted file ", 22 ) ||
+             !strncmp ( file_content, "Grisbi encryption v2: ", 22 ) )
+        {
+#ifdef HAVE_SSL
+            length = gsb_file_util_crypt_file ( filename, &file_content, FALSE, length );
+
+            if ( ! length )
+            {
+                g_free (file_content);
+                return FALSE;
+            }
+#else
+            {
+                g_free (file_content);
+                gchar *text = _("This build of Grisbi does not support encryption.\n"
+                        "Please recompile Grisbi with OpenSSL encryption enabled.");
+                gchar *hint = g_strdup_printf ( _("Cannot open encrypted file '%s'"),
+	                                            filename );
+                dialogue_error_hint ( text, hint );
+                g_free ( hint );
+                return FALSE;
+            }
+#endif
+        }
+
+		/* we begin to check if we are in a version under 0.6 or 0.6 and above,
+         * because the xml structure changes after 0.6 */
+        markup_parser = g_malloc0 (sizeof (GMarkupParser));
+        if ( gsb_file_load_check_new_structure (file_content))
+        {
+            /* fill the GMarkupParser for a new xml structure */
+            markup_parser -> start_element = (void *) gsb_file_load_start_element;
+            markup_parser -> error = (void *) gsb_file_load_error;
+            run.old_version = FALSE;
+        }
+        else
+        {
+            run.old_version = TRUE;
+
+            return FALSE;
+        }
+
+        context = g_markup_parse_context_new ( markup_parser,
+                        0,
+                        NULL,
+                        NULL );
+        download_tmp_values.download_ok = FALSE;
+
+        g_markup_parse_context_parse ( context,
+                        file_content,
+                        strlen (file_content),
+                        NULL );
+
+        g_markup_parse_context_free (context);
+        g_free (markup_parser);
+        g_free (file_content);
+
+        if ( !download_tmp_values.download_ok )
+            return FALSE;
+    }
+    else
+    {
+        gsb_menu_recent_manager_remove_item ( NULL, filename );
+
+        return FALSE;
+    }
+
+    if ( conf.sauvegarde_demarrage )
+        gsb_file_set_modified ( TRUE );
+
+    /* check now if a lot of transactions,
+     * if yes, we propose to file the transactions
+     * by default take the 3000 transactions as limit */
+    if ( conf.check_for_archival
+     &&
+     g_slist_length ( gsb_data_transaction_get_transactions_list () ) >
+     conf.max_non_archived_transactions_for_check )
+        gsb_assistant_archive_run ( TRUE );
+
+    /* if we opened an archive, we say it here */
+    if ( etat.is_archive )
+        dialogue_hint ( _("You have opened an archive.\nThere is no limit in Grisbi, "
+                        "you can do whatever you want and save it later (new reports...) "
+                        "but remember it's an archive before modifying some transactions "
+                        "or important information."),
+                        _("Grisbi archive opened") );
+
+    /* positionnement de l'option bet_show_onglets pour tous les comptes */
+    gsb_data_account_set_bet_show_onglets_all_accounts ();
+
+    return TRUE;
+}
+
+/**
+ * load the amount comparaison structure in the grisbi file
+ *
+ * \param attribute_names
+ * \param attribute_values
+ *
+ * */
+void gsb_file_load_amount_comparison ( const gchar **attribute_names,
+                        const gchar **attribute_values )
+{
+    gint i=0;
+    gint amount_comparison_number = 0;
+    gint report_number = 0;
+
+    if ( !attribute_names[i] )
+    return;
+
+    do
+    {
+    /*     we test at the beginning if the attribute_value is NULL, if yes, */
+    /*        go to the next */
+
+    if ( !strcmp (attribute_values[i],
+              "(null)"))
+    {
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i],
+               "Comparison_number" ))
+    {
+        /* if comparison number is -1, it's an import of report,
+         * so let grisbi choose the good number */
+        if (utils_str_atoi (attribute_values[i]) == -1)
+        amount_comparison_number = gsb_data_report_amount_comparison_new (0);
+        else
+        amount_comparison_number = gsb_data_report_amount_comparison_new (utils_str_atoi (attribute_values[i]));
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i],
+               "Report_nb" ))
+    {
+        report_number = utils_str_atoi (attribute_values[i]);
+
+        /* if report_number = -1, it's an import of report,
+         * so that comparison structure must be associated to the last report_number saved */
+        if (report_number == -1)
+        {
+        report_number = gsb_data_report_max_number ();
+        gsb_data_report_amount_comparison_set_report_number ( amount_comparison_number,
+                                          report_number);
+        }
+        else
+        gsb_data_report_amount_comparison_set_report_number ( amount_comparison_number,
+                                          report_number);
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i],
+               "Last_comparison" ))
+    {
+        gsb_data_report_amount_comparison_set_link_to_last_amount_comparison ( amount_comparison_number,
+                                               utils_str_atoi (attribute_values[i]));
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i],
+               "Comparison_1" ))
+    {
+        gsb_data_report_amount_comparison_set_first_comparison ( amount_comparison_number,
+                                         utils_str_atoi (attribute_values[i]));
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i],
+               "Link_1_2" ))
+    {
+        gsb_data_report_amount_comparison_set_link_first_to_second_part ( amount_comparison_number,
+                                              utils_str_atoi (attribute_values[i]));
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i],
+               "Comparison_2" ))
+    {
+        gsb_data_report_amount_comparison_set_second_comparison ( amount_comparison_number,
+                                          utils_str_atoi (attribute_values[i]));
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i],
+               "Amount_1" ))
+    {
+        gsb_data_report_amount_comparison_set_first_amount ( amount_comparison_number,
+                                     gsb_real_safe_real_from_string (attribute_values[i]));
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i],
+               "Amount_2" ))
+    {
+        gsb_data_report_amount_comparison_set_second_amount ( amount_comparison_number,
+                                     gsb_real_safe_real_from_string (attribute_values[i]));
+        i++;
+        continue;
+    }
+
+    /* normally, shouldn't come here */
+    i++;
+    }
+    while ( attribute_names[i] );
+
+    gsb_data_report_set_amount_comparison_list ( report_number,
+                             g_slist_append ( gsb_data_report_get_amount_comparison_list (report_number),
+                                      GINT_TO_POINTER (amount_comparison_number)));
+}
+
+/**
+ * load the budgetaries in the grisbi file
+ *
+ * \param attribute_names
+ * \param attribute_values
+ *
+ * */
+void gsb_file_load_budgetary ( const gchar **attribute_names,
+                        const gchar **attribute_values )
+{
+    gint i=0;
+    gint budget_number = 0;
+
+    if ( !attribute_names[i] )
+    return;
+
+    do
+    {
+    /*     we test at the beginning if the attribute_value is NULL, if yes, */
+    /*        go to the next */
+
+    if ( !strcmp (attribute_values[i],
+              "(null)"))
+    {
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i],
+               "Nb" ))
+    {
+        budget_number = gsb_data_budget_new_with_number ( utils_str_atoi (attribute_values[i]));
+
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i],
+               "Na" ))
+    {
+        gsb_data_budget_set_name ( budget_number,
+                             attribute_values[i]);
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i],
+                                   "Kd" ))
+    {
+        gsb_data_budget_set_type ( budget_number,
+                                                                                         utils_str_atoi (attribute_values[i]));
+        i++;
+        continue;
+    }
+
+    /* normally, shouldn't come here */
+    i++;
+    }
+    while ( attribute_names[i] );
+}
+
+
+/**
+ * load the sub-budgetaries in the grisbi file
+ *
+ * \param attribute_names
+ * \param attribute_values
+ *
+ * */
+void gsb_file_load_sub_budgetary ( const gchar **attribute_names,
+                        const gchar **attribute_values)
+{
+    gint i=0;
+    gint budget_number = 0;
+    gint sub_budget_number = 0;
+
+    if ( !attribute_names[i] )
+    return;
+
+    do
+    {
+    /*     we test at the beginning if the attribute_value is NULL, if yes, */
+    /*        go to the next */
+
+    if ( !strcmp (attribute_values[i],
+         "(null)"))
+    {
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Nbb" )
+     ||
+     !strcmp ( attribute_names[i], "Nbc" )  )
+    {
+        budget_number = utils_str_atoi (attribute_values[i]);
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i],
+                                   "Nb" ))
+    {
+        sub_budget_number = gsb_data_budget_new_sub_budget_with_number ( utils_str_atoi (attribute_values[i]),
+                                                                 budget_number );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i],
+                                   "Na" ))
+    {
+        gsb_data_budget_set_sub_budget_name ( budget_number,
+                          sub_budget_number,
+                          attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    /* normally, shouldn't come here */
+    i++;
+    }
+    while ( attribute_names[i] );
+}
+
+/**
+ * load the categories in the grisbi file
+ *
+ * \param attribute_names
+ * \param attribute_values
+ *
+ * */
+void gsb_file_load_category ( const gchar **attribute_names,
+                        const gchar **attribute_values )
+{
+    gint i=0;
+
+    g_free ( buffer_new_div_sous_div );
+    buffer_new_div_sous_div = g_malloc0 ( sizeof ( struct new_div_sous_div_struct ) );
+
+    if ( !attribute_names[i] )
+    return;
+
+    do
+    {
+    /*     we test at the beginning if the attribute_value is NULL, if yes, */
+    /*        go to the next */
+
+    if ( !strcmp (attribute_values[i],
+         "(null)"))
+    {
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i],
+               "Nb" ))
+    {
+        buffer_new_div_sous_div -> no_div = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i],
+               "Na" ))
+    {
+        buffer_new_div_sous_div -> name = g_strdup ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i],
+               "Kd" ))
+    {
+        buffer_new_div_sous_div -> type = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    /* normally, shouldn't come here */
+    i++;
+    }
+    while ( attribute_names[i] );
+
+    buffer_new_div_sous_div->new_no_div = gsb_data_category_test_create_category (
+                        buffer_new_div_sous_div->no_div,
+                        buffer_new_div_sous_div->name,
+                        buffer_new_div_sous_div->type );
+
+    if ( buffer_new_div_sous_div->name )
+        g_free ( buffer_new_div_sous_div->name );
+}
+
+
+/**
+ * load the sub-categories in the grisbi file
+ *
+ * \param attribute_names
+ * \param attribute_values
+ *
+ * */
+void gsb_file_load_sub_category ( const gchar **attribute_names,
+                        const gchar **attribute_values)
+{
+    gint i=0;
+    gint category_number = 0;
+
+    if ( !attribute_names[i] )
+    return;
+
+    do
+    {
+    /*     we test at the beginning if the attribute_value is NULL, if yes, */
+    /*        go to the next */
+
+    if ( !strcmp (attribute_values[i],
+         "(null)"))
+    {
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i],
+               "Nbc" ))
+    {
+        category_number = utils_str_atoi (attribute_values[i]);
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i],
+               "Nb" ))
+    {
+        if ( category_number == buffer_new_div_sous_div -> no_div )
+            buffer_new_div_sous_div -> no_sub_div = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i],
+               "Na" ))
+    {
+        if ( category_number == buffer_new_div_sous_div -> no_div )
+            buffer_new_div_sous_div -> name = g_strdup ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    /* normally, shouldn't come here */
+    i++;
+    }
+    while ( attribute_names[i] );
+
+    if ( !gsb_data_category_test_create_sub_category (
+                            buffer_new_div_sous_div -> new_no_div,
+                            buffer_new_div_sous_div -> no_sub_div,
+							buffer_new_div_sous_div -> name ) )
+    {
+        gchar *tmpstr = g_strdup_printf ( "no_category = %d no_sub_category = %d nom = %s\n",
+                            buffer_new_div_sous_div->new_no_div,
+                            buffer_new_div_sous_div->no_sub_div,
+                            buffer_new_div_sous_div->name );
+
+        devel_debug ( tmpstr );
+    }
+
+    if ( buffer_new_div_sous_div->name )
+        g_free ( buffer_new_div_sous_div->name );
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ **/
+void gsb_file_load_error ( GMarkupParseContext *context,
+                        GError *error,
+                        gpointer user_data )
+{
+    /* the first time we come here, we check if it's a Grisbi file */
+    gchar* tmpstr = g_strdup_printf (
+                        _("An error occured while parsing the file :\nError number : %d\n%s"),
+                        error -> code,
+                        error -> message );
+    dialogue_error ( tmpstr );
+    g_free ( tmpstr );
+}
 
 /**
  * load the report structure in the grisbi file
@@ -5303,224 +5463,13 @@ void gsb_file_load_text_comparison ( const gchar **attribute_names,
                                     GINT_TO_POINTER (text_comparison_number)));
 }
 
-
 /**
- * load the amount comparaison structure in the grisbi file
  *
- * \param attribute_names
- * \param attribute_values
  *
- * */
-void gsb_file_load_amount_comparison ( const gchar **attribute_names,
-                        const gchar **attribute_values )
-{
-    gint i=0;
-    gint amount_comparison_number = 0;
-    gint report_number = 0;
-
-    if ( !attribute_names[i] )
-    return;
-
-    do
-    {
-    /*     we test at the beginning if the attribute_value is NULL, if yes, */
-    /*        go to the next */
-
-    if ( !strcmp (attribute_values[i],
-              "(null)"))
-    {
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-               "Comparison_number" ))
-    {
-        /* if comparison number is -1, it's an import of report,
-         * so let grisbi choose the good number */
-        if (utils_str_atoi (attribute_values[i]) == -1)
-        amount_comparison_number = gsb_data_report_amount_comparison_new (0);
-        else
-        amount_comparison_number = gsb_data_report_amount_comparison_new (utils_str_atoi (attribute_values[i]));
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-               "Report_nb" ))
-    {
-        report_number = utils_str_atoi (attribute_values[i]);
-
-        /* if report_number = -1, it's an import of report,
-         * so that comparison structure must be associated to the last report_number saved */
-        if (report_number == -1)
-        {
-        report_number = gsb_data_report_max_number ();
-        gsb_data_report_amount_comparison_set_report_number ( amount_comparison_number,
-                                          report_number);
-        }
-        else
-        gsb_data_report_amount_comparison_set_report_number ( amount_comparison_number,
-                                          report_number);
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-               "Last_comparison" ))
-    {
-        gsb_data_report_amount_comparison_set_link_to_last_amount_comparison ( amount_comparison_number,
-                                               utils_str_atoi (attribute_values[i]));
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-               "Comparison_1" ))
-    {
-        gsb_data_report_amount_comparison_set_first_comparison ( amount_comparison_number,
-                                         utils_str_atoi (attribute_values[i]));
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-               "Link_1_2" ))
-    {
-        gsb_data_report_amount_comparison_set_link_first_to_second_part ( amount_comparison_number,
-                                              utils_str_atoi (attribute_values[i]));
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-               "Comparison_2" ))
-    {
-        gsb_data_report_amount_comparison_set_second_comparison ( amount_comparison_number,
-                                          utils_str_atoi (attribute_values[i]));
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-               "Amount_1" ))
-    {
-        gsb_data_report_amount_comparison_set_first_amount ( amount_comparison_number,
-                                     gsb_real_safe_real_from_string (attribute_values[i]));
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-               "Amount_2" ))
-    {
-        gsb_data_report_amount_comparison_set_second_amount ( amount_comparison_number,
-                                     gsb_real_safe_real_from_string (attribute_values[i]));
-        i++;
-        continue;
-    }
-
-    /* normally, shouldn't come here */
-    i++;
-    }
-    while ( attribute_names[i] );
-
-    gsb_data_report_set_amount_comparison_list ( report_number,
-                             g_slist_append ( gsb_data_report_get_amount_comparison_list (report_number),
-                                      GINT_TO_POINTER (amount_comparison_number)));
-}
-
-
-/**
- * load the logo_accueil in the grisbi file
+ * \param
  *
- * \param attribute_names
- * \param attribute_values
- *
- * */
-void gsb_file_load_logo_accueil ( const gchar **attribute_names,
-                        const gchar **attribute_values )
-{
-    gint i=0;
-
-    do
-    {
-        /*     we test at the beginning if the attribute_value is NULL, if yes, */
-        /*        go to the next */
-
-        if ( !strcmp (attribute_values[i],
-                  "(null)"))
-        {
-            i++;
-            continue;
-        }
-        if ( !strcmp ( attribute_names[i], "Image" ) )
-        {
-            GdkPixbuf *pixbuf = NULL;
-
-            pixbuf = gsb_select_icon_create_pixbuf_from_chaine_base64 (
-                                (gchar *) attribute_values[i] );
-            etat.is_pixmaps_dir = FALSE;
-
-            gtk_window_set_default_icon ( pixbuf );
-            gsb_select_icon_set_logo_pixbuf ( pixbuf );
-            g_object_unref ( G_OBJECT ( pixbuf ) );
-            i++;
-            continue;
-        }
-    }
-    while ( attribute_names[i] );
-}
-
-
-/**
- * charge les icones pour les comptes
- *
- * \param attribute_names
- * \param attribute_values
- *
- * */
-void gsb_file_load_account_icon_part ( const gchar **attribute_names,
-                        const gchar **attribute_values )
-{
-    gint i=0;
-    gint account_number = -1;
-    GdkPixbuf *pixbuf = NULL;
-
-    do
-    {
-        /*     we test at the beginning if the attribute_value is NULL, if yes, */
-        /*        go to the next */
-
-        if ( !strcmp (attribute_values[i], "(null)"))
-        {
-            i++;
-            continue;
-        }
-        if ( !strcmp ( attribute_names[i], "Account_number" ) )
-        {
-            account_number = utils_str_atoi ( attribute_values[i] );
-            i++;
-            continue;
-        }
-
-        if ( !strcmp ( attribute_names[i], "Image" ) )
-        {
-            pixbuf = gsb_select_icon_create_pixbuf_from_chaine_base64 (
-                                (gchar *) attribute_values[i] );
-            i++;
-            continue;
-        }
-    }
-    while ( attribute_names[i] );
-
-    if ( account_number != -1 && pixbuf )
-    {
-        gsb_select_icon_new_account_icon ( account_number, pixbuf );
-        gsb_data_account_set_account_icon_pixbuf ( account_number, pixbuf );
-    }
-}
-
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
