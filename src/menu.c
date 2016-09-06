@@ -42,6 +42,7 @@
 #include "gsb_assistant_account.h"
 #include "gsb_assistant_archive.h"
 #include "gsb_assistant_archive_export.h"
+#include "gsb_assistant_file.h"
 #include "gsb_data_account.h"
 #include "gsb_data_mix.h"
 #include "gsb_debug.h"
@@ -358,7 +359,14 @@ void grisbi_cmd_file_new ( GSimpleAction *action,
 						GVariant *parameter,
 						gpointer app )
 {
-	 gsb_file_new ();
+    /* continue only if closing the file is ok */
+    if ( !gsb_file_close () )
+        return;
+
+    /* set up all the default variables */
+    init_variables ();
+
+    gsb_assistant_file_run (FALSE, FALSE);
 }
 
 /**

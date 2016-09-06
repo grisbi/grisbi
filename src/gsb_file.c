@@ -51,7 +51,6 @@
 #include "grisbi_win.h"
 #include "gsb_account_property.h"
 #include "gsb_assistant_account.h"
-#include "gsb_assistant_file.h"
 #include "gsb_data_account.h"
 #include "gsb_data_archive_store.h"
 #include "gsb_dirs.h"
@@ -145,30 +144,6 @@ gboolean gsb_file_test_file ( const gchar *filename )
     }
 	return TRUE;
  }
-
-/**
- * Called by menu file -> new,
- * close the last file and open a new one
- * in fact just an assistant launcher, but need to check if the previous file is closed
- *
- * \param none
- *
- * \return FALSE
- * */
-gboolean gsb_file_new ( void )
-{
-    /* continue only if closing the file is ok */
-    if ( !gsb_file_close () )
-	return FALSE;
-
-    /* set up all the default variables */
-    init_variables ();
-
-    gsb_assistant_file_run (FALSE, FALSE);
-
-    return FALSE;
-}
-
 
 /**
  * come here to finish to create the new file
