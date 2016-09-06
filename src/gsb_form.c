@@ -602,7 +602,9 @@ gboolean gsb_form_set_sensitive ( gboolean split,
             case TRANSACTION_FORM_TYPE:
             case TRANSACTION_FORM_CHEQUE:
             case TRANSACTION_FORM_BANK:
+			/* Modifié le 22/12/2015 à la demande des utilisateurs
             case TRANSACTION_FORM_VOUCHER:
+*/
                 gtk_widget_set_sensitive ( element -> element_widget, FALSE );
                 break;
             }
@@ -962,6 +964,9 @@ gboolean gsb_form_set_expander_visible ( gboolean visible,
  * */
 gboolean gsb_form_switch_expander ( void )
 {
+	if ( !form_expander )
+		return FALSE;
+
     gtk_expander_set_expanded ( GTK_EXPANDER (form_expander),
 				!gsb_form_is_visible ());
 
@@ -3837,10 +3842,11 @@ gboolean gsb_form_button_press ( GtkWidget *vbox,
     menu = gtk_menu_new ();
 
     /* propose to configure the form */
-    menu_item = gtk_image_menu_item_new_with_label ( _("Configure the form") );
-    gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
-				    gtk_image_new_from_stock ( "gtk-properties",
-							       GTK_ICON_SIZE_MENU ));
+    menu_item = gtk_menu_item_new_with_label ( _("Configure the form") );
+    /*sera revu plus tard */
+    //~ gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
+				    //~ gtk_image_new_from_icon_name ( "gtk-properties",
+							       //~ GTK_ICON_SIZE_MENU ));
     g_signal_connect ( G_OBJECT(menu_item),
 		       "activate",
 		       G_CALLBACK (gsb_preferences_menu_open),
