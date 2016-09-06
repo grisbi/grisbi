@@ -453,12 +453,19 @@ static gboolean gsb_file_automatic_backup ( gpointer null )
  * */
 gboolean gsb_file_save_file ( gint origine )
 {
-    gint etat_force, result;
+    gint etat_force = 0;
+    gint result = 0;
     gchar *nouveau_nom_enregistrement;
 
     devel_debug_int (origine);
 
-    etat_force = 0;
+    /* on commence par demander si on sauvegarde ou pas */
+    if ( !conf.sauvegarde_auto )
+    {
+        result = gsb_file_dialog_save ();
+        if ( result == GTK_RESPONSE_NO )
+            return ( TRUE );
+    }
 
     if ( ( !gsb_file_get_modified ( ) && origine != -2 )
         ||
