@@ -689,6 +689,7 @@ static gboolean grisbi_app_load_file_if_necessary ( GrisbiApp *app )
             if ( !gsb_file_open_file ( conf.last_open_file ) )
             {
                 g_free ( conf.last_open_file );
+                conf.last_open_file = NULL;
 
                 return FALSE;
             }
