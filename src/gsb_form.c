@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     copyright (c)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2004-2008 Benjamin Drieu (bdrieu@april.org)                       */
-/*                      2009 Pierre Biava (grisbi@pierre.biava.name)          */
+/*                 2009-2016 Pierre Biava (grisbi@pierre.biava.name)          */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -79,6 +79,7 @@
 #include "traitement_variables.h"
 #include "transaction_list.h"
 #include "transaction_list_select.h"
+#include "utils_buttons.h"
 #include "utils_dates.h"
 #include "utils_editables.h"
 #include "utils_operations.h"
@@ -235,15 +236,11 @@ void gsb_form_create_widgets ( void )
     tmpstr = make_pango_attribut ( "weight=\"bold\"", _("Transaction/Scheduled _form") );
     gtk_label_set_markup_with_mnemonic ( GTK_LABEL ( label ), tmpstr );
     g_free ( tmpstr );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 label,
-			 FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
 
     /* set the last statement label */
     label_last_statement = gtk_label_new ( NULL );
-    gtk_box_pack_end ( GTK_BOX ( hbox ),
-		       label_last_statement,
-		       FALSE, FALSE, 0 );
+    gtk_box_pack_end ( GTK_BOX ( hbox ), label_last_statement, FALSE, FALSE, 0 );
 
     /* Create form inside the expander :
      * the form is 3 parts :
@@ -251,8 +248,7 @@ void gsb_form_create_widgets ( void )
      * middle : the values for transactions and scheduled transactions
      * bottom : the buttons valid/cancel */
     transaction_form = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
-    gtk_container_add ( GTK_CONTAINER ( form_expander ),
-			transaction_form );
+    gtk_container_add ( GTK_CONTAINER ( form_expander ), transaction_form );
 
     /* play with that widget to tell to the tree view to scroll to keep the selection visible */
     g_signal_connect_after ( G_OBJECT (transaction_form),
@@ -262,50 +258,39 @@ void gsb_form_create_widgets ( void )
 
     /* the scheduled part is a table of SCHEDULED_WIDTH col x SCHEDULED_HEIGHT rows */
 
-    form_scheduled_part = gtk_table_new ( SCHEDULED_HEIGHT,
-                      SCHEDULED_WIDTH,
-                      FALSE );
-    gtk_table_set_col_spacings ( GTK_TABLE (form_scheduled_part),
-                    6 );
-    gtk_box_pack_start ( GTK_BOX (transaction_form),
-                    form_scheduled_part,
-                    FALSE, FALSE,
-                    0 );
+    form_scheduled_part = gtk_grid_new ();
+    gtk_grid_set_column_spacing ( GTK_GRID (form_scheduled_part), 6 );
+    gtk_box_pack_start ( GTK_BOX (transaction_form), form_scheduled_part, FALSE, FALSE, 0 );
 
     gsb_form_scheduler_create (form_scheduled_part);
 
     /* add a separator between the scheduled and transaction part */
     separator = gtk_separator_new ( GTK_ORIENTATION_HORIZONTAL );
-    gtk_box_pack_start ( GTK_BOX (transaction_form),
-			 separator,
-			 FALSE, FALSE,
-			 0 );
+    gtk_box_pack_start ( GTK_BOX (transaction_form), separator, FALSE, FALSE, 0 );
 
     /* the transactions part is a variable table,
      * so set to 1x1 for now, it will change when we show it */
     /* didn't find another way to get the button-press-event on the form_transaction_part,
      * so use an event box */
     event_box = gtk_event_box_new ();
-    gtk_event_box_set_above_child (GTK_EVENT_BOX (event_box),
-				   FALSE );
-    gtk_box_pack_start ( GTK_BOX (transaction_form),
-			 event_box ,
-			 FALSE, FALSE,
-			 0 );
+    gtk_event_box_set_above_child (GTK_EVENT_BOX (event_box), FALSE );
+    gtk_box_pack_start ( GTK_BOX (transaction_form), event_box, FALSE, FALSE, 0 );
     g_signal_connect ( G_OBJECT (event_box),
 		       "button-press-event",
 		       G_CALLBACK (gsb_form_button_press),
 		       NULL );
 
-    form_transaction_part = gtk_table_new ( 1, 1, FALSE );
+    form_transaction_part = gtk_grid_new ();
+    gtk_grid_set_column_spacing ( GTK_GRID (form_transaction_part), 6 );
+
     g_signal_connect ( G_OBJECT (form_transaction_part),
 		       "size-allocate",
 		       G_CALLBACK (gsb_form_allocate_size),
 		       NULL );
-    gtk_container_add ( GTK_CONTAINER (event_box),
-			form_transaction_part );
 
-    gsb_form_initialise_transaction_form ( );
+    gtk_container_add ( GTK_CONTAINER (event_box), form_transaction_part );
+
+    gsb_form_initialise_transaction_form ();
 
     /* the buttons part is a hbox, with the recuperate child split
      * on the left and valid/cancel on the right */
@@ -326,10 +311,7 @@ void gsb_form_create_widgets ( void )
 
     /* create the check button to recover the children of splits */
     form_button_recover_split = gtk_check_button_new_with_label ( _("Recover the children"));
-    gtk_box_pack_start ( GTK_BOX (hbox_buttons_inner),
-			 form_button_recover_split,
-			 FALSE, FALSE,
-			 0 );
+    gtk_box_pack_start ( GTK_BOX (hbox_buttons_inner), form_button_recover_split, FALSE, FALSE, 0 );
 
     /* create the valid/cancel buttons */
     form_button_valid = gtk_button_new_from_stock ("gtk-ok");
@@ -344,10 +326,6 @@ void gsb_form_create_widgets ( void )
 		       G_CALLBACK (gsb_form_escape_form), NULL );
     gtk_box_pack_end ( GTK_BOX (hbox_buttons_inner), form_button_cancel, FALSE, FALSE, 0 );
 
-    /* Kludge : otherwise, GtkExpander won't give us as many space
-       as we need. */
-/*    gtk_widget_set_size_request ( hbox, 2048, -1 );
-*/
     gtk_widget_show_all ( hbox );
     gtk_widget_show_all ( transaction_form );
     gtk_widget_hide ( form_scheduled_part );
@@ -3854,7 +3832,7 @@ gboolean gsb_form_button_press ( GtkWidget *vbox,
     devel_debug (NULL);
 
     if ( ev -> button != RIGHT_BUTTON )
-	return FALSE;
+        return FALSE;
 
     menu = gtk_menu_new ();
 
@@ -3930,10 +3908,6 @@ gboolean gsb_form_initialise_transaction_form ( void )
     rows_number = gsb_data_form_get_nb_rows (form_account_number);
     columns_number = gsb_data_form_get_nb_columns (form_account_number);
 
-    gtk_table_resize ( GTK_TABLE (form_transaction_part),
-		       rows_number,
-		       columns_number );
-
     for ( row=0 ; row < rows_number ; row++ )
 	for ( column=0 ; column < columns_number ; column++ )
 	{
@@ -3944,15 +3918,9 @@ gboolean gsb_form_initialise_transaction_form ( void )
 		widget = gsb_form_widget_create ( element, account_number );
 
 	    if ( !widget )
-		continue;
+            continue;
 
-	    gtk_table_attach ( GTK_TABLE (form_transaction_part),
-			       widget,
-			       column, column+1,
-			       row, row+1,
-			       gsb_form_get_element_expandable ( element ),
-			       gsb_form_get_element_expandable ( element ),
-			       0, 0);
+	    gtk_grid_attach ( GTK_GRID (form_transaction_part), widget, column, row, 1, 1 );
 	}
 
     return FALSE;

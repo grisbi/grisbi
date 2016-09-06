@@ -2,6 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
+/*                 2009-2016 Pierre Biava (grisbi@pierre.biava.name)          */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -116,6 +117,7 @@ gboolean gsb_form_scheduler_create ( GtkWidget *table )
 {
     gint row, column;
     struct_element *element;
+
     devel_debug (NULL);
     if (!table)
         return FALSE;
@@ -123,23 +125,6 @@ gboolean gsb_form_scheduler_create ( GtkWidget *table )
     /* just in case... be sure that not created */
     if (scheduled_element_list)
         gsb_form_scheduler_free_list ( );
-
-    /* check the dimensions,
-     * if problem give a warning message but continue the program with changing the values */
-    g_object_get ( G_OBJECT (table),
-		   "n-columns", &column,
-		   "n-rows", &row,
-		   NULL );
-    if ( column != SCHEDULED_WIDTH
-	 ||
-	 row != SCHEDULED_HEIGHT )
-    {
-        warning_debug ( _("gsb_form_scheduler_create is called with a bad table,\n"
-                          "the number of rows or columns is not good.\n"
-                          "The function will resize the table to the correct values but "
-                          "should check that warning."));
-        gtk_table_resize ( GTK_TABLE (table), SCHEDULED_HEIGHT, SCHEDULED_WIDTH );
-    }
 
     /* ok, now fill the form
      * we play with height and width, but for now it's fix : 6 columns and 1 line */
@@ -228,15 +213,10 @@ gboolean gsb_form_scheduler_create ( GtkWidget *table )
                         element );
 
 	    /* set in the form */
-	    gtk_table_attach ( GTK_TABLE (table),
-                        widget,
-                        column, column+1,
-                        row, row+1,
-                        GTK_EXPAND | GTK_FILL,
-                        GTK_EXPAND | GTK_FILL,
-                        0, 0);
+	    gtk_grid_attach ( GTK_GRID (table), widget, column, row, 1, 1 );
 	}
     gsb_form_scheduler_clean ( );
+
     return FALSE;
 }
 
