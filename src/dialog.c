@@ -212,11 +212,14 @@ void dialogue_special ( GtkMessageType param, const gchar *text, const gchar *hi
                         GTK_DIALOG_DESTROY_WITH_PARENT,
                         param, GTK_BUTTONS_CLOSE,
                         NULL );
-    gtk_message_dialog_set_markup ( GTK_MESSAGE_DIALOG ( dialog ), primary_text );
 
     if ( hint )
-        gtk_message_dialog_format_secondary_text ( GTK_MESSAGE_DIALOG (dialog),
-                                                   "%s", text );
+    {
+        gtk_message_dialog_set_markup ( GTK_MESSAGE_DIALOG ( dialog ), make_hint (primary_text, NULL) );
+        gtk_message_dialog_format_secondary_text ( GTK_MESSAGE_DIALOG (dialog), "%s", text );
+    }
+    else
+         gtk_message_dialog_set_markup ( GTK_MESSAGE_DIALOG ( dialog ), primary_text );
 
     gtk_window_set_modal ( GTK_WINDOW ( dialog ), TRUE );
     gtk_dialog_run (GTK_DIALOG (dialog));
