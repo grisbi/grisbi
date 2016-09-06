@@ -366,7 +366,7 @@ static GtkWidget *gsb_assistant_first_page_3 ( GtkWidget *assistant )
 static gboolean gsb_assistant_first_enter_page_2 ( GtkWidget *assistant,
                         gint new_page )
 {
-    if ( result_reconcile == TRUE )
+    //~ if ( result_reconcile == TRUE )
         gsb_assistant_change_button_next ( assistant, "gtk-go-forward",
 				       GTK_RESPONSE_APPLY );
 

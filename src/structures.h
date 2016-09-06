@@ -233,6 +233,9 @@ struct gsb_run_t
     /* main window of grisbi */
     GtkWidget *window;
 
+    /* old version of file */
+    gboolean old_version;           /* TRUE if file version < 0.6 */
+
     /* initialisation variables */
     gboolean new_crypted_file;      /* 0 à l'exécution de init_variables () 1 si new crypted file*/
 

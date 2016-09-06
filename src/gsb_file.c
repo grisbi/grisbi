@@ -84,7 +84,6 @@ static gchar *backup_path;
 gint id_timeout = 0;
 
 /*START_EXTERN*/
-extern gchar *copy_old_filename;
 extern gchar *nom_fichier_comptes;
 extern GtkWidget *table_etat;
 extern gchar *titre_fichier;
@@ -503,14 +502,6 @@ gboolean gsb_file_save_file ( gint origine )
         return ( FALSE );
     }
 
-    /* Si le fichier est un d'une version précédente de grisbi on demande si on l'efface */
-    if ( copy_old_filename && strlen ( copy_old_filename ) > 0 )
-    {
-        gsb_file_save_remove_old_file ( copy_old_filename );
-        g_free ( copy_old_filename );
-        copy_old_filename = NULL;
-    }
-
     /* make backup before saving if asked */
     if (conf.make_backup)
         gsb_file_save_backup();
@@ -835,6 +826,16 @@ gboolean gsb_file_open_file ( gchar *filename )
 		gchar *tmp_str1;
 		gchar *tmp_str2;
 
+        if (run.old_version)
+        {
+            dialogue_error_hint (_("The version of your file is less than 0.6. "
+                                   "This file can not be imported by Grisbi."),
+                                 _("Version of Grisbi file too old :"));
+            gsb_status_stop_wait ( TRUE );
+
+            return FALSE;
+        }
+
         /* Loading failed. */
         gsb_status_message ( _("Failed to load accounts") );
 
@@ -854,7 +855,7 @@ gboolean gsb_file_open_file ( gchar *filename )
         else
         {
             if ( gsb_file_get_backup_path () )
-            tmp_str2 = g_strdup_printf (
+                tmp_str2 = g_strdup_printf (
                             _("Grisbi was unable to load file and the backups seem not to "
                               "be activated... This is a bad thing.\nYour backup path is '%s', "
                               "try to find if earlier you had some backups in there ?\n"
@@ -862,7 +863,7 @@ gboolean gsb_file_open_file ( gchar *filename )
                               "to find what happened to you current file."),
                             gsb_file_get_backup_path () );
             else
-            tmp_str2 = my_strdup ( _("Grisbi was unable to load file and the backups seem not "
+                tmp_str2 = my_strdup ( _("Grisbi was unable to load file and the backups seem not "
                                     "to be activated... This is a bad thing.\n"
                                     "Please contact the Grisbi's team on "
                                     "devel@listes.grisbi.org to find what happened to you "
