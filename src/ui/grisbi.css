@@ -14,24 +14,25 @@
 @define-color couleur_solde_alarme_rouge_prelight rgb(255,0,0);
 
 /* Couleur des entry en erreur */
-@define-color default_entry_error_color #FF0000;
+@define-color default_entry_error_color rgb(255,0,0);
 
 /* Couleurs des tree_view */
-@define-color background_archive #3A7527;
-@define-color background_scheduled #FF0000;
-@define-color background_split #EFC5C5;
-@define-color couleur_fond_0 #D6D6FF;
-@define-color couleur_fond_1 #FFFFFF;
-@define-color couleur_jour #B3AEAE;
-@define-color couleur_selection #F59C9C;
-@define-color text_color_0 #000000;
-@define-color text_color_1 #FF0000;
+@define-color background_archive rgb(58,117,39);
+@define-color background_scheduled rgb(255,0,0);
+@define-color background_split rgb(239,197,197);
+@define-color couleur_fond_0 rgb(214,214,255);
+@define-color couleur_fond_1 rgb(255,255,255);
+@define-color couleur_jour rgb(179,174,174);
+@define-color couleur_selection rgb(245,156,156);
+@define-color text_color_0 rgb(0,0,0);
+@define-color text_color_1 rgb(195,195,195);
+@define-color text_color_2 rgb(255,0,0);
 
 /* colors for the balance estimate module */
-@define-color couleur_bet_division #000000;
-@define-color couleur_bet_future #000000;
-@define-color couleur_bet_solde #000000;
-@define-color couleur_bet_transfert #000000;
+@define-color couleur_bet_division rgb(0,0,0);
+@define-color couleur_bet_future rgb(0,0,0);
+@define-color couleur_bet_solde rgb(0,0,0);
+@define-color couleur_bet_transfert rgb(0,0,0);
 
 .view {
   color: #2e3436;
@@ -78,3 +79,16 @@
 #accueil_solde_alarme_rouge:prelight {
   color: @couleur_solde_alarme_rouge_prelight;
 }
+
+#form_entry {
+  color: @text_color_0;
+}
+
+#form_entry_empty {
+  color: @text_color_1;
+}
+
+#form_entry_error {
+  color: @text_color_2;
+}
+
