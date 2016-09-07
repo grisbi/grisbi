@@ -77,12 +77,6 @@ static gint old_debit_payment_number = 0;
 static gchar *old_credit_payment_content = NULL;
 static gchar *old_debit_payment_content = NULL;
 
-/* empty entry in form color */
-#define EMPTY_ENTRY_COLOR_RED   50000
-#define EMPTY_ENTRY_COLOR_GREEN 50000
-#define EMPTY_ENTRY_COLOR_BLUE  50000
-
-
 /**
  * return the list wich contains the widgets of the form
  *
@@ -736,44 +730,28 @@ gboolean gsb_form_widget_check_empty ( GtkWidget *entry )
  *
  * \return
  * */
-void gsb_form_widget_set_empty ( GtkWidget *entry,
-                    gboolean empty )
+void gsb_form_widget_set_empty (GtkWidget *entry,
+                                gboolean empty)
 {
-    GdkColor gray, black;
+    GtkStyleContext* context;
 
-    gray.pixel = 0;
-    gray.red = EMPTY_ENTRY_COLOR_RED;
-    gray.green = EMPTY_ENTRY_COLOR_GREEN;
-    gray.blue = EMPTY_ENTRY_COLOR_BLUE;
+    if (!entry || !GTK_IS_ENTRY (entry))
+        return;
 
-    black.pixel = 0;
-    black.red = 0;
-    black.green = 0;
-    black.blue = 0;
+    context = gtk_widget_get_style_context  (entry);
 
-    if (!entry
-	||
-	!GTK_IS_ENTRY (entry))
-	return;
-
-    if ( ! empty )
+    if (!empty)
     {
-	gtk_widget_modify_text ( entry,
-				 GTK_STATE_NORMAL,
-				 &black );
+        gtk_widget_set_name (entry, "form_entry");
+        gtk_style_context_set_state (context, GTK_STATE_FLAG_NORMAL);
     }
     else
     {
-	gtk_widget_modify_text ( entry,
-				 GTK_STATE_NORMAL,
-				 &gray );
+        gtk_widget_set_name (entry, "form_entry_empty");
+        gtk_style_context_set_state (context, GTK_STATE_FLAG_NORMAL);
     }
 
-	gtk_widget_modify_base ( entry,
-				 GTK_STATE_NORMAL,
-				 NULL );
-
-    g_object_set_data ( G_OBJECT(entry), "empty", GINT_TO_POINTER( empty ) );
+    g_object_set_data (G_OBJECT(entry), "empty", GINT_TO_POINTER (empty));
 }
 
 
@@ -950,44 +928,47 @@ gchar *gsb_form_widget_get_old_debit ( void )
  *
  * \return FALSE
  * */
-gboolean gsb_form_widget_amount_entry_changed ( GtkWidget *entry,
-				        gpointer null )
+gboolean gsb_form_widget_amount_entry_changed (GtkWidget *entry,
+                                               gpointer null )
 {
+    GtkStyleContext* context;
     gboolean valide;
     gint element_number;
 
     /* if we are in the form and the entry is empty, do nothing
      * because it's a special style too */
-    element_number = GPOINTER_TO_INT ( g_object_get_data (
-                        G_OBJECT ( entry ), "element_number" ) );
+    element_number = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (entry), "element_number"));
 
-    if ( g_strcmp0 ( gsb_form_widget_get_name ( element_number ),
-     gtk_entry_get_text ( GTK_ENTRY ( entry ) ) ) == 0 )
+    if (g_strcmp0 (gsb_form_widget_get_name (element_number),
+                   gtk_entry_get_text (GTK_ENTRY (entry))) == 0)
         return FALSE;
 
-    if ( gsb_form_widget_check_empty ( entry ) )
+    if (gsb_form_widget_check_empty (entry))
 	    return FALSE;
+
+    context = gtk_widget_get_style_context  (entry);
 
     /* if nothing in the entry, keep the normal style */
     if ( !strlen ( gtk_entry_get_text ( GTK_ENTRY ( entry ) ) ) )
     {
-		gtk_widget_modify_base ( entry, GTK_STATE_NORMAL, NULL );
+        gtk_widget_set_name (entry, "form_entry_empty");
+        gtk_style_context_set_state (context, GTK_STATE_FLAG_NORMAL);
+
 	    return FALSE;
     }
 
-    valide = gsb_form_widget_get_valide_amout_entry (
-        gtk_entry_get_text ( GTK_ENTRY ( entry ) ) );
-    if ( valide )
+    valide = gsb_form_widget_get_valide_amout_entry (gtk_entry_get_text (GTK_ENTRY (entry)));
+    if (valide)
     {
         /* the entry is valid, make it normal */
-	    gtk_widget_modify_base ( entry, GTK_STATE_NORMAL, NULL );
+        gtk_widget_set_name (entry, "form_entry");
     }
     else
     {
 	    /* the entry is not valid, make it red */
-		gtk_widget_modify_base ( entry, GTK_STATE_NORMAL,
-                        gsb_color_get_couleur ( "entry_error_color" ) );
+        gtk_widget_set_name (entry, "form_entry_error");
     }
+    gtk_style_context_set_state (context, GTK_STATE_FLAG_NORMAL);
 
     return FALSE;
 }
@@ -1216,9 +1197,10 @@ const gchar *gsb_form_widget_get_old_debit_payment_content ( void )
  *
  * \return TRUE if entry is valid
  * */
-gboolean gsb_form_widget_amount_entry_validate ( gint element_number )
+gboolean gsb_form_widget_amount_entry_validate (gint element_number)
 {
     GtkWidget *entry;
+    GtkStyleContext* context;
     const gchar *text;
     gchar *tmp_str;
     gchar *mon_decimal_point;
@@ -1240,6 +1222,8 @@ gboolean gsb_form_widget_amount_entry_validate ( gint element_number )
         return TRUE;
     }
 
+    context = gtk_widget_get_style_context  (entry);
+
     mon_decimal_point = gsb_locale_get_mon_decimal_point ( );
     if ( g_strrstr ( text, gsb_locale_get_mon_decimal_point ( ) ) == NULL )
         tmp_str = g_strconcat ( text, mon_decimal_point, NULL );
@@ -1250,15 +1234,17 @@ gboolean gsb_form_widget_amount_entry_validate ( gint element_number )
     if ( valide )
     {
         /* the entry is valid, make it normal */
-        gtk_widget_modify_base ( entry, GTK_STATE_NORMAL, NULL );
+        gtk_widget_set_name (entry, "form_entry");
         return_value = TRUE;
     }
     else
     {
         /* the entry is not valid, make it red */
-        gtk_widget_modify_base ( entry, GTK_STATE_NORMAL, gsb_color_get_couleur ( "entry_error_color" ) );
+        gtk_widget_set_name (entry, "form_entry_error");
         return_value = FALSE;
     }
+
+    gtk_style_context_set_state (context, GTK_STATE_FLAG_NORMAL);
 
     g_free ( tmp_str );
     g_free ( mon_decimal_point );
