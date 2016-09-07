@@ -106,6 +106,7 @@ GtkWidget *gsb_gui_create_general_widgets ( void )
     gtk_widget_set_name ( headings_eb, "grey_box");
 
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
+    gtk_widget_set_margin_end (hbox, MARGIN_END );
 
     /* Create two arrows. */
     arrow_left = gtk_arrow_new ( GTK_ARROW_LEFT, GTK_SHADOW_OUT );

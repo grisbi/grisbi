@@ -29,6 +29,9 @@
 #define PRIMARY_SORT            0
 #define SECONDARY_SORT          1
 
+/* margin for widgets */
+#define MARGIN_END              10
+
 /* global variables, see grisbi_app.c */
 extern struct GrisbiAppConf conf;
 extern GtkCssProvider *css_provider;
