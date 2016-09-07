@@ -177,8 +177,9 @@ GtkWidget *gsb_form_new ( void )
 {
     /* Create the expander */
     form_expander = gtk_expander_new ( "" );
+
     gtk_expander_set_expanded ( GTK_EXPANDER ( form_expander ),
-				conf.formulaire_toujours_affiche );
+                               conf.formulaire_toujours_affiche );
     g_signal_connect_after( G_OBJECT(form_expander),
 			    "activate",
 			    G_CALLBACK (gsb_form_activate_expander),
@@ -225,7 +226,9 @@ void gsb_form_create_widgets ( void )
 
     /* Expander has a composite label */
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
+    gtk_widget_set_margin_end (hbox, MARGIN_END );
     gtk_expander_set_label_widget ( GTK_EXPANDER(form_expander), hbox );
+    gtk_expander_set_label_fill ( GTK_EXPANDER(form_expander), TRUE );
 
     /* set the label transaction form */
     label = gtk_label_new ( NULL );
