@@ -85,8 +85,8 @@
 		    <choice value="Text + Icons"/>
 		</choices>
       <default>"Text + Icons"</default>
-	    <summary>Show toolbar</summary>
-	    <description>If TRUE, toolbar is displayed.</description>
+	    <summary>Show buttons on toolbars as</summary>
+	    <description>Select the labels of buttons: Text, Icon or Text+Icon.</description>
 	  </key>
 	  <key name="formulaire-toujours-affiche" type="b">
       <default>true</default>
@@ -96,7 +96,7 @@
 	  <key name="group-partial-balance-under-accounts" type="b">
       <default>true</default>
 	    <summary></summary>
-	    <description>.</description>
+	    <description></description>
 	  </key>
 
 	  <key name="show-closed-accounts" type="b">
@@ -144,7 +144,7 @@
     <key name="names-last-files" type="as">
       <default>[]</default>
       <summary>The last files opened by Grisbi</summary>
-      <description>A list of the last files opened by Grisbi</description>
+      <description>A list of the last files opened by Grisbi.</description>
     </key>
     <key name="nb-max-derniers-fichiers-ouverts" type="i">
       <default>3</default>
@@ -156,12 +156,12 @@
 	  <key name="check-for-archival" type="b">
 	    <default>true</default>
 	    <summary></summary>
-	    <description>.</description>
+	    <description></description>
 	  </key>
 	  <key name="max-transactions-before-warn-archival" type="i">
 	    <default>3000</default>
 	    <summary></summary>
-	    <description>.</description>
+	    <description></description>
 	  </key>
   </schema>
 
@@ -343,32 +343,32 @@
 	  <key name="delete-child-transaction" type="b">
 	    <default>true</default>
 	    <summary></summary>
-	    <description>.</description>
+	    <description></description>
 	  </key>
 	  <key name="delete-transaction" type="b">
 	    <default>true</default>
 	    <summary></summary>
-	    <description>.</description>
+	    <description></description>
 	  </key>
 	  <key name="delete-child-scheduled" type="b">
 	    <default>true</default>
 	    <summary></summary>
-	    <description>.</description>
+	    <description></description>
 	  </key>
 	  <key name="delete-scheduled" type="b">
 	    <default>true</default>
 	    <summary></summary>
-	    <description>.</description>
+	    <description></description>
 	  </key>
 	  <key name="delete-scheduled-occurences" type="b">
 	    <default>true</default>
 	    <summary></summary>
-	    <description>.</description>
+	    <description></description>
 	  </key>
 	  <key name="delete-rule" type="b">
 	    <default>true</default>
 	    <summary></summary>
-	    <description>.</description>
+	    <description></description>
 	  </key>
   </schema>
 
@@ -389,57 +389,57 @@
 	  <key name="ofx-security-not-implemented" type="b">
 	    <default>true</default>
 	    <summary></summary>
-	    <description>.</description>
+	    <description></description>
 	  </key>
 	  <key name="encryption-is-irreversible" type="b">
 	    <default>true</default>
 	    <summary></summary>
-	    <description>.</description>
+	    <description></description>
 	  </key>
 	  <key name="account-file-readable" type="b">
 	    <default>true</default>
 	    <summary></summary>
-	    <description>.</description>
+	    <description></description>
 	  </key>
 	  <key name="account-already-opened" type="b">
 	    <default>true</default>
 	    <summary></summary>
-	    <description>.</description>
+	    <description></description>
 	  </key>
 	  <key name="minimum-balance-alert" type="b">
 	    <default>true</default>
 	    <summary></summary>
-	    <description>.</description>
+	    <description></description>
 	  </key>
 	  <key name="no-budgetary-line" type="b">
 	    <default>true</default>
 	    <summary></summary>
-	    <description>.</description>
+	    <description></description>
 	  </key>
 	  <key name="recover-split" type="b">
 	    <default>true</default>
 	    <summary></summary>
-	    <description>.</description>
+	    <description></description>
 	  </key>
 	  <key name="no-inconsistency-found" type="b">
 	    <default>true</default>
 	    <summary></summary>
-	    <description>.</description>
+	    <description></description>
 	  </key>
 	  <key name="reconcile-transaction" type="b">
 	    <default>true</default>
 	    <summary></summary>
-	    <description>.</description>
+	    <description></description>
 	  </key>
 	  <key name="reconcile-start-end-dates" type="b">
 	    <default>true</default>
 	    <summary></summary>
-	    <description>.</description>
+	    <description></description>
 	  </key>
 	  <key name="development-version" type="b">
 	    <default>true</default>
 	    <summary></summary>
-	    <description>.</description>
+	    <description></description>
 	  </key>
   </schema>
 
@@ -469,12 +469,12 @@
 	  <key name="execute-scheduled-of-month" type="b">
 	    <default>false</default>
 	    <summary></summary>
-	    <description>.</description>
+	    <description></description>
 	  </key>
 	  <key name="balances-with-scheduled" type="b">
 	    <default>true</default>
 	    <summary></summary>
-	    <description>.</description>
+	    <description></description>
 	  </key>
   </schema>
 
