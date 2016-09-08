@@ -146,9 +146,14 @@ static GtkWidget *form_button_part;
 /** THE form */
 static GtkWidget *transaction_form;
 
-/** to avoid recursive allocate size */
+/** Gestion de l'allocation dynamique du formulaire : EN TRAVAUX */
+static gboolean block_form_allocate = FALSE;
+static gint sens_allocation;
+static gint saved_col_long_max_champ = 0;       /* sauvegarde initiale du champ le plus long */
+static gint saved_long_max_champ = 0;           /* sauvegarde de sa longueur initiale */
 gint saved_allocation_size;
 
+/* */
 static GDate *save_form_date;
 
 /**
@@ -246,12 +251,10 @@ void gsb_form_create_widgets ( void )
     gtk_container_add ( GTK_CONTAINER ( form_expander ), transaction_form );
 
     /* play with that widget to tell to the tree view to scroll to keep the selection visible */
-    /*
     g_signal_connect_after ( G_OBJECT (transaction_form),
 			     "size-allocate",
 			     G_CALLBACK (gsb_form_size_allocate),
 			     NULL );
-    */
 
     /* the scheduled part is a table of SCHEDULED_WIDTH col x SCHEDULED_HEIGHT rows */
 
@@ -279,12 +282,10 @@ void gsb_form_create_widgets ( void )
 
     form_transaction_part = gtk_grid_new ();
     gtk_grid_set_column_spacing ( GTK_GRID (form_transaction_part), 6 );
-    /*
     g_signal_connect ( G_OBJECT (form_transaction_part),
 		       "size-allocate",
 		       G_CALLBACK (gsb_form_allocate_size),
 		       NULL );
-    */
     gtk_container_add ( GTK_CONTAINER (event_box), form_transaction_part );
 
     gsb_form_initialise_transaction_form ();
@@ -3566,9 +3567,20 @@ gboolean gsb_form_allocate_size ( GtkWidget *table,
                         GtkAllocation *allocation,
                         gpointer null )
 {
-    gint row, column;
-    gint account_number;
     GtkWidget *widget;
+    gint row, column;
+    gint nbre_cols;
+    gint account_number;
+    gint util_allocation;
+    gint natural_width_max_col0 = 0;
+    gint natural_width_max_col1 = 0;
+    gint natural_width_max_col2 = 0;
+    gint natural_width_max_col3 = 0;
+    gint natural_width_max_col4 = 0;
+    gint natural_width_max_col5 = 0;
+    gint col_long_max_champ = 0;
+    gint long_max_champ = 0;
+    gint width_ajustement = 0;
 
     if (! gsb_form_is_visible ( ) )
 	return FALSE;
@@ -3582,22 +3594,183 @@ gboolean gsb_form_allocate_size ( GtkWidget *table,
 	saved_allocation_size = 0;
 	return FALSE;
     }
+
+    /* on retire 20 px ou 30 px pour gérer le dimmensionnement incertain du widget parent (GtkGrid) */
+    if (saved_allocation_size > allocation -> width)
+    {
+        sens_allocation = -1;
+        util_allocation = allocation->width -30;
+    }
+    else
+    {
+        sens_allocation = 1;
+        util_allocation = allocation->width -20;
+    }
+
     saved_allocation_size = allocation -> width;
+
 
     /* set the size for all columns - 1 to avoid recursive call to that function,
      * so the last column size is set to be beautiful, but in fact, it's just the extra-space */
-    for ( row=0 ; row < gsb_data_form_get_nb_rows (account_number) - 1 ; row++ )
-	for ( column=0 ; column < gsb_data_form_get_nb_columns (account_number) ; column++ )
-	{
-	    widget = gsb_form_widget_get_widget ( gsb_data_form_get_value ( account_number,
-									    column,
-									    row ));
-	    if ( widget )
-		gtk_widget_set_size_request ( widget,
-				       gsb_data_form_get_width_column (account_number,
-								       column ) * allocation -> width / 100,
-				       -1 );
-	}
+    nbre_cols = gsb_data_form_get_nb_columns (account_number);
+
+    for ( row=0 ; row < gsb_data_form_get_nb_rows (account_number); row++ )
+    {
+        for ( column=0 ; column < nbre_cols ; column++ )
+        {
+            gint minimum_width;
+            gint natural_width;
+
+            widget = gsb_form_widget_get_widget ( gsb_data_form_get_value ( account_number, column, row ));
+            if ( widget )
+            {
+                /* dans le sens négatif on redonne au plus grand champ sa taille initiale */
+                if (sens_allocation == -1 && column == saved_col_long_max_champ)
+                {
+                    if (saved_long_max_champ)
+                        gtk_widget_set_size_request ( widget, saved_long_max_champ, -1 );
+                }
+
+                gtk_widget_get_preferred_width (widget, &minimum_width, &natural_width);
+                if (natural_width > long_max_champ )
+                {
+                    long_max_champ = natural_width;
+                    col_long_max_champ = column;
+                }
+
+                switch (column)
+                {
+                    case 0:
+                        if (natural_width > natural_width_max_col0)
+                        {
+                            natural_width_max_col0 = natural_width;
+                        }
+                    case 1:
+                        if (natural_width > natural_width_max_col1)
+                        {
+                            natural_width_max_col1 = natural_width;
+                        }
+                        break;
+                    case 2:
+                        if (natural_width > natural_width_max_col2)
+                        {
+                            natural_width_max_col2 = natural_width;
+                        }
+                        break;
+                    case 3:
+                        if (natural_width > natural_width_max_col3)
+                        {
+                            natural_width_max_col3 = natural_width;
+                        }
+                        break;
+                    case 4:
+                        if (natural_width > natural_width_max_col4)
+                        {
+                            natural_width_max_col4 = natural_width;
+                        }
+                        break;
+                    case 5:
+                        if (natural_width > natural_width_max_col5)
+                        {
+                            natural_width_max_col5 = natural_width;
+                        }
+                        break;
+                }
+            }
+        }
+    }
+
+    /* on calcule l'ajustement à faire sur la colonne la plus longue et non la dernière comme avant */
+    width_ajustement = util_allocation - natural_width_max_col0 - natural_width_max_col1 - natural_width_max_col2 - natural_width_max_col3 - natural_width_max_col4 - natural_width_max_col5;
+
+    switch (col_long_max_champ)
+    {
+        case 0:
+            if (saved_long_max_champ == 0)
+            {
+                saved_col_long_max_champ = col_long_max_champ;
+                saved_long_max_champ = natural_width_max_col0;
+            }
+            natural_width_max_col0 += width_ajustement;
+            break;
+        case 1:
+            if (saved_long_max_champ == 0)
+            {
+                saved_col_long_max_champ = col_long_max_champ;
+                saved_long_max_champ = natural_width_max_col1;
+            }
+            natural_width_max_col1 += width_ajustement;
+            break;
+        case 2:
+            if (saved_long_max_champ == 0)
+            {
+                saved_col_long_max_champ = col_long_max_champ;
+                saved_long_max_champ = natural_width_max_col2;
+            }
+            natural_width_max_col2 += width_ajustement;
+            break;
+        case 3:
+            if (saved_long_max_champ == 0)
+            {
+                saved_col_long_max_champ = col_long_max_champ;
+                saved_long_max_champ = natural_width_max_col3;
+            }
+            natural_width_max_col3 += width_ajustement;
+            break;
+        case 4:
+            if (saved_long_max_champ == 0)
+            {
+                saved_col_long_max_champ = col_long_max_champ;
+                saved_long_max_champ = natural_width_max_col4;
+            }
+            natural_width_max_col4 += width_ajustement;
+            break;
+        case 5:
+            if (saved_long_max_champ == 0)
+            {
+                saved_col_long_max_champ = col_long_max_champ;
+                saved_long_max_champ = natural_width_max_col5;
+            }
+            natural_width_max_col5 += width_ajustement;
+            break;
+    }
+
+    for ( row=0 ; row < gsb_data_form_get_nb_rows (account_number) - 1; row++ )
+    {
+        for ( column=0 ; column < nbre_cols ; column++ )
+        {
+            widget = gsb_form_widget_get_widget ( gsb_data_form_get_value ( account_number, column, row ));
+            if ( widget )
+            {
+                switch (column)
+                {
+                    case 0:
+                        if ( natural_width_max_col0 )
+                            gtk_widget_set_size_request ( widget, natural_width_max_col0, -1 );
+                        break;
+                    case 1:
+                        if ( natural_width_max_col1 )
+                            gtk_widget_set_size_request ( widget, natural_width_max_col1, -1 );
+                        break;
+                    case 2:
+                        if ( natural_width_max_col2 )
+                            gtk_widget_set_size_request ( widget, natural_width_max_col2, -1 );
+                        break;
+                    case 3:
+                        if ( natural_width_max_col3 )
+                            gtk_widget_set_size_request ( widget, natural_width_max_col3, -1 );
+                        break;
+                    case 4:
+                         if ( natural_width_max_col4 )
+                           gtk_widget_set_size_request ( widget, natural_width_max_col4, -1 );
+                        break;
+                    case 5:
+                        if ( natural_width_max_col5 )
+                            gtk_widget_set_size_request ( widget, natural_width_max_col5, -1 );
+                }
+            }
+        }
+    }
 
     for ( column = 0 ; column < 6 ; column++ )
     {
@@ -3757,7 +3930,13 @@ gboolean gsb_form_initialise_transaction_form ( void )
     return FALSE;
 }
 
-
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ * */
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
