@@ -165,8 +165,9 @@ gchar *etats_titre ( gint report_number)
     {
 	/* c'est une plage de dates qui a été entrée */
 
-	gchar buffer_date[15];
-	gchar buffer_date_2[15];
+	gchar buffer_date[256];
+	gchar buffer_date_2[256];
+	gsize rc;
 	GDate *date_tmp;
 
 	switch ( gsb_data_report_get_date_type (report_number))
@@ -211,10 +212,12 @@ gchar *etats_titre ( gint report_number)
 	    case 3:
 		/* mois en cours */
 
-		g_date_strftime ( buffer_date,
-				  14,
+		rc = g_date_strftime ( buffer_date,
+				  sizeof(buffer_date),
 				  "%B",
 				  today_date );
+		if (rc == 0)
+		    strcpy(buffer_date, "???");
 
 		titre = g_strconcat ( titre,
 				      ", ",
@@ -258,10 +261,12 @@ gchar *etats_titre ( gint report_number)
 
 		g_date_subtract_months ( today_date,
 					 1 );
-		g_date_strftime ( buffer_date,
-				  14,
+		rc = g_date_strftime ( buffer_date,
+				  sizeof(buffer_date),
 				  "%B",
 				  today_date );
+		if (rc == 0)
+		    strcpy(buffer_date, "???");
 
 		titre = g_strconcat ( titre,
 				      ", ",
@@ -302,14 +307,18 @@ gchar *etats_titre ( gint report_number)
 		date_tmp = gdate_today ( );
 		g_date_subtract_months ( date_tmp,
 					 3 );
-		g_date_strftime ( buffer_date_2,
-				  14,
+		rc = g_date_strftime ( buffer_date_2,
+				  sizeof(buffer_date_2),
 				  "%B",
 				  date_tmp );
-		g_date_strftime ( buffer_date,
-				  14,
+		if (rc == 0)
+		    strcpy(buffer_date_2, "???");
+		rc = g_date_strftime ( buffer_date,
+				  sizeof(buffer_date),
 				  "%B",
 				  today_date);
+		if (rc == 0)
+		    strcpy(buffer_date, "???");
 
 		titre = g_strconcat ( titre,
 				      ", ",
@@ -329,14 +338,18 @@ gchar *etats_titre ( gint report_number)
 		date_tmp = gdate_today ( );
 		g_date_subtract_months ( date_tmp,
 					 6 );
-		g_date_strftime ( buffer_date_2,
-				  14,
+		rc = g_date_strftime ( buffer_date_2,
+				  sizeof(buffer_date_2),
 				  "%B",
 				  date_tmp );
-		g_date_strftime ( buffer_date,
-				  14,
+		if (rc == 0)
+		    strcpy(buffer_date_2, "???");
+		rc = g_date_strftime ( buffer_date,
+				  sizeof(buffer_date),
 				  "%B",
 				  today_date);
+		if (rc == 0)
+		    strcpy(buffer_date, "???");
 
 
 		titre = g_strconcat ( titre,
@@ -357,14 +370,18 @@ gchar *etats_titre ( gint report_number)
 		date_tmp = gdate_today ( );
 		g_date_subtract_months ( date_tmp,
 					 12 );
-		g_date_strftime ( buffer_date_2,
-				  14,
+		rc = g_date_strftime ( buffer_date_2,
+				  sizeof(buffer_date_2),
 				  "%B",
 				  date_tmp );
-		g_date_strftime ( buffer_date,
-				  14,
+		if (rc == 0)
+		    strcpy(buffer_date_2, "???");
+		rc = g_date_strftime ( buffer_date,
+				  sizeof(buffer_date),
 				  "%B",
 				  today_date);
+		if (rc == 0)
+		    strcpy(buffer_date, "???");
 
 		titre = g_strconcat ( titre,
 				      ", ",

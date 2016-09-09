@@ -907,7 +907,8 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 	/* on vérifie maintenant s'il faut afficher un total ou pas */
 	switch ( gsb_data_report_get_period_split_type (current_report_number))
 	{
-	    gchar buffer[60];
+	    gchar buffer[256];
+	    gsize rc;
 	    GDate *date_tmp;
 
 	    case 0:
@@ -919,10 +920,12 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 		return ( ligne );
 
 	    /* ok, not the same day, we show a separation */
-	    g_date_strftime ( buffer,
-			      59,
+	    rc = g_date_strftime ( buffer,
+			      sizeof(buffer),
 			      "%A %d %B %Y",
 			      date_debut_periode );
+	    if (rc == 0)
+		strcpy(buffer, "???");
 
 	    if ( gsb_data_report_get_show_report_transaction_amount (current_report_number))
 	    {
@@ -1017,10 +1020,12 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 		 g_date_get_month ( date) == g_date_get_month ( date_debut_periode ) )
 		return ( ligne );
 
-	    g_date_strftime ( buffer,
-			      59,
+	    rc = g_date_strftime ( buffer,
+			      sizeof(buffer),
 			      "%B %Y",
 			      date_debut_periode );
+	    if (rc == 0)
+		strcpy(buffer, "???");
 
 	    if ( gsb_data_report_get_show_report_transaction_amount (current_report_number))
 	    {
@@ -1044,10 +1049,12 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 		 g_date_get_year ( date) == g_date_get_year ( date_debut_periode ) )
 		return ( ligne );
 
-	    g_date_strftime ( buffer,
-			      59,
+	    rc = g_date_strftime ( buffer,
+			      sizeof(buffer),
 			      "%Y",
 			      date_debut_periode );
+	    if (rc == 0)
+		strcpy(buffer, "???");
 
 	    if ( gsb_data_report_get_show_report_transaction_amount (current_report_number))
 	    {
