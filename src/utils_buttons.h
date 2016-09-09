@@ -23,7 +23,7 @@ GtkWidget * new_stock_image_label ( GsbButtonStyle style, const gchar * stock_id
 void set_popup_position (GtkMenu *menu, gint *x, gint *y, gboolean *push_in, gpointer user_data);
 GtkToolItem *utils_buttons_menu_new_from_image_label ( const gchar *image_name,
                         const gchar *label_name );
-GtkToolItem *utils_buttons_new_from_image_label ( const gchar *image_name, const gchar *label_name );
+GtkToolItem *utils_buttons_tool_button_new_from_image_label ( const gchar *image_name, const gchar *label_name );
 gint utils_radiobutton_get_active_index ( GtkWidget *radiobutton );
 void utils_radiobutton_set_active_index ( GtkWidget *radiobutton,
                         gint index );

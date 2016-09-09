@@ -400,7 +400,7 @@ void utils_radiobutton_set_active_index ( GtkWidget *radiobutton,
  *
  * \return a GtkToolItem or NULL
  * */
-GtkToolItem *utils_buttons_new_from_image_label ( const gchar *image_name,
+GtkToolItem *utils_buttons_tool_button_new_from_image_label ( const gchar *image_name,
                         const gchar *label_name )
 {
     GtkToolItem *button = NULL;
