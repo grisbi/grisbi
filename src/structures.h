@@ -33,7 +33,8 @@
 #define MARGIN_END              10
 
 /* global variable pour gestion CSS des couleurs */
-/* extern GtkCssProvider *css_provider; */
+/* declared in main.c */
+extern GtkCssProvider *css_provider;
 
 /** structure etat
  * variables contenant juste 0 ou 1

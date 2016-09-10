@@ -117,6 +117,7 @@ extern gchar *titre_fichier;
 
 /* variables initialisées lors de l'exécution de grisbi */
 struct gsb_run_t run;
+GtkCssProvider *css_provider;
 
 /**
  * Main function
@@ -504,8 +505,10 @@ gboolean gsb_grisbi_print_environment_var ( void )
  * */
 gboolean gsb_grisbi_init_app ( void )
 {
+    GFile *file = NULL;
     gboolean first_use = FALSE;
     gchar *string;
+    gchar *tmp_dir;
 
     /* create the icon of grisbi (set in the panel of gnome or other) */
     string = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "grisbi-logo.png", NULL );
@@ -514,6 +517,15 @@ gboolean gsb_grisbi_init_app ( void )
     g_free (string);
 
     /* initialisation of the variables */
+    /* load the CSS properties */
+    css_provider = gtk_css_provider_get_default ();
+    tmp_dir = g_strconcat ( gsb_dirs_get_ui_dir (), "/grisbi.css", NULL );
+    file = g_file_new_for_path ( tmp_dir );
+    if ( !gtk_css_provider_load_from_file ( css_provider, file, NULL ) )
+        warning_debug (tmp_dir);
+    g_free (tmp_dir);
+    g_object_unref (file);
+
     gsb_color_initialise_couleurs_par_defaut ( );
     init_variables ();
     register_import_formats ();
@@ -587,6 +599,12 @@ GtkWidget *gsb_main_create_main_window ( void )
 
     gtk_widget_set_size_request ( GTK_WIDGET ( run.window ), 1100, 800 );
     gtk_window_set_resizable ( GTK_WINDOW ( run.window ), TRUE );
+    /* set the CSS properties */
+    if ( css_provider )
+        gtk_style_context_add_provider_for_screen ( gdk_display_get_default_screen (
+                                                    gdk_display_get_default () ),
+                                                    GTK_STYLE_PROVIDER ( css_provider ),
+                                                    GTK_STYLE_PROVIDER_PRIORITY_USER );
 
     /* create the main window : a vbox */
     vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );

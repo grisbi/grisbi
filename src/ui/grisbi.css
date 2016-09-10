@@ -1,0 +1,94 @@
+/* Default color scheme */
+/* Couleurs de base */
+@define-color couleur_bleue blue;
+@define-color couleur_jaune yellow;
+
+/* colors of the amounts in the first page */
+@define-color couleur_nom_compte_normal rgb(0,0,0);
+@define-color couleur_nom_compte_prelight rgb(156,156,156);
+@define-color couleur_solde_alarme_verte_normal rgb(0,127,0);
+@define-color couleur_solde_alarme_verte_prelight rgb(0,230,0);
+@define-color couleur_solde_alarme_orange_normal rgb(230,155,0);
+@define-color couleur_solde_alarme_orange_prelight rgb(255,200,0);
+@define-color couleur_solde_alarme_rouge_normal rgb(153,0,0);
+@define-color couleur_solde_alarme_rouge_prelight rgb(255,0,0);
+
+/* Couleur des entry en erreur */
+@define-color default_entry_error_color rgb(255,0,0);
+
+/* Couleurs des tree_view */
+@define-color background_archive rgb(58,117,39);
+@define-color background_scheduled rgb(255,0,0);
+@define-color background_split rgb(239,197,197);
+@define-color couleur_fond_0 rgb(214,214,255);
+@define-color couleur_fond_1 rgb(255,255,255);
+@define-color couleur_jour rgb(179,174,174);
+@define-color couleur_selection rgb(245,156,156);
+@define-color text_color_0 rgb(0,0,0);
+@define-color text_color_1 rgb(195,195,195);
+@define-color text_color_2 rgb(255,0,0);
+
+/* colors for the balance estimate module */
+@define-color couleur_bet_division rgb(0,0,0);
+@define-color couleur_bet_future rgb(0,0,0);
+@define-color couleur_bet_solde rgb(0,0,0);
+@define-color couleur_bet_transfert rgb(0,0,0);
+
+.view {
+  color: #2e3436;
+  background-color: alpha(white, 0.30);
+}
+
+.view:selected {
+  color: white;
+  background-color: rgba(74,144,217,1.0);
+}
+
+#grey_box {
+  background-color: rgba(192,192,192,1.0);
+}
+
+#accueil_nom_compte {
+  color: @couleur_nom_compte_normal;
+}
+
+#accueil_nom_compte:prelight {
+  color: @couleur_nom_compte_prelight;
+}
+
+#accueil_solde_alarme_verte {
+  color: @couleur_solde_alarme_verte_normal;
+}
+
+#accueil_solde_alarme_verte:prelight {
+  color: @couleur_solde_alarme_verte_prelight;
+}
+
+#accueil_solde_alarme_orange {
+  color: @couleur_solde_alarme_orange_normal;
+}
+
+#accueil_solde_alarme_orange:prelight {
+  color: @couleur_solde_alarme_orange_prelight;
+}
+
+#accueil_solde_alarme_rouge {
+  color: @couleur_solde_alarme_rouge_normal;
+}
+
+#accueil_solde_alarme_rouge:prelight {
+  color: @couleur_solde_alarme_rouge_prelight;
+}
+
+#form_entry {
+  color: @text_color_0;
+}
+
+#form_entry_empty {
+  color: @text_color_1;
+}
+
+#form_entry_error {
+  color: @text_color_2;
+}
+
