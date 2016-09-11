@@ -44,6 +44,7 @@
 #include "gsb_file.h"
 #include "accueil.h"
 #include "affichage_liste.h"
+#include "dialog.h"
 #include "fenetre_principale.h"
 #include "gsb_account_property.h"
 #include "gsb_assistant_account.h"
