@@ -2,7 +2,6 @@ dnl Process this file with autoconf to produce a configure script.
 
 m4_define(grisbi_major_version, 1)
 m4_define(grisbi_minor_version, 1)
-
 m4_define(grisbi_micro_version, 1)
 m4_define(grisbi_version, grisbi_major_version.grisbi_minor_version.grisbi_micro_version)
 
@@ -211,7 +210,7 @@ AC_ARG_ENABLE(werror,
  	enable_werror=no)
 if test "x$enable_werror" = xyes ; then
 	if test "x$GCC" = "xyes" ; then
-		CFLAGS="$CFLAGS -ansi -Wall -Wunused -Wno-unused-parameter -Wno-unused-function -Wno-unused-but-set-variable -Wno-unused-result"
+		CFLAGS="$CFLAGS -pedantic-Wall -Wextra"
 		AC_MSG_WARN([Wall and Wunused flags are enabled])
 	else
 		AC_MSG_WARN([Wall and Wunused can be enabled only with gcc])
