@@ -289,11 +289,8 @@ gboolean ajout_etat ( void )
     label_description = gtk_label_new ( NULL );
     utils_labels_set_alignement ( GTK_LABEL ( label_description ), 0, 0 );
     gtk_label_set_line_wrap ( GTK_LABEL ( label_description ), TRUE );
-    gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-					    label_description );
-
-    gtk_viewport_set_shadow_type ( GTK_VIEWPORT ( gtk_bin_get_child ( GTK_BIN ( scrolled_window ) ) ),
-                        GTK_SHADOW_NONE );
+    gtk_container_add ( GTK_CONTAINER ( scrolled_window ), label_description );
+    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW ( scrolled_window ), GTK_SHADOW_NONE );
 
 	/* fill combobox */
 	gtk_combo_box_text_append_text ( GTK_COMBO_BOX_TEXT ( combobox ), _("Last month incomes and outgoings") );

@@ -2309,7 +2309,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
     gtk_widget_show ( scrolled_window );
 
     vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
-    gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( scrolled_window ), vbox );
+    gtk_container_add ( GTK_CONTAINER ( scrolled_window ), vbox );
     gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 10 );
     gtk_widget_show ( vbox );
 
@@ -3333,8 +3333,7 @@ void gsb_import_show_orphan_transactions ( GSList *orphan_list,
 	gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
                         GTK_POLICY_AUTOMATIC,
                         GTK_POLICY_AUTOMATIC );
-	gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-						liste_ope_celibataires );
+	gtk_container_add ( GTK_CONTAINER ( scrolled_window ), liste_ope_celibataires );
     gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (liste_ope_celibataires), TRUE);
 	gtk_widget_show_all ( scrolled_window );
 
