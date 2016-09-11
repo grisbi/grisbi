@@ -59,6 +59,12 @@ gboolean gsb_data_budget_set_type ( gint no_budget,
 				    gint budget_type );
 gboolean gsb_data_budget_sub_budget_remove ( gint no_budget,
 					     gint no_sub_budget );
+gint gsb_data_budget_test_create_budget ( gint no_budget,
+                        const gchar *name,
+                        gint budget_type );
+gboolean gsb_data_budget_test_create_sub_budget ( gint no_budget,
+                        gint no_sub_budget,
+                        const gchar *name );
 void gsb_data_budget_update_counters ( void );
 gchar * gsb_debug_duplicate_budget_check ();
 gboolean gsb_debug_duplicate_budget_fix ();

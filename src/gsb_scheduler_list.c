@@ -2238,7 +2238,7 @@ gboolean gsb_scheduler_list_popup_custom_periodicity_dialog (void)
     for ( i = 0; j_m_a_names[i]; i++ )
     {
         gtk_combo_box_text_append_text ( GTK_COMBO_BOX_TEXT ( combobox ),
-                        g_dgettext ( NULL, j_m_a_names[etat.affichage_echeances_perso_j_m_a] ) );
+                        g_dgettext ( NULL, j_m_a_names[i] ) );
     }
     gtk_combo_box_set_active ( GTK_COMBO_BOX ( combobox ), etat.affichage_echeances_perso_j_m_a );
 

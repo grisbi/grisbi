@@ -950,7 +950,7 @@ GPtrArray *bet_data_get_strings_to_save ( void )
         date_bascule = gsb_format_gdate_safe ( transfert->date_bascule );
 
         tmp_str = g_markup_printf_escaped ( "\t<Bet_transfert Nb=\"%d\" Dt=\"%s\" Ac=\"%d\" "
-                        "Ty=\"%d\" Ra=\"%d\" Rt=\"%d\" Dd=\"%d\" Dtb=\"%s\" "
+                        "Ty=\"%d\" Ra=\"%d\" Rt=\"%d\" Dd=\"%d\" Dtb=\"%s\" Mlbd=\"%d\" "
                         "Pa=\"%d\" Pn=\"%d\" Ca=\"%d\" Sca=\"%d\" Bu=\"%d\" Sbu=\"%d\" "
                         "CPa=\"%d\" CCa=\"%d\" CSca=\"%d\" CBu=\"%d\" CSbu=\"%d\" />\n",
                         ++index,
@@ -961,6 +961,7 @@ GPtrArray *bet_data_get_strings_to_save ( void )
                         transfert->replace_transaction,
                         transfert->direct_debit,
                         my_safe_null_str ( date_bascule ),
+                        transfert->main_last_banking_date,
                         transfert->main_payee_number,
                         transfert->main_payment_number,
                         transfert->main_category_number,
@@ -1919,11 +1920,20 @@ void bet_data_transfert_update_date_if_necessary ( struct_transfert_data *transf
         bet_data_transfert_create_reset_credit_card ( transfert );
 
         /* on incrémente la date de prélèvement */
-        tmp_date = gsb_date_copy ( transfert -> date );
+        tmp_date = gsb_date_copy ( transfert->date );
 
         g_date_free ( transfert->date );
         g_date_add_months ( tmp_date, 1 );
-        transfert -> date = tmp_date;
+
+        if ( transfert->main_last_banking_date )
+        {
+            transfert->date = gsb_date_get_last_banking_day_of_month ( tmp_date );
+            g_date_free ( tmp_date );
+        }
+        else
+        {
+            transfert->date = tmp_date;
+        }
 
         /* on incrémente la date de bascule */
         tmp_date = gsb_date_copy ( transfert->date_bascule );

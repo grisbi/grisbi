@@ -667,9 +667,12 @@ static gboolean custom_list_iter_next (GtkTreeModel  *tree_model,
 
 	mother_record = record -> mother_row;
 	if (record -> pos == (mother_record -> number_of_children - 1))
-	    /* we are on the list child, no next */
+    {
+        /* we are on the list child, no next */
+        iter->stamp     = 0;
+        iter->user_data = NULL;
 	    return FALSE;
-
+    }
 	/* go to the next child */
 	iter->stamp     = custom_list->stamp;
 	iter->user_data = mother_record -> children_rows[record -> pos + 1];
@@ -678,9 +681,27 @@ static gboolean custom_list_iter_next (GtkTreeModel  *tree_model,
     {
 	/* it's a mother iter */
 	if (record -> filtered_pos == (custom_list -> num_visibles_rows - 1))
-	    /* we are on the last mother, no next */
-	    return FALSE;
+    {
+        if ( record->children_rows )
+        {
+            CustomRecord  *mother_record;
 
+            /* we are on the last mother with children */
+            mother_record   = (record->children_rows[0])->mother_row;
+            iter->stamp     = custom_list->stamp;
+            iter->user_data = mother_record->children_rows[0];
+
+            return TRUE;
+        }
+        else
+        {
+            /* we are on the last mother without children, no next */
+            iter->stamp     = 0;
+            iter->user_data = NULL;
+
+            return FALSE;
+        }
+    }
 	iter->stamp     = custom_list->stamp;
 	iter->user_data = custom_list -> visibles_rows[record -> filtered_pos + 1];
     }

@@ -2614,7 +2614,7 @@ gchar *bet_array_list_get_description ( gint account_number,
                 desc = g_strdup ( gsb_data_budget_get_name (
                                     gsb_data_transaction_get_budgetary_number (
                                     transaction_number ),
-                                    gsb_data_transaction_get_sub_category_number (
+                                    gsb_data_transaction_get_sub_budgetary_number (
                                     transaction_number ),
                                     _("No data by default") ) );
                 break;
@@ -2630,7 +2630,7 @@ gchar *bet_array_list_get_description ( gint account_number,
                 desc = g_strdup ( gsb_data_budget_get_name (
                                     gsb_data_transaction_get_budgetary_number (
                                     transaction_number ),
-                                    gsb_data_transaction_get_sub_category_number (
+                                    gsb_data_transaction_get_sub_budgetary_number (
                                     transaction_number ),
                                     _("No budgetary line") ) );
                 break;
@@ -2664,7 +2664,7 @@ gchar *bet_array_list_get_description ( gint account_number,
                 desc = g_strdup ( gsb_data_budget_get_name (
                                     gsb_data_scheduled_get_budgetary_number (
                                     scheduled_number ),
-                                    gsb_data_scheduled_get_sub_category_number (
+                                    gsb_data_scheduled_get_sub_budgetary_number (
                                     scheduled_number ),
                                     _("No data by default") ) );
                 break;
@@ -2680,7 +2680,7 @@ gchar *bet_array_list_get_description ( gint account_number,
                 desc = g_strdup ( gsb_data_budget_get_name (
                                     gsb_data_scheduled_get_budgetary_number (
                                     scheduled_number ),
-                                    gsb_data_scheduled_get_sub_category_number (
+                                    gsb_data_scheduled_get_sub_budgetary_number (
                                     scheduled_number ),
                                     _("No budgetary line") ) );
                 break;
@@ -3068,6 +3068,7 @@ void bet_array_export_tab ( GtkWidget *menu_item, GtkTreeView *tree_view )
     GtkWidget *dialog;
     gint resultat;
     gchar *filename;
+    gchar *tmp_last_directory;
 
     dialog = gtk_file_chooser_dialog_new ( _("Export the array of forecast"),
 					   GTK_WINDOW ( run.window ),
@@ -3087,7 +3088,9 @@ void bet_array_export_tab ( GtkWidget *menu_item, GtkTreeView *tree_view )
     {
 	case GTK_RESPONSE_OK :
 	    filename = file_selection_get_filename ( GTK_FILE_CHOOSER ( dialog ) );
-	    gsb_file_update_last_path ( file_selection_get_last_directory ( GTK_FILE_CHOOSER ( dialog ), TRUE ) );
+        tmp_last_directory = file_selection_get_last_directory ( GTK_FILE_CHOOSER ( dialog ), TRUE );
+        gsb_file_update_last_path ( tmp_last_directory );
+        g_free ( tmp_last_directory );
 	    gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
 
 	    /* vérification que c'est possible est faite par la boite de dialogue */
@@ -3145,6 +3148,7 @@ void bet_array_create_transaction_from_transfert ( struct_transfert_data *transf
     date_fin_comparaison = g_date_new_dmy ( day, month, year );
     g_date_add_days ( date_fin_comparaison, valeur_echelle_recherche_date_import );
 
+    /* Si même mois on cherche une opération existante dans le compte */
     if ( same_month )
     {
         GDate *date_jour;
@@ -3185,54 +3189,62 @@ void bet_array_create_transaction_from_transfert ( struct_transfert_data *transf
                  g_date_compare ( date, date_fin_comparaison ) > 0 )
                     continue;
 
-                if ( transfert->main_category_number )
+                /* find the transaction which has the same payee */
+                if ( gsb_data_transaction_get_party_number ( transaction_number ) == transfert->main_payee_number )
                 {
-                    div_number = gsb_data_transaction_get_category_number ( transaction_number );
-                    if ( transfert->main_sub_category_number )
+                    if ( transfert->main_category_number )
                     {
-                        sub_div_number = gsb_data_transaction_get_sub_category_number ( transaction_number );
+                        div_number = gsb_data_transaction_get_category_number ( transaction_number );
+                        if ( transfert->main_sub_category_number )
+                        {
+                            sub_div_number = gsb_data_transaction_get_sub_category_number ( transaction_number );
+                        }
+                        if ( transfert->main_category_number == div_number
+                         &&
+                         transfert->main_sub_category_number == sub_div_number )
+                        {
+                            if ( transfert->type == 0 )
+                            {
+                                amount = gsb_data_account_get_balance_at_date ( transfert->replace_account, date_bascule );
+                            }
+                            else
+                            {
+                                amount = gsb_data_partial_balance_get_balance_at_date ( transfert -> replace_account, date_bascule );
+                            }
+                            gsb_data_transaction_set_amount ( transaction_number, amount );
+                            gsb_data_transaction_set_date ( transaction_number, transfert->date );
+                            gsb_transactions_list_update_transaction ( transaction_number );
+                            gsb_transactions_list_update_tree_view ( transfert->account_number, FALSE );
+                            find = TRUE;
+                            break;
+                        }
                     }
-                    if ( transfert->main_category_number == div_number
-                     &&
-                     transfert->main_sub_category_number == sub_div_number )
+                    else if ( transfert->main_budgetary_number )
                     {
-                        if ( transfert->type == 0 )
+                        div_number = gsb_data_transaction_get_budgetary_number ( transaction_number );
+                        if ( transfert->main_sub_budgetary_number )
                         {
-                            amount = gsb_data_account_get_balance_at_date ( transfert->replace_account, date_bascule );
+                            sub_div_number = gsb_data_transaction_get_sub_budgetary_number ( transaction_number );
                         }
-                        else
+                        if ( transfert->main_budgetary_number == div_number
+                         &&
+                         transfert->main_sub_budgetary_number == sub_div_number )
                         {
-                            amount = gsb_data_partial_balance_get_balance_at_date ( transfert -> replace_account, date_bascule );
+                            if ( transfert -> type == 0 )
+                            {
+                                amount = gsb_data_account_get_balance_at_date ( transfert->replace_account, date_bascule );
+                            }
+                            else
+                            {
+                                amount = gsb_data_partial_balance_get_balance_at_date ( transfert -> replace_account, date_bascule );
+                            }
+                            gsb_data_transaction_set_amount ( transaction_number, amount );
+                            gsb_data_transaction_set_date ( transaction_number, transfert->date );
+                            gsb_transactions_list_update_transaction ( transaction_number );
+                            gsb_transactions_list_update_tree_view ( transfert->account_number, FALSE );
+                            find = TRUE;
+                            break;
                         }
-                        gsb_data_transaction_set_amount ( transaction_number, amount );
-                        gsb_transactions_list_update_transaction ( transaction_number );
-                        find = TRUE;
-                        break;
-                    }
-                }
-                else if ( transfert->main_budgetary_number )
-                {
-                    div_number = gsb_data_transaction_get_budgetary_number ( transaction_number );
-                    if ( transfert->main_sub_budgetary_number )
-                    {
-                        sub_div_number = gsb_data_transaction_get_sub_budgetary_number ( transaction_number );
-                    }
-                    if ( transfert->main_budgetary_number == div_number
-                     &&
-                     transfert->main_sub_budgetary_number == sub_div_number )
-                    {
-                        if ( transfert -> type == 0 )
-                        {
-                            amount = gsb_data_account_get_balance_at_date ( transfert->replace_account, date_bascule );
-                        }
-                        else
-                        {
-                            amount = gsb_data_partial_balance_get_balance_at_date ( transfert -> replace_account, date_bascule );
-                        }
-                        gsb_data_transaction_set_amount ( transaction_number, amount );
-                        gsb_transactions_list_update_transaction ( transaction_number );
-                        find = TRUE;
-                        break;
                     }
                 }
             }
@@ -3274,34 +3286,38 @@ void bet_array_create_transaction_from_transfert ( struct_transfert_data *transf
              g_date_compare ( date, date_fin_comparaison ) > 0 )
                 continue;
 
-            if ( transfert->main_category_number )
+            /* find the transaction which has the same payee */
+            if ( gsb_data_scheduled_get_party_number ( scheduled_number ) == transfert->main_payee_number )
             {
-                div_number = gsb_data_scheduled_get_category_number ( scheduled_number );
-                if ( transfert->main_sub_category_number )
+                if ( transfert->main_category_number )
                 {
-                    sub_div_number = gsb_data_scheduled_get_sub_category_number ( scheduled_number );
+                    div_number = gsb_data_scheduled_get_category_number ( scheduled_number );
+                    if ( transfert->main_sub_category_number )
+                    {
+                        sub_div_number = gsb_data_scheduled_get_sub_category_number ( scheduled_number );
+                    }
+                    if ( transfert->main_category_number == div_number
+                     &&
+                     transfert->main_sub_category_number == sub_div_number )
+                    {
+                        find = TRUE;
+                        break;
+                    }
                 }
-                if ( transfert->main_category_number == div_number
-                 &&
-                 transfert->main_sub_category_number == sub_div_number )
+                else if ( transfert->main_budgetary_number )
                 {
-                    find = TRUE;
-                    break;
-                }
-            }
-            else if ( transfert->main_budgetary_number )
-            {
-                div_number = gsb_data_scheduled_get_budgetary_number ( scheduled_number );
-                if ( transfert->main_sub_budgetary_number )
-                {
-                    sub_div_number = gsb_data_scheduled_get_sub_budgetary_number ( scheduled_number );
-                }
-                if ( transfert->main_budgetary_number == div_number
-                 &&
-                 transfert->main_sub_budgetary_number == sub_div_number )
-                {
-                    find = TRUE;
-                    break;
+                    div_number = gsb_data_scheduled_get_budgetary_number ( scheduled_number );
+                    if ( transfert->main_sub_budgetary_number )
+                    {
+                        sub_div_number = gsb_data_scheduled_get_sub_budgetary_number ( scheduled_number );
+                    }
+                    if ( transfert->main_budgetary_number == div_number
+                     &&
+                     transfert->main_sub_budgetary_number == sub_div_number )
+                    {
+                        find = TRUE;
+                        break;
+                    }
                 }
             }
         }

@@ -1707,10 +1707,13 @@ void gsb_transactions_list_selection_changed ( gint new_selected_transaction )
 
     /* show the content of the transaction in the form,
      * only if the form is shown */
-    if ( conf.show_transaction_selected_in_form
-    &&
-    gsb_form_is_visible () )
-        gsb_form_fill_by_transaction (new_selected_transaction, TRUE, FALSE);
+    if ( gsb_form_is_visible () )
+    {
+        if ( conf.show_transaction_selected_in_form )
+            gsb_form_fill_by_transaction ( new_selected_transaction, TRUE, FALSE );
+        else
+            gsb_form_clean ( account_number );
+    }
 
     /* give the focus to the transaction_tree_view pbiava 02/09/2009
      * edit due to a regression loss of <CtrlR> */

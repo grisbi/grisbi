@@ -2097,6 +2097,43 @@ dialog_return:
  *
  * \return
  * */
+static void bet_transfert_last_banking_day_toggle ( GtkToggleButton *button,
+                        GtkWidget *entry )
+{
+    if ( gtk_toggle_button_get_active ( button ) )
+    {
+        GDate *date;
+        GDate *tmp_date;
+
+        date = gsb_calendar_entry_get_date ( entry );
+        if ( g_date_valid ( date ) )
+        {
+            tmp_date = gsb_date_get_last_banking_day_of_month ( date );
+            g_date_free ( date );
+
+            if ( g_date_valid ( tmp_date ) )
+            {
+                gsb_calendar_entry_set_date ( entry, tmp_date );
+                gtk_widget_set_sensitive ( entry, FALSE );
+                g_date_free ( tmp_date );
+            }
+        }
+    }
+    else
+    {
+        gtk_widget_set_sensitive ( entry, TRUE );
+    }
+}
+
+
+/**
+ * sensibilise ou insensibilise la boite en fonction de l'état du bouton
+ *
+ * \param button
+ * \param box
+ *
+ * \return
+ * */
 static void bet_transfert_replace_data_toggle ( GtkToggleButton *button,
                         GtkWidget *box )
 {
@@ -2426,6 +2463,18 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
     g_object_set_data ( G_OBJECT ( dialog ), "date_entry", date_entry );
     gtk_box_pack_start ( GTK_BOX ( hbox ), date_entry, FALSE, FALSE, 0 );
 
+    button = gtk_check_button_new_with_label (
+                        _("Last banking day of the month") );
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button ), FALSE );
+    g_object_set_data ( G_OBJECT ( dialog ), "bet_transfert_last_banking_day", button );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
+
+    g_signal_connect ( G_OBJECT ( button ),
+                        "toggled",
+                        G_CALLBACK ( bet_transfert_last_banking_day_toggle ),
+                        date_entry );
+
+
     /* boite verticale pour rendre actif ou non les champs ci-dessous */
     vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
     g_object_set_data ( G_OBJECT ( dialog ), "bet_transfert_main_vbox_data", vbox );
@@ -2649,6 +2698,9 @@ static gboolean bet_transfert_take_data (  struct_transfert_data *transfert,
     else
         return FALSE;
 
+    widget = g_object_get_data ( G_OBJECT ( dialog ), "bet_transfert_last_banking_day" );
+    transfert->main_last_banking_date = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( widget ) );
+
     widget = g_object_get_data ( G_OBJECT ( dialog ), "bet_transfert_replace_data" );
     transfert -> replace_transaction = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( widget ) );
 
@@ -2830,6 +2882,9 @@ static gboolean bet_transfert_set_form_data_from_line ( gint account_number,
     widget = g_object_get_data ( G_OBJECT ( bet_transfert_dialog ), "date_entry" );
     gsb_calendar_entry_set_date ( widget, transfert -> date );
     gsb_form_widget_set_empty ( widget, FALSE );
+
+    widget = g_object_get_data ( G_OBJECT ( bet_transfert_dialog ), "bet_transfert_last_banking_day" );
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( widget ), transfert->main_last_banking_date );
 
     widget = g_object_get_data ( G_OBJECT ( bet_transfert_dialog ), "bet_transfert_main_payee_combo" );
     if ( transfert->main_payee_number > 0 )

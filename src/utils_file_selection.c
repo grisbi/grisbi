@@ -146,8 +146,12 @@ gchar* file_selection_get_last_directory(GtkFileChooser* filesel,gboolean ended)
     {
         dirstr[dirstr_len-sepstr_len-1] = 0;
     }
+    g_free ( sepstr );
 
-    return g_filename_to_utf8(dirstr,-1,NULL,NULL,NULL);
+    tmpstr = g_filename_to_utf8 ( dirstr,-1,NULL,NULL,NULL );
+    g_free ( dirstr );
+
+    return tmpstr;
 
 } /* }}} file_selection_get_last_directory */
 

@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2004-2008 Benjamin Drieu (bdrieu@april.org)                       */
-/*                      2008-2013 Pierre Biava (grisbi@pierre.biava.name)     */
+/*                      2008-2015 Pierre Biava (grisbi@pierre.biava.name)     */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -60,7 +60,6 @@
 #include "gsb_data_import_rule.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_payment.h"
-#include "gsb_data_transaction.h"
 #include "utils_dates.h"
 #include "gsb_file.h"
 #include "gsb_file_util.h"
@@ -70,7 +69,6 @@
 #include "navigation.h"
 #include "menu.h"
 #include "tiers_onglet.h"
-#include "gsb_real.h"
 #include "gsb_status.h"
 #include "utils_str.h"
 #include "gsb_transactions_list.h"
@@ -83,7 +81,6 @@
 #include "transaction_list.h"
 #include "utils_files.h"
 #include "utils_real.h"
-#include "structures.h"
 #include "erreur.h"
 #include "gsb_dirs.h"
 #ifdef HAVE_XML2
@@ -176,29 +173,6 @@ static void traitement_operations_importees ( void );
 /*START_EXTERN*/
 extern GtkWidget *menu_import_rules;
 /*END_EXTERN*/
-
-/* recopie des types de transaction de la libofx en attendant une version propre */
-typedef enum
-{
-    OFX_CREDIT,     /**< Generic credit */
-    OFX_DEBIT,      /**< Generic debit */
-    OFX_INT,        /**< Interest earned or paid (Note: Depends on signage of amount) */
-    OFX_DIV,        /**< Dividend */
-    OFX_FEE,        /**< FI fee */
-    OFX_SRVCHG,     /**< Service charge */
-    OFX_DEP,        /**< Deposit */
-    OFX_ATM,        /**< ATM debit or credit (Note: Depends on signage of amount) */
-    OFX_POS,        /**< Point of sale debit or credit (Note: Depends on signage of amount) */
-    OFX_XFER,       /**< Transfer */
-    OFX_CHECK,      /**< Check */
-    OFX_PAYMENT,    /**< Electronic payment */
-    OFX_CASH,       /**< Cash withdrawal */
-    OFX_DIRECTDEP,  /**< Direct deposit */
-    OFX_DIRECTDEBIT,/**< Merchant initiated debit */
-    OFX_REPEATPMT,  /**< Repeating payment/standing order */
-    OFX_OTHER       /**< Somer other type of transaction */
-  } OFXTransactionType;
-
 
 /** Suppported import formats.  Plugins may register themselves. */
 static GSList *import_formats = NULL;
@@ -797,6 +771,7 @@ GSList *gsb_import_create_file_chooser ( const char *enc, GtkWidget *parent )
     gchar* old_str;
     gchar* tmpstr;
     gchar* tmpchar;
+    gchar *tmp_last_directory;
 
     dialog = gtk_file_chooser_dialog_new ( _("Choose files to import."),
                         GTK_WINDOW ( parent ),
@@ -888,7 +863,9 @@ GSList *gsb_import_create_file_chooser ( const char *enc, GtkWidget *parent )
     /* save charmap */
     charmap_imported = g_strdup (go_charmap_sel_get_encoding ( (GOCharmapSel * )go_charmap_sel ));
 
-    gsb_file_update_last_path (file_selection_get_last_directory (GTK_FILE_CHOOSER (dialog), TRUE));
+    tmp_last_directory = file_selection_get_last_directory ( GTK_FILE_CHOOSER ( dialog ), TRUE );
+    gsb_file_update_last_path ( tmp_last_directory );
+    g_free ( tmp_last_directory );
     gtk_widget_destroy (dialog);
     return filenames;
 }
@@ -2166,11 +2143,14 @@ gboolean gsb_import_define_action ( struct struct_compte_importation *imported_a
             list_tmp_transactions = list_tmp_transactions->next;
 
             /* first check the id */
-            tmp_str = gsb_data_transaction_get_id ( transaction_number );
-            if ( tmp_str && strcmp ( imported_transaction->id_operation, tmp_str ) == 0 )
+            if ( imported_transaction->id_operation )
             {
-                imported_transaction->action = IMPORT_TRANSACTION_LEAVE_TRANSACTION;
-                break;
+                tmp_str = gsb_data_transaction_get_id ( transaction_number );
+                if ( tmp_str && strcmp ( imported_transaction->id_operation, tmp_str ) == 0 )
+                {
+                    imported_transaction->action = IMPORT_TRANSACTION_LEAVE_TRANSACTION;
+                    break;
+                }
             }
 
             /* if no id, check the cheque */
@@ -2748,11 +2728,13 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
     }
 
     /* traitement d'un fichier OFX */
-    if (origine && g_ascii_strcasecmp (origine, "OFX") == 0 )
+    if ( origine
+     &&
+     ( g_ascii_strcasecmp (origine, "OFX") == 0 || g_ascii_strcasecmp (origine, "QIF") == 0 ) )
     {
         switch ( imported_transaction -> type_de_transaction )
         {
-            case OFX_CHECK:
+            case GSB_OFX_CHECK:
             /* Check = Chèque */
             payment_number = gsb_data_payment_get_number_by_name ( _("Check"),
                             account_number );
@@ -2763,69 +2745,73 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
                     transaction_number, imported_transaction -> cheque );
 
             break;
-            /* case OFX_INT:
+            /* case GSB_OFX_INT:
             break;
-            case OFX_DIV:
+            case GSB_OFX_DIV:
             break;
-            case OFX_SRVCHG:
+            case GSB_OFX_SRVCHG:
             break;
-            case OFX_FEE:
+            case GSB_OFX_FEE:
             break; */
-            case OFX_DEP:
+            case GSB_OFX_DEP:
             /* Deposit = Dépôt */
             payment_number = gsb_data_payment_get_number_by_name ( _("Deposit"),
                             account_number );
             gsb_data_transaction_set_method_of_payment_number (transaction_number, payment_number);
             break;
-            case OFX_ATM:
-            /* pas trouvé de définition remplacé par carte de crédit */
+            case GSB_OFX_ATM:
+            /* Retrait dans un distributeur de billets replacé par carte de crédit */
             payment_number = gsb_data_payment_get_number_by_name ( _("Credit card"),
                             account_number );
             gsb_data_transaction_set_method_of_payment_number (transaction_number, payment_number);
             break;
-            case OFX_POS:
+            case GSB_OFX_POS:
             /* Point of sale = Point de vente remplacé par carte de crédit */
             payment_number = gsb_data_payment_get_number_by_name ( _("Credit card"),
                             account_number );
             gsb_data_transaction_set_method_of_payment_number (transaction_number, payment_number);
             break;
-            case OFX_XFER:
+            case GSB_OFX_XFER:
             /* Transfer = Virement */
             payment_number = gsb_data_payment_get_number_by_name ( _("Transfer"),
                             account_number );
             gsb_data_transaction_set_method_of_payment_number (transaction_number, payment_number);
             break;
-            case OFX_PAYMENT:
+            case GSB_OFX_PAYMENT:
             /* Electronic payment remplacé par Direct debit = Prélèvement */
             payment_number = gsb_data_payment_get_number_by_name ( _("Direct debit"),
                             account_number );
             gsb_data_transaction_set_method_of_payment_number (transaction_number, payment_number);
             break;
-            case OFX_CASH:
+            case GSB_OFX_CASH:
             /* Cash withdrawal = retrait en liquide */
             payment_number = gsb_data_payment_get_number_by_name ( _("Cash withdrawal"),
                             account_number );
             gsb_data_transaction_set_method_of_payment_number (transaction_number, payment_number);
             break;
-            case OFX_DIRECTDEP:
+            case GSB_OFX_DIRECTDEP:
             /* Direct deposit remplacé par Transfert = Virement */
             payment_number = gsb_data_payment_get_number_by_name ( _("Transfer"),
                             account_number );
             gsb_data_transaction_set_method_of_payment_number (transaction_number, payment_number);
+            /* we get the number */
+            gsb_data_transaction_set_method_of_payment_content (
+                    transaction_number, imported_transaction->cheque );
+
             break;
-            case OFX_DIRECTDEBIT:
+            case GSB_OFX_DIRECTDEBIT:
             /* Merchant initiated debit remplacé par Direct debit = Prélèvement */
             payment_number = gsb_data_payment_get_number_by_name ( _("Direct debit"),
                             account_number );
             gsb_data_transaction_set_method_of_payment_number (transaction_number, payment_number);
 
             break;
-            /* case OFX_REPEATPMT:
+            /* case GSB_OFX_REPEATPMT:
             break; */
 
-            case OFX_DEBIT:
-            case OFX_CREDIT:
-            case OFX_OTHER:
+            case GSB_OFX_DEBIT:
+            case GSB_OFX_CREDIT:
+            case GSB_OFX_OTHER:
             break;
         }
     }
@@ -2998,17 +2984,18 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account,
 
             transaction_number = GPOINTER_TO_INT ( list_tmp_transactions->data );
 
-            list_tmp_transactions = list_tmp_transactions->next;
-
             /* si l'opé d'import a une id, on recherche dans la liste d'opé pour trouver
              * une id comparable */
-            tmp_str = gsb_data_transaction_get_id ( transaction_number );
-            if ( tmp_str && strcmp ( ope_import->id_operation, tmp_str ) == 0 )
+            if ( ope_import->id_operation )
             {
-                ope_trouvees = g_slist_append ( ope_trouvees, list_tmp_transactions->data );
-                continue;
-            }
+                tmp_str = gsb_data_transaction_get_id ( transaction_number );
+                if ( tmp_str && strcmp ( ope_import->id_operation, tmp_str ) == 0 )
+                {
+                    ope_trouvees = g_slist_append ( ope_trouvees, list_tmp_transactions->data );
 
+                    break;
+                }
+            }
             /* si on n'a rien trouvé par id, */
             /* on fait le tour de la liste d'opés pour trouver des opés comparable */
             /* cad même date avec + ou - une échelle et même montant et pas une opé de ventil */
@@ -3038,7 +3025,10 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account,
                 /* on a retouvé une opé de même date et même montant, on l'ajoute à la liste
                  * des opés trouvées */
                 ope_trouvees = g_slist_append ( ope_trouvees, list_tmp_transactions->data );
+
+                break;
             }
+            list_tmp_transactions = list_tmp_transactions->next;
         }
 
         /* à ce stade, ope_trouvees contient la ou les opés qui sont comparables à l'opé importée */
@@ -3239,6 +3229,9 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account,
         g_slist_free ( ope_trouvees );
         list_tmp = list_tmp -> next;
     }
+
+    if ( ope_list )
+        g_slist_free ( ope_list );
 
     /* a ce niveau, liste_opes_import_celibataires contient les opés d'import dont on
      * n'a pas retrouvé l'opé correspondante
@@ -3739,6 +3732,28 @@ GtkWidget *onglet_importation (void)
                         &etat.get_copy_payee_in_note,
                         NULL, NULL );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
+
+    /* QIF import settings */
+    paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,
+                        _("QIF Import settings"));
+
+    /* extraire le moyen de paiement du champs "N" pour le mettre dans type de transaction */
+    hbox = gtk_hbox_new ( FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
+
+    button = gsb_automem_checkbutton_new (
+                        _("If possible use the field « N » to define the methods of payment "),
+                        &etat.get_qif_use_field_extract_method_payment,
+                        NULL, NULL );
+
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
+    /* adding comment */
+    hbox = gtk_hbox_new ( FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
+
+    label = gtk_label_new (
+                        _("(Adding the import of QIF files of the « Société Générale » french bank)"));
+    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
 
     /* propose to choose between getting the fyear by value date or by date */
     gsb_automem_radiobutton_new_with_title ( vbox_pref,

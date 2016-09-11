@@ -210,6 +210,7 @@ struct iso_4217_currency iso_4217_currencies[] = {
     { N_("Europe"), N_("Latvian Lats"), N_("Latvia"), "LVL", NULL, TRUE, "LVL.png", 2, 1 },
     { N_("Europe"), N_("Lithuanian Litas"), N_("Lietuva"), "LTL", NULL, TRUE, "LTL.png", 2, 1 },
     { N_("Europe"), N_("Luxembourg Franc"), N_("Luxembourg"), "LUF", "₣", FALSE, "LUF.png", 2, 1 },
+    { N_("Europe"), N_("Moldovenesc Leu"), N_("Moldova"), "MDL", NULL, TRUE, "MDL.png", 2, 1 },
     { N_("Europe"), N_("Netherlands Guilder"), N_("Netherlands"), "NLG", "ƒ", FALSE, "NLG.png", 2, 1 },
     { N_("Europe"), N_("New Yugoslavian Dinar"), N_("Serbia and Montenegro"), "YUD", NULL, FALSE, "YUV.png", 2, 1 },
     { N_("Europe"), N_("Norwegian Krone"), N_("Norway"), "NOK", NULL, TRUE, "NOK.png", 2, 1 },

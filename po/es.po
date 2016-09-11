@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-04 20:02+0100\n"
+"POT-Creation-Date: 2015-08-16 21:17+0200\n"
 "PO-Revision-Date: 2010-05-09 11:48+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <cmcamara@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -224,8 +224,8 @@ msgid "Addresses & titles"
 msgstr "Direcciones y títulos"
 
 #. Account file title
-#: ../src/affichage.c:367 ../src/etats_config.c:635 ../src/etats_config.c:638
-#: ../src/etats_config.c:7015
+#: ../src/affichage.c:367 ../src/etats_config.c:636 ../src/etats_config.c:639
+#: ../src/etats_config.c:7023
 msgid "Titles"
 msgstr "Títulos"
 
@@ -479,11 +479,11 @@ msgstr "Comportamiento de la lista de transacciones"
 msgid "Transactions list contents"
 msgstr "Contenido de las transacciones"
 
-#: ../src/bet_config.c:99 ../src/etats_config.c:6374
+#: ../src/bet_config.c:99 ../src/etats_config.c:6382
 msgid "Month"
 msgstr "Mes"
 
-#: ../src/bet_config.c:100 ../src/etats_config.c:6378
+#: ../src/bet_config.c:100 ../src/etats_config.c:6386
 msgid "Year"
 msgstr "Año"
 
@@ -577,8 +577,8 @@ msgstr "Por defecto"
 #: ../src/bet_config.c:592 ../src/bet_config.c:611 ../src/bet_config.c:629
 #: ../src/bet_config.c:693 ../src/bet_hist.c:182 ../src/bet_hist.c:2109
 #: ../src/bet_hist.c:2115 ../src/categories_onglet.c:365
-#: ../src/etats_config.c:537 ../src/etats_config.c:540
-#: ../src/etats_config.c:2997 ../src/etats_config.c:7084
+#: ../src/etats_config.c:538 ../src/etats_config.c:541
+#: ../src/etats_config.c:3005 ../src/etats_config.c:7092
 #: ../src/fenetre_principale.c:297 ../src/navigation.c:1991
 msgid "Categories"
 msgstr "Categorías"
@@ -586,8 +586,8 @@ msgstr "Categorías"
 #. mise en place de la paddingbox des ib
 #: ../src/bet_config.c:593 ../src/bet_config.c:612 ../src/bet_config.c:630
 #: ../src/bet_config.c:702 ../src/bet_hist.c:191 ../src/bet_hist.c:2113
-#: ../src/etats_config.c:546 ../src/etats_config.c:549
-#: ../src/etats_config.c:3801 ../src/etats_config.c:7161
+#: ../src/etats_config.c:547 ../src/etats_config.c:550
+#: ../src/etats_config.c:3809 ../src/etats_config.c:7169
 #: ../src/export_csv.c:823 ../src/fenetre_principale.c:302
 #: ../src/import_csv.c:88 ../src/imputation_budgetaire.c:368
 #: ../src/navigation.c:1995
@@ -620,16 +620,16 @@ msgstr "Elija el año financiero o 12 meses naturales"
 #. name of the div sous-div column
 #: ../src/bet_config.c:934 ../src/bet_hist.c:566 ../src/bet_hist.c:1646
 #: ../src/categories_onglet.c:178 ../src/etats_affiche.c:2434
-#: ../src/etats_config.c:684 ../src/export_csv.c:814
+#: ../src/etats_config.c:685 ../src/export_csv.c:814
 #: ../src/gsb_transactions_list.c:181 ../src/import_csv.c:86
 #: ../src/meta_categories.c:66
 msgid "Category"
 msgstr "Categoría"
 
-#: ../src/bet_config.c:947 ../src/bet_future.c:862 ../src/bet_future.c:2401
-#: ../src/bet_future.c:2552 ../src/bet_future.c:2819 ../src/bet_future.c:2885
+#: ../src/bet_config.c:947 ../src/bet_future.c:862 ../src/bet_future.c:2438
+#: ../src/bet_future.c:2601 ../src/bet_future.c:2871 ../src/bet_future.c:2940
 #: ../src/bet_hist.c:1639 ../src/etats_affiche.c:2441
-#: ../src/etats_config.c:688 ../src/gsb_form.c:1339
+#: ../src/etats_config.c:689 ../src/gsb_form.c:1339
 #: ../src/gsb_form_widget.c:483 ../src/gsb_transactions_list.c:173
 #: ../src/imputation_budgetaire.c:180 ../src/meta_budgetary.c:64
 msgid "Budgetary line"
@@ -706,7 +706,7 @@ msgstr ""
 msgid "Account with deferred debit card"
 msgstr ""
 
-#: ../src/bet_data.c:1896
+#: ../src/bet_data.c:1897
 #, c-format
 msgid ""
 "Warning: the start date of the period of deferred debit card account (%s) is "
@@ -718,7 +718,7 @@ msgid ""
 "finish with \"No\" and update the account before you start."
 msgstr ""
 
-#: ../src/bet_data.c:1903
+#: ../src/bet_data.c:1904
 #, fuzzy
 msgid "Confirmation of the change of period"
 msgstr "Configuración de la página principal"
@@ -871,7 +871,7 @@ msgstr "Cargando cuentas: "
 #: ../src/gsb_assistant_reconcile_config.c:600 ../src/gsb_form.c:1294
 #: ../src/gsb_form_widget.c:451 ../src/gsb_reconcile.c:162
 #: ../src/gsb_scheduler_list.c:602 ../src/gsb_transactions_list.c:170
-#: ../src/import.c:3357 ../src/import_csv.c:81
+#: ../src/import.c:3344 ../src/import_csv.c:81
 msgid "Date"
 msgstr "Fecha"
 
@@ -953,8 +953,8 @@ msgstr ""
 "Error: la periodicidad definida por el usuario o la cantidad no están "
 "especificadas o la fecha no es válida."
 
-#: ../src/bet_future.c:256 ../src/bet_future.c:2070 ../src/bet_future.c:2981
-#: ../src/bet_future.c:3262 ../src/gsb_currency.c:740
+#: ../src/bet_future.c:256 ../src/bet_future.c:2070 ../src/bet_future.c:3036
+#: ../src/bet_future.c:3317 ../src/gsb_currency.c:740
 msgid "One field is not filled in"
 msgstr "Un campo no está relleno"
 
@@ -1048,21 +1048,21 @@ msgstr "Frecuencia aleatoria"
 msgid "Choose the financial year"
 msgstr "Elegir el año financiero"
 
-#: ../src/bet_future.c:618 ../src/bet_future.c:2499
+#: ../src/bet_future.c:618 ../src/bet_future.c:2548
 #: ../src/gsb_form_widget.c:304
 msgid "Choose the method of payment"
 msgstr "Elegir el método de pago"
 
 #. mise en place de la paddingbox des tiers
-#: ../src/bet_future.c:834 ../src/bet_future.c:2337 ../src/bet_future.c:2478
-#: ../src/bet_future.c:2785 ../src/bet_future.c:2848
-#: ../src/etats_affiche.c:2427 ../src/etats_config.c:528
-#: ../src/etats_config.c:531 ../src/etats_config.c:696
-#: ../src/etats_config.c:7049 ../src/export_csv.c:799
+#: ../src/bet_future.c:834 ../src/bet_future.c:2374 ../src/bet_future.c:2527
+#: ../src/bet_future.c:2837 ../src/bet_future.c:2903
+#: ../src/etats_affiche.c:2427 ../src/etats_config.c:529
+#: ../src/etats_config.c:532 ../src/etats_config.c:697
+#: ../src/etats_config.c:7057 ../src/export_csv.c:799
 #: ../src/fenetre_principale.c:287 ../src/gsb_assistant_reconcile_config.c:600
 #: ../src/gsb_form.c:1315 ../src/gsb_form_widget.c:471
 #: ../src/gsb_scheduler_list.c:602 ../src/gsb_transactions_list.c:172
-#: ../src/import.c:3364 ../src/import_csv.c:83 ../src/meta_payee.c:78
+#: ../src/import.c:3351 ../src/import_csv.c:83 ../src/meta_payee.c:78
 msgid "Payee"
 msgstr "Tercero"
 
@@ -1086,8 +1086,8 @@ msgstr "Débito"
 msgid "Credit"
 msgstr "Crédito"
 
-#: ../src/bet_future.c:855 ../src/bet_future.c:2373 ../src/bet_future.c:2525
-#: ../src/bet_future.c:2804 ../src/bet_future.c:2867 ../src/gsb_form.c:1331
+#: ../src/bet_future.c:855 ../src/bet_future.c:2410 ../src/bet_future.c:2574
+#: ../src/bet_future.c:2856 ../src/bet_future.c:2922 ../src/gsb_form.c:1331
 #: ../src/gsb_form_widget.c:475
 msgid "Categories : Sub-categories"
 msgstr "Categorías: Subcategorías"
@@ -1109,106 +1109,111 @@ msgstr "Anotaciones"
 #: ../src/etats_affiche.c:1845 ../src/export_csv.c:625 ../src/export_csv.c:737
 #: ../src/export_csv.c:749 ../src/gsb_data_category.c:1057
 #: ../src/gsb_data_payment.c:635 ../src/gsb_data_payment.c:719
-#: ../src/gsb_data_payment.c:758 ../src/gsb_form.c:2310 ../src/import.c:2790
-#: ../src/import.c:2808 ../src/plugins/ofx/ofx.c:438
+#: ../src/gsb_data_payment.c:758 ../src/gsb_form.c:2310 ../src/import.c:2769
+#: ../src/import.c:2787 ../src/plugins/ofx/ofx.c:438
 msgid "Transfer"
 msgstr "Transferencia"
 
-#: ../src/bet_future.c:2162 ../src/gsb_account_property.c:692
+#: ../src/bet_future.c:2199 ../src/gsb_account_property.c:692
 #: ../src/gsb_assistant_account.c:431 ../src/gsb_data_partial_balance.c:230
 msgid "Bank account"
 msgstr "Cuenta bancaria"
 
-#: ../src/bet_future.c:2165 ../src/gsb_account_property.c:692
+#: ../src/bet_future.c:2202 ../src/gsb_account_property.c:692
 #: ../src/gsb_data_partial_balance.c:218
 msgid "Cash account"
 msgstr "Cuenta de caja"
 
-#: ../src/bet_future.c:2168 ../src/gsb_account_property.c:692
+#: ../src/bet_future.c:2205 ../src/gsb_account_property.c:692
 #: ../src/gsb_assistant_account.c:444 ../src/gsb_data_partial_balance.c:222
 #, c-format
 msgid "Liabilities account"
 msgstr "Cuenta de Pasivo"
 
-#: ../src/bet_future.c:2224
+#: ../src/bet_future.c:2261
 msgid "Partial balance"
 msgstr "Balance parcial"
 
 #. Create the dialog
-#: ../src/bet_future.c:2264
+#: ../src/bet_future.c:2301
 #, fuzzy
 msgid "Configuring a deferred debit account"
 msgstr "Inserte el balance de una cuenta de efectivo"
 
 #. list of accounts
-#: ../src/bet_future.c:2280
+#: ../src/bet_future.c:2317
 msgid "List of accounts"
 msgstr "Lista de cuentas"
 
 #. Account with deferred debit card
-#: ../src/bet_future.c:2305
+#: ../src/bet_future.c:2342
 #, fuzzy
 msgid "Deferred debit card"
 msgstr "Tarjeta de crédito"
 
-#: ../src/bet_future.c:2311
+#: ../src/bet_future.c:2348
 #, fuzzy
 msgid "Date of beginning of period: "
 msgstr "Balance al comienzo del periodo"
 
-#: ../src/bet_future.c:2322 ../src/bet_future.c:2463
+#: ../src/bet_future.c:2359 ../src/bet_future.c:2512
 msgid "This field is required"
 msgstr ""
 
-#: ../src/bet_future.c:2356
+#: ../src/bet_future.c:2393
 msgid "One of the two fields is recommended"
 msgstr ""
 
 #. Main account
-#: ../src/bet_future.c:2416
+#: ../src/bet_future.c:2453
 #, fuzzy
 msgid "Main account"
 msgstr "Cuenta bancaria"
 
 #. Effective Date
-#: ../src/bet_future.c:2422
+#: ../src/bet_future.c:2459
 #, fuzzy
 msgid "Date of debit: "
 msgstr "la forma de pago: "
 
-#: ../src/bet_future.c:2435
+#: ../src/bet_future.c:2467
+#, fuzzy
+msgid "Last banking day of the month"
+msgstr "Primer día del mes"
+
+#: ../src/bet_future.c:2484
 #, fuzzy
 msgid "Automatic creation of the direct debit transaction"
 msgstr "Cargar automáticamente el último archivo abierto al inicio"
 
-#: ../src/bet_future.c:2447
+#: ../src/bet_future.c:2496
 #, fuzzy
 msgid "Replacement of the scheduled transaction in the forecast"
 msgstr "Seleccione la casilla para reemplazar una operación planeada"
 
-#: ../src/bet_future.c:2509
+#: ../src/bet_future.c:2558
 msgid "One of the two fields is required"
 msgstr ""
 
-#: ../src/bet_future.c:2932
+#: ../src/bet_future.c:2987
 #, fuzzy
 msgid "You must have at least one account with deferred debit card."
 msgstr "Debe seleccionar al menos dos cuentas."
 
-#: ../src/bet_future.c:2971 ../src/bet_future.c:3252
+#: ../src/bet_future.c:3026 ../src/bet_future.c:3307
 msgid "Error: You must select an account."
 msgstr "Error: Debe seleccionar una cuenta."
 
-#: ../src/bet_future.c:2972 ../src/bet_future.c:3253
+#: ../src/bet_future.c:3027 ../src/bet_future.c:3308
 msgid "Missing data"
 msgstr "No se encuentran los datos"
 
-#: ../src/bet_future.c:2980 ../src/bet_future.c:3261
+#: ../src/bet_future.c:3035 ../src/bet_future.c:3316
 msgid "Error: a date is not present or a field is in error."
 msgstr ""
 
 #. Name entry
-#: ../src/bet_future.c:3028 ../src/categories_onglet.c:750
+#: ../src/bet_future.c:3083 ../src/categories_onglet.c:750
 #: ../src/gsb_archive_config.c:102 ../src/gsb_assistant_archive_export.c:153
 #: ../src/gsb_fyear_config.c:285 ../src/gsb_transactions_list.c:2091
 #: ../src/imputation_budgetaire.c:785 ../src/parametres.c:333
@@ -1217,24 +1222,24 @@ msgid "Name"
 msgstr "Nombre"
 
 #. Description entry
-#: ../src/bet_future.c:3037 ../src/categories_onglet.c:775 ../src/import.c:481
+#: ../src/bet_future.c:3092 ../src/categories_onglet.c:775 ../src/import.c:455
 #: ../src/imputation_budgetaire.c:810
 msgid "Type"
 msgstr "Tipo"
 
-#: ../src/bet_future.c:3189 ../src/gsb_data_scheduled.c:1830
+#: ../src/bet_future.c:3244 ../src/gsb_data_scheduled.c:1830
 msgid ""
 "Error: is missing one or more links between currencies.\n"
 "You need to fix it and start over."
 msgstr ""
 
-#: ../src/bet_future.c:3216
+#: ../src/bet_future.c:3271
 msgid ""
 "There is an inconsistency in the balance of a deferred debit account.\n"
 "You should delete it and create another"
 msgstr ""
 
-#: ../src/bet_future.c:3220
+#: ../src/bet_future.c:3275
 #, fuzzy
 msgid "Error of configuration"
 msgstr "Configuración general"
@@ -1452,9 +1457,9 @@ msgid "Select"
 msgstr "Seleccionar"
 
 #: ../src/bet_hist.c:585 ../src/categories_onglet.c:198
-#: ../src/etats_config.c:5243 ../src/export_csv.c:808
+#: ../src/etats_config.c:5251 ../src/export_csv.c:808
 #: ../src/gsb_assistant_reconcile_config.c:600 ../src/gsb_scheduler_list.c:603
-#: ../src/gsb_transactions_list.c:177 ../src/import.c:3371
+#: ../src/gsb_transactions_list.c:177 ../src/import.c:3358
 #: ../src/imputation_budgetaire.c:200 ../src/tiers_onglet.c:252
 msgid "Amount"
 msgstr "Cantidad"
@@ -1654,7 +1659,7 @@ msgstr "Balance "
 msgid "forecast.csv"
 msgstr "Predicción"
 
-#: ../src/categories_onglet.c:188 ../src/etats_config.c:692
+#: ../src/categories_onglet.c:188 ../src/etats_config.c:693
 #: ../src/gsb_assistant_reconcile_config.c:600
 #: ../src/gsb_payment_method_config.c:162 ../src/gsb_reconcile_config.c:104
 #: ../src/gsb_scheduler_list.c:602 ../src/imputation_budgetaire.c:190
@@ -1679,7 +1684,7 @@ msgid "Grisbi category files (*.cgsb)"
 msgstr "Archivos de categorías de Grisbi (*.cgsb)"
 
 #: ../src/categories_onglet.c:466 ../src/etats_onglet.c:1232
-#: ../src/file_obfuscate_qif.c:109 ../src/gsb_file.c:241 ../src/import.c:866
+#: ../src/file_obfuscate_qif.c:109 ../src/gsb_file.c:241 ../src/import.c:840
 #: ../src/imputation_budgetaire.c:500
 msgid "All files"
 msgstr "Todos los archivos"
@@ -1738,7 +1743,7 @@ msgid "Create a new sub-category"
 msgstr "Crear una nueva subcategoría"
 
 #: ../src/categories_onglet.c:570 ../src/etats_onglet.c:158
-#: ../src/import.c:449 ../src/import.c:3675 ../src/imputation_budgetaire.c:602
+#: ../src/import.c:423 ../src/import.c:3662 ../src/imputation_budgetaire.c:602
 #: ../src/parametres.c:601 ../src/utils_files.c:576
 msgid "Import"
 msgstr "Importar"
@@ -1807,7 +1812,7 @@ msgstr "Propiedades para %s"
 msgid "No sub-category defined"
 msgstr "Sin subcategoría definida"
 
-#: ../src/categories_onglet.c:724 ../src/qif.c:932 ../src/qif.c:939
+#: ../src/categories_onglet.c:724 ../src/qif.c:1018 ../src/qif.c:1025
 msgid "No category defined"
 msgstr "Sin categoría definida"
 
@@ -2427,8 +2432,8 @@ msgid "Financial year"
 msgstr "Año financiero"
 
 #. Now we have a model, create view
-#: ../src/etats_affiche.c:2455 ../src/etats_config.c:573
-#: ../src/etats_config.c:576 ../src/etats_config.c:7248
+#: ../src/etats_affiche.c:2455 ../src/etats_config.c:574
+#: ../src/etats_config.c:577 ../src/etats_config.c:7256
 #: ../src/gsb_payment_method_config.c:120 ../src/parametres.c:847
 msgid "Payment methods"
 msgstr "Formas de pago"
@@ -2527,83 +2532,83 @@ msgstr "Sábado"
 msgid "Sunday"
 msgstr "Domingo"
 
-#: ../src/etats_config.c:410
+#: ../src/etats_config.c:411
 msgid "Report properties"
 msgstr "Propiedades del informe"
 
-#: ../src/etats_config.c:494
+#: ../src/etats_config.c:495
 msgid "Data selection"
 msgstr "Selección de datos"
 
-#: ../src/etats_config.c:501 ../src/etats_config.c:504
+#: ../src/etats_config.c:502 ../src/etats_config.c:505
 msgid "Dates"
 msgstr "Fechas"
 
-#: ../src/etats_config.c:510 ../src/etats_config.c:513
-#: ../src/etats_config.c:2712
+#: ../src/etats_config.c:511 ../src/etats_config.c:514
+#: ../src/etats_config.c:2720
 msgid "Transfers"
 msgstr "Transferencias"
 
 #. mise en place de la paddingbox des comptes
-#: ../src/etats_config.c:519 ../src/etats_config.c:522
-#: ../src/etats_config.c:7019 ../src/fenetre_principale.c:250
+#: ../src/etats_config.c:520 ../src/etats_config.c:523
+#: ../src/etats_config.c:7027 ../src/fenetre_principale.c:250
 #: ../src/navigation.c:1975
 msgid "Accounts"
 msgstr "Cuentas"
 
-#: ../src/etats_config.c:555 ../src/etats_config.c:558
+#: ../src/etats_config.c:556 ../src/etats_config.c:559
 msgid "Texts"
 msgstr "Textos"
 
-#: ../src/etats_config.c:564 ../src/etats_config.c:567
+#: ../src/etats_config.c:565 ../src/etats_config.c:568
 msgid "Amounts"
 msgstr "Cantidades"
 
-#: ../src/etats_config.c:582
+#: ../src/etats_config.c:583
 msgid "Misc."
 msgstr "Varios"
 
-#: ../src/etats_config.c:585 ../src/etats_config.c:6141
+#: ../src/etats_config.c:586 ../src/etats_config.c:6149
 msgid "Miscellaneous"
 msgstr "Varios"
 
-#: ../src/etats_config.c:593
+#: ../src/etats_config.c:594
 msgid "Data organization"
 msgstr "Organización de los datos"
 
-#: ../src/etats_config.c:600 ../src/etats_config.c:605
-#: ../src/etats_config.c:6212
+#: ../src/etats_config.c:601 ../src/etats_config.c:606
+#: ../src/etats_config.c:6220
 msgid "Data grouping"
 msgstr "Agroupación de datos"
 
 #. choix de ce qu'on utilise dans le classement
-#: ../src/etats_config.c:610 ../src/etats_config.c:615
-#: ../src/etats_config.c:6320 ../src/etats_config.c:6324
+#: ../src/etats_config.c:611 ../src/etats_config.c:616
+#: ../src/etats_config.c:6328 ../src/etats_config.c:6332
 msgid "Data separation"
 msgstr "Separación de datos"
 
-#: ../src/etats_config.c:620
+#: ../src/etats_config.c:621
 msgid "Data display"
 msgstr "Forma de mostar los datos"
 
-#: ../src/etats_config.c:626 ../src/etats_config.c:629
-#: ../src/etats_config.c:6528
+#: ../src/etats_config.c:627 ../src/etats_config.c:630
+#: ../src/etats_config.c:6536
 msgid "Generalities"
 msgstr "Generalidades"
 
-#: ../src/etats_config.c:644 ../src/etats_config.c:647 ../src/export_csv.c:775
+#: ../src/etats_config.c:645 ../src/etats_config.c:648 ../src/export_csv.c:775
 #: ../src/fenetre_principale.c:254 ../src/parametres.c:711
 msgid "Transactions"
 msgstr "Transacciones"
 
 #. echange line label
-#: ../src/etats_config.c:653 ../src/etats_config.c:656
-#: ../src/gsb_currency.c:551 ../src/gsb_currency_config.c:298
+#: ../src/etats_config.c:654 ../src/etats_config.c:657
+#: ../src/gsb_currency.c:551 ../src/gsb_currency_config.c:299
 #: ../src/parametres.c:811
 msgid "Currencies"
 msgstr "Monedas"
 
-#: ../src/etats_config.c:1328 ../src/etats_config.c:1337
+#: ../src/etats_config.c:1333 ../src/etats_config.c:1342
 #, fuzzy
 msgid ""
 "Grisbi can't parse date. For a list of date formats that Grisbi can use, "
@@ -2612,17 +2617,17 @@ msgstr ""
 "Grisbi no puede traducir la fecha.  Para consultar la lista de los formatos "
 "de fecha que Grisbi puede usar, vaya al manual de Grisbi."
 
-#: ../src/etats_config.c:1329
+#: ../src/etats_config.c:1334
 #, fuzzy, c-format
 msgid "Invalid initial date: '%s'"
 msgstr "La fecha inicial '%s' no es válida"
 
-#: ../src/etats_config.c:1338
+#: ../src/etats_config.c:1343
 #, fuzzy, c-format
 msgid "Invalid final date: '%s'"
 msgstr "La fecha final '%s' no es válida"
 
-#: ../src/etats_config.c:1513
+#: ../src/etats_config.c:1518
 #, fuzzy
 msgid ""
 "All financial years have been selected. Grisbi will run faster without the "
@@ -2631,13 +2636,13 @@ msgstr ""
 "Todos los años financieros han sido seleccionados. Grisbi irá más rápido sin "
 "la opción \"Detallar años financieros\" activada."
 
-#: ../src/etats_config.c:1514 ../src/etats_config.c:1572
-#: ../src/etats_config.c:1720 ../src/etats_config.c:1898
-#: ../src/etats_config.c:3680 ../src/etats_config.c:3683
+#: ../src/etats_config.c:1519 ../src/etats_config.c:1577
+#: ../src/etats_config.c:1725 ../src/etats_config.c:1903
+#: ../src/etats_config.c:3688 ../src/etats_config.c:3691
 msgid "Performance issue."
 msgstr "Característica de rendimiento"
 
-#: ../src/etats_config.c:1571
+#: ../src/etats_config.c:1576
 #, fuzzy
 msgid ""
 "All accounts have been selected. Grisbi will run faster without the \"Detail "
@@ -2646,7 +2651,7 @@ msgstr ""
 "Todas las cuentas han sido seleccionadas. Grisbi irá más rápido sin la "
 "opción \"Detallar cuentas usadas\" activada."
 
-#: ../src/etats_config.c:1719
+#: ../src/etats_config.c:1724
 #, fuzzy
 msgid ""
 "All payees have been selected. Grisbi will run faster without the \"Detail "
@@ -2655,7 +2660,7 @@ msgstr ""
 "Todos las categorías han sido seleccionadas. Grisbi irá más rápido sin la "
 "opción \"Detallar categorías usadas\" activada."
 
-#: ../src/etats_config.c:1897
+#: ../src/etats_config.c:1902
 #, fuzzy
 msgid ""
 "All methods of payment have been selected. Grisbi will run faster without "
@@ -2665,150 +2670,150 @@ msgstr ""
 "la opción \"Seleccionar las transacciones basándose en la forma de pago\" "
 "activada"
 
-#: ../src/etats_config.c:2060
+#: ../src/etats_config.c:2068
 msgid "Date selection"
 msgstr "Selección de datos"
 
-#: ../src/etats_config.c:2085
+#: ../src/etats_config.c:2093
 msgid "Use dates ranges"
 msgstr "Usar los rangos de fechas"
 
-#: ../src/etats_config.c:2180
+#: ../src/etats_config.c:2188
 msgid "Use financial years"
 msgstr "Usar los años financieros"
 
-#: ../src/etats_config.c:2217
+#: ../src/etats_config.c:2225
 msgid "All financial years"
 msgstr "Todos los años financieros"
 
-#: ../src/etats_config.c:2226
+#: ../src/etats_config.c:2234
 msgid "Current financial year"
 msgstr "Año financiero actual"
 
-#: ../src/etats_config.c:2235
+#: ../src/etats_config.c:2243
 msgid "Former financial year"
 msgstr "Año financiero anterior"
 
-#: ../src/etats_config.c:2246
+#: ../src/etats_config.c:2254
 msgid "Detail financial years"
 msgstr "Detallar los años financieros"
 
 #. set the initial date
-#: ../src/etats_config.c:2305 ../src/gsb_assistant_archive.c:235
+#: ../src/etats_config.c:2313 ../src/gsb_assistant_archive.c:235
 #: ../src/gsb_assistant_reconcile_config.c:417
 #: ../src/gsb_reconcile_config.c:213 ../src/print_transactions_list.c:184
 msgid "Initial date: "
 msgstr "Fecha inicial: "
 
 #. set the final date
-#: ../src/etats_config.c:2335 ../src/gsb_assistant_archive.c:247
+#: ../src/etats_config.c:2343 ../src/gsb_assistant_archive.c:247
 #: ../src/gsb_assistant_reconcile_config.c:428
 #: ../src/gsb_reconcile_config.c:227 ../src/print_transactions_list.c:196
 msgid "Final date: "
 msgstr "Fecha final: "
 
-#: ../src/etats_config.c:2462
+#: ../src/etats_config.c:2470
 msgid "Account selection"
 msgstr "Selección de cuentas"
 
 #. on met dans la partie de gauche une liste contenant les comptes à
 #. sélectionner
-#: ../src/etats_config.c:2468
+#: ../src/etats_config.c:2476
 msgid "Select transactions only for given accounts"
 msgstr "Seleccionar transacciones sólo para las cuentas dadas"
 
-#: ../src/etats_config.c:2495
+#: ../src/etats_config.c:2503
 msgid "Select the accounts included in the report: "
 msgstr "Seleccionar las cuentas incluidas en el informe:"
 
-#: ../src/etats_config.c:2553 ../src/etats_config.c:2808
-#: ../src/etats_config.c:3090 ../src/etats_config.c:3895
-#: ../src/etats_config.c:4085 ../src/etats_config.c:7339 ../src/export.c:612
+#: ../src/etats_config.c:2561 ../src/etats_config.c:2816
+#: ../src/etats_config.c:3098 ../src/etats_config.c:3903
+#: ../src/etats_config.c:4093 ../src/etats_config.c:7347 ../src/export.c:612
 #: ../src/gsb_assistant.c:123 ../src/tiers_onglet.c:1503
 #: ../src/tiers_onglet.c:1523
 msgid "Select all"
 msgstr "Seleccionar todo"
 
 #. ajoute le bouton (dé)sélectionne tout
-#: ../src/etats_config.c:2568 ../src/etats_config.c:2823
-#: ../src/etats_config.c:3105 ../src/etats_config.c:3910
-#: ../src/etats_config.c:4100 ../src/etats_config.c:7354 ../src/export.c:607
-#: ../src/import.c:2278 ../src/tiers_onglet.c:1286 ../src/tiers_onglet.c:1505
+#: ../src/etats_config.c:2576 ../src/etats_config.c:2831
+#: ../src/etats_config.c:3113 ../src/etats_config.c:3918
+#: ../src/etats_config.c:4108 ../src/etats_config.c:7362 ../src/export.c:607
+#: ../src/import.c:2255 ../src/tiers_onglet.c:1286 ../src/tiers_onglet.c:1505
 msgid "Unselect all"
 msgstr "Deseleccionar todo"
 
-#: ../src/etats_config.c:2583 ../src/etats_config.c:2838
+#: ../src/etats_config.c:2591 ../src/etats_config.c:2846
 msgid "Select bank accounts"
 msgstr "Seleccionar las cuentas bancarias"
 
-#: ../src/etats_config.c:2598 ../src/etats_config.c:2853
+#: ../src/etats_config.c:2606 ../src/etats_config.c:2861
 msgid "Select cash accounts"
 msgstr "Seleccionar las cuentas de efectivo"
 
-#: ../src/etats_config.c:2613 ../src/etats_config.c:2868
+#: ../src/etats_config.c:2621 ../src/etats_config.c:2876
 msgid "Select liabilities accounts"
 msgstr "Seleccionar las cuentas del pasivo"
 
-#: ../src/etats_config.c:2628 ../src/etats_config.c:2883
+#: ../src/etats_config.c:2636 ../src/etats_config.c:2891
 msgid "Select assets accounts"
 msgstr "Seleccionar las cuentas del activo"
 
-#: ../src/etats_config.c:2718
+#: ../src/etats_config.c:2726
 msgid "Do not include transfers"
 msgstr "No incluir transferencias"
 
-#: ../src/etats_config.c:2727
+#: ../src/etats_config.c:2735
 msgid "Include transfers from or to assets or liabilities accounts"
 msgstr ""
 "Incluir transferencias desde o hacia las cuentas del pasivo o el activo"
 
-#: ../src/etats_config.c:2740
+#: ../src/etats_config.c:2748
 msgid "Include transfers from or to accounts not in this report"
 msgstr ""
 "Incluir las cuentas desde o hacia las cuentas que no están en este informe"
 
-#: ../src/etats_config.c:2753
+#: ../src/etats_config.c:2761
 msgid "Include transfers from or to these accounts"
 msgstr "Incluir las transferencias desde o hacia estas cuentas"
 
 #. on rajoute le bouton exclure les opé non virement
-#: ../src/etats_config.c:2906
+#: ../src/etats_config.c:2914
 msgid "Exclude the transactions which are not transfers"
 msgstr "Excluir las transferencias que no son transferencias"
 
-#: ../src/etats_config.c:3010
+#: ../src/etats_config.c:3018
 msgid "Detail categories"
 msgstr "Detallar categorías"
 
-#: ../src/etats_config.c:3046
+#: ../src/etats_config.c:3054
 msgid "Select categories to include: "
 msgstr "Seleccionar las categorías a incluir: "
 
-#: ../src/etats_config.c:3120
+#: ../src/etats_config.c:3128
 msgid "Income categories"
 msgstr "Categorías de ingresos"
 
-#: ../src/etats_config.c:3135
+#: ../src/etats_config.c:3143
 msgid "Outgoing categories"
 msgstr "Categorías salientes"
 
-#: ../src/etats_config.c:3241
+#: ../src/etats_config.c:3249
 msgid "Empty category"
 msgstr "Vaciar la categoría"
 
-#: ../src/etats_config.c:3242
+#: ../src/etats_config.c:3250
 msgid "Empty sub-category"
 msgstr "Vaciar la subcategoría"
 
-#: ../src/etats_config.c:3248
+#: ../src/etats_config.c:3256
 msgid "Empty budget"
 msgstr "Vaciar presupuesto"
 
-#: ../src/etats_config.c:3249
+#: ../src/etats_config.c:3257
 msgid "Empty sub-budget"
 msgstr "Vaciar subpresupuesto"
 
-#: ../src/etats_config.c:3679
+#: ../src/etats_config.c:3687
 #, fuzzy
 msgid ""
 "All categories have been selected. Grisbi will run faster without the "
@@ -2817,7 +2822,7 @@ msgstr ""
 "Todos las categorías han sido seleccionadas. Grisbi irá más rápido sin la "
 "opción \"Detallar categorías usadas\" activada"
 
-#: ../src/etats_config.c:3682
+#: ../src/etats_config.c:3690
 #, fuzzy
 msgid ""
 "All budgets have been selected. Grisbi will run faster without the \"Detail "
@@ -2826,494 +2831,494 @@ msgstr ""
 "Todas las líneas presupuestarias han sido seleccionadas. Grisbi irá más "
 "rápido sin la opción \"Detallar las líneas presupuestarias usadas\" activada."
 
-#: ../src/etats_config.c:3814
+#: ../src/etats_config.c:3822
 msgid "Detail budgetary lines"
 msgstr "Detallar las líneas presupuestarias"
 
-#: ../src/etats_config.c:3851
+#: ../src/etats_config.c:3859
 msgid "Select the budgetary lines to include in the report: "
 msgstr "Seleccionar las líneas presupuestarias a incluir en este informe: "
 
-#: ../src/etats_config.c:3925
+#: ../src/etats_config.c:3933
 msgid "Income budget lines"
 msgstr "Líneas presupuestarias de entradas"
 
-#: ../src/etats_config.c:3940
+#: ../src/etats_config.c:3948
 msgid "Outgoing budget lines"
 msgstr "Líneas subpresupuestarias de salidas"
 
 #. on fixe le titre et le suffixe de la barre d'information
-#: ../src/etats_config.c:3985 ../src/navigation.c:1983
+#: ../src/etats_config.c:3993 ../src/navigation.c:1983
 #: ../src/tiers_onglet.c:232 ../src/tiers_onglet.c:637
 msgid "Payees"
 msgstr "Terceros"
 
-#: ../src/etats_config.c:3997
+#: ../src/etats_config.c:4005
 msgid "Detail payees"
 msgstr "Detallar terceros"
 
-#: ../src/etats_config.c:4034
+#: ../src/etats_config.c:4042
 #, fuzzy
 msgid "Select payees to include in this report: "
 msgstr "Seleccionar los terceros a incluir en este informe:"
 
-#: ../src/etats_config.c:4167
+#: ../src/etats_config.c:4175
 msgid "Transaction content"
 msgstr "Contenido de las transacciones"
 
-#: ../src/etats_config.c:4182
+#: ../src/etats_config.c:4190
 msgid "Select transactions according to content"
 msgstr "Seleccionar las transacciones de acuerdo con el contenido"
 
-#: ../src/etats_config.c:4500
+#: ../src/etats_config.c:4508
 #, fuzzy
 msgid "Transactions whose "
 msgstr "Propietario de las transacciones"
 
-#: ../src/etats_config.c:4648
+#: ../src/etats_config.c:4656
 #, fuzzy
 msgid "is "
 msgstr "es"
 
-#: ../src/etats_config.c:4664 ../src/etats_config.c:4721
-#: ../src/etats_config.c:5552 ../src/etats_config.c:5613
+#: ../src/etats_config.c:4672 ../src/etats_config.c:4729
+#: ../src/etats_config.c:5560 ../src/etats_config.c:5621
 msgid "to"
 msgstr "a"
 
 #. on met les boutons ajouter et supprimer
-#: ../src/etats_config.c:4743 ../src/etats_config.c:5635
+#: ../src/etats_config.c:4751 ../src/etats_config.c:5643
 msgid "Add"
 msgstr "Añadir"
 
-#: ../src/etats_config.c:4757 ../src/etats_config.c:5649
+#: ../src/etats_config.c:4765 ../src/etats_config.c:5657
 msgid "Remove"
 msgstr "Borrar"
 
-#: ../src/etats_config.c:4835 ../src/etats_config.c:6669
-#: ../src/etats_config.c:6749 ../src/meta_payee.c:79
+#: ../src/etats_config.c:4843 ../src/etats_config.c:6677
+#: ../src/etats_config.c:6757 ../src/meta_payee.c:79
 msgid "payee"
 msgstr "tercero"
 
-#: ../src/etats_config.c:4863
+#: ../src/etats_config.c:4871
 msgid "payee information"
 msgstr "información de pagos"
 
-#: ../src/etats_config.c:4891 ../src/etats_config.c:6672
-#: ../src/etats_config.c:6756 ../src/meta_categories.c:67
+#: ../src/etats_config.c:4899 ../src/etats_config.c:6680
+#: ../src/etats_config.c:6764 ../src/meta_categories.c:67
 msgid "category"
 msgstr "categoría"
 
-#: ../src/etats_config.c:4919 ../src/etats_config.c:6675
+#: ../src/etats_config.c:4927 ../src/etats_config.c:6683
 #: ../src/meta_categories.c:68
 msgid "sub-category"
 msgstr "subcategoría"
 
-#: ../src/etats_config.c:4947 ../src/etats_config.c:6678
-#: ../src/etats_config.c:6763 ../src/meta_budgetary.c:65
+#: ../src/etats_config.c:4955 ../src/etats_config.c:6686
+#: ../src/etats_config.c:6771 ../src/meta_budgetary.c:65
 msgid "budgetary line"
 msgstr "línea presupuestaria"
 
-#: ../src/etats_config.c:4975 ../src/etats_config.c:6681
+#: ../src/etats_config.c:4983 ../src/etats_config.c:6689
 #: ../src/meta_budgetary.c:66
 msgid "sub-budgetary line"
 msgstr "línea subpresupuestaria"
 
-#: ../src/etats_config.c:5003 ../src/etats_config.c:6770
+#: ../src/etats_config.c:5011 ../src/etats_config.c:6778
 msgid "note"
 msgstr "notas"
 
-#: ../src/etats_config.c:5031 ../src/etats_config.c:6699
-#: ../src/etats_config.c:6798
+#: ../src/etats_config.c:5039 ../src/etats_config.c:6707
+#: ../src/etats_config.c:6806
 msgid "bank reference"
 msgstr "referencia bancaria"
 
-#: ../src/etats_config.c:5059 ../src/etats_config.c:6693
-#: ../src/etats_config.c:6791
+#: ../src/etats_config.c:5067 ../src/etats_config.c:6701
+#: ../src/etats_config.c:6799
 msgid "voucher"
 msgstr "vale"
 
-#: ../src/etats_config.c:5080
+#: ../src/etats_config.c:5088
 msgid "cheque number"
 msgstr "número de cheque"
 
-#: ../src/etats_config.c:5100 ../src/etats_config.c:6702
-#: ../src/etats_config.c:6805
+#: ../src/etats_config.c:5108 ../src/etats_config.c:6710
+#: ../src/etats_config.c:6813
 msgid "reconciliation reference"
 msgstr "referencia de reconciliación"
 
-#: ../src/etats_config.c:5155
+#: ../src/etats_config.c:5163
 msgid "contains"
 msgstr "contiene"
 
-#: ../src/etats_config.c:5167
+#: ../src/etats_config.c:5175
 msgid "doesn't contain"
 msgstr "no contiene"
 
-#: ../src/etats_config.c:5179
+#: ../src/etats_config.c:5187
 msgid "begins with"
 msgstr "comienza con"
 
-#: ../src/etats_config.c:5191
+#: ../src/etats_config.c:5199
 msgid "ends with"
 msgstr "acaba con "
 
-#: ../src/etats_config.c:5203
+#: ../src/etats_config.c:5211
 msgid "is empty"
 msgstr "está vacío"
 
-#: ../src/etats_config.c:5215
+#: ../src/etats_config.c:5223
 msgid "isn't empty"
 msgstr "no está vacío"
 
-#: ../src/etats_config.c:5258
+#: ../src/etats_config.c:5266
 msgid "Select the transactions by amount"
 msgstr "Seleccionar las transacciones por cantidad"
 
 #. on rajoute le bouton exclure les opé dont le montant est nul
-#: ../src/etats_config.c:5308
+#: ../src/etats_config.c:5316
 msgid "Exclude the transactions with a null amount"
 msgstr "Excluir las transacciones con una cantidad nula"
 
-#: ../src/etats_config.c:5535
+#: ../src/etats_config.c:5543
 msgid "Transactions with an amount of"
 msgstr "Transacciones con una cantidad de"
 
-#: ../src/etats_config.c:5681 ../src/etats_config.c:6038
+#: ../src/etats_config.c:5689 ../src/etats_config.c:6046
 msgid "and"
 msgstr "y"
 
-#: ../src/etats_config.c:5689 ../src/etats_config.c:6050
+#: ../src/etats_config.c:5697 ../src/etats_config.c:6058
 msgid "or"
 msgstr "o"
 
-#: ../src/etats_config.c:5697 ../src/etats_config.c:6062
+#: ../src/etats_config.c:5705 ../src/etats_config.c:6070
 msgid "except"
 msgstr "excepto"
 
-#: ../src/etats_config.c:5727 ../src/etats_config.c:5905
+#: ../src/etats_config.c:5735 ../src/etats_config.c:5913
 msgid "equal"
 msgstr "igual"
 
-#: ../src/etats_config.c:5739 ../src/etats_config.c:5917
+#: ../src/etats_config.c:5747 ../src/etats_config.c:5925
 msgid "less than"
 msgstr "menor que"
 
-#: ../src/etats_config.c:5751 ../src/etats_config.c:5929
+#: ../src/etats_config.c:5759 ../src/etats_config.c:5937
 msgid "less than or equal"
 msgstr "menor o igual que"
 
-#: ../src/etats_config.c:5763 ../src/etats_config.c:5941
+#: ../src/etats_config.c:5771 ../src/etats_config.c:5949
 msgid "greater than"
 msgstr "mayor que"
 
-#: ../src/etats_config.c:5775 ../src/etats_config.c:5953
+#: ../src/etats_config.c:5783 ../src/etats_config.c:5961
 msgid "greater than or equal"
 msgstr "mayor o igual que"
 
-#: ../src/etats_config.c:5787 ../src/etats_config.c:5965
+#: ../src/etats_config.c:5795 ../src/etats_config.c:5973
 msgid "different from"
 msgstr "distinto de"
 
-#: ../src/etats_config.c:5799
+#: ../src/etats_config.c:5807
 msgid "null"
 msgstr "nulo"
 
-#: ../src/etats_config.c:5811
+#: ../src/etats_config.c:5819
 msgid "not null"
 msgstr "no nulo"
 
-#: ../src/etats_config.c:5823
+#: ../src/etats_config.c:5831
 msgid "positive"
 msgstr "positivo"
 
-#: ../src/etats_config.c:5835
+#: ../src/etats_config.c:5843
 msgid "negative"
 msgstr "negativo"
 
-#: ../src/etats_config.c:5977
+#: ../src/etats_config.c:5985
 msgid "the biggest"
 msgstr "El mayor"
 
-#: ../src/etats_config.c:6074
+#: ../src/etats_config.c:6082
 msgid "stop"
 msgstr "parar"
 
 #. on peut sélectionner les opé R ou non R
-#: ../src/etats_config.c:6147
+#: ../src/etats_config.c:6155
 msgid "Reconciled transactions"
 msgstr "Transacciones reconciliadas"
 
-#: ../src/etats_config.c:6150
+#: ../src/etats_config.c:6158
 msgid "Select all transactions"
 msgstr "Seleccionar todas las transacciones"
 
-#: ../src/etats_config.c:6159
+#: ../src/etats_config.c:6167
 msgid "Select unreconciled transactions"
 msgstr "Seleccionar las transacciones no reconciliadas"
 
-#: ../src/etats_config.c:6172
+#: ../src/etats_config.c:6180
 msgid "Select reconciled transactions"
 msgstr "Seleccionar las transacciones reconciliadas"
 
-#: ../src/etats_config.c:6184
+#: ../src/etats_config.c:6192
 msgid "Split of transactions detail"
 msgstr "Detalle del desglose de las transacciones"
 
-#: ../src/etats_config.c:6186
+#: ../src/etats_config.c:6194
 msgid "Do not detail split of transactions"
 msgstr "No detallar el desglose de las transacciones"
 
 #. choix de ce qu'on utilise dans le classement
-#: ../src/etats_config.c:6217
+#: ../src/etats_config.c:6225
 msgid "Group transactions"
 msgstr "Agrupar las transacciones por terceros"
 
-#: ../src/etats_config.c:6219
+#: ../src/etats_config.c:6227
 msgid "Group transactions by account"
 msgstr "Agrupar las transacciones por cuenta"
 
-#: ../src/etats_config.c:6222
+#: ../src/etats_config.c:6230
 msgid "Group transactions by payee"
 msgstr "Agrupar las transacciones por tercero"
 
-#: ../src/etats_config.c:6225
+#: ../src/etats_config.c:6233
 msgid "Group transactions by category"
 msgstr "Agrupar las transacciones por categoría"
 
-#: ../src/etats_config.c:6228
+#: ../src/etats_config.c:6236
 msgid "Group transactions by budgetary line"
 msgstr "Agrupar las transacciones por línea presupuestaria"
 
 #. choix du type de classement
-#: ../src/etats_config.c:6233
+#: ../src/etats_config.c:6241
 msgid "Group level organisation"
 msgstr "Nivel de organización de los grupos"
 
 #. on permet la séparation des revenus et des dépenses
-#: ../src/etats_config.c:6327
+#: ../src/etats_config.c:6335
 msgid "Split incomes and outgoings"
 msgstr "Dividir ingresos y gastos"
 
 #. on permet la séparation par exercice
-#: ../src/etats_config.c:6331
+#: ../src/etats_config.c:6339
 msgid "Split by financial year"
 msgstr "Dividir por año financiero"
 
-#: ../src/etats_config.c:6338
+#: ../src/etats_config.c:6346
 msgid "Split by period"
 msgstr "Dividir por periodo"
 
 #. on permet ensuite la séparation des résultats par période
-#: ../src/etats_config.c:6342
+#: ../src/etats_config.c:6350
 msgid "Separation by period"
 msgstr "Separación por periodo"
 
-#: ../src/etats_config.c:6349
+#: ../src/etats_config.c:6357
 msgid "Separation by time period: "
 msgstr "Separación por periodo de tiempo: "
 
-#: ../src/etats_config.c:6366
+#: ../src/etats_config.c:6374
 msgid "Day"
 msgstr "Día"
 
-#: ../src/etats_config.c:6370
+#: ../src/etats_config.c:6378
 msgid "Week"
 msgstr "Semana"
 
 #. add beginning day of the week
-#: ../src/etats_config.c:6385
+#: ../src/etats_config.c:6393
 msgid "Beginning of week: "
 msgstr "Comienzo de la semana: "
 
-#: ../src/etats_config.c:6542
+#: ../src/etats_config.c:6550
 msgid "Report name: "
 msgstr "Nombre del informe: "
 
-#: ../src/etats_config.c:6571
+#: ../src/etats_config.c:6579
 msgid "Display the number of transactions with the totals"
 msgstr "Mostrar el número de transacciones con los totales"
 
-#: ../src/etats_config.c:6591
+#: ../src/etats_config.c:6599
 #, fuzzy
 msgid "Consider the payees of this report as a virtual payee."
 msgstr "Considerar los terceros de este informe como un tercero múltiple."
 
-#: ../src/etats_config.c:6609
+#: ../src/etats_config.c:6617
 msgid ""
 "Hint: if you create a transaction with a report as payee,\n"
 "Grisbi will automatically create transactions for all payees from the report"
 msgstr ""
 
-#: ../src/etats_config.c:6636
+#: ../src/etats_config.c:6644
 msgid "Transactions display"
 msgstr "Formato de las transacciones"
 
 #. afficher ou non les opés
-#: ../src/etats_config.c:6641
+#: ../src/etats_config.c:6649
 msgid "Display transactions"
 msgstr "Mostrar transacciones"
 
-#: ../src/etats_config.c:6655
+#: ../src/etats_config.c:6663
 msgid "Include following information"
 msgstr "Incluir la siguiente información"
 
-#: ../src/etats_config.c:6660 ../src/etats_config.c:6742
+#: ../src/etats_config.c:6668 ../src/etats_config.c:6750
 msgid "transaction number"
 msgstr "número de transacción"
 
-#: ../src/etats_config.c:6663 ../src/etats_config.c:6728
+#: ../src/etats_config.c:6671 ../src/etats_config.c:6736
 msgid "date"
 msgstr "fecha"
 
-#: ../src/etats_config.c:6666 ../src/etats_config.c:6735
+#: ../src/etats_config.c:6674 ../src/etats_config.c:6743
 msgid "value date"
 msgstr "fecha Valor"
 
-#: ../src/etats_config.c:6684
+#: ../src/etats_config.c:6692
 msgid "notes"
 msgstr "notas"
 
-#: ../src/etats_config.c:6687 ../src/etats_config.c:6777
+#: ../src/etats_config.c:6695 ../src/etats_config.c:6785
 msgid "method of payment"
 msgstr "forma de pago"
 
-#: ../src/etats_config.c:6690 ../src/etats_config.c:6784
+#: ../src/etats_config.c:6698 ../src/etats_config.c:6792
 msgid "cheque/transfer number"
 msgstr "número de cheque/transferencia"
 
-#: ../src/etats_config.c:6696 ../src/etats_support.c:141
+#: ../src/etats_config.c:6704 ../src/etats_support.c:141
 msgid "financial year"
 msgstr "años financiero"
 
 #. on propose d'afficher le titre des colonnes
-#: ../src/etats_config.c:6707
+#: ../src/etats_config.c:6715
 msgid "Columns"
 msgstr "Columnas"
 
-#: ../src/etats_config.c:6709
+#: ../src/etats_config.c:6717
 msgid "Display column titles"
 msgstr "Mostrar los títulos de las columnas"
 
-#: ../src/etats_config.c:6712
+#: ../src/etats_config.c:6720
 msgid "every section"
 msgstr "cada sección"
 
-#: ../src/etats_config.c:6716
+#: ../src/etats_config.c:6724
 msgid "at the top of the report"
 msgstr "al principio del informe"
 
 #. mise en place du type de classement des opés
-#: ../src/etats_config.c:6721
+#: ../src/etats_config.c:6729
 msgid "Sort transactions by"
 msgstr "Ordenar las transacciones por"
 
 #. on propose de rendre clickable le détails des opérations
-#: ../src/etats_config.c:6817
+#: ../src/etats_config.c:6825
 msgid "Clickable transactions"
 msgstr "Transacciones pulsables"
 
-#: ../src/etats_config.c:6819
+#: ../src/etats_config.c:6827
 msgid "Make transactions clickable"
 msgstr "Hacer las transacciones cliqueables"
 
-#: ../src/etats_config.c:6855 ../src/parametres.c:1432
+#: ../src/etats_config.c:6863 ../src/parametres.c:1432
 msgid "Totals currencies"
 msgstr "Monedas totales"
 
-#: ../src/etats_config.c:6868
+#: ../src/etats_config.c:6876
 msgid "General totals currency: "
 msgstr "Totales generales del tipo de moneda: "
 
-#: ../src/etats_config.c:6897
+#: ../src/etats_config.c:6905
 msgid "Payees currency: "
 msgstr "Moneda de los terceros: "
 
-#: ../src/etats_config.c:6926
+#: ../src/etats_config.c:6934
 msgid "Categories currency: "
 msgstr "Moneda de las categorías: "
 
-#: ../src/etats_config.c:6956
+#: ../src/etats_config.c:6964
 msgid "Budgetary lines currency: "
 msgstr "Monead de las líneas presupuestarias: "
 
-#: ../src/etats_config.c:6985
+#: ../src/etats_config.c:6993
 msgid "Amount comparison currency: "
 msgstr "Cantidad de comparación de la moneda: "
 
 #. on permet d'afficher le name du compte
-#: ../src/etats_config.c:7022
+#: ../src/etats_config.c:7030
 msgid "Display account name"
 msgstr "Mostrar el nombre de cuenta"
 
 #. on permet d'afficher un ss total lors de chgt de compte
 #. activé uniquement si on a regroupé les opés par compte
-#: ../src/etats_config.c:7034
+#: ../src/etats_config.c:7042
 msgid "Display a sub-total for each account"
 msgstr "Mostrar n subtotal para cada cuenta"
 
 #. permet d'afficher le name du tiers, activé uniquement si on utilise les tiers
-#: ../src/etats_config.c:7052
+#: ../src/etats_config.c:7060
 msgid "Display payee's name"
 msgstr "Mostrar el nombre del tercero"
 
-#: ../src/etats_config.c:7069
+#: ../src/etats_config.c:7077
 msgid "Display a sub-total for each payee"
 msgstr "Mostrar un subtotal para cada tercero"
 
 #. affichage possible du name de la categ
-#: ../src/etats_config.c:7087
+#: ../src/etats_config.c:7095
 msgid "Display the (sub)category's name"
 msgstr "Mostrar el nombre de cada (sub)categoría"
 
 #. permet d'afficher un sous total lors de chgt de categ
 #. activé uniquement si on utilise les categ
-#: ../src/etats_config.c:7103
+#: ../src/etats_config.c:7111
 msgid "Display a sub-total for each category"
 msgstr "Mostrar un subtotal para cada categoría"
 
 #. mise en place du bouton pour afficher les sous categ
-#: ../src/etats_config.c:7118
+#: ../src/etats_config.c:7126
 msgid "Display sub-categories"
 msgstr "Mostrar las subcategorías"
 
-#: ../src/etats_config.c:7132
+#: ../src/etats_config.c:7140
 msgid "Display a sub-total for each sub-category"
 msgstr "Mostrar un subtotal para cada subcategoría"
 
-#: ../src/etats_config.c:7146
+#: ../src/etats_config.c:7154
 msgid "Display \" No sub-category\" if none"
 msgstr "Mostrar \"Sin subcategoría\" si no hay ninguna"
 
-#: ../src/etats_config.c:7163
+#: ../src/etats_config.c:7171
 msgid "Display the (sub-)budget line name"
 msgstr "Mostrar el nombre de la línea (sub)presupuestaria"
 
 #. permet d'afficher un sous total lors de chgt d'ib
 #. activé uniquement si on utilise les ib
-#: ../src/etats_config.c:7179
+#: ../src/etats_config.c:7187
 msgid "Display a sub-total for each budgetary line"
 msgstr "Mostrar un subtotal para cada línea presupuestaria"
 
 #. mise en place du bouton pour afficher les sous categ
-#: ../src/etats_config.c:7194
+#: ../src/etats_config.c:7202
 msgid "Display sub-budget lines"
 msgstr "Mostrar líneas subpresupuestarias"
 
-#: ../src/etats_config.c:7207
+#: ../src/etats_config.c:7215
 msgid "Display a sub-total for each sub-budget line"
 msgstr "Mostrar un subtotal para cada línea subpresupuestaria"
 
-#: ../src/etats_config.c:7221
+#: ../src/etats_config.c:7229
 msgid "Display \"No sub-budgetary line\" if none"
 msgstr "Mostrar \"Sin línea subpresupuestaria\" si no hay ninguna"
 
 #. on met dans la partie de gauche une liste contenant les modes de paiement à
 #. sélectionner
-#: ../src/etats_config.c:7254
+#: ../src/etats_config.c:7262
 msgid "Select the transactions by method of payment"
 msgstr "Seleccionar las transacciones por la forma de pago"
 
-#: ../src/etats_config.c:7280
+#: ../src/etats_config.c:7288
 msgid "Select methods of payment to include: "
 msgstr "Seleccionar las formas de pago a incluir: "
 
@@ -3986,7 +3991,7 @@ msgstr "Chino"
 msgid "Cyrillic"
 msgstr "Cirílico"
 
-#: ../src/go-charmap-sel.c:186 ../src/help.c:162
+#: ../src/go-charmap-sel.c:186 ../src/help.c:164
 msgid "Greek"
 msgstr "Griego"
 
@@ -4022,7 +4027,7 @@ msgstr "Vietnamita"
 msgid "Western"
 msgstr "Occidental"
 
-#: ../src/go-charmap-sel.c:195 ../src/help.c:145 ../src/import_csv.c:110
+#: ../src/go-charmap-sel.c:195 ../src/help.c:147 ../src/import_csv.c:110
 msgid "Other"
 msgstr "Otro"
 
@@ -4410,15 +4415,15 @@ msgstr ""
 msgid "Account details"
 msgstr "Detalles de la cuenta"
 
-#: ../src/gsb_account_property.c:238 ../src/import.c:1291 ../src/import.c:1316
+#: ../src/gsb_account_property.c:238 ../src/import.c:1265 ../src/import.c:1290
 msgid "Account name: "
 msgstr "Nombre de la cuenta: "
 
-#: ../src/gsb_account_property.c:259 ../src/import.c:1244
+#: ../src/gsb_account_property.c:259 ../src/import.c:1218
 msgid "Account type: "
 msgstr "Tipo de cuenta: "
 
-#: ../src/gsb_account_property.c:277 ../src/import.c:1346
+#: ../src/gsb_account_property.c:277 ../src/import.c:1320
 msgid "Account currency: "
 msgstr "Moneda de la cuenta: "
 
@@ -4556,7 +4561,7 @@ msgstr "Modificación de archivo"
 #. Partial balance name
 #. Financial year name
 #: ../src/gsb_archive_config.c:190 ../src/gsb_bank.c:672 ../src/gsb_bank.c:849
-#: ../src/gsb_currency_config.c:357 ../src/gsb_data_partial_balance.c:1713
+#: ../src/gsb_currency_config.c:358 ../src/gsb_data_partial_balance.c:1713
 #: ../src/gsb_fyear_config.c:196 ../src/gsb_payment_method_config.c:242
 msgid "Name: "
 msgstr "Nombre: "
@@ -4638,7 +4643,7 @@ msgid "Deleting an archive and its transactions"
 msgstr "Borrando un archivo y sus transacciones"
 
 #. New account
-#: ../src/gsb_assistant_account.c:102 ../src/import.c:1236
+#: ../src/gsb_assistant_account.c:102 ../src/import.c:1210
 msgid "Create a new account"
 msgstr "Crear una cuenta nueva"
 
@@ -4860,7 +4865,7 @@ msgstr "Informe: "
 msgid "Please choose a name for archive: "
 msgstr "Por favor, elija un nombre para el fichero: "
 
-#: ../src/gsb_assistant_archive.c:431 ../src/import.c:979
+#: ../src/gsb_assistant_archive.c:431 ../src/import.c:953
 #, fuzzy
 msgid "Congratulations!"
 msgstr "¡ Enhorabuena !"
@@ -6477,7 +6482,7 @@ msgstr "Méjico"
 msgid "Panama Balboa"
 msgstr "Balboa panameña"
 
-#: ../src/gsb_currency_config.c:173 ../src/gsb_currency_config.c:256
+#: ../src/gsb_currency_config.c:173 ../src/gsb_currency_config.c:257
 msgid "Panama"
 msgstr "Panamá"
 
@@ -6506,7 +6511,7 @@ msgstr "Panamá"
 #: ../src/gsb_currency_config.c:220 ../src/gsb_currency_config.c:221
 #: ../src/gsb_currency_config.c:222 ../src/gsb_currency_config.c:223
 #: ../src/gsb_currency_config.c:224 ../src/gsb_currency_config.c:225
-#: ../src/gsb_currency_config.c:226
+#: ../src/gsb_currency_config.c:226 ../src/gsb_currency_config.c:227
 msgid "Europe"
 msgstr "Europa"
 
@@ -6533,7 +6538,7 @@ msgstr "Austria"
 msgid "Belgium"
 msgstr "Bélgica"
 
-#: ../src/gsb_currency_config.c:179 ../src/gsb_currency_config.c:222
+#: ../src/gsb_currency_config.c:179 ../src/gsb_currency_config.c:223
 msgid "Spain"
 msgstr "España"
 
@@ -6561,15 +6566,15 @@ msgstr "Italia"
 msgid "Luxembourg"
 msgstr "Luxemburgo"
 
-#: ../src/gsb_currency_config.c:186 ../src/gsb_currency_config.c:213
+#: ../src/gsb_currency_config.c:186 ../src/gsb_currency_config.c:214
 msgid "Netherlands"
 msgstr "Países Bajos"
 
-#: ../src/gsb_currency_config.c:187 ../src/gsb_currency_config.c:217
+#: ../src/gsb_currency_config.c:187 ../src/gsb_currency_config.c:218
 msgid "Portugal"
 msgstr "Portugal"
 
-#: ../src/gsb_currency_config.c:188 ../src/gsb_currency_config.c:221
+#: ../src/gsb_currency_config.c:188 ../src/gsb_currency_config.c:222
 msgid "Slovenia"
 msgstr "Eslovenia"
 
@@ -6712,530 +6717,538 @@ msgid "Luxembourg Franc"
 msgstr "Franco de Luxemburgo"
 
 #: ../src/gsb_currency_config.c:213
+msgid "Moldovenesc Leu"
+msgstr ""
+
+#: ../src/gsb_currency_config.c:213
+msgid "Moldova"
+msgstr ""
+
+#: ../src/gsb_currency_config.c:214
 msgid "Netherlands Guilder"
 msgstr "Guilder holandés"
 
-#: ../src/gsb_currency_config.c:214
+#: ../src/gsb_currency_config.c:215
 msgid "New Yugoslavian Dinar"
 msgstr "Dinar de Nueva Yugoslavia"
 
-#: ../src/gsb_currency_config.c:214
+#: ../src/gsb_currency_config.c:215
 msgid "Serbia and Montenegro"
 msgstr "Serbia y Montenegro"
 
-#: ../src/gsb_currency_config.c:215
+#: ../src/gsb_currency_config.c:216
 msgid "Norwegian Krone"
 msgstr "Corona Noruega"
 
-#: ../src/gsb_currency_config.c:215
+#: ../src/gsb_currency_config.c:216
 msgid "Norway"
 msgstr "Noruega"
 
-#: ../src/gsb_currency_config.c:216
+#: ../src/gsb_currency_config.c:217
 msgid "Polish Zloty"
 msgstr "Zloty polaco"
 
-#: ../src/gsb_currency_config.c:216
+#: ../src/gsb_currency_config.c:217
 msgid "Poland"
 msgstr "Polonía"
 
-#: ../src/gsb_currency_config.c:217
+#: ../src/gsb_currency_config.c:218
 msgid "Portuguese Escudo"
 msgstr "Escudo Portugués"
 
-#: ../src/gsb_currency_config.c:218
+#: ../src/gsb_currency_config.c:219
 msgid "Pound Sterling"
 msgstr "Libra Esterlina"
 
-#: ../src/gsb_currency_config.c:218
+#: ../src/gsb_currency_config.c:219
 msgid "United Kingdom"
 msgstr "Reino Unido"
 
-#: ../src/gsb_currency_config.c:219
+#: ../src/gsb_currency_config.c:220
 msgid "Romanian Leu"
 msgstr "Lei rumano"
 
-#: ../src/gsb_currency_config.c:219
+#: ../src/gsb_currency_config.c:220
 msgid "Romania"
 msgstr "Rumanía"
 
-#: ../src/gsb_currency_config.c:220
+#: ../src/gsb_currency_config.c:221
 msgid "Slovak Koruna"
 msgstr "Corona eslovaca"
 
-#: ../src/gsb_currency_config.c:220
+#: ../src/gsb_currency_config.c:221
 msgid "Slovakia"
 msgstr "Eslovaquia"
 
-#: ../src/gsb_currency_config.c:221
+#: ../src/gsb_currency_config.c:222
 msgid "Slovene Tolar"
 msgstr "Tolar esloveno"
 
-#: ../src/gsb_currency_config.c:222
+#: ../src/gsb_currency_config.c:223
 msgid "Spanish Peseta"
 msgstr "Peseta española"
 
-#: ../src/gsb_currency_config.c:223
+#: ../src/gsb_currency_config.c:224
 msgid "Swedish Krona"
 msgstr "Corona sueca"
 
-#: ../src/gsb_currency_config.c:223
+#: ../src/gsb_currency_config.c:224
 msgid "Sweden"
 msgstr "Suecia"
 
-#: ../src/gsb_currency_config.c:224 ../src/gsb_currency_config.c:225
+#: ../src/gsb_currency_config.c:225 ../src/gsb_currency_config.c:226
 msgid "Swiss Franc"
 msgstr "Franco suizo"
 
-#: ../src/gsb_currency_config.c:224
+#: ../src/gsb_currency_config.c:225
 msgid "Liechtenstein"
 msgstr "Liechtenstein"
 
-#: ../src/gsb_currency_config.c:225
+#: ../src/gsb_currency_config.c:226
 msgid "Switzerland"
 msgstr "Suiza"
 
-#: ../src/gsb_currency_config.c:226
+#: ../src/gsb_currency_config.c:227
 msgid "Hryvnia"
 msgstr "Hryvnia"
 
-#: ../src/gsb_currency_config.c:226
+#: ../src/gsb_currency_config.c:227
 msgid "Ukraine"
 msgstr "Ukraine"
 
-#: ../src/gsb_currency_config.c:227 ../src/gsb_currency_config.c:228
-#: ../src/gsb_currency_config.c:229 ../src/gsb_currency_config.c:230
-#: ../src/gsb_currency_config.c:231 ../src/gsb_currency_config.c:232
-#: ../src/gsb_currency_config.c:233 ../src/gsb_currency_config.c:234
-#: ../src/gsb_currency_config.c:235 ../src/gsb_currency_config.c:236
-#: ../src/gsb_currency_config.c:237 ../src/gsb_currency_config.c:238
-#: ../src/gsb_currency_config.c:239 ../src/gsb_currency_config.c:240
+#: ../src/gsb_currency_config.c:228 ../src/gsb_currency_config.c:229
+#: ../src/gsb_currency_config.c:230 ../src/gsb_currency_config.c:231
+#: ../src/gsb_currency_config.c:232 ../src/gsb_currency_config.c:233
+#: ../src/gsb_currency_config.c:234 ../src/gsb_currency_config.c:235
+#: ../src/gsb_currency_config.c:236 ../src/gsb_currency_config.c:237
+#: ../src/gsb_currency_config.c:238 ../src/gsb_currency_config.c:239
+#: ../src/gsb_currency_config.c:240 ../src/gsb_currency_config.c:241
 msgid "Northern America"
 msgstr "América del Norte"
 
-#: ../src/gsb_currency_config.c:227
+#: ../src/gsb_currency_config.c:228
 msgid "Bahamian Dollar"
 msgstr "Dólar de las Bahamas"
 
-#: ../src/gsb_currency_config.c:227
+#: ../src/gsb_currency_config.c:228
 msgid "Bahamas"
 msgstr "Bahamas"
 
-#: ../src/gsb_currency_config.c:228
+#: ../src/gsb_currency_config.c:229
 msgid "Barbados Dollar"
 msgstr "Dólar de las Barbados"
 
-#: ../src/gsb_currency_config.c:228
+#: ../src/gsb_currency_config.c:229
 msgid "Barbados"
 msgstr "Barbados"
 
-#: ../src/gsb_currency_config.c:229
+#: ../src/gsb_currency_config.c:230
 msgid "Bermuda Dollar"
 msgstr "Dólar de las Bermudas"
 
-#: ../src/gsb_currency_config.c:229
+#: ../src/gsb_currency_config.c:230
 msgid "Bermuda"
 msgstr "Bermudas"
 
-#: ../src/gsb_currency_config.c:230
+#: ../src/gsb_currency_config.c:231
 msgid "Canadian Dollar"
 msgstr "Dolar Canadiense"
 
-#: ../src/gsb_currency_config.c:230
+#: ../src/gsb_currency_config.c:231
 msgid "Canada"
 msgstr "Canada"
 
-#: ../src/gsb_currency_config.c:231
+#: ../src/gsb_currency_config.c:232
 msgid "Cayman Islands Dollar"
 msgstr "Dólar de las Islas Caimán"
 
-#: ../src/gsb_currency_config.c:231
+#: ../src/gsb_currency_config.c:232
 msgid "Cayman Islands"
 msgstr "Islas Caimán"
 
-#: ../src/gsb_currency_config.c:232
+#: ../src/gsb_currency_config.c:233
 msgid "Cuban Peso"
 msgstr "Peso cubano"
 
-#: ../src/gsb_currency_config.c:232
+#: ../src/gsb_currency_config.c:233
 msgid "Cuba"
 msgstr "Cuba"
 
-#: ../src/gsb_currency_config.c:233
+#: ../src/gsb_currency_config.c:234
 msgid "Dominican Peso"
 msgstr "Peso dominicano"
 
-#: ../src/gsb_currency_config.c:233
+#: ../src/gsb_currency_config.c:234
 msgid "Dominican Republic"
 msgstr "República Dominicana"
 
-#: ../src/gsb_currency_config.c:234 ../src/gsb_currency_config.c:235
+#: ../src/gsb_currency_config.c:235 ../src/gsb_currency_config.c:236
 msgid "East Caribbean Dollar"
 msgstr "Dólar del Caribe del Este"
 
-#: ../src/gsb_currency_config.c:234
+#: ../src/gsb_currency_config.c:235
 msgid "Grenada"
 msgstr "Granada"
 
-#: ../src/gsb_currency_config.c:235
+#: ../src/gsb_currency_config.c:236
 msgid "Saint Lucia"
 msgstr "Santa Lucía"
 
-#: ../src/gsb_currency_config.c:236
+#: ../src/gsb_currency_config.c:237
 msgid "Haitian Gourde"
 msgstr "Gourde de Haití"
 
-#: ../src/gsb_currency_config.c:236
+#: ../src/gsb_currency_config.c:237
 msgid "Haiti"
 msgstr "Haití"
 
-#: ../src/gsb_currency_config.c:237
+#: ../src/gsb_currency_config.c:238
 msgid "Jamaican Dollar"
 msgstr "Dolar jamaicano"
 
-#: ../src/gsb_currency_config.c:237
+#: ../src/gsb_currency_config.c:238
 msgid "Jamaica"
 msgstr "Jamaica"
 
-#: ../src/gsb_currency_config.c:238
+#: ../src/gsb_currency_config.c:239
 msgid "Netherlands Antillian Guilder"
 msgstr "Guilder de las Antillas Holandesas"
 
-#: ../src/gsb_currency_config.c:238
+#: ../src/gsb_currency_config.c:239
 msgid "Netherlands Antilles"
 msgstr "Antillas holandesas"
 
-#: ../src/gsb_currency_config.c:239
+#: ../src/gsb_currency_config.c:240
 msgid "Trinidad and Tobago Dollar"
 msgstr "Dólar de Trinidad y Tobago"
 
-#: ../src/gsb_currency_config.c:239
+#: ../src/gsb_currency_config.c:240
 msgid "Trinidad and Tobago"
 msgstr "Trinidad y Tobago"
 
-#: ../src/gsb_currency_config.c:240 ../src/gsb_currency_config.c:256
+#: ../src/gsb_currency_config.c:241 ../src/gsb_currency_config.c:257
 msgid "United States Dollar"
 msgstr "Dolar estadoudinense"
 
-#: ../src/gsb_currency_config.c:240 ../src/gsb_currency_config.c:1384
+#: ../src/gsb_currency_config.c:241 ../src/gsb_currency_config.c:1385
 msgid "United States"
 msgstr "Estados Unidos"
 
-#: ../src/gsb_currency_config.c:241 ../src/gsb_currency_config.c:242
-#: ../src/gsb_currency_config.c:243 ../src/gsb_currency_config.c:244
-#: ../src/gsb_currency_config.c:245 ../src/gsb_currency_config.c:246
-#: ../src/gsb_currency_config.c:247 ../src/gsb_currency_config.c:248
-#: ../src/gsb_currency_config.c:249 ../src/gsb_currency_config.c:250
-#: ../src/gsb_currency_config.c:251 ../src/gsb_currency_config.c:252
-#: ../src/gsb_currency_config.c:253 ../src/gsb_currency_config.c:254
-#: ../src/gsb_currency_config.c:255 ../src/gsb_currency_config.c:256
-#: ../src/gsb_currency_config.c:257
+#: ../src/gsb_currency_config.c:242 ../src/gsb_currency_config.c:243
+#: ../src/gsb_currency_config.c:244 ../src/gsb_currency_config.c:245
+#: ../src/gsb_currency_config.c:246 ../src/gsb_currency_config.c:247
+#: ../src/gsb_currency_config.c:248 ../src/gsb_currency_config.c:249
+#: ../src/gsb_currency_config.c:250 ../src/gsb_currency_config.c:251
+#: ../src/gsb_currency_config.c:252 ../src/gsb_currency_config.c:253
+#: ../src/gsb_currency_config.c:254 ../src/gsb_currency_config.c:255
+#: ../src/gsb_currency_config.c:256 ../src/gsb_currency_config.c:257
+#: ../src/gsb_currency_config.c:258
 msgid "Pacific Ocean"
 msgstr "Océano Pacífico"
 
-#: ../src/gsb_currency_config.c:241 ../src/gsb_currency_config.c:242
-#: ../src/gsb_currency_config.c:243 ../src/gsb_currency_config.c:244
+#: ../src/gsb_currency_config.c:242 ../src/gsb_currency_config.c:243
+#: ../src/gsb_currency_config.c:244 ../src/gsb_currency_config.c:245
 msgid "Australian Dollar"
 msgstr "Dólar australiano"
 
-#: ../src/gsb_currency_config.c:241
+#: ../src/gsb_currency_config.c:242
 msgid "Australia"
 msgstr "Australia"
 
-#: ../src/gsb_currency_config.c:242
+#: ../src/gsb_currency_config.c:243
 msgid "Kiribati"
 msgstr "República de Kiribati"
 
-#: ../src/gsb_currency_config.c:243
+#: ../src/gsb_currency_config.c:244
 msgid "Nauru"
 msgstr "República de Nauru"
 
-#: ../src/gsb_currency_config.c:244
+#: ../src/gsb_currency_config.c:245
 msgid "Tuvalu"
 msgstr "Tuvulu"
 
-#: ../src/gsb_currency_config.c:245 ../src/gsb_currency_config.c:246
-#: ../src/gsb_currency_config.c:247
+#: ../src/gsb_currency_config.c:246 ../src/gsb_currency_config.c:247
+#: ../src/gsb_currency_config.c:248
 msgid "CFP Franc"
 msgstr "Franco de la Polinesia Francesa"
 
-#: ../src/gsb_currency_config.c:245
+#: ../src/gsb_currency_config.c:246
 msgid "French Polynesia"
 msgstr "Polinesia Francesa"
 
-#: ../src/gsb_currency_config.c:246
+#: ../src/gsb_currency_config.c:247
 msgid "New Caledonia"
 msgstr "Nueva Caledonia"
 
-#: ../src/gsb_currency_config.c:247
+#: ../src/gsb_currency_config.c:248
 msgid "Wallis and Futuna"
 msgstr "Wallis y Futuna"
 
-#: ../src/gsb_currency_config.c:248
+#: ../src/gsb_currency_config.c:249
 msgid "Fiji Dollar"
 msgstr "Dólar de Fidji"
 
-#: ../src/gsb_currency_config.c:248
+#: ../src/gsb_currency_config.c:249
 msgid "Fiji"
 msgstr "Fidji"
 
-#: ../src/gsb_currency_config.c:249 ../src/gsb_currency_config.c:250
+#: ../src/gsb_currency_config.c:250 ../src/gsb_currency_config.c:251
 msgid "New Zealand Dollar"
 msgstr "Dólar neocelandés"
 
-#: ../src/gsb_currency_config.c:249
+#: ../src/gsb_currency_config.c:250
 msgid "Cook Islands"
 msgstr "Islas Cook"
 
-#: ../src/gsb_currency_config.c:250
+#: ../src/gsb_currency_config.c:251
 msgid "New Zealand"
 msgstr "Nueva Zelanda"
 
-#: ../src/gsb_currency_config.c:251
+#: ../src/gsb_currency_config.c:252
 msgid "Papua New Guinea Kina"
 msgstr "Kina de Papua - Nueva Ghinea"
 
-#: ../src/gsb_currency_config.c:251
+#: ../src/gsb_currency_config.c:252
 msgid "Papua New Guinea"
 msgstr "Papua Nueva Guinea"
 
-#: ../src/gsb_currency_config.c:252
+#: ../src/gsb_currency_config.c:253
 msgid "Samoa Tala"
 msgstr "Tala de Samoa"
 
-#: ../src/gsb_currency_config.c:252
+#: ../src/gsb_currency_config.c:253
 msgid "Samoa"
 msgstr "Samoa"
 
-#: ../src/gsb_currency_config.c:253
+#: ../src/gsb_currency_config.c:254
 msgid "Solomon Islands Dollar"
 msgstr "Dólar de las Islas Salomón"
 
-#: ../src/gsb_currency_config.c:253
+#: ../src/gsb_currency_config.c:254
 msgid "Solomon Islands"
 msgstr "Islas Salomón"
 
-#: ../src/gsb_currency_config.c:254
+#: ../src/gsb_currency_config.c:255
 msgid "Timor Escudo"
 msgstr "Escudo de Timor"
 
-#: ../src/gsb_currency_config.c:254
+#: ../src/gsb_currency_config.c:255
 msgid "Timor"
 msgstr "Timor"
 
-#: ../src/gsb_currency_config.c:255
+#: ../src/gsb_currency_config.c:256
 msgid "Tongan Pa'anga"
 msgstr "Pa'anga de Tonga"
 
-#: ../src/gsb_currency_config.c:255
+#: ../src/gsb_currency_config.c:256
 msgid "Tonga"
 msgstr "Tonga"
 
-#: ../src/gsb_currency_config.c:257
+#: ../src/gsb_currency_config.c:258
 msgid "Vanuatu Vatu"
 msgstr "Vatu de la República de Vanuatu"
 
-#: ../src/gsb_currency_config.c:257
+#: ../src/gsb_currency_config.c:258
 msgid "Vanuatu"
 msgstr "República de Vanuatu"
 
-#: ../src/gsb_currency_config.c:258 ../src/gsb_currency_config.c:259
-#: ../src/gsb_currency_config.c:260 ../src/gsb_currency_config.c:261
-#: ../src/gsb_currency_config.c:262 ../src/gsb_currency_config.c:263
-#: ../src/gsb_currency_config.c:264 ../src/gsb_currency_config.c:265
-#: ../src/gsb_currency_config.c:266 ../src/gsb_currency_config.c:267
-#: ../src/gsb_currency_config.c:268 ../src/gsb_currency_config.c:269
+#: ../src/gsb_currency_config.c:259 ../src/gsb_currency_config.c:260
+#: ../src/gsb_currency_config.c:261 ../src/gsb_currency_config.c:262
+#: ../src/gsb_currency_config.c:263 ../src/gsb_currency_config.c:264
+#: ../src/gsb_currency_config.c:265 ../src/gsb_currency_config.c:266
+#: ../src/gsb_currency_config.c:267 ../src/gsb_currency_config.c:268
+#: ../src/gsb_currency_config.c:269 ../src/gsb_currency_config.c:270
 msgid "Southern America"
 msgstr "Sudamérica"
 
-#: ../src/gsb_currency_config.c:258 ../src/gsb_currency_config.c:260
-#: ../src/gsb_currency_config.c:261 ../src/gsb_currency_config.c:268
+#: ../src/gsb_currency_config.c:259 ../src/gsb_currency_config.c:261
+#: ../src/gsb_currency_config.c:262 ../src/gsb_currency_config.c:269
 msgid "Peso"
 msgstr "Peso"
 
-#: ../src/gsb_currency_config.c:258
+#: ../src/gsb_currency_config.c:259
 msgid "Argentina"
 msgstr "Argentina"
 
-#: ../src/gsb_currency_config.c:259
+#: ../src/gsb_currency_config.c:260
 msgid "Boliviano"
 msgstr "Boliviano"
 
-#: ../src/gsb_currency_config.c:259
+#: ../src/gsb_currency_config.c:260
 msgid "Bolivia"
 msgstr "Bolivia"
 
-#: ../src/gsb_currency_config.c:260
+#: ../src/gsb_currency_config.c:261
 msgid "Chile"
 msgstr "Chile"
 
-#: ../src/gsb_currency_config.c:261
+#: ../src/gsb_currency_config.c:262
 msgid "Colombia"
 msgstr "Colombia"
 
-#: ../src/gsb_currency_config.c:262
+#: ../src/gsb_currency_config.c:263
 msgid "Ecuador Sucre"
 msgstr "Sucre de Ecuador"
 
-#: ../src/gsb_currency_config.c:262
+#: ../src/gsb_currency_config.c:263
 msgid "Ecuador"
 msgstr "Ecuador"
 
-#: ../src/gsb_currency_config.c:263
+#: ../src/gsb_currency_config.c:264
 msgid "Guyana Dollar"
 msgstr "Dólar de la Guyana"
 
-#: ../src/gsb_currency_config.c:263
+#: ../src/gsb_currency_config.c:264
 msgid "Guyana"
 msgstr "Guyana"
 
-#: ../src/gsb_currency_config.c:264
+#: ../src/gsb_currency_config.c:265
 msgid "Paraguay Guarani"
 msgstr "Guaraní Paraguayo"
 
-#: ../src/gsb_currency_config.c:264
+#: ../src/gsb_currency_config.c:265
 msgid "Paraguay"
 msgstr "Paraguay"
 
-#: ../src/gsb_currency_config.c:265
+#: ../src/gsb_currency_config.c:266
 msgid "Nuevos Soles"
 msgstr "Nuevos Soles"
 
-#: ../src/gsb_currency_config.c:265
+#: ../src/gsb_currency_config.c:266
 msgid "Peru"
 msgstr "Perú"
 
-#: ../src/gsb_currency_config.c:266
+#: ../src/gsb_currency_config.c:267
 msgid "Real"
 msgstr "Real"
 
-#: ../src/gsb_currency_config.c:266
+#: ../src/gsb_currency_config.c:267
 msgid "Brazil"
 msgstr "Brasil"
 
-#: ../src/gsb_currency_config.c:267
+#: ../src/gsb_currency_config.c:268
 msgid "Suriname Guilder"
 msgstr "Florín del Surinam"
 
-#: ../src/gsb_currency_config.c:267
+#: ../src/gsb_currency_config.c:268
 msgid "Suriname"
 msgstr "Surinam"
 
-#: ../src/gsb_currency_config.c:268
+#: ../src/gsb_currency_config.c:269
 msgid "Uruguay"
 msgstr "Uruguay"
 
-#: ../src/gsb_currency_config.c:269
+#: ../src/gsb_currency_config.c:270
 msgid "Venezuelan Bolivar"
 msgstr "Bolívar Venezolano"
 
-#: ../src/gsb_currency_config.c:269
+#: ../src/gsb_currency_config.c:270
 msgid "Venezuela"
 msgstr "Venezuela"
 
-#: ../src/gsb_currency_config.c:299
+#: ../src/gsb_currency_config.c:300
 msgid "Known currencies"
 msgstr "Monedas conocidas"
 
 #. Input form for currencies
-#: ../src/gsb_currency_config.c:348
+#: ../src/gsb_currency_config.c:349
 msgid "Currency properties"
 msgstr "Propiedades de la moneda"
 
 #. Create Sign entry
-#: ../src/gsb_currency_config.c:370
+#: ../src/gsb_currency_config.c:371
 msgid "Sign: "
 msgstr "Símbolo: "
 
 #. Create ISO code entry
-#: ../src/gsb_currency_config.c:383
+#: ../src/gsb_currency_config.c:384
 msgid "ISO code: "
 msgstr "Código ISO: "
 
 #. Create floating point entry
-#: ../src/gsb_currency_config.c:396 ../src/gsb_currency_config.c:1005
+#: ../src/gsb_currency_config.c:397 ../src/gsb_currency_config.c:1006
 msgid "Floating point: "
 msgstr "Punto decimal: "
 
-#: ../src/gsb_currency_config.c:456
+#: ../src/gsb_currency_config.c:457
 msgid "Country name"
 msgstr "Nombre del pais"
 
-#: ../src/gsb_currency_config.c:479
+#: ../src/gsb_currency_config.c:480
 msgid "Currency name"
 msgstr "Nombre de la moneda"
 
-#: ../src/gsb_currency_config.c:490
+#: ../src/gsb_currency_config.c:491
 msgid "ISO Code"
 msgstr "Código ISO"
 
-#: ../src/gsb_currency_config.c:502
+#: ../src/gsb_currency_config.c:503
 msgid "Sign"
 msgstr "Símbolo"
 
-#: ../src/gsb_currency_config.c:619
+#: ../src/gsb_currency_config.c:620
 #, c-format
 msgid "Currency '%s' is used in current file.  Grisbi can't delete it."
 msgstr ""
 "La moneda '%s' se está usando en el archivo actual.  Grisbi no puede "
 "borrarla."
 
-#: ../src/gsb_currency_config.c:622 ../src/gsb_currency_config.c:646
+#: ../src/gsb_currency_config.c:623 ../src/gsb_currency_config.c:647
 #, c-format
 msgid "Impossible to remove currency '%s'"
 msgstr "Imposible eliminar la moneda '%s'"
 
-#: ../src/gsb_currency_config.c:643
+#: ../src/gsb_currency_config.c:644
 #, c-format
 msgid "Currency '%s' is used in current file. Grisbi can't delete it."
 msgstr ""
 "La moneda '%s' se está usando en el archivo actual.  Grisbi no puede "
 "borrarla."
 
-#: ../src/gsb_currency_config.c:821
+#: ../src/gsb_currency_config.c:822
 msgid "Currency for payees tree: "
 msgstr "Moneda para el arbol de terceros: "
 
-#: ../src/gsb_currency_config.c:831
+#: ../src/gsb_currency_config.c:832
 msgid "Currency for categories tree: "
 msgstr "Moneda para el arbol de categorías: "
 
-#: ../src/gsb_currency_config.c:841
+#: ../src/gsb_currency_config.c:842
 msgid "Currency for budgetary lines tree: "
 msgstr "Moneda para el árbol de líneas presupuestarias: "
 
-#: ../src/gsb_currency_config.c:935
+#: ../src/gsb_currency_config.c:936
 msgid "Add a currency"
 msgstr "Añadir una moneda"
 
-#: ../src/gsb_currency_config.c:944
+#: ../src/gsb_currency_config.c:945
 msgid "Select base currency for your account"
 msgstr "Seleccione la moneda para su cuenta"
 
-#: ../src/gsb_currency_config.c:953
+#: ../src/gsb_currency_config.c:954
 msgid "World currencies"
 msgstr "Monedas del mundo"
 
-#: ../src/gsb_currency_config.c:962
+#: ../src/gsb_currency_config.c:963
 msgid "Currency details"
 msgstr "Detalles de la moneda"
 
 #. Currency name
-#: ../src/gsb_currency_config.c:971
+#: ../src/gsb_currency_config.c:972
 msgid "Currency name: "
 msgstr "Nombre de la moneda:"
 
 #. Currency ISO code
-#: ../src/gsb_currency_config.c:983
+#: ../src/gsb_currency_config.c:984
 msgid "Currency international code: "
 msgstr "Código de moneda internacional: "
 
 #. Currency usual sign
-#: ../src/gsb_currency_config.c:994
+#: ../src/gsb_currency_config.c:995
 msgid "Currency sign: "
 msgstr "Símbolo de la moneda: "
 
-#: ../src/gsb_currency_config.c:1060
+#: ../src/gsb_currency_config.c:1061
 msgid ""
 "Currency name and either international currency code or currency nickname "
 "should be set."
@@ -7243,12 +7256,12 @@ msgstr ""
 "Los nombres de moneda y o bien  los códigos de moneda o bien los apodos de "
 "las monedas deben ser configurados."
 
-#: ../src/gsb_currency_config.c:1062 ../src/gsb_data_partial_balance.c:325
+#: ../src/gsb_currency_config.c:1063 ../src/gsb_data_partial_balance.c:325
 #: ../src/gsb_data_partial_balance.c:435
 msgid "All fields are not filled in"
 msgstr "No están todos los campos rellenos"
 
-#: ../src/gsb_currency_config.c:1190
+#: ../src/gsb_currency_config.c:1191
 msgid "Include obsolete currencies"
 msgstr "Incluir monedas antiguas"
 
@@ -7339,7 +7352,7 @@ msgstr ""
 msgid "No budget line"
 msgstr "Sin línea presupuestaria"
 
-#: ../src/gsb_data_budget.c:1300
+#: ../src/gsb_data_budget.c:1306
 #, fuzzy, c-format
 msgid ""
 "The transaction %d has a budget n%d and sub-budget n%d but they don't exist."
@@ -7347,7 +7360,7 @@ msgstr ""
 "La transacción %d tiene una línea n°%d y una sublínea presupuestaria nº%d, "
 "pero no existen."
 
-#: ../src/gsb_data_budget.c:1446 ../src/gsb_data_category.c:1585
+#: ../src/gsb_data_budget.c:1452 ../src/gsb_data_category.c:1585
 #, c-format
 msgid "In <i>%s</i>, <i>%s</i> is a duplicate of <i>%s</i>.\n"
 msgstr "En <i>%s</i>, <i>%s</i> es un duplicado de <i>%s</i>.\n"
@@ -7460,22 +7473,22 @@ msgid "The transaction %d has a payee n%d but it doesn't exist."
 msgstr "La transacción %d tiene un tercero n°%d pero éste no existe."
 
 #. Deposit = Dépôt
-#: ../src/gsb_data_payment.c:724 ../src/import.c:2772
+#: ../src/gsb_data_payment.c:724 ../src/import.c:2751
 #: ../src/plugins/ofx/ofx.c:426
 msgid "Deposit"
 msgstr "Depósito"
 
-#. pas trouvé de définition remplacé par carte de crédit
+#. Retrait dans un distributeur de billets replacé par carte de crédit
 #. Point of sale = Point de vente remplacé par carte de crédit
-#: ../src/gsb_data_payment.c:733 ../src/gsb_form.c:2262 ../src/import.c:2778
-#: ../src/import.c:2784
+#: ../src/gsb_data_payment.c:733 ../src/gsb_form.c:2262 ../src/import.c:2757
+#: ../src/import.c:2763
 msgid "Credit card"
 msgstr "Tarjeta de crédito"
 
 #. Electronic payment remplacé par Direct debit = Prélèvement
 #. Merchant initiated debit remplacé par Direct debit = Prélèvement
-#: ../src/gsb_data_payment.c:742 ../src/gsb_form.c:2299 ../src/import.c:2796
-#: ../src/import.c:2814
+#: ../src/gsb_data_payment.c:742 ../src/gsb_form.c:2299 ../src/import.c:2775
+#: ../src/import.c:2797
 msgid "Direct debit"
 msgstr "Cargo a cuenta"
 
@@ -8008,7 +8021,7 @@ msgstr ""
 msgid "Cannot open encrypted file '%s'"
 msgstr "No se puede abrir el archivo encriptado '%s'"
 
-#: ../src/gsb_file_load.c:453 ../src/gsb_file_load.c:5488
+#: ../src/gsb_file_load.c:453 ../src/gsb_file_load.c:5496
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Este fichero no es de de Grisbi... Carga interrumpida."
 
@@ -8024,7 +8037,7 @@ msgstr ""
 "%s"
 
 #. we don't know here the release of that file, give the release needed
-#: ../src/gsb_file_load.c:8881
+#: ../src/gsb_file_load.c:8889
 #, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
@@ -8033,7 +8046,7 @@ msgstr ""
 "Se necesita la versión de Grisbi %s para abrir este archivo.\n"
 "Usted está usando la versión %s."
 
-#: ../src/gsb_file_load.c:8906
+#: ../src/gsb_file_load.c:8914
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -8045,7 +8058,7 @@ msgstr ""
 "más tarde (nuevos informes...) pero recuerde que es un archivo antes de "
 "modificar algunas transacciones o informaciones importantes."
 
-#: ../src/gsb_file_load.c:8910
+#: ../src/gsb_file_load.c:8918
 msgid "Grisbi archive opened"
 msgstr "Archivo de Grisbi abierto"
 
@@ -8200,13 +8213,13 @@ msgid "Direct deposit"
 msgstr "Depósito directo"
 
 #. Check = Chèque
-#: ../src/gsb_form.c:2280 ../src/import.c:2579 ../src/import.c:2627
-#: ../src/import.c:2753 ../src/plugins/ofx/ofx.c:406
+#: ../src/gsb_form.c:2280 ../src/import.c:2556 ../src/import.c:2604
+#: ../src/import.c:2732 ../src/plugins/ofx/ofx.c:406
 msgid "Check"
 msgstr "Comprobar"
 
 #. Cash withdrawal = retrait en liquide
-#: ../src/gsb_form.c:2289 ../src/import.c:2802
+#: ../src/gsb_form.c:2289 ../src/import.c:2781
 msgid "Cash withdrawal"
 msgstr "Retirada de efectivo"
 
@@ -9291,7 +9304,7 @@ msgid "Displays the contra-transaction"
 msgstr "Mostrar transacciones"
 
 #. use transaction as template
-#: ../src/gsb_transactions_list.c:2542 ../src/menu.c:222
+#: ../src/gsb_transactions_list.c:2542 ../src/menu.c:223
 msgid "Use selected transaction as a template"
 msgstr "Usar las transacciones seleccionadas como una plantilla"
 
@@ -9446,72 +9459,72 @@ msgstr ""
 msgid "Programming"
 msgstr "Programando"
 
-#: ../src/help.c:131
+#: ../src/help.c:133
 msgid "Packaging"
 msgstr "Empaquetando"
 
-#: ../src/help.c:152 ../src/help.c:153 ../src/help.c:155
+#: ../src/help.c:154 ../src/help.c:155 ../src/help.c:157
 msgid "English"
 msgstr "Inglés"
 
-#: ../src/help.c:154
+#: ../src/help.c:156
 msgid "Spanish"
 msgstr "Español"
 
-#: ../src/help.c:156
+#: ../src/help.c:158
 msgid "Dutch"
 msgstr "Alemán"
 
-#: ../src/help.c:157 ../src/help.c:159
+#: ../src/help.c:159 ../src/help.c:161
 msgid "Italian"
 msgstr "Italiano"
 
-#: ../src/help.c:158
+#: ../src/help.c:160
 msgid "Brazilian Portuguese"
 msgstr "Portugués brasileño"
 
-#: ../src/help.c:160
+#: ../src/help.c:162
 msgid "German"
 msgstr "Alemania"
 
-#: ../src/help.c:161
+#: ../src/help.c:163
 msgid "Polish"
 msgstr "Polaco"
 
-#: ../src/help.c:201 ../src/help.c:217
+#: ../src/help.c:209 ../src/help.c:225
 msgid "Personal finance manager for everyone\n"
 msgstr "Gestor de finanzas personal para todo el mundo\n"
 
-#: ../src/help.c:206
+#: ../src/help.c:214
 msgid "This instance of Grisbi was compiled on\n"
 msgstr "Esta version de Grisbi fue compilada en\n"
 
-#: ../src/help.c:209
+#: ../src/help.c:217
 msgid "at"
 msgstr "en"
 
-#: ../src/import.c:210
+#: ../src/import.c:184
 msgid "Comma Separated Values"
 msgstr "Valores separados por comas"
 
-#: ../src/import.c:211
+#: ../src/import.c:185
 msgid "Quicken Interchange Format"
 msgstr "Formato de intercambio rápido"
 
-#: ../src/import.c:213 ../src/plugins/gnucash/gnucash.c:132
+#: ../src/import.c:187 ../src/plugins/gnucash/gnucash.c:132
 msgid "Gnucash"
 msgstr "Gnucash"
 
-#: ../src/import.c:216
+#: ../src/import.c:190
 msgid "Open Financial Exchange"
 msgstr ""
 
-#: ../src/import.c:286
+#: ../src/import.c:260
 #, c-format
 msgid "Adding '%s' as an import format"
 msgstr "Añadiendo '%s' como formato para importar"
 
-#: ../src/import.c:318
+#: ../src/import.c:292
 msgid ""
 "This assistant will help you import one or several files into Grisbi.\n"
 "\n"
@@ -9527,52 +9540,52 @@ msgstr ""
 "de la siguiente página.  Los siguientes formatos son soportados:\n"
 "\n"
 
-#: ../src/import.c:326
+#: ../src/import.c:300
 msgid "Importing transactions into Grisbi"
 msgstr "Importando transacciones a Grisbi"
 
-#: ../src/import.c:420
+#: ../src/import.c:394
 msgid "Choose file to import"
 msgstr "Seleccionar archivo para importar"
 
-#: ../src/import.c:422
+#: ../src/import.c:396
 msgid "Add file to import..."
 msgstr "Añadir ficheros para importar..."
 
-#: ../src/import.c:488
+#: ../src/import.c:462
 msgid "File name"
 msgstr "Nombre del archivo"
 
-#: ../src/import.c:549 ../src/import.c:704 ../src/import.c:4448
+#: ../src/import.c:523 ../src/import.c:678 ../src/import.c:4457
 #: ../src/import_csv.c:1083 ../src/import_csv.c:1109
 #, c-format
 msgid "Unable to read file: %s\n"
 msgstr "No se puede leer el fichero: %s\n"
 
-#: ../src/import.c:652 ../src/import.c:761 ../src/import.c:4344
-#: ../src/import.c:4367
+#: ../src/import.c:626 ../src/import.c:735 ../src/import.c:4353
+#: ../src/import.c:4376
 msgid "Unknown"
 msgstr "Desconocido"
 
-#: ../src/import.c:797
+#: ../src/import.c:771
 msgid "Choose files to import."
 msgstr "Seleccionar archivos para importar."
 
-#: ../src/import.c:823
+#: ../src/import.c:797
 #, c-format
 msgid "Known files (%s)"
 msgstr "Archivos conocidos (%s)"
 
-#: ../src/import.c:835
+#: ../src/import.c:809
 #, c-format
 msgid "%s files (*.%s)"
 msgstr "%s archivos (*.%s)"
 
-#: ../src/import.c:873
+#: ../src/import.c:847
 msgid "Encoding: "
 msgstr "Codificación: "
 
-#: ../src/import.c:984
+#: ../src/import.c:958
 msgid ""
 "You successfully imported files into Grisbi.  The following pages will help "
 "you set up imported data for the following files"
@@ -9580,16 +9593,16 @@ msgstr ""
 "Ha importado con éxito los ficheros a Grisbi.  Las siguientes páginas le "
 "ayudarán a configurar la información importada para los siguientes ficheros"
 
-#: ../src/import.c:999
+#: ../src/import.c:973
 msgid "Unnamed Imported account"
 msgstr "Cuenta sin nombre importada"
 
-#: ../src/import.c:1026
+#: ../src/import.c:1000
 #, fuzzy
 msgid "Error!"
 msgstr "¡ Error !"
 
-#: ../src/import.c:1031
+#: ../src/import.c:1005
 msgid ""
 "No file has been imported, please double check that they are valid files.  "
 "Please make sure that they are not compressed and that their format is valid."
@@ -9598,26 +9611,26 @@ msgstr ""
 "válidos  Por favor, asegúrese de que no están comprimidos y qeu su formato "
 "es válido."
 
-#: ../src/import.c:1045
+#: ../src/import.c:1019
 msgid "The following files are in error: "
 msgstr "Las siguientes ficheros tienen un error: "
 
-#: ../src/import.c:1097
+#: ../src/import.c:1071
 msgid "Import settings completed successfully"
 msgstr ""
 
-#: ../src/import.c:1101
+#: ../src/import.c:1075
 #, fuzzy
 msgid "Press the 'Close' button to finish the import."
 msgstr ""
 "Ha configurado con éxito la exportación de datos en Grisbi.  Pulse el botón "
 "'Cerrar' para exportar los datos."
 
-#: ../src/import.c:1220
+#: ../src/import.c:1194
 msgid "file"
 msgstr "archivo"
 
-#: ../src/import.c:1226
+#: ../src/import.c:1200
 #, c-format
 msgid ""
 "<span size=\"x-large\">%s</span>\n"
@@ -9630,25 +9643,25 @@ msgstr ""
 "¿ Qué es lo que quiere hacer con los contenidos de <span foreground=\"blue\">"
 "%s</span> ?\n"
 
-#: ../src/import.c:1284
+#: ../src/import.c:1258
 msgid "Add transactions to an account"
 msgstr "Añadir transacciones a una cuenta"
 
-#: ../src/import.c:1310
+#: ../src/import.c:1284
 msgid "Mark transactions of an account"
 msgstr "Marcar las transacciones de una cuenta"
 
 #. invert amount of transactions
-#: ../src/import.c:1377
+#: ../src/import.c:1351
 msgid "Invert the amount of the imported transactions"
 msgstr "Invertir la cantidad de las transacciones importadas"
 
-#: ../src/import.c:1385
+#: ../src/import.c:1359
 #, fuzzy
 msgid "Create a rule for this import. Name of the rule: "
 msgstr "Crear una regla para esta importación. Nombre de la regla : "
 
-#: ../src/import.c:1418
+#: ../src/import.c:1392
 #, fuzzy, c-format
 msgid ""
 "The account currency imported %s is %s.\n"
@@ -9661,12 +9674,12 @@ msgstr ""
 "\n"
 "¿Quiere crearla?"
 
-#: ../src/import.c:1425
+#: ../src/import.c:1399
 #, c-format
 msgid "Can't associate ISO 4217 code for currency '%s'."
 msgstr "No se puede asociar el código ISO 4217 para la moneda '%s'."
 
-#: ../src/import.c:1441
+#: ../src/import.c:1415
 msgid ""
 "Use this currency for totals for the payees categories\n"
 "and budgetary lines"
@@ -9674,7 +9687,7 @@ msgstr ""
 "Usar esta moneda para los totales de las categorías de terceros\n"
 "y líneas presupuestarias"
 
-#: ../src/import.c:1542
+#: ../src/import.c:1516
 #, c-format
 msgid ""
 "An error occured while creating the new account %s,\n"
@@ -9683,7 +9696,7 @@ msgstr ""
 "Ha ocurrido un error mientras se creaba la nueva cuenta %s,\n"
 "Intentaremos continuar con la importación, pero pueden suceder cosas malas..."
 
-#: ../src/import.c:1600
+#: ../src/import.c:1574
 #, c-format
 msgid ""
 "You want to create an import rule for the account %s but didn't give a name "
@@ -9693,15 +9706,15 @@ msgstr ""
 "nombre a esa regla. Por favor, elija un nombre o déjelo en blanco para "
 "cancelar la creación de la regla."
 
-#: ../src/import.c:1604
+#: ../src/import.c:1578
 msgid "No name for the import rule"
 msgstr "No hay un nombre para la regla de importación"
 
-#: ../src/import.c:1605
+#: ../src/import.c:1579
 msgid "Name of the rule: "
 msgstr "Nombre de la regla: "
 
-#: ../src/import.c:1631
+#: ../src/import.c:1605
 #, fuzzy
 msgid ""
 "No account in memory now, this is bad...\n"
@@ -9714,11 +9727,11 @@ msgstr ""
 "\n"
 "Por favor, contacto con el equipo de Grisbi para encontrar el problema."
 
-#: ../src/import.c:1641
+#: ../src/import.c:1615
 msgid "Please wait"
 msgstr "Por favor espere"
 
-#: ../src/import.c:1666
+#: ../src/import.c:1640
 msgid ""
 "You have just imported reconciled transactions but they not associated with "
 "any reconcile number yet.  You may associate them with a reconcilation later "
@@ -9728,25 +9741,25 @@ msgstr ""
 "ningún número de reconciliación todavía. Puede asociarlas con una "
 "reconciliación más tarde a través de las ventanas de configuración."
 
-#: ../src/import.c:1919
+#: ../src/import.c:1893
 msgid "Imported account"
 msgstr "Cuenta importada"
 
-#: ../src/import.c:2268
+#: ../src/import.c:2245
 #, fuzzy, c-format
 msgid "Confirmation of transactions to be merged in: %s"
 msgstr "Confirmación de las transacciones a unir"
 
-#: ../src/import.c:2272
+#: ../src/import.c:2249
 #, fuzzy, c-format
 msgid "Confirmation of importation of transactions in: %s"
 msgstr "Confirmación de la importación de transacciones"
 
-#: ../src/import.c:2292
+#: ../src/import.c:2269
 msgid "Please select the transactions to be merged"
 msgstr "Por favor, elija las transacciones a unir"
 
-#: ../src/import.c:2298
+#: ../src/import.c:2275
 msgid ""
 "Some imported transactions seem to be already saved.Please select the "
 "transactions to import."
@@ -9754,27 +9767,27 @@ msgstr ""
 "Algunas de las transacciones importadas parece que ya han sido guardadas. "
 "Por favor seleccione las transacciones a importar."
 
-#: ../src/import.c:2372
+#: ../src/import.c:2349
 #, fuzzy, c-format
 msgid "Transaction to be merged: %s ; %s ; %s"
 msgstr "Transacciones a importar : %s ; %s ; %s"
 
-#: ../src/import.c:2377
+#: ../src/import.c:2354
 #, fuzzy, c-format
 msgid "Transaction to import: %s ; %s ; %s"
 msgstr "Transacciones a importar : %s ; %s ; %s"
 
-#: ../src/import.c:2403
+#: ../src/import.c:2380
 #, fuzzy, c-format
 msgid "Transaction found: %s ; %s ; %s ; %s"
 msgstr "Transacción encontrada : %s ; %s ; %s ; %s"
 
-#: ../src/import.c:2417
+#: ../src/import.c:2394
 #, fuzzy, c-format
 msgid "Transaction found: %s ; %s ; %s"
 msgstr "Transacción encontrada : %s ; %s ; %s"
 
-#: ../src/import.c:2893
+#: ../src/import.c:2876
 #, fuzzy, c-format
 msgid ""
 "Warning : the cheque number %s is already used.\n"
@@ -9783,25 +9796,25 @@ msgstr ""
 "Aviso: El número de cheque %ld ya está siendo usado.\n"
 "Lo saltamos"
 
-#: ../src/import.c:3266
+#: ../src/import.c:3253
 #, fuzzy, c-format
 msgid "Orphaned transactions for: %s"
 msgstr "Transacciones huérfanas"
 
-#: ../src/import.c:3284
+#: ../src/import.c:3271
 msgid "Mark transactions you want to add to the list and click the OK button"
 msgstr ""
 "Marque las transacciones que desea añadir a la lista y pinche en el botón OK"
 
-#: ../src/import.c:3350
+#: ../src/import.c:3337
 msgid "Mark"
 msgstr "Marcar"
 
-#: ../src/import.c:3404
+#: ../src/import.c:3391
 msgid "The id of the imported and chosen accounts are different"
 msgstr "El id de las cuentas importada y elegida son distintos"
 
-#: ../src/import.c:3405
+#: ../src/import.c:3392
 #, fuzzy
 msgid ""
 "Perhaps you choose a wrong account?  If you choose to continue, the id of "
@@ -9810,59 +9823,73 @@ msgstr ""
 "¿Quizá eligió una cuenta equivocada? Si elige coninuar, el id de la cuenta "
 "cambiará.  ¿Desea continuar ?"
 
-#: ../src/import.c:3653
+#: ../src/import.c:3640
 #, c-format
 msgid "%s #%d"
 msgstr "%s #%d"
 
-#: ../src/import.c:3680
+#: ../src/import.c:3667
 msgid "Import settings"
 msgstr "Importar configuración"
 
-#: ../src/import.c:3687
+#: ../src/import.c:3674
 msgid "Threshold while matching transaction date during import (in days): "
 msgstr ""
 "Umbral para cuadrar la fecha de transacción en la importación (en días): "
 
-#: ../src/import.c:3706
+#: ../src/import.c:3693
 msgid "Merge the imported transactions with the transactions found"
 msgstr "Unir las transacciones importadas con la transacción encontrada"
 
-#: ../src/import.c:3716
+#: ../src/import.c:3703
 msgid "Automatically associate the category of the payee if it is possible"
 msgstr "Asociar automáticamente la categoría del tercero si es posible"
 
-#: ../src/import.c:3727 ../src/tiers_onglet.c:1133
+#: ../src/import.c:3714 ../src/tiers_onglet.c:1133
 msgid "Extracting a number and save it in the field No Cheque/Virement"
 msgstr ""
 "Extrayendo un número y guardándolo en el campo Sin Cheque/Transferencia"
 
-#: ../src/import.c:3735
+#: ../src/import.c:3722
 #, fuzzy
 msgid "Coping the original payee in the notes"
 msgstr "Guardar las terceras partes en las notas"
 
-#: ../src/import.c:3742
+#: ../src/import.c:3729
+#, fuzzy
+msgid "QIF Import settings"
+msgstr "Importar configuración"
+
+#: ../src/import.c:3736
+msgid "If possible use the field « N » to define the methods of payment "
+msgstr ""
+
+#: ../src/import.c:3746
+msgid ""
+"(Adding the import of QIF files of the « Société Générale » french bank)"
+msgstr ""
+
+#: ../src/import.c:3751
 msgid "Set the financial year"
 msgstr "Configurar el año financiero"
 
-#: ../src/import.c:3743
+#: ../src/import.c:3752
 msgid "According to the date"
 msgstr "De acuerdo con la fecha"
 
-#: ../src/import.c:3744
+#: ../src/import.c:3753
 msgid "According to the value date (if fail, try with the date)"
 msgstr "De acuerdo con la fecha valor (si fall, intentar con la fecha)"
 
-#: ../src/import.c:3769
+#: ../src/import.c:3778
 msgid "Manage import associations"
 msgstr "Administrar la importación de asociaciones"
 
-#: ../src/import.c:3776 ../src/parametres.c:610
+#: ../src/import.c:3785 ../src/parametres.c:610
 msgid "Import associations"
 msgstr "Importar asociaciones"
 
-#: ../src/import.c:3778
+#: ../src/import.c:3787
 msgid ""
 "This will associate a search string to a payee every time you import a file. "
 "For instance, all QIF labels containing 'Rent' could be associated with  a "
@@ -9872,34 +9899,34 @@ msgstr ""
 "fichero.  Por ejemplo, todas las etiquetas QIF que contengan 'Renta' podrían "
 "asociarse con un tercero específico que represente a su casero."
 
-#: ../src/import.c:3847 ../src/tiers_onglet.c:1236
+#: ../src/import.c:3856 ../src/tiers_onglet.c:1236
 msgid "Payee name"
 msgstr "Nombre de la tercera parte"
 
-#: ../src/import.c:3861
+#: ../src/import.c:3870
 msgid "Search string"
 msgstr "Cadena de búsqueda"
 
-#: ../src/import.c:3870
+#: ../src/import.c:3879
 msgid "Details of associations"
 msgstr "Detalles de las asociaciones"
 
 #. Create entry liste des tiers
-#: ../src/import.c:3879
+#: ../src/import.c:3888
 msgid "Payee name: "
 msgstr "Nombre de la tercera parte: "
 
 #. Create entry search string
-#: ../src/import.c:3902
+#: ../src/import.c:3911
 msgid "Search string: "
 msgstr "Cadena de búsqueda: "
 
-#: ../src/import.c:4196
+#: ../src/import.c:4205
 #, c-format
 msgid "You cannot choose this payee because it already has an association"
 msgstr "No puede elegir este tercero porque ya tiene una asociación"
 
-#: ../src/import.c:4432
+#: ../src/import.c:4441
 #, c-format
 msgid ""
 "%s is neither an OFX file, neither a QIF file. Nothing will be done for that "
@@ -9908,7 +9935,7 @@ msgstr ""
 "%s no es un fichero OFX, ni un fichero QIF. No se hará nada para este "
 "fichero."
 
-#: ../src/import.c:4492
+#: ../src/import.c:4501
 #, c-format
 msgid ""
 "%s was not imported successfully. An error occured while getting the "
@@ -9917,49 +9944,49 @@ msgstr ""
 "%s no se importó con éxito. Un error ocurrió mientras que se tomaban las "
 "transacciones."
 
-#: ../src/import.c:4589
+#: ../src/import.c:4598
 msgid "Import a file with a rule"
 msgstr "Importar un fichero con una regla"
 
 #. text for paddingbox
-#: ../src/import.c:4600
+#: ../src/import.c:4609
 #, c-format
 msgid "Properties of the rule: %s\n"
 msgstr "Propiedades de la regla: %s\n"
 
-#: ../src/import.c:4619
+#: ../src/import.c:4628
 #, c-format
 msgid "Imported transactions will be added to the account %s.\n"
 msgstr "Las transacciones importadas se añadirán a la cuenta %s.\n"
 
-#: ../src/import.c:4622
+#: ../src/import.c:4631
 #, c-format
 msgid "Imported transactions will mark transactions in the account %s.\n"
 msgstr ""
 "Las transacciones importadas marcarán las transacciones en la cuenta %s.\n"
 
 #. textstring 2
-#: ../src/import.c:4627
+#: ../src/import.c:4636
 #, c-format
 msgid "Currency to import is %s.\n"
 msgstr "La moneda a importar es %s.\n"
 
-#: ../src/import.c:4636
+#: ../src/import.c:4645
 #, c-format
 msgid "Amounts of the transactions will be inverted.\n"
 msgstr "Se invertirán las cantidades de las transacciones.\n"
 
 #. label filename
-#: ../src/import.c:4649
+#: ../src/import.c:4658
 msgid "Name of the file to import: "
 msgstr "Nombre del fichero a importar: "
 
-#: ../src/import.c:4750
+#: ../src/import.c:4759
 #, c-format
 msgid "Unable to create tmp file: %s\n"
 msgstr "No se ha podido crear el fichero tmp: %s\n"
 
-#: ../src/import.c:4779
+#: ../src/import.c:4788
 #, c-format
 msgid "cannot unzip file '%s': %s"
 msgstr "No se puede descomprimir el fichero '%s': %s"
@@ -10211,192 +10238,190 @@ msgid "Grisbi"
 msgstr "Grisbi"
 
 #. File menu
-#: ../src/menu.c:170
+#: ../src/menu.c:171
 msgid "_File"
 msgstr "_Archivo"
 
-#: ../src/menu.c:172 ../src/menu.c:180
+#: ../src/menu.c:173 ../src/menu.c:181
 msgid "_New account file..."
 msgstr "_Nuevo archivo de cuentas..."
 
-#: ../src/menu.c:174 ../src/menu.c:182
+#: ../src/menu.c:175 ../src/menu.c:183
 msgid "_Open..."
 msgstr "_Abrir..."
 
-#: ../src/menu.c:176 ../src/menu.c:184
+#: ../src/menu.c:177 ../src/menu.c:185
 msgid "_Recently opened files"
 msgstr "_Archivos abiertos recientemente"
 
-#: ../src/menu.c:177 ../src/menu.c:185
+#: ../src/menu.c:178 ../src/menu.c:186
 msgid "_Save"
 msgstr "_Guardar"
 
-#: ../src/menu.c:188
+#: ../src/menu.c:189
 msgid "_Save as..."
 msgstr "_Guardar como..."
 
-#: ../src/menu.c:190
+#: ../src/menu.c:191
 msgid "_Import file..."
 msgstr "_Importar archivo"
 
-#: ../src/menu.c:192
+#: ../src/menu.c:193
 msgid "_Export accounts as QIF/CSV file..."
 msgstr "_Exportar Cuentas como archivo QIF/CSV ..."
 
-#: ../src/menu.c:194
+#: ../src/menu.c:195
 msgid "Archive transactions..."
 msgstr "Archivar algunas transacciones..."
 
-#: ../src/menu.c:196
+#: ../src/menu.c:197
 msgid "_Export an archive as GSB/QIF/CSV file..."
 msgstr "_Export un archivo a un fichero GSB/QIF/CSV ..."
 
-#: ../src/menu.c:198
+#: ../src/menu.c:199
 msgid "_Debug account file..."
 msgstr "_Reparar archivo de cuentas"
 
-#: ../src/menu.c:200
+#: ../src/menu.c:201
 msgid "_Obfuscate account file..."
 msgstr "_Truncar archivo de cuentas..."
 
-#: ../src/menu.c:202
+#: ../src/menu.c:203
 msgid "_Obfuscate QIF file..."
 msgstr "_Truncar fichero QIF..."
 
-#: ../src/menu.c:205 ../src/menu.c:208
+#: ../src/menu.c:206 ../src/menu.c:209
 msgid "_Close"
 msgstr "_Cerrar"
 
-#: ../src/menu.c:211
+#: ../src/menu.c:212
 msgid "_Quit"
 msgstr "_Salir"
 
 #. Editmenu
-#: ../src/menu.c:215
+#: ../src/menu.c:216
 msgid "_Edit"
 msgstr "_Editar"
 
-#: ../src/menu.c:216
+#: ../src/menu.c:217
 msgid "_Edit transaction"
 msgstr "_Editar la transacción"
 
-#: ../src/menu.c:218
+#: ../src/menu.c:219
 msgid "_New transaction"
 msgstr "_Nueva transacción"
 
-#: ../src/menu.c:220
+#: ../src/menu.c:221
 msgid "_Remove transaction"
 msgstr "_Borrar la transacción"
 
-#: ../src/menu.c:224
+#: ../src/menu.c:225
 msgid "_Clone transaction"
 msgstr "_Clonar la transacción"
 
-#: ../src/menu.c:226
+#: ../src/menu.c:227
 msgid "Convert to _scheduled transaction"
 msgstr "_Introduzca una transacción programada"
 
-#: ../src/menu.c:228
+#: ../src/menu.c:229
 msgid "_Move transaction to another account"
 msgstr "_Mover la transacción a otra cuenta"
 
-#: ../src/menu.c:229
+#: ../src/menu.c:230
 msgid "_New account"
 msgstr "_Nueva cuenta"
 
-#: ../src/menu.c:231
+#: ../src/menu.c:232
 msgid "_Remove current account"
 msgstr "_Borrar la cuenta actual"
 
-#: ../src/menu.c:233
+#: ../src/menu.c:234
 msgid "_Preferences"
 msgstr "_Preferencias"
 
 #. View menu
-#: ../src/menu.c:237
+#: ../src/menu.c:238
 msgid "_View"
 msgstr "_Vista"
 
-#: ../src/menu.c:238
+#: ../src/menu.c:239
 #, fuzzy
 msgid "Reset the column width"
 msgstr "Elegir la cuenta"
 
 #. Help menu
-#: ../src/menu.c:242
+#: ../src/menu.c:243
 msgid "_Help"
 msgstr "_Ayuda"
 
-#: ../src/menu.c:244 ../src/menu.c:247
+#: ../src/menu.c:245 ../src/menu.c:248
 msgid "_Manual"
 msgstr "_Manual"
 
-#: ../src/menu.c:250
+#: ../src/menu.c:251
 msgid "_Quick start"
 msgstr "_Comienzo rápido"
 
-#: ../src/menu.c:252
-msgid "_Translation"
-msgstr "_Traducción"
-
-#: ../src/menu.c:254
+#. {"TranslationAction", NULL, _("_Translation"), NULL, NULL,
+#. G_CALLBACK ( help_translation ) },
+#: ../src/menu.c:255
 msgid "_About Grisbi..."
 msgstr "_Acerca de Grisbi..."
 
-#: ../src/menu.c:256
+#: ../src/menu.c:257
 msgid "_Grisbi website"
 msgstr "_Sitio web de Grisbi"
 
-#: ../src/menu.c:258
+#: ../src/menu.c:259
 msgid "_Report a bug"
 msgstr "_Informar de un fallo"
 
-#: ../src/menu.c:260
+#: ../src/menu.c:261
 msgid "_Tip of the day"
 msgstr "_Consejo del día"
 
 #. Name, StockID, Label, Accelerator, Tooltip, Value
-#: ../src/menu.c:267
+#: ../src/menu.c:268
 msgid "Show _one line per transaction"
 msgstr "Muestra _una línea por transacción"
 
-#: ../src/menu.c:269
+#: ../src/menu.c:270
 msgid "Show _two lines per transaction"
 msgstr "Muestra _dos líneas por transacción"
 
-#: ../src/menu.c:271
+#: ../src/menu.c:272
 msgid "Show _three lines per transaction"
 msgstr "Muestra _tres líneas por transacción"
 
-#: ../src/menu.c:273
+#: ../src/menu.c:274
 msgid "Show _four lines per transaction"
 msgstr "Muestra _cuatro líneas por transacción"
 
-#: ../src/menu.c:279
+#: ../src/menu.c:280
 msgid "Debug mode"
 msgstr "Mode de depuración"
 
-#: ../src/menu.c:281
+#: ../src/menu.c:282
 msgid "Show transaction _form"
 msgstr "Muestra el _formulario de transacción"
 
-#: ../src/menu.c:284 ../src/menu.c:289
+#: ../src/menu.c:285 ../src/menu.c:290
 msgid "Show _reconciled"
 msgstr "Mostrar _reconciliados"
 
-#: ../src/menu.c:286 ../src/menu.c:291
+#: ../src/menu.c:287 ../src/menu.c:292
 msgid "Show _lines archives"
 msgstr "Mostrar archivos _lines"
 
-#: ../src/menu.c:294
+#: ../src/menu.c:295
 msgid "Show _closed accounts"
 msgstr "Mostrar _cuentas cerradas"
 
-#: ../src/menu.c:440 ../src/menu.c:472 ../src/menu.c:491
+#: ../src/menu.c:441 ../src/menu.c:473 ../src/menu.c:492
 msgid "en"
 msgstr "en"
 
-#: ../src/menu.c:771
+#: ../src/menu.c:772
 msgid "Unnamed account"
 msgstr "Cuenta sin nombre"
 
@@ -11310,11 +11335,11 @@ msgstr ""
 "todavía.  A pesar de todo Grisbi intentará importarla como una cuenta "
 "bancaria."
 
-#: ../src/qif.c:281
+#: ../src/qif.c:284
 msgid "Opening Balance"
 msgstr "Balance de apertura"
 
-#: ../src/qif.c:309
+#: ../src/qif.c:312
 msgid ""
 "Grisbi couldn't determine the format of the date into the qif file.\n"
 "Please contact the Grisbi team (devel@listes.grisbi.org) to find the "
@@ -11326,7 +11351,7 @@ msgstr ""
 "encontrar el problema.\n"
 "De momento todas las fechas se importarán como 01.01.1970"
 
-#: ../src/qif.c:380
+#: ../src/qif.c:383
 #, c-format
 msgid ""
 "The date %s seems contains more than 2 separators.\n"
@@ -11337,21 +11362,21 @@ msgstr ""
 "Esto no debería pasar. Por favor póngase en contacto con el Equipo de Grisbi "
 "para intentar añadir su formato a Grisbi."
 
-#: ../src/qif.c:454
+#: ../src/qif.c:457
 msgid "The order cannot be determined,\n"
 msgstr "El pedido no puede determinarse,\n"
 
-#: ../src/qif.c:459
+#: ../src/qif.c:462
 msgid "Date wrong for the order "
 msgstr "Fecha errónea para el pedido "
 
-#: ../src/qif.c:543
+#: ../src/qif.c:546
 msgid ""
 "Warning the date has three fields of two numbers. In these circumstances the "
 "date might be wrong."
 msgstr ""
 
-#: ../src/qif.c:690
+#: ../src/qif.c:776
 #, c-format
 msgid ""
 "There were many accounts to export in the archive,\n"
@@ -11362,36 +11387,36 @@ msgstr ""
 "pero el formato QIF sólo soporta un fichero por cuenta,\n"
 "así que Grisbi ha creado %d ficheros, uno por cada cuenta :\n"
 
-#: ../src/qif.c:753
+#: ../src/qif.c:839
 #, c-format
 msgid "Error opening file '%s'"
 msgstr "Error abriendo el archivo '%s'"
 
-#: ../src/qif.c:1061
+#: ../src/qif.c:1147
 msgid "bank"
 msgstr "Banco"
 
-#: ../src/qif.c:1063
+#: ../src/qif.c:1149
 msgid "invst)"
 msgstr "Invers)"
 
-#: ../src/qif.c:1065
+#: ../src/qif.c:1151
 msgid "cash)"
 msgstr "efectivo)"
 
-#: ../src/qif.c:1067
+#: ../src/qif.c:1153
 msgid "oth a)"
 msgstr "oth a)"
 
-#: ../src/qif.c:1069
+#: ../src/qif.c:1155
 msgid "oth l)"
 msgstr "oth l)"
 
-#: ../src/qif.c:1071
+#: ../src/qif.c:1157
 msgid "ccard)"
 msgstr "ccard)"
 
-#: ../src/qif.c:1247 ../src/qif.c:1250
+#: ../src/qif.c:1337 ../src/qif.c:1340
 msgid " [Transaction imported without date]"
 msgstr " [Transacción importada sin fecha]"
 
@@ -12041,6 +12066,9 @@ msgstr "Mostrar el consejo del día"
 #, fuzzy
 msgid "Personnal finances manager"
 msgstr "Gestor de finanzas personal para todo el mundo\n"
+
+#~ msgid "_Translation"
+#~ msgstr "_Traducción"
 
 #, fuzzy
 #~ msgid "Insurance"

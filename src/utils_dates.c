@@ -696,6 +696,36 @@ int gsb_date_get_month_from_string ( const gchar *month )
 }
 
 
+/**
+ * returns a the last banking day of the month.
+ *
+ * \param a GDate   date
+ *
+ * \return a GDate  last banking day of the month
+ *
+ * */
+GDate *gsb_date_get_last_banking_day_of_month ( const GDate *date )
+{
+    GDate *tmp_date;
+    GDateWeekday week_day = G_DATE_BAD_WEEKDAY;
+
+    tmp_date = gsb_date_get_last_day_of_month ( date );
+
+    week_day = g_date_get_weekday ( tmp_date );
+    switch ( week_day )
+    {
+    case G_DATE_SUNDAY :
+        g_date_subtract_days ( tmp_date, 2 );
+    case G_DATE_SATURDAY :
+        g_date_subtract_days ( tmp_date, 1 );
+        break;
+    default :
+        break;
+    }
+
+    return tmp_date;
+}
+
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

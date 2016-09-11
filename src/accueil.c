@@ -359,7 +359,6 @@ static void gsb_main_page_affiche_ligne_du_compte ( GtkWidget *pTable,
         }
         else
         {
-
             gtk_widget_set_name ( pEventBox, "accueil_solde_alarme_rouge");
         }
     }

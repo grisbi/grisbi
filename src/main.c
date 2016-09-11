@@ -826,9 +826,14 @@ static gboolean main_window_delete_event (GtkWidget *window, gpointer data)
  */
 static void main_window_destroy_event ( GObject* obj, gpointer data)
 {
-    free_variables();
-    run.window = NULL;
-    gtk_main_quit();
+    /* to prevent double destroy events on MacOS */
+    if (run.window)
+    {
+        free_variables();
+        run.window = NULL;
+
+        gtk_main_quit();
+    }
 }
 
 

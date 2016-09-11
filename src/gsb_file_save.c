@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2003-2009 Benjamin Drieu (bdrieu@april.org)	                      */
-/*          2008-2010 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          2008-2015 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -744,6 +744,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
 					   "\t\tImport_fusion_transactions=\"%d\"\n"
                        "\t\tImport_categorie_for_payee=\"%d\"\n"
 					   "\t\tImport_fyear_by_value_date=\"%d\"\n"
+                       "\t\tImport_qif_use_field_extract_method_payment=\"%d\"\n"
 					   "\t\tExport_file_format=\"%d\"\n"
                        "\t\tExport_files_traitement=\"%d\"\n"
 					   "\t\tReconcile_end_date=\"%d\"\n"
@@ -755,7 +756,6 @@ gulong gsb_file_save_general_part ( gulong iterator,
 					   "\t\tOne_line_showed=\"%d\"\n"
 					   "\t\tTwo_lines_showed=\"%d\"\n"
 					   "\t\tThree_lines_showed=\"%d\"\n"
-					   "\t\tRemind_form_per_account=\"%d\"\n"
 					   "\t\tTransaction_column_width=\"%s\"\n"
 					   "\t\tTransaction_column_align=\"%s\"\n"
 					   "\t\tScheduler_column_width=\"%s\"\n"
@@ -799,6 +799,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	etat.get_fusion_import_transactions,
 	etat.get_categorie_for_payee,
 	etat.get_fyear_by_value_date,
+    etat.get_qif_use_field_extract_method_payment,
     etat.export_file_format,
     etat.export_files_traitement,
     etat.reconcile_end_date,
@@ -810,7 +811,6 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	display_one_line,
 	display_two_lines,
 	display_three_lines,
-    0,
 	my_safe_null_str(transaction_column_width_write),
 	my_safe_null_str ( transaction_column_align_write ),
 	my_safe_null_str(scheduler_column_width_write),

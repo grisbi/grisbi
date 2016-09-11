@@ -99,23 +99,25 @@ GtkWidget * new_image_label ( GsbButtonStyle style, const gchar * image_name, co
     GtkWidget *hbox;
     GtkWidget *label = NULL;
     GtkWidget *image;
+    gchar *tmp_str;
 
     vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
 
+    tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir (), image_name, NULL );
+
     /* Define image */
     if ( style == GSB_BUTTON_ICON || style == GSB_BUTTON_BOTH )
     {
-	image = gtk_image_new_from_file (g_build_filename ( gsb_dirs_get_pixmaps_dir ( ),
-							   image_name, NULL));
-	gtk_box_pack_start ( GTK_BOX(vbox), image, TRUE, TRUE, 0 );
+        image = gtk_image_new_from_file ( tmp_str );
+        gtk_box_pack_start ( GTK_BOX(vbox), image, TRUE, TRUE, 0 );
     }
     else if (style == GSB_BUTTON_BOTH_HORIZ )
     {
-        image = gtk_image_new_from_file (g_build_filename ( gsb_dirs_get_pixmaps_dir ( ),
-							   image_name, NULL));
+        image = gtk_image_new_from_file ( tmp_str );
         gtk_box_pack_start ( GTK_BOX(hbox), image, TRUE, TRUE, 0 );
     }
+    g_free ( tmp_str );
 
     /* Define label */
     if ( style == GSB_BUTTON_TEXT || style == GSB_BUTTON_BOTH )
