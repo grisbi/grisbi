@@ -49,6 +49,7 @@
 #include "structures.h"
 #include "traitement_variables.h"
 #include "utils.h"
+#include "utils_buttons.h"
 #include "utils_editables.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -460,10 +461,8 @@ GtkWidget *gsb_bank_create_page ( gboolean default_sensitive )
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Banks"), "banks.png" );
 
-    vpaned = gtk_vpaned_new ();
-    gtk_box_pack_start ( GTK_BOX (vbox_pref),
-			 vpaned,
-			 TRUE, TRUE, 0 );
+    vpaned = gtk_paned_new (GTK_ORIENTATION_VERTICAL);
+    gtk_box_pack_start ( GTK_BOX (vbox_pref), vpaned, TRUE, TRUE, 0 );
 
     /* Create bank list */
     paned1 = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0);
@@ -491,8 +490,8 @@ GtkWidget *gsb_bank_create_page ( gboolean default_sensitive )
 				 G_TYPE_INT );
     bank_list_tree_view = gtk_tree_view_new_with_model (GTK_TREE_MODEL (store));
     g_object_unref (G_OBJECT(store));
-    gtk_tree_view_set_rules_hint ( GTK_TREE_VIEW (bank_list_tree_view),
-				   TRUE );
+    //~ gtk_tree_view_set_rules_hint ( GTK_TREE_VIEW (bank_list_tree_view),
+				   //~ TRUE );
     gtk_container_add ( GTK_CONTAINER (scrolled_window),
 			bank_list_tree_view );
 
@@ -564,20 +563,18 @@ GtkWidget *gsb_bank_create_page ( gboolean default_sensitive )
     gtk_box_pack_start ( GTK_BOX ( hbox ), vbox,
 			 FALSE, FALSE, 0 );
     /* Add button */
-    button = gtk_button_new_from_stock ("gtk-add");
+    button = utils_buttons_button_new_from_stock ("gtk-add", _("Add"));
     g_signal_connect ( G_OBJECT ( button ), "clicked",
 		       G_CALLBACK  ( gsb_bank_add ),
 		       NULL );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), button,
-			 FALSE, FALSE, 5 );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), button, FALSE, FALSE, 5 );
     /* Remove button */
-    delete_bank_button = gtk_button_new_from_stock ("gtk-remove");
+    delete_bank_button = utils_buttons_button_new_from_stock ("gtk-remove", _("Remove"));
     gtk_widget_set_sensitive ( delete_bank_button, FALSE );
     g_signal_connect ( G_OBJECT ( delete_bank_button ), "clicked",
 		       G_CALLBACK ( gsb_bank_delete ),
 		       NULL );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), delete_bank_button,
-			 FALSE, FALSE, 5 );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), delete_bank_button, FALSE, FALSE, 5 );
 
 
     /* Add a scroll because bank details are huge */
@@ -659,9 +656,9 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
     paddingbox = new_paddingbox_with_title ( parent, TRUE, _("Bank details") );
 
     /* Create a table to align things nicely */
-    table = gtk_table_new ( 10, 2, FALSE );
-    gtk_table_set_col_spacings ( GTK_TABLE ( table ), 5 );
-    gtk_table_set_row_spacings ( GTK_TABLE ( table ), 5 );
+    table = gtk_grid_new ();
+    gtk_grid_set_column_spacing (GTK_GRID (table), 5);
+    gtk_grid_set_row_spacing (GTK_GRID (table), 5);
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, TRUE, TRUE, 5 );
     size_group = gtk_size_group_new ( GTK_SIZE_GROUP_HORIZONTAL );
 
@@ -669,10 +666,7 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
     label = gtk_label_new ( _("Name: ") );
     utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-    gtk_table_attach ( GTK_TABLE ( table ),
-                label, 0, 1, 0, 1,
-		       GTK_SHRINK | GTK_FILL, 0,
-		       0, 0 );
+    gtk_grid_attach (GTK_GRID (table), label, 0, 0, 1, 1);
 
     if ( combobox )
         bank_name = gsb_autofunc_entry_new ( NULL, NULL, NULL, NULL, 0 );
@@ -683,19 +677,13 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
                         G_CALLBACK ( gsb_data_bank_set_name ),
                         0 );
     gtk_size_group_add_widget ( size_group, bank_name );
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       bank_name, 1, 2, 0, 1,
-		       GTK_EXPAND | GTK_FILL, 0,
-		       0, 0 );
+    gtk_grid_attach (GTK_GRID (table), bank_name, 1, 0, 1, 1);
 
     /* Bank Sort code item */
     label = gtk_label_new ( _("Sort code: ") );
     utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       label, 0, 1, 1, 2,
-		       GTK_SHRINK | GTK_FILL, 0,
-		       0, 0 );
+    gtk_grid_attach (GTK_GRID (table), label, 0, 1, 1, 1);
 
     if ( combobox )
         bank_code = gsb_autofunc_entry_new ( NULL, NULL, NULL, NULL, 0 );
@@ -706,19 +694,13 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
                         G_CALLBACK ( gsb_data_bank_set_code ),
                         0 );
     gtk_size_group_add_widget ( size_group, bank_code );
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       bank_code, 1, 2, 1, 2,
-		       GTK_EXPAND | GTK_FILL, 0,
-		       0, 0 );
+    gtk_grid_attach (GTK_GRID (table), bank_code, 1, 1, 1, 1);
 
     /* Bank BIC code item */
     label = gtk_label_new ( _("BIC code: ") );
     utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       label, 0, 1, 2, 3,
-		       GTK_SHRINK | GTK_FILL, 0,
-		       0, 0 );
+    gtk_grid_attach (GTK_GRID (table), label, 0, 2, 1, 1);
 
     if ( combobox )
         bank_BIC = gsb_autofunc_entry_new ( NULL, NULL, NULL, NULL, 0 );
@@ -729,19 +711,13 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
                         G_CALLBACK ( gsb_data_bank_set_bic ),
                         0 );
     gtk_size_group_add_widget ( size_group, bank_BIC );
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       bank_BIC, 1, 2, 2, 3,
-		       GTK_EXPAND | GTK_FILL, 0,
-		       0, 0 );
+    gtk_grid_attach (GTK_GRID (table), bank_BIC, 1, 2, 1, 1);
 
     /* Bank address */
     label = gtk_label_new ( _("Address: ") );
     utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       label, 0, 1, 4, 5,
-		       GTK_SHRINK | GTK_FILL, 0,
-		       0, 0 );
+    gtk_grid_attach (GTK_GRID (table), label, 0, 4, 1, 1);
     scrolled_window = gtk_scrolled_window_new ( FALSE, FALSE );
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
 				     GTK_POLICY_NEVER,
@@ -761,19 +737,13 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
     gtk_widget_set_size_request ( bank_adr, -1, 70 );
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ), bank_adr );
     gtk_size_group_add_widget ( size_group, bank_adr );
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       scrolled_window, 1, 2, 4, 5,
-		       GTK_EXPAND | GTK_FILL, 0,
-		       0, 0 );
+    gtk_grid_attach (GTK_GRID (table), scrolled_window, 1, 4, 1, 1 );
 
     /* Phone number */
     label = gtk_label_new ( _("Phone: ") );
     utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       label, 0, 1, 5, 6,
-		       GTK_SHRINK | GTK_FILL, 0,
-		       0, 0 );
+    gtk_grid_attach (GTK_GRID (table), label, 0, 5, 1, 1);
 
     if ( combobox )
         bank_tel = gsb_autofunc_entry_new ( NULL, NULL, NULL, NULL, 0 );
@@ -784,19 +754,13 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
                         G_CALLBACK ( gsb_data_bank_set_bank_tel ),
                         0 );
     gtk_size_group_add_widget ( size_group, bank_tel );
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       bank_tel, 1, 2, 5, 6,
-		       GTK_EXPAND | GTK_FILL, 0,
-		       0, 0 );
+    gtk_grid_attach (GTK_GRID (table), bank_tel, 1, 5, 1, 1);
 
     /* E-mail */
     label = gtk_label_new ( _("E-Mail: ") );
     utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       label, 0, 1, 7, 8,
-		       GTK_SHRINK | GTK_FILL, 0,
-		       0, 0 );
+    gtk_grid_attach (GTK_GRID (table), label, 0, 7, 1, 1);
 
     if ( combobox )
         bank_mail = gsb_autofunc_entry_new ( NULL, NULL, NULL, NULL, 0 );
@@ -807,19 +771,13 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
                         G_CALLBACK ( gsb_data_bank_set_bank_mail ),
                         0 );
     gtk_size_group_add_widget ( size_group, bank_mail );
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       bank_mail, 1, 2, 7, 8,
-		       GTK_EXPAND | GTK_FILL, 0,
-		       0, 0 );
+    gtk_grid_attach (GTK_GRID (table), bank_mail, 1, 7, 1, 1);
 
     /* Website */
     label = gtk_label_new ( _("Website: ") );
     utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       label, 0, 1, 9, 10,
-		       GTK_SHRINK | GTK_FILL, 0,
-		       0, 0 );
+    gtk_grid_attach (GTK_GRID (table), label, 0, 9, 1, 1);
     if ( combobox )
         bank_web = gsb_autofunc_entry_new ( NULL, NULL, NULL, NULL, 0 );
     else
@@ -829,27 +787,20 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
                         G_CALLBACK ( gsb_data_bank_set_bank_web ),
                         0 );
     gtk_size_group_add_widget ( size_group, bank_web );
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       bank_web, 1, 2, 9, 10,
-		       GTK_EXPAND | GTK_FILL, 0,
-		       0, 0 );
+    gtk_grid_attach (GTK_GRID (table), bank_web, 1, 9, 1, 1);
 
     /* Contact */
     paddingbox = new_paddingbox_with_title ( parent, FALSE, _("Contact") );
-    table = gtk_table_new ( 2, 2, FALSE );
-    gtk_table_set_col_spacings ( GTK_TABLE ( table ), 5 );
-    gtk_table_set_row_spacings ( GTK_TABLE ( table ), 5 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), table,
-			 TRUE, TRUE, 5 );
+    table = gtk_grid_new ();
+    gtk_grid_set_column_spacing (GTK_GRID (table), 5);
+    gtk_grid_set_row_spacing (GTK_GRID (table), 5);
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, TRUE, TRUE, 5 );
 
     /* Name */
     label = gtk_label_new ( _("Name: ") );
     utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       label, 0, 1, 0, 1,
-		       GTK_SHRINK | GTK_FILL, 0,
-		       0, 0 );
+    gtk_grid_attach (GTK_GRID (table), label, 0, 0, 1, 1);
 
     if ( combobox )
         bank_contact_name = gsb_autofunc_entry_new ( NULL, NULL, NULL, NULL, 0 );
@@ -860,19 +811,13 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
                         G_CALLBACK ( gsb_data_bank_set_correspondent_name ),
                         0 );
     gtk_size_group_add_widget ( size_group, bank_contact_name );
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       bank_contact_name, 1, 2, 0, 1,
-		       GTK_EXPAND | GTK_FILL, 0,
-		       0, 0 );
+    gtk_grid_attach (GTK_GRID (table), bank_contact_name, 1, 0, 1, 1);
 
     /* Phone number */
     label = gtk_label_new ( _("Phone: ") );
     utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       label, 0, 1, 1, 2,
-		       GTK_SHRINK | GTK_FILL, 0,
-		       0, 0 );
+    gtk_grid_attach (GTK_GRID (table), label, 0, 1, 1, 1);
 
 
     if ( combobox )
@@ -884,19 +829,13 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
                         G_CALLBACK ( gsb_data_bank_set_correspondent_tel ),
                         0 );
     gtk_size_group_add_widget ( size_group, bank_contact_tel );
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       bank_contact_tel, 1, 2, 1, 2,
-		       GTK_EXPAND | GTK_FILL, 0,
-		       0, 0 );
+    gtk_grid_attach (GTK_GRID (table), bank_contact_tel, 1, 1, 1, 1);
 
     /* Fax */
     label = gtk_label_new ( _("Fax: ") );
     utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       label, 0, 1, 3, 4,
-		       GTK_SHRINK | GTK_FILL, 0,
-		       0, 0 );
+    gtk_grid_attach (GTK_GRID (table), label, 0, 3, 1, 1);
 
     if ( combobox )
         bank_contact_fax = gsb_autofunc_entry_new ( NULL, NULL, NULL, NULL, 0 );
@@ -907,19 +846,13 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
                         G_CALLBACK ( gsb_data_bank_set_correspondent_fax ),
                         0 );
     gtk_size_group_add_widget ( size_group, bank_contact_fax );
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       bank_contact_fax, 1, 2, 3, 4,
-		       GTK_EXPAND | GTK_FILL, 0,
-		       0, 0 );
+    gtk_grid_attach (GTK_GRID (table), bank_contact_fax, 1, 3, 1, 1);
 
     /* E-Mail */
     label = gtk_label_new ( _("E-Mail: ") );
     utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       label, 0, 1, 2, 3,
-		       GTK_SHRINK | GTK_FILL, 0,
-		       0, 0 );
+    gtk_grid_attach (GTK_GRID (table), label, 0, 2, 1, 1);
 
     if ( combobox )
         bank_contact_mail = gsb_autofunc_entry_new ( NULL, NULL, NULL, NULL, 0 );
@@ -930,10 +863,7 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
                         G_CALLBACK ( gsb_data_bank_set_correspondent_mail ),
                         0 );
     gtk_size_group_add_widget ( size_group, bank_contact_mail );
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       bank_contact_mail, 1, 2, 2, 3,
-		       GTK_EXPAND | GTK_FILL, 0,
-		       0, 0 );
+    gtk_grid_attach (GTK_GRID (table), bank_contact_mail, 1, 2, 1, 1);
 
     /* Notes */
     paddingbox = new_paddingbox_with_title ( parent, FALSE, _("Notes") );
@@ -943,8 +873,7 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 				     GTK_POLICY_AUTOMATIC );
     gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window),
 					  GTK_SHADOW_IN );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), scrolled_window,
-			 TRUE, TRUE, 5 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), scrolled_window, TRUE, TRUE, 5 );
 
     if ( combobox )
         bank_notes = gsb_autofunc_textview_new ( NULL, NULL, NULL, NULL, 0 );
