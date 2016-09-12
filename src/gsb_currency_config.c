@@ -328,7 +328,7 @@ GtkWidget *gsb_currency_config_create_page ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), vbox, FALSE, FALSE, 0 );
 
     /* Button "Add" */
-    button = gtk_button_new_from_stock ("gtk-add");
+    button = utils_buttons_button_new_from_stock ("gtk-add", _("Add"));
     g_signal_connect ( G_OBJECT ( button ),
 		       "clicked",
 		       G_CALLBACK  ( gsb_currency_config_add_currency ),
@@ -336,7 +336,7 @@ GtkWidget *gsb_currency_config_create_page ( void )
     gtk_box_pack_start ( GTK_BOX ( vbox ), button, FALSE, FALSE, 5 );
 
     /* Button "Remove" */
-    button = gtk_button_new_from_stock ("gtk-remove");
+    button = utils_buttons_button_new_from_stock ("gtk-remove", _("Remove"));
     g_signal_connect ( G_OBJECT ( button ),
 		       "clicked",
 		       G_CALLBACK ( gsb_currency_config_remove_currency ),
@@ -347,61 +347,53 @@ GtkWidget *gsb_currency_config_create_page ( void )
     paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("Currency properties"));
 
     /* Create table */
-    table = gtk_table_new ( 4, 2, FALSE );
-    gtk_table_set_col_spacings ( GTK_TABLE ( table ), 5 );
-    gtk_table_set_row_spacings ( GTK_TABLE ( table ), 5 );
+    table = gtk_grid_new ();
+    gtk_grid_set_column_spacing (GTK_GRID (table), 5 );
+    gtk_grid_set_row_spacing (GTK_GRID (table), 5 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, TRUE, TRUE, 0 );
 
     /* Create currency name entry */
     label = gtk_label_new ( _("Name: ") );
     utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-    gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 0, 1,
-		       GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), label, 0, 0, 1, 1);
     entry = gsb_autofunc_entry_new ( NULL,
 					  G_CALLBACK (gsb_currency_config_entry_changed), currency_list_view,
 					  G_CALLBACK (gsb_data_currency_set_name), 0 );
-    gtk_table_attach ( GTK_TABLE ( table ), entry, 1, 2, 0, 1,
-		       GTK_EXPAND | GTK_FILL, 0, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), entry, 1, 0, 1, 1);
     g_object_set_data ( G_OBJECT(currency_tree_model), "entry_name", entry );
 
     /* Create Sign entry */
     label = gtk_label_new ( _("Sign: ") );
     utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-    gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 1, 2,
-		       GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), label, 0, 1, 1, 1);
     entry = gsb_autofunc_entry_new ( NULL,
 					  G_CALLBACK (gsb_currency_config_entry_changed), currency_list_view,
 					  G_CALLBACK (gsb_data_currency_set_code), 0 );
-    gtk_table_attach ( GTK_TABLE ( table ), entry, 1, 2, 1, 2,
-		       GTK_EXPAND | GTK_FILL, 0, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), entry, 1, 1, 1, 1);
     g_object_set_data ( G_OBJECT(currency_tree_model), "entry_code", entry );
 
     /* Create ISO code entry */
     label = gtk_label_new ( _("ISO code: ") );
     utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-    gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 2, 3,
-		       GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), label, 0, 2, 1, 1);
     entry = gsb_autofunc_entry_new ( NULL,
 					  G_CALLBACK (gsb_currency_config_entry_changed), currency_list_view,
 					  G_CALLBACK (gsb_data_currency_set_code_iso4217), 0 );
-    gtk_table_attach ( GTK_TABLE ( table ), entry, 1, 2, 2, 3,
-		       GTK_EXPAND | GTK_FILL, 0, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), entry, 1, 2, 1, 1);
     g_object_set_data ( G_OBJECT(currency_tree_model), "entry_iso_code", entry );
 
     /* Create floating point entry */
     label = gtk_label_new ( _("Floating point: ") );
     utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-    gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 3, 4,
-		       GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), label, 0, 3, 1, 1);
     entry = gsb_autofunc_int_new ( 0,
 				   G_CALLBACK (gsb_currency_config_entry_changed), currency_list_view,
 				   G_CALLBACK (gsb_data_currency_set_floating_point), 0 );
-    gtk_table_attach ( GTK_TABLE ( table ), entry, 1, 2, 3, 4,
-		       GTK_EXPAND | GTK_FILL, 0, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), entry, 1, 3, 1, 1);
     g_object_set_data ( G_OBJECT(currency_tree_model), "entry_floating_point", entry );
 
     /* for now we want nothing in the entry of floating point */
@@ -446,7 +438,7 @@ GtkWidget *gsb_currency_config_create_list ()
     /* Create tree tree_view */
     treeview = gtk_tree_view_new_with_model (GTK_TREE_MODEL(model));
     g_object_unref ( G_OBJECT(model) );
-    gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (treeview), TRUE);
+    //~ gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (treeview), TRUE);
 
     /* Flag */
     cell = gtk_cell_renderer_pixbuf_new ();
@@ -813,39 +805,33 @@ GtkWidget *gsb_currency_config_create_totals_page ( void )
 {
     GtkWidget *table, *label;
 
-    table = gtk_table_new ( 4, 2, FALSE );
-    gtk_table_set_col_spacings ( GTK_TABLE ( table ), 5 );
-    gtk_table_set_row_spacings ( GTK_TABLE ( table ), 5 );
+    table = gtk_grid_new ();
+    gtk_grid_set_column_spacing (GTK_GRID (table), 5);
+    gtk_grid_set_row_spacing (GTK_GRID (table), 5);
 
     label = gtk_label_new ( _("Currency for payees tree: ") );
     utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
-    gtk_table_attach ( GTK_TABLE ( table ), label,
-                        0, 1, 0, 1, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), label, 0, 0, 1, 1);
     combo_devise_totaux_tiers = gsb_currency_config_new_combobox ( &etat.no_devise_totaux_tiers,
                         payees_fill_list );
-    gtk_table_attach ( GTK_TABLE ( table ), combo_devise_totaux_tiers,
-                        1, 2, 0, 1, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), combo_devise_totaux_tiers, 1, 0, 1, 1);
 
     label = gtk_label_new ( _("Currency for categories tree: ") );
     utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
-    gtk_table_attach ( GTK_TABLE ( table ), label,
-                        0, 1, 1, 2, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), label, 0, 1, 1,1);
     combo_devise_totaux_categ = gsb_currency_config_new_combobox ( &etat.no_devise_totaux_categ,
                         categories_fill_list );
-    gtk_table_attach ( GTK_TABLE ( table ), combo_devise_totaux_categ,
-                        1, 2, 1, 2, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), combo_devise_totaux_categ, 1, 1, 1, 1);
 
     label = gtk_label_new ( _("Currency for budgetary lines tree: ") );
     utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
-    gtk_table_attach ( GTK_TABLE ( table ), label,
-                        0, 1, 2, 3, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), label, 0, 2, 1, 1);
     combo_devise_totaux_ib = gsb_currency_config_new_combobox ( &etat.no_devise_totaux_ib,
                         budgetary_lines_fill_list );
-    gtk_table_attach ( GTK_TABLE ( table ), combo_devise_totaux_ib,
-                        1, 2, 2, 3, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), combo_devise_totaux_ib, 1, 2, 1, 1);
 
     return ( table );
 }
@@ -961,54 +947,46 @@ gboolean gsb_currency_config_add_currency ( GtkWidget *button,
 					     FALSE, _("Currency details"));
 
     /* Create table */
-    table = gtk_table_new ( 4, 2, FALSE );
-    gtk_table_set_col_spacings ( GTK_TABLE ( table ), 5 );
-    gtk_table_set_row_spacings ( GTK_TABLE ( table ), 5 );
+    table = gtk_grid_new ();
+    gtk_grid_set_column_spacing (GTK_GRID (table), 5);
+    gtk_grid_set_row_spacing (GTK_GRID (table), 5);
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, TRUE, TRUE, 0 );
 
     /* Currency name */
     label = gtk_label_new ( _("Currency name: ") );
     utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-    gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 0, 1,
-		       GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), label, 0, 1, 1, 1);
     entry_name = gtk_entry_new ();
     gtk_entry_set_activates_default ( GTK_ENTRY ( entry_name ), TRUE );
-    gtk_table_attach ( GTK_TABLE ( table ), entry_name, 1, 2, 0, 1,
-		       GTK_EXPAND|GTK_FILL, 0, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), entry_name, 1, 0, 1, 1);
     g_object_set_data ( G_OBJECT(model), "entry_name", entry_name );
 
     /* Currency ISO code */
     label = gtk_label_new ( _("Currency international code: ") );
     utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
-    gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 1, 2,
-		       GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), label, 0, 1, 1, 1);
     entry_isocode = gtk_entry_new ();
-    gtk_table_attach ( GTK_TABLE ( table ), entry_isocode, 1, 2, 1, 2,
-		       GTK_EXPAND|GTK_FILL, 0, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), entry_isocode, 1, 1, 1, 1);
     g_object_set_data ( G_OBJECT(model), "entry_iso_code", entry_isocode );
 
     /* Currency usual sign */
     label = gtk_label_new ( _("Currency sign: ") );
     utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
-    gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 2, 3,
-		       GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), label, 0, 2, 1, 1);
     entry_code = gtk_entry_new ();
-    gtk_table_attach ( GTK_TABLE ( table ), entry_code, 1, 2, 2, 3,
-		       GTK_EXPAND|GTK_FILL, 0, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), entry_code, 1, 2, 1, 1);
     g_object_set_data ( G_OBJECT(model), "entry_code", entry_code );
 
     /* Create floating point entry */
     label = gtk_label_new ( _("Floating point: ") );
     utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-    gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 3, 4,
-		       GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), label, 0, 3, 1, 1);
     entry_floating_point = gtk_entry_new ();
-    gtk_table_attach ( GTK_TABLE ( table ), entry_floating_point, 1, 2, 3, 4,
-		       GTK_EXPAND | GTK_FILL, 0, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), entry_floating_point, 1, 3, 1, 1);
     g_object_set_data ( G_OBJECT(model), "entry_floating_point", entry_floating_point );
 
     /* Select default currency. */
