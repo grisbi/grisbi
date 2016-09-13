@@ -717,9 +717,19 @@ gboolean grisbi_win_set_grisbi_title ( gint account_number )
 void grisbi_win_set_size_and_position ( GtkWindow *win )
 {
 	GrisbiWinPrivate *priv;
+    GdkGeometry size_hints = {
+    1200, 600, -10, -1, 1300, 750, 10, 10, 1.5, 1.5, GDK_GRAVITY_NORTH_WEST
+  };
 
-	priv = grisbi_win_get_instance_private ( GRISBI_WIN ( win ) );
+    priv = grisbi_win_get_instance_private ( GRISBI_WIN ( win ) );
 
+    /* on fixe la taille mini remplacer main_box par plus pertinent.*/
+    gtk_window_set_geometry_hints (GTK_WINDOW (win),
+                                   priv->main_box,
+                                   &size_hints,
+                                   GDK_HINT_RESIZE_INC |
+                                   GDK_HINT_MIN_SIZE |
+                                   GDK_HINT_BASE_SIZE);
     /* set the size of the window */
     if ( conf.main_width && conf.main_height )
         gtk_window_set_default_size ( GTK_WINDOW ( win ), conf.main_width, conf.main_height );

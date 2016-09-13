@@ -3772,46 +3772,46 @@ gboolean gsb_form_allocate_size ( GtkWidget *table,
         }
     }
 
-    for ( column = 0 ; column < 6 ; column++ )
-    {
-	gint width_percent = 0;
+    //~ for ( column = 0 ; column < 6 ; column++ )
+    //~ {
+	//~ gint width_percent = 0;
 
-	widget = gsb_form_scheduler_get_element_widget(column);
+	//~ widget = gsb_form_scheduler_get_element_widget(column);
 
-	if (widget)
-	{
-	    switch (column)
-	    {
-		case SCHEDULED_FORM_ACCOUNT:
-		    width_percent = 30;
-		    break;
+	//~ if (widget)
+	//~ {
+	    //~ switch (column)
+	    //~ {
+		//~ case SCHEDULED_FORM_ACCOUNT:
+		    //~ width_percent = 30;
+		    //~ break;
 
-		case SCHEDULED_FORM_AUTO:
-		    width_percent = 16;
-		    break;
+		//~ case SCHEDULED_FORM_AUTO:
+		    //~ width_percent = 16;
+		    //~ break;
 
-		case SCHEDULED_FORM_FREQUENCY_BUTTON:
-		    width_percent = 16;
-		    break;
+		//~ case SCHEDULED_FORM_FREQUENCY_BUTTON:
+		    //~ width_percent = 16;
+		    //~ break;
 
-		case SCHEDULED_FORM_LIMIT_DATE:
-		    width_percent = 12;
-		    break;
+		//~ case SCHEDULED_FORM_LIMIT_DATE:
+		    //~ width_percent = 12;
+		    //~ break;
 
-		case SCHEDULED_FORM_FREQUENCY_USER_ENTRY:
-		    width_percent = 7;
-		    break;
+		//~ case SCHEDULED_FORM_FREQUENCY_USER_ENTRY:
+		    //~ width_percent = 7;
+		    //~ break;
 
-		case SCHEDULED_FORM_FREQUENCY_USER_BUTTON:
-		    width_percent = 12;
-		    break;
-	    }
-	    if (widget && GTK_IS_WIDGET (widget))
-		gtk_widget_set_size_request ( widget,
-				       width_percent * allocation -> width / 100,
-				       -1 );
-	}
-    }
+		//~ case SCHEDULED_FORM_FREQUENCY_USER_BUTTON:
+		    //~ width_percent = 12;
+		    //~ break;
+	    //~ }
+	    //~ if (widget && GTK_IS_WIDGET (widget))
+		//~ gtk_widget_set_size_request ( widget,
+				       //~ width_percent * allocation -> width / 100,
+				       //~ -1 );
+	//~ }
+    //~ }
     return FALSE;
 }
 
