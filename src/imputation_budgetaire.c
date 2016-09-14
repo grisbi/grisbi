@@ -796,16 +796,15 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
     gtk_container_set_border_width ( GTK_CONTAINER(hbox), 6 );
     gtk_container_set_border_width ( GTK_CONTAINER(paddingbox), 6 );
 
-    table = gtk_table_new ( 0, 2, FALSE );
+    table = gtk_grid_new ();
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, FALSE, FALSE, 6 );
-    gtk_table_set_col_spacings ( GTK_TABLE(table), 6 );
-    gtk_table_set_row_spacings ( GTK_TABLE(table), 6 );
+    gtk_grid_set_column_spacing (GTK_GRID (table), 6);
+    gtk_grid_set_row_spacing (GTK_GRID (table), 6);
 
     /* Name entry */
     label = gtk_label_new ( _("Name"));
     utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.5 );
-    gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 0, 1,
-		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), label, 0, 0, 1, 1);
 
     entry = gtk_entry_new ( );
     if ( sub_budget_number > 0 )
@@ -822,22 +821,20 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
     }
 
     gtk_widget_set_size_request ( entry, 400, -1 );
-    gtk_table_attach ( GTK_TABLE(table), entry, 1, 2, 0, 1, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), entry, 1, 0, 1, 1);
 
     if ( sub_budget_number <= 0 )
     {
 	/* Description entry */
 	label = gtk_label_new ( _("Type"));
 	utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.5 );
-	gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 1, 2,
-			   GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
+	gtk_grid_attach (GTK_GRID (table), label, 0, 1, 1, 1);
 
 	radiogroup = gsb_autofunc_radiobutton_new ( _("Credit"), _("Debit"),
 						    gsb_data_budget_get_type (budget_number),
 						    NULL, NULL,
 						    G_CALLBACK (gsb_data_budget_set_type), budget_number);
-	gtk_table_attach ( GTK_TABLE(table), radiogroup,
-			   1, 2, 1, 2, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
+	gtk_grid_attach (GTK_GRID (table), radiogroup, 1, 1, 1, 1);
     }
 
     gtk_widget_show_all ( dialog );

@@ -49,6 +49,7 @@
 #include "transaction_list.h"
 #include "structures.h"
 #include "gsb_transactions_list.h"
+#include "utils_buttons.h"
 /*END_INCLUDE*/
 
 
@@ -140,7 +141,7 @@ GtkWidget *gsb_fyear_config_create_page ( void )
 			 FALSE, FALSE, 0 );
 
     /* Add button */
-    button = gtk_button_new_from_stock ("gtk-add");
+    button = utils_buttons_button_new_from_stock ("gtk-add", _("Add"));
     g_signal_connect_swapped ( G_OBJECT (button),
 			       "clicked",
 			       G_CALLBACK  (gsb_fyear_config_add_fyear),
@@ -148,7 +149,7 @@ GtkWidget *gsb_fyear_config_create_page ( void )
     gtk_box_pack_start ( GTK_BOX ( vbox ), button,
 			 FALSE, FALSE, 5 );
     /* Remove button */
-    button = gtk_button_new_from_stock ("gtk-remove");
+    button = utils_buttons_button_new_from_stock ("gtk-remove", _("Remove"));
     gtk_widget_set_sensitive ( button, FALSE );
     g_object_set_data ( G_OBJECT (tree_model),
 			"remove_fyear_button", button );
@@ -186,9 +187,9 @@ GtkWidget *gsb_fyear_config_create_page ( void )
 			 FALSE, FALSE, 0 );
 
     /* Put stuff in a table */
-    table = gtk_table_new ( 2, 2, FALSE );
-    gtk_table_set_row_spacings ( GTK_TABLE ( table ), 6 );
-    gtk_table_set_col_spacings ( GTK_TABLE ( table ), 6 );
+    table = gtk_grid_new ();
+    gtk_grid_set_row_spacing (GTK_GRID (table), 6);
+    gtk_grid_set_column_spacing (GTK_GRID (table), 6);
     gtk_box_pack_start ( GTK_BOX (hbox), table,
 			 FALSE, FALSE, 0 );
 
@@ -196,55 +197,37 @@ GtkWidget *gsb_fyear_config_create_page ( void )
     label = gtk_label_new ( _("Name: ") );
 	utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       label, 0, 1, 0, 1,
-		       GTK_SHRINK | GTK_FILL, 0,
-		       0, 0 );
+    gtk_grid_attach (GTK_GRID (table), label, 0, 0, 1, 1);
     entry = gsb_autofunc_entry_new ( NULL,
 				     G_CALLBACK (gsb_fyear_config_modify_fyear), tree_view,
 				     G_CALLBACK (gsb_data_fyear_set_name), 0 );
     g_object_set_data ( G_OBJECT (tree_model),
 			"fyear_name_entry", entry );
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       entry, 1, 2, 0, 1,
-		       GTK_EXPAND | GTK_FILL, 0,
-		       0, 0 );
+    gtk_grid_attach (GTK_GRID (table), entry, 1, 0, 1, 1);
 
     /* Start */
     label = gtk_label_new ( _("Start: ") );
     utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       label, 0, 1, 1, 2,
-		       GTK_SHRINK | GTK_FILL, 0,
-		       0, 0 );
+    gtk_grid_attach (GTK_GRID (table), label, 0, 1, 1, 1);
     entry = gsb_autofunc_date_new ( NULL,
 				    G_CALLBACK (gsb_fyear_config_modify_fyear), tree_view,
 				    G_CALLBACK (gsb_data_fyear_set_beginning_date), 0 );
     g_object_set_data ( G_OBJECT (tree_model),
 			"fyear_begin_date_entry", entry );
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       entry, 1, 2, 1, 2,
-		       GTK_EXPAND | GTK_FILL, 0,
-		       0, 0 );
+    gtk_grid_attach (GTK_GRID (table), entry, 1, 1, 1, 1);
 
     /* End */
     label = gtk_label_new ( _("End: ") );
     utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       label, 0, 1, 2, 3,
-		       GTK_SHRINK | GTK_FILL, 0,
-		       0, 0 );
+    gtk_grid_attach (GTK_GRID (table), label, 0, 2, 1, 1);
     entry = gsb_autofunc_date_new ( NULL,
 				    G_CALLBACK (gsb_fyear_config_modify_fyear), tree_view,
 				    G_CALLBACK (gsb_data_fyear_set_end_date), 0 );
     g_object_set_data ( G_OBJECT (tree_model),
 			"fyear_end_date_entry", entry );
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       entry, 1, 2, 2, 3,
-		       GTK_EXPAND | GTK_FILL, 0,
-		       0, 0 );
+    gtk_grid_attach (GTK_GRID (table), entry, 1, 2, 1, 1);
 
     /* label showed if the fyear is invalid */
     label = gtk_label_new (NULL);

@@ -43,6 +43,7 @@
 #include "structures.h"
 #include "traitement_variables.h"
 #include "utils.h"
+#include "utils_buttons.h"
 #include "utils_str.h"
 /*END_INCLUDE*/
 
@@ -185,7 +186,7 @@ GtkWidget *gsb_reconcile_sort_config_create ( void )
     gtk_box_pack_start ( GTK_BOX (paddingbox), vbox_fleches_tri,
 			 FALSE, FALSE, 0);
 
-    button_move_up = gtk_button_new_from_stock ("gtk-go-up");
+    button_move_up = utils_buttons_button_new_from_stock ("gtk-go-up", _("Go up"));
     gtk_button_set_relief ( GTK_BUTTON ( button_move_up ), GTK_RELIEF_NONE );
     g_signal_connect ( G_OBJECT ( button_move_up ), "clicked",
 		       G_CALLBACK (gsb_reconcile_sort_config_move_up), reconcile_treeview );
@@ -194,7 +195,7 @@ GtkWidget *gsb_reconcile_sort_config_create ( void )
 			 FALSE, FALSE, 0 );
     gtk_widget_set_sensitive ( button_move_up, FALSE );
 
-    button_move_down = gtk_button_new_from_stock ("gtk-go-down");
+    button_move_down = utils_buttons_button_new_from_stock ("gtk-go-down", _("Go down"));
     gtk_button_set_relief ( GTK_BUTTON ( button_move_down ), GTK_RELIEF_NONE );
     g_signal_connect ( G_OBJECT ( button_move_down ), "clicked",
 		       G_CALLBACK (gsb_reconcile_sort_config_move_down), reconcile_treeview);

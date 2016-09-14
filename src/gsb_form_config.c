@@ -325,7 +325,7 @@ GtkWidget *gsb_form_config_create_sizing_buttons_line ( void )
 			 0 );
     gtk_widget_show ( hbox2 );
 
-    button = gtk_button_new_from_stock ( "gtk-remove" );
+    button = utils_buttons_button_new_from_stock ("gtk-remove", _("Remove"));
     g_signal_connect ( G_OBJECT ( button ),
 		       "clicked",
 		       G_CALLBACK ( gsb_form_config_remove_line ),
@@ -347,7 +347,7 @@ GtkWidget *gsb_form_config_create_sizing_buttons_line ( void )
 			 0 );
     gtk_widget_show ( label );
 
-    button = gtk_button_new_from_stock ( "gtk-add" );
+    button = utils_buttons_button_new_from_stock ("gtk-add", _("Add"));
     g_signal_connect ( G_OBJECT ( button ),
 		       "clicked",
 		       G_CALLBACK ( gsb_form_config_add_line ),
@@ -371,7 +371,7 @@ GtkWidget *gsb_form_config_create_sizing_buttons_line ( void )
 		       0 );
     gtk_widget_show ( hbox2 );
 
-    button = gtk_button_new_from_stock ( "gtk-remove" );
+    button = utils_buttons_button_new_from_stock ("gtk-remove", _("Remove"));
     g_signal_connect ( G_OBJECT ( button ),
 		       "clicked",
 		       G_CALLBACK ( gsb_form_config_remove_column ),
@@ -393,7 +393,7 @@ GtkWidget *gsb_form_config_create_sizing_buttons_line ( void )
 			 0 );
     gtk_widget_show ( label );
 
-    button = gtk_button_new_from_stock ( "gtk-add" );
+    button = utils_buttons_button_new_from_stock ("gtk-add", _("Add"));
     g_signal_connect ( G_OBJECT ( button ),
 		       "clicked",
 		       G_CALLBACK ( gsb_form_config_add_column ),
@@ -425,7 +425,7 @@ GtkWidget *gsb_form_config_create_buttons_table ( void )
     gint row, column;
 
     /* the table is 3x6 buttons */
-    table = gtk_table_new ( 3, 6, FALSE );
+    table = gtk_grid_new ();
 
     /* the date, debit and credit are obligatory, so begin to number 4 */
 
@@ -454,10 +454,7 @@ GtkWidget *gsb_form_config_create_buttons_table ( void )
 				   "toggled",
 				   G_CALLBACK (gsb_form_config_toggle_element_button),
 				   NULL );
-		gtk_table_attach_defaults ( GTK_TABLE ( table ),
-					    form_config_buttons[column + row*6],
-					    column, column+1,
-					    row, row+1 );
+		gtk_grid_attach (GTK_GRID (table), form_config_buttons[column + row*6], column, row, 1, 1);
 
 		/* set the tooltip with the real name */
 		string = g_strconcat ( " ", string, " ", NULL );

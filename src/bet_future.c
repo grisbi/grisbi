@@ -299,8 +299,8 @@ GtkWidget *bet_future_create_dialog ( gint account_number )
 	gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 12 );
 
     /* next we fill the bet_form */
-    table = gtk_table_new ( BET_FUTURE_FORM_HEIGHT, BET_FUTURE_FORM_WIDTH, FALSE );
-    gtk_table_set_col_spacings ( GTK_TABLE ( table ), 6 );
+    table = gtk_grid_new ();
+    gtk_grid_set_column_spacing (GTK_GRID (table), 6);
     gtk_widget_show ( table );
     gtk_box_pack_start ( GTK_BOX ( vbox ), table, FALSE, FALSE, 5 );
 
@@ -432,24 +432,12 @@ gboolean bet_form_create_scheduler_part ( GtkWidget *dialog, GtkWidget *table )
 	    bet_schedul_element_list = g_slist_append ( bet_schedul_element_list, element );
 
 	    /* set in the form */
-        gtk_table_attach ( GTK_TABLE (table),
-                        widget,
-                        column, column+1,
-                        0, 1,
-                        GTK_EXPAND | GTK_FILL,
-                        GTK_EXPAND | GTK_FILL,
-                        0, 0 );
+        gtk_grid_attach (GTK_GRID (table), widget, column, 0, 1, 1);
 	}
 
     separator = gtk_separator_new ( GTK_ORIENTATION_HORIZONTAL );
     gtk_widget_show ( separator );
-    gtk_table_attach ( GTK_TABLE (table),
-                        separator,
-                        0, 4,
-                        1, 2,
-                        GTK_EXPAND | GTK_FILL,
-                        GTK_EXPAND | GTK_FILL,
-                        0, 6);
+    gtk_grid_attach (GTK_GRID (table), separator, 0, 1, 4, 1);
 
     gsb_combo_box_set_index ( combo, 0 );
 
@@ -481,13 +469,7 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
     element_number = TRANSACTION_FORM_DATE;
     widget = gsb_calendar_entry_new ( FALSE );
     gtk_widget_show ( widget );
-    gtk_table_attach ( GTK_TABLE ( table ),
-                        widget,
-                        column, column+1,
-                        row, row+1,
-                        gsb_form_get_element_expandable ( element_number ),
-                        gsb_form_get_element_expandable ( element_number ),
-                        0, 0);
+    gtk_grid_attach (GTK_GRID (table), widget, column, row, 1, 1);
     element = g_malloc0 ( sizeof ( struct_element ) );
     element -> element_number = element_number;
     element -> element_widget = widget;
@@ -506,13 +488,7 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
     gtk_combofix_set_mixed_sort ( GTK_COMBOFIX (widget),
 					  FALSE );
     gtk_widget_show ( widget );
-    gtk_table_attach ( GTK_TABLE ( table ),
-                        widget,
-                        column, column+1,
-                        row, row+1,
-                        gsb_form_get_element_expandable ( element_number ),
-                        gsb_form_get_element_expandable ( element_number ),
-                        0, 0);
+    gtk_grid_attach (GTK_GRID (table), widget, column, row, 1, 1);
     element = g_malloc0 ( sizeof ( struct_element ) );
     element -> element_number = element_number;
     element -> element_widget = widget;
@@ -528,13 +504,7 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
 		                G_CALLBACK ( gsb_form_widget_amount_entry_changed ),
 		                NULL );
     gtk_widget_show ( widget );
-    gtk_table_attach ( GTK_TABLE ( table ),
-                        widget,
-                        column, column+1,
-                        row, row+1,
-                        gsb_form_get_element_expandable ( element_number ),
-                        gsb_form_get_element_expandable ( element_number ),
-                        0, 0);
+    gtk_grid_attach (GTK_GRID (table), widget, column, row, 1, 1);
     element = g_malloc0 ( sizeof ( struct_element ) );
     element -> element_number = element_number;
     element -> element_widget = widget;
@@ -551,13 +521,7 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
 		                G_CALLBACK ( gsb_form_widget_amount_entry_changed ),
 		                NULL );
     gtk_widget_show ( widget );
-    gtk_table_attach ( GTK_TABLE ( table ),
-                        widget,
-                        column, column+1,
-                        row, row+1,
-                        gsb_form_get_element_expandable ( element_number ),
-                        gsb_form_get_element_expandable ( element_number ),
-                        0, 0);
+    gtk_grid_attach (GTK_GRID (table), widget, column, row, 1, 1);
     element = g_malloc0 ( sizeof ( struct_element ) );
     element -> element_number = element_number;
     element -> element_widget = widget;
@@ -570,13 +534,7 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
     gtk_widget_set_tooltip_text ( GTK_WIDGET (widget),
 					  _("Choose the financial year") );
     gtk_widget_show ( widget );
-    gtk_table_attach ( GTK_TABLE ( table ),
-                        widget,
-                        column, column+1,
-                        row, row+1,
-                        gsb_form_get_element_expandable ( element_number ),
-                        gsb_form_get_element_expandable ( element_number ),
-                        0, 0);
+    gtk_grid_attach (GTK_GRID (table), widget, column, row, 1, 1);
     element = g_malloc0 ( sizeof ( struct_element ) );
     element -> element_number = element_number;
     element -> element_widget = widget;
@@ -595,13 +553,7 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
     gtk_combofix_set_mixed_sort ( GTK_COMBOFIX (widget),
 					  etat.combofix_mixed_sort );
     gtk_widget_show ( widget );
-    gtk_table_attach ( GTK_TABLE ( table ),
-                        widget,
-                        column, column+1,
-                        row, row+1,
-                        gsb_form_get_element_expandable ( element_number ),
-                        gsb_form_get_element_expandable ( element_number ),
-                        0, 0);
+    gtk_grid_attach (GTK_GRID (table), widget, column, row, 1, 1);
     element = g_malloc0 ( sizeof ( struct_element ) );
     element -> element_number = element_number;
     element -> element_widget = widget;
@@ -617,13 +569,7 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
     gtk_widget_set_tooltip_text ( GTK_WIDGET (widget),
                         _("Choose the method of payment") );
     gtk_widget_show ( widget );
-    gtk_table_attach ( GTK_TABLE ( table ),
-                        widget,
-                        column, column+1,
-                        row, row+1,
-                        gsb_form_get_element_expandable ( element_number ),
-                        gsb_form_get_element_expandable ( element_number ),
-                        0, 0);
+    gtk_grid_attach (GTK_GRID (table), widget, column, row, 1, 1);
 
     element = g_malloc0 ( sizeof ( struct_element ) );
     element -> element_number = element_number;
@@ -644,13 +590,7 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
     gtk_combofix_set_mixed_sort ( GTK_COMBOFIX (widget),
 					  etat.combofix_mixed_sort );
     gtk_widget_show ( widget );
-    gtk_table_attach ( GTK_TABLE ( table ),
-                        widget,
-                        column, column+1,
-                        row, row+1,
-                        gsb_form_get_element_expandable ( element_number ),
-                        gsb_form_get_element_expandable ( element_number ),
-                        0, 0);
+    gtk_grid_attach (GTK_GRID (table), widget, column, row, 1, 1);
     element = g_malloc0 ( sizeof ( struct_element ) );
     element -> element_number = element_number;
     element -> element_widget = widget;
@@ -661,13 +601,7 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
     element_number = TRANSACTION_FORM_NOTES;
 	widget = gtk_entry_new();
     gtk_widget_show ( widget );
-    gtk_table_attach ( GTK_TABLE ( table ),
-                        widget,
-                        column, column+4,
-                        row, row+1,
-                        gsb_form_get_element_expandable ( element_number ),
-                        gsb_form_get_element_expandable ( element_number ),
-                        0, 2);
+    gtk_grid_attach (GTK_GRID (table), widget, column, row, 4, 1);
     element = g_malloc0 ( sizeof ( struct_element ) );
     element -> element_number = element_number;
     element -> element_widget = widget;

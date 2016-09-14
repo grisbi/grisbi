@@ -72,6 +72,7 @@
 #include "traitement_variables.h"
 #include "transaction_list.h"
 #include "utils.h"
+#include "utils_buttons.h"
 #include "utils_dates.h"
 #include "utils_files.h"
 #include "utils_real.h"
@@ -253,7 +254,7 @@ static GtkWidget *onglet_accueil ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), vbox2, FALSE, FALSE, 0 );
 
     /* Button "Add" */
-    button = gtk_button_new_from_stock ("gtk-add");
+    button = utils_buttons_button_new_from_stock ("gtk-add", _("Add"));
     g_signal_connect ( G_OBJECT ( button ),
                         "clicked",
                         G_CALLBACK  ( gsb_partial_balance_add ),
@@ -262,7 +263,7 @@ static GtkWidget *onglet_accueil ( void )
     g_object_set_data ( G_OBJECT (vbox_pref), "add_button", button );
 
     /* Button "Edit" */
-    button = gtk_button_new_from_stock ("gtk-edit");
+    button = utils_buttons_button_new_from_stock ("gtk-edit", _("Edit"));
     g_signal_connect ( G_OBJECT ( button ),
                         "clicked",
                         G_CALLBACK  ( gsb_partial_balance_edit ),
@@ -272,7 +273,7 @@ static GtkWidget *onglet_accueil ( void )
     g_object_set_data ( G_OBJECT (vbox_pref), "edit_button", button );
 
     /* Button "Remove" */
-    button = gtk_button_new_from_stock ("gtk-remove");
+    button = utils_buttons_button_new_from_stock ("gtk-remove", _("Remove"));
     g_signal_connect ( G_OBJECT ( button ),
                         "clicked",
                         G_CALLBACK ( gsb_partial_balance_delete ),
@@ -1328,18 +1329,17 @@ GtkWidget *onglet_programmes (void)
 
     paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("Web"));
 
-    table = gtk_table_new ( 0, 1, FALSE );
+    table = gtk_grid_new ();
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, FALSE, FALSE, 0 );
-    gtk_table_set_col_spacings ( GTK_TABLE(table), 6 );
-    gtk_table_set_row_spacings ( GTK_TABLE(table), 6 );
+    gtk_grid_set_column_spacing (GTK_GRID (table), 6);
+    gtk_grid_set_row_spacing (GTK_GRID (table), 6);
 
     label = gtk_label_new ( _("Web browser command: ") );
     gtk_size_group_add_widget ( size_group, label );
     utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.5 );
-    gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 0, 1,
-                        GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), label, 0, 0, 1, 1);
     entry = gsb_automem_entry_new ( &conf.browser_command, NULL, NULL );
-    gtk_table_attach ( GTK_TABLE(table), entry, 1, 2, 0, 1, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), entry, 1, 0, 1, 1);
 
     text = make_blue ( g_strconcat (
                         _("You may use %s to expand the URL - I.e: 'firefox %s' "),
@@ -1347,8 +1347,7 @@ GtkWidget *onglet_programmes (void)
     label = gtk_label_new ( text );
     gtk_label_set_use_markup ( GTK_LABEL(label), TRUE );
     utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.5 );
-    gtk_table_attach ( GTK_TABLE(table), label, 1, 2, 1, 2,
-                        GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), label, 1, 1, 1, 1);
     g_free ( text );
 
 

@@ -273,9 +273,9 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
 			 TRUE, TRUE, 0 );
 
 	/* table 2x3 for layout */
-	table = gtk_table_new ( 2, 3, FALSE );
-	gtk_table_set_row_spacings ( GTK_TABLE ( table ), 6 );
-	gtk_table_set_col_spacings ( GTK_TABLE ( table ), 6 );
+    table = gtk_grid_new ();
+	gtk_grid_set_row_spacing (GTK_GRID (table), 6);
+	gtk_grid_set_column_spacing (GTK_GRID (table), 6);
 
 	/* Account file title */
 	paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Titles and filenames") );
@@ -285,8 +285,7 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
 	label = gtk_label_new ( _("Name of accounting entity: ") );
 	utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
-	gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 0, 1,
-			GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+	gtk_grid_attach (GTK_GRID (table), label, 0, 0, 1, 1);
 
 	/* need to declare filename_entry first for the next callback,
 	 * if no filename, set the title.gsb as default name */
@@ -300,26 +299,22 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
 			((GCallback)gsb_assistant_file_change_title), filename_entry);
 	g_object_set_data ( G_OBJECT (entry),
 			"last_title", my_strdup (titre_fichier));
-	gtk_table_attach ( GTK_TABLE ( table ), entry, 1, 3, 0, 1,
-			GTK_EXPAND | GTK_FILL, 0, 0, 0 );
+	gtk_grid_attach (GTK_GRID (table), entry, 1, 0, 2, 1);
 
 	/* filename */
 	label = gtk_label_new ( _("Filename: ") );
 	utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
-	gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 1, 2,
-			GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+	gtk_grid_attach (GTK_GRID (table), label, 0, 1, 1, 1);
 
-	gtk_table_attach ( GTK_TABLE ( table ), filename_entry, 1, 2, 1, 2,
-			GTK_EXPAND | GTK_FILL, 0, 0, 0 );
+	gtk_grid_attach (GTK_GRID (table), filename_entry, 1, 1, 1, 1);
 
 	button = gtk_button_new_with_label ("...");
 	gtk_button_set_relief ( GTK_BUTTON (button), GTK_RELIEF_NONE );
 	g_signal_connect ( G_OBJECT (button), "clicked",
 			G_CALLBACK (gsb_assistant_file_choose_filename), filename_entry );
 
-	gtk_table_attach ( GTK_TABLE ( table ), button, 2, 3, 1, 2,
-			GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+	gtk_grid_attach (GTK_GRID (table), button, 2, 1, 1, 1);
 
     /* will we crypt the file ? */
 #ifdef HAVE_SSL

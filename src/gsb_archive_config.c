@@ -182,26 +182,20 @@ GtkWidget *gsb_archive_config_create ( void )
 		      modification_paddingbox);
 
     /* archive name (the only thing we can change) */
-    table = gtk_table_new ( 2, 2, FALSE );
-    gtk_table_set_col_spacings ( GTK_TABLE ( table ), 6 );
+    table = gtk_grid_new ();
+    gtk_grid_set_column_spacing (GTK_GRID (table), 6);
     gtk_box_pack_start ( GTK_BOX ( modification_paddingbox ), table,
 			 FALSE, FALSE, 6 );
 
     label = gtk_label_new ( _("Name: ") );
     utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       label, 0, 1, 0, 1,
-		       GTK_SHRINK | GTK_FILL, 0,
-		       0, 0 );
+    gtk_grid_attach (GTK_GRID (table), label, 0, 0, 1, 1);
     archive_name_entry = gsb_autofunc_entry_new ( NULL,
 						  G_CALLBACK (gsb_archive_config_name_changed), archive_treeview,
 						  G_CALLBACK (gsb_data_archive_set_name), 0 );
     g_signal_connect ( G_OBJECT (archive_name_entry ), "destroy",
     		G_CALLBACK ( gtk_widget_destroyed), &archive_name_entry );
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       archive_name_entry, 1, 2, 0, 1,
-		       GTK_SHRINK | GTK_FILL, 0,
-		       0, 0 );
+    gtk_grid_attach (GTK_GRID (table), archive_name_entry, 1,0, 1, 1);
 
     /* button to delete an archive and free the transactions */
     button = gtk_button_new_with_label (_("Delete the archive"));
@@ -215,10 +209,7 @@ GtkWidget *gsb_archive_config_create ( void )
     gtk_button_set_image ( GTK_BUTTON(button),
 			   gtk_image_new_from_file ( tmpstr ) );
     g_free ( tmpstr );
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       button, 0, 1, 1, 2,
-		       GTK_SHRINK | GTK_FILL, 0,
-		       0, 0 );
+    gtk_grid_attach (GTK_GRID (table), button, 0, 1, 1, 1);
 
     /* button to delete an archive and delete the transactions */
     button = gtk_button_new_with_label ( _("Delete the archive and transactions") );
@@ -235,10 +226,7 @@ GtkWidget *gsb_archive_config_create ( void )
 
     gtk_button_set_relief ( GTK_BUTTON (button),
 			    GTK_RELIEF_NONE );
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       button, 1, 2, 1, 2,
-		       GTK_SHRINK | GTK_FILL, 0,
-		       0, 0 );
+    gtk_grid_attach (GTK_GRID (table), button, 1, 1, 1, 1);
 
     /* check part at the opening of the file */
     check_paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,

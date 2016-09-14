@@ -40,7 +40,7 @@
 #include "gsb_reconcile.h"
 #include "dialog.h"
 #include "fenetre_principale.h"
-#include "gsb_color.h"
+#include "grisbi_win.h"
 #include "gsb_calendar_entry.h"
 #include "gsb_data_account.h"
 #include "gsb_data_reconcile.h"
@@ -60,6 +60,7 @@
 #include "transaction_list.h"
 #include "transaction_list_sort.h"
 #include "utils.h"
+#include "utils_buttons.h"
 #include "utils_dates.h"
 #include "utils_real.h"
 #include "utils_str.h"
@@ -148,28 +149,27 @@ GtkWidget *gsb_reconcile_create_box ( void )
     gtk_box_pack_start ( GTK_BOX ( vbox ), separator, FALSE, FALSE, 0);
 
     /* under the reconcile number, we have a table */
-    table = gtk_table_new ( 3, 5, FALSE );
-    gtk_table_set_row_spacings ( GTK_TABLE ( table ), 3 );
+    table = gtk_grid_new ();
+    gtk_grid_set_row_spacing (GTK_GRID (table), 3 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), table, FALSE, FALSE, 0);
 
     separator = gtk_separator_new ( GTK_ORIENTATION_HORIZONTAL );
-    gtk_table_attach_defaults ( GTK_TABLE ( table ), separator, 0, 3, 1, 2 );
+    gtk_grid_attach (GTK_GRID (table), separator, 0, 1, 3, 1 );
 
     separator = gtk_separator_new ( GTK_ORIENTATION_HORIZONTAL );
-    gtk_table_attach_defaults ( GTK_TABLE ( table ), separator, 0, 3, 3, 4 );
+    gtk_grid_attach (GTK_GRID (table), separator, 0, 3, 3, 1 );
 
     separator = gtk_separator_new ( GTK_ORIENTATION_VERTICAL );
-    gtk_table_attach_defaults ( GTK_TABLE ( table ), separator, 1, 2, 0, 5 );
+    gtk_grid_attach (GTK_GRID (table), separator, 1, 0, 1, 5 );
 
     label = gtk_label_new ( _("Date") );
-    gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, 0, 1);
+    gtk_grid_attach (GTK_GRID (table), label, 0, 0, 1, 1);
 
     label = gtk_label_new ( _("Balance") );
-    gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 2, 3, 0, 1);
+    gtk_grid_attach (GTK_GRID (table), label, 2, 0, 1, 1);
 
     reconcile_last_date_label = gtk_label_new ( NULL );
-    gtk_table_attach_defaults ( GTK_TABLE ( table ), reconcile_last_date_label,
-				0, 1, 2, 3 );
+    gtk_grid_attach (GTK_GRID (table), reconcile_last_date_label, 0, 2, 1, 1 );
 
     /* set the old balance,
      * an entry the first time, will be unsensitive after */
@@ -183,14 +183,12 @@ GtkWidget *gsb_reconcile_create_box ( void )
 			            "focus-out-event",
                         G_CALLBACK ( gsb_reconcile_entry_lose_focus ),
                         NULL );
-    gtk_table_attach_defaults ( GTK_TABLE ( table ), reconcile_initial_balance_entry,
-				2, 3, 2, 3 );
+    gtk_grid_attach (GTK_GRID (table), reconcile_initial_balance_entry, 2, 2, 1, 1 );
 
     /* make the new date entry */
     reconcile_new_date_entry = gsb_calendar_entry_new (TRUE);
     gtk_widget_set_size_request ( reconcile_new_date_entry, 50, -1 );
-    gtk_table_attach_defaults ( GTK_TABLE ( table ), reconcile_new_date_entry,
-				0, 1, 4, 5 );
+    gtk_grid_attach (GTK_GRID (table), reconcile_new_date_entry, 0, 4, 1, 1 );
 
     /* set the new balance */
     reconcile_final_balance_entry = gtk_entry_new ();
@@ -203,52 +201,55 @@ GtkWidget *gsb_reconcile_create_box ( void )
 			            "focus-out-event",
                         G_CALLBACK ( gsb_reconcile_entry_lose_focus ),
                         NULL );
-    gtk_table_attach_defaults ( GTK_TABLE ( table ), reconcile_final_balance_entry,
-				2, 3, 4, 5 );
+    gtk_grid_attach (GTK_GRID (table), reconcile_final_balance_entry, 2, 4, 1, 1 );
 
     separator = gtk_separator_new ( GTK_ORIENTATION_HORIZONTAL );
     gtk_box_pack_start ( GTK_BOX ( vbox ), separator, FALSE, FALSE, 0);
 
 
     /* 2nd table under that, with the balances labels */
-    table = gtk_table_new ( 5, 2, FALSE );
-    gtk_table_set_row_spacings ( GTK_TABLE ( table ), 5 );
+    table = gtk_grid_new ();
+    gtk_grid_set_row_spacing (GTK_GRID (table), 5);
     gtk_box_pack_start ( GTK_BOX ( vbox ), table, FALSE, FALSE, 0);
 
     label = gtk_label_new ( _("Initial balance: ") );
     utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0.5 );
-    gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, 0, 1);
+    gtk_grid_attach (GTK_GRID (table), label, 0, 0, 1, 1);
 
     reconcile_initial_balance_label = gtk_label_new ( NULL );
     utils_labels_set_alignement ( GTK_LABEL ( reconcile_initial_balance_label ), 1, 0.5 );
-    gtk_table_attach_defaults ( GTK_TABLE ( table ), reconcile_initial_balance_label, 1, 2, 0, 1);
+    gtk_widget_set_hexpand (reconcile_initial_balance_label, TRUE);
+    gtk_widget_set_halign (reconcile_initial_balance_label, GTK_ALIGN_END);
+    gtk_grid_attach (GTK_GRID (table), reconcile_initial_balance_label, 1, 0, 1, 1);
 
     label = gtk_label_new ( _("Final balance: ") );
     utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0.5 );
-    gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, 1, 2);
+    gtk_grid_attach (GTK_GRID (table), label, 0, 1, 1, 1);
 
     reconcile_final_balance_label = gtk_label_new ( NULL );
     utils_labels_set_alignement ( GTK_LABEL ( reconcile_final_balance_label ), 1, 0.5 );
-    gtk_table_attach_defaults ( GTK_TABLE ( table ), reconcile_final_balance_label, 1, 2, 1, 2);
+    gtk_widget_set_halign (reconcile_final_balance_label, GTK_ALIGN_END);
+    gtk_grid_attach (GTK_GRID (table), reconcile_final_balance_label, 1, 1, 1, 1);
 
     label = gtk_label_new ( _("Checking: ") );
     utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0.5 );
-    gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, 2, 3);
+    gtk_grid_attach (GTK_GRID (table), label, 0, 2, 1, 1);
 
     reconcile_marked_balance_label = gtk_label_new ( NULL );
     utils_labels_set_alignement ( GTK_LABEL ( reconcile_marked_balance_label ), 1, 0.5 );
-    gtk_table_attach_defaults ( GTK_TABLE ( table ), reconcile_marked_balance_label, 1, 2, 2, 3);
+    gtk_widget_set_halign (reconcile_marked_balance_label, GTK_ALIGN_END);
+    gtk_grid_attach (GTK_GRID (table), reconcile_marked_balance_label, 1, 2, 1, 1);
 
     separator = gtk_separator_new ( GTK_ORIENTATION_HORIZONTAL );
-    gtk_table_attach_defaults ( GTK_TABLE ( table ), separator, 0, 2, 3, 4);
+    gtk_grid_attach (GTK_GRID (table), separator, 0, 3, 2, 1);
 
     label = gtk_label_new ( _("Variance: ") );
     utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0.5 );
-    gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, 4, 5);
+    gtk_grid_attach (GTK_GRID (table), label, 0, 4, 1, 1);
 
     reconcile_variation_balance_label = gtk_label_new ( NULL );
     utils_labels_set_alignement ( GTK_LABEL ( reconcile_variation_balance_label ), 1, 0.5 );
-    gtk_table_attach_defaults ( GTK_TABLE ( table ), reconcile_variation_balance_label, 1, 2, 4, 5);
+    gtk_grid_attach (GTK_GRID (table), reconcile_variation_balance_label, 1, 4, 1, 1);
 
     /* set the button to sort with the method of paymen */
     separator = gtk_separator_new ( GTK_ORIENTATION_HORIZONTAL );
@@ -269,13 +270,13 @@ GtkWidget *gsb_reconcile_create_box ( void )
     gtk_box_set_homogeneous ( GTK_BOX ( hbox ), TRUE );
     gtk_box_pack_end ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0);
 
-    button = gtk_button_new_from_stock ( "gtk-cancel" );
+    button = utils_buttons_button_new_from_stock ("gtk-cancel", _("Cancel"));
     gtk_button_set_relief ( GTK_BUTTON ( button), GTK_RELIEF_NONE);
     g_signal_connect ( G_OBJECT (button), "clicked",
 		       G_CALLBACK (gsb_reconcile_cancel), NULL );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0);
 
-    reconcile_ok_button = gtk_button_new_from_stock ( "gtk-ok" );
+    reconcile_ok_button = utils_buttons_button_new_from_stock ("gtk-ok", _("Validate"));
     gtk_button_set_relief ( GTK_BUTTON ( reconcile_ok_button), GTK_RELIEF_NONE);
     g_signal_connect ( G_OBJECT ( reconcile_ok_button ), "clicked",
 		       G_CALLBACK (gsb_reconcile_finish_reconciliation), NULL );

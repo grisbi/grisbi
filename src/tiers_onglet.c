@@ -727,29 +727,27 @@ gboolean edit_payee ( GtkTreeView * view )
     gtk_container_set_border_width ( GTK_CONTAINER(hbox), 6 );
     gtk_container_set_border_width ( GTK_CONTAINER(paddingbox), 6 );
 
-    table = gtk_table_new ( 0, 2, FALSE );
+    table = gtk_grid_new ();
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, FALSE, FALSE, 6 );
-    gtk_table_set_col_spacings ( GTK_TABLE(table), 6 );
-    gtk_table_set_row_spacings ( GTK_TABLE(table), 6 );
+    gtk_grid_set_column_spacing (GTK_GRID (table), 6);
+    gtk_grid_set_row_spacing (GTK_GRID (table), 6);
 
     /* Name entry */
     label = gtk_label_new ( _("Name"));
     utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.5 );
-    gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 0, 1,
-                        GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), label, 0, 0, 1, 1);
 
     entry_name = gtk_entry_new ();
     gtk_entry_set_text ( GTK_ENTRY ( entry_name ),
                         gsb_data_payee_get_name(payee_number,
                         TRUE));
     gtk_widget_set_size_request ( entry_name, 400, -1 );
-    gtk_table_attach ( GTK_TABLE(table), entry_name, 1, 2, 0, 1, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), entry_name, 1, 0, 1, 1);
 
     /* Description entry */
     label = gtk_label_new ( _("Description"));
     utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.5 );
-    gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 1, 2,
-                        GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), label, 0, 1, 1, 1);
 
     entry_description = gsb_editable_text_view_new (gsb_data_payee_get_description (payee_number));
     scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
@@ -758,8 +756,7 @@ gboolean edit_payee ( GtkTreeView * view )
     gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window),
                         GTK_SHADOW_IN );
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ), entry_description );
-    gtk_table_attach ( GTK_TABLE(table), scrolled_window,
-                        1, 2, 1, 2, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), scrolled_window, 1, 1, 1, 1);
 
     gtk_widget_show_all ( dialog );
 
@@ -1247,43 +1244,27 @@ static GtkWidget *gsb_assistant_payees_page_3 ( GtkWidget *assistant )
     gtk_tree_view_append_column ( GTK_TREE_VIEW (treeview), column);
 
     /* ajoute le nombre de tiers total */
-    table = gtk_table_new ( 0, 5, FALSE );
-    gtk_table_set_row_spacings ( GTK_TABLE ( table ), 6 );
-    gtk_table_set_col_spacings ( GTK_TABLE ( table ), 6 );
+    table = gtk_grid_new ();
+    gtk_grid_set_column_spacing (GTK_GRID (table), 6);
+    gtk_grid_set_row_spacing (GTK_GRID (table), 6);
 
     gtk_box_pack_start ( GTK_BOX (page), table, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Total number of payees: ") );
     utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0 );
-    gtk_table_attach ( GTK_TABLE ( table ), label,
-		       0, 1, 0, 1,
-		       GTK_SHRINK | GTK_FILL,
-		       0,
-		       0, 0 );
+    gtk_grid_attach (GTK_GRID (table), label, 0, 0, 1, 1);
     label = gtk_label_new ( "   0" );
     utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 1 );
-    gtk_table_attach ( GTK_TABLE ( table ), label,
-		       1, 2, 0, 1,
-		       GTK_EXPAND | GTK_FILL,
-		       0,
-		       0, 0 );
+    gtk_grid_attach (GTK_GRID (table), label, 1, 0, 1, 1);
     g_object_set_data ( G_OBJECT (assistant), "nbre_tiers_total", label );
 
     /* ajoute le nombre de tiers sélectionnés */
     label = gtk_label_new ( _("Number of selected payees: ") );
     utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0 );
-    gtk_table_attach ( GTK_TABLE ( table ), label,
-		      2, 3, 0, 1,
-		       GTK_SHRINK | GTK_FILL,
-		       0,
-		       0, 0 );
+    gtk_grid_attach (GTK_GRID (table), label, 2, 0, 1, 1);
     label = gtk_label_new ( "   0" );
     utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 1 );
-    gtk_table_attach ( GTK_TABLE ( table ), label,
-		       3, 4, 0, 1,
-		       GTK_EXPAND | GTK_FILL,
-		       0,
-		       0, 0 );
+    gtk_grid_attach (GTK_GRID (table), label, 3, 0, 1, 1);
     g_object_set_data ( G_OBJECT (assistant), "nbre_tiers_select", label );
 
     /* ajoute le bouton (dé)sélectionne tout */
@@ -1293,11 +1274,7 @@ static GtkWidget *gsb_assistant_payees_page_3 ( GtkWidget *assistant )
                         G_CALLBACK (gsb_assistant_payees_clicked),
                         assistant );
 	gtk_widget_set_size_request ( button, 60, -1 );
-    gtk_table_attach ( GTK_TABLE ( table ), button,
-		       4, 5, 0, 1,
-		       GTK_EXPAND | GTK_FILL,
-		       0,
-		       0, 0 );
+    gtk_grid_attach (GTK_GRID (table), button, 4, 0, 1, 1);
     g_object_set_data ( G_OBJECT (assistant), "button", button );
 
     gtk_widget_show_all (page);

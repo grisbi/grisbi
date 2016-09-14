@@ -47,6 +47,7 @@
 #include "structures.h"
 #include "traitement_variables.h"
 #include "utils.h"
+#include "utils_buttons.h"
 #include "utils_real.h"
 /*END_INCLUDE*/
 
@@ -138,7 +139,7 @@ GtkWidget *gsb_currency_link_config_create_page ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), vbox, FALSE, FALSE, 0 );
 
     /* Button "Add" */
-    button = gtk_button_new_from_stock ("gtk-add");
+    button = utils_buttons_button_new_from_stock ("gtk-add", _("Add"));
     g_signal_connect_swapped ( G_OBJECT ( button ),
 			       "clicked",
 			       G_CALLBACK  ( gsb_currency_link_config_add_link ),
@@ -146,7 +147,7 @@ GtkWidget *gsb_currency_link_config_create_page ( void )
     gtk_box_pack_start ( GTK_BOX ( vbox ), button, FALSE, FALSE, 5 );
 
     /* Button "Remove" */
-    button = gtk_button_new_from_stock ("gtk-remove");
+    button = utils_buttons_button_new_from_stock ("gtk-remove", _("Remove"));
     g_signal_connect_swapped ( G_OBJECT ( button ),
 			       "clicked",
 			       G_CALLBACK ( gsb_currency_link_config_remove_link ),

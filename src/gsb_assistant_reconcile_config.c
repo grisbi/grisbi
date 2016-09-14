@@ -385,77 +385,65 @@ static GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile ( void )
 
     /* create the table, this is the same as the reconcile config,
      * but here it's to create new ones */
-	table = gtk_table_new ( 4, 3, FALSE );
-	gtk_table_set_row_spacings ( GTK_TABLE ( table ), 6 );
-	gtk_table_set_col_spacings ( GTK_TABLE ( table ), 6 );
+	table = gtk_grid_new ();
+	gtk_grid_set_row_spacing (GTK_GRID (table), 6);
+	gtk_grid_set_column_spacing (GTK_GRID (table), 6);
 	gtk_box_pack_start ( GTK_BOX (paddingbox), table, FALSE, FALSE, 0 );
 
 	/* set the name */
 	label = gtk_label_new ( _("Reconciliation reference: ") );
 	utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
-	gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 0, 1,
-			GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+	gtk_grid_attach (GTK_GRID (table), label, 0, 0, 1, 1);
 
 	reconcile_name_entry = gtk_entry_new ();
-	gtk_table_attach ( GTK_TABLE ( table ), reconcile_name_entry, 1, 2, 0, 1,
-			GTK_EXPAND | GTK_FILL, 0, 10, 0 );
+	gtk_grid_attach (GTK_GRID (table), reconcile_name_entry, 1, 0, 0, 1);
 
 	/* set the choice of account */
 	label = gtk_label_new ( _("Account: ") );
 	utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
-	gtk_table_attach ( GTK_TABLE ( table ), label, 2, 3, 0, 1,
-			GTK_SHRINK | GTK_FILL, 0, 10, 0 );
+	gtk_grid_attach (GTK_GRID (table), label, 2, 0, 1, 1);
 
 	reconcile_account_button = gsb_account_create_combo_list ( NULL, NULL, TRUE );
 	gtk_combo_box_set_active ( GTK_COMBO_BOX (reconcile_account_button), 0 );
-	gtk_table_attach ( GTK_TABLE ( table ), reconcile_account_button, 3, 4, 0, 1,
-			GTK_EXPAND | GTK_FILL, 0, 0, 0 );
+	gtk_grid_attach (GTK_GRID (table), reconcile_account_button, 3, 0, 1, 1);
 
 	/* set the initial date */
 	label = gtk_label_new ( _("Initial date: ") );
 	utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
-	gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 1, 2,
-			GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+	gtk_grid_attach (GTK_GRID (table), label, 0, 1, 1, 1);
 
 	reconcile_init_date_entry = gsb_calendar_entry_new (FALSE);
-	gtk_table_attach ( GTK_TABLE ( table ), reconcile_init_date_entry, 1, 2, 1, 2,
-			GTK_EXPAND | GTK_FILL, 0, 10, 0 );
+	gtk_grid_attach (GTK_GRID (table), reconcile_init_date_entry, 1, 1, 1, 1);
 
 	/* set the final date */
 	label = gtk_label_new ( _("Final date: ") );
 	utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
-	gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 2, 3,
-			GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+	gtk_grid_attach (GTK_GRID (table), label, 0, 2, 1, 1);
 
 	reconcile_final_date_entry = gsb_calendar_entry_new (FALSE);
-	gtk_table_attach ( GTK_TABLE ( table ), reconcile_final_date_entry, 1, 2, 2, 3,
-			GTK_EXPAND | GTK_FILL, 0, 10, 0 );
+	gtk_grid_attach (GTK_GRID (table), reconcile_final_date_entry, 1, 2, 1, 1);
 
 	/* set the initial balance */
 	label = gtk_label_new ( _("Initial balance: ") );
 	utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
-	gtk_table_attach ( GTK_TABLE ( table ), label, 2, 3, 1, 2,
-			GTK_SHRINK | GTK_FILL, 0, 10, 0 );
+	gtk_grid_attach (GTK_GRID (table), label, 2, 1, 1,1);
 
 	reconcile_init_balance_entry = gtk_entry_new ();
-	gtk_table_attach ( GTK_TABLE ( table ), reconcile_init_balance_entry, 3, 4, 1, 2,
-			GTK_EXPAND | GTK_FILL, 0, 0, 0 );
+	gtk_grid_attach (GTK_GRID (table), reconcile_init_balance_entry, 3, 1, 1, 1);
 
     /* set the final balance */
 	label = gtk_label_new ( _("Final balance: ") );
 	utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
-	gtk_table_attach ( GTK_TABLE ( table ), label, 2, 3, 2, 3,
-			GTK_SHRINK | GTK_FILL, 0, 10, 0 );
+	gtk_grid_attach (GTK_GRID (table), label, 2, 2, 1, 1);
 
 	reconcile_final_balance_entry = gtk_entry_new ();
-	gtk_table_attach ( GTK_TABLE ( table ), reconcile_final_balance_entry, 3, 4, 2, 3,
-			GTK_EXPAND | GTK_FILL, 0, 0, 0 );
+	gtk_grid_attach (GTK_GRID (table), reconcile_final_balance_entry, 3, 2, 2, 1);
 
     /* create the button */
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );

@@ -210,25 +210,23 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
     /* configure the browser */
     paddingbox = new_paddingbox_with_title (vbox, FALSE, _("Web"));
 
-    table = gtk_table_new ( 0, 3, FALSE );
+    table = gtk_grid_new ();
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, FALSE, FALSE, 0 );
-    gtk_table_set_col_spacings ( GTK_TABLE(table), 6 );
-    gtk_table_set_row_spacings ( GTK_TABLE(table), 6 );
+    gtk_grid_set_column_spacing (GTK_GRID (table), 6);
+    gtk_grid_set_row_spacing (GTK_GRID (table), 6);
 
     label = gtk_label_new ( _("Web browser command: ") );
     gtk_size_group_add_widget ( size_group, label );
     utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.5 );
-    gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 1, 2,
-		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), label, 0, 1, 1, 1);
     entry = gsb_automem_entry_new ( &conf.browser_command, NULL, NULL );
-    gtk_table_attach ( GTK_TABLE(table), entry, 1, 2, 1, 2, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), entry, 1, 1, 1, 1);
 
     text = make_blue ( _("You may use %s to expand the URL - I.e: 'firefox %s' ") );
     label = gtk_label_new ( text );
     gtk_label_set_use_markup ( GTK_LABEL(label), TRUE );
     utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.5 );
-    gtk_table_attach ( GTK_TABLE(table), label, 1, 2, 2, 3,
-                        GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), label, 1, 2, 1, 1);
     g_free ( text );
 
     /* Account file handling */
