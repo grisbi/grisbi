@@ -366,9 +366,9 @@ void categories_fill_list ( void )
         /* on colorise les lignes du tree_view */
         utils_set_tree_view_background_color ( arbre_categ, META_TREE_BACKGROUND_COLOR );
 	    title = g_strdup(_("Categories"));
-        gsb_gui_headings_update_title ( title );
+        grisbi_win_headings_update_title ( title );
         g_free ( title );
-        gsb_gui_headings_update_suffix ( "" );
+        grisbi_win_headings_update_suffix ( "" );
     }
 }
 

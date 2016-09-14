@@ -196,8 +196,8 @@ static void gsb_scheduler_list_change_scheduler_view ( GtkWidget *item,
     tmpstr = g_strconcat ( _("Scheduled transactions"), " : ",
                         g_dgettext ( NULL, periodicity_names[periodicity] ),
                         NULL );
-    gsb_gui_headings_update_title ( tmpstr );
-    gsb_gui_headings_update_suffix ( "" );
+    grisbi_win_headings_update_title ( tmpstr );
+    grisbi_win_headings_update_suffix ( "" );
     g_free ( tmpstr );
 
     etat.affichage_echeances = periodicity;

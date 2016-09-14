@@ -32,8 +32,6 @@ typedef enum GSB_ACCOUNT_NOTEBOOK_PAGES {
 GtkWidget *gsb_gui_create_general_widgets ( void );
 GtkWidget *gsb_gui_get_account_page ( void );
 GtkWidget *gsb_gui_get_general_notebook (void );
-//~ void gsb_gui_headings_update_suffix ( gchar * suffix );
-//~ void gsb_gui_headings_update_title ( gchar * title );
 void gsb_gui_init_general_notebook ( void );
 void gsb_gui_init_general_vbox ( void );
 gint gsb_gui_get_hpaned_left_width ( void );
@@ -43,10 +41,8 @@ gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
                         gpointer page,
                         guint page_number,
                         gpointer null );
-//~ void gsb_gui_sensitive_headings ( gboolean sensitive );
 gboolean gsb_gui_set_hpaned_left_width ( gint width );
 void gsb_gui_update_all_toolbars ( void );
-//~ gboolean gsb_gui_update_show_headings ( void );
 /*END_DECLARATION*/
 
 #endif

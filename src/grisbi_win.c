@@ -840,7 +840,7 @@ void grisbi_win_set_size_and_position (GtkWindow *win)
  *
  * \return
  * */
-void gsb_gui_sensitive_headings ( gboolean sensitive )
+void grisbi_win_headings_sensitive_headings (gboolean sensitive)
 {
     GtkWidget *headings_eb;
 
@@ -855,7 +855,7 @@ void gsb_gui_sensitive_headings ( gboolean sensitive )
  *
  * \return		FALSE
  */
-gboolean gsb_gui_update_show_headings (void)
+gboolean grisbi_win_headings_update_show_headings (void)
 {
     GtkWidget *headings_eb;
 
@@ -877,7 +877,7 @@ gboolean gsb_gui_update_show_headings (void)
  * \param title		String to display as a title in headings bar.
  *
  */
-void gsb_gui_headings_update_title (gchar *title)
+void grisbi_win_headings_update_title (gchar *title)
 {
 	GrisbiWinPrivate *priv;
 
@@ -892,7 +892,7 @@ void gsb_gui_headings_update_title (gchar *title)
  * \param suffix	String to display as a suffix in headings bar.
  *
  */
-void gsb_gui_headings_update_suffix (gchar *suffix)
+void grisbi_win_headings_update_suffix (gchar *suffix)
 {
 	GrisbiWinPrivate *priv;
 

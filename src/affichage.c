@@ -809,7 +809,7 @@ GtkWidget *tab_display_toolbar ( void )
 gboolean preferences_switch_headings_bar ( GtkWidget *toggle_button,
                         gpointer null )
 {
-    gsb_gui_update_show_headings ();
+    grisbi_win_headings_update_show_headings ();
     return FALSE;
 }
 

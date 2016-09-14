@@ -2838,7 +2838,7 @@ void gsb_data_account_colorize_current_balance ( gint account_number )
     if ( !string )
         string = g_strdup ( "" );
 
-    gsb_gui_headings_update_suffix ( string );
+    grisbi_win_headings_update_suffix ( string );
     g_free ( string );
 }
 

@@ -98,7 +98,7 @@ GtkWidget *gsb_gui_create_general_widgets ( void )
      * quick summary. */
     vbox_general = grisbi_win_get_vbox_general (win);
 
-    gsb_gui_update_show_headings ();
+    grisbi_win_headings_update_show_headings ();
 
     /* Then create and fill the main hpaned. */
     hpaned_general = gtk_paned_new ( GTK_ORIENTATION_HORIZONTAL );

@@ -639,9 +639,9 @@ void payees_fill_list ( void )
         utils_set_tree_view_background_color ( payee_tree, META_TREE_BACKGROUND_COLOR );
         /* on fixe le titre et le suffixe de la barre d'information */
 	    title = g_strdup(_("Payees"));
-        gsb_gui_headings_update_title ( title );
+        grisbi_win_headings_update_title ( title );
         g_free ( title );
-        gsb_gui_headings_update_suffix ( "" );
+        grisbi_win_headings_update_suffix ( "" );
     }
 
     g_object_unref ( G_OBJECT ( payee_tree_model ) );

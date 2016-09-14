@@ -2381,8 +2381,8 @@ gboolean metatree_selection_changed ( GtkTreeSelection *selection, GtkTreeModel 
                 break;
         }
 
-        gsb_gui_headings_update_title ( text );
-        gsb_gui_headings_update_suffix ( balance );
+        grisbi_win_headings_update_title ( text );
+        grisbi_win_headings_update_suffix ( balance );
         g_free ( text );
         g_free ( balance );
         selection_is_set = TRUE;

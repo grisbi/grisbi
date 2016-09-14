@@ -19,27 +19,26 @@ typedef struct _GrisbiWinClass  GrisbiWinClass;
 
 GType grisbi_win_get_type (void) G_GNUC_CONST;
 
-const gchar *   grisbi_win_get_filename             (GrisbiWin *win);
-void            grisbi_win_set_filename             (GrisbiWin *win,
-                                                      const gchar *filename);
-GtkWidget *     grisbi_win_get_headings_eb          (GrisbiWin *win);
-GtkWidget *     grisbi_win_get_main_box             (GrisbiWin *win);
-GtkWidget *     grisbi_win_get_vbox_general         (GrisbiWin *win);
+const gchar *   grisbi_win_get_filename                     (GrisbiWin *win);
+void            grisbi_win_set_filename                     (GrisbiWin *win,
+                                                             const gchar *filename);
+GtkWidget *     grisbi_win_get_headings_eb                  (GrisbiWin *win);
+GtkWidget *     grisbi_win_get_main_box                     (GrisbiWin *win);
+GtkWidget *     grisbi_win_get_vbox_general                 (GrisbiWin *win);
 
-void            grisbi_win_init_menubar             (GrisbiWin *win,
-                                                      gpointer app);
-void            grisbi_win_menu_move_to_acc_delete  (void);
-void            grisbi_win_menu_move_to_acc_new     (void);
-void            grisbi_win_menu_move_to_acc_update  (gboolean active);
+void            grisbi_win_headings_update_suffix           (gchar *suffix);
+void            grisbi_win_headings_update_title            (gchar *title);
+gboolean        grisbi_win_headings_update_show_headings    (void);
+void            grisbi_win_headings_sensitive_headings      (gboolean sensitive);
 
-gboolean        grisbi_win_set_grisbi_title         (gint account_number);
-void            grisbi_win_set_size_and_position    (GtkWindow *win);
+void            grisbi_win_init_menubar                     (GrisbiWin *win,
+                                                             gpointer app);
+void            grisbi_win_menu_move_to_acc_delete          (void);
+void            grisbi_win_menu_move_to_acc_new             (void);
+void            grisbi_win_menu_move_to_acc_update          (gboolean active);
 
-void gsb_gui_headings_update_suffix (gchar *suffix);
-void gsb_gui_headings_update_title (gchar *title);
-gboolean gsb_gui_update_show_headings (void);
-void gsb_gui_sensitive_headings (gboolean sensitive);
-
+gboolean        grisbi_win_set_grisbi_title                 (gint account_number);
+void            grisbi_win_set_size_and_position            (GtkWindow *win);
 
 G_END_DECLS
 

@@ -1084,7 +1084,7 @@ void gsb_navigation_update_account_label ( gint account_number )
     }
 
     gsb_data_account_colorize_current_balance ( account_number );
-    gsb_gui_headings_update_title ( title );
+    grisbi_win_headings_update_title ( title );
 
     g_free ( title );
 }
@@ -1282,11 +1282,11 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
     /* title is set here if necessary */
     if (title)
     {
-        gsb_gui_headings_update_title ( title );
+        grisbi_win_headings_update_title ( title );
         g_free ( title );
     }
     if (clear_suffix)
-        gsb_gui_headings_update_suffix ( "" );
+        grisbi_win_headings_update_suffix ( "" );
 
     return FALSE;
 }
