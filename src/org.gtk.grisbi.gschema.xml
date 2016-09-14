@@ -452,7 +452,7 @@
       </description>
     </key>
 	  <key name="panel-width" type="i">
-	    <default>300</default>
+	    <default>250</default>
 	    <summary>Width of the navigation panel</summary>
 	    <description>The width of the navigation panel.</description>
 	  </key>

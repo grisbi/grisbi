@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.19.0 -->
+<!-- Generated with glade 3.18.3 -->
 <interface>
   <requires lib="gtk+" version="3.16"/>
   <template class="GrisbiWin" parent="GtkApplicationWindow">
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Grisbi Application</property>
     <property name="window_position">center</property>
-    <property name="default_width">600</property>
-    <property name="default_height">400</property>
+    <property name="default_width">1200</property>
+    <property name="default_height">600</property>
     <signal name="window-state-event" handler="grisbi_win_change_state_window" swapped="no"/>
     <child>
       <object class="GtkBox" id="main_box">
@@ -15,79 +15,7 @@
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
         <child>
-          <object class="GtkEventBox" id="headings_eb">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <child>
-              <object class="GtkBox" id="box1">
-                <property name="can_focus">False</property>
-                <child>
-                  <object class="GtkEventBox" id="arrow_eb_left">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="above_child">True</property>
-                    <child>
-                      <object class="GtkArrow" id="arrow_left">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="arrow_type">left</property>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEventBox" id="arrow_eb_right">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="above_child">True</property>
-                    <child>
-                      <object class="GtkArrow" id="arrow_right">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="headings_title">
-                    <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Label</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">2</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="headings_suffix">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">3</property>
-                  </packing>
-                </child>
-              </object>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
+          <placeholder/>
         </child>
         <child>
           <placeholder/>
@@ -119,4 +47,57 @@
       </object>
     </child>
   </template>
+  <object class="GtkEventBox" id="headings_eb">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <child>
+      <placeholder/>
+    </child>
+  </object>
+  <object class="GtkPaned" id="hpaned_general">
+    <property name="visible">True</property>
+    <property name="can_focus">True</property>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+  </object>
+  <object class="GtkNotebook" id="notebook_general">
+    <property name="visible">True</property>
+    <property name="can_focus">True</property>
+    <child>
+      <placeholder/>
+    </child>
+    <child type="tab">
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child type="tab">
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child type="tab">
+      <placeholder/>
+    </child>
+  </object>
+  <object class="GtkBox" id="vbox_general">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="orientation">vertical</property>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+  </object>
 </interface>
