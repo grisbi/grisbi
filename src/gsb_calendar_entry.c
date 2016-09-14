@@ -180,20 +180,18 @@ GDate *gsb_calendar_entry_get_date ( GtkWidget *entry )
 gboolean gsb_calendar_entry_set_color ( GtkWidget *entry,
 					gboolean normal_color )
 {
+    GtkStyleContext* context;
+
     if (!entry)
-	return FALSE;
+        return FALSE;
 
     if (normal_color)
     {
-	gtk_widget_modify_base ( entry,
-				 GTK_STATE_NORMAL,
-				 NULL );
+        gtk_widget_set_name (entry, "form_entry");
     }
     else
     {
-	gtk_widget_modify_base ( entry,
-				 GTK_STATE_NORMAL,
-				 gsb_color_get_couleur ( "entry_error_color" ) );
+        gtk_widget_set_name (entry, "form_entry_error");
     }
 
     return FALSE;
