@@ -38,6 +38,7 @@
 #include "bet_tab.h"
 #include "categories_onglet.h"
 #include "etats_onglet.h"
+#include "grisbi_app.h"
 #include "grisbi_win.h"
 #include "gsb_account_property.h"
 #include "gsb_data_account.h"
@@ -79,14 +80,6 @@ static GtkWidget *notebook_general = NULL;
 /** Notebook of the account pane. */
 static GtkWidget *account_page = NULL;
 
-static GtkWidget * headings_eb = NULL;
-
-/** Title for the heading bar. */
-static GtkWidget * headings_title = NULL;
-/** Suffix for the heading bar.  */
-static GtkWidget * headings_suffix = NULL;
-
-
 /**
  * Create the main widget that holds all the user interface save the
  * menus.
@@ -95,49 +88,16 @@ static GtkWidget * headings_suffix = NULL;
  */
 GtkWidget *gsb_gui_create_general_widgets ( void )
 {
+    GrisbiWin *win;
     GtkWidget *hpaned_general;
     GtkWidget * hbox, * arrow_eb, * arrow_left, * arrow_right;
 
+    win = grisbi_app_get_active_window (NULL);
+
     /* All stuff will be put in a huge vbox, with an hbox containing
      * quick summary. */
-    vbox_general = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
+    vbox_general = grisbi_win_get_vbox_general (win);
 
-    headings_eb = gtk_event_box_new ();
-    gtk_widget_set_name ( headings_eb, "grey_box");
-
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
-    gtk_widget_set_margin_end (hbox, MARGIN_END );
-
-    /* Create two arrows. */
-    arrow_left = gtk_arrow_new ( GTK_ARROW_LEFT, GTK_SHADOW_OUT );
-    arrow_eb = gtk_event_box_new ();
-    gtk_container_add ( GTK_CONTAINER ( arrow_eb ), arrow_left );
-    g_signal_connect ( G_OBJECT ( arrow_eb ), "button-press-event",
-		       G_CALLBACK ( on_simpleclick_event_run ),
-		       gsb_gui_navigation_select_prev );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), arrow_eb, FALSE, FALSE, 0 );
-
-    arrow_right = gtk_arrow_new ( GTK_ARROW_RIGHT, GTK_SHADOW_OUT );
-    arrow_eb = gtk_event_box_new ();
-    gtk_container_add ( GTK_CONTAINER ( arrow_eb ), arrow_right );
-    g_signal_connect ( G_OBJECT ( arrow_eb ), "button-press-event",
-		       G_CALLBACK ( on_simpleclick_event_run ),
-		       gsb_gui_navigation_select_next );
-    gtk_box_pack_start ( GTK_BOX(hbox), arrow_eb, FALSE, FALSE, 3 );
-
-    /* Define labels. */
-    headings_title = gtk_label_new ( NULL );
-    gtk_label_set_justify ( GTK_LABEL(headings_title), GTK_JUSTIFY_LEFT );
-    utils_labels_set_alignement ( GTK_LABEL (headings_title), 0.0, 0.5);
-    gtk_box_pack_start ( GTK_BOX(hbox), headings_title, TRUE, TRUE, 3 );
-    headings_suffix = gtk_label_new (NULL);
-    gtk_box_pack_start ( GTK_BOX(hbox), headings_suffix, FALSE, FALSE, 0 );
-
-    /* Change color with an event box trick. */
-    gtk_container_add ( GTK_CONTAINER ( headings_eb ), hbox );
-    gtk_container_set_border_width ( GTK_CONTAINER ( hbox ), 6 );
-
-    gtk_box_pack_start ( GTK_BOX( vbox_general ), headings_eb, FALSE, FALSE, 0 );
     gsb_gui_update_show_headings ();
 
     /* Then create and fill the main hpaned. */
@@ -167,8 +127,6 @@ GtkWidget *gsb_gui_create_general_widgets ( void )
 
     return vbox_general;
 }
-
-
 
 /**
  * Create the main notebook :
@@ -397,63 +355,6 @@ void gsb_gui_headings_private_update_label_markup ( GtkLabel *label,
     gtk_label_set_markup ( label, tmpstr );
 
     g_free ( tmpstr );
-}
-
-/**
- * Update headings bar with a new title.
- *
- * \param title		String to display as a title in headings bar.
- *
- */
-void gsb_gui_headings_update_title ( gchar * title )
-{
-    gsb_gui_headings_private_update_label_markup ( GTK_LABEL(headings_title), title, TRUE );
-}
-
-/**
- * Update headings bar with a new suffix.
- *
- * \param suffix	String to display as a suffix in headings bar.
- *
- */
-void gsb_gui_headings_update_suffix ( gchar * suffix )
-{
-    gsb_gui_headings_private_update_label_markup ( GTK_LABEL(headings_suffix), suffix, FALSE );
-}
-
-
-
-
-/**
- * Display or hide the headings bar depending on configuration.
- *
- * return		FALSE
- */
-gboolean gsb_gui_update_show_headings ( void )
-{
-    if ( conf.show_headings_bar )
-    {
-	gtk_widget_show_all ( headings_eb );
-    }
-    else
-    {
-	gtk_widget_hide ( headings_eb );
-    }
-    return FALSE;
-}
-
-/**
- * sensitive or unsensitive the headings
- *
- * \param sensitive TRUE to sensitive
- *
- * \return
- * */
-void gsb_gui_sensitive_headings ( gboolean sensitive )
-{
-    if (headings_eb)
-	gtk_widget_set_sensitive ( headings_eb,
-				   sensitive );
 }
 
 

@@ -40,9 +40,11 @@
 #include "grisbi_app.h"
 #include "accueil.h"
 #include "gsb_data_account.h"
+#include "gsb_dirs.h"
 #include "menu.h"
 #include "navigation.h"
 #include "structures.h"
+#include "utils.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -151,6 +153,21 @@ static void grisbi_win_init_statusbar (GrisbiWin *win)
 
 
 /* HEADINGS_EB */
+static void grisbi_win_headings_private_update_label_markup (GtkLabel *label,
+                                                             const gchar *text,
+                                                             gboolean escape_text)
+{
+    gchar* tmp_str;
+
+    if (escape_text)
+        tmp_str = g_markup_printf_escaped ("<b>%s</b>", text);
+    else
+        tmp_str = g_strconcat ("<b>", text, "</b>", NULL);
+    gtk_label_set_markup (label,tmp_str);
+
+    g_free (tmp_str);
+}
+
 /**
  * Trigger a callback functions only if button event that triggered it
  * was a simple click.
@@ -182,26 +199,54 @@ static gboolean grisbi_win_headings_simpleclick_event_run (GtkWidget *button,
  */
 static void grisbi_win_init_headings_eb (GrisbiWin *win)
 {
-    GtkStyleContext *style;
+    GtkWidget *hbox;
+    GtkWidget *arrow_eb;
+    GtkWidget *arrow_left;
+    GtkWidget *arrow_right;
 	GrisbiWinPrivate *priv;
+    gchar *tmp_filename;
+    gchar *tmp_dir;
 
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
-    style = gtk_widget_get_style_context (priv->headings_eb);
+    /* Change color */
+    gtk_widget_set_name (priv->headings_eb, "grey_box");
 
-	gtk_widget_override_background_color (priv->arrow_eb_left, GTK_STATE_FLAG_ACTIVE, NULL);
-    g_signal_connect (G_OBJECT (priv->arrow_eb_left),
-                        "button-press-event",
+    hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+    gtk_widget_set_margin_end (hbox, MARGIN_END);
+    gtk_container_set_border_width (GTK_CONTAINER (hbox), 6);
+
+    /* Create two arrows. */
+    tmp_filename = g_build_filename (gsb_dirs_get_pixmaps_dir (), "arrow-left.svg", NULL);
+    arrow_left = gtk_image_new_from_file (tmp_filename);
+    g_free (tmp_filename);
+    arrow_eb = gtk_event_box_new ();
+    gtk_container_add (GTK_CONTAINER (arrow_eb), arrow_left);
+    g_signal_connect (G_OBJECT (arrow_eb), "button-press-event",
                         G_CALLBACK (grisbi_win_headings_simpleclick_event_run),
                         gsb_gui_navigation_select_prev);
+    gtk_box_pack_start (GTK_BOX (hbox), arrow_eb, FALSE, FALSE, 0);
 
-	gtk_widget_override_background_color (priv->arrow_eb_right, GTK_STATE_FLAG_ACTIVE, NULL);
-    g_signal_connect (G_OBJECT (priv->arrow_eb_right),
-                        "button-press-event",
-                        G_CALLBACK (grisbi_win_headings_simpleclick_event_run),
-                        gsb_gui_navigation_select_prev);
+    tmp_filename = g_build_filename (gsb_dirs_get_pixmaps_dir (), "arrow-right.svg", NULL);
+    arrow_right = gtk_image_new_from_file (tmp_filename);
+    g_free (tmp_filename);
+    arrow_eb = gtk_event_box_new ();
+    gtk_container_add (GTK_CONTAINER (arrow_eb), arrow_right);
+    g_signal_connect (G_OBJECT (arrow_eb), "button-press-event",
+                      G_CALLBACK (grisbi_win_headings_simpleclick_event_run),
+                      gsb_gui_navigation_select_next);
+    gtk_box_pack_start (GTK_BOX(hbox), arrow_eb, FALSE, FALSE, 3);
 
-    gtk_widget_override_background_color (priv->headings_eb, GTK_STATE_FLAG_ACTIVE, NULL);
+    /* Define labels. */
+    priv->headings_title = gtk_label_new (NULL);
+    gtk_label_set_justify (GTK_LABEL(priv->headings_title), GTK_JUSTIFY_LEFT);
+    utils_labels_set_alignement (GTK_LABEL (priv->headings_title), 0.0, 0.5);
+    gtk_box_pack_start (GTK_BOX(hbox), priv->headings_title, TRUE, TRUE, 3);
+
+    priv->headings_suffix = gtk_label_new (NULL);
+    gtk_box_pack_start (GTK_BOX(hbox), priv->headings_suffix, FALSE, FALSE, 0);
+
+    gtk_container_add (GTK_CONTAINER (priv->headings_eb), hbox);
 }
 
 
@@ -308,8 +353,10 @@ static void grisbi_win_init (GrisbiWin *win)
 /*	grisbi_win_init_statusbar (GRISBI_WIN (win));
 */
 	/* initialisation de headings_eb */
-/*	grisbi_win_init_headings_eb (GRISBI_WIN (win));
-*/
+	grisbi_win_init_headings_eb (GRISBI_WIN (win));
+    gtk_box_pack_start (GTK_BOX (priv->vbox_general), priv->headings_eb, FALSE, FALSE, 0 );
+
+
 	run.window = GTK_WIDGET (win);
 }
 
@@ -332,10 +379,9 @@ static void grisbi_win_class_init (GrisbiWinClass *klass)
                                                "/org/gtk/grisbi/ui/grisbi_win.ui");
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, main_box);
-/*	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, headings_eb);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, arrow_eb_left);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, arrow_eb_right);
-*/	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, statusbar);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, vbox_general);
+    gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, headings_eb);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, statusbar);
 
     /* signaux */
     gtk_widget_class_bind_template_callback (GTK_WIDGET_CLASS (klass), grisbi_win_change_state_window);
@@ -382,6 +428,25 @@ void grisbi_win_set_filename (GrisbiWin *win,
 	priv->filename = g_strdup (filename);
 }
 
+/* GET WIDGET */
+/**
+ * retourne headings_eb
+ *
+ * \param GrisbiWin *win
+ *
+ * \return main_box
+ **/
+GtkWidget *grisbi_win_get_headings_eb (GrisbiWin *win)
+{
+	GrisbiWinPrivate *priv;
+
+    if (win == NULL)
+        win = grisbi_app_get_active_window (NULL);
+
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+    return priv->headings_eb;
+}
+
 /**
  * retourne main_box
  *
@@ -395,6 +460,21 @@ GtkWidget *grisbi_win_get_main_box (GrisbiWin *win)
 
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
     return priv->main_box;
+}
+
+/**
+ * retourne vbox_general
+ *
+ * \param GrisbiWin *win
+ *
+ * \return main_box
+ **/
+GtkWidget *grisbi_win_get_vbox_general (GrisbiWin *win)
+{
+	GrisbiWinPrivate *priv;
+
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+    return priv->vbox_general;
 }
 
 /* WIN_MENU */
@@ -750,6 +830,74 @@ void grisbi_win_set_size_and_position (GtkWindow *win)
     /* put up the screen if necessary */
     if (conf.maximize_screen)
         gtk_window_maximize (GTK_WINDOW (win));
+}
+
+/* HEADINGS */
+/**
+ * sensitive or unsensitive the headings
+ *
+ * \param sensitive TRUE to sensitive
+ *
+ * \return
+ * */
+void gsb_gui_sensitive_headings ( gboolean sensitive )
+{
+    GtkWidget *headings_eb;
+
+    headings_eb = grisbi_win_get_headings_eb (NULL);
+    gtk_widget_set_sensitive ( headings_eb, sensitive );
+}
+
+/**
+ * Display or hide the headings bar depending on configuration.
+ *
+ * \param
+ *
+ * \return		FALSE
+ */
+gboolean gsb_gui_update_show_headings (void)
+{
+    GtkWidget *headings_eb;
+
+    headings_eb = grisbi_win_get_headings_eb (NULL);
+    if (conf.show_headings_bar)
+    {
+        gtk_widget_show_all (headings_eb);
+    }
+    else
+    {
+        gtk_widget_hide (headings_eb);
+    }
+    return FALSE;
+}
+
+/**
+ * Update headings bar with a new title.
+ *
+ * \param title		String to display as a title in headings bar.
+ *
+ */
+void gsb_gui_headings_update_title (gchar *title)
+{
+	GrisbiWinPrivate *priv;
+
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (grisbi_app_get_active_window (NULL)));
+
+    grisbi_win_headings_private_update_label_markup (GTK_LABEL (priv->headings_title), title, TRUE);
+}
+
+/**
+ * Update headings bar with a new suffix.
+ *
+ * \param suffix	String to display as a suffix in headings bar.
+ *
+ */
+void gsb_gui_headings_update_suffix (gchar *suffix)
+{
+	GrisbiWinPrivate *priv;
+
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (grisbi_app_get_active_window (NULL)));
+    grisbi_win_headings_private_update_label_markup (GTK_LABEL (priv->headings_suffix), suffix, FALSE);
 }
 
 /**
