@@ -2046,13 +2046,15 @@ gboolean bet_finance_capital_entry_changed ( GtkWidget *entry, GtkWidget *page  
     const gchar *text;
     gdouble capital;
     gboolean valide;
+    GtkStyleContext* context;
 
     text = gtk_entry_get_text ( GTK_ENTRY ( entry ) );
     capital = utils_str_strtod ( text, NULL );
+    context = gtk_widget_get_style_context  (entry);
 
     if ( strlen ( text ) == 0 || capital == 0 )
     {
-		gtk_widget_modify_base ( entry, GTK_STATE_NORMAL, NULL );
+        gtk_widget_set_name (entry, "form_entry");
 	    return FALSE;
     }
 
@@ -2060,13 +2062,12 @@ gboolean bet_finance_capital_entry_changed ( GtkWidget *entry, GtkWidget *page  
     if ( valide )
     {
         /* the entry is valid, make it normal */
-	    gtk_widget_modify_base ( entry, GTK_STATE_NORMAL, NULL );
+        gtk_widget_set_name (entry, "form_entry");
     }
     else
     {
 	    /* the entry is not valid, make it red */
-		gtk_widget_modify_base ( entry, GTK_STATE_NORMAL,
-                        gsb_color_get_couleur ( "entry_error_color" ) );
+        gtk_widget_set_name (entry, "form_entry_error");
     }
 
     return FALSE;

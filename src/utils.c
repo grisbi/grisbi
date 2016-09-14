@@ -537,11 +537,11 @@ void lance_mailer ( const gchar *uri )
  * */
 void utils_set_tree_view_selection_and_text_color ( GtkWidget *tree_view )
 {
-    gtk_widget_modify_base ( tree_view, GTK_STATE_SELECTED, gsb_color_get_couleur ( "couleur_selection" ) );
-    gtk_widget_modify_base ( tree_view, GTK_STATE_ACTIVE, gsb_color_get_couleur ( "couleur_selection" ) );
+    //~ gtk_widget_modify_base ( tree_view, GTK_STATE_SELECTED, gsb_color_get_couleur ( "couleur_selection" ) );
+    //~ gtk_widget_modify_base ( tree_view, GTK_STATE_ACTIVE, gsb_color_get_couleur ( "couleur_selection" ) );
 
-    gtk_widget_modify_text ( tree_view, GTK_STATE_SELECTED, gsb_color_get_couleur_with_indice ( "text_color", 0 ) );
-    gtk_widget_modify_text ( tree_view, GTK_STATE_ACTIVE, gsb_color_get_couleur_with_indice ( "text_color", 0 ) );
+    //~ gtk_widget_modify_text ( tree_view, GTK_STATE_SELECTED, gsb_color_get_couleur_with_indice ( "text_color", 0 ) );
+    //~ gtk_widget_modify_text ( tree_view, GTK_STATE_ACTIVE, gsb_color_get_couleur_with_indice ( "text_color", 0 ) );
 }
 
 

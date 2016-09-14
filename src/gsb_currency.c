@@ -957,6 +957,7 @@ gboolean gsb_currency_select_double_amount ( GtkWidget *entry_1,
 {
     GtkWidget *entry, *entry_3, *entry_4;
     gsb_real amount_1, amount_2, taux;
+    GtkStyleContext* context;
     gboolean link_currency;
     gboolean valide;
 
@@ -975,32 +976,33 @@ gboolean gsb_currency_select_double_amount ( GtkWidget *entry_1,
         entry_4 = entry_2;
     }
 
+    context = gtk_widget_get_style_context  (entry_1);
     valide = gsb_form_widget_get_valide_amout_entry (
                 gtk_entry_get_text ( GTK_ENTRY ( entry_1 ) ) );
     if ( valide )
     {
         /* the entry is valid, make it normal */
-        gtk_widget_modify_base ( entry_1, GTK_STATE_NORMAL, NULL );
+        gtk_widget_set_name (entry_1, "form_entry");
     }
     else
     {
         /* the entry is not valid, make it red */
-        gtk_widget_modify_base ( entry_1, GTK_STATE_NORMAL,
-                        gsb_color_get_couleur ( "entry_error_color" ) );
+        gtk_widget_set_name (entry_1, "form_entry_error");
         return FALSE;
     }
+
+    context = gtk_widget_get_style_context  (entry_2);
     valide = gsb_form_widget_get_valide_amout_entry (
                 gtk_entry_get_text ( GTK_ENTRY ( entry_2 ) ) );
     if ( valide )
     {
         /* the entry is valid, make it normal */
-        gtk_widget_modify_base ( entry_2, GTK_STATE_NORMAL, NULL );
+        gtk_widget_set_name (entry_2, "form_entry");
     }
     else
     {
         /* the entry is not valid, make it red */
-        gtk_widget_modify_base ( entry_2, GTK_STATE_NORMAL,
-                        gsb_color_get_couleur ( "entry_error_color" ) );
+        gtk_widget_set_name (entry_2, "form_entry_error");
         return FALSE;
     }
 
