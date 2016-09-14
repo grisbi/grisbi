@@ -742,7 +742,7 @@ GtkWidget *bet_array_create_page ( void )
 
     /* set the start date and the automatic change of month */
     label = gtk_label_new ( _("Start date: " ) );
-    gtk_misc_set_padding ( GTK_MISC (label), 5, 0 );
+    utils_widget_set_padding (GTK_WIDGET (label), 5, 0);
     gtk_box_pack_start ( GTK_BOX (hbox), label, FALSE, FALSE, 0 );
 
     initial_date = gsb_calendar_entry_new ( FALSE );

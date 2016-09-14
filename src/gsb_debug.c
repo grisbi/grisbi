@@ -303,7 +303,7 @@ void gsb_debug_add_report_page ( GtkWidget * assistant, gint page,
 	label = gtk_label_new ( NULL );
 	gtk_label_set_line_wrap ( GTK_LABEL(label), TRUE );
 	gtk_label_set_markup ( GTK_LABEL(label), _( test -> instructions ) );
-	gtk_misc_set_padding ( GTK_MISC(label), 12, 6 );
+	utils_widget_set_padding (GTK_WIDGET (label), 12, 6);
 	gtk_container_add ( GTK_CONTAINER(expander), label );
 	gtk_box_pack_start ( GTK_BOX(vbox), expander, FALSE, FALSE, 6 );
     }

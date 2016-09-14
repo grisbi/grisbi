@@ -1086,6 +1086,27 @@ void utils_labels_set_alignement ( GtkLabel *label, gfloat xalign,
 }
 
 /**
+ * set xalign and yalign to label
+ *
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ * */
+void utils_widget_set_padding (GtkWidget *widget,
+                                gint xpad,
+                                gint ypad)
+{
+    gtk_widget_set_margin_start (widget, xpad);
+    gtk_widget_set_margin_end (widget, xpad);
+
+    gtk_widget_set_margin_top (widget, ypad);
+    gtk_widget_set_margin_bottom (widget, ypad);
+
+}
+
+/**
  *
  *
  * \param
