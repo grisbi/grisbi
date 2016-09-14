@@ -47,7 +47,6 @@
 /*START_STATIC*/
 /*END_STATIC*/
 
-
 /*START_EXTERN*/
 /*END_EXTERN*/
 
@@ -75,66 +74,6 @@ gboolean utils_event_box_change_state ( GtkWidget *event_box,
 
     return FALSE;
 }
-
-/**
- *
- *
- *
- */
-gboolean met_en_prelight ( GtkWidget *event_box,
-                        GdkEventMotion *event,
-                        gpointer pointeur )
-{
-    if ( pointeur == NULL )
-        gtk_widget_set_state ( gtk_bin_get_child ( GTK_BIN ( event_box ) ), GTK_STATE_PRELIGHT );
-    else
-    {
-        GSList *list = ( GSList* ) pointeur;
-
-        while (list )
-        {
-            GtkWidget *widget;
-
-            widget = list -> data;
-            gtk_widget_set_state ( gtk_bin_get_child ( GTK_BIN ( widget ) ), GTK_STATE_PRELIGHT );
-
-            list = list -> next;
-        }
-    }
-    return FALSE;
-}
-
-
-/**
- *
- *
- *
- */
-gboolean met_en_normal ( GtkWidget *event_box,
-                        GdkEventMotion *event,
-                        gpointer pointeur )
-{
-    if ( pointeur == NULL )
-        gtk_widget_set_state ( gtk_bin_get_child ( GTK_BIN ( event_box ) ), GTK_STATE_NORMAL );
-    else
-    {
-        GSList *list = ( GSList* ) pointeur;
-
-        while (list )
-        {
-            GtkWidget *widget;
-
-            widget = list -> data;
-
-            gtk_widget_set_state ( gtk_bin_get_child ( GTK_BIN ( widget ) ), GTK_STATE_NORMAL );
-
-            list = list -> next;
-        }
-    }
-
-    return FALSE;
-}
-
 
 /**
  * called by a "clicked" callback on a check button,
@@ -537,11 +476,11 @@ void lance_mailer ( const gchar *uri )
  * */
 void utils_set_tree_view_selection_and_text_color ( GtkWidget *tree_view )
 {
-    gtk_widget_modify_base ( tree_view, GTK_STATE_SELECTED, gsb_color_get_couleur ( "couleur_selection" ) );
-    gtk_widget_modify_base ( tree_view, GTK_STATE_ACTIVE, gsb_color_get_couleur ( "couleur_selection" ) );
+    //~ gtk_widget_modify_base ( tree_view, GTK_STATE_SELECTED, gsb_color_get_couleur ( "couleur_selection" ) );
+    //~ gtk_widget_modify_base ( tree_view, GTK_STATE_ACTIVE, gsb_color_get_couleur ( "couleur_selection" ) );
 
-    gtk_widget_modify_text ( tree_view, GTK_STATE_SELECTED, gsb_color_get_couleur_with_indice ( "text_color", 0 ) );
-    gtk_widget_modify_text ( tree_view, GTK_STATE_ACTIVE, gsb_color_get_couleur_with_indice ( "text_color", 0 ) );
+    //~ gtk_widget_modify_text ( tree_view, GTK_STATE_SELECTED, gsb_color_get_couleur_with_indice ( "text_color", 0 ) );
+    //~ gtk_widget_modify_text ( tree_view, GTK_STATE_ACTIVE, gsb_color_get_couleur_with_indice ( "text_color", 0 ) );
 }
 
 

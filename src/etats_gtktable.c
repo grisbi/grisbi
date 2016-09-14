@@ -126,23 +126,19 @@ void gtktable_attach_label ( gchar * text, gdouble properties, int x, int x2, in
     {
 	GtkWidget *event_box;
 	GdkColor color;
-
-	/* Put prelight */
-	color.red =   1.00 * 65535 ;
-	color.green = 0.00 * 65535 ;
-	color.blue =  0.00 * 65535 ;
-	color.pixel = 0;
-	style->fg[GTK_STATE_PRELIGHT] = color;
+    GtkStyleContext* context;
 
 	event_box = gtk_event_box_new ();
-	g_signal_connect ( G_OBJECT ( event_box ),
-			     "enter_notify_event",
-			     G_CALLBACK ( met_en_prelight ),
-			     NULL );
-	g_signal_connect ( G_OBJECT ( event_box ),
-			     "leave_notify_event",
-			     G_CALLBACK ( met_en_normal ),
-			     NULL );
+    gtk_widget_set_name (event_box, "accueil_nom_compte");
+    context = gtk_widget_get_style_context  (event_box);
+	g_signal_connect (G_OBJECT (event_box),
+                      "enter_notify_event",
+                      G_CALLBACK (utils_event_box_change_state),
+                      context);
+	g_signal_connect (G_OBJECT (event_box),
+                      "leave_notify_event",
+                      G_CALLBACK (utils_event_box_change_state),
+                      context);
 	g_signal_connect_swapped ( G_OBJECT ( event_box ),
 				    "button_press_event",
 				    G_CALLBACK ( gtktable_click_sur_ope_etat ),
