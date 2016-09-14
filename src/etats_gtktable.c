@@ -98,6 +98,8 @@ void gtktable_attach_label ( gchar * text, gdouble properties, int x, int x2, in
 {
     GtkWidget * label;
     GtkStyle * style;
+    gint x_dim;
+    gint y_dim;
 
     if (!text)
     {
@@ -125,12 +127,12 @@ void gtktable_attach_label ( gchar * text, gdouble properties, int x, int x2, in
     if (transaction_number)
     {
 	GtkWidget *event_box;
-	GdkColor color;
     GtkStyleContext* context;
 
 	event_box = gtk_event_box_new ();
-    gtk_widget_set_name (event_box, "accueil_nom_compte");
+    gtk_widget_set_name (event_box, "etat_event_box");
     context = gtk_widget_get_style_context  (event_box);
+    gtk_style_context_set_state ( context, GTK_STATE_FLAG_ACTIVE );
 	g_signal_connect (G_OBJECT (event_box),
                       "enter_notify_event",
                       G_CALLBACK (utils_event_box_change_state),
@@ -143,21 +145,18 @@ void gtktable_attach_label ( gchar * text, gdouble properties, int x, int x2, in
 				    "button_press_event",
 				    G_CALLBACK ( gtktable_click_sur_ope_etat ),
 				    GINT_TO_POINTER (transaction_number) );
-	gtk_table_attach ( GTK_TABLE ( table_etat ), event_box,
-			   x, x2, y, y2,
-			   GTK_SHRINK | GTK_FILL,
-			   GTK_SHRINK | GTK_FILL,
-			   0, 0 );
-	gtk_widget_show ( event_box );
+        x_dim = x2 - x;
+        y_dim = y2 - y;
+        gtk_grid_attach (GTK_GRID (table_etat), event_box, x, y, x_dim, y_dim);
+
+    gtk_widget_show ( event_box );
 	gtk_container_add ( GTK_CONTAINER ( event_box ), label );
     }
     else
     {
-	gtk_table_attach ( GTK_TABLE ( table_etat ), label,
-			   x, x2, y, y2,
-			   GTK_SHRINK | GTK_FILL,
-			   GTK_SHRINK | GTK_FILL,
-			   0, 0 );
+        x_dim = x2 - x;
+        y_dim = y2 - y;
+        gtk_grid_attach (GTK_GRID (table_etat), label, x, y, x_dim, y_dim);
     }
 
     if ( ((gint) properties) & TEXT_ITALIC)
@@ -198,14 +197,14 @@ void gtktable_attach_label ( gchar * text, gdouble properties, int x, int x2, in
 void gtktable_attach_vsep ( int x, int x2, int y, int y2)
 {
     GtkWidget * separateur;
+    gint x_dim;
+    gint y_dim;
 
     separateur = gtk_separator_new ( GTK_ORIENTATION_VERTICAL );
-    gtk_table_attach ( GTK_TABLE ( table_etat ),
-		       separateur,
-		       x, x2, y, y2,
-		       GTK_SHRINK | GTK_FILL,
-		       GTK_SHRINK | GTK_FILL,
-		       2, 0 );
+    x_dim = x2 - x;
+    y_dim = y2 - y;
+    gtk_grid_attach (GTK_GRID (table_etat), separateur, x, y, x_dim, y_dim);
+    utils_widget_set_padding ( separateur, 2,0);
     gtk_widget_show ( separateur );
 }
 
@@ -221,14 +220,13 @@ void gtktable_attach_vsep ( int x, int x2, int y, int y2)
 void gtktable_attach_hsep ( int x, int x2, int y, int y2)
 {
     GtkWidget * separateur;
+    gint x_dim;
+    gint y_dim;
 
     separateur = gtk_separator_new ( GTK_ORIENTATION_HORIZONTAL );
-    gtk_table_attach ( GTK_TABLE ( table_etat ),
-		       separateur,
-		       x, x2, y, y2,
-		       GTK_SHRINK | GTK_FILL,
-		       GTK_SHRINK | GTK_FILL,
-		       0, 0 );
+    x_dim = x2 - x;
+    y_dim = y2 - y;
+    gtk_grid_attach (GTK_GRID (table_etat), separateur, x, y, x_dim, y_dim);
     gtk_widget_show ( separateur );
 }
 
@@ -240,8 +238,8 @@ gint gtktable_initialise ( GSList * opes_selectionnees, gchar * filename )
     /* on peut maintenant créer la table */
     /* pas besoin d'indiquer la hauteur, elle grandit automatiquement */
 
-    if ( table_etat && GTK_IS_TABLE(table_etat) )
-	gtk_widget_destroy (table_etat);
+    if (table_etat && GTK_IS_GRID (table_etat))
+        gtk_widget_destroy (table_etat);
 
     if ( scrolled_window_etat && gtk_bin_get_child ( GTK_BIN ( scrolled_window_etat ) ) )
         gtk_widget_hide ( gtk_bin_get_child ( GTK_BIN ( scrolled_window_etat ) ) );
@@ -250,8 +248,8 @@ gint gtktable_initialise ( GSList * opes_selectionnees, gchar * filename )
      * while we are processing the new report */
 /*     update_gui ( );  */
 
-    table_etat = gtk_table_new ( 0, nb_colonnes, FALSE );
-    gtk_table_set_col_spacings ( GTK_TABLE ( table_etat ), 5 );
+    table_etat = gtk_grid_new ();
+    gtk_grid_set_column_spacing (GTK_GRID (table_etat), 5);
 
     return 1;
 }

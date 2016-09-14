@@ -92,3 +92,11 @@
   color: @text_color_2;
 }
 
+#etat_event_box {
+  color: @text_color_0;
+}
+
+#etat_event_box:prelight {
+  color: @couleur_solde_alarme_rouge_prelight;
+}
+
