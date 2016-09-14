@@ -151,7 +151,7 @@ GtkWidget *gsb_gui_create_general_widgets ( void )
     gtk_paned_add2 ( GTK_PANED ( hpaned_general ), gsb_gui_create_general_notebook ( ) );
     gtk_container_set_border_width ( GTK_CONTAINER ( hpaned_general ), 6 );
 
-    if ( conf.panel_width > 0 )
+    if ( conf.panel_width > 250 )
         gtk_paned_set_position ( GTK_PANED ( hpaned_general ), conf.panel_width );
     else
     {

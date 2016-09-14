@@ -575,6 +575,9 @@ GtkWidget *gsb_main_create_main_window ( void )
 {
     GtkWidget *vbox;
     GtkWidget *status_bar;
+    GdkGeometry size_hints = {
+    1200, 600, -10, -1, 1300, 750, 10, 10, 1.5, 1.5, GDK_GRAVITY_NORTH_WEST
+  };
 
     /* create the toplevel window */
     run.window = gtk_window_new ( GTK_WINDOW_TOPLEVEL );
@@ -614,6 +617,14 @@ GtkWidget *gsb_main_create_main_window ( void )
                         "destroy",
                         G_CALLBACK ( gtk_widget_destroyed ),
                         &vbox );
+
+    /* on fixe la taille mini remplacer main_box par plus pertinent.*/
+    gtk_window_set_geometry_hints (GTK_WINDOW (win),
+                                   priv->main_box,
+                                   &size_hints,
+                                   GDK_HINT_RESIZE_INC |
+                                   GDK_HINT_MIN_SIZE |
+                                   GDK_HINT_BASE_SIZE);
     gtk_widget_show ( vbox );
 
     /* We create the statusbar first. */
