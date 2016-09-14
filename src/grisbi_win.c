@@ -79,42 +79,42 @@ typedef struct _GrisbiWinPrivate GrisbiWinPrivate;
 
 struct _GrisbiWinPrivate
 {
-	GtkBuilder 			*builder;
+	GtkBuilder *        builder;
 
     /* box principale */
-    GtkWidget           *main_box;
+    GtkWidget *         main_box;
 
     /* page d'accueil affichée si pas de fichier chargé automatiquement */
-    GtkWidget           *accueil_page;
+    GtkWidget *         page_accueil;
 
     /* widget général si un fichier est chargé */
-    GtkWidget           *vbox_general;
-    GtkWidget           *hpaned_general;
+    GtkWidget *         vbox_general;
+    GtkWidget *         hpaned_general;
+    GtkWidget *         notebook_general;
 
     /* nom du fichier associé à la fenêtre */
-    gchar               *filename;
+    gchar *             filename;
 
     /* titre du fichier */
-    gchar               *file_title;
+    gchar *             file_title;
 
     /* titre de la fenêtre */
-    gchar               *window_title;
+    gchar *             window_title;
 
     /* Menus et barres d'outils */
     /* menu move-to-acc */
-    GMenu               *menu;
+    GMenu *             menu;
     gboolean            init_move_to_acc;
 
     /* statusbar */
-    GtkWidget           *statusbar;
+    GtkWidget *         statusbar;
     guint               context_id;
     guint               message_id;
 
     /* headings_bar */
-    GtkWidget           *headings_eb;
-	GtkWidget			*arrow_eb_left;
-	GtkWidget			*arrow_eb_right;
-
+    GtkWidget *         headings_eb;
+    GtkWidget *         headings_title;          /** Title for the heading bar. */
+    GtkWidget *         headings_suffix;         /** Suffix for the heading bar.  */
 
     /* variables de configuration de la fenêtre */
 /*	GrisbiWinEtat		*etat;
@@ -126,6 +126,9 @@ struct _GrisbiWinPrivate
 
 G_DEFINE_TYPE_WITH_PRIVATE(GrisbiWin, grisbi_win, GTK_TYPE_APPLICATION_WINDOW);
 
+/******************************************************************************/
+/* Private Methods                                                            */
+/******************************************************************************/
 /* STATUS_BAR */
 /**
  * initiate the GtkStatusBar to hold various status
@@ -135,14 +138,14 @@ G_DEFINE_TYPE_WITH_PRIVATE(GrisbiWin, grisbi_win, GTK_TYPE_APPLICATION_WINDOW);
  *
  * \return
  */
-static void grisbi_win_init_statusbar ( GrisbiWin *win )
+static void grisbi_win_init_statusbar (GrisbiWin *win)
 {
     GtkWidget *statusbar;
 	GrisbiWinPrivate *priv;
 
-	priv = grisbi_win_get_instance_private ( GRISBI_WIN ( win ) );
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
-    priv->context_id = gtk_statusbar_get_context_id ( GTK_STATUSBAR ( priv->statusbar ), "Grisbi" );
+    priv->context_id = gtk_statusbar_get_context_id (GTK_STATUSBAR (priv->statusbar), "Grisbi");
     priv->message_id = -1;
 }
 
@@ -158,13 +161,13 @@ static void grisbi_win_init_statusbar ( GrisbiWin *win )
  *
  * \return  TRUE.
  */
-static gboolean grisbi_win_headings_simpleclick_event_run ( GtkWidget *button,
+static gboolean grisbi_win_headings_simpleclick_event_run (GtkWidget *button,
                         GdkEvent *button_event,
-                        GCallback callback )
+                        GCallback callback)
 {
-    if ( button_event -> type == GDK_BUTTON_PRESS )
+    if (button_event -> type == GDK_BUTTON_PRESS)
     {
-        callback ( );
+        callback ();
     }
 
     return TRUE;
@@ -177,28 +180,28 @@ static gboolean grisbi_win_headings_simpleclick_event_run ( GtkWidget *button,
  *
  * \return
  */
-static void grisbi_win_init_headings_eb ( GrisbiWin *win )
+static void grisbi_win_init_headings_eb (GrisbiWin *win)
 {
     GtkStyleContext *style;
 	GrisbiWinPrivate *priv;
 
-	priv = grisbi_win_get_instance_private ( GRISBI_WIN ( win ) );
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
-    style = gtk_widget_get_style_context ( priv->headings_eb );
+    style = gtk_widget_get_style_context (priv->headings_eb);
 
-	gtk_widget_override_background_color ( priv->arrow_eb_left, GTK_STATE_FLAG_ACTIVE, NULL );
-    g_signal_connect ( G_OBJECT ( priv->arrow_eb_left ),
+	gtk_widget_override_background_color (priv->arrow_eb_left, GTK_STATE_FLAG_ACTIVE, NULL);
+    g_signal_connect (G_OBJECT (priv->arrow_eb_left),
                         "button-press-event",
-                        G_CALLBACK ( grisbi_win_headings_simpleclick_event_run ),
-                        gsb_gui_navigation_select_prev );
+                        G_CALLBACK (grisbi_win_headings_simpleclick_event_run),
+                        gsb_gui_navigation_select_prev);
 
-	gtk_widget_override_background_color ( priv->arrow_eb_right, GTK_STATE_FLAG_ACTIVE, NULL );
-    g_signal_connect ( G_OBJECT ( priv->arrow_eb_right ),
+	gtk_widget_override_background_color (priv->arrow_eb_right, GTK_STATE_FLAG_ACTIVE, NULL);
+    g_signal_connect (G_OBJECT (priv->arrow_eb_right),
                         "button-press-event",
-                        G_CALLBACK ( grisbi_win_headings_simpleclick_event_run ),
-                        gsb_gui_navigation_select_prev );
+                        G_CALLBACK (grisbi_win_headings_simpleclick_event_run),
+                        gsb_gui_navigation_select_prev);
 
-    gtk_widget_override_background_color ( priv->headings_eb, GTK_STATE_FLAG_ACTIVE, NULL );
+    gtk_widget_override_background_color (priv->headings_eb, GTK_STATE_FLAG_ACTIVE, NULL);
 }
 
 
@@ -213,17 +216,17 @@ static void grisbi_win_init_headings_eb ( GrisbiWin *win )
  *
  * \return FALSE
  * */
-static gboolean grisbi_win_change_state_window ( GtkWidget *window,
+static gboolean grisbi_win_change_state_window (GtkWidget *window,
                         GdkEventWindowState *event,
-                        gpointer null )
+                        gpointer null)
 {
     gboolean show;
 
-    if ( event->changed_mask & GDK_WINDOW_STATE_MAXIMIZED )
+    if (event->changed_mask & GDK_WINDOW_STATE_MAXIMIZED)
     {
-        show = !( event->new_window_state & GDK_WINDOW_STATE_MAXIMIZED );
+        show = !(event->new_window_state & GDK_WINDOW_STATE_MAXIMIZED);
 
-/*        gtk_window_set_has_resize_grip ( GTK_WINDOW ( window ), show );
+/*        gtk_window_set_has_resize_grip (GTK_WINDOW (window), show);
 */        conf.maximize_screen = !show;
     }
 
@@ -231,6 +234,7 @@ static gboolean grisbi_win_change_state_window ( GtkWidget *window,
     return FALSE;
 }
 
+/******************************************************************************/
 /* Fonctions propres à l'initialisation des fenêtres                          */
 /******************************************************************************/
 /**
@@ -240,23 +244,23 @@ static gboolean grisbi_win_change_state_window ( GtkWidget *window,
  *
  * \return
  **/
-static void grisbi_win_finalize ( GObject *object )
+static void grisbi_win_finalize (GObject *object)
 {
     GrisbiWinPrivate *priv;
 
     devel_debug (NULL);
-    priv = grisbi_win_get_instance_private ( GRISBI_WIN ( object ) );
+    priv = grisbi_win_get_instance_private (GRISBI_WIN (object));
 
-    g_free ( priv->filename );
+    g_free (priv->filename);
     priv->filename = NULL;
 
-    g_free ( priv->file_title );
+    g_free (priv->file_title);
     priv->file_title = NULL;
 
-    g_free ( priv->window_title );
+    g_free (priv->window_title);
     priv->window_title = NULL;
 
-    G_OBJECT_CLASS (grisbi_win_parent_class)->finalize ( object );
+    G_OBJECT_CLASS (grisbi_win_parent_class)->finalize (object);
 }
 
 /**
@@ -266,17 +270,17 @@ static void grisbi_win_finalize ( GObject *object )
  *
  * \return
  **/
-static void grisbi_win_dispose ( GObject *object )
+static void grisbi_win_dispose (GObject *object)
 {
-    GrisbiWin *win = GRISBI_WIN ( object );
+    GrisbiWin *win = GRISBI_WIN (object);
     GrisbiWinPrivate *priv;
 
-    priv = grisbi_win_get_instance_private ( GRISBI_WIN ( win ) );
+    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
-    g_clear_object ( &priv->builder );
-    g_clear_object ( &priv->menu );
+    g_clear_object (&priv->builder);
+    g_clear_object (&priv->menu);
 
-    G_OBJECT_CLASS (grisbi_win_parent_class)->dispose ( object );
+    G_OBJECT_CLASS (grisbi_win_parent_class)->dispose (object);
 }
 
 /**
@@ -286,27 +290,27 @@ static void grisbi_win_dispose ( GObject *object )
  *
  * \return
  **/
-static void grisbi_win_init ( GrisbiWin *win )
+static void grisbi_win_init (GrisbiWin *win)
 {
 	GrisbiWinPrivate *priv;
 	GtkWidget *statusbar;
     GtkWidget *headings_eb;
 
-	priv = grisbi_win_get_instance_private ( GRISBI_WIN ( win ) );
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
     priv->filename = NULL;
     priv->file_title = NULL;
     priv->window_title = NULL;
 
-	gtk_widget_init_template ( GTK_WIDGET ( win ) );
+	gtk_widget_init_template (GTK_WIDGET (win));
 
 	/* initialisation de la barre d'état */
-/*	grisbi_win_init_statusbar ( GRISBI_WIN ( win ) );
+/*	grisbi_win_init_statusbar (GRISBI_WIN (win));
 */
 	/* initialisation de headings_eb */
-/*	grisbi_win_init_headings_eb ( GRISBI_WIN ( win ) );
+/*	grisbi_win_init_headings_eb (GRISBI_WIN (win));
 */
-	run.window = GTK_WIDGET ( win );
+	run.window = GTK_WIDGET (win);
 }
 
 /**
@@ -316,7 +320,7 @@ static void grisbi_win_init ( GrisbiWin *win )
  *
  * \return
  **/
-static void grisbi_win_class_init ( GrisbiWinClass *klass )
+static void grisbi_win_class_init (GrisbiWinClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS (klass);
     GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
@@ -327,19 +331,19 @@ static void grisbi_win_class_init ( GrisbiWinClass *klass )
 	gtk_widget_class_set_template_from_resource (GTK_WIDGET_CLASS (klass),
                                                "/org/gtk/grisbi/ui/grisbi_win.ui");
 
-	gtk_widget_class_bind_template_child_private ( GTK_WIDGET_CLASS ( klass ), GrisbiWin, main_box );
-/*	gtk_widget_class_bind_template_child_private ( GTK_WIDGET_CLASS ( klass ), GrisbiWin, headings_eb );
-	gtk_widget_class_bind_template_child_private ( GTK_WIDGET_CLASS ( klass ), GrisbiWin, arrow_eb_left );
-	gtk_widget_class_bind_template_child_private ( GTK_WIDGET_CLASS ( klass ), GrisbiWin, arrow_eb_right );
-*/	gtk_widget_class_bind_template_child_private ( GTK_WIDGET_CLASS ( klass ), GrisbiWin, statusbar );
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, main_box);
+/*	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, headings_eb);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, arrow_eb_left);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, arrow_eb_right);
+*/	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, statusbar);
 
     /* signaux */
-    gtk_widget_class_bind_template_callback ( GTK_WIDGET_CLASS ( klass ), grisbi_win_change_state_window );
+    gtk_widget_class_bind_template_callback (GTK_WIDGET_CLASS (klass), grisbi_win_change_state_window);
 }
 
-/*******************************************************************************
- * Public Methods
- ******************************************************************************/
+/******************************************************************************/
+/* Public Methods                                                             */
+/******************************************************************************/
 /**
  *
  *
@@ -347,14 +351,14 @@ static void grisbi_win_class_init ( GrisbiWinClass *klass )
  *
  * \return
  **/
-const gchar *grisbi_win_get_filename ( GrisbiWin *win )
+const gchar *grisbi_win_get_filename (GrisbiWin *win)
 {
 	GrisbiWinPrivate *priv;
 
-	if ( win == NULL )
-		win = grisbi_app_get_active_window ( NULL );
+	if (win == NULL)
+		win = grisbi_app_get_active_window (NULL);
 
-	priv = grisbi_win_get_instance_private ( GRISBI_WIN ( win ) );
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
 	return priv->filename;
 }
@@ -366,16 +370,16 @@ const gchar *grisbi_win_get_filename ( GrisbiWin *win )
  *
  * \return
  **/
-void grisbi_win_set_filename ( GrisbiWin *win,
-						const gchar *filename )
+void grisbi_win_set_filename (GrisbiWin *win,
+						const gchar *filename)
 {
 	GrisbiWinPrivate *priv;
 
-	if ( !win )
-        win = grisbi_app_get_active_window ( NULL );
+	if (!win)
+        win = grisbi_app_get_active_window (NULL);
 
-	priv = grisbi_win_get_instance_private ( GRISBI_WIN ( win ) );
-	priv->filename = g_strdup ( filename );
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+	priv->filename = g_strdup (filename);
 }
 
 /**
@@ -385,11 +389,11 @@ void grisbi_win_set_filename ( GrisbiWin *win,
  *
  * \return main_box
  **/
-GtkWidget *grisbi_win_get_main_box ( GrisbiWin *win )
+GtkWidget *grisbi_win_get_main_box (GrisbiWin *win)
 {
 	GrisbiWinPrivate *priv;
 
-	priv = grisbi_win_get_instance_private ( GRISBI_WIN ( win ) );
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
     return priv->main_box;
 }
 
@@ -402,8 +406,8 @@ GtkWidget *grisbi_win_get_main_box ( GrisbiWin *win )
  *
  * \return
  **/
-void grisbi_win_init_menubar ( GrisbiWin *win,
-						gpointer app )
+void grisbi_win_init_menubar (GrisbiWin *win,
+						gpointer app)
 {
 	GrisbiWinPrivate *priv;
 	GAction *action;
@@ -435,25 +439,25 @@ void grisbi_win_init_menubar ( GrisbiWin *win,
     };
     gchar **tmp = items;
 
-	priv = grisbi_win_get_instance_private ( GRISBI_WIN ( win ) );
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
 	/* initialisations sub menus */
-	action = g_action_map_lookup_action ( G_ACTION_MAP ( win ), "show-form");
-    g_action_change_state ( G_ACTION ( action ), g_variant_new_boolean ( conf.formulaire_toujours_affiche ) );
-	action = g_action_map_lookup_action ( G_ACTION_MAP ( win ), "show-closed-acc");
-    g_action_change_state ( G_ACTION ( action ), g_variant_new_boolean ( conf.show_closed_accounts ) );
+	action = g_action_map_lookup_action (G_ACTION_MAP (win), "show-form");
+    g_action_change_state (G_ACTION (action), g_variant_new_boolean (conf.formulaire_toujours_affiche));
+	action = g_action_map_lookup_action (G_ACTION_MAP (win), "show-closed-acc");
+    g_action_change_state (G_ACTION (action), g_variant_new_boolean (conf.show_closed_accounts));
 
 	/* disabled menus */
-    while ( *tmp )
+    while (*tmp)
     {
-        gsb_menu_gui_sensitive_win_menu_item ( *tmp, FALSE );
+        gsb_menu_gui_sensitive_win_menu_item (*tmp, FALSE);
 
         tmp++;
     }
 
     /* sensibilise le menu preferences */
     action = grisbi_app_get_prefs_action ();
-    g_simple_action_set_enabled ( G_SIMPLE_ACTION ( action ), FALSE );
+    g_simple_action_set_enabled (G_SIMPLE_ACTION (action), FALSE);
 }
 
 /**
@@ -463,41 +467,41 @@ void grisbi_win_init_menubar ( GrisbiWin *win,
  *
  * \return
  **/
-void grisbi_win_menu_move_to_acc_delete ( void )
+void grisbi_win_menu_move_to_acc_delete (void)
 {
     GrisbiWin *win;
     GrisbiWinPrivate *priv;
     GMenu *menu;
     GSList *tmp_list;
 
-    win = grisbi_app_get_active_window ( NULL );
-    priv = grisbi_win_get_instance_private ( GRISBI_WIN ( win ) );
+    win = grisbi_app_get_active_window (NULL);
+    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
-    if ( priv->init_move_to_acc == FALSE )
+    if (priv->init_move_to_acc == FALSE)
         return;
 
     tmp_list = gsb_data_account_get_list_accounts ();
-    while ( tmp_list )
+    while (tmp_list)
     {
         gint i;
 
-        i = gsb_data_account_get_no_account ( tmp_list -> data );
+        i = gsb_data_account_get_no_account (tmp_list -> data);
 
-        if ( !gsb_data_account_get_closed_account ( i ) )
+        if (!gsb_data_account_get_closed_account (i))
         {
             gchar *tmp_name;
 
-            tmp_name = g_strdup_printf ( "move-to-acc%d", i );
-            g_action_map_remove_action ( G_ACTION_MAP ( win ), tmp_name );
+            tmp_name = g_strdup_printf ("move-to-acc%d", i);
+            g_action_map_remove_action (G_ACTION_MAP (win), tmp_name);
 
-            g_free ( tmp_name );
+            g_free (tmp_name);
         }
         tmp_list = tmp_list -> next;
     }
 
     menu = grisbi_app_get_menu_edit ();
 
-    g_menu_remove ( menu, 3 );
+    g_menu_remove (menu, 3);
     priv->init_move_to_acc = FALSE;
 }
 
@@ -508,7 +512,7 @@ void grisbi_win_menu_move_to_acc_delete ( void )
  *
  * \return
  **/
-void grisbi_win_menu_move_to_acc_new ( void )
+void grisbi_win_menu_move_to_acc_new (void)
 {
     GrisbiWin *win;
     GrisbiWinPrivate *priv;
@@ -520,59 +524,59 @@ void grisbi_win_menu_move_to_acc_new ( void )
     gchar *label;
     gchar *action_name;
 
-    win = grisbi_app_get_active_window ( NULL );
-    priv = grisbi_win_get_instance_private ( GRISBI_WIN ( win ) );
+    win = grisbi_app_get_active_window (NULL);
+    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
     menu = grisbi_app_get_menu_edit ();
 
     submenu = g_menu_new ();
 
     tmp_list = gsb_data_account_get_list_accounts ();
-    while ( tmp_list )
+    while (tmp_list)
     {
         gint i;
 
-        i = gsb_data_account_get_no_account ( tmp_list -> data );
+        i = gsb_data_account_get_no_account (tmp_list -> data);
 
-        if ( !gsb_data_account_get_closed_account ( i ) )
+        if (!gsb_data_account_get_closed_account (i))
         {
             gchar *tmp_name;
             gchar *account_name;
             gchar *action_name;
 
-            tmp_name = g_strdup_printf ( "move-to-acc%d", i );
-            account_name = gsb_data_account_get_name ( i );
-            if ( !account_name )
+            tmp_name = g_strdup_printf ("move-to-acc%d", i);
+            account_name = gsb_data_account_get_name (i);
+            if (!account_name)
                 account_name = _("Unnamed account");
 
-            action = (GAction *) g_simple_action_new ( tmp_name, NULL );
-            g_signal_connect ( action,
+            action = (GAction *) g_simple_action_new (tmp_name, NULL);
+            g_signal_connect (action,
                         "activate",
-                        G_CALLBACK ( grisbi_cmd_move_to_account_menu ),
-                        GINT_TO_POINTER ( i ) );
-            g_simple_action_set_enabled ( G_SIMPLE_ACTION ( action ), FALSE );
+                        G_CALLBACK (grisbi_cmd_move_to_account_menu),
+                        GINT_TO_POINTER (i));
+            g_simple_action_set_enabled (G_SIMPLE_ACTION (action), FALSE);
 
-            g_action_map_add_action ( G_ACTION_MAP ( grisbi_app_get_active_window ( NULL ) ), action );
-            g_object_unref ( G_OBJECT ( action ) );
+            g_action_map_add_action (G_ACTION_MAP (grisbi_app_get_active_window (NULL)), action);
+            g_object_unref (G_OBJECT (action));
 
             action_name = g_strconcat ("win.", tmp_name, NULL);
-            g_menu_append ( submenu, account_name, action_name );
+            g_menu_append (submenu, account_name, action_name);
 
-            g_free ( tmp_name );
-            g_free ( action_name );
+            g_free (tmp_name);
+            g_free (action_name);
         }
 
         tmp_list = tmp_list -> next;
     }
 
-    menu_item = g_menu_item_new_submenu ( _("Move transaction to another account"), (GMenuModel*) submenu );
-    g_menu_item_set_detailed_action ( menu_item, "win.move-to-acc" );
-    action = g_action_map_lookup_action ( G_ACTION_MAP ( win ), "move-to-acc" );
-    g_simple_action_set_enabled ( G_SIMPLE_ACTION ( action ), FALSE );
+    menu_item = g_menu_item_new_submenu (_("Move transaction to another account"), (GMenuModel*) submenu);
+    g_menu_item_set_detailed_action (menu_item, "win.move-to-acc");
+    action = g_action_map_lookup_action (G_ACTION_MAP (win), "move-to-acc");
+    g_simple_action_set_enabled (G_SIMPLE_ACTION (action), FALSE);
 
-    g_menu_insert_item ( G_MENU ( menu ), 3, menu_item );
-    g_object_unref ( menu_item );
-    g_object_unref ( submenu );
+    g_menu_insert_item (G_MENU (menu), 3, menu_item);
+    g_object_unref (menu_item);
+    g_object_unref (submenu);
     priv->init_move_to_acc = TRUE;
 }
 
@@ -583,7 +587,7 @@ void grisbi_win_menu_move_to_acc_new ( void )
  *
  * \return
  **/
-void grisbi_win_menu_move_to_acc_update ( gboolean active )
+void grisbi_win_menu_move_to_acc_update (gboolean active)
 {
     GrisbiWin *win;
     GAction *action;
@@ -591,37 +595,37 @@ void grisbi_win_menu_move_to_acc_update ( gboolean active )
     gint current_account;
     static gboolean flag_active = FALSE;
 
-    if ( flag_active == active )
+    if (flag_active == active)
         return;
 
-    win = grisbi_app_get_active_window ( NULL );
+    win = grisbi_app_get_active_window (NULL);
 
     tmp_list = gsb_data_account_get_list_accounts ();
-    while ( tmp_list )
+    while (tmp_list)
     {
         gint i;
 
-        i = gsb_data_account_get_no_account ( tmp_list -> data );
+        i = gsb_data_account_get_no_account (tmp_list -> data);
 
-        if ( !gsb_data_account_get_closed_account ( i ) )
+        if (!gsb_data_account_get_closed_account (i))
         {
             gchar *tmp_name;
 
-            tmp_name = g_strdup_printf ( "move-to-acc%d", i );
-            action = g_action_map_lookup_action ( G_ACTION_MAP ( win ), tmp_name );
+            tmp_name = g_strdup_printf ("move-to-acc%d", i);
+            action = g_action_map_lookup_action (G_ACTION_MAP (win), tmp_name);
 
-            if ( gsb_gui_navigation_get_current_account () == i )
+            if (gsb_gui_navigation_get_current_account () == i)
             {
-                g_simple_action_set_enabled ( G_SIMPLE_ACTION ( action ), FALSE );
+                g_simple_action_set_enabled (G_SIMPLE_ACTION (action), FALSE);
                 tmp_list = tmp_list -> next;
                 continue;
             }
-            if ( active )
-                g_simple_action_set_enabled ( G_SIMPLE_ACTION ( action ), TRUE );
+            if (active)
+                g_simple_action_set_enabled (G_SIMPLE_ACTION (action), TRUE);
             else
-                g_simple_action_set_enabled ( G_SIMPLE_ACTION ( action ), FALSE );
+                g_simple_action_set_enabled (G_SIMPLE_ACTION (action), FALSE);
 
-            g_free ( tmp_name );
+            g_free (tmp_name);
         }
         tmp_list = tmp_list -> next;
     }
@@ -636,72 +640,72 @@ void grisbi_win_menu_move_to_acc_update ( gboolean active )
  *
  * \return			TRUE if OK, FALSE otherwise
  * */
-gboolean grisbi_win_set_grisbi_title ( gint account_number )
+gboolean grisbi_win_set_grisbi_title (gint account_number)
 {
     gchar *titre_grisbi = NULL;
     gchar *titre = NULL;
     gint tmp_number;
     gboolean return_value;
 
-    if ( nom_fichier_comptes == NULL )
+    if (nom_fichier_comptes == NULL)
     {
-        titre_grisbi = g_strdup ( _("Grisbi") );
+        titre_grisbi = g_strdup (_("Grisbi"));
         return_value = TRUE;
     }
     else
     {
-        switch ( conf.display_grisbi_title )
+        switch (conf.display_grisbi_title)
         {
             case GSB_ACCOUNTS_TITLE:
-                if ( titre_fichier && strlen ( titre_fichier ) )
-                    titre = g_strdup ( titre_fichier );
+                if (titre_fichier && strlen (titre_fichier))
+                    titre = g_strdup (titre_fichier);
             break;
             case GSB_ACCOUNT_HOLDER:
             {
-                if ( account_number == -1 )
+                if (account_number == -1)
                     tmp_number = gsb_data_account_first_number ();
                 else
                     tmp_number = account_number;
 
-                if ( tmp_number == -1 )
+                if (tmp_number == -1)
                 {
-                    if ( titre_fichier && strlen ( titre_fichier ) )
-                        titre = g_strdup ( titre_fichier );
+                    if (titre_fichier && strlen (titre_fichier))
+                        titre = g_strdup (titre_fichier);
                 }
                 else
                 {
-                    titre = g_strdup ( gsb_data_account_get_holder_name ( tmp_number ) );
+                    titre = g_strdup (gsb_data_account_get_holder_name (tmp_number));
 
-                    if ( titre == NULL )
-                        titre = g_strdup ( gsb_data_account_get_name ( tmp_number ) );
+                    if (titre == NULL)
+                        titre = g_strdup (gsb_data_account_get_name (tmp_number));
                 }
             break;
             }
             case GSB_ACCOUNTS_FILE:
-                if ( nom_fichier_comptes && strlen ( nom_fichier_comptes ) )
-                    titre = g_path_get_basename ( nom_fichier_comptes );
+                if (nom_fichier_comptes && strlen (nom_fichier_comptes))
+                    titre = g_path_get_basename (nom_fichier_comptes);
             break;
         }
 
-        if ( titre && strlen ( titre ) > 0 )
+        if (titre && strlen (titre) > 0)
         {
-            titre_grisbi = g_strconcat ( titre, " - ", _("Grisbi"), NULL );
-            g_free ( titre );
+            titre_grisbi = g_strconcat (titre, " - ", _("Grisbi"), NULL);
+            g_free (titre);
 
             return_value = TRUE;
         }
         else
         {
-            titre_grisbi = g_strconcat ( "<", _("unnamed"), ">", NULL );
+            titre_grisbi = g_strconcat ("<", _("unnamed"), ">", NULL);
             return_value = FALSE;
         }
     }
-    gtk_window_set_title ( GTK_WINDOW ( run.window ), titre_grisbi );
+    gtk_window_set_title (GTK_WINDOW (run.window), titre_grisbi);
 
-    if ( titre_grisbi && strlen ( titre_grisbi ) > 0 )
+    if (titre_grisbi && strlen (titre_grisbi) > 0)
     {
-        gsb_main_page_update_homepage_title ( titre_grisbi );
-        g_free ( titre_grisbi );
+        gsb_main_page_update_homepage_title (titre_grisbi);
+        g_free (titre_grisbi);
     }
 
     return return_value;
@@ -714,14 +718,14 @@ gboolean grisbi_win_set_grisbi_title ( gint account_number )
  *
  * \return
  * */
-void grisbi_win_set_size_and_position ( GtkWindow *win )
+void grisbi_win_set_size_and_position (GtkWindow *win)
 {
 	GrisbiWinPrivate *priv;
     GdkGeometry size_hints = {
     1200, 600, -10, -1, 1300, 750, 10, 10, 1.5, 1.5, GDK_GRAVITY_NORTH_WEST
   };
 
-    priv = grisbi_win_get_instance_private ( GRISBI_WIN ( win ) );
+    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
     /* on fixe la taille mini remplacer main_box par plus pertinent.*/
     gtk_window_set_geometry_hints (GTK_WINDOW (win),
@@ -731,21 +735,21 @@ void grisbi_win_set_size_and_position ( GtkWindow *win )
                                    GDK_HINT_MIN_SIZE |
                                    GDK_HINT_BASE_SIZE);
     /* set the size of the window */
-    if ( conf.main_width && conf.main_height )
-        gtk_window_set_default_size ( GTK_WINDOW ( win ), conf.main_width, conf.main_height );
+    if (conf.main_width && conf.main_height)
+        gtk_window_set_default_size (GTK_WINDOW (win), conf.main_width, conf.main_height);
     else
-        gtk_window_set_default_size ( GTK_WINDOW ( win ), 900, 600 );
+        gtk_window_set_default_size (GTK_WINDOW (win), 900, 600);
 
     /* display window at position */
-    gtk_window_move ( GTK_WINDOW ( win ), conf.x_position, conf.y_position );
+    gtk_window_move (GTK_WINDOW (win), conf.x_position, conf.y_position);
 
     /* set the full screen if necessary */
-    if ( conf.full_screen )
-        gtk_window_fullscreen ( GTK_WINDOW ( win ) );
+    if (conf.full_screen)
+        gtk_window_fullscreen (GTK_WINDOW (win));
 
     /* put up the screen if necessary */
-    if ( conf.maximize_screen )
-        gtk_window_maximize ( GTK_WINDOW ( win ) );
+    if (conf.maximize_screen)
+        gtk_window_maximize (GTK_WINDOW (win));
 }
 
 /**
