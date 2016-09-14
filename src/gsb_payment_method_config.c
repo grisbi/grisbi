@@ -52,6 +52,7 @@
 #include "traitement_variables.h"
 #include "transaction_list.h"
 #include "utils.h"
+#include "utils_buttons.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -214,7 +215,7 @@ GtkWidget *gsb_payment_method_config_create ( void )
 			 FALSE, FALSE, 0 );
 
     /* "Add payment method" button */
-    bouton_ajouter_type = gtk_button_new_from_stock ("gtk-add");
+    bouton_ajouter_type = utils_buttons_button_new_from_stock ("gtk-add", _("Add"));
     gtk_button_set_relief ( GTK_BUTTON ( bouton_ajouter_type ),
 			    GTK_RELIEF_NONE );
     g_signal_connect ( G_OBJECT ( bouton_ajouter_type ),
@@ -225,7 +226,7 @@ GtkWidget *gsb_payment_method_config_create ( void )
 			 TRUE, FALSE, 5 );
 
     /* "Remove payment method" button */
-    payment_remove_button = gtk_button_new_from_stock ("gtk-remove");
+    payment_remove_button = utils_buttons_button_new_from_stock ("gtk-remove", _("Remove"));
     gtk_button_set_relief ( GTK_BUTTON ( payment_remove_button ),
 			    GTK_RELIEF_NONE );
     gtk_widget_set_sensitive ( payment_remove_button, FALSE );
@@ -242,86 +243,62 @@ GtkWidget *gsb_payment_method_config_create ( void )
     gtk_widget_set_sensitive ( details_paddingbox, FALSE );
 
     /* Payment method name */
-    table = gtk_table_new ( 3, 3, FALSE );
-    gtk_table_set_col_spacings ( GTK_TABLE ( table ), 6 );
-    gtk_table_set_row_spacings ( GTK_TABLE ( table ), 6 );
+    table = gtk_grid_new ();
+    gtk_grid_set_column_spacing (GTK_GRID (table), 6);
+    gtk_grid_set_row_spacing (GTK_GRID (table), 6);
     gtk_box_pack_start ( GTK_BOX ( details_paddingbox ), table,
 			 TRUE, TRUE, 6 );
 
     label = gtk_label_new ( _("Name: ") );
     utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       label, 0, 1, 0, 1,
-		       GTK_SHRINK | GTK_FILL, 0,
-		       0, 0 );
+    gtk_grid_attach (GTK_GRID (table), label, 0, 0, 1, 1);
     payment_name_entry = gsb_autofunc_entry_new ( NULL,
                         G_CALLBACK (gsb_payment_method_config_name_changed),
                         payment_method_treeview,
                         G_CALLBACK (gsb_data_payment_set_name), 0 );
     gtk_widget_set_size_request ( payment_name_entry, width_entry, -1 );
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       payment_name_entry, 1, 2, 0, 1,
-		       GTK_EXPAND | GTK_FILL, 0,
-		       0, 0 );
+    gtk_grid_attach (GTK_GRID (table), payment_name_entry, 1, 0, 1, 1);
 
     /* button show entry, automatic numbering button will be shown only if entry is showed */
     button_show_entry = gsb_autofunc_checkbutton_new ( _("Need entry field"),
 						       FALSE,
 						       G_CALLBACK (gsb_payment_method_config_show_entry_changed), payment_method_treeview,
 						       G_CALLBACK (gsb_data_payment_set_show_entry), 0 );
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       button_show_entry, 2, 3, 0, 1,
-		       GTK_SHRINK | GTK_FILL, 0,
-		       0, 0 );
+    gtk_grid_attach (GTK_GRID (table), button_show_entry, 2, 0, 1, 1);
 
 
     /* Automatic numbering */
     label = gtk_label_new ( _("Automatic numbering: ") );
     utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       label, 0, 1, 1, 2,
-		       GTK_SHRINK | GTK_FILL, 0,
-		       0, 0 );
+    gtk_grid_attach (GTK_GRID (table), label, 0, 1, 1, 1);
     payment_last_number_entry = gsb_autofunc_spin_new ( 0,
 						G_CALLBACK (gsb_payment_method_config_auto_entry_changed),
                         payment_method_treeview,
 						G_CALLBACK (gsb_data_payment_set_last_number_from_int),
                         0 );
     gtk_widget_set_size_request ( payment_last_number_entry, width_entry, -1 );
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       payment_last_number_entry, 1, 2, 1, 2,
-		       GTK_EXPAND | GTK_FILL, 0,
-		       0, 0 );
+    gtk_grid_attach (GTK_GRID (table), payment_last_number_entry, 1, 1, 1, 1);
 
     /* button automatic numbering, activate it sensitive the automatic numbering entry */
     button_auto_numbering = gsb_autofunc_checkbutton_new ( _("Activate"),
 							   FALSE,
 							   G_CALLBACK (gsb_payment_method_config_auto_button_changed), payment_method_treeview,
 							   G_CALLBACK (gsb_data_payment_set_automatic_numbering), 0 );
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       button_auto_numbering, 2, 3, 1, 2,
-		       GTK_SHRINK | GTK_FILL, 0,
-		       0, 0 );
+    gtk_grid_attach (GTK_GRID (table), button_auto_numbering, 2, 1, 1, 1);
 
     /* Payment method method_ptr */
     label = gtk_label_new ( _("Type: ") );
     utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       label, 0, 1, 2, 3,
-		       GTK_SHRINK | GTK_FILL, 0,
-		       0, 0 );
+    gtk_grid_attach (GTK_GRID (table), label, 0, 2, 1, 1);
 
     /* Create menu */
     payment_sign_button = gsb_combo_box_new_with_index  ( payment_sign_list,
                                 G_CALLBACK ( gsb_payment_method_config_sign_changed ),
                                 NULL );
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       payment_sign_button, 1, 3, 2, 3,
-		       GTK_EXPAND | GTK_FILL, 0,
-		       0, 0 );
+    gtk_grid_attach (GTK_GRID (table), payment_sign_button, 1, 2, 2, 1);
 
     /** Do not set this tab sensitive is no account file is opened. */
     if ( !gsb_data_account_get_accounts_amount () )

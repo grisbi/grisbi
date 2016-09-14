@@ -134,9 +134,9 @@ GtkWidget *gsb_reconcile_config_create ( void )
 					  GTK_SHADOW_IN);
 
     /* need to create first the table to set it in the arg of the changed signal of selection */
-    table_selection = gtk_table_new ( 4, 3, FALSE );
-    gtk_table_set_row_spacings ( GTK_TABLE ( table_selection ), 6 );
-    gtk_table_set_col_spacings ( GTK_TABLE ( table_selection ), 6 );
+    table_selection = gtk_grid_new ();
+    gtk_grid_set_row_spacing (GTK_GRID (table_selection), 6);
+    gtk_grid_set_column_spacing (GTK_GRID (table_selection), 6);
 
     /* create the model */
     reconcile_model = gtk_tree_store_new ( NUM_RECONCILIATION_COLUMNS,
@@ -199,43 +199,37 @@ GtkWidget *gsb_reconcile_config_create ( void )
 	label = gtk_label_new ( _("Reconciliation reference: ") );
 	utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
-	gtk_table_attach ( GTK_TABLE ( table_selection ), label, 0, 1, 0, 1,
-			GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+	gtk_grid_attach (GTK_GRID (table_selection), label, 0, 0, 1, 1);
 
 	reconcile_name_entry = gsb_autofunc_entry_new ( NULL,
 			G_CALLBACK (gsb_reconcile_config_update_line), reconcile_treeview,
 			G_CALLBACK (gsb_data_reconcile_set_name), 0 );
     gtk_widget_set_size_request ( reconcile_name_entry, width_entry, -1 );
-	gtk_table_attach ( GTK_TABLE ( table_selection ), reconcile_name_entry, 1, 2, 0, 1,
-			GTK_EXPAND | GTK_FILL, 0, 10, 0 );
+	gtk_grid_attach (GTK_GRID (table_selection), reconcile_name_entry, 1, 0, 1, 1);
 
 	/* set the initial date */
 	label = gtk_label_new ( _("Initial date: ") );
 	utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
-	gtk_table_attach ( GTK_TABLE ( table_selection ), label, 0, 1, 1, 2,
-			GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+	gtk_grid_attach (GTK_GRID (table_selection), label, 0, 1, 1, 1);
 
 	reconcile_init_date_entry = gsb_autofunc_date_new ( NULL,
 			G_CALLBACK (gsb_reconcile_config_update_line), reconcile_treeview,
 			G_CALLBACK (gsb_data_reconcile_set_init_date), 0 );
     gtk_widget_set_size_request ( reconcile_init_date_entry, width_entry, -1 );
-	gtk_table_attach ( GTK_TABLE ( table_selection ), reconcile_init_date_entry, 1, 2, 1, 2,
-			GTK_EXPAND | GTK_FILL, 0, 10, 0 );
+	gtk_grid_attach (GTK_GRID (table_selection), reconcile_init_date_entry, 1, 1, 1, 1);
 
     /* set the final date */
 	label = gtk_label_new ( _("Final date: ") );
 	utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
-	gtk_table_attach ( GTK_TABLE ( table_selection ), label, 0, 1, 2, 3,
-			GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+	gtk_grid_attach (GTK_GRID (table_selection), label, 0, 2, 1, 1);
 
 	reconcile_final_date_entry = gsb_autofunc_date_new ( NULL,
 			G_CALLBACK (gsb_reconcile_config_update_line), reconcile_treeview,
 			G_CALLBACK (gsb_data_reconcile_set_final_date), 0 );
     gtk_widget_set_size_request ( reconcile_final_date_entry, width_entry, -1 );
-	gtk_table_attach ( GTK_TABLE ( table_selection ), reconcile_final_date_entry, 1, 2, 2, 3,
-			GTK_EXPAND | GTK_FILL, 0, 10, 0 );
+	gtk_grid_attach (GTK_GRID (table_selection), reconcile_final_date_entry, 1, 2, 1, 1);
 
     /* set the delete button */
 	delete_reconcile_button = gtk_button_new_with_label (_("Delete the reconcile"));
@@ -244,36 +238,31 @@ GtkWidget *gsb_reconcile_config_create ( void )
 	g_signal_connect ( G_OBJECT (delete_reconcile_button), "clicked",
 			G_CALLBACK (gsb_reconcile_config_delete),
 			reconcile_treeview );
-	gtk_table_attach ( GTK_TABLE ( table_selection ), delete_reconcile_button, 2, 4, 0, 1,
-			GTK_EXPAND | GTK_FILL, 0, 0, 0 );
+	gtk_grid_attach (GTK_GRID (table_selection), delete_reconcile_button, 2, 0, 2, 1);
 
 	/* set the initial balance */
 	label = gtk_label_new ( _("Initial balance: ") );
 	utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
-	gtk_table_attach ( GTK_TABLE ( table_selection ), label, 2, 3, 1, 2,
-			GTK_SHRINK | GTK_FILL, 0, 10, 0 );
+	gtk_grid_attach (GTK_GRID (table_selection), label, 2, 1, 1, 1);
 
 	reconcile_init_balance_entry = gsb_autofunc_real_new ( null_real,
 			G_CALLBACK (gsb_reconcile_config_update_line), reconcile_treeview,
 			G_CALLBACK (gsb_data_reconcile_set_init_balance), 0 );
     gtk_widget_set_size_request ( reconcile_init_balance_entry, width_entry, -1 );
-	gtk_table_attach ( GTK_TABLE ( table_selection ), reconcile_init_balance_entry, 3, 4, 1, 2,
-			GTK_EXPAND | GTK_FILL, 0, 0, 0 );
+	gtk_grid_attach (GTK_GRID (table_selection), reconcile_init_balance_entry, 3, 1, 1, 1);
 
     /* set the final balance */
 	label = gtk_label_new ( _("Final balance: ") );
 	utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
-	gtk_table_attach ( GTK_TABLE ( table_selection ), label, 2, 3, 2, 3,
-			GTK_SHRINK | GTK_FILL, 0, 10, 0 );
+	gtk_grid_attach (GTK_GRID (table_selection), label, 2, 2, 1, 1);
 
 	reconcile_final_balance_entry = gsb_autofunc_real_new ( null_real,
 			G_CALLBACK (gsb_reconcile_config_update_line), reconcile_treeview,
 			G_CALLBACK (gsb_data_reconcile_set_final_balance), 0 );
     gtk_widget_set_size_request ( reconcile_final_balance_entry, width_entry, -1 );
-    gtk_table_attach ( GTK_TABLE ( table_selection ), reconcile_final_balance_entry, 3, 4, 2, 3,
-			GTK_EXPAND | GTK_FILL, 0, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table_selection), reconcile_final_balance_entry, 3, 2, 1, 1);
 
 	/* at the beginning, the table is unsensitive */
 	gtk_widget_set_sensitive ( table_selection, FALSE );

@@ -1250,7 +1250,7 @@ GtkWidget *gsb_transaction_list_config_create_buttons_table ( GtkWidget *tree_vi
     gint row, column;
 
     /* the table is 3x6 buttons */
-    table = gtk_table_new ( 3, 6, FALSE );
+    table = gtk_grid_new ();
 
     for ( row=0 ; row < 3 ; row++ )
 	for ( column = 0 ; column < 6 ; column++ )
@@ -1273,10 +1273,7 @@ GtkWidget *gsb_transaction_list_config_create_buttons_table ( GtkWidget *tree_vi
                         "toggled",
                         G_CALLBACK ( gsb_transaction_list_config_toggle_element_button ),
                         tree_view );
-            gtk_table_attach_defaults ( GTK_TABLE ( table ),
-                        list_config_buttons[current_number],
-                        column, column+1,
-                        row, row+1 );
+            gtk_grid_attach (GTK_GRID (table), list_config_buttons[current_number], column, row, 1,1);
 
             /* set the tooltip with the real name */
             gtk_widget_set_tooltip_text ( GTK_WIDGET ( list_config_buttons[current_number] ), string );

@@ -1704,54 +1704,46 @@ GtkWidget *gsb_partial_balance_create_dialog ( gint action, gint spin_value )
     paddingbox = new_paddingbox_with_title ( vbox,FALSE, _("Details") );
 
     /* Create table */
-    table = gtk_table_new ( 6, 2, FALSE );
-    gtk_table_set_col_spacings ( GTK_TABLE ( table ), 5 );
-    gtk_table_set_row_spacings ( GTK_TABLE ( table ), 5 );
+    table = gtk_grid_new ();
+    gtk_grid_set_column_spacing (GTK_GRID (table), 5);
+    gtk_grid_set_row_spacing (GTK_GRID (table), 5);
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, TRUE, TRUE, 0 );
 
     /* Partial balance name */
     label = gtk_label_new ( _("Name: ") );
     utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 1 );
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_RIGHT );
-    gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 0, 1,
-                        GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), label, 0, 0, 1, 1);
     entry_name = gtk_entry_new ( );
     gtk_entry_set_activates_default ( GTK_ENTRY ( entry_name ), TRUE );
-    gtk_table_attach ( GTK_TABLE ( table ), entry_name, 1, 2, 0, 1,
-                        GTK_EXPAND|GTK_FILL, 0, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), entry_name, 1, 0, 1, 1);
 
     /* List of the accounts */
     label = gtk_label_new ( _("Accounts list: ") );
     utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 1);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
-    gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 1, 2,
-                        GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), label, 0, 1, 1, 1);
     entry_list = gtk_entry_new ( );
     gtk_editable_set_editable ( GTK_EDITABLE ( entry_list ), FALSE );
     gtk_widget_set_sensitive ( entry_list, FALSE );
-    gtk_table_attach ( GTK_TABLE ( table ), entry_list, 1, 2, 1, 2,
-                        GTK_EXPAND|GTK_FILL, 0, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), entry_list, 1, 1, 1, 1);
     account_list = gsb_partial_balance_create_list_accounts ( entry_list );
-    gtk_table_attach ( GTK_TABLE ( table ), account_list, 0, 2, 2, 4,
-                        GTK_EXPAND | GTK_FILL, 0, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), account_list, 0, 2, 2, 2);
 
     /* create the position */
     label = gtk_label_new ( _("Position in the list of accounts: ") );
     utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 1);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
-    gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 4, 5,
-                        GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), label, 0, 4, 4, 4);
     bouton = gtk_spin_button_new_with_range ( 1.0, spin_value, 1.0);
     gtk_spin_button_set_value ( GTK_SPIN_BUTTON ( bouton ),
                         g_slist_length ( partial_balance_list ) + 1 );
-    gtk_table_attach ( GTK_TABLE ( table ), bouton, 1, 2, 4, 5,
-                        GTK_EXPAND | GTK_FILL, 0, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), bouton, 1, 4, 1, 1);
     g_object_set_data ( G_OBJECT ( dialog ), "spin_bouton", bouton );
 
     /* create the colorized button */
     bouton = gtk_check_button_new_with_label ( _("Colorized in red if the balance is negative") );
-    gtk_table_attach ( GTK_TABLE ( table ), bouton, 0, 2, 5, 6,
-                        GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), bouton, 0, 5, 2, 1);
     g_object_set_data ( G_OBJECT ( dialog ), "colorise_bouton", bouton );
 
     g_object_set_data ( G_OBJECT ( dialog ), "entry_name", entry_name );

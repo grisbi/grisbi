@@ -3819,7 +3819,7 @@ GtkWidget * gsb_import_associations_gere_tiers ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), vbox2, FALSE, FALSE, 0 );
 
     /* Button "Add" */
-    button = gtk_button_new_from_stock ("gtk-add");
+    button = utils_buttons_button_new_from_stock ("gtk-add", _("Add"));
     g_signal_connect ( G_OBJECT ( button ),
                         "clicked",
                         G_CALLBACK  ( gsb_import_associations_add_assoc ),
@@ -3828,7 +3828,7 @@ GtkWidget * gsb_import_associations_gere_tiers ( void )
     g_object_set_data ( G_OBJECT (vbox_main), "add_button", button );
 
     /* Button "Remove" */
-    button = gtk_button_new_from_stock ("gtk-remove");
+    button = utils_buttons_button_new_from_stock ("gtk-remove", _("Remove"));
     g_signal_connect ( G_OBJECT ( button ),
                         "clicked",
                         G_CALLBACK ( gsb_import_associations_del_assoc ),
@@ -3887,17 +3887,16 @@ GtkWidget * gsb_import_associations_gere_tiers ( void )
                         FALSE, _("Details of associations"));
 
     /* Create table */
-    table = gtk_table_new ( 2, 2, FALSE );
-    gtk_table_set_col_spacings ( GTK_TABLE ( table ), 5 );
-    gtk_table_set_row_spacings ( GTK_TABLE ( table ), 5 );
+    table = gtk_grid_new ();
+    gtk_grid_set_column_spacing (GTK_GRID (table), 5);
+    gtk_grid_set_row_spacing (GTK_GRID (table), 5);
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, TRUE, TRUE, 0 );
 
     /* Create entry liste des tiers */
     label = gtk_label_new ( _("Payee name: ") );
     utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-    gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 0, 1,
-                        GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), label, 0, 0, 1, 1);
 
     entry = gtk_combofix_new (
                         gsb_data_payee_get_name_and_report_list());
@@ -3907,8 +3906,7 @@ GtkWidget * gsb_import_associations_gere_tiers ( void )
                         etat.combofix_max_item );
     gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (entry),
                         etat.combofix_case_sensitive );
-    gtk_table_attach ( GTK_TABLE ( table ), entry, 1, 2, 0, 1,
-                        GTK_EXPAND|GTK_FILL, 0, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), entry, 1, 0, 1, 1);
     g_object_set_data ( G_OBJECT (vbox_main), "payee", entry );
     g_signal_connect ( G_OBJECT (GTK_COMBOFIX (entry) -> entry),
                         "changed",
@@ -3919,13 +3917,11 @@ GtkWidget * gsb_import_associations_gere_tiers ( void )
     label = gtk_label_new ( _("Search string: ") );
     utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-    gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 1, 2,
-                        GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), label, 0, 1, 1, 1);
 
     entry = gtk_entry_new ();
     gtk_entry_set_text ( GTK_ENTRY (entry), "" );
-    gtk_table_attach ( GTK_TABLE ( table ), entry, 1, 2, 1, 2,
-                        GTK_EXPAND|GTK_FILL, 0, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), entry, 1, 1, 1, 1);
     g_signal_connect_swapped ( entry,
                         "changed",
                         G_CALLBACK (gsb_import_associations_check_add_button),
@@ -4626,10 +4622,10 @@ gchar **gsb_import_by_rule_ask_filename ( gint rule )
     g_free ( tmpstr );
 
     /* table for layout */
-    table = gtk_table_new ( 2, 3, FALSE );
+    table = gtk_grid_new ();
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, FALSE, FALSE, 6 );
-    gtk_table_set_col_spacings ( GTK_TABLE(table), 6 );
-    gtk_table_set_row_spacings ( GTK_TABLE(table), 6 );
+    gtk_grid_set_column_spacing (GTK_GRID (table), 6);
+    gtk_grid_set_row_spacing (GTK_GRID (table), 6);
 
     /* textstring 1 */
     if (gsb_data_import_rule_get_action (rule) == IMPORT_ADD_TRANSACTIONS)
@@ -4658,22 +4654,19 @@ gchar **gsb_import_by_rule_ask_filename ( gint rule )
 
     label = gtk_label_new ( tmpstr );
     utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.0 );
-    gtk_table_attach ( GTK_TABLE(table), label, 0, 3, 0, 1,
-               GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), label, 0, 0, 3, 1);
     g_free ( tmpstr );
 
     /* label filename */
     label = gtk_label_new ( _("Name of the file to import: ") );
     utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.0 );
-    gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 1, 2,
-               GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), label, 0, 1, 1, 1);
 
     /* i tried to use gtk_file_chooser_button, but the name of the file is showed only sometimes
      * so go back to the old method with a gtkentry */
     entry = gtk_entry_new ();
     gtk_widget_set_size_request ( entry, 200, -1 );
-    gtk_table_attach ( GTK_TABLE(table), entry, 1, 2, 1, 2,
-               GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), entry, 1, 1, 1, 1);
 
     if (gsb_data_import_rule_get_last_file_name (rule))
     {
@@ -4684,8 +4677,7 @@ gchar **gsb_import_by_rule_ask_filename ( gint rule )
     button = gtk_button_new_with_label ("...");
     g_signal_connect (G_OBJECT (button), "clicked",
                         G_CALLBACK (gsb_import_by_rule_get_file), entry );
-    gtk_table_attach ( GTK_TABLE(table), button, 2, 3, 1, 2,
-                        GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+    gtk_grid_attach (GTK_GRID (table), button, 2, 1, 1, 1);
 
     g_object_set_data ( G_OBJECT(entry), "rule", GINT_TO_POINTER ( rule ) );
 
@@ -4855,7 +4847,7 @@ void gsb_import_check_ope_import ( GtkWidget *widget, gpointer data )
 {
     gint result = GPOINTER_TO_INT ( data );
 
-    if ( GTK_IS_HBOX ( widget ) )
+    if ( GTK_IS_BOX ( widget ) )
     {
         gtk_container_foreach ( GTK_CONTAINER (widget ),
                         (GtkCallback) gsb_import_check_ope_import,
@@ -4935,7 +4927,7 @@ gboolean gsb_import_ope_import_test_toggled ( GtkWidget *vbox , gboolean test )
         GtkWidget *widget;
 
         widget = children -> data;
-        if ( GTK_IS_HBOX ( widget ) )
+        if ( GTK_IS_BOX ( widget ) )
         {
             GList *list;
 
