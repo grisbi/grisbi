@@ -222,7 +222,7 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
     label = gtk_label_new ( _("Grisbi will archive all transactions between initial and "
                         "final dates.") );
     utils_labels_set_alignement ( GTK_LABEL (label), 0, 0.5 );
-    gtk_misc_set_padding ( GTK_MISC (label), 24, 0 );
+    utils_widget_set_padding (GTK_WIDGET (label), 24, 0);
     gtk_box_pack_start ( GTK_BOX (vbox), label, FALSE, FALSE, 0 );
 
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
@@ -233,7 +233,7 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
     gtk_box_pack_start ( GTK_BOX (vbox), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Initial date: " ) );
-    gtk_misc_set_padding ( GTK_MISC (label), 24, 0 );
+    utils_widget_set_padding (GTK_WIDGET (label), 24, 0);
     gtk_box_pack_start ( GTK_BOX (hbox), label, FALSE, FALSE, 0 );
 
     initial_date = gsb_calendar_entry_new (FALSE);
@@ -245,7 +245,7 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
     gtk_box_pack_start ( GTK_BOX (hbox), initial_date, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Final date: ") );
-    gtk_misc_set_padding ( GTK_MISC (label), 24, 0 );
+    utils_widget_set_padding (GTK_WIDGET (label), 24, 0);
     gtk_box_pack_start ( GTK_BOX (hbox), label, FALSE, FALSE, 0 );
 
     final_date = gsb_calendar_entry_new (FALSE);
@@ -269,7 +269,7 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
 
     label = gtk_label_new ( _("Grisbi will archive all transactions belonging to a "
                         "financial year." ) );
-    gtk_misc_set_padding ( GTK_MISC (label), 24, 0 );
+    utils_widget_set_padding (GTK_WIDGET (label), 24, 0);
     utils_labels_set_alignement ( GTK_LABEL (label), 0, 0.5 );
     gtk_box_pack_start ( GTK_BOX (vbox), label, FALSE, FALSE, 0 );
 
@@ -281,7 +281,7 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
     gtk_box_pack_start ( GTK_BOX (vbox), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Financial year: ") );
-    gtk_misc_set_padding ( GTK_MISC (label), 24, 0 );
+    utils_widget_set_padding (GTK_WIDGET (label), 24, 0);
     gtk_box_pack_start ( GTK_BOX (hbox), label, FALSE, FALSE, 0 );
 
     financial_year_button = gsb_fyear_make_combobox (FALSE);
@@ -305,7 +305,7 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
     gtk_box_pack_start ( GTK_BOX (vbox), button, FALSE, FALSE, 0 );
 
     label = gtk_label_new (_("Grisbi will archive transactions selected by a report." ));
-    gtk_misc_set_padding ( GTK_MISC (label), 24, 0 );
+    utils_widget_set_padding (GTK_WIDGET (label), 24, 0);
     utils_labels_set_alignement ( GTK_LABEL (label), 0, 0.5 );
     gtk_box_pack_start ( GTK_BOX (vbox), label, FALSE, FALSE, 0 );
 
@@ -317,7 +317,7 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
     gtk_box_pack_start ( GTK_BOX (vbox), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Report: ") );
-    gtk_misc_set_padding ( GTK_MISC (label), 24, 0 );
+    utils_widget_set_padding (GTK_WIDGET (label), 24, 0);
     gtk_box_pack_start ( GTK_BOX (hbox), label, FALSE, FALSE, 0 );
     report_button = gsb_report_make_combobox ();
     g_signal_connect_object ( G_OBJECT (report_button),
