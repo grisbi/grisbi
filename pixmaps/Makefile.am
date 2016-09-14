@@ -15,6 +15,8 @@ grisbi_pixmaps_DATA = \
 	archive.png \
 	archive_24.png \
 	archives.png \
+	arrow-left.svg \
+	arrow-right.svg \
 	balance_estimate.png \
 	banks.png \
 	budgetary_lines.png \
