@@ -33,10 +33,11 @@
 
 /*START_INCLUDE*/
 #include "gtk_combofix.h"
+#include "utils_buttons.h"
 /*END_INCLUDE*/
 
 
-G_DEFINE_TYPE ( GtkComboFix, gtk_combofix, GTK_TYPE_HBOX );
+G_DEFINE_TYPE ( GtkComboFix, gtk_combofix, GTK_TYPE_BOX );
 
 #define GTK_COMBOFIX_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), GTK_TYPE_COMBOFIX, GtkComboFixPrivate))
 
@@ -448,7 +449,7 @@ gboolean gtk_combofix_hide_popup ( GtkComboFix *combofix )
     if ( gtk_widget_get_visible ( priv -> popup ))
     {
         gtk_grab_remove ( priv -> popup );
-        gdk_pointer_ungrab ( GDK_CURRENT_TIME );
+        //~ gdk_pointer_ungrab ( GDK_CURRENT_TIME );
         gtk_widget_hide ( priv -> popup );
     }
     return FALSE;
@@ -937,13 +938,12 @@ static void gtk_combofix_init ( GtkComboFix *combofix )
                         G_CALLBACK ( gtk_combofix_focus_out ),
                         combofix );
     gtk_box_pack_start ( GTK_BOX ( hbox ), combofix -> entry, TRUE, TRUE, 0 );
+    gtk_widget_set_hexpand (combofix->entry, TRUE);
     gtk_widget_show ( combofix -> entry );
 
     /* set the button */
-    priv -> button = gtk_button_new ( );
+    priv->button = utils_buttons_button_new_from_image ("arrow-down.svg");
     gtk_button_set_relief ( GTK_BUTTON ( priv -> button ), GTK_RELIEF_NONE );
-    gtk_container_add ( GTK_CONTAINER ( priv -> button ),
-                        gtk_arrow_new ( GTK_ARROW_DOWN, GTK_SHADOW_NONE) );
     g_signal_connect_swapped ( G_OBJECT ( priv -> button ),
                         "clicked",
                         G_CALLBACK ( gtk_combofix_show_popup ),
@@ -1690,7 +1690,7 @@ static gboolean gtk_combofix_button_press ( GtkWidget *popup,
      ( ev -> x_root < ( allocation.y +allocation. height ) ) )
         return TRUE;
 
-    gdk_pointer_ungrab ( GDK_CURRENT_TIME );
+    //~ gdk_pointer_ungrab ( GDK_CURRENT_TIME );
     gtk_widget_hide (popup);
 
     return FALSE;
@@ -2151,7 +2151,7 @@ static gint gtk_combofix_get_rows_number_by_page ( GtkComboFix *combofix )
         return 0;
     priv = combofix -> priv;
 
-    adjustment = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( priv -> tree_view ) );
+    adjustment = gtk_scrollable_get_vadjustment ( GTK_SCROLLABLE ( priv -> tree_view ) );
     return_value = priv -> visible_items
                         *
                         gtk_adjustment_get_page_size ( adjustment)
