@@ -9,9 +9,9 @@
 
 struct conditional_message
 {
-    const gchar * name;
-    const gchar * hint;
-    const gchar * message;
+    gchar * name;
+    gchar * hint;
+    gchar * message;
     gboolean hidden;
     gboolean default_answer;	/** Useful for yes/no questions. */
 };
