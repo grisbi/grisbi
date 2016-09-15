@@ -346,7 +346,6 @@ GtkWidget *gsb_account_property_create_page ( void )
                         detail_adresse_titulaire,
                         NULL,
                         0 );
-    gtk_button_set_alignment ( GTK_BUTTON (button_holder_address), 0.0, 0.0 );
     gtk_box_pack_start ( GTK_BOX(vbox2), button_holder_address, FALSE, FALSE, 0);
 
     /* if un-select the holder's button address, we need to erase the tree_view,
