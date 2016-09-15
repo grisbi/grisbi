@@ -41,6 +41,7 @@
 #include "dialog.h"
 #include "fenetre_principale.h"
 #include "gsb_calendar_entry.h"
+#include "gsb_color.h"
 #include "gsb_data_account.h"
 #include "gsb_data_reconcile.h"
 #include "gsb_data_transaction.h"
