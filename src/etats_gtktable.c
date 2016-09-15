@@ -241,12 +241,13 @@ gint gtktable_initialise ( GSList * opes_selectionnees, gchar * filename )
     if (table_etat && GTK_IS_GRID (table_etat))
         gtk_widget_destroy (table_etat);
 
+    /* regarder la liberation de mémoire */
     if ( scrolled_window_etat && gtk_bin_get_child ( GTK_BIN ( scrolled_window_etat ) ) )
-        gtk_widget_hide ( gtk_bin_get_child ( GTK_BIN ( scrolled_window_etat ) ) );
+        gtk_widget_destroy ( gtk_bin_get_child ( GTK_BIN ( scrolled_window_etat ) ) );
 
     /* just update screen so that the user does not see the previous report anymore
      * while we are processing the new report */
-/*     update_gui ( );  */
+     update_gui ( );
 
     table_etat = gtk_grid_new ();
     gtk_grid_set_column_spacing (GTK_GRID (table_etat), 5);
