@@ -297,7 +297,7 @@ static GtkWidget *onglet_accueil ( void )
                         GTK_TREE_MODEL (list_store) );
     g_object_unref ( list_store );
 
-    gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (treeview), TRUE);
+    //~ gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (treeview), TRUE);
     gtk_widget_set_size_request ( treeview, -1, 150 );
 
     /* check the keys on the list */

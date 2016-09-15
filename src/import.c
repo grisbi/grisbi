@@ -3334,7 +3334,7 @@ void gsb_import_show_orphan_transactions ( GSList *orphan_list,
                         GTK_POLICY_AUTOMATIC,
                         GTK_POLICY_AUTOMATIC );
 	gtk_container_add ( GTK_CONTAINER ( scrolled_window ), liste_ope_celibataires );
-    gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (liste_ope_celibataires), TRUE);
+    //~ gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (liste_ope_celibataires), TRUE);
 	gtk_widget_show_all ( scrolled_window );
 
 	/* on affiche les colonnes */
@@ -3849,7 +3849,7 @@ GtkWidget * gsb_import_associations_gere_tiers ( void )
                         GTK_TREE_MODEL (list_store) );
     g_object_unref (list_store);
 
-    gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (treeview), TRUE);
+    //~ gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (treeview), TRUE);
     gtk_widget_set_size_request ( treeview, -1, 230 );
     selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW (treeview) );
     gtk_tree_selection_set_select_function ( selection,

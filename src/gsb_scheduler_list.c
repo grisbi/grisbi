@@ -560,7 +560,7 @@ GtkWidget *gsb_scheduler_list_create_tree_view (void)
     GtkWidget * tree_view;
 
     tree_view = gtk_tree_view_new ( );
-    gtk_tree_view_set_rules_hint ( GTK_TREE_VIEW ( tree_view ), TRUE );
+    //~ gtk_tree_view_set_rules_hint ( GTK_TREE_VIEW ( tree_view ), TRUE );
 
     /* can select only one line */
     gtk_tree_selection_set_mode ( GTK_TREE_SELECTION (

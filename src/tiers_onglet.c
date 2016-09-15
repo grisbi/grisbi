@@ -217,7 +217,7 @@ GtkWidget *payees_create_list ( void )
                         payee_get_metatree_interface ( ) );
 
     /* Create container + TreeView */
-    gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (payee_tree), TRUE);
+    //~ gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (payee_tree), TRUE);
     gtk_tree_view_enable_model_drag_source(GTK_TREE_VIEW(payee_tree),
                         GDK_BUTTON1_MASK, row_targets, 1,
                         GDK_ACTION_MOVE | GDK_ACTION_COPY );
@@ -1200,7 +1200,7 @@ static GtkWidget *gsb_assistant_payees_page_3 ( GtkWidget *assistant )
                         GTK_TREE_MODEL (list_store) );
     g_object_unref (list_store);
 
-    gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (treeview), TRUE);
+    //~ gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (treeview), TRUE);
     gtk_widget_set_size_request ( treeview, -1, 230 );
     gtk_container_add (GTK_CONTAINER (sw), treeview);
     gtk_container_set_resize_mode (GTK_CONTAINER (sw), GTK_RESIZE_PARENT);

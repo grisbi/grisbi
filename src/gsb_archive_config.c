@@ -140,7 +140,7 @@ GtkWidget *gsb_archive_config_create ( void )
 					G_TYPE_INT );
     archive_treeview = gtk_tree_view_new_with_model ( GTK_TREE_MODEL (archive_model) );
     g_object_unref (G_OBJECT(archive_model) );
-    gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (archive_treeview), TRUE);
+    //~ gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (archive_treeview), TRUE);
     gtk_container_add ( GTK_CONTAINER (scrolled_window),
 			archive_treeview );
 
