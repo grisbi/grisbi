@@ -935,6 +935,8 @@ GtkWidget *gsb_transaction_list_config_create_tree_view ( GtkListStore *store )
 gboolean gsb_transaction_list_config_realized ( GtkWidget *tree_view,
                         gpointer null )
 {
+    GdkCursor *cursor;
+    GdkDisplay *display;
     gint column;
 
     if ( !assert_account_loaded ( ) )
@@ -955,7 +957,9 @@ gboolean gsb_transaction_list_config_realized ( GtkWidget *tree_view,
                         width );
     }
 
-    gdk_window_set_cursor ( gtk_widget_get_window ( tree_view ), gdk_cursor_new ( GDK_HAND2 ) );
+    display = gdk_window_get_display (gtk_widget_get_window (run.window));
+    cursor = gdk_cursor_new_for_display (display, GDK_HAND2);
+    gdk_window_set_cursor ( gtk_widget_get_window (tree_view), cursor);
 
     return FALSE;
 }
@@ -975,6 +979,7 @@ gboolean gsb_transaction_list_config_drag_begin ( GtkWidget *tree_view,
                         GdkDragContext *drag_context,
                         gpointer null )
 {
+    GdkDevice *device;
     gint x, y;
     GtkTreePath *path;
     GtkTreeViewColumn *tree_column;
@@ -985,16 +990,19 @@ gboolean gsb_transaction_list_config_drag_begin ( GtkWidget *tree_view,
     cairo_t *cr;
 
     /* get the cell coord */
-    gdk_window_get_pointer ( gtk_tree_view_get_bin_window ( GTK_TREE_VIEW ( tree_view )),
-                        &x,
-                        &y,
-                        FALSE );
-    gtk_tree_view_get_path_at_pos ( GTK_TREE_VIEW ( tree_view ),
-				    x,
-				    y,
-				    &path,
-				    &tree_column,
-				    NULL, NULL );
+    device = gdk_drag_context_get_device (drag_context);
+    gdk_window_get_device_position (gtk_tree_view_get_bin_window (GTK_TREE_VIEW (tree_view )),
+                                    device,
+                                    &x,
+                                    &y,
+                                    NULL);
+    gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW (tree_view),
+                                   x,
+                                   y,
+                                   &path,
+                                   &tree_column,
+                                   NULL,
+                                   NULL);
 
     if ( !path
 	 ||
@@ -1046,6 +1054,7 @@ gboolean gsb_transaction_list_config_drag_end ( GtkWidget *tree_view,
                         GdkDragContext *drag_context,
                         gpointer null )
 {
+    GdkDevice *device;
     GtkTreePath *path;
     GtkTreeViewColumn *tree_column;
     gchar *string;
@@ -1056,17 +1065,20 @@ gboolean gsb_transaction_list_config_drag_end ( GtkWidget *tree_view,
     gint old_element;
 
     /* get the cell position */
-    gdk_window_get_pointer ( gtk_tree_view_get_bin_window ( GTK_TREE_VIEW ( tree_view ) ),
-                        &x,
-                        &y,
-                        FALSE );
-    gtk_tree_view_get_path_at_pos ( GTK_TREE_VIEW ( tree_view ),
-                        x,
-                        y,
-                        &path,
-                        &tree_column,
-                        NULL,
-                        NULL );
+    device = gdk_drag_context_get_device (drag_context);
+    gdk_window_get_device_position (gtk_tree_view_get_bin_window (GTK_TREE_VIEW (tree_view )),
+                                    device,
+                                    &x,
+                                    &y,
+                                    NULL);
+
+    gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW (tree_view),
+                                   x,
+                                   y,
+                                   &path,
+                                   &tree_column,
+                                   NULL,
+                                   NULL);
 
     if ( !path || !tree_column )
         return FALSE;
