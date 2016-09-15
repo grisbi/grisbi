@@ -104,53 +104,6 @@ GtkWidget *gsb_automem_entry_new ( gchar **value,
     return entry;
 }
 
-
-
-/**
- * set the value in an gsb_automem_entry
- *
- * \param entry the gsb_automem_enty
- * \param value a pointer to a string
- *
- * \return
- */
-/* TODO dOm : this function seems not to be used. Is it possible to remove it ?
-void gsb_automem_entry_set_value ( GtkWidget *entry,
-				   gchar **value )
-{
-    !* Block everything *!
-    if ( g_object_get_data (G_OBJECT (entry), "changed") > 0 )
-	g_signal_handler_block ( G_OBJECT(entry),
-				 (gulong) g_object_get_data (G_OBJECT (entry),
-							     "changed"));
-    if ( g_object_get_data (G_OBJECT (entry), "changed-hook") > 0 )
-	g_signal_handler_block ( G_OBJECT(entry),
-				 (gulong) g_object_get_data (G_OBJECT (entry),
-							     "changed-hook"));
-
-    !* Fill in value *!
-    if (value && *value)
-	gtk_entry_set_text ( GTK_ENTRY (entry), *value );
-    else
-	gtk_entry_set_text ( GTK_ENTRY (entry), "" );
-
-    g_object_set_data ( G_OBJECT(entry),
-			"pointer", value );
-
-    !* Unblock everything *!
-    if ( g_object_get_data (G_OBJECT (entry), "changed") > 0 )
-	g_signal_handler_unblock ( G_OBJECT(entry),
-				   (gulong) g_object_get_data (G_OBJECT (entry),
-							       "changed"));
-    if ( g_object_get_data (G_OBJECT (entry), "changed-hook") > 0 )
-	g_signal_handler_unblock ( G_OBJECT(entry),
-				   (gulong) g_object_get_data (G_OBJECT (entry),
-							       "changed-hook"));
-}
-*/
-
-
-
 /**
  * called by a "changed" signal in a gsb_automem_entry
  * Set a string to the value of an GtkEntry.
@@ -822,80 +775,13 @@ GtkWidget *gsb_automem_stock_button_new ( GsbButtonStyle style,
     return button;
 }
 
-
 /**
- *TODO : document
  *
- */
-GtkWidget *gsb_automem_stock_button_menu_new ( GsbButtonStyle style,
-					       const gchar * stock_id, const gchar * name,
-					       GCallback callback, gpointer data )
-{
-    GtkWidget * button, * vbox, * hbox, * arrow;
-
-    vbox = new_stock_image_label ( style, stock_id, name );
-
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
-    gtk_box_pack_start ( GTK_BOX(hbox), vbox, TRUE, TRUE, 0 );
-
-    arrow = gtk_arrow_new ( GTK_ARROW_DOWN, GTK_SHADOW_NONE );
-    gtk_box_pack_start ( GTK_BOX(hbox), arrow, FALSE, FALSE, 0 );
-
-    button = gtk_button_new ();
-    gtk_button_set_relief ( GTK_BUTTON(button), GTK_RELIEF_NONE );
-
-    gtk_container_add ( GTK_CONTAINER(button), hbox );
-    gtk_widget_show_all ( button );
-
-    if ( callback )
-    {
-	g_signal_connect ( G_OBJECT(button), "button-press-event",
-			   G_CALLBACK(callback), data );
-    }
-
-    return button;
-}
-
-
-/**
- *TODO : document
  *
- */
-GtkWidget *gsb_automem_imagefile_button_new ( GsbButtonStyle style,
-                        const gchar *name,
-                        const gchar *filename,
-                        GCallback callback,
-                        gpointer data )
-{
-    GtkWidget *vbox;
-    GtkWidget *button;
-    GtkWidget *label;
-
-    vbox = new_image_label ( style, filename, name );
-
-    label = g_object_get_data ( G_OBJECT ( vbox ), "label" );
-
-    button = gtk_button_new ();
-    gtk_button_set_relief ( GTK_BUTTON(button), GTK_RELIEF_NONE );
-    g_object_set_data ( G_OBJECT ( button ), "label", label );
-
-    gtk_container_add ( GTK_CONTAINER(button), vbox );
-    gtk_widget_show_all ( button );
-
-    if ( callback )
-    {
-	if ( data >= 0 )
-	{
-	    g_signal_connect_swapped ( G_OBJECT(button), "clicked",
-				       G_CALLBACK(callback), data );
-	}
-	else
-	{
-	    g_signal_connect ( G_OBJECT(button), "clicked",
-			       G_CALLBACK(callback), data );
-	}
-    }
-    return button;
-}
-
-
+ * \param
+ *
+ * \return
+ * */
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */
