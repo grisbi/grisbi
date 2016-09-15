@@ -619,8 +619,8 @@ GtkWidget *gsb_main_create_main_window ( void )
                         &vbox );
 
     /* on fixe la taille mini remplacer main_box par plus pertinent.*/
-    gtk_window_set_geometry_hints (GTK_WINDOW (win),
-                                   priv->main_box,
+    gtk_window_set_geometry_hints (GTK_WINDOW (run.window),
+                                   vbox,
                                    &size_hints,
                                    GDK_HINT_RESIZE_INC |
                                    GDK_HINT_MIN_SIZE |

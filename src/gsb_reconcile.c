@@ -40,7 +40,6 @@
 #include "gsb_reconcile.h"
 #include "dialog.h"
 #include "fenetre_principale.h"
-#include "grisbi_win.h"
 #include "gsb_calendar_entry.h"
 #include "gsb_data_account.h"
 #include "gsb_data_reconcile.h"
