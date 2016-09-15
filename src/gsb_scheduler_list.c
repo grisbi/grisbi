@@ -2369,7 +2369,7 @@ void popup_scheduled_context_menu ( void )
 
     menu_item = gtk_image_menu_item_new_with_label ( _("Edit transaction") );
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_stock ( "gtk-edit",
+                        gtk_image_new_from_icon_name ( "gtk-edit",
                         GTK_ICON_SIZE_MENU ) );
     g_signal_connect_swapped ( G_OBJECT ( menu_item ),
                         "activate",
@@ -2383,7 +2383,7 @@ void popup_scheduled_context_menu ( void )
     /* Clone transaction */
     menu_item = gtk_image_menu_item_new_with_label ( _("Clone transaction") );
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_stock ( "gtk-copy",
+                        gtk_image_new_from_icon_name ( "gtk-copy",
                         GTK_ICON_SIZE_MENU ));
     g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
@@ -2400,7 +2400,7 @@ void popup_scheduled_context_menu ( void )
     /* New transaction */
     menu_item = gtk_image_menu_item_new_with_label ( _("New transaction") );
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_stock ( "gtk-new",
+                        gtk_image_new_from_icon_name ( "gtk-new",
                         GTK_ICON_SIZE_MENU ) );
     g_signal_connect_swapped ( G_OBJECT ( menu_item ),
                         "activate",
@@ -2411,7 +2411,7 @@ void popup_scheduled_context_menu ( void )
     /* Delete transaction */
     menu_item = gtk_image_menu_item_new_with_label ( _("Delete transaction") );
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_stock ( "gtk-delete",
+                        gtk_image_new_from_icon_name ( "gtk-delete",
 						GTK_ICON_SIZE_MENU ) );
     g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
@@ -2447,7 +2447,7 @@ void popup_scheduled_context_menu ( void )
     /* Execute transaction */
     menu_item = gtk_image_menu_item_new_with_label ( _("Execute transaction") );
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_stock ( "gtk-execute",
+                        gtk_image_new_from_icon_name ( "gtk-execute",
                         GTK_ICON_SIZE_MENU ) );
     g_signal_connect_swapped ( G_OBJECT ( menu_item ),
                         "activate",

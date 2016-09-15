@@ -1097,7 +1097,7 @@ void category_list_popup_context_menu ( void )
 
         menu_item = gtk_image_menu_item_new_with_label ( title );
         gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_stock ( "gtk-convert",
+                        gtk_image_new_from_icon_name ( "gtk-convert",
                         GTK_ICON_SIZE_MENU ) );
         g_signal_connect_swapped ( G_OBJECT ( menu_item ),
                         "activate",
@@ -1119,7 +1119,7 @@ void category_list_popup_context_menu ( void )
 
         menu_item = gtk_image_menu_item_new_with_label ( title );
         gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                            gtk_image_new_from_stock ( "gtk-edit",
+                            gtk_image_new_from_icon_name ( "gtk-edit",
                             GTK_ICON_SIZE_MENU ) );
         g_signal_connect_swapped ( G_OBJECT ( menu_item ),
                             "activate",
@@ -1144,7 +1144,7 @@ void category_list_popup_context_menu ( void )
 
         menu_item = gtk_image_menu_item_new_with_label ( title );
         gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_stock ( "gtk-convert",
+                        gtk_image_new_from_icon_name ( "gtk-convert",
                         GTK_ICON_SIZE_MENU ) );
         g_signal_connect_swapped ( G_OBJECT ( menu_item ),
                         "activate",
