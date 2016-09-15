@@ -394,6 +394,33 @@ void utils_radiobutton_set_active_index ( GtkWidget *radiobutton,
 }
 
 /**
+ * Crée un bouton avec une image
+ *
+ * \param const gchar   name of image
+ *
+ * \return GtkWidget
+ * */
+GtkWidget *utils_buttons_button_new_from_image (const gchar *image_name)
+{
+    GtkWidget *button = NULL;
+    gchar *filename;
+
+    button = gtk_button_new ();
+
+    filename = g_build_filename (gsb_dirs_get_pixmaps_dir (), image_name, NULL);
+    if (filename)
+    {
+        GtkWidget *image;
+
+        image = gtk_image_new_from_file (filename);
+        g_free (filename);
+        gtk_button_set_image (GTK_BUTTON (button), image);
+    }
+
+    return button;
+}
+
+/**
  * similaire à gtk_button_new_from_stock ()
  *
  * \param const gchar   stock item
