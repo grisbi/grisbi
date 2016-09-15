@@ -1676,7 +1676,7 @@ static void bet_graph_popup_choix_graph_menu ( GtkWidget *button,
 
         self = tmp_list -> data;
 
-        menu_item = utils_menu_new_item_from_image_label ( self->filename, self->name );
+        menu_item = gtk_menu_item_new_with_label (self->name);
 
         g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",

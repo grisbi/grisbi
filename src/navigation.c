@@ -2145,9 +2145,7 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
         case GSB_HOME_PAGE :
         case GSB_ACCOUNT_PAGE :
             menu = gtk_menu_new ();
-            menu_item = gtk_image_menu_item_new_with_label ( _("New account") );
-            gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_icon_name ( "gtk-new", GTK_ICON_SIZE_MENU ) );
+            menu_item = gtk_menu_item_new_with_label ( _("New account") );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( gsb_assistant_account_run ),
@@ -2159,9 +2157,7 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
             /* Separator */
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
 
-            menu_item = gtk_image_menu_item_new_with_label ( _("Remove this account") );
-            gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_icon_name ( "gtk-delete", GTK_ICON_SIZE_MENU ) );
+            menu_item = gtk_menu_item_new_with_label ( _("Remove this account") );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( gsb_account_delete ),
@@ -2174,17 +2170,14 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
             tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "new-payee.png", NULL);
             image = gtk_image_new_from_file ( tmp_str );
             g_free ( tmp_str );
-            menu_item = gtk_image_menu_item_new_with_label ( _("New payee") );
-            gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ), image );
+            menu_item = gtk_menu_item_new_with_label ( _("New payee") );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( payees_new_payee ),
                         NULL );
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
-            menu_item = gtk_image_menu_item_new_with_label ( _("Delete selected payee") );
-            gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_icon_name ( "gtk-delete", GTK_ICON_SIZE_MENU ) );
+            menu_item = gtk_menu_item_new_with_label ( _("Delete selected payee") );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( payees_delete_payee ),
@@ -2197,9 +2190,7 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
             else
                 gtk_widget_set_sensitive ( menu_item, FALSE );
 
-            menu_item = gtk_image_menu_item_new_with_label ( _("Edit selected payee") );
-            gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_icon_name ( "gtk-edit", GTK_ICON_SIZE_MENU ) );
+            menu_item = gtk_menu_item_new_with_label ( _("Edit selected payee") );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( payees_edit_payee ),
@@ -2218,17 +2209,14 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
             tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "payeesmg.png", NULL);
             image = gtk_image_new_from_file ( tmp_str );
             g_free ( tmp_str );
-            menu_item = gtk_image_menu_item_new_with_label ( _("Manage payees") );
-            gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ), image );
+            menu_item = gtk_menu_item_new_with_label ( _("Manage payees") );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( payees_manage_payees ),
                         NULL );
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
-            menu_item = gtk_image_menu_item_new_with_label ( _("Remove unused payees") );
-            gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_icon_name ( "gtk-delete", GTK_ICON_SIZE_MENU ) );
+            menu_item = gtk_menu_item_new_with_label ( _("Remove unused payees") );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( payees_remove_unused_payees ),
@@ -2240,17 +2228,14 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
             tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "new-categ.png", NULL);
             image = gtk_image_new_from_file ( tmp_str );
             g_free ( tmp_str );
-            menu_item = gtk_image_menu_item_new_with_label ( _("New category") );
-            gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ), image );
+            menu_item = gtk_menu_item_new_with_label ( _("New category") );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( categories_new_category ),
                         NULL );
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
-            menu_item = gtk_image_menu_item_new_with_label ( _("Delete selected category") );
-            gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_icon_name ( "gtk-delete", GTK_ICON_SIZE_MENU ) );
+            menu_item = gtk_menu_item_new_with_label ( _("Delete selected category") );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( categories_delete_category ),
@@ -2263,9 +2248,7 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
             else
                 gtk_widget_set_sensitive ( menu_item, FALSE );
 
-            menu_item = gtk_image_menu_item_new_with_label ( _("Edit selected category") );
-            gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_icon_name ( "gtk-edit", GTK_ICON_SIZE_MENU ) );
+            menu_item = gtk_menu_item_new_with_label ( _("Edit selected category") );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( categories_edit_category ),
@@ -2281,18 +2264,14 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
             /* Separator */
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
 
-            menu_item = gtk_image_menu_item_new_with_label ( _("Import a file of categories (.cgsb)") );
-            gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_icon_name ( "gtk-new", GTK_ICON_SIZE_MENU ) );
+            menu_item = gtk_menu_item_new_with_label ( _("Import a file of categories (.cgsb)") );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( categories_importer_list ),
                         NULL );
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
-            menu_item = gtk_image_menu_item_new_with_label ( _("Export the list of categories (.cgsb)") );
-            gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_icon_name ( "gtk-new", GTK_ICON_SIZE_MENU ) );
+            menu_item = gtk_menu_item_new_with_label ( _("Export the list of categories (.cgsb)") );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( categories_exporter_list ),
@@ -2304,17 +2283,14 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
             tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "new-ib.png", NULL);
             image = gtk_image_new_from_file ( tmp_str );
             g_free ( tmp_str );
-            menu_item = gtk_image_menu_item_new_with_label ( _("New budgetary line") );
-            gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ), image );
+            menu_item = gtk_menu_item_new_with_label ( _("New budgetary line") );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( budgetary_lines_new_budgetary_line ),
                         NULL );
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
-            menu_item = gtk_image_menu_item_new_with_label ( _("Delete selected budgetary line") );
-            gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_icon_name ( "gtk-delete", GTK_ICON_SIZE_MENU ) );
+            menu_item = gtk_menu_item_new_with_label ( _("Delete selected budgetary line") );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( budgetary_lines_delete_budgetary_line ),
@@ -2327,9 +2303,7 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
             else
                 gtk_widget_set_sensitive ( menu_item, FALSE );
 
-            menu_item = gtk_image_menu_item_new_with_label ( _("Edit selected budgetary line") );
-            gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_icon_name ( "gtk-edit", GTK_ICON_SIZE_MENU ) );
+            menu_item = gtk_menu_item_new_with_label ( _("Edit selected budgetary line") );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( budgetary_lines_edit_budgetary_line ),
@@ -2345,18 +2319,14 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
             /* Separator */
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
 
-            menu_item = gtk_image_menu_item_new_with_label ( _("Import a file of budgetary lines (.igsb)") );
-            gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_icon_name ( "gtk-new", GTK_ICON_SIZE_MENU ) );
+            menu_item = gtk_menu_item_new_with_label ( _("Import a file of budgetary lines (.igsb)") );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( budgetary_lines_importer_list ),
                         NULL );
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
-            menu_item = gtk_image_menu_item_new_with_label ( _("Export the list of budgetary lines (.igsb)") );
-            gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_icon_name ( "gtk-new", GTK_ICON_SIZE_MENU ) );
+            menu_item = gtk_menu_item_new_with_label ( _("Export the list of budgetary lines (.igsb)") );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( budgetary_lines_exporter_list ),
@@ -2368,8 +2338,7 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
             tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "new-report.png", NULL);
             image = gtk_image_new_from_file ( tmp_str );
             g_free ( tmp_str );
-            menu_item = gtk_image_menu_item_new_with_label ( _("New report") );
-            gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ), image );
+            menu_item = gtk_menu_item_new_with_label ( _("New report") );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( ajout_etat ),
@@ -2380,9 +2349,7 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
             /* Separator */
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
 
-            menu_item = gtk_image_menu_item_new_with_label ( _("Remove this report") );
-            gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_icon_name ( "gtk-delete", GTK_ICON_SIZE_MENU ) );
+            menu_item = gtk_menu_item_new_with_label ( _("Remove this report") );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( efface_etat ),

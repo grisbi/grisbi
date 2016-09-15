@@ -2367,10 +2367,7 @@ void popup_scheduled_context_menu ( void )
     /* Edit transaction */
     scheduled_number = gsb_scheduler_list_get_current_scheduled_number ( );
 
-    menu_item = gtk_image_menu_item_new_with_label ( _("Edit transaction") );
-    gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_icon_name ( "gtk-edit",
-                        GTK_ICON_SIZE_MENU ) );
+    menu_item = gtk_menu_item_new_with_label ( _("Edit transaction") );
     g_signal_connect_swapped ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( gsb_scheduler_list_edit_transaction_by_pointer ),
@@ -2381,10 +2378,7 @@ void popup_scheduled_context_menu ( void )
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
     /* Clone transaction */
-    menu_item = gtk_image_menu_item_new_with_label ( _("Clone transaction") );
-    gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_icon_name ( "gtk-copy",
-                        GTK_ICON_SIZE_MENU ));
+    menu_item = gtk_menu_item_new_with_label ( _("Clone transaction") );
     g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( gsb_scheduler_list_clone_selected_scheduled ),
@@ -2398,10 +2392,7 @@ void popup_scheduled_context_menu ( void )
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new ( ) );
 
     /* New transaction */
-    menu_item = gtk_image_menu_item_new_with_label ( _("New transaction") );
-    gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_icon_name ( "gtk-new",
-                        GTK_ICON_SIZE_MENU ) );
+    menu_item = gtk_menu_item_new_with_label ( _("New transaction") );
     g_signal_connect_swapped ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( gsb_scheduler_list_edit_transaction_by_pointer ),
@@ -2409,10 +2400,7 @@ void popup_scheduled_context_menu ( void )
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
     /* Delete transaction */
-    menu_item = gtk_image_menu_item_new_with_label ( _("Delete transaction") );
-    gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_icon_name ( "gtk-delete",
-						GTK_ICON_SIZE_MENU ) );
+    menu_item = gtk_menu_item_new_with_label ( _("Delete transaction") );
     g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( gsb_scheduler_list_delete_scheduled_transaction_by_menu ),
@@ -2428,13 +2416,10 @@ void popup_scheduled_context_menu ( void )
 
     /* Display/hide notes */
     if ( etat.affichage_commentaire_echeancier )
-        menu_item = gtk_image_menu_item_new_with_label ( _("Displays notes") );
+        menu_item = gtk_menu_item_new_with_label ( _("Displays notes") );
     else
-        menu_item = gtk_image_menu_item_new_with_label ( _("Displays Frequency/Mode") );
+        menu_item = gtk_menu_item_new_with_label ( _("Displays Frequency/Mode") );
 
-    gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_file ( g_build_filename ( gsb_dirs_get_pixmaps_dir ( ),
-                        "comments.png", NULL ) ) );
     g_signal_connect_swapped ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( gsb_scheduler_list_show_notes ),
@@ -2445,10 +2430,7 @@ void popup_scheduled_context_menu ( void )
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new ( ) );
 
     /* Execute transaction */
-    menu_item = gtk_image_menu_item_new_with_label ( _("Execute transaction") );
-    gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_icon_name ( "gtk-execute",
-                        GTK_ICON_SIZE_MENU ) );
+    menu_item = gtk_menu_item_new_with_label ( _("Execute transaction") );
     g_signal_connect_swapped ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( gsb_scheduler_list_execute_transaction ),

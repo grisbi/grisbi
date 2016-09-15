@@ -715,19 +715,19 @@ gboolean popup_budgetary_line_view_mode_menu ( GtkWidget * button )
     menu = gtk_menu_new ();
 
     /* Edit transaction */
-    menu_item = gtk_image_menu_item_new_with_label ( _("Budgetary line view") );
+    menu_item = gtk_menu_item_new_with_label ( _("Budgetary line view") );
     g_signal_connect ( G_OBJECT(menu_item), "activate",
 		       G_CALLBACK(expand_arbre_division), (gpointer) 0 );
     g_object_set_data ( G_OBJECT(menu_item), "tree-view", budgetary_line_tree );
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
-    menu_item = gtk_image_menu_item_new_with_label ( _("Sub-budgetary line view") );
+    menu_item = gtk_menu_item_new_with_label ( _("Sub-budgetary line view") );
     g_signal_connect ( G_OBJECT(menu_item), "activate",
 		       G_CALLBACK(expand_arbre_division), (gpointer) 1 );
     g_object_set_data ( G_OBJECT(menu_item), "tree-view", budgetary_line_tree );
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
-    menu_item = gtk_image_menu_item_new_with_label ( _("Complete view") );
+    menu_item = gtk_menu_item_new_with_label ( _("Complete view") );
     g_signal_connect ( G_OBJECT(menu_item), "activate",
 		       G_CALLBACK(expand_arbre_division), (gpointer) 2 );
     g_object_set_data ( G_OBJECT(menu_item), "tree-view", budgetary_line_tree );
@@ -1139,10 +1139,7 @@ void budgetary_line_list_popup_context_menu ( void )
     {
         title = g_strdup ( _("Transfers the identical transactions in another sub-budgetary line") );
 
-        menu_item = gtk_image_menu_item_new_with_label ( title );
-        gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_icon_name ( "gtk-convert",
-                        GTK_ICON_SIZE_MENU ) );
+        menu_item = gtk_menu_item_new_with_label ( title );
         g_signal_connect_swapped ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( metatree_transfer_identical_transactions ),
@@ -1161,10 +1158,7 @@ void budgetary_line_list_popup_context_menu ( void )
         else
             title = g_strdup ( _("Edit selected sub-budgetary line") );
 
-        menu_item = gtk_image_menu_item_new_with_label ( title );
-        gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                            gtk_image_new_from_icon_name ( "gtk-edit",
-                            GTK_ICON_SIZE_MENU ) );
+        menu_item = gtk_menu_item_new_with_label ( title );
         g_signal_connect_swapped ( G_OBJECT ( menu_item ),
                             "activate",
                             G_CALLBACK ( edit_budgetary_line ),
@@ -1186,10 +1180,7 @@ void budgetary_line_list_popup_context_menu ( void )
         else
             title = g_strdup ( _("Transfer all transactions in another sub-budgetary line") );
 
-        menu_item = gtk_image_menu_item_new_with_label ( title );
-        gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_icon_name ( "gtk-convert",
-                        GTK_ICON_SIZE_MENU ) );
+        menu_item = gtk_menu_item_new_with_label ( title );
         g_signal_connect_swapped ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( metatree_manage_sub_divisions ),

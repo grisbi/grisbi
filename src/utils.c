@@ -1041,35 +1041,6 @@ gboolean utils_ui_left_panel_tree_view_select_page ( GtkWidget *tree_view,
 
 
 /**
- * retourne un menu_item avec une image comme icône
- *
- * \param image_name
- * \param label_name
- *
- * \return
- * */
-GtkWidget *utils_menu_new_item_from_image_label ( const gchar *image_name,
-                        const gchar *label_name )
-{
-    GtkWidget *menu_item = NULL;
-    gchar *filename;
-
-    filename = g_build_filename ( gsb_dirs_get_pixmaps_dir (), image_name, NULL );
-    if ( filename )
-    {
-        GtkWidget *image;
-
-        image = gtk_image_new_from_file ( filename );
-        g_free ( filename );
-
-        menu_item = gtk_image_menu_item_new_with_label ( label_name );
-        gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ), image );
-    }
-
-    return menu_item;
-}
-
-/**
  * set xalign and yalign to label
  *
  * \param
