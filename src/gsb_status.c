@@ -135,16 +135,20 @@ void gsb_status_clear (  )
  */
 void gsb_status_wait ( gboolean force_update )
 {
+    GdkDeviceManager *device_manager;
+    GdkDisplay *display;
+    GdkDevice *device;
     GdkWindow *current_window;
     GdkWindow *run_window;
 
-    run_window = gtk_widget_get_window ( GTK_WIDGET ( run.window ) );
+    run_window = gtk_widget_get_window (GTK_WIDGET (run.window));
+    display = display = gdk_window_get_display (run_window);
+    device_manager = gdk_display_get_device_manager (display);
+    device = gdk_device_manager_get_client_pointer (device_manager);
 
-    gdk_window_set_cursor ( run_window,
-                        gdk_cursor_new_for_display ( gdk_display_get_default ( ),
-                        GDK_WATCH ) );
+    gdk_window_set_cursor (run_window, gdk_cursor_new_for_display (display, GDK_WATCH));
 
-    current_window = gdk_display_get_window_at_pointer ( gdk_display_get_default ( ), NULL, NULL );
+    current_window = gdk_device_get_window_at_position (device, NULL, NULL);
 
     if ( current_window && GDK_IS_WINDOW ( current_window )
      &&
