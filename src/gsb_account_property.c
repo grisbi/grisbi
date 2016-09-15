@@ -387,7 +387,7 @@ GtkWidget *gsb_account_property_create_page ( void )
                         NULL );
     gtk_box_pack_start ( GTK_BOX(hbox), bank_list_combobox, TRUE, TRUE, 0);
 
-    edit_bank_button = gtk_button_new_from_stock ( "gtk-edit" );
+    edit_bank_button = utils_buttons_button_new_from_stock ("gtk-edit", _("Edit"));
     gtk_button_set_relief ( GTK_BUTTON ( edit_bank_button ), GTK_RELIEF_NONE );
     g_signal_connect ( G_OBJECT ( edit_bank_button ),
                         "clicked",
