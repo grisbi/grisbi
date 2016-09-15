@@ -3111,8 +3111,6 @@ static void etats_prefs_init ( EtatsPrefs *prefs )
 
     gtk_container_set_border_width ( GTK_CONTAINER ( prefs ), 5 );
     gtk_box_set_spacing (GTK_BOX ( gtk_dialog_get_content_area ( GTK_DIALOG ( prefs ) ) ), 2 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( gtk_dialog_get_action_area ( GTK_DIALOG ( prefs ) ) ), 5 );
-    gtk_box_set_spacing (GTK_BOX ( gtk_dialog_get_action_area (GTK_DIALOG ( prefs ) ) ), 6 );
 
     /* Recupération d'un pointeur sur le gtk_tree_view. */
     tree_view = etats_prefs_left_panel_create_tree_view ();
