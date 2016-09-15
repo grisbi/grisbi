@@ -40,6 +40,7 @@
 #include "etats_onglet.h"
 #include "gsb_account_property.h"
 #include "gsb_data_account.h"
+#include "gsb_dirs.h"
 #include "gsb_form.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
@@ -97,6 +98,7 @@ GtkWidget *gsb_gui_create_general_widgets ( void )
 {
     GtkWidget *hpaned_general;
     GtkWidget * hbox, * arrow_eb, * arrow_left, * arrow_right;
+    gchar *tmp_filename;
 
     /* All stuff will be put in a huge vbox, with an hbox containing
      * quick summary. */
@@ -109,7 +111,9 @@ GtkWidget *gsb_gui_create_general_widgets ( void )
     gtk_widget_set_margin_end (hbox, MARGIN_END );
 
     /* Create two arrows. */
-    arrow_left = gtk_arrow_new ( GTK_ARROW_LEFT, GTK_SHADOW_OUT );
+    tmp_filename = g_build_filename (gsb_dirs_get_pixmaps_dir (), "arrow-left.svg", NULL);
+    arrow_left = gtk_image_new_from_file (tmp_filename);
+    g_free (tmp_filename);
     arrow_eb = gtk_event_box_new ();
     gtk_container_add ( GTK_CONTAINER ( arrow_eb ), arrow_left );
     g_signal_connect ( G_OBJECT ( arrow_eb ), "button-press-event",
@@ -117,7 +121,9 @@ GtkWidget *gsb_gui_create_general_widgets ( void )
 		       gsb_gui_navigation_select_prev );
     gtk_box_pack_start ( GTK_BOX ( hbox ), arrow_eb, FALSE, FALSE, 0 );
 
-    arrow_right = gtk_arrow_new ( GTK_ARROW_RIGHT, GTK_SHADOW_OUT );
+    tmp_filename = g_build_filename (gsb_dirs_get_pixmaps_dir (), "arrow-right.svg", NULL);
+    arrow_right = gtk_image_new_from_file (tmp_filename);
+    g_free (tmp_filename);
     arrow_eb = gtk_event_box_new ();
     gtk_container_add ( GTK_CONTAINER ( arrow_eb ), arrow_right );
     g_signal_connect ( G_OBJECT ( arrow_eb ), "button-press-event",
