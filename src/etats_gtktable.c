@@ -98,6 +98,8 @@ void gtktable_attach_label ( gchar * text, gdouble properties, int x, int x2, in
 {
     GtkWidget * label;
     GtkStyle * style;
+    gint x_dim;
+    gint y_dim;
 
     if (!text)
     {
@@ -120,67 +122,60 @@ void gtktable_attach_label ( gchar * text, gdouble properties, int x, int x2, in
 	    break;
     }
 
-    style = gtk_style_copy ( gtk_widget_get_style (label));
+    //~ style = gtk_style_copy ( gtk_widget_get_style (label));
 
     if (transaction_number)
     {
 	GtkWidget *event_box;
-	GdkColor color;
-
-	/* Put prelight */
-	color.red =   1.00 * 65535 ;
-	color.green = 0.00 * 65535 ;
-	color.blue =  0.00 * 65535 ;
-	color.pixel = 0;
-	style->fg[GTK_STATE_PRELIGHT] = color;
+    GtkStyleContext* context;
 
 	event_box = gtk_event_box_new ();
-	g_signal_connect ( G_OBJECT ( event_box ),
-			     "enter_notify_event",
-			     G_CALLBACK ( met_en_prelight ),
-			     NULL );
-	g_signal_connect ( G_OBJECT ( event_box ),
-			     "leave_notify_event",
-			     G_CALLBACK ( met_en_normal ),
-			     NULL );
+    gtk_widget_set_name (event_box, "etat_event_box");
+    context = gtk_widget_get_style_context  (event_box);
+    gtk_style_context_set_state ( context, GTK_STATE_FLAG_ACTIVE );
+	g_signal_connect (G_OBJECT (event_box),
+                      "enter_notify_event",
+                      G_CALLBACK (utils_event_box_change_state),
+                      context);
+	g_signal_connect (G_OBJECT (event_box),
+                      "leave_notify_event",
+                      G_CALLBACK (utils_event_box_change_state),
+                      context);
 	g_signal_connect_swapped ( G_OBJECT ( event_box ),
 				    "button_press_event",
 				    G_CALLBACK ( gtktable_click_sur_ope_etat ),
 				    GINT_TO_POINTER (transaction_number) );
-	gtk_table_attach ( GTK_TABLE ( table_etat ), event_box,
-			   x, x2, y, y2,
-			   GTK_SHRINK | GTK_FILL,
-			   GTK_SHRINK | GTK_FILL,
-			   0, 0 );
-	gtk_widget_show ( event_box );
+        x_dim = x2 - x;
+        y_dim = y2 - y;
+        gtk_grid_attach (GTK_GRID (table_etat), event_box, x, y, x_dim, y_dim);
+
+    gtk_widget_show ( event_box );
 	gtk_container_add ( GTK_CONTAINER ( event_box ), label );
     }
     else
     {
-	gtk_table_attach ( GTK_TABLE ( table_etat ), label,
-			   x, x2, y, y2,
-			   GTK_SHRINK | GTK_FILL,
-			   GTK_SHRINK | GTK_FILL,
-			   0, 0 );
+        x_dim = x2 - x;
+        y_dim = y2 - y;
+        gtk_grid_attach (GTK_GRID (table_etat), label, x, y, x_dim, y_dim);
     }
 
-    if ( ((gint) properties) & TEXT_ITALIC)
-	pango_font_description_set_style ( style -> font_desc,
-					   PANGO_STYLE_ITALIC );
-    if ( ((gint) properties) & TEXT_BOLD)
-	pango_font_description_set_weight ( style -> font_desc,
-					    PANGO_WEIGHT_BOLD );
-    if ( ((gint) properties) & TEXT_HUGE )
-	pango_font_description_set_size ( style -> font_desc,
-					  pango_font_description_get_size(style->font_desc) + 100 );
-    if ( ((gint) properties) & TEXT_LARGE )
-	pango_font_description_set_size ( style -> font_desc,
-					  pango_font_description_get_size(style->font_desc) + 2 );
-    if ( ((gint) properties) & TEXT_SMALL )
-	pango_font_description_set_size ( style -> font_desc,
-					  pango_font_description_get_size(style->font_desc) - 2 );
+    //~ if ( ((gint) properties) & TEXT_ITALIC)
+	//~ pango_font_description_set_style ( style -> font_desc,
+					   //~ PANGO_STYLE_ITALIC );
+    //~ if ( ((gint) properties) & TEXT_BOLD)
+	//~ pango_font_description_set_weight ( style -> font_desc,
+					    //~ PANGO_WEIGHT_BOLD );
+    //~ if ( ((gint) properties) & TEXT_HUGE )
+	//~ pango_font_description_set_size ( style -> font_desc,
+					  //~ pango_font_description_get_size(style->font_desc) + 100 );
+    //~ if ( ((gint) properties) & TEXT_LARGE )
+	//~ pango_font_description_set_size ( style -> font_desc,
+					  //~ pango_font_description_get_size(style->font_desc) + 2 );
+    //~ if ( ((gint) properties) & TEXT_SMALL )
+	//~ pango_font_description_set_size ( style -> font_desc,
+					  //~ pango_font_description_get_size(style->font_desc) - 2 );
 
-    gtk_widget_set_style ( label, style );
+    //~ gtk_widget_set_style ( label, style );
     gtk_widget_show ( label );
 }
 
@@ -202,14 +197,14 @@ void gtktable_attach_label ( gchar * text, gdouble properties, int x, int x2, in
 void gtktable_attach_vsep ( int x, int x2, int y, int y2)
 {
     GtkWidget * separateur;
+    gint x_dim;
+    gint y_dim;
 
     separateur = gtk_separator_new ( GTK_ORIENTATION_VERTICAL );
-    gtk_table_attach ( GTK_TABLE ( table_etat ),
-		       separateur,
-		       x, x2, y, y2,
-		       GTK_SHRINK | GTK_FILL,
-		       GTK_SHRINK | GTK_FILL,
-		       2, 0 );
+    x_dim = x2 - x;
+    y_dim = y2 - y;
+    gtk_grid_attach (GTK_GRID (table_etat), separateur, x, y, x_dim, y_dim);
+    utils_widget_set_padding ( separateur, 2,0);
     gtk_widget_show ( separateur );
 }
 
@@ -225,14 +220,13 @@ void gtktable_attach_vsep ( int x, int x2, int y, int y2)
 void gtktable_attach_hsep ( int x, int x2, int y, int y2)
 {
     GtkWidget * separateur;
+    gint x_dim;
+    gint y_dim;
 
     separateur = gtk_separator_new ( GTK_ORIENTATION_HORIZONTAL );
-    gtk_table_attach ( GTK_TABLE ( table_etat ),
-		       separateur,
-		       x, x2, y, y2,
-		       GTK_SHRINK | GTK_FILL,
-		       GTK_SHRINK | GTK_FILL,
-		       0, 0 );
+    x_dim = x2 - x;
+    y_dim = y2 - y;
+    gtk_grid_attach (GTK_GRID (table_etat), separateur, x, y, x_dim, y_dim);
     gtk_widget_show ( separateur );
 }
 
@@ -244,8 +238,8 @@ gint gtktable_initialise ( GSList * opes_selectionnees, gchar * filename )
     /* on peut maintenant créer la table */
     /* pas besoin d'indiquer la hauteur, elle grandit automatiquement */
 
-    if ( table_etat && GTK_IS_TABLE(table_etat) )
-	gtk_widget_destroy (table_etat);
+    if (table_etat && GTK_IS_GRID (table_etat))
+        gtk_widget_destroy (table_etat);
 
     if ( scrolled_window_etat && gtk_bin_get_child ( GTK_BIN ( scrolled_window_etat ) ) )
         gtk_widget_hide ( gtk_bin_get_child ( GTK_BIN ( scrolled_window_etat ) ) );
@@ -254,8 +248,8 @@ gint gtktable_initialise ( GSList * opes_selectionnees, gchar * filename )
      * while we are processing the new report */
 /*     update_gui ( );  */
 
-    table_etat = gtk_table_new ( 0, nb_colonnes, FALSE );
-    gtk_table_set_col_spacings ( GTK_TABLE ( table_etat ), 5 );
+    table_etat = gtk_grid_new ();
+    gtk_grid_set_column_spacing (GTK_GRID (table_etat), 5);
 
     return 1;
 }
