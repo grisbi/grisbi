@@ -3737,7 +3737,7 @@ GtkWidget *onglet_importation (void)
                         _("QIF Import settings"));
 
     /* extraire le moyen de paiement du champs "N" pour le mettre dans type de transaction */
-    hbox = gtk_hbox_new ( FALSE, 0 );
+    hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
     button = gsb_automem_checkbutton_new (
@@ -3747,7 +3747,7 @@ GtkWidget *onglet_importation (void)
 
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
     /* adding comment */
-    hbox = gtk_hbox_new ( FALSE, 0 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new (
