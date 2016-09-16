@@ -165,7 +165,7 @@ void set_popup_position (GtkMenu *menu, gint *x, gint *y, gboolean *push_in, gpo
 
     widget = GTK_WIDGET (user_data);
 
-    gtk_widget_get_child_requisition (GTK_WIDGET (menu), &requisition);
+    gtk_widget_get_preferred_size (GTK_WIDGET (menu), &requisition, NULL);
     menu_width = requisition.width;
 
     gdk_window_get_origin ( gtk_widget_get_window ( widget ), &menu_xpos, &menu_ypos );
