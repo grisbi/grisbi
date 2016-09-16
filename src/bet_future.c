@@ -2270,7 +2270,6 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
     g_object_set_data ( G_OBJECT ( dialog ), "tree_view", tree_view );
 
     gtk_container_add (GTK_CONTAINER ( sw ), tree_view );
-    gtk_container_set_resize_mode (GTK_CONTAINER ( sw ), GTK_RESIZE_PARENT );
 
     /* Account with deferred debit card */
     paddingbox = new_paddingbox_with_title ( main_vbox, FALSE, _("Deferred debit card") );

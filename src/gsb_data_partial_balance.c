@@ -1648,7 +1648,6 @@ GtkWidget *gsb_partial_balance_create_list_accounts ( GtkWidget *entry )
                         (GtkTreeSelectionFunc) gsb_partial_balance_select_account,
                         entry, NULL );
     gtk_container_add ( GTK_CONTAINER ( sw ), treeview );
-    gtk_container_set_resize_mode ( GTK_CONTAINER ( sw ), GTK_RESIZE_PARENT );
     gtk_box_pack_start ( GTK_BOX ( vbox ), sw, FALSE, FALSE, 0 );
     g_object_set_data ( G_OBJECT (vbox), "account_treeview", treeview );
 

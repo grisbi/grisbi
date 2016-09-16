@@ -1203,7 +1203,6 @@ static GtkWidget *gsb_assistant_payees_page_3 ( GtkWidget *assistant )
     //~ gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (treeview), TRUE);
     gtk_widget_set_size_request ( treeview, -1, 230 );
     gtk_container_add (GTK_CONTAINER (sw), treeview);
-    gtk_container_set_resize_mode (GTK_CONTAINER (sw), GTK_RESIZE_PARENT);
     gtk_box_pack_start ( GTK_BOX (paddingbox), sw, FALSE, FALSE, 0 );
     g_object_set_data ( G_OBJECT (assistant), "treeview", treeview );
 

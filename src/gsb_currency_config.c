@@ -1160,7 +1160,6 @@ GtkWidget *gsb_currency_config_create_box_popup ( GCallback select_callback )
 			   model );
 
     gtk_container_add (GTK_CONTAINER (sw), treeview);
-    gtk_container_set_resize_mode (GTK_CONTAINER (sw), GTK_RESIZE_PARENT);
 
     vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
     gtk_box_pack_start ( GTK_BOX(vbox), sw,

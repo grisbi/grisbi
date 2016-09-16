@@ -325,7 +325,6 @@ static GtkWidget *onglet_accueil ( void )
                         (GtkTreeSelectionFunc) gsb_partial_balance_select_func,
                         vbox_pref, NULL );
     gtk_container_add (GTK_CONTAINER (sw), treeview);
-    gtk_container_set_resize_mode (GTK_CONTAINER (sw), GTK_RESIZE_PARENT);
     g_object_set_data ( G_OBJECT (vbox_pref), "treeview", treeview );
 
     /* Nom du solde partiel */

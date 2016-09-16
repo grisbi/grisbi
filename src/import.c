@@ -3856,7 +3856,6 @@ GtkWidget * gsb_import_associations_gere_tiers ( void )
                         (GtkTreeSelectionFunc) gsb_import_associations_select_func,
                         vbox_main, NULL );
     gtk_container_add (GTK_CONTAINER (sw), treeview);
-    gtk_container_set_resize_mode (GTK_CONTAINER (sw), GTK_RESIZE_PARENT);
     g_object_set_data ( G_OBJECT (vbox_main), "treeview", treeview );
 
     /* payee name */
