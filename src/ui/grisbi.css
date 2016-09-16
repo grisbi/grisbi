@@ -2,6 +2,8 @@
 /* Couleurs de base */
 @define-color couleur_bleue blue;
 @define-color couleur_jaune yellow;
+@define-color couleur_grey_box rgba(192,192,192,1.0);
+
 
 /* colors of the amounts in the first page */
 @define-color couleur_nom_compte_normal rgb(0,0,0);
@@ -45,7 +47,7 @@
 }
 
 #grey_box {
-  background-color: rgba(192,192,192,1.0);
+  background-color: @couleur_grey_box;
 }
 
 #accueil_nom_compte {
@@ -100,3 +102,12 @@
   color: @couleur_solde_alarme_rouge_prelight;
 }
 
+#list_config_buttons {
+  color: red;
+  background-color: @couleur_grey_box;
+}
+
+#list_config_buttons:checked {
+  color: green;
+  background-color: @couleur_selection;
+}

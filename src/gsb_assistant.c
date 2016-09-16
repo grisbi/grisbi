@@ -106,7 +106,6 @@ GtkWidget * gsb_assistant_new ( const gchar * title, const gchar * explanation,
     GtkWidget * assistant, *notebook, *hbox, *label, *image, *view, *eb;
     GtkWidget * button_cancel, * button_prev, * button_next;
     GtkWidget *button_select;
-    GtkStyle * style;
     GtkTextBuffer * buffer;
     gchar *tmpstr;
     gint width = 140;
@@ -144,8 +143,7 @@ GtkWidget * gsb_assistant_new ( const gchar * title, const gchar * explanation,
     g_object_set_data ( G_OBJECT(assistant), "button_next", button_next );
 
     eb = gtk_event_box_new ();
-    style = gtk_widget_get_style ( eb );
-    gtk_widget_modify_bg ( eb, 0, &(style -> bg[GTK_STATE_ACTIVE]) );
+    gtk_widget_set_name (eb, "grey_box");
 
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 12 );
     gtk_container_add ( GTK_CONTAINER(eb), hbox );

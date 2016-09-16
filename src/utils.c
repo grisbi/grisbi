@@ -379,7 +379,6 @@ GtkWidget *new_vbox_with_title_and_icon ( gchar *title,
                         gchar *image_filename)
 {
     GtkWidget *vbox_pref, *hbox, *label, *image, *eb;
-    GtkStyle * style;
 	gchar* tmpstr1;
 	gchar* tmpstr2;
 
@@ -387,8 +386,7 @@ GtkWidget *new_vbox_with_title_and_icon ( gchar *title,
     gtk_widget_show ( vbox_pref );
 
     eb = gtk_event_box_new ();
-    style = gtk_widget_get_style ( eb );
-    gtk_widget_modify_bg ( eb, 0, &(style -> bg[GTK_STATE_ACTIVE]) );
+    gtk_widget_set_name (eb, "grey_box");
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ), eb, FALSE, FALSE, 0);
 
 

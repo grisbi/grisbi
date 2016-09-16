@@ -56,8 +56,6 @@ static gboolean display_mode_button_changed ( GtkWidget *button,
 static gboolean gsb_transaction_list_config_button_set_active_from_string ( GtkWidget *tree_view,
                         gchar *string,
                         gboolean active );
-static void gsb_transaction_list_config_button_set_normal_color ( GtkWidget *toggle_button,
-                        gboolean normal );
 static GtkWidget *gsb_transaction_list_config_create_buttons_table ( GtkWidget *tree_view );
 static GtkWidget *gsb_transaction_list_config_create_tree_view ( GtkListStore *store );
 static gboolean gsb_transaction_list_config_drag_begin ( GtkWidget *tree_view,
@@ -1181,14 +1179,11 @@ gboolean gsb_transaction_list_config_update_list_config ( GtkWidget *tree_view )
                                         G_CALLBACK ( gsb_transaction_list_config_toggle_element_button ),
                                         tree_view );
                     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( list_config_buttons[i] ), TRUE );
-                    gsb_transaction_list_config_button_set_normal_color ( list_config_buttons[i], FALSE );
 
                     g_signal_handlers_unblock_by_func ( G_OBJECT ( list_config_buttons[i] ),
                                         G_CALLBACK ( gsb_transaction_list_config_toggle_element_button ),
                                         tree_view );
                 }
-                else
-                    gsb_transaction_list_config_button_set_normal_color ( list_config_buttons[i], TRUE );
             }
             while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( store ), &iter ) );
         }
@@ -1269,6 +1264,7 @@ GtkWidget *gsb_transaction_list_config_create_buttons_table ( GtkWidget *tree_vi
 
             list_config_buttons[current_number] = gtk_toggle_button_new_with_label ( changed_string );
             gtk_widget_set_size_request (list_config_buttons[current_number], 110, -1);
+            gtk_widget_set_name (list_config_buttons[current_number], "list_config_buttons");
 
             g_object_set_data ( G_OBJECT ( list_config_buttons[current_number] ),
                         "element_number",
@@ -1314,9 +1310,6 @@ void gsb_transaction_list_config_toggle_element_button ( GtkWidget *toggle_butto
         gint row, column;
         gboolean place_trouvee = FALSE;
 
-        /* on change la couleur du bouton */
-        gsb_transaction_list_config_button_set_normal_color ( toggle_button, FALSE );
-
         /* button is on, append the element */
         for ( row = 3 ; row >= 0 ; row-- )
         {
@@ -1348,9 +1341,6 @@ void gsb_transaction_list_config_toggle_element_button ( GtkWidget *toggle_butto
     {
         GtkTreeModel *store;
         GtkTreeIter iter;
-
-        /* on change la couleur du bouton */
-        gsb_transaction_list_config_button_set_normal_color ( toggle_button, TRUE );
 
         /* on supprime la donnée dans la liste */
         store = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
@@ -1414,7 +1404,6 @@ gboolean gsb_transaction_list_config_button_set_active_from_string ( GtkWidget *
                                 G_CALLBACK ( gsb_transaction_list_config_toggle_element_button ),
                                 tree_view );
             gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( list_config_buttons[i] ), active );
-            gsb_transaction_list_config_button_set_normal_color ( list_config_buttons[i], !active );
 
             g_signal_handlers_unblock_by_func ( G_OBJECT ( list_config_buttons[i] ),
                                 G_CALLBACK ( gsb_transaction_list_config_toggle_element_button ),
@@ -1428,30 +1417,6 @@ gboolean gsb_transaction_list_config_button_set_active_from_string ( GtkWidget *
 
     return FALSE;
 }
-
-
-/**
- *
- *
- *
- *
- * */
-void gsb_transaction_list_config_button_set_normal_color ( GtkWidget *toggle_button,
-                        gboolean normal )
-{
-    if ( normal )
-    {
-        gtk_widget_modify_bg ( toggle_button, GTK_STATE_NORMAL, gsb_color_get_couleur ( "couleur_grise" ) );
-        gtk_widget_modify_bg ( toggle_button, GTK_STATE_PRELIGHT, gsb_color_get_couleur ( "couleur_grise" ) );
-    }
-    else
-    {
-        gtk_widget_modify_bg ( toggle_button, GTK_STATE_NORMAL, gsb_color_get_couleur ( "couleur_selection" ) );
-        gtk_widget_modify_bg ( toggle_button, GTK_STATE_ACTIVE, gsb_color_get_couleur ( "couleur_selection" ) );
-        gtk_widget_modify_bg ( toggle_button, GTK_STATE_PRELIGHT, gsb_color_get_couleur ( "couleur_selection" ) );
-    }
-}
-
 
 /* Local Variables: */
 /* c-basic-offset: 4 */
