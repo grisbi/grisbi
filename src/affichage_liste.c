@@ -806,6 +806,7 @@ GtkWidget *onglet_affichage_liste ( void )
 
     /* partie 1 visualisation de l'arrangement des données */
 	paddingbox = new_paddingbox_with_title ( onglet, FALSE, _("Transactions list preview") );
+    utils_widget_set_padding (paddingbox, 15, 0);
 
     /*create the scolled window for tree_view */
     sw = gtk_scrolled_window_new ( NULL, NULL );
@@ -839,6 +840,7 @@ GtkWidget *onglet_affichage_liste ( void )
 
     /* partie 2 Source des données */
 	paddingbox = new_paddingbox_with_title ( onglet, FALSE, _("Transactions list contents") );
+    utils_widget_set_padding (paddingbox, 15, 0);
 
 	/* on crée maintenant une table de 3x6 boutons */
 	table = gsb_transaction_list_config_create_buttons_table ( tree_view );
@@ -944,18 +946,6 @@ gboolean gsb_transaction_list_config_realized ( GtkWidget *tree_view,
 
     /* fill and update the transaction list and buttons */
     gsb_transaction_list_config_update_list_config ( tree_view );
-
-    for ( column = 0 ; column < CUSTOM_MODEL_VISIBLE_COLUMNS ; column++ )
-    {
-        gint width;
-        GtkAllocation allocation;
-
-        gtk_widget_get_allocation ( tree_view, &allocation );
-        width = ( transaction_col_width [column] * ( allocation.width ) ) / 100;
-        gtk_tree_view_column_set_fixed_width (
-                        gtk_tree_view_get_column ( GTK_TREE_VIEW ( tree_view ), column ),
-                        width );
-    }
 
     display = gdk_window_get_display (gtk_widget_get_window (run.window));
     cursor = gdk_cursor_new_for_display (display, GDK_HAND2);
@@ -1278,6 +1268,8 @@ GtkWidget *gsb_transaction_list_config_create_buttons_table ( GtkWidget *tree_vi
             changed_string = limit_string ( string, 10 );
 
             list_config_buttons[current_number] = gtk_toggle_button_new_with_label ( changed_string );
+            gtk_widget_set_size_request (list_config_buttons[current_number], 110, -1);
+
             g_object_set_data ( G_OBJECT ( list_config_buttons[current_number] ),
                         "element_number",
                         GINT_TO_POINTER ( current_number + 1 ) );
