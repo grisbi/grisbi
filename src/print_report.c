@@ -356,9 +356,7 @@ static void print_report_draw_row ( GtkPrintContext *context,
     text = gtk_label_get_text (GTK_LABEL (label));
 
     /* get the alignment */
-    gtk_misc_get_alignment (GTK_MISC (label),
-			    &alignment,
-			    NULL );
+    alignment = gtk_label_get_xalign (GTK_LABEL (label));
     if (!alignment)
 	pango_alignment = PANGO_ALIGN_LEFT;
     else
