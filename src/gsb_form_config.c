@@ -1133,6 +1133,7 @@ gboolean gsb_form_config_drag_begin ( GtkWidget *tree_view,
 				      GdkDragContext *drag_context,
 				      gpointer null )
 {
+    GdkDevice *device;
     gint x, y;
     GtkTreePath *path;
     GtkTreeViewColumn *tree_column;
@@ -1143,16 +1144,19 @@ gboolean gsb_form_config_drag_begin ( GtkWidget *tree_view,
     cairo_t *cr;
 
     /* get the cell coord */
-    gdk_window_get_pointer ( gtk_tree_view_get_bin_window ( GTK_TREE_VIEW ( tree_view )),
-			     &x,
-			     &y,
-			     FALSE );
-    gtk_tree_view_get_path_at_pos ( GTK_TREE_VIEW ( tree_view ),
-				    x,
-				    y,
-				    &path,
-				    &tree_column,
-				    NULL, NULL );
+    device = gdk_drag_context_get_device (drag_context);
+    gdk_window_get_device_position (gtk_tree_view_get_bin_window (GTK_TREE_VIEW (tree_view )),
+                                    device,
+                                    &x,
+                                    &y,
+                                    NULL);
+    gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW (tree_view),
+                                   x,
+                                   y,
+                                   &path,
+                                   &tree_column,
+                                   NULL,
+                                   NULL);
 
     if ( !path
 	 ||
@@ -1201,6 +1205,7 @@ gboolean gsb_form_config_drag_end ( GtkWidget *tree_view,
 				    GdkDragContext *drag_context,
 				    gpointer null )
 {
+    GdkDevice *device;
     gint x, y;
     GtkTreePath *path;
     GtkTreeViewColumn *tree_column;
@@ -1210,17 +1215,19 @@ gboolean gsb_form_config_drag_end ( GtkWidget *tree_view,
     gint account_number;
 
     /* get the cell position */
-    gdk_window_get_pointer ( gtk_tree_view_get_bin_window ( GTK_TREE_VIEW ( tree_view )),
-			     &x,
-			     &y,
-			     FALSE );
-    gtk_tree_view_get_path_at_pos ( GTK_TREE_VIEW ( tree_view ),
-				    x,
-				    y,
-				    &path,
-				    &tree_column,
-				    NULL,
-				    NULL );
+    device = gdk_drag_context_get_device (drag_context);
+    gdk_window_get_device_position (gtk_tree_view_get_bin_window (GTK_TREE_VIEW (tree_view )),
+                                    device,
+                                    &x,
+                                    &y,
+                                    NULL);
+    gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW (tree_view),
+                                   x,
+                                   y,
+                                   &path,
+                                   &tree_column,
+                                   NULL,
+                                   NULL);
 
     if ( !path
 	 ||
