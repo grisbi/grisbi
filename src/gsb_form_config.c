@@ -778,6 +778,8 @@ gboolean gsb_form_config_realized ( GtkWidget *tree_view,
     gint column;
     gint account_number;
     GtkAllocation allocation;
+    GdkCursor *cursor;
+    GdkDisplay *display;
 
     if ( !assert_account_loaded())
       return FALSE;
@@ -795,7 +797,9 @@ gboolean gsb_form_config_realized ( GtkWidget *tree_view,
                         gsb_data_form_get_width_column ( account_number, column ) * allocation.width / 100 );
     }
 
-    gdk_window_set_cursor ( gtk_widget_get_window ( tree_view ), gdk_cursor_new ( GDK_FLEUR ) );
+    display = gdk_window_get_display (gtk_widget_get_window (run.window));
+    cursor = gdk_cursor_new_for_display (display, GDK_FLEUR);
+    gdk_window_set_cursor (gtk_widget_get_window (tree_view), cursor);
 
     return FALSE;
 }
