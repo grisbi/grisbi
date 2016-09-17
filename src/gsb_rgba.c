@@ -126,11 +126,11 @@ void gsb_rgba_initialise_couleurs_par_defaut (void)
         notice_debug ("default_background_split en erreur");
 
     /* colors of the background bet divisions */
-    if (!gdk_rgba_parse (&default_couleur_bet_division, "rgb(0,255,130)"))
+    if (!gdk_rgba_parse (&default_couleur_bet_division, "rgb(250,255,130)"))
         notice_debug ("default_couleur_bet_division en erreur");
 
     /* colors of the background bet future data */
-    if (!gdk_rgba_parse (&default_couleur_bet_future, "rgb(0,200,140)"))
+    if (!gdk_rgba_parse (&default_couleur_bet_future, "rgb(125,200,140)"))
         notice_debug ("default_couleur_bet_future en erreur");
 
     /* colors of the background bet solde data */
