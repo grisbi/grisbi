@@ -257,7 +257,7 @@ gboolean print_report_draw_page ( GtkPrintOperation *operation,
 	else
 	{
 	    /* we are on a separator, draw it */
-	    if (GTK_IS_VSEPARATOR (child->widget))
+	    if (GTK_IS_SEPARATOR (child->widget))
 		print_report_draw_column (child, line_position);
 	    else
 		print_report_draw_line (child, line_position);
