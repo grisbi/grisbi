@@ -46,7 +46,9 @@
 #include "bet_data.h"
 #include "bet_data_finance.h"
 #include "bet_graph.h"
+#include "custom_list.h"
 #include "dialog.h"
+#include "gsb_calendar.h"
 #include "gsb_color.h"
 #include "gsb_data_account.h"
 #include "gsb_data_archive.h"
@@ -63,22 +65,21 @@
 #include "gsb_data_payment.h"
 #include "gsb_data_print_config.h"
 #include "gsb_data_reconcile.h"
-#include "gsb_data_report_amout_comparison.h"
 #include "gsb_data_report.h"
+#include "gsb_data_report_amout_comparison.h"
 #include "gsb_data_report_text_comparison.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "gsb_file.h"
-#include "utils_dates.h"
-#include "navigation.h"
 #include "gsb_locale.h"
 #include "gsb_real.h"
+#include "gsb_rgba.h"
 #include "gsb_select_icon.h"
-#include "utils_str.h"
-#include "structures.h"
-#include "custom_list.h"
 #include "gsb_scheduler_list.h"
-#include "gsb_calendar.h"
+#include "navigation.h"
+#include "structures.h"
+#include "utils_dates.h"
+#include "utils_str.h"
 #include "erreur.h"
 #ifdef HAVE_SSL
 #include "plugins/openssl/openssl.h"
@@ -170,6 +171,37 @@ extern gint transaction_col_width[CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/
 
+/******************************************************************************/
+/* Private functions                                                           */
+/******************************************************************************/
+/**
+ * save the rgba part
+ *
+ * \param iterator the current iterator
+ * \param length_calculated a pointer to the variable lengh_calculated
+ * \param file_content a pointer to the variable file_content
+ *
+ * \return the new iterator
+ * */
+static gulong gsb_file_save_rgba_part (gulong iterator,
+                                       gulong *length_calculated,
+                                       gchar **file_content)
+{
+    gchar *new_string;
+
+    new_string = gsb_rgba_get_string_to_save ();
+
+    /* append the new string to the file content
+     * and return the new iterator */
+    return gsb_file_save_append_part (iterator,
+                                      length_calculated,
+                                      file_content,
+                                      new_string);
+}
+
+/******************************************************************************/
+/* Public functions                                                           */
+/******************************************************************************/
 /**
  * save the grisbi file or an archive
  * we don't check anything here, all must be done before, here we just write
@@ -213,6 +245,8 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
     gint account_icon_part = 4500;
     gint bet_part = 500;
     gint bet_graph_part = 100;
+    gint color_part  = 3000;
+    gint rgba_part = 1000;
 
     struct stat buf;
 
@@ -257,7 +291,9 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
     + logo_part
     + account_icon_part * g_slist_length ( gsb_select_icon_list_accounts_icon () )
     + bet_part
-    + bet_graph_part;
+    + bet_graph_part
+    + color_part
+    + rgba_part;
 
     iterator = 0;
     file_content = g_malloc0 ( length_calculated * sizeof ( gchar ) );
@@ -277,6 +313,10 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
 					  &length_calculated,
 					  &file_content,
 					  archive_number );
+
+    iterator = gsb_file_save_rgba_part ( iterator,
+					  &length_calculated,
+					  &file_content );
 
     iterator = gsb_file_save_print_part ( iterator,
 					  &length_calculated,

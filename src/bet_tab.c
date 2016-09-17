@@ -822,7 +822,7 @@ GtkWidget *bet_array_create_tree_view ( GtkWidget *container )
                     G_TYPE_DATE,        /* SPP_ESTIMATE_TREE_SORT_DATE_COLUMN */
                     G_TYPE_STRING,      /* SPP_ESTIMATE_TREE_AMOUNT_COLUMN */
                     G_TYPE_STRING,      /* SPP_ESTIMATE_TREE_BALANCE_COLOR */
-                    GDK_TYPE_RGBA,     /* SPP_ESTIMATE_TREE_BACKGROUND_COLOR */
+                    GDK_TYPE_RGBA,      /* SPP_ESTIMATE_TREE_BACKGROUND_COLOR */
                     G_TYPE_STRING );    /* SPP_ESTIMATE_TREE_COLOR_STRING */
 
     gtk_tree_view_set_model ( GTK_TREE_VIEW ( tree_view ), GTK_TREE_MODEL ( tree_model ) );
@@ -2134,7 +2134,7 @@ gboolean bet_array_entry_key_press ( GtkWidget *entry,
 
     return FALSE;
 }
-/**
+/**+
  *
  *
  *
