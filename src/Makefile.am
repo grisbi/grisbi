@@ -119,6 +119,7 @@ libgrisbi_la_SOURCES = \
 	gsb_reconcile_sort_config.c	\
 	gsb_regex.c		\
 	gsb_report.c		\
+	gsb_rgba.c  \
 	gsb_scheduler.c		\
 	gsb_scheduler_list.c	\
 	gsb_select_icon.c \
@@ -273,6 +274,7 @@ libgrisbi_la_SOURCES = \
 	gsb_reconcile_sort_config.h	\
 	gsb_regex.h		\
 	gsb_report.h		\
+	gsb_rgba.h  \
 	gsb_status.h            \
 	gsb_select_icon.h 	\
 	gsb_scheduler.h		\

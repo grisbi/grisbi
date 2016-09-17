@@ -50,6 +50,7 @@
 #include "gsb_file.h"
 #include "gsb_file_config.h"
 #include "gsb_locale.h"
+#include "gsb_rgba.h"
 #include "gsb_status.h"
 #include "import.h"
 #include "menu.h"
@@ -527,6 +528,7 @@ gboolean gsb_grisbi_init_app ( void )
     g_object_unref (file);
 
     gsb_color_initialise_couleurs_par_defaut ( );
+    gsb_rgba_initialise_couleurs_par_defaut ();
     init_variables ();
     register_import_formats ();
 
