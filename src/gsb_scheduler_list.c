@@ -43,7 +43,6 @@
 #include "fenetre_principale.h"
 #include "gsb_automem.h"
 #include "gsb_calendar.h"
-#include "gsb_color.h"
 #include "gsb_data_account.h"
 #include "gsb_data_category.h"
 #include "gsb_data_currency.h"
@@ -54,6 +53,7 @@
 #include "gsb_form.h"
 #include "gsb_form_scheduler.h"
 #include "gsb_real.h"
+#include "gsb_rgba.h"
 #include "gsb_scheduler.h"
 #include "gsb_transactions_list.h"
 #include "menu.h"
@@ -625,7 +625,7 @@ void gsb_scheduler_list_create_list_columns ( GtkWidget *tree_view )
                 scheduler_list_column[i] = gtk_tree_view_column_new_with_attributes ( scheduler_titles[i],
 									      cell_renderer,
                                             "text", i,
-                                            "cell-background-gdk", SCHEDULER_COL_NB_BACKGROUND,
+                                            "cell-background-rgba", SCHEDULER_COL_NB_BACKGROUND,
                                             "font-desc", SCHEDULER_COL_NB_FONT,
                                             "foreground", SCHEDULER_COL_NB_TEXT_COLOR,
 									      NULL );
@@ -646,7 +646,7 @@ void gsb_scheduler_list_create_list_columns ( GtkWidget *tree_view )
                 scheduler_list_column[i] = gtk_tree_view_column_new_with_attributes ( scheduler_titles[i],
                                             cell_renderer,
                                             "text", i,
-                                            "cell-background-gdk", SCHEDULER_COL_NB_BACKGROUND,
+                                            "cell-background-rgba", SCHEDULER_COL_NB_BACKGROUND,
                                             "font-desc", SCHEDULER_COL_NB_FONT,
                                             "foreground", SCHEDULER_COL_NB_TEXT_COLOR,
                                             NULL );
@@ -667,7 +667,7 @@ void gsb_scheduler_list_create_list_columns ( GtkWidget *tree_view )
                 scheduler_list_column[i] = gtk_tree_view_column_new_with_attributes ( scheduler_titles[i],
                                             cell_renderer,
                                             "text", i,
-                                            "cell-background-gdk", SCHEDULER_COL_NB_BACKGROUND,
+                                            "cell-background-rgba", SCHEDULER_COL_NB_BACKGROUND,
                                             "font-desc", SCHEDULER_COL_NB_FONT,
                                             "foreground", SCHEDULER_COL_NB_TEXT_COLOR,
                                             NULL );
@@ -688,7 +688,7 @@ void gsb_scheduler_list_create_list_columns ( GtkWidget *tree_view )
                 scheduler_list_column[i] = gtk_tree_view_column_new_with_attributes ( scheduler_titles[i],
                                             cell_renderer,
                                             "text", i,
-                                            "cell-background-gdk", SCHEDULER_COL_NB_BACKGROUND,
+                                            "cell-background-rgba", SCHEDULER_COL_NB_BACKGROUND,
                                             "font-desc", SCHEDULER_COL_NB_FONT,
                                             "foreground", SCHEDULER_COL_NB_TEXT_COLOR,
                                             NULL );
@@ -697,7 +697,7 @@ void gsb_scheduler_list_create_list_columns ( GtkWidget *tree_view )
                 scheduler_list_column[i] = gtk_tree_view_column_new_with_attributes ( scheduler_titles[i],
                                             cell_renderer,
                                             "text", i,
-                                            "cell-background-gdk", SCHEDULER_COL_NB_BACKGROUND,
+                                            "cell-background-rgba", SCHEDULER_COL_NB_BACKGROUND,
                                             "font-desc", SCHEDULER_COL_NB_FONT,
                                             "foreground", SCHEDULER_COL_NB_TEXT_COLOR,
                                             NULL );
@@ -706,7 +706,7 @@ void gsb_scheduler_list_create_list_columns ( GtkWidget *tree_view )
                 scheduler_list_column[i] = gtk_tree_view_column_new_with_attributes ( scheduler_titles[i],
                                             cell_renderer,
                                             "text", i,
-                                            "cell-background-gdk", SCHEDULER_COL_NB_BACKGROUND,
+                                            "cell-background-rgba", SCHEDULER_COL_NB_BACKGROUND,
                                             "font-desc", SCHEDULER_COL_NB_FONT,
                                             "foreground", SCHEDULER_COL_NB_TEXT_COLOR,
                                             NULL );
@@ -715,7 +715,7 @@ void gsb_scheduler_list_create_list_columns ( GtkWidget *tree_view )
                 scheduler_list_column[i] = gtk_tree_view_column_new_with_attributes ( scheduler_titles[i],
                                             cell_renderer,
                                             "text", i,
-                                            "cell-background-gdk", SCHEDULER_COL_NB_BACKGROUND,
+                                            "cell-background-rgba", SCHEDULER_COL_NB_BACKGROUND,
                                             "foreground", SCHEDULER_COL_NB_AMOUNT_COLOR,
                                             "font-desc", SCHEDULER_COL_NB_FONT,
                                             NULL );
@@ -757,8 +757,8 @@ GtkTreeModel *gsb_scheduler_list_create_model ( void )
 				 G_TYPE_STRING,                 /* COL_NB_MODE */
 				 G_TYPE_STRING,                 /* COL_NB_NOTES */
 				 G_TYPE_STRING,                 /* COL_NB_AMOUNT */
-				 GDK_TYPE_COLOR,                /* SCHEDULER_COL_NB_BACKGROUND */
-				 GDK_TYPE_COLOR,                /* SCHEDULER_COL_NB_SAVE_BACKGROUND */
+				 GDK_TYPE_RGBA,                /* SCHEDULER_COL_NB_BACKGROUND */
+				 GDK_TYPE_RGBA,                /* SCHEDULER_COL_NB_SAVE_BACKGROUND */
 				 G_TYPE_STRING,                 /* SCHEDULER_COL_NB_AMOUNT_COLOR */
 				 G_TYPE_INT,                    /* SCHEDULER_COL_NB_TRANSACTION_NUMBER */
 				 PANGO_TYPE_FONT_DESCRIPTION,   /* SCHEDULER_COL_NB_FONT */
@@ -1128,7 +1128,7 @@ gboolean gsb_scheduler_list_append_new_scheduled ( gint scheduled_number,
         {
             gtk_tree_store_set ( GTK_TREE_STORE ( tree_model_scheduler_list ),
                         &iter,
-                        SCHEDULER_COL_NB_BACKGROUND, gsb_color_get_couleur ( "split_background" ),
+                        SCHEDULER_COL_NB_BACKGROUND, gsb_rgba_get_couleur ( "split_background" ),
                         -1 );
         }
         else
@@ -1496,14 +1496,14 @@ gboolean gsb_scheduler_list_set_background_color ( GtkWidget *tree_view )
         if ( virtual_transaction )
             gtk_tree_store_set ( store,
                         &iter,
-                        SCHEDULER_COL_NB_BACKGROUND, gsb_color_get_couleur ( "couleur_grise" ),
+                        SCHEDULER_COL_NB_BACKGROUND, gsb_rgba_get_couleur ( "couleur_grise" ),
                         -1 );
         else
         {
             gtk_tree_store_set ( store,
                         &iter,
                         SCHEDULER_COL_NB_BACKGROUND,
-                        gsb_color_get_couleur_with_indice ( "couleur_fond", current_color ),
+                        gsb_rgba_get_couleur_with_indice ( "couleur_fond", current_color ),
                         -1 );
             current_color = !current_color;
         }

@@ -38,7 +38,6 @@
 
 /*START_INCLUDE*/
 #include "gsb_calendar_entry.h"
-#include "gsb_color.h"
 #include "gsb_form_widget.h"
 #include "structures.h"
 #include "utils_dates.h"

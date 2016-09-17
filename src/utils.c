@@ -32,10 +32,10 @@
 /*START_INCLUDE*/
 #include "utils.h"
 #include "dialog.h"
-#include "gsb_color.h"
 #include "gsb_data_account.h"
 #include "gsb_dirs.h"
 #include "gsb_file_config.h"
+#include "gsb_rgba.h"
 #include "structures.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -535,11 +535,11 @@ void lance_mailer ( const gchar *uri )
  * */
 void utils_set_tree_view_selection_and_text_color ( GtkWidget *tree_view )
 {
-    //~ gtk_widget_modify_base ( tree_view, GTK_STATE_SELECTED, gsb_color_get_couleur ( "couleur_selection" ) );
-    //~ gtk_widget_modify_base ( tree_view, GTK_STATE_ACTIVE, gsb_color_get_couleur ( "couleur_selection" ) );
+    gtk_widget_override_background_color ( tree_view, GTK_STATE_FLAG_SELECTED, gsb_rgba_get_couleur ( "couleur_selection" ) );
+    gtk_widget_override_background_color ( tree_view, GTK_STATE_FLAG_ACTIVE, gsb_rgba_get_couleur ( "couleur_selection" ) );
 
-    //~ gtk_widget_modify_text ( tree_view, GTK_STATE_SELECTED, gsb_color_get_couleur_with_indice ( "text_color", 0 ) );
-    //~ gtk_widget_modify_text ( tree_view, GTK_STATE_ACTIVE, gsb_color_get_couleur_with_indice ( "text_color", 0 ) );
+    gtk_widget_override_background_color ( tree_view, GTK_STATE_FLAG_SELECTED, gsb_rgba_get_couleur_with_indice ( "text_color", 0 ) );
+    gtk_widget_override_background_color ( tree_view, GTK_STATE_FLAG_ACTIVE, gsb_rgba_get_couleur_with_indice ( "text_color", 0 ) );
 }
 
 
@@ -571,7 +571,7 @@ gboolean utils_set_tree_view_background_color ( GtkWidget *tree_view, gint color
         {
             gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                         &iter,
-                        color_column, gsb_color_get_couleur_with_indice ( "couleur_fond", current_color ),
+                        color_column, gsb_rgba_get_couleur_with_indice ( "couleur_fond", current_color ),
                         -1 );
 
             current_color = !current_color;
@@ -587,7 +587,7 @@ gboolean utils_set_tree_view_background_color ( GtkWidget *tree_view, gint color
                 {
                     gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                                 &fils_iter,
-                                color_column, gsb_color_get_couleur_with_indice ( "couleur_fond", current_color ),
+                                color_column, gsb_rgba_get_couleur_with_indice ( "couleur_fond", current_color ),
                                 -1 );
 
                     current_color = !current_color;
@@ -602,7 +602,7 @@ gboolean utils_set_tree_view_background_color ( GtkWidget *tree_view, gint color
                         {
                             gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                                         &third_iter,
-                                        color_column, gsb_color_get_couleur_with_indice ( "couleur_fond", current_color ),
+                                        color_column, gsb_rgba_get_couleur_with_indice ( "couleur_fond", current_color ),
                                         -1 );
 
                             current_color = !current_color;

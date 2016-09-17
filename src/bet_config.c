@@ -41,7 +41,6 @@
 #include "gsb_account.h"
 #include "gsb_automem.h"
 #include "gsb_calendar_entry.h"
-#include "gsb_color.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
 #include "gsb_data_currency.h"

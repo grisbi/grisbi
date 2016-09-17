@@ -180,7 +180,7 @@ GtkWidget *categories_create_list ( void )
     column = gtk_tree_view_column_new_with_attributes (_("Category"), cell,
 						       "text", META_TREE_TEXT_COLUMN,
 						       "weight", META_TREE_FONT_COLUMN,
-                               "cell-background-gdk", META_TREE_BACKGROUND_COLOR,
+                               "cell-background-rgba", META_TREE_BACKGROUND_COLOR,
 						       NULL);
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( arbre_categ ),
 				  GTK_TREE_VIEW_COLUMN ( column ) );
@@ -190,7 +190,7 @@ GtkWidget *categories_create_list ( void )
     column = gtk_tree_view_column_new_with_attributes (_("Account"), cell,
 						       "text", META_TREE_ACCOUNT_COLUMN,
 						       "weight", META_TREE_FONT_COLUMN,
-                               "cell-background-gdk", META_TREE_BACKGROUND_COLOR,
+                               "cell-background-rgba", META_TREE_BACKGROUND_COLOR,
 						       NULL);
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( arbre_categ ),
 				  GTK_TREE_VIEW_COLUMN ( column ) );
@@ -201,7 +201,7 @@ GtkWidget *categories_create_list ( void )
 						       "text", META_TREE_BALANCE_COLUMN,
 						       "weight", META_TREE_FONT_COLUMN,
 						       "xalign", META_TREE_XALIGN_COLUMN,
-                               "cell-background-gdk", META_TREE_BACKGROUND_COLOR,
+                               "cell-background-rgba", META_TREE_BACKGROUND_COLOR,
 						       NULL);
     gtk_tree_view_column_set_alignment ( column, 1.0 );
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( arbre_categ ),

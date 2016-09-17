@@ -35,9 +35,9 @@
 
 /*START_INCLUDE*/
 #include "transaction_list_select.h"
-#include "gsb_color.h"
 #include "gsb_data_account.h"
 #include "gsb_data_transaction.h"
+#include "gsb_rgba.h"
 #include "menu.h"
 #include "gsb_transactions_list.h"
 #include "transaction_model.h"
@@ -506,7 +506,7 @@ static gboolean transaction_list_select_record ( CustomRecord *record )
     for (i=0 ; i < custom_list -> nb_rows_by_transaction ; i++)
     {
 	record -> row_bg_save = record -> row_bg;
-	record -> row_bg = gsb_color_get_couleur ( "couleur_selection" );
+	record -> row_bg = gsb_rgba_get_couleur ( "couleur_selection" );
 
 	/* inform the world that the row has changed */
 	iter.user_data = record;

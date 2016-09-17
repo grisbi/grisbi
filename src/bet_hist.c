@@ -38,7 +38,6 @@
 #include "export_csv.h"
 #include "fenetre_principale.h"
 #include "gsb_automem.h"
-#include "gsb_color.h"
 #include "gsb_data_account.h"
 #include "gsb_data_currency.h"
 #include "gsb_data_fyear.h"
@@ -46,6 +45,7 @@
 #include "gsb_file.h"
 #include "gsb_fyear.h"
 #include "gsb_real.h"
+#include "gsb_rgba.h"
 #include "mouse.h"
 #include "navigation.h"
 #include "print_tree_view_list.h"
@@ -527,7 +527,7 @@ GtkWidget *bet_historical_get_data_tree_view ( GtkWidget *container )
                         G_TYPE_INT,         /* SPP_HISTORICAL_DIV_NUMBER        */
                         G_TYPE_INT,         /* SPP_HISTORICAL_SUB_DIV_NUMBER    */
                         G_TYPE_BOOLEAN,     /* SPP_HISTORICAL_EDITED_COLUMN     */
-                        GDK_TYPE_COLOR );   /* SPP_HISTORICAL_BACKGROUND_COLOR  */
+                        GDK_TYPE_RGBA );   /* SPP_HISTORICAL_BACKGROUND_COLOR  */
     gtk_tree_view_set_model ( GTK_TREE_VIEW (tree_view), GTK_TREE_MODEL ( tree_model ) );
     g_object_unref ( G_OBJECT ( tree_model ) );
 
@@ -558,7 +558,7 @@ GtkWidget *bet_historical_get_data_tree_view ( GtkWidget *container )
     column = gtk_tree_view_column_new_with_attributes ( _("Select"),
                         cell,
                         "active", SPP_HISTORICAL_SELECT_COLUMN,
-                        "cell-background-gdk", SPP_HISTORICAL_BACKGROUND_COLOR,
+                        "cell-background-rgba", SPP_HISTORICAL_BACKGROUND_COLOR,
                         NULL);
     gtk_tree_view_column_set_alignment ( column, 0.5 );
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ), column );
@@ -572,7 +572,7 @@ GtkWidget *bet_historical_get_data_tree_view ( GtkWidget *container )
     column = gtk_tree_view_column_new_with_attributes ( title,
                         cell,
                         "text", SPP_HISTORICAL_DESC_COLUMN,
-                        "cell-background-gdk", SPP_HISTORICAL_BACKGROUND_COLOR,
+                        "cell-background-rgba", SPP_HISTORICAL_BACKGROUND_COLOR,
                         NULL);
     g_object_set_data ( G_OBJECT ( account_page ), "historical_column_source",
                         column );
@@ -589,7 +589,7 @@ GtkWidget *bet_historical_get_data_tree_view ( GtkWidget *container )
                         _("Amount"), cell,
                         "text", SPP_HISTORICAL_BALANCE_COLUMN,
                         "foreground", SPP_HISTORICAL_BALANCE_COLOR,
-                        "cell-background-gdk", SPP_HISTORICAL_BACKGROUND_COLOR,
+                        "cell-background-rgba", SPP_HISTORICAL_BACKGROUND_COLOR,
                         NULL);
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
                         GTK_TREE_VIEW_COLUMN ( column ) );
@@ -607,7 +607,7 @@ GtkWidget *bet_historical_get_data_tree_view ( GtkWidget *container )
                         _("Average"), cell,
                         "text", SPP_HISTORICAL_AVERAGE_COLUMN,
                         "foreground", SPP_HISTORICAL_BALANCE_COLOR,
-                        "cell-background-gdk", SPP_HISTORICAL_BACKGROUND_COLOR,
+                        "cell-background-rgba", SPP_HISTORICAL_BACKGROUND_COLOR,
                         NULL);
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
                         GTK_TREE_VIEW_COLUMN ( column ) );
@@ -625,7 +625,7 @@ GtkWidget *bet_historical_get_data_tree_view ( GtkWidget *container )
                         _("Current fyear"), cell,
                         "text", SPP_HISTORICAL_CURRENT_COLUMN,
                         "foreground", SPP_HISTORICAL_BALANCE_COLOR,
-                        "cell-background-gdk", SPP_HISTORICAL_BACKGROUND_COLOR,
+                        "cell-background-rgba", SPP_HISTORICAL_BACKGROUND_COLOR,
                         NULL);
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
                         GTK_TREE_VIEW_COLUMN ( column ) );
@@ -645,7 +645,7 @@ GtkWidget *bet_historical_get_data_tree_view ( GtkWidget *container )
                         "text", SPP_HISTORICAL_RETAINED_COLUMN,
                         "foreground", SPP_HISTORICAL_BALANCE_COLOR,
                         "editable", SPP_HISTORICAL_EDITED_COLUMN,
-                        "cell-background-gdk", SPP_HISTORICAL_BACKGROUND_COLOR,
+                        "cell-background-rgba", SPP_HISTORICAL_BACKGROUND_COLOR,
                         NULL);
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
                         GTK_TREE_VIEW_COLUMN ( column ) );
@@ -1698,7 +1698,7 @@ gboolean bet_historical_set_background_color ( GtkWidget *tree_view )
             gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                         &iter,
                         SPP_HISTORICAL_BACKGROUND_COLOR,
-                        gsb_color_get_couleur_with_indice ( "couleur_fond", current_color ),
+                        gsb_rgba_get_couleur_with_indice ( "couleur_fond", current_color ),
                         -1 );
             current_color = !current_color;
 
@@ -1712,7 +1712,7 @@ gboolean bet_historical_set_background_color ( GtkWidget *tree_view )
                     gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                         &fils_iter,
                         SPP_HISTORICAL_BACKGROUND_COLOR,
-                        gsb_color_get_couleur_with_indice ( "couleur_fond", current_color ),
+                        gsb_rgba_get_couleur_with_indice ( "couleur_fond", current_color ),
                         -1 );
                     current_color = !current_color;
                 }

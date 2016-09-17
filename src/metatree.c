@@ -43,6 +43,7 @@
 #include "gsb_data_transaction.h"
 #include "gsb_file.h"
 #include "gsb_real.h"
+#include "gsb_rgba.h"
 #include "gsb_transactions_list.h"
 #include "gtk_combofix.h"
 #include "imputation_budgetaire.h"

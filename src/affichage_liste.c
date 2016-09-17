@@ -33,7 +33,6 @@
 #include "custom_list.h"
 #include "fenetre_principale.h"
 #include "gsb_automem.h"
-#include "gsb_color.h"
 #include "gsb_data_account.h"
 #include "gsb_data_form.h"
 #include "gsb_file.h"

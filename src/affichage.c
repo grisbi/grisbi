@@ -34,10 +34,10 @@
 #include "custom_list.h"
 #include "fenetre_principale.h"
 #include "gsb_automem.h"
-#include "gsb_color.h"
 #include "gsb_data_account.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
+#include "gsb_rgba.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_select_icon.h"
 #include "main.h"
@@ -214,7 +214,7 @@ GtkWidget * onglet_display_fonts ( void )
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 10 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 10 );
 
-    color_combobox = gsb_color_create_color_combobox ( );
+    color_combobox = gsb_rgba_create_color_combobox ( );
     gtk_box_pack_start ( GTK_BOX (hbox),
 			 color_combobox,
 			 FALSE, FALSE, 0);
@@ -834,7 +834,7 @@ static gboolean preferences_view_color_combobox_changed ( GtkWidget *combobox,
     if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (combobox), &iter))
     {
 	GtkTreeModel *model;
-	GdkColor *color;
+	GdkRGBA *color;
 
 	model = gtk_combo_box_get_model (GTK_COMBO_BOX (combobox));
 	gtk_tree_model_get ( GTK_TREE_MODEL (model),
@@ -842,8 +842,7 @@ static gboolean preferences_view_color_combobox_changed ( GtkWidget *combobox,
 			     1, &color,
 			     -1 );
 	if (color)
-	    gtk_color_button_set_color ( GTK_COLOR_BUTTON (color_button),
-					 color );
+	    gtk_color_chooser_set_rgba (GTK_COLOR_CHOOSER (color_button), color);
     }
     return FALSE;
 }
@@ -866,7 +865,7 @@ static gboolean preferences_view_color_changed ( GtkWidget *color_button,
     if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (combobox), &iter))
     {
 	GtkTreeModel *model;
-	GdkColor *color;
+	GdkRGBA *color;
 
 	model = gtk_combo_box_get_model (GTK_COMBO_BOX (combobox));
 	gtk_tree_model_get ( GTK_TREE_MODEL (model),
@@ -875,8 +874,7 @@ static gboolean preferences_view_color_changed ( GtkWidget *color_button,
 			     -1 );
 	if (color)
 	{
-	    gtk_color_button_get_color ( GTK_COLOR_BUTTON (color_button),
-				       color );
+	    gtk_color_chooser_get_rgba (GTK_COLOR_CHOOSER (color_button), color);
 
 	    /* update the colors in the transactions list */
 	    transaction_list_redraw ();

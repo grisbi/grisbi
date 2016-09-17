@@ -34,7 +34,6 @@
 #include "dialog.h"
 #include "fenetre_principale.h"
 #include "gsb_automem.h"
-#include "gsb_color.h"
 #include "gsb_data_account.h"
 #include "gsb_data_currency.h"
 #include "gsb_data_partial_balance.h"
