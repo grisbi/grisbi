@@ -31,6 +31,10 @@
 
 /* margin for widgets */
 #define MARGIN_END              10
+#define MARGIN_START            10
+#define MARGIN_TOP              10
+#define MARGIN_BOTTOM           10
+#define MARGIN_PADDING_BOX      15
 
 /* global variable pour gestion CSS des couleurs */
 /* declared in main.c */
