@@ -114,6 +114,7 @@ GtkWidget * onglet_display_fonts ( void )
     GtkWidget *button;
     GtkWidget *color_combobox;
     GtkWidget *color_button;
+    GtkWidget *grid;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Fonts & logo"), "fonts.png" );
 
@@ -202,22 +203,19 @@ GtkWidget * onglet_display_fonts ( void )
 
     if ( !gsb_data_account_get_accounts_amount () )
     {
-	gtk_widget_set_sensitive ( vbox_pref, FALSE );
+        gtk_widget_set_sensitive ( vbox_pref, FALSE );
     }
 
     /* change colors */
     paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE, _("Colors") );
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 10 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), vbox, FALSE, FALSE, 10 );
+    grid = gtk_grid_new ();
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 10 );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 10 );
+    gtk_box_pack_start (GTK_BOX ( paddingbox ), grid, FALSE, FALSE, 0);
 
-    color_combobox = gsb_rgba_create_color_combobox ( );
-    gtk_box_pack_start ( GTK_BOX (hbox),
-			 color_combobox,
-			 FALSE, FALSE, 0);
+    color_combobox = gsb_rgba_create_color_combobox ();
+    gtk_widget_set_margin_end (color_combobox, MARGIN_END);
+    gtk_grid_attach (GTK_GRID (grid), color_combobox, 0, 0, 1, 1);
 
     color_button = gtk_color_button_new ();
     gtk_color_button_set_title ( GTK_COLOR_BUTTON(color_button), _("Choosing color") );
@@ -225,9 +223,7 @@ GtkWidget * onglet_display_fonts ( void )
 		       "color-set",
 		       G_CALLBACK (preferences_view_color_changed),
 		       G_OBJECT (color_combobox));
-    gtk_box_pack_start ( GTK_BOX (hbox),
-			 color_button,
-			 FALSE, FALSE, 0);
+    gtk_grid_attach (GTK_GRID (grid), color_button, 1, 0, 1, 1);
 
     /* connect the color button to the combobox if changed */
     g_signal_connect ( G_OBJECT (color_combobox),
@@ -236,13 +232,12 @@ GtkWidget * onglet_display_fonts ( void )
 		       G_OBJECT (color_button));
 
     button = gtk_button_new_with_label (_("Back to default"));
+    gtk_widget_set_margin_top (button, MARGIN_TOP);
     g_signal_connect ( G_OBJECT (button),
 		       "clicked",
 		       G_CALLBACK (preferences_view_color_default),
 		       G_OBJECT (color_combobox));
-    gtk_box_pack_start ( GTK_BOX (vbox),
-			 button,
-			 FALSE, FALSE, 0);
+    gtk_grid_attach (GTK_GRID (grid), button,0, 1, 2, 1);
 
     gtk_combo_box_set_active ( GTK_COMBO_BOX (color_combobox), 0);
 
@@ -905,8 +900,8 @@ static gboolean preferences_view_color_default ( GtkWidget *button,
     if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (combobox), &iter))
     {
 	GtkTreeModel *model;
-	GdkColor *color;
-	GdkColor *default_color;
+	GdkRGBA *color;
+	GdkRGBA *default_color;
 
 	model = gtk_combo_box_get_model (GTK_COMBO_BOX (combobox));
 	gtk_tree_model_get ( GTK_TREE_MODEL (model),
@@ -918,14 +913,9 @@ static gboolean preferences_view_color_default ( GtkWidget *button,
 	{
 	    gboolean return_val;
 
-	    color -> pixel = default_color -> pixel;
-	    color -> red = default_color -> red;
-	    color -> green = default_color -> green;
-	    color -> blue = default_color -> blue;
+	    color = default_color;
 
-	    g_signal_emit_by_name (combobox,
-				   "changed",
-				   &return_val);
+	    g_signal_emit_by_name (combobox, "changed", &return_val);
 
 	    /* update the colors in the list */
 	    transaction_list_redraw ();
