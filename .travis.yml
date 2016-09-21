@@ -1,0 +1,27 @@
+# Require trusty for now as it has a more recent version of autoconf
+sudo: required
+dist: trusty
+language: c
+
+compiler:
+    - gcc
+    - clang
+
+os:
+    - linux
+
+addons:
+    apt:
+        packages:
+            - autoconf
+            - automake
+            - libtool
+            - m4
+            - intltool
+            - libgtk-3-dev
+            - libgsf-1-dev
+
+script:
+    - ./travis-autogen.sh
+    - ./configure
+    - make -j4
