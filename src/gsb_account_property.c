@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2009 Cédric Auger (cedric@grisbi.org)            */
 /*          2004-2009 Benjamin Drieu (bdrieu@april.org)                       */
-/*                      2009 Pierre Biava (grisbi@pierre.biava.name)          */
+/*                 2009-2016 Pierre Biava (grisbi@pierre.biava.name)          */
 /*      2009 Thomas Peel (thomas.peel@live.fr)                                */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
@@ -195,8 +195,7 @@ GtkWidget *gsb_account_property_create_page ( void )
 {
     GtkWidget *onglet, *vbox, *scrolled_window, *hbox, *vbox2;
     GtkWidget *label, *scrolled_window_text, *paddingbox;
-    GtkSizeGroup * size_group;
-    GtkWidget *align;
+    GtkSizeGroup *size_group;
 
     devel_debug ( NULL );
 
@@ -209,23 +208,22 @@ GtkWidget *gsb_account_property_create_page ( void )
 
     /* Création du bouton pour modifier l'icône de compte. C'est un moyen de
      * contourner le bug du gtk_viewport */
-    align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
     bouton_icon = gtk_button_new ( );
     gtk_widget_set_size_request ( bouton_icon, -1, 40 );
-    gtk_button_set_relief ( GTK_BUTTON ( bouton_icon ), GTK_RELIEF_NORMAL );
-    gtk_container_add ( GTK_CONTAINER ( align ), bouton_icon );
-    gtk_box_pack_start ( GTK_BOX ( onglet ), align, FALSE, FALSE, 0);
+    gtk_widget_set_halign ( bouton_icon, GTK_ALIGN_CENTER );
+    gtk_button_set_relief ( GTK_BUTTON ( bouton_icon ), GTK_RELIEF_NONE );
+    gtk_box_pack_start ( GTK_BOX ( onglet ), bouton_icon, FALSE, FALSE, 0);
 
     /* partie du haut avec les détails du compte */
     scrolled_window = gtk_scrolled_window_new ( FALSE, FALSE );
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
                         GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
+    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW ( scrolled_window ), GTK_SHADOW_OUT );
     gtk_box_pack_start ( GTK_BOX ( onglet ), scrolled_window, TRUE, TRUE, 0 );
 
     vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
-
+    utils_widget_set_padding (vbox, MARGIN_START, 0);
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ), vbox );
-    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW ( scrolled_window ), GTK_SHADOW_NONE );
 
     /* création de la ligne des détails du compte */
     paddingbox = new_paddingbox_with_title (vbox, FALSE, _("Account details"));
@@ -337,7 +335,6 @@ GtkWidget *gsb_account_property_create_page ( void )
                         NULL,
                         G_CALLBACK (gsb_data_account_set_holder_address),
                         0 );
-    gtk_widget_set_size_request ( detail_adresse_titulaire, -1, 70 );
 
     /* now the checkbutton for different address */
     button_holder_address = gsb_autofunc_checkbutton_new (
@@ -361,13 +358,12 @@ GtkWidget *gsb_account_property_create_page ( void )
                         GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
     gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window_text),
                         GTK_SHADOW_IN );
-    gtk_box_pack_start ( GTK_BOX(hbox), scrolled_window_text, TRUE, TRUE, 0);
-
+    gtk_widget_set_size_request (scrolled_window_text, -1, 120);
+    gtk_box_pack_start (GTK_BOX (hbox), scrolled_window_text, TRUE, TRUE, 0);
 
     /* text view created before */
     gtk_container_add ( GTK_CONTAINER ( scrolled_window_text ), detail_adresse_titulaire );
     gtk_widget_set_sensitive (detail_adresse_titulaire, FALSE);
-
 
     /* création de la ligne de l'établissement financier */
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Bank"));
@@ -386,7 +382,7 @@ GtkWidget *gsb_account_property_create_page ( void )
                         NULL );
     gtk_box_pack_start ( GTK_BOX(hbox), bank_list_combobox, TRUE, TRUE, 0);
 
-    edit_bank_button = utils_buttons_button_new_from_stock ("gtk-edit", _("Edit"));
+    edit_bank_button = utils_buttons_button_new_from_stock ("gtk-edit", _("Modify"));
     gtk_button_set_relief ( GTK_BUTTON ( edit_bank_button ), GTK_RELIEF_NONE );
     g_signal_connect ( G_OBJECT ( edit_bank_button ),
                         "clicked",
@@ -506,7 +502,6 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_box_pack_start ( GTK_BOX(hbox), label_cle_compte, FALSE, FALSE, 0 );
 
-
     /* création de la ligne du solde initial */
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Balances"));
 
@@ -524,7 +519,6 @@ GtkWidget *gsb_account_property_create_page ( void )
                         G_CALLBACK (gsb_data_account_set_init_balance), 0);
     gtk_box_pack_start ( GTK_BOX ( hbox ), detail_solde_init, TRUE, TRUE, 0 );
 
-
     /* création de la ligne du solde mini autorisé */
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
@@ -540,7 +534,6 @@ GtkWidget *gsb_account_property_create_page ( void )
                         G_CALLBACK (gsb_data_account_set_mini_balance_authorized),
                         0);
     gtk_box_pack_start ( GTK_BOX ( hbox ), detail_solde_mini_autorise, TRUE, TRUE, 0 );
-
 
     /* création de la ligne du solde mini voulu */
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
@@ -572,7 +565,7 @@ GtkWidget *gsb_account_property_create_page ( void )
                         G_CALLBACK (gsb_data_account_set_comment),
                         0);
 
-    gtk_widget_set_size_request ( detail_commentaire, -1, 70 );
+    gtk_widget_set_size_request (scrolled_window_text, -1, 150);
     gtk_container_add ( GTK_CONTAINER ( scrolled_window_text ), detail_commentaire );
 
     gtk_widget_show_all ( onglet );
@@ -669,6 +662,10 @@ gboolean gsb_account_property_changed_bank_label ( GtkWidget *combobox,
         return FALSE;
 
     bank_number = gsb_bank_list_get_bank_number (combobox);
+    if ( bank_number == 0 )
+        gtk_widget_set_sensitive ( GTK_WIDGET (edit_bank_button), FALSE );
+    else
+        gtk_widget_set_sensitive ( GTK_WIDGET (edit_bank_button), TRUE );
 
     gsb_account_property_set_label_code_banque ( bank_number );
     gsb_account_property_set_label_code_bic ( bank_number );
@@ -1284,9 +1281,11 @@ void gsb_account_property_iban_set_iban ( const gchar *iban )
  * */
 void gsb_account_property_iban_switch_bank_data ( gboolean sensitive )
 {
+    gtk_widget_set_sensitive ( GTK_WIDGET (bank_list_combobox), sensitive );
+    gtk_widget_set_sensitive ( GTK_WIDGET (edit_bank_button), sensitive );
+
     if ( sensitive )
     {
-        gtk_widget_set_sensitive ( GTK_WIDGET (bank_list_combobox), sensitive );
         gsb_account_property_iban_clear_label_data ( );
         gtk_widget_show ( GTK_WIDGET (detail_guichet) );
         gtk_widget_hide ( GTK_WIDGET (label_guichet) );
@@ -1297,7 +1296,6 @@ void gsb_account_property_iban_switch_bank_data ( gboolean sensitive )
     }
     else
     {
-        gtk_widget_set_sensitive ( GTK_WIDGET (bank_list_combobox), sensitive );
         gtk_widget_hide ( GTK_WIDGET (detail_guichet) );
         gtk_widget_show ( GTK_WIDGET (label_guichet) );
         gtk_widget_hide ( GTK_WIDGET (detail_no_compte) );
