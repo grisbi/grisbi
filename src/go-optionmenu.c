@@ -439,6 +439,7 @@ go_option_menu_init (GOOptionMenu *option_menu)
 {
 	GtkBox *box;
 	GtkWidget *arrow, *sep;
+	gchar *tmp_filename;
 
 	gtk_widget_set_can_focus (GTK_WIDGET (option_menu), TRUE);
 	gtk_widget_set_can_default (GTK_WIDGET (option_menu), FALSE);
