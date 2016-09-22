@@ -243,7 +243,7 @@ gboolean gsb_gui_fill_general_notebook ( GtkWidget *notebook )
     /* append the account page : a notebook with the account configuration
      * the bet pages and transactions page */
     account_page = gtk_notebook_new ();
-    gtk_notebook_set_show_border ( GTK_NOTEBOOK(account_page), FALSE );
+    gtk_notebook_set_show_border ( GTK_NOTEBOOK(account_page), TRUE );
     gtk_widget_show ( account_page );
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
