@@ -455,7 +455,7 @@ go_option_menu_init (GOOptionMenu *option_menu)
 			    FALSE, TRUE, 0);
 
     tmp_filename = g_build_filename (gsb_dirs_get_pixmaps_dir (), "arrow-down.svg", NULL);
-    arrow_left = gtk_image_new_from_file (tmp_filename);
+    arrow = gtk_image_new_from_file (tmp_filename);
     g_free (tmp_filename);
 
 	gtk_box_pack_end (box, arrow, FALSE, FALSE, 0);
