@@ -3775,7 +3775,9 @@ GtkWidget * gsb_import_associations_gere_tiers ( void )
 {
     GtkWidget *vbox_main, *vbox, *paddingbox, *button;
     GtkWidget *hbox, *vbox2, *sw, *treeview ;
-    GtkWidget *table, *label, *entry;
+    GtkWidget *entry_search, *label, *entry_payee;
+    GtkWidget *grid;
+    GtkWidget *paddinggrid;
     GtkListStore *list_store;
     GtkTreeViewColumn *column;
     GtkCellRenderer *cell;
@@ -3793,9 +3795,9 @@ GtkWidget * gsb_import_associations_gere_tiers ( void )
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Import associations") );
 
     texte = g_strdup ( _("This will associate a search string to a payee every time you "
-                         "import a file. For instance, all QIF labels containing 'Rent' "
-                         "could be associated with  a specific payee representing your "
-                         "landlord.") );
+                         "import a file.\n"
+                         "For instance, all QIF labels containing 'Rent' could be associated\n"
+                         "with a specific payee representing your landlord.") );
     label = gtk_label_new ( texte );
     gtk_label_set_line_wrap ( GTK_LABEL ( label ), TRUE );
     utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0);
@@ -3803,8 +3805,8 @@ GtkWidget * gsb_import_associations_gere_tiers ( void )
     g_free ( texte );
     gtk_box_pack_start ( GTK_BOX(paddingbox), label, FALSE, FALSE, 6 );
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, TRUE, TRUE, 0);
+    grid = gtk_grid_new ();
+    gtk_box_pack_start ( GTK_BOX(paddingbox), grid, FALSE, FALSE, 6 );
 
     sw = gtk_scrolled_window_new (NULL, NULL);
     gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw),
@@ -3812,30 +3814,31 @@ GtkWidget * gsb_import_associations_gere_tiers ( void )
     gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
                         GTK_POLICY_AUTOMATIC,
                         GTK_POLICY_ALWAYS);
-    gtk_box_pack_start ( GTK_BOX (hbox), sw, TRUE,TRUE, 0 );
+    gtk_grid_attach (GTK_GRID (grid), sw, 0, 0, 2, 3);
 
     /* Create Add/Remove buttons */
-    vbox2 = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), vbox2, FALSE, FALSE, 0 );
 
     /* Button "Add" */
     button = utils_buttons_button_new_from_stock ("gtk-add", _("Add"));
+    gtk_widget_set_margin_end (button, MARGIN_END);
+    gtk_widget_set_margin_top (button, MARGIN_TOP);
     g_signal_connect ( G_OBJECT ( button ),
                         "clicked",
                         G_CALLBACK  ( gsb_import_associations_add_assoc ),
                         vbox_main );
-    gtk_box_pack_start ( GTK_BOX ( vbox2 ), button, FALSE, FALSE, 5 );
     g_object_set_data ( G_OBJECT (vbox_main), "add_button", button );
+    gtk_grid_attach (GTK_GRID (grid), button, 0, 3, 1, 1);
 
     /* Button "Remove" */
     button = utils_buttons_button_new_from_stock ("gtk-remove", _("Remove"));
+    gtk_widget_set_margin_top (button, MARGIN_TOP);
     g_signal_connect ( G_OBJECT ( button ),
                         "clicked",
                         G_CALLBACK ( gsb_import_associations_del_assoc ),
                         vbox_main );
-    gtk_box_pack_start ( GTK_BOX ( vbox2 ), button, FALSE, FALSE, 5 );
     gtk_widget_set_sensitive ( button, FALSE );
     g_object_set_data ( G_OBJECT (vbox_main), "remove_button", button );
+    gtk_grid_attach (GTK_GRID (grid), button, 1, 3, 1, 1);
 
     /* create the model */
     list_store = gtk_list_store_new (
@@ -3849,8 +3852,6 @@ GtkWidget * gsb_import_associations_gere_tiers ( void )
                         GTK_TREE_MODEL (list_store) );
     g_object_unref (list_store);
 
-    //~ gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (treeview), TRUE);
-    gtk_widget_set_size_request ( treeview, -1, 230 );
     selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW (treeview) );
     gtk_tree_selection_set_select_function ( selection,
                         (GtkTreeSelectionFunc) gsb_import_associations_select_func,
@@ -3882,32 +3883,24 @@ GtkWidget * gsb_import_associations_gere_tiers ( void )
     gtk_tree_view_append_column ( GTK_TREE_VIEW (treeview), column);
 
 
-    paddingbox = new_paddingbox_with_title ( vbox,
-                        FALSE, _("Details of associations"));
-
-    /* Create table */
-    table = gtk_grid_new ();
-    gtk_grid_set_column_spacing (GTK_GRID (table), 5);
-    gtk_grid_set_row_spacing (GTK_GRID (table), 5);
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, TRUE, TRUE, 0 );
+    paddinggrid = utils_prefs_paddinggrid_new_with_title ( vbox, _("Details of associations"));
 
     /* Create entry liste des tiers */
     label = gtk_label_new ( _("Payee name: ") );
     utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-    gtk_grid_attach (GTK_GRID (table), label, 0, 0, 1, 1);
+    gtk_grid_attach (GTK_GRID (paddinggrid), label, 0, 0, 1, 1);
 
-    entry = gtk_combofix_new (
-                        gsb_data_payee_get_name_and_report_list());
-    gtk_combofix_set_text ( GTK_COMBOFIX (entry), "" );
-    gtk_combofix_set_force_text ( GTK_COMBOFIX (entry),FALSE );
-    gtk_combofix_set_max_items ( GTK_COMBOFIX (entry),
-                        etat.combofix_max_item );
-    gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (entry),
-                        etat.combofix_case_sensitive );
-    gtk_grid_attach (GTK_GRID (table), entry, 1, 0, 1, 1);
-    g_object_set_data ( G_OBJECT (vbox_main), "payee", entry );
-    g_signal_connect ( G_OBJECT (GTK_COMBOFIX (entry) -> entry),
+    entry_payee = gtk_combofix_new (gsb_data_payee_get_name_and_report_list());
+    gtk_combofix_set_text (GTK_COMBOFIX (entry_payee), "");
+    gtk_widget_set_hexpand ( entry_payee, FALSE);
+
+    gtk_combofix_set_force_text ( GTK_COMBOFIX (entry_payee),FALSE );
+    gtk_combofix_set_max_items ( GTK_COMBOFIX (entry_payee), etat.combofix_max_item );
+    gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (entry_payee), etat.combofix_case_sensitive );
+    gtk_grid_attach (GTK_GRID (paddinggrid), entry_payee, 1, 0, 1, 1);
+    g_object_set_data ( G_OBJECT (vbox_main), "payee", entry_payee );
+    g_signal_connect ( G_OBJECT (GTK_COMBOFIX (entry_payee) -> entry),
                         "changed",
                         G_CALLBACK (gsb_import_associations_combo_changed),
                         vbox_main );
@@ -3916,16 +3909,22 @@ GtkWidget * gsb_import_associations_gere_tiers ( void )
     label = gtk_label_new ( _("Search string: ") );
     utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-    gtk_grid_attach (GTK_GRID (table), label, 0, 1, 1, 1);
+    gtk_grid_attach (GTK_GRID (paddinggrid), label, 0, 1, 1, 1);
 
-    entry = gtk_entry_new ();
-    gtk_entry_set_text ( GTK_ENTRY (entry), "" );
-    gtk_grid_attach (GTK_GRID (table), entry, 1, 1, 1, 1);
-    g_signal_connect_swapped ( entry,
+    entry_search = gtk_entry_new ();
+    gtk_entry_set_text ( GTK_ENTRY (entry_search), "" );
+    gtk_grid_attach (GTK_GRID (paddinggrid), entry_search, 1, 1, 1, 1);
+    g_signal_connect_swapped ( entry_search,
                         "changed",
                         G_CALLBACK (gsb_import_associations_check_add_button),
                         vbox_main );
-    g_object_set_data ( G_OBJECT (vbox_main), "Search_string", entry );
+    g_object_set_data ( G_OBJECT (vbox_main), "Search_string", entry_search );
+
+    /* set signals */
+    g_signal_connect (G_OBJECT (sw),
+                      "size-allocate",
+                      G_CALLBACK (utils_prefs_paddingbox_allocate_size_widget),
+                      entry_payee);
 
     gsb_import_associations_check_add_button ( G_OBJECT (vbox_main) );
 
