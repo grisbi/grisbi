@@ -53,11 +53,11 @@ void            utils_labels_set_alignement                             (GtkLabe
 gboolean        utils_prefs_paddingbox_allocate_size_widget             (GtkWidget *widget,
                                                                          GtkAllocation *allocation,
                                                                          gpointer user_data);
-GtkWidget *     utils_prefs_paddingbox_new_with_title                   (GtkWidget *parent,
-                                                                         gboolean fill,
-                                                                         const gchar *title);
 GtkWidget *     utils_prefs_paddinggrid_new_with_title                  (GtkWidget *parent,
                                                                          const gchar *title);
+gboolean        utils_prefs_scrolled_window_allocate_size               (GtkWidget *widget,
+                                                                         GtkAllocation *allocation,
+                                                                         gpointer user_data);
 gboolean        utils_set_image_with_etat                               (GtkWidget *widget,
                                                                          gint etat);
 void            utils_set_tree_view_selection_and_text_color            (GtkWidget *tree_view);

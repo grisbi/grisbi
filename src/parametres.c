@@ -118,6 +118,7 @@ static gboolean selectionne_liste_preference ( GtkTreeSelection *selection,
 struct gsb_etat_t etat;
 
 GtkWidget *fenetre_preferences = NULL;
+static GtkWidget *hpaned = NULL;
 
 static GtkTreeStore *preference_tree_model = NULL;
 static GtkNotebook * preference_frame = NULL;
@@ -132,6 +133,21 @@ extern gchar *nom_fichier_comptes;
 extern gint nb_days_before_scheduled;
 /*END_EXTERN*/
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ * */
+static gboolean preferences_size_allocate (GtkWidget *prefs,
+                                           GtkAllocation *allocation,
+                                           gpointer null)
+{
+    conf.prefs_width = allocation->width;
+
+    return FALSE;
+}
 
 /**
  * force le recalcul des soldes et la mise à jour de la page d'accueil
@@ -521,6 +537,18 @@ gboolean gsb_preferences_menu_open ( GtkWidget *menu_item,
 
 
 /**
+ *
+ *
+ * \param
+ *
+ * \return
+ * */
+gint gsb_preferences_paned_get_position (void)
+{
+    return gtk_paned_get_position (GTK_PANED (hpaned));
+}
+
+/**
  * Creates a new GtkDialog with a paned list of topics and a paned
  * notebook that allows to switch between all pages.  A click on the
  * list selects one specific page.
@@ -531,7 +559,6 @@ gboolean preferences ( gint page )
 {
     GtkWidget *hbox, *tree;
     GtkTreeIter iter, iter2;
-    GtkWidget *hpaned;
 
     devel_debug_int (page);
 
@@ -585,7 +612,6 @@ gboolean preferences ( gint page )
                         2, 400,
                         -1);
     gtk_notebook_append_page (preference_frame, onglet_fichier(), NULL);
-    /* by default, we select that first page */
 
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
@@ -851,11 +877,6 @@ gboolean preferences ( gint page )
                         -1);
     gtk_notebook_append_page (preference_frame, gsb_payment_method_config_create (), NULL);
 
-    gtk_widget_show_all ( hpaned );
-    gtk_container_set_border_width ( GTK_CONTAINER(hpaned), 6 );
-    gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( fenetre_preferences ) ),
-                        hpaned, TRUE, TRUE, 0);
-
     /* balance estimate subtree */
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
@@ -882,6 +903,15 @@ gboolean preferences ( gint page )
                         2, 400,
                         -1);
     gtk_notebook_append_page (preference_frame, bet_config_account_create_account_page (), NULL);
+
+    gtk_widget_show_all ( hpaned );
+    gtk_container_set_border_width ( GTK_CONTAINER(hpaned), 6 );
+    gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( fenetre_preferences ) ),
+                        hpaned, TRUE, TRUE, 0);
+    g_signal_connect (G_OBJECT (fenetre_preferences),
+                      "size-allocate",
+                      G_CALLBACK (preferences_size_allocate),
+                      NULL);
 
     /* select the page */
     if ( page >= 0 && page < NUM_PREFERENCES_PAGES )

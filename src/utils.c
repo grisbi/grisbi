@@ -36,6 +36,7 @@
 #include "gsb_dirs.h"
 #include "gsb_file_config.h"
 #include "gsb_rgba.h"
+#include "parametres.h"
 #include "structures.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -49,6 +50,7 @@
 
 
 /*START_EXTERN*/
+extern GtkWidget *fenetre_preferences;
 /*END_EXTERN*/
 
 /**
@@ -1078,6 +1080,118 @@ void utils_widget_set_padding (GtkWidget *widget,
         gtk_widget_set_margin_top (widget, ypad);
         gtk_widget_set_margin_bottom (widget, ypad);
     }
+}
+
+/**
+ * set the size of scrolled_window in prefs tab
+ *
+ * \param table the table wich receive the 'size-allocate' signal
+ * \param allocation
+ *
+ * \return FALSE
+ * */
+gboolean utils_prefs_paddingbox_allocate_size_widget (GtkWidget *widget,
+                                                      GtkAllocation *allocation,
+                                                      gpointer user_data)
+{
+    gpointer *ptr;
+    gint natural_height;
+    gint position;
+    gint util_allocation;
+
+    //~ printf ("utils_paddingbox_allocate_size_widget  : width = %d height = %d\n",
+            //~ conf.prefs_width, GPOINTER_TO_INT (g_object_get_data (G_OBJECT (widget), "height")));
+    position = gsb_preferences_paned_get_position ();
+    util_allocation = 0.9 * (conf.prefs_width - position);
+    //~ printf ("position = %d util_allocation = %d\n", position, util_allocation);
+
+    if (user_data && GTK_IS_WIDGET (user_data))
+        gtk_widget_set_size_request ( GTK_WIDGET (user_data), util_allocation*2/3, -1);
+
+    /* set the height value */
+    if ( ptr = g_object_get_data (G_OBJECT (widget), "height"))
+        gtk_widget_set_size_request ( widget, util_allocation, GPOINTER_TO_INT (ptr));
+    else
+        gtk_widget_set_size_request ( widget, util_allocation, 200);
+
+    return FALSE;
+}
+
+/**
+ * Create a grid with a nice bold title and content slightly indented.
+ * All content is packed vertically in a GtkGrid.  The paddingbox is
+ * also packed in its parent.
+ *
+ * \param parent Parent widget to pack paddinggrid in
+ * \param fill Give all available space to padding box or not
+ * \param title Title to display on top of the paddingbox
+ */
+GtkWidget *utils_prefs_paddinggrid_new_with_title (GtkWidget *parent,
+                                                  const gchar *title)
+{
+    GtkWidget *vbox;
+    GtkWidget *paddinggrid;
+    GtkWidget *label;
+	gchar* tmp_str;
+
+    vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
+
+    if (GTK_IS_BOX (parent))
+        gtk_box_pack_start (GTK_BOX (parent), vbox, FALSE, FALSE, 0);
+
+    /* Creating label */
+    label = gtk_label_new (NULL);
+    utils_labels_set_alignement (GTK_LABEL (label), 0, 1);
+    gtk_widget_show ( label );
+
+    tmp_str = g_markup_printf_escaped ("<span weight=\"bold\">%s</span>", title);
+    gtk_label_set_markup (GTK_LABEL (label), tmp_str);
+    g_free (tmp_str);
+
+    gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
+    gtk_widget_show (label);
+
+    /* Then make the grid itself */
+    paddinggrid = gtk_grid_new ();
+    gtk_widget_set_margin_start (paddinggrid, MARGIN_PADDING_BOX);
+    gtk_box_pack_start (GTK_BOX (vbox), paddinggrid, FALSE, FALSE, 0);
+
+    if (GTK_IS_BOX (parent))
+        gtk_box_set_spacing (GTK_BOX (parent), 18);
+
+    return paddinggrid;
+}
+
+/**
+ * set the size of scrolled_window in prefs tab
+ *
+ * \param table the table wich receive the 'size-allocate' signal
+ * \param allocation
+ *
+ * \return FALSE
+ * */
+gboolean utils_prefs_scrolled_window_allocate_size (GtkWidget *widget,
+                                                     GtkAllocation *allocation,
+                                                     gpointer user_data)
+{
+    gpointer *ptr;
+    gint natural_height;
+    gint position;
+    gint util_allocation;
+
+    position = gsb_preferences_paned_get_position ();
+    util_allocation = 0.93 * (conf.prefs_width - position);
+
+    if (user_data && GTK_IS_WIDGET (user_data))
+        gtk_widget_set_size_request ( GTK_WIDGET (user_data), util_allocation*2/3, -1);
+
+    /* set the height value */
+    if ( ptr = g_object_get_data (G_OBJECT (widget), "height"))
+        gtk_widget_set_size_request ( widget, util_allocation, GPOINTER_TO_INT (ptr));
+    else
+        gtk_widget_set_size_request ( widget, util_allocation, 400);
+
+    return FALSE;
 }
 
 /**
