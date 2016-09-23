@@ -179,7 +179,7 @@ GtkWidget *gsb_bank_create_combobox ( gint index )
  *
  * \param combobox
  *
- * \return the bank number, 0 for none, -1 for 'new bank'
+ * \return the bank number, 0 for none, -1 for 'new bank', -2 'Inconnu'
  * */
 gint gsb_bank_list_get_bank_number ( GtkWidget *combobox )
 {
@@ -187,11 +187,11 @@ gint gsb_bank_list_get_bank_number ( GtkWidget *combobox )
     gint bank_number;
 
     if (!combobox)
-	return -1;
+	return -2;
 
     if (!gtk_combo_box_get_active_iter ( GTK_COMBO_BOX (combobox),
 					 &iter))
-	return -1;
+	return -2;
 
     gtk_tree_model_get ( GTK_TREE_MODEL (bank_list_model),
 			 &iter,
@@ -306,7 +306,7 @@ static gboolean gsb_bank_update_selected_line_model ( GtkWidget *combobox )
 {
     GtkTreeIter iter;
     GSList *list_tmp;
-    gint save_bank_number = -1;
+    gint save_bank_number = -2;
 
     /* save the selection */
     if (combobox)
