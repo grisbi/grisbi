@@ -47,6 +47,7 @@ struct gsb_etat_t
 
     /* reconciliation */
     gint reconcile_end_date;        /* Date initiale + 1 mois par défaut */
+    gboolean reconcile_sort;        /* TRUE = Sort by descending date the reconciliations */
 
     /* formulaire */
     gint affiche_nb_ecritures_listes;

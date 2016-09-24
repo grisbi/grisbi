@@ -78,7 +78,24 @@ static GtkWidget *reconcile_init_balance_entry;
 static GtkWidget *reconcile_final_balance_entry;
 static GtkWidget *delete_reconcile_button;
 
+/******************************************************************************/
+/* Private Methods                                                            */
+/******************************************************************************/
 /**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ * */
+static void gsb_reconcile_config_sort_reconcile (GtkToggleButton *togglebutton,
+                                                 gpointer user_data)
+{
+    gsb_reconcile_config_fill ();
+}
+
+ /**
  * create the config widget for the reconcile
  * to modify/delete a reconcile
  *
@@ -186,6 +203,13 @@ GtkWidget *gsb_reconcile_config_create ( void )
 
     /* Various remaining settings */
     gsb_reconcile_config_fill();
+
+    /* Set the reconcile_sort */
+    button = gsb_automem_checkbutton_new (_("Sort by descending date the reconciliations"),
+                                          &etat.reconcile_sort,
+                                          G_CALLBACK (gsb_reconcile_config_sort_reconcile),
+                                          NULL);
+    gtk_box_pack_start ( GTK_BOX (paddingbox), button, FALSE, FALSE, 0);
 
     /* set the modifying part under the list */
     hbox = new_paddingbox_with_title ( vbox_pref, FALSE,
@@ -341,12 +365,15 @@ void gsb_reconcile_config_fill ( void )
 			     -1 );
 
 	/* for each account, get the concerned reconciles */
-	reconcile_list = gsb_data_reconcile_get_reconcile_list ();
+	reconcile_list = gsb_data_reconcile_get_sort_reconcile_list (account_number);
+    if (etat.reconcile_sort)
+        reconcile_list = g_list_reverse (reconcile_list);
+
 	while (reconcile_list)
 	{
 	    gint reconcile_number;
 
-	    reconcile_number = gsb_data_reconcile_get_no_reconcile (reconcile_list -> data);
+	    reconcile_number = GPOINTER_TO_INT (reconcile_list->data);
 
 	    if (gsb_data_reconcile_get_account (reconcile_number) == account_number)
 	    {
