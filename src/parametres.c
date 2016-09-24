@@ -208,6 +208,7 @@ static GtkWidget *onglet_accueil ( void )
 {
     GtkWidget *vbox_pref, *vbox, *paddingbox, *button;
     GtkWidget *hbox, *vbox2, *sw, *treeview;
+    GtkWidget *paddinggrid;
     GtkListStore *list_store;
     GtkTreeViewColumn *column;
     GtkCellRenderer *cell;
@@ -254,52 +255,46 @@ static GtkWidget *onglet_accueil ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
 
     /* Data partial balance settings */
-    paddingbox = new_paddingbox_with_title (vbox, FALSE,
-                        _("Balances partials of the list of accounts") );
+    paddinggrid = utils_prefs_paddinggrid_new_with_title  (vbox, _("Balances partials of the list of accounts"));
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, TRUE, TRUE, 5);
-
-    sw = gtk_scrolled_window_new (NULL, NULL);
-    gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw),
-                        GTK_SHADOW_ETCHED_IN);
-    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
-                        GTK_POLICY_AUTOMATIC,
-                        GTK_POLICY_ALWAYS);
-    gtk_box_pack_start ( GTK_BOX (hbox), sw, TRUE,TRUE, 0 );
+    sw = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, 300);
+    gtk_grid_attach (GTK_GRID (paddinggrid), sw, 0, 0, 3, 3);
 
     /* Create Add/Edit/Remove buttons */
-    vbox2 = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), vbox2, FALSE, FALSE, 0 );
 
     /* Button "Add" */
     button = utils_buttons_button_new_from_stock ("gtk-add", _("Add"));
+    gtk_widget_set_margin_end (button, MARGIN_END);
+    gtk_widget_set_margin_top (button, MARGIN_TOP);
     g_signal_connect ( G_OBJECT ( button ),
                         "clicked",
                         G_CALLBACK  ( gsb_partial_balance_add ),
                         vbox_pref );
-    gtk_box_pack_start ( GTK_BOX ( vbox2 ), button, FALSE, FALSE, 5 );
     g_object_set_data ( G_OBJECT (vbox_pref), "add_button", button );
+    gtk_grid_attach (GTK_GRID (paddinggrid), button, 0, 3, 1, 1);
 
     /* Button "Edit" */
     button = utils_buttons_button_new_from_stock ("gtk-edit", _("Edit"));
+    gtk_widget_set_margin_end (button, MARGIN_END);
+    gtk_widget_set_margin_top (button, MARGIN_TOP);
     g_signal_connect ( G_OBJECT ( button ),
                         "clicked",
                         G_CALLBACK  ( gsb_partial_balance_edit ),
                         vbox_pref );
-    gtk_box_pack_start ( GTK_BOX ( vbox2 ), button, FALSE, FALSE, 5 );
     gtk_widget_set_sensitive ( button, FALSE );
     g_object_set_data ( G_OBJECT (vbox_pref), "edit_button", button );
+    gtk_grid_attach (GTK_GRID (paddinggrid), button, 1, 3, 1, 1);
 
     /* Button "Remove" */
     button = utils_buttons_button_new_from_stock ("gtk-remove", _("Remove"));
+    gtk_widget_set_margin_top (button, MARGIN_TOP);
     g_signal_connect ( G_OBJECT ( button ),
                         "clicked",
                         G_CALLBACK ( gsb_partial_balance_delete ),
                         vbox_pref );
-    gtk_box_pack_start ( GTK_BOX ( vbox2 ), button, FALSE, FALSE, 5 );
     gtk_widget_set_sensitive ( button, FALSE );
     g_object_set_data ( G_OBJECT (vbox_pref), "remove_button", button );
+    gtk_grid_attach (GTK_GRID (paddinggrid), button, 2, 3, 1, 1);
 
     /* create the model */
     list_store = gsb_partial_balance_create_model ( );
@@ -313,7 +308,6 @@ static GtkWidget *onglet_accueil ( void )
                         GTK_TREE_MODEL (list_store) );
     g_object_unref ( list_store );
 
-    //~ gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (treeview), TRUE);
     gtk_widget_set_size_request ( treeview, -1, 150 );
 
     /* check the keys on the list */
@@ -409,15 +403,14 @@ static GtkWidget *onglet_accueil ( void )
     }
 
     /* mettre les soldes partiels sous les comptes si possibles */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
     button = gsb_automem_checkbutton_new (
                         _("Place the partial balance  under its accounts if it's possible"),
                         &conf.group_partial_balance_under_accounts,
                         G_CALLBACK ( gsb_config_partial_balance_group_under_accounts_clicked ),
                         NULL );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
+    gtk_widget_set_margin_top (button, MARGIN_TOP);
+    gtk_grid_attach (GTK_GRID (paddinggrid), button, 0, 4, 3, 1);
 
     gtk_widget_show_all ( vbox_pref );
 

@@ -1680,7 +1680,8 @@ GtkWidget *gsb_partial_balance_create_list_accounts ( GtkWidget *entry )
  * */
 GtkWidget *gsb_partial_balance_create_dialog ( gint action, gint spin_value )
 {
-    GtkWidget *dialog, *label, *table, *paddingbox, *main_vbox, *vbox;
+    GtkWidget *dialog, *label, *paddingbox, *main_vbox, *vbox;
+    GtkWidget *paddinggrid;
     GtkWidget *entry_name, *entry_list, *account_list, *bouton;
 
     devel_debug ( NULL);
@@ -1704,54 +1705,54 @@ GtkWidget *gsb_partial_balance_create_dialog ( gint action, gint spin_value )
     main_vbox = new_vbox_with_title_and_icon ( _("Partial balance details"), "payment.png" );
     gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), main_vbox, TRUE, TRUE, 0 );
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 12 );
-    gtk_box_pack_start ( GTK_BOX ( main_vbox ), vbox, TRUE, TRUE, 0 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 12 );
-
-    paddingbox = new_paddingbox_with_title ( vbox,FALSE, _("Details") );
-
-    /* Create table */
-    table = gtk_grid_new ();
-    gtk_grid_set_column_spacing (GTK_GRID (table), 5);
-    gtk_grid_set_row_spacing (GTK_GRID (table), 5);
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, TRUE, TRUE, 0 );
+    /* Create paddinggrid */
+    paddinggrid = utils_prefs_paddinggrid_new_with_title ( main_vbox, _("Details") );
+    gtk_grid_set_column_spacing (GTK_GRID (paddinggrid), 5);
+    gtk_grid_set_row_spacing (GTK_GRID (paddinggrid), 5);
 
     /* Partial balance name */
     label = gtk_label_new ( _("Name: ") );
     utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 1 );
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_RIGHT );
-    gtk_grid_attach (GTK_GRID (table), label, 0, 0, 1, 1);
+    gtk_grid_attach (GTK_GRID (paddinggrid), label, 0, 0, 1, 1);
+
     entry_name = gtk_entry_new ( );
     gtk_entry_set_activates_default ( GTK_ENTRY ( entry_name ), TRUE );
-    gtk_grid_attach (GTK_GRID (table), entry_name, 1, 0, 1, 1);
+    gtk_grid_attach (GTK_GRID (paddinggrid), entry_name, 1, 0, 1, 1);
 
     /* List of the accounts */
     label = gtk_label_new ( _("Accounts list: ") );
     utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 1);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
-    gtk_grid_attach (GTK_GRID (table), label, 0, 1, 1, 1);
+    gtk_grid_attach (GTK_GRID (paddinggrid), label, 0, 1, 1, 1);
+
     entry_list = gtk_entry_new ( );
     gtk_editable_set_editable ( GTK_EDITABLE ( entry_list ), FALSE );
     gtk_widget_set_sensitive ( entry_list, FALSE );
-    gtk_grid_attach (GTK_GRID (table), entry_list, 1, 1, 1, 1);
+    gtk_grid_attach (GTK_GRID (paddinggrid), entry_list, 1, 1, 1, 1);
+
     account_list = gsb_partial_balance_create_list_accounts ( entry_list );
-    gtk_grid_attach (GTK_GRID (table), account_list, 0, 2, 2, 2);
+    gtk_grid_attach (GTK_GRID (paddinggrid), account_list, 0, 2, 2, 2);
 
     /* create the position */
     label = gtk_label_new ( _("Position in the list of accounts: ") );
+    gtk_widget_set_margin_top (label, MARGIN_TOP);
     utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 1);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
-    gtk_grid_attach (GTK_GRID (table), label, 0, 4, 4, 4);
+    gtk_grid_attach (GTK_GRID (paddinggrid), label, 0, 4, 1, 1);
+
     bouton = gtk_spin_button_new_with_range ( 1.0, spin_value, 1.0);
+    gtk_widget_set_margin_top (bouton, MARGIN_TOP);
     gtk_spin_button_set_value ( GTK_SPIN_BUTTON ( bouton ),
                         g_slist_length ( partial_balance_list ) + 1 );
-    gtk_grid_attach (GTK_GRID (table), bouton, 1, 4, 1, 1);
+    gtk_grid_attach (GTK_GRID (paddinggrid), bouton, 1, 4, 1, 1);
     g_object_set_data ( G_OBJECT ( dialog ), "spin_bouton", bouton );
 
     /* create the colorized button */
     bouton = gtk_check_button_new_with_label ( _("Colorized in red if the balance is negative") );
-    gtk_grid_attach (GTK_GRID (table), bouton, 0, 5, 2, 1);
+    gtk_widget_set_margin_top (bouton, MARGIN_TOP);
     g_object_set_data ( G_OBJECT ( dialog ), "colorise_bouton", bouton );
+    gtk_grid_attach (GTK_GRID (paddinggrid), bouton, 0, 5, 2, 1);
 
     g_object_set_data ( G_OBJECT ( dialog ), "entry_name", entry_name );
     g_object_set_data ( G_OBJECT ( dialog ), "entry_list", entry_list );
