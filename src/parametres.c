@@ -1041,7 +1041,8 @@ GtkWidget *onglet_messages_and_warnings ( void )
  */
 GtkWidget *onglet_delete_messages ( void )
 {
-    GtkWidget *vbox_pref, *paddingbox, *tree_view, *sw;
+    GtkWidget *vbox_pref, *tree_view, *sw;
+    GtkWidget *paddinggrid;
     GtkTreeModel * model;
     GtkCellRenderer * cell;
     GtkTreeViewColumn * column;
@@ -1051,21 +1052,17 @@ GtkWidget *onglet_delete_messages ( void )
     vbox_pref = new_vbox_with_title_and_icon ( _("Messages before deleting"), "delete.png" );
 
     /* Delete messages */
-    paddingbox = new_paddingbox_with_title ( vbox_pref, TRUE,
-                        _("Display following messages") );
+    paddinggrid = utils_prefs_paddinggrid_new_with_title (vbox_pref, _("Display following messages") );
+
+    sw = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, 00);
+    gtk_grid_attach (GTK_GRID (paddinggrid), sw, 0, 0, 1, 1);
 
     model = GTK_TREE_MODEL(gtk_tree_store_new ( 3, G_TYPE_INT, G_TYPE_STRING, G_TYPE_INT ) );
-
-    sw = gtk_scrolled_window_new ( NULL, NULL );
-    gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw), GTK_SHADOW_IN);
-    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
-                        GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 
     tree_view = gtk_tree_view_new();
     gtk_tree_view_set_model ( GTK_TREE_VIEW (tree_view), GTK_TREE_MODEL (model) );
     g_object_unref (G_OBJECT(model));
     gtk_container_add (GTK_CONTAINER (sw), tree_view);
-    gtk_box_pack_start ( GTK_BOX(paddingbox), sw, TRUE, TRUE, 0 );
 
     cell = gtk_cell_renderer_toggle_new ();
     column = gtk_tree_view_column_new_with_attributes ("", cell, "active", 0, NULL);
