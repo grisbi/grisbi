@@ -351,6 +351,7 @@ GtkWidget *onglet_display_addresses ( void )
 {
     GtkWidget *hbox, *vbox_pref, *scrolled_window, *label;
     GtkWidget *paddingbox;
+    GtkWidget *paddinggrid;
     GtkWidget *entry;
     GtkWidget *radio, *radiogroup;
 
@@ -358,16 +359,14 @@ GtkWidget *onglet_display_addresses ( void )
 					       "addresses.png" );
 
     /* Account file title */
-    paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE, _("Titles") );
+    paddinggrid = utils_prefs_paddinggrid_new_with_title (vbox_pref, _("Titles"));
 
     /* It first creates the entry of title */
     entry = gsb_automem_entry_new ( &titre_fichier,
                         ( GCallback ) update_homepage_title, NULL );
+    gtk_widget_set_margin_top (entry, MARGIN_TOP);
 
     /* Choice of title type */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0);
-
     radiogroup = gtk_radio_button_new_with_label ( NULL, _("Accounting entity") );
     g_object_set_data ( G_OBJECT ( radiogroup ), "display", GINT_TO_POINTER ( GSB_ACCOUNTS_TITLE ) );
     if ( conf.display_grisbi_title == GSB_ACCOUNTS_TITLE )
@@ -376,7 +375,7 @@ GtkWidget *onglet_display_addresses ( void )
                         "toggled",
                         G_CALLBACK ( change_grisbi_title_type ),
                         entry );
-    gtk_box_pack_start ( GTK_BOX( hbox ), radiogroup, FALSE, FALSE, 0 );
+    gtk_grid_attach (GTK_GRID (paddinggrid), radiogroup, 0, 0, 1, 1);
 
     radio = gtk_radio_button_new_with_label_from_widget (
                         GTK_RADIO_BUTTON ( radiogroup ),
@@ -388,7 +387,7 @@ GtkWidget *onglet_display_addresses ( void )
                     "toggled",
                     G_CALLBACK ( change_grisbi_title_type ),
                     entry );
-    gtk_box_pack_start ( GTK_BOX( hbox ), radio, FALSE, FALSE, 0 );
+    gtk_grid_attach (GTK_GRID (paddinggrid), radio, 1, 0, 1, 1);
 
     radio = gtk_radio_button_new_with_label_from_widget (
                         GTK_RADIO_BUTTON ( radiogroup ),
@@ -400,66 +399,48 @@ GtkWidget *onglet_display_addresses ( void )
                         "toggled",
                         G_CALLBACK ( change_grisbi_title_type ),
                         entry );
-    gtk_box_pack_start ( GTK_BOX( hbox ), radio, FALSE, FALSE, 0 );
-
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
-			 FALSE, FALSE, 0);
+    gtk_grid_attach (GTK_GRID (paddinggrid), radio, 2, 0, 1, 1);
 
     label = gtk_label_new ( _("Name of accounting entity: ") );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), label,
-			 FALSE, FALSE, 0);
+    gtk_widget_set_margin_top (label, MARGIN_TOP);
+    gtk_grid_attach (GTK_GRID (paddinggrid), label, 0, 1, 1, 1);
 
+    /* set sensitive and grid attach */
     if ( conf.display_grisbi_title == GSB_ACCOUNTS_TITLE )
         gtk_widget_set_sensitive ( entry, TRUE);
     else
         gtk_widget_set_sensitive ( entry, FALSE);
-    gtk_box_pack_start ( GTK_BOX ( hbox ), entry,
-			 TRUE, TRUE, 0);
+    gtk_grid_attach (GTK_GRID (paddinggrid), entry, 1, 1, 2, 1);
 
     /* Addresses */
-    paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE,
-					     _("Addresses") );
+    paddinggrid = utils_prefs_paddinggrid_new_with_title (vbox_pref, _("Addresses") );
 
     /* Common address */
     label = gtk_label_new ( _("Common address: ") );
     utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
-    gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), label,
-			 TRUE, TRUE, 0);
-    scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
-    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-				     GTK_POLICY_AUTOMATIC,
-				     GTK_POLICY_AUTOMATIC );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), scrolled_window,
-			 FALSE, FALSE, 0);
-    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window),
-					  GTK_SHADOW_IN );
+    gtk_grid_attach (GTK_GRID (paddinggrid), label, 0, 0, 1, 1);
+
+    scrolled_window = utils_prefs_scrolled_window_new ( NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, 200 );
+    gtk_grid_attach (GTK_GRID (paddinggrid), scrolled_window, 0, 1, 2, 3);
+
     entry = gsb_automem_textview_new ( &adresse_commune, NULL, NULL );
-    gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
-			entry );
+    gtk_container_add ( GTK_CONTAINER ( scrolled_window ), entry );
 
     /* Secondary address */
     /** \note This is not implemented yet */
     label = gtk_label_new ( _("Secondary address: ") );
+    gtk_widget_set_margin_top (label, MARGIN_TOP);
     utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
-    gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), label,
-			 TRUE, TRUE, 0);
-    scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
-    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-				     GTK_POLICY_AUTOMATIC,
-				     GTK_POLICY_AUTOMATIC );
-    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window),
-					  GTK_SHADOW_IN );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), scrolled_window,
-			 FALSE, FALSE, 0);
+    gtk_grid_attach (GTK_GRID (paddinggrid), label, 0, 4, 1, 1);
+
+    scrolled_window = utils_prefs_scrolled_window_new ( NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, 200 );
+    gtk_grid_attach (GTK_GRID (paddinggrid), scrolled_window, 0, 5, 2, 3);
+
     entry = gsb_automem_textview_new ( &adresse_secondaire, NULL, NULL );
-    gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
-			entry );
+    gtk_container_add ( GTK_CONTAINER ( scrolled_window ), entry );
 
     if ( !gsb_data_account_get_accounts_amount () )
-	gtk_widget_set_sensitive ( vbox_pref, FALSE );
+        gtk_widget_set_sensitive ( vbox_pref, FALSE );
 
     return ( vbox_pref );
 }
