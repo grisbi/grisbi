@@ -1172,18 +1172,20 @@ GtkWidget *utils_prefs_paddinggrid_new_with_title (GtkWidget *parent,
  * */
 gboolean utils_prefs_scrolled_window_allocate_size (GtkWidget *widget,
                                                      GtkAllocation *allocation,
-                                                     gpointer user_data)
+                                                     gpointer coeff_util)
 {
     gpointer *ptr;
     gint natural_height;
     gint position;
     gint util_allocation;
+    gint coeff = 0;
+
+    coeff = GPOINTER_TO_INT (coeff_util);
+    if (!coeff)
+        return FALSE;
 
     position = gsb_preferences_paned_get_position ();
-    util_allocation = 0.93 * (conf.prefs_width - position);
-
-    if (user_data && GTK_IS_WIDGET (user_data))
-        gtk_widget_set_size_request ( GTK_WIDGET (user_data), util_allocation*2/3, -1);
+    util_allocation = coeff * (conf.prefs_width - position)/100;
 
     /* set the height value */
     if ( ptr = g_object_get_data (G_OBJECT (widget), "height"))
@@ -1192,6 +1194,44 @@ gboolean utils_prefs_scrolled_window_allocate_size (GtkWidget *widget,
         gtk_widget_set_size_request ( widget, util_allocation, 400);
 
     return FALSE;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ * */
+GtkWidget *utils_prefs_scrolled_window_new (GtkSizeGroup *size_group,
+                                            GtkShadowType type,
+                                            gint coeff_util,
+                                            gint height)
+{
+    GtkWidget *sw = NULL;
+
+    sw = gtk_scrolled_window_new (NULL, NULL);
+    gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw), type);
+    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
+                                    GTK_POLICY_NEVER,
+                                    GTK_POLICY_AUTOMATIC);
+
+    /* set height */
+    if (height)
+        g_object_set_data (G_OBJECT (sw), "height", GINT_TO_POINTER (height));
+
+    /* set signals */
+    g_signal_connect (G_OBJECT (sw),
+                      "size-allocate",
+                      G_CALLBACK (utils_prefs_scrolled_window_allocate_size),
+                      GINT_TO_POINTER (coeff_util));
+
+
+    /* set size_group */
+    if (size_group)
+        g_object_set_data (G_OBJECT (sw), "size_group", size_group);
+
+    return sw;
 }
 
 /**

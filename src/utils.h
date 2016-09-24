@@ -57,7 +57,11 @@ GtkWidget *     utils_prefs_paddinggrid_new_with_title                  (GtkWidg
                                                                          const gchar *title);
 gboolean        utils_prefs_scrolled_window_allocate_size               (GtkWidget *widget,
                                                                          GtkAllocation *allocation,
-                                                                         gpointer user_data);
+                                                                         gpointer coeff_util);
+GtkWidget *     utils_prefs_scrolled_window_new                         (GtkSizeGroup *size_group,
+                                                                         GtkShadowType type,
+                                                                         gint coeff_util,
+                                                                         gint height);
 gboolean        utils_set_image_with_etat                               (GtkWidget *widget,
                                                                          gint etat);
 void            utils_set_tree_view_selection_and_text_color            (GtkWidget *tree_view);

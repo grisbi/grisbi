@@ -36,6 +36,11 @@
 #define MARGIN_BOTTOM           10
 #define MARGIN_PADDING_BOX      15
 
+/* coff_util for Scrolled_Window */
+#define SW_COEFF_UTIL_PG        90             /* Scrolled Window in paddinggrid in prefs */
+#define SW_COEFF_UTIL_SW        93             /* Scrolled Window in prefs */
+
+
 /* global variable pour gestion CSS des couleurs */
 /* declared in main.c */
 extern GtkCssProvider *css_provider;
