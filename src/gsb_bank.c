@@ -592,7 +592,7 @@ GtkWidget *gsb_bank_create_page ( gboolean default_sensitive )
     paned2_grid = gtk_grid_new ();
     gtk_box_pack_start (GTK_BOX (paned2), paned2_grid, FALSE, FALSE, 0);
 
-    paned2_sw = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_SW, 400);
+    paned2_sw = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_SW, 0);
     gtk_grid_attach (GTK_GRID (paned2_grid), paned2_sw, 0, 0, 1, 1);
 
     vbox2 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);

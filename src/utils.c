@@ -1191,7 +1191,7 @@ gboolean utils_prefs_scrolled_window_allocate_size (GtkWidget *widget,
     if ( ptr = g_object_get_data (G_OBJECT (widget), "height"))
         gtk_widget_set_size_request ( widget, util_allocation, GPOINTER_TO_INT (ptr));
     else
-        gtk_widget_set_size_request ( widget, util_allocation, 400);
+        gtk_widget_set_size_request ( widget, util_allocation, 350);
 
     return FALSE;
 }

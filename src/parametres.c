@@ -257,7 +257,7 @@ static GtkWidget *onglet_accueil ( void )
     /* Data partial balance settings */
     paddinggrid = utils_prefs_paddinggrid_new_with_title  (vbox, _("Balances partials of the list of accounts"));
 
-    sw = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, 300);
+    sw = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, 200);
     gtk_grid_attach (GTK_GRID (paddinggrid), sw, 0, 0, 3, 3);
 
     /* Create Add/Edit/Remove buttons */
@@ -978,7 +978,7 @@ GtkWidget *onglet_messages_and_warnings ( void )
     paddinggrid = utils_prefs_paddinggrid_new_with_title (vbox_pref,
                                                           _("Display following warnings messages"));
 
-    sw = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, 500);
+    sw = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, 0);
     gtk_grid_attach (GTK_GRID (paddinggrid), sw, 0, 0, 1, 1);
 
     /* create the model */
@@ -1054,7 +1054,7 @@ GtkWidget *onglet_delete_messages ( void )
     /* Delete messages */
     paddinggrid = utils_prefs_paddinggrid_new_with_title (vbox_pref, _("Display following messages") );
 
-    sw = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, 00);
+    sw = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, 0);
     gtk_grid_attach (GTK_GRID (paddinggrid), sw, 0, 0, 1, 1);
 
     model = GTK_TREE_MODEL(gtk_tree_store_new ( 3, G_TYPE_INT, G_TYPE_STRING, G_TYPE_INT ) );
