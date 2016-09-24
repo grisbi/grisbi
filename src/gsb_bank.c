@@ -474,13 +474,7 @@ GtkWidget *gsb_bank_create_page ( gboolean default_sensitive )
 
     paddinggrid = utils_prefs_paddinggrid_new_with_title (paned1, _("Known banks"));
 
-
-    scrolled_window = gtk_scrolled_window_new (NULL, NULL);
-    gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled_window),
-                                         GTK_SHADOW_ETCHED_IN);
-    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW ( scrolled_window ),
-                                    GTK_POLICY_NEVER,
-                                    GTK_POLICY_AUTOMATIC);
+    scrolled_window = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, 0);
     gtk_grid_attach (GTK_GRID (paddinggrid), scrolled_window, 0, 0, 2, 3);
 
     /* set the store */
@@ -598,11 +592,7 @@ GtkWidget *gsb_bank_create_page ( gboolean default_sensitive )
     paned2_grid = gtk_grid_new ();
     gtk_box_pack_start (GTK_BOX (paned2), paned2_grid, FALSE, FALSE, 0);
 
-    paned2_sw = gtk_scrolled_window_new (FALSE, FALSE);
-    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (paned2_sw),
-                                    GTK_POLICY_NEVER,
-                                    GTK_POLICY_ALWAYS);
-    gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (paned2_sw), GTK_SHADOW_IN);
+    paned2_sw = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_SW, 400);
     gtk_grid_attach (GTK_GRID (paned2_grid), paned2_sw, 0, 0, 1, 1);
 
     vbox2 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
@@ -610,12 +600,6 @@ GtkWidget *gsb_bank_create_page ( gboolean default_sensitive )
     gtk_widget_set_sensitive (vbox2, FALSE);
 
     gsb_bank_create_form (vbox2, NULL);
-
-    /* set the signals */
-    g_signal_connect (G_OBJECT (paned2_sw),
-                      "size-allocate",
-                      G_CALLBACK (utils_prefs_scrolled_window_allocate_size),
-                      NULL);
 
     /* connect the selection with vbox2, the container of the form */
     g_signal_connect ( G_OBJECT (selection),
