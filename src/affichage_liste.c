@@ -796,22 +796,19 @@ GtkWidget *onglet_affichage_liste ( void )
     GtkWidget *tree_view;
     GtkWidget *table;
     GtkWidget *paddingbox;
+    GtkWidget *paddinggrid;
     GtkListStore* list_store;
 
 	/* à la base, on met une vbox */
 	onglet = new_vbox_with_title_and_icon ( _("Transactions list cells"), "transaction-list.png" );
 
     /* partie 1 visualisation de l'arrangement des données */
-	paddingbox = new_paddingbox_with_title ( onglet, FALSE, _("Transactions list preview") );
-    utils_widget_set_padding (paddingbox, 15, 0);
+	paddinggrid = utils_prefs_paddinggrid_new_with_title (onglet, _("Transactions list preview"));
+    utils_widget_set_padding (paddinggrid, 15, 0);
 
     /*create the scolled window for tree_view */
-    sw = gtk_scrolled_window_new ( NULL, NULL );
-    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( sw ),
-                        GTK_POLICY_AUTOMATIC,
-                        GTK_POLICY_AUTOMATIC );
-    gtk_widget_set_size_request ( sw, -1, 160 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), sw, TRUE, TRUE, 0 );
+    sw = utils_prefs_scrolled_window_new ( NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, 160 );
+    gtk_grid_attach (GTK_GRID (paddinggrid), sw, 0, 0, 1, 1);
 
     /* create the list_store */
     list_store = gtk_list_store_new ( 2 * CUSTOM_MODEL_VISIBLE_COLUMNS,
