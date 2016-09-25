@@ -1261,7 +1261,7 @@ GtkWidget *gsb_transaction_list_config_create_buttons_table ( GtkWidget *tree_vi
             list_config_buttons[current_number] = gtk_toggle_button_new_with_label ( changed_string );
             gtk_widget_set_size_request (list_config_buttons[current_number], 110, -1);
             gtk_widget_set_name (list_config_buttons[current_number], "list_config_buttons");
-
+            utils_widget_set_padding (list_config_buttons[current_number], 2, 2);
             g_object_set_data ( G_OBJECT ( list_config_buttons[current_number] ),
                         "element_number",
                         GINT_TO_POINTER ( current_number + 1 ) );
