@@ -83,7 +83,32 @@ static void gsb_fyear_update_invalid ( GtkWidget *tree_view );
 /*START_EXTERN*/
 /*END_EXTERN*/
 
+/* variable durée de vie session PROVISOIRE */
+static gboolean fyear_config_sort_type = GTK_SORT_ASCENDING;
 
+/******************************************************************************/
+/* Private Functions                                                          */
+/******************************************************************************/
+/**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ * */
+static gboolean gsb_fyear_config_list_sort_column_clicked (GtkTreeViewColumn *tree_view_column,
+                                                    GtkTreeModel *model)
+{
+    if (fyear_config_sort_type == GTK_SORT_ASCENDING)
+        fyear_config_sort_type = GTK_SORT_DESCENDING;
+    else
+        fyear_config_sort_type = GTK_SORT_ASCENDING;
+}
+
+/******************************************************************************/
+/* Public Functions                                                           */
+/******************************************************************************/
 /**
  * Creates the "Financial years" tab.  It creates a financial years
  * list and then a form that allows to edit selected financial year.
@@ -94,39 +119,30 @@ static void gsb_fyear_update_invalid ( GtkWidget *tree_view );
  */
 GtkWidget *gsb_fyear_config_create_page ( void )
 {
-    GtkWidget *vbox_pref, *label;
-    GtkWidget *scrolled_window, *vbox, *hbox;
-    GtkWidget *paddingbox, *table;
+    GtkWidget *vbox_pref;
+    GtkWidget *label;
+    GtkWidget *scrolled_window;
     GtkWidget *tree_view;
-    GtkTreeModel *tree_model;
+    GtkWidget *paddinggrid;
     GtkWidget *entry;
     GtkWidget *button;
+    GtkTreeModel *tree_model;
 
-    vbox_pref = new_vbox_with_title_and_icon ( _("Financial years"),
-					       "financial-years.png" );
-    paddingbox = new_paddingbox_with_title ( vbox_pref, TRUE,
-					     _("Known financial years") );
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
-			 TRUE, TRUE, 0);
+    vbox_pref = new_vbox_with_title_and_icon (_("Financial years"), "financial-years.png");
+
+    paddinggrid = utils_prefs_paddinggrid_new_with_title (vbox_pref, _("Known financial years"));
 
     /* Create financial years list */
-    scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), scrolled_window,
-			 TRUE, TRUE, 0);
-    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-				     GTK_POLICY_AUTOMATIC,
-				     GTK_POLICY_AUTOMATIC);
+    scrolled_window = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, 160);
+    gtk_grid_attach (GTK_GRID (paddinggrid), scrolled_window, 0, 0, 2, 3);
 
     tree_view = gsb_fyear_config_create_list ();
     tree_model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
-    gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
-			tree_view);
+    gtk_container_add (GTK_CONTAINER ( scrolled_window ), tree_view);
     g_signal_connect ( gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view)),
 		       "changed",
 		       G_CALLBACK (gsb_fyear_config_select),
 		       NULL );
-
 
     /* Do not activate unless an account is opened */
     if ( gsb_data_account_get_accounts_amount () )
@@ -134,118 +150,98 @@ GtkWidget *gsb_fyear_config_create_page ( void )
     else
 	gtk_widget_set_sensitive ( vbox_pref, FALSE );
 
-
-    /* Order buttons in a vbox */
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), vbox,
-			 FALSE, FALSE, 0 );
-
     /* Add button */
     button = utils_buttons_button_new_from_stock ("gtk-add", _("Add"));
+    gtk_widget_set_margin_end (button, MARGIN_END);
+    utils_widget_set_padding (button, 0, MARGIN_TOP);
     g_signal_connect_swapped ( G_OBJECT (button),
 			       "clicked",
 			       G_CALLBACK  (gsb_fyear_config_add_fyear),
 			       tree_view );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), button,
-			 FALSE, FALSE, 5 );
-    /* Remove button */
+    gtk_grid_attach (GTK_GRID (paddinggrid), button, 0, 3, 1, 1);
+
+    /* Button "Remove" */
     button = utils_buttons_button_new_from_stock ("gtk-remove", _("Remove"));
-    gtk_widget_set_sensitive ( button, FALSE );
-    g_object_set_data ( G_OBJECT (tree_model),
-			"remove_fyear_button", button );
-    g_signal_connect_swapped ( G_OBJECT (button),
+    utils_widget_set_padding (button, 0, MARGIN_TOP);
+    gtk_widget_set_sensitive (button, FALSE);
+    g_object_set_data ( G_OBJECT (tree_model), "remove_fyear_button", button );
+    g_signal_connect_swapped (G_OBJECT (button),
 			       "clicked",
 			       G_CALLBACK  (gsb_fyear_config_remove_fyear),
-			       tree_view );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), button,
-			 FALSE, FALSE, 5 );
+			       tree_view);
+    gtk_grid_attach (GTK_GRID (paddinggrid), button, 1, 3, 1, 1);
 
     /* Associate operations : under the list */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
-			 FALSE, FALSE, 0);
-
     button = gtk_button_new_with_label ( _("Associate operations without financial years") );
-    g_signal_connect ( G_OBJECT ( button ),
+    g_signal_connect (G_OBJECT ( button ),
 			 "clicked",
 			 G_CALLBACK ( gsb_fyear_config_associate_transactions ),
-			 NULL );
-    gtk_box_pack_start ( GTK_BOX (hbox), button,
-			 FALSE, FALSE, 5 );
+			 NULL);
+    gtk_grid_attach (GTK_GRID (paddinggrid), button, 0, 4, 2, 1);
     gtk_widget_show ( button );
 
     /* Financial year details */
-    paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE,
-						     _("Financial year details") );
-    g_object_set_data ( G_OBJECT (tree_model),
-			"paddingbox_details", paddingbox );
-
-    /* create a hbox, the table on the left
-     * and the warning on the right */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0);
-    gtk_box_pack_start ( GTK_BOX (paddingbox), hbox,
-			 FALSE, FALSE, 0 );
-
-    /* Put stuff in a table */
-    table = gtk_grid_new ();
-    gtk_grid_set_row_spacing (GTK_GRID (table), 6);
-    gtk_grid_set_column_spacing (GTK_GRID (table), 6);
-    gtk_box_pack_start ( GTK_BOX (hbox), table,
-			 FALSE, FALSE, 0 );
+    paddinggrid = utils_prefs_paddinggrid_new_with_title ( vbox_pref, _("Financial year details") );
+    g_object_set_data ( G_OBJECT (tree_model), "paddingbox_details", paddinggrid );
 
     /* Financial year name */
     label = gtk_label_new ( _("Name: ") );
-	utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
-    gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-    gtk_grid_attach (GTK_GRID (table), label, 0, 0, 1, 1);
+	utils_labels_set_alignement ( GTK_LABEL (label), 0, 0.5);
+    gtk_grid_attach (GTK_GRID (paddinggrid), label, 0, 0, 1, 1);
+
     entry = gsb_autofunc_entry_new ( NULL,
 				     G_CALLBACK (gsb_fyear_config_modify_fyear), tree_view,
 				     G_CALLBACK (gsb_data_fyear_set_name), 0 );
-    g_object_set_data ( G_OBJECT (tree_model),
-			"fyear_name_entry", entry );
-    gtk_grid_attach (GTK_GRID (table), entry, 1, 0, 1, 1);
+    g_object_set_data ( G_OBJECT (tree_model), "fyear_name_entry", entry );
+    gtk_widget_set_size_request (entry, 150, -1);
+    gtk_widget_set_margin_end (entry, MARGIN_END);
+    gtk_grid_attach (GTK_GRID (paddinggrid), entry, 1, 0, 1, 1);
+
+    label = gtk_label_new ("                                                  ");
+    gtk_widget_set_size_request (label, 400, -1);
+    gtk_grid_attach (GTK_GRID (paddinggrid), label, 2, 0, 2, 1);
 
     /* Start */
     label = gtk_label_new ( _("Start: ") );
-    utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
-    gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-    gtk_grid_attach (GTK_GRID (table), label, 0, 1, 1, 1);
+    utils_labels_set_alignement ( GTK_LABEL (label), 0, 0.5);
+    gtk_grid_attach (GTK_GRID (paddinggrid), label, 0, 1, 1, 1);
+
     entry = gsb_autofunc_date_new ( NULL,
 				    G_CALLBACK (gsb_fyear_config_modify_fyear), tree_view,
 				    G_CALLBACK (gsb_data_fyear_set_beginning_date), 0 );
-    g_object_set_data ( G_OBJECT (tree_model),
-			"fyear_begin_date_entry", entry );
-    gtk_grid_attach (GTK_GRID (table), entry, 1, 1, 1, 1);
+    g_object_set_data ( G_OBJECT (tree_model), "fyear_begin_date_entry", entry );
+    gtk_widget_set_size_request (entry, 150, -1);
+    gtk_widget_set_margin_end (entry, MARGIN_END);
+    gtk_grid_attach (GTK_GRID (paddinggrid), entry, 1, 1, 1, 1);
 
     /* End */
     label = gtk_label_new ( _("End: ") );
-    utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
+    utils_labels_set_alignement ( GTK_LABEL (label), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-    gtk_grid_attach (GTK_GRID (table), label, 0, 2, 1, 1);
+    gtk_grid_attach (GTK_GRID (paddinggrid), label, 0, 2, 1, 1);
+
     entry = gsb_autofunc_date_new ( NULL,
 				    G_CALLBACK (gsb_fyear_config_modify_fyear), tree_view,
 				    G_CALLBACK (gsb_data_fyear_set_end_date), 0 );
-    g_object_set_data ( G_OBJECT (tree_model),
-			"fyear_end_date_entry", entry );
-    gtk_grid_attach (GTK_GRID (table), entry, 1, 2, 1, 1);
+    g_object_set_data ( G_OBJECT (tree_model), "fyear_end_date_entry", entry );
+    gtk_widget_set_size_request (entry, 150, -1);
+    gtk_widget_set_margin_end (entry, MARGIN_END);
+    gtk_grid_attach (GTK_GRID (paddinggrid), entry, 1, 2, 1, 1);
 
     /* label showed if the fyear is invalid */
     label = gtk_label_new (NULL);
-    g_object_set_data ( G_OBJECT (tree_model),
-			"invalid_label", label );
-    gtk_box_pack_start ( GTK_BOX (hbox), label,
-			 FALSE, FALSE, 0 );
+    g_object_set_data ( G_OBJECT (tree_model), "invalid_label", label );
+    gtk_grid_attach (GTK_GRID (paddinggrid), label, 2, 1, 2, 1);
 
     /* Activate in transaction form? */
     button = gsb_autofunc_checkbutton_new ( _("Activate financial year in transaction form"), FALSE,
 					    NULL, NULL,
 					    G_CALLBACK (gsb_data_fyear_set_form_show), 0);
-    g_object_set_data ( G_OBJECT (tree_model),
-			"fyear_show_button", button );
-    gtk_box_pack_start ( GTK_BOX (paddingbox), button,
-			 FALSE, FALSE, 0 );
+    g_object_set_data ( G_OBJECT (tree_model), "fyear_show_button", button );
+    gtk_widget_set_margin_top (button, MARGIN_TOP);
+    gtk_grid_attach (GTK_GRID (paddinggrid), button, 0, 3, 4, 1);
 
-    gtk_widget_set_sensitive (paddingbox, FALSE );
+    gtk_widget_set_sensitive (paddinggrid, FALSE );
 
     return ( vbox_pref );
 }
@@ -283,7 +279,6 @@ GtkWidget *gsb_fyear_config_create_list ()
     /* Create tree tree_view */
     treeview = gtk_tree_view_new_with_model (GTK_TREE_MODEL(model));
     g_object_unref (G_OBJECT(model));
-    //~ gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (treeview), TRUE);
 
     /* for all the columns it's a text */
     cell_renderer = gtk_cell_renderer_text_new ();
@@ -316,13 +311,23 @@ GtkWidget *gsb_fyear_config_create_list ()
 					      GTK_TREE_VIEW_COLUMN_AUTOSIZE );
 	    gtk_tree_view_column_set_expand ( column, TRUE );
 	}
-	gtk_tree_view_append_column ( GTK_TREE_VIEW(treeview),
-				      column );
+
+        /* on peut trier sur la colonne nom */
+        if (i == 0)
+        {
+            gtk_tree_view_column_set_sort_column_id (column, i);
+            g_signal_connect (G_OBJECT (column),
+                              "clicked",
+                              G_CALLBACK (gsb_fyear_config_list_sort_column_clicked),
+                              model);
+        }
+
+        gtk_tree_view_append_column ( GTK_TREE_VIEW(treeview), column );
     }
 
     /* Sort columns accordingly */
     gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE(model),
-					  FYEAR_NAME_COLUMN, GTK_SORT_ASCENDING);
+					  FYEAR_NAME_COLUMN, fyear_config_sort_type);
 
     return treeview;
 }
@@ -715,19 +720,19 @@ gboolean gsb_fyear_config_remove_fyear ( GtkWidget *tree_view )
 	||
 	!tmp_list )
     {
-	gsb_data_fyear_remove (fyear_number);
+        gsb_data_fyear_remove (fyear_number);
 
-	gtk_list_store_remove ( GTK_LIST_STORE (model),
-				&iter );
-	gtk_widget_set_sensitive ( g_object_get_data ( G_OBJECT (model),
-						       "paddingbox_details" ),
-				   FALSE );
-	gtk_widget_set_sensitive ( g_object_get_data ( G_OBJECT (model),
-						       "remove_fyear_button" ),
-				   FALSE );
+        gtk_list_store_remove ( GTK_LIST_STORE (model), &iter );
 
-	/* Update various menus */
-	gsb_fyear_update_fyear_list ();
+        if (g_slist_length ( gsb_data_fyear_get_fyears_list ()) == 0)
+        {
+            gtk_widget_set_sensitive ( g_object_get_data ( G_OBJECT (model), "paddingbox_details" ),
+                           FALSE );
+            gtk_widget_set_sensitive ( g_object_get_data ( G_OBJECT (model), "remove_fyear_button" ),
+                           FALSE );
+        }
+
+        /* Update various menus */
         gsb_file_set_modified ( TRUE );
     }
     return FALSE;
