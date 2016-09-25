@@ -49,7 +49,6 @@
 #include "custom_list.h"
 #include "dialog.h"
 #include "gsb_calendar.h"
-#include "gsb_color.h"
 #include "gsb_data_account.h"
 #include "gsb_data_archive.h"
 #include "gsb_data_bank.h"
@@ -107,10 +106,6 @@ static gulong gsb_file_save_bet_graph_part ( gulong iterator,
                         gulong *length_calculated,
                         gchar **file_content );
 #endif /* HAVE_GOFFICE */
-static gulong gsb_file_save_color_part ( gulong iterator,
-                        gulong *length_calculated,
-                        gchar **file_content,
-                        gint archive_number );
 static gulong gsb_file_save_currency_link_part ( gulong iterator,
                         gulong *length_calculated,
                         gchar **file_content );
@@ -245,7 +240,6 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
     gint account_icon_part = 4500;
     gint bet_part = 500;
     gint bet_graph_part = 100;
-    gint color_part  = 3000;
     gint rgba_part = 1000;
 
     struct stat buf;
@@ -292,7 +286,6 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
     + account_icon_part * g_slist_length ( gsb_select_icon_list_accounts_icon () )
     + bet_part
     + bet_graph_part
-    + color_part
     + rgba_part;
 
     iterator = 0;
@@ -308,11 +301,6 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
 					    &length_calculated,
 					    &file_content,
 					    archive_number );
-
-    iterator = gsb_file_save_color_part ( iterator,
-					  &length_calculated,
-					  &file_content,
-					  archive_number );
 
     iterator = gsb_file_save_rgba_part ( iterator,
 					  &length_calculated,
@@ -887,33 +875,6 @@ gulong gsb_file_save_general_part ( gulong iterator,
     /* append the new string to the file content
      * and return the new iterator */
 
-    return gsb_file_save_append_part ( iterator,
-				       length_calculated,
-				       file_content,
-				       new_string );
-}
-
-/**
- * save the color part
- *
- * \param iterator the current iterator
- * \param length_calculated a pointer to the variable lengh_calculated
- * \param file_content a pointer to the variable file_content
- * \param archive_number the number of the archive or 0 if not an archive
- *
- * \return the new iterator
- * */
-gulong gsb_file_save_color_part ( gulong iterator,
-                        gulong *length_calculated,
-                        gchar **file_content,
-                        gint archive_number )
-{
-    gchar *new_string;
-
-    new_string = gsb_color_get_strings_to_save ( );
-
-    /* append the new string to the file content
-     * and return the new iterator */
     return gsb_file_save_append_part ( iterator,
 				       length_calculated,
 				       file_content,

@@ -44,7 +44,6 @@
 #include "accueil.h"
 #include "dialog.h"
 #include "gsb_assistant_first.h"
-#include "gsb_color.h"
 #include "gsb_data_account.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
@@ -527,7 +526,6 @@ gboolean gsb_grisbi_init_app ( void )
     g_free (tmp_dir);
     g_object_unref (file);
 
-    gsb_color_initialise_couleurs_par_defaut ( );
     gsb_rgba_initialise_couleurs_par_defaut ();
     init_variables ();
     register_import_formats ();

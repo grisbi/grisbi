@@ -43,7 +43,6 @@
 #include "gsb_assistant_archive.h"
 #include "gsb_assistant_first.h"
 #include "gsb_calendar.h"
-#include "gsb_color.h"
 #include "gsb_currency_config.h"
 #include "gsb_data_account.h"
 #include "gsb_data_archive.h"
@@ -110,8 +109,6 @@ static void gsb_file_load_bet_graph_part ( const gchar **attribute_names,
 static void gsb_file_load_bet_transfert_part ( const gchar **attribute_names,
                         const gchar **attribute_values );
 static gboolean gsb_file_load_check_new_structure ( gchar *file_content );
-static void gsb_file_load_color_part ( const gchar **attribute_names,
-                        const gchar **attribute_values );
 static void gsb_file_load_copy_old_file ( gchar *filename, gchar *file_content);
 static void gsb_file_load_currency ( const gchar **attribute_names,
                         const gchar **attribute_values );
@@ -594,12 +591,6 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
             if ( !strcmp ( element_name, "Category" ))
             {
                 gsb_file_load_category ( attribute_names,
-                        attribute_values );
-            }
-
-            else if ( !strcmp ( element_name, "Color" ))
-            {
-                gsb_file_load_color_part ( attribute_names,
                         attribute_values );
             }
 
@@ -1237,247 +1228,6 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
     }
     while ( attribute_names[i] );
 }
-
-/**
- * load the color part in the Grisbi file
- *
- * \param attribute_names
- * \param attribute_values
- *
- * */
-void gsb_file_load_color_part ( const gchar **attribute_names,
-                        const gchar **attribute_values )
-{
-    gint i=0;
-
-    if ( !attribute_names[i] )
-    return;
-
-    do
-    {
-    /*     we test at the beginning if the attribute_value is NULL, if yes, */
-    /*        go to the next */
-
-    if ( !strcmp (attribute_values[i], "(null)") )
-    {
-        /* Nothing */
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Background_color_0_red" ) )
-    {
-        gsb_color_set_couleur_with_indice ( "couleur_fond", 0, "red", utils_str_atoi ( attribute_values[i] ) );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Background_color_0_green" ) )
-    {
-        gsb_color_set_couleur_with_indice ( "couleur_fond", 0, "green", utils_str_atoi ( attribute_values[i] ) );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Background_color_0_blue" ) )
-    {
-        gsb_color_set_couleur_with_indice ( "couleur_fond", 0, "blue", utils_str_atoi ( attribute_values[i] ) );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Background_color_1_red" ) )
-    {
-        gsb_color_set_couleur_with_indice ( "couleur_fond", 1, "red", utils_str_atoi ( attribute_values[i] ) );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Background_color_1_green" ) )
-    {
-        gsb_color_set_couleur_with_indice ( "couleur_fond", 1, "green", utils_str_atoi ( attribute_values[i] ) );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Background_color_1_blue" ) )
-    {
-        gsb_color_set_couleur_with_indice ( "couleur_fond", 1, "blue", utils_str_atoi ( attribute_values[i] ) );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Couleur_jour_red" ) )
-    {
-        gsb_color_set_couleur ( "couleur_jour", "red", utils_str_atoi ( attribute_values[i] ) );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Couleur_jour_green" ) )
-    {
-        gsb_color_set_couleur ( "couleur_jour", "green", utils_str_atoi ( attribute_values[i] ) );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Couleur_jour_blue" ) )
-    {
-        gsb_color_set_couleur ( "couleur_jour", "blue", utils_str_atoi ( attribute_values[i] ) );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Background_scheduled_red" ) )
-    {
-        gsb_color_set_couleur ( "couleur_grise", "red", utils_str_atoi ( attribute_values[i] ) );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Background_scheduled_green" ) )
-    {
-        gsb_color_set_couleur ( "couleur_grise", "green", utils_str_atoi ( attribute_values[i] ) );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Background_scheduled_blue" ) )
-    {
-        gsb_color_set_couleur ( "couleur_grise", "blue", utils_str_atoi ( attribute_values[i] ) );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Background_archive_red" ) )
-    {
-        gsb_color_set_couleur ( "archive_background_color", "red", utils_str_atoi ( attribute_values[i] ) );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Background_archive_green" ) )
-    {
-        gsb_color_set_couleur ( "archive_background_color", "green", utils_str_atoi ( attribute_values[i] ) );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Background_archive_blue" ) )
-    {
-        gsb_color_set_couleur ( "archive_background_color", "blue", utils_str_atoi ( attribute_values[i] ) );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Selection_red" ) )
-    {
-        gsb_color_set_couleur ( "couleur_selection", "red", utils_str_atoi ( attribute_values[i] ) );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Selection_green" ) )
-    {
-        gsb_color_set_couleur ( "couleur_selection", "green", utils_str_atoi ( attribute_values[i] ) );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Selection_blue" ) )
-    {
-        gsb_color_set_couleur ( "couleur_selection", "blue", utils_str_atoi ( attribute_values[i] ) );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Background_split_red" ) )
-    {
-        gsb_color_set_couleur ( "split_background", "red", utils_str_atoi ( attribute_values[i] ) );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Background_split_green" ) )
-    {
-        gsb_color_set_couleur ( "split_background", "green", utils_str_atoi ( attribute_values[i] ) );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Background_split_blue" ) )
-    {
-        gsb_color_set_couleur ( "split_background", "blue", utils_str_atoi ( attribute_values[i] ) );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Text_color_0_red" ) )
-    {
-        gsb_color_set_couleur_with_indice ( "text_color", 0, "red", utils_str_atoi ( attribute_values[i] ) );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Text_color_0_green" ) )
-    {
-        gsb_color_set_couleur_with_indice ( "text_color", 0, "green", utils_str_atoi ( attribute_values[i] ) );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Text_color_0_blue" ) )
-    {
-        gsb_color_set_couleur_with_indice ( "text_color", 0, "blue", utils_str_atoi ( attribute_values[i] ) );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Text_color_1_red" ) )
-    {
-        gsb_color_set_couleur_with_indice ( "text_color", 1, "red", utils_str_atoi ( attribute_values[i] ) );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Text_color_1_green" ) )
-    {
-        gsb_color_set_couleur_with_indice ( "text_color", 1, "green", utils_str_atoi ( attribute_values[i] ) );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Text_color_1_blue" ) )
-    {
-        gsb_color_set_couleur_with_indice ( "text_color", 1, "blue", utils_str_atoi ( attribute_values[i] ) );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Entry_error_color_red" ) )
-    {
-        gsb_color_set_couleur ( "entry_error_color", "red", utils_str_atoi ( attribute_values[i] ) );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Entry_error_color_green" ) )
-    {
-        gsb_color_set_couleur ( "entry_error_color", "green", utils_str_atoi ( attribute_values[i] ) );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Entry_error_color_blue" ) )
-    {
-        gsb_color_set_couleur ( "entry_error_color", "blue", utils_str_atoi ( attribute_values[i] ) );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Couleur_bet_division_red" ) )
-    {
-        gsb_color_set_couleur ( "couleur_bet_division", "red", utils_str_atoi ( attribute_values[i] ) );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Couleur_bet_division_green" ) )
-    {
-        gsb_color_set_couleur ( "couleur_bet_division", "green", utils_str_atoi ( attribute_values[i] ) );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Couleur_bet_division_blue" ) )
-    {
-        gsb_color_set_couleur ( "couleur_bet_division", "blue", utils_str_atoi ( attribute_values[i] ) );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Couleur_bet_future_red" ) )
-    {
-        gsb_color_set_couleur ( "couleur_bet_future", "red", utils_str_atoi ( attribute_values[i] ) );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Couleur_bet_future_green" ) )
-    {
-        gsb_color_set_couleur ( "couleur_bet_future", "green", utils_str_atoi ( attribute_values[i] ) );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Couleur_bet_future_blue" ) )
-    {
-        gsb_color_set_couleur ( "couleur_bet_future", "blue", utils_str_atoi ( attribute_values[i] ) );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Couleur_bet_solde_red" ) )
-    {
-        gsb_color_set_couleur ( "couleur_bet_solde", "red", utils_str_atoi ( attribute_values[i] ) );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Couleur_bet_solde_green" ) )
-    {
-        gsb_color_set_couleur ( "couleur_bet_solde", "green", utils_str_atoi ( attribute_values[i] ) );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Couleur_bet_solde_blue" ) )
-    {
-        gsb_color_set_couleur ( "couleur_bet_solde", "blue", utils_str_atoi ( attribute_values[i] ) );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Couleur_bet_transfert_red" ) )
-    {
-        gsb_color_set_couleur ( "couleur_bet_transfert", "red", utils_str_atoi ( attribute_values[i] ) );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Couleur_bet_transfert_green" ) )
-    {
-        gsb_color_set_couleur ( "couleur_bet_transfert", "green", utils_str_atoi ( attribute_values[i] ) );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Couleur_bet_transfert_blue" ) )
-    {
-        gsb_color_set_couleur ( "couleur_bet_transfert", "blue", utils_str_atoi ( attribute_values[i] ) );
-    }
-
-    i++;
-    }
-    while ( attribute_names[i] );
-}
-
 
 /**
  * load the print part in the Grisbi file
