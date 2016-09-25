@@ -3808,12 +3808,7 @@ GtkWidget * gsb_import_associations_gere_tiers ( void )
     grid = gtk_grid_new ();
     gtk_box_pack_start ( GTK_BOX(paddingbox), grid, FALSE, FALSE, 6 );
 
-    sw = gtk_scrolled_window_new (NULL, NULL);
-    gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw),
-                        GTK_SHADOW_ETCHED_IN);
-    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
-                        GTK_POLICY_AUTOMATIC,
-                        GTK_POLICY_ALWAYS);
+    sw = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, 200);
     gtk_grid_attach (GTK_GRID (grid), sw, 0, 0, 2, 3);
 
     /* Create Add/Remove buttons */
@@ -3919,12 +3914,6 @@ GtkWidget * gsb_import_associations_gere_tiers ( void )
                         G_CALLBACK (gsb_import_associations_check_add_button),
                         vbox_main );
     g_object_set_data ( G_OBJECT (vbox_main), "Search_string", entry_search );
-
-    /* set signals */
-    g_signal_connect (G_OBJECT (sw),
-                      "size-allocate",
-                      G_CALLBACK (utils_prefs_paddingbox_allocate_size_widget),
-                      entry_payee);
 
     gsb_import_associations_check_add_button ( G_OBJECT (vbox_main) );
 

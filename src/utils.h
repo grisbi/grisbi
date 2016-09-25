@@ -50,9 +50,6 @@ GtkListStore *  utils_list_store_create_from_string_array               (gchar *
 void            utils_labels_set_alignement                             (GtkLabel *label,
                                                                          gfloat xalign,
                                                                          gfloat yalign);
-gboolean        utils_prefs_paddingbox_allocate_size_widget             (GtkWidget *widget,
-                                                                         GtkAllocation *allocation,
-                                                                         gpointer user_data);
 GtkWidget *     utils_prefs_paddinggrid_new_with_title                  (GtkWidget *parent,
                                                                          const gchar *title);
 gboolean        utils_prefs_scrolled_window_allocate_size               (GtkWidget *widget,

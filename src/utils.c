@@ -1083,41 +1083,6 @@ void utils_widget_set_padding (GtkWidget *widget,
 }
 
 /**
- * set the size of scrolled_window in prefs tab
- *
- * \param table the table wich receive the 'size-allocate' signal
- * \param allocation
- *
- * \return FALSE
- * */
-gboolean utils_prefs_paddingbox_allocate_size_widget (GtkWidget *widget,
-                                                      GtkAllocation *allocation,
-                                                      gpointer user_data)
-{
-    gpointer *ptr;
-    gint natural_height;
-    gint position;
-    gint util_allocation;
-
-    //~ printf ("utils_paddingbox_allocate_size_widget  : width = %d height = %d\n",
-            //~ conf.prefs_width, GPOINTER_TO_INT (g_object_get_data (G_OBJECT (widget), "height")));
-    position = gsb_preferences_paned_get_position ();
-    util_allocation = 0.9 * (conf.prefs_width - position);
-    //~ printf ("position = %d util_allocation = %d\n", position, util_allocation);
-
-    if (user_data && GTK_IS_WIDGET (user_data))
-        gtk_widget_set_size_request ( GTK_WIDGET (user_data), util_allocation*2/3, -1);
-
-    /* set the height value */
-    if ( ptr = g_object_get_data (G_OBJECT (widget), "height"))
-        gtk_widget_set_size_request ( widget, util_allocation, GPOINTER_TO_INT (ptr));
-    else
-        gtk_widget_set_size_request ( widget, util_allocation, 200);
-
-    return FALSE;
-}
-
-/**
  * Create a grid with a nice bold title and content slightly indented.
  * All content is packed vertically in a GtkGrid.  The paddingbox is
  * also packed in its parent.
@@ -1154,6 +1119,9 @@ GtkWidget *utils_prefs_paddinggrid_new_with_title (GtkWidget *parent,
     /* Then make the grid itself */
     paddinggrid = gtk_grid_new ();
     gtk_widget_set_margin_start (paddinggrid, MARGIN_PADDING_BOX);
+    gtk_grid_set_column_spacing (GTK_GRID (paddinggrid), 5 );
+    gtk_grid_set_row_spacing (GTK_GRID (paddinggrid), 5 );
+
     gtk_box_pack_start (GTK_BOX (vbox), paddinggrid, FALSE, FALSE, 0);
 
     if (GTK_IS_BOX (parent))

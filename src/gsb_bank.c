@@ -580,12 +580,6 @@ GtkWidget *gsb_bank_create_page ( gboolean default_sensitive )
                       NULL);
     gtk_grid_attach (GTK_GRID (paddinggrid), delete_bank_button, 1, 3, 1, 1);
 
-    /* set signals */
-    g_signal_connect (G_OBJECT (scrolled_window),
-                      "size-allocate",
-                      G_CALLBACK (utils_prefs_paddingbox_allocate_size_widget),
-                      NULL);
-
     /* Add a scroll because bank details are huge */
     paned2 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
     gtk_paned_pack2 (GTK_PANED (vpaned), paned2, TRUE, FALSE);

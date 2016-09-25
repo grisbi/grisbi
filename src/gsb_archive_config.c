@@ -118,12 +118,7 @@ GtkWidget *gsb_archive_config_create (void)
     paddinggrid = utils_prefs_paddinggrid_new_with_title (vbox_pref, _("Known archives"));
 
     /* Create scrolled window */
-    scrolled_window = gtk_scrolled_window_new (NULL, NULL);
-    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
-                                    GTK_POLICY_AUTOMATIC,
-                                    GTK_POLICY_AUTOMATIC);
-    gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled_window),
-                                         GTK_SHADOW_IN);
+    scrolled_window = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, 200);
     gtk_grid_attach (GTK_GRID (paddinggrid), scrolled_window, 0, 0, 1, 1);
 
     /* Create tree view */
@@ -231,12 +226,6 @@ GtkWidget *gsb_archive_config_create (void)
     gtk_grid_attach (GTK_GRID (check_paddinggrid), label, 2, 1, 1, 1);
 
     gtk_grid_attach (GTK_GRID (check_paddinggrid), button, 0, 0, 3, 1);
-
-    /* set signals */
-    g_signal_connect (G_OBJECT (scrolled_window),
-                      "size-allocate",
-                      G_CALLBACK (utils_prefs_paddingbox_allocate_size_widget),
-                      NULL);
 
     /* fill the list */
     gsb_archive_config_fill_list (archive_model);
