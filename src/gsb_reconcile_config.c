@@ -142,7 +142,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
     paddinggrid = utils_prefs_paddinggrid_new_with_title (vbox_pref, _("List of reconciliations"));
 
     /* set the list */
-    scrolled_window = utils_prefs_scrolled_window_new ( NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, 250 );
+    scrolled_window = utils_prefs_scrolled_window_new ( NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, 200 );
     gtk_grid_attach (GTK_GRID (paddinggrid), scrolled_window, 0, 0, 1, 3);
 
     /* need to create first the table to set it in the arg of the changed signal of selection */
