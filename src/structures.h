@@ -20,10 +20,10 @@
 #define VERSION_FICHIER_CATEG "0.6.0"
 #define VERSION_FICHIER_IB "0.6.0"
 
-#define CSV_MAX_TOP_LINES       10	            /** How many lines to show in CSV preview.  */
-#define GSB_EPSILON             0.0000005       /* Sert à comparer des doubles */
-#define GSB_MAX_SPIN_BUTTON     1000000000.0    /* Dimensionne la largeur naturelle maxi des spin_button */
-#define ETAT_WWW_BROWSER        "xdg-open"      /* définit le browser par défaut */
+#define CSV_MAX_TOP_LINES       10	                /** How many lines to show in CSV preview.  */
+#define GSB_EPSILON             0.0000005           /* Sert à comparer des doubles */
+#define GSB_MAX_SPIN_BUTTON     100000000000000.0   /* Dimensionne la largeur naturelle maxi des spin_button */
+#define ETAT_WWW_BROWSER        "xdg-open"          /* définit le browser par défaut */
 
 /* Sorting option for the transactions. Used in gsb_transactions_list_display_sort_changed () */
 #define PRIMARY_SORT            0
