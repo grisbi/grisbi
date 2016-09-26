@@ -1635,7 +1635,7 @@ static gboolean gtk_combofix_set_popup_position ( GtkComboFix *combofix )
 
     if ( ( ( gdk_screen_height ( ) - y - allocation.height ) < height )
      &&
-     ( ( ( gdk_screen_height () - y ) * 3 ) < y ) )
+     ( ( ( gdk_screen_height () - y ) * 2 ) <= y ) )
     {
         /* popup on the top */
         if ( y > height )
