@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-25 17:50+0200\n"
+"POT-Creation-Date: 2016-09-26 13:52+0200\n"
 "PO-Revision-Date: 2010-05-09 11:48+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <cmcamara@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -198,7 +198,7 @@ msgstr ""
 
 #. Change fonts
 #: ../src/affichage.c:179 ../src/print_report.c:115 ../src/print_report.c:417
-#: ../src/print_transactions_list.c:263 ../src/print_tree_view_list.c:1014
+#: ../src/print_transactions_list.c:262 ../src/print_tree_view_list.c:1014
 msgid "Fonts"
 msgstr "Fuentes"
 
@@ -229,84 +229,94 @@ msgid "Titles"
 msgstr "Títulos"
 
 #. Choice of title type
-#: ../src/affichage.c:365
+#: ../src/affichage.c:370
 #, fuzzy
 msgid "Accounting entity"
 msgstr "Detalles de la cuenta"
 
-#: ../src/affichage.c:377
+#: ../src/affichage.c:382
 msgid "Account owner name"
 msgstr "Nombre del titular de la cuenta"
 
-#: ../src/affichage.c:389
+#: ../src/affichage.c:394
 msgid "Filename"
 msgstr "Nombre del fichero"
 
 #. label account name
-#: ../src/affichage.c:399 ../src/gsb_assistant_file.c:285
+#: ../src/affichage.c:404 ../src/gsb_assistant_file.c:285
 #, fuzzy
 msgid "Name of accounting entity: "
 msgstr "Banco para la cuenta: "
 
 #. Addresses
-#: ../src/affichage.c:414
+#: ../src/affichage.c:416
 msgid "Addresses"
 msgstr "Direcciones"
 
 #. Common address
-#: ../src/affichage.c:417
+#: ../src/affichage.c:419
 msgid "Common address: "
 msgstr "Direcciones comunes: "
 
 #. Secondary address
 #. * \note This is not implemented yet
-#: ../src/affichage.c:429
+#: ../src/affichage.c:431
 msgid "Secondary address: "
 msgstr "Direcciones secundarias: "
 
-#: ../src/affichage.c:538
+#: ../src/affichage.c:540
 msgid "Select a new logo"
 msgstr "Seleccione un nuevo logotipo"
 
 #. Headings bar
-#: ../src/affichage.c:685
+#: ../src/affichage.c:687
 #, fuzzy
 msgid "Headings bar"
 msgstr "Mostrar la barra de cabecera"
 
-#: ../src/affichage.c:688
+#: ../src/affichage.c:690
 msgid "Display headings bar"
 msgstr "Mostrar la barra de cabecera"
 
 #. Navigation pane
-#: ../src/affichage.c:695
+#: ../src/affichage.c:697
 msgid "Navigation pane"
 msgstr ""
 
-#: ../src/affichage.c:698
+#: ../src/affichage.c:700
 msgid "Add mouse scrolling support on the navigation pane"
 msgstr ""
 
 #. Toolbar
-#: ../src/affichage.c:705
+#: ../src/affichage.c:707
 msgid "Toolbars"
 msgstr "Barra de herramientas"
 
-#: ../src/affichage.c:708
+#: ../src/affichage.c:710
 msgid "Display toolbar buttons as"
 msgstr "Mostrar los botones de la barra de herramientas como"
 
-#: ../src/affichage.c:710
+#: ../src/affichage.c:712
 msgid "Text"
 msgstr "Texto"
 
-#: ../src/affichage.c:721
+#: ../src/affichage.c:723
 msgid "Icons"
 msgstr "Iconos"
 
-#: ../src/affichage.c:732
+#: ../src/affichage.c:734
 msgid "Both"
 msgstr "Ambos"
+
+#. Preferences sort
+#: ../src/affichage.c:748
+#, fuzzy
+msgid "Preferences sort"
+msgstr "_Preferencias"
+
+#: ../src/affichage.c:750
+msgid "Initializes the sorting to \"down\" in the tables when there exist"
+msgstr ""
 
 #: ../src/affichage_liste.c:124
 msgid "In one line visible, show the line: "
@@ -1030,7 +1040,7 @@ msgstr "Frecuencia"
 msgid "Limit date"
 msgstr "Fecha límite"
 
-#: ../src/bet_future.c:383 ../src/gsb_archive_config.c:110
+#: ../src/bet_future.c:383 ../src/gsb_archive_config.c:133
 #: ../src/gsb_assistant_archive_export.c:153
 #: ../src/gsb_assistant_reconcile_config.c:1224
 #: ../src/gsb_reconcile_config.c:122 ../src/gsb_transactions_list.c:2097
@@ -1072,8 +1082,8 @@ msgstr "Tercero"
 #: ../src/bet_future.c:775 ../src/bet_tab.c:890 ../src/categories_onglet.c:786
 #: ../src/export_csv.c:805 ../src/gsb_form.c:1311 ../src/gsb_form_widget.c:448
 #: ../src/gsb_payment_method_config.c:106
-#: ../src/gsb_payment_method_config.c:354
-#: ../src/gsb_payment_method_config.c:1062 ../src/gsb_transactions_list.c:175
+#: ../src/gsb_payment_method_config.c:330
+#: ../src/gsb_payment_method_config.c:1038 ../src/gsb_transactions_list.c:175
 #: ../src/import_csv.c:92 ../src/imputation_budgetaire.c:834
 msgid "Debit"
 msgstr "Débito"
@@ -1081,8 +1091,8 @@ msgstr "Débito"
 #: ../src/bet_future.c:782 ../src/bet_tab.c:908 ../src/categories_onglet.c:786
 #: ../src/export_csv.c:802 ../src/gsb_form.c:1316 ../src/gsb_form_widget.c:452
 #: ../src/gsb_payment_method_config.c:107
-#: ../src/gsb_payment_method_config.c:367
-#: ../src/gsb_payment_method_config.c:1058 ../src/gsb_transactions_list.c:176
+#: ../src/gsb_payment_method_config.c:343
+#: ../src/gsb_payment_method_config.c:1034 ../src/gsb_transactions_list.c:176
 #: ../src/imputation_budgetaire.c:834
 msgid "Credit"
 msgstr "Crédito"
@@ -1216,8 +1226,8 @@ msgstr ""
 
 #. Name entry
 #: ../src/bet_future.c:3016 ../src/categories_onglet.c:758
-#: ../src/gsb_archive_config.c:110 ../src/gsb_assistant_archive_export.c:153
-#: ../src/gsb_fyear_config.c:268 ../src/gsb_transactions_list.c:2097
+#: ../src/gsb_archive_config.c:133 ../src/gsb_assistant_archive_export.c:153
+#: ../src/gsb_fyear_config.c:264 ../src/gsb_transactions_list.c:2097
 #: ../src/imputation_budgetaire.c:806 ../src/parametres.c:342
 #: ../src/tiers_onglet.c:736
 msgid "Name"
@@ -1657,7 +1667,7 @@ msgstr "Predicción"
 
 #: ../src/categories_onglet.c:190 ../src/etats_config.c:2919
 #: ../src/gsb_assistant_reconcile_config.c:590
-#: ../src/gsb_payment_method_config.c:172 ../src/gsb_reconcile_config.c:122
+#: ../src/gsb_payment_method_config.c:161 ../src/gsb_reconcile_config.c:122
 #: ../src/gsb_scheduler_list.c:603 ../src/imputation_budgetaire.c:192
 #: ../src/navigation.c:1089 ../src/tiers_onglet.c:246
 msgid "Account"
@@ -2431,14 +2441,14 @@ msgid "Value date"
 msgstr "Fecha Valor"
 
 #: ../src/etats_affiche.c:2427 ../src/export_csv.c:793
-#: ../src/gsb_archive_config.c:110 ../src/gsb_assistant_archive_export.c:153
+#: ../src/gsb_archive_config.c:133 ../src/gsb_assistant_archive_export.c:153
 #: ../src/gsb_form_widget.c:460 ../src/gsb_transactions_list.c:181
 msgid "Financial year"
 msgstr "Año financiero"
 
 #. Now we have a model, create view
 #: ../src/etats_affiche.c:2462 ../src/etats_prefs.c:695
-#: ../src/etats_prefs.c:2297 ../src/gsb_payment_method_config.c:130
+#: ../src/etats_prefs.c:2297 ../src/gsb_payment_method_config.c:131
 #: ../src/parametres.c:867
 msgid "Payment methods"
 msgstr "Formas de pago"
@@ -2698,20 +2708,19 @@ msgstr "en"
 #: ../src/etats_config.c:1985 ../src/etats_config.c:2430 ../src/gsb_bank.c:564
 #: ../src/gsb_currency_config.c:359 ../src/gsb_currency_link_config.c:169
 #: ../src/gsb_form_config.c:336 ../src/gsb_form_config.c:382
-#: ../src/gsb_fyear_config.c:144 ../src/gsb_payment_method_config.c:218
+#: ../src/gsb_fyear_config.c:154 ../src/gsb_payment_method_config.c:203
 #: ../src/import.c:3817 ../src/parametres.c:266
 msgid "Add"
 msgstr "Añadir"
 
 #. Remove button
 #. Button "Remove"
-#. Remove button
 #. "Remove payment method" button
 #. Button "Remove"
 #: ../src/etats_config.c:2000 ../src/etats_config.c:2445 ../src/gsb_bank.c:574
 #: ../src/gsb_currency_config.c:369 ../src/gsb_currency_link_config.c:179
 #: ../src/gsb_form_config.c:314 ../src/gsb_form_config.c:360
-#: ../src/gsb_fyear_config.c:152 ../src/gsb_payment_method_config.c:229
+#: ../src/gsb_fyear_config.c:164 ../src/gsb_payment_method_config.c:213
 #: ../src/import.c:3828 ../src/parametres.c:289
 msgid "Remove"
 msgstr "Borrar"
@@ -4146,22 +4155,22 @@ msgstr "Cambiar la moneda de las transacciones"
 msgid "Your IBAN number is not correct. Please check your entry."
 msgstr "Su número IBAN no es correcto. Por favor, compruebe su entrada."
 
-#: ../src/gsb_archive_config.c:110 ../src/gsb_assistant_archive_export.c:153
+#: ../src/gsb_archive_config.c:133 ../src/gsb_assistant_archive_export.c:153
 #: ../src/gsb_assistant_reconcile_config.c:1224
 msgid "Initial date"
 msgstr "Fecha inicial"
 
-#: ../src/gsb_archive_config.c:110 ../src/gsb_assistant_archive_export.c:153
+#: ../src/gsb_archive_config.c:133 ../src/gsb_assistant_archive_export.c:153
 msgid "Report name"
 msgstr "Nombre del informe"
 
 #. create the page
-#: ../src/gsb_archive_config.c:115 ../src/parametres.c:612
+#: ../src/gsb_archive_config.c:138 ../src/parametres.c:612
 msgid "Archives"
 msgstr "Archivos"
 
 #. create the list of archives
-#: ../src/gsb_archive_config.c:118
+#: ../src/gsb_archive_config.c:141
 msgid "Known archives"
 msgstr "Ficheros conocidas"
 
@@ -4171,40 +4180,41 @@ msgstr "Ficheros conocidas"
 #. Create currency name entry
 #. Partial balance name
 #. Financial year name
-#: ../src/gsb_archive_config.c:169 ../src/gsb_bank.c:664 ../src/gsb_bank.c:795
+#. Payment method name
+#: ../src/gsb_archive_config.c:201 ../src/gsb_bank.c:664 ../src/gsb_bank.c:795
 #: ../src/gsb_currency_config.c:382 ../src/gsb_data_partial_balance.c:1714
-#: ../src/gsb_fyear_config.c:197 ../src/gsb_payment_method_config.c:252
+#: ../src/gsb_fyear_config.c:188 ../src/gsb_payment_method_config.c:228
 msgid "Name: "
 msgstr "Nombre: "
 
 #. button to delete an archive and free the transactions
-#: ../src/gsb_archive_config.c:182
+#: ../src/gsb_archive_config.c:214
 msgid "Delete the archive"
 msgstr "Borrar el fichero"
 
 #. button to delete an archive and delete the transactions
-#: ../src/gsb_archive_config.c:194
+#: ../src/gsb_archive_config.c:226
 msgid "Delete the archive and transactions"
 msgstr "Borrar el archivo y las transacciones"
 
 #. check part at the opening of the file
-#: ../src/gsb_archive_config.c:208
+#: ../src/gsb_archive_config.c:240
 msgid "Automatic check"
 msgstr "Comprobación automática"
 
-#: ../src/gsb_archive_config.c:210
+#: ../src/gsb_archive_config.c:242
 msgid "Check at opening if creating archive is needed."
 msgstr "Comprobar al inicio si es necesario crear un fichero."
 
-#: ../src/gsb_archive_config.c:215
+#: ../src/gsb_archive_config.c:247
 msgid "Warn if more than "
 msgstr "Avisar si es más de "
 
-#: ../src/gsb_archive_config.c:224
+#: ../src/gsb_archive_config.c:256
 msgid " transactions are not archived."
 msgstr " transacciones no están archivadas."
 
-#: ../src/gsb_archive_config.c:413
+#: ../src/gsb_archive_config.c:445
 #, fuzzy, c-format
 msgid ""
 "Warning, you are about the delete the archive \"%s\".\n"
@@ -4223,11 +4233,11 @@ msgstr ""
 "\n"
 "¿ quiere continuar ?"
 
-#: ../src/gsb_archive_config.c:419
+#: ../src/gsb_archive_config.c:451
 msgid "Deleting an archive"
 msgstr "Borrando un fichero"
 
-#: ../src/gsb_archive_config.c:477
+#: ../src/gsb_archive_config.c:509
 #, c-format
 msgid ""
 "Warning, you are about the delete the archive \"%s\" and its associated "
@@ -4250,7 +4260,7 @@ msgstr ""
 "\n"
 "¿ Está seguro de que quiere continuar ?"
 
-#: ../src/gsb_archive_config.c:485
+#: ../src/gsb_archive_config.c:517
 msgid "Deleting an archive and its transactions"
 msgstr "Borrando un archivo y sus transacciones"
 
@@ -4450,7 +4460,7 @@ msgstr ""
 #. set the initial date
 #: ../src/gsb_assistant_archive.c:235
 #: ../src/gsb_assistant_reconcile_config.c:413
-#: ../src/gsb_reconcile_config.c:230 ../src/print_transactions_list.c:185
+#: ../src/gsb_reconcile_config.c:230 ../src/print_transactions_list.c:184
 #: ../src/ui/etats_prefs.ui.h:87
 msgid "Initial date: "
 msgstr "Fecha inicial: "
@@ -4458,7 +4468,7 @@ msgstr "Fecha inicial: "
 #. set the final date
 #: ../src/gsb_assistant_archive.c:247
 #: ../src/gsb_assistant_reconcile_config.c:422
-#: ../src/gsb_reconcile_config.c:242 ../src/print_transactions_list.c:197
+#: ../src/gsb_reconcile_config.c:242 ../src/print_transactions_list.c:196
 #: ../src/ui/etats_prefs.ui.h:88
 msgid "Final date: "
 msgstr "Fecha final: "
@@ -4812,7 +4822,7 @@ msgstr ""
 "contabilidad"
 
 #: ../src/gsb_assistant_file.c:577 ../src/navigation.c:1162
-#: ../src/traitement_variables.c:220
+#: ../src/traitement_variables.c:219
 msgid "My accounts"
 msgstr "Mis cuentas"
 
@@ -6939,7 +6949,7 @@ msgstr "Segunda moneda"
 msgid "Modified date"
 msgstr "Fecha modificada"
 
-#: ../src/gsb_currency_link_config.c:278 ../src/gsb_fyear_config.c:271
+#: ../src/gsb_currency_link_config.c:278 ../src/gsb_fyear_config.c:267
 msgid "Invalid"
 msgstr "No válido"
 
@@ -7436,8 +7446,8 @@ msgstr "Cargando cuentas"
 msgid "Failed to load accounts"
 msgstr "Fallo al cargar las cuentas"
 
-#: ../src/gsb_file.c:403 ../src/gsb_file.c:420 ../src/gsb_file_load.c:405
-#: ../src/gsb_file_load.c:419
+#: ../src/gsb_file.c:403 ../src/gsb_file.c:420 ../src/gsb_file_load.c:402
+#: ../src/gsb_file_load.c:416
 #, c-format
 msgid "Error loading file '%s'"
 msgstr "Error abriendo el archivo '%s'"
@@ -7540,7 +7550,7 @@ msgstr ""
 "debe cancelar y guardarlo con otro nombre o activar la  opción \"%s\" en la "
 "configuración."
 
-#: ../src/gsb_file.c:819 ../src/gsb_file.c:830 ../src/main.c:917
+#: ../src/gsb_file.c:819 ../src/gsb_file.c:830 ../src/main.c:915
 msgid "unnamed"
 msgstr "Sin nombre"
 
@@ -7598,23 +7608,23 @@ msgstr ""
 "<b>¿ Quiere borrar este fichero:\n"
 "%s ?</b>"
 
-#: ../src/gsb_file_config.c:1149
+#: ../src/gsb_file_config.c:1161
 #, c-format
 msgid "Cannot save configuration file '%s': %s"
 msgstr "No se puede guardar el fichero de configuración '%s': %s"
 
-#: ../src/gsb_file_load.c:402 ../src/gsb_file_others.c:459
+#: ../src/gsb_file_load.c:399 ../src/gsb_file_others.c:459
 #: ../src/gsb_file_others.c:603 ../src/gsb_file_others.c:790
 #: ../src/gsb_file_others.c:850 ../src/utils_gtkbuilder.c:109
 #, c-format
 msgid "Cannot open file '%s': %s"
 msgstr "No se puede abrir el archivo '%s': %s"
 
-#: ../src/gsb_file_load.c:404 ../src/utils_gtkbuilder.c:111
+#: ../src/gsb_file_load.c:401 ../src/utils_gtkbuilder.c:111
 msgid "File does not exist"
 msgstr "El fichero no existe"
 
-#: ../src/gsb_file_load.c:417 ../src/gsb_file_others.c:472
+#: ../src/gsb_file_load.c:414 ../src/gsb_file_others.c:472
 #: ../src/gsb_file_others.c:802
 #, c-format
 msgid ""
@@ -7624,7 +7634,7 @@ msgstr ""
 "%s No parece que sea un fichero convencional,\n"
 "por favor compruébelo y pruebe de nuevo."
 
-#: ../src/gsb_file_load.c:456 ../src/gsb_file_save.c:437
+#: ../src/gsb_file_load.c:453 ../src/gsb_file_save.c:425
 msgid ""
 "This build of Grisbi does not support encryption.\n"
 "Please recompile Grisbi with OpenSSL encryption enabled."
@@ -7632,16 +7642,16 @@ msgstr ""
 "Esta construcción de Grisbi no soporta encriptación \n"
 "Por favor recompile Grisbi con la encriptación OpenSSL activada."
 
-#: ../src/gsb_file_load.c:458 ../src/gsb_file_save.c:439
+#: ../src/gsb_file_load.c:455 ../src/gsb_file_save.c:427
 #, c-format
 msgid "Cannot open encrypted file '%s'"
 msgstr "No se puede abrir el archivo encriptado '%s'"
 
-#: ../src/gsb_file_load.c:553 ../src/gsb_file_load.c:5650
+#: ../src/gsb_file_load.c:550 ../src/gsb_file_load.c:5400
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Este fichero no es de de Grisbi... Carga interrumpida."
 
-#: ../src/gsb_file_load.c:824
+#: ../src/gsb_file_load.c:815
 #, c-format
 msgid ""
 "An error occured while parsing the file :\n"
@@ -7653,7 +7663,7 @@ msgstr ""
 "%s"
 
 #. we don't know here the release of that file, give the release needed
-#: ../src/gsb_file_load.c:9043
+#: ../src/gsb_file_load.c:8793
 #, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
@@ -7662,7 +7672,7 @@ msgstr ""
 "Se necesita la versión de Grisbi %s para abrir este archivo.\n"
 "Usted está usando la versión %s."
 
-#: ../src/gsb_file_load.c:9068
+#: ../src/gsb_file_load.c:8818
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -7674,7 +7684,7 @@ msgstr ""
 "más tarde (nuevos informes...) pero recuerde que es un archivo antes de "
 "modificar algunas transacciones o informaciones importantes."
 
-#: ../src/gsb_file_load.c:9072
+#: ../src/gsb_file_load.c:8822
 msgid "Grisbi archive opened"
 msgstr "Archivo de Grisbi abierto"
 
@@ -7684,8 +7694,8 @@ msgid "There is no category to record. Back."
 msgstr "No hay un tercero que borrar"
 
 #: ../src/gsb_file_others.c:159 ../src/gsb_file_others.c:249
-#: ../src/gsb_file_others.c:341 ../src/gsb_file_save.c:462
-#: ../src/gsb_file_save.c:481
+#: ../src/gsb_file_others.c:341 ../src/gsb_file_save.c:450
+#: ../src/gsb_file_save.c:469
 #, c-format
 msgid "Cannot save file '%s': %s"
 msgstr "No se puede guardar el archivo '%s': %s"
@@ -8090,51 +8100,53 @@ msgstr "Número de transacción"
 msgid "Automatic/Manual"
 msgstr "Automático/Manual"
 
-#: ../src/gsb_fyear_config.c:105 ../src/parametres.c:858
+#: ../src/gsb_fyear_config.c:131 ../src/parametres.c:858
 msgid "Financial years"
 msgstr "Años financieros"
 
-#: ../src/gsb_fyear_config.c:108
+#: ../src/gsb_fyear_config.c:133
 msgid "Known financial years"
 msgstr "Años financieros conocidos"
 
-#: ../src/gsb_fyear_config.c:168
+#. Associate operations : under the list
+#: ../src/gsb_fyear_config.c:175
 msgid "Associate operations without financial years"
 msgstr "Asociar transacciones sin los años financieros"
 
-#: ../src/gsb_fyear_config.c:179
+#. Financial year details
+#: ../src/gsb_fyear_config.c:184
 msgid "Financial year details"
 msgstr "Detalles de los años financieros"
 
 #. Start
-#: ../src/gsb_fyear_config.c:209
+#: ../src/gsb_fyear_config.c:205
 #, fuzzy
 msgid "Start: "
 msgstr "Comenzar:"
 
 #. End
-#: ../src/gsb_fyear_config.c:221
+#: ../src/gsb_fyear_config.c:218
 msgid "End: "
 msgstr "Finalizar: "
 
 #. Activate in transaction form?
-#: ../src/gsb_fyear_config.c:240
+#: ../src/gsb_fyear_config.c:237
 msgid "Activate financial year in transaction form"
 msgstr "Activar el año financiero en el formulario de la transacción"
 
-#: ../src/gsb_fyear_config.c:269
+#: ../src/gsb_fyear_config.c:265
 msgid "Begin date"
 msgstr "Fecha de comienzo"
 
-#: ../src/gsb_fyear_config.c:270
+#: ../src/gsb_fyear_config.c:266
 msgid "End date"
 msgstr "Fecha de finalización"
 
-#: ../src/gsb_fyear_config.c:606
+#: ../src/gsb_fyear_config.c:611
 msgid "New financial year"
 msgstr "Nuevo año financiero"
 
-#: ../src/gsb_fyear_config.c:697
+#: ../src/gsb_fyear_config.c:702
 #, fuzzy
 msgid ""
 "If you really remove it, all the associated transactions will be without "
@@ -8145,11 +8157,11 @@ msgstr ""
 "financiero.\n"
 "¿ Está seguro ?"
 
-#: ../src/gsb_fyear_config.c:698
+#: ../src/gsb_fyear_config.c:703
 msgid "The selected financial year is used in the file"
 msgstr "El año financiero seleccionado esta siendo usado en el fichero"
 
-#: ../src/gsb_fyear_config.c:752
+#: ../src/gsb_fyear_config.c:757
 msgid ""
 "This function assigns each transaction without a financial year to the one "
 "related to its transaction date.  If no financial year matches, the "
@@ -8159,16 +8171,16 @@ msgstr ""
 "relacionado con su fecha de transacción.  Si no hay un año financiero que "
 "encaje, la transacción no se cambiará."
 
-#: ../src/gsb_fyear_config.c:753
+#: ../src/gsb_fyear_config.c:758
 msgid "Automatic association of financial years?"
 msgstr "¿Asociación automática del año financiero?"
 
-#: ../src/gsb_fyear_config.c:782
+#: ../src/gsb_fyear_config.c:787
 #, c-format
 msgid "%d transactions associated"
 msgstr "%d transacciones asociadas"
 
-#: ../src/gsb_fyear_config.c:790
+#: ../src/gsb_fyear_config.c:795
 msgid "no transaction to associate"
 msgstr "no hay transacciones para asociar"
 
@@ -8176,57 +8188,59 @@ msgstr "no hay transacciones para asociar"
 msgid "Neutral"
 msgstr "Neutral"
 
-#: ../src/gsb_payment_method_config.c:135
+#. Known payment methods
+#: ../src/gsb_payment_method_config.c:134
 msgid "Known payment methods"
 msgstr "Formas de pago conocidas"
 
-#: ../src/gsb_payment_method_config.c:186
+#: ../src/gsb_payment_method_config.c:175
 msgid "Default"
 msgstr "Por defecto"
 
-#: ../src/gsb_payment_method_config.c:198
+#: ../src/gsb_payment_method_config.c:187
 msgid "Numbering"
 msgstr "Numeración"
 
-#: ../src/gsb_payment_method_config.c:242
+#. Payment method details
+#: ../src/gsb_payment_method_config.c:224
 msgid "Payment method details"
 msgstr "Detalles de la forma de pago"
 
 #. button show entry, automatic numbering button will be shown only if entry is showed
-#: ../src/gsb_payment_method_config.c:264
+#: ../src/gsb_payment_method_config.c:240
 msgid "Need entry field"
 msgstr "Se necesita el campo de entrada"
 
 #. Automatic numbering
-#: ../src/gsb_payment_method_config.c:272
+#: ../src/gsb_payment_method_config.c:248
 #, fuzzy
 msgid "Automatic numbering: "
 msgstr "Numeración automática:"
 
 #. button automatic numbering, activate it sensitive the automatic numbering entry
-#: ../src/gsb_payment_method_config.c:285
+#: ../src/gsb_payment_method_config.c:261
 msgid "Activate"
 msgstr "Activar"
 
 #. Payment method method_ptr
-#: ../src/gsb_payment_method_config.c:292
+#: ../src/gsb_payment_method_config.c:268
 msgid "Type: "
 msgstr "Tipo: "
 
 #. create the new method of payment
-#: ../src/gsb_payment_method_config.c:1101
+#: ../src/gsb_payment_method_config.c:1077
 msgid "New payment method"
 msgstr "Nueva forma de pago"
 
-#: ../src/gsb_payment_method_config.c:1251
+#: ../src/gsb_payment_method_config.c:1227
 msgid "Delete a payment method"
 msgstr "Borrar una forma de pago"
 
-#: ../src/gsb_payment_method_config.c:1264
+#: ../src/gsb_payment_method_config.c:1240
 msgid "Payment method is used by transactions"
 msgstr "El método de pago es usado por las transacciones"
 
-#: ../src/gsb_payment_method_config.c:1278
+#: ../src/gsb_payment_method_config.c:1254
 #, fuzzy
 msgid ""
 "Problem while filling the target method of payment to delete it.\n"
@@ -8236,7 +8250,7 @@ msgstr ""
 "borrarlo.\n"
 "Esto no es normal, por favor contacte con el equipo de grisbi."
 
-#: ../src/gsb_payment_method_config.c:1283
+#: ../src/gsb_payment_method_config.c:1259
 msgid ""
 "Some transactions still use that payment method.  As deletion of this method "
 "is irreversible, these transactions are to be associated with another "
@@ -8246,7 +8260,7 @@ msgstr ""
 "de este método es irreversible, estas transacciones serán asociadas a otra "
 "forma de pago."
 
-#: ../src/gsb_payment_method_config.c:1285
+#: ../src/gsb_payment_method_config.c:1261
 msgid ""
 "No target method of payment to switch the transactions to another method of "
 "payment. If you continue, the transactions with this method of payment will "
@@ -8256,7 +8270,7 @@ msgstr ""
 "método de pago. Si continúa, las transacciones con este método de pago no "
 "tendrán ninguna nueva."
 
-#: ../src/gsb_payment_method_config.c:1295
+#: ../src/gsb_payment_method_config.c:1271
 msgid "Associate transactions with: "
 msgstr "Asociar transacciones con: "
 
@@ -9860,12 +9874,12 @@ msgstr "línea subpresupuestaria"
 msgid "Transfer all transactions in another sub-budgetary line"
 msgstr "Transferir las transacciones a %s"
 
-#: ../src/main.c:708
+#: ../src/main.c:706
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Error en sigaction: SIGSEGV no será interrumpido\n"
 
-#: ../src/main.c:870 ../src/main.c:910 ../share/grisbi.desktop.in.h:1
+#: ../src/main.c:868 ../src/main.c:908 ../share/grisbi.desktop.in.h:1
 msgid "Grisbi"
 msgstr "Grisbi"
 
@@ -10901,7 +10915,7 @@ msgid "Lines font"
 msgstr "Fuente de las líneas"
 
 #: ../src/print_report.c:437 ../src/print_report.c:457
-#: ../src/print_transactions_list.c:284 ../src/print_transactions_list.c:307
+#: ../src/print_transactions_list.c:283 ../src/print_transactions_list.c:306
 #: ../src/print_tree_view_list.c:1031 ../src/print_tree_view_list.c:1048
 #: ../src/utils_font.c:125
 msgid "Choosing font"
@@ -10911,53 +10925,53 @@ msgstr "Escogiendo un tipo de letra"
 msgid "Title's font"
 msgstr "Tipos de letra de los Títulos"
 
-#: ../src/print_transactions_list.c:145 ../src/print_tree_view_list.c:973
+#: ../src/print_transactions_list.c:144 ../src/print_tree_view_list.c:973
 msgid "Layout"
 msgstr "Presentación"
 
-#: ../src/print_transactions_list.c:156 ../src/print_tree_view_list.c:982
+#: ../src/print_transactions_list.c:155 ../src/print_tree_view_list.c:982
 #, fuzzy
 msgid "Print a title: "
 msgstr "Imprimir un título : "
 
-#: ../src/print_transactions_list.c:172
+#: ../src/print_transactions_list.c:171
 msgid "Select dates interval: "
 msgstr "Elija el intervalo de fechas: "
 
-#: ../src/print_transactions_list.c:212
+#: ../src/print_transactions_list.c:211
 msgid "Use value date"
 msgstr "Usar la fecha valor"
 
 #. set up all the checkbuttons
-#: ../src/print_transactions_list.c:224 ../src/print_tree_view_list.c:993
+#: ../src/print_transactions_list.c:223 ../src/print_tree_view_list.c:993
 msgid "Draw the lines between transactions"
 msgstr "Muestra las líneas entre transacciones"
 
-#: ../src/print_transactions_list.c:231 ../src/print_tree_view_list.c:1000
+#: ../src/print_transactions_list.c:230 ../src/print_tree_view_list.c:1000
 msgid "Draw the lines between the columns"
 msgstr "Dibujar líneas entre las columnas"
 
-#: ../src/print_transactions_list.c:239
+#: ../src/print_transactions_list.c:238
 msgid "Fill the background as the transactions list"
 msgstr "Rellenar el fondo como la lista de transacciones"
 
-#: ../src/print_transactions_list.c:247
+#: ../src/print_transactions_list.c:246
 msgid "Print the archives lines"
 msgstr "Imprimir las líneas del archivo"
 
-#: ../src/print_transactions_list.c:255 ../src/print_tree_view_list.c:1007
+#: ../src/print_transactions_list.c:254 ../src/print_tree_view_list.c:1007
 msgid "Print the names of the columns"
 msgstr "Imprimir el nombre de las columnas"
 
-#: ../src/print_transactions_list.c:272 ../src/print_tree_view_list.c:1021
+#: ../src/print_transactions_list.c:271 ../src/print_tree_view_list.c:1021
 msgid "Transactions font"
 msgstr "Fuente de la lista de transacciones"
 
-#: ../src/print_transactions_list.c:295 ../src/print_tree_view_list.c:1038
+#: ../src/print_transactions_list.c:294 ../src/print_tree_view_list.c:1038
 msgid "Title font"
 msgstr "Tipo de letra del título"
 
-#: ../src/print_transactions_list.c:384 ../src/print_tree_view_list.c:150
+#: ../src/print_transactions_list.c:383 ../src/print_tree_view_list.c:150
 msgid "Fonts & layout"
 msgstr "Tipos de letra y presentación"
 
