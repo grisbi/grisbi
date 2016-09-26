@@ -113,6 +113,7 @@ GtkWidget * gsb_assistant_new ( const gchar * title, const gchar * explanation,
     assistant = gtk_dialog_new_with_buttons ( title,
                         GTK_WINDOW ( run.window ),
                         GTK_DIALOG_MODAL,
+                        NULL, 0,
                         NULL );
 
     gtk_window_set_default_size ( GTK_WINDOW ( assistant ), 800, 500 );
