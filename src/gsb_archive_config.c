@@ -69,7 +69,7 @@ enum archives_columns {
 
 static GtkWidget *archive_treeview = NULL;
 static GtkWidget *archive_name_entry = NULL;
-
+static gint archive_config_sort_type;           /* variable durée de vie session */
 
 /*START_STATIC*/
 static gboolean gsb_archive_config_delete_archive ( GtkWidget *button,
@@ -86,6 +86,29 @@ static gboolean gsb_archive_config_select ( GtkTreeSelection *selection,
 /*START_EXTERN*/
 /*END_EXTERN*/
 
+/******************************************************************************/
+/* Private Functions                                                          */
+/******************************************************************************/
+/**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ * */
+static gboolean gsb_archive_config_list_sort_column_clicked (GtkTreeViewColumn *tree_view_column,
+                                                    GtkTreeModel *model)
+{
+    if (archive_config_sort_type == GTK_SORT_ASCENDING)
+        archive_config_sort_type = GTK_SORT_DESCENDING;
+    else
+        archive_config_sort_type = GTK_SORT_ASCENDING;
+}
+
+/******************************************************************************/
+/* Public Functions                                                           */
+/******************************************************************************/
 /**
  * Creates the Archive config tab.
  *
@@ -151,11 +174,24 @@ GtkWidget *gsb_archive_config_create (void)
         gtk_tree_view_column_set_attributes (column, cell, "text", i, NULL);
         gtk_tree_view_column_set_expand (column, TRUE);
         gtk_tree_view_column_set_resizable (column, TRUE);
-        /* on peut trier les colonnes */
+        /* on trie sur la colonne ARCHIVES_FYEAR_NAME */
+        if ( i == ARCHIVES_FYEAR_NAME)
+        {
         gtk_tree_view_column_set_sort_column_id (column, i);
+        g_signal_connect (G_OBJECT (column),
+                              "clicked",
+                              G_CALLBACK (gsb_archive_config_list_sort_column_clicked),
+                              archive_model);
+        }
 
         gtk_tree_view_append_column (GTK_TREE_VIEW(archive_treeview), column);
     }
+
+    /* Sort columns accordingly */
+    archive_config_sort_type = conf.prefs_sort;
+    gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE(archive_model),
+                                          ARCHIVES_FYEAR_NAME,
+                                          archive_config_sort_type);
 
     /* archive modification */
     modification_paddinggrid = utils_prefs_paddinggrid_new_with_title (vbox_pref, ("Archive modification"));
@@ -555,3 +591,33 @@ static gboolean gsb_archive_config_destroy_archive ( GtkWidget *button,
     return FALSE;
 }
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ * */
+void gsb_archive_config_set_sort_type (gpointer *sort_type)
+{
+    GtkTreeModel *model;
+
+    archive_config_sort_type = GPOINTER_TO_INT (sort_type);
+    model = gtk_tree_view_get_model (GTK_TREE_VIEW (archive_treeview));
+    gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE(model),
+                                          ARCHIVES_FYEAR_NAME,
+                                          archive_config_sort_type);
+    gtk_tree_sortable_sort_column_changed (GTK_TREE_SORTABLE(model));
+    gsb_archive_config_fill_list (GTK_LIST_STORE (model));
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ * */
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

@@ -166,6 +166,7 @@ struct gsb_conf_t
     gint maximize_screen;                           /* 1 to maximize screen, 0 else */
     gint panel_width;                               /* panel width */
     gint prefs_width;                               /* preferences width */
+    gint prefs_sort;                                /* column type sort, GTK_SORT_ASCENDING by default */
 
     /* general part */
     gint r_modifiable;                              /* Changes in reconciled transactions */

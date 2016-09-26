@@ -58,6 +58,7 @@ grisbi_pixmaps_DATA = \
 	payeeslg.png \
 	payeesmg.png \
 	payment.png \
+	preferences-24.png \
 	reconat.png \
 	reconciliationlg.png \
 	reconciliation.png \

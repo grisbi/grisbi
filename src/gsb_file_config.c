@@ -513,6 +513,12 @@ gboolean gsb_file_config_load_config ( void )
                         "Prefs_width",
                         NULL );
 
+    /* preferences sort */
+    conf.prefs_sort = g_key_file_get_integer ( config,
+                        "Geometry",
+                        "Prefs_sort",
+                        NULL );
+
     /* get general */
     conf.r_modifiable = g_key_file_get_integer ( config,
                         "General",
@@ -863,6 +869,12 @@ gboolean gsb_file_config_save_config ( void )
                         "Geometry",
                         "Prefs_width",
                         conf.prefs_width );
+
+    /* preferences sort */
+    g_key_file_set_integer ( config,
+                        "Geometry",
+                        "Prefs_sort",
+                        conf.prefs_sort );
 
     /* save general */
     g_key_file_set_integer ( config,

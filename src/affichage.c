@@ -33,10 +33,12 @@
 #include "accueil.h"
 #include "custom_list.h"
 #include "fenetre_principale.h"
+#include "gsb_archive_config.h"
 #include "gsb_automem.h"
 #include "gsb_data_account.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
+#include "gsb_fyear_config.h"
 #include "gsb_rgba.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_select_icon.h"
@@ -87,10 +89,8 @@ extern GtkWidget *fenetre_preferences;
 extern GtkWidget *hbox_title;
 extern GtkWidget *logo_accueil;
 extern gchar *titre_fichier;
+
 /*END_EXTERN*/
-
-
-
 
 /** Button used to store a nice preview of the homepage logo */
 static GtkWidget *logo_button = NULL;
@@ -98,8 +98,27 @@ static GtkWidget *logo_button = NULL;
 /** GtkImage containing the preview  */
 static GtkWidget *preview = NULL;
 
+/******************************************************************************/
+/* Private Functions                                                          */
+/******************************************************************************/
+/**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ * */
+static gboolean prefs_sort_column_treeview_clicked (GtkWidget *toggle_button,
+                                                    gpointer null )
+{
+    gsb_archive_config_set_sort_type (GINT_TO_POINTER (conf.prefs_sort));
+    gsb_fyear_config_set_sort_type (GINT_TO_POINTER (conf.prefs_sort));
+}
 
-
+/******************************************************************************/
+/* Public Functions                                                           */
+/******************************************************************************/
 /**
  * Creates the "Fonts & logo" tab.  This function creates some buttons
  * that are borrowed from applications like gedit.
@@ -743,6 +762,15 @@ GtkWidget *tab_display_toolbar ( void )
                         NULL );
 
     gtk_widget_show_all ( vbox_pref );
+
+    /* Preferences sort */
+    vbox = new_vbox_with_title_and_icon ( _("Preferences sort"), "preferences-24.png" );
+    gtk_box_pack_start ( GTK_BOX ( vbox_pref ), vbox, FALSE, FALSE, 0 );
+    button = gsb_automem_checkbutton_new ( _("Initializes the sorting to \"down\" in the tables when there exist"),
+                        &(conf.prefs_sort),
+                        G_CALLBACK (prefs_sort_column_treeview_clicked),
+                        NULL );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), button, FALSE, FALSE, 5 );
 
     if ( !gsb_data_account_get_accounts_amount () )
         gtk_widget_set_sensitive ( vbox_pref, FALSE );
