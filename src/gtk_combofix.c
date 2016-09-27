@@ -167,6 +167,7 @@ enum combofix_key_direction {
 };
 
 /*START_EXTERN*/
+extern GtkWidget *form_transaction_part;
 /*END_EXTERN*/
 
 /* *********************** the first part contains the static functions ******************************************** */
@@ -958,7 +959,6 @@ static void gtk_combofix_init ( GtkComboFix *combofix )
                         "key-press-event",
                         G_CALLBACK (gtk_combofix_popup_key_press_event),
                         combofix );
-    gtk_window_set_resizable ( GTK_WINDOW ( priv -> popup ), FALSE );
 
     g_signal_connect ( G_OBJECT ( priv -> popup ),
                         "button-press-event",
@@ -1594,8 +1594,11 @@ static gboolean gtk_combofix_set_all_visible_rows ( GtkComboFix *combofix )
  * */
 static gboolean gtk_combofix_set_popup_position ( GtkComboFix *combofix )
 {
-    gint x, y;
+    gint x = 0;
+    gint y = 0;
     gint height;
+    gint row_spacing;
+    gint num_row;
     GdkRectangle rectangle;
     GtkAllocation allocation;
     gint horizontal_separator;
@@ -1603,10 +1606,21 @@ static gboolean gtk_combofix_set_popup_position ( GtkComboFix *combofix )
 
     if ( !combofix )
         return FALSE;
+
     priv = combofix -> priv;
 
     /* get the position of the combofix */
-    gdk_window_get_origin ( gtk_widget_get_window ( combofix->entry ), &x, &y );
+    /* en fait il semble qu'on récupère toujours la position de "form_transaction_part" */
+    gdk_window_get_origin (gtk_widget_get_window (combofix->entry), &x, &y);
+
+    /* get the allocation of combofix */
+    gtk_widget_get_allocation ( GTK_WIDGET (combofix), &allocation );
+
+    /* on corrige le bug (?) de gdk_window_get_origin () */
+    row_spacing = gtk_grid_get_row_spacing (GTK_GRID (form_transaction_part));
+    num_row = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (combofix), "num_row"));
+    if (num_row)
+        y += (num_row * (allocation.height + row_spacing));
 
     gtk_widget_style_get(GTK_WIDGET ( priv -> tree_view ),
 			            "horizontal-separator", &horizontal_separator,
@@ -1623,15 +1637,11 @@ static gboolean gtk_combofix_set_popup_position ( GtkComboFix *combofix )
     }
     else
     {
-        gtk_widget_get_allocation ( combofix -> entry, &allocation );
-
         height = ( priv -> visible_items ) * (  allocation.height + horizontal_separator ) + 4;
-
     }
 
     /* if the popup is too small to contain all, we check to set it on the bottom or on the top
      * if the place on the top is more than 2 times bigger than the bottom, we set it on the top */
-    gtk_widget_get_allocation ( GTK_WIDGET ( combofix ), &allocation );
 
     if ( ( ( gdk_screen_height ( ) - y - allocation.height ) < height )
      &&
@@ -1656,7 +1666,7 @@ static gboolean gtk_combofix_set_popup_position ( GtkComboFix *combofix )
     }
 
     gtk_window_move ( GTK_WINDOW ( priv -> popup ), x, y );
-    gtk_widget_set_size_request ( GTK_WIDGET ( priv -> popup ), allocation.width, height );
+    gtk_window_resize ( GTK_WINDOW ( priv->popup ), allocation.width, height );
 
     return FALSE;
 }

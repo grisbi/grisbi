@@ -3923,6 +3923,7 @@ gboolean gsb_form_initialise_transaction_form ( void )
             continue;
 
 	    gtk_grid_attach ( GTK_GRID (form_transaction_part), widget, column, row, 1, 1 );
+        g_object_set_data (G_OBJECT (widget), "num_row", GINT_TO_POINTER (row));
 	}
 
     return FALSE;
