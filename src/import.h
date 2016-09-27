@@ -84,7 +84,7 @@ struct struct_ope_importation
 
     enum operation_etat_rapprochement p_r;
 
-    gint type_de_transaction;
+    gint type_de_transaction;   /* Utilisé pour les fichiers OFX étendu à certains fichiers QIF (Champs N du fichier QIF) */
 
     gint operation_ventilee;  /* à 1 si c'est une ventil, dans ce cas les opés de ventil suivent et ont ope_de_ventilation à 1 */
     gint ope_de_ventilation;

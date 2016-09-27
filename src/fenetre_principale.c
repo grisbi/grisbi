@@ -42,6 +42,7 @@
 #include "grisbi_win.h"
 #include "gsb_account_property.h"
 #include "gsb_data_account.h"
+#include "gsb_dirs.h"
 #include "gsb_form.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
@@ -91,6 +92,7 @@ GtkWidget *gsb_gui_create_general_widgets ( void )
     GrisbiWin *win;
     GtkWidget *hpaned_general;
     GtkWidget * hbox, * arrow_eb, * arrow_left, * arrow_right;
+    gchar *tmp_filename;
 
     win = grisbi_app_get_active_window (NULL);
 
@@ -111,7 +113,7 @@ GtkWidget *gsb_gui_create_general_widgets ( void )
     gtk_paned_add2 ( GTK_PANED ( hpaned_general ), gsb_gui_create_general_notebook ( ) );
     gtk_container_set_border_width ( GTK_CONTAINER ( hpaned_general ), 6 );
 
-    if ( conf.panel_width > 0 )
+    if ( conf.panel_width > 250 )
         gtk_paned_set_position ( GTK_PANED ( hpaned_general ), conf.panel_width );
     else
     {
@@ -195,7 +197,7 @@ gboolean gsb_gui_fill_general_notebook ( GtkWidget *notebook )
     /* append the account page : a notebook with the account configuration
      * the bet pages and transactions page */
     account_page = gtk_notebook_new ();
-    gtk_notebook_set_show_border ( GTK_NOTEBOOK(account_page), FALSE );
+    gtk_notebook_set_show_border ( GTK_NOTEBOOK(account_page), TRUE );
     gtk_widget_show ( account_page );
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),

@@ -37,7 +37,6 @@
 #include "gsb_autofunc.h"
 #include "gsb_automem.h"
 #include "gsb_calendar_entry.h"
-#include "gsb_color.h"
 #include "gsb_data_print_config.h"
 #include "gsb_data_transaction.h"
 #include "gsb_rgba.h"

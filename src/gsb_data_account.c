@@ -39,6 +39,7 @@
 #include "custom_list.h"
 #include "dialog.h"
 #include "fenetre_principale.h"
+#include "grisbi_win.h"
 #include "gsb_data_currency.h"
 #include "gsb_data_form.h"
 #include "gsb_data_transaction.h"

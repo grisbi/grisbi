@@ -122,7 +122,7 @@ void gtktable_attach_label ( gchar * text, gdouble properties, int x, int x2, in
 	    break;
     }
 
-    style = gtk_style_copy ( gtk_widget_get_style (label));
+    //~ style = gtk_style_copy ( gtk_widget_get_style (label));
 
     if (transaction_number)
     {
@@ -159,23 +159,23 @@ void gtktable_attach_label ( gchar * text, gdouble properties, int x, int x2, in
         gtk_grid_attach (GTK_GRID (table_etat), label, x, y, x_dim, y_dim);
     }
 
-    if ( ((gint) properties) & TEXT_ITALIC)
-	pango_font_description_set_style ( style -> font_desc,
-					   PANGO_STYLE_ITALIC );
-    if ( ((gint) properties) & TEXT_BOLD)
-	pango_font_description_set_weight ( style -> font_desc,
-					    PANGO_WEIGHT_BOLD );
-    if ( ((gint) properties) & TEXT_HUGE )
-	pango_font_description_set_size ( style -> font_desc,
-					  pango_font_description_get_size(style->font_desc) + 100 );
-    if ( ((gint) properties) & TEXT_LARGE )
-	pango_font_description_set_size ( style -> font_desc,
-					  pango_font_description_get_size(style->font_desc) + 2 );
-    if ( ((gint) properties) & TEXT_SMALL )
-	pango_font_description_set_size ( style -> font_desc,
-					  pango_font_description_get_size(style->font_desc) - 2 );
+    //~ if ( ((gint) properties) & TEXT_ITALIC)
+	//~ pango_font_description_set_style ( style -> font_desc,
+					   //~ PANGO_STYLE_ITALIC );
+    //~ if ( ((gint) properties) & TEXT_BOLD)
+	//~ pango_font_description_set_weight ( style -> font_desc,
+					    //~ PANGO_WEIGHT_BOLD );
+    //~ if ( ((gint) properties) & TEXT_HUGE )
+	//~ pango_font_description_set_size ( style -> font_desc,
+					  //~ pango_font_description_get_size(style->font_desc) + 100 );
+    //~ if ( ((gint) properties) & TEXT_LARGE )
+	//~ pango_font_description_set_size ( style -> font_desc,
+					  //~ pango_font_description_get_size(style->font_desc) + 2 );
+    //~ if ( ((gint) properties) & TEXT_SMALL )
+	//~ pango_font_description_set_size ( style -> font_desc,
+					  //~ pango_font_description_get_size(style->font_desc) - 2 );
 
-    gtk_widget_set_style ( label, style );
+    //~ gtk_widget_set_style ( label, style );
     gtk_widget_show ( label );
 }
 
@@ -241,12 +241,13 @@ gint gtktable_initialise ( GSList * opes_selectionnees, gchar * filename )
     if (table_etat && GTK_IS_GRID (table_etat))
         gtk_widget_destroy (table_etat);
 
+    /* regarder la liberation de mémoire */
     if ( scrolled_window_etat && gtk_bin_get_child ( GTK_BIN ( scrolled_window_etat ) ) )
-        gtk_widget_hide ( gtk_bin_get_child ( GTK_BIN ( scrolled_window_etat ) ) );
+        gtk_widget_destroy ( gtk_bin_get_child ( GTK_BIN ( scrolled_window_etat ) ) );
 
     /* just update screen so that the user does not see the previous report anymore
      * while we are processing the new report */
-/*     update_gui ( );  */
+     update_gui ( );
 
     table_etat = gtk_grid_new ();
     gtk_grid_set_column_spacing (GTK_GRID (table_etat), 5);

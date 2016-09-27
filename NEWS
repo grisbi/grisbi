@@ -1,3 +1,11 @@
+New in version 1.0.1
+- fix majeur crash with gtk-2.24.30
+- fix many others bugs
+- fix many memory leaks
+- initialization of the financial year when creating a new archive
+- allow editing the 'voucher field' of the child transaction
+- homogenization of code to categories and budgetary allocations
+
 New in version 1.0.0
 - Chart on budget estimates
 - Bankcard management with estimates

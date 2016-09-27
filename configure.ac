@@ -5,9 +5,12 @@ m4_define(grisbi_minor_version, 1)
 m4_define(grisbi_micro_version, 1)
 m4_define(grisbi_version, grisbi_major_version.grisbi_minor_version.grisbi_micro_version)
 
+m4_pattern_allow([AM_PROG_AR])
+
 AC_INIT([grisbi],[grisbi_version],[http://www.grisbi.org/mantis/login_select_proj_page.php?ref=bug_report_page.php],[grisbi],[http://www.grisbi.org/index.php])
 
 AC_CONFIG_SRCDIR(src/main.c)
+AC_CONFIG_AUX_DIR(.)
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR(.)
@@ -213,7 +216,7 @@ AC_ARG_ENABLE(werror,
  	enable_werror=no)
 if test "x$enable_werror" = xyes ; then
 	if test "x$GCC" = "xyes" ; then
-		CFLAGS="$CFLAGS -Wall -Wunused"
+		CFLAGS="$CFLAGS -pedantic -Wall -Wextra"
 		AC_MSG_WARN([Wall and Wunused flags are enabled])
 	else
 		AC_MSG_WARN([Wall and Wunused can be enabled only with gcc])
@@ -265,7 +268,8 @@ if test "x$platform_osx" = xyes; then
         platform=darwin/quartz
         AC_MSG_RESULT(yes)
         AC_DEFINE(GDK_QUARTZ,[1],[Using GDK Quartz (not X11)])
-        PKG_CHECK_MODULES(GTK_MAC, gtk-mac-integration-gtk3, [os_osx=yes], [os_osx=no])
+
+  PKG_CHECK_MODULES(GTK_MAC, gtk-mac-integration-gtk3, [os_osx=yes], [os_osx=no])
         if test "x$os_osx" = xyes; then
 	      AC_DEFINE([GTKOSXAPPLICATION],[1],[Defined if app is GtkOSXApplication])
 	      AC_SUBST(GTK_MAC_LIBS)

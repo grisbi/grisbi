@@ -84,6 +84,7 @@ static gboolean gsb_currency_config_update_list ( GtkWidget * checkbox,
 GtkWidget *combo_devise_totaux_tiers;
 GtkWidget *combo_devise_totaux_ib;
 GtkWidget *combo_devise_totaux_categ;
+static GtkWidget *delete_devise_button;
 
 /* struct iso_4217_currency; */
 struct iso_4217_currency iso_4217_currencies[] = {
@@ -209,6 +210,7 @@ struct iso_4217_currency iso_4217_currencies[] = {
     { N_("Europe"), N_("Latvian Lats"), N_("Latvia"), "LVL", NULL, TRUE, "LVL.png", 2, 1 },
     { N_("Europe"), N_("Lithuanian Litas"), N_("Lietuva"), "LTL", NULL, TRUE, "LTL.png", 2, 1 },
     { N_("Europe"), N_("Luxembourg Franc"), N_("Luxembourg"), "LUF", "₣", FALSE, "LUF.png", 2, 1 },
+    { N_("Europe"), N_("Moldovenesc Leu"), N_("Moldova"), "MDL", NULL, TRUE, "MDL.png", 2, 1 },
     { N_("Europe"), N_("Netherlands Guilder"), N_("Netherlands"), "NLG", "ƒ", FALSE, "NLG.png", 2, 1 },
     { N_("Europe"), N_("New Yugoslavian Dinar"), N_("Serbia and Montenegro"), "YUD", NULL, FALSE, "YUV.png", 2, 1 },
     { N_("Europe"), N_("Norwegian Krone"), N_("Norway"), "NOK", NULL, TRUE, "NOK.png", 2, 1 },
@@ -269,7 +271,37 @@ struct iso_4217_currency iso_4217_currencies[] = {
     { NULL },
 };
 
+/******************************************************************************/
+/* Private Functions                                                          */
+/******************************************************************************/
+/**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ * */
+static gboolean gsb_currency_config_change_selection (GtkTreeSelection *selection,
+                                                gpointer null)
+{
+    GSList *tmp_list;
+    gint nbre_devises;
 
+    tmp_list = gsb_data_currency_get_currency_list ();
+    nbre_devises = g_slist_length (tmp_list);
+    if (nbre_devises > 1)
+        gtk_widget_set_sensitive (delete_devise_button, TRUE);
+    else
+        gtk_widget_set_sensitive (delete_devise_button, FALSE);
+
+    return FALSE;
+}
+
+
+/******************************************************************************/
+/* Public Functions                                                           */
+/******************************************************************************/
 
 /* ********************************************************************************************************************************** */
 /* FIRST PART about the configuration list of currencies */
@@ -287,29 +319,26 @@ struct iso_4217_currency iso_4217_currencies[] = {
  */
 GtkWidget *gsb_currency_config_create_page ( void )
 {
-    GtkWidget *vbox_pref, *label, *paddingbox, *hbox;
-    GtkWidget *scrolled_window, *vbox, *table;
+    GtkWidget *vbox_pref;
+    GtkWidget *paddinggrid;
+    GtkWidget *label;
+    GtkWidget *scrolled_window;
     GtkWidget *button;
+    GtkWidget *entry;
     GtkTreeView *currency_list_view;
     GtkTreeModel *currency_tree_model;
-    GtkWidget *entry;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Currencies"), "currencies.png" );
-    paddingbox = new_paddingbox_with_title (vbox_pref, TRUE, _("Known currencies"));
-
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, TRUE, TRUE, 0);
+    paddinggrid = utils_prefs_paddinggrid_new_with_title (vbox_pref, _("Known currencies"));
 
     /* Currency list */
-    scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
-    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-				     GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+    scrolled_window = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, 160);
+    gtk_grid_attach (GTK_GRID (paddinggrid), scrolled_window, 0, 0, 2, 3);
 
     /* Create it. */
     currency_list_view = GTK_TREE_VIEW ( gsb_currency_config_create_list () );
     currency_tree_model = gtk_tree_view_get_model ( currency_list_view );
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ), GTK_WIDGET(currency_list_view) );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), scrolled_window, TRUE, TRUE, 0);
     g_signal_connect ( gtk_tree_view_get_selection (GTK_TREE_VIEW ( currency_list_view ) ),
 		       "changed", G_CALLBACK ( gsb_currency_config_select_currency ),
 		       NULL );
@@ -324,76 +353,68 @@ GtkWidget *gsb_currency_config_create_page ( void )
     }
 
     /* Create Add/Remove buttons */
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), vbox, FALSE, FALSE, 0 );
 
     /* Button "Add" */
     button = utils_buttons_button_new_from_stock ("gtk-add", _("Add"));
+    gtk_widget_set_margin_end (button, MARGIN_END);
+    utils_widget_set_padding (button, 0, MARGIN_TOP);
     g_signal_connect ( G_OBJECT ( button ),
 		       "clicked",
 		       G_CALLBACK  ( gsb_currency_config_add_currency ),
 		       currency_tree_model );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), button, FALSE, FALSE, 5 );
+    gtk_grid_attach (GTK_GRID (paddinggrid), button, 0, 3, 1, 1);
 
     /* Button "Remove" */
-    button = utils_buttons_button_new_from_stock ("gtk-remove", _("Remove"));
-    g_signal_connect ( G_OBJECT ( button ),
+    delete_devise_button = utils_buttons_button_new_from_stock ("gtk-remove", _("Remove"));
+    utils_widget_set_padding (delete_devise_button, 0, MARGIN_TOP);
+    gtk_widget_set_sensitive (delete_devise_button, FALSE);
+    g_signal_connect ( G_OBJECT (delete_devise_button),
 		       "clicked",
 		       G_CALLBACK ( gsb_currency_config_remove_currency ),
 		       currency_list_view );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), button, FALSE, FALSE, 5 );
+    gtk_grid_attach (GTK_GRID (paddinggrid), delete_devise_button, 1, 3, 1, 1);
 
     /* Input form for currencies */
-    paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("Currency properties"));
-
-    /* Create table */
-    table = gtk_grid_new ();
-    gtk_grid_set_column_spacing (GTK_GRID (table), 5 );
-    gtk_grid_set_row_spacing (GTK_GRID (table), 5 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, TRUE, TRUE, 0 );
+    paddinggrid = utils_prefs_paddinggrid_new_with_title (vbox_pref, _("Currency properties"));
 
     /* Create currency name entry */
     label = gtk_label_new ( _("Name: ") );
-    utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
-    gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-    gtk_grid_attach (GTK_GRID (table), label, 0, 0, 1, 1);
+    utils_labels_set_alignement ( GTK_LABEL (label), 0, 0.5);
+    gtk_grid_attach (GTK_GRID (paddinggrid), label, 0, 0, 1, 1);
     entry = gsb_autofunc_entry_new ( NULL,
 					  G_CALLBACK (gsb_currency_config_entry_changed), currency_list_view,
 					  G_CALLBACK (gsb_data_currency_set_name), 0 );
-    gtk_grid_attach (GTK_GRID (table), entry, 1, 0, 1, 1);
+    gtk_grid_attach (GTK_GRID (paddinggrid), entry, 1, 0, 1, 1);
     g_object_set_data ( G_OBJECT(currency_tree_model), "entry_name", entry );
 
     /* Create Sign entry */
     label = gtk_label_new ( _("Sign: ") );
-    utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
-    gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-    gtk_grid_attach (GTK_GRID (table), label, 0, 1, 1, 1);
+    utils_labels_set_alignement ( GTK_LABEL (label), 0, 0.5);
+    gtk_grid_attach (GTK_GRID (paddinggrid), label, 0, 1, 1, 1);
     entry = gsb_autofunc_entry_new ( NULL,
 					  G_CALLBACK (gsb_currency_config_entry_changed), currency_list_view,
 					  G_CALLBACK (gsb_data_currency_set_code), 0 );
-    gtk_grid_attach (GTK_GRID (table), entry, 1, 1, 1, 1);
+    gtk_grid_attach (GTK_GRID (paddinggrid), entry, 1, 1, 1, 1);
     g_object_set_data ( G_OBJECT(currency_tree_model), "entry_code", entry );
 
     /* Create ISO code entry */
     label = gtk_label_new ( _("ISO code: ") );
-    utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
-    gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-    gtk_grid_attach (GTK_GRID (table), label, 0, 2, 1, 1);
+    utils_labels_set_alignement ( GTK_LABEL (label), 0, 0.5);
+    gtk_grid_attach (GTK_GRID (paddinggrid), label, 0, 2, 1, 1);
     entry = gsb_autofunc_entry_new ( NULL,
 					  G_CALLBACK (gsb_currency_config_entry_changed), currency_list_view,
 					  G_CALLBACK (gsb_data_currency_set_code_iso4217), 0 );
-    gtk_grid_attach (GTK_GRID (table), entry, 1, 2, 1, 1);
+    gtk_grid_attach (GTK_GRID (paddinggrid), entry, 1, 2, 1, 1);
     g_object_set_data ( G_OBJECT(currency_tree_model), "entry_iso_code", entry );
 
     /* Create floating point entry */
     label = gtk_label_new ( _("Floating point: ") );
-    utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
-    gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-    gtk_grid_attach (GTK_GRID (table), label, 0, 3, 1, 1);
+    utils_labels_set_alignement ( GTK_LABEL (label), 0, 0.5);
+    gtk_grid_attach (GTK_GRID (paddinggrid), label, 0, 3, 1, 1);
     entry = gsb_autofunc_int_new ( 0,
 				   G_CALLBACK (gsb_currency_config_entry_changed), currency_list_view,
 				   G_CALLBACK (gsb_data_currency_set_floating_point), 0 );
-    gtk_grid_attach (GTK_GRID (table), entry, 1, 3, 1, 1);
+    gtk_grid_attach (GTK_GRID (paddinggrid), entry, 1, 3, 1, 1);
     g_object_set_data ( G_OBJECT(currency_tree_model), "entry_floating_point", entry );
 
     /* for now we want nothing in the entry of floating point */
@@ -412,6 +433,7 @@ GtkWidget *gsb_currency_config_create_page ( void )
  */
 GtkWidget *gsb_currency_config_create_list ()
 {
+    GtkTreeSelection *selection;
     GtkTreeViewColumn *column;
     GtkCellRenderer *cell;
     GtkListStore * model;
@@ -438,7 +460,10 @@ GtkWidget *gsb_currency_config_create_list ()
     /* Create tree tree_view */
     treeview = gtk_tree_view_new_with_model (GTK_TREE_MODEL(model));
     g_object_unref ( G_OBJECT(model) );
-    //~ gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (treeview), TRUE);
+
+    /* connect the selection */
+    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview));
+    gtk_tree_selection_set_mode (GTK_TREE_SELECTION (selection), GTK_SELECTION_SINGLE);
 
     /* Flag */
     cell = gtk_cell_renderer_pixbuf_new ();
@@ -501,6 +526,12 @@ GtkWidget *gsb_currency_config_create_list ()
     /* Sort columns accordingly */
     gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE(model),
 					  COUNTRY_NAME_COLUMN, GTK_SORT_ASCENDING);
+
+    /* Set signal */
+    g_signal_connect (G_OBJECT (selection),
+                      "changed",
+                      G_CALLBACK (gsb_currency_config_change_selection),
+                      NULL);
 
     return treeview;
 }
@@ -645,8 +676,6 @@ void gsb_currency_config_remove_currency ( GtkWidget *button,
 	    list_tmp = list_tmp -> next;
     }
 
-    gsb_currency_config_remove_selected_from_view ( GTK_TREE_VIEW(tree_view) );
-
     /*  pbiava the 02/22/09 erase the entries */
     model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
     entry_name = g_object_get_data ( G_OBJECT(model), "entry_name" );
@@ -659,6 +688,7 @@ void gsb_currency_config_remove_currency ( GtkWidget *button,
     gsb_autofunc_int_erase_entry ( entry_floating_point );
 
     gsb_data_currency_remove (currency_number);
+    gsb_currency_config_remove_selected_from_view (GTK_TREE_VIEW(tree_view));
     gsb_currency_update_combobox_currency_list ();
 }
 
@@ -956,7 +986,7 @@ gboolean gsb_currency_config_add_currency ( GtkWidget *button,
     label = gtk_label_new ( _("Currency name: ") );
     utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-    gtk_grid_attach (GTK_GRID (table), label, 0, 1, 1, 1);
+    gtk_grid_attach (GTK_GRID (table), label, 0, 0, 1, 1);
     entry_name = gtk_entry_new ();
     gtk_entry_set_activates_default ( GTK_ENTRY ( entry_name ), TRUE );
     gtk_grid_attach (GTK_GRID (table), entry_name, 1, 0, 1, 1);
@@ -1142,33 +1172,28 @@ GtkWidget *gsb_currency_config_create_box_popup ( GCallback select_callback )
     GtkWidget * sw, * treeview, * vbox, * checkbox;
     GtkTreeModel * model;
 
-    sw = gtk_scrolled_window_new (NULL, NULL);
-    gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw),
-					 GTK_SHADOW_ETCHED_IN);
-    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
-				    GTK_POLICY_NEVER,
-				    GTK_POLICY_ALWAYS);
+    sw = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_SW, 200);
 
     treeview = gsb_currency_config_create_list ();
     gtk_widget_set_size_request ( treeview, -1, 200 );
     model = gtk_tree_view_get_model ( GTK_TREE_VIEW(treeview) );
     if (select_callback)
-	g_signal_connect ( gtk_tree_view_get_selection (GTK_TREE_VIEW ( treeview ) ),
-			   "changed", G_CALLBACK (select_callback),
-			   model );
+	g_signal_connect ( gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview)),
+                      "changed",
+                      G_CALLBACK (select_callback),
+                      model );
 
     gtk_container_add (GTK_CONTAINER (sw), treeview);
-    gtk_container_set_resize_mode (GTK_CONTAINER (sw), GTK_RESIZE_PARENT);
 
     vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
-    gtk_box_pack_start ( GTK_BOX(vbox), sw,
-			 TRUE, TRUE, 0 );
+    gtk_box_pack_start ( GTK_BOX(vbox), sw, TRUE, TRUE, 0 );
 
     checkbox = gtk_check_button_new_with_label ( _("Include obsolete currencies"));
-    gtk_box_pack_start ( GTK_BOX(vbox), checkbox,
-			 FALSE, FALSE, 0 );
-    g_signal_connect ( G_OBJECT(checkbox), "toggled",
-		       (GCallback) gsb_currency_config_update_list, treeview );
+    gtk_box_pack_start ( GTK_BOX(vbox), checkbox, FALSE, FALSE, 0 );
+    g_signal_connect (G_OBJECT(checkbox),
+                      "toggled",
+                      (GCallback) gsb_currency_config_update_list,
+                      treeview);
 
     gsb_currency_config_fill_popup_list ( GTK_TREE_VIEW(treeview), FALSE );
 
@@ -1379,6 +1404,13 @@ gboolean gsb_currency_config_select_default ( GtkTreeModel * tree_model, GtkTree
 }
 
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ * */
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

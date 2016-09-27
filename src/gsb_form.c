@@ -282,10 +282,12 @@ void gsb_form_create_widgets ( void )
 
     form_transaction_part = gtk_grid_new ();
     gtk_grid_set_column_spacing ( GTK_GRID (form_transaction_part), 6 );
+
     g_signal_connect ( G_OBJECT (form_transaction_part),
 		       "size-allocate",
 		       G_CALLBACK (gsb_form_allocate_size),
 		       NULL );
+
     gtk_container_add ( GTK_CONTAINER (event_box), form_transaction_part );
 
     gsb_form_initialise_transaction_form ();
@@ -601,9 +603,9 @@ gboolean gsb_form_set_sensitive ( gboolean split,
             case TRANSACTION_FORM_CHEQUE:
             case TRANSACTION_FORM_BANK:
 			/* Modifié le 22/12/2015 à la demande des utilisateurs
-			case TRANSACTION_FORM_VOUCHER:
+            case TRANSACTION_FORM_VOUCHER:
 */
-				gtk_widget_set_sensitive ( element -> element_widget, FALSE );
+                gtk_widget_set_sensitive ( element -> element_widget, FALSE );
                 break;
             }
             /* specific widgets for scheduled transactions */
@@ -3841,10 +3843,6 @@ gboolean gsb_form_button_press ( GtkWidget *vbox,
 
     /* propose to configure the form */
     menu_item = gtk_menu_item_new_with_label ( _("Configure the form") );
-    /*sera revu plus tard */
-    //~ gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
-				    //~ gtk_image_new_from_icon_name ( "gtk-properties",
-							       //~ GTK_ICON_SIZE_MENU ));
     g_signal_connect ( G_OBJECT(menu_item),
 		       "activate",
 		       G_CALLBACK (gsb_preferences_menu_open),
@@ -3925,6 +3923,7 @@ gboolean gsb_form_initialise_transaction_form ( void )
             continue;
 
 	    gtk_grid_attach ( GTK_GRID (form_transaction_part), widget, column, row, 1, 1 );
+        g_object_set_data (G_OBJECT (widget), "num_row", GINT_TO_POINTER (row));
 	}
 
     return FALSE;

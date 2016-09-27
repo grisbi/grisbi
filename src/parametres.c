@@ -115,6 +115,7 @@ static gboolean selectionne_liste_preference ( GtkTreeSelection *selection,
 /*END_STATIC*/
 
 GtkWidget *fenetre_preferences = NULL;
+static GtkWidget *hpaned = NULL;
 
 static GtkTreeStore *preference_tree_model = NULL;
 static GtkNotebook * preference_frame = NULL;
@@ -129,6 +130,21 @@ extern gchar *nom_fichier_comptes;
 extern gint nb_days_before_scheduled;
 /*END_EXTERN*/
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ * */
+static gboolean preferences_size_allocate (GtkWidget *prefs,
+                                           GtkAllocation *allocation,
+                                           gpointer null)
+{
+    conf.prefs_width = allocation->width;
+
+    return FALSE;
+}
 
 /**
  * force le recalcul des soldes et la mise à jour de la page d'accueil
@@ -189,6 +205,7 @@ static GtkWidget *onglet_accueil ( void )
 {
     GtkWidget *vbox_pref, *vbox, *paddingbox, *button;
     GtkWidget *hbox, *vbox2, *sw, *treeview;
+    GtkWidget *paddinggrid;
     GtkListStore *list_store;
     GtkTreeViewColumn *column;
     GtkCellRenderer *cell;
@@ -235,52 +252,46 @@ static GtkWidget *onglet_accueil ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
 
     /* Data partial balance settings */
-    paddingbox = new_paddingbox_with_title (vbox, FALSE,
-                        _("Balances partials of the list of accounts") );
+    paddinggrid = utils_prefs_paddinggrid_new_with_title  (vbox, _("Balances partials of the list of accounts"));
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, TRUE, TRUE, 5);
-
-    sw = gtk_scrolled_window_new (NULL, NULL);
-    gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw),
-                        GTK_SHADOW_ETCHED_IN);
-    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
-                        GTK_POLICY_AUTOMATIC,
-                        GTK_POLICY_ALWAYS);
-    gtk_box_pack_start ( GTK_BOX (hbox), sw, TRUE,TRUE, 0 );
+    sw = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, 200);
+    gtk_grid_attach (GTK_GRID (paddinggrid), sw, 0, 0, 3, 3);
 
     /* Create Add/Edit/Remove buttons */
-    vbox2 = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), vbox2, FALSE, FALSE, 0 );
 
     /* Button "Add" */
     button = utils_buttons_button_new_from_stock ("gtk-add", _("Add"));
+    gtk_widget_set_margin_end (button, MARGIN_END);
+    gtk_widget_set_margin_top (button, MARGIN_TOP);
     g_signal_connect ( G_OBJECT ( button ),
                         "clicked",
                         G_CALLBACK  ( gsb_partial_balance_add ),
                         vbox_pref );
-    gtk_box_pack_start ( GTK_BOX ( vbox2 ), button, FALSE, FALSE, 5 );
     g_object_set_data ( G_OBJECT (vbox_pref), "add_button", button );
+    gtk_grid_attach (GTK_GRID (paddinggrid), button, 0, 3, 1, 1);
 
     /* Button "Edit" */
     button = utils_buttons_button_new_from_stock ("gtk-edit", _("Edit"));
+    gtk_widget_set_margin_end (button, MARGIN_END);
+    gtk_widget_set_margin_top (button, MARGIN_TOP);
     g_signal_connect ( G_OBJECT ( button ),
                         "clicked",
                         G_CALLBACK  ( gsb_partial_balance_edit ),
                         vbox_pref );
-    gtk_box_pack_start ( GTK_BOX ( vbox2 ), button, FALSE, FALSE, 5 );
     gtk_widget_set_sensitive ( button, FALSE );
     g_object_set_data ( G_OBJECT (vbox_pref), "edit_button", button );
+    gtk_grid_attach (GTK_GRID (paddinggrid), button, 1, 3, 1, 1);
 
     /* Button "Remove" */
     button = utils_buttons_button_new_from_stock ("gtk-remove", _("Remove"));
+    gtk_widget_set_margin_top (button, MARGIN_TOP);
     g_signal_connect ( G_OBJECT ( button ),
                         "clicked",
                         G_CALLBACK ( gsb_partial_balance_delete ),
                         vbox_pref );
-    gtk_box_pack_start ( GTK_BOX ( vbox2 ), button, FALSE, FALSE, 5 );
     gtk_widget_set_sensitive ( button, FALSE );
     g_object_set_data ( G_OBJECT (vbox_pref), "remove_button", button );
+    gtk_grid_attach (GTK_GRID (paddinggrid), button, 2, 3, 1, 1);
 
     /* create the model */
     list_store = gsb_partial_balance_create_model ( );
@@ -294,7 +305,6 @@ static GtkWidget *onglet_accueil ( void )
                         GTK_TREE_MODEL (list_store) );
     g_object_unref ( list_store );
 
-    gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (treeview), TRUE);
     gtk_widget_set_size_request ( treeview, -1, 150 );
 
     /* check the keys on the list */
@@ -322,7 +332,6 @@ static GtkWidget *onglet_accueil ( void )
                         (GtkTreeSelectionFunc) gsb_partial_balance_select_func,
                         vbox_pref, NULL );
     gtk_container_add (GTK_CONTAINER (sw), treeview);
-    gtk_container_set_resize_mode (GTK_CONTAINER (sw), GTK_RESIZE_PARENT);
     g_object_set_data ( G_OBJECT (vbox_pref), "treeview", treeview );
 
     /* Nom du solde partiel */
@@ -391,15 +400,14 @@ static GtkWidget *onglet_accueil ( void )
     }
 
     /* mettre les soldes partiels sous les comptes si possibles */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
     button = gsb_automem_checkbutton_new (
                         _("Place the partial balance  under its accounts if it's possible"),
                         &conf.group_partial_balance_under_accounts,
                         G_CALLBACK ( gsb_config_partial_balance_group_under_accounts_clicked ),
                         NULL );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
+    gtk_widget_set_margin_top (button, MARGIN_TOP);
+    gtk_grid_attach (GTK_GRID (paddinggrid), button, 0, 4, 3, 1);
 
     gtk_widget_show_all ( vbox_pref );
 
@@ -519,6 +527,18 @@ gboolean gsb_preferences_menu_open ( GtkWidget *menu_item,
 
 
 /**
+ *
+ *
+ * \param
+ *
+ * \return
+ * */
+gint gsb_preferences_paned_get_position (void)
+{
+    return gtk_paned_get_position (GTK_PANED (hpaned));
+}
+
+/**
  * Creates a new GtkDialog with a paned list of topics and a paned
  * notebook that allows to switch between all pages.  A click on the
  * list selects one specific page.
@@ -529,7 +549,6 @@ gboolean preferences ( gint page )
 {
     GtkWidget *hbox, *tree;
     GtkTreeIter iter, iter2;
-    GtkWidget *hpaned;
 
     devel_debug_int (page);
 
@@ -583,7 +602,6 @@ gboolean preferences ( gint page )
                         2, 400,
                         -1);
     gtk_notebook_append_page (preference_frame, onglet_fichier(), NULL);
-    /* by default, we select that first page */
 
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
@@ -849,11 +867,6 @@ gboolean preferences ( gint page )
                         -1);
     gtk_notebook_append_page (preference_frame, gsb_payment_method_config_create (), NULL);
 
-    gtk_widget_show_all ( hpaned );
-    gtk_container_set_border_width ( GTK_CONTAINER(hpaned), 6 );
-    gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( fenetre_preferences ) ),
-                        hpaned, TRUE, TRUE, 0);
-
     /* balance estimate subtree */
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
@@ -880,6 +893,15 @@ gboolean preferences ( gint page )
                         2, 400,
                         -1);
     gtk_notebook_append_page (preference_frame, bet_config_account_create_account_page (), NULL);
+
+    gtk_widget_show_all ( hpaned );
+    gtk_container_set_border_width ( GTK_CONTAINER(hpaned), 6 );
+    gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( fenetre_preferences ) ),
+                        hpaned, TRUE, TRUE, 0);
+    g_signal_connect (G_OBJECT (fenetre_preferences),
+                      "size-allocate",
+                      G_CALLBACK (preferences_size_allocate),
+                      NULL);
 
     /* select the page */
     if ( page >= 0 && page < NUM_PREFERENCES_PAGES )
@@ -931,6 +953,7 @@ gboolean selectionne_liste_preference ( GtkTreeSelection *selection,
 GtkWidget *onglet_messages_and_warnings ( void )
 {
     GtkWidget *vbox_pref, *paddingbox, *tip_checkbox, *tree_view, *sw;
+    GtkWidget *paddinggrid;
     GtkTreeModel * model;
     GtkCellRenderer * cell;
     GtkTreeViewColumn * column;
@@ -949,21 +972,20 @@ GtkWidget *onglet_messages_and_warnings ( void )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), tip_checkbox, FALSE, FALSE, 0 );
 
     /* Warnings */
-    paddingbox = new_paddingbox_with_title ( vbox_pref, TRUE,
-                        _("Display following warnings messages") );
+    paddinggrid = utils_prefs_paddinggrid_new_with_title (vbox_pref,
+                                                          _("Display following warnings messages"));
 
+    sw = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, 0);
+    gtk_grid_attach (GTK_GRID (paddinggrid), sw, 0, 0, 1, 1);
+
+    /* create the model */
     model = GTK_TREE_MODEL(gtk_tree_store_new ( 3, G_TYPE_INT, G_TYPE_STRING, G_TYPE_INT ) );
 
-    sw = gtk_scrolled_window_new ( NULL, NULL );
-    gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw), GTK_SHADOW_IN);
-    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
-                        GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-
+    /* create the treeview */
     tree_view = gtk_tree_view_new();
     gtk_tree_view_set_model ( GTK_TREE_VIEW (tree_view), GTK_TREE_MODEL (model) );
     g_object_unref (G_OBJECT(model));
     gtk_container_add (GTK_CONTAINER (sw), tree_view);
-    gtk_box_pack_start ( GTK_BOX(paddingbox), sw, TRUE, TRUE, 0 );
 
     cell = gtk_cell_renderer_toggle_new ();
     column = gtk_tree_view_column_new_with_attributes ("", cell, "active", 0, NULL);
@@ -974,6 +996,7 @@ GtkWidget *onglet_messages_and_warnings ( void )
     column = gtk_tree_view_column_new_with_attributes (_("Message"), cell, "text", 1, NULL);
     gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), GTK_TREE_VIEW_COLUMN (column));
 
+    /* remplit le modèle */
     for  ( i = 0; messages[i].name; i++ )
     {
         GtkTreeIter iter;
@@ -1015,7 +1038,8 @@ GtkWidget *onglet_messages_and_warnings ( void )
  */
 GtkWidget *onglet_delete_messages ( void )
 {
-    GtkWidget *vbox_pref, *paddingbox, *tree_view, *sw;
+    GtkWidget *vbox_pref, *tree_view, *sw;
+    GtkWidget *paddinggrid;
     GtkTreeModel * model;
     GtkCellRenderer * cell;
     GtkTreeViewColumn * column;
@@ -1025,21 +1049,17 @@ GtkWidget *onglet_delete_messages ( void )
     vbox_pref = new_vbox_with_title_and_icon ( _("Messages before deleting"), "delete.png" );
 
     /* Delete messages */
-    paddingbox = new_paddingbox_with_title ( vbox_pref, TRUE,
-                        _("Display following messages") );
+    paddinggrid = utils_prefs_paddinggrid_new_with_title (vbox_pref, _("Display following messages") );
+
+    sw = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, 0);
+    gtk_grid_attach (GTK_GRID (paddinggrid), sw, 0, 0, 1, 1);
 
     model = GTK_TREE_MODEL(gtk_tree_store_new ( 3, G_TYPE_INT, G_TYPE_STRING, G_TYPE_INT ) );
-
-    sw = gtk_scrolled_window_new ( NULL, NULL );
-    gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw), GTK_SHADOW_IN);
-    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
-                        GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 
     tree_view = gtk_tree_view_new();
     gtk_tree_view_set_model ( GTK_TREE_VIEW (tree_view), GTK_TREE_MODEL (model) );
     g_object_unref (G_OBJECT(model));
     gtk_container_add (GTK_CONTAINER (sw), tree_view);
-    gtk_box_pack_start ( GTK_BOX(paddingbox), sw, TRUE, TRUE, 0 );
 
     cell = gtk_cell_renderer_toggle_new ();
     column = gtk_tree_view_column_new_with_attributes ("", cell, "active", 0, NULL);

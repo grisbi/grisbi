@@ -78,7 +78,24 @@ static GtkWidget *reconcile_init_balance_entry;
 static GtkWidget *reconcile_final_balance_entry;
 static GtkWidget *delete_reconcile_button;
 
+/******************************************************************************/
+/* Private Methods                                                            */
+/******************************************************************************/
 /**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ * */
+static void gsb_reconcile_config_sort_reconcile (GtkToggleButton *togglebutton,
+                                                 gpointer user_data)
+{
+    gsb_reconcile_config_fill ();
+}
+
+ /**
  * create the config widget for the reconcile
  * to modify/delete a reconcile
  *
@@ -90,6 +107,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
 {
     GtkWidget *hbox, *scrolled_window;
     GtkWidget *vbox_pref, *paddingbox;
+    GtkWidget *paddinggrid;
     GtkTreeViewColumn *column;
     GtkCellRenderer *cell;
     GtkTreeStore *reconcile_model;
@@ -121,17 +139,11 @@ GtkWidget *gsb_reconcile_config_create ( void )
                         NULL,
                         GTK_ORIENTATION_HORIZONTAL );
 
-    paddingbox = new_paddingbox_with_title ( vbox_pref, TRUE,
-					     _("List of reconciliations") );
+    paddinggrid = utils_prefs_paddinggrid_new_with_title (vbox_pref, _("List of reconciliations"));
 
     /* set the list */
-    scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
-    gtk_box_pack_start ( GTK_BOX (paddingbox), scrolled_window,
-			 TRUE, TRUE, 0);
-    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-				     GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-					  GTK_SHADOW_IN);
+    scrolled_window = utils_prefs_scrolled_window_new ( NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, 200 );
+    gtk_grid_attach (GTK_GRID (paddinggrid), scrolled_window, 0, 0, 1, 3);
 
     /* need to create first the table to set it in the arg of the changed signal of selection */
     table_selection = gtk_grid_new ();
@@ -150,15 +162,15 @@ GtkWidget *gsb_reconcile_config_create ( void )
 					   G_TYPE_INT );     /* reconciliation number */
     reconcile_treeview = gtk_tree_view_new_with_model ( GTK_TREE_MODEL (reconcile_model) );
     g_object_unref (G_OBJECT(reconcile_model));
-    gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (reconcile_treeview), TRUE);
     gtk_tree_selection_set_mode ( gtk_tree_view_get_selection (GTK_TREE_VIEW (reconcile_treeview)),
 				  GTK_SELECTION_SINGLE );
-    gtk_container_add ( GTK_CONTAINER (scrolled_window),
-			reconcile_treeview );
+    gtk_container_add ( GTK_CONTAINER (scrolled_window), reconcile_treeview );
 
     reconcile_selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (reconcile_treeview));
-    g_signal_connect (reconcile_selection, "changed",
-		      G_CALLBACK (gsb_reconcile_config_select), table_selection);
+    g_signal_connect (reconcile_selection,
+                      "changed",
+                      G_CALLBACK (gsb_reconcile_config_select),
+                      table_selection);
 
     /* Name */
     for (i=RECONCILIATION_NAME_COLUMN ; i<RECONCILIATION_ACCOUNT_COLUMN ; i++)
@@ -187,17 +199,24 @@ GtkWidget *gsb_reconcile_config_create ( void )
     /* Various remaining settings */
     gsb_reconcile_config_fill();
 
+    /* Set the reconcile_sort */
+    button = gsb_automem_checkbutton_new (_("Sort by descending date the reconciliations"),
+                                          &etat.reconcile_sort,
+                                          G_CALLBACK (gsb_reconcile_config_sort_reconcile),
+                                          NULL);
+    gtk_widget_set_margin_top (button, MARGIN_TOP);
+    gtk_grid_attach (GTK_GRID (paddinggrid), button, 0, 3, 1, 1);
+
     /* set the modifying part under the list */
-    hbox = new_paddingbox_with_title ( vbox_pref, FALSE,
-				       _("Selected reconcile") );
+    paddinggrid = utils_prefs_paddinggrid_new_with_title (vbox_pref,_("Selected reconcile") );
 
     /* for that we make a table 2x3 but with the names 4x3,
      * the table has been set before to accept as arg on the changed selection */
-    gtk_box_pack_start ( GTK_BOX (hbox), table_selection, FALSE, FALSE, 0 );
+    gtk_grid_attach (GTK_GRID (paddinggrid), table_selection, 0, 0, 1, 1);
 
     /* set the name */
 	label = gtk_label_new ( _("Reconciliation reference: ") );
-	utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
+	utils_labels_set_alignement ( GTK_LABEL (label), 0, 0.5);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
 	gtk_grid_attach (GTK_GRID (table_selection), label, 0, 0, 1, 1);
 
@@ -209,7 +228,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
 
 	/* set the initial date */
 	label = gtk_label_new ( _("Initial date: ") );
-	utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
+	utils_labels_set_alignement ( GTK_LABEL (label), 0, 0.5);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
 	gtk_grid_attach (GTK_GRID (table_selection), label, 0, 1, 1, 1);
 
@@ -221,7 +240,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
 
     /* set the final date */
 	label = gtk_label_new ( _("Final date: ") );
-	utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
+	utils_labels_set_alignement ( GTK_LABEL (label), 0, 0.5);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
 	gtk_grid_attach (GTK_GRID (table_selection), label, 0, 2, 1, 1);
 
@@ -242,7 +261,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
 
 	/* set the initial balance */
 	label = gtk_label_new ( _("Initial balance: ") );
-	utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
+	utils_labels_set_alignement ( GTK_LABEL (label), 0, 0.5);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
 	gtk_grid_attach (GTK_GRID (table_selection), label, 2, 1, 1, 1);
 
@@ -254,7 +273,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
 
     /* set the final balance */
 	label = gtk_label_new ( _("Final balance: ") );
-	utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
+	utils_labels_set_alignement ( GTK_LABEL (label), 0, 0.5);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
 	gtk_grid_attach (GTK_GRID (table_selection), label, 2, 2, 1, 1);
 
@@ -270,12 +289,13 @@ GtkWidget *gsb_reconcile_config_create ( void )
     /* set the button to find non-associated transactions */
 	button = gtk_button_new_with_label (
                         _("Find all marked transactions not associated with a reconciliation"));
-	gtk_button_set_relief ( GTK_BUTTON (button),
-			GTK_RELIEF_NONE );
-	g_signal_connect ( G_OBJECT (button), "clicked",
-			G_CALLBACK (gsb_reconcile_config_find_alone_transactions), NULL );
-	gtk_box_pack_start ( GTK_BOX (vbox_pref),
-			 button, FALSE, FALSE, 0 );
+	gtk_button_set_relief ( GTK_BUTTON (button), GTK_RELIEF_NONE );
+    utils_widget_set_padding (button, 0, MARGIN_TOP);
+	g_signal_connect ( G_OBJECT (button),
+                      "clicked",
+                      G_CALLBACK (gsb_reconcile_config_find_alone_transactions),
+                      NULL );
+    gtk_grid_attach (GTK_GRID (paddinggrid), button, 0, 1, 1, 1);
 
     gtk_widget_show_all (vbox_pref);
 
@@ -330,12 +350,15 @@ void gsb_reconcile_config_fill ( void )
 			     -1 );
 
 	/* for each account, get the concerned reconciles */
-	reconcile_list = gsb_data_reconcile_get_reconcile_list ();
+	reconcile_list = gsb_data_reconcile_get_sort_reconcile_list (account_number);
+    if (etat.reconcile_sort)
+        reconcile_list = g_list_reverse (reconcile_list);
+
 	while (reconcile_list)
 	{
 	    gint reconcile_number;
 
-	    reconcile_number = gsb_data_reconcile_get_no_reconcile (reconcile_list -> data);
+	    reconcile_number = GPOINTER_TO_INT (reconcile_list->data);
 
 	    if (gsb_data_reconcile_get_account (reconcile_number) == account_number)
 	    {
@@ -584,6 +607,13 @@ gboolean gsb_reconcile_config_end_date_changed ( GtkWidget *checkbutton,
 }
 
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ * */
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

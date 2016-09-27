@@ -20,10 +20,10 @@
 #define VERSION_FICHIER_CATEG   "0.6.0"
 #define VERSION_FICHIER_IB      "0.6.0"
 
-#define CSV_MAX_TOP_LINES       10	            /** How many lines to show in CSV preview.  */
-#define GSB_EPSILON             0.0000005       /* Sert à comparer des doubles */
-#define GSB_MAX_SPIN_BUTTON     1000000000.0    /* Dimensionne la largeur naturelle maxi des spin_button */
-#define ETAT_WWW_BROWSER        "xdg-open"      /* définit le browser par défaut */
+#define CSV_MAX_TOP_LINES       10	                /** How many lines to show in CSV preview.  */
+#define GSB_EPSILON             0.0000005           /* Sert à comparer des doubles */
+#define GSB_MAX_SPIN_BUTTON     100000000000000.0   /* Dimensionne la largeur naturelle maxi des spin_button */
+#define ETAT_WWW_BROWSER        "xdg-open"          /* définit le browser par défaut */
 
 /* Sorting option for the transactions. Used in gsb_transactions_list_display_sort_changed () */
 #define PRIMARY_SORT            0
@@ -31,14 +31,24 @@
 
 /* margin for widgets */
 #define MARGIN_END              10
+#define MARGIN_START            10
+#define MARGIN_TOP              10
+#define MARGIN_BOTTOM           10
+#define MARGIN_PADDING_BOX      15
 
-/* global variables, see grisbi_app.c */
+/* coff_util for Scrolled_Window */
+#define SW_COEFF_UTIL_PG        90             /* Scrolled Window in paddinggrid in prefs */
+#define SW_COEFF_UTIL_SW        93             /* Scrolled Window in prefs */
+
+
+/* global variable pour gestion CSS des couleurs */
+/* declared in main.c */
 extern struct GrisbiAppConf conf;
 extern GtkCssProvider *css_provider;
 
-
 /* variables initialisées lors de l'exécution de grisbi PROVISOIRE */
 struct gsb_run_t run;
+
 /* global "etat" structure shared in the entire program */
 struct gsb_etat_t etat;
 
@@ -70,6 +80,7 @@ struct gsb_etat_t
 
     /* reconciliation */
     gint reconcile_end_date;        /* Date initiale + 1 mois par défaut */
+    gboolean reconcile_sort;        /* TRUE = Sort by descending date the reconciliations */
 
     /* formulaire */
     gint affiche_nb_ecritures_listes;
@@ -91,6 +102,8 @@ struct gsb_etat_t
 
     gchar * csv_separator;                              /** CSV separator to use while parsing a CSV file. */
     gboolean csv_skipped_lines [ CSV_MAX_TOP_LINES ];   /* Contains a pointer to skipped lines in CSV preview. */
+
+    gint get_qif_use_field_extract_method_payment;      /* use the field 'N' to define the method of payment */
 
     /* export files */
     gint export_file_format;                /* EXPORT_QIF or EXPORT_CSV */
@@ -215,6 +228,7 @@ struct GrisbiAppConf
 
 /* prefs part */
     gint        prefs_width;                                /* preferences width */
+    gint        prefs_sort;                                 /* column type sort, GTK_SORT_ASCENDING by default */
 
 /* scheduled part */
     gboolean    balances_with_scheduled;                    /* TRUE = the balance incorporates the scheduled operations */
@@ -338,6 +352,27 @@ enum _bet_type_onglets
     BET_ONGLETS_CAP,
 };
 
+/* recopie des types de transaction de la libofx en attendant une version propre */
+typedef enum
+{
+    GSB_OFX_CREDIT,     /**< Generic credit */
+    GSB_OFX_DEBIT,      /**< Generic debit */
+    GSB_OFX_INT,        /**< Interest earned or paid (Note: Depends on signage of amount) */
+    GSB_OFX_DIV,        /**< Dividend */
+    GSB_OFX_FEE,        /**< FI fee */
+    GSB_OFX_SRVCHG,     /**< Service charge */
+    GSB_OFX_DEP,        /**< Deposit */
+    GSB_OFX_ATM,        /**< ATM debit or credit (Note: Depends on signage of amount) */
+    GSB_OFX_POS,        /**< Point of sale debit or credit (Note: Depends on signage of amount) */
+    GSB_OFX_XFER,       /**< Transfer */
+    GSB_OFX_CHECK,      /**< Check */
+    GSB_OFX_PAYMENT,    /**< Electronic payment */
+    GSB_OFX_CASH,       /**< Cash withdrawal */
+    GSB_OFX_DIRECTDEP,  /**< Direct deposit */
+    GSB_OFX_DIRECTDEBIT,/**< Merchant initiated debit */
+    GSB_OFX_REPEATPMT,  /**< Repeating payment/standing order */
+    GSB_OFX_OTHER       /**< Somer other type of transaction */
+  } GSB_OFXTransactionType;
 
 enum direction_move {
     GSB_LEFT = 0,

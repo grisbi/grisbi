@@ -38,7 +38,6 @@
 #include "export_csv.h"
 #include "fenetre_principale.h"
 #include "gsb_automem.h"
-#include "gsb_color.h"
 #include "gsb_data_account.h"
 #include "gsb_data_currency.h"
 #include "gsb_data_fyear.h"
@@ -510,7 +509,7 @@ GtkWidget *bet_historical_get_data_tree_view ( GtkWidget *container )
     /* devel_debug (NULL); */
     account_page = gsb_gui_get_account_page ();
     tree_view = gtk_tree_view_new ( );
-    gtk_tree_view_set_rules_hint ( GTK_TREE_VIEW (tree_view), FALSE );
+    //~ gtk_tree_view_set_rules_hint ( GTK_TREE_VIEW (tree_view), FALSE );
     g_object_set_data ( G_OBJECT ( account_page ), "hist_tree_view", tree_view );
 
     tree_model = gtk_tree_store_new ( SPP_HISTORICAL_NUM_COLUMNS,
@@ -1485,10 +1484,6 @@ void bet_historical_context_menu ( GtkWidget *tree_view )
 
     /* Add last amount menu */
     menu_item = gtk_menu_item_new_with_label ( _("Assign the amount of the last operation") );
-    gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_icon_name ( "gtk-add",
-                        GTK_ICON_SIZE_MENU ) );
-
     g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_historical_add_last_amount ),
@@ -1508,10 +1503,6 @@ void bet_historical_context_menu ( GtkWidget *tree_view )
 
     /* Add average amount menu */
     menu_item = gtk_menu_item_new_with_label ( _("Copy the average amount") );
-    gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_icon_name ( "gtk-copy",
-                        GTK_ICON_SIZE_MENU ) );
-
     g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_historical_add_average_amount ),

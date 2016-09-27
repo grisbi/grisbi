@@ -552,7 +552,7 @@ GtkWidget *gsb_autofunc_spin_new ( gint value,
     GtkWidget *spin_button;
 
     /* create and fill the spin button */
-    spin_button = gtk_spin_button_new_with_range ( 0.0, G_MAXDOUBLE, 1.0 );
+    spin_button = gtk_spin_button_new_with_range ( 0.0, GSB_MAX_SPIN_BUTTON, 1.0 );
 
     gtk_spin_button_set_value ( GTK_SPIN_BUTTON (spin_button),
 				(gdouble) value );

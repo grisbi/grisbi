@@ -42,17 +42,21 @@ enum preference_page  {
 
 
 /*START_DECLARATION*/
-gboolean gsb_config_backup_dir_chosen ( GtkWidget *button,
-                        GtkWidget *dialog );
-GtkWidget *gsb_config_date_format_chosen ( GtkWidget *parent, gint sens );
-gboolean gsb_config_metatree_re_sort_divisions ( GtkWidget *checkbutton,
-                        GdkEventButton *event,
-                        gpointer data );
-GtkWidget *gsb_config_number_format_chosen ( GtkWidget *parent, gint sens );
-gboolean gsb_gui_encryption_toggled ( GtkWidget * checkbox, gpointer data );
-gboolean gsb_preferences_menu_open ( GtkWidget *menu_item,
-                        gpointer page_ptr );
-gboolean preferences ( gint page );
+gboolean    gsb_config_backup_dir_chosen                (GtkWidget *button,
+                                                         GtkWidget *dialog);
+GtkWidget * gsb_config_date_format_chosen               (GtkWidget *parent,
+                                                         gint sens);
+gboolean    gsb_config_metatree_re_sort_divisions       (GtkWidget *checkbutton,
+                                                         GdkEventButton *event,
+                                                         gpointer data);
+GtkWidget * gsb_config_number_format_chosen             (GtkWidget *parent,
+                                                         gint sens);
+gboolean    gsb_gui_encryption_toggled                  (GtkWidget *checkbox,
+                                                         gpointer data);
+gboolean    gsb_preferences_menu_open                   (GtkWidget *menu_item,
+                                                         gpointer page_ptr);
+gint        gsb_preferences_paned_get_position          (void);
+gboolean    preferences                                 (gint page);
 /*END_DECLARATION*/
 
 #endif

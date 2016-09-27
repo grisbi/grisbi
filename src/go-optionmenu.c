@@ -439,6 +439,7 @@ go_option_menu_init (GOOptionMenu *option_menu)
 {
 	GtkBox *box;
 	GtkWidget *arrow, *sep;
+	gchar *tmp_filename;
 
 	gtk_widget_set_can_focus (GTK_WIDGET (option_menu), TRUE);
 	gtk_widget_set_can_default (GTK_WIDGET (option_menu), FALSE);
@@ -453,8 +454,10 @@ go_option_menu_init (GOOptionMenu *option_menu)
 	gtk_box_pack_start (box, GTK_WIDGET (option_menu->button_label),
 			    FALSE, TRUE, 0);
 
-	arrow = gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_NONE);
-	g_object_set (arrow, "xalign", 0.75, NULL);
+    tmp_filename = g_build_filename (gsb_dirs_get_pixmaps_dir (), "arrow-down.svg", NULL);
+    arrow = gtk_image_new_from_file (tmp_filename);
+    g_free (tmp_filename);
+
 	gtk_box_pack_end (box, arrow, FALSE, FALSE, 0);
 
 	sep = gtk_separator_new (GTK_ORIENTATION_VERTICAL);

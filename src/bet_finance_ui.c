@@ -35,7 +35,6 @@
 #include "export_csv.h"
 #include "fenetre_principale.h"
 #include "gsb_automem.h"
-#include "gsb_color.h"
 #include "gsb_combo_box.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
@@ -453,7 +452,7 @@ GtkWidget *bet_finance_create_data_tree_view ( GtkWidget *container )
     gchar *title;
 
     tree_view = gtk_tree_view_new ( );
-    gtk_tree_view_set_rules_hint ( GTK_TREE_VIEW ( tree_view ), FALSE );
+    //~ gtk_tree_view_set_rules_hint ( GTK_TREE_VIEW ( tree_view ), FALSE );
 
     /* Create the tree store */
     tree_model = gtk_tree_store_new ( BET_FINANCE_NBRE_COLUMNS,
@@ -1023,7 +1022,6 @@ void bet_finance_data_list_context_menu ( GtkWidget *tree_view, gint page_num )
                         tree_view );
     }
 
-    gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ), image );
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
     /* Separator */
@@ -1031,8 +1029,6 @@ void bet_finance_data_list_context_menu ( GtkWidget *tree_view, gint page_num )
 
     /* Print list */
     menu_item = gtk_menu_item_new_with_label ( _("Print the array") );
-    gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_icon_name ( "gtk-print", GTK_ICON_SIZE_MENU ) );
     g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( print_tree_view_list ),
@@ -1041,8 +1037,6 @@ void bet_finance_data_list_context_menu ( GtkWidget *tree_view, gint page_num )
 
     /* Export list */
     menu_item = gtk_menu_item_new_with_label ( _("Export the array") );
-    gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_icon_name ( "gtk-save", GTK_ICON_SIZE_MENU ) );
     g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_finance_ui_export_tab ),
@@ -1165,7 +1159,7 @@ GtkWidget *bet_finance_create_amortization_tree_view ( GtkWidget *container, gin
 
     devel_debug ( NULL);
     tree_view = gtk_tree_view_new ( );
-    gtk_tree_view_set_rules_hint ( GTK_TREE_VIEW ( tree_view ), FALSE );
+    //~ gtk_tree_view_set_rules_hint ( GTK_TREE_VIEW ( tree_view ), FALSE );
 
     /* Create the tree store */
     tree_model = gtk_tree_store_new ( BET_AMORTIZATION_NBRE_COLUMNS,

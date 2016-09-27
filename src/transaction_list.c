@@ -42,7 +42,6 @@
 #include "affichage_liste.h"
 #include "custom_list.h"
 #include "dialog.h"
-#include "gsb_color.h"
 #include "gsb_data_account.h"
 #include "gsb_data_archive.h"
 #include "gsb_data_archive_store.h"

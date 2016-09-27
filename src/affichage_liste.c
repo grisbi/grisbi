@@ -34,7 +34,6 @@
 #include "fenetre_principale.h"
 #include "grisbi_settings.h"
 #include "gsb_automem.h"
-#include "gsb_color.h"
 #include "gsb_data_account.h"
 #include "gsb_data_form.h"
 #include "gsb_file.h"
@@ -57,8 +56,6 @@ static gboolean display_mode_button_changed ( GtkWidget *button,
 static gboolean gsb_transaction_list_config_button_set_active_from_string ( GtkWidget *tree_view,
                         gchar *string,
                         gboolean active );
-static void gsb_transaction_list_config_button_set_normal_color ( GtkWidget *toggle_button,
-                        gboolean normal );
 static GtkWidget *gsb_transaction_list_config_create_buttons_table ( GtkWidget *tree_view );
 static GtkWidget *gsb_transaction_list_config_create_tree_view ( GtkListStore *store );
 static gboolean gsb_transaction_list_config_drag_begin ( GtkWidget *tree_view,
@@ -832,21 +829,19 @@ GtkWidget *onglet_affichage_liste ( void )
     GtkWidget *tree_view;
     GtkWidget *table;
     GtkWidget *paddingbox;
+    GtkWidget *paddinggrid;
     GtkListStore* list_store;
 
 	/* à la base, on met une vbox */
 	onglet = new_vbox_with_title_and_icon ( _("Transactions list cells"), "transaction-list.png" );
 
     /* partie 1 visualisation de l'arrangement des données */
-	paddingbox = new_paddingbox_with_title ( onglet, FALSE, _("Transactions list preview") );
+	paddinggrid = utils_prefs_paddinggrid_new_with_title (onglet, _("Transactions list preview"));
+    utils_widget_set_padding (paddinggrid, 15, 0);
 
     /*create the scolled window for tree_view */
-    sw = gtk_scrolled_window_new ( NULL, NULL );
-    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( sw ),
-                        GTK_POLICY_AUTOMATIC,
-                        GTK_POLICY_AUTOMATIC );
-    gtk_widget_set_size_request ( sw, -1, 160 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), sw, TRUE, TRUE, 0 );
+    sw = utils_prefs_scrolled_window_new ( NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, 160 );
+    gtk_grid_attach (GTK_GRID (paddinggrid), sw, 0, 0, 1, 1);
 
     /* create the list_store */
     list_store = gtk_list_store_new ( 2 * CUSTOM_MODEL_VISIBLE_COLUMNS,
@@ -872,6 +867,7 @@ GtkWidget *onglet_affichage_liste ( void )
 
     /* partie 2 Source des données */
 	paddingbox = new_paddingbox_with_title ( onglet, FALSE, _("Transactions list contents") );
+    utils_widget_set_padding (paddingbox, 15, 0);
 
 	/* on crée maintenant une table de 3x6 boutons */
 	table = gsb_transaction_list_config_create_buttons_table ( tree_view );
@@ -968,6 +964,8 @@ GtkWidget *gsb_transaction_list_config_create_tree_view ( GtkListStore *store )
 gboolean gsb_transaction_list_config_realized ( GtkWidget *tree_view,
                         gpointer null )
 {
+    GdkCursor *cursor;
+    GdkDisplay *display;
     gint column;
 
     if ( !assert_account_loaded ( ) )
@@ -976,19 +974,9 @@ gboolean gsb_transaction_list_config_realized ( GtkWidget *tree_view,
     /* fill and update the transaction list and buttons */
     gsb_transaction_list_config_update_list_config ( tree_view );
 
-    for ( column = 0 ; column < CUSTOM_MODEL_VISIBLE_COLUMNS ; column++ )
-    {
-        gint width;
-        GtkAllocation allocation;
-
-        gtk_widget_get_allocation ( tree_view, &allocation );
-        width = ( transaction_col_width [column] * ( allocation.width ) ) / 100;
-        gtk_tree_view_column_set_fixed_width (
-                        gtk_tree_view_get_column ( GTK_TREE_VIEW ( tree_view ), column ),
-                        width );
-    }
-
-    gdk_window_set_cursor ( gtk_widget_get_window ( tree_view ), gdk_cursor_new ( GDK_HAND2 ) );
+    display = gdk_window_get_display (gtk_widget_get_window (run.window));
+    cursor = gdk_cursor_new_for_display (display, GDK_HAND2);
+    gdk_window_set_cursor ( gtk_widget_get_window (tree_view), cursor);
 
     return FALSE;
 }
@@ -1008,6 +996,7 @@ gboolean gsb_transaction_list_config_drag_begin ( GtkWidget *tree_view,
                         GdkDragContext *drag_context,
                         gpointer null )
 {
+    GdkDevice *device;
     gint x, y;
     GtkTreePath *path;
     GtkTreeViewColumn *tree_column;
@@ -1018,16 +1007,19 @@ gboolean gsb_transaction_list_config_drag_begin ( GtkWidget *tree_view,
     cairo_t *cr;
 
     /* get the cell coord */
-    gdk_window_get_pointer ( gtk_tree_view_get_bin_window ( GTK_TREE_VIEW ( tree_view )),
-                        &x,
-                        &y,
-                        FALSE );
-    gtk_tree_view_get_path_at_pos ( GTK_TREE_VIEW ( tree_view ),
-				    x,
-				    y,
-				    &path,
-				    &tree_column,
-				    NULL, NULL );
+    device = gdk_drag_context_get_device (drag_context);
+    gdk_window_get_device_position (gtk_tree_view_get_bin_window (GTK_TREE_VIEW (tree_view )),
+                                    device,
+                                    &x,
+                                    &y,
+                                    NULL);
+    gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW (tree_view),
+                                   x,
+                                   y,
+                                   &path,
+                                   &tree_column,
+                                   NULL,
+                                   NULL);
 
     if ( !path
 	 ||
@@ -1079,6 +1071,7 @@ gboolean gsb_transaction_list_config_drag_end ( GtkWidget *tree_view,
                         GdkDragContext *drag_context,
                         gpointer null )
 {
+    GdkDevice *device;
     GtkTreePath *path;
     GtkTreeViewColumn *tree_column;
     gchar *string;
@@ -1089,17 +1082,20 @@ gboolean gsb_transaction_list_config_drag_end ( GtkWidget *tree_view,
     gint old_element;
 
     /* get the cell position */
-    gdk_window_get_pointer ( gtk_tree_view_get_bin_window ( GTK_TREE_VIEW ( tree_view ) ),
-                        &x,
-                        &y,
-                        FALSE );
-    gtk_tree_view_get_path_at_pos ( GTK_TREE_VIEW ( tree_view ),
-                        x,
-                        y,
-                        &path,
-                        &tree_column,
-                        NULL,
-                        NULL );
+    device = gdk_drag_context_get_device (drag_context);
+    gdk_window_get_device_position (gtk_tree_view_get_bin_window (GTK_TREE_VIEW (tree_view )),
+                                    device,
+                                    &x,
+                                    &y,
+                                    NULL);
+
+    gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW (tree_view),
+                                   x,
+                                   y,
+                                   &path,
+                                   &tree_column,
+                                   NULL,
+                                   NULL);
 
     if ( !path || !tree_column )
         return FALSE;
@@ -1212,14 +1208,11 @@ gboolean gsb_transaction_list_config_update_list_config ( GtkWidget *tree_view )
                                         G_CALLBACK ( gsb_transaction_list_config_toggle_element_button ),
                                         tree_view );
                     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( list_config_buttons[i] ), TRUE );
-                    gsb_transaction_list_config_button_set_normal_color ( list_config_buttons[i], FALSE );
 
                     g_signal_handlers_unblock_by_func ( G_OBJECT ( list_config_buttons[i] ),
                                         G_CALLBACK ( gsb_transaction_list_config_toggle_element_button ),
                                         tree_view );
                 }
-                else
-                    gsb_transaction_list_config_button_set_normal_color ( list_config_buttons[i], TRUE );
             }
             while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( store ), &iter ) );
         }
@@ -1299,6 +1292,9 @@ GtkWidget *gsb_transaction_list_config_create_buttons_table ( GtkWidget *tree_vi
             changed_string = limit_string ( string, 10 );
 
             list_config_buttons[current_number] = gtk_toggle_button_new_with_label ( changed_string );
+            gtk_widget_set_size_request (list_config_buttons[current_number], 110, -1);
+            gtk_widget_set_name (list_config_buttons[current_number], "list_config_buttons");
+            utils_widget_set_padding (list_config_buttons[current_number], 2, 2);
             g_object_set_data ( G_OBJECT ( list_config_buttons[current_number] ),
                         "element_number",
                         GINT_TO_POINTER ( current_number + 1 ) );
@@ -1343,9 +1339,6 @@ void gsb_transaction_list_config_toggle_element_button ( GtkWidget *toggle_butto
         gint row, column;
         gboolean place_trouvee = FALSE;
 
-        /* on change la couleur du bouton */
-        gsb_transaction_list_config_button_set_normal_color ( toggle_button, FALSE );
-
         /* button is on, append the element */
         for ( row = 3 ; row >= 0 ; row-- )
         {
@@ -1377,9 +1370,6 @@ void gsb_transaction_list_config_toggle_element_button ( GtkWidget *toggle_butto
     {
         GtkTreeModel *store;
         GtkTreeIter iter;
-
-        /* on change la couleur du bouton */
-        gsb_transaction_list_config_button_set_normal_color ( toggle_button, TRUE );
 
         /* on supprime la donnée dans la liste */
         store = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
@@ -1443,7 +1433,6 @@ gboolean gsb_transaction_list_config_button_set_active_from_string ( GtkWidget *
                                 G_CALLBACK ( gsb_transaction_list_config_toggle_element_button ),
                                 tree_view );
             gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( list_config_buttons[i] ), active );
-            gsb_transaction_list_config_button_set_normal_color ( list_config_buttons[i], !active );
 
             g_signal_handlers_unblock_by_func ( G_OBJECT ( list_config_buttons[i] ),
                                 G_CALLBACK ( gsb_transaction_list_config_toggle_element_button ),
@@ -1457,30 +1446,6 @@ gboolean gsb_transaction_list_config_button_set_active_from_string ( GtkWidget *
 
     return FALSE;
 }
-
-
-/**
- *
- *
- *
- *
- * */
-void gsb_transaction_list_config_button_set_normal_color ( GtkWidget *toggle_button,
-                        gboolean normal )
-{
-    if ( normal )
-    {
-        gtk_widget_modify_bg ( toggle_button, GTK_STATE_NORMAL, gsb_color_get_couleur ( "couleur_grise" ) );
-        gtk_widget_modify_bg ( toggle_button, GTK_STATE_PRELIGHT, gsb_color_get_couleur ( "couleur_grise" ) );
-    }
-    else
-    {
-        gtk_widget_modify_bg ( toggle_button, GTK_STATE_NORMAL, gsb_color_get_couleur ( "couleur_selection" ) );
-        gtk_widget_modify_bg ( toggle_button, GTK_STATE_ACTIVE, gsb_color_get_couleur ( "couleur_selection" ) );
-        gtk_widget_modify_bg ( toggle_button, GTK_STATE_PRELIGHT, gsb_color_get_couleur ( "couleur_selection" ) );
-    }
-}
-
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

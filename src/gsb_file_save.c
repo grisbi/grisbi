@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2003-2009 Benjamin Drieu (bdrieu@april.org)	                      */
-/*          2008-2010 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          2008-2015 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -46,8 +46,9 @@
 #include "bet_data.h"
 #include "bet_data_finance.h"
 #include "bet_graph.h"
+#include "custom_list.h"
 #include "dialog.h"
-#include "gsb_color.h"
+#include "gsb_calendar.h"
 #include "gsb_data_account.h"
 #include "gsb_data_archive.h"
 #include "gsb_data_bank.h"
@@ -63,23 +64,21 @@
 #include "gsb_data_payment.h"
 #include "gsb_data_print_config.h"
 #include "gsb_data_reconcile.h"
-#include "gsb_data_report_amout_comparison.h"
 #include "gsb_data_report.h"
+#include "gsb_data_report_amout_comparison.h"
 #include "gsb_data_report_text_comparison.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "gsb_file.h"
-#include "utils_dates.h"
-#include "navigation.h"
 #include "gsb_locale.h"
 #include "gsb_real.h"
 #include "gsb_rgba.h"
 #include "gsb_select_icon.h"
-#include "utils_str.h"
-#include "structures.h"
-#include "custom_list.h"
 #include "gsb_scheduler_list.h"
-#include "gsb_calendar.h"
+#include "navigation.h"
+#include "structures.h"
+#include "utils_dates.h"
+#include "utils_str.h"
 #include "erreur.h"
 #ifdef HAVE_SSL
 #include "plugins/openssl/openssl.h"
@@ -107,9 +106,6 @@ static gulong gsb_file_save_bet_graph_part ( gulong iterator,
                         gulong *length_calculated,
                         gchar **file_content );
 #endif /* HAVE_GOFFICE */
-static gulong gsb_file_save_color_part ( gulong iterator,
-                        gulong *length_calculated,
-                        gchar **file_content );
 static gulong gsb_file_save_currency_link_part ( gulong iterator,
                         gulong *length_calculated,
                         gchar **file_content );
@@ -170,6 +166,9 @@ extern gint transaction_col_width[CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/
 
+/******************************************************************************/
+/* Private functions                                                           */
+/******************************************************************************/
 /**
  * save the rgba part
  *
@@ -179,22 +178,23 @@ extern gint valeur_echelle_recherche_date_import;
  *
  * \return the new iterator
  * */
-static gulong gsb_file_save_rgba_part ( gulong iterator,
-                        gulong *length_calculated,
-                        gchar **file_content )
+static gulong gsb_file_save_rgba_part (gulong iterator,
+                                       gulong *length_calculated,
+                                       gchar **file_content)
 {
     gchar *new_string;
 
-    new_string = gsb_rgba_get_strings_to_save ();
+    new_string = gsb_rgba_get_string_to_save ();
 
     /* append the new string to the file content
      * and return the new iterator */
-    return gsb_file_save_append_part ( iterator,
-				       length_calculated,
-				       file_content,
-				       new_string );
+    return gsb_file_save_append_part (iterator,
+                                      length_calculated,
+                                      file_content,
+                                      new_string);
 }
 
+/******************************************************************************/
 /* Public functions                                                           */
 /******************************************************************************/
 /**
@@ -240,7 +240,6 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
     gint account_icon_part = 4500;
     gint bet_part = 500;
     gint bet_graph_part = 100;
-    gint color_part  = 3000;
     gint rgba_part = 1000;
     struct stat buf;
 
@@ -286,7 +285,6 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
     + account_icon_part * g_slist_length ( gsb_select_icon_list_accounts_icon () )
     + bet_part
     + bet_graph_part
-    + color_part
     + rgba_part;
 
     iterator = 0;
@@ -302,10 +300,6 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
 					    &length_calculated,
 					    &file_content,
 					    archive_number );
-
-    iterator = gsb_file_save_color_part ( iterator,
-					  &length_calculated,
-					  &file_content );
 
     iterator = gsb_file_save_rgba_part ( iterator,
 					  &length_calculated,
@@ -518,8 +512,6 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
 
     return ( TRUE );
 }
-
-
 
 /**
  * add the string given in arg and
@@ -777,9 +769,11 @@ gulong gsb_file_save_general_part ( gulong iterator,
 					   "\t\tImport_fusion_transactions=\"%d\"\n"
                        "\t\tImport_categorie_for_payee=\"%d\"\n"
 					   "\t\tImport_fyear_by_value_date=\"%d\"\n"
+                       "\t\tImport_qif_use_field_extract_method_payment=\"%d\"\n"
 					   "\t\tExport_file_format=\"%d\"\n"
                        "\t\tExport_files_traitement=\"%d\"\n"
 					   "\t\tReconcile_end_date=\"%d\"\n"
+                       "\t\tReconcile_sort=\"%d\"\n"
 					   "\t\tUse_logo=\"%d\"\n"
                        "\t\tName_logo=\"%s\"\n"
                        "\t\tIs_pixmaps_dir=\"%d\"\n"
@@ -831,9 +825,11 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	etat.get_fusion_import_transactions,
 	etat.get_categorie_for_payee,
 	etat.get_fyear_by_value_date,
+    etat.get_qif_use_field_extract_method_payment,
     etat.export_file_format,
     etat.export_files_traitement,
     etat.reconcile_end_date,
+    etat.reconcile_sort,
 	etat.utilise_logo,
     my_safe_null_str( etat.name_logo ),
     etat.is_pixmaps_dir,
@@ -883,32 +879,8 @@ gulong gsb_file_save_general_part ( gulong iterator,
 }
 
 /**
- * save the color part
- *
- * \param iterator the current iterator
- * \param length_calculated a pointer to the variable lengh_calculated
- * \param file_content a pointer to the variable file_content
- * \param archive_number the number of the archive or 0 if not an archive
- *
- * \return the new iterator
- * */
-gulong gsb_file_save_color_part ( gulong iterator,
-                        gulong *length_calculated,
-                        gchar **file_content )
-{
-    gchar *new_string;
-
-    new_string = gsb_color_get_strings_to_save ( );
-
-    /* append the new string to the file content
-     * and return the new iterator */
-    return gsb_file_save_append_part ( iterator,
-				       length_calculated,
-				       file_content,
-				       new_string );
-}
-
-/**
+=======
+>>>>>>> 14e12780d8ac1ec07325923d5e430c959839641c
  * save the print part
  *
  * \param iterator the current iterator

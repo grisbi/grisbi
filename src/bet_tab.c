@@ -40,7 +40,6 @@
 #include "fenetre_principale.h"
 #include "gsb_automem.h"
 #include "gsb_calendar_entry.h"
-#include "gsb_color.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
@@ -799,7 +798,7 @@ GtkWidget *bet_array_create_tree_view ( GtkWidget *container )
 
     /* create the estimate treeview */
     tree_view = gtk_tree_view_new ( );
-    gtk_tree_view_set_rules_hint ( GTK_TREE_VIEW ( tree_view ), FALSE );
+    //~ gtk_tree_view_set_rules_hint ( GTK_TREE_VIEW ( tree_view ), FALSE );
     g_object_set_data ( G_OBJECT ( gsb_gui_get_account_page () ), "bet_estimate_treeview", tree_view );
     g_object_set_data ( G_OBJECT ( tree_view ), "origin_data_model",
                         GINT_TO_POINTER ( SPP_ESTIMATE_TREE_ORIGIN_DATA ) );
@@ -823,7 +822,7 @@ GtkWidget *bet_array_create_tree_view ( GtkWidget *container )
                     G_TYPE_DATE,        /* SPP_ESTIMATE_TREE_SORT_DATE_COLUMN */
                     G_TYPE_STRING,      /* SPP_ESTIMATE_TREE_AMOUNT_COLUMN */
                     G_TYPE_STRING,      /* SPP_ESTIMATE_TREE_BALANCE_COLOR */
-                    GDK_TYPE_RGBA,     /* SPP_ESTIMATE_TREE_BACKGROUND_COLOR */
+                    GDK_TYPE_RGBA,      /* SPP_ESTIMATE_TREE_BACKGROUND_COLOR */
                     G_TYPE_STRING );    /* SPP_ESTIMATE_TREE_COLOR_STRING */
 
     gtk_tree_view_set_model ( GTK_TREE_VIEW ( tree_view ), GTK_TREE_MODEL ( tree_model ) );
@@ -1562,16 +1561,10 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
     if ( select == FALSE )
     {
         menu_item = gtk_menu_item_new_with_label ( _("Subtract to the balance") );
-        gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                            gtk_image_new_from_icon_name ( "gtk-remove",
-                            GTK_ICON_SIZE_MENU ) );
     }
     else
     {
         menu_item = gtk_menu_item_new_with_label ( _("Adding to the balance") );
-        gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                            gtk_image_new_from_icon_name ( "gtk-add",
-                            GTK_ICON_SIZE_MENU ) );
     }
     g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
@@ -1586,9 +1579,6 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
 
     /* Insert Row */
     menu_item = gtk_menu_item_new_with_label ( _("Insert row") );
-    gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                    gtk_image_new_from_icon_name ( "gtk-add",
-                    GTK_ICON_SIZE_MENU ) );
     g_signal_connect ( G_OBJECT ( menu_item ),
                     "activate",
                     G_CALLBACK ( bet_array_list_insert_menu ),
@@ -1602,9 +1592,6 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
             if ( g_date_compare ( date, date_jour ) > 0 )
             {
                 menu_item = gtk_menu_item_new_with_label ( _("Delete selection") );
-                gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_icon_name ( "gtk-delete",
-                        GTK_ICON_SIZE_MENU ) );
                 g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_array_list_delete_menu ),
@@ -1616,9 +1603,6 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
             break;
         case SPP_ORIGIN_HISTORICAL:
             menu_item = gtk_menu_item_new_with_label ( _("Delete selection") );
-            gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_icon_name ( "gtk-delete",
-                        GTK_ICON_SIZE_MENU ) );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_array_list_delete_menu ),
@@ -1627,9 +1611,6 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
             break;
         case SPP_ORIGIN_FUTURE:
             menu_item = gtk_menu_item_new_with_label ( _("Change selection") );
-            gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_icon_name ( "gtk-edit",
-                        GTK_ICON_SIZE_MENU ) );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_array_list_change_menu ),
@@ -1637,9 +1618,6 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
             menu_item = gtk_menu_item_new_with_label ( _("Delete selection") );
-            gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_icon_name ( "gtk-delete",
-                        GTK_ICON_SIZE_MENU ) );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_array_list_delete_menu ),
@@ -1648,9 +1626,6 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
 
             menu_item = gtk_menu_item_new_with_label (
                         _("Delete all occurences of the selection") );
-            gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_icon_name ( "gtk-delete",
-                        GTK_ICON_SIZE_MENU ) );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_array_list_delete_all_menu ),
@@ -1663,9 +1638,6 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
             /* Convert to scheduled transaction */
             menu_item = gtk_menu_item_new_with_label (
                                 _("Convert selection to scheduled transaction") );
-            gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                                gtk_image_new_from_icon_name ( "gtk-convert",
-                                GTK_ICON_SIZE_MENU ) );
             g_signal_connect ( G_OBJECT ( menu_item ),
                                 "activate",
                                 G_CALLBACK ( bet_array_list_schedule_selected_line ),
@@ -1686,7 +1658,6 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
         g_free ( tmp_str );
         menu_item = gtk_menu_item_new_with_label (
                         _("Insert the balance of a deferred debit account") );
-        gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ), image );
         g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_array_list_insert_account_balance_menu ),
@@ -1696,9 +1667,6 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
         if ( origine == SPP_ORIGIN_ACCOUNT )
         {
             menu_item = gtk_menu_item_new_with_label ( _("Delete selection") );
-            gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_icon_name ( "gtk-delete",
-                        GTK_ICON_SIZE_MENU ) );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_array_list_delete_menu ),
@@ -1711,10 +1679,6 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
         gtk_widget_show ( menu_item );
     }
     /* redo item */
-    menu_item = gtk_menu_item_new_with_label ( _("Reset data") );
-    gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_icon_name ( "gtk-refresh",
-                        GTK_ICON_SIZE_MENU ) );
     g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_array_list_redo_menu ),
@@ -1726,8 +1690,6 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
 
     /* Print list */
     menu_item = gtk_menu_item_new_with_label ( _("Print the array") );
-    gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_icon_name ( "gtk-print", GTK_ICON_SIZE_MENU ) );
     g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( print_tree_view_list ),
@@ -1736,8 +1698,6 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
 
     /* Export list */
     menu_item = gtk_menu_item_new_with_label ( _("Export the array") );
-    gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_icon_name ( "gtk-save", GTK_ICON_SIZE_MENU ) );
     g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_array_export_tab ),
@@ -2174,7 +2134,7 @@ gboolean bet_array_entry_key_press ( GtkWidget *entry,
 
     return FALSE;
 }
-/**
+/**+
  *
  *
  *
@@ -2615,7 +2575,7 @@ gchar *bet_array_list_get_description ( gint account_number,
                 desc = g_strdup ( gsb_data_budget_get_name (
                                     gsb_data_transaction_get_budgetary_number (
                                     transaction_number ),
-                                    gsb_data_transaction_get_sub_category_number (
+                                    gsb_data_transaction_get_sub_budgetary_number (
                                     transaction_number ),
                                     _("No data by default") ) );
                 break;
@@ -2631,7 +2591,7 @@ gchar *bet_array_list_get_description ( gint account_number,
                 desc = g_strdup ( gsb_data_budget_get_name (
                                     gsb_data_transaction_get_budgetary_number (
                                     transaction_number ),
-                                    gsb_data_transaction_get_sub_category_number (
+                                    gsb_data_transaction_get_sub_budgetary_number (
                                     transaction_number ),
                                     _("No budgetary line") ) );
                 break;
@@ -2665,7 +2625,7 @@ gchar *bet_array_list_get_description ( gint account_number,
                 desc = g_strdup ( gsb_data_budget_get_name (
                                     gsb_data_scheduled_get_budgetary_number (
                                     scheduled_number ),
-                                    gsb_data_scheduled_get_sub_category_number (
+                                    gsb_data_scheduled_get_sub_budgetary_number (
                                     scheduled_number ),
                                     _("No data by default") ) );
                 break;
@@ -2681,7 +2641,7 @@ gchar *bet_array_list_get_description ( gint account_number,
                 desc = g_strdup ( gsb_data_budget_get_name (
                                     gsb_data_scheduled_get_budgetary_number (
                                     scheduled_number ),
-                                    gsb_data_scheduled_get_sub_category_number (
+                                    gsb_data_scheduled_get_sub_budgetary_number (
                                     scheduled_number ),
                                     _("No budgetary line") ) );
                 break;
@@ -3149,6 +3109,7 @@ void bet_array_create_transaction_from_transfert ( struct_transfert_data *transf
     date_fin_comparaison = g_date_new_dmy ( day, month, year );
     g_date_add_days ( date_fin_comparaison, valeur_echelle_recherche_date_import );
 
+    /* Si même mois on cherche une opération existante dans le compte */
     if ( same_month )
     {
         GDate *date_jour;
@@ -3189,54 +3150,62 @@ void bet_array_create_transaction_from_transfert ( struct_transfert_data *transf
                  g_date_compare ( date, date_fin_comparaison ) > 0 )
                     continue;
 
-                if ( transfert->main_category_number )
+                /* find the transaction which has the same payee */
+                if ( gsb_data_transaction_get_party_number ( transaction_number ) == transfert->main_payee_number )
                 {
-                    div_number = gsb_data_transaction_get_category_number ( transaction_number );
-                    if ( transfert->main_sub_category_number )
+                    if ( transfert->main_category_number )
                     {
-                        sub_div_number = gsb_data_transaction_get_sub_category_number ( transaction_number );
+                        div_number = gsb_data_transaction_get_category_number ( transaction_number );
+                        if ( transfert->main_sub_category_number )
+                        {
+                            sub_div_number = gsb_data_transaction_get_sub_category_number ( transaction_number );
+                        }
+                        if ( transfert->main_category_number == div_number
+                         &&
+                         transfert->main_sub_category_number == sub_div_number )
+                        {
+                            if ( transfert->type == 0 )
+                            {
+                                amount = gsb_data_account_get_balance_at_date ( transfert->replace_account, date_bascule );
+                            }
+                            else
+                            {
+                                amount = gsb_data_partial_balance_get_balance_at_date ( transfert -> replace_account, date_bascule );
+                            }
+                            gsb_data_transaction_set_amount ( transaction_number, amount );
+                            gsb_data_transaction_set_date ( transaction_number, transfert->date );
+                            gsb_transactions_list_update_transaction ( transaction_number );
+                            gsb_transactions_list_update_tree_view ( transfert->account_number, FALSE );
+                            find = TRUE;
+                            break;
+                        }
                     }
-                    if ( transfert->main_category_number == div_number
-                     &&
-                     transfert->main_sub_category_number == sub_div_number )
+                    else if ( transfert->main_budgetary_number )
                     {
-                        if ( transfert->type == 0 )
+                        div_number = gsb_data_transaction_get_budgetary_number ( transaction_number );
+                        if ( transfert->main_sub_budgetary_number )
                         {
-                            amount = gsb_data_account_get_balance_at_date ( transfert->replace_account, date_bascule );
+                            sub_div_number = gsb_data_transaction_get_sub_budgetary_number ( transaction_number );
                         }
-                        else
+                        if ( transfert->main_budgetary_number == div_number
+                         &&
+                         transfert->main_sub_budgetary_number == sub_div_number )
                         {
-                            amount = gsb_data_partial_balance_get_balance_at_date ( transfert -> replace_account, date_bascule );
+                            if ( transfert -> type == 0 )
+                            {
+                                amount = gsb_data_account_get_balance_at_date ( transfert->replace_account, date_bascule );
+                            }
+                            else
+                            {
+                                amount = gsb_data_partial_balance_get_balance_at_date ( transfert -> replace_account, date_bascule );
+                            }
+                            gsb_data_transaction_set_amount ( transaction_number, amount );
+                            gsb_data_transaction_set_date ( transaction_number, transfert->date );
+                            gsb_transactions_list_update_transaction ( transaction_number );
+                            gsb_transactions_list_update_tree_view ( transfert->account_number, FALSE );
+                            find = TRUE;
+                            break;
                         }
-                        gsb_data_transaction_set_amount ( transaction_number, amount );
-                        gsb_transactions_list_update_transaction ( transaction_number );
-                        find = TRUE;
-                        break;
-                    }
-                }
-                else if ( transfert->main_budgetary_number )
-                {
-                    div_number = gsb_data_transaction_get_budgetary_number ( transaction_number );
-                    if ( transfert->main_sub_budgetary_number )
-                    {
-                        sub_div_number = gsb_data_transaction_get_sub_budgetary_number ( transaction_number );
-                    }
-                    if ( transfert->main_budgetary_number == div_number
-                     &&
-                     transfert->main_sub_budgetary_number == sub_div_number )
-                    {
-                        if ( transfert -> type == 0 )
-                        {
-                            amount = gsb_data_account_get_balance_at_date ( transfert->replace_account, date_bascule );
-                        }
-                        else
-                        {
-                            amount = gsb_data_partial_balance_get_balance_at_date ( transfert -> replace_account, date_bascule );
-                        }
-                        gsb_data_transaction_set_amount ( transaction_number, amount );
-                        gsb_transactions_list_update_transaction ( transaction_number );
-                        find = TRUE;
-                        break;
                     }
                 }
             }
@@ -3278,34 +3247,38 @@ void bet_array_create_transaction_from_transfert ( struct_transfert_data *transf
              g_date_compare ( date, date_fin_comparaison ) > 0 )
                 continue;
 
-            if ( transfert->main_category_number )
+            /* find the transaction which has the same payee */
+            if ( gsb_data_scheduled_get_party_number ( scheduled_number ) == transfert->main_payee_number )
             {
-                div_number = gsb_data_scheduled_get_category_number ( scheduled_number );
-                if ( transfert->main_sub_category_number )
+                if ( transfert->main_category_number )
                 {
-                    sub_div_number = gsb_data_scheduled_get_sub_category_number ( scheduled_number );
+                    div_number = gsb_data_scheduled_get_category_number ( scheduled_number );
+                    if ( transfert->main_sub_category_number )
+                    {
+                        sub_div_number = gsb_data_scheduled_get_sub_category_number ( scheduled_number );
+                    }
+                    if ( transfert->main_category_number == div_number
+                     &&
+                     transfert->main_sub_category_number == sub_div_number )
+                    {
+                        find = TRUE;
+                        break;
+                    }
                 }
-                if ( transfert->main_category_number == div_number
-                 &&
-                 transfert->main_sub_category_number == sub_div_number )
+                else if ( transfert->main_budgetary_number )
                 {
-                    find = TRUE;
-                    break;
-                }
-            }
-            else if ( transfert->main_budgetary_number )
-            {
-                div_number = gsb_data_scheduled_get_budgetary_number ( scheduled_number );
-                if ( transfert->main_sub_budgetary_number )
-                {
-                    sub_div_number = gsb_data_scheduled_get_sub_budgetary_number ( scheduled_number );
-                }
-                if ( transfert->main_budgetary_number == div_number
-                 &&
-                 transfert->main_sub_budgetary_number == sub_div_number )
-                {
-                    find = TRUE;
-                    break;
+                    div_number = gsb_data_scheduled_get_budgetary_number ( scheduled_number );
+                    if ( transfert->main_sub_budgetary_number )
+                    {
+                        sub_div_number = gsb_data_scheduled_get_sub_budgetary_number ( scheduled_number );
+                    }
+                    if ( transfert->main_budgetary_number == div_number
+                     &&
+                     transfert->main_sub_budgetary_number == sub_div_number )
+                    {
+                        find = TRUE;
+                        break;
+                    }
                 }
             }
         }

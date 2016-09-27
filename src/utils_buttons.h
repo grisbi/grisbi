@@ -16,20 +16,21 @@ typedef enum GSB_BUTTON_STYLE {
 
 
 /*START_DECLARATION*/
-gboolean        gsb_button_sensitive_by_checkbutton (GtkWidget *check_button,
-                                                     GtkWidget *widget);
-GtkWidget *     new_image_label                     (GsbButtonStyle style,
-                                                     const gchar *image_name,
-                                                     const gchar *name );
-GtkWidget *     new_stock_image_label               (GsbButtonStyle style,
-                                                     const gchar *stock_id,
-                                                     const gchar *name);
-void            set_popup_position                  (GtkMenu *menu,
-                                                     gint *x,
-                                                     gint *y,
-                                                     gboolean *push_in,
-                                                     gpointer user_data);
+gboolean        gsb_button_sensitive_by_checkbutton             (GtkWidget *check_button,
+                                                                 GtkWidget *widget);
+GtkWidget *     new_image_label                                 (GsbButtonStyle style,
+                                                                 const gchar *image_name,
+                                                                 const gchar *name );
+GtkWidget *     new_stock_image_label                           (GsbButtonStyle style,
+                                                                 const gchar *stock_id,
+                                                                 const gchar *name);
+void            set_popup_position                              (GtkMenu *menu,
+                                                                 gint *x,
+                                                                 gint *y,
+                                                                 gboolean *push_in,
+                                                                 gpointer user_data);
 
+GtkWidget *     utils_buttons_button_new_from_image             (const gchar *image_name);
 GtkWidget *     utils_buttons_button_new_from_stock             (const gchar *icon_name,
                                                                  const gchar *label_name);
 GtkToolItem *   utils_buttons_tool_button_new_from_image_label  (const gchar *image_name,

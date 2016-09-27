@@ -575,9 +575,14 @@ gboolean gsb_file_new_finish ( void )
  **/
 void gsb_file_new_gui ( void )
 {
+    GrisbiWin *win;
     GtkWidget *main_box;
     GtkWidget *tree_view_widget;
     GtkWidget *notebook_general;
+    GtkWidget *vbox_general;
+
+printf ("gsb_file_new_gui\n");
+    win = grisbi_app_get_active_window (NULL);
 
     /* dégrise les menus nécessaire */
     gsb_menu_set_menus_with_file_sensitive ( TRUE );
@@ -587,8 +592,12 @@ void gsb_file_new_gui ( void )
 
     /* Create main widget. */
     gsb_status_message ( _("Creating main window") );
-    main_box = grisbi_win_get_main_box ( grisbi_app_get_active_window ( NULL ) );
-    gtk_box_pack_start ( GTK_BOX ( main_box ), gsb_gui_create_general_widgets (), TRUE, TRUE, 0 );
+    main_box = grisbi_win_get_main_box (win);
+    vbox_general = grisbi_win_get_vbox_general (win);
+    gtk_box_pack_start ( GTK_BOX ( main_box ), vbox_general, TRUE, TRUE, 0 );
+
+    //~ notebook_general = grisbi_win_get_notebook_general (win);
+    //~ gsb_gui_fill_general_notebook (notebook_general);
 
     /* create the model */
     if ( !transaction_list_create () )
@@ -662,9 +671,9 @@ gboolean gsb_file_open_menu ( void )
 	    {
 		gtk_widget_hide ( selection_fichier );
 		nom_fichier_comptes = file_selection_get_filename ( GTK_FILE_CHOOSER ( selection_fichier ) );
-        tmp_last_directory = file_selection_get_last_directory ( GTK_FILE_CHOOSER ( selection_fichier), TRUE );
+            tmp_last_directory = file_selection_get_last_directory ( GTK_FILE_CHOOSER ( selection_fichier), TRUE );
         gsb_file_update_last_path ( tmp_last_directory );
-        g_free ( tmp_last_directory );
+            g_free ( tmp_last_directory );
 		result = gsb_file_open_file (nom_fichier_comptes);
 	    }
 	    break;
@@ -1054,7 +1063,7 @@ gboolean gsb_file_close ( void )
 
 	    /* free all the variables */
  	    init_variables ();
-        gsb_gui_init_general_vbox ( );
+        //~ gsb_gui_init_general_vbox ( );
         gsb_account_property_clear_config ( );
 
         grisbi_win_set_grisbi_title ( -1 );

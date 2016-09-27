@@ -734,7 +734,6 @@ static void grisbi_app_startup ( GApplication *app )
     g_free ( tmp_dir );
 
     /* initialise les couleurs PROVISOIRE */
-    gsb_color_initialise_couleurs_par_defaut ();
     gsb_rgba_initialise_couleurs_par_defaut ();
 
     /* initialise les variables d'état */

@@ -34,6 +34,7 @@
 #include "imputation_budgetaire.h"
 #include "dialog.h"
 #include "fenetre_principale.h"
+#include "grisbi_win.h"
 #include "gsb_autofunc.h"
 #include "gsb_automem.h"
 #include "gsb_data_budget.h"
@@ -161,7 +162,7 @@ GtkWidget *budgetary_lines_create_list ( void )
                         budgetary_line_get_metatree_interface ( ) );
 
     /* Create container + TreeView */
-    gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (budgetary_line_tree), TRUE);
+    //~ gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (budgetary_line_tree), TRUE);
     gtk_tree_view_enable_model_drag_source(GTK_TREE_VIEW(budgetary_line_tree),
 					   GDK_BUTTON1_MASK, row_targets, 1,
 					   GDK_ACTION_MOVE | GDK_ACTION_COPY );
@@ -1139,9 +1140,6 @@ void budgetary_line_list_popup_context_menu ( void )
         title = g_strdup ( _("Transfers the identical transactions in another sub-budgetary line") );
 
         menu_item = gtk_menu_item_new_with_label ( title );
-        gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_icon_name ( "gtk-convert",
-                        GTK_ICON_SIZE_MENU ) );
         g_signal_connect_swapped ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( metatree_transfer_identical_transactions ),
@@ -1161,9 +1159,6 @@ void budgetary_line_list_popup_context_menu ( void )
             title = g_strdup ( _("Edit selected sub-budgetary line") );
 
         menu_item = gtk_menu_item_new_with_label ( title );
-        gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                            gtk_image_new_from_icon_name ( "gtk-edit",
-                            GTK_ICON_SIZE_MENU ) );
         g_signal_connect_swapped ( G_OBJECT ( menu_item ),
                             "activate",
                             G_CALLBACK ( edit_budgetary_line ),
@@ -1186,9 +1181,6 @@ void budgetary_line_list_popup_context_menu ( void )
             title = g_strdup ( _("Transfer all transactions in another sub-budgetary line") );
 
         menu_item = gtk_menu_item_new_with_label ( title );
-        gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_icon_name ( "gtk-convert",
-                        GTK_ICON_SIZE_MENU ) );
         g_signal_connect_swapped ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( metatree_manage_sub_divisions ),

@@ -15,8 +15,10 @@ grisbi_pixmaps_DATA = \
 	archive.png \
 	archive_24.png \
 	archives.png \
+	arrow-down.svg \
 	arrow-left.svg \
 	arrow-right.svg \
+	arrow-up.svg \
 	balance_estimate.png \
 	banks.png \
 	budgetary_lines.png \
@@ -42,7 +44,7 @@ grisbi_pixmaps_DATA = \
 	impexp.png \
 	importlg.png \
 	import.png \
-    locale.png \
+	locale.png \
 	new-categ.png \
 	new-ib.png \
 	new-payee.png \
@@ -56,6 +58,7 @@ grisbi_pixmaps_DATA = \
 	payeeslg.png \
 	payeesmg.png \
 	payment.png \
+	preferences-24.png \
 	reconat.png \
 	reconciliationlg.png \
 	reconciliation.png \

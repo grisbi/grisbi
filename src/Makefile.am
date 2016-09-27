@@ -76,7 +76,6 @@ libgrisbi_la_SOURCES = \
 	gsb_automem.c		\
 	gsb_bank.c		\
 	gsb_category.c		\
-	gsb_color.c		\
 	gsb_combo_box.c		\
 	gsb_calendar.c		\
 	gsb_calendar_entry.c	\
@@ -224,7 +223,6 @@ libgrisbi_la_SOURCES = \
 	gsb_automem.h		\
 	gsb_bank.h		\
 	gsb_category.h		\
-	gsb_color.h		\
 	gsb_combo_box.h		\
 	gsb_calendar.h		\
 	gsb_calendar_entry.h	\

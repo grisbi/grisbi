@@ -35,7 +35,6 @@
 
 /*START_INCLUDE*/
 #include "transaction_list_select.h"
-#include "gsb_color.h"
 #include "gsb_data_account.h"
 #include "gsb_data_transaction.h"
 #include "gsb_rgba.h"

@@ -43,7 +43,6 @@
 #include "custom_list.h"
 #include "fenetre_principale.h"
 #include "gsb_calendar.h"
-#include "gsb_color.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
 #include "gsb_data_archive.h"
@@ -282,7 +281,6 @@ void init_variables ( void )
     gsb_form_scheduler_free_list ();
 
     /* set colors to default */
-    gsb_color_set_colors_to_default ( );
     gsb_rgba_set_colors_to_default ();
 
     /* divers */

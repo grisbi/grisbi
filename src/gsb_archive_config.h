@@ -8,5 +8,6 @@
 
 /* START_DECLARATION */
 GtkWidget *gsb_archive_config_create ( void );
+void gsb_archive_config_set_sort_type (gpointer *sort_type);
 /* END_DECLARATION */
 #endif

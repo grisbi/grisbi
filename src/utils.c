@@ -32,10 +32,10 @@
 /*START_INCLUDE*/
 #include "utils.h"
 #include "dialog.h"
-#include "gsb_color.h"
 #include "gsb_data_account.h"
 #include "gsb_dirs.h"
 #include "gsb_rgba.h"
+#include "parametres.h"
 #include "structures.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -48,6 +48,7 @@
 /*END_STATIC*/
 
 /*START_EXTERN*/
+extern GtkWidget *fenetre_preferences;
 /*END_EXTERN*/
 
 /**
@@ -318,7 +319,6 @@ GtkWidget *new_vbox_with_title_and_icon ( gchar *title,
                         gchar *image_filename)
 {
     GtkWidget *vbox_pref, *hbox, *label, *image, *eb;
-    GtkStyle * style;
 	gchar* tmpstr1;
 	gchar* tmpstr2;
 
@@ -326,8 +326,7 @@ GtkWidget *new_vbox_with_title_and_icon ( gchar *title,
     gtk_widget_show ( vbox_pref );
 
     eb = gtk_event_box_new ();
-    style = gtk_widget_get_style ( eb );
-    gtk_widget_modify_bg ( eb, 0, &(style -> bg[GTK_STATE_ACTIVE]) );
+    gtk_widget_set_name (eb, "grey_box");
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ), eb, FALSE, FALSE, 0);
 
 
@@ -476,11 +475,11 @@ void lance_mailer ( const gchar *uri )
  * */
 void utils_set_tree_view_selection_and_text_color ( GtkWidget *tree_view )
 {
-    //~ gtk_widget_modify_base ( tree_view, GTK_STATE_SELECTED, gsb_color_get_couleur ( "couleur_selection" ) );
-    //~ gtk_widget_modify_base ( tree_view, GTK_STATE_ACTIVE, gsb_color_get_couleur ( "couleur_selection" ) );
+    gtk_widget_override_background_color ( tree_view, GTK_STATE_FLAG_SELECTED, gsb_rgba_get_couleur ( "couleur_selection" ) );
+    gtk_widget_override_background_color ( tree_view, GTK_STATE_FLAG_ACTIVE, gsb_rgba_get_couleur ( "couleur_selection" ) );
 
-    //~ gtk_widget_modify_text ( tree_view, GTK_STATE_SELECTED, gsb_color_get_couleur_with_indice ( "text_color", 0 ) );
-    //~ gtk_widget_modify_text ( tree_view, GTK_STATE_ACTIVE, gsb_color_get_couleur_with_indice ( "text_color", 0 ) );
+    gtk_widget_override_background_color ( tree_view, GTK_STATE_FLAG_SELECTED, gsb_rgba_get_couleur_with_indice ( "text_color", 0 ) );
+    gtk_widget_override_background_color ( tree_view, GTK_STATE_FLAG_ACTIVE, gsb_rgba_get_couleur_with_indice ( "text_color", 0 ) );
 }
 
 
@@ -980,48 +979,6 @@ gboolean utils_ui_left_panel_tree_view_select_page ( GtkWidget *tree_view,
 
 
 /**
- * retourne un menu_item avec une image comme icône
- *
- * \param image_name
- * \param label_name
- *
- * \return
- * */
-GtkWidget *utils_menu_new_item_from_image_label ( const gchar *image_name,
-                        const gchar *label_name )
-{
-    GtkWidget *menu_item = NULL;
-    gchar *filename;
-
-    filename = g_build_filename ( gsb_dirs_get_pixmaps_dir (), image_name, NULL );
-    if ( filename )
-    {
-        GtkWidget *box;
-        GtkWidget *image;
-        GtkWidget *label;
-
-        box = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
-        image = gtk_image_new_from_file ( filename );
-        gtk_image_set_pixel_size ( GTK_IMAGE ( image ), GTK_ICON_SIZE_MENU) ;
-        label = gtk_label_new ( label_name );
-        menu_item = gtk_menu_item_new ();
-
-        gtk_container_add ( GTK_CONTAINER ( box ), image );
-        gtk_container_add ( GTK_CONTAINER ( box ), label );
-        gtk_container_add ( GTK_CONTAINER ( menu_item ), box );
-
-        g_free ( filename );
-
-    }
-    else
-        menu_item = gtk_menu_item_new_with_label ( label_name );
-
-    gtk_widget_show_all ( menu_item );
-
-    return menu_item;
-}
-
-/**
  * set xalign and yalign to label
  *
  * \param
@@ -1061,6 +1018,126 @@ void utils_widget_set_padding (GtkWidget *widget,
         gtk_widget_set_margin_top (widget, ypad);
         gtk_widget_set_margin_bottom (widget, ypad);
     }
+}
+
+/**
+ * Create a grid with a nice bold title and content slightly indented.
+ * All content is packed vertically in a GtkGrid.  The paddingbox is
+ * also packed in its parent.
+ *
+ * \param parent Parent widget to pack paddinggrid in
+ * \param fill Give all available space to padding box or not
+ * \param title Title to display on top of the paddingbox
+ */
+GtkWidget *utils_prefs_paddinggrid_new_with_title (GtkWidget *parent,
+                                                  const gchar *title)
+{
+    GtkWidget *vbox;
+    GtkWidget *paddinggrid;
+    GtkWidget *label;
+	gchar* tmp_str;
+
+    vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
+
+    if (GTK_IS_BOX (parent))
+        gtk_box_pack_start (GTK_BOX (parent), vbox, FALSE, FALSE, 0);
+
+    /* Creating label */
+    label = gtk_label_new (NULL);
+    utils_labels_set_alignement (GTK_LABEL (label), 0, 1);
+    gtk_widget_show ( label );
+
+    tmp_str = g_markup_printf_escaped ("<span weight=\"bold\">%s</span>", title);
+    gtk_label_set_markup (GTK_LABEL (label), tmp_str);
+    g_free (tmp_str);
+
+    gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
+    gtk_widget_show (label);
+
+    /* Then make the grid itself */
+    paddinggrid = gtk_grid_new ();
+    gtk_widget_set_margin_start (paddinggrid, MARGIN_PADDING_BOX);
+    gtk_grid_set_column_spacing (GTK_GRID (paddinggrid), 5 );
+    gtk_grid_set_row_spacing (GTK_GRID (paddinggrid), 5 );
+
+    gtk_box_pack_start (GTK_BOX (vbox), paddinggrid, FALSE, FALSE, 0);
+
+    if (GTK_IS_BOX (parent))
+        gtk_box_set_spacing (GTK_BOX (parent), 18);
+
+    return paddinggrid;
+}
+
+/**
+ * set the size of scrolled_window in prefs tab
+ *
+ * \param table the table wich receive the 'size-allocate' signal
+ * \param allocation
+ *
+ * \return FALSE
+ * */
+gboolean utils_prefs_scrolled_window_allocate_size (GtkWidget *widget,
+                                                     GtkAllocation *allocation,
+                                                     gpointer coeff_util)
+{
+    gpointer *ptr;
+    gint natural_height;
+    gint position;
+    gint util_allocation;
+    gint coeff = 0;
+
+    coeff = GPOINTER_TO_INT (coeff_util);
+    if (!coeff)
+        return FALSE;
+
+    position = gsb_preferences_paned_get_position ();
+    util_allocation = coeff * (conf.prefs_width - position)/100;
+
+    /* set the height value */
+    if ( ptr = g_object_get_data (G_OBJECT (widget), "height"))
+        gtk_widget_set_size_request ( widget, util_allocation, GPOINTER_TO_INT (ptr));
+    else
+        gtk_widget_set_size_request ( widget, util_allocation, 350);
+
+    return FALSE;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ * */
+GtkWidget *utils_prefs_scrolled_window_new (GtkSizeGroup *size_group,
+                                            GtkShadowType type,
+                                            gint coeff_util,
+                                            gint height)
+{
+    GtkWidget *sw = NULL;
+
+    sw = gtk_scrolled_window_new (NULL, NULL);
+    gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw), type);
+    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
+                                    GTK_POLICY_NEVER,
+                                    GTK_POLICY_AUTOMATIC);
+
+    /* set height */
+    if (height)
+        g_object_set_data (G_OBJECT (sw), "height", GINT_TO_POINTER (height));
+
+    /* set signals */
+    g_signal_connect (G_OBJECT (sw),
+                      "size-allocate",
+                      G_CALLBACK (utils_prefs_scrolled_window_allocate_size),
+                      GINT_TO_POINTER (coeff_util));
+
+
+    /* set size_group */
+    if (size_group)
+        g_object_set_data (G_OBJECT (sw), "size_group", size_group);
+
+    return sw;
 }
 
 /**

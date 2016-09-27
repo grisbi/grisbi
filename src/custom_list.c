@@ -206,7 +206,6 @@ static void custom_list_init (CustomList *custom_list)
     custom_list->column_types[4] = G_TYPE_STRING;     	/* col 4 ( debit by default) */
     custom_list->column_types[5] = G_TYPE_STRING;     	/* col 5 ( credit by default) */
     custom_list->column_types[6] = G_TYPE_STRING;     	/* col 6 ( balance by default) */
-
     custom_list->column_types[7] = GDK_TYPE_RGBA;     	/* col 7 ( color of bg ) */
     custom_list->column_types[8] = GDK_TYPE_RGBA; 	    /* col 8 ( bg saved when selected ) */
     custom_list->column_types[9] = G_TYPE_STRING;     	/* col 9 ( color of amount ) */
@@ -668,7 +667,7 @@ static gboolean custom_list_iter_next (GtkTreeModel  *tree_model,
 	mother_record = record -> mother_row;
 	if (record -> pos == (mother_record -> number_of_children - 1))
     {
-        /* go to the next child */
+        /* we are on the list child, no next */
         iter->stamp     = 0;
         iter->user_data = NULL;
 	    return FALSE;

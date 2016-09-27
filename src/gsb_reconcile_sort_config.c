@@ -83,29 +83,22 @@ static GtkWidget *button_move_down;
 GtkWidget *gsb_reconcile_sort_config_create ( void )
 {
     GtkWidget *hbox, *scrolled_window;
-    GtkWidget *vbox_pref, *paddingbox;
+    GtkWidget *vbox_pref;
+    GtkWidget *paddinggrid;
     GtkTreeViewColumn *column;
     GtkCellRenderer *cell;
-    GtkWidget *vbox_fleches_tri;
+    GtkWidget *box_fleches_tri;
     GtkTreeStore *reconcile_model;
     GtkTreeSelection *reconcile_selection;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Sort for reconciliation"),
 					       "reconciliationlg.png" );
-    paddingbox = new_paddingbox_with_title ( vbox_pref, TRUE,
-					     _("Reconciliation: sort transactions") );
-
-    /* la partie du milieu est une hbox avec les types */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
-			 TRUE, TRUE, 0 );
+    paddinggrid = utils_prefs_paddinggrid_new_with_title (vbox_pref,
+                                                          _("Reconciliation: sort transactions") );
 
     /* mise en place de la liste qui contient les types classés */
-    scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), scrolled_window,
-			 TRUE, TRUE, 0);
-    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-				     GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+    scrolled_window = utils_prefs_scrolled_window_new ( NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, 400 );
+    gtk_grid_attach (GTK_GRID (paddinggrid), scrolled_window, 0, 0, 2, 3);
 
     reconcile_model = gtk_tree_store_new ( NUM_RECONCILIATION_SORT_COLUMNS,
 					   G_TYPE_STRING, /* Name */
@@ -115,15 +108,17 @@ GtkWidget *gsb_reconcile_sort_config_create ( void )
 					   G_TYPE_INT, /* Account number */
 					   G_TYPE_INT,     /* payment number */
 					   G_TYPE_BOOLEAN ); /* sensitive line */
+
     reconcile_treeview = gtk_tree_view_new_with_model ( GTK_TREE_MODEL (reconcile_model) );
     g_object_unref (G_OBJECT(reconcile_model));
-    gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (reconcile_treeview), TRUE);
     gtk_tree_selection_set_mode ( gtk_tree_view_get_selection (GTK_TREE_VIEW (reconcile_treeview)),
 				  GTK_SELECTION_SINGLE );
 
     reconcile_selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (reconcile_treeview));
-    g_signal_connect (reconcile_selection, "changed",
-		      G_CALLBACK (gsb_reconcile_sort_config_select), reconcile_model);
+    g_signal_connect (reconcile_selection,
+                      "changed",
+                      G_CALLBACK (gsb_reconcile_sort_config_select),
+                      reconcile_model);
 
     /* Name */
     cell = gtk_cell_renderer_text_new ( );
@@ -174,34 +169,28 @@ GtkWidget *gsb_reconcile_sort_config_create ( void )
     gtk_tree_view_append_column ( GTK_TREE_VIEW(reconcile_treeview), column);
 
     /* Various remaining settings */
-    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-					  GTK_SHADOW_IN);
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ), reconcile_treeview );
 
     gsb_reconcile_sort_config_fill();
 
-    /* set the arrows under the list */
-    vbox_fleches_tri = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 10 );
-    gtk_box_set_homogeneous ( GTK_BOX ( vbox_fleches_tri ), TRUE );
-    gtk_box_pack_start ( GTK_BOX (paddingbox), vbox_fleches_tri,
-			 FALSE, FALSE, 0);
-
     button_move_up = utils_buttons_button_new_from_stock ("gtk-go-up", _("Go up"));
+    gtk_widget_set_margin_top (button_move_up, MARGIN_TOP);
     gtk_button_set_relief ( GTK_BUTTON ( button_move_up ), GTK_RELIEF_NONE );
-    g_signal_connect ( G_OBJECT ( button_move_up ), "clicked",
-		       G_CALLBACK (gsb_reconcile_sort_config_move_up), reconcile_treeview );
-    gtk_box_pack_start ( GTK_BOX (vbox_fleches_tri),
-			 button_move_up,
-			 FALSE, FALSE, 0 );
+    g_signal_connect ( G_OBJECT ( button_move_up ),
+                      "clicked",
+                      G_CALLBACK (gsb_reconcile_sort_config_move_up),
+                      reconcile_treeview );
+    gtk_grid_attach (GTK_GRID (paddinggrid), button_move_up, 0, 3, 1, 1);
     gtk_widget_set_sensitive ( button_move_up, FALSE );
 
     button_move_down = utils_buttons_button_new_from_stock ("gtk-go-down", _("Go down"));
+    gtk_widget_set_margin_top (button_move_down, MARGIN_TOP);
     gtk_button_set_relief ( GTK_BUTTON ( button_move_down ), GTK_RELIEF_NONE );
-    g_signal_connect ( G_OBJECT ( button_move_down ), "clicked",
-		       G_CALLBACK (gsb_reconcile_sort_config_move_down), reconcile_treeview);
-    gtk_box_pack_start ( GTK_BOX (vbox_fleches_tri),
-			 button_move_down,
-			 FALSE, FALSE, 0 );
+    g_signal_connect ( G_OBJECT ( button_move_down ),
+                      "clicked",
+                      G_CALLBACK (gsb_reconcile_sort_config_move_down),
+                      reconcile_treeview);
+    gtk_grid_attach (GTK_GRID (paddinggrid), button_move_down, 1, 3, 1, 1);
     gtk_widget_set_sensitive ( button_move_down, FALSE );
 
     if ( !gsb_data_account_get_accounts_amount () )

@@ -38,7 +38,6 @@
 
 /*START_INCLUDE*/
 #include "gsb_calendar_entry.h"
-#include "gsb_color.h"
 #include "gsb_form_widget.h"
 #include "structures.h"
 #include "utils_dates.h"
@@ -443,7 +442,7 @@ gboolean gsb_calendar_entry_changed ( GtkWidget *entry,
 GtkWidget *gsb_calendar_entry_popup ( GtkWidget *entry )
 {
     GtkWidget *popup, *pVBox, *pCalendar, *button, *frame;
-    GtkRequisition *popup_size;
+    GtkRequisition popup_size;
     gint x, y;
     gint screen_width = gdk_screen_width ( );
     GDate * date;
@@ -513,15 +512,14 @@ GtkWidget *gsb_calendar_entry_popup ( GtkWidget *entry )
     gdk_window_get_origin ( gtk_widget_get_window ( GTK_WIDGET ( entry ) ), &x, &y );
 
     /* on récupère la taille de la popup */
-    popup_size = g_malloc0 ( sizeof ( GtkRequisition ));
-    gtk_widget_size_request ( GTK_WIDGET ( popup ), popup_size );
+    gtk_widget_get_preferred_size (GTK_WIDGET (popup), &popup_size, NULL);
 
     /* pour la soustraire à la position de l'entrée date */
-    y -= popup_size -> height;
+    y -= popup_size.height;
 
     /* on décale le popup si on est trop près de bord droit de l'écran */
-    if ( x > ( screen_width - popup_size -> width ) )
-        x = screen_width - popup_size -> width - 10;
+    if ( x > ( screen_width - popup_size.width ) )
+        x = screen_width - popup_size.width - 10;
 
     /* si une des coordonnées est négative, alors la fonction
        gtk_window_move échoue et affiche la popup en 0,0 */

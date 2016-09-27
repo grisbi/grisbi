@@ -38,7 +38,7 @@ typedef struct _GtkComboFixPrivate  GtkComboFixPrivate;
 /* structure of the ComboFix */
 struct _GtkComboFix
 {
-    GtkHBox parent;
+    GtkBox parent;
 
     /* entry of the combofix */
     GtkWidget *entry;
@@ -49,7 +49,7 @@ struct _GtkComboFix
 
 struct _GtkComboFixClass
 {
-    GtkHBoxClass parent_class;
+    GtkBoxClass parent_class;
 };
 
 

@@ -141,26 +141,24 @@ void gsb_form_config_make_configuration_box ( GtkWidget *vbox_parent )
     GtkWidget *sw;
     GtkWidget *hbox;
     GtkWidget *paddingbox;
+    GtkWidget *paddinggrid;
     GtkListStore* list_store;
 
     /* create the paddingbox into the parent */
-    paddingbox = new_paddingbox_with_title ( vbox_parent, TRUE, _("Form structure preview"));
+    paddinggrid = utils_prefs_paddinggrid_new_with_title (vbox_parent, _("Form structure preview"));
 
     /* we can organize the form
      * either the same for all the accounts
      * either each account has its own configuration */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
-    gtk_box_pack_start ( GTK_BOX (paddingbox), hbox, FALSE, FALSE, 0 );
 
     /* the accounts option_menu */
-    accounts_combobox = gsb_account_create_combo_list ( G_CALLBACK ( gsb_form_config_change_account_choice ),
-                        NULL, FALSE );
+    accounts_combobox = gsb_account_create_combo_list (G_CALLBACK (gsb_form_config_change_account_choice),
+                                                       NULL,
+                                                       FALSE);
 
     /*create the scolled window for tree_view */
-    sw = gtk_scrolled_window_new ( NULL, NULL);
-    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( sw ),
-                        GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-    //gtk_box_pack_start ( GTK_BOX ( paddingbox), sw, TRUE, TRUE, 0 );
+    sw = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, 150);
+    gtk_grid_attach (GTK_GRID (paddinggrid), sw, 0, 0, 1, 1);
 
     /* create the tree_view */
     list_store = gsb_form_config_create_store ();
@@ -169,8 +167,7 @@ void gsb_form_config_make_configuration_box ( GtkWidget *vbox_parent )
     gtk_container_add ( GTK_CONTAINER ( sw ), form_config_tree_view );
 
     /* set the buttons line to increase/decrease the form */
-    /*gtk_box_pack_start ( GTK_BOX ( paddingbox ),
-                        gsb_form_config_create_sizing_buttons_line (), FALSE, FALSE, 0 );*/
+    gtk_grid_attach (GTK_GRID (paddinggrid), gsb_form_config_create_sizing_buttons_line (), 0, 1, 1, 1);
 
     /* set the box with the buttons */
     paddingbox = new_paddingbox_with_title ( vbox_parent, FALSE, _("Form structure content") );
@@ -240,12 +237,11 @@ GtkWidget *gsb_form_config_create_tree_view ( GtkListStore *store )
      * the config box increase too */
 
     tree_view = gtk_tree_view_new_with_model ( GTK_TREE_MODEL ( store ));
-
+    gtk_tree_view_set_grid_lines (GTK_TREE_VIEW (tree_view), GTK_TREE_VIEW_GRID_LINES_BOTH);
     gtk_tree_selection_set_mode ( GTK_TREE_SELECTION ( gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view))),
 				  GTK_SELECTION_NONE );
 
     /* set the columns */
-
     for ( column=0 ; column< MAX_WIDTH ; column++ )
     {
 	GtkTreeViewColumn *tree_view_column;
@@ -267,14 +263,6 @@ GtkWidget *gsb_form_config_create_tree_view ( GtkListStore *store )
 		       "realize",
 		       G_CALLBACK ( gsb_form_config_realized ),
 		       NULL );
-
-    /* save and modify the form when change the size of the columns */
-	/*
-    g_signal_connect ( G_OBJECT (tree_view),
-		       "size_allocate",
-		       G_CALLBACK ( gsb_form_config_change_column_size ),
-		       NULL );
-	*/
 
     /* enable the drag'n drop, we need to use low-level api because
      * gtk_tree_view api can only move the entire row, not only a cell
@@ -443,10 +431,12 @@ GtkWidget *gsb_form_config_create_buttons_table ( void )
 	    {
 		/* the max string in the button is 10 characters */
 
-		changed_string = limit_string ( string,
-						10 );
+		changed_string = limit_string ( string, 10 );
 
 		form_config_buttons[column + row*6] = gtk_toggle_button_new_with_label ( changed_string );
+        gtk_widget_set_size_request (form_config_buttons[column + row*6], 110, -1);
+        utils_widget_set_padding (form_config_buttons[column + row*6], 2, 2);
+        gtk_widget_set_name (form_config_buttons[column + row*6], "list_config_buttons");
 		g_object_set_data ( G_OBJECT ( form_config_buttons[column + row*6] ),
 				    "element_number",
 				    GINT_TO_POINTER ( current_element_number));
@@ -781,25 +771,20 @@ gboolean gsb_form_config_realized ( GtkWidget *tree_view,
 {
     gint column;
     gint account_number;
-    GtkAllocation allocation;
+    GdkCursor *cursor;
+    GdkDisplay *display;
 
     if ( !assert_account_loaded())
       return FALSE;
 
     account_number = gsb_account_get_combo_account_number ( accounts_combobox );
-    gtk_widget_get_allocation ( tree_view, &allocation );
 
     /* fill and update the form list and buttons */
-    gsb_form_config_update_form_config(account_number);
+    gsb_form_config_update_form_config (account_number);
 
-    for ( column=0 ; column < gsb_data_form_get_nb_columns (account_number) ; column++ )
-    {
-        gtk_tree_view_column_set_fixed_width (
-                        gtk_tree_view_get_column ( GTK_TREE_VIEW ( tree_view ), column ),
-                        gsb_data_form_get_width_column ( account_number, column ) * allocation.width / 100 );
-    }
-
-    gdk_window_set_cursor ( gtk_widget_get_window ( tree_view ), gdk_cursor_new ( GDK_FLEUR ) );
+    display = gdk_window_get_display (gtk_widget_get_window (run.window));
+    cursor = gdk_cursor_new_for_display (display, GDK_FLEUR);
+    gdk_window_set_cursor (gtk_widget_get_window (tree_view), cursor);
 
     return FALSE;
 }
@@ -1137,6 +1122,7 @@ gboolean gsb_form_config_drag_begin ( GtkWidget *tree_view,
 				      GdkDragContext *drag_context,
 				      gpointer null )
 {
+    GdkDevice *device;
     gint x, y;
     GtkTreePath *path;
     GtkTreeViewColumn *tree_column;
@@ -1147,16 +1133,19 @@ gboolean gsb_form_config_drag_begin ( GtkWidget *tree_view,
     cairo_t *cr;
 
     /* get the cell coord */
-    gdk_window_get_pointer ( gtk_tree_view_get_bin_window ( GTK_TREE_VIEW ( tree_view )),
-			     &x,
-			     &y,
-			     FALSE );
-    gtk_tree_view_get_path_at_pos ( GTK_TREE_VIEW ( tree_view ),
-				    x,
-				    y,
-				    &path,
-				    &tree_column,
-				    NULL, NULL );
+    device = gdk_drag_context_get_device (drag_context);
+    gdk_window_get_device_position (gtk_tree_view_get_bin_window (GTK_TREE_VIEW (tree_view )),
+                                    device,
+                                    &x,
+                                    &y,
+                                    NULL);
+    gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW (tree_view),
+                                   x,
+                                   y,
+                                   &path,
+                                   &tree_column,
+                                   NULL,
+                                   NULL);
 
     if ( !path
 	 ||
@@ -1205,6 +1194,7 @@ gboolean gsb_form_config_drag_end ( GtkWidget *tree_view,
 				    GdkDragContext *drag_context,
 				    gpointer null )
 {
+    GdkDevice *device;
     gint x, y;
     GtkTreePath *path;
     GtkTreeViewColumn *tree_column;
@@ -1214,17 +1204,19 @@ gboolean gsb_form_config_drag_end ( GtkWidget *tree_view,
     gint account_number;
 
     /* get the cell position */
-    gdk_window_get_pointer ( gtk_tree_view_get_bin_window ( GTK_TREE_VIEW ( tree_view )),
-			     &x,
-			     &y,
-			     FALSE );
-    gtk_tree_view_get_path_at_pos ( GTK_TREE_VIEW ( tree_view ),
-				    x,
-				    y,
-				    &path,
-				    &tree_column,
-				    NULL,
-				    NULL );
+    device = gdk_drag_context_get_device (drag_context);
+    gdk_window_get_device_position (gtk_tree_view_get_bin_window (GTK_TREE_VIEW (tree_view )),
+                                    device,
+                                    &x,
+                                    &y,
+                                    NULL);
+    gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW (tree_view),
+                                   x,
+                                   y,
+                                   &path,
+                                   &tree_column,
+                                   NULL,
+                                   NULL);
 
     if ( !path
 	 ||

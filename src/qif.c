@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger  (cedric@grisbi.org)           */
 /*          2005-2008 Benjamin Drieu (bdrieu@april.org)                       */
-/*          2008-2014 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          2008-2015 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -636,6 +636,89 @@ static GDate *gsb_qif_get_date ( gchar *date_string, gint order )
 
 
 /**
+ * traite le champs N du fichier pour extraire les moyens de payement
+ *
+ * \param field_name            contenu du champs N
+ * \param imported_transaction  structure ou ranger les données
+ *
+ * \return TRUE si OK
+ * */
+static gboolean qif_traite_champs_n ( struct struct_ope_importation *imported_transaction )
+{
+    printf ("Champs N = %s champ P = %s\n", imported_transaction->cheque, imported_transaction->tiers );
+
+    if ( ! imported_transaction->cheque )
+    {
+        if ( etat.get_qif_use_field_extract_method_payment )
+        {
+            if ( strncmp ( imported_transaction->tiers, "VIR RECU", 8 ) == 0 );
+            {
+                gchar *tmp_str;
+
+                imported_transaction->type_de_transaction = GSB_OFX_DIRECTDEP;
+                tmp_str = gsb_string_extract_int ( imported_transaction->tiers );
+                if ( tmp_str && strlen ( tmp_str ) > 0 )
+                {
+                    g_free ( imported_transaction->cheque );
+                    imported_transaction->cheque = tmp_str;
+                }
+            }
+        }
+        return FALSE;
+    }
+
+    /* traitement des valeurs normalisées du champs N */
+    if ( strcmp ( imported_transaction->cheque, "Deposit" ) == 0 )
+    {
+        imported_transaction->type_de_transaction = GSB_OFX_DEP;
+    }
+    else if ( strcmp ( imported_transaction->cheque, "Transfer" ) == 0 )
+    {
+        imported_transaction->type_de_transaction = GSB_OFX_XFER;
+    }
+    else if ( strcmp ( imported_transaction->cheque, "ATM" ) == 0 )
+    {
+        imported_transaction->type_de_transaction = GSB_OFX_ATM;
+    }
+    else if ( strcmp ( imported_transaction->cheque, "EFT" ) == 0 )
+    {
+        imported_transaction->type_de_transaction = GSB_OFX_XFER;
+    }
+
+    /* Ici on traie le fichuier type SG voir si généralisable */
+    if ( etat.get_qif_use_field_extract_method_payment )
+    {
+        if ( strcmp ( imported_transaction->cheque, "Prélvmt" ) == 0 )
+        {
+            imported_transaction->type_de_transaction = GSB_OFX_DIRECTDEBIT;
+        }
+        else if ( strcmp ( imported_transaction->cheque, "Carte" ) == 0 )
+        {
+            imported_transaction->type_de_transaction = GSB_OFX_POS;
+        }
+        else if ( strcmp ( imported_transaction->cheque, "Chèque" ) == 0 )
+        {
+            gchar *tmp_str;
+
+            imported_transaction->type_de_transaction = GSB_OFX_CHECK;
+            tmp_str = gsb_string_extract_int ( imported_transaction->tiers );
+            if ( tmp_str && strlen ( tmp_str ) > 0 )
+            {
+                g_free ( imported_transaction->cheque );
+                imported_transaction->cheque = tmp_str;
+            }
+        }
+        else if ( strcmp ( imported_transaction->cheque, "Virement" ) == 0 )
+        {
+            imported_transaction->type_de_transaction = GSB_OFX_XFER;
+        }
+    }
+
+    return TRUE;
+}
+
+
+/**
  * export an archive given in param
  * it will create 1 file per account exported, containing
  * 	the transactions of the archive
@@ -1140,13 +1223,17 @@ gint gsb_qif_recupere_operations_from_account ( FILE *qif_file,
                 g_free ( new_str );
             }
 
-            /* récupération du chèque */
+           /* récupération du chèque */
             if ( string[0] == 'N' )
                 imported_transaction -> cheque = my_strdup ( string + 1 );
 
-            /* récupération du tiers */
+             /* récupération du tiers */
             if ( string[0] == 'P' )
+            {
                 imported_transaction -> tiers = my_strdup ( string + 1 );
+                /* ici on appelle la fonction de traitement du champs N qui dépend de P */
+                qif_traite_champs_n ( imported_transaction );
+            }
 
             /* récupération des catég */
             if ( string[0] == 'L' )

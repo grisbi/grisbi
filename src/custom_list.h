@@ -23,8 +23,8 @@ enum
     CUSTOM_MODEL_COL_5,		/* by default, credit */
     CUSTOM_MODEL_COL_6,		/* by default, balance */
 
-    CUSTOM_MODEL_BACKGROUND,			/*< color of the background (a GdkColor) */
-    CUSTOM_MODEL_SAVE_BACKGROUND, 		/*< when selection, save of the normal color of background (a GdkColor) */
+    CUSTOM_MODEL_BACKGROUND,			/*< color of the background (a GdkRGBA) */
+    CUSTOM_MODEL_SAVE_BACKGROUND, 		/*< when selection, save of the normal color of background (a GdkRGBA) */
     CUSTOM_MODEL_AMOUNT_COLOR,			/*< color of the amount (a string like "red" or NULL)*/
     CUSTOM_MODEL_TEXT_COLOR,			/*< color of the text */
     CUSTOM_MODEL_TRANSACTION_ADDRESS,		/* pointer to the transaction structure */

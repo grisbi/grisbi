@@ -41,9 +41,9 @@
 #include "gsb_scheduler_list.h"
 #include "dialog.h"
 #include "fenetre_principale.h"
+#include "grisbi_win.h"
 #include "gsb_automem.h"
 #include "gsb_calendar.h"
-#include "gsb_color.h"
 #include "gsb_data_account.h"
 #include "gsb_data_category.h"
 #include "gsb_data_currency.h"
@@ -561,7 +561,7 @@ GtkWidget *gsb_scheduler_list_create_tree_view (void)
     GtkWidget * tree_view;
 
     tree_view = gtk_tree_view_new ( );
-    gtk_tree_view_set_rules_hint ( GTK_TREE_VIEW ( tree_view ), TRUE );
+    //~ gtk_tree_view_set_rules_hint ( GTK_TREE_VIEW ( tree_view ), TRUE );
 
     /* can select only one line */
     gtk_tree_selection_set_mode ( GTK_TREE_SELECTION (
@@ -758,8 +758,8 @@ GtkTreeModel *gsb_scheduler_list_create_model ( void )
 				 G_TYPE_STRING,                 /* COL_NB_MODE */
 				 G_TYPE_STRING,                 /* COL_NB_NOTES */
 				 G_TYPE_STRING,                 /* COL_NB_AMOUNT */
-				 GDK_TYPE_RGBA,                 /* SCHEDULER_COL_NB_BACKGROUND */
-				 GDK_TYPE_RGBA,                 /* SCHEDULER_COL_NB_SAVE_BACKGROUND */
+				 GDK_TYPE_RGBA,                /* SCHEDULER_COL_NB_BACKGROUND */
+				 GDK_TYPE_RGBA,                /* SCHEDULER_COL_NB_SAVE_BACKGROUND */
 				 G_TYPE_STRING,                 /* SCHEDULER_COL_NB_AMOUNT_COLOR */
 				 G_TYPE_INT,                    /* SCHEDULER_COL_NB_TRANSACTION_NUMBER */
 				 PANGO_TYPE_FONT_DESCRIPTION,   /* SCHEDULER_COL_NB_FONT */
@@ -1497,7 +1497,7 @@ gboolean gsb_scheduler_list_set_background_color ( GtkWidget *tree_view )
         if ( virtual_transaction )
             gtk_tree_store_set ( store,
                         &iter,
-                        SCHEDULER_COL_NB_BACKGROUND, gsb_rgba_get_couleur ( "background_scheduled" ),
+                        SCHEDULER_COL_NB_BACKGROUND, gsb_rgba_get_couleur ( "couleur_grise" ),
                         -1 );
         else
         {
@@ -2239,7 +2239,7 @@ gboolean gsb_scheduler_list_popup_custom_periodicity_dialog (void)
     for ( i = 0; j_m_a_names[i]; i++ )
     {
         gtk_combo_box_text_append_text ( GTK_COMBO_BOX_TEXT ( combobox ),
-                        g_dgettext ( NULL, j_m_a_names[etat.affichage_echeances_perso_j_m_a] ) );
+                        g_dgettext ( NULL, j_m_a_names[i] ) );
     }
     gtk_combo_box_set_active ( GTK_COMBO_BOX ( combobox ), etat.affichage_echeances_perso_j_m_a );
 
@@ -2369,9 +2369,6 @@ void popup_scheduled_context_menu ( void )
     scheduled_number = gsb_scheduler_list_get_current_scheduled_number ( );
 
     menu_item = gtk_menu_item_new_with_label ( _("Edit transaction") );
-    gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_icon_name ( "gtk-edit",
-                        GTK_ICON_SIZE_MENU ) );
     g_signal_connect_swapped ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( gsb_scheduler_list_edit_transaction_by_pointer ),
@@ -2383,9 +2380,6 @@ void popup_scheduled_context_menu ( void )
 
     /* Clone transaction */
     menu_item = gtk_menu_item_new_with_label ( _("Clone transaction") );
-    gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_icon_name ( "gtk-copy",
-                        GTK_ICON_SIZE_MENU ));
     g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( gsb_scheduler_list_clone_selected_scheduled ),
@@ -2400,9 +2394,6 @@ void popup_scheduled_context_menu ( void )
 
     /* New transaction */
     menu_item = gtk_menu_item_new_with_label ( _("New transaction") );
-    gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_icon_name ( "gtk-new",
-                        GTK_ICON_SIZE_MENU ) );
     g_signal_connect_swapped ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( gsb_scheduler_list_edit_transaction_by_pointer ),
@@ -2411,9 +2402,6 @@ void popup_scheduled_context_menu ( void )
 
     /* Delete transaction */
     menu_item = gtk_menu_item_new_with_label ( _("Delete transaction") );
-    gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_icon_name ( "gtk-delete",
-						GTK_ICON_SIZE_MENU ) );
     g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( gsb_scheduler_list_delete_scheduled_transaction_by_menu ),
@@ -2433,9 +2421,6 @@ void popup_scheduled_context_menu ( void )
     else
         menu_item = gtk_menu_item_new_with_label ( _("Displays Frequency/Mode") );
 
-    gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_file ( g_build_filename ( gsb_dirs_get_pixmaps_dir ( ),
-                        "comments.png", NULL ) ) );
     g_signal_connect_swapped ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( gsb_scheduler_list_show_notes ),
@@ -2447,9 +2432,6 @@ void popup_scheduled_context_menu ( void )
 
     /* Execute transaction */
     menu_item = gtk_menu_item_new_with_label ( _("Execute transaction") );
-    gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_icon_name ( "gtk-execute",
-                        GTK_ICON_SIZE_MENU ) );
     g_signal_connect_swapped ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( gsb_scheduler_list_execute_transaction ),

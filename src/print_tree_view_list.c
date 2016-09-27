@@ -1098,17 +1098,14 @@ static void print_tree_view_list_draw_background ( GtkPrintContext *context,
     {
         gchar *str_color;
         gint col_color;
-        GdkColor color;
+        GdkRGBA color;
 
         col_color = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( tree_view ), "color_data_model" ) );
         gtk_tree_model_get ( model, &iter, col_color, &str_color, -1 );
-        gdk_color_parse ( str_color, &color );
+        gdk_rgba_parse (&color, str_color);
 
         cairo_rectangle ( cr, 0, line_position, page_width, size_row + 2 * gsb_data_print_config_get_draw_lines () );
-        cairo_set_source_rgb ( cr,
-                        (gdouble) color.red/65535,
-                        (gdouble) color.green/65535,
-                        (gdouble) color.blue/65535 );
+        cairo_set_source_rgb ( cr, color.red, color.green, color.blue);
 
         cairo_fill (cr);
         cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);

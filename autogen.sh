@@ -5,6 +5,9 @@
 #
 # Requires: automake, autoconf, dpkg-dev
 
+# fail on error
+set -e
+
 #
 # Check if autoconf and automake are installed
 #
