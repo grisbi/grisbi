@@ -228,7 +228,7 @@ struct GrisbiAppConf
 
 /* prefs part */
     gint        prefs_width;                                /* preferences width */
-    gint        prefs_sort;                                 /* column type sort, GTK_SORT_ASCENDING by default */
+    gint        prefs_sort_order;                           /* column type sort, GTK_SORT_ASCENDING by default */
 
 /* scheduled part */
     gboolean    balances_with_scheduled;                    /* TRUE = the balance incorporates the scheduled operations */

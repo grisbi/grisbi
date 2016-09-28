@@ -390,6 +390,7 @@ static void grisbi_settings_init_settings_panel ( GSettings *settings )
  **/
 static void grisbi_settings_init_settings_prefs ( GSettings *settings )
 {
+    conf.prefs_sort_order = g_settings_get_int (settings, "prefs-sort-order");
     conf.prefs_width = g_settings_get_int ( settings, "prefs-width" );
 }
 
