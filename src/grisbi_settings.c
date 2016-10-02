@@ -711,8 +711,12 @@ void grisbi_settings_save_app_config ( GrisbiSettings *settings )
             tmp_str = "gtk default";
     }
     g_settings_set_string ( G_SETTINGS ( priv->settings_general ),
-                        "metatree-action-2button-press",
-                        tmp_str );
+                           "metatree-action-2button-press",
+                           tmp_str );
+
+    g_settings_set_boolean (G_SETTINGS (priv->settings_general),
+                            "show-transaction-gives-balance",
+                            conf.show_transaction_gives_balance);
 
     /* priv->settings_geometry */
     g_settings_set_int ( G_SETTINGS ( priv->settings_geometry ),
