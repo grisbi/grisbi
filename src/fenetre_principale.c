@@ -42,7 +42,6 @@
 #include "grisbi_win.h"
 #include "gsb_account_property.h"
 #include "gsb_data_account.h"
-#include "gsb_dirs.h"
 #include "gsb_form.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
@@ -58,127 +57,26 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static GtkWidget *gsb_gui_create_general_notebook (void );
-static gboolean gsb_gui_fill_general_notebook ( GtkWidget *notebook );
-static void gsb_gui_headings_private_update_label_markup ( GtkLabel *label,
-                        const gchar *text,
-                        gboolean escape_text );
-static gboolean gsb_gui_hpaned_size_allocate ( GtkWidget *hpaned,
-                        GtkAllocation *allocation,
-                        gpointer null );
-static gboolean on_simpleclick_event_run ( GtkWidget * button, GdkEvent * button_event,
-                        GCallback cb );
 /*END_STATIC*/
 
 /*START_EXTERN*/
 /*END_EXTERN*/
 
-
-/* données des widgets généraux */
-static GtkWidget *vbox_general = NULL;
-static GtkWidget *notebook_general = NULL;
-
 /** Notebook of the account pane. */
 static GtkWidget *account_page = NULL;
 
-/**
- * Create the main widget that holds all the user interface save the
- * menus.
- *
- * \return A newly-allocated vbox holding all elements.
- */
-GtkWidget *gsb_gui_create_general_widgets ( void )
-{
-    GrisbiWin *win;
-    GtkWidget *hpaned_general;
-    GtkWidget * hbox, * arrow_eb, * arrow_left, * arrow_right;
-    gchar *tmp_filename;
-
-    win = grisbi_app_get_active_window (NULL);
-
-    /* All stuff will be put in a huge vbox, with an hbox containing
-     * quick summary. */
-    vbox_general = grisbi_win_get_vbox_general (win);
-
-    grisbi_win_headings_update_show_headings ();
-
-    /* Then create and fill the main hpaned. */
-    hpaned_general = gtk_paned_new ( GTK_ORIENTATION_HORIZONTAL );
-    g_signal_connect ( G_OBJECT ( hpaned_general ),
-		       "size_allocate",
-		       G_CALLBACK ( gsb_gui_hpaned_size_allocate ),
-		       NULL );
-    gtk_box_pack_start ( GTK_BOX ( vbox_general ), hpaned_general, TRUE, TRUE, 0 );
-    gtk_paned_add1 ( GTK_PANED ( hpaned_general ), gsb_gui_navigation_create_navigation_pane ( ) );
-    gtk_paned_add2 ( GTK_PANED ( hpaned_general ), gsb_gui_create_general_notebook ( ) );
-    gtk_container_set_border_width ( GTK_CONTAINER ( hpaned_general ), 6 );
-
-    if ( conf.panel_width > 250 )
-        gtk_paned_set_position ( GTK_PANED ( hpaned_general ), conf.panel_width );
-    else
-    {
-        gint width, height;
-
-        gtk_window_get_size ( GTK_WINDOW ( run.window ), &width, &height );
-        gtk_paned_set_position ( GTK_PANED ( hpaned_general ), (gint) width / 4 );
-    }
-
-    gtk_widget_show ( hpaned_general );
-
-    gtk_widget_show ( vbox_general );
-
-    return vbox_general;
-}
-
-/**
- * Create the main notebook :
- * a notebook wich contains the pages : main page, accounts, scheduler... and
- * the form on the bottom, the form will be showed only for accounts page and
- * scheduler page
- *
- * \return the notebook
- */
-GtkWidget *gsb_gui_create_general_notebook (void )
-{
-    GtkWidget * vbox, * form;
-
-    devel_debug ( "create_main_notebook" );
-
-    /* the main right page is a vbox with a notebook on the top
-     * and the form on the bottom */
-
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
-
-    /* append the notebook */
-    notebook_general = gtk_notebook_new ( );
-    gtk_notebook_set_show_tabs ( GTK_NOTEBOOK ( notebook_general ), FALSE );
-    gtk_notebook_set_show_border ( GTK_NOTEBOOK ( notebook_general ), FALSE );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), notebook_general, TRUE, TRUE, 0 );
-    gtk_widget_show ( notebook_general );
-
-    /* append the form */
-    form = gsb_form_new ( );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), form, FALSE, FALSE, 0 );
-    gtk_widget_hide ( form );
-
-    /* fill the notebook */
-    gsb_gui_fill_general_notebook ( notebook_general );
-
-    gtk_widget_show ( vbox );
-
-    return vbox;
-}
-
-
-/**
+ /**
  *
  *
  */
 GtkWidget *gsb_gui_get_general_notebook (void )
 {
-    return notebook_general;
-}
+    GtkWidget *notebook;
 
+    notebook = grisbi_win_get_notebook_general (grisbi_app_get_active_window (NULL));
+
+    return notebook;
+}
 
 /**
  * fill the notebook given in param
@@ -267,7 +165,6 @@ gboolean gsb_gui_fill_general_notebook ( GtkWidget *notebook )
     return FALSE;
 }
 
-
 /**
  * called when the account notebook changed page between
  * transactions list and account description
@@ -325,7 +222,6 @@ gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
     return ( FALSE );
 }
 
-
 /**
  * Set the account notebook page.
  *
@@ -336,30 +232,6 @@ void gsb_gui_on_account_change_page ( GsbAccountNotebookPages page )
     gtk_notebook_set_current_page ( GTK_NOTEBOOK ( account_page ), page );
 }
 
-
-/**
- * Update one of the heading bar label with a new text.
- *
- * \param label	Label to update.
- * \param text	String to display in headings bar.
- *
- */
-void gsb_gui_headings_private_update_label_markup ( GtkLabel *label,
-                        const gchar *text,
-                        gboolean escape_text )
-{
-    gchar* tmpstr;
-
-    if ( escape_text )
-        tmpstr = g_markup_printf_escaped ("<b>%s</b>", text );
-    else
-        tmpstr = g_strconcat ( "<b>", text, "</b>", NULL );
-    gtk_label_set_markup ( label, tmpstr );
-
-    g_free ( tmpstr );
-}
-
-
 /**
  * Set the main notebook page.
  *
@@ -367,67 +239,11 @@ void gsb_gui_headings_private_update_label_markup ( GtkLabel *label,
  */
 void gsb_gui_notebook_change_page ( GsbGeneralNotebookPages page )
 {
-    gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general ), page );
+    GtkWidget *notebook;
+
+    notebook = grisbi_win_get_notebook_general (grisbi_app_get_active_window (NULL));
+    gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), page);
 }
-
-
-/**
- * Trigger a callback functions only if button event that triggered it
- * was a simple click.
- *
- */
-gboolean on_simpleclick_event_run ( GtkWidget * button, GdkEvent * button_event,
-                        GCallback cb )
-{
-    if ( button_event -> type == GDK_BUTTON_PRESS )
-    {
-	cb ();
-    }
-
-    return TRUE;
-}
-
-
-/**
- *
- *
- *
- */
-gboolean gsb_gui_hpaned_size_allocate ( GtkWidget *hpaned,
-                        GtkAllocation *allocation,
-                        gpointer null )
-{
-    conf.panel_width = gtk_paned_get_position ( GTK_PANED ( hpaned ) );
-
-    return FALSE;
-}
-
-
-/**
- * initialise notebook_general et vbox_general
- *
- *
- */
-void gsb_gui_init_general_vbox ( void )
-{
-    if ( vbox_general )
-    {
-        gtk_widget_destroy ( vbox_general );
-        vbox_general = NULL;
-    }
-}
-
-
-/**
- * initialise notebook_general et vbox_general
- *
- *
- */
-void gsb_gui_init_general_notebook ( void )
-{
-        notebook_general = NULL;
-}
-
 
 /**
  *
@@ -465,12 +281,10 @@ void gsb_gui_update_all_toolbars ( void )
     bet_finance_update_all_finance_toolbars ( toolbar_style );
 }
 
-
 GtkWidget *gsb_gui_get_account_page ( void )
 {
     return account_page;
 }
-
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

@@ -66,26 +66,6 @@ static gint timer_id;
 /** Window under cursor at the time the cursor animation changed. */
 static GdkWindow * tracked_window;
 
-
-/**
- * Create and return a new GtkStatusBar to hold various status
- * information.
- *
- * \return	A newly allocated GtkStatusBar.
- */
-GtkWidget * gsb_new_statusbar ()
-{
-    main_statusbar = gtk_statusbar_new ();
-    context_id = gtk_statusbar_get_context_id ( GTK_STATUSBAR (main_statusbar), "Grisbi" );
-    message_id = -1;
-
-    gtk_widget_show_all ( main_statusbar );
-
-    return main_statusbar;
-}
-
-
-
 /**
  * Display a message in the status bar.
  *
@@ -209,6 +189,10 @@ GtkWidget *gsb_status_get_status_bar ( void )
     return main_statusbar;
 }
 
+void gsb_status_set_status_bar (GtkWidget *status_bar)
+{
+    main_statusbar = status_bar;
+}
 
 /**
  *

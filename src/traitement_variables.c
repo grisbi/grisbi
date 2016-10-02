@@ -42,6 +42,7 @@
 #include "categories_onglet.h"
 #include "custom_list.h"
 #include "fenetre_principale.h"
+#include "grisbi_win.h"
 #include "gsb_calendar.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
@@ -136,8 +137,6 @@ void init_variables ( void )
     gint transaction_col_align_init[CUSTOM_MODEL_VISIBLE_COLUMNS] = { 1, 1, 0, 1, 2, 2, 2 };
     gint i;
 
-/* xxx on devrait séparer ça en 2 : les variables liées au fichier de compte, qui doivent être remises  à 0,
- * et les variables liées à grisbi (ex sauvegarde auto...) qui doivent rester */
     devel_debug (NULL);
 
     /* init the new crypted file */
@@ -199,11 +198,6 @@ void init_variables ( void )
 
     orphan_child_transactions = NULL;
 
-    /* the main notebook is set to NULL,
-     * important because it's the checked variable in a new file
-     * to know if the widgets are created or not */
-    gsb_gui_init_general_notebook ( );
-
     if ( nom_fichier_comptes )
         g_free ( nom_fichier_comptes );
     nom_fichier_comptes = NULL;
@@ -256,6 +250,11 @@ void init_variables ( void )
     /* mis à NULL prévient un plantage aléatoire dans
      * gsb_currency_update_combobox_currency_list */
     detail_devise_compte = NULL;
+
+    /* the main notebook is set to NULL,
+     * important because it's the checked variable in a new file
+     * to know if the widgets are created or not */
+    grisbi_win_free_general_notebook ();
 
     /* defaut value for width and align of columns */
     initialise_largeur_colonnes_tab_affichage_ope ( GSB_ACCOUNT_PAGE, transaction_col_width_init );

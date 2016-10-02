@@ -29,19 +29,15 @@ typedef enum GSB_ACCOUNT_NOTEBOOK_PAGES {
 
 
 /* START_DECLARATION */
-GtkWidget *gsb_gui_create_general_widgets ( void );
+gboolean gsb_gui_fill_general_notebook ( GtkWidget *notebook );
 GtkWidget *gsb_gui_get_account_page ( void );
 GtkWidget *gsb_gui_get_general_notebook (void );
-void gsb_gui_init_general_notebook ( void );
-void gsb_gui_init_general_vbox ( void );
-gint gsb_gui_get_hpaned_left_width ( void );
 void gsb_gui_notebook_change_page ( GsbGeneralNotebookPages page );
 void gsb_gui_on_account_change_page ( GsbAccountNotebookPages page );
 gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
                         gpointer page,
                         guint page_number,
                         gpointer null );
-gboolean gsb_gui_set_hpaned_left_width ( gint width );
 void gsb_gui_update_all_toolbars ( void );
 /*END_DECLARATION*/
 

@@ -22,15 +22,18 @@ GType grisbi_win_get_type (void) G_GNUC_CONST;
 const gchar *   grisbi_win_get_filename                     (GrisbiWin *win);
 void            grisbi_win_set_filename                     (GrisbiWin *win,
                                                              const gchar *filename);
-GtkWidget *     grisbi_win_get_headings_eb                  (GrisbiWin *win);
 GtkWidget *     grisbi_win_get_main_box                     (GrisbiWin *win);
-GtkWidget *     grisbi_win_get_vbox_general                 (GrisbiWin *win);
+GtkWidget *     grisbi_win_get_notebook_general             (GrisbiWin *win);
 
 void            grisbi_win_headings_update_suffix           (gchar *suffix);
 void            grisbi_win_headings_update_title            (gchar *title);
 gboolean        grisbi_win_headings_update_show_headings    (void);
 void            grisbi_win_headings_sensitive_headings      (gboolean sensitive);
 
+void            grisbi_win_free_general_notebook            (void);
+void            grisbi_win_free_general_vbox                (void);
+
+GtkWidget *     grisbi_win_create_general_widgets             (GrisbiWin *win);
 void            grisbi_win_init_menubar                     (GrisbiWin *win,
                                                              gpointer app);
 void            grisbi_win_menu_move_to_acc_delete          (void);

@@ -89,6 +89,9 @@ typedef struct  /* GrisbiAppPrivate */
 struct GrisbiAppConf    conf;                   /* conf structure Provisoire */
 GtkCssProvider *        css_provider = NULL;    /* css provider */
 
+/******************************************************************************/
+/* Private functions                                                            */
+/******************************************************************************/
 /* STRUCTURE CONF */
 /**
  * initialisation de la variable conf
@@ -561,15 +564,11 @@ static gboolean grisbi_app_cmdline ( GApplication *app,
     {
 		if ( priv->debug_level >= 0 && priv->debug_level < 5 )
 			debug_set_cmd_line_debug_level ( priv->debug_level );
-
-		if ( priv->debug_level == -1 || priv->debug_level > 0 )
-			grisbi_app_print_environment_var ();
     }
 	else if ( priv->debug_level > 0 )
 	{
 		debug_initialize_debugging ( priv->debug_level );
         grisbi_app_print_environment_var ();
-
 	}
 
 	g_application_activate ( app );
@@ -733,11 +732,11 @@ static void grisbi_app_startup ( GApplication *app )
         warning_debug (tmp_dir);
     g_free ( tmp_dir );
 
-    /* initialise les couleurs PROVISOIRE */
+    /* initialise les couleurs */
     gsb_rgba_initialise_couleurs_par_defaut ();
-
     /* initialise les variables d'état */
     init_variables ();
+    /* enregistre les formats d'importation */
     register_import_formats ();
 
 	/* app menu */
@@ -827,6 +826,7 @@ static void grisbi_app_open ( GApplication *app,
     gtk_window_present ( GTK_WINDOW ( win ) );
 }
 
+/******************************************************************************/
 /* Fonctions propres à l'initialisation de l'application                      */
 /******************************************************************************/
 /**
@@ -925,9 +925,12 @@ static void grisbi_app_init ( GrisbiApp *app )
 
 	priv = grisbi_app_get_instance_private ( GRISBI_APP ( app ) );
 
-	/* initialize debugging */
-    if ( IS_DEVELOPMENT_VERSION == 1 )
-        debug_initialize_debugging ( 5 );
+    /* initialize debugging */
+    if (IS_DEVELOPMENT_VERSION == 1)
+    {
+        debug_initialize_debugging (5);
+        grisbi_app_print_environment_var ();
+    }
 
     g_set_application_name ("Grisbi");
 
@@ -960,6 +963,7 @@ static void grisbi_app_class_init ( GrisbiAppClass *klass )
     object_class->dispose = grisbi_app_dispose;
 }
 
+/******************************************************************************/
 /* Public functions                                                           */
 /******************************************************************************/
 /**

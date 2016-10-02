@@ -41,8 +41,10 @@
 #include "accueil.h"
 #include "gsb_data_account.h"
 #include "gsb_dirs.h"
+#include "gsb_form.h"
 #include "menu.h"
 #include "navigation.h"
+#include "gsb_status.h"
 #include "structures.h"
 #include "utils.h"
 #include "erreur.h"
@@ -129,7 +131,7 @@ struct _GrisbiWinPrivate
 G_DEFINE_TYPE_WITH_PRIVATE(GrisbiWin, grisbi_win, GTK_TYPE_APPLICATION_WINDOW);
 
 /******************************************************************************/
-/* Private Methods                                                            */
+/* Private functions                                                          */
 /******************************************************************************/
 /* STATUS_BAR */
 /**
@@ -147,8 +149,13 @@ static void grisbi_win_init_statusbar (GrisbiWin *win)
 
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
+    /* set status_bar PROVISOIRE */
+    gsb_status_set_status_bar (priv->statusbar);
     priv->context_id = gtk_statusbar_get_context_id (GTK_STATUSBAR (priv->statusbar), "Grisbi");
     priv->message_id = -1;
+
+    gtk_widget_show_all (priv->statusbar);
+
 }
 
 
@@ -191,35 +198,50 @@ static gboolean grisbi_win_headings_simpleclick_event_run (GtkWidget *button,
 }
 
 /**
+ * retourne headings_eb
+ *
+ * \param GrisbiWin *win
+ *
+ * \return main_box
+ **/
+static GtkWidget *grisbi_win_get_headings_eb (GrisbiWin *win)
+{
+	GrisbiWinPrivate *priv;
+
+    if (win == NULL)
+        win = grisbi_app_get_active_window (NULL);
+
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+    return priv->headings_eb;
+}
+
+/**
  * initiate the headings_bar information.
  *
  * \param GrisbiWin *win
  *
  * \return
  */
-static void grisbi_win_init_headings_eb (GrisbiWin *win)
+static void grisbi_win_create_headings_eb (GrisbiWin *win)
 {
     GtkWidget *hbox;
     GtkWidget *arrow_eb;
     GtkWidget *arrow_left;
     GtkWidget *arrow_right;
 	GrisbiWinPrivate *priv;
-    gchar *tmp_filename;
     gchar *tmp_dir;
 
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
-    /* Change color */
-    gtk_widget_set_name (priv->headings_eb, "grey_box");
+    priv->headings_eb = gtk_event_box_new ();
+    gtk_widget_set_name ( priv->headings_eb, "grey_box");
 
     hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
     gtk_widget_set_margin_end (hbox, MARGIN_END);
     gtk_container_set_border_width (GTK_CONTAINER (hbox), 6);
 
     /* Create two arrows. */
-    tmp_filename = g_build_filename (gsb_dirs_get_pixmaps_dir (), "arrow-left.svg", NULL);
-    arrow_left = gtk_image_new_from_file (tmp_filename);
-    g_free (tmp_filename);
+    arrow_left = gtk_image_new_from_icon_name ("pan-start-symbolic", GTK_ICON_SIZE_BUTTON);
     arrow_eb = gtk_event_box_new ();
     gtk_container_add (GTK_CONTAINER (arrow_eb), arrow_left);
     g_signal_connect (G_OBJECT (arrow_eb), "button-press-event",
@@ -227,9 +249,7 @@ static void grisbi_win_init_headings_eb (GrisbiWin *win)
                         gsb_gui_navigation_select_prev);
     gtk_box_pack_start (GTK_BOX (hbox), arrow_eb, FALSE, FALSE, 0);
 
-    tmp_filename = g_build_filename (gsb_dirs_get_pixmaps_dir (), "arrow-right.svg", NULL);
-    arrow_right = gtk_image_new_from_file (tmp_filename);
-    g_free (tmp_filename);
+    arrow_right = gtk_image_new_from_icon_name ("pan-end-symbolic", GTK_ICON_SIZE_BUTTON);
     arrow_eb = gtk_event_box_new ();
     gtk_container_add (GTK_CONTAINER (arrow_eb), arrow_right);
     g_signal_connect (G_OBJECT (arrow_eb), "button-press-event",
@@ -249,6 +269,65 @@ static void grisbi_win_init_headings_eb (GrisbiWin *win)
     gtk_container_add (GTK_CONTAINER (priv->headings_eb), hbox);
 }
 
+/* HPANED_GENERAL */
+/**
+ * save hpahed width
+ *
+ * \param
+ * \param
+ * \param
+ *
+ * \return FALSE
+ */
+static gboolean grisbi_win_hpaned_size_allocate (GtkWidget *hpaned,
+                                          GtkAllocation *allocation,
+                                          gpointer null)
+{
+    conf.panel_width = gtk_paned_get_position (GTK_PANED (hpaned));
+
+    return FALSE;
+}
+
+/* NOTEBOOK_GENERAL */
+/**
+ * Init the main notebook :
+ * a notebook wich contains the pages : main page, accounts, scheduler... and
+ * the form on the bottom, the form will be showed only for accounts page and
+ * scheduler page
+ *
+ * \param
+ *
+ * \return
+ */
+static GtkWidget *grisbi_win_create_general_notebook (GrisbiWin *win)
+{
+    GtkWidget *vbox;
+    GtkWidget *form;
+	GrisbiWinPrivate *priv;
+
+    devel_debug ( "create_main_notebook" );
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+
+    /* the main right page is a vbox with a notebook on the top
+     * and the form on the bottom */
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
+
+    /* append the notebook */
+    priv->notebook_general = gtk_notebook_new ();
+    gtk_notebook_set_show_tabs ( GTK_NOTEBOOK (priv->notebook_general ), FALSE );
+    gtk_notebook_set_show_border ( GTK_NOTEBOOK (priv->notebook_general ), FALSE );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), priv->notebook_general, TRUE, TRUE, 0 );
+    gtk_widget_show (priv->notebook_general);
+
+    /* append the form */
+    form = gsb_form_new ();
+    gtk_box_pack_start ( GTK_BOX ( vbox ), form, FALSE, FALSE, 0 );
+    gtk_widget_hide (form);
+
+    gtk_widget_show (vbox);
+
+    return vbox;
+}
 
 /* WIN STATE */
 /**
@@ -347,15 +426,15 @@ static void grisbi_win_init (GrisbiWin *win)
     priv->file_title = NULL;
     priv->window_title = NULL;
 
+    /* initialisations des widgets liés à gsb_file_new_gui */
+    priv->vbox_general = NULL;
+    priv->notebook_general = NULL;
+
+    /* init widgets in grisbi_win.ui */
 	gtk_widget_init_template (GTK_WIDGET (win));
 
 	/* initialisation de la barre d'état */
-/*	grisbi_win_init_statusbar (GRISBI_WIN (win));
-*/
-	/* initialisation de headings_eb */
-	grisbi_win_init_headings_eb (GRISBI_WIN (win));
-    gtk_box_pack_start (GTK_BOX (priv->vbox_general), priv->headings_eb, FALSE, FALSE, 0 );
-
+	grisbi_win_init_statusbar (GRISBI_WIN (win));
 
 	run.window = GTK_WIDGET (win);
 }
@@ -379,8 +458,6 @@ static void grisbi_win_class_init (GrisbiWinClass *klass)
                                                "/org/gtk/grisbi/ui/grisbi_win.ui");
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, main_box);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, vbox_general);
-    gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, headings_eb);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, statusbar);
 
     /* signaux */
@@ -388,7 +465,7 @@ static void grisbi_win_class_init (GrisbiWinClass *klass)
 }
 
 /******************************************************************************/
-/* Public Methods                                                             */
+/* Public functions                                                           */
 /******************************************************************************/
 /**
  *
@@ -430,24 +507,6 @@ void grisbi_win_set_filename (GrisbiWin *win,
 
 /* GET WIDGET */
 /**
- * retourne headings_eb
- *
- * \param GrisbiWin *win
- *
- * \return main_box
- **/
-GtkWidget *grisbi_win_get_headings_eb (GrisbiWin *win)
-{
-	GrisbiWinPrivate *priv;
-
-    if (win == NULL)
-        win = grisbi_app_get_active_window (NULL);
-
-	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
-    return priv->headings_eb;
-}
-
-/**
  * retourne main_box
  *
  * \param GrisbiWin *win
@@ -463,18 +522,18 @@ GtkWidget *grisbi_win_get_main_box (GrisbiWin *win)
 }
 
 /**
- * retourne vbox_general
+ * retourne notebook_general
  *
  * \param GrisbiWin *win
  *
  * \return main_box
  **/
-GtkWidget *grisbi_win_get_vbox_general (GrisbiWin *win)
+GtkWidget *grisbi_win_get_notebook_general (GrisbiWin *win)
 {
 	GrisbiWinPrivate *priv;
 
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
-    return priv->vbox_general;
+    return priv->notebook_general;
 }
 
 /* WIN_MENU */
@@ -814,6 +873,7 @@ void grisbi_win_set_size_and_position (GtkWindow *win)
                                    GDK_HINT_RESIZE_INC |
                                    GDK_HINT_MIN_SIZE |
                                    GDK_HINT_BASE_SIZE);
+
     /* set the size of the window */
     if (conf.main_width && conf.main_height)
         gtk_window_set_default_size (GTK_WINDOW (win), conf.main_width, conf.main_height);
@@ -830,6 +890,104 @@ void grisbi_win_set_size_and_position (GtkWindow *win)
     /* put up the screen if necessary */
     if (conf.maximize_screen)
         gtk_window_maximize (GTK_WINDOW (win));
+}
+
+/* VBOX_GENERAL */
+/**
+ * free vbox_general
+ *
+ * \param
+ *
+ * \return
+ **/
+GtkWidget *grisbi_win_create_general_widgets (GrisbiWin *win)
+{
+	GrisbiWinPrivate *priv;
+
+    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+
+    /* création de vbox_general */
+    priv->vbox_general = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+
+    /* chargement de headings_eb */
+    /* initialisation de headings_eb */
+    grisbi_win_create_headings_eb (GRISBI_WIN (win));
+    gtk_box_pack_start (GTK_BOX (priv->vbox_general), priv->headings_eb, FALSE, FALSE, 0);
+    if (conf.show_headings_bar)
+        gtk_widget_show_all (priv->headings_eb);
+    else
+        gtk_widget_hide (priv->headings_eb);
+
+    /* Then create and fill the main hpaned. */
+    priv->hpaned_general = gtk_paned_new (GTK_ORIENTATION_HORIZONTAL);
+    g_signal_connect (G_OBJECT (priv->hpaned_general),
+                      "size_allocate",
+                      G_CALLBACK (grisbi_win_hpaned_size_allocate),
+                      NULL);
+    gtk_box_pack_start (GTK_BOX (priv->vbox_general), priv->hpaned_general, TRUE, TRUE, 0);
+    gtk_paned_add1 (GTK_PANED (priv->hpaned_general), gsb_gui_navigation_create_navigation_pane ());
+    gtk_paned_add2 (GTK_PANED (priv->hpaned_general), grisbi_win_create_general_notebook (win));
+    gtk_container_set_border_width (GTK_CONTAINER (priv->hpaned_general), 6);
+
+    if (conf.panel_width > 250)
+        gtk_paned_set_position (GTK_PANED (priv->hpaned_general), conf.panel_width);
+    else
+    {
+        gint width, height;
+
+        gtk_window_get_size (GTK_WINDOW (run.window), &width, &height);
+        gtk_paned_set_position (GTK_PANED (priv->hpaned_general), (gint) width / 4);
+    }
+
+    /* show the widgets */
+    gtk_widget_show (priv->hpaned_general);
+    gtk_widget_show (priv->vbox_general);
+
+    return priv->vbox_general;
+}
+
+/**
+ * free vbox_general
+ *
+ * \param
+ *
+ * \return
+ **/
+void grisbi_win_free_general_vbox (void)
+{
+    GrisbiWin *win;
+    GrisbiWinPrivate *priv;
+
+    win = grisbi_app_get_active_window (NULL);
+    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+
+    if (priv->vbox_general)
+    {
+        gtk_widget_destroy (priv->vbox_general);
+        priv->vbox_general = NULL;
+    }
+}
+
+/**
+ * free notebook_general
+ *
+ * \param
+ *
+ * \return
+ **/
+void grisbi_win_free_general_notebook ( void )
+{
+    GrisbiWin *win = NULL;
+    GrisbiWinPrivate *priv;
+
+    win = grisbi_app_get_active_window (NULL);
+    if (win == NULL)
+        return;
+
+    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+
+    if (priv->notebook_general)
+        priv->notebook_general = NULL;
 }
 
 /* HEADINGS */

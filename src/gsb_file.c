@@ -581,7 +581,6 @@ void gsb_file_new_gui ( void )
     GtkWidget *notebook_general;
     GtkWidget *vbox_general;
 
-printf ("gsb_file_new_gui\n");
     win = grisbi_app_get_active_window (NULL);
 
     /* dégrise les menus nécessaire */
@@ -593,11 +592,15 @@ printf ("gsb_file_new_gui\n");
     /* Create main widget. */
     gsb_status_message ( _("Creating main window") );
     main_box = grisbi_win_get_main_box (win);
-    vbox_general = grisbi_win_get_vbox_general (win);
-    gtk_box_pack_start ( GTK_BOX ( main_box ), vbox_general, TRUE, TRUE, 0 );
 
-    //~ notebook_general = grisbi_win_get_notebook_general (win);
-    //~ gsb_gui_fill_general_notebook (notebook_general);
+    /* création de vbox_general */
+    vbox_general = grisbi_win_create_general_widgets (GRISBI_WIN (win));
+    gtk_box_pack_start ( GTK_BOX ( main_box ), vbox_general, TRUE, TRUE, 0 );
+    gtk_widget_show (vbox_general);
+
+    /* fill the general notebook */
+    notebook_general = grisbi_win_get_notebook_general (win);
+    gsb_gui_fill_general_notebook (notebook_general);
 
     /* create the model */
     if ( !transaction_list_create () )
@@ -609,22 +612,18 @@ printf ("gsb_file_new_gui\n");
 
     /* Create transaction list. */
     tree_view_widget = gsb_transactions_list_make_gui_list ();
-    gtk_box_pack_start ( GTK_BOX ( tree_view_vbox ),
-                tree_view_widget,
-                TRUE,
-                TRUE,
-                0 );
-    gtk_widget_show ( tree_view_widget );
+    gtk_box_pack_start (GTK_BOX (tree_view_vbox), tree_view_widget, TRUE, TRUE, 0);
+    gtk_widget_show (tree_view_widget);
 
     navigation_change_account ( gsb_gui_navigation_get_current_account () );
 
     /* Display accounts in menus */
     gsb_menu_update_accounts_in_menus ();
 
-    notebook_general = gsb_gui_get_general_notebook ( );
+    notebook_general = gsb_gui_get_general_notebook ();
     gtk_notebook_set_current_page ( GTK_NOTEBOOK( notebook_general ), GSB_HOME_PAGE );
 
-    gtk_widget_show ( notebook_general );
+    gtk_widget_show (notebook_general);
 }
 
 
@@ -1048,7 +1047,7 @@ gboolean gsb_file_close ( void )
     {
         /* try to save */
 	    if ( !gsb_file_save_file (-1) )
-		return ( FALSE );
+            return ( FALSE );
     }
 
     if ( !gsb_file_get_modified () )
@@ -1063,7 +1062,7 @@ gboolean gsb_file_close ( void )
 
 	    /* free all the variables */
  	    init_variables ();
-        //~ gsb_gui_init_general_vbox ( );
+        grisbi_win_free_general_vbox ();
         gsb_account_property_clear_config ( );
 
         grisbi_win_set_grisbi_title ( -1 );
