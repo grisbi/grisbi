@@ -35,4 +35,7 @@ CFLAGS+=" -Wno-unused-parameter"
 # fails on warning
 #CFLAGS+=" -Werror"
 
+export CFLAGS
+
 ./autogen.sh
+./configure
