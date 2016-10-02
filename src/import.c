@@ -2679,7 +2679,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
             g_strfreev(tab_str);
             }
         }
-        else if ( etat.get_categorie_for_payee &&  !imported_transaction -> cheque )
+        else if ( payee_number && etat.get_categorie_for_payee && !imported_transaction -> cheque )
         {
             /* associate the class and the budgetary line to the payee except checks */
             last_transaction_number = gsb_form_transactions_look_for_last_party (
