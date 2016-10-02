@@ -1374,6 +1374,7 @@ void gsb_menu_set_menus_with_file_sensitive ( gboolean sensitive )
         "debug-mode",
         "file-close",
         "new-acc",
+        "show-closed-acc",
         NULL
     };
     gchar **tmp = items;
@@ -1410,7 +1411,6 @@ void gsb_menu_set_menus_view_account_sensitive ( gboolean sensitive )
         "show-form",
         "show-reconciled",
         "show-archived",
-        "show-closed-acc",
         "show-ope",
         "reset-width-col",
         NULL
