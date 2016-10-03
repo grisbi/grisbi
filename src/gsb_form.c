@@ -156,6 +156,8 @@ gint saved_allocation_size;
 /* */
 static GDate *save_form_date;
 
+static gchar *save_entry;
+
 /**
  * the value transaction_form is static,
  * that function return it
@@ -685,14 +687,17 @@ void gsb_form_fill_element ( gint element_number,
 	case TRANSACTION_FORM_DEBIT:
 	    if (gsb_data_mix_get_amount (transaction_number, is_transaction).mantissa < 0)
 	    {
-		char_tmp = utils_real_get_string_with_currency (gsb_real_abs (gsb_data_mix_get_amount (transaction_number, is_transaction)),
-							      gsb_data_mix_get_currency_number (transaction_number, is_transaction),
-							      FALSE );
+            char_tmp = utils_real_get_string_with_currency (gsb_real_abs (gsb_data_mix_get_amount (transaction_number, is_transaction)),
+                                                            gsb_data_mix_get_currency_number (transaction_number, is_transaction),
+                                                            FALSE);
 
-		gsb_form_entry_get_focus (widget);
-		gtk_entry_set_text ( GTK_ENTRY ( widget ),
-				     char_tmp );
-		g_free (char_tmp);
+            gsb_form_entry_get_focus (widget);
+            gtk_entry_set_text ( GTK_ENTRY ( widget ), char_tmp );
+            if ( gsb_data_account_get_kind (account_number) == GSB_TYPE_CASH)
+            {
+                save_entry = g_strdup (char_tmp);
+            }
+            g_free (char_tmp);
 	    }
 	    break;
 
@@ -2913,13 +2918,21 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 
         balance = gsb_real_add ( number,
                         gsb_data_account_get_current_balance ( account_number ) );
-
         if ( balance.mantissa < 0 )
         {
-            dialogue_error ( _("This account cannot be negative.\n\n"
-                        "Please enter another amount or cancel this transaction.") );
+            gsb_real previous_debit;
 
-            return ( FALSE );
+            previous_debit = utils_real_get_from_string (save_entry);
+            balance = gsb_real_add ( balance, previous_debit);
+            g_free (save_entry);
+
+            if (balance.mantissa < 0)
+            {
+                dialogue_error (_("This account cannot be negative.\n\n"
+                                  "Please enter another amount or cancel this transaction."));
+
+                return (FALSE);
+            }
         }
     }
 
