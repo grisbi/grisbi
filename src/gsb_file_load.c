@@ -3874,6 +3874,25 @@ gboolean gsb_file_load_open_file ( gchar *filename )
     /* positionnement de l'option bet_show_onglets pour tous les comptes */
     gsb_data_account_set_bet_show_onglets_all_accounts ();
 
+    if (g_strcmp0 (download_tmp_values.file_version, download_tmp_values.grisbi_version))
+    {
+        gchar *text;
+        gchar *hint;
+
+        text = g_strdup_printf (_("You import a file from version %s of Grisbi. After updating "
+                                  "your file will not be compatible with grisbi version %s.\n\n"
+                                  "You will lose customizing icons and colors."),
+                                download_tmp_values.file_version,
+                                download_tmp_values.file_version);
+
+        hint = g_strdup_printf (_("Importing a file whose version is for an earlier version of Grisbi"));
+
+        dialogue_hint (text, hint);
+
+        g_free (hint);
+        g_free (text);
+    }
+
     return TRUE;
 }
 
