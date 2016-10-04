@@ -331,7 +331,7 @@ void debug_initialize_debugging ( gint level )
         tmp_str = g_strdup_printf (_("GRISBI %s Debug"),VERSION);
         debug_message_string (tmp_str ,
                   __FILE__, __LINE__, __PRETTY_FUNCTION__,
-                  _("Wrong debug level, please check DEBUG_GRISBI environnement variable"),
+                  _("Default debug level: Debug"),
                   DEBUG_LEVEL_INFO, TRUE);
         g_free (tmp_str);
     }
