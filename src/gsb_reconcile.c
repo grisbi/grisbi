@@ -813,8 +813,6 @@ gboolean gsb_reconcile_update_amounts ( GtkWidget *entry,
     gboolean valide = FALSE;
     GtkStyleContext* context;
 
-    context = gtk_widget_get_style_context  (entry);
-
     /* first get the current account number */
     account_number = gsb_gui_navigation_get_current_account ();
 
@@ -824,6 +822,7 @@ gboolean gsb_reconcile_update_amounts ( GtkWidget *entry,
 
     if ( entry )
     {
+        context = gtk_widget_get_style_context (entry);
         valide = gsb_form_widget_get_valide_amout_entry (
                         gtk_entry_get_text ( GTK_ENTRY ( entry ) ) );
         if ( valide )
