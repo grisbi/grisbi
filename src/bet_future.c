@@ -2601,7 +2601,7 @@ static gboolean bet_transfert_take_data (  struct_transfert_data *transfert,
         bet_future_get_payee_data ( widget, 2, ( gpointer ) transfert );
         if ( transfert->card_payee_number == 0 )
         {
-            printf ("bet_transfert_card_payee_combo est vide\n");
+            //~ printf ("bet_transfert_card_payee_combo est vide\n");
             return FALSE;
         }
     }
