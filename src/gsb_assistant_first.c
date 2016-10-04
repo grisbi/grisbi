@@ -244,22 +244,6 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
 			 FALSE, FALSE, 0 );
 
-    /* crypt the grisbi file */
-#ifdef HAVE_SSL
-    {
-        button = gsb_automem_checkbutton_new ( _("Encrypt Grisbi file"),
-                                               &(etat.crypt_file), G_CALLBACK (gsb_gui_encryption_toggled), NULL);
-        gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
-
-        if ( etat.crypt_file )
-            run.new_crypted_file = TRUE;
-    }
-#else
-    {
-        run.new_crypted_file = FALSE;
-    }
-#endif
-
     /* Automatic backup ? */
     button = gsb_automem_checkbutton_new (_("Make a backup copy before saving files"),
 					  &conf.make_backup, NULL, NULL);

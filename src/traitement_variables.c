@@ -139,9 +139,6 @@ void init_variables ( void )
 
     devel_debug (NULL);
 
-    /* init the new crypted file */
-    run.new_crypted_file = FALSE;
-
     /* init the format date */
     initialise_format_date ( );
 

@@ -406,32 +406,6 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
 					   &file_content,
 					   my_strdup ("</Grisbi>"));
 
-    /* crypt the file if asked */
-    if ( etat.crypt_file )
-    {
-#ifdef HAVE_SSL
-        {
-            iterator = gsb_file_util_crypt_file ( filename, &file_content, TRUE, iterator );
-            if ( ! iterator )
-            {
-                g_free ( file_content);
-                return FALSE;
-            }
-        }
-#else
-        {
-            g_free ( file_content);
-            gchar *text = _("This build of Grisbi does not support encryption.\n"
-                    "Please recompile Grisbi with OpenSSL encryption enabled.");
-            gchar *hint = g_strdup_printf ( _("Cannot open encrypted file '%s'"),
-                                                filename );
-            dialogue_error_hint ( text, hint );
-            g_free ( hint );
-            return FALSE;
-        }
-#endif
-    }
-
     /* the file is in memory, we can save it */
     /* i didn't succeed to save a "proper" file with zlib without compression,
      * it always append some extra characters, so use glib without compression, and
@@ -748,7 +722,6 @@ gulong gsb_file_save_general_part ( gulong iterator,
     new_string = g_markup_printf_escaped ( "\t<General\n"
 					   "\t\tFile_version=\"%s\"\n"
 					   "\t\tGrisbi_version=\"%s\"\n"
-					   "\t\tCrypt_file=\"%d\"\n"
 					   "\t\tArchive_file=\"%d\"\n"
 					   "\t\tFile_title=\"%s\"\n"
 					   "\t\tGeneral_address=\"%s\"\n"
@@ -804,7 +777,6 @@ gulong gsb_file_save_general_part ( gulong iterator,
                        "\t\tBet_type_taux=\"%d\" />\n",
 	my_safe_null_str(VERSION_FICHIER),
 	my_safe_null_str(VERSION),
-	etat.crypt_file,
 	is_archive,
 	my_safe_null_str ( titre_fichier ),
 	my_safe_null_str(adresse_commune),

@@ -70,7 +70,6 @@ struct gsb_etat_t
     gboolean debug_mode;            /* TRUE in debug mode, FALSE for normale mode */
 
     /* files and backup part */
-    gint crypt_file;                /* TRUE if we want to crypt the file */
     gint fichier_deja_ouvert;       /* à un si lors de l'ouverture, le fichier semblait déjà ouvert */
 
     /* devises pour les catégories, imputations budgétaires et les tiers */
@@ -254,7 +253,6 @@ struct gsb_run_t
     gboolean old_version;           /* TRUE if file version < 0.6 */
 
     /* initialisation variables */
-    gboolean new_crypted_file;      /* 0 à l'exécution de init_variables () 1 si new crypted file*/
 
     /* file stuff */
     time_t file_modification;

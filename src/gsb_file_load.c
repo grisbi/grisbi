@@ -256,15 +256,11 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
                 else if ( !strcmp ( attribute_names[i], "Combofix_force_category" ))
                     etat.combofix_force_category = utils_str_atoi( attribute_values[i]);
 
-                else if ( !strcmp ( attribute_names[i], "Crypt_file" ))
-                    etat.crypt_file = utils_str_atoi (attribute_values[i]);
-
                 else if ( !strcmp ( attribute_names[i], "CSV_separator" ))
                 {
                     g_free ( etat.csv_separator );
                     etat.csv_separator = my_strdup ( attribute_values[i] );
                 }
-
 
                 else if ( !strcmp ( attribute_names[i], "CSV_skipped_lines" ))
                 {
@@ -3779,13 +3775,33 @@ gboolean gsb_file_load_open_file ( gchar *filename )
                 g_free (file_content);
                 return FALSE;
             }
+            else
+            {
+                gchar *text;
+                gchar *hint;
+
+                text = g_strdup_printf (_("Grisbit no longer supports file encryption "
+                                          "due to the existence of reliable external solutions."));
+
+                hint = g_strdup_printf (_("Your file '%s' will be saved unencrypted"), filename );
+
+                dialogue_hint (text, hint);
+
+                g_free (hint);
+                g_free (text);
+            }
+
 #else
             {
+                gchar *text;
+                gchar *hint;
+
                 g_free (file_content);
-                gchar *text = _("This build of Grisbi does not support encryption.\n"
-                        "Please recompile Grisbi with OpenSSL encryption enabled.");
-                gchar *hint = g_strdup_printf ( _("Cannot open encrypted file '%s'"),
-	                                            filename );
+                text = g_strdup_printf (_("Grisbit no longer supports file encryption "
+                                          "due to the existence of reliable external solutions."));
+
+                hint = g_strdup_printf (_("Unable to use file encryption"));
+
                 dialogue_error_hint ( text, hint );
                 g_free ( hint );
                 return FALSE;

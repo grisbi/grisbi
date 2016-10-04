@@ -1184,11 +1184,6 @@ GtkWidget *onglet_fichier ( void )
                         &conf.force_enregistrement, NULL, NULL );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
-    /* crypt the grisbi file */
-    button = gsb_automem_checkbutton_new ( _("Encrypt Grisbi file"),
-                        &(etat.crypt_file), G_CALLBACK (gsb_gui_encryption_toggled), NULL);
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
-
     /* Compression level of files */
     button = gsb_automem_checkbutton_new ( _("Compress Grisbi file"),
                         &conf.compress_file, NULL, NULL );
@@ -1280,26 +1275,6 @@ GtkWidget *onglet_fichier ( void )
     return ( vbox_pref );
 }
 
-
-/**
- * Warns that there is no coming back if password is forgotten when
- * encryption is activated.
- *
- * \param checkbox  Checkbox that triggered event.
- * \param data      Unused.
- *
- * \return          FALSE
- */
-gboolean gsb_gui_encryption_toggled ( GtkWidget * checkbox, gpointer data )
-{
-    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON (checkbox)))
-    {
-        dialog_message ( "encryption-is-irreversible" );
-        run.new_crypted_file = TRUE;
-    }
-
-    return FALSE;
-}
 
 /**
  * called when choose a new directory for the backup
