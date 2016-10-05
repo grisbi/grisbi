@@ -37,5 +37,5 @@ CFLAGS+=" -Wno-unused-parameter"
 
 export CFLAGS
 
-./autogen.sh
+sh -x ./autogen.sh
 ./configure
