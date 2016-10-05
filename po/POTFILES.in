@@ -101,6 +101,7 @@ src/gsb_reconcile_list.c
 src/gsb_reconcile_sort_config.c
 src/gsb_regex.c
 src/gsb_report.c
+src/gsb_rgba.c
 src/gsb_scheduler.c
 src/gsb_scheduler_list.c
 src/gsb_select_icon.c
