@@ -7,9 +7,18 @@ sudo: required
 language: c
 
 services:
-    - docker
+  - docker
+
+env:
+  - DIST_NAME: debian
+    DIST_VERS: testing
+    TAG: grisbi
+
+before_install:
+    - docker pull ${DIST_NAME}:${DIST_VERS}
+    - docker build --rm=true --file=travis-ci/Dockerfile.${DIST_NAME}-${DIST_VERS} --tag=${DIST_NAME}-${DIST_VERS}:${TAG} travis-ci
 
 script:
-    - docker pull ubuntu:16.04
-    - docker run ubuntu:16.04 /bin/sh -c "apt-get update ; apt-get install autoconf automake libtool-bin m4 intltool libgtk-3-dev libgsf-1-dev libgoffice-0.10-dev git build-essential -y ; cd /root ; git clone --depth=50 --branch=master https://github.com/grisbi/grisbi.git ; cd grisbi ; ./travis-autogen.sh ; make"
+    - docker run --volume=`pwd`:/build ${DIST_NAME}-${DIST_VERS}:${TAG}
+      /bin/sh -c "./travis-ci/travis-autogen.sh ; make"
 
