@@ -651,7 +651,7 @@ static gboolean qif_traite_champs_n ( struct struct_ope_importation *imported_tr
     {
         if ( etat.get_qif_use_field_extract_method_payment )
         {
-            if ( strncmp ( imported_transaction->tiers, "VIR RECU", 8 ) == 0 );
+            if ( strncmp ( imported_transaction->tiers, "VIR RECU", 8 ) == 0 )
             {
                 gchar *tmp_str;
 
