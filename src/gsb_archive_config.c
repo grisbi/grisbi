@@ -97,7 +97,7 @@ static gboolean gsb_archive_config_select ( GtkTreeSelection *selection,
  *
  * \return
  * */
-static gboolean gsb_archive_config_list_sort_column_clicked (GtkTreeViewColumn *tree_view_column,
+static void gsb_archive_config_list_sort_column_clicked (GtkTreeViewColumn *tree_view_column,
                                                     GtkTreeModel *model)
 {
     if (archive_config_sort_type == GTK_SORT_ASCENDING)
