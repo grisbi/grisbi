@@ -115,7 +115,7 @@ gboolean gsb_file_util_get_contents ( gchar *filename,
     gulong alloc_size;
     gulong orig_size;
     gchar *content;
-    gulong iterator = 0;
+    int iterator = 0;
     gulong bytes_read;
     gboolean eof = 0;
 	gchar *os_filename;
