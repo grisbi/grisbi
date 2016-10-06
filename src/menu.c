@@ -37,7 +37,6 @@
 #include "file_obfuscate_qif.h"
 #include "file_obfuscate.h"
 #include "grisbi_app.h"
-#include "grisbi_win.h"
 #include "gsb_account.h"
 #include "gsb_assistant_account.h"
 #include "gsb_assistant_archive.h"
@@ -215,45 +214,12 @@ static gboolean gsb_menu_reinit_largeur_col_menu ( void )
  *
  * \return
  * */
-void grisbi_cmd_new_window ( GSimpleAction *action,
-                        GVariant *parameter,
-                        gpointer app )
-{
-	;
-}
-
-/**
- *
- *
- * \param GSimpleAction 	action
- * \param GVariant 			parameter
- * \param gpointer 			app
- *
- * \return
- * */
 void grisbi_cmd_about ( GSimpleAction *action,
 						GVariant *parameter,
 						gpointer app )
 {
 	a_propos ( NULL, 0 );
 }
-
-/**
- *
- *
- * \param GSimpleAction 	action
- * \param GVariant 			parameter
- * \param gpointer 			app
- *
- * \return
- * */
-void grisbi_cmd_quit ( GSimpleAction *action,
-						GVariant *parameter,
-						gpointer app )
-{
-	g_application_quit ( G_APPLICATION ( app ) );
-}
-
 
 /* PREFS MENU */
 void grisbi_cmd_prefs ( GSimpleAction *action,

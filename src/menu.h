@@ -27,13 +27,7 @@ void        gsb_menu_recent_manager_remove_item         ( GtkRecentManager *rece
 void        gsb_menu_recent_manager_set_recent_array    ( gchar **recent_array );
 
 /* APP MENU */
-void        grisbi_cmd_new_window               ( GSimpleAction *action,
-                                                 GVariant *parameter,
-                                                 gpointer app );
 void        grisbi_cmd_about                    ( GSimpleAction *action,
-                                                 GVariant *parameter,
-                                                 gpointer app );
-void        grisbi_cmd_quit                     ( GSimpleAction *action,
                                                  GVariant *parameter,
                                                  gpointer app );
 /* PREFS MENU */

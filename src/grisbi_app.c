@@ -57,9 +57,12 @@
 #include "erreur.h"
 /*END_INCLUDE*/
 
- /*START_EXTERN Variables externes PROVISOIRE*/
-extern gchar *nom_fichier_comptes;
-extern gchar *titre_fichier;
+/*START_STATIC*/
+ static GrisbiWin *grisbi_app_create_window (GrisbiApp *app,
+                                             GdkScreen *screen);
+/*END_STATIC*/
+
+/*START_EXTERN Variables externes PROVISOIRE*/
 /*END_EXTERN*/
 
 typedef struct  /* GrisbiAppPrivate */
@@ -83,7 +86,7 @@ typedef struct  /* GrisbiAppPrivate */
     GAction             *prefs_action;
 }GrisbiAppPrivate;
 
- G_DEFINE_TYPE_WITH_PRIVATE (GrisbiApp, grisbi_app, GTK_TYPE_APPLICATION);
+G_DEFINE_TYPE_WITH_PRIVATE (GrisbiApp, grisbi_app, GTK_TYPE_APPLICATION);
 
 /* global variable, see structures.h */
 struct GrisbiAppConf    conf;                   /* conf structure Provisoire */
@@ -207,12 +210,41 @@ static void grisbi_app_change_radio_state ( GSimpleAction *action,
     g_simple_action_set_state ( action, state );
 }
 
+static void grisbi_app_new_window (GSimpleAction *action,
+                                   GVariant      *parameter,
+                                   gpointer       user_data)
+{
+    GrisbiApp *app;
+    GrisbiWin *win;
+
+    app = GRISBI_APP (user_data);
+
+    win = grisbi_app_create_window (GRISBI_APP (app), NULL);
+
+}
+
+static void grisbi_app_quit (GSimpleAction *action,
+                             GVariant      *parameter,
+                             gpointer       user_data)
+{
+    GrisbiApp *app;
+    GList *l;
+
+    app = GRISBI_APP (user_data);
+
+    /* Remove all windows registered in the application */
+    while ((l = gtk_application_get_windows (GTK_APPLICATION (app))))
+    {
+        gtk_application_remove_window (GTK_APPLICATION (app), GTK_WINDOW (l->data));
+    }
+}
+
 static GActionEntry app_entries[] =
 {
-	{ "new-window", grisbi_cmd_new_window, NULL, NULL, NULL },
+	{ "new-window", grisbi_app_new_window, NULL, NULL, NULL },
 	{ "about", grisbi_cmd_about, NULL, NULL, NULL },
 	{ "prefs", grisbi_cmd_prefs, NULL, NULL, NULL },
-	{ "quit", grisbi_cmd_quit, NULL, NULL, NULL },
+	{ "quit", grisbi_app_quit, NULL, NULL, NULL },
 };
 
 static const GActionEntry win_always_enabled_entries[] =
@@ -367,7 +399,7 @@ static GrisbiWin *grisbi_app_create_window ( GrisbiApp *app,
     GrisbiAppPrivate *priv;
     gchar *string;
 
-	priv = grisbi_app_get_instance_private ( GRISBI_APP ( app ) );
+    priv = grisbi_app_get_instance_private ( GRISBI_APP ( app ) );
 
 	win = g_object_new ( GRISBI_TYPE_WIN, "application", app, NULL );
 
@@ -385,7 +417,10 @@ static GrisbiWin *grisbi_app_create_window ( GrisbiApp *app,
 
     g_free (string);
 
-	grisbi_win_set_size_and_position ( GTK_WINDOW ( win ) );
+	if ( priv->geometry )
+		gtk_window_parse_geometry ( GTK_WINDOW ( win ), priv->geometry );
+    else
+        grisbi_win_set_size_and_position ( GTK_WINDOW ( win ) );
 
     /* set menubar */
 	/* Win Menu : actions toujours actives */
@@ -413,6 +448,9 @@ static GrisbiWin *grisbi_app_create_window ( GrisbiApp *app,
 
     grisbi_win_init_menubar ( win, app );
 
+	/* affiche la fenêtre principale */
+	gtk_window_present (GTK_WINDOW (win));
+
 	if ( screen != NULL )
         gtk_window_set_screen ( GTK_WINDOW ( win ), screen );
 
@@ -428,12 +466,12 @@ static const GOptionEntry options[] =
 	},
 
 	/* Open a new window */
-/*	{
+	{
 		"new-window", '\0', 0, G_OPTION_ARG_NONE, NULL,
 		N_("Create a new top-level window in an existing instance of grisbi"),
 		NULL
 	},
-*/
+
     /* debug level */
     {
         "debug", 'd', 0, G_OPTION_ARG_STRING, NULL,
@@ -521,8 +559,8 @@ static gboolean grisbi_app_cmdline ( GApplication *app,
 	/* traitement des autres options */
 	options = g_application_command_line_get_options_dict ( cmdline );
 
-/*	g_variant_dict_lookup ( options, "new-window", "b", &priv->new_window );
-*/	g_variant_dict_lookup ( options, "debug", "s", &tmp_str );
+	g_variant_dict_lookup ( options, "new-window", "b", &priv->new_window );
+	g_variant_dict_lookup ( options, "debug", "s", &tmp_str );
 	g_variant_dict_lookup ( options, "d", "s", &tmp_str );
 	g_variant_dict_lookup ( options, "geometry", "s", &priv->geometry );
 	g_variant_dict_lookup ( options, "g", "s", &priv->geometry );
@@ -571,6 +609,9 @@ static gboolean grisbi_app_cmdline ( GApplication *app,
         grisbi_app_print_environment_var ();
 	}
 
+    if (priv->new_window)
+        grisbi_app_create_window (GRISBI_APP (app), NULL);
+
 	g_application_activate ( app );
 
 	return FALSE;
@@ -594,22 +635,6 @@ static gint grisbi_app_handle_local_options ( GApplication *app,
         return 0;
     }
 
-/*	if (g_variant_dict_contains (options, "standalone"))
-	{
-		GApplicationFlags old_flags;
-
-		old_flags = g_application_get_flags (application);
-		g_application_set_flags (application, old_flags | G_APPLICATION_NON_UNIQUE);
-	}
-
-	if (g_variant_dict_contains (options, "wait"))
-	{
-		GApplicationFlags old_flags;
-
-		old_flags = g_application_get_flags (application);
-		g_application_set_flags (application, old_flags | G_APPLICATION_IS_LAUNCHER);
-	}
-*/
     return -1;
 }
 
@@ -755,7 +780,6 @@ static void grisbi_app_startup ( GApplication *app )
  **/
 static void grisbi_app_activate ( GApplication *app )
 {
-    GrisbiWin *win;
     GrisbiAppPrivate *priv;
 	GtkBuilder *builder;
 	GMenuModel *menubar;
@@ -768,13 +792,7 @@ static void grisbi_app_activate ( GApplication *app )
 	priv = grisbi_app_get_instance_private ( GRISBI_APP ( app ) );
 
 	/* création de la fenêtre pincipale */
-    win = grisbi_app_create_window ( GRISBI_APP ( app ), NULL );
-
-	if ( priv->geometry )
-		gtk_window_parse_geometry ( GTK_WINDOW ( win ), priv->geometry );
-
-	/* affiche la fenêtre principale */
-	gtk_window_present ( GTK_WINDOW ( win ) );
+    grisbi_app_create_window (GRISBI_APP (app), NULL);
 
     /* set the CSS properties */
     if ( css_provider )
