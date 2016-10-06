@@ -69,7 +69,7 @@ extern gchar *charmap_imported;
 
 struct struc_check_encoding
 {
-    gchar *charset;
+    const gchar *charset;
     gchar *result;
 };
 
