@@ -96,7 +96,7 @@ static void gsb_fyear_update_invalid ( GtkWidget *tree_view );
  *
  * \return
  * */
-static gboolean gsb_fyear_config_list_sort_column_clicked (GtkTreeViewColumn *tree_view_column,
+static void gsb_fyear_config_list_sort_column_clicked (GtkTreeViewColumn *tree_view_column,
                                                     GtkTreeModel *model)
 {
     if (fyear_config_sort_order == GTK_SORT_ASCENDING)
