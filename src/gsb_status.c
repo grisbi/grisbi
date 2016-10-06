@@ -51,7 +51,7 @@ static GtkWidget *main_statusbar = NULL;
 static guint context_id;
 
 /** Message ID from the GtkStatusBar.  */
-static guint message_id = -1;
+static gint message_id = -1;
 
 /** Optional progress bar in main status bar.  */
 /*
