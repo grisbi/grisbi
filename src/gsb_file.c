@@ -1016,9 +1016,6 @@ void gsb_file_append_name_to_opened_list ( gchar * path_fichier )
     if ( conf.nb_max_derniers_fichiers_ouverts == 0 )
         return;
 
-    if ( conf.nb_derniers_fichiers_ouverts < 0 )
-        conf.nb_derniers_fichiers_ouverts = 0;
-
     if ( !g_path_is_absolute ( nom_fichier_comptes ) )
     {
         real_name = g_strdup( (gchar*)realpath ( nom_fichier_comptes, NULL ));
