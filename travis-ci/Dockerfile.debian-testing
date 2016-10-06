@@ -6,6 +6,7 @@ RUN apt-get -y update \
 		autoconf \
 		automake \
 		build-essential \
+		clang \
 		intltool \
 		libgoffice-0.10-dev \
 		libgsf-1-dev \

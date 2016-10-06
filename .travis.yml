@@ -6,6 +6,10 @@ sudo: required
 
 language: c
 
+compiler:
+  - clang
+  - gcc
+
 services:
   - docker
 
@@ -19,6 +23,7 @@ before_install:
     - docker build --rm=true --file=travis-ci/Dockerfile.${DIST_NAME}-${DIST_VERS} --tag=${DIST_NAME}-${DIST_VERS}:${TAG} travis-ci
 
 script:
+    - echo "export CC=$CC" > travis-ci/env
     - docker run --volume=`pwd`:/build ${DIST_NAME}-${DIST_VERS}:${TAG}
-      /bin/sh -c "./travis-ci/travis-autogen.sh ; make"
+      /bin/sh -c ". travis-ci/env ; ./travis-ci/travis-autogen.sh ; make"
 
