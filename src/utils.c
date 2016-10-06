@@ -88,7 +88,7 @@ gboolean met_en_prelight ( GtkWidget *event_box,
                         gpointer pointeur )
 {
     if ( pointeur == NULL )
-        gtk_widget_set_state_flags (gtk_bin_get_child (GTK_BIN (event_box)), GTK_STATE_PRELIGHT, FALSE);
+        gtk_widget_set_state_flags (gtk_bin_get_child (GTK_BIN (event_box)), GTK_STATE_FLAG_PRELIGHT, FALSE);
     else
     {
         GSList *list = ( GSList* ) pointeur;
@@ -98,7 +98,7 @@ gboolean met_en_prelight ( GtkWidget *event_box,
             GtkWidget *widget;
 
             widget = list -> data;
-            gtk_widget_set_state_flags (gtk_bin_get_child (GTK_BIN (widget)), GTK_STATE_PRELIGHT, FALSE);
+            gtk_widget_set_state_flags (gtk_bin_get_child (GTK_BIN (widget)), GTK_STATE_FLAG_PRELIGHT, FALSE);
 
             list = list -> next;
         }
@@ -117,7 +117,7 @@ gboolean met_en_normal ( GtkWidget *event_box,
                         gpointer pointeur )
 {
     if ( pointeur == NULL )
-        gtk_widget_set_state_flags (gtk_bin_get_child (GTK_BIN (event_box )), GTK_STATE_NORMAL, FALSE);
+        gtk_widget_set_state_flags (gtk_bin_get_child (GTK_BIN (event_box )), GTK_STATE_FLAG_NORMAL, FALSE);
     else
     {
         GSList *list = ( GSList* ) pointeur;
@@ -128,7 +128,7 @@ gboolean met_en_normal ( GtkWidget *event_box,
 
             widget = list -> data;
 
-            gtk_widget_set_state_flags (gtk_bin_get_child (GTK_BIN (widget)), GTK_STATE_NORMAL, FALSE);
+            gtk_widget_set_state_flags (gtk_bin_get_child (GTK_BIN (widget)), GTK_STATE_FLAG_NORMAL, FALSE);
 
             list = list -> next;
         }
