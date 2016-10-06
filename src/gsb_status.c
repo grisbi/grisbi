@@ -142,7 +142,7 @@ void gsb_status_wait ( gboolean force_update )
     GdkWindow *run_window;
 
     run_window = gtk_widget_get_window (GTK_WIDGET (run.window));
-    display = display = gdk_window_get_display (run_window);
+    display = gdk_window_get_display (run_window);
     device_manager = gdk_display_get_device_manager (display);
     device = gdk_device_manager_get_client_pointer (device_manager);
 
