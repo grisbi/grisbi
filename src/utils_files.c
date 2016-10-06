@@ -38,6 +38,7 @@
 #else
 #include "go-charmap-sel.h"
 #endif /* HAVE_GOFFICE */
+#include "grisbi_app.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
 #include "structures.h"
@@ -192,7 +193,7 @@ void browse_file ( GtkButton *button, gpointer data )
     gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (file_selector),
 					 gsb_file_get_last_path ());
     gtk_window_set_transient_for ( GTK_WINDOW ( file_selector ),
-				   GTK_WINDOW ( run.window ));
+				   GTK_WINDOW ( grisbi_app_get_active_window (NULL) ));
     gtk_window_set_modal ( GTK_WINDOW ( file_selector ), TRUE );
 
     switch ( gtk_dialog_run ( GTK_DIALOG (file_selector)))

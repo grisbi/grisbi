@@ -30,6 +30,7 @@
 
 /*START_INCLUDE*/
 #include "dialog.h"
+#include "grisbi_app.h"
 #include "parametres.h"
 #include "structures.h"
 /*END_INCLUDE*/
@@ -208,7 +209,7 @@ void dialogue_special ( GtkMessageType param, const gchar *text, const gchar *hi
     GtkWidget *dialog;
     const gchar *primary_text = hint ? hint : text;
 
-    dialog = gtk_message_dialog_new ( GTK_WINDOW ( run.window ),
+    dialog = gtk_message_dialog_new ( GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
                         GTK_DIALOG_DESTROY_WITH_PARENT,
                         param, GTK_BUTTONS_CLOSE,
                         NULL );
@@ -239,12 +240,15 @@ GtkWidget *dialogue_special_no_run ( GtkMessageType param,
                         GtkButtonsType buttons,
                         const gchar *text, const gchar *hint )
 {
+    GtkWindow *window;
     GtkWidget *dialog;
     const gchar *primary_text = hint ? hint : text;
 
-    if ( GTK_IS_WINDOW ( run.window ) )
+    window = GTK_WINDOW (grisbi_app_get_active_window (NULL));
+
+    if (window)
     {
-        dialog = gtk_message_dialog_new ( GTK_WINDOW ( run.window ),
+        dialog = gtk_message_dialog_new (window,
                         GTK_DIALOG_DESTROY_WITH_PARENT || GTK_DIALOG_MODAL,
                         param, buttons,
                         NULL );
@@ -339,7 +343,7 @@ GtkDialog *dialogue_conditional_new ( gchar *text,
         }
     }
 
-    dialog = gtk_message_dialog_new ( GTK_WINDOW ( run.window ),
+    dialog = gtk_message_dialog_new ( GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
                         GTK_DIALOG_DESTROY_WITH_PARENT,
                         type, buttons,
                         NULL );
@@ -434,7 +438,7 @@ gboolean question_yes_no ( const gchar *text, const gchar *hint, gint default_an
     const gchar *primary_text = hint ? hint : text;
     gint response;
 
-    dialog = gtk_message_dialog_new ( GTK_WINDOW ( run.window ),
+    dialog = gtk_message_dialog_new ( GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
                         GTK_DIALOG_DESTROY_WITH_PARENT,
                         GTK_MESSAGE_QUESTION,
                         GTK_BUTTONS_YES_NO,
@@ -523,7 +527,7 @@ gboolean question_conditional_yes_no_with_struct ( struct conditional_message *m
         return message -> default_answer;
 
     text = make_hint ( _(message -> hint), message -> message );
-    dialog = gtk_message_dialog_new ( GTK_WINDOW ( run.window ),
+    dialog = gtk_message_dialog_new ( GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
                         GTK_DIALOG_DESTROY_WITH_PARENT,
                         GTK_MESSAGE_WARNING,
                         GTK_BUTTONS_YES_NO,
@@ -736,7 +740,7 @@ const gchar *dialogue_hint_with_entry ( gchar *text, gchar *hint, gchar *entry_d
     GtkWidget *label;
     const gchar *string;
 
-    dialog = gtk_message_dialog_new ( GTK_WINDOW ( run.window ),
+    dialog = gtk_message_dialog_new ( GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
                         GTK_DIALOG_DESTROY_WITH_PARENT,
                         GTK_MESSAGE_INFO,
                         GTK_BUTTONS_CLOSE,

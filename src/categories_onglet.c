@@ -32,6 +32,7 @@
 #include "categories_onglet.h"
 #include "dialog.h"
 #include "fenetre_principale.h"
+#include "grisbi_app.h"
 #include "grisbi_win.h"
 #include "gsb_autofunc.h"
 #include "gsb_automem.h"
@@ -411,7 +412,7 @@ void categories_exporter_list ( void )
     gchar *tmp_last_directory;
 
     dialog = gtk_file_chooser_dialog_new ( _("Export categories"),
-					   GTK_WINDOW ( run.window ),
+					   GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
 					   GTK_FILE_CHOOSER_ACTION_SAVE,
 					   "gtk-cancel", GTK_RESPONSE_CANCEL,
 					   "gtk-save", GTK_RESPONSE_OK,
@@ -455,7 +456,7 @@ void categories_importer_list ( void )
     gchar *tmp_last_directory;
 
     dialog = gtk_file_chooser_dialog_new ( _("Import categories"),
-					   GTK_WINDOW ( run.window ),
+					   GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
 					   GTK_FILE_CHOOSER_ACTION_OPEN,
 					   "gtk-cancel", GTK_RESPONSE_CANCEL,
 					   "gtk-open", GTK_RESPONSE_OK,
@@ -732,7 +733,7 @@ gboolean edit_category ( GtkTreeView *tree_view )
 										       _("No category defined") ));
 
     dialog = gtk_dialog_new_with_buttons ( title,
-					   GTK_WINDOW ( run.window ),
+					   GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
 					   GTK_DIALOG_MODAL,
 					   "gtk-cancel", GTK_RESPONSE_NO,
 					   "gtk-apply", GTK_RESPONSE_OK,

@@ -36,6 +36,7 @@
 /*START_INCLUDE*/
 #include "gsb_assistant.h"
 #include "dialog.h"
+#include "grisbi_app.h"
 #include "gsb_dirs.h"
 #include "structures.h"
 #include "utils.h"
@@ -103,6 +104,7 @@ GtkWidget * gsb_assistant_new ( const gchar * title, const gchar * explanation,
                         const gchar * image_filename,
                         GCallback enter_callback )
 {
+    GtkWindow *window;
     GtkWidget * assistant, *notebook, *hbox, *label, *image, *view, *eb;
     GtkWidget * button_cancel, * button_prev, * button_next;
     GtkWidget *button_select;
@@ -110,8 +112,9 @@ GtkWidget * gsb_assistant_new ( const gchar * title, const gchar * explanation,
     gchar *tmpstr;
     gint width = 140;
 
+    window = GTK_WINDOW (grisbi_app_get_active_window (NULL));
     assistant = gtk_dialog_new_with_buttons ( title,
-                        GTK_WINDOW ( run.window ),
+                        GTK_WINDOW ( window ),
                         GTK_DIALOG_MODAL,
                         NULL, 0,
                         NULL );
@@ -119,7 +122,7 @@ GtkWidget * gsb_assistant_new ( const gchar * title, const gchar * explanation,
     gtk_window_set_default_size ( GTK_WINDOW ( assistant ), 800, 500 );
     gtk_window_set_position ( GTK_WINDOW ( assistant ), GTK_WIN_POS_CENTER_ON_PARENT );
     gtk_window_set_resizable ( GTK_WINDOW ( assistant ), TRUE );
-    g_object_set_data ( G_OBJECT ( run.window ), "assistant", assistant );
+    g_object_set_data ( G_OBJECT ( window ), "assistant", assistant );
 
     button_select = gtk_toggle_button_new_with_label ( _("Select all") );
     gtk_widget_set_size_request ( button_select, width, -1 );

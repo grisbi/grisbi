@@ -32,6 +32,7 @@
 #include "affichage_liste.h"
 #include "custom_list.h"
 #include "fenetre_principale.h"
+#include "grisbi_app.h"
 #include "grisbi_settings.h"
 #include "gsb_automem.h"
 #include "gsb_data_account.h"
@@ -974,7 +975,7 @@ gboolean gsb_transaction_list_config_realized ( GtkWidget *tree_view,
     /* fill and update the transaction list and buttons */
     gsb_transaction_list_config_update_list_config ( tree_view );
 
-    display = gdk_window_get_display (gtk_widget_get_window (run.window));
+    display = gdk_window_get_display (gtk_widget_get_window (GTK_WIDGET (grisbi_app_get_active_window (NULL))));
     cursor = gdk_cursor_new_for_display (display, GDK_HAND2);
     gdk_window_set_cursor ( gtk_widget_get_window (tree_view), cursor);
 

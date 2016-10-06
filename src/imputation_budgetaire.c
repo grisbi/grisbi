@@ -34,6 +34,7 @@
 #include "imputation_budgetaire.h"
 #include "dialog.h"
 #include "fenetre_principale.h"
+#include "grisbi_app.h"
 #include "grisbi_win.h"
 #include "gsb_autofunc.h"
 #include "gsb_automem.h"
@@ -432,7 +433,7 @@ void budgetary_lines_exporter_list ( void )
     gchar *tmp_last_directory;
 
     dialog = gtk_file_chooser_dialog_new ( _("Export the budgetary lines"),
-					   GTK_WINDOW ( run.window ),
+					   GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
 					   GTK_FILE_CHOOSER_ACTION_SAVE,
 					   "gtk-cancel", GTK_RESPONSE_CANCEL,
 					   "gtk-save", GTK_RESPONSE_OK,
@@ -484,7 +485,7 @@ void budgetary_lines_importer_list ( void )
     gchar *tmp_last_directory;
 
     dialog = gtk_file_chooser_dialog_new ( _("Import budgetary lines"),
-					   GTK_WINDOW ( run.window ),
+					   GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
 					   GTK_FILE_CHOOSER_ACTION_OPEN,
 					   "gtk-cancel", GTK_RESPONSE_CANCEL,
 					   "gtk-open", GTK_RESPONSE_OK,
@@ -781,7 +782,7 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
 							     _("No budget defined") ));
 
     dialog = gtk_dialog_new_with_buttons ( title ,
-					   GTK_WINDOW ( run.window ),
+					   GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
 					   GTK_DIALOG_MODAL,
 					   "gtk-cancel", GTK_RESPONSE_NO,
 					   "gtk-apply", GTK_RESPONSE_OK,

@@ -33,6 +33,7 @@
 
 /*START_INCLUDE*/
 #include "openssl.h"
+#include "grisbi_app.h"
 #include "structures.h"
 #include "utils.h"
 /*END_INCLUDE*/
@@ -290,7 +291,7 @@ gchar *gsb_file_util_ask_for_crypt_key ( const gchar * file_name, gchar * additi
     gint result;
 
     dialog = gtk_dialog_new_with_buttons ( _("Grisbi password"),
-                        GTK_WINDOW ( run.window ),
+                        GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
                         GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
                         "gtk-cancel", GTK_RESPONSE_CANCEL,
                         ( encrypt ? _("Crypt file") : _("Decrypt file") ), GTK_RESPONSE_OK,

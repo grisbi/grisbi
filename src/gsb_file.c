@@ -49,7 +49,6 @@
 #include "fenetre_principale.h"
 #include "grisbi_app.h"
 #include "grisbi_settings.h"
-#include "grisbi_win.h"
 #include "gsb_account_property.h"
 #include "gsb_assistant_account.h"
 #include "gsb_data_account.h"
@@ -110,7 +109,7 @@ static void gsb_file_save_remove_old_file ( gchar *filename )
 
     dialog = gtk_dialog_new_with_buttons (
                         _("Delete file copy from a previous version of Grisbi"),
-                        GTK_WINDOW ( run.window ),
+                        GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
                         GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
                         "gtk-no", GTK_RESPONSE_CANCEL,
                         "gtk-yes", GTK_RESPONSE_OK,
@@ -208,7 +207,7 @@ static gchar *gsb_file_dialog_ask_name ( void )
     gchar *tmp_last_directory;
 
     dialog = gtk_file_chooser_dialog_new ( _("Name the accounts file"),
-					   GTK_WINDOW ( run.window ),
+					   GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
 					   GTK_FILE_CHOOSER_ACTION_SAVE,
 					   "gtk-cancel", GTK_RESPONSE_CANCEL,
 					   "gtk-save", GTK_RESPONSE_OK,
@@ -278,7 +277,7 @@ static gint gsb_file_dialog_save ( void )
 	gchar* tmp_str1;
 	gchar* tmp_str2;
 
-    dialog = gtk_message_dialog_new ( GTK_WINDOW ( run.window ),
+    dialog = gtk_message_dialog_new ( GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
 				      GTK_DIALOG_DESTROY_WITH_PARENT,
 				      GTK_MESSAGE_WARNING,
 				      GTK_BUTTONS_NONE,
@@ -643,7 +642,7 @@ gboolean gsb_file_open_menu ( void )
     gchar *tmp_last_directory;
 
     selection_fichier = gtk_file_chooser_dialog_new ( _("Open an accounts file"),
-					   GTK_WINDOW ( run.window ),
+					   GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
 					   GTK_FILE_CHOOSER_ACTION_OPEN,
 					   "gtk-cancel", GTK_RESPONSE_CANCEL,
 					   "gtk-open", GTK_RESPONSE_OK,

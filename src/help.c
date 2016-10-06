@@ -31,6 +31,7 @@
 
 /*START_INCLUDE*/
 #include "help.h"
+#include "grisbi_app.h"
 #include "gsb_select_icon.h"
 #include "structures.h"
 #include "utils.h"
@@ -252,7 +253,7 @@ NULL};
     gtk_window_set_position ( GTK_WINDOW ( about ), GTK_WIN_POS_CENTER_ON_PARENT );
     gtk_window_set_resizable ( GTK_WINDOW ( about ), TRUE );
     gtk_window_set_modal ( GTK_WINDOW ( about ), TRUE );
-    gtk_window_set_transient_for ( GTK_WINDOW ( about ), GTK_WINDOW ( run.window ) );
+    gtk_window_set_transient_for ( GTK_WINDOW ( about ), GTK_WINDOW ( grisbi_app_get_active_window (NULL) ) );
 
     g_free ( extra );
     g_free ( version_to_string );

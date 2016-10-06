@@ -38,6 +38,7 @@
 #include "etats_prefs.h"
 #include "etats_onglet.h"
 #include "fenetre_principale.h"
+#include "grisbi_app.h"
 #include "gsb_calendar_entry.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
@@ -3705,7 +3706,7 @@ void etats_config_personnalisation_etat ( void )
         gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general), GSB_REPORTS_PAGE );
 
     /* Création de la fenetre de dialog */
-    dialog = etats_prefs_new ( run.window );
+    dialog = etats_prefs_new (GTK_WIDGET (grisbi_app_get_active_window (NULL)));
     if ( dialog == NULL )
         return;
 

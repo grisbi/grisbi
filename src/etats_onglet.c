@@ -36,6 +36,7 @@
 #include "etats_onglet.h"
 #include "etats_calculs.h"
 #include "dialog.h"
+#include "grisbi_app.h"
 #include "utils_file_selection.h"
 #include "gsb_automem.h"
 #include "gsb_data_report_amout_comparison.h"
@@ -1130,7 +1131,7 @@ void exporter_etat ( void )
         gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general), GSB_REPORTS_PAGE );
 
     fenetre_nom = gtk_file_chooser_dialog_new ( _("Export report"),
-					   GTK_WINDOW ( run.window ),
+					   GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
 					   GTK_FILE_CHOOSER_ACTION_SAVE,
 					   "gtk-cancel", GTK_RESPONSE_CANCEL,
 					   "gtk-save", GTK_RESPONSE_OK,
@@ -1219,7 +1220,7 @@ void importer_etat ( void )
 	gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general), GSB_REPORTS_PAGE );
 
     fenetre_nom = gtk_file_chooser_dialog_new ( _("Import a report"),
-					   GTK_WINDOW ( run.window ),
+					   GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
 					   GTK_FILE_CHOOSER_ACTION_OPEN,
 					   "gtk-cancel", GTK_RESPONSE_CANCEL,
 					   "gtk-open", GTK_RESPONSE_OK,

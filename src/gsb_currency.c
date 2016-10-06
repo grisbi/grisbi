@@ -37,6 +37,7 @@
 /*START_INCLUDE*/
 #include "gsb_currency.h"
 #include "dialog.h"
+#include "grisbi_app.h"
 #include "gsb_autofunc.h"
 #include "gsb_currency_config.h"
 #include "gsb_data_account.h"
@@ -523,7 +524,7 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
     }
 
     dialog = gtk_dialog_new_with_buttons ( _("Enter exchange rate"),
-                        GTK_WINDOW ( run.window ),
+                        GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
                         GTK_DIALOG_MODAL,
                         "gtk-cancel", GTK_RESPONSE_CANCEL,
                         "gtk-ok", GTK_RESPONSE_OK,

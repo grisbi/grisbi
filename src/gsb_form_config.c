@@ -35,6 +35,7 @@
 /*START_INCLUDE*/
 #include "gsb_form_config.h"
 #include "dialog.h"
+#include "grisbi_app.h"
 #include "gsb_account.h"
 #include "gsb_automem.h"
 #include "gsb_data_account.h"
@@ -782,7 +783,8 @@ gboolean gsb_form_config_realized ( GtkWidget *tree_view,
     /* fill and update the form list and buttons */
     gsb_form_config_update_form_config (account_number);
 
-    display = gdk_window_get_display (gtk_widget_get_window (run.window));
+    display = gdk_window_get_display (gtk_widget_get_window (
+                                      GTK_WIDGET (grisbi_app_get_active_window (NULL))));
     cursor = gdk_cursor_new_for_display (display, GDK_FLEUR);
     gdk_window_set_cursor (gtk_widget_get_window (tree_view), cursor);
 

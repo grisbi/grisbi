@@ -32,6 +32,7 @@
 /*START_INCLUDE*/
 #include "gsb_select_icon.h"
 #include "dialog.h"
+#include "grisbi_app.h"
 #include "utils_str.h"
 #include "structures.h"
 #include "utils.h"
@@ -166,7 +167,7 @@ gchar * gsb_select_icon_create_window ( gchar *name_icon )
 
     path_icon = g_path_get_dirname ( name_icon );
     dialog = gtk_dialog_new_with_buttons ( _("Browse icons"),
-                            GTK_WINDOW ( run.window ),
+                            GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
                             GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
                             "gtk-cancel",
                             GTK_RESPONSE_REJECT,

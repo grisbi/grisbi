@@ -44,6 +44,7 @@
 #include "categories_onglet.h"
 #include "dialog.h"
 #include "fenetre_principale.h"
+#include "grisbi_app.h"
 #include "grisbi_settings.h"
 #include "gsb_archive_config.h"
 #include "gsb_automem.h"
@@ -557,7 +558,7 @@ gboolean preferences ( gint page )
 
     /* Create dialog */
     fenetre_preferences = gtk_dialog_new_with_buttons (_("Grisbi preferences"),
-                        GTK_WINDOW ( run.window ),
+                        GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
                         GTK_DIALOG_MODAL,
                         "gtk-close", GTK_RESPONSE_CLOSE,
                         NULL );
@@ -1251,7 +1252,7 @@ GtkWidget *onglet_fichier ( void )
     /* on passe par une fonction intermédiaire pour pallier à un bug
      * du gtk_file_chooser_button_new qui donne le répertoire home
      * lorsque l'on annule le choix du nouveau répertoire */
-    dialog = utils_files_create_file_chooser ( run.window,
+    dialog = utils_files_create_file_chooser (GTK_WIDGET(grisbi_app_get_active_window (NULL)),
                         _("Select/Create backup directory") );
 
     button = gtk_file_chooser_button_new_with_dialog ( dialog );

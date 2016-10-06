@@ -33,6 +33,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_status.h"
+#include "grisbi_app.h"
 #include "structures.h"
 #include "utils.h"
 /*END_INCLUDE*/
@@ -120,8 +121,8 @@ void gsb_status_wait ( gboolean force_update )
     GdkWindow *current_window;
     GdkWindow *run_window;
 
-    run_window = gtk_widget_get_window (GTK_WIDGET (run.window));
-    display = display = gdk_window_get_display (run_window);
+    run_window = gtk_widget_get_window (GTK_WIDGET (grisbi_app_get_active_window (NULL)));
+    display = gdk_window_get_display (run_window);
     device_manager = gdk_display_get_device_manager (display);
     device = gdk_device_manager_get_client_pointer (device_manager);
 
@@ -161,10 +162,10 @@ void gsb_status_wait ( gboolean force_update )
  */
 void gsb_status_stop_wait ( gboolean force_update )
 {
-    if ( ! run.window )
+    if ( ! grisbi_app_get_active_window (NULL) )
 	return;
 
-    gdk_window_set_cursor ( gtk_widget_get_window ( GTK_WIDGET ( run.window ) ), NULL );
+    gdk_window_set_cursor ( gtk_widget_get_window ( GTK_WIDGET ( grisbi_app_get_active_window (NULL) ) ), NULL );
 
     if ( tracked_window && gdk_window_is_visible ( tracked_window ) )
     {

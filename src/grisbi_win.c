@@ -36,7 +36,6 @@
 #include <gtk/gtk.h>
 
 /*START_INCLUDE*/
-#include "grisbi_win.h"
 #include "grisbi_app.h"
 #include "accueil.h"
 #include "gsb_data_account.h"
@@ -435,8 +434,6 @@ static void grisbi_win_init (GrisbiWin *win)
 
 	/* initialisation de la barre d'état */
 	grisbi_win_init_statusbar (GRISBI_WIN (win));
-
-	run.window = GTK_WIDGET (win);
 }
 
 /**
@@ -551,6 +548,7 @@ void grisbi_win_init_menubar (GrisbiWin *win,
 	GrisbiWinPrivate *priv;
 	GAction *action;
     gchar * items[] = {
+        "new-window",
         "save",
         "save-as",
         "export-accounts",
@@ -839,7 +837,7 @@ gboolean grisbi_win_set_grisbi_title (gint account_number)
             return_value = FALSE;
         }
     }
-    gtk_window_set_title (GTK_WINDOW (run.window), titre_grisbi);
+    gtk_window_set_title (GTK_WINDOW (grisbi_app_get_active_window (NULL)), titre_grisbi);
 
     if (titre_grisbi && strlen (titre_grisbi) > 0)
     {
@@ -935,7 +933,7 @@ GtkWidget *grisbi_win_create_general_widgets (GrisbiWin *win)
     {
         gint width, height;
 
-        gtk_window_get_size (GTK_WINDOW (run.window), &width, &height);
+        gtk_window_get_size (GTK_WINDOW (win), &width, &height);
         gtk_paned_set_position (GTK_PANED (priv->hpaned_general), (gint) width / 4);
     }
 
