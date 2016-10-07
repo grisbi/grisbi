@@ -35,6 +35,7 @@
 /*START_INCLUDE*/
 #include "erreur.h"
 #include "dialog.h"
+#include "grisbi_win.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
 #include "gsb_file_save.h"

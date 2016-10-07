@@ -33,6 +33,7 @@
 #include "etats_calculs.h"
 #include "etats_affiche.h"
 #include "utils_dates.h"
+#include "grisbi_win.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"

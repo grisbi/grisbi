@@ -29,6 +29,7 @@
 /*START_INCLUDE*/
 #include "gsb_debug.h"
 #include "dialog.h"
+#include "grisbi_win.h"
 #include "gsb_assistant.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"

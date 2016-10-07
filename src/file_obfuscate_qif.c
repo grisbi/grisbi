@@ -35,6 +35,7 @@
 /*START_INCLUDE*/
 #include "file_obfuscate_qif.h"
 #include "dialog.h"
+#include "grisbi_win.h"
 #include "utils_file_selection.h"
 #include "gsb_assistant.h"
 #include "gsb_file.h"
