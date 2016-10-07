@@ -43,7 +43,6 @@
 #include "gsb_form.h"
 #include "menu.h"
 #include "navigation.h"
-#include "gsb_status.h"
 #include "structures.h"
 #include "utils.h"
 #include "erreur.h"
@@ -111,6 +110,7 @@ struct _GrisbiWinPrivate
 
     /* statusbar */
     GtkWidget *         statusbar;
+    GdkWindow *         tracked_window;
     guint               context_id;
     guint               message_id;
 
@@ -149,9 +149,8 @@ static void grisbi_win_init_statusbar (GrisbiWin *win)
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
     /* set status_bar PROVISOIRE */
-    gsb_status_set_status_bar (priv->statusbar);
     priv->context_id = gtk_statusbar_get_context_id (GTK_STATUSBAR (priv->statusbar), "Grisbi");
-    priv->message_id = -1;
+    priv->message_id = G_MAXUINT;
 
     gtk_widget_show_all (priv->statusbar);
 
@@ -1054,6 +1053,142 @@ void grisbi_win_headings_update_suffix (gchar *suffix)
 
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (grisbi_app_get_active_window (NULL)));
     grisbi_win_headings_private_update_label_markup (GTK_LABEL (priv->headings_suffix), suffix, FALSE);
+}
+
+/* STATUS_BAR */
+/**
+ * Clear any message in the status bar.
+ *
+ * \param
+ *
+ * \return
+ **/
+void grisbi_win_status_bar_clear (void)
+{
+	GrisbiWinPrivate *priv;
+
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (grisbi_app_get_active_window (NULL)));
+
+    if (!priv->statusbar || !GTK_IS_STATUSBAR (priv->statusbar))
+        return;
+
+    if (priv->message_id < G_MAXUINT)
+    {
+        gtk_statusbar_remove (GTK_STATUSBAR (priv->statusbar), priv->context_id, priv->message_id);
+        priv->message_id = G_MAXUINT;
+    }
+
+    /* force status message to be displayed NOW */
+    update_gui ();
+}
+
+/**
+ * Display a message in the status bar.
+ *
+ * \param message	Message to display.
+ *
+ * \return
+ **/
+void grisbi_win_status_bar_message (gchar *message)
+{
+	GrisbiWinPrivate *priv;
+
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (grisbi_app_get_active_window (NULL)));
+
+    if (!priv->statusbar || !GTK_IS_STATUSBAR (priv->statusbar))
+        return;
+
+    if (priv->message_id < G_MAXUINT)
+        gtk_statusbar_remove (GTK_STATUSBAR (priv->statusbar), priv->context_id, priv->message_id);
+
+    priv->message_id = gtk_statusbar_push (GTK_STATUSBAR (priv->statusbar), priv->context_id, message);
+
+    /* force status message to be displayed NOW */
+    update_gui ();
+}
+
+/**
+ * Change current cursor to a animated watch (if animation supported
+ * by environment).
+ *
+ * \param force_update		Call a gtk iteration to ensure cursor
+ *			                is updated.  May cause trouble if
+ *				            called from some signal handlers.
+ *
+ * \return
+ **/
+void grisbi_win_status_bar_wait (gboolean force_update)
+{
+    GrisbiWin *win;
+	GrisbiWinPrivate *priv;
+    GdkDeviceManager *device_manager;
+    GdkDisplay *display;
+    GdkDevice *device;
+    GdkWindow *current_window;
+    GdkWindow *run_window;
+
+    win = grisbi_app_get_active_window (NULL);
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+
+    run_window = gtk_widget_get_window (GTK_WIDGET (win));
+    display = gdk_window_get_display (run_window);
+    device_manager = gdk_display_get_device_manager (display);
+    device = gdk_device_manager_get_client_pointer (device_manager);
+
+    gdk_window_set_cursor (run_window, gdk_cursor_new_for_display (display, GDK_WATCH));
+
+    current_window = gdk_device_get_window_at_position (device, NULL, NULL);
+
+    if (current_window && GDK_IS_WINDOW (current_window) && current_window != run_window)
+    {
+        GdkWindow *parent = gdk_window_get_toplevel (current_window);
+
+        if (parent && parent != current_window)
+        {
+            current_window = parent;
+        }
+
+        gdk_window_set_cursor (current_window,
+                               gdk_cursor_new_for_display (gdk_display_get_default (),
+                                                           GDK_WATCH));
+
+        priv->tracked_window = current_window;
+    }
+
+    if (force_update)
+        update_gui ();
+}
+
+
+/**
+ * Change current cursor to default cursor.
+ *
+ * \param force_update		Call a gtk iteration to ensure cursor
+ *				            is updated.  May cause trouble if
+ *				            called from some signal handlers.
+ *
+ * \return
+ **/
+void grisbi_win_status_bar_stop_wait (gboolean force_update)
+{
+    GrisbiWin *win;
+	GrisbiWinPrivate *priv;
+
+    win = grisbi_app_get_active_window (NULL);
+    if (!win)
+        return;
+
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+    if (priv->tracked_window && gdk_window_is_visible (priv->tracked_window))
+    {
+        gdk_window_set_cursor (priv->tracked_window, NULL);
+        priv->tracked_window = NULL;
+    }
+    else
+    gdk_window_set_cursor (gtk_widget_get_window (GTK_WIDGET (win)), NULL);
+
+    if (force_update)
+        update_gui ();
 }
 
 /**

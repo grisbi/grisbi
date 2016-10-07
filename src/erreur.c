@@ -41,7 +41,6 @@
 #include "gsb_file_util.h"
 #include "gsb_locale.h"
 #include "gsb_real.h"
-#include "gsb_status.h"
 #include "import.h"
 #include "utils.h"
 #include "utils_str.h"
@@ -207,13 +206,13 @@ void debug_traitement_sigsegv ( gint signal_nb )
 						"/#grisbi_crash_no_name#",
 						NULL );
 
-	gsb_status_message ( _("Save file") );
+	grisbi_win_status_bar_message ( _("Save file") );
 
 	gsb_file_save_save_file ( nom_fichier_comptes,
 				  conf.compress_file,
 				  FALSE );
 
-	gsb_status_clear();
+	grisbi_win_status_bar_clear();
 
     old_errmsg = errmsg;
 	errmsg = g_strconcat ( errmsg,

@@ -51,7 +51,6 @@
 #include "gsb_dirs.h"
 #include "gsb_file_save.h"
 #include "gsb_file_util.h"
-#include "gsb_status.h"
 #include "utils.h"
 /*END_INCLUDE*/
 
@@ -89,7 +88,7 @@ gboolean file_obfuscate_run ( void )
     GtkWidget *assistant;
     gint result;
 
-    gsb_status_message ( _("Obfuscating file...") );
+    grisbi_win_status_bar_message ( _("Obfuscating file...") );
 
     assistant = gsb_assistant_new ( _("Grisbi file obfuscation"),
                         _("This assistant produces anonymized copies of account files, with "
@@ -432,7 +431,7 @@ gboolean file_obfuscate_run ( void )
     }
 
     gtk_widget_destroy ( assistant );
-    gsb_status_message ( _("Done.") );
+    grisbi_win_status_bar_message ( _("Done.") );
 
     return FALSE;
 }

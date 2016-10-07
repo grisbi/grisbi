@@ -45,7 +45,6 @@
 #include "gsb_file_others.h"
 #include "navigation.h"
 #include "gsb_report.h"
-#include "gsb_status.h"
 #include "traitement_variables.h"
 #include "utils.h"
 #include "etats_config.h"
@@ -1169,9 +1168,9 @@ void exporter_etat ( void )
     {
 	nom_etat = file_selection_get_filename ( GTK_FILE_CHOOSER ( fenetre_nom ));
 
-	gsb_status_message ( _("Exporting report...") );
+	grisbi_win_status_bar_message ( _("Exporting report...") );
 
-	gsb_status_wait ( TRUE );
+	grisbi_win_status_bar_wait ( TRUE );
 
 	switch ( GPOINTER_TO_INT(g_object_get_data ( G_OBJECT(fenetre_nom), "format" ) ) )
 	{
@@ -1191,9 +1190,9 @@ void exporter_etat ( void )
 		break;
 	}
 
-	gsb_status_stop_wait ( TRUE );
+	grisbi_win_status_bar_stop_wait ( TRUE );
 
-	gsb_status_message ( _("Done") );
+	grisbi_win_status_bar_message ( _("Done") );
     }
     tmp_last_directory = file_selection_get_last_directory ( GTK_FILE_CHOOSER ( fenetre_nom ), TRUE );
     gsb_file_update_last_path ( tmp_last_directory );

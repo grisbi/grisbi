@@ -58,7 +58,6 @@
 #include "gsb_file_save.h"
 #include "gsb_file_util.h"
 #include "gsb_real.h"
-#include "gsb_status.h"
 #include "gsb_transactions_list.h"
 #include "menu.h"
 #include "navigation.h"
@@ -369,7 +368,7 @@ static gboolean gsb_file_save_backup ( void )
     if (!gsb_file_get_backup_path () || !gsb_file_get_modified () )
         return FALSE;
 
-    gsb_status_message ( _("Saving backup") );
+    grisbi_win_status_bar_message ( _("Saving backup") );
 
     name = g_path_get_basename (nom_fichier_comptes);
     if ( g_str_has_suffix ( name, ".gsb" ) )
@@ -414,7 +413,7 @@ static gboolean gsb_file_save_backup ( void )
     g_free (filename);
     g_free (name);
 
-    gsb_status_message ( _("Done") );
+    grisbi_win_status_bar_message ( _("Done") );
 
     return ( retour );
 }
@@ -507,7 +506,7 @@ gboolean gsb_file_save_file ( gint origine )
 
     /*   on a maintenant un nom de fichier */
     /*     et on sait qu'on peut sauvegarder */
-    gsb_status_message ( _("Saving file") );
+    grisbi_win_status_bar_message ( _("Saving file") );
 
     result = gsb_file_save_save_file ( nouveau_nom_enregistrement, conf.compress_file, FALSE );
 
@@ -527,7 +526,7 @@ gboolean gsb_file_save_file ( gint origine )
         grisbi_win_set_grisbi_title ( gsb_gui_navigation_get_current_account ( ) );
     }
 
-    gsb_status_message ( _("Done") );
+    grisbi_win_status_bar_message ( _("Done") );
 
     return ( result );
 }
@@ -589,7 +588,7 @@ void gsb_file_new_gui ( void )
     recuperation_noms_colonnes_et_tips ();
 
     /* Create main widget. */
-    gsb_status_message ( _("Creating main window") );
+    grisbi_win_status_bar_message ( _("Creating main window") );
     main_box = grisbi_win_get_main_box (win);
 
     /* création de vbox_general */
@@ -800,8 +799,8 @@ gboolean gsb_file_open_file ( gchar *filename )
 	if ( !gsb_file_test_file ( filename ) )
 		return FALSE;
 
-    gsb_status_wait ( TRUE );
-    gsb_status_message ( _("Loading accounts") );
+    grisbi_win_status_bar_wait ( TRUE );
+    grisbi_win_status_bar_message ( _("Loading accounts") );
 
     /* try to load the file */
     /* FIXME:BUG under Windows: for unknwon reason yet filename is cleared
@@ -838,13 +837,13 @@ gboolean gsb_file_open_file ( gchar *filename )
             dialogue_error_hint (_("The version of your file is less than 0.6. "
                                    "This file can not be imported by Grisbi."),
                                  _("Version of Grisbi file too old :"));
-            gsb_status_stop_wait ( TRUE );
+            grisbi_win_status_bar_stop_wait ( TRUE );
 
             return FALSE;
         }
 
         /* Loading failed. */
-        gsb_status_message ( _("Failed to load accounts") );
+        grisbi_win_status_bar_message ( _("Failed to load accounts") );
 
 		tmp_str1 = g_strdup_printf ( _("Error loading file '%s'"), filename );
 
@@ -880,14 +879,14 @@ gboolean gsb_file_open_file ( gchar *filename )
 		g_free ( tmp_str1 );
 		g_free ( tmp_str2 );
 
-		gsb_status_stop_wait ( TRUE );
+		grisbi_win_status_bar_stop_wait ( TRUE );
         gsb_menu_recent_manager_remove_item ( NULL, filename );
 
 		return FALSE;
     }
 
     /* ok, here the file or backup is loaded */
-    gsb_status_message ( _("Checking schedulers") );
+    grisbi_win_status_bar_message ( _("Checking schedulers") );
 
 	/* create the archives store data, ie the transaction wich will replace the archive in
      * the list of transactions */
@@ -897,7 +896,7 @@ gboolean gsb_file_open_file ( gchar *filename )
     gsb_file_new_gui ();
 
 	/* check the amounts of all the accounts */
-    gsb_status_message ( _("Checking amounts"));
+    grisbi_win_status_bar_message ( _("Checking amounts"));
     list_tmp = gsb_data_account_get_list_accounts ();
 
     while ( list_tmp )
@@ -928,8 +927,8 @@ gboolean gsb_file_open_file ( gchar *filename )
      * as sensitive/unsensitive so do it now */
     gsb_file_set_modified ( gsb_file_get_modified () );
 
-    gsb_status_message ( _("Done") );
-    gsb_status_stop_wait ( TRUE );
+    grisbi_win_status_bar_message ( _("Done") );
+    grisbi_win_status_bar_stop_wait ( TRUE );
 
     /* go to the home page */
     gsb_gui_navigation_set_selection ( GSB_HOME_PAGE, -1, NULL );

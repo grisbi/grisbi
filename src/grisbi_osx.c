@@ -40,7 +40,6 @@
 #include "gsb_assistant_archive_export.h"
 #include "gsb_debug.h"
 #include "gsb_file.h"
-#include "gsb_status.h"
 #include "gsb_transactions_list.h"
 #include "file_obfuscate.h"
 #include "file_obfuscate_qif.h"

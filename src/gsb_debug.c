@@ -39,7 +39,6 @@
 #include "gsb_data_transaction.h"
 #include "gsb_file.h"
 #include "gsb_real.h"
-#include "gsb_status.h"
 #include "traitement_variables.h"
 #include "utils.h"
 #include "utils_real.h"
@@ -150,7 +149,7 @@ gboolean gsb_debug ( void )
     GtkTextBuffer * text_buffer;
     GtkWidget *scrolled_window;
 
-    gsb_status_message ( _("Checking file for possible corruption...") );
+    grisbi_win_status_bar_message ( _("Checking file for possible corruption...") );
 
     assistant = gsb_assistant_new ( _("Grisbi accounts debug"),
 				    _("This assistant will help you to search your account "
@@ -245,7 +244,7 @@ gboolean gsb_debug_enter_test_page ( GtkWidget * assistant )
 	}
     }
 
-    gsb_status_message ( _("Done") );
+    grisbi_win_status_bar_message ( _("Done") );
 
     if ( !inconsistency )
     {

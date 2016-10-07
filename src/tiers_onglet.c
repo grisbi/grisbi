@@ -50,7 +50,6 @@
 #include "gsb_data_transaction.h"
 #include "gsb_file.h"
 #include "gsb_form_widget.h"
-#include "gsb_status.h"
 #include "gsb_transactions_list.h"
 #include "gtk_combofix.h"
 #include "import.h"
@@ -555,7 +554,7 @@ void payees_fill_list ( void )
 
     devel_debug (NULL);
 
-    gsb_status_wait ( FALSE );
+    grisbi_win_status_bar_wait ( FALSE );
 
     /* on bloque la fonction pendant la mise à jour du model */
     selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( payee_tree ) );
@@ -647,7 +646,7 @@ void payees_fill_list ( void )
 
     g_object_unref ( G_OBJECT ( payee_tree_model ) );
 
-    gsb_status_stop_wait ( FALSE );
+    grisbi_win_status_bar_stop_wait ( FALSE );
 }
 
 
@@ -959,7 +958,7 @@ void payees_manage_payees ( void )
         struct struct_payee_asso *assoc;
 
         /* on remplace les anciens tiers par le nouveau et on sauvegarde si nécessaire */
-        gsb_status_wait ( TRUE );
+        grisbi_win_status_bar_wait ( TRUE );
 
         sup_payees = g_object_get_data ( G_OBJECT (assistant), "sup_payees" );
         if ( (nb_removed = g_slist_length ( sup_payees ) ) == 1 )
@@ -1065,7 +1064,7 @@ void payees_manage_payees ( void )
         gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW (payee_tree), path,
                         NULL, TRUE, 0.5, 0.5 );
         gtk_tree_path_free ( path );
-        gsb_status_stop_wait ( TRUE );
+        grisbi_win_status_bar_stop_wait ( TRUE );
     }
 
     g_slist_free ( g_object_get_data ( G_OBJECT (assistant), "sup_payees" ) );

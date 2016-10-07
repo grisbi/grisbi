@@ -132,7 +132,6 @@ libgrisbi_la_SOURCES = \
 	gsb_scheduler.c		\
 	gsb_scheduler_list.c	\
 	gsb_select_icon.c \
-	gsb_status.c		\
 	gsb_transactions_list.c	\
 	gsb_transactions_list_sort.c	\
 	gtk_combofix.c		\
@@ -276,7 +275,6 @@ libgrisbi_la_SOURCES = \
 	gsb_regex.h		\
 	gsb_report.h		\
 	gsb_rgba.h  \
-	gsb_status.h            \
 	gsb_select_icon.h 	\
 	gsb_scheduler.h		\
 	gsb_scheduler_list.h	\

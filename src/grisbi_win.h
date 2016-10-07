@@ -43,6 +43,11 @@ void            grisbi_win_menu_move_to_acc_update          (gboolean active);
 gboolean        grisbi_win_set_grisbi_title                 (gint account_number);
 void            grisbi_win_set_size_and_position            (GtkWindow *win);
 
+void            grisbi_win_status_bar_clear                 (void);
+void            grisbi_win_status_bar_message               (gchar *message);
+void            grisbi_win_status_bar_stop_wait             (gboolean force_update);
+void            grisbi_win_status_bar_wait                  (gboolean force_update);
+
 G_END_DECLS
 
 #endif  /* __GRISBI_APP_H__ */

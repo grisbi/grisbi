@@ -38,7 +38,6 @@
 #include "utils_file_selection.h"
 #include "gsb_assistant.h"
 #include "gsb_file.h"
-#include "gsb_status.h"
 /*END_INCLUDE*/
 
 
@@ -65,7 +64,7 @@ gboolean file_obfuscate_qif_run ( void )
     GtkWidget *assistant;
     gint result;
 
-    gsb_status_message ( _("Obfuscating qif file...") );
+    grisbi_win_status_bar_message ( _("Obfuscating qif file...") );
 
     assistant = gsb_assistant_new ( _("Grisbi QIF obfuscation"),
 				    _("This assistant produces anonymized copies of qif files, with "
@@ -122,7 +121,7 @@ gboolean file_obfuscate_qif_run ( void )
 
     gtk_widget_destroy ( assistant );
 
-    gsb_status_message ( _("Done.") );
+    grisbi_win_status_bar_message ( _("Done.") );
 
     return FALSE;
 }

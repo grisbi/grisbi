@@ -70,7 +70,6 @@
 #include "navigation.h"
 #include "menu.h"
 #include "tiers_onglet.h"
-#include "gsb_status.h"
 #include "utils_str.h"
 #include "gsb_transactions_list.h"
 #include "gtk_combofix.h"
@@ -329,10 +328,10 @@ void importer_fichier ( void )
 
     if ( gsb_assistant_run ( assistant ) == GTK_RESPONSE_APPLY )
     {
-        gsb_status_wait ( TRUE );
+        grisbi_win_status_bar_wait ( TRUE );
         traitement_operations_importees ();
         gtk_widget_destroy ( assistant );
-        gsb_status_stop_wait ( TRUE );
+        grisbi_win_status_bar_stop_wait ( TRUE );
     }
     else
     {
@@ -1619,7 +1618,7 @@ void traitement_operations_importees ( void )
     if ( virements_a_chercher )
     cree_liens_virements_ope_import ();
 
-    gsb_status_message ( _("Please wait") );
+    grisbi_win_status_bar_message ( _("Please wait") );
 
     /* update the name of accounts in scheduler form */
     gsb_account_update_combo_list (
@@ -1640,7 +1639,7 @@ void traitement_operations_importees ( void )
     run.mise_a_jour_soldes_minimaux = TRUE;
     mise_a_jour_accueil ( FALSE );
 
-    gsb_status_clear();
+    grisbi_win_status_bar_clear();
 
     /* if some R marked transactions are imported, show a message */
     if (marked_r_transactions_imported)
