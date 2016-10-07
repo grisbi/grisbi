@@ -109,7 +109,7 @@ static GtkWidget *preview = NULL;
  *
  * \return
  * */
-static void prefs_sort_column_treeview_clicked (GtkWidget *toggle_button,
+static void prefs_sort_order_column_treeview_clicked (GtkWidget *toggle_button,
                                                 gpointer null)
 {
     gsb_archive_config_set_sort_order (GINT_TO_POINTER (conf.prefs_sort_order));
