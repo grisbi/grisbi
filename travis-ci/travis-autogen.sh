@@ -33,11 +33,11 @@ CFLAGS+=" -Wno-unused-parameter"
 #CFLAGS+=" -Wno-unused-function"
 CFLAGS+=" -Wno-deprecated-declarations"
 
-# fails on warning
-#CFLAGS+=" -Werror"
+# fail on warning
+configure_args+=" --enable-werror"
 
 export CFLAGS
 echo "CFLAGS: $CFLAGS"
 
-sh -x ./autogen.sh
-./configure "$@"
+sh ./autogen.sh
+./configure $configure_args "$@"
