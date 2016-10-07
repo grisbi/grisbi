@@ -1151,10 +1151,11 @@ gboolean affichage_recapitulatif_importation ( GtkWidget * assistant )
     while ( list_tmp )
     {
     struct struct_compte_importation * compte;
+
     compte = list_tmp -> data;
 
     /* add one page per account */
-    gsb_assistant_add_page ( assistant, cree_ligne_recapitulatif ( list_tmp -> data ),
+    gsb_assistant_add_page ( assistant, cree_ligne_recapitulatif (compte),
                         page, page - 1, page + 1, G_CALLBACK ( NULL ) );
     page ++;
 
@@ -3771,7 +3772,7 @@ GtkWidget *onglet_importation (void)
 GtkWidget * gsb_import_associations_gere_tiers ( void )
 {
     GtkWidget *vbox_main, *vbox, *paddingbox, *button;
-    GtkWidget *hbox, *vbox2, *sw, *treeview ;
+    GtkWidget *sw, *treeview ;
     GtkWidget *entry_search, *label, *entry_payee;
     GtkWidget *grid;
     GtkWidget *paddinggrid;

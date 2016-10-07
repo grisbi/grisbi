@@ -140,7 +140,6 @@ GtkWidget *gsb_form_config_create_page ( void )
 void gsb_form_config_make_configuration_box ( GtkWidget *vbox_parent )
 {
     GtkWidget *sw;
-    GtkWidget *hbox;
     GtkWidget *paddingbox;
     GtkWidget *paddinggrid;
     GtkListStore* list_store;
@@ -770,7 +769,6 @@ gboolean gsb_form_config_fill_store ( gint account_number )
 gboolean gsb_form_config_realized ( GtkWidget *tree_view,
 				    gpointer null )
 {
-    gint column;
     gint account_number;
     GdkCursor *cursor;
     GdkDisplay *display;

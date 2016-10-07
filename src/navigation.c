@@ -949,7 +949,6 @@ void gsb_gui_navigation_add_account ( gint account_number,
 gboolean navigation_change_account ( gint new_account )
 {
     gint current_account;
-    gchar *tmp_menu_path;
     //~ printf ("navigation_change_account : new_account = %d\n", new_account);
 
     devel_debug_int (new_account);
@@ -2106,12 +2105,12 @@ gboolean gsb_gui_navigation_button_press ( GtkWidget *tree_view,
 void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
                         GtkTreePath *path )
 {
-    GtkWidget *image;
+    //~ GtkWidget *image;
     GtkWidget *menu = NULL;
     GtkWidget *menu_item;
     GtkTreeModel *model;
     GtkTreeIter iter;
-    gchar *tmp_str;
+    //~ gchar *tmp_str;
     gint type_page;
     gint account_number;
     gint report_number;
@@ -2152,9 +2151,9 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
         break;
         case GSB_PAYEES_PAGE :
             menu = gtk_menu_new ();
-            tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "new-payee.png", NULL);
-            image = gtk_image_new_from_file ( tmp_str );
-            g_free ( tmp_str );
+            //~ tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "new-payee.png", NULL);
+            //~ image = gtk_image_new_from_file ( tmp_str );
+            //~ g_free ( tmp_str );
             menu_item = gtk_menu_item_new_with_label ( _("New payee") );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
@@ -2191,9 +2190,9 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
             /* Separator */
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
 
-            tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "payeesmg.png", NULL);
-            image = gtk_image_new_from_file ( tmp_str );
-            g_free ( tmp_str );
+            //~ tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "payeesmg.png", NULL);
+            //~ image = gtk_image_new_from_file ( tmp_str );
+            //~ g_free ( tmp_str );
             menu_item = gtk_menu_item_new_with_label ( _("Manage payees") );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
@@ -2210,9 +2209,9 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
         break;
         case GSB_CATEGORIES_PAGE :
             menu = gtk_menu_new ();
-            tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "new-categ.png", NULL);
-            image = gtk_image_new_from_file ( tmp_str );
-            g_free ( tmp_str );
+            //~ tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "new-categ.png", NULL);
+            //~ image = gtk_image_new_from_file ( tmp_str );
+            //~ g_free ( tmp_str );
             menu_item = gtk_menu_item_new_with_label ( _("New category") );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
@@ -2265,9 +2264,9 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
         break;
         case GSB_BUDGETARY_LINES_PAGE :
             menu = gtk_menu_new ();
-            tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "new-ib.png", NULL);
-            image = gtk_image_new_from_file ( tmp_str );
-            g_free ( tmp_str );
+            //~ tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "new-ib.png", NULL);
+            //~ image = gtk_image_new_from_file ( tmp_str );
+            //~ g_free ( tmp_str );
             menu_item = gtk_menu_item_new_with_label ( _("New budgetary line") );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
@@ -2320,9 +2319,9 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
         break;
         case GSB_REPORTS_PAGE :
             menu = gtk_menu_new ();
-            tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "new-report.png", NULL);
-            image = gtk_image_new_from_file ( tmp_str );
-            g_free ( tmp_str );
+            //~ tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "new-report.png", NULL);
+            //~ image = gtk_image_new_from_file ( tmp_str );
+            //~ g_free ( tmp_str );
             menu_item = gtk_menu_item_new_with_label ( _("New report") );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",

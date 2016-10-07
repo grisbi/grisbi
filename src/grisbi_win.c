@@ -143,7 +143,6 @@ G_DEFINE_TYPE_WITH_PRIVATE(GrisbiWin, grisbi_win, GTK_TYPE_APPLICATION_WINDOW);
  */
 static void grisbi_win_init_statusbar (GrisbiWin *win)
 {
-    GtkWidget *statusbar;
 	GrisbiWinPrivate *priv;
 
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
@@ -227,7 +226,6 @@ static void grisbi_win_create_headings_eb (GrisbiWin *win)
     GtkWidget *arrow_left;
     GtkWidget *arrow_right;
 	GrisbiWinPrivate *priv;
-    gchar *tmp_dir;
 
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
@@ -415,8 +413,6 @@ static void grisbi_win_dispose (GObject *object)
 static void grisbi_win_init (GrisbiWin *win)
 {
 	GrisbiWinPrivate *priv;
-	GtkWidget *statusbar;
-    GtkWidget *headings_eb;
 
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
@@ -445,7 +441,6 @@ static void grisbi_win_init (GrisbiWin *win)
 static void grisbi_win_class_init (GrisbiWinClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS (klass);
-    GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
     object_class->dispose = grisbi_win_dispose;
     object_class->finalize = grisbi_win_finalize;
@@ -544,7 +539,6 @@ GtkWidget *grisbi_win_get_notebook_general (GrisbiWin *win)
 void grisbi_win_init_menubar (GrisbiWin *win,
 						gpointer app)
 {
-	GrisbiWinPrivate *priv;
 	GAction *action;
     gchar * items[] = {
         "new-window",
@@ -574,8 +568,6 @@ void grisbi_win_init_menubar (GrisbiWin *win,
         NULL
     };
     gchar **tmp = items;
-
-	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
 	/* initialisations sub menus */
 	action = g_action_map_lookup_action (G_ACTION_MAP (win), "show-form");
@@ -657,8 +649,6 @@ void grisbi_win_menu_move_to_acc_new (void)
     GMenu *submenu;
     GMenuItem *menu_item;
     GSList *tmp_list;
-    gchar *label;
-    gchar *action_name;
 
     win = grisbi_app_get_active_window (NULL);
     priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
@@ -728,7 +718,6 @@ void grisbi_win_menu_move_to_acc_update (gboolean active)
     GrisbiWin *win;
     GAction *action;
     GSList *tmp_list;
-    gint current_account;
     static gboolean flag_active = FALSE;
 
     if (flag_active == active)

@@ -70,23 +70,6 @@
 
 /* fonctions statiques */
 /**
- * Show or hide closed accounts.
- *
- * \return FALSE
- */
-static gboolean gsb_gui_toggle_show_closed_accounts ( void )
-{
-    conf.show_closed_accounts = !conf.show_closed_accounts;
-
-    gsb_gui_navigation_create_account_list ( gsb_gui_navigation_get_model ( ) );
-    gsb_gui_navigation_update_home_page ( );
-
-    gsb_file_set_modified ( TRUE );
-
-    return FALSE;
-}
-
-/**
  * Start a browser processus with Grisbi bug report page displayed.
  *
  * \return FALSE
@@ -765,8 +748,8 @@ void grisbi_cmd_move_to_account_menu ( GSimpleAction *action,
 						GVariant *parameter,
 						gpointer app )
 {
-	const gchar *target;
-    gint index_target = 0;
+	//~ const gchar *target;
+    //~ gint index_target = 0;
 
 	devel_debug (NULL);
 
@@ -1161,7 +1144,7 @@ gboolean gsb_menu_update_view_menu ( gint account_number )
  * */
 gboolean gsb_menu_update_accounts_in_menus ( void )
 {
-    GSList *list_tmp;
+    //~ GSList *list_tmp;
 
 	return FALSE;
 

@@ -205,7 +205,7 @@ static gboolean gsb_config_partial_balance_group_under_accounts_clicked ( GtkTog
 static GtkWidget *onglet_accueil ( void )
 {
     GtkWidget *vbox_pref, *vbox, *paddingbox, *button;
-    GtkWidget *hbox, *vbox2, *sw, *treeview;
+    GtkWidget *hbox, *sw, *treeview;
     GtkWidget *paddinggrid;
     GtkListStore *list_store;
     GtkTreeViewColumn *column;

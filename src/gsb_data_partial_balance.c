@@ -291,7 +291,7 @@ dialog_return:
          g_utf8_strchr  ( liste_cptes, -1, ';' ) )
         {
             position = gtk_spin_button_get_value_as_int ( GTK_SPIN_BUTTON ( spin_bouton ) );
-            if ( position > g_slist_length ( partial_balance_list ) )
+            if ( position > (gint) g_slist_length ( partial_balance_list ) )
                 partial_balance_number = gsb_partial_balance_new ( name );
             else
                 partial_balance_number = gsb_partial_balance_new_at_position (
@@ -1681,7 +1681,7 @@ GtkWidget *gsb_partial_balance_create_list_accounts ( GtkWidget *entry )
  * */
 GtkWidget *gsb_partial_balance_create_dialog ( gint action, gint spin_value )
 {
-    GtkWidget *dialog, *label, *paddingbox, *main_vbox, *vbox;
+    GtkWidget *dialog, *label, *main_vbox;
     GtkWidget *paddinggrid;
     GtkWidget *entry_name, *entry_list, *account_list, *bouton;
 

@@ -118,9 +118,9 @@ static gchar *payment_sign_list[] =
  */
 GtkWidget *gsb_payment_method_config_create ( void )
 {
-    GtkWidget *vbox_pref, *hbox, *scrolled_window, *paddingbox;
+    GtkWidget *vbox_pref, *scrolled_window;
     GtkWidget *paddinggrid;
-    GtkWidget *vbox, *label;
+    GtkWidget *label;
     GtkTreeViewColumn *column;
     GtkCellRenderer *cell;
     GtkWidget *bouton_ajouter_type;

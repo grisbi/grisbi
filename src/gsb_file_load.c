@@ -121,7 +121,7 @@ static struct
     gboolean report_part;
 } download_tmp_values = { FALSE, NULL, NULL, FALSE, FALSE, FALSE};
 
-static gint account_number;
+//~ static gint account_number;
 
 /* structure temporaire pour le chargement d'un tiers/catégorie/imputation et sous-catégorie
  * sous-imputation */
@@ -3859,7 +3859,7 @@ gboolean gsb_file_load_open_file ( gchar *filename )
      * by default take the 3000 transactions as limit */
     if ( conf.check_for_archival
      &&
-     g_slist_length ( gsb_data_transaction_get_transactions_list () ) >
+     (gint) g_slist_length ( gsb_data_transaction_get_transactions_list () ) >
      conf.max_non_archived_transactions_for_check )
         gsb_assistant_archive_run ( TRUE );
 

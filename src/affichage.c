@@ -368,8 +368,7 @@ void update_fonte_listes ( gchar *fontname,
  */
 GtkWidget *onglet_display_addresses ( void )
 {
-    GtkWidget *hbox, *vbox_pref, *scrolled_window, *label;
-    GtkWidget *paddingbox;
+    GtkWidget *vbox_pref, *scrolled_window, *label;
     GtkWidget *paddinggrid;
     GtkWidget *entry;
     GtkWidget *radio, *radiogroup;

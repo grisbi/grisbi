@@ -180,8 +180,6 @@ GDate *gsb_calendar_entry_get_date ( GtkWidget *entry )
 gboolean gsb_calendar_entry_set_color ( GtkWidget *entry,
 					gboolean normal_color )
 {
-    GtkStyleContext* context;
-
     if (!entry)
         return FALSE;
 

@@ -579,8 +579,6 @@ void budgetary_lines_importer_list ( void )
  */
 GtkWidget *creation_barre_outils_ib ( void )
 {
-    GtkWidget *hbox, *button;
-
     GtkWidget *toolbar;
     GtkToolItem *item;
 
@@ -613,11 +611,6 @@ GtkWidget *creation_barre_outils_ib ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Import button */
-    button = gsb_automem_stock_button_new ( conf.display_toolbar,
-                                "gtk-open",
-                                _("Import"),
-                                G_CALLBACK ( budgetary_lines_importer_list ),
-                                NULL );
     item = utils_buttons_tool_button_new_from_stock ( "gtk-open" );
     gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Import") );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ),
@@ -641,10 +634,6 @@ GtkWidget *creation_barre_outils_ib ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Delete button */
-    button = gsb_automem_stock_button_new ( conf.display_toolbar,
-                                "gtk-delete", _("Delete"),
-                                G_CALLBACK ( supprimer_division ),
-                                budgetary_line_tree );
     item = utils_buttons_tool_button_new_from_stock ( "gtk-delete" );
     gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Delete") );
     metatree_register_widget_as_linked ( GTK_TREE_MODEL ( budgetary_line_tree_model ),
@@ -658,10 +647,6 @@ GtkWidget *creation_barre_outils_ib ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Properties button */
-    button = gsb_automem_stock_button_new ( conf.display_toolbar,
-                                "gtk-edit", _("Edit"),
-                                G_CALLBACK ( edit_budgetary_line ),
-                                budgetary_line_tree );
     item = utils_buttons_tool_button_new_from_stock ( "gtk-edit" );
     gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Edit") );
     metatree_register_widget_as_linked ( GTK_TREE_MODEL ( budgetary_line_tree_model ),

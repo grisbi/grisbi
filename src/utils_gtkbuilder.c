@@ -140,12 +140,9 @@ GtkBuilder *utils_gtk_builder_new_from_file ( const gchar *ui_name )
 {
     GtkBuilder *builder;
     gchar *filename;
-    GError *error = NULL;
-    //~ printf ("utils_gtk_builder_new_from_file ()\n");
 
     /* obtention du nom long du fichier UI */
     filename = utils_gtkbuilder_get_full_path ( ui_name );
-    //~ printf ("filename = %s\n", filename );
     if ( !g_file_test ( filename, G_FILE_TEST_EXISTS ) )
     {
         gchar* tmpstr;

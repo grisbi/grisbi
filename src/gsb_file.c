@@ -92,60 +92,6 @@ extern GtkWidget *tree_view_vbox;
 /* Private Methods                                                            */
 /******************************************************************************/
 /**
- * efface la copie du fichier de comptes ancienne version
- *
- * \param filename  le chemein du fichier à effacer
- *
- * */
-static void gsb_file_save_remove_old_file ( gchar *filename )
-{
-    GtkWidget *dialog;
-    GtkWidget *hbox;
-    GtkWidget *image;
-    GtkWidget *label;
-    gint resultat;
-	gchar *tmpstr;
-
-    dialog = gtk_dialog_new_with_buttons (
-                        _("Delete file copy from a previous version of Grisbi"),
-                        GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
-                        GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-                        "gtk-no", GTK_RESPONSE_CANCEL,
-                        "gtk-yes", GTK_RESPONSE_OK,
-                        NULL );
-
-    gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
-    gtk_window_set_resizable ( GTK_WINDOW ( dialog ), FALSE );
-
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5);
-    gtk_container_set_border_width ( GTK_CONTAINER( hbox ), 6 );
-    gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), hbox, FALSE, FALSE, 5 );
-
-    image = gtk_image_new_from_icon_name ("gtk-dialog-warning",
-                        GTK_ICON_SIZE_DIALOG );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), image, FALSE, FALSE, 5 );
-
-    tmpstr = g_strdup_printf (
-                        _("Caution, you are about to delete a file copy\n"
-                        "from a previous version of Grisbi.\n"
-                        "\n<b>Do you want to delete this file:\n%s ?</b>"),
-                        filename );
-
-    label = gtk_label_new ( tmpstr );
-    gtk_label_set_use_markup ( GTK_LABEL( label ), TRUE );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
-    g_free ( tmpstr );
-
-    gtk_widget_show_all ( dialog );
-
-    resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
-
-    if ( resultat == GTK_RESPONSE_OK )
-        g_unlink ( filename );
-    gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
-}
-
-/**
  * teste la validité d'un fichier
  *
  * \param const gchar 	filename
@@ -450,7 +396,6 @@ static gboolean gsb_file_automatic_backup ( gpointer null )
  * */
 gboolean gsb_file_save_file ( gint origine )
 {
-    gint etat_force = 0;
     gint result = 0;
     gchar *nouveau_nom_enregistrement;
 
@@ -696,8 +641,6 @@ gboolean gsb_file_open_menu ( void )
  * */
 void gsb_file_init_last_path ( const gchar *last_path )
 {
-    GSettings *settings;
-
     devel_debug ( last_path );
 
     if (last_path && strlen ( last_path ) )
@@ -1032,8 +975,6 @@ gboolean gsb_file_automatic_backup_change_time ( GtkWidget *spinbutton,
  * */
 gboolean gsb_file_close ( void )
 {
-    gint result;
-
     devel_debug (NULL);
 
     if ( !assert_account_loaded () )

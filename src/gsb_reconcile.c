@@ -713,31 +713,9 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
  * */
 void gsb_reconcile_sensitive ( gboolean sensitive )
 {
-    GtkUIManager *ui_manager;
-
-/*    ui_manager = gsb_menu_get_ui_manager ( );
-*/    gtk_widget_set_sensitive ( gsb_gui_navigation_get_tree_view ( ), sensitive );
+    gtk_widget_set_sensitive ( gsb_gui_navigation_get_tree_view ( ), sensitive );
     grisbi_win_headings_sensitive_headings (sensitive);
-    /* add by pbiava 02/11/2009 */
-/*    gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( ui_manager,
-                              "/menubar/ViewMenu/ShowReconciled/" ),
-			       sensitive );
-    gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( ui_manager,
-                              "/menubar/ViewMenu/ShowArchived/" ),
-			       sensitive );
-    gtk_widget_set_sensitive ( gtk_ui_manager_get_widget (ui_manager,
-							  "show-closed-acc/" ),
-			       sensitive );
-    gtk_widget_set_sensitive ( gtk_ui_manager_get_widget (ui_manager,
-							  "/menubar/EditMenu/ConvertToScheduled/" ),
-			       sensitive );
-    gtk_widget_set_sensitive ( gtk_ui_manager_get_widget (ui_manager,
-							  "/menubar/EditMenu/NewAccount/" ),
-			       sensitive );
-    gtk_widget_set_sensitive ( gtk_ui_manager_get_widget (ui_manager,
-							  "remove-acc/" ),
-			       sensitive );
-*/}
+}
 
 
 /**
@@ -811,7 +789,6 @@ gboolean gsb_reconcile_update_amounts ( GtkWidget *entry,
     gchar *tmp_string;
 	gchar* tmpstr;
     gboolean valide = FALSE;
-    GtkStyleContext* context;
 
     /* first get the current account number */
     account_number = gsb_gui_navigation_get_current_account ();
@@ -822,7 +799,6 @@ gboolean gsb_reconcile_update_amounts ( GtkWidget *entry,
 
     if ( entry )
     {
-        context = gtk_widget_get_style_context (entry);
         valide = gsb_form_widget_get_valide_amout_entry (
                         gtk_entry_get_text ( GTK_ENTRY ( entry ) ) );
         if ( valide )

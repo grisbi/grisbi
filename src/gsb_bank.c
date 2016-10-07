@@ -448,18 +448,15 @@ static gboolean gsb_bank_list_changed ( GtkWidget *combobox,
 GtkWidget *gsb_bank_create_page ( gboolean default_sensitive )
 {
     GtkWidget *vbox_pref;
-    GtkWidget *scrolled_window, *vbox, *vbox2;
-    GtkWidget *button, *hbox, *paddingbox;
+    GtkWidget *scrolled_window, *vbox2;
+    GtkWidget *button;
     GtkWidget *vpaned;
     GtkWidget *paned1, *paned2;
     GtkWidget *paddinggrid;
     GtkWidget *paned2_grid;
     GtkWidget *paned2_sw;
-    GtkWidget *grid;
-    GtkWidget *label;
     GtkListStore *store;
     GtkTreeSelection *selection;
-    GtkSizeGroup * size_group;
     gint i;
     gint nbre_bank;
     gint sw_height;

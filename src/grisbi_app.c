@@ -218,7 +218,6 @@ static void grisbi_app_new_window (GSimpleAction *action,
     GrisbiWin *win;
 
     app = GRISBI_APP (user_data);
-
     win = grisbi_app_create_window (GRISBI_APP (app), NULL);
 
 }
@@ -321,8 +320,6 @@ static void grisbi_app_set_main_menu ( GApplication *app )
     /* Menu Application */
     if ( conf.prefer_app_menu )
     {
-        GAction *action;
-
         g_action_map_add_action_entries ( G_ACTION_MAP ( app ),
                         app_entries,
 						G_N_ELEMENTS ( app_entries ),
@@ -546,10 +543,8 @@ static gboolean grisbi_app_cmdline ( GApplication *app,
 {
 	GrisbiAppPrivate *priv;
 	GVariantDict *options;
-	gchar **args;
 	gchar *tmp_str = NULL;
 	const gchar **remaining_args;
-	gint argc;
 
 	priv = grisbi_app_get_instance_private ( GRISBI_APP ( app ) );
 
@@ -780,16 +775,9 @@ static void grisbi_app_startup ( GApplication *app )
  **/
 static void grisbi_app_activate ( GApplication *app )
 {
-    GrisbiAppPrivate *priv;
-	GtkBuilder *builder;
-	GMenuModel *menubar;
-    gint number = 0;
     gboolean load_file = FALSE;
-	GError *error = NULL;
 
 	devel_debug ( NULL );
-
-	priv = grisbi_app_get_instance_private ( GRISBI_APP ( app ) );
 
 	/* création de la fenêtre pincipale */
     grisbi_app_create_window (GRISBI_APP (app), NULL);
@@ -939,10 +927,6 @@ static void grisbi_app_shutdown ( GApplication *app )
  **/
 static void grisbi_app_init ( GrisbiApp *app )
 {
-    GrisbiAppPrivate *priv;
-
-	priv = grisbi_app_get_instance_private ( GRISBI_APP ( app ) );
-
     /* initialize debugging */
     if (IS_DEVELOPMENT_VERSION == 1)
     {
@@ -1066,7 +1050,7 @@ void grisbi_app_init_recent_manager ( gchar **recent_array )
 	gchar *uri = NULL;
 	gint i;
     gint nb_effectif = 0;
-	gboolean result;
+	gboolean result = 0;
 
     uri = g_build_filename ( g_get_user_data_dir (), "recently-used.xbel", NULL);
     if ( !g_file_test ( uri,  G_FILE_TEST_EXISTS ) )
@@ -1124,7 +1108,6 @@ gboolean grisbi_app_is_duplicated_file ( const gchar *filename )
 		const gchar *tmp_filename;
 		gchar *key1;
 		gchar *key2;
-		gboolean result = FALSE;
 
 		win = tmp_list->data;
 		tmp_filename = grisbi_win_get_filename ( win );
@@ -1140,6 +1123,7 @@ gboolean grisbi_app_is_duplicated_file ( const gchar *filename )
 
 		tmp_list = tmp_list->next;
 	}
+    return FALSE;
 }
 
 /**
@@ -1210,11 +1194,10 @@ void grisbi_app_set_recent_files_menu ( GApplication *app,
     gchar *uri;
     const gchar *filename;
     gint index = 0;
-    GError *error = NULL;
 
     devel_debug_int (reset);
 
-    if ( app == NULL );
+    if ( app == NULL )
         app = g_application_get_default ();
 
     priv = grisbi_app_get_instance_private ( GRISBI_APP ( app ) );

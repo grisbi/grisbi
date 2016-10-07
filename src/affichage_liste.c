@@ -967,7 +967,6 @@ gboolean gsb_transaction_list_config_realized ( GtkWidget *tree_view,
 {
     GdkCursor *cursor;
     GdkDisplay *display;
-    gint column;
 
     if ( !assert_account_loaded ( ) )
       return FALSE;

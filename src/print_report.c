@@ -135,8 +135,8 @@ gboolean print_report_begin ( GtkPrintOperation *operation,
 			      gpointer null )
 {
     gint nb_pages;
-    gint i;
-    gint table_size = 0;
+    //~ gint i;
+    //~ gint table_size = 0;
     guint nrows;
     guint ncols;
 

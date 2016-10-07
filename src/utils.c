@@ -1081,7 +1081,6 @@ gboolean utils_prefs_scrolled_window_allocate_size (GtkWidget *widget,
                                                      gpointer coeff_util)
 {
     gpointer *ptr;
-    gint natural_height;
     gint position;
     gint util_allocation;
     gint coeff = 0;
