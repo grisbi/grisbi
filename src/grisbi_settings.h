@@ -6,7 +6,6 @@
 #include <glib.h>
 
 /*START_INCLUDE*/
-#include "grisbi_win.h"
 /*END_INCLUDE*/
 
 G_BEGIN_DECLS
