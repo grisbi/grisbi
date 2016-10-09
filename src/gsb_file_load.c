@@ -3779,14 +3779,17 @@ gboolean gsb_file_load_open_file ( gchar *filename )
             {
                 gchar *text;
                 gchar *hint;
+                gchar *tmp_str;
 
+                tmp_str = g_filename_display_basename (filename);
                 text = g_strdup_printf (_("Grisbit no longer supports file encryption "
                                           "due to the existence of reliable external solutions."));
 
-                hint = g_strdup_printf (_("Your file '%s' will be saved unencrypted"), filename );
+                hint = g_strdup_printf (_("Your file '%s' will be saved unencrypted"), tmp_str );
 
                 dialogue_hint (text, hint);
 
+                g_free (tmp_str);
                 g_free (hint);
                 g_free (text);
             }
