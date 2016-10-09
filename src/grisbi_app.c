@@ -67,9 +67,6 @@
 
 typedef struct  /* GrisbiAppPrivate */
 {
-	/* Settings */
-    GrisbiSettings      *settings;              /* Utilisation GSettings pour remplacer grisbi.conf */
-
     /* command line parsing */
     gboolean 			new_window;
     gint 				debug_level;
@@ -219,7 +216,6 @@ static void grisbi_app_new_window (GSimpleAction *action,
 
     app = GRISBI_APP (user_data);
     win = grisbi_app_create_window (GRISBI_APP (app), NULL);
-
 }
 
 static void grisbi_app_quit (GSimpleAction *action,
@@ -742,7 +738,7 @@ static void grisbi_app_startup ( GApplication *app )
     grisbi_app_trappe_signaux ();
 
     /* initialisation des variables de configuration globales */
-    priv->settings = grisbi_settings_get ();
+    grisbi_settings_get ();
 
     /* load the CSS properties */
     css_provider = gtk_css_provider_get_default ();
@@ -851,7 +847,6 @@ static void grisbi_app_dispose ( GObject *object )
 	priv = grisbi_app_get_instance_private ( GRISBI_APP ( object ) );
 
     /* liberation de la mémoire utilisée par les objets de priv*/
-    g_clear_object ( &priv->settings );
     g_clear_object ( &priv->appmenu );
     g_clear_object ( &priv->menubar );
 
@@ -910,7 +905,7 @@ static void grisbi_app_shutdown ( GApplication *app )
     gsb_dirs_shutdown ();
 
     /* Sauvegarde de la configuration générale */
-    grisbi_settings_save_app_config ( priv->settings );
+    grisbi_settings_save_app_config ();
 
 	/* on libère la mémoire utilisée par conf */
     grisbi_app_struct_conf_free ();
@@ -985,22 +980,6 @@ GrisbiWin *grisbi_app_get_active_window ( GrisbiApp *app )
 	win = GRISBI_WIN ( gtk_application_get_active_window ( GTK_APPLICATION ( app ) ) );
 
     return win;
-}
-
-/**
- *
- *
- * \param
- *
- * \return
- **/
-GrisbiSettings *grisbi_app_get_grisbi_settings ( void )
-{
-    GrisbiAppPrivate *priv;
-
-    priv = grisbi_app_get_instance_private ( GRISBI_APP ( g_application_get_default () ) );
-
-    return priv->settings;
 }
 
 /**

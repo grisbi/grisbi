@@ -559,7 +559,7 @@ GrisbiSettings *grisbi_settings_get ( void )
  *
  * \return
  **/
-void grisbi_settings_save_app_config ( GrisbiSettings *settings )
+void grisbi_settings_save_app_config (void)
 {
     GrisbiSettingsPrivate *priv;
     gchar *tmp_str;
@@ -568,7 +568,7 @@ void grisbi_settings_save_app_config ( GrisbiSettings *settings )
 
     devel_debug (NULL);
 
-    priv = grisbi_settings_get_instance_private ( settings );
+    priv = grisbi_settings_get_instance_private (grisbi_settings_get ());
 
     /* priv->settings_root */
     g_settings_set_boolean ( G_SETTINGS ( priv->settings_root ),
@@ -793,7 +793,7 @@ GSettings *grisbi_settings_get_settings ( gint schema )
 
     devel_debug (NULL);
 
-    priv = grisbi_settings_get_instance_private ( grisbi_app_get_grisbi_settings () );
+    priv = grisbi_settings_get_instance_private (grisbi_settings_get());
 
     switch ( schema )
     {
