@@ -281,16 +281,6 @@ struct gsb_run_t
     gboolean mise_a_jour_fin_comptes_passifs;
 };
 
-/* structure définissant une association entre un tiers
- * et une chaine de recherche contenant un ou des jokers (%)
- */
-struct struct_payee_asso
-{
-    gint    payee_number;
-    gchar   *search_str;
-};
-
-
 /* définition du titre de grisbi */
 typedef enum GSB_TITLE_NAME
 {

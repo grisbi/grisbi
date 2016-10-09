@@ -50,6 +50,7 @@
 #include "help.h"
 #include "import.h"
 #include "menu.h"
+#include "structures.h"
 #include "tip.h"
 #include "traitement_variables.h"
 #include "utils_str.h"

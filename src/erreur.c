@@ -43,6 +43,7 @@
 #include "gsb_locale.h"
 #include "gsb_real.h"
 #include "import.h"
+#include "structures.h"
 #include "utils.h"
 #include "utils_str.h"
 #include "menu.h"
