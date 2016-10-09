@@ -3742,18 +3742,17 @@ static void gsb_file_load_start_element ( GMarkupParseContext *context,
 gboolean gsb_file_load_open_file ( gchar *filename )
 {
     struct stat buffer_stat;
-    gint return_value;
     gchar *file_content;
     gulong length;
 
     devel_debug ( filename );
 
+#ifndef _WIN32      /* check the access to the file and display a message */
+    gint return_value;
+
      /* fill the buffer stat to check the permission */
     return_value = g_stat ( filename, &buffer_stat );
-
-    /* check the access to the file and display a message */
-#ifndef _WIN32
-    if ( buffer_stat.st_mode != 33152 )
+    if ( !return_value && buffer_stat.st_mode != 33152 )
         gsb_file_util_display_warning_permissions ();
 #endif /* _WIN32 */
 
