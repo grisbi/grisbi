@@ -4,7 +4,6 @@
 #include <gtk/gtk.h>
 
 /*START_INCLUDE*/
-#include "structures.h"
 /*END_INCLUDE*/
 
 G_BEGIN_DECLS
