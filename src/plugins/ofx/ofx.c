@@ -114,7 +114,6 @@ int ofx_proc_statement_cb(struct OfxStatementData data, void * statement_data);
 gboolean recuperation_donnees_ofx ( GtkWidget * assistant, struct imported_file * imported )
 {
     GSList *liste_tmp;
-    const gchar *argv[2] = { "", "" };
 
     liste_comptes_importes_ofx = NULL;
     compte_ofx_importation_en_cours = NULL;
@@ -122,8 +121,6 @@ gboolean recuperation_donnees_ofx ( GtkWidget * assistant, struct imported_file 
     message_erreur_operation = 0;
     ofx_filename = imported -> name;
 
-    /* 	la lib ofx ne tient pas compte du 1er argument */
-    argv[1] = imported -> name;
     devel_print_str ( imported -> name );
 
     ofx_context = libofx_get_new_context();
