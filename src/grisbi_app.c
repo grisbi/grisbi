@@ -728,11 +728,24 @@ static void grisbi_app_startup ( GApplication *app )
     GFile *file = NULL;
     gchar *tmp_dir;
     GrisbiAppPrivate *priv;
+    GtkSettings* settings = gtk_settings_get_default ();
+	gboolean has_app_menu = FALSE;
 
 	priv = grisbi_app_get_instance_private ( GRISBI_APP ( app ) );
 
     /* Chain up parent's startup */
     G_APPLICATION_CLASS (grisbi_app_parent_class)->startup ( app );
+
+    if (settings)
+    {
+        g_object_get (G_OBJECT (settings),
+                      "gtk-shell-shows-app-menu", &has_app_menu,
+                      NULL);
+
+        printf ("has_app_menu = %d\n", has_app_menu);
+    }
+    else
+        printf ("GtkSettings* settings = NULL\n");
 
     /* on commence par détourner le signal SIGSEGV */
     grisbi_app_trappe_signaux ();
