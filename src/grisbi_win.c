@@ -547,7 +547,6 @@ void grisbi_win_init_menubar (GrisbiWin *win,
 {
 	GAction *action;
     gchar * items[] = {
-        "new-window",
         "save",
         "save-as",
         "export-accounts",
@@ -589,8 +588,12 @@ void grisbi_win_init_menubar (GrisbiWin *win,
         tmp++;
     }
 
-    /* sensibilise le menu preferences */
-    action = grisbi_app_get_prefs_action ();
+    /* sensibilise le menu new-window */
+	if (!conf.prefer_app_menu)
+		gsb_menu_gui_sensitive_win_menu_item ("new-window", FALSE);
+
+	/* sensibilise le menu preferences */
+	action = grisbi_app_get_prefs_action ();
     g_simple_action_set_enabled (G_SIMPLE_ACTION (action), FALSE);
 }
 
