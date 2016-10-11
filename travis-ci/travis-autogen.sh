@@ -39,5 +39,12 @@ CFLAGS+=" -Wno-deprecated-declarations"
 export CFLAGS
 echo "CFLAGS: $CFLAGS"
 
+if [ "$TRAVIS_OS_NAME" = "osx" ]
+then
+	# from brew
+	export PKG_CONFIG_PATH=/usr/local/Cellar/libxml2/*/lib/pkgconfig
+	export PATH="$PATH:/usr/local/Cellar/gettext/*/bin"
+fi
+
 sh -x ./autogen.sh
 ./configure "$@"
