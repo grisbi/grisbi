@@ -28,9 +28,10 @@ before_install:
     - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install autoconf automake libtool intltool gtk+3 libgsf ; fi
 
 script:
+    - echo "export TRAVIS_OS_NAME=$TRAVIS_OS_NAME" > travis-ci/env
     # Linux
     - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then docker run --volume=`pwd`:/build ${DIST_NAME}-${DIST_VERS}:${TAG}
-      /bin/sh -c "./travis-ci/travis-autogen.sh ; make" ; fi
+      /bin/sh -c ". travis-ci/env ; ./travis-ci/travis-autogen.sh ; make" ; fi
     # macOS
     - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-      /bin/sh -c "./travis-ci/travis-autogen.sh ; make" ; fi
+      /bin/sh -c ". travis-ci/env ; ./travis-ci/travis-autogen.sh ; make" ; fi
