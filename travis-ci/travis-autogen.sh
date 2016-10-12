@@ -44,6 +44,9 @@ then
 	# from brew
 	export PKG_CONFIG_PATH=/usr/local/Cellar/libxml2/*/lib/pkgconfig
 	export PATH="$PATH:/usr/local/Cellar/gettext/*/bin"
+
+	mkdir m4
+	ln -sf /usr/local/Cellar/gettext/*/share/aclocal/nls.m4 m4
 fi
 
 sh -x ./autogen.sh
