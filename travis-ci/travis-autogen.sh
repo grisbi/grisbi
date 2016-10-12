@@ -39,6 +39,8 @@ CFLAGS+=" -Wno-deprecated-declarations"
 export CFLAGS
 echo "CFLAGS: $CFLAGS"
 
+configure_args=""
+
 if [ "$TRAVIS_OS_NAME" = "osx" ]
 then
 	# from brew
@@ -47,7 +49,10 @@ then
 
 	mkdir m4
 	ln -sf /usr/local/Cellar/gettext/*/share/aclocal/nls.m4 m4
+
+	# disable OpenSSL on macOS since it is no more provided by Apple
+	configure_args+=" --without-openssl"
 fi
 
 sh -x ./autogen.sh
-./configure "$@"
+./configure $configure_args "$@"
