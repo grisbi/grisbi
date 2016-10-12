@@ -74,6 +74,7 @@ typedef struct  /* GrisbiAppPrivate */
     GSList 				*file_list;
 
 	/* Menuapp et menubar */
+    gboolean            has_app_menu;
 	GMenuModel 			*appmenu;
 	GMenuModel 			*menubar;
 
@@ -150,7 +151,7 @@ static void grisbi_app_struct_conf_free ( void )
  *
  * \return
  **/
-static void grisbi_app_setup_accelerators ( GApplication *app )
+static void grisbi_app_setup_accelerators (GrisbiApp *app)
 {
     const gchar *accels[] = {NULL, NULL, NULL, NULL};
 
@@ -291,7 +292,8 @@ static const GActionEntry win_context_enabled_entries[] =
  *
  * \return
  * */
-static void grisbi_app_set_main_menu ( GApplication *app )
+static void grisbi_app_set_main_menu (GrisbiApp *app,
+                                      gboolean has_app_menu)
 {
     GrisbiAppPrivate *priv;
 	GtkBuilder *builder;
@@ -313,7 +315,9 @@ static void grisbi_app_set_main_menu ( GApplication *app )
 	}
 
     /* Menu Application */
-    if ( conf.prefer_app_menu )
+    priv->has_app_menu = has_app_menu;
+
+    if (has_app_menu)
     {
         GAction *action;
 
@@ -433,7 +437,7 @@ static GrisbiWin *grisbi_app_create_window ( GrisbiApp *app,
 						app );
 
     /* Actions du menu Application à intégrer dans le menu classique */
-    if ( !conf.prefer_app_menu )
+    if (!priv->has_app_menu)
     {
         g_action_map_add_action_entries ( G_ACTION_MAP ( win ),
                         app_entries,
@@ -538,7 +542,7 @@ static gboolean grisbi_app_print_environment_var ( void )
  *
  * \return always TRUE
  **/
-static gboolean grisbi_app_cmdline ( GApplication *app,
+static gboolean grisbi_app_cmdline ( GApplication *application,
                         GApplicationCommandLine *cmdline )
 {
 	GrisbiAppPrivate *priv;
@@ -546,7 +550,7 @@ static gboolean grisbi_app_cmdline ( GApplication *app,
 	gchar *tmp_str = NULL;
 	const gchar **remaining_args;
 
-	priv = grisbi_app_get_instance_private ( GRISBI_APP ( app ) );
+	priv = grisbi_app_get_instance_private (GRISBI_APP (application));
 
 	/* initialisation de debug_level à -1 */
 	priv->debug_level = -1;
@@ -605,9 +609,9 @@ static gboolean grisbi_app_cmdline ( GApplication *app,
 	}
 
     if (priv->new_window)
-        grisbi_app_create_window (GRISBI_APP (app), NULL);
+        grisbi_app_create_window (GRISBI_APP (application), NULL);
 
-	g_application_activate ( app );
+	g_application_activate (application);
 
 	return FALSE;
 }
@@ -727,26 +731,24 @@ static gboolean grisbi_app_load_file_if_necessary ( GrisbiApp *app )
  *
  * \return
  **/
-static void grisbi_app_startup ( GApplication *app )
+static void grisbi_app_startup ( GApplication *application )
 {
+	GrisbiApp *app = GRISBI_APP (application);
     GFile *file = NULL;
     gchar *tmp_dir;
-    GtkSettings* settings = gtk_settings_get_default ();
+    GtkSettings* settings;
 	gboolean has_app_menu = FALSE;
 
     /* Chain up parent's startup */
-    G_APPLICATION_CLASS (grisbi_app_parent_class)->startup ( app );
+    G_APPLICATION_CLASS (grisbi_app_parent_class)->startup (application);
 
+	settings = gtk_settings_get_default ();
     if (settings)
     {
         g_object_get (G_OBJECT (settings),
                       "gtk-shell-shows-app-menu", &has_app_menu,
                       NULL);
-
-        printf ("has_app_menu = %d\n", has_app_menu);
     }
-    else
-        printf ("GtkSettings* settings = NULL\n");
 
     /* on commence par détourner le signal SIGSEGV */
     grisbi_app_trappe_signaux ();
@@ -770,7 +772,9 @@ static void grisbi_app_startup ( GApplication *app )
     register_import_formats ();
 
 	/* app menu */
-	grisbi_app_set_main_menu ( app );
+    if (conf.force_classic_menu)
+        has_app_menu = FALSE;
+	grisbi_app_set_main_menu (app, has_app_menu);
 
     /* charge les raccourcis claviers */
     grisbi_app_setup_accelerators ( app );
@@ -783,14 +787,14 @@ static void grisbi_app_startup ( GApplication *app )
  *
  * \return
  **/
-static void grisbi_app_activate ( GApplication *app )
+static void grisbi_app_activate (GApplication *application)
 {
     gboolean load_file = FALSE;
 
 	devel_debug ( NULL );
 
 	/* création de la fenêtre pincipale */
-    grisbi_app_create_window (GRISBI_APP (app), NULL);
+    grisbi_app_create_window (GRISBI_APP (application), NULL);
 
     /* set the CSS properties */
     if ( css_provider )
@@ -800,7 +804,7 @@ static void grisbi_app_activate ( GApplication *app )
                                                     GTK_STYLE_PROVIDER_PRIORITY_USER );
 
 	/* ouvre un fichier si demandé */
-	load_file = grisbi_app_load_file_if_necessary ( GRISBI_APP ( app ) );
+	load_file = grisbi_app_load_file_if_necessary (GRISBI_APP (application));
 
     /* lance un assistant si première utilisation */
     if ( conf.first_use && !load_file )
@@ -819,7 +823,7 @@ static void grisbi_app_activate ( GApplication *app )
  *
  * \return
  **/
-static void grisbi_app_open ( GApplication *app,
+static void grisbi_app_open ( GApplication *application,
                         GFile **files,
                         gint n_files,
                         const gchar *hint )
@@ -828,11 +832,11 @@ static void grisbi_app_open ( GApplication *app,
     GrisbiWin *win;
     int i;
 
-    windows = gtk_application_get_windows ( GTK_APPLICATION ( app ) );
+    windows = gtk_application_get_windows (GTK_APPLICATION (application));
     if ( windows )
         win = GRISBI_WIN ( windows->data );
     else
-        win = grisbi_app_create_window ( GRISBI_APP ( app ), NULL );
+        win = grisbi_app_create_window (GRISBI_APP (application), NULL);
 
     for ( i = 0; i < n_files; i++ )
 	{
@@ -874,14 +878,14 @@ static void grisbi_app_dispose ( GObject *object )
  *
  * \return
  **/
-static void grisbi_app_shutdown ( GApplication *app )
+static void grisbi_app_shutdown (GApplication *application)
 {
 	GtkWindow *win;
 
 	devel_debug (NULL);
 
     /* on récupère la dernière fenêtre active */
-    win = gtk_application_get_active_window ( GTK_APPLICATION ( app ) );
+    win = gtk_application_get_active_window (GTK_APPLICATION (application));
 
     if ( win )
     {
@@ -921,7 +925,7 @@ static void grisbi_app_shutdown ( GApplication *app )
 	/* on libère la mémoire utilisée par conf */
     grisbi_app_struct_conf_free ();
 
-    G_APPLICATION_CLASS (grisbi_app_parent_class)->shutdown (app);
+    G_APPLICATION_CLASS (grisbi_app_parent_class)->shutdown (application);
 }
 
 /**
@@ -991,6 +995,24 @@ GrisbiWin *grisbi_app_get_active_window ( GrisbiApp *app )
 	win = GRISBI_WIN ( gtk_application_get_active_window ( GTK_APPLICATION ( app ) ) );
 
     return win;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+gboolean grisbi_app_get_has_app_menu (GrisbiApp *app)
+{
+	GrisbiAppPrivate *priv;
+
+	priv = grisbi_app_get_instance_private (GRISBI_APP (app));
+
+	return priv->has_app_menu;
+
+
 }
 
 /**
@@ -1174,8 +1196,8 @@ gchar **grisbi_app_get_recent_files_array ( void )
  *
  * \return
  * */
-void grisbi_app_set_recent_files_menu ( GApplication *app,
-                        gboolean reset )
+void grisbi_app_set_recent_files_menu (GrisbiApp *app,
+                                       gboolean reset)
 {
     GrisbiAppPrivate *priv;
     GList *tmp_list;
@@ -1188,7 +1210,7 @@ void grisbi_app_set_recent_files_menu ( GApplication *app,
     devel_debug_int (reset);
 
     if ( app == NULL )
-        app = g_application_get_default ();
+        app = GRISBI_APP (g_application_get_default ());
 
     priv = grisbi_app_get_instance_private ( GRISBI_APP ( app ) );
 

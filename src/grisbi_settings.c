@@ -98,8 +98,8 @@ static void grisbi_settings_init_settings_root ( GSettings *settings )
     /* first use */
     conf.first_use = g_settings_get_boolean ( settings, "first-use" );
 
-    /* Menu type OSX : FALSE par défaut */
-    conf.prefer_app_menu = g_settings_get_boolean ( settings, "prefer-app-menu" );
+    /* Force classic menu : FALSE par défaut */
+    conf.force_classic_menu = g_settings_get_boolean ( settings, "force-classic-menu" );
 }
 
 /**
@@ -575,8 +575,8 @@ void grisbi_settings_save_app_config (void)
                         "first-use",
                         conf.first_use );
     g_settings_set_boolean ( G_SETTINGS ( priv->settings_root ),
-                        "prefer-app-menu",
-                        conf.prefer_app_menu );
+                        "force-classic-menu",
+                        conf.force_classic_menu);
 
     /* priv->settings_backup */
     g_settings_set_boolean ( G_SETTINGS ( priv->settings_backup ),

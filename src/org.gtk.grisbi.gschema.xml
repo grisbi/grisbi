@@ -11,12 +11,12 @@
           If TRUE, a wizard starts to configure Grisbi at its first use.
       </description>
     </key>
-    <key name="prefer-app-menu" type="b">
+    <key name="force-classic-menu" type="b">
       <default>false</default>
-      <summary>Show menu type OSX</summary>
+      <summary>Force used classic menu</summary>
       <description>
-          If TRUE, the Application's menu of type OSX is displayed otherwise
-          the classic menu is visible. This option requires restarting Grisbi.
+          If TRUE the classic menu is displayed otherwise the menu type is
+          determined by the window manager. This option requires restarting Grisbi.
       </description>
     </key>
   </schema>
