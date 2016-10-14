@@ -41,18 +41,21 @@
 #define SW_COEFF_UTIL_SW        93             /* Scrolled Window in prefs */
 
 
-/* global variable pour gestion CSS des couleurs */
-/* declared in main.c */
+/* declared in grisbi_app.c */
+/* variables initialisées lors de l'ouverture de grisbi par gsettings PROVISOIRE */
 extern struct GrisbiAppConf conf;
+
+/* declared in grisbi_app.c */
+/* global variables pour gestion CSS des couleurs */
 extern GtkCssProvider *css_provider;
 
+/* declared in grisbi_win.c */
 /* variables initialisées lors de l'exécution de grisbi PROVISOIRE */
-struct gsb_run_t run;
+extern struct gsb_run_t run;
 
-/* global "etat" structure shared in the entire program */
-struct gsb_etat_t etat;
-
-typedef enum _bet_type_onglets bet_type_onglets;
+/* declared in grisbi_win.c */
+/* global "etat" structure shared in the entire program PROVISOIRE */
+extern struct gsb_etat_t etat;
 
 typedef enum _SettingsSchema SettingsSchema;
 

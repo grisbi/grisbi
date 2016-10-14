@@ -129,6 +129,12 @@ struct _GrisbiWinPrivate
 
 G_DEFINE_TYPE_WITH_PRIVATE(GrisbiWin, grisbi_win, GTK_TYPE_APPLICATION_WINDOW);
 
+/* variables initialisées lors de l'exécution de grisbi PROVISOIRE */
+struct gsb_run_t run;
+
+/* global "etat" structure shared in the entire program */
+struct gsb_etat_t etat;
+
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
