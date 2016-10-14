@@ -5,7 +5,6 @@
 
 /* START_INCLUDE_H */
 #include "gsb_real.h"
-#include "structures.h"
 /* END_INCLUDE_H */
 
 
@@ -23,6 +22,16 @@ enum _kind_account
 };
 typedef enum _kind_account	kind_account;
 
+/* définition du type d'onglets du module budgétaire affiché */
+enum _bet_type_onglets
+{
+    BET_ONGLETS_SANS = 0,
+    BET_ONGLETS_PREV,
+    BET_ONGLETS_HIST,
+    BET_ONGLETS_ASSET,
+    BET_ONGLETS_CAP,
+};
+typedef enum _bet_type_onglets bet_type_onglets;
 
 /* START_DECLARATION */
 gboolean gsb_data_account_bet_update_initial_date_if_necessary ( gint account_number );

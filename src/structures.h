@@ -333,16 +333,6 @@ enum bet_type_maj
 };
 
 
-/* définition du type d'onglets du module budgétaire affiché */
-enum _bet_type_onglets
-{
-    BET_ONGLETS_SANS = 0,
-    BET_ONGLETS_PREV,
-    BET_ONGLETS_HIST,
-    BET_ONGLETS_ASSET,
-    BET_ONGLETS_CAP,
-};
-
 /* recopie des types de transaction de la libofx en attendant une version propre */
 typedef enum
 {

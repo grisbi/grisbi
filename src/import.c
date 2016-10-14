@@ -69,6 +69,7 @@
 #include "gsb_form_widget.h"
 #include "navigation.h"
 #include "menu.h"
+#include "structures.h"
 #include "tiers_onglet.h"
 #include "utils_str.h"
 #include "gsb_transactions_list.h"
