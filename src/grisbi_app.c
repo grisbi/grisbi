@@ -41,7 +41,6 @@
 /*START_INCLUDE*/
 #include "grisbi_app.h"
 #include "grisbi_settings.h"
-#include "grisbi_win.h"
 #include "gsb_assistant_first.h"
 #include "gsb_color.h"
 #include "gsb_dirs.h"
