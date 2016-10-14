@@ -44,7 +44,6 @@
 /*START_STATIC*/
 static gchar *gsb_file_util_ask_for_crypt_key ( const gchar * file_name, gchar * additional_message,
                         gboolean encrypt );
-static void gsb_file_util_show_hide_passwd ( GtkToggleButton *togglebutton, GtkWidget *entry );
 /*END_STATIC*/
 
 static gchar *saved_crypt_key = NULL;
@@ -211,13 +210,6 @@ gulong gsb_file_util_crypt_file ( const gchar * file_name, gchar **file_content,
 {
     gchar * key, * message = "";
 
-    //~ if ( run.new_crypted_file )
-    //~ {
-        //~ if ( saved_crypt_key )
-            //~ g_free ( saved_crypt_key );
-	    //~ saved_crypt_key = NULL;
-    //~ }
-
     if ( crypt )
     {
         /* now, if we know here a key to crypt, we use it, else, we ask for it */
@@ -343,16 +335,6 @@ gchar *gsb_file_util_ask_for_crypt_key ( const gchar * file_name, gchar * additi
     gtk_entry_set_visibility ( GTK_ENTRY ( entry ), FALSE );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), entry, TRUE, TRUE, 0 );
 
-    //~ if ( run.new_crypted_file )
-    //~ {
-        //~ button = gtk_check_button_new_with_label ( _("View password") );
-        //~ gtk_box_pack_start ( GTK_BOX ( vbox ), button, FALSE, FALSE, 5 );
-        //~ g_signal_connect ( G_OBJECT ( button ),
-			            //~ "toggled",
-			            //~ G_CALLBACK ( gsb_file_util_show_hide_passwd ),
-			            //~ entry );
-    //~ }
-
     button = gtk_check_button_new_with_label ( _("Don't ask password again for this session."));
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button ), TRUE );
     gtk_box_pack_start ( GTK_BOX ( vbox ), button, FALSE, FALSE, 5 );
@@ -390,8 +372,6 @@ return_bad_password:
         else
             saved_crypt_key = NULL;
 
-        //~ run.new_crypted_file = FALSE;
-
         break;
 
     case GTK_RESPONSE_CANCEL:
@@ -402,22 +382,6 @@ return_bad_password:
 
     return key;
 }
-
-
-
-void gsb_file_util_show_hide_passwd ( GtkToggleButton *togglebutton, GtkWidget *entry )
-{
-    gint visibility;
-
-    visibility = gtk_entry_get_visibility ( GTK_ENTRY ( entry ) );
-    if ( visibility )
-        gtk_button_set_label ( GTK_BUTTON ( togglebutton ), _("View password") );
-    else
-        gtk_button_set_label ( GTK_BUTTON ( togglebutton ), _("Hide password") );
-
-    gtk_entry_set_visibility ( GTK_ENTRY ( entry ), !visibility );
-}
-
 
 /* Local Variables: */
 /* c-basic-offset: 4 */
