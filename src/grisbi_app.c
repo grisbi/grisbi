@@ -212,10 +212,9 @@ static void grisbi_app_new_window (GSimpleAction *action,
                                    gpointer       user_data)
 {
     GrisbiApp *app;
-    GrisbiWin *win;
 
     app = GRISBI_APP (user_data);
-    win = grisbi_app_create_window (GRISBI_APP (app), NULL);
+    grisbi_app_create_window (GRISBI_APP (app), NULL);
 }
 
 static void grisbi_app_quit (GSimpleAction *action,
@@ -727,9 +726,6 @@ static void grisbi_app_startup ( GApplication *app )
 {
     GFile *file = NULL;
     gchar *tmp_dir;
-    GrisbiAppPrivate *priv;
-
-	priv = grisbi_app_get_instance_private ( GRISBI_APP ( app ) );
 
     /* Chain up parent's startup */
     G_APPLICATION_CLASS (grisbi_app_parent_class)->startup ( app );
@@ -863,11 +859,8 @@ static void grisbi_app_dispose ( GObject *object )
 static void grisbi_app_shutdown ( GApplication *app )
 {
 	GtkWindow *win;
-    GrisbiAppPrivate *priv;
 
 	devel_debug (NULL);
-
-	priv = grisbi_app_get_instance_private ( GRISBI_APP ( app ) );
 
     /* on récupère la dernière fenêtre active */
     win = gtk_application_get_active_window ( GTK_APPLICATION ( app ) );
