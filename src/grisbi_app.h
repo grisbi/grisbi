@@ -4,7 +4,6 @@
 #include <gtk/gtk.h>
 
 /*START_INCLUDE*/
-#include "grisbi_settings.h"
 #include "grisbi_win.h"
 #include "structures.h"
 /*END_INCLUDE*/
@@ -22,7 +21,6 @@ struct _GrisbiAppClass
 
 
 GrisbiWin *         grisbi_app_get_active_window        ( GrisbiApp *app );
-GrisbiSettings *    grisbi_app_get_grisbi_settings      ( void );
 GMenu *             grisbi_app_get_menu_edit            ( void );
 GAction *           grisbi_app_get_prefs_action         ( void );
 gchar **            grisbi_app_get_recent_files_array   ( void );
