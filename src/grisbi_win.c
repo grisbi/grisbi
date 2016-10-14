@@ -547,7 +547,6 @@ void grisbi_win_init_menubar (GrisbiWin *win,
 {
 	GAction *action;
     gchar * items[] = {
-        "new-window",
         "save",
         "save-as",
         "export-accounts",
@@ -574,6 +573,7 @@ void grisbi_win_init_menubar (GrisbiWin *win,
         NULL
     };
     gchar **tmp = items;
+    gboolean has_app_menu;
 
 	/* initialisations sub menus */
 	action = g_action_map_lookup_action (G_ACTION_MAP (win), "show-form");
@@ -588,6 +588,11 @@ void grisbi_win_init_menubar (GrisbiWin *win,
 
         tmp++;
     }
+
+    /* sensibilise le menu new-window */
+    has_app_menu = grisbi_app_get_has_app_menu (GRISBI_APP (app));
+	if (!has_app_menu)
+		gsb_menu_gui_sensitive_win_menu_item ("new-window", FALSE);
 
     /* sensibilise le menu preferences */
     action = grisbi_app_get_prefs_action ();

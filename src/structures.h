@@ -160,7 +160,7 @@ struct GrisbiAppConf
 {
 /* root part*/
     gint        first_use;                                  /* première utilisation ou réinitialisation de grisbi */
-    gboolean    prefer_app_menu;                            /* TRUE validate appmenu */
+    gboolean    force_classic_menu;                         /* TRUE force classic menu */
 
 /* backup part */
     gboolean    compress_backup;                            /* TRUE if we want to compress the backup */
