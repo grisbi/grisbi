@@ -793,7 +793,6 @@ GtkWidget *bet_array_create_tree_view ( GtkWidget *container )
     GtkWidget *scrolled_window;
     GtkWidget *tree_view;
     GtkTreeStore *tree_model;
-    GtkTreeModel *sortable;
     GtkCellRenderer *cell;
     gint i;
 
@@ -830,7 +829,6 @@ GtkWidget *bet_array_create_tree_view ( GtkWidget *container )
     g_object_unref ( G_OBJECT ( tree_model ) );
 
     /* sort by date */
-    sortable = gtk_tree_model_sort_new_with_model ( GTK_TREE_MODEL ( tree_model ) );
     gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE ( tree_model ),
                         SPP_ESTIMATE_TREE_SORT_DATE_COLUMN,
                         (GtkTreeIterCompareFunc) bet_array_date_sort_function,
@@ -1531,7 +1529,6 @@ gboolean bet_array_list_button_press ( GtkWidget *tree_view,
 void bet_array_list_context_menu ( GtkWidget *tree_view,
                         GtkTreePath *path )
 {
-    GtkWidget *image;
     GtkWidget *menu, *menu_item;
     GtkTreeModel *model;
     GtkTreeSelection *tree_selection;
@@ -1539,7 +1536,6 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
     GDate *date;
     GDate *date_jour;
     gchar *str_date;
-    gchar *tmp_str;
     gboolean select = FALSE;
     gint origine;
 
@@ -1654,9 +1650,6 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
     /* Insert an account balance */
     if ( gsb_data_account_get_kind ( gsb_gui_navigation_get_current_account ( ) ) != GSB_TYPE_CASH )
     {
-        tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "ac_bank_16.png", NULL);
-        image = gtk_image_new_from_file ( tmp_str );
-        g_free ( tmp_str );
         menu_item = gtk_menu_item_new_with_label (
                         _("Insert the balance of a deferred debit account") );
         g_signal_connect ( G_OBJECT ( menu_item ),
