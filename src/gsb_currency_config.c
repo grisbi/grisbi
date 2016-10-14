@@ -291,11 +291,13 @@ static gboolean gsb_currency_config_change_selection (GtkTreeSelection *selectio
 
     tmp_list = gsb_data_currency_get_currency_list ();
     nbre_devises = g_slist_length (tmp_list);
-    if (nbre_devises > 1)
-        gtk_widget_set_sensitive (delete_devise_button, TRUE);
-    else
-        gtk_widget_set_sensitive (delete_devise_button, FALSE);
-
+    if (delete_devise_button)
+    {
+        if (nbre_devises > 1)
+            gtk_widget_set_sensitive (delete_devise_button, TRUE);
+        else
+            gtk_widget_set_sensitive (delete_devise_button, FALSE);
+    }
     return FALSE;
 }
 
