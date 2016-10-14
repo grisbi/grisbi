@@ -1286,9 +1286,7 @@ void bet_config_account_amount_entry_changed ( GtkWidget *entry,
 {
     gboolean valide = FALSE;
     const gchar *text;
-    GtkStyleContext* context;
 
-    context = gtk_widget_get_style_context  (entry);
     text = gtk_entry_get_text ( GTK_ENTRY ( entry ) );
     /* if nothing in the entry, keep the normal style */
     if ( strlen ( text ) == 0 )

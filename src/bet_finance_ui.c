@@ -2042,11 +2042,9 @@ gboolean bet_finance_capital_entry_changed ( GtkWidget *entry, GtkWidget *page  
     const gchar *text;
     gdouble capital;
     gboolean valide;
-    GtkStyleContext* context;
 
     text = gtk_entry_get_text ( GTK_ENTRY ( entry ) );
     capital = utils_str_strtod ( text, NULL );
-    context = gtk_widget_get_style_context  (entry);
 
     if ( strlen ( text ) == 0 || capital == 0 )
     {

@@ -957,7 +957,6 @@ gboolean gsb_currency_select_double_amount ( GtkWidget *entry_1,
 {
     GtkWidget *entry, *entry_3, *entry_4;
     gsb_real amount_1, amount_2, taux;
-    GtkStyleContext* context;
     gboolean link_currency;
     gboolean valide;
 
@@ -976,7 +975,6 @@ gboolean gsb_currency_select_double_amount ( GtkWidget *entry_1,
         entry_4 = entry_2;
     }
 
-    context = gtk_widget_get_style_context  (entry_1);
     valide = gsb_form_widget_get_valide_amout_entry (
                 gtk_entry_get_text ( GTK_ENTRY ( entry_1 ) ) );
     if ( valide )
@@ -991,7 +989,6 @@ gboolean gsb_currency_select_double_amount ( GtkWidget *entry_1,
         return FALSE;
     }
 
-    context = gtk_widget_get_style_context  (entry_2);
     valide = gsb_form_widget_get_valide_amout_entry (
                 gtk_entry_get_text ( GTK_ENTRY ( entry_2 ) ) );
     if ( valide )
