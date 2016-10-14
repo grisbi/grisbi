@@ -5,7 +5,6 @@
 
 /*START_INCLUDE*/
 #include "grisbi_win.h"
-#include "structures.h"
 /*END_INCLUDE*/
 
 G_BEGIN_DECLS
