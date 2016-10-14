@@ -536,7 +536,10 @@ gboolean gsb_preferences_menu_open ( GtkWidget *menu_item,
  * */
 gint gsb_preferences_paned_get_position (void)
 {
-    return gtk_paned_get_position (GTK_PANED (hpaned));
+    if (hpaned)
+        return gtk_paned_get_position (GTK_PANED (hpaned));
+    else
+        return 0;
 }
 
 /**
