@@ -37,6 +37,7 @@
 #include "dialog.h"
 #include "export_csv.h"
 #include "fenetre_principale.h"
+#include "grisbi_app.h"
 #include "gsb_automem.h"
 #include "gsb_data_account.h"
 #include "gsb_data_currency.h"
@@ -527,7 +528,7 @@ GtkWidget *bet_historical_get_data_tree_view ( GtkWidget *container )
                         G_TYPE_INT,         /* SPP_HISTORICAL_DIV_NUMBER        */
                         G_TYPE_INT,         /* SPP_HISTORICAL_SUB_DIV_NUMBER    */
                         G_TYPE_BOOLEAN,     /* SPP_HISTORICAL_EDITED_COLUMN     */
-                        GDK_TYPE_RGBA );   /* SPP_HISTORICAL_BACKGROUND_COLOR  */
+                        GDK_TYPE_RGBA );    /* SPP_HISTORICAL_BACKGROUND_COLOR  */
     gtk_tree_view_set_model ( GTK_TREE_VIEW (tree_view), GTK_TREE_MODEL ( tree_model ) );
     g_object_unref ( G_OBJECT ( tree_model ) );
 
@@ -2009,7 +2010,7 @@ void bet_historical_export_tab ( GtkWidget *menu_item,
     gchar *tmp_last_directory;
 
     dialog = gtk_file_chooser_dialog_new ( _("Export the historical data"),
-					   GTK_WINDOW ( run.window ),
+					   GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
 					   GTK_FILE_CHOOSER_ACTION_SAVE,
 					   "gtk-cancel", GTK_RESPONSE_CANCEL,
 					   "gtk-save", GTK_RESPONSE_OK,

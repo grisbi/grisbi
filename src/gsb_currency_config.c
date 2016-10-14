@@ -35,6 +35,7 @@
 /*START_INCLUDE*/
 #include "gsb_currency_config.h"
 #include "dialog.h"
+#include "grisbi_app.h"
 #include "gsb_autofunc.h"
 #include "gsb_automem.h"
 #include "parametres.h"
@@ -45,7 +46,6 @@
 #include "gsb_data_transaction.h"
 #include "gsb_file.h"
 #include "gsb_locale.h"
-#include "main.h"
 #include "traitement_variables.h"
 #include "utils.h"
 #include "tiers_onglet.h"
@@ -949,7 +949,7 @@ gboolean gsb_currency_config_add_currency ( GtkWidget *button,
     GtkTreeModel *model;
 
     dialog = gtk_dialog_new_with_buttons ( _("Add a currency"),
-					   GTK_WINDOW ( run.window ),
+					   GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
 					   GTK_DIALOG_MODAL,
 					   "gtk-close", 1,
 					   NULL );

@@ -44,6 +44,8 @@
 #include "categories_onglet.h"
 #include "dialog.h"
 #include "fenetre_principale.h"
+#include "grisbi_app.h"
+#include "grisbi_settings.h"
 #include "gsb_archive_config.h"
 #include "gsb_automem.h"
 #include "gsb_bank.h"
@@ -112,10 +114,6 @@ static gboolean preference_selectable_func (GtkTreeSelection *selection,
 static gboolean selectionne_liste_preference ( GtkTreeSelection *selection,
                         GtkTreeModel *model );
 /*END_STATIC*/
-
-
-/* global "etat" structure shared in the entire program */
-struct gsb_etat_t etat;
 
 GtkWidget *fenetre_preferences = NULL;
 static GtkWidget *hpaned = NULL;
@@ -207,7 +205,7 @@ static gboolean gsb_config_partial_balance_group_under_accounts_clicked ( GtkTog
 static GtkWidget *onglet_accueil ( void )
 {
     GtkWidget *vbox_pref, *vbox, *paddingbox, *button;
-    GtkWidget *hbox, *vbox2, *sw, *treeview;
+    GtkWidget *hbox, *sw, *treeview;
     GtkWidget *paddinggrid;
     GtkListStore *list_store;
     GtkTreeViewColumn *column;
@@ -560,7 +558,7 @@ gboolean preferences ( gint page )
 
     /* Create dialog */
     fenetre_preferences = gtk_dialog_new_with_buttons (_("Grisbi preferences"),
-                        GTK_WINDOW ( run.window ),
+                        GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
                         GTK_DIALOG_MODAL,
                         "gtk-close", GTK_RESPONSE_CLOSE,
                         NULL );
@@ -1183,13 +1181,8 @@ GtkWidget *onglet_fichier ( void )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     /* Warn if file is used by someone else? */
-    button = gsb_automem_checkbutton_new ( _("Force saving of locked files"),
+    button = gsb_automem_checkbutton_new ( _("Forced recording of locked files"),
                         &conf.force_enregistrement, NULL, NULL );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
-
-    /* crypt the grisbi file */
-    button = gsb_automem_checkbutton_new ( _("Encrypt Grisbi file"),
-                        &(etat.crypt_file), G_CALLBACK (gsb_gui_encryption_toggled), NULL);
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     /* Compression level of files */
@@ -1204,11 +1197,11 @@ GtkWidget *onglet_fichier ( void )
     label = gtk_label_new ( _("Memorise last opened files: ") );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
 
-    button = gsb_automem_spin_button_new ( &conf.nb_max_derniers_fichiers_ouverts,
+/*    button = gsb_automem_spin_button_new ( &conf.nb_max_derniers_fichiers_ouverts,
                         G_CALLBACK ( affiche_derniers_fichiers_ouverts ), NULL );
     gtk_widget_set_size_request ( button, width_spin_button, -1 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
-
+*/
     /* Backups */
     paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("Backups"));
 
@@ -1259,7 +1252,7 @@ GtkWidget *onglet_fichier ( void )
     /* on passe par une fonction intermédiaire pour pallier à un bug
      * du gtk_file_chooser_button_new qui donne le répertoire home
      * lorsque l'on annule le choix du nouveau répertoire */
-    dialog = utils_files_create_file_chooser ( run.window,
+    dialog = utils_files_create_file_chooser (GTK_WIDGET(grisbi_app_get_active_window (NULL)),
                         _("Select/Create backup directory") );
 
     button = gtk_file_chooser_button_new_with_dialog ( dialog );
@@ -1275,19 +1268,6 @@ GtkWidget *onglet_fichier ( void )
                         dialog );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0);
 
-    /* Config file */
-#if IS_DEVELOPMENT_VERSION == 1
-    paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE, _("Config file") );
-
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6);
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0);
-
-    button = gsb_automem_checkbutton_new (_("Use the config file of version stable as model"),
-                        &conf.stable_config_file_model,
-                        NULL, NULL);
-    gtk_box_pack_start ( GTK_BOX (hbox), button, FALSE, FALSE, 0 );
-#endif
-
     gtk_widget_show_all ( vbox_pref );
 
     if ( !gsb_data_account_get_accounts_amount () )
@@ -1296,26 +1276,6 @@ GtkWidget *onglet_fichier ( void )
     return ( vbox_pref );
 }
 
-
-/**
- * Warns that there is no coming back if password is forgotten when
- * encryption is activated.
- *
- * \param checkbox  Checkbox that triggered event.
- * \param data      Unused.
- *
- * \return          FALSE
- */
-gboolean gsb_gui_encryption_toggled ( GtkWidget * checkbox, gpointer data )
-{
-    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON (checkbox)))
-    {
-        dialog_message ( "encryption-is-irreversible" );
-        run.new_crypted_file = TRUE;
-    }
-
-    return FALSE;
-}
 
 /**
  * called when choose a new directory for the backup
@@ -1331,11 +1291,18 @@ gboolean gsb_config_backup_dir_chosen ( GtkWidget *button,
     gchar *path;
 
     path = gtk_file_chooser_get_filename ( GTK_FILE_CHOOSER ( button ) );
-    devel_debug ( path );
-    gsb_file_set_backup_path ( path );
-    if ( path && strlen ( path ) > 0 )
-        g_free ( path );
 
+    if ( path && strlen ( path ) > 0 )
+    {
+        GSettings *settings;
+
+        settings = grisbi_settings_get_settings ( SETTINGS_FILES_BACKUP );
+        g_settings_set_string ( G_SETTINGS ( settings ), "backup-path", path );
+        gsb_file_set_backup_path ( path );
+    }
+    else
+        path = my_strdup ( gsb_dirs_get_user_data_dir () );
+    g_free ( path );
     gsb_file_set_modified ( TRUE );
 
     return FALSE;

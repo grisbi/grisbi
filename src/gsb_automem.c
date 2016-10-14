@@ -70,7 +70,6 @@ static gboolean gsb_automem_textview_changed ( GtkTextBuffer *buffer,
 
 
 
-
 /*
  * Creates a new GtkEntry with a pointer to a string that will be
  * modified according to the entry's value.

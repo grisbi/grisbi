@@ -33,6 +33,7 @@
 #include "etats_calculs.h"
 #include "etats_affiche.h"
 #include "utils_dates.h"
+#include "grisbi_win.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
@@ -46,7 +47,6 @@
 #include "gsb_data_transaction.h"
 #include "navigation.h"
 #include "gsb_real.h"
-#include "gsb_status.h"
 #include "utils_str.h"
 #include "structures.h"
 #include "erreur.h"
@@ -140,7 +140,7 @@ void affichage_etat ( gint report_number, struct struct_etat_affichage * afficha
 {
     GSList *liste_opes_selectionnees;
 
-    gsb_status_wait ( FALSE );
+    grisbi_win_status_bar_wait ( FALSE );
 
     if ( !report_number )
     {
@@ -164,7 +164,7 @@ void affichage_etat ( gint report_number, struct struct_etat_affichage * afficha
 
     etat_affichage_output = affichage;
     etape_finale_affichage_etat ( liste_opes_selectionnees, affichage, filename );
-    gsb_status_stop_wait ( FALSE );
+    grisbi_win_status_bar_stop_wait ( FALSE );
 }
 /*****************************************************************************************************/
 

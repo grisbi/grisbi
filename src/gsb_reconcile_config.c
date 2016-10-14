@@ -105,8 +105,8 @@ static void gsb_reconcile_config_sort_reconcile (GtkToggleButton *togglebutton,
  */
 GtkWidget *gsb_reconcile_config_create ( void )
 {
-    GtkWidget *hbox, *scrolled_window;
-    GtkWidget *vbox_pref, *paddingbox;
+    GtkWidget *scrolled_window;
+    GtkWidget *vbox_pref;
     GtkWidget *paddinggrid;
     GtkTreeViewColumn *column;
     GtkCellRenderer *cell;

@@ -38,6 +38,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_calendar_entry.h"
+#include "grisbi_app.h"
 #include "gsb_form_widget.h"
 #include "structures.h"
 #include "utils_dates.h"
@@ -179,8 +180,6 @@ GDate *gsb_calendar_entry_get_date ( GtkWidget *entry )
 gboolean gsb_calendar_entry_set_color ( GtkWidget *entry,
 					gboolean normal_color )
 {
-    GtkStyleContext* context;
-
     if (!entry)
         return FALSE;
 
@@ -451,7 +450,7 @@ GtkWidget *gsb_calendar_entry_popup ( GtkWidget *entry )
     popup = gtk_window_new ( GTK_WINDOW_TOPLEVEL );
     gtk_window_set_modal ( GTK_WINDOW ( popup ), TRUE );
     gtk_window_set_transient_for ( GTK_WINDOW ( popup ),
-                        GTK_WINDOW ( run.window ) );
+                        GTK_WINDOW ( grisbi_app_get_active_window (NULL) ) );
     gtk_window_set_decorated ( GTK_WINDOW ( popup ), FALSE );
     g_signal_connect_swapped ( G_OBJECT ( popup ),
 				"destroy",

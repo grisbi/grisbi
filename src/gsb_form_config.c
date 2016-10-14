@@ -35,6 +35,7 @@
 /*START_INCLUDE*/
 #include "gsb_form_config.h"
 #include "dialog.h"
+#include "grisbi_app.h"
 #include "gsb_account.h"
 #include "gsb_automem.h"
 #include "gsb_data_account.h"
@@ -139,7 +140,6 @@ GtkWidget *gsb_form_config_create_page ( void )
 void gsb_form_config_make_configuration_box ( GtkWidget *vbox_parent )
 {
     GtkWidget *sw;
-    GtkWidget *hbox;
     GtkWidget *paddingbox;
     GtkWidget *paddinggrid;
     GtkListStore* list_store;
@@ -171,8 +171,10 @@ void gsb_form_config_make_configuration_box ( GtkWidget *vbox_parent )
 
     /* set the box with the buttons */
     paddingbox = new_paddingbox_with_title ( vbox_parent, FALSE, _("Form structure content") );
+    /*
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
                         gsb_form_config_create_buttons_table (), FALSE, FALSE, 0 );
+    */
 
     gtk_widget_show_all (paddingbox);
 }
@@ -767,7 +769,6 @@ gboolean gsb_form_config_fill_store ( gint account_number )
 gboolean gsb_form_config_realized ( GtkWidget *tree_view,
 				    gpointer null )
 {
-    gint column;
     gint account_number;
     GdkCursor *cursor;
     GdkDisplay *display;
@@ -780,7 +781,8 @@ gboolean gsb_form_config_realized ( GtkWidget *tree_view,
     /* fill and update the form list and buttons */
     gsb_form_config_update_form_config (account_number);
 
-    display = gdk_window_get_display (gtk_widget_get_window (run.window));
+    display = gdk_window_get_display (gtk_widget_get_window (
+                                      GTK_WIDGET (grisbi_app_get_active_window (NULL))));
     cursor = gdk_cursor_new_for_display (display, GDK_FLEUR);
     gdk_window_set_cursor (gtk_widget_get_window (tree_view), cursor);
 

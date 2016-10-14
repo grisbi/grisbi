@@ -199,18 +199,17 @@ static void custom_list_init (CustomList *custom_list)
 {
     custom_list->n_columns = CUSTOM_MODEL_N_COLUMNS;
 
-    custom_list->column_types[0] = G_TYPE_STRING;  	/* col 0 ( check by default) */
+    custom_list->column_types[0] = G_TYPE_STRING;  	    /* col 0 ( check by default) */
     custom_list->column_types[1] = G_TYPE_STRING;   	/* col 1 ( date by default) */
     custom_list->column_types[2] = G_TYPE_STRING;    	/* col 2 ( payee by default) */
     custom_list->column_types[3] = G_TYPE_STRING;     	/* col 3 ( P/R by default) */
     custom_list->column_types[4] = G_TYPE_STRING;     	/* col 4 ( debit by default) */
     custom_list->column_types[5] = G_TYPE_STRING;     	/* col 5 ( credit by default) */
     custom_list->column_types[6] = G_TYPE_STRING;     	/* col 6 ( balance by default) */
-
     custom_list->column_types[7] = GDK_TYPE_RGBA;     	/* col 7 ( color of bg ) */
-    custom_list->column_types[8] = GDK_TYPE_RGBA; 	/* col 8 ( bg saved when selected ) */
+    custom_list->column_types[8] = GDK_TYPE_RGBA; 	    /* col 8 ( bg saved when selected ) */
     custom_list->column_types[9] = G_TYPE_STRING;     	/* col 9 ( color of amount ) */
-    custom_list->column_types[10] = GDK_TYPE_RGBA; 	/* col 10 ( color of the text ) */
+    custom_list->column_types[10] = GDK_TYPE_RGBA; 	    /* col 10 ( color of the text ) */
     custom_list->column_types[11] = G_TYPE_POINTER;     /* col 11 ( transaction struct address ) */
     custom_list->column_types[12] = G_TYPE_INT;     	/* col 12 ( what is line ) */
     custom_list->column_types[13] = G_TYPE_STRING;    	/* col 12 ( font ) */

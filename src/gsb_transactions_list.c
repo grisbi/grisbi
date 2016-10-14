@@ -37,6 +37,7 @@
 #include "custom_list.h"
 #include "dialog.h"
 #include "fenetre_principale.h"
+#include "grisbi_app.h"
 #include "gsb_account.h"
 #include "gsb_automem.h"
 #include "gsb_data_account.h"
@@ -60,7 +61,6 @@
 #include "gsb_reconcile.h"
 #include "gsb_scheduler_list.h"
 #include "import.h"
-#include "main.h"
 #include "menu.h"
 #include "mouse.h"
 #include "navigation.h"
@@ -609,7 +609,7 @@ static gboolean popup_transaction_view_mode_menu ( GtkWidget *button,
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
     g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
-			            G_CALLBACK ( gsb_gui_toggle_show_reconciled ),
+			            G_CALLBACK ( gsb_menu_gui_toggle_show_reconciled ),
                         NULL );
 
     menu_item = gtk_check_menu_item_new_with_label ( _("Show lines archives") );
@@ -623,7 +623,7 @@ static gboolean popup_transaction_view_mode_menu ( GtkWidget *button,
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
     g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
-			            G_CALLBACK ( gsb_gui_toggle_show_archived ),
+			            G_CALLBACK ( gsb_menu_gui_toggle_show_archived ),
                         NULL );
 
     gtk_menu_set_active ( GTK_MENU(menu),
@@ -1694,12 +1694,15 @@ void gsb_transactions_list_selection_changed ( gint new_selected_transaction )
     {
         account_number = gsb_data_transaction_get_account_number (new_selected_transaction);
         gsb_menu_set_menus_select_transaction_sensitive ( TRUE );
+        /* on update le menu de la liste des comptes */
+        grisbi_win_menu_move_to_acc_update ( TRUE );
     }
     else
     {
         account_number = gsb_gui_navigation_get_current_account ();
         gsb_menu_set_menus_select_transaction_sensitive ( FALSE );
     }
+
 
     /* save the new current transaction */
     gsb_data_account_set_current_transaction_number ( account_number,
@@ -1720,9 +1723,6 @@ void gsb_transactions_list_selection_changed ( gint new_selected_transaction )
     if ( transactions_tree_view )
         gtk_widget_grab_focus ( transactions_tree_view );
 }
-
-
-
 
 /**
  * Called to edit a specific transaction
@@ -2046,7 +2046,7 @@ gint gsb_transactions_list_choose_reconcile ( gint account_number,
     gint reconcile_number;
 
     dialog = gtk_dialog_new_with_buttons ( _("Selection of a reconciliation"),
-					   GTK_WINDOW ( run.window ),
+					   GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
 					   GTK_DIALOG_MODAL,
 					   "gtk-cancel", GTK_RESPONSE_CANCEL,
 					   "gtk-ok", GTK_RESPONSE_OK,
@@ -3608,37 +3608,38 @@ void mise_a_jour_affichage_r ( gboolean show_r )
 
     current_account = gsb_gui_navigation_get_current_account ();
 
+    /* show r est déjà positionné on met à jour l'affichage */
+    if ( show_r == gsb_data_account_get_r ( current_account ) )
+    {
+        gsb_transactions_list_update_tree_view ( current_account, show_r );
+
+        return;
+    }
+
     /*  we check all the accounts */
     /* 	if etat.retient_affichage_par_compte is set, only gsb_gui_navigation_get_current_account () will change */
     /* 	else, all the accounts change */
 
-    if ( show_r == gsb_data_account_get_r ( current_account ) )
+    if ( etat.retient_affichage_par_compte )
+        gsb_data_account_set_r ( current_account, show_r );
+    else
     {
-        gsb_transactions_list_update_tree_view ( current_account, show_r );
-        gsb_menu_update_view_menu ( current_account );
-        return;
-    }
+        GSList *list_tmp;
 
-    gsb_data_account_set_r ( current_account, show_r );
+        list_tmp = gsb_data_account_get_list_accounts ();
 
-    if ( !etat.retient_affichage_par_compte )
-    {
-	GSList *list_tmp;
+        while ( list_tmp )
+        {
+            gint i;
 
-	list_tmp = gsb_data_account_get_list_accounts ();
+            i = gsb_data_account_get_no_account ( list_tmp -> data );
+            gsb_data_account_set_r ( i, show_r );
 
-	while ( list_tmp )
-	{
-	    gint i;
-
-	    i = gsb_data_account_get_no_account ( list_tmp -> data );
-	    gsb_data_account_set_r ( i, show_r );
-
-	    list_tmp = list_tmp -> next;
-	}
+            list_tmp = list_tmp -> next;
+        }
     }
     gsb_transactions_list_update_tree_view ( current_account, show_r );
-    gsb_menu_update_view_menu ( current_account );
+    gsb_file_set_modified ( TRUE );
 
     return;
 }
@@ -3666,7 +3667,7 @@ void gsb_transactions_list_show_archives_lines ( gboolean show_l )
     if ( show_l == gsb_data_account_get_l ( current_account ) )
     {
         gsb_transactions_list_update_tree_view ( current_account, show_l );
-            return;
+        return;
     }
 
     gsb_data_account_set_l ( current_account, show_l );
@@ -3688,6 +3689,8 @@ void gsb_transactions_list_show_archives_lines ( gboolean show_l )
         }
     }
     gsb_transactions_list_update_tree_view ( current_account, show_l );
+
+    gsb_file_set_modified ( TRUE );
 
     return;
 }
@@ -4302,111 +4305,39 @@ GtkWidget *gsb_transactions_list_get_toolbar ( void )
  */
 gboolean change_aspect_liste ( gint demande )
 {
-    GtkUIManager *ui_manager = gsb_menu_get_ui_manager ( );
-
     switch ( demande )
     {
-	case 0:
-	    /* not used */
-            return ( TRUE );
+        case 0:
+            /* not used */
+                return ( TRUE );
 
-	/* 	1, 2, 3 et 4 sont les nb de lignes qu'on demande à afficher */
+        /* 	1, 2, 3 et 4 sont les nb de lignes qu'on demande à afficher */
+        case 1 :
+        case 2 :
+        case 3 :
+        case 4 :
+            gsb_transactions_list_set_visible_rows_number ( demande );
+            break;
 
-	case 1 :
-	    gsb_menu_set_block_menu_cb ( TRUE );
-	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
-                        gtk_ui_manager_get_action ( ui_manager,
-					    "/menubar/ViewMenu/ShowOneLine" ) ),
-					    TRUE );
-	    gsb_transactions_list_set_visible_rows_number ( demande );
-	    gsb_menu_set_block_menu_cb ( FALSE );
-	    break;
-	case 2 :
-	    gsb_menu_set_block_menu_cb ( TRUE );
-	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
-                        gtk_ui_manager_get_action ( ui_manager,
-					    "/menubar/ViewMenu/ShowTwoLines" ) ),
-					    TRUE );
-	    gsb_transactions_list_set_visible_rows_number ( demande );
-	    gsb_menu_set_block_menu_cb ( FALSE );
-	    break;
-	case 3 :
-	    gsb_menu_set_block_menu_cb ( TRUE );
-	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
-                        gtk_ui_manager_get_action ( ui_manager,
-					    "/menubar/ViewMenu/ShowThreeLines" ) ),
-					    TRUE );
-	    gsb_transactions_list_set_visible_rows_number ( demande );
-	    gsb_menu_set_block_menu_cb ( FALSE );
-	    break;
-	case 4 :
-	    gsb_menu_set_block_menu_cb ( TRUE );
-	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
-                        gtk_ui_manager_get_action ( ui_manager,
-					    "/menubar/ViewMenu/ShowFourLines" ) ),
-					   TRUE );
-	    gsb_transactions_list_set_visible_rows_number ( demande );
-	    gsb_menu_set_block_menu_cb ( FALSE );
-	    break;
+        case 5 :
+            /* ope avec r */
+            mise_a_jour_affichage_r ( 1 );
+            break;
 
-	case 5 :
+        case 6 :
+            /* ope sans r */
+            mise_a_jour_affichage_r ( 0 );
+            break;
 
-	    /* ope avec r */
+        case 7 :
+            /* show archive lines */
+            gsb_transactions_list_show_archives_lines ( 1 );
+            break;
 
-	    mise_a_jour_affichage_r ( 1 );
-
-	    gsb_menu_set_block_menu_cb ( TRUE );
-	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
-                        gtk_ui_manager_get_action ( ui_manager,
-					    "/menubar/ViewMenu/ShowReconciled" ) ),
-					    TRUE );
-	    gsb_menu_set_block_menu_cb ( FALSE );
-
-	    break;
-
-	case 6 :
-
-	    /* ope sans r */
-
-	    mise_a_jour_affichage_r ( 0 );
-
-	    gsb_menu_set_block_menu_cb ( TRUE );
-	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
-                        gtk_ui_manager_get_action ( ui_manager,
-					    "/menubar/ViewMenu/ShowReconciled" ) ),
-					    FALSE );
-	    gsb_menu_set_block_menu_cb ( FALSE );
-
-	    break;
-	case 7 :
-
-	    /* show archive lines */
-
-	    gsb_transactions_list_show_archives_lines ( 1 );
-
-	    gsb_menu_set_block_menu_cb ( TRUE );
-	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
-                        gtk_ui_manager_get_action ( ui_manager,
-						"/menubar/ViewMenu/ShowArchived" ) ),
-					    TRUE );
-	    gsb_menu_set_block_menu_cb ( FALSE );
-
-	    break;
-
-	case 8 :
-
-	    /* hide archive lines */
-
-	    gsb_transactions_list_show_archives_lines ( 0 );
-
-	    gsb_menu_set_block_menu_cb ( TRUE );
-	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
-                        gtk_ui_manager_get_action ( ui_manager,
-					    "/menubar/ViewMenu/ShowArchived" ) ),
-					    FALSE );
-	    gsb_menu_set_block_menu_cb ( FALSE );
-
-	    break;
+        case 8 :
+            /* hide archive lines */
+            gsb_transactions_list_show_archives_lines ( 0 );
+            break;
     }
 
     gsb_file_set_modified ( TRUE );

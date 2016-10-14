@@ -32,7 +32,10 @@ src/file_obfuscate.c
 src/file_obfuscate_qif.c
 src/go-charmap-sel.c
 src/go-optionmenu.c
+src/grisbi_app.c
+src/grisbi_win.c
 src/grisbi_osx.c
+src/grisbi_settings.c
 src/gsb_account.c
 src/gsb_account_property.c
 src/gsb_archive_config.c
@@ -78,7 +81,6 @@ src/gsb_data_scheduled.c
 src/gsb_data_transaction.c
 src/gsb_debug.c
 src/gsb_file.c
-src/gsb_file_config.c
 src/gsb_file_load.c
 src/gsb_file_others.c
 src/gsb_file_save.c
@@ -103,7 +105,6 @@ src/gsb_rgba.c
 src/gsb_scheduler.c
 src/gsb_scheduler_list.c
 src/gsb_select_icon.c
-src/gsb_status.c
 src/gsb_transactions_list.c
 src/gsb_transactions_list_sort.c
 src/gtk_combofix.c
@@ -119,7 +120,6 @@ src/meta_payee.c
 src/metatree.c
 src/navigation.c
 src/parametres.c
-src/parse_cmdline.c
 src/plugins/gnucash/gnucash.c
 src/plugins/ofx/ofx.c
 src/plugins/openssl/openssl.c
@@ -145,6 +145,9 @@ src/utils_font.c
 src/utils_gtkbuilder.c
 src/utils_operations.c
 src/utils_str.c
+[type: gettext/gsettings]src/org.gtk.grisbi.gschema.xml
 [type: gettext/glade]src/ui/bet_graph.ui
 [type: gettext/glade]src/ui/etats_prefs.ui
+[type: gettext/glade]src/ui/grisbi_menu.ui
+[type: gettext/glade]src/ui/grisbi_win.ui
 share/grisbi.desktop.in

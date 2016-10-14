@@ -33,6 +33,7 @@
 #include "classement_echeances.h"
 #include "dialog.h"
 #include "fenetre_principale.h"
+#include "grisbi_app.h"
 #include "gsb_automem.h"
 #include "gsb_data_account.h"
 #include "gsb_data_currency.h"
@@ -47,7 +48,6 @@
 #include "gsb_scheduler_list.h"
 #include "gsb_select_icon.h"
 #include "gsb_transactions_list.h"
-#include "main.h"
 #include "navigation.h"
 #include "structures.h"
 #include "utils.h"
@@ -1232,7 +1232,7 @@ static gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 
     /* Create the dialog */
     dialog = gtk_dialog_new_with_buttons ( _("Enter a scheduled transaction"),
-					   GTK_WINDOW ( run.window ),
+					   GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
 					   GTK_DIALOG_MODAL,
 					   "gtk-cancel", GTK_RESPONSE_CANCEL,
 					   "gtk-ok", GTK_RESPONSE_OK,

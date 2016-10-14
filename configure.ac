@@ -44,6 +44,12 @@ dnl Initialize libtool
 LT_INIT
 LT_LIB_M
 
+dnl GSettings
+GLIB_GSETTINGS
+
+dnl GLIB_COMPILE_RESOURCES
+AC_PATH_PROG(GLIB_COMPILE_RESOURCES, glib-compile-resources)
+
 dnl ================================================================
 dnl Check for NLS support.
 dnl ================================================================
@@ -209,8 +215,12 @@ AC_ARG_ENABLE(werror,
  	[Treates warning as errors (default=no)])],,
  	enable_werror=no)
 if test "x$enable_werror" = xyes ; then
-	CFLAGS="$CFLAGS -Werror"
-	AC_MSG_WARN([Werror flags are enabled])
+	if test "x$GCC" = "xyes" ; then
+		CFLAGS="$CFLAGS -Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers"
+		AC_MSG_WARN([Wall and Wunused flags are enabled])
+	else
+		AC_MSG_WARN([Wall and Wunused can be enabled only with gcc])
+	fi
 fi
 
 dnl ================================================================

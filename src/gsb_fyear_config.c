@@ -64,7 +64,7 @@ enum fyear_list_column {
 };
 
 static GtkWidget *fyear_config_treeview = NULL;
-static gint fyear_config_sort_type;     /* variable durée de vie session */
+static gint fyear_config_sort_order;     /* variable durée de vie session */
 
 /*START_STATIC*/
 static gboolean gsb_fyear_config_add_fyear ( GtkWidget *tree_view );
@@ -99,10 +99,10 @@ static void gsb_fyear_update_invalid ( GtkWidget *tree_view );
 static void gsb_fyear_config_list_sort_column_clicked (GtkTreeViewColumn *tree_view_column,
                                                     GtkTreeModel *model)
 {
-    if (fyear_config_sort_type == GTK_SORT_ASCENDING)
-        fyear_config_sort_type = GTK_SORT_DESCENDING;
+    if (fyear_config_sort_order == GTK_SORT_ASCENDING)
+        fyear_config_sort_order = GTK_SORT_DESCENDING;
     else
-        fyear_config_sort_type = GTK_SORT_ASCENDING;
+        fyear_config_sort_order = GTK_SORT_ASCENDING;
 }
 
 /******************************************************************************/
@@ -324,10 +324,10 @@ GtkWidget *gsb_fyear_config_create_list ()
     }
 
     /* Sort columns accordingly */
-    fyear_config_sort_type = conf.prefs_sort;
+    fyear_config_sort_order = conf.prefs_sort_order;
     gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE(model),
                                           FYEAR_NAME_COLUMN,
-                                          fyear_config_sort_type);
+                                          fyear_config_sort_order);
 
     return treeview;
 }
@@ -803,15 +803,15 @@ gboolean gsb_fyear_config_associate_transactions ( void )
  *
  * \return
  * */
-void gsb_fyear_config_set_sort_type (gpointer *sort_type)
+void gsb_fyear_config_set_sort_order (gpointer *sort_order)
 {
     GtkTreeModel *model;
 
-    fyear_config_sort_type = GPOINTER_TO_INT (sort_type);
+    fyear_config_sort_order = GPOINTER_TO_INT (sort_order);
     model = gtk_tree_view_get_model (GTK_TREE_VIEW (fyear_config_treeview));
     gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE(model),
                                           FYEAR_NAME_COLUMN,
-                                          fyear_config_sort_type);
+                                          fyear_config_sort_order);
     gtk_tree_sortable_sort_column_changed (GTK_TREE_SORTABLE(model));
     gsb_fyear_config_fill_list (model);
 }

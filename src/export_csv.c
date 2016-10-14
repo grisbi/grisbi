@@ -50,7 +50,6 @@
 #include "gsb_data_transaction.h"
 #include "gsb_file_util.h"
 #include "gsb_real.h"
-#include "main.h"
 #include "utils_real.h"
 #include "utils_str.h"
 #include "utils_files.h"

@@ -40,6 +40,7 @@
 /*START_INCLUDE*/
 #include "gsb_account_property.h"
 #include "dialog.h"
+#include "grisbi_win.h"
 #include "gsb_account.h"
 #include "gsb_autofunc.h"
 #include "gsb_bank.h"
@@ -57,7 +58,6 @@
 #include "accueil.h"
 #include "menu.h"
 #include "gsb_scheduler_list.h"
-#include "main.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
 #include "utils.h"
@@ -154,7 +154,7 @@ static GtkWidget *label_code_banque = NULL;
 static GtkWidget *detail_guichet = NULL;
 static GtkWidget *detail_no_compte = NULL;
 static GtkWidget *detail_cle_compte = NULL;
-GtkWidget *detail_devise_compte = NULL;
+       GtkWidget *detail_devise_compte = NULL;
 static GtkWidget *detail_compte_cloture = NULL;
 static GtkWidget *detail_solde_init = NULL;
 static GtkWidget *detail_solde_mini_autorise = NULL;
@@ -208,10 +208,10 @@ GtkWidget *gsb_account_property_create_page ( void )
 
     /* Création du bouton pour modifier l'icône de compte. C'est un moyen de
      * contourner le bug du gtk_viewport */
-    bouton_icon = gtk_button_new ( );
+    bouton_icon = gtk_button_new ();
     gtk_widget_set_size_request ( bouton_icon, -1, 40 );
     gtk_widget_set_halign ( bouton_icon, GTK_ALIGN_CENTER );
-    gtk_button_set_relief ( GTK_BUTTON ( bouton_icon ), GTK_RELIEF_NONE );
+    gtk_button_set_relief ( GTK_BUTTON ( bouton_icon ), GTK_RELIEF_NORMAL );
     gtk_box_pack_start ( GTK_BOX ( onglet ), bouton_icon, FALSE, FALSE, 0);
 
     /* partie du haut avec les détails du compte */
@@ -726,7 +726,7 @@ gboolean gsb_account_property_changed ( GtkWidget *widget,
         break;
     case PROPERTY_CLOSED_ACCOUNT:
         gsb_gui_navigation_update_account ( account_number );
-        gsb_menu_update_accounts_in_menus ();
+        grisbi_win_menu_move_to_acc_update  ( FALSE );
 
         /* update the name of accounts in form */
         gsb_account_update_combo_list ( gsb_form_scheduler_get_element_widget (
@@ -1517,8 +1517,8 @@ gboolean gsb_account_property_focus_out ( GtkWidget *widget,
         /* update the scheduler list */
         gsb_scheduler_list_fill_list (gsb_scheduler_list_get_tree_view ());
 
-        /*update the the view menu */
-        gsb_menu_update_accounts_in_menus ();
+        /*update the view menu */
+        grisbi_win_menu_move_to_acc_update  ( FALSE );
 
         /* update the name of accounts in form */
         gsb_account_update_combo_list ( gsb_form_scheduler_get_element_widget (
@@ -1530,7 +1530,7 @@ gboolean gsb_account_property_focus_out ( GtkWidget *widget,
         payees_fill_list ();
         break;
     case PROPERTY_HOLDER_NAME:
-        gsb_main_set_grisbi_title ( account_number );
+        grisbi_win_set_grisbi_title ( account_number );
         break;
     }
 

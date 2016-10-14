@@ -34,6 +34,8 @@
 #include "imputation_budgetaire.h"
 #include "dialog.h"
 #include "fenetre_principale.h"
+#include "grisbi_app.h"
+#include "grisbi_win.h"
 #include "gsb_autofunc.h"
 #include "gsb_automem.h"
 #include "gsb_data_budget.h"
@@ -44,7 +46,6 @@
 #include "gsb_form_widget.h"
 #include "gsb_transactions_list.h"
 #include "gtk_combofix.h"
-#include "main.h"
 #include "meta_budgetary.h"
 #include "metatree.h"
 #include "mouse.h"
@@ -370,9 +371,9 @@ void budgetary_lines_fill_list ( void )
         /* on colorise les lignes du tree_view */
         utils_set_tree_view_background_color ( budgetary_line_tree, META_TREE_BACKGROUND_COLOR );
 	    title = g_strdup(_("Budgetary lines"));
-        gsb_gui_headings_update_title ( title );
+        grisbi_win_headings_update_title ( title );
         g_free ( title );
-        gsb_gui_headings_update_suffix ( "" );
+        grisbi_win_headings_update_suffix ( "" );
     }
 }
 
@@ -432,7 +433,7 @@ void budgetary_lines_exporter_list ( void )
     gchar *tmp_last_directory;
 
     dialog = gtk_file_chooser_dialog_new ( _("Export the budgetary lines"),
-					   GTK_WINDOW ( run.window ),
+					   GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
 					   GTK_FILE_CHOOSER_ACTION_SAVE,
 					   "gtk-cancel", GTK_RESPONSE_CANCEL,
 					   "gtk-save", GTK_RESPONSE_OK,
@@ -484,7 +485,7 @@ void budgetary_lines_importer_list ( void )
     gchar *tmp_last_directory;
 
     dialog = gtk_file_chooser_dialog_new ( _("Import budgetary lines"),
-					   GTK_WINDOW ( run.window ),
+					   GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
 					   GTK_FILE_CHOOSER_ACTION_OPEN,
 					   "gtk-cancel", GTK_RESPONSE_CANCEL,
 					   "gtk-open", GTK_RESPONSE_OK,
@@ -578,8 +579,6 @@ void budgetary_lines_importer_list ( void )
  */
 GtkWidget *creation_barre_outils_ib ( void )
 {
-    GtkWidget *hbox, *button;
-
     GtkWidget *toolbar;
     GtkToolItem *item;
 
@@ -612,11 +611,6 @@ GtkWidget *creation_barre_outils_ib ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Import button */
-    button = gsb_automem_stock_button_new ( conf.display_toolbar,
-                                "gtk-open",
-                                _("Import"),
-                                G_CALLBACK ( budgetary_lines_importer_list ),
-                                NULL );
     item = utils_buttons_tool_button_new_from_stock ( "gtk-open" );
     gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Import") );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ),
@@ -640,10 +634,6 @@ GtkWidget *creation_barre_outils_ib ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Delete button */
-    button = gsb_automem_stock_button_new ( conf.display_toolbar,
-                                "gtk-delete", _("Delete"),
-                                G_CALLBACK ( supprimer_division ),
-                                budgetary_line_tree );
     item = utils_buttons_tool_button_new_from_stock ( "gtk-delete" );
     gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Delete") );
     metatree_register_widget_as_linked ( GTK_TREE_MODEL ( budgetary_line_tree_model ),
@@ -657,10 +647,6 @@ GtkWidget *creation_barre_outils_ib ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Properties button */
-    button = gsb_automem_stock_button_new ( conf.display_toolbar,
-                                "gtk-edit", _("Edit"),
-                                G_CALLBACK ( edit_budgetary_line ),
-                                budgetary_line_tree );
     item = utils_buttons_tool_button_new_from_stock ( "gtk-edit" );
     gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Edit") );
     metatree_register_widget_as_linked ( GTK_TREE_MODEL ( budgetary_line_tree_model ),
@@ -781,7 +767,7 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
 							     _("No budget defined") ));
 
     dialog = gtk_dialog_new_with_buttons ( title ,
-					   GTK_WINDOW ( run.window ),
+					   GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
 					   GTK_DIALOG_MODAL,
 					   "gtk-cancel", GTK_RESPONSE_NO,
 					   "gtk-apply", GTK_RESPONSE_OK,

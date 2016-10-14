@@ -42,6 +42,7 @@
 #include "go-charmap-sel.h"
 #endif /* HAVE_GOFFICE */
 #include "utils_file_selection.h"
+#include "grisbi_app.h"
 #include "gsb_account.h"
 #include "gsb_account_property.h"
 #include "gsb_assistant.h"
@@ -69,12 +70,10 @@
 #include "navigation.h"
 #include "menu.h"
 #include "tiers_onglet.h"
-#include "gsb_status.h"
 #include "utils_str.h"
 #include "gsb_transactions_list.h"
 #include "gtk_combofix.h"
 #include "traitement_variables.h"
-#include "main.h"
 #include "accueil.h"
 #include "parametres.h"
 #include "qif.h"
@@ -329,10 +328,10 @@ void importer_fichier ( void )
 
     if ( gsb_assistant_run ( assistant ) == GTK_RESPONSE_APPLY )
     {
-        gsb_status_wait ( TRUE );
+        grisbi_win_status_bar_wait ( TRUE );
         traitement_operations_importees ();
         gtk_widget_destroy ( assistant );
-        gsb_status_stop_wait ( TRUE );
+        grisbi_win_status_bar_stop_wait ( TRUE );
     }
     else
     {
@@ -1152,10 +1151,11 @@ gboolean affichage_recapitulatif_importation ( GtkWidget * assistant )
     while ( list_tmp )
     {
     struct struct_compte_importation * compte;
+
     compte = list_tmp -> data;
 
     /* add one page per account */
-    gsb_assistant_add_page ( assistant, cree_ligne_recapitulatif ( list_tmp -> data ),
+    gsb_assistant_add_page ( assistant, cree_ligne_recapitulatif (compte),
                         page, page - 1, page + 1, G_CALLBACK ( NULL ) );
     page ++;
 
@@ -1405,7 +1405,7 @@ gint gsb_import_add_currency ( struct struct_compte_importation * compte )
                         _("Can't associate ISO 4217 code for currency '%s'."),
                         compte -> devise );
 
-    dialog = gtk_message_dialog_new ( GTK_WINDOW ( run.window ),
+    dialog = gtk_message_dialog_new ( GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
                         GTK_DIALOG_DESTROY_WITH_PARENT,
                         GTK_MESSAGE_QUESTION,
                         GTK_BUTTONS_YES_NO,
@@ -1619,7 +1619,7 @@ void traitement_operations_importees ( void )
     if ( virements_a_chercher )
     cree_liens_virements_ope_import ();
 
-    gsb_status_message ( _("Please wait") );
+    grisbi_win_status_bar_message ( _("Please wait") );
 
     /* update the name of accounts in scheduler form */
     gsb_account_update_combo_list (
@@ -1640,7 +1640,7 @@ void traitement_operations_importees ( void )
     run.mise_a_jour_soldes_minimaux = TRUE;
     mise_a_jour_accueil ( FALSE );
 
-    gsb_status_clear();
+    grisbi_win_status_bar_clear();
 
     /* if some R marked transactions are imported, show a message */
     if (marked_r_transactions_imported)
@@ -2256,7 +2256,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
                         _("Confirmation of importation of transactions in: %s"),
                         gsb_data_account_get_name ( account_number ) );
     dialog = gtk_dialog_new_with_buttons ( tmpstr,
-                        GTK_WINDOW ( run.window ),
+                        GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
                         GTK_DIALOG_MODAL,
                         "gtk-select-all", -12,
                         _("Unselect all"), -13,
@@ -3263,7 +3263,7 @@ void gsb_import_show_orphan_transactions ( GSList *orphan_list,
                         gsb_data_account_get_name ( account_number ) );
 
     dialog = gtk_dialog_new_with_buttons ( tmp_str,
-                        GTK_WINDOW ( run.window ),
+                        GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
                         GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
                         "gtk-select-all", GTK_RESPONSE_ACCEPT,
                         "gtk-cancel", GTK_RESPONSE_CANCEL,
@@ -3333,7 +3333,6 @@ void gsb_import_show_orphan_transactions ( GSList *orphan_list,
                         GTK_POLICY_AUTOMATIC,
                         GTK_POLICY_AUTOMATIC );
 	gtk_container_add ( GTK_CONTAINER ( scrolled_window ), liste_ope_celibataires );
-    //~ gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (liste_ope_celibataires), TRUE);
 	gtk_widget_show_all ( scrolled_window );
 
 	/* on affiche les colonnes */
@@ -3773,7 +3772,7 @@ GtkWidget *onglet_importation (void)
 GtkWidget * gsb_import_associations_gere_tiers ( void )
 {
     GtkWidget *vbox_main, *vbox, *paddingbox, *button;
-    GtkWidget *hbox, *vbox2, *sw, *treeview ;
+    GtkWidget *sw, *treeview ;
     GtkWidget *entry_search, *label, *entry_payee;
     GtkWidget *grid;
     GtkWidget *paddinggrid;
@@ -4586,7 +4585,7 @@ gchar **gsb_import_by_rule_ask_filename ( gint rule )
     return NULL;
 
     dialog = gtk_dialog_new_with_buttons (_("Import a file with a rule"),
-                        GTK_WINDOW ( run.window ),
+                        GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
                         GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
                         "gtk-cancel", GTK_RESPONSE_REJECT,
                         "gtk-ok", GTK_RESPONSE_ACCEPT,
@@ -4696,7 +4695,7 @@ gboolean gsb_import_by_rule_get_file ( GtkWidget *button,
 
     rule = GPOINTER_TO_INT ( g_object_get_data (G_OBJECT (entry), "rule"));
     enc = gsb_data_import_rule_get_charmap ( rule );
-    filenames = gsb_import_create_file_chooser ( enc, run.window );
+    filenames = gsb_import_create_file_chooser ( enc, GTK_WIDGET (grisbi_app_get_active_window (NULL)) );
     if (!filenames)
     return FALSE;
 
@@ -4953,7 +4952,7 @@ GtkWidget *gsb_import_progress_bar_affiche ( struct struct_compte_importation *i
     progress = gtk_window_new ( GTK_WINDOW_TOPLEVEL );
     gtk_window_set_decorated ( GTK_WINDOW ( progress ), FALSE );
 
-    assistant = g_object_get_data ( G_OBJECT ( run.window ), "assistant" );
+    assistant = g_object_get_data ( G_OBJECT ( grisbi_app_get_active_window (NULL) ), "assistant" );
     gtk_window_set_modal ( GTK_WINDOW ( assistant ), FALSE );
     gtk_window_set_transient_for ( GTK_WINDOW ( progress ), GTK_WINDOW ( assistant ) );
     gtk_window_set_modal ( GTK_WINDOW ( progress ), TRUE );

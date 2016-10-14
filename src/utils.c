@@ -34,7 +34,6 @@
 #include "dialog.h"
 #include "gsb_data_account.h"
 #include "gsb_dirs.h"
-#include "gsb_file_config.h"
 #include "gsb_rgba.h"
 #include "parametres.h"
 #include "structures.h"
@@ -47,7 +46,6 @@
 
 /*START_STATIC*/
 /*END_STATIC*/
-
 
 /*START_EXTERN*/
 extern GtkWidget *fenetre_preferences;
@@ -77,66 +75,6 @@ gboolean utils_event_box_change_state ( GtkWidget *event_box,
 
     return FALSE;
 }
-
-/**
- *
- *
- *
- */
-gboolean met_en_prelight ( GtkWidget *event_box,
-                        GdkEventMotion *event,
-                        gpointer pointeur )
-{
-    if ( pointeur == NULL )
-        gtk_widget_set_state_flags (gtk_bin_get_child (GTK_BIN (event_box)), GTK_STATE_FLAG_PRELIGHT, FALSE);
-    else
-    {
-        GSList *list = ( GSList* ) pointeur;
-
-        while (list )
-        {
-            GtkWidget *widget;
-
-            widget = list -> data;
-            gtk_widget_set_state_flags (gtk_bin_get_child (GTK_BIN (widget)), GTK_STATE_FLAG_PRELIGHT, FALSE);
-
-            list = list -> next;
-        }
-    }
-    return FALSE;
-}
-
-
-/**
- *
- *
- *
- */
-gboolean met_en_normal ( GtkWidget *event_box,
-                        GdkEventMotion *event,
-                        gpointer pointeur )
-{
-    if ( pointeur == NULL )
-        gtk_widget_set_state_flags (gtk_bin_get_child (GTK_BIN (event_box )), GTK_STATE_FLAG_NORMAL, FALSE);
-    else
-    {
-        GSList *list = ( GSList* ) pointeur;
-
-        while (list )
-        {
-            GtkWidget *widget;
-
-            widget = list -> data;
-
-            gtk_widget_set_state_flags (gtk_bin_get_child (GTK_BIN (widget)), GTK_STATE_FLAG_NORMAL, FALSE);
-
-            list = list -> next;
-        }
-    }
-
-    return FALSE;
-}
-
 
 /**
  * called by a "clicked" callback on a check button,
@@ -196,7 +134,7 @@ gboolean desensitive_widget ( gpointer object, GtkWidget *widget )
  * sous Windows si la commande est vide ou egale a la valeur par defaut
  * on lance le butineur par defaut (open)
  */
-gboolean lance_navigateur_web_old ( const gchar *url )
+gboolean lance_navigateur_web ( const gchar *url )
 {
     gchar **split;
     gchar *chaine = NULL;
@@ -271,7 +209,7 @@ gboolean lance_navigateur_web_old ( const gchar *url )
     return FALSE;
 }
 
-gboolean lance_navigateur_web ( const gchar *uri )
+gboolean lance_navigateur_web_new ( const gchar *uri )
 {
     GError *error = NULL;
     gchar *str;
@@ -282,7 +220,7 @@ gboolean lance_navigateur_web ( const gchar *uri )
     }
     else
     {
-        str = g_strconcat ( "file://", uri, NULL );
+        str = g_strconcat ( "file:///", uri, NULL );
     }
 
     if ( gtk_show_uri ( NULL, str, GDK_CURRENT_TIME, &error ) == FALSE )
@@ -1143,7 +1081,6 @@ gboolean utils_prefs_scrolled_window_allocate_size (GtkWidget *widget,
                                                      gpointer coeff_util)
 {
     gpointer *ptr;
-    gint natural_height;
     gint position;
     gint util_allocation;
     gint coeff = 0;

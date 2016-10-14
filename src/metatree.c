@@ -33,6 +33,7 @@
 #include "categories_onglet.h"
 #include "dialog.h"
 #include "fenetre_principale.h"
+#include "grisbi_win.h"
 #include "gsb_account_property.h"
 #include "gsb_automem.h"
 #include "gsb_data_account.h"
@@ -2382,8 +2383,8 @@ gboolean metatree_selection_changed ( GtkTreeSelection *selection, GtkTreeModel 
                 break;
         }
 
-        gsb_gui_headings_update_title ( text );
-        gsb_gui_headings_update_suffix ( balance );
+        grisbi_win_headings_update_title ( text );
+        grisbi_win_headings_update_suffix ( balance );
         g_free ( text );
         g_free ( balance );
         selection_is_set = TRUE;

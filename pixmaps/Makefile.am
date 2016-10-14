@@ -44,7 +44,7 @@ grisbi_pixmaps_DATA = \
 	impexp.png \
 	importlg.png \
 	import.png \
-    locale.png \
+	locale.png \
 	new-categ.png \
 	new-ib.png \
 	new-payee.png \

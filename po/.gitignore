@@ -2,7 +2,9 @@ Makefile
 Makefile.in*
 .intltool-merge-cache
 POTFILES
+*.mo
 *.gmo
 grisbidev.pot
+grisbi.pot
 stamp-it
 

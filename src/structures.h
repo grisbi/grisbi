@@ -11,14 +11,14 @@
 /* the VERSION_FICHIER is in fact the lowest version which can be used to open the
  * file, so each time we make an incompatibility issue, VERSION_FICHIER must be set
  * to VERSION_GRISBI */
-#define VERSION_FICHIER "0.6.0"
+#define VERSION_FICHIER         "1.1.1"
 
 /* Define this when in Git development branch. */
-#define IS_DEVELOPMENT_VERSION 1
+#define IS_DEVELOPMENT_VERSION  1
 
-#define VERSION_FICHIER_ETAT "0.6.0"
-#define VERSION_FICHIER_CATEG "0.6.0"
-#define VERSION_FICHIER_IB "0.6.0"
+#define VERSION_FICHIER_ETAT    "0.6.0"
+#define VERSION_FICHIER_CATEG   "0.6.0"
+#define VERSION_FICHIER_IB      "0.6.0"
 
 #define CSV_MAX_TOP_LINES       10	                /** How many lines to show in CSV preview.  */
 #define GSB_EPSILON             0.0000005           /* Sert à comparer des doubles */
@@ -43,7 +43,18 @@
 
 /* global variable pour gestion CSS des couleurs */
 /* declared in main.c */
+extern struct GrisbiAppConf conf;
 extern GtkCssProvider *css_provider;
+
+/* variables initialisées lors de l'exécution de grisbi PROVISOIRE */
+struct gsb_run_t run;
+
+/* global "etat" structure shared in the entire program */
+struct gsb_etat_t etat;
+
+typedef enum _bet_type_onglets bet_type_onglets;
+
+typedef enum _SettingsSchema SettingsSchema;
 
 /** structure etat
  * variables contenant juste 0 ou 1
@@ -59,7 +70,6 @@ struct gsb_etat_t
     gboolean debug_mode;            /* TRUE in debug mode, FALSE for normale mode */
 
     /* files and backup part */
-    gint crypt_file;                /* TRUE if we want to crypt the file */
     gint fichier_deja_ouvert;       /* à un si lors de l'ouverture, le fichier semblait déjà ouvert */
 
     /* devises pour les catégories, imputations budgétaires et les tiers */
@@ -81,14 +91,6 @@ struct gsb_etat_t
     gchar *name_logo;
 
     gboolean automatic_separator;   /* TRUE if do automatic separator */
-
-    /* Various display message stuff    */
-    gint display_message_lock_active;
-    gint display_message_file_readable;
-    gint display_message_minimum_alert;
-    gint display_message_no_budgetary_line;
-    gint display_message_qif_export_currency;
-    gint display_message_ofx_security;
 
     /* import files */
     gint get_extract_number_for_check;      /* TRUE if Extracting a number and save it in the field No Cheque/Virement */
@@ -146,101 +148,95 @@ struct gsb_etat_t
     gchar *scheduler_column_width;
 };
 
-/* declared in parametres.c */
-extern struct gsb_etat_t etat;
-
-
 /** structure conf
  * variables containing just 0 or 1
  * configured by the file grisbi.conf
  *
  */
-struct gsb_conf_t
+struct GrisbiAppConf
 {
-    /* geometry */
-    gint root_x;                                    /* main_window x position */
-    gint root_y;                                    /* main_window y position */
-    gint main_width;                                /* main_window width */
-    gint main_height;                               /* main_window height */
-    gint full_screen;                               /* 1 to full screen, 0 else */
-    gint maximize_screen;                           /* 1 to maximize screen, 0 else */
-    gint panel_width;                               /* panel width */
-    gint prefs_width;                               /* preferences width */
-    gint prefs_sort;                                /* column type sort, GTK_SORT_ASCENDING by default */
+/* root part*/
+    gint        first_use;                                  /* première utilisation ou réinitialisation de grisbi */
+    gboolean    prefer_app_menu;                            /* TRUE validate appmenu */
 
-    /* general part */
-    gint r_modifiable;                              /* Changes in reconciled transactions */
-    gint entree;                                    /* si etat.entree = 1, la touche entrée finit l'opération */
-    gint alerte_mini;
-    gint utilise_fonte_listes;                      /* TRUE to use a custom font for the lists */
-    gchar *font_string;                             /* contain the description of the font, or NULL */
-    gchar *browser_command;
-    gint pluriel_final;                             /* 0 = finals 1 = finaux */
+/* backup part */
+    gboolean    compress_backup;                            /* TRUE if we want to compress the backup */
+    gboolean    make_backup;                                /* TRUE for create a backup when save file */
+    gboolean    make_backup_every_minutes;                  /* TRUE to make backup every x mn */
+    gint        make_backup_nb_minutes;                     /* the number of minutes we want to make a backup */
+    gboolean    make_bakup_single_file;                     /* TRUE if a single backup file */
+    gboolean    sauvegarde_demarrage;                       /* utilisé pour enregistrer le fichier s'il s'est bien ouvert */
 
-    gint display_grisbi_title;                      /* selection du titre principal de grisbi */
-    gboolean active_scrolling_left_pane;            /* active mouse scrolling in the left_pane. */
+/* display part */
+    gint        display_grisbi_title;                       /* selection du titre principal de grisbi */
+    gboolean    display_toolbar;                            /* Display mode of toolbar. */
+    gboolean    formulaire_toujours_affiche;                /* TRUE formulaire toujours affiché */
+    gboolean    group_partial_balance_under_accounts;       /* TRUE = in home page group the partial balance with accounts */
+    gboolean    show_headings_bar;                          /* Show headings bar or not. */
+    gboolean    show_closed_accounts;
 
-    gint display_toolbar;                           /* Display mode of toolbar. */
-    gboolean show_headings_bar;                     /* Show headings bar or not. */
-    gboolean show_closed_accounts;
-
-    /* files part */
-    gint sauvegarde_demarrage;                      /* utilisé pour enregistrer le fichier s'il s'est bien ouvert */
-    gint sauvegarde_auto;                           /* utilisé pour enregistrer le fichier automatiquementà la fermeture */
-    gint dernier_fichier_auto;
-    gint compress_file;                             /* TRUE if we want to compress the Grisbi file */
-    gint alerte_permission;                         /* à un si le message d'alerte s'affiche */
-    gint force_enregistrement;                      /* à un si on force l'enregistrement */
-    gint nb_max_derniers_fichiers_ouverts;          /* contient le nb max que peut contenir nb_derniers_fichiers_ouverts */
-    gsize nb_derniers_fichiers_ouverts;             /* contient le nb de derniers fichiers ouverts */
-
-    /* backup part */
-    gint make_backup;                               /* TRUE for create a backup when save file */
-    gint make_backup_every_minutes;                 /* TRUE to make backup every x mn */
-    gint make_backup_nb_minutes;                    /* the number of minutes we want to make a backup */
-    gint make_bakup_single_file;                    /* TRUE if a single backup file */
-    gint compress_backup;                           /* TRUE if we want to compress the backup */
-
-    /* formulaire */
-    gint automatic_completion_payee;                /* 1 pour autoriser la completion automatique des opérations */
-    gboolean limit_completion_to_current_account;   /* Limit payee completion to current account or do a full search. */
-    gboolean automatic_recover_splits;              /* 1 pour recréer automatiquement les sous opérations */
-    gboolean automatic_erase_credit_debit;          /* 1 pour effacer les champs crédit et débit */
-    gboolean formulaire_toujours_affiche;           /* TRUE formulaire toujours affiché */
-    gint affichage_exercice_automatique;            /* automatic fyear :0 to set according to the date, 1 according to value date */
-
-#if IS_DEVELOPMENT_VERSION == 1
-    /* config file */
-    gint stable_config_file_model;                  /* TRUE for use the stable config file as model */
-#endif
-
-    /* variables pour l'échéancier */
-    gboolean execute_scheduled_of_month;            /* warn/execute scheduled at expiration (FALSE) or of the month (TRUE) */
-
-    /* variables pour le calcul des soldes */
-    gboolean balances_with_scheduled;               /* TRUE = the balance incorporates the scheduled operations */
-    gboolean group_partial_balance_under_accounts;  /* TRUE = in home page group the partial balance with accounts */
-
-    /* variables for the list of transactions */
-    gint show_transaction_selected_in_form;         /* TRUE will show the selected transaction in the form */
-    gint show_transaction_gives_balance;            /* TRUE si on visualise l'opération qui donne le solde du jour */
-    gboolean transactions_list_primary_sorting;     /* Primary sorting option for the transactions */
-    gboolean transactions_list_secondary_sorting;   /* Secondary sorting option for the transactions */
-
-    /* variables for the list of transactions */
-    gint metatree_action_2button_press;             /* 0 default gtk, 1 edit_function, 1 manage division if possible */
+/* files part */
+    gboolean    compress_file;                              /* TRUE if we want to compress the Grisbi file */
+    gint        dernier_fichier_auto;                       /* chargement du dernier fichier utilisé */
+    gboolean    force_enregistrement;                       /* à un si on force l'enregistrement */
+    gchar *     last_open_file;                             /* dernier fichier ouvert */
+    gint        nb_max_derniers_fichiers_ouverts;           /* contient le nb max que peut contenir nb_derniers_fichiers_ouverts */
+    gint        nb_derniers_fichiers_ouverts;               /* contient le nb de derniers fichiers ouverts */
+    gboolean    sauvegarde_auto;                            /* utilisé pour enregistrer le fichier automatiquementà la fermeture */
 
     /* archive stuff */
-    gint check_for_archival;                        /* TRUE if we want to check the number of non archived transactions at the opening */
-    gint max_non_archived_transactions_for_check;   /* the max number of transaction before grisbi warm at the opening */
+    gboolean    check_for_archival;                         /* TRUE if we want to check the number of non archived transactions at the opening */
+    gint        max_non_archived_transactions_for_check;    /* the max number of transaction before grisbi warm at the opening */
+
+/* form part*/
+    gint        affichage_exercice_automatique;             /* automatic fyear :0 to set according to the date, 1 according to value date */
+    gint        automatic_completion_payee;                 /* 1 pour autoriser la completion automatique des opérations */
+    gboolean    automatic_erase_credit_debit;               /* 1 pour effacer les champs crédit et débit */
+    gboolean    automatic_recover_splits;                   /* 1 pour recréer automatiquement les sous opérations */
+    gboolean    entree;                                     /* si conf.entree = 1, la touche entrée finit l'opération */
+    gboolean    limit_completion_to_current_account;        /* Limit payee completion to current account or do a full search. */
+
+/* general part */
+    gint        custom_fonte_listes;                        /* TRUE to use a custom font for the lists */
+    gchar *     font_string;                                /* contain the description of the font, or NULL */
+    gchar *     browser_command;
+
+    /* Home page */
+    gint        pluriel_final;                              /* 0 = finals 1 = finaux */
+
+    /* variables for the list of categories */
+    gint        metatree_action_2button_press;              /* 0 default gtk, 1 edit_function, 2 manage division if possible */
+
+    /* variables for the list of transactions */
+    gboolean    show_transaction_gives_balance;             /* TRUE si on visualise l'opération qui donne le solde du jour */
+    gboolean    show_transaction_selected_in_form;          /* TRUE will show the selected transaction in the form */
+    gboolean    transactions_list_primary_sorting;          /* Primary sorting option for the transactions */
+    gboolean    transactions_list_secondary_sorting;        /* Secondary sorting option for the transactions */
+
+/* geometry part */
+    gint        x_position;                                 /* main_window x position */
+    gint        y_position;                                 /* main_window y position */
+    gint        main_width;                                 /* main_window width */
+    gint        main_height;                                /* main_window height */
+    gboolean    full_screen;                                /* TRUE to full screen, 0 else */
+    gboolean    maximize_screen;                            /* TRUE to maximize screen, 0 else */
+
+/* panel part */
+    gboolean active_scrolling_left_pane;                    /* active mouse scrolling in the left_pane. */
+    gint        panel_width;                                /* navigation panel width */
+
+/* prefs part */
+    gint        prefs_width;                                /* preferences width */
+    gint        prefs_sort_order;                           /* column type sort, GTK_SORT_ASCENDING by default */
+
+/* scheduled part */
+    gboolean    balances_with_scheduled;                    /* TRUE = the balance incorporates the scheduled operations */
+    gboolean    execute_scheduled_of_month;                 /* warn/execute scheduled at expiration (FALSE) or of the month (TRUE) */
 
     /* Tips */
-    gint last_tip;
-    gint show_tip;
+    gint        last_tip;
+    gboolean    show_tip;
 };
-
-/* declared in gsb_file_config.c */
-extern struct gsb_conf_t conf;
 
 /** structure run
  * variables containing just 0 or 1
@@ -253,8 +249,10 @@ struct gsb_run_t
     /* main window of grisbi */
     GtkWidget *window;
 
+    /* old version of file */
+    gboolean old_version;           /* TRUE if file version < 0.6 */
+
     /* initialisation variables */
-    gboolean new_crypted_file;      /* 0 à l'exécution de init_variables () 1 si new crypted file*/
 
     /* file stuff */
     time_t file_modification;
@@ -277,9 +275,6 @@ struct gsb_run_t
     gboolean mise_a_jour_soldes_minimaux;
     gboolean mise_a_jour_fin_comptes_passifs;
 };
-
-/* declared in main.c */
-extern struct gsb_run_t run;
 
 /* structure définissant une association entre un tiers
  * et une chaine de recherche contenant un ou des jokers (%)
@@ -346,7 +341,6 @@ enum bet_type_maj
 
 
 /* définition du type d'onglets du module budgétaire affiché */
-typedef enum _bet_type_onglets bet_type_onglets;
 enum _bet_type_onglets
 {
     BET_ONGLETS_SANS = 0,
@@ -383,6 +377,22 @@ enum direction_move {
     GSB_RIGHT,
     GSB_UP,
     GSB_DOWN
+};
+
+enum _SettingsSchema {
+    SETTINGS_ROOT = 0,
+    SETTINGS_FILES_BACKUP,
+    SETTINGS_DISPLAY,
+    SETTINGS_FILES_FILE,
+    SETTINGS_FORM,
+    SETTINGS_GENERAL,
+    SETTINGS_GEOMETRY,
+    SETTINGS_MESSAGES_DELETE,
+    SETTINGS_MESSAGES_TIPS,
+    SETTINGS_MESSAGES_WARNINGS,
+    SETTINGS_PANEL,
+    SETTINGS_PREFS,
+    SETTINGS_SCHEDULED
 };
 
 #endif

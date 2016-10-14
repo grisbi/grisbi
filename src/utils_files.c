@@ -38,9 +38,9 @@
 #else
 #include "go-charmap-sel.h"
 #endif /* HAVE_GOFFICE */
+#include "grisbi_app.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
-#include "gsb_file_config.h"
 #include "structures.h"
 #include "utils.h"
 #include "utils_file_selection.h"
@@ -49,7 +49,6 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void browse_file ( GtkButton *button, gpointer data );
 static gboolean utils_files_charmap_active_toggled ( GtkCellRendererToggle *cell,
                         gchar *path_str,
                         gpointer model );
@@ -174,42 +173,6 @@ static const gchar *all_charset_array[] = {
     "windows-1258",
     "ISO-8859-8",
     NULL};
-
-
-/**
- * Handler triggered by clicking on the button of a "print to file"
- * combo.  Pop ups a file selector.
- *
- * \param button GtkButton widget that triggered this handler.
- * \param data A pointer to a GtkEntry that will be filled with the
- *             result of the file selector.
- */
-void browse_file ( GtkButton *button, gpointer data )
-{
-    GtkWidget * file_selector;
-    gchar *tmp_last_directory;
-
-    file_selector = file_selection_new (_("Print to file"),FILE_SELECTION_IS_SAVE_DIALOG);
-    gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (file_selector),
-					 gsb_file_get_last_path ());
-    gtk_window_set_transient_for ( GTK_WINDOW ( file_selector ),
-				   GTK_WINDOW ( run.window ));
-    gtk_window_set_modal ( GTK_WINDOW ( file_selector ), TRUE );
-
-    switch ( gtk_dialog_run ( GTK_DIALOG (file_selector)))
-    {
-	case GTK_RESPONSE_OK:
-	    gtk_entry_set_text ( GTK_ENTRY(data),
-				 file_selection_get_filename (GTK_FILE_CHOOSER (file_selector)));
-        tmp_last_directory = file_selection_get_last_directory ( GTK_FILE_CHOOSER ( file_selector ), TRUE );
-        gsb_file_update_last_path ( tmp_last_directory );
-        g_free ( tmp_last_directory );
-
-	default:
-	    gtk_widget_destroy ( file_selector );
-	    break;
-    }
-}
 
 
 /* get the line af the file,
@@ -481,7 +444,7 @@ GSList *utils_files_check_UTF8_validity ( const gchar *contents,
                     if ( tmp_str )
                     {
                         result = g_malloc0 ( sizeof ( struct struc_check_encoding ) );
-                        result -> charset = charset_array[i];
+                        result -> charset = g_strdup ( charset_array[i] );
                         result -> result = tmp_str;
                         list = g_slist_append ( list, result );
                     }

@@ -19,12 +19,6 @@ gboolean        desensitive_widget                                      (gpointe
 gchar *         get_gtk_run_version                                     (void);
 void            lance_mailer                                            (const gchar *uri);
 gboolean        lance_navigateur_web                                    (const gchar *url);
-gboolean        met_en_normal                                           (GtkWidget *event_box,
-                                                                         GdkEventMotion *event,
-                                                                         gpointer pointeur);
-gboolean        met_en_prelight                                         (GtkWidget *event_box,
-                                                                         GdkEventMotion *event,
-                                                                         gpointer pointeur);
 GtkWidget *     new_paddingbox_with_title                               (GtkWidget *parent,
                                                                          gboolean fill,
                                                                          const gchar *title);

@@ -39,6 +39,7 @@
 /*START_INCLUDE*/
 #include "gsb_bank.h"
 #include "dialog.h"
+#include "grisbi_app.h"
 #include "gsb_account_property.h"
 #include "gsb_autofunc.h"
 #include "gsb_data_account.h"
@@ -271,9 +272,11 @@ gboolean gsb_bank_edit_from_button ( GtkWidget *button,
 
     /* if bank_number = 0, it's none ; -1 : it's new bank, so don't edit */
     if ( bank_number <= 0 )
-	return FALSE;
+        return FALSE;
 
+    delete_bank_button = NULL;
     gsb_bank_edit_bank ( bank_number, combobox );
+
     return FALSE;
 }
 
@@ -445,18 +448,15 @@ static gboolean gsb_bank_list_changed ( GtkWidget *combobox,
 GtkWidget *gsb_bank_create_page ( gboolean default_sensitive )
 {
     GtkWidget *vbox_pref;
-    GtkWidget *scrolled_window, *vbox, *vbox2;
-    GtkWidget *button, *hbox, *paddingbox;
+    GtkWidget *scrolled_window, *vbox2;
+    GtkWidget *button;
     GtkWidget *vpaned;
     GtkWidget *paned1, *paned2;
     GtkWidget *paddinggrid;
     GtkWidget *paned2_grid;
     GtkWidget *paned2_sw;
-    GtkWidget *grid;
-    GtkWidget *label;
     GtkListStore *store;
     GtkTreeSelection *selection;
-    GtkSizeGroup * size_group;
     gint i;
     gint nbre_bank;
     gint sw_height;
@@ -951,7 +951,7 @@ static gboolean gsb_bank_edit_bank ( gint bank_number,
     gint result;
 
     dialog = gtk_dialog_new_with_buttons ( _("Edit bank"),
-					   GTK_WINDOW ( run.window ),
+					   GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
 					   GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
 					   "gtk-cancel", GTK_RESPONSE_CANCEL,
 					   "gtk-apply", GTK_RESPONSE_APPLY,

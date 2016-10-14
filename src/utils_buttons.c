@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                  utils_buttons.c			                  */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	          */
+/*     Copyright (C)	2000-2008 Cï¿½dric Auger (cedric@grisbi.org)	          */
 /*			2003-2008 Benjamin Drieu (bdrieu@april.org)	                      */
 /*                 2009-2016 Pierre Biava (grisbi@pierre.biava.name)          */
 /* 			http://www.grisbi.org				                              */
@@ -210,11 +210,11 @@ gboolean gsb_button_sensitive_by_checkbutton ( GtkWidget *check_button,
 
 
 /**
- * Cette fonction réduit ou développe toutes les lignes du tree_view.
- * Le libellé du bouton est modifié en conséquence.
+ * Cette fonction rï¿½duit ou dï¿½veloppe toutes les lignes du tree_view.
+ * Le libellï¿½ du bouton est modifiï¿½ en consï¿½quence.
  *
  * \param le button de commande
- * \param le tree_view considéré
+ * \param le tree_view considï¿½rï¿½
  *
  * \return
  */
@@ -243,11 +243,11 @@ void utils_togglebutton_collapse_expand_all_rows ( GtkToggleButton *togglebutton
 
 
 /**
- * Cette fonction (dé)sélectionne toutes les lignes du tree_view.
- * Le libellé du bouton est modifié en conséquence.
+ * Cette fonction (dï¿½)sï¿½lectionne toutes les lignes du tree_view.
+ * Le libellï¿½ du bouton est modifiï¿½ en consï¿½quence.
  *
  * \param le button de commande
- * \param le tree_view considéré
+ * \param le tree_view considï¿½rï¿½
  *
  * \return
  */
@@ -274,8 +274,8 @@ void utils_togglebutton_select_unselect_all_rows ( GtkToggleButton *togglebutton
 
 
 /**
- * Cette fonction remplace le libellé select par unselect et vice versa
- * en fonction de l'état du bouton.
+ * Cette fonction remplace le libellï¿½ select par unselect et vice versa
+ * en fonction de l'ï¿½tat du bouton.
  *
  * \param le button de commande
  *
@@ -302,7 +302,7 @@ void utils_togglebutton_change_label_select_unselect ( GtkToggleButton *togglebu
 
 
 /**
- * Cette fonction remplace le libellé select par unselect et positionne le bouton sur ON
+ * Cette fonction remplace le libellï¿½ select par unselect et positionne le bouton sur ON
  *
  * \param le button de commande
  *
@@ -372,10 +372,10 @@ gint utils_radiobutton_get_active_index ( GtkWidget *radiobutton )
 
 
 /**
- * rend actif le button qui correspond à l'index passé en paramètre.
+ * rend actif le button qui correspond ï¿½ l'index passï¿½ en paramï¿½tre.
  *
  * \param radio_button
- * \param index du bouton à rendre actif
+ * \param index du bouton ï¿½ rendre actif
  *
  * \return
  */
@@ -394,7 +394,7 @@ void utils_radiobutton_set_active_index ( GtkWidget *radiobutton,
 }
 
 /**
- * Crée un bouton avec une image
+ * Crï¿½e un bouton avec une image
  *
  * \param const gchar   name of image
  *
@@ -421,7 +421,7 @@ GtkWidget *utils_buttons_button_new_from_image (const gchar *image_name)
 }
 
 /**
- * similaire à gtk_button_new_from_stock ()
+ * similaire ï¿½ gtk_button_new_from_stock ()
  *
  * \param const gchar   stock item
  *
@@ -441,7 +441,7 @@ GtkWidget *utils_buttons_button_new_from_stock (const gchar *icon_name,
 }
 
 /**
- * Création d'un GtkToolButton à partir d'une image et d'un label
+ * Crï¿½ation d'un GtkToolButton ï¿½ partir d'une image et d'un label
  *
  * \param image_name    filename
  * \param label_name    label for button
@@ -486,7 +486,7 @@ GtkToolItem *utils_buttons_tool_button_new_from_stock ( const gchar *icon_name )
 }
 
 /**
- * Création d'un GtkMenuToolButton à partir d'une image et d'un label
+ * Crï¿½ation d'un GtkMenuToolButton ï¿½ partir d'une image et d'un label
  *
  * \param image_name    filename
  * \param label_name    label for button

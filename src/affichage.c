@@ -33,6 +33,7 @@
 #include "accueil.h"
 #include "custom_list.h"
 #include "fenetre_principale.h"
+#include "grisbi_settings.h"
 #include "gsb_archive_config.h"
 #include "gsb_automem.h"
 #include "gsb_data_account.h"
@@ -42,7 +43,6 @@
 #include "gsb_rgba.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_select_icon.h"
-#include "main.h"
 #include "navigation.h"
 #include "parametres.h"
 #include "structures.h"
@@ -109,11 +109,11 @@ static GtkWidget *preview = NULL;
  *
  * \return
  * */
-static void prefs_sort_column_treeview_clicked (GtkWidget *toggle_button,
-                                                    gpointer null )
+static void prefs_sort_order_column_treeview_clicked (GtkWidget *toggle_button,
+                                                      gpointer null)
 {
-    gsb_archive_config_set_sort_type (GINT_TO_POINTER (conf.prefs_sort));
-    gsb_fyear_config_set_sort_type (GINT_TO_POINTER (conf.prefs_sort));
+    gsb_archive_config_set_sort_order (GINT_TO_POINTER (conf.prefs_sort_order));
+    gsb_fyear_config_set_sort_order (GINT_TO_POINTER (conf.prefs_sort_order));
 }
 
 /******************************************************************************/
@@ -204,13 +204,13 @@ GtkWidget * onglet_display_fonts ( void )
                         _("Use a custom font for the transactions: "));
     gtk_box_pack_start ( GTK_BOX ( hbox ), check_button, FALSE, FALSE, 0 );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( check_button ),
-				        conf.utilise_fonte_listes );
+				        conf.custom_fonte_listes );
 
     /*     on crée la vbox qui contiendra la font button et le raz */
     vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 10 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), vbox, FALSE, FALSE, 0 );
 
-    gtk_widget_set_sensitive ( vbox, conf.utilise_fonte_listes );
+    gtk_widget_set_sensitive ( vbox, conf.custom_fonte_listes );
     g_signal_connect ( G_OBJECT ( check_button ), "toggled",
 		       G_CALLBACK ( change_choix_utilise_fonte_liste ), vbox );
 
@@ -322,9 +322,9 @@ gboolean change_choix_utilise_logo ( GtkWidget *check_button,
 gboolean change_choix_utilise_fonte_liste ( GtkWidget *check_button,
                         GtkWidget *vbox )
 {
-    conf.utilise_fonte_listes = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( check_button ));
+    conf.custom_fonte_listes = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( check_button ));
     gtk_widget_set_sensitive ( vbox,
-			       conf.utilise_fonte_listes );
+			       conf.custom_fonte_listes );
 
     update_fonte_listes ( conf.font_string, NULL );
 
@@ -348,7 +348,7 @@ void update_fonte_listes ( gchar *fontname,
 
     devel_debug (NULL);
 
-    if ( conf.utilise_fonte_listes )
+    if ( conf.custom_fonte_listes )
 	font = fontname;
     else
 	font = NULL;
@@ -368,8 +368,7 @@ void update_fonte_listes ( gchar *fontname,
  */
 GtkWidget *onglet_display_addresses ( void )
 {
-    GtkWidget *hbox, *vbox_pref, *scrolled_window, *label;
-    GtkWidget *paddingbox;
+    GtkWidget *vbox_pref, *scrolled_window, *label;
     GtkWidget *paddinggrid;
     GtkWidget *entry;
     GtkWidget *radio, *radiogroup;
@@ -648,7 +647,7 @@ gboolean update_homepage_title (GtkEntry *entry, gchar *value,
     titre_fichier = my_strdup ( gtk_entry_get_text ( GTK_ENTRY ( entry ) ) );
 
     /* set Grisbi title */
-    gsb_main_set_grisbi_title ( -1 );
+    grisbi_win_set_grisbi_title ( -1 );
 
     /* Mark file as modified */
     gsb_file_set_modified ( TRUE );
@@ -668,6 +667,9 @@ gboolean update_homepage_title (GtkEntry *entry, gchar *value,
  */
 gboolean change_toolbar_display_mode ( GtkRadioButton *button )
 {
+    GSettings *settings;
+    gchar *tmp_str;
+
     /* Do not execute this callback twice,
      * as it is triggered for both unselected button and newly selected one.
      * We keep the call for the newly selected radio button */
@@ -676,6 +678,24 @@ gboolean change_toolbar_display_mode ( GtkRadioButton *button )
 
     /* save the new parameter */
     conf.display_toolbar = GPOINTER_TO_INT (g_object_get_data ( G_OBJECT(button), "display" ));
+
+    /* update GSettings */
+    switch ( conf.display_toolbar )
+    {
+        case GSB_BUTTON_TEXT:
+            tmp_str = "Text";
+            break;
+        case GSB_BUTTON_ICON:
+            tmp_str = "Icons";
+            break;
+        default:
+            tmp_str = "Text + Icons";
+    }
+    settings = grisbi_settings_get_settings ( SETTINGS_DISPLAY );
+    g_settings_set_string ( G_SETTINGS ( settings ),
+                        "display-toolbar",
+                        tmp_str );
+
 
     /* update toolbars */
     gsb_gui_update_all_toolbars ( );
@@ -767,8 +787,8 @@ GtkWidget *tab_display_toolbar ( void )
     vbox = new_vbox_with_title_and_icon ( _("Preferences sort"), "preferences-24.png" );
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ), vbox, FALSE, FALSE, 0 );
     button = gsb_automem_checkbutton_new ( _("Initializes the sorting to \"down\" in the tables when there exist"),
-                        &(conf.prefs_sort),
-                        G_CALLBACK (prefs_sort_column_treeview_clicked),
+                        &(conf.prefs_sort_order),
+                        G_CALLBACK (prefs_sort_order_column_treeview_clicked),
                         NULL );
     gtk_box_pack_start ( GTK_BOX ( vbox ), button, FALSE, FALSE, 5 );
 
@@ -792,7 +812,7 @@ GtkWidget *tab_display_toolbar ( void )
 gboolean preferences_switch_headings_bar ( GtkWidget *toggle_button,
                         gpointer null )
 {
-    gsb_gui_update_show_headings ();
+    grisbi_win_headings_update_show_headings ();
     return FALSE;
 }
 
@@ -972,7 +992,7 @@ gboolean change_grisbi_title_type ( GtkRadioButton *button, GtkWidget *entry )
     }
 
     /* set Grisbi title */
-    gsb_main_set_grisbi_title ( gsb_gui_navigation_get_current_account ( ) );
+    grisbi_win_set_grisbi_title ( gsb_gui_navigation_get_current_account ( ) );
 
     return FALSE;
 }

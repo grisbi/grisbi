@@ -82,12 +82,11 @@ static GtkWidget *button_move_down;
  */
 GtkWidget *gsb_reconcile_sort_config_create ( void )
 {
-    GtkWidget *hbox, *scrolled_window;
+    GtkWidget *scrolled_window;
     GtkWidget *vbox_pref;
     GtkWidget *paddinggrid;
     GtkTreeViewColumn *column;
     GtkCellRenderer *cell;
-    GtkWidget *box_fleches_tri;
     GtkTreeStore *reconcile_model;
     GtkTreeSelection *reconcile_selection;
 

@@ -36,6 +36,7 @@
 /*START_INCLUDE*/
 #include "gsb_assistant_file.h"
 #include "affichage.h"
+#include "grisbi_app.h"
 #include "gsb_assistant.h"
 #include "gsb_automem.h"
 #include "gsb_bank.h"
@@ -316,23 +317,6 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
 
 	gtk_grid_attach (GTK_GRID (table), button, 2, 1, 1, 1);
 
-    /* will we crypt the file ? */
-#ifdef HAVE_SSL
-    {
-        button = gsb_automem_checkbutton_new ( _("Encrypt Grisbi file"),
-                                               &(etat.crypt_file), G_CALLBACK (gsb_gui_encryption_toggled), NULL);
-        gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
-                             FALSE, FALSE, 0 );
-
-        if ( etat.crypt_file )
-            run.new_crypted_file = TRUE;
-    }
-#else
-    {
-        run.new_crypted_file = FALSE;
-    }
-#endif
-
     /* date format */
     paddingbox = gsb_config_date_format_chosen ( vbox, GTK_ORIENTATION_HORIZONTAL );
 
@@ -602,7 +586,7 @@ static gboolean gsb_assistant_file_choose_filename ( GtkWidget *button,
     gchar *tmpstr;
 
     dialog = gtk_file_chooser_dialog_new ( _("Create filename"),
-					   GTK_WINDOW ( run.window ),
+					   GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
 					   GTK_FILE_CHOOSER_ACTION_SAVE,
 					   "gtk-cancel", GTK_RESPONSE_CANCEL,
 					   "gtk-ok", GTK_RESPONSE_ACCEPT,

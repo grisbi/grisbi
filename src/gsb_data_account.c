@@ -39,6 +39,7 @@
 #include "custom_list.h"
 #include "dialog.h"
 #include "fenetre_principale.h"
+#include "grisbi_win.h"
 #include "gsb_data_currency.h"
 #include "gsb_data_form.h"
 #include "gsb_data_transaction.h"
@@ -2838,7 +2839,7 @@ void gsb_data_account_colorize_current_balance ( gint account_number )
     if ( !string )
         string = g_strdup ( "" );
 
-    gsb_gui_headings_update_suffix ( string );
+    grisbi_win_headings_update_suffix ( string );
     g_free ( string );
 }
 

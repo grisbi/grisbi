@@ -40,6 +40,7 @@
 #include "gsb_reconcile.h"
 #include "dialog.h"
 #include "fenetre_principale.h"
+#include "grisbi_win.h"
 #include "gsb_calendar_entry.h"
 #include "gsb_data_account.h"
 #include "gsb_data_reconcile.h"
@@ -49,6 +50,7 @@
 #include "gsb_form_widget.h"
 #include "gsb_real.h"
 #include "gsb_reconcile_list.h"
+#include "gsb_rgba.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
 #include "menu.h"
@@ -711,30 +713,8 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
  * */
 void gsb_reconcile_sensitive ( gboolean sensitive )
 {
-    GtkUIManager *ui_manager;
-
-    ui_manager = gsb_menu_get_ui_manager ( );
     gtk_widget_set_sensitive ( gsb_gui_navigation_get_tree_view ( ), sensitive );
-    gsb_gui_sensitive_headings (sensitive);
-    /* add by pbiava 02/11/2009 */
-    gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( ui_manager,
-                              "/menubar/ViewMenu/ShowReconciled/" ),
-			       sensitive );
-    gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( ui_manager,
-                              "/menubar/ViewMenu/ShowArchived/" ),
-			       sensitive );
-    gtk_widget_set_sensitive ( gtk_ui_manager_get_widget (ui_manager,
-							  "/menubar/ViewMenu/ShowClosed/" ),
-			       sensitive );
-    gtk_widget_set_sensitive ( gtk_ui_manager_get_widget (ui_manager,
-							  "/menubar/EditMenu/ConvertToScheduled/" ),
-			       sensitive );
-    gtk_widget_set_sensitive ( gtk_ui_manager_get_widget (ui_manager,
-							  "/menubar/EditMenu/NewAccount/" ),
-			       sensitive );
-    gtk_widget_set_sensitive ( gtk_ui_manager_get_widget (ui_manager,
-							  "/menubar/EditMenu/RemoveAccount/" ),
-			       sensitive );
+    grisbi_win_headings_sensitive_headings (sensitive);
 }
 
 
@@ -809,9 +789,6 @@ gboolean gsb_reconcile_update_amounts ( GtkWidget *entry,
     gchar *tmp_string;
 	gchar* tmpstr;
     gboolean valide = FALSE;
-    GtkStyleContext* context;
-
-    context = gtk_widget_get_style_context  (entry);
 
     /* first get the current account number */
     account_number = gsb_gui_navigation_get_current_account ();

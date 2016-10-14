@@ -28,6 +28,14 @@ libgrisbi_la_SOURCES = \
 	accueil.c		\
 	affichage.c		\
 	affichage_liste.c	\
+	bet_config.c \
+	bet_data.c \
+	bet_data_finance.c \
+	bet_finance_ui.c \
+	bet_future.c \
+	bet_graph.c \
+	bet_hist.c \
+	bet_tab.c	\
 	categories_onglet.c	\
 	classement_echeances.c	\
 	csv_parse.c		\
@@ -50,7 +58,10 @@ libgrisbi_la_SOURCES = \
 	file_obfuscate_qif.c	\
 	go-charmap-sel.c	\
 	go-optionmenu.c		\
+	grisbi_app.c		\
+	grisbi_win.c		\
 	grisbi_osx.c \
+	grisbi_settings.c		\
 	gsb_account.c		\
 	gsb_account_property.c	\
 	gsb_archive_config.c	\
@@ -96,7 +107,6 @@ libgrisbi_la_SOURCES = \
 	gsb_debug.c		\
 	gsb_dirs.c		\
 	gsb_file.c		\
-	gsb_file_config.c	\
 	gsb_file_load.c		\
 	gsb_file_others.c	\
 	gsb_file_save.c		\
@@ -122,7 +132,6 @@ libgrisbi_la_SOURCES = \
 	gsb_scheduler.c		\
 	gsb_scheduler_list.c	\
 	gsb_select_icon.c \
-	gsb_status.c		\
 	gsb_transactions_list.c	\
 	gsb_transactions_list_sort.c	\
 	gtk_combofix.c		\
@@ -137,7 +146,6 @@ libgrisbi_la_SOURCES = \
 	metatree.c		\
 	navigation.c		\
 	parametres.c		\
-	parse_cmdline.c		\
 	print_dialog_config.c		\
 	print_report.c		\
 	print_transactions_list.c		\
@@ -161,14 +169,6 @@ libgrisbi_la_SOURCES = \
 	utils_operations.c	\
 	utils_real.c		\
 	utils_str.c		\
-	bet_config.c \
-	bet_data.c \
-	bet_data_finance.c \
-	bet_finance_ui.c \
-	bet_future.c \
-	bet_graph.c \
-	bet_hist.c \
-	bet_tab.c	\
 	accueil.h		\
 	affichage.h		\
 	affichage_liste.h	\
@@ -204,7 +204,10 @@ libgrisbi_la_SOURCES = \
 	file_obfuscate_qif.h	\
 	go-charmap-sel.h        \
 	go-optionmenu.h         \
+	grisbi_app.h		\
+	grisbi_win.h		\
 	grisbi_osx.h \
+	grisbi_settings.h		\
 	gsb_account.h		\
 	gsb_account_property.h	\
 	gsb_archive_config.h	\
@@ -250,7 +253,6 @@ libgrisbi_la_SOURCES = \
 	gsb_debug.h		\
 	gsb_dirs.h		\
 	gsb_file.h		\
-	gsb_file_config.h	\
 	gsb_file_load.h		\
 	gsb_file_others.h	\
 	gsb_file_save.h		\
@@ -273,7 +275,6 @@ libgrisbi_la_SOURCES = \
 	gsb_regex.h		\
 	gsb_report.h		\
 	gsb_rgba.h  \
-	gsb_status.h            \
 	gsb_select_icon.h 	\
 	gsb_scheduler.h		\
 	gsb_scheduler_list.h	\
@@ -293,7 +294,6 @@ libgrisbi_la_SOURCES = \
 	mouse.h                 \
 	navigation.h		\
 	parametres.h		\
-	parse_cmdline.h		\
 	print_dialog_config.h	\
 	print_report.h		\
 	print_transactions_list.h	\
@@ -317,11 +317,22 @@ libgrisbi_la_SOURCES = \
 	utils_gtkbuilder.h	\
 	utils_operations.h	\
 	utils_real.h		\
-	utils_str.h
+	utils_str.h		\
+	grisbi.gresource.xml
 
 grisbi_SOURCES = 		\
 	main.c				\
-	main.h
+	grisbi_resources.c
+
+BUILT_SOURCES = grisbi_resources.c
+
+grisbi_resources.c: grisbi.gresource.xml $(shell $(GLIB_COMPILE_RESOURCES) --sourcedir=$(srcdir)/ui --generate-dependencies $(srcdir)/grisbi.gresource.xml)
+	$(AM_V_GEN) $(GLIB_COMPILE_RESOURCES) --target=$@ --sourcedir=$(srcdir)/ui --generate-source $(srcdir)/grisbi.gresource.xml
+
+gsettings_SCHEMAS = org.gtk.grisbi.gschema.xml
+@GSETTINGS_RULES@
+
+@INTLTOOL_XML_NOMERGE_RULE@
 
 SUBDIRS = ui plugins/gnucash plugins/ofx plugins/openssl
 
@@ -329,7 +340,12 @@ if HAVE_CUNIT
 SUBDIRS += tests
 endif
 
-EXTRA_DIST = grisbi.keys grisbi.mime
+EXTRA_DIST = grisbi.keys grisbi.mime \
+	grisbi.gresource.xml \
+	$(gsettings_SCHEMAS)
+
+CLEANFILES = $(BUILT_SOURCES)
+
 
 mimedir = $(datadir)/mime-info
 mime_DATA = grisbi.keys grisbi.mime

@@ -31,6 +31,7 @@
 
 /*START_INCLUDE*/
 #include "help.h"
+#include "grisbi_app.h"
 #include "gsb_select_icon.h"
 #include "structures.h"
 #include "utils.h"
@@ -145,7 +146,7 @@ _("Packaging"),
 _("Other"),
 "Axel Rousseau (<axel584@axel584.org>) ",
 "Dominique Parisot (<parisot@villey-le-sec.com>) ",
-"Gerald Niel (<gerald.niel@grisbi.org>) ",
+"Gerald Niel (<gerald.niel@grisbi.org>) ", CSUFFIX,
 NULL };
 
   gchar * translators = g_strconcat(
@@ -158,7 +159,7 @@ NULL };
 "Flavio Henrique Somensi (<flavio@opens.com.br>): ", _("Brazilian Portuguese"), CSUFFIX,
 "Giorgio Mandolfo (<giorgio@pollycoke.org>): ", _("Italian"), CSUFFIX,
 "Martin Stromberger (<ma.stromberger@gmx.at>): ", _("German"), CSUFFIX,
-"Ryszard Jeziorski (<rjeziorski@eagleW): ", _("Polish"), CSUFFIX,
+"Ryszard Jeziorski (<rjeziorski@eagleW>): ", _("Polish"), CSUFFIX,
 "Achilleas Kaskamanidis (<alterna55@users.sourceforge.net>): ", _("Greek"), CSUFFIX,
 NULL);
 
@@ -167,7 +168,7 @@ NULL);
 "Benjamin Drieu (bdrieu[at]april.org)",
 "Daniel Cartron (<doc@grisbi.org>)",
 "Jean-Luc Duflot (jl.duflot[at]laposte.net)",
-"Loic Breilloux (loic.breilloux[at]libertysurf.fr)",
+"Loic Breilloux (loic.breilloux[at]libertysurf.fr)", CSUFFIX,
 NULL};
 
   const gchar *artists [] = {
@@ -252,7 +253,7 @@ NULL};
     gtk_window_set_position ( GTK_WINDOW ( about ), GTK_WIN_POS_CENTER_ON_PARENT );
     gtk_window_set_resizable ( GTK_WINDOW ( about ), TRUE );
     gtk_window_set_modal ( GTK_WINDOW ( about ), TRUE );
-    gtk_window_set_transient_for ( GTK_WINDOW ( about ), GTK_WINDOW ( run.window ) );
+    gtk_window_set_transient_for ( GTK_WINDOW ( about ), GTK_WINDOW ( grisbi_app_get_active_window (NULL) ) );
 
     g_free ( extra );
     g_free ( version_to_string );

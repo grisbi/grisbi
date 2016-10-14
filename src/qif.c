@@ -645,7 +645,7 @@ static GDate *gsb_qif_get_date ( gchar *date_string, gint order )
  * */
 static gboolean qif_traite_champs_n ( struct struct_ope_importation *imported_transaction )
 {
-    printf ("Champs N = %s champ P = %s\n", imported_transaction->cheque, imported_transaction->tiers );
+    //~ printf ("Champs N = %s champ P = %s\n", imported_transaction->cheque, imported_transaction->tiers );
 
     if ( ! imported_transaction->cheque )
     {

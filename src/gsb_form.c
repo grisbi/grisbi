@@ -41,6 +41,7 @@
 #include "bet_data.h"
 #include "dialog.h"
 #include "fenetre_principale.h"
+#include "grisbi_app.h"
 #include "gsb_calendar.h"
 #include "gsb_calendar_entry.h"
 #include "gsb_currency.h"
@@ -1013,7 +1014,7 @@ gboolean gsb_form_activate_expander ( GtkWidget *expander,
 	gsb_form_show ( FALSE );
 	conf.formulaire_toujours_affiche = FALSE;
     }
-    gsb_menu_update_view_menu ( gsb_gui_navigation_get_current_account () );
+    gsb_menu_gui_toggle_show_form ();
 
     return FALSE;
 }
@@ -3542,7 +3543,7 @@ gboolean gsb_form_escape_form ( void )
 	    break;
 
 	case ORIGIN_VALUE_HOME:
-	    gtk_widget_grab_focus ( run.window );
+	    gtk_widget_grab_focus (GTK_WIDGET (grisbi_app_get_active_window (NULL)));
 	    break;
 
 	case ORIGIN_VALUE_SCHEDULED:

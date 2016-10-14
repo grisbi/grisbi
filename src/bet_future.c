@@ -36,6 +36,7 @@
 #include "bet_tab.h"
 #include "dialog.h"
 #include "fenetre_principale.h"
+#include "grisbi_app.h"
 #include "gsb_calendar_entry.h"
 #include "gsb_combo_box.h"
 #include "gsb_data_account.h"
@@ -284,7 +285,7 @@ GtkWidget *bet_future_create_dialog ( gint account_number )
 
     /* Create the dialog */
     dialog = gtk_dialog_new_with_buttons ( _("Enter a budget line"),
-					   GTK_WINDOW ( run.window ),
+					   GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
 					   GTK_DIALOG_MODAL,
 					   "gtk-cancel", GTK_RESPONSE_CANCEL,
 					   "gtk-ok", GTK_RESPONSE_OK,
@@ -2233,7 +2234,7 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
 
     /* Create the dialog */
     dialog = gtk_dialog_new_with_buttons ( _("Configuring a deferred debit account"),
-                        GTK_WINDOW ( run.window ),
+                        GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
                         GTK_DIALOG_MODAL,
                         "gtk-cancel", GTK_RESPONSE_CANCEL,
                         "gtk-ok", GTK_RESPONSE_OK,
@@ -2601,7 +2602,7 @@ static gboolean bet_transfert_take_data (  struct_transfert_data *transfert,
         bet_future_get_payee_data ( widget, 2, ( gpointer ) transfert );
         if ( transfert->card_payee_number == 0 )
         {
-            printf ("bet_transfert_card_payee_combo est vide\n");
+            //~ printf ("bet_transfert_card_payee_combo est vide\n");
             return FALSE;
         }
     }

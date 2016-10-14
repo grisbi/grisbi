@@ -38,6 +38,7 @@
 #include "dialog.h"
 #include "etats_onglet.h"
 #include "fenetre_principale.h"
+#include "grisbi_win.h"
 #include "gsb_account.h"
 #include "gsb_account_property.h"
 #include "gsb_assistant_account.h"
@@ -57,7 +58,6 @@
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
 #include "imputation_budgetaire.h"
-#include "main.h"
 #include "menu.h"
 #include "metatree.h"
 #include "mouse.h"
@@ -949,7 +949,7 @@ void gsb_gui_navigation_add_account ( gint account_number,
 gboolean navigation_change_account ( gint new_account )
 {
     gint current_account;
-    gchar *tmp_menu_path;
+    //~ printf ("navigation_change_account : new_account = %d\n", new_account);
 
     devel_debug_int (new_account);
     if ( new_account < 0 )
@@ -959,14 +959,8 @@ gboolean navigation_change_account ( gint new_account )
      * have to use a buffer variable to get the last account */
     current_account = gsb_gui_navigation_get_last_account ();
 
-    /* sensitive the last account in the menu */
-    tmp_menu_path = g_strconcat ( "/menubar/EditMenu/MoveToAnotherAccount/",
-                        gsb_data_account_get_name (current_account),
-                        NULL );
-    gsb_gui_sensitive_menu_item ( tmp_menu_path, TRUE );
-    g_free ( tmp_menu_path );
-
-    gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/NewTransaction", TRUE );
+    /* mise à jour du menu Editer */
+    gsb_menu_gui_sensitive_win_menu_item ( "new-ope", TRUE );
 
     /* save the row_align of the last account */
     gsb_data_account_set_row_align ( current_account,
@@ -982,14 +976,6 @@ gboolean navigation_change_account ( gint new_account )
     /* mise en place de la date du dernier relevé */
     gsb_navigation_update_statement_label ( new_account );
 
-    /* on met le nom insensitif dans la liste des comptes */
-    tmp_menu_path = g_strconcat ( "/menubar/EditMenu/MoveToAnotherAccount/",
-                        gsb_data_account_get_name (new_account),
-                        NULL );
-    gsb_gui_sensitive_menu_item ( tmp_menu_path, FALSE );
-
-    g_free ( tmp_menu_path );
-
     /* show or hide the rules button in toolbar */
     if ( gsb_data_import_rule_account_has_rule ( new_account ) )
         gtk_widget_show ( menu_import_rules );
@@ -998,7 +984,7 @@ gboolean navigation_change_account ( gint new_account )
 
     /* Update the title of the file if needed */
     if ( conf.display_grisbi_title == GSB_ACCOUNT_HOLDER )
-        gsb_main_set_grisbi_title ( new_account );
+        grisbi_win_set_grisbi_title ( new_account );
 
     /* select the good tab */
     bet_data_select_bet_pages ( new_account );
@@ -1097,7 +1083,7 @@ void gsb_navigation_update_account_label ( gint account_number )
     }
 
     gsb_data_account_colorize_current_balance ( account_number );
-    gsb_gui_headings_update_title ( title );
+    grisbi_win_headings_update_title ( title );
 
     g_free ( title );
 }
@@ -1137,21 +1123,22 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
     gboolean clear_suffix = TRUE;
 
     devel_debug (NULL);
-
     page_number = gsb_gui_navigation_get_current_page ();
+
     gtk_notebook_set_current_page ( GTK_NOTEBOOK ( gsb_gui_get_general_notebook ( ) ), page_number );
 
     if ( page_number != GSB_ACCOUNT_PAGE )
     {
-        gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/NewTransaction", FALSE );
-        gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/RemoveAccount", FALSE );
+        /* on update le menu de la liste des comptes */
+        grisbi_win_menu_move_to_acc_update ( FALSE );
+
+        /* on dé-sensibilise le menu view account */
         gsb_menu_set_menus_view_account_sensitive ( FALSE );
-        gsb_menu_set_menus_select_transaction_sensitive ( FALSE );
     }
 
     if ( page_number != GSB_SCHEDULER_PAGE )
     {
-	gtk_widget_hide ( scheduler_calendar );
+        gtk_widget_hide ( scheduler_calendar );
     }
 
     switch ( page_number )
@@ -1161,8 +1148,6 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 
         title = g_strdup(_("My accounts"));
 
-        gsb_gui_sensitive_menu_item ( "/menubar/ViewMenu/ShowClosed", TRUE );
-
 	    /* what to be done if switch to that page */
 	    mise_a_jour_accueil ( FALSE );
 	    gsb_form_set_expander_visible ( FALSE, FALSE );
@@ -1171,8 +1156,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	case GSB_ACCOUNT_PAGE:
 	    notice_debug ("Account page selected");
 
-        gsb_menu_set_menus_view_account_sensitive ( TRUE );
-	    gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/RemoveAccount", TRUE );
+	    gsb_menu_gui_sensitive_win_menu_item ( "remove-acc", TRUE );
 
 	    account_number = gsb_gui_navigation_get_current_account ();
 
@@ -1226,10 +1210,10 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    gtk_widget_show_all ( scheduler_calendar );
 
         /* show menu NewTransaction */
-        gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/NewTransaction", TRUE );
+        gsb_menu_gui_sensitive_win_menu_item ( "new-ope", TRUE );
 
         /* show menu InitwidthCol */
-        gsb_gui_sensitive_menu_item ( "/menubar/ViewMenu/InitwidthCol", TRUE );
+        gsb_menu_gui_sensitive_win_menu_item ( "reset-width-col", TRUE );
 	    break;
 
 	case GSB_PAYEES_PAGE:
@@ -1297,11 +1281,11 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
     /* title is set here if necessary */
     if (title)
     {
-        gsb_gui_headings_update_title ( title );
+        grisbi_win_headings_update_title ( title );
         g_free ( title );
     }
     if (clear_suffix)
-        gsb_gui_headings_update_suffix ( "" );
+        grisbi_win_headings_update_suffix ( "" );
 
     return FALSE;
 }
@@ -2121,12 +2105,12 @@ gboolean gsb_gui_navigation_button_press ( GtkWidget *tree_view,
 void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
                         GtkTreePath *path )
 {
-    GtkWidget *image;
+    //~ GtkWidget *image;
     GtkWidget *menu = NULL;
     GtkWidget *menu_item;
     GtkTreeModel *model;
     GtkTreeIter iter;
-    gchar *tmp_str;
+    //~ gchar *tmp_str;
     gint type_page;
     gint account_number;
     gint report_number;
@@ -2167,9 +2151,9 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
         break;
         case GSB_PAYEES_PAGE :
             menu = gtk_menu_new ();
-            tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "new-payee.png", NULL);
-            image = gtk_image_new_from_file ( tmp_str );
-            g_free ( tmp_str );
+            //~ tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "new-payee.png", NULL);
+            //~ image = gtk_image_new_from_file ( tmp_str );
+            //~ g_free ( tmp_str );
             menu_item = gtk_menu_item_new_with_label ( _("New payee") );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
@@ -2206,9 +2190,9 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
             /* Separator */
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
 
-            tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "payeesmg.png", NULL);
-            image = gtk_image_new_from_file ( tmp_str );
-            g_free ( tmp_str );
+            //~ tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "payeesmg.png", NULL);
+            //~ image = gtk_image_new_from_file ( tmp_str );
+            //~ g_free ( tmp_str );
             menu_item = gtk_menu_item_new_with_label ( _("Manage payees") );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
@@ -2225,9 +2209,9 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
         break;
         case GSB_CATEGORIES_PAGE :
             menu = gtk_menu_new ();
-            tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "new-categ.png", NULL);
-            image = gtk_image_new_from_file ( tmp_str );
-            g_free ( tmp_str );
+            //~ tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "new-categ.png", NULL);
+            //~ image = gtk_image_new_from_file ( tmp_str );
+            //~ g_free ( tmp_str );
             menu_item = gtk_menu_item_new_with_label ( _("New category") );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
@@ -2280,9 +2264,9 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
         break;
         case GSB_BUDGETARY_LINES_PAGE :
             menu = gtk_menu_new ();
-            tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "new-ib.png", NULL);
-            image = gtk_image_new_from_file ( tmp_str );
-            g_free ( tmp_str );
+            //~ tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "new-ib.png", NULL);
+            //~ image = gtk_image_new_from_file ( tmp_str );
+            //~ g_free ( tmp_str );
             menu_item = gtk_menu_item_new_with_label ( _("New budgetary line") );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
@@ -2335,9 +2319,9 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
         break;
         case GSB_REPORTS_PAGE :
             menu = gtk_menu_new ();
-            tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "new-report.png", NULL);
-            image = gtk_image_new_from_file ( tmp_str );
-            g_free ( tmp_str );
+            //~ tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "new-report.png", NULL);
+            //~ image = gtk_image_new_from_file ( tmp_str );
+            //~ g_free ( tmp_str );
             menu_item = gtk_menu_item_new_with_label ( _("New report") );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",

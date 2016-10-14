@@ -646,136 +646,136 @@ void transaction_list_filter ( gint account_number )
 
     for (current_pos_general_list=0 ; current_pos_general_list<custom_list -> num_rows ; current_pos_general_list++)
     {
-	CustomRecord *record;
-	gboolean shown;
-	gboolean previous_shown;
-	guint last_pos_filtered_list;
+        CustomRecord *record;
+        gboolean shown;
+        gboolean previous_shown;
+        guint last_pos_filtered_list;
+        GtkTreePath *tmp_path = gtk_tree_path_copy ( path );
 
-	/* get the current record to check */
-	record = custom_list -> rows[current_pos_general_list];
+        /* get the current record to check */
+        record = custom_list -> rows[current_pos_general_list];
 
-	/* was the line visible before ? */
-	previous_shown = record -> line_visible;
+        /* was the line visible before ? */
+        previous_shown = record -> line_visible;
 
-	/* check if line is shown */
-	shown = gsb_transactions_list_transaction_visible ( record -> transaction_pointer,
-							    account_number,
-							    record -> line_in_transaction,
-							    record -> what_is_line );
-	record -> line_visible = shown;
+        /* check if line is shown */
+        shown = gsb_transactions_list_transaction_visible ( record -> transaction_pointer,
+                                    account_number,
+                                    record -> line_in_transaction,
+                                    record -> what_is_line );
+        record -> line_visible = shown;
 
-	/* if the line is shown, append it to the filtered parameters of the model */
-	if (!shown)
-	{
-	    /* the row will be hidden, set it and continue to the next row */
-	    /* the content of that row and children if exist will be changed with the
-	     * next visible row */
-	    record -> filtered_pos = -1;
+        /* if the line is shown, append it to the filtered parameters of the model */
+        if (!shown)
+        {
+            /* the row will be hidden, set it and continue to the next row */
+            /* the content of that row and children if exist will be changed with the
+             * next visible row */
+            record -> filtered_pos = -1;
 
-	    /* if the row had some visible children, we hide the expander,
-	     * either the transaction is visible but that row is not visible
-	     * (line_in_transaction is bigger than visible line in account) and
-	     * the children have already moved to previous row in that transaction,
-	     * either the transaction is not visible anymore, and when we will show
-	     * it again, has_expander will be set again at the good position */
-	    record -> has_expander = FALSE;
-	    continue;
-	}
+            /* if the row had some visible children, we hide the expander,
+             * either the transaction is visible but that row is not visible
+             * (line_in_transaction is bigger than visible line in account) and
+             * the children have already moved to previous row in that transaction,
+             * either the transaction is not visible anymore, and when we will show
+             * it again, has_expander will be set again at the good position */
+            record -> has_expander = FALSE;
+            continue;
+        }
 
-	/* the row will be showed */
+        /* the row will be showed */
 
-	/* save the last position */
-	last_pos_filtered_list = record -> filtered_pos;
+        /* save the last position */
+        last_pos_filtered_list = record -> filtered_pos;
 
-	/* update the custom list with that row */
-	record -> filtered_pos = current_pos_filtered_list;
-	custom_list -> visibles_rows[current_pos_filtered_list] = record;
-	current_pos_filtered_list++;
-	custom_list -> num_visibles_rows = current_pos_filtered_list;
+        /* update the custom list with that row */
+        record -> filtered_pos = current_pos_filtered_list;
+        custom_list -> visibles_rows[current_pos_filtered_list] = record;
+        current_pos_filtered_list++;
+        custom_list -> num_visibles_rows = current_pos_filtered_list;
 
-	/* set the iter */
-	iter.user_data = record;
+        /* set the iter */
+        iter.user_data = record;
 
-	switch (record -> what_is_line)
-	{
-	    case IS_ARCHIVE:
-		/* we are on an  archive line, the only thing to know is
-		 * if it is at the same place as before or not,
-		 * if yes, just continue, if not, we will see later if
-		 * we need to add or change the row */
-		if (previous_shown && (record -> filtered_pos == last_pos_filtered_list))
-		{
-		    gtk_tree_path_next (path);
-		    continue;
-		}
-		break;
+        switch (record -> what_is_line)
+        {
+            case IS_ARCHIVE:
+            /* we are on an  archive line, the only thing to know is
+             * if it is at the same place as before or not,
+             * if yes, just continue, if not, we will see later if
+             * we need to add or change the row */
+            if (previous_shown && (record -> filtered_pos == last_pos_filtered_list))
+            {
+                gtk_tree_path_next (path);
+                continue;
+            }
+            break;
 
-	    case IS_TRANSACTION:
-		/* the row is shown, if it's the last row chowed of the transaction
-		 * we have to move the children to that row if they exist */
-		if ( record -> number_of_children &&
-		     record -> line_in_transaction == ( transaction_list_get_last_line (
-											gsb_data_account_get_nb_rows (account_number) ) ) )
-		{
-		    /* ok, we are on the last visible line, there is some children and if before
-		     * the children were not associated to that row, we have to move them */
-		    if (record -> has_expander == FALSE)
-		    {
-                for (i=0 ; i < record -> number_of_children ; i++)
-			    	((CustomRecord *) record -> children_rows[i]) -> mother_row = record;
-			    record -> has_expander = TRUE;
-		    }
-		}
-		else
-		    record -> has_expander = FALSE;
-        /* printf ("transaction_number = %d record -> filtered_pos = %d record -> line_in_transaction =%d\n",
-                        gsb_data_transaction_get_transaction_number ( record -> transaction_pointer),
-                        record -> filtered_pos,
-                        record -> line_in_transaction); */
+            case IS_TRANSACTION:
+            /* the row is shown, if it's the last row chowed of the transaction
+             * we have to move the children to that row if they exist */
+            if ( record -> number_of_children &&
+                 record -> line_in_transaction == ( transaction_list_get_last_line (
+                                                gsb_data_account_get_nb_rows (account_number) ) ) )
+            {
+                /* ok, we are on the last visible line, there is some children and if before
+                 * the children were not associated to that row, we have to move them */
+                if (record -> has_expander == FALSE)
+                {
+                    for (i=0 ; i < record -> number_of_children ; i++)
+                        ((CustomRecord *) record -> children_rows[i]) -> mother_row = record;
+                    record -> has_expander = TRUE;
+                }
+            }
+            else
+                record -> has_expander = FALSE;
+            /* the value of the row is set in memory, we update the tree view if necessary */
+            /* if the record was already shown and the position hasn't change, nothing to do */
+            if (previous_shown && (record -> filtered_pos == last_pos_filtered_list))
+            {
+                /* the row itself didn't change but perhaps it got or losed some children
+                 * in that case, the children were moved before, so we just have to
+                 * tell to the tree view that children changed */
+                gtk_tree_model_row_has_child_toggled (GTK_TREE_MODEL (custom_list), tmp_path, &iter);
+                gtk_tree_path_next (path);
+                continue;
+            }
+            break;
+        }
 
-		/* the value of the row is set in memory, we update the tree view if necessary */
-		/* if the record was already shown and the position hasn't change, nothing to do */
-		if (previous_shown && (record -> filtered_pos == last_pos_filtered_list))
-		{
-		    /* the row itself didn't change but perhaps it got or losed some children
-		     * in that case, the children were moved before, so we just have to
-		     * tell to the tree view that children changed */
-		    gtk_tree_model_row_has_child_toggled (GTK_TREE_MODEL (custom_list),
-							  path, &iter);
-		    gtk_tree_path_next (path);
-		    continue;
-		}
-		break;
-	}
+        /* now, the record is not at the same place as before (or was not shown before),
+         * so,
+         * either we modify the current row if it exits already,
+         * either we insert a new row if we reached the end */
+        if (current_pos_filtered_list > previous_visible_rows)
+        {
+            /* we reached the end of list, need to add a row */
+            gtk_tree_model_row_inserted ( GTK_TREE_MODEL (custom_list), tmp_path, &iter);
+        }
+        else
+        {
+            /* ok, the end of list is not reached, we can just change the row */
+            gtk_tree_model_row_changed ( GTK_TREE_MODEL (custom_list), tmp_path, &iter );
+        }
 
-	/* now, the record is not at the same place as before (or was not shown before),
-	 * so,
-	 * either we modify the current row if it exits already,
-	 * either we insert a new row if we reached the end */
-	if (current_pos_filtered_list > previous_visible_rows)
-	    /* we reached the end of list, need to add a row */
-	    gtk_tree_model_row_inserted ( GTK_TREE_MODEL(custom_list),
-					  path, &iter);
-	else
-	    /* ok, the end of list is not reached, we can just change the row */
-	    gtk_tree_model_row_changed ( GTK_TREE_MODEL (custom_list),
-					 path, &iter );
+        /* the new row can have some children, or the last row (if we just changed the row)
+         * could have some children we don't want now. that function is magic because
+         * automatically update if there are children or not */
+        if (record -> what_is_line == IS_TRANSACTION)
+        {
+            gtk_tree_model_row_has_child_toggled (GTK_TREE_MODEL (custom_list), path, &iter);
+        }
+        if ( tmp_path )
+            gtk_tree_path_free ( tmp_path );
 
-	/* the new row can have some children, or the last row (if we just changed the row)
-	 * could have some children we don't want now. that function is magic because
-	 * automatically update if there are children or not */
-	if (record -> what_is_line == IS_TRANSACTION)
-	    gtk_tree_model_row_has_child_toggled (GTK_TREE_MODEL (custom_list),
-						  path, &iter);
-
-	gtk_tree_path_next (path);
+        gtk_tree_path_next (path);
     }
 
     /* if the previous list was bigger than now, we need to delete some rows */
     if (previous_visible_rows > current_pos_filtered_list)
-	for (i=0 ; i < (previous_visible_rows - current_pos_filtered_list) ; i++)
-	    gtk_tree_model_row_deleted ( GTK_TREE_MODEL (custom_list),
-					 path );
+        for (i=0 ; i < (previous_visible_rows - current_pos_filtered_list) ; i++)
+            gtk_tree_model_row_deleted ( GTK_TREE_MODEL (custom_list), path );
+
     gtk_tree_path_free(path);
 
     /* initial sort of the list */
@@ -1905,7 +1905,7 @@ static CustomRecord *transaction_list_create_record ( gint transaction_number,
 	newrecord -> visible_col[column] = gsb_transactions_list_grep_cell_content ( transaction_number,
 										     tab_affichage_ope[line_in_transaction][column]);
 
-    if ( conf.utilise_fonte_listes )
+    if ( conf.custom_fonte_listes )
 	    newrecord -> font = conf.font_string;
     newrecord -> transaction_pointer = gsb_data_transaction_get_pointer_of_transaction (transaction_number);
     newrecord -> what_is_line = IS_TRANSACTION;

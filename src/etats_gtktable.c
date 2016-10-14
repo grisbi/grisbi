@@ -97,7 +97,7 @@ void gtktable_attach_label ( gchar * text, gdouble properties, int x, int x2, in
 			     enum alignement align, gint transaction_number )
 {
     GtkWidget * label;
-    GtkStyle * style;
+    //~ GtkStyle * style;
     gint x_dim;
     gint y_dim;
 

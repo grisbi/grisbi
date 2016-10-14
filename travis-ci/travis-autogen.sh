@@ -33,11 +33,26 @@ CFLAGS+=" -Wno-unused-parameter"
 #CFLAGS+=" -Wno-unused-function"
 CFLAGS+=" -Wno-deprecated-declarations"
 
-# fail on warning
-configure_args+=" --enable-werror"
-
 export CFLAGS
 echo "CFLAGS: $CFLAGS"
 
-sh ./autogen.sh
+configure_args=""
+
+# fail on warning
+configure_args+=" --enable-werror"
+
+if [ "$TRAVIS_OS_NAME" = "osx" ]
+then
+	# from brew
+	export PKG_CONFIG_PATH=/usr/local/Cellar/libxml2/*/lib/pkgconfig
+	export PATH="$PATH:/usr/local/Cellar/gettext/*/bin"
+
+	mkdir m4
+	ln -sf /usr/local/Cellar/gettext/*/share/aclocal/nls.m4 m4
+
+	# disable OpenSSL on macOS since it is no more provided by Apple
+	configure_args+=" --without-openssl"
+fi
+
+sh -x ./autogen.sh
 ./configure $configure_args "$@"

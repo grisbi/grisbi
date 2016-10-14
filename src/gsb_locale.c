@@ -124,3 +124,73 @@ void gsb_locale_set_mon_thousands_sep ( const gchar *thousands_sep )
     g_free ( _locale -> mon_thousands_sep );
     _locale -> mon_thousands_sep = g_strdup ( thousands_sep );
 }
+
+
+/**
+ *
+ *
+ * \param
+ *
+ *  \return string  must be freed
+ */
+gchar *gsb_locale_get_print_locale_var ( void )
+{
+    struct lconv *conv;
+    gchar *locale_str = NULL;
+    gchar *mon_thousands_sep;
+    gchar *mon_decimal_point;
+    gchar *positive_sign;
+    gchar *negative_sign;
+    gchar *currency_symbol;
+
+    /* test local pour les nombres */
+    conv = localeconv();
+
+    currency_symbol = g_locale_to_utf8 ( conv->currency_symbol, -1, NULL, NULL, NULL );
+    mon_thousands_sep = g_locale_to_utf8 ( conv->mon_thousands_sep, -1, NULL, NULL, NULL );
+    mon_decimal_point = g_locale_to_utf8 ( conv->mon_decimal_point, -1, NULL, NULL, NULL );
+    positive_sign = g_locale_to_utf8 ( conv->positive_sign, -1, NULL, NULL, NULL );
+    negative_sign = g_locale_to_utf8 ( conv->negative_sign, -1, NULL, NULL, NULL );
+
+    locale_str = g_strdup_printf ( "LANG = %s\n\n"
+                        "Currency\n"
+                        "\tcurrency_symbol   = %s\n"
+                        "\tmon_thousands_sep = \"%s\"\n"
+                        "\tmon_decimal_point = %s\n"
+                        "\tpositive_sign     = \"%s\"\n"
+                        "\tnegative_sign     = \"%s\"\n"
+                        "\tp_cs_precedes     = \"%d\"\n"
+                        "\tn_cs_precedes     = \"%d\"\n"
+                        "\tp_sep_by_space    = \"%d\"\n"
+                        "\tfrac_digits       = \"%d\"\n\n",
+                        g_getenv ( "LANG"),
+                        currency_symbol,
+                        mon_thousands_sep,
+                        mon_decimal_point,
+                        positive_sign,
+                        negative_sign,
+                        conv->p_cs_precedes,
+                        conv->n_cs_precedes,
+                        conv->p_sep_by_space,
+                        conv->frac_digits );
+
+    g_free ( currency_symbol );
+    g_free ( mon_thousands_sep );
+    g_free ( mon_decimal_point );
+    g_free ( positive_sign );
+    g_free ( negative_sign );
+
+    return locale_str;
+}
+
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

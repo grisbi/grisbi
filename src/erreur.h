@@ -9,8 +9,9 @@
 #define DEBUG utils_str_atoi (getenv ("DEBUG_GRISBI"))
 
 /* constantes definissant le niveau de debug */
+#define DEBUG_NO_DEBUG				0		/* pas de de débug */
 #define	DEBUG_LEVEL_ALERT			1		/* grave probleme */
-#define DEBUG_LEVEL_IMPORTANT			2		/* probleme moins grave */
+#define DEBUG_LEVEL_IMPORTANT		2		/* probleme moins grave */
 #define DEBUG_LEVEL_NOTICE			3		/* probleme encore moins grave :) */
 #define DEBUG_LEVEL_INFO			4		/* autre information */
 #define DEBUG_LEVEL_DEBUG			5		/* information de debug */
@@ -53,9 +54,11 @@ void debug_print_log_string ( const gchar *prefixe,
                         gint line,
                         const char *function,
                         const gchar *msg );
-gboolean gsb_debug_start_log ( void );
-void gsb_debug_finish_log ( void );
-void initialize_debugging ( void );
-void traitement_sigsegv ( gint signal_nb );
+gboolean debug_start_log ( void );
+void debug_finish_log ( void );
+void debug_initialize_debugging ( gint level );
+void debug_set_cmd_line_debug_level ( gint debug_level );
+void debug_set_cmd_line_mode ( gint level );
+void debug_traitement_sigsegv ( gint signal_nb );
 /* END_DECLARATION */
 #endif

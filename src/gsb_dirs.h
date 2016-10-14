@@ -16,4 +16,6 @@ const gchar *gsb_dirs_get_user_data_dir ( void );
 
 const gchar *gsb_dirs_get_accelerator_filename ( void );
 const gchar *gsb_dirs_get_grisbirc_filename ( void );
+
+gchar *gsb_dirs_get_print_dir_var ( void );
 #endif
