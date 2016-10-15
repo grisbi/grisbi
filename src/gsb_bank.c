@@ -459,7 +459,7 @@ GtkWidget *gsb_bank_create_page ( gboolean default_sensitive )
     GtkTreeSelection *selection;
     gint i;
     gint nbre_bank;
-    gint sw_height;
+    gint sw_height = 0;
     gchar *titles[] = {("Bank"), _("Contact name")};
     gfloat alignment[] = {COLUMN_LEFT, COLUMN_LEFT};
 
@@ -551,12 +551,19 @@ GtkWidget *gsb_bank_create_page ( gboolean default_sensitive )
     }
 
     /* set the height of sw */
-    if ( nbre_bank <= 3 )
-        sw_height = 110;
-    else if (nbre_bank > 5)
-        sw_height = 200;
+    if (default_sensitive)
+    {
+        sw_height = 80;
+    }
     else
-        sw_height = (33 * nbre_bank) + 10;
+    {
+        if ( nbre_bank <= 3 )
+            sw_height = 110;
+        else if (nbre_bank > 5)
+            sw_height = 200;
+        else
+            sw_height = (33 * nbre_bank) + 10;
+    }
 
     g_object_set_data (G_OBJECT (scrolled_window), "height", GINT_TO_POINTER (sw_height));
 
@@ -587,6 +594,11 @@ GtkWidget *gsb_bank_create_page ( gboolean default_sensitive )
     gtk_box_pack_start (GTK_BOX (paned2), paned2_grid, FALSE, FALSE, 0);
 
     paned2_sw = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_SW, 0);
+    if (default_sensitive)
+    {
+        sw_height = 300;
+        g_object_set_data (G_OBJECT (paned2_sw), "height", GINT_TO_POINTER (sw_height));
+    }
     gtk_grid_attach (GTK_GRID (paned2_grid), paned2_sw, 0, 0, 1, 1);
 
     vbox2 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
