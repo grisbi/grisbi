@@ -539,9 +539,9 @@ void grisbi_win_init_menubar (GrisbiWin *win,
     }
 
     /* sensibilise le menu new-window PROVISOIRE*/
-    //~ has_app_menu = grisbi_app_get_has_app_menu (GRISBI_APP (app));
-	//~ if (!has_app_menu)
-		//~ gsb_menu_gui_sensitive_win_menu_item ("new-window", FALSE);
+    has_app_menu = grisbi_app_get_has_app_menu (GRISBI_APP (app));
+	if (!has_app_menu)
+		gsb_menu_gui_sensitive_win_menu_item ("new-window", FALSE);
 
     /* sensibilise le menu preferences */
     action = grisbi_app_get_prefs_action ();
