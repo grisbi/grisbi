@@ -29,10 +29,11 @@ void            grisbi_win_headings_update_title            (gchar *title);
 gboolean        grisbi_win_headings_update_show_headings    (void);
 void            grisbi_win_headings_sensitive_headings      (gboolean sensitive);
 
+void            grisbi_win_free_private_struct              (GrisbiWin *win);
 void            grisbi_win_free_general_notebook            (void);
 void            grisbi_win_free_general_vbox                (void);
 
-GtkWidget *     grisbi_win_create_general_widgets             (GrisbiWin *win);
+GtkWidget *     grisbi_win_create_general_widgets           (GrisbiWin *win);
 void            grisbi_win_init_menubar                     (GrisbiWin *win,
                                                              gpointer app);
 void            grisbi_win_menu_move_to_acc_delete          (void);

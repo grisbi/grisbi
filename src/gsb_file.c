@@ -467,7 +467,7 @@ gboolean gsb_file_save_file ( gint origine )
 
         /* update variables */
         etat.fichier_deja_ouvert = 0;
-            gsb_file_set_modified ( FALSE );
+        gsb_file_set_modified ( FALSE );
         grisbi_win_set_grisbi_title ( gsb_gui_navigation_get_current_account ( ) );
     }
 
@@ -980,7 +980,13 @@ gboolean gsb_file_close ( void )
     if ( !assert_account_loaded () )
         return ( TRUE );
 
-    if ( conf.sauvegarde_auto
+    if (gsb_file_get_modified ())
+    {
+        /* try to save */
+	    if ( !gsb_file_save_file (-1) )
+            return ( FALSE );
+    }
+    else if ( conf.sauvegarde_auto
         && ( !etat.fichier_deja_ouvert || conf.force_enregistrement )
         && nom_fichier_comptes )
     {

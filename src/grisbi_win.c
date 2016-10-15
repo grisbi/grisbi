@@ -366,52 +366,6 @@ static gboolean grisbi_win_change_state_window (GtkWidget *window,
 /**
  *
  *
- * \param
- *
- * \return
- **/
-static void grisbi_win_finalize (GObject *object)
-{
-    GrisbiWinPrivate *priv;
-
-    devel_debug (NULL);
-    priv = grisbi_win_get_instance_private (GRISBI_WIN (object));
-
-    g_free (priv->filename);
-    priv->filename = NULL;
-
-    g_free (priv->file_title);
-    priv->file_title = NULL;
-
-    g_free (priv->window_title);
-    priv->window_title = NULL;
-
-    G_OBJECT_CLASS (grisbi_win_parent_class)->finalize (object);
-}
-
-/**
- *
- *
- * \param
- *
- * \return
- **/
-static void grisbi_win_dispose (GObject *object)
-{
-    GrisbiWin *win = GRISBI_WIN (object);
-    GrisbiWinPrivate *priv;
-
-    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
-
-    g_clear_object (&priv->builder);
-    g_clear_object (&priv->menu);
-
-    G_OBJECT_CLASS (grisbi_win_parent_class)->dispose (object);
-}
-
-/**
- *
- *
  * \param GrisbiWin *win
  *
  * \return
@@ -446,13 +400,8 @@ static void grisbi_win_init (GrisbiWin *win)
  **/
 static void grisbi_win_class_init (GrisbiWinClass *klass)
 {
-    GObjectClass *object_class = G_OBJECT_CLASS (klass);
-
-    object_class->dispose = grisbi_win_dispose;
-    object_class->finalize = grisbi_win_finalize;
-
 	gtk_widget_class_set_template_from_resource (GTK_WIDGET_CLASS (klass),
-                                               "/org/gtk/grisbi/ui/grisbi_win.ui");
+                                                 "/org/gtk/grisbi/ui/grisbi_win.ui");
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, main_box);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, statusbar);
@@ -589,10 +538,10 @@ void grisbi_win_init_menubar (GrisbiWin *win,
         tmp++;
     }
 
-    /* sensibilise le menu new-window */
-    has_app_menu = grisbi_app_get_has_app_menu (GRISBI_APP (app));
-	if (!has_app_menu)
-		gsb_menu_gui_sensitive_win_menu_item ("new-window", FALSE);
+    /* sensibilise le menu new-window PROVISOIRE*/
+    //~ has_app_menu = grisbi_app_get_has_app_menu (GRISBI_APP (app));
+	//~ if (!has_app_menu)
+		//~ gsb_menu_gui_sensitive_win_menu_item ("new-window", FALSE);
 
     /* sensibilise le menu preferences */
     action = grisbi_app_get_prefs_action ();
@@ -769,6 +718,33 @@ void grisbi_win_menu_move_to_acc_update (gboolean active)
 }
 
 /* MAIN WINDOW */
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void grisbi_win_free_private_struct (GrisbiWin *win)
+{
+	GrisbiWinPrivate *priv;
+
+    devel_debug (NULL);
+    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+
+    g_free (priv->filename);
+    priv->filename = NULL;
+
+    g_free (priv->file_title);
+    priv->file_title = NULL;
+
+    g_free (priv->window_title);
+    priv->window_title = NULL;
+
+    g_clear_object (&priv->builder);
+    g_clear_object (&priv->menu);
+}
+
 /**
  * set the title of the window
  *

@@ -224,12 +224,27 @@ static void grisbi_app_quit (GSimpleAction *action,
 {
     GrisbiApp *app;
     GList *l;
+    gboolean first_win = TRUE;
 
     app = GRISBI_APP (user_data);
 
     /* Remove all windows registered in the application */
     while ((l = gtk_application_get_windows (GTK_APPLICATION (app))))
     {
+        if (first_win)
+        {
+            if ( l->data && conf.full_screen == 0 && conf.maximize_screen == 0 )
+            {
+                /* sauvegarde la position de la fenetre principale */
+                gtk_window_get_position (GTK_WINDOW (l->data), &conf.x_position, &conf.y_position);
+
+                /* sauvegarde de la taille de la fenêtre si nécessaire */
+                gtk_window_get_size (GTK_WINDOW (l->data), &conf.main_width, &conf.main_height);
+            }
+            first_win = FALSE;
+        }
+        gsb_file_close ();
+        grisbi_win_free_private_struct (GRISBI_WIN (l->data));
         gtk_application_remove_window (GTK_APPLICATION (app), GTK_WINDOW (l->data));
     }
 }
@@ -366,11 +381,7 @@ static gboolean grisbi_app_window_delete_event ( GrisbiWin *win,
 {
 	devel_debug (NULL);
 
-    /* on sauvegarde le fichier si besoin */
-    if ( gsb_file_get_modified () )
-        gsb_file_save ();
-
-    if ( win && conf.full_screen == 0 && conf.maximize_screen == 0 )
+    if ( conf.full_screen == 0 && conf.maximize_screen == 0 )
     {
         /* sauvegarde la position de la fenetre principale */
         gtk_window_get_position ( GTK_WINDOW ( win ), &conf.x_position, &conf.y_position );
@@ -379,8 +390,9 @@ static gboolean grisbi_app_window_delete_event ( GrisbiWin *win,
         gtk_window_get_size ( GTK_WINDOW ( win ), &conf.main_width, &conf.main_height );
     }
 
-    /* on détruit la fenêtre concernée */
-    gtk_widget_destroy ( GTK_WIDGET ( win ) );
+    gsb_file_close ();
+    grisbi_win_free_private_struct (GRISBI_WIN (win));
+    gtk_application_remove_window (GTK_APPLICATION (app), GTK_WINDOW (win));
 
 	return FALSE;
 }
@@ -880,31 +892,7 @@ static void grisbi_app_dispose ( GObject *object )
  **/
 static void grisbi_app_shutdown (GApplication *application)
 {
-	GtkWindow *win;
-
 	devel_debug (NULL);
-
-    /* on récupère la dernière fenêtre active */
-    win = gtk_application_get_active_window (GTK_APPLICATION (application));
-
-    if ( win )
-    {
-        /* on sauvegarde le fichier si besoin */
-        if ( gsb_file_get_modified () )
-            gsb_file_save ();
-
-        if ( win && conf.full_screen == 0 && conf.maximize_screen == 0 )
-        {
-            /* sauvegarde la position de la fenetre principale */
-            gtk_window_get_position ( GTK_WINDOW ( win ), &conf.x_position, &conf.y_position );
-
-            /* sauvegarde de la taille de la fenêtre si nécessaire */
-            gtk_window_get_size ( GTK_WINDOW ( win ), &conf.main_width, &conf.main_height );
-        }
-
-        /* on détruit la fenêtre concernée */
-        gtk_widget_destroy ( GTK_WIDGET ( win ) );
-    }
 
     /* clean finish of the debug file */
     if ( etat.debug_mode )
