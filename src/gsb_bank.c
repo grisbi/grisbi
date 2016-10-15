@@ -959,7 +959,7 @@ static gboolean gsb_bank_update_form ( gint bank_number,
 static gboolean gsb_bank_edit_bank ( gint bank_number,
                         GtkWidget *combobox )
 {
-    GtkWidget *dialog, *form, *scrolled_window, *vbox;
+    GtkWidget *dialog, *scrolled_window, *vbox;
     gint result;
 
     dialog = gtk_dialog_new_with_buttons ( _("Edit bank"),
@@ -982,7 +982,7 @@ static gboolean gsb_bank_edit_bank ( gint bank_number,
 
     vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
     gtk_container_set_border_width ( GTK_CONTAINER (vbox), 12 );
-    form = gsb_bank_create_form ( vbox, combobox );
+    gsb_bank_create_form ( vbox, combobox );
     gtk_container_add ( GTK_CONTAINER (scrolled_window), vbox);
 
     gtk_widget_show_all ( dialog );
