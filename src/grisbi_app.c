@@ -815,17 +815,19 @@ static void grisbi_app_activate (GApplication *application)
                                                     GTK_STYLE_PROVIDER ( css_provider ),
                                                     GTK_STYLE_PROVIDER_PRIORITY_USER );
 
-	/* ouvre un fichier si demandé */
-	load_file = grisbi_app_load_file_if_necessary (GRISBI_APP (application));
-
     /* lance un assistant si première utilisation */
-    if ( conf.first_use && !load_file )
+    if (conf.first_use)
     {
         gsb_assistant_first_run ();
         conf.first_use = FALSE;
     }
     else
-        display_tip ( FALSE );
+    {
+        /* ouvre un fichier si demandé */
+        load_file = grisbi_app_load_file_if_necessary (GRISBI_APP (application));
+        if (load_file)
+            display_tip (FALSE);
+    }
 }
 
 /**
