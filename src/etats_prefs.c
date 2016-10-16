@@ -544,7 +544,7 @@ gboolean etats_prefs_widget_set_sensitive ( const gchar *widget_name,
  *
  * \return      FALSE
  */
-gboolean etats_prefs_left_panel_tree_view_update_style ( GtkWidget *button,
+static gboolean etats_prefs_left_panel_tree_view_update_style ( GtkWidget *button,
                         gint *page_number )
 {
     gint iter_page_number;
