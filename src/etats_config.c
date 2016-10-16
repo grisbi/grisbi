@@ -1123,27 +1123,11 @@ static gint etats_config_onglet_categ_budget_sort_function ( GtkTreeModel *model
 {
     gchar *name_1;
     gchar *name_2;
-    gchar *without_name;
-    gchar *without_sub_name;
     gint number_1;
     gint number_2;
     gint sub_number_1;
     gint sub_number_2;
     gint return_value = 0;
-    gboolean is_categ;
-
-    is_categ = GPOINTER_TO_INT ( ptr );
-
-    if ( is_categ )
-    {
-        without_name = _("No category");
-        without_sub_name = _("No subcategory");
-    }
-    else
-    {
-        without_name = _("No budgetary line");
-        without_sub_name = _("No sub-budgetary line");
-    }
 
     /* first, we sort by date (col 0) */
     gtk_tree_model_get ( model,
