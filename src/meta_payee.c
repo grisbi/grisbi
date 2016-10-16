@@ -123,7 +123,7 @@ static MetatreeInterface *payee_interface = &_payee_interface;
  *
  *
  */
-gint payee_tree_currency ( )
+gint payee_tree_currency ( void )
 {
     return etat.no_devise_totaux_tiers;
 }
