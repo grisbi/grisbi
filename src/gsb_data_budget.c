@@ -1650,7 +1650,6 @@ gboolean gsb_data_budget_test_create_sub_budget ( gint no_budget,
                         const gchar *name )
 {
     GSList *list_tmp;
-    gint sub_budget_number = 0;
     struct_budget *budget;
     struct_sub_budget *sub_budget;
 
@@ -1667,13 +1666,13 @@ gboolean gsb_data_budget_test_create_sub_budget ( gint no_budget,
                         no_sub_budget );
         if ( !sub_budget )
         {
-            sub_budget_number = gsb_data_budget_new_sub_budget_with_number (
+            gsb_data_budget_new_sub_budget_with_number (
                         no_sub_budget, no_budget );
             gsb_data_budget_set_sub_budget_name ( no_budget, no_sub_budget, name );
         }
         else
         {
-            sub_budget_number = gsb_data_budget_new_sub_budget ( no_budget, name );
+            gsb_data_budget_new_sub_budget ( no_budget, name );
             gsb_budget_update_combofix ( FALSE );
         }
         return TRUE;
