@@ -24,7 +24,7 @@
 /* WARNING this is a copy of test_integration.c (from ige-mac-integration-0.9.5) */
 
 #ifdef HAVE_CONFIG_H
-# include <config.h>
+# include "config.h"
 #endif
 
 #ifdef GTKOSXAPPLICATION
