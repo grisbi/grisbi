@@ -23,7 +23,7 @@
 /* ************************************************************************** */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include <stdlib.h>
@@ -209,6 +209,7 @@ gboolean lance_navigateur_web ( const gchar *url )
     return FALSE;
 }
 
+#if 0
 gboolean lance_navigateur_web_new ( const gchar *uri )
 {
     GError *error = NULL;
@@ -243,6 +244,7 @@ gboolean lance_navigateur_web_new ( const gchar *uri )
     else
         return TRUE;
 }
+#endif
 
 /**
  * Create a box with a nice bold title and content slightly indented.

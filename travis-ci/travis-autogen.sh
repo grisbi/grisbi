@@ -2,7 +2,7 @@
 
 # Warnings enabled
 CFLAGS=""
-#CFLAGS="-Wall"
+CFLAGS="-Wall"
 #CFLAGS+=" -Wextra"
 
 #CFLAGS+=" -Wbad-function-cast"
@@ -29,7 +29,6 @@ CFLAGS=""
 #CFLAGS+=" -Wwrite-strings"
 
 # warnings disabled on purpose
-CFLAGS+=" -Wno-unused-parameter"
 #CFLAGS+=" -Wno-unused-function"
 CFLAGS+=" -Wno-deprecated-declarations"
 

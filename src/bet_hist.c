@@ -22,7 +22,7 @@
 /* ************************************************************************** */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -1233,7 +1233,7 @@ gboolean bet_historical_set_full_sub_div ( GtkTreeModel *model, GtkTreeIter *par
 {
     GtkTreeView *tree_view;
     GtkTreeIter fils_iter;
-    gint edited;
+    gint edited = 0;
 
     if ( gtk_tree_model_iter_children ( GTK_TREE_MODEL ( model ), &fils_iter, parent ) )
     {

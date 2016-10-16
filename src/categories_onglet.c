@@ -22,7 +22,7 @@
 /* ************************************************************************** */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -1151,17 +1151,6 @@ void category_list_popup_context_menu ( void )
     gtk_widget_show_all ( menu );
 
     gtk_menu_popup ( GTK_MENU ( menu ), NULL, NULL, NULL, NULL, 3, gtk_get_current_event_time ( ) );
-}
-
-
-/**
- *
- *
- *
- */
-GtkWidget *category_list_get_toolbar ( void )
-{
-    return category_toolbar;
 }
 
 

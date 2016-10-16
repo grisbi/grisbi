@@ -23,7 +23,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include <glib/gi18n.h>
@@ -1917,7 +1917,7 @@ static void etats_config_onglet_texte_remplit_liste_comparaisons ( gint report_n
  *
  * \return
  */
-void etats_config_onglet_texte_retire_ligne_liste_comparaisons ( gint last_text_comparison_number )
+static void etats_config_onglet_texte_retire_ligne_liste_comparaisons ( gint last_text_comparison_number )
 {
     gint current_report_number;
 

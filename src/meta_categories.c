@@ -21,7 +21,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -113,7 +113,7 @@ static MetatreeInterface *category_interface = &_category_interface;
  *
  *
  */
-gint category_tree_currency ( )
+gint category_tree_currency ( void )
 {
     return etat.no_devise_totaux_categ;
 }

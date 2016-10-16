@@ -23,7 +23,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include <glib/gi18n.h>
@@ -544,7 +544,7 @@ gboolean etats_prefs_widget_set_sensitive ( const gchar *widget_name,
  *
  * \return      FALSE
  */
-gboolean etats_prefs_left_panel_tree_view_update_style ( GtkWidget *button,
+static gboolean etats_prefs_left_panel_tree_view_update_style ( GtkWidget *button,
                         gint *page_number )
 {
     gint iter_page_number;
@@ -623,7 +623,7 @@ gboolean etats_prefs_left_panel_tree_view_select_last_page ( void )
 }
 
 
-void etats_prefs_left_panel_notebook_change_page ( GtkNotebook *notebook,
+static void etats_prefs_left_panel_notebook_change_page ( GtkNotebook *notebook,
                         gpointer npage,
                         gint page,
                         gpointer user_data )
@@ -640,7 +640,7 @@ void etats_prefs_left_panel_notebook_change_page ( GtkNotebook *notebook,
  *
  * \return
  * */
-void etats_prefs_left_panel_populate_tree_model ( GtkTreeStore *tree_model,
+static void etats_prefs_left_panel_populate_tree_model ( GtkTreeStore *tree_model,
                         GtkWidget *notebook )
 {
     GtkWidget *widget = NULL;
@@ -1959,7 +1959,7 @@ static GtkWidget *etats_prefs_onglet_categ_budget_tree_view_create ( gboolean is
  *
  * \return
  * */
-void etats_prefs_onglet_categ_budget_init_buttons_select_unselect ( gchar *name,
+static void etats_prefs_onglet_categ_budget_init_buttons_select_unselect ( gchar *name,
                         GtkWidget *tree_view,
                         gboolean is_categ )
 {
@@ -2433,7 +2433,7 @@ static GtkWidget *etats_prefs_onglet_divers_create_page ( gint page )
  *
  * \return FALSE
  */
-gboolean etats_prefs_onglet_data_grouping_drag_data_received ( GtkTreeDragDest *drag_dest,
+static gboolean etats_prefs_onglet_data_grouping_drag_data_received ( GtkTreeDragDest *drag_dest,
                         GtkTreePath *dest_path,
                         GtkSelectionData *selection_data )
 {
@@ -2548,7 +2548,7 @@ static gboolean etats_prefs_onglet_data_grouping_drop_possible ( GtkTreeDragDest
  *
  * \return
  */
-void etats_prefs_onglet_data_grouping_selection_changed ( GtkTreeSelection *selection,
+static void etats_prefs_onglet_data_grouping_selection_changed ( GtkTreeSelection *selection,
                         GtkWidget *tree_view )
 {
     GtkTreeModel *model;

@@ -24,7 +24,7 @@
 /* ./configure --with-balance-estimate */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"

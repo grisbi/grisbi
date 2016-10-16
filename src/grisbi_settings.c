@@ -25,11 +25,11 @@
 /* *******************************************************************************/
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -144,7 +144,7 @@ static void grisbi_settings_init_settings_backup ( GSettings *settings )
  *
  * \return
  **/
-void grisbi_settings_init_settings_display ( GSettings *settings )
+static void grisbi_settings_init_settings_display ( GSettings *settings )
 {
     gchar *tmp_str;
 

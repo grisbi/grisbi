@@ -23,7 +23,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -394,7 +394,7 @@ static gboolean gsb_file_automatic_backup ( gpointer null )
  *
  * \return TRUE if ok, FALSE if problem
  * */
-gboolean gsb_file_save_file ( gint origine )
+static gboolean gsb_file_save_file ( gint origine )
 {
     gint result = 0;
     gchar *nouveau_nom_enregistrement;

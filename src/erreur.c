@@ -24,7 +24,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -99,7 +99,7 @@ static gchar *debug_get_debug_time ( void )
  *
  * \return
  **/
-GtkWidget *debug_print_backtrace ( void )
+static GtkWidget *debug_print_backtrace ( void )
 {
 #ifdef HAVE_BACKTRACE
     void *backtrace_content[15];
@@ -413,11 +413,11 @@ void debug_message_string ( const gchar *prefixe,
         /* on affiche dans la console le message */
         if (message)
             tmp_str = g_strdup_printf(_("%s, %2f : %s - %s:%d:%s - %s\n"),
-                        debug_get_debug_time (), (double )clock()/ CLOCKS_PER_SEC, prefixe,
+                        debug_get_debug_time (), (clock() + 0.0)/ CLOCKS_PER_SEC, prefixe,
                         file, line, function, message);
         else
             tmp_str = g_strdup_printf(_("%s, %2f : %s - %s:%d:%s\n"),
-                        debug_get_debug_time (), (double )clock()/ CLOCKS_PER_SEC, prefixe,
+                        debug_get_debug_time (), (clock() + 0.0)/ CLOCKS_PER_SEC, prefixe,
                         file, line, function);
 
         if ( etat.debug_mode )
@@ -462,7 +462,7 @@ void debug_message_int ( const gchar *prefixe,
 
         /* on affiche dans la console le message */
         tmp_str = g_strdup_printf(_("%s, %2f : %s - %s:%d:%s - %d\n"),
-                        debug_get_debug_time (), (double )clock()/ CLOCKS_PER_SEC, prefixe,
+                        debug_get_debug_time (), (clock() + 0.0)/ CLOCKS_PER_SEC, prefixe,
                         file, line, function, message);
 
         if (etat.debug_mode)
@@ -508,7 +508,7 @@ void debug_message_real ( const gchar *prefixe,
 
         /* on affiche dans la console le message */
         tmp_str = g_strdup_printf ("%s, %2f : %s - %s:%d:%s - %"G_GINT64_MODIFIER"d E %d\n",
-                        debug_get_debug_time (), (double )clock()/ CLOCKS_PER_SEC, prefixe,
+                        debug_get_debug_time (), (clock() + 0.0)/ CLOCKS_PER_SEC, prefixe,
                         file, line, function, message.mantissa, message.exponent );
 
         if ( etat.debug_mode )
@@ -578,7 +578,7 @@ gboolean debug_start_log ( void )
         /* début du mode de débogage */
         tmp_str = g_strdup_printf(_("%s, %2f : Debug - %s:%d:%s\n\n"),
                         debug_get_debug_time ( ),
-                        (double ) clock ( )/ CLOCKS_PER_SEC,
+                        (clock() + 0.0)/ CLOCKS_PER_SEC,
                         __FILE__,
                         __LINE__,
                         __PRETTY_FUNCTION__ );
@@ -667,7 +667,7 @@ void debug_print_log_string ( const gchar *prefixe,
 
     tmp_str = g_strdup_printf(_("%s, %2f : %s - %s:%d:%s - %s\n"),
                         debug_get_debug_time ( ),
-                        (double ) clock ( )/ CLOCKS_PER_SEC,
+                        (clock() + 0.0) / CLOCKS_PER_SEC,
                         prefixe,
                         file,
                         line,

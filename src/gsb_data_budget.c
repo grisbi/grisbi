@@ -28,7 +28,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -1406,7 +1406,7 @@ gint gsb_data_sub_budget_compare ( struct_sub_budget * a, struct_sub_budget * b 
  * \return	NULL if no error found.  A string describing any issue
  *		if any.
  */
-gchar * gsb_debug_duplicate_budget_check ()
+gchar * gsb_debug_duplicate_budget_check (void)
 {
     GSList * tmp;
     gint num_duplicate = 0;
@@ -1462,7 +1462,7 @@ gchar * gsb_debug_duplicate_budget_check ()
  *
  * \return	TRUE on success.  FALSE otherwise.
  */
-gboolean gsb_debug_duplicate_budget_fix ()
+gboolean gsb_debug_duplicate_budget_fix (void)
 {
     GSList * tmp;
 

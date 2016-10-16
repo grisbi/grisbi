@@ -26,7 +26,7 @@
  * all that you need for the config of the payment method is here !!!
  */
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"

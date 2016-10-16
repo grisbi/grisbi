@@ -22,7 +22,7 @@
 /* ************************************************************************** */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -33,6 +33,7 @@
 #include "grisbi_app.h"
 #include "parametres.h"
 #include "structures.h"
+#include "dialog.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

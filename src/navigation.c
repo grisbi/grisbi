@@ -22,7 +22,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -1641,9 +1641,9 @@ gboolean navigation_drag_data_received ( GtkTreeDragDest *drag_dest,
         GtkTreeModel *model;
         GtkTreeIter iter;
         GtkTreePath *orig_path;
-        gint src_report, dst_report = -1;
-        gint src_account, dst_account = -1;
-        gint src_ordre, dst_ordre = -1;
+        gint src_report = -1, dst_report = -1;
+        gint src_account = -1, dst_account = -1;
+        gint src_ordre = -1, dst_ordre = -1;
 
         gtk_tree_get_row_drag_data (selection_data, &model, &orig_path);
 
@@ -1704,7 +1704,7 @@ gboolean navigation_row_drop_possible ( GtkTreeDragDest *drag_dest,
         GtkTreePath *orig_path;
         GtkTreeModel *model;
         gint src_report, dst_report = -1;
-        gint src_account, dst_account = -1;
+        gint src_account = -1, dst_account = -1;
         gint src_ordre, dst_ordre = -1;
         GtkTreeIter iter;
 

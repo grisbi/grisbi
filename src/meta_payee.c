@@ -21,7 +21,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -123,7 +123,7 @@ static MetatreeInterface *payee_interface = &_payee_interface;
  *
  *
  */
-gint payee_tree_currency ( )
+gint payee_tree_currency ( void )
 {
     return etat.no_devise_totaux_tiers;
 }
