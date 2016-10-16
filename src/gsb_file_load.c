@@ -148,7 +148,7 @@ static struct new_div_sous_div_struct *buffer_new_div_sous_div;
  *
  * \return TRUE if the version is after 0.6
  * */
-gboolean gsb_file_load_check_new_structure ( gchar *file_content )
+static gboolean gsb_file_load_check_new_structure ( gchar *file_content )
 {
     if ( strstr ( file_content, "Generalites" ) )
         return FALSE;
