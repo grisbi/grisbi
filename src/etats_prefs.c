@@ -3091,7 +3091,6 @@ static GtkWidget *etats_prefs_onglet_affichage_devises_create_page ( gint page )
  */
 static void etats_prefs_init ( EtatsPrefs *prefs )
 {
-    GtkWidget *tree_view;
     prefs->priv = ETATS_PREFS_GET_PRIVATE ( prefs );
 
     devel_debug (NULL);
@@ -3113,7 +3112,7 @@ static void etats_prefs_init ( EtatsPrefs *prefs )
     gtk_box_set_spacing (GTK_BOX ( gtk_dialog_get_content_area ( GTK_DIALOG ( prefs ) ) ), 2 );
 
     /* Recupération d'un pointeur sur le gtk_tree_view. */
-    tree_view = etats_prefs_left_panel_create_tree_view ();
+    etats_prefs_left_panel_create_tree_view ();
 
     gtk_box_pack_start ( GTK_BOX ( gtk_dialog_get_content_area ( GTK_DIALOG ( prefs ) ) ),
                         prefs->priv->hpaned, TRUE, TRUE, 0 );
