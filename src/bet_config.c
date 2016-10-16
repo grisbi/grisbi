@@ -1281,7 +1281,7 @@ GtkWidget *bet_config_account_get_finance_data ( gchar *title )
  *
  * \return
  * */
-void bet_config_account_amount_entry_changed ( GtkWidget *entry,
+static void bet_config_account_amount_entry_changed ( GtkWidget *entry,
                         GtkWidget *parent )
 {
     gboolean valide = FALSE;
