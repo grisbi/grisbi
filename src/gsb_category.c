@@ -192,7 +192,6 @@ GtkWidget *gsb_category_assistant_create_choice_page ( GtkWidget *assistant )
     GtkTreeModel * builtin_category_model;
     GtkTreeView * builtin_category_view;
     GtkCellRenderer *cell;
-    gint col_offset;
 
     page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
     gtk_container_set_border_width ( GTK_CONTAINER(page), 12 );
@@ -211,7 +210,6 @@ GtkWidget *gsb_category_assistant_create_choice_page ( GtkWidget *assistant )
     gtk_container_add ( GTK_CONTAINER ( sw ), (GtkWidget *) builtin_category_view );
 
     cell = gtk_cell_renderer_text_new ();
-    col_offset =
 	gtk_tree_view_insert_column_with_attributes ( GTK_TREE_VIEW ( builtin_category_view ),
 						      -1, _("Category list"),
 						      cell, "markup",
