@@ -761,10 +761,10 @@ gboolean gsb_form_scheduler_button_press_event ( GtkWidget *entry,
                         GdkEventButton *ev,
                         gint *ptr_origin )
 {
-    gint element_number;
+    //~ gint element_number;
     GtkWidget *date_entry;
 
-    element_number = GPOINTER_TO_INT (ptr_origin);
+    //~ element_number = GPOINTER_TO_INT (ptr_origin);
 
     /* set the form sensitive */
     gsb_form_change_sensitive_buttons (TRUE);
@@ -796,13 +796,13 @@ gboolean gsb_form_scheduler_entry_lose_focus ( GtkWidget *entry,
 {
     gchar *string;
     gint element_number;
-    gint account_number;
+    //~ gint account_number;
 
     /* remove the selection */
 
     gtk_editable_select_region ( GTK_EDITABLE ( entry ), 0, 0 );
     element_number = GPOINTER_TO_INT ( ptr_origin );
-    account_number = gsb_form_get_account_number ();
+    //~ account_number = gsb_form_get_account_number ();
 
     /* string will be filled only if the field is empty */
     string = NULL;
