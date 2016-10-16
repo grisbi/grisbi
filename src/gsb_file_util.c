@@ -116,7 +116,6 @@ gboolean gsb_file_util_get_contents ( gchar *filename,
     gulong orig_size;
     gchar *content;
     int iterator = 0;
-    gulong bytes_read;
     gboolean eof = 0;
 	gchar *os_filename;
 
@@ -161,8 +160,6 @@ gboolean gsb_file_util_get_contents ( gchar *filename,
 	dialogue_error_memory ();
 	return FALSE;
     }
-
-    bytes_read = 0;
 
     /* we should be able to get directly the orig_size
      * for most of files it's enough, if the file is compressed,
