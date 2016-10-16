@@ -1562,9 +1562,9 @@ static void update_soldes_minimaux ( gboolean force )
     GtkWidget *vbox_1;
     GtkWidget *vbox_2;
     GtkWidget *label;
-    GSList *liste_autorise;
-    GSList *liste_voulu;
-    GSList *liste_autorise_et_voulu;
+    //~ GSList *liste_autorise;
+    //~ GSList *liste_voulu;
+    //~ GSList *liste_autorise_et_voulu;
     GSList *list_tmp;
 
 
@@ -1577,9 +1577,9 @@ static void update_soldes_minimaux ( gboolean force )
 
     run.mise_a_jour_soldes_minimaux = FALSE;
 
-    liste_autorise = NULL;
-    liste_voulu = NULL;
-    liste_autorise_et_voulu = NULL;
+    //~ liste_autorise = NULL;
+    //~ liste_voulu = NULL;
+    //~ liste_autorise_et_voulu = NULL;
 
     /* s'il y avait déjà un fils dans la frame, le détruit */
 
