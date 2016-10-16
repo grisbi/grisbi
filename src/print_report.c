@@ -202,7 +202,7 @@ gboolean print_report_draw_page ( GtkPrintOperation *operation,
 				  gint page,
 				  gpointer null )
 {
-    GList *children;
+    GList *children = NULL;
     guint nb_columns;
     guint nb_lines;
     gint rows_drawed = 0;
