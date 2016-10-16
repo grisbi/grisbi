@@ -390,7 +390,7 @@ gboolean gsb_reconcile_sort_config_move_up ( GtkWidget *button,
     gboolean good, visible;
     GtkTreeIter iter, other;
     gint payment_number;
-    gint account_number;
+    gint account_number = -1;
     GtkTreeModel *model;
     GtkTreeSelection *selection;
 
@@ -443,7 +443,7 @@ gboolean gsb_reconcile_sort_config_move_down ( GtkWidget *button,
     gboolean good, visible;
     GtkTreeIter iter, other;
     gint payment_number;
-    gint account_number;
+    gint account_number = -1;
     GtkTreeModel *model;
     GtkTreeSelection *selection;
 
