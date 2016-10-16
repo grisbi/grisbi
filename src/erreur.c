@@ -99,7 +99,7 @@ static gchar *debug_get_debug_time ( void )
  *
  * \return
  **/
-GtkWidget *debug_print_backtrace ( void )
+static GtkWidget *debug_print_backtrace ( void )
 {
 #ifdef HAVE_BACKTRACE
     void *backtrace_content[15];
