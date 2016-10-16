@@ -144,7 +144,7 @@ static void grisbi_settings_init_settings_backup ( GSettings *settings )
  *
  * \return
  **/
-void grisbi_settings_init_settings_display ( GSettings *settings )
+static void grisbi_settings_init_settings_display ( GSettings *settings )
 {
     gchar *tmp_str;
 
