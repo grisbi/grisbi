@@ -414,7 +414,7 @@ gboolean gsb_fyear_config_select ( GtkTreeSelection *tree_selection,
     GtkTreeModel *model;
     GtkTreeIter iter;
     gint fyear_number;
-    GtkWidget *tree_view;
+    //~ GtkWidget *tree_view;
     GtkWidget *widget;
 
     if (!gtk_tree_selection_get_selected ( GTK_TREE_SELECTION (tree_selection),
@@ -427,7 +427,7 @@ gboolean gsb_fyear_config_select ( GtkTreeSelection *tree_selection,
 			 FYEAR_NUMBER_COLUMN, &fyear_number,
 			 -1 );
 
-    tree_view = GTK_WIDGET (gtk_tree_selection_get_tree_view (tree_selection));
+    //~ tree_view = GTK_WIDGET (gtk_tree_selection_get_tree_view (tree_selection));
 
     /* set the name */
     widget = g_object_get_data ( G_OBJECT (model),
