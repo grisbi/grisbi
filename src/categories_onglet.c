@@ -1159,17 +1159,6 @@ void category_list_popup_context_menu ( void )
  *
  *
  */
-GtkWidget *category_list_get_toolbar ( void )
-{
-    return category_toolbar;
-}
-
-
-/**
- *
- *
- *
- */
 GtkTreeStore *categories_get_tree_store ( void )
 {
     return categ_tree_model;
