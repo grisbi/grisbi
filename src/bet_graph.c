@@ -451,7 +451,6 @@ static void bet_graph_affiche_sub_divisions ( struct_bet_graph_data *parent,
     GtkWidget *notebook;
     GtkWidget *box_pie;
     gchar *title;
-    gint result;
     struct_bet_graph_data *self;
 
     /* initialisation de la structure des données */
@@ -515,12 +514,12 @@ static void bet_graph_affiche_sub_divisions ( struct_bet_graph_data *parent,
     self->valid_data = bet_graph_populate_sectors_by_sub_divisions ( self, div_number );
 
     if ( self->valid_data )
-        result = bet_graph_affiche_camemberts ( self );
+        bet_graph_affiche_camemberts ( self );
 
     /* show or hide widgets */
     gtk_widget_show_all ( dialog );
 
-    result = gtk_dialog_run ( GTK_DIALOG ( dialog ) );
+    gtk_dialog_run ( GTK_DIALOG ( dialog ) );
 
     /* free the data */
     struct_free_bet_graph_data ( self );
@@ -806,7 +805,6 @@ static gboolean bet_graph_affiche_XY_line ( struct_bet_graph_data *self )
     GOStyle *style;
     GogObject *axis;
     GogObject *axis_line = NULL;
-    GogObject *grid_line;
     GError *error = NULL;
     gchar *position;
     struct_bet_graph_prefs *prefs;
@@ -882,9 +880,9 @@ static gboolean bet_graph_affiche_XY_line ( struct_bet_graph_data *self )
         {
             axis = gog_object_get_child_by_name ( GOG_OBJECT ( self->chart ), "Y-Axis" );
 
-            grid_line = gog_object_add_by_name ( GOG_OBJECT ( axis ), "MajorGrid", NULL );
+            gog_object_add_by_name ( GOG_OBJECT ( axis ), "MajorGrid", NULL );
             if ( prefs->minor_grid_y )
-                grid_line = gog_object_add_by_name ( GOG_OBJECT ( axis ), "MinorGrid", NULL );
+                gog_object_add_by_name ( GOG_OBJECT ( axis ), "MinorGrid", NULL );
         }
     }
 
@@ -1386,12 +1384,8 @@ static gboolean bet_graph_populate_sectors_by_hist_data ( struct_bet_graph_data 
     if ( gtk_tree_model_get_iter_first ( model, &iter ) )
     {
         gint account_number;
-        gint type_compte;
         gchar *libelle_division = self -> tab_libelle[0];
-        gchar **tab_libelle_division;
         gdouble *tab_montant_division = self -> tab_Y;
-
-        tab_libelle_division = &libelle_division;
 
         /* test du numero de compte */
         gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &iter,
@@ -1400,7 +1394,6 @@ static gboolean bet_graph_populate_sectors_by_hist_data ( struct_bet_graph_data 
         if ( account_number != self -> account_number )
             return FALSE;
 
-        type_compte = gsb_data_account_get_kind ( account_number );
         do
         {
             gchar *desc = NULL;
@@ -1464,7 +1457,6 @@ static gboolean bet_graph_populate_lines_by_forecast_data ( struct_bet_graph_dat
     if ( gtk_tree_model_get_iter_first ( model, &iter ) )
     {
         gchar *libelle_axe_x = self -> tab_libelle[0];
-        gchar **tab_libelle_axe_x;
         gdouble *tab_Y = self -> tab_Y;
         gdouble montant = 0.;
         GDate *first_date;
@@ -1473,8 +1465,6 @@ static gboolean bet_graph_populate_lines_by_forecast_data ( struct_bet_graph_dat
         GDateDay day_courant = G_DATE_BAD_DAY;
         GDateMonth month_courant = G_DATE_BAD_MONTH;
         gint nbre_iterations = 0;
-
-        tab_libelle_axe_x = &libelle_axe_x;
 
         do
         {
@@ -1718,14 +1708,12 @@ static gboolean bet_graph_populate_lines_by_historical_line ( struct_bet_graph_d
     gchar *desc;
     gchar *str_amount = NULL;
     gchar *libelle_axe_x = self->tab_libelle[0];
-    gchar **tab_libelle_axe_x;
     gdouble *tab_Y = self->tab_Y;
     gdouble *tab_Y2 = self->tab_Y2;
     gint div_number;
     gint sub_div_nb;
     gint fyear_number;
     gint i;
-    gboolean line_graph;
     gsb_real tab[12];
     gsb_real tab2[12];
 
@@ -1812,14 +1800,11 @@ static gboolean bet_graph_populate_lines_by_historical_line ( struct_bet_graph_d
         }
     }
 
-    tab_libelle_axe_x = &libelle_axe_x;
-
     /* On commence par le début de l'exercice courant puis on balaie les douze mois */
     start_current_fyear = bet_historical_get_start_date_current_fyear ();
     date_month = g_date_get_month ( start_current_fyear );
     today_month = g_date_get_month ( gdate_today () );
 
-    line_graph = strcmp ( self->service_id, "GogLinePlot" ) == 0 ? 1:0;
     for ( i = 0; i < 12; i++ )
     {
         if ( fyear_number > 0 )
