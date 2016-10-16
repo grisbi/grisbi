@@ -129,23 +129,6 @@ static gboolean gsb_menu_help_manual ( void )
 }
 
 /**
- * Start a browser processus with local copy of the translation page
- * on command line.
- *
- * \return FALSE
- */
-static gboolean gsb_menu_help_translation ( void )
-{
-    gchar *lang = _("en");
-
-    gchar* tmpstr = g_build_filename ( HELP_PATH, lang, "translation.html", NULL );
-    lance_navigateur_web ( tmpstr );
-    g_free ( tmpstr );
-
-    return FALSE;
-}
-
-/**
  * Start a browser processus with Grisbi website displayed.
  *
  * \return FALSE
