@@ -815,11 +815,7 @@ void bet_historical_populate_data ( gint account_number )
  * */
 gboolean bet_historical_affiche_div ( GHashTable  *list_div, GtkWidget *tree_view )
 {
-    GtkTreeModel *model;
-
     /* devel_debug (NULL); */
-    model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
-
     g_hash_table_foreach ( list_div, bet_historical_populate_div_model, tree_view );
 
     return FALSE;

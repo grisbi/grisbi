@@ -177,7 +177,6 @@ void bet_data_select_bet_pages ( gint account_number )
 void bet_data_update_bet_module ( gint account_number, guint page )
 {
     gint type_maj;
-    kind_account kind;
 
     devel_debug_int ( account_number );
 
@@ -188,8 +187,6 @@ void bet_data_update_bet_module ( gint account_number, guint page )
     type_maj = gsb_data_account_get_bet_maj ( account_number );
     if ( type_maj == BET_MAJ_FALSE )
         return;
-
-    kind = gsb_data_account_get_kind ( account_number );
 
     if ( page == -1 && gsb_gui_navigation_get_current_page ( ) == GSB_ACCOUNT_PAGE )
         page = gtk_notebook_get_current_page ( GTK_NOTEBOOK ( gsb_gui_get_account_page () ) );
