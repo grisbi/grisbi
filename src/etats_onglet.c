@@ -984,7 +984,7 @@ void efface_etat ( void )
  * Set widgets associated to active report unsensitive.  For instance
  * when there is no selected report.
  */
-void gsb_gui_unsensitive_report_widgets ()
+void gsb_gui_unsensitive_report_widgets (void)
 {
     if ( scrolled_window_etat
      &&
