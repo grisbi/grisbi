@@ -65,7 +65,7 @@ gint etat_affiche_affiche_total_sous_ib ( gint ligne );
 gint etat_affiche_affiche_total_tiers ( gint ligne );
 gint etat_affiche_affiche_totaux_sous_jaccent ( gint origine,
 						gint ligne );
-gint etat_affiche_finish ();
+gint etat_affiche_finish (void);
 gint etat_affiche_initialise (GSList * opes_selectionnees, gchar * filename );
 /* END_DECLARATION */
 #endif

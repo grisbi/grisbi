@@ -2534,7 +2534,7 @@ gint etat_affiche_initialise (GSList * opes_selectionnees, gchar * filename )
 
 
 
-gint etat_affiche_finish ()
+gint etat_affiche_finish (void)
 {
     return etat_affichage_output -> finish ();
 }
