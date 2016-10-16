@@ -106,7 +106,7 @@ static const gchar* tips[] =
 /**
  * Display a tip forcefully, even if show_tip option has been disabled.
  */
-void force_display_tip (  )
+void force_display_tip ( void )
 {
     display_tip ( TRUE );
 }
