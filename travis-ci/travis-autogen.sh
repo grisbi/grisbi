@@ -2,7 +2,7 @@
 
 # Warnings enabled
 CFLAGS=""
-#CFLAGS="-Wall"
+CFLAGS="-Wall"
 #CFLAGS+=" -Wextra"
 
 #CFLAGS+=" -Wbad-function-cast"
