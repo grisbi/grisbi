@@ -187,15 +187,14 @@ static struct_bet_graph_button *struct_initialise_bet_graph_button ( void )
  *
  * \return TRUE
  * */
-static void struct_free_bet_graph_button ( struct_bet_graph_button *self )
-{
-    g_free ( self->name );
-    g_free ( self->filename );
-    g_free ( self->service_id );
+//~ static void struct_free_bet_graph_button ( struct_bet_graph_button *self )
+//~ {
+    //~ g_free ( self->name );
+    //~ g_free ( self->filename );
+    //~ g_free ( self->service_id );
 
-    g_free ( self );
-}
-
+    //~ g_free ( self );
+//~ }
 
 /**
  *
