@@ -109,7 +109,7 @@ static MetatreeInterface *budgetary_interface = &_budgetary_interface;
  *
  *
  */
-gint budgetary_line_tree_currency ( )
+gint budgetary_line_tree_currency ( void )
 {
     return etat.no_devise_totaux_ib;
 }
