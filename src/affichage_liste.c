@@ -1000,7 +1000,6 @@ gboolean gsb_transaction_list_config_drag_begin ( GtkWidget *tree_view,
     gint x, y;
     GtkTreePath *path;
     GtkTreeViewColumn *tree_column;
-    GdkWindow *drawable;
     GdkRectangle rectangle;
     GdkPixbuf *pixbuf_cursor;
     cairo_surface_t *s;
@@ -1030,7 +1029,6 @@ gboolean gsb_transaction_list_config_drag_begin ( GtkWidget *tree_view,
     start_drag_row = utils_str_atoi ( gtk_tree_path_to_string ( path ) );
 
     /* draw the new cursor */
-    drawable = gtk_tree_view_get_bin_window (GTK_TREE_VIEW ( tree_view ) );
     gtk_tree_view_get_cell_area ( GTK_TREE_VIEW ( tree_view ),
                         path,
                         tree_column,
