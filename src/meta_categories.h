@@ -10,6 +10,6 @@
 
 /* START_DECLARATION */
 MetatreeInterface *category_get_metatree_interface ( void );
-gint category_tree_currency ( );
+gint category_tree_currency ( void );
 /* END_DECLARATION */
 #endif

@@ -113,7 +113,7 @@ static MetatreeInterface *category_interface = &_category_interface;
  *
  *
  */
-gint category_tree_currency ( )
+gint category_tree_currency ( void )
 {
     return etat.no_devise_totaux_categ;
 }
