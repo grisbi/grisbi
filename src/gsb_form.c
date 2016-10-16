@@ -148,7 +148,6 @@ static GtkWidget *form_button_part;
 static GtkWidget *transaction_form;
 
 /** Gestion de l'allocation dynamique du formulaire : EN TRAVAUX */
-static gboolean block_form_allocate = FALSE;
 static gint sens_allocation;
 static gint saved_col_long_max_champ = 0;       /* sauvegarde initiale du champ le plus long */
 static gint saved_long_max_champ = 0;           /* sauvegarde de sa longueur initiale */
@@ -1929,10 +1928,7 @@ gboolean gsb_form_button_press_event ( GtkWidget *entry,
                         GdkEventButton *ev,
                         gint *ptr_origin )
 {
-    gint element_number;
     GtkWidget *widget;
-
-    element_number = GPOINTER_TO_INT (ptr_origin);
 
     /* we do the first part only if we click on the form directly, without double click or
      * entry in the transaction list,
@@ -1975,10 +1971,8 @@ gboolean gsb_form_button_press_event ( GtkWidget *entry,
 	     gtk_widget_get_visible (widget))
 	{
 	    gint payment_number;
-	    gint account_number;
         gchar* tmp_str;
 
-	    account_number = gsb_form_get_account_number ();
 	    payment_number = gsb_payment_method_get_selected_number (widget);
 	    if ( gsb_data_payment_get_automatic_numbering ( payment_number ))
 	    {
