@@ -33,6 +33,7 @@
 #include "grisbi_app.h"
 #include "parametres.h"
 #include "structures.h"
+#include "dialog.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
