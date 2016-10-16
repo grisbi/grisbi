@@ -458,8 +458,6 @@ gint gsb_transactions_list_sort_by_date_and_party ( gint transaction_number_1,
                         gint transaction_number_2 )
 {
     gint return_value;
-    gsb_real amount_1;
-    gsb_real amount_2;
 
     if ( !gsb_data_transaction_get_date (transaction_number_1) )
     {
@@ -475,9 +473,7 @@ gint gsb_transactions_list_sort_by_date_and_party ( gint transaction_number_1,
 
     if ( return_value == 0 )
     {
-        /* no difference in the dates, sort by amount of transaction */
-        amount_1 = gsb_data_transaction_get_amount ( transaction_number_1 );
-        amount_2 = gsb_data_transaction_get_amount ( transaction_number_2 );
+        /* no difference in the dates, sort by party */
         return_value = gsb_transactions_list_sort_by_party ( transaction_number_1,
                         transaction_number_2 );
     }
