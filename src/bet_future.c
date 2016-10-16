@@ -458,7 +458,6 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
                         gint account_number )
 {
 	GtkWidget *widget;
-    GtkWidget *credit;
     gint element_number;
     gint row = 2;
     gint column = 0;
@@ -514,7 +513,6 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
 
     element_number = TRANSACTION_FORM_CREDIT;
     widget = gtk_entry_new ( );
-    credit = widget;
     g_object_set_data ( G_OBJECT ( widget ), "element_number",
                         GINT_TO_POINTER ( TRANSACTION_FORM_CREDIT ) );
     g_signal_connect ( G_OBJECT ( widget ),
@@ -1316,7 +1314,6 @@ gboolean bet_form_key_press_event ( GtkWidget *widget,
     GtkWidget *widget_suivant;
     GtkWidget *widget_prov;
     gint element_number;
-    gint account_number;
     gint form_type = 0;
 
     form_type = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( widget ), "form_type" ) );
@@ -1326,7 +1323,6 @@ gboolean bet_form_key_press_event ( GtkWidget *widget,
         return FALSE;
 
     element_number = GPOINTER_TO_INT (ptr_origin);
-    account_number = gsb_form_get_account_number ();
 
     /* if conf.entree = 1, entry finish the transaction, else does as tab */
     if ( !conf.entree
@@ -1438,10 +1434,6 @@ gboolean bet_form_button_press_event ( GtkWidget *entry,
                         gint *ptr_origin )
 {
     GtkWidget *date_entry;
-    gint element_number;
-
-
-    element_number = GPOINTER_TO_INT ( ptr_origin );
 
 	/* set the current date into the date entry */
 	date_entry = bet_form_widget_get_widget (TRANSACTION_FORM_DATE);
@@ -3074,7 +3066,6 @@ gboolean bet_transfert_entry_lose_focus ( GtkWidget *entry,
     GtkWidget *widget;
     gchar *string;
     gint element_number;
-    gint account_number;
 
     /* still not found, if change the content of the form, something come in entry
      * wich is nothing, so protect here */
@@ -3095,7 +3086,6 @@ gboolean bet_transfert_entry_lose_focus ( GtkWidget *entry,
         return FALSE;
 
     widget = g_object_get_data ( G_OBJECT ( entry ), "combo" );
-    account_number = gsb_form_get_account_number ();
 
     /* sometimes the combofix popus stays showed, so remove here */
     gtk_combofix_hide_popup ( GTK_COMBOFIX ( widget ) );
