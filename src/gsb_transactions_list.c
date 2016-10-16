@@ -2740,7 +2740,7 @@ gboolean assert_selected_transaction ()
 /**
  *  Empty transaction form and select transactions tab.
  */
-gboolean new_transaction ()
+gboolean new_transaction (void)
 {
 	if ( gsb_gui_navigation_get_current_account ( ) == -1 )
 		return FALSE;
@@ -2759,7 +2759,7 @@ gboolean new_transaction ()
 /**
  * Remove selected transaction if any.
  */
-void remove_transaction ()
+void remove_transaction (void)
 {
     if (! assert_selected_transaction()) return;
 
@@ -3070,7 +3070,7 @@ gboolean gsb_transactions_list_move_transaction_to_account ( gint transaction_nu
  * Convert selected transaction to a template of scheduled transaction
  * via schedule_transaction().
  */
-void schedule_selected_transaction ()
+void schedule_selected_transaction (void)
 {
     gint scheduled_number;
 
