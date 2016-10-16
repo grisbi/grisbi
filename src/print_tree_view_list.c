@@ -1134,7 +1134,7 @@ static gint print_tree_view_list_get_columns_data_nbre_lines ( GtkTreeView *tree
     while ( list_tmp )
     {
         GtkTreeViewColumn *col;
-        const gchar *text;
+        const gchar *text = NULL;
         gint nbre_motifs = 0;
         gint col_num_model;
         GType col_type_model;
