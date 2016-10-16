@@ -1771,7 +1771,6 @@ gint gsb_partial_balance_request_currency ( GtkWidget *parent )
 {
     GtkWidget *dialog, *hbox, *label, *combo_devise;
     gint currency_nb;
-    gint result;
 
     dialog = gtk_dialog_new_with_buttons ( _("Enter the currency of the balance part"),
                             GTK_WINDOW ( parent ),
@@ -1797,7 +1796,7 @@ gint gsb_partial_balance_request_currency ( GtkWidget *parent )
 
     gsb_currency_set_combobox_history ( combo_devise, 2 );
     gsb_currency_set_combobox_history ( combo_devise, 1 );
-    result = gtk_dialog_run ( GTK_DIALOG ( dialog ) );
+    gtk_dialog_run ( GTK_DIALOG ( dialog ) );
 
     gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
 
