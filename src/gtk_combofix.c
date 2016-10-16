@@ -1388,7 +1388,6 @@ static gchar *gtk_combofix_update_visible_rows ( GtkComboFix *combofix,
     GtkTreeIter iter;
     gint path_ok;
     gint length;
-    gboolean text_written = FALSE;
     gboolean separator = FALSE;
     GtkComboFixPrivate *priv = combofix -> priv;
 
@@ -1458,7 +1457,6 @@ static gchar *gtk_combofix_update_visible_rows ( GtkComboFix *combofix,
                     complete_string = model_string;
 
                 priv -> visible_items ++;
-                text_written = TRUE;
             }
         }
         gtk_tree_store_set ( GTK_TREE_STORE (model),
