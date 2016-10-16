@@ -4563,7 +4563,7 @@ void gsb_transactions_list_process_orphan_list ( GSList *orphan_list )
 
         if (result == TRUE)
         {
-            gint i;
+            guint i;
 
             for ( i = 0; i < garray->len; i++ )
                 gsb_data_transaction_remove_transaction ( g_array_index ( garray, gint, i ) );
