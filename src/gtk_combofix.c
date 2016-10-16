@@ -861,13 +861,10 @@ void gtk_combofix_set_selection_callback ( GtkComboFix *combofix,
 static void gtk_combofix_class_init ( GtkComboFixClass *klass )
 {
     GObjectClass *object_class;
-    GtkWidgetClass *widget_class;
 
     object_class = G_OBJECT_CLASS (klass);
     object_class -> dispose = gtk_combofix_dispose;
     object_class -> finalize = gtk_combofix_finalize;
-
-    widget_class = GTK_WIDGET_CLASS (klass);
 
     g_type_class_add_private ( klass, sizeof ( GtkComboFixPrivate ) );
 }
