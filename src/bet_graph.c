@@ -319,10 +319,10 @@ static gboolean bet_graph_populate_sectors_by_sub_divisions ( struct_bet_graph_d
     {
         gint account_number;
         gchar *libelle_division = self -> tab_libelle[0];
-        gchar **tab_libelle_division;
+        //~ gchar **tab_libelle_division;
         gdouble *tab_montant_division = self -> tab_Y;
 
-        tab_libelle_division = &libelle_division;
+        //~ tab_libelle_division = &libelle_division;
 
         /* test du numero de compte */
         gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &iter,
