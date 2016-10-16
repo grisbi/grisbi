@@ -1794,7 +1794,7 @@ gint gsb_partial_balance_request_currency ( GtkWidget *parent )
 
     gtk_widget_show_all ( GTK_WIDGET ( dialog ) );
 
-    gsb_currency_set_combobox_history ( combo_devise, 2 );
+    //~ gsb_currency_set_combobox_history ( combo_devise, 2 );
     gsb_currency_set_combobox_history ( combo_devise, 1 );
     gtk_dialog_run ( GTK_DIALOG ( dialog ) );
 
