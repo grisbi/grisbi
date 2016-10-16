@@ -377,7 +377,6 @@ gboolean transaction_list_remove_transaction ( gint transaction_number )
     CustomRecord *record;
     gint i;
     GtkTreeIter iter;
-    gint record_filtered_pos;
     gulong newsize;
     GtkTreePath *path;
     CustomList *custom_list;
@@ -460,8 +459,6 @@ gboolean transaction_list_remove_transaction ( gint transaction_number )
 	/* it's a child, so only one line, so we have finished here */
 	return TRUE;
     }
-
-    record_filtered_pos = record -> filtered_pos;
 
     /* we are on a mother transaction, remove the row */
     custom_list -> num_rows = custom_list -> num_rows - TRANSACTION_LIST_ROWS_NB;
