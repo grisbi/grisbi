@@ -1560,7 +1560,7 @@ gint gsb_data_sub_category_compare ( struct_sub_category * a, struct_sub_categor
  * \return	NULL if no error found.  A string describing any issue
  *		if any.
  */
-gchar * gsb_debug_duplicate_categ_check ()
+gchar * gsb_debug_duplicate_categ_check (void)
 {
     GSList * tmp;
     gint num_duplicate = 0;
@@ -1616,7 +1616,7 @@ gchar * gsb_debug_duplicate_categ_check ()
  *
  * \return	TRUE on success.  FALSE otherwise.
  */
-gboolean gsb_debug_duplicate_categ_fix ()
+gboolean gsb_debug_duplicate_categ_fix (void)
 {
     GSList * tmp;
 

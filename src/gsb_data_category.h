@@ -78,7 +78,7 @@ gboolean gsb_data_category_test_create_sub_category ( gint no_category,
                         gint no_sub_category,
                         const gchar *name );
 void gsb_data_category_update_counters ( void );
-gchar * gsb_debug_duplicate_categ_check ();
-gboolean gsb_debug_duplicate_categ_fix ();
+gchar * gsb_debug_duplicate_categ_check (void);
+gboolean gsb_debug_duplicate_categ_fix (void);
 /* END_DECLARATION */
 #endif
