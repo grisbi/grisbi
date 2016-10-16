@@ -1707,7 +1707,6 @@ gboolean gsb_data_category_test_create_sub_category ( gint no_category,
                         const gchar *name )
 {
     GSList *list_tmp;
-    gint sub_category_number = 0;
     struct_category *category;
     struct_sub_category *sub_category;
 
@@ -1724,13 +1723,12 @@ gboolean gsb_data_category_test_create_sub_category ( gint no_category,
                         no_sub_category );
         if ( !sub_category )
         {
-            sub_category_number = gsb_data_category_new_sub_category_with_number (
-                        no_sub_category, no_category );
+            gsb_data_category_new_sub_category_with_number (no_sub_category, no_category);
             gsb_data_category_set_sub_category_name ( no_category, no_sub_category, name );
         }
         else
         {
-            sub_category_number = gsb_data_category_new_sub_category ( no_category, name );
+            gsb_data_category_new_sub_category ( no_category, name );
             gsb_category_update_combofix ( FALSE );
         }
         return TRUE;
