@@ -54,7 +54,7 @@ static glong gsb_real_power_10[] = { 1, 10, 100, 1000, 10000, 100000,
 /*START_STATIC*/
 static gchar *gsb_real_add_thousands_sep ( gchar *str_number, const gchar *thousands_sep );
 static gsb_real gsb_real_double_to_real_add_exponent ( gdouble number, gint exp_add );
-static gboolean gsb_real_grow_exponent( gsb_real *num, guint target_exponent );
+static gboolean gsb_real_grow_exponent( gsb_real *num, gint target_exponent );
 static void gsb_real_minimize_exponent ( gsb_real *num );
 static void gsb_real_raw_minimize_exponent ( gint64 *mantissa, gint *exponent );
 static gboolean gsb_real_raw_truncate_number ( gint64 *mantissa, gint *exponent );
@@ -411,7 +411,7 @@ void gsb_real_minimize_exponent ( gsb_real *num )
  * \param num a pointer to the number
  * \param target_exponent the desired exponent
  **/
-gboolean gsb_real_grow_exponent( gsb_real *num, guint target_exponent )
+gboolean gsb_real_grow_exponent( gsb_real *num, gint target_exponent )
 {
     gint64 mantissa = num->mantissa;
     gint exponent = num->exponent;
