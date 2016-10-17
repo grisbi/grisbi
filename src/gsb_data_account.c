@@ -1272,8 +1272,6 @@ gboolean gsb_data_account_set_element_sort ( gint account_number,
 {
     struct_account *account;
 
-    account = gsb_data_account_get_structure ( account_number );
-
     if ( no_column < 0
 	 ||
 	 no_column > CUSTOM_MODEL_VISIBLE_COLUMNS )
@@ -1291,9 +1289,9 @@ gboolean gsb_data_account_set_element_sort ( gint account_number,
 	return FALSE;
     }
 
-    /* need to set <0 too because some functions return problem with -1 for account */
-    if (account <= 0 )
-	return FALSE;
+    account = gsb_data_account_get_structure ( account_number );
+    if (account == NULL)
+        return FALSE;
 
     account -> column_element_sort[no_column] = element_number;
 

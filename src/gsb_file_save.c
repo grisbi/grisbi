@@ -652,7 +652,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
     /* prépare l'ordre des pages dans le panneau de gauche */
     tmp_queue = gsb_gui_navigation_get_pages_list ( );
 
-    for ( i = 0 ; i < tmp_queue -> length ; i++ )
+    for ( i = 0 ; i < (gint) tmp_queue->length ; i++ )
     {
         struct_page *page;
 
@@ -2858,7 +2858,7 @@ gulong gsb_file_save_bet_part ( gulong iterator,
     if ( tab == NULL )
         return iterator;
 
-    for ( i = 0; i < tab -> len; i++ )
+    for ( i = 0; i < (gint) tab->len; i++ )
     {
         new_string = g_ptr_array_index ( tab, i );
         iterator =  gsb_file_save_append_part ( iterator,

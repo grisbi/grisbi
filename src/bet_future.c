@@ -2169,7 +2169,7 @@ static GtkListStore *bet_transfert_create_account_list_store ( gint account_numb
 
         liste_cptes = gsb_data_partial_balance_get_liste_cptes ( tmp_number );
         tab = g_strsplit ( liste_cptes, ";", 0 );
-        for ( i = 0; i < g_strv_length ( tab ); i++ )
+        for ( i = 0; i < (gint) g_strv_length ( tab ); i++ )
         {
             gint tmp_account_number;
 
