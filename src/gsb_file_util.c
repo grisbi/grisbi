@@ -192,7 +192,7 @@ gboolean gsb_file_util_get_contents ( gchar *filename,
 	    content[iterator] = c;
 	    iterator++;
 
-	    if (iterator >= alloc_size)
+	    if (iterator >= (gint) alloc_size)
 	    {
 		/* we need more space, should be rare,
 		 * show a warning to prevent and correct if necessary */

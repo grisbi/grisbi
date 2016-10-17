@@ -113,9 +113,9 @@ gboolean gsb_calendar_update ( void )
     /* select the current day */
     time ( &temps );
 
-    if ( ( localtime ( &temps ) -> tm_mon == calendar_month )
+    if ( ( localtime ( &temps ) -> tm_mon == (gint) calendar_month )
      &&
-     ( ( localtime ( &temps ) -> tm_year + 1900 ) == calendar_year ) )
+     ( ( localtime ( &temps ) -> tm_year + 1900 ) == (gint) calendar_year ) )
         gtk_calendar_select_day ( GTK_CALENDAR ( scheduled_calendar ), localtime ( &temps ) -> tm_mday );
     else
         gtk_calendar_select_day ( GTK_CALENDAR ( scheduled_calendar ), FALSE );
@@ -170,9 +170,9 @@ void click_sur_jour_calendrier_echeance ( GtkWidget *calendrier,
 				       G_CALLBACK ( click_sur_jour_calendrier_echeance ),
 				       NULL );
 
-    if ( ( localtime ( &temps ) -> tm_mon == calendar_month )
+    if ( ( localtime ( &temps ) -> tm_mon == (gint) calendar_month )
      &&
-     ( ( localtime ( &temps ) -> tm_year + 1900 ) == calendar_year ) )
+     ( ( localtime ( &temps ) -> tm_year + 1900 ) == (gint) calendar_year ) )
         gtk_calendar_select_day ( GTK_CALENDAR ( scheduled_calendar ), localtime ( &temps ) -> tm_mday );
     else
         gtk_calendar_select_day ( GTK_CALENDAR ( scheduled_calendar ), FALSE );
