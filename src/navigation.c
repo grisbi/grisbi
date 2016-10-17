@@ -329,7 +329,7 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
     /* crée les pages dans le panneau de gauche */
     tmp_queue = gsb_gui_navigation_get_pages_list ( );
 
-    for ( i = 0 ; i < tmp_queue -> length ; i++ )
+    for ( i = 0 ; i < (gint) tmp_queue->length ; i++ )
     {
         struct_page *page;
 
@@ -1786,7 +1786,7 @@ gboolean gsb_gui_navigation_move_ordre ( gint src_ordre,
     struct_page *page = NULL;
 
     tmp_queue = pages_list;
-    for ( i = 0 ; i < tmp_queue -> length ; i++ )
+    for ( i = 0 ; i < (gint) tmp_queue->length ; i++ )
     {
         page = g_queue_peek_nth ( tmp_queue, i );
         if ( page -> ordre == src_ordre )
@@ -1806,7 +1806,7 @@ gboolean gsb_gui_navigation_move_ordre ( gint src_ordre,
 
     tmp_queue = pages_list;
 
-    for ( i = 0 ; i < tmp_queue -> length ; i++ )
+    for ( i = 0 ; i < (gint) tmp_queue->length ; i++ )
     {
         page = g_queue_peek_nth ( tmp_queue, i );
         page -> ordre = i;

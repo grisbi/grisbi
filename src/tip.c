@@ -128,7 +128,7 @@ void display_tip ( gboolean force )
     if ( !force && !conf.show_tip )
         return;
 
-    conf.last_tip = CLAMP ( conf.last_tip+1, 0, sizeof(tips)/sizeof(gpointer)-1);
+    conf.last_tip = CLAMP ( conf.last_tip+1, 0, (gint) (sizeof(tips)/sizeof(gpointer)-1));
 
     /* the dialog is created with empty text because we set it using gtk's markup
        function instead */
@@ -167,7 +167,7 @@ void display_tip ( gboolean force )
         break;
 
         case 2:
-        if ( conf.last_tip < sizeof(tips)/sizeof(gpointer)-1)
+        if ( conf.last_tip < (gint) (sizeof(tips)/sizeof(gpointer)-1))
             conf.last_tip++;
         gtk_message_dialog_format_secondary_markup ( GTK_MESSAGE_DIALOG (dialog),
                                                      "%s", g_dgettext (NULL, tips[conf.last_tip]) );

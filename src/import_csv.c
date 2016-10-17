@@ -416,7 +416,7 @@ gint csv_import_try_separator ( gchar * contents, gchar * separator )
     {
 	list = csv_get_next_line ( &contents, separator );
 
-	if ( list && ( cols != g_slist_length ( list ) || cols == 1 ) )
+	if ( list && ( cols != (gint) g_slist_length ( list ) || cols == 1 ) )
 	{
 	    g_print ("> %d != %d, not %s\n", cols, g_slist_length ( list ), separator );
 	    return FALSE;
@@ -454,7 +454,7 @@ gint csv_import_count_columns ( gchar * contents, gchar * separator )
     {
 	list = csv_get_next_line ( &tmp, separator );
 
-	if ( g_slist_length ( list ) > max )
+	if ( (gint) g_slist_length ( list ) > max )
 	{
 	    max = g_slist_length ( list );
 	}

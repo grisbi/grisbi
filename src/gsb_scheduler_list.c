@@ -2924,7 +2924,7 @@ void gsb_scheduler_list_process_orphan_list ( GSList *orphan_scheduled,
         {
             gint i;
 
-            for ( i = 0; i < garray->len; i++ )
+            for ( i = 0; i < (gint) garray->len; i++ )
                 gsb_data_scheduled_remove_scheduled ( g_array_index ( garray, gint, i ) );
 
         }

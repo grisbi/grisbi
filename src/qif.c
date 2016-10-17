@@ -517,7 +517,7 @@ static gchar **gsb_qif_get_date_content ( gchar *date_string )
     /* as the format is risky, we will not check only / ' and -
      * we will remove all wich is not a number */
     pointer = date_string;
-    for ( i = 0; i < strlen ( date_string ); i++ )
+    for ( i = 0; i < (gint) strlen ( date_string ); i++ )
     {
         if ( !isalnum ( pointer[i] ) )
             pointer[i] = '/';
@@ -526,7 +526,7 @@ static gchar **gsb_qif_get_date_content ( gchar *date_string )
     /* some qif have some text at the end of the date... i don't know what to do with
      * that, so i remove all the text after the 2nd / */
     pointer = date_string;
-    for ( i = 0; i < strlen ( date_string ); i++ )
+    for ( i = 0; i < (gint) strlen ( date_string ); i++ )
     {
         if ( !isalnum ( pointer [i] ) )
         {

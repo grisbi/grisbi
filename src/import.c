@@ -3161,7 +3161,7 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account,
                 liste_ope_importees_tmp = liste_ope_importees_tmp -> next;
             }
 
-            if ( i ==  g_slist_length ( ope_trouvees ))
+            if ( i ==  (gint) g_slist_length ( ope_trouvees ))
             {
                 /* on a trouvé autant d'opé d'import semblables que d'opés semblables dans la
                  * liste d'opé donc on peut marquer les opés trouvées */
