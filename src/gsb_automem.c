@@ -734,47 +734,6 @@ static gboolean gsb_automem_spin_button_changed ( GtkWidget *spin,
 
 
 /**
- * TODO : document
- *
- */
-GtkWidget *gsb_automem_stock_button_new ( GsbButtonStyle style,
-                        const gchar *stock_id,
-                        const gchar *name,
-                        GCallback callback,
-                        gpointer data )
-{
-    GtkWidget *vbox;
-    GtkWidget *button;
-    GtkWidget *label;
-
-    vbox = new_stock_image_label ( style, stock_id, name );
-
-    label = g_object_get_data ( G_OBJECT ( vbox ), "label" );
-
-    button = gtk_button_new ();
-    gtk_button_set_relief ( GTK_BUTTON(button), GTK_RELIEF_NONE );
-    g_object_set_data ( G_OBJECT ( button ), "label", label );
-
-    gtk_container_add ( GTK_CONTAINER(button), vbox );
-    gtk_widget_show_all ( button );
-
-    if ( callback )
-    {
-	if ( data >= 0 )
-	{
-	    g_signal_connect_swapped ( G_OBJECT(button), "clicked",
-				       G_CALLBACK(callback), data );
-	}
-	else
-	{
-	    g_signal_connect ( G_OBJECT(button), "clicked",
-			       G_CALLBACK(callback), data );
-	}
-    }
-    return button;
-}
-
-/**
  *
  *
  * \param

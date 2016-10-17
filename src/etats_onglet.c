@@ -211,11 +211,6 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), GTK_TOOL_ITEM ( bouton_personnaliser_etat ), -1 );
 
     /* clone button */
-    bouton_dupliquer_etat = gsb_automem_stock_button_new ( conf.display_toolbar,
-							  "gtk-copy",
-							  _("Clone"),
-							  G_CALLBACK (dupliquer_etat),
-							  NULL ),
     bouton_dupliquer_etat = GTK_WIDGET ( utils_buttons_tool_button_new_from_stock ( "gtk-copy" ) );
     gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( bouton_dupliquer_etat ), _("Clone") );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( bouton_dupliquer_etat ),
