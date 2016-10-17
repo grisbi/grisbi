@@ -646,7 +646,7 @@ void transaction_list_filter ( gint account_number )
         CustomRecord *record;
         gboolean shown;
         gboolean previous_shown;
-        guint last_pos_filtered_list;
+        gint last_pos_filtered_list;
         GtkTreePath *tmp_path = gtk_tree_path_copy ( path );
 
         /* get the current record to check */
