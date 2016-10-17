@@ -652,7 +652,7 @@ gchar * gsb_string_truncate_n ( gchar * string, int n, gboolean hard_trunc )
     if ( ! string )
 	return NULL;
 
-    if ( strlen(string) < n )
+    if ((gint) strlen(string) < n )
 	return my_strdup ( string );
 
     tmp = string + n;

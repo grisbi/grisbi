@@ -872,13 +872,13 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 							      g_date_get_month ( date),
 							      g_date_get_year ( date));
 
-            if ( g_date_get_weekday ( date_debut_periode )  != jour_debut_semaine )
+            if ((gint) g_date_get_weekday ( date_debut_periode )  != jour_debut_semaine )
 			{
                 do
                 {
                     g_date_subtract_days ( date_debut_periode, 1 );
                 }
-                while ( g_date_get_weekday ( date_debut_periode )  != jour_debut_semaine );
+                while ((gint) g_date_get_weekday ( date_debut_periode )  != jour_debut_semaine );
 			}
 			break;
 
@@ -963,21 +963,20 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 
 	    if ( !force
 		 &&
-		 ( g_date_get_weekday ( date)  != (gsb_data_report_get_period_split_day (current_report_number)+ 1 )
+		 ((gint) g_date_get_weekday ( date)  != (gsb_data_report_get_period_split_day (current_report_number)+ 1 )
 		   &&
-		   g_date_compare ( date,
-				    date_tmp ) < 0 ))
+		   g_date_compare ( date, date_tmp ) < 0 ))
 		return ( ligne );
 
 	    /* on doit retrouver la date du début de semaine et y ajouter 6j pour afficher la période */
 
-	    if ( g_date_get_weekday ( date_debut_periode )  != jour_debut_semaine )
+	    if ((gint) g_date_get_weekday ( date_debut_periode )  != jour_debut_semaine )
 			{
                 do
                 {
                     g_date_subtract_days ( date_debut_periode, 1 );
                 }
-                while ( g_date_get_weekday ( date_debut_periode )  != jour_debut_semaine );
+                while ((gint) g_date_get_weekday ( date_debut_periode )  != jour_debut_semaine );
 			}
 
 
@@ -1115,13 +1114,13 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 							  g_date_get_month ( date),
 							  g_date_get_year ( date));
 
-		    if ( g_date_get_weekday ( date_debut_periode )  != jour_debut_semaine )
+		    if ((gint) g_date_get_weekday ( date_debut_periode )  != jour_debut_semaine )
 			{
                 do
                 {
                     g_date_subtract_days ( date_debut_periode, 1 );
                 }
-                while ( g_date_get_weekday ( date_debut_periode )  != jour_debut_semaine );
+                while ((gint) g_date_get_weekday ( date_debut_periode )  != jour_debut_semaine );
 			}
 		    break;
 

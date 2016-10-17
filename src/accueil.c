@@ -652,7 +652,7 @@ static void gsb_main_page_diplays_accounts ( GtkWidget *pTable,
                 liste_cptes = gsb_data_partial_balance_get_liste_cptes ( tmp_number );
 
                 tab = g_strsplit ( liste_cptes, ";", 0 );
-                for ( j = 0; j < g_strv_length ( tab ); j++ )
+                for ( j = 0; j < (gint) g_strv_length ( tab ); j++ )
                 {
                     StructAccountPartial *partial;
 
@@ -715,7 +715,7 @@ static void gsb_main_page_diplays_accounts ( GtkWidget *pTable,
                     /* on affiche la ligne du compte avec les soldes pointé et courant */
                     liste_cptes = gsb_data_partial_balance_get_liste_cptes ( partial_number );
                     tab = g_strsplit ( liste_cptes, ";", 0 );
-                    for ( j = 0; j < g_strv_length ( tab ); j++ )
+                    for ( j = 0; j < (gint) g_strv_length ( tab ); j++ )
                     {
                         gint tmp_number;
 

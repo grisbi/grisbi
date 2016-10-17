@@ -1842,12 +1842,12 @@ void gsb_form_check_auto_separator ( GtkWidget *entry )
 
     /* if string is < the floating_point, increase it to have
      * 1 character more (to set the 0 before the .) */
-    if (strlen(string) <= floating_point)
+    if ((gint) strlen(string) <= floating_point)
     {
         gchar *concat_tmp;
 
         tmp = g_malloc (floating_point - strlen(string) + 2);
-        for (i=0 ; i<(floating_point - strlen(string) + 1) ; i++)
+        for (i=0 ; i<(floating_point - (gint) strlen(string) + 1) ; i++)
             tmp[i] = '0';
         tmp[floating_point - strlen(string) + 1] = 0;
         concat_tmp = g_strconcat ( tmp, string, NULL );

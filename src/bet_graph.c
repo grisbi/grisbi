@@ -1816,7 +1816,7 @@ static gboolean bet_graph_populate_lines_by_historical_line ( struct_bet_graph_d
         /* Pour un graphique line on n'affiche pas 0 comme donnée des mois futurs */
         if ( strcmp ( self->service_id, "GogLinePlot" ) == 0 )
         {
-            if ( i < today_month )
+            if ( i < (gint) today_month )
             {
                 tab_Y[self->nbre_elemnts] = gsb_real_real_to_double ( tab[date_month-1] );
                 if ( fyear_number > 0 )
