@@ -9,7 +9,7 @@
  */
 typedef struct
 {
-    guint fyear_number;
+    gint fyear_number;
     gchar *fyear_name;
     GDate *beginning_date;
     GDate *end_date;

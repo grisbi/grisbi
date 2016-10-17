@@ -48,7 +48,7 @@
  */
 typedef struct
 {
-    guint archive_number;
+    gint archive_number;
     gchar *archive_name;
 
     /* for the archive created by date,

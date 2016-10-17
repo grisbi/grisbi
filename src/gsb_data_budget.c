@@ -56,7 +56,7 @@
 typedef struct
 {
     /** @name budget content */
-    guint budget_number;
+    gint budget_number;
     gchar *budget_name;
     gint budget_type;		/**< 0:credit / 1:debit  */
 
@@ -77,10 +77,10 @@ typedef struct
 typedef struct
 {
     /** @name sub-budget content */
-    guint sub_budget_number;
+    gint sub_budget_number;
     gchar *sub_budget_name;
 
-    guint mother_budget_number;
+    gint mother_budget_number;
 
     /** @name gui sub-budget list content (not saved)*/
     gint sub_budget_nb_transactions;

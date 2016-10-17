@@ -55,7 +55,7 @@
 typedef struct
 {
     /** @name category content */
-    guint category_number;
+    gint category_number;
     gchar *category_name;
     gint category_type;		/**< 0:credit / 1:debit / 2:special (transfert, split...) */
 
@@ -76,10 +76,10 @@ typedef struct
 typedef struct
 {
     /** @name sub-category content */
-    guint sub_category_number;
+    gint sub_category_number;
     gchar *sub_category_name;
 
-    guint mother_category_number;
+    gint mother_category_number;
 
     /** @name gui sub-category list content (not saved)*/
     gint sub_category_nb_transactions;

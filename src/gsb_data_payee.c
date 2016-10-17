@@ -57,7 +57,7 @@
  */
 typedef struct
 {
-    guint payee_number;
+    gint payee_number;
     gchar *payee_name;
     gchar *payee_description;
     gchar *payee_search_string;

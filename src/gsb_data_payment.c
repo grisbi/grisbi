@@ -47,7 +47,7 @@
  */
 typedef struct
 {
-    guint payment_number;
+    gint payment_number;
     gint account_number;
     gchar *payment_name;
     gint payment_sign;		/**< GSB_PAYMENT_NEUTRAL, GSB_PAYMENT_DEBIT, GSB_PAYMENT_CREDIT */
