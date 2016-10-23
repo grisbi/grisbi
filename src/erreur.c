@@ -228,6 +228,16 @@ void initialize_debugging ( void )
 	    g_free ( tmpstr );
 	}
     }
+    else
+    {
+        debugging_grisbi = 5;
+	    gchar* tmpstr = g_strdup_printf(_("GRISBI %s Debug"),VERSION);
+	    debug_message_string (tmpstr ,
+				  __FILE__, __LINE__, __PRETTY_FUNCTION__,
+				  _("Wrong debug level"),
+				  DEBUG_LEVEL_INFO, TRUE);
+	    g_free ( tmpstr );
+    }
 }
 
 /**
