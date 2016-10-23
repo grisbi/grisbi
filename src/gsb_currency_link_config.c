@@ -686,27 +686,27 @@ gboolean gsb_currency_link_config_remove_link ( GtkWidget *tree_view )
     if ( gtk_tree_selection_get_selected ( gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view)),
 					   &model,
 					   &iter ))
-    {
-    GtkWidget *label;
-	gint link_number;
+	{
+		GtkWidget *label;
+		gint link_number;
 
-    gtk_tree_model_get ( GTK_TREE_MODEL (model),
-			     &iter,
-			     LINK_NUMBER_COLUMN, &link_number,
-			     -1 );
-        /* set here to sensitive the delete_link_button */
-	gsb_data_currency_link_remove (link_number);
-	gtk_list_store_remove ( GTK_LIST_STORE (model), &iter );
-	gtk_widget_set_sensitive ( GTK_WIDGET ( g_object_get_data ( G_OBJECT (model), "hbox_line")),
-                              FALSE );
+		gtk_tree_model_get ( GTK_TREE_MODEL (model),
+				&iter,
+				LINK_NUMBER_COLUMN, &link_number,
+				-1 );
+		/* set here to sensitive the delete_link_button */
+		gsb_data_currency_link_remove (link_number);
+		gtk_list_store_remove ( GTK_LIST_STORE (model), &iter );
+		gtk_widget_set_sensitive ( GTK_WIDGET ( g_object_get_data ( G_OBJECT (model), "hbox_line")),
+				FALSE );
 
-    /* hide the warning label */
-    label = g_object_get_data (G_OBJECT (model), "warning_label");
-    if ( gtk_widget_get_visible ( label ) )
-        gtk_widget_hide (label);
+		/* hide the warning label */
+		label = g_object_get_data (G_OBJECT (model), "warning_label");
+		if ( gtk_widget_get_visible ( label ) )
+			gtk_widget_hide (label);
 
-        gsb_file_set_modified ( TRUE );
-    }
+		gsb_file_set_modified ( TRUE );
+	}
     return FALSE;
 }
 
