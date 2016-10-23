@@ -146,6 +146,7 @@ void display_tip ( gboolean force )
     btn_back =    gtk_dialog_add_button (GTK_DIALOG(dialog), "gtk-go-back", 1);
     btn_forward = gtk_dialog_add_button (GTK_DIALOG(dialog), "gtk-go-forward", 2);
     btn_close =   gtk_dialog_add_button (GTK_DIALOG(dialog), "gtk-close", 3);
+	(void)btn_close; /* unused value: fix warning -Wunused-but-set-variable */
 
     /* gtk_widget_set_size_request ( dialog, 450, -1 ); */
     /* We iterate as user can select several tips. */
