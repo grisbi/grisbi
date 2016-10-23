@@ -53,7 +53,10 @@ then
 	configure_args+=" --without-openssl"
 fi
 
-sh -x ./autogen.sh
+# exit on error
+set -e
+
+sh ./autogen.sh
 
 echo "configure_args: $configure_args $@"
 ./configure $configure_args "$@"
