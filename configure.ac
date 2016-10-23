@@ -215,12 +215,8 @@ AC_ARG_ENABLE(werror,
  	[Treates warning as errors (default=no)])],,
  	enable_werror=no)
 if test "x$enable_werror" = xyes ; then
-	if test "x$GCC" = "xyes" ; then
-		CFLAGS="$CFLAGS -Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers"
-		AC_MSG_WARN([Wall and Wunused flags are enabled])
-	else
-		AC_MSG_WARN([Wall and Wunused can be enabled only with gcc])
-	fi
+	CFLAGS="$CFLAGS -Werror"
+	AC_MSG_WARN([-Werror flag is enabled])
 fi
 
 dnl ================================================================
