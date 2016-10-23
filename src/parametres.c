@@ -1386,6 +1386,7 @@ static GtkWidget *gsb_config_scheduler_page ( void )
                         _("Warn/Execute the scheduled transactions of the month"),
                         &conf.execute_scheduled_of_month,
                         NULL, NULL );
+	(void)button; /* unused value: fix warning -Wunused-but-set-variable */
 
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0);
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ), hbox, FALSE, FALSE, 0 );
