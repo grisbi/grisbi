@@ -400,8 +400,8 @@ static gint bet_array_date_sort_function ( GtkTreeModel *model,
                         GtkTreeIter *iterb,
                         gpointer data )
 {
-    GValue date_value_a = {0,};
-    GValue date_value_b = {0,};
+    GValue date_value_a = G_VALUE_INIT;
+    GValue date_value_b = G_VALUE_INIT;
     GDate* date_a;
     GDate* date_b;
     gint result;
@@ -565,7 +565,7 @@ void bet_array_refresh_estimate_tab ( gint account_number )
     GDate *date_max;
     gsb_real current_balance;
     SBR *tmp_range;
-    GValue date_value = {0, };
+    GValue date_value = G_VALUE_INIT;
     gint currency_number;
 
     devel_debug (NULL);
@@ -983,7 +983,7 @@ void bet_array_refresh_scheduled_data ( GtkTreeModel *tab_model,
         gint sub_div_nb;
         gint currency_number;
         GDate *date;
-        GValue date_value = {0, };
+        GValue date_value = G_VALUE_INIT;
         gsb_real amount;
 
         scheduled_number = gsb_data_scheduled_get_scheduled_number ( tmp_list->data );
@@ -1159,7 +1159,7 @@ void bet_array_refresh_transactions_data ( GtkTreeModel *tab_model,
         gint sub_div_nb;
         gint currency_number;
         const GDate *date;
-        GValue date_value = {0, };
+        GValue date_value = G_VALUE_INIT;
         gsb_real amount;
 
         transaction_number = gsb_data_transaction_get_transaction_number ( tmp_list->data );
@@ -1275,7 +1275,7 @@ void bet_array_list_add_new_hist_line ( GtkTreeModel *tab_model,
     GtkTreeIter tab_iter;
     GDate *date, *date_tmp;
     GDate *date_jour;
-    GValue date_value = {0, };
+    GValue date_value = G_VALUE_INIT;
     gchar *str_date;
     gchar *str_description;
     gchar *str_value;
@@ -1399,7 +1399,7 @@ gboolean bet_array_refresh_futur_data ( GtkTreeModel *tab_model,
     {
         struct_futur_data *scheduled = ( struct_futur_data *) value;
         GtkTreeIter tab_iter;
-        GValue date_value = {0, };
+        GValue date_value = G_VALUE_INIT;
         gchar *str_debit = NULL;
         gchar *str_credit = NULL;
         gchar *str_date;
@@ -2264,7 +2264,7 @@ gboolean bet_array_list_set_background_color ( GtkWidget *tree_view )
             /* gestion de la date du jour */
             if ( conf.show_transaction_gives_balance && absent )
             {
-                GValue date_value = {0,};
+                GValue date_value = G_VALUE_INIT;
                 GDate* date;
                 GDate *date_jour;
 
@@ -2772,7 +2772,7 @@ gboolean bet_array_refresh_transfert_data ( GtkTreeModel *tab_model,
     {
         struct_transfert_data *transfert = ( struct_transfert_data *) value;
         GtkTreeIter tab_iter;
-        GValue date_value = {0, };
+        GValue date_value = G_VALUE_INIT;
         gchar *str_debit = NULL;
         gchar *str_credit = NULL;
         gchar *str_date;
@@ -2974,7 +2974,7 @@ gboolean bet_array_shows_balance_at_beginning_of_month ( GtkTreeModel *tab_model
     while ( g_date_compare ( date, date_max ) < 0 )
     {
         GtkTreeIter tab_iter;
-        GValue date_value = {0, };
+        GValue date_value = G_VALUE_INIT;
         gchar *str_date;
         gchar *str_description;
 
