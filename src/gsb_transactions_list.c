@@ -228,7 +228,7 @@ struct conditional_message delete_msg[] =
       N_(),
       FALSE, FALSE, },
 */
-    { NULL },
+    { NULL, NULL, NULL, FALSE, FALSE },
 };
 
 
