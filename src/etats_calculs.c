@@ -342,10 +342,10 @@ GSList *recupere_opes_etat ( gint report_number )
 
 	    GSList *list_tmp_transactions;
 
-        if ( ignore_archives )
-            list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
-        else
-            list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
+		if ( ignore_archives )
+			list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
+		else
+			list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
 
 	    while ( list_tmp_transactions )
 	    {
