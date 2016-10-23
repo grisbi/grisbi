@@ -141,7 +141,7 @@ static struct iso_13616_iban iso_13616_ibans [] = {
     { "NL", "NLkk BBBB CCCC CCCC CC", 18 },
     { "PT", "PTkk BBBB BBBB CCCC CCCC CCCK K", 25 },
     { "SE", "SEkk BBBB CCCC CCCC CCCC CCCC", 24 },
-    { NULL },
+    { NULL, NULL, 0 },
 };
 
 static GtkWidget *edit_bank_button = NULL;
