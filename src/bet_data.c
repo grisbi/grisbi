@@ -1882,7 +1882,6 @@ void bet_data_transfert_update_date_if_necessary ( struct_transfert_data *transf
 
     if ( g_date_compare ( date_jour, transfert -> date_bascule ) >= 0 )
     {
-        gboolean same_month = FALSE;
         gchar *msg;
         const gchar *tmp_str;
 
@@ -1906,12 +1905,9 @@ void bet_data_transfert_update_date_if_necessary ( struct_transfert_data *transf
         }
             g_free ( msg );
 
-        if ( g_date_get_month ( transfert->date ) == g_date_get_month ( transfert->date_bascule ) )
-            same_month = TRUE;
-
         /* on crée la transaction dans le compte principal */
         if ( transfert->direct_debit )
-            bet_array_create_transaction_from_transfert ( transfert, same_month );
+            bet_array_create_transaction_from_transfert (transfert);
 
         /* on remet à zéro les comptes cartes */
         bet_data_transfert_create_reset_credit_card ( transfert );
