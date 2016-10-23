@@ -450,7 +450,7 @@ gboolean gsb_data_payee_set_name ( gint no_payee,
     {
         if ( combofix )
             gtk_combofix_remove_text ( GTK_COMBOFIX ( combofix ), payee -> payee_name );
-	    g_free ( payee -> payee_name );
+	g_free ( payee -> payee_name );
     }
 
     /* and copy the new one or set NULL */
