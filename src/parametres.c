@@ -494,7 +494,7 @@ gboolean preference_selectable_func (GtkTreeSelection *selection,
                         gpointer data)
 {
     GtkTreeIter iter;
-    GValue value = {0, };
+    GValue value = G_VALUE_INIT;
 
     gtk_tree_model_get_iter ( model, &iter, path );
     gtk_tree_model_get_value ( model, &iter, 1, &value );
@@ -932,7 +932,7 @@ gboolean selectionne_liste_preference ( GtkTreeSelection *selection,
                         GtkTreeModel *model )
 {
     GtkTreeIter iter;
-    GValue value = {0, };
+    GValue value = G_VALUE_INIT;
     gint preference_selected;
 
     if ( ! gtk_tree_selection_get_selected (selection, NULL, &iter) )
