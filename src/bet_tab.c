@@ -3147,6 +3147,7 @@ void bet_array_create_transaction_from_transfert ( struct_transfert_data *transf
     GSList *tmp_list;
     GDate *date_debut_comparaison;
     GDate *date_fin_comparaison;
+    GDate *date_jour;
     GDateDay day;
     GDateMonth month;
     GDateYear year;
@@ -3162,114 +3163,107 @@ void bet_array_create_transaction_from_transfert ( struct_transfert_data *transf
     date_fin_comparaison = g_date_new_dmy ( day, month, year );
     g_date_add_days ( date_fin_comparaison, valeur_echelle_recherche_date_import );
 
-    /* Si même mois on cherche une opération existante dans le compte */
-    if ( same_month )
+    date_jour = gdate_today ( );
+
+    if ( conf.execute_scheduled_of_month || g_date_compare ( date_jour, transfert -> date ) >= 0 )
     {
-        GDate *date_jour;
+        GDate *date_bascule;
 
-        date_jour = gdate_today ( );
+        date_bascule = gsb_date_copy ( transfert->date_bascule );
+        g_date_subtract_days ( date_bascule, 1 );
 
-        if ( conf.execute_scheduled_of_month || g_date_compare ( date_jour, transfert -> date ) >= 0 )
+        /* on recherche une transaction */
+        tmp_list = gsb_data_transaction_get_transactions_list ( );
+
+        while ( tmp_list )
         {
-            GDate *date_bascule;
+            gint transaction_number;
+            gint div_number = 0;
+            gint sub_div_number = 0;
+            gint account_number;
+            const GDate *date;
+            gsb_real amount;
 
-            date_bascule = gsb_date_copy ( transfert->date_bascule );
-            g_date_subtract_days ( date_bascule, 1 );
+            transaction_number = gsb_data_transaction_get_transaction_number ( tmp_list->data );
+            tmp_list = tmp_list->next;
 
-            /* on recherche une transaction */
-            tmp_list = gsb_data_transaction_get_transactions_list ( );
+            account_number =  gsb_data_transaction_get_account_number ( transaction_number );
+            if ( account_number != transfert->account_number )
+                continue;
 
-            while ( tmp_list )
+            date = gsb_data_transaction_get_value_date_or_date ( transaction_number );
+
+            /* ignore transaction which are different date */
+            if ( g_date_compare ( date, date_debut_comparaison ) < 0
+             ||
+             g_date_compare ( date, date_fin_comparaison ) > 0 )
+                continue;
+
+            /* find the transaction which has the same payee */
+            if ( gsb_data_transaction_get_party_number ( transaction_number ) == transfert->main_payee_number )
             {
-                gint transaction_number;
-                gint div_number = 0;
-                gint sub_div_number = 0;
-                gint account_number;
-                const GDate *date;
-                gsb_real amount;
-
-                transaction_number = gsb_data_transaction_get_transaction_number ( tmp_list->data );
-                tmp_list = tmp_list->next;
-
-                account_number =  gsb_data_transaction_get_account_number ( transaction_number );
-                if ( account_number != transfert->account_number )
-                    continue;
-
-                date = gsb_data_transaction_get_value_date_or_date ( transaction_number );
-
-                /* ignore transaction which are different date */
-                if ( g_date_compare ( date, date_debut_comparaison ) < 0
-                 ||
-                 g_date_compare ( date, date_fin_comparaison ) > 0 )
-                    continue;
-
-                /* find the transaction which has the same payee */
-                if ( gsb_data_transaction_get_party_number ( transaction_number ) == transfert->main_payee_number )
+                if ( transfert->main_category_number )
                 {
-                    if ( transfert->main_category_number )
+                    div_number = gsb_data_transaction_get_category_number ( transaction_number );
+                    if ( transfert->main_sub_category_number )
                     {
-                        div_number = gsb_data_transaction_get_category_number ( transaction_number );
-                        if ( transfert->main_sub_category_number )
-                        {
-                            sub_div_number = gsb_data_transaction_get_sub_category_number ( transaction_number );
-                        }
-                        if ( transfert->main_category_number == div_number
-                         &&
-                         transfert->main_sub_category_number == sub_div_number )
-                        {
-                            if ( transfert->type == 0 )
-                            {
-                                amount = gsb_data_account_get_balance_at_date ( transfert->replace_account, date_bascule );
-                            }
-                            else
-                            {
-                                amount = gsb_data_partial_balance_get_balance_at_date ( transfert -> replace_account, date_bascule );
-                            }
-                            gsb_data_transaction_set_amount ( transaction_number, amount );
-                            gsb_data_transaction_set_date ( transaction_number, transfert->date );
-                            gsb_transactions_list_update_transaction ( transaction_number );
-                            gsb_transactions_list_update_tree_view ( transfert->account_number, FALSE );
-                            find = TRUE;
-                            break;
-                        }
+                        sub_div_number = gsb_data_transaction_get_sub_category_number ( transaction_number );
                     }
-                    else if ( transfert->main_budgetary_number )
+                    if ( transfert->main_category_number == div_number
+                     &&
+                     transfert->main_sub_category_number == sub_div_number )
                     {
-                        div_number = gsb_data_transaction_get_budgetary_number ( transaction_number );
-                        if ( transfert->main_sub_budgetary_number )
+                        if ( transfert->type == 0 )
                         {
-                            sub_div_number = gsb_data_transaction_get_sub_budgetary_number ( transaction_number );
+                            amount = gsb_data_account_get_balance_at_date ( transfert->replace_account, date_bascule );
                         }
-                        if ( transfert->main_budgetary_number == div_number
-                         &&
-                         transfert->main_sub_budgetary_number == sub_div_number )
+                        else
                         {
-                            if ( transfert -> type == 0 )
-                            {
-                                amount = gsb_data_account_get_balance_at_date ( transfert->replace_account, date_bascule );
-                            }
-                            else
-                            {
-                                amount = gsb_data_partial_balance_get_balance_at_date ( transfert -> replace_account, date_bascule );
-                            }
-                            gsb_data_transaction_set_amount ( transaction_number, amount );
-                            gsb_data_transaction_set_date ( transaction_number, transfert->date );
-                            gsb_transactions_list_update_transaction ( transaction_number );
-                            gsb_transactions_list_update_tree_view ( transfert->account_number, FALSE );
-                            find = TRUE;
-                            break;
+                            amount = gsb_data_partial_balance_get_balance_at_date ( transfert -> replace_account, date_bascule );
                         }
+                        gsb_data_transaction_set_amount ( transaction_number, amount );
+                        gsb_data_transaction_set_date ( transaction_number, transfert->date );
+                        gsb_transactions_list_update_transaction ( transaction_number );
+                        gsb_transactions_list_update_tree_view ( transfert->account_number, FALSE );
+                        find = TRUE;
+                        break;
+                    }
+                }
+                else if ( transfert->main_budgetary_number )
+                {
+                    div_number = gsb_data_transaction_get_budgetary_number ( transaction_number );
+                    if ( transfert->main_sub_budgetary_number )
+                    {
+                        sub_div_number = gsb_data_transaction_get_sub_budgetary_number ( transaction_number );
+                    }
+                    if ( transfert->main_budgetary_number == div_number
+                     &&
+                     transfert->main_sub_budgetary_number == sub_div_number )
+                    {
+                        if ( transfert -> type == 0 )
+                        {
+                            amount = gsb_data_account_get_balance_at_date ( transfert->replace_account, date_bascule );
+                        }
+                        else
+                        {
+                            amount = gsb_data_partial_balance_get_balance_at_date ( transfert -> replace_account, date_bascule );
+                        }
+                        gsb_data_transaction_set_amount ( transaction_number, amount );
+                        gsb_data_transaction_set_date ( transaction_number, transfert->date );
+                        gsb_transactions_list_update_transaction ( transaction_number );
+                        gsb_transactions_list_update_tree_view ( transfert->account_number, FALSE );
+                        find = TRUE;
+                        break;
                     }
                 }
             }
-            g_date_free ( date_bascule );
-
-            if ( find == FALSE )
-            {
-                bet_data_transfert_create_new_transaction ( transfert );
-            }
         }
-        g_date_free ( date_jour );
+        g_date_free ( date_bascule );
+
+        if ( find == FALSE )
+        {
+            bet_data_transfert_create_new_transaction ( transfert );
+        }
     }
     else
     {
@@ -3348,6 +3342,7 @@ void bet_array_create_transaction_from_transfert ( struct_transfert_data *transf
             g_date_free ( tmp_date );
         }
     }
+    g_date_free ( date_jour );
     g_date_free ( date_debut_comparaison );
     g_date_free ( date_fin_comparaison );
 }
