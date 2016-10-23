@@ -5,9 +5,6 @@
 #
 # Requires: automake, autoconf, dpkg-dev
 
-# fail on error
-set -e
-
 #
 # Check if autoconf and automake are installed
 #
@@ -31,6 +28,9 @@ if ! test -x $PATH_AUTOMAKE
 then
 	echo "Error: directory $PATH_AUTOMAKE does not exist"
 fi
+
+# fail on error
+set -e
 
 # Refresh GNU autotools toolchain.
 for i in config.guess config.sub missing install-sh mkinstalldirs ; do
