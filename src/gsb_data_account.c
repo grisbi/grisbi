@@ -1099,8 +1099,8 @@ gsb_real gsb_data_account_calculate_current_and_marked_balances ( gint account_n
         gsb_real tmp_balance = gsb_real_add ( current_balance, adjusted_amout );
 	    if( tmp_balance.mantissa != error_real.mantissa )
 	        current_balance = tmp_balance;
-        else
-            current_balance_later = gsb_real_add ( current_balance_later, adjusted_amout);
+	    else
+		current_balance_later = gsb_real_add ( current_balance_later, adjusted_amout);
 
 	    if ( gsb_data_transaction_get_marked_transaction (transaction_number))
 	    {
