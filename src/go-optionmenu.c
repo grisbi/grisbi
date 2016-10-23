@@ -484,6 +484,7 @@ go_option_menu_get_type (void)
 				sizeof (GOOptionMenu),
 				0,		/* n_preallocs */
 				(GInstanceInitFunc) go_option_menu_init,
+				NULL
 			};
 
 		option_menu_type =
