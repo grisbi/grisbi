@@ -572,7 +572,7 @@ gsb_real gsb_real_add ( gsb_real number_1,
     if ( ( number_1.mantissa == error_real.mantissa )
       || ( number_2.mantissa == error_real.mantissa )
       || !gsb_real_normalize ( &number_1, &number_2 ) )
-        return error_real;
+		return error_real;
 
 	mantissa = ( gint64 ) number_1.mantissa + number_2.mantissa;
     if ( ( mantissa > G_MAXINT64 ) || ( mantissa < G_MININT64 ) )
