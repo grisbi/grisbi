@@ -392,7 +392,7 @@ void grisbi_cmd_file_open_direct_menu ( GSimpleAction *action,
 
     /* continue only if can close the current file */
     if ( !gsb_file_close () )
-        return;
+		return;
 
 	target = g_variant_get_string ( parameter, NULL );
     index_target = atoi ( target );
