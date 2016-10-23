@@ -1544,7 +1544,7 @@ void traitement_operations_importees ( void )
         else
             gsb_gui_navigation_add_account ( account_number, FALSE );
 
-            gsb_import_create_imported_transactions ( compte, account_number );
+		gsb_import_create_imported_transactions ( compte, account_number );
         break;
 
         case IMPORT_ADD_TRANSACTIONS:
@@ -2363,7 +2363,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
                         gsb_format_gdate ( ope_import -> date ),
                         ope_import -> tiers,
                         tmpstr2);
-	    g_free ( tmpstr2 );
+		g_free ( tmpstr2 );
 	    label = gtk_label_new ( tmpstr );
 	    g_free ( tmpstr );
 	    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
