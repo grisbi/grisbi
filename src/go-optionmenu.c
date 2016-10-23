@@ -37,6 +37,7 @@
 
 #ifndef HAVE_GOFFICE
 #include "go-optionmenu.h"
+#include "gsb_dirs.h"
 
 #include <gdk/gdkkeysyms.h>
 #include <glib/gi18n-lib.h>
