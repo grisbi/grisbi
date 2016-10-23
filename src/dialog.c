@@ -122,7 +122,7 @@ struct conditional_message messages[] =
       N_(),
       FALSE, FALSE, },
 */
-    { NULL },
+    { NULL, NULL, NULL, FALSE, FALSE },
 };
 
 
