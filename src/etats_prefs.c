@@ -849,14 +849,14 @@ static GtkTreeModel *etats_prefs_onglet_periode_get_liste_dates ( void )
  */
 void etats_prefs_onglet_periode_date_interval_sensitive ( gboolean show )
 {
-    if ( show > 1 )
-        show = 0;
+	if ( show > 1 )
+		show = 0;
 
-        etats_prefs_widget_set_sensitive ( "hbox_select_dates", show );
-        gtk_widget_set_sensitive ( utils_gtkbuilder_get_widget_by_name ( etats_prefs_builder,
-                        "hbox_date_init", "entree_date_init_etat" ), show );
-        gtk_widget_set_sensitive ( utils_gtkbuilder_get_widget_by_name ( etats_prefs_builder,
-                        "hbox_date_finale", "entree_date_finale_etat" ), show );
+	etats_prefs_widget_set_sensitive ( "hbox_select_dates", show );
+	gtk_widget_set_sensitive ( utils_gtkbuilder_get_widget_by_name ( etats_prefs_builder,
+				"hbox_date_init", "entree_date_init_etat" ), show );
+	gtk_widget_set_sensitive ( utils_gtkbuilder_get_widget_by_name ( etats_prefs_builder,
+				"hbox_date_finale", "entree_date_finale_etat" ), show );
 }
 
 
