@@ -512,7 +512,7 @@ static const GOptionEntry options[] =
 		N_("[FILE...]")
 	},
 
-	{NULL}
+	{ NULL, 0, 0, 0, NULL, NULL, NULL}
 };
 
 /**
