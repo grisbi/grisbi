@@ -214,7 +214,7 @@ static GtkWidget *grisbi_win_get_headings_eb (GrisbiWin *win)
     if (win == NULL)
         win = grisbi_app_get_active_window (NULL);
 
-	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
     return priv->headings_eb;
 }
 
@@ -1154,14 +1154,14 @@ void grisbi_win_status_bar_stop_wait (gboolean force_update)
     if (!win)
         return;
 
-	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
     if (priv->tracked_window && gdk_window_is_visible (priv->tracked_window))
     {
         gdk_window_set_cursor (priv->tracked_window, NULL);
         priv->tracked_window = NULL;
     }
     else
-    gdk_window_set_cursor (gtk_widget_get_window (GTK_WIDGET (win)), NULL);
+	gdk_window_set_cursor (gtk_widget_get_window (GTK_WIDGET (win)), NULL);
 
     if (force_update)
         update_gui ();
