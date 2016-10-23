@@ -269,7 +269,7 @@ struct iso_4217_currency iso_4217_currencies[] = {
     { N_("Southern America"), N_("Suriname Guilder"), N_("Suriname"), "SRG", NULL, TRUE, "SRD.png", 2, 1 },
     { N_("Southern America"), N_("Peso"), N_("Uruguay"), "UYU", "₱", TRUE, "UYU.png", 2, 1 },
     { N_("Southern America"), N_("Venezuelan Bolivar"), N_("Venezuela"), "VEB", NULL, TRUE, "VEB.png", 2, 1 },
-    { NULL },
+    { NULL, NULL, NULL, NULL, NULL, FALSE, NULL, 0, 0 },
 };
 
 /******************************************************************************/
