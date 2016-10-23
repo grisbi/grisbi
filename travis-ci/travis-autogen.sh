@@ -31,6 +31,7 @@ CFLAGS+=" -Wextra"
 # warnings disabled on purpose
 #CFLAGS+=" -Wno-unused-function"
 CFLAGS+=" -Wno-deprecated-declarations"
+CFLAGS+=" -Wno-unused-parameter"
 
 export CFLAGS
 echo "CFLAGS: $CFLAGS"
