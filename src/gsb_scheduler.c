@@ -423,7 +423,7 @@ gboolean gsb_scheduler_execute_children_of_scheduled_transaction ( gint schedule
     /* pbiava the 03/16/2009 supprime le crash quand on execute la transaction
      * a partir du planificateur risque d'effet de bord */
     if ( child_number > 0 )
-        gsb_scheduler_create_transaction_from_scheduled_transaction ( child_number,
+		gsb_scheduler_create_transaction_from_scheduled_transaction ( child_number,
 								      transaction_number );
 
 	children_numbers_list = children_numbers_list -> next;
