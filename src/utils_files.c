@@ -343,6 +343,7 @@ GtkWidget *utils_files_create_file_chooser ( GtkWidget *parent, gchar *titre )
     bouton_OK = gtk_dialog_add_button (GTK_DIALOG ( chooser ),
                                 "gtk-open",
                                 GTK_RESPONSE_ACCEPT);
+	(void)bouton_OK; /* unused value: fix warning -Wunused-but-set-variable */
 
 	gtk_window_set_position ( GTK_WINDOW (chooser), GTK_WIN_POS_CENTER_ON_PARENT );
     gtk_window_set_transient_for (GTK_WINDOW (chooser), GTK_WINDOW (parent));
