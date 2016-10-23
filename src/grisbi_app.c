@@ -620,8 +620,8 @@ static gboolean grisbi_app_cmdline ( GApplication *application,
         grisbi_app_print_environment_var ();
 	}
 
-    if (priv->new_window)
-        grisbi_app_create_window (GRISBI_APP (application), NULL);
+	if (priv->new_window)
+		grisbi_app_create_window (GRISBI_APP (application), NULL);
 
 	g_application_activate (application);
 
@@ -786,7 +786,7 @@ static void grisbi_app_startup ( GApplication *application )
 	/* app menu */
     if (conf.force_classic_menu)
         has_app_menu = FALSE;
-	grisbi_app_set_main_menu (app, has_app_menu);
+    grisbi_app_set_main_menu (app, has_app_menu);
 
     /* charge les raccourcis claviers */
     grisbi_app_setup_accelerators ( app );
@@ -900,8 +900,8 @@ static void grisbi_app_shutdown (GApplication *application)
     if ( etat.debug_mode )
         debug_finish_log ();
 
-	/* on libère la mémoire utilisée par etat */
-	free_variables ();
+    /* on libère la mémoire utilisée par etat */
+    free_variables ();
 
 	/* libération de mémoire utilisée par locale*/
     gsb_locale_shutdown ();
@@ -982,7 +982,7 @@ GrisbiWin *grisbi_app_get_active_window ( GrisbiApp *app )
     if ( app == NULL )
         app = GRISBI_APP ( g_application_get_default () );
 
-	win = GRISBI_WIN ( gtk_application_get_active_window ( GTK_APPLICATION ( app ) ) );
+    win = GRISBI_WIN ( gtk_application_get_active_window ( GTK_APPLICATION ( app ) ) );
 
     return win;
 }
