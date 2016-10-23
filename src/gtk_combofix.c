@@ -207,12 +207,10 @@ static void gtk_combofix_remove_for_report ( GtkTreeModel *model,
 * vérifie si il existe un séparateur, l'ajoute si nécessaire
 *
 * \param model
-* \param iter_parent
 *
-* \return the position of parent_iter
+* \return TRUE si un séparateur a été ajouté, FALSE sinon
 * */
-static gboolean gtk_combofix_search_for_report ( GtkTreeModel *model,
-                        GtkTreeIter *iter_parent )
+static gboolean gtk_combofix_search_for_report ( GtkTreeModel *model )
 {
     GtkTreeIter iter;
     gchar *tmp_str;
@@ -228,7 +226,6 @@ static gboolean gtk_combofix_search_for_report ( GtkTreeModel *model,
         if ( separator )
         {
             gtk_tree_model_iter_next ( GTK_TREE_MODEL( model ), &iter );
-            iter_parent = &iter;
 
             return FALSE;
         }
@@ -252,7 +249,6 @@ static gboolean gtk_combofix_search_for_report ( GtkTreeModel *model,
                         COMBOFIX_COL_LIST_NUMBER, 1,
                         -1 );
     g_free ( tmp_str );
-    iter_parent = &iter;
 
     return TRUE;
 }
@@ -671,7 +667,7 @@ void gtk_combofix_append_report ( GtkComboFix *combofix,
     priv = combofix->priv;
 
     /* on cherche la partie etats on l'ajoute si nécessaire */
-    if ( gtk_combofix_search_for_report ( GTK_TREE_MODEL ( priv->store ), &iter_parent ) )
+    if ( gtk_combofix_search_for_report ( GTK_TREE_MODEL ( priv->store ) ) )
         priv -> visible_items++;
 
     /* on sort si l'état demandé existe déjà */
