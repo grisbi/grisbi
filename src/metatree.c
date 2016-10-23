@@ -931,7 +931,7 @@ void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * model,
         it = get_iter_from_sub_div_zero ( model, iface, parent_iter );
     }
     else
-        it = get_iter_from_div ( model, nouveau_no_division, nouveau_no_sub_division );
+		it = get_iter_from_div ( model, nouveau_no_division, nouveau_no_sub_division );
 
 	if ( it )
     {
