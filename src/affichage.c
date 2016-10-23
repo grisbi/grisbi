@@ -344,7 +344,7 @@ gboolean change_choix_utilise_fonte_liste ( GtkWidget *check_button,
 void update_fonte_listes ( gchar *fontname,
                         gpointer null)
 {
-    GValue value = {0,};
+    GValue value = G_VALUE_INIT;
     gchar *font;
 
     devel_debug (NULL);
