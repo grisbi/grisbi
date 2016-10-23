@@ -43,11 +43,11 @@ configure_args+=" --enable-werror"
 if [ "$TRAVIS_OS_NAME" = "osx" ]
 then
 	# from brew
-	export PKG_CONFIG_PATH=/usr/local/Cellar/libxml2/*/lib/pkgconfig
-	export PATH="$PATH:/usr/local/Cellar/gettext/*/bin"
+	export PKG_CONFIG_PATH=/usr/local/opt/libxml2/lib/pkgconfig
+	export PATH="$PATH:/usr/local/opt/gettext/bin"
 
 	mkdir m4
-	ln -sf /usr/local/Cellar/gettext/*/share/aclocal/nls.m4 m4
+	ln -sf /usr/local/opt/gettext/share/aclocal/nls.m4 m4
 
 	# disable OpenSSL on macOS since it is no more provided by Apple
 	configure_args+=" --without-openssl"
