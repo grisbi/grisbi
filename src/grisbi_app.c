@@ -249,6 +249,19 @@ static void grisbi_app_quit (GSimpleAction *action,
     }
 }
 
+/* Disable: warning: missing field 'padding' initializer
+ *
+ * 'padding' is a private field in the GActionEntry stucture so it is
+ * not a good idea to explicitly initialize it. */
+/* https://gcc.gnu.org/onlinedocs/gcc/Diagnostic-Pragmas.html */
+#if defined(__GNUC__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmissing-field-initializers"
+#else
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wmissing-field-initializers"
+#endif
+
 static GActionEntry app_entries[] =
 {
 	{ "new-window", grisbi_app_new_window, NULL, NULL, NULL },
@@ -299,6 +312,12 @@ static const GActionEntry win_context_enabled_entries[] =
 	{ "show-ope", grisbi_cmd_show_ope_radio, "s", "'1'", grisbi_app_change_radio_state },
 	{ "reset-width-col", grisbi_cmd_reset_width_col, NULL, NULL, NULL }
 };
+
+#if defined(__GNUC__)
+#pragma GCC diagnostic pop
+#else
+#pragma clang diagnostic pop
+#endif
 
 /**
  * crée et initialise le menu de grisbi.
