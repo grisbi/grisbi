@@ -859,7 +859,7 @@ void gsb_form_fill_element ( gint element_number,
         if ( transaction_number < 1 )
             gsb_currency_init_exchanges ( );
 
-	    if (is_transaction)
+	if (is_transaction)
         {
             if ( gsb_data_transaction_get_marked_transaction ( transaction_number ) == OPERATION_RAPPROCHEE )
             {
@@ -917,7 +917,7 @@ void gsb_form_fill_element ( gint element_number,
 	    }
         else
             gtk_widget_hide ( widget );
-	    break;
+	break;
 
 	case TRANSACTION_FORM_MODE:
 	    if ( gsb_data_mix_get_automatic_transaction (transaction_number, is_transaction))
@@ -1946,12 +1946,12 @@ gboolean gsb_form_button_press_event ( GtkWidget *entry,
 	date_entry = gsb_form_widget_get_widget (TRANSACTION_FORM_DATE);
 	if ( gsb_form_widget_check_empty (date_entry))
 	{
-        if ( save_form_date )
-            gtk_entry_set_text ( GTK_ENTRY ( date_entry ),
-                        gsb_format_gdate ( save_form_date ) );
-        else
-            gtk_entry_set_text ( GTK_ENTRY ( date_entry ),
-                         gsb_date_today ( ) );
+	    if ( save_form_date )
+		gtk_entry_set_text ( GTK_ENTRY ( date_entry ),
+			gsb_format_gdate ( save_form_date ) );
+	    else
+		gtk_entry_set_text ( GTK_ENTRY ( date_entry ),
+			gsb_date_today ( ) );
 	    gsb_form_widget_set_empty ( date_entry, FALSE );
 	}
 
@@ -2887,7 +2887,7 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
         if ( gsb_form_widget_check_empty ( widget ) == FALSE )
             number = gsb_real_opposite ( utils_real_get_from_string ( gtk_entry_get_text ( GTK_ENTRY ( widget ) ) ) );
 
-	    if ( gsb_form_widget_check_empty ( widget ) == TRUE
+	if ( gsb_form_widget_check_empty ( widget ) == TRUE
          ||
          number.mantissa == 0 )
         {
@@ -3173,7 +3173,7 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
             gsb_data_scheduled_set_financial_year_number ( transaction_number,
                         gsb_fyear_get_fyear_from_combobox (
                         element -> element_widget, NULL ) );
-            break;
+		break;
 
 	    case TRANSACTION_FORM_PARTY:
 		if (gsb_form_widget_check_empty (element -> element_widget))
