@@ -54,4 +54,6 @@ then
 fi
 
 sh -x ./autogen.sh
+
+echo "configure_args: $configure_args $@"
 ./configure $configure_args "$@"
