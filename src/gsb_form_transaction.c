@@ -411,7 +411,7 @@ GSList *gsb_form_transaction_get_parties_list_from_report ( void )
             else
                 /* the report was not found, set -1 */
                 parties_list = g_slist_append ( parties_list, GINT_TO_POINTER ( -1 ) );
-                g_strfreev ( tab_char );
+			g_strfreev ( tab_char );
         }
     }
     else
