@@ -352,7 +352,7 @@ void gsb_reconcile_config_fill ( void )
 	/* for each account, get the concerned reconciles */
 	reconcile_list = gsb_data_reconcile_get_sort_reconcile_list (account_number);
     if (etat.reconcile_sort)
-        reconcile_list = g_list_reverse (reconcile_list);
+		reconcile_list = g_list_reverse (reconcile_list);
 
 	while (reconcile_list)
 	{
