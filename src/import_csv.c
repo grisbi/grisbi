@@ -93,7 +93,7 @@ struct csv_field csv_fields[18] = {
     { N_("Debit (negative)"),0.0, csv_import_validate_amount, csv_import_parse_credit, "" },
     { N_("C/R"),	    0.0, csv_import_validate_string, csv_import_parse_p_r, "" },
     { N_("Split"),	    0.0, csv_import_validate_string, csv_import_parse_split, "" },
-    { NULL },
+    { NULL, 0.0, NULL, NULL, NULL },
 };
 
 
