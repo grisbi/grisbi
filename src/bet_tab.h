@@ -28,8 +28,7 @@
 
 /* START_DECLARATION */
 GtkWidget *bet_array_create_page ( void );
-void bet_array_create_transaction_from_transfert ( struct_transfert_data *transfert,
-                        gboolean same_month );
+void bet_array_create_transaction_from_transfert (struct_transfert_data *transfert);
 void bet_array_list_add_new_hist_line ( GtkTreeModel *tab_model,
                         GtkTreeModel *model,
                         GtkTreeIter *iter,

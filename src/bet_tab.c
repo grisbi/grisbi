@@ -149,6 +149,7 @@ static gboolean bet_array_update_average_column ( GtkTreeModel *model,
 
 /*START_EXTERN*/
 extern GtkWidget *account_page;
+extern gint nb_days_before_scheduled;
 extern const gdouble prev_month_max;
 extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/
@@ -3141,13 +3142,13 @@ void bet_array_update_toolbar ( void )
  *
  * \return
  * */
-void bet_array_create_transaction_from_transfert ( struct_transfert_data *transfert,
-                        gboolean same_month )
+void bet_array_create_transaction_from_transfert (struct_transfert_data *transfert)
 {
     GSList *tmp_list;
     GDate *date_debut_comparaison;
     GDate *date_fin_comparaison;
     GDate *date_jour;
+    GDate *date_exec;
     GDateDay day;
     GDateMonth month;
     GDateYear year;
@@ -3164,8 +3165,10 @@ void bet_array_create_transaction_from_transfert ( struct_transfert_data *transf
     g_date_add_days ( date_fin_comparaison, valeur_echelle_recherche_date_import );
 
     date_jour = gdate_today ( );
+    date_exec = g_date_new_dmy (day, month, year);
+    g_date_subtract_days (date_exec, nb_days_before_scheduled);
 
-    if ( conf.execute_scheduled_of_month || g_date_compare ( date_jour, transfert -> date ) >= 0 )
+    if ( conf.execute_scheduled_of_month || g_date_compare ( date_jour, date_exec ) >= 0 )
     {
         GDate *date_bascule;
 
@@ -3343,6 +3346,7 @@ void bet_array_create_transaction_from_transfert ( struct_transfert_data *transf
         }
     }
     g_date_free ( date_jour );
+    g_date_free (date_exec);
     g_date_free ( date_debut_comparaison );
     g_date_free ( date_fin_comparaison );
 }
