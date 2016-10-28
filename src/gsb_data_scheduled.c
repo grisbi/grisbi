@@ -92,7 +92,7 @@ typedef struct
 
 /*START_STATIC*/
 static void _gsb_data_scheduled_free ( struct_scheduled *scheduled );
-static void gsb_data_scheduled_delete_all_scheduled ();
+static void gsb_data_scheduled_delete_all_scheduled ( void );
 static gint gsb_data_scheduled_get_last_number (void);
 static gint gsb_data_scheduled_get_last_white_number (void);
 static struct_scheduled *gsb_data_scheduled_get_scheduled_by_no ( gint scheduled_number );
@@ -120,7 +120,7 @@ static gint current_scheduled_buffer;
 /**
  * Delete all scheduled and clear memory used by them
  */
-void gsb_data_scheduled_delete_all_scheduled ()
+void gsb_data_scheduled_delete_all_scheduled ( void )
 {
     if ( scheduled_list )
     {
