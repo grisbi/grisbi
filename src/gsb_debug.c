@@ -51,12 +51,12 @@
 static void gsb_debug_add_report_page ( GtkWidget * assistant, gint page,
 				 struct gsb_debug_test * test, gchar * summary );
 static gchar *gsb_debug_budget_test  ( void );
-static gboolean gsb_debug_budget_test_fix ();
+static gboolean gsb_debug_budget_test_fix ( void );
 static gchar *gsb_debug_category_test  ( void );
-static gboolean gsb_debug_category_test_fix ();
+static gboolean gsb_debug_category_test_fix ( void );
 static gboolean gsb_debug_enter_test_page ( GtkWidget * assistant );
 static gchar *gsb_debug_payee_test  ( void );
-static gboolean gsb_debug_payee_test_fix ();
+static gboolean gsb_debug_payee_test_fix ( void );
 static gchar * gsb_debug_reconcile_test ( void );
 static gchar * gsb_debug_transfer_test ( void );
 static gboolean gsb_debug_try_fix ( gboolean (* fix) () );
@@ -651,7 +651,7 @@ gchar *gsb_debug_category_test  ( void )
  *
  * \return TRUE if ok
  * */
-gboolean gsb_debug_category_test_fix ()
+gboolean gsb_debug_category_test_fix ( void )
 {
     GSList *tmp_list;
 
@@ -761,7 +761,7 @@ gchar *gsb_debug_budget_test  ( void )
  *
  * \return TRUE if ok
  * */
-gboolean gsb_debug_budget_test_fix ()
+gboolean gsb_debug_budget_test_fix ( void )
 {
     GSList *tmp_list;
 
@@ -851,7 +851,7 @@ gchar *gsb_debug_payee_test  ( void )
  *
  * \return TRUE if ok
  * */
-gboolean gsb_debug_payee_test_fix ()
+gboolean gsb_debug_payee_test_fix ( void )
 {
     GSList *tmp_list;
 
