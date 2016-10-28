@@ -372,7 +372,7 @@ GtkWidget *new_vbox_with_title_and_icon ( gchar *title,
  *
  * \return TRUE if an account is loaded in memory.
  */
-gboolean assert_account_loaded ()
+gboolean assert_account_loaded ( void )
 {
   return gsb_data_account_get_accounts_amount () != 0;
 }
