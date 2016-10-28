@@ -82,7 +82,6 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static GtkWidget *create_preferences_tree ( );
 static gboolean gsb_config_metatree_sort_transactions_changed ( GtkWidget *checkbutton,
                         GdkEventButton *event,
                         gint *pointeur );
@@ -423,7 +422,7 @@ static GtkWidget *onglet_accueil ( void )
  *
  * \return a GtkScrolledWindow
  */
-GtkWidget *create_preferences_tree ( )
+static GtkWidget *create_preferences_tree ( void )
 {
     GtkWidget *sw;
     GtkTreeViewColumn *column;
