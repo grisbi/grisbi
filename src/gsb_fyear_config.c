@@ -72,7 +72,7 @@ static void gsb_fyear_config_append_line ( GtkTreeModel *model,
 				    gint fyear_number,
 				    GtkTreeIter *iter_to_fill );
 static gboolean gsb_fyear_config_associate_transactions ( void );
-static GtkWidget *gsb_fyear_config_create_list ();
+static GtkWidget *gsb_fyear_config_create_list ( void );
 static void gsb_fyear_config_fill_list ( GtkTreeModel *model );
 static gboolean gsb_fyear_config_modify_fyear ( GtkWidget *entry,
 					 GtkWidget *tree_view);
@@ -253,7 +253,7 @@ GtkWidget *gsb_fyear_config_create_page ( void )
  *
  * \return a GtkTreeView
  */
-GtkWidget *gsb_fyear_config_create_list ()
+GtkWidget *gsb_fyear_config_create_list ( void )
 {
     GtkListStore *model;
     GtkWidget *treeview;
