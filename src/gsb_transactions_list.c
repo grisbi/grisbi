@@ -80,7 +80,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gboolean assert_selected_transaction ();
+static gboolean assert_selected_transaction ( void );
 static GtkWidget *creation_barre_outils_transaction ( void );
 static gboolean gsb_gui_change_cell_content ( GtkWidget * item, gint *element_ptr );
 static GtkWidget *gsb_gui_create_cell_contents_menu ( int x, int y );
@@ -2728,7 +2728,7 @@ gboolean gsb_gui_change_cell_content ( GtkWidget * item, gint *element_ptr )
  *
  * \return TRUE on success, FALSE otherwise.
  */
-gboolean assert_selected_transaction ()
+gboolean assert_selected_transaction ( void )
 {
     if ( gsb_data_account_get_current_transaction_number (gsb_gui_navigation_get_current_account ()) == -1 )
 	return FALSE;
