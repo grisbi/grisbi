@@ -61,7 +61,7 @@
 /*START_STATIC*/
 static void gsb_currency_append_currency_to_list ( GtkListStore *model,
                         gint currency_number );
-static GtkWidget *gsb_currency_config_create_list ();
+static GtkWidget *gsb_currency_config_create_list ( void );
 static gboolean gsb_currency_config_entry_changed ( GtkWidget *entry,
                         GtkWidget *tree_view );
 static void gsb_currency_config_fill_popup_list ( GtkTreeView * tree_view,
@@ -434,7 +434,7 @@ GtkWidget *gsb_currency_config_create_page ( void )
  *
  * \return a GtkTreeView
  */
-GtkWidget *gsb_currency_config_create_list ()
+GtkWidget *gsb_currency_config_create_list ( void )
 {
     GtkTreeSelection *selection;
     GtkTreeViewColumn *column;
