@@ -71,10 +71,8 @@ struct _GtkComboFixPrivate
 /* Liste des fonctions statiques */
 
 /* common */
-static void gtk_combofix_class_init ( GtkComboFixClass *klass );
 static void gtk_combofix_dispose ( GObject *combofix );
 static void gtk_combofix_finalize ( GObject *combofix );
-static void gtk_combofix_init ( GtkComboFix *combofix );
 static void gtk_combofix_dialog ( gchar *text, gchar *hint );
 
 /* entry */
