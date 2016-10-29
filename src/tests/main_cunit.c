@@ -70,7 +70,7 @@ gchar *gsb_main_get_print_dir_var(void) { return NULL; }
 
 
 
-int gsb_cunit_run_tests()
+int gsb_cunit_run_tests( void )
 {
     /* initialize the CUnit test registry */
     if (CUE_SUCCESS != CU_initialize_registry())
