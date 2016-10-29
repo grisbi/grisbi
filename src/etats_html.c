@@ -47,7 +47,7 @@ static void html_attach_hsep ( int x, int x2, int y, int y2);
 static void html_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2,
 			  enum alignement align, gint transaction_number );
 static void html_attach_vsep ( int x, int x2, int y, int y2);
-static gint html_finish ();
+static gint html_finish ( void );
 static gint html_initialise ( GSList * opes_selectionnees, gchar * filename );
 static void html_safe ( gchar * text ) ;
 /*END_STATIC*/
@@ -323,7 +323,7 @@ gint html_initialise ( GSList * opes_selectionnees, gchar * filename )
  *
  * \return TRUE on success, FALSE otherwise.
  */
-gint html_finish ()
+gint html_finish ( void )
 {
     fprintf (html_out,
 	     "      </tr>\n\n"
