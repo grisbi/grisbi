@@ -670,7 +670,7 @@ gchar *make_blue ( const gchar *text )
  * soon.  This dialog should not appear theorically, but it is here
  * just in case to spot bugs.
  */
-void dialogue_error_brain_damage ()
+void dialogue_error_brain_damage ( void )
 {
     dialogue_error_hint ( _("Hi, you are in the middle of nowhere, between two lines of code."
                         " Grisbi is expected to crash very soon. Have a nice day."),
@@ -683,7 +683,7 @@ void dialogue_error_brain_damage ()
  * soon.  This dialog should not appear theorically, but it is here
  * just in case to spot bugs.
  */
-void dialogue_error_memory ()
+void dialogue_error_memory ( void )
 {
     dialogue_error_hint ( _("Bad things will happen soon.  Be sure to save any modification "
                         "in a separate file in case Grisbi would corrupt files."),
