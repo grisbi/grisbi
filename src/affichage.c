@@ -65,7 +65,7 @@ static gboolean change_choix_utilise_logo ( GtkWidget *check_button,
 static gboolean change_grisbi_title_type ( GtkRadioButton *button, GtkWidget *entry );
 static void change_logo_accueil ( GtkWidget * file_selector );
 static gboolean change_toolbar_display_mode ( GtkRadioButton *button );
-static gboolean modification_logo_accueil ( );
+static gboolean modification_logo_accueil ( void );
 static gboolean preferences_active_mouse_scrolling_left_pane ( GtkWidget *toggle_button,
                         gpointer null );
 static gboolean preferences_switch_headings_bar ( GtkWidget *toggle_button,
@@ -550,7 +550,7 @@ void change_logo_accueil ( GtkWidget * file_selector )
 /* **************************************************************************************************************************** */
 
 /* **************************************************************************************************************************** */
-gboolean modification_logo_accueil ( )
+gboolean modification_logo_accueil ( void )
 {
     GtkWidget *file_selector;
     GtkWidget *preview;
