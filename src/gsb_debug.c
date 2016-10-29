@@ -59,7 +59,7 @@ static gchar *gsb_debug_payee_test  ( void );
 static gboolean gsb_debug_payee_test_fix ( void );
 static gchar * gsb_debug_reconcile_test ( void );
 static gchar * gsb_debug_transfer_test ( void );
-static gboolean gsb_debug_try_fix ( gboolean (* fix) () );
+static gboolean gsb_debug_try_fix ( gboolean (* fix) (void) );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -331,7 +331,7 @@ void gsb_debug_add_report_page ( GtkWidget * assistant, gint page,
  *
  *
  */
-gboolean gsb_debug_try_fix ( gboolean (* fix) () )
+gboolean gsb_debug_try_fix ( gboolean (* fix) (void) )
 {
 
     if ( fix () )
