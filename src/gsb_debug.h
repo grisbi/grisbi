@@ -12,8 +12,8 @@ struct gsb_debug_test {
     gchar * name;		/** Name of the test.  */
     gchar * description;	/** Short description.  */
     gchar * instructions;	/** Instructions to do if test matches. */
-    gchar * (* test) ();	/** Pointer to function doing the job.  */
-    gboolean (* fix) ();	/** Pointer to function fixing the problem. */
+    gchar * (* test) (void);	/** Pointer to function doing the job.  */
+    gboolean (* fix) (void);	/** Pointer to function fixing the problem. */
 };
 
 
