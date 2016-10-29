@@ -109,11 +109,6 @@ static void gsb_gui_navigation_set_selection_branch ( GtkTreeSelection *selectio
 static void gsb_gui_navigation_set_navigation_pages ( GtkTreeModel *model,
                         gint type_page,
                         gint ordre );
-static void gsb_gui_navigation_set_selection_branch ( GtkTreeSelection *selection,
-					    GtkTreeIter *iter,
-                        gint page,
-					    gint account_number,
-                        gpointer report );
 static void gsb_gui_navigation_update_account_iter ( GtkTreeModel *model,
                         GtkTreeIter * account_iter,
                         gint account_number );
