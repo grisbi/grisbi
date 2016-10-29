@@ -46,7 +46,6 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void custom_list_class_init (CustomListClass *klass);
 static void custom_list_finalize (GObject *object);
 static GType custom_list_get_column_type (GtkTreeModel *tree_model,
 					  gint          index);
@@ -61,7 +60,6 @@ static void custom_list_get_value (GtkTreeModel *tree_model,
 				   GtkTreeIter  *iter,
 				   gint          column,
 				   GValue       *value);
-static void custom_list_init (CustomList *custom_list);
 static gboolean custom_list_iter_children (GtkTreeModel *tree_model,
 					   GtkTreeIter  *iter,
 					   GtkTreeIter  *parent);
