@@ -56,7 +56,7 @@ static void gtktable_attach_label ( gchar * text, gdouble properties, int x, int
 			     enum alignement align, gint transaction_number );
 static void gtktable_attach_vsep ( int x, int x2, int y, int y2);
 static void gtktable_click_sur_ope_etat ( gint transaction_number );
-static gint gtktable_finish ();
+static gint gtktable_finish ( void );
 static gint gtktable_initialise ( GSList * opes_selectionnees, gchar * filename );
 /*END_STATIC*/
 
@@ -258,7 +258,7 @@ gint gtktable_initialise ( GSList * opes_selectionnees, gchar * filename )
 
 
 /*****************************************************************************************************/
-gint gtktable_finish ()
+gint gtktable_finish ( void )
 {
     gtk_container_add ( GTK_CONTAINER ( scrolled_window_etat ), table_etat );
     gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW ( scrolled_window_etat ), GTK_SHADOW_NONE );
