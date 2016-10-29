@@ -54,6 +54,7 @@
 GtkWidget *window = NULL;
 struct gsb_run_t run;
 extern gchar *nom_fichier_comptes;
+#if 0
 gboolean grisbi_app_quit( void )
 {
 	return FALSE;
@@ -64,6 +65,7 @@ gboolean gsb_main_set_grisbi_title ( gint account_number )
 }
 gchar *gsb_main_get_print_locale_var(void) { return NULL; }
 gchar *gsb_main_get_print_dir_var(void) { return NULL; }
+#endif
 
 /* End of unnecessary things */
 
