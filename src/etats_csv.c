@@ -44,7 +44,7 @@ static void csv_attach_hsep ( gint x, gint x2, gint y, gint y2);
 static void csv_attach_label ( gchar * text, gdouble properties, gint x, gint x2, gint y, gint y2,
                         enum alignement align, gint transaction_number );
 static void csv_attach_vsep ( gint x, gint x2, gint y, gint y2);
-static gint csv_finish ();
+static gint csv_finish ( void );
 static gint csv_initialise (GSList * opes_selectionnees, gchar * filename );
 static void csv_safe ( const gchar * text ) ;
 /*END_STATIC*/
@@ -191,7 +191,7 @@ gint csv_initialise (GSList * opes_selectionnees, gchar * filename )
  *
  * \return TRUE on success, FALSE otherwise.
  */
-gint csv_finish ()
+gint csv_finish ( void )
 {
     fclose (csv_out);
 
