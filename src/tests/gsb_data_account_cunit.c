@@ -44,7 +44,7 @@
 /* END_INCLUDE */
 
 /* START_STATIC */
-static void gsb_data_account_cunit__gsb_data_account_calculate_current_and_marked_balances();
+static void gsb_data_account_cunit__gsb_data_account_calculate_current_and_marked_balances(void);
 static int gsb_data_account_cunit_clean_suite(void);
 static int gsb_data_account_cunit_init_suite(void);
 /* END_STATIC */
@@ -68,7 +68,7 @@ int gsb_data_account_cunit_clean_suite(void)
     return 0;
 }
 
-void gsb_data_account_cunit__gsb_data_account_calculate_current_and_marked_balances()
+void gsb_data_account_cunit__gsb_data_account_calculate_current_and_marked_balances(void)
 {
     GDate *date = gdate_today() ;
 
@@ -121,7 +121,7 @@ void gsb_data_account_cunit__gsb_data_account_calculate_current_and_marked_balan
     CU_ASSERT_EQUAL(TRUE, gsb_data_currency_remove ( cur_number ));
 }
 
-CU_pSuite gsb_data_account_cunit_create_suite()
+CU_pSuite gsb_data_account_cunit_create_suite(void)
 {
     CU_pSuite pSuite = CU_add_suite("gsb_data_account",
                                     gsb_data_account_cunit_init_suite,
