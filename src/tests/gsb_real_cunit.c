@@ -42,12 +42,12 @@
 
 /* START_STATIC */
 static void gsb_real_cunit__gsb_real_add ( void );
-static void gsb_real_cunit__gsb_real_mul();
-static void gsb_real_cunit__gsb_real_normalize();
+static void gsb_real_cunit__gsb_real_mul( void );
+static void gsb_real_cunit__gsb_real_normalize( void );
 static void gsb_real_cunit__gsb_real_raw_format_string ( void );
-static void gsb_real_cunit__gsb_real_raw_get_from_string();
-static void gsb_real_cunit__gsb_real_raw_get_from_string__locale();
-static void gsb_real_cunit__gsb_real_sub();
+static void gsb_real_cunit__gsb_real_raw_get_from_string( void );
+static void gsb_real_cunit__gsb_real_raw_get_from_string__locale( void );
+static void gsb_real_cunit__gsb_real_sub( void );
 static void gsb_real_cunit__gsb_real_adjust_exponent ( void );
 static int gsb_real_cunit_clean_suite ( void );
 static int gsb_real_cunit_init_suite ( void );
@@ -72,7 +72,7 @@ int gsb_real_cunit_clean_suite ( void )
     return 0;
 }
 
-void gsb_real_cunit__gsb_real_raw_get_from_string()
+void gsb_real_cunit__gsb_real_raw_get_from_string( void )
 {
     gsb_real val;
     /*  NULL ==> error */
@@ -283,7 +283,7 @@ void gsb_real_cunit__gsb_real_raw_get_from_string()
     CU_ASSERT_EQUAL ( 0, val.exponent );
 }
 
-void gsb_real_cunit__gsb_real_raw_get_from_string__locale()
+void gsb_real_cunit__gsb_real_raw_get_from_string__locale( void )
 {
     gsb_real val;
 /*     // locale's thousands separator override comma  */
@@ -397,7 +397,7 @@ void gsb_real_cunit__gsb_real_raw_format_string ( void )
 }
 
 
-void gsb_real_cunit__gsb_real_normalize()
+void gsb_real_cunit__gsb_real_normalize( void )
 {
     gsb_real a;
     gsb_real b;
@@ -491,7 +491,7 @@ void gsb_real_cunit__gsb_real_add ( void )
     CU_ASSERT_EQUAL(0, r.exponent);
 }
 
-void gsb_real_cunit__gsb_real_sub()
+void gsb_real_cunit__gsb_real_sub( void )
 {
     gsb_real a = { -1, 0 };
     gsb_real b = { 31415, 4 };
@@ -525,7 +525,7 @@ void gsb_real_cunit__gsb_real_sub()
 
 }
 
-void gsb_real_cunit__gsb_real_mul()
+void gsb_real_cunit__gsb_real_mul( void )
 {
     gsb_real a = { 12, 1 };
     gsb_real b = { 31415, 4 };
