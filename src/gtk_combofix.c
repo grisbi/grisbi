@@ -147,6 +147,7 @@ static gboolean gtk_combofix_select_item ( GtkComboFix *combofix,
 
 /* globals variables */
 static gint block_expose_event;
+static GtkTreeIter report_parent_iter;
 
 enum combofix_columns {
     COMBOFIX_COL_VISIBLE_STRING = 0,    /* string : what we see in the combofix */
@@ -224,6 +225,7 @@ static gboolean gtk_combofix_search_for_report ( GtkTreeModel *model )
         if ( separator )
         {
             gtk_tree_model_iter_next ( GTK_TREE_MODEL( model ), &iter );
+			report_parent_iter = iter;
 
             return FALSE;
         }
@@ -247,6 +249,7 @@ static gboolean gtk_combofix_search_for_report ( GtkTreeModel *model )
                         COMBOFIX_COL_LIST_NUMBER, 1,
                         -1 );
     g_free ( tmp_str );
+	report_parent_iter = iter;
 
     return TRUE;
 }
@@ -260,33 +263,15 @@ static gboolean gtk_combofix_search_for_report ( GtkTreeModel *model )
 *
 * \return TRUE if exist or FALSE
 * */
-static gboolean gtk_combofix_search_report ( GtkTreeModel *model,
-                        const gchar *report_name )
+static gboolean gtk_combofix_search_report (GtkTreeModel *model,
+                                            const gchar *report_name)
 {
     GtkTreeIter iter;
-    GtkTreeIter iter_parent;
-    gboolean separator;
 
-    /* on recherche le parent des états */
-    gtk_tree_model_get_iter_first (  GTK_TREE_MODEL( model ), &iter_parent );
-    do
-    {
-        gtk_tree_model_get ( GTK_TREE_MODEL( model ), &iter_parent,
-                        COMBOFIX_COL_SEPARATOR, &separator,
-			            -1 );
-
-        if ( separator )
-        {
-            gtk_tree_model_iter_next ( GTK_TREE_MODEL( model ), &iter_parent );
-            break;
-        }
-    }
-    while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL( model ), &iter_parent ) );
-
-    if ( !gtk_tree_model_iter_has_child ( GTK_TREE_MODEL ( model ), &iter_parent ) )
+    if ( !gtk_tree_model_iter_has_child ( GTK_TREE_MODEL ( model ), &report_parent_iter ) )
         return FALSE;
 
-    if ( !gtk_tree_model_iter_children ( GTK_TREE_MODEL ( model ), &iter, &iter_parent ) )
+    if ( !gtk_tree_model_iter_children ( GTK_TREE_MODEL ( model ), &iter, &report_parent_iter ) )
         return FALSE;
     do
     {
@@ -652,7 +637,6 @@ void gtk_combofix_append_report ( GtkComboFix *combofix,
                         const gchar *report_name )
 {
     GtkComboFixPrivate *priv;
-    GtkTreeIter iter_parent;
     gchar *tmp_str;
     gchar *tmp_str2;
 
@@ -664,9 +648,14 @@ void gtk_combofix_append_report ( GtkComboFix *combofix,
 
     priv = combofix->priv;
 
+	/* initialisation iter à invalid probablement inutile */
+	report_parent_iter.stamp = 0;
     /* on cherche la partie etats on l'ajoute si nécessaire */
     if ( gtk_combofix_search_for_report ( GTK_TREE_MODEL ( priv->store ) ) )
         priv -> visible_items++;
+
+	if (!report_parent_iter.stamp)
+		return;
 
     /* on sort si l'état demandé existe déjà */
     if ( gtk_combofix_search_report ( GTK_TREE_MODEL ( priv->store ), report_name ) )
@@ -675,7 +664,7 @@ void gtk_combofix_append_report ( GtkComboFix *combofix,
     /* sinon on l'ajoute dans la liste des tiers */
     tmp_str = g_strdup ( _("Report") );
     tmp_str2 = g_strconcat ( tmp_str, " : ", report_name, NULL );
-    gtk_combofix_fill_iter_child ( priv->store, &iter_parent, report_name, tmp_str2, 1 );
+    gtk_combofix_fill_iter_child ( priv->store, &report_parent_iter, report_name, tmp_str2, 1 );
     priv -> visible_items++;
 
     g_free ( tmp_str );

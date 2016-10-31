@@ -75,9 +75,10 @@ static void etats_config_onglet_texte_get_buttons_add_remove ( GtkWidget *parent
 /*START_EXTERN*/
 /*END_EXTERN*/
 
-
 /* last_report */
 static gint last_report = -1;
+
+static gboolean payee_last_state;
 
 /* the def of the columns in the categ and budget list to filter by categ and budget */
 enum
@@ -3110,8 +3111,10 @@ static void etats_config_initialise_onglet_affichage_generalites ( gint report_n
                         gsb_data_report_get_ignore_archives ( report_number ) );
     etats_prefs_button_toggle_set_actif ( "bouton_afficher_nb_opes",
                         gsb_data_report_get_show_report_transaction_amount ( report_number ) );
-    etats_prefs_button_toggle_set_actif ( "bouton_inclure_dans_tiers",
-                        gsb_data_report_get_append_in_payee ( report_number ) );
+
+	/* mémorisation de l'état avant initialisation */
+	payee_last_state = gsb_data_report_get_append_in_payee (report_number);
+    etats_prefs_button_toggle_set_actif ("bouton_inclure_dans_tiers", payee_last_state);
 }
 
 
@@ -3599,6 +3602,8 @@ static gboolean etats_config_initialise_dialog_from_etat ( gint report_number )
  */
 static gboolean etats_config_recupere_info_to_etat ( gint report_number )
 {
+	gboolean payee_new_state = FALSE;
+
     /* onglet période */
     etats_config_recupere_info_onglet_periode ( report_number );
 
@@ -3648,8 +3653,9 @@ static gboolean etats_config_recupere_info_to_etat ( gint report_number )
     etats_config_recupere_info_onglet_affichage_devises ( report_number );
 
     /* update the payee combofix in the form, to add that report if asked */
-    if ( gsb_data_report_get_append_in_payee ( report_number ) )
-        gsb_form_widget_update_payee_combofix ( report_number, TRUE );
+	payee_new_state = gsb_data_report_get_append_in_payee (report_number);
+    if (payee_last_state || payee_new_state)
+        gsb_form_widget_update_payee_combofix (report_number, payee_new_state);
 
     /* on avertit grisbi de la modification à enregistrer */
     gsb_file_set_modified ( TRUE );
