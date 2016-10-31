@@ -375,6 +375,7 @@ static GtkWidget * report_tree_view = NULL;
 static GtkTreeModel *model_categ;
 static GtkTreeModel *model_budget;
 static GtkTreeIter parent_iter;
+static gboolean payee_last_state;
 
 
 /*START_EXTERN*/
@@ -789,8 +790,9 @@ void personnalisation_etat (void)
     if ( !gsb_data_report_get_column_title_type (current_report_number))
 	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_titre_en_haut ),
 				       TRUE );
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_inclure_dans_tiers ),
-				   gsb_data_report_get_append_in_payee (current_report_number));
+	/* mémorisation de l'état avant initialisation */
+	payee_last_state = gsb_data_report_get_append_in_payee (current_report_number);
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_inclure_dans_tiers ), payee_last_state);
 
     /* on rend insensitif les sous qque choses si nécessaire */
     sens_desensitive_pointeur ( bouton_afficher_opes,
@@ -1322,6 +1324,7 @@ void recuperation_info_perso_etat ( void )
     gint i;
     gint amount_comparison_number;
     gint current_report_number;
+	gboolean payee_new_state = FALSE;
 
     current_report_number = gsb_gui_navigation_get_current_report ();
 
@@ -1461,8 +1464,9 @@ void recuperation_info_perso_etat ( void )
 
     gsb_data_report_set_currency_general ( current_report_number,
 					   gsb_currency_get_currency_from_combobox (bouton_devise_general_etat));
-    gsb_data_report_set_append_in_payee ( current_report_number,
-					  gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_inclure_dans_tiers )));
+	payee_new_state = gsb_data_report_get_append_in_payee (current_report_number);
+	if (payee_last_state || payee_new_state)
+    gsb_data_report_set_append_in_payee ( current_report_number, payee_new_state);
 
 
     /* récupération des dates */
