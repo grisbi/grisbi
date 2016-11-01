@@ -12208,7 +12208,7 @@ msgstr "_Préférences"
 
 #: ../src/ui/grisbi_menu.ui.h:3
 msgid "About"
-msgstr "A propos"
+msgstr "À propos"
 
 #: ../src/ui/grisbi_menu.ui.h:4
 msgid "_Quit"
