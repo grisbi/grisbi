@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -e
 #
 # autogen.sh glue for Grisbi
 # $Id: autogen.sh,v 1.15 2009/08/23 07:27:46 pbiava Exp $
@@ -8,13 +8,11 @@
 #
 # Check if autoconf and automake are installed
 #
-autoconf --version >/dev/null 2>&1
-if [ $? -ne 0 ] ; then
+if ! autoconf --version >/dev/null 2>&1; then
 	echo "Please install autoconf and rerun this script !"
 	exit 1
 fi
-automake --version >/dev/null 2>&1
-if [ $? -ne 0 ] ; then
+if ! automake --version >/dev/null 2>&1; then
 	echo "Please install automake and rerun this script !"
 	exit 1
 fi
