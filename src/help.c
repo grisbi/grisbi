@@ -119,63 +119,63 @@ void a_propos ( GtkWidget *bouton, gint data )
 
     const gchar *auteurs[] = {
 _("Programming"),
-"Benjamin Drieu (<bdrieu@april.org>)",
-"Cedric Auger (<cedric@grisbi.org>)",
-"Francois Terrot (<grisbi@terrot.net>)",
-"Pierre Biava (<pierre.biava@nerim.net>)",
-"Mickaël Remars (<grisbi@remars.com>)",
-"William Ollivier (<guneeyoufix@gmail.com>)",
-"Rémi Cardona (<remi@gentoo.org>)",
-"Ludovic Rousseau (<ludovic.rousseau@free.fr>)"
+"Benjamin Drieu <bdrieu@april.org>",
+"Cedric Auger <cedric@grisbi.org>",
+"Francois Terrot <grisbi@terrot.net>",
+"Pierre Biava <pierre.biava@nerim.net>",
+"Mickaël Remars <grisbi@remars.com>",
+"William Ollivier <guneeyoufix@gmail.com>",
+"Rémi Cardona <remi@gentoo.org>",
+"Ludovic Rousseau <ludovic.rousseau@free.fr>"
 "\n",
 
 _("Packaging"),
-"Alain Pichon (<aph@grisbi.org>)",
-"Baluchiterium  (<baluchiterium@users.sf.net>)",
-"Francois Terrot (<grisbi@terrot.net>)",
-"Gerald Niel (<gerald.niel@grisbi.org>)",
-"Gilles Morel (<g.morel@gmail.com>)",
-"PMF (<ugly.duck@gmx.de>)",
-"Pascal Bleser (<guru@linuxbe.org>)",
-"Sylvain Glaize (<mokona@puupuu.org>)",
-"Thierry Thomas (<thierry@pompo.net>)",
-"Vincent Marqueton (<vincent@marqueton.com>)",
-"William Ollivier (<guneeyoufix@gmail.com>)"
+"Alain Pichon <aph@grisbi.org>",
+"Baluchiterium  <baluchiterium@users.sf.net>",
+"Francois Terrot <grisbi@terrot.net>",
+"Gerald Niel <gerald.niel@grisbi.org>",
+"Gilles Morel <g.morel@gmail.com>",
+"PMF <ugly.duck@gmx.de>",
+"Pascal Bleser <guru@linuxbe.org>",
+"Sylvain Glaize <mokona@puupuu.org>",
+"Thierry Thomas <thierry@pompo.net>",
+"Vincent Marqueton <vincent@marqueton.com>",
+"William Ollivier <guneeyoufix@gmail.com>"
 "\n",
 
 _("Other"),
-"Axel Rousseau (<axel584@axel584.org>) ",
-"Dominique Parisot (<parisot@villey-le-sec.com>) ",
-"Gerald Niel (<gerald.niel@grisbi.org>) ", CSUFFIX,
+"Axel Rousseau <axel584@axel584.org>",
+"Dominique Parisot <parisot@villey-le-sec.com>",
+"Gerald Niel <gerald.niel@grisbi.org>", CSUFFIX,
 NULL };
 
   gchar * translators = g_strconcat(
-"Alain Portal (<dionysos@grisbi.org>): ", _("English"), CSUFFIX,
-"Benjamin Drieu (<bdrieu@april.org>): ", _("English"), CSUFFIX,
-"Carlos M. Cámara Mora (<carcam_moceu@yahoo.es>): ", _("Spanish"), CSUFFIX,
-"Daniel Cartron (<cartron@grisbi.org>): ", _("English"), CSUFFIX,
-"Edwin Huijsing (<e.huijsing@fiberworld.nl>): ", _("Dutch"), CSUFFIX,
-"Fabio Erculiani (<fabio.erculiani@tiscali.it>): ", _("Italian"), CSUFFIX,
-"Flavio Henrique Somensi (<flavio@opens.com.br>): ", _("Brazilian Portuguese"), CSUFFIX,
-"Giorgio Mandolfo (<giorgio@pollycoke.org>): ", _("Italian"), CSUFFIX,
-"Martin Stromberger (<ma.stromberger@gmx.at>): ", _("German"), CSUFFIX,
-"Ryszard Jeziorski (<rjeziorski@eagleW>): ", _("Polish"), CSUFFIX,
-"Achilleas Kaskamanidis (<alterna55@users.sourceforge.net>): ", _("Greek"), CSUFFIX,
+"Alain Portal <dionysos@grisbi.org>: ", _("English"), CSUFFIX,
+"Benjamin Drieu <bdrieu@april.org>: ", _("English"), CSUFFIX,
+"Carlos M. Cámara Mora <carcam_moceu@yahoo.es>: ", _("Spanish"), CSUFFIX,
+"Daniel Cartron <cartron@grisbi.org>: ", _("English"), CSUFFIX,
+"Edwin Huijsing <e.huijsing@fiberworld.nl>: ", _("Dutch"), CSUFFIX,
+"Fabio Erculiani <fabio.erculiani@tiscali.it>: ", _("Italian"), CSUFFIX,
+"Flavio Henrique Somensi <flavio@opens.com.br>: ", _("Brazilian Portuguese"), CSUFFIX,
+"Giorgio Mandolfo <giorgio@pollycoke.org>: ", _("Italian"), CSUFFIX,
+"Martin Stromberger <ma.stromberger@gmx.at>: ", _("German"), CSUFFIX,
+"Ryszard Jeziorski <rjeziorski@eagleW>: ", _("Polish"), CSUFFIX,
+"Achilleas Kaskamanidis <alterna55@users.sourceforge.net>: ", _("Greek"), CSUFFIX,
 NULL);
 
   const gchar *documenters [] = {
-"Alain Portal (<aportal@univ-monpt2.fr>)",
-"Benjamin Drieu (<bdrieu@april.org>)",
-"Daniel Cartron (<doc@grisbi.org>)",
-"Jean-Luc Duflot (<jl.duflot@laposte.net>)",
-"Loic Breilloux (<loic.breilloux@libertysurf.fr>)", CSUFFIX,
+"Alain Portal <aportal@univ-monpt2.fr>",
+"Benjamin Drieu <bdrieu@april.org>",
+"Daniel Cartron <doc@grisbi.org>",
+"Jean-Luc Duflot <jl.duflot@laposte.net>",
+"Loic Breilloux <loic.breilloux@libertysurf.fr>", CSUFFIX,
 NULL};
 
   const gchar *artists [] = {
-"Andre Pascual (<andre@linuxgraphic.org>)",
-"Jakub 'jimmac' Steiner (<jimmac@ximian.com>)",
-"Jean-Baptiste Renard (<renardjb@free.fr>)",
-"Tuomas 'tigert' Kuosmanen (<tigert@gimp.org>)",
+"Andre Pascual <andre@linuxgraphic.org>",
+"Jakub 'jimmac' Steiner <jimmac@ximian.com>",
+"Jean-Baptiste Renard <renardjb@free.fr>",
+"Tuomas 'tigert' Kuosmanen <tigert@gimp.org>",
 NULL};
 
   const gchar *license = "This program is free software; you can redistribute "
