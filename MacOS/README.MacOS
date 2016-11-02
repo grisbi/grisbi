@@ -1,0 +1,61 @@
+1. Set up the environement
+
+Full documentation is available here:
+https://wiki.gnome.org/Projects/GTK+/OSX/Building
+
+Note that jhbuild environment is not compatible with homebrew nor macport.
+
+
+First step is to download the lastest install script:
+https://git.gnome.org/browse/gtk-osx/plain/gtk-osx-build-setup.sh
+
+
+Then use the following command lines:
+
+% # init the installation
+% ./gtk-osx-build-setup.sh
+
+% # Build prerequiste tools
+% jhbuild bootstrap
+
+% # install GTK2 env
+% jhbuild build meta-gtk-osx-bootstrap meta-gtk-osx-core
+
+% # install GTK3 env
+% jhbuild build meta-gtk-osx-gtk3
+
+% # required package for Grisbi 
+% jhbuild build libgsf
+
+% # ensure that mac-integration is properly installed for both GTK2 and GTK3
+% jhbuild build -f  gtk-mac-integration
+
+
+Optionnaly download goffice
+  Patch goffice.c) (180, 184) to rename "quartz_*" function calls to "gtkosx_*".
+  Patch configure.ac to instruct to use GTK3 instead of GTK2.
+  Compile and install goffice :
+  % jhbuild shell
+  % ./configure
+  % make
+  % make install
+
+Optionnaly download "libofx" (Broken at the moment)
+  https://sourceforge.net/projects/libofx/files/latest/download
+  https://sourceforge.net/projects/openjade/files/opensp/1.5.1/OpenSP-1.5.1.tar.gz
+
+2. Compile
+
+% jhbuild shell
+% ./autogen.sh
+% ./configure --prefix=$PREFIX # PREFIX var is set by jhbuild
+
+
+3. Package
+
+% jhbuild shell
+% make bundle
+
+Grisbi.dmg should appear in MacOS/ directory
+
+
