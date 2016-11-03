@@ -348,7 +348,7 @@ gboolean csv_import_parse_notes ( struct struct_ope_importation * ope, gchar * s
  *
  *
  */
-gboolean csv_import_parse_voucher ( struct struct_ope_importation * ope, gchar * string )
+gboolean csv_import_parse_cheque ( struct struct_ope_importation * ope, gchar * string )
 {
     g_return_val_if_fail ( string, FALSE );
     if ( ope -> cheque )
