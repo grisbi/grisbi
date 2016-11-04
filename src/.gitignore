@@ -4,3 +4,5 @@
 .deps
 *.bak
 grisbi
+grisbi_resources.c
+org.gtk.grisbi.gschema.valid
