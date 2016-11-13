@@ -14,12 +14,12 @@ os:
   - osx
 
 env:
-  - DIST_NAME: debian
-    DIST_VERS: testing
-    TAG: grisbi
+  - CONF: werror
+  - CONF: goffice
 
 before_install:
     # Linux: create Docker image
+    - export DIST_NAME=debian DIST_VERS=testing TAG=grisbi
     - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then docker pull ${DIST_NAME}:${DIST_VERS} ; fi
     - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then docker build --rm=true --file=travis-ci/Dockerfile.${DIST_NAME}-${DIST_VERS} --tag=${DIST_NAME}-${DIST_VERS}:${TAG} travis-ci ; fi
 
@@ -29,6 +29,7 @@ before_install:
 
 script:
     - echo "export TRAVIS_OS_NAME=$TRAVIS_OS_NAME" > travis-ci/env
+    - echo "export CONF=$CONF" >> travis-ci/env
 
     # Command to execute
     - CMD=". travis-ci/env ; ./travis-ci/travis-autogen.sh ; make"
