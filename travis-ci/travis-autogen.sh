@@ -38,12 +38,22 @@ echo "CFLAGS: $CFLAGS"
 
 configure_args=""
 
-# fail on warning
-configure_args+=" --enable-werror"
+# special configurations
+case "$CONF" in
+	*werror*)
+		# fail on warning
+		configure_args+=" --enable-werror"
 
-# disable goffice since it uses -pthread that generate warnings and then
-# errors
-configure_args+=" --without-goffice"
+		# disable goffice since it uses -pthread that generate warnings and then
+		# errors
+		configure_args+=" --without-goffice"
+	;;
+
+	*goffice*)
+		# enable goffice
+		configure_args+=" --with-goffice"
+	;;
+esac
 
 if [ "$TRAVIS_OS_NAME" = "osx" ]
 then
