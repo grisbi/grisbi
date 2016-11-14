@@ -654,8 +654,8 @@ void gtk_combofix_append_report ( GtkComboFix *combofix,
     if ( gtk_combofix_search_for_report ( GTK_TREE_MODEL ( priv->store ) ) )
         priv -> visible_items++;
 
-	if (!report_parent_iter.stamp)
-		return;
+    if (!report_parent_iter.stamp)
+        return;
 
     /* on sort si l'état demandé existe déjà */
     if ( gtk_combofix_search_report ( GTK_TREE_MODEL ( priv->store ), report_name ) )
