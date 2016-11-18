@@ -214,9 +214,11 @@ AC_ARG_ENABLE(werror,
  	[AS_HELP_STRING([--enable-werror],
  	[Treates warning as errors (default=no)])],,
  	enable_werror=no)
-if test "x$enable_werror" = xyes ; then
-	CFLAGS="$CFLAGS -Werror"
-	AC_MSG_WARN([-Werror flag is enabled])
+	if test "x$GCC" = "xyes" ; then
+		CFLAGS="$CFLAGS -Wall -Wextra -Wno-deprecated-declarations -Wno-unused-parameter"
+		AC_MSG_WARN([Wall -Wextra and other flags are enabled])
+	else
+		AC_MSG_WARN([Wall -Wextra and other flags can be enabled only with gcc])
 fi
 
 dnl ================================================================
@@ -326,6 +328,11 @@ src/ui/Makefile
 
 AC_OUTPUT
 
+if test "x$enable_werror" = "xyes" ; then
+	echo "
+                werror:                    yes
+                Compiler flags:            $CFLAGS"
+fi
 echo "
 
                 Build with libxml2:        $build_libxml2
