@@ -310,32 +310,31 @@ static gboolean grisbi_win_hpaned_size_allocate (GtkWidget *hpaned,
  */
 static GtkWidget *grisbi_win_create_general_notebook (GrisbiWin *win)
 {
-    GtkWidget *vbox;
+	GtkWidget *grid;
     GtkWidget *form;
 	GrisbiWinPrivate *priv;
 
     devel_debug ( "create_main_notebook" );
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
-    /* the main right page is a vbox with a notebook on the top
-     * and the form on the bottom */
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
+    /* the main right page is a grid with a notebook on the top and the form on the bottom */
+	grid = gtk_grid_new ();
 
     /* append the notebook */
     priv->notebook_general = gtk_notebook_new ();
     gtk_notebook_set_show_tabs ( GTK_NOTEBOOK (priv->notebook_general ), FALSE );
     gtk_notebook_set_show_border ( GTK_NOTEBOOK (priv->notebook_general ), FALSE );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), priv->notebook_general, TRUE, TRUE, 0 );
+	gtk_grid_attach (GTK_GRID (grid), priv->notebook_general, 0,0,1,1);
     gtk_widget_show (priv->notebook_general);
 
     /* append the form */
     form = gsb_form_new ();
-    gtk_box_pack_start ( GTK_BOX ( vbox ), form, FALSE, FALSE, 0 );
+	gtk_grid_attach (GTK_GRID (grid), form, 0,1,1,1);
     gtk_widget_hide (form);
 
-    gtk_widget_show (vbox);
+    gtk_widget_show (grid);
 
-    return vbox;
+    return grid;
 }
 
 /* WIN STATE */
