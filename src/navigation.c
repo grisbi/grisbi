@@ -197,7 +197,8 @@ static GtkTargetEntry row_targets[] =
  */
 GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
 {
-    GtkWidget * sw, *vbox;
+    GtkWidget *grid;
+    GtkWidget *sw;
     GQueue *tmp_queue;
     GtkCellRenderer *renderer;
     GtkTreeDragDestIface *navigation_dst_iface;
@@ -207,12 +208,13 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
     gint xpad;
     gint ypad;
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
+    grid = gtk_grid_new ();
 
     sw = gtk_scrolled_window_new (NULL, NULL);
     gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw), GTK_SHADOW_ETCHED_IN);
-    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_NEVER,
-				    GTK_POLICY_AUTOMATIC);
+    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
+                                    GTK_POLICY_AUTOMATIC,
+                                    GTK_POLICY_AUTOMATIC);
 
     /* Create the view */
     navigation_tree_view = gtk_tree_view_new ();
@@ -333,15 +335,16 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
     }
 
     /* Finish tree. */
-    gtk_box_pack_start ( GTK_BOX(vbox), sw, TRUE, TRUE, 0 );
+    gtk_grid_attach (GTK_GRID (grid), sw, 0,0,1,1);
+	gtk_widget_set_hexpand (sw, TRUE);
 
     /* Create calendar (hidden for now). */
     scheduler_calendar = gsb_calendar_new ();
-    gtk_box_pack_end ( GTK_BOX(vbox), scheduler_calendar, FALSE, FALSE, 0 );
+    gtk_grid_attach (GTK_GRID (grid), scheduler_calendar, 0,1,1,1);
 
     /* Create reconcile stuff (hidden for now). */
     reconcile_panel = gsb_reconcile_create_box ();
-    gtk_box_pack_end ( GTK_BOX(vbox), reconcile_panel, FALSE, FALSE, 0 );
+    gtk_grid_attach (GTK_GRID (grid), reconcile_panel, 0,2,1,1);
 
     /* signals of tree_view */
     g_signal_connect ( G_OBJECT ( navigation_tree_view ),
@@ -358,11 +361,11 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
 		                G_CALLBACK ( gsb_gui_navigation_activate_expander ),
 		                GINT_TO_POINTER ( 1 ) );
 
-    gtk_widget_show_all ( vbox );
+    gtk_widget_show_all (grid);
     gtk_widget_hide ( scheduler_calendar );
     gtk_widget_hide ( reconcile_panel );
 
-    return vbox;
+    return grid;
 }
 
 
