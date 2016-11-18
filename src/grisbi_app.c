@@ -1070,7 +1070,6 @@ void grisbi_app_init_recent_manager ( gchar **recent_array )
 	GtkRecentManager *recent_manager;
 	gchar *uri = NULL;
 	gint i;
-    gint nb_effectif = 0;
 	gboolean result = 0;
 
     uri = g_build_filename ( g_get_user_data_dir (), "recently-used.xbel", NULL);
@@ -1091,18 +1090,19 @@ void grisbi_app_init_recent_manager ( gchar **recent_array )
 	for ( i=0 ; i < conf.nb_derniers_fichiers_ouverts ; i++ )
     {
 		uri = g_filename_to_uri ( recent_array[i], NULL, NULL );
-        if ( g_file_test ( recent_array[i], G_FILE_TEST_EXISTS ) )
-        {
-            if ( !gtk_recent_manager_has_item ( recent_manager, uri ) )
-                result = gtk_recent_manager_add_item (  recent_manager, uri );
-            if ( result )
-            {
-                nb_effectif++;
-            }
+        if (!gtk_recent_manager_has_item (recent_manager, uri))
+		{
+			result = gtk_recent_manager_add_item (recent_manager, uri);
+			if (!result)
+			{
+			  conf.nb_derniers_fichiers_ouverts--;
+			}
         }
-        g_free ( uri );
-	}
-    conf.nb_derniers_fichiers_ouverts = nb_effectif;
+		else
+			conf.nb_derniers_fichiers_ouverts--;
+
+        g_free (uri);
+  }
 }
 
 /**
