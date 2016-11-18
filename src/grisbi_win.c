@@ -1160,7 +1160,7 @@ void grisbi_win_status_bar_stop_wait (gboolean force_update)
         gdk_window_set_cursor (priv->tracked_window, NULL);
         priv->tracked_window = NULL;
     }
-    else
+
 	gdk_window_set_cursor (gtk_widget_get_window (GTK_WIDGET (win)), NULL);
 
     if (force_update)
