@@ -44,6 +44,7 @@
 /*START_INCLUDE*/
 #include "utils_file_selection.h"
 #include "dialog.h"
+#include "gsb_dirs.h"
 #include "gsb_file_util.h"
 #include "utils_str.h"
 /*END_INCLUDE*/
@@ -119,14 +120,22 @@ gchar* file_selection_get_filename(GtkFileChooser* filesel)
  * */
 gchar* file_selection_get_last_directory(GtkFileChooser* filesel,gboolean ended)
 {/* {{{ */
-    gchar * dirstr = gtk_file_chooser_get_current_folder ( filesel );
-    gint     dirstr_len  = strlen(dirstr);
-    gchar*   sepstr      = my_strdup(G_DIR_SEPARATOR_S);
-    gint     sepstr_len  = strlen(sepstr);
+    gchar *dirstr;
+    gint dirstr_len = 0;
+    gchar *sepstr;
+    gint sepstr_len = 0;
     gboolean is_endedstr = FALSE;
     gchar* tmpstr;
 
-    /* Chek if the sirectory string is ended by a separator
+    dirstr = gtk_file_chooser_get_current_folder (filesel);
+	if (dirstr == NULL)
+		dirstr = g_strdup (g_get_home_dir ());
+	dirstr_len  = strlen (dirstr);
+
+	sepstr = my_strdup (G_DIR_SEPARATOR_S);
+	sepstr_len  = strlen (sepstr);
+
+     /* Chek if the sirectory string is ended by a separator
      (if directory string  is small than the separator string
      it can ot be ended by the separator string) */
     if ( dirstr_len >= sepstr_len)
