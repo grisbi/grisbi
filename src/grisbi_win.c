@@ -227,7 +227,7 @@ static GtkWidget *grisbi_win_get_headings_eb (GrisbiWin *win)
  */
 static void grisbi_win_create_headings_eb (GrisbiWin *win)
 {
-    GtkWidget *hbox;
+    GtkWidget *grid;
     GtkWidget *arrow_eb;
     GtkWidget *arrow_left;
     GtkWidget *arrow_right;
@@ -237,10 +237,14 @@ static void grisbi_win_create_headings_eb (GrisbiWin *win)
 
     priv->headings_eb = gtk_event_box_new ();
     gtk_widget_set_name ( priv->headings_eb, "grey_box");
+	gtk_widget_set_margin_start (priv->headings_eb, MARGIN_BOX);
+	gtk_widget_set_margin_end (priv->headings_eb, MARGIN_BOX);
 
-    hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-    gtk_widget_set_margin_end (hbox, MARGIN_END);
-    gtk_container_set_border_width (GTK_CONTAINER (hbox), 6);
+    grid = gtk_grid_new ();
+    gtk_widget_set_margin_end (grid, MARGIN_BOX);
+	gtk_grid_set_column_spacing (GTK_GRID (grid), MARGIN_BOX);
+	gtk_widget_set_hexpand (grid, TRUE);
+    gtk_container_set_border_width (GTK_CONTAINER (grid), MARGIN_BOX);
 
     /* Create two arrows. */
     arrow_left = gtk_image_new_from_icon_name ("pan-start-symbolic", GTK_ICON_SIZE_BUTTON);
@@ -249,7 +253,7 @@ static void grisbi_win_create_headings_eb (GrisbiWin *win)
     g_signal_connect (G_OBJECT (arrow_eb), "button-press-event",
                         G_CALLBACK (grisbi_win_headings_simpleclick_event_run),
                         gsb_gui_navigation_select_prev);
-    gtk_box_pack_start (GTK_BOX (hbox), arrow_eb, FALSE, FALSE, 0);
+	gtk_grid_attach (GTK_GRID (grid), arrow_eb, 0,0,1,1);
 
     arrow_right = gtk_image_new_from_icon_name ("pan-end-symbolic", GTK_ICON_SIZE_BUTTON);
     arrow_eb = gtk_event_box_new ();
@@ -257,18 +261,21 @@ static void grisbi_win_create_headings_eb (GrisbiWin *win)
     g_signal_connect (G_OBJECT (arrow_eb), "button-press-event",
                       G_CALLBACK (grisbi_win_headings_simpleclick_event_run),
                       gsb_gui_navigation_select_next);
-    gtk_box_pack_start (GTK_BOX(hbox), arrow_eb, FALSE, FALSE, 3);
+	gtk_grid_attach (GTK_GRID (grid), arrow_eb, 1,0,1,1);
 
     /* Define labels. */
     priv->headings_title = gtk_label_new (NULL);
     gtk_label_set_justify (GTK_LABEL(priv->headings_title), GTK_JUSTIFY_LEFT);
     utils_labels_set_alignement (GTK_LABEL (priv->headings_title), 0.0, 0.5);
-    gtk_box_pack_start (GTK_BOX(hbox), priv->headings_title, TRUE, TRUE, 3);
+	gtk_grid_attach (GTK_GRID (grid), priv->headings_title, 2,0,1,1);
 
     priv->headings_suffix = gtk_label_new (NULL);
-    gtk_box_pack_start (GTK_BOX(hbox), priv->headings_suffix, FALSE, FALSE, 0);
+	utils_labels_set_alignement (GTK_LABEL (priv->headings_suffix), 0.0, 0.5);
+	gtk_widget_set_hexpand (priv->headings_suffix, TRUE);
+	gtk_widget_set_halign (priv->headings_suffix, GTK_ALIGN_END);
+    gtk_grid_attach (GTK_GRID (grid), priv->headings_suffix, 3,0,1,1);
 
-    gtk_container_add (GTK_CONTAINER (priv->headings_eb), hbox);
+    gtk_container_add (GTK_CONTAINER (priv->headings_eb), grid);
 }
 
 /* HPANED_GENERAL */

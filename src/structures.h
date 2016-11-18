@@ -30,6 +30,7 @@
 #define SECONDARY_SORT          1
 
 /* margin for widgets */
+#define MARGIN_BOX				 5
 #define MARGIN_END              10
 #define MARGIN_START            10
 #define MARGIN_TOP              10
