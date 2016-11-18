@@ -458,7 +458,7 @@ GtkWidget *gsb_bank_create_page ( gboolean default_sensitive )
     GtkListStore *store;
     GtkTreeSelection *selection;
     gint i;
-    gint nbre_bank;
+    gint nbre_bank = 0;
     gint sw_height = 0;
     gchar *titles[] = {("Bank"), _("Contact name")};
     gfloat alignment[] = {COLUMN_LEFT, COLUMN_LEFT};

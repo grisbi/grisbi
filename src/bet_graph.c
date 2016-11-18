@@ -1469,12 +1469,15 @@ static gboolean bet_graph_populate_lines_by_forecast_data ( struct_bet_graph_dat
         {
             gchar *amount;
             gchar *str_date;
-            GValue date_value = {0,};
+            GValue date_value = G_VALUE_INIT;
             GDate *date;
             GDateDay day;
             GDateMonth month;
             gint diff_jours;
             gint i;
+
+			if (G_IS_VALUE (&date_value))
+				g_value_init ( &date_value, G_TYPE_DATE );
 
             gtk_tree_model_get_value ( model,
                         &iter,
@@ -1552,7 +1555,7 @@ static gboolean bet_graph_populate_lines_by_forecast_data ( struct_bet_graph_dat
 
                 break;
             }
-
+			g_value_unset (&date_value);
         }
         while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &iter ) );
 

@@ -383,7 +383,7 @@ void grisbi_cmd_file_open_direct_menu ( GSimpleAction *action,
     GtkRecentManager *recent_manager;
     GList *tmp_list;
 	const gchar *target;
-	const gchar *uri;
+	const gchar *uri = NULL;
 	gchar *tmp_str;
     gint index_target = 0;
     gint index_gsb = 0;
