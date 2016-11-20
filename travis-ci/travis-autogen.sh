@@ -42,7 +42,7 @@ configure_args=""
 case "$CONF" in
 	*werror*)
 		# fail on warning
-		configure_args+=" --enable-werror"
+		configure_args+=" --enable-real-werror"
 
 		# disable goffice since it uses -pthread that generate warnings and then
 		# errors
