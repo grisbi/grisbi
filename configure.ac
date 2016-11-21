@@ -332,8 +332,7 @@ AC_OUTPUT
 
 if test "x$enable_werror" = "xyes" ; then
 	echo "
-                werror:                    yes
-                Compiler flags:            $CFLAGS"
+                werror:                    yes"
 fi
 echo "
 
@@ -344,6 +343,7 @@ echo "
                 Build gtk_mac_integration: $os_osx
                 CUnit/unit tests support:  $build_cunit
                 Install french user doc:   $enable_frenchdoc
+                Compiler flags:            $CFLAGS
 
 "
 if expr ${GRISBI_MINOR_VERSION} % 2 > /dev/null; then
