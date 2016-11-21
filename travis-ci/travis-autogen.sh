@@ -58,14 +58,11 @@ esac
 if [ "$TRAVIS_OS_NAME" = "osx" ]
 then
 	# from brew
-	export PKG_CONFIG_PATH=/usr/local/opt/libxml2/lib/pkgconfig
+	export PKG_CONFIG_PATH=/usr/local/opt/libxml2/lib/pkgconfig:/usr/local/opt/openssl/lib/pkgconfig
 	export PATH="$PATH:/usr/local/opt/gettext/bin"
 
 	mkdir m4
 	ln -sf /usr/local/opt/gettext/share/aclocal/nls.m4 m4
-
-	# disable OpenSSL on macOS since it is no more provided by Apple
-	configure_args+=" --without-openssl"
 fi
 
 # exit on error
