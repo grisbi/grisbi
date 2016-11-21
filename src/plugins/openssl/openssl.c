@@ -36,6 +36,7 @@
 #include "grisbi_app.h"
 #include "structures.h"
 #include "utils.h"
+#include "dialog.h"
 /*END_INCLUDE*/
 
 /*START_EXTERN*/
