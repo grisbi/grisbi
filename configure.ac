@@ -214,11 +214,13 @@ AC_ARG_ENABLE(werror,
  	[AS_HELP_STRING([--enable-werror],
  	[Treates warning as errors (default=no)])],,
  	enable_werror=no)
+if test "x$enable_werror" = xyes ; then
 	if test "x$GCC" = "xyes" ; then
 		CFLAGS="$CFLAGS -Wall -Wextra -Wno-deprecated-declarations -Wno-unused-parameter"
 		AC_MSG_WARN([Wall -Wextra and other flags are enabled])
 	else
 		AC_MSG_WARN([Wall -Wextra and other flags can be enabled only with gcc])
+	fi
 fi
 
 dnl ================================================================
