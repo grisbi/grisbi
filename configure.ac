@@ -223,6 +223,15 @@ if test "x$enable_werror" = xyes ; then
 	fi
 fi
 
+AC_ARG_ENABLE(real-werror,
+ 	[AS_HELP_STRING([--enable-real-werror],
+ 	[Treates warning as errors (default=no)])],,
+ 	enable_real_werror=no)
+if test "x$enable_real_werror" = xyes ; then
+	CFLAGS="$CFLAGS -Werror"
+	AC_MSG_WARN([-Werror flag is enabled])
+fi
+
 dnl ================================================================
 dnl NoOptim support
 dnl ================================================================
