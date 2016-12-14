@@ -14,37 +14,13 @@
 #define HAVE_OFX 1
 
 /* Define if OpenSSL support is enabled */
-/* #undef HAVE_SSL */
-
-/* Define to 1 if you have the <stdint.h> header file. */
-//#define HAVE_STDINT_H 1
-
-/* Define to 1 if you have the <stdlib.h> header file. */
-//#define HAVE_STDLIB_H 1
-
-/* Define to 1 if you have the <strings.h> header file. */
-//#define HAVE_STRINGS_H 1
-
-/* Define to 1 if you have the <string.h> header file. */
-//#define HAVE_STRING_H 1
-
-/* Define to 1 if you have the <sys/stat.h> header file. */
-//#define HAVE_SYS_STAT_H 1
-
-/* Define to 1 if you have the <sys/types.h> header file. */
-//#define HAVE_SYS_TYPES_H 1
-
-/* Define to 1 if you have the <unistd.h> header file. */
-//#define HAVE_UNISTD_H 1
+#define HAVE_SSL 1
 
 /* Define if libxml2 support is enabled */
 #define HAVE_XML2 1
 
 /* Defined if Grisbi is a developmeent version */
 #define IS_DEVELOPMENT_VERSION 1
-
-/* Define to the sub-directory where libtool stores uninstalled libraries. */
-//#define LT_OBJDIR ".libs/"
 
 /* Defined if system is Mac OS X */
 #define OS_OSX 1
@@ -97,16 +73,6 @@
 
 /* Version number of package */
 #define VERSION "1.1.1"
-
-/* Define to 1 if on MINIX. */
-/* #undef _MINIX */
-
-/* Define to 2 if the system does not provide POSIX.1 features except with
-   this defined. */
-/* #undef _POSIX_1_SOURCE */
-
-/* Define to 1 if you need to in order for `stat' and other things to work. */
-/* #undef _POSIX_SOURCE */
 
 #define HELP_PATH ""
 #define LOGO_PATH ""
