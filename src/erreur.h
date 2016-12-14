@@ -4,10 +4,6 @@
 #include "gsb_real.h"
 /* END_INCLUDE_H */
 
-/* constante de debug originale, obsolete il faudrait utiliser maintenant */
-/* la variable globale debugging_grisbi, voir erreur.c */
-#define DEBUG utils_str_atoi (getenv ("DEBUG_GRISBI"))
-
 /* constantes definissant le niveau de debug */
 #define DEBUG_NO_DEBUG				0		/* pas de de débug */
 #define	DEBUG_LEVEL_ALERT			1		/* grave probleme */
