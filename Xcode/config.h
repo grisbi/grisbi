@@ -10,23 +10,8 @@
 /* Define if goffice support is enabled */
 #define HAVE_GOFFICE 1
 
-/* Define to 1 if you have the <inttypes.h> header file. */
-//#define HAVE_INTTYPES_H 1
-
-/* Define if your <locale.h> file defines LC_MESSAGES. */
-//#define HAVE_LC_MESSAGES 1
-
-/* Define to 1 if you have the `z' library (-lz). */
-/* #undef HAVE_LIBZ */
-
-/* Define to 1 if you have the <locale.h> header file. */
-//#define HAVE_LOCALE_H 1
-
-/* Define to 1 if you have the <memory.h> header file. */
-//#define HAVE_MEMORY_H 1
-
 /* Build with ofx support */
-//#define HAVE_OFX 1
+#define HAVE_OFX 1
 
 /* Define if OpenSSL support is enabled */
 /* #undef HAVE_SSL */
