@@ -1,44 +1,14 @@
-/* always defined to indicate that i18n is enabled */
-/* #undef ENABLE_NLS */
-
-/* Using GDK Quartz (not X11) */
-//#define GDK_QUARTZ 1
-
 /* Gettext package. */
 #define GETTEXT_PACKAGE "grisbi"
-
-/* grisbi major version */
-//#define GRISBI_MAJOR_VERSION 1
-
-/* grisbi micro version */
-//#define GRISBI_MICRO_VERSION 1
-
-/* grisbi minor version */
-//#define GRISBI_MINOR_VERSION 1
-
-/* define to 1 if g_no_optim support is enabled */
-//#define GSB_NOOPTIM
 
 /* Defined if app is GtkOSXApplication */
 /* #undef GTKOSXAPPLICATION */
 
 /* Define to 1 if you have the `backtrace' function. */
-//#define HAVE_BACKTRACE 1
-
-/* Define to 1 if you have the `bind_textdomain_codeset' function. */
-/* #undef HAVE_BIND_TEXTDOMAIN_CODESET */
-
-/* Define to 1 if you have the `dcgettext' function. */
-/* #undef HAVE_DCGETTEXT */
-
-/* Define to 1 if you have the <dlfcn.h> header file. */
-//#define HAVE_DLFCN_H 1
-
-/* Define if the GNU gettext() function is already present or preinstalled. */
-/* #undef HAVE_GETTEXT */
+#define HAVE_BACKTRACE 1
 
 /* Define if goffice support is enabled */
-//#define HAVE_GOFFICE 1
+#define HAVE_GOFFICE 1
 
 /* Define to 1 if you have the <inttypes.h> header file. */
 //#define HAVE_INTTYPES_H 1

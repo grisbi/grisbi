@@ -167,6 +167,7 @@
 		006E68E21DB4276C0038B1F0 /* ofx.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E68E01DB4276C0038B1F0 /* ofx.c */; };
 		006E68E41DB427DF0038B1F0 /* libofx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 006E68E31DB427DF0038B1F0 /* libofx.a */; };
 		00B77C441DB2A17600A5D233 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 00B77C431DB2A17600A5D233 /* main.c */; };
+		00EE9D021E01E93C005BB1B0 /* libgoffice-0.10.10.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 00EE9D011E01E93C005BB1B0 /* libgoffice-0.10.10.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -500,6 +501,7 @@
 		006E68E31DB427DF0038B1F0 /* libofx.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libofx.a; path = ../../../usr_local/Cellar/libofx/0.9.10/lib/libofx.a; sourceTree = "<group>"; };
 		00B77C381DB2A0EC00A5D233 /* grisbi */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = grisbi; sourceTree = BUILT_PRODUCTS_DIR; };
 		00B77C431DB2A17600A5D233 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		00EE9D011E01E93C005BB1B0 /* libgoffice-0.10.10.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libgoffice-0.10.10.dylib"; path = "../../../../../../usr/local/Cellar/goffice/0.10.32/lib/libgoffice-0.10.10.dylib"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -507,6 +509,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				00EE9D021E01E93C005BB1B0 /* libgoffice-0.10.10.dylib in Frameworks */,
 				006E68E41DB427DF0038B1F0 /* libofx.a in Frameworks */,
 				006E68DE1DB427130038B1F0 /* libxml2.tbd in Frameworks */,
 				006E68D61DB426670038B1F0 /* libintl.a in Frameworks */,
@@ -529,6 +532,7 @@
 		006E68BE1DB3E96C0038B1F0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				00EE9D011E01E93C005BB1B0 /* libgoffice-0.10.10.dylib */,
 				006E68E31DB427DF0038B1F0 /* libofx.a */,
 				006E68DD1DB427130038B1F0 /* libxml2.tbd */,
 				006E68D51DB426670038B1F0 /* libintl.a */,
@@ -1254,6 +1258,12 @@
 					/usr/local/opt/libxml2/include/libxml2,
 					/usr/local/opt/libofx/include,
 					/usr/include/libxml2,
+					"/usr/local/opt/goffice/include/libgoffice-0.10",
+					/usr/local/opt/cairo/include,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/Cellar/goffice/0.10.32/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -1275,6 +1285,12 @@
 					/usr/local/opt/libxml2/include/libxml2,
 					/usr/local/opt/libofx/include,
 					/usr/include/libxml2,
+					"/usr/local/opt/goffice/include/libgoffice-0.10",
+					/usr/local/opt/cairo/include,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/Cellar/goffice/0.10.32/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
