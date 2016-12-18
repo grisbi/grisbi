@@ -342,7 +342,7 @@ static void grisbi_app_set_main_menu (GrisbiApp *app,
 						"/org/gtk/grisbi/ui/grisbi_menu.ui",
 						&error ) )
 	{
-		g_warning ("loading menu builder file: %s", error->message);
+		g_critical ("loading menu builder file: %s", error->message);
 		g_error_free (error);
 
 		exit (1);
