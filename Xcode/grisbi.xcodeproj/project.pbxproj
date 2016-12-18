@@ -167,6 +167,11 @@
 		006E68E21DB4276C0038B1F0 /* ofx.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E68E01DB4276C0038B1F0 /* ofx.c */; };
 		006E68E41DB427DF0038B1F0 /* libofx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 006E68E31DB427DF0038B1F0 /* libofx.a */; };
 		00B77C441DB2A17600A5D233 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 00B77C431DB2A17600A5D233 /* main.c */; };
+		00BCBD341E0701C100579172 /* bet_graph.ui in CopyFiles */ = {isa = PBXBuildFile; fileRef = 00BCBD2F1E07018400579172 /* bet_graph.ui */; };
+		00BCBD351E0701C100579172 /* etats_prefs.ui in CopyFiles */ = {isa = PBXBuildFile; fileRef = 00BCBD301E07018400579172 /* etats_prefs.ui */; };
+		00BCBD361E0701C100579172 /* grisbi_menu.ui in CopyFiles */ = {isa = PBXBuildFile; fileRef = 00BCBD311E07018400579172 /* grisbi_menu.ui */; };
+		00BCBD371E0701C100579172 /* grisbi_win.ui in CopyFiles */ = {isa = PBXBuildFile; fileRef = 00BCBD321E07018400579172 /* grisbi_win.ui */; };
+		00BCBD381E0701C100579172 /* grisbi.css in CopyFiles */ = {isa = PBXBuildFile; fileRef = 00BCBD331E07018400579172 /* grisbi.css */; };
 		00EE9D021E01E93C005BB1B0 /* libgoffice-0.10.10.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 00EE9D011E01E93C005BB1B0 /* libgoffice-0.10.10.dylib */; };
 		00EE9D061E01EAFB005BB1B0 /* openssl.c in Sources */ = {isa = PBXBuildFile; fileRef = 00EE9D041E01EAFB005BB1B0 /* openssl.c */; };
 		00EE9D0A1E01EBB3005BB1B0 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00EE9D091E01EBB3005BB1B0 /* libcrypto.a */; };
@@ -175,12 +180,17 @@
 /* Begin PBXCopyFilesBuildPhase section */
 		00B77C361DB2A0EC00A5D233 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
+			buildActionMask = 12;
+			dstPath = ui;
+			dstSubfolderSpec = 16;
 			files = (
+				00BCBD341E0701C100579172 /* bet_graph.ui in CopyFiles */,
+				00BCBD351E0701C100579172 /* etats_prefs.ui in CopyFiles */,
+				00BCBD361E0701C100579172 /* grisbi_menu.ui in CopyFiles */,
+				00BCBD371E0701C100579172 /* grisbi_win.ui in CopyFiles */,
+				00BCBD381E0701C100579172 /* grisbi.css in CopyFiles */,
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -503,10 +513,14 @@
 		006E68E31DB427DF0038B1F0 /* libofx.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libofx.a; path = ../../../usr_local/Cellar/libofx/0.9.10/lib/libofx.a; sourceTree = "<group>"; };
 		00B77C381DB2A0EC00A5D233 /* grisbi */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = grisbi; sourceTree = BUILT_PRODUCTS_DIR; };
 		00B77C431DB2A17600A5D233 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		00BCBD2F1E07018400579172 /* bet_graph.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = bet_graph.ui; path = src/ui/bet_graph.ui; sourceTree = "<group>"; };
+		00BCBD301E07018400579172 /* etats_prefs.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = etats_prefs.ui; path = src/ui/etats_prefs.ui; sourceTree = "<group>"; };
+		00BCBD311E07018400579172 /* grisbi_menu.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = grisbi_menu.ui; path = src/ui/grisbi_menu.ui; sourceTree = "<group>"; };
+		00BCBD321E07018400579172 /* grisbi_win.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = grisbi_win.ui; path = src/ui/grisbi_win.ui; sourceTree = "<group>"; };
+		00BCBD331E07018400579172 /* grisbi.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = grisbi.css; path = src/ui/grisbi.css; sourceTree = "<group>"; };
 		00EE9D011E01E93C005BB1B0 /* libgoffice-0.10.10.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libgoffice-0.10.10.dylib"; path = "../../../../../../usr/local/Cellar/goffice/0.10.32/lib/libgoffice-0.10.10.dylib"; sourceTree = "<group>"; };
 		00EE9D041E01EAFB005BB1B0 /* openssl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = openssl.c; path = openssl/openssl.c; sourceTree = "<group>"; };
 		00EE9D051E01EAFB005BB1B0 /* openssl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = openssl.h; path = openssl/openssl.h; sourceTree = "<group>"; };
-		00EE9D071E01EB9B005BB1B0 /* opt */ = {isa = PBXFileReference; lastKnownFileType = folder; name = opt; path = ../../../../../../usr/local/opt; sourceTree = "<group>"; };
 		00EE9D091E01EBB3005BB1B0 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../../../../../../usr/local/Cellar/openssl/1.0.2j/lib/libcrypto.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -540,7 +554,6 @@
 			isa = PBXGroup;
 			children = (
 				00EE9D091E01EBB3005BB1B0 /* libcrypto.a */,
-				00EE9D071E01EB9B005BB1B0 /* opt */,
 				00EE9D011E01E93C005BB1B0 /* libgoffice-0.10.10.dylib */,
 				006E68E31DB427DF0038B1F0 /* libofx.a */,
 				006E68DD1DB427130038B1F0 /* libxml2.tbd */,
@@ -608,6 +621,7 @@
 		00B77C3A1DB2A0EC00A5D233 /* grisbi */ = {
 			isa = PBXGroup;
 			children = (
+				00BCBD2E1E07016F00579172 /* ui */,
 				006E67001DB3E26B0038B1F0 /* config.h */,
 				00B77C421DB2A12700A5D233 /* src */,
 			);
@@ -919,6 +933,18 @@
 				00B77C431DB2A17600A5D233 /* main.c */,
 			);
 			path = src;
+			sourceTree = "<group>";
+		};
+		00BCBD2E1E07016F00579172 /* ui */ = {
+			isa = PBXGroup;
+			children = (
+				00BCBD2F1E07018400579172 /* bet_graph.ui */,
+				00BCBD301E07018400579172 /* etats_prefs.ui */,
+				00BCBD311E07018400579172 /* grisbi_menu.ui */,
+				00BCBD321E07018400579172 /* grisbi_win.ui */,
+				00BCBD331E07018400579172 /* grisbi.css */,
+			);
+			name = ui;
 			sourceTree = "<group>";
 		};
 		00EE9D031E01EAF0005BB1B0 /* openssl */ = {
