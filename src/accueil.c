@@ -1754,7 +1754,7 @@ GtkWidget *creation_onglet_accueil ( void )
     devel_debug ( NULL );
 
     vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 15 );
-    gtk_widget_set_hexpand (button, TRUE);
+    gtk_widget_set_vexpand (vbox, TRUE);
     gtk_widget_show ( vbox );
 
     /* on met le titre du fichier */
