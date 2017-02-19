@@ -1788,6 +1788,7 @@ GtkWidget *creation_onglet_accueil ( void )
                         GTK_POLICY_AUTOMATIC );
     gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW ( base_scroll ),
                         GTK_SHADOW_IN );
+	gtk_widget_set_vexpand (base_scroll, TRUE);
 
     base = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 15 );
     gtk_widget_set_margin_start (base, margin);
