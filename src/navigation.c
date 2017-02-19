@@ -280,7 +280,7 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
                         G_CALLBACK ( gsb_gui_navigation_check_key_press ),
                         navigation_model );
 
-        g_signal_connect ( navigation_tree_view,
+    g_signal_connect ( navigation_tree_view,
                         "scroll-event",
                         G_CALLBACK ( gsb_gui_navigation_check_scroll ),
                         NULL );
@@ -337,6 +337,7 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
     /* Finish tree. */
     gtk_grid_attach (GTK_GRID (grid), sw, 0,0,1,1);
 	gtk_widget_set_hexpand (sw, TRUE);
+	gtk_widget_set_vexpand (sw, TRUE);
 
     /* Create calendar (hidden for now). */
     scheduler_calendar = gsb_calendar_new ();

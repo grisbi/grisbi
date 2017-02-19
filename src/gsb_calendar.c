@@ -37,8 +37,9 @@
 /*START_INCLUDE*/
 #include "gsb_calendar.h"
 #include "gsb_data_scheduled.h"
-#include "utils_dates.h"
 #include "gsb_scheduler.h"
+#include "structures.h"
+#include "utils_dates.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -70,6 +71,7 @@ GtkWidget *gsb_calendar_new ( void )
     time ( &temps );
 
     scheduled_calendar = gtk_calendar_new ();
+	gtk_widget_set_margin_top (scheduled_calendar, MARGIN_BOX);
     gtk_calendar_select_month ( GTK_CALENDAR ( scheduled_calendar ),
 				localtime ( &temps ) -> tm_mon,
 				localtime ( &temps ) -> tm_year + 1900 );
