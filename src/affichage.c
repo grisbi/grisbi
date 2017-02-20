@@ -113,7 +113,14 @@ static GtkWidget *preview = NULL;
 static void prefs_sort_order_column_treeview_clicked (GtkWidget *toggle_button,
                                                       gpointer null)
 {
-    gsb_archive_config_set_sort_order (GINT_TO_POINTER (conf.prefs_sort_order));
+	GSettings *settings;
+
+	settings = grisbi_settings_get_settings (SETTINGS_PREFS);
+	g_settings_set_int ( G_SETTINGS (settings),
+                        "prefs-sort-order",
+                        conf.prefs_sort_order);
+
+	gsb_archive_config_set_sort_order (GINT_TO_POINTER (conf.prefs_sort_order));
     gsb_fyear_config_set_sort_order (GINT_TO_POINTER (conf.prefs_sort_order));
 }
 
