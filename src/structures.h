@@ -194,6 +194,7 @@ struct GrisbiAppConf
 
 /* form part*/
     gint        affichage_exercice_automatique;             /* automatic fyear :0 to set according to the date, 1 according to value date */
+    gint        fyear_combobox_sort_order;                  /* fyear combobox type sort, GTK_SORT_ASCENDING by default */
     gint        automatic_completion_payee;                 /* 1 pour autoriser la completion automatique des opérations */
     gboolean    automatic_erase_credit_debit;               /* 1 pour effacer les champs crédit et débit */
     gboolean    automatic_recover_splits;                   /* 1 pour recréer automatiquement les sous opérations */

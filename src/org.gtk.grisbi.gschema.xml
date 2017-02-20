@@ -98,7 +98,6 @@
 	    <summary></summary>
 	    <description></description>
 	  </key>
-
 	  <key name="show-closed-accounts" type="b">
         <default>false</default>
 	    <summary>Show closed accounts</summary>
@@ -109,7 +108,6 @@
 	    <summary>Show heading bar</summary>
 	    <description>If TRUE, heading bar is displayed.</description>
 	  </key>
-
   </schema>
 
   <schema path="/org/gtk/grisbi/files/file/" id='org.gtk.grisbi.files.file'>
@@ -202,6 +200,14 @@
 	    <summary>"Enter" key finishes the transaction</summary>
 	    <description>
 	      If TRUE, the "Enter" key finishes the transaction.
+	    </description>
+	  </key>
+	  <key name="fyear-combobox-sort-order" type="i">
+	    <default>0</default>
+	    <summary>Sort order for the fyear combobox</summary>
+	    <description>
+	    Sort order for the fyear combobox : GTK_SORT_ASCENDING (0) by default,
+	    sort by GTK_SORT_DESCENDING: a number different of 0.
 	    </description>
 	  </key>
 	  <key name="limit-completion-current-account" type="b">

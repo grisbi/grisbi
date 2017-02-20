@@ -109,6 +109,25 @@ extern gchar *titres_colonnes_liste_operations[CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern gint transaction_col_width[CUSTOM_MODEL_VISIBLE_COLUMNS];
 /*END_EXTERN*/
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ * */
+static gboolean fyear_combobox_sort_order_changed (GtkWidget *checkbutton,
+												   gpointer data)
+{
+	GSettings *settings;
+
+	settings = grisbi_settings_get_settings (SETTINGS_FORM);
+	g_settings_set_int ( G_SETTINGS (settings),
+                        "fyear-combobox-sort-order",
+                        conf.fyear_combobox_sort_order);
+
+	return FALSE;
+}
 
 /**
  * create the page of configuration for the transaction list behavior
@@ -563,6 +582,14 @@ GtkWidget *onglet_diverse_form_and_lists ( void )
 							 _("according to transaction value date"),
 							 &conf.affichage_exercice_automatique,
 							 NULL, NULL);
+
+	gtk_box_pack_start (GTK_BOX (vbox_pref),
+						gsb_automem_checkbutton_new (
+													 _("Option to sort the exercises of selection button"),
+													 &conf.fyear_combobox_sort_order,
+													 G_CALLBACK (fyear_combobox_sort_order_changed),
+													 "fyear-combobox-sort-order"),
+						FALSE, FALSE, 0);
 
     /* automatic amount separatior fields */
     paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,

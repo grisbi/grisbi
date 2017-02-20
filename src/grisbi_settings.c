@@ -220,6 +220,7 @@ static void grisbi_settings_init_settings_form ( GSettings *settings )
     conf.automatic_erase_credit_debit = g_settings_get_boolean ( settings, "automatic-erase-credit-debit" );
     conf.automatic_recover_splits = g_settings_get_boolean ( settings, "automatic-recover-splits" );
     conf.entree = g_settings_get_boolean ( settings, "form-enter-key" );
+	conf.fyear_combobox_sort_order = g_settings_get_int (settings, "fyear-combobox-sort-order");
     conf.limit_completion_to_current_account = g_settings_get_boolean ( settings, "limit-completion-current-account" );
 }
 
