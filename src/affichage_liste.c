@@ -585,7 +585,7 @@ GtkWidget *onglet_diverse_form_and_lists ( void )
 
 	gtk_box_pack_start (GTK_BOX (vbox_pref),
 						gsb_automem_checkbutton_new (
-													 _("Option to sort the exercises of selection button"),
+													 _("Sorting descending in the button of the exercises"),
 													 &conf.fyear_combobox_sort_order,
 													 G_CALLBACK (fyear_combobox_sort_order_changed),
 													 "fyear-combobox-sort-order"),
