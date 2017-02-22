@@ -143,7 +143,7 @@ GtkWidget *gsb_reconcile_create_box ( void )
                             "automatically incremented at each reconciliation.\n"
                             "You can let it empty if you don't want to keep a trace of "
                             "the reconciliation.") );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), reconcile_number_entry, TRUE, TRUE, 0);
+    gtk_box_pack_start ( GTK_BOX ( hbox ), reconcile_number_entry, FALSE, FALSE, 0);
 
     separator = gtk_separator_new ( GTK_ORIENTATION_HORIZONTAL );
     gtk_box_pack_start ( GTK_BOX ( vbox ), separator, FALSE, FALSE, 0);
@@ -205,7 +205,6 @@ GtkWidget *gsb_reconcile_create_box ( void )
 
     separator = gtk_separator_new ( GTK_ORIENTATION_HORIZONTAL );
     gtk_box_pack_start ( GTK_BOX ( vbox ), separator, FALSE, FALSE, 0);
-
 
     /* 2nd table under that, with the balances labels */
     table = gtk_grid_new ();
@@ -451,8 +450,8 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
             tmpstr = utils_real_get_string (gsb_data_reconcile_get_final_balance (reconcile_number));
             gtk_entry_set_text ( GTK_ENTRY ( reconcile_initial_balance_entry ), tmpstr);
             g_free ( tmpstr );
-            gtk_widget_set_sensitive ( GTK_WIDGET ( reconcile_initial_balance_entry ),
-                    FALSE );
+			gtk_widget_set_name (reconcile_initial_balance_entry, "reconcile_old_entry_insensitive");
+            gtk_widget_set_sensitive ( GTK_WIDGET ( reconcile_initial_balance_entry ), FALSE );
         }
         else
         {
@@ -465,6 +464,7 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
             tmpstr = utils_real_get_string ( gsb_data_account_get_init_balance (account_number, -1));
             gtk_entry_set_text ( GTK_ENTRY ( reconcile_initial_balance_entry ), tmpstr);
             g_free ( tmpstr );
+			gtk_widget_set_name (reconcile_initial_balance_entry, "reconcile_old_entry");
             gtk_widget_set_sensitive ( GTK_WIDGET ( reconcile_initial_balance_entry ), TRUE );
         }
     }

@@ -1,9 +1,9 @@
 /* Default color scheme */
 /* Couleurs de base */
+@define-color couleur_blanche white;
 @define-color couleur_bleue blue;
 @define-color couleur_jaune yellow;
 @define-color couleur_grey_box rgba(192,192,192,1.0);
-
 
 /* colors of the amounts in the first page */
 @define-color couleur_nom_compte_normal rgb(0,0,0);
@@ -110,4 +110,14 @@
 #list_config_buttons:checked {
   color: green;
   background-color: @couleur_selection;
+}
+
+#reconcile_old_entry {
+  color: @text_color_0;
+}
+
+#reconcile_old_entry_insensitive {
+  background-color: transparent;
+  background-image: none;
+  color: @text_color_1;
 }
