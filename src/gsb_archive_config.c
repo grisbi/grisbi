@@ -35,6 +35,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_archive_config.h"
+#include "grisbi_settings.h"
 #include "gsb_account_property.h"
 #include "gsb_autofunc.h"
 #include "gsb_automem.h"
@@ -69,7 +70,6 @@ enum archives_columns {
 
 static GtkWidget *archive_treeview = NULL;
 static GtkWidget *archive_name_entry = NULL;
-static gint archive_config_sort_order;           /* variable durée de vie session */
 
 /*START_STATIC*/
 static gboolean gsb_archive_config_delete_archive ( GtkWidget *button,
@@ -97,13 +97,23 @@ static gboolean gsb_archive_config_select ( GtkTreeSelection *selection,
  *
  * \return
  * */
-static void gsb_archive_config_list_sort_column_clicked (GtkTreeViewColumn *tree_view_column,
-                                                    GtkTreeModel *model)
+static void gsb_archive_config_button_sort_order_clicked (GtkWidget *toggle_button,
+														  gpointer data)
 {
-    if (archive_config_sort_order == GTK_SORT_ASCENDING)
-        archive_config_sort_order = GTK_SORT_DESCENDING;
-    else
-        archive_config_sort_order = GTK_SORT_ASCENDING;
+	GSettings *settings;
+    GtkTreeModel *model;
+
+	settings = grisbi_settings_get_settings (SETTINGS_PREFS);
+	g_settings_set_int ( G_SETTINGS (settings),
+                        "prefs-archives-sort-order",
+                        conf.prefs_archives_sort_order);
+
+    model = gtk_tree_view_get_model (GTK_TREE_VIEW (archive_treeview));
+    gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE(model),
+                                          ARCHIVES_FYEAR_NAME,
+                                          conf.prefs_archives_sort_order);
+    gtk_tree_sortable_sort_column_changed (GTK_TREE_SORTABLE(model));
+    gsb_archive_config_fill_list (GTK_LIST_STORE (model));
 }
 
 /******************************************************************************/
@@ -144,6 +154,13 @@ GtkWidget *gsb_archive_config_create (void)
     scrolled_window = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, 200);
     gtk_grid_attach (GTK_GRID (paddinggrid), scrolled_window, 0, 0, 1, 1);
 
+	/* Create button for sort variable */
+	button = gsb_automem_checkbutton_new ( _("Sort the archives by descending date "),
+                        &(conf.prefs_archives_sort_order),
+                        G_CALLBACK (gsb_archive_config_button_sort_order_clicked),
+                        "prefs-archives-sort-order");
+    gtk_grid_attach (GTK_GRID (paddinggrid), button, 0, 1, 1, 1);
+
     /* Create tree view */
     archive_model = gtk_list_store_new (NUM_ARCHIVES_COLUMNS,
                                         G_TYPE_STRING,
@@ -174,24 +191,13 @@ GtkWidget *gsb_archive_config_create (void)
         gtk_tree_view_column_set_attributes (column, cell, "text", i, NULL);
         gtk_tree_view_column_set_expand (column, TRUE);
         gtk_tree_view_column_set_resizable (column, TRUE);
-        /* on trie sur la colonne ARCHIVES_FYEAR_NAME */
-        if ( i == ARCHIVES_FYEAR_NAME)
-        {
-        gtk_tree_view_column_set_sort_column_id (column, i);
-        g_signal_connect (G_OBJECT (column),
-                              "clicked",
-                              G_CALLBACK (gsb_archive_config_list_sort_column_clicked),
-                              archive_model);
-        }
-
         gtk_tree_view_append_column (GTK_TREE_VIEW(archive_treeview), column);
     }
 
     /* Sort columns accordingly */
-    archive_config_sort_order = conf.prefs_sort_order;
     gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE(archive_model),
                                           ARCHIVES_FYEAR_NAME,
-                                          archive_config_sort_order);
+                                          conf.prefs_archives_sort_order);
 
     /* archive modification */
     modification_paddinggrid = utils_prefs_paddinggrid_new_with_title (vbox_pref, ("Archive modification"));
@@ -589,26 +595,6 @@ static gboolean gsb_archive_config_destroy_archive ( GtkWidget *button,
         gsb_file_set_modified ( TRUE );
     }
     return FALSE;
-}
-
-/**
- *
- *
- * \param
- *
- * \return
- * */
-void gsb_archive_config_set_sort_order (gpointer *sort_order)
-{
-    GtkTreeModel *model;
-
-    archive_config_sort_order = GPOINTER_TO_INT (sort_order);
-    model = gtk_tree_view_get_model (GTK_TREE_VIEW (archive_treeview));
-    gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE(model),
-                                          ARCHIVES_FYEAR_NAME,
-                                          archive_config_sort_order);
-    gtk_tree_sortable_sort_column_changed (GTK_TREE_SORTABLE(model));
-    gsb_archive_config_fill_list (GTK_LIST_STORE (model));
 }
 
 /**

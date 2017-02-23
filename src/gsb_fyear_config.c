@@ -36,20 +36,22 @@
 /*START_INCLUDE*/
 #include "gsb_fyear_config.h"
 #include "dialog.h"
-#include "utils_dates.h"
+#include "grisbi_settings.h"
 #include "gsb_autofunc.h"
+#include "gsb_automem.h"
 #include "gsb_calendar_entry.h"
 #include "gsb_data_account.h"
 #include "gsb_data_fyear.h"
 #include "gsb_data_transaction.h"
 #include "gsb_file.h"
 #include "gsb_fyear.h"
-#include "traitement_variables.h"
-#include "utils.h"
-#include "transaction_list.h"
-#include "structures.h"
 #include "gsb_transactions_list.h"
+#include "structures.h"
+#include "traitement_variables.h"
+#include "transaction_list.h"
+#include "utils.h"
 #include "utils_buttons.h"
+#include "utils_dates.h"
 /*END_INCLUDE*/
 
 
@@ -64,7 +66,6 @@ enum fyear_list_column {
 };
 
 static GtkWidget *fyear_config_treeview = NULL;
-static gint fyear_config_sort_order;     /* variable durée de vie session */
 
 /*START_STATIC*/
 static gboolean gsb_fyear_config_add_fyear ( GtkWidget *tree_view );
@@ -96,13 +97,23 @@ static void gsb_fyear_update_invalid ( GtkWidget *tree_view );
  *
  * \return
  * */
-static void gsb_fyear_config_list_sort_column_clicked (GtkTreeViewColumn *tree_view_column,
-                                                    GtkTreeModel *model)
+static void gsb_fyear_config_button_sort_order_clicked (GtkWidget *toggle_button,
+														  gpointer data)
 {
-    if (fyear_config_sort_order == GTK_SORT_ASCENDING)
-        fyear_config_sort_order = GTK_SORT_DESCENDING;
-    else
-        fyear_config_sort_order = GTK_SORT_ASCENDING;
+	GSettings *settings;
+    GtkTreeModel *model;
+
+	settings = grisbi_settings_get_settings (SETTINGS_PREFS);
+	g_settings_set_int ( G_SETTINGS (settings),
+                        "prefs-fyear-sort-order",
+                        conf.prefs_archives_sort_order);
+
+    model = gtk_tree_view_get_model (GTK_TREE_VIEW (fyear_config_treeview));
+    gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE(model),
+                                          FYEAR_NAME_COLUMN,
+                                          conf.prefs_fyear_sort_order);
+    gtk_tree_sortable_sort_column_changed (GTK_TREE_SORTABLE(model));
+    gsb_fyear_config_fill_list (model);
 }
 
 /******************************************************************************/
@@ -134,6 +145,13 @@ GtkWidget *gsb_fyear_config_create_page ( void )
     scrolled_window = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, 160);
     gtk_grid_attach (GTK_GRID (paddinggrid), scrolled_window, 0, 0, 2, 3);
 
+	/* Create button for sort variable */
+	button = gsb_automem_checkbutton_new ( _("Sort the exercises by descending name "),
+                        &(conf.prefs_fyear_sort_order),
+                        G_CALLBACK (gsb_fyear_config_button_sort_order_clicked),
+                        "prefs-fyear-sort-order");
+    gtk_grid_attach (GTK_GRID (paddinggrid), button, 0, 3, 2, 1);
+
     fyear_config_treeview = gsb_fyear_config_create_list ();
     tree_model = gtk_tree_view_get_model (GTK_TREE_VIEW (fyear_config_treeview));
     gtk_container_add (GTK_CONTAINER ( scrolled_window ), fyear_config_treeview);
@@ -156,7 +174,7 @@ GtkWidget *gsb_fyear_config_create_page ( void )
 			       "clicked",
 			       G_CALLBACK  (gsb_fyear_config_add_fyear),
 			       fyear_config_treeview );
-    gtk_grid_attach (GTK_GRID (paddinggrid), button, 0, 3, 1, 1);
+    gtk_grid_attach (GTK_GRID (paddinggrid), button, 0, 4, 1, 1);
 
     /* Button "Remove" */
     button = utils_buttons_button_new_from_stock ("gtk-remove", _("Remove"));
@@ -167,7 +185,7 @@ GtkWidget *gsb_fyear_config_create_page ( void )
 			       "clicked",
 			       G_CALLBACK  (gsb_fyear_config_remove_fyear),
 			       fyear_config_treeview);
-    gtk_grid_attach (GTK_GRID (paddinggrid), button, 1, 3, 1, 1);
+    gtk_grid_attach (GTK_GRID (paddinggrid), button, 1, 4, 1, 1);
 
     /* Associate operations : under the list */
     button = gtk_button_new_with_label ( _("Associate operations without financial years") );
@@ -175,7 +193,7 @@ GtkWidget *gsb_fyear_config_create_page ( void )
 			 "clicked",
 			 G_CALLBACK ( gsb_fyear_config_associate_transactions ),
 			 NULL);
-    gtk_grid_attach (GTK_GRID (paddinggrid), button, 0, 4, 2, 1);
+    gtk_grid_attach (GTK_GRID (paddinggrid), button, 0, 5, 2, 1);
     gtk_widget_show ( button );
 
     /* Financial year details */
@@ -290,44 +308,32 @@ GtkWidget *gsb_fyear_config_create_list ( void )
 
     for (i=0 ; i<FYEAR_NUMBER_COLUMN ; i++ )
     {
-	GtkTreeViewColumn *column;
+		GtkTreeViewColumn *column;
 
-	if ( i == FYEAR_INVALID_COLUMN )
-	{
-	    column = gtk_tree_view_column_new_with_attributes ( title[i],
-								gtk_cell_renderer_pixbuf_new (),
-								"stock-id", i,
-								NULL );
-	}
-	else
-	{
-	    column = gtk_tree_view_column_new_with_attributes ( title[i],
-								cell_renderer,
-								"text", i,
-								NULL );
-	    gtk_tree_view_column_set_sizing ( column,
-					      GTK_TREE_VIEW_COLUMN_AUTOSIZE );
-	    gtk_tree_view_column_set_expand ( column, TRUE );
-	}
-
-        /* on peut trier sur la colonne nom */
-        if (i == FYEAR_NAME_COLUMN)
-        {
-            gtk_tree_view_column_set_sort_column_id (column, FYEAR_NAME_COLUMN);
-            g_signal_connect (G_OBJECT (column),
-                              "clicked",
-                              G_CALLBACK (gsb_fyear_config_list_sort_column_clicked),
-                              model);
-        }
-
-        gtk_tree_view_append_column ( GTK_TREE_VIEW(treeview), column );
+		if ( i == FYEAR_INVALID_COLUMN )
+		{
+			column = gtk_tree_view_column_new_with_attributes ( title[i],
+									gtk_cell_renderer_pixbuf_new (),
+									"stock-id", i,
+									NULL );
+		}
+		else
+		{
+			column = gtk_tree_view_column_new_with_attributes ( title[i],
+									cell_renderer,
+									"text", i,
+									NULL );
+			gtk_tree_view_column_set_sizing ( column,
+							  GTK_TREE_VIEW_COLUMN_AUTOSIZE );
+			gtk_tree_view_column_set_expand ( column, TRUE );
+		}
+		gtk_tree_view_append_column ( GTK_TREE_VIEW(treeview), column );
     }
 
     /* Sort columns accordingly */
-    fyear_config_sort_order = conf.prefs_sort_order;
     gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE(model),
                                           FYEAR_NAME_COLUMN,
-                                          fyear_config_sort_order);
+                                          conf.prefs_fyear_sort_order);
 
     return treeview;
 }
@@ -794,26 +800,6 @@ gboolean gsb_fyear_config_associate_transactions ( void )
     else
 	dialogue ( _("no transaction to associate"));
     return FALSE;
-}
-
-/**
- *
- *
- * \param
- *
- * \return
- * */
-void gsb_fyear_config_set_sort_order (gpointer *sort_order)
-{
-    GtkTreeModel *model;
-
-    fyear_config_sort_order = GPOINTER_TO_INT (sort_order);
-    model = gtk_tree_view_get_model (GTK_TREE_VIEW (fyear_config_treeview));
-    gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE(model),
-                                          FYEAR_NAME_COLUMN,
-                                          fyear_config_sort_order);
-    gtk_tree_sortable_sort_column_changed (GTK_TREE_SORTABLE(model));
-    gsb_fyear_config_fill_list (model);
 }
 
 /**

@@ -8,6 +8,5 @@
 
 /* START_DECLARATION */
 GtkWidget *gsb_fyear_config_create_page ( void );
-void gsb_fyear_config_set_sort_order (gpointer *sort_order);
 /* END_DECLARATION */
 #endif

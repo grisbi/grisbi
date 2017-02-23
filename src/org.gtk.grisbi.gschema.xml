@@ -464,11 +464,19 @@
 	  </key>
   </schema>
   <schema path="/org/gtk/grisbi/prefs/" id='org.gtk.grisbi.prefs'>
-	  <key name="prefs-sort-order" type="i">
+	  <key name="prefs-archives-sort-order" type="i">
 	    <default>0</default>
-	    <summary>Sort order for the tree_view of preferences</summary>
+	    <summary>Sort order of the archives</summary>
 	    <description>
-	    Sort order for the tree_view of preferences : GTK_SORT_ASCENDING (0) by default,
+	    Sort order of the archives : GTK_SORT_ASCENDING (0) by default,
+	    sort by GTK_SORT_DESCENDING: a number different of 0.
+	    </description>
+	  </key>
+	  <key name="prefs-fyear-sort-order" type="i">
+	    <default>0</default>
+	    <summary>Sort order of the financial years</summary>
+	    <description>
+	    Sort order of the financial years : GTK_SORT_ASCENDING (0) by default,
 	    sort by GTK_SORT_DESCENDING: a number different of 0.
 	    </description>
 	  </key>

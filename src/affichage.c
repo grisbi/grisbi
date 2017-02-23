@@ -102,27 +102,6 @@ static GtkWidget *preview = NULL;
 /******************************************************************************/
 /* Private Functions                                                          */
 /******************************************************************************/
-/**
- *
- *
- * \param
- * \param
- *
- * \return
- * */
-static void prefs_sort_order_column_treeview_clicked (GtkWidget *toggle_button,
-                                                      gpointer null)
-{
-	GSettings *settings;
-
-	settings = grisbi_settings_get_settings (SETTINGS_PREFS);
-	g_settings_set_int ( G_SETTINGS (settings),
-                        "prefs-sort-order",
-                        conf.prefs_sort_order);
-
-	gsb_archive_config_set_sort_order (GINT_TO_POINTER (conf.prefs_sort_order));
-    gsb_fyear_config_set_sort_order (GINT_TO_POINTER (conf.prefs_sort_order));
-}
 
 /******************************************************************************/
 /* Public Functions                                                           */
@@ -790,15 +769,6 @@ GtkWidget *tab_display_toolbar ( void )
                         NULL );
 
     gtk_widget_show_all ( vbox_pref );
-
-    /* Preferences sort */
-    vbox = new_vbox_with_title_and_icon ( _("Preferences sort"), "preferences-24.png" );
-    gtk_box_pack_start ( GTK_BOX ( vbox_pref ), vbox, FALSE, FALSE, 0 );
-    button = gsb_automem_checkbutton_new ( _("Initializes the sorting to \"down\" in the tables when there exist"),
-                        &(conf.prefs_sort_order),
-                        G_CALLBACK (prefs_sort_order_column_treeview_clicked),
-                        NULL );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), button, FALSE, FALSE, 5 );
 
     if ( !gsb_data_account_get_accounts_amount () )
         gtk_widget_set_sensitive ( vbox_pref, FALSE );

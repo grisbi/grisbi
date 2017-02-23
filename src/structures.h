@@ -188,7 +188,7 @@ struct GrisbiAppConf
     gint        nb_derniers_fichiers_ouverts;               /* contient le nb de derniers fichiers ouverts */
     gboolean    sauvegarde_auto;                            /* utilisé pour enregistrer le fichier automatiquementà la fermeture */
 
-    /* archive stuff */
+/* archive stuff */
     gboolean    check_for_archival;                         /* TRUE if we want to check the number of non archived transactions at the opening */
     gint        max_non_archived_transactions_for_check;    /* the max number of transaction before grisbi warm at the opening */
 
@@ -232,7 +232,8 @@ struct GrisbiAppConf
 
 /* prefs part */
     gint        prefs_width;                                /* preferences width */
-    gint        prefs_sort_order;                           /* column type sort, GTK_SORT_ASCENDING by default */
+	gint		prefs_archives_sort_order;					/* archive sort order, GTK_SORT_ASCENDING by default */
+    gint        prefs_fyear_sort_order;                     /* fyear type sort, GTK_SORT_ASCENDING by default */
 
 /* scheduled part */
     gboolean    balances_with_scheduled;                    /* TRUE = the balance incorporates the scheduled operations */
