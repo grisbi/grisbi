@@ -715,11 +715,14 @@ gint gsb_data_fyear_compare_from_struct ( struct_fyear *fyear_1,
 
     if ( g_date_compare ( fyear_1 -> end_date, fyear_2 -> beginning_date ) < 0 )
         return_value = -1;
+
     if ( g_date_compare ( fyear_1 -> beginning_date, fyear_2 -> end_date ) > 0 )
         return_value = 1;
 
-	if ( !conf.fyear_combobox_sort_order)
+	if (!conf.fyear_combobox_sort_order)
+	{
 		return return_value;
+	}
 	else
 	{
 		switch (return_value)
