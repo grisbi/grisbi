@@ -904,8 +904,14 @@ GtkWidget *grisbi_win_create_general_widgets (GrisbiWin *win)
                       G_CALLBACK (grisbi_win_hpaned_size_allocate),
                       NULL);
     gtk_box_pack_start (GTK_BOX (priv->vbox_general), priv->hpaned_general, TRUE, TRUE, 0);
-    gtk_paned_add1 (GTK_PANED (priv->hpaned_general), gsb_gui_navigation_create_navigation_pane ());
-    gtk_paned_add2 (GTK_PANED (priv->hpaned_general), grisbi_win_create_general_notebook (win));
+    gtk_paned_pack1 (GTK_PANED (priv->hpaned_general),
+					 gsb_gui_navigation_create_navigation_pane (),
+					 TRUE,
+					 FALSE);
+    gtk_paned_pack2 (GTK_PANED (priv->hpaned_general),
+					 grisbi_win_create_general_notebook (win),
+					 TRUE,
+					 TRUE);
     gtk_container_set_border_width (GTK_CONTAINER (priv->hpaned_general), 6);
 
     if (conf.panel_width > 250)
