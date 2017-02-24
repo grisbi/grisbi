@@ -1083,21 +1083,23 @@ void grisbi_app_init_recent_manager ( gchar **recent_array )
         conf.nb_derniers_fichiers_ouverts = conf.nb_max_derniers_fichiers_ouverts;
     }
 
-	for ( i=0 ; i < conf.nb_derniers_fichiers_ouverts ; i++ )
+	for (i=0 ; i < conf.nb_derniers_fichiers_ouverts ; i++)
     {
-		uri = g_filename_to_uri ( recent_array[i], NULL, NULL );
-        if (!gtk_recent_manager_has_item (recent_manager, uri))
-		{
-			result = gtk_recent_manager_add_item (recent_manager, uri);
-			if (!result)
+        if (g_file_test (recent_array[i], G_FILE_TEST_EXISTS))
+        {
+			uri = g_filename_to_uri (recent_array[i], NULL, NULL);
+			if (!gtk_recent_manager_has_item (recent_manager, uri))
 			{
-			  conf.nb_derniers_fichiers_ouverts--;
+				result = gtk_recent_manager_add_item (recent_manager, uri);
+				if (!result)
+				{
+				  conf.nb_derniers_fichiers_ouverts--;
+				}
 			}
+			g_free (uri);
         }
 		else
 			conf.nb_derniers_fichiers_ouverts--;
-
-        g_free (uri);
   }
 }
 
