@@ -34,10 +34,6 @@
 #include <glib/gi18n.h>
 #include <errno.h>
 
-#ifdef HAVE_GOFFICE
-#include <goffice/goffice.h>
-#endif /* HAVE_GOFFICE */
-
 /*START_INCLUDE*/
 #include "grisbi_app.h"
 #include "grisbi_settings.h"
