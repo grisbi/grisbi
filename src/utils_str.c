@@ -42,11 +42,157 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gchar *gsb_string_supprime_joker ( const gchar *chaine );
-static gchar * gsb_string_truncate_n ( gchar * string, int n, gboolean hard_trunc );
 /*END_STATIC*/
 
+/******************************************************************************/
+/* Private functions                                                          */
+/******************************************************************************/
+/**
+ * Return a newly created strings, truncating original.  It should be
+ * truncated at the end of the word containing the nth letter.
+ *
+ * \param string	String to truncate
+ * \param n		Max lenght to truncate at.
+ * \param hard_trunc	Cut in the middle of a word if needed.
+ *
+ * \return A newly-created string.
+ */
+static gchar * gsb_string_truncate_n ( gchar * string, int n, gboolean hard_trunc )
+{
+	gchar* result;
+    gchar * tmp = string, * trunc;
 
+    if ( ! string )
+	return NULL;
+
+    if ((gint) strlen(string) < n )
+	return my_strdup ( string );
+
+    tmp = string + n;
+    if ( ! hard_trunc && ! ( tmp = strchr ( tmp, ' ' ) ) )
+    {
+	/* We do not risk splitting the string in the middle of a
+	   UTF-8 accent ... the end is probably near btw. */
+	return my_strdup ( string );
+    }
+    else
+    {
+	while ( ! isascii(*tmp) && *tmp )
+	    tmp++;
+
+	trunc = g_strndup ( string, ( tmp - string ) );
+	result = g_strconcat ( trunc, "...", NULL );
+	g_free(trunc);
+	return result;
+    }
+}
+
+/**
+ *supprime les jokers "%*" dans une chaine
+ *
+ * \param chaine
+ *
+ * \return chaine sans joker
+ */
+gchar *gsb_string_supprime_joker ( const gchar *chaine )
+{
+    gchar **tab_str;
+    gchar *result;
+
+    tab_str = g_strsplit_set ( chaine, "%*", 0 );
+    result = g_strjoinv ( "", tab_str );
+    g_strfreev ( tab_str );
+
+    return result;
+}
+
+/**
+ * renvoie une ligne de longueur maxi trunc en s'arrêtant sur un séparateur;
+ *
+ * \param nom du fichier
+ * \param separateur si NULL regarde les autres séparateurs.
+ * \param longueur maxi de la ligne
+ *
+ * \return une nouvelle chaîne contenant le nom sur une ligne.
+ * */
+static gchar *utils_string_get_ligne_longueur_fixe (const gchar *string,
+                        const gchar *separator,
+                        gint trunc)
+{
+    gchar *tmp_str = NULL;
+    gchar *ptr = NULL;
+
+    if (string == NULL)
+        return NULL;
+
+    if (separator)
+    {
+        if (g_str_has_suffix (string, separator))
+            return g_strdup (string);
+
+        ptr = g_strrstr (string, separator);
+        if (ptr == NULL)
+            return g_strdup (string);
+
+        tmp_str = g_strndup (string, (ptr + 1 - string));
+
+        return tmp_str;
+    }
+    else
+        return g_strdup (string);
+}
+
+/**
+ * retourne le séparateur s'il est parmi les connu
+ *
+ * \param
+ *
+ * \return une nouvelle chaîne contenant le sépaarateur.
+ * */
+static gchar *utils_string_get_separator (const gchar *string)
+{
+    gchar *ptr_1 = NULL;
+    gchar *ptr_2 = NULL;
+    gchar *ptr_3 = NULL;
+    gint long_1 = 0;
+    gint long_2 = 0;
+    gint long_3 = 0;
+
+    ptr_1 = g_strrstr (string, " ");
+    ptr_2 = g_strrstr (string, "-");
+    ptr_3 = g_strrstr (string, "_");
+
+    if (ptr_1 == NULL && ptr_2 == NULL && ptr_3 == NULL)
+        return NULL;
+
+    if (ptr_1)
+        long_1 = ptr_1 - string;
+    if (ptr_2)
+        long_2 = ptr_2 - string;
+    if (ptr_3)
+        long_3 = ptr_3 - string;
+
+    if (long_1 > long_2)
+    {
+        if (long_1 > long_3)
+            return " ";
+        else
+            return "_";
+    }
+    else
+    {
+        if (long_2 > long_3)
+            return "-";
+        else
+            return "_";
+    }
+
+    return NULL;
+}
+
+/******************************************************************************/
+/* Public functions                                                           */
+/******************************************************************************/
 /**
  * @brief convert an integer into a gchar based string
  *
@@ -635,47 +781,6 @@ gchar * gsb_string_truncate ( gchar * string )
 
 
 /**
- * Return a newly created strings, truncating original.  It should be
- * truncated at the end of the word containing the nth letter.
- *
- * \param string	String to truncate
- * \param n		Max lenght to truncate at.
- * \param hard_trunc	Cut in the middle of a word if needed.
- *
- * \return A newly-created string.
- */
-gchar * gsb_string_truncate_n ( gchar * string, int n, gboolean hard_trunc )
-{
-	gchar* result;
-    gchar * tmp = string, * trunc;
-
-    if ( ! string )
-	return NULL;
-
-    if ((gint) strlen(string) < n )
-	return my_strdup ( string );
-
-    tmp = string + n;
-    if ( ! hard_trunc && ! ( tmp = strchr ( tmp, ' ' ) ) )
-    {
-	/* We do not risk splitting the string in the middle of a
-	   UTF-8 accent ... the end is probably near btw. */
-	return my_strdup ( string );
-    }
-    else
-    {
-	while ( ! isascii(*tmp) && *tmp )
-	    tmp++;
-
-	trunc = g_strndup ( string, ( tmp - string ) );
-	result = g_strconcat ( trunc, "...", NULL );
-	g_free(trunc);
-	return result;
-    }
-}
-
-
-/**
  * remplace la chaine old_str par new_str dans str
  *
  */
@@ -799,26 +904,6 @@ gchar * gsb_string_remplace_joker ( const gchar *chaine, gchar *new_str )
 
     tab_str = g_strsplit_set ( chaine, "%*", 0 );
     result = g_strjoinv ( new_str, tab_str );
-    g_strfreev ( tab_str );
-
-    return result;
-}
-
-
-/**
- *supprime les jokers "%*" dans une chaine
- *
- * \param chaine
- *
- * \return chaine sans joker
- */
-gchar *gsb_string_supprime_joker ( const gchar *chaine )
-{
-    gchar **tab_str;
-    gchar *result;
-
-    tab_str = g_strsplit_set ( chaine, "%*", 0 );
-    result = g_strjoinv ( "", tab_str );
     g_strfreev ( tab_str );
 
     return result;
@@ -1035,7 +1120,162 @@ gchar *utils_str_incremente_number_from_str ( const gchar *str_number, gint incr
     return new_str_number;
 }
 
+/**
+ * coupe le nom des fichiers passé en paramètre
+ * quelque soit la longueur du nom
+ *
+ * \param nom du fichier
+ * \param longueur maxi de la ligne
+ *
+ * \return une nouvelle chaîne contenant le nom sur une ou plusieurs lignes.
+ * */
+gchar *utils_str_break_filename (const gchar *string,
+	                             gint trunc)
+{
+    gchar *dirname = NULL;
+    gchar *tmp_dir = NULL;
+    gchar *basename = NULL;
+    gchar *tmp_base = NULL;
+    gchar *tmp_str2 = NULL;
+    gchar *tmp_str3;
+    gchar *end = NULL;
+    gchar *ptr = NULL;
+    gchar *separator;
+    gint i = 1;
+    gint n = 0;
+    gint size1;
+    gint size2;
+    gint size3;
 
+    if ((gint) strlen (string) <= trunc)
+        return g_strdup (string);
+
+    basename = g_path_get_basename (string);
+    size1 = strlen (basename);
+    dirname = g_path_get_dirname (string);
+    size2 = strlen (dirname);
+
+    /* si chaque partie est < trunc on renvoie la chaîne sur deux lignes */
+    if (size1 <= trunc && size2 <= trunc)
+    {
+        tmp_str2 = g_strconcat (dirname, G_DIR_SEPARATOR_S, "\n", basename, NULL);
+        g_free (basename);
+        g_free (dirname);
+
+        return tmp_str2;
+    }
+
+    /* on traite en premier dirname */
+    if (dirname && size2 > trunc)
+    {
+        n = size2 / trunc;
+        tmp_dir = g_malloc (size2 + n);
+        tmp_dir = g_utf8_strncpy (tmp_dir, dirname, trunc);
+        tmp_str2 = utils_string_get_ligne_longueur_fixe (tmp_dir, G_DIR_SEPARATOR_S, trunc);
+        g_free (tmp_dir);
+        tmp_dir = tmp_str2;
+        size3 = strlen (tmp_dir);
+        do
+        {
+            end = g_utf8_offset_to_pointer (dirname, size3);
+
+            if (size3 + trunc <= size2)
+                ptr = g_utf8_offset_to_pointer (dirname, (size3 + trunc));
+
+            if (ptr)
+            {
+                tmp_str2 = g_strndup (end, (ptr - end));
+                tmp_str3 = utils_string_get_ligne_longueur_fixe (tmp_str2, G_DIR_SEPARATOR_S, trunc);
+                size3 += strlen (tmp_str3);
+                g_free (tmp_str2);
+                tmp_str2 = g_strconcat (tmp_dir, "\n", tmp_str3, NULL);
+                g_free (tmp_dir);
+                g_free (tmp_str3);
+                tmp_dir = tmp_str2;
+            }
+            else
+            {
+                tmp_str2 = g_strconcat (tmp_dir, "\n", end, NULL);
+                g_free (tmp_dir);
+                tmp_dir = tmp_str2;
+            }
+
+            ptr = NULL;
+            i++;
+        } while (i <= n);
+    }
+    else if (dirname && size2 <= trunc)
+        tmp_dir = g_strdup (dirname);
+
+    /* on traite basename */
+    /* si base name est < trunc on ajoute une ligne avec basename */
+    if (size1 <= trunc)
+    {
+        tmp_str2 = g_strconcat (tmp_dir, G_DIR_SEPARATOR_S, "\n", basename, NULL);
+        g_free (tmp_dir);
+        g_free (basename);
+        g_free (dirname);
+
+        return tmp_str2;
+    }
+    else
+    {
+        i = 1;
+        n = size1 / trunc;
+        if (n > 3)
+        {
+            n = 3;
+            basename[3*trunc+1] = '\0';
+            size1 = strlen (basename);
+        }
+        tmp_base = g_malloc0 (size1 + n);
+        tmp_base = g_utf8_strncpy (tmp_base, basename, trunc);
+
+        separator = utils_string_get_separator (tmp_base);
+        tmp_str2 = utils_string_get_ligne_longueur_fixe (tmp_base, separator, trunc);
+        g_free (tmp_base);
+        tmp_base = tmp_str2;
+        size3 = strlen (tmp_base);
+        do
+        {
+            end = g_utf8_offset_to_pointer (basename, size3);
+
+            if (size3 + trunc <= size1)
+                ptr = g_utf8_offset_to_pointer (basename, (size3 + trunc));
+
+            if (ptr)
+            {
+                tmp_str2 = g_strndup (end, (ptr - end));
+                separator = utils_string_get_separator (tmp_str2);
+                tmp_str3 = utils_string_get_ligne_longueur_fixe (tmp_str2, separator, trunc);
+                size3 += strlen (tmp_str3);
+                g_free (tmp_str2);
+                tmp_str2 = g_strconcat (tmp_base, "\n", tmp_str3, NULL);
+                g_free (tmp_base);
+                g_free (tmp_str3);
+                tmp_base = tmp_str2;
+            }
+            else
+            {
+                tmp_str2 = g_strconcat (tmp_base, "\n", end, NULL);
+                g_free (tmp_base);
+                tmp_base = tmp_str2;
+            }
+
+            ptr = NULL;
+            i++;
+        } while (i <= n);
+
+        if (strcmp (tmp_dir, "."))
+            tmp_str2 = g_strconcat (tmp_dir, G_DIR_SEPARATOR_S, "\n", tmp_base, NULL);
+
+
+        return tmp_str2;
+    }
+
+    /* return */
+    return NULL;
+}
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

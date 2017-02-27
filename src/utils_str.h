@@ -42,6 +42,8 @@ gint 		my_strncasecmp 											(gchar *string_1,
 																	 gchar *string_2,
 												                     gint longueur);
 gint 		utils_str_atoi 											(const gchar *chaine);
+gchar *		utils_str_break_filename 								(const gchar *string,
+									                                 gint trunc);
 gint 		utils_str_get_nbre_motifs 								(const gchar *chaine,
 																	 const gchar *motif);
 gchar *		utils_str_itoa 											(gint integer);
