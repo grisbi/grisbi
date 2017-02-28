@@ -45,6 +45,8 @@
 #include "navigation.h"
 #include "structures.h"
 #include "utils.h"
+#include "utils_buttons.h"
+#include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -85,9 +87,16 @@ struct _GrisbiWinPrivate
 
     /* box principale */
     GtkWidget *         main_box;
+	GtkWidget *         stack_box;
 
-    /* page d'accueil affichée si pas de fichier chargé automatiquement */
-    GtkWidget *         page_accueil;
+    /* page d'accueil affichée si pas de fichier chargé */
+	GtkWidget *			no_file_page;
+	GtkWidget *			no_file_sw;
+	GtkWidget *			no_file_grid;
+	GtkWidget *			bouton_nouveau;
+	GtkWidget *			bouton_ouvrir;
+	GtkWidget *			bouton_importer;
+	gboolean			no_file_page_OK;
 
     /* widget général si un fichier est chargé */
     GtkWidget *         vbox_general;
@@ -156,9 +165,6 @@ static void grisbi_win_init_statusbar (GrisbiWin *win)
     /* set status_bar PROVISOIRE */
     priv->context_id = gtk_statusbar_get_context_id (GTK_STATUSBAR (priv->statusbar), "Grisbi");
     priv->message_id = G_MAXUINT;
-
-    gtk_widget_show_all (priv->statusbar);
-
 }
 
 
@@ -205,7 +211,7 @@ static gboolean grisbi_win_headings_simpleclick_event_run (GtkWidget *button,
  *
  * \param GrisbiWin *win
  *
- * \return main_box
+ * \return priv->headings_eb
  **/
 static GtkWidget *grisbi_win_get_headings_eb (GrisbiWin *win)
 {
@@ -337,7 +343,116 @@ static GtkWidget *grisbi_win_create_general_notebook (GrisbiWin *win)
     return grid;
 }
 
-/* WIN STATE */
+/* VBOX_GENERAL */
+static void grisbi_win_init_general_widgets (GrisbiWin *win)
+{
+	GrisbiWinPrivate *priv;
+
+	devel_debug (NULL);
+    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+
+    /* création de vbox_general */
+    priv->vbox_general = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_widget_show (priv->vbox_general);
+}
+
+/* NO_FILE_PAGE */
+/**
+ * page d'accueil si on ne charge pas un fichier automatiquement
+ *
+ * \param
+ *
+ * \return
+ **/
+static void grisbi_win_no_file_page_new (GrisbiWin *win)
+{
+	gchar **recent_files_array;
+	gint i;
+    gint col = 0;
+    gint row = 1;
+	GrisbiWinPrivate *priv;
+
+    devel_debug (NULL);
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+
+	gtk_container_set_border_width (GTK_CONTAINER (priv->no_file_page), MARGIN_BOX);
+
+	/* set grid properties */
+	gtk_grid_set_column_spacing (GTK_GRID (priv->no_file_grid), MARGIN_PADDING_BOX);
+	gtk_grid_set_column_homogeneous (GTK_GRID (priv->no_file_grid), TRUE);
+	gtk_grid_set_row_spacing (GTK_GRID (priv->no_file_grid), MARGIN_PADDING_BOX);
+	gtk_grid_set_row_homogeneous (GTK_GRID (priv->no_file_grid), TRUE);
+	gtk_widget_set_hexpand (priv->no_file_grid, TRUE);
+	gtk_widget_set_vexpand (priv->no_file_grid, TRUE);
+
+	gtk_container_add (GTK_CONTAINER (priv->no_file_sw), priv->no_file_grid);
+
+	/* set action of fixed buttons */
+	gtk_actionable_set_action_name (GTK_ACTIONABLE (priv->bouton_nouveau), "win.new-acc-file");
+	gtk_actionable_set_action_name (GTK_ACTIONABLE (priv->bouton_ouvrir), "win.open-file");
+
+	/* set the button "import" */
+	priv->bouton_importer = utils_buttons_button_new_from_stock ("gtk-convert", _("Import"));
+	gtk_button_set_image_position (GTK_BUTTON (priv->bouton_importer), GTK_POS_TOP);
+	gtk_widget_set_size_request (priv->bouton_importer, 150, 150);
+	gtk_widget_set_halign (priv->bouton_importer, GTK_ALIGN_CENTER);
+	gtk_widget_set_valign (priv->bouton_importer, GTK_ALIGN_CENTER);
+	gtk_actionable_set_action_name (GTK_ACTIONABLE (priv->bouton_importer), "win.import-file");
+
+	gtk_grid_attach (GTK_GRID (priv->no_file_grid), priv->bouton_importer, 2,0,1,1);
+	gtk_widget_show (priv->bouton_importer);
+
+	/* set the recent files buttons */
+	recent_files_array = grisbi_app_get_recent_files_array ();
+	for (i = 0; i < conf.nb_derniers_fichiers_ouverts; i++)
+    {
+		GtkWidget *bouton;
+        gchar *tmp_str;
+		gchar *target_value;
+
+        if (g_utf8_strlen (recent_files_array[i], -1) > GSB_NAMEFILE_TOO_LONG)
+        {
+            gchar *basename;
+
+            basename = g_path_get_basename (recent_files_array[i]);
+            tmp_str = utils_str_break_filename (basename, GSB_NBRE_CHAR);
+            g_free (basename);
+        }
+        else
+            tmp_str = utils_str_break_filename (recent_files_array[i], GSB_NBRE_CHAR);
+
+        bouton = utils_buttons_button_new_from_stock ("gtk-open", tmp_str);
+        gtk_button_set_image_position (GTK_BUTTON (bouton), GTK_POS_TOP);
+        gtk_widget_set_size_request (bouton, 150, 150);
+		gtk_widget_set_halign (bouton, GTK_ALIGN_CENTER);
+		gtk_widget_set_valign (bouton, GTK_ALIGN_CENTER);
+
+		gtk_grid_attach (GTK_GRID (priv->no_file_grid), bouton, col,row,1,1);
+        gtk_widget_show (bouton);
+
+		/* set action */
+		target_value = g_strdup_printf ("%d", i+1);
+		gtk_actionable_set_action_target_value (GTK_ACTIONABLE (bouton), g_variant_new_string (target_value));
+		gtk_actionable_set_action_name (GTK_ACTIONABLE (bouton), "win.direct-open-file");
+
+		g_free (target_value);
+
+        col++;
+        if ((col % 3) == 0)
+        {
+            col = 0;
+            row++;
+        }
+
+        g_free (tmp_str);
+    }
+	g_strfreev (recent_files_array);
+
+	/* finalisation de no_file_page */
+	gtk_widget_show (priv->no_file_page);
+}
+
+/* WIN CALLBACK */
 /**
  * check on any change on the main window
  * for now, only to check if we set/unset the full-screen
@@ -382,6 +497,7 @@ static void grisbi_win_init (GrisbiWin *win)
 
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
+	/* initialisation des variables chaînes */
     priv->filename = NULL;
     priv->file_title = NULL;
     priv->window_title = NULL;
@@ -392,6 +508,26 @@ static void grisbi_win_init (GrisbiWin *win)
 
     /* init widgets in grisbi_win.ui */
 	gtk_widget_init_template (GTK_WIDGET (win));
+
+	/* creation du widget stack_box->GtkStack */
+	priv->stack_box = gtk_stack_new ();
+	gtk_stack_set_transition_type (GTK_STACK (priv->stack_box), GTK_STACK_TRANSITION_TYPE_NONE);
+	gtk_stack_set_vhomogeneous (GTK_STACK (priv->stack_box), TRUE);
+	gtk_widget_show (priv->stack_box);
+	gtk_box_pack_start (GTK_BOX (priv->main_box), priv->stack_box, TRUE, TRUE, 0);
+
+	/* adding accueil_page */
+	grisbi_win_no_file_page_new (win);
+	if ((conf.dernier_fichier_auto && conf.last_open_file))
+	{
+		grisbi_win_init_general_widgets (win);
+		gtk_stack_add_named (GTK_STACK (priv->stack_box), priv->vbox_general, "file_page");
+	}
+	else
+	{
+		gtk_stack_add_named (GTK_STACK (priv->stack_box), priv->no_file_page, "accueil_page");
+		priv->no_file_page_OK = TRUE;
+	}
 
 	/* initialisation de la barre d'état */
 	grisbi_win_init_statusbar (GRISBI_WIN (win));
@@ -411,6 +547,11 @@ static void grisbi_win_class_init (GrisbiWinClass *klass)
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, main_box);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, statusbar);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, no_file_page);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, no_file_sw);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, no_file_grid);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, bouton_nouveau);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, bouton_ouvrir);
 
     /* signaux */
     gtk_widget_class_bind_template_callback (GTK_WIDGET_CLASS (klass), grisbi_win_change_state_window);
@@ -459,26 +600,11 @@ void grisbi_win_set_filename (GrisbiWin *win,
 
 /* GET WIDGET */
 /**
- * retourne main_box
- *
- * \param GrisbiWin *win
- *
- * \return main_box
- **/
-GtkWidget *grisbi_win_get_main_box (GrisbiWin *win)
-{
-	GrisbiWinPrivate *priv;
-
-	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
-    return priv->main_box;
-}
-
-/**
  * retourne notebook_general
  *
  * \param GrisbiWin *win
  *
- * \return main_box
+ * \return notebook_general
  **/
 GtkWidget *grisbi_win_get_notebook_general (GrisbiWin *win)
 {
@@ -486,6 +612,21 @@ GtkWidget *grisbi_win_get_notebook_general (GrisbiWin *win)
 
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
     return priv->notebook_general;
+}
+
+/**
+ * retourne stack_box
+ *
+ * \param GrisbiWin *win
+ *
+ * \return stack_box
+ **/
+GtkWidget *grisbi_win_get_stack_box (GrisbiWin *win)
+{
+	GrisbiWinPrivate *priv;
+
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+    return priv->stack_box;
 }
 
 /* WIN_MENU */
@@ -725,6 +866,26 @@ void grisbi_win_menu_move_to_acc_update (gboolean active)
 
 /* MAIN WINDOW */
 /**
+ * Active la vue accueil ou la vue fichier
+ *
+ * \param GrisbiWin		active window
+ * \param gchar 		nom de la page
+ *
+ * \return
+ **/
+void grisbi_win_stack_box_show (GrisbiWin *win,
+							   const gchar *page_name)
+{
+	GrisbiWinPrivate *priv;
+
+	if (win == NULL)
+		win = grisbi_app_get_active_window (NULL);
+
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+	gtk_stack_set_visible_child_name (GTK_STACK (priv->stack_box), page_name);
+}
+
+/**
  *
  *
  * \param
@@ -871,9 +1032,85 @@ void grisbi_win_set_size_and_position (GtkWindow *win)
         gtk_window_maximize (GTK_WINDOW (win));
 }
 
+/* NO_FILE_PAGE */
+/**
+ * update page d'accueil si on ferme le fichier
+ *
+ * \param
+ *
+ * \return
+ **/
+void grisbi_win_no_file_page_update (GrisbiWin *win)
+{
+	gchar **recent_files_array;
+	gint i;
+    gint col = 0;
+    gint row = 1;
+	GrisbiWinPrivate *priv;
+
+    devel_debug (NULL);
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+
+	if (priv->no_file_page_OK == FALSE)
+	{
+		gtk_stack_add_named (GTK_STACK (priv->stack_box), priv->no_file_page, "accueil_page");
+		priv->no_file_page_OK = TRUE;
+	}
+
+	recent_files_array = grisbi_app_get_recent_files_array ();
+	for (i = 0; i < conf.nb_derniers_fichiers_ouverts; i++)
+	{
+		GtkWidget *bouton;
+        gchar *tmp_str;
+		gchar *target_value;
+
+		bouton = gtk_grid_get_child_at (GTK_GRID (priv->no_file_grid), col, row);
+		if (bouton == NULL)
+		{
+			bouton = utils_buttons_button_new_from_stock ("gtk-open", tmp_str);
+			gtk_button_set_image_position (GTK_BUTTON (bouton), GTK_POS_TOP);
+			gtk_widget_set_size_request (bouton, 150, 150);
+			gtk_widget_set_halign (bouton, GTK_ALIGN_CENTER);
+			gtk_widget_set_valign (bouton, GTK_ALIGN_CENTER);
+
+			gtk_grid_attach (GTK_GRID (priv->no_file_grid), bouton, col,row,1,1);
+			gtk_widget_show (bouton);
+
+			/* set action */
+			target_value = g_strdup_printf ("%d", i+1);
+			gtk_actionable_set_action_target_value (GTK_ACTIONABLE (bouton), g_variant_new_string (target_value));
+			gtk_actionable_set_action_name (GTK_ACTIONABLE (bouton), "win.direct-open-file");
+
+			g_free (target_value);
+		}
+
+		if (g_utf8_strlen (recent_files_array[i], -1) > GSB_NAMEFILE_TOO_LONG)
+		{
+			gchar *basename;
+
+			basename = g_path_get_basename (recent_files_array[i]);
+			tmp_str = utils_str_break_filename (basename, GSB_NBRE_CHAR);
+			g_free (basename);
+		}
+		else
+			tmp_str = utils_str_break_filename (recent_files_array[i], GSB_NBRE_CHAR);
+
+		gtk_button_set_label (GTK_BUTTON (bouton), tmp_str);
+
+		col++;
+		if ((col % 3) == 0)
+		{
+			col = 0;
+			row++;
+		}
+		g_free (tmp_str);
+	}
+	g_strfreev (recent_files_array);
+}
+
 /* VBOX_GENERAL */
 /**
- * free vbox_general
+ * create vbox_general
  *
  * \param
  *
@@ -886,7 +1123,11 @@ GtkWidget *grisbi_win_create_general_widgets (GrisbiWin *win)
     priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
     /* création de vbox_general */
-    priv->vbox_general = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	if (priv->vbox_general == NULL)
+	{
+		grisbi_win_init_general_widgets (win);
+		gtk_stack_add_named (GTK_STACK (priv->stack_box), priv->vbox_general, "file_page");
+	}
 
     /* chargement de headings_eb */
     /* initialisation de headings_eb */
@@ -927,6 +1168,10 @@ GtkWidget *grisbi_win_create_general_widgets (GrisbiWin *win)
     /* show the widgets */
     gtk_widget_show (priv->hpaned_general);
     gtk_widget_show (priv->vbox_general);
+
+	/* set visible statusbar */
+	if (!gtk_widget_get_visible (priv->statusbar))
+		gtk_widget_show (priv->statusbar);
 
     return priv->vbox_general;
 }
@@ -1178,7 +1423,6 @@ void grisbi_win_status_bar_stop_wait (gboolean force_update)
     if (force_update)
         update_gui ();
 }
-
 /**
  *
  *

@@ -519,10 +519,8 @@ gboolean gsb_file_new_finish ( void )
 void gsb_file_new_gui ( void )
 {
     GrisbiWin *win;
-    GtkWidget *main_box;
     GtkWidget *tree_view_widget;
     GtkWidget *notebook_general;
-    GtkWidget *vbox_general;
 
     win = grisbi_app_get_active_window (NULL);
 
@@ -534,12 +532,10 @@ void gsb_file_new_gui ( void )
 
     /* Create main widget. */
     grisbi_win_status_bar_message ( _("Creating main window") );
-    main_box = grisbi_win_get_main_box (win);
 
-    /* création de vbox_general */
-    vbox_general = grisbi_win_create_general_widgets (GRISBI_WIN (win));
-    gtk_box_pack_start ( GTK_BOX ( main_box ), vbox_general, TRUE, TRUE, 0 );
-    gtk_widget_show (vbox_general);
+    /* création de grid_general */
+    grisbi_win_create_general_widgets (GRISBI_WIN (win));
+	grisbi_win_stack_box_show (win, "file_page");
 
     /* fill the general notebook */
     notebook_general = grisbi_win_get_notebook_general (win);

@@ -816,12 +816,14 @@ static void grisbi_app_startup ( GApplication *application )
  **/
 static void grisbi_app_activate (GApplication *application)
 {
+
+	GrisbiWin *win;
     gboolean load_file = FALSE;
 
 	devel_debug ( NULL );
 
 	/* création de la fenêtre pincipale */
-    grisbi_app_create_window (GRISBI_APP (application), NULL);
+    win = grisbi_app_create_window (GRISBI_APP (application), NULL);
 
     /* set the CSS properties */
     if ( css_provider )
@@ -842,6 +844,11 @@ static void grisbi_app_activate (GApplication *application)
         load_file = grisbi_app_load_file_if_necessary (GRISBI_APP (application));
         if (load_file)
             display_tip (FALSE);
+		else
+		{
+			grisbi_win_stack_box_show (win, "accueil_page");
+			grisbi_win_status_bar_message (_("Start an action!"));
+		}
     }
 }
 
