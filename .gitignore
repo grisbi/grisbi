@@ -10,7 +10,7 @@ ltmain.sh
 missing
 mkinstalldirs
 Makefile
-./config.h
+config.h
 config.log
 config.status
 libtool
