@@ -229,7 +229,7 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
                                 G_TYPE_INT,             /* NAVIGATION_PAGE */
 							    G_TYPE_INT,             /* NAVIGATION_ACCOUNT */
                                 G_TYPE_INT,             /* NAVIGATION_REPORT */
-							    G_TYPE_INT,             /* NAVIGATION_SENSITIVE */
+							    G_TYPE_STRING,          /* NAVIGATION_SENSITIVE */
                                 G_TYPE_INT ) );         /* NAVIGATION_ORDRE */
 
     gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE ( navigation_model ),
@@ -318,7 +318,7 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
     gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(column), renderer,
 				       "weight", NAVIGATION_FONT);
     gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(column), renderer,
-				       "sensitive", NAVIGATION_SENSITIVE);
+				       "foreground", NAVIGATION_SENSITIVE);
 
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( navigation_tree_view ),
 				  GTK_TREE_VIEW_COLUMN ( column ) );
@@ -584,7 +584,7 @@ void gsb_gui_navigation_create_report_list ( GtkTreeModel *model )
                         NAVIGATION_FONT, 400,
                         NAVIGATION_PAGE, GSB_REPORTS_PAGE,
                         NAVIGATION_ACCOUNT, -1,
-                        NAVIGATION_SENSITIVE, 1,
+                        NAVIGATION_SENSITIVE, "black",
                         NAVIGATION_REPORT, report_number,
                         -1 );
 
@@ -749,7 +749,7 @@ void gsb_gui_navigation_update_report_iter ( GtkTreeModel *model,
 		       NAVIGATION_PAGE, GSB_REPORTS_PAGE,
 		       NAVIGATION_REPORT, report_number,
 		       NAVIGATION_ACCOUNT, -1,
-		       NAVIGATION_SENSITIVE, 1,
+		       NAVIGATION_SENSITIVE, "black",
 		       -1 );
 }
 
@@ -856,8 +856,14 @@ void gsb_gui_navigation_update_account_iter ( GtkTreeModel *model,
                         gint account_number )
 {
     GdkPixbuf * pixbuf = NULL;
+	gboolean closed_account;
+	gchar *str_color = "black";
 
-    pixbuf = gsb_data_account_get_account_icon_pixbuf ( account_number );
+	closed_account = gsb_data_account_get_closed_account (account_number);
+	if (closed_account)
+		str_color = "grey";
+
+	pixbuf = gsb_data_account_get_account_icon_pixbuf ( account_number );
 
     gtk_tree_store_set ( GTK_TREE_STORE ( model ), account_iter,
                         NAVIGATION_PIX, pixbuf,
@@ -866,7 +872,7 @@ void gsb_gui_navigation_update_account_iter ( GtkTreeModel *model,
                         NAVIGATION_FONT, 400,
                         NAVIGATION_PAGE, GSB_ACCOUNT_PAGE,
                         NAVIGATION_ACCOUNT, account_number,
-                        NAVIGATION_SENSITIVE, !gsb_data_account_get_closed_account ( account_number ),
+                        NAVIGATION_SENSITIVE, str_color,
                         NAVIGATION_REPORT, -1,
                         -1 );
 
@@ -1996,7 +2002,7 @@ void gsb_gui_navigation_set_navigation_pages ( GtkTreeModel *model,
                         NAVIGATION_PAGE, type_page,
                         NAVIGATION_ACCOUNT, -1,
                         NAVIGATION_REPORT, -1,
-                        NAVIGATION_SENSITIVE, 1,
+                        NAVIGATION_SENSITIVE, "black",
                         NAVIGATION_ORDRE, ordre,
                         -1);
 
