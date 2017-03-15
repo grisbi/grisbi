@@ -303,7 +303,7 @@
         </item>
         <item>
           <attribute name="label" translatable="yes">Export accounts as QIF/CSV file</attribute>
-          <attribute name="action">win.export</attribute>
+          <attribute name="action">win.export-accounts</attribute>
         </item>
       </section>
       <section>
@@ -323,7 +323,7 @@
         </item>
         <item>
           <attribute name="label" translatable="yes">Obfuscate account file</attribute>
-          <attribute name="action">win.obf-acc-file-archive</attribute>
+          <attribute name="action">win.obf-acc-file</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Obfuscate QIF file</attribute>
