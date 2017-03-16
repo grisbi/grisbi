@@ -48,6 +48,7 @@
 #include "bet_graph.h"
 #include "custom_list.h"
 #include "dialog.h"
+#include "grisbi_app.h"
 #include "gsb_calendar.h"
 #include "gsb_data_account.h"
 #include "gsb_data_archive.h"
@@ -450,9 +451,11 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
         g_free ( file_content);
     }
 
-    /* if it's a new file, we set the permission */
+    /* if it's a new file, we set the permission and add in the last files list */
     if ( do_chmod )
     {
+		grisbi_app_set_recent_files_menu (NULL, TRUE);
+
         /* it's a new file or stat couldn't find the permissions,
          * so set only user can see the file by default */
 #ifdef _MSC_VER

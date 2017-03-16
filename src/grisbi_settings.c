@@ -83,6 +83,9 @@ G_DEFINE_TYPE_WITH_PRIVATE (GrisbiSettings, grisbi_settings, G_TYPE_OBJECT);
 /* singleton object - all consumers of GrisbiSettings get the same object (refcounted) */
 static GrisbiSettings *singleton = NULL;
 
+/* recent files array */
+static gchar **recent_array = NULL;
+
 /*******************************************************************************
  * Private Methods
  ******************************************************************************/
@@ -181,8 +184,6 @@ static void grisbi_settings_init_settings_display ( GSettings *settings )
  **/
 static void grisbi_settings_init_settings_file ( GSettings *settings )
 {
-    gchar **recent_array = NULL;
-
     conf.compress_file = g_settings_get_boolean ( settings, "compress-file" );
     conf.dernier_fichier_auto = g_settings_get_boolean ( settings, "dernier-fichier-auto" );
     conf.force_enregistrement = g_settings_get_boolean ( settings, "force-enregistrement" );
@@ -192,13 +193,16 @@ static void grisbi_settings_init_settings_file ( GSettings *settings )
     recent_array = g_settings_get_strv ( settings, "names-last-files" );
     if ( recent_array )
 	{
-        conf.nb_derniers_fichiers_ouverts = g_strv_length ( recent_array );
-        if ( conf.nb_derniers_fichiers_ouverts > 0 )
+        conf.nb_derniers_fichiers_ouverts = g_strv_length (recent_array);
+        if (conf.nb_derniers_fichiers_ouverts > 0)
         {
-            grisbi_app_init_recent_manager ( recent_array );
-            conf.last_open_file = my_strdup ( recent_array[0]);
+			if (conf.nb_derniers_fichiers_ouverts > conf.nb_max_derniers_fichiers_ouverts)
+			{
+				conf.nb_derniers_fichiers_ouverts = conf.nb_max_derniers_fichiers_ouverts;
+			}
+
+            conf.last_open_file = my_strdup (recent_array[0]);
         }
-        g_strfreev ( recent_array );
     }
 
     /* archive stuff */
@@ -565,7 +569,6 @@ void grisbi_settings_save_app_config (void)
 {
     GrisbiSettingsPrivate *priv;
     gchar *tmp_str;
-	gchar **recent_array = NULL;
     gint i;
 
     devel_debug (NULL);
@@ -642,6 +645,9 @@ void grisbi_settings_save_app_config (void)
     g_settings_set_boolean ( G_SETTINGS ( priv->settings_file ),
                         "compress-file",
                         conf.compress_file );
+
+	/* on commence par liberer la mémoire utilisée par recent_array */
+    g_strfreev (recent_array);
 
     recent_array = grisbi_app_get_recent_files_array ();
     if ( g_strv_length ( recent_array ) )
@@ -841,6 +847,18 @@ GSettings *grisbi_settings_get_settings ( gint schema )
     }
 
     return settings;
+}
+
+ /**
+ * retourne le tableau des fichiers récents
+ *
+ * \param
+ *
+ * \return recent array
+ **/
+gchar ** grisbi_settings_get_recent_files_array (void)
+{
+	return recent_array;
 }
 
  /**

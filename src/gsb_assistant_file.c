@@ -231,6 +231,9 @@ GtkResponseType gsb_assistant_file_run ( gboolean first_opening,
     gsb_select_icon_set_logo_pixbuf (
                         gsb_select_icon_get_default_logo_pixbuf ( ) );
 
+	/* set the new filename */
+	grisbi_win_set_filename (NULL, nom_fichier_comptes);
+
     /* and now, launch the next assistant */
     if (launch_account_assistant)
 	gsb_file_new_finish ();
