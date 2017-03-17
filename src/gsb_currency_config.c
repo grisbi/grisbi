@@ -231,6 +231,7 @@ struct iso_4217_currency iso_4217_currencies[] = {
     { N_("Northern America"), N_("Bermuda Dollar"), N_("Bermuda"), "BMD", "$", TRUE, "BMD.png", 2, 1 },
     { N_("Northern America"), N_("Canadian Dollar"), N_("Canada"), "CAD", "$", TRUE, "CAD.png", 2, 1 },
     { N_("Northern America"), N_("Cayman Islands Dollar"), N_("Cayman Islands"), "KYD", NULL, TRUE, "KYD.png", 2, 1 },
+    { N_("Northern America"), N_("Cuban Convertible Peso"), N_("Cuba"), "CUC", "$", TRUE, "CUP.png", 2, 1 },
     { N_("Northern America"), N_("Cuban Peso"), N_("Cuba"), "CUP", "₱ 	", TRUE, "CUP.png", 2, 1 },
     { N_("Northern America"), N_("Dominican Peso"), N_("Dominican Republic"), "DOP", "₱", TRUE, "DOP.png", 2, 1 },
     { N_("Northern America"), N_("East Caribbean Dollar"), N_("Grenada"), "XCD", "$", TRUE, "GRE.png", 2, 1 },
