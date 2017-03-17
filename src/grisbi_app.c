@@ -87,7 +87,7 @@ struct GrisbiAppConf    conf;                   /* conf structure Provisoire */
 GtkCssProvider *        css_provider = NULL;    /* css provider */
 
 /******************************************************************************/
-/* Private functions                                                            */
+/* Private functions                                                          */
 /******************************************************************************/
 /* STRUCTURE CONF */
 /**
@@ -316,28 +316,6 @@ static const GActionEntry win_context_enabled_entries[] =
 #endif
 
 /**
- * ajoute un item au recent manager si unique.
- *
- * \param GtkRecentManager recent_manager
- * \param gchar item
- *
- * \return result
- * */
-//~ static gboolean grisbi_app_recent_manager_add_item (GtkRecentManager *recent_manager,
-											 //~ const gchar *uri)
-//~ {
-	//~ if (!gtk_recent_manager_has_item (recent_manager, uri))
-	//~ {
-		//~ gboolean result;
-
-		//~ result = gtk_recent_manager_add_item (recent_manager, uri);
-		//~ return result;
-	//~ }
-	//~ else
-		//~ return TRUE;
-//~ }
-
-/**
  * ajoute les actions et les item du menu recent_file.
  *
  * \param GApplication  *app
@@ -352,30 +330,33 @@ static void grisbi_app_recent_files_menu_add_sub_menu (GMenu *recent_menu,
 	gchar **recent_array;
     gchar *detailled_action;
     gchar *uri;
-    gchar *filename;
     gint index = 0;
 	gint i = 0;
 
-	recent_array = grisbi_settings_get_recent_files_array ();
-	for (i = 0 ; i < conf.nb_derniers_fichiers_ouverts ; i++)
-	{
-		filename = g_strdup (recent_array[i]);
-		if (g_file_test (filename, G_FILE_TEST_EXISTS))
-		{
-			detailled_action = g_strdup_printf ("win.direct-open-file::%d", index+1 );
-			menu_item = g_menu_item_new (filename, detailled_action);
-			g_menu_append_item (recent_menu, menu_item);
-			index++;
-			g_free ( detailled_action );
-			g_object_unref ( menu_item );
+	devel_debug (NULL);
 
-			uri = g_filename_to_uri (recent_array[i], NULL, NULL);
+	recent_array = grisbi_settings_get_recent_files_array ();
+	for (i = conf.nb_derniers_fichiers_ouverts ; i > 0 ; i--)
+	{
+		if (g_file_test (recent_array[i-1], G_FILE_TEST_EXISTS))
+		{
+			gchar *menu_name;
+
+			detailled_action = g_strdup_printf ("win.direct-open-file::%d", index+1);
+			menu_name = gsb_menu_normalise_label_name (recent_array[i-1]);
+			menu_item = g_menu_item_new (menu_name, detailled_action);
+			g_menu_insert_item (recent_menu, 0, menu_item);
+			index++;
+			g_free (menu_name);
+			g_free ( detailled_action);
+			g_object_unref ( menu_item);
+
+			uri = g_filename_to_uri (recent_array[i-1], NULL, NULL);
 			gtk_recent_manager_add_item (recent_manager, uri);
 			g_free (uri);
 		}
 		else
 			conf.nb_derniers_fichiers_ouverts--;
-		g_free (filename);
 	}
 
 }
@@ -415,52 +396,55 @@ static void grisbi_app_init_recent_files_menu (GrisbiApp *app)
 		return;
     }
 
+	g_free (filename);
+
 	/* on utilise recent manager si possible */
 	tmp_list = gtk_recent_manager_get_items (recent_manager);
 	if (g_list_length (tmp_list) == 0)
 	{
-		g_free (filename);
 		grisbi_app_recent_files_menu_add_sub_menu (priv->item_recent_files, recent_manager);
 		return;
 	}
 
-    for ( l = tmp_list; l != NULL; l = l->next )
+    for (l = tmp_list; l != NULL; l = l->next)
     {
         GtkRecentInfo *info;
 
         info = l->data;
-        uri = gtk_recent_info_get_uri_display ( info );
-        if ( g_str_has_suffix ( uri, ".gsb" ) )
+        uri = gtk_recent_info_get_uri_display ( info);
+        if ( g_str_has_suffix (uri, ".gsb"))
 		{
-            if ( !g_file_test ( uri, G_FILE_TEST_EXISTS ) )
+            if (!g_file_test (uri, G_FILE_TEST_EXISTS))
             {
-                g_free ( uri );
+				gsb_menu_recent_manager_remove_item (recent_manager, uri);
+                g_free (uri);
                 continue;
             }
-			if ( index < conf.nb_max_derniers_fichiers_ouverts )
+			if (index < conf.nb_max_derniers_fichiers_ouverts)
 			{
                 GMenuItem *menu_item;
 
-                detailled_action = g_strdup_printf ("win.direct-open-file::%d", index+1 );
-                menu_item = g_menu_item_new ( uri, detailled_action );
-                g_menu_append_item ( priv->item_recent_files, menu_item );
-                if ( index == 0 )
+                detailled_action = g_strdup_printf ("win.direct-open-file::%d", index+1);
+				filename = gsb_menu_normalise_label_name (uri);
+                menu_item = g_menu_item_new (filename, detailled_action);
+                g_menu_append_item (priv->item_recent_files, menu_item);
+                if (index == 0)
                 {
-                    conf.last_open_file = my_strdup ( uri );
+                    conf.last_open_file = my_strdup (uri);
                 }
 				index++;
-                g_free ( detailled_action );
-                g_object_unref ( menu_item );
+				g_free (filename);
+                g_free (detailled_action);
+                g_object_unref ( menu_item);
 			}
 		}
-        g_free ( uri );
+        g_free (uri);
     }
-    g_list_free_full ( tmp_list, ( GDestroyNotify ) gtk_recent_info_unref );
+    g_list_free_full ( tmp_list, (GDestroyNotify) gtk_recent_info_unref);
 
 	/* si pas de fichier gsb et conf.nb_derniers_fichiers_ouverts > 0 on ajoute les fichiers sauvegardés */
 	if (index == 0 && conf.nb_derniers_fichiers_ouverts > 0)
 	{
-		g_free (filename);
 		grisbi_app_recent_files_menu_add_sub_menu (priv->item_recent_files, recent_manager);
     }
 }
@@ -1312,7 +1296,7 @@ gchar **grisbi_app_get_recent_files_array ( void )
  * \return
  * */
 void grisbi_app_set_recent_files_menu (GrisbiApp *app,
-                        gboolean reset )
+									   gboolean reset)
 {
     GrisbiAppPrivate *priv;
 	GtkRecentManager *recent_manager;
@@ -1325,67 +1309,75 @@ void grisbi_app_set_recent_files_menu (GrisbiApp *app,
 
     devel_debug_int (reset);
 
-    if ( app == NULL )
+    if (app == NULL)
         app = GRISBI_APP (g_application_get_default ());
 
-    priv = grisbi_app_get_instance_private ( GRISBI_APP ( app ) );
+    priv = grisbi_app_get_instance_private (GRISBI_APP (app));
 	recent_manager = gtk_recent_manager_get_default ();
 
     if (reset)
     {
         GMenuItem *menu_item;
+		gchar *tmp_filename;
 
-        g_menu_remove_all ( priv->item_recent_files );
-        filename = grisbi_win_get_filename ( NULL );
-        detailled_action = g_strdup_printf ("win.direct-open-file::%d", index+1 );
-        menu_item = g_menu_item_new ( filename, detailled_action );
-        g_menu_append_item ( priv->item_recent_files, menu_item );
+        g_menu_remove_all (priv->item_recent_files);
+        filename = grisbi_win_get_filename (NULL);
+		tmp_filename = gsb_menu_normalise_label_name (filename);
+        detailled_action = g_strdup_printf ("win.direct-open-file::%d", index+1);
+        menu_item = g_menu_item_new (tmp_filename, detailled_action);
+        g_menu_append_item (priv->item_recent_files, menu_item);
         index++;
-        g_free ( detailled_action );
-        g_object_unref ( menu_item );
+		g_free (tmp_filename);
+        g_free (detailled_action);
+        g_object_unref (menu_item);
     }
 
     tmp_list = gtk_recent_manager_get_items (recent_manager);
-    for ( l = tmp_list; l != NULL; l = l->next )
+    for (l = tmp_list; l != NULL; l = l->next)
     {
         GtkRecentInfo *info;
 
         info = l->data;
-        uri = gtk_recent_info_get_uri_display ( info );
-        if ( g_str_has_suffix ( uri, ".gsb" ) )
+        uri = gtk_recent_info_get_uri_display (info);
+        if (g_str_has_suffix (uri, ".gsb"))
 		{
-            if ( !g_file_test ( uri, G_FILE_TEST_EXISTS ) )
+            if (!g_file_test (uri, G_FILE_TEST_EXISTS))
             {
-                g_free ( uri );
+				gsb_menu_recent_manager_remove_item (recent_manager, uri);
+                g_free (uri);
                 continue;
             }
-            if ( reset )
+            if (reset)
             {
-                if ( strcmp ( uri, filename ) == 0 )
+                if (strcmp ( uri, filename) == 0)
                 {
-                    g_free ( uri );
+					gsb_menu_recent_manager_remove_item (recent_manager, uri);
+                    g_free (uri);
                     continue;
                 }
             }
-			if ( index < conf.nb_max_derniers_fichiers_ouverts )
+			if (index < conf.nb_max_derniers_fichiers_ouverts)
 			{
                 GMenuItem *menu_item;
+				gchar *tmp_filename;
 
-                detailled_action = g_strdup_printf ("win.direct-open-file::%d", index+1 );
-                menu_item = g_menu_item_new ( uri, detailled_action );
-                g_menu_append_item ( priv->item_recent_files, menu_item );
-                if ( index == 0 )
+                detailled_action = g_strdup_printf ("win.direct-open-file::%d", index+1);
+				tmp_filename = gsb_menu_normalise_label_name (uri);
+                menu_item = g_menu_item_new (tmp_filename, detailled_action);
+                g_menu_append_item (priv->item_recent_files, menu_item);
+                if (index == 0)
                 {
-                    conf.last_open_file = my_strdup ( uri );
+                    conf.last_open_file = my_strdup (uri);
                 }
 				index++;
-                g_free ( detailled_action );
-                g_object_unref ( menu_item );
+				g_free (tmp_filename);
+                g_free (detailled_action);
+                g_object_unref (menu_item);
 			}
 		}
-        g_free ( uri );
+        g_free (uri);
     }
-    g_list_free_full ( tmp_list, ( GDestroyNotify ) gtk_recent_info_unref );
+    g_list_free_full (tmp_list, (GDestroyNotify) gtk_recent_info_unref);
 }
 
 /**

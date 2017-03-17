@@ -451,11 +451,9 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
         g_free ( file_content);
     }
 
-    /* if it's a new file, we set the permission and add in the last files list */
+    /* if it's a new file, we set the permission */
     if ( do_chmod )
     {
-		grisbi_app_set_recent_files_menu (NULL, TRUE);
-
         /* it's a new file or stat couldn't find the permissions,
          * so set only user can see the file by default */
 #ifdef _MSC_VER

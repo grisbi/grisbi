@@ -19,12 +19,12 @@ enum view_menu_action {
 
 
 /* START_DECLARATION */
+gchar *		gsb_menu_normalise_label_name 					(const gchar *chaine);
 
 /* RECENT FILES MANAGER */
 void        gsb_menu_recent_manager_purge_gsb_items     ( GtkRecentManager *recent_manager );
 void        gsb_menu_recent_manager_remove_item         ( GtkRecentManager *recent_manager,
                                                          const gchar *path );
-void        gsb_menu_recent_manager_set_recent_array    ( gchar **recent_array );
 
 /* APP MENU */
 void        grisbi_cmd_about                    ( GSimpleAction *action,
