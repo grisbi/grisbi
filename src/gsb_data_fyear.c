@@ -703,37 +703,36 @@ gint gsb_data_fyear_compare ( gint fyear_number_1, gint fyear_number_2 )
 gint gsb_data_fyear_compare_from_struct ( struct_fyear *fyear_1,
                         struct_fyear *fyear_2 )
 {
-	gint return_value = 0;
-
     if ( !fyear_1 || !fyear_2 )
-        return 0;
-
-    if ( !fyear_1 -> beginning_date )
-        return_value = -1;
-    if ( !fyear_2 -> beginning_date )
-        return_value = -1;
-
-    if ( g_date_compare ( fyear_1 -> end_date, fyear_2 -> beginning_date ) < 0 )
-        return_value = -1;
-
-    if ( g_date_compare ( fyear_1 -> beginning_date, fyear_2 -> end_date ) > 0 )
-        return_value = 1;
-
-	if (!conf.fyear_combobox_sort_order)
 	{
-		return return_value;
+        return 0;
+	}
+
+	if (conf.fyear_combobox_sort_order)
+	{
+		if ( !fyear_1 -> beginning_date )
+			return 1;
+		if ( !fyear_2 -> beginning_date )
+			return 1;
+
+		if ( g_date_compare ( fyear_1 -> end_date, fyear_2 -> beginning_date ) < 0 )
+			return 1;
+		if ( g_date_compare ( fyear_1 -> beginning_date, fyear_2 -> end_date ) > 0 )
+			return -1;
+		return 0;
 	}
 	else
 	{
-		switch (return_value)
-		{
-			case 1:
-				return -1;
-			case 0:
-				return 0;
-			default:
-				return 1;
-		}
+		if ( !fyear_1 -> beginning_date )
+			return -1;
+		if ( !fyear_2 -> beginning_date )
+			return -1;
+
+		if ( g_date_compare ( fyear_1 -> end_date, fyear_2 -> beginning_date ) < 0 )
+			return -1;
+		if ( g_date_compare ( fyear_1 -> beginning_date, fyear_2 -> end_date ) > 0 )
+			return 1;
+		return 0;
 	}
 }
 
