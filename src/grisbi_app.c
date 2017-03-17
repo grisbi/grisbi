@@ -323,19 +323,19 @@ static const GActionEntry win_context_enabled_entries[] =
  *
  * \return result
  * */
-static gboolean grisbi_app_recent_manager_add_item (GtkRecentManager *recent_manager,
-											 const gchar *uri)
-{
-	if (!gtk_recent_manager_has_item (recent_manager, uri))
-	{
-		gboolean result;
+//~ static gboolean grisbi_app_recent_manager_add_item (GtkRecentManager *recent_manager,
+											 //~ const gchar *uri)
+//~ {
+	//~ if (!gtk_recent_manager_has_item (recent_manager, uri))
+	//~ {
+		//~ gboolean result;
 
-		result = gtk_recent_manager_add_item (recent_manager, uri);
-		return result;
-	}
-	else
-		return TRUE;
-}
+		//~ result = gtk_recent_manager_add_item (recent_manager, uri);
+		//~ return result;
+	//~ }
+	//~ else
+		//~ return TRUE;
+//~ }
 
 /**
  * ajoute les actions et les item du menu recent_file.
