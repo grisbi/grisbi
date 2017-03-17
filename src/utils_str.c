@@ -94,7 +94,7 @@ static gchar * gsb_string_truncate_n ( gchar * string, int n, gboolean hard_trun
  *
  * \return chaine sans joker
  */
-gchar *gsb_string_supprime_joker ( const gchar *chaine )
+static gchar *gsb_string_supprime_joker ( const gchar *chaine )
 {
     gchar **tab_str;
     gchar *result;
