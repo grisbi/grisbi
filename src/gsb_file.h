@@ -22,7 +22,6 @@ gboolean        gsb_file_new_finish                     (void);
 void            gsb_file_new_gui                        (void);
 gboolean        gsb_file_open_file                      (gchar *filename);
 gboolean        gsb_file_open_menu                      (void);
-void            gsb_file_remove_name_from_opened_list   (gchar *filename);
 gboolean        gsb_file_save                           (void);
 gboolean        gsb_file_save_as                        (void);
 void            gsb_file_set_backup_path                (const gchar *path);
