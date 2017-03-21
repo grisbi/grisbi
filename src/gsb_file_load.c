@@ -3269,6 +3269,13 @@ static void gsb_file_load_bet_transfert_part ( const gchar **attribute_names,
         continue;
     }
 
+    if ( !strcmp ( attribute_names[i], "Mlbd" ) )
+    {
+        transfert->main_last_banking_date = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
     if ( !strcmp ( attribute_names[i], "Pa" ) )
     {
         transfert->main_payee_number = utils_str_atoi ( attribute_values[i] );
