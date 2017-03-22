@@ -1147,140 +1147,147 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
     }
 
     switch ( page_number )
-    {
-	case GSB_HOME_PAGE:
-	    notice_debug ("Home page selected");
+	{
+		case GSB_HOME_PAGE:
+			notice_debug ("Home page selected");
 
-        title = g_strdup(_("My accounts"));
+			title = g_strdup(_("My accounts"));
 
-	    /* what to be done if switch to that page */
-	    mise_a_jour_accueil ( FALSE );
-	    gsb_form_set_expander_visible ( FALSE, FALSE );
-	    break;
+			/* what to be done if switch to that page */
+			mise_a_jour_accueil ( FALSE );
+			gsb_form_set_expander_visible ( FALSE, FALSE );
+			gsb_form_hide ();
+			break;
 
-	case GSB_ACCOUNT_PAGE:
-	    notice_debug ("Account page selected");
+		case GSB_ACCOUNT_PAGE:
+			notice_debug ("Account page selected");
 
-	    gsb_menu_gui_sensitive_win_menu_item ( "remove-acc", TRUE );
+			gsb_menu_gui_sensitive_win_menu_item ( "remove-acc", TRUE );
 
-	    account_number = gsb_gui_navigation_get_current_account ();
+			account_number = gsb_gui_navigation_get_current_account ();
 
-        /* update title now -- different from others */
-        gsb_navigation_update_account_label (account_number);
+			/* update title now -- different from others */
+			gsb_navigation_update_account_label (account_number);
 
-	    /* what to be done if switch to that page */
-	    if (account_number >= 0 )
-	    {
-            navigation_change_account ( account_number );
-            gsb_account_property_fill_page ();
-            clear_suffix = FALSE;
-            if ( gsb_data_archive_store_account_have_transactions_visibles ( account_number ) )
-                gsb_transaction_list_set_visible_archived_button ( TRUE );
-            else
-                gsb_transaction_list_set_visible_archived_button ( FALSE );
-	    }
-	    gsb_menu_update_accounts_in_menus ();
-	    gsb_menu_update_view_menu ( account_number );
+			/* what to be done if switch to that page */
+			if (account_number >= 0 )
+			{
+				navigation_change_account ( account_number );
+				gsb_account_property_fill_page ();
+				clear_suffix = FALSE;
+				if ( gsb_data_archive_store_account_have_transactions_visibles ( account_number ) )
+					gsb_transaction_list_set_visible_archived_button ( TRUE );
+				else
+					gsb_transaction_list_set_visible_archived_button ( FALSE );
+			}
+			gsb_menu_update_accounts_in_menus ();
+			gsb_menu_update_view_menu ( account_number );
 
-	    /* set the form */
-        gsb_gui_on_account_switch_page ( GTK_NOTEBOOK ( gsb_gui_get_account_page () ),
-                        NULL,
-                        gtk_notebook_get_current_page ( GTK_NOTEBOOK ( gsb_gui_get_account_page () ) ),
-                        NULL );
-	    /* gsb_form_show ( FALSE ); */
+			/* set the form */
+			gsb_gui_on_account_switch_page ( GTK_NOTEBOOK ( gsb_gui_get_account_page () ),
+							NULL,
+							gtk_notebook_get_current_page ( GTK_NOTEBOOK ( gsb_gui_get_account_page () ) ),
+							NULL );
+			gsb_form_show (TRUE);
 
-	    buffer_last_account = account_number;
+			buffer_last_account = account_number;
 
-	    break;
+			break;
 
-	case GSB_SCHEDULER_PAGE:
-	    notice_debug ("Scheduler page selected");
+		case GSB_SCHEDULER_PAGE:
+			notice_debug ("Scheduler page selected");
 
-	    title = g_strdup(_("Scheduled transactions"));
+			title = g_strdup(_("Scheduled transactions"));
 
-	    /* what to be done if switch to that page */
-	    /* update the list (can do that because short list, so very fast) */
-	    gsb_scheduler_list_fill_list (gsb_scheduler_list_get_tree_view ());
-	    gsb_scheduler_list_set_background_color (gsb_scheduler_list_get_tree_view ());
+			/* what to be done if switch to that page */
+			/* update the list (can do that because short list, so very fast) */
+			gsb_scheduler_list_fill_list (gsb_scheduler_list_get_tree_view ());
+			gsb_scheduler_list_set_background_color (gsb_scheduler_list_get_tree_view ());
 
-	    gsb_scheduler_list_select (gsb_scheduler_list_get_last_scheduled_number ());
+			gsb_scheduler_list_select (gsb_scheduler_list_get_last_scheduled_number ());
 
-	    /* set the form */
-	    gsb_form_set_expander_visible (TRUE, FALSE );
-	    gsb_form_scheduler_clean ();
-	    gsb_form_show ( FALSE );
+			/* set the form */
+			gsb_form_set_expander_visible (TRUE, FALSE );
+			gsb_form_scheduler_clean ();
+			gsb_form_show ( FALSE );
 
-	    /* show the calendar */
-	    gsb_calendar_update ();
-	    gtk_widget_show_all ( scheduler_calendar );
+			/* show the calendar */
+			gsb_calendar_update ();
+			gtk_widget_show_all ( scheduler_calendar );
 
-        /* show menu NewTransaction */
-        gsb_menu_gui_sensitive_win_menu_item ( "new-ope", TRUE );
+			/* show menu NewTransaction */
+			gsb_menu_gui_sensitive_win_menu_item ( "new-ope", TRUE );
 
-        /* show menu InitwidthCol */
-        gsb_menu_gui_sensitive_win_menu_item ( "reset-width-col", TRUE );
-	    break;
+			/* show menu InitwidthCol */
+			gsb_menu_gui_sensitive_win_menu_item ( "reset-width-col", TRUE );
+			break;
 
-	case GSB_PAYEES_PAGE:
-	    notice_debug ("Payee page selected");
+		case GSB_PAYEES_PAGE:
+			notice_debug ("Payee page selected");
 
-	    /* what to be done if switch to that page */
-	    gsb_form_set_expander_visible (FALSE, FALSE );
-        payees_fill_list ();
-        clear_suffix = FALSE;
-	    break;
+			/* what to be done if switch to that page */
+			gsb_form_set_expander_visible (FALSE, FALSE );
+			payees_fill_list ();
+			clear_suffix = FALSE;
+			gsb_form_hide ();
+			break;
 
-	case GSB_SIMULATOR_PAGE:
-	    notice_debug ("Credits simulator page selected");
+		case GSB_SIMULATOR_PAGE:
+			notice_debug ("Credits simulator page selected");
 
-	    title = g_strdup(_("Credits simulator"));
+			title = g_strdup(_("Credits simulator"));
 
-	    /* what to be done if switch to that page */
-        gsb_form_set_expander_visible (FALSE, FALSE);
-        bet_finance_switch_simulator_page ( );
-	    break;
+			/* what to be done if switch to that page */
+			gsb_form_set_expander_visible (FALSE, FALSE);
+			bet_finance_switch_simulator_page ( );
+			gsb_form_hide ();
+			break;
 
-	case GSB_CATEGORIES_PAGE:
-	    notice_debug ("Category page selected");
+		case GSB_CATEGORIES_PAGE:
+			notice_debug ("Category page selected");
 
-	    /* what to be done if switch to that page */
-	    gsb_form_set_expander_visible (FALSE, FALSE );
-        categories_fill_list ();
-        clear_suffix = FALSE;
-	    break;
+			/* what to be done if switch to that page */
+			gsb_form_set_expander_visible (FALSE, FALSE );
+			categories_fill_list ();
+			clear_suffix = FALSE;
+			gsb_form_hide ();
+			break;
 
-	case GSB_BUDGETARY_LINES_PAGE:
-	    notice_debug ("Budgetary page selected");
+		case GSB_BUDGETARY_LINES_PAGE:
+			notice_debug ("Budgetary page selected");
 
-	    /* what to be done if switch to that page */
-	    gsb_form_set_expander_visible (FALSE, FALSE );
-		budgetary_lines_fill_list ();
-        clear_suffix = FALSE;
-	    break;
+			/* what to be done if switch to that page */
+			gsb_form_set_expander_visible (FALSE, FALSE );
+			budgetary_lines_fill_list ();
+			clear_suffix = FALSE;
+			gsb_form_hide ();
+			break;
 
-	case GSB_REPORTS_PAGE:
-	    notice_debug ("Reports page selected");
+		case GSB_REPORTS_PAGE:
+			notice_debug ("Reports page selected");
 
-	    report_number = gsb_gui_navigation_get_current_report ();
+			report_number = gsb_gui_navigation_get_current_report ();
 
-	    if ( report_number >= 0 )
-		title = g_strconcat ( _("Report"), " : ", gsb_data_report_get_report_name (report_number), NULL );
-	    else
-		title = g_strdup(_("Reports"));
+			if ( report_number >= 0 )
+			title = g_strconcat ( _("Report"), " : ", gsb_data_report_get_report_name (report_number), NULL );
+			else
+			title = g_strdup(_("Reports"));
 
-	    /* what to be done if switch to that page */
-	    gsb_form_set_expander_visible ( FALSE, FALSE );
+			/* what to be done if switch to that page */
+			gsb_form_set_expander_visible ( FALSE, FALSE );
 
-	    if ( report_number > 0 )
-            gsb_gui_update_gui_to_report ( report_number );
-	    else
-            gsb_gui_unsensitive_report_widgets ();
-	    break;
+			if ( report_number > 0 )
+				gsb_gui_update_gui_to_report ( report_number );
+			else
+				gsb_gui_unsensitive_report_widgets ();
+			gsb_form_hide ();
+			break;
 
-	default:
-	    notice_debug ("B0rk page selected");
-	    title = g_strdup("B0rk");
-	    break;
+		default:
+			notice_debug ("B0rk page selected");
+			title = g_strdup("B0rk");
+			gsb_form_hide ();
+			break;
     }
 
     /* title is set here if necessary */

@@ -38,7 +38,7 @@ void gsb_form_fill_element ( gint element_number,
                         gint account_number,
                         gint transaction_number,
                         gboolean is_transaction );
-gboolean gsb_form_fill_from_account ( gint account_number );
+//~ gboolean gsb_form_fill_from_account ( gint account_number );
 gboolean gsb_form_finish_edition ( void );
 gint gsb_form_get_account_number ( void );
 gint gsb_form_get_element_expandable ( gint element_number );
@@ -47,6 +47,7 @@ GtkWidget *gsb_form_get_element_widget_from_list ( gint element_number,
 GtkWidget *gsb_form_get_form_widget ( void );
 gint gsb_form_get_origin ( void );
 GtkWidget *gsb_form_get_scheduler_part ( void );
+gboolean gsb_form_hide (void);
 gboolean gsb_form_is_visible ( void );
 gboolean gsb_form_key_press_event ( GtkWidget *widget,
                         GdkEventKey *ev,

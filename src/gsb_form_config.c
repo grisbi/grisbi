@@ -707,7 +707,7 @@ gboolean gsb_form_config_toggle_element_button ( GtkWidget *toggle_button )
 
     /* fill the list */
     gsb_form_config_fill_store (account_number);
-    gsb_form_fill_from_account (account_number);
+    //~ gsb_form_fill_from_account (account_number);
 
     gsb_form_config_update_from_account (
                         gsb_account_get_combo_account_number ( accounts_combobox ) );
@@ -1250,7 +1250,7 @@ gboolean gsb_form_config_drag_end ( GtkWidget *tree_view,
 
     /* fill the list */
     gsb_form_config_fill_store (account_number);
-    gsb_form_fill_from_account (account_number);
+    //~ gsb_form_fill_from_account (account_number);
 
     gsb_file_set_modified ( TRUE );
     return (FALSE);

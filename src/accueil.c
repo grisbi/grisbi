@@ -1261,7 +1261,7 @@ static gboolean saisie_echeance_accueil ( GtkWidget *event_box,
                         G_CALLBACK (gsb_form_scheduler_change_account),
                         NULL );
 
-    gsb_form_fill_from_account (gsb_data_scheduled_get_account_number (scheduled_number));
+    //~ gsb_form_fill_from_account (gsb_data_scheduled_get_account_number (scheduled_number));
 
     /* fill the form with the scheduled transaction */
     gsb_scheduler_list_execute_transaction(scheduled_number);

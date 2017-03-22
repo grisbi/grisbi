@@ -99,7 +99,6 @@ static gint gsb_form_check_for_transfer ( const gchar *entry_string );
 static gboolean gsb_form_get_categories ( gint transaction_number,
                         gint new_transaction,
                         gboolean is_transaction );
-static gboolean gsb_form_hide ( void );
 static gboolean gsb_form_initialise_transaction_form ( void );
 static gboolean gsb_form_size_allocate ( GtkWidget *widget,
                         GtkAllocation *allocation,
@@ -115,6 +114,9 @@ static gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 
 /** label of the last statement */
 GtkWidget *label_last_statement = NULL;
+
+/** The frame */
+static GtkWidget *form_frame;
 
 /** the expander */
 static GtkWidget *form_expander = NULL;
@@ -178,11 +180,17 @@ GtkWidget *gsb_form_get_form_widget ( void )
  * */
 GtkWidget *gsb_form_new ( void )
 {
+	/* Create the form frame */
+	form_frame = gtk_frame_new ("");
+
     /* Create the expander */
     form_expander = gtk_expander_new ( "" );
 
     gtk_expander_set_expanded ( GTK_EXPANDER ( form_expander ),
                                conf.formulaire_toujours_affiche );
+
+	gtk_container_add (GTK_CONTAINER (form_frame), form_expander);
+
     g_signal_connect_after( G_OBJECT(form_expander),
 			    "activate",
 			    G_CALLBACK (gsb_form_activate_expander),
@@ -190,7 +198,9 @@ GtkWidget *gsb_form_new ( void )
 
     gsb_form_create_widgets ();
 
-    return form_expander;
+	gtk_widget_hide (form_frame);
+
+    return form_frame;
 }
 
 /**
@@ -1010,14 +1020,13 @@ gboolean gsb_form_activate_expander ( GtkWidget *expander,
     }
     else
     {
-	gsb_form_show ( FALSE );
-	conf.formulaire_toujours_affiche = FALSE;
+		//~ gsb_form_show ( FALSE );
+		conf.formulaire_toujours_affiche = FALSE;
     }
     gsb_menu_gui_toggle_show_form ();
 
     return FALSE;
 }
-
 
 
 /**
@@ -1040,25 +1049,26 @@ gboolean gsb_form_show ( gboolean show )
     /* show or hide the scheduler part */
     switch (origin)
     {
-	case ORIGIN_VALUE_OTHER:
-	case ORIGIN_VALUE_HOME:
-	    return FALSE;
-	    break;
+		case ORIGIN_VALUE_OTHER:
+		case ORIGIN_VALUE_HOME:
+			return FALSE;
+			break;
 
-	case ORIGIN_VALUE_SCHEDULED:
-	    gsb_form_scheduler_set_frequency ( 2 );
-	    gtk_widget_show ( form_scheduled_part );
-	    break;
+		case ORIGIN_VALUE_SCHEDULED:
+			gsb_form_scheduler_set_frequency ( 2 );
+			gtk_widget_show ( form_scheduled_part );
+			break;
 
-	default:
-	    gtk_widget_hide ( form_scheduled_part );
+		default:
+			gtk_widget_hide ( form_scheduled_part );
     }
 
-    gsb_form_fill_from_account ( origin );
-    gtk_widget_show ( form_transaction_part );
+    //~ gsb_form_fill_from_account ( origin );
+    gtk_widget_show (form_transaction_part);
+	gtk_widget_show (form_frame);
 
-    if ( ! gsb_form_is_visible ( ) && show )
-        gtk_expander_set_expanded (GTK_EXPANDER (form_expander), TRUE );
+	if (!gsb_form_is_visible () && show)
+		gtk_expander_set_expanded (GTK_EXPANDER (form_expander), TRUE);
 
     return FALSE;
 }
@@ -1078,17 +1088,16 @@ gboolean gsb_form_is_visible ( void )
 
 
 /**
- * hide the form, depending to the variable conf.formulaire_toujours_affiche
- * if the user wants the form always showed, that function does nothing
- * else, destroy the form and hide the expander
+ * hide the form
  *
  * \param
  *
  * \return FALSE
  * */
-gboolean gsb_form_hide ( void )
+gboolean gsb_form_hide (void)
 {
-    gsb_form_escape_form ();
+	gtk_widget_hide (form_frame);
+
     return FALSE;
 }
 
@@ -1190,67 +1199,67 @@ gint gsb_form_get_origin ( void )
  *
  * \return FALSE
  * */
-gboolean gsb_form_fill_from_account ( gint account_number )
-{
-    gint row, column;
-    gint rows_number, columns_number;
+//~ gboolean gsb_form_fill_from_account ( gint account_number )
+//~ {
+    //~ gint row, column;
+    //~ gint rows_number, columns_number;
 
-    devel_debug_int (account_number);
+    //~ devel_debug_int (account_number);
 
-    /* account_number can be -1 if come here from the accounts choice button,
-     * and -2 if there were a problem with the origin */
-    switch (account_number)
-    {
-	case -2:
-	    return FALSE;
-	    break;
+    //~ /* account_number can be -1 if come here from the accounts choice button,
+     //~ * and -2 if there were a problem with the origin */
+    //~ switch (account_number)
+    //~ {
+	//~ case -2:
+	    //~ return FALSE;
+	    //~ break;
 
-	case -1:
-	    account_number = gsb_form_scheduler_get_account ();
-	    if (account_number == -2 )
-		return FALSE;
-	    break;
-    }
+	//~ case -1:
+	    //~ account_number = gsb_form_scheduler_get_account ();
+	    //~ if (account_number == -2 )
+		//~ return FALSE;
+	    //~ break;
+    //~ }
 
-    /* if each account has a separate form, get it here,
-     * else, get the form of the first account */
+    //~ /* if each account has a separate form, get it here,
+     //~ * else, get the form of the first account */
 
-    rows_number = gsb_data_form_get_nb_rows ( account_number );
-    columns_number = gsb_data_form_get_nb_columns ( account_number );
+    //~ rows_number = gsb_data_form_get_nb_rows ( account_number );
+    //~ columns_number = gsb_data_form_get_nb_columns ( account_number );
 
-    for ( row=0 ; row < rows_number ; row++ )
-    for ( column=0 ; column < columns_number ; column++ )
-	{
-	    GtkWidget *widget;
-	    gint element = gsb_data_form_get_value ( account_number, column, row );
+    //~ for ( row=0 ; row < rows_number ; row++ )
+    //~ for ( column=0 ; column < columns_number ; column++ )
+	//~ {
+	    //~ GtkWidget *widget;
+	    //~ gint element = gsb_data_form_get_value ( account_number, column, row );
 
-		widget = gsb_form_widget_get_widget ( element );
+		//~ widget = gsb_form_widget_get_widget ( element );
 
-	    if ( !widget )
-            continue;
+	    //~ if ( !widget )
+            //~ continue;
 
-	    /* We want to show all the widgets that are independent of operations and put
-         * the means of payment in accordance with the type of account */
-	    if ( element == TRANSACTION_FORM_TYPE )
-        {
-            gint sign;
+	    //~ /* We want to show all the widgets that are independent of operations and put
+         //~ * the means of payment in accordance with the type of account */
+	    //~ if ( element == TRANSACTION_FORM_TYPE )
+        //~ {
+            //~ gint sign;
 
-            if ( gsb_data_account_get_default_credit ( account_number ) == 0 )
-                sign = GSB_PAYMENT_NEUTRAL;
-            else
-                sign = GSB_PAYMENT_DEBIT;
+            //~ if ( gsb_data_account_get_default_credit ( account_number ) == 0 )
+                //~ sign = GSB_PAYMENT_NEUTRAL;
+            //~ else
+                //~ sign = GSB_PAYMENT_DEBIT;
 
-            gsb_payment_method_create_combo_list ( widget, sign, account_number, 0, FALSE );
-        }
-		else if ( element != TRANSACTION_FORM_CONTRA
-         &&
-         element != TRANSACTION_FORM_CHEQUE )
-            gtk_widget_show (widget);
-	}
+            //~ gsb_payment_method_create_combo_list ( widget, sign, account_number, 0, FALSE );
+        //~ }
+		//~ else if ( element != TRANSACTION_FORM_CONTRA
+         //~ &&
+         //~ element != TRANSACTION_FORM_CHEQUE )
+            //~ gtk_widget_show (widget);
+	//~ }
 
-    gsb_form_clean (account_number);
-    return FALSE;
-}
+    //~ gsb_form_clean (account_number);
+    //~ return FALSE;
+//~ }
 
 
 /**
@@ -2667,7 +2676,7 @@ gboolean gsb_form_finish_edition ( void )
             gsb_scheduler_list_edit_transaction ( gsb_scheduler_list_get_current_scheduled_number ( ) );
     }
     else
-        gsb_form_hide ();
+        gsb_form_escape_form ();
 
     /* on sort de la saisie des opérations filles si variance == 0 */
     if ( ( mother_number = gsb_data_mix_get_mother_transaction_number ( transaction_number, is_transaction ) ) )
