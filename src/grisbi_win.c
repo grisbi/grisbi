@@ -242,7 +242,7 @@ static void grisbi_win_create_headings_eb (GrisbiWin *win)
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
     priv->headings_eb = gtk_event_box_new ();
-    gtk_widget_set_name ( priv->headings_eb, "grey_box");
+    gtk_widget_set_name (priv->headings_eb, "grey_box");
 	gtk_widget_set_margin_start (priv->headings_eb, MARGIN_BOX);
 	gtk_widget_set_margin_end (priv->headings_eb, MARGIN_BOX);
 
@@ -310,9 +310,9 @@ static gboolean grisbi_win_hpaned_size_allocate (GtkWidget *hpaned,
  * the form on the bottom, the form will be showed only for accounts page and
  * scheduler page
  *
- * \param
+ * \param GrisbiWin		active window
  *
- * \return
+ * \return GtkWidget	general_notebook
  */
 static GtkWidget *grisbi_win_create_general_notebook (GrisbiWin *win)
 {
@@ -320,7 +320,7 @@ static GtkWidget *grisbi_win_create_general_notebook (GrisbiWin *win)
     GtkWidget *form;
 	GrisbiWinPrivate *priv;
 
-    devel_debug ( "create_main_notebook" );
+    devel_debug ("create_main_notebook");
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
     /* the main right page is a grid with a notebook on the top and the form on the bottom */
@@ -328,8 +328,8 @@ static GtkWidget *grisbi_win_create_general_notebook (GrisbiWin *win)
 
     /* append the notebook */
     priv->notebook_general = gtk_notebook_new ();
-    gtk_notebook_set_show_tabs ( GTK_NOTEBOOK (priv->notebook_general ), FALSE );
-    gtk_notebook_set_show_border ( GTK_NOTEBOOK (priv->notebook_general ), FALSE );
+    gtk_notebook_set_show_tabs (GTK_NOTEBOOK (priv->notebook_general), FALSE);
+    gtk_notebook_set_show_border (GTK_NOTEBOOK (priv->notebook_general), FALSE);
 	gtk_grid_attach (GTK_GRID (grid), priv->notebook_general, 0,0,1,1);
     gtk_widget_show (priv->notebook_general);
 
@@ -344,6 +344,13 @@ static GtkWidget *grisbi_win_create_general_notebook (GrisbiWin *win)
 }
 
 /* VBOX_GENERAL */
+/**
+ *
+ *
+ * \param GrisbiWin		active window
+ *
+ * \return
+ **/
 static void grisbi_win_init_general_widgets (GrisbiWin *win)
 {
 	GrisbiWinPrivate *priv;
@@ -1198,6 +1205,7 @@ void grisbi_win_free_general_vbox (void)
     }
 }
 
+/* NOTEBOOK_GENERAL */
 /**
  * free notebook_general
  *
@@ -1205,7 +1213,7 @@ void grisbi_win_free_general_vbox (void)
  *
  * \return
  **/
-void grisbi_win_free_general_notebook ( void )
+void grisbi_win_free_general_notebook (void)
 {
     GrisbiWin *win = NULL;
     GrisbiWinPrivate *priv;
@@ -1233,7 +1241,7 @@ void grisbi_win_headings_sensitive_headings (gboolean sensitive)
     GtkWidget *headings_eb;
 
     headings_eb = grisbi_win_get_headings_eb (NULL);
-    gtk_widget_set_sensitive ( headings_eb, sensitive );
+    gtk_widget_set_sensitive (headings_eb, sensitive);
 }
 
 /**
