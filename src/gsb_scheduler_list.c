@@ -1497,7 +1497,7 @@ gboolean gsb_scheduler_list_set_background_color ( GtkWidget *tree_view )
         if ( virtual_transaction )
             gtk_tree_store_set ( store,
                         &iter,
-                        SCHEDULER_COL_NB_BACKGROUND, gsb_rgba_get_couleur ( "couleur_grise" ),
+                        SCHEDULER_COL_NB_BACKGROUND, gsb_rgba_get_couleur ( "background_scheduled" ),
                         -1 );
         else
         {
