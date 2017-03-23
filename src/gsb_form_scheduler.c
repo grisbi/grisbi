@@ -312,8 +312,7 @@ gboolean gsb_form_scheduler_change_account ( GtkWidget *button,
     save_execute = GPOINTER_TO_INT (g_object_get_data ( G_OBJECT (gsb_form_get_form_widget ()),
 							"execute_scheduled"));
     content_list = gsb_form_scheduler_get_content_list ();
-
-    //~ gsb_form_fill_from_account (new_account_number);
+	gsb_form_clean (new_account_number);
 
     /* a problem now, fill_from_account will clean the form,
      * and make unsensitive some part of the form (method of payment...)

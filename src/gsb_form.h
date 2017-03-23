@@ -16,9 +16,6 @@ enum origin_values {
 
 
 /* START_DECLARATION */
-gboolean gsb_form_allocate_size ( GtkWidget *table,
-                        GtkAllocation *allocation,
-                        gpointer null );
 gboolean gsb_form_button_press_event ( GtkWidget *entry,
                         GdkEventButton *ev,
                         gint *ptr_origin );
@@ -38,7 +35,6 @@ void gsb_form_fill_element ( gint element_number,
                         gint account_number,
                         gint transaction_number,
                         gboolean is_transaction );
-//~ gboolean gsb_form_fill_from_account ( gint account_number );
 gboolean gsb_form_finish_edition ( void );
 gint gsb_form_get_account_number ( void );
 gint gsb_form_get_element_expandable ( gint element_number );

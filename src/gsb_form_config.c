@@ -82,7 +82,6 @@ static gboolean gsb_form_config_update_form_config ( gint account_number );
 
 /*START_EXTERN*/
 extern GtkWidget *form_transaction_part;
-extern gint saved_allocation_size;
 /*END_EXTERN*/
 
 
@@ -707,7 +706,7 @@ gboolean gsb_form_config_toggle_element_button ( GtkWidget *toggle_button )
 
     /* fill the list */
     gsb_form_config_fill_store (account_number);
-    //~ gsb_form_fill_from_account (account_number);
+	gsb_form_clean (account_number);
 
     gsb_form_config_update_from_account (
                         gsb_account_get_combo_account_number ( accounts_combobox ) );
@@ -829,9 +828,6 @@ gboolean gsb_form_config_realized ( GtkWidget *tree_view,
     //~ gsb_file_set_modified ( TRUE );
 
     //~ /* update the form if needed */
-    //~ saved_allocation_size = 0;
-    //~ gtk_widget_get_allocation ( form_transaction_part, &tmp_allocation );
-    //~ gsb_form_allocate_size ( NULL, &tmp_allocation, NULL );
     //~ gsb_form_create_widgets ();
 
     //~ return FALSE;
@@ -1250,7 +1246,7 @@ gboolean gsb_form_config_drag_end ( GtkWidget *tree_view,
 
     /* fill the list */
     gsb_form_config_fill_store (account_number);
-    //~ gsb_form_fill_from_account (account_number);
+	gsb_form_clean (account_number);
 
     gsb_file_set_modified ( TRUE );
     return (FALSE);
