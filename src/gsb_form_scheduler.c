@@ -146,23 +146,27 @@ gboolean gsb_form_scheduler_create ( GtkWidget *table )
 		case SCHEDULED_FORM_ACCOUNT:
 		    widget = gsb_account_create_combo_list ( G_CALLBACK ( gsb_form_scheduler_change_account ),
                         NULL, FALSE);
+			gtk_widget_set_hexpand (widget, TRUE);
 		    gtk_combo_box_set_active ( GTK_COMBO_BOX (widget), 0 );
 		    tooltip_text = _("Choose the account");
 		    break;
 
 		case SCHEDULED_FORM_AUTO:
 		    widget = gsb_combo_box_new_with_index ( text_auto, NULL, NULL );
+			gtk_widget_set_hexpand (widget, TRUE);
 		    tooltip_text = _("Automatic/manual scheduled transaction");
 		    break;
 
 		case SCHEDULED_FORM_FREQUENCY_BUTTON:
 		    widget = gsb_combo_box_new_with_index ( text_frequency,
                         G_CALLBACK (gsb_form_scheduler_frequency_button_changed), NULL );
+			gtk_widget_set_hexpand (widget, TRUE);
 		    tooltip_text = _("Frequency");
 		    break;
 
         case SCHEDULED_FORM_LIMIT_DATE:
             widget = gsb_calendar_entry_new (FALSE);
+			gtk_widget_set_hexpand (widget, TRUE);
             g_signal_connect ( G_OBJECT (widget),
                         "button-press-event",
                         G_CALLBACK (gsb_form_scheduler_button_press_event),
