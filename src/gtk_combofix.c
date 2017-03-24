@@ -349,6 +349,9 @@ const gchar *gtk_combofix_get_text ( GtkComboFix *combofix )
  * */
 void gtk_combofix_set_text ( GtkComboFix *combofix, const gchar *text )
 {
+	/* bloque l'appel à gtk_combofix_expose_entry () pendant cette fonction */
+	block_expose_event = 1;
+
     g_return_if_fail ( combofix );
     g_return_if_fail ( GTK_IS_COMBOFIX ( combofix ) );
 
