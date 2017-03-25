@@ -136,6 +136,9 @@ struct _GrisbiWinPrivate
     GtkWidget *         headings_title;          /** Title for the heading bar. */
     GtkWidget *         headings_suffix;         /** Suffix for the heading bar.  */
 
+	/* paned */
+	gint 				hpaned_general_width;
+
     /* variables de configuration de la fenêtre */
 /*	GrisbiWinEtat		*etat;
 */
@@ -306,7 +309,8 @@ static gboolean grisbi_win_hpaned_size_allocate (GtkWidget *hpaned_general,
                                           GtkAllocation *allocation,
                                           gpointer data)
 {
-	//~ GrisbiWinPrivate *priv = (GrisbiWinPrivate *) data;
+	GrisbiWinPrivate *priv = (GrisbiWinPrivate *) data;
+	gint position;
 
 	//~ printf ("hpaned_general width = %d hpaned_general height = %d\n", allocation->width, allocation->height);
 	//~ printf ("\tnavigation_sw width = %d navigation_sw height = %d\n", priv->navigation_sw_allocation.width, priv->navigation_sw_allocation.height);
@@ -316,9 +320,20 @@ static gboolean grisbi_win_hpaned_size_allocate (GtkWidget *hpaned_general,
 	//~ if (priv->form_general_allocation.width)
 		//~ printf ("\tform_general width = %d form_general height = %d\n", priv->form_general_allocation.width, priv->form_general_allocation.height);
 
-    conf.panel_width = gtk_paned_get_position (GTK_PANED (hpaned_general));
+    position = gtk_paned_get_position (GTK_PANED (hpaned_general));
 
-    return FALSE;
+	if (allocation->width == priv->hpaned_general_width)
+	{
+		/* on modifie et mémorise la largeur du panel droit */
+		conf.panel_width = position;
+	}
+	else
+	{
+		/* on conserve la largeur du panel droit */
+		gtk_paned_set_position (GTK_PANED (hpaned_general), conf.panel_width);
+	}
+
+	return FALSE;
 }
 /* FORM_GENERAL */
 /**
@@ -417,6 +432,7 @@ static gboolean grisbi_win_notebook_size_allocate (GtkWidget *notebook_general,
 static GtkWidget *grisbi_win_create_general_notebook (GrisbiWin *win)
 {
 	GtkWidget *grid;
+	GtkWidget *sw;
 	GrisbiWinPrivate *priv;
 
     devel_debug ("create_main_notebook");
@@ -425,11 +441,20 @@ static GtkWidget *grisbi_win_create_general_notebook (GrisbiWin *win)
     /* the main right page is a grid with a notebook on the top and the form on the bottom */
 	grid = gtk_grid_new ();
 
-    /* append the notebook */
+	/* adding a scrolled window for low resolution */
+    sw = gtk_scrolled_window_new (NULL, NULL);
+    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
+                                    GTK_POLICY_AUTOMATIC,
+                                    GTK_POLICY_AUTOMATIC);
+
+  	gtk_grid_attach (GTK_GRID (grid), sw, 0,0,1,1);
+
+	/* append the notebook */
     priv->notebook_general = gtk_notebook_new ();
     gtk_notebook_set_show_tabs (GTK_NOTEBOOK (priv->notebook_general), FALSE);
     gtk_notebook_set_show_border (GTK_NOTEBOOK (priv->notebook_general), FALSE);
-	gtk_grid_attach (GTK_GRID (grid), priv->notebook_general, 0,0,1,1);
+	gtk_container_add (GTK_CONTAINER(sw), priv->notebook_general);
+
     gtk_widget_show (priv->notebook_general);
     g_signal_connect (G_OBJECT (priv->notebook_general),
                       "size_allocate",
@@ -445,7 +470,7 @@ static GtkWidget *grisbi_win_create_general_notebook (GrisbiWin *win)
                       G_CALLBACK (grisbi_win_form_size_allocate),
                       priv);
 
-
+	gtk_widget_show (sw);
     gtk_widget_show (grid);
 
     return grid;
