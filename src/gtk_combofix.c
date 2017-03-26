@@ -36,6 +36,7 @@
 #include "utils_buttons.h"
 /*END_INCLUDE*/
 
+#define COMBOFIX_MIN_WIDTH		250
 
 G_DEFINE_TYPE ( GtkComboFix, gtk_combofix, GTK_TYPE_BOX );
 
@@ -317,6 +318,8 @@ GtkWidget *gtk_combofix_new ( GSList *list )
     GtkComboFix *combofix = g_object_new ( GTK_TYPE_COMBOFIX, NULL );
 
     gtk_combofix_set_list (combofix, list);
+
+	gtk_widget_set_size_request (GTK_WIDGET (combofix), COMBOFIX_MIN_WIDTH, -1);
 
     return ( GTK_WIDGET ( combofix ) );
 }

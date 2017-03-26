@@ -105,9 +105,6 @@ static gboolean bet_transfert_selection_changed ( GtkTreeSelection *selection, G
 #define BET_FUTURE_FORM_WIDTH 4
 #define BET_FUTURE_FORM_HEIGHT 5
 
-static gint width = 250;
-
-
 /** contains the list of the scheduled elements, ie list of link
  * between an element number and the pointer of its widget
  * for now, this list if filled at the opening of grisbi and never erased */
@@ -479,7 +476,6 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
     element_number = TRANSACTION_FORM_PARTY;
     widget = gtk_combofix_new (
                         gsb_data_payee_get_name_and_report_list ( ) );
-    gtk_widget_set_size_request ( widget, width, -1 );
     gtk_combofix_set_force_text ( GTK_COMBOFIX (widget), TRUE ); /* on ne peut pas créer d'item */
     gtk_combofix_set_max_items ( GTK_COMBOFIX (widget),
 					 etat.combofix_max_item );
@@ -543,7 +539,6 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
     element_number = TRANSACTION_FORM_CATEGORY;
     widget = gtk_combofix_new (
                          gsb_data_category_get_name_list ( TRUE, TRUE, TRUE, FALSE ) );
-    gtk_widget_set_size_request ( widget, width, -1 );
     gtk_combofix_set_force_text ( GTK_COMBOFIX (widget), TRUE ); /* on ne peut pas créer d'item */
     gtk_combofix_set_max_items ( GTK_COMBOFIX (widget),
 					 etat.combofix_max_item );
@@ -580,7 +575,6 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
     element_number = TRANSACTION_FORM_BUDGET;
     widget = gtk_combofix_new (
                         gsb_data_budget_get_name_list (TRUE, TRUE));
-    gtk_widget_set_size_request ( widget, width, -1 );
     gtk_combofix_set_force_text ( GTK_COMBOFIX (widget), TRUE ); /* on ne peut pas créer d'item */
     gtk_combofix_set_max_items ( GTK_COMBOFIX (widget),
 					 etat.combofix_max_item );
@@ -2322,7 +2316,6 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
 
     combo = gtk_combofix_new (
                         gsb_data_category_get_name_list ( TRUE, TRUE, FALSE, FALSE ) );
-    gtk_widget_set_size_request ( combo, width, -1 );
     gtk_combofix_set_force_text ( GTK_COMBOFIX ( combo ),
                         etat.combofix_force_category );
     gtk_combofix_set_max_items ( GTK_COMBOFIX ( combo ),
@@ -2350,7 +2343,6 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
 
     combo = gtk_combofix_new (
                         gsb_data_budget_get_name_list ( TRUE, TRUE ) );
-    gtk_widget_set_size_request ( combo, width, -1 );
     gtk_combofix_set_force_text ( GTK_COMBOFIX ( combo ),
                         etat.combofix_force_category );
     gtk_combofix_set_max_items ( GTK_COMBOFIX ( combo ),
@@ -2487,7 +2479,6 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
 
     combo = gtk_combofix_new (
                         gsb_data_category_get_name_list ( TRUE, TRUE, FALSE, FALSE ) );
-    gtk_widget_set_size_request ( combo, width, -1 );
     gtk_combofix_set_force_text ( GTK_COMBOFIX ( combo ),
                         etat.combofix_force_category );
     gtk_combofix_set_max_items ( GTK_COMBOFIX ( combo ),
@@ -2514,7 +2505,6 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
 
     combo = gtk_combofix_new (
                         gsb_data_budget_get_name_list ( TRUE, TRUE ) );
-    gtk_widget_set_size_request ( combo, width, -1 );
     gtk_combofix_set_force_text ( GTK_COMBOFIX ( combo ),
                         etat.combofix_force_category );
     gtk_combofix_set_max_items ( GTK_COMBOFIX ( combo ),
