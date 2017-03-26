@@ -799,7 +799,6 @@ GtkWidget *bet_array_create_tree_view ( GtkWidget *container )
 
     /* create the estimate treeview */
     tree_view = gtk_tree_view_new ( );
-    //~ gtk_tree_view_set_rules_hint ( GTK_TREE_VIEW ( tree_view ), FALSE );
     g_object_set_data ( G_OBJECT ( gsb_gui_get_account_page () ), "bet_estimate_treeview", tree_view );
     g_object_set_data ( G_OBJECT ( tree_view ), "origin_data_model",
                         GINT_TO_POINTER ( SPP_ESTIMATE_TREE_ORIGIN_DATA ) );

@@ -510,7 +510,6 @@ GtkWidget *bet_historical_get_data_tree_view ( GtkWidget *container )
     /* devel_debug (NULL); */
     account_page = gsb_gui_get_account_page ();
     tree_view = gtk_tree_view_new ( );
-    //~ gtk_tree_view_set_rules_hint ( GTK_TREE_VIEW (tree_view), FALSE );
     g_object_set_data ( G_OBJECT ( account_page ), "hist_tree_view", tree_view );
 
     tree_model = gtk_tree_store_new ( SPP_HISTORICAL_NUM_COLUMNS,

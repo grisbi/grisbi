@@ -633,7 +633,6 @@ static GtkWidget *gsb_assistant_reconcile_config_page_manually_associate ( GtkWi
 				 G_TYPE_INT );
     treeview_transactions_to_link = gtk_tree_view_new_with_model (GTK_TREE_MODEL (store));
     g_object_unref (G_OBJECT(store));
-    //~ gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (treeview_transactions_to_link), TRUE);
     gtk_tree_selection_set_mode ( gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview_transactions_to_link)),
 				  GTK_SELECTION_MULTIPLE );
     gtk_container_add ( GTK_CONTAINER (scrolled_window),
@@ -1211,7 +1210,6 @@ static gboolean gsb_assistant_reconcile_config_lauch_manu_asso ( GtkWidget *butt
 					G_TYPE_INT );
     dialog_tree_view = gtk_tree_view_new_with_model (GTK_TREE_MODEL (dialog_store));
     g_object_unref (G_OBJECT(dialog_store));
-    //~ gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (dialog_tree_view), TRUE);
     gtk_container_add ( GTK_CONTAINER (scrolled_window),
 			dialog_tree_view );
 

@@ -162,7 +162,6 @@ GtkWidget *categories_create_list ( void )
     gtk_widget_show ( scroll_window );
 
     /* Create container + TreeView */
-    //~ gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (arbre_categ), TRUE);
     gtk_tree_view_enable_model_drag_source(GTK_TREE_VIEW(arbre_categ),
 					   GDK_BUTTON1_MASK, row_targets, 1,
 					   GDK_ACTION_MOVE | GDK_ACTION_COPY );

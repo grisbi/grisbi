@@ -2081,7 +2081,6 @@ gint gsb_transactions_list_choose_reconcile ( gint account_number,
 				 G_TYPE_INT );
     tree_view = gtk_tree_view_new_with_model (GTK_TREE_MODEL (store));
     g_object_unref ( G_OBJECT(store) );
-    //~ gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (tree_view), TRUE);
     gtk_tree_selection_set_mode ( gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view)),
 				  GTK_SELECTION_SINGLE );
     gtk_container_add ( GTK_CONTAINER (scrolled_window),

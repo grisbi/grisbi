@@ -186,7 +186,6 @@ static GtkWidget *gsb_assistant_archive_export_page_choose ( GtkWidget *assistan
 					G_TYPE_STRING,
 					G_TYPE_INT );
     archive_export_treeview = gtk_tree_view_new_with_model ( GTK_TREE_MODEL (archive_model) );
-    //~ gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (archive_export_treeview), TRUE);
     gtk_container_add ( GTK_CONTAINER (scrolled_window),
 			archive_export_treeview );
 

@@ -163,7 +163,6 @@ GtkWidget *budgetary_lines_create_list ( void )
                         budgetary_line_get_metatree_interface ( ) );
 
     /* Create container + TreeView */
-    //~ gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (budgetary_line_tree), TRUE);
     gtk_tree_view_enable_model_drag_source(GTK_TREE_VIEW(budgetary_line_tree),
 					   GDK_BUTTON1_MASK, row_targets, 1,
 					   GDK_ACTION_MOVE | GDK_ACTION_COPY );

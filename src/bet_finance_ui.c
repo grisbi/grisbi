@@ -453,7 +453,6 @@ GtkWidget *bet_finance_create_data_tree_view ( GtkWidget *container )
     gchar *title;
 
     tree_view = gtk_tree_view_new ( );
-    //~ gtk_tree_view_set_rules_hint ( GTK_TREE_VIEW ( tree_view ), FALSE );
 
     /* Create the tree store */
     tree_model = gtk_tree_store_new ( BET_FINANCE_NBRE_COLUMNS,
@@ -1160,7 +1159,6 @@ GtkWidget *bet_finance_create_amortization_tree_view ( GtkWidget *container, gin
 
     devel_debug ( NULL);
     tree_view = gtk_tree_view_new ( );
-    //~ gtk_tree_view_set_rules_hint ( GTK_TREE_VIEW ( tree_view ), FALSE );
 
     /* Create the tree store */
     tree_model = gtk_tree_store_new ( BET_AMORTIZATION_NBRE_COLUMNS,

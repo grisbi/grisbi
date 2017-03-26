@@ -3001,7 +3001,6 @@ GtkWidget *bet_transfert_create_account_list_part ( GtkWidget *dialog,
     g_object_unref ( list_store );
 
     utils_set_tree_view_selection_and_text_color ( tree_view );
-    //~ gtk_tree_view_set_rules_hint ( GTK_TREE_VIEW ( tree_view ), TRUE );
     gtk_widget_set_size_request ( tree_view, 400, 150 );
 
     /* Account_name */
