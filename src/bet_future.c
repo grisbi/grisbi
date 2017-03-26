@@ -2247,6 +2247,7 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, TRUE, TRUE, 0 );
 
     sw = gtk_scrolled_window_new (NULL, NULL);
+	gtk_widget_set_size_request (GTK_WIDGET (sw), SW_MIN_HEIGHT, -1);
     gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW ( sw ),
                         GTK_SHADOW_ETCHED_IN);
     gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
@@ -2808,6 +2809,10 @@ static gboolean bet_transfert_set_form_data_from_line ( gint account_number,
     widget = g_object_get_data ( G_OBJECT ( bet_transfert_dialog ), "date_entry" );
     gsb_calendar_entry_set_date ( widget, transfert -> date );
     gsb_form_widget_set_empty ( widget, FALSE );
+	if (transfert->main_last_banking_date)
+		gtk_widget_set_sensitive (widget, FALSE);
+	else
+		gtk_widget_set_sensitive (widget, TRUE);
 
     widget = g_object_get_data ( G_OBJECT ( bet_transfert_dialog ), "bet_transfert_last_banking_day" );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( widget ), transfert->main_last_banking_date );
