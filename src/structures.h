@@ -41,6 +41,7 @@
 #define SW_MIN_HEIGHT			150
 
 /* width for widget */
+#define BOX_BORDER_WIDTH		10
 #define ENTRY_MIN_WIDTH_1		100
 
 /* coeff_util for Scrolled_Window */

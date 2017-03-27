@@ -393,7 +393,7 @@ GtkWidget *import_create_file_selection_page ( GtkWidget * assistant )
 	gchar* tmpstr;
 
     vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
-    gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
+    gtk_container_set_border_width ( GTK_CONTAINER(vbox), BOX_BORDER_WIDTH );
 
     paddingbox = new_paddingbox_with_title ( vbox, TRUE, _("Choose file to import"));
 
@@ -1190,7 +1190,7 @@ GtkWidget *cree_ligne_recapitulatif ( struct struct_compte_importation * compte 
     gchar* tmpstr;
 
     vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
-    gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
+    gtk_container_set_border_width ( GTK_CONTAINER(vbox), BOX_BORDER_WIDTH );
 
     if ( compte -> filename )
     short_filename = g_path_get_basename (compte -> filename);
@@ -2268,7 +2268,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
     gtk_window_set_default_size ( GTK_WINDOW ( dialog ), 770, 412 );
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
     gtk_window_set_resizable ( GTK_WINDOW ( dialog ), TRUE );
-    gtk_container_set_border_width ( GTK_CONTAINER(dialog), 12 );
+    gtk_container_set_border_width ( GTK_CONTAINER(dialog), BOX_BORDER_WIDTH );
 
     if ( etat.get_fusion_import_transactions )
     {
@@ -2311,7 +2311,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 
     vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ), vbox );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 10 );
+    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), BOX_BORDER_WIDTH );
     gtk_widget_show ( vbox );
 
     /*   on fait maintenant le tour des opés importées et affichent celles à problème */
@@ -3276,7 +3276,7 @@ void gsb_import_show_orphan_transactions ( GSList *orphan_list,
     gtk_window_set_default_size ( GTK_WINDOW ( dialog ), 770, 412 );
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
     gtk_window_set_resizable ( GTK_WINDOW ( dialog ), TRUE );
-    gtk_container_set_border_width ( GTK_CONTAINER(dialog), 12 );
+    gtk_container_set_border_width ( GTK_CONTAINER(dialog), BOX_BORDER_WIDTH );
 
 	label = gtk_label_new ( _("Mark transactions you want to add to the list and click the "
                               "OK button"));
@@ -3789,7 +3789,7 @@ GtkWidget * gsb_import_associations_gere_tiers ( void )
 
     vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( vbox_main ), vbox, TRUE, TRUE, 0 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 12 );
+    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), BOX_BORDER_WIDTH );
 
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Import associations") );
 
@@ -4603,8 +4603,8 @@ gchar **gsb_import_by_rule_ask_filename ( gint rule )
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
     gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), hbox, FALSE, FALSE, 0 );
     paddingbox = new_paddingbox_with_title ( hbox, TRUE, tmpstr );
-    gtk_container_set_border_width ( GTK_CONTAINER(hbox), 6 );
-    gtk_container_set_border_width ( GTK_CONTAINER(paddingbox), 6 );
+    gtk_container_set_border_width ( GTK_CONTAINER(hbox), BOX_BORDER_WIDTH );
+    gtk_container_set_border_width ( GTK_CONTAINER(paddingbox), BOX_BORDER_WIDTH );
     g_free ( tmpstr );
 
     /* table for layout */

@@ -294,7 +294,7 @@ GtkWidget *bet_future_create_dialog ( gint account_number )
 
 	vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
 	gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), vbox, TRUE, TRUE, 0 );
-	gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 12 );
+	gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), BOX_BORDER_WIDTH );
 
     /* next we fill the bet_form */
     table = gtk_grid_new ();
@@ -2232,7 +2232,7 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
 
     main_vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
     gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), main_vbox, TRUE, TRUE, 0 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( main_vbox ), 12 );
+    gtk_container_set_border_width ( GTK_CONTAINER ( main_vbox ), BOX_BORDER_WIDTH );
 
     /* list of accounts */
     paddingbox = new_paddingbox_with_title ( main_vbox, FALSE,  _("List of accounts") );

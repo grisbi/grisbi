@@ -454,7 +454,7 @@ GtkWidget *file_obfuscate_page_1 ( void )
     GtkWidget *button_everything;
 
     vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 12 );
+    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), BOX_BORDER_WIDTH );
 
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Select features to hide :\n") );
 

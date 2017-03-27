@@ -262,7 +262,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_menu ( GtkWidget *assistan
 	gchar* tmpstr;
 
     page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
-    gtk_container_set_border_width ( GTK_CONTAINER(page), 12 );
+    gtk_container_set_border_width ( GTK_CONTAINER(page), BOX_BORDER_WIDTH );
 
     tmpstr = g_strdup_printf (_("Still %d transactions to link with a reconciliation."),
 								   transactions_to_link);
@@ -378,7 +378,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile ( void )
     GtkWidget *hbox;
 
     page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
-    gtk_container_set_border_width ( GTK_CONTAINER(page), 12 );
+    gtk_container_set_border_width ( GTK_CONTAINER(page), BOX_BORDER_WIDTH );
 
     paddingbox = new_paddingbox_with_title ( page, FALSE,
 					     _("Fill the fields and click the button \"Create the new reconciliation\""));
@@ -513,7 +513,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_automatically_associate ( 
     GtkWidget *hbox;
 
     page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
-    gtk_container_set_border_width ( GTK_CONTAINER(page), 12 );
+    gtk_container_set_border_width ( GTK_CONTAINER(page), BOX_BORDER_WIDTH );
 
     /* for now we juste create the widgets, but cannot fill here,
      * we will fill when the user come to that page */
@@ -595,7 +595,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_manually_associate ( GtkWi
 
 
     page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
-    gtk_container_set_border_width ( GTK_CONTAINER(page), 12 );
+    gtk_container_set_border_width ( GTK_CONTAINER(page), BOX_BORDER_WIDTH );
 
     /* the number of transactions to link */
     label_transactions_to_link_3 = gtk_label_new (NULL);
@@ -698,7 +698,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_success ( void )
     GtkWidget *label;
 
     page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
-    gtk_container_set_border_width ( GTK_CONTAINER(page), 12 );
+    gtk_container_set_border_width ( GTK_CONTAINER(page), BOX_BORDER_WIDTH );
 
     label = gtk_label_new (_("Congratulations!\n\n"
 			     "You have linked all the transactions without reconciliation.\n"
@@ -1184,7 +1184,7 @@ static gboolean gsb_assistant_reconcile_config_lauch_manu_asso ( GtkWidget *butt
     gtk_window_set_default_size ( GTK_WINDOW ( dialog ), 770, 412 );
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
     gtk_window_set_resizable ( GTK_WINDOW ( dialog ), TRUE );
-    gtk_container_set_border_width ( GTK_CONTAINER ( dialog ), 12 );
+    gtk_container_set_border_width ( GTK_CONTAINER ( dialog ), BOX_BORDER_WIDTH );
 
     label = gtk_label_new ( _("Select the reconciliation to associate to the selected transactions: ") );
     utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.0 );

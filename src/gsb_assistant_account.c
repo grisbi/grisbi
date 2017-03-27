@@ -166,8 +166,7 @@ static GtkWidget *gsb_assistant_account_page_2 ( GtkWidget *assistant )
 	NULL };
 
     page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
-    gtk_container_set_border_width ( GTK_CONTAINER (page),
-				     10 );
+    gtk_container_set_border_width ( GTK_CONTAINER (page), BOX_BORDER_WIDTH );
 
     vbox = new_vbox_with_title_and_icon ( _("Account type selection"),
 					  "ac_bank.png" );
@@ -229,8 +228,7 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
     struct lconv *locale = gsb_locale_get_locale ( );
 
     page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
-    gtk_container_set_border_width ( GTK_CONTAINER (page),
-				     10 );
+    gtk_container_set_border_width ( GTK_CONTAINER (page), BOX_BORDER_WIDTH );
 
     table = gtk_grid_new ();
     gtk_grid_set_row_spacing (GTK_GRID (table), 6);
@@ -330,8 +328,7 @@ static GtkWidget *gsb_assistant_account_page_finish ( GtkWidget *assistant )
     GtkWidget *hbox;
 
     page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
-    gtk_container_set_border_width ( GTK_CONTAINER (page),
-				     10 );
+    gtk_container_set_border_width ( GTK_CONTAINER (page), BOX_BORDER_WIDTH );
 
     vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX (page),

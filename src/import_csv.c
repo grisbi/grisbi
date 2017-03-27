@@ -126,7 +126,7 @@ GtkWidget * import_create_csv_preview_page ( GtkWidget * assistant )
     int i = 0;
 
     vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
-    gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
+    gtk_container_set_border_width ( GTK_CONTAINER(vbox), BOX_BORDER_WIDTH );
 
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Choose CSV separator") );
 

@@ -966,7 +966,7 @@ gboolean gsb_currency_config_add_currency ( GtkWidget *button,
 
     vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( main_vbox ), vbox, TRUE, TRUE, 0 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 12 );
+    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), BOX_BORDER_WIDTH );
 
     paddingbox = new_paddingbox_with_title ( vbox,
 					     TRUE, _("World currencies"));

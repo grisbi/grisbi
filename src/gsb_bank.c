@@ -981,7 +981,7 @@ static gboolean gsb_bank_edit_bank ( gint bank_number,
     gtk_widget_set_size_request ( scrolled_window, 600, 400 );
 
     vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
-    gtk_container_set_border_width ( GTK_CONTAINER (vbox), 12 );
+    gtk_container_set_border_width ( GTK_CONTAINER (vbox), BOX_BORDER_WIDTH );
     gsb_bank_create_form ( vbox, combobox );
     gtk_container_add ( GTK_CONTAINER (scrolled_window), vbox);
 

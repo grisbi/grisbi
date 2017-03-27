@@ -268,8 +268,7 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
     GtkWidget *filename_entry;
 
     page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 15 );
-    gtk_container_set_border_width ( GTK_CONTAINER (page),
-				     10 );
+    gtk_container_set_border_width ( GTK_CONTAINER (page), BOX_BORDER_WIDTH );
 
     vbox = new_vbox_with_title_and_icon ( _("General configuration"),
 					  "payees.png" );
@@ -361,8 +360,7 @@ static GtkWidget *gsb_assistant_file_page_3 ( GtkWidget *assistant )
     GtkWidget *vbox;
 
     page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
-    gtk_container_set_border_width ( GTK_CONTAINER (page),
-				     10 );
+    gtk_container_set_border_width ( GTK_CONTAINER (page), BOX_BORDER_WIDTH );
 
     vbox = new_vbox_with_title_and_icon ( _("Select base currency"),
 					  "currencies.png" );
@@ -400,8 +398,7 @@ static GtkWidget *gsb_assistant_file_page_4 ( GtkWidget *assistant )
     GtkWidget *button_list;
 
     page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
-    gtk_container_set_border_width ( GTK_CONTAINER (page),
-				     10 );
+    gtk_container_set_border_width ( GTK_CONTAINER (page), BOX_BORDER_WIDTH );
 
     vbox = new_vbox_with_title_and_icon ( _("Select the list of categories you will use"),
 					  "categories.png" );
@@ -432,8 +429,7 @@ static GtkWidget *gsb_assistant_file_page_5 ( GtkWidget *assistant )
     GtkWidget *bank_page;
 
     page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
-    gtk_container_set_border_width ( GTK_CONTAINER (page),
-				     10 );
+    gtk_container_set_border_width ( GTK_CONTAINER (page), BOX_BORDER_WIDTH );
 
     /* the configuration page is very good, keep it */
     bank_page = gsb_bank_create_page (TRUE);
@@ -463,8 +459,7 @@ static GtkWidget *gsb_assistant_file_page_finish ( GtkWidget *assistant,
     GtkWidget *button;
 
     page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
-    gtk_container_set_border_width ( GTK_CONTAINER (page),
-				     10 );
+    gtk_container_set_border_width ( GTK_CONTAINER (page), BOX_BORDER_WIDTH );
 
     vbox = new_vbox_with_title_and_icon ( _("Configuration finished!"),
 					  "reconciliationlg.png" );

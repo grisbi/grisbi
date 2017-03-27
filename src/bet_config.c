@@ -118,7 +118,7 @@ GtkWidget *bet_config_general_create_general_page ( void )
 
 
     vbox = new_vbox_with_title_and_icon ( _("General Options"), "balance_estimate.png" );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 12 );
+    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), BOX_BORDER_WIDTH );
 
     /* Calculation of period */
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Common data") );
@@ -261,7 +261,7 @@ GtkWidget *bet_config_account_create_account_page ( void )
     GtkWidget *widget;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Accounts data"), "balance_estimate.png" );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox_pref ), 12 );
+    gtk_container_set_border_width ( GTK_CONTAINER ( vbox_pref ), BOX_BORDER_WIDTH );
     account_page = gsb_gui_get_account_page ();
 
     /* set the choice of account */

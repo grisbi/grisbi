@@ -200,7 +200,7 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
     GtkWidget *hbox;
 
     page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
-    gtk_container_set_border_width ( GTK_CONTAINER (page), 10 );
+    gtk_container_set_border_width ( GTK_CONTAINER (page), BOX_BORDER_WIDTH );
 
     vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
     gtk_box_pack_start ( GTK_BOX (page), vbox, FALSE, FALSE, 0 );
@@ -354,8 +354,7 @@ static GtkWidget *gsb_assistant_archive_page_archive_name ( GtkWidget *assistant
     GtkWidget *label;
 
     page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
-    gtk_container_set_border_width ( GTK_CONTAINER (page),
-				     10 );
+    gtk_container_set_border_width ( GTK_CONTAINER (page), BOX_BORDER_WIDTH );
 
     vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
     gtk_box_pack_start ( GTK_BOX (page),
@@ -403,8 +402,7 @@ static GtkWidget *gsb_assistant_archive_page_success ( void )
     GtkTextIter iter;
 
     page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
-    gtk_container_set_border_width ( GTK_CONTAINER (page),
-				     0 );
+    gtk_container_set_border_width ( GTK_CONTAINER (page), BOX_BORDER_WIDTH );
 
     /* we create 2 vbox, one for congratulation, one for failed,
      * only one will be showed */

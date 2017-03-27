@@ -2055,7 +2055,7 @@ gint gsb_transactions_list_choose_reconcile ( gint account_number,
     gtk_window_set_default_size ( GTK_WINDOW ( dialog ), 770, 412 );
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
     gtk_window_set_resizable ( GTK_WINDOW ( dialog ), TRUE );
-    gtk_container_set_border_width ( GTK_CONTAINER ( dialog ), 12 );
+    gtk_container_set_border_width ( GTK_CONTAINER ( dialog ), BOX_BORDER_WIDTH );
 
     label = gtk_label_new ( _("Select the reconciliation to associate to the selected transaction: ") );
     utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.0 );

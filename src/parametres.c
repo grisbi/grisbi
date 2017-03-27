@@ -221,7 +221,7 @@ static GtkWidget *onglet_accueil ( void )
 
     vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ), vbox, TRUE, TRUE, 0 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 12 );
+    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), BOX_BORDER_WIDTH );
 
     /* pour les francophones ;-) */
     if ( g_strstr_len ( ( g_ascii_strup ( g_getenv ( "LANG" ), -1 ) ), -1, "FR" ) )

@@ -327,7 +327,6 @@ GtkWidget *gsb_scheduler_list_create_list ( void )
 
     /* first, a vbox */
     vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 0 );
 
     /* frame pour la barre d'outils */
     frame = gtk_frame_new ( NULL );

@@ -1246,7 +1246,7 @@ static gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 	/* first we reparent the form in the dialog */
 	hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
 	gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), hbox, TRUE, TRUE, 0 );
-	gtk_container_set_border_width ( GTK_CONTAINER(hbox), 12 );
+	gtk_container_set_border_width ( GTK_CONTAINER(hbox), BOX_BORDER_WIDTH );
 	/* gtk_widget_reparent is broken according to upstream gtk+ devs, so use
 	 * gtk_container_add/remove instead to prevent segfaults. */
 	g_object_ref ( form_transaction_part );
@@ -1793,7 +1793,7 @@ GtkWidget *creation_onglet_accueil ( void )
     gtk_widget_set_margin_start (base, margin);
     gtk_widget_set_margin_end (base, margin);
 
-    gtk_container_set_border_width ( GTK_CONTAINER ( base ), 12 );
+    gtk_container_set_border_width ( GTK_CONTAINER ( base ), BOX_BORDER_WIDTH );
     gtk_container_add ( GTK_CONTAINER ( base_scroll ), base );
     gtk_widget_show ( base_scroll );
     gtk_widget_show ( base );

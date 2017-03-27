@@ -785,7 +785,6 @@ static GtkWidget *etats_prefs_left_panel_create_tree_view ( void )
     notebook = GTK_WIDGET ( gtk_builder_get_object ( etats_prefs_builder, "notebook_etats_prefs" ) );
     gtk_notebook_set_show_tabs ( GTK_NOTEBOOK ( notebook ), FALSE );
     gtk_notebook_set_show_border ( GTK_NOTEBOOK ( notebook ), FALSE );
-    gtk_container_set_border_width ( GTK_CONTAINER ( notebook ), 0 );
 
     /* Handle select */
     selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
@@ -966,7 +965,7 @@ static GtkWidget *etats_prefs_onglet_periode_create_page ( gint page )
 
     gtk_container_set_border_width ( GTK_CONTAINER (
                         gtk_builder_get_object ( etats_prefs_builder, "vbox_utilisation_date" ) ),
-                        10 );
+                        BOX_BORDER_WIDTH );
 
     /* on initialise les entrées pour les dates personnalisées */
     etats_config_onglet_periode_make_calendar_entry ();
@@ -980,7 +979,7 @@ static GtkWidget *etats_prefs_onglet_periode_create_page ( gint page )
                         NULL );
     gtk_container_set_border_width ( GTK_CONTAINER (
                         gtk_builder_get_object ( etats_prefs_builder, "vbox_utilisation_exo" ) ),
-                        10 );
+                        BOX_BORDER_WIDTH );
 
     button = utils_gtkbuilder_get_widget_by_name ( etats_prefs_builder,
                         "radio_button_utilise_dates", NULL );

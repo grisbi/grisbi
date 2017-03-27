@@ -202,7 +202,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     /* la fenetre ppale est une vbox avec les détails en haut et appliquer en bas */
     onglet = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_widget_set_name ( onglet, "properties_page" );
-    gtk_container_set_border_width ( GTK_CONTAINER ( onglet ), 10 );
+    gtk_container_set_border_width ( GTK_CONTAINER ( onglet ), BOX_BORDER_WIDTH );
 
     size_group = gtk_size_group_new ( GTK_SIZE_GROUP_HORIZONTAL );
 

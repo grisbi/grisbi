@@ -414,7 +414,7 @@ GtkWidget * print_config_show_config ( GtkPrintOperation * operation,
     GtkSizeGroup * size_group;
 
     vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
-    gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
+    gtk_container_set_border_width ( GTK_CONTAINER(vbox), BOX_BORDER_WIDTH );
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Fonts") );
 
     size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);

@@ -291,7 +291,7 @@ void gsb_debug_add_report_page ( GtkWidget * assistant, gint page,
     g_free ( tmp_str );
 
     gtk_box_pack_start ( GTK_BOX(vbox), label, FALSE, FALSE, 0 );
-    gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
+    gtk_container_set_border_width ( GTK_CONTAINER(vbox), BOX_BORDER_WIDTH );
 
     if ( test -> instructions )
     {

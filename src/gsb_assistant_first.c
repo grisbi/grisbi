@@ -199,8 +199,7 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
     GtkWidget *dialog;
 
     page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
-    gtk_container_set_border_width ( GTK_CONTAINER (page),
-				     10 );
+    gtk_container_set_border_width ( GTK_CONTAINER (page), BOX_BORDER_WIDTH );
 
     size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
 
@@ -309,7 +308,7 @@ static GtkWidget *gsb_assistant_first_page_3 ( GtkWidget *assistant )
     GtkWidget *image;
 
     page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
-    gtk_container_set_border_width ( GTK_CONTAINER (page), 10 );
+    gtk_container_set_border_width ( GTK_CONTAINER (page), BOX_BORDER_WIDTH );
 
     vbox = new_vbox_with_title_and_icon ( _("Reconciliation"), "reconciliationlg.png" );
     gtk_box_pack_start ( GTK_BOX (page), vbox, TRUE, TRUE, 0 );

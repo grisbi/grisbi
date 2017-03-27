@@ -1088,7 +1088,7 @@ static GtkWidget *gsb_assistant_payees_page_2 ( GtkWidget *assistant )
     devel_debug ( "PAGE 2" );
 
     page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
-    gtk_container_set_border_width ( GTK_CONTAINER( page ), 12 );
+    gtk_container_set_border_width ( GTK_CONTAINER( page ), BOX_BORDER_WIDTH );
 
     paddingbox = new_paddingbox_with_title ( page, TRUE, _("Choose a payee"));
 
@@ -1166,7 +1166,7 @@ static GtkWidget *gsb_assistant_payees_page_3 ( GtkWidget *assistant )
     devel_debug ( "PAGE 3" );
 
     page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
-    gtk_container_set_border_width ( GTK_CONTAINER( page ), 12 );
+    gtk_container_set_border_width ( GTK_CONTAINER( page ), BOX_BORDER_WIDTH );
 
     paddingbox = new_paddingbox_with_title ( page, TRUE,
                         _("List of payees who will be modified"));
@@ -1291,7 +1291,7 @@ static GtkWidget *gsb_assistant_payees_page_finish ( GtkWidget *assistant )
     devel_debug ( "PAGE FINISH" );
 
     page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
-    gtk_container_set_border_width ( GTK_CONTAINER( page ), 12 );
+    gtk_container_set_border_width ( GTK_CONTAINER( page ), BOX_BORDER_WIDTH );
 
     label = gtk_label_new ( NULL );
     utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.0 );

@@ -151,7 +151,7 @@ GtkWidget * gsb_assistant_new ( const gchar * title, const gchar * explanation,
 
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_container_add ( GTK_CONTAINER(eb), hbox );
-    gtk_container_set_border_width ( GTK_CONTAINER(hbox), 12 );
+    gtk_container_set_border_width ( GTK_CONTAINER(hbox), BOX_BORDER_WIDTH );
 
     label = gtk_label_new ( NULL );
     tmpstr = g_markup_printf_escaped (
