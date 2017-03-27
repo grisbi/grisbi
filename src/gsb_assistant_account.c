@@ -165,7 +165,7 @@ static GtkWidget *gsb_assistant_account_page_2 ( GtkWidget *assistant )
 	_("Assets account\nSpecial account to represent an asset, like a car or special subscriptions."),
 	NULL };
 
-    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 15 );
+    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_container_set_border_width ( GTK_CONTAINER (page),
 				     10 );
 
@@ -228,7 +228,7 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
     GtkWidget *image;
     struct lconv *locale = gsb_locale_get_locale ( );
 
-    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 15 );
+    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_container_set_border_width ( GTK_CONTAINER (page),
 				     10 );
 
@@ -329,11 +329,11 @@ static GtkWidget *gsb_assistant_account_page_finish ( GtkWidget *assistant )
     GtkWidget *label;
     GtkWidget *hbox;
 
-    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 15 );
+    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_container_set_border_width ( GTK_CONTAINER (page),
 				     10 );
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX (page),
 			 vbox,
 			 FALSE, FALSE, 0 );
@@ -349,7 +349,7 @@ static GtkWidget *gsb_assistant_account_page_finish ( GtkWidget *assistant )
 			 FALSE, FALSE, 0 );
 
     /* enter the name */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5);
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
     gtk_box_pack_start ( GTK_BOX (vbox),
 			 hbox,
 			 FALSE, FALSE, 0 );

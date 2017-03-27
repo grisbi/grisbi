@@ -219,7 +219,7 @@ static GtkWidget *onglet_accueil ( void )
     vbox_pref = new_vbox_with_title_and_icon ( _("Configuration of the main page"),
                         "title.png" );
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 12 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ), vbox, TRUE, TRUE, 0 );
     gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 12 );
 
@@ -1193,7 +1193,7 @@ GtkWidget *onglet_fichier ( void )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     /* Memorize last opened files in menu */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Memorise last opened files: ") );
@@ -1228,7 +1228,7 @@ GtkWidget *onglet_fichier ( void )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     /* Automatic backup every x minutes */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6);
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0);
 
     button = gsb_automem_checkbutton_new (_("Make a backup copy every "),
@@ -1245,7 +1245,7 @@ GtkWidget *onglet_fichier ( void )
     gtk_box_pack_start ( GTK_BOX (hbox), label, FALSE, FALSE, 0 );
 
     /* if automatic backup, choose a dir */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0);
 
     label = gtk_label_new ( _("Backup directory: ") );

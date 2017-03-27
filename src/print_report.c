@@ -39,6 +39,7 @@
 #include "gsb_data_print_config.h"
 #include "utils.h"
 #include "print_dialog_config.h"
+#include "structures.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -412,7 +413,7 @@ GtkWidget * print_config_show_config ( GtkPrintOperation * operation,
     GtkWidget * font_button_transactions, * vbox, * font_button_title;
     GtkSizeGroup * size_group;
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Fonts") );
 
@@ -420,7 +421,7 @@ GtkWidget * print_config_show_config ( GtkPrintOperation * operation,
 
     /* set up the font of the transactions,
      * by default use the font of the lists */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 12 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start (GTK_BOX ( paddingbox ),
 			hbox,
 			FALSE, FALSE, 0);
@@ -440,7 +441,7 @@ GtkWidget * print_config_show_config ( GtkPrintOperation * operation,
 			TRUE, TRUE, 0);
 
     /* set up the font for the title */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 12 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start (GTK_BOX ( paddingbox ),
 			hbox,
 			FALSE, FALSE, 0);

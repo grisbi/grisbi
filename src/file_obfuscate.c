@@ -52,6 +52,7 @@
 #include "gsb_dirs.h"
 #include "gsb_file_save.h"
 #include "gsb_file_util.h"
+#include "structures.h"
 #include "utils.h"
 /*END_INCLUDE*/
 
@@ -452,7 +453,7 @@ GtkWidget *file_obfuscate_page_1 ( void )
     GtkWidget *vbox, *paddingbox;
     GtkWidget *button_everything;
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 12 );
 
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Select features to hide :\n") );
@@ -523,7 +524,7 @@ GtkWidget *file_obfuscate_page_2 ( void )
     GtkTextIter iter;
     gchar *text, *filename;
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
 
     text_view = gtk_text_view_new ();
     gtk_text_view_set_wrap_mode ( GTK_TEXT_VIEW ( text_view ), GTK_WRAP_WORD );

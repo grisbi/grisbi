@@ -48,6 +48,7 @@
 #include "gsb_select_icon.h"
 #include "import.h"
 #include "parametres.h"
+#include "structures.h"
 #include "traitement_variables.h"
 #include "utils.h"
 #include "utils_str.h"
@@ -359,7 +360,7 @@ static GtkWidget *gsb_assistant_file_page_3 ( GtkWidget *assistant )
     GtkWidget *page;
     GtkWidget *vbox;
 
-    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 15 );
+    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_container_set_border_width ( GTK_CONTAINER (page),
 				     10 );
 
@@ -398,7 +399,7 @@ static GtkWidget *gsb_assistant_file_page_4 ( GtkWidget *assistant )
     GtkWidget *vbox;
     GtkWidget *button_list;
 
-    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 15 );
+    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_container_set_border_width ( GTK_CONTAINER (page),
 				     10 );
 
@@ -430,7 +431,7 @@ static GtkWidget *gsb_assistant_file_page_5 ( GtkWidget *assistant )
     GtkWidget *page;
     GtkWidget *bank_page;
 
-    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 15 );
+    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_container_set_border_width ( GTK_CONTAINER (page),
 				     10 );
 
@@ -461,7 +462,7 @@ static GtkWidget *gsb_assistant_file_page_finish ( GtkWidget *assistant,
     GtkWidget *label;
     GtkWidget *button;
 
-    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 15 );
+    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_container_set_border_width ( GTK_CONTAINER (page),
 				     10 );
 

@@ -179,7 +179,7 @@ GtkWidget *payees_create_list ( void )
     };
 
     /* création de la fenêtre qui sera renvoyée */
-    onglet = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
+    onglet = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_widget_show ( onglet );
 
     /* frame pour la barre d'outils */
@@ -1087,7 +1087,7 @@ static GtkWidget *gsb_assistant_payees_page_2 ( GtkWidget *assistant )
 
     devel_debug ( "PAGE 2" );
 
-    page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
+    page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_container_set_border_width ( GTK_CONTAINER( page ), 12 );
 
     paddingbox = new_paddingbox_with_title ( page, TRUE, _("Choose a payee"));
@@ -1165,7 +1165,7 @@ static GtkWidget *gsb_assistant_payees_page_3 ( GtkWidget *assistant )
 
     devel_debug ( "PAGE 3" );
 
-    page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
+    page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_container_set_border_width ( GTK_CONTAINER( page ), 12 );
 
     paddingbox = new_paddingbox_with_title ( page, TRUE,
@@ -1290,7 +1290,7 @@ static GtkWidget *gsb_assistant_payees_page_finish ( GtkWidget *assistant )
 
     devel_debug ( "PAGE FINISH" );
 
-    page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
+    page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_container_set_border_width ( GTK_CONTAINER( page ), 12 );
 
     label = gtk_label_new ( NULL );

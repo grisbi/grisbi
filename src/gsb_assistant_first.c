@@ -198,7 +198,7 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
     GtkWidget *hbox;
     GtkWidget *dialog;
 
-    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 15);
+    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
     gtk_container_set_border_width ( GTK_CONTAINER (page),
 				     10 );
 
@@ -251,7 +251,7 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     /* Automatic backup every x minutes */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6);
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0);
 
     button = gsb_automem_checkbutton_new (_("Make a backup copy every "),
@@ -268,7 +268,7 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
     gtk_box_pack_start ( GTK_BOX (hbox), label, FALSE, FALSE, 0 );
 
     /* if automatic backup, choose a dir */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
 			 FALSE, FALSE, 0);
 
@@ -308,7 +308,7 @@ static GtkWidget *gsb_assistant_first_page_3 ( GtkWidget *assistant )
     GtkWidget *hbox;
     GtkWidget *image;
 
-    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 15 );
+    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_container_set_border_width ( GTK_CONTAINER (page), 10 );
 
     vbox = new_vbox_with_title_and_icon ( _("Reconciliation"), "reconciliationlg.png" );
@@ -317,7 +317,7 @@ static GtkWidget *gsb_assistant_first_page_3 ( GtkWidget *assistant )
     paddingbox = new_paddingbox_with_title (vbox, FALSE,
 					    _("Error getting reconciliations"));
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 15 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 15 );
 
     image = gtk_image_new_from_icon_name ( "gtk-dialog-error", GTK_ICON_SIZE_DIALOG );

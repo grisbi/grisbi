@@ -125,7 +125,7 @@ GtkWidget *categories_create_list ( void )
     MetatreeInterface *category_interface;
 
     /* We create the main vbox */
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
 
     /* frame pour la barre d'outils */
     frame = gtk_frame_new ( NULL );

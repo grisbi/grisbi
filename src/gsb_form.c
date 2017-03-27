@@ -255,7 +255,7 @@ void gsb_form_create_widgets ( void )
      * top : the values specific for the scheduled transactions
      * middle : the values for transactions and scheduled transactions
      * bottom : the buttons valid/cancel */
-    transaction_form = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
+    transaction_form = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_container_add ( GTK_CONTAINER ( form_expander ), transaction_form );
 
     /* play with that widget to tell to the tree view to scroll to keep the selection visible */

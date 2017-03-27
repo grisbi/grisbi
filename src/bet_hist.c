@@ -161,7 +161,7 @@ GtkWidget *bet_historical_create_page ( void )
     gpointer pointeur;
 
     devel_debug (NULL);
-    page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
+    page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_widget_set_name ( page, "historical_page" );
 
     account_page = gsb_gui_get_account_page ();
@@ -182,7 +182,7 @@ GtkWidget *bet_historical_create_page ( void )
     align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
     gtk_box_pack_start ( GTK_BOX ( page ), align, FALSE, FALSE, 5) ;
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_container_add ( GTK_CONTAINER ( align ), hbox );
     g_object_set_data ( G_OBJECT ( account_page ), "bet_historical_data", hbox );
 

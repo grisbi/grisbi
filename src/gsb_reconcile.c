@@ -120,7 +120,7 @@ GtkWidget *gsb_reconcile_create_box ( void )
     GtkWidget *frame, *label, *table, *vbox, *hbox, *button, *separator;
 
     frame = gtk_frame_new ( NULL );
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 3 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
     gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 3 );
     gtk_container_add ( GTK_CONTAINER ( frame ), vbox );
 
@@ -131,7 +131,7 @@ GtkWidget *gsb_reconcile_create_box ( void )
     gtk_frame_set_label_widget ( GTK_FRAME(frame), label);
 
     /* number of reconcile */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0);
 
     label = gtk_label_new ( _("Reconciliation reference: ") );
@@ -150,7 +150,7 @@ GtkWidget *gsb_reconcile_create_box ( void )
 
     /* under the reconcile number, we have a table */
     table = gtk_grid_new ();
-    gtk_grid_set_row_spacing (GTK_GRID (table), 3 );
+    gtk_grid_set_row_spacing (GTK_GRID (table), 5);
     gtk_box_pack_start ( GTK_BOX ( vbox ), table, FALSE, FALSE, 0);
 
     separator = gtk_separator_new ( GTK_ORIENTATION_HORIZONTAL );
@@ -254,7 +254,7 @@ GtkWidget *gsb_reconcile_create_box ( void )
     separator = gtk_separator_new ( GTK_ORIENTATION_HORIZONTAL );
     gtk_box_pack_start ( GTK_BOX ( vbox ), separator, FALSE, FALSE, 0);
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 3 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
     gtk_box_set_homogeneous ( GTK_BOX ( hbox ), TRUE );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0);
 
@@ -265,7 +265,7 @@ GtkWidget *gsb_reconcile_create_box ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), reconcile_sort_list_button, FALSE, FALSE, 0);
 
     /* make the buttons */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 3 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
     gtk_box_set_homogeneous ( GTK_BOX ( hbox ), TRUE );
     gtk_box_pack_end ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0);
 

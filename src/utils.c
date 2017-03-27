@@ -260,7 +260,7 @@ GtkWidget *new_paddingbox_with_title (GtkWidget *parent, gboolean fill, const gc
     GtkWidget *vbox, *hbox, *paddingbox, *label;
 	gchar* tmp_str;
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     if ( GTK_IS_BOX(parent) )
     {
 	gtk_box_pack_start ( GTK_BOX ( parent ), vbox,
@@ -288,7 +288,7 @@ GtkWidget *new_paddingbox_with_title (GtkWidget *parent, gboolean fill, const gc
 			 FALSE, FALSE, 0 );
 
     /* Then make the vbox itself */
-    paddingbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
+    paddingbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( hbox ), paddingbox,
 			 TRUE, TRUE, 0);
 
@@ -324,7 +324,7 @@ GtkWidget *new_vbox_with_title_and_icon ( gchar *title,
 	gchar* tmpstr1;
 	gchar* tmpstr2;
 
-    vbox_pref = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
+    vbox_pref = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_widget_show ( vbox_pref );
 
     eb = gtk_event_box_new ();
@@ -333,7 +333,7 @@ GtkWidget *new_vbox_with_title_and_icon ( gchar *title,
 
 
     /* Title hbox */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_widget_show ( hbox );
     gtk_container_add ( GTK_CONTAINER ( eb ), hbox );
     gtk_container_set_border_width ( GTK_CONTAINER ( hbox ), 3 );
@@ -584,7 +584,7 @@ GtkWidget *utils_get_image_with_etat ( GtkMessageType msg,
     g_value_init ( &value, G_TYPE_BOOLEAN );
     g_value_set_boolean ( &value, TRUE );
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     g_object_set_data ( G_OBJECT ( hbox ), "initial", GINT_TO_POINTER ( initial ) );
 
     if ( msg == GTK_MESSAGE_WARNING )
@@ -1039,7 +1039,7 @@ GtkWidget *utils_prefs_paddinggrid_new_with_title (GtkWidget *parent,
     GtkWidget *label;
 	gchar* tmp_str;
 
-    vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
+    vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
 
     if (GTK_IS_BOX (parent))
         gtk_box_pack_start (GTK_BOX (parent), vbox, FALSE, FALSE, 0);

@@ -199,10 +199,10 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
     GtkWidget *button;
     GtkWidget *hbox;
 
-    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 15 );
+    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_container_set_border_width ( GTK_CONTAINER (page), 10 );
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5);
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
     gtk_box_pack_start ( GTK_BOX (page), vbox, FALSE, FALSE, 0 );
 
     /* set up the menu */
@@ -225,7 +225,7 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
     utils_widget_set_padding (GTK_WIDGET (label), 24, 0);
     gtk_box_pack_start ( GTK_BOX (vbox), label, FALSE, FALSE, 0 );
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     g_signal_connect ( G_OBJECT (button),
                         "toggled",
                         G_CALLBACK  (sens_desensitive_pointeur),
@@ -273,7 +273,7 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
     utils_labels_set_alignement ( GTK_LABEL (label), 0, 0.5 );
     gtk_box_pack_start ( GTK_BOX (vbox), label, FALSE, FALSE, 0 );
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 10 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     g_signal_connect ( G_OBJECT (button),
                         "toggled",
                         G_CALLBACK  ( sens_desensitive_pointeur ),
@@ -309,7 +309,7 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
     utils_labels_set_alignement ( GTK_LABEL (label), 0, 0.5 );
     gtk_box_pack_start ( GTK_BOX (vbox), label, FALSE, FALSE, 0 );
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 10 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     g_signal_connect ( G_OBJECT (button),
                         "toggled",
                         G_CALLBACK  (sens_desensitive_pointeur),
@@ -353,11 +353,11 @@ static GtkWidget *gsb_assistant_archive_page_archive_name ( GtkWidget *assistant
     GtkWidget *vbox;
     GtkWidget *label;
 
-    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 15 );
+    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_container_set_border_width ( GTK_CONTAINER (page),
 				     10 );
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5);
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
     gtk_box_pack_start ( GTK_BOX (page),
 			 vbox,
 			 FALSE, FALSE, 0 );

@@ -51,7 +51,7 @@ GtkWidget * new_stock_image_label ( GsbButtonStyle style, const gchar * stock_id
     GtkWidget * vbox, *hbox, * label, * image;
 
     vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
 
     /* Define image */
     if ( style == GSB_BUTTON_ICON || style == GSB_BUTTON_BOTH )

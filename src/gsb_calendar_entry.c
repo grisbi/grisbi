@@ -462,7 +462,7 @@ GtkWidget *gsb_calendar_entry_popup ( GtkWidget *entry )
     gtk_container_add ( GTK_CONTAINER ( popup ), frame );
     gtk_widget_show ( frame );
 
-    pVBox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
+    pVBox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_container_set_border_width ( GTK_CONTAINER ( pVBox ), 5 );
     gtk_container_add ( GTK_CONTAINER ( frame ), pVBox );
     gtk_widget_show ( pVBox );

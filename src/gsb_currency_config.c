@@ -964,7 +964,7 @@ gboolean gsb_currency_config_add_currency ( GtkWidget *button,
 					       "currencies.png" );
     gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), main_vbox, TRUE, TRUE, 0 );
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 12 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( main_vbox ), vbox, TRUE, TRUE, 0 );
     gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 12 );
 
@@ -1189,7 +1189,7 @@ GtkWidget *gsb_currency_config_create_box_popup ( GCallback select_callback )
 
     gtk_container_add (GTK_CONTAINER (sw), treeview);
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX(vbox), sw, TRUE, TRUE, 0 );
 
     checkbox = gtk_check_button_new_with_label ( _("Include obsolete currencies"));

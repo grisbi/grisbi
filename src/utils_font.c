@@ -35,6 +35,7 @@
 /*START_INCLUDE*/
 #include "utils_font.h"
 #include "utils_str.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -76,7 +77,7 @@ GtkWidget *utils_font_create_button ( gchar **fontname,
     g_signal_connect ( G_OBJECT ( font_button ), "clicked",
 		       G_CALLBACK ( utils_font_choose ), fontname );
 
-    hbox_font = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
+    hbox_font = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_container_add (GTK_CONTAINER(font_button), hbox_font);
 
     font_name_label = gtk_label_new (NULL);

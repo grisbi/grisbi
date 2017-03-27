@@ -752,7 +752,7 @@ const gchar *dialogue_hint_with_entry ( gchar *text, gchar *hint, gchar *entry_d
         gtk_message_dialog_format_secondary_text ( GTK_MESSAGE_DIALOG ( dialog ),
                                                    "%s", text );
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( gtk_dialog_get_content_area ( GTK_DIALOG ( dialog ) ) ),
                         hbox,
                         FALSE, FALSE, 0);

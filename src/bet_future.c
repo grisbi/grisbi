@@ -2237,7 +2237,7 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
     /* list of accounts */
     paddingbox = new_paddingbox_with_title ( main_vbox, FALSE,  _("List of accounts") );
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, TRUE, TRUE, 0 );
 
     sw = gtk_scrolled_window_new (NULL, NULL);
@@ -2263,7 +2263,7 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
     paddingbox = new_paddingbox_with_title ( main_vbox, FALSE, _("Deferred debit card") );
 
     /* Effective Date */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, TRUE, 0 );
 
     label = gtk_label_new ( _("Date of beginning of period: ") );
@@ -2274,7 +2274,7 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
     gtk_box_pack_start ( GTK_BOX ( hbox ), date_bascule, FALSE, FALSE, 0 );
 
     /* création de la boite de sélection du tiers */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, TRUE, 0 );
 
     icon = utils_get_image_with_etat ( GTK_MESSAGE_ERROR, FALSE, _("This field is required"), NULL );
@@ -2308,7 +2308,7 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
                         GINT_TO_POINTER ( TRANSACTION_FORM_PARTY ) );
 
     /* saisie des (sous)catégories et (sous)IB */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, TRUE, 0 );
 
     icon = utils_get_image_with_etat ( GTK_MESSAGE_WARNING, FALSE, _("One of the two fields is recommended"), NULL );
@@ -2371,7 +2371,7 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
     /* Main account */
     paddingbox = new_paddingbox_with_title ( main_vbox, FALSE, _("Main account") );
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, TRUE, 0 );
 
     /* Effective Date */
@@ -2395,7 +2395,7 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
 
 
     /* boite verticale pour rendre actif ou non les champs ci-dessous */
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     g_object_set_data ( G_OBJECT ( dialog ), "bet_transfert_main_vbox_data", vbox );
 
     /* check button Automatic creation of the direct debit transaction */
@@ -2425,7 +2425,7 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), vbox, FALSE, FALSE, 0 );
 
     /* création de la boite de sélection du tiers */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, TRUE, 0 );
 
     icon = utils_get_image_with_etat ( GTK_MESSAGE_ERROR, FALSE, _("This field is required"), NULL );
@@ -2470,7 +2470,7 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
     gtk_box_pack_start ( GTK_BOX ( hbox ), combo, FALSE, FALSE, 0 );
 
     /* saisie des (sous)catégories et (sous)IB */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, TRUE, 0 );
     g_object_set_data ( G_OBJECT ( dialog ), "bet_transfert_hbox_replace_data", hbox );
 

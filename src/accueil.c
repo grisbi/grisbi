@@ -998,7 +998,7 @@ static void update_liste_comptes_accueil ( gboolean force )
     utils_container_remove_children ( frame_etat_comptes_accueil );
 
     /* Create the handle vbox  */
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_container_add ( GTK_CONTAINER ( frame_etat_comptes_accueil ), vbox );
 
     /* Préparation de la séparation de l'affichage des comptes en fonction
@@ -1323,7 +1323,7 @@ static void update_liste_echeances_manuelles_accueil ( gboolean force )
 	show_paddingbox ( frame_etat_echeances_manuelles_accueil );
 
 	/* on y place la liste des échéances */
-	vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
+	vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
 	gtk_container_add ( GTK_CONTAINER(frame_etat_echeances_manuelles_accueil), vbox );
 	gtk_widget_show ( vbox );
 
@@ -1351,7 +1351,7 @@ static void update_liste_echeances_manuelles_accueil ( gboolean force )
 	    account_number = gsb_data_scheduled_get_account_number (scheduled_number);
 	    currency_number = gsb_data_scheduled_get_currency_number (scheduled_number);
 
-        hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+        hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
         gtk_box_set_homogeneous ( GTK_BOX ( hbox ), TRUE );
 	    gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 );
 	    gtk_widget_show (  hbox );
@@ -1455,7 +1455,7 @@ static void update_liste_echeances_auto_accueil ( gboolean force )
 	show_paddingbox ( frame_etat_echeances_auto_accueil );
 
 	/* on y place la liste des échéances */
-	vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
+	vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
 	gtk_container_add ( GTK_CONTAINER ( frame_etat_echeances_auto_accueil ), vbox);
 	gtk_widget_show ( vbox);
 
@@ -1476,7 +1476,7 @@ static void update_liste_echeances_auto_accueil ( gboolean force )
 	    currency_number = gsb_data_transaction_get_currency_number (transaction_number);
 
 
-        hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+        hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
         gtk_box_set_homogeneous ( GTK_BOX ( hbox ), TRUE );
 	    gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 );
 	    gtk_widget_show (  hbox );
@@ -1612,7 +1612,7 @@ static void update_soldes_minimaux ( gboolean force )
         {
             if ( !vbox_1 )
             {
-            vbox_1 = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
+            vbox_1 = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
             gtk_box_set_homogeneous ( GTK_BOX ( vbox_1 ), TRUE );
             gtk_container_add ( GTK_CONTAINER ( frame_etat_soldes_minimaux_autorises ), vbox_1 );
             gtk_widget_show ( vbox_1 );
@@ -1638,7 +1638,7 @@ static void update_soldes_minimaux ( gboolean force )
         {
             if ( !vbox_2 )
             {
-            vbox_2 = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
+            vbox_2 = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
             gtk_box_set_homogeneous ( GTK_BOX ( vbox_2 ), TRUE );
             gtk_container_add ( GTK_CONTAINER ( frame_etat_soldes_minimaux_voulus ), vbox_2 );
             gtk_widget_show ( vbox_2 );
@@ -1752,7 +1752,7 @@ GtkWidget *creation_onglet_accueil ( void )
 
     devel_debug ( NULL );
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 15 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_widget_show ( vbox );
 
     /* on met le titre du fichier */
@@ -1789,7 +1789,7 @@ GtkWidget *creation_onglet_accueil ( void )
                         GTK_SHADOW_IN );
 	gtk_widget_set_vexpand (base_scroll, TRUE);
 
-    base = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 15 );
+    base = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_widget_set_margin_start (base, margin);
     gtk_widget_set_margin_end (base, margin);
 

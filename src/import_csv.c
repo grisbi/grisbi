@@ -125,12 +125,12 @@ GtkWidget * import_create_csv_preview_page ( GtkWidget * assistant )
     GtkWidget * warn, * hbox, * combobox;
     int i = 0;
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
 
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Choose CSV separator") );
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 12 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
 
     combobox = gtk_combo_box_text_new ();
@@ -175,7 +175,7 @@ GtkWidget * import_create_csv_preview_page ( GtkWidget * assistant )
     g_object_set_data ( G_OBJECT(tree_preview), "assistant", assistant );
     gtk_container_add (GTK_CONTAINER (sw), tree_preview);
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
 
     warn = gtk_image_new_from_icon_name ( "gtk-dialog-warning", GTK_ICON_SIZE_BUTTON );

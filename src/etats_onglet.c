@@ -102,7 +102,7 @@ GtkWidget *creation_onglet_etats ( void )
     GtkWidget *tab, *vbox;
     GtkWidget *frame;
 
-    tab = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
+    tab = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
 
     /* frame pour la barre d'outils */
     frame = gtk_frame_new ( NULL );
@@ -115,7 +115,7 @@ GtkWidget *creation_onglet_etats ( void )
     gtk_box_pack_start ( GTK_BOX ( tab ), notebook_etats, TRUE, TRUE, 0 );
 
     /* création de la partie droite */
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_etats ), vbox, gtk_label_new ( _("Reports")));
 
     /* On met une scrolled window qui sera remplit par l'état */
@@ -1138,7 +1138,7 @@ void exporter_etat ( void )
     g_object_set_data ( G_OBJECT(fenetre_nom), "basename",
 			 gsb_data_report_get_report_name ( gsb_gui_navigation_get_current_report () ) );
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX(hbox), gtk_label_new ( _("File format: ") ),
 			 FALSE, FALSE, 0 );
 

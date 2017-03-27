@@ -716,7 +716,7 @@ GtkWidget *bet_array_create_page ( void )
     GtkWidget *account_page;
 
     devel_debug (NULL);
-    page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
+    page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_widget_set_name ( page, "forecast_page" );
 
     account_page = gsb_gui_get_account_page ();

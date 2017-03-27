@@ -164,7 +164,7 @@ GtkWidget *bet_config_general_get_period_widget ( GtkWidget *container )
     /* devel_debug (NULL); */
     size_group = gtk_size_group_new ( GTK_SIZE_GROUP_HORIZONTAL );
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( container ), vbox, FALSE, FALSE, 5);
 
     label = gtk_label_new ( _("Beginning of period") );
@@ -172,7 +172,7 @@ GtkWidget *bet_config_general_get_period_widget ( GtkWidget *container )
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 5) ;
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 5) ;
 
     button_1 = gtk_radio_button_new_with_label ( NULL,
@@ -336,7 +336,7 @@ GtkWidget *bet_config_account_get_select_account ( gchar *title )
     /* set the choice of account */
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, title );
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 5 );
 
     label = gtk_label_new ( _("Account: ") );
@@ -693,7 +693,7 @@ GtkWidget *bet_config_get_select_historical_data ( GtkWidget *container,
     gint year;
 
     /* Choix des données sources */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( container ), hbox, FALSE, FALSE, 0 );
 
     button_1 = gtk_radio_button_new_with_label ( NULL,
@@ -1420,10 +1420,10 @@ GtkWidget *bet_config_get_finance_widget ( GtkWidget *parent )
     GtkWidget *spin_button = NULL;
     GtkWidget *button_1, *button_2;
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
 
     /* Loan Capital */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 5);
 
     label = gtk_label_new ( _("Loan Capital: ") );
@@ -1457,7 +1457,7 @@ GtkWidget *bet_config_get_finance_widget ( GtkWidget *parent )
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
 
     /* Date of first Repayment */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 5);
 
     label = gtk_label_new ( _("Date of first repayment: ") );
@@ -1470,7 +1470,7 @@ GtkWidget *bet_config_get_finance_widget ( GtkWidget *parent )
     gtk_box_pack_start ( GTK_BOX ( hbox ), widget, FALSE, FALSE, 5 );
 
     /* Annuel rate interest */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 5);
 
     label = gtk_label_new ( _("Annuel rate interest: ") );
@@ -1488,7 +1488,7 @@ GtkWidget *bet_config_get_finance_widget ( GtkWidget *parent )
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
 
     /* frais */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 5);
 
     label = gtk_label_new ( _("Fees per month: ") );
@@ -1507,7 +1507,7 @@ GtkWidget *bet_config_get_finance_widget ( GtkWidget *parent )
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
 
     /* Rate Type */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 5);
 
     label = gtk_label_new ( _("Rate Type: ") );

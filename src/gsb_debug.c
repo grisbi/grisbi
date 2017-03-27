@@ -277,7 +277,7 @@ void gsb_debug_add_report_page ( GtkWidget * assistant, gint page,
     gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
 				    GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_container_add ( GTK_CONTAINER (scrolled_window), vbox );
 
     label = gtk_label_new ( NULL );

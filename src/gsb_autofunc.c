@@ -801,7 +801,7 @@ GtkWidget *gsb_autofunc_radiobutton_new ( const gchar *choice1,
 {
     GtkWidget *button1, *button2, *vbox;
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
 
     button1 = gtk_radio_button_new_with_mnemonic ( NULL, choice1 );
     gtk_box_pack_start (GTK_BOX(vbox), button1, FALSE, FALSE, 0 );

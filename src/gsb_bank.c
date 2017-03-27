@@ -980,7 +980,7 @@ static gboolean gsb_bank_edit_bank ( gint bank_number,
     gtk_container_add ( GTK_CONTAINER ( dialog_get_content_area ( dialog ) ), scrolled_window );
     gtk_widget_set_size_request ( scrolled_window, 600, 400 );
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_container_set_border_width ( GTK_CONTAINER (vbox), 12 );
     gsb_bank_create_form ( vbox, combobox );
     gtk_container_add ( GTK_CONTAINER (scrolled_window), vbox);

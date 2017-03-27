@@ -309,7 +309,7 @@ GtkWidget *creation_fenetre_operations ( void )
 
     /* la fenetre des opé est une vbox : la liste en haut, le solde et
      * des boutons de conf au milieu, le transaction_form en bas */
-    win_operations = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
+    win_operations = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
 
     /* frame pour la barre d'outils */
     frame = gtk_frame_new ( NULL );

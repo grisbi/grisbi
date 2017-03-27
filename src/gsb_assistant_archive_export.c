@@ -285,7 +285,7 @@ static GtkWidget *gsb_assistant_archive_export_page_name ( GtkWidget *assistant 
 {
     GtkWidget * vbox, * hbox;
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
 
     archive_export_label = gtk_label_new ( NULL );
@@ -294,7 +294,7 @@ static GtkWidget *gsb_assistant_archive_export_page_name ( GtkWidget *assistant 
     gtk_box_pack_start ( GTK_BOX ( vbox ), archive_export_label, FALSE, FALSE, 0 );
 
     /* Layout */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 gtk_label_new ( _("Export format: ") ),
 			 FALSE, FALSE, 0 );
@@ -328,7 +328,7 @@ static GtkWidget *gsb_assistant_archive_export_page_succes ( GtkWidget *assistan
 {
     GtkWidget *vbox;
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
 
     archive_export_label_success = gtk_label_new ( NULL );

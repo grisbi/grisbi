@@ -1613,7 +1613,7 @@ GtkWidget *gsb_partial_balance_create_list_accounts ( GtkWidget *entry )
     GtkTreeSelection *selection;
     gint i = 0;
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 12 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     sw = gtk_scrolled_window_new (NULL, NULL);
     gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw),
                         GTK_SHADOW_ETCHED_IN);
@@ -1780,7 +1780,7 @@ gint gsb_partial_balance_request_currency ( GtkWidget *parent )
     gtk_widget_set_size_request ( dialog, -1, 150 );
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area( dialog ) ), hbox, TRUE, FALSE, 0 );
 
     label = gtk_label_new ( _("Select the currency of the partial balance: ") );

@@ -30,14 +30,20 @@
 #define SECONDARY_SORT          1
 
 /* margin for widgets */
-#define MARGIN_BOX				 5
+#define MARGIN_BOX				 5					/* spacing for gtk_box_new () */
 #define MARGIN_END              10
 #define MARGIN_START            10
 #define MARGIN_TOP              10
 #define MARGIN_BOTTOM           10
 #define MARGIN_PADDING_BOX      15
 
-/* coff_util for Scrolled_Window */
+/* height for widget */
+#define SW_MIN_HEIGHT			150
+
+/* width for widget */
+#define ENTRY_MIN_WIDTH_1		100
+
+/* coeff_util for Scrolled_Window */
 #define SW_COEFF_UTIL_PG        90             /* Scrolled Window in paddinggrid in prefs */
 #define SW_COEFF_UTIL_SW        93             /* Scrolled Window in prefs */
 

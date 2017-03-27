@@ -210,7 +210,7 @@ GtkWidget *bet_finance_create_simulator_page ( void )
 
     devel_debug (NULL);
 
-    page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
+    page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
 
     /* frame pour la barre d'outils */
     frame = gtk_frame_new ( NULL );
@@ -227,7 +227,7 @@ GtkWidget *bet_finance_create_simulator_page ( void )
     align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
     gtk_box_pack_start ( GTK_BOX ( page ), align, FALSE, FALSE, 5);
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_container_add ( GTK_CONTAINER ( align ), hbox );
 
     /* capital */
@@ -367,13 +367,13 @@ GtkWidget *bet_finance_create_saisie_widget ( GtkWidget *parent )
     GtkWidget *button_1, *button_2;
     gchar *tmp_str;
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
 
     /* Frais */
     align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
     gtk_box_pack_start ( GTK_BOX ( vbox ), align, FALSE, FALSE, 0 );
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_container_add ( GTK_CONTAINER ( align ), hbox );
 
     label = gtk_label_new ( _("Fees: ") );
@@ -401,7 +401,7 @@ GtkWidget *bet_finance_create_saisie_widget ( GtkWidget *parent )
     align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
     gtk_box_pack_start ( GTK_BOX ( vbox ), align, FALSE, FALSE, 0 );
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_container_add ( GTK_CONTAINER ( align ), hbox );
 
     label = gtk_label_new ( _("Rate Type: ") );
@@ -1068,7 +1068,7 @@ GtkWidget *bet_finance_create_amortization_page ( void )
 
     devel_debug (NULL);
 
-    page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
+    page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
 
     /* frame pour la barre d'outils */
     frame = gtk_frame_new ( NULL );
@@ -1085,7 +1085,7 @@ GtkWidget *bet_finance_create_amortization_page ( void )
     align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
     gtk_box_pack_start ( GTK_BOX ( page ), align, FALSE, FALSE, 5);
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_container_add ( GTK_CONTAINER ( align ), hbox );
 
     /* capital */
@@ -1509,7 +1509,7 @@ GtkWidget *bet_finance_create_account_page ( void )
 
     devel_debug (NULL);
 
-    page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
+    page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     account_page = gsb_gui_get_account_page ();
 
     /* frame pour la barre d'outils */
@@ -1530,7 +1530,7 @@ GtkWidget *bet_finance_create_account_page ( void )
     align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
     gtk_box_pack_start ( GTK_BOX ( page ), align, FALSE, FALSE, 5);
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_container_add ( GTK_CONTAINER ( align ), hbox );
 
     /* capital */

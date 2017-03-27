@@ -392,7 +392,7 @@ GtkWidget *import_create_file_selection_page ( GtkWidget * assistant )
     GSList * tmp;
 	gchar* tmpstr;
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
 
     paddingbox = new_paddingbox_with_title ( vbox, TRUE, _("Choose file to import"));
@@ -847,7 +847,7 @@ GSList *gsb_import_create_file_chooser ( const char *enc, GtkWidget *parent )
     gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( dialog ), filter );
 
     /* Add encoding preview */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_file_chooser_set_extra_widget ( GTK_FILE_CHOOSER ( dialog ), hbox );
     gtk_box_pack_start ( GTK_BOX ( hbox ), gtk_label_new ( _("Encoding: ") ),
                         FALSE, FALSE, 0 );
@@ -1189,7 +1189,7 @@ GtkWidget *cree_ligne_recapitulatif ( struct struct_compte_importation * compte 
     GtkWidget *button;
     gchar* tmpstr;
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
 
     if ( compte -> filename )
@@ -1221,7 +1221,7 @@ GtkWidget *cree_ligne_recapitulatif ( struct struct_compte_importation * compte 
     gtk_widget_style_get (radio, "indicator_size", &size, NULL);
     gtk_widget_style_get (radio, "indicator_spacing", &spacing, NULL);
 
-    compte -> hbox1 = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
+    compte -> hbox1 = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( vbox ), compte -> hbox1, FALSE, FALSE, 0 );
     label = gtk_label_new ( _("Account type: ") );
     alignement = gtk_alignment_new ( 0.5, 0.5, 1, 1 );
@@ -1268,7 +1268,7 @@ GtkWidget *cree_ligne_recapitulatif ( struct struct_compte_importation * compte 
     if (radio_add_account && gtk_widget_get_visible (radio_add_account))
         gtk_widget_set_sensitive  ( radio_add_account, assert_account_loaded ( ) );
 
-    compte -> hbox2 = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
+    compte -> hbox2 = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( vbox ), compte -> hbox2, FALSE, FALSE, 0 );
     label = gtk_label_new ( _("Account name: ") );
     alignement = gtk_alignment_new ( 0.5, 0.5, 1, 1 );
@@ -1293,7 +1293,7 @@ GtkWidget *cree_ligne_recapitulatif ( struct struct_compte_importation * compte 
     gtk_box_pack_start ( GTK_BOX ( vbox ), radio, FALSE, FALSE, 0 );
     gtk_widget_set_sensitive  ( radio, assert_account_loaded ( ) );
 
-    compte -> hbox3 = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
+    compte -> hbox3 = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( vbox ), compte -> hbox3, FALSE, FALSE, 0 );
     label = gtk_label_new ( _("Account name: ") );
     alignement = gtk_alignment_new ( 0.5, 0.5, 1, 1 );
@@ -1324,7 +1324,7 @@ GtkWidget *cree_ligne_recapitulatif ( struct struct_compte_importation * compte 
     }
 
     /* Currency */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     label = gtk_label_new ( _("Account currency: ") );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 );
@@ -1361,7 +1361,7 @@ GtkWidget *cree_ligne_recapitulatif ( struct struct_compte_importation * compte 
     gtk_box_pack_start ( GTK_BOX ( vbox ), button, FALSE, FALSE, 0 );
 
     /* propose to create a rule */
-    compte -> hbox_rule = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    compte -> hbox_rule = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( vbox ), compte -> hbox_rule, FALSE, FALSE, 0 );
     compte -> entry_name_rule = gtk_entry_new ();
     button = gsb_automem_checkbutton_new (_("Create a rule for this import. Name of the rule: "),
@@ -2309,7 +2309,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
     gtk_box_pack_start ( GTK_BOX ( vbox), scrolled_window, TRUE, TRUE, 0 );
     gtk_widget_show ( scrolled_window );
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ), vbox );
     gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 10 );
     gtk_widget_show ( vbox );
@@ -2335,7 +2335,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
         /* on est certain d'afficher une opération au moins */
         ope_visible = TRUE;
 
-	    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+	    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
 	    gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 );
 	    gtk_widget_show ( hbox );
 
@@ -2370,7 +2370,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 	    gtk_widget_show ( label );
 
 
-	    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+	    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
 	    gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 );
 	    gtk_widget_show ( hbox );
 
@@ -3787,7 +3787,7 @@ GtkWidget * gsb_import_associations_gere_tiers ( void )
                         _("Manage import associations"),
                         "payees.png" );
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 12 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( vbox_main ), vbox, TRUE, TRUE, 0 );
     gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 12 );
 

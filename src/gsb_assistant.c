@@ -149,7 +149,7 @@ GtkWidget * gsb_assistant_new ( const gchar * title, const gchar * explanation,
     eb = gtk_event_box_new ();
     gtk_widget_set_name (eb, "grey_box");
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 12 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_container_add ( GTK_CONTAINER(eb), hbox );
     gtk_container_set_border_width ( GTK_CONTAINER(hbox), 12 );
 

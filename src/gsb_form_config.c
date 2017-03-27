@@ -298,11 +298,11 @@ GtkWidget *gsb_form_config_create_sizing_buttons_line ( void )
     GtkWidget *button;
     GtkWidget *label;
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
 
     /* line number choice */
 
-    hbox2 = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox2 = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 hbox2,
 			 FALSE,
@@ -348,7 +348,7 @@ GtkWidget *gsb_form_config_create_sizing_buttons_line ( void )
 
     /* columns number choice */
 
-    hbox2 = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox2 = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_end ( GTK_BOX ( hbox ),
 		       hbox2,
 		       FALSE,

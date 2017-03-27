@@ -189,7 +189,7 @@ GtkWidget *gsb_currency_link_config_create_page ( void )
     paddinggrid = utils_prefs_paddinggrid_new_with_title (vbox_pref, _("Link properties"));
 
     /* Create hbox line */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_widget_set_margin_top (hbox, MARGIN_TOP);
     gtk_grid_attach (GTK_GRID (paddinggrid), hbox, 0, 0, 1, 1);
 
