@@ -79,7 +79,7 @@ int main ( int argc, char **argv )
     go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);
 #endif /* HAVE_GOFFICE */
 
-    app = g_object_new ( GRISBI_TYPE_APP,
+    app = g_object_new ( GRISBI_APP_TYPE,
                         "application-id",   "org.gtk.grisbi",
                         "flags",            G_APPLICATION_HANDLES_COMMAND_LINE | G_APPLICATION_NON_UNIQUE,
                         "register-session", TRUE,
