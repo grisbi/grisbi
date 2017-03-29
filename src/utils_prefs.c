@@ -74,35 +74,35 @@
  *
  * \return
  * */
-void utils_prefs_left_panel_add_line ( GtkTreeStore *tree_model,
-                        GtkTreeIter *iter,
-                        GtkWidget *notebook,
-                        GtkWidget *child,
-                        const gchar *title,
-                        gint page )
+void utils_prefs_left_panel_add_line (GtkTreeStore *tree_model,
+									  GtkTreeIter *iter,
+									  GtkWidget *notebook,
+									  GtkWidget *child,
+									  const gchar *title,
+									  gint page)
 {
     GtkTreeIter iter2;
 
-    if ( page == -1 )
+    if (page == -1)
     {
         /* append page groupe */
-        gtk_tree_store_append ( GTK_TREE_STORE ( tree_model ), iter, NULL );
-        gtk_tree_store_set (GTK_TREE_STORE ( tree_model ), iter,
+        gtk_tree_store_append (GTK_TREE_STORE (tree_model), iter, NULL);
+        gtk_tree_store_set (GTK_TREE_STORE (tree_model), iter,
                         LEFT_PANEL_TREE_TEXT_COLUMN, title,
                         LEFT_PANEL_TREE_PAGE_COLUMN, -1,
                         LEFT_PANEL_TREE_BOLD_COLUMN, 800,
-                        -1 );
+                        -1);
     }
     else
     {
         /* append page onglet*/
-        if ( child )
-            gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
+        if (child)
+            gtk_notebook_append_page (GTK_NOTEBOOK (notebook),
                         child,
-                        gtk_label_new ( title ) );
+                        gtk_label_new (title));
 
-        gtk_tree_store_append (GTK_TREE_STORE ( tree_model ), &iter2, iter );
-        gtk_tree_store_set (GTK_TREE_STORE ( tree_model ), &iter2,
+        gtk_tree_store_append (GTK_TREE_STORE (tree_model), &iter2, iter);
+        gtk_tree_store_set (GTK_TREE_STORE (tree_model), &iter2,
                         LEFT_PANEL_TREE_TEXT_COLUMN, title,
                         LEFT_PANEL_TREE_PAGE_COLUMN, page,
                         LEFT_PANEL_TREE_BOLD_COLUMN, 400,
@@ -119,47 +119,47 @@ void utils_prefs_left_panel_add_line ( GtkTreeStore *tree_model,
  *
  * \return
  */
-gboolean utils_prefs_left_panel_tree_view_select_page ( GtkWidget *tree_view,
-                        GtkWidget *notebook,
-                        gint page )
+gboolean utils_prefs_left_panel_tree_view_select_page (GtkWidget *tree_view,
+													   GtkWidget *notebook,
+													   gint page)
 {
     GtkTreeModel *model;
     GtkTreeIter parent_iter;
 
-    model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
+    model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
 
-    if ( !gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( model ), &parent_iter ) )
+    if (!gtk_tree_model_get_iter_first (GTK_TREE_MODEL (model), &parent_iter))
         return FALSE;
 
     do
     {
         GtkTreeIter iter;
 
-        if ( gtk_tree_model_iter_children ( GTK_TREE_MODEL ( model ), &iter, &parent_iter ) )
+        if (gtk_tree_model_iter_children (GTK_TREE_MODEL (model), &iter, &parent_iter))
         {
             do
             {
                 gint tmp_page;
 
-                gtk_tree_model_get (GTK_TREE_MODEL ( model ),
+                gtk_tree_model_get (GTK_TREE_MODEL (model),
                                 &iter,
                                 LEFT_PANEL_TREE_PAGE_COLUMN, &tmp_page,
-                                -1 );
+                                -1);
 
-                if ( tmp_page == page )
+                if (tmp_page == page)
                 {
                     GtkTreeSelection *sel;
 
-                    sel = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
-                    gtk_tree_selection_select_iter ( sel, &iter );
-                    gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook ), page );
+                    sel = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
+                    gtk_tree_selection_select_iter (sel, &iter);
+                    gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), page);
                     break;
                 }
             }
-            while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &iter ) );
+            while (gtk_tree_model_iter_next (GTK_TREE_MODEL (model), &iter));
         }
     }
-    while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &parent_iter ) );
+    while (gtk_tree_model_iter_next (GTK_TREE_MODEL (model), &parent_iter));
 
     /* return */
     return FALSE;
@@ -177,18 +177,18 @@ gboolean utils_prefs_left_panel_tree_view_select_page ( GtkWidget *tree_view,
  * \return selectable
  */
 gboolean utils_prefs_left_panel_tree_view_selectable_func (GtkTreeSelection *selection,
-                        GtkTreeModel *model,
-                        GtkTreePath *path,
-                        gboolean path_currently_selected,
-                        gpointer data )
+														   GtkTreeModel *model,
+														   GtkTreePath *path,
+														   gboolean path_currently_selected,
+														   gpointer data)
 {
     GtkTreeIter iter;
     gint selectable;
 
-    gtk_tree_model_get_iter ( model, &iter, path );
-    gtk_tree_model_get ( model, &iter, 1, &selectable, -1 );
+    gtk_tree_model_get_iter (model, &iter, path);
+    gtk_tree_model_get (model, &iter, 1, &selectable, -1);
 
-    return ( selectable != -1 );
+    return (selectable != -1);
 }
 
 /**
@@ -199,19 +199,19 @@ gboolean utils_prefs_left_panel_tree_view_selectable_func (GtkTreeSelection *sel
  *
  * \return
  */
-gboolean utils_prefs_left_panel_tree_view_selection_changed ( GtkTreeSelection *selection,
-                        GtkWidget *notebook )
+gboolean utils_prefs_left_panel_tree_view_selection_changed (GtkTreeSelection *selection,
+															 GtkWidget *notebook)
 {
     GtkTreeModel *model;
     GtkTreeIter iter;
     gint selected;
 
-    if (! gtk_tree_selection_get_selected ( selection, &model, &iter ) )
+    if (! gtk_tree_selection_get_selected (selection, &model, &iter))
         return(FALSE);
 
-    gtk_tree_model_get ( model, &iter, 1, &selected, -1 );
+    gtk_tree_model_get (model, &iter, 1, &selected, -1);
 
-    gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook ), selected );
+    gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), selected);
 
     /* return */
     return FALSE;
@@ -227,7 +227,7 @@ gboolean utils_prefs_left_panel_tree_view_selection_changed ( GtkTreeSelection *
  * \param title Title to display on top of the paddingbox
  */
 GtkWidget *utils_prefs_paddinggrid_new_with_title (GtkWidget *parent,
-                                                  const gchar *title)
+                                                   const gchar *title)
 {
     GtkWidget *vbox;
     GtkWidget *paddinggrid;
@@ -242,7 +242,7 @@ GtkWidget *utils_prefs_paddinggrid_new_with_title (GtkWidget *parent,
     /* Creating label */
     label = gtk_label_new (NULL);
     utils_labels_set_alignement (GTK_LABEL (label), 0, 1);
-    gtk_widget_show ( label );
+    gtk_widget_show (label);
 
     tmp_str = g_markup_printf_escaped ("<span weight=\"bold\">%s</span>", title);
     gtk_label_set_markup (GTK_LABEL (label), tmp_str);
@@ -254,8 +254,8 @@ GtkWidget *utils_prefs_paddinggrid_new_with_title (GtkWidget *parent,
     /* Then make the grid itself */
     paddinggrid = gtk_grid_new ();
     gtk_widget_set_margin_start (paddinggrid, MARGIN_PADDING_BOX);
-    gtk_grid_set_column_spacing (GTK_GRID (paddinggrid), 5 );
-    gtk_grid_set_row_spacing (GTK_GRID (paddinggrid), 5 );
+    gtk_grid_set_column_spacing (GTK_GRID (paddinggrid), 5);
+    gtk_grid_set_row_spacing (GTK_GRID (paddinggrid), 5);
 
     gtk_box_pack_start (GTK_BOX (vbox), paddinggrid, FALSE, FALSE, 0);
 
@@ -274,8 +274,8 @@ GtkWidget *utils_prefs_paddinggrid_new_with_title (GtkWidget *parent,
  * \return FALSE
  * */
 gboolean utils_prefs_scrolled_window_allocate_size (GtkWidget *widget,
-                                                     GtkAllocation *allocation,
-                                                     gpointer coeff_util)
+                                                    GtkAllocation *allocation,
+                                                    gpointer coeff_util)
 {
     gpointer *ptr;
     gint position;
@@ -294,10 +294,10 @@ gboolean utils_prefs_scrolled_window_allocate_size (GtkWidget *widget,
 
     /* set the height value */
     ptr = g_object_get_data (G_OBJECT (widget), "height");
-    if ( ptr )
-        gtk_widget_set_size_request ( widget, util_allocation, GPOINTER_TO_INT (ptr));
+    if (ptr)
+        gtk_widget_set_size_request (widget, util_allocation, GPOINTER_TO_INT (ptr));
     else
-        gtk_widget_set_size_request ( widget, util_allocation, 350);
+        gtk_widget_set_size_request (widget, util_allocation, 350);
 
     return FALSE;
 }
