@@ -37,6 +37,7 @@
 #include "file_obfuscate_qif.h"
 #include "file_obfuscate.h"
 #include "grisbi_app.h"
+#include "grisbi_prefs.h"
 #include "gsb_account.h"
 #include "gsb_assistant_account.h"
 #include "gsb_assistant_archive.h"
@@ -273,7 +274,13 @@ void grisbi_cmd_prefs ( GSimpleAction *action,
 						GVariant *parameter,
 						gpointer app )
 {
-	preferences ( -1 );
+	GrisbiPrefs *prefs;
+
+	//~ preferences ( -1 );
+	prefs = grisbi_prefs_new (grisbi_app_get_active_window (app));
+	gtk_window_set_modal (GTK_WINDOW (prefs), TRUE);
+
+	gtk_window_present (GTK_WINDOW (prefs));
 }
 
 /* HELP MENU */

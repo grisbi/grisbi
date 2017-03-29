@@ -480,6 +480,16 @@
 	    sort by GTK_SORT_DESCENDING: a number different of 0.
 	    </description>
 	  </key>
+	  <key name="prefs-height" type="i">
+	    <default>750</default>
+	    <summary>Height of the preference window</summary>
+	    <description>The height of the preference window.</description>
+	  </key>
+	  <key name="prefs-panel-width" type="i">
+	    <default>200</default>
+	    <summary>Width of the preference panel</summary>
+	    <description>The width of the preference panel.</description>
+	  </key>
 	  <key name="prefs-width" type="i">
 	    <default>1150</default>
 	    <summary>Width of the preference window</summary>

@@ -235,12 +235,14 @@ struct GrisbiAppConf
 
 /* panel part */
     gboolean active_scrolling_left_pane;                    /* active mouse scrolling in the left_pane. */
-    gint        panel_width;                                /* navigation panel width */
+    gint        panel_width;                                /* navigation paned width */
 
 /* prefs part */
-    gint        prefs_width;                                /* preferences width */
 	gint		prefs_archives_sort_order;					/* archive sort order, GTK_SORT_ASCENDING by default */
     gint        prefs_fyear_sort_order;                     /* fyear type sort, GTK_SORT_ASCENDING by default */
+	gint		prefs_height;								/* preferences height */
+	gint		prefs_panel_width;							/* preferences paned width */
+    gint        prefs_width;                                /* preferences width */
 
 /* scheduled part */
     gboolean    balances_with_scheduled;                    /* TRUE = the balance incorporates the scheduled operations */

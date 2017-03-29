@@ -397,6 +397,8 @@ static void grisbi_settings_init_settings_prefs ( GSettings *settings )
 {
     conf.prefs_archives_sort_order = g_settings_get_int (settings, "prefs-archives-sort-order");
     conf.prefs_fyear_sort_order = g_settings_get_int (settings, "prefs-fyear-sort-order");
+    conf.prefs_height = g_settings_get_int ( settings, "prefs-height" );
+    conf.prefs_panel_width = g_settings_get_int ( settings, "prefs-panel-width" );
     conf.prefs_width = g_settings_get_int ( settings, "prefs-width" );
 }
 
@@ -754,7 +756,6 @@ void grisbi_settings_save_app_config (void)
                         !delete_msg[i].hidden );
     }
 
-
     /* priv->settings_messages_tips */
     g_settings_set_int ( G_SETTINGS ( priv->settings_messages_tips ),
                          "last-tip",
@@ -771,7 +772,6 @@ void grisbi_settings_save_app_config (void)
                         !messages[i].hidden );
     }
 
-
     /* priv->settings_panel */
     g_settings_set_boolean ( G_SETTINGS ( priv->settings_panel ),
                         "active-scrolling-left-pane",
@@ -781,6 +781,14 @@ void grisbi_settings_save_app_config (void)
                         conf.panel_width );
 
     /* priv->settings_prefs */
+    g_settings_set_int ( G_SETTINGS ( priv->settings_prefs ),
+                        "prefs-height",
+                        conf.prefs_height );
+
+    g_settings_set_int ( G_SETTINGS ( priv->settings_prefs ),
+                        "prefs-panel-width",
+                        conf.prefs_panel_width );
+
     g_settings_set_int ( G_SETTINGS ( priv->settings_prefs ),
                         "prefs-width",
                         conf.prefs_width );

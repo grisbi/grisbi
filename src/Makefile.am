@@ -59,9 +59,10 @@ libgrisbi_la_SOURCES = \
 	go-charmap-sel.c	\
 	go-optionmenu.c		\
 	grisbi_app.c		\
-	grisbi_win.c		\
 	grisbi_osx.c \
+	grisbi_prefs.c \
 	grisbi_settings.c		\
+	grisbi_win.c		\
 	gsb_account.c		\
 	gsb_account_property.c	\
 	gsb_archive_config.c	\
@@ -167,6 +168,7 @@ libgrisbi_la_SOURCES = \
 	utils_font.c		\
 	utils_gtkbuilder.c	\
 	utils_operations.c	\
+	utils_prefs.c	\
 	utils_real.c		\
 	utils_str.c		\
 	accueil.h		\
@@ -205,9 +207,10 @@ libgrisbi_la_SOURCES = \
 	go-charmap-sel.h        \
 	go-optionmenu.h         \
 	grisbi_app.h		\
-	grisbi_win.h		\
 	grisbi_osx.h \
+	grisbi_prefs.h \
 	grisbi_settings.h		\
+	grisbi_win.h		\
 	gsb_account.h		\
 	gsb_account_property.h	\
 	gsb_archive_config.h	\
@@ -316,6 +319,7 @@ libgrisbi_la_SOURCES = \
 	utils_font.h		\
 	utils_gtkbuilder.h	\
 	utils_operations.h	\
+	utils_prefs.h	\
 	utils_real.h		\
 	utils_str.h		\
 	grisbi.gresource.xml

@@ -335,6 +335,7 @@ static gboolean grisbi_win_hpaned_size_allocate (GtkWidget *hpaned_general,
 
 	return FALSE;
 }
+
 /* FORM_GENERAL */
 /**
  * utile pour gérer la dimmension du formulaire
