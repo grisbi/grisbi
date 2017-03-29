@@ -55,6 +55,7 @@
 #include "transaction_list.h"
 #include "structures.h"
 #include "gsb_dirs.h"
+#include "utils_prefs.h"
 /*END_INCLUDE*/
 
 /** Columns for payment methods tree */

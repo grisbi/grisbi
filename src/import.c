@@ -80,6 +80,7 @@
 #include "qif.h"
 #include "transaction_list.h"
 #include "utils_files.h"
+#include "utils_prefs.h"
 #include "utils_real.h"
 #include "erreur.h"
 #include "gsb_dirs.h"

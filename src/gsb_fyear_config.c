@@ -52,6 +52,7 @@
 #include "utils.h"
 #include "utils_buttons.h"
 #include "utils_dates.h"
+#include "utils_prefs.h"
 /*END_INCLUDE*/
 
 

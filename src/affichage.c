@@ -53,6 +53,7 @@
 #include "utils_buttons.h"
 #include "utils_file_selection.h"
 #include "utils_font.h"
+#include "utils_prefs.h"
 #include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/

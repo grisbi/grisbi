@@ -53,6 +53,7 @@
 #include "transaction_list.h"
 #include "utils.h"
 #include "utils_buttons.h"
+#include "utils_prefs.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

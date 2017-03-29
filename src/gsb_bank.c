@@ -52,6 +52,7 @@
 #include "utils.h"
 #include "utils_buttons.h"
 #include "utils_editables.h"
+#include "utils_prefs.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 

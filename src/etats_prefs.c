@@ -38,6 +38,7 @@
 #include "utils.h"
 #include "utils_buttons.h"
 #include "utils_gtkbuilder.h"
+#include "utils_prefs.h"
 #include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -616,7 +617,7 @@ gboolean etats_prefs_left_panel_tree_view_select_last_page ( void )
     tree_view = GTK_WIDGET ( gtk_builder_get_object ( etats_prefs_builder, "treeview_left_panel" ) );
     notebook = GTK_WIDGET ( gtk_builder_get_object ( etats_prefs_builder, "notebook_etats_prefs" ) ),
 
-    utils_ui_left_panel_tree_view_select_page ( tree_view, notebook, last_page );
+    utils_prefs_left_panel_tree_view_select_page ( tree_view, notebook, last_page );
 
     /* return */
     return FALSE;
@@ -648,92 +649,92 @@ static void etats_prefs_left_panel_populate_tree_model ( GtkTreeStore *tree_mode
     gint page = 0;
 
     /* append group page */
-    utils_ui_left_panel_add_line ( tree_model, &iter, NULL, NULL, _("Data selection"), -1 );
+    utils_prefs_left_panel_add_line ( tree_model, &iter, NULL, NULL, _("Data selection"), -1 );
 
     /* append page Dates */
     widget = etats_prefs_onglet_periode_create_page ( page );
-    utils_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Dates"), page );
+    utils_prefs_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Dates"), page );
     page++;
 
     /* append page Transferts */
     widget = etats_prefs_onglet_virements_create_page ( page );
-    utils_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Transfers"), page );
+    utils_prefs_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Transfers"), page );
     page++;
 
     /* append page Accounts */
     widget = etats_prefs_onglet_comptes_create_page ( page );
-    utils_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Accounts"), page );
+    utils_prefs_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Accounts"), page );
     page++;
 
     /* append page Payee */
     widget = etats_prefs_onglet_tiers_create_page ( page );
-    utils_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Payee"), page );
+    utils_prefs_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Payee"), page );
     page++;
 
     /* append page Categories */
     widget = etats_prefs_onglet_categories_create_page ( page );
-    utils_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Categories"), page );
+    utils_prefs_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Categories"), page );
     page++;
 
     /* append page Budgetary lines */
     widget = etats_prefs_onglet_budgets_create_page ( page );
-    utils_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Budgetary lines"), page );
+    utils_prefs_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Budgetary lines"), page );
     page++;
 
     /* append page Texts */
     widget = etats_prefs_onglet_textes_create_page ( page );
-    utils_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Texts"), page );
+    utils_prefs_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Texts"), page );
     page++;
 
     /* append page Amounts */
     widget = etats_prefs_onglet_montants_create_page ( page );
-    utils_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Amounts"), page );
+    utils_prefs_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Amounts"), page );
     page++;
 
     /* append page Payment methods */
     widget = etats_prefs_onglet_mode_paiement_create_page ( page );
-    utils_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Payment methods"), page );
+    utils_prefs_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Payment methods"), page );
     page++;
 
     /* append page Misc. */
     widget = etats_prefs_onglet_divers_create_page ( page );
-    utils_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Miscellaneous"), page );
+    utils_prefs_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Miscellaneous"), page );
     page++;
 
     /* remplissage de l'onglet d'organisation */
-    utils_ui_left_panel_add_line ( tree_model, &iter, NULL, NULL, _("Data organization"), -1 );
+    utils_prefs_left_panel_add_line ( tree_model, &iter, NULL, NULL, _("Data organization"), -1 );
 
     /* Data grouping */
     widget = etats_prefs_onglet_data_grouping_create_page ( page );
-    utils_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Data grouping"), page );
+    utils_prefs_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Data grouping"), page );
     page++;
 
     /* Data separation */
     widget = etats_prefs_onglet_data_separation_create_page ( page );
-    utils_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Data separation"), page );
+    utils_prefs_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Data separation"), page );
     page++;
 
     /* remplissage de l'onglet d'affichage */
-    utils_ui_left_panel_add_line ( tree_model, &iter, NULL, NULL, _("Data display"), -1 );
+    utils_prefs_left_panel_add_line ( tree_model, &iter, NULL, NULL, _("Data display"), -1 );
 
     /* append page Generalities */
     widget = etats_prefs_onglet_affichage_generalites_create_page ( page );
-    utils_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Generalities"), page );
+    utils_prefs_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Generalities"), page );
     page++;
 
     /* append page divers */
     widget = etats_prefs_onglet_affichage_titles_create_page ( page );
-    utils_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Titles"), page );
+    utils_prefs_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Titles"), page );
     page++;
 
     /* append page Transactions */
     widget = etats_prefs_onglet_affichage_operations_create_page ( page );
-    utils_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Transactions"), page );
+    utils_prefs_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Transactions"), page );
     page++;
 
     /* append page Currencies */
     widget = etats_prefs_onglet_affichage_devises_create_page ( page );
-    utils_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Currencies"), page );
+    utils_prefs_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Currencies"), page );
 }
 
 
@@ -790,12 +791,12 @@ static GtkWidget *etats_prefs_left_panel_create_tree_view ( void )
     selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
     g_signal_connect ( selection,
                         "changed",
-                        G_CALLBACK ( utils_ui_left_panel_tree_view_selection_changed ),
+                        G_CALLBACK ( utils_prefs_left_panel_tree_view_selection_changed ),
                         notebook );
 
     /* Choose which entries will be selectable */
     gtk_tree_selection_set_select_function ( selection,
-                        utils_ui_left_panel_tree_view_selectable_func, NULL, NULL );
+                        utils_prefs_left_panel_tree_view_selectable_func, NULL, NULL );
 
     /* expand all rows after the treeview widget has been realized */
     g_signal_connect ( tree_view,

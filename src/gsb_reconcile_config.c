@@ -49,6 +49,7 @@
 #include "traitement_variables.h"
 #include "utils.h"
 #include "utils_dates.h"
+#include "utils_prefs.h"
 #include "utils_real.h"
 /*END_INCLUDE*/
 

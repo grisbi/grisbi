@@ -44,6 +44,7 @@
 #include "traitement_variables.h"
 #include "utils.h"
 #include "utils_buttons.h"
+#include "utils_prefs.h"
 #include "utils_str.h"
 /*END_INCLUDE*/
 

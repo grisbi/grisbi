@@ -76,6 +76,7 @@
 #include "utils_buttons.h"
 #include "utils_dates.h"
 #include "utils_files.h"
+#include "utils_prefs.h"
 #include "utils_real.h"
 #include "utils_str.h"
 #include "erreur.h"

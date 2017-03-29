@@ -56,6 +56,7 @@
 #include "utils_files.h"
 #include "erreur.h"
 #include "gsb_dirs.h"
+#include "utils_prefs.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
