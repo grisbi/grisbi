@@ -1,6 +1,13 @@
 # Process this file with automake to produce Makefile.in
 
-AM_CPPFLAGS = -I$(top_srcdir) $(GRISBI_CFLAGS) $(GTK_MAC_CFLAGS) $(GOFFICE_CFLAGS) -DLOCALEDIR=\"$(localedir)\" -DPIXMAPS_DIR="\"$(datadir)/pixmaps/@PACKAGE@\"" -DLOGO_PATH="\"$(datadir)/pixmaps/@PACKAGE@/grisbi-logo.png\"" -DDATA_PATH="\"$(datadir)/@PACKAGE@\"" -DHELP_PATH="\"$(docdir)\"" -DUI_DIR="\"$(datadir)/@PACKAGE@/ui\""
+AM_CPPFLAGS =	\
+							-I$(top_srcdir) $(GRISBI_CFLAGS) $(GTK_MAC_CFLAGS) $(GOFFICE_CFLAGS)	\
+							-DLOCALEDIR=\"$(localedir)\"	\
+							-DPIXMAPS_DIR="\"$(datadir)/pixmaps/@PACKAGE@\""	\
+							-DLOGO_PATH="\"$(datadir)/pixmaps/@PACKAGE@/grisbi-logo.png\""	\
+							-DDATA_PATH="\"$(datadir)/@PACKAGE@\""	\
+							-DHELP_PATH="\"$(docdir)\""	\
+							-DUI_DIR="\"$(datadir)/@PACKAGE@/ui\""
 
 bin_PROGRAMS = grisbi
 noinst_LTLIBRARIES = libgrisbi.la
@@ -8,6 +15,8 @@ noinst_LTLIBRARIES = libgrisbi.la
 grisbi_LDADD = $(GRISBI_LIBS) $(GTK_MAC_LIBS) libgrisbi.la
 
 libgrisbi_la_LIBADD =
+
+libgrisbi_la_LIBADD += prefs/libprefspages.la
 
 if HAVE_XML2
 libgrisbi_la_LIBADD += plugins/gnucash/gnucash.la
@@ -338,7 +347,7 @@ gsettings_SCHEMAS = org.gtk.grisbi.gschema.xml
 
 @INTLTOOL_XML_NOMERGE_RULE@
 
-SUBDIRS = ui plugins/gnucash plugins/ofx plugins/openssl
+SUBDIRS = ui prefs plugins/gnucash plugins/ofx plugins/openssl
 
 if HAVE_CUNIT
 SUBDIRS += tests

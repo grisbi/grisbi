@@ -334,6 +334,7 @@ src/tests/Makefile
 src/plugins/gnucash/Makefile
 src/plugins/ofx/Makefile
 src/plugins/openssl/Makefile
+src/prefs/Makefile
 src/ui/Makefile
 ])
 
