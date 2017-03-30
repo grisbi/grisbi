@@ -4,5 +4,6 @@
     <file preprocess="xml-stripblanks">grisbi_win.ui</file>
     <file preprocess="xml-stripblanks">grisbi_menu.ui</file>
 		<file preprocess="xml-stripblanks">grisbi_prefs.ui</file>
+		<file preprocess="xml-stripblanks">prefs_pages.ui</file>
   </gresource>
 </gresources>

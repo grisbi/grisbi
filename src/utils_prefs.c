@@ -32,11 +32,9 @@
 
 /*START_INCLUDE*/
 #include "utils_prefs.h"
-//~ #include "dialog.h"
-//~ #include "grisbi_app.h"
-//~ #include "gsb_color.h"
-//~ #include "gsb_data_account.h"
-//~ #include "gsb_dirs.h"
+#include "grisbi_app.h"
+#include "gsb_file.h"
+#include "gsb_dirs.h"
 #include "parametres.h"
 #include "structures.h"
 #include "utils.h"
@@ -61,6 +59,68 @@
 /******************************************************************************/
 /* Public functions                                                           */
 /******************************************************************************/
+/**
+ * Function that makes a nice title with an optional icon.  It is
+ * mainly used to automate preference tabs with titles.
+ *
+ * \param title 			Title that will be displayed in window
+ * \param image_filename	Filename (relative or absolute) to an image in a file format
+ * 							recognized by gtk_image_new_from_file().  Use NULL if you don't
+ * 							want an image to be displayed
+ *
+ * \returns 				A pointer to a hbox widget that will contain the created
+ * 							widgets
+ */
+GtkWidget *utils_prefs_head_page_new_with_title_and_icon (gchar *title,
+														  gchar *image_filename)
+{
+    GtkWidget *hbox;
+	GtkWidget*label;
+	GtkWidget*image;
+	GtkWidget*eb;
+	gchar* tmp_str1;
+	gchar* tmp_str2;
+
+    eb = gtk_event_box_new ();
+    gtk_widget_set_name (eb, "grey_box");
+	gtk_widget_set_margin_start (eb, MARGIN_BOX);
+	gtk_widget_set_margin_end (eb, MARGIN_BOX);
+	gtk_widget_set_margin_bottom (eb, MARGIN_BOTTOM);
+
+    /* Title hbox */
+    hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
+    gtk_widget_show (hbox);
+    gtk_container_add (GTK_CONTAINER (eb), hbox);
+    gtk_container_set_border_width (GTK_CONTAINER (hbox), MARGIN_BOX);
+
+    /* Icon */
+    if (image_filename)
+    {
+		gchar* tmp_str;
+
+		tmp_str = g_build_filename (gsb_dirs_get_pixmaps_dir (), image_filename, NULL);
+		image = gtk_image_new_from_file (tmp_str);
+		g_free (tmp_str);
+		gtk_box_pack_start (GTK_BOX (hbox), image, FALSE, FALSE, 0);
+		gtk_widget_show (image);
+    }
+
+    /* Nice huge title */
+    label = gtk_label_new (title);
+    tmp_str1 = g_markup_escape_text (title, strlen (title));
+    tmp_str2 = g_strconcat ("<span size=\"x-large\" weight=\"bold\">",
+						   tmp_str1,
+						   "</span>",
+						   NULL);
+    gtk_label_set_markup (GTK_LABEL (label), tmp_str2);
+    g_free(tmp_str1);
+    g_free(tmp_str2);
+    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+    gtk_widget_show (label);
+
+    return eb;
+}
+
 /**
  * ajoute une ligne dans le tree_model du panel de gauche de la fenêtre
  * des préférences de grisbi ou des états
@@ -225,6 +285,8 @@ gboolean utils_prefs_left_panel_tree_view_selection_changed (GtkTreeSelection *s
  * \param parent Parent widget to pack paddinggrid in
  * \param fill Give all available space to padding box or not
  * \param title Title to display on top of the paddingbox
+ *
+ * \return
  */
 GtkWidget *utils_prefs_paddinggrid_new_with_title (GtkWidget *parent,
                                                    const gchar *title)
@@ -263,6 +325,95 @@ GtkWidget *utils_prefs_paddinggrid_new_with_title (GtkWidget *parent,
         gtk_box_set_spacing (GTK_BOX (parent), 18);
 
     return paddinggrid;
+}
+
+/**
+ * Set a boolean integer to the value of a checkbutton.  Normally called
+ * via a GTK "toggled" signal handler.
+ *
+ * \param checkbutton a pointer to a checkbutton widget.
+ * \param value to change
+ *
+ * \return
+ */
+void utils_prefs_page_checkbutton_changed (GtkToggleButton *checkbutton,
+										   gboolean *value)
+{
+    if (value)
+    {
+		GtkWidget *spinbutton = NULL;
+
+        *value = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton));
+
+        spinbutton = g_object_get_data (G_OBJECT (checkbutton), "spinbutton");
+        if (spinbutton && GTK_IS_SPIN_BUTTON (spinbutton))
+        {
+			g_signal_handlers_block_by_func (G_OBJECT (spinbutton),
+											 utils_prefs_spinbutton_changed,
+											 value);
+			if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton)))
+				gtk_spin_button_set_value (GTK_SPIN_BUTTON (spinbutton), 5);
+            else
+                gtk_spin_button_set_value (GTK_SPIN_BUTTON (spinbutton), 0);
+
+			g_signal_handlers_unblock_by_func (G_OBJECT (spinbutton),
+											   utils_prefs_spinbutton_changed,
+											   value);
+        }
+
+    }
+}
+
+/**
+ * called when choose a new directory for the account files or backup
+ *
+ * \param button 		the GtkFileChooserButton
+ * \param dirname		new directory
+ *
+ * \return FALSE
+ * */
+void utils_prefs_page_dir_chosen (GtkWidget *button,
+								  gchar *dirname)
+{
+    gchar *tmp_dir;
+
+    g_signal_handlers_block_by_func (button,
+									 G_CALLBACK (utils_prefs_page_dir_chosen),
+									 dirname);
+
+    tmp_dir = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (button));
+
+	if (strcmp (dirname, "backup_path") == 0)
+        gsb_file_set_backup_path (tmp_dir);
+
+    g_signal_handlers_unblock_by_func (button,
+									   G_CALLBACK (utils_prefs_page_dir_chosen),
+									   dirname);
+
+    /* memory free */
+    g_free (tmp_dir);
+}
+
+/**
+ * Set a boolean integer to the value of a checkbutton.  Normally called
+ * via a GTK "toggled" signal handler.
+ *
+ * \param eventbox 			a pointer to a eventbox widget.
+ * \param event
+ * \param checkbutton		check button
+ *
+ * \return FALSE
+**/
+gboolean utils_prefs_page_eventbox_clicked (GObject *eventbox,
+												   GdkEvent *event,
+												   GtkToggleButton *checkbutton)
+{
+    gboolean state;
+
+    state = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton));
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton), !state);
+
+    return FALSE;
 }
 
 /**
@@ -338,6 +489,42 @@ GtkWidget *utils_prefs_scrolled_window_new (GtkSizeGroup *size_group,
         g_object_set_data (G_OBJECT (sw), "size_group", size_group);
 
     return sw;
+}
+
+/**
+ * set nb_max_derniers_fichiers_ouverts
+ *
+ * \param spinbutton 			a pointer to a spinbutton widget.
+ * \param value 				value to change
+ * \return
+ * */
+void utils_prefs_spinbutton_changed (GtkSpinButton *spinbutton,
+									 gint *value)
+{
+    if (value)
+    {
+        GtkWidget *button = NULL;
+		gchar *function;
+
+        *value = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (spinbutton));
+
+		/* action suite changement de valeur */
+		function = g_object_get_data (G_OBJECT (spinbutton), "function");
+		if (function)
+		{
+			if (strcmp ("set_recent_files_menu", function) == 0)
+				grisbi_app_set_recent_files_menu (NULL, FALSE);
+		}
+
+        button = g_object_get_data (G_OBJECT (spinbutton), "button");
+        if (button && GTK_IS_TOGGLE_BUTTON (button))
+        {
+            if (gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (spinbutton)) == 0)
+                gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), FALSE);
+            else
+                gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), TRUE);
+        }
+    }
 }
 
 /**

@@ -42,6 +42,7 @@
 #include "utils_buttons.h"
 #include "utils_gtkbuilder.h"
 #include "utils_prefs.h"
+#include "prefs/prefs_page_files.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -72,25 +73,8 @@ struct _GrisbiPrefsPrivate
 	GtkWidget *			togglebutton_expand_prefs;
 
     /* notebook de droite */
-    GtkWidget           *notebook_prefs;
-
-    /* notebook_files */
-    GtkWidget *          notebook_files;
-    GtkWidget *          checkbutton_load_last_file;
-    GtkWidget *          checkbutton_sauvegarde_auto;
-    GtkWidget *          checkbutton_force_enregistrement;
-    GtkWidget *          checkbutton_crypt_file;
-    GtkWidget *          checkbutton_compress_file;
-    GtkWidget *          spinbutton_nb_max_derniers_fichiers_ouverts;
-    GtkWidget *          checkbutton_stable_config_file_model;
-    GtkWidget *          filechooserbutton_accounts;
-    GtkWidget *          checkbutton_make_bakup_single_file;
-    GtkWidget *          checkbutton_compress_backup;
-    GtkWidget *          checkbutton_sauvegarde_demarrage;
-    GtkWidget *          checkbutton_make_backup;
-    GtkWidget *          checkbutton_make_backup_every_minutes;
-    GtkWidget *          spinbutton_make_backup_nb_minutes;
-    GtkWidget *          filechooserbutton_backup;
+    GtkWidget *         notebook_prefs;
+	GtkWidget *			vbox_files;
 
     /* notebook import */
     GtkWidget *          notebook_import;
@@ -170,6 +154,26 @@ static gboolean grisbi_prefs_paned_size_allocate (GtkWidget *prefs_hpaned,
 }
 
 
+/* RIGHT PANED */
+/**
+ * Création de la page de gestion des fichiers
+ *
+ * \param prefs
+ *
+ * \return
+ */
+static void grisbi_prefs_setup_files_page (GrisbiPrefs *prefs)
+{
+	GrisbiPrefsPrivate *priv;
+
+	devel_debug (NULL);
+
+	priv = grisbi_prefs_get_instance_private (prefs);
+
+	priv->vbox_files = GTK_WIDGET (prefs_page_files_new (prefs));
+	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_prefs), priv->vbox_files, NULL);
+}
+
 /* LEFT PANED */
  /**
  * remplit le model pour la configuration des états
@@ -189,7 +193,7 @@ static void grisbi_prefs_left_panel_populate_tree_model (GtkTreeStore *tree_mode
     utils_prefs_left_panel_add_line (tree_model, &iter, NULL, NULL, _("Main"), -1);
 
     /* append page Fichiers */
-    //~ grisbi_prefs_setup_files_page (prefs);
+    grisbi_prefs_setup_files_page (prefs);
     utils_prefs_left_panel_add_line (tree_model, &iter, NULL, NULL, _("Files"), page);
     page++;
 
@@ -306,8 +310,6 @@ static GtkWidget *grisbi_prefs_left_tree_view_setup (GrisbiPrefs *prefs)
     /* return */
     return tree_view;
 }
-
-/* RIGHT PANED */
 
 /******************************************************************************/
 /* Fonctions propres à l'initialisation des fenêtres                          */
@@ -504,25 +506,6 @@ GrisbiPrefs *grisbi_prefs_new (GrisbiWin *win)
 
 
 //~ /* RIGHT_PANEL : CALLBACKS */
-//~ /**
- //~ * Set a boolean integer to the value of a checkbutton.  Normally called
- //~ * via a GTK "toggled" signal handler.
- //~ *
- //~ * \param checkbutton a pointer to a checkbutton widget.
- //~ * \param value to change
- //~ */
-//~ static void grisbi_prefs_conf_checkbutton_changed (GtkToggleButton *checkbutton,
-                        //~ gboolean *value)
-//~ {
-
-    //~ if (value)
-    //~ {
-        //~ grisbi_app_conf_mutex_lock ();
-        //~ *value = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton));
-        //~ grisbi_app_conf_mutex_unlock ();
-    //~ }
-//~ }
-
 
 //~ /**
  //~ * Set a boolean integer to the value of a checkbutton.  Normally called
@@ -542,27 +525,6 @@ GrisbiPrefs *grisbi_prefs_new (GrisbiWin *win)
         //~ grisbi_window_etat_mutex_unlock ();
     //~ }
 //~ }
-
-
-//~ /**
- //~ * Set a boolean integer to the value of a checkbutton.  Normally called
- //~ * via a GTK "toggled" signal handler.
- //~ *
- //~ * \param eventbox a pointer to a eventbox widget.
- //~ * \param value to change
- //~ */
-//~ static gboolean grisbi_prefs_eventbox_clicked (GObject *eventbox,
-                        //~ GdkEvent *event,
-                        //~ GtkToggleButton *checkbutton)
-//~ {
-    //~ gboolean state;
-
-    //~ state = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton));
-    //~ gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton), !state);
-
-    //~ return FALSE;
-//~ }
-
 
 //~ /**
  //~ * Warns that there is no coming back if password is forgotten when
@@ -594,39 +556,6 @@ GrisbiPrefs *grisbi_prefs_new (GrisbiWin *win)
         //~ run->new_crypted_file = TRUE;
     //~ }
 //~ }
-
-
-//~ /**
- //~ * set nb_max_derniers_fichiers_ouverts
- //~ *
- //~ * \param spinbutton a pointer to a spinbutton widget.
- //~ * \param value to change
- //~ */
-//~ static void grisbi_prefs_spinbutton_changed (GtkSpinButton *spinbutton,
-                        //~ gboolean *value)
-//~ {
-
-    //~ if (value)
-    //~ {
-        //~ GtkWidget *button = NULL;
-
-        //~ grisbi_app_conf_mutex_lock ();
-        //~ *value = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (spinbutton));
-        //~ grisbi_app_conf_mutex_unlock ();
-
-        //~ parametres_affiche_derniers_fichiers_ouverts ();
-
-        //~ button = g_object_get_data (G_OBJECT (spinbutton), "button");
-        //~ if (button && GTK_IS_TOGGLE_BUTTON (button))
-        //~ {
-            //~ if (gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (spinbutton)) == 0)
-                //~ gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), FALSE);
-            //~ else
-                //~ gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), TRUE);
-        //~ }
-    //~ }
-//~ }
-
 
 //~ /**
  //~ * called when choose a new directory for the account files or backup
@@ -1199,7 +1128,13 @@ GrisbiPrefs *grisbi_prefs_new (GrisbiWin *win)
     //~ grisbi_prefs_setup_import_page (prefs);
 //~ }
 
-
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
