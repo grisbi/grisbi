@@ -42,6 +42,7 @@
 #include "utils_buttons.h"
 #include "utils_gtkbuilder.h"
 #include "utils_prefs.h"
+#include "prefs/prefs_page_archives.h"
 #include "prefs/prefs_page_files.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -68,6 +69,7 @@ struct _GrisbiPrefsPrivate
 	GtkWidget           *prefs_paned;
 
     /* panel de gauche */
+    GtkWidget *			left_sw;
     GtkWidget *			left_treeview;
     GtkTreeStore *		prefs_tree_model;
 	GtkWidget *			togglebutton_expand_prefs;
@@ -75,6 +77,7 @@ struct _GrisbiPrefsPrivate
     /* notebook de droite */
     GtkWidget *         notebook_prefs;
 	GtkWidget *			vbox_files;
+	GtkWidget *			vbox_archives;
 
     /* notebook import */
     GtkWidget *          notebook_import;
@@ -109,7 +112,9 @@ static void grisbi_prefs_dialog_response  (GtkDialog *prefs,
 										   gint result_id)
 {
     if (!prefs)
+	{
         return;
+	}
 
 	/* on récupère la dimension de la fenêtre */
 	gtk_window_get_size (GTK_WINDOW (prefs), &conf.prefs_width, &conf.prefs_height);
@@ -156,6 +161,25 @@ static gboolean grisbi_prefs_paned_size_allocate (GtkWidget *prefs_hpaned,
 
 /* RIGHT PANED */
 /**
+ * Création de la page de gestion des archives
+ *
+ * \param prefs
+ *
+ * \return
+ */
+static void grisbi_prefs_setup_archives_page (GrisbiPrefs *prefs)
+{
+	GrisbiPrefsPrivate *priv;
+
+	devel_debug (NULL);
+
+	priv = grisbi_prefs_get_instance_private (prefs);
+
+	priv->vbox_archives = GTK_WIDGET (prefs_page_archives_new (prefs));
+	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_prefs), priv->vbox_archives, NULL);
+}
+
+/**
  * Création de la page de gestion des fichiers
  *
  * \param prefs
@@ -198,14 +222,14 @@ static void grisbi_prefs_left_panel_populate_tree_model (GtkTreeStore *tree_mode
     page++;
 
      /* append page Archives */
-    //~ grisbi_prefs_setup_archives_page (prefs);
+    grisbi_prefs_setup_archives_page (prefs);
     utils_prefs_left_panel_add_line (tree_model, &iter, NULL, NULL, _("Archives"), page);
     page++;
 
      /* append page Import */
     //~ grisbi_prefs_setup_import_page (prefs);
-    utils_prefs_left_panel_add_line (tree_model, &iter, NULL, NULL, _("Import"), page);
-    page++;
+    //~ utils_prefs_left_panel_add_line (tree_model, &iter, NULL, NULL, _("Import"), page);
+    //~ page++;
 
    /* append group page "Display" */
     utils_prefs_left_panel_add_line (tree_model, &iter, NULL, NULL, _("Display"), -1);
@@ -245,7 +269,7 @@ static void grisbi_prefs_left_panel_populate_tree_model (GtkTreeStore *tree_mode
  *
  *\return tree_view or NULL;
  * */
-static GtkWidget *grisbi_prefs_left_tree_view_setup (GrisbiPrefs *prefs)
+static void grisbi_prefs_left_tree_view_setup (GrisbiPrefs *prefs)
 {
     GtkWidget *tree_view = NULL;
     GtkTreeStore *model = NULL;
@@ -260,12 +284,12 @@ static GtkWidget *grisbi_prefs_left_tree_view_setup (GrisbiPrefs *prefs)
 
     /* Création du model */
     model = gtk_tree_store_new (LEFT_PANEL_TREE_NUM_COLUMNS,
-                        G_TYPE_STRING,  /* LEFT_PANEL_TREE_TEXT_COLUMN */
-                        G_TYPE_INT,     /* LEFT_PANEL_TREE_PAGE_COLUMN */
-                        G_TYPE_INT,     /* LEFT_PANEL_TREE_BOLD_COLUMN */
-                        G_TYPE_INT);    /* LEFT_PANEL_TREE_ITALIC_COLUMN */
+								G_TYPE_STRING,  				/* LEFT_PANEL_TREE_TEXT_COLUMN */
+								G_TYPE_INT,     				/* LEFT_PANEL_TREE_PAGE_COLUMN */
+								G_TYPE_INT,     				/* LEFT_PANEL_TREE_BOLD_COLUMN */
+								G_TYPE_INT);    				/* LEFT_PANEL_TREE_ITALIC_COLUMN */
 
-    /* Create container + TreeView */
+    /* Create treeView */
     tree_view = priv->left_treeview;
     gtk_tree_view_set_model (GTK_TREE_VIEW (tree_view), GTK_TREE_MODEL (model));
     g_object_unref (G_OBJECT (model));
@@ -276,39 +300,36 @@ static GtkWidget *grisbi_prefs_left_tree_view_setup (GrisbiPrefs *prefs)
     /* make column */
     cell = gtk_cell_renderer_text_new ();
     column = gtk_tree_view_column_new_with_attributes ("Categories",
-                        cell,
-                        "text", LEFT_PANEL_TREE_TEXT_COLUMN,
-                        "weight", LEFT_PANEL_TREE_BOLD_COLUMN,
-                        "style", LEFT_PANEL_TREE_ITALIC_COLUMN,
-                        NULL);
+													   cell,
+													   "text", LEFT_PANEL_TREE_TEXT_COLUMN,
+													   "weight", LEFT_PANEL_TREE_BOLD_COLUMN,
+													   "style", LEFT_PANEL_TREE_ITALIC_COLUMN,
+													   NULL);
+
     gtk_tree_view_column_set_sizing (GTK_TREE_VIEW_COLUMN (column), GTK_TREE_VIEW_COLUMN_FIXED);
     gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), GTK_TREE_VIEW_COLUMN (column));
 
     /* Handle select */
     selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
     g_signal_connect (selection,
-                        "changed",
-                        G_CALLBACK (utils_prefs_left_panel_tree_view_selection_changed),
-                        priv->notebook_prefs);
+					  "changed",
+					  G_CALLBACK (utils_prefs_left_panel_tree_view_selection_changed),
+					  priv->notebook_prefs);
 
     /* Choose which entries will be selectable */
     gtk_tree_selection_set_select_function (selection,
-                        utils_prefs_left_panel_tree_view_selectable_func, NULL, NULL);
+											utils_prefs_left_panel_tree_view_selectable_func,
+											NULL,
+											NULL);
 
     /* expand all rows after the treeview widget has been realized */
     g_signal_connect (tree_view,
-                        "realize",
-                        G_CALLBACK (utils_tree_view_set_expand_all_and_select_path_realize),
-                        "0:0");
+					  "realize",
+					  G_CALLBACK (utils_tree_view_set_expand_all_and_select_path_realize),
+					  "0:0");
 
     /* remplissage du paned gauche */
     grisbi_prefs_left_panel_populate_tree_model (model, prefs);
-
-    /* show all widgets */
-    gtk_widget_show_all (tree_view);
-
-    /* return */
-    return tree_view;
 }
 
 /******************************************************************************/
@@ -342,7 +363,7 @@ static void grisbi_prefs_init (GrisbiPrefs *prefs)
 		gtk_paned_set_position (GTK_PANED (priv->prefs_paned), 200);
 
 	/* initialise left_tree_view */
-	priv->left_treeview = grisbi_prefs_left_tree_view_setup (prefs);
+	grisbi_prefs_left_tree_view_setup (prefs);
 
 	gtk_widget_show_all (GTK_WIDGET (prefs));
 }
@@ -416,95 +437,6 @@ GrisbiPrefs *grisbi_prefs_new (GrisbiWin *win)
 
 //~ }
 
-//~ /* GTK_BUILDER */
-//~ /**
- //~ * Crée un builder et récupère les widgets du fichier grisbi.ui
- //~ *
- //~ * \param
- //~ *
- //~ * \rerurn
- //~ * */
-//~ static gboolean grisbi_prefs_initialise_builder (GrisbiPrefs *prefs)
-//~ {
-    //~ /* Creation d'un nouveau GtkBuilder */
-    //~ grisbi_prefs_builder = gtk_builder_new ();
-    //~ if (grisbi_prefs_builder == NULL)
-        //~ return FALSE;
-
-    //~ /* récupère les widgets */
-    //~ if (!utils_gtkbuilder_merge_ui_data_in_builder (grisbi_prefs_builder, "grisbi_prefs.ui"))
-        //~ return FALSE;
-
-    //~ prefs->priv->hpaned = GTK_WIDGET (gtk_builder_get_object (grisbi_prefs_builder, "dialog_hpaned"));
-    //~ prefs->priv->treeview_left_panel = GTK_WIDGET (gtk_builder_get_object (
-                        //~ grisbi_prefs_builder, "treeview_left_panel"));
-
-    //~ prefs->priv->notebook_prefs = GTK_WIDGET (gtk_builder_get_object (grisbi_prefs_builder, "notebook_prefs"));
-
-    //~ /* notebook files - onglet files */
-    //~ prefs->priv->notebook_files = GTK_WIDGET (gtk_builder_get_object (grisbi_prefs_builder, "notebook_files"));
-    //~ prefs->priv->checkbutton_load_last_file = GTK_WIDGET (gtk_builder_get_object (
-                        //~ grisbi_prefs_builder, "checkbutton_load_last_file"));
-    //~ prefs->priv->checkbutton_sauvegarde_auto = GTK_WIDGET (gtk_builder_get_object (
-                        //~ grisbi_prefs_builder, "checkbutton_sauvegarde_auto"));
-    //~ prefs->priv->checkbutton_force_enregistrement = GTK_WIDGET (gtk_builder_get_object (
-                        //~ grisbi_prefs_builder, "checkbutton_force_enregistrement"));
-    //~ prefs->priv->checkbutton_crypt_file = GTK_WIDGET (gtk_builder_get_object (
-                        //~ grisbi_prefs_builder, "checkbutton_crypt_file"));
-    //~ prefs->priv->checkbutton_compress_file = GTK_WIDGET (gtk_builder_get_object (
-                        //~ grisbi_prefs_builder, "checkbutton_compress_file"));
-    //~ prefs->priv->spinbutton_nb_max_derniers_fichiers_ouverts = GTK_WIDGET (gtk_builder_get_object (
-                        //~ grisbi_prefs_builder, "spinbutton_nb_max_derniers_fichiers_ouverts"));
-    //~ prefs->priv->checkbutton_stable_config_file_model = GTK_WIDGET (gtk_builder_get_object (
-                        //~ grisbi_prefs_builder, "checkbutton_stable_config_file_model"));
-    //~ prefs->priv->filechooserbutton_accounts = GTK_WIDGET (gtk_builder_get_object (
-                        //~ grisbi_prefs_builder, "filechooserbutton_accounts"));
-
-    //~ /* notebook files - onglet backup */
-    //~ prefs->priv->checkbutton_make_bakup_single_file = GTK_WIDGET (gtk_builder_get_object (
-                        //~ grisbi_prefs_builder, "checkbutton_make_bakup_single_file"));
-    //~ prefs->priv->checkbutton_compress_backup = GTK_WIDGET (gtk_builder_get_object (
-                        //~ grisbi_prefs_builder, "checkbutton_compress_backup"));
-    //~ prefs->priv->checkbutton_sauvegarde_demarrage = GTK_WIDGET (gtk_builder_get_object (
-                        //~ grisbi_prefs_builder, "checkbutton_sauvegarde_demarrage"));
-    //~ prefs->priv->checkbutton_make_backup = GTK_WIDGET (gtk_builder_get_object (
-                        //~ grisbi_prefs_builder, "checkbutton_make_backup"));
-    //~ prefs->priv->checkbutton_make_backup_every_minutes = GTK_WIDGET (gtk_builder_get_object (
-                        //~ grisbi_prefs_builder, "checkbutton_make_backup_every_minutes"));
-    //~ prefs->priv->spinbutton_make_backup_nb_minutes = GTK_WIDGET (gtk_builder_get_object (
-                        //~ grisbi_prefs_builder, "spinbutton_make_backup_nb_minutes"));
-    //~ prefs->priv->filechooserbutton_backup = GTK_WIDGET (gtk_builder_get_object (
-                        //~ grisbi_prefs_builder, "filechooserbutton_backup"));
-
-    //~ /* notebook import - onglet settings */
-    //~ prefs->priv->notebook_import = GTK_WIDGET (gtk_builder_get_object (grisbi_prefs_builder, "notebook_import"));
-    //~ prefs->priv->spinbutton_valeur_echelle_recherche_date_import = GTK_WIDGET (gtk_builder_get_object (
-                        //~ grisbi_prefs_builder, "spinbutton_valeur_echelle_recherche_date_import"));
-    //~ prefs->priv->checkbutton_get_fusion_import_transactions = GTK_WIDGET (gtk_builder_get_object (
-                        //~ grisbi_prefs_builder, "checkbutton_get_fusion_import_transactions"));
-    //~ prefs->priv->checkbutton_get_categorie_for_payee = GTK_WIDGET (gtk_builder_get_object (
-                        //~ grisbi_prefs_builder, "checkbutton_get_categorie_for_payee"));
-    //~ prefs->priv->checkbutton_get_extract_number_for_check = GTK_WIDGET (gtk_builder_get_object (
-                        //~ grisbi_prefs_builder, "checkbutton_get_extract_number_for_check"));
-    //~ prefs->priv->radiobutton_get_fyear_by_value_date = GTK_WIDGET (gtk_builder_get_object (
-                        //~ grisbi_prefs_builder, "radiobutton_get_fyear_by_value_date"));
-
-    //~ /* notebook import - onglet associations */
-    //~ prefs->priv->treeview_associations = GTK_WIDGET (gtk_builder_get_object (
-                        //~ grisbi_prefs_builder, "treeview_associations"));
-    //~ prefs->priv->button_associations_add = GTK_WIDGET (gtk_builder_get_object (
-                        //~ grisbi_prefs_builder, "button_associations_add"));
-    //~ prefs->priv->button_associations_remove = GTK_WIDGET (gtk_builder_get_object (
-                        //~ grisbi_prefs_builder, "button_associations_remove"));
-    //~ prefs->priv->hbox_associations_combo_payees = GTK_WIDGET (gtk_builder_get_object (
-                        //~ grisbi_prefs_builder, "hbox_associations_combo_payees"));
-    //~ prefs->priv->entry_associations_search_str = GTK_WIDGET (gtk_builder_get_object (
-                        //~ grisbi_prefs_builder, "entry_associations_search_str"));
-
-    //~ return TRUE;
-//~ }
-
-
 //~ /* RIGHT_PANEL : CALLBACKS */
 
 //~ /**
@@ -524,298 +456,6 @@ GrisbiPrefs *grisbi_prefs_new (GrisbiWin *win)
         //~ *value = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton));
         //~ grisbi_window_etat_mutex_unlock ();
     //~ }
-//~ }
-
-//~ /**
- //~ * Warns that there is no coming back if password is forgotten when
- //~ * encryption is activated.
- //~ *
- //~ * \param checkbox  Checkbox that triggered event.
- //~ * \param data      Unused.
- //~ *
- //~ * \return          FALSE
- //~ */
-//~ static void grisbi_prefs_encryption_toggled (GtkToggleButton *checkbutton,
-                        //~ gboolean *value)
-//~ {
-    //~ gboolean state;
-
-    //~ state = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton));
-    //~ if (value)
-    //~ {
-        //~ *value = state;
-        //~ parametres_files_set_modified (TRUE);
-    //~ }
-
-    //~ if (state)
-    //~ {
-        //~ GrisbiWindowRun *run;
-
-        //~ run = grisbi_window_get_struct_run (NULL);
-        //~ dialog_message ("encryption-is-irreversible");
-        //~ run->new_crypted_file = TRUE;
-    //~ }
-//~ }
-
-//~ /**
- //~ * called when choose a new directory for the account files or backup
- //~ *
- //~ * \param button the GtkFileChooserButton
- //~ * \param dirname
- //~ *
- //~ * \return FALSE
- //~ * */
-//~ static void grisbi_prefs_dir_chosen (GtkWidget *button,
-                        //~ gchar *dirname)
-//~ {
-    //~ gchar *tmp_dir;
-
-    //~ g_signal_handlers_block_by_func (button,
-                        //~ G_CALLBACK (grisbi_prefs_dir_chosen),
-                        //~ dirname);
-
-    //~ tmp_dir = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (button));
-
-    //~ grisbi_app_conf_mutex_lock ();
-    //~ if (strcmp (dirname, "account_files_path") == 0)
-        //~ parametres_files_set_account_file_path (tmp_dir, grisbi_app_get_conf ());
-    //~ else
-        //~ parametres_files_set_backup_path (tmp_dir, grisbi_app_get_conf ());
-    //~ grisbi_app_conf_mutex_unlock ();
-
-    //~ g_signal_handlers_unblock_by_func (button,
-                        //~ G_CALLBACK (grisbi_prefs_dir_chosen),
-                        //~ dirname);
-
-    //~ /* memory free */
-    //~ g_free (tmp_dir);
-//~ }
-
-
-//~ /* RIGHT_PANEL : FILES - BACKUP PAGE */
-//~ /**
- //~ * Création de la page de gestion des fichiers
- //~ *
- //~ * \param prefs
- //~ *
- //~ * \return
- //~ */
-//~ static void grisbi_prefs_setup_files_page (GrisbiPrefs *prefs)
-//~ {
-    //~ GrisbiAppConf *conf;
-    //~ GrisbiWindowEtat *etat;
-
-    //~ conf = grisbi_app_get_conf ();
-    //~ etat = grisbi_window_get_struct_etat ();
-
-    //~ /* set the variables for account tab */
-    //~ gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (prefs->priv->checkbutton_load_last_file),
-                        //~ conf->load_last_file);
-    //~ gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (prefs->priv->checkbutton_sauvegarde_auto),
-                        //~ conf->sauvegarde_auto);
-    //~ gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (prefs->priv->checkbutton_force_enregistrement),
-                        //~ conf->force_enregistrement);
-    //~ gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (prefs->priv->checkbutton_crypt_file),
-                        //~ etat->crypt_file);
-    //~ gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (prefs->priv->checkbutton_compress_file),
-                        //~ conf->compress_file);
-
-    //~ /* set the max number of files */
-    //~ gtk_spin_button_set_value (GTK_SPIN_BUTTON (prefs->priv->spinbutton_nb_max_derniers_fichiers_ouverts),
-                        //~ conf->nb_max_derniers_fichiers_ouverts);
-
-    //~ /* set current folder for account files */
-    //~ gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (prefs->priv->filechooserbutton_accounts),
-                        //~ conf->account_files_path);
-
-    //~ /* Connect signal */
-    //~ g_signal_connect (gtk_builder_get_object (grisbi_prefs_builder, "eventbox_load_last_file"),
-                        //~ "button-press-event",
-                        //~ G_CALLBACK (grisbi_prefs_eventbox_clicked),
-                        //~ prefs->priv->checkbutton_load_last_file);
-
-    //~ g_signal_connect (prefs->priv->checkbutton_load_last_file,
-                        //~ "toggled",
-                        //~ G_CALLBACK (grisbi_prefs_conf_checkbutton_changed),
-                        //~ &conf->load_last_file);
-
-    //~ g_signal_connect (gtk_builder_get_object (grisbi_prefs_builder, "eventbox_sauvegarde_auto"),
-                        //~ "button-press-event",
-                        //~ G_CALLBACK (grisbi_prefs_eventbox_clicked),
-                        //~ prefs->priv->checkbutton_sauvegarde_auto);
-
-    //~ g_signal_connect (prefs->priv->checkbutton_sauvegarde_auto,
-                        //~ "toggled",
-                        //~ G_CALLBACK (grisbi_prefs_conf_checkbutton_changed),
-                        //~ &conf->sauvegarde_auto);
-
-    //~ g_signal_connect (gtk_builder_get_object (grisbi_prefs_builder, "eventbox_force_enregistrement"),
-                        //~ "button-press-event",
-                        //~ G_CALLBACK (grisbi_prefs_eventbox_clicked),
-                        //~ prefs->priv->checkbutton_force_enregistrement);
-
-    //~ g_signal_connect (prefs->priv->checkbutton_force_enregistrement,
-                        //~ "toggled",
-                        //~ G_CALLBACK (grisbi_prefs_conf_checkbutton_changed),
-                        //~ &conf->force_enregistrement);
-
-    //~ g_signal_connect (gtk_builder_get_object (grisbi_prefs_builder, "eventbox_compress_file"),
-                        //~ "button-press-event",
-                        //~ G_CALLBACK (grisbi_prefs_eventbox_clicked),
-                        //~ prefs->priv->checkbutton_compress_file);
-
-    //~ g_signal_connect (prefs->priv->checkbutton_compress_file,
-                        //~ "toggled",
-                        //~ G_CALLBACK (grisbi_prefs_conf_checkbutton_changed),
-                        //~ &conf->compress_file);
-
-    //~ if (IS_DEVELOPMENT_VERSION)
-    //~ {
-        //~ gtk_widget_show (GTK_WIDGET (gtk_builder_get_object (
-                        //~ grisbi_prefs_builder, "paddingbox_file_config")));
-        //~ g_signal_connect (gtk_builder_get_object (grisbi_prefs_builder, "eventbox_stable_config_file_model"),
-                        //~ "button-press-event",
-                        //~ G_CALLBACK (grisbi_prefs_eventbox_clicked),
-                        //~ prefs->priv->checkbutton_stable_config_file_model);
-
-        //~ g_signal_connect (prefs->priv->checkbutton_stable_config_file_model,
-                        //~ "toggled",
-                        //~ G_CALLBACK (grisbi_prefs_conf_checkbutton_changed),
-                        //~ &conf->stable_config_file_model);
-    //~ }
-    //~ else
-        //~ gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (
-                        //~ grisbi_prefs_builder, "paddingbox_file_config")));
-
-    //~ /* callback for encrypted files */
-    //~ g_signal_connect (prefs->priv->checkbutton_crypt_file,
-                        //~ "toggled",
-                        //~ G_CALLBACK (grisbi_prefs_encryption_toggled),
-                        //~ NULL);
-
-    //~ /* callback for spinbutton_nb_max_derniers_fichiers_ouverts */
-    //~ g_signal_connect (prefs->priv->spinbutton_nb_max_derniers_fichiers_ouverts,
-                        //~ "value-changed",
-                        //~ G_CALLBACK (grisbi_prefs_spinbutton_changed),
-                        //~ &conf->nb_max_derniers_fichiers_ouverts);
-
-    //~ /* connect the signal for filechooserbutton_accounts */
-    //~ g_signal_connect (G_OBJECT (prefs->priv->filechooserbutton_accounts),
-                        //~ "selection-changed",
-                        //~ G_CALLBACK (grisbi_prefs_dir_chosen),
-                        //~ "account_files_path");
-
-    //~ /* set the variables for backup tab */
-    //~ gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (prefs->priv->checkbutton_make_bakup_single_file),
-                        //~ conf->make_bakup_single_file);
-    //~ gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (prefs->priv->checkbutton_compress_backup),
-                        //~ conf->compress_backup);
-    //~ gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (prefs->priv->checkbutton_sauvegarde_demarrage),
-                        //~ conf->sauvegarde_demarrage);
-    //~ gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (prefs->priv->checkbutton_make_backup),
-                        //~ conf->make_backup);
-    //~ gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (prefs->priv->checkbutton_make_backup_every_minutes),
-                        //~ conf->make_backup_every_minutes);
-
-    //~ /* set minutes */
-    //~ gtk_spin_button_set_value (GTK_SPIN_BUTTON (prefs->priv->spinbutton_make_backup_nb_minutes),
-                        //~ conf->make_backup_nb_minutes);
-
-    //~ /* set current folder for backup files */
-    //~ gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (prefs->priv->filechooserbutton_backup),
-                        //~ conf->backup_path);
-
-    //~ /* Connect signal */
-    //~ g_signal_connect (gtk_builder_get_object (grisbi_prefs_builder, "eventbox_make_bakup_single_file"),
-                        //~ "button-press-event",
-                        //~ G_CALLBACK (grisbi_prefs_eventbox_clicked),
-                        //~ prefs->priv->checkbutton_make_bakup_single_file);
-
-    //~ g_signal_connect (prefs->priv->checkbutton_make_bakup_single_file,
-                        //~ "toggled",
-                        //~ G_CALLBACK (grisbi_prefs_conf_checkbutton_changed),
-                        //~ &conf->make_bakup_single_file);
-
-    //~ g_signal_connect (gtk_builder_get_object (grisbi_prefs_builder, "eventbox_compress_backup"),
-                        //~ "button-press-event",
-                        //~ G_CALLBACK (grisbi_prefs_eventbox_clicked),
-                        //~ prefs->priv->checkbutton_compress_backup);
-
-    //~ g_signal_connect (prefs->priv->checkbutton_compress_backup,
-                        //~ "toggled",
-                        //~ G_CALLBACK (grisbi_prefs_conf_checkbutton_changed),
-                        //~ &conf->compress_backup);
-
-    //~ g_signal_connect (gtk_builder_get_object (grisbi_prefs_builder, "eventbox_sauvegarde_demarrage"),
-                        //~ "button-press-event",
-                        //~ G_CALLBACK (grisbi_prefs_eventbox_clicked),
-                        //~ prefs->priv->checkbutton_sauvegarde_demarrage);
-
-    //~ g_signal_connect (prefs->priv->checkbutton_sauvegarde_demarrage,
-                        //~ "toggled",
-                        //~ G_CALLBACK (grisbi_prefs_conf_checkbutton_changed),
-                        //~ &conf->sauvegarde_demarrage);
-
-    //~ g_signal_connect (gtk_builder_get_object (grisbi_prefs_builder, "eventbox_make_backup"),
-                        //~ "button-press-event",
-                        //~ G_CALLBACK (grisbi_prefs_eventbox_clicked),
-                        //~ prefs->priv->checkbutton_make_backup);
-
-    //~ g_signal_connect (prefs->priv->checkbutton_make_backup,
-                        //~ "toggled",
-                        //~ G_CALLBACK (grisbi_prefs_conf_checkbutton_changed),
-                        //~ &conf->make_backup);
-
-    //~ g_signal_connect (gtk_builder_get_object (grisbi_prefs_builder, "eventbox_make_backup_every_minutes"),
-                        //~ "button-press-event",
-                        //~ G_CALLBACK (grisbi_prefs_eventbox_clicked),
-                        //~ prefs->priv->checkbutton_make_backup_every_minutes);
-
-    //~ g_signal_connect (prefs->priv->checkbutton_make_backup_every_minutes,
-                        //~ "toggled",
-                        //~ G_CALLBACK (grisbi_prefs_conf_checkbutton_changed),
-                        //~ &conf->make_backup_every_minutes);
-
-    //~ /* callback for spinbutton_make_backup_nb_minutes */
-    //~ g_object_set_data (G_OBJECT (prefs->priv->spinbutton_make_backup_nb_minutes),
-                        //~ "button", prefs->priv->checkbutton_make_backup_every_minutes);
-
-    //~ g_signal_connect (prefs->priv->spinbutton_make_backup_nb_minutes,
-                        //~ "value-changed",
-                        //~ G_CALLBACK (grisbi_prefs_spinbutton_changed),
-                        //~ &conf->make_backup_nb_minutes);
-
-    //~ /* connect the signal for filechooserbutton_backup */
-    //~ g_signal_connect (G_OBJECT (prefs->priv->filechooserbutton_backup),
-                        //~ "selection-changed",
-                        //~ G_CALLBACK (grisbi_prefs_dir_chosen),
-                        //~ "backup_path");
-
-    //~ gtk_notebook_set_current_page (GTK_NOTEBOOK (prefs->priv->notebook_files), 0);
-//~ }
-
-
-//~ /**
- //~ * raffraichissement de la page de gestion des fichiers
- //~ *
- //~ * \param prefs
- //~ *
- //~ * \return
- //~ */
-//~ static void grisbi_prefs_refresh_files_page (GrisbiPrefs *prefs)
-//~ {
-    //~ GrisbiWindowEtat *etat;
-
-    //~ etat = grisbi_window_get_struct_etat ();
-
-    //~ g_signal_handlers_block_by_func (prefs->priv->checkbutton_crypt_file,
-                        //~ G_CALLBACK (grisbi_prefs_encryption_toggled),
-                        //~ NULL);
-    //~ gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (prefs->priv->checkbutton_crypt_file),
-                        //~ etat->crypt_file);
-    //~ g_signal_handlers_unblock_by_func (prefs->priv->checkbutton_crypt_file,
-                        //~ G_CALLBACK (grisbi_prefs_encryption_toggled),
-                        //~ NULL);
 //~ }
 
 //~ /* RIGHT_PANEL : ARCHIVES PAGE */
@@ -928,32 +568,6 @@ GrisbiPrefs *grisbi_prefs_new (GrisbiWin *win)
                         //~ 0);
     //~ parametres_import_associations_init_callback ();
 //~ }
-
-
-//~ /* LEFT_PANEL */
-//~ /**
- //~ * met à jour la taille du panneau de gauche
- //~ *
- //~ * \param hpaned
- //~ * \param allocation
- //~ * \param null
- //~ *
- //~ * \return
- //~ **/
-//~ static gboolean grisbi_prefs_hpaned_size_allocate (GtkWidget *hpaned,
-                        //~ GtkAllocation *allocation,
-                        //~ gpointer null)
-//~ {
-    //~ GrisbiAppConf *conf;
-
-    //~ conf = grisbi_app_get_conf ();
-    //~ conf->prefs_panel_width = gtk_paned_get_position (GTK_PANED (hpaned));
-
-    //~ return FALSE;
-
-//~ }
-
-
 
 
 

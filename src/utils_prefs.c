@@ -270,7 +270,6 @@ gboolean utils_prefs_left_panel_tree_view_selection_changed (GtkTreeSelection *s
         return(FALSE);
 
     gtk_tree_model_get (model, &iter, 1, &selected, -1);
-
     gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), selected);
 
     /* return */
