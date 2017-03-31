@@ -26,12 +26,6 @@ enum
     ELEMENT_CHQ,
 };
 
-
-/* used for gtk_tree_view_column_set_alignment() (GTK2) */
-#define COLUMN_LEFT 0.0
-#define COLUMN_CENTER 0.5
-#define COLUMN_RIGHT 1.0
-
 /* START_INCLUDE_H */
 #include "gsb_real.h"
 /* END_INCLUDE_H */

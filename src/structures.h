@@ -48,6 +48,11 @@
 #define SW_COEFF_UTIL_PG        90             /* Scrolled Window in paddinggrid in prefs */
 #define SW_COEFF_UTIL_SW        93             /* Scrolled Window in prefs */
 
+/* used for gtk_tree_view_column_set_alignment() */
+#define COLUMN_LEFT 0.0
+#define COLUMN_CENTER 0.5
+#define COLUMN_RIGHT 1.0
+
 
 /* declared in grisbi_app.c */
 /* variables initialisées lors de l'ouverture de grisbi par gsettings PROVISOIRE */
