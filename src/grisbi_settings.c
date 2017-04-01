@@ -206,7 +206,7 @@ static void grisbi_settings_init_settings_file (GSettings *settings)
     }
 
     /* archive stuff */
-    conf.check_for_archival = g_settings_get_boolean (settings, "check-for-archival");
+    conf.archives_check_auto = g_settings_get_boolean (settings, "archives-check-auto");
     conf.max_non_archived_transactions_for_check = g_settings_get_int (settings, "max-transactions-before-warn-archival");
 }
 
@@ -665,8 +665,8 @@ void grisbi_settings_save_app_config (void)
                         conf.nb_max_derniers_fichiers_ouverts);
 
     g_settings_set_boolean (priv->settings_file,
-                        "check-for-archival",
-                        conf.check_for_archival);
+                        "archives-check-auto",
+                        conf.archives_check_auto);
     g_settings_set_int (priv->settings_file,
                         "max-transactions-before-warn-archival",
                         conf.max_non_archived_transactions_for_check);

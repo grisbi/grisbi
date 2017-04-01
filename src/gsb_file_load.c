@@ -3866,7 +3866,7 @@ gboolean gsb_file_load_open_file ( gchar *filename )
     /* check now if a lot of transactions,
      * if yes, we propose to file the transactions
      * by default take the 3000 transactions as limit */
-    if ( conf.check_for_archival
+    if ( conf.archives_check_auto
      &&
      (gint) g_slist_length ( gsb_data_transaction_get_transactions_list () ) >
      conf.max_non_archived_transactions_for_check )

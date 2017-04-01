@@ -201,7 +201,7 @@ struct GrisbiAppConf
     gboolean    sauvegarde_auto;                            /* utilisé pour enregistrer le fichier automatiquementà la fermeture */
 
 /* archive stuff */
-    gboolean    check_for_archival;                         /* TRUE if we want to check the number of non archived transactions at the opening */
+    gboolean    archives_check_auto;                  /* TRUE if we want to check the number of non archived transactions at the opening */
     gint        max_non_archived_transactions_for_check;    /* the max number of transaction before grisbi warm at the opening */
 
 /* form part*/
