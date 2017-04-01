@@ -312,13 +312,8 @@ static gboolean grisbi_win_hpaned_size_allocate (GtkWidget *hpaned_general,
 	GrisbiWinPrivate *priv = (GrisbiWinPrivate *) data;
 	gint position;
 
-	//~ printf ("hpaned_general width = %d hpaned_general height = %d\n", allocation->width, allocation->height);
-	//~ printf ("\tnavigation_sw width = %d navigation_sw height = %d\n", priv->navigation_sw_allocation.width, priv->navigation_sw_allocation.height);
-	//~ printf ("\tnotebook_general width = %d notebook_general height = %d\n", priv->notebook_general_allocation.width, priv->notebook_general_allocation.height);
-	//~ if (priv->scheduler_calendar_allocation.width)
-		//~ printf ("\tscheduler_calendar width = %d scheduler_calendar + MARGIN_BOX height = %d\n", priv->scheduler_calendar_allocation.width, priv->scheduler_calendar_allocation.height + MARGIN_BOX);
-	//~ if (priv->form_general_allocation.width)
-		//~ printf ("\tform_general width = %d form_general height = %d\n", priv->form_general_allocation.width, priv->form_general_allocation.height);
+	if (priv->hpaned_general_width == 0)
+		priv->hpaned_general_width = allocation->width;
 
     position = gtk_paned_get_position (GTK_PANED (hpaned_general));
 
