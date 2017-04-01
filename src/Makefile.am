@@ -74,7 +74,6 @@ libgrisbi_la_SOURCES = \
 	grisbi_win.c		\
 	gsb_account.c		\
 	gsb_account_property.c	\
-	gsb_archive_config.c	\
 	gsb_assistant.c		\
 	gsb_assistant_account.c		\
 	gsb_assistant_archive.c		\
@@ -222,7 +221,6 @@ libgrisbi_la_SOURCES = \
 	grisbi_win.h		\
 	gsb_account.h		\
 	gsb_account_property.h	\
-	gsb_archive_config.h	\
 	gsb_assistant.h		\
 	gsb_assistant_account.h		\
 	gsb_assistant_archive.h		\

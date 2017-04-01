@@ -35,7 +35,6 @@
 #include "fenetre_principale.h"
 #include "grisbi_settings.h"
 #include "grisbi_win.h"
-#include "gsb_archive_config.h"
 #include "gsb_automem.h"
 #include "gsb_data_account.h"
 #include "gsb_dirs.h"
