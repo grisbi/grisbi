@@ -322,7 +322,10 @@ static void grisbi_prefs_left_tree_view_setup (GrisbiPrefs *prefs)
 											NULL,
 											NULL);
 
-    /* expand all rows after the treeview widget has been realized */
+	/* set headers hide */
+	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (tree_view), FALSE);
+
+	/* expand all rows after the treeview widget has been realized */
     g_signal_connect (tree_view,
 					  "realize",
 					  G_CALLBACK (utils_tree_view_set_expand_all_and_select_path_realize),

@@ -46,7 +46,6 @@
 #include "fenetre_principale.h"
 #include "grisbi_app.h"
 #include "grisbi_settings.h"
-#include "gsb_archive_config.h"
 #include "gsb_automem.h"
 #include "gsb_bank.h"
 #include "gsb_currency_config.h"
@@ -101,7 +100,6 @@ static gboolean gsb_localisation_format_date_toggle ( GtkToggleButton *togglebut
 static void gsb_localisation_thousands_sep_changed ( GtkComboBoxText *widget, gpointer user_data );
 static void gsb_localisation_update_affichage ( gint type_maj );
 static GtkWidget *onglet_delete_messages ( void );
-static GtkWidget *onglet_fichier ( void );
 static GtkWidget *onglet_localisation ( void );
 static GtkWidget *onglet_messages_and_warnings ( void );
 static GtkWidget *onglet_metatree ( void );
@@ -589,23 +587,23 @@ gboolean preferences ( gint page )
     gtk_box_pack_start ( GTK_BOX ( hbox ), GTK_WIDGET(preference_frame), TRUE, TRUE, 0 );
 
     /* Main subtree */
-    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
-    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-                        &iter,
-                        0, _("Main"),
-                        1, NOT_A_PAGE,
-                        2, 800,
-                        -1);
+    //~ gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
+    //~ gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+                        //~ &iter,
+                        //~ 0, _("Main"),
+                        //~ 1, NOT_A_PAGE,
+                        //~ 2, 800,
+                        //~ -1);
 
-    /* File tab */
-    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
-    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-                        &iter2,
-                        0, _("Files"),
-                        1, FILES_PAGE,
-                        2, 400,
-                        -1);
-    gtk_notebook_append_page (preference_frame, onglet_fichier(), NULL);
+    //~ /* File tab */
+    //~ gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
+    //~ gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+                        //~ &iter2,
+                        //~ 0, _("Files"),
+                        //~ 1, FILES_PAGE,
+                        //~ 2, 400,
+                        //~ -1);
+    //~ gtk_notebook_append_page (preference_frame, onglet_fichier(), NULL);
 
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
@@ -614,7 +612,7 @@ gboolean preferences ( gint page )
                         1, ARCHIVE_PAGE,
                         2, 400,
                         -1);
-    gtk_notebook_append_page (preference_frame, gsb_archive_config_create (), NULL);
+    //~ gtk_notebook_append_page (preference_frame, gsb_archive_config_create (), NULL);
 
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
@@ -1152,131 +1150,6 @@ gboolean gsb_gui_delete_msg_toggled ( GtkCellRendererToggle *cell, gchar *path_s
     gtk_tree_store_set (GTK_TREE_STORE (model), &iter, 0, !delete_msg[position].hidden, -1);
 
     return TRUE;
-}
-
-
-/**
- * Creates the "Files" tab.
- *
- * \returns A newly allocated vbox
- */
-GtkWidget *onglet_fichier ( void )
-{
-    GtkWidget *vbox_pref, *paddingbox;
-    GtkWidget *hbox;
-    GtkWidget *label;
-    GtkWidget *button;
-    GtkWidget *dialog;
-
-    vbox_pref = new_vbox_with_title_and_icon ( _("Files"), "files.png" );
-
-    /* Account file handling */
-    paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,
-                        _("Account files handling"));
-
-    /* Automatically load last file on startup? */
-    button = gsb_automem_checkbutton_new (_("Automatically load last file on startup"),
-                        &conf.dernier_fichier_auto, NULL, NULL );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
-
-    button = gsb_automem_checkbutton_new (_("Automatically save on exit"),
-                        &conf.sauvegarde_auto, NULL, NULL);
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
-
-    /* Warn if file is used by someone else? */
-    button = gsb_automem_checkbutton_new ( _("Forced recording of locked files"),
-                        &conf.force_enregistrement, NULL, NULL );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
-
-    /* Compression level of files */
-    button = gsb_automem_checkbutton_new ( _("Compress Grisbi file"),
-                        &conf.compress_file, NULL, NULL );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
-
-    /* Memorize last opened files in menu */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
-
-    label = gtk_label_new ( _("Memorise last opened files: ") );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
-
-/*    button = gsb_automem_spin_button_new ( &conf.nb_max_derniers_fichiers_ouverts,
-                        G_CALLBACK ( affiche_derniers_fichiers_ouverts ), NULL );
-    gtk_widget_set_size_request ( button, width_spin_button, -1 );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
-*/
-    /* Backups */
-    paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("Backups"));
-
-    /* Single backup file */
-    button = gsb_automem_checkbutton_new ( _("Make a single backup file"),
-                        &conf.make_bakup_single_file, NULL, NULL );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
-
-    /* Compression level of backups */
-    button = gsb_automem_checkbutton_new ( _("Compress Grisbi backup"),
-                        &conf.compress_backup, NULL, NULL );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
-
-    /* Backup at each opening? */
-    button = gsb_automem_checkbutton_new ( _("Make a backup copy after opening files"),
-                        &conf.sauvegarde_demarrage, NULL, NULL);
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
-
-    /* Automatic backup ? */
-    button = gsb_automem_checkbutton_new (_("Make a backup copy before saving files"),
-                        &conf.make_backup, NULL, NULL);
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
-
-    /* Automatic backup every x minutes */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0);
-
-    button = gsb_automem_checkbutton_new (_("Make a backup copy every "),
-                        &conf.make_backup_every_minutes,
-                        G_CALLBACK (gsb_file_automatic_backup_start), NULL);
-    gtk_box_pack_start ( GTK_BOX (hbox), button, FALSE, FALSE, 0 );
-
-    button = gsb_automem_spin_button_new ( &conf.make_backup_nb_minutes,
-                        G_CALLBACK (gsb_file_automatic_backup_change_time), NULL );
-    gtk_widget_set_size_request ( button, width_spin_button, -1 );
-    gtk_box_pack_start ( GTK_BOX (hbox), button, FALSE, FALSE, 0 );
-
-    label = gtk_label_new (_(" minutes"));
-    gtk_box_pack_start ( GTK_BOX (hbox), label, FALSE, FALSE, 0 );
-
-    /* if automatic backup, choose a dir */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0);
-
-    label = gtk_label_new ( _("Backup directory: ") );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0);
-
-    /* on passe par une fonction intermédiaire pour pallier à un bug
-     * du gtk_file_chooser_button_new qui donne le répertoire home
-     * lorsque l'on annule le choix du nouveau répertoire */
-    dialog = utils_files_create_file_chooser (GTK_WIDGET(grisbi_app_get_active_window (NULL)),
-                        _("Select/Create backup directory") );
-
-    button = gtk_file_chooser_button_new_with_dialog ( dialog );
-    if ( gsb_file_get_backup_path ( ) )
-        gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER (button),
-                        gsb_file_get_backup_path ());
-    else
-        gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER (button),
-                        gsb_dirs_get_user_data_dir () );
-    g_signal_connect ( G_OBJECT (button),
-                        "selection-changed",
-                        G_CALLBACK ( gsb_config_backup_dir_chosen ),
-                        dialog );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0);
-
-    gtk_widget_show_all ( vbox_pref );
-
-    if ( !gsb_data_account_get_accounts_amount () )
-        gtk_widget_set_sensitive ( vbox_pref, FALSE );
-
-    return ( vbox_pref );
 }
 
 

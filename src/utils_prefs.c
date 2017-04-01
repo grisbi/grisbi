@@ -351,9 +351,9 @@ void utils_prefs_page_checkbutton_changed (GtkToggleButton *checkbutton,
 											 utils_prefs_spinbutton_changed,
 											 value);
 			if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton)))
-				gtk_spin_button_set_value (GTK_SPIN_BUTTON (spinbutton), 5);
+				gtk_widget_set_sensitive (GTK_WIDGET (spinbutton), TRUE);
             else
-                gtk_spin_button_set_value (GTK_SPIN_BUTTON (spinbutton), 0);
+                gtk_widget_set_sensitive (GTK_WIDGET (spinbutton), FALSE);
 
 			g_signal_handlers_unblock_by_func (G_OBJECT (spinbutton),
 											   utils_prefs_spinbutton_changed,

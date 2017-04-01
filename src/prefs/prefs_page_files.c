@@ -242,7 +242,8 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
                        "button", priv->checkbutton_make_backup_every_minutes);
 	g_object_set_data (G_OBJECT (priv->checkbutton_make_backup_every_minutes),
                        "spinbutton", priv->spinbutton_make_backup_nb_minutes);
-
+	if (!conf.make_backup_every_minutes)
+		gtk_widget_set_sensitive (GTK_WIDGET (priv->spinbutton_make_backup_nb_minutes), FALSE);
 
     g_signal_connect (priv->spinbutton_make_backup_nb_minutes,
 					  "value-changed",
