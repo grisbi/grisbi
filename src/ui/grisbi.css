@@ -109,14 +109,14 @@ GtkTreeView:selected:focus {
 	background-color: @couleur_selection;
 }
 
-GtkTreeView row:nth-child(even) {
+/*GtkTreeView row:nth-child(even) {
 	background-color: @couleur_fond_0;
 }
 
 GtkTreeView row:nth-child(odd) {
 	background-color: @couleur_fond_1;
 }
-
+*/
 /************
  * viewport *
  ************/
