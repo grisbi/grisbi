@@ -116,9 +116,9 @@ struct gsb_etat_t
     gint get_fyear_by_value_date;           /* TRUE to get the fyear by value date, FALSE by date */
 	gint import_files_nb_days;				/* Number of days for search transactions */
 
-    gchar * csv_separator;                              /** CSV separator to use while parsing a CSV file. */
+    gchar * csv_separator;                              /* CSV separator to use while parsing a CSV file. */
     gboolean csv_skipped_lines [ CSV_MAX_TOP_LINES ];   /* Contains a pointer to skipped lines in CSV preview. */
-
+	gboolean csv_force_date_valeur_with_date;			/* force la date de valeur si non présente dans le fichier */
     gint get_qif_use_field_extract_method_payment;      /* use the field 'N' to define the method of payment */
 
     /* export files */
@@ -200,6 +200,8 @@ struct GrisbiAppConf
     gint        nb_max_derniers_fichiers_ouverts;           /* contient le nb max que peut contenir nb_derniers_fichiers_ouverts */
     gint        nb_derniers_fichiers_ouverts;               /* contient le nb de derniers fichiers ouverts */
     gboolean    sauvegarde_auto;                            /* utilisé pour enregistrer le fichier automatiquementà la fermeture */
+	gboolean	force_import_directory;						/* force l'utilisation d'un répertoire pour l'importation des fichiers */
+	 gchar *    import_directory;                          	/* répertoire par défaut pour l'importation des fichiers */
 
 /* archive stuff */
     gboolean    archives_check_auto;                  /* TRUE if we want to check the number of non archived transactions at the opening */
