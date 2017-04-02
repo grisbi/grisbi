@@ -2556,7 +2556,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
                     gsb_data_transaction_set_notes ( transaction_number,
                             imported_transaction -> tiers );
             }
-            if ( etat.get_extract_number_for_check )
+            if ( etat.extract_number_for_check )
             {
                 tmpstr = gsb_string_extract_int ( imported_transaction -> tiers );
                 if ( tmpstr && strlen ( tmpstr ) > 0 )
@@ -2604,7 +2604,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
                 gsb_data_transaction_set_notes ( transaction_number,
                         imported_transaction -> tiers );
         }
-        if ( etat.get_extract_number_for_check )
+        if ( etat.extract_number_for_check )
         {
             tmpstr = gsb_string_extract_int ( imported_transaction -> tiers );
             if ( tmpstr && strlen ( tmpstr ) > 0 )
@@ -3719,7 +3719,7 @@ GtkWidget *onglet_importation (void)
 
     button = gsb_automem_checkbutton_new (
                         _("Extracting a number and save it in the field No Cheque/Virement"),
-                        &etat.get_extract_number_for_check,
+                        &etat.extract_number_for_check,
                         NULL, NULL );
 
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
