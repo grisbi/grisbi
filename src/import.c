@@ -3741,7 +3741,7 @@ GtkWidget *onglet_importation (void)
 
     button = gsb_automem_checkbutton_new (
                         _("If possible use the field « N » to define the methods of payment "),
-                        &etat.get_qif_use_field_extract_method_payment,
+                        &etat.qif_use_field_extract_method_payment,
                         NULL, NULL );
 
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );

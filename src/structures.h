@@ -119,7 +119,7 @@ struct gsb_etat_t
     gchar * csv_separator;                              /* CSV separator to use while parsing a CSV file. */
     gboolean csv_skipped_lines [ CSV_MAX_TOP_LINES ];   /* Contains a pointer to skipped lines in CSV preview. */
 	gboolean csv_force_date_valeur_with_date;			/* force la date de valeur si non présente dans le fichier */
-    gint get_qif_use_field_extract_method_payment;      /* use the field 'N' to define the method of payment */
+    gint qif_use_field_extract_method_payment;      	/* use the field 'N' to define the method of payment */
 
     /* export files */
     gint export_file_format;                /* EXPORT_QIF or EXPORT_CSV */
@@ -201,10 +201,10 @@ struct GrisbiAppConf
     gint        nb_derniers_fichiers_ouverts;               /* contient le nb de derniers fichiers ouverts */
     gboolean    sauvegarde_auto;                            /* utilisé pour enregistrer le fichier automatiquementà la fermeture */
 	gboolean	force_import_directory;						/* force l'utilisation d'un répertoire pour l'importation des fichiers */
-	 gchar *    import_directory;                          	/* répertoire par défaut pour l'importation des fichiers */
+	gchar *     import_directory;                          	/* répertoire par défaut pour l'importation des fichiers */
 
 /* archive stuff */
-    gboolean    archives_check_auto;                  /* TRUE if we want to check the number of non archived transactions at the opening */
+    gboolean    archives_check_auto;                  		/* TRUE if we want to check the number of non archived transactions at the opening */
     gint        max_non_archived_transactions_for_check;    /* the max number of transaction before grisbi warm at the opening */
 
 /* form part*/
