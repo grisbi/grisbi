@@ -152,7 +152,6 @@ static gboolean bet_array_update_average_column ( GtkTreeModel *model,
 /*START_EXTERN*/
 extern gint nb_days_before_scheduled;
 extern const gdouble prev_month_max;
-extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/
 
 /* gestion de la largeur des colonnes du tableau */
@@ -199,13 +198,13 @@ static gboolean bet_array_list_replace_line_by_transfert ( GtkTreeModel *tab_mod
                     g_date_get_month ( transfert -> date ),
                     g_date_get_year ( transfert -> date ));
         g_date_subtract_days ( date_debut_comparaison,
-                    valeur_echelle_recherche_date_import );
+                    etat.import_files_nb_days );
 
         date_fin_comparaison = g_date_new_dmy ( g_date_get_day ( transfert -> date ),
                     g_date_get_month ( transfert -> date ),
                     g_date_get_year ( transfert -> date ));
         g_date_add_days ( date_fin_comparaison,
-                    valeur_echelle_recherche_date_import );
+                    etat.import_files_nb_days );
 
         do
         {
@@ -3099,10 +3098,10 @@ void bet_array_create_transaction_from_transfert (struct_transfert_data *transfe
     year = g_date_get_year ( transfert->date );
 
     date_debut_comparaison = g_date_new_dmy ( day, month, year );
-    g_date_subtract_days ( date_debut_comparaison, valeur_echelle_recherche_date_import );
+    g_date_subtract_days ( date_debut_comparaison, etat.import_files_nb_days );
 
     date_fin_comparaison = g_date_new_dmy ( day, month, year );
-    g_date_add_days ( date_fin_comparaison, valeur_echelle_recherche_date_import );
+    g_date_add_days ( date_fin_comparaison, etat.import_files_nb_days );
 
     date_jour = gdate_today ();
     date_exec = g_date_new_dmy (day, month, year);

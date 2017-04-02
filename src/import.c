@@ -200,7 +200,6 @@ static struct import_format builtin_formats[] =
 
 /** used to keep the number of the mother transaction while importing split transactions */
 static gint mother_transaction_number;
-gint valeur_echelle_recherche_date_import;
 GSList *liste_comptes_importes;
 GSList *liste_comptes_importes_error;
 static gint virements_a_chercher;
@@ -2184,10 +2183,10 @@ gboolean gsb_import_define_action ( struct struct_compte_importation *imported_a
             year = g_date_get_year ( imported_transaction->date );
 
             date_debut_comparaison = g_date_new_dmy ( day, month, year );
-            g_date_subtract_days ( date_debut_comparaison, valeur_echelle_recherche_date_import );
+            g_date_subtract_days ( date_debut_comparaison, etat.import_files_nb_days );
 
             date_fin_comparaison = g_date_new_dmy ( day, month, year );
-            g_date_add_days ( date_fin_comparaison, valeur_echelle_recherche_date_import );
+            g_date_add_days ( date_fin_comparaison, etat.import_files_nb_days );
 
             if ( !gsb_real_cmp ( gsb_data_transaction_get_amount (
              transaction_number), imported_transaction->montant )
@@ -3005,10 +3004,10 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account,
             year = g_date_get_year ( ope_import->date );
 
             date_debut_comparaison = g_date_new_dmy ( day, month, year );
-            g_date_subtract_days ( date_debut_comparaison, valeur_echelle_recherche_date_import );
+            g_date_subtract_days ( date_debut_comparaison, etat.import_files_nb_days );
 
             date_fin_comparaison = g_date_new_dmy ( day, month, year );
-            g_date_add_days ( date_fin_comparaison, valeur_echelle_recherche_date_import );
+            g_date_add_days ( date_fin_comparaison, etat.import_files_nb_days );
 
             if ( imported_account->invert_transaction_amount )
                 ope_import->montant =  gsb_real_opposite ( ope_import->montant );
@@ -3131,18 +3130,18 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account,
 
                 ope_import_tmp = liste_ope_importees_tmp -> data;
 
-                /* we look for a date around ope_import_tmp with +- valeur_echelle_recherche_date_import */
+                /* we look for a date around ope_import_tmp with +- etat.import_files_nb_days */
                 date_debut_comparaison = g_date_new_dmy ( g_date_get_day ( ope_import_tmp -> date ),
                                         g_date_get_month ( ope_import_tmp -> date ),
                                         g_date_get_year ( ope_import_tmp -> date ));
                 g_date_subtract_days ( date_debut_comparaison,
-                                        valeur_echelle_recherche_date_import );
+                                        etat.import_files_nb_days );
 
                 date_fin_comparaison = g_date_new_dmy ( g_date_get_day ( ope_import_tmp -> date ),
                                         g_date_get_month ( ope_import_tmp -> date ),
                                         g_date_get_year ( ope_import_tmp -> date ));
                 g_date_add_days ( date_fin_comparaison,
-                                        valeur_echelle_recherche_date_import );
+                                        etat.import_files_nb_days );
 
                 if ( !gsb_real_cmp ( ope_import_tmp -> montant,
                          ope_import -> montant  )
@@ -3442,7 +3441,7 @@ GDate *gsb_import_get_first_date ( GSList *import_list )
     }
 
     first_date = gsb_date_copy ( first_date );
-    g_date_subtract_days ( first_date, valeur_echelle_recherche_date_import );
+    g_date_subtract_days ( first_date, etat.import_files_nb_days );
 
     return first_date;
 }
@@ -3686,7 +3685,7 @@ GtkWidget *onglet_importation (void)
                         100.0,
                         1.0);
     gtk_spin_button_set_value ( GTK_SPIN_BUTTON ( button ),
-                        (gdouble) valeur_echelle_recherche_date_import );
+                        (gdouble) etat.import_files_nb_days );
     g_signal_connect ( G_OBJECT ( button ),
                         "value-changed",
                         G_CALLBACK ( changement_valeur_echelle_recherche_date_import ),
@@ -4297,7 +4296,7 @@ gboolean gsb_import_associations_check_add_button ( GObject * main_widget )
 /* *******************************************************************************/
 gboolean changement_valeur_echelle_recherche_date_import ( GtkWidget *spin_button )
 {
-    valeur_echelle_recherche_date_import = gtk_spin_button_get_value_as_int ( GTK_SPIN_BUTTON ( spin_button ));
+    etat.import_files_nb_days = gtk_spin_button_get_value_as_int ( GTK_SPIN_BUTTON ( spin_button ));
     gsb_file_set_modified ( TRUE );
     return ( FALSE );
 }

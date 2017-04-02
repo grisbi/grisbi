@@ -105,7 +105,6 @@ extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COL
 extern gchar *titre_fichier;
 extern gint transaction_col_align[CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern gint transaction_col_width[CUSTOM_MODEL_VISIBLE_COLUMNS];
-extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/
 
 static struct
@@ -336,7 +335,7 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
 
             case 'I':
                 if ( !strcmp ( attribute_names[i], "Import_interval_search" ))
-                    valeur_echelle_recherche_date_import = utils_str_atoi ( attribute_values[i]);
+					etat.import_files_nb_days = utils_str_atoi ( attribute_values[i]);
 
                 else if ( !strcmp ( attribute_names[i], "Import_copy_payee_in_note" ))
                     etat.get_copy_payee_in_note = utils_str_atoi ( attribute_values[i]);

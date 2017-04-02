@@ -164,7 +164,6 @@ extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COL
 extern gchar *titre_fichier;
 extern gint transaction_col_align[CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern gint transaction_col_width[CUSTOM_MODEL_VISIBLE_COLUMNS];
-extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/
 
 /******************************************************************************/
@@ -792,7 +791,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	etat.affichage_echeances,
 	etat.affichage_echeances_perso_nb_libre,
 	etat.affichage_echeances_perso_j_m_a,
-	valeur_echelle_recherche_date_import,
+	etat.import_files_nb_days,
 	etat.get_copy_payee_in_note,
 	etat.get_extract_number_for_check,
 	etat.get_fusion_import_transactions,

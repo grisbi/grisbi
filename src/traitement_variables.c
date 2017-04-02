@@ -116,7 +116,6 @@ extern gint scheduler_current_tree_view_width;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern gint transaction_col_align[CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern gint transaction_col_width[CUSTOM_MODEL_VISIBLE_COLUMNS];
-extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/
 
 /* the total of % of scheduled columns can be > 100 because all the columns are not showed at the same time */
@@ -233,7 +232,7 @@ void init_variables ( void )
 
     initialise_tab_affichage_ope();
 
-    valeur_echelle_recherche_date_import = 2;
+    etat.import_files_nb_days = 2;
     etat.get_fyear_by_value_date = FALSE;
 
     /* init default combofix values */

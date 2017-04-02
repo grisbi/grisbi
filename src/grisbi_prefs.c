@@ -44,6 +44,7 @@
 #include "utils_prefs.h"
 #include "prefs/prefs_page_archives.h"
 #include "prefs/prefs_page_files.h"
+#include "prefs/prefs_page_import_files.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -78,10 +79,11 @@ struct _GrisbiPrefsPrivate
     GtkWidget *         notebook_prefs;
 	GtkWidget *			vbox_files;
 	GtkWidget *			vbox_archives;
+	GtkWidget * 		vbox_import_page;
+	GtkWidget *			label_import_page_1;
+	GtkWidget *			label_import_page_2;
 
     /* notebook import */
-    GtkWidget *          notebook_import;
-    GtkWidget *          spinbutton_valeur_echelle_recherche_date_import;
     GtkWidget *          checkbutton_get_fusion_import_transactions;
     GtkWidget *          checkbutton_get_categorie_for_payee;
     GtkWidget *          checkbutton_get_extract_number_for_check;
@@ -198,6 +200,52 @@ static void grisbi_prefs_setup_files_page (GrisbiPrefs *prefs)
 	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_prefs), priv->vbox_files, NULL);
 }
 
+/**
+ * Création de la page pour l'importation. Cette page comporte deux onglets
+ * - 1 pour les fichiers
+ * - 1 pour les associations
+ *
+ * \param prefs
+ *
+ * \return
+ */
+static void grisbi_prefs_setup_import_page (GrisbiPrefs *prefs)
+{
+	GtkWidget *head_page;
+	GtkWidget *notebook_import_pages;
+	GtkWidget *vbox_import_files;
+	//~ GtkWidget *vbox_import_asso;
+	GrisbiPrefsPrivate *priv;
+
+	devel_debug (NULL);
+
+	priv = grisbi_prefs_get_instance_private (prefs);
+
+	/* On récupère le nom de la page */
+	head_page = utils_prefs_head_page_new_with_title_and_icon (_("Import"), "import.png");
+
+	gtk_box_pack_start (GTK_BOX (priv->vbox_import_page), head_page, FALSE, FALSE, 0);
+	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_prefs), priv->vbox_import_page, NULL);
+
+	/* set notebook for import */
+	notebook_import_pages = gtk_notebook_new ();
+	gtk_box_pack_start (GTK_BOX (priv->vbox_import_page), notebook_import_pages, FALSE, FALSE, 0);
+
+	/* set import settings */
+	vbox_import_files = GTK_WIDGET (prefs_page_import_files_new (prefs));
+	gtk_widget_set_margin_top (vbox_import_files, MARGIN_TOP);
+	gtk_notebook_append_page (GTK_NOTEBOOK (notebook_import_pages), vbox_import_files, NULL);
+	gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook_import_pages), vbox_import_files, priv->label_import_page_1);
+
+	/* set manage associations */
+	//~ vbox_import_asso = GTK_WIDGET (prefs_page_import_files_new (prefs));
+	//~ gtk_widget_set_margin_top (vbox_import_asso, MARGIN_TOP);
+	//~ gtk_notebook_append_page (GTK_NOTEBOOK (notebook_import_pages), vbox_import_asso, NULL);
+	//~ gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook_import_pages), vbox_import_asso, priv->label_import_page_2);
+
+	gtk_widget_show (notebook_import_pages);
+}
+
 /* LEFT PANED */
  /**
  * remplit le model pour la configuration des états
@@ -227,9 +275,9 @@ static void grisbi_prefs_left_panel_populate_tree_model (GtkTreeStore *tree_mode
     page++;
 
      /* append page Import */
-    //~ grisbi_prefs_setup_import_page (prefs);
-    //~ utils_prefs_left_panel_add_line (tree_model, &iter, NULL, NULL, _("Import"), page);
-    //~ page++;
+    grisbi_prefs_setup_import_page (prefs);
+    utils_prefs_left_panel_add_line (tree_model, &iter, NULL, NULL, _("Import"), page);
+    page++;
 
    /* append group page "Display" */
     utils_prefs_left_panel_add_line (tree_model, &iter, NULL, NULL, _("Display"), -1);
@@ -407,8 +455,12 @@ static void grisbi_prefs_class_init (GrisbiPrefsClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiPrefs, left_treeview);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiPrefs, togglebutton_expand_prefs);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiPrefs, notebook_prefs);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiPrefs, vbox_import_page);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiPrefs, label_import_page_1);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiPrefs, label_import_page_2);
 
-    /* signaux */
+
+	/* signaux */
     gtk_widget_class_bind_template_callback (GTK_WIDGET_CLASS (klass), grisbi_prefs_dialog_response);
     gtk_widget_class_bind_template_callback (GTK_WIDGET_CLASS (klass), grisbi_prefs_size_allocate);
 	gtk_widget_class_bind_template_callback (GTK_WIDGET_CLASS (klass), grisbi_prefs_paned_size_allocate);
