@@ -45,6 +45,7 @@
 
 /*END_INCLUDE*/
 
+/*START_EXTERN*/
 /*END_EXTERN*/
 
 typedef struct _PrefsPageFilesPrivate   PrefsPageFilesPrivate;
