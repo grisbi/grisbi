@@ -2063,7 +2063,7 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 	    transaction_number = gsb_import_create_transaction ( imported_transaction,
                         account_number, imported_account -> origine );
 
-        if ( etat.get_fusion_import_transactions &&
+        if ( etat.fusion_import_transactions &&
                         imported_transaction -> ope_correspondante > 0 )
         {
             gsb_transactions_list_update_transaction ( transaction_number );
@@ -2160,7 +2160,7 @@ gboolean gsb_import_define_action ( struct struct_compte_importation *imported_a
                 tmp_str = gsb_data_transaction_get_method_of_payment_content ( transaction_number );
                 if ( tmp_str && strcmp ( imported_transaction->cheque, tmp_str ) == 0 )
                 {
-                    if ( etat.get_fusion_import_transactions )
+                    if ( etat.fusion_import_transactions )
                     {
                         imported_transaction->action = IMPORT_TRANSACTION_ASK_FOR_TRANSACTION;
                         imported_transaction->ope_correspondante = transaction_number;
@@ -2199,7 +2199,7 @@ gboolean gsb_import_define_action ( struct struct_compte_importation *imported_a
              &&
              !imported_transaction -> ope_de_ventilation
              &&
-             ( !etat.get_fusion_import_transactions
+             ( !etat.fusion_import_transactions
              ||
              !gsb_data_transaction_get_id ( transaction_number ) ) )
             {
@@ -2248,7 +2248,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
     gboolean ope_visible = FALSE;
 
     /* pbiava the 03/17/2009 modifications pour la fusion des opérations */
-    if ( etat.get_fusion_import_transactions )
+    if ( etat.fusion_import_transactions )
         tmpstr = g_strdup_printf (
                         _("Confirmation of transactions to be merged in: %s"),
                         gsb_data_account_get_name ( account_number ) );
@@ -2270,7 +2270,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
     gtk_window_set_resizable ( GTK_WINDOW ( dialog ), TRUE );
     gtk_container_set_border_width ( GTK_CONTAINER(dialog), BOX_BORDER_WIDTH );
 
-    if ( etat.get_fusion_import_transactions )
+    if ( etat.fusion_import_transactions )
     {
         gtk_dialog_set_response_sensitive   ( GTK_DIALOG ( dialog ), -12, FALSE );
         tmpstr = g_strdup (
@@ -2340,7 +2340,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 	    gtk_widget_show ( hbox );
 
 	    ope_import -> bouton = gtk_check_button_new ();
-        if ( etat.get_fusion_import_transactions )
+        if ( etat.fusion_import_transactions )
             gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( ope_import -> bouton ), TRUE );
         g_object_set_data ( G_OBJECT ( ope_import -> bouton ), "dialog", dialog );
         g_signal_connect ( ope_import -> bouton,
@@ -2353,7 +2353,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
         return_exponent = gsb_data_account_get_currency_floating_point ( account_number );
 	    tmpstr2 = utils_real_get_string ( gsb_real_adjust_exponent ( ope_import -> montant,
                         return_exponent ) );
-        if ( etat.get_fusion_import_transactions )
+        if ( etat.fusion_import_transactions )
             tmpstr = g_strdup_printf ( _("Transaction to be merged: %s ; %s ; %s"),
                         gsb_format_gdate ( ope_import -> date ),
                         ope_import -> tiers,
@@ -2469,7 +2469,7 @@ dialog_return:
             if ( ope_import -> operation_ventilee )
                 action_derniere_ventilation = 0;
         }
-        else if ( etat.get_fusion_import_transactions &&
+        else if ( etat.fusion_import_transactions &&
                         ope_import -> ope_correspondante > 0 )
         {
             ope_import -> action = 0;
@@ -2505,7 +2505,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
     gint payment_number = 0;
     gchar* tmpstr = NULL;
 
-    if ( etat.get_fusion_import_transactions
+    if ( etat.fusion_import_transactions
      &&
      imported_transaction -> ope_correspondante > 0 )
         transaction_number = imported_transaction -> ope_correspondante;
@@ -2541,7 +2541,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
         gsb_data_transaction_set_financial_year_number ( transaction_number, fyear );
 
     /* on sort de la fonction si on a fusionné des opérations */
-    if ( etat.get_fusion_import_transactions
+    if ( etat.fusion_import_transactions
      &&
      imported_transaction -> ope_correspondante > 0 )
     {
@@ -3698,7 +3698,7 @@ GtkWidget *onglet_importation (void)
 
     button = gsb_automem_checkbutton_new (
                         _("Merge the imported transactions with the transactions found"),
-                        &etat.get_fusion_import_transactions, NULL, NULL );
+                        &etat.fusion_import_transactions, NULL, NULL );
 
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
 

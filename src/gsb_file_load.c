@@ -344,7 +344,7 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
                     etat.get_extract_number_for_check = utils_str_atoi ( attribute_values[i]);
 
                 else if ( !strcmp ( attribute_names[i], "Import_fusion_transactions" ))
-                    etat.get_fusion_import_transactions = utils_str_atoi ( attribute_values[i]);
+                    etat.fusion_import_transactions = utils_str_atoi ( attribute_values[i]);
 
                 else if ( !strcmp ( attribute_names[i], "Import_categorie_for_payee" ))
                     etat.get_categorie_for_payee = utils_str_atoi ( attribute_values[i]);
