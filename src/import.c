@@ -2550,7 +2550,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
          strlen (imported_transaction -> tiers) )
         {
             /* Before leaving, we retrieve the data from payee */
-            if ( etat.get_copy_payee_in_note )
+            if ( etat.copy_payee_in_note )
             {
                 if ( gsb_data_transaction_get_notes ( transaction_number ) == NULL )
                     gsb_data_transaction_set_notes ( transaction_number,
@@ -2596,7 +2596,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
             payee_number = gsb_data_payee_get_number_by_name (
                         imported_transaction -> tiers, TRUE );
         }
-        else if ( etat.get_copy_payee_in_note )
+        else if ( etat.copy_payee_in_note )
         {
             if ( g_utf8_collate ( gsb_data_payee_get_name (
                         payee_number, FALSE ),
@@ -3727,7 +3727,7 @@ GtkWidget *onglet_importation (void)
     /* recopier le tiers dans les notes */
     button = gsb_automem_checkbutton_new (
                         _("Coping the original payee in the notes"),
-                        &etat.get_copy_payee_in_note,
+                        &etat.copy_payee_in_note,
                         NULL, NULL );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 

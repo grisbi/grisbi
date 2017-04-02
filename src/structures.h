@@ -110,7 +110,7 @@ struct gsb_etat_t
 
     /* import files */
     gint extract_number_for_check;      	/* TRUE if Extracting a number and save it in the field No Cheque/Virement */
-    gint get_copy_payee_in_note;            /* TRUE si recopie le tiers dans les notes FALSE par défaut */
+    gint copy_payee_in_note;            	/* TRUE si recopie le tiers dans les notes FALSE par défaut */
     gint fusion_import_transactions;    	/* TRUE if merge transactions imported with transactions found*/
     gint associate_categorie_for_payee;		/* TRUE to automatically retrieve the category of the payee if it exists */
     gint get_fyear_by_value_date;           /* TRUE to get the fyear by value date, FALSE by date */
