@@ -33,6 +33,7 @@
 
 /*START_INCLUDE*/
 #include "grisbi_prefs.h"
+#include "affichage.h"
 #include "dialog.h"
 #include "grisbi_app.h"
 #include "gsb_dirs.h"
@@ -77,8 +78,6 @@ struct _GrisbiPrefsPrivate
 
     /* notebook de droite */
     GtkWidget *         notebook_prefs;
-	GtkWidget *      	vbox_files;
-	GtkWidget *      	vbox_archives;
 	GtkWidget *     	vbox_import_page;
 	GtkWidget *      	label_import_page_1;
 	GtkWidget *      	label_import_page_2;
@@ -152,44 +151,6 @@ static gboolean grisbi_prefs_paned_size_allocate (GtkWidget *prefs_hpaned,
 
 /* RIGHT PANED */
 /**
- * Création de la page de gestion des archives
- *
- * \param prefs
- *
- * \return
- */
-static void grisbi_prefs_setup_archives_page (GrisbiPrefs *prefs)
-{
-	GrisbiPrefsPrivate *priv;
-
-	devel_debug (NULL);
-
-	priv = grisbi_prefs_get_instance_private (prefs);
-
-	priv->vbox_archives = GTK_WIDGET (prefs_page_archives_new (prefs));
-	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_prefs), priv->vbox_archives, NULL);
-}
-
-/**
- * Création de la page de gestion des fichiers
- *
- * \param prefs
- *
- * \return
- */
-static void grisbi_prefs_setup_files_page (GrisbiPrefs *prefs)
-{
-	GrisbiPrefsPrivate *priv;
-
-	devel_debug (NULL);
-
-	priv = grisbi_prefs_get_instance_private (prefs);
-
-	priv->vbox_files = GTK_WIDGET (prefs_page_files_new (prefs));
-	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_prefs), priv->vbox_files, NULL);
-}
-
-/**
  * Création de la page pour l'importation. Cette page comporte deux onglets
  * - 1 pour les fichiers
  * - 1 pour les associations
@@ -248,57 +209,66 @@ static void grisbi_prefs_setup_import_page (GrisbiPrefs *prefs)
 static void grisbi_prefs_left_panel_populate_tree_model (GtkTreeStore *tree_model,
 														 GrisbiPrefs *prefs)
 {
-    GtkTreeIter iter;
+    GtkWidget *widget = NULL;
     gint page = 0;
+	GrisbiPrefsPrivate *priv;
 
-    /* append group page "Main" */
-    utils_prefs_left_panel_add_line (tree_model, &iter, NULL, NULL, _("Main"), -1);
+	devel_debug (NULL);
+
+	priv = grisbi_prefs_get_instance_private (prefs);
+
+	/* append group page "Main" */
+    utils_prefs_left_panel_add_line (tree_model, NULL, NULL, _("Main"), -1);
 
     /* append page Fichiers */
-    grisbi_prefs_setup_files_page (prefs);
-    utils_prefs_left_panel_add_line (tree_model, &iter, NULL, NULL, _("Files"), page);
+	widget = GTK_WIDGET (prefs_page_files_new (prefs));
+    utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Files"), page);
     page++;
 
      /* append page Archives */
-    grisbi_prefs_setup_archives_page (prefs);
-    utils_prefs_left_panel_add_line (tree_model, &iter, NULL, NULL, _("Archives"), page);
+	widget = GTK_WIDGET (prefs_page_archives_new (prefs));
+    utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Archives"), page);
     page++;
 
      /* append page Import */
     grisbi_prefs_setup_import_page (prefs);
-    utils_prefs_left_panel_add_line (tree_model, &iter, NULL, NULL, _("Import"), page);
+    utils_prefs_left_panel_add_line (tree_model, NULL, NULL, _("Import"), page);
     page++;
+
+	widget = GTK_WIDGET (onglet_accueil ());
+	utils_widget_set_padding (widget, MARGIN_BOX, 0);
+	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Main page"), page);
+	page++;
 
    /* append group page "Display" */
-    utils_prefs_left_panel_add_line (tree_model, &iter, NULL, NULL, _("Display"), -1);
-    page++;
+    utils_prefs_left_panel_add_line (tree_model, NULL, NULL, _("Display"), -1);
+
+     /* append page Fonts & logo */
+	widget = GTK_WIDGET (onglet_display_fonts ());
+	utils_widget_set_padding (widget, MARGIN_BOX, 0);
+	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Fonts & Logo"), page);
+	page++;
+
+	/* append page Messages & warnings */
+	widget = GTK_WIDGET (onglet_messages_and_warnings ());
+	utils_widget_set_padding (widget, MARGIN_BOX, 0);
+	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Messages & warnings"), page);
+	page++;
 
     /* append group page "Transactions" */
-    utils_prefs_left_panel_add_line (tree_model, &iter, NULL, NULL, _("Transactions"), -1);
-    page++;
+    utils_prefs_left_panel_add_line (tree_model, NULL, NULL, _("Transactions"), -1);
 
     /* append group page "Transaction form" */
-    utils_prefs_left_panel_add_line (tree_model, &iter, NULL, NULL, _("Transaction form"), -1);
-    page++;
+    utils_prefs_left_panel_add_line (tree_model, NULL, NULL, _("Transaction form"), -1);
 
     /* append group page "Resources" */
-    utils_prefs_left_panel_add_line (tree_model, &iter, NULL, NULL, _("Resources"), -1);
-    page++;
+    utils_prefs_left_panel_add_line (tree_model, NULL, NULL, _("Resources"), -1);
 
     /* append group page "Balance estimate" */
-    utils_prefs_left_panel_add_line (tree_model, &iter, NULL, NULL, _("Balance estimate"), -1);
-    page++;
+    utils_prefs_left_panel_add_line (tree_model, NULL, NULL, _("Balance estimate"), -1);
 
     /* append group page "Graphiques" */
-    utils_prefs_left_panel_add_line (tree_model, &iter, NULL, NULL, _("Graphs"), -1);
-    page++;
-
-    //~ if (grisbi_app_get_active_filename () == NULL)
-        //~ grisbi_prefs_sensitive_etat_widgets (prefs, FALSE);
-    //~ else
-        //~ grisbi_prefs_sensitive_etat_widgets (prefs, TRUE);
-
-    /* return */
+    utils_prefs_left_panel_add_line (tree_model, NULL, NULL, _("Graphs"), -1);
 }
 
 /**

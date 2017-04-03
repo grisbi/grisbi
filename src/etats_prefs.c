@@ -645,96 +645,95 @@ static void etats_prefs_left_panel_populate_tree_model ( GtkTreeStore *tree_mode
                         GtkWidget *notebook )
 {
     GtkWidget *widget = NULL;
-    GtkTreeIter iter;
     gint page = 0;
 
     /* append group page */
-    utils_prefs_left_panel_add_line ( tree_model, &iter, NULL, NULL, _("Data selection"), -1 );
+    utils_prefs_left_panel_add_line ( tree_model, NULL, NULL, _("Data selection"), -1 );
 
     /* append page Dates */
     widget = etats_prefs_onglet_periode_create_page ( page );
-    utils_prefs_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Dates"), page );
+    utils_prefs_left_panel_add_line ( tree_model, notebook, widget, _("Dates"), page );
     page++;
 
     /* append page Transferts */
     widget = etats_prefs_onglet_virements_create_page ( page );
-    utils_prefs_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Transfers"), page );
+    utils_prefs_left_panel_add_line ( tree_model, notebook, widget, _("Transfers"), page );
     page++;
 
     /* append page Accounts */
     widget = etats_prefs_onglet_comptes_create_page ( page );
-    utils_prefs_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Accounts"), page );
+    utils_prefs_left_panel_add_line ( tree_model, notebook, widget, _("Accounts"), page );
     page++;
 
     /* append page Payee */
     widget = etats_prefs_onglet_tiers_create_page ( page );
-    utils_prefs_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Payee"), page );
+    utils_prefs_left_panel_add_line ( tree_model, notebook, widget, _("Payee"), page );
     page++;
 
     /* append page Categories */
     widget = etats_prefs_onglet_categories_create_page ( page );
-    utils_prefs_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Categories"), page );
+    utils_prefs_left_panel_add_line ( tree_model, notebook, widget, _("Categories"), page );
     page++;
 
     /* append page Budgetary lines */
     widget = etats_prefs_onglet_budgets_create_page ( page );
-    utils_prefs_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Budgetary lines"), page );
+    utils_prefs_left_panel_add_line ( tree_model, notebook, widget, _("Budgetary lines"), page );
     page++;
 
     /* append page Texts */
     widget = etats_prefs_onglet_textes_create_page ( page );
-    utils_prefs_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Texts"), page );
+    utils_prefs_left_panel_add_line ( tree_model, notebook, widget, _("Texts"), page );
     page++;
 
     /* append page Amounts */
     widget = etats_prefs_onglet_montants_create_page ( page );
-    utils_prefs_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Amounts"), page );
+    utils_prefs_left_panel_add_line ( tree_model, notebook, widget, _("Amounts"), page );
     page++;
 
     /* append page Payment methods */
     widget = etats_prefs_onglet_mode_paiement_create_page ( page );
-    utils_prefs_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Payment methods"), page );
+    utils_prefs_left_panel_add_line ( tree_model, notebook, widget, _("Payment methods"), page );
     page++;
 
     /* append page Misc. */
     widget = etats_prefs_onglet_divers_create_page ( page );
-    utils_prefs_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Miscellaneous"), page );
+    utils_prefs_left_panel_add_line ( tree_model, notebook, widget, _("Miscellaneous"), page );
     page++;
 
     /* remplissage de l'onglet d'organisation */
-    utils_prefs_left_panel_add_line ( tree_model, &iter, NULL, NULL, _("Data organization"), -1 );
+    utils_prefs_left_panel_add_line ( tree_model, NULL, NULL, _("Data organization"), -1 );
 
     /* Data grouping */
     widget = etats_prefs_onglet_data_grouping_create_page ( page );
-    utils_prefs_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Data grouping"), page );
+    utils_prefs_left_panel_add_line ( tree_model, notebook, widget, _("Data grouping"), page );
     page++;
 
     /* Data separation */
     widget = etats_prefs_onglet_data_separation_create_page ( page );
-    utils_prefs_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Data separation"), page );
+    utils_prefs_left_panel_add_line ( tree_model, notebook, widget, _("Data separation"), page );
     page++;
 
     /* remplissage de l'onglet d'affichage */
-    utils_prefs_left_panel_add_line ( tree_model, &iter, NULL, NULL, _("Data display"), -1 );
+    utils_prefs_left_panel_add_line ( tree_model, NULL, NULL, _("Data display"), -1 );
 
     /* append page Generalities */
     widget = etats_prefs_onglet_affichage_generalites_create_page ( page );
-    utils_prefs_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Generalities"), page );
+    utils_prefs_left_panel_add_line ( tree_model, notebook, widget, _("Generalities"), page );
     page++;
 
     /* append page divers */
     widget = etats_prefs_onglet_affichage_titles_create_page ( page );
-    utils_prefs_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Titles"), page );
+    utils_prefs_left_panel_add_line ( tree_model, notebook, widget, _("Titles"), page );
     page++;
 
     /* append page Transactions */
     widget = etats_prefs_onglet_affichage_operations_create_page ( page );
-    utils_prefs_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Transactions"), page );
+    utils_prefs_left_panel_add_line ( tree_model, notebook, widget, _("Transactions"), page );
     page++;
 
     /* append page Currencies */
     widget = etats_prefs_onglet_affichage_devises_create_page ( page );
-    utils_prefs_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Currencies"), page );
+    utils_prefs_left_panel_add_line ( tree_model, notebook, widget, _("Currencies"), page );
 }
 
 

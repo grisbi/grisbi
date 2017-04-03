@@ -101,7 +101,6 @@ static void gsb_localisation_thousands_sep_changed ( GtkComboBoxText *widget, gp
 static void gsb_localisation_update_affichage ( gint type_maj );
 static GtkWidget *onglet_delete_messages ( void );
 static GtkWidget *onglet_localisation ( void );
-static GtkWidget *onglet_messages_and_warnings ( void );
 static GtkWidget *onglet_metatree ( void );
 static GtkWidget *onglet_programmes (void);
 static gboolean preference_selectable_func (GtkTreeSelection *selection,
@@ -200,7 +199,7 @@ static gboolean gsb_config_partial_balance_group_under_accounts_clicked ( GtkTog
  *
  * \ return     the widget for preferences
  * */
-static GtkWidget *onglet_accueil ( void )
+GtkWidget *onglet_accueil ( void )
 {
     GtkWidget *vbox_pref, *vbox, *paddingbox, *button;
     GtkWidget *hbox, *sw, *treeview;
@@ -660,41 +659,41 @@ gboolean preferences ( gint page )
                         -1);
     gtk_notebook_append_page (preference_frame, onglet_localisation (), NULL);
 
-    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
-    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-                        &iter2,
-                        0, _("Main page"),
-                        1, MAIN_PAGE,
-                        2, 400,
-                        -1);
-    gtk_notebook_append_page (preference_frame, onglet_accueil (), NULL);
+    //~ gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
+    //~ gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+                        //~ &iter2,
+                        //~ 0, _("Main page"),
+                        //~ 1, MAIN_PAGE,
+                        //~ 2, 400,
+                        //~ -1);
+    //~ gtk_notebook_append_page (preference_frame, onglet_accueil (), NULL);
 
-    /* Display subtree */
-    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
-    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-                        &iter,
-                        0, _("Display"),
-                        1, NOT_A_PAGE,
-                        2, 800,
-                        -1);
+    //~ /* Display subtree */
+    //~ gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
+    //~ gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+                        //~ &iter,
+                        //~ 0, _("Display"),
+                        //~ 1, NOT_A_PAGE,
+                        //~ 2, 800,
+                        //~ -1);
 
-    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
-    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-                        &iter2,
-                        0, _("Fonts & logo"),
-                        1, FONTS_AND_LOGO_PAGE,
-                        2, 400,
-                        -1);
-    gtk_notebook_append_page (preference_frame, onglet_display_fonts(), NULL);
+    //~ gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
+    //~ gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+                        //~ &iter2,
+                        //~ 0, _("Fonts & logo"),
+                        //~ 1, FONTS_AND_LOGO_PAGE,
+                        //~ 2, 400,
+                        //~ -1);
+    //~ gtk_notebook_append_page (preference_frame, onglet_display_fonts(), NULL);
 
-    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
-    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-                        &iter2,
-                        0, _("Messages & warnings"),
-                        1, MESSAGES_AND_WARNINGS_PAGE,
-                        2, 400,
-                        -1);
-    gtk_notebook_append_page (preference_frame, onglet_messages_and_warnings(), NULL);
+    //~ gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
+    //~ gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+                        //~ &iter2,
+                        //~ 0, _("Messages & warnings"),
+                        //~ 1, MESSAGES_AND_WARNINGS_PAGE,
+                        //~ 2, 400,
+                        //~ -1);
+    //~ gtk_notebook_append_page (preference_frame, onglet_messages_and_warnings(), NULL);
 
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),

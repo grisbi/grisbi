@@ -53,6 +53,8 @@
 /*START_EXTERN*/
 /*END_EXTERN*/
 
+static GtkTreeIter *page_parent_iter;
+
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
@@ -110,9 +112,9 @@ GtkWidget *utils_prefs_head_page_new_with_title_and_icon (gchar *title,
     label = gtk_label_new (title);
     tmp_str1 = g_markup_escape_text (title, strlen (title));
     tmp_str2 = g_strconcat ("<span size=\"x-large\" weight=\"bold\">",
-						   tmp_str1,
-						   "</span>",
-						   NULL);
+							tmp_str1,
+						    "</span>",
+						    NULL);
     gtk_label_set_markup (GTK_LABEL (label), tmp_str2);
     g_free(tmp_str1);
     g_free(tmp_str2);
@@ -136,38 +138,45 @@ GtkWidget *utils_prefs_head_page_new_with_title_and_icon (gchar *title,
  * \return
  * */
 void utils_prefs_left_panel_add_line (GtkTreeStore *tree_model,
-									  GtkTreeIter *iter,
 									  GtkWidget *notebook,
 									  GtkWidget *child,
 									  const gchar *title,
 									  gint page)
 {
+    GtkTreeIter iter1;
     GtkTreeIter iter2;
 
     if (page == -1)
     {
+		if (page_parent_iter)
+			gtk_tree_iter_free (page_parent_iter);
+
         /* append page groupe */
-        gtk_tree_store_append (GTK_TREE_STORE (tree_model), iter, NULL);
-        gtk_tree_store_set (GTK_TREE_STORE (tree_model), iter,
-                        LEFT_PANEL_TREE_TEXT_COLUMN, title,
-                        LEFT_PANEL_TREE_PAGE_COLUMN, -1,
-                        LEFT_PANEL_TREE_BOLD_COLUMN, 800,
-                        -1);
+        gtk_tree_store_append (GTK_TREE_STORE (tree_model), &iter1, NULL);
+        gtk_tree_store_set (GTK_TREE_STORE (tree_model),
+							&iter1,
+							LEFT_PANEL_TREE_TEXT_COLUMN, title,
+							LEFT_PANEL_TREE_PAGE_COLUMN, -1,
+							LEFT_PANEL_TREE_BOLD_COLUMN, 800,
+							-1);
+		page_parent_iter = gtk_tree_iter_copy (&iter1);
     }
     else
     {
         /* append page onglet*/
-        if (child)
-            gtk_notebook_append_page (GTK_NOTEBOOK (notebook),
-                        child,
-                        gtk_label_new (title));
 
-        gtk_tree_store_append (GTK_TREE_STORE (tree_model), &iter2, iter);
-        gtk_tree_store_set (GTK_TREE_STORE (tree_model), &iter2,
-                        LEFT_PANEL_TREE_TEXT_COLUMN, title,
-                        LEFT_PANEL_TREE_PAGE_COLUMN, page,
-                        LEFT_PANEL_TREE_BOLD_COLUMN, 400,
-                        -1);
+		if (child)
+		{
+            gtk_notebook_append_page (GTK_NOTEBOOK (notebook), child, gtk_label_new (title));
+		}
+
+        gtk_tree_store_append (GTK_TREE_STORE (tree_model), &iter2, page_parent_iter);
+        gtk_tree_store_set (GTK_TREE_STORE (tree_model),
+							&iter2,
+							LEFT_PANEL_TREE_TEXT_COLUMN, title,
+							LEFT_PANEL_TREE_PAGE_COLUMN, page,
+							LEFT_PANEL_TREE_BOLD_COLUMN, 400,
+							-1);
     }
 }
 
@@ -203,9 +212,9 @@ gboolean utils_prefs_left_panel_tree_view_select_page (GtkWidget *tree_view,
                 gint tmp_page;
 
                 gtk_tree_model_get (GTK_TREE_MODEL (model),
-                                &iter,
-                                LEFT_PANEL_TREE_PAGE_COLUMN, &tmp_page,
-                                -1);
+									&iter,
+									LEFT_PANEL_TREE_PAGE_COLUMN, &tmp_page,
+									-1);
 
                 if (tmp_page == page)
                 {

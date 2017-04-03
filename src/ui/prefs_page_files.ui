@@ -762,7 +762,7 @@
                   <object class="GtkLabel" id="Title3">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Import directory</property>
+                    <property name="label" translatable="yes">Directory for import</property>
                     <property name="xalign">0</property>
                     <attributes>
                       <attribute name="weight" value="bold"/>
@@ -824,7 +824,7 @@
                                   <object class="GtkLabel" id="label18">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">Force the import directory: </property>
+                                    <property name="label" translatable="yes">Use a fixed directory for importing files: </property>
                                     <attributes>
                                       <attribute name="foreground" value="#00000000ffff"/>
                                     </attributes>

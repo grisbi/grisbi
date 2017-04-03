@@ -9,7 +9,6 @@
 
 /* START_DECLARATION */
 void			utils_prefs_left_panel_add_line 						(GtkTreeStore *tree_model,
-																		 GtkTreeIter *iter,
 																		 GtkWidget *notebook,
 																		 GtkWidget *child,
 																		 const gchar *title,

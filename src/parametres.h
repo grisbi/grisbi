@@ -57,6 +57,11 @@ gboolean    gsb_preferences_menu_open                   (GtkWidget *menu_item,
                                                          gpointer page_ptr);
 gint        gsb_preferences_paned_get_position          (void);
 gboolean    preferences                                 (gint page);
+
+/* PROVISOIRE */
+GtkWidget *	onglet_messages_and_warnings 				(void);
+GtkWidget *	onglet_accueil 								(void);
+
 /*END_DECLARATION*/
 
 #endif
