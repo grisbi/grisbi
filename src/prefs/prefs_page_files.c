@@ -77,6 +77,9 @@ struct _PrefsPageFilesPrivate
     GtkWidget *         spinbutton_make_backup_nb_minutes;
     GtkWidget *         filechooserbutton_backup;
 
+    GtkWidget *			checkbutton_force_import_directory;
+	GtkWidget *			eventbox_force_import_directory;
+    GtkWidget *         filechooserbutton_force_import_directory;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageFiles, prefs_page_files, GTK_TYPE_BOX)
@@ -187,6 +190,19 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
     gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (priv->filechooserbutton_backup),
 										 gsb_file_get_backup_path ());
 
+    /* set current folder for import files */
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_force_import_directory),
+								  conf.force_import_directory);
+	if (conf.import_directory)
+		gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (priv->filechooserbutton_force_import_directory),
+											 conf.import_directory);
+	if (!conf.force_import_directory)
+		gtk_widget_set_sensitive (GTK_WIDGET (priv->filechooserbutton_force_import_directory), FALSE);
+
+	g_object_set_data (G_OBJECT (priv->checkbutton_force_import_directory),
+                       "widget",
+					   priv->filechooserbutton_force_import_directory);
+
     /* Connect signal */
     g_signal_connect (priv->eventbox_make_bakup_single_file,
 					  "button-press-event",
@@ -242,7 +258,7 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
     g_object_set_data (G_OBJECT (priv->spinbutton_make_backup_nb_minutes),
                        "button", priv->checkbutton_make_backup_every_minutes);
 	g_object_set_data (G_OBJECT (priv->checkbutton_make_backup_every_minutes),
-                       "spinbutton", priv->spinbutton_make_backup_nb_minutes);
+                       "widget", priv->spinbutton_make_backup_nb_minutes);
 	if (!conf.make_backup_every_minutes)
 		gtk_widget_set_sensitive (GTK_WIDGET (priv->spinbutton_make_backup_nb_minutes), FALSE);
 
@@ -257,7 +273,20 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
                       G_CALLBACK (utils_prefs_page_dir_chosen),
                       "backup_path");
 
-	gtk_widget_show_all (GTK_WIDGET (priv->vbox_files));
+    g_signal_connect (priv->eventbox_force_import_directory,
+					  "button-press-event",
+					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
+					  priv->checkbutton_force_import_directory);
+    g_signal_connect (priv->checkbutton_force_import_directory,
+					  "toggled",
+					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
+					  &conf.force_import_directory);
+
+    /* connect the signal for filechooserbutton_backup */
+    g_signal_connect (G_OBJECT (priv->filechooserbutton_force_import_directory),
+                      "selection-changed",
+                      G_CALLBACK (utils_prefs_page_dir_chosen),
+                      "import_directory");
 }
 
 /******************************************************************************/
@@ -305,6 +334,11 @@ static void prefs_page_files_class_init (PrefsPageFilesClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, eventbox_make_backup_every_minutes);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, spinbutton_make_backup_nb_minutes);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, filechooserbutton_backup);
+
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, checkbutton_force_import_directory);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, eventbox_force_import_directory);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, filechooserbutton_force_import_directory);
+
 }
 
 /******************************************************************************/

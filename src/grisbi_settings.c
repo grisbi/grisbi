@@ -184,13 +184,28 @@ static void grisbi_settings_init_settings_display (GSettings *settings)
  **/
 static void grisbi_settings_init_settings_file (GSettings *settings)
 {
+	gchar *import_directory;
+
     conf.compress_file = g_settings_get_boolean (settings, "compress-file");
     conf.dernier_fichier_auto = g_settings_get_boolean (settings, "dernier-fichier-auto");
     conf.force_enregistrement = g_settings_get_boolean (settings, "force-enregistrement");
+    conf.force_import_directory = g_settings_get_boolean (settings, "force-import-directory");
     conf.nb_max_derniers_fichiers_ouverts = g_settings_get_int (settings, "nb-max-derniers-fichiers-ouverts");
     conf.sauvegarde_auto = g_settings_get_boolean (settings, "sauvegarde-auto");
 
-    recent_array = g_settings_get_strv (settings, "names-last-files");
+	if (conf.force_import_directory)
+	{
+		import_directory = g_settings_get_string (settings, "import-directory");
+		if (import_directory && strlen (import_directory) > 0)
+		{
+			conf.import_directory = my_strdup (import_directory);
+		}
+		else
+		{
+			conf.import_directory = my_strdup (gsb_dirs_get_user_data_dir ());
+		}
+	}
+	recent_array = g_settings_get_strv (settings, "names-last-files");
     if (recent_array)
 	{
         conf.nb_derniers_fichiers_ouverts = g_strv_length (recent_array);
@@ -645,9 +660,18 @@ void grisbi_settings_save_app_config (void)
                         "force-enregistrement",
                         conf.force_enregistrement);
     g_settings_set_boolean (G_SETTINGS (priv->settings_file),
+                        "force-import-directory",
+                        conf.force_import_directory);
+    g_settings_set_boolean (G_SETTINGS (priv->settings_file),
                         "compress-file",
                         conf.compress_file);
 
+	if (conf.force_import_directory)
+	{
+		g_settings_set_string (G_SETTINGS (priv->settings_file),
+							   "import-directory",
+							   conf.import_directory);
+	}
 	/* on commence par liberer la mémoire utilisée par recent_array */
     g_strfreev (recent_array);
 

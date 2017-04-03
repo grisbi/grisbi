@@ -42,6 +42,7 @@ GtkWidget *     utils_prefs_scrolled_window_new                         (GtkSize
                                                                          GtkShadowType type,
                                                                          gint coeff_util,
                                                                          gint height);
+void 			utils_prefs_gsb_file_set_modified						(void);
 void 			utils_prefs_spinbutton_changed 							(GtkSpinButton *spinbutton,
 																		 gboolean *value);
 

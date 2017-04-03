@@ -128,10 +128,17 @@
     </key>
 	  <key name="force-enregistrement" type="b">
       <default>false</default>
-	    <summary>Forced recording of locked files</summary>
+	    <summary>Force recording of locked files</summary>
 	    <description>
 	        TRUE if you want to save the account file, even if it is already
 	        open in another window.
+	    </description>
+	  </key>
+	  <key name="force-import-directory" type="b">
+      <default>false</default>
+	    <summary>Force the import directory</summary>
+	    <description>
+	        TRUE if you want to force the directory of imported files.
 	    </description>
 	  </key>
 	  <key name="compress-file" type="b">
@@ -139,6 +146,11 @@
 	    <summary>Compress the account file</summary>
 	    <description>TRUE if you want to compress the account file.</description>
 	  </key>
+	  <key name="import-directory" type="s">
+      <default>""</default>
+      <summary>Import directory</summary>
+      <description>The directory for the import files.</description>
+    </key>
     <key name="names-last-files" type="as">
       <default>[]</default>
       <summary>The last files opened by Grisbi</summary>

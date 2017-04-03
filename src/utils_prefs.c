@@ -38,6 +38,7 @@
 #include "parametres.h"
 #include "structures.h"
 #include "utils.h"
+#include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -340,24 +341,17 @@ void utils_prefs_page_checkbutton_changed (GtkToggleButton *checkbutton,
 {
     if (value)
     {
-		GtkWidget *spinbutton = NULL;
+		GtkWidget *widget = NULL;
 
         *value = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton));
 
-        spinbutton = g_object_get_data (G_OBJECT (checkbutton), "spinbutton");
-        if (spinbutton && GTK_IS_SPIN_BUTTON (spinbutton))
+        widget = g_object_get_data (G_OBJECT (checkbutton), "widget");
+        if (widget && GTK_IS_WIDGET (widget))
         {
-			g_signal_handlers_block_by_func (G_OBJECT (spinbutton),
-											 utils_prefs_spinbutton_changed,
-											 value);
 			if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton)))
-				gtk_widget_set_sensitive (GTK_WIDGET (spinbutton), TRUE);
+				gtk_widget_set_sensitive (GTK_WIDGET (widget), TRUE);
             else
-                gtk_widget_set_sensitive (GTK_WIDGET (spinbutton), FALSE);
-
-			g_signal_handlers_unblock_by_func (G_OBJECT (spinbutton),
-											   utils_prefs_spinbutton_changed,
-											   value);
+                gtk_widget_set_sensitive (GTK_WIDGET (widget), FALSE);
         }
 
     }
@@ -383,7 +377,15 @@ void utils_prefs_page_dir_chosen (GtkWidget *button,
     tmp_dir = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (button));
 
 	if (strcmp (dirname, "backup_path") == 0)
+	{
         gsb_file_set_backup_path (tmp_dir);
+	}
+	else if (strcmp (dirname, "import_directory") == 0)
+	{
+		if (conf.import_directory)
+			g_free (conf.import_directory);
+		conf.import_directory = my_strdup (tmp_dir);
+	}
 
     g_signal_handlers_unblock_by_func (button,
 									   G_CALLBACK (utils_prefs_page_dir_chosen),
@@ -491,6 +493,18 @@ GtkWidget *utils_prefs_scrolled_window_new (GtkSizeGroup *size_group,
 }
 
 /**
+ *
+ *
+ * \param
+ *
+ * \return
+ * */
+void utils_prefs_gsb_file_set_modified (void)
+{
+    gsb_file_set_modified (TRUE);
+}
+
+/**
  * set nb_max_derniers_fichiers_ouverts
  *
  * \param spinbutton 			a pointer to a spinbutton widget.
@@ -503,17 +517,17 @@ void utils_prefs_spinbutton_changed (GtkSpinButton *spinbutton,
     if (value)
     {
         GtkWidget *button = NULL;
-		gchar *function;
+		//~ gchar *function;
 
         *value = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (spinbutton));
 
 		/* action suite changement de valeur */
-		function = g_object_get_data (G_OBJECT (spinbutton), "function");
-		if (function)
-		{
-			if (strcmp ("set_recent_files_menu", function) == 0)
-				grisbi_app_set_recent_files_menu (NULL, FALSE);
-		}
+		//~ function = g_object_get_data (G_OBJECT (spinbutton), "function");
+		//~ if (function)
+		//~ {
+			//~ if (strcmp ("set_recent_files_menu", function) == 0)
+				//~ grisbi_app_set_recent_files_menu (NULL, FALSE);
+		//~ }
 
         button = g_object_get_data (G_OBJECT (spinbutton), "button");
         if (button && GTK_IS_TOGGLE_BUTTON (button))

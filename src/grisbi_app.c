@@ -104,6 +104,7 @@ static void grisbi_app_struct_conf_init (void)
 
     conf.font_string = NULL;
     conf.browser_command = NULL;
+	conf.import_directory = NULL;
     conf.last_open_file = NULL;
 }
 
@@ -128,6 +129,12 @@ static void grisbi_app_struct_conf_free (void)
         g_free (conf.browser_command);
 		conf.browser_command = NULL;
 	}
+
+    if (conf.import_directory)
+    {
+        g_free (conf.import_directory);
+        conf.import_directory = NULL;
+    }
 
     if (conf.last_open_file)
     {
