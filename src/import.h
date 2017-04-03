@@ -135,7 +135,7 @@ void gsb_import_register_account ( struct struct_compte_importation * account );
 void gsb_import_register_account_error ( struct struct_compte_importation * account );
 GSList *import_selected_files ( GtkWidget * assistant );
 void importer_fichier ( void );
-GtkWidget *onglet_importation ( void );
+//~ GtkWidget *onglet_importation ( void );
 void register_import_format ( struct import_format *format );
 void register_import_formats ( void );
 gchar * unique_imported_name ( gchar * account_name );

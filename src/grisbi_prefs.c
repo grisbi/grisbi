@@ -67,34 +67,22 @@ typedef struct _GrisbiPrefsPrivate GrisbiPrefsPrivate;
 
 struct _GrisbiPrefsPrivate
 {
-	GtkWidget           *prefs_paned;
+  GtkWidget           *prefs_paned;
 
     /* panel de gauche */
     GtkWidget *			left_sw;
-    GtkWidget *			left_treeview;
-    GtkTreeStore *		prefs_tree_model;
-	GtkWidget *			togglebutton_expand_prefs;
+    GtkWidget *      	left_treeview;
+    GtkTreeStore *    	prefs_tree_model;
+	GtkWidget *      	togglebutton_expand_prefs;
 
     /* notebook de droite */
     GtkWidget *         notebook_prefs;
-	GtkWidget *			vbox_files;
-	GtkWidget *			vbox_archives;
-	GtkWidget * 		vbox_import_page;
-	GtkWidget *			label_import_page_1;
-	GtkWidget *			label_import_page_2;
-
-    /* notebook import */
-    GtkWidget *          checkbutton_get_fusion_import_transactions;
-    GtkWidget *          checkbutton_get_categorie_for_payee;
-    GtkWidget *          checkbutton_get_extract_number_for_check;
-    GtkWidget *          radiobutton_get_fyear_by_value_date;
-    GtkWidget *          treeview_associations;
-    GtkWidget *          button_associations_add;
-    GtkWidget *          button_associations_remove;
-    GtkWidget *          hbox_associations_combo_payees;
-    GtkWidget *          combo_associations_payees;
-    GtkWidget *          entry_associations_search_str;
-};
+	GtkWidget *      	vbox_files;
+	GtkWidget *      	vbox_archives;
+	GtkWidget *     	vbox_import_page;
+	GtkWidget *      	label_import_page_1;
+	GtkWidget *      	label_import_page_2;
+ };
 
 
 G_DEFINE_TYPE_WITH_PRIVATE (GrisbiPrefs, grisbi_prefs, GTK_TYPE_DIALOG)
@@ -114,32 +102,33 @@ static void grisbi_prefs_dialog_response  (GtkDialog *prefs,
 										   gint result_id)
 {
     if (!prefs)
-	{
+  {
         return;
-	}
+  }
 
-	/* on récupère la dimension de la fenêtre */
-	gtk_window_get_size (GTK_WINDOW (prefs), &conf.prefs_width, &conf.prefs_height);
+  /* on récupère la dimension de la fenêtre */
+  gtk_window_get_size (GTK_WINDOW (prefs), &conf.prefs_width, &conf.prefs_height);
 
-	gtk_widget_destroy (GTK_WIDGET (prefs));
+  gtk_widget_destroy (GTK_WIDGET (prefs));
 }
 
 /**
  * récupère la largeur des préférences
  *
- * \param GtkWidget 		prefs
- * \param GtkAllocation 	allocation
- * \param gpointer 			null
+ * \param GtkWidget     prefs
+ * \param GtkAllocation   allocation
+ * \param gpointer       null
  *
- * \return 					FALSE
+ * \return           FALSE
  * */
 static gboolean grisbi_prefs_size_allocate (GtkWidget *prefs,
 											GtkAllocation *allocation,
 											gpointer null)
 {
-    conf.prefs_width = allocation->width;
+    conf.prefs_height = allocation->height;
+	conf.prefs_width = allocation->width;
 
-    return FALSE;
+	return FALSE;
 }
 
 /**
@@ -152,8 +141,8 @@ static gboolean grisbi_prefs_size_allocate (GtkWidget *prefs,
  * \return FALSE
  */
 static gboolean grisbi_prefs_paned_size_allocate (GtkWidget *prefs_hpaned,
-												   GtkAllocation *allocation,
-												   gpointer null)
+												  GtkAllocation *allocation,
+												  gpointer null)
 {
     conf.prefs_panel_width = gtk_paned_get_position (GTK_PANED (prefs_hpaned));
 
@@ -229,6 +218,7 @@ static void grisbi_prefs_setup_import_page (GrisbiPrefs *prefs)
 
 	/* set notebook for import */
 	notebook_import_pages = gtk_notebook_new ();
+	gtk_notebook_set_show_border (GTK_NOTEBOOK (notebook_import_pages), FALSE);
 	gtk_box_pack_start (GTK_BOX (priv->vbox_import_page), notebook_import_pages, FALSE, FALSE, 0);
 
 	/* set import settings */
@@ -473,329 +463,6 @@ GrisbiPrefs *grisbi_prefs_new (GrisbiWin *win)
 {
   return g_object_new (GRISBI_PREFS_TYPE, "transient-for", win, NULL);
 }
-
-
-
-//~ /**
- //~ * sensitive a prefs
- //~ *
- //~ * \param object the object wich receive the signal, not used so can be NULL
- //~ * \param widget the widget to sensitive
- //~ *
- //~ * \return FALSE
- //~ * */
-//~ static void grisbi_prefs_sensitive_etat_widgets (GrisbiPrefs *prefs,
-                        //~ gboolean sensitive)
-//~ {
-    //~ gtk_widget_set_sensitive (prefs->priv->checkbutton_crypt_file, sensitive);
-    //~ gtk_widget_set_sensitive (prefs->priv->notebook_import, sensitive);
-
-//~ }
-
-//~ /* RIGHT_PANEL : CALLBACKS */
-
-//~ /**
- //~ * Set a boolean integer to the value of a checkbutton.  Normally called
- //~ * via a GTK "toggled" signal handler.
- //~ *
- //~ * \param checkbutton a pointer to a checkbutton widget.
- //~ * \param value to change
- //~ */
-//~ static void grisbi_prefs_etat_checkbutton_changed (GtkToggleButton *checkbutton,
-                        //~ gboolean *value)
-//~ {
-
-    //~ if (value)
-    //~ {
-        //~ grisbi_window_etat_mutex_lock ();
-        //~ *value = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton));
-        //~ grisbi_window_etat_mutex_unlock ();
-    //~ }
-//~ }
-
-//~ /* RIGHT_PANEL : ARCHIVES PAGE */
-//~ /**
- //~ * Création de la page de gestion des archives
- //~ *
- //~ * \param prefs
- //~ *
- //~ * \return
- //~ */
-//~ static void grisbi_prefs_setup_archives_page (GrisbiPrefs *prefs)
-//~ {
-    //~ GrisbiAppConf *conf;
-    //~ GrisbiWindowEtat *etat;
-
-    //~ conf = grisbi_app_get_conf ();
-    //~ etat = grisbi_window_get_struct_etat ();
-
-//~ }
-
-
-//~ /* RIGHT_PANEL : IMPORT PAGE */
-//~ /**
- //~ * Création de la page de gestion de l'importation des fichiers
- //~ *
- //~ * \param prefs
- //~ *
- //~ * \return
- //~ */
-//~ static void grisbi_prefs_setup_import_page (GrisbiPrefs *prefs)
-//~ {
-    //~ GrisbiAppConf *conf;
-    //~ GrisbiWindowEtat *etat;
-    //~ GtkWidget *box;
-    //~ GtkWidget *child;
-    //~ GdkPixbuf *pixbuf;
-
-    //~ conf = grisbi_app_get_conf ();
-    //~ etat = grisbi_window_get_struct_etat ();
-
-    //~ /* set the icon for settings tab */
-    //~ box = GTK_WIDGET (gtk_builder_get_object (grisbi_prefs_builder, "hbox_import_settings"));
-    //~ child = gtk_image_new_from_file (g_build_filename (gsb_dirs_get_pixmaps_dir (),
-                        //~ "import.png", NULL));
-    //~ gtk_box_pack_start (GTK_BOX (box), child, FALSE, FALSE, 0);
-    //~ gtk_box_reorder_child (GTK_BOX (box), child, 0);
-    //~ gtk_widget_show (child);
-
-    //~ /* set the variables for settings tab */
-    //~ gtk_spin_button_set_value (GTK_SPIN_BUTTON (prefs->priv->spinbutton_valeur_echelle_recherche_date_import),
-                        //~ (gdouble) etat->valeur_echelle_recherche_date_import);
-    //~ gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (prefs->priv->checkbutton_get_fusion_import_transactions),
-                        //~ etat->get_fusion_import_transactions);
-    //~ gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (prefs->priv->checkbutton_get_categorie_for_payee),
-                        //~ etat->get_categorie_for_payee);
-    //~ gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (prefs->priv->checkbutton_get_extract_number_for_check),
-                        //~ etat->get_extract_number_for_check);
-    //~ utils_radiobutton_set_active_index (prefs->priv->radiobutton_get_fyear_by_value_date,
-                        //~ etat->get_fyear_by_value_date);
-
-    //~ /* Connect signal */
-    //~ g_signal_connect (G_OBJECT (prefs->priv->spinbutton_valeur_echelle_recherche_date_import),
-                        //~ "value-changed",
-                        //~ G_CALLBACK (grisbi_prefs_spinbutton_changed),
-                        //~ &etat->valeur_echelle_recherche_date_import);
-
-    //~ g_signal_connect (prefs->priv->checkbutton_get_fusion_import_transactions,
-                        //~ "toggled",
-                        //~ G_CALLBACK (grisbi_prefs_etat_checkbutton_changed),
-                        //~ &etat->get_fusion_import_transactions);
-
-    //~ g_signal_connect (prefs->priv->checkbutton_get_categorie_for_payee,
-                        //~ "toggled",
-                        //~ G_CALLBACK (grisbi_prefs_etat_checkbutton_changed),
-                        //~ &etat->get_categorie_for_payee);
-
-    //~ g_signal_connect (prefs->priv->checkbutton_get_extract_number_for_check,
-                        //~ "toggled",
-                        //~ G_CALLBACK (grisbi_prefs_etat_checkbutton_changed),
-                        //~ &etat->get_extract_number_for_check);
-
-    //~ g_signal_connect (prefs->priv->radiobutton_get_fyear_by_value_date,
-                        //~ "toggled",
-                        //~ G_CALLBACK (grisbi_prefs_etat_checkbutton_changed),
-                        //~ &etat->get_fyear_by_value_date);
-
-
-    //~ /* set the icon for import_associations tab */
-    //~ box = GTK_WIDGET (gtk_builder_get_object (grisbi_prefs_builder, "hbox_import_associations"));
-    //~ pixbuf = gdk_pixbuf_new_from_file_at_size (g_build_filename (gsb_dirs_get_pixmaps_dir (),
-                        //~ "payees.png", NULL),
-                        //~ 24,
-                        //~ 24,
-                        //~ NULL);
-    //~ if (pixbuf)
-    //~ {
-        //~ child = gtk_image_new_from_pixbuf (pixbuf);
-        //~ gtk_box_pack_start (GTK_BOX (box), child, FALSE, FALSE, 0);
-        //~ gtk_box_reorder_child (GTK_BOX (box), child, 0);
-        //~ gtk_widget_show (child);
-    //~ }
-
-    //~ /* set the variables for import_associations tab */
-    //~ parametres_import_associations_init_treeview (prefs->priv->treeview_associations);
-    //~ prefs->priv->combo_associations_payees = parametres_import_associations_get_combo_payees (etat);
-    //~ gtk_box_pack_start (GTK_BOX (prefs->priv->hbox_associations_combo_payees),
-                        //~ prefs->priv->combo_associations_payees,
-                        //~ TRUE,
-                        //~ TRUE,
-                        //~ 0);
-    //~ parametres_import_associations_init_callback ();
-//~ }
-
-
-
-//~ /**
- //~ * initialise le bouton expand collapse all
- //~ *
- //~ * \param suffixe name
- //~ * \param tree_view
- //~ *
- //~ * \return
- //~ */
-//~ static void grisbi_prefs_left_panel_init_button_expand (GtkWidget *tree_view)
-//~ {
-    //~ GtkWidget *button;
-
-    //~ button = GTK_WIDGET (gtk_builder_get_object (grisbi_prefs_builder, "togglebutton_expand_prefs"));
-
-    //~ g_object_set_data (G_OBJECT (button), "hbox_expand",
-                        //~ gtk_builder_get_object (grisbi_prefs_builder, "hbox_toggle_expand_prefs"));
-
-    //~ g_object_set_data (G_OBJECT (button), "hbox_collapse",
-                        //~ gtk_builder_get_object (grisbi_prefs_builder, "hbox_toggle_collapse_prefs"));
-
-    //~ g_signal_connect (G_OBJECT (button),
-                        //~ "clicked",
-                        //~ G_CALLBACK (utils_togglebutton_collapse_expand_all_rows),
-                        //~ tree_view);
-//~ }
-
-
-//~ /* CREATE OBJECT */
-//~ /**
- //~ * Initialise GrisbiPrefs
- //~ *
- //~ * \param prefs
- //~ *
- //~ * \return
- //~ */
-//~ static void grisbi_prefs_init (GrisbiPrefs *prefs)
-//~ {
-    //~ GrisbiAppConf *conf;
-
-    //~ devel_debug (NULL);
-    //~ conf = grisbi_app_get_conf ();
-
-    //~ prefs->priv = GRISBI_PREFS_GET_PRIVATE (prefs);
-
-    //~ if (!grisbi_prefs_initialise_builder (prefs))
-        //~ exit (1);
-
-    //~ /* Attache prefs au gtk_builder permet de retrouver les widgets créés en interne */
-    //~ g_object_set_data (G_OBJECT (grisbi_prefs_builder), "prefs", prefs);
-
-    //~ gtk_dialog_add_buttons (GTK_DIALOG (prefs),
-                        //~ GTK_STOCK_CLOSE,
-                        //~ GTK_RESPONSE_CLOSE,
-                        //~ GTK_STOCK_HELP,
-                        //~ GTK_RESPONSE_HELP,
-                        //~ NULL);
-
-    //~ gtk_window_set_title (GTK_WINDOW (prefs), _("Grisbi preferences"));
-    //~ gtk_window_set_destroy_with_parent (GTK_WINDOW (prefs), TRUE);
-
-    //~ gtk_container_set_border_width (GTK_CONTAINER (prefs), 5);
-    //~ gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (prefs))), 2);
-    //~ gtk_container_set_border_width (GTK_CONTAINER (gtk_dialog_get_action_area (GTK_DIALOG (prefs))), 5);
-    //~ gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_action_area (GTK_DIALOG (prefs))), 6);
-
-    //~ /* set the default size */
-    //~ if (conf->prefs_width)
-        //~ gtk_window_set_default_size (GTK_WINDOW (prefs),
-                        //~ conf->prefs_width, conf->prefs_height);
-
-    //~ /* create the tree_view */
-    //~ prefs->priv->treeview_left_panel = grisbi_prefs_left_panel_setup_tree_view (prefs);
-
-    //~ /* initialise le bouton expand all */
-    //~ grisbi_prefs_left_panel_init_button_expand (prefs->priv->treeview_left_panel);
-
-    //~ /* connect the signals */
-    //~ g_signal_connect (G_OBJECT (prefs->priv->hpaned),
-                        //~ "size_allocate",
-                        //~ G_CALLBACK (grisbi_prefs_hpaned_size_allocate),
-                        //~ NULL);
-
-    //~ g_signal_connect (prefs,
-                        //~ "response",
-                        //~ G_CALLBACK (grisbi_prefs_dialog_response),
-                        //~ NULL);
-
-    //~ gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (prefs))),
-                        //~ prefs->priv->hpaned, TRUE, TRUE, 0);
-    //~ g_object_unref (prefs->priv->hpaned);
-
-    //~ gtk_widget_show_all (prefs->priv->hpaned);
-
-    //~ /* return */
-//~ }
-
-
-//~ /**
- //~ * show the preferences dialog
- //~ *
- //~ * \param parent
- //~ *
- //~ * \return
- //~ **/
-//~ void grisb_prefs_show_dialog (GrisbiWindow *parent)
-//~ {
-    //~ if (!GRISBI_IS_WINDOW (parent))
-        //~ return;
-
-    //~ if (grisbi_prefs_dialog == NULL)
-    //~ {
-        //~ grisbi_prefs_dialog = GTK_WIDGET (g_object_new (GRISBI_TYPE_PREFS, NULL));
-        //~ g_signal_connect (grisbi_prefs_dialog,
-                        //~ "destroy",
-                        //~ G_CALLBACK (gtk_widget_destroyed),
-                        //~ &grisbi_prefs_dialog);
-    //~ }
-
-    //~ if (GTK_WINDOW (parent) != gtk_window_get_transient_for (GTK_WINDOW (grisbi_prefs_dialog)))
-    //~ {
-        //~ gtk_window_set_transient_for (GTK_WINDOW (grisbi_prefs_dialog), GTK_WINDOW (parent));
-    //~ }
-
-    //~ gtk_window_present (GTK_WINDOW (grisbi_prefs_dialog));
-//~ }
-
-
-//~ /* FONCTIONS UTILITAIRES */
-//~ /**
- //~ * retourne le widget demandé
- //~ *
- //~ * \param nom du widget
- //~ *
- //~ * \return le widget demandé
- //~ */
-//~ GtkWidget *grisbi_prefs_get_widget_by_name (const gchar *name)
-//~ {
-    //~ GrisbiPrefs *prefs = g_object_get_data (G_OBJECT (grisbi_prefs_builder), "prefs");
-
-    //~ if (strcmp (name, "combo_associations_payees") == 0)
-        //~ return prefs->priv->combo_associations_payees;
-    //~ else
-        //~ return utils_gtkbuilder_get_widget_by_name (grisbi_prefs_builder, name, NULL);
-//~ }
-
-
-//~ /**
- //~ * remet à jour les préférences suite à chargement fichier
- //~ *
- //~ * \param
- //~ *
- //~ * \return
- //~ **/
-//~ void grisbi_prefs_refresh_preferences (gboolean new_file)
-//~ {
-    //~ GrisbiPrefs *prefs;
-
-    //~ if (grisbi_prefs_dialog == NULL)
-        //~ return;
-
-    //~ prefs = g_object_get_data (G_OBJECT (grisbi_prefs_builder), "prefs");
-
-    //~ if (new_file)
-        //~ grisbi_prefs_sensitive_etat_widgets (prefs, TRUE);
-    //~ else
-        //~ grisbi_prefs_sensitive_etat_widgets (prefs, FALSE);
-
-    //~ grisbi_prefs_refresh_files_page (prefs);
-    //~ grisbi_prefs_setup_import_page (prefs);
-//~ }
 
 /**
  *

@@ -605,23 +605,23 @@ gboolean preferences ( gint page )
                         //~ -1);
     //~ gtk_notebook_append_page (preference_frame, onglet_fichier(), NULL);
 
-    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
-    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-                        &iter2,
-                        0, _("Archives"),
-                        1, ARCHIVE_PAGE,
-                        2, 400,
-                        -1);
+    //~ gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
+    //~ gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+                        //~ &iter2,
+                        //~ 0, _("Archives"),
+                        //~ 1, ARCHIVE_PAGE,
+                        //~ 2, 400,
+                        //~ -1);
     //~ gtk_notebook_append_page (preference_frame, gsb_archive_config_create (), NULL);
 
-    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
-    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-                        &iter2,
-                        0, _("Import"),
-                        1, IMPORT_PAGE,
-                        2, 400,
-                        -1);
-    gtk_notebook_append_page (preference_frame, onglet_importation(), NULL);
+    //~ gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
+    //~ gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+                        //~ &iter2,
+                        //~ 0, _("Import"),
+                        //~ 1, IMPORT_PAGE,
+                        //~ 2, 400,
+                        //~ -1);
+    //~ gtk_notebook_append_page (preference_frame, onglet_importation(), NULL);
 
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),

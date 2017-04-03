@@ -96,7 +96,7 @@
 static gboolean affichage_recapitulatif_importation ( GtkWidget * assistant );
 static const gchar * autodetect_file_type ( gchar * filename,
                         gchar * pointeur_char );
-static gboolean changement_valeur_echelle_recherche_date_import ( GtkWidget *spin_button );
+//~ static gboolean changement_valeur_echelle_recherche_date_import ( GtkWidget *spin_button );
 static gboolean click_dialog_ope_orphelines ( GtkWidget *dialog,
                         gint result,
                         GtkWidget *liste_ope_celibataires );
@@ -3659,112 +3659,112 @@ gchar * unique_imported_name ( gchar * account_name )
 /* *******************************************************************************/
 /* page de configuration pour l'importation */
 /* *******************************************************************************/
-GtkWidget *onglet_importation (void)
-{
-    GtkWidget *vbox_pref, *paddingbox;
-    GtkWidget *hbox;
-    GtkWidget *label;
-    GtkWidget *button;
+//~ GtkWidget *onglet_importation (void)
+//~ {
+    //~ GtkWidget *vbox_pref, *paddingbox;
+    //~ GtkWidget *hbox;
+    //~ GtkWidget *label;
+    //~ GtkWidget *button;
 
-    vbox_pref = new_vbox_with_title_and_icon ( _("Import"),
-                        "importlg.png" );
+    //~ vbox_pref = new_vbox_with_title_and_icon ( _("Import"),
+                        //~ "importlg.png" );
 
-    /* Data import settings */
-    paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,
-                        _("Import settings"));
+    //~ /* Data import settings */
+    //~ paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,
+                        //~ _("Import settings"));
 
-    /* hbox for label and range-selection */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
+    //~ /* hbox for label and range-selection */
+    //~ hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
+    //~ gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
-    label = gtk_label_new (
-                        _("Threshold while matching transaction date during import (in days): "));
-    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
+    //~ label = gtk_label_new (
+                        //~ _("Threshold while matching transaction date during import (in days): "));
+    //~ gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
 
-    button = gtk_spin_button_new_with_range ( 0.0,
-                        100.0,
-                        1.0);
-    gtk_spin_button_set_value ( GTK_SPIN_BUTTON ( button ),
-                        (gdouble) etat.import_files_nb_days );
-    g_signal_connect ( G_OBJECT ( button ),
-                        "value-changed",
-                        G_CALLBACK ( changement_valeur_echelle_recherche_date_import ),
-                        NULL );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
+    //~ button = gtk_spin_button_new_with_range ( 0.0,
+                        //~ 100.0,
+                        //~ 1.0);
+    //~ gtk_spin_button_set_value ( GTK_SPIN_BUTTON ( button ),
+                        //~ (gdouble) etat.import_files_nb_days );
+    //~ g_signal_connect ( G_OBJECT ( button ),
+                        //~ "value-changed",
+                        //~ G_CALLBACK ( changement_valeur_echelle_recherche_date_import ),
+                        //~ NULL );
+    //~ gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
 
-    /* merge transactions imported with planned transactions */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
+    //~ /* merge transactions imported with planned transactions */
+    //~ hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
+    //~ gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
-    button = gsb_automem_checkbutton_new (
-                        _("Merge the imported transactions with the transactions found"),
-                        &etat.fusion_import_transactions, NULL, NULL );
+    //~ button = gsb_automem_checkbutton_new (
+                        //~ _("Merge the imported transactions with the transactions found"),
+                        //~ &etat.fusion_import_transactions, NULL, NULL );
 
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
+    //~ gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
 
-    /* automatically associate the category of the payee if it is possible */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
+    //~ /* automatically associate the category of the payee if it is possible */
+    //~ hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
+    //~ gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
-    button = gsb_automem_checkbutton_new (
-                        _("Automatically associate the category of the payee if it is possible"),
-                        &etat.associate_categorie_for_payee,
-                        NULL, NULL );
+    //~ button = gsb_automem_checkbutton_new (
+                        //~ _("Automatically associate the category of the payee if it is possible"),
+                        //~ &etat.associate_categorie_for_payee,
+                        //~ NULL, NULL );
 
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
+    //~ gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
 
-    /* extraire le numéro de chèque du tiers pour le mettre dans No Cheque/Virement */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
+    //~ /* extraire le numéro de chèque du tiers pour le mettre dans No Cheque/Virement */
+    //~ hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
+    //~ gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
-    button = gsb_automem_checkbutton_new (
-                        _("Extracting a number and save it in the field No Cheque/Virement"),
-                        &etat.extract_number_for_check,
-                        NULL, NULL );
+    //~ button = gsb_automem_checkbutton_new (
+                        //~ _("Extracting a number and save it in the field No Cheque/Virement"),
+                        //~ &etat.extract_number_for_check,
+                        //~ NULL, NULL );
 
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
+    //~ gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
 
-    /* recopier le tiers dans les notes */
-    button = gsb_automem_checkbutton_new (
-                        _("Coping the original payee in the notes"),
-                        &etat.copy_payee_in_note,
-                        NULL, NULL );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
+    //~ /* recopier le tiers dans les notes */
+    //~ button = gsb_automem_checkbutton_new (
+                        //~ _("Coping the original payee in the notes"),
+                        //~ &etat.copy_payee_in_note,
+                        //~ NULL, NULL );
+    //~ gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
-    /* QIF import settings */
-    paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,
-                        _("QIF Import settings"));
+    //~ /* QIF import settings */
+    //~ paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,
+                        //~ _("QIF Import settings"));
 
-    /* extraire le moyen de paiement du champs "N" pour le mettre dans type de transaction */
-    hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
+    //~ /* extraire le moyen de paiement du champs "N" pour le mettre dans type de transaction */
+    //~ hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+    //~ gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
-    button = gsb_automem_checkbutton_new (
-                        _("If possible use the field « N » to define the methods of payment "),
-                        &etat.qif_use_field_extract_method_payment,
-                        NULL, NULL );
+    //~ button = gsb_automem_checkbutton_new (
+                        //~ _("If possible use the field « N » to define the methods of payment "),
+                        //~ &etat.qif_use_field_extract_method_payment,
+                        //~ NULL, NULL );
 
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
-    /* adding comment */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
+    //~ gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
+    //~ /* adding comment */
+    //~ hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
+    //~ gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
-    label = gtk_label_new (
-                        _("(Adding the import of QIF files of the « Société Générale » french bank)"));
-    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
+    //~ label = gtk_label_new (
+                        //~ _("(Adding the import of QIF files of the « Société Générale » french bank)"));
+    //~ gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
 
-    /* propose to choose between getting the fyear by value date or by date */
-    gsb_automem_radiobutton_new_with_title ( vbox_pref,
-                        _("Set the financial year"),
-                        _("According to the date"),
-                        _("According to the value date (if fail, try with the date)"),
-                        &etat.get_fyear_by_value_date,
-                        NULL, NULL );
+    //~ /* propose to choose between getting the fyear by value date or by date */
+    //~ gsb_automem_radiobutton_new_with_title ( vbox_pref,
+                        //~ _("Set the financial year"),
+                        //~ _("According to the date"),
+                        //~ _("According to the value date (if fail, try with the date)"),
+                        //~ &etat.get_fyear_by_value_date,
+                        //~ NULL, NULL );
 
-    gtk_widget_show_all ( vbox_pref );
+    //~ gtk_widget_show_all ( vbox_pref );
 
-    return ( vbox_pref );
-}
+    //~ return ( vbox_pref );
+//~ }
 
 
 /* *******************************************************************************/
@@ -4294,12 +4294,12 @@ gboolean gsb_import_associations_check_add_button ( GObject * main_widget )
 
 
 /* *******************************************************************************/
-gboolean changement_valeur_echelle_recherche_date_import ( GtkWidget *spin_button )
-{
-    etat.import_files_nb_days = gtk_spin_button_get_value_as_int ( GTK_SPIN_BUTTON ( spin_button ));
-    gsb_file_set_modified ( TRUE );
-    return ( FALSE );
-}
+//~ gboolean changement_valeur_echelle_recherche_date_import ( GtkWidget *spin_button )
+//~ {
+    //~ etat.import_files_nb_days = gtk_spin_button_get_value_as_int ( GTK_SPIN_BUTTON ( spin_button ));
+    //~ gsb_file_set_modified ( TRUE );
+    //~ return ( FALSE );
+//~ }
 
 
 
