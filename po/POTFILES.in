@@ -38,7 +38,6 @@ src/grisbi_osx.c
 src/grisbi_settings.c
 src/gsb_account.c
 src/gsb_account_property.c
-src/gsb_archive_config.c
 src/gsb_assistant_account.c
 src/gsb_assistant_archive.c
 src/gsb_assistant_archive_export.c
@@ -145,9 +144,16 @@ src/utils_font.c
 src/utils_gtkbuilder.c
 src/utils_operations.c
 src/utils_str.c
+src/prefs/prefs_page_archives.c
+src/prefs/prefs_page_files.c
+src/prefs/prefs_page_import_files.c
 [type: gettext/gsettings]src/org.gtk.grisbi.gschema.xml
 [type: gettext/glade]src/ui/bet_graph.ui
 [type: gettext/glade]src/ui/etats_prefs.ui
 [type: gettext/glade]src/ui/grisbi_menu.ui
+[type: gettext/glade]src/ui/grisbi_prefs.ui
 [type: gettext/glade]src/ui/grisbi_win.ui
+[type: gettext/glade]src/ui/prefs_page_archives.ui
+[type: gettext/glade]src/ui/prefs_page_files.ui
+[type: gettext/glade]src/ui/prefs_page_import_files.ui
 share/grisbi.desktop.in
