@@ -97,7 +97,6 @@
                 </child>
                 <child>
                   <object class="GtkToggleButton" id="togglebutton_expand_prefs">
-                    <property name="label" translatable="yes">togglebutton</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
