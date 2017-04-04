@@ -766,6 +766,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
 					   "\t\tAutomatic_amount_separator=\"%d\"\n"
 					   "\t\tCSV_separator=\"%s\"\n"
 					   "\t\tCSV_skipped_lines=\"%s\"\n"
+					   "\t\tCSV_force_date_valeur_with_date=\"%d\"\n"
 					   "\t\tMetatree_sort_transactions=\"%d\"\n"
 					   "\t\tAdd_archive_in_total_balance=\"%d\"\n"
                        "\t\tBet_array_column_width=\"%s\"\n"
@@ -821,6 +822,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	etat.automatic_separator,
 	my_safe_null_str(etat.csv_separator),
 	my_safe_null_str(skipped_lines_string),
+	etat.csv_force_date_valeur_with_date,
     etat.metatree_sort_transactions,
     etat.add_archive_in_total_balance,
     my_safe_null_str ( bet_array_column_width_write ),

@@ -64,6 +64,8 @@ struct _PrefsPageImportFilesPrivate
 	GtkWidget *			eventbox_extract_number_for_check;
     GtkWidget *			checkbutton_copy_payee_in_note;
 	GtkWidget *			eventbox_copy_payee_in_note;
+    GtkWidget *			checkbutton_csv_force_date_valeur_with_date;
+	GtkWidget *			eventbox_csv_force_date_valeur_with_date;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageImportFiles, prefs_page_import_files, GTK_TYPE_BOX)
@@ -116,6 +118,8 @@ static void prefs_page_import_files_setup_import_files_page (PrefsPageImportFile
 								  etat.extract_number_for_check);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_copy_payee_in_note),
 								  etat.extract_number_for_check);
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_csv_force_date_valeur_with_date),
+								  etat.csv_force_date_valeur_with_date);
 
 	/* set the choice of date for the financial year */
 	gsb_automem_radiobutton_new_with_title (priv->vbox_import_files,
@@ -183,6 +187,19 @@ static void prefs_page_import_files_setup_import_files_page (PrefsPageImportFile
 							"toggled",
 							G_CALLBACK (utils_prefs_gsb_file_set_modified),
 							NULL);
+
+    g_signal_connect (priv->eventbox_csv_force_date_valeur_with_date,
+					  "button-press-event",
+					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
+					  priv->checkbutton_csv_force_date_valeur_with_date);
+    g_signal_connect (priv->checkbutton_csv_force_date_valeur_with_date,
+					  "toggled",
+					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
+					  &etat.csv_force_date_valeur_with_date);
+    g_signal_connect_after (priv->checkbutton_csv_force_date_valeur_with_date,
+							"toggled",
+							G_CALLBACK (utils_prefs_gsb_file_set_modified),
+							NULL);
 }
 
 /******************************************************************************/
@@ -208,7 +225,6 @@ static void prefs_page_import_files_class_init (PrefsPageImportFilesClass *klass
 												 "/org/gtk/grisbi/ui/prefs_page_import_files.ui");
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageImportFiles, vbox_import_files);
-
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageImportFiles, spinbutton_import_files_nb_days);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageImportFiles, checkbutton_fusion_import_transactions);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageImportFiles, eventbox_fusion_import_transactions);
@@ -218,6 +234,8 @@ static void prefs_page_import_files_class_init (PrefsPageImportFilesClass *klass
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageImportFiles, eventbox_extract_number_for_check);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageImportFiles, checkbutton_copy_payee_in_note);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageImportFiles, eventbox_copy_payee_in_note);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageImportFiles, checkbutton_csv_force_date_valeur_with_date);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageImportFiles, eventbox_csv_force_date_valeur_with_date);
 }
 
 /******************************************************************************/

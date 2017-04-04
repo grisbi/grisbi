@@ -359,7 +359,7 @@
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <child>
-                              <object class="GtkCheckButton" id="checkbutton3">
+                              <object class="GtkCheckButton" id="checkbutton_csv_force_date_valeur_with_date">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
@@ -373,7 +373,7 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkEventBox" id="eventbox3">
+                              <object class="GtkEventBox" id="eventbox_csv_force_date_valeur_with_date">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <child>

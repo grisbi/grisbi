@@ -2533,6 +2533,21 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
             fyear = gsb_data_fyear_get_from_date (
                     imported_transaction -> date_de_valeur );
     }
+	else if (origine && g_ascii_strcasecmp (origine, "CSV") == 0)
+	{
+		if (etat.csv_force_date_valeur_with_date)
+		{
+			gsb_data_transaction_set_value_date (transaction_number,
+												 imported_transaction->date);
+
+			/* set the financial year according to the date or value date */
+			if (etat.get_fyear_by_value_date)
+			{
+				fyear = gsb_data_fyear_get_from_date (imported_transaction->date_de_valeur);
+			}
+		}
+
+	}
 
     /* if no fyear found, get from the date */
     if (fyear <= 0)
