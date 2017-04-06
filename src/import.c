@@ -781,7 +781,10 @@ GSList *gsb_import_create_file_chooser ( const char *enc, GtkWidget *parent )
                         NULL);
 
     gtk_file_chooser_set_select_multiple ( GTK_FILE_CHOOSER ( dialog ), TRUE );
-    gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( dialog ), gsb_file_get_last_path () );
+	if (conf.force_import_directory)
+		gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (dialog), conf.import_directory);
+	else
+		gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER (dialog), gsb_file_get_last_path ());
 
     /* Import filters */
     tmp = import_formats;
@@ -863,9 +866,13 @@ GSList *gsb_import_create_file_chooser ( const char *enc, GtkWidget *parent )
     /* save charmap */
     charmap_imported = g_strdup (go_charmap_sel_get_encoding ( (GOCharmapSel * )go_charmap_sel ));
 
-    tmp_last_directory = file_selection_get_last_directory ( GTK_FILE_CHOOSER ( dialog ), TRUE );
-    gsb_file_update_last_path ( tmp_last_directory );
-    g_free ( tmp_last_directory );
+	if (conf.force_import_directory)
+	{
+		tmp_last_directory = file_selection_get_last_directory (GTK_FILE_CHOOSER (dialog), TRUE);
+		gsb_file_update_last_path (tmp_last_directory);
+		g_free (tmp_last_directory);
+	}
+
     gtk_widget_destroy (dialog);
     return filenames;
 }
