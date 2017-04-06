@@ -83,8 +83,8 @@ G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageImportFiles, prefs_page_import_files, GTK_T
  *
  * \return
  **/
-gboolean prefs_page_import_files_spinbutton_import_files_nb_days_changed (GtkWidget *spinbutton,
-																		  gpointer null)
+static gboolean prefs_page_import_files_spinbutton_import_files_nb_days_changed (GtkWidget *spinbutton,
+																				 gpointer null)
 {
     etat.import_files_nb_days = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (spinbutton));
 

@@ -364,14 +364,22 @@ static void grisbi_prefs_init (GrisbiPrefs *prefs)
 
     /* set the default size */
     if (conf.prefs_width && conf.prefs_width > 830)
+	{
         gtk_window_set_default_size (GTK_WINDOW (prefs), conf.prefs_width, conf.prefs_height);
+	}
     else
+	{
         gtk_window_set_default_size (GTK_WINDOW (prefs), 830, conf.prefs_height);
+	}
 
 	if (conf.prefs_panel_width > 200)
+	{
         gtk_paned_set_position (GTK_PANED (priv->prefs_paned), conf.prefs_panel_width);
+	}
     else
+	{
 		gtk_paned_set_position (GTK_PANED (priv->prefs_paned), 200);
+	}
 
 	/* initialise left_tree_view */
 	grisbi_prefs_left_tree_view_setup (prefs);
