@@ -223,16 +223,6 @@ gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
 }
 
 /**
- * Set the account notebook page.
- *
- * \param page		Page to set.
- */
-void gsb_gui_on_account_change_page ( GsbAccountNotebookPages page )
-{
-    gtk_notebook_set_current_page ( GTK_NOTEBOOK ( account_page ), page );
-}
-
-/**
  * Set the main notebook page.
  *
  * \param page		Page to set.
