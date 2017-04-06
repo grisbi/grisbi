@@ -322,7 +322,7 @@ gboolean gsb_file_util_modify_lock ( gboolean create_lock )
 
         etat.fichier_deja_ouvert = 0;
 
-        fichier = utf8_fopen ( lock_filename, "w" );
+        fichier = utils_files_utf8_fopen ( lock_filename, "w" );
 
         if ( !fichier )
         {
@@ -349,7 +349,7 @@ gboolean gsb_file_util_modify_lock ( gboolean create_lock )
         if ( !g_file_test ( lock_filename, G_FILE_TEST_EXISTS ) )
             return TRUE;
 
-        result = utf8_remove ( lock_filename );
+        result = utils_files_utf8_remove ( lock_filename );
 
         if ( result == -1 )
         {

@@ -286,7 +286,7 @@ gint html_initialise ( GSList * opes_selectionnees, gchar * filename )
     html_last_is_hsep = FALSE;
     html_first_line = TRUE;
 
-    html_out = utf8_fopen ( filename, "w" );
+    html_out = utils_files_utf8_fopen ( filename, "w" );
     if ( ! html_out )
     {
       dialogue_error_hint ( _("Make sure file exists and is writable."),

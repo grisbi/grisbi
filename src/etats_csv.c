@@ -167,7 +167,7 @@ gint csv_initialise (GSList * opes_selectionnees, gchar * filename )
     if ( g_file_test ( filename, G_FILE_TEST_IS_REGULAR ) )
         g_unlink ( filename );
 
-    csv_out = utf8_fopen ( filename, "w" );
+    csv_out = utils_files_utf8_fopen ( filename, "w" );
     if ( ! csv_out )
     {
         gchar *sMessage = NULL;

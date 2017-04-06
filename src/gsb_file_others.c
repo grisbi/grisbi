@@ -147,7 +147,7 @@ gboolean gsb_file_others_save_category ( gchar *filename )
 
     /* the file is in memory, we can save it */
 
-	file = utf8_fopen ( filename, "w" );
+	file = utils_files_utf8_fopen ( filename, "w" );
 
     if ( !file
 	 ||
@@ -237,7 +237,7 @@ gboolean gsb_file_others_save_budget ( gchar *filename )
 
     /* the file is in memory, we can save it */
 
-	file = utf8_fopen ( filename, "w" );
+	file = utils_files_utf8_fopen ( filename, "w" );
 
     if ( !file
 	 ||

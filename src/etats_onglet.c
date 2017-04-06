@@ -1080,7 +1080,7 @@ gboolean gsb_report_export_change_format ( GtkWidget * combo, GtkWidget * select
     g_object_set_data ( G_OBJECT(selector), "format",
 			GINT_TO_POINTER ( gtk_combo_box_get_active ( GTK_COMBO_BOX(combo) ) ));
 
-    name = safe_file_name ( g_object_get_data ( G_OBJECT ( selector ), "basename" ) );
+    name = utils_files_safe_file_name ( g_object_get_data ( G_OBJECT ( selector ), "basename" ) );
     switch ( gtk_combo_box_get_active ( GTK_COMBO_BOX(combo) ) )
     {
 	    case REPORT_EGSB:		/* EGSB */

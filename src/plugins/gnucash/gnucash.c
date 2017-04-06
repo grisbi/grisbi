@@ -565,7 +565,7 @@ xmlDocPtr parse_gnucash_file ( gchar * filename )
   FILE * filein, * tempfile;
   xmlDocPtr doc;
 
-  filein = utf8_fopen ( filename, "r" );
+  filein = utils_files_utf8_fopen ( filename, "r" );
   if ( ! filein )
   {
       dialogue_error_hint ( g_strdup_printf ( _("Either file \"%s\" does not exist or it is not a regular file."),
@@ -575,7 +575,7 @@ xmlDocPtr parse_gnucash_file ( gchar * filename )
   }
 
   tempname = g_strdup_printf ( "gsbgnc%05d", g_random_int_range (0,99999) );
-  tempfile = utf8_fopen ( tempname, "w" );
+  tempfile = utils_files_utf8_fopen ( tempname, "w" );
   if ( ! tempfile )
   {
     gchar *tmp_str;

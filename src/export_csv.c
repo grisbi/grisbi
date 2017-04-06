@@ -409,7 +409,7 @@ static FILE *gsb_csv_export_open_file ( const gchar *filename )
     FILE *csv_file;
 
     /* Création du fichier, si pb, on marque l'erreur et passe au fichier suivant */
-    csv_file = utf8_fopen ( filename, "w" );
+    csv_file = utils_files_utf8_fopen ( filename, "w" );
     if ( ! csv_file )
     {
         gchar *sMessage = NULL;

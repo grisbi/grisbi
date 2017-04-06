@@ -113,7 +113,7 @@ gboolean recuperation_donnees_qif ( GtkWidget *assistant, struct imported_file *
     gboolean premier_compte = TRUE;
     FILE *qif_file;
 
-    qif_file = utf8_fopen ( imported -> name, "r" );
+    qif_file = utils_files_utf8_fopen ( imported -> name, "r" );
     if ( ! qif_file )
         return FALSE;
 
@@ -131,7 +131,7 @@ gboolean recuperation_donnees_qif ( GtkWidget *assistant, struct imported_file *
     imported_account -> real_filename = my_strdup (imported -> name);
 
     /* It is positioned on the first line of file */
-    returned_value = get_utf8_line_from_file ( qif_file, &tmp_str, imported -> coding_system );
+    returned_value = utils_files_get_utf8_line_from_file ( qif_file, &tmp_str, imported -> coding_system );
 
     do
     {
@@ -163,7 +163,7 @@ gboolean recuperation_donnees_qif ( GtkWidget *assistant, struct imported_file *
 
                 name_preced = TRUE;
                 premier_compte = FALSE;
-                returned_value = get_utf8_line_from_file ( qif_file, &tmp_str, imported -> coding_system );
+                returned_value = utils_files_get_utf8_line_from_file ( qif_file, &tmp_str, imported -> coding_system );
             }
             else if ( returned_value != EOF
              &&
@@ -834,7 +834,7 @@ gboolean qif_export ( const gchar *filename,
     if (!gsb_file_util_test_overwrite (filename))
 	return FALSE;
 
-    if ( !( fichier_qif = utf8_fopen ( filename, "w" ) ))
+    if ( !( fichier_qif = utils_files_utf8_fopen ( filename, "w" ) ))
     {
 	dialogue_error_hint ( g_strerror(errno),
 			      g_strdup_printf ( _("Error opening file '%s'"),
@@ -1120,7 +1120,7 @@ gchar *gsb_qif_get_account_name ( FILE *qif_file, const gchar *coding_system )
 
     do
     {
-        returned_value = get_utf8_line_from_file ( qif_file, &tmp_str, coding_system );
+        returned_value = utils_files_get_utf8_line_from_file ( qif_file, &tmp_str, coding_system );
 
         if ( tmp_str[0] == 'N' )
             name = my_strdup ( tmp_str + 1 );
@@ -1182,7 +1182,7 @@ gint gsb_qif_recupere_operations_from_account ( FILE *qif_file,
     imported_transaction = g_malloc0 ( sizeof ( struct struct_ope_importation ) );
     do
     {
-        returned_value = get_utf8_line_from_file ( qif_file, &string, coding_system );
+        returned_value = utils_files_get_utf8_line_from_file ( qif_file, &string, coding_system );
 
         /* a transaction never begin with ^ and ! */
         if ( strlen ( string )
@@ -1375,7 +1375,7 @@ gint gsb_qif_recupere_categories ( FILE *qif_file, const gchar *coding_system )
 
     do
     {
-        returned_value = get_utf8_line_from_file ( qif_file, &string, coding_system );
+        returned_value = utils_files_get_utf8_line_from_file ( qif_file, &string, coding_system );
 
         /* a category never begin with ^ and ! */
         if ( strlen ( string )
@@ -1395,7 +1395,7 @@ gint gsb_qif_recupere_categories ( FILE *qif_file, const gchar *coding_system )
 
             do
             {
-                returned_value = get_utf8_line_from_file ( qif_file,
+                returned_value = utils_files_get_utf8_line_from_file ( qif_file,
                             &string, coding_system );
                 if ( strlen ( string )
                  &&
