@@ -59,6 +59,7 @@
 #include "traitement_variables.h"
 #include "tip.h"
 #include "utils.h"
+#include "utils_files.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -171,64 +172,6 @@ static gboolean gsb_menu_reinit_largeur_col_menu (void)
 
     return FALSE;
 }
-/**
- * ajoute en tête un item au recent manager et supprime l'ancienne occurence
- *
- * \param
- *
- * \return
- * */
-static void gsb_menu_recent_manager_add_item (void)
-{
-    GtkRecentManager *recent_manager;
-    GList *tmp_list;
-	const gchar *uri;
-	gchar *tmp_uri;
-	const gchar *filename;
-    gint index_gsb = 0;
-	gboolean trouve = FALSE;
-
-	conf.nb_derniers_fichiers_ouverts++;
-	if (conf.nb_derniers_fichiers_ouverts > conf.nb_max_derniers_fichiers_ouverts)
-		conf.nb_derniers_fichiers_ouverts = conf.nb_max_derniers_fichiers_ouverts;
-
-	filename = grisbi_win_get_filename (NULL);
-	tmp_uri = g_filename_to_uri (filename, NULL, NULL);
-
-	recent_manager = gtk_recent_manager_get_default ();
-	tmp_list = gtk_recent_manager_get_items (recent_manager);
-	while (tmp_list)
-	{
-		GtkRecentInfo *info;
-
-		info = tmp_list->data;
-		uri = gtk_recent_info_get_uri (info);
-		if (g_str_has_suffix (uri, ".gsb"))
-		{
-			index_gsb++;
-
-			if (g_strcmp0 (uri, tmp_uri) == 0)
-			{
-				if (index_gsb > 1)
-				{
-					gtk_recent_manager_remove_item (recent_manager, uri, NULL);
-					gtk_recent_manager_add_item (recent_manager, tmp_uri);
-				}
-				trouve = TRUE;
-				break;
-			}
-		}
-		tmp_list = tmp_list->next;
-	}
-	if (trouve == FALSE)
-		gtk_recent_manager_add_item (recent_manager, tmp_uri);
-
-	g_free (tmp_uri);
-	g_list_free_full (tmp_list, (GDestroyNotify) gtk_recent_info_unref);
-	grisbi_app_set_recent_files_menu (NULL, TRUE);
-}
-
-
 /******************************************************************************/
 /* Public functions                                                           */
 /******************************************************************************/
@@ -389,7 +332,7 @@ void grisbi_cmd_file_new (GSimpleAction *action,
     gsb_assistant_file_run (FALSE, FALSE);
 
 	/* on ajoute un item au menu recent_file */
-	gsb_menu_recent_manager_add_item ();
+	utils_files_append_name_to_recent_array (grisbi_win_get_filename (NULL));
 }
 
 /**
@@ -408,7 +351,7 @@ void grisbi_cmd_file_open_menu (GSimpleAction *action,
 	devel_debug (NULL);
 
 	if (gsb_file_open_menu ())
-		gsb_menu_recent_manager_add_item ();
+		utils_files_append_name_to_recent_array (grisbi_win_get_filename (NULL));
 }
 
 /**
@@ -424,13 +367,10 @@ void grisbi_cmd_file_open_direct_menu (GSimpleAction *action,
 									   GVariant *parameter,
 									   gpointer app)
 {
-    GtkRecentManager *recent_manager;
-    GList *tmp_list;
+	gchar **recent_array;
 	const gchar *target;
-	const gchar *uri = NULL;
 	gchar *tmp_str;
     gint index_target = 0;
-    gint index_gsb = 0;
 
 	devel_debug (NULL);
 
@@ -441,36 +381,15 @@ void grisbi_cmd_file_open_direct_menu (GSimpleAction *action,
 	target = g_variant_get_string (parameter, NULL);
     index_target = atoi (target);
 
-    recent_manager = gtk_recent_manager_get_default ();
-    tmp_list = gtk_recent_manager_get_items (recent_manager);
-    while (tmp_list)
-    {
-        GtkRecentInfo *info;
+	recent_array = grisbi_app_get_recent_files_array ();
+	tmp_str = g_strdup (recent_array[index_target-1]);
 
-        info = tmp_list->data;
-        uri = gtk_recent_info_get_uri (info);
-        if (g_str_has_suffix (uri, ".gsb"))
-        {
-            index_gsb++;
-            if (index_gsb == index_target)
-                break;
-        }
-        tmp_list = tmp_list->next;
-    }
-	tmp_str = g_filename_from_uri (uri, NULL, NULL);
-
-	/* on supprime l'item de la liste. On le mettra en premier si le fichier a été ouvert*/
-    gtk_recent_manager_remove_item (recent_manager, uri, NULL);
-
-    if (tmp_str)
+	if (tmp_str)
 	{
 		if (gsb_file_open_file (tmp_str))
-            gtk_recent_manager_add_item (recent_manager, uri);
+			utils_files_append_name_to_recent_array (tmp_str);
 		g_free (tmp_str);
 	}
-    g_list_free_full (tmp_list, (GDestroyNotify) gtk_recent_info_unref);
-
-    grisbi_app_set_recent_files_menu (NULL, TRUE);
 }
 
 /**
@@ -968,90 +887,8 @@ void grisbi_cmd_reset_width_col (GSimpleAction *action,
 								 gpointer app)
 {
 	gsb_menu_reinit_largeur_col_menu ();
-        gsb_file_set_modified (TRUE);
+    gsb_file_set_modified (TRUE);
 }
-
-/* RECENT FILES MANAGER */
-/**
- * limits the number of gsb files in recent manager
- *
- * \param GtkRecentManager	recent_manager
- *
- * \return
- * */
-void gsb_menu_recent_manager_purge_gsb_items (GtkRecentManager *recent_manager)
-{
-	GList *tmp_list;
-	gint index = 0;
-
-	tmp_list = gtk_recent_manager_get_items (recent_manager);
-
-	while (tmp_list)
-    {
-		GtkRecentInfo *info;
-		const gchar *uri;
-
-		info = tmp_list->data;
-
-		uri = gtk_recent_info_get_uri (info);
-
-		if (g_str_has_suffix (uri, ".gsb"))
-		{
-			index++;
-			if (index > conf.nb_max_derniers_fichiers_ouverts)
-			{
-				gtk_recent_manager_remove_item (recent_manager, uri, NULL);
-			}
-		}
-		gtk_recent_info_unref (info);
-
-		tmp_list = tmp_list->next;
-    }
-	g_list_free (tmp_list);
-}
-
-/**
- * remove an item of an recent_manager
- *
- * \param GtkRecentManager	recent_manager
- * \param const gchar 		path of gsb_file
- *
- * \return
- * */
-void gsb_menu_recent_manager_remove_item (GtkRecentManager *recent_manager,
-										  const gchar *path)
-{
-	gchar *uri;
-	GError *error = NULL;
-
-	uri = g_filename_to_uri (path, NULL, &error);
-	if (error)
-    {
-		g_warning ("Could not convert uri \"%s\" to a local path: %s", uri, error->message);
-		g_error_free (error);
-
-		return;
-    }
-
-	if (recent_manager)
-		gtk_recent_manager_remove_item (recent_manager, uri, &error);
-	else
-	{
-		GtkRecentManager *tmp_recent_manager;
-
-		tmp_recent_manager = gtk_recent_manager_get_default ();
-		gtk_recent_manager_remove_item (tmp_recent_manager, uri, &error);
-	}
-
-	if (error)
-	{
-		g_warning ("Could not remove recent-files uri \"%s\": %s", uri, error->message);
-		g_error_free (error);
-	}
-
-  g_free (uri);
-}
-
 
 /* CALLBACK VIEW MENUS */
 /**

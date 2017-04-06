@@ -83,8 +83,6 @@ G_DEFINE_TYPE_WITH_PRIVATE (GrisbiSettings, grisbi_settings, G_TYPE_OBJECT);
 /* singleton object - all consumers of GrisbiSettings get the same object (refcounted) */
 static GrisbiSettings *singleton = NULL;
 
-/* recent files array */
-static gchar **recent_array = NULL;
 
 /*******************************************************************************
  * Private Methods
@@ -184,6 +182,7 @@ static void grisbi_settings_init_settings_display (GSettings *settings)
  **/
 static void grisbi_settings_init_settings_file (GSettings *settings)
 {
+	gchar **recent_array;
 	gchar *import_directory;
 
     conf.compress_file = g_settings_get_boolean (settings, "compress-file");
@@ -219,6 +218,8 @@ static void grisbi_settings_init_settings_file (GSettings *settings)
             conf.last_open_file = my_strdup (recent_array[0]);
         }
     }
+
+	grisbi_app_set_recent_files_array (recent_array);
 
     /* archive stuff */
     conf.archives_check_auto = g_settings_get_boolean (settings, "archives-check-auto");
@@ -585,6 +586,7 @@ GrisbiSettings *grisbi_settings_get (void)
 void grisbi_settings_save_app_config (void)
 {
     GrisbiSettingsPrivate *priv;
+	gchar **recent_array;
     gchar *tmp_str;
     gint i;
 
@@ -672,17 +674,14 @@ void grisbi_settings_save_app_config (void)
 							   "import-directory",
 							   conf.import_directory);
 	}
-	/* on commence par liberer la mémoire utilisée par recent_array */
-    g_strfreev (recent_array);
 
-    recent_array = grisbi_app_get_recent_files_array ();
+	recent_array = grisbi_app_get_recent_files_array ();
     if (g_strv_length (recent_array))
     {
         g_settings_set_strv (G_SETTINGS (priv->settings_file),
                         "names-last-files",
                         (const gchar * const *) recent_array);
     }
-    g_strfreev (recent_array);
 
     g_settings_set_int (G_SETTINGS (priv->settings_file),
                         "nb-max-derniers-fichiers-ouverts",
@@ -881,19 +880,7 @@ GSettings *grisbi_settings_get_settings (gint schema)
     return settings;
 }
 
- /**
- * retourne le tableau des fichiers récents
- *
- * \param
- *
- * \return recent array
- **/
-gchar ** grisbi_settings_get_recent_files_array (void)
-{
-	return recent_array;
-}
-
- /**
+/**
  *
  *
  * \param

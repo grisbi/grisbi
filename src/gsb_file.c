@@ -114,7 +114,6 @@ static gboolean gsb_file_test_file ( const gchar *filename )
 
         g_free ( tmp_str1 );
         g_free ( tmp_str2 );
-        gsb_menu_recent_manager_remove_item ( NULL, filename );
 
         return FALSE;
     }
@@ -130,7 +129,6 @@ static gboolean gsb_file_test_file ( const gchar *filename )
 
         g_free ( tmp_str1 );
         g_free ( tmp_str2 );
-        gsb_menu_recent_manager_remove_item ( NULL, filename );
 
         return ( FALSE );
     }
@@ -819,7 +817,6 @@ gboolean gsb_file_open_file ( gchar *filename )
 		g_free ( tmp_str2 );
 
 		grisbi_win_status_bar_stop_wait ( TRUE );
-        gsb_menu_recent_manager_remove_item ( NULL, filename );
 
 		return FALSE;
     }

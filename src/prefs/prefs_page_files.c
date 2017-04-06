@@ -38,6 +38,7 @@
 
 /*START_INCLUDE*/
 #include "prefs_page_files.h"
+#include "grisbi_app.h"
 #include "gsb_file.h"
 #include "structures.h"
 #include "utils_prefs.h"
@@ -121,7 +122,6 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
     /* set the max number of files */
     gtk_spin_button_set_value (GTK_SPIN_BUTTON (priv->spinbutton_nb_max_derniers_fichiers),
 							   conf.nb_max_derniers_fichiers_ouverts);
-	g_object_set_data (G_OBJECT (priv->spinbutton_nb_max_derniers_fichiers), "function", "set_recent_files_menu");
 
     /* Connect signal */
     g_signal_connect (priv->eventbox_load_last_file,
@@ -169,6 +169,10 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
                         "value-changed",
                         G_CALLBACK (utils_prefs_spinbutton_changed),
                         &conf.nb_max_derniers_fichiers_ouverts);
+    g_signal_connect_after (priv->spinbutton_nb_max_derniers_fichiers,
+                        "value-changed",
+                        G_CALLBACK (grisbi_app_update_recent_files_menu),
+                        NULL);
 
     /* set the variables for backup tab */
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_make_bakup_single_file),

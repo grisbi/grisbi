@@ -526,17 +526,8 @@ void utils_prefs_spinbutton_changed (GtkSpinButton *spinbutton,
     if (value)
     {
         GtkWidget *button = NULL;
-		//~ gchar *function;
 
         *value = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (spinbutton));
-
-		/* action suite changement de valeur */
-		//~ function = g_object_get_data (G_OBJECT (spinbutton), "function");
-		//~ if (function)
-		//~ {
-			//~ if (strcmp ("set_recent_files_menu", function) == 0)
-				//~ grisbi_app_set_recent_files_menu (NULL, FALSE);
-		//~ }
 
         button = g_object_get_data (G_OBJECT (spinbutton), "button");
         if (button && GTK_IS_TOGGLE_BUTTON (button))

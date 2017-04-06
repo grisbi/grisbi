@@ -1,9 +1,9 @@
 /* ************************************************************************** */
 /*                                  utils_files.c                             */
 /*                                                                            */
-/*     Copyright (C)    2000-2007 Cédric Auger (cedric@grisbi.org)            */
-/*          2003-2007 Benjamin Drieu (bdrieu@april.org)                       */
-/*          2003-2004 Alain Portal (aportal@univ-montp2.fr)                   */
+/*     Copyright(C)    2000-2007 Cédric Auger(cedric@grisbi.org)              */
+/*          2003-2007 Benjamin Drieu(bdrieu@april.org)                        */
+/*          2003-2004 Alain Portal(aportal@univ-montp2.fr)                    */
 /*          2008-2017 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
@@ -364,7 +364,92 @@ static void utils_files_go_charmap_sel_changed (GtkWidget *go_charmap_sel,
 /******************************************************************************/
 /* Public functions                                                           */
 /******************************************************************************/
-/* get the line af the file,
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void utils_files_append_name_to_recent_array (const gchar *filename)
+{
+	gchar **recent_array;
+    gchar *dernier;
+    gint position;
+    gint i;
+
+    if (!filename)
+        return;
+
+    if (conf.nb_max_derniers_fichiers_ouverts == 0)
+        return;
+
+    if (conf.nb_derniers_fichiers_ouverts < 0)
+        conf.nb_derniers_fichiers_ouverts = 0;
+
+	recent_array = grisbi_app_get_recent_files_array ();
+
+    /* on commence par vérifier si ce fichier n'est pas dans les nb_derniers_fichiers_ouverts  */
+    position = 0;
+
+    if (conf.nb_derniers_fichiers_ouverts)
+    {
+        for (i = 0; i < conf.nb_derniers_fichiers_ouverts; i++)
+        {
+            if (!strcmp (filename, recent_array[i]))
+            {
+                /* 	si ce fichier est déjà le dernier ouvert, on laisse tomber */
+                if (i == 0)
+                {
+                    return;
+                }
+                position = i;
+            }
+        }
+
+		if (position)
+        {
+            /* le fichier a été trouvé, on fait juste une rotation */
+            for (i = position; i > 0 ; i--)
+                recent_array[i] = recent_array[i-1];
+            if (filename)
+                recent_array[0] = my_strdup (filename);
+            else
+                recent_array[0] = my_strdup ("<no file>");
+
+			grisbi_app_set_recent_files_array (recent_array);
+			grisbi_app_update_recent_files_menu ();
+
+            return;
+        }
+        /* le fichier est nouveau, on décale tout d'un cran et on met le nouveau à 0 */
+
+        /* si on est déjà au max, c'est juste un décalage avec perte du dernier */
+        /* on garde le ptit dernier dans le cas contraire */
+        dernier = recent_array[conf.nb_derniers_fichiers_ouverts-1];
+        for (i = conf.nb_derniers_fichiers_ouverts - 1 ; i > 0 ; i--)
+            recent_array[i] = recent_array[i-1];
+    }
+    else
+        dernier = NULL;
+
+	if (conf.nb_derniers_fichiers_ouverts < conf.nb_max_derniers_fichiers_ouverts)
+    {
+		if (conf.nb_derniers_fichiers_ouverts == 0)
+			recent_array = g_malloc ((++conf.nb_derniers_fichiers_ouverts) * sizeof (gpointer));
+		else
+			recent_array = g_realloc (recent_array, (++conf.nb_derniers_fichiers_ouverts) * sizeof (gpointer));
+        recent_array[conf.nb_derniers_fichiers_ouverts-1] = dernier;
+		recent_array[conf.nb_derniers_fichiers_ouverts] = '\0';
+    }
+
+    recent_array[0] = my_strdup (filename);
+	grisbi_app_set_recent_files_array (recent_array);
+	grisbi_app_update_recent_files_menu ();
+}
+
+/*
+ * get the line af the file,
  * convert it in UTF8 and fill string with that line
  *
  * \param fichier

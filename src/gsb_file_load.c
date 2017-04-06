@@ -3857,8 +3857,6 @@ gboolean gsb_file_load_open_file ( gchar *filename )
     }
     else
     {
-        gsb_menu_recent_manager_remove_item ( NULL, filename );
-
         return FALSE;
     }
 

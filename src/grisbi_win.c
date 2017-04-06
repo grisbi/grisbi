@@ -582,7 +582,6 @@ static void grisbi_win_no_file_page_new (GrisbiWin *win)
 
         g_free (tmp_str);
     }
-	g_strfreev (recent_files_array);
 
 	/* finalisation de no_file_page */
 	gtk_widget_show (priv->no_file_page);
@@ -1241,7 +1240,6 @@ void grisbi_win_no_file_page_update (GrisbiWin *win)
 		}
 		g_free (tmp_str);
 	}
-	g_strfreev (recent_files_array);
 }
 
 /* VBOX_GENERAL */
