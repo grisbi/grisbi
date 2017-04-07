@@ -385,7 +385,9 @@ void utils_files_append_name_to_recent_array (const gchar *filename)
         return;
 
     if (conf.nb_derniers_fichiers_ouverts < 0)
+	{
         conf.nb_derniers_fichiers_ouverts = 0;
+	}
 
 	recent_array = grisbi_app_get_recent_files_array ();
 

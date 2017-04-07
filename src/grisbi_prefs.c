@@ -356,7 +356,7 @@ static void grisbi_prefs_init (GrisbiPrefs *prefs)
 	gtk_widget_init_template (GTK_WIDGET (prefs));
 
     gtk_dialog_add_buttons (GTK_DIALOG (prefs),
-                        GTK_STOCK_CLOSE,
+                        _("gtk-close"),
                         GTK_RESPONSE_CLOSE,
                         NULL);
 
