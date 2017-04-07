@@ -55,7 +55,7 @@
 /*END_STATIC*/
 
 #define GSB_NBRE_CHAR 15
-#define GSB_NAMEFILE_TOO_LONG 45
+#define GSB_NAMEFILE_TOO_LONG 75				/* 5 lignes dans le bouton */
 
 /*START_EXTERN Variables externes PROVISOIRE*/
 

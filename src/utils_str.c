@@ -1147,15 +1147,15 @@ gchar *utils_str_break_filename (const gchar *string,
     gint size2;
     gint size3;
 
-    if ((gint) strlen (string) <= trunc)
+    if ((gint) g_utf8_strlen (string, -1) <= trunc)
         return g_strdup (string);
 
     basename = g_path_get_basename (string);
-    size1 = strlen (basename);
+    size1 = g_utf8_strlen (basename, -1);
     dirname = g_path_get_dirname (string);
-    size2 = strlen (dirname);
+    size2 = g_utf8_strlen (dirname, -1);
 
-    /* si chaque partie est < trunc on renvoie la chaîne sur deux lignes */
+	/* si chaque partie est < trunc on renvoie la chaîne sur deux lignes */
     if (size1 <= trunc && size2 <= trunc)
     {
         tmp_str2 = g_strconcat (dirname, G_DIR_SEPARATOR_S, "\n", basename, NULL);
@@ -1174,19 +1174,17 @@ gchar *utils_str_break_filename (const gchar *string,
         tmp_str2 = utils_string_get_ligne_longueur_fixe (tmp_dir, G_DIR_SEPARATOR_S, trunc);
         g_free (tmp_dir);
         tmp_dir = tmp_str2;
-        size3 = strlen (tmp_dir);
+        size3 = g_utf8_strlen (tmp_dir, -1);
         do
         {
             end = g_utf8_offset_to_pointer (dirname, size3);
-
             if (size3 + trunc <= size2)
                 ptr = g_utf8_offset_to_pointer (dirname, (size3 + trunc));
-
             if (ptr)
             {
                 tmp_str2 = g_strndup (end, (ptr - end));
                 tmp_str3 = utils_string_get_ligne_longueur_fixe (tmp_str2, G_DIR_SEPARATOR_S, trunc);
-                size3 += strlen (tmp_str3);
+                size3 += g_utf8_strlen (tmp_str3, -1);
                 g_free (tmp_str2);
                 tmp_str2 = g_strconcat (tmp_dir, "\n", tmp_str3, NULL);
                 g_free (tmp_dir);
@@ -1199,7 +1197,6 @@ gchar *utils_str_break_filename (const gchar *string,
                 g_free (tmp_dir);
                 tmp_dir = tmp_str2;
             }
-
             ptr = NULL;
             i++;
         } while (i <= n);
@@ -1226,7 +1223,7 @@ gchar *utils_str_break_filename (const gchar *string,
         {
             n = 3;
             basename[3*trunc+1] = '\0';
-            size1 = strlen (basename);
+            size1 = g_utf8_strlen (basename, -1);
         }
         tmp_base = g_malloc0 (size1 + n);
         tmp_base = g_utf8_strncpy (tmp_base, basename, trunc);
@@ -1235,7 +1232,7 @@ gchar *utils_str_break_filename (const gchar *string,
         tmp_str2 = utils_string_get_ligne_longueur_fixe (tmp_base, separator, trunc);
         g_free (tmp_base);
         tmp_base = tmp_str2;
-        size3 = strlen (tmp_base);
+        size3 = g_utf8_strlen (tmp_base, -1);
         do
         {
             end = g_utf8_offset_to_pointer (basename, size3);
@@ -1248,7 +1245,7 @@ gchar *utils_str_break_filename (const gchar *string,
                 tmp_str2 = g_strndup (end, (ptr - end));
                 separator = utils_string_get_separator (tmp_str2);
                 tmp_str3 = utils_string_get_ligne_longueur_fixe (tmp_str2, separator, trunc);
-                size3 += strlen (tmp_str3);
+                size3 += g_utf8_strlen (tmp_str3, -1);
                 g_free (tmp_str2);
                 tmp_str2 = g_strconcat (tmp_base, "\n", tmp_str3, NULL);
                 g_free (tmp_base);
@@ -1269,9 +1266,15 @@ gchar *utils_str_break_filename (const gchar *string,
         if (strcmp (tmp_dir, "."))
             tmp_str2 = g_strconcat (tmp_dir, G_DIR_SEPARATOR_S, "\n", tmp_base, NULL);
 
+        g_free (tmp_dir);
+        g_free (basename);
+        g_free (dirname);
 
         return tmp_str2;
     }
+
+	g_free (basename);
+	g_free (dirname);
 
     /* return */
     return NULL;
