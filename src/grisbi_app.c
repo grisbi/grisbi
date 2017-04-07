@@ -833,6 +833,7 @@ static void grisbi_app_startup (GApplication *application)
     if (!gtk_css_provider_load_from_file (css_provider, file, NULL))
         warning_debug (tmp_dir);
     g_free (tmp_dir);
+	g_object_unref (file);
 
     /* initialise les couleurs */
     gsb_rgba_initialise_couleurs_par_defaut ();
@@ -946,6 +947,9 @@ static void grisbi_app_dispose (GObject *object)
     /* liberation de la mémoire utilisée par les objets de priv*/
     g_clear_object (&priv->appmenu);
     g_clear_object (&priv->menubar);
+
+	if (priv->recent_array && g_strv_length (priv->recent_array) > 0)
+		g_strfreev (priv->recent_array);
 
     G_OBJECT_CLASS (grisbi_app_parent_class)->dispose (object);
 }

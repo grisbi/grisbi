@@ -583,6 +583,8 @@ GtkWidget *bet_historical_get_data_tree_view ( GtkWidget *container )
     g_object_set_data ( G_OBJECT ( column ), "num_col_model",
                         GINT_TO_POINTER ( SPP_HISTORICAL_DESC_COLUMN ) );
 
+	g_free (title);
+
     /* amount column */
     cell = gtk_cell_renderer_text_new ( );
     column = gtk_tree_view_column_new_with_attributes (

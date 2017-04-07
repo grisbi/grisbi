@@ -1267,6 +1267,7 @@ gchar *utils_str_break_filename (const gchar *string,
             tmp_str2 = g_strconcat (tmp_dir, G_DIR_SEPARATOR_S, "\n", tmp_base, NULL);
 
         g_free (tmp_dir);
+		g_free (tmp_base);
         g_free (basename);
         g_free (dirname);
 

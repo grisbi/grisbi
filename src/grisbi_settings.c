@@ -203,6 +203,7 @@ static void grisbi_settings_init_settings_file (GSettings *settings)
 		{
 			conf.import_directory = my_strdup (gsb_dirs_get_user_data_dir ());
 		}
+		g_free (import_directory);
 	}
 	recent_array = g_settings_get_strv (settings, "names-last-files");
     if (recent_array)

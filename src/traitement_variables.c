@@ -311,9 +311,13 @@ void init_variables ( void )
  * Free allocations of grisbi variables
  *
  * */
-void free_variables ( void )
+void free_variables (void)
 {
-    gsb_data_print_config_free ();
+    if (titre_fichier && strlen (titre_fichier))
+	{
+        g_free (titre_fichier);
+	}
+	gsb_data_print_config_free ();
     gsb_gui_navigation_free_pages_list ();
     gsb_regex_destroy ();
     bet_data_free_variables ();
