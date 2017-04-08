@@ -45,6 +45,7 @@
 #include "utils_prefs.h"
 #include "prefs/prefs_page_archives.h"
 #include "prefs/prefs_page_files.h"
+#include "prefs/prefs_page_import_asso.h"
 #include "prefs/prefs_page_import_files.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -164,7 +165,7 @@ static void grisbi_prefs_setup_import_page (GrisbiPrefs *prefs)
 	GtkWidget *head_page;
 	GtkWidget *notebook_import_pages;
 	GtkWidget *vbox_import_files;
-	//~ GtkWidget *vbox_import_asso;
+	GtkWidget *vbox_import_asso;
 	GrisbiPrefsPrivate *priv;
 
 	devel_debug (NULL);
@@ -189,10 +190,10 @@ static void grisbi_prefs_setup_import_page (GrisbiPrefs *prefs)
 	gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook_import_pages), vbox_import_files, priv->label_import_page_1);
 
 	/* set manage associations */
-	//~ vbox_import_asso = GTK_WIDGET (prefs_page_import_files_new (prefs));
-	//~ gtk_widget_set_margin_top (vbox_import_asso, MARGIN_TOP);
-	//~ gtk_notebook_append_page (GTK_NOTEBOOK (notebook_import_pages), vbox_import_asso, NULL);
-	//~ gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook_import_pages), vbox_import_asso, priv->label_import_page_2);
+	vbox_import_asso = GTK_WIDGET (prefs_page_import_files_new (prefs));
+	gtk_widget_set_margin_top (vbox_import_asso, MARGIN_TOP);
+	gtk_notebook_append_page (GTK_NOTEBOOK (notebook_import_pages), vbox_import_asso, NULL);
+	gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook_import_pages), vbox_import_asso, priv->label_import_page_2);
 
 	gtk_widget_show (notebook_import_pages);
 }
