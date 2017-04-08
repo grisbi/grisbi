@@ -72,6 +72,16 @@ G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageImportAsso, prefs_page_import_asso, GTK_TYP
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
+/**
+ *
+ *
+ * \param
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ **/
 static void prefs_page_import_asso_cell_edited (GtkCellRendererText *cell,
 												const gchar *path_string,
 												const gchar *new_text,
@@ -115,6 +125,13 @@ static void prefs_page_import_asso_cell_edited (GtkCellRendererText *cell,
     }
 }
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 static gboolean prefs_page_import_asso_check_add_button (PrefsPageImportAsso *page)
 {
     gboolean sensitive = TRUE;
@@ -146,6 +163,14 @@ static gboolean prefs_page_import_asso_check_add_button (PrefsPageImportAsso *pa
 }
 
 
+/**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
 static void prefs_page_import_asso_combo_changed (GtkEditable *editable,
 												  PrefsPageImportAsso *page)
 {
@@ -189,6 +214,7 @@ static void prefs_page_import_asso_combo_changed (GtkEditable *editable,
 /**
  *
  *
+ * \param
  * \param
  *
  * \return
@@ -261,6 +287,14 @@ static void prefs_page_import_asso_fill_model (GtkListStore *list_store)
     }
 }
 
+/**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
 static void prefs_page_import_asso_del_assoc (GtkWidget *button,
 											  PrefsPageImportAsso *page)
 {
@@ -274,14 +308,14 @@ static void prefs_page_import_asso_del_assoc (GtkWidget *button,
     if (!gtk_tree_selection_get_selected (gtk_tree_view_get_selection
 										  (GTK_TREE_VIEW (priv->treeview_import_asso)),
 										  NULL,
-										  &iter ))
+										  &iter))
 	{
 		return;
 	}
 
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (priv->treeview_import_asso));
     gtk_tree_model_get (model, &iter, 2, &payee_number, -1);
-    if ( payee_number > 0 )
+    if (payee_number > 0)
     {
 		gsb_import_associations_remove_assoc (payee_number);
 		gtk_combofix_set_text (GTK_COMBOFIX (priv->combo_import_asso_payee), "");
@@ -291,12 +325,19 @@ static void prefs_page_import_asso_del_assoc (GtkWidget *button,
     }
 }
 
+/**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
 static void prefs_page_import_asso_add_assoc (GtkWidget *button,
 											  PrefsPageImportAsso *page)
 {
     gchar *payee;
     gchar *search_str;
-	gchar *msg;
     gint payee_number;
 	gboolean result = FALSE;
 	static gboolean etat = FALSE;
@@ -316,9 +357,6 @@ static void prefs_page_import_asso_add_assoc (GtkWidget *button,
 	}
 
 	etat = FALSE;
-	msg = g_strconcat (payee, " ", search_str, NULL);
-	devel_debug (msg);
-	g_free (msg);
 
     payee_number = gsb_data_payee_get_number_by_name  (payee, TRUE);
 	g_free(payee);
@@ -449,6 +487,13 @@ static void prefs_page_import_asso_setup_import_asso_page (PrefsPageImportAsso *
 /******************************************************************************/
 /* Fonctions propres à l'initialisation des fenêtres                          */
 /******************************************************************************/
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 static void prefs_page_import_asso_init (PrefsPageImportAsso *page)
 {
 	PrefsPageImportAssoPrivate *priv;
@@ -462,11 +507,25 @@ static void prefs_page_import_asso_init (PrefsPageImportAsso *page)
 	prefs_page_import_asso_setup_import_asso_page (page);
 }
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 static void prefs_page_import_asso_dispose (GObject *object)
 {
 	G_OBJECT_CLASS (prefs_page_import_asso_parent_class)->dispose (object);
 }
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 static void prefs_page_import_asso_class_init (PrefsPageImportAssoClass *klass)
 {
 	G_OBJECT_CLASS (klass)->dispose = prefs_page_import_asso_dispose;
@@ -485,7 +544,14 @@ static void prefs_page_import_asso_class_init (PrefsPageImportAssoClass *klass)
 /******************************************************************************/
 /* Public functions                                                           */
 /******************************************************************************/
-PrefsPageImportAsso * prefs_page_import_asso_new (GrisbiPrefs *win)
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+PrefsPageImportAsso *prefs_page_import_asso_new (GrisbiPrefs *win)
 {
   return g_object_new (PREFS_PAGE_IMPORT_ASSO_TYPE, NULL);
 }
