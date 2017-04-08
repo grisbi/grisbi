@@ -69,7 +69,7 @@ struct _PrefsPageImportAssoPrivate
 
 G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageImportAsso, prefs_page_import_asso, GTK_TYPE_BOX)
 
-static GtkTreePath *path_selected = NULL;
+static GtkTreePath *path_selected;
 
 /******************************************************************************/
 /* Private functions                                                          */
@@ -99,6 +99,7 @@ static gboolean prefs_page_import_asso_select_row (GtkTreeModel *model,
 		if (path_selected)
 		{
 			gtk_tree_path_free (path_selected);
+			path_selected = NULL;
 		}
 
 		path_selected = gtk_tree_path_copy (path);
@@ -425,6 +426,8 @@ static void prefs_page_import_asso_add_assoc (GtkWidget *button,
 		selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->treeview_import_asso));
 		gtk_tree_selection_select_path (selection, path_selected);
 		gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (priv->treeview_import_asso), path_selected, NULL, FALSE, 0,0);
+		gtk_tree_path_free (path_selected);
+		path_selected = NULL;
 
 		utils_prefs_gsb_file_set_modified ();
 	}
@@ -486,7 +489,10 @@ static void prefs_page_import_asso_setup_treeview_asso (PrefsPageImportAsso *pag
 					  page);
 
 	/* select the first item */
-	gtk_tree_selection_select_path (selection, gtk_tree_path_new_first ());
+	path_selected = gtk_tree_path_new_first ();
+	gtk_tree_selection_select_path (selection, path_selected);
+	gtk_tree_path_free (path_selected);
+	path_selected = NULL;
 }
 
 /**
@@ -498,7 +504,10 @@ static void prefs_page_import_asso_setup_treeview_asso (PrefsPageImportAsso *pag
  */
 static void prefs_page_import_asso_setup_import_asso_page (PrefsPageImportAsso *page)
 {
+	GSList *tmp_list;
 	PrefsPageImportAssoPrivate *priv;
+
+	devel_debug (NULL);
 
 	priv = prefs_page_import_asso_get_instance_private (page);
 
@@ -516,7 +525,8 @@ static void prefs_page_import_asso_setup_import_asso_page (PrefsPageImportAsso *
     gtk_widget_set_sensitive (priv->button_import_asso_remove, FALSE);
 
 	/* Create entry liste des tiers */
-    priv->combo_import_asso_payee = gtk_combofix_new (gsb_data_payee_get_name_and_report_list());
+	tmp_list = gsb_data_payee_get_name_and_report_list();
+    priv->combo_import_asso_payee = gtk_combofix_new (tmp_list);
     gtk_combofix_set_text (GTK_COMBOFIX (priv->combo_import_asso_payee), "");
     gtk_widget_set_hexpand (priv->combo_import_asso_payee, TRUE);
 
@@ -528,6 +538,8 @@ static void prefs_page_import_asso_setup_import_asso_page (PrefsPageImportAsso *
                         "changed",
                         G_CALLBACK (prefs_page_import_asso_combo_changed),
                         page);
+
+	g_slist_free_full (tmp_list, (GDestroyNotify) g_slist_free);
 
     /* init entry search string */
     gtk_entry_set_text (GTK_ENTRY (priv->entry_import_asso_search_string), "");
@@ -559,6 +571,7 @@ static void prefs_page_import_asso_init (PrefsPageImportAsso *page)
 	priv = prefs_page_import_asso_get_instance_private (page);
 
 	priv->liste_associations_tiers = NULL;
+	path_selected = NULL;
 
 	gtk_widget_init_template (GTK_WIDGET (page));
 
