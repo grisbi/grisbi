@@ -123,12 +123,15 @@ struct struct_payee_asso
 };
 
 /* START_DECLARATION */
+gboolean 	gsb_import_associations_add_assoc 				(gint payee_number,
+															 gchar *search_str);
 gint 		gsb_import_associations_cmp_assoc 				(struct struct_payee_asso *assoc_1,
 															 struct struct_payee_asso *assoc_2);
-GtkWidget *	gsb_import_associations_gere_tiers 				(void);
+GSList *	gsb_import_associations_get_liste_associations	(void);
 void 		gsb_import_associations_init_variables 			(void);
 gint 		gsb_import_associations_list_append_assoc 		(gint payee_number,
 															 const gchar *search_str);
+void 		gsb_import_associations_remove_assoc 			(gint payee_number);
 gboolean 	gsb_import_by_rule 								(gint rule);
 gchar *		gsb_import_formats_get_list_formats_to_string 	(void);
 void 		gsb_import_register_account 					(struct struct_compte_importation *account);

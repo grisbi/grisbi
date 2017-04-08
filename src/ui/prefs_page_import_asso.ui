@@ -66,8 +66,9 @@
                           <object class="GtkLabel" id="label3">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">This will associate a search string to a payee every time you import a file.\n
+                            <property name="label" translatable="yes">This will associate a search string to a payee every time you import a file.
 For instance, all QIF labels containing 'Rent' could be associated with a specific payee representing your landlord.</property>
+                            <property name="wrap">True</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -104,12 +105,14 @@ For instance, all QIF labels containing 'Rent' could be associated with a specif
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="spacing">5</property>
+                            <property name="homogeneous">True</property>
                             <child>
-                              <object class="GtkButton" id="button1">
+                              <object class="GtkButton" id="button_import_asso_add">
                                 <property name="label">gtk-add</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
+                                <property name="margin_bottom">5</property>
                                 <property name="use_stock">True</property>
                               </object>
                               <packing>
@@ -119,11 +122,12 @@ For instance, all QIF labels containing 'Rent' could be associated with a specif
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkButton" id="button2">
+                              <object class="GtkButton" id="button_import_asso_remove">
                                 <property name="label">gtk-remove</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
+                                <property name="margin_bottom">5</property>
                                 <property name="use_stock">True</property>
                               </object>
                               <packing>
@@ -135,7 +139,7 @@ For instance, all QIF labels containing 'Rent' could be associated with a specif
                           </object>
                           <packing>
                             <property name="expand">False</property>
-                            <property name="fill">True</property>
+                            <property name="fill">False</property>
                             <property name="position">2</property>
                           </packing>
                         </child>
@@ -219,7 +223,7 @@ For instance, all QIF labels containing 'Rent' could be associated with a specif
                         <property name="orientation">vertical</property>
                         <property name="spacing">5</property>
                         <child>
-                          <object class="GtkGrid" id="grid_archives_modification">
+                          <object class="GtkGrid" id="grid_import_asso_details">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="hexpand">True</property>
@@ -230,7 +234,7 @@ For instance, all QIF labels containing 'Rent' could be associated with a specif
                               <object class="GtkLabel" id="label5">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">label</property>
+                                <property name="label" translatable="yes">Payee name: </property>
                                 <property name="xalign">0</property>
                               </object>
                               <packing>
@@ -242,7 +246,7 @@ For instance, all QIF labels containing 'Rent' could be associated with a specif
                               <object class="GtkLabel" id="label6">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">label</property>
+                                <property name="label" translatable="yes">Search string: </property>
                                 <property name="xalign">0</property>
                               </object>
                               <packing>
@@ -251,7 +255,7 @@ For instance, all QIF labels containing 'Rent' could be associated with a specif
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkEntry" id="entry1">
+                              <object class="GtkEntry" id="entry_import_asso_search_string">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                               </object>
@@ -298,9 +302,6 @@ For instance, all QIF labels containing 'Rent' could be associated with a specif
             <property name="fill">True</property>
             <property name="position">1</property>
           </packing>
-        </child>
-        <child>
-          <placeholder/>
         </child>
       </object>
       <packing>

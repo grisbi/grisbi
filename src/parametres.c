@@ -622,15 +622,15 @@ gboolean preferences ( gint page )
                         //~ -1);
     //~ gtk_notebook_append_page (preference_frame, onglet_importation(), NULL);
 
-    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
-    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-                        &iter2,
-                        0, _("Import associations"),
-                        1, IMPORT_ASSOCIATION_PAGE,
-                        2, 400,
-                        -1);
-    gtk_notebook_append_page (preference_frame,
-                        gsb_import_associations_gere_tiers (), NULL);
+    //~ gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
+    //~ gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+                        //~ &iter2,
+                        //~ 0, _("Import associations"),
+                        //~ 1, IMPORT_ASSOCIATION_PAGE,
+                        //~ 2, 400,
+                        //~ -1);
+    //~ gtk_notebook_append_page (preference_frame,
+                        //~ gsb_import_associations_gere_tiers (), NULL);
 
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
