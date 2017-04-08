@@ -69,11 +69,10 @@
                         <property name="spacing">5</property>
                         <child>
                           <object class="GtkScrolledWindow" id="scrolledwindow1">
-                            <property name="height_request">120</property>
+                            <property name="height_request">200</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="hexpand">True</property>
-                            <property name="vexpand">True</property>
                             <property name="shadow_type">in</property>
                             <child>
                               <object class="GtkTreeView" id="treeview_archives">
@@ -228,12 +227,12 @@
                             <property name="row_spacing">5</property>
                             <property name="column_spacing">5</property>
                             <property name="row_homogeneous">True</property>
+                            <property name="column_homogeneous">True</property>
                             <child>
                               <object class="GtkLabel" id="label3">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">Name: </property>
-                                <property name="xalign">0</property>
                               </object>
                               <packing>
                                 <property name="left_attach">0</property>

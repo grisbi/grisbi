@@ -21,6 +21,8 @@
     <property name="margin_right">5</property>
     <property name="margin_top">5</property>
     <property name="margin_bottom">5</property>
+    <property name="hexpand">True</property>
+    <property name="vexpand">True</property>
     <property name="orientation">vertical</property>
     <property name="baseline_position">top</property>
     <child>
@@ -76,9 +78,9 @@
                 <property name="orientation">vertical</property>
                 <child>
                   <object class="GtkScrolledWindow" id="left_sw">
+                    <property name="height_request">450</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="vexpand">True</property>
                     <property name="shadow_type">in</property>
                     <child>
                       <object class="GtkTreeView" id="left_treeview">
