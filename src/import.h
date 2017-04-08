@@ -110,7 +110,7 @@ struct import_format
     gchar * name;
     gchar * complete_name;
     gchar * extension;
-    gboolean ( * import ) ( GtkWidget * assistant, struct imported_file * );
+    gboolean (* import) (GtkWidget * assistant, struct imported_file *);
 };
 
 /* structure définissant une association entre un tiers
@@ -123,22 +123,21 @@ struct struct_payee_asso
 };
 
 /* START_DECLARATION */
-gint gsb_import_associations_cmp_assoc (struct struct_payee_asso *assoc_1,
-                                        struct struct_payee_asso *assoc_2);
-GtkWidget *gsb_import_associations_gere_tiers ( void );
-void gsb_import_associations_init_variables ( void );
-gint gsb_import_associations_list_append_assoc ( gint payee_number,
-                        const gchar *search_str );
-gboolean gsb_import_by_rule ( gint rule );
-gchar *gsb_import_formats_get_list_formats_to_string ( void );
-void gsb_import_register_account ( struct struct_compte_importation * account );
-void gsb_import_register_account_error ( struct struct_compte_importation * account );
-GSList *import_selected_files ( GtkWidget * assistant );
-void importer_fichier ( void );
-//~ GtkWidget *onglet_importation ( void );
-void register_import_format ( struct import_format *format );
-void register_import_formats ( void );
-gchar * unique_imported_name ( gchar * account_name );
+gint 		gsb_import_associations_cmp_assoc 				(struct struct_payee_asso *assoc_1,
+															 struct struct_payee_asso *assoc_2);
+GtkWidget *	gsb_import_associations_gere_tiers 				(void);
+void 		gsb_import_associations_init_variables 			(void);
+gint 		gsb_import_associations_list_append_assoc 		(gint payee_number,
+															 const gchar *search_str);
+gboolean 	gsb_import_by_rule 								(gint rule);
+gchar *		gsb_import_formats_get_list_formats_to_string 	(void);
+void 		gsb_import_register_account 					(struct struct_compte_importation *account);
+void 		gsb_import_register_account_error 				(struct struct_compte_importation *account);
+GSList *	import_selected_files 							(GtkWidget *assistant);
+void 		importer_fichier 								(void);
+void 		register_import_format 							(struct import_format *format);
+void 		register_import_formats 						(void);
+gchar * 	unique_imported_name 							(gchar * account_name);
 /* END_DECLARATION */
 
 
