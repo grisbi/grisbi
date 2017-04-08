@@ -3708,8 +3708,6 @@ gboolean gsb_import_associations_add_assoc (gint payee_number,
 		return result;
 	}
 
-	devel_debug (search_str);
-
     /* create new association */
 	assoc = g_malloc (sizeof (struct struct_payee_asso));
 	assoc->payee_number = payee_number;

@@ -69,9 +69,61 @@ struct _PrefsPageImportAssoPrivate
 
 G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageImportAsso, prefs_page_import_asso, GTK_TYPE_BOX)
 
+static GtkTreePath *path_selected = NULL;
+
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
+/**
+ * Select the row which show the payee with number passed in data
+ *
+ * \param
+ * \param
+ * \param
+ * \param
+ *
+ * \return TRUE if find
+ **/
+static gboolean prefs_page_import_asso_select_row (GtkTreeModel *model,
+												   GtkTreePath *path,
+												   GtkTreeIter *iter,
+												   gpointer data)
+{
+	gint payee_number;
+	gint tmp_payee_number;
+
+	payee_number = GPOINTER_TO_INT (data);
+	gtk_tree_model_get (model, iter, 2, &tmp_payee_number, -1);
+	if (tmp_payee_number == payee_number)
+	{
+		if (path_selected)
+		{
+			gtk_tree_path_free (path_selected);
+		}
+
+		path_selected = gtk_tree_path_copy (path);
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void prefs_page_import_asso_foreach_asso (GtkTreeModel *model,
+												 gint payee_number)
+{
+	gtk_tree_model_foreach (model,
+							(GtkTreeModelForeachFunc) prefs_page_import_asso_select_row,
+							GINT_TO_POINTER (payee_number));
+}
+
 /**
  *
  *
@@ -321,7 +373,7 @@ static void prefs_page_import_asso_del_assoc (GtkWidget *button,
 		gtk_combofix_set_text (GTK_COMBOFIX (priv->combo_import_asso_payee), "");
 		gtk_entry_set_text (GTK_ENTRY (priv->entry_import_asso_search_string), "");
 		prefs_page_import_asso_fill_model (GTK_LIST_STORE (model));
-			utils_prefs_gsb_file_set_modified ();
+		utils_prefs_gsb_file_set_modified ();
     }
 }
 
@@ -364,10 +416,16 @@ static void prefs_page_import_asso_add_assoc (GtkWidget *button,
 	result = gsb_import_associations_add_assoc (payee_number, search_str);
 	if (result)
 	{
-		GtkTreeModel *list_store;
+		GtkTreeModel *model;
+		GtkTreeSelection *selection;
 
-		list_store = gtk_tree_view_get_model (GTK_TREE_VIEW (priv->treeview_import_asso));
-        prefs_page_import_asso_fill_model (GTK_LIST_STORE (list_store));
+		model = gtk_tree_view_get_model (GTK_TREE_VIEW (priv->treeview_import_asso));
+        prefs_page_import_asso_fill_model (GTK_LIST_STORE (model));
+		prefs_page_import_asso_foreach_asso (model, payee_number);
+		selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->treeview_import_asso));
+		gtk_tree_selection_select_path (selection, path_selected);
+		gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (priv->treeview_import_asso), path_selected, NULL, FALSE, 0,0);
+
 		utils_prefs_gsb_file_set_modified ();
 	}
 }
