@@ -433,7 +433,9 @@ void utils_files_append_name_to_recent_array (const gchar *filename)
             recent_array[i] = recent_array[i-1];
     }
     else
+	{
         dernier = NULL;
+	}
 
 	if (conf.nb_derniers_fichiers_ouverts < conf.nb_max_derniers_fichiers_ouverts)
     {
