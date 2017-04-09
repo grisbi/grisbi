@@ -255,6 +255,7 @@ struct GrisbiAppConf
 /* scheduled part */
     gboolean    balances_with_scheduled;                    /* TRUE = the balance incorporates the scheduled operations */
     gboolean    execute_scheduled_of_month;                 /* warn/execute scheduled at expiration (FALSE) or of the month (TRUE) */
+	gint		nb_days_before_scheduled;					/* nombre de jours avant relance des opérations planifiées */
 
     /* Tips */
     gint        last_tip;

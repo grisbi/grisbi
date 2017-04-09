@@ -150,7 +150,6 @@ static gboolean bet_array_update_average_column ( GtkTreeModel *model,
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gint nb_days_before_scheduled;
 extern const gdouble prev_month_max;
 /*END_EXTERN*/
 
@@ -3105,7 +3104,7 @@ void bet_array_create_transaction_from_transfert (struct_transfert_data *transfe
 
     date_jour = gdate_today ();
     date_exec = g_date_new_dmy (day, month, year);
-    g_date_subtract_days ( date_exec, nb_days_before_scheduled);
+    g_date_subtract_days ( date_exec, conf.nb_days_before_scheduled);
 
     if (conf.execute_scheduled_of_month || g_date_compare (date_jour, date_exec) >= 0)
     {

@@ -512,13 +512,22 @@
   <schema path="/org/gtk/grisbi/scheduled/" id='org.gtk.grisbi.scheduled'>
 	  <key name="execute-scheduled-of-month" type="b">
 	    <default>false</default>
-	    <summary></summary>
-	    <description></description>
+	    <summary>if TRUE Execute the scheduled transactions of the month</summary>
+	    <description>
+	    Si coché toutes les opérations planifiées sont lancées en début de mois sinon au fil de l'eau.
+	    La date effective dépend du nombre de jours avant lancement.
+	    </description>
 	  </key>
 	  <key name="balances-with-scheduled" type="b">
 	    <default>true</default>
 	    <summary></summary>
 	    <description></description>
+	  </key>	  <key name="nb-days-before-scheduled" type="i">
+	    <default>0</default>
+	    <summary>Number of days before scheduled operations start</summary>
+	    <description>
+	    Nombre de jours avant le lancement des opérations planifiées par rapport à leur date d'exécution.
+	    </description>
 	  </key>
   </schema>
 

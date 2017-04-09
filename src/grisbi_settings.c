@@ -58,7 +58,6 @@
 /* START_EXTERN Variables externes PROVISOIRE */
 extern struct conditional_message delete_msg[];
 extern struct conditional_message messages[];
-extern gint nb_days_before_scheduled;
 /*END_EXTERN*/
 
 struct _GrisbiSettingsPrivate
@@ -430,6 +429,7 @@ static void grisbi_settings_init_settings_scheduled (GSettings *settings)
 {
     conf.balances_with_scheduled = g_settings_get_boolean (settings, "balances-with-scheduled");
     conf.execute_scheduled_of_month = g_settings_get_boolean (settings, "execute-scheduled-of-month");
+    conf.nb_days_before_scheduled = g_settings_get_int (settings, "nb-days-before-scheduled");
 }
 
 /**
@@ -824,6 +824,9 @@ void grisbi_settings_save_app_config (void)
     g_settings_set_boolean (priv->settings_scheduled,
                         "balances-with-scheduled",
                         conf.balances_with_scheduled);
+    g_settings_set_int (priv->settings_scheduled,
+                        "nb-days-before-scheduled",
+                        conf.nb_days_before_scheduled);
 }
 
 GSettings *grisbi_settings_get_settings (gint schema)

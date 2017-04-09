@@ -62,9 +62,6 @@ extern GSList *scheduled_transactions_taken;
 extern GSList *scheduled_transactions_to_take;
 /*END_EXTERN*/
 
-/** number of days before the scheduled to execute it */
-gint nb_days_before_scheduled;
-
 /**
  * set the next date in the scheduled transaction
  * if it's above the limit date, that transaction is deleted
@@ -455,16 +452,16 @@ void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
 
     scheduled_transactions_to_take = NULL;
 
-    /* get the date today + nb_days_before_scheduled */
+    /* get the date today + conf.nb_days_before_scheduled */
 
     /* the date untill we execute the scheduled transactions is :
-     * - either today + nb_days_before_scheduled if warn n days before the scheduled
-     * - either the end of the month in nb_days_before_scheduled days (so current month or next month)
+     * - either today + conf.nb_days_before_scheduled if warn n days before the scheduled
+     * - either the end of the month in conf.nb_days_before_scheduled days (so current month or next month)
      *   */
     date = gdate_today ();
     g_date_add_days ( date,
-		      nb_days_before_scheduled );
-    /* now date is in nb_days_before_scheduled, if we want the transactions of the month,
+		      conf.nb_days_before_scheduled );
+    /* now date is in conf.nb_days_before_scheduled, if we want the transactions of the month,
      * we change date to the end of its month */
     if ( conf.execute_scheduled_of_month)
     {
