@@ -4761,7 +4761,7 @@ msgstr "Navigateur Web : "
 #: ../src/gsb_assistant_first.c:225 ../src/parametres.c:1216
 #, c-format
 msgid "You may use %s to expand the URL - I.e: 'firefox %s' "
-msgstr "Vous pouvez essayer de mettre %s Exemple : 'firefox %s'"
+msgstr "Vous pouvez essayer de mettre %s - Exemple : 'firefox %s'"
 
 #: ../src/gsb_assistant_first.c:234 ../src/ui/prefs_page_files.ui.h:1
 msgid "Account files handling"
