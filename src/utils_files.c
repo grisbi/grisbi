@@ -444,7 +444,7 @@ void utils_files_append_name_to_recent_array (const gchar *filename)
 		else
 			recent_array = g_realloc (recent_array, (++conf.nb_derniers_fichiers_ouverts) * sizeof (gpointer));
         recent_array[conf.nb_derniers_fichiers_ouverts-1] = dernier;
-		recent_array[conf.nb_derniers_fichiers_ouverts] = '\0';
+		recent_array[conf.nb_derniers_fichiers_ouverts] = NULL;
     }
 
     recent_array[0] = my_strdup (filename);
