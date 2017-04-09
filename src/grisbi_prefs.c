@@ -44,6 +44,7 @@
 #include "utils_gtkbuilder.h"
 #include "utils_prefs.h"
 #include "prefs/prefs_page_archives.h"
+#include "prefs/prefs_page_divers.h"
 #include "prefs/prefs_page_files.h"
 #include "prefs/prefs_page_import_asso.h"
 #include "prefs/prefs_page_import_files.h"
@@ -227,25 +228,31 @@ static void grisbi_prefs_left_panel_populate_tree_model (GtkTreeStore *tree_mode
     utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Files"), page);
     page++;
 
-     /* append page Archives */
+	/* append page Archives */
 	widget = GTK_WIDGET (prefs_page_archives_new (prefs));
     utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Archives"), page);
     page++;
 
-     /* append page Import */
+	/* append page Import */
     grisbi_prefs_setup_import_page (prefs);
     utils_prefs_left_panel_add_line (tree_model, NULL, NULL, _("Import"), page);
     page++;
 
+	/* append page Divers */
+    widget = GTK_WIDGET (prefs_page_divers_new (prefs));
+    utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Various settings"), page);
+    page++;
+
+	/* append page Accueil */
 	widget = GTK_WIDGET (onglet_accueil ());
 	utils_widget_set_padding (widget, MARGIN_BOX, 0);
 	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Main page"), page);
 	page++;
 
-   /* append group page "Display" */
+	/* append group page "Display" */
     utils_prefs_left_panel_add_line (tree_model, NULL, NULL, _("Display"), -1);
 
-     /* append page Fonts & logo */
+	/* append page Fonts & logo */
 	widget = GTK_WIDGET (onglet_display_fonts ());
 	utils_widget_set_padding (widget, MARGIN_BOX, 0);
 	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Fonts & Logo"), page);

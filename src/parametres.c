@@ -88,7 +88,7 @@ static gboolean gsb_config_metatree_sort_transactions_changed ( GtkWidget *check
 static gboolean gsb_config_onglet_metatree_action_changed ( GtkWidget *checkbutton,
                         GdkEventButton *event,
                         gint *pointeur );
-static GtkWidget *gsb_config_scheduler_page ( void );
+//~ static GtkWidget *gsb_config_scheduler_page ( void );
 static gboolean gsb_gui_delete_msg_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
                         GtkTreeModel * model );
 static gboolean gsb_gui_messages_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
@@ -100,9 +100,9 @@ static gboolean gsb_localisation_format_date_toggle ( GtkToggleButton *togglebut
 static void gsb_localisation_thousands_sep_changed ( GtkComboBoxText *widget, gpointer user_data );
 static void gsb_localisation_update_affichage ( gint type_maj );
 static GtkWidget *onglet_delete_messages ( void );
-static GtkWidget *onglet_localisation ( void );
+//~ static GtkWidget *onglet_localisation ( void );
 static GtkWidget *onglet_metatree ( void );
-static GtkWidget *onglet_programmes (void);
+//~ static GtkWidget *onglet_programmes (void);
 static gboolean preference_selectable_func (GtkTreeSelection *selection,
                         GtkTreeModel *model,
                         GtkTreePath *path,
@@ -118,14 +118,13 @@ static GtkWidget *hpaned = NULL;
 static GtkTreeStore *preference_tree_model = NULL;
 static GtkNotebook * preference_frame = NULL;
 
-static gint width_spin_button = 50;
+//~ static gint width_spin_button = 50;
 
 
 /*START_EXTERN*/
 extern struct conditional_message delete_msg[];
 extern struct conditional_message messages[];
 extern gchar *nom_fichier_comptes;
-extern gint nb_days_before_scheduled;
 /*END_EXTERN*/
 
 /**
@@ -632,32 +631,32 @@ gboolean preferences ( gint page )
     //~ gtk_notebook_append_page (preference_frame,
                         //~ gsb_import_associations_gere_tiers (), NULL);
 
-    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
-    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-                        &iter2,
-                        0, _("Programs"),
-                        1, SOFTWARE_PAGE,
-                        2, 400,
-                        -1);
-    gtk_notebook_append_page (preference_frame, onglet_programmes(), NULL);
+    //~ gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
+    //~ gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+                        //~ &iter2,
+                        //~ 0, _("Programs"),
+                        //~ 1, SOFTWARE_PAGE,
+                        //~ 2, 400,
+                        //~ -1);
+    //~ gtk_notebook_append_page (preference_frame, onglet_programmes(), NULL);
 
-    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
-    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-                        &iter2,
-                        0, _("Scheduler"),
-                        1, SCHEDULER_PAGE,
-                        2, 400,
-                        -1);
-    gtk_notebook_append_page (preference_frame, gsb_config_scheduler_page (), NULL);
+    //~ gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
+    //~ gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+                        //~ &iter2,
+                        //~ 0, _("Scheduler"),
+                        //~ 1, SCHEDULER_PAGE,
+                        //~ 2, 400,
+                        //~ -1);
+    //~ gtk_notebook_append_page (preference_frame, gsb_config_scheduler_page (), NULL);
 
-    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
-    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-                        &iter2,
-                        0, _("Localization"),
-                        1, LOCALISATION_PAGE,
-                        2, 400,
-                        -1);
-    gtk_notebook_append_page (preference_frame, onglet_localisation (), NULL);
+    //~ gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
+    //~ gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+                        //~ &iter2,
+                        //~ 0, _("Localization"),
+                        //~ 1, LOCALISATION_PAGE,
+                        //~ 2, 400,
+                        //~ -1);
+    //~ gtk_notebook_append_page (preference_frame, onglet_localisation (), NULL);
 
     //~ gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     //~ gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
@@ -1188,48 +1187,48 @@ gboolean gsb_config_backup_dir_chosen ( GtkWidget *button,
 /* *******************************************************************************/
 /* page de configuration des logiciels externes */
 /* *******************************************************************************/
-GtkWidget *onglet_programmes (void)
-{
-    GtkWidget *vbox_pref, *label, *entry, *paddingbox, *table;
-    GtkSizeGroup *size_group;
-    gchar * text;
+//~ GtkWidget *onglet_programmes (void)
+//~ {
+    //~ GtkWidget *vbox_pref, *label, *entry, *paddingbox, *table;
+    //~ GtkSizeGroup *size_group;
+    //~ gchar * text;
 
-    size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
+    //~ size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
 
-    vbox_pref = new_vbox_with_title_and_icon ( _("Programs"), "exec.png" );
+    //~ vbox_pref = new_vbox_with_title_and_icon ( _("Programs"), "exec.png" );
 
-    paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("Web"));
+    //~ paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("Web"));
 
-    table = gtk_grid_new ();
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, FALSE, FALSE, 0 );
-    gtk_grid_set_column_spacing (GTK_GRID (table), 6);
-    gtk_grid_set_row_spacing (GTK_GRID (table), 6);
+    //~ table = gtk_grid_new ();
+    //~ gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, FALSE, FALSE, 0 );
+    //~ gtk_grid_set_column_spacing (GTK_GRID (table), 6);
+    //~ gtk_grid_set_row_spacing (GTK_GRID (table), 6);
 
-    label = gtk_label_new ( _("Web browser command: ") );
-    gtk_size_group_add_widget ( size_group, label );
-    utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.5 );
-    gtk_grid_attach (GTK_GRID (table), label, 0, 0, 1, 1);
-    entry = gsb_automem_entry_new ( &conf.browser_command, NULL, NULL );
-    gtk_grid_attach (GTK_GRID (table), entry, 1, 0, 1, 1);
+    //~ label = gtk_label_new ( _("Web browser command: ") );
+    //~ gtk_size_group_add_widget ( size_group, label );
+    //~ utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.5 );
+    //~ gtk_grid_attach (GTK_GRID (table), label, 0, 0, 1, 1);
+    //~ entry = gsb_automem_entry_new ( &conf.browser_command, NULL, NULL );
+    //~ gtk_grid_attach (GTK_GRID (table), entry, 1, 0, 1, 1);
 
-    text = make_blue ( g_strconcat (
-                        _("You may use %s to expand the URL - I.e: 'firefox %s' "),
-                        NULL ) );
-    label = gtk_label_new ( text );
-    gtk_label_set_use_markup ( GTK_LABEL(label), TRUE );
-    utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.5 );
-    gtk_grid_attach (GTK_GRID (table), label, 1, 1, 1, 1);
-    g_free ( text );
+    //~ text = make_blue ( g_strconcat (
+                        //~ _("You may use %s to expand the URL - I.e: 'firefox %s' "),
+                        //~ NULL ) );
+    //~ label = gtk_label_new ( text );
+    //~ gtk_label_set_use_markup ( GTK_LABEL(label), TRUE );
+    //~ utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.5 );
+    //~ gtk_grid_attach (GTK_GRID (table), label, 1, 1, 1, 1);
+    //~ g_free ( text );
 
 
-    gtk_size_group_set_mode ( size_group, GTK_SIZE_GROUP_HORIZONTAL );
-    gtk_widget_show_all ( vbox_pref );
+    //~ gtk_size_group_set_mode ( size_group, GTK_SIZE_GROUP_HORIZONTAL );
+    //~ gtk_widget_show_all ( vbox_pref );
 
-    if ( ! assert_account_loaded() )
-      gtk_widget_set_sensitive ( vbox_pref, FALSE );
+    //~ if ( ! assert_account_loaded() )
+      //~ gtk_widget_set_sensitive ( vbox_pref, FALSE );
 
-    return ( vbox_pref );
-}
+    //~ return ( vbox_pref );
+//~ }
 
 
 
@@ -1240,40 +1239,40 @@ GtkWidget *onglet_programmes (void)
  *
  * \return a GtkWidget containing the page of scheduler config
  * */
-static GtkWidget *gsb_config_scheduler_page ( void )
-{
-    GtkWidget *vbox_pref;
-    GtkWidget *hbox;
-    GtkWidget *label;
-    GtkWidget *entry;
-    GtkWidget *button;
+//~ static GtkWidget *gsb_config_scheduler_page ( void )
+//~ {
+    //~ GtkWidget *vbox_pref;
+    //~ GtkWidget *hbox;
+    //~ GtkWidget *label;
+    //~ GtkWidget *entry;
+    //~ GtkWidget *button;
 
-    vbox_pref = new_vbox_with_title_and_icon ( _("Scheduler"), "scheduler.png" );
+    //~ vbox_pref = new_vbox_with_title_and_icon ( _("Scheduler"), "scheduler.png" );
 
-    /* Number of days before a warning message advertising a scheduled
-       transaction */
-    button = gsb_automem_radiobutton_new_with_title ( vbox_pref,
-                        _("Scheduler warnings at Grisbi's opening"),
-                        _("Warn/Execute the scheduled transactions arriving at expiration date"),
-                        _("Warn/Execute the scheduled transactions of the month"),
-                        &conf.execute_scheduled_of_month,
-                        NULL, NULL );
-	(void)button; /* unused value: fix warning -Wunused-but-set-variable */
+    //~ /* Number of days before a warning message advertising a scheduled
+       //~ transaction */
+    //~ button = gsb_automem_radiobutton_new_with_title ( vbox_pref,
+                        //~ _("Scheduler warnings at Grisbi's opening"),
+                        //~ _("Warn/Execute the scheduled transactions arriving at expiration date"),
+                        //~ _("Warn/Execute the scheduled transactions of the month"),
+                        //~ &conf.execute_scheduled_of_month,
+                        //~ NULL, NULL );
+	//~ (void)button; /* unused value: fix warning -Wunused-but-set-variable */
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0);
-    gtk_box_pack_start ( GTK_BOX ( vbox_pref ), hbox, FALSE, FALSE, 0 );
+    //~ hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0);
+    //~ gtk_box_pack_start ( GTK_BOX ( vbox_pref ), hbox, FALSE, FALSE, 0 );
 
-    label = gtk_label_new (
-                        _("Number of days before the warning or the execution: ") );
-    gtk_box_pack_start ( GTK_BOX (hbox), label, FALSE, FALSE, 0 );
+    //~ label = gtk_label_new (
+                        //~ _("Number of days before the warning or the execution: ") );
+    //~ gtk_box_pack_start ( GTK_BOX (hbox), label, FALSE, FALSE, 0 );
 
-    entry = gsb_automem_spin_button_new ( &nb_days_before_scheduled, NULL, NULL );
-    gtk_widget_set_size_request ( entry, width_spin_button, -1 );
+    //~ entry = gsb_automem_spin_button_new ( &nb_days_before_scheduled, NULL, NULL );
+    //~ gtk_widget_set_size_request ( entry, width_spin_button, -1 );
 
-    gtk_box_pack_start ( GTK_BOX (hbox), entry, FALSE, FALSE, 0 );
+    //~ gtk_box_pack_start ( GTK_BOX (hbox), entry, FALSE, FALSE, 0 );
 
-    return vbox_pref;
-}
+    //~ return vbox_pref;
+//~ }
 
 
 /**
@@ -1431,23 +1430,23 @@ gboolean gsb_config_metatree_re_sort_divisions ( GtkWidget *checkbutton,
 }
 
 
-/**
- *
- *
- *
- *
- * */
-GtkWidget *onglet_localisation ( void )
-{
-    GtkWidget *vbox_pref;
+//~ /**
+ //~ *
+ //~ *
+ //~ *
+ //~ *
+ //~ * */
+//~ GtkWidget *onglet_localisation ( void )
+//~ {
+    //~ GtkWidget *vbox_pref;
 
-    vbox_pref = new_vbox_with_title_and_icon ( _("Localization"), "locale.png" );
+    //~ vbox_pref = new_vbox_with_title_and_icon ( _("Localization"), "locale.png" );
 
-    gsb_config_date_format_chosen ( vbox_pref, GTK_ORIENTATION_VERTICAL );
-    gsb_config_number_format_chosen ( vbox_pref, GTK_ORIENTATION_VERTICAL );
+    //~ gsb_config_date_format_chosen ( vbox_pref, GTK_ORIENTATION_VERTICAL );
+    //~ gsb_config_number_format_chosen ( vbox_pref, GTK_ORIENTATION_VERTICAL );
 
-    return vbox_pref;
-}
+    //~ return vbox_pref;
+//~ }
 
 
 /**
@@ -1496,8 +1495,8 @@ GtkWidget *gsb_config_date_format_chosen ( GtkWidget *parent, gint sens )
     }
     else
     {
-        paddingbox = new_paddingbox_with_title ( parent, FALSE, _("Date format") );
-        hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
+        paddingbox = new_paddingbox_with_title ( parent, FALSE, _("Choose the date format") );
+        hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_PADDING_BOX );
         gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
         gtk_box_pack_start ( GTK_BOX ( hbox ), button_1, FALSE, FALSE, 0 );
         gtk_box_pack_start ( GTK_BOX ( hbox ), button_2, FALSE, FALSE, 0 );

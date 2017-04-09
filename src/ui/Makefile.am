@@ -7,6 +7,7 @@ ui_DATA = bet_graph.ui \
     grisbi_prefs.ui \
 		grisbi_win.ui \
     prefs_page_archives.ui \
+    prefs_page_divers.ui \
     prefs_page_files.ui \
     prefs_page_import_files.ui
 

@@ -32,6 +32,7 @@
 
 /*START_INCLUDE*/
 #include "utils_prefs.h"
+#include "dialog.h"
 #include "grisbi_app.h"
 #include "gsb_file.h"
 #include "gsb_dirs.h"
@@ -58,10 +59,101 @@ static GtkTreeIter *page_parent_iter;
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
+/**
+ * Set a boolean integer to the value of a checkbutton.  Normally called
+ * via a GTK "toggled" signal handler.
+ *
+ * \param checkbutton a pointer to a checkbutton widget.
+ * \param null not used
+ */
+static gboolean utils_prefs_automem_checkbutton_changed ( GtkWidget *checkbutton,
+						  gpointer null )
+{
+    gboolean *value;
+
+    value = g_object_get_data ( G_OBJECT (checkbutton), "pointer");
+    if (value)
+    {
+	*value = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(checkbutton));
+        gsb_file_set_modified ( TRUE );
+    }
+
+    return FALSE;
+}
+
 
 /******************************************************************************/
 /* Public functions                                                           */
 /******************************************************************************/
+/**
+ * Creates a new radio buttons group with two choices.  Toggling will
+ * change the content of an integer passed as an argument.
+ * the color of label is blue.
+ *
+ * \param choice1 First choice label
+ * \param choice2 Second choice label
+ * \param value A pointer to an integer that will be set to 0 or 1
+ *        according to buttons toggles.
+ * \param hook An optional hook to run at each toggle
+ * \param data optional data to send to hook
+ *
+ * \return a vbox containing the radiobuttons
+ */
+GtkWidget *utils_prefs_automem_radiobutton_blue_new (const gchar *choice1,
+													 const gchar *choice2,
+													 gboolean *value,
+													 GCallback hook,
+													 gpointer data)
+{
+    GtkWidget *vbox;
+    GtkWidget *button1;
+    GtkWidget *button2;
+    GtkWidget *label;
+	gchar *label_str;
+
+    vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
+
+    button1 = gtk_radio_button_new (NULL);
+	label_str = make_blue (choice1);
+	label = gtk_label_new (label_str);
+	gtk_label_set_use_markup (GTK_LABEL(label), TRUE);
+	gtk_widget_show (label);
+    gtk_container_add (GTK_CONTAINER (button1), label);
+    gtk_box_pack_start (GTK_BOX (vbox), button1, FALSE, FALSE, 0);
+	g_free (label_str);
+
+    button2 = gtk_radio_button_new (gtk_radio_button_get_group (GTK_RADIO_BUTTON (button1)));
+	label_str = make_blue (choice2);
+	label = gtk_label_new (label_str);
+	gtk_label_set_use_markup (GTK_LABEL(label), TRUE);
+	gtk_widget_show (label);
+    gtk_container_add (GTK_CONTAINER (button2), label);
+    gtk_box_pack_start (GTK_BOX (vbox), button2, FALSE, FALSE, 0);
+	g_free (label_str);
+
+    if (value)
+    {
+		if (*value)
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button2), TRUE);
+		else
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button1), TRUE);
+    }
+
+    g_object_set_data (G_OBJECT (button2), "pointer", value);
+    g_signal_connect (G_OBJECT (button2),
+					  "toggled",
+					  G_CALLBACK (utils_prefs_automem_checkbutton_changed),
+					  NULL);
+
+    if (hook)
+		g_signal_connect_after (G_OBJECT (button2),
+								"toggled",
+								G_CALLBACK (hook),
+								data);
+
+    return vbox;
+}
+
 /**
  * Function that makes a nice title with an optional icon.  It is
  * mainly used to automate preference tabs with titles.
@@ -415,8 +507,8 @@ void utils_prefs_page_dir_chosen (GtkWidget *button,
  * \return FALSE
 **/
 gboolean utils_prefs_page_eventbox_clicked (GObject *eventbox,
-												   GdkEvent *event,
-												   GtkToggleButton *checkbutton)
+											GdkEvent *event,
+											GtkToggleButton *checkbutton)
 {
     gboolean state;
 
