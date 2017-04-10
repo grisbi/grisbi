@@ -94,7 +94,6 @@
                           <object class="GtkBox" id="hbox_blue1">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="spacing">1</property>
                             <child>
                               <object class="GtkCheckButton" id="checkbutton_archives_sort_order">
                                 <property name="visible">True</property>

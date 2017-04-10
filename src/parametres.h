@@ -59,8 +59,10 @@ gint        gsb_preferences_paned_get_position          (void);
 gboolean    preferences                                 (gint page);
 
 /* PROVISOIRE */
-GtkWidget *	onglet_messages_and_warnings 				(void);
 GtkWidget *	onglet_accueil 								(void);
+GtkWidget *onglet_delete_messages 						(void);
+GtkWidget *	onglet_messages_and_warnings 				(void);
+GtkWidget * onglet_metatree 							(void);
 
 /*END_DECLARATION*/
 

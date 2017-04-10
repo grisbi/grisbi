@@ -34,9 +34,19 @@
 /*START_INCLUDE*/
 #include "grisbi_prefs.h"
 #include "affichage.h"
+#include "affichage_liste.h"
+#include "bet_config.h"
 #include "dialog.h"
 #include "grisbi_app.h"
+#include "gsb_bank.h"
+#include "gsb_currency_config.h"
+#include "gsb_currency_link_config.h"
 #include "gsb_dirs.h"
+#include "gsb_form_config.h"
+#include "gsb_fyear_config.h"
+#include "gsb_payment_method_config.h"
+#include "gsb_reconcile_config.h"
+#include "gsb_reconcile_sort_config.h"
 #include "parametres.h"
 #include "structures.h"
 #include "utils.h"
@@ -220,8 +230,8 @@ static void grisbi_prefs_left_panel_populate_tree_model (GtkTreeStore *tree_mode
 
 	priv = grisbi_prefs_get_instance_private (prefs);
 
-	/* append group page "Main" */
-    utils_prefs_left_panel_add_line (tree_model, NULL, NULL, _("Main"), -1);
+	/* append group page "Generalities" */
+    utils_prefs_left_panel_add_line (tree_model, NULL, NULL, _("Generalities"), -1);
 
     /* append page Fichiers */
 	widget = GTK_WIDGET (prefs_page_files_new (prefs));
@@ -264,20 +274,128 @@ static void grisbi_prefs_left_panel_populate_tree_model (GtkTreeStore *tree_mode
 	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Messages & warnings"), page);
 	page++;
 
-    /* append group page "Transactions" */
+	/* append page Addresses & titles */
+	widget = GTK_WIDGET (onglet_display_addresses ());
+	utils_widget_set_padding (widget, MARGIN_BOX, 0);
+	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Addresses & titles"), page);
+	page++;
+
+	/* append page Payees, categories and budgetaries */
+	widget = GTK_WIDGET (onglet_metatree ());
+	utils_widget_set_padding (widget, MARGIN_BOX, 0);
+	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Payees, categories and budgetaries"), page);
+	page++;
+
+	/* append page Elements of interface */
+	widget = GTK_WIDGET (tab_display_toolbar ());
+	utils_widget_set_padding (widget, MARGIN_BOX, 0);
+	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Elements of interface"), page);
+	page++;
+
+	/* append group page "Transactions" */
     utils_prefs_left_panel_add_line (tree_model, NULL, NULL, _("Transactions"), -1);
+
+	/* append page List behavior */
+	widget = GTK_WIDGET (onglet_affichage_operations ());
+	utils_widget_set_padding (widget, MARGIN_BOX, 0);
+	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("List behavior"), page);
+	page++;
+
+	/* append page Transactions list cells */
+	widget = GTK_WIDGET (onglet_affichage_liste ());
+	utils_widget_set_padding (widget, MARGIN_BOX, 0);
+	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Transactions list cells"), page);
+	page++;
+
+	/* append page Messages before deleting */
+	widget = GTK_WIDGET (onglet_delete_messages ());
+	utils_widget_set_padding (widget, MARGIN_BOX, 0);
+	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Messages before deleting"), page);
+	page++;
+
+	/* append page Reconciliation */
+	widget = GTK_WIDGET (gsb_reconcile_config_create ());
+	utils_widget_set_padding (widget, MARGIN_BOX, 0);
+	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Reconciliation"), page);
+	page++;
+
+	/* append page Sort for reconciliation */
+	widget = GTK_WIDGET (gsb_reconcile_sort_config_create ());
+	utils_widget_set_padding (widget, MARGIN_BOX, 0);
+	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Sort for reconciliation"), page);
+	page++;
 
     /* append group page "Transaction form" */
     utils_prefs_left_panel_add_line (tree_model, NULL, NULL, _("Transaction form"), -1);
 
-    /* append group page "Resources" */
+	/* append page Content of form */
+	widget = GTK_WIDGET (gsb_form_config_create_page ());
+	utils_widget_set_padding (widget, MARGIN_BOX, 0);
+	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Content"), page);
+	page++;
+
+	/* append page Behavior */
+	widget = GTK_WIDGET (onglet_diverse_form_and_lists ());
+	utils_widget_set_padding (widget, MARGIN_BOX, 0);
+	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Behavior"), page);
+	page++;
+
+	/* append page Completion */
+	widget = GTK_WIDGET (onglet_form_completion ());
+	utils_widget_set_padding (widget, MARGIN_BOX, 0);
+	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Completion"), page);
+	page++;
+
+    /* append group page "Resources subtree" */
     utils_prefs_left_panel_add_line (tree_model, NULL, NULL, _("Resources"), -1);
+
+	/* append page Currencies */
+	widget = GTK_WIDGET (gsb_currency_config_create_page ());
+	utils_widget_set_padding (widget, MARGIN_BOX, 0);
+	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Currencies"), page);
+	page++;
+
+	/* append page Currencies links */
+	widget = GTK_WIDGET (gsb_currency_link_config_create_page ());
+	utils_widget_set_padding (widget, MARGIN_BOX, 0);
+	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Currencies links"), page);
+	page++;
+
+	/* append page Banks */
+	widget = GTK_WIDGET (gsb_bank_create_page (FALSE));
+	utils_widget_set_padding (widget, MARGIN_BOX, 0);
+	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Banks"), page);
+	page++;
+
+	/* append page Financial years */
+	widget = GTK_WIDGET (gsb_fyear_config_create_page ());
+	utils_widget_set_padding (widget, MARGIN_BOX, 0);
+	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Financial years"), page);
+	page++;
+
+	/* append page Payment methods */
+	widget = GTK_WIDGET (gsb_payment_method_config_create ());
+	utils_widget_set_padding (widget, MARGIN_BOX, 0);
+	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Payment methods"), page);
+	page++;
 
     /* append group page "Balance estimate" */
     utils_prefs_left_panel_add_line (tree_model, NULL, NULL, _("Balance estimate"), -1);
 
-    /* append group page "Graphiques" */
-    utils_prefs_left_panel_add_line (tree_model, NULL, NULL, _("Graphs"), -1);
+	/* append page General Options */
+	widget = GTK_WIDGET (bet_config_general_create_general_page ());
+	utils_widget_set_padding (widget, MARGIN_BOX, 0);
+	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("General Options"), page);
+	page++;
+
+	/* append page Accounts data */
+	widget = GTK_WIDGET (bet_config_account_create_account_page ());
+	utils_widget_set_padding (widget, MARGIN_BOX, 0);
+	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Accounts data"), page);
+	page++;
+
+    //~ /* append group page "Graphiques" */
+    //~ utils_prefs_left_panel_add_line (tree_model, NULL, NULL, _("Graphs"), -1);
 }
 
 /**
@@ -364,7 +482,7 @@ static void grisbi_prefs_init (GrisbiPrefs *prefs)
 	priv = grisbi_prefs_get_instance_private (prefs);
 	gtk_widget_init_template (GTK_WIDGET (prefs));
 
-    gtk_dialog_add_buttons (GTK_DIALOG (prefs), _("gtk-close"), GTK_RESPONSE_CLOSE, NULL);
+    gtk_dialog_add_buttons (GTK_DIALOG (prefs), "gtk-close", GTK_RESPONSE_CLOSE, NULL);
 
     gtk_window_set_destroy_with_parent (GTK_WINDOW (prefs), TRUE);
 
