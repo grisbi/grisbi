@@ -93,6 +93,9 @@ struct _GrisbiPrefsPrivate
 	GtkWidget *     	vbox_import_page;
 	GtkWidget *      	label_import_page_1;
 	GtkWidget *      	label_import_page_2;
+
+	/* pages num */
+	gint 				form_content;
  };
 
 
@@ -332,6 +335,7 @@ static void grisbi_prefs_left_panel_populate_tree_model (GtkTreeStore *tree_mode
 	widget = GTK_WIDGET (gsb_form_config_create_page ());
 	utils_widget_set_padding (widget, MARGIN_BOX, 0);
 	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Content"), page);
+	priv->form_content = page;
 	page++;
 
 	/* append page Behavior */
@@ -565,6 +569,21 @@ GrisbiPrefs *grisbi_prefs_new (GrisbiWin *win)
   return g_object_new (GRISBI_PREFS_TYPE, "transient-for", win, NULL);
 }
 
+void grisbi_prefs_set_page_by_name (gchar *page_name)
+{
+	GrisbiPrefs *prefs;
+	GrisbiPrefsPrivate *priv;
+
+	devel_debug (page_name);
+
+	prefs = grisbi_prefs_new (grisbi_app_get_active_window (NULL));
+	priv = grisbi_prefs_get_instance_private (prefs);
+
+	if (strcmp (page_name, "form_content") == 0)
+	{
+		utils_prefs_left_panel_tree_view_select_page (priv->left_treeview, priv->notebook_prefs, priv->form_content);
+	}
+}
 /**
  *
  *

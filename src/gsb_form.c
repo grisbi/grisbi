@@ -42,6 +42,7 @@
 #include "dialog.h"
 #include "fenetre_principale.h"
 #include "grisbi_app.h"
+#include "grisbi_prefs.h"
 #include "gsb_calendar.h"
 #include "gsb_calendar_entry.h"
 #include "gsb_currency.h"
@@ -74,7 +75,6 @@
 #include "menu.h"
 #include "mouse.h"
 #include "navigation.h"
-#include "parametres.h"
 #include "structures.h"
 #include "tiers_onglet.h"
 #include "traitement_variables.h"
@@ -3519,11 +3519,12 @@ gboolean gsb_form_button_press ( GtkWidget *vbox,
 
     /* propose to configure the form */
     menu_item = gtk_menu_item_new_with_label ( _("Configure the form") );
-    g_signal_connect ( G_OBJECT(menu_item),
-		       "activate",
-		       G_CALLBACK (gsb_preferences_menu_open),
-		       GINT_TO_POINTER (TRANSACTION_FORM_PAGE));
-    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+    g_signal_connect_swapped (G_OBJECT(menu_item),
+							  "activate",
+							  G_CALLBACK (grisbi_prefs_set_page_by_name),
+							  "form_content");
+
+	gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
     /* Finish all. */
     gtk_widget_show_all (menu);

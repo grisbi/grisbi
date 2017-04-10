@@ -88,7 +88,6 @@ static gboolean gsb_config_metatree_sort_transactions_changed ( GtkWidget *check
 static gboolean gsb_config_onglet_metatree_action_changed ( GtkWidget *checkbutton,
                         GdkEventButton *event,
                         gint *pointeur );
-//~ static GtkWidget *gsb_config_scheduler_page ( void );
 static gboolean gsb_gui_delete_msg_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
                         GtkTreeModel * model );
 static gboolean gsb_gui_messages_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
@@ -99,22 +98,9 @@ static gboolean gsb_localisation_format_date_toggle ( GtkToggleButton *togglebut
                         gpointer user_data);
 static void gsb_localisation_thousands_sep_changed ( GtkComboBoxText *widget, gpointer user_data );
 static void gsb_localisation_update_affichage ( gint type_maj );
-static gboolean preference_selectable_func (GtkTreeSelection *selection,
-                        GtkTreeModel *model,
-                        GtkTreePath *path,
-                        gboolean path_currently_selected,
-                        gpointer data);
-static gboolean selectionne_liste_preference ( GtkTreeSelection *selection,
-                        GtkTreeModel *model );
 /*END_STATIC*/
 
 GtkWidget *fenetre_preferences = NULL;
-static GtkWidget *hpaned = NULL;
-
-static GtkTreeStore *preference_tree_model = NULL;
-static GtkNotebook * preference_frame = NULL;
-
-//~ static gint width_spin_button = 50;
 
 
 /*START_EXTERN*/
@@ -130,15 +116,6 @@ extern gchar *nom_fichier_comptes;
  *
  * \return
  * */
-static gboolean preferences_size_allocate (GtkWidget *prefs,
-                                           GtkAllocation *allocation,
-                                           gpointer null)
-{
-    conf.prefs_width = allocation->width;
-
-    return FALSE;
-}
-
 /**
  * force le recalcul des soldes et la mise à jour de la page d'accueil
  *
@@ -407,230 +384,9 @@ GtkWidget *onglet_accueil ( void )
     return ( vbox_pref );
 }
 
-
-
-/**
- * Creates a simple TreeView and a TreeModel to handle preference
- * tabs.  Sets preference_tree_model to the newly created TreeModel.
- *
- * \return a GtkScrolledWindow
- */
-static GtkWidget *create_preferences_tree ( void )
-{
-    GtkWidget *sw;
-    GtkTreeViewColumn *column;
-    GtkCellRenderer *cell;
-    GtkTreeSelection * selection;
-    GtkWidget *tree_view;
-
-    /* Create model */
-    preference_tree_model = gtk_tree_store_new (3,
-                        G_TYPE_STRING,
-                        G_TYPE_INT,
-                        G_TYPE_INT );
-
-    /* Create container + TreeView */
-    sw = gtk_scrolled_window_new ( NULL, NULL );
-    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW (sw),
-                        GTK_SHADOW_IN );
-    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW (sw),
-                        GTK_POLICY_NEVER,
-                        GTK_POLICY_AUTOMATIC );
-    tree_view = gtk_tree_view_new();
-    gtk_tree_view_set_model ( GTK_TREE_VIEW (tree_view),
-                        GTK_TREE_MODEL ( preference_tree_model ) );
-    g_object_unref ( G_OBJECT(preference_tree_model) );
-
-    /* Make column */
-    cell = gtk_cell_renderer_text_new ();
-    column = gtk_tree_view_column_new_with_attributes ("Categories",
-                        cell,
-                        "text", 0,
-                        NULL);
-    gtk_tree_view_column_add_attribute ( GTK_TREE_VIEW_COLUMN(column), cell,
-                        "weight", 2 );
-
-    gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view),
-                        GTK_TREE_VIEW_COLUMN (column));
-    gtk_tree_view_set_headers_visible ( GTK_TREE_VIEW (tree_view), FALSE );
-
-    /* Handle select */
-    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
-    g_signal_connect (selection,
-                        "changed",
-                        (GCallback) selectionne_liste_preference,
-                        preference_tree_model);
-
-    /* Choose which entries will be selectable */
-    gtk_tree_selection_set_select_function ( selection,
-                        preference_selectable_func,
-                        NULL, NULL );
-
-    /* Put the tree in the scroll */
-    gtk_container_add (GTK_CONTAINER (sw), tree_view);
-
-    /* expand all rows after the treeview widget has been realized */
-    g_signal_connect ( tree_view,
-                        "realize",
-                        (GCallback) gtk_tree_view_expand_all,
-                        NULL );
-
-    return sw;
-}
-
-
-gboolean preference_selectable_func (GtkTreeSelection *selection,
-                        GtkTreeModel *model,
-                        GtkTreePath *path,
-                        gboolean path_currently_selected,
-                        gpointer data)
-{
-    GtkTreeIter iter;
-    GValue value = G_VALUE_INIT;
-
-    gtk_tree_model_get_iter ( model, &iter, path );
-    gtk_tree_model_get_value ( model, &iter, 1, &value );
-
-    if ( g_value_get_int(&value) == NOT_A_PAGE )
-    {
-        g_value_unset (&value);
-        return FALSE;
-    }
-
-    g_value_unset (&value);
-    return TRUE;
-}
-
-
-
-/**
- * call the preferences page by a menu
- *
- * \param menu_item
- * \param page_ptr  the page to open
- *
- * \return FALSE
- * */
-gboolean gsb_preferences_menu_open ( GtkWidget *menu_item,
-                        gpointer page_ptr )
-{
-    preferences (GPOINTER_TO_INT (page_ptr) );
-    return FALSE;
-}
-
-
-/**
- *
- *
- * \param
- *
- * \return
- * */
-gint gsb_preferences_paned_get_position (void)
-{
-    if (hpaned)
-        return gtk_paned_get_position (GTK_PANED (hpaned));
-    else
-        return 0;
-}
-
-/**
- * Creates a new GtkDialog with a paned list of topics and a paned
- * notebook that allows to switch between all pages.  A click on the
- * list selects one specific page.
- *
- * \param page Initial page to select.
- */
-gboolean preferences ( gint page )
-{
-    GtkWidget *hbox, *tree;
-    GtkTreeIter iter, iter2;
-
-    devel_debug_int (page);
-
-    if ( gsb_gui_navigation_get_current_page ( ) == - 1 )
-        return FALSE;
-
-    /* Create dialog */
-    fenetre_preferences = gtk_dialog_new_with_buttons (_("Grisbi preferences"),
-                        GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
-                        GTK_DIALOG_MODAL,
-                        "gtk-close", GTK_RESPONSE_CLOSE,
-                        NULL );
-
-    if ( conf.prefs_width && conf.prefs_width > 830 )
-        gtk_window_set_default_size ( GTK_WINDOW ( fenetre_preferences ), conf.prefs_width, -1 );
-    else
-        gtk_window_set_default_size ( GTK_WINDOW ( fenetre_preferences ), 830, -1 );
-
-    gtk_window_set_position ( GTK_WINDOW ( fenetre_preferences ), GTK_WIN_POS_CENTER_ON_PARENT );
-    gtk_window_set_resizable ( GTK_WINDOW ( fenetre_preferences ), TRUE );
-
-    /* Create List & Tree for topics */
-    tree = create_preferences_tree();
-    hpaned = gtk_paned_new( GTK_ORIENTATION_HORIZONTAL );
-    gtk_paned_add1 ( GTK_PANED(hpaned), tree );
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
-    gtk_paned_add2 ( GTK_PANED (hpaned), hbox );
-
-    /* Frame for preferences */
-    preference_frame = GTK_NOTEBOOK ( gtk_notebook_new () );
-    gtk_notebook_set_show_border ( preference_frame, FALSE );
-    gtk_notebook_set_show_tabs  ( preference_frame, FALSE );
-    gtk_notebook_set_scrollable ( preference_frame, TRUE );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), GTK_WIDGET(preference_frame), TRUE, TRUE, 0 );
-
-
-    gtk_widget_show_all ( hpaned );
-    gtk_container_set_border_width ( GTK_CONTAINER(hpaned), 6 );
-    gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( fenetre_preferences ) ),
-                        hpaned, TRUE, TRUE, 0);
-    g_signal_connect (G_OBJECT (fenetre_preferences),
-                      "size-allocate",
-                      G_CALLBACK (preferences_size_allocate),
-                      NULL);
-
-    /* select the page */
-    if ( page >= 0 && page < NUM_PREFERENCES_PAGES )
-        gtk_notebook_set_current_page ( GTK_NOTEBOOK (preference_frame), page );
-
-    switch (gtk_dialog_run ( GTK_DIALOG ( fenetre_preferences ) ))
-    {
-        case GTK_RESPONSE_HELP:
-        /* Hook some help function */
-        break;
-        default:
-        gtk_window_get_size ( GTK_WINDOW ( fenetre_preferences ), &conf.prefs_width, NULL );
-        gtk_widget_destroy ( GTK_WIDGET ( fenetre_preferences ));
-        return FALSE;
-    }
-    return FALSE;
-}
-
 /* ************************************************************************************************************** */
 /* callback appelé quand on sélectionne un membre de la liste */
 /* ************************************************************************************************************** */
-gboolean selectionne_liste_preference ( GtkTreeSelection *selection,
-                        GtkTreeModel *model )
-{
-    GtkTreeIter iter;
-    GValue value = G_VALUE_INIT;
-    gint preference_selected;
-
-    if ( ! gtk_tree_selection_get_selected (selection, NULL, &iter) )
-    return ( FALSE );
-
-    gtk_tree_model_get_value ( model, &iter, 1, &value );
-
-    preference_selected = g_value_get_int ( &value );
-    gtk_notebook_set_current_page ( preference_frame, preference_selected );
-
-    g_value_unset ( &value );
-
-    return FALSE;
-}
-
-
 /**
  * Creates the "Warning & Messages" tab.
  *
@@ -835,40 +591,6 @@ gboolean gsb_gui_delete_msg_toggled ( GtkCellRendererToggle *cell, gchar *path_s
 
     return TRUE;
 }
-
-
-/**
- * called when choose a new directory for the backup
- *
- * \param button the GtkFileChooserButton
- * \param null
- *
- * \return FALSE
- * */
-gboolean gsb_config_backup_dir_chosen ( GtkWidget *button,
-                        GtkWidget *dialog )
-{
-    gchar *path;
-
-    path = gtk_file_chooser_get_filename ( GTK_FILE_CHOOSER ( button ) );
-
-    if ( path && strlen ( path ) > 0 )
-    {
-        GSettings *settings;
-
-        settings = grisbi_settings_get_settings ( SETTINGS_FILES_BACKUP );
-        g_settings_set_string ( G_SETTINGS ( settings ), "backup-path", path );
-        gsb_file_set_backup_path ( path );
-    }
-    else
-        path = my_strdup ( gsb_dirs_get_user_data_dir () );
-    g_free ( path );
-    gsb_file_set_modified ( TRUE );
-
-    return FALSE;
-}
-
-
 
 
 /**

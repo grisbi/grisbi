@@ -34,6 +34,7 @@
 #include "utils_prefs.h"
 #include "dialog.h"
 #include "grisbi_app.h"
+#include "grisbi_settings.h"
 #include "gsb_file.h"
 #include "gsb_dirs.h"
 #include "parametres.h"
@@ -311,10 +312,14 @@ gboolean utils_prefs_left_panel_tree_view_select_page (GtkWidget *tree_view,
                 if (tmp_page == page)
                 {
                     GtkTreeSelection *sel;
+					GtkTreePath *path;
 
                     sel = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
                     gtk_tree_selection_select_iter (sel, &iter);
+					path = gtk_tree_model_get_path (GTK_TREE_MODEL (model), &iter);
+					gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (tree_view), path, NULL, FALSE, 0, 0);
                     gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), page);
+
                     break;
                 }
             }
@@ -479,19 +484,30 @@ void utils_prefs_page_dir_chosen (GtkWidget *button,
 
 	if (strcmp (dirname, "backup_path") == 0)
 	{
+		GSettings *settings;
+
+        settings = grisbi_settings_get_settings (SETTINGS_FILES_BACKUP);
+        g_settings_set_string (G_SETTINGS (settings), "backup-path", tmp_dir);
+
         gsb_file_set_backup_path (tmp_dir);
 	}
 	else if (strcmp (dirname, "import_directory") == 0)
 	{
+		GSettings *settings;
+
+        settings = grisbi_settings_get_settings (SETTINGS_FILES_FILE);
+        g_settings_set_string (G_SETTINGS (settings), "import-directory", tmp_dir);
 		if (conf.import_directory)
 			g_free (conf.import_directory);
 		conf.import_directory = my_strdup (tmp_dir);
+
 	}
 
     g_signal_handlers_unblock_by_func (button,
 									   G_CALLBACK (utils_prefs_page_dir_chosen),
 									   dirname);
 
+	utils_prefs_gsb_file_set_modified ();
     /* memory free */
     g_free (tmp_dir);
 }
@@ -539,7 +555,7 @@ gboolean utils_prefs_scrolled_window_allocate_size (GtkWidget *widget,
     if (!coeff)
         return FALSE;
 
-    position = gsb_preferences_paned_get_position ();
+    position = +conf.prefs_panel_width;
     if (position)
         util_allocation = coeff * (conf.prefs_width - position)/100;
     else

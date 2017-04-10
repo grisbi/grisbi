@@ -286,7 +286,7 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
 					  &conf.force_import_directory);
 
-    /* connect the signal for filechooserbutton_backup */
+    /* connect the signal for filechooserbutton_force_import_directory */
     g_signal_connect (G_OBJECT (priv->filechooserbutton_force_import_directory),
                       "selection-changed",
                       G_CALLBACK (utils_prefs_page_dir_chosen),

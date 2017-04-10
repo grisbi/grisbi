@@ -669,13 +669,6 @@ void grisbi_settings_save_app_config (void)
                         "compress-file",
                         conf.compress_file);
 
-	if (conf.force_import_directory)
-	{
-		g_settings_set_string (G_SETTINGS (priv->settings_file),
-							   "import-directory",
-							   conf.import_directory);
-	}
-
 	recent_array = grisbi_app_get_recent_files_array ();
     if (g_strv_length (recent_array))
     {

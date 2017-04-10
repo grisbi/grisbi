@@ -219,7 +219,6 @@ void grisbi_cmd_prefs (GSimpleAction *action,
 {
 	GrisbiPrefs *prefs;
 
-	//~ preferences (-1);
 	prefs = grisbi_prefs_new (grisbi_app_get_active_window (app));
 	gtk_window_set_modal (GTK_WINDOW (prefs), TRUE);
 
@@ -319,8 +318,8 @@ void grisbi_cmd_day_tip (GSimpleAction *action,
  * \return
  * */
 void grisbi_cmd_file_new (GSimpleAction *action,
-						GVariant *parameter,
-						gpointer app)
+						  GVariant *parameter,
+						  gpointer app)
 {
     /* continue only if closing the file is ok */
     if (!gsb_file_close ())
