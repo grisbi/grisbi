@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*            2003-2008 Benjamin Drieu (bdrieu@april.org)                     */
-/*            2008-2016 Pierre Biava (grisbi@pierre.biava.name)               */
+/*            2008-2017 Pierre Biava (grisbi@pierre.biava.name)               */
 /*             http://www.grisbi.org                                          */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -137,8 +137,6 @@ static void gsb_main_page_affiche_ligne_solde_partiel (GtkWidget *table,
 	{
 		tmp_str = g_strconcat (gsb_data_partial_balance_get_name (partial_number), " : ", NULL);
 	}
-	printf ("tmp_str = %s\n", tmp_str);
-
 	tmp_str2 = make_blue (tmp_str);
 	label = gtk_label_new (tmp_str2);
     gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
@@ -287,21 +285,24 @@ static gint gsb_main_page_account_have_partial_balance (gint account_number,
 {
     GSList *list_tmp;
 
-    list_tmp = list_partial;
-    while (list_tmp)
-    {
-        StructAccountPartial *partial;
+	if (list_partial)
+	{
+		list_tmp = list_partial;
+		while (list_tmp)
+		{
+			StructAccountPartial *partial;
 
-        partial = (list_tmp -> data);
-        if (partial->account_number == account_number)
-        {
-            partial_buffer = partial;
+			partial = (list_tmp -> data);
+			if (partial->account_number == account_number)
+			{
+				partial_buffer = partial;
 
-            return TRUE;
-        }
+				return TRUE;
+			}
 
-        list_tmp = list_tmp -> next;
-    }
+			list_tmp = list_tmp -> next;
+		}
+	}
 
     /* le compte n'appartient pas à solde partiel */
     if (partial_buffer)
@@ -351,7 +352,6 @@ static void gsb_main_page_affiche_ligne_du_compte (GtkWidget *pTable,
 
     /* Première colonne : elle contient le nom du compte */
     tmp_str = g_strconcat (gsb_data_account_get_name (account_number), " : ", NULL);
-	printf ("tmp_str = %s\n", tmp_str);
     pLabel = gtk_label_new (tmp_str);
     g_free (tmp_str);
     utils_labels_set_alignement (GTK_LABEL (pLabel), MISC_LEFT, MISC_VERT_CENTER);
@@ -636,7 +636,7 @@ static void gsb_main_page_diplays_accounts (GtkWidget *pTable,
     gint i = 0;
     gint j = 0;
 
-    /* Affichage des comptes et de leur solde */
+	/* Affichage des comptes et de leur solde */
     i = 1;
     solde_global_courant = null_real;
     solde_global_pointe = null_real;
@@ -677,7 +677,7 @@ static void gsb_main_page_diplays_accounts (GtkWidget *pTable,
                     list_partial = g_slist_append (list_partial, partial);
                 }
 
-                g_strfreev (tab);
+				g_strfreev (tab);
             }
             list_tmp = list_tmp -> next;
         }
@@ -780,8 +780,8 @@ static void gsb_main_page_diplays_accounts (GtkWidget *pTable,
 		if (!compte_simple)
 			i--;
 
-        /* bug not found with g_slist_free_full() */
-        g_slist_free (list_partial);
+		g_slist_free_full (list_partial, g_free);
+		partial_buffer = NULL;
     }
     else
     {
