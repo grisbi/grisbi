@@ -77,10 +77,9 @@ static GtkWidget *frame_etat_echeances_auto_accueil = NULL;
 static GtkWidget *main_page_finished_scheduled_transactions_part = NULL;
 static GtkWidget *frame_etat_soldes_minimaux_autorises = NULL;
 static GtkWidget *frame_etat_soldes_minimaux_voulus = NULL;
-static GtkSizeGroup * size_group_accueil;
+static GtkSizeGroup *size_group_accueil;
 static gchar *chaine_espace = "                         ";
-static gint margin = 10;
-static gint separator_size = 100;
+static gint LIGNE_SOMME_SIZE = 100;
 
 #define show_paddingbox(child) gtk_widget_show_all (gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(GTK_WIDGET(child)))))
 #define hide_paddingbox(child) gtk_widget_hide (gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(GTK_WIDGET(child)))))
@@ -102,6 +101,93 @@ static StructAccountPartial *partial_buffer = NULL;
 /******************************************************************************/
 /* Private Methods                                                            */
 /******************************************************************************/
+/**
+ * affiche une ligne de solde partiel
+ *
+ * \param table
+ * \param i						row
+ * \param partial_number
+ * \param currency_number
+ *
+ * \return
+ * */
+static void gsb_main_page_affiche_ligne_solde_partiel (GtkWidget *table,
+													   gint i,
+													   gint partial_number,
+													   gint currency_number)
+{
+    GtkWidget *label;
+    gchar *tmp_str;
+    gchar *tmp_str2;
+	kind_account kind;
+
+	/* Première colonne : elle contient le nom du solde partiel avec ou sans devise*/
+	kind = gsb_data_partial_balance_get_kind (partial_number);
+	if (kind == - 1)
+	{
+		currency_number = gsb_data_partial_balance_get_currency (partial_number);
+		tmp_str2 = g_strdup_printf (_(" in %s"), gsb_data_currency_get_name (currency_number));
+		tmp_str = g_strconcat (gsb_data_partial_balance_get_name (partial_number),
+							   tmp_str2,
+							   " : ",
+							   NULL);
+		g_free ( tmp_str2 );
+	}
+	else
+	{
+		tmp_str = g_strconcat (gsb_data_partial_balance_get_name (partial_number), " : ", NULL);
+	}
+	printf ("tmp_str = %s\n", tmp_str);
+
+	tmp_str2 = make_blue ( tmp_str );
+	label = gtk_label_new ( tmp_str2 );
+    gtk_label_set_use_markup ( GTK_LABEL ( label ), TRUE );
+    g_free ( tmp_str );
+    g_free ( tmp_str2 );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_LEFT, MISC_VERT_CENTER );
+    gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
+    gtk_grid_attach ( GTK_GRID ( table ), label, 0, i, 1, 1 );
+    gtk_widget_show ( label );
+
+    /* Deuxième colonne : elle contient le solde pointé du solde partiel */
+    tmp_str = gsb_data_partial_balance_get_marked_balance ( partial_number );
+    label = gtk_label_new ( tmp_str );
+    gtk_label_set_markup ( GTK_LABEL ( label ), tmp_str );
+    g_free ( tmp_str );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
+    gtk_grid_attach ( GTK_GRID ( table ), label, 1, i, 1, 1 );
+    gtk_widget_show ( label );
+
+    /* Troisième colonne : elle contient le solde courant du solde partiel */
+    tmp_str = gsb_data_partial_balance_get_current_balance ( partial_number );
+    label = gtk_label_new ( NULL );
+    gtk_label_set_markup ( GTK_LABEL ( label ), tmp_str );
+    g_free ( tmp_str );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
+    gtk_grid_attach ( GTK_GRID ( table ), label, 2, i, 1, 1 );
+    gtk_widget_show ( label );
+}
+
+/**
+ * display an empty row
+ *
+ * \param table			grid
+ * \param i				row number
+ *
+ * \return
+ * */
+static void gsb_main_page_affiche_ligne_vide (GtkWidget *table,
+											  gint i)
+{
+    GtkWidget *label;
+
+	label = gtk_label_new (chaine_espace);
+	gtk_size_group_add_widget (GTK_SIZE_GROUP (size_group_accueil), label);
+	utils_labels_set_alignement (GTK_LABEL (label), MISC_RIGHT, MISC_VERT_CENTER);
+	gtk_grid_attach (GTK_GRID (table), label, 0, i, 1, 1);
+	gtk_widget_show (label);
+}
+
 /**
  * fonction renvoie TRUE si le compte a déjà été affiché
  *
@@ -146,84 +232,46 @@ static gint gsb_main_page_account_get_account_displayed ( gint account_number,
  * \return
  * */
 static void gsb_main_page_account_get_ligne_somme ( GtkWidget *table,
-                        gint i )
+												   gint i )
 {
     GtkWidget *separator;
 
     separator = gtk_separator_new ( GTK_ORIENTATION_HORIZONTAL );
     gtk_widget_set_halign (separator, GTK_ALIGN_END );
-    gtk_widget_set_size_request (separator, separator_size, -1);
+    gtk_widget_set_size_request (separator, LIGNE_SOMME_SIZE, -1);
     gtk_widget_show ( separator );
     gtk_grid_attach ( GTK_GRID ( table ), separator, 1, i, 1, 1 );
 
     separator = gtk_separator_new ( GTK_ORIENTATION_HORIZONTAL );
     gtk_widget_set_halign (separator, GTK_ALIGN_END );
-    gtk_widget_set_size_request (separator, separator_size, -1);
+    gtk_widget_set_size_request (separator, LIGNE_SOMME_SIZE, -1);
     gtk_widget_show ( separator );
     gtk_grid_attach ( GTK_GRID ( table ), separator, 2, i, 1, 1 );
 }
 
 /**
- * affiche une ligne de solde partiel
+ * affiche une ligne de solde partiel regroupée sous ses comptes
  *
- * \param
- * \param
- * \param
- * \param
+ * \param table
+ * \param i						row
+ * \param partial_number
+ * \param currency_number
  *
  * \return
  * */
-static void gsb_main_page_account_affiche_solde_partiel ( GtkWidget *table,
-                        gint i,
-                        gint partial_number,
-                        gint currency_number )
+static void gsb_main_page_affiche_solde_partiel_groupe_account (GtkWidget *table,
+																gint i,
+																gint partial_number,
+																gint currency_number)
 {
-    GtkWidget *label;
-    gchar *tmp_str;
-    gchar *tmp_str2;
-
-    /* on commence par une ligne vide spécifique */
+    /* on commence par une ligne vide pour la somme */
     gsb_main_page_account_get_ligne_somme ( table, i );
     i ++;
-
-    /* Première colonne : elle contient le nom du solde partiel */
-    tmp_str = g_strconcat ( gsb_data_partial_balance_get_name ( partial_number ), " : ", NULL );
-    tmp_str2 = make_blue ( tmp_str );
-    label = gtk_label_new ( tmp_str2 );
-    gtk_label_set_use_markup ( GTK_LABEL ( label ), TRUE );
-    g_free ( tmp_str );
-    g_free ( tmp_str2 );
-    utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_LEFT, MISC_VERT_CENTER );
-    gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
-    gtk_grid_attach ( GTK_GRID ( table ), label, 0, i, 1, 1 );
-    gtk_widget_show ( label );
-
-    /* Deuxième colonne : elle contient le solde pointé du solde partiel */
-    tmp_str = gsb_data_partial_balance_get_marked_balance ( partial_number );
-    label = gtk_label_new ( tmp_str );
-    gtk_label_set_markup ( GTK_LABEL ( label ), tmp_str );
-    g_free ( tmp_str );
-    utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
-    gtk_grid_attach ( GTK_GRID ( table ), label, 1, i, 1, 1 );
-    gtk_widget_show ( label );
-
-    /* Troisième colonne : elle contient le solde courant du solde partiel */
-    tmp_str = gsb_data_partial_balance_get_current_balance ( partial_number );
-    label = gtk_label_new ( NULL );
-    gtk_label_set_markup ( GTK_LABEL ( label ), tmp_str );
-    g_free ( tmp_str );
-    utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
-    gtk_grid_attach ( GTK_GRID ( table ), label, 2, i, 1, 1 );
-    gtk_widget_show ( label );
-
+	/* on contnue avec une ligne de solde partiel */
+	gsb_main_page_affiche_ligne_solde_partiel (table, i, partial_number, currency_number);
     i++;
-
     /* on finit par une ligne vide */
-    label = gtk_label_new ( chaine_espace );
-    gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
-    utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
-    gtk_grid_attach ( GTK_GRID ( table ), label, 0, i, 1, 1 );
-    gtk_widget_show ( label );
+	gsb_main_page_affiche_ligne_vide (table, i);
 }
 
 /**
@@ -303,6 +351,7 @@ static void gsb_main_page_affiche_ligne_du_compte ( GtkWidget *pTable,
 
     /* Première colonne : elle contient le nom du compte */
     tmp_str = g_strconcat ( gsb_data_account_get_name (account_number), " : ", NULL );
+	printf ("tmp_str = %s\n", tmp_str);
     pLabel = gtk_label_new ( tmp_str );
     g_free ( tmp_str );
     utils_labels_set_alignement ( GTK_LABEL ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
@@ -451,7 +500,7 @@ static gint affiche_soldes_partiels ( GtkWidget *table,
     gint nbre_lignes = 0;
     gboolean concerne = FALSE;
 
-    while ( liste )
+	while ( liste )
     {
         gint partial_number;
         kind_account kind;
@@ -473,12 +522,8 @@ static gint affiche_soldes_partiels ( GtkWidget *table,
         {
             if ( concerne == FALSE )
             {
-                    /* on commence par une ligne vide */
-                label = gtk_label_new ( chaine_espace );
-                gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
-                utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
-                gtk_grid_attach ( GTK_GRID ( table ), label, 0, i, 1, 1 );
-                gtk_widget_show ( label );
+                /* on commence par une ligne vide */
+				gsb_main_page_affiche_ligne_vide (table, i);
                 i ++;
                 nbre_lignes ++;
 
@@ -492,7 +537,7 @@ static gint affiche_soldes_partiels ( GtkWidget *table,
 				g_free ( tmp_str );
 				utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_LEFT, MISC_VERT_CENTER );
                 gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
-                gtk_grid_attach ( GTK_GRID ( table ), label, 0, 1, i, i+1 );
+                gtk_grid_attach ( GTK_GRID ( table ), label, 0, i, 1, 1 );
                 gtk_widget_show ( label );
                 label = gtk_label_new (_("Reconciled balance"));
                 utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
@@ -506,34 +551,8 @@ static gint affiche_soldes_partiels ( GtkWidget *table,
                 nbre_lignes ++;
                 concerne = TRUE;
             }
-            /* Première colonne : elle contient le nom du solde partiel */
-            tmp_str = g_strconcat ( gsb_data_partial_balance_get_name ( partial_number ),
-                            " : ", NULL );
-            label = gtk_label_new ( tmp_str );
-            g_free ( tmp_str );
-            utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_LEFT, MISC_VERT_CENTER );
-            gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
-            gtk_grid_attach ( GTK_GRID ( table ), label, 0, i, 1, 1 );
-            gtk_widget_show ( label );
 
-            /* Deuxième colonne : elle contient le solde pointé du solde partiel */
-            tmp_str = gsb_data_partial_balance_get_marked_balance ( partial_number );
-            label = gtk_label_new ( tmp_str );
-            gtk_label_set_markup ( GTK_LABEL ( label ), tmp_str );
-            g_free ( tmp_str );
-            utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
-            gtk_grid_attach ( GTK_GRID ( table ), label, 1, i, 1, 1 );
-            gtk_widget_show ( label );
-
-            /* Troisième colonne : elle contient le solde courant du solde partiel */
-            tmp_str = gsb_data_partial_balance_get_current_balance ( partial_number );
-            label = gtk_label_new ( NULL );
-            gtk_label_set_markup ( GTK_LABEL ( label ), tmp_str );
-            g_free ( tmp_str );
-            utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
-            gtk_grid_attach ( GTK_GRID ( table ), label, 2, i, 1, 1 );
-            gtk_widget_show ( label );
-
+			gsb_main_page_affiche_ligne_solde_partiel (table, i, partial_number, currency_number);
             i++;
             nbre_lignes ++;
         }
@@ -558,11 +577,7 @@ static void affiche_solde_des_comptes ( GtkWidget *table,
     gchar *tmp_str;
 
     /* on commence par une ligne vide */
-    label = gtk_label_new ( chaine_espace );
-    gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
-    utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
-    gtk_grid_attach ( GTK_GRID ( table ), label, 0, i, 1, 1 );
-    gtk_widget_show ( label );
+	gsb_main_page_affiche_ligne_vide (table, i);
     i ++;
 
     /* Première colonne */
@@ -621,8 +636,6 @@ static void gsb_main_page_diplays_accounts ( GtkWidget *pTable,
     gint i = 0;
     gint j = 0;
 
-    devel_debug_int ( new_comptes);
-
     /* Affichage des comptes et de leur solde */
     i = 1;
     solde_global_courant = null_real;
@@ -632,6 +645,7 @@ static void gsb_main_page_diplays_accounts ( GtkWidget *pTable,
     if ( new_comptes > 0 && conf.group_partial_balance_under_accounts )
     {
         GSList *list_partial = NULL;
+		gboolean compte_simple = FALSE;
 
         list_tmp = gsb_data_partial_balance_get_list ();
         while ( list_tmp )
@@ -702,7 +716,7 @@ static void gsb_main_page_diplays_accounts ( GtkWidget *pTable,
                         continue;
                     }
 
-                    /* on traite le solde partiel si nécéssaire */
+                    /* on traite le solde partiel si nécessaire */
 					if ( partial_buffer->partial_number == 0 )
                     {
                         list_tmp = list_tmp -> next;
@@ -722,6 +736,12 @@ static void gsb_main_page_diplays_accounts ( GtkWidget *pTable,
                         tmp_number = utils_str_atoi ( tab[j] );
                         if ( !gsb_main_page_account_get_account_displayed ( tmp_number, list_partial) )
                         {
+							if (compte_simple)
+							{
+								gsb_main_page_affiche_ligne_vide (pTable, i);
+								i++;
+								compte_simple = FALSE;
+							}
                             gsb_main_page_affiche_ligne_du_compte ( pTable, tmp_number, i );
                             solde_global_courant = gsb_real_add ( solde_global_courant,
                                                         gsb_data_account_get_current_balance ( tmp_number ) );
@@ -733,8 +753,11 @@ static void gsb_main_page_diplays_accounts ( GtkWidget *pTable,
                         }
                     }
                     /* on affiche le solde partiel + une ligne vide */
-                    gsb_main_page_account_affiche_solde_partiel ( pTable, i, partial_number, currency_number );
-                    i += 2;
+                    gsb_main_page_affiche_solde_partiel_groupe_account (pTable, i, partial_number, currency_number);
+					i += 2;
+					/* on ajoute une ligne vide pour séparer deux soldes partiels groupés */
+					gsb_main_page_affiche_ligne_vide (pTable, i);
+					i++;
 
                     g_strfreev ( tab );
                 }
@@ -746,12 +769,16 @@ static void gsb_main_page_diplays_accounts ( GtkWidget *pTable,
                                                 gsb_data_account_get_current_balance ( account_number ) );
                     solde_global_pointe = gsb_real_add ( solde_global_pointe,
                                                 gsb_data_account_get_marked_balance ( account_number ) );
+					i++;
+					compte_simple = TRUE;
                 }
             }
-            i++;
 
             list_tmp = list_tmp -> next;
         }
+		/* on supprime une ligne exédentaire si on termine par un solde partiel groupé */
+		if (!compte_simple)
+			i--;
 
         /* bug not found with g_slist_free_full() */
         g_slist_free ( list_partial );
@@ -791,12 +818,11 @@ static void gsb_main_page_diplays_accounts ( GtkWidget *pTable,
                                             gsb_data_account_get_current_balance ( account_number ) );
                 solde_global_pointe = gsb_real_add ( solde_global_pointe,
                                             gsb_data_account_get_marked_balance ( account_number ) );
-            }
-            i++;
+				i++;
+			}
 
             list_tmp = list_tmp -> next;
         }
-
         /* affichage des soldes partiels s'ils existent */
         if ( new_comptes > 0 && conf.group_partial_balance_under_accounts == 0 )
         {
@@ -806,6 +832,7 @@ static void gsb_main_page_diplays_accounts ( GtkWidget *pTable,
                                 currency_number, type_compte );
         }
     }
+
     /* Création et remplissage de la (nb_comptes + 3)ième ligne du tableau :
        elle contient la somme des soldes de chaque compte */
     affiche_solde_des_comptes ( pTable, i, nb_comptes, currency_number,
@@ -851,14 +878,13 @@ static gboolean gsb_main_page_get_devise_is_used ( gint currency_number,
  *
  * \return table
  * */
-static GtkWidget *gsb_main_page_get_table_for_accounts ( gint nb_lignes,
-                        gint nb_col )
+static GtkWidget *gsb_main_page_get_table_for_accounts (void)
 {
     GtkWidget *table, *label;
 
 	table = gtk_grid_new ();
-    gtk_widget_set_margin_start (table, margin);
-    gtk_widget_set_margin_end (table, margin);
+    gtk_widget_set_margin_start (table, MARGIN_START);
+    gtk_widget_set_margin_end (table, MARGIN_END);
 
 	/* Création et remplissage de la première ligne du tableau */
     label = gtk_label_new ( chaine_espace );
@@ -891,20 +917,13 @@ static gint affiche_soldes_additionnels ( GtkWidget *table,
                         gint i,
                         GSList *liste )
 {
-    GtkWidget *label;
-    gchar *tmp_str;
-    gchar *tmp_str2;
     gint nbre_lignes = 0;
     gint currency_number;
 
     /* on commence par une ligne vide */
-    label = gtk_label_new ( chaine_espace );
-    gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
-    utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
-    gtk_grid_attach ( GTK_GRID ( table ), label, 0, i, 1, 1 );
-    gtk_widget_show ( label );
-    i ++;
-    nbre_lignes ++;
+	gsb_main_page_affiche_ligne_vide (table, i);
+	i ++;
+	nbre_lignes ++;
 
     while ( liste )
     {
@@ -916,46 +935,8 @@ static gint affiche_soldes_additionnels ( GtkWidget *table,
 
         if ( kind == - 1 )
         {
-            /* Première colonne : elle contient le nom du solde partiel */
-            currency_number = gsb_data_partial_balance_get_currency ( partial_number );
-            tmp_str2 = g_strdup_printf (_(" in %s"), gsb_data_currency_get_name (
-                        currency_number ) );
-            tmp_str = g_strconcat ( gsb_data_partial_balance_get_name ( partial_number ),
-                            tmp_str2,
-                            " : ", NULL );
-			g_free ( tmp_str2 );
-            if ( conf.group_partial_balance_under_accounts )
-                tmp_str2 = make_blue ( tmp_str );
-            else
-                tmp_str2 = g_strdup ( tmp_str );
-            label = gtk_label_new ( NULL );
-            gtk_label_set_markup ( GTK_LABEL ( label ), tmp_str2 );
-            g_free ( tmp_str );
-            g_free ( tmp_str2 );
-
-            utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_LEFT, MISC_VERT_CENTER );
-            gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
-            gtk_grid_attach ( GTK_GRID ( table ), label, 0, i, 1, 1 );
-            gtk_widget_show ( label );
-
-            /* Deuxième colonne : elle contient le solde pointé du solde partiel */
-            tmp_str = gsb_data_partial_balance_get_marked_balance ( partial_number );
-            label = gtk_label_new ( NULL );
-            gtk_label_set_markup ( GTK_LABEL ( label ), tmp_str );
-            g_free ( tmp_str );
-            utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
-            gtk_grid_attach ( GTK_GRID ( table ), label, 1, i, 1, 1 );
-            gtk_widget_show ( label );
-
-            /* Troisième colonne : elle contient le solde courant du solde partiel */
-            tmp_str = gsb_data_partial_balance_get_current_balance ( partial_number );
-            label = gtk_label_new ( NULL );
-            gtk_label_set_markup ( GTK_LABEL ( label ), tmp_str );
-            g_free ( tmp_str );
-            utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_RIGHT, MISC_VERT_CENTER );
-            gtk_grid_attach ( GTK_GRID ( table ), label, 2, i, 1, 1 );
-            gtk_widget_show ( label );
-
+            currency_number = gsb_data_partial_balance_get_currency (partial_number);
+			gsb_main_page_affiche_ligne_solde_partiel (table, i, partial_number, currency_number);
             i++;
             nbre_lignes ++;
         }
@@ -1017,7 +998,7 @@ static void update_liste_comptes_accueil ( gboolean force )
             if ( gsb_data_account_get_kind (i) == GSB_TYPE_ASSET )
             {
                 nb_comptes_actif++;
-            }
+           }
             else if ( gsb_data_account_get_kind (i) == GSB_TYPE_LIABILITIES )
             {
                 nb_comptes_passif++;
@@ -1030,6 +1011,7 @@ static void update_liste_comptes_accueil ( gboolean force )
         list_tmp = list_tmp -> next;
     }
 
+	/* ajout des soldes partiels */
     list_tmp = gsb_data_partial_balance_get_list ( );
     if ( list_tmp )
     {
@@ -1041,13 +1023,16 @@ static void update_liste_comptes_accueil ( gboolean force )
             switch ( gsb_data_partial_balance_get_kind ( i ) )
             {
                 case GSB_TYPE_ASSET:
-                    new_comptes_actif++; break;
+                    new_comptes_actif++;
+					break;
 
                 case GSB_TYPE_LIABILITIES:
-                    new_comptes_passif++; break;
+                    new_comptes_passif++;
+					break;
 
                 case -1:
-                    soldes_mixtes++; break;
+                    soldes_mixtes++;
+					break;
 
                 default:
                     new_comptes_bancaires++;
@@ -1083,8 +1068,7 @@ static void update_liste_comptes_accueil ( gboolean force )
             paddingbox = new_paddingbox_with_title ( vbox, FALSE, tmp_str );
             g_free ( tmp_str );
 
-            pTable = gsb_main_page_get_table_for_accounts (
-                        nb_comptes_bancaires + 3 + new_comptes_bancaires + 2, 3 );
+            pTable = gsb_main_page_get_table_for_accounts ();
             gtk_box_pack_start ( GTK_BOX ( paddingbox ), pTable, FALSE, FALSE, 0 );
 
             /* Affichage des comptes et de leur solde */
@@ -1123,8 +1107,7 @@ static void update_liste_comptes_accueil ( gboolean force )
             paddingbox = new_paddingbox_with_title ( vbox, FALSE, tmp_str );
             g_free ( tmp_str );
 
-            pTable = gsb_main_page_get_table_for_accounts (
-                        nb_comptes_passif + 3 + new_comptes_passif + 2, 3 );
+            pTable = gsb_main_page_get_table_for_accounts ();
             gtk_box_pack_start ( GTK_BOX ( paddingbox ), pTable, FALSE, FALSE, 0 );
 
             /* Affichage des comptes et de leur solde */
@@ -1163,8 +1146,7 @@ static void update_liste_comptes_accueil ( gboolean force )
             paddingbox = new_paddingbox_with_title ( vbox, FALSE, tmp_str );
             g_free ( tmp_str );
 
-            pTable = gsb_main_page_get_table_for_accounts (
-                        nb_comptes_actif + 3 + new_comptes_passif  + 2, 3 );
+            pTable = gsb_main_page_get_table_for_accounts ();
             gtk_box_pack_start ( GTK_BOX ( paddingbox ), pTable, FALSE, FALSE, 0 );
 
             /* Affichage des comptes et de leur solde */
@@ -1199,7 +1181,7 @@ static void update_liste_comptes_accueil ( gboolean force )
         paddingbox = new_paddingbox_with_title ( vbox, FALSE, tmp_str );
         g_free ( tmp_str );
 
-        pTable = gsb_main_page_get_table_for_accounts ( (3 * soldes_mixtes) , 3 );
+        pTable = gsb_main_page_get_table_for_accounts ();
         gtk_box_pack_start ( GTK_BOX ( paddingbox ), pTable, FALSE, FALSE, 0 );
 
         list_tmp = gsb_data_partial_balance_get_list ( );
@@ -1790,8 +1772,8 @@ GtkWidget *creation_onglet_accueil ( void )
 	gtk_widget_set_vexpand (base_scroll, TRUE);
 
     base = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
-    gtk_widget_set_margin_start (base, margin);
-    gtk_widget_set_margin_end (base, margin);
+    gtk_widget_set_margin_start (base, MARGIN_START);
+    gtk_widget_set_margin_end (base, MARGIN_END);
 
     gtk_container_set_border_width ( GTK_CONTAINER ( base ), BOX_BORDER_WIDTH );
     gtk_container_add ( GTK_CONTAINER ( base_scroll ), base );
