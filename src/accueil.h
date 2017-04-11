@@ -18,10 +18,10 @@
 
 
 /* START_DECLARATION */
-void        affiche_dialogue_soldes_minimaux                        ( void );
-GtkWidget * creation_onglet_accueil                                 ( void );
-gboolean    gsb_main_page_update_finished_scheduled_transactions    ( gint scheduled_number );
-void        gsb_main_page_update_homepage_title                     ( const gchar *title );
-void        mise_a_jour_accueil                                     ( gboolean force );
+void        affiche_dialogue_soldes_minimaux                        (void);
+GtkWidget * creation_onglet_accueil                                 (void);
+gboolean    gsb_main_page_update_finished_scheduled_transactions    (gint scheduled_number);
+void        gsb_main_page_update_homepage_title                     (const gchar *title);
+void        mise_a_jour_accueil                                     (gboolean force);
 /* END_DECLARATION */
 #endif
