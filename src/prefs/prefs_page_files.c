@@ -39,6 +39,7 @@
 /*START_INCLUDE*/
 #include "prefs_page_files.h"
 #include "grisbi_app.h"
+#include "gsb_account.h"
 #include "gsb_file.h"
 #include "structures.h"
 #include "utils_prefs.h"

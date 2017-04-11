@@ -38,6 +38,7 @@
 
 /*START_INCLUDE*/
 #include "prefs_page_divers.h"
+#include "gsb_account.h"
 #include "gsb_automem.h"
 #include "parametres.h"
 #include "structures.h"
@@ -57,7 +58,10 @@ struct _PrefsPageDiversPrivate
 
     GtkWidget *			grid_divers_programs;
 
-	GtkWidget *         box_divers_scheduler;
+	GtkWidget *         vbox_divers_scheduler;
+	GtkWidget *         hbox_divers_scheduler;
+	GtkWidget *			checkbutton_scheduler_set_default_account;
+	GtkWidget *			eventbox_scheduler_set_default_account;
     GtkWidget *         spinbutton_divers_nb_days_before_scheduled;
 
 	GtkWidget *			box_divers_localisation;
@@ -68,6 +72,20 @@ G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageDivers, prefs_page_divers, GTK_TYPE_BOX)
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
+/**
+ * callback called when changing the account from the button
+ *
+ * \param button
+ *
+ * \return FALSE
+ * */
+static gboolean prefs_page_divers_scheduler_change_account (GtkWidget *combo)
+{
+	etat.scheduler_default_account_number = gsb_account_get_combo_account_number (combo);
+
+    return FALSE;
+}
+
 /**
  * Création de la page de gestion des divers
  *
@@ -80,6 +98,7 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page)
 	GtkWidget *head_page;
 	GtkWidget *entry_divers_programs;
     GtkWidget *button;
+    GtkWidget *combo;
 	PrefsPageDiversPrivate *priv;
 
 	devel_debug (NULL);
@@ -101,8 +120,36 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page)
 													   &conf.execute_scheduled_of_month,
 													   NULL,
 													   NULL);
-	gtk_box_pack_start (GTK_BOX (priv->box_divers_scheduler), button, FALSE, FALSE, 0);
-	gtk_box_reorder_child (GTK_BOX (priv->box_divers_scheduler), button, 0);
+	gtk_box_pack_start (GTK_BOX (priv->vbox_divers_scheduler), button, FALSE, FALSE, 0);
+	gtk_box_reorder_child (GTK_BOX (priv->vbox_divers_scheduler), button, 0);
+
+	/* Adding select defaut compte */
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_scheduler_set_default_account),
+								  etat.scheduler_set_default_account);
+
+    combo = gsb_account_create_combo_list (G_CALLBACK (prefs_page_divers_scheduler_change_account), NULL, FALSE);
+	gtk_box_pack_start (GTK_BOX (priv->hbox_divers_scheduler), combo, FALSE, FALSE, 0);
+	g_object_set_data (G_OBJECT (priv->checkbutton_scheduler_set_default_account),
+                       "widget", combo);
+
+	if (etat.scheduler_set_default_account)
+		gsb_account_set_combo_account_number (combo, etat.scheduler_default_account_number);
+	else
+		gtk_widget_set_sensitive (GTK_WIDGET (combo), FALSE);
+
+	gtk_widget_show (combo);
+
+	/* Connect signal */
+    g_signal_connect (priv->eventbox_scheduler_set_default_account,
+					  "button-press-event",
+					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
+					  priv->checkbutton_scheduler_set_default_account);
+
+    g_signal_connect (priv->checkbutton_scheduler_set_default_account,
+					  "toggled",
+					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
+					  &etat.scheduler_set_default_account);
+
 
 	/* set spinbutton value */
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (priv->spinbutton_divers_nb_days_before_scheduled),
@@ -145,7 +192,10 @@ static void prefs_page_divers_class_init (PrefsPageDiversClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, vbox_divers);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, grid_divers_programs);
 
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, box_divers_scheduler);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, vbox_divers_scheduler);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, hbox_divers_scheduler);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, checkbutton_scheduler_set_default_account);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, eventbox_scheduler_set_default_account);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, spinbutton_divers_nb_days_before_scheduled);
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, box_divers_localisation);

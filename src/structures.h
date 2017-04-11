@@ -143,6 +143,8 @@ struct gsb_etat_t
     gint affichage_echeances;                   /* affichage de la période affichée dans la vue échéancier */
     gint affichage_echeances_perso_nb_libre;    /* nombre de périodicité des échéances personnalisées */
     gint affichage_echeances_perso_j_m_a;       /* type de périodicité des échéances personnalisées */
+	gboolean scheduler_set_default_account;		/* set default account for the scheduled form */
+	gint scheduler_default_account_number;		/* default account number for the scheduled form */
 
     /* variables pour les metatree */
     gint metatree_sort_transactions;        /* 1 = sorting by increasing date 2 = Sort by date descending */

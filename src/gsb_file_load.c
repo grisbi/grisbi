@@ -473,6 +473,12 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
                 else if ( !strcmp ( attribute_names[i], "Scheduler_custom_menu" ))
                     etat.affichage_echeances_perso_j_m_a = utils_str_atoi ( attribute_values[i]);
 
+				else if ( !strcmp ( attribute_names[i], "Scheduler_set_default_account" ))
+                    etat.scheduler_set_default_account = utils_str_atoi ( attribute_values[i]);
+
+				else if ( !strcmp ( attribute_names[i], "Scheduler_default_account_number" ))
+                    etat.scheduler_default_account_number = utils_str_atoi ( attribute_values[i]);
+
                 else
                     unknown = 1;
                 break;

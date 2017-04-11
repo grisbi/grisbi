@@ -144,11 +144,18 @@ gboolean gsb_form_scheduler_create ( GtkWidget *table )
 	    switch ( element_number )
 	    {
 		case SCHEDULED_FORM_ACCOUNT:
-		    widget = gsb_account_create_combo_list ( G_CALLBACK ( gsb_form_scheduler_change_account ),
-                        NULL, FALSE);
+			widget = gsb_account_create_combo_list (G_CALLBACK (gsb_form_scheduler_change_account), NULL, FALSE);
 			gtk_widget_set_hexpand (widget, TRUE);
-		    gtk_combo_box_set_active ( GTK_COMBO_BOX (widget), 0 );
-		    tooltip_text = _("Choose the account");
+			if (etat.scheduler_set_default_account)
+			{
+				g_signal_handlers_block_by_func (widget, gsb_form_scheduler_change_account, NULL);
+				gsb_account_set_combo_account_number (widget, etat.scheduler_default_account_number);
+				g_signal_handlers_unblock_by_func (widget, gsb_form_scheduler_change_account, NULL);
+			}
+			else
+				gtk_combo_box_set_active (GTK_COMBO_BOX (widget), 0);
+
+			tooltip_text = _("Choose the account");
 		    break;
 
 		case SCHEDULED_FORM_AUTO:
@@ -613,6 +620,17 @@ gboolean gsb_form_scheduler_clean ( void )
 	    switch (column)
 	    {
 		case SCHEDULED_FORM_ACCOUNT:
+			if (etat.scheduler_set_default_account)
+			{
+				g_signal_handlers_block_by_func (widget, gsb_form_scheduler_change_account, NULL);
+				gsb_account_set_combo_account_number (widget, etat.scheduler_default_account_number);
+				g_signal_handlers_unblock_by_func (widget, gsb_form_scheduler_change_account, NULL);
+			}
+			else
+				gtk_combo_box_set_active (GTK_COMBO_BOX (widget), 0);
+			gtk_widget_set_sensitive ( widget, FALSE );
+			break;
+
 		case SCHEDULED_FORM_AUTO:
 		case SCHEDULED_FORM_FREQUENCY_BUTTON:
 		case SCHEDULED_FORM_FREQUENCY_USER_BUTTON:

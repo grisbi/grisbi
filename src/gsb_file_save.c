@@ -736,6 +736,8 @@ gulong gsb_file_save_general_part ( gulong iterator,
 					   "\t\tScheduler_view=\"%d\"\n"
 					   "\t\tScheduler_custom_number=\"%d\"\n"
 					   "\t\tScheduler_custom_menu=\"%d\"\n"
+					   "\t\tScheduler_set_default_account=\"%d\"\n"
+					   "\t\tScheduler_default_account_number=\"%d\"\n"
 					   "\t\tImport_interval_search=\"%d\"\n"
                        "\t\tImport_copy_payee_in_note=\"%d\"\n"
                        "\t\tImport_extract_number_for_check=\"%d\"\n"
@@ -792,6 +794,8 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	etat.affichage_echeances,
 	etat.affichage_echeances_perso_nb_libre,
 	etat.affichage_echeances_perso_j_m_a,
+	etat.scheduler_set_default_account,
+	etat.scheduler_default_account_number,
 	etat.import_files_nb_days,
 	etat.copy_payee_in_note,
 	etat.extract_number_for_check,
