@@ -1560,19 +1560,20 @@ gulong gsb_file_save_category_part ( gulong iterator,
     while ( list_tmp )
     {
 	gchar *new_string;
+	gchar *tmp_str;
 	gint category_number;
 	GSList *sub_list_tmp;
 
 	category_number = gsb_data_category_get_no_category (list_tmp -> data);
 
 	/* now we can fill the file content */
+	tmp_str = gsb_data_category_get_name (category_number, 0, "(null)");
 
 	new_string = g_markup_printf_escaped ( "\t<Category Nb=\"%d\" Na=\"%s\" Kd=\"%d\" />\n",
-					       category_number,
-					       my_safe_null_str(gsb_data_category_get_name ( category_number,
-									    0,
-									    NULL )),
-					       gsb_data_category_get_type ( category_number ));
+										  category_number,
+										  tmp_str,
+										  gsb_data_category_get_type ( category_number ));
+	g_free (tmp_str);
 
 	/* append the new string to the file content
 	 * and take the new iterator */
@@ -1594,12 +1595,14 @@ gulong gsb_file_save_category_part ( gulong iterator,
 	    /* now we can fill the file content
 	     * carrefull : the number of category must be the first */
 
+		tmp_str = gsb_data_category_get_sub_category_name (category_number,
+														   sub_category_number,
+														   "(null)");
 	    new_string = g_markup_printf_escaped ( "\t<Sub_category Nbc=\"%d\" Nb=\"%d\" Na=\"%s\" />\n",
-						   category_number,
-						   sub_category_number,
-						   my_safe_null_str(gsb_data_category_get_sub_category_name ( category_number,
-											     sub_category_number,
-											     NULL )));
+											  category_number,
+											  sub_category_number,
+											  tmp_str);
+		g_free (tmp_str);
 
 	    /* append the new string to the file content
 	     * and take the new iterator */

@@ -124,10 +124,11 @@ struct struct_payee_asso
 
 /* START_DECLARATION */
 gboolean 	gsb_import_associations_add_assoc 				(gint payee_number,
-															 gchar *search_str);
+															 const gchar *search_str);
 gint 		gsb_import_associations_cmp_assoc 				(struct struct_payee_asso *assoc_1,
 															 struct struct_payee_asso *assoc_2);
 GSList *	gsb_import_associations_get_liste_associations	(void);
+void 		gsb_import_associations_free_liste				(void);
 void 		gsb_import_associations_init_variables 			(void);
 gint 		gsb_import_associations_list_append_assoc 		(gint payee_number,
 															 const gchar *search_str);

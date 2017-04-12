@@ -3661,8 +3661,27 @@ gchar * unique_imported_name ( gchar * account_name )
 }
 
 /* *******************************************************************************/
-/* Fonctions de configuration pour la gestion des associations des tiers              */
+/* Fonctions de configuration pour la gestion des associations des tiers         */
 /* *******************************************************************************/
+/******************************************************************************/
+/* Private functions                                                          */
+/******************************************************************************/
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+static void gsb_import_associations_free_assoc (struct struct_payee_asso *assoc)
+{
+	g_free (assoc->search_str);
+	g_free (assoc);
+}
+
+/******************************************************************************/
+/* Public functions                                                           */
+/******************************************************************************/
 /**
  *
  *
@@ -3683,12 +3702,11 @@ void gsb_import_associations_init_variables ( void )
 {
     if ( liste_associations_tiers )
     {
-        g_slist_free ( liste_associations_tiers );
+		gsb_import_associations_free_liste ();
         liste_associations_tiers = NULL;
     }
 
 }
-
 
 /**
  * add a new association
@@ -3698,7 +3716,7 @@ void gsb_import_associations_init_variables ( void )
  * \return
  **/
 gboolean gsb_import_associations_add_assoc (gint payee_number,
-											gchar *search_str)
+											const gchar *search_str)
 {
 	struct struct_payee_asso *assoc;
 	gboolean result = FALSE;
@@ -3711,7 +3729,7 @@ gboolean gsb_import_associations_add_assoc (gint payee_number,
     /* create new association */
 	assoc = g_malloc (sizeof (struct struct_payee_asso));
 	assoc->payee_number = payee_number;
-	assoc->search_str = search_str;
+	assoc->search_str = g_strdup (search_str);
 
     /* add association in liste_associations_tiers */
     if (g_slist_length (liste_associations_tiers) == 0)
@@ -3770,6 +3788,7 @@ void gsb_import_associations_remove_assoc (gint payee_number)
             assoc = list_tmp->data;
             if (assoc->payee_number == payee_number)
             {
+				g_free (assoc->search_str);
                 liste_associations_tiers = g_slist_remove (liste_associations_tiers, assoc);
                 break;
             }
@@ -3819,7 +3838,22 @@ gint gsb_import_associations_list_append_assoc ( gint payee_number,
     return g_slist_length ( liste_associations_tiers );
 }
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void gsb_import_associations_free_liste (void)
+{
+	if (!liste_associations_tiers)
+	{
+		return;
+	}
 
+	g_slist_foreach (liste_associations_tiers, (GFunc) gsb_import_associations_free_assoc, NULL);
+}
 
 /* *******************************************************************************/
 

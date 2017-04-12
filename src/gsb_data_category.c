@@ -1092,15 +1092,15 @@ void gsb_data_categorie_free_name_list ( GSList *liste )
     gint i;
 
     nbre_list = g_slist_length ( liste );
-
-    for ( i = 0; i < nbre_list -1; i++ )
+    for ( i = 0; i < nbre_list; i++ )
     {
         GSList *tmp_list;
 
-        tmp_list = liste->data;
-        liste = liste->next;
-        g_slist_foreach ( tmp_list, (GFunc) g_free, NULL );
-        g_slist_free ( tmp_list );
+		tmp_list = liste->data;
+		if (i < 2)
+			liste = liste->next;
+
+        g_slist_free_full (tmp_list, (GDestroyNotify) g_free);
     }
 
     g_slist_free ( liste );

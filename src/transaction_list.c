@@ -1960,7 +1960,10 @@ static gboolean transaction_list_update_white_child ( CustomRecord *white_record
 							 gsb_data_transaction_get_currency_number (transaction_number), TRUE);
 
     /* show the variance and sub-total only if different of the transaction */
-    if (variance.mantissa)
+	if (white_record->visible_col[2])
+		g_free (white_record->visible_col[2]);
+
+	if (variance.mantissa)
     {
 	white_record -> visible_col[2] = g_strdup_printf ( _("Total: %s (variance : %s)"),
 							   amount_string,

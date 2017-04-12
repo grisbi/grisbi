@@ -387,8 +387,8 @@ static void prefs_page_import_asso_del_assoc (GtkWidget *button,
 static void prefs_page_import_asso_add_assoc (GtkWidget *button,
 											  PrefsPageImportAsso *page)
 {
-    gchar *payee;
-    gchar *search_str;
+    gchar *payee = NULL;
+    gchar *search_str = NULL;
     gint payee_number;
 	gboolean result = FALSE;
 	static gboolean etat = FALSE;
@@ -429,6 +429,7 @@ static void prefs_page_import_asso_add_assoc (GtkWidget *button,
 
 		utils_prefs_gsb_file_set_modified ();
 	}
+	g_free(search_str);
 }
 
 /**

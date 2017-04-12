@@ -1086,17 +1086,17 @@ gchar *gsb_data_partial_balance_get_marked_balance ( gint partial_balance_number
     if (partial_balance->colorise)
     {
         gchar *color;
+		gchar *tmp_str;
 
         if (solde.mantissa < 0)
             color = g_strdup ("red");
         else
             color = g_strdup ("blue");
 
-        string = g_strdup_printf ( "<span color=\"%s\">%s</span>",
-                        color,
-                        utils_real_get_string_with_currency (
-                        solde, partial_balance -> currency, TRUE ) );
+		tmp_str = utils_real_get_string_with_currency (solde, partial_balance -> currency, TRUE);
+        string = g_strdup_printf ("<span color=\"%s\">%s</span>", color, tmp_str);
         g_free ( color );
+		g_free (tmp_str);
     }
     else
         string = utils_real_get_string_with_currency (
@@ -1180,17 +1180,17 @@ gchar *gsb_data_partial_balance_get_current_balance ( gint partial_balance_numbe
     if (partial_balance->colorise)
     {
         gchar *color;
+		gchar *tmp_str;
 
         if (solde.mantissa < 0)
             color = g_strdup ("red");
         else
             color = g_strdup ("blue");
 
-        string = g_strdup_printf ( "<span color=\"%s\">%s</span>",
-                        color,
-                        utils_real_get_string_with_currency (
-                        solde, partial_balance -> currency, TRUE ) );
+		tmp_str = utils_real_get_string_with_currency (solde, partial_balance -> currency, TRUE);
+        string = g_strdup_printf ( "<span color=\"%s\">%s</span>", color, tmp_str);
         g_free ( color );
+		g_free (tmp_str);
     }
     else
         string = utils_real_get_string_with_currency (

@@ -537,8 +537,9 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
     column ++;
 
     element_number = TRANSACTION_FORM_CATEGORY;
-    widget = gtk_combofix_new (
-                         gsb_data_category_get_name_list ( TRUE, TRUE, TRUE, FALSE ) );
+	tmp_list = gsb_data_category_get_name_list (TRUE, TRUE, TRUE, TRUE);
+	widget = gtk_combofix_new (tmp_list);
+	gsb_data_categorie_free_name_list (tmp_list);
     gtk_combofix_set_force_text ( GTK_COMBOFIX (widget), TRUE ); /* on ne peut pas créer d'item */
     gtk_combofix_set_max_items ( GTK_COMBOFIX (widget),
 					 etat.combofix_max_item );
@@ -2217,6 +2218,7 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
     GtkWidget *tree_view;
     GtkWidget *label;
     GtkWidget *icon;
+    GSList *tmp_list;
 
     /* Create the dialog */
     dialog = gtk_dialog_new_with_buttons ( _("Configuring a deferred debit account"),
@@ -2312,10 +2314,12 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, TRUE, 0 );
 
     icon = utils_get_image_with_etat ( GTK_MESSAGE_WARNING, FALSE, _("One of the two fields is recommended"), NULL );
+
     gtk_box_pack_start ( GTK_BOX ( hbox ), icon, FALSE, FALSE, 0 );
 
-    combo = gtk_combofix_new (
-                        gsb_data_category_get_name_list ( TRUE, TRUE, FALSE, FALSE ) );
+	tmp_list = gsb_data_category_get_name_list (TRUE, TRUE, TRUE, TRUE);
+	combo = gtk_combofix_new (tmp_list);
+	gsb_data_categorie_free_name_list (tmp_list);
     gtk_combofix_set_force_text ( GTK_COMBOFIX ( combo ),
                         etat.combofix_force_category );
     gtk_combofix_set_max_items ( GTK_COMBOFIX ( combo ),
@@ -2477,8 +2481,9 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
     icon = utils_get_image_with_etat ( GTK_MESSAGE_ERROR, FALSE, _("One of the two fields is required"), NULL );
     gtk_box_pack_start ( GTK_BOX ( hbox ), icon, FALSE, FALSE, 0 );
 
-    combo = gtk_combofix_new (
-                        gsb_data_category_get_name_list ( TRUE, TRUE, FALSE, FALSE ) );
+	tmp_list = gsb_data_category_get_name_list (TRUE, TRUE, TRUE, TRUE);
+	combo = gtk_combofix_new (tmp_list);
+	gsb_data_categorie_free_name_list (tmp_list);
     gtk_combofix_set_force_text ( GTK_COMBOFIX ( combo ),
                         etat.combofix_force_category );
     gtk_combofix_set_max_items ( GTK_COMBOFIX ( combo ),

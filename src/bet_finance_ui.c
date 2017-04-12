@@ -841,16 +841,21 @@ void bet_finance_fill_data_ligne ( GtkTreeModel *model,
     gchar *str_totale;
     gchar *str_total_cost;
     gchar *str_format;
+	gchar *tmp_str;
     gchar buffer[256];
     gint nbre_char;
 
-    str_duree = g_strconcat ( utils_str_itoa ( s_echeance -> duree ), " ", unit, " ", NULL );
+	tmp_str = utils_str_itoa (s_echeance->duree);
+    str_duree = g_strconcat (tmp_str, " ", unit, " ", NULL);
+	g_free (tmp_str);
 
     str_capital = utils_real_get_string_with_currency (
                         gsb_real_double_to_real ( s_echeance -> capital ),
                         s_echeance -> devise, TRUE );
 
-    str_format = g_strconcat ("%.", utils_str_itoa ( BET_TAUX_DIGITS ), "f", NULL );
+	tmp_str = utils_str_itoa (BET_TAUX_DIGITS);
+    str_format = g_strconcat ("%.", tmp_str, "f", NULL );
+	g_free (tmp_str);
     nbre_char = g_sprintf ( buffer, str_format, s_echeance -> taux );
     str_taux =  g_strndup ( buffer, nbre_char + 1 );
     g_free ( str_format );
@@ -897,6 +902,7 @@ void bet_finance_fill_data_ligne ( GtkTreeModel *model,
     g_free ( str_frais );
     g_free ( str_echeance );
     g_free ( str_totale );
+	g_free (str_total_cost);
 }
 
 

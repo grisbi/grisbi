@@ -372,6 +372,7 @@ void bet_data_insert_div_hist ( struct_hist_div *shd, struct_hist_div *sub_shd )
             sub_key = utils_str_itoa ( sub_shd -> div_number );
             g_hash_table_insert ( tmp_shd -> sub_div_list, sub_key, sub_shd );
         }
+		struct_free_hist_div (shd);
     }
     else
     {

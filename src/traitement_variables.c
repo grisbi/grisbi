@@ -319,6 +319,7 @@ void free_variables (void)
 	}
 	gsb_data_print_config_free ();
     gsb_gui_navigation_free_pages_list ();
+	gsb_import_associations_free_liste ();
     gsb_regex_destroy ();
     bet_data_free_variables ();
 #ifdef HAVE_GOFFICE
