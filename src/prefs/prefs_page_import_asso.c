@@ -63,8 +63,6 @@ struct _PrefsPageImportAssoPrivate
 	GtkWidget *			entry_import_asso_search_string;
     GtkWidget *         button_import_asso_add;
     GtkWidget *         button_import_asso_remove;
-
-	GSList *			liste_associations_tiers;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageImportAsso, prefs_page_import_asso, GTK_TYPE_BOX)
@@ -566,11 +564,6 @@ static void prefs_page_import_asso_setup_import_asso_page (PrefsPageImportAsso *
  **/
 static void prefs_page_import_asso_init (PrefsPageImportAsso *page)
 {
-	PrefsPageImportAssoPrivate *priv;
-
-	priv = prefs_page_import_asso_get_instance_private (page);
-
-	priv->liste_associations_tiers = NULL;
 	path_selected = NULL;
 
 	gtk_widget_init_template (GTK_WIDGET (page));
