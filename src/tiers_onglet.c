@@ -121,7 +121,6 @@ static gboolean sortie_edit_payee = FALSE;
 static struct metatree_hold_position *payee_hold_position;
 
 /*START_EXTERN*/
-extern GSList *liste_associations_tiers;
 /*END_EXTERN*/
 
 enum payees_assistant_page
@@ -954,7 +953,6 @@ void payees_manage_payees ( void )
         gint nb_removed;
         gboolean save_notes = FALSE;
         gboolean extract_num = FALSE;
-        struct struct_payee_asso *assoc;
 
         /* on remplace les anciens tiers par le nouveau et on sauvegarde si nécessaire */
         grisbi_win_status_bar_wait ( TRUE );
@@ -979,20 +977,9 @@ void payees_manage_payees ( void )
                         "check_option_2" ) ) );
 
         /* on ajoute la nouvelle association à la liste des assoc */
-        assoc = g_malloc ( sizeof ( struct struct_payee_asso ) );
-        assoc -> payee_number = new_payee_number;
-        assoc -> search_str = g_strdup ( str_cherche );
-        if ( !g_slist_find_custom ( liste_associations_tiers,
-                    assoc,
-                    (GCompareFunc) gsb_import_associations_cmp_assoc ) )
-        {
-            liste_associations_tiers = g_slist_insert_sorted (
-                    liste_associations_tiers,
-                    assoc,
-                    (GCompareFunc) gsb_import_associations_cmp_assoc );
-        }
+		gsb_import_associations_add_assoc (new_payee_number, str_cherche);
 
-        if ( nb_removed > 1 )
+		if ( nb_removed > 1 )
         {
             tmp_list = gsb_data_transaction_get_complete_transactions_list ( );
             while ( tmp_list )
