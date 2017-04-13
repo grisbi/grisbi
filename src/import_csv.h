@@ -7,19 +7,19 @@
 #include "import.h"
 /* END_INCLUDE_H */
 
+struct csv_field {
+    gchar * 	name;
+    gfloat 		alignment;
+    gboolean 	(*validate) (gchar *);
+    gboolean 	(*parse) (struct struct_ope_importation *, gchar *);
+    gchar *		alias;
+};
 
 /* START_DECLARATION */
-gboolean csv_import_csv_account ( GtkWidget * assistant, struct imported_file * imported );
-GtkWidget * import_create_csv_preview_page ( GtkWidget * assistant );
-gboolean import_enter_csv_preview_page ( GtkWidget * assistant );
+gboolean 		csv_import_csv_account 			(GtkWidget *assistant,
+												 struct imported_file *imported);
+GtkWidget * 	import_create_csv_preview_page 	(GtkWidget *assistant);
+gboolean 		import_enter_csv_preview_page 	(GtkWidget *assistant);
 /* END_DECLARATION */
-
-struct csv_field {
-    gchar * name;
-    gfloat alignment;
-    gboolean (* validate ) ( gchar * );
-    gboolean (* parse ) ( struct struct_ope_importation *, gchar * );
-    gchar * alias;
-};
 
 #endif
