@@ -238,7 +238,7 @@ GtkResponseType gsb_assistant_file_run ( gboolean first_opening,
     if (launch_account_assistant)
 	gsb_file_new_finish ();
     else
-	importer_fichier ();
+	gsb_import_assistant_importer_fichier ();
 
     return return_value;
 }

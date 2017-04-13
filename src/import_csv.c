@@ -1063,7 +1063,7 @@ gboolean import_enter_csv_preview_page ( GtkWidget * assistant )
     struct imported_file * imported = NULL;
 
     /* Find first CSV to import. */
-    files = import_selected_files ( assistant );
+    files = gsb_import_import_selected_files ( assistant );
     while ( files )
     {
         imported = files -> data;
@@ -1153,7 +1153,7 @@ gboolean csv_import_csv_account ( GtkWidget * assistant, struct imported_file * 
     int index = 0;
 
     compte = g_malloc0 ( sizeof ( struct struct_compte_importation ));
-    compte -> nom_de_compte = unique_imported_name ( my_strdup ( _("Imported CSV account" ) ) );
+    compte -> nom_de_compte = gsb_import_unique_imported_name ( my_strdup ( _("Imported CSV account" ) ) );
     compte -> origine = my_strdup ( "CSV" );
     compte -> filename = my_strdup ( imported -> name );
 

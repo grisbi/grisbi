@@ -436,7 +436,7 @@ void grisbi_cmd_importer_fichier (GSimpleAction *action,
 								  GVariant *parameter,
 								  gpointer app)
 {
-	importer_fichier ();
+	gsb_import_assistant_importer_fichier ();
 }
 
 /**

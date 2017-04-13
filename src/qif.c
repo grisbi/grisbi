@@ -123,7 +123,7 @@ gboolean recuperation_donnees_qif ( GtkWidget *assistant, struct imported_file *
     rewind ( qif_file );
 
     imported_account = g_malloc0 ( sizeof ( struct struct_compte_importation ));
-    imported_account -> nom_de_compte = unique_imported_name ( _("Invalid QIF file") );
+    imported_account -> nom_de_compte = gsb_import_unique_imported_name ( _("Invalid QIF file") );
     imported_account -> filename = my_strdup ( imported -> name );
     imported_account -> origine = my_strdup ( "QIF" );
 
@@ -158,7 +158,7 @@ gboolean recuperation_donnees_qif ( GtkWidget *assistant, struct imported_file *
                 imported_account -> filename = my_strdup ( imported -> name );
 
                 account_name = gsb_qif_get_account_name ( qif_file, imported -> coding_system );
-                imported_account -> nom_de_compte = unique_imported_name ( account_name );
+                imported_account -> nom_de_compte = gsb_import_unique_imported_name ( account_name );
                 g_free ( account_name );
 
                 name_preced = TRUE;
@@ -208,7 +208,7 @@ gboolean recuperation_donnees_qif ( GtkWidget *assistant, struct imported_file *
                         /* save filename and account_name */
                         imported_account -> real_filename = my_strdup ( imported -> name );
                         imported_account -> filename = my_strdup ( imported -> name );
-                        imported_account -> nom_de_compte = unique_imported_name (
+                        imported_account -> nom_de_compte = gsb_import_unique_imported_name (
                                                                 my_strdup ( _("Imported QIF account" ) ) );
 
                         premier_compte = FALSE;
@@ -294,7 +294,7 @@ gboolean recuperation_donnees_qif ( GtkWidget *assistant, struct imported_file *
                 tmp_str = my_strdelimit (imported_transaction -> categ, "[]", "");
                 if ( imported_account -> nom_de_compte )
                     g_free ( imported_account -> nom_de_compte );
-                imported_account -> nom_de_compte = unique_imported_name ( tmp_str );
+                imported_account -> nom_de_compte = gsb_import_unique_imported_name ( tmp_str );
                 g_free (tmp_str);
 
                 /* get the date of the file */

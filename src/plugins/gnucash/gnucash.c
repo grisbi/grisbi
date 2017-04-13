@@ -229,7 +229,7 @@ void recuperation_donnees_gnucash_compte ( xmlNodePtr compte_node )
     compte -> guid = child_content ( compte_node, "id" );
     compte -> operations_importees = NULL;
 
-    compte -> nom_de_compte = unique_imported_name ( compte -> nom_de_compte );
+    compte -> nom_de_compte = gsb_import_unique_imported_name ( compte -> nom_de_compte );
 
     gsb_import_register_account ( compte );
 

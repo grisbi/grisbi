@@ -123,6 +123,8 @@ struct struct_payee_asso
 };
 
 /* START_DECLARATION */
+void 		gsb_import_assistant_importer_fichier 			(void);
+
 gboolean 	gsb_import_associations_add_assoc 				(gint payee_number,
 															 const gchar *search_str);
 gint 		gsb_import_associations_cmp_assoc 				(struct struct_payee_asso *assoc_1,
@@ -133,15 +135,15 @@ void 		gsb_import_associations_init_variables 			(void);
 gint 		gsb_import_associations_list_append_assoc 		(gint payee_number,
 															 const gchar *search_str);
 void 		gsb_import_associations_remove_assoc 			(gint payee_number);
+
 gboolean 	gsb_import_by_rule 								(gint rule);
+
 gchar *		gsb_import_formats_get_list_formats_to_string 	(void);
+GSList *	gsb_import_import_selected_files 				(GtkWidget *assistant);
 void 		gsb_import_register_account 					(struct struct_compte_importation *account);
 void 		gsb_import_register_account_error 				(struct struct_compte_importation *account);
-GSList *	import_selected_files 							(GtkWidget *assistant);
-void 		importer_fichier 								(void);
-void 		register_import_format 							(struct import_format *format);
-void 		register_import_formats 						(void);
-gchar * 	unique_imported_name 							(gchar * account_name);
+void 		gsb_import_register_import_formats 				(void);
+gchar * 	gsb_import_unique_imported_name 				(gchar *account_name);
 /* END_DECLARATION */
 
 
