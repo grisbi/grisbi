@@ -32,6 +32,7 @@
 #include "export.h"
 #include "dialog.h"
 #include "export_csv.h"
+#include "grisbi_win.h"
 #include "gsb_assistant.h"
 #include "gsb_automem.h"
 #include "gsb_data_account.h"
@@ -64,7 +65,6 @@ static void export_resume_maybe_sensitive_next ( GtkWidget * assistant );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gchar *titre_fichier;
 /*END_EXTERN*/
 
 
@@ -111,9 +111,11 @@ void export_accounts ( void )
             if ( etat.export_files_traitement )
             {
                 const gchar *title;
+				const gchar *titre_fichier;
                 gchar *tmp_str;
 
-                if ( titre_fichier && strlen ( titre_fichier ) )
+				titre_fichier = grisbi_win_get_titre_fichier ();
+				if ( titre_fichier && strlen ( titre_fichier ) )
                     title = titre_fichier;
                 else
                     title = g_get_user_name ( );
@@ -488,7 +490,9 @@ GtkWidget * create_export_account_resume_page ( struct exported_account * accoun
 gboolean export_account_change_format ( GtkWidget *combo,
                         struct exported_account *account )
 {
-    gchar *title;
+    const gchar *title;
+	const gchar *titre_fichier;
+	gchar *tmp_str;
 
     switch ( gtk_combo_box_get_active ( GTK_COMBO_BOX ( combo ) ) )
     {
@@ -503,20 +507,24 @@ gboolean export_account_change_format ( GtkWidget *combo,
         break;
     }
 
+	titre_fichier = grisbi_win_get_titre_fichier ();
     if ( titre_fichier && strlen ( titre_fichier ) )
     {
         title = titre_fichier;
     }
     else
     {
-        title = (gchar *) g_get_user_name ( );
+        title = g_get_user_name ( );
     }
 
-    gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER ( account->chooser ),
-                        g_strconcat ( title, "-",
-                        gsb_data_account_get_name ( account->account_nb ), ".", account->extension,
-                        NULL ) );
+	tmp_str = g_strconcat (title, "-",
+						   gsb_data_account_get_name ( account->account_nb ),
+						   ".",
+						   account->extension,
+						   NULL);
+    gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER ( account->chooser ), tmp_str);
     gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( account->chooser ), gsb_file_get_last_path () );
+	g_free (tmp_str);
 
     return FALSE;
 }

@@ -96,7 +96,6 @@ static void initialise_tab_affichage_ope ( void );
 
 gchar *nom_fichier_comptes = NULL;
 
-gchar *titre_fichier = NULL;
 gchar *adresse_commune = NULL;
 gchar *adresse_secondaire = NULL;
 
@@ -203,9 +202,9 @@ void init_variables ( void )
     etat.affichage_echeances_perso_j_m_a = PERIODICITY_DAYS;
 
     /* initialization of titles and logo part */
-    if ( titre_fichier && strlen ( titre_fichier ) )
-        g_free ( titre_fichier );
-    titre_fichier = g_strdup( _("My accounts") );
+    //~ if ( titre_fichier && strlen ( titre_fichier ) )
+        //~ g_free ( titre_fichier );
+    //~ titre_fichier = g_strdup( _("My accounts") );
 
     etat.is_pixmaps_dir = TRUE;
     if ( etat.name_logo && strlen ( etat.name_logo ) )
@@ -313,10 +312,10 @@ void init_variables ( void )
  * */
 void free_variables (void)
 {
-    if (titre_fichier && strlen (titre_fichier))
-	{
-        g_free (titre_fichier);
-	}
+    //~ if (titre_fichier && strlen (titre_fichier))
+	//~ {
+        //~ g_free (titre_fichier);
+	//~ }
 	gsb_data_print_config_free ();
     gsb_gui_navigation_free_pages_list ();
 	gsb_import_associations_free_liste ();

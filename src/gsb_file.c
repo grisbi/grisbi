@@ -84,7 +84,6 @@ gint id_timeout = 0;
 /*START_EXTERN*/
 extern gchar *nom_fichier_comptes;
 extern GtkWidget *table_etat;
-extern gchar *titre_fichier;
 extern GtkWidget *tree_view_vbox;
 /*END_EXTERN*/
 
@@ -164,7 +163,7 @@ static gchar *gsb_file_dialog_ask_name ( void )
     {
         gchar* tmp_str;
 
-        tmp_str = g_strconcat ( titre_fichier, ".gsb", NULL );
+        tmp_str = g_strconcat (grisbi_win_get_titre_fichier (), ".gsb", NULL);
         gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER ( dialog ), tmp_str);
         g_free ( tmp_str );
     }

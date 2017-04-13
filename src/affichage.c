@@ -89,7 +89,6 @@ extern gchar *adresse_secondaire;
 extern GtkWidget *fenetre_preferences;
 extern GtkWidget *hbox_title;
 extern GtkWidget *logo_accueil;
-extern gchar *titre_fichier;
 
 /*END_EXTERN*/
 
@@ -367,8 +366,9 @@ GtkWidget *onglet_display_addresses ( void )
     paddinggrid = utils_prefs_paddinggrid_new_with_title (vbox_pref, _("Titles"));
 
     /* It first creates the entry of title */
-    entry = gsb_automem_entry_new ( &titre_fichier,
-                        ( GCallback ) update_homepage_title, NULL );
+    entry = gtk_entry_new ();
+	gtk_entry_set_text (GTK_ENTRY(entry), grisbi_win_get_titre_fichier ());
+	g_signal_connect (G_OBJECT(entry), "changed", G_CALLBACK (update_homepage_title), NULL);
     gtk_widget_set_margin_top (entry, MARGIN_TOP);
 
     /* Choice of title type */
@@ -625,21 +625,16 @@ static gboolean preferences_view_update_preview_logo ( GtkFileChooser *file_choo
  * \param length Not used handler parameter.
  * \param position Not used handler parameter.
  */
-gboolean update_homepage_title (GtkEntry *entry, gchar *value,
-                        gint length, gint * position)
+void update_homepage_title (GtkEditable *entry,
+							gpointer data)
 {
-    if ( titre_fichier && strlen ( titre_fichier ) )
-        g_free ( titre_fichier );
-
-    titre_fichier = my_strdup ( gtk_entry_get_text ( GTK_ENTRY ( entry ) ) );
+    grisbi_win_set_titre_fichier (gtk_entry_get_text (GTK_ENTRY (entry)));
 
     /* set Grisbi title */
-    grisbi_win_set_grisbi_title ( -1 );
+    grisbi_win_set_grisbi_title (-1);
 
     /* Mark file as modified */
-    gsb_file_set_modified ( TRUE );
-
-    return FALSE;
+    gsb_file_set_modified (TRUE);
 }
 
 
@@ -943,6 +938,8 @@ static gboolean preferences_view_color_default ( GtkWidget *button,
  */
 gboolean change_grisbi_title_type ( GtkRadioButton *button, GtkWidget *entry )
 {
+	const gchar *titre_fichier;
+
     if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( button ) ) )
     {
         conf.display_grisbi_title = GPOINTER_TO_INT ( g_object_get_data
@@ -953,12 +950,12 @@ gboolean change_grisbi_title_type ( GtkRadioButton *button, GtkWidget *entry )
     {
         case GSB_ACCOUNTS_TITLE:
             gtk_widget_set_sensitive ( entry, TRUE );
+			titre_fichier = grisbi_win_get_titre_fichier ();
             if ( titre_fichier && strlen ( titre_fichier ) )
                 gtk_entry_set_text ( GTK_ENTRY ( entry ), titre_fichier );
             else
             {
                 gtk_entry_set_text ( GTK_ENTRY ( entry ), "" );
-                titre_fichier = NULL;
             }
         break;
         case GSB_ACCOUNT_HOLDER:

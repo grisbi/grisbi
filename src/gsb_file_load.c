@@ -40,6 +40,7 @@
 #include "custom_list.h"
 #include "dialog.h"
 #include "fenetre_principale.h"
+#include "grisbi_win.h"
 #include "gsb_assistant_archive.h"
 #include "gsb_assistant_first.h"
 #include "gsb_calendar.h"
@@ -102,7 +103,6 @@ extern gint display_two_lines;
 extern struct iso_4217_currency iso_4217_currencies[];
 extern GtkWidget *logo_accueil;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
-extern gchar *titre_fichier;
 extern gint transaction_col_align[CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern gint transaction_col_width[CUSTOM_MODEL_VISIBLE_COLUMNS];
 /*END_EXTERN*/
@@ -313,7 +313,7 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
                 }
 
                 else if ( !strcmp ( attribute_names[i], "File_title" ) && strlen (attribute_values[i]))
-                    titre_fichier = my_strdup (attribute_values[i]);
+                    grisbi_win_set_titre_fichier (attribute_values[i]);
 
                 else
                     unknown = 1;

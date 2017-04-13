@@ -56,7 +56,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gboolean gsb_assistant_file_change_title ( GtkWidget *title_entry,
+static void gsb_assistant_file_change_title ( GtkWidget *title_entry,
 						  GtkWidget *filename_entry );
 static gboolean gsb_assistant_file_choose_filename ( GtkWidget *button,
 						     GtkWidget *entry );
@@ -71,7 +71,6 @@ static GtkWidget *gsb_assistant_file_page_finish ( GtkWidget *assistant,
 /*START_EXTERN*/
 extern gchar *adresse_commune;
 extern gchar *nom_fichier_comptes;
-extern gchar *titre_fichier;
 /*END_EXTERN*/
 
 enum file_assistant_page
@@ -266,6 +265,7 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
     GtkWidget *button;
     GtkWidget *table;
     GtkWidget *filename_entry;
+	const gchar *titre_fichier;
 
     page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 15 );
     gtk_container_set_border_width ( GTK_CONTAINER (page), BOX_BORDER_WIDTH );
@@ -295,14 +295,18 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
 	 * if no filename, set the title.gsb as default name */
 	if (!nom_fichier_comptes)
 	nom_fichier_comptes = g_strconcat ( gsb_dirs_get_default_dir (),
-			G_DIR_SEPARATOR_S, titre_fichier, ".gsb", NULL );
+			G_DIR_SEPARATOR_S, _("My accounts"), ".gsb", NULL );
 	filename_entry = gsb_automem_entry_new (&nom_fichier_comptes,
 			NULL, NULL);
 
-	entry = gsb_automem_entry_new (&titre_fichier,
-			((GCallback)gsb_assistant_file_change_title), filename_entry);
-	g_object_set_data ( G_OBJECT (entry),
-			"last_title", my_strdup (titre_fichier));
+	titre_fichier = grisbi_win_get_titre_fichier ();
+    entry = gtk_entry_new ();
+	gtk_entry_set_text (GTK_ENTRY(entry), grisbi_win_get_titre_fichier ());
+	g_signal_connect (G_OBJECT(entry),
+					  "changed",
+					  G_CALLBACK (gsb_assistant_file_change_title),
+					  filename_entry);
+	g_object_set_data ( G_OBJECT (entry), "last_title", my_strdup (titre_fichier));
 	gtk_grid_attach (GTK_GRID (table), entry, 1, 0, 2, 1);
 
 	/* filename */
@@ -508,14 +512,14 @@ static GtkWidget *gsb_assistant_file_page_finish ( GtkWidget *assistant,
  *
  * \return FALSE
  * */
-static gboolean gsb_assistant_file_change_title ( GtkWidget *title_entry,
+static void gsb_assistant_file_change_title ( GtkWidget *title_entry,
 						  GtkWidget *filename_entry )
 {
     gchar *new_filename;
     gchar *last_filename;
     gchar *last_title;
 
-    update_homepage_title (GTK_ENTRY (title_entry), NULL, 0, 0);
+    update_homepage_title (GTK_EDITABLE (title_entry), NULL);
 
     /* first get the last content of the title to see if the filename
      * was automatically created, and in that case, we continue the automatic mode,
@@ -538,7 +542,7 @@ static gboolean gsb_assistant_file_change_title ( GtkWidget *title_entry,
 	/* there is a difference between the last title and the filename,
 	 * so juste free the memory and do nothing */
 	g_free (last_filename);
-	return FALSE;
+	return;
     }
 
     /* ok, the filename is an automatic creation,
@@ -566,7 +570,7 @@ static gboolean gsb_assistant_file_change_title ( GtkWidget *title_entry,
 			 new_filename );
     g_free (new_filename);
 
-    return FALSE;
+    return;
 }
 
 /**
