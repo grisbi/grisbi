@@ -844,11 +844,15 @@ gchar *utils_files_get_ofx_charset (gchar *contents)
     while (strlen (ptr) > 0)
     {
         gchar *ptr_tmp;
+		gchar *ptr_r;
 
         ptr_tmp = g_strstr_len (ptr, strlen (ptr), "\n");
         if (ptr_tmp)
         {
             string = g_strndup (ptr, ((ptr_tmp) - ptr));
+            if ((ptr_r = g_strrstr (string, "\r")))
+                ptr_r[0] = '\0';
+
             if ((tmp_str = g_strrstr (string, "CHARSET:")))
             {
                 do
@@ -860,8 +864,10 @@ gchar *utils_files_get_ofx_charset (gchar *contents)
                     }
                     i++;
                 } while (all_charset_array[i]);
-                /* CHARSET found in OFX file, but no match --> Exit function */
-                    return NULL;
+
+				/* CHARSET found in OFX file, but no match --> Exit function */
+	            g_free (string);
+                return NULL;
             }
             g_free (string);
             ptr = ptr_tmp + 1;
