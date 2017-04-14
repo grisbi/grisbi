@@ -58,10 +58,6 @@
 /* variables initialisées lors de l'ouverture de grisbi par gsettings PROVISOIRE */
 extern struct GrisbiAppConf conf;
 
-/* declared in grisbi_app.c */
-/* global variables pour gestion CSS des couleurs */
-extern GtkCssProvider *css_provider;
-
 /* declared in grisbi_win.c */
 /* variables initialisées lors de l'exécution de grisbi PROVISOIRE */
 extern struct gsb_run_t run;
