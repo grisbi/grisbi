@@ -4509,6 +4509,8 @@ gboolean gsb_transactions_list_delete_import_rule ( gint import_rule_number )
     /* on met à jour la barre de menu */
     gtk_widget_hide ( menu_import_rules );
 
+	gsb_file_set_modified (TRUE);
+
     return TRUE;
 }
 
