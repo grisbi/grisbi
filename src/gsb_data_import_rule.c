@@ -41,46 +41,137 @@
 /** \struct
  * describe a rule
  * */
-typedef struct
+typedef struct _ImportRule ImportRule;
+
+struct _ImportRule
 {
-    gint import_rule_number;
+    gint 	import_rule_number;
 
-    gchar *rule_name;
-    gint account_number;
+	/* general part */
+    gchar *		charmap;					/* charmap du fichier importé   */
+    gchar *		last_file_name;				/* last file imported with a rule */
+    gchar *		rule_name;
+    gint 		account_number;
+    gint 		action;						/* action of the rule : IMPORT_ADD_TRANSACTIONS, IMPORT_MARK_TRANSACTIONS */
+    gint 		currency_number;			/* currency used to import the transactions */
+    gboolean 	invert_transaction_amount;	/* if TRUE, all the transactions imported will have their amount inverted */
 
-    /* currency used to import the transactions */
-    gint currency_number;
+	/* CSV part */
 
-    /* if TRUE, all the transactions imported will have their amount inverted */
-    gboolean invert_transaction_amount;
-
-    /* charmap du fichier importé   */
-    gchar *charmap;
-
-    /* last file imported with a rule */
-    gchar *last_file_name;
-
-    /* action of the rule : IMPORT_ADD_TRANSACTIONS, IMPORT_MARK_TRANSACTIONS */
-    gint action;
-} struct_import_rule;
+};
 
 
 /*START_STATIC*/
-static void _gsb_data_import_rule_free ( struct_import_rule* import_rule);
-static gpointer gsb_data_import_rule_get_structure ( gint import_rule_number );
-static gint gsb_data_import_rule_max_number ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
 /*END_EXTERN*/
 
-/** contains the g_slist of struct_import_rule */
+/** contains the g_slist of ImportRule */
 static GSList *import_rule_list = NULL;
 
 /** a pointer to the last import_rule used (to increase the speed) */
-static struct_import_rule *import_rule_buffer;
+static ImportRule *import_rule_buffer;
 
+/******************************************************************************/
+/* Private functions                                                          */
+/******************************************************************************/
+/**
+ * This internal function is called to free the memory used by an ImportRule structure
+ *
+ * \param
+ *
+ * \return
+ **/
+static void _gsb_data_import_rule_free (ImportRule* import_rule)
+{
+    if (!import_rule)
+		return;
 
+	if (import_rule->charmap)
+		g_free (import_rule->charmap);
+    if (import_rule->last_file_name)
+		g_free (import_rule->last_file_name);
+    if (import_rule->rule_name)
+		g_free (import_rule->rule_name);
+
+    if (import_rule_buffer == import_rule)
+		import_rule_buffer = NULL;
+
+	g_free (import_rule);
+
+}
+
+/**
+ * find and return the structure of the import_rule asked
+ *
+ * \param import_rule_number 	number of import_rule
+ *
+ * \return 						the adr of the struct of the import_rule (NULL if doesn't exit)
+ **/
+gpointer gsb_data_import_rule_get_structure (gint import_rule_number)
+{
+    GSList *tmp;
+
+    if (!import_rule_number)
+	return NULL;
+
+    /* before checking all the import rule, we check the buffer */
+    if (import_rule_buffer
+	 &&
+	 import_rule_buffer->import_rule_number == import_rule_number)
+	return import_rule_buffer;
+
+    tmp = import_rule_list;
+
+    while (tmp)
+    {
+	ImportRule *import_rule;
+
+	import_rule = tmp->data;
+
+	if (import_rule->import_rule_number == import_rule_number)
+	{
+	    import_rule_buffer = import_rule;
+	    return import_rule;
+	}
+
+	tmp = tmp->next;
+    }
+    return NULL;
+}
+
+/**
+ * find and return the last number of import_rule
+ *
+ * \param none
+ *
+ * \return last number of import_rule
+ * */
+gint gsb_data_import_rule_max_number (void)
+{
+    GSList *tmp;
+    gint number_tmp = 0;
+
+    tmp = import_rule_list;
+
+    while (tmp)
+    {
+	ImportRule *import_rule;
+
+	import_rule = tmp->data;
+
+	if (import_rule->import_rule_number > number_tmp)
+	    number_tmp = import_rule->import_rule_number;
+
+	tmp = tmp->next;
+    }
+    return number_tmp;
+}
+
+/******************************************************************************/
+/* Public functions                                                           */
+/******************************************************************************/
 /**
  * set the import rule global variables to NULL,
  * usually when we init all the global variables
@@ -89,66 +180,25 @@ static struct_import_rule *import_rule_buffer;
  *
  * \return FALSE
  * */
-gboolean gsb_data_import_rule_init_variables ( void )
+gboolean gsb_data_import_rule_init_variables (void)
 {
-    if ( import_rule_list )
+    if (import_rule_list)
     {
 	GSList* tmp_list = import_rule_list;
-	while ( tmp_list )
+	while (tmp_list)
 	{
-	    struct_import_rule *import_rule;
-	    import_rule = tmp_list -> data;
-	    tmp_list = tmp_list -> next;
-	    _gsb_data_import_rule_free ( import_rule );
+	    ImportRule *import_rule;
+	    import_rule = tmp_list->data;
+	    tmp_list = tmp_list->next;
+	    _gsb_data_import_rule_free (import_rule);
 	}
-	g_slist_free ( import_rule_list );
+	g_slist_free (import_rule_list);
     }
     import_rule_list = NULL;
     import_rule_buffer = NULL;
 
     return FALSE;
 }
-
-
-/**
- * find and return the structure of the import_rule asked
- *
- * \param import_rule_number number of import_rule
- *
- * \return the adr of the struct of the import_rule (NULL if doesn't exit)
- * */
-gpointer gsb_data_import_rule_get_structure ( gint import_rule_number )
-{
-    GSList *tmp;
-
-    if (!import_rule_number)
-	return NULL;
-
-    /* before checking all the import rule, we check the buffer */
-    if ( import_rule_buffer
-	 &&
-	 import_rule_buffer -> import_rule_number == import_rule_number )
-	return import_rule_buffer;
-
-    tmp = import_rule_list;
-
-    while ( tmp )
-    {
-	struct_import_rule *import_rule;
-
-	import_rule = tmp -> data;
-
-	if ( import_rule -> import_rule_number == import_rule_number )
-	{
-	    import_rule_buffer = import_rule;
-	    return import_rule;
-	}
-
-	tmp = tmp -> next;
-    }
-    return NULL;
-}
-
 
 /**
  * give the g_slist of import rule structure
@@ -158,7 +208,7 @@ gpointer gsb_data_import_rule_get_structure ( gint import_rule_number )
  *
  * \return the g_slist of import rule structure
  * */
-GSList *gsb_data_import_rule_get_list ( void )
+GSList *gsb_data_import_rule_get_list (void)
 {
     return import_rule_list;
 }
@@ -166,49 +216,20 @@ GSList *gsb_data_import_rule_get_list ( void )
 /**
  * return the number of the import rule given in param
  *
- * \param rule_ptr a pointer to the struct of the import_rule
+ * \param rule_ptr 		a pointer to the struct of the import_rule
  *
- * \return the number of the import_rule, 0 if problem
+ * \return 				the number of the import_rule, 0 if problem
  * */
-gint gsb_data_import_rule_get_number ( gpointer rule_ptr )
+gint gsb_data_import_rule_get_number (gpointer rule_ptr)
 {
-    struct_import_rule *import_rule;
+    ImportRule *import_rule;
 
-    if ( !rule_ptr )
+    if (!rule_ptr)
 	return 0;
 
     import_rule = rule_ptr;
     import_rule_buffer = import_rule;
-    return import_rule -> import_rule_number;
-}
-
-
-/**
- * find and return the last number of import_rule
- *
- * \param none
- *
- * \return last number of import_rule
- * */
-gint gsb_data_import_rule_max_number ( void )
-{
-    GSList *tmp;
-    gint number_tmp = 0;
-
-    tmp = import_rule_list;
-
-    while ( tmp )
-    {
-	struct_import_rule *import_rule;
-
-	import_rule = tmp -> data;
-
-	if ( import_rule -> import_rule_number > number_tmp )
-	    number_tmp = import_rule -> import_rule_number;
-
-	tmp = tmp -> next;
-    }
-    return number_tmp;
+    return import_rule->import_rule_number;
 }
 
 
@@ -216,52 +237,32 @@ gint gsb_data_import_rule_max_number ( void )
  * create a new import_rule, give him a number, append it to the list
  * and return the number
  *
- * \param name the name of the import_rule (can be freed after, it's a copy) or NULL
+ * \param name 		the name of the import_rule (can be freed after, it's a copy) or NULL
  *
  * \return the number of the new import_rule
  * */
-gint gsb_data_import_rule_new ( const gchar *name )
+gint gsb_data_import_rule_new (const gchar *name)
 {
-    struct_import_rule *import_rule;
+    ImportRule *import_rule;
 
-    import_rule = g_malloc0 ( sizeof ( struct_import_rule ));
+    import_rule = g_malloc0 (sizeof (ImportRule));
     if (!import_rule)
     {
 	dialogue_error_memory ();
 	return 0;
     }
-    import_rule -> import_rule_number = gsb_data_import_rule_max_number () + 1;
+    import_rule->import_rule_number = gsb_data_import_rule_max_number () + 1;
 
     if (name)
-	import_rule -> rule_name = my_strdup (name);
+	import_rule->rule_name = my_strdup (name);
     else
-	import_rule -> rule_name = NULL;
+	import_rule->rule_name = NULL;
 
-    import_rule_list = g_slist_append ( import_rule_list, import_rule );
+    import_rule_list = g_slist_append (import_rule_list, import_rule);
     import_rule_buffer = import_rule;
 
-    return import_rule -> import_rule_number;
+    return import_rule->import_rule_number;
 }
-
-/**
- * This internal function is called to free the memory used by an struct_import_rule structure
- */
-static void _gsb_data_import_rule_free ( struct_import_rule* import_rule)
-{
-    if ( ! import_rule )
-	return;
-    if ( import_rule -> rule_name )
-	g_free ( import_rule -> rule_name );
-    if ( import_rule -> charmap )
-    g_free (import_rule -> charmap);
-    if ( import_rule -> last_file_name )
-	g_free ( import_rule -> last_file_name );
-    g_free ( import_rule );
-    if ( import_rule_buffer == import_rule )
-	import_rule_buffer = NULL;
-}
-
-
 
 /**
  * remove an import_rule
@@ -270,18 +271,18 @@ static void _gsb_data_import_rule_free ( struct_import_rule* import_rule)
  *
  * \return TRUE ok
  * */
-gboolean gsb_data_import_rule_remove ( gint import_rule_number )
+gboolean gsb_data_import_rule_remove (gint import_rule_number)
 {
-    struct_import_rule *import_rule;
+    ImportRule *import_rule;
 
-    import_rule = gsb_data_import_rule_get_structure ( import_rule_number );
+    import_rule = gsb_data_import_rule_get_structure (import_rule_number);
 
     if (!import_rule)
 	    return FALSE;
 
     /* remove the import_rule from the list */
-    import_rule_list = g_slist_remove ( import_rule_list,
-					import_rule );
+    import_rule_list = g_slist_remove (import_rule_list,
+					import_rule);
 
     _gsb_data_import_rule_free (import_rule);
 
@@ -299,17 +300,17 @@ gboolean gsb_data_import_rule_remove ( gint import_rule_number )
  *
  * \return the new number or 0 if the import_rule doen't exist
  * */
-gint gsb_data_import_rule_set_new_number ( gint import_rule_number,
-					   gint new_no_import_rule )
+gint gsb_data_import_rule_set_new_number (gint import_rule_number,
+										  gint new_no_import_rule)
 {
-    struct_import_rule *import_rule;
+    ImportRule *import_rule;
 
-    import_rule = gsb_data_import_rule_get_structure ( import_rule_number );
+    import_rule = gsb_data_import_rule_get_structure (import_rule_number);
 
     if (!import_rule)
 	return 0;
 
-    import_rule -> import_rule_number = new_no_import_rule;
+    import_rule->import_rule_number = new_no_import_rule;
     return new_no_import_rule;
 }
 
@@ -321,16 +322,16 @@ gint gsb_data_import_rule_set_new_number ( gint import_rule_number,
  *
  * \return the name of the import_rule or NULL if fail
  * */
-const gchar *gsb_data_import_rule_get_name ( gint import_rule_number )
+const gchar *gsb_data_import_rule_get_name (gint import_rule_number)
 {
-    struct_import_rule *import_rule;
+    ImportRule *import_rule;
 
-    import_rule = gsb_data_import_rule_get_structure ( import_rule_number );
+    import_rule = gsb_data_import_rule_get_structure (import_rule_number);
 
     if (!import_rule)
 	return NULL;
 
-    return import_rule -> rule_name;
+    return import_rule->rule_name;
 }
 
 
@@ -343,22 +344,22 @@ const gchar *gsb_data_import_rule_get_name ( gint import_rule_number )
  *
  * \return TRUE if ok or FALSE if problem
  * */
-gboolean gsb_data_import_rule_set_name ( gint import_rule_number,
-					 const gchar *name )
+gboolean gsb_data_import_rule_set_name (gint import_rule_number,
+										const gchar *name)
 {
-    struct_import_rule *import_rule;
+    ImportRule *import_rule;
 
-    import_rule = gsb_data_import_rule_get_structure ( import_rule_number );
+    import_rule = gsb_data_import_rule_get_structure (import_rule_number);
 
     if (!import_rule)
 	return FALSE;
 
     /* we free the last name */
-    if ( import_rule -> rule_name )
-	g_free (import_rule -> rule_name);
+    if (import_rule->rule_name)
+	g_free (import_rule->rule_name);
 
     /* and copy the new one */
-    import_rule -> rule_name = my_strdup (name);
+    import_rule->rule_name = my_strdup (name);
 
     return TRUE;
 }
@@ -372,16 +373,16 @@ gboolean gsb_data_import_rule_set_name ( gint import_rule_number,
  *
  * \return the account number of the import_rule or 0 if fail
  * */
-gint gsb_data_import_rule_get_account ( gint import_rule_number )
+gint gsb_data_import_rule_get_account (gint import_rule_number)
 {
-    struct_import_rule *import_rule;
+    ImportRule *import_rule;
 
-    import_rule = gsb_data_import_rule_get_structure ( import_rule_number );
+    import_rule = gsb_data_import_rule_get_structure (import_rule_number);
 
     if (!import_rule)
 	return 0;
 
-    return import_rule -> account_number;
+    return import_rule->account_number;
 }
 
 
@@ -393,17 +394,17 @@ gint gsb_data_import_rule_get_account ( gint import_rule_number )
  *
  * \return TRUE if ok or FALSE if problem
  * */
-gboolean gsb_data_import_rule_set_account ( gint import_rule_number,
-					    gint account_number )
+gboolean gsb_data_import_rule_set_account (gint import_rule_number,
+										   gint account_number)
 {
-    struct_import_rule *import_rule;
+    ImportRule *import_rule;
 
-    import_rule = gsb_data_import_rule_get_structure ( import_rule_number );
+    import_rule = gsb_data_import_rule_get_structure (import_rule_number);
 
     if (!import_rule)
 	return FALSE;
 
-    import_rule -> account_number = account_number;
+    import_rule->account_number = account_number;
 
     return TRUE;
 }
@@ -417,16 +418,16 @@ gboolean gsb_data_import_rule_set_account ( gint import_rule_number,
  *
  * \return the currency number of the import_rule or 0 if fail
  * */
-gint gsb_data_import_rule_get_currency ( gint import_rule_number )
+gint gsb_data_import_rule_get_currency (gint import_rule_number)
 {
-    struct_import_rule *import_rule;
+    ImportRule *import_rule;
 
-    import_rule = gsb_data_import_rule_get_structure ( import_rule_number );
+    import_rule = gsb_data_import_rule_get_structure (import_rule_number);
 
     if (!import_rule)
 	return 0;
 
-    return import_rule -> currency_number;
+    return import_rule->currency_number;
 }
 
 
@@ -438,17 +439,17 @@ gint gsb_data_import_rule_get_currency ( gint import_rule_number )
  *
  * \return TRUE if ok or FALSE if problem
  * */
-gboolean gsb_data_import_rule_set_currency ( gint import_rule_number,
-					     gint currency_number )
+gboolean gsb_data_import_rule_set_currency (gint import_rule_number,
+											gint currency_number)
 {
-    struct_import_rule *import_rule;
+    ImportRule *import_rule;
 
-    import_rule = gsb_data_import_rule_get_structure ( import_rule_number );
+    import_rule = gsb_data_import_rule_get_structure (import_rule_number);
 
     if (!import_rule)
 	return FALSE;
 
-    import_rule -> currency_number = currency_number;
+    import_rule->currency_number = currency_number;
 
     return TRUE;
 }
@@ -461,16 +462,16 @@ gboolean gsb_data_import_rule_set_currency ( gint import_rule_number,
  *
  * \return the invert number of the import_rule or 0 if fail
  * */
-gboolean gsb_data_import_rule_get_invert ( gint import_rule_number )
+gboolean gsb_data_import_rule_get_invert (gint import_rule_number)
 {
-    struct_import_rule *import_rule;
+    ImportRule *import_rule;
 
-    import_rule = gsb_data_import_rule_get_structure ( import_rule_number );
+    import_rule = gsb_data_import_rule_get_structure (import_rule_number);
 
     if (!import_rule)
 	return 0;
 
-    return import_rule -> invert_transaction_amount;
+    return import_rule->invert_transaction_amount;
 }
 
 
@@ -482,17 +483,17 @@ gboolean gsb_data_import_rule_get_invert ( gint import_rule_number )
  *
  * \return TRUE if ok or FALSE if problem
  * */
-gboolean gsb_data_import_rule_set_invert ( gint import_rule_number,
-					   gboolean invert )
+gboolean gsb_data_import_rule_set_invert (gint import_rule_number,
+										  gboolean invert)
 {
-    struct_import_rule *import_rule;
+    ImportRule *import_rule;
 
-    import_rule = gsb_data_import_rule_get_structure ( import_rule_number );
+    import_rule = gsb_data_import_rule_get_structure (import_rule_number);
 
     if (!import_rule)
 	return FALSE;
 
-    import_rule -> invert_transaction_amount = invert;
+    import_rule->invert_transaction_amount = invert;
 
     return TRUE;
 }
@@ -505,16 +506,16 @@ gboolean gsb_data_import_rule_set_invert ( gint import_rule_number,
  *
  * \return the last_file_name of the import_rule or NULL if fail
  * */
-const gchar *gsb_data_import_rule_get_charmap ( gint import_rule_number )
+const gchar *gsb_data_import_rule_get_charmap (gint import_rule_number)
 {
-    struct_import_rule *import_rule;
+    ImportRule *import_rule;
 
-    import_rule = gsb_data_import_rule_get_structure ( import_rule_number );
+    import_rule = gsb_data_import_rule_get_structure (import_rule_number);
 
     if (!import_rule)
 	return NULL;
 
-    return import_rule -> charmap;
+    return import_rule->charmap;
 }
 
 
@@ -526,22 +527,22 @@ const gchar *gsb_data_import_rule_get_charmap ( gint import_rule_number )
  *
  * \return TRUE if ok or FALSE if problem
  * */
-gboolean gsb_data_import_rule_set_charmap ( gint import_rule_number,
-					 const gchar *charmap )
+gboolean gsb_data_import_rule_set_charmap (gint import_rule_number,
+										   const gchar *charmap)
 {
-    struct_import_rule *import_rule;
+    ImportRule *import_rule;
 
-    import_rule = gsb_data_import_rule_get_structure ( import_rule_number );
+    import_rule = gsb_data_import_rule_get_structure (import_rule_number);
 
     if (!import_rule)
 	return FALSE;
 
     /* we free the last charmap */
-    if ( import_rule -> charmap )
-	g_free (import_rule -> charmap);
+    if (import_rule->charmap)
+	g_free (import_rule->charmap);
 
     /* and copy the new one */
-    import_rule -> charmap = my_strdup (charmap);
+    import_rule->charmap = my_strdup (charmap);
 
     return TRUE;
 }
@@ -554,16 +555,16 @@ gboolean gsb_data_import_rule_set_charmap ( gint import_rule_number,
  *
  * \return the last_file_name of the import_rule or NULL if fail
  * */
-const gchar *gsb_data_import_rule_get_last_file_name ( gint import_rule_number )
+const gchar *gsb_data_import_rule_get_last_file_name (gint import_rule_number)
 {
-    struct_import_rule *import_rule;
+    ImportRule *import_rule;
 
-    import_rule = gsb_data_import_rule_get_structure ( import_rule_number );
+    import_rule = gsb_data_import_rule_get_structure (import_rule_number);
 
     if (!import_rule)
 	return NULL;
 
-    return import_rule -> last_file_name;
+    return import_rule->last_file_name;
 }
 
 
@@ -576,22 +577,22 @@ const gchar *gsb_data_import_rule_get_last_file_name ( gint import_rule_number )
  *
  * \return TRUE if ok or FALSE if problem
  * */
-gboolean gsb_data_import_rule_set_last_file_name ( gint import_rule_number,
-						   const gchar *last_file_name )
+gboolean gsb_data_import_rule_set_last_file_name (gint import_rule_number,
+												  const gchar *last_file_name)
 {
-    struct_import_rule *import_rule;
+    ImportRule *import_rule;
 
-    import_rule = gsb_data_import_rule_get_structure ( import_rule_number );
+    import_rule = gsb_data_import_rule_get_structure (import_rule_number);
 
     if (!import_rule)
 	return FALSE;
 
     /* we free the last last_file_name */
-    if ( import_rule -> last_file_name )
-	g_free (import_rule -> last_file_name);
+    if (import_rule->last_file_name)
+	g_free (import_rule->last_file_name);
 
     /* and copy the new one */
-    import_rule -> last_file_name = my_strdup (last_file_name);
+    import_rule->last_file_name = my_strdup (last_file_name);
 
     return TRUE;
 }
@@ -604,16 +605,16 @@ gboolean gsb_data_import_rule_set_last_file_name ( gint import_rule_number,
  *
  * \return the action of the import_rule or 0 if fail
  * */
-gint gsb_data_import_rule_get_action ( gint import_rule_number )
+gint gsb_data_import_rule_get_action (gint import_rule_number)
 {
-    struct_import_rule *import_rule;
+    ImportRule *import_rule;
 
-    import_rule = gsb_data_import_rule_get_structure ( import_rule_number );
+    import_rule = gsb_data_import_rule_get_structure (import_rule_number);
 
     if (!import_rule)
 	return 0;
 
-    return import_rule -> action;
+    return import_rule->action;
 }
 
 
@@ -625,17 +626,17 @@ gint gsb_data_import_rule_get_action ( gint import_rule_number )
  *
  * \return TRUE if ok or FALSE if problem
  * */
-gboolean gsb_data_import_rule_set_action ( gint import_rule_number,
-					   gint action )
+gboolean gsb_data_import_rule_set_action (gint import_rule_number,
+										  gint action)
 {
-    struct_import_rule *import_rule;
+    ImportRule *import_rule;
 
-    import_rule = gsb_data_import_rule_get_structure ( import_rule_number );
+    import_rule = gsb_data_import_rule_get_structure (import_rule_number);
 
     if (!import_rule)
 	return FALSE;
 
-    import_rule -> action = action;
+    import_rule->action = action;
 
     return TRUE;
 }
@@ -649,7 +650,7 @@ gboolean gsb_data_import_rule_set_action ( gint import_rule_number,
  *
  * \return TRUE : there is at least 1 rule, FALSE : no rules
  * */
-gboolean gsb_data_import_rule_account_has_rule ( gint account_number )
+gboolean gsb_data_import_rule_account_has_rule (gint account_number)
 {
     GSList *tmp_list;
 
@@ -659,14 +660,14 @@ gboolean gsb_data_import_rule_account_has_rule ( gint account_number )
     tmp_list = import_rule_list;
     while (tmp_list)
     {
-	struct_import_rule *import_rule;
+	ImportRule *import_rule;
 
-	import_rule = tmp_list -> data;
+	import_rule = tmp_list->data;
 
-	if (import_rule -> account_number == account_number)
+	if (import_rule->account_number == account_number)
 	    return TRUE;
 
-	tmp_list = tmp_list -> next;
+	tmp_list = tmp_list->next;
     }
     return FALSE;
 }
@@ -677,9 +678,9 @@ gboolean gsb_data_import_rule_account_has_rule ( gint account_number )
  *
  * \param account_number
  *
- * \return a GSList of struct_import_rule or NULL if none
+ * \return a GSList of ImportRule or NULL if none
  * */
-GSList *gsb_data_import_rule_get_from_account ( gint account_number )
+GSList *gsb_data_import_rule_get_from_account (gint account_number)
 {
     GSList *tmp_list;
     GSList *returned_list = NULL;
@@ -687,17 +688,27 @@ GSList *gsb_data_import_rule_get_from_account ( gint account_number )
     tmp_list = import_rule_list;
     while (tmp_list)
     {
-	struct_import_rule *import_rule;
+	ImportRule *import_rule;
 
-	import_rule = tmp_list -> data;
+	import_rule = tmp_list->data;
 
-	if (import_rule -> account_number == account_number)
+	if (import_rule->account_number == account_number)
 	    returned_list = g_slist_append (returned_list, import_rule);
 
-	tmp_list = tmp_list -> next;
+	tmp_list = tmp_list->next;
     }
     return returned_list;
 }
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */
 
 
