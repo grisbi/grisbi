@@ -2502,8 +2502,8 @@ static gint gsb_import_create_transaction (struct struct_ope_importation *import
  *
  * \return void
  **/
-void gsb_import_check_ope_import (GtkWidget *widget,
-								  gpointer data)
+static void gsb_import_check_ope_import (GtkWidget *widget,
+										 gpointer data)
 {
     gint result = GPOINTER_TO_INT (data);
 
