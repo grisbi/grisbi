@@ -255,7 +255,7 @@
                                   <object class="GtkLabel" id="label10">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">Use  default account for sheduler form: </property>
+                                    <property name="label" translatable="yes">Use a default account for sheduler form: </property>
                                   </object>
                                 </child>
                               </object>
