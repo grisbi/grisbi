@@ -18,6 +18,7 @@ const gchar *	gsb_data_import_rule_get_last_file_name 	(gint import_rule_number)
 GSList *		gsb_data_import_rule_get_list 				(void);
 const gchar *	gsb_data_import_rule_get_name 				(gint import_rule_number);
 gint 			gsb_data_import_rule_get_number 			(gpointer rule_ptr);
+const gchar *	gsb_data_import_rule_get_type				(gint import_rule_number);
 gboolean 		gsb_data_import_rule_init_variables 		(void);
 gint 			gsb_data_import_rule_new 					(const gchar *name);
 gboolean 		gsb_data_import_rule_remove 				(gint import_rule_number);
@@ -37,5 +38,7 @@ gboolean 		gsb_data_import_rule_set_name 				(gint import_rule_number,
 															 const gchar *name);
 gint 			gsb_data_import_rule_set_new_number 		(gint import_rule_number,
 															 gint new_no_import_rule);
+gboolean 		gsb_data_import_rule_set_type 				(gint import_rule_number,
+															 const gchar *type);
 /* END_DECLARATION */
 #endif

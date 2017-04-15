@@ -9,7 +9,7 @@
 
 /* START_DECLARATION */
 gboolean recuperation_donnees_gnucash ( GtkWidget * assistant,
-					struct imported_file * imported );
+					struct ImportFile * imported );
 /* END_DECLARATION */
 
 #endif

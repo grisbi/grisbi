@@ -11,13 +11,13 @@ struct csv_field {
     gchar * 	name;
     gfloat 		alignment;
     gboolean 	(*validate) (gchar *);
-    gboolean 	(*parse) (struct struct_ope_importation *, gchar *);
+    gboolean 	(*parse) (struct ImportTransaction *, gchar *);
     gchar *		alias;
 };
 
 /* START_DECLARATION */
 gboolean 		csv_import_csv_account 			(GtkWidget *assistant,
-												 struct imported_file *imported);
+												 struct ImportFile *imported);
 GtkWidget * 	import_create_csv_preview_page 	(GtkWidget *assistant);
 gboolean 		import_enter_csv_preview_page 	(GtkWidget *assistant);
 /* END_DECLARATION */

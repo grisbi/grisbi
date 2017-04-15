@@ -618,7 +618,7 @@ gboolean debug_start_log ( void )
 
         g_free ( tmp_str );
 
-        tmp_str = gsb_import_formats_get_list_formats_to_string ( );
+        tmp_str = gsb_ImportFormats_get_list_formats_to_string ( );
         tmp_str_2 = g_strconcat ( tmp_str, "\n", NULL );
 
         fwrite ( tmp_str_2, sizeof (gchar), strlen ( tmp_str_2 ), debug_file );

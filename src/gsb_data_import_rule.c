@@ -51,6 +51,7 @@ struct _ImportRule
     gchar *		charmap;					/* charmap du fichier importé   */
     gchar *		last_file_name;				/* last file imported with a rule */
     gchar *		rule_name;
+	gchar *		type;						/* type de compte CSV QIF OFX */
     gint 		account_number;
     gint 		action;						/* action of the rule : IMPORT_ADD_TRANSACTIONS, IMPORT_MARK_TRANSACTIONS */
     gint 		currency_number;			/* currency used to import the transactions */
@@ -94,6 +95,8 @@ static void _gsb_data_import_rule_free (ImportRule* import_rule)
 		g_free (import_rule->last_file_name);
     if (import_rule->rule_name)
 		g_free (import_rule->rule_name);
+    if (import_rule->type)
+		g_free (import_rule->type);
 
     if (import_rule_buffer == import_rule)
 		import_rule_buffer = NULL;
@@ -700,6 +703,52 @@ GSList *gsb_data_import_rule_get_from_account (gint account_number)
     return returned_list;
 }
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+const gchar *gsb_data_import_rule_get_type (gint import_rule_number)
+{
+    ImportRule *import_rule;
+
+    import_rule = gsb_data_import_rule_get_structure (import_rule_number);
+
+    if (!import_rule)
+	return 0;
+
+    return import_rule->type;
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+gboolean gsb_data_import_rule_set_type (gint import_rule_number,
+										const gchar *type)
+{
+    ImportRule *import_rule;
+
+    import_rule = gsb_data_import_rule_get_structure (import_rule_number);
+
+    if (!import_rule)
+		return FALSE;
+
+    /* we free the last type */
+    if (import_rule->type)
+	g_free (import_rule->type);
+
+    /* and copy the new one */
+    import_rule->type = my_strdup (type);
+
+    return TRUE;
+}
 /**
  *
  *

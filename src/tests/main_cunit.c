@@ -52,7 +52,7 @@
  * are properly separated and a libgrisbi_core.a library is generated.
  */
 GtkWidget *window = NULL;
-struct gsb_run_t run;
+struct GrisbiAppRun run;
 extern gchar *nom_fichier_comptes;
 #if 0
 gboolean grisbi_app_quit( void )

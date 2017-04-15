@@ -9,7 +9,7 @@
 /* END_INCLUDE_H */
 
 /* struture d'une importation : compte contient la liste des opés importées */
-struct struct_compte_importation
+struct ImportAccount
 {
     gchar *id_compte;
 
@@ -58,7 +58,7 @@ struct struct_compte_importation
 
 
 /** Imported transaction.  */
-struct struct_ope_importation
+struct ImportTransaction
 {
     gchar *id_operation;
 
@@ -97,7 +97,7 @@ struct struct_ope_importation
 #define IMPORT_TRANSACTION_ASK_FOR_TRANSACTION 1
 #define IMPORT_TRANSACTION_LEAVE_TRANSACTION 2
 
-struct imported_file
+struct ImportFile
 {
     gchar * name;
     const gchar * coding_system;
@@ -105,18 +105,18 @@ struct imported_file
 };
 
 
-struct import_format
+struct ImportFormat
 {
     gchar * name;
     gchar * complete_name;
     gchar * extension;
-    gboolean (* import) (GtkWidget * assistant, struct imported_file *);
+    gboolean (* import) (GtkWidget * assistant, struct ImportFile *);
 };
 
 /* structure définissant une association entre un tiers
  * et une chaine de recherche contenant un ou des jokers (%)
  */
-struct struct_payee_asso
+struct ImportPayeeAsso
 {
     gint    payee_number;
     gchar   *search_str;
@@ -127,8 +127,8 @@ void 		gsb_import_assistant_importer_fichier 			(void);
 
 gboolean 	gsb_import_associations_add_assoc 				(gint payee_number,
 															 const gchar *search_str);
-gint 		gsb_import_associations_cmp_assoc 				(struct struct_payee_asso *assoc_1,
-															 struct struct_payee_asso *assoc_2);
+gint 		gsb_import_associations_cmp_assoc 				(struct ImportPayeeAsso *assoc_1,
+															 struct ImportPayeeAsso *assoc_2);
 GSList *	gsb_import_associations_get_liste_associations	(void);
 void 		gsb_import_associations_free_liste				(void);
 void 		gsb_import_associations_init_variables 			(void);
@@ -138,11 +138,11 @@ void 		gsb_import_associations_remove_assoc 			(gint payee_number);
 
 gboolean 	gsb_import_by_rule 								(gint rule);
 
-gchar *		gsb_import_formats_get_list_formats_to_string 	(void);
+gchar *		gsb_ImportFormats_get_list_formats_to_string 	(void);
 GSList *	gsb_import_import_selected_files 				(GtkWidget *assistant);
-void 		gsb_import_register_account 					(struct struct_compte_importation *account);
-void 		gsb_import_register_account_error 				(struct struct_compte_importation *account);
-void 		gsb_import_register_import_formats 				(void);
+void 		gsb_import_register_account 					(struct ImportAccount *account);
+void 		gsb_import_register_account_error 				(struct ImportAccount *account);
+void 		gsb_import_register_ImportFormats 				(void);
 gchar * 	gsb_import_unique_imported_name 				(gchar *account_name);
 /* END_DECLARATION */
 

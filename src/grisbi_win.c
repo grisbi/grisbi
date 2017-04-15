@@ -58,12 +58,6 @@
 #define GSB_NAMEFILE_TOO_LONG 75				/* 5 lignes dans le bouton */
 
 /*START_EXTERN Variables externes PROVISOIRE*/
-
-/* declared in parametres.c PROVISOIRE*/
-extern struct gsb_etat_t etat;
-
-/* declared in main.c PROVISOIRE*/
-extern struct gsb_run_t run;
 extern gchar *nom_fichier_comptes;
 /*END_EXTERN*/
 
@@ -149,10 +143,10 @@ struct _GrisbiWinPrivate
 G_DEFINE_TYPE_WITH_PRIVATE(GrisbiWin, grisbi_win, GTK_TYPE_APPLICATION_WINDOW);
 
 /* variables initialisées lors de l'exécution de grisbi PROVISOIRE */
-struct gsb_run_t run;
+struct GrisbiWinRun run;
 
 /* global "etat" structure shared in the entire program */
-struct gsb_etat_t etat;
+struct GrisbiWinEtat etat;
 
 /******************************************************************************/
 /* Private functions                                                          */

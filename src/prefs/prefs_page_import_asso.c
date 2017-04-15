@@ -159,7 +159,7 @@ static void prefs_page_import_asso_cell_edited (GtkCellRendererText *cell,
 		list_tmp = gsb_import_associations_get_liste_associations ();
         while (list_tmp)
         {
-            struct struct_payee_asso *assoc;
+            struct ImportPayeeAsso *assoc;
 
             assoc = list_tmp -> data;
             if (assoc -> payee_number == payee_number)
@@ -322,7 +322,7 @@ static void prefs_page_import_asso_fill_model (GtkListStore *list_store)
     while (list_tmp)
     {
         gchar *tmp_str;
-        struct struct_payee_asso *assoc;
+        struct ImportPayeeAsso *assoc;
 
         assoc = list_tmp->data;
         tmp_str = g_strdup (gsb_data_payee_get_name (assoc->payee_number, TRUE));

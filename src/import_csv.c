@@ -937,15 +937,15 @@ static gboolean csv_import_change_separator (GtkEntry *entry,
  *
  * \return			FALSE
  **/
-gboolean csv_import_csv_account (GtkWidget *assistant, struct imported_file *imported)
+gboolean csv_import_csv_account (GtkWidget *assistant, struct ImportFile *imported)
 {
-    struct struct_compte_importation *compte;
+    struct ImportAccount *compte;
     gchar *contents;
     gchar *separator;
     GSList *list;
     int index = 0;
 
-    compte = g_malloc0 (sizeof (struct struct_compte_importation));
+    compte = g_malloc0 (sizeof (struct ImportAccount));
     compte->nom_de_compte = gsb_import_unique_imported_name (my_strdup (_("Imported CSV account")));
     compte->origine = my_strdup ("CSV");
     compte->real_filename = my_strdup (imported->name);
@@ -965,7 +965,7 @@ gboolean csv_import_csv_account (GtkWidget *assistant, struct imported_file *imp
 
     do
     {
-        struct struct_ope_importation *ope;
+        struct ImportTransaction *ope;
         gint i;
 
         /* Check if this line was specified as to be skipped
@@ -979,7 +979,7 @@ gboolean csv_import_csv_account (GtkWidget *assistant, struct imported_file *imp
         }
         index++;
 
-        ope = g_malloc0 (sizeof (struct struct_ope_importation));
+        ope = g_malloc0 (sizeof (struct ImportTransaction));
         ope->date = gdate_today ();
         ope->date_tmp = my_strdup ("");
         ope->tiers = my_strdup ("");
@@ -1003,9 +1003,9 @@ gboolean csv_import_csv_account (GtkWidget *assistant, struct imported_file *imp
                         {
                             gint nbre_element = g_slist_length (
                                 compte->operations_importees);
-                            struct struct_ope_importation *ope_tmp;
+                            struct ImportTransaction *ope_tmp;
 
-                            ope_tmp = (struct struct_ope_importation *)
+                            ope_tmp = (struct ImportTransaction *)
                                 g_slist_nth_data  (compte->operations_importees,
                                                          nbre_element -1);
                             if (ope_tmp->operation_ventilee == 0 &&
@@ -1146,7 +1146,7 @@ gboolean import_enter_csv_preview_page (GtkWidget *assistant)
     gsize size;
     gsize bytes_written;
     GError *error;
-    struct imported_file *imported = NULL;
+    struct ImportFile *imported = NULL;
 
     /* Find first CSV to import. */
     files = gsb_import_import_selected_files (assistant);

@@ -6,35 +6,35 @@
 /* END_INCLUDE_H */
 
 /*START_DECLARATION */
-gboolean 	csv_import_parse_balance 		(struct struct_ope_importation *ope,
+gboolean 	csv_import_parse_balance 		(struct ImportTransaction *ope,
 											 gchar *string);
-gboolean 	csv_import_parse_budget 		(struct struct_ope_importation *ope,
+gboolean 	csv_import_parse_budget 		(struct ImportTransaction *ope,
 											 gchar *string);
-gboolean 	csv_import_parse_category 		(struct struct_ope_importation *ope,
+gboolean 	csv_import_parse_category 		(struct ImportTransaction *ope,
 											 gchar *string);
-gboolean 	csv_import_parse_credit 		(struct struct_ope_importation *ope,
+gboolean 	csv_import_parse_credit 		(struct ImportTransaction *ope,
 											 gchar *string);
-gboolean 	csv_import_parse_currency 		(struct struct_ope_importation *ope,
+gboolean 	csv_import_parse_currency 		(struct ImportTransaction *ope,
 											 gchar *string);
-gboolean 	csv_import_parse_date 			(struct struct_ope_importation *ope,
+gboolean 	csv_import_parse_date 			(struct ImportTransaction *ope,
 											 gchar *string);
-gboolean 	csv_import_parse_debit 			(struct struct_ope_importation *ope,
+gboolean 	csv_import_parse_debit 			(struct ImportTransaction *ope,
 											 gchar *string);
-gboolean 	csv_import_parse_notes 			(struct struct_ope_importation *ope,
+gboolean 	csv_import_parse_notes 			(struct ImportTransaction *ope,
 											 gchar *string);
-gboolean 	csv_import_parse_p_r 			(struct struct_ope_importation *ope,
+gboolean 	csv_import_parse_p_r 			(struct ImportTransaction *ope,
 											 gchar *string);
-gboolean 	csv_import_parse_payee 			(struct struct_ope_importation *ope,
+gboolean 	csv_import_parse_payee 			(struct ImportTransaction *ope,
 											 gchar *string);
-gboolean 	csv_import_parse_split 			(struct struct_ope_importation *ope,
+gboolean 	csv_import_parse_split 			(struct ImportTransaction *ope,
 											 gchar *string);
-gboolean 	csv_import_parse_sub_budget 	(struct struct_ope_importation *ope,
+gboolean 	csv_import_parse_sub_budget 	(struct ImportTransaction *ope,
 											 gchar *string);
-gboolean 	csv_import_parse_sub_category 	(struct struct_ope_importation *ope,
+gboolean 	csv_import_parse_sub_category 	(struct ImportTransaction *ope,
 											 gchar *string);
-gboolean 	csv_import_parse_value_date 	(struct struct_ope_importation *ope,
+gboolean 	csv_import_parse_value_date 	(struct ImportTransaction *ope,
 											 gchar *string);
-gboolean 	csv_import_parse_cheque 		(struct struct_ope_importation *ope,
+gboolean 	csv_import_parse_cheque 		(struct ImportTransaction *ope,
 											 gchar *string);
 gboolean 	csv_import_validate_amount 		(gchar *string);
 gboolean 	csv_import_validate_date 		(gchar *string);

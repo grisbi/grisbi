@@ -44,17 +44,17 @@
 
 /*START_STATIC*/
 static gchar * child_content ( xmlNodePtr node, const gchar * child_name );
-static struct struct_compte_importation * find_imported_account_by_name ( gchar * name );
-static struct struct_compte_importation * find_imported_account_by_uid ( gchar * guid );
+static struct ImportAccount * find_imported_account_by_name ( gchar * name );
+static struct ImportAccount * find_imported_account_by_uid ( gchar * guid );
 static struct gnucash_category * find_imported_categ_by_uid ( gchar * guid );
 static struct gnucash_split * find_split ( GSList * split_list, gsb_real amount,
-				    struct struct_compte_importation * account,
+				    struct ImportAccount * account,
 				    struct gnucash_category * categ );
 static xmlNodePtr get_child ( xmlNodePtr node, const gchar * child_name );
 static gchar * get_currency ( xmlNodePtr currency_node );
 static gsb_real gnucash_value ( gchar * value );
 static struct gnucash_split * new_split ( gsb_real amount, gchar * account, gchar * categ );
-static struct struct_ope_importation * new_transaction_from_split ( struct gnucash_split * split,
+static struct ImportTransaction * new_transaction_from_split ( struct gnucash_split * split,
 							     gchar * tiers, GDate * date );
 static gboolean node_strcmp ( xmlNodePtr node, const gchar * name );
 static xmlDocPtr parse_gnucash_file ( gchar * filename );
@@ -106,10 +106,10 @@ gchar * gnucash_filename = NULL;
  * \return TRUE upon success.  FALSE otherwise.
  */
 gboolean recuperation_donnees_gnucash ( GtkWidget * assistant,
-					struct imported_file * imported )
+					struct ImportFile * imported )
 {
   xmlDocPtr doc;
-  struct struct_compte_importation * account;
+  struct ImportAccount * account;
 
   gnucash_filename = my_strdup ( imported -> name );
   doc = parse_gnucash_file ( gnucash_filename );
@@ -128,7 +128,7 @@ gboolean recuperation_donnees_gnucash ( GtkWidget * assistant,
   }
 
   /* So, we failed to import file. */
-  account = g_malloc0 ( sizeof ( struct struct_compte_importation ));
+  account = g_malloc0 ( sizeof ( struct ImportAccount ));
   account -> origine = _( "Gnucash" );
   account -> nom_de_compte = _("Invalid Gnucash account, please check gnucash file is not compressed.");
   account -> filename = my_strdup ( imported -> name );
@@ -189,7 +189,7 @@ void recuperation_donnees_gnucash_book ( xmlNodePtr book_node )
 
 
 /**
- * Parse XML account node and fill a struct_compte_importation with
+ * Parse XML account node and fill a ImportAccount with
  * results.  Add account to the global accounts list
  * gnucash_accounts.
  *
@@ -197,10 +197,10 @@ void recuperation_donnees_gnucash_book ( xmlNodePtr book_node )
  */
 void recuperation_donnees_gnucash_compte ( xmlNodePtr compte_node )
 {
-    struct struct_compte_importation *compte;
+    struct ImportAccount *compte;
     gchar * type = child_content ( compte_node, "type" );
 
-    compte = calloc ( 1, sizeof ( struct struct_compte_importation ));
+    compte = calloc ( 1, sizeof ( struct ImportAccount ));
 
     /* Gnucash import */
     compte -> origine = my_strdup ( "Gnucash" );
@@ -289,14 +289,14 @@ void recuperation_donnees_gnucash_categorie ( xmlNodePtr categ_node )
 
 
 /**
- * Parse XML transaction node and fill a struct_ope_importation with results.
+ * Parse XML transaction node and fill a ImportTransaction with results.
  *
  * \param transaction_node	XML transaction node to parse.
  */
 void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node )
 {
-  struct struct_ope_importation * transaction;
-  struct struct_compte_importation * account = NULL;
+  struct ImportTransaction * transaction;
+  struct ImportAccount * account = NULL;
   struct gnucash_split * split;
   gchar * date_string, *space, *tiers;
   GDate * date;
@@ -310,7 +310,7 @@ void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node )
 
   while ( split_node )
     {
-      struct struct_compte_importation * split_account = NULL;
+      struct ImportAccount * split_account = NULL;
       struct gnucash_category * categ = NULL;
       enum operation_etat_rapprochement p_r = OPERATION_NORMALE;
       gsb_real amount;
@@ -434,9 +434,9 @@ gchar * get_currency ( xmlNodePtr currency_node )
  *
  * \param guid		Textual guid of account to search.
  *
- * \return		A pointer to a struct_compte_importation or NULL upon failure.
+ * \return		A pointer to a ImportAccount or NULL upon failure.
  */
-struct struct_compte_importation * find_imported_account_by_uid ( gchar * guid )
+struct ImportAccount * find_imported_account_by_uid ( gchar * guid )
 {
   GSList * liste_tmp;
 
@@ -447,7 +447,7 @@ struct struct_compte_importation * find_imported_account_by_uid ( gchar * guid )
 
   while ( liste_tmp )
     {
-      struct struct_compte_importation * account = liste_tmp -> data;
+      struct ImportAccount * account = liste_tmp -> data;
 
       if ( account -> guid && !strcmp ( account -> guid, guid ))
 	{
@@ -467,9 +467,9 @@ struct struct_compte_importation * find_imported_account_by_uid ( gchar * guid )
  *
  * \param guid		Name of account to search.
  *
- * \return		A pointer to a struct_compte_importation or NULL upon failure.
+ * \return		A pointer to a ImportAccount or NULL upon failure.
  */
-struct struct_compte_importation * find_imported_account_by_name ( gchar * name )
+struct ImportAccount * find_imported_account_by_name ( gchar * name )
 {
   GSList * liste_tmp;
 
@@ -480,7 +480,7 @@ struct struct_compte_importation * find_imported_account_by_name ( gchar * name 
 
   while ( liste_tmp )
     {
-      struct struct_compte_importation * account = liste_tmp -> data;
+      struct ImportAccount * account = liste_tmp -> data;
 
       if ( !strcmp ( account -> nom_de_compte, name ))
 	{
@@ -659,7 +659,7 @@ xmlDocPtr parse_gnucash_file ( gchar * filename )
  * \return		A gnucash_split upon success.  NULL otherwise.
  */
 struct gnucash_split * find_split ( GSList * split_list, gsb_real amount,
-				    struct struct_compte_importation * account,
+				    struct ImportAccount * account,
 				    struct gnucash_category * categ )
 {
   GSList * tmp;
@@ -752,22 +752,22 @@ struct gnucash_split * new_split ( gsb_real amount, gchar * account, gchar * cat
 
 
 /**
- * Allocate and return a struct_ope_importation created from a
+ * Allocate and return a ImportTransaction created from a
  * gnucash_split and some arguments.
  *
  * \param split		Split to use as a base.
  * \param tiers		Transaction payee name.
  * \param date		Transaction date.
  *
- * \return 		A newly allocated struct_ope_importation.
+ * \return 		A newly allocated ImportTransaction.
  */
-struct struct_ope_importation * new_transaction_from_split ( struct gnucash_split * split,
+struct ImportTransaction * new_transaction_from_split ( struct gnucash_split * split,
 							     gchar * tiers, GDate * date )
 {
-  struct struct_ope_importation * transaction;
+  struct ImportTransaction * transaction;
 
   /** Basic properties are set according to split. */
-  transaction = calloc ( 1, sizeof ( struct struct_ope_importation ));
+  transaction = calloc ( 1, sizeof ( struct ImportTransaction ));
   transaction -> montant = split -> amount;
   transaction -> notes = split -> notes;
   transaction -> p_r = split -> p_r;
@@ -777,10 +777,10 @@ struct struct_ope_importation * new_transaction_from_split ( struct gnucash_spli
   if ( split -> contra_account )
     {
       /** If split contains a contra account, then this is a transfer. */
-      struct struct_compte_importation * contra_account;
-      struct struct_ope_importation * contra_transaction;
+      struct ImportAccount * contra_account;
+      struct ImportTransaction * contra_transaction;
 
-      contra_transaction = calloc ( 1, sizeof ( struct struct_ope_importation ));
+      contra_transaction = calloc ( 1, sizeof ( struct ImportTransaction ));
       contra_transaction -> montant = gsb_real_opposite (split -> amount);
       contra_transaction -> notes = split -> notes;
       contra_transaction -> tiers = tiers;

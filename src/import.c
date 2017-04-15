@@ -100,7 +100,7 @@ extern GtkWidget *	menu_import_rules;
 /*END_EXTERN*/
 
 /** Suppported import formats.  Plugins may register themselves. */
-static GSList *		import_formats = NULL;
+static GSList *		ImportFormats = NULL;
 
 /* set to TRUE if we import some marked R transactions
  * grisbi cannot associate them to a reconcile number, so if TRUE,
@@ -123,7 +123,7 @@ GSList *			liste_associations_tiers = NULL;
 #define NBRE_TRANSACTION_FOR_PROGRESS_BAR 250
 
 /** Known built-in import formats.  Others are plugins. */
-static struct import_format builtin_formats[] =
+static struct ImportFormat builtin_formats[] =
 {
 { "CSV", N_("Comma Separated Values"),     "csv", csv_import_csv_account },
 { "QIF", N_("Quicken Interchange Format"), "qif", recuperation_donnees_qif },
@@ -136,7 +136,7 @@ static struct import_format builtin_formats[] =
 { NULL,  NULL,              NULL,       NULL },
 };
 
-enum import_filesel_columns
+enum ImportFileselColumns
 {
     IMPORT_FILESEL_SELECTED = 0,
     IMPORT_FILESEL_TYPENAME,
@@ -148,7 +148,7 @@ enum import_filesel_columns
 };
 
 /** Page numbering for the import wizard. */
-enum import_pages
+enum ImportPages
 {
     IMPORT_STARTUP_PAGE,
     IMPORT_FILESEL_PAGE,
@@ -177,7 +177,7 @@ static gint gsb_import_associations_find_payee (gchar *imported_tiers)
     tmp_list = liste_associations_tiers;
     while (tmp_list)
     {
-        struct struct_payee_asso *assoc;
+        struct ImportPayeeAsso *assoc;
 
         assoc = tmp_list->data;
         if (gsb_string_is_trouve (imported_tiers, assoc->search_str))
@@ -197,7 +197,7 @@ static gint gsb_import_associations_find_payee (gchar *imported_tiers)
  *
  * \return
  **/
-static void gsb_import_associations_free_assoc (struct struct_payee_asso *assoc)
+static void gsb_import_associations_free_assoc (struct ImportPayeeAsso *assoc)
 {
 	g_free (assoc->search_str);
 	g_free (assoc);
@@ -246,7 +246,7 @@ void gsb_import_associations_init_variables (void)
 gboolean gsb_import_associations_add_assoc (gint payee_number,
 											const gchar *search_str)
 {
-	struct struct_payee_asso *assoc;
+	struct ImportPayeeAsso *assoc;
 	gboolean result = FALSE;
 
 	if (!payee_number || !search_str)
@@ -255,7 +255,7 @@ gboolean gsb_import_associations_add_assoc (gint payee_number,
 	}
 
     /* create new association */
-	assoc = g_malloc (sizeof (struct struct_payee_asso));
+	assoc = g_malloc (sizeof (struct ImportPayeeAsso));
 	assoc->payee_number = payee_number;
 	assoc->search_str = g_strdup (search_str);
 
@@ -292,8 +292,8 @@ gboolean gsb_import_associations_add_assoc (gint payee_number,
  *
  * \return
  **/
-gint gsb_import_associations_cmp_assoc (struct struct_payee_asso *assoc_1,
-                                        struct struct_payee_asso *assoc_2)
+gint gsb_import_associations_cmp_assoc (struct ImportPayeeAsso *assoc_1,
+                                        struct ImportPayeeAsso *assoc_2)
 {
     gint num_1, num_2;
 
@@ -324,7 +324,7 @@ void gsb_import_associations_remove_assoc (gint payee_number)
         tmp_list = liste_associations_tiers;
         while (tmp_list)
         {
-            struct struct_payee_asso *assoc;
+            struct ImportPayeeAsso *assoc;
 
             assoc = tmp_list->data;
             if (assoc->payee_number == payee_number)
@@ -349,9 +349,9 @@ void gsb_import_associations_remove_assoc (gint payee_number)
 gint gsb_import_associations_list_append_assoc (gint payee_number,
 												const gchar *search_str)
 {
-    struct struct_payee_asso *assoc;
+    struct ImportPayeeAsso *assoc;
 
-    assoc = g_malloc (sizeof (struct struct_payee_asso));
+    assoc = g_malloc (sizeof (struct ImportPayeeAsso));
     assoc->payee_number = payee_number;
     assoc->search_str = g_strdup (search_str);
 
@@ -400,7 +400,7 @@ void gsb_import_associations_free_liste (void)
 static gboolean gsb_import_account_action_activated (GtkWidget *radio,
 													 gint action)
 {
-    struct struct_compte_importation *account;
+    struct ImportAccount *account;
 
     account = g_object_get_data (G_OBJECT (radio), "account");
 
@@ -426,7 +426,7 @@ static gboolean gsb_import_account_action_activated (GtkWidget *radio,
  *
  * \return
  **/
-static gint gsb_import_add_currency (struct struct_compte_importation *compte)
+static gint gsb_import_add_currency (struct ImportAccount *compte)
 {
     GtkWidget *vbox, *checkbox, *dialog;
     gint response;
@@ -533,7 +533,7 @@ static GtkWidget *gsb_import_assistant_create_final_page (GtkWidget *assistant)
  *
  * \return the number of the new account or -1 if problem
  **/
-static gint gsb_import_create_imported_account (struct struct_compte_importation *imported_account)
+static gint gsb_import_create_imported_account (struct ImportAccount *imported_account)
 {
     gint account_number;
     gint kind_account;
@@ -635,7 +635,7 @@ static gint gsb_import_create_imported_account (struct struct_compte_importation
  *
  * \return
  **/
-static GtkWidget *gsb_import_cree_ligne_recapitulatif (struct struct_compte_importation *compte)
+static GtkWidget *gsb_import_cree_ligne_recapitulatif (struct ImportAccount *compte)
 {
     GtkWidget *vbox, *hbox, *label, *radio, *radio_add_account,*radiogroup;
     GtkWidget *alignement;
@@ -826,9 +826,9 @@ static GtkWidget *gsb_import_cree_ligne_recapitulatif (struct struct_compte_impo
                         compte->entry_name_rule);
     gtk_box_pack_start (GTK_BOX (compte->hbox_rule), button, FALSE, FALSE, 0);
 
-    /* we can create a rule only for qif or ofx */
-    if (strcmp (compte->origine, "QIF") && strcmp (compte->origine, "OFX"))
-    gtk_widget_set_sensitive (button, FALSE);
+    /* we can create a rule only for qif or ofx EN TEST POUR FICHIER CSV */
+    if (strcmp (compte->origine, "QIF") && strcmp (compte->origine, "OFX") && strcmp (compte->origine, "CSV"))
+		gtk_widget_set_sensitive (button, FALSE);
 
     gtk_widget_set_sensitive (compte->entry_name_rule, FALSE);
     gtk_box_pack_start (GTK_BOX (compte->hbox_rule),
@@ -861,7 +861,7 @@ static gboolean gsb_import_affichage_recapitulatif_importation (GtkWidget *assis
     tmp_list = liste_comptes_importes;
     while (tmp_list)
     {
-    struct struct_compte_importation *compte;
+    struct ImportAccount *compte;
 
     compte = tmp_list->data;
 
@@ -901,11 +901,11 @@ static const gchar *gsb_import_autodetect_file_type (gchar *filename,
     extension = strrchr (filename, '.');
     if (extension)
     {
-    GSList *tmp = import_formats;
+    GSList *tmp = ImportFormats;
 
     while (tmp)
     {
-        struct import_format *format = (struct import_format *) tmp->data;
+        struct ImportFormat *format = (struct ImportFormat *) tmp->data;
 
         if (!g_ascii_strcasecmp (extension + 1, format->extension))
         {
@@ -1046,7 +1046,7 @@ static GSList *gsb_import_create_file_chooser (const char *enc,
     GtkFileFilter *filter, *default_filter;
     gchar *files;
     GSList *tmp_list;
-    struct import_format *format;
+    struct ImportFormat *format;
     GSList *filenames = NULL;
     gchar *old_str;
     gchar *tmp_str;
@@ -1064,14 +1064,14 @@ static GSList *gsb_import_create_file_chooser (const char *enc,
 	gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (dialog), gsb_file_get_last_path ());
 
     /* Import filters */
-    tmp_list = import_formats;
-    format = (struct import_format *) tmp_list->data;
+    tmp_list = ImportFormats;
+    format = (struct ImportFormat *) tmp_list->data;
     files = g_strconcat ("*.", format->extension, NULL);
     tmp_list = tmp_list->next;
 
     while (tmp_list)
     {
-    format = (struct import_format *) tmp_list->data;
+    format = (struct ImportFormat *) tmp_list->data;
     old_str = files;
     files = g_strconcat (files, ", *.", format->extension, NULL);
     g_free (old_str);
@@ -1083,12 +1083,12 @@ static GSList *gsb_import_create_file_chooser (const char *enc,
     gtk_file_filter_set_name (default_filter, tmp_str);
     g_free (tmp_str);
 
-    tmp_list = import_formats;
+    tmp_list = ImportFormats;
     while (tmp_list)
     {
     GtkFileFilter *format_filter;
 
-    format = (struct import_format *) tmp_list->data;
+    format = (struct ImportFormat *) tmp_list->data;
 
     format_filter = gtk_file_filter_new ();
     tmp_str = g_strdup_printf (_("%s files (*.%s)"),
@@ -1195,14 +1195,14 @@ static gboolean gsb_import_gunzip_file (gchar *filename)
  *
  * \return
  **/
-static void gsb_import_register_import_format (struct import_format *format)
+static void gsb_import_register_ImportFormat (struct ImportFormat *format)
 {
     gchar *tmp_str;
 
     tmp_str = g_strdup_printf (_("Adding '%s' as an import format"), format->name);
     devel_debug (tmp_str);
     g_free (tmp_str);
-    import_formats = g_slist_append (import_formats, format);
+    ImportFormats = g_slist_append (ImportFormats, format);
 }
 
 /**
@@ -1256,7 +1256,7 @@ static gboolean gsb_import_switch_type (GtkCellRendererText *cell,
 
     if (gtk_tree_model_get_iter_from_string (GTK_TREE_MODEL (model), &iter, path))
     {
-    GSList *tmp_list = import_formats;
+    GSList *tmp_list = ImportFormats;
 
     while (tmp_list)
     {
@@ -1264,9 +1264,9 @@ static gboolean gsb_import_switch_type (GtkCellRendererText *cell,
         gchar *nom_fichier;
         gchar *tmp_str;
         GError *error = NULL;
-        struct import_format *format;
+        struct ImportFormat *format;
 
-        format = (struct import_format *) tmp_list->data;
+        format = (struct ImportFormat *) tmp_list->data;
         if (! strcmp (value, format->name))
         {
         gtk_tree_store_set (GTK_TREE_STORE (model), &iter,
@@ -1572,11 +1572,11 @@ static GtkWidget *gsb_import_create_force_dir_page (GtkWidget *assistant)
 
     list_acc = GTK_TREE_MODEL (gtk_list_store_new (1, G_TYPE_STRING));
 
-    tmp_list = import_formats;
+    tmp_list = ImportFormats;
     while (tmp_list)
     {
         GtkTreeIter iter;
-        struct import_format *format = (struct import_format *) tmp_list->data;
+        struct ImportFormat *format = (struct ImportFormat *) tmp_list->data;
 
         gtk_list_store_append (GTK_LIST_STORE (list_acc), &iter);
         gtk_list_store_set (GTK_LIST_STORE (list_acc), &iter, 0, format->name, -1);
@@ -1701,11 +1701,11 @@ static GtkWidget *gsb_import_create_file_selection_page (GtkWidget *assistant)
 
     list_acc = GTK_TREE_MODEL (gtk_list_store_new (1, G_TYPE_STRING));
 
-    tmp_list = import_formats;
+    tmp_list = ImportFormats;
     while (tmp_list)
     {
         GtkTreeIter iter;
-        struct import_format *format = (struct import_format *) tmp_list->data;
+        struct ImportFormat *format = (struct ImportFormat *) tmp_list->data;
 
         gtk_list_store_append (GTK_LIST_STORE (list_acc), &iter);
         gtk_list_store_set (GTK_LIST_STORE (list_acc), &iter, 0, format->name, -1);
@@ -1818,17 +1818,17 @@ static gboolean gsb_import_enter_resume_page (GtkWidget *assistant)
     files = gsb_import_import_selected_files (assistant);
     while (files)
     {
-        struct imported_file *imported = files->data;
-        GSList *tmp_list = import_formats;
+        struct ImportFile *imported = files->data;
+        GSList *tmp_list = ImportFormats;
 
         while (tmp_list)
         {
-            struct import_format *format = (struct import_format *) tmp_list->data;
+            struct ImportFormat *format = (struct ImportFormat *) tmp_list->data;
 
             if (!strcmp (imported->type, format->name))
             {
                 devel_print_str (imported->type);
-
+				/* importation du fichier sélectionné */
                 format->import (assistant, imported);
                 tmp_list = tmp_list->next;
                 continue;
@@ -1861,7 +1861,7 @@ static gboolean gsb_import_enter_resume_page (GtkWidget *assistant)
         list = liste_comptes_importes;
         while (list)
         {
-            struct struct_compte_importation *compte;
+            struct ImportAccount *compte;
             compte = list->data;
 
             /* Fix account name if needed. */
@@ -1919,7 +1919,7 @@ static gboolean gsb_import_enter_resume_page (GtkWidget *assistant)
         list = liste_comptes_importes_error;
         while (list)
         {
-            struct struct_compte_importation *compte;
+            struct ImportAccount *compte;
             compte = list->data;
 
             tmp_str = g_strconcat ("• ", compte->nom_de_compte,
@@ -1947,7 +1947,7 @@ static gboolean gsb_import_enter_resume_page (GtkWidget *assistant)
  *
  * \return void
  **/
-static void gsb_import_lookup_budget (struct struct_ope_importation *imported_transaction,
+static void gsb_import_lookup_budget (struct ImportTransaction *imported_transaction,
 									  gint transaction_number)
 {
 	gint budget_number;
@@ -1981,7 +1981,7 @@ static void gsb_import_lookup_budget (struct struct_ope_importation *imported_tr
  *
  * \return
  **/
-static GtkWidget *gsb_import_progress_bar_affiche (struct struct_compte_importation *imported_account)
+static GtkWidget *gsb_import_progress_bar_affiche (struct ImportAccount *imported_account)
 {
     GtkWidget *assistant;
     GtkWidget *progress;
@@ -2052,7 +2052,7 @@ static void gsb_import_progress_bar_pulse (GtkWidget *progress,
  *
  * \return the number of the new transaction
  **/
-static gint gsb_import_create_transaction (struct struct_ope_importation *imported_transaction,
+static gint gsb_import_create_transaction (struct ImportTransaction *imported_transaction,
 										   gint account_number,
 										   gchar *origine)
 {
@@ -2624,7 +2624,7 @@ static void gsb_import_ope_import_toggled (GtkWidget *button,
  *
  * \return
  **/
-static void gsb_import_confirmation_enregistrement_ope_import (struct struct_compte_importation *imported_account,
+static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAccount *imported_account,
 															   gint account_number)
 {
     GSList *tmp_list;
@@ -2714,7 +2714,7 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct struct_com
 
     while (tmp_list)
     {
-	struct struct_ope_importation *ope_import;
+	struct ImportTransaction *ope_import;
 
 	ope_import = tmp_list->data;
 
@@ -2830,7 +2830,7 @@ dialog_return:
 
     while (tmp_list)
     {
-        struct struct_ope_importation *ope_import;
+        struct ImportTransaction *ope_import;
 
         ope_import = tmp_list->data;
 
@@ -2886,7 +2886,7 @@ dialog_return:
  *
  * return
  **/
-static gboolean gsb_import_define_action (struct struct_compte_importation *imported_account,
+static gboolean gsb_import_define_action (struct ImportAccount *imported_account,
 										  gint account_number,
 										  GDate *first_date_import)
 {
@@ -2902,7 +2902,7 @@ static gboolean gsb_import_define_action (struct struct_compte_importation *impo
     while (tmp_list)
     {
         GSList *tmp_list_transactions;
-        struct struct_ope_importation *imported_transaction;
+        struct ImportTransaction *imported_transaction;
 
         imported_transaction = tmp_list->data;
 
@@ -3023,7 +3023,7 @@ static GDate *gsb_import_get_first_date (GSList *import_list)
 
     while (tmp_list)
     {
-        struct struct_ope_importation *imported_transaction;
+        struct ImportTransaction *imported_transaction;
 
         imported_transaction = tmp_list->data;
 
@@ -3086,7 +3086,7 @@ static gboolean gsb_import_set_id_compte (gint account_nb,
  *
  * \return
  **/
-static void gsb_import_add_imported_transactions (struct struct_compte_importation *imported_account,
+static void gsb_import_add_imported_transactions (struct ImportAccount *imported_account,
 												  gint account_number)
 {
     GSList *tmp_list;
@@ -3133,7 +3133,7 @@ static void gsb_import_add_imported_transactions (struct struct_compte_importati
 
     while (tmp_list)
     {
-	struct struct_ope_importation *imported_transaction;
+	struct ImportTransaction *imported_transaction;
 
 	imported_transaction = tmp_list->data;
 
@@ -3411,7 +3411,7 @@ static gboolean gsb_import_click_dialog_ope_orphelines (GtkWidget *dialog,
 		{
 		    /* à ce niveau, l'opé a été cochée donc on l'enregistre en la marquant T	 */
 
-		    struct struct_ope_importation *ope_import;
+		    struct ImportTransaction *ope_import;
 		    gint transaction_number;
 
 		    ope_import = tmp_list->data;
@@ -3525,7 +3525,7 @@ static gboolean gsb_import_click_sur_liste_opes_orphelines (GtkCellRendererToggl
  *
  * \return
  **/
-static void gsb_import_create_imported_transactions (struct struct_compte_importation *imported_account,
+static void gsb_import_create_imported_transactions (struct ImportAccount *imported_account,
 													 gint account_number)
 {
     GtkWidget *progress = NULL;
@@ -3549,7 +3549,7 @@ static void gsb_import_create_imported_transactions (struct struct_compte_import
 
     while (tmp_list)
     {
-        struct struct_ope_importation *imported_transaction;
+        struct ImportTransaction *imported_transaction;
         gint transaction_number;
 
         if (nbre_transaction > NBRE_TRANSACTION_FOR_PROGRESS_BAR)
@@ -3644,7 +3644,7 @@ static void gsb_import_show_orphan_transactions (GSList *orphan_list,
 
 	while (tmp_list)
 	{
-	    struct struct_ope_importation *ope_import;
+	    struct ImportTransaction *ope_import;
 	    GtkTreeIter iter;
 
 	    ope_import = tmp_list->data;
@@ -3728,7 +3728,7 @@ static void gsb_import_show_orphan_transactions (GSList *orphan_list,
  *
  * \return
  **/
-static void gsb_import_pointe_opes_importees (struct struct_compte_importation *imported_account,
+static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_account,
 											  gint account_number)
 {
     GSList *ope_list;
@@ -3764,7 +3764,7 @@ static void gsb_import_pointe_opes_importees (struct struct_compte_importation *
         GSList *liste_ope_importees_tmp;
         GSList *ope_trouvees;
         GSList *tmp_list_transactions;
-        struct struct_ope_importation *ope_import;
+        struct ImportTransaction *ope_import;
         gint transaction_number;
         gint i;
 
@@ -3927,7 +3927,7 @@ static void gsb_import_pointe_opes_importees (struct struct_compte_importation *
 
             while (liste_ope_importees_tmp)
             {
-                struct struct_ope_importation *ope_import_tmp;
+                struct ImportTransaction *ope_import_tmp;
                 GDate *date_debut_comparaison;
                 GDate *date_fin_comparaison;
 
@@ -4078,7 +4078,7 @@ static void traitement_operations_importees (void)
 
     while (tmp_list)
     {
-    struct struct_compte_importation *compte;
+    struct ImportAccount *compte;
     gint account_number = 0;
 
     compte = tmp_list->data;
@@ -4167,6 +4167,7 @@ static void traitement_operations_importees (void)
         gsb_data_import_rule_set_charmap (rule, charmap_imported);
         gsb_data_import_rule_set_last_file_name (rule, compte->real_filename);
         gsb_data_import_rule_set_action (rule, compte->action);
+		gsb_data_import_rule_set_type (rule, compte->origine);
     }
     if (! strcmp (compte->origine, "OFX"))
     {
@@ -4249,7 +4250,7 @@ void gsb_import_assistant_importer_fichier (void)
     liste_comptes_importes_error = NULL;
     virements_a_chercher = 0;
 
-    format_str = gsb_import_formats_get_list_formats_to_string ();
+    format_str = gsb_ImportFormats_get_list_formats_to_string ();
     tmp_str = g_strconcat (_("This assistant will help you import one or several "
                     "files into Grisbi."
                     "\n\n"
@@ -4318,18 +4319,18 @@ void gsb_import_assistant_importer_fichier (void)
  *
  * \return
  **/
-gchar *gsb_import_formats_get_list_formats_to_string (void)
+gchar *gsb_ImportFormats_get_list_formats_to_string (void)
 {
-    GSList *tmp_list = import_formats;
+    GSList *tmp_list = ImportFormats;
     gchar *format_str = NULL;
 
     while (tmp_list)
     {
         gchar *tmp_str;
-        struct import_format *format;
+        struct ImportFormat *format;
 
 
-        format = (struct import_format *) tmp_list->data;
+        format = (struct ImportFormat *) tmp_list->data;
         tmp_str = g_strdup_printf ("	• %s (%s)\n", _(format->complete_name), format->name);
 
         if (format_str == NULL)
@@ -4369,10 +4370,10 @@ GSList *gsb_import_import_selected_files (GtkWidget *assistant)
 
     do
     {
-        struct imported_file *imported;
+        struct ImportFile *imported;
         gboolean selected;
 
-        imported = g_malloc0 (sizeof (struct imported_file));
+        imported = g_malloc0 (sizeof (struct ImportFile));
         gtk_tree_model_get (GTK_TREE_MODEL (model), &iter,
                         IMPORT_FILESEL_SELECTED, &selected,
                         IMPORT_FILESEL_REALNAME, &(imported->name),
@@ -4397,7 +4398,7 @@ GSList *gsb_import_import_selected_files (GtkWidget *assistant)
  *
  * \return
  **/
-void gsb_import_register_account (struct struct_compte_importation *account)
+void gsb_import_register_account (struct ImportAccount *account)
 {
     liste_comptes_importes = g_slist_append (liste_comptes_importes, account);
 }
@@ -4409,7 +4410,7 @@ void gsb_import_register_account (struct struct_compte_importation *account)
  *
  * \return
  **/
-void gsb_import_register_account_error (struct struct_compte_importation *account)
+void gsb_import_register_account_error (struct ImportAccount *account)
 {
     liste_comptes_importes_error = g_slist_append (liste_comptes_importes, account);
 }
@@ -4421,13 +4422,13 @@ void gsb_import_register_account_error (struct struct_compte_importation *accoun
  *
  * \return
  **/
-void gsb_import_register_import_formats (void)
+void gsb_import_register_ImportFormats (void)
 {
     gint i;
 
     for (i = 0; builtin_formats [i] . name != NULL ; i ++)
     {
-        gsb_import_register_import_format (&builtin_formats [i]);
+        gsb_import_register_ImportFormat (&builtin_formats [i]);
     }
 }
 
@@ -4452,9 +4453,9 @@ gchar *gsb_import_unique_imported_name (gchar *account_name)
 
     do
     {
-        struct struct_compte_importation *tmp_account;
+        struct ImportAccount *tmp_account;
 
-        tmp_account = (struct struct_compte_importation *) tmp_list->data;
+        tmp_account = (struct ImportAccount *) tmp_list->data;
 
         if (tmp_account->nom_de_compte == NULL)
             tmp_account->nom_de_compte = g_strdup (basename);
@@ -4664,8 +4665,8 @@ gboolean gsb_import_by_rule (gint rule)
         gchar *filename = array[i];
         const gchar *type;
         gchar *nom_fichier;
-        struct imported_file imported;
-        GSList *tmp_list = import_formats;
+        struct ImportFile imported;
+        GSList *tmp_list = ImportFormats;
 
         /* check if we are on ofx or qif file */
         type = gsb_import_autodetect_file_type (filename, NULL);
@@ -4717,7 +4718,7 @@ gboolean gsb_import_by_rule (gint rule)
 
         while (tmp_list)
         {
-            struct import_format *format = (struct import_format *) tmp_list->data;
+            struct ImportFormat *format = (struct ImportFormat *) tmp_list->data;
 
             if (!strcmp (imported.type, format->name))
             {
@@ -4743,7 +4744,7 @@ gboolean gsb_import_by_rule (gint rule)
 
         while (liste_comptes_importes)
         {
-            struct struct_compte_importation *account;
+            struct ImportAccount *account;
 
             account = liste_comptes_importes->data;
             account->invert_transaction_amount = gsb_data_import_rule_get_invert (rule);

@@ -55,16 +55,13 @@
 
 
 /* declared in grisbi_app.c */
-/* variables initialisées lors de l'ouverture de grisbi par gsettings PROVISOIRE */
+/* variables initialisées lors de l'ouverture de grisbi par gsettings */
 extern struct GrisbiAppConf conf;
 
 /* declared in grisbi_win.c */
 /* variables initialisées lors de l'exécution de grisbi PROVISOIRE */
-extern struct gsb_run_t run;
-
-/* declared in grisbi_win.c */
-/* global "etat" structure shared in the entire program PROVISOIRE */
-extern struct gsb_etat_t etat;
+extern struct GrisbiWinRun run;
+extern struct GrisbiWinEtat etat;
 
 typedef enum _SettingsSchema SettingsSchema;
 
@@ -75,7 +72,7 @@ typedef enum _SettingsSchema SettingsSchema;
  * la partie configurée par la conf
  * la partie configurée pendant le fonctionnement de grisbi
  * */
-struct gsb_etat_t
+struct GrisbiWinEtat
 {
     gint is_archive;                /** TRUE if the file is an archive, FALSE else */
 
@@ -266,7 +263,7 @@ struct GrisbiAppConf
  *
  */
 
-struct gsb_run_t
+struct GrisbiWinRun
 {
     /* main window of grisbi */
     GtkWidget *window;
