@@ -470,8 +470,9 @@ static void csv_import_update_validity_check (GtkWidget *assistant)
 	gtk_label_set_markup (g_object_get_data (G_OBJECT(assistant), "validity_label"),
 			       _("All mandatory fields are filed in."));
 	gtk_widget_hide (g_object_get_data (G_OBJECT(assistant), "validity_icon"));
-	gtk_widget_set_sensitive (g_object_get_data (G_OBJECT (assistant),
-						       "button_next"), TRUE);
+	gtk_widget_set_sensitive (g_object_get_data (G_OBJECT (assistant), "button_next"), TRUE);
+	gtk_widget_set_sensitive (g_object_get_data (G_OBJECT (assistant), "create_rule"), TRUE);
+
     }
 }
 
@@ -1062,6 +1063,7 @@ GtkWidget *import_create_csv_preview_page (GtkWidget *assistant)
 {
     GtkWidget *vbox, *paddingbox, *tree_preview, *entry, *sw, *validity_label;
     GtkWidget *warn, *hbox, *combobox;
+	GtkWidget *button;
     int i = 0;
 
     vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
@@ -1126,6 +1128,11 @@ GtkWidget *import_create_csv_preview_page (GtkWidget *assistant)
     gtk_label_set_justify (GTK_LABEL (validity_label), GTK_JUSTIFY_LEFT);
     g_object_set_data (G_OBJECT(assistant), "validity_label", validity_label);
     gtk_box_pack_start (GTK_BOX(hbox), validity_label, TRUE, TRUE, 0);
+
+	button = gtk_button_new_with_label (_("Create a rule for this import."));
+	g_object_set_data (G_OBJECT(assistant), "create_rule", button);
+	gtk_widget_set_sensitive (button, FALSE);
+	gtk_box_pack_start (GTK_BOX(paddingbox), button, FALSE, FALSE, 0);
 
     return vbox;
 }

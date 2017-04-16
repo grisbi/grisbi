@@ -355,7 +355,7 @@ gint gsb_import_associations_list_append_assoc (gint payee_number,
     assoc->payee_number = payee_number;
     assoc->search_str = g_strdup (search_str);
 
-     if (! g_slist_find_custom (liste_associations_tiers,
+     if (!g_slist_find_custom (liste_associations_tiers,
                         assoc,
                         (GCompareFunc) gsb_import_associations_cmp_assoc))
         liste_associations_tiers = g_slist_insert_sorted (
@@ -916,7 +916,7 @@ static const gchar *gsb_import_autodetect_file_type (gchar *filename,
     }
     }
 
-    if (! pointeur_char)
+    if (!pointeur_char)
     {
     return _("Unknown");
     }
@@ -961,7 +961,7 @@ static void gsb_import_preview_maybe_sensitive_next (GtkWidget *assistant,
 {
     GtkTreeIter iter;
 
-    /* Don't allow going to next page if no file is selected yet. */
+	/* Don't allow going to next page if no file is selected yet. */
     gtk_widget_set_sensitive (g_object_get_data (G_OBJECT (assistant), "button_next"), FALSE);
 
     gtk_tree_model_get_iter_first (model, &iter);
@@ -973,8 +973,8 @@ static void gsb_import_preview_maybe_sensitive_next (GtkWidget *assistant,
     /* Iterate over lines so we check if some are checked. */
     do
     {
-		gboolean selected;
 		gchar *type;
+		gboolean selected;
 
 		gtk_tree_model_get (GTK_TREE_MODEL (model), &iter,
 							IMPORT_FILESEL_SELECTED, &selected,
@@ -985,13 +985,6 @@ static void gsb_import_preview_maybe_sensitive_next (GtkWidget *assistant,
 			gtk_widget_set_sensitive (g_object_get_data (G_OBJECT (assistant),
 														 "button_next"),
 									  TRUE);
-
-
-			if (conf.force_import_directory && strcmp (type, "CSV") == 0)
-			{
-				gsb_assistant_set_next (assistant, IMPORT_FILESEL_PAGE, IMPORT_CSV_PAGE);
-				gsb_assistant_set_prev (assistant, IMPORT_RESUME_PAGE, IMPORT_CSV_PAGE);
-			}
 
 			return;
 		}
@@ -1015,16 +1008,33 @@ static gboolean gsb_import_active_toggled (GtkCellRendererToggle *cell,
     GtkWidget *assistant;
     GtkTreePath *path = gtk_tree_path_new_from_string (path_str);
     GtkTreeIter iter;
+	gchar *type;
     gboolean toggle_item;
 
     assistant = g_object_get_data (G_OBJECT (model), "assistant");
 
     gtk_tree_model_get_iter (GTK_TREE_MODEL (model), &iter, path);
     gtk_tree_model_get (GTK_TREE_MODEL (model), &iter,
-                        IMPORT_FILESEL_SELECTED, &toggle_item, -1);
+                        IMPORT_FILESEL_SELECTED, &toggle_item,
+						IMPORT_FILESEL_TYPE, &type,
+						-1);
     gtk_tree_store_set (GTK_TREE_STORE (model), &iter,
                         IMPORT_FILESEL_SELECTED, !toggle_item, -1);
 
+	if (conf.force_import_directory && strcmp (type, "CSV") == 0)
+	{
+		/* !toggle_item parce que la case à cocher vient de passer de 0 à 1 */
+		if (!toggle_item)
+		{
+			gsb_assistant_set_next (assistant, IMPORT_FILESEL_PAGE, IMPORT_CSV_PAGE);
+			gsb_assistant_set_prev (assistant, IMPORT_RESUME_PAGE, IMPORT_CSV_PAGE);
+		}
+		else
+		{
+			gsb_assistant_set_next (assistant, IMPORT_FILESEL_PAGE, IMPORT_RESUME_PAGE);
+			gsb_assistant_set_prev (assistant, IMPORT_RESUME_PAGE, IMPORT_FILESEL_PAGE);
+		}
+	}
     gsb_import_preview_maybe_sensitive_next (assistant, model);
 
     return FALSE;
@@ -1222,7 +1232,7 @@ static gboolean gsb_import_set_tmp_file (gchar *filename,
     contenu_fichier = my_strdelimit (pointeur_char, "°", "&");
 
     /* create tmp file */
-    if (! g_file_set_contents (filename, contenu_fichier, -1, &error))
+    if (!g_file_set_contents (filename, contenu_fichier, -1, &error))
     {
         g_free (contenu_fichier);
         g_print (_("Unable to create tmp file: %s\n"), error->message);
@@ -1267,7 +1277,7 @@ static gboolean gsb_import_switch_type (GtkCellRendererText *cell,
         struct ImportFormat *format;
 
         format = (struct ImportFormat *) tmp_list->data;
-        if (! strcmp (value, format->name))
+        if (!strcmp (value, format->name))
         {
         gtk_tree_store_set (GTK_TREE_STORE (model), &iter,
                         IMPORT_FILESEL_TYPENAME, value,
@@ -1276,7 +1286,7 @@ static gboolean gsb_import_switch_type (GtkCellRendererText *cell,
 
         /* CSV is special because it needs configuration, so
          * we add a conditional jump there. */
-        if (! strcmp (value, "CSV"))
+        if (!strcmp (value, "CSV"))
         {
             gsb_assistant_set_next (assistant, IMPORT_FILESEL_PAGE,
                         IMPORT_CSV_PAGE);
@@ -1288,7 +1298,7 @@ static gboolean gsb_import_switch_type (GtkCellRendererText *cell,
                     IMPORT_FILESEL_REALNAME, &nom_fichier,
                     -1);
         /* get contents of file */
-        if (! g_file_get_contents (nom_fichier, &tmp_str, NULL, &error))
+        if (!g_file_get_contents (nom_fichier, &tmp_str, NULL, &error))
         {
             g_print (_("Unable to read file: %s\n"), error->message);
             g_error_free (error);
@@ -1333,9 +1343,16 @@ static void gsb_import_select_file (GSList *filenames,
 {
     GSList *iterator;
     GtkTreeModel *model;
+	gboolean selected;
 	devel_debug (NULL);
 
     model = g_object_get_data (G_OBJECT (assistant), "model");
+	gtk_tree_store_clear (GTK_TREE_STORE (model));
+
+	if (conf.force_import_directory)
+		selected = FALSE;
+	else
+		selected = TRUE;
 
     iterator = filenames;
     while (iterator && model)
@@ -1348,7 +1365,6 @@ static void gsb_import_select_file (GSList *filenames,
 		gchar *charmap;
 		GError *error = NULL;
 		gchar *extension;
-		gboolean selected;
 
 		/* Open file */
 		extension = strrchr (iterator->data, '.');
@@ -1358,7 +1374,7 @@ static void gsb_import_select_file (GSList *filenames,
 			gsb_import_gunzip_file (iterator->data);
 
 		/* get contents of file */
-		if (! g_file_get_contents (iterator->data, &tmp_contents, NULL, &error))
+		if (!g_file_get_contents (iterator->data, &tmp_contents, NULL, &error))
 		{
 			g_print (_("Unable to read file: %s\n"), error->message);
 			g_error_free (error);
@@ -1389,19 +1405,12 @@ static void gsb_import_select_file (GSList *filenames,
 		else
 			nom_fichier = my_strdup (iterator->data);
 
-		if (conf.force_import_directory)
-			selected = FALSE;
-		else
+		/* CSV is special because it needs configuration, so we
+		 * add a conditional jump there. */
+		if (selected && strcmp (type, "CSV") == 0)
 		{
-			selected = TRUE;
-
-			/* CSV is special because it needs configuration, so we
-			 * add a conditional jump there. */
-			if (!conf.force_import_directory && strcmp (type, "CSV") == 0)
-			{
-				gsb_assistant_set_next (assistant, IMPORT_FILESEL_PAGE, IMPORT_CSV_PAGE);
-				gsb_assistant_set_prev (assistant, IMPORT_RESUME_PAGE, IMPORT_CSV_PAGE);
-			}
+			gsb_assistant_set_next (assistant, IMPORT_FILESEL_PAGE, IMPORT_CSV_PAGE);
+			gsb_assistant_set_prev (assistant, IMPORT_RESUME_PAGE, IMPORT_CSV_PAGE);
 		}
 
 		if (strcmp (charmap_imported, "UTF-8") != 0)
@@ -1430,7 +1439,7 @@ static void gsb_import_select_file (GSList *filenames,
 		g_free (nom_fichier);
 		g_free (tmp_contents);
 
-		if (strcmp (type, _("Unknown")) != 0)
+		if (selected && strcmp (type, _("Unknown")) != 0)
 		{
 			/* A valid file was selected, so we can now go ahead. */
 			gtk_widget_set_sensitive (g_object_get_data (G_OBJECT (assistant), "button_next"), TRUE);
@@ -1865,7 +1874,7 @@ static gboolean gsb_import_enter_resume_page (GtkWidget *assistant)
             compte = list->data;
 
             /* Fix account name if needed. */
-            if (! compte->nom_de_compte)
+            if (!compte->nom_de_compte)
             {
                 compte->nom_de_compte = _("Unnamed Imported account");
             }
@@ -3097,7 +3106,7 @@ static void gsb_import_add_imported_transactions (struct ImportAccount *imported
      * exist or if it's wrong */
     if (imported_account->id_compte)
     {
-        if (! gsb_import_set_id_compte (account_number, imported_account->id_compte))
+        if (!gsb_import_set_id_compte (account_number, imported_account->id_compte))
             return;
     }
 
@@ -4169,7 +4178,7 @@ static void traitement_operations_importees (void)
         gsb_data_import_rule_set_action (rule, compte->action);
 		gsb_data_import_rule_set_type (rule, compte->origine);
     }
-    if (! strcmp (compte->origine, "OFX"))
+    if (!strcmp (compte->origine, "OFX"))
     {
         g_remove (compte->real_filename);
     }
@@ -4422,7 +4431,7 @@ void gsb_import_register_account_error (struct ImportAccount *account)
  *
  * \return
  **/
-void gsb_import_register_ImportFormats (void)
+void gsb_import_register_import_formats (void)
 {
     gint i;
 
@@ -4682,12 +4691,12 @@ gboolean gsb_import_by_rule (gint rule)
             i++;
             continue;
         }
-        else if (! strcmp (type, "OFX"))
+        else if (!strcmp (type, "OFX"))
         {
             gchar *pointeur_char;
             GError *error = NULL;
 
-            if (! g_file_get_contents (filename, &pointeur_char, NULL, &error))
+            if (!g_file_get_contents (filename, &pointeur_char, NULL, &error))
             {
                 g_print (_("Unable to read file: %s\n"), error->message);
                 g_error_free (error);
@@ -4696,7 +4705,7 @@ gboolean gsb_import_by_rule (gint rule)
             }
             nom_fichier = g_strconcat (g_get_tmp_dir (),G_DIR_SEPARATOR_S,
                                        g_path_get_basename (filename), NULL);
-            if (! gsb_import_set_tmp_file (nom_fichier, pointeur_char))
+            if (!gsb_import_set_tmp_file (nom_fichier, pointeur_char))
             {
                 g_free (pointeur_char);
                 g_free (nom_fichier);
@@ -4780,7 +4789,7 @@ gboolean gsb_import_by_rule (gint rule)
         /* save the last file used */
         gsb_data_import_rule_set_last_file_name (rule, filename);
 
-        if (! strcmp (type, "OFX"))
+        if (!strcmp (type, "OFX"))
         {
             g_remove (nom_fichier);
         }
