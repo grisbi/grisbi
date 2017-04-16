@@ -840,7 +840,7 @@ static void grisbi_app_startup (GApplication *application)
     /* initialise les variables d'état */
     init_variables ();
     /* enregistre les formats d'importation */
-    gsb_import_register_ImportFormats ();
+    gsb_import_register_import_formats ();
 
 	/* app menu */
     if (conf.force_classic_menu)
