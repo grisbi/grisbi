@@ -112,7 +112,7 @@ static void _gsb_data_import_rule_free (ImportRule* import_rule)
  *
  * \return 						the adr of the struct of the import_rule (NULL if doesn't exit)
  **/
-gpointer gsb_data_import_rule_get_structure (gint import_rule_number)
+static gpointer gsb_data_import_rule_get_structure (gint import_rule_number)
 {
     GSList *tmp;
 
@@ -151,7 +151,7 @@ gpointer gsb_data_import_rule_get_structure (gint import_rule_number)
  *
  * \return last number of import_rule
  * */
-gint gsb_data_import_rule_max_number (void)
+static gint gsb_data_import_rule_max_number (void)
 {
     GSList *tmp;
     gint number_tmp = 0;
