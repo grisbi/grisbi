@@ -53,8 +53,6 @@ gchar *		utils_str_dtostr 										(gdouble number,
 gchar *		utils_str_incremente_number_from_str 					(const gchar *str_number,
 																	 gint increment);
 gchar *		utils_str_localise_decimal_point_from_string 			(const gchar *string);
-gchar *		utils_str_reduce_exponant_from_string 					(const gchar *amount_string,
-																	 gint exponent);
 gdouble 	utils_str_safe_strtod 									(const gchar *str_number,
 																	 gchar **endptr);
 gdouble 	utils_str_strtod 										(const gchar *str_number,
