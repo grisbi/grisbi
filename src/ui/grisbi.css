@@ -7,13 +7,13 @@
 
 /* colors of the amounts in the first page */
 @define-color couleur_nom_compte_normal rgb(0,0,0);
-@define-color couleur_nom_compte_prelight rgb(156,156,156);
+@define-color couleur_nom_compte_hover rgb(156,156,156);
 @define-color couleur_solde_alarme_verte_normal rgb(0,127,0);
-@define-color couleur_solde_alarme_verte_prelight rgb(0,230,0);
+@define-color couleur_solde_alarme_verte_hover rgb(0,230,0);
 @define-color couleur_solde_alarme_orange_normal rgb(230,155,0);
-@define-color couleur_solde_alarme_orange_prelight rgb(255,200,0);
+@define-color couleur_solde_alarme_orange_hover rgb(255,200,0);
 @define-color couleur_solde_alarme_rouge_normal rgb(153,0,0);
-@define-color couleur_solde_alarme_rouge_prelight rgb(255,0,0);
+@define-color couleur_solde_alarme_rouge_hover rgb(255,0,0);
 
 /* Couleur des entry en erreur */
 @define-color default_entry_error_color rgb(255,0,0);
@@ -142,32 +142,32 @@ GtkTreeView row:nth-child(odd) {
   color: @couleur_nom_compte_normal;
 }
 
-#accueil_nom_compte:prelight {
-  color: @couleur_nom_compte_prelight;
+#accueil_nom_compte:hover {
+  color: @couleur_nom_compte_hover;
 }
 
 #accueil_solde_alarme_verte {
   color: @couleur_solde_alarme_verte_normal;
 }
 
-#accueil_solde_alarme_verte:prelight {
-  color: @couleur_solde_alarme_verte_prelight;
+#accueil_solde_alarme_verte:hover {
+  color: @couleur_solde_alarme_verte_hover;
 }
 
 #accueil_solde_alarme_orange {
   color: @couleur_solde_alarme_orange_normal;
 }
 
-#accueil_solde_alarme_orange:prelight {
-  color: @couleur_solde_alarme_orange_prelight;
+#accueil_solde_alarme_orange:hover {
+  color: @couleur_solde_alarme_orange_hover;
 }
 
 #accueil_solde_alarme_rouge {
   color: @couleur_solde_alarme_rouge_normal;
 }
 
-#accueil_solde_alarme_rouge:prelight {
-  color: @couleur_solde_alarme_rouge_prelight;
+#accueil_solde_alarme_rouge:hover {
+  color: @couleur_solde_alarme_rouge_hover;
 }
 
 #form_entry {
@@ -186,8 +186,8 @@ GtkTreeView row:nth-child(odd) {
   color: @text_color_0;
 }
 
-#etat_event_box:prelight {
-  color: @couleur_solde_alarme_rouge_prelight;
+#etat_event_box:hover {
+  color: @couleur_solde_alarme_rouge_hover;
 }
 
 #list_config_buttons {
