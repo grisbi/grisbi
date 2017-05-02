@@ -895,10 +895,13 @@ GtkWidget * gsb_currency_config_new_combobox ( gint * value, GCallback hook )
                         value );
     g_object_set_data ( G_OBJECT ( combo_box ), "pointer", value);
 
-    if ( hook )
-    g_object_set_data ( G_OBJECT (combo_box), "changed-hook",
-                        (gpointer) g_signal_connect_after (G_OBJECT(combo_box), "changed",
-                        G_CALLBACK (hook), value ));
+    if (hook)
+		g_object_set_data (G_OBJECT (combo_box),
+						   "changed-hook",
+						   GUINT_TO_POINTER (g_signal_connect_after (G_OBJECT(combo_box),
+																	 "changed",
+																	 G_CALLBACK (hook),
+																	 value)));
 
     return combo_box;
 }

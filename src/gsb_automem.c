@@ -93,13 +93,19 @@ GtkWidget *gsb_automem_entry_new ( gchar **value,
 
     g_object_set_data ( G_OBJECT ( entry ),
 			"pointer", value);
-    g_object_set_data ( G_OBJECT (entry), "changed",
-			(gpointer) g_signal_connect_after ( G_OBJECT(entry), "changed",
-							    G_CALLBACK (gsb_automem_entry_changed), NULL));
+    g_object_set_data (G_OBJECT (entry),
+					   "changed",
+					   GUINT_TO_POINTER (g_signal_connect (G_OBJECT (entry),
+														   "changed",
+														   G_CALLBACK (gsb_automem_entry_changed),
+														   NULL)));
     if (hook)
-	g_object_set_data ( G_OBJECT (entry), "changed-hook",
-			    (gpointer) g_signal_connect_after ( G_OBJECT(entry), "changed",
-								G_CALLBACK (hook), data));
+		g_object_set_data (G_OBJECT (entry),
+						   "changed-hook",
+						   GUINT_TO_POINTER (g_signal_connect_after (G_OBJECT (entry),
+																	 "changed",
+																	 ((GCallback) hook),
+																	 data)));
     return entry;
 }
 
@@ -156,17 +162,19 @@ GtkWidget *gsb_automem_textview_new ( gchar **value,
 
     g_object_set_data ( G_OBJECT ( buffer ), "pointer", value);
 
-    g_object_set_data ( G_OBJECT ( buffer ), "changed",
-			(gpointer) g_signal_connect (G_OBJECT(buffer),
-						     "changed",
-						     G_CALLBACK (gsb_automem_textview_changed),
-						     NULL));
-    if ( hook )
-	g_object_set_data ( G_OBJECT ( buffer ), "changed-hook",
-			    (gpointer) g_signal_connect (G_OBJECT(buffer),
-							 "changed",
-							 G_CALLBACK (hook),
-							 data ));
+    g_object_set_data (G_OBJECT (buffer),
+					   "changed",
+					   GUINT_TO_POINTER (g_signal_connect (G_OBJECT (buffer),
+														   "changed",
+														   G_CALLBACK (gsb_automem_textview_changed),
+														   NULL)));
+    if (hook)
+		g_object_set_data (G_OBJECT (buffer),
+						   "changed-hook",
+						   GUINT_TO_POINTER (g_signal_connect_after (G_OBJECT (buffer),
+																	 "changed",
+																	 ((GCallback) hook),
+																	 data)));
     return text_view;
 }
 
@@ -277,14 +285,20 @@ GtkWidget *gsb_automem_checkbutton_new ( const gchar *label,
     g_object_set_data ( G_OBJECT (checkbutton),
 			"pointer", value);
 
-    g_object_set_data ( G_OBJECT (checkbutton), "changed",
-			(gpointer) g_signal_connect (checkbutton, "toggled",
-						     G_CALLBACK (gsb_automem_checkbutton_changed), NULL));
+    g_object_set_data (G_OBJECT (checkbutton),
+					   "changed",
+					   GUINT_TO_POINTER (g_signal_connect (checkbutton,
+														   "toggled",
+														   G_CALLBACK (gsb_automem_checkbutton_changed),
+														   NULL)));
 
-    if ( hook )
-	g_object_set_data ( G_OBJECT ( checkbutton ), "changed-hook",
-			    (gpointer) g_signal_connect (checkbutton, "toggled",
-							 G_CALLBACK (hook), data ));
+    if (hook)
+		g_object_set_data (G_OBJECT (checkbutton),
+						   "changed-hook",
+						   GUINT_TO_POINTER (g_signal_connect (checkbutton,
+															   "toggled",
+															   G_CALLBACK (hook),
+															   data)));
     return checkbutton;
 }
 
@@ -639,17 +653,19 @@ GtkWidget *gsb_automem_spin_button_new_full ( gint *value,
     g_object_set_data ( G_OBJECT (spin), "pointer", value);
     g_object_set_data ( G_OBJECT (spin), "adj", adjustment);
 
-    g_object_set_data ( G_OBJECT (spin), "changed",
-			(gpointer) g_signal_connect ( G_OBJECT (spin),
-						      "value-changed",
-						      G_CALLBACK (gsb_automem_spin_button_changed),
-						      NULL ));
-    if ( hook )
-	g_object_set_data ( G_OBJECT (spin), "changed-hook",
-			    (gpointer) g_signal_connect ( G_OBJECT (spin),
-							  "value-changed",
-							  G_CALLBACK (hook),
-							  data ));
+    g_object_set_data ( G_OBJECT (spin),
+					   "changed",
+					   GUINT_TO_POINTER (g_signal_connect (G_OBJECT (spin),
+														   "value-changed",
+														   G_CALLBACK (gsb_automem_spin_button_changed),
+														   NULL)));
+    if (hook)
+		g_object_set_data (G_OBJECT (spin),
+						   "changed-hook",
+						   GUINT_TO_POINTER (g_signal_connect (G_OBJECT (spin),
+															   "value-changed",
+															   G_CALLBACK (hook),
+															   data)));
     return spin;
 }
 

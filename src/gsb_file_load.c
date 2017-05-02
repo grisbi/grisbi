@@ -3756,7 +3756,6 @@ static void gsb_file_load_start_element ( GMarkupParseContext *context,
  * */
 gboolean gsb_file_load_open_file ( gchar *filename )
 {
-    struct stat buffer_stat;
     gchar *file_content;
     gulong length;
 
@@ -3764,6 +3763,7 @@ gboolean gsb_file_load_open_file ( gchar *filename )
 
 #ifndef _WIN32      /* check the access to the file and display a message */
     gint return_value;
+    struct stat buffer_stat;
 
      /* fill the buffer stat to check the permission */
     return_value = g_stat ( filename, &buffer_stat );

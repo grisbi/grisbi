@@ -1230,7 +1230,7 @@ void grisbi_win_no_file_page_update (GrisbiWin *win)
 		bouton = gtk_grid_get_child_at (GTK_GRID (priv->no_file_grid), col, row);
 		if (bouton == NULL)
 		{
-			bouton = utils_buttons_button_new_from_stock ("gtk-open", tmp_str);
+			bouton = utils_buttons_button_new_from_stock ("gtk-open", _("Open"));
 			gtk_button_set_image_position (GTK_BUTTON (bouton), GTK_POS_TOP);
 			gtk_widget_set_size_request (bouton, 150, 150);
 			gtk_widget_set_halign (bouton, GTK_ALIGN_CENTER);

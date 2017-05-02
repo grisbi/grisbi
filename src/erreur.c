@@ -92,6 +92,7 @@ static gchar *debug_get_debug_time ( void )
     return str_debug_time;
 }
 
+#ifdef HAVE_BACKTRACE
 /**
  * Print the backtrace upon segfault
  *
@@ -101,7 +102,6 @@ static gchar *debug_get_debug_time ( void )
  **/
 static GtkWidget *debug_print_backtrace ( void )
 {
-#ifdef HAVE_BACKTRACE
     void *backtrace_content[15];
     int backtrace_size;
     gint i;
@@ -126,10 +126,8 @@ static GtkWidget *debug_print_backtrace ( void )
     g_free ( text );
     gtk_label_set_selectable ( GTK_LABEL ( label ), TRUE );
     return label;
-#else
-    return NULL;
-#endif
 }
+#endif
 
 /**
  * traitement des interruptions SIGINT, SIGTERM, SIGSEGV
