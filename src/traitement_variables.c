@@ -90,7 +90,6 @@
 
 /*START_STATIC*/
 static void initialise_format_date ( void );
-static void initialise_number_separators ( void );
 static void initialise_tab_affichage_ope ( void );
 /*END_STATIC*/
 
@@ -139,9 +138,6 @@ void init_variables ( void )
 
     /* init the format date */
     initialise_format_date ( );
-
-    /* init the decimal point and the thousands separator. */
-    initialise_number_separators ( );
 
     /* initialise l'ordre des pages du panneau de gauche */
     gsb_gui_navigation_init_pages_list ( );
@@ -403,35 +399,6 @@ void initialise_format_date ( void )
         gsb_date_set_format_date ( "%d.%m.%Y" );
     else
         gsb_date_set_format_date ( "%d/%m/%Y" );
-}
-
-
-/**
- * init the decimal point and the thousands separator.
- *
- * */
-void initialise_number_separators ( void )
-{
-    struct lconv *conv;
-    gchar *dec_point = NULL, *thousand_sep = NULL;
-
-    gsb_locale_set_mon_decimal_point ( NULL );
-    gsb_locale_set_mon_thousands_sep ( NULL );
-
-    conv = localeconv();
-
-    if ( conv->mon_decimal_point && strlen ( conv->mon_decimal_point ) )
-    {
-        dec_point = g_locale_to_utf8 ( conv->mon_decimal_point, -1, NULL, NULL, NULL );
-        gsb_locale_set_mon_decimal_point ( dec_point );
-        g_free ( dec_point );
-    }
-    else
-        gsb_locale_set_mon_decimal_point ( "." );
-
-    thousand_sep = g_locale_to_utf8 ( conv->mon_thousands_sep, -1, NULL, NULL, NULL );
-    gsb_locale_set_mon_thousands_sep ( thousand_sep );
-    g_free ( thousand_sep );
 }
 
 

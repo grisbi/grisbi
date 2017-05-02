@@ -24,8 +24,12 @@
 #endif
 
 #include <glib.h>
+#include <string.h>
+
+/*START_INCLUDE*/
 #include "include.h"
 #include "gsb_locale.h"
+/*END_INCLUDE*/
 
 static struct lconv *_locale = NULL;
 
@@ -36,7 +40,15 @@ void gsb_locale_init ( void )
     const gchar *langue;
 
     locale = localeconv ();
-    langue = g_getenv ( "LANG");
+
+	langue = g_getenv ( "LANG");
+
+#ifdef G_OS_WIN32
+	if (strlen (langue) == 0)
+	{
+		langue = "fr_FR";
+	}
+#endif
 
     _locale = g_malloc ( sizeof (*_locale) );
     _locale -> decimal_point     = g_strdup ( locale -> decimal_point );
@@ -45,7 +57,8 @@ void gsb_locale_init ( void )
     _locale -> int_curr_symbol   = g_strdup ( locale -> int_curr_symbol );
     _locale -> currency_symbol   = g_strdup ( locale -> currency_symbol );
     _locale -> mon_decimal_point = g_strdup ( locale -> mon_decimal_point );
-    _locale -> mon_thousands_sep = g_strdup ( locale -> mon_thousands_sep );
+	if (locale->mon_thousands_sep && strlen (locale->mon_thousands_sep) > 0)
+		_locale -> mon_thousands_sep = g_strdup ( locale -> mon_thousands_sep );
     _locale -> mon_grouping      = g_strdup ( locale -> mon_grouping );
     _locale -> positive_sign     = g_strdup ( locale -> positive_sign );
     _locale -> negative_sign     = g_strdup ( locale -> negative_sign );
@@ -86,7 +99,7 @@ void gsb_locale_shutdown ( void )
     g_free ( _locale -> int_curr_symbol );
     g_free ( _locale -> currency_symbol );
     g_free ( _locale -> mon_decimal_point );
-    g_free ( _locale -> mon_thousands_sep );
+	g_free ( _locale -> mon_thousands_sep );
     g_free ( _locale -> mon_grouping );
     g_free ( _locale -> positive_sign );
     g_free ( _locale -> negative_sign );
@@ -122,7 +135,10 @@ gchar *gsb_locale_get_mon_thousands_sep ( void )
 void gsb_locale_set_mon_thousands_sep ( const gchar *thousands_sep )
 {
     g_free ( _locale -> mon_thousands_sep );
-    _locale -> mon_thousands_sep = g_strdup ( thousands_sep );
+	if (thousands_sep == NULL)
+		_locale -> mon_thousands_sep = NULL;
+	else
+		_locale -> mon_thousands_sep = g_strdup ( thousands_sep );
 }
 
 
@@ -135,7 +151,6 @@ void gsb_locale_set_mon_thousands_sep ( const gchar *thousands_sep )
  */
 gchar *gsb_locale_get_print_locale_var ( void )
 {
-    struct lconv *conv;
     gchar *locale_str = NULL;
     gchar *mon_thousands_sep;
     gchar *mon_decimal_point;
@@ -144,13 +159,14 @@ gchar *gsb_locale_get_print_locale_var ( void )
     gchar *currency_symbol;
 
     /* test local pour les nombres */
-    conv = localeconv();
-
-    currency_symbol = g_locale_to_utf8 ( conv->currency_symbol, -1, NULL, NULL, NULL );
-    mon_thousands_sep = g_locale_to_utf8 ( conv->mon_thousands_sep, -1, NULL, NULL, NULL );
-    mon_decimal_point = g_locale_to_utf8 ( conv->mon_decimal_point, -1, NULL, NULL, NULL );
-    positive_sign = g_locale_to_utf8 ( conv->positive_sign, -1, NULL, NULL, NULL );
-    negative_sign = g_locale_to_utf8 ( conv->negative_sign, -1, NULL, NULL, NULL );
+	if (g_utf8_validate (_locale->currency_symbol, -1, NULL))
+		currency_symbol = g_strdup (_locale -> currency_symbol);
+	else
+		currency_symbol = g_locale_to_utf8 ( _locale->currency_symbol, -1, NULL, NULL, NULL );
+	mon_thousands_sep = g_locale_to_utf8 ( _locale->mon_thousands_sep, -1, NULL, NULL, NULL );
+    mon_decimal_point = g_locale_to_utf8 ( _locale->mon_decimal_point, -1, NULL, NULL, NULL );
+    positive_sign = g_locale_to_utf8 ( _locale->positive_sign, -1, NULL, NULL, NULL );
+    negative_sign = g_locale_to_utf8 ( _locale->negative_sign, -1, NULL, NULL, NULL );
 
     locale_str = g_strdup_printf ( "LANG = %s\n\n"
                         "Currency\n"
@@ -169,10 +185,10 @@ gchar *gsb_locale_get_print_locale_var ( void )
                         mon_decimal_point,
                         positive_sign,
                         negative_sign,
-                        conv->p_cs_precedes,
-                        conv->n_cs_precedes,
-                        conv->p_sep_by_space,
-                        conv->frac_digits );
+                        _locale->p_cs_precedes,
+                        _locale->n_cs_precedes,
+                        _locale->p_sep_by_space,
+                        _locale->frac_digits );
 
     g_free ( currency_symbol );
     g_free ( mon_thousands_sep );

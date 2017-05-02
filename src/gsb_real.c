@@ -70,7 +70,7 @@ static gboolean gsb_real_raw_truncate_number ( gint64 *mantissa, gint *exponent 
  * thousands separator and positive or negative sign.
  *
  * \param number		    Number to format.
- * \param locale      		the locale obtained with localeconv(), or built manually
+ * \param locale      		the locale obtained with gsb_locale_get_locale (), or built manually
  * \param currency_symbol 	the currency symbol
  *
  * \return		A newly allocated string of the number (this
