@@ -47,9 +47,9 @@
 static glong gsb_real_power_10[] = { 1, 10, 100, 1000, 10000, 100000,
                             1000000, 10000000, 100000000, 1000000000 };
 
-#ifdef _MSC_VER
+#ifdef _WIN32
 #define rint(x) (floor(x + 0.5))
-#endif /*_MSC_VER */
+#endif /*_WIN32 */
 
 /*START_STATIC*/
 static gchar *gsb_real_add_thousands_sep ( gchar *str_number, const gchar *thousands_sep );

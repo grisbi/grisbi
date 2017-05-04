@@ -67,9 +67,9 @@ static int ofx_proc_transaction_cb(struct OfxTransactionData data, void * securi
 #endif
 
 #ifndef OFX_ERROR
-#if defined(_MSC_VER) || defined(_MINGW)
+#if defined (_MINGW)
 #undef ERROR
-#endif /* _MSC_VER */
+#endif /* _MINGW */
 #define OFX_ERROR   ERROR
 #endif
 

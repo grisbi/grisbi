@@ -8,10 +8,4 @@
 # undef fprintf
 #endif
 
-/* g_fopen returns an incompatible pointer on windows with MSVC. This is a fix*/
-#ifdef _MSC_VER
-#undef g_fopen
-#define g_fopen fopen
-#endif
-
 #endif /* _INCLUDE_H */

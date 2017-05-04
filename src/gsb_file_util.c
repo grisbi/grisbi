@@ -119,11 +119,11 @@ gboolean gsb_file_util_get_contents ( gchar *filename,
     gboolean eof = 0;
 	gchar *os_filename;
 
-#ifdef _MSC_VER
+#ifdef _WIN32
 	os_filename = g_locale_from_utf8(filename, -1, NULL, NULL, NULL);
 #else
 	os_filename = g_strdup(filename);
-#endif
+#endif /* _WIN32 */
 
     file = gzopen (os_filename, "rb");
     if (!file)
