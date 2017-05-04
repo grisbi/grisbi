@@ -29,9 +29,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#if defined(_MSC_VER) || defined (_MINGW)
+#ifdef _WIN32
 #include <winnls.h>
-#endif /*_MSC_VER */
+#endif
 
 /*START_INCLUDE*/
 #include "utils_dates.h"

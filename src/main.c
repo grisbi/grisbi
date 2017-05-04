@@ -37,6 +37,13 @@
 #include <goffice/goffice.h>
 #endif /* HAVE_GOFFICE */
 
+#ifdef _WIN32
+#include <stdio.h>
+#include <stdlib.h>
+#include <process.h>
+#include <unistd.h>
+#endif /* WIN32 */
+
 /*START_INCLUDE*/
 #include "grisbi_app.h"
 #include "gsb_dirs.h"

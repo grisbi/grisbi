@@ -249,6 +249,33 @@ AC_DEFINE_UNQUOTED([GSB_NOOPTIM], [${GSB_NOOPTIM}],
 AC_SUBST(GSB_NOOPTIM)
 
 dnl ================================================================
+dnl basic check for msys2 platform
+dnl ================================================================
+
+AC_MSG_CHECKING([for MSYS2 platform])
+case $host_os in
+  *msys* ) MSYS2=yes
+  	AC_MSG_RESULT([MSYS2])
+  	platform_win=msys2
+  ;;
+  *mingw32* ) MINGW32=yes
+  	AC_MSG_RESULT([MINGW32])
+  	platform_win=mingw32
+  ;;
+  *)
+    platform_win=no
+    ;;
+esac
+
+if test "x$platform_win" = xmsys2; then
+	AC_DEFINE([_WIN32], [1], [Defined if system is MSYS2])
+else
+	if test "x$platform_win" = xmingw32; then
+		AC_DEFINE([_WIN32], [1], [Defined if system is MINGW32])
+	fi
+fi
+
+dnl ================================================================
 dnl check for osx platform
 dnl ================================================================
 
@@ -350,6 +377,7 @@ echo "
                 Build with OpenSSL:        $build_openssl
                 Build with OFX plugin:     $build_ofx
                 Build with goffice:        $build_goffice
+                Build win32:               $platform_win
                 Build gtk_mac_integration: $os_osx
                 CUnit/unit tests support:  $build_cunit
                 Install french user doc:   $enable_frenchdoc

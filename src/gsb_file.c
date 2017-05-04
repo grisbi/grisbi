@@ -34,10 +34,8 @@
 #include <glib/gi18n.h>
 
 #ifdef _WIN32
-#	if defined(_MSC_VER) || defined(_MINGW)
-#		include <realpath.h>
-#	endif /*_MSC_VER */
-#endif /* _WIN32 */
+#	include <stdlib.h> // For realpath()
+#endif /* WIN32 */
 
 /*START_INCLUDE*/
 #include "gsb_file.h"

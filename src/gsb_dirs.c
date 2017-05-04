@@ -57,7 +57,7 @@ void gsb_dirs_init ( char* gsb_bin_path )
 
 	g_free ( grisbi_dir );
 
-#ifdef G_OS_WIN32
+#ifdef _WIN32
 {
     gchar *dir;
 
@@ -73,7 +73,8 @@ void gsb_dirs_init ( char* gsb_bin_path )
 
     user_config_dir = g_build_filename ( g_get_user_config_dir (), "grisbi", NULL);
     user_data_dir = g_build_filename ( g_get_user_data_dir (), "grisbi", NULL);
-    user_default_dir = g_strdup ( win32_get_my_documents_folder_path () );
+    //~ user_default_dir = g_strdup ( win32_get_my_documents_folder_path () );
+	printf ("user_directory = %s\n", g_get_user_special_dir (G_USER_DIRECTORY_DOCUMENTS));
 }
 #else
 {
@@ -124,7 +125,7 @@ void gsb_dirs_init ( char* gsb_bin_path )
     }
     #endif /* OS_OSX */
 }
-#endif
+#endif /* _WIN32 */
 
     local_ui_handle = g_dir_open ( local_ui_dir, 0, NULL );
     if ( NULL != local_ui_handle )
