@@ -31,8 +31,6 @@
 #include <ctype.h>
 #if defined(_MSC_VER) || defined (_MINGW)
 #include <winnls.h>
-#else
-#include <langinfo.h>
 #endif /*_MSC_VER */
 
 /*START_INCLUDE*/

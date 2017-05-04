@@ -36,8 +36,6 @@
 #ifdef _WIN32
 #	if defined(_MSC_VER) || defined(_MINGW)
 #		include <realpath.h>
-#	else
-#		include <stdlibx.h> // For realpath()
 #	endif /*_MSC_VER */
 #endif /* _WIN32 */
 
