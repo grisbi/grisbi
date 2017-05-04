@@ -221,53 +221,6 @@ gboolean gsb_file_util_get_contents ( gchar *filename,
     return TRUE;
 }
 
-
-/**
- * for a grisbi file before 0.5.1, switch the R and T transactions because T appears
- * called only for a file before 0.5.1
- *
- * \param
- *
- * \return
- * */
-void switch_t_r ( void )
-{
-    /* cette fonction fait le tour des opérations et change le marquage T et R des opés */
-    /*     R devient pointe=3 */
-    /*     T devient pointe=2 */
-    /*     à n'appeler que pour une version antérieure à 0.5.1 */
-
-    GSList *list_tmp_transactions;
-
-    if ( !gsb_data_account_get_accounts_amount () )
-	return;
-
-    devel_debug ( "switch_t_r");
-
-
-    list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
-
-    while ( list_tmp_transactions )
-    {
-	gint transaction_number_tmp;
-	transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
-
-	switch ( gsb_data_transaction_get_marked_transaction (transaction_number_tmp))
-	{
-	    case 2 :
-		gsb_data_transaction_set_marked_transaction ( transaction_number_tmp,
-							      3 );
-		break;
-	    case 3:
-		gsb_data_transaction_set_marked_transaction ( transaction_number_tmp,
-							      2 );
-		break;
-	}
-	list_tmp_transactions = list_tmp_transactions -> next;
-    }
-}
-
-
 /**
  * create or delete a file ".name_of_file.lock" to check if the file is opened
  * already or not

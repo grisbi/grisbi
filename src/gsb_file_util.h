@@ -14,6 +14,5 @@ gboolean gsb_file_util_get_contents ( gchar *filename,
 				      gulong *length );
 gboolean gsb_file_util_modify_lock ( gboolean create_lock );
 gboolean gsb_file_util_test_overwrite ( const gchar *filename );
-void switch_t_r ( void );
 /* END_DECLARATION */
 #endif
