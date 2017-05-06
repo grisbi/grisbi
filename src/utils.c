@@ -199,11 +199,13 @@ gboolean lance_navigateur_web (const gchar *url)
 
 #ifdef _WIN32
     }
-    else
+/*    else
     {
         win32_shell_execute_open (url);
-    }
-#endif /* _WIN32 */
+    }*/
+#endif
+
+/* _WIN32 */
     g_free(chaine);
 
     return FALSE;
