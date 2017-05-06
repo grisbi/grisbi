@@ -1,0 +1,31 @@
+Compilation de grisbi
+
+1) Installer Msys2 64 bits :
+	http://www.msys2.org/
+	version au 04/05/2017 :
+	http://repo.msys2.org/distrib/x86_64/msys2-x86_64-20161025.exe
+
+	msys2 se lance automatiquement a la fermeture de l'installateur.
+	
+2) Mise à jour de msys2
+	- dans la console lancer la commande :
+		pacman -Syu
+	- fermer la console
+	
+3) Ouvrir la console en utilisant le raccourci MSYS2 MinGW32
+	- lancer la commande :
+		pacman -Su
+	-	installer git, base-devel, gcc, glib2, gtk3, libgsf
+		pacman -S git
+		pacman -S base-devel
+		pacman -S gcc
+		pacman -S mingw32/mingw-w64-i686-glib2
+		pacman -S mingw32/mingw-w64-i686-gtk3
+		pacman -S mingw32/mingw-w64-i686-libgsf
+
+4) Compiler Grisbi
+	- initialiser PKG_CONFIG_PATH
+		export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/c/msys64/mingw32/lib/pkgconfig
+	- lancer autogen.sh
+	- si tout va bien lancer ./configure
+		./configure --enable-werror
