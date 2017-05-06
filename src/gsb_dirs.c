@@ -62,19 +62,19 @@ void gsb_dirs_init ( char* gsb_bin_path )
     gchar *dir;
 
     dir = g_win32_get_package_installation_directory_of_module ( NULL );
-
-    categories_dir = g_build_filename ( dir, "share/grisbi/categories", NULL );
-    help_dir = g_build_filename ( dir, "share/doc/grisbi", NULL );
-    locale_dir = g_strconcat ( dir, "/share/locale", NULL );
-    pixmaps_dir = g_strconcat ( dir, "/share/pixmaps/grisbi", NULL );
-    ui_dir = g_strconcat ( dir, "/share/grisbi/ui", NULL );
+	printf ("PACKAGE dir = %s\n", dir);
+    categories_dir = g_build_filename ( dir, "\\share\\grisbi\\categories", NULL );
+    help_dir = g_build_filename ( dir, "\\share\\doc\\grisbi", NULL );
+    locale_dir = g_strconcat ( dir, "\\share\\locale", NULL );
+    pixmaps_dir = g_strconcat ( dir, "\\share\\pixmaps\\grisbi", NULL );
+    ui_dir = g_strconcat ( dir, "\\share\\grisbi\\ui", NULL );
 
     g_free ( dir );
 
     user_config_dir = g_build_filename ( g_get_user_config_dir (), "grisbi", NULL);
     user_data_dir = g_build_filename ( g_get_user_data_dir (), "grisbi", NULL);
-    //~ user_default_dir = g_strdup ( win32_get_my_documents_folder_path () );
-	printf ("user_directory = %s\n", g_get_user_special_dir (G_USER_DIRECTORY_DOCUMENTS));
+    user_default_dir = g_strdup ( g_get_user_special_dir (G_USER_DIRECTORY_DOCUMENTS) );
+		printf ("user_directory = %s\n", user_default_dir);
 }
 #else
 {
