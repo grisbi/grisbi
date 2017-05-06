@@ -1,4 +1,4 @@
-Compilation de grisbi
+﻿Compilation de grisbi
 
 1) Installer Msys2 64 bits :
 	http://www.msys2.org/
@@ -12,20 +12,40 @@ Compilation de grisbi
 		pacman -Syu
 	- fermer la console
 	
-3) Ouvrir la console en utilisant le raccourci MSYS2 MinGW32
+3) Ouvrir la console en utilisant le raccourci MSYS2 MinGW64
 	- lancer la commande :
-		pacman -Su
+		pacman -Suuu
 	-	installer git, base-devel, gcc, glib2, gtk3, libgsf
 		pacman -S git
 		pacman -S base-devel
-		pacman -S gcc
-		pacman -S mingw32/mingw-w64-i686-glib2
-		pacman -S mingw32/mingw-w64-i686-gtk3
-		pacman -S mingw32/mingw-w64-i686-libgsf
+		pacman -S mingw64/mingw-w64-x86_64-gcc
+		pacman -S mingw64/mingw-w64-x86_64-glib2
+		pacman -S mingw64/mingw-w64-x86_64-gtk3
+		pacman -S mingw64/mingw-w64-x86_64-libgsf
 
-4) Compiler Grisbi
-	- initialiser PKG_CONFIG_PATH
-		export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/c/msys64/mingw32/lib/pkgconfig
+4) Installer Grisbi
+	-  git clone https://github.com/pierre-biava/grisbi.git
+
+5) Compiler Grisbi
+	Si première compilation
 	- lancer autogen.sh
 	- si tout va bien lancer ./configure
 		./configure --enable-werror
+	- si OK -> Build win32: =msys2 ou mingw
+		make -j xx	(xx représente le nombre de processus lancés en parallèle : je mets 15)
+
+	- compilation globale
+		./autogen.sh && ./configure --enable-werror && make -j 15 && make install
+		
+	Nouvelle compilation
+	- sequence de réinitialisation 
+		make clean && make distclean
+	- compilation classique
+		./autogen.sh
+		./configure --enable-werror
+		make -j 15
+		make install
+		
+	Nettoyage et compilation globale
+		make clean && make distclean && ./autogen.sh && ./configure --enable-werror && make -j 15 && make install
+		
