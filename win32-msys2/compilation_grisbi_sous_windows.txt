@@ -21,17 +21,21 @@
 		pacman -S mingw64/mingw-w64-x86_64-gcc
 		pacman -S mingw64/mingw-w64-x86_64-glib2
 		pacman -S mingw64/mingw-w64-x86_64-gtk3
+			nota : le programme s'arrête pour la configuration de fontconfig. Attendre ou ouvrir le fichier README
 		pacman -S mingw64/mingw-w64-x86_64-libgsf
 
 4) Installer Grisbi
-	-  git clone https://github.com/pierre-biava/grisbi.git
+	- git clone https://github.com/pierre-biava/grisbi.git
+	- entrer dans le répertoire grisbi
+		cd grisbi
 
 5) Compiler Grisbi
 	Si première compilation
 	- lancer autogen.sh
+		./autogen.sh
 	- si tout va bien lancer ./configure
-		./configure --enable-werror
-	- si OK -> Build win32: =msys2 ou mingw
+		./configure --enable-werror (--enable-werror n'est pas obligatoire)
+	- si OK -> Build win32: = msys2 ou mingw32
 		make -j xx	(xx représente le nombre de processus lancés en parallèle : je mets 15)
 
 	- compilation globale
@@ -49,3 +53,9 @@
 	Nettoyage et compilation globale
 		make clean && make distclean && ./autogen.sh && ./configure --enable-werror && make -j 15 && make install
 		
+6) Utilitaires optionnels
+	- devhelp
+		pacman -S mingw64/mingw-w64-x86_64-devhelp
+	
+	- glib2 doc
+		pacman -S msys/glib2-docs
