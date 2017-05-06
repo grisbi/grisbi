@@ -121,8 +121,8 @@
   ;because this will make your installer start faster.
 
   !insertmacro MUI_RESERVEFILE_LANGDLL
-
-
+	
+	; fichier de traduction pour l'installeur
   !include "installer_strings.nsh"
 
 ;--------------------------------
