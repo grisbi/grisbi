@@ -1,6 +1,7 @@
 uidir = $(pkgdatadir)/ui
 
 ui_DATA = bet_graph.ui \
+		csv_template_rule.ui	\
 		etats_prefs.ui \
  		grisbi.css	\
 		grisbi_menu.ui \

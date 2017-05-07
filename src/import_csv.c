@@ -31,6 +31,7 @@
 /*START_INCLUDE*/
 #include "import_csv.h"
 #include "csv_parse.h"
+#include "csv_template_rule.h"
 #include "dialog.h"
 #include "gsb_automem.h"
 #include "import.h"
@@ -94,6 +95,21 @@ struct csv_separators {
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+static void csv_import_button_rule_clicked (GtkButton *button,
+											GtkWidget *assistant)
+{
+	devel_debug (NULL);
+
+	csv_template_rule_new (assistant);
+}
+
 /**
  * Parse raw CSV text using separator and return a list containing all
  * fields.
@@ -471,7 +487,7 @@ static void csv_import_update_validity_check (GtkWidget *assistant)
 			       _("All mandatory fields are filed in."));
 	gtk_widget_hide (g_object_get_data (G_OBJECT(assistant), "validity_icon"));
 	gtk_widget_set_sensitive (g_object_get_data (G_OBJECT (assistant), "button_next"), TRUE);
-	gtk_widget_set_sensitive (g_object_get_data (G_OBJECT (assistant), "create_rule"), TRUE);
+	gtk_widget_set_sensitive (g_object_get_data (G_OBJECT (assistant), "button_rule"), TRUE);
 
     }
 }
@@ -1130,7 +1146,11 @@ GtkWidget *import_create_csv_preview_page (GtkWidget *assistant)
     gtk_box_pack_start (GTK_BOX(hbox), validity_label, TRUE, TRUE, 0);
 
 	button = gtk_button_new_with_label (_("Create a rule for this import."));
-	g_object_set_data (G_OBJECT(assistant), "create_rule", button);
+	g_object_set_data (G_OBJECT(assistant), "button_rule", button);
+	g_signal_connect (G_OBJECT (button),
+                        "clicked",
+		                G_CALLBACK (csv_import_button_rule_clicked),
+                        assistant);
 	gtk_widget_set_sensitive (button, FALSE);
 	gtk_box_pack_start (GTK_BOX(paddingbox), button, FALSE, FALSE, 0);
 

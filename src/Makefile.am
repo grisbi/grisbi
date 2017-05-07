@@ -48,6 +48,7 @@ libgrisbi_la_SOURCES = \
 	categories_onglet.c	\
 	classement_echeances.c	\
 	csv_parse.c		\
+	csv_template_rule.c	\
 	custom_list.c		\
 	dialog.c		\
 	erreur.c		\
@@ -193,6 +194,7 @@ libgrisbi_la_SOURCES = \
 	categories_onglet.h	\
 	classement_echeances.h	\
 	csv_parse.h             \
+	csv_template_rule.h	\
 	custom_list.h		\
 	dialog.h		\
 	erreur.h		\
