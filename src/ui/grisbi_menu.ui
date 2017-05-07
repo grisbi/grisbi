@@ -7,7 +7,7 @@
         <attribute name="label" translatable="yes">New window</attribute>
         <attribute name="action">app.new-window</attribute>
         <attribute name="accel">&lt;Alt&gt;N</attribute>
-        <attribute name="icon">/usr/share/icons/gnome-colors-common/scalable/actions/window-new.svg</attribute>
+        <attribute name="icon">window-new</attribute>
       </item>
     </section>
     <section>
@@ -16,14 +16,14 @@
         <attribute name="label" translatable="yes">_Preferences</attribute>
         <attribute name="action">app.prefs</attribute>
         <attribute name="accel">&lt;Alt&gt;p</attribute>
-        <attribute name="icon">preferences-system-search-symbolic</attribute>
+        <attribute name="icon">gtk-preferences</attribute>
       </item>
     </section>
     <section>
       <item>
         <attribute name="label" translatable="yes">About</attribute>
         <attribute name="action">app.about</attribute>
-        <attribute name="icon">dialog-information-symbolic</attribute>
+        <attribute name="icon">gtk-about</attribute>
       </item>
     </section>
     <section>
@@ -31,7 +31,7 @@
         <attribute name="label" translatable="yes">_Quit</attribute>
         <attribute name="action">app.quit</attribute>
         <attribute name="accel">&lt;Primary&gt;q</attribute>
-        <attribute name="icon">/usr/share/icons/gnome-colors-common/scalable/actions/gtk-quit.svg</attribute>
+        <attribute name="icon">gtk-quit</attribute>
       </item>
     </section>
   </menu>
@@ -44,13 +44,13 @@
           <attribute name="label" translatable="yes">New account file</attribute>
           <attribute name="action">win.new-acc-file</attribute>
           <attribute name="accel">&lt;Primary&gt;n</attribute>
-          <attribute name="icon">/usr/share/icons/mate/scalable/actions/document-new-symbolic.svg</attribute>
+          <attribute name="icon">gtk-new</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Open</attribute>
           <attribute name="action">win.open-file</attribute>
           <attribute name="accel">&lt;Primary&gt;o</attribute>
-          <attribute name="icon">document-open-symbolic</attribute>
+          <attribute name="icon">document-open</attribute>
         </item>
 	  </section>
       <section>
@@ -63,12 +63,12 @@
 		      <attribute name="label" translatable="yes">Save</attribute>
 		      <attribute name="action">win.save</attribute>
 		      <attribute name="accel">&lt;Primary&gt;s</attribute>
-          <attribute name="icon">document-save-symbolic</attribute>
+          <attribute name="icon">document-save</attribute>
 		    </item>
 		    <item>
 		      <attribute name="label" translatable="yes">Save As</attribute>
 		      <attribute name="action">win.save-as</attribute>
-          <attribute name="icon">document-save-as-symbolic</attribute>
+          <attribute name="icon">document-save-as</attribute>
 		    </item>
 		  </section>
       <section>
@@ -76,34 +76,41 @@
           <attribute name="label" translatable="yes">_Import file</attribute>
           <attribute name="action">win.import-file</attribute>
           <attribute name="accel">&lt;Primary&gt;I</attribute>
+          <attribute name="icon">gtk-convert</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Export as QIF/CSV file</attribute>
           <attribute name="action">win.export-accounts</attribute>
+          <attribute name="icon">gtk-convert</attribute>
         </item>
       </section>
       <section>
         <item>
           <attribute name="label" translatable="yes">Archive transactions</attribute>
           <attribute name="action">win.create-archive</attribute>
+          <attribute name="icon">gtk-clear</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Export an archive as GSB/QIF/CSV file</attribute>
           <attribute name="action">win.export-archive</attribute>
+          <attribute name="icon">harddrive</attribute>
         </item>
       </section>
       <section>
         <item>
           <attribute name="label" translatable="yes">Debug account file</attribute>
           <attribute name="action">win.debug-acc-file</attribute>
+          <attribute name="icon">gtk-search</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Obfuscate account file</attribute>
           <attribute name="action">win.obf-acc-file</attribute>
+          <attribute name="icon">gtk-search</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Obfuscate QIF file</attribute>
           <attribute name="action">win.obf-qif-file</attribute>
+          <attribute name="icon">gtk-search</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Debug mode</attribute>
@@ -115,7 +122,7 @@
           <attribute name="label" translatable="yes">Close</attribute>
           <attribute name="action">win.file-close</attribute>
           <attribute name="accel">&lt;Primary&gt;w</attribute>
-          <attribute name="icon">window-close-symbolic</attribute>
+          <attribute name="icon">gtk-close</attribute>
         </item>
     </section>
     </submenu>
@@ -126,6 +133,7 @@
         <item>
           <attribute name="label" translatable="yes">Edit transaction</attribute>
           <attribute name="action">win.edit-ope</attribute>
+          <attribute name="icon">gtk-edit</attribute>
         </item>
       </section>
       <section>
@@ -133,18 +141,22 @@
           <attribute name="label" translatable="yes">New transaction</attribute>
           <attribute name="action">win.new-ope</attribute>
           <attribute name="accel">&lt;Primary&gt;t</attribute>
+          <attribute name="icon">gtk-new</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Remove transaction</attribute>
           <attribute name="action">win.remove-ope</attribute>
+          <attribute name="icon">gtk-delete</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Use selected transaction as a template</attribute>
           <attribute name="action">win.template-ope</attribute>
+          <attribute name="icon">gtk-copy</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Clone transaction</attribute>
           <attribute name="action">win.clone-ope</attribute>
+          <attribute name="icon">gtk-copy</attribute>
         </item>
       </section>
       <section>
@@ -158,10 +170,12 @@
           <attribute name="label" translatable="yes">New account</attribute>
           <attribute name="action">win.new-acc</attribute>
           <attribute name="accel">&lt;Shift&gt;&lt;Primary&gt;n</attribute>
+          <attribute name="icon">gtk-new</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Remove current account</attribute>
           <attribute name="action">win.remove-acc</attribute>
+          <attribute name="icon">gtk-new</attribute>
         </item>
       </section>
     </submenu>
@@ -225,7 +239,7 @@
           <attribute name="label" translatable="yes">Manual</attribute>
           <attribute name="action">win.manual</attribute>
           <attribute name="accel">F1</attribute>
-          <attribute name="icon">dialog-question-symbolic</attribute>
+          <attribute name="icon">gtk-help</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Quick start</attribute>
@@ -236,7 +250,7 @@
         <item>
           <attribute name="label" translatable="yes">Grisbi website</attribute>
           <attribute name="action">win.web-site</attribute>
-          <attribute name="icon">web-browser-symbolic</attribute>
+          <attribute name="icon">web-browser</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Report a bug</attribute>
@@ -260,7 +274,7 @@
           <attribute name="label" translatable="yes">New window</attribute>
           <attribute name="action">win.new-window</attribute>
           <attribute name="accel">&lt;Alt&gt;N</attribute>
-          <attribute name="icon">/usr/share/icons/gnome-colors-common/scalable/actions/window-new.svg</attribute>
+          <attribute name="icon">window-new</attribute>
         </item>
       </section>
       <section>
@@ -268,13 +282,13 @@
           <attribute name="label" translatable="yes">New account file</attribute>
           <attribute name="action">win.new-acc-file</attribute>
           <attribute name="accel">&lt;Primary&gt;n</attribute>
-          <attribute name="icon">/usr/share/icons/mate/scalable/actions/document-new-symbolic.svg</attribute>
+          <attribute name="icon">gtk-new</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Open</attribute>
           <attribute name="action">win.open-file</attribute>
           <attribute name="accel">&lt;Primary&gt;o</attribute>
-          <attribute name="icon">document-open-symbolic</attribute>
+          <attribute name="icon">gtk-open</attribute>
         </item>
       </section>
       <section>
@@ -287,12 +301,12 @@
 		      <attribute name="label" translatable="yes">Save</attribute>
 		      <attribute name="action">win.save</attribute>
 		      <attribute name="accel">&lt;Primary&gt;s</attribute>
-          <attribute name="icon">document-save-symbolic</attribute>
+          <attribute name="icon">gtk-save</attribute>
 		    </item>
 		    <item>
 		      <attribute name="label" translatable="yes">Save As</attribute>
 		      <attribute name="action">win.save-as</attribute>
-          <attribute name="icon">document-save-as-symbolic</attribute>
+          <attribute name="icon">gtk-save-as</attribute>
 		    </item>
 		  </section>
       <section>
@@ -300,34 +314,41 @@
           <attribute name="label" translatable="yes">Import file</attribute>
           <attribute name="action">win.import-file</attribute>
           <attribute name="accel">&lt;Primary&gt;I</attribute>
+          <attribute name="icon">gtk-convert</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Export accounts as QIF/CSV file</attribute>
           <attribute name="action">win.export-accounts</attribute>
+          <attribute name="icon">gtk-convert</attribute>
         </item>
       </section>
       <section>
         <item>
           <attribute name="label" translatable="yes">Archive transactions</attribute>
           <attribute name="action">win.create-archive</attribute>
+          <attribute name="icon">gtk-clear</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Export an archive as GSB/QIF/CSV file</attribute>
           <attribute name="action">win.export-archive</attribute>
+          <attribute name="icon">harddrive</attribute>
         </item>
       </section>
       <section>
         <item>
           <attribute name="label" translatable="yes">Debug account file</attribute>
           <attribute name="action">win.debug-acc-file</attribute>
+          <attribute name="icon">gtk-search</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Obfuscate account file</attribute>
           <attribute name="action">win.obf-acc-file</attribute>
+          <attribute name="icon">gtk-search</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Obfuscate QIF file</attribute>
           <attribute name="action">win.obf-qif-file</attribute>
+          <attribute name="icon">gtk-search</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Debug mode</attribute>
@@ -339,13 +360,13 @@
           <attribute name="label" translatable="yes">Close</attribute>
           <attribute name="action">win.file-close</attribute>
           <attribute name="accel">&lt;Primary&gt;w</attribute>
-          <attribute name="icon">window-close-symbolic</attribute>
+          <attribute name="icon">gtk-close</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">_Quit</attribute>
           <attribute name="action">win.quit</attribute>
           <attribute name="accel">&lt;Primary&gt;q</attribute>
-          <attribute name="icon">/usr/share/icons/gnome-colors-common/scalable/actions/gtk-quit.svg</attribute>
+          <attribute name="icon">gtk-quit</attribute>
         </item>
     </section>
     </submenu>
@@ -356,6 +377,7 @@
         <item>
           <attribute name="label" translatable="yes">Edit transaction</attribute>
           <attribute name="action">win.edit-ope</attribute>
+          <attribute name="icon">gtk-edit</attribute>
         </item>
       </section>
       <section>
@@ -363,24 +385,29 @@
           <attribute name="label" translatable="yes">New transaction</attribute>
           <attribute name="action">win.new-ope</attribute>
           <attribute name="accel">&lt;Primary&gt;t</attribute>
+          <attribute name="icon">gtk-new</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Remove transaction</attribute>
           <attribute name="action">win.remove-ope</attribute>
+          <attribute name="icon">gtk-delete</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Use selected transaction as a template</attribute>
           <attribute name="action">win.template-ope</attribute>
+          <attribute name="icon">gtk-copy</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Clone transaction</attribute>
           <attribute name="action">win.clone-ope</attribute>
+          <attribute name="icon">gtk-copy</attribute>
         </item>
       </section>
       <section>
         <item>
           <attribute name="label" translatable="yes">Convert to scheduled transaction</attribute>
           <attribute name="action">win.convert-ope</attribute>
+          <attribute name="icon">gtk-convert</attribute>
         </item>
       </section>
       <section>
@@ -388,10 +415,12 @@
           <attribute name="label" translatable="yes">New account</attribute>
           <attribute name="action">win.new-acc</attribute>
           <attribute name="accel">&lt;Shift&gt;&lt;Primary&gt;n</attribute>
+          <attribute name="icon">gtk-new</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Remove current account</attribute>
           <attribute name="action">win.remove-acc</attribute>
+          <attribute name="icon">gtk-delete</attribute>
         </item>
       </section>
       <section>
@@ -399,7 +428,7 @@
           <attribute name="label" translatable="yes">_Preferences</attribute>
           <attribute name="action">win.prefs</attribute>
           <attribute name="accel">&lt;Alt&gt;p</attribute>
-          <attribute name="icon">preferences-system-search-symbolic</attribute>
+          <attribute name="icon">gtk-preferences</attribute>
         </item>
       </section>
     </submenu>
@@ -463,7 +492,7 @@
           <attribute name="label" translatable="yes">Manual</attribute>
           <attribute name="action">win.manual</attribute>
           <attribute name="accel">F1</attribute>
-          <attribute name="icon">dialog-question-symbolic</attribute>
+          <attribute name="icon">gtk-help</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Quick start</attribute>
@@ -472,14 +501,14 @@
       <item>
         <attribute name="label" translatable="yes">About</attribute>
         <attribute name="action">win.about</attribute>
-        <attribute name="icon">dialog-information-symbolic</attribute>
+        <attribute name="icon">gtk-about</attribute>
       </item>
       </section>
       <section>
         <item>
           <attribute name="label" translatable="yes">Grisbi website</attribute>
           <attribute name="action">win.web-site</attribute>
-          <attribute name="icon">web-browser-symbolic</attribute>
+          <attribute name="icon">web-browser</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Report a bug</attribute>
