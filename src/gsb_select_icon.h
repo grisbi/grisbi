@@ -28,6 +28,7 @@ gboolean 	gsb_select_icon_new_account_icon 					(gint account_number,
 gboolean 	gsb_select_icon_new_account_icon_from_file 			(gint account_number,
 																 const gchar *filename);
 gboolean 	gsb_select_icon_remove_account_pixbuf 				(gint account_number);
+void 		gsb_select_icon_set_gtk_icon_theme_path 			(void);
 void 		gsb_select_icon_set_logo_pixbuf 					(GdkPixbuf *pixbuf);
 /* END_DECLARATION */
 #endif

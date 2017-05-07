@@ -7,7 +7,7 @@
         <attribute name="label" translatable="yes">New window</attribute>
         <attribute name="action">app.new-window</attribute>
         <attribute name="accel">&lt;Alt&gt;N</attribute>
-        <attribute name="icon">window-new</attribute>
+        <attribute name="icon">gsb-window-new</attribute>
       </item>
     </section>
     <section>
@@ -93,7 +93,7 @@
         <item>
           <attribute name="label" translatable="yes">Export an archive as GSB/QIF/CSV file</attribute>
           <attribute name="action">win.export-archive</attribute>
-          <attribute name="icon">harddrive</attribute>
+          <attribute name="icon">gsb-harddrive</attribute>
         </item>
       </section>
       <section>
@@ -274,7 +274,7 @@
           <attribute name="label" translatable="yes">New window</attribute>
           <attribute name="action">win.new-window</attribute>
           <attribute name="accel">&lt;Alt&gt;N</attribute>
-          <attribute name="icon">window-new</attribute>
+          <attribute name="icon">gsb-window-new</attribute>
         </item>
       </section>
       <section>
@@ -331,7 +331,7 @@
         <item>
           <attribute name="label" translatable="yes">Export an archive as GSB/QIF/CSV file</attribute>
           <attribute name="action">win.export-archive</attribute>
-          <attribute name="icon">harddrive</attribute>
+          <attribute name="icon">gsb-harddrive</attribute>
         </item>
       </section>
       <section>

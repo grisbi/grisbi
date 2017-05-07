@@ -43,6 +43,7 @@
 #include "gsb_file.h"
 #include "gsb_locale.h"
 #include "gsb_rgba.h"
+#include "gsb_select_icon.h"
 #include "help.h"
 #include "import.h"
 #include "menu.h"
@@ -494,6 +495,9 @@ static GrisbiWin *grisbi_app_create_window (GrisbiApp *app,
         gtk_window_set_default_icon_from_file (string, NULL);
 
     g_free (string);
+
+	/* Adding pixmaps_dir in the icon theme */
+	gsb_select_icon_set_gtk_icon_theme_path ();
 
 	if (priv->geometry)
 		gtk_window_parse_geometry (GTK_WINDOW (win), priv->geometry);

@@ -40,6 +40,8 @@ grisbi_pixmaps_DATA = \
 	grisbi-logo.png \
 	grisbi.png \
 	grisbi.svg \
+	gsb-harddrive.png \
+	gsb-window-new.png \
 	hide_r.png \
 	impexp.png \
 	importlg.png \
