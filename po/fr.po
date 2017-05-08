@@ -12330,7 +12330,7 @@ msgstr "Nombre de jours avant l'alerte ou l'exécution des opérations : "
 
 #: ../src/ui/prefs_page_divers.ui.h:8
 msgid "Use a default account for sheduler form: "
-msgstr "Utiliser un compte par défaut dans le planificateur"
+msgstr "Utiliser un compte par défaut dans le planificateur : "
 
 #: ../src/ui/prefs_page_divers.ui.h:9
 msgid "Localization"
