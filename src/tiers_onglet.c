@@ -331,7 +331,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
     toolbar = gtk_toolbar_new ();
 
     /* New payee button */
-    item = utils_buttons_tool_button_new_from_image_label ( "new-payee.png", _("New payee") );
+    item = utils_buttons_tool_button_new_from_image_label ( "new-payee-24.png", _("New payee") );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Create a new payee") );
     g_signal_connect_swapped ( G_OBJECT ( item ),
                         "clicked",
@@ -376,7 +376,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Manage payees button */
-    item = utils_buttons_tool_button_new_from_image_label ( "payeesmg.png", _("Manage payees") );
+    item = utils_buttons_tool_button_new_from_image_label ( "payees-manage-24.png", _("Manage payees") );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Manage the payees") );
     g_signal_connect ( G_OBJECT ( item ),
                         "clicked",
@@ -913,7 +913,7 @@ void payees_manage_payees ( void )
                         _("This wizard will help you to simplify the list of payees.\n\n"
                         "Warning the changes you will make be irreparable.\n\n"
                         "It is better to make a backup of your Grisbi file if you have not yet done. "),
-                        "payeeslg.png",
+                        "payees-48.png",
                         NULL );
 
     gsb_assistant_add_page ( assistant,

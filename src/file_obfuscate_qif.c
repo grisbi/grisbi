@@ -78,7 +78,7 @@ gboolean file_obfuscate_qif_run ( void )
 				      "\n"
 				      "In next page, you will have to choose a QIF file wich will be renamed"
 				      "with -obfuscate at the end."),
-				    "bug.png",
+				    "bug-48.png",
 				    NULL );
     gsb_assistant_change_button_next (assistant, "gtk-go-forward", GTK_RESPONSE_APPLY);
     result = gsb_assistant_run ( assistant );

@@ -333,7 +333,7 @@ GtkWidget *gsb_currency_config_create_page ( void )
     GtkTreeView *currency_list_view;
     GtkTreeModel *currency_tree_model;
 
-    vbox_pref = new_vbox_with_title_and_icon ( _("Currencies"), "currencies.png" );
+    vbox_pref = new_vbox_with_title_and_icon ( _("Currencies"), "currencies-32.png" );
     paddinggrid = utils_prefs_paddinggrid_new_with_title (vbox_pref, _("Known currencies"));
 
     /* Currency list */
@@ -965,7 +965,7 @@ gboolean gsb_currency_config_add_currency ( GtkWidget *button,
     gtk_window_set_resizable ( GTK_WINDOW ( dialog ), TRUE );
 
     main_vbox = new_vbox_with_title_and_icon ( _("Select base currency for your account"),
-					       "currencies.png" );
+					       "currencies-32.png" );
     gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), main_vbox, TRUE, TRUE, 0 );
 
     vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );

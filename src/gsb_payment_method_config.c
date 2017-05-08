@@ -129,7 +129,7 @@ GtkWidget *gsb_payment_method_config_create ( void )
     gint width_entry = 150;
 
     /* Now we have a model, create view */
-    vbox_pref = new_vbox_with_title_and_icon (_("Payment methods"), "payment.png");
+    vbox_pref = new_vbox_with_title_and_icon (_("Payment methods"), "payment-32.png");
 
     /* Known payment methods */
     paddinggrid = utils_prefs_paddinggrid_new_with_title (vbox_pref, _("Known payment methods"));

@@ -1927,7 +1927,7 @@ GtkToolItem *bet_graph_button_menu_new ( GtkWidget *toolbar,
     self = struct_initialise_bet_graph_button ( );
 
     self->name = g_strdup ( _("Column") );
-    self->filename = g_strdup ( "graph-histo.png" );
+    self->filename = g_strdup ( "graph-histo-24.png" );
     self->service_id = g_strdup ( "GogBarColPlot" );
     self->callback = callback;
     self->toolbar = toolbar;
@@ -1954,7 +1954,7 @@ GtkToolItem *bet_graph_button_menu_new ( GtkWidget *toolbar,
     self = struct_initialise_bet_graph_button ( );
 
     self->name = g_strdup ( _("Line") );
-    self->filename = g_strdup ( "graph-line.png" );
+    self->filename = g_strdup ( "graph-line-24.png" );
     self->service_id = g_strdup ( "GogLinePlot" );
     self->callback = callback;
     self->toolbar = toolbar;
@@ -2097,7 +2097,7 @@ void bet_graph_line_graph_new ( GtkWidget *button,
     self->button_show_grid = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "button_show_grid" ) );
     gtk_button_set_image ( GTK_BUTTON ( self->button_show_grid ),
                         gtk_image_new_from_file ( g_build_filename ( gsb_dirs_get_pixmaps_dir ( ),
-                        "grille.png", NULL ) ) );
+                        "grille-16.png", NULL ) ) );
     if ( prefs->major_grid_y )
         bet_graph_show_grid_button_configure ( self, TRUE, -1 );
     g_signal_connect ( self->button_show_grid,
@@ -2233,7 +2233,7 @@ void bet_graph_montly_graph_new ( GtkWidget *button,
     self->button_show_grid = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "button_show_grid" ) );
     gtk_button_set_image ( GTK_BUTTON ( self->button_show_grid ),
                         gtk_image_new_from_file ( g_build_filename ( gsb_dirs_get_pixmaps_dir ( ),
-                        "grille.png", NULL ) ) );
+                        "grille-16.png", NULL ) ) );
     if ( self->prefs->major_grid_y )
         bet_graph_show_grid_button_configure ( self, TRUE, -1 );
     g_signal_connect ( self->button_show_grid,

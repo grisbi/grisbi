@@ -1959,7 +1959,7 @@ GtkWidget *bet_historical_create_toolbar ( GtkWidget *parent,
 
 #ifdef HAVE_GOFFICE
     /* sectors button */
-    item = utils_buttons_tool_button_new_from_image_label ( "graph-sectors.png", _("Data graph") );
+    item = utils_buttons_tool_button_new_from_image_label ( "graph-sectors-24.png", _("Data graph") );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Display the pie graph") );
     g_signal_connect ( G_OBJECT ( item ),
                         "clicked",

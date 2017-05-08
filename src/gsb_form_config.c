@@ -114,7 +114,7 @@ GtkWidget *gsb_form_config_create_page ( void )
 {
     GtkWidget *vbox_pref;
 
-    vbox_pref = new_vbox_with_title_and_icon ( _("Transaction form"), "form.png" );
+    vbox_pref = new_vbox_with_title_and_icon ( _("Transaction form"), "form-32.png" );
 
     /* add the page into the box */
 

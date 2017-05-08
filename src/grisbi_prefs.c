@@ -187,7 +187,7 @@ static void grisbi_prefs_setup_import_page (GrisbiPrefs *prefs)
 	priv = grisbi_prefs_get_instance_private (prefs);
 
 	/* On récupère le nom de la page */
-	head_page = utils_prefs_head_page_new_with_title_and_icon (_("Import"), "import.png");
+	head_page = utils_prefs_head_page_new_with_title_and_icon (_("Import"), "import-32.png");
 
 	gtk_box_pack_start (GTK_BOX (priv->vbox_import_page), head_page, FALSE, FALSE, 0);
 

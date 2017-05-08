@@ -533,7 +533,7 @@ static void prefs_page_archives_setup_archives_page (PrefsPageArchives *page)
 	priv = prefs_page_archives_get_instance_private (page);
 
 	/* On récupère le nom de la page */
-	head_page = utils_prefs_head_page_new_with_title_and_icon (_("Archives"), "archives.png");
+	head_page = utils_prefs_head_page_new_with_title_and_icon (_("Archives"), "archive-32.png");
 	gtk_box_pack_start (GTK_BOX (priv->vbox_archives), head_page, FALSE, FALSE, 0);
 	gtk_box_reorder_child (GTK_BOX (priv->vbox_archives), head_page, 0);
 

@@ -121,7 +121,7 @@ GtkWidget * onglet_display_fonts ( void )
     GtkWidget *color_button;
     GtkWidget *grid;
 
-    vbox_pref = new_vbox_with_title_and_icon ( _("Fonts & logo"), "fonts.png" );
+    vbox_pref = new_vbox_with_title_and_icon ( _("Fonts & logo"), "fonts-32.png" );
 
     /* Change Grisbi Logo */
     paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE, _("Grisbi logo") );
@@ -705,7 +705,7 @@ GtkWidget *tab_display_toolbar ( void )
     vbox_pref = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
 
     /* Headings bar */
-    vbox = new_vbox_with_title_and_icon ( _("Headings bar"), "organization.png" );
+    vbox = new_vbox_with_title_and_icon ( _("Headings bar"), "organization-32.png" );
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ), vbox, FALSE, FALSE, 0 );
 
     button = gsb_automem_checkbutton_new ( _("Display headings bar"),
@@ -715,7 +715,7 @@ GtkWidget *tab_display_toolbar ( void )
     gtk_box_pack_start ( GTK_BOX ( vbox ), button, FALSE, FALSE, 5 );
 
     /* Navigation pane */
-    vbox = new_vbox_with_title_and_icon ( _("Navigation pane"), "organization.png" );
+    vbox = new_vbox_with_title_and_icon ( _("Navigation pane"), "organization-32.png" );
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ), vbox, FALSE, FALSE, 0 );
 
     button = gsb_automem_checkbutton_new (_("Add mouse scrolling support on the navigation pane"),
@@ -725,7 +725,7 @@ GtkWidget *tab_display_toolbar ( void )
     gtk_box_pack_start ( GTK_BOX ( vbox ), button, FALSE, FALSE, 5 );
 
     /* Toolbar */
-    vbox = new_vbox_with_title_and_icon ( _("Toolbars"), "toolbar.png" );
+    vbox = new_vbox_with_title_and_icon ( _("Toolbars"), "toolbar-32.png" );
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ), vbox, FALSE, FALSE, 0 );
 
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Display toolbar buttons as") );

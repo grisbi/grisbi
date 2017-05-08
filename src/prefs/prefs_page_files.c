@@ -106,7 +106,7 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
 	priv = prefs_page_files_get_instance_private (page);
 
 	/* On récupère le nom de la page */
-	head_page = utils_prefs_head_page_new_with_title_and_icon (_("Files"), "files.png");
+	head_page = utils_prefs_head_page_new_with_title_and_icon (_("Files"), "files-32.png");
 	gtk_box_pack_start (GTK_BOX (priv->vbox_files), head_page, FALSE, FALSE, 0);
 	gtk_box_reorder_child (GTK_BOX (priv->vbox_files), head_page, 0);
 

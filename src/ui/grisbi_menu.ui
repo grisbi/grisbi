@@ -7,7 +7,7 @@
         <attribute name="label" translatable="yes">New window</attribute>
         <attribute name="action">app.new-window</attribute>
         <attribute name="accel">&lt;Alt&gt;N</attribute>
-        <attribute name="icon">gsb-window-new</attribute>
+        <attribute name="icon">window-new-16</attribute>
       </item>
     </section>
     <section>
@@ -44,7 +44,7 @@
           <attribute name="label" translatable="yes">New account file</attribute>
           <attribute name="action">win.new-acc-file</attribute>
           <attribute name="accel">&lt;Primary&gt;n</attribute>
-          <attribute name="icon">gtk-new</attribute>
+          <attribute name="icon">new-file-16</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Open</attribute>
@@ -76,31 +76,31 @@
           <attribute name="label" translatable="yes">_Import file</attribute>
           <attribute name="action">win.import-file</attribute>
           <attribute name="accel">&lt;Primary&gt;I</attribute>
-          <attribute name="icon">gtk-convert</attribute>
+          <attribute name="icon">import-16</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Export as QIF/CSV file</attribute>
           <attribute name="action">win.export-accounts</attribute>
-          <attribute name="icon">gtk-convert</attribute>
+          <attribute name="icon">export-16</attribute>
         </item>
       </section>
       <section>
         <item>
           <attribute name="label" translatable="yes">Archive transactions</attribute>
           <attribute name="action">win.create-archive</attribute>
-          <attribute name="icon">gtk-clear</attribute>
+          <attribute name="icon">archive-16</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Export an archive as GSB/QIF/CSV file</attribute>
           <attribute name="action">win.export-archive</attribute>
-          <attribute name="icon">gsb-harddrive</attribute>
+          <attribute name="icon">export-archive-16</attribute>
         </item>
       </section>
       <section>
         <item>
           <attribute name="label" translatable="yes">Debug account file</attribute>
           <attribute name="action">win.debug-acc-file</attribute>
-          <attribute name="icon">gtk-search</attribute>
+          <attribute name="icon">bug-16</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Obfuscate account file</attribute>
@@ -141,7 +141,7 @@
           <attribute name="label" translatable="yes">New transaction</attribute>
           <attribute name="action">win.new-ope</attribute>
           <attribute name="accel">&lt;Primary&gt;t</attribute>
-          <attribute name="icon">gtk-new</attribute>
+          <attribute name="icon">new-transaction-16</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Remove transaction</attribute>
@@ -175,7 +175,7 @@
         <item>
           <attribute name="label" translatable="yes">Remove current account</attribute>
           <attribute name="action">win.remove-acc</attribute>
-          <attribute name="icon">gtk-new</attribute>
+          <attribute name="icon">gtk-delete</attribute>
         </item>
       </section>
     </submenu>
@@ -274,7 +274,7 @@
           <attribute name="label" translatable="yes">New window</attribute>
           <attribute name="action">win.new-window</attribute>
           <attribute name="accel">&lt;Alt&gt;N</attribute>
-          <attribute name="icon">gsb-window-new</attribute>
+          <attribute name="icon">window-new-16</attribute>
         </item>
       </section>
       <section>
@@ -282,7 +282,7 @@
           <attribute name="label" translatable="yes">New account file</attribute>
           <attribute name="action">win.new-acc-file</attribute>
           <attribute name="accel">&lt;Primary&gt;n</attribute>
-          <attribute name="icon">gtk-new</attribute>
+          <attribute name="icon">new-file-16</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Open</attribute>
@@ -314,31 +314,31 @@
           <attribute name="label" translatable="yes">Import file</attribute>
           <attribute name="action">win.import-file</attribute>
           <attribute name="accel">&lt;Primary&gt;I</attribute>
-          <attribute name="icon">gtk-convert</attribute>
+          <attribute name="icon">import-16</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Export accounts as QIF/CSV file</attribute>
           <attribute name="action">win.export-accounts</attribute>
-          <attribute name="icon">gtk-convert</attribute>
+          <attribute name="icon">export-16</attribute>
         </item>
       </section>
       <section>
         <item>
           <attribute name="label" translatable="yes">Archive transactions</attribute>
           <attribute name="action">win.create-archive</attribute>
-          <attribute name="icon">gtk-clear</attribute>
+          <attribute name="icon">archive-16</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Export an archive as GSB/QIF/CSV file</attribute>
           <attribute name="action">win.export-archive</attribute>
-          <attribute name="icon">gsb-harddrive</attribute>
+          <attribute name="icon">export-archive-16</attribute>
         </item>
       </section>
       <section>
         <item>
           <attribute name="label" translatable="yes">Debug account file</attribute>
           <attribute name="action">win.debug-acc-file</attribute>
-          <attribute name="icon">gtk-search</attribute>
+          <attribute name="icon">bug-16</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Obfuscate account file</attribute>
@@ -385,7 +385,7 @@
           <attribute name="label" translatable="yes">New transaction</attribute>
           <attribute name="action">win.new-ope</attribute>
           <attribute name="accel">&lt;Primary&gt;t</attribute>
-          <attribute name="icon">gtk-new</attribute>
+          <attribute name="icon">new-transaction-16</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Remove transaction</attribute>

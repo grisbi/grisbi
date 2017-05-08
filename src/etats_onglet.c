@@ -149,7 +149,7 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
     toolbar = gtk_toolbar_new ();
 
     /* New report button */
-    item = utils_buttons_tool_button_new_from_image_label ( "new-report.png", _("New report") );
+    item = utils_buttons_tool_button_new_from_image_label ( "new-report-24.png", _("New report") );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Create a new report") );
     g_signal_connect ( G_OBJECT ( item ),
                         "clicked",

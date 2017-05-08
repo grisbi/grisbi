@@ -584,7 +584,7 @@ GtkWidget *creation_barre_outils_ib ( void )
     toolbar = gtk_toolbar_new ();
 
     /* New budgetary line button */
-    item = utils_buttons_tool_button_new_from_image_label ( "new-ib.png", _("New\nbudgetary line") );
+    item = utils_buttons_tool_button_new_from_image_label ( "new-ib-24.png", _("New\nbudgetary line") );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Create a new budgetary line") );
     g_object_set_data ( G_OBJECT ( item ), "type", GINT_TO_POINTER (1) );
     g_signal_connect_swapped ( G_OBJECT ( item ),
@@ -594,7 +594,7 @@ GtkWidget *creation_barre_outils_ib ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* New sub budgetary line button */
-    item = utils_buttons_tool_button_new_from_image_label ( "new-sub-ib.png", _("New sub\nbudgetary line") );
+    item = utils_buttons_tool_button_new_from_image_label ( "new-sub-ib-24.png", _("New sub\nbudgetary line") );
     metatree_register_widget_as_linked ( GTK_TREE_MODEL ( budgetary_line_tree_model ),
                         GTK_WIDGET ( item ),
                         "selection" );

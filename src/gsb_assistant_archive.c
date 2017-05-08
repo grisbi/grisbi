@@ -151,7 +151,7 @@ GtkResponseType gsb_assistant_archive_run ( gboolean origin )
     /* create the assistant */
     assistant = gsb_assistant_new ( _("Archive transactions"),
 				    tmpstr,
-				    "archive.png",
+				    "archive-48.png",
 				    G_CALLBACK (gsb_assistant_archive_switch_to_intro));
     g_free (tmpstr);
 

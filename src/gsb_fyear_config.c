@@ -138,7 +138,7 @@ GtkWidget *gsb_fyear_config_create_page ( void )
     GtkWidget *button;
     GtkTreeModel *tree_model;
 
-    vbox_pref = new_vbox_with_title_and_icon (_("Financial years"), "financial-years.png");
+    vbox_pref = new_vbox_with_title_and_icon (_("Financial years"), "financial-years-32.png");
 
     paddinggrid = utils_prefs_paddinggrid_new_with_title (vbox_pref, _("Known financial years"));
 

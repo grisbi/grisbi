@@ -340,7 +340,7 @@ GtkWidget *creation_barre_outils_transaction ( void )
     toolbar = gtk_toolbar_new ();
 
     /* new transaction button */
-    item = utils_buttons_tool_button_new_from_image_label ( "new-transaction.png", _("New transaction") );
+    item = utils_buttons_tool_button_new_from_image_label ( "new-transaction-24.png", _("New transaction") );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Blank the form to create a new transaction") );
     g_signal_connect ( G_OBJECT ( item ),
                         "clicked",
@@ -369,7 +369,7 @@ GtkWidget *creation_barre_outils_transaction ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* reconcile button */
-    item = utils_buttons_tool_button_new_from_image_label ( "reconciliation.png", _("Reconcile") );
+    item = utils_buttons_tool_button_new_from_image_label ( "reconciliation-24.png", _("Reconcile") );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Start account reconciliation") );
     g_signal_connect ( G_OBJECT ( item ),
                         "clicked",
@@ -415,7 +415,7 @@ GtkWidget *creation_barre_outils_transaction ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), separator, -1 );
 
     /* archive button */
-    item = utils_buttons_tool_button_new_from_image_label ( "archive_24.png", _("Recreates archive") );
+    item = utils_buttons_tool_button_new_from_image_label ( "archive-24.png", _("Recreates archive") );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ),
                         _("Recreates the line of the archive and hiding the transactions") );
     g_signal_connect ( G_OBJECT ( item ),

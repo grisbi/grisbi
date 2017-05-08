@@ -952,7 +952,7 @@ static GtkWidget *etats_prefs_onglet_periode_create_page ( gint page )
 
     vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etats_prefs_builder, "onglet_etat_periode" ) );
 
-    vbox = new_vbox_with_title_and_icon ( _("Date selection"), "scheduler.png" );
+    vbox = new_vbox_with_title_and_icon ( _("Date selection"), "scheduler-32.png" );
 
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
     gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
@@ -1159,7 +1159,7 @@ static GtkWidget *etats_prefs_onglet_comptes_create_page ( gint page )
 
     vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etats_prefs_builder, "onglet_etat_comptes" ) );
 
-    vbox = new_vbox_with_title_and_icon ( _("Account selection"), "ac_bank.png" );
+    vbox = new_vbox_with_title_and_icon ( _("Account selection"), "ac-bank-32.png" );
 
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
     gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
@@ -1274,7 +1274,7 @@ static GtkWidget *etats_prefs_onglet_virements_create_page ( gint page )
 
     vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etats_prefs_builder, "onglet_etat_virements" ) );
 
-    vbox = new_vbox_with_title_and_icon ( _("Transfers"), "transfer.png" );
+    vbox = new_vbox_with_title_and_icon ( _("Transfers"), "transfer-32.png" );
 
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
     gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
@@ -1754,7 +1754,7 @@ static GtkWidget *etats_prefs_onglet_tiers_create_page ( gint page )
 
     vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etats_prefs_builder, "onglet_etat_tiers" ) );
 
-    vbox = new_vbox_with_title_and_icon ( _("Payees"), "payees.png" );
+    vbox = new_vbox_with_title_and_icon ( _("Payees"), "payees-32.png" );
 
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
     gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
@@ -2012,7 +2012,7 @@ static GtkWidget *etats_prefs_onglet_categories_create_page ( gint page )
 
     vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etats_prefs_builder, "onglet_etat_categories" ) );
 
-    vbox = new_vbox_with_title_and_icon ( _("Categories"), "categories.png" );
+    vbox = new_vbox_with_title_and_icon ( _("Categories"), "categories-32.png" );
 
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
     gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
@@ -2064,7 +2064,7 @@ static GtkWidget *etats_prefs_onglet_budgets_create_page ( gint page )
 
     vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etats_prefs_builder, "onglet_etat_ib" ) );
 
-    vbox = new_vbox_with_title_and_icon ( _("Budgetary lines"), "budgetary_lines.png" );
+    vbox = new_vbox_with_title_and_icon ( _("Budgetary lines"), "budgetary_lines-32.png" );
 
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
     gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
@@ -2116,7 +2116,7 @@ static GtkWidget *etats_prefs_onglet_textes_create_page ( gint page )
 
     vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etats_prefs_builder, "onglet_etat_texte" ) );
 
-    vbox = new_vbox_with_title_and_icon ( _("Transaction content"), "text.png" );
+    vbox = new_vbox_with_title_and_icon ( _("Transaction content"), "text-32.png" );
 
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
     gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
@@ -2157,7 +2157,7 @@ static GtkWidget *etats_prefs_onglet_montants_create_page ( gint page )
 
     vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etats_prefs_builder, "onglet_etat_montant" ) );
 
-    vbox = new_vbox_with_title_and_icon ( _("Amount"), "amount.png" );
+    vbox = new_vbox_with_title_and_icon ( _("Amount"), "amount-32.png" );
 
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
     gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
@@ -2293,7 +2293,7 @@ static GtkWidget *etats_prefs_onglet_mode_paiement_create_page ( gint page )
 
     vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etats_prefs_builder, "onglet_etat_mode_paiement" ) );
 
-    vbox = new_vbox_with_title_and_icon ( _("Payment methods"), "payment.png" );
+    vbox = new_vbox_with_title_and_icon ( _("Payment methods"), "payment-32.png" );
 
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
     gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
@@ -2384,7 +2384,7 @@ static GtkWidget *etats_prefs_onglet_divers_create_page ( gint page )
 
     vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etats_prefs_builder, "onglet_etat_divers" ) );
 
-    vbox = new_vbox_with_title_and_icon ( _("Miscellaneous"), "generalities.png" );
+    vbox = new_vbox_with_title_and_icon ( _("Miscellaneous"), "generalities-32.png" );
 
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
     gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
@@ -2757,7 +2757,7 @@ static GtkWidget *etats_prefs_onglet_data_grouping_create_page ( gint page )
 
     vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etats_prefs_builder, "page_data_grouping" ) );
 
-    vbox = new_vbox_with_title_and_icon ( _("Data grouping"), "organization.png" );
+    vbox = new_vbox_with_title_and_icon ( _("Data grouping"), "organization-32.png" );
 
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
     gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
@@ -2802,7 +2802,7 @@ static GtkWidget *etats_prefs_onglet_data_separation_create_page ( gint page )
 
     vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etats_prefs_builder, "page_data_separation" ) );
 
-    vbox = new_vbox_with_title_and_icon ( _("Data separation"), "organization.png" );
+    vbox = new_vbox_with_title_and_icon ( _("Data separation"), "organization-32.png" );
 
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
     gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
@@ -2861,7 +2861,7 @@ static GtkWidget *etats_prefs_onglet_affichage_generalites_create_page ( gint pa
 
     vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etats_prefs_builder, "affichage_etat_generalites" ) );
 
-    vbox = new_vbox_with_title_and_icon ( _("Generalities"), "generalities.png" );
+    vbox = new_vbox_with_title_and_icon ( _("Generalities"), "generalities-32.png" );
 
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
     gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
@@ -2889,7 +2889,7 @@ static GtkWidget *etats_prefs_onglet_affichage_titles_create_page ( gint page )
 
     vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etats_prefs_builder, "affichage_etat_titles" ) );
 
-    vbox = new_vbox_with_title_and_icon ( _("Titles"), "title.png" );
+    vbox = new_vbox_with_title_and_icon ( _("Titles"), "title-32.png" );
 
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
     gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
@@ -2991,7 +2991,7 @@ static GtkWidget *etats_prefs_onglet_affichage_operations_create_page ( gint pag
 
     vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etats_prefs_builder, "affichage_etat_operations" ) );
 
-    vbox = new_vbox_with_title_and_icon ( _("Transactions display"), "transdisplay.png" );
+    vbox = new_vbox_with_title_and_icon ( _("Transactions display"), "transdisplay-32.png" );
 
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
     gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
@@ -3065,7 +3065,7 @@ static GtkWidget *etats_prefs_onglet_affichage_devises_create_page ( gint page )
 
     vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etats_prefs_builder, "affichage_etat_devises" ) );
 
-    vbox = new_vbox_with_title_and_icon ( _("Totals currencies"), "currencies.png" );
+    vbox = new_vbox_with_title_and_icon ( _("Totals currencies"), "currencies-32.png" );
 
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
     gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );

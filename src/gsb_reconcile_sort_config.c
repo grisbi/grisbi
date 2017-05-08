@@ -92,7 +92,7 @@ GtkWidget *gsb_reconcile_sort_config_create ( void )
     GtkTreeSelection *reconcile_selection;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Sort for reconciliation"),
-					       "reconciliationlg.png" );
+					       "reconciliation-32.png" );
     paddinggrid = utils_prefs_paddinggrid_new_with_title (vbox_pref,
                                                           _("Reconciliation: sort transactions") );
 

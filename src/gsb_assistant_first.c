@@ -90,7 +90,7 @@ GtkResponseType gsb_assistant_first_run ( void )
 				      "You can change any option later in the configuration window, "
 				      "where many other options are available.\n\n"
 				      "Thanks for using Grisbi, enjoy!" ),
-				    "grisbi.png",
+				    "grisbi-48.png",
 				    NULL );
     gsb_assistant_add_page ( assistant,
 			     gsb_assistant_first_page_2 (assistant),
@@ -155,7 +155,7 @@ GtkResponseType gsb_assistant_first_come_to_0_6 ( void )
 				      "If you want to make backups of your Grisbi file in case you want to revert "
 				      "to old version of Grisbi, we would advise you to do that right now.\n\n"
 				      "You can find out other improvements on http://www.grisbi.org/."),
-				    "grisbi.png",
+				    "grisbi-48.png",
 				    NULL );
     gsb_assistant_add_page ( assistant,
 			     gsb_assistant_first_page_2 (assistant),
@@ -205,7 +205,7 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
     size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
 
     vbox = new_vbox_with_title_and_icon ( _("General configuration of Grisbi"),
-					  "generalities.png" );
+					  "generalities-32.png" );
     gtk_box_pack_start ( GTK_BOX (page), vbox, TRUE, TRUE, 0 );
 
     /* configure the browser */
@@ -311,7 +311,7 @@ static GtkWidget *gsb_assistant_first_page_3 ( GtkWidget *assistant )
     page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_container_set_border_width ( GTK_CONTAINER (page), BOX_BORDER_WIDTH );
 
-    vbox = new_vbox_with_title_and_icon ( _("Reconciliation"), "reconciliationlg.png" );
+    vbox = new_vbox_with_title_and_icon ( _("Reconciliation"), "reconciliation-32.png" );
     gtk_box_pack_start ( GTK_BOX (page), vbox, TRUE, TRUE, 0 );
 
     paddingbox = new_paddingbox_with_title (vbox, FALSE,

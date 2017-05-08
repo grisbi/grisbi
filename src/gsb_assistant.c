@@ -161,7 +161,7 @@ GtkWidget * gsb_assistant_new ( const gchar * title, const gchar * explanation,
     gtk_box_pack_start ( GTK_BOX(hbox), label, TRUE, TRUE, 0 );
 
     if (!image_filename)
-        image_filename = "grisbi.png";
+        image_filename = "grisbi-48.png";
 
     tmpstr = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), image_filename, NULL);
     image = gtk_image_new_from_file ( tmpstr );

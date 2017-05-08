@@ -1970,31 +1970,31 @@ void gsb_gui_navigation_set_navigation_pages ( GtkTreeModel *model,
     switch ( type_page )
     {
         case GSB_HOME_PAGE :
-            tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "ac_home.png", NULL );
+            tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "ac-home-32.png", NULL );
             title = g_strdup ( _("Accounts") );
         break;
         case GSB_SCHEDULER_PAGE :
-            tmp_str = g_build_filename( gsb_dirs_get_pixmaps_dir ( ), "scheduler.png", NULL );
+            tmp_str = g_build_filename( gsb_dirs_get_pixmaps_dir ( ), "scheduler-32.png", NULL );
             title = g_strdup ( _("Scheduler") );
         break;
         case GSB_PAYEES_PAGE :
-            tmp_str = g_build_filename( gsb_dirs_get_pixmaps_dir ( ), "payees.png", NULL );
+            tmp_str = g_build_filename( gsb_dirs_get_pixmaps_dir ( ), "payees-32.png", NULL );
             title = g_strdup ( _("Payees") );
         break;
         case GSB_SIMULATOR_PAGE :
-            tmp_str = g_build_filename( gsb_dirs_get_pixmaps_dir ( ), "ac_liability.png", NULL );
+            tmp_str = g_build_filename( gsb_dirs_get_pixmaps_dir ( ), "ac-liability-32.png", NULL );
             title = g_strdup ( _("Credits simulator") );
         break;
         case GSB_CATEGORIES_PAGE :
-            tmp_str = g_build_filename( gsb_dirs_get_pixmaps_dir ( ), "categories.png", NULL );
+            tmp_str = g_build_filename( gsb_dirs_get_pixmaps_dir ( ), "categories-32.png", NULL );
             title = g_strdup ( _("Categories") );
         break;
         case GSB_BUDGETARY_LINES_PAGE :
-            tmp_str = g_build_filename( gsb_dirs_get_pixmaps_dir ( ), "budgetary_lines.png", NULL );
+            tmp_str = g_build_filename( gsb_dirs_get_pixmaps_dir ( ), "budgetary_lines-32.png", NULL );
             title = g_strdup ( _("Budgetary lines") );
         break;
         case GSB_REPORTS_PAGE :
-            tmp_str = g_build_filename( gsb_dirs_get_pixmaps_dir ( ), "reports.png", NULL );
+            tmp_str = g_build_filename( gsb_dirs_get_pixmaps_dir ( ), "reports-32.png", NULL );
             title = g_strdup ( _("Reports") );
         break;
     }
@@ -2163,7 +2163,7 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
         break;
         case GSB_PAYEES_PAGE :
             menu = gtk_menu_new ();
-            //~ tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "new-payee.png", NULL);
+            //~ tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "new-payee-16.png", NULL);
             //~ image = gtk_image_new_from_file ( tmp_str );
             //~ g_free ( tmp_str );
             menu_item = gtk_menu_item_new_with_label ( _("New payee") );
@@ -2202,7 +2202,7 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
             /* Separator */
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
 
-            //~ tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "payeesmg.png", NULL);
+            //~ tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "payees-manage-16.png", NULL);
             //~ image = gtk_image_new_from_file ( tmp_str );
             //~ g_free ( tmp_str );
             menu_item = gtk_menu_item_new_with_label ( _("Manage payees") );
@@ -2221,7 +2221,7 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
         break;
         case GSB_CATEGORIES_PAGE :
             menu = gtk_menu_new ();
-            //~ tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "new-categ.png", NULL);
+            //~ tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "new-categ-16.png", NULL);
             //~ image = gtk_image_new_from_file ( tmp_str );
             //~ g_free ( tmp_str );
             menu_item = gtk_menu_item_new_with_label ( _("New category") );
@@ -2276,7 +2276,7 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
         break;
         case GSB_BUDGETARY_LINES_PAGE :
             menu = gtk_menu_new ();
-            //~ tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "new-ib.png", NULL);
+            //~ tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "new-ib-16.png", NULL);
             //~ image = gtk_image_new_from_file ( tmp_str );
             //~ g_free ( tmp_str );
             menu_item = gtk_menu_item_new_with_label ( _("New budgetary line") );
@@ -2331,7 +2331,7 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
         break;
         case GSB_REPORTS_PAGE :
             menu = gtk_menu_new ();
-            //~ tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "new-report.png", NULL);
+            //~ tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "new-report-16.png", NULL);
             //~ image = gtk_image_new_from_file ( tmp_str );
             //~ g_free ( tmp_str );
             menu_item = gtk_menu_item_new_with_label ( _("New report") );

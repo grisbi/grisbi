@@ -156,7 +156,7 @@ gboolean gsb_debug ( void )
 				    _("This assistant will help you to search your account "
 				      "file for inconsistencies, which can be caused either "
 				      "by bugs or by erroneous manipulation."),
-				    "bug.png",
+				    "bug-48.png",
 				    NULL );
 
     scrolled_window = gtk_scrolled_window_new (FALSE, FALSE);

@@ -187,7 +187,7 @@ GtkWidget *onglet_accueil ( void )
     };
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Configuration of the main page"),
-                        "title.png" );
+                        "title-32.png" );
 
     vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ), vbox, TRUE, TRUE, 0 );
@@ -402,7 +402,7 @@ GtkWidget *onglet_messages_and_warnings ( void )
     gchar *tmpstr;
     int i;
 
-    vbox_pref = new_vbox_with_title_and_icon ( _("Messages & warnings"), "warnings.png" );
+    vbox_pref = new_vbox_with_title_and_icon ( _("Messages & warnings"), "warnings-32.png" );
 
     /* Tip of the day */
     paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("Tip of the day"));
@@ -488,7 +488,7 @@ GtkWidget *onglet_delete_messages ( void )
     gchar *tmpstr;
     int i;
 
-    vbox_pref = new_vbox_with_title_and_icon ( _("Messages before deleting"), "delete.png" );
+    vbox_pref = new_vbox_with_title_and_icon ( _("Messages before deleting"), "delete-32.png" );
 
     /* Delete messages */
     paddinggrid = utils_prefs_paddinggrid_new_with_title (vbox_pref, _("Display following messages") );
@@ -607,7 +607,7 @@ GtkWidget *onglet_metatree ( void )
 
     vbox_pref = new_vbox_with_title_and_icon (
                         _("Payees, categories and budgetaries"),
-                        "organization.png" );
+                        "organization-32.png" );
 
     paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE, _("Totals currencies") );
     total_currencies = gsb_currency_config_create_totals_page ( );

@@ -4270,7 +4270,7 @@ void gsb_import_assistant_importer_fichier (void)
                     format_str, NULL);
     assistant = gsb_assistant_new (_("Importing transactions into Grisbi"),
                         tmp_str,
-                        "impexp.png",
+                        "import-48.png",
                         NULL);
     g_free (format_str);
     g_free (tmp_str);

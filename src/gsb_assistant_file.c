@@ -150,7 +150,7 @@ GtkResponseType gsb_assistant_file_run ( gboolean first_opening,
     }
 
     assistant = gsb_assistant_new (text_1, text_2,
-				   "grisbi.png", NULL);
+				   "new-file-48.png", NULL);
 
     gsb_assistant_add_page ( assistant,
 			     gsb_assistant_file_page_2 (assistant),
@@ -271,7 +271,7 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
     gtk_container_set_border_width ( GTK_CONTAINER (page), BOX_BORDER_WIDTH );
 
     vbox = new_vbox_with_title_and_icon ( _("General configuration"),
-					  "payees.png" );
+					  "payees-48.png" );
     gtk_box_pack_start ( GTK_BOX (page),
 			 vbox,
 			 TRUE, TRUE, 0 );
@@ -367,7 +367,7 @@ static GtkWidget *gsb_assistant_file_page_3 ( GtkWidget *assistant )
     gtk_container_set_border_width ( GTK_CONTAINER (page), BOX_BORDER_WIDTH );
 
     vbox = new_vbox_with_title_and_icon ( _("Select base currency"),
-					  "currencies.png" );
+					  "currencies-48.png" );
     gtk_box_pack_start ( GTK_BOX (page),
 			 vbox,
 			 TRUE, TRUE, 0 );
@@ -405,7 +405,7 @@ static GtkWidget *gsb_assistant_file_page_4 ( GtkWidget *assistant )
     gtk_container_set_border_width ( GTK_CONTAINER (page), BOX_BORDER_WIDTH );
 
     vbox = new_vbox_with_title_and_icon ( _("Select the list of categories you will use"),
-					  "categories.png" );
+					  "categories-48.png" );
     gtk_box_pack_start ( GTK_BOX (page),
 			 vbox,
 			 TRUE, TRUE, 0 );
@@ -466,7 +466,7 @@ static GtkWidget *gsb_assistant_file_page_finish ( GtkWidget *assistant,
     gtk_container_set_border_width ( GTK_CONTAINER (page), BOX_BORDER_WIDTH );
 
     vbox = new_vbox_with_title_and_icon ( _("Configuration finished!"),
-					  "reconciliationlg.png" );
+					  "reconciliation-32.png" );
     gtk_box_pack_start ( GTK_BOX (page),
 			 vbox,
 			 TRUE, TRUE, 0 );

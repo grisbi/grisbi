@@ -2689,20 +2689,20 @@ gchar *gsb_data_account_get_account_standard_pixbuf_filename ( kind_account acco
     switch ( account_kind )
     {
     case GSB_TYPE_BANK:
-        account_icon = "ac_bank.png";
+        account_icon = "ac-bank-32.png";
         break;
     case GSB_TYPE_CASH:
-        account_icon = "ac_cash.png";
+        account_icon = "ac-cash-32.png";
         break;
     case GSB_TYPE_ASSET:
-    account_icon = "ac_asset.png";
+    account_icon = "ac-asset-32.png";
         break;
     case GSB_TYPE_LIABILITIES:
-        account_icon = "ac_liability.png";
+        account_icon = "ac-liability-32.png";
         break;
     case GSB_TYPE_BALANCE:
     default:
-        account_icon = "ac_bank.png";
+        account_icon = "ac-bank-32.png";
         break;
     }
 

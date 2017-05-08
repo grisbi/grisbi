@@ -391,7 +391,7 @@ GtkWidget *creation_barre_outils_echeancier ( void )
     toolbar = gtk_toolbar_new ();
 
     /* new scheduled button */
-    item = utils_buttons_tool_button_new_from_image_label ( "new-scheduled.png", _("New scheduled") );
+    item = utils_buttons_tool_button_new_from_image_label ( "new-scheduled-24.png", _("New scheduled") );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ),
                         _("Prepare form to create a new scheduled transaction") );
     g_signal_connect_swapped ( G_OBJECT ( item ),
@@ -425,7 +425,7 @@ GtkWidget *creation_barre_outils_echeancier ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), GTK_TOOL_ITEM ( scheduler_button_edit ), -1 );
 
     /* Display/hide comments */
-    scheduler_display_hide_notes = GTK_WIDGET ( utils_buttons_tool_button_new_from_image_label ( "comments.png", _("Notes") ) );
+    scheduler_display_hide_notes = GTK_WIDGET ( utils_buttons_tool_button_new_from_image_label ( "comments-24.png", _("Notes") ) );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( scheduler_display_hide_notes ),
                         _("Display the notes of scheduled transactions") );
     g_signal_connect ( G_OBJECT ( scheduler_display_hide_notes ),
