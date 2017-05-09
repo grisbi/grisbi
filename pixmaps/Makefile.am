@@ -47,6 +47,20 @@ grisbi_pixmaps_DATA = \
 	grisbi-logo.png \
 	grisbi-48.png \
 	grisbi.svg \
+	gsb-about.png \
+	gsb-close.png \
+	gsb-convert.png \
+	gsb-copy.png \
+	gsb-delete.png \
+	gsb-edit.png \
+	gsb-help.png \
+	gsb-new.png \
+	gsb-open.png \
+	gsb-preferences.png \
+	gsb-quit.png \
+	gsb-save-as.png \
+	gsb-save.png \
+	gsb-search.png \
 	import-16.png \
 	import-32.png \
 	import-48.png \

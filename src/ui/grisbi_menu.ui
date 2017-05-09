@@ -16,14 +16,14 @@
         <attribute name="label" translatable="yes">_Preferences</attribute>
         <attribute name="action">app.prefs</attribute>
         <attribute name="accel">&lt;Alt&gt;p</attribute>
-        <attribute name="icon">gtk-preferences</attribute>
+        <attribute name="icon">gsb-preferences</attribute>
       </item>
     </section>
     <section>
       <item>
         <attribute name="label" translatable="yes">About</attribute>
         <attribute name="action">app.about</attribute>
-        <attribute name="icon">gtk-about</attribute>
+        <attribute name="icon">gsb-about</attribute>
       </item>
     </section>
     <section>
@@ -31,7 +31,7 @@
         <attribute name="label" translatable="yes">_Quit</attribute>
         <attribute name="action">app.quit</attribute>
         <attribute name="accel">&lt;Primary&gt;q</attribute>
-        <attribute name="icon">gtk-quit</attribute>
+        <attribute name="icon">gsb-quit</attribute>
       </item>
     </section>
   </menu>
@@ -105,12 +105,12 @@
         <item>
           <attribute name="label" translatable="yes">Obfuscate account file</attribute>
           <attribute name="action">win.obf-acc-file</attribute>
-          <attribute name="icon">gtk-search</attribute>
+          <attribute name="icon">gsb-search</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Obfuscate QIF file</attribute>
           <attribute name="action">win.obf-qif-file</attribute>
-          <attribute name="icon">gtk-search</attribute>
+          <attribute name="icon">gsb-search</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Debug mode</attribute>
@@ -122,7 +122,7 @@
           <attribute name="label" translatable="yes">Close</attribute>
           <attribute name="action">win.file-close</attribute>
           <attribute name="accel">&lt;Primary&gt;w</attribute>
-          <attribute name="icon">gtk-close</attribute>
+          <attribute name="icon">gsb-close</attribute>
         </item>
     </section>
     </submenu>
@@ -133,7 +133,7 @@
         <item>
           <attribute name="label" translatable="yes">Edit transaction</attribute>
           <attribute name="action">win.edit-ope</attribute>
-          <attribute name="icon">gtk-edit</attribute>
+          <attribute name="icon">gsb-edit</attribute>
         </item>
       </section>
       <section>
@@ -146,17 +146,17 @@
         <item>
           <attribute name="label" translatable="yes">Remove transaction</attribute>
           <attribute name="action">win.remove-ope</attribute>
-          <attribute name="icon">gtk-delete</attribute>
+          <attribute name="icon">gsb-delete</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Use selected transaction as a template</attribute>
           <attribute name="action">win.template-ope</attribute>
-          <attribute name="icon">gtk-copy</attribute>
+          <attribute name="icon">gsb-copy</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Clone transaction</attribute>
           <attribute name="action">win.clone-ope</attribute>
-          <attribute name="icon">gtk-copy</attribute>
+          <attribute name="icon">gsb-copy</attribute>
         </item>
       </section>
       <section>
@@ -170,12 +170,12 @@
           <attribute name="label" translatable="yes">New account</attribute>
           <attribute name="action">win.new-acc</attribute>
           <attribute name="accel">&lt;Shift&gt;&lt;Primary&gt;n</attribute>
-          <attribute name="icon">gtk-new</attribute>
+          <attribute name="icon">gsb-new</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Remove current account</attribute>
           <attribute name="action">win.remove-acc</attribute>
-          <attribute name="icon">gtk-delete</attribute>
+          <attribute name="icon">gsb-delete</attribute>
         </item>
       </section>
     </submenu>
@@ -239,7 +239,7 @@
           <attribute name="label" translatable="yes">Manual</attribute>
           <attribute name="action">win.manual</attribute>
           <attribute name="accel">F1</attribute>
-          <attribute name="icon">gtk-help</attribute>
+          <attribute name="icon">gsb-help</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Quick start</attribute>
@@ -288,7 +288,7 @@
           <attribute name="label" translatable="yes">Open</attribute>
           <attribute name="action">win.open-file</attribute>
           <attribute name="accel">&lt;Primary&gt;o</attribute>
-          <attribute name="icon">gtk-open</attribute>
+          <attribute name="icon">gsb-open</attribute>
         </item>
       </section>
       <section>
@@ -301,12 +301,12 @@
 		      <attribute name="label" translatable="yes">Save</attribute>
 		      <attribute name="action">win.save</attribute>
 		      <attribute name="accel">&lt;Primary&gt;s</attribute>
-          <attribute name="icon">gtk-save</attribute>
+          <attribute name="icon">gsb-save</attribute>
 		    </item>
 		    <item>
 		      <attribute name="label" translatable="yes">Save As</attribute>
 		      <attribute name="action">win.save-as</attribute>
-          <attribute name="icon">gtk-save-as</attribute>
+          <attribute name="icon">gsb-save-as</attribute>
 		    </item>
 		  </section>
       <section>
@@ -343,12 +343,12 @@
         <item>
           <attribute name="label" translatable="yes">Obfuscate account file</attribute>
           <attribute name="action">win.obf-acc-file</attribute>
-          <attribute name="icon">gtk-search</attribute>
+          <attribute name="icon">gsb-search</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Obfuscate QIF file</attribute>
           <attribute name="action">win.obf-qif-file</attribute>
-          <attribute name="icon">gtk-search</attribute>
+          <attribute name="icon">gsb-search</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Debug mode</attribute>
@@ -360,13 +360,13 @@
           <attribute name="label" translatable="yes">Close</attribute>
           <attribute name="action">win.file-close</attribute>
           <attribute name="accel">&lt;Primary&gt;w</attribute>
-          <attribute name="icon">gtk-close</attribute>
+          <attribute name="icon">gsb-close</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">_Quit</attribute>
           <attribute name="action">win.quit</attribute>
           <attribute name="accel">&lt;Primary&gt;q</attribute>
-          <attribute name="icon">gtk-quit</attribute>
+          <attribute name="icon">gsb-quit</attribute>
         </item>
     </section>
     </submenu>
@@ -377,7 +377,7 @@
         <item>
           <attribute name="label" translatable="yes">Edit transaction</attribute>
           <attribute name="action">win.edit-ope</attribute>
-          <attribute name="icon">gtk-edit</attribute>
+          <attribute name="icon">gsb-edit</attribute>
         </item>
       </section>
       <section>
@@ -390,24 +390,24 @@
         <item>
           <attribute name="label" translatable="yes">Remove transaction</attribute>
           <attribute name="action">win.remove-ope</attribute>
-          <attribute name="icon">gtk-delete</attribute>
+          <attribute name="icon">gsb-delete</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Use selected transaction as a template</attribute>
           <attribute name="action">win.template-ope</attribute>
-          <attribute name="icon">gtk-copy</attribute>
+          <attribute name="icon">gsb-copy</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Clone transaction</attribute>
           <attribute name="action">win.clone-ope</attribute>
-          <attribute name="icon">gtk-copy</attribute>
+          <attribute name="icon">gsb-copy</attribute>
         </item>
       </section>
       <section>
         <item>
           <attribute name="label" translatable="yes">Convert to scheduled transaction</attribute>
           <attribute name="action">win.convert-ope</attribute>
-          <attribute name="icon">gtk-convert</attribute>
+          <attribute name="icon">gsb-convert</attribute>
         </item>
       </section>
       <section>
@@ -415,12 +415,12 @@
           <attribute name="label" translatable="yes">New account</attribute>
           <attribute name="action">win.new-acc</attribute>
           <attribute name="accel">&lt;Shift&gt;&lt;Primary&gt;n</attribute>
-          <attribute name="icon">gtk-new</attribute>
+          <attribute name="icon">gsb-new</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Remove current account</attribute>
           <attribute name="action">win.remove-acc</attribute>
-          <attribute name="icon">gtk-delete</attribute>
+          <attribute name="icon">gsb-delete</attribute>
         </item>
       </section>
       <section>
@@ -428,7 +428,7 @@
           <attribute name="label" translatable="yes">_Preferences</attribute>
           <attribute name="action">win.prefs</attribute>
           <attribute name="accel">&lt;Alt&gt;p</attribute>
-          <attribute name="icon">gtk-preferences</attribute>
+          <attribute name="icon">gsb-preferences</attribute>
         </item>
       </section>
     </submenu>
@@ -492,7 +492,7 @@
           <attribute name="label" translatable="yes">Manual</attribute>
           <attribute name="action">win.manual</attribute>
           <attribute name="accel">F1</attribute>
-          <attribute name="icon">gtk-help</attribute>
+          <attribute name="icon">gsb-help</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Quick start</attribute>
@@ -501,7 +501,7 @@
       <item>
         <attribute name="label" translatable="yes">About</attribute>
         <attribute name="action">win.about</attribute>
-        <attribute name="icon">gtk-about</attribute>
+        <attribute name="icon">gsb-about</attribute>
       </item>
       </section>
       <section>
