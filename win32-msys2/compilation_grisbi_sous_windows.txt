@@ -24,6 +24,7 @@
 		pacman -S mingw32/mingw-w64-i686-glib2
 		pacman -S msys/glib2-devel
 		pacman -S mingw32/mingw-w64-i686-gtk3
+			nota : le programme s'arrête pour la configuration de fontconfig. Attendre ou ouvrir le fichier README
 		pacman -S mingw32/mingw-w64-i686-libgsf
 
 	3.2) Pour architecture 64 Bits
