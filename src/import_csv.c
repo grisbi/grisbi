@@ -1191,14 +1191,30 @@ gboolean import_enter_csv_preview_page (GtkWidget *assistant)
     g_return_val_if_fail (filename, FALSE);
 
     /* Open file */
-    if (! g_file_get_contents (filename, &tmp_str, &size, &error))
+    if (!g_file_get_contents (filename, &tmp_str, &size, &error))
     {
         g_print (_("Unable to read file: %s\n"), error->message);
         g_error_free (error);
-        return FALSE;
+
+		return FALSE;
     }
 
-    /* Convert in UTF8 */
+	/*longueur nulle */
+	if (size == 0)
+	{
+		gchar *tmp_str2;
+
+		tmp_str2 = g_path_get_basename (filename);
+		tmp_str = g_strdup_printf ( _("The file %s is empty. Please choose another file."), tmp_str2);
+        dialogue_warning_hint (tmp_str, _("File emty."));
+
+		g_free (tmp_str);
+		g_free (tmp_str2);
+
+		return FALSE;
+    }
+
+	/* Convert in UTF8 */
     error = NULL;
     contents = g_convert_with_fallback (tmp_str, -1, "UTF-8", imported->coding_system,
                         "?", &size, &bytes_written, &error);
