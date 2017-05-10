@@ -1501,7 +1501,7 @@ msgstr "Description"
 #: ../src/gsb_transactions_list.c:177 ../src/gsb_transactions_list.c:3329
 #: ../src/import_csv.c:90
 msgid "Balance"
-msgstr "Solde"
+msgstr "Montant signé"
 
 #: ../src/bet_tab.c:1019 ../src/bet_tab.c:1032 ../src/bet_tab.c:1223
 #: ../src/bet_tab.c:2649 ../src/bet_tab.c:2654

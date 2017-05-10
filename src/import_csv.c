@@ -55,23 +55,23 @@ static gint *csv_fields_config = NULL;
 
 /** Contain configuration of CSV fields.  */
 struct csv_field csv_fields[18] = {
-    { N_("Unknown field"),  0.0, NULL,			     NULL		     , "" },
-    { N_("Currency"),	    0.0, csv_import_validate_string, csv_import_parse_currency, "" },
-    { N_("Date"),	    0.0, csv_import_validate_date,   csv_import_parse_date, "" },
-    { N_("Value date"),	    0.0, csv_import_validate_date,   csv_import_parse_value_date, "" },
-    { N_("Payee"),	    0.0, csv_import_validate_string, csv_import_parse_payee, N_("Wording") },
-    { N_("Notes"),	    0.0, csv_import_validate_string, csv_import_parse_notes, "" },
-    { N_("Cheque number"), 0.0, csv_import_validate_number, csv_import_parse_cheque, "" },
-    { N_("Category"),	    0.0, csv_import_validate_string, csv_import_parse_category, "" },
-    { N_("Sub-categories"),   0.0, csv_import_validate_string, csv_import_parse_sub_category, "" },
-	{ N_("Budgetary lines"), 0.0, csv_import_validate_string, csv_import_parse_budget, "" },
-	{ N_("Sub-budgetary lines"), 0.0, csv_import_validate_string, csv_import_parse_sub_budget, "" },
-    { N_("Balance"),        0.0, csv_import_validate_amount, csv_import_parse_balance, "" },
-    { N_("Credit (amount)"), 0.0, csv_import_validate_amount, csv_import_parse_credit, "" },
-    { N_("Debit (absolute)"),0.0, csv_import_validate_amount, csv_import_parse_debit, N_("Debit") },
-    { N_("Debit (negative)"),0.0, csv_import_validate_amount, csv_import_parse_credit, "" },
-    { N_("C/R"),	    0.0, csv_import_validate_string, csv_import_parse_p_r, "" },
-    { N_("Split"),	    0.0, csv_import_validate_string, csv_import_parse_split, "" },
+    { N_("Unknown field"),  0.0, NULL,			     NULL		     , "" },							/* 0 */
+    { N_("Currency"),	    0.0, csv_import_validate_string, csv_import_parse_currency, "" },			/* 1 */
+    { N_("Date"),	    0.0, csv_import_validate_date,   csv_import_parse_date, "" },					/* 2 */
+    { N_("Value date"),	    0.0, csv_import_validate_date,   csv_import_parse_value_date, "" },			/* 3 */
+    { N_("Payee"),	    0.0, csv_import_validate_string, csv_import_parse_payee, N_("Wording") },		/* 4 */
+    { N_("Notes"),	    0.0, csv_import_validate_string, csv_import_parse_notes, "" },					/* 5 */
+    { N_("Cheque number"), 0.0, csv_import_validate_number, csv_import_parse_cheque, "" },				/* 6 */
+    { N_("Category"),	    0.0, csv_import_validate_string, csv_import_parse_category, "" },			/* 7 */
+    { N_("Sub-categories"),   0.0, csv_import_validate_string, csv_import_parse_sub_category, "" },		/* 8 */
+	{ N_("Budgetary lines"), 0.0, csv_import_validate_string, csv_import_parse_budget, "" },			/* 9 */
+	{ N_("Sub-budgetary lines"), 0.0, csv_import_validate_string, csv_import_parse_sub_budget, "" },	/* 10 */
+    { N_("Balance"),        0.0, csv_import_validate_amount, csv_import_parse_balance, "" },			/* 11 */
+    { N_("Credit (amount)"), 0.0, csv_import_validate_amount, csv_import_parse_credit, "" },			/* 12 */
+    { N_("Debit (absolute)"),0.0, csv_import_validate_amount, csv_import_parse_debit, N_("Debit") },	/* 13 */
+    { N_("Debit (negative)"),0.0, csv_import_validate_amount, csv_import_parse_credit, "" },			/* 14 */
+    { N_("C/R"),	    0.0, csv_import_validate_string, csv_import_parse_p_r, "" },					/* 15 */
+    { N_("Split"),	    0.0, csv_import_validate_string, csv_import_parse_split, "" },					/* 16 */
     { NULL, 0.0, NULL, NULL, NULL },
 };
 
@@ -151,7 +151,7 @@ static gint csv_import_count_columns (gchar *contents,
     GSList *list;
     gchar *tmp = contents;
 
-    if (! contents)
+    if (!contents)
 		return 0;
 
     do
@@ -192,7 +192,7 @@ static gint csv_skip_lines (gchar **contents,
     {
 		list = csv_get_next_line (contents, separator);
 
-		if (! list)
+		if (!list)
 		{
 			return i;
 		}
@@ -242,49 +242,49 @@ static gint *csv_import_guess_fields_config (gchar *contents,
     default_config = (gint *) g_malloc0 ((size + 1) * sizeof (int));
 
     list = csv_get_next_line (&contents, separator);
-    if (! list)
-	return default_config;
+    if (!list)
+		return default_config;
 
     /** First, we try to match first line because it might contains of
      * the fields.  */
     for (i = 0 ; i < size && list ; i ++)
     {
-	gint field;
+		gint field;
 
-	gchar *value = list->data;
+		gchar *value = list->data;
 
-	for (field = 0 ; csv_fields [ field ] . name != NULL ; field ++)
-	{
-	    if (strlen (value) > 1 &&
-		 strlen (csv_fields [ field ] . name) > 1)
-        {
-            if (strlen (csv_fields [ field ] . alias) > 1
-             &&
-             (safe_contains (csv_fields [ field ] . name, value) ||
-               safe_contains (_(csv_fields [ field ] . name), value) ||
-               safe_contains (csv_fields [ field ] . alias, value) ||
-               safe_contains (_(csv_fields [ field ] . alias), value)))
-            {
-                if (!default_config [ i ])
-                {
-                    default_config [ i ] = field;
-                    etat.csv_skipped_lines [ 0 ] = 1;
-                }
+		for (field = 0 ; csv_fields [field].name != NULL ; field ++)
+		{
+			if (strlen (value) > 1 &&
+			 strlen (csv_fields [field].name) > 1)
+			{
+				if (strlen (csv_fields [field].alias) > 1
+				 &&
+				 (safe_contains (csv_fields [field].name, value) ||
+				   safe_contains (_(csv_fields [field].name), value) ||
+				   safe_contains (csv_fields [field].alias, value) ||
+				   safe_contains (_(csv_fields [field].alias), value)))
+				{
+					if (!default_config [i])
+					{
+						default_config [i] = field;
+						etat.csv_skipped_lines [0] = 1;
+					}
 
-            }
-            else if (safe_contains (csv_fields [ field ] . name, value) ||
-             safe_contains (_(csv_fields [ field ] . name), value))
-            {
-                if (!default_config [ i ])
-                {
-                    default_config [ i ] = field;
-                    etat.csv_skipped_lines [ 0 ] = 1;
-               }
-            }
-        }
-	}
+				}
+				else if (safe_contains (csv_fields [field].name, value) ||
+				 safe_contains (_(csv_fields [field].name), value))
+				{
+					if (!default_config [i])
+					{
+						default_config [i] = field;
+						etat.csv_skipped_lines [0] = 1;
+				   }
+				}
+			}
+		}
 
-	list = list->next;
+		list = list->next;
     }
 
     csv_skip_lines (&contents, 3, separator);
@@ -298,55 +298,55 @@ static gint *csv_import_guess_fields_config (gchar *contents,
 
 	list = csv_get_next_line (&contents, separator);
 
-	if (! list)
+	if (!list)
 	    return default_config;
 
 	for (i = 0 ; i < size && list ; i ++)
 	{
-	    string = list->data;
+			string = list->data;
 
-	    if (strlen (string))
-	    {
-		if (csv_import_validate_date (string) && ! date_validated &&
-		     ! default_config [ i ])
-		{
-		    default_config [ i ] = 2; /* Date */
-		    date_validated = TRUE;
+			if (strlen (string))
+			{
+				if (csv_import_validate_date (string) && !date_validated &&
+					 !default_config [i])
+				{
+					default_config [i] = 2; /* Date */
+					date_validated = TRUE;
+				}
+				else if (csv_import_validate_amount (string) &&
+					  !csv_import_validate_number (string) &&
+					  strlen(string) <= 9)	/* This is a hack
+								 * since most numbers
+								 are smaller than 8 chars. */
+				{
+					if (g_strrstr (string, "-")) /* This is negative */
+					{
+						if (!default_config [i])
+						{
+							default_config [i] = 14; /* Negative debit */
+						}
+						else if (default_config [i] == 12)
+						{
+							default_config [i] = 11; /* Neutral amount */
+						}
+					}
+					else
+					{
+						if (!default_config [i])
+						{
+							default_config [i] = 12; /* Negative debit */
+						}
+						else if (default_config [i] == 14)
+						{
+							default_config [i] = 11; /* Neutral amount */
+						}
+					}
+				}
+			}
+			list = list->next;
 		}
-		else if (csv_import_validate_amount (string) &&
-			  ! csv_import_validate_number (string) &&
-			  strlen(string) <= 9)	/* This is a hack
-						 * since most numbers
-						 are smaller than 8 chars. */
-		{
-		    if (g_strrstr (string, "-")) /* This is negative */
-		    {
-                if (! default_config [ i ])
-                {
-                    default_config [ i ] = 14; /* Negative debit */
-                }
-                else if (default_config [ i ] == 12)
-                {
-                    default_config [ i ] = 11; /* Neutral amount */
-                }
-		    }
-		    else
-		    {
-                if (! default_config [ i ])
-                {
-                    default_config [ i ] = 12; /* Negative debit */
-                }
-                else if (default_config [ i ] == 14)
-                {
-                    default_config [ i ] = 11; /* Neutral amount */
-                }
-		    }
-		}
-	    }
-	    list = list->next;
-	}
 
-	default_config [ size ] = -1;
+		default_config [size] = -1;
     }
 
     return default_config;
@@ -370,16 +370,16 @@ static gint *csv_import_update_fields_config (gchar *contents,
 
     g_return_val_if_fail (size, NULL);
 
-    if (! old_csv_fields_config)
+    if (!old_csv_fields_config)
     {
-	return csv_import_guess_fields_config (contents, size, separator);
+		return csv_import_guess_fields_config (contents, size, separator);
     }
 
     csv_fields_config = (gint *) g_malloc ((size + 2) * sizeof (gint));
 
-    for (i = 0; i < size && old_csv_fields_config [ i ] != -1 ; i ++)
+    for (i = 0; i < size && old_csv_fields_config [i] != -1 ; i ++)
     {
-	csv_fields_config [ i ] = old_csv_fields_config [ i ];
+		csv_fields_config [i] = old_csv_fields_config [i];
     }
 
     for (; i < size ; i ++)
@@ -391,7 +391,7 @@ static gint *csv_import_update_fields_config (gchar *contents,
     {
 		g_free (old_csv_fields_config);
     }
-    csv_fields_config [ i ] = -1;
+    csv_fields_config [i] = -1;
 
     return csv_fields_config;
 }
@@ -407,9 +407,10 @@ static gboolean csv_find_field_config (gint searched)
 {
     gint f;
 
-    for (f = 0 ; csv_fields_config [ f ] != -1 ; f ++)
+    for (f = 0 ; csv_fields_config[f] != -1 ; f ++)
     {
-		if (csv_fields_config [ f ] == searched)
+		printf ("csv_fields_config[%d] = %d\n", f, csv_fields_config[f]);
+		if (csv_fields_config [f] == searched)
 		{
 			return TRUE;
 		}
@@ -430,34 +431,40 @@ static void csv_import_update_validity_check (GtkWidget *assistant)
     int i, needed[] = { 2, 4, -1 };
     gchar *label = NULL;
 
-    if (! csv_fields_config)
-	return;
+devel_debug (NULL);
+    if (!csv_fields_config)
+		return;
 
     /* Check all needed fields.  */
-    for (i = 0 ; needed [ i ] != -1 ; i ++)
+    for (i = 0 ; needed [i] != -1 ; i ++)
     {
-	if (!csv_find_field_config (needed [ i ]))
-	{
-	    if (label)
-	    {
-		label = g_strconcat (label, ", ", _(csv_fields [ needed [ i ] ] . name),
-				      NULL);
-	    }
-	    else
-	    {
-		label = _(csv_fields [ needed [ i ] ] . name);
-	    }
-	}
+		if (!csv_find_field_config (needed [i]))
+		{
+			if (label)
+			{
+				label = g_strconcat (label, ", ", _(csv_fields [needed [i]].name), NULL);
+			}
+			else
+			{
+				label = _(csv_fields [needed [i]].name);
+			}
+		}
     }
 
     /** After checking all required fields, check the conformity of
      * transaction amount, which is somewhat complicated. */
-    if (!((csv_find_field_config (11) && !csv_find_field_config (12) &&
-           !csv_find_field_config (13) && !csv_find_field_config (14))
-     ||
-     (!csv_find_field_config (11) &&  csv_find_field_config (12) &&
-       (csv_find_field_config (13) || csv_find_field_config (14)) &&
-       !(csv_find_field_config (13) && csv_find_field_config (14)))))
+	/* NON ((11 ET NON 12 ET NON 13 ET NON 14) OU (NON 11 ET 12 ET (13 XOR 14))) */
+    if (!(																		/* NON () OU () */
+		  (csv_find_field_config (11) && !csv_find_field_config (12)
+		   && !csv_find_field_config (13) && !csv_find_field_config (14))
+		  ||																	/* OU */
+		  (!csv_find_field_config (11) && csv_find_field_config (12)
+		   &&
+		   (csv_find_field_config (13) || csv_find_field_config (14))
+		   && !(csv_find_field_config (13) && csv_find_field_config (14))
+		   )
+		  )
+		)
     {
         if (label)
         {
@@ -473,22 +480,22 @@ static void csv_import_update_validity_check (GtkWidget *assistant)
      * show or hide a warning icon.  */
     if (label)
     {
-	gtk_label_set_markup (g_object_get_data (G_OBJECT(assistant), "validity_label"),
-                        g_markup_printf_escaped (
-                        _("<b>The following fields are missing or inconsistent:</b> %s"),
-                        label));
-	gtk_widget_show (g_object_get_data (G_OBJECT(assistant), "validity_icon"));
-	gtk_widget_set_sensitive (g_object_get_data (G_OBJECT (assistant),
-						       "button_next"), FALSE);
+		gtk_label_set_markup (g_object_get_data (G_OBJECT(assistant),
+												 "validity_label"),
+							  g_markup_printf_escaped (_("<b>The following fields are missing or inconsistent:</b> %s"),
+													   label));
+		gtk_widget_show (g_object_get_data (G_OBJECT(assistant), "validity_icon"));
+		gtk_widget_set_sensitive (g_object_get_data (G_OBJECT (assistant),
+													 "button_next"),
+								  FALSE);
     }
     else
     {
-	gtk_label_set_markup (g_object_get_data (G_OBJECT(assistant), "validity_label"),
-			       _("All mandatory fields are filed in."));
-	gtk_widget_hide (g_object_get_data (G_OBJECT(assistant), "validity_icon"));
-	gtk_widget_set_sensitive (g_object_get_data (G_OBJECT (assistant), "button_next"), TRUE);
-	gtk_widget_set_sensitive (g_object_get_data (G_OBJECT (assistant), "button_rule"), TRUE);
-
+		gtk_label_set_markup (g_object_get_data (G_OBJECT(assistant), "validity_label"),
+							  _("All mandatory fields are filed in."));
+		gtk_widget_hide (g_object_get_data (G_OBJECT(assistant), "validity_icon"));
+		gtk_widget_set_sensitive (g_object_get_data (G_OBJECT (assistant), "button_next"), TRUE);
+		gtk_widget_set_sensitive (g_object_get_data (G_OBJECT (assistant), "button_rule"), TRUE);
     }
 }
 
@@ -513,23 +520,22 @@ static gboolean csv_import_change_field (GtkWidget *item,
     col = g_object_get_data (G_OBJECT(item), "column");
     field = GPOINTER_TO_INT (g_object_get_data (G_OBJECT(item), "field"));
 
-    gtk_tree_view_column_set_title (col, _(csv_fields [ no_menu ] . name));
+    gtk_tree_view_column_set_title (col, _(csv_fields [no_menu].name));
 
     if (no_menu > 0)
     {
-	name = g_strconcat ("<b><u>", _(csv_fields [ no_menu ] . name),
-			     "</u></b>", NULL);
+		name = g_strconcat ("<b><u>", _(csv_fields [no_menu].name), "</u></b>", NULL);
     }
     else
     {
-	name = _(csv_fields [ no_menu ] . name);
+		name = _(csv_fields [no_menu].name);
     }
     label = gtk_label_new (name);
     gtk_label_set_markup (GTK_LABEL(label), name);
     gtk_widget_show (label);
     gtk_tree_view_column_set_widget (col, label);
 
-    csv_fields_config [ field ] = no_menu;
+    csv_fields_config [field] = no_menu;
 
     csv_import_update_validity_check (g_object_get_data (G_OBJECT(col), "assistant"));
 
@@ -555,15 +561,17 @@ static GtkWidget *csv_import_fields_menu (GtkTreeViewColumn *col,
 
     menu = gtk_menu_new();
 
-    for (i = 0 ; csv_fields[i] . name ; i++)
+    for (i = 0 ; csv_fields[i].name ; i++)
     {
-	item = gtk_menu_item_new_with_label ((gchar *) _(csv_fields[i] . name));
-	g_object_set_data (G_OBJECT (item), "column", col);
-	g_object_set_data (G_OBJECT (item), "field", GINT_TO_POINTER(field - 1));
-	g_object_set_data (G_OBJECT (item), "assistant", assistant);
-	g_signal_connect (G_OBJECT (item), "activate",
-			     G_CALLBACK (csv_import_change_field), GINT_TO_POINTER( i));
-	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+		item = gtk_menu_item_new_with_label ((gchar *) _(csv_fields[i].name));
+		g_object_set_data (G_OBJECT (item), "column", col);
+		g_object_set_data (G_OBJECT (item), "field", GINT_TO_POINTER(field - 1));
+		g_object_set_data (G_OBJECT (item), "assistant", assistant);
+		g_signal_connect (G_OBJECT (item),
+						  "activate",
+						  G_CALLBACK (csv_import_change_field),
+						  GINT_TO_POINTER( i));
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
     }
 
     gtk_widget_show_all (menu);
@@ -587,10 +595,9 @@ static gboolean csv_import_header_on_click (GtkWidget *button,
     col = g_object_get_data (G_OBJECT (button), "column");
 
     menu = csv_import_fields_menu (GTK_TREE_VIEW_COLUMN (col),
-				    GPOINTER_TO_INT (no_column),
-				    g_object_get_data (G_OBJECT(col), "assistant"));
-    gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL, 3,
-		     gtk_get_current_event_time());
+								   GPOINTER_TO_INT (no_column),
+								   g_object_get_data (G_OBJECT(col), "assistant"));
+    gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL, 3, gtk_get_current_event_time());
 
     return FALSE;
 }
@@ -622,7 +629,7 @@ static void skip_line_toggled (GtkCellRendererToggle *cell,
     gtk_tree_store_set (GTK_TREE_STORE (tree_model), &iter, 0, !toggle_item, -1);
 
     indices = gtk_tree_path_get_indices (path);
-    etat.csv_skipped_lines [ indices[0] ] = !toggle_item;
+    etat.csv_skipped_lines [indices[0]] = !toggle_item;
 }
 
 /**
@@ -647,7 +654,7 @@ static GtkTreeModel *csv_import_create_model (GtkTreeView *tree_preview,
     GList *list;
 
     size = csv_import_count_columns (contents, separator);
-    if (! size || ! contents)
+    if (!size || !contents)
 	    return NULL;
 
     csv_fields_config = csv_import_update_fields_config (contents, size, separator);
@@ -668,15 +675,15 @@ static GtkTreeModel *csv_import_create_model (GtkTreeView *tree_preview,
     types[0] = G_TYPE_BOOLEAN;
     cell = gtk_cell_renderer_toggle_new ();
     col = gtk_tree_view_column_new_with_attributes (_("Skip"),
-					    cell,
-                        "active", 0,
-					    NULL);
+													cell,
+													"active", 0,
+													NULL);
     gtk_tree_view_append_column (tree_preview, col);
     g_object_set_data (G_OBJECT (col), "assistant", assistant);
     g_signal_connect (cell,
-                        "toggled",
-                        G_CALLBACK (skip_line_toggled),
-                        tree_preview);
+                      "toggled",
+                      G_CALLBACK (skip_line_toggled),
+                      tree_preview);
 
     for (i = 0 ; i < size ; i ++)
     {
@@ -686,21 +693,22 @@ static GtkTreeModel *csv_import_create_model (GtkTreeView *tree_preview,
         types[i+1] = G_TYPE_STRING;
 
         cell = gtk_cell_renderer_text_new ();
-        col = gtk_tree_view_column_new_with_attributes (
-                        NULL,
-                        cell,
-                        "text", i + 1,
-                        "strikethrough", 0,
-                        NULL);
+        col = gtk_tree_view_column_new_with_attributes (NULL,
+														cell,
+														"text", i + 1,
+														"strikethrough", 0,
+														NULL);
 
         if (csv_fields_config[i] > 0)
         {
-            name = g_strconcat ("<b><u>", _(csv_fields [ csv_fields_config[i] ] . name),
-                     "</u></b>", NULL);
+            name = g_strconcat ("<b><u>",
+								_(csv_fields [csv_fields_config[i]].name),
+								"</u></b>",
+								NULL);
         }
         else
         {
-            name = my_strdup (_(csv_fields [ csv_fields_config[i] ] . name));
+            name = my_strdup (_(csv_fields [csv_fields_config[i]].name));
         }
 
         label = gtk_label_new (NULL);
@@ -714,9 +722,9 @@ static GtkTreeModel *csv_import_create_model (GtkTreeView *tree_preview,
         g_object_set_data (G_OBJECT (col), "column", col);
         g_object_set_data (G_OBJECT (col), "assistant", assistant);
         g_signal_connect (G_OBJECT (col),
-                   "clicked",
-                   G_CALLBACK (csv_import_header_on_click),
-                   GINT_TO_POINTER (i + 1));
+						  "clicked",
+						  G_CALLBACK (csv_import_header_on_click),
+						  GINT_TO_POINTER (i + 1));
     }
 
     model =  gtk_tree_store_newv (size + 1, types);
@@ -747,15 +755,15 @@ static gint csv_import_try_separator (gchar *contents,
 
     do
     {
-	list = csv_get_next_line (&contents, separator);
+		list = csv_get_next_line (&contents, separator);
 
-	if (list && (cols != (gint) g_slist_length (list) || cols == 1))
-	{
-	    g_print ("> %d != %d, not %s\n", cols, g_slist_length (list), separator);
-	    return FALSE;
-	}
+		if (list && (cols != (gint) g_slist_length (list) || cols == 1))
+		{
+			g_print ("> %d != %d, not %s\n", cols, g_slist_length (list), separator);
+			return FALSE;
+		}
 
-	i++;
+		i++;
     }
     while (list && i < CSV_MAX_TOP_LINES);
 
@@ -784,19 +792,19 @@ static gchar *csv_import_guess_separator (gchar *contents)
 
     for (i = 0 ; separators[i] ; i++)
     {
-	gchar *tmp = contents;
-	int n = csv_import_try_separator (tmp, separators[i]);
+		gchar *tmp = contents;
+		int n = csv_import_try_separator (tmp, separators[i]);
 
-	if (n > max)
-	{
-	    max = n;
-	    cmax = separators[i];
-	}
+		if (n > max)
+		{
+			max = n;
+			cmax = separators[i];
+		}
     }
 
     if (cmax)
     {
-	return my_strdup (cmax);
+		return my_strdup (cmax);
     }
 
     /* Comma is the most used separator, so as we are puzzled we try
@@ -818,13 +826,13 @@ static gboolean csv_import_combo_changed (GtkComboBox *combo,
 {
     gint active = gtk_combo_box_get_active (combo);
 
-    if (csv_separators [ active ] . value)
+    if (csv_separators [active].value)
     {
-	gtk_entry_set_text (entry, csv_separators [ active ] . value);
+		gtk_entry_set_text (entry, csv_separators [active].value);
     }
     else
     {
-	gtk_entry_set_text (entry, "");
+		gtk_entry_set_text (entry, "");
     }
 
     return FALSE;
@@ -849,8 +857,8 @@ static gboolean csv_import_update_preview (GtkWidget *assistant)
     tree_preview = g_object_get_data (G_OBJECT(assistant), "tree_preview");
     contents = g_object_get_data (G_OBJECT(assistant), "contents");
 
-    if (! contents || ! tree_preview || ! separator)
-	return FALSE;
+    if (!contents || !tree_preview || !separator)
+		return FALSE;
 
     assistant = g_object_get_data (G_OBJECT(tree_preview), "assistant");
     model = csv_import_create_model (tree_preview, contents, separator);
@@ -867,7 +875,7 @@ static gboolean csv_import_update_preview (GtkWidget *assistant)
 
         list = csv_get_next_line (&contents, separator);
 
-        if (! list)
+        if (!list)
         {
             return FALSE;
         }
@@ -881,7 +889,7 @@ static gboolean csv_import_update_preview (GtkWidget *assistant)
             list = list->next;
         }
 
-        if (etat.csv_skipped_lines [ line ])
+        if (etat.csv_skipped_lines [line])
         {
             gtk_tree_store_set (GTK_TREE_STORE (model), &iter, 0, TRUE, -1);
         }
@@ -925,9 +933,9 @@ static gboolean csv_import_change_separator (GtkEntry *entry,
     }
 
     /* Update combobox if we can. */
-    while (csv_separators [ i ] . value)
+    while (csv_separators [i].value)
     {
-        if (strcmp (csv_separators [ i ] . value, separator) == 0)
+        if (strcmp (csv_separators [i].value, separator) == 0)
         {
             break;
         }
@@ -954,7 +962,8 @@ static gboolean csv_import_change_separator (GtkEntry *entry,
  *
  * \return			FALSE
  **/
-gboolean csv_import_csv_account (GtkWidget *assistant, struct ImportFile *imported)
+gboolean csv_import_csv_account (GtkWidget *assistant,
+								 struct ImportFile *imported)
 {
     struct ImportAccount *compte;
     gchar *contents;
@@ -971,11 +980,11 @@ gboolean csv_import_csv_account (GtkWidget *assistant, struct ImportFile *import
     contents = g_object_get_data (G_OBJECT(assistant), "contents");
     separator = g_object_get_data (G_OBJECT(assistant), "separator");
 
-    if (! csv_fields_config || ! contents)
+    if (!csv_fields_config || !contents)
     {
-	liste_comptes_importes_error = g_slist_append (liste_comptes_importes_error,
-							compte);
-	return FALSE;
+		liste_comptes_importes_error = g_slist_append (liste_comptes_importes_error,
+													   compte);
+		return FALSE;
     }
 
     list = csv_get_next_line (&contents, separator);
@@ -987,7 +996,7 @@ gboolean csv_import_csv_account (GtkWidget *assistant, struct ImportFile *import
 
         /* Check if this line was specified as to be skipped
          * earlier. */
-        if (index < CSV_MAX_TOP_LINES && etat.csv_skipped_lines [ index ])
+        if (index < CSV_MAX_TOP_LINES && etat.csv_skipped_lines [index])
         {
             /* g_print ("Skipping line %d\n", index); */
             list = csv_get_next_line (&contents, separator);
@@ -1006,7 +1015,7 @@ gboolean csv_import_csv_account (GtkWidget *assistant, struct ImportFile *import
 
         for (i = 0; csv_fields_config[i] != -1 && list ; i++)
         {
-            struct csv_field *field = & csv_fields [ csv_fields_config[i] ];
+            struct csv_field *field = & csv_fields [csv_fields_config[i]];
 
             if (field->parse)
             {
@@ -1031,7 +1040,7 @@ gboolean csv_import_csv_account (GtkWidget *assistant, struct ImportFile *import
                             ope->ope_de_ventilation = 1;
                         }
                     }
-                    else if (! field->parse (ope, list->data))
+                    else if (!field->parse (ope, list->data))
                     {
                         /* g_print ("%s", "(failed)"); */
                     }
@@ -1093,38 +1102,39 @@ GtkWidget *import_create_csv_preview_page (GtkWidget *assistant)
     combobox = gtk_combo_box_text_new ();
     do
     {
-	gchar *complete_name = g_strdup_printf ("%s : \"%s\"",
-						  _(csv_separators [ i ] . name),
-						  (csv_separators [ i ] . value ?
-						    csv_separators [ i ] . value : ""));
-	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combobox), complete_name);
-	g_free (complete_name);
+		gchar *complete_name;
+
+		complete_name = g_strdup_printf ("%s : \"%s\"",
+										 _(csv_separators [i].name),
+										 (csv_separators [i].value ?
+										 csv_separators [i].value : ""));
+		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combobox), complete_name);
+		g_free (complete_name);
 
     }
-    while (csv_separators [ i ++ ] . value);
+    while (csv_separators [i ++].value);
 
     gtk_box_pack_start (GTK_BOX(hbox), combobox, TRUE, TRUE, 0);
 
     entry = gsb_automem_entry_new (NULL,
-                        G_CALLBACK (csv_import_change_separator),
-                        assistant);
+								   G_CALLBACK (csv_import_change_separator),
+								   assistant);
     g_object_set_data (G_OBJECT(entry), "assistant", assistant);
     g_object_set_data (G_OBJECT(entry), "combobox", combobox);
     g_object_set_data (G_OBJECT(assistant), "entry", entry);
     gtk_box_pack_start (GTK_BOX(hbox), entry, FALSE, FALSE, 0);
 
     g_signal_connect (G_OBJECT (combobox),
-                        "changed",
-		                G_CALLBACK (csv_import_combo_changed),
-                        entry);
+					  "changed",
+					  G_CALLBACK (csv_import_combo_changed),
+					  entry);
 
     paddingbox = new_paddingbox_with_title (vbox, TRUE, _("Select CSV fields"));
 
     sw = gtk_scrolled_window_new (NULL, NULL);
     gtk_widget_set_size_request (sw, 480, 120);
     gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw), GTK_SHADOW_ETCHED_IN);
-    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC,
-				    GTK_POLICY_AUTOMATIC);
+    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
     gtk_box_pack_start (GTK_BOX(paddingbox), sw, TRUE, TRUE, 6);
 
     tree_preview = gtk_tree_view_new ();
@@ -1148,9 +1158,9 @@ GtkWidget *import_create_csv_preview_page (GtkWidget *assistant)
 	button = gtk_button_new_with_label (_("Create a rule for this import."));
 	g_object_set_data (G_OBJECT(assistant), "button_rule", button);
 	g_signal_connect (G_OBJECT (button),
-                        "clicked",
-		                G_CALLBACK (csv_import_button_rule_clicked),
-                        assistant);
+                      "clicked",
+		              G_CALLBACK (csv_import_button_rule_clicked),
+                      assistant);
 	gtk_widget_set_sensitive (button, FALSE);
 	gtk_box_pack_start (GTK_BOX(paddingbox), button, FALSE, FALSE, 0);
 
