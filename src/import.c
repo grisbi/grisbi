@@ -116,6 +116,8 @@ static gint 		virements_a_chercher;
 
 gchar *				charmap_imported;
 
+static gboolean		add_csv_page = FALSE;
+
 /* gestion des associations entre un tiers et sa chaine de recherche */
 GSList *			liste_associations_tiers = NULL;
 
@@ -1028,11 +1030,13 @@ static gboolean gsb_import_active_toggled (GtkCellRendererToggle *cell,
 		{
 			gsb_assistant_set_next (assistant, IMPORT_FILESEL_PAGE, IMPORT_CSV_PAGE);
 			gsb_assistant_set_prev (assistant, IMPORT_RESUME_PAGE, IMPORT_CSV_PAGE);
+			add_csv_page = TRUE;
 		}
 		else
 		{
 			gsb_assistant_set_next (assistant, IMPORT_FILESEL_PAGE, IMPORT_RESUME_PAGE);
 			gsb_assistant_set_prev (assistant, IMPORT_RESUME_PAGE, IMPORT_FILESEL_PAGE);
+			add_csv_page = FALSE;
 		}
 	}
     gsb_import_preview_maybe_sensitive_next (assistant, model);
@@ -1382,6 +1386,7 @@ static void gsb_import_select_file (GSList *filenames,
 		}
 
 		type = gsb_import_autodetect_file_type (iterator->data, tmp_contents);
+		charmap = charmap_imported;
 
 		/* passe par un fichier temporaire pour bipasser le bug libofx */
 		if (strcmp (type, "OFX") == 0)
@@ -1395,34 +1400,21 @@ static void gsb_import_select_file (GSList *filenames,
 				g_free (tmp_contents);
 				return;
 			}
-			if ((charmap = utils_files_get_ofx_charset (tmp_contents)) != NULL)
-			{
-				if (charmap_imported && strlen (charmap_imported) > 0)
-					g_free (charmap_imported);
-				charmap_imported = charmap;
-			}
+			charmap = utils_files_get_ofx_charset (tmp_contents);
 		}
 		else
 			nom_fichier = my_strdup (iterator->data);
 
-		/* CSV is special because it needs configuration, so we
-		 * add a conditional jump there. */
-		if (selected && strcmp (type, "CSV") == 0)
-		{
-			gsb_assistant_set_next (assistant, IMPORT_FILESEL_PAGE, IMPORT_CSV_PAGE);
-			gsb_assistant_set_prev (assistant, IMPORT_RESUME_PAGE, IMPORT_CSV_PAGE);
-		}
-
-		if (strcmp (charmap_imported, "UTF-8") != 0)
+		if (strcmp (charmap, "UTF-8") != 0)
 		{
 			/* Convert to UTF8 */
-			contents = g_convert (tmp_contents, -1, "UTF-8", charmap_imported, NULL, NULL, NULL);
+			contents = g_convert (tmp_contents, -1, "UTF-8", charmap, NULL, NULL, NULL);
 
 			if (contents == NULL)
-				charmap_imported = utils_files_create_sel_charset (assistant,
-																   tmp_contents,
-																   charmap_imported,
-																   g_path_get_basename (iterator->data));
+				charmap = utils_files_create_sel_charset (assistant,
+														  tmp_contents,
+														  charmap,
+														  g_path_get_basename (iterator->data));
 			else
 				g_free (contents);
 		}
@@ -1434,7 +1426,7 @@ static void gsb_import_select_file (GSList *filenames,
 							IMPORT_FILESEL_FILENAME, g_path_get_basename (iterator->data),
 							IMPORT_FILESEL_REALNAME, nom_fichier,
 							IMPORT_FILESEL_TYPE, type,
-							IMPORT_FILESEL_CODING, charmap_imported,
+							IMPORT_FILESEL_CODING, charmap,
 							-1);
 		g_free (nom_fichier);
 		g_free (tmp_contents);
@@ -1465,7 +1457,15 @@ static gboolean gsb_import_enter_force_dir_page (GtkWidget *assistant)
 
 	devel_debug (NULL);
 
-    /* Don't allow going to next page if no file is selected yet. */
+	if (add_csv_page)
+	{
+		gsb_assistant_set_next (assistant, IMPORT_FILESEL_PAGE, IMPORT_RESUME_PAGE);
+		gsb_assistant_set_prev (assistant, IMPORT_RESUME_PAGE, IMPORT_FILESEL_PAGE);
+
+		add_csv_page = FALSE;
+	}
+
+	/* Don't allow going to next page if no file is selected yet. */
     gtk_widget_set_sensitive (g_object_get_data (G_OBJECT (assistant), "button_next"), FALSE);
 
 	dir =  g_file_new_for_path (conf.import_directory);
@@ -4284,6 +4284,8 @@ void gsb_import_assistant_importer_fichier (void)
 							IMPORT_RESUME_PAGE,
 							G_CALLBACK (gsb_import_enter_force_dir_page));
 
+		if (charmap_imported && strlen (charmap_imported) > 0)
+			g_free (charmap_imported);
 		charmap_imported = g_strndup ("UTF-8", 5);
 	}
 	else
