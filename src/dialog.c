@@ -767,7 +767,7 @@ const gchar *dialogue_hint_with_entry ( gchar *text, gchar *hint, gchar *entry_d
 
     gtk_window_set_modal ( GTK_WINDOW ( dialog ), TRUE );
     gtk_dialog_run (GTK_DIALOG (dialog));
-    string = gtk_entry_get_text (GTK_ENTRY (entry));
+    string = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
     gtk_widget_destroy ( dialog );
 
     return string;
