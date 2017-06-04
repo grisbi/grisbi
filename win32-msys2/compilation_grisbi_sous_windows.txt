@@ -6,7 +6,7 @@
 	http://repo.msys2.org/distrib/x86_64/msys2-x86_64-20161025.exe
 
 	msys2 se lance automatiquement a la fermeture de l'installateur.
-	
+
 2) Mise à jour de msys2
 	- dans la console lancer la commande :
 		pacman -Syu
@@ -51,22 +51,23 @@
 
 	- compilation globale
 		./autogen.sh && ./configure --enable-werror && make -j 15 && make install
-		
+
 	Nouvelle compilation
-	- sequence de réinitialisation 
+	- sequence de réinitialisation
 		make clean && make distclean
 	- compilation classique
 		./autogen.sh
 		./configure --enable-werror
 		make -j 15
 		make install
-		
+
 	Nettoyage et compilation globale
 		make clean && make distclean && ./autogen.sh && ./configure --enable-werror && make -j 15 && make install
-		
+
 6) Utilitaires optionnels
 	- devhelp
 		pacman -S mingw64/mingw-w64-x86_64-devhelp
-	
+
 	- glib2 doc
 		pacman -S msys/glib2-docs
+
