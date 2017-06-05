@@ -912,7 +912,7 @@ gboolean gsb_data_budget_set_sub_budget_name ( gint no_budget,
  * \return a g_slist of g_slist of gchar *
  * */
 GSList *gsb_data_budget_get_name_list ( gboolean set_debit,
-                        gboolean set_credit )
+									   gboolean set_credit )
 {
     GSList *return_list;
     GSList *tmp_list;
@@ -924,48 +924,42 @@ GSList *gsb_data_budget_get_name_list ( gboolean set_debit,
     /* fill debit_list and/or credit_list and them sub-budgets */
     tmp_list = budget_list;
 
-    while ( tmp_list )
+    while (tmp_list)
     {
-	struct_budget *budget;
+		struct_budget *budget;
 
-	budget = tmp_list -> data;
+		budget = tmp_list->data;
 
-	if ( budget -> budget_type )
-	{
-	    if ( set_debit )
-	    {
-		debit_list = g_slist_append ( debit_list,
-					      budget -> budget_name);
-		debit_list = gsb_data_budget_append_sub_budget_to_list ( debit_list,
-									 budget -> sub_budget_list);
-	    }
-	}
-	else
-	{
-	    if ( set_credit )
-	    {
-		credit_list = g_slist_append ( credit_list,
-					       budget -> budget_name);
-		credit_list = gsb_data_budget_append_sub_budget_to_list ( credit_list,
-									  budget -> sub_budget_list);
-	    }
-	}
-	tmp_list = tmp_list -> next;
+		if ( budget->budget_type )
+		{
+			if (set_debit)
+			{
+				debit_list = g_slist_append (debit_list, g_strdup (budget->budget_name));
+				debit_list = gsb_data_budget_append_sub_budget_to_list (debit_list,
+																		budget->sub_budget_list);
+			}
+		}
+		else
+		{
+			if (set_credit)
+			{
+				credit_list = g_slist_append (credit_list, g_strdup (budget->budget_name));
+				credit_list = gsb_data_budget_append_sub_budget_to_list (credit_list,
+																		 budget->sub_budget_list);
+			}
+		}
+		tmp_list = tmp_list->next;
     }
 
     /* append what we need to return_list */
 
     if ( set_debit )
-	return_list = g_slist_append ( return_list,
-				       debit_list );
+		return_list = g_slist_append (return_list, debit_list);
     if ( set_credit )
-	return_list = g_slist_append ( return_list,
-				       credit_list );
+		return_list = g_slist_append (return_list, credit_list);
 
     return return_list;
 }
-
-
 
 /**
  * append the sub-budgets name with a tab at the beginning
