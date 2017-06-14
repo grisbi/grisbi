@@ -44,7 +44,7 @@ void gsb_locale_init ( void )
 	langue = g_getenv ( "LANG");
 
 #ifdef G_OS_WIN32
-	if (strlen (langue) == 0)
+	if (!langue || strlen (langue) == 0)
 	{
 		langue = "fr_FR";
 	}
