@@ -896,7 +896,7 @@ static gint print_transactions_list_draw_row ( GtkPrintContext *context,
 					      gint line_position )
 {
     gint column;
-    gfloat alignment[] = {
+    PangoAlignment alignment[] = {
 	PANGO_ALIGN_CENTER, PANGO_ALIGN_CENTER, PANGO_ALIGN_LEFT,
 	PANGO_ALIGN_CENTER, PANGO_ALIGN_RIGHT, PANGO_ALIGN_RIGHT, PANGO_ALIGN_RIGHT
     };
