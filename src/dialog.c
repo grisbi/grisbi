@@ -732,14 +732,14 @@ void dialog_message ( gchar *label, ... )
  * \param hint 			Hint to display
  * \param entry_description 	label to set in front of the entry
  */
-const gchar *dialogue_hint_with_entry ( gchar *text, gchar *hint, gchar *entry_description )
+gchar *dialogue_hint_with_entry ( gchar *text, gchar *hint, gchar *entry_description )
 {
     GtkWidget *dialog;
     const gchar *primary_text = hint ? hint : text;
     GtkWidget *entry;
     GtkWidget *hbox;
     GtkWidget *label;
-    const gchar *string;
+    gchar *string;
 
     dialog = gtk_message_dialog_new ( GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
                         GTK_DIALOG_DESTROY_WITH_PARENT,

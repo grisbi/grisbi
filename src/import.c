@@ -817,6 +817,7 @@ static GtkWidget *gsb_import_cree_ligne_recapitulatif (struct ImportAccount *com
     button = gsb_automem_checkbutton_new (_("Invert the amount of the imported transactions"),
                         &compte->invert_transaction_amount, NULL, NULL);
     gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 0);
+    g_object_set_data (G_OBJECT (radio), "invert_amount", compte);
 
     /* propose to create a rule */
     compte->hbox_rule = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
@@ -829,7 +830,7 @@ static GtkWidget *gsb_import_cree_ligne_recapitulatif (struct ImportAccount *com
     gtk_box_pack_start (GTK_BOX (compte->hbox_rule), button, FALSE, FALSE, 0);
 
     /* we can create a rule only for qif or ofx EN TEST POUR FICHIER CSV */
-    if (strcmp (compte->origine, "QIF") && strcmp (compte->origine, "OFX") && strcmp (compte->origine, "CSV"))
+    if (strcmp (compte->origine, "QIF") && strcmp (compte->origine, "OFX"))
 		gtk_widget_set_sensitive (button, FALSE);
 
     gtk_widget_set_sensitive (compte->entry_name_rule, FALSE);
@@ -4149,9 +4150,9 @@ static void traitement_operations_importees (void)
     {
         /* ok, we create the rule */
         gint rule;
-        const gchar *name;
+        gchar *name;
 
-        name = gtk_entry_get_text (GTK_ENTRY (compte->entry_name_rule));
+        name = (gchar *) gtk_entry_get_text (GTK_ENTRY (compte->entry_name_rule));
         if (!strlen (name))
         {
         /* the user didn't enter a name, propose now */
@@ -4164,12 +4165,15 @@ static void traitement_operations_importees (void)
         name = dialogue_hint_with_entry (tmp_str, _("No name for the import rule"),
                                                  _("Name of the rule: "));
         g_free (tmp_str);
-        }
 
         if (!strlen (name))
-        break;
+			break;
+        }
+		else
+			name = g_strdup (name);
 
         rule = gsb_data_import_rule_new (name);
+		g_free (name);
         gsb_data_import_rule_set_account (rule, account_number);
         gsb_data_import_rule_set_currency (rule, gsb_currency_get_currency_from_combobox (compte->bouton_devise));
         gsb_data_import_rule_set_invert (rule, compte->invert_transaction_amount);
@@ -4667,7 +4671,7 @@ gboolean gsb_import_by_rule (gint rule)
     charmap_imported = my_strdup (gsb_data_import_rule_get_charmap (rule));
     array = gsb_import_by_rule_ask_filename (rule);
     if (!array)
-    return FALSE;
+		return FALSE;
 
     account_number = gsb_data_import_rule_get_account (rule);
 
