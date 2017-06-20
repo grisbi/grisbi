@@ -53,13 +53,12 @@
 #define COLUMN_CENTER 0.5
 #define COLUMN_RIGHT 1.0
 
-
-/* declared in grisbi_app.c */
 /* variables initialisées lors de l'ouverture de grisbi par gsettings */
+/* declared in grisbi_app.c */
 extern struct GrisbiAppConf conf;
 
-/* declared in grisbi_win.c */
 /* variables initialisées lors de l'exécution de grisbi PROVISOIRE */
+/* declared in grisbi_win.c */
 extern struct GrisbiWinRun run;
 extern struct GrisbiWinEtat etat;
 
