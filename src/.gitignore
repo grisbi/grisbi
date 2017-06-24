@@ -6,3 +6,4 @@
 grisbi
 grisbi_resources.c
 org.gtk.grisbi.gschema.valid
+.goutputstream*
