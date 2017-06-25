@@ -4,8 +4,9 @@
 #include <gtk/gtk.h>
 
 /* START_INCLUDE_H */
-#include "gsb_real.h"
+#include "csv_template_rule.h"
 #include "gsb_data_transaction.h"
+#include "gsb_real.h"
 /* END_INCLUDE_H */
 
 /* struture d'une importation : compte contient la liste des opés importées */
@@ -39,8 +40,7 @@ struct ImportAccount
     GtkWidget	*hbox_rule;
 
     GtkWidget *bouton_type_compte;             /* adr du bouton du type de compte dans le récapitulatif */
-    GtkWidget *bouton_compte_add;             /* adr du bouton du compte
-					   * dans le récapitulatif */
+    GtkWidget *bouton_compte_add;             /* adr du bouton du compte dans le récapitulatif */
     GtkWidget *bouton_compte_mark;             /* adr du bouton du compte dans le récapitulatif */
 
     GtkWidget * hbox1;
@@ -48,7 +48,19 @@ struct ImportAccount
     GtkWidget * hbox3;
 
     /* Used by gnucash import */
-    gchar * guid;
+	gchar * guid;
+
+	/* for CSV type */
+	gchar *		csv_rule_name;
+	gint		csv_account_id_col;			/* numéro de colonne contenant Id compte */
+	gint 		csv_account_id_row;			/* numéro de ligne contenant Id compte */
+	gchar *		csv_fields_str;				/* liste des libellés grisbi des colonnes du fichier CSV */
+	gint		csv_first_line_data;		/* première ligne de données actives */
+	gboolean	csv_headers_present;		/* TRUE si les libellés des colonnes existent */
+	gint		csv_spec_action;
+	gint		csv_spec_amount_col;		/* numéro de colonne contenant le montant de l'opération */
+	gint		csv_spec_text_col;			/* numéro de colonne contenant le texte à rechercher */
+	gchar *		csv_spec_text_str;			/* texte à rechercher */
 };
 
 /* possible actions to the import */

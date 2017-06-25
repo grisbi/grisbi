@@ -2720,7 +2720,91 @@ static  void gsb_file_load_import_rule ( const gchar **attribute_names,
         continue;
     }
 
-    /* normally, shouldn't come here */
+	if ( !strcmp ( attribute_names[i], "Typ" ))
+    {
+        gsb_data_import_rule_set_type (import_rule_number, attribute_values[i]);
+        i++;
+        continue;
+    }
+
+	if (!strcmp (attribute_names[i], "IdC"))
+    {
+        gsb_data_import_rule_set_csv_account_id_col (import_rule_number, utils_str_atoi (attribute_values[i]));
+        i++;
+        continue;
+    }
+
+	if (!strcmp (attribute_names[i], "IdR"))
+    {
+        gsb_data_import_rule_set_csv_account_id_row (import_rule_number, utils_str_atoi (attribute_values[i]));
+        i++;
+        continue;
+    }
+
+	if ( !strcmp ( attribute_names[i], "FiS" ))
+    {
+        gsb_data_import_rule_set_csv_fields_str (import_rule_number, attribute_values[i]);
+        i++;
+        continue;
+    }
+
+	if (!strcmp ( attribute_names[i], "Fld"))
+    {
+        gsb_data_import_rule_set_csv_first_line_data (import_rule_number, utils_str_atoi (attribute_values[i]));
+        i++;
+        continue;
+    }
+
+	if (!strcmp( attribute_names[i], "Hp"))
+    {
+        gsb_data_import_rule_set_csv_headers_present (import_rule_number, utils_str_atoi (attribute_values[i]));
+        i++;
+        continue;
+    }
+
+	if ( !strcmp ( attribute_names[i], "Sep" ))
+    {
+        gsb_data_import_rule_set_csv_separator (import_rule_number, attribute_values[i]);
+        i++;
+        continue;
+    }
+
+	if ( !strcmp ( attribute_names[i], "SkiS" ))
+    {
+        gsb_data_import_rule_set_csv_skipped_lines_str (import_rule_number, attribute_values[i]);
+        i++;
+        continue;
+    }
+
+	if (!strcmp( attribute_names[i], "SpA"))
+    {
+        gsb_data_import_rule_set_csv_spec_action (import_rule_number, utils_str_atoi (attribute_values[i]));
+        i++;
+        continue;
+    }
+
+	if (!strcmp( attribute_names[i], "SpAC"))
+    {
+        gsb_data_import_rule_set_csv_spec_amount_col (import_rule_number, utils_str_atoi (attribute_values[i]));
+        i++;
+        continue;
+    }
+
+	if (!strcmp( attribute_names[i], "SpTC"))
+    {
+        gsb_data_import_rule_set_csv_spec_text_col (import_rule_number, utils_str_atoi (attribute_values[i]));
+        i++;
+        continue;
+    }
+
+
+	if ( !strcmp ( attribute_names[i], "SpTS" ))
+    {
+        gsb_data_import_rule_set_csv_spec_text_str (import_rule_number, attribute_values[i]);
+        i++;
+        continue;
+    }
+   /* normally, shouldn't come here */
     i++;
     }
     while ( attribute_names[i] );

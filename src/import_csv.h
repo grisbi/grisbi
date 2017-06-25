@@ -16,10 +16,14 @@ struct csv_field {
 };
 
 /* START_DECLARATION */
-gboolean 		csv_import_csv_account 			(GtkWidget *assistant,
-												 struct ImportFile *imported);
-GtkWidget * 	import_create_csv_preview_page 	(GtkWidget *assistant);
-gboolean 		import_enter_csv_preview_page 	(GtkWidget *assistant);
+gboolean 		csv_import_csv_account 				(GtkWidget *assistant,
+													 struct ImportFile *imported);
+gboolean		csv_import_file_by_rule					(gint rule,
+													 struct ImportFile *imported);
+GSList *		csv_import_get_columns_list			(GtkWidget *assistant);
+gchar *			csv_import_skipped_lines_to_string	(void);
+GtkWidget * 	import_create_csv_preview_page 		(GtkWidget *assistant);
+gboolean 		import_enter_csv_preview_page 		(GtkWidget *assistant);
 /* END_DECLARATION */
 
 #endif

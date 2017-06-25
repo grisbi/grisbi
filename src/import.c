@@ -829,6 +829,12 @@ static GtkWidget *gsb_import_cree_ligne_recapitulatif (struct ImportAccount *com
                         compte->entry_name_rule);
     gtk_box_pack_start (GTK_BOX (compte->hbox_rule), button, FALSE, FALSE, 0);
 
+	if (compte->create_rule)
+	{
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), TRUE);
+		gtk_entry_set_text (GTK_ENTRY (compte->entry_name_rule), compte->csv_rule_name);
+	}
+
     /* we can create a rule only for qif or ofx EN TEST POUR FICHIER CSV */
     if (strcmp (compte->origine, "QIF") && strcmp (compte->origine, "OFX"))
 		gtk_widget_set_sensitive (button, FALSE);
@@ -1824,7 +1830,7 @@ static gboolean gsb_import_enter_resume_page (GtkWidget *assistant)
     liste_comptes_importes_error = NULL;
     liste_comptes_importes = NULL;
 
-    /* fichiers sélectionnés dans legestionnaire de fichiers */
+    /* fichiers sélectionnés dans le gestionnaire de fichiers */
     files = gsb_import_import_selected_files (assistant);
     while (files)
     {
@@ -4146,28 +4152,31 @@ static void traitement_operations_importees (void)
     gsb_data_account_set_bet_maj (account_number, BET_MAJ_ALL);
 
     /* first, we create the rule if asked */
-    if (compte->create_rule && compte->action != IMPORT_CREATE_ACCOUNT)
+    if (compte->create_rule
+		&&
+		(compte->action != IMPORT_CREATE_ACCOUNT || !strcmp (compte->origine, "CSV")))
     {
         /* ok, we create the rule */
-        gint rule;
         gchar *name;
+		gchar *skipped_lines_str;
+        gint rule;
 
         name = (gchar *) gtk_entry_get_text (GTK_ENTRY (compte->entry_name_rule));
         if (!strlen (name))
         {
-        /* the user didn't enter a name, propose now */
-        gchar *tmp_str;
+			/* the user didn't enter a name, propose now */
+			gchar *tmp_str;
 
-        tmp_str = g_strdup_printf (_("You want to create an import rule for the account %s "
-                                     "but didn't give a name to that rule. Please set a "
-                                     "name or let it empty to cancel the rule creation."),
-                                    gsb_data_account_get_name (account_number));
-        name = dialogue_hint_with_entry (tmp_str, _("No name for the import rule"),
-                                                 _("Name of the rule: "));
-        g_free (tmp_str);
+			tmp_str = g_strdup_printf (_("You want to create an import rule for the account %s "
+										 "but didn't give a name to that rule. Please set a "
+										 "name or let it empty to cancel the rule creation."),
+										gsb_data_account_get_name (account_number));
+			name = dialogue_hint_with_entry (tmp_str, _("No name for the import rule"),
+													 _("Name of the rule: "));
+			g_free (tmp_str);
 
-        if (!strlen (name))
-			break;
+			if (!strlen (name))
+				break;
         }
 		else
 			name = g_strdup (name);
@@ -4181,6 +4190,22 @@ static void traitement_operations_importees (void)
         gsb_data_import_rule_set_last_file_name (rule, compte->real_filename);
         gsb_data_import_rule_set_action (rule, compte->action);
 		gsb_data_import_rule_set_type (rule, compte->origine);
+		if (!strcmp (compte->origine, "CSV"))
+		{
+			gsb_data_import_rule_set_csv_account_id_col (rule, compte->csv_account_id_col);
+			gsb_data_import_rule_set_csv_account_id_row (rule, compte->csv_account_id_row);
+			gsb_data_import_rule_set_csv_fields_str (rule, compte->csv_fields_str);
+			gsb_data_import_rule_set_csv_first_line_data (rule, compte->csv_first_line_data);
+			gsb_data_import_rule_set_csv_headers_present (rule, compte->csv_headers_present);
+			gsb_data_import_rule_set_csv_separator (rule, etat.csv_separator);
+			skipped_lines_str = csv_import_skipped_lines_to_string ();
+			gsb_data_import_rule_set_csv_skipped_lines_str (rule, skipped_lines_str);
+			g_free (skipped_lines_str);
+			gsb_data_import_rule_set_csv_spec_action (rule, compte->csv_spec_action);
+			gsb_data_import_rule_set_csv_spec_amount_col (rule, compte->csv_spec_amount_col);
+			gsb_data_import_rule_set_csv_spec_text_col (rule, compte->csv_spec_text_col);
+			gsb_data_import_rule_set_csv_spec_text_str (rule, compte->csv_spec_text_str);
+		}
     }
     if (!strcmp (compte->origine, "OFX"))
     {
@@ -4685,7 +4710,7 @@ gboolean gsb_import_by_rule (gint rule)
 
         /* check if we are on ofx or qif file */
         type = gsb_import_autodetect_file_type (filename, NULL);
-        if (strcmp (type, "OFX") && strcmp (type, "QIF"))
+        if (strcmp (type, "OFX") && strcmp (type, "QIF") && strcmp (type, "CSV"))
         {
             gchar *tmp_str = g_path_get_basename (filename);
             gchar *tmp_str2 = g_strdup_printf (_("%s is neither an OFX file, neither a QIF file. "
@@ -4731,18 +4756,25 @@ gboolean gsb_import_by_rule (gint rule)
         liste_comptes_importes_error = NULL;
         liste_comptes_importes = NULL;
 
-        while (tmp_list)
-        {
-            struct ImportFormat *format = (struct ImportFormat *) tmp_list->data;
+		if (!strcmp (type, "CSV"))
+		{
+			csv_import_file_by_rule (rule, &imported);
+		}
+		else
+		{
+			while (tmp_list)
+			{
+				struct ImportFormat *format = (struct ImportFormat *) tmp_list->data;
 
-            if (!strcmp (imported.type, format->name))
-            {
-            format->import (NULL, &imported);
-            tmp_list = tmp_list->next;
-                continue;
-            }
-            tmp_list = tmp_list->next;
-        }
+				if (!strcmp (imported.type, format->name))
+				{
+					format->import (NULL, &imported);
+					tmp_list = tmp_list->next;
+						continue;
+				}
+				tmp_list = tmp_list->next;
+			}
+		}
 
         /* now liste_comptes_importes contains the account structure of imported transactions */
         if (liste_comptes_importes_error)
