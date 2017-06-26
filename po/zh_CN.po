@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zh_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-13 23:10+0200\n"
+"POT-Creation-Date: 2017-06-26 09:12+0200\n"
 "PO-Revision-Date: 2005-12-19 11:25+0100\n"
 "Last-Translator: Jianyu Tang <jianyunet@gmail.com>\n"
 "Language-Team: zh_CN <LL@li.org>\n"
@@ -510,6 +510,7 @@ msgid "Year"
 msgstr "年"
 
 #: ../src/bet_config.c:120 ../src/grisbi_prefs.c:392
+#: ../src/ui/csv_template_rule.ui.h:2
 #, fuzzy
 msgid "General Options"
 msgstr "普遍性"
@@ -618,7 +619,7 @@ msgstr "类别"
 #: ../src/bet_config.c:600 ../src/bet_config.c:619 ../src/bet_config.c:637
 #: ../src/bet_config.c:709 ../src/bet_hist.c:199 ../src/bet_hist.c:2089
 #: ../src/etats_prefs.c:680 ../src/etats_prefs.c:2067 ../src/export_csv.c:822
-#: ../src/fenetre_principale.c:155 ../src/import_csv.c:71
+#: ../src/fenetre_principale.c:155 ../src/import_csv.c:76
 #: ../src/imputation_budgetaire.c:372 ../src/navigation.c:1994
 #: ../src/ui/etats_prefs.ui.h:51
 msgid "Budgetary lines"
@@ -650,7 +651,7 @@ msgstr "选择财年"
 #: ../src/bet_config.c:941 ../src/bet_hist.c:570 ../src/bet_hist.c:1642
 #: ../src/categories_onglet.c:180 ../src/etats_affiche.c:2440
 #: ../src/etats_config.c:2897 ../src/export_csv.c:813
-#: ../src/gsb_transactions_list.c:182 ../src/import_csv.c:69
+#: ../src/gsb_transactions_list.c:182 ../src/import_csv.c:74
 #: ../src/meta_categories.c:66
 msgid "Category"
 msgstr "种类"
@@ -904,7 +905,7 @@ msgstr "载入账户文件:"
 #: ../src/gsb_assistant_reconcile_config.c:590 ../src/gsb_form.c:1220
 #: ../src/gsb_form_widget.c:445 ../src/gsb_reconcile.c:165
 #: ../src/gsb_scheduler_list.c:602 ../src/gsb_transactions_list.c:171
-#: ../src/import.c:3704 ../src/import_csv.c:64 ../src/ui/etats_prefs.ui.h:8
+#: ../src/import.c:3711 ../src/import_csv.c:69 ../src/ui/etats_prefs.ui.h:8
 msgid "Date"
 msgstr "日期"
 
@@ -1103,7 +1104,7 @@ msgstr "选择支付方式"
 #: ../src/fenetre_principale.c:140 ../src/gsb_assistant_reconcile_config.c:590
 #: ../src/gsb_form.c:1241 ../src/gsb_form_widget.c:465
 #: ../src/gsb_scheduler_list.c:602 ../src/gsb_transactions_list.c:173
-#: ../src/import.c:3711 ../src/import_csv.c:66 ../src/meta_payee.c:78
+#: ../src/import.c:3718 ../src/import_csv.c:71 ../src/meta_payee.c:78
 #: ../src/ui/etats_prefs.ui.h:42
 #, fuzzy
 msgid "Payee"
@@ -1114,7 +1115,7 @@ msgstr "支付方"
 #: ../src/gsb_payment_method_config.c:107
 #: ../src/gsb_payment_method_config.c:331
 #: ../src/gsb_payment_method_config.c:1039 ../src/gsb_transactions_list.c:175
-#: ../src/import_csv.c:75 ../src/imputation_budgetaire.c:819
+#: ../src/import_csv.c:80 ../src/imputation_budgetaire.c:819
 msgid "Debit"
 msgstr "借方"
 
@@ -1124,7 +1125,7 @@ msgstr "借方"
 #: ../src/gsb_payment_method_config.c:108
 #: ../src/gsb_payment_method_config.c:344
 #: ../src/gsb_payment_method_config.c:1035 ../src/gsb_transactions_list.c:176
-#: ../src/import_csv.c:74 ../src/imputation_budgetaire.c:819
+#: ../src/import_csv.c:79 ../src/imputation_budgetaire.c:819
 msgid "Credit"
 msgstr "贷方"
 
@@ -1141,7 +1142,7 @@ msgstr "类别 : 子类别"
 #: ../src/gsb_bank.c:874 ../src/gsb_form.c:1270 ../src/gsb_form_widget.c:481
 #: ../src/gsb_scheduler_list.c:428 ../src/gsb_scheduler_list.c:603
 #: ../src/gsb_scheduler_list.c:889 ../src/gsb_transactions_list.c:185
-#: ../src/import_csv.c:67
+#: ../src/import_csv.c:72
 msgid "Notes"
 msgstr "备注"
 
@@ -1153,8 +1154,8 @@ msgstr "备注"
 #: ../src/etats_affiche.c:1851 ../src/export_csv.c:624 ../src/export_csv.c:736
 #: ../src/export_csv.c:748 ../src/gsb_data_category.c:1057
 #: ../src/gsb_data_payment.c:635 ../src/gsb_data_payment.c:719
-#: ../src/gsb_data_payment.c:758 ../src/gsb_form.c:2231 ../src/import.c:2360
-#: ../src/import.c:2378 ../src/plugins/ofx/ofx.c:435
+#: ../src/gsb_data_payment.c:758 ../src/gsb_form.c:2231 ../src/import.c:2367
+#: ../src/import.c:2385 ../src/plugins/ofx/ofx.c:435
 msgid "Transfer"
 msgstr "转帐"
 
@@ -1270,8 +1271,8 @@ msgid "Name"
 msgstr "名称"
 
 #. Description entry
-#: ../src/bet_future.c:3017 ../src/categories_onglet.c:782 ../src/import.c:1604
-#: ../src/import.c:1733 ../src/imputation_budgetaire.c:815
+#: ../src/bet_future.c:3017 ../src/categories_onglet.c:782 ../src/import.c:1611
+#: ../src/import.c:1740 ../src/imputation_budgetaire.c:815
 msgid "Type"
 msgstr "类型"
 
@@ -1463,7 +1464,7 @@ msgstr "导出预算行"
 msgid "Display the monthly graph"
 msgstr "显示（子）类别的名称"
 
-#: ../src/bet_graph.c:1929
+#: ../src/bet_graph.c:1929 ../src/ui/csv_template_rule.ui.h:8
 #, fuzzy
 msgid "Column"
 msgstr "备注"
@@ -1505,8 +1506,8 @@ msgstr "选择所有"
 #: ../src/bet_hist.c:591 ../src/categories_onglet.c:200
 #: ../src/etats_prefs.c:2160 ../src/export_csv.c:807
 #: ../src/gsb_assistant_reconcile_config.c:590 ../src/gsb_scheduler_list.c:603
-#: ../src/gsb_transactions_list.c:178 ../src/import.c:3718
-#: ../src/import_csv.c:73 ../src/imputation_budgetaire.c:202
+#: ../src/gsb_transactions_list.c:178 ../src/import.c:3725
+#: ../src/import_csv.c:78 ../src/imputation_budgetaire.c:202
 #: ../src/tiers_onglet.c:254
 msgid "Amount"
 msgstr "总计"
@@ -1737,7 +1738,7 @@ msgid "Grisbi category files (*.cgsb)"
 msgstr ""
 
 #: ../src/categories_onglet.c:474 ../src/etats_onglet.c:1233
-#: ../src/file_obfuscate_qif.c:109 ../src/gsb_file.c:594 ../src/import.c:1139
+#: ../src/file_obfuscate_qif.c:109 ../src/gsb_file.c:594 ../src/import.c:1146
 #: ../src/imputation_budgetaire.c:508
 #, fuzzy
 msgid "All files"
@@ -1797,7 +1798,7 @@ msgstr "请输入新增子类的名称"
 #. set the button "import"
 #: ../src/categories_onglet.c:582 ../src/etats_onglet.c:162
 #: ../src/grisbi_prefs.c:190 ../src/grisbi_prefs.c:251 ../src/grisbi_win.c:524
-#: ../src/import.c:1569 ../src/import.c:1699 ../src/imputation_budgetaire.c:614
+#: ../src/import.c:1576 ../src/import.c:1706 ../src/imputation_budgetaire.c:614
 #: ../src/utils_files.c:739
 msgid "Import"
 msgstr "导入"
@@ -2473,7 +2474,7 @@ msgstr "支出"
 #. 2
 #: ../src/etats_affiche.c:2419 ../src/export_csv.c:786 ../src/gsb_form.c:1225
 #: ../src/gsb_form.c:2065 ../src/gsb_form.c:2095 ../src/gsb_form_widget.c:457
-#: ../src/gsb_transactions_list.c:172 ../src/import_csv.c:65
+#: ../src/gsb_transactions_list.c:172 ../src/import_csv.c:70
 #: ../src/ui/etats_prefs.ui.h:9
 msgid "Value date"
 msgstr "有效日期"
@@ -3111,7 +3112,7 @@ msgid "Payees"
 msgstr "日"
 
 #. ajoute le bouton (dé)sélectionne tout
-#: ../src/etats_prefs.c:1865 ../src/export.c:612 ../src/import.c:2666
+#: ../src/etats_prefs.c:1865 ../src/export.c:612 ../src/import.c:2673
 #: ../src/tiers_onglet.c:1255 ../src/tiers_onglet.c:1470
 #: ../src/utils_buttons.c:262
 msgid "Unselect all"
@@ -3397,7 +3398,7 @@ msgid "Deleted account"
 msgstr "已删除账户"
 
 #. 15
-#: ../src/export_csv.c:780 ../src/import_csv.c:78
+#: ../src/export_csv.c:780 ../src/import_csv.c:83
 #, fuzzy
 msgid "Split"
 msgstr "Spain"
@@ -3408,17 +3409,17 @@ msgstr "支票"
 
 #. 14
 #: ../src/export_csv.c:795 ../src/gsb_transactions_list.c:183
-#: ../src/import_csv.c:77
+#: ../src/import_csv.c:82
 msgid "C/R"
 msgstr "C/R"
 
 #. 7
-#: ../src/export_csv.c:816 ../src/import_csv.c:70
+#: ../src/export_csv.c:816 ../src/import_csv.c:75
 msgid "Sub-categories"
 msgstr "子类别"
 
 #. 9
-#: ../src/export_csv.c:825 ../src/import_csv.c:72
+#: ../src/export_csv.c:825 ../src/import_csv.c:77
 msgid "Sub-budgetary lines"
 msgstr "子类别行"
 
@@ -3697,7 +3698,7 @@ msgstr "Viet Nam"
 msgid "Western"
 msgstr "网站"
 
-#: ../src/go-charmap-sel.c:91 ../src/help.c:146 ../src/import_csv.c:93
+#: ../src/go-charmap-sel.c:91 ../src/help.c:146 ../src/import_csv.c:98
 msgid "Other"
 msgstr ""
 
@@ -4589,7 +4590,7 @@ msgstr "报表"
 msgid "Please choose a name for archive: "
 msgstr "请输入一个第三方。:"
 
-#: ../src/gsb_assistant_archive.c:429 ../src/import.c:1859
+#: ../src/gsb_assistant_archive.c:429 ../src/import.c:1866
 #, fuzzy
 msgid "Congratulations!"
 msgstr "翻译"
@@ -7019,7 +7020,7 @@ msgstr ""
 msgid "No budget line"
 msgstr "没有预算行"
 
-#: ../src/gsb_data_budget.c:1432 ../src/gsb_data_category.c:1586
+#: ../src/gsb_data_budget.c:1426 ../src/gsb_data_category.c:1586
 #, c-format
 msgid "In <i>%s</i>, <i>%s</i> is a duplicate of <i>%s</i>.\n"
 msgstr "在 <i>%s</i>, <i>%s</i> 是 <i>%s</i>的复制。\n"
@@ -7131,22 +7132,22 @@ msgid "Report"
 msgstr "报表"
 
 #. Deposit = Dépôt
-#: ../src/gsb_data_payment.c:724 ../src/import.c:2342
+#: ../src/gsb_data_payment.c:724 ../src/import.c:2349
 #: ../src/plugins/ofx/ofx.c:423
 msgid "Deposit"
 msgstr "存款"
 
 #. Retrait dans un distributeur de billets replacé par carte de crédit
 #. Point of sale = Point de vente remplacé par carte de crédit
-#: ../src/gsb_data_payment.c:733 ../src/gsb_form.c:2183 ../src/import.c:2348
-#: ../src/import.c:2354
+#: ../src/gsb_data_payment.c:733 ../src/gsb_form.c:2183 ../src/import.c:2355
+#: ../src/import.c:2361
 msgid "Credit card"
 msgstr "信用卡"
 
 #. Electronic payment remplacé par Direct debit = Prélèvement
 #. Merchant initiated debit remplacé par Direct debit = Prélèvement
-#: ../src/gsb_data_payment.c:742 ../src/gsb_form.c:2220 ../src/import.c:2366
-#: ../src/import.c:2388
+#: ../src/gsb_data_payment.c:742 ../src/gsb_form.c:2220 ../src/import.c:2373
+#: ../src/import.c:2395
 msgid "Direct debit"
 msgstr "直接借记"
 
@@ -7593,29 +7594,29 @@ msgstr ""
 msgid "Checking amounts"
 msgstr "支票"
 
-#: ../src/gsb_file_load.c:3488
+#: ../src/gsb_file_load.c:3572
 #, fuzzy
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "该文件不是Grisbi报表"
 
-#: ../src/gsb_file_load.c:3799 ../src/gsb_file_load.c:3817
+#: ../src/gsb_file_load.c:3883 ../src/gsb_file_load.c:3901
 #, c-format
 msgid ""
 "Grisbit no longer supports file encryption due to the existence of reliable "
 "external solutions."
 msgstr ""
 
-#: ../src/gsb_file_load.c:3802
+#: ../src/gsb_file_load.c:3886
 #, c-format
 msgid "Your file '%s' will be saved unencrypted"
 msgstr ""
 
-#: ../src/gsb_file_load.c:3820
+#: ../src/gsb_file_load.c:3904
 #, fuzzy, c-format
 msgid "Unable to use file encryption"
 msgstr "账户类型"
 
-#: ../src/gsb_file_load.c:3883
+#: ../src/gsb_file_load.c:3967
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -7623,11 +7624,11 @@ msgid ""
 "transactions or important information."
 msgstr ""
 
-#: ../src/gsb_file_load.c:3887
+#: ../src/gsb_file_load.c:3971
 msgid "Grisbi archive opened"
 msgstr ""
 
-#: ../src/gsb_file_load.c:3897
+#: ../src/gsb_file_load.c:3981
 #, c-format
 msgid ""
 "You import a file from version %s of Grisbi. After updating your file will "
@@ -7636,12 +7637,12 @@ msgid ""
 "You will lose customizing icons and colors."
 msgstr ""
 
-#: ../src/gsb_file_load.c:3903
+#: ../src/gsb_file_load.c:3987
 #, c-format
 msgid "Importing a file whose version is for an earlier version of Grisbi"
 msgstr ""
 
-#: ../src/gsb_file_load.c:4325
+#: ../src/gsb_file_load.c:4409
 #, c-format
 msgid ""
 "An error occured while parsing the file :\n"
@@ -7654,8 +7655,8 @@ msgid "There is no category to record. Back."
 msgstr ""
 
 #: ../src/gsb_file_others.c:159 ../src/gsb_file_others.c:249
-#: ../src/gsb_file_others.c:341 ../src/gsb_file_save.c:419
-#: ../src/gsb_file_save.c:438
+#: ../src/gsb_file_others.c:341 ../src/gsb_file_save.c:420
+#: ../src/gsb_file_save.c:439
 #, c-format
 msgid "Cannot save file '%s': %s"
 msgstr "不能保存文件 '%s': %s"
@@ -7799,13 +7800,13 @@ msgid "Direct deposit"
 msgstr "直接存款"
 
 #. Check = Chèque
-#: ../src/gsb_form.c:2201 ../src/import.c:2148 ../src/import.c:2196
-#: ../src/import.c:2323 ../src/plugins/ofx/ofx.c:403
+#: ../src/gsb_form.c:2201 ../src/import.c:2155 ../src/import.c:2203
+#: ../src/import.c:2330 ../src/plugins/ofx/ofx.c:403
 msgid "Check"
 msgstr "支票"
 
 #. Cash withdrawal = retrait en liquide
-#: ../src/gsb_form.c:2210 ../src/import.c:2372
+#: ../src/gsb_form.c:2210 ../src/import.c:2379
 msgid "Cash withdrawal"
 msgstr ""
 
@@ -8040,7 +8041,7 @@ msgid "Method of payment"
 msgstr "支付方式"
 
 #. 0
-#: ../src/gsb_form_widget.c:493 ../src/import_csv.c:63 ../src/parametres.c:351
+#: ../src/gsb_form_widget.c:493 ../src/import_csv.c:68 ../src/parametres.c:351
 msgid "Currency"
 msgstr "货币"
 
@@ -8666,7 +8667,7 @@ msgid "Select icon directory"
 msgstr "选择所有"
 
 #. 5
-#: ../src/gsb_transactions_list.c:188 ../src/import_csv.c:68
+#: ../src/gsb_transactions_list.c:188 ../src/import_csv.c:73
 #, fuzzy
 msgid "Cheque number"
 msgstr "支票编号"
@@ -9148,97 +9149,97 @@ msgstr "移动交易到另一个账户"
 msgid "Invert the amount of the imported transactions"
 msgstr "导入交易包含的日期"
 
-#: ../src/import.c:825
+#: ../src/import.c:826
 msgid "Create a rule for this import. Name of the rule: "
 msgstr ""
 
-#: ../src/import.c:923 ../src/import.c:946 ../src/import.c:985
-#: ../src/import.c:1434
+#: ../src/import.c:930 ../src/import.c:953 ../src/import.c:992
+#: ../src/import.c:1441
 msgid "Unknown"
 msgstr "为止"
 
-#: ../src/import.c:1070
+#: ../src/import.c:1077
 #, fuzzy
 msgid "Choose files to import."
 msgstr "选择导入的文件"
 
-#: ../src/import.c:1096
+#: ../src/import.c:1103
 #, c-format
 msgid "Known files (%s)"
 msgstr ""
 
-#: ../src/import.c:1108
+#: ../src/import.c:1115
 #, c-format
 msgid "%s files (*.%s)"
 msgstr ""
 
-#: ../src/import.c:1146
+#: ../src/import.c:1153
 #, fuzzy
 msgid "Encoding: "
 msgstr "排序:"
 
-#: ../src/import.c:1189
+#: ../src/import.c:1196
 #, fuzzy, c-format
 msgid "cannot unzip file '%s': %s"
 msgstr "不能打开文件 '%s': %s"
 
-#: ../src/import.c:1216
+#: ../src/import.c:1223
 #, c-format
 msgid "Adding '%s' as an import format"
 msgstr ""
 
-#: ../src/import.c:1242
+#: ../src/import.c:1249
 #, c-format
 msgid "Unable to create tmp file: %s\n"
 msgstr ""
 
-#: ../src/import.c:1307 ../src/import.c:1383 ../src/import.c:4703
-#: ../src/import_csv.c:1277 ../src/import_csv.c:1323
+#: ../src/import.c:1314 ../src/import.c:1390 ../src/import.c:4732
+#: ../src/import_csv.c:122 ../src/import_csv.c:168
 #, c-format
 msgid "Unable to read file: %s\n"
 msgstr ""
 
-#: ../src/import.c:1543 ../src/import.c:1668
+#: ../src/import.c:1550 ../src/import.c:1675
 #, fuzzy
 msgid "Choose file to import"
 msgstr "选择导入的文件"
 
-#: ../src/import.c:1612 ../src/import.c:1740
+#: ../src/import.c:1619 ../src/import.c:1747
 #, fuzzy
 msgid "File name"
 msgstr "所有者名称"
 
-#: ../src/import.c:1670
+#: ../src/import.c:1677
 #, fuzzy
 msgid "Add file to import..."
 msgstr "选择导入的文件"
 
-#: ../src/import.c:1864
+#: ../src/import.c:1871
 msgid ""
 "You successfully imported files into Grisbi.  The following pages will help "
 "you set up imported data for the following files"
 msgstr ""
 
-#: ../src/import.c:1879
+#: ../src/import.c:1886
 #, fuzzy
 msgid "Unnamed Imported account"
 msgstr "已导入的账户"
 
-#: ../src/import.c:1906
+#: ../src/import.c:1913
 msgid "Error!"
 msgstr ""
 
-#: ../src/import.c:1911
+#: ../src/import.c:1918
 msgid ""
 "No file has been imported, please double check that they are valid files.  "
 "Please make sure that they are not compressed and that their format is valid."
 msgstr ""
 
-#: ../src/import.c:1925
+#: ../src/import.c:1932
 msgid "The following files are in error: "
 msgstr ""
 
-#: ../src/import.c:2467
+#: ../src/import.c:2474
 #, fuzzy, c-format
 msgid ""
 "Warning : the cheque number %s is already used.\n"
@@ -9247,51 +9248,51 @@ msgstr ""
 "警告：该支票的编号已经使用过了。\n"
 "仍然继续？"
 
-#: ../src/import.c:2656
+#: ../src/import.c:2663
 #, fuzzy, c-format
 msgid "Confirmation of transactions to be merged in: %s"
 msgstr "导入交易确认"
 
-#: ../src/import.c:2660
+#: ../src/import.c:2667
 #, fuzzy, c-format
 msgid "Confirmation of importation of transactions in: %s"
 msgstr "导入交易确认"
 
-#: ../src/import.c:2680
+#: ../src/import.c:2687
 #, fuzzy
 msgid "Please select the transactions to be merged"
 msgstr "使用选中交易做模板"
 
-#: ../src/import.c:2686
+#: ../src/import.c:2693
 #, fuzzy
 msgid ""
 "Some imported transactions seem to be already saved.Please select the "
 "transactions to import."
 msgstr "一些导入的交易似乎已经被保存过了。请选择导入的交易。"
 
-#: ../src/import.c:2760
+#: ../src/import.c:2767
 #, fuzzy, c-format
 msgid "Transaction to be merged: %s ; %s ; %s"
 msgstr "导入的交易：%02d/%02d/%04d ; %s ; %4.2f"
 
-#: ../src/import.c:2765
+#: ../src/import.c:2772
 #, fuzzy, c-format
 msgid "Transaction to import: %s ; %s ; %s"
 msgstr "导入的交易：%02d/%02d/%04d ; %s ; %4.2f"
 
-#: ../src/import.c:2791
+#: ../src/import.c:2798
 #, fuzzy, c-format
 msgid "Transaction found: %s ; %s ; %s ; %s"
 msgstr "找到交易：%02d/%02d/%04d ; %s ; %4.2f ; %s"
 
-#: ../src/import.c:2805
+#: ../src/import.c:2812
 #, fuzzy, c-format
 msgid "Transaction found: %s ; %s ; %s"
 msgstr "找到交易：%02d/%02d/%04d ; %s ; %4.2f"
 
 #. l'id du compte choisi et l'id du compte importé sont différents
 #. on propose encore d'arrêter...
-#: ../src/import.c:3073
+#: ../src/import.c:3080
 #, fuzzy
 msgid ""
 "Perhaps you choose a wrong account?  If you choose to continue, the id of "
@@ -9299,48 +9300,48 @@ msgid ""
 msgstr ""
 "也许您选择了错误的账户？如果您选择继续，本账户的ID将被改变。您确定要继续吗？"
 
-#: ../src/import.c:3075
+#: ../src/import.c:3082
 msgid "The id of the imported and chosen accounts are different"
 msgstr "导入和选择账户的ID不同"
 
-#: ../src/import.c:3615
+#: ../src/import.c:3622
 #, fuzzy, c-format
 msgid "Orphaned transactions for: %s"
 msgstr "孤儿交易"
 
-#: ../src/import.c:3633
+#: ../src/import.c:3640
 #, fuzzy
 msgid "Mark transactions you want to add to the list and click the OK button"
 msgstr "标记您想增加到清单的交易，点击增加按钮"
 
-#: ../src/import.c:3697
+#: ../src/import.c:3704
 msgid "Mark"
 msgstr "标记"
 
-#: ../src/import.c:4102
+#: ../src/import.c:4109
 #, c-format
 msgid ""
 "An error occured while creating the new account %s,\n"
 "We try to continue to import but bad things can happen..."
 msgstr ""
 
-#: ../src/import.c:4160
+#: ../src/import.c:4170
 #, c-format
 msgid ""
 "You want to create an import rule for the account %s but didn't give a name "
 "to that rule. Please set a name or let it empty to cancel the rule creation."
 msgstr ""
 
-#: ../src/import.c:4164
+#: ../src/import.c:4174
 msgid "No name for the import rule"
 msgstr ""
 
-#: ../src/import.c:4165
+#: ../src/import.c:4175 ../src/ui/csv_template_rule.ui.h:4
 #, fuzzy
 msgid "Name of the rule: "
 msgstr "命名账户文件:"
 
-#: ../src/import.c:4192
+#: ../src/import.c:4221
 msgid ""
 "No account in memory now, this is bad...\n"
 "Better to leave the import before a crash.\n"
@@ -9348,18 +9349,18 @@ msgid ""
 "Please contact the Grisbi team to find the problem."
 msgstr ""
 
-#: ../src/import.c:4202
+#: ../src/import.c:4231
 msgid "Please wait"
 msgstr "请稍等"
 
-#: ../src/import.c:4227
+#: ../src/import.c:4256
 msgid ""
 "You have just imported reconciled transactions but they not associated with "
 "any reconcile number yet.  You may associate them with a reconcilation later "
 "via the preferences windows."
 msgstr ""
 
-#: ../src/import.c:4263
+#: ../src/import.c:4292
 msgid ""
 "This assistant will help you import one or several files into Grisbi.\n"
 "\n"
@@ -9369,166 +9370,166 @@ msgid ""
 "\n"
 msgstr ""
 
-#: ../src/import.c:4271
+#: ../src/import.c:4300
 #, fuzzy
 msgid "Importing transactions into Grisbi"
 msgstr "交易格式化"
 
-#: ../src/import.c:4479
+#: ../src/import.c:4508
 #, fuzzy, c-format
 msgid "%s #%d"
 msgstr "%s %d"
 
-#: ../src/import.c:4561
+#: ../src/import.c:4590
 msgid "Import a file with a rule"
 msgstr ""
 
 #. text for paddingbox
-#: ../src/import.c:4572
+#: ../src/import.c:4601
 #, fuzzy, c-format
 msgid "Properties of the rule: %s\n"
 msgstr ""
 "文件 \"%s\" 发现错误：\n"
 "%s"
 
-#: ../src/import.c:4591
+#: ../src/import.c:4620
 #, fuzzy, c-format
 msgid "Imported transactions will be added to the account %s.\n"
 msgstr "所有交易将被转化为它们账户的货币。"
 
-#: ../src/import.c:4594
+#: ../src/import.c:4623
 #, fuzzy, c-format
 msgid "Imported transactions will mark transactions in the account %s.\n"
 msgstr "交易的细目分类是本账户的转帐。\n"
 
 #. textstring 2
-#: ../src/import.c:4599
+#: ../src/import.c:4628
 #, fuzzy, c-format
 msgid "Currency to import is %s.\n"
 msgstr "货币属性"
 
-#: ../src/import.c:4608
+#: ../src/import.c:4637
 #, fuzzy, c-format
 msgid "Amounts of the transactions will be inverted.\n"
 msgstr "录入自动预定的交易"
 
 #. label filename
-#: ../src/import.c:4620
+#: ../src/import.c:4649
 #, fuzzy
 msgid "Name of the file to import: "
 msgstr "选择导入的文件:"
 
-#: ../src/import.c:4687
+#: ../src/import.c:4716
 #, c-format
 msgid ""
 "%s is neither an OFX file, neither a QIF file. Nothing will be done for that "
 "file."
 msgstr ""
 
-#: ../src/import.c:4747
+#: ../src/import.c:4783
 #, c-format
 msgid ""
 "%s was not imported successfully. An error occured while getting the "
 "transactions."
 msgstr ""
 
-#: ../src/import_csv.c:62
+#: ../src/import_csv.c:67
 #, fuzzy
 msgid "Unknown field"
 msgstr "为止"
 
-#: ../src/import_csv.c:66
+#: ../src/import_csv.c:71
 #, fuzzy
 msgid "Wording"
 msgstr "排序"
 
 #. 12
-#: ../src/import_csv.c:75
+#: ../src/import_csv.c:80
 msgid "Debit (absolute)"
 msgstr ""
 
 #. 13
-#: ../src/import_csv.c:76
+#: ../src/import_csv.c:81
 #, fuzzy
 msgid "Debit (negative)"
 msgstr "负数"
 
-#: ../src/import_csv.c:89
+#: ../src/import_csv.c:94
 #, fuzzy
 msgid "Comma"
 msgstr "备注"
 
-#: ../src/import_csv.c:90
+#: ../src/import_csv.c:95
 msgid "Semi-colon"
 msgstr ""
 
-#: ../src/import_csv.c:91
+#: ../src/import_csv.c:96
 #, fuzzy
 msgid "Colon"
 msgstr "列1"
 
-#: ../src/import_csv.c:92
+#: ../src/import_csv.c:97
 #, fuzzy
 msgid "Tabulation"
 msgstr "翻译"
 
-#: ../src/import_csv.c:524 ../src/import_csv.c:528
-#, fuzzy
-msgid "transaction amount"
-msgstr "按账户对交易进行分组"
-
-#: ../src/import_csv.c:538
-#, c-format
-msgid "<b>The following fields are missing or inconsistent:</b> %s"
-msgstr ""
-
-#: ../src/import_csv.c:548
-#, fuzzy
-msgid "All mandatory fields are filed in."
-msgstr "所有的栏位都没有填！"
-
-#: ../src/import_csv.c:735
-msgid "Skip"
-msgstr ""
-
-#: ../src/import_csv.c:1046
-#, fuzzy
-msgid "Imported CSV account"
-msgstr "已导入的账户"
-
-#: ../src/import_csv.c:1165
-msgid "Choose CSV separator"
-msgstr ""
-
-#: ../src/import_csv.c:1200
-#, fuzzy
-msgid "Select CSV fields"
-msgstr "选择下一栏位"
-
-#: ../src/import_csv.c:1226
-#, fuzzy
-msgid "Create a rule for this import."
-msgstr "删除报表"
-
-#: ../src/import_csv.c:1289
+#: ../src/import_csv.c:134
 #, c-format
 msgid "The file %s is empty. Please choose another file."
 msgstr ""
 
-#: ../src/import_csv.c:1290
+#: ../src/import_csv.c:135
 #, fuzzy
 msgid "File emty."
 msgstr "所有者名称"
 
-#: ../src/import_csv.c:1313
+#: ../src/import_csv.c:158
 msgid ""
 "If the result does not suit you, try again by selecting the correct "
 "character set in the window for selecting files."
 msgstr ""
 
-#: ../src/import_csv.c:1315
+#: ../src/import_csv.c:160
 msgid "The conversion to utf8 went wrong."
 msgstr ""
+
+#: ../src/import_csv.c:713 ../src/import_csv.c:717
+#, fuzzy
+msgid "transaction amount"
+msgstr "按账户对交易进行分组"
+
+#: ../src/import_csv.c:727
+#, c-format
+msgid "<b>The following fields are missing or inconsistent:</b> %s"
+msgstr ""
+
+#: ../src/import_csv.c:737
+#, fuzzy
+msgid "All mandatory fields are filed in."
+msgstr "所有的栏位都没有填！"
+
+#: ../src/import_csv.c:924
+msgid "Skip"
+msgstr ""
+
+#: ../src/import_csv.c:1238 ../src/import_csv.c:1402
+#, fuzzy
+msgid "Imported CSV account"
+msgstr "已导入的账户"
+
+#: ../src/import_csv.c:1574
+msgid "Choose CSV separator"
+msgstr ""
+
+#: ../src/import_csv.c:1609
+#, fuzzy
+msgid "Select CSV fields"
+msgstr "选择下一栏位"
+
+#: ../src/import_csv.c:1635
+#, fuzzy
+msgid "Create a rule for this import."
+msgstr "删除报表"
 
 #: ../src/imputation_budgetaire.c:434
 msgid "Export the budgetary lines"
@@ -11621,6 +11622,100 @@ msgstr ""
 msgid "Display the grids above the plot"
 msgstr "显示（子）类别的名称"
 
+#: ../src/ui/csv_template_rule.ui.h:1
+#, fuzzy
+msgid "Create an import rule for CSV file"
+msgstr "删除报表"
+
+#: ../src/ui/csv_template_rule.ui.h:3 ../src/ui/prefs_page_archives.ui.h:2
+#: ../src/ui/prefs_page_divers.ui.h:2 ../src/ui/prefs_page_files.ui.h:2
+#: ../src/ui/prefs_page_import_asso.ui.h:2
+#: ../src/ui/prefs_page_import_files.ui.h:2
+msgid "    "
+msgstr ""
+
+#: ../src/ui/csv_template_rule.ui.h:5
+#, fuzzy
+msgid "Rule name"
+msgstr "所有者名称"
+
+#: ../src/ui/csv_template_rule.ui.h:6
+#, fuzzy
+msgid "Account data"
+msgstr "账户明细"
+
+#: ../src/ui/csv_template_rule.ui.h:7
+msgid "Row"
+msgstr ""
+
+#: ../src/ui/csv_template_rule.ui.h:9
+#, fuzzy
+msgid "Import account Id:"
+msgstr "已导入的账户"
+
+#: ../src/ui/csv_template_rule.ui.h:10
+#, fuzzy
+msgid "First line data"
+msgstr "第一行"
+
+#: ../src/ui/csv_template_rule.ui.h:11
+msgid "Indicates the first usable line of the file"
+msgstr ""
+
+#: ../src/ui/csv_template_rule.ui.h:12
+#, fuzzy
+msgid "Line number: "
+msgstr "编号:"
+
+#: ../src/ui/csv_template_rule.ui.h:13
+msgid "1"
+msgstr ""
+
+#: ../src/ui/csv_template_rule.ui.h:14
+msgid "Indicates whether the column headers are the first row of the file"
+msgstr ""
+
+#: ../src/ui/csv_template_rule.ui.h:15
+msgid "headers of columns present"
+msgstr ""
+
+#: ../src/ui/csv_template_rule.ui.h:16
+#, fuzzy
+msgid "Specific configuration"
+msgstr "普遍性"
+
+#: ../src/ui/csv_template_rule.ui.h:17
+#, fuzzy
+msgid "Action"
+msgstr "支出"
+
+#: ../src/ui/csv_template_rule.ui.h:18
+msgid "Value"
+msgstr "有效日期"
+
+#: ../src/ui/csv_template_rule.ui.h:19
+msgid "Data"
+msgstr ""
+
+#: ../src/ui/csv_template_rule.ui.h:20 ../src/ui/prefs_page_archives.ui.h:12
+#: ../src/ui/prefs_page_divers.ui.h:10 ../src/ui/prefs_page_files.ui.h:20
+#: ../src/ui/prefs_page_import_asso.ui.h:8
+#: ../src/ui/prefs_page_import_files.ui.h:13
+msgid "label"
+msgstr ""
+
+#: ../src/ui/csv_template_rule.ui.h:21 ../src/ui/prefs_page_archives.ui.h:13
+#: ../src/ui/prefs_page_divers.ui.h:11 ../src/ui/prefs_page_files.ui.h:21
+#: ../src/ui/prefs_page_import_asso.ui.h:9
+#: ../src/ui/prefs_page_import_files.ui.h:14
+#, fuzzy
+msgid "Title"
+msgstr "名称抬头"
+
+#: ../src/ui/csv_template_rule.ui.h:22
+msgid "checkbutton"
+msgstr ""
+
 #: ../src/ui/etats_prefs.ui.h:1
 #, fuzzy
 msgid "General totals currency: "
@@ -12253,12 +12348,6 @@ msgstr "Grisbi文档"
 msgid "Known archives"
 msgstr "已知货币"
 
-#: ../src/ui/prefs_page_archives.ui.h:2 ../src/ui/prefs_page_divers.ui.h:2
-#: ../src/ui/prefs_page_files.ui.h:2 ../src/ui/prefs_page_import_asso.ui.h:2
-#: ../src/ui/prefs_page_import_files.ui.h:2
-msgid "    "
-msgstr ""
-
 #: ../src/ui/prefs_page_archives.ui.h:3
 #, fuzzy
 msgid "Sort the archives by descending date"
@@ -12296,19 +12385,6 @@ msgstr ""
 #, fuzzy
 msgid " transactions are not archived."
 msgstr "不包含不是转帐的交易"
-
-#: ../src/ui/prefs_page_archives.ui.h:12 ../src/ui/prefs_page_divers.ui.h:10
-#: ../src/ui/prefs_page_files.ui.h:20 ../src/ui/prefs_page_import_asso.ui.h:8
-#: ../src/ui/prefs_page_import_files.ui.h:13
-msgid "label"
-msgstr ""
-
-#: ../src/ui/prefs_page_archives.ui.h:13 ../src/ui/prefs_page_divers.ui.h:11
-#: ../src/ui/prefs_page_files.ui.h:21 ../src/ui/prefs_page_import_asso.ui.h:9
-#: ../src/ui/prefs_page_import_files.ui.h:14
-#, fuzzy
-msgid "Title"
-msgstr "名称抬头"
 
 #: ../src/ui/prefs_page_divers.ui.h:1
 msgid "Programs"
@@ -14417,9 +14493,6 @@ msgstr ""
 #~ msgid ""
 #~ "This transfer has a reconciled contra-transaction, deletion canceled."
 #~ msgstr "该转帐有对账过的反交易，取消删除。"
-
-#~ msgid "Value"
-#~ msgstr "有效日期"
 
 #~ msgid ""
 #~ "Impossible to create or entry an automatic scheduled transaction\n"
