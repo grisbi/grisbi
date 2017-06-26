@@ -1196,11 +1196,18 @@ const gchar *gsb_data_import_rule_get_type (gint import_rule_number)
     import_rule = gsb_data_import_rule_get_structure (import_rule_number);
 
     if (!import_rule)
-	return NULL;
-	if (import_rule->type)
-		return import_rule->type;
-	else
+	{
 		return NULL;
+	}
+
+	if (import_rule->type)
+	{
+		return import_rule->type;
+	}
+	else
+	{
+		return NULL;
+	}
 }
 
 /**

@@ -141,10 +141,14 @@ gchar *sanitize_field (gchar *begin,
     g_return_val_if_fail (begin <= end, NULL);
 
     if (end <= begin)
+	{
         return "";
+	}
 
 	if ((end-begin) == 1)
+	{
 		return "";
+	}
 
     iter = field = g_malloc0 (end - begin + 1);
 
