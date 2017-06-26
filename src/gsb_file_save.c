@@ -2230,12 +2230,16 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	{
 	    if ( general_sort_type )
 	    {
-	        gchar* tmpstr = general_sort_type;
-		general_sort_type = g_strconcat ( tmpstr,
-						  "/-/",
-						  utils_str_itoa ( GPOINTER_TO_INT ( tmp_list -> data )),
-						  NULL );
-	        g_free ( tmpstr );
+			gchar *string_to_free;
+	        gchar* tmp_str;
+
+			tmp_str = general_sort_type;
+			general_sort_type = g_strconcat (tmp_str,
+											 "/-/",
+											 string_to_free = utils_str_itoa (GPOINTER_TO_INT (tmp_list -> data )),
+											 NULL);
+	        g_free (tmp_str);
+			g_free (string_to_free);
 	    }
 	    else
 		general_sort_type = utils_str_itoa ( GPOINTER_TO_INT ( tmp_list -> data ));
@@ -2251,12 +2255,16 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	{
 	    if ( financial_year_select )
 	    {
-	        gchar* tmpstr = financial_year_select ;
-		financial_year_select = g_strconcat ( tmpstr,
-						      "/-/",
-						      utils_str_itoa ( GPOINTER_TO_INT ( tmp_list -> data )),
-						      NULL );
-	        g_free (tmpstr);
+			gchar *string_to_free;
+	        gchar* tmp_str;
+
+			tmp_str = financial_year_select ;
+			financial_year_select = g_strconcat (tmp_str,
+												 "/-/",
+												 string_to_free = utils_str_itoa (GPOINTER_TO_INT (tmp_list -> data)),
+												 NULL);
+	        g_free (tmp_str);
+			g_free (string_to_free);
 	    }
 	    else
 		financial_year_select = utils_str_itoa ( GPOINTER_TO_INT ( tmp_list -> data ));
@@ -2272,12 +2280,16 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	{
 	    if ( account_selected )
 	    {
-	        gchar* tmpstr = account_selected;
-		account_selected = g_strconcat ( tmpstr,
-						 "/-/",
-						 utils_str_itoa ( GPOINTER_TO_INT ( tmp_list -> data )),
-						 NULL );
-	        g_free (tmpstr);
+			gchar *string_to_free;
+	        gchar* tmp_str;
+
+			tmp_str = account_selected;
+			account_selected = g_strconcat (tmp_str,
+											"/-/",
+											string_to_free = utils_str_itoa (GPOINTER_TO_INT (tmp_list -> data)),
+											NULL);
+	        g_free (tmp_str);
+			g_free (string_to_free);
 	    }
 	    else
 		account_selected = utils_str_itoa ( GPOINTER_TO_INT ( tmp_list -> data ));
@@ -2293,12 +2305,16 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	{
 	    if ( transfer_selected_accounts )
 	    {
-	        gchar* tmpstr = transfer_selected_accounts;
-		transfer_selected_accounts = g_strconcat ( tmpstr,
-					      "/-/",
-					      utils_str_itoa ( GPOINTER_TO_INT ( tmp_list -> data )),
-					      NULL );
-	        g_free ( tmpstr );
+			gchar *string_to_free;
+	        gchar* tmp_str;
+
+			tmp_str = transfer_selected_accounts;
+			transfer_selected_accounts = g_strconcat (tmp_str,
+													  "/-/",
+													  string_to_free = utils_str_itoa (GPOINTER_TO_INT (tmp_list -> data)),
+													  NULL );
+	        g_free (tmp_str);
+			g_free (string_to_free);
 	    }
 	    else
 		transfer_selected_accounts = utils_str_itoa ( GPOINTER_TO_INT ( tmp_list -> data ));
@@ -2404,15 +2420,19 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	{
 	    if ( payee_selected )
 	    {
-	        gchar* tmpstr = payee_selected;
-		payee_selected = g_strconcat ( tmpstr,
-					      "/-/",
-					      utils_str_itoa ( GPOINTER_TO_INT ( tmp_list -> data )),
-					      NULL );
-	        g_free ( tmpstr );
+			gchar *string_to_free;
+	        gchar* tmp_str;
+
+			tmp_str = payee_selected;
+			payee_selected = g_strconcat (tmp_str,
+										  "/-/",
+										  string_to_free = utils_str_itoa (GPOINTER_TO_INT (tmp_list -> data)),
+										  NULL);
+	        g_free (tmp_str);
+			g_free (string_to_free);
 	    }
 	    else
-		payee_selected = utils_str_itoa ( GPOINTER_TO_INT ( tmp_list -> data ));
+			payee_selected = utils_str_itoa (GPOINTER_TO_INT (tmp_list -> data));
 
 	    tmp_list = tmp_list -> next;
 	}
