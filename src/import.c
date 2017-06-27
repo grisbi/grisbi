@@ -1511,7 +1511,7 @@ static gboolean gsb_import_enter_force_dir_page (GtkWidget *assistant)
 
 			tmp_filename = g_build_filename (conf.import_directory, G_DIR_SEPARATOR_S, filename, NULL);
 
-			filenames = g_slist_append (filenames, (gchar *) tmp_filename);
+			filenames = g_slist_append (filenames, tmp_filename);
 		}
 	}
 	g_object_unref (direnum);
