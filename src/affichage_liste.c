@@ -169,7 +169,7 @@ GtkWidget *onglet_affichage_operations ( void )
     gint i;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Transaction list behavior"),
-                        "transaction-list-32.png" );
+                        "gsb-transaction-list-32.png" );
 
     /* heading and boxes for layout */
     paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE, _( "Display modes" ) );
@@ -567,7 +567,7 @@ GtkWidget *onglet_diverse_form_and_lists ( void )
     GtkWidget *vbox_pref, *paddingbox;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Form behavior"),
-					       "form-32.png" );
+					       "gsb-form-32.png" );
 
     /* What to do if RETURN is pressed into transaction form */
     gsb_automem_radiobutton_new_with_title (vbox_pref,
@@ -622,7 +622,7 @@ GtkWidget *onglet_form_completion ( void )
     GtkWidget *button;
 	gchar* tmpstr;
 
-    vbox_pref = new_vbox_with_title_and_icon ( _("Form completion"), "form-32.png" );
+    vbox_pref = new_vbox_with_title_and_icon ( _("Form completion"), "gsb-form-32.png" );
 
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
                         gsb_automem_checkbutton_new (
@@ -862,7 +862,7 @@ GtkWidget *onglet_affichage_liste ( void )
     GtkListStore* list_store;
 
 	/* à la base, on met une vbox */
-	onglet = new_vbox_with_title_and_icon ( _("Transactions list cells"), "transaction-list.png" );
+	onglet = new_vbox_with_title_and_icon ( _("Transactions list cells"), "gsb-transaction-list.png" );
 
     /* partie 1 visualisation de l'arrangement des données */
 	paddinggrid = utils_prefs_paddinggrid_new_with_title (onglet, _("Transactions list preview"));

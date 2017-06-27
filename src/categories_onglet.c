@@ -552,7 +552,7 @@ GtkWidget *creation_barre_outils_categ ( void )
     toolbar = gtk_toolbar_new ();
 
     /* New category button */
-    item = utils_buttons_tool_button_new_from_image_label ( "new-categ-24.png", _("New\ncategory") );
+    item = utils_buttons_tool_button_new_from_image_label ("gsb-new-categ-24.png", _("New\ncategory"));
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Create a new category") );
     g_object_set_data ( G_OBJECT ( item ), "type", GINT_TO_POINTER (1) );
     g_signal_connect_swapped ( G_OBJECT ( item ),
@@ -562,7 +562,7 @@ GtkWidget *creation_barre_outils_categ ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* New sub category button */
-    item = utils_buttons_tool_button_new_from_image_label ( "new-sub-categ-24.png", _("New sub\ncategory") );
+    item = utils_buttons_tool_button_new_from_image_label ("gsb-new-sub-categ-24.png", _("New sub\ncategory"));
     metatree_register_widget_as_linked ( GTK_TREE_MODEL ( categ_tree_model ),
                         GTK_WIDGET ( item ),
                         "selection" );
@@ -578,8 +578,7 @@ GtkWidget *creation_barre_outils_categ ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Import button */
-    item = utils_buttons_tool_button_new_from_stock ( "gtk-open" );
-    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Import") );
+    item = utils_buttons_tool_button_new_from_image_label ("gsb-import-24.png", _("Import"));
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Import a Grisbi category file (.cgsb)") );
     g_signal_connect ( G_OBJECT ( item ),
                         "clicked",
@@ -588,8 +587,7 @@ GtkWidget *creation_barre_outils_categ ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Export button */
-    item = utils_buttons_tool_button_new_from_stock ( "gtk-save" );
-    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Export") );
+    item = utils_buttons_tool_button_new_from_image_label ("gsb-export-24.png", _("Export"));
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Export a Grisbi category file (.cgsb)") );
     g_signal_connect ( G_OBJECT ( item ),
                         "clicked",
@@ -598,8 +596,7 @@ GtkWidget *creation_barre_outils_categ ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Delete button */
-    item = utils_buttons_tool_button_new_from_stock ( "gtk-delete" );
-    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Delete") );
+    item = utils_buttons_tool_button_new_from_image_label ("gtk-delete-24.png", _("Delete"));
     metatree_register_widget_as_linked ( GTK_TREE_MODEL ( categ_tree_model ),
                         GTK_WIDGET ( item ),
                         "selection" );
@@ -611,8 +608,7 @@ GtkWidget *creation_barre_outils_categ ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Properties button */
-    item = utils_buttons_tool_button_new_from_stock ( "gtk-edit" );
-    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Edit") );
+    item = utils_buttons_tool_button_new_from_image_label ("gtk-edit-24.png", _("Edit"));
     metatree_register_widget_as_linked ( GTK_TREE_MODEL ( categ_tree_model ),
                         GTK_WIDGET ( item ),
                         "selection" );
@@ -624,8 +620,7 @@ GtkWidget *creation_barre_outils_categ ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* View button */
-    item = utils_buttons_tool_button_new_from_stock ( "gtk-select-color" );
-    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("View") );
+    item = utils_buttons_tool_button_new_from_image_label ("gtk-select-color-24.png", _("View"));
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Change view mode"));
     g_signal_connect ( G_OBJECT ( item ),
                         "clicked",

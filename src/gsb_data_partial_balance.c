@@ -1703,7 +1703,7 @@ GtkWidget *gsb_partial_balance_create_dialog ( gint action, gint spin_value )
                             NULL );
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
 
-    main_vbox = new_vbox_with_title_and_icon ( _("Partial balance details"), "payment-32.png" );
+    main_vbox = new_vbox_with_title_and_icon ( _("Partial balance details"), "gsb-payment-32.png" );
     gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), main_vbox, TRUE, TRUE, 0 );
 
     /* Create paddinggrid */

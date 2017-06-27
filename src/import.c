@@ -1675,7 +1675,7 @@ static GtkWidget *gsb_import_create_file_selection_page (GtkWidget *assistant)
     paddingbox = new_paddingbox_with_title (vbox, TRUE, _("Choose file to import"));
 
     chooser = gtk_button_new_with_label (_("Add file to import..."));
-    tmp_str = g_build_filename (gsb_dirs_get_pixmaps_dir (), "import.png", NULL);
+    tmp_str = g_build_filename (gsb_dirs_get_pixmaps_dir (), "gsb-import-32.png", NULL);
     gtk_button_set_image (GTK_BUTTON(chooser),
                         gtk_image_new_from_file (tmp_str));
     g_free (tmp_str);
@@ -4299,7 +4299,7 @@ void gsb_import_assistant_importer_fichier (void)
                     format_str, NULL);
     assistant = gsb_assistant_new (_("Importing transactions into Grisbi"),
                         tmp_str,
-                        "import-48.png",
+                        "gsb-import-32.png",
                         NULL);
     g_free (format_str);
     g_free (tmp_str);

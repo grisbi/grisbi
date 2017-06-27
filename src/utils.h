@@ -32,7 +32,8 @@ gboolean        sens_desensitive_pointeur                               (GtkWidg
 gboolean        sensitive_widget                                        (gpointer object,
                                                                          GtkWidget *widget);
 void            update_gui                                              (void);
-
+GtkWidget *		utils_menu_item_new_from_image_label 					(const gchar *image_name,
+																		 const gchar *label_name);
 void            utils_container_remove_children                         (GtkWidget *widget);
 GtkWidget *     utils_get_image_with_etat                               (GtkMessageType msg,
                                                                          gint initial,

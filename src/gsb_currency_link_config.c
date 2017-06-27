@@ -136,7 +136,7 @@ GtkWidget *gsb_currency_link_config_create_page ( void )
     GtkTreeModel *tree_model;
     gint width_entry = 170;
 
-    vbox_pref = new_vbox_with_title_and_icon (_("Links between currencies"), "currencies-32.png");
+    vbox_pref = new_vbox_with_title_and_icon (_("Links between currencies"), "gsb-currencies-32.png");
     paddinggrid = utils_prefs_paddinggrid_new_with_title (vbox_pref, _("Known links"));
 
 

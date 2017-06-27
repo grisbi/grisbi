@@ -1938,8 +1938,7 @@ GtkWidget *bet_historical_create_toolbar ( GtkWidget *parent,
     g_object_set_data ( G_OBJECT ( toolbar ), "page", parent );
 
     /* print button */
-    item = utils_buttons_tool_button_new_from_stock ( "gtk-print" );
-    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Print") );
+    item = utils_buttons_tool_button_new_from_image_label ("gtk-print-24.png", _("Print"));
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Print the array") );
     g_signal_connect ( G_OBJECT ( item ),
                         "clicked",
@@ -1948,8 +1947,7 @@ GtkWidget *bet_historical_create_toolbar ( GtkWidget *parent,
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Export button */
-    item = utils_buttons_tool_button_new_from_stock ( "gtk-save" );
-    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Export") );
+    item = utils_buttons_tool_button_new_from_image_label ("gsb-export-24.png", _("Export"));
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Export the array") );
     g_signal_connect ( G_OBJECT ( item ),
                         "clicked",
@@ -1959,7 +1957,7 @@ GtkWidget *bet_historical_create_toolbar ( GtkWidget *parent,
 
 #ifdef HAVE_GOFFICE
     /* sectors button */
-    item = utils_buttons_tool_button_new_from_image_label ( "graph-sectors-24.png", _("Data graph") );
+    item = utils_buttons_tool_button_new_from_image_label ("gsb-graph-sectors-24.png", _("Data graph"));
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Display the pie graph") );
     g_signal_connect ( G_OBJECT ( item ),
                         "clicked",

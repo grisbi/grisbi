@@ -128,7 +128,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
     gint width_entry = 80;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Reconciliation"),
-					       "reconciliation-32.png" );
+					       "gsb-reconciliation-32.png" );
 
     gsb_automem_radiobutton3_new_with_title ( vbox_pref,
                         _("Select the end date of reconciliation: "),

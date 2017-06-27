@@ -340,7 +340,7 @@ GtkWidget *creation_barre_outils_transaction ( void )
     toolbar = gtk_toolbar_new ();
 
     /* new transaction button */
-    item = utils_buttons_tool_button_new_from_image_label ( "new-transaction-24.png", _("New transaction") );
+    item = utils_buttons_tool_button_new_from_image_label ("gsb-new-transaction-24.png", _("New transaction"));
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Blank the form to create a new transaction") );
     g_signal_connect ( G_OBJECT ( item ),
                         "clicked",
@@ -349,8 +349,7 @@ GtkWidget *creation_barre_outils_transaction ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* delete button */
-    item = utils_buttons_tool_button_new_from_stock ( "gtk-delete" );
-    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Delete") );
+    item = utils_buttons_tool_button_new_from_image_label ("gtk-delete-24.png", _("Delete"));
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Delete selected transaction") );
     g_signal_connect ( G_OBJECT ( item ),
                         "clicked",
@@ -359,8 +358,7 @@ GtkWidget *creation_barre_outils_transaction ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* edit button */
-    item = utils_buttons_tool_button_new_from_stock ( "gtk-edit" );
-    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Edit") );
+    item = utils_buttons_tool_button_new_from_image_label ("gtk-edit-24.png", _("Edit"));
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Edit current transaction") );
     g_signal_connect ( G_OBJECT ( item ),
                         "clicked",
@@ -369,7 +367,7 @@ GtkWidget *creation_barre_outils_transaction ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* reconcile button */
-    item = utils_buttons_tool_button_new_from_image_label ( "reconciliation-24.png", _("Reconcile") );
+    item = utils_buttons_tool_button_new_from_image_label ("gsb-reconciliation-24.png", _("Reconcile"));
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Start account reconciliation") );
     g_signal_connect ( G_OBJECT ( item ),
                         "clicked",
@@ -378,8 +376,7 @@ GtkWidget *creation_barre_outils_transaction ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* print button */
-    item = utils_buttons_tool_button_new_from_stock ( "gtk-print" );
-    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Print") );
+    item = utils_buttons_tool_button_new_from_image_label ("gtk-print-24.png", _("Print"));
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Print the transactions list") );
     g_signal_connect ( G_OBJECT ( item ),
                         "clicked",
@@ -388,8 +385,7 @@ GtkWidget *creation_barre_outils_transaction ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* select the number of lines */
-    item = utils_buttons_tool_button_new_from_stock ( "gtk-select-color" );
-    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("View") );
+    item = utils_buttons_tool_button_new_from_image_label ("gtk-select-color-24.png", _("View"));
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Change display mode of the list") );
     g_signal_connect ( G_OBJECT ( item ),
                         "clicked",
@@ -398,8 +394,7 @@ GtkWidget *creation_barre_outils_transaction ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* select the rule */
-    menu_import_rules = GTK_WIDGET ( utils_buttons_tool_button_new_from_stock ( "gtk-execute" ) );
-    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( menu_import_rules ), _("Import rules") );
+    menu_import_rules = GTK_WIDGET (utils_buttons_tool_button_new_from_image_label ("gtk-execute-24.png", _("Import rules")));
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( menu_import_rules ), _("Quick file import by rules") );
     g_signal_connect ( G_OBJECT ( menu_import_rules ),
                         "clicked",
@@ -415,7 +410,7 @@ GtkWidget *creation_barre_outils_transaction ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), separator, -1 );
 
     /* archive button */
-    item = utils_buttons_tool_button_new_from_image_label ( "archive-24.png", _("Recreates archive") );
+    item = utils_buttons_tool_button_new_from_image_label ("gsb-archive-24.png", _("Recreates archive"));
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ),
                         _("Recreates the line of the archive and hiding the transactions") );
     g_signal_connect ( G_OBJECT ( item ),
@@ -2491,7 +2486,7 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
 
     if ( contra_number > 0 )
     {
-        menu_item = gtk_menu_item_new_with_label ( _("Displays the contra-transaction") );
+        menu_item = gtk_menu_item_new_with_label ( _("Displays the contra-transaction"));
         g_signal_connect_swapped ( G_OBJECT(menu_item),
                         "activate",
                         G_CALLBACK ( gsb_transactions_list_display_contra_transaction ),
@@ -2504,7 +2499,7 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
     }
 
     /* Edit transaction */
-    menu_item = gtk_menu_item_new_with_label ( _("Edit transaction") );
+    menu_item = GTK_WIDGET (utils_menu_item_new_from_image_label ("gtk-edit-16.png", _("Edit transaction")));
     g_signal_connect_swapped ( G_OBJECT(menu_item),
 			       "activate",
 			       G_CALLBACK (gsb_transactions_list_edit_transaction_by_pointer),
@@ -2516,12 +2511,12 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
 
     /* New transaction */
-    menu_item = gtk_menu_item_new_with_label ( _("New transaction") );
+    menu_item = GTK_WIDGET (utils_menu_item_new_from_image_label  ("gsb-new-transaction-16.png", _("New transaction")));
     g_signal_connect ( G_OBJECT(menu_item), "activate", G_CALLBACK (new_transaction), NULL );
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
     /* Delete transaction */
-    menu_item = gtk_menu_item_new_with_label ( _("Delete transaction") );
+    menu_item = GTK_WIDGET (utils_menu_item_new_from_image_label ("gtk-delete-16.png", _("Delete transaction")));
     g_signal_connect ( G_OBJECT(menu_item), "activate", G_CALLBACK(remove_transaction), NULL );
     if ( !full
 	 ||
@@ -2532,14 +2527,14 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
     /* use transaction as template */
-    menu_item = gtk_menu_item_new_with_label ( _("Use selected transaction as a template") );
+    menu_item = GTK_WIDGET (utils_menu_item_new_from_image_label ("gtk-copy-16.png", _("Use selected transaction as a template")));
     g_signal_connect ( G_OBJECT(menu_item), "activate",
 		       G_CALLBACK (gsb_transactions_list_clone_template), NULL );
     gtk_widget_set_sensitive ( menu_item, full );
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
     /* Clone transaction */
-    menu_item = gtk_menu_item_new_with_label ( _("Clone transaction") );
+    menu_item = GTK_WIDGET (utils_menu_item_new_from_image_label ("gtk-copy-16.png", _("Clone transaction")));
     g_signal_connect ( G_OBJECT(menu_item), "activate",
 		       G_CALLBACK (clone_selected_transaction), NULL );
     gtk_widget_set_sensitive ( menu_item, full );
@@ -2549,13 +2544,13 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
 
     /* Convert to scheduled transaction */
-    menu_item = gtk_menu_item_new_with_label ( _("Convert transaction to scheduled transaction") );
+    menu_item = GTK_WIDGET (utils_menu_item_new_from_image_label ("gsb-convert-16.png", _("Convert transaction to scheduled transaction")));
     g_signal_connect ( G_OBJECT(menu_item), "activate", G_CALLBACK(schedule_selected_transaction), NULL );
     gtk_widget_set_sensitive ( menu_item, full && mi_full );
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
     /* Move to another account */
-    menu_item = gtk_menu_item_new_with_label ( _("Move transaction to another account") );
+    menu_item = GTK_WIDGET (utils_menu_item_new_from_image_label ("gsb-jump-16.png", _("Move transaction to another account")));
     if ( !full
 	 ||
 	 !mi_full
@@ -2575,7 +2570,7 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
 
     /* Change cell content. */
-    menu_item = gtk_menu_item_new_with_label ( _("Change cell content") );
+    menu_item = GTK_WIDGET (utils_menu_item_new_from_image_label ("gtk-properties-16.png", _("Change cell content")));
     if ( full )
 	gtk_menu_item_set_submenu ( GTK_MENU_ITEM ( menu_item ),
 				    GTK_WIDGET ( gsb_gui_create_cell_contents_menu ( x, y ) ) );

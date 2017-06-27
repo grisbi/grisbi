@@ -107,7 +107,7 @@ gboolean file_obfuscate_run ( void )
                         "save your work and restart the obfuscation process.\n\n"
                         "In next page, you will be able to select individual features to "
                         "obfuscate or to keep depending on the level of privacy needed."),
-                        "bug-48.png",
+                        "gsb-bug-32.png",
                         NULL );
 
     gsb_assistant_add_page ( assistant, file_obfuscate_page_1 (), 1, 0, 2, NULL );

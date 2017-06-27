@@ -210,11 +210,11 @@ gboolean gsb_button_sensitive_by_checkbutton ( GtkWidget *check_button,
 
 
 /**
- * Cette fonction r�duit ou d�veloppe toutes les lignes du tree_view.
- * Le libell� du bouton est modifi� en cons�quence.
+ * Cette fonction réduit ou développe toutes les lignes du tree_view.
+ * Le libellé du bouton est modifié en conséquence.
  *
  * \param le button de commande
- * \param le tree_view consid�r�
+ * \param le tree_view considéré
  *
  * \return
  */
@@ -243,11 +243,11 @@ void utils_togglebutton_collapse_expand_all_rows ( GtkToggleButton *togglebutton
 
 
 /**
- * Cette fonction (d�)s�lectionne toutes les lignes du tree_view.
- * Le libell� du bouton est modifi� en cons�quence.
+ * Cette fonction (dé)sélectionne toutes les lignes du tree_view.
+ * Le libellé du bouton est modifié en conséquence.
  *
  * \param le button de commande
- * \param le tree_view consid�r�
+ * \param le tree_view considéré
  *
  * \return
  */
@@ -274,8 +274,8 @@ void utils_togglebutton_select_unselect_all_rows ( GtkToggleButton *togglebutton
 
 
 /**
- * Cette fonction remplace le libell� select par unselect et vice versa
- * en fonction de l'�tat du bouton.
+ * Cette fonction remplace le libellé select par unselect et vice versa
+ * en fonction de l'état du bouton.
  *
  * \param le button de commande
  *
@@ -302,7 +302,7 @@ void utils_togglebutton_change_label_select_unselect ( GtkToggleButton *togglebu
 
 
 /**
- * Cette fonction remplace le libell� select par unselect et positionne le bouton sur ON
+ * Cette fonction remplace le libellé select par unselect et positionne le bouton sur ON
  *
  * \param le button de commande
  *
@@ -372,10 +372,10 @@ gint utils_radiobutton_get_active_index ( GtkWidget *radiobutton )
 
 
 /**
- * rend actif le button qui correspond � l'index pass� en param�tre.
+ * rend actif le button qui correspond à l'index passé en paramètre.
  *
  * \param radio_button
- * \param index du bouton � rendre actif
+ * \param index du bouton à rendre actif
  *
  * \return
  */
@@ -394,7 +394,7 @@ void utils_radiobutton_set_active_index ( GtkWidget *radiobutton,
 }
 
 /**
- * Cr�e un bouton avec une image
+ * Crée un bouton avec une image
  *
  * \param const gchar   name of image
  *
@@ -421,7 +421,7 @@ GtkWidget *utils_buttons_button_new_from_image (const gchar *image_name)
 }
 
 /**
- * similaire � gtk_button_new_from_stock ()
+ * similaire à gtk_button_new_from_stock ()
  *
  * \param const gchar   stock item
  *
@@ -441,7 +441,7 @@ GtkWidget *utils_buttons_button_new_from_stock (const gchar *icon_name,
 }
 
 /**
- * Cr�ation d'un GtkToolButton � partir d'une image et d'un label
+ * Création d'un GtkToolButton à partir d'une image et d'un label
  *
  * \param image_name    filename
  * \param label_name    label for button
@@ -468,25 +468,7 @@ GtkToolItem *utils_buttons_tool_button_new_from_image_label ( const gchar *image
 }
 
 /**
- *
- *
- * \param
- *
- * \return
- * */
-GtkToolItem *utils_buttons_tool_button_new_from_stock ( const gchar *icon_name )
-{
-    GtkToolItem *button = NULL;
-    GtkWidget *image;
-
-    image = gtk_image_new_from_icon_name ( icon_name, GTK_ICON_SIZE_SMALL_TOOLBAR );
-    button = gtk_tool_button_new ( image, NULL );
-
-    return button;
-}
-
-/**
- * Cr�ation d'un GtkMenuToolButton � partir d'une image et d'un label
+ * Création d'un GtkMenuToolButton à partir d'une image et d'un label
  *
  * \param image_name    filename
  * \param label_name    label for button
@@ -507,24 +489,6 @@ GtkToolItem *utils_buttons_tool_menu_new_from_image_label ( const gchar *image_n
         g_free ( filename );
         button = gtk_menu_tool_button_new ( image, label_name );
     }
-
-    return button;
-}
-
-/**
- *
- *
- * \param
- *
- * \return
- * */
-GtkToolItem *utils_buttons_tool_menu_new_from_stock ( const gchar *icon_name )
-{
-    GtkToolItem *button = NULL;
-    GtkWidget *image;
-
-    image = gtk_image_new_from_icon_name ( icon_name, GTK_ICON_SIZE_SMALL_TOOLBAR );
-    button = gtk_menu_tool_button_new ( image, NULL );
 
     return button;
 }

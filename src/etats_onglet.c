@@ -149,7 +149,7 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
     toolbar = gtk_toolbar_new ();
 
     /* New report button */
-    item = utils_buttons_tool_button_new_from_image_label ( "new-report-24.png", _("New report") );
+    item = utils_buttons_tool_button_new_from_image_label ("gsb-new-report-24.png", _("New report"));
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Create a new report") );
     g_signal_connect ( G_OBJECT ( item ),
                         "clicked",
@@ -158,8 +158,7 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Import button */
-    item = utils_buttons_tool_button_new_from_stock ( "gtk-open" );
-    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Import") );
+    item = utils_buttons_tool_button_new_from_image_label ("gsb-import-24.png", _("Import"));
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Import a Grisbi report file (.egsb)") );
     g_signal_connect ( G_OBJECT ( item ),
                         "clicked",
@@ -168,8 +167,7 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Export button */
-    bouton_exporter_etat = GTK_WIDGET ( utils_buttons_tool_button_new_from_stock ( "gtk-save" ) );
-    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( bouton_exporter_etat ), _("Export") );
+    bouton_exporter_etat = GTK_WIDGET (utils_buttons_tool_button_new_from_image_label ("gsb-export-24.png", _("Export")));
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( bouton_exporter_etat ),
                         _("Export selected report to egsb, HTML, Tex, CSV, PostScript") );
     g_signal_connect ( G_OBJECT ( bouton_exporter_etat ),
@@ -179,8 +177,7 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), GTK_TOOL_ITEM ( bouton_exporter_etat ), -1 );
 
     /* print button */
-    bouton_imprimer_etat = GTK_WIDGET ( utils_buttons_tool_button_new_from_stock ( "gtk-print" ) );
-    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( bouton_imprimer_etat ), _("Print") );
+    bouton_imprimer_etat = GTK_WIDGET (utils_buttons_tool_button_new_from_image_label ("gtk-print-24.png", _("Print")));
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( bouton_imprimer_etat ), _("Print selected report") );
     g_signal_connect ( G_OBJECT ( bouton_imprimer_etat ),
                         "clicked",
@@ -189,8 +186,7 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), GTK_TOOL_ITEM ( bouton_imprimer_etat ), -1 );
 
     /* delete button */
-    bouton_effacer_etat = GTK_WIDGET ( utils_buttons_tool_button_new_from_stock ( "gtk-delete" ) );
-    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( bouton_effacer_etat ), _("Delete") );
+    bouton_effacer_etat = GTK_WIDGET (utils_buttons_tool_button_new_from_image_label ("gtk-delete-24.png", _("Delete")));
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( bouton_effacer_etat ),
                         _("Delete selected report") );
     g_signal_connect ( G_OBJECT ( bouton_effacer_etat ),
@@ -200,8 +196,7 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), GTK_TOOL_ITEM ( bouton_effacer_etat ), -1 );
 
     /* edit button */
-    bouton_personnaliser_etat = GTK_WIDGET ( utils_buttons_tool_button_new_from_stock ( "gtk-properties" ) );
-    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( bouton_personnaliser_etat ), _("Properties") );
+    bouton_personnaliser_etat = GTK_WIDGET (utils_buttons_tool_button_new_from_image_label ("gtk-properties-24.png", _("Properties")));
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( bouton_personnaliser_etat ),
                         _("Edit selected report") );
     g_signal_connect ( G_OBJECT ( bouton_personnaliser_etat ),
@@ -211,8 +206,7 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), GTK_TOOL_ITEM ( bouton_personnaliser_etat ), -1 );
 
     /* clone button */
-    bouton_dupliquer_etat = GTK_WIDGET ( utils_buttons_tool_button_new_from_stock ( "gtk-copy" ) );
-    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( bouton_dupliquer_etat ), _("Clone") );
+    bouton_dupliquer_etat = GTK_WIDGET (utils_buttons_tool_button_new_from_image_label ("gtk-copy-24.png", _("Clone")));
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( bouton_dupliquer_etat ),
                         _("Clone selected report") );
     g_signal_connect ( G_OBJECT ( bouton_dupliquer_etat ),

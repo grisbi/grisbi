@@ -464,7 +464,7 @@ GtkWidget *gsb_bank_create_page ( gboolean default_sensitive )
     gchar *titles[] = {("Bank"), _("Contact name")};
     gfloat alignment[] = {COLUMN_LEFT, COLUMN_LEFT};
 
-    vbox_pref = new_vbox_with_title_and_icon ( _("Banks"), "banks-32.png" );
+    vbox_pref = new_vbox_with_title_and_icon ( _("Banks"), "gsb-banks-32.png" );
 
     vpaned = gtk_paned_new (GTK_ORIENTATION_VERTICAL);
     gtk_box_pack_start ( GTK_BOX (vbox_pref), vpaned, TRUE, TRUE, 0 );

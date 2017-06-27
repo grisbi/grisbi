@@ -985,7 +985,7 @@ void bet_finance_data_list_context_menu ( GtkWidget *tree_view, gint page_num )
 
     origin = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( tree_view ), "origin" ) );
 
-    tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "ac-liability-16.png", NULL);
+    tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "gsb-ac-liability-16.png", NULL);
     image = gtk_image_new_from_file ( tmp_str );
     gtk_image_set_pixel_size ( GTK_IMAGE ( image ), GTK_ICON_SIZE_MENU );
     g_free ( tmp_str );
@@ -1787,7 +1787,7 @@ static GtkWidget *bet_finance_create_simulator_toolbar ( GtkWidget *parent,
     if ( simulator )
     {
         /* création du bouton afficher le tableau d'amortissement */
-        item = utils_buttons_tool_button_new_from_image_label ( "ac-liability-24.png", _("Amortization") );
+        item = utils_buttons_tool_button_new_from_image_label ("gsb-ac-liability-24.png", _("Amortization"));
         gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("View amortization table") );
         selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
         g_signal_connect ( G_OBJECT ( item ),
@@ -1799,7 +1799,7 @@ static GtkWidget *bet_finance_create_simulator_toolbar ( GtkWidget *parent,
     else if ( amortization )
     {
         /* création du bouton afficher le simulateur de crédits */
-        item = utils_buttons_tool_button_new_from_image_label ( "ac-liability-24.png", _("Credits") );
+        item = utils_buttons_tool_button_new_from_image_label ("gsb-ac-liability-24.png", _("Credits"));
         gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("View credits simulator") );
         g_signal_connect ( G_OBJECT ( item ),
                         "clicked",
@@ -1812,7 +1812,7 @@ static GtkWidget *bet_finance_create_simulator_toolbar ( GtkWidget *parent,
         gboolean amortization_initial_date = FALSE;
 
         /* création du bouton afficher le simulateur de crédits */
-        item = utils_buttons_tool_button_new_from_image_label ( "ac-liability-24.png", _("Start date") );
+        item = utils_buttons_tool_button_new_from_image_label ("gsb-ac-liability-24.png", _("Start date"));
         gtk_widget_set_tooltip_text ( GTK_WIDGET (item ), _("Show amortization schedule from the beginning") );
         g_object_set_data ( G_OBJECT ( tree_view ), "amortization_initial_date_button", item );
         g_signal_connect ( G_OBJECT ( item ),
@@ -1825,8 +1825,7 @@ static GtkWidget *bet_finance_create_simulator_toolbar ( GtkWidget *parent,
     }
 
     /* création du bouton print */
-    item = utils_buttons_tool_button_new_from_stock ( "gtk-print" );
-    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Print") );
+    item = utils_buttons_tool_button_new_from_image_label ("gtk-print-24.png", _("Print"));
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Print the array") );
     g_signal_connect ( G_OBJECT ( item ),
                         "clicked",
@@ -1835,8 +1834,7 @@ static GtkWidget *bet_finance_create_simulator_toolbar ( GtkWidget *parent,
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Export button */
-    item = utils_buttons_tool_button_new_from_stock ( "gtk-save" );
-    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Export") );
+    item = utils_buttons_tool_button_new_from_image_label ("gsb-export-24.png", _("Export"));
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Export the array") );
     g_signal_connect ( G_OBJECT ( item ),
                         "clicked",
@@ -1847,8 +1845,7 @@ static GtkWidget *bet_finance_create_simulator_toolbar ( GtkWidget *parent,
     if ( simulator )
     {
         /* création du bouton calculer */
-        item = utils_buttons_tool_button_new_from_stock ( "gtk-execute" );
-        gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Calculate") );
+        item = utils_buttons_tool_button_new_from_image_label ("gtk-execute-24.png", _("Calculate"));
         gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Calculate") );
         g_signal_connect ( G_OBJECT ( item ),
                         "clicked",

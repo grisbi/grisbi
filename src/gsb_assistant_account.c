@@ -169,7 +169,7 @@ static GtkWidget *gsb_assistant_account_page_2 ( GtkWidget *assistant )
     gtk_container_set_border_width ( GTK_CONTAINER (page), BOX_BORDER_WIDTH );
 
     vbox = new_vbox_with_title_and_icon ( _("Account type selection"),
-					  "ac-bank-48.png" );
+					  "gsb-ac-bank-32.png" );
     gtk_box_pack_start ( GTK_BOX (page),
 			 vbox,
 			 TRUE, TRUE, 0 );

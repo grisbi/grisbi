@@ -90,7 +90,7 @@ GtkResponseType gsb_assistant_first_run ( void )
 				      "You can change any option later in the configuration window, "
 				      "where many other options are available.\n\n"
 				      "Thanks for using Grisbi, enjoy!" ),
-				    "grisbi-48.png",
+				    "grisbi-32.png",
 				    NULL );
     gsb_assistant_add_page ( assistant,
 			     gsb_assistant_first_page_2 (assistant),
@@ -155,7 +155,7 @@ GtkResponseType gsb_assistant_first_come_to_0_6 ( void )
 				      "If you want to make backups of your Grisbi file in case you want to revert "
 				      "to old version of Grisbi, we would advise you to do that right now.\n\n"
 				      "You can find out other improvements on http://www.grisbi.org/."),
-				    "grisbi-48.png",
+				    "grisbi-32.png",
 				    NULL );
     gsb_assistant_add_page ( assistant,
 			     gsb_assistant_first_page_2 (assistant),

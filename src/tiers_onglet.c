@@ -331,7 +331,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
     toolbar = gtk_toolbar_new ();
 
     /* New payee button */
-    item = utils_buttons_tool_button_new_from_image_label ( "new-payee-24.png", _("New payee") );
+    item = utils_buttons_tool_button_new_from_image_label ("gsb-new-payee-24.png", _("New payee"));
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Create a new payee") );
     g_signal_connect_swapped ( G_OBJECT ( item ),
                         "clicked",
@@ -340,8 +340,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* delete button */
-    item = utils_buttons_tool_button_new_from_stock ( "gtk-delete" );
-    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Delete") );
+    item = utils_buttons_tool_button_new_from_image_label ("gtk-delete-24.png", _("Delete"));
     metatree_register_widget_as_linked ( GTK_TREE_MODEL ( payee_tree_model ),
                         GTK_WIDGET ( item ),
                         "selection" );
@@ -353,8 +352,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* edit button */
-    item = utils_buttons_tool_button_new_from_stock ( "gtk-edit" );
-    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Edit") );
+    item = utils_buttons_tool_button_new_from_image_label ("gtk-edit-24.png", _("Edit"));
     metatree_register_widget_as_linked ( GTK_TREE_MODEL ( payee_tree_model ),
                         GTK_WIDGET ( item ),
                         "selection" );
@@ -366,8 +364,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Change view mode button */
-    item = utils_buttons_tool_button_new_from_stock ( "gtk-select-color" );
-    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("View") );
+    item = utils_buttons_tool_button_new_from_image_label ("gtk-select-color-24.png", _("View"));
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Change view mode") );
     g_signal_connect ( G_OBJECT ( item ),
                         "clicked",
@@ -376,7 +373,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Manage payees button */
-    item = utils_buttons_tool_button_new_from_image_label ( "payees-manage-24.png", _("Manage payees") );
+    item = utils_buttons_tool_button_new_from_image_label ("gsb-payees-manage-24.png", _("Manage payees"));
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Manage the payees") );
     g_signal_connect ( G_OBJECT ( item ),
                         "clicked",
@@ -385,8 +382,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Remove unused payees button */
-    item = utils_buttons_tool_button_new_from_stock ( "gtk-delete" );
-    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Remove unused payees") );
+    item = utils_buttons_tool_button_new_from_image_label ("gtk-delete-24.png", _("Remove unused payees"));
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Remove orphan payees") );
     g_signal_connect ( G_OBJECT ( item ),
                         "clicked",
@@ -913,7 +909,7 @@ void payees_manage_payees ( void )
                         _("This wizard will help you to simplify the list of payees.\n\n"
                         "Warning the changes you will make be irreparable.\n\n"
                         "It is better to make a backup of your Grisbi file if you have not yet done. "),
-                        "payees-48.png",
+                        "gsb-payees-32.png",
                         NULL );
 
     gsb_assistant_add_page ( assistant,

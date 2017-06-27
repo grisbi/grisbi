@@ -817,6 +817,44 @@ void utils_widget_set_padding (GtkWidget *widget,
 }
 
 /**
+ * Création d'un GtkToolButton à partir d'une image et d'un label
+ *
+ * \param image_name    filename
+ * \param label_name    label for button
+ *
+ * \return a GtkToolItem or NULL
+ * */
+GtkWidget *utils_menu_item_new_from_image_label (const gchar *image_name,
+												 const gchar *label_name)
+{
+    GtkWidget *menu_item = NULL;
+    gchar *filename;
+
+    filename = g_build_filename (gsb_dirs_get_pixmaps_dir (), image_name, NULL);
+    if (filename)
+    {
+		GtkWidget *box;
+        GtkWidget *image;
+		GtkWidget *label;
+
+        image = gtk_image_new_from_file (filename);
+        g_free (filename);
+		label = gtk_label_new (label_name);
+		box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
+		gtk_container_add (GTK_CONTAINER (box), image);
+		gtk_container_add (GTK_CONTAINER (box), label);
+
+        menu_item = gtk_menu_item_new ();
+		gtk_container_add (GTK_CONTAINER (menu_item), box);
+
+    }
+	else
+		gtk_menu_item_new_with_label (label_name);
+
+    return menu_item;
+}
+
+/**
  *
  *
  * \param

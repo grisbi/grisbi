@@ -2918,8 +2918,7 @@ GtkWidget *bet_array_list_create_toolbar ( GtkWidget *parent,
     g_object_set_data ( G_OBJECT ( toolbar ), "page", parent );
 
     /* print button */
-    item = gtk_tool_button_new ( NULL, _("Print") );
-    gtk_tool_button_set_icon_name ( GTK_TOOL_BUTTON ( item ), "gtk-print" );
+    item = utils_buttons_tool_button_new_from_image_label ("gtk-print-24.png", _("Print"));
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Print the array") );
     g_signal_connect ( G_OBJECT ( item ),
                         "clicked",
@@ -2928,8 +2927,7 @@ GtkWidget *bet_array_list_create_toolbar ( GtkWidget *parent,
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Export button */
-    item = gtk_tool_button_new ( NULL,  _("Export") );
-    gtk_tool_button_set_icon_name ( GTK_TOOL_BUTTON ( item ), "gtk-save" );
+    item = utils_buttons_tool_button_new_from_image_label ("gsb-export-24.png", _("Export"));
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Export the array of forecast") );
     g_signal_connect ( G_OBJECT ( item ),
                         "clicked",

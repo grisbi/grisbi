@@ -35,8 +35,6 @@ GtkWidget *     utils_buttons_button_new_from_stock             (const gchar *ic
                                                                  const gchar *label_name);
 GtkToolItem *   utils_buttons_tool_button_new_from_image_label  (const gchar *image_name,
                                                                  const gchar *label_name);
-GtkToolItem *   utils_buttons_tool_button_new_from_stock        (const gchar *icon_name);
-GtkToolItem *   utils_buttons_tool_menu_new_from_stock          (const gchar *icon_name);
 GtkToolItem *   utils_buttons_tool_menu_new_from_image_label    (const gchar *image_name,
                                                                  const gchar *label_name);
 gint            utils_radiobutton_get_active_index              (GtkWidget *radiobutton);
