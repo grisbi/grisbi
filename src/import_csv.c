@@ -1246,7 +1246,7 @@ gboolean csv_import_file_by_rule (gint rule,
 	lines_tab = csv_import_init_lines_tab (&contents,
 										   (gchar *) gsb_data_import_rule_get_csv_separator (rule));
 
-	/* définitions des colonnes utilies pour Grisbi */
+	/* définitions des colonnes utiles pour Grisbi */
 	csv_fields_str = gsb_data_import_rule_get_csv_fields_str (rule);
 	pointeur_char = g_strsplit (csv_fields_str, "-", 0);
 	count = g_strv_length (pointeur_char);
@@ -1262,9 +1262,9 @@ gboolean csv_import_file_by_rule (gint rule,
 
 	/* détermination de la première transaction du fichier */
 	if (gsb_data_import_rule_get_csv_headers_present (rule))
-		index = gsb_data_import_rule_get_csv_first_line_data (rule) +1;
-	else
 		index = gsb_data_import_rule_get_csv_first_line_data (rule);
+	else
+		index = gsb_data_import_rule_get_csv_first_line_data (rule)-1;
 
 	/* on regarde si il y a un traitement spécial */
 	if ((csv_spec_text_str = gsb_data_import_rule_get_csv_spec_text_str (rule)))
