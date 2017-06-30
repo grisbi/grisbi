@@ -1481,7 +1481,8 @@ void bet_historical_context_menu ( GtkWidget *tree_view )
     menu = gtk_menu_new ();
 
     /* Add last amount menu */
-    menu_item = gtk_menu_item_new_with_label ( _("Assign the amount of the last operation") );
+    menu_item = utils_menu_item_new_from_image_label ("gtk-add-16.png",
+													  _("Assign the amount of the last operation"));
     g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_historical_add_last_amount ),
@@ -1500,7 +1501,7 @@ void bet_historical_context_menu ( GtkWidget *tree_view )
 
 
     /* Add average amount menu */
-    menu_item = gtk_menu_item_new_with_label ( _("Copy the average amount") );
+    menu_item = utils_menu_item_new_from_image_label ("gtk-copy-16.png", _("Copy the average amount"));
     g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_historical_add_average_amount ),

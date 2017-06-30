@@ -1090,7 +1090,7 @@ void category_list_popup_context_menu ( void )
     {
         title = g_strdup ( _("Transfers the identical transactions in another sub-category") );
 
-        menu_item = gtk_menu_item_new_with_label ( title );
+        menu_item = utils_menu_item_new_from_image_label ("gsb-convert-16.png", title);
         g_signal_connect_swapped ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( metatree_transfer_identical_transactions ),
@@ -1109,7 +1109,7 @@ void category_list_popup_context_menu ( void )
         else
             title = g_strdup ( _("Edit selected sub-category") );
 
-        menu_item = gtk_menu_item_new_with_label ( title );
+        menu_item = utils_menu_item_new_from_image_label ("gtk-edit-16.png", title);
         g_signal_connect_swapped ( G_OBJECT ( menu_item ),
                             "activate",
                             G_CALLBACK ( edit_category ),
@@ -1131,7 +1131,7 @@ void category_list_popup_context_menu ( void )
         else
             title = g_strdup ( _("Transfer all transactions in another sub-category") );
 
-        menu_item = gtk_menu_item_new_with_label ( title );
+        menu_item = utils_menu_item_new_from_image_label ("gsb-convert-16.png", title);
         g_signal_connect_swapped ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( metatree_manage_sub_divisions ),

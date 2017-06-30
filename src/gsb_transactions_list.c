@@ -2486,7 +2486,8 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
 
     if ( contra_number > 0 )
     {
-        menu_item = gtk_menu_item_new_with_label ( _("Displays the contra-transaction"));
+        menu_item = GTK_WIDGET (utils_menu_item_new_from_image_label ("gsb-jump-16.png",
+																	  _("Displays the contra-transaction")));
         g_signal_connect_swapped ( G_OBJECT(menu_item),
                         "activate",
                         G_CALLBACK ( gsb_transactions_list_display_contra_transaction ),
@@ -2511,7 +2512,8 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
 
     /* New transaction */
-    menu_item = GTK_WIDGET (utils_menu_item_new_from_image_label  ("gsb-new-transaction-16.png", _("New transaction")));
+    menu_item = GTK_WIDGET (utils_menu_item_new_from_image_label  ("gsb-new-transaction-16.png",
+																   _("New transaction")));
     g_signal_connect ( G_OBJECT(menu_item), "activate", G_CALLBACK (new_transaction), NULL );
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
@@ -2527,7 +2529,8 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
     /* use transaction as template */
-    menu_item = GTK_WIDGET (utils_menu_item_new_from_image_label ("gtk-copy-16.png", _("Use selected transaction as a template")));
+    menu_item = GTK_WIDGET (utils_menu_item_new_from_image_label ("gtk-copy-16.png",
+																  _("Use selected transaction as a template")));
     g_signal_connect ( G_OBJECT(menu_item), "activate",
 		       G_CALLBACK (gsb_transactions_list_clone_template), NULL );
     gtk_widget_set_sensitive ( menu_item, full );
@@ -2544,13 +2547,15 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
 
     /* Convert to scheduled transaction */
-    menu_item = GTK_WIDGET (utils_menu_item_new_from_image_label ("gsb-convert-16.png", _("Convert transaction to scheduled transaction")));
+    menu_item = GTK_WIDGET (utils_menu_item_new_from_image_label ("gsb-convert-16.png",
+																  _("Convert transaction to scheduled transaction")));
     g_signal_connect ( G_OBJECT(menu_item), "activate", G_CALLBACK(schedule_selected_transaction), NULL );
     gtk_widget_set_sensitive ( menu_item, full && mi_full );
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
     /* Move to another account */
-    menu_item = GTK_WIDGET (utils_menu_item_new_from_image_label ("gsb-jump-16.png", _("Move transaction to another account")));
+    menu_item = GTK_WIDGET (utils_menu_item_new_from_image_label ("gsb-jump-16.png",
+																  _("Move transaction to another account")));
     if ( !full
 	 ||
 	 !mi_full

@@ -1555,11 +1555,13 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
     /* Add substract amount menu */
     if ( select == FALSE )
     {
-        menu_item = gtk_menu_item_new_with_label ( _("Subtract to the balance") );
+        menu_item = utils_menu_item_new_from_image_label ("gtk-remove-16.png",
+														  _("Subtract to the balance"));
     }
     else
     {
-        menu_item = gtk_menu_item_new_with_label ( _("Adding to the balance") );
+        menu_item = utils_menu_item_new_from_image_label ("gtk-add-16.png",
+														  _("Adding to the balance"));
     }
     g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
@@ -1573,7 +1575,7 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
     gtk_widget_show ( menu_item );
 
     /* Insert Row */
-    menu_item = gtk_menu_item_new_with_label ( _("Insert row") );
+    menu_item = utils_menu_item_new_from_image_label ("gtk-add-16.png", _("Insert row"));
     g_signal_connect ( G_OBJECT ( menu_item ),
                     "activate",
                     G_CALLBACK ( bet_array_list_insert_menu ),
@@ -1586,7 +1588,7 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
         case SPP_ORIGIN_TRANSACTION:
             if ( g_date_compare ( date, date_jour ) > 0 )
             {
-                menu_item = gtk_menu_item_new_with_label ( _("Delete selection") );
+                menu_item = utils_menu_item_new_from_image_label ("gtk-delete-16.png", _("Delete selection"));
                 g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_array_list_delete_menu ),
@@ -1597,7 +1599,7 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
         case SPP_ORIGIN_SCHEDULED:
             break;
         case SPP_ORIGIN_HISTORICAL:
-            menu_item = gtk_menu_item_new_with_label ( _("Delete selection") );
+            menu_item = utils_menu_item_new_from_image_label ("gtk-delete-16.png", _("Delete selection"));
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_array_list_delete_menu ),
@@ -1605,22 +1607,22 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
             break;
         case SPP_ORIGIN_FUTURE:
-            menu_item = gtk_menu_item_new_with_label ( _("Change selection") );
+            menu_item = utils_menu_item_new_from_image_label ("gtk-edit-16.png", _("Change selection"));
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_array_list_change_menu ),
                         tree_selection );
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
-            menu_item = gtk_menu_item_new_with_label ( _("Delete selection") );
+            menu_item = utils_menu_item_new_from_image_label ("gtk-delete-16.png", _("Delete selection"));
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_array_list_delete_menu ),
                         tree_selection );
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
-            menu_item = gtk_menu_item_new_with_label (
-                        _("Delete all occurences of the selection") );
+            menu_item = utils_menu_item_new_from_image_label ("gtk-delete-16.png",
+															  _("Delete all occurences of the selection"));
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_array_list_delete_all_menu ),
@@ -1631,8 +1633,8 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
 
             /* Convert to scheduled transaction */
-            menu_item = gtk_menu_item_new_with_label (
-                                _("Convert selection to scheduled transaction") );
+            menu_item = utils_menu_item_new_from_image_label ("gsb-convert-16.png",
+															  _("Convert selection to scheduled transaction"));
             g_signal_connect ( G_OBJECT ( menu_item ),
                                 "activate",
                                 G_CALLBACK ( bet_array_list_schedule_selected_line ),
@@ -1648,8 +1650,8 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
     /* Insert an account balance */
     if ( gsb_data_account_get_kind ( gsb_gui_navigation_get_current_account ( ) ) != GSB_TYPE_CASH )
     {
-        menu_item = gtk_menu_item_new_with_label (
-                        _("Insert the balance of a deferred debit account") );
+        menu_item = utils_menu_item_new_from_image_label ("gsb-ac-bank-16.png",
+														  _("Insert the balance of a deferred debit account"));
         g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_array_list_insert_account_balance_menu ),
@@ -1658,7 +1660,7 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
 
         if ( origine == SPP_ORIGIN_ACCOUNT )
         {
-            menu_item = gtk_menu_item_new_with_label ( _("Delete selection") );
+            menu_item = utils_menu_item_new_from_image_label ("gtk-delete-16.png", _("Delete selection"));
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_array_list_delete_menu ),
@@ -1671,6 +1673,7 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
         gtk_widget_show ( menu_item );
     }
     /* redo item */
+	menu_item = utils_menu_item_new_from_image_label ("gtk-refresh-16.png", _("Reset data"));
     g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_array_list_redo_menu ),
@@ -1681,7 +1684,7 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
 
     /* Print list */
-    menu_item = gtk_menu_item_new_with_label ( _("Print the array") );
+    menu_item = utils_menu_item_new_from_image_label ("gtk-print-16.png", _("Print the array"));
     g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( print_tree_view_list ),
@@ -1689,7 +1692,7 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
     /* Export list */
-    menu_item = gtk_menu_item_new_with_label ( _("Export the array") );
+    menu_item = utils_menu_item_new_from_image_label ("gsb-export-16.png", _("Export the array"));
     g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_array_export_tab ),

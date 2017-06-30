@@ -8,6 +8,7 @@ grisbi_pixmaps_DATA = \
 	grisbi.svg \
 	gsb-amount-32.png \
 	gsb-ac-asset-32.png \
+	gsb-ac-bank-16.png \
 	gsb-ac-bank-32.png \
 	gsb-ac-cash-32.png \
 	gsb-ac-home-32.png \
@@ -85,6 +86,7 @@ grisbi_pixmaps_DATA = \
 	gsb-warnings-32.png \
 	gsb-web-browser-16.png \
 	gtk-about-16.png \
+	gtk-add-16.png \
 	gtk-close-16.png \
 	gtk-copy-16.png \
 	gtk-copy-24.png \
@@ -96,10 +98,13 @@ grisbi_pixmaps_DATA = \
 	gtk-execute-16.png \
 	gtk-execute-24.png \
 	gtk-open-16.png \
+	gtk-print-16.png \
 	gtk-print-24.png \
 	gtk-properties-16.png \
 	gtk-properties-24.png \
 	gtk-quit-16.png \
+	gtk-refresh-16.png \
+	gtk-remove-16.png \
 	gtk-save-as-16.png \
 	gtk-save-16.png \
 	gtk-search-16.png \

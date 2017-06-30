@@ -968,11 +968,9 @@ gboolean bet_finance_data_list_button_press ( GtkWidget *tree_view,
 void bet_finance_data_list_context_menu ( GtkWidget *tree_view, gint page_num )
 {
     GtkWidget *menu, *menu_item;
-    GtkWidget *image;
     GtkTreeModel *model;
     GtkTreeSelection *tree_selection;
     GtkTreeIter iter;
-    gchar *tmp_str;
     gint origin;
 
     tree_selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
@@ -985,16 +983,12 @@ void bet_finance_data_list_context_menu ( GtkWidget *tree_view, gint page_num )
 
     origin = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( tree_view ), "origin" ) );
 
-    tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "gsb-ac-liability-16.png", NULL);
-    image = gtk_image_new_from_file ( tmp_str );
-    gtk_image_set_pixel_size ( GTK_IMAGE ( image ), GTK_ICON_SIZE_MENU );
-    g_free ( tmp_str );
-
     if ( origin == SPP_ORIGIN_SIMULATOR )
     {
         if ( page_num == 0 )
         {
-            menu_item = gtk_menu_item_new_with_label ( _("View amortization table") );
+            menu_item = utils_menu_item_new_from_image_label ("gsb-ac-liability-16.png",
+															  _("View amortization table"));
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_finance_fill_amortization_array ),
@@ -1002,7 +996,8 @@ void bet_finance_data_list_context_menu ( GtkWidget *tree_view, gint page_num )
         }
         else
         {
-            menu_item = gtk_menu_item_new_with_label ( _("View credits simulator") );
+            menu_item = utils_menu_item_new_from_image_label ("gsb-ac-liability-16.png",
+															  _("View credits simulator"));
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_finance_switch_simulator_page ),
@@ -1018,9 +1013,11 @@ void bet_finance_data_list_context_menu ( GtkWidget *tree_view, gint page_num )
                         G_OBJECT ( tree_view ), "amortization_initial_date" ) );
 
         if ( amortization_initial_date )
-            menu_item = gtk_menu_item_new_with_label ( _("Show amortization schedule to date") );
+            menu_item = utils_menu_item_new_from_image_label ("gsb-ac-liability-16.png",
+															  _("Show amortization schedule to date"));
         else
-            menu_item = gtk_menu_item_new_with_label ( _("Show amortization schedule from the beginning") );
+            menu_item = utils_menu_item_new_from_image_label ("gsb-ac-liability-16.png",
+															  _("Show amortization schedule from the beginning"));
 
         g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
@@ -1034,7 +1031,7 @@ void bet_finance_data_list_context_menu ( GtkWidget *tree_view, gint page_num )
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
 
     /* Print list */
-    menu_item = gtk_menu_item_new_with_label ( _("Print the array") );
+    menu_item = utils_menu_item_new_from_image_label ("gtk-print-16.png", _("Print the array"));
     g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( print_tree_view_list ),
@@ -1042,7 +1039,7 @@ void bet_finance_data_list_context_menu ( GtkWidget *tree_view, gint page_num )
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
     /* Export list */
-    menu_item = gtk_menu_item_new_with_label ( _("Export the array") );
+    menu_item = utils_menu_item_new_from_image_label ("gsb-export-16.png", _("Export the array"));
     g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_finance_ui_export_tab ),
