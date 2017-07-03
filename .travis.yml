@@ -1,10 +1,3 @@
-# Ubuntu 16.04 is not yet available at Travis-CI o use Docker
-# https://github.com/travis-ci/travis-ci/issues/5821
-
-# Require trusty for now as it has a more recent version of autoconf
-sudo: required
-group: deprecated-2017Q2
-
 language: c
 
 services:
