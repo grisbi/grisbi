@@ -707,7 +707,6 @@ GtkWidget *bet_array_create_page ( void )
     GtkWidget *widget = NULL;
     GtkWidget *initial_date = NULL;
     GtkWidget *hbox;
-    GtkWidget *align;
     GtkWidget *label_title;
     GtkWidget *label;
     GtkWidget *tree_view;
@@ -724,21 +723,17 @@ GtkWidget *bet_array_create_page ( void )
     gtk_box_pack_start ( GTK_BOX ( page ), frame, FALSE, FALSE, 0 );
 
     /* create the title */
-    align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
-    gtk_box_pack_start ( GTK_BOX ( page ), align, FALSE, FALSE, 5) ;
-
     label_title = gtk_label_new ("Estimate array");
-    gtk_container_add ( GTK_CONTAINER ( align ), label_title );
+	gtk_widget_set_halign (label_title, GTK_ALIGN_CENTER);
+    gtk_box_pack_start ( GTK_BOX ( page ), label_title, FALSE, FALSE, 5);
     g_object_set_data ( G_OBJECT ( account_page ),
                         "bet_array_title",
                         label_title );
 
-    align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
-    gtk_box_pack_start ( GTK_BOX ( page ), align, FALSE, FALSE, 5) ;
-
     /* set the duration widget */
     hbox = bet_config_get_duration_widget ( SPP_ORIGIN_ARRAY );
-    gtk_container_add ( GTK_CONTAINER ( align ), hbox );
+	gtk_widget_set_halign (hbox, GTK_ALIGN_CENTER);
+    gtk_box_pack_start ( GTK_BOX ( page ), hbox, FALSE, FALSE, 5);
 
     /* set the start date and the automatic change of month */
     label = gtk_label_new ( _("Start date: " ) );

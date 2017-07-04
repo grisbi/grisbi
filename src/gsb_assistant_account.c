@@ -223,7 +223,6 @@ static GtkWidget *gsb_assistant_account_page_2 ( GtkWidget *assistant )
 static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
 {
     GtkWidget *page, *label, *button, *table;
-    GtkWidget *align;
     GtkWidget *image;
     struct lconv *locale = gsb_locale_get_locale ( );
 
@@ -290,16 +289,16 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
 
     /* création du choix de l'icône du compte */
     /* Récupération de l'icône par défaut */
-    align = gtk_alignment_new (0.5,0.5,1,1);
-    gtk_alignment_set_padding ( GTK_ALIGNMENT ( align ), 0, 0, 20, 20 );
     button = gtk_button_new ( );
     gtk_widget_set_size_request ( button, 80, 80 );
     image = gtk_image_new_from_pixbuf (
                 gsb_data_account_get_account_standard_pixbuf ( 0 ) );
     gtk_button_set_image ( GTK_BUTTON ( button ), image);
     gtk_button_set_relief ( GTK_BUTTON ( button ), GTK_RELIEF_NORMAL );
-    gtk_container_add (GTK_CONTAINER (align), button);
-    gtk_grid_attach (GTK_GRID (table), align, 3, 0, 1, 3);
+    gtk_grid_attach (GTK_GRID (table), button, 3, 0, 1, 3);
+	utils_widget_set_padding (button, 20, 0);
+	gtk_widget_set_halign (button, GTK_ALIGN_CENTER);
+	gtk_widget_set_valign (button, GTK_ALIGN_CENTER);
     g_object_set_data ( G_OBJECT (assistant), "bouton_icon", button );
     g_signal_connect ( G_OBJECT( button ),
                             "clicked",

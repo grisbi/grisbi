@@ -1961,12 +1961,7 @@ static void etats_config_onglet_texte_retire_ligne_liste_comparaisons ( gint las
 static void etats_config_onglet_texte_get_buttons_add_remove ( GtkWidget *parent,
                         gint text_comparison_number )
 {
-    GtkWidget *alignement;
     GtkWidget *button;
-
-    alignement = gtk_alignment_new ( 0.3, 0, 0, 0 );
-    gtk_widget_show ( alignement );
-    gtk_box_pack_start ( GTK_BOX ( parent ), alignement, TRUE, TRUE, 0 );
 
     button = gtk_button_new_with_label ( _("Add") );
     gtk_widget_show ( button );
@@ -1977,11 +1972,7 @@ static void etats_config_onglet_texte_get_buttons_add_remove ( GtkWidget *parent
                         G_CALLBACK ( etats_config_onglet_texte_ajoute_ligne_liste_comparaisons ),
                         GINT_TO_POINTER ( text_comparison_number ) );
 
-    gtk_container_add ( GTK_CONTAINER ( alignement ), button );
-
-    alignement = gtk_alignment_new ( 0.3, 0, 0, 0 );
-    gtk_widget_show ( alignement );
-    gtk_box_pack_start ( GTK_BOX ( parent ), alignement, TRUE, TRUE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( parent ), button, TRUE, TRUE, 0 );
 
     button = gtk_button_new_with_label ( _("Remove") );
     gtk_button_set_relief ( GTK_BUTTON ( button ), GTK_RELIEF_NONE );
@@ -1991,7 +1982,7 @@ static void etats_config_onglet_texte_get_buttons_add_remove ( GtkWidget *parent
                         G_CALLBACK ( etats_config_onglet_texte_retire_ligne_liste_comparaisons ),
                         GINT_TO_POINTER ( text_comparison_number ) );
 
-    gtk_container_add ( GTK_CONTAINER ( alignement ), button );
+    gtk_box_pack_start ( GTK_BOX ( parent ), button, TRUE, TRUE, 0 );
 }
 
 
@@ -2406,12 +2397,7 @@ static void etats_config_onglet_montants_retire_ligne_liste_comparaisons ( gint 
 static void etats_config_onglet_montants_get_buttons_add_remove ( GtkWidget *parent,
                         gint text_comparison_number )
 {
-    GtkWidget *alignement;
     GtkWidget *button;
-
-    alignement = gtk_alignment_new ( 0.3, 0, 0, 0 );
-    gtk_widget_show ( alignement );
-    gtk_box_pack_start ( GTK_BOX ( parent ), alignement, TRUE, TRUE, 0 );
 
     button = gtk_button_new_with_label ( _("Add") );
     gtk_widget_show ( button );
@@ -2422,11 +2408,7 @@ static void etats_config_onglet_montants_get_buttons_add_remove ( GtkWidget *par
                         G_CALLBACK ( etats_config_onglet_montants_ajoute_ligne_liste_comparaisons ),
                         GINT_TO_POINTER ( text_comparison_number ) );
 
-    gtk_container_add ( GTK_CONTAINER ( alignement ), button );
-
-    alignement = gtk_alignment_new ( 0.3, 0, 0, 0 );
-    gtk_widget_show ( alignement );
-    gtk_box_pack_start ( GTK_BOX ( parent ), alignement, TRUE, TRUE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( parent ), button, TRUE, TRUE, 0 );
 
     button = gtk_button_new_with_label ( _("Remove") );
     gtk_button_set_relief ( GTK_BUTTON ( button ), GTK_RELIEF_NONE );
@@ -2436,7 +2418,7 @@ static void etats_config_onglet_montants_get_buttons_add_remove ( GtkWidget *par
                         G_CALLBACK ( etats_config_onglet_montants_retire_ligne_liste_comparaisons ),
                         GINT_TO_POINTER ( text_comparison_number ) );
 
-    gtk_container_add ( GTK_CONTAINER ( alignement ), button );
+    gtk_box_pack_start ( GTK_BOX ( parent ), button, TRUE, TRUE, 0 );
 }
 
 

@@ -153,7 +153,6 @@ GtkWidget *bet_historical_create_page ( void )
     GtkWidget *page;
     GtkWidget *frame;
     GtkWidget *hbox;
-    GtkWidget *align;
     GtkWidget *label_title;
     GtkWidget *button_1, *button_2;
     GtkWidget *tree_view;
@@ -171,19 +170,15 @@ GtkWidget *bet_historical_create_page ( void )
     gtk_box_pack_start ( GTK_BOX ( page ), frame, FALSE, FALSE, 0 );
 
     /* titre de la page */
-    align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
-    gtk_box_pack_start ( GTK_BOX ( page ), align, FALSE, FALSE, 5) ;
-
     label_title = gtk_label_new ( "bet_hist_title" );
-    gtk_container_add ( GTK_CONTAINER ( align ), label_title );
+	gtk_widget_set_halign (label_title, GTK_ALIGN_CENTER);
+    gtk_box_pack_start ( GTK_BOX ( page ), label_title, FALSE, FALSE, 5);
     g_object_set_data ( G_OBJECT ( gsb_gui_get_account_page () ), "bet_hist_title", label_title);
 
     /* Choix des données sources */
-    align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
-    gtk_box_pack_start ( GTK_BOX ( page ), align, FALSE, FALSE, 5) ;
-
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
-    gtk_container_add ( GTK_CONTAINER ( align ), hbox );
+	gtk_widget_set_halign (hbox, GTK_ALIGN_CENTER);
+    gtk_box_pack_start ( GTK_BOX ( page ), hbox, FALSE, FALSE, 5);
     g_object_set_data ( G_OBJECT ( account_page ), "bet_historical_data", hbox );
 
     button_1 = gtk_radio_button_new_with_label ( NULL,

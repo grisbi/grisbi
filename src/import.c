@@ -640,7 +640,6 @@ static gint gsb_import_create_imported_account (struct ImportAccount *imported_a
 static GtkWidget *gsb_import_cree_ligne_recapitulatif (struct ImportAccount *compte)
 {
     GtkWidget *vbox, *hbox, *label, *radio, *radio_add_account,*radiogroup;
-    GtkWidget *alignement;
     gchar *short_filename;
     gint size = 0, spacing = 0;
     gint account_number;
@@ -682,11 +681,8 @@ static GtkWidget *gsb_import_cree_ligne_recapitulatif (struct ImportAccount *com
     compte->hbox1 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
     gtk_box_pack_start (GTK_BOX (vbox), compte->hbox1, FALSE, FALSE, 0);
     label = gtk_label_new (_("Account type: "));
-    alignement = gtk_alignment_new (0.5, 0.5, 1, 1);
-    gtk_container_set_border_width (GTK_CONTAINER (alignement), 2);
-    gtk_alignment_set_padding (GTK_ALIGNMENT (alignement), 0, 0, 2 * spacing + size, 0);
-    gtk_container_add (GTK_CONTAINER (alignement), label);
-    gtk_box_pack_start (GTK_BOX (compte->hbox1), alignement, FALSE, FALSE, 0);
+	gtk_widget_set_margin_start (label, 2 * spacing + size);
+    gtk_box_pack_start (GTK_BOX (compte->hbox1), label, FALSE, FALSE, 0);
 
     compte->bouton_type_compte = gsb_combo_box_new_with_index_from_list (
                         gsb_account_property_create_combobox_list (),
@@ -729,11 +725,8 @@ static GtkWidget *gsb_import_cree_ligne_recapitulatif (struct ImportAccount *com
     compte->hbox2 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
     gtk_box_pack_start (GTK_BOX (vbox), compte->hbox2, FALSE, FALSE, 0);
     label = gtk_label_new (_("Account name: "));
-    alignement = gtk_alignment_new (0.5, 0.5, 1, 1);
-    gtk_container_set_border_width (GTK_CONTAINER (alignement), 2);
-    gtk_alignment_set_padding (GTK_ALIGNMENT (alignement), 0, 0, 2 * spacing + size, 0);
-    gtk_container_add (GTK_CONTAINER (alignement), label);
-    gtk_box_pack_start (GTK_BOX (compte->hbox2), alignement, FALSE, FALSE, 0);
+	gtk_widget_set_margin_start (label, 2 * spacing + size);
+    gtk_box_pack_start (GTK_BOX (compte->hbox2), label, FALSE, FALSE, 0);
 
     compte->bouton_compte_add = gsb_account_create_combo_list (NULL, NULL, FALSE);
     gtk_box_pack_start (GTK_BOX (compte->hbox2), compte->bouton_compte_add, TRUE, TRUE, 0);
@@ -754,11 +747,8 @@ static GtkWidget *gsb_import_cree_ligne_recapitulatif (struct ImportAccount *com
     compte->hbox3 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
     gtk_box_pack_start (GTK_BOX (vbox), compte->hbox3, FALSE, FALSE, 0);
     label = gtk_label_new (_("Account name: "));
-    alignement = gtk_alignment_new (0.5, 0.5, 1, 1);
-    gtk_container_set_border_width (GTK_CONTAINER (alignement), 2);
-    gtk_alignment_set_padding (GTK_ALIGNMENT (alignement), 0, 0, 2 * spacing + size, 0);
-    gtk_container_add (GTK_CONTAINER (alignement), label);
-    gtk_box_pack_start (GTK_BOX (compte->hbox3), alignement, FALSE, FALSE, 0);
+	gtk_widget_set_margin_start (label, 2 * spacing + size);
+    gtk_box_pack_start (GTK_BOX (compte->hbox3), label, FALSE, FALSE, 0);
 
     compte->bouton_compte_mark = gsb_account_create_combo_list (NULL, NULL, FALSE);
     gtk_box_pack_start (GTK_BOX (compte->hbox3), compte->bouton_compte_mark, TRUE, TRUE, 0);
@@ -2003,7 +1993,6 @@ static GtkWidget *gsb_import_progress_bar_affiche (struct ImportAccount *importe
     GtkWidget *progress;
     GtkWidget *hbox;
     GtkWidget *image;
-    GtkWidget *align;
     GtkWidget *bar;
 
     progress = gtk_window_new (GTK_WINDOW_TOPLEVEL);
@@ -2021,12 +2010,11 @@ static GtkWidget *gsb_import_progress_bar_affiche (struct ImportAccount *importe
     image = gtk_image_new_from_icon_name ("gtk-dialog-info", GTK_ICON_SIZE_DIALOG);
     gtk_box_pack_start (GTK_BOX (hbox), image, FALSE, FALSE, 0);
 
-    align = gtk_alignment_new (0.0, 0.5, 0.0, 0.0);
     bar = gtk_progress_bar_new ();
+	gtk_widget_set_valign (bar, GTK_ALIGN_CENTER);
     gtk_progress_bar_set_pulse_step (GTK_PROGRESS_BAR (bar), 0.1);
     g_object_set_data (G_OBJECT (progress), "bar", bar);
-    gtk_container_add (GTK_CONTAINER (align), bar);
-    gtk_box_pack_start (GTK_BOX (hbox), align, FALSE, FALSE, 6);
+    gtk_box_pack_start (GTK_BOX (hbox), bar, FALSE, FALSE, 6);
 
     gtk_widget_show_all (progress);
 
