@@ -51,29 +51,18 @@
 #include "utils.h"
 #include "utils_buttons.h"
 #include "utils_file_selection.h"
-#include "utils_font.h"
 #include "utils_prefs.h"
 #include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gboolean change_choix_utilise_fonte_liste ( GtkWidget *check_button,
-                        GtkWidget *vbox );
 static gboolean change_grisbi_title_type ( GtkRadioButton *button, GtkWidget *entry );
 static gboolean change_toolbar_display_mode ( GtkRadioButton *button );
 static gboolean preferences_active_mouse_scrolling_left_pane ( GtkWidget *toggle_button,
                         gpointer null );
 static gboolean preferences_switch_headings_bar ( GtkWidget *toggle_button,
                         gpointer null );
-static gboolean preferences_view_color_changed ( GtkWidget *color_button,
-                        GtkWidget *combobox );
-static gboolean preferences_view_color_combobox_changed ( GtkWidget *combobox,
-                        GtkWidget *color_button );
-static gboolean preferences_view_color_default ( GtkWidget *button,
-                        GtkWidget *combobox );
-static void update_fonte_listes ( gchar *fontname,
-                        gpointer null);
 /*END_STATIC*/
 
 
@@ -87,10 +76,8 @@ extern GtkWidget *logo_accueil;
 /*END_EXTERN*/
 
 /** Button used to store a nice preview of the homepage logo */
-static GtkWidget *logo_button = NULL;
 
 /** GtkImage containing the preview  */
-static GtkWidget *preview = NULL;
 
 /******************************************************************************/
 /* Private Functions                                                          */
@@ -99,197 +86,6 @@ static GtkWidget *preview = NULL;
 /******************************************************************************/
 /* Public Functions                                                           */
 /******************************************************************************/
-/**
- * Creates the "Fonts & logo" tab.  This function creates some buttons
- * that are borrowed from applications like gedit.
- *
- * \returns A newly allocated vbox
- */
-GtkWidget * onglet_display_fonts ( void )
-{
-    GtkWidget *hbox, *vbox_pref, *label, *paddingbox, *font_button;
-    GtkWidget *check_button, *vbox;
-    GdkPixbuf * pixbuf = NULL;
-    GtkWidget *button;
-    GtkWidget *color_combobox;
-    GtkWidget *color_button;
-    GtkWidget *grid;
-
-    vbox_pref = new_vbox_with_title_and_icon ( _("Fonts & logo"), "gsb-fonts-32.png" );
-
-    /* Change Grisbi Logo */
-    paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE, _("Grisbi logo") );
-
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
-
-    check_button = gtk_check_button_new_with_label ( _("Display a logo"));
-    gtk_box_pack_start ( GTK_BOX ( hbox ), check_button, FALSE, FALSE, 0 );
-
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( check_button ),
-				   etat.utilise_logo );
-
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
-
-    /*     le logo est grisé ou non suivant qu'on l'utilise ou pas */
-    gtk_widget_set_sensitive ( hbox, etat.utilise_logo );
-    //~ g_signal_connect ( G_OBJECT ( check_button ),
-                        //~ "toggled",
-                        //~ G_CALLBACK ( change_choix_utilise_logo ),
-                        //~ hbox );
-
-    logo_button = gtk_button_new ();
-    gtk_button_set_relief ( GTK_BUTTON ( logo_button ), GTK_RELIEF_NONE );
-
-	pixbuf = gsb_select_icon_get_logo_pixbuf ( );
-
-    if (!pixbuf)
-    {
-        preview = gtk_image_new_from_pixbuf ( gsb_select_icon_get_default_logo_pixbuf ( ) );
-    }
-    else
-    {
-        if ( gdk_pixbuf_get_width(pixbuf) > 64 ||
-             gdk_pixbuf_get_height(pixbuf) > 64 )
-        {
-            GdkPixbuf * tmp;
-            tmp = gdk_pixbuf_new ( GDK_COLORSPACE_RGB, TRUE, 8,
-                       gdk_pixbuf_get_width(pixbuf)/2,
-                       gdk_pixbuf_get_height(pixbuf)/2 );
-            gdk_pixbuf_scale ( pixbuf, tmp, 0, 0,
-                       gdk_pixbuf_get_width(pixbuf)/2,
-                       gdk_pixbuf_get_height(pixbuf)/2,
-                       0, 0, 0.5, 0.5, GDK_INTERP_HYPER );
-            pixbuf = tmp;
-        }
-        preview = gtk_image_new_from_pixbuf (pixbuf);
-    }
-
-    gtk_container_add (GTK_CONTAINER(logo_button), preview);
-    //~ g_signal_connect_swapped ( G_OBJECT ( logo_button ), "clicked",
-			       //~ G_CALLBACK ( modification_logo_accueil ), NULL );
-    //~ gtk_box_pack_start ( GTK_BOX ( hbox ), logo_button, FALSE, FALSE, 0 );
-
-    label = gtk_label_new ( _("Click on preview to change logo") );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
-
-    /* Change fonts */
-    paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE, _("Fonts") );
-
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
-
-    check_button = gtk_check_button_new_with_label (
-                        _("Use a custom font for the transactions: "));
-    gtk_box_pack_start ( GTK_BOX ( hbox ), check_button, FALSE, FALSE, 0 );
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( check_button ),
-				        conf.custom_fonte_listes );
-
-    /*     on crée la vbox qui contiendra la font button et le raz */
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), vbox, FALSE, FALSE, 0 );
-
-    gtk_widget_set_sensitive ( vbox, conf.custom_fonte_listes );
-    g_signal_connect ( G_OBJECT ( check_button ), "toggled",
-		       G_CALLBACK ( change_choix_utilise_fonte_liste ), vbox );
-
-
-    /* Create font button */
-    font_button = utils_font_create_button ( &conf.font_string,
-					    G_CALLBACK (update_fonte_listes), NULL);
-    gtk_box_pack_start ( GTK_BOX (vbox), font_button, FALSE, FALSE, 0 );
-
-    if ( !gsb_data_account_get_accounts_amount () )
-    {
-        gtk_widget_set_sensitive ( vbox_pref, FALSE );
-    }
-
-    /* change colors */
-    paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE, _("Colors") );
-
-    grid = gtk_grid_new ();
-
-    gtk_box_pack_start (GTK_BOX ( paddingbox ), grid, FALSE, FALSE, 0);
-
-    color_combobox = gsb_rgba_create_color_combobox ();
-    gtk_widget_set_margin_end (color_combobox, MARGIN_END);
-    gtk_grid_attach (GTK_GRID (grid), color_combobox, 0, 0, 1, 1);
-
-    color_button = gtk_color_button_new ();
-    gtk_color_button_set_title ( GTK_COLOR_BUTTON(color_button), _("Choosing color") );
-    g_signal_connect ( G_OBJECT (color_button),
-		       "color-set",
-		       G_CALLBACK (preferences_view_color_changed),
-		       G_OBJECT (color_combobox));
-    gtk_grid_attach (GTK_GRID (grid), color_button, 1, 0, 1, 1);
-
-    /* connect the color button to the combobox if changed */
-    g_signal_connect ( G_OBJECT (color_combobox),
-		       "changed",
-		       G_CALLBACK (preferences_view_color_combobox_changed),
-		       G_OBJECT (color_button));
-
-    button = gtk_button_new_with_label (_("Back to default"));
-    gtk_widget_set_margin_top (button, MARGIN_TOP);
-    g_signal_connect ( G_OBJECT (button),
-		       "clicked",
-		       G_CALLBACK (preferences_view_color_default),
-		       G_OBJECT (color_combobox));
-    gtk_grid_attach (GTK_GRID (grid), button,0, 1, 2, 1);
-
-    gtk_combo_box_set_active ( GTK_COMBO_BOX (color_combobox), 0);
-
-    return vbox_pref;
-}
-
-
-
-
-/* ********************************************************************** */
-
-
-/* ********************************************************************** */
-gboolean change_choix_utilise_fonte_liste ( GtkWidget *check_button,
-                        GtkWidget *vbox )
-{
-    conf.custom_fonte_listes = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( check_button ));
-    gtk_widget_set_sensitive ( vbox,
-			       conf.custom_fonte_listes );
-
-    update_fonte_listes ( conf.font_string, NULL );
-
-    return ( FALSE );
-}
-/* ********************************************************************** */
-
-
-/**
- * update the font in all the transactions in the list
- *
- * \param
- *
- * \return
- * */
-void update_fonte_listes ( gchar *fontname,
-                        gpointer null)
-{
-    GValue value = G_VALUE_INIT;
-    gchar *font;
-
-    devel_debug (NULL);
-
-    if ( conf.custom_fonte_listes )
-	font = fontname;
-    else
-	font = NULL;
-
-    g_value_init (&value, G_TYPE_STRING);
-    g_value_set_string (&value, font);
-    transaction_list_update_column (CUSTOM_MODEL_FONT, &value);
-}
-
-
 
 /**
  * Creates the "Titles & Addresses" tab.  This tab is mainly composed
@@ -397,87 +193,6 @@ GtkWidget *onglet_display_addresses ( void )
 
 
 /* **************************************************************************************************************************** */
-void change_logo_accueil ( GtkWidget * file_selector )
-{
-    GdkPixbuf * pixbuf;
-
-    const gchar *selected_filename;
-
-    selected_filename = file_selection_get_filename ( GTK_FILE_CHOOSER ( file_selector ) );
-
-    if ( gsb_data_account_get_accounts_amount () )
-    {
-        /* on change le logo */
-        gchar * chemin_logo;
-
-        gtk_container_remove ( GTK_CONTAINER ( logo_button ), preview );
-        chemin_logo = g_strstrip ( g_strdup ( selected_filename ) );
-        if ( !strlen ( chemin_logo ) )
-        {
-            if ( logo_accueil && GTK_IS_WIDGET ( logo_accueil ) )
-                gtk_widget_hide ( logo_accueil );
-            preview = gtk_image_new_from_icon_name ( "gtk-missing-image",
-                             GTK_ICON_SIZE_BUTTON );
-        }
-        else
-        {
-            /* Update preview */
-            pixbuf = gdk_pixbuf_new_from_file ( chemin_logo, NULL );
-            if (!pixbuf)
-            {
-                if ( logo_accueil && GTK_IS_WIDGET ( logo_accueil ))
-                    gtk_widget_hide ( logo_accueil );
-                preview = gtk_image_new_from_icon_name ( "gtk-missing-image",
-                                    GTK_ICON_SIZE_BUTTON );
-            }
-            else
-            {
-                if ( g_strcmp0 ( g_path_get_dirname ( chemin_logo ), gsb_dirs_get_pixmaps_dir ( ) ) == 0 )
-                {
-                    gchar *name_logo;
-
-                    etat.is_pixmaps_dir = TRUE;
-
-                    name_logo = g_path_get_basename ( chemin_logo );
-                    if ( g_strcmp0 ( name_logo, "grisbi-logo.png" ) != 0 )
-                        etat.name_logo = name_logo;
-                    else
-                        etat.name_logo = NULL;
-                }
-                else
-                {
-                    etat.is_pixmaps_dir = FALSE;
-                    if ( etat.name_logo && strlen ( etat.name_logo ) )
-                        g_free ( etat.name_logo );
-                    etat.name_logo = NULL;
-                }
-
-                gsb_select_icon_set_logo_pixbuf ( pixbuf );
-                preview = gtk_image_new_from_pixbuf (
-                        gdk_pixbuf_scale_simple (
-                        pixbuf, 48, 48, GDK_INTERP_BILINEAR ) );
-
-                /* Update homepage logo */
-                gtk_widget_destroy ( logo_accueil );
-
-                logo_accueil =  gtk_image_new_from_pixbuf (
-                                    gsb_select_icon_get_logo_pixbuf ( ) );
-                gtk_box_pack_start ( GTK_BOX ( hbox_title ), logo_accueil, FALSE, FALSE, 0 );
-                gtk_widget_show ( logo_accueil );
-                /* modify the icon of grisbi (set in the panel of gnome or other) */
-                gtk_window_set_default_icon (
-                            gsb_select_icon_get_logo_pixbuf ( ) );
-            }
-
-            g_free ( chemin_logo );
-        }
-        gtk_widget_show ( preview );
-        gtk_container_add ( GTK_CONTAINER ( logo_button ), preview );
-
-        /* Mark file as modified */
-        gsb_file_set_modified ( TRUE );
-    }
-}
 /* **************************************************************************************************************************** */
 
 /* **************************************************************************************************************************** */
@@ -679,120 +394,6 @@ gboolean preferences_active_mouse_scrolling_left_pane ( GtkWidget *toggle_button
     return FALSE;
 }
 
-/**
- * called when the color combobox changed,
- * update the GtkColorButton with the color of the combobox
- *
- * \param combobox
- * \param color_button
- *
- * \return FALSE
- * */
-static gboolean preferences_view_color_combobox_changed ( GtkWidget *combobox,
-                        GtkWidget *color_button )
-{
-    GtkTreeIter iter;
-
-    if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (combobox), &iter))
-    {
-	GtkTreeModel *model;
-	GdkRGBA *color;
-
-	model = gtk_combo_box_get_model (GTK_COMBO_BOX (combobox));
-	gtk_tree_model_get ( GTK_TREE_MODEL (model),
-			     &iter,
-			     1, &color,
-			     -1 );
-	if (color)
-	    gtk_color_chooser_set_rgba (GTK_COLOR_CHOOSER (color_button), color);
-    }
-    return FALSE;
-}
-
-
-/**
- * called when a color is chosen in the GtkColorButton,
- * update the color selected
- *
- * \param color_button
- * \param combobox
- *
- * \return FALSE
- * */
-static gboolean preferences_view_color_changed ( GtkWidget *color_button,
-                        GtkWidget *combobox )
-{
-    GtkTreeIter iter;
-
-    if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (combobox), &iter))
-    {
-	GtkTreeModel *model;
-	GdkRGBA *color;
-
-	model = gtk_combo_box_get_model (GTK_COMBO_BOX (combobox));
-	gtk_tree_model_get ( GTK_TREE_MODEL (model),
-			     &iter,
-			     1, &color,
-			     -1 );
-	if (color)
-	{
-	    gtk_color_chooser_get_rgba (GTK_COLOR_CHOOSER (color_button), color);
-
-	    /* update the colors in the transactions list */
-	    transaction_list_redraw ();
-
-	    /* update scheduled list */
-	    gsb_scheduler_list_fill_list (gsb_scheduler_list_get_tree_view ());
-	    gsb_scheduler_list_set_background_color (gsb_scheduler_list_get_tree_view ());
-	    gsb_scheduler_list_select (-1);
-	}
-    }
-    return FALSE;
-}
-
-
-/**
- * revert to default the selected color into the combobox
- *
- * \param button
- * \param combobox
- *
- * \return FALSE
- * */
-static gboolean preferences_view_color_default ( GtkWidget *button,
-                        GtkWidget *combobox )
-{
-    GtkTreeIter iter;
-
-    if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (combobox), &iter))
-    {
-	GtkTreeModel *model;
-	GdkRGBA *color;
-	GdkRGBA *default_color;
-
-	model = gtk_combo_box_get_model (GTK_COMBO_BOX (combobox));
-	gtk_tree_model_get ( GTK_TREE_MODEL (model),
-			     &iter,
-			     1, &color,
-			     2, &default_color,
-			     -1 );
-	if (color && default_color)
-	{
-	    gboolean return_val;
-
-	    color = default_color;
-
-	    g_signal_emit_by_name (combobox, "changed", &return_val);
-
-	    /* update the colors in the list */
-	    transaction_list_redraw ();
-
-	    /* update scheduled list */
-	    gsb_scheduler_list_redraw ();
-	}
-    }
-    return FALSE;
-}
 
 /**
  * Signal triggered when user configure display grisbi title

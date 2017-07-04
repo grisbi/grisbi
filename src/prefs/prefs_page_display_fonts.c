@@ -40,11 +40,15 @@
 #include "prefs_page_display_fonts.h"
 #include "accueil.h"
 #include "affichage.h"
+#include "custom_list.h"
 #include "gsb_data_account.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
+#include "gsb_rgba.h"
+#include "gsb_scheduler_list.h"
 #include "gsb_select_icon.h"
 #include "structures.h"
+#include "transaction_list.h"
 #include "utils_file_selection.h"
 #include "utils_prefs.h"
 #include "erreur.h"
@@ -62,15 +66,17 @@ struct _PrefsPageDisplayFontsPrivate
 
     GtkWidget *			checkbutton_display_logo;
 	GtkWidget *			eventbox_display_logo;
-    GtkWidget *			checkbutton_display_fonts;
-	GtkWidget *			eventbox_display_fonts;
     GtkWidget *         hbox_display_logo;
     GtkWidget *         button_display_logo;
 	GtkWidget *			preview_display_logo;
 
-    //~ GtkWidget *         button_display_logo;
-    //~ GtkWidget *         button_display_logo;
-    //~ GtkWidget *         button_display_logo;
+    GtkWidget *			checkbutton_display_fonts;
+	GtkWidget *			eventbox_display_fonts;
+    GtkWidget *         hbox_display_fonts;
+
+    GtkWidget *         button_select_colors;
+    GtkWidget *         colorbutton_select_colors;
+    GtkWidget *         grid_select_colors;
 
 };
 
@@ -79,7 +85,147 @@ G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageDisplayFonts, prefs_page_display_fonts, GTK
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
-void prefs_page_display_fonts_change_logo_accueil (GtkWidget *file_selector,
+/**
+ * revert to default the selected color into the combobox
+ *
+ * \param button
+ * \param combobox
+ *
+ * \return FALSE
+ * */
+static gboolean prefs_page_display_fonts_set_color_default (GtkWidget *button,
+                        GtkWidget *combobox)
+{
+    GtkTreeIter iter;
+
+    if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (combobox), &iter))
+    {
+		GtkTreeModel *model;
+		GdkRGBA *color;
+		GdkRGBA *default_color;
+
+		model = gtk_combo_box_get_model (GTK_COMBO_BOX (combobox));
+		gtk_tree_model_get (GTK_TREE_MODEL (model), &iter, 1, &color, 2, &default_color, -1);
+		if (color && default_color)
+		{
+			gboolean return_val;
+
+			color = default_color;
+
+			g_signal_emit_by_name (combobox, "changed", &return_val);
+
+			/* update the colors in the list */
+			transaction_list_redraw ();
+
+			/* update scheduled list */
+			gsb_scheduler_list_redraw ();
+		}
+    }
+    return FALSE;
+}
+
+/**
+ * called when the color combobox changed,
+ * update the GtkColorButton with the color of the combobox
+ *
+ * \param combobox
+ * \param color_button
+ *
+ * \return FALSE
+ * */
+static gboolean prefs_page_display_fonts_color_combobox_changed (GtkWidget *combobox,
+																 GtkWidget *color_button)
+{
+    GtkTreeIter iter;
+
+    if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (combobox), &iter))
+    {
+		GtkTreeModel *model;
+		GdkRGBA *color;
+
+		model = gtk_combo_box_get_model (GTK_COMBO_BOX (combobox));
+		gtk_tree_model_get (GTK_TREE_MODEL (model), &iter, 1, &color, -1);
+		if (color)
+			gtk_color_chooser_set_rgba (GTK_COLOR_CHOOSER (color_button), color);
+    }
+    return FALSE;
+}
+
+/**
+ * called when a color is chosen in the GtkColorButton,
+ * update the color selected
+ *
+ * \param color_button
+ * \param combobox
+ *
+ * \return FALSE
+ * */
+static gboolean prefs_page_display_fonts_view_color_changed (GtkWidget *color_button,
+															 GtkWidget *combobox)
+{
+    GtkTreeIter iter;
+
+    if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (combobox), &iter))
+    {
+		GtkTreeModel *model;
+		GdkRGBA *color;
+
+		model = gtk_combo_box_get_model (GTK_COMBO_BOX (combobox));
+		gtk_tree_model_get (GTK_TREE_MODEL (model), &iter, 1, &color, -1);
+		if (color)
+		{
+			gtk_color_chooser_get_rgba (GTK_COLOR_CHOOSER (color_button), color);
+
+			/* update the colors in the transactions list */
+			transaction_list_redraw ();
+
+			/* update scheduled list */
+			gsb_scheduler_list_fill_list (gsb_scheduler_list_get_tree_view ());
+			gsb_scheduler_list_set_background_color (gsb_scheduler_list_get_tree_view ());
+			gsb_scheduler_list_select (-1);
+		}
+    }
+    return FALSE;
+}
+
+/**
+ * update the font in all the transactions in the list
+ *
+ * \param
+ * \param
+ *
+ * \return
+ * */
+static void prefs_page_display_fonts_update_fonte_listes (gchar *fontname,
+												   gpointer null)
+{
+    GValue value = G_VALUE_INIT;
+    gchar *font;
+
+    devel_debug (NULL);
+
+    if (conf.custom_fonte_listes)
+		font = fontname;
+    else
+	{
+		font = NULL;
+		return;
+	}
+
+    g_value_init (&value, G_TYPE_STRING);
+    g_value_set_string (&value, font);
+    transaction_list_update_column (CUSTOM_MODEL_FONT, &value);
+}
+
+/**
+ * update the preview of the log file chooser
+ *
+ * \param file_chooser
+ * \param preview
+ *
+ * \return FALSE
+ * */
+static void prefs_page_display_fonts_change_logo_accueil (GtkWidget *file_selector,
 												   PrefsPageDisplayFonts *page)
 {
 	GtkWidget *logo_accueil;
@@ -262,7 +408,7 @@ static gboolean prefs_page_display_fonts_logo_accueil_changed (PrefsPageDisplayF
  *
  * \return
  * */
-gboolean prefs_page_display_fonts_utilise_logo_checked (GtkWidget *check_button,
+static gboolean prefs_page_display_fonts_utilise_logo_checked (GtkWidget *check_button,
 														GtkWidget *hbox)
 {
 
@@ -311,12 +457,14 @@ gboolean prefs_page_display_fonts_utilise_logo_checked (GtkWidget *check_button,
  * \param prefs
  *
  * \return
- */
+ **/
 static void prefs_page_display_fonts_setup_display_fonts_page (PrefsPageDisplayFonts *page)
 {
 	GtkWidget *head_page;
 	GtkWidget *preview;
+	GtkWidget *font_button;
 	GdkPixbuf * pixbuf = NULL;
+	GtkWidget *combobox_select_colors;
 	PrefsPageDisplayFontsPrivate *priv;
 
 	devel_debug (NULL);
@@ -328,7 +476,7 @@ static void prefs_page_display_fonts_setup_display_fonts_page (PrefsPageDisplayF
 	gtk_box_pack_start (GTK_BOX (priv->vbox_display_fonts), head_page, FALSE, FALSE, 0);
 	gtk_box_reorder_child (GTK_BOX (priv->vbox_display_fonts), head_page, 0);
 
-    /* set the variables for logo */
+    /* set the elements for logo */
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_display_logo),
 								  etat.utilise_logo);
 
@@ -377,7 +525,7 @@ static void prefs_page_display_fonts_setup_display_fonts_page (PrefsPageDisplayF
 							  G_CALLBACK (prefs_page_display_fonts_logo_accueil_changed),
 							  page);
 
-    //~ /* Connect signal */
+    /* Connect signal */
     g_signal_connect (priv->eventbox_display_logo,
 					  "button-press-event",
 					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
@@ -388,22 +536,57 @@ static void prefs_page_display_fonts_setup_display_fonts_page (PrefsPageDisplayF
 					  G_CALLBACK (prefs_page_display_fonts_utilise_logo_checked),
 					  priv->hbox_display_logo);
 
-    /* callback for spinbutton_ */
-    //~ g_object_set_data (G_OBJECT (priv->spinbutton_),
-                       //~ "button", priv->checkbutton_);
-	//~ g_object_set_data (G_OBJECT (priv->checkbutton_),
-                       //~ "spinbutton", priv->spinbutton_);
+	/* set the elements for fonts */
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_display_fonts),
+								  conf.custom_fonte_listes);
 
-    //~ g_signal_connect (priv->spinbutton_,
-					  //~ "value-changed",
-					  //~ G_CALLBACK (utils_prefs_spinbutton_changed),
-					  //~ &conf.);
 
-    /* connect the signal for filechooserbutton_backup */
-    //~ g_signal_connect (G_OBJECT (priv->filechooserbutton_backup),
-                      //~ "selection-changed",
-                      //~ G_CALLBACK (utils_prefs_page_dir_chosen),
-                      //~ "backup_path");
+	/* Connect signal */
+    g_signal_connect (priv->eventbox_display_fonts,
+					  "button-press-event",
+					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
+					  priv->checkbutton_display_fonts);
+
+	/* Create font button */
+    font_button = utils_prefs_fonts_create_button (&conf.font_string,
+											G_CALLBACK (prefs_page_display_fonts_update_fonte_listes),
+											NULL);
+	g_object_set_data (G_OBJECT (priv->checkbutton_display_fonts), "widget", font_button);
+    gtk_box_pack_start (GTK_BOX (priv->hbox_display_fonts), font_button, FALSE, FALSE, 0);
+
+    if (!gsb_data_account_get_accounts_amount ())
+    {
+        gtk_widget_set_sensitive (font_button, FALSE);
+    }
+
+	g_signal_connect (priv->checkbutton_display_fonts,
+					  "toggled",
+					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
+					  &conf.custom_fonte_listes);
+
+	/* set the elements for colors */
+	combobox_select_colors = gsb_rgba_create_color_combobox ();
+    gtk_widget_set_margin_end (combobox_select_colors, MARGIN_END);
+    gtk_grid_attach (GTK_GRID (priv->grid_select_colors), combobox_select_colors, 0, 0, 1, 1);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (combobox_select_colors), 0);
+	gtk_color_chooser_set_rgba (GTK_COLOR_CHOOSER (priv->colorbutton_select_colors),
+								gsb_rgba_get_couleur_with_indice ("couleur_fond", 0));
+
+	/* Connect signal */
+    g_signal_connect (G_OBJECT (priv->colorbutton_select_colors),
+					  "color-set",
+					  G_CALLBACK (prefs_page_display_fonts_view_color_changed),
+					  combobox_select_colors);
+
+	g_signal_connect (G_OBJECT (combobox_select_colors),
+					  "changed",
+					  G_CALLBACK (prefs_page_display_fonts_color_combobox_changed),
+					  priv->colorbutton_select_colors);
+
+	g_signal_connect (G_OBJECT (priv->button_select_colors),
+					  "clicked",
+					  G_CALLBACK (prefs_page_display_fonts_set_color_default),
+					  combobox_select_colors);
 }
 
 /******************************************************************************/
@@ -433,14 +616,26 @@ static void prefs_page_display_fonts_class_init (PrefsPageDisplayFontsClass *kla
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, eventbox_display_logo);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, hbox_display_logo);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, button_display_logo);
-	//~ gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, button_display_logo);
-	//~ gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, button_display_logo);
-	//~ gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, button_display_logo);
+
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, checkbutton_display_fonts);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, eventbox_display_fonts);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, hbox_display_fonts);
+
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, button_select_colors);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, colorbutton_select_colors);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, grid_select_colors);
 }
 
 /******************************************************************************/
 /* Public functions                                                           */
 /******************************************************************************/
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 PrefsPageDisplayFonts *prefs_page_display_fonts_new (GrisbiPrefs *win)
 {
 	return g_object_new (PREFS_PAGE_DISPLAY_FONTS_TYPE, NULL);
