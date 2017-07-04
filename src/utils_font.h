@@ -7,7 +7,7 @@
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
-GtkWidget *utils_font_create_button ( gchar **fontname,
+GtkWidget *utils_prefs_fonts_create_button ( gchar **fontname,
 				      GCallback hook,
 				      gpointer data  );
 /* END_DECLARATION */
