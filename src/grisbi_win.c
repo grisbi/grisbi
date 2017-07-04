@@ -138,6 +138,9 @@ struct _GrisbiWinPrivate
     /* structure run */
 /*    GrisbiWindowRun     *run;
 */
+
+	/* prefs dialog*/
+	GtkWidget *			prefs_dialog;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE(GrisbiWin, grisbi_win, GTK_TYPE_APPLICATION_WINDOW);
@@ -756,6 +759,44 @@ GtkWidget *grisbi_win_get_notebook_general (GrisbiWin *win)
 
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
     return priv->notebook_general;
+}
+
+/**
+ * retourne prefs object
+ *
+ * \param GrisbiWin *win
+ *
+ * \return prefs_dialog
+ **/
+GtkWidget *grisbi_win_get_prefs_dialog (GrisbiWin *win)
+{
+	GrisbiWinPrivate *priv;
+
+	if (!win)
+        win = grisbi_app_get_active_window (NULL);
+
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+    return priv->prefs_dialog;
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+void grisbi_win_set_prefs_dialog (GrisbiWin *win,
+								  GtkWidget *prefs_dialog)
+{
+	GrisbiWinPrivate *priv;
+
+	if (!win)
+        win = grisbi_app_get_active_window (NULL);
+
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+	priv->prefs_dialog = prefs_dialog;
 }
 
 /**

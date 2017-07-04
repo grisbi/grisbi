@@ -35,6 +35,7 @@
 
 /*START_INCLUDE*/
 #include "utils_font.h"
+#include "grisbi_win.h"
 #include "utils_str.h"
 #include "structures.h"
 /*END_INCLUDE*/
@@ -120,9 +121,11 @@ static gboolean utils_font_choose ( GtkWidget *button,
 {
     gchar *new_fontname;
     GtkWidget *dialog;
+	GtkWidget *prefs_dialog;
     GCallback (*hook) (gchar *, gpointer);
 
-    dialog = gtk_font_chooser_dialog_new (_("Choosing font"), NULL);
+	prefs_dialog = grisbi_win_get_prefs_dialog (NULL);
+    dialog = gtk_font_chooser_dialog_new (_("Choosing font"), prefs_dialog);
 
     if (*fontname)
 		gtk_font_chooser_set_font (GTK_FONT_CHOOSER (dialog), *fontname);
@@ -185,6 +188,7 @@ static void utils_font_update_labels ( GtkWidget *button,
 
 		data = g_strconcat ("GtkLabel#font_label {font: ", fontname, "}", NULL);
 		gtk_css_provider_load_from_data (css_provider, data, -1, NULL);
+		g_free (data);
 
 		font_name = my_strdup ( fontname );
 		tmp = font_name + strlen(font_name) - 1;

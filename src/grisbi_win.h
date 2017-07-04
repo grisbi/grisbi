@@ -21,6 +21,7 @@ const gchar *   grisbi_win_get_filename                     (GrisbiWin *win);
 const gchar *	grisbi_win_get_titre_fichier 				(void);
 
 GtkWidget *     grisbi_win_get_notebook_general             (GrisbiWin *win);
+GtkWidget *		grisbi_win_get_prefs_dialog 				(GrisbiWin *win);
 GtkWidget *     grisbi_win_get_stack_box                    (GrisbiWin *win);
 
 void            grisbi_win_headings_update_suffix           (gchar *suffix);
@@ -44,6 +45,8 @@ void 			grisbi_win_no_file_page_update 				(GrisbiWin *win);
 void            grisbi_win_set_filename                     (GrisbiWin *win,
                                                              const gchar *filename);
 gboolean        grisbi_win_set_grisbi_title                 (gint account_number);
+void 			grisbi_win_set_prefs_dialog 				(GrisbiWin *win,
+															 GtkWidget *prefs_dialog);
 void            grisbi_win_set_size_and_position            (GtkWindow *win);
 void			grisbi_win_set_titre_fichier				(const gchar *titre_fichier);
 
