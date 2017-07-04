@@ -54,6 +54,7 @@
 #include "utils_gtkbuilder.h"
 #include "utils_prefs.h"
 #include "prefs/prefs_page_archives.h"
+#include "prefs/prefs_page_display_fonts.h"
 #include "prefs/prefs_page_divers.h"
 #include "prefs/prefs_page_files.h"
 #include "prefs/prefs_page_import_asso.h"
@@ -266,7 +267,8 @@ static void grisbi_prefs_left_panel_populate_tree_model (GtkTreeStore *tree_mode
     utils_prefs_left_panel_add_line (tree_model, NULL, NULL, _("Display"), -1);
 
 	/* append page Fonts & logo */
-	widget = GTK_WIDGET (onglet_display_fonts ());
+	widget = GTK_WIDGET (prefs_page_display_fonts_new (prefs));
+	//~ widget = GTK_WIDGET (onglet_display_fonts ());
 	utils_widget_set_padding (widget, MARGIN_BOX, 0);
 	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Fonts & Logo"), page);
 	page++;
@@ -529,6 +531,7 @@ static void grisbi_prefs_finalize (GObject *object)
 
     /* libération de l'objet prefs */
     G_OBJECT_CLASS (grisbi_prefs_parent_class)->finalize (object);
+	grisbi_win_set_prefs_dialog (NULL, NULL);
 }
 
 /**

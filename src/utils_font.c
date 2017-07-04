@@ -125,7 +125,7 @@ static gboolean utils_font_choose ( GtkWidget *button,
     GCallback (*hook) (gchar *, gpointer);
 
 	prefs_dialog = grisbi_win_get_prefs_dialog (NULL);
-    dialog = gtk_font_chooser_dialog_new (_("Choosing font"), prefs_dialog);
+    dialog = gtk_font_chooser_dialog_new (_("Choosing font"), GTK_WINDOW (prefs_dialog));
 
     if (*fontname)
 		gtk_font_chooser_set_font (GTK_FONT_CHOOSER (dialog), *fontname);

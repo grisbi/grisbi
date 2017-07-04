@@ -6,11 +6,13 @@ noinst_LTLIBRARIES = libprefspages.la
 
 libprefspages_la_SOURCES = \
 	prefs_page_archives.c	\
+	prefs_page_display_fonts.c	\
 	prefs_page_divers.c	\
 	prefs_page_files.c	\
 	prefs_page_import_asso.c	\
 	prefs_page_import_files.c	\
 	prefs_page_archives.h	\
+	prefs_page_display_fonts.h	\
 	prefs_page_divers.h \
 	prefs_page_files.h \
 	prefs_page_import_asso.h \

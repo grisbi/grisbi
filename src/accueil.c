@@ -2165,6 +2165,48 @@ void gsb_main_page_update_homepage_title (const gchar *title)
  *
  * \return
  * */
+GtkWidget *gsb_main_page_get_logo_accueil (void)
+{
+	return logo_accueil;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ * */
+gboolean gsb_main_page_set_logo_accueil (GtkWidget *logo)
+{
+	if (logo)
+	{
+		logo_accueil = logo;
+		gtk_box_pack_start (GTK_BOX (hbox_title), logo_accueil, FALSE, FALSE, 0);
+		gtk_widget_set_size_request (hbox_title, -1, -1);
+		gtk_widget_show (logo_accueil);
+	}
+	else
+    {
+        gtk_widget_destroy (logo_accueil);
+		logo_accueil = NULL;
+        gtk_widget_set_size_request ( hbox_title, -1, -1 );
+        if (etat.name_logo && strlen (etat.name_logo))
+            g_free (etat.name_logo);
+        etat.name_logo = NULL;
+        etat.is_pixmaps_dir = FALSE;
+    }
+
+	return (FALSE);
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ * */
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

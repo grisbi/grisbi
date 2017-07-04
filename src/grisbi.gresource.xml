@@ -6,6 +6,7 @@
 		<file preprocess="xml-stripblanks">grisbi_prefs.ui</file>
     <file preprocess="xml-stripblanks">grisbi_win.ui</file>
 		<file preprocess="xml-stripblanks">prefs_page_archives.ui</file>
+		<file preprocess="xml-stripblanks">prefs_page_display_fonts.ui</file>
 		<file preprocess="xml-stripblanks">prefs_page_divers.ui</file>
 		<file preprocess="xml-stripblanks">prefs_page_files.ui</file>
 		<file preprocess="xml-stripblanks">prefs_page_import_asso.ui</file>

@@ -60,12 +60,8 @@
 /*START_STATIC*/
 static gboolean change_choix_utilise_fonte_liste ( GtkWidget *check_button,
                         GtkWidget *vbox );
-static gboolean change_choix_utilise_logo ( GtkWidget *check_button,
-                        GtkWidget *hbox );
 static gboolean change_grisbi_title_type ( GtkRadioButton *button, GtkWidget *entry );
-static void change_logo_accueil ( GtkWidget * file_selector );
 static gboolean change_toolbar_display_mode ( GtkRadioButton *button );
-static gboolean modification_logo_accueil ( void );
 static gboolean preferences_active_mouse_scrolling_left_pane ( GtkWidget *toggle_button,
                         gpointer null );
 static gboolean preferences_switch_headings_bar ( GtkWidget *toggle_button,
@@ -76,8 +72,6 @@ static gboolean preferences_view_color_combobox_changed ( GtkWidget *combobox,
                         GtkWidget *color_button );
 static gboolean preferences_view_color_default ( GtkWidget *button,
                         GtkWidget *combobox );
-static gboolean preferences_view_update_preview_logo ( GtkFileChooser *file_chooser,
-                        GtkWidget *preview );
 static void update_fonte_listes ( gchar *fontname,
                         gpointer null);
 /*END_STATIC*/
@@ -140,10 +134,10 @@ GtkWidget * onglet_display_fonts ( void )
 
     /*     le logo est grisé ou non suivant qu'on l'utilise ou pas */
     gtk_widget_set_sensitive ( hbox, etat.utilise_logo );
-    g_signal_connect ( G_OBJECT ( check_button ),
-                        "toggled",
-                        G_CALLBACK ( change_choix_utilise_logo ),
-                        hbox );
+    //~ g_signal_connect ( G_OBJECT ( check_button ),
+                        //~ "toggled",
+                        //~ G_CALLBACK ( change_choix_utilise_logo ),
+                        //~ hbox );
 
     logo_button = gtk_button_new ();
     gtk_button_set_relief ( GTK_BUTTON ( logo_button ), GTK_RELIEF_NONE );
@@ -173,9 +167,9 @@ GtkWidget * onglet_display_fonts ( void )
     }
 
     gtk_container_add (GTK_CONTAINER(logo_button), preview);
-    g_signal_connect_swapped ( G_OBJECT ( logo_button ), "clicked",
-			       G_CALLBACK ( modification_logo_accueil ), NULL );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), logo_button, FALSE, FALSE, 0 );
+    //~ g_signal_connect_swapped ( G_OBJECT ( logo_button ), "clicked",
+			       //~ G_CALLBACK ( modification_logo_accueil ), NULL );
+    //~ gtk_box_pack_start ( GTK_BOX ( hbox ), logo_button, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Click on preview to change logo") );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
@@ -252,55 +246,6 @@ GtkWidget * onglet_display_fonts ( void )
 
 
 
-/* ********************************************************************** */
-gboolean change_choix_utilise_logo ( GtkWidget *check_button,
-                        GtkWidget *hbox )
-{
-
-    etat.utilise_logo = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON
-                            ( check_button ));
-    gtk_widget_set_sensitive ( hbox, etat.utilise_logo );
-
-    if ( etat.utilise_logo )
-    {
-        /* 	on recharge l'ancien logo */
-
-        if ( GTK_IS_WIDGET ( logo_accueil ) )
-            gtk_widget_hide ( logo_accueil );
-        else
-        {
-            GdkPixbuf *pixbuf = NULL;
-
-            /* Update homepage logo */
-            pixbuf = gsb_select_icon_get_logo_pixbuf ( );
-            if ( pixbuf == NULL )
-            {
-                pixbuf = gsb_select_icon_get_default_logo_pixbuf ( );
-                etat.is_pixmaps_dir = TRUE;
-            }
-            logo_accueil =  gtk_image_new_from_pixbuf ( pixbuf );
-            if ( logo_accueil )
-            {
-                gtk_box_pack_start ( GTK_BOX ( hbox_title ), logo_accueil, FALSE, FALSE, 0 );
-                gtk_widget_set_size_request ( hbox_title, -1, -1 );
-                gtk_widget_show ( logo_accueil );
-            }
-        }
-    }
-    else
-    {
-        gtk_widget_destroy ( logo_accueil );
-        gtk_widget_set_size_request ( hbox_title, -1, -1 );
-        if ( etat.name_logo && strlen ( etat.name_logo ) )
-            g_free ( etat.name_logo );
-        etat.name_logo = NULL;
-        etat.is_pixmaps_dir = 0;
-    }
-
-    gsb_file_set_modified ( TRUE );
-
-    return ( FALSE );
-}
 /* ********************************************************************** */
 
 
@@ -536,86 +481,6 @@ void change_logo_accueil ( GtkWidget * file_selector )
 /* **************************************************************************************************************************** */
 
 /* **************************************************************************************************************************** */
-gboolean modification_logo_accueil ( void )
-{
-    GtkWidget *file_selector;
-    GtkWidget *preview;
-    gchar *tmp_last_directory;
-
-    file_selector = gtk_file_chooser_dialog_new ( _("Select a new logo"),
-					   GTK_WINDOW ( fenetre_preferences ),
-					   GTK_FILE_CHOOSER_ACTION_OPEN,
-					   "gtk-cancel", GTK_RESPONSE_CANCEL,
-					   "gtk-open", GTK_RESPONSE_OK,
-					   NULL);
-
-    if ( etat.is_pixmaps_dir )
-        gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER (
-                        file_selector ), gsb_dirs_get_pixmaps_dir ( ) );
-    else
-        gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER (
-                        file_selector ), gsb_file_get_last_path () );
-
-    gtk_window_set_position ( GTK_WINDOW ( file_selector ), GTK_WIN_POS_CENTER_ON_PARENT );
-
-    /* create the preview */
-    preview = gtk_image_new ();
-    gtk_file_chooser_set_preview_widget ( GTK_FILE_CHOOSER ( file_selector ), preview );
-    g_signal_connect (G_OBJECT (file_selector),
-                        "update-preview",
-                        G_CALLBACK ( preferences_view_update_preview_logo ),
-                        preview );
-
-    switch ( gtk_dialog_run ( GTK_DIALOG ( file_selector ) ) )
-    {
-	case GTK_RESPONSE_OK:
-	    change_logo_accueil ( file_selector );
-        tmp_last_directory = file_selection_get_last_directory ( GTK_FILE_CHOOSER ( file_selector ), TRUE );
-        gsb_file_update_last_path ( tmp_last_directory );
-        g_free ( tmp_last_directory );
-
-	default:
-	    gtk_widget_destroy ( file_selector );
-	    break;
-    }
-
-    return ( FALSE );
-}
-
-
-/**
- * update the preview of the log file chooser
- *
- * \param file_chooser
- * \param preview
- *
- * \return FALSE
- * */
-static gboolean preferences_view_update_preview_logo ( GtkFileChooser *file_chooser,
-                        GtkWidget *preview )
-{
-  char *filename;
-  GdkPixbuf *pixbuf;
-  gboolean have_preview;
-
-  filename = gtk_file_chooser_get_preview_filename (file_chooser);
-  if (!filename)
-      return FALSE;
-
-  pixbuf = gdk_pixbuf_new_from_file_at_size ( filename,
-                        LOGO_WIDTH, LOGO_HEIGHT, NULL );
-  have_preview = ( pixbuf != NULL );
-  g_free (filename);
-
-  gtk_image_set_from_pixbuf ( GTK_IMAGE ( preview ), pixbuf );
-  if ( pixbuf )
-    g_object_unref ( pixbuf );
-
-  gtk_file_chooser_set_preview_widget_active ( file_chooser, have_preview );
-  return FALSE;
-}
-
-
 
 /**
  * Update the label that contain main title in homepage.
