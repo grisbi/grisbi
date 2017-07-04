@@ -55,39 +55,6 @@
 /*START_EXTERN*/
 /*END_EXTERN*/
 
-
-/* file_selection_new a enhanced version of gtk_file_selection_new.
- *
- * Include the overwrite check feature in the save mode dialog
- * Include the file must exist feature in the open mode dialog
- *
- * \param title title of the dialog
- * \param properties properties of the dialog behaviour
- *
- *  Authorised to hijack the gtk file dialog under Windows to use
- *  the Windows standard one.
- * */
-GtkWidget* file_selection_new ( const gchar *title, const gint properties )
-{ /* {{{ */
-    GtkWidget *filesel;
-
-    filesel = gtk_file_chooser_dialog_new ( title, NULL,
-					    ( properties & FILE_SELECTION_IS_SAVE_DIALOG ?
-					      GTK_FILE_CHOOSER_ACTION_SAVE :
-					      GTK_FILE_CHOOSER_ACTION_OPEN ),
-					      "gtk-cancel", GTK_RESPONSE_CANCEL,
-					    ( properties & FILE_SELECTION_IS_SAVE_DIALOG ?
-					      "gtk-save" : "gtk-open" ),
-					    GTK_RESPONSE_OK,
-					    NULL );
-
-    return GTK_WIDGET (filesel);
-
-} /* }}} file_selection_new */
-
-
-
-
 /** file_selection_get_filename
  *
  * Get the filename property of the GtkFileChooser, converted in UFT-8 charset
@@ -135,9 +102,9 @@ gchar* file_selection_get_last_directory(GtkFileChooser* filesel,gboolean ended)
 	sepstr = my_strdup (G_DIR_SEPARATOR_S);
 	sepstr_len  = strlen (sepstr);
 
-     /* Chek if the sirectory string is ended by a separator
+     /* Chek if the directory string is ended by a separator
      (if directory string  is small than the separator string
-     it can ot be ended by the separator string) */
+     it can not be ended by the separator string) */
     if ( dirstr_len >= sepstr_len)
     {
         is_endedstr = (gboolean)(!strncmp( dirstr + dirstr_len - sepstr_len, sepstr, sepstr_len));

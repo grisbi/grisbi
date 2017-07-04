@@ -38,14 +38,6 @@
 
 #include <gtk/gtk.h>
 
-/*! File selection dialog behaviour properties */
-#define FILE_SELECTION_DEFAULT          0x0000  /**< No particular behaviour (open file dialog)*/
-#define FILE_SELECTION_IS_OPEN_DIALOG   0x0000  /**< The file selection is used for open operation   */
-#define FILE_SELECTION_IS_SAVE_DIALOG   0x0001  /**< The file selection is used for a save operation */
-#define FILE_SELECTION_NOOVERWRITECHECK 0x0002  /**< No existance check and overwrite confirmation done - used only for save operations */
-#define FILE_SELECTION_MUST_EXIST       0x0002  /**< The selected file name must exists - only for open operation*/
-#define FILE_SELECTION_MULTISELECTION   0x0004  /**< \todo allow the multi selection behaviour */
-
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */
 
@@ -53,7 +45,6 @@
 /*START_DECLARATION*/
 gchar* file_selection_get_filename(GtkFileChooser* filesel);
 gchar* file_selection_get_last_directory(GtkFileChooser* filesel,gboolean ended) ;
-GtkWidget* file_selection_new ( const gchar *title, const gint properties );
 /*END_DECLARATION*/
 
 #endif
