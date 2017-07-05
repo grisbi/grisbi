@@ -298,8 +298,11 @@ static void csv_import_button_rule_clicked (GtkButton *button,
 				index = CSV_MAX_TOP_LINES;
 			else if (action == 1)
 				index = first_line_with_cols +1;
+			else
+				index = 0;
 
-			csv_import_button_rule_traite_spec_line (spec_conf_data, lines_tab, index);
+			if (index)
+				csv_import_button_rule_traite_spec_line (spec_conf_data, lines_tab, index);
 		}
 	}
 
