@@ -1001,7 +1001,7 @@ static gint csv_import_try_separator (gchar *contents,
 
     list = csv_get_next_line (&contents, separator);
     cols = g_slist_length (list);
-    g_print ("> I believe first line is %d cols\n", cols);
+    //~ g_print ("> I believe first line is %d cols\n", cols);
 
     do
     {
@@ -1456,18 +1456,21 @@ gboolean csv_import_csv_account (GtkWidget *assistant,
 		compte->csv_fields_str = csv_fields_str;
 
 		/* saves the line of special configuration */
-		spec_conf_data = csv_import_rule->csv_spec_conf_data;
-		compte->csv_spec_action = spec_conf_data->combobox_action;
-		compte->csv_spec_amount_col = spec_conf_data->combobox_amount_col;
-		compte->csv_spec_text_col = spec_conf_data->combobox_text_col;
-		compte->csv_spec_text_str = spec_conf_data->entry_text_str;
+		if (csv_import_rule->csv_spec_conf_data)
+		{
+			spec_conf_data = csv_import_rule->csv_spec_conf_data;
+			compte->csv_spec_action = spec_conf_data->combobox_action;
+			compte->csv_spec_amount_col = spec_conf_data->combobox_amount_col;
+			compte->csv_spec_text_col = spec_conf_data->combobox_text_col;
+			compte->csv_spec_text_str = spec_conf_data->entry_text_str;
+		}
 	}
 
 	/* détermination de la première transaction du fichier */
 	if (compte->csv_headers_present)
-		index = compte->csv_first_line_data +1;
-	else
 		index = compte->csv_first_line_data;
+	else
+		index = compte->csv_first_line_data-1;
 
     list = g_array_index (lines_tab, GSList *, index);
     do
