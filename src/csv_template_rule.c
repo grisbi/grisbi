@@ -123,11 +123,21 @@ static void csv_template_rule_spec_conf_entry_inserted (GtkEditable *entry,
 
 	priv = csv_template_rule_get_instance_private ((CsvTemplateRule *) dialog);
 
-	if (gtk_entry_get_text_length (GTK_ENTRY (priv->entry_csv_rule_name)) > 1
-		&&
-		gtk_entry_get_text_length (GTK_ENTRY (priv->entry_csv_spec_text)) > 1)
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->checkbutton_csv_spec)))
 	{
-		gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_APPLY, TRUE);
+		if (gtk_entry_get_text_length (GTK_ENTRY (priv->entry_csv_rule_name)) > 1
+			&&
+			gtk_entry_get_text_length (GTK_ENTRY (priv->entry_csv_spec_text)) > 1)
+		{
+			gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_APPLY, TRUE);
+		}
+	}
+	else
+	{
+		if (gtk_entry_get_text_length (GTK_ENTRY (priv->entry_csv_rule_name)) > 1)
+		{
+			gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_APPLY, TRUE);
+		}
 	}
 }
 
