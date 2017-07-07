@@ -1241,6 +1241,42 @@ gboolean gsb_data_import_rule_set_type (gint import_rule_number,
  *
  *
  * \param
+ * \param
+ *
+ * \return rule_number
+ **/
+gint gsb_data_import_rule_account_has_rule_name (gint account_number,
+												 const gchar *rule_name)
+{
+    GSList *tmp_list;
+
+    if (account_number < 0)
+		return 0;
+
+    tmp_list = import_rule_list;
+    while (tmp_list)
+    {
+		ImportRule *import_rule;
+
+		import_rule = tmp_list->data;
+
+		if (import_rule->account_number == account_number)
+		{
+			if (!g_utf8_collate (rule_name, import_rule->rule_name))
+			{
+				return import_rule->import_rule_number;
+			}
+		}
+		tmp_list = tmp_list->next;
+    }
+
+	return 0;
+}
+
+/**
+ *
+ *
+ * \param
  *
  * \return
  **/

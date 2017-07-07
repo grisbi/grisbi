@@ -8,6 +8,8 @@
 
 /* START_DECLARATION */
 gboolean 		gsb_data_import_rule_account_has_rule 			(gint account_number);
+gint 			gsb_data_import_rule_account_has_rule_name		(gint account_number,
+																 const gchar *rule_name);
 gint 			gsb_data_import_rule_get_account 				(gint import_rule_number);
 gint 			gsb_data_import_rule_get_action 				(gint import_rule_number);
 const gchar *	gsb_data_import_rule_get_charmap 				(gint import_rule_number);
