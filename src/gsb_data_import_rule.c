@@ -110,6 +110,8 @@ static void _gsb_data_import_rule_free (ImportRule* import_rule)
 
 	if (!g_strcmp0 (import_rule->type, "CSV"))
 	{
+		if (import_rule->csv_fields_str)
+			g_free (import_rule->csv_fields_str);
 		if (import_rule->csv_separator)
 			g_free (import_rule->csv_separator);
 		if (import_rule->csv_skipped_lines_str)

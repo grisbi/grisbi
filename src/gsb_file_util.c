@@ -232,6 +232,7 @@ gboolean gsb_file_util_get_contents ( gchar *filename,
 gboolean gsb_file_util_modify_lock ( gboolean create_lock )
 {
     gchar *lock_filename;
+	gchar *tmp_str;
 
     devel_debug_int ( create_lock );
     /* if the file was already opened we do nothing */
@@ -248,14 +249,16 @@ gboolean gsb_file_util_modify_lock ( gboolean create_lock )
         return FALSE;
 
     /* Create the name of the lock file */
-    lock_filename = g_strconcat ( g_get_tmp_dir ( ),
-                        G_DIR_SEPARATOR_S,
+	tmp_str = g_path_get_basename (nom_fichier_comptes);
+    lock_filename = g_strconcat (g_get_tmp_dir (),
+								 G_DIR_SEPARATOR_S,
 #ifndef _WIN32
-                        ".",
+								 ".",
 #endif /* _WIN32 */
-                        g_path_get_basename ( nom_fichier_comptes ),
-                        ".lock",
-                        NULL );
+								 tmp_str,
+								 ".lock",
+								 NULL);
+    g_free (tmp_str);
 
     if ( create_lock )
     {
@@ -279,8 +282,6 @@ gboolean gsb_file_util_modify_lock ( gboolean create_lock )
 
         if ( !fichier )
         {
-            gchar* tmp_str;
-
             tmp_str = g_strdup_printf ( _("Cannot write lock file: '%s': %s"),
                                 nom_fichier_comptes,
                                 g_strerror ( errno ) );

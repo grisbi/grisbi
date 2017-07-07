@@ -561,6 +561,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
     GQueue *tmp_queue;
     gchar *first_string_to_free;
     gchar *second_string_to_free;
+	gchar *third_string_to_free;
     gint i,j;
     gchar *transactions_view;
     gchar *scheduler_column_width_write;
@@ -700,6 +701,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	etat.is_archive )
 	is_archive = TRUE;
 
+
     /* save the general information */
     new_string = g_markup_printf_escaped ( "\t<General\n"
 					   "\t\tFile_version=\"%s\"\n"
@@ -812,12 +814,12 @@ gulong gsb_file_save_general_part ( gulong iterator,
     etat.metatree_sort_transactions,
     etat.add_archive_in_total_balance,
     my_safe_null_str ( bet_array_column_width_write ),
-    my_safe_null_str ( utils_str_dtostr ( etat.bet_capital,
+    my_safe_null_str ( first_string_to_free = utils_str_dtostr ( etat.bet_capital,
     gsb_data_currency_get_floating_point ( etat.bet_currency ), TRUE ) ),
     etat.bet_currency,
-    my_safe_null_str ( utils_str_dtostr ( etat.bet_taux_annuel, BET_TAUX_DIGITS, TRUE ) ),
+    my_safe_null_str ( second_string_to_free = utils_str_dtostr ( etat.bet_taux_annuel, BET_TAUX_DIGITS, TRUE ) ),
     etat.bet_index_duree,
-    my_safe_null_str ( utils_str_dtostr ( etat.bet_frais, BET_TAUX_DIGITS, TRUE ) ),
+    my_safe_null_str ( third_string_to_free = utils_str_dtostr ( etat.bet_frais, BET_TAUX_DIGITS, TRUE ) ),
     etat.bet_type_taux );
 
     g_free (transactions_view);
@@ -830,6 +832,10 @@ gulong gsb_file_save_general_part ( gulong iterator,
     g_free ( navigation_order_list );
 	g_free (skipped_lines_string);
 
+	g_free (first_string_to_free);
+	g_free (second_string_to_free);
+	g_free (third_string_to_free);
+
     /* append the new string to the file content
      * and return the new iterator */
 
@@ -840,8 +846,6 @@ gulong gsb_file_save_general_part ( gulong iterator,
 }
 
 /**
-=======
->>>>>>> 14e12780d8ac1ec07325923d5e430c959839641c
  * save the print part
  *
  * \param iterator the current iterator

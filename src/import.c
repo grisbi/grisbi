@@ -981,12 +981,12 @@ static void gsb_import_preview_maybe_sensitive_next (GtkWidget *assistant,
 						-   1);
 		if (selected && strcmp (type, _("Unknown")) != 0)
 		{
-			gtk_widget_set_sensitive (g_object_get_data (G_OBJECT (assistant),
-														 "button_next"),
-									  TRUE);
+			gtk_widget_set_sensitive (g_object_get_data (G_OBJECT (assistant), "button_next"), TRUE);
+			g_free (type);
 
 			return;
 		}
+		g_free (type);
     }
     while (gtk_tree_model_iter_next (model, &iter));
 }
@@ -1005,13 +1005,14 @@ static gboolean gsb_import_active_toggled (GtkCellRendererToggle *cell,
 										   gpointer model)
 {
     GtkWidget *assistant;
-    GtkTreePath *path = gtk_tree_path_new_from_string (path_str);
+    GtkTreePath *path;
     GtkTreeIter iter;
 	gchar *type;
     gboolean toggle_item;
 
     assistant = g_object_get_data (G_OBJECT (model), "assistant");
 
+	path = gtk_tree_path_new_from_string (path_str);
     gtk_tree_model_get_iter (GTK_TREE_MODEL (model), &iter, path);
     gtk_tree_model_get (GTK_TREE_MODEL (model), &iter,
                         IMPORT_FILESEL_SELECTED, &toggle_item,
@@ -1019,6 +1020,8 @@ static gboolean gsb_import_active_toggled (GtkCellRendererToggle *cell,
 						-1);
     gtk_tree_store_set (GTK_TREE_STORE (model), &iter,
                         IMPORT_FILESEL_SELECTED, !toggle_item, -1);
+
+	gtk_tree_path_free (path);
 
 	if (conf.force_import_directory && strcmp (type, "CSV") == 0)
 	{
@@ -1036,6 +1039,8 @@ static gboolean gsb_import_active_toggled (GtkCellRendererToggle *cell,
 			add_csv_page = FALSE;
 		}
 	}
+	g_free (type);
+
     gsb_import_preview_maybe_sensitive_next (assistant, model);
 
     return FALSE;
@@ -1364,6 +1369,7 @@ static void gsb_import_select_file (GSList *filenames,
 		gchar *tmp_contents;
 		gchar *contents;
 		gchar *charmap;
+		gchar *tmp_str;
 		GError *error = NULL;
 		gchar *extension;
 
@@ -1416,17 +1422,19 @@ static void gsb_import_select_file (GSList *filenames,
 				g_free (contents);
 		}
 
+		tmp_str = g_path_get_basename (iterator->data);
 		gtk_tree_store_append (GTK_TREE_STORE (model), &iter, NULL);
 		gtk_tree_store_set (GTK_TREE_STORE (model), &iter,
 							IMPORT_FILESEL_SELECTED, selected,
 							IMPORT_FILESEL_TYPENAME, type,
-							IMPORT_FILESEL_FILENAME, g_path_get_basename (iterator->data),
+							IMPORT_FILESEL_FILENAME, tmp_str,
 							IMPORT_FILESEL_REALNAME, nom_fichier,
 							IMPORT_FILESEL_TYPE, type,
 							IMPORT_FILESEL_CODING, charmap,
 							-1);
 		g_free (nom_fichier);
 		g_free (tmp_contents);
+		g_free (tmp_str);
 
 		if (selected && strcmp (type, _("Unknown")) != 0)
 		{

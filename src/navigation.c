@@ -514,8 +514,9 @@ void gsb_gui_navigation_create_account_list ( GtkTreeModel *model )
 
     path = gsb_gui_navigation_get_page_path ( model, GSB_HOME_PAGE );
     gtk_tree_model_get_iter ( GTK_TREE_MODEL( model ), &parent, path );
+	gtk_tree_path_free (path);
 
-    /* Remove childs if any. */
+	/* Remove childs if any. */
     while ( gtk_tree_model_iter_children ( model, &child, &parent ) )
     {
         gtk_tree_store_remove ( GTK_TREE_STORE ( model ), &child );
@@ -561,6 +562,7 @@ void gsb_gui_navigation_create_report_list ( GtkTreeModel *model )
 
     path = gsb_gui_navigation_get_page_path ( model, GSB_REPORTS_PAGE );
     gtk_tree_model_get_iter ( GTK_TREE_MODEL( model ), &parent, path );
+    gtk_tree_path_free (path);
 
     /* Remove childs if any. */
     while ( gtk_tree_model_iter_children ( model, &child, &parent ) )
@@ -930,6 +932,7 @@ void gsb_gui_navigation_add_account ( gint account_number,
     path = gsb_gui_navigation_get_page_path ( navigation_model, GSB_HOME_PAGE );
     gtk_tree_model_get_iter ( GTK_TREE_MODEL( navigation_model ), &parent, path );
     gtk_tree_store_append ( GTK_TREE_STORE ( navigation_model ), &iter, &parent );
+	gtk_tree_path_free (path);
 
     gsb_gui_navigation_update_account_iter ( GTK_TREE_MODEL ( navigation_model ), &iter, account_number );
 

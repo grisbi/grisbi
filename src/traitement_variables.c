@@ -312,6 +312,9 @@ void free_variables (void)
 	gsb_import_associations_free_liste ();
     gsb_regex_destroy ();
     bet_data_free_variables ();
+	if (etat.csv_separator)
+		g_free (etat.csv_separator);
+
 #ifdef HAVE_GOFFICE
     struct_free_bet_graph_prefs ();
 #endif /* HAVE_GOFFICE */

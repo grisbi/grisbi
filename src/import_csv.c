@@ -102,6 +102,61 @@ struct csv_separators {
 /* Private functions                                                          */
 /******************************************************************************/
 /**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void csv_import_free_line (GSList *list,
+						   gint nbre_cols)
+{
+	gint i;
+
+	for (i = 0; i < nbre_cols ; i++)
+	{
+		if (strlen (list->data))
+			g_free (list->data);
+
+		list = list->next;
+	}
+	g_slist_free (list);
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void csv_import_free_lines_tab (GArray *lines_tab)
+{
+    GSList *list;
+	gint index = 0;
+	gint i;
+
+	list = g_array_index (lines_tab, GSList *, index);
+    do
+    {
+        for (i = 0; csv_fields_config[i] != -1 && list ; i++)
+        {
+			if (strlen (list->data))
+				g_free (list->data);
+
+			list = list->next;
+        }
+		g_slist_free (list);
+
+		index++;
+        list = g_array_index (lines_tab, GSList *, index);
+    }
+    while (list);
+
+	g_array_unref (lines_tab);
+}
+
+/**
  * teste la validité d'un fichier
  *
  * \param const gchar 	filename
@@ -346,7 +401,6 @@ static GArray *csv_import_init_lines_tab (gchar **contents,
 {
 	GArray *lines_tab;
     GSList *list;
-	gint i = 0;
 
 	devel_debug (NULL);
 
@@ -356,11 +410,9 @@ static GArray *csv_import_init_lines_tab (gchar **contents,
     {
 		list = csv_get_next_line (contents, separator);
 		g_array_append_val (lines_tab, list);
-		i++;
     }
 	while (list);
 
-	printf ("nbre de lignes = %d\n", i);
 	return lines_tab;
 
 }
@@ -773,12 +825,13 @@ static gboolean csv_import_change_field (GtkWidget *item,
     }
     else
     {
-		name = _(csv_fields [no_menu].name);
+		name = g_strdup (_(csv_fields [no_menu].name));
     }
     label = gtk_label_new (name);
     gtk_label_set_markup (GTK_LABEL(label), name);
     gtk_widget_show (label);
     gtk_tree_view_column_set_widget (col, label);
+	g_free (name);
 
     csv_fields_config [field] = no_menu;
 
@@ -1001,6 +1054,8 @@ static gint csv_import_try_separator (gchar *contents,
 
     list = csv_get_next_line (&contents, separator);
     cols = g_slist_length (list);
+	csv_import_free_line (list, cols);
+
     //~ g_print ("> I believe first line is %d cols\n", cols);
 
     do
@@ -1009,15 +1064,17 @@ static gint csv_import_try_separator (gchar *contents,
 
 		if (list && (cols != (gint) g_slist_length (list) || cols == 1))
 		{
-			g_print ("> %d != %d, not %s\n", cols, g_slist_length (list), separator);
+			//~ g_print ("> %d != %d, not %s\n", cols, g_slist_length (list), separator);
+			cols = g_slist_length (list);
+			csv_import_free_line (list, cols);
 			return FALSE;
 		}
-
+		csv_import_free_line (list, cols);
 		i++;
     }
     while (list && i < CSV_MAX_TOP_LINES);
 
-    g_print ("> I believe separator could be %s\n", separator);
+    //~ g_print ("> I believe separator could be %s\n", separator);
     return cols;
 }
 
@@ -1141,10 +1198,14 @@ static gboolean csv_import_update_preview (GtkWidget *assistant)
         gtk_tree_store_append (GTK_TREE_STORE (model), &iter, NULL);
         while (list)
         {
+			gchar *tmp_str;
+
+			tmp_str = gsb_string_truncate (list->data);
             gtk_tree_store_set (GTK_TREE_STORE (model),
 								&iter,
-								col, gsb_string_truncate (list->data),
+								col, tmp_str,
 								-1);
+			g_free (tmp_str);
             col++;
             list = list->next;
         }
@@ -1185,10 +1246,14 @@ static gboolean csv_import_change_separator (GtkEntry *entry,
     {
         g_object_set_data (G_OBJECT(assistant), "separator", separator);
         csv_import_update_preview (assistant);
-        etat.csv_separator = my_strdup (separator);
+		if (etat.csv_separator)
+			g_free (etat.csv_separator);
+        etat.csv_separator = separator;
     }
     else
     {
+		if (etat.csv_separator)
+			g_free (etat.csv_separator);
         etat.csv_separator = "";
         g_object_set_data (G_OBJECT(assistant), "separator", NULL);
     }
@@ -1377,7 +1442,7 @@ gboolean csv_import_file_by_rule (gint rule,
         liste_comptes_importes_error = g_slist_append (liste_comptes_importes_error, compte);
     }
 
-	g_array_unref (lines_tab);
+	csv_import_free_lines_tab (lines_tab);
 
     return FALSE;
 }
@@ -1402,7 +1467,7 @@ gboolean csv_import_csv_account (GtkWidget *assistant,
     int index = 0;
 
 	compte = g_malloc0 (sizeof (struct ImportAccount));
-    compte->nom_de_compte = gsb_import_unique_imported_name (my_strdup (_("Imported CSV account")));
+    compte->nom_de_compte = gsb_import_unique_imported_name (_("Imported CSV account"));
     compte->origine = my_strdup ("CSV");
     compte->real_filename = my_strdup (imported->name);
 
@@ -1464,13 +1529,17 @@ gboolean csv_import_csv_account (GtkWidget *assistant,
 			compte->csv_spec_text_col = spec_conf_data->combobox_text_col;
 			compte->csv_spec_text_str = spec_conf_data->entry_text_str;
 		}
-	}
 
-	/* détermination de la première transaction du fichier */
-	if (compte->csv_headers_present)
-		index = compte->csv_first_line_data;
+		/* détermination de la première transaction du fichier */
+		if (compte->csv_headers_present)
+			index = compte->csv_first_line_data;
+		else
+			index = compte->csv_first_line_data-1;
+	}
 	else
-		index = compte->csv_first_line_data-1;
+	{
+		index = compte->csv_first_line_data;
+	}
 
     list = g_array_index (lines_tab, GSList *, index);
     do
@@ -1555,7 +1624,7 @@ gboolean csv_import_csv_account (GtkWidget *assistant,
                                 compte);
     }
 
-	g_array_unref (lines_tab);
+	csv_import_free_lines_tab (lines_tab);
 
 	return FALSE;
 }
@@ -1689,15 +1758,13 @@ gboolean import_enter_csv_preview_page (GtkWidget *assistant)
 	g_object_set_data_full (G_OBJECT(assistant), "contents", contents, g_free);
 
 	/* itialisation de separator */
+	if (etat.csv_separator)
+		g_free (etat.csv_separator);
 	etat.csv_separator = csv_import_guess_separator (contents);
 
 	/* On initialise le tableau avec les lignes du fichier */
-	lines_tab = g_object_get_data (G_OBJECT(assistant), "lines-tab");
-	if (lines_tab)
-		g_array_unref (lines_tab);
-
 	lines_tab = csv_import_init_lines_tab (&contents, etat.csv_separator);
-	g_object_set_data_full (G_OBJECT(assistant), "lines-tab", lines_tab, (GDestroyNotify) g_array_unref);
+	g_object_set_data (G_OBJECT(assistant), "lines-tab", lines_tab);
 	first_line_with_cols = 0;
 
     entry = g_object_get_data (G_OBJECT(assistant), "entry");
