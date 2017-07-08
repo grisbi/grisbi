@@ -95,21 +95,19 @@ static gboolean utils_prefs_automem_checkbutton_changed (GtkWidget *checkbutton,
  *                 	attr, size"
  */
 static void utils_prefs_fonts_update_labels (GtkWidget *button,
-				       const gchar *fontname)
+											 const gchar *fontname)
 {
     GtkWidget *font_name_label;
     GtkWidget *font_size_label;
     gchar *font_name;
     gchar *font_size;
-	gchar *data;
 
-    font_name_label = g_object_get_data (G_OBJECT (button),
-					 "name_label");
-    font_size_label = g_object_get_data (G_OBJECT (button),
-					 "size_label");
+    font_name_label = g_object_get_data (G_OBJECT (button), "name_label");
+    font_size_label = g_object_get_data (G_OBJECT (button), "size_label");
     if (fontname)
     {
 		GtkCssProvider *css_provider = NULL;
+		gchar *data;
 		gchar *tmp;
 
 		css_provider = gtk_css_provider_get_default ();
