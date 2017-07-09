@@ -107,7 +107,7 @@ extern gint transaction_col_align[CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern gint transaction_col_width[CUSTOM_MODEL_VISIBLE_COLUMNS];
 /*END_EXTERN*/
 
-static struct
+static struct		/* structure download_tmp_values */
 {
     gboolean download_ok;
     gchar *file_version;
@@ -120,7 +120,6 @@ static struct
     gboolean report_part;
 } download_tmp_values = { FALSE, NULL, NULL, FALSE, FALSE, FALSE};
 
-//~ static gint account_number;
 
 /* structure temporaire pour le chargement d'un tiers/catégorie/imputation et sous-catégorie
  * sous-imputation */
@@ -176,8 +175,8 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
 
         if ( !strcmp ( attribute_values[i], "(null)" ) )
         {
-            i ++;
-            continue;
+			i ++;
+			continue;
         }
 
         switch ( attribute_names[i][0] )
@@ -358,23 +357,6 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
                 else if ( !strcmp ( attribute_names[i], "Import_qif_use_field_extract_method_payment" ))
                     etat.qif_use_field_extract_method_payment = utils_str_atoi ( attribute_values[i]);
 
-                else if ( !strcmp ( attribute_names[i], "Is_pixmaps_dir" ) )
-                {
-                    etat.is_pixmaps_dir = utils_str_atoi ( attribute_values[i] );
-                    if ( etat.is_pixmaps_dir && etat.name_logo == NULL )
-                    {
-                        GdkPixbuf *pixbuf = NULL;
-                        gchar *chemin_logo = NULL;
-
-                        chemin_logo = g_build_filename  ( gsb_dirs_get_pixmaps_dir ( ), "grisbi-logo.png", NULL );
-                        pixbuf = gdk_pixbuf_new_from_file ( chemin_logo, NULL );
-                        gtk_window_set_default_icon ( pixbuf );
-                        gsb_select_icon_set_logo_pixbuf ( pixbuf );
-                        g_object_unref ( G_OBJECT ( pixbuf ) );
-                        g_free ( chemin_logo );
-                    }
-                }
-
                 else
                     unknown = 1;
                 break;
@@ -390,31 +372,18 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
                 if ( !strcmp ( attribute_names[i], "Navigation_list_order" ) )
                     gsb_gui_navigation_set_page_list_order ( attribute_values[i] );
 
-                else if ( !strcmp ( attribute_names[i], "Name_logo" ) )
+                else if (!strcmp ( attribute_names[i], "Name_logo"))
                 {
-                    GdkPixbuf *pixbuf = NULL;
+					GdkPixbuf *pixbuf = NULL;
 
-                    etat.name_logo = my_strdup ( attribute_values[i] );
-                    if ( etat.is_pixmaps_dir )
-                    {
-                        gchar *chemin_logo = NULL;
-
-                        if ( etat.name_logo )
-                            chemin_logo = g_build_filename  ( gsb_dirs_get_pixmaps_dir ( ), etat.name_logo, NULL );
-                        else
-                            chemin_logo = g_build_filename  ( gsb_dirs_get_pixmaps_dir ( ), "grisbi-logo.png", NULL );
-                        if ( chemin_logo )
-                            pixbuf = gdk_pixbuf_new_from_file ( chemin_logo, NULL );
-                        if ( chemin_logo && strlen ( chemin_logo ) > 0 )
-                            g_free ( chemin_logo );
-
-                    }
-                    if ( pixbuf )
-                    {
-                        gtk_window_set_default_icon ( pixbuf );
-                        gsb_select_icon_set_logo_pixbuf ( pixbuf );
-                        g_object_unref ( G_OBJECT ( pixbuf ) );
-                    }
+					etat.name_logo = my_strdup (attribute_values[i]);
+					pixbuf = gdk_pixbuf_new_from_file (etat.name_logo, NULL);
+					if (pixbuf)
+					{
+						gtk_window_set_default_icon (pixbuf);
+						gsb_select_icon_set_logo_pixbuf (pixbuf);
+						g_object_unref (G_OBJECT (pixbuf));
+					}
                 }
 
                 else
@@ -544,7 +513,11 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
 
             case 'U':
                 if ( !strcmp ( attribute_names[i], "Use_logo" ))
+				{
                     etat.utilise_logo = utils_str_atoi ( attribute_values[i]);
+					if (etat.utilise_logo)
+						gsb_select_icon_set_logo_pixbuf (gsb_select_icon_get_default_logo_pixbuf ());
+				}
                 else
                     unknown = 1;
                 break;
@@ -1291,8 +1264,12 @@ static  void gsb_file_load_account_part ( const gchar **attribute_names,
             case 'P':
                 if ( !strcmp ( attribute_names[i], "Path_icon" ) )
                 {
+					GdkPixbuf *pixbuf = NULL;
+
                     gsb_data_account_set_name_icon ( account_number,
                             attribute_values[i] );
+					pixbuf = gsb_select_icon_new_account_pixbuf_from_file (attribute_values[i]);
+					gsb_data_account_set_account_icon_pixbuf (account_number, pixbuf);
                 }
 
                 else
@@ -3454,95 +3431,6 @@ static void gsb_file_load_bet_transfert_part ( const gchar **attribute_names,
 }
 
 /**
- * load the logo_accueil in the grisbi file
- *
- * \param attribute_names
- * \param attribute_values
- *
- * */
-static void gsb_file_load_logo_accueil ( const gchar **attribute_names,
-                        const gchar **attribute_values )
-{
-    gint i=0;
-
-    do
-    {
-        /*     we test at the beginning if the attribute_value is NULL, if yes, */
-        /*        go to the next */
-
-        if ( !strcmp (attribute_values[i],
-                  "(null)"))
-        {
-            i++;
-            continue;
-        }
-        if ( !strcmp ( attribute_names[i], "Image" ) )
-        {
-            GdkPixbuf *pixbuf = NULL;
-
-            pixbuf = gsb_select_icon_create_pixbuf_from_chaine_base64 (
-                                (gchar *) attribute_values[i] );
-            etat.is_pixmaps_dir = FALSE;
-
-            gtk_window_set_default_icon ( pixbuf );
-            gsb_select_icon_set_logo_pixbuf ( pixbuf );
-            g_object_unref ( G_OBJECT ( pixbuf ) );
-            i++;
-            continue;
-        }
-    }
-    while ( attribute_names[i] );
-}
-
-/**
- * charge les icones pour les comptes
- *
- * \param attribute_names
- * \param attribute_values
- *
- * */
-static void gsb_file_load_account_icon_part ( const gchar **attribute_names,
-                        const gchar **attribute_values )
-{
-    gint i=0;
-    gint account_number = -1;
-    GdkPixbuf *pixbuf = NULL;
-
-    do
-    {
-        /*     we test at the beginning if the attribute_value is NULL, if yes, */
-        /*        go to the next */
-
-        if ( !strcmp (attribute_values[i], "(null)"))
-        {
-            i++;
-            continue;
-        }
-        if ( !strcmp ( attribute_names[i], "Account_number" ) )
-        {
-            account_number = utils_str_atoi ( attribute_values[i] );
-            i++;
-            continue;
-        }
-
-        if ( !strcmp ( attribute_names[i], "Image" ) )
-        {
-            pixbuf = gsb_select_icon_create_pixbuf_from_chaine_base64 (
-                                (gchar *) attribute_values[i] );
-            i++;
-            continue;
-        }
-    }
-    while ( attribute_names[i] );
-
-    if ( account_number != -1 && pixbuf )
-    {
-        gsb_select_icon_new_account_icon ( account_number, pixbuf );
-        gsb_data_account_set_account_icon_pixbuf ( account_number, pixbuf );
-    }
-}
-
-/**
  * Fonction de traitement du fichier
  *
  * \param
@@ -3597,12 +3485,6 @@ static void gsb_file_load_start_element ( GMarkupParseContext *context,
             {
                 gsb_file_load_amount_comparison ( attribute_names,
                         attribute_values);
-            }
-
-            else if ( !strcmp ( element_name, "Account_icon" ) )
-            {
-                gsb_file_load_account_icon_part ( attribute_names,
-                        attribute_values );
             }
 
             else
@@ -3802,18 +3684,6 @@ static void gsb_file_load_start_element ( GMarkupParseContext *context,
                 unknown = 1;
             break;
 
-        case 'L':
-            if ( !strcmp ( element_name, "Logo" ) )
-            {
-                if ( etat.utilise_logo )
-                    gsb_file_load_logo_accueil ( attribute_names,
-                            attribute_values );
-            }
-
-            else
-                unknown = 1;
-            break;
-
         default:
             /* normally, shouldn't come here */
             unknown = 1;
@@ -3980,7 +3850,8 @@ gboolean gsb_file_load_open_file ( gchar *filename )
 
         text = g_strdup_printf (_("You import a file from version %s of Grisbi. After updating "
                                   "your file will not be compatible with grisbi version %s.\n\n"
-                                  "You will lose customizing icons and colors."),
+                                  "You will have to re-customize the icons and colors and you "
+								  "will have to abandon the encryption of your account file."),
                                 download_tmp_values.file_version,
                                 download_tmp_values.file_version);
 

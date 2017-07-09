@@ -53,6 +53,10 @@
 #define COLUMN_CENTER 0.5
 #define COLUMN_RIGHT 1.0
 
+/* valeurs pour le logo de grisbi */
+#define LOGO_WIDTH 48
+#define LOGO_HEIGHT 48
+
 /* variables initialisées lors de l'ouverture de grisbi par gsettings */
 /* declared in grisbi_app.c */
 extern struct GrisbiAppConf conf;
@@ -95,7 +99,6 @@ struct GrisbiWinEtat
 
     /* Fonts & logo */
     gint utilise_logo;
-    gboolean is_pixmaps_dir;        /* TRUE if path_icon == gsb_dirs_get_pixmaps_dir ( ) */
     gchar *name_logo;
 
     gboolean automatic_separator;   /* TRUE if do automatic separator */

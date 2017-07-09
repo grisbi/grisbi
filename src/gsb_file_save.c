@@ -85,9 +85,6 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gulong gsb_file_save_account_icon_part ( gulong iterator,
-                        gulong *length_calculated,
-                        gchar **file_content );
 static gulong gsb_file_save_account_part ( gulong iterator,
                         gulong *length_calculated,
                         gchar **file_content );
@@ -119,9 +116,6 @@ static gulong gsb_file_save_general_part ( gulong iterator,
                         gchar **file_content,
                         gint archive_number );
 static gulong gsb_file_save_import_rule_part ( gulong iterator,
-                        gulong *length_calculated,
-                        gchar **file_content );
-static gulong gsb_file_save_logo_part ( gulong iterator,
                         gulong *length_calculated,
                         gchar **file_content );
 static gulong gsb_file_save_partial_balance_part ( gulong iterator,
@@ -234,7 +228,6 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
     gint import_rule_part = 50;
     gint partial_balance_part = 50;
     gint logo_part = 65536;
-    gint account_icon_part = 4500;
     gint bet_part = 500;
     gint bet_graph_part = 100;
     gint rgba_part = 1000;
@@ -279,7 +272,6 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
 	+ import_rule_part * g_slist_length ( gsb_data_import_rule_get_list ())
     + partial_balance_part * g_slist_length ( gsb_data_partial_balance_get_list ())
     + logo_part
-    + account_icon_part * g_slist_length ( gsb_select_icon_list_accounts_icon () )
     + bet_part
     + bet_graph_part
     + rgba_part;
@@ -386,16 +378,6 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
 					   &length_calculated,
 					   &file_content,
 					   FALSE );
-
-    if ( etat.utilise_logo && etat.is_pixmaps_dir == FALSE )
-        iterator = gsb_file_save_logo_part ( iterator,
-					   &length_calculated,
-					   &file_content );
-
-    if ( g_slist_length ( gsb_select_icon_list_accounts_icon () ) > 0 )
-        iterator = gsb_file_save_account_icon_part ( iterator,
-					   &length_calculated,
-					   &file_content );
 
     /* finish the file */
     iterator = gsb_file_save_append_part ( iterator,
@@ -735,7 +717,6 @@ gulong gsb_file_save_general_part ( gulong iterator,
                        "\t\tReconcile_sort=\"%d\"\n"
 					   "\t\tUse_logo=\"%d\"\n"
                        "\t\tName_logo=\"%s\"\n"
-                       "\t\tIs_pixmaps_dir=\"%d\"\n"
 					   "\t\tRemind_display_per_account=\"%d\"\n"
 					   "\t\tTransactions_view=\"%s\"\n"
 					   "\t\tOne_line_showed=\"%d\"\n"
@@ -793,7 +774,6 @@ gulong gsb_file_save_general_part ( gulong iterator,
     etat.reconcile_sort,
 	etat.utilise_logo,
     my_safe_null_str( etat.name_logo ),
-    etat.is_pixmaps_dir,
 	etat.retient_affichage_par_compte,
 	my_safe_null_str(transactions_view),
 	display_one_line,
@@ -2777,99 +2757,6 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	}
 	list_tmp = list_tmp -> next;
     }
-    return iterator;
-}
-
-
-/**
- * save the logo
- *
- * \param iterator the current iterator
- * \param length_calculated a pointer to the variable lengh_calculated
- * \param file_content a pointer to the variable file_content
- *
- * \return the new iterator
- * */
-gulong gsb_file_save_logo_part ( gulong iterator,
-                        gulong *length_calculated,
-                        gchar **file_content )
-{
-    GdkPixbuf *pixbuf = NULL;
-    gchar *new_string = NULL;
-    gchar *str64;
-
-    pixbuf = gsb_select_icon_get_logo_pixbuf ( );
-    if ( pixbuf )
-    {
-        str64 = gsb_select_icon_create_chaine_base64_from_pixbuf ( pixbuf );
-
-        new_string = g_markup_printf_escaped ( "\t<Logo\n"
-                        "\t\tImage=\"%s\" />\n",
-                        my_safe_null_str(str64) );
-
-        g_free ( str64 );
-    }
-
-    iterator = gsb_file_save_append_part ( iterator,
-                        length_calculated,
-                        file_content,
-                        new_string );
-
-    return iterator;
-}
-
-
-/**
- * save the accounts_icon
- *
- * \param iterator the current iterator
- * \param length_calculated a pointer to the variable lengh_calculated
- * \param file_content a pointer to the variable file_content
- *
- * \return the new iterator
- * */
-gulong gsb_file_save_account_icon_part ( gulong iterator,
-                        gulong *length_calculated,
-                        gchar **file_content )
-{
-    GSList *list_tmp;
-
-    list_tmp = gsb_select_icon_list_accounts_icon ();
-
-    while ( list_tmp )
-    {
-        GdkPixbuf *pixbuf = NULL;
-        gchar *new_string = NULL;
-        gchar *str64;
-        gint account_number;
-
-        account_number = gsb_select_icon_get_no_account_by_ptr ( list_tmp -> data );
-
-        if ( account_number == -1 )
-        {
-            list_tmp = list_tmp -> next;
-            continue;
-        }
-
-        pixbuf = gsb_select_icon_get_account_pixbuf_by_ptr ( list_tmp -> data );
-        str64 = gsb_select_icon_create_chaine_base64_from_pixbuf ( pixbuf );
-
-        new_string = g_markup_printf_escaped ( "\t<Account_icon\n"
-                            "\t\tAccount_number=\"%d\"\n"
-                            "\t\tImage=\"%s\" />\n",
-                            account_number,
-                            my_safe_null_str(str64) );
-
-        g_free ( str64 );
-
-        iterator = gsb_file_save_append_part ( iterator,
-                        length_calculated,
-                        file_content,
-                        new_string );
-
-        list_tmp = list_tmp -> next;
-    }
-
     return iterator;
 }
 

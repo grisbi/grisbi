@@ -1739,9 +1739,10 @@ GtkWidget *creation_onglet_accueil (void)
 
     /* on met le titre du fichier */
     hbox_title = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_widget_set_size_request (hbox_title, -1, LOGO_HEIGHT);
 
-    eb = gtk_event_box_new ();
-    gtk_widget_set_name (eb, "grey_box");
+	eb = gtk_event_box_new ();
+    gtk_widget_set_name (hbox_title, "grey_box");
 
     label_titre_fichier = gtk_label_new (NULL);
     g_object_add_weak_pointer (G_OBJECT (label_titre_fichier),
@@ -1750,9 +1751,8 @@ GtkWidget *creation_onglet_accueil (void)
     if (etat.utilise_logo)
     {
         logo_accueil =  gtk_image_new_from_pixbuf (gsb_select_icon_get_logo_pixbuf ());
-
         gtk_box_pack_start (GTK_BOX (hbox_title), logo_accueil, FALSE, FALSE, 20);
-        gtk_widget_set_size_request (hbox_title, -1, LOGO_HEIGHT + 20);
+		gtk_widget_set_size_request (hbox_title, -1, LOGO_HEIGHT + 20);
     }
 
     gtk_box_pack_end (GTK_BOX (hbox_title), label_titre_fichier, TRUE, TRUE, 20);
@@ -2194,7 +2194,6 @@ gboolean gsb_main_page_set_logo_accueil (GtkWidget *logo)
         if (etat.name_logo && strlen (etat.name_logo))
             g_free (etat.name_logo);
         etat.name_logo = NULL;
-        etat.is_pixmaps_dir = FALSE;
     }
 
 	return (FALSE);

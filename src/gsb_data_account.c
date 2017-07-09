@@ -60,7 +60,7 @@
 /** \struct
  * describe an account
  * */
-typedef struct
+typedef struct		/* struct_account */
 {
     /** @name general stuff */
     gint 	account_number;
@@ -193,7 +193,6 @@ void gsb_data_account_delete_all_accounts (void)
 gboolean gsb_data_account_init_variables ( void )
 {
     gsb_data_account_delete_all_accounts ();
-    gsb_select_icon_init_account_variables ();
 
     return FALSE;
 }
@@ -2746,12 +2745,11 @@ void gsb_data_account_change_account_icon ( GtkWidget *button, gpointer data )
         {
             gsb_data_account_set_name_icon ( current_account, NULL );
             gsb_data_account_set_account_icon_pixbuf ( current_account, NULL );
-            gsb_select_icon_remove_account_pixbuf ( current_account );
         }
         else
         {
             gsb_data_account_set_name_icon ( current_account, new_icon );
-            pixbuf = gsb_select_icon_change_account_pixbuf ( current_account, new_icon );
+            pixbuf = gsb_select_icon_new_account_pixbuf_from_file (new_icon);
             gsb_data_account_set_account_icon_pixbuf ( current_account, pixbuf );
         }
 

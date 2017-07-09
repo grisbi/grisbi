@@ -197,7 +197,6 @@ void init_variables ( void )
     etat.affichage_echeances_perso_nb_libre = 0;
     etat.affichage_echeances_perso_j_m_a = PERIODICITY_DAYS;
 
-    etat.is_pixmaps_dir = TRUE;
     if ( etat.name_logo && strlen ( etat.name_logo ) )
         g_free ( etat.name_logo );
     etat.name_logo = NULL;

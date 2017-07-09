@@ -218,7 +218,7 @@ static void prefs_page_display_fonts_update_fonte_listes (gchar *fontname,
 }
 
 /**
- * update the preview of the log file chooser
+ * update the preview of the logo file chooser
  *
  * \param file_chooser
  * \param preview
@@ -252,61 +252,56 @@ static void prefs_page_display_fonts_change_logo_accueil (GtkWidget *file_select
 	if (logo_accueil && GTK_IS_WIDGET (logo_accueil))
 		gtk_widget_hide (logo_accueil);
 
-	if (!strlen (chemin_logo))
+	/* create logo */
+	pixbuf = gdk_pixbuf_new_from_file (chemin_logo, NULL);
+	if (!pixbuf)
 	{
-		preview = gtk_image_new_from_icon_name ("gtk-missing-image", GTK_ICON_SIZE_BUTTON);
+		pixbuf = gsb_select_icon_get_default_logo_pixbuf ();
 	}
 	else
 	{
-		/* Update preview */
-		pixbuf = gdk_pixbuf_new_from_file (chemin_logo, NULL);
-		if (!pixbuf)
+		if (g_strcmp0 (g_path_get_dirname (chemin_logo), gsb_dirs_get_pixmaps_dir ()) == 0)
 		{
-			preview = gtk_image_new_from_icon_name ("gtk-missing-image", GTK_ICON_SIZE_BUTTON);
+			gchar *name_logo;
+
+			name_logo = g_path_get_basename (chemin_logo);
+			if (g_strcmp0 (name_logo, "grisbi-logo.png") != 0)
+				etat.name_logo = chemin_logo;
+			else
+				etat.name_logo = NULL;
 		}
 		else
 		{
-			if (g_strcmp0 (g_path_get_dirname (chemin_logo), gsb_dirs_get_pixmaps_dir ()) == 0)
+			if (etat.name_logo && strlen (etat.name_logo))
 			{
-				gchar *name_logo;
-
-				etat.is_pixmaps_dir = TRUE;
-
-				name_logo = g_path_get_basename (chemin_logo);
-				if (g_strcmp0 (name_logo, "grisbi-logo.png") != 0)
-					etat.name_logo = name_logo;
-				else
-					etat.name_logo = NULL;
+				g_free (etat.name_logo);
+				etat.name_logo = chemin_logo;
 			}
-			else
-			{
-				etat.is_pixmaps_dir = FALSE;
-				if (etat.name_logo && strlen (etat.name_logo))
-					g_free (etat.name_logo);
-				etat.name_logo = NULL;
-			}
-
-			gsb_select_icon_set_logo_pixbuf (pixbuf);
-			preview = gtk_image_new_from_pixbuf (gdk_pixbuf_scale_simple (pixbuf,
-																		  48,
-																		  48,
-																		  GDK_INTERP_BILINEAR));
-
-			/* Update homepage logo */
-			gtk_widget_destroy (logo_accueil);
-
-			logo_accueil =  gtk_image_new_from_pixbuf (gsb_select_icon_get_logo_pixbuf ());
-			gsb_main_page_set_logo_accueil (logo_accueil);
-
-			/* modify the icon of grisbi (set in the panel of gnome or other) */
-			gtk_window_set_default_icon (gsb_select_icon_get_logo_pixbuf ());
 		}
-
-		g_free (chemin_logo);
 	}
-	gtk_widget_show (preview);
 
+	gsb_select_icon_set_logo_pixbuf (pixbuf);
+
+	/* mis à jour du bouton contenant le logo */
+	preview = gtk_image_new_from_pixbuf (gdk_pixbuf_scale_simple (pixbuf,
+																  LOGO_WIDTH,
+																  LOGO_HEIGHT,
+																  GDK_INTERP_BILINEAR));
+	gtk_widget_show (preview);
 	gtk_container_add (GTK_CONTAINER (priv->button_display_logo), preview);
+	priv->preview_display_logo = preview;
+
+	/* Update homepage logo */
+	gtk_widget_destroy (logo_accueil);
+
+	logo_accueil = gtk_image_new_from_pixbuf (gdk_pixbuf_scale_simple (pixbuf,
+																	   LOGO_WIDTH,
+																	   LOGO_HEIGHT,
+																	   GDK_INTERP_BILINEAR));
+	gsb_main_page_set_logo_accueil (logo_accueil);
+
+	/* modify the icon of grisbi (set in the panel of gnome or other) */
+	gtk_window_set_default_icon (pixbuf);
 
 	/* Mark file as modified */
 	utils_prefs_gsb_file_set_modified ();
@@ -366,12 +361,19 @@ static gboolean prefs_page_display_fonts_logo_accueil_changed (PrefsPageDisplayF
 												 "gtk-open", GTK_RESPONSE_OK,
 												 NULL);
 
-    if (etat.is_pixmaps_dir)
-        gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (file_selector),
-											 gsb_dirs_get_pixmaps_dir ());
+    if (etat.name_logo)
+	{
+		gchar *dirname;
+
+		dirname = g_path_get_dirname (etat.name_logo);
+		gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (file_selector), dirname);
+		gtk_file_chooser_set_filename (GTK_FILE_CHOOSER (file_selector), etat.name_logo);
+	}
     else
-        gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (file_selector),
-											 gsb_file_get_last_path ());
+	{
+		gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (file_selector),
+											 gsb_dirs_get_pixmaps_dir ());
+	}
 
     gtk_window_set_position (GTK_WINDOW (file_selector), GTK_WIN_POS_CENTER_ON_PARENT);
 
@@ -388,7 +390,6 @@ static gboolean prefs_page_display_fonts_logo_accueil_changed (PrefsPageDisplayF
 		case GTK_RESPONSE_OK:
 			prefs_page_display_fonts_change_logo_accueil (file_selector, page);
 			tmp_last_directory = file_selection_get_last_directory (GTK_FILE_CHOOSER (file_selector), TRUE);
-			printf ("tmp_last_directory = %s\n", tmp_last_directory);
 			gsb_file_update_last_path (tmp_last_directory);
 			g_free (tmp_last_directory);
 
@@ -409,7 +410,7 @@ static gboolean prefs_page_display_fonts_logo_accueil_changed (PrefsPageDisplayF
  * \return
  * */
 static gboolean prefs_page_display_fonts_utilise_logo_checked (GtkWidget *check_button,
-														GtkWidget *hbox)
+															   GtkWidget *hbox)
 {
 
     etat.utilise_logo = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check_button));
@@ -434,7 +435,6 @@ static gboolean prefs_page_display_fonts_utilise_logo_checked (GtkWidget *check_
             if (pixbuf == NULL)
             {
                 pixbuf = gsb_select_icon_get_default_logo_pixbuf ();
-                etat.is_pixmaps_dir = TRUE;
             }
             logo_accueil =  gtk_image_new_from_pixbuf (pixbuf);
             if (logo_accueil)
@@ -492,30 +492,8 @@ static void prefs_page_display_fonts_setup_display_fonts_page (PrefsPageDisplayF
     }
     else
     {
-        if (gdk_pixbuf_get_width (pixbuf) > 64 ||
-             gdk_pixbuf_get_height (pixbuf) > 64)
-        {
-            GdkPixbuf *tmp;
 
-			tmp = gdk_pixbuf_new (GDK_COLORSPACE_RGB,
-								  TRUE,
-								  8,
-								  gdk_pixbuf_get_width (pixbuf)/2,
-								  gdk_pixbuf_get_height (pixbuf)/2);
-            gdk_pixbuf_scale (pixbuf,
-							  tmp,
-							  0,
-							  0,
-							  gdk_pixbuf_get_width(pixbuf)/2,
-							  gdk_pixbuf_get_height(pixbuf)/2,
-							  0,
-							  0,
-							  0.5,
-							  0.5,
-							  GDK_INTERP_HYPER);
-            pixbuf = tmp;
-        }
-        preview = gtk_image_new_from_pixbuf (pixbuf);
+		preview = gtk_image_new_from_pixbuf (pixbuf);
     }
 	priv->preview_display_logo = preview;
 
