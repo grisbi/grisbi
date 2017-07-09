@@ -452,10 +452,6 @@ GtkWidget *gsb_calendar_entry_popup ( GtkWidget *entry )
     gtk_window_set_transient_for ( GTK_WINDOW ( popup ),
                         GTK_WINDOW ( grisbi_app_get_active_window (NULL) ) );
     gtk_window_set_decorated ( GTK_WINDOW ( popup ), FALSE );
-    g_signal_connect_swapped ( G_OBJECT ( popup ),
-				"destroy",
-				G_CALLBACK ( gdk_pointer_ungrab ),
-				GDK_CURRENT_TIME );
 
     /* set the decoration */
     frame = gtk_frame_new ( NULL );

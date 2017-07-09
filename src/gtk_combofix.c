@@ -435,7 +435,6 @@ gboolean gtk_combofix_hide_popup ( GtkComboFix *combofix )
     if ( gtk_widget_get_visible ( priv -> popup ))
     {
         gtk_grab_remove ( priv -> popup );
-        //~ gdk_pointer_ungrab ( GDK_CURRENT_TIME );
         gtk_widget_hide ( priv -> popup );
     }
     return FALSE;
