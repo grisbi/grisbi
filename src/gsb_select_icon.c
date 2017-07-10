@@ -57,23 +57,11 @@ static GtkListStore *store = NULL;
 static gchar *path_icon;
 static gchar *new_icon;
 
-/* variables for account_icon */
-static GSList *list_accounts_icon = NULL;
-
-typedef struct /* struct_account_icon */
-{
-    gint account_number;
-    GdkPixbuf *pixbuf;
-}  struct_account_icon;
-
-static struct_account_icon *icon_buffer;
-
-
 enum {
         PIXBUF_COLUMN,
         TEXT_COLUMN,
         DATA_COLUMN
-      };
+};
 
 /******************************************************************************/
 /* Private functions                                                          */
@@ -438,7 +426,7 @@ static GtkWidget *gsb_select_icon_create_icon_view (gchar *name_icon)
  *
  * return a new pixbuf
  **/
-GdkPixbuf *gsb_select_icon_resize_logo_pixbuf (GdkPixbuf *pixbuf)
+static GdkPixbuf *gsb_select_icon_resize_logo_pixbuf (GdkPixbuf *pixbuf)
 {
     GdkPixbuf *tmp;
 

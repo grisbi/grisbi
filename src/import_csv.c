@@ -108,8 +108,8 @@ struct csv_separators {
  *
  * \return
  **/
-void csv_import_free_line (GSList *list,
-						   gint nbre_cols)
+static void csv_import_free_line (GSList *list,
+								  gint nbre_cols)
 {
 	gint i;
 
@@ -130,7 +130,7 @@ void csv_import_free_line (GSList *list,
  *
  * \return
  **/
-void csv_import_free_lines_tab (GArray *lines_tab)
+static void csv_import_free_lines_tab (GArray *lines_tab)
 {
     GSList *list;
 	gint index = 0;
