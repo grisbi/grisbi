@@ -49,6 +49,7 @@
 #include "utils.h"
 #include "utils_prefs.h"
 #include "utils_str.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -235,7 +236,11 @@ GtkWidget *gsb_form_config_create_tree_view ( GtkListStore *store )
      * the config box increase too */
 
     tree_view = gtk_tree_view_new_with_model ( GTK_TREE_MODEL ( store ));
-    gtk_tree_view_set_grid_lines (GTK_TREE_VIEW (tree_view), GTK_TREE_VIEW_GRID_LINES_BOTH);
+
+    /* set the color of selected row */
+	gtk_widget_set_name (tree_view, "tree_view");
+
+	gtk_tree_view_set_grid_lines (GTK_TREE_VIEW (tree_view), GTK_TREE_VIEW_GRID_LINES_BOTH);
     gtk_tree_selection_set_mode ( GTK_TREE_SELECTION ( gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view))),
 				  GTK_SELECTION_NONE );
 
@@ -731,7 +736,7 @@ gboolean gsb_form_config_fill_store ( gint account_number )
 {
     gint row;
     GtkListStore *store;
-
+devel_debug (NULL);
     store = GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( form_config_tree_view )));
 
     gtk_list_store_clear ( store );

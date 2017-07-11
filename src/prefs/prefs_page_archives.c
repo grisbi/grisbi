@@ -465,7 +465,9 @@ static void prefs_page_archives_setup_treeview_archives (PrefsPageArchives *page
 
 	priv = prefs_page_archives_get_instance_private (page);
 
-    /* Create tree view */
+	gtk_widget_set_name (priv->treeview_archives, "tree_view");
+
+	/* Create tree model */
     archives_model = gtk_list_store_new (NUM_ARCHIVES_COLUMNS,
                                         G_TYPE_STRING,
                                         G_TYPE_STRING,

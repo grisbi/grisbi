@@ -303,7 +303,7 @@ GtkWidget *bet_finance_create_simulator_page ( void )
     g_object_set_data ( G_OBJECT ( tree_view ), "label_title", label_title );
 
     /* set the color of selected row */
-    utils_set_tree_view_selection_and_text_color ( tree_view );
+	gtk_widget_set_name (tree_view, "tree_view");
 
     /* on y ajoute la barre d'outils */
     simulator_toolbar = bet_finance_create_simulator_toolbar ( page, tree_view, TRUE, FALSE );
@@ -443,6 +443,7 @@ GtkWidget *bet_finance_create_data_tree_view ( GtkWidget *container )
     gchar *title;
 
     tree_view = gtk_tree_view_new ( );
+	gtk_widget_set_name (tree_view, "tree_view");
 
     /* Create the tree store */
     tree_model = gtk_tree_store_new ( BET_FINANCE_NBRE_COLUMNS,
@@ -1118,7 +1119,7 @@ GtkWidget *bet_finance_create_amortization_page ( void )
     g_object_set_data ( G_OBJECT ( tree_view ), "label_title", label_title );
 
     /* set the color of selected row */
-    utils_set_tree_view_selection_and_text_color ( tree_view );
+	gtk_widget_set_name (tree_view, "tree_view");
 
     /* on y ajoute la barre d'outils */
     amortization_toolbar = bet_finance_create_simulator_toolbar ( page, tree_view, FALSE, TRUE );
@@ -1147,6 +1148,7 @@ GtkWidget *bet_finance_create_amortization_tree_view ( GtkWidget *container, gin
 
     devel_debug ( NULL);
     tree_view = gtk_tree_view_new ( );
+	gtk_widget_set_name (tree_view, "tree_view");
 
     /* Create the tree store */
     tree_model = gtk_tree_store_new ( BET_AMORTIZATION_NBRE_COLUMNS,
@@ -1558,7 +1560,7 @@ GtkWidget *bet_finance_create_account_page ( void )
     g_object_set_data ( G_OBJECT ( tree_view ), "label_title", label_title );
 
     /* set the color of selected row */
-    utils_set_tree_view_selection_and_text_color ( tree_view );
+	gtk_widget_set_name (tree_view, "tree_view");
 
     /* on y ajoute la barre d'outils */
     account_toolbar = bet_finance_create_simulator_toolbar ( page, tree_view, FALSE, FALSE );

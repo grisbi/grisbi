@@ -725,6 +725,7 @@ gchar *utils_files_create_sel_charset (GtkWidget *assistant,
     model = GTK_TREE_MODEL (gtk_list_store_new (IMPORT_CHARMAP_NB, G_TYPE_BOOLEAN,
                         G_TYPE_STRING, G_TYPE_STRING));
     tree_view = gtk_tree_view_new_with_model (model);
+	gtk_widget_set_name (tree_view, "tree_view");
     gtk_container_add (GTK_CONTAINER (sw), tree_view);
     g_object_set_data (G_OBJECT (model), "dialog", dialog);
     g_object_set_data (G_OBJECT (dialog), "charset_model", model);

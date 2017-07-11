@@ -928,7 +928,7 @@ GtkWidget *gsb_transaction_list_config_create_tree_view ( GtkListStore *store )
 
     /* create the tree_view */
     tree_view = gtk_tree_view_new_with_model ( GTK_TREE_MODEL ( store ) );
-
+	gtk_widget_set_name (tree_view, "tree_view");
     gtk_tree_view_set_grid_lines ( GTK_TREE_VIEW ( tree_view ), GTK_TREE_VIEW_GRID_LINES_BOTH );
 
     gtk_tree_selection_set_mode ( GTK_TREE_SELECTION (

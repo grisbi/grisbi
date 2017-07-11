@@ -87,7 +87,6 @@ struct _GrisbiPrefsPrivate
     GtkWidget *			left_sw;
     GtkWidget *      	left_treeview;
     GtkTreeStore *    	prefs_tree_model;
-	GtkWidget *      	togglebutton_expand_prefs;
 
     /* notebook de droite */
     GtkWidget *         notebook_prefs;
@@ -436,7 +435,7 @@ static void grisbi_prefs_left_tree_view_setup (GrisbiPrefs *prefs)
     g_object_unref (G_OBJECT (model));
 
     /* set the color of selected row */
-    utils_set_tree_view_selection_and_text_color (tree_view);
+	gtk_widget_set_name (tree_view, "tree_view");
 
     /* make column */
     cell = gtk_cell_renderer_text_new ();
@@ -552,7 +551,6 @@ static void grisbi_prefs_class_init (GrisbiPrefsClass *klass)
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiPrefs, prefs_paned);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiPrefs, left_treeview);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiPrefs, togglebutton_expand_prefs);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiPrefs, notebook_prefs);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiPrefs, vbox_import_page);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiPrefs, label_import_page_1);

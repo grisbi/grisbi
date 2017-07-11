@@ -180,6 +180,7 @@ GtkWidget * export_create_selection_page ( GtkWidget * assistant )
 
     /* Create list view */
     view = gtk_tree_view_new_with_model ( GTK_TREE_MODEL(model) );
+	gtk_widget_set_name (view, "tree_view");
     g_object_unref (G_OBJECT(model));
 
     /* Scroll for tree view. */

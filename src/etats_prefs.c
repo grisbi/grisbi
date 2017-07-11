@@ -280,7 +280,8 @@ static GtkWidget *etats_prefs_tree_view_new_with_model ( const gchar *treeview_n
     gtk_tree_view_set_model ( GTK_TREE_VIEW ( tree_view ), GTK_TREE_MODEL ( model ) );
     g_object_unref ( G_OBJECT ( model ) );
 
-    utils_set_tree_view_selection_and_text_color ( tree_view );
+    /* set the color of selected row */
+	gtk_widget_set_name (tree_view, "tree_view");
 
     /* set the column */
     cell = gtk_cell_renderer_text_new ( );
@@ -768,7 +769,7 @@ static GtkWidget *etats_prefs_left_panel_create_tree_view ( void )
     g_object_unref ( G_OBJECT ( model ) );
 
     /* set the color of selected row */
-    utils_set_tree_view_selection_and_text_color ( tree_view );
+	gtk_widget_set_name (tree_view, "tree_view");
 
     /* make column */
     cell = gtk_cell_renderer_text_new ( );
@@ -1901,7 +1902,7 @@ static GtkWidget *etats_prefs_onglet_categ_budget_tree_view_create ( gboolean is
     gtk_tree_view_set_headers_visible ( GTK_TREE_VIEW ( tree_view ), FALSE );
 
     /* set the color of selected row */
-    utils_set_tree_view_selection_and_text_color ( tree_view );
+	gtk_widget_set_name (tree_view, "tree_view");
 
     if ( model )
     {
@@ -2623,7 +2624,8 @@ static gboolean etats_prefs_onglet_data_grouping_init_tree_view ( void )
     gtk_tree_view_set_model ( GTK_TREE_VIEW ( tree_view ), GTK_TREE_MODEL ( store ) );
     g_object_unref ( G_OBJECT ( store ) );
 
-    utils_set_tree_view_selection_and_text_color ( tree_view );
+    /* set the color of selected row */
+	gtk_widget_set_name (tree_view, "tree_view");
 
     /* set the column */
     cell = gtk_cell_renderer_text_new ( );

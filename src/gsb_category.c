@@ -206,6 +206,7 @@ GtkWidget *gsb_category_assistant_create_choice_page ( GtkWidget *assistant )
     builtin_category_model = (GtkTreeModel *) gtk_list_store_new (BUILTIN_CATEGORY_MODEL_COLUMNS,
 								  G_TYPE_STRING, G_TYPE_STRING );
     builtin_category_view = (GtkTreeView *) gtk_tree_view_new_with_model ( GTK_TREE_MODEL ( builtin_category_model ) );
+ 	gtk_widget_set_name (GTK_WIDGET (builtin_category_view), "tree_view");
 
     gtk_container_add ( GTK_CONTAINER ( sw ), (GtkWidget *) builtin_category_view );
 

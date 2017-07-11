@@ -1648,6 +1648,7 @@ GtkWidget *gsb_partial_balance_create_list_accounts ( GtkWidget *entry )
         i = 10;
     /* create the treeview */
     treeview = gtk_tree_view_new_with_model ( GTK_TREE_MODEL ( list_store ) );
+ 	gtk_widget_set_name (treeview, "tree_view");
     g_object_unref ( list_store );
 
     gtk_widget_set_size_request ( treeview, -1, i*20 );

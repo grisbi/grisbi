@@ -449,6 +449,8 @@ static void prefs_page_import_asso_setup_treeview_asso (PrefsPageImportAsso *pag
 
 	priv = prefs_page_import_asso_get_instance_private (page);
 
+	gtk_widget_set_name (priv->treeview_import_asso, "tree_view");
+
 	/* create the model */
     list_store = gtk_list_store_new (3, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INT);
 

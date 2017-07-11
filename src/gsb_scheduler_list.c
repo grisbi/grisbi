@@ -351,7 +351,7 @@ GtkWidget *gsb_scheduler_list_create_list ( void )
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ), tree_view );
 
     /* set the color of selected row */
-    utils_set_tree_view_selection_and_text_color ( tree_view );
+	gtk_widget_set_name (tree_view, "tree_view");
 
     /* create the store and set it in the tree_view */
     tree_model = gsb_scheduler_list_create_model ();
@@ -556,6 +556,7 @@ GtkWidget *gsb_scheduler_list_create_tree_view (void)
     GtkWidget * tree_view;
 
     tree_view = gtk_tree_view_new ( );
+	gtk_widget_set_name (tree_view, "tree_view");
 
     /* can select only one line */
     gtk_tree_selection_set_mode ( GTK_TREE_SELECTION (

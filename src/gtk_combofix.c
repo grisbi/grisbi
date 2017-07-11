@@ -1001,6 +1001,7 @@ static void gtk_combofix_init ( GtkComboFix *combofix )
     /* set the sorting model in the tree view */
     priv -> tree_view = gtk_tree_view_new_with_model (
                                     GTK_TREE_MODEL ( priv -> model_sort ) );
+	gtk_widget_set_name (priv->tree_view, "tree_view");
 
     priv -> selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( priv -> tree_view ) );
     gtk_tree_selection_set_mode ( GTK_TREE_SELECTION ( priv -> selection ),

@@ -484,6 +484,7 @@ GtkWidget *gsb_bank_create_page ( gboolean default_sensitive )
 				 G_TYPE_STRING,
 				 G_TYPE_INT );
     bank_list_tree_view = gtk_tree_view_new_with_model (GTK_TREE_MODEL (store));
+	gtk_widget_set_name (bank_list_tree_view, "tree_view");
     g_object_unref (G_OBJECT(store));
     gtk_container_add ( GTK_CONTAINER (scrolled_window),
 			bank_list_tree_view );

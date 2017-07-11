@@ -257,8 +257,10 @@ void gsb_assistant_add_page ( GtkWidget * assistant, GtkWidget * widget, gint po
  */
 GtkResponseType gsb_assistant_run ( GtkWidget * assistant )
 {
-    GtkWidget * notebook, * button_prev;
+    GtkWidget *notebook;
+    GtkWidget *button_prev;
     GtkWidget *button_select;
+    GtkWidget *button_next;
 
     button_prev = g_object_get_data ( G_OBJECT(assistant), "button_prev" );
     button_select = g_object_get_data ( G_OBJECT ( assistant ), "button_select" );
@@ -267,10 +269,11 @@ GtkResponseType gsb_assistant_run ( GtkWidget * assistant )
     gtk_widget_hide ( button_select );
 
     notebook = g_object_get_data ( G_OBJECT(assistant), "notebook" );
-    gtk_notebook_set_current_page ( GTK_NOTEBOOK (notebook),
-			    0 );
-    gtk_widget_grab_focus (GTK_WIDGET (g_object_get_data (G_OBJECT (assistant),
-							  "button_next")));
+    gtk_notebook_set_current_page ( GTK_NOTEBOOK (notebook), 0 );
+
+	button_next = g_object_get_data (G_OBJECT (assistant), "button_next");
+	gtk_widget_set_sensitive (button_next, TRUE);
+    gtk_widget_grab_focus (GTK_WIDGET (button_next));
 
     while ( TRUE )
     {
@@ -387,6 +390,7 @@ void gsb_assistant_set_next ( GtkWidget * assistant, gint page, gint next )
  */
 gboolean gsb_assistant_sensitive_button_next ( GtkWidget * assistant, gboolean state )
 {
+	devel_debug_int (state);
     gtk_widget_set_sensitive ( g_object_get_data ( G_OBJECT (assistant), "button_next" ),
 			       state );
 

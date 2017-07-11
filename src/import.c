@@ -1356,7 +1356,10 @@ static void gsb_import_select_file (GSList *filenames,
 	gtk_tree_store_clear (GTK_TREE_STORE (model));
 
 	if (conf.force_import_directory)
+	{
+		charmap_imported = g_strdup ("UTF-8");
 		selected = FALSE;
+	}
 	else
 		selected = TRUE;
 
@@ -1565,6 +1568,7 @@ static GtkWidget *gsb_import_create_force_dir_page (GtkWidget *assistant)
 												G_TYPE_STRING));			/* IMPORT_FILESEL_CODING */
 
     tree_view = gtk_tree_view_new_with_model (GTK_TREE_MODEL (model));
+	gtk_widget_set_name (tree_view, "tree_view");
     gtk_container_add (GTK_CONTAINER (sw), tree_view);
 	g_object_unref (model);
 
@@ -1696,6 +1700,7 @@ static GtkWidget *gsb_import_create_file_selection_page (GtkWidget *assistant)
                         G_TYPE_STRING, G_TYPE_STRING,
                         G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING));
     tree_view = gtk_tree_view_new_with_model (GTK_TREE_MODEL (model));
+	gtk_widget_set_name (tree_view, "tree_view");
     gtk_container_add (GTK_CONTAINER (sw), tree_view);
 
     /* Toggle column. */
@@ -3676,6 +3681,7 @@ static void gsb_import_show_orphan_transactions (GSList *orphan_list,
 
 	/* on crée la liste des opés célibataires et on y associe la gslist */
 	liste_ope_celibataires = gtk_tree_view_new_with_model (GTK_TREE_MODEL (store));
+	gtk_widget_set_name (liste_ope_celibataires, "tree_view");
 	g_object_set_data (G_OBJECT (liste_ope_celibataires), "liste_ope", orphan_list);
 
 	scrolled_window = gtk_scrolled_window_new (FALSE, FALSE);
@@ -4271,7 +4277,7 @@ void gsb_import_assistant_importer_fichier (void)
     GtkWidget *assistant;
 	gchar *tmp_str;
     gchar *format_str;
-
+devel_debug (NULL);
     /* if nothing opened, we need to create a new file to set up all the variables */
     if (!gsb_data_currency_get_currency_list ())
     {

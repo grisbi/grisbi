@@ -189,7 +189,7 @@ GtkWidget *payees_create_list ( void )
     payee_tree = gtk_tree_view_new();
 
     /* set the color of selected row */
-    utils_set_tree_view_selection_and_text_color ( payee_tree );
+	gtk_widget_set_name (payee_tree, "tree_view");
 
     payee_tree_model = gtk_tree_store_new ( META_TREE_NUM_COLUMNS, META_TREE_COLUMN_TYPES );
 
@@ -1180,6 +1180,7 @@ static GtkWidget *gsb_assistant_payees_page_3 ( GtkWidget *assistant )
     /* create the treeview */
     treeview = gtk_tree_view_new_with_model (
                         GTK_TREE_MODEL (list_store) );
+	gtk_widget_set_name (treeview, "tree_view");
     g_object_unref (list_store);
 
     gtk_widget_set_size_request ( treeview, -1, 230 );

@@ -218,6 +218,7 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
 
     /* Create the view */
     navigation_tree_view = gtk_tree_view_new ();
+	gtk_widget_set_name (navigation_tree_view, "tree_view");
     gtk_tree_view_set_headers_visible ( GTK_TREE_VIEW(navigation_tree_view), FALSE );
     gtk_container_add ( GTK_CONTAINER(sw), navigation_tree_view );
 

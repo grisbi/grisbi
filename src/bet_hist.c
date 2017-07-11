@@ -235,7 +235,7 @@ GtkWidget *bet_historical_create_page ( void )
     g_object_set_data ( G_OBJECT ( tree_view ), "label_title", label_title );
 
     /* set the color of selected row */
-    utils_set_tree_view_selection_and_text_color ( tree_view );
+	gtk_widget_set_name (tree_view, "tree_view");
 
     /* on y ajoute la barre d'outils */
     bet_historical_toolbar = bet_historical_create_toolbar ( page, tree_view );
@@ -505,6 +505,7 @@ GtkWidget *bet_historical_get_data_tree_view ( GtkWidget *container )
     /* devel_debug (NULL); */
     account_page = gsb_gui_get_account_page ();
     tree_view = gtk_tree_view_new ( );
+	gtk_widget_set_name (tree_view, "tree_view");
     g_object_set_data ( G_OBJECT ( account_page ), "hist_tree_view", tree_view );
 
     tree_model = gtk_tree_store_new ( SPP_HISTORICAL_NUM_COLUMNS,

@@ -433,21 +433,6 @@ void lance_mailer (const gchar *uri)
 }
 
 /**
- * positionne les couleurs pour les tree_view
- *
- *\param tree_view
- *
- * */
-void utils_set_tree_view_selection_and_text_color (GtkWidget *tree_view)
-{
-    gtk_widget_override_background_color (tree_view, GTK_STATE_FLAG_SELECTED, gsb_rgba_get_couleur ("couleur_selection"));
-    gtk_widget_override_background_color (tree_view, GTK_STATE_FLAG_ACTIVE, gsb_rgba_get_couleur ("couleur_selection"));
-
-    gtk_widget_override_background_color (tree_view, GTK_STATE_FLAG_SELECTED, gsb_rgba_get_couleur_with_indice ("text_color", 0));
-    gtk_widget_override_background_color (tree_view, GTK_STATE_FLAG_ACTIVE, gsb_rgba_get_couleur_with_indice ("text_color", 0));
-}
-
-/**
  * set the background colors of the list
  *
  * \param tree_view

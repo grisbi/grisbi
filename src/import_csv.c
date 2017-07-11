@@ -1690,6 +1690,7 @@ GtkWidget *import_create_csv_preview_page (GtkWidget *assistant)
     gtk_box_pack_start (GTK_BOX(paddingbox), sw, TRUE, TRUE, 6);
 
     tree_preview = gtk_tree_view_new ();
+	gtk_widget_set_name (tree_preview, "tree_view");
     g_object_set_data (G_OBJECT(assistant), "tree_preview", tree_preview);
     g_object_set_data (G_OBJECT(tree_preview), "assistant", assistant);
     gtk_container_add (GTK_CONTAINER (sw), tree_preview);

@@ -273,6 +273,7 @@ GtkWidget *onglet_accueil ( void )
     /* create the treeview */
     treeview = gtk_tree_view_new_with_model (
                         GTK_TREE_MODEL (list_store) );
+	gtk_widget_set_name (treeview, "tree_view");
     g_object_unref ( list_store );
 
     gtk_widget_set_size_request ( treeview, -1, 150 );
@@ -425,6 +426,7 @@ GtkWidget *onglet_messages_and_warnings ( void )
 
     /* create the treeview */
     tree_view = gtk_tree_view_new();
+	gtk_widget_set_name (tree_view, "tree_view");
     gtk_tree_view_set_model ( GTK_TREE_VIEW (tree_view), GTK_TREE_MODEL (model) );
     g_object_unref (G_OBJECT(model));
     gtk_container_add (GTK_CONTAINER (sw), tree_view);
@@ -499,6 +501,7 @@ GtkWidget *onglet_delete_messages ( void )
     model = GTK_TREE_MODEL(gtk_tree_store_new ( 3, G_TYPE_INT, G_TYPE_STRING, G_TYPE_INT ) );
 
     tree_view = gtk_tree_view_new();
+	gtk_widget_set_name (tree_view, "tree_view");
     gtk_tree_view_set_model ( GTK_TREE_VIEW (tree_view), GTK_TREE_MODEL (model) );
     g_object_unref (G_OBJECT(model));
     gtk_container_add (GTK_CONTAINER (sw), tree_view);

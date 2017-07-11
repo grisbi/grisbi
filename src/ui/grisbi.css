@@ -105,10 +105,6 @@ column-header .button {
  * treeview *
  ************/
 
-GtkTreeView:selected:focus {
-	background-color: @couleur_selection;
-}
-
 /*GtkTreeView row:nth-child(even) {
 	background-color: @couleur_fond_0;
 }
@@ -133,6 +129,16 @@ GtkTreeView row:nth-child(odd) {
 /************
  * private  *
  ************/
+
+#tree_view.view:hover {
+	background-color: mix(@couleur_selection, white, 0.5);
+	background-image: none;
+}
+
+#tree_view.view:selected {
+	background-color: @couleur_selection;
+	background-image: none;
+}
 
 #grey_box {
   background-color: @couleur_grey_box;
