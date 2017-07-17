@@ -613,7 +613,7 @@ static void prefs_page_archives_setup_archives_page (PrefsPageArchives *page)
 	if (!conf.archives_check_auto)
 		gtk_widget_set_sensitive (GTK_WIDGET (priv->spinbutton_archives_check_auto), FALSE);
 
-    //~ /* callback for spinbutton_ */
+    /* callback for spinbutton_ */
     g_object_set_data (G_OBJECT (priv->spinbutton_archives_check_auto),
                        "button", priv->checkbutton_archives_check_auto);
 	g_object_set_data (G_OBJECT (priv->checkbutton_archives_check_auto),
