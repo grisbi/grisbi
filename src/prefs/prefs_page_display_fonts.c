@@ -41,6 +41,7 @@
 #include "accueil.h"
 #include "affichage.h"
 #include "custom_list.h"
+#include "grisbi_settings.h"
 #include "gsb_data_account.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
@@ -94,7 +95,7 @@ G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageDisplayFonts, prefs_page_display_fonts, GTK
  * \return FALSE
  * */
 static gboolean prefs_page_display_fonts_set_color_default (GtkWidget *button,
-                        GtkWidget *combobox)
+                                                            GtkWidget *combobox)
 {
     GtkTreeIter iter;
 
@@ -197,7 +198,7 @@ static gboolean prefs_page_display_fonts_view_color_changed (GtkWidget *color_bu
  * \return
  * */
 static void prefs_page_display_fonts_update_fonte_listes (gchar *fontname,
-												   gpointer null)
+                                                          gpointer null)
 {
     GValue value = G_VALUE_INIT;
     gchar *font;
@@ -218,6 +219,25 @@ static void prefs_page_display_fonts_update_fonte_listes (gchar *fontname,
 }
 
 /**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ * */
+static void prefs_page_display_fonts_checkbutton_checked (GtkWidget *checkbutton,
+                                                          gboolean *value)
+{
+	GSettings *settings;
+	gchar *tmp_str;
+
+	settings = grisbi_settings_get_settings (SETTINGS_GENERAL);
+	tmp_str = g_object_get_data (G_OBJECT (checkbutton), "custom-fonte-listes");
+	g_settings_set_boolean (G_SETTINGS (settings), tmp_str, *value);
+}
+
+/**
  * update the preview of the logo file chooser
  *
  * \param file_chooser
@@ -226,7 +246,7 @@ static void prefs_page_display_fonts_update_fonte_listes (gchar *fontname,
  * \return FALSE
  * */
 static void prefs_page_display_fonts_change_logo_accueil (GtkWidget *file_selector,
-												   PrefsPageDisplayFonts *page)
+                                                          PrefsPageDisplayFonts *page)
 {
 	GtkWidget *logo_accueil;
 	GtkWidget *preview;
@@ -305,6 +325,18 @@ static void prefs_page_display_fonts_change_logo_accueil (GtkWidget *file_select
 
 	/* Mark file as modified */
 	utils_prefs_gsb_file_set_modified ();
+}
+
+
+static void prefs_page_display_fonts_font_button_clicked (GtkWidget *button,
+                                                          gchar *value)
+{
+	GSettings *settings;
+	gchar *tmp_str;
+
+	settings = grisbi_settings_get_settings (SETTINGS_GENERAL);
+	tmp_str = g_object_get_data (G_OBJECT (button), "font-string");
+	g_settings_set_string (G_SETTINGS (settings), tmp_str, conf.font_string);
 }
 
 /**
@@ -412,7 +444,6 @@ static gboolean prefs_page_display_fonts_logo_accueil_changed (PrefsPageDisplayF
 static gboolean prefs_page_display_fonts_utilise_logo_checked (GtkWidget *check_button,
 															   GtkWidget *hbox)
 {
-
     etat.utilise_logo = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check_button));
     gtk_widget_set_sensitive (hbox, etat.utilise_logo);
 
@@ -492,7 +523,6 @@ static void prefs_page_display_fonts_setup_display_fonts_page (PrefsPageDisplayF
     }
     else
     {
-
 		preview = gtk_image_new_from_pixbuf (pixbuf);
     }
 	priv->preview_display_logo = preview;
@@ -527,20 +557,37 @@ static void prefs_page_display_fonts_setup_display_fonts_page (PrefsPageDisplayF
 
 	/* Create font button */
     font_button = utils_prefs_fonts_create_button (&conf.font_string,
-											G_CALLBACK (prefs_page_display_fonts_update_fonte_listes),
-											NULL);
+                                                   G_CALLBACK (prefs_page_display_fonts_update_fonte_listes),
+                                                   NULL);
 	g_object_set_data (G_OBJECT (priv->checkbutton_display_fonts), "widget", font_button);
     gtk_box_pack_start (GTK_BOX (priv->hbox_display_fonts), font_button, FALSE, FALSE, 0);
 
-    if (!gsb_data_account_get_accounts_amount ())
+    if (!gsb_data_account_get_accounts_amount () || !conf.custom_fonte_listes)
     {
         gtk_widget_set_sensitive (font_button, FALSE);
     }
+	else
+		gtk_widget_set_sensitive (font_button, TRUE);
 
 	g_signal_connect (priv->checkbutton_display_fonts,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
 					  &conf.custom_fonte_listes);
+
+	/* set g_settings for fonts */
+	g_signal_connect_after (priv->checkbutton_display_fonts,
+							"toggled",
+							G_CALLBACK (prefs_page_display_fonts_checkbutton_checked),
+							&conf.custom_fonte_listes);
+
+	g_object_set_data (G_OBJECT (priv->checkbutton_display_fonts), "custom-fonte-listes", "custom-fonte-listes");
+
+	g_signal_connect_after (font_button,
+							"clicked",
+							G_CALLBACK (prefs_page_display_fonts_font_button_clicked),
+							&conf.font_string);
+	g_object_set_data (G_OBJECT (font_button), "font-string", "font-string");
+
 
 	/* set the elements for colors */
 	combobox_select_colors = gsb_rgba_create_color_combobox ();

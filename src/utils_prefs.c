@@ -68,7 +68,7 @@ static GtkTreeIter *page_parent_iter;
  * \param null not used
  */
 static gboolean utils_prefs_automem_checkbutton_changed (GtkWidget *checkbutton,
-						  gpointer null)
+                                                         gpointer null)
 {
     gboolean *value;
 
@@ -83,9 +83,60 @@ static gboolean utils_prefs_automem_checkbutton_changed (GtkWidget *checkbutton,
 }
 
 
-/******************************************************************************/
-/* Public functions                                                           */
-/******************************************************************************/
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+static gchar *utils_prefs_fonts_get_css_data_for_font (gchar *fontname)
+{
+	gchar *data = NULL;
+	gchar *pointer_bold = NULL;
+	gchar *pointer_italic = NULL;
+	gchar *tmp_name;
+
+	pointer_bold = g_strstr_len (fontname, -1, "Bold");
+	if (pointer_bold)
+	{
+		tmp_name = g_strndup (fontname, (pointer_bold - fontname));
+		pointer_italic = g_strstr_len (fontname, -1, "Italic");
+		if (pointer_italic)
+		{
+			data = g_strconcat ("#font_label {font-family: ", tmp_name, "; font-weight: bold; font-style: italic;}",  NULL);
+		}
+		else
+		{
+			data = g_strconcat ("#font_label {font-family: ", tmp_name, "; font-weight: bold;}",  NULL);
+		}
+		g_free (tmp_name);
+
+		return data;
+	}
+	else
+	{
+		pointer_italic = g_strstr_len (fontname, -1, "Italic");
+
+		if (pointer_italic)
+		{
+			tmp_name = g_strndup (fontname, (pointer_italic - fontname));
+			data = g_strconcat ("#font_label {font-family: ", tmp_name, "; font-style: italic;}",  NULL);
+			g_free (tmp_name);
+
+			return data;
+		}
+		else
+		{
+			data = g_strconcat ("#font_label {font-family: ", fontname, "}", NULL);
+
+			return data;
+		}
+	}
+
+	return NULL;
+}
+
 /**
  * Update two labels according to font name, which is parsed to
  * separate both name and size
@@ -112,10 +163,6 @@ static void utils_prefs_fonts_update_labels (GtkWidget *button,
 
 		css_provider = gtk_css_provider_get_default ();
 
-		data = g_strconcat ("GtkLabel#font_label {font: ", fontname, "}", NULL);
-		gtk_css_provider_load_from_data (css_provider, data, -1, NULL);
-		g_free (data);
-
 		font_name = my_strdup (fontname);
 		tmp = font_name + strlen(font_name) - 1;
 		while (g_ascii_isdigit(*tmp) ||
@@ -129,17 +176,23 @@ static void utils_prefs_fonts_update_labels (GtkWidget *button,
 			*tmp=0;
 			tmp--;
 		}
+
+		/* set the font for label */
+		data = utils_prefs_fonts_get_css_data_for_font (font_name);
+		gtk_css_provider_load_from_data (css_provider, data, -1, NULL);
+		g_free (data);
     }
     else
     {
-		font_name = my_strdup (_("No font defined"));
-		font_size = NULL;
+		font_name = my_strdup ("Monospace");
+		font_size = "10";
+		conf.custom_fonte_listes = FALSE;
     }
-
     gtk_label_set_text (GTK_LABEL(font_name_label), font_name);
     gtk_label_set_text (GTK_LABEL(font_size_label), font_size);
 
-    if (font_name) g_free (font_name);
+    if (font_name)
+		g_free (font_name);
 }
 
 /**
@@ -151,8 +204,8 @@ static void utils_prefs_fonts_update_labels (GtkWidget *button,
  *
  * \return FALSE
  * */
-static gboolean utils_prefs_fonts_choose (GtkWidget *button,
-										  gchar **fontname)
+static gboolean utils_prefs_fonts_button_choose_font_clicked (GtkWidget *button,
+                                                              gchar **fontname)
 {
     gchar *new_fontname;
     GtkWidget *dialog;
@@ -163,7 +216,9 @@ static gboolean utils_prefs_fonts_choose (GtkWidget *button,
     dialog = gtk_font_chooser_dialog_new (_("Choosing font"), GTK_WINDOW (prefs_dialog));
 
     if (*fontname)
+	{
 		gtk_font_chooser_set_font (GTK_FONT_CHOOSER (dialog), *fontname);
+	}
     gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 
     switch (gtk_dialog_run (GTK_DIALOG (dialog)))
@@ -179,19 +234,21 @@ static gboolean utils_prefs_fonts_choose (GtkWidget *button,
     }
 
     if (*fontname)
-	g_free (*fontname);
+        g_free (*fontname);
     *fontname = new_fontname;
 
     hook = g_object_get_data (G_OBJECT (button), "hook");
     if (hook)
     {
-	hook (new_fontname,
-	      g_object_get_data (G_OBJECT (button), "data"));
+		hook (new_fontname, g_object_get_data (G_OBJECT (button), "data"));
     }
 
-    return FALSE;
+	return FALSE;
 }
 
+/******************************************************************************/
+/* Public functions                                                           */
+/******************************************************************************/
 /**
  * Creates a new radio buttons group with two choices.  Toggling will
  * change the content of an integer passed as an argument.
@@ -480,7 +537,9 @@ gboolean utils_prefs_left_panel_tree_view_selection_changed (GtkTreeSelection *s
     gint selected;
 
     if (! gtk_tree_selection_get_selected (selection, &model, &iter))
-        return(FALSE);
+	{
+        return (FALSE);
+	}
 
     gtk_tree_model_get (model, &iter, 1, &selected, -1);
     gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), selected);
@@ -781,7 +840,7 @@ GtkWidget *utils_prefs_fonts_create_button (gchar **fontname,
     font_button = gtk_button_new ();
     g_signal_connect (G_OBJECT (font_button),
 					  "clicked",
-					  G_CALLBACK (utils_prefs_fonts_choose),
+					  G_CALLBACK (utils_prefs_fonts_button_choose_font_clicked),
 					  fontname);
 
     hbox_font = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
@@ -798,7 +857,7 @@ GtkWidget *utils_prefs_fonts_create_button (gchar **fontname,
     g_object_set_data (G_OBJECT (font_button), "name_label", font_name_label);
     g_object_set_data (G_OBJECT (font_button), "size_label", font_size_label);
 
-    utils_prefs_fonts_update_labels(font_button, *fontname);
+    utils_prefs_fonts_update_labels (font_button, *fontname);
 
     return font_button;
 }

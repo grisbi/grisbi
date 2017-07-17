@@ -239,7 +239,7 @@
       <description>If TRUE, Grisbi uses custom fonts for lists.</description>
     </key>
     <key name="font-string" type="s">
-      <default>"Monospace 12"</default>
+      <default>"Monospace 10"</default>
       <summary>Font name</summary>
       <description>
         If utilise-fonte-listes = TRUE, this is the name of the custom font.
