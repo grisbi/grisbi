@@ -37,16 +37,18 @@
 #define MARGIN_BOTTOM           10
 #define MARGIN_PADDING_BOX      15
 
-/* height for widget */
-#define SW_MIN_HEIGHT			150
-
 /* width for widget */
 #define BOX_BORDER_WIDTH		10
 #define ENTRY_MIN_WIDTH_1		100
 
-/* coeff_util for Scrolled_Window */
-#define SW_COEFF_UTIL_PG        90             /* Scrolled Window in paddinggrid in prefs */
-#define SW_COEFF_UTIL_SW        93             /* Scrolled Window in prefs */
+/* constants for Preferences */
+#define PREFS_MIN_WIN_HEIGHT	600				/* Hauteur Min de la fenetre des preferences */
+#define PREFS_MIN_WIN_WIDTH		800				/* Largeur Min de la fenetre des preferences */
+#define PREFS_MIN_PANED_WIDTH	120				/* Largeur Min du panel gauche des preferences */
+#define SW_COEFF_UTIL_PG        90             	/* Scrolled Window in paddinggrid in prefs */
+#define SW_COEFF_UTIL_SW        93				/* Scrolled Window in prefs */
+#define SW_MAX_CONTENT_WIDTH	600				/* Since Gtk-3.22 */
+#define SW_MIN_HEIGHT			150
 
 /* used for gtk_tree_view_column_set_alignment() */
 #define COLUMN_LEFT 0.0

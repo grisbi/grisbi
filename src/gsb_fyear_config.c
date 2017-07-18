@@ -143,7 +143,7 @@ GtkWidget *gsb_fyear_config_create_page ( void )
     paddinggrid = utils_prefs_paddinggrid_new_with_title (vbox_pref, _("Known financial years"));
 
     /* Create financial years list */
-    scrolled_window = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, 160);
+    scrolled_window = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, SW_MIN_HEIGHT);
     gtk_grid_attach (GTK_GRID (paddinggrid), scrolled_window, 0, 0, 2, 3);
 
 	/* Create button for sort variable */
@@ -210,13 +210,8 @@ GtkWidget *gsb_fyear_config_create_page ( void )
 				     G_CALLBACK (gsb_fyear_config_modify_fyear), fyear_config_treeview,
 				     G_CALLBACK (gsb_data_fyear_set_name), 0 );
     g_object_set_data ( G_OBJECT (tree_model), "fyear_name_entry", entry );
-    gtk_widget_set_size_request (entry, 150, -1);
     gtk_widget_set_margin_end (entry, MARGIN_END);
     gtk_grid_attach (GTK_GRID (paddinggrid), entry, 1, 0, 1, 1);
-
-    label = gtk_label_new ("                                                  ");
-    gtk_widget_set_size_request (label, 400, -1);
-    gtk_grid_attach (GTK_GRID (paddinggrid), label, 2, 0, 2, 1);
 
     /* Start */
     label = gtk_label_new ( _("Start: ") );
@@ -227,7 +222,6 @@ GtkWidget *gsb_fyear_config_create_page ( void )
 				    G_CALLBACK (gsb_fyear_config_modify_fyear), fyear_config_treeview,
 				    G_CALLBACK (gsb_data_fyear_set_beginning_date), 0 );
     g_object_set_data ( G_OBJECT (tree_model), "fyear_begin_date_entry", entry );
-    gtk_widget_set_size_request (entry, 150, -1);
     gtk_widget_set_margin_end (entry, MARGIN_END);
     gtk_grid_attach (GTK_GRID (paddinggrid), entry, 1, 1, 1, 1);
 
@@ -241,14 +235,14 @@ GtkWidget *gsb_fyear_config_create_page ( void )
 				    G_CALLBACK (gsb_fyear_config_modify_fyear), fyear_config_treeview,
 				    G_CALLBACK (gsb_data_fyear_set_end_date), 0 );
     g_object_set_data ( G_OBJECT (tree_model), "fyear_end_date_entry", entry );
-    gtk_widget_set_size_request (entry, 150, -1);
     gtk_widget_set_margin_end (entry, MARGIN_END);
     gtk_grid_attach (GTK_GRID (paddinggrid), entry, 1, 2, 1, 1);
 
     /* label showed if the fyear is invalid */
     label = gtk_label_new (NULL);
+	gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
     g_object_set_data ( G_OBJECT (tree_model), "invalid_label", label );
-    gtk_grid_attach (GTK_GRID (paddinggrid), label, 2, 1, 2, 1);
+    gtk_grid_attach (GTK_GRID (paddinggrid), label, 2, 1, 2, 2);
 
     /* Activate in transaction form? */
     button = gsb_autofunc_checkbutton_new ( _("Activate financial year in transaction form"), FALSE,
@@ -422,7 +416,6 @@ gboolean gsb_fyear_config_select ( GtkTreeSelection *tree_selection,
     GtkTreeModel *model;
     GtkTreeIter iter;
     gint fyear_number;
-    //~ GtkWidget *tree_view;
     GtkWidget *widget;
 
     if (!gtk_tree_selection_get_selected ( GTK_TREE_SELECTION (tree_selection),
@@ -434,8 +427,6 @@ gboolean gsb_fyear_config_select ( GtkTreeSelection *tree_selection,
 			 &iter,
 			 FYEAR_NUMBER_COLUMN, &fyear_number,
 			 -1 );
-
-    //~ tree_view = GTK_WIDGET (gtk_tree_selection_get_tree_view (tree_selection));
 
     /* set the name */
     widget = g_object_get_data ( G_OBJECT (model),

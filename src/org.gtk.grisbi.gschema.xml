@@ -239,7 +239,8 @@
       <description>If TRUE, Grisbi uses custom fonts for lists.</description>
     </key>
     <key name="font-string" type="s">
-      <default>"Monospace 10"</default>
+      <default>"Monospace 10
+"</default>
       <summary>Font name</summary>
       <description>
         If utilise-fonte-listes = TRUE, this is the name of the custom font.
@@ -493,17 +494,17 @@
 	    </description>
 	  </key>
 	  <key name="prefs-height" type="i">
-	    <default>750</default>
+	    <default>600</default>
 	    <summary>Height of the preference window</summary>
 	    <description>The height of the preference window.</description>
 	  </key>
 	  <key name="prefs-panel-width" type="i">
-	    <default>200</default>
+	    <default>360</default>
 	    <summary>Width of the preference panel</summary>
 	    <description>The width of the preference panel.</description>
 	  </key>
 	  <key name="prefs-width" type="i">
-	    <default>1150</default>
+	    <default>1050</default>
 	    <summary>Width of the preference window</summary>
 	    <description>The width of the preference window.</description>
 	  </key>

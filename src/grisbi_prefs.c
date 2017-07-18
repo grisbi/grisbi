@@ -38,6 +38,7 @@
 #include "bet_config.h"
 #include "dialog.h"
 #include "grisbi_app.h"
+#include "grisbi_settings.h"
 #include "gsb_bank.h"
 #include "gsb_currency_config.h"
 #include "gsb_currency_link_config.h"
@@ -81,12 +82,10 @@ typedef struct _GrisbiPrefsPrivate GrisbiPrefsPrivate;
 
 struct _GrisbiPrefsPrivate
 {
-  GtkWidget           *prefs_paned;
 
     /* panel de gauche */
     GtkWidget *			left_sw;
     GtkWidget *      	left_treeview;
-    GtkTreeStore *    	prefs_tree_model;
 
     /* notebook de droite */
     GtkWidget *         notebook_prefs;
@@ -95,7 +94,7 @@ struct _GrisbiPrefsPrivate
 	GtkWidget *      	label_import_page_2;
 
 	/* pages num */
-	gint 				form_content;
+	gint 				form_num_page;
  };
 
 
@@ -112,18 +111,35 @@ G_DEFINE_TYPE_WITH_PRIVATE (GrisbiPrefs, grisbi_prefs, GTK_TYPE_DIALOG)
  *
  * \return
  **/
-static void grisbi_prefs_dialog_response  (GtkDialog *prefs,
-										   gint result_id)
+void grisbi_prefs_dialog_response  (GtkDialog *prefs,
+                                    gint result_id)
 {
-    if (!prefs)
-  {
+	GSettings *settings;
+
+    devel_debug (NULL);
+	if (!prefs)
+	{
         return;
-  }
+	}
 
-  /* on récupère la dimension de la fenêtre */
-  gtk_window_get_size (GTK_WINDOW (prefs), &conf.prefs_width, &conf.prefs_height);
+	/* on récupère la dimension de la fenêtre */
+	gtk_window_get_size (GTK_WINDOW (prefs), &conf.prefs_width, &conf.prefs_height);
 
-  gtk_widget_destroy (GTK_WIDGET (prefs));
+	settings = grisbi_settings_get_settings (SETTINGS_PREFS);
+
+    g_settings_set_int (G_SETTINGS (settings),
+                        "prefs-height",
+                        conf.prefs_height);
+
+    g_settings_set_int (G_SETTINGS (settings),
+                        "prefs-panel-width",
+                        conf.prefs_panel_width);
+
+    g_settings_set_int (G_SETTINGS (settings),
+                        "prefs-width",
+                        conf.prefs_width);
+
+	gtk_widget_destroy (GTK_WIDGET (prefs));
 }
 
 /**
@@ -139,8 +155,17 @@ static gboolean grisbi_prefs_size_allocate (GtkWidget *prefs,
 											GtkAllocation *allocation,
 											gpointer null)
 {
+
+	GSettings *settings;
+
+	settings = grisbi_settings_get_settings (SETTINGS_PREFS);
     conf.prefs_height = allocation->height;
 	conf.prefs_width = allocation->width;
+
+    /* save settings_prefs */
+	g_settings_set_int (G_SETTINGS (settings), "prefs-height", conf.prefs_height);
+	g_settings_set_int (G_SETTINGS (settings), "prefs-width", conf.prefs_width);
+	g_settings_set_int (G_SETTINGS (settings), "prefs-panel-width", conf.prefs_panel_width);
 
 	return FALSE;
 }
@@ -193,6 +218,7 @@ static void grisbi_prefs_setup_import_page (GrisbiPrefs *prefs)
 
 	/* set notebook for import */
 	notebook_import_pages = gtk_notebook_new ();
+	utils_widget_set_padding (notebook_import_pages, MARGIN_BOX, 0);
 	gtk_notebook_set_show_border (GTK_NOTEBOOK (notebook_import_pages), FALSE);
 	gtk_box_pack_start (GTK_BOX (priv->vbox_import_page), notebook_import_pages, FALSE, FALSE, 0);
 
@@ -222,10 +248,10 @@ static void grisbi_prefs_setup_import_page (GrisbiPrefs *prefs)
  *
  * \return
  * */
-static void grisbi_prefs_left_panel_populate_tree_model (GtkTreeStore *tree_model,
-														 GrisbiPrefs *prefs)
+static void grisbi_prefs_left_panel_populate_tree_model (GrisbiPrefs *prefs)
 {
     GtkWidget *widget = NULL;
+	GtkTreeStore *tree_model;
     gint page = 0;
 	GrisbiPrefsPrivate *priv;
 
@@ -233,6 +259,7 @@ static void grisbi_prefs_left_panel_populate_tree_model (GtkTreeStore *tree_mode
 
 	priv = grisbi_prefs_get_instance_private (prefs);
 
+	tree_model = GTK_TREE_STORE (gtk_tree_view_get_model (GTK_TREE_VIEW (priv->left_treeview)));
 	/* append group page "Generalities" */
     utils_prefs_left_panel_add_line (tree_model, NULL, NULL, _("Generalities"), -1);
 
@@ -267,8 +294,6 @@ static void grisbi_prefs_left_panel_populate_tree_model (GtkTreeStore *tree_mode
 
 	/* append page Fonts & logo */
 	widget = GTK_WIDGET (prefs_page_display_fonts_new (prefs));
-	//~ widget = GTK_WIDGET (onglet_display_fonts ());
-	utils_widget_set_padding (widget, MARGIN_BOX, 0);
 	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Fonts & Logo"), page);
 	page++;
 
@@ -336,7 +361,7 @@ static void grisbi_prefs_left_panel_populate_tree_model (GtkTreeStore *tree_mode
 	widget = GTK_WIDGET (gsb_form_config_create_page ());
 	utils_widget_set_padding (widget, MARGIN_BOX, 0);
 	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Content"), page);
-	priv->form_content = page;
+	priv->form_num_page = page;
 	page++;
 
 	/* append page Behavior */
@@ -398,9 +423,6 @@ static void grisbi_prefs_left_panel_populate_tree_model (GtkTreeStore *tree_mode
 	utils_widget_set_padding (widget, MARGIN_BOX, 0);
 	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Accounts data"), page);
 	page++;
-
-    //~ /* append group page "Graphiques" */
-    //~ utils_prefs_left_panel_add_line (tree_model, NULL, NULL, _("Graphs"), -1);
 }
 
 /**
@@ -409,8 +431,9 @@ static void grisbi_prefs_left_panel_populate_tree_model (GtkTreeStore *tree_mode
  *
  *\return tree_view or NULL;
  * */
-static void grisbi_prefs_left_tree_view_setup (GrisbiPrefs *prefs)
+static GtkWidget *grisbi_prefs_left_tree_view_setup (GrisbiPrefs *prefs)
 {
+	GtkWidget *sw;
     GtkWidget *tree_view = NULL;
     GtkTreeStore *model = NULL;
     GtkTreeViewColumn *column;
@@ -428,9 +451,13 @@ static void grisbi_prefs_left_tree_view_setup (GrisbiPrefs *prefs)
 								G_TYPE_INT,     				/* LEFT_PANEL_TREE_PAGE_COLUMN */
 								G_TYPE_INT,     				/* LEFT_PANEL_TREE_BOLD_COLUMN */
 								G_TYPE_INT);    				/* LEFT_PANEL_TREE_ITALIC_COLUMN */
+    /* Create sw */
+	sw = gtk_scrolled_window_new (NULL, NULL);
+    gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw), GTK_SHADOW_IN);
+    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
     /* Create treeView */
-    tree_view = priv->left_treeview;
+    tree_view = gtk_tree_view_new ();
     gtk_tree_view_set_model (GTK_TREE_VIEW (tree_view), GTK_TREE_MODEL (model));
     g_object_unref (G_OBJECT (model));
 
@@ -470,9 +497,12 @@ static void grisbi_prefs_left_tree_view_setup (GrisbiPrefs *prefs)
 					  "realize",
 					  G_CALLBACK (utils_tree_view_set_expand_all_and_select_path_realize),
 					  "0:0");
+    priv->left_treeview = tree_view;
 
-    /* remplissage du paned gauche */
-    grisbi_prefs_left_panel_populate_tree_model (model, prefs);
+    /* Put the tree in the scroll */
+    gtk_container_add (GTK_CONTAINER (sw), tree_view);
+
+	return sw;
 }
 
 /******************************************************************************/
@@ -480,41 +510,71 @@ static void grisbi_prefs_left_tree_view_setup (GrisbiPrefs *prefs)
 /******************************************************************************/
 static void grisbi_prefs_init (GrisbiPrefs *prefs)
 {
+	GtkWidget *content_area;
+	GtkWidget *prefs_paned;
+	GtkWidget *tree;
+	GtkWidget *hbox;
 	GrisbiPrefsPrivate *priv;
 
 	devel_debug (NULL);
 
 	priv = grisbi_prefs_get_instance_private (prefs);
-	gtk_widget_init_template (GTK_WIDGET (prefs));
 
     gtk_dialog_add_buttons (GTK_DIALOG (prefs), "gtk-close", GTK_RESPONSE_CLOSE, NULL);
 
+	g_signal_connect (G_OBJECT (prefs), "size-allocate", (GCallback) grisbi_prefs_size_allocate, NULL);
+
+	gtk_window_set_transient_for (GTK_WINDOW (prefs), GTK_WINDOW (grisbi_app_get_active_window (NULL)));
     gtk_window_set_destroy_with_parent (GTK_WINDOW (prefs), TRUE);
 
-    /* set the default size */
-    if (conf.prefs_width && conf.prefs_width > 830)
+	/* construct the prefs archi */
+	content_area = gtk_dialog_get_content_area (GTK_DIALOG (prefs));
+	prefs_paned = gtk_paned_new (GTK_ORIENTATION_HORIZONTAL);
+	g_signal_connect (G_OBJECT (prefs_paned), "size-allocate", (GCallback) grisbi_prefs_paned_size_allocate, NULL);
+
+    /* Frame for preferences */
+    hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+    priv->notebook_prefs = gtk_notebook_new ();
+    gtk_notebook_set_show_border (GTK_NOTEBOOK (priv->notebook_prefs), FALSE);
+    gtk_notebook_set_show_tabs  (GTK_NOTEBOOK (priv->notebook_prefs), FALSE);
+    gtk_notebook_set_scrollable (GTK_NOTEBOOK (priv->notebook_prefs), TRUE);
+    gtk_box_pack_start (GTK_BOX (hbox), priv->notebook_prefs, TRUE, TRUE, 0);
+
+	/* initialise left_tree_view */
+	tree = grisbi_prefs_left_tree_view_setup (prefs);
+
+	/* construct paned */
+    gtk_paned_pack1 (GTK_PANED (prefs_paned), tree, TRUE, FALSE);
+    gtk_paned_pack2 (GTK_PANED (prefs_paned), hbox, TRUE, FALSE);
+
+	gtk_container_set_border_width (GTK_CONTAINER(prefs_paned), MARGIN_BOX);
+    gtk_box_pack_start (GTK_BOX (content_area), prefs_paned, TRUE, TRUE, 0);
+	if (conf.prefs_height && conf.prefs_width)
 	{
         gtk_window_set_default_size (GTK_WINDOW (prefs), conf.prefs_width, conf.prefs_height);
 	}
     else
 	{
-        gtk_window_set_default_size (GTK_WINDOW (prefs), 830, conf.prefs_height);
+        gtk_window_set_default_size (GTK_WINDOW (prefs), PREFS_MIN_WIN_WIDTH, PREFS_MIN_WIN_HEIGHT);
 	}
 
-	if (conf.prefs_panel_width > 200)
+	if (conf.prefs_panel_width)
 	{
-        gtk_paned_set_position (GTK_PANED (priv->prefs_paned), conf.prefs_panel_width);
+        gtk_paned_set_position (GTK_PANED (prefs_paned), conf.prefs_panel_width);
 	}
     else
 	{
-		gtk_paned_set_position (GTK_PANED (priv->prefs_paned), 200);
+		gtk_paned_set_position (GTK_PANED (prefs_paned), PREFS_MIN_PANED_WIDTH);
 	}
 
-	/* initialise left_tree_view */
-	grisbi_prefs_left_tree_view_setup (prefs);
+	/* creation de la vbox pour la page import */
+	priv->vbox_import_page = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 
-	gtk_widget_show_all (GTK_WIDGET (prefs));
+	/* remplissage du paned gauche */
+    grisbi_prefs_left_panel_populate_tree_model (prefs);
+
 }
+
 /**
  * finalise GrisbiPrefs
  *
@@ -525,8 +585,6 @@ static void grisbi_prefs_init (GrisbiPrefs *prefs)
 static void grisbi_prefs_finalize (GObject *object)
 {
 /*     GrisbiPrefs *prefs = GRISBI_PREFS (object);  */
-
-    devel_debug (NULL);
 
     /* libération de l'objet prefs */
     G_OBJECT_CLASS (grisbi_prefs_parent_class)->finalize (object);
@@ -545,21 +603,6 @@ static void grisbi_prefs_class_init (GrisbiPrefsClass *klass)
     GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
     object_class->finalize = grisbi_prefs_finalize;
-
-	gtk_widget_class_set_template_from_resource (GTK_WIDGET_CLASS (klass),
-												 "/org/gtk/grisbi/ui/grisbi_prefs.ui");
-
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiPrefs, prefs_paned);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiPrefs, left_treeview);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiPrefs, notebook_prefs);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiPrefs, vbox_import_page);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiPrefs, label_import_page_1);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiPrefs, label_import_page_2);
-
-	/* signaux */
-    gtk_widget_class_bind_template_callback (GTK_WIDGET_CLASS (klass), grisbi_prefs_dialog_response);
-    gtk_widget_class_bind_template_callback (GTK_WIDGET_CLASS (klass), grisbi_prefs_size_allocate);
-	gtk_widget_class_bind_template_callback (GTK_WIDGET_CLASS (klass), grisbi_prefs_paned_size_allocate);
 }
 
 /******************************************************************************/
@@ -567,7 +610,7 @@ static void grisbi_prefs_class_init (GrisbiPrefsClass *klass)
 /******************************************************************************/
 GrisbiPrefs *grisbi_prefs_new (GrisbiWin *win)
 {
-  return g_object_new (GRISBI_PREFS_TYPE, "transient-for", win, NULL);
+	return g_object_new (GRISBI_PREFS_TYPE, "transient-for", win, NULL);
 }
 
 void grisbi_prefs_set_page_by_name (gchar *page_name)
@@ -580,9 +623,9 @@ void grisbi_prefs_set_page_by_name (gchar *page_name)
 	prefs = grisbi_prefs_new (grisbi_app_get_active_window (NULL));
 	priv = grisbi_prefs_get_instance_private (prefs);
 
-	if (strcmp (page_name, "form_content") == 0)
+	if (strcmp (page_name, "form_num_page") == 0)
 	{
-		utils_prefs_left_panel_tree_view_select_page (priv->left_treeview, priv->notebook_prefs, priv->form_content);
+		utils_prefs_left_panel_tree_view_select_page (priv->left_treeview, priv->notebook_prefs, priv->form_num_page);
 	}
 }
 /**

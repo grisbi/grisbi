@@ -246,6 +246,29 @@ static gboolean utils_prefs_fonts_button_choose_font_clicked (GtkWidget *button,
 	return FALSE;
 }
 
+/**
+ * set the size of scrolled_window in prefs tab
+ *
+ * \param table the table wich receive the 'size-allocate' signal
+ * \param allocation
+ *
+ * \return FALSE
+ * */
+static gboolean utils_prefs_scrolled_window_allocate_size (GtkWidget *widget,
+                                                    GtkAllocation *allocation,
+                                                    gpointer height_ptr)
+{
+	gint height = SW_MIN_HEIGHT;
+
+    /* set the height value */
+    if (height_ptr)
+		height = GPOINTER_TO_INT (height_ptr);
+
+    gtk_widget_set_size_request (widget, SW_MAX_CONTENT_WIDTH, height);
+
+    return FALSE;
+}
+
 /******************************************************************************/
 /* Public functions                                                           */
 /******************************************************************************/
@@ -700,43 +723,6 @@ gboolean utils_prefs_page_eventbox_clicked (GObject *eventbox,
 }
 
 /**
- * set the size of scrolled_window in prefs tab
- *
- * \param table the table wich receive the 'size-allocate' signal
- * \param allocation
- *
- * \return FALSE
- * */
-gboolean utils_prefs_scrolled_window_allocate_size (GtkWidget *widget,
-                                                    GtkAllocation *allocation,
-                                                    gpointer coeff_util)
-{
-    gpointer *ptr;
-    gint position;
-    gint util_allocation;
-    gint coeff = 0;
-
-    coeff = GPOINTER_TO_INT (coeff_util);
-    if (!coeff)
-        return FALSE;
-
-    position = +conf.prefs_panel_width;
-    if (position)
-        util_allocation = coeff * (conf.prefs_width - position)/100;
-    else
-        util_allocation = coeff * (conf.prefs_width - 300)/100;
-
-    /* set the height value */
-    ptr = g_object_get_data (G_OBJECT (widget), "height");
-    if (ptr)
-        gtk_widget_set_size_request (widget, util_allocation, GPOINTER_TO_INT (ptr));
-    else
-        gtk_widget_set_size_request (widget, util_allocation, 350);
-
-    return FALSE;
-}
-
-/**
  *
  *
  * \param
@@ -750,22 +736,23 @@ GtkWidget *utils_prefs_scrolled_window_new (GtkSizeGroup *size_group,
 {
     GtkWidget *sw = NULL;
 
-    sw = gtk_scrolled_window_new (NULL, NULL);
+	sw = gtk_scrolled_window_new (NULL, NULL);
     gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw), type);
     gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
-                                    GTK_POLICY_NEVER,
+                                    GTK_POLICY_AUTOMATIC,
                                     GTK_POLICY_AUTOMATIC);
 
     /* set height */
-    if (height)
-        g_object_set_data (G_OBJECT (sw), "height", GINT_TO_POINTER (height));
+    if (!height)
+		height = SW_MIN_HEIGHT;
+
+	gtk_widget_set_size_request (sw, SW_MAX_CONTENT_WIDTH, height);
 
     /* set signals */
     g_signal_connect (G_OBJECT (sw),
                       "size-allocate",
                       G_CALLBACK (utils_prefs_scrolled_window_allocate_size),
-                      GINT_TO_POINTER (coeff_util));
-
+                      GINT_TO_POINTER (height));
 
     /* set size_group */
     if (size_group)

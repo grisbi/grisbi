@@ -219,13 +219,16 @@ void grisbi_cmd_prefs (GSimpleAction *action,
 {
 	GrisbiPrefs *prefs;
 	GrisbiWin *win;
+	gint result;
 
 	win = grisbi_app_get_active_window (app);
 	prefs = grisbi_prefs_new (win);
 	grisbi_win_set_prefs_dialog (win, GTK_WIDGET (prefs));
-	gtk_window_set_modal (GTK_WINDOW (prefs), TRUE);
 
 	gtk_window_present (GTK_WINDOW (prefs));
+	gtk_widget_show_all (GTK_WIDGET (prefs));
+	result = gtk_dialog_run (GTK_DIALOG (prefs));
+	grisbi_prefs_dialog_response (GTK_DIALOG (prefs), result);
 }
 
 /* HELP MENU */

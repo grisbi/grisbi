@@ -414,12 +414,15 @@ GtkWidget *gsb_form_config_create_buttons_table ( void )
     GtkWidget *table;
     gint current_element_number;
     gint row, column;
+	gint button_width;
 
     /* the table is 3x6 buttons */
     table = gtk_grid_new ();
 
-    /* the date, debit and credit are obligatory, so begin to number 4 */
+	/* calcul de la largeur du bouton */
+	button_width = (SW_MAX_CONTENT_WIDTH - 24)/6;
 
+    /* the date, debit and credit are obligatory, so begin to number 4 */
     current_element_number = 4;
 
     for ( row=0 ; row<3 ; row++ )
@@ -437,7 +440,7 @@ GtkWidget *gsb_form_config_create_buttons_table ( void )
 		changed_string = limit_string ( string, 10 );
 
 		form_config_buttons[column + row*6] = gtk_toggle_button_new_with_label ( changed_string );
-        gtk_widget_set_size_request (form_config_buttons[column + row*6], 110, -1);
+        gtk_widget_set_size_request (form_config_buttons[column + row*6], button_width, -1);
         utils_widget_set_padding (form_config_buttons[column + row*6], 2, 2);
         gtk_widget_set_name (form_config_buttons[column + row*6], "list_config_buttons");
 		g_object_set_data ( G_OBJECT ( form_config_buttons[column + row*6] ),

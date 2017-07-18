@@ -68,8 +68,8 @@
                         <property name="orientation">vertical</property>
                         <property name="spacing">5</property>
                         <child>
-                          <object class="GtkScrolledWindow" id="scrolledwindow1">
-                            <property name="height_request">200</property>
+                          <object class="GtkScrolledWindow" id="scrolledwindow_archives">
+                            <property name="height_request">250</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="hscrollbar_policy">always</property>
@@ -77,7 +77,7 @@
                             <property name="shadow_type">in</property>
                             <property name="kinetic_scrolling">False</property>
                             <property name="overlay_scrolling">False</property>
-                            <property name="max_content_width">550</property>
+                            <property name="max_content_width">600</property>
                             <property name="propagate_natural_width">True</property>
                             <child>
                               <object class="GtkTreeView" id="treeview_archives">

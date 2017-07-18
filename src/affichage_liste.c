@@ -862,14 +862,14 @@ GtkWidget *onglet_affichage_liste ( void )
     GtkListStore* list_store;
 
 	/* à la base, on met une vbox */
-	onglet = new_vbox_with_title_and_icon ( _("Transactions list cells"), "gsb-transaction-list.png" );
+	onglet = new_vbox_with_title_and_icon ( _("Transactions list cells"), "gsb-transaction-list-32.png" );
 
     /* partie 1 visualisation de l'arrangement des données */
 	paddinggrid = utils_prefs_paddinggrid_new_with_title (onglet, _("Transactions list preview"));
-    utils_widget_set_padding (paddinggrid, 15, 0);
+    utils_widget_set_padding (paddinggrid, MARGIN_PADDING_BOX, 0);
 
     /*create the scolled window for tree_view */
-    sw = utils_prefs_scrolled_window_new ( NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, 160 );
+    sw = utils_prefs_scrolled_window_new ( NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, SW_MIN_HEIGHT );
     gtk_grid_attach (GTK_GRID (paddinggrid), sw, 0, 0, 1, 1);
 
     /* create the list_store */
@@ -896,7 +896,6 @@ GtkWidget *onglet_affichage_liste ( void )
 
     /* partie 2 Source des données */
 	paddingbox = new_paddingbox_with_title ( onglet, FALSE, _("Transactions list contents") );
-    utils_widget_set_padding (paddingbox, 15, 0);
 
 	/* on crée maintenant une table de 3x6 boutons */
 	table = gsb_transaction_list_config_create_buttons_table ( tree_view );
@@ -1300,9 +1299,13 @@ GtkWidget *gsb_transaction_list_config_create_buttons_table ( GtkWidget *tree_vi
     GtkWidget *table;
     gint current_number = 0;
     gint row, column;
+	gint button_width;
 
     /* the table is 3x6 buttons */
     table = gtk_grid_new ();
+
+	/* calcul de la largeur du bouton */
+	button_width = (SW_MAX_CONTENT_WIDTH - 24)/6;
 
     for ( row=0 ; row < 3 ; row++ )
 	for ( column = 0 ; column < 6 ; column++ )
@@ -1318,7 +1321,7 @@ GtkWidget *gsb_transaction_list_config_create_buttons_table ( GtkWidget *tree_vi
             changed_string = limit_string ( string, 10 );
 
             list_config_buttons[current_number] = gtk_toggle_button_new_with_label ( changed_string );
-            gtk_widget_set_size_request (list_config_buttons[current_number], 110, -1);
+            gtk_widget_set_size_request (list_config_buttons[current_number], button_width, -1);
             gtk_widget_set_name (list_config_buttons[current_number], "list_config_buttons");
             utils_widget_set_padding (list_config_buttons[current_number], 2, 2);
             g_object_set_data ( G_OBJECT ( list_config_buttons[current_number] ),

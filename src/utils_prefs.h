@@ -42,9 +42,6 @@ void 			utils_prefs_page_dir_chosen 							(GtkWidget *button,
 gboolean 		utils_prefs_page_eventbox_clicked 						(GObject *eventbox,
 																		 GdkEvent *event,
 																		 GtkToggleButton *checkbutton);
-gboolean        utils_prefs_scrolled_window_allocate_size               (GtkWidget *widget,
-                                                                         GtkAllocation *allocation,
-                                                                         gpointer coeff_util);
 GtkWidget *     utils_prefs_scrolled_window_new                         (GtkSizeGroup *size_group,
                                                                          GtkShadowType type,
                                                                          gint coeff_util,

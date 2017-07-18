@@ -24,6 +24,8 @@ GType grisbi_prefs_get_type (void) G_GNUC_CONST;
 
 GrisbiPrefs *	grisbi_prefs_new				(GrisbiWin *win);
 void			grisbi_prefs_set_page_by_name 	(gchar *page_name);
+void 			grisbi_prefs_dialog_response  	(GtkDialog *prefs,
+				                                 gint result_id);
 
 
 //~ GtkWidget *grisbi_prefs_get_widget_by_name ( const gchar *name );

@@ -166,7 +166,7 @@ GtkWidget *onglet_display_addresses ( void )
     utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_grid_attach (GTK_GRID (paddinggrid), label, 0, 0, 1, 1);
 
-    scrolled_window = utils_prefs_scrolled_window_new ( NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, 150 );
+    scrolled_window = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, SW_MIN_HEIGHT);
     gtk_grid_attach (GTK_GRID (paddinggrid), scrolled_window, 0, 1, 2, 3);
 
     entry = gsb_automem_textview_new ( &adresse_commune, NULL, NULL );
@@ -179,7 +179,7 @@ GtkWidget *onglet_display_addresses ( void )
     utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
     gtk_grid_attach (GTK_GRID (paddinggrid), label, 0, 4, 1, 1);
 
-    scrolled_window = utils_prefs_scrolled_window_new ( NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, 150 );
+    scrolled_window = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, SW_MIN_HEIGHT);
     gtk_grid_attach (GTK_GRID (paddinggrid), scrolled_window, 0, 5, 2, 3);
 
     entry = gsb_automem_textview_new ( &adresse_secondaire, NULL, NULL );

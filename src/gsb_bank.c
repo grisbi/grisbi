@@ -454,7 +454,6 @@ GtkWidget *gsb_bank_create_page ( gboolean default_sensitive )
     GtkWidget *vpaned;
     GtkWidget *paned1, *paned2;
     GtkWidget *paddinggrid;
-    GtkWidget *paned2_grid;
     GtkWidget *paned2_sw;
     GtkListStore *store;
     GtkTreeSelection *selection;
@@ -475,7 +474,7 @@ GtkWidget *gsb_bank_create_page ( gboolean default_sensitive )
 
     paddinggrid = utils_prefs_paddinggrid_new_with_title (paned1, _("Known banks"));
 
-    scrolled_window = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, 0);
+    scrolled_window = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, SW_MIN_HEIGHT);
     gtk_grid_attach (GTK_GRID (paddinggrid), scrolled_window, 0, 0, 2, 3);
 
     /* set the store */
@@ -589,19 +588,14 @@ GtkWidget *gsb_bank_create_page ( gboolean default_sensitive )
                       NULL);
     gtk_grid_attach (GTK_GRID (paddinggrid), delete_bank_button, 1, 3, 1, 1);
 
-    /* Add a scroll because bank details are huge */
+	/* Add a scroll because bank details are huge */
     paned2 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-    gtk_paned_pack2 (GTK_PANED (vpaned), paned2, TRUE, FALSE);
-    paned2_grid = gtk_grid_new ();
-    gtk_box_pack_start (GTK_BOX (paned2), paned2_grid, FALSE, FALSE, 0);
+    gtk_paned_pack2 (GTK_PANED (vpaned), paned2, FALSE, FALSE);
 
-    paned2_sw = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_SW, 0);
-    if (default_sensitive)
-    {
-        sw_height = 300;
-        g_object_set_data (G_OBJECT (paned2_sw), "height", GINT_TO_POINTER (sw_height));
-    }
-    gtk_grid_attach (GTK_GRID (paned2_grid), paned2_sw, 0, 0, 1, 1);
+	paddinggrid = utils_prefs_paddinggrid_new_with_title (paned2, _("Bank details"));
+
+    paned2_sw = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_SW, 230);
+    gtk_grid_attach (GTK_GRID (paddinggrid), paned2_sw, 0, 0, 1, 1);
 
     vbox2 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
     gtk_container_add (GTK_CONTAINER (paned2_sw), vbox2);
@@ -668,7 +662,7 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
     GtkSizeGroup * size_group;
 
     /* Bank details */
-    paddinggrid = utils_prefs_paddinggrid_new_with_title ( parent, _("Bank details") );
+    paddinggrid = utils_prefs_paddinggrid_new_with_title ( parent, _("Generalities") );
 
     gtk_grid_set_column_spacing (GTK_GRID (paddinggrid), 5);
     gtk_grid_set_row_spacing (GTK_GRID (paddinggrid), 5);
