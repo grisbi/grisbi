@@ -259,6 +259,11 @@ static void grisbi_settings_init_settings_general (GSettings *settings)
     if (conf.custom_fonte_listes)
     {
         conf.font_string = g_settings_get_string (settings, "font-string");
+		if (strlen (conf.font_string) == 0)
+		{
+			conf.font_string = my_strdup (_("No font defined"));
+			conf.custom_fonte_listes = FALSE;
+		}
     }
 
     tmp_str = g_settings_get_string (settings, "browser-command");
@@ -708,15 +713,6 @@ void grisbi_settings_save_app_config (void)
                         conf.limit_completion_to_current_account);
 
     /* priv->settings_general */
-    g_settings_set_boolean (G_SETTINGS (priv->settings_general),
-                        "custom-fonte-listes",
-                        conf.custom_fonte_listes);
-    if (conf.custom_fonte_listes)
-    {
-        g_settings_set_string (G_SETTINGS (priv->settings_general),
-                        "font-string",
-                        conf.font_string);
-    }
     if (conf.browser_command)
         g_settings_set_string (G_SETTINGS (priv->settings_general),
                         "browser-command",
@@ -797,19 +793,6 @@ void grisbi_settings_save_app_config (void)
                         "panel-width",
                         conf.panel_width);
 
-    /* priv->settings_prefs */
-    g_settings_set_int (G_SETTINGS (priv->settings_prefs),
-                        "prefs-height",
-                        conf.prefs_height);
-
-    g_settings_set_int (G_SETTINGS (priv->settings_prefs),
-                        "prefs-panel-width",
-                        conf.prefs_panel_width);
-
-    g_settings_set_int (G_SETTINGS (priv->settings_prefs),
-                        "prefs-width",
-                        conf.prefs_width);
-
     /* priv->settings_scheduled */
     g_settings_set_boolean (priv->settings_scheduled,
                         "execute-scheduled-of-month",
@@ -826,8 +809,6 @@ GSettings *grisbi_settings_get_settings (gint schema)
 {
     GSettings *settings = NULL;
     GrisbiSettingsPrivate *priv = NULL;
-
-    devel_debug (NULL);
 
     priv = grisbi_settings_get_instance_private (grisbi_settings_get());
 
