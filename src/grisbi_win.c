@@ -99,7 +99,7 @@ struct _GrisbiWinPrivate
     GtkWidget *         vbox_general;
 
 	/* allocations widgets */
-	GtkAllocation		form_general_allocation;
+	gint 				form_expander_label_width;
 	GtkAllocation		navigation_sw_allocation;
 	GtkAllocation		notebook_general_allocation;
 	GtkAllocation		scheduler_calendar_allocation;
@@ -338,17 +338,40 @@ static gboolean grisbi_win_hpaned_size_allocate (GtkWidget *hpaned_general,
  * \return FALSE
  */
 static gboolean grisbi_win_form_size_allocate (GtkWidget *form_general,
-                                          GtkAllocation *allocation,
-                                          gpointer data)
+                                               GtkAllocation *allocation,
+                                               gpointer data)
 {
-	GrisbiWinPrivate *priv = (GrisbiWinPrivate *) data;
+	GtkWidget *form_expander;
 
-	priv->form_general_allocation.width = allocation->width;
-	priv->form_general_allocation.height = allocation->height;
+	form_expander = g_object_get_data (G_OBJECT (form_general), "form_expander");
+	if (form_expander)
+	{
+		GtkWidget *expander_label;
+
+		conf.form_expander_label_width = 0.95*allocation->width;
+
+		expander_label = gtk_expander_get_label_widget (GTK_EXPANDER(form_expander));
+		gtk_widget_set_size_request (expander_label, conf.form_expander_label_width, -1);
+	}
 
     return FALSE;
 }
 
+static gboolean grisbi_win_expander_label_set_initial_width (GtkWidget *form_general)
+{
+	GtkWidget *form_expander;
+	GtkWidget *expander_label;
+
+
+	form_expander = g_object_get_data (G_OBJECT (form_general), "form_expander");
+	if (form_expander)
+	{
+		expander_label = gtk_expander_get_label_widget (GTK_EXPANDER(form_expander));
+		gtk_widget_set_size_request (expander_label, conf.form_expander_label_width, -1);
+	}
+
+    return FALSE;
+}
 /* NAVIGATION PANE */
 /**
  * utile pour gérer la dimmension de navigation_sw
@@ -456,11 +479,12 @@ static GtkWidget *grisbi_win_create_general_notebook (GrisbiWin *win)
     /* append the form */
     priv->form_general = gsb_form_new ();
 	gtk_grid_attach (GTK_GRID (grid), priv->form_general, 0,1,1,1);
+	grisbi_win_expander_label_set_initial_width (priv->form_general);
     gtk_widget_hide (priv->form_general);
     g_signal_connect (G_OBJECT (priv->form_general),
                       "size_allocate",
                       G_CALLBACK (grisbi_win_form_size_allocate),
-                      priv);
+                      NULL);
 
 	gtk_widget_show (sw);
     gtk_widget_show (grid);
@@ -776,6 +800,7 @@ GtkWidget *grisbi_win_get_prefs_dialog (GrisbiWin *win)
         win = grisbi_app_get_active_window (NULL);
 
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+
     return priv->prefs_dialog;
 }
 
@@ -1440,6 +1465,7 @@ void grisbi_win_free_general_notebook (void)
         priv->notebook_general = NULL;
 }
 
+/* FORM_GENERAL */
 /* HEADINGS */
 /**
  * sensitive or unsensitive the headings

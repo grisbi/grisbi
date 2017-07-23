@@ -178,7 +178,7 @@ GtkWidget *gsb_form_new ( void )
 	/* Create the form frame */
 	form_frame = gtk_frame_new ("");
 
-    /* Create the expander */
+	/* Create the expander */
     form_expander = gtk_expander_new ( "" );
 	utils_widget_set_padding (form_expander, MARGIN_BOX, MARGIN_BOX);
 
@@ -187,7 +187,8 @@ GtkWidget *gsb_form_new ( void )
 
 	gtk_container_add (GTK_CONTAINER (form_frame), form_expander);
 
-    g_signal_connect_after( G_OBJECT(form_expander),
+	g_object_set_data (G_OBJECT (form_frame), "form_expander", form_expander);
+    g_signal_connect_after (G_OBJECT(form_expander),
 			    "activate",
 			    G_CALLBACK (gsb_form_activate_expander),
 			    NULL );
