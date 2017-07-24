@@ -550,7 +550,8 @@ void gsb_file_new_gui ( void )
     navigation_change_account ( gsb_gui_navigation_get_current_account () );
 
     /* Display accounts in menus */
-    gsb_menu_update_accounts_in_menus ();
+	grisbi_win_menu_move_to_acc_delete ();
+	grisbi_win_menu_move_to_acc_new ();
 
     notebook_general = gsb_gui_get_general_notebook ();
     gtk_notebook_set_current_page ( GTK_NOTEBOOK( notebook_general ), GSB_HOME_PAGE );

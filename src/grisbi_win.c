@@ -116,7 +116,7 @@ struct _GrisbiWinPrivate
     /* Menus et barres d'outils */
     /* menu move-to-acc */
     GMenu *             menu;
-    gboolean            init_move_to_acc;
+    gboolean            init_move_to_acc;		/* Si VRAI le sous menu des comptes est initialisé */
 
     /* statusbar */
     GtkWidget *         statusbar;

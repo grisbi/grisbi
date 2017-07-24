@@ -60,6 +60,7 @@
 #include "tip.h"
 #include "utils.h"
 #include "utils_files.h"
+#include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -705,14 +706,22 @@ void grisbi_cmd_move_to_account_menu (GSimpleAction *action,
 									  GVariant *parameter,
 									  gpointer app)
 {
-	//~ const gchar *target;
-    //~ gint index_target = 0;
+	const gchar *target;
+	gchar *tmp_str;
+    gint target_account = 0;
+	gint source_account;
 
 	devel_debug (NULL);
 
-/*	target = g_variant_get_string (parameter, NULL);
-    index_target = atoi (target);
-*/    printf ("grisbi_cmd_move_to_account_menu\n");
+	target = g_action_get_name (G_ACTION (action));
+	tmp_str = gsb_string_extract_int (target);
+	if (tmp_str && strlen ( tmp_str ) > 0)
+	{
+		target_account = atoi (tmp_str);
+
+		source_account = gsb_gui_navigation_get_current_account ();
+		move_selected_operation_to_account_nb (source_account, target_account);
+	}
 }
 
 /**
@@ -1007,82 +1016,6 @@ gboolean gsb_menu_update_view_menu (gint account_number)
     g_action_change_state (G_ACTION (action), parameter);
 
     /* return value*/
-    return FALSE;
-}
-
-/**
- * Update the clickable list of closed accounts and target
- * accounts to move a transaction, in menu.
- *
- * \param
- * \return FALSE
- * */
-gboolean gsb_menu_update_accounts_in_menus (void)
-{
-    //~ GSList *list_tmp;
-
-	return FALSE;
-
-/*    if (move_to_account_action_group)
-    {
-        gsb_menu_ui_manager_remove_action_group (ui_manager,
-                        move_to_account_action_group,
-                        move_to_account_merge_id);
-        g_object_unref (G_OBJECT (move_to_account_action_group));
-        move_to_account_action_group = NULL;
-    }
-
-    move_to_account_merge_id = gtk_ui_manager_new_merge_id (ui_manager);
-    move_to_account_action_group = gtk_action_group_new ("Group3");
-
-*/    /* create the closed accounts and accounts in the menu to move a transaction */
-/*    list_tmp = gsb_data_account_get_list_accounts ();
-
-    while (list_tmp)
-    {
-        gint i;
-
-        i = gsb_data_account_get_no_account (list_tmp -> data);
-
-        if (!gsb_data_account_get_closed_account (i))
-        {
-            gchar *tmp_name;
-            gchar *account_name;
-            GtkAction *action;
-
-            tmp_name = g_strdup_printf ("MoveToAccount%d", i);
-            account_name = gsb_data_account_get_name (i);
-            if (!account_name)
-                account_name = _("Unnamed account");
-
-            action = gtk_action_new (tmp_name, account_name, "", "");
-
-            if (gsb_gui_navigation_get_current_account () == i)
-                gtk_action_set_sensitive (action, FALSE);
-
-            gtk_action_group_add_action (move_to_account_action_group, action);
-            g_signal_connect (action,
-                        "activate",
-                        G_CALLBACK (move_selected_operation_to_account_nb),
-                        GINT_TO_POINTER (i));
-
-            gtk_ui_manager_add_ui (ui_manager,
-                        move_to_account_merge_id,
-                        "/menubar/EditMenu/MoveToAnotherAccount/",
-                        tmp_name,
-                        tmp_name,
-                        GTK_UI_MANAGER_MENUITEM,
-                        FALSE);
-            g_object_unref (G_OBJECT (action));
-            g_free (tmp_name);
-        }
-
-        list_tmp = list_tmp -> next;
-    }
-
-    gtk_ui_manager_insert_action_group (ui_manager, move_to_account_action_group, 2);
-    gtk_ui_manager_ensure_update (ui_manager);
-*/
     return FALSE;
 }
 

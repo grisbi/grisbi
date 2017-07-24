@@ -1184,7 +1184,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 				else
 					gsb_transaction_list_set_visible_archived_button ( FALSE );
 			}
-			gsb_menu_update_accounts_in_menus ();
+			grisbi_win_menu_move_to_acc_update (FALSE);
 			gsb_menu_update_view_menu ( account_number );
 
 			/* set the form */

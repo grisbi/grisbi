@@ -1689,7 +1689,8 @@ void gsb_transactions_list_selection_changed ( gint new_selected_transaction )
     {
         account_number = gsb_data_transaction_get_account_number (new_selected_transaction);
         gsb_menu_set_menus_select_transaction_sensitive ( TRUE );
-        /* on update le menu de la liste des comptes */
+
+		/* on update le menu de la liste des comptes */
         grisbi_win_menu_move_to_acc_update ( TRUE );
     }
     else
@@ -2976,26 +2977,22 @@ gboolean move_selected_operation_to_account ( GtkMenuItem * menu_item,
  *
  * \param menu_item The GtkMenuItem that triggered this handler.
  */
-void move_selected_operation_to_account_nb ( GtkAction *action, gint *account )
+void move_selected_operation_to_account_nb (gint source_account,
+                                            gint target_account)
 {
-    gint target_account, source_account;
+    if (!assert_selected_transaction())
+		return;
 
-    if (! assert_selected_transaction()) return;
-
-    source_account = gsb_gui_navigation_get_current_account ();
-    target_account = GPOINTER_TO_INT ( account );
-
-    if ( gsb_transactions_list_move_transaction_to_account ( gsb_data_account_get_current_transaction_number (source_account),
-							     target_account ))
+    if (gsb_transactions_list_move_transaction_to_account (gsb_data_account_get_current_transaction_number (source_account),
+                                                           target_account))
     {
-	gtk_notebook_set_current_page ( GTK_NOTEBOOK ( gsb_gui_get_general_notebook ( ) ), 1 );
+		gtk_notebook_set_current_page (GTK_NOTEBOOK (grisbi_win_get_notebook_general (grisbi_app_get_active_window (NULL))), 1);
 
-	update_transaction_in_trees ( gsb_data_account_get_current_transaction_number (
-                        source_account ) ) ;
+		update_transaction_in_trees (gsb_data_account_get_current_transaction_number (source_account)) ;
 
-    gsb_data_account_colorize_current_balance ( source_account );
+		gsb_data_account_colorize_current_balance (source_account);
 
-        gsb_file_set_modified ( TRUE );
+        gsb_file_set_modified (TRUE);
     }
 }
 

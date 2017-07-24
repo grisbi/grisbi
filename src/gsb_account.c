@@ -32,6 +32,7 @@
 #include "categories_onglet.h"
 #include "dialog.h"
 #include "fenetre_principale.h"
+#include "grisbi_win.h"
 #include "gsb_account_property.h"
 #include "gsb_category.h"
 #include "gsb_data_account.h"
@@ -127,7 +128,8 @@ gboolean gsb_account_new ( kind_account account_type,
     run.mise_a_jour_liste_comptes_accueil = TRUE;
 
     /* update the accounts lists */
-    gsb_menu_update_accounts_in_menus ();
+	grisbi_win_menu_move_to_acc_delete ();
+	grisbi_win_menu_move_to_acc_new ();
 
     /* do the next part only if the widgets are created
      * (can come here at the end of the new file assistant...) */
@@ -268,9 +270,6 @@ gboolean gsb_account_delete ( void )
 
     /* Update navigation pane. */
     gsb_gui_navigation_remove_account ( deleted_account );
-
-    /* update the buttons lists */
-    gsb_menu_update_accounts_in_menus();
 
     /* update the name of accounts in form */
     gsb_account_update_combo_list ( gsb_form_scheduler_get_element_widget (SCHEDULED_FORM_ACCOUNT), FALSE );

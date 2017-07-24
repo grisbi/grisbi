@@ -149,7 +149,6 @@ void        gsb_menu_set_menus_select_scheduled_sensitive   (gboolean sensitive)
 void        gsb_menu_set_menus_select_transaction_sensitive (gboolean sensitive);
 void        gsb_menu_set_menus_view_account_sensitive       (gboolean sensitive);
 void        gsb_menu_set_menus_with_file_sensitive          (gboolean sensitive);
-gboolean    gsb_menu_update_accounts_in_menus               (void);
 gboolean    gsb_menu_update_view_menu                       (gint account_number);
 
 

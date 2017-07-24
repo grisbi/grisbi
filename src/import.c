@@ -4244,7 +4244,8 @@ static void traitement_operations_importees (void)
         gtk_widget_hide (menu_import_rules);
 
     /* show the account list */
-    gsb_menu_update_accounts_in_menus();
+	grisbi_win_menu_move_to_acc_delete ();
+	grisbi_win_menu_move_to_acc_new ();
 
     /* update main page */
     run.mise_a_jour_liste_comptes_accueil = TRUE;
