@@ -97,8 +97,10 @@ void gtktable_attach_label ( gchar * text, gdouble properties, int x, int x2, in
 			     enum alignement align, gint transaction_number )
 {
     GtkWidget * label;
-    //~ GtkStyle * style;
-    gint x_dim;
+	PangoContext *p_context;
+	PangoFontDescription *font_desc;
+
+	gint x_dim;
     gint y_dim;
 
     if (!text)
@@ -122,35 +124,33 @@ void gtktable_attach_label ( gchar * text, gdouble properties, int x, int x2, in
 	    break;
     }
 
-    //~ style = gtk_style_copy ( gtk_widget_get_style (label));
-
     if (transaction_number)
     {
-	GtkWidget *event_box;
-    GtkStyleContext* context;
+		GtkWidget *event_box;
+		GtkStyleContext* context;
 
-	event_box = gtk_event_box_new ();
-    gtk_widget_set_name (event_box, "etat_event_box");
-    context = gtk_widget_get_style_context  (event_box);
-    gtk_style_context_set_state ( context, GTK_STATE_FLAG_ACTIVE );
-	g_signal_connect (G_OBJECT (event_box),
-                      "enter_notify_event",
-                      G_CALLBACK (utils_event_box_change_state),
-                      context);
-	g_signal_connect (G_OBJECT (event_box),
-                      "leave_notify_event",
-                      G_CALLBACK (utils_event_box_change_state),
-                      context);
-	g_signal_connect_swapped ( G_OBJECT ( event_box ),
-				    "button_press_event",
-				    G_CALLBACK ( gtktable_click_sur_ope_etat ),
-				    GINT_TO_POINTER (transaction_number) );
-        x_dim = x2 - x;
-        y_dim = y2 - y;
-        gtk_grid_attach (GTK_GRID (table_etat), event_box, x, y, x_dim, y_dim);
+		event_box = gtk_event_box_new ();
+		gtk_widget_set_name (event_box, "etat_event_box");
+		context = gtk_widget_get_style_context  (event_box);
+		gtk_style_context_set_state ( context, GTK_STATE_FLAG_ACTIVE );
+		g_signal_connect (G_OBJECT (event_box),
+						  "enter_notify_event",
+						  G_CALLBACK (utils_event_box_change_state),
+						  context);
+		g_signal_connect (G_OBJECT (event_box),
+						  "leave_notify_event",
+						  G_CALLBACK (utils_event_box_change_state),
+						  context);
+		g_signal_connect_swapped ( G_OBJECT ( event_box ),
+						"button_press_event",
+						G_CALLBACK ( gtktable_click_sur_ope_etat ),
+						GINT_TO_POINTER (transaction_number) );
+			x_dim = x2 - x;
+			y_dim = y2 - y;
+			gtk_grid_attach (GTK_GRID (table_etat), event_box, x, y, x_dim, y_dim);
 
-    gtk_widget_show ( event_box );
-	gtk_container_add ( GTK_CONTAINER ( event_box ), label );
+		gtk_widget_show ( event_box );
+		gtk_container_add ( GTK_CONTAINER ( event_box ), label );
     }
     else
     {
@@ -158,24 +158,22 @@ void gtktable_attach_label ( gchar * text, gdouble properties, int x, int x2, in
         y_dim = y2 - y;
         gtk_grid_attach (GTK_GRID (table_etat), label, x, y, x_dim, y_dim);
     }
+	p_context = gtk_widget_get_pango_context (label);
+	font_desc = pango_context_get_font_description (p_context);
 
-    //~ if ( ((gint) properties) & TEXT_ITALIC)
-	//~ pango_font_description_set_style ( style -> font_desc,
-					   //~ PANGO_STYLE_ITALIC );
-    //~ if ( ((gint) properties) & TEXT_BOLD)
-	//~ pango_font_description_set_weight ( style -> font_desc,
-					    //~ PANGO_WEIGHT_BOLD );
-    //~ if ( ((gint) properties) & TEXT_HUGE )
-	//~ pango_font_description_set_size ( style -> font_desc,
-					  //~ pango_font_description_get_size(style->font_desc) + 100 );
-    //~ if ( ((gint) properties) & TEXT_LARGE )
-	//~ pango_font_description_set_size ( style -> font_desc,
-					  //~ pango_font_description_get_size(style->font_desc) + 2 );
-    //~ if ( ((gint) properties) & TEXT_SMALL )
-	//~ pango_font_description_set_size ( style -> font_desc,
-					  //~ pango_font_description_get_size(style->font_desc) - 2 );
-
-    //~ gtk_widget_set_style ( label, style );
+    if (((gint) properties) & TEXT_ITALIC)
+		pango_font_description_set_style (font_desc, PANGO_STYLE_ITALIC);
+    if (((gint) properties) & TEXT_BOLD)
+		pango_font_description_set_weight (font_desc, PANGO_WEIGHT_BOLD);
+    if (((gint) properties) & TEXT_HUGE)
+	pango_font_description_set_size (font_desc,
+	                                 pango_font_description_get_size (font_desc) + 100);
+    if (((gint) properties) & TEXT_LARGE)
+	pango_font_description_set_size (font_desc,
+	                                 pango_font_description_get_size (font_desc) + 2);
+    if (((gint) properties) & TEXT_SMALL)
+	pango_font_description_set_size (font_desc,
+	                                 pango_font_description_get_size (font_desc) - 2);
     gtk_widget_show ( label );
 }
 
