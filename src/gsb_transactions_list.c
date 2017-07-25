@@ -496,8 +496,13 @@ gboolean popup_transaction_rules_menu ( GtkWidget * button,
     }
 
     gtk_widget_show_all ( menu );
+
+#if GTK_CHECK_VERSION (3,22,0)
+	gtk_menu_popup_at_pointer (GTK_MENU (menu), NULL);
+#else
     gtk_menu_popup ( GTK_MENU ( menu) , NULL, button, set_popup_position, button, 1,
                         gtk_get_current_event_time ( ) );
+#endif
 
     return FALSE;
 }
@@ -625,8 +630,13 @@ static gboolean popup_transaction_view_mode_menu ( GtkWidget *button,
 			  gsb_data_account_get_nb_rows ( gsb_gui_navigation_get_current_account () ) );
 
     gtk_widget_show_all ( menu );
-    gtk_menu_popup ( GTK_MENU( menu ), NULL, button, set_popup_position, button, 1,
+
+#if GTK_CHECK_VERSION (3,22,0)
+	gtk_menu_popup_at_pointer (GTK_MENU (menu), NULL);
+#else
+	gtk_menu_popup ( GTK_MENU( menu ), NULL, button, set_popup_position, button, 1,
                         gtk_get_current_event_time ( ) );
+#endif
 
     /* return */
     return FALSE;
@@ -2586,7 +2596,13 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
 
     /* Finish all. */
     gtk_widget_show_all (menu);
+
+#if GTK_CHECK_VERSION (3,22,0)
+	gtk_menu_popup_at_pointer (GTK_MENU (menu), NULL);
+#else
     gtk_menu_popup ( GTK_MENU(menu), NULL, NULL, NULL, NULL, 3, gtk_get_current_event_time());
+#endif
+
 }
 
 
@@ -3425,9 +3441,13 @@ gboolean gsb_transactions_list_title_column_button_press ( GtkWidget *button,
                         G_CALLBACK ( gsb_transactions_list_change_alignement ),
                         no_column );
             gtk_widget_show ( menu_item );
-
-            gtk_menu_popup ( GTK_MENU ( menu ), NULL, NULL, NULL, NULL, 3, gtk_get_current_event_time () );
             gtk_widget_show ( menu );
+
+#if GTK_CHECK_VERSION (3,22,0)
+			gtk_menu_popup_at_pointer (GTK_MENU (menu), NULL);
+#else
+            gtk_menu_popup ( GTK_MENU ( menu ), NULL, NULL, NULL, NULL, 3, gtk_get_current_event_time () );
+#endif
         }
 	    break;
     }
