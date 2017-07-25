@@ -69,7 +69,6 @@ struct _GrisbiAppPrivate
     /* command line parsing */
     gboolean 			new_window;
     gint 				debug_level;
-    gchar *				geometry;
     GSList *			file_list;
 
 	/* Menuapp et menubar */
@@ -499,10 +498,7 @@ static GrisbiWin *grisbi_app_create_window (GrisbiApp *app,
 	/* Adding pixmaps_dir in the icon theme */
 	gsb_select_icon_set_gtk_icon_theme_path ();
 
-	if (priv->geometry)
-		gtk_window_parse_geometry (GTK_WINDOW (win), priv->geometry);
-    else
-        grisbi_win_set_size_and_position (GTK_WINDOW (win));
+    grisbi_win_set_size_and_position (GTK_WINDOW (win));
 
     /* set menubar */
 	/* Win Menu : actions toujours actives */
@@ -560,13 +556,6 @@ static const GOptionEntry options[] =
         N_("Debug mode: level 0-5"),
 		N_("DEBUG")
     },
-
-	/* Window geometry */
-	{
-		"geometry", 'g', 0, G_OPTION_ARG_STRING, NULL,
-		N_("Set the size and position of the window (WIDTHxHEIGHT+X+Y)"),
-		N_("GEOMETRY")
-	},
 
 	/* New instance */
 /*	{
@@ -642,8 +631,6 @@ static gboolean grisbi_app_cmdline (GApplication *application,
 	g_variant_dict_lookup (options, "new-window", "b", &priv->new_window);
 	g_variant_dict_lookup (options, "debug", "s", &tmp_str);
 	g_variant_dict_lookup (options, "d", "s", &tmp_str);
-	g_variant_dict_lookup (options, "geometry", "s", &priv->geometry);
-	g_variant_dict_lookup (options, "g", "s", &priv->geometry);
 
     /* Parse filenames */
 	if (g_variant_dict_lookup (options, G_OPTION_REMAINING, "^a&ay", &remaining_args))
