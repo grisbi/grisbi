@@ -1569,6 +1569,34 @@ static gboolean gtk_combofix_set_all_visible_rows ( GtkComboFix *combofix )
 }
 
 
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+static gint gtk_combofix_get_screen_height (GtkComboFix *combofix,
+											gint y)
+{
+#if GTK_CHECK_VERSION (3,22,0)
+	GdkWindow *window;
+	GdkDisplay *display;
+	GdkMonitor *monitor;
+	GdkRectangle rectangle;
+
+	window = gtk_widget_get_window (GTK_WIDGET (combofix));
+	display = gdk_window_get_display (window);
+	monitor = gdk_display_get_monitor_at_point (display, 0, y);
+	gdk_monitor_get_geometry (monitor, &rectangle);
+
+		return rectangle.height;
+#else
+		return gdk_screen_height ();
+#endif
+}
+
 /**
  * set the position and the size of the popup
  *
@@ -1586,6 +1614,7 @@ static gboolean gtk_combofix_set_popup_position ( GtkComboFix *combofix )
     GdkRectangle rectangle;
     GtkAllocation allocation;
     gint horizontal_separator;
+	gint screen_height;
     GtkComboFixPrivate *priv;
 
     if ( !combofix )
@@ -1627,9 +1656,15 @@ static gboolean gtk_combofix_set_popup_position ( GtkComboFix *combofix )
     /* if the popup is too small to contain all, we check to set it on the bottom or on the top
      * if the place on the top is more than 2 times bigger than the bottom, we set it on the top */
 
-    if ( ( ( gdk_screen_height ( ) - y - allocation.height ) < height )
+#if GTK_CHECK_VERSION (3,22,0)
+	screen_height = gtk_combofix_get_screen_height (combofix, y);
+#else
+	screen_height = gdk_screen_height;
+#endif
+
+    if ( ( ( screen_height - y - allocation.height ) < height )
      &&
-     ( ( ( gdk_screen_height () - y ) * 2 ) <= y ) )
+     ( ( ( screen_height - y ) * 2 ) <= y ) )
     {
         /* popup on the top */
         if ( y > height )
@@ -1645,8 +1680,8 @@ static gboolean gtk_combofix_set_popup_position ( GtkComboFix *combofix )
         /* popup on the bottom */
         y += allocation.height;
 
-        if ( ( gdk_screen_height ( ) - y ) < height )
-            height = gdk_screen_height ( ) - y;
+        if ( ( screen_height - y ) < height )
+            height = screen_height - y;
     }
 
     gtk_window_move ( GTK_WINDOW ( priv -> popup ), x, y );
