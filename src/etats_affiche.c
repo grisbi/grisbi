@@ -122,7 +122,7 @@ gint etat_affiche_affiche_titre ( gint ligne )
     titre = etats_titre (gsb_gui_navigation_get_current_report ()) ;
 
     etat_affiche_attach_label ( titre, TEXT_BOLD | TEXT_HUGE, 0, nb_colonnes,
-				ligne, ligne + 1, ALIGN_LEFT, 0 );
+				ligne, ligne + 1, ALIGN_CENTER, 0 );
 
     return 1;
 }
@@ -2491,7 +2491,10 @@ gint etat_affiche_affiche_titres_colonnes ( gint ligne )
 	colonne = colonne + 2;
     }
 
-    ligne++;
+	/* on ajoute le montant */
+	etat_affiche_attach_label ( _("Amount"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, ALIGN_CENTER, 0 );
+
+	ligne++;
 
     etat_affiche_attach_hsep ( 1, nb_colonnes, ligne, ligne + 1 );
     ligne++;
