@@ -74,7 +74,6 @@ struct struct_etat_affichage gtktable_affichage = {
 
 
 /*START_EXTERN*/
-extern gint nb_colonnes;
 extern GtkWidget *scrolled_window_etat;
 /*END_EXTERN*/
 
