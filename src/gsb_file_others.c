@@ -191,6 +191,7 @@ gboolean gsb_file_others_save_budget ( gchar *filename )
     gulong length_part;
 
     devel_debug (filename);
+    gboolean ret = TRUE;
 
     /* we begin to try to reserve enough memory to make the entire file
      * if not enough, we will make it growth later
@@ -251,14 +252,14 @@ gboolean gsb_file_others_save_budget ( gchar *filename )
                         g_strerror ( errno ) );
         dialogue_error ( tmp_str );
         g_free ( tmp_str );
-        g_free ( file_content );
-        return ( FALSE );
+        ret = FALSE;
     }
 
-    fclose ( file );
+    if (file)
+	fclose ( file );
     g_free ( file_content);
 
-    return ( TRUE );
+    return ( ret );
 }
 
 /**
