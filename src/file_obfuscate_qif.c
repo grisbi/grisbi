@@ -189,6 +189,7 @@ static void file_obfuscate_qif_start ( gchar *filename )
 			position++;
 			position_in_line++;
 		}
+		/* fallthrough */
 
 	    case 1:
 		/* we are on the 2nd col, we pass this line if it's a transfer */
