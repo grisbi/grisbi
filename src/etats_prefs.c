@@ -2444,9 +2444,9 @@ static gboolean etats_prefs_onglet_data_grouping_drag_data_received ( GtkTreeDra
         GtkTreeIter dest_iter;
         GtkTreePath *src_path;
         gint src_pos = 0;
-        gint dest_pos;
-        gint src_type_data;
-        gint dest_type_data;
+        gint dest_pos = 0;
+        gint src_type_data = 0;
+        gint dest_type_data = 0;
 
         /* On récupère le model et le path d'origine */
         gtk_tree_get_row_drag_data ( selection_data, &model, &src_path );
@@ -2518,7 +2518,7 @@ static gboolean etats_prefs_onglet_data_grouping_drop_possible ( GtkTreeDragDest
 {
     GtkTreePath *orig_path;
     GtkTreeModel *model;
-    gint src_pos;
+    gint src_pos = 0;
     gint dst_pos = 0;
     GtkTreeIter iter;
 

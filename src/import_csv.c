@@ -1363,6 +1363,15 @@ gboolean csv_import_file_by_rule (gint rule,
 		csv_skipped_lines[line] = utils_str_atoi (pointeur_char[line]);
 		line ++;
 	}
+	if (line != CSV_MAX_TOP_LINES)
+	{
+		gint i;
+
+		for (i = line; i < CSV_MAX_TOP_LINES; i++)
+		{
+			csv_skipped_lines[line] = 0;
+		}
+	}
 	g_strfreev (pointeur_char);
 
     list = g_array_index (lines_tab, GSList *, index);

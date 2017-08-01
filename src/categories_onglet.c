@@ -1018,7 +1018,7 @@ gboolean category_list_button_press ( GtkWidget *tree_view,
     else if ( ev -> type == GDK_2BUTTON_PRESS )
     {
         GtkTreeSelection *selection;
-        GtkTreeModel *model;
+        GtkTreeModel *model = NULL;
         GtkTreeIter iter;
         GtkTreePath *path = NULL;
         enum meta_tree_row_type type_division;
@@ -1030,6 +1030,8 @@ gboolean category_list_button_press ( GtkWidget *tree_view,
         selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
         if ( selection && gtk_tree_selection_get_selected (selection, &model, &iter ) )
             path = gtk_tree_model_get_path  ( model, &iter);
+		else
+			return FALSE;
 
         if ( conf.metatree_action_2button_press == 0 || type_division == META_TREE_DIV )
         {
@@ -1052,7 +1054,6 @@ gboolean category_list_button_press ( GtkWidget *tree_view,
         {
             if ( type_division == META_TREE_SUB_DIV || type_division == META_TREE_TRANS_S_S_DIV )
             {
-                    path = gtk_tree_model_get_path  ( model, &iter);
                     gtk_tree_view_collapse_row ( GTK_TREE_VIEW ( tree_view ), path );
 
                     gtk_tree_path_free ( path );
