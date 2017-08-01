@@ -708,13 +708,16 @@ void dialog_message ( gchar *label, ... )
 	{
 	    if ( ! messages[i] . hidden )
 	    {
-		gchar hint_buffer[1024], message_buffer[1024];
-		va_start ( ap, label );
-		vsnprintf ( hint_buffer, 1024, _(messages[i] . hint), ap );
-		vsnprintf ( message_buffer, 1024, _(messages[i] . message), ap );
+			gchar hint_buffer[1024];
+			gchar message_buffer[1024];
 
-		dialogue_conditional_hint ( hint_buffer, message_buffer,
-					    messages[i] . name );
+			va_start ( ap, label );
+			vsnprintf ( hint_buffer, 1024, _(messages[i] . hint), ap );
+			vsnprintf ( message_buffer, 1024, _(messages[i] . message), ap );
+
+			dialogue_conditional_hint ( hint_buffer, message_buffer,
+							messages[i] . name );
+			va_end(ap);
 	    }
 	    return;
 	}
