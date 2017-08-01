@@ -144,9 +144,10 @@ void gtktable_attach_label ( gchar * text, gdouble properties, int x, int x2, in
 						"button_press_event",
 						G_CALLBACK ( gtktable_click_sur_ope_etat ),
 						GINT_TO_POINTER (transaction_number) );
-			x_dim = x2 - x;
-			y_dim = y2 - y;
-			gtk_grid_attach (GTK_GRID (table_etat), event_box, x, y, x_dim, y_dim);
+		x_dim = x2 - x;
+		y_dim = y2 - y;
+		gtk_grid_attach (GTK_GRID (table_etat), event_box, x, y, x_dim, y_dim);
+		g_object_set_data (G_OBJECT (event_box), "x_dim", GINT_TO_POINTER (x_dim));
 
 		gtk_widget_show ( event_box );
 		gtk_container_add ( GTK_CONTAINER ( event_box ), label );
@@ -156,6 +157,7 @@ void gtktable_attach_label ( gchar * text, gdouble properties, int x, int x2, in
         x_dim = x2 - x;
         y_dim = y2 - y;
         gtk_grid_attach (GTK_GRID (table_etat), label, x, y, x_dim, y_dim);
+		g_object_set_data (G_OBJECT (label), "x_dim", GINT_TO_POINTER (x_dim));
     }
 	p_context = gtk_widget_get_pango_context (label);
 	font_desc = pango_context_get_font_description (p_context);
@@ -202,7 +204,9 @@ void gtktable_attach_vsep ( int x, int x2, int y, int y2)
     y_dim = y2 - y;
     gtk_grid_attach (GTK_GRID (table_etat), separateur, x, y, x_dim, y_dim);
     utils_widget_set_padding ( separateur, 2,0);
-    gtk_widget_show ( separateur );
+	g_object_set_data (G_OBJECT (separateur), "type_separator", GINT_TO_POINTER (GTK_ORIENTATION_VERTICAL));
+
+	gtk_widget_show ( separateur );
 }
 
 
@@ -224,7 +228,9 @@ void gtktable_attach_hsep ( int x, int x2, int y, int y2)
     x_dim = x2 - x;
     y_dim = y2 - y;
     gtk_grid_attach (GTK_GRID (table_etat), separateur, x, y, x_dim, y_dim);
-    gtk_widget_show ( separateur );
+	g_object_set_data (G_OBJECT (separateur), "type_separator", GINT_TO_POINTER (GTK_ORIENTATION_HORIZONTAL));
+
+	gtk_widget_show ( separateur );
 }
 
 

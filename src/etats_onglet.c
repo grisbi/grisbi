@@ -74,6 +74,7 @@ static GtkWidget *bouton_exporter_etat = NULL;
 static GtkWidget *bouton_dupliquer_etat = NULL;
 GtkWidget *scrolled_window_etat = NULL;          /* contient l'état en cours */
 gint nb_colonnes;
+gint nb_lignes;
 gint ligne_debut_partie;
 GtkWidget *notebook_etats = NULL;
 GtkWidget *notebook_config_etat = NULL;

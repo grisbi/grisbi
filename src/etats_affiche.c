@@ -169,7 +169,7 @@ gint etat_affiche_affiche_total_categories ( gint ligne )
 	     ||
 	     gsb_data_report_get_show_report_transactions (current_report_number) )
 	{
-	    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes -1, ligne, ligne + 1, ALIGN_LEFT, 0 );
+	    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes, ligne, ligne + 1, ALIGN_LEFT, 0 );
 	    ligne++;
 
 	    etat_affiche_attach_hsep ( 1, nb_colonnes, ligne, ligne + 1 );
@@ -213,7 +213,7 @@ gint etat_affiche_affiche_total_categories ( gint ligne )
 	    g_free ( text );
 	    ligne++;
 
-	    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes -1, ligne, ligne + 1, ALIGN_LEFT, 0 );
+	    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes, ligne, ligne + 1, ALIGN_LEFT, 0 );
 
 	    ligne++;
 	}
@@ -2295,15 +2295,15 @@ gint etat_affiche_affiche_tiers_etat ( gint transaction_number,
 /*****************************************************************************************************/
 gint etat_affiche_affiche_titre_revenus_etat ( gint ligne )
 {
-    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 0, 1,
+    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 0, nb_colonnes,
 				ligne, ligne + 1, ALIGN_CENTER, 0 );
     ligne++;
 
-    etat_affiche_attach_label ( _("Incomes"), TEXT_LARGE, 0, nb_colonnes-1,
+    etat_affiche_attach_label ( _("Incomes"), TEXT_LARGE, 0, nb_colonnes,
 				ligne, ligne + 1, ALIGN_CENTER, 0 );
     ligne++;
 
-    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 0, 1,
+    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 0, nb_colonnes,
 				ligne, ligne + 1, ALIGN_CENTER, 0 );
     ligne++;
 
@@ -2315,15 +2315,15 @@ gint etat_affiche_affiche_titre_revenus_etat ( gint ligne )
 /*****************************************************************************************************/
 gint etat_affiche_affiche_titre_depenses_etat ( gint ligne )
 {
-    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 0, 1,
+    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 0, nb_colonnes,
 				ligne, ligne + 1, ALIGN_CENTER, 0 );
     ligne++;
 
-    etat_affiche_attach_label ( _("Outgoings"), TEXT_LARGE, 0, nb_colonnes-1,
+    etat_affiche_attach_label ( _("Outgoings"), TEXT_LARGE, 0, nb_colonnes,
 				ligne, ligne + 1, ALIGN_CENTER, 0 );
     ligne++;
 
-    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 0, 1,
+    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 0, nb_colonnes,
 				ligne, ligne + 1, ALIGN_CENTER, 0 );
     ligne++;
 

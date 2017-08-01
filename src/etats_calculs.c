@@ -89,6 +89,7 @@ extern gint ancien_tiers_etat;
 extern struct struct_etat_affichage gtktable_affichage;
 extern gint ligne_debut_partie;
 extern gint nb_colonnes;
+extern gint nb_lignes;
 /*END_EXTERN*/
 
 /* VARIABLES À TRAITER */
@@ -2595,8 +2596,8 @@ pas_decalage:
 
     /* on affiche maintenant le total général */
 
-    ligne = etat_affiche_affiche_total_general ( total_general,
-						 ligne );
+    ligne = etat_affiche_affiche_total_general ( total_general, ligne );
+	nb_lignes = ligne;
 
     etat_affiche_finish ();
 }
