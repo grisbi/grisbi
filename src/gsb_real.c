@@ -710,7 +710,7 @@ gsb_real gsb_real_double_to_real_add_exponent ( gdouble number, gint exp_add )
     gdouble maxlong;
 	gsb_real real_number = {0, exp_add};
 
-    maxlong = G_MAXINT64 / 10;
+    maxlong = (gdouble) G_MAXINT64 / 10;
 /*     printf ("number initial = %f exp_add = %d\n",number, exp_add);  */
 
 	if(exp_add >=9)
