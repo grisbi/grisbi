@@ -225,7 +225,7 @@ static void grisbi_prefs_setup_import_page (GrisbiPrefs *prefs)
 	vbox_import_files = GTK_WIDGET (prefs_page_import_files_new (prefs));
 	gtk_widget_set_margin_top (vbox_import_files, MARGIN_TOP);
 	gtk_notebook_append_page (GTK_NOTEBOOK (notebook_import_pages), vbox_import_files, NULL);
-	label = gtk_label_new ("Files import");
+	label = gtk_label_new (_("Files import"));
 	utils_widget_set_padding (label, MARGIN_BOX, 0);
 	gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook_import_pages), vbox_import_files, label);
 
@@ -233,7 +233,7 @@ static void grisbi_prefs_setup_import_page (GrisbiPrefs *prefs)
 	vbox_import_asso = GTK_WIDGET (prefs_page_import_asso_new (prefs));
 	gtk_widget_set_margin_top (vbox_import_asso, MARGIN_TOP);
 	gtk_notebook_append_page (GTK_NOTEBOOK (notebook_import_pages), vbox_import_asso, NULL);
-	label = gtk_label_new ("Associations for import");
+	label = gtk_label_new (_("Associations for import"));
 	utils_widget_set_padding (label, MARGIN_BOX, 0);
 	gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook_import_pages), vbox_import_asso, label);
 
