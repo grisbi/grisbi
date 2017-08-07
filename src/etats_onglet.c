@@ -98,7 +98,7 @@ enum report_export_formats {
  * \return
  **/
 static void etats_onglet_change_choix_nouvel_etat (GtkWidget *combobox,
-											GtkWidget *label_description)
+												   GtkWidget *label_description)
 {
     gchar *description;
 
@@ -243,9 +243,12 @@ static void etats_onglet_export_etat_courant_vers_html (gchar *filename)
  *
  * \return FALSE
  */
-static gboolean etats_onglet_report_export_change_format (GtkWidget *combo, GtkWidget *selector)
+static gboolean etats_onglet_report_export_change_format (GtkWidget *combo,
+														  GtkWidget *selector)
 {
-    gchar *name, *extension;
+    gchar *name;
+    gchar *extension;
+    gchar *tmp_str;
 
     g_object_set_data (G_OBJECT(selector), "format",
 			GINT_TO_POINTER (gtk_combo_box_get_active (GTK_COMBO_BOX(combo))));
@@ -270,8 +273,10 @@ static gboolean etats_onglet_report_export_change_format (GtkWidget *combo, GtkW
 		break;
     }
 
-    gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER(selector),
-					g_strconcat (name, ".", extension, NULL));
+	tmp_str = g_strconcat (name, ".", extension, NULL);
+    gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER(selector), tmp_str);
+	g_free (tmp_str);
+
     return FALSE;
 }
 
@@ -333,33 +338,34 @@ static void etats_onglet_exporter_etat (void)
     resultat = gtk_dialog_run (GTK_DIALOG (fenetre_nom));
     if (resultat == GTK_RESPONSE_OK)
     {
-	nom_etat = file_selection_get_filename (GTK_FILE_CHOOSER (fenetre_nom));
+		nom_etat = file_selection_get_filename (GTK_FILE_CHOOSER (fenetre_nom));
 
-	grisbi_win_status_bar_message (_("Exporting report..."));
+		grisbi_win_status_bar_message (_("Exporting report..."));
 
-	grisbi_win_status_bar_wait (TRUE);
+		grisbi_win_status_bar_wait (TRUE);
 
-	switch (GPOINTER_TO_INT(g_object_get_data (G_OBJECT(fenetre_nom), "format")))
-	{
-	    case REPORT_EGSB:		/* EGSB */
-		gsb_file_others_save_report (nom_etat);
-		break;
+		switch (GPOINTER_TO_INT(g_object_get_data (G_OBJECT(fenetre_nom), "format")))
+		{
+			case REPORT_EGSB:		/* EGSB */
+			gsb_file_others_save_report (nom_etat);
+			break;
 
-	    case REPORT_HTML:		/* HTML */
-		etats_onglet_export_etat_courant_vers_html (nom_etat);
-		break;
+			case REPORT_HTML:		/* HTML */
+			etats_onglet_export_etat_courant_vers_html (nom_etat);
+			break;
 
-	    case REPORT_CSV:		/* CSV */
-		etats_onglet_export_etat_courant_vers_csv (nom_etat);
-		break;
+			case REPORT_CSV:		/* CSV */
+			etats_onglet_export_etat_courant_vers_csv (nom_etat);
+			break;
 
-	    default :
-		break;
-	}
+			default :
+			break;
+		}
 
-	grisbi_win_status_bar_stop_wait (TRUE);
+		g_free (nom_etat);
 
-	grisbi_win_status_bar_message (_("Done"));
+		grisbi_win_status_bar_stop_wait (TRUE);
+		grisbi_win_status_bar_message (_("Done"));
     }
     tmp_last_directory = file_selection_get_last_directory (GTK_FILE_CHOOSER (fenetre_nom), TRUE);
     gsb_file_update_last_path (tmp_last_directory);
@@ -412,23 +418,25 @@ static void etats_onglet_importer_etat (void)
 
     switch (resultat)
     {
-	case GTK_RESPONSE_OK :
-	    nom_etat =file_selection_get_filename (GTK_FILE_CHOOSER (fenetre_nom));
-        tmp_last_directory = file_selection_get_last_directory (GTK_FILE_CHOOSER (fenetre_nom), TRUE);
-        gsb_file_update_last_path (tmp_last_directory);
-        g_free (tmp_last_directory);
-	    gtk_widget_destroy (GTK_WIDGET (fenetre_nom));
+		case GTK_RESPONSE_OK :
+			nom_etat =file_selection_get_filename (GTK_FILE_CHOOSER (fenetre_nom));
+			tmp_last_directory = file_selection_get_last_directory (GTK_FILE_CHOOSER (fenetre_nom), TRUE);
+			gsb_file_update_last_path (tmp_last_directory);
+			g_free (tmp_last_directory);
+			gtk_widget_destroy (GTK_WIDGET (fenetre_nom));
 
-	    /* la vérification que c'est possible a été faite par la boite de selection*/
-	    if (!gsb_file_others_load_report (nom_etat))
-	    {
-		return;
-	    }
-	    break;
+			/* la vérification que c'est possible a été faite par la boite de selection*/
+			if (!gsb_file_others_load_report (nom_etat))
+			{
+				g_free (nom_etat);
+				return;
+			}
+			g_free (nom_etat);
+			break;
 
-	default :
-	    gtk_widget_destroy (GTK_WIDGET (fenetre_nom));
-	    return;
+		default :
+			gtk_widget_destroy (GTK_WIDGET (fenetre_nom));
+			return;
     }
 }
 
