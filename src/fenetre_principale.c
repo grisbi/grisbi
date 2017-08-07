@@ -156,7 +156,7 @@ gboolean gsb_gui_fill_general_notebook ( GtkWidget *notebook )
 
     /* append the reports page */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
-                        creation_onglet_etats (),
+                        etats_onglet_create_reports_tab (),
                         gtk_label_new ( _("Reports") ) );
 
     /* update toolbars */
@@ -265,7 +265,7 @@ void gsb_gui_update_all_toolbars ( void )
     gsb_gui_payees_toolbar_set_style ( toolbar_style );
     gsb_gui_categories_toolbar_set_style ( toolbar_style );
     gsb_gui_budgetary_lines_toolbar_set_style ( toolbar_style );
-    gsb_gui_reports_toolbar_set_style ( toolbar_style );
+    etats_onglet_reports_toolbar_set_style ( toolbar_style );
     bet_array_update_toolbar ( toolbar_style );
     bet_historical_update_toolbar ( toolbar_style );
     bet_finance_update_all_finance_toolbars ( toolbar_style );

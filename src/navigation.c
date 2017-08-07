@@ -1281,9 +1281,9 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 			gsb_form_set_expander_visible ( FALSE, FALSE );
 
 			if ( report_number > 0 )
-				gsb_gui_update_gui_to_report ( report_number );
+				etats_onglet_update_gui_to_report ( report_number );
 			else
-				gsb_gui_unsensitive_report_widgets ();
+				etats_onglet_unsensitive_reports_widgets ();
 			gsb_form_hide ();
 			break;
 
@@ -2324,7 +2324,7 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
             menu_item = utils_menu_item_new_from_image_label ("gsb-new-report-16.png", _("New report"));
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
-                        G_CALLBACK ( ajout_etat ),
+                        G_CALLBACK ( etats_onglet_ajoute_etat ),
                         NULL );
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
             if ( report_number == -1 )
@@ -2335,7 +2335,7 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
             menu_item = utils_menu_item_new_from_image_label ("gtk-delete-16.png", _("Remove this report"));
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
-                        G_CALLBACK ( efface_etat ),
+                        G_CALLBACK ( etats_onglet_efface_etat ),
                         NULL );
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
