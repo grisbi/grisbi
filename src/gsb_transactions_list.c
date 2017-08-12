@@ -1743,7 +1743,7 @@ gboolean gsb_transactions_list_edit_transaction ( gint transaction_number )
 
     gsb_gui_navigation_set_selection ( GSB_ACCOUNT_PAGE,
                         gsb_data_transaction_get_account_number ( transaction_number ),
-                        NULL );
+                        0);
     transaction_list_select ( transaction_number );
     gsb_form_fill_by_transaction ( transaction_number, TRUE, TRUE );
 
@@ -3097,7 +3097,7 @@ void schedule_selected_transaction (void)
 
     if ( run.equilibrage == 0 )
     {
-        gsb_gui_navigation_set_selection (GSB_SCHEDULER_PAGE, 0, NULL);
+        gsb_gui_navigation_set_selection (GSB_SCHEDULER_PAGE, 0, 0);
         gsb_scheduler_list_select (scheduled_number);
         gsb_scheduler_list_edit_transaction (scheduled_number);
     }
@@ -4217,7 +4217,7 @@ void gsb_transactions_list_display_contra_transaction ( gint *element_ptr )
     transaction_number = GPOINTER_TO_INT ( element_ptr );
     target_account = gsb_data_transaction_get_account_number ( transaction_number );
 
-    if ( gsb_gui_navigation_set_selection ( GSB_ACCOUNT_PAGE, target_account, NULL ) )
+    if ( gsb_gui_navigation_set_selection ( GSB_ACCOUNT_PAGE, target_account, 0) )
     {
         /* If transaction is reconciled, show reconciled transactions. */
         if ( gsb_data_transaction_get_marked_transaction ( transaction_number ) == OPERATION_RAPPROCHEE

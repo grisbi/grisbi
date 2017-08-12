@@ -1760,7 +1760,7 @@ void bet_array_list_change_menu ( GtkWidget *menu_item,
     }
     else if ( origine == SPP_ORIGIN_SCHEDULED )
     {
-        gsb_gui_navigation_set_selection ( GSB_SCHEDULER_PAGE, 0, NULL );
+        gsb_gui_navigation_set_selection ( GSB_SCHEDULER_PAGE, 0, 0);
         gsb_scheduler_list_select ( number );
         gsb_scheduler_list_edit_transaction ( number );
     }
@@ -2471,7 +2471,7 @@ void bet_array_list_schedule_selected_line ( GtkWidget *menu_item,
 
     run.mise_a_jour_liste_echeances_auto_accueil = TRUE;
 
-    gsb_gui_navigation_set_selection ( GSB_SCHEDULER_PAGE, 0, NULL );
+    gsb_gui_navigation_set_selection ( GSB_SCHEDULER_PAGE, 0, 0);
     gsb_scheduler_list_select ( scheduled_number );
     gsb_scheduler_list_edit_transaction ( scheduled_number );
 

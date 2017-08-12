@@ -495,7 +495,7 @@ gboolean gsb_file_new_finish ( void )
     gsb_file_new_gui ();
 
     mise_a_jour_accueil ( TRUE );
-    gsb_gui_navigation_set_selection ( GSB_HOME_PAGE, -1, NULL );
+    gsb_gui_navigation_set_selection ( GSB_HOME_PAGE, -1, 0);
 
     gsb_file_set_modified ( TRUE );
     return FALSE;
@@ -863,7 +863,7 @@ gboolean gsb_file_open_file ( gchar *filename )
     grisbi_win_status_bar_stop_wait ( TRUE );
 
     /* go to the home page */
-    gsb_gui_navigation_set_selection ( GSB_HOME_PAGE, -1, NULL );
+    gsb_gui_navigation_set_selection ( GSB_HOME_PAGE, -1, 0);
 
     /* set the focus to the selection tree at left */
     gtk_widget_grab_focus ( gsb_gui_navigation_get_tree_view ( ) );

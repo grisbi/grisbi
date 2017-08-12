@@ -693,7 +693,7 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
 
     if ( reconcile_save_last_scheduled_convert )
     {
-        gsb_gui_navigation_set_selection ( GSB_SCHEDULER_PAGE, 0, NULL );
+        gsb_gui_navigation_set_selection ( GSB_SCHEDULER_PAGE, 0, 0);
         gsb_scheduler_list_select ( reconcile_save_last_scheduled_convert );
         gsb_scheduler_list_edit_transaction ( reconcile_save_last_scheduled_convert );
         reconcile_save_last_scheduled_convert = 0;

@@ -304,9 +304,7 @@ void gtktable_click_sur_ope_etat ( gint transaction_number )
 	gint mother_transaction;
 
 	/* go on the good account */
-	gsb_gui_navigation_set_selection ( GSB_ACCOUNT_PAGE,
-					   account_number,
-					   GINT_TO_POINTER (-1));
+	gsb_gui_navigation_set_selection ( GSB_ACCOUNT_PAGE, account_number, -1);
 
 	/* récupération de la ligne de l'opé dans la liste ; affichage de toutes les opé si nécessaire */
 	if ( gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_RAPPROCHEE

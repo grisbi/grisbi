@@ -1206,7 +1206,7 @@ gboolean division_activated ( GtkTreeView * treeview, GtkTreePath * path,
 	    gsb_gui_notebook_change_page ( GSB_ACCOUNT_PAGE );
 	    gsb_gui_navigation_set_selection ( GSB_ACCOUNT_PAGE,
 					       gsb_data_transaction_get_account_number (transaction_number),
-					       NULL );
+					       0);
 
         /* move selected iter */
         path = gtk_tree_model_get_path ( model, &iter );

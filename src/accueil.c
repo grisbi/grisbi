@@ -327,7 +327,7 @@ static gboolean gsb_main_page_click_on_account (gint *account_number)
     devel_debug_int (GPOINTER_TO_INT (account_number));
     gsb_gui_navigation_set_selection (GSB_ACCOUNT_PAGE,
 				       GPOINTER_TO_INT (account_number),
-				       NULL);
+				       0);
     return FALSE;
 }
 
