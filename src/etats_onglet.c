@@ -2,6 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cedric Auger (cedric@grisbi.org)            */
 /*          2002-2008 Benjamin Drieu (bdrieu@april.org)                       */
+/*          2008-2017 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -71,7 +72,7 @@ gint ligne_debut_partie;
 GtkWidget *notebook_etats = NULL;
 GtkWidget *notebook_config_etat = NULL;
 static GtkWidget *reports_toolbar = NULL;
-
+static gboolean maj_reports_list;
 
 /*START_EXTERN*/
 extern struct struct_etat_affichage csv_affichage;
@@ -524,6 +525,153 @@ static GtkWidget *etats_onglet_create_reports_toolbar (void)
     etats_onglet_unsensitive_reports_widgets ();
 
     return toolbar;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+static gboolean etats_onglet_click_on_line_report (GtkTreeSelection *selection,
+												   GtkWidget *tree_view)
+{
+    GtkTreeIter iter;
+	GtkTreeModel *model;
+	gint report_number;
+
+	gtk_tree_selection_get_selected (selection, NULL, &iter);
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
+	gtk_tree_model_get (model, &iter, 1, &report_number, -1);
+	gsb_gui_navigation_set_selection (GSB_REPORTS_PAGE, -1, report_number);
+
+	return FALSE;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+static void etats_onglet_fill_reports_list_model (GtkListStore *list_store)
+{
+	GSList *tmp_list;
+    GtkTreeIter iter;
+
+	tmp_list = gsb_data_report_get_report_list ();
+    gtk_list_store_clear (GTK_LIST_STORE (list_store));
+
+	while (tmp_list)
+	{
+		gint report_number;
+		gchar *report_name;
+
+		report_number = gsb_data_report_get_report_number (tmp_list->data);
+		report_name = gsb_data_report_get_report_name (report_number);
+
+        gtk_list_store_append (GTK_LIST_STORE (list_store), &iter);
+        gtk_list_store_set (GTK_LIST_STORE (list_store),
+							&iter,
+							0, report_name,
+							1, report_number,
+							-1);
+
+		tmp_list = tmp_list->next;
+    }
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+static GtkWidget *etats_onglet_create_reports_list (void)
+{
+	GtkWidget *vbox;
+	GtkWidget *sw;
+	GtkWidget *tree_view;
+	GtkListStore *model;
+    GtkTreeViewColumn *column;
+    GtkCellRenderer *renderer;
+    GtkTreeSelection *selection;
+
+	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
+    sw = gtk_scrolled_window_new (NULL, NULL);
+    gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw), GTK_SHADOW_ETCHED_IN);
+    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
+                                    GTK_POLICY_AUTOMATIC,
+                                    GTK_POLICY_AUTOMATIC);
+	tree_view = gtk_tree_view_new ();
+	model = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_INT);					/* report_name, report_number */
+	gtk_tree_view_set_model (GTK_TREE_VIEW (tree_view), GTK_TREE_MODEL(model));
+    g_object_unref (model);
+    gtk_container_add (GTK_CONTAINER(sw), tree_view);
+    gtk_box_pack_start (GTK_BOX (vbox), sw, TRUE, TRUE, 0);
+	g_object_set_data (G_OBJECT (vbox), "tree_view", tree_view);
+
+	/* Add column */
+    renderer = gtk_cell_renderer_text_new ();
+	column = gtk_tree_view_column_new_with_attributes(_("Report name"), renderer, "text", 0, NULL);
+    gtk_tree_view_column_set_expand (column, TRUE);
+	gtk_tree_view_column_set_sort_column_id (column, 0);
+	gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), column);
+
+	/* Fill the model */
+	etats_onglet_fill_reports_list_model (GTK_LIST_STORE (model));
+
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
+	g_signal_connect (selection,
+                      "changed",
+					  G_CALLBACK (etats_onglet_click_on_line_report),
+					  tree_view);
+
+	gtk_widget_show_all (vbox);
+
+	return vbox;
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void etats_onglet_notebook_switch_page (GtkNotebook *notebook,
+											   GtkWidget   *page,
+											   guint        page_num,
+											   gpointer     user_data)
+{
+	devel_debug_int (page_num);
+	if (page_num == 1)
+	{
+		GtkWidget *tree_view;
+
+		//~ g_signal_handlers_block_by_func (G_OBJECT (notebook),
+										 //~ G_CALLBACK (etats_onglet_notebook_switch_page),
+										 //~ NULL);
+		tree_view = g_object_get_data (G_OBJECT (page), "tree_view");
+		if (GTK_TREE_VIEW (tree_view) && maj_reports_list)
+		{
+			GtkTreeModel *model;
+
+			model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
+			etats_onglet_fill_reports_list_model (GTK_LIST_STORE (model));
+			maj_reports_list = FALSE;
+		}
+
+		//~ g_signal_handlers_unblock_by_func (G_OBJECT (notebook),
+										   //~ G_CALLBACK (etats_onglet_notebook_switch_page),
+										   //~ NULL);
+	}
 }
 
 /******************************************************************************/
@@ -1150,6 +1298,7 @@ gboolean etats_onglet_ajoute_etat (void)
 
     etats_config_personnalisation_etat ();
     gsb_file_set_modified (TRUE);
+	maj_reports_list = TRUE;
 
     return FALSE;
 }
@@ -1190,11 +1339,22 @@ GtkWidget *etats_onglet_create_reports_tab (void)
 				     GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
     gtk_box_pack_start (GTK_BOX (vbox), scrolled_window_etat, TRUE, TRUE, 0);
 
+	/* affichage de la liste des états */
+	vbox = etats_onglet_create_reports_list ();
+    gtk_notebook_append_page (GTK_NOTEBOOK (notebook_etats), vbox, NULL);
+    gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook_etats), 1);
+
+	g_signal_connect (G_OBJECT (notebook_etats),
+					  "switch-page",
+					  G_CALLBACK (etats_onglet_notebook_switch_page),
+					  NULL);
+
     /* création de la barre d'outils */
     reports_toolbar = etats_onglet_create_reports_toolbar ();
     gtk_container_add (GTK_CONTAINER (frame), reports_toolbar);
 
     gtk_widget_show_all (tab);
+	maj_reports_list = FALSE;
 
     return (tab);
 }
@@ -1241,6 +1401,7 @@ void etats_onglet_efface_etat (void)
     etats_onglet_unsensitive_reports_widgets ();
 
     gsb_file_set_modified (TRUE);
+	maj_reports_list = TRUE;
 }
 
 /**
@@ -1277,20 +1438,12 @@ void etats_onglet_reports_toolbar_set_style (gint toolbar_style)
  **/
 void etats_onglet_unsensitive_reports_widgets (void)
 {
-    if (scrolled_window_etat
-     &&
-     GTK_IS_WIDGET (scrolled_window_etat)
-     &&
-     gtk_bin_get_child (GTK_BIN (scrolled_window_etat)))
-        gtk_widget_hide (gtk_bin_get_child (GTK_BIN (scrolled_window_etat)));
-
     gtk_widget_set_sensitive (bouton_personnaliser_etat, FALSE);
     gtk_widget_set_sensitive (bouton_imprimer_etat, FALSE);
     gtk_widget_set_sensitive (bouton_exporter_etat, FALSE);
     gtk_widget_set_sensitive (bouton_dupliquer_etat, FALSE);
     gtk_widget_set_sensitive (bouton_effacer_etat, FALSE);
 }
-
 
 /**
  * Set widgets associated to active report sensitive.  For instance
@@ -1310,8 +1463,8 @@ void etats_onglet_update_gui_to_report (gint report_number)
 
     if (gsb_report_get_current () != report_number)
     {
-	rafraichissement_etat (report_number);
-	gsb_report_set_current (report_number);
+		rafraichissement_etat (report_number);
+		gsb_report_set_current (report_number);
     }
     else
         gtk_widget_show (gtk_bin_get_child (GTK_BIN (scrolled_window_etat)));
