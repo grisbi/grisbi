@@ -1337,7 +1337,7 @@ gboolean gsb_gui_navigation_set_selection ( gint page,
     g_return_val_if_fail ( selection, FALSE );
 
     /* if we select an account, open the expander if necessary */
-    if (page == GSB_ACCOUNT_PAGE || GSB_REPORTS_PAGE)
+    if (page == GSB_ACCOUNT_PAGE || page == GSB_REPORTS_PAGE)
     {
         GtkTreePath *path;
 
