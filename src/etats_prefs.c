@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*                      2003-2008 Benjamin Drieu (bdrieu@april.org)           */
-/*          2008-2012 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          2008-2017 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -1575,13 +1575,7 @@ static gboolean etats_prefs_onglet_tiers_select_first_last_item ( GtkWidget *but
 static void etats_prefs_onglet_tiers_selection_changed ( GtkTreeSelection *selection,
                         gpointer user_data )
 {
-    GtkTreeView *tree_view;
-    GtkTreePath *start_path;
-    GtkTreePath *end_path;
-    GtkTreePath *path = NULL;
     GList *liste;
-
-    tree_view = gtk_tree_selection_get_tree_view ( selection );
 
     /* on récupère la liste des libnes sélectionnées */
     liste = gtk_tree_selection_get_selected_rows ( selection, NULL );
@@ -1591,36 +1585,6 @@ static void etats_prefs_onglet_tiers_selection_changed ( GtkTreeSelection *selec
         etats_prefs_onglet_tiers_show_hide_prev_next_buttons ( TRUE, TRUE );
     else
         etats_prefs_onglet_tiers_show_hide_prev_next_buttons ( FALSE, FALSE );
-
-    /* on positionne le tree_view sur la ligne sélectionnée visible la plus proche */
-    if ( gtk_tree_view_get_visible_range ( GTK_TREE_VIEW ( tree_view ), &start_path, &end_path ) )
-    {
-        while ( liste )
-        {
-            path = ( GtkTreePath * ) liste->data;
-
-            if ( gtk_tree_selection_path_is_selected ( selection, path ) )
-            {
-                if ( gtk_tree_path_compare ( start_path, path ) <= 0
-                 &&
-                 gtk_tree_path_compare ( path, end_path ) <= 0 )
-                {
-                    if ( gtk_tree_path_compare ( path, tiers_selected ) == 0 )
-                    {
-                        liste = liste->next;
-                        continue;
-                    }
-                    tiers_selected = path;
-                    break;
-                }
-            }
-            liste = liste->next;
-        }
-
-        /* free the path */
-        gtk_tree_path_free ( start_path );
-        gtk_tree_path_free ( end_path );
-    }
 }
 
 
@@ -1868,6 +1832,7 @@ void etats_prefs_onglet_categ_budget_check_uncheck_all ( GtkToggleButton *toggle
         label = g_strdup ( _("Select all") );
 
     gtk_button_set_label ( GTK_BUTTON ( togglebutton ), label );
+	g_free (label);
 }
 
 

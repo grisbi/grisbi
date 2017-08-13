@@ -10913,7 +10913,7 @@ msgstr ""
 
 #: ../src/utils_buttons.c:295 ../src/utils_buttons.c:297
 msgid "Unselect"
-msgstr "Désélectionner tout"
+msgstr "Désélectionner"
 
 #: ../src/utils.c:155
 #, c-format

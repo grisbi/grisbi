@@ -1965,24 +1965,24 @@ static void etats_config_onglet_texte_get_buttons_add_remove ( GtkWidget *parent
 
     button = gtk_button_new_with_label ( _("Add") );
     gtk_widget_show ( button );
-    gtk_button_set_relief ( GTK_BUTTON ( button ), GTK_RELIEF_NONE );
+    gtk_button_set_relief ( GTK_BUTTON ( button ), GTK_RELIEF_NORMAL );
 
     g_signal_connect_swapped ( G_OBJECT ( button ),
                         "clicked",
                         G_CALLBACK ( etats_config_onglet_texte_ajoute_ligne_liste_comparaisons ),
                         GINT_TO_POINTER ( text_comparison_number ) );
 
-    gtk_box_pack_start ( GTK_BOX ( parent ), button, TRUE, TRUE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( parent ), button, TRUE, TRUE, MARGIN_BOX );
 
     button = gtk_button_new_with_label ( _("Remove") );
-    gtk_button_set_relief ( GTK_BUTTON ( button ), GTK_RELIEF_NONE );
+    gtk_button_set_relief ( GTK_BUTTON ( button ), GTK_RELIEF_NORMAL );
 
     g_signal_connect_swapped ( G_OBJECT ( button ),
                         "clicked",
                         G_CALLBACK ( etats_config_onglet_texte_retire_ligne_liste_comparaisons ),
                         GINT_TO_POINTER ( text_comparison_number ) );
 
-    gtk_box_pack_start ( GTK_BOX ( parent ), button, TRUE, TRUE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( parent ), button, TRUE, TRUE, MARGIN_BOX );
 }
 
 

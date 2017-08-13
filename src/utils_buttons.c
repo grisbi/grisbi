@@ -228,11 +228,15 @@ void utils_togglebutton_collapse_expand_all_rows ( GtkToggleButton *togglebutton
 
     hbox_expand = g_object_get_data ( G_OBJECT ( togglebutton ), "hbox_expand" );
     hbox_collapse = g_object_get_data ( G_OBJECT ( togglebutton ), "hbox_collapse" );
+	/* on remet à FALSE la propriété "no-show-all" utilisée pour initialiser le bouton */
+	/* voir etats_prefs_toggle_button_init_button_expand () */
+	if (gtk_widget_get_no_show_all (hbox_collapse))
+		gtk_widget_set_no_show_all (hbox_collapse, FALSE);
 
     if ( gtk_toggle_button_get_active ( togglebutton ) )
     {
         gtk_widget_hide ( hbox_expand );
-        gtk_widget_show ( hbox_collapse );
+        gtk_widget_show_all ( hbox_collapse );
         gtk_tree_view_expand_all ( GTK_TREE_VIEW ( tree_view ) );
     }
     else
