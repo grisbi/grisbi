@@ -1256,7 +1256,7 @@ static void etats_prefs_onglet_comptes_init_buttons_choix_utilisation_virements 
                         "bouton_inclusion_virements_perso" ) ),
                         "toggled",
                         G_CALLBACK ( sens_desensitive_pointeur ),
-                        gtk_builder_get_object ( etats_prefs_builder, "hbox_liste_comptes_virements" ) );
+                        gtk_builder_get_object ( etats_prefs_builder, "grid_liste_comptes_virements" ) );
 }
 
 
@@ -1279,8 +1279,6 @@ static GtkWidget *etats_prefs_onglet_virements_create_page ( gint page )
 
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
     gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
-
-    etats_prefs_widget_set_sensitive ( "hbox_liste_comptes_virements", FALSE );
 
     /* on crée la liste des comptes */
     etats_prefs_tree_view_init ( "treeview_virements",
@@ -2040,7 +2038,7 @@ static GtkWidget *etats_prefs_onglet_budgets_create_page ( gint page )
     /* on crée la liste des IB */
     tree_view = etats_prefs_onglet_categ_budget_tree_view_create ( FALSE );
 
-    /* on met la connection pour rendre sensitif la hbox_detaille_budget_etat */
+    /* on met la connection pour rendre sensitif la vbox_detaille_budget_etat */
     button = GTK_WIDGET ( gtk_builder_get_object ( etats_prefs_builder, "bouton_detaille_budget_etat" ) );
     g_signal_connect ( G_OBJECT ( button ),
                         "toggled",
