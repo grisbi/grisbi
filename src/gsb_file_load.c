@@ -4334,6 +4334,27 @@ void gsb_file_load_report ( const gchar **attribute_names,
         continue;
     }
 
+    if (!strcmp (attribute_names[i], "Compl_name_function" ))
+    {
+        gsb_data_report_set_compl_name_function (report_number, utils_str_atoi (attribute_values[i]));
+        i++;
+        continue;
+    }
+
+    if (!strcmp (attribute_names[i], "Compl_name_position" ))
+    {
+        gsb_data_report_set_compl_name_position (report_number, utils_str_atoi (attribute_values[i]));
+        i++;
+        continue;
+    }
+
+    if (!strcmp (attribute_names[i], "Compl_name_used" ))
+    {
+        gsb_data_report_set_compl_name_used (report_number, utils_str_atoi (attribute_values[i]));
+        i++;
+        continue;
+    }
+
     if ( !strcmp ( attribute_names[i],
                "General_sort_type" ))
     {

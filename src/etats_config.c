@@ -58,6 +58,7 @@
 #include "utils_buttons.h"
 #include "utils_dates.h"
 #include "utils_gtkbuilder.h"
+#include "utils_prefs.h"
 #include "utils_real.h"
 #include "utils_str.h"
 #include "erreur.h"
@@ -3073,16 +3074,170 @@ void etats_config_onglet_data_separation_combo_changed ( GtkComboBox *combo,
 
 /*ONGLET_AFFICHAGE_GENERALITES*/
 /**
+ * pré visualise le titre avec son complément
+ *
+ * \param report_number
+ *
+ * \return
+ **/
+static void etats_config_display_name_with_complement (gint report_number)
+{
+	gchar **tab;
+	gchar *report_name = NULL;
+	gchar *compl_str;
+	gchar *tmp_str = NULL;
+	gint function;
+	gint position;
+
+	devel_debug_int (report_number);
+	report_name = gsb_data_report_get_report_name (report_number);
+	function = gsb_data_report_get_compl_name_function (report_number);
+	position = gsb_data_report_get_compl_name_position (report_number);
+	tab = gsb_date_get_date_time_now_local ();
+
+	if (function == 1)
+	{
+		if (position == 2)
+		{
+			compl_str = g_strconcat (tab[0], " ", _("at"), " ", tab[1], NULL);
+		}
+		else
+		{
+			compl_str = g_strconcat (tab[0], " ", tab[1], NULL);
+		}
+	}
+	else
+	{
+		compl_str = g_strdup (tab[0]);
+	}
+
+	switch (position)
+	{
+		case 1:
+			tmp_str = g_strconcat (report_name, " - ", compl_str, NULL);
+			break;
+		case 2:
+			tmp_str = g_strconcat (report_name, "\n(", _("Edited"), " ", compl_str, ")", NULL);
+			break;
+		default:
+			tmp_str = g_strconcat (compl_str, " - ", report_name, NULL);
+	}
+	g_free (compl_str);
+	g_strfreev (tab);
+
+	if (tmp_str)
+	{
+		GtkWidget *textview;
+		GtkTextBuffer *buffer;
+
+		textview = etats_prefs_widget_get_widget_by_name ("textview_compl_name", NULL);
+		buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
+		gtk_text_buffer_set_text (buffer, tmp_str, -1);
+		g_free (tmp_str);
+	}
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void etats_config_combo_box_compl_name_changed (GtkComboBox *widget,
+													   void function (gint report_number,
+																	  gint compl_name_int))
+{
+	gint report_number;
+
+	report_number = gsb_gui_navigation_get_current_report ();
+	function (report_number, gtk_combo_box_get_active (GTK_COMBO_BOX (widget)));
+	etats_config_display_name_with_complement (report_number);
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static gboolean etats_config_check_button_compl_name_toggled (GtkWidget *check_button,
+															  GtkWidget *widget)
+{
+	gboolean activ;
+
+	activ = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check_button));
+    gtk_widget_set_sensitive ( widget, activ);
+
+	if (activ)
+		etats_config_display_name_with_complement (gsb_gui_navigation_get_current_report ());
+	else
+	{
+		GtkWidget *textview;
+		GtkTextBuffer *buffer;
+
+		textview = etats_prefs_widget_get_widget_by_name ("textview_compl_name", NULL);
+		buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
+		gtk_text_buffer_set_text (buffer, "", -1);
+	}
+
+	return FALSE;
+}
+
+/**
  * Initialise les informations de l'onglet généraités
  *
  * \param report_number
  *
  * \return
- */
+ **/
 static void etats_config_initialise_onglet_affichage_generalites ( gint report_number )
 {
+	GtkWidget *checkbutton;
+	GtkWidget *widget;
+	gchar *report_name = NULL;
+	gboolean activ;
+
+	report_name = gsb_data_report_get_report_name (report_number);
     gtk_entry_set_text ( GTK_ENTRY ( etats_prefs_widget_get_widget_by_name ( "entree_nom_etat", NULL ) ),
-                        gsb_data_report_get_report_name ( report_number ) );
+                        report_name);
+
+    /* on initialise le complément du nom si actif */
+	checkbutton = etats_prefs_widget_get_widget_by_name ("check_button_compl_name", NULL);
+	widget = etats_prefs_widget_get_widget_by_name ("hbox_combo_compl_name", NULL);
+	activ = gsb_data_report_get_compl_name_used (report_number);
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton), activ);
+	if (report_name && activ)
+	{
+		gsb_button_sensitive_by_checkbutton (checkbutton, widget);
+		gtk_combo_box_set_active (GTK_COMBO_BOX (etats_prefs_widget_get_widget_by_name ("combo_box_compl_name_function", NULL)),
+								  gsb_data_report_get_compl_name_function (report_number));
+		gtk_combo_box_set_active (GTK_COMBO_BOX (etats_prefs_widget_get_widget_by_name ("combo_box_compl_name_position", NULL)),
+								  gsb_data_report_get_compl_name_position (report_number));
+		etats_config_display_name_with_complement (report_number);
+	}
+
+    /* Connect signal */
+    g_signal_connect (etats_prefs_widget_get_widget_by_name ("event_box_compl_name", NULL),
+					  "button-press-event",
+					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
+					  checkbutton);
+    g_signal_connect (checkbutton,
+					  "toggled",
+					  G_CALLBACK (etats_config_check_button_compl_name_toggled),
+					  widget);
+
+	g_signal_connect (etats_prefs_widget_get_widget_by_name ("combo_box_compl_name_function", NULL),
+					  "changed",
+					  G_CALLBACK (etats_config_combo_box_compl_name_changed),
+					  gsb_data_report_set_compl_name_function);
+    g_signal_connect (etats_prefs_widget_get_widget_by_name ("combo_box_compl_name_position", NULL),
+					  "changed",
+					  G_CALLBACK (etats_config_combo_box_compl_name_changed),
+					  gsb_data_report_set_compl_name_position);
 
     /* on initialise le type de date à sélectionner */
     etats_prefs_button_toggle_set_actif ( "button_sel_value_date",
@@ -3098,7 +3253,6 @@ static void etats_config_initialise_onglet_affichage_generalites ( gint report_n
 	payee_last_state = gsb_data_report_get_append_in_payee (report_number);
     etats_prefs_button_toggle_set_actif ("bouton_inclure_dans_tiers", payee_last_state);
 }
-
 
 /**
  * Récupère les informations de l'onglet généralités
@@ -3121,6 +3275,25 @@ static void etats_config_recupere_info_onglet_affichage_generalites ( gint repor
     {
         gsb_data_report_set_report_name ( report_number, text );
     }
+
+	if (etats_prefs_button_toggle_get_actif ("check_button_compl_name"))
+	{
+		GtkWidget *widget;
+
+		gsb_data_report_set_compl_name_used (report_number, TRUE);
+		widget = etats_prefs_widget_get_widget_by_name ("combo_box_compl_name_function", NULL);
+		gsb_data_report_set_compl_name_function (report_number,
+												 gtk_combo_box_get_active (GTK_COMBO_BOX (widget)));
+		widget = etats_prefs_widget_get_widget_by_name ("combo_box_compl_name_position", NULL);
+		gsb_data_report_set_compl_name_position (report_number,
+												 gtk_combo_box_get_active (GTK_COMBO_BOX (widget)));
+	}
+	else
+	{
+		gsb_data_report_set_compl_name_used (report_number, FALSE);
+		gsb_data_report_set_compl_name_function (report_number, 0);
+		gsb_data_report_set_compl_name_function (report_number, 0);
+	}
 
     /* on récupère les autres informations */
     gsb_data_report_set_date_select_value ( report_number,

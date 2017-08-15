@@ -2450,6 +2450,9 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	new_string = g_markup_printf_escaped ( "\t<Report\n"
 					       "\t\tNb=\"%d\"\n"
 					       "\t\tName=\"%s\"\n"
+					       "\t\tCompl_name_function=\"%d\"\n"
+					       "\t\tCompl_name_position=\"%d\"\n"
+					       "\t\tCompl_name_used=\"%d\"\n"
 					       "\t\tGeneral_sort_type=\"%s\"\n"
                            "\t\tIgnore_archives=\"%d\"\n"
 					       "\t\tShow_m=\"%d\"\n"
@@ -2532,6 +2535,9 @@ gulong gsb_file_save_report_part ( gulong iterator,
 					       "\t\tUse_amount=\"%d\" />\n",
 	    report_number_to_write,
 	    my_safe_null_str(report_name),
+	    gsb_data_report_get_compl_name_function (report_number),
+	    gsb_data_report_get_compl_name_position (report_number),
+	    gsb_data_report_get_compl_name_used (report_number),
 	    my_safe_null_str(general_sort_type),
         gsb_data_report_get_ignore_archives ( report_number ),
 	    gsb_data_report_get_show_m (report_number),

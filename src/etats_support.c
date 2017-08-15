@@ -25,6 +25,7 @@
 
 #include "include.h"
 #include <glib/gi18n.h>
+#include <stdlib.h>
 
 /*START_INCLUDE*/
 #include "etats_support.h"
@@ -43,8 +44,46 @@
 /*END_EXTERN*/
 
 
+/******************************************************************************/
+/* Private functions                                                          */
+/******************************************************************************/
+/**
+ * reourne une chaine de deux lignes centrées
+ *
+ * \param
+ * \param
+ * \param
+ *
+ * \return a new allocated string
+ **/
+static gchar *etats_support_get_titre_formated (gchar *titre,
+												gchar **tab,
+												gint function)
+{
+	gchar *tmp_str;
+	gchar *new_titre = NULL;
 
+	if (function == 1)
+		tmp_str = g_strconcat ("(", _("Edited"), " ", tab[0], " ", _("at"), " ", tab[1], ")", NULL);
+	else
+		tmp_str = g_strconcat ("(", _("Edited"), " ", tab[0], ")", NULL);
 
+	new_titre = g_strconcat (titre, "\n", tmp_str, NULL);
+	g_free (tmp_str);
+
+	return new_titre;
+}
+
+/******************************************************************************/
+/* Public functions                                                           */
+/******************************************************************************/
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 gchar *etats_titre ( gint report_number)
 {
     gchar *titre;
@@ -397,9 +436,56 @@ gchar *etats_titre ( gint report_number)
 	}
     }
 
-    return titre;
+	/* on ajoute éventuellement le complément de titre */
+	if (gsb_data_report_get_compl_name_used (report_number))
+	{
+		gchar **tab;
+		gchar *new_titre;
+		gint function;
+		gint position;
+
+		function = gsb_data_report_get_compl_name_function (report_number);
+		position = gsb_data_report_get_compl_name_position (report_number);
+		tab = gsb_date_get_date_time_now_local ();
+
+		switch (position)
+		{
+			case 1:
+				if (function == 1)
+					new_titre = g_strconcat (titre, " - ", tab[0], " ", tab[1], NULL);
+				else
+					new_titre = g_strconcat (titre, " - ", tab[0], NULL);
+				break;
+			case 2:
+				new_titre = etats_support_get_titre_formated (titre, tab, function);
+				break;
+			default:
+				if (function == 1)
+					new_titre = g_strconcat (tab[0], " ", tab[1], " - ", titre, NULL);
+				else
+					new_titre = g_strconcat (tab[0], " - ", titre, NULL);
+		}
+		g_strfreev (tab);
+		g_free (titre);
+		g_date_free (today_date);
+
+		return new_titre;
+	}
+	else
+	{
+		g_date_free (today_date);
+
+		return titre;
+	}
 }
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

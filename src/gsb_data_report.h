@@ -63,6 +63,9 @@ GSList *gsb_data_report_get_category_struct_list ( gint report_number );
 gint gsb_data_report_get_category_used ( gint report_number );
 gint gsb_data_report_get_column_title_show ( gint report_number );
 gint gsb_data_report_get_column_title_type ( gint report_number );
+gint 		gsb_data_report_get_compl_name_function 				(gint report_number);
+gint 		gsb_data_report_get_compl_name_position 				(gint report_number);
+gboolean 	gsb_data_report_get_compl_name_used 					(gint report_number);
 gint gsb_data_report_get_currency_general ( gint report_number );
 gint gsb_data_report_get_date_type ( gint report_number );
 gint gsb_data_report_get_date_select_value ( gint report_number );
@@ -99,7 +102,7 @@ gint gsb_data_report_get_show_report_date ( gint report_number );
 gint gsb_data_report_get_show_report_financial_year ( gint report_number );
 gint gsb_data_report_get_show_report_marked ( gint report_number );
 gint gsb_data_report_get_show_report_method_of_payment ( gint report_number );
-gint gsb_data_report_get_show_report_method_of_payment_content ( gint report_number );
+gint 	gsb_data_report_get_show_report_method_of_payment_content 	( gint report_number );
 gint gsb_data_report_get_show_report_note ( gint report_number );
 gint gsb_data_report_get_show_report_payee ( gint report_number );
 gint gsb_data_report_get_show_report_sub_budget ( gint report_number );
@@ -186,6 +189,12 @@ gboolean gsb_data_report_set_column_title_show ( gint report_number,
                         gint column_title_show );
 gboolean gsb_data_report_set_column_title_type ( gint report_number,
                         gint column_title_type );
+gboolean 	gsb_data_report_set_compl_name_function 				(gint report_number,
+																	 gint compl_name_function);
+gboolean 	gsb_data_report_set_compl_name_position 				(gint report_number,
+																	 gint compl_name_position);
+gboolean 	gsb_data_report_set_compl_name_used 					(gint report_number,
+																	 gint compl_name_used);
 gboolean gsb_data_report_set_currency_general ( gint report_number,
                         gint currency_general );
 gboolean gsb_data_report_set_date_type ( gint report_number,

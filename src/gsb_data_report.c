@@ -55,6 +55,9 @@ typedef struct
     /** @name general stuff */
     gint report_number;
     gchar *report_name;
+	gboolean compl_name_used;						/* TRUE si utilisation d'un complément au nom du rapport */
+	gint compl_name_function;						/* Date ou Date + heure système */
+	gint compl_name_position;						/* Devant, derrière ou dessous le nom du rapport */
 
     /** @name what we show of the transactions */
     gint show_m;                                    /**< 0=all the reports, 1=report not marked R, 2=report marked P,R or T */
@@ -4778,6 +4781,128 @@ gint gsb_data_report_test_ignore_archives ( gint report_number )
     return ignore_archives;
 }
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+gint gsb_data_report_get_compl_name_function (gint report_number)
+{
+    struct_report *report;
+
+    report = gsb_data_report_get_structure (report_number);
+
+    if (!report)
+        return 0;
+
+    return report->compl_name_function;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+gboolean gsb_data_report_set_compl_name_function (gint report_number,
+												  gint compl_name_function)
+{
+    struct_report *report;
+
+    report = gsb_data_report_get_structure (report_number);
+
+    if (!report)
+        return FALSE;
+
+    report->compl_name_function = compl_name_function;
+
+    return TRUE;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+gint gsb_data_report_get_compl_name_position (gint report_number)
+{
+    struct_report *report;
+
+    report = gsb_data_report_get_structure (report_number);
+
+    if (!report)
+        return 0;
+
+    return report->compl_name_position;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+gboolean gsb_data_report_set_compl_name_position (gint report_number,
+												  gint compl_name_position)
+{
+    struct_report *report;
+
+    report = gsb_data_report_get_structure (report_number);
+
+    if (!report)
+        return FALSE;
+
+    report->compl_name_position = compl_name_position;
+
+    return TRUE;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+gboolean gsb_data_report_get_compl_name_used (gint report_number)
+{
+    struct_report *report;
+
+    report = gsb_data_report_get_structure (report_number);
+
+    if (!report)
+        return FALSE;
+
+    return report->compl_name_used;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+gboolean gsb_data_report_set_compl_name_used (gint report_number,
+											  gint compl_name_used)
+{
+    struct_report *report;
+
+    report = gsb_data_report_get_structure (report_number);
+
+    if (!report)
+        return FALSE;
+
+    report->compl_name_used = compl_name_used;
+
+    return TRUE;
+}
 
 /**
  *
