@@ -22,6 +22,18 @@ AC_SUBST(GRISBI_MINOR_VERSION, grisbi_minor_version)
 AC_DEFINE(GRISBI_MICRO_VERSION, grisbi_micro_version, [grisbi micro version])
 AC_SUBST(GRISBI_MICRO_VERSION, grisbi_micro_version)
 
+# Dependencies
+GLIB_REQUIRED=2.44
+GTK_REQUIRED=3.16
+LIBGSF_REQUIRED=1.14
+
+# Optionnel
+LIBGOFFICE_REQUIRED=0.10.0
+LIBOFX_REQUIRED=0.9
+LIBSSL_REQUIRED=1.0.0
+LIBXML_REQUIRED=2.5.0
+
+
 dnl ================================================================
 dnl Standard checks.
 dnl ================================================================
@@ -64,8 +76,7 @@ AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE", [Gettext package.])
 dnl ================================================================
 dnl Main Grisbi libraries
 dnl ================================================================
-
-grisbi_modules="gtk+-3.0 >= 3.0.12 glib-2.0 >= 2.28 libgsf-1 >= 1.14"
+grisbi_modules="gtk+-3.0 >= $GTK_REQUIRED glib-2.0 >= $GLIB_REQUIRED libgsf-1 >= $LIBGSF_REQUIRED"
 PKG_CHECK_MODULES(ZLIB, [zlib], have_zlib_pc=yes, have_zlib_pc=no)
 if test "$have_zlib_pc" = "yes"; then
 	grisbi_modules="$grisbi_modules zlib"
@@ -119,7 +130,7 @@ AC_ARG_WITH(openssl,
 	[build_openssl=$withval],
 	[build_openssl=auto])
 
-PKG_CHECK_MODULES(OPENSSL, [libcrypto >= 0.9.7], have_openssl=yes, have_openssl=no)
+PKG_CHECK_MODULES(OPENSSL, [libcrypto >= LIBSSL_REQUIRED], have_openssl=yes, have_openssl=no)
 if test "$build_openssl" = yes -a "$have_openssl" = no; then
 	AC_MSG_ERROR([OpenSSL support was requested but libssl could not be found.])
 fi
@@ -168,7 +179,7 @@ AC_ARG_WITH(ofx,
 	[build_ofx=$withval],
 	[build_ofx=auto])
 
-PKG_CHECK_MODULES(LIBOFX, [libofx >= 0.7], have_ofx=yes, have_ofx=no)
+PKG_CHECK_MODULES(LIBOFX, [libofx >= $LIBOFX_REQUIRED], have_ofx=yes, have_ofx=no)
 if test "$build_ofx" = yes -a "$with_ofx" = no; then
 	AC_MSG_ERROR([Ofx support was requested but libofx could not be found.])
 fi
@@ -191,7 +202,7 @@ AC_ARG_WITH(goffice,
 	[build_goffice=$withval],
 	[build_goffice=auto])
 
-PKG_CHECK_MODULES(GOFFICE, [libgoffice-0.10 >= 0.10.0], have_goffice=yes, have_goffice=no)
+PKG_CHECK_MODULES(GOFFICE, [libgoffice-0.10 >= LIBGOFFICE_REQUIRED], have_goffice=yes, have_goffice=no)
 if test "$build_goffice" = yes -a "$have_goffice" = no; then
 	AC_MSG_ERROR([GOffice support was requested but goffice could not be found.])
 fi
