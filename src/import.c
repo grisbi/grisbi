@@ -1077,7 +1077,11 @@ static GSList *gsb_import_create_file_chooser (const char *enc,
                         NULL);
 
     gtk_file_chooser_set_select_multiple (GTK_FILE_CHOOSER (dialog), TRUE);
-	gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (dialog), gsb_file_get_last_path ());
+
+	if (conf.force_import_directory)
+		gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (dialog), conf.import_directory);
+	else
+		gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (dialog), gsb_file_get_last_path ());
 
     /* Import filters */
     tmp_list = ImportFormats;
@@ -1159,9 +1163,12 @@ static GSList *gsb_import_create_file_chooser (const char *enc,
     /* save charmap */
     charmap_imported = g_strdup (go_charmap_sel_get_encoding ((GOCharmapSel *)go_charmap_sel));
 
-	tmp_last_directory = file_selection_get_last_directory (GTK_FILE_CHOOSER (dialog), TRUE);
-	gsb_file_update_last_path (tmp_last_directory);
-	g_free (tmp_last_directory);
+	if (!conf.force_import_directory)
+	{
+		tmp_last_directory = file_selection_get_last_directory (GTK_FILE_CHOOSER (dialog), TRUE);
+		gsb_file_update_last_path (tmp_last_directory);
+		g_free (tmp_last_directory);
+	}
 
     gtk_widget_destroy (dialog);
     return filenames;
@@ -4535,6 +4542,7 @@ gchar *gsb_import_unique_imported_name (gchar *account_name)
 static gboolean gsb_import_by_rule_get_file (GtkWidget *button,
 											 GtkWidget *entry)
 {
+	GtkWidget *dialog;
     GSList *filenames;
     GSList *tmp_list;
     gchar *string = NULL;
@@ -4545,7 +4553,7 @@ static gboolean gsb_import_by_rule_get_file (GtkWidget *button,
     enc = gsb_data_import_rule_get_charmap (rule);
     filenames = gsb_import_create_file_chooser (enc, GTK_WIDGET (grisbi_app_get_active_window (NULL)));
     if (!filenames)
-    return FALSE;
+		return FALSE;
 
     /* separate all the files by ; */
     tmp_list = filenames;
@@ -4566,6 +4574,11 @@ static gboolean gsb_import_by_rule_get_file (GtkWidget *button,
     gtk_entry_set_text (GTK_ENTRY (entry), string);
     gtk_editable_select_region (GTK_EDITABLE (entry), 0, -1);
     g_free (string);
+
+	/* active le bouton Valider */
+	dialog = g_object_get_data (G_OBJECT(button), "dialog");
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT, TRUE);
+
     return FALSE;
 }
 
@@ -4579,13 +4592,15 @@ static gboolean gsb_import_by_rule_get_file (GtkWidget *button,
  **/
 static gchar **gsb_import_by_rule_ask_filename (gint rule)
 {
-    gchar *tmp_str, *tmp_str2;
     GtkWidget *dialog, *paddingbox, *table;
     GtkWidget *label;
     GtkWidget *button;
     GtkWidget *entry;
     GtkWidget *hbox;
     gchar **array = NULL;
+	const gchar *filename = NULL;
+    gchar *tmp_str;
+    gchar *tmp_str2;
 
     if (!rule)
     return NULL;
@@ -4659,13 +4674,20 @@ static gchar **gsb_import_by_rule_ask_filename (gint rule)
     gtk_widget_set_size_request (entry, 200, -1);
     gtk_grid_attach (GTK_GRID (table), entry, 1, 1, 1, 1);
 
-    if (gsb_data_import_rule_get_last_file_name (rule))
+	filename = gsb_data_import_rule_get_last_file_name (rule);
+    if (filename && g_file_test (filename, G_FILE_TEST_EXISTS))
     {
-    gtk_entry_set_text (GTK_ENTRY (entry),
-               gsb_data_import_rule_get_last_file_name (rule));
+		gtk_entry_set_text (GTK_ENTRY (entry), filename);
     }
+	else
+	{
+		gtk_entry_set_placeholder_text (GTK_ENTRY (entry), _("Select a new file"));
+		gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT, FALSE);
+
+	}
 
     button = gtk_button_new_with_label ("...");
+	g_object_set_data (G_OBJECT(button), "dialog", dialog);
     g_signal_connect (G_OBJECT (button), "clicked",
                         G_CALLBACK (gsb_import_by_rule_get_file), entry);
     gtk_grid_attach (GTK_GRID (table), button, 2, 1, 1, 1);
