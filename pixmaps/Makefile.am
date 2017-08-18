@@ -71,6 +71,7 @@ grisbi_pixmaps_DATA = \
 	gsb-payees-manage-16.png \
 	gsb-payees-manage-24.png \
 	gsb-payment-32.png \
+	gsb-pdf-24.png \
 	gsb-preferences-16.png \
 	gsb-reconat-32.png \
 	gsb-reconciliation-24.png \

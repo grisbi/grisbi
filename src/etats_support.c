@@ -29,9 +29,10 @@
 
 /*START_INCLUDE*/
 #include "etats_support.h"
-#include "utils_dates.h"
 #include "gsb_data_fyear.h"
 #include "gsb_data_report.h"
+#include "utils_dates.h"
+#include "utils_str.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -48,7 +49,7 @@
 /* Private functions                                                          */
 /******************************************************************************/
 /**
- * reourne une chaine de deux lignes centrées
+ * reourne une chaine de deux lignes centrées pour complément de nom
  *
  * \param
  * \param
@@ -74,6 +75,34 @@ static gchar *etats_support_get_titre_formated (gchar *titre,
 	return new_titre;
 }
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+static void etats_support_set_export_pdf_name (gint report_number,
+											   gchar **tab)
+{
+	gchar *report_name;
+	gchar *tmp_str;
+
+	report_name = gsb_data_report_get_report_name (report_number);
+	tmp_str = my_strdelimit (report_name, " ", "_");
+	if (tmp_str)
+	{
+		gchar **tmp_tab;
+		gchar *export_name;
+
+		tmp_tab = g_strsplit (tab[0], "/", 3);
+		export_name = g_strconcat (tmp_tab[2], ".",tmp_tab[1], ".",tmp_tab[0], "-",tab[1], " ", tmp_str, ".pdf", NULL);
+		gsb_data_report_set_export_pdf_name (report_number, export_name);
+		g_strfreev (tmp_tab);
+		g_free (export_name);
+	}
+}
+
 /******************************************************************************/
 /* Public functions                                                           */
 /******************************************************************************/
@@ -86,6 +115,7 @@ static gchar *etats_support_get_titre_formated (gchar *titre,
  **/
 gchar *etats_titre ( gint report_number)
 {
+	gchar **tab;
     gchar *titre;
     GDate *today_date;
 
@@ -436,18 +466,21 @@ gchar *etats_titre ( gint report_number)
 	}
     }
 
+	/* set complement for the filename of export pdf */
+	tab = gsb_date_get_date_time_now_local ();
+	etats_support_set_export_pdf_name (report_number, tab);
+
 	/* on ajoute éventuellement le complément de titre */
 	if (gsb_data_report_get_compl_name_used (report_number))
 	{
-		gchar **tab;
 		gchar *new_titre;
 		gint function;
 		gint position;
 
 		function = gsb_data_report_get_compl_name_function (report_number);
 		position = gsb_data_report_get_compl_name_position (report_number);
-		tab = gsb_date_get_date_time_now_local ();
 
+		/* set complement of title */
 		switch (position)
 		{
 			case 1:

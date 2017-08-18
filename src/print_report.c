@@ -37,6 +37,7 @@
 /*START_INCLUDE*/
 #include "print_report.h"
 #include "dialog.h"
+#include "grisbi_app.h"
 #include "gsb_data_print_config.h"
 #include "gsb_file.h"
 #include "print_dialog_config.h"
@@ -66,9 +67,10 @@ static gint 		nb_rows_per_page = 0;
 static gint 		nb_rows_first_page = 0;
 static gdouble *	columns_width = NULL;
 
-//~ static GList *		current_child_table = NULL;
 static gint 		current_child_line = 0;
 
+/* GtkPrintSettings pour export pdf */
+static GtkPrintSettings *print_settings = NULL;
 
 /******************************************************************************/
 /* Private functions                                                          */
@@ -80,7 +82,7 @@ static gint 		current_child_line = 0;
  *
  * \return
  **/
- static void  print_report_init_columns_width (gint table_size,
+static void  print_report_init_columns_width (gint table_size,
                                                gint page_width)
 {
 	gint row;
@@ -156,8 +158,6 @@ static gboolean print_report_begin (GtkPrintOperation *operation,
     gint table_size = 0;
 	gint minimum_width;
 	gint natural_width;
-
-    devel_debug (NULL);
 
     /* initialize globals variables */
     cr = gtk_print_context_get_cairo_context (context);
@@ -354,8 +354,6 @@ static gboolean print_report_draw_page (GtkPrintOperation *operation,
 	gint i;
 	gint rows_drawed = 0;
     gboolean is_title = FALSE;
-
-    devel_debug_int (page);
 
     if (!page)
 		is_title = TRUE;
@@ -555,6 +553,47 @@ gboolean print_report (GtkWidget *button,
                          G_CALLBACK (print_config_show_config_apply),
                          NULL);
     return FALSE;
+}
+
+void print_report_export_pdf (const gchar *pdf_name)
+{
+	GtkPrintOperation *print;
+	GtkPrintOperationResult res;
+	GValue value = G_VALUE_INIT;
+
+    g_value_init (&value, G_TYPE_STRING);
+    g_value_set_string (&value, pdf_name);
+
+	print = gtk_print_operation_new ();
+
+	if (print_settings != NULL)
+		gtk_print_operation_set_print_settings (print, print_settings);
+
+	g_object_set_property (G_OBJECT (print),
+						   "export-filename",
+						   &value);
+	g_signal_connect (print,
+					  "begin_print",
+					  G_CALLBACK (print_report_begin),
+					  NULL);
+	g_signal_connect (print,
+					  "draw_page",
+					  G_CALLBACK (print_report_draw_page),
+					  NULL);
+
+	res = gtk_print_operation_run (print,
+								   GTK_PRINT_OPERATION_ACTION_EXPORT,
+								   GTK_WINDOW (grisbi_app_get_active_window (NULL)),
+								   NULL);
+
+	if (res == GTK_PRINT_OPERATION_RESULT_APPLY)
+	{
+	  if (print_settings != NULL)
+		g_object_unref (print_settings);
+	  print_settings = g_object_ref (gtk_print_operation_get_print_settings (print));
+	}
+
+	g_object_unref (print);
 }
 
 /**

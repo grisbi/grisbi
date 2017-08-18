@@ -58,6 +58,7 @@ typedef struct
 	gboolean compl_name_used;						/* TRUE si utilisation d'un complément au nom du rapport */
 	gint compl_name_function;						/* Date ou Date + heure système */
 	gint compl_name_position;						/* Devant, derrière ou dessous le nom du rapport */
+	gchar *export_pdf_name;							/* Nom du fichier pour l'export pdf */
 
     /** @name what we show of the transactions */
     gint show_m;                                    /**< 0=all the reports, 1=report not marked R, 2=report marked P,R or T */
@@ -423,6 +424,8 @@ static void _gsb_data_report_free ( struct_report *report )
 
     if ( report -> report_name )
         g_free ( report -> report_name );
+    if ( report->export_pdf_name)
+        g_free ( report->export_pdf_name);
     if ( report -> personal_date_start )
         g_date_free ( report -> personal_date_start );
     if ( report -> personal_date_end )
@@ -4905,12 +4908,54 @@ gboolean gsb_data_report_set_compl_name_used (gint report_number,
 }
 
 /**
+ * retourne le nom de fichier pour l'export pdf
+ *
+ * \param
+ *
+ * \return
+ **/
+gchar *gsb_data_report_get_export_pdf_name (gint report_number)
+{
+    struct_report *report;
+
+    report = gsb_data_report_get_structure (report_number);
+
+    if (!report)
+		return NULL;
+
+    return report->export_pdf_name;
+}
+
+/**
+ *  fixe le nom de fichier pour l'export pdf
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+gboolean gsb_data_report_set_export_pdf_name (gint report_number,
+											  gchar *export_pdf_name)
+{
+    struct_report *report;
+
+    report = gsb_data_report_get_structure (report_number);
+
+    if (!report)
+        return FALSE;
+
+    report->export_pdf_name = g_strdup (export_pdf_name);
+
+    return TRUE;
+}
+
+/**
  *
  *
  * \param
  *
  * \return
- * */
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

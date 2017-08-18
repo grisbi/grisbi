@@ -42,6 +42,7 @@
 #include "gsb_automem.h"
 #include "gsb_data_report_amout_comparison.h"
 #include "gsb_data_report.h"
+#include "gsb_dirs.h"
 #include "gsb_file.h"
 #include "gsb_file_others.h"
 #include "navigation.h"
@@ -59,7 +60,7 @@
 /*START_STATIC*/
 /*END_STATIC*/
 
-
+static GtkWidget *bouton_export_pdf_etat = NULL;
 static GtkWidget *bouton_effacer_etat = NULL;
 static GtkWidget *bouton_personnaliser_etat = NULL;
 static GtkWidget *bouton_imprimer_etat = NULL;
@@ -442,6 +443,27 @@ static void etats_onglet_importer_etat (void)
 }
 
 /**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+static void etats_onglet_bouton_export_pdf_etat_clicked (void)
+{
+	gint report_number;
+	gchar *export_pdf_name;
+	gchar *filename;
+
+	devel_debug (NULL);
+	report_number = gsb_gui_navigation_get_current_report ();
+	export_pdf_name = gsb_data_report_get_export_pdf_name (report_number);
+	filename = g_build_filename (gsb_dirs_get_default_dir (), export_pdf_name, NULL);
+	print_report_export_pdf (filename);
+	g_free (filename);
+}
+
+/**
  * Create a toolbar containing all necessary controls on reports tab.
  *
  * \param
@@ -521,6 +543,15 @@ static GtkWidget *etats_onglet_create_reports_toolbar (void)
                         G_CALLBACK (etats_onglet_dupliquer_etat),
                         NULL);
     gtk_toolbar_insert (GTK_TOOLBAR (toolbar), GTK_TOOL_ITEM (bouton_dupliquer_etat), -1);
+
+    /* archive button */
+    bouton_export_pdf_etat = GTK_WIDGET (utils_buttons_tool_button_new_from_image_label ("gsb-pdf-24.png", _("Create pdf file")));
+    gtk_widget_set_tooltip_text (bouton_export_pdf_etat, _("Creates a pdf file of the report in user directory"));
+    g_signal_connect (G_OBJECT (bouton_export_pdf_etat),
+					  "clicked",
+					  G_CALLBACK (etats_onglet_bouton_export_pdf_etat_clicked),
+					  NULL);
+    gtk_toolbar_insert (GTK_TOOLBAR (toolbar), GTK_TOOL_ITEM (bouton_export_pdf_etat), -1);
 
     etats_onglet_unsensitive_reports_widgets ();
 
@@ -1443,6 +1474,7 @@ void etats_onglet_unsensitive_reports_widgets (void)
     gtk_widget_set_sensitive (bouton_exporter_etat, FALSE);
     gtk_widget_set_sensitive (bouton_dupliquer_etat, FALSE);
     gtk_widget_set_sensitive (bouton_effacer_etat, FALSE);
+	gtk_widget_set_sensitive (bouton_export_pdf_etat, FALSE);
 }
 
 /**
@@ -1460,6 +1492,7 @@ void etats_onglet_update_gui_to_report (gint report_number)
     gtk_widget_set_sensitive (bouton_exporter_etat, TRUE);
     gtk_widget_set_sensitive (bouton_dupliquer_etat, TRUE);
     gtk_widget_set_sensitive (bouton_effacer_etat, TRUE);
+	gtk_widget_set_sensitive (bouton_export_pdf_etat, TRUE);
 
     if (gsb_report_get_current () != report_number)
     {

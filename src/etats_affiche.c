@@ -123,14 +123,16 @@ gint etat_affiche_affiche_titre ( gint ligne )
 	report_number = gsb_gui_navigation_get_current_report ();
     titre = etats_titre (report_number);
 
-	if (gsb_data_report_get_compl_name_used (report_number))
+	if (gsb_data_report_get_compl_name_used (report_number)
+		&&
+		gsb_data_report_get_compl_name_function (report_number) == 1)
 	{
 		gchar **tab;
 
 		tab = g_strsplit (titre, "\n", 2);
 		etat_affiche_attach_label (tab[0], TEXT_BOLD | TEXT_HUGE, 0, nb_colonnes,
 								   ligne, ligne + 1, ALIGN_CENTER, 0);
-		etat_affiche_attach_label (tab[1], TEXT_BOLD | TEXT_HUGE, 0, nb_colonnes,
+		etat_affiche_attach_label (tab[1], TEXT_NORMAL, 0, nb_colonnes,
 								   ligne + 1, ligne + 2, ALIGN_CENTER, 0);
 		g_strfreev (tab);
 
