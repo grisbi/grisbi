@@ -572,10 +572,12 @@ static gboolean etats_onglet_click_on_line_report (GtkTreeSelection *selection,
 	GtkTreeModel *model;
 	gint report_number;
 
-	gtk_tree_selection_get_selected (selection, NULL, &iter);
-	model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
-	gtk_tree_model_get (model, &iter, 1, &report_number, -1);
-	gsb_gui_navigation_set_selection (GSB_REPORTS_PAGE, -1, report_number);
+	if (gtk_tree_selection_get_selected (selection, NULL, &iter))
+	{
+		model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
+		gtk_tree_model_get (model, &iter, 1, &report_number, -1);
+		gsb_gui_navigation_set_selection (GSB_REPORTS_PAGE, -1, report_number);
+	}
 
 	return FALSE;
 }
