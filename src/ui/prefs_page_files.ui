@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Generated with glade 3.20.0 -->
 <interface>
-  <requires lib="gtk+" version="3.12"/>
+  <requires lib="gtk+" version="3.16"/>
   <object class="GtkAdjustment" id="adjustment1">
     <property name="upper">5</property>
     <property name="step_increment">1</property>
@@ -130,7 +130,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="xalign">0</property>
+                                <property name="halign">start</property>
                                 <property name="draw_indicator">True</property>
                               </object>
                               <packing>
@@ -180,7 +180,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="xalign">0</property>
+                                <property name="halign">start</property>
                                 <property name="draw_indicator">True</property>
                               </object>
                               <packing>
@@ -230,7 +230,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="xalign">0</property>
+                                <property name="halign">start</property>
                                 <property name="draw_indicator">True</property>
                               </object>
                               <packing>
@@ -401,7 +401,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="xalign">0</property>
+                                <property name="halign">start</property>
                                 <property name="draw_indicator">True</property>
                               </object>
                               <packing>
@@ -451,7 +451,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="xalign">0</property>
+                                <property name="halign">start</property>
                                 <property name="draw_indicator">True</property>
                               </object>
                               <packing>
@@ -501,7 +501,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="xalign">0</property>
+                                <property name="halign">start</property>
                                 <property name="draw_indicator">True</property>
                               </object>
                               <packing>
@@ -551,7 +551,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="xalign">0</property>
+                                <property name="halign">start</property>
                                 <property name="draw_indicator">True</property>
                               </object>
                               <packing>
@@ -601,7 +601,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="xalign">0</property>
+                                <property name="halign">start</property>
                                 <property name="draw_indicator">True</property>
                               </object>
                               <packing>
@@ -806,7 +806,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="xalign">0</property>
+                                <property name="halign">start</property>
                                 <property name="draw_indicator">True</property>
                               </object>
                               <packing>
@@ -906,7 +906,7 @@
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">False</property>
-        <property name="xalign">0</property>
+        <property name="halign">start</property>
         <property name="draw_indicator">True</property>
       </object>
       <packing>
