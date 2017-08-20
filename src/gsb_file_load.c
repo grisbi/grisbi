@@ -2972,8 +2972,8 @@ static  void gsb_file_load_bet_graph_part ( const gchar **attribute_names,
 static  void gsb_file_load_bet_historical ( const gchar **attribute_names,
                         const gchar **attribute_values )
 {
-    struct_hist_div *shd;
-    struct_hist_div *sub_shd = NULL;
+    HistDiv *shd;
+    HistDiv *sub_shd = NULL;
     gint i=0;
     gint sub_div_nb;
 
@@ -3076,7 +3076,7 @@ static  void gsb_file_load_bet_future_data ( const gchar **attribute_names,
                         const gchar **attribute_values )
 {
     gint i=0;
-    struct_futur_data *scheduled;
+    FuturData *scheduled;
 
     if ( !attribute_names[i] )
     return;
@@ -3258,7 +3258,7 @@ static void gsb_file_load_bet_transfert_part ( const gchar **attribute_names,
                         const gchar **attribute_values )
 {
     gint i=0;
-    struct_transfert_data *transfert;
+    TransfertData *transfert;
 
     if ( !attribute_names[i] )
     return;

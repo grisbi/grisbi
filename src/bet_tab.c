@@ -177,7 +177,7 @@ static GtkWidget *bet_array_toolbar;
  * \return FALSE
  * */
 static gboolean bet_array_list_replace_line_by_transfert ( GtkTreeModel *tab_model,
-                        struct_transfert_data *transfert,
+                        TransfertData *transfert,
                         gint origin_data )
 {
     GtkTreeIter iter;
@@ -344,7 +344,7 @@ static void bet_array_list_replace_transactions_by_transfert ( GtkTreeModel *tab
     g_hash_table_iter_init ( &iter, transfert_list );
     while ( g_hash_table_iter_next ( &iter, &key, &value ) )
     {
-        struct_transfert_data *transfert = ( struct_transfert_data *) value;
+        TransfertData *transfert = ( TransfertData *) value;
 
         if ( account_number != transfert -> account_number )
             continue;
@@ -489,7 +489,7 @@ static gboolean bet_array_update_average_column ( GtkTreeModel *model,
     gchar *color_str = NULL;
     gint selected_account;
     gboolean select = FALSE;
-    SBR *tmp_range = (SBR*) data;
+    BetRange *tmp_range = (BetRange*) data;
     gsb_real amount;
 
     if ( tmp_range -> first_pass )
@@ -563,7 +563,7 @@ void bet_array_refresh_estimate_tab ( gint account_number )
     GDate *date_min;
     GDate *date_max;
     gsb_real current_balance;
-    SBR *tmp_range;
+    BetRange *tmp_range;
     GValue date_value = G_VALUE_INIT;
     gint currency_number;
 
@@ -1390,7 +1390,7 @@ gboolean bet_array_refresh_futur_data ( GtkTreeModel *tab_model,
     g_hash_table_iter_init ( &iter, future_list );
     while ( g_hash_table_iter_next ( &iter, &key, &value ) )
     {
-        struct_futur_data *scheduled = ( struct_futur_data *) value;
+        FuturData *scheduled = ( FuturData *) value;
         GtkTreeIter tab_iter;
         GValue date_value = G_VALUE_INIT;
         gchar *str_debit = NULL;
@@ -2084,7 +2084,7 @@ void bet_array_list_update_balance ( GtkTreeModel *model )
     {
         gchar *str_current_balance;
         gsb_real current_balance;
-        SBR *tmp_range;
+        BetRange *tmp_range;
 
         gtk_tree_model_get ( model, &iter,
                         SPP_ESTIMATE_TREE_AMOUNT_COLUMN, &str_current_balance, -1 );
@@ -2497,7 +2497,7 @@ gint bet_array_list_schedule_line ( gint origine, gint account_number, gint numb
 
     if ( origine == SPP_ORIGIN_FUTURE )
     {
-        struct_futur_data *scheduled;
+        FuturData *scheduled;
 
         scheduled = bet_data_future_get_struct ( account_number, number );
         if ( scheduled == NULL )
@@ -2644,7 +2644,7 @@ gchar *bet_array_list_get_description ( gint account_number,
     }
     else if ( origine == SPP_ORIGIN_FUTURE )
     {
-        struct_futur_data *scheduled = ( struct_futur_data * ) value;
+        FuturData *scheduled = ( FuturData * ) value;
 
         if ( scheduled -> is_transfert )
         {
@@ -2701,7 +2701,7 @@ gchar *bet_array_list_get_description ( gint account_number,
     }
     else if ( origine == SPP_ORIGIN_ACCOUNT )
     {
-        struct_transfert_data *transfert = ( struct_transfert_data * ) value;
+        TransfertData *transfert = ( TransfertData * ) value;
 
         if ( transfert -> type == 0 )
             desc = g_strdup_printf ( _("Balance of account: %s"),
@@ -2771,7 +2771,7 @@ gboolean bet_array_refresh_transfert_data ( GtkTreeModel *tab_model,
     g_hash_table_iter_init ( &iter, transfert_list );
     while ( g_hash_table_iter_next ( &iter, &key, &value ) )
     {
-        struct_transfert_data *transfert = ( struct_transfert_data *) value;
+        TransfertData *transfert = ( TransfertData *) value;
         GtkTreeIter tab_iter;
         GValue date_value = G_VALUE_INIT;
         gchar *str_debit = NULL;
@@ -3081,7 +3081,7 @@ void bet_array_update_toolbar ( gint toolbar_style )
  *
  * \return
  * */
-void bet_array_create_transaction_from_transfert (struct_transfert_data *transfert)
+void bet_array_create_transaction_from_transfert (TransfertData *transfert)
 {
     GSList *tmp_list;
     GDate *date_debut_comparaison;

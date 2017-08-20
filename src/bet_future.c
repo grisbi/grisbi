@@ -89,7 +89,7 @@ static GtkWidget *bet_form_widget_get_widget ( gint element_number );
 static GtkWidget *bet_future_create_dialog ( gint account_number );
 static gboolean bet_future_set_form_data_from_line ( gint account_number,
                         gint number  );
-static gboolean bet_future_take_data_from_form (  struct_futur_data *scheduled );
+static gboolean bet_future_take_data_from_form (  FuturData *scheduled );
 /* static void bet_transfert_auto_inc_toggle ( GtkToggleButton *button, gpointer data ); */
 static GtkWidget *bet_transfert_create_account_list_part ( GtkWidget *dialog, gint account_number );
 static gboolean bet_transfert_entry_lose_focus ( GtkWidget *entry,
@@ -236,7 +236,7 @@ dialog_return:
 
     if ( result == GTK_RESPONSE_OK )
     {
-        struct_futur_data *scheduled;
+        FuturData *scheduled;
 
         scheduled = struct_initialise_bet_future ( );
 
@@ -1453,7 +1453,7 @@ static gboolean bet_future_get_payee_data ( GtkWidget *widget,
                         gpointer *value )
 {
     const gchar *string;
-    struct_transfert_data *sd = (struct_transfert_data *) value;
+    TransfertData *sd = (TransfertData *) value;
 
     string = gtk_combofix_get_text ( GTK_COMBOFIX ( widget ) );
     if ( string && strlen ( string ) > 0 )
@@ -1485,7 +1485,7 @@ static gboolean bet_future_get_payment_data ( GtkWidget *widget,
                         gpointer *value )
 {
     gint payment_number;
-    struct_transfert_data *sd = (struct_transfert_data *) value;
+    TransfertData *sd = (TransfertData *) value;
 
     payment_number = gsb_payment_method_get_selected_number ( widget );
     if ( payment_number > 0 )
@@ -1520,7 +1520,7 @@ static gboolean bet_future_get_category_data ( GtkWidget *widget,
 
     if ( struct_type == 0 )
     {
-        struct_futur_data *sd = ( struct_futur_data *) value;
+        FuturData *sd = ( FuturData *) value;
 
         if ( string && strlen ( string ) > 0 )
         {
@@ -1555,7 +1555,7 @@ static gboolean bet_future_get_category_data ( GtkWidget *widget,
     }
     else if ( struct_type == 1 )
     {
-        struct_transfert_data *sd = ( struct_transfert_data *) value;
+        TransfertData *sd = ( TransfertData *) value;
 
         if ( string && strlen ( string ) > 0 )
         {
@@ -1583,7 +1583,7 @@ static gboolean bet_future_get_category_data ( GtkWidget *widget,
     else if ( struct_type == 2 )
     {
         /* on est toujours avec une struture transfert mais on récupère les éléments pour le compte carte */
-        struct_transfert_data *sd = ( struct_transfert_data *) value;
+        TransfertData *sd = ( TransfertData *) value;
 
         if ( string && strlen ( string ) > 0 )
         {
@@ -1651,14 +1651,14 @@ static gboolean bet_future_get_budget_data ( GtkWidget *widget,
 
     if ( struct_type == 0 )
     {
-        struct_futur_data *sd = ( struct_futur_data *) value;
+        FuturData *sd = ( FuturData *) value;
 
         sd -> budgetary_number = budgetary_number;
         sd -> sub_budgetary_number = sub_budgetary_number;
     }
     else if ( struct_type == 1 )
     {
-        struct_transfert_data *sd = ( struct_transfert_data *) value;
+        TransfertData *sd = ( TransfertData *) value;
 
         sd->main_budgetary_number = budgetary_number;
         sd->main_sub_budgetary_number = sub_budgetary_number;
@@ -1681,7 +1681,7 @@ gboolean bet_future_set_form_data_from_line ( gint account_number,
     GHashTable *future_list;
     gchar *key;
     const gchar *tmp_str;
-    struct_futur_data *scheduled;
+    FuturData *scheduled;
 
     if ( account_number == 0 )
         key = g_strconcat ("0:", utils_str_itoa ( number ), NULL );
@@ -1810,7 +1810,7 @@ gboolean bet_future_set_form_data_from_line ( gint account_number,
  *
  *
  * */
-gboolean bet_future_take_data_from_form (  struct_futur_data *scheduled )
+gboolean bet_future_take_data_from_form (  FuturData *scheduled )
 {
     GtkWidget *widget;
 
@@ -1974,7 +1974,7 @@ dialog_return:
 
     if ( result == GTK_RESPONSE_OK )
     {
-        struct_futur_data *scheduled;
+        FuturData *scheduled;
 
         scheduled = struct_initialise_bet_future ( );
 
@@ -2552,7 +2552,7 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
  *
  *\return TRUE if OK FALSE if error
  * */
-static gboolean bet_transfert_take_data (  struct_transfert_data *transfert,
+static gboolean bet_transfert_take_data (  TransfertData *transfert,
                         GtkWidget *dialog )
 {
     GtkWidget *widget;
@@ -2674,7 +2674,7 @@ static gboolean bet_transfert_take_data (  struct_transfert_data *transfert,
  *
  * \return
  * */
-static void bet_transfert_select_account_in_treeview ( struct_transfert_data *transfert )
+static void bet_transfert_select_account_in_treeview ( TransfertData *transfert )
 {
     GtkWidget *tree_view;
     GtkTreeModel *model;
@@ -2716,7 +2716,7 @@ static gboolean bet_transfert_set_form_data_from_line ( gint account_number,
     GtkWidget *widget;
     GHashTable *transfert_list;
     gchar *key;
-    struct_transfert_data *transfert;
+    TransfertData *transfert;
 
     if ( account_number == 0 )
         key = g_strconcat ("0:", utils_str_itoa ( number ), NULL );
@@ -2932,7 +2932,7 @@ dialog_return:
     {
         GtkWidget *tree_view;
         gchar *tmp_str;
-        struct_transfert_data *transfert;
+        TransfertData *transfert;
 
         transfert = struct_initialise_bet_transfert ( );
 
@@ -3210,7 +3210,7 @@ dialog_return:
     {
         GtkWidget *tree_view;
         gchar *tmp_str;
-        struct_transfert_data *transfert;
+        TransfertData *transfert;
 
         transfert = struct_initialise_bet_transfert ( );
 

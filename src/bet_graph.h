@@ -21,19 +21,19 @@
 
 
 /* START_DECLARATION */
-GtkToolItem *bet_graph_button_menu_new ( GtkWidget *toolbar,
-                        const gchar *type_graph,
-                        GCallback callback,
-                        GtkWidget *tree_view );
-gchar *bet_graph_get_configuration_string ( gint origin_tab );
-void bet_graph_line_graph_new ( GtkWidget *button,
-                        GtkTreeView *tree_view );
-void bet_graph_montly_graph_new ( GtkWidget *button,
-                        GtkTreeView *tree_view );
-void bet_graph_sectors_graph_new ( GtkWidget *button,
-                        GtkTreeView *tree_view );
-void bet_graph_set_configuration_variables ( const gchar *string );
-void struct_free_bet_graph_prefs ( void );
+GtkToolItem *	bet_graph_button_menu_new 				(GtkWidget *toolbar,
+														 const gchar *type_graph,
+														 GCallback callback,
+														 GtkWidget *tree_view);
+gchar *			bet_graph_get_configuration_string 		(gint origin_tab);
+void 			bet_graph_line_graph_new 				(GtkWidget *button,
+														 GtkTreeView *tree_view);
+void 			bet_graph_montly_graph_new 				(GtkWidget *button,
+														 GtkTreeView *tree_view);
+void 			bet_graph_sectors_graph_new 			(GtkWidget *button,
+														 GtkTreeView *tree_view);
+void 			bet_graph_set_configuration_variables 	(const gchar *string);
+void 			struct_free_bet_graph_prefs 			(void);
 /* END_DECLARATION */
 
 

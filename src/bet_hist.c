@@ -829,8 +829,8 @@ void bet_historical_populate_div_model ( gpointer key,
                         gpointer value,
                         gpointer user_data )
 {
-    SH *sh = ( SH* ) value;
-    SBR *sbr = sh -> sbr;
+    BetHist *sh = (BetHist*) value;
+    BetRange *sbr = sh -> sbr;
     GtkTreeView *tree_view = ( GtkTreeView * ) user_data;
     GtkTreeModel *model;
     GtkTreeIter parent;
@@ -922,8 +922,8 @@ void bet_historical_populate_div_model ( gpointer key,
     g_hash_table_iter_init ( &iter, sh -> list_sub_div );
     while ( g_hash_table_iter_next ( &iter, &sub_key, &sub_value ) )
     {
-        SH *sub_sh = ( SH* ) sub_value;
-        SBR *sub_sbr = sub_sh -> sbr;
+        BetHist *sub_sh = (BetHist* ) sub_value;
+        BetRange *sub_sbr = sub_sh -> sbr;
         GtkTreeIter fils;
         gchar **tab_str = NULL;
 

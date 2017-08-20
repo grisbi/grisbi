@@ -41,27 +41,30 @@
 
 
 /* START_DECLARATION */
-void bet_data_finance_data_simulator_init ( void );
-gdouble bet_data_finance_get_bet_taux_step ( gint nbre_digits );
-GDate *bet_data_finance_get_date_last_installment_paid ( GDate *date_depart );
-gdouble bet_data_finance_get_last_echeance ( gdouble capital_du,
-                        gdouble interets,
-                        gdouble frais );
-gdouble bet_data_finance_get_echeance ( gdouble capital,
-                        gdouble taux_periodique,
-                        gint duree );
-gdouble bet_data_finance_get_frais_par_echeance ( gdouble capital,
-                        gdouble taux_frais,
-                        gint nbre_echeances );
-gdouble bet_data_finance_get_interets ( gdouble capital_du, gdouble taux_periodique );
-gdouble bet_data_finance_get_principal ( gdouble echeance,
-                        gdouble interets,
-                        gdouble frais );
-gdouble bet_data_finance_get_taux_periodique ( gdouble taux, gint type_taux );
-gdouble bet_data_finance_get_total_cost ( struct_echeance *s_echeance );
-void bet_data_finance_structure_amortissement_free ( struct_amortissement *s_amortissement );
-struct_amortissement *bet_data_finance_structure_amortissement_init ( void );
-gdouble bet_data_finance_troncate_number ( gdouble number, gint nbre_decimal );
+void 					bet_data_finance_data_simulator_init 				(void);
+gdouble 				bet_data_finance_get_bet_taux_step 					(gint nbre_digits);
+GDate *					bet_data_finance_get_date_last_installment_paid 	(GDate *date_depart);
+gdouble 				bet_data_finance_get_last_echeance 					(gdouble capital_du,
+																			 gdouble interets,
+																			 gdouble frais);
+gdouble 				bet_data_finance_get_echeance 						(gdouble capital,
+																			 gdouble taux_periodique,
+																			 gint duree);
+gdouble 				bet_data_finance_get_frais_par_echeance 			(gdouble capital,
+																			 gdouble taux_frais,
+																			 gint nbre_echeances);
+gdouble 				bet_data_finance_get_interets 						(gdouble capital_du,
+																			 gdouble taux_periodique);
+gdouble 				bet_data_finance_get_principal 						(gdouble echeance,
+																			 gdouble interets,
+																			 gdouble frais);
+gdouble 				bet_data_finance_get_taux_periodique 				(gdouble taux,
+																			 gint type_taux);
+gdouble 				bet_data_finance_get_total_cost 					(struct_echeance *s_echeance);
+void 					bet_data_finance_structure_amortissement_free 		(struct_amortissement *s_amortissement);
+struct_amortissement *	bet_data_finance_structure_amortissement_init 		(void);
+gdouble 				bet_data_finance_troncate_number 					(gdouble number,
+																			 gint nbre_decimal);
 /* END_DECLARATION */
 
 
