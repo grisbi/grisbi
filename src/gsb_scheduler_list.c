@@ -124,7 +124,7 @@ static void popup_scheduled_context_menu ( void );
 
 
 /*START_EXTERN*/
-extern struct conditional_message delete_msg[];
+extern struct ConditionalMessage delete_msg[];
 /*END_EXTERN*/
 
 

@@ -190,13 +190,13 @@ static gchar *labels_titres_colonnes_liste_ope[] = {
 
 
 /*START_EXTERN*/
-extern struct conditional_message messages[];
+extern struct ConditionalMessage messages[];
 extern GtkWidget *reconcile_sort_list_button;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 /*END_EXTERN*/
 
 /** All delete messages */
-struct conditional_message delete_msg[] =
+struct ConditionalMessage delete_msg[] =
 {
     { "delete-child-transaction", N_("Delete a child transaction."),
       NULL,

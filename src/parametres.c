@@ -104,8 +104,8 @@ GtkWidget *fenetre_preferences = NULL;
 
 
 /*START_EXTERN*/
-extern struct conditional_message delete_msg[];
-extern struct conditional_message messages[];
+extern struct ConditionalMessage delete_msg[];
+extern struct ConditionalMessage messages[];
 extern gchar *nom_fichier_comptes;
 /*END_EXTERN*/
 

@@ -56,8 +56,8 @@
 /*END_INCLUDE*/
 
 /* START_EXTERN Variables externes PROVISOIRE */
-extern struct conditional_message delete_msg[];
-extern struct conditional_message messages[];
+extern struct ConditionalMessage delete_msg[];
+extern struct ConditionalMessage messages[];
 /*END_EXTERN*/
 
 struct _GrisbiSettingsPrivate

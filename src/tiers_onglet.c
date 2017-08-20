@@ -1682,7 +1682,7 @@ void gsb_assistant_payees_modifie_operations ( GSList *sup_payees,
     gint payee_number;
     gchar *nombre;
     gboolean question = TRUE;
-    struct conditional_message overwrite_payee;
+    struct ConditionalMessage overwrite_payee;
 
 
     payee_number = gsb_data_mix_get_party_number ( transaction_number, is_transaction );

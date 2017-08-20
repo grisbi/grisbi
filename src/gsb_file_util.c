@@ -44,7 +44,7 @@
 
 
 /*START_EXTERN*/
-extern struct conditional_message messages[];
+extern struct ConditionalMessage messages[];
 extern gchar *nom_fichier_comptes;
 /*END_EXTERN*/
 

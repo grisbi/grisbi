@@ -55,7 +55,7 @@ static gchar *make_hint ( const gchar *hint, const gchar *text );
 
 
 /** All messages */
-struct conditional_message messages[] =
+struct ConditionalMessage messages[] =
 {
     { "ofx-security-not-implemented", N_("Security feature not implemented"),
       N_("This file contains security information, which processing is not implemented at "
@@ -277,12 +277,12 @@ GtkWidget *dialogue_special_no_run ( GtkMessageType param,
  * dialogue_conditional_new()).  Normally called as an event.
  *
  * \param checbox   GtkCheckbox that triggered this event.
- * \param message   struct conditional_message Message
+ * \param message   struct ConditionalMessage Message
  *
  * \return      FALSE.
  */
 gboolean dialogue_update_struct_message ( GtkWidget *checkbox,
-                        struct conditional_message *message )
+                        struct ConditionalMessage *message )
 {
     message -> hidden = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( checkbox ) );
 
@@ -514,11 +514,11 @@ gboolean question_conditional_yes_no ( gchar *var )
  * this message not to be displayed again thanks to preferences and wait
  * for user to press 'YES' or 'NO'.
  *
- * \param struct conditional_message
+ * \param struct ConditionalMessage
  *
  * \return TRUE if user pressed 'YES'.  FALSE otherwise.
  */
-gboolean question_conditional_yes_no_with_struct ( struct conditional_message *message )
+gboolean question_conditional_yes_no_with_struct ( struct ConditionalMessage *message )
 {
     GtkWidget *dialog, *vbox, *checkbox;
     gchar *text;
@@ -561,12 +561,12 @@ gboolean question_conditional_yes_no_with_struct ( struct conditional_message *m
 /**
  * return the number of message
  *
- * \param struct conditional_message
+ * \param struct ConditionalMessage
  * \param name of message
  *
  * \return message number or -1 is not present.
  */
-gint question_conditional_yes_no_get_no_struct ( struct conditional_message *msg,
+gint question_conditional_yes_no_get_no_struct ( struct ConditionalMessage *msg,
                         gchar *name )
 {
     gint i;
