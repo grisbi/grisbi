@@ -8,10 +8,10 @@
 
 
 /* START_DECLARATION */
-GtkWidget *onglet_display_addresses ( void );
-GtkWidget * onglet_display_fonts ( void );
-GtkWidget *tab_display_toolbar ( void );
-void update_homepage_title (GtkEditable *entry,
-							gpointer data);
+GtkWidget *	onglet_display_addresses 	(void);
+GtkWidget * onglet_display_fonts 		(void);
+GtkWidget *	tab_display_toolbar 		(void);
+void 		update_homepage_title 		(GtkEditable *entry,
+										 gpointer data);
 /* END_DECLARATION */
 #endif

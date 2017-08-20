@@ -165,11 +165,11 @@ struct _CustomListClass
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
-GType custom_list_get_type (void);
-CustomList *custom_list_new (void);
-void custom_list_set_value (GtkTreeModel *tree_model,
-			    GtkTreeIter  *iter,
-			    gint          column,
-			    GValue       *value);
+GType 			custom_list_get_type 	(void);
+CustomList *	custom_list_new 		(void);
+void 			custom_list_set_value 	(GtkTreeModel *tree_model,
+										 GtkTreeIter  *iter,
+										 gint          column,
+										 GValue       *value);
 /* END_DECLARATION */
 #endif

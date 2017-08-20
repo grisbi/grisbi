@@ -24,37 +24,37 @@
 #define devel_print_str(x) debug_print_log_string("Debug",__FILE__,__LINE__,__PRETTY_FUNCTION__,x)
 
 /* START_DECLARATION */
-void debug_message_int ( const gchar *prefixe,
+void debug_message_int (const gchar *prefixe,
                         const gchar *file,
                         gint line,
                         const char *function,
                         gint message,
                         gint level,
-                        gboolean force_debug_display );
-void debug_message_real ( const gchar *prefixe,
+                        gboolean force_debug_display);
+void debug_message_real (const gchar *prefixe,
                         const gchar *file,
                         gint line,
                         const char *function,
                         gsb_real message,
                         gint level,
                         gboolean force_debug_display);
-void debug_message_string ( const gchar *prefixe,
+void debug_message_string (const gchar *prefixe,
                         const gchar *file,
                         gint line,
                         const char *function,
                         const gchar *message,
                         gint level,
-                        gboolean force_debug_display );
-void debug_print_log_string ( const gchar *prefixe,
+                        gboolean force_debug_display);
+void debug_print_log_string (const gchar *prefixe,
                         const gchar *file,
                         gint line,
                         const char *function,
-                        const gchar *msg );
-gboolean debug_start_log ( void );
-void debug_finish_log ( void );
-void debug_initialize_debugging ( gint level );
-void debug_set_cmd_line_debug_level ( gint debug_level );
-void debug_set_cmd_line_mode ( gint level );
-void debug_traitement_sigsegv ( gint signal_nb );
+                        const gchar *msg);
+gboolean debug_start_log (void);
+void debug_finish_log (void);
+void debug_initialize_debugging (gint level);
+void debug_set_cmd_line_debug_level (gint debug_level);
+void debug_set_cmd_line_mode (gint level);
+void debug_traitement_sigsegv (gint signal_nb);
 /* END_DECLARATION */
 #endif
