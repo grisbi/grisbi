@@ -7,6 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		003AC2141F49DDE9007DA275 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 003AC2131F49DDE9007DA275 /* libcrypto.a */; };
+		003AC2181F49DE25007DA275 /* libofx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 003AC2171F49DE25007DA275 /* libofx.a */; };
+		003AC21A1F49DE39007DA275 /* libintl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 003AC2191F49DE39007DA275 /* libintl.a */; };
+		003AC21E1F49DEA4007DA275 /* libpango-1.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 003AC21D1F49DEA4007DA275 /* libpango-1.0.a */; };
+		003AC2201F49DF68007DA275 /* libgoffice-0.10.10.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 003AC21F1F49DF68007DA275 /* libgoffice-0.10.10.dylib */; };
+		003AC2231F49DF93007DA275 /* utils_prefs.c in Sources */ = {isa = PBXBuildFile; fileRef = 003AC2211F49DF93007DA275 /* utils_prefs.c */; };
+		003AC2251F49DFE1007DA275 /* grisbi_prefs.c in Sources */ = {isa = PBXBuildFile; fileRef = 003AC2241F49DFE1007DA275 /* grisbi_prefs.c */; };
+		003AC2341F49E06D007DA275 /* prefs_page_archives.c in Sources */ = {isa = PBXBuildFile; fileRef = 003AC22E1F49E06D007DA275 /* prefs_page_archives.c */; };
+		003AC2351F49E06D007DA275 /* prefs_page_display_fonts.c in Sources */ = {isa = PBXBuildFile; fileRef = 003AC22F1F49E06D007DA275 /* prefs_page_display_fonts.c */; };
+		003AC2361F49E06D007DA275 /* prefs_page_divers.c in Sources */ = {isa = PBXBuildFile; fileRef = 003AC2301F49E06D007DA275 /* prefs_page_divers.c */; };
+		003AC2371F49E06D007DA275 /* prefs_page_files.c in Sources */ = {isa = PBXBuildFile; fileRef = 003AC2311F49E06D007DA275 /* prefs_page_files.c */; };
+		003AC2381F49E06D007DA275 /* prefs_page_import_asso.c in Sources */ = {isa = PBXBuildFile; fileRef = 003AC2321F49E06D007DA275 /* prefs_page_import_asso.c */; };
+		003AC2391F49E06D007DA275 /* prefs_page_import_files.c in Sources */ = {isa = PBXBuildFile; fileRef = 003AC2331F49E06D007DA275 /* prefs_page_import_files.c */; };
+		003AC23C1F49E0A8007DA275 /* csv_template_rule.c in Sources */ = {isa = PBXBuildFile; fileRef = 003AC23B1F49E0A8007DA275 /* csv_template_rule.c */; };
 		006E682D1DB3E7AD0038B1F0 /* accueil.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E67011DB3E7AC0038B1F0 /* accueil.c */; };
 		006E682E1DB3E7AD0038B1F0 /* affichage_liste.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E67031DB3E7AC0038B1F0 /* affichage_liste.c */; };
 		006E682F1DB3E7AD0038B1F0 /* affichage.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E67051DB3E7AC0038B1F0 /* affichage.c */; };
@@ -46,7 +60,6 @@
 		006E68511DB3E7AD0038B1F0 /* grisbi_win.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E674C1DB3E7AC0038B1F0 /* grisbi_win.c */; };
 		006E68521DB3E7AD0038B1F0 /* gsb_account_property.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E67511DB3E7AC0038B1F0 /* gsb_account_property.c */; };
 		006E68531DB3E7AD0038B1F0 /* gsb_account.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E67531DB3E7AC0038B1F0 /* gsb_account.c */; };
-		006E68541DB3E7AD0038B1F0 /* gsb_archive_config.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E67551DB3E7AC0038B1F0 /* gsb_archive_config.c */; };
 		006E68551DB3E7AD0038B1F0 /* gsb_assistant_account.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E67571DB3E7AC0038B1F0 /* gsb_assistant_account.c */; };
 		006E68561DB3E7AD0038B1F0 /* gsb_assistant_archive_export.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E67591DB3E7AC0038B1F0 /* gsb_assistant_archive_export.c */; };
 		006E68571DB3E7AD0038B1F0 /* gsb_assistant_archive.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E675B1DB3E7AC0038B1F0 /* gsb_assistant_archive.c */; };
@@ -145,7 +158,6 @@
 		006E68B51DB3E7AD0038B1F0 /* utils_editables.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E681B1DB3E7AC0038B1F0 /* utils_editables.c */; };
 		006E68B61DB3E7AD0038B1F0 /* utils_file_selection.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E681D1DB3E7AC0038B1F0 /* utils_file_selection.c */; };
 		006E68B71DB3E7AD0038B1F0 /* utils_files.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E681F1DB3E7AC0038B1F0 /* utils_files.c */; };
-		006E68B81DB3E7AD0038B1F0 /* utils_font.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E68211DB3E7AD0038B1F0 /* utils_font.c */; };
 		006E68B91DB3E7AD0038B1F0 /* utils_gtkbuilder.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E68231DB3E7AD0038B1F0 /* utils_gtkbuilder.c */; };
 		006E68BA1DB3E7AD0038B1F0 /* utils_operations.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E68251DB3E7AD0038B1F0 /* utils_operations.c */; };
 		006E68BB1DB3E7AD0038B1F0 /* utils_real.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E68271DB3E7AD0038B1F0 /* utils_real.c */; };
@@ -158,23 +170,18 @@
 		006E68CA1DB425410038B1F0 /* libgtk-3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 006E68C91DB425410038B1F0 /* libgtk-3.0.dylib */; };
 		006E68CC1DB4255D0038B1F0 /* libgdk-3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 006E68CB1DB4255D0038B1F0 /* libgdk-3.0.dylib */; };
 		006E68CE1DB425720038B1F0 /* libgdk_pixbuf-2.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 006E68CD1DB425720038B1F0 /* libgdk_pixbuf-2.0.a */; };
-		006E68D01DB425880038B1F0 /* libpango-1.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 006E68CF1DB425880038B1F0 /* libpango-1.0.a */; };
 		006E68D21DB425BB0038B1F0 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 006E68D11DB425BB0038B1F0 /* libz.tbd */; };
 		006E68D41DB425DB0038B1F0 /* libpangocairo-1.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 006E68D31DB425DB0038B1F0 /* libpangocairo-1.0.a */; };
-		006E68D61DB426670038B1F0 /* libintl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 006E68D51DB426670038B1F0 /* libintl.a */; };
 		006E68DC1DB426EE0038B1F0 /* gnucash.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E68DA1DB426EE0038B1F0 /* gnucash.c */; };
 		006E68DE1DB427130038B1F0 /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 006E68DD1DB427130038B1F0 /* libxml2.tbd */; };
 		006E68E21DB4276C0038B1F0 /* ofx.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E68E01DB4276C0038B1F0 /* ofx.c */; };
-		006E68E41DB427DF0038B1F0 /* libofx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 006E68E31DB427DF0038B1F0 /* libofx.a */; };
 		00B77C441DB2A17600A5D233 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 00B77C431DB2A17600A5D233 /* main.c */; };
 		00BCBD341E0701C100579172 /* bet_graph.ui in CopyFiles */ = {isa = PBXBuildFile; fileRef = 00BCBD2F1E07018400579172 /* bet_graph.ui */; };
 		00BCBD351E0701C100579172 /* etats_prefs.ui in CopyFiles */ = {isa = PBXBuildFile; fileRef = 00BCBD301E07018400579172 /* etats_prefs.ui */; };
 		00BCBD361E0701C100579172 /* grisbi_menu.ui in CopyFiles */ = {isa = PBXBuildFile; fileRef = 00BCBD311E07018400579172 /* grisbi_menu.ui */; };
 		00BCBD371E0701C100579172 /* grisbi_win.ui in CopyFiles */ = {isa = PBXBuildFile; fileRef = 00BCBD321E07018400579172 /* grisbi_win.ui */; };
 		00BCBD381E0701C100579172 /* grisbi.css in CopyFiles */ = {isa = PBXBuildFile; fileRef = 00BCBD331E07018400579172 /* grisbi.css */; };
-		00EE9D021E01E93C005BB1B0 /* libgoffice-0.10.10.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 00EE9D011E01E93C005BB1B0 /* libgoffice-0.10.10.dylib */; };
 		00EE9D061E01EAFB005BB1B0 /* openssl.c in Sources */ = {isa = PBXBuildFile; fileRef = 00EE9D041E01EAFB005BB1B0 /* openssl.c */; };
-		00EE9D0A1E01EBB3005BB1B0 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00EE9D091E01EBB3005BB1B0 /* libcrypto.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -195,6 +202,31 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		003AC2131F49DDE9007DA275 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../../../../../../usr/local/Cellar/openssl/1.0.2l/lib/libcrypto.a; sourceTree = "<group>"; };
+		003AC2151F49DE15007DA275 /* INSTALL_RECEIPT.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = INSTALL_RECEIPT.json; path = ../../../../../../usr/local/Cellar/libofx/0.9.10/INSTALL_RECEIPT.json; sourceTree = "<group>"; };
+		003AC2171F49DE25007DA275 /* libofx.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libofx.a; path = ../../../../../../usr/local/Cellar/libofx/0.9.10/lib/libofx.a; sourceTree = "<group>"; };
+		003AC2191F49DE39007DA275 /* libintl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libintl.a; path = ../../../../../../usr/local/Cellar/gettext/0.19.8.1/lib/libintl.a; sourceTree = "<group>"; };
+		003AC21B1F49DE86007DA275 /* 1.40.7 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = 1.40.7; path = ../../../../../../usr/local/Cellar/pango/1.40.7; sourceTree = "<group>"; };
+		003AC21D1F49DEA4007DA275 /* libpango-1.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libpango-1.0.a"; path = "../../../../../../usr/local/Cellar/pango/1.40.7/lib/libpango-1.0.a"; sourceTree = "<group>"; };
+		003AC21F1F49DF68007DA275 /* libgoffice-0.10.10.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libgoffice-0.10.10.dylib"; path = "../../../../../../usr/local/Cellar/goffice/0.10.35/lib/libgoffice-0.10.10.dylib"; sourceTree = "<group>"; };
+		003AC2211F49DF93007DA275 /* utils_prefs.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = utils_prefs.c; sourceTree = "<group>"; };
+		003AC2221F49DF93007DA275 /* utils_prefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utils_prefs.h; sourceTree = "<group>"; };
+		003AC2241F49DFE1007DA275 /* grisbi_prefs.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = grisbi_prefs.c; sourceTree = "<group>"; };
+		003AC2261F49E00B007DA275 /* grisbi_prefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = grisbi_prefs.h; sourceTree = "<group>"; };
+		003AC2281F49E06D007DA275 /* prefs_page_archives.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = prefs_page_archives.h; path = prefs/prefs_page_archives.h; sourceTree = "<group>"; };
+		003AC2291F49E06D007DA275 /* prefs_page_display_fonts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = prefs_page_display_fonts.h; path = prefs/prefs_page_display_fonts.h; sourceTree = "<group>"; };
+		003AC22A1F49E06D007DA275 /* prefs_page_divers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = prefs_page_divers.h; path = prefs/prefs_page_divers.h; sourceTree = "<group>"; };
+		003AC22B1F49E06D007DA275 /* prefs_page_files.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = prefs_page_files.h; path = prefs/prefs_page_files.h; sourceTree = "<group>"; };
+		003AC22C1F49E06D007DA275 /* prefs_page_import_asso.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = prefs_page_import_asso.h; path = prefs/prefs_page_import_asso.h; sourceTree = "<group>"; };
+		003AC22D1F49E06D007DA275 /* prefs_page_import_files.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = prefs_page_import_files.h; path = prefs/prefs_page_import_files.h; sourceTree = "<group>"; };
+		003AC22E1F49E06D007DA275 /* prefs_page_archives.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = prefs_page_archives.c; path = prefs/prefs_page_archives.c; sourceTree = "<group>"; };
+		003AC22F1F49E06D007DA275 /* prefs_page_display_fonts.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = prefs_page_display_fonts.c; path = prefs/prefs_page_display_fonts.c; sourceTree = "<group>"; };
+		003AC2301F49E06D007DA275 /* prefs_page_divers.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = prefs_page_divers.c; path = prefs/prefs_page_divers.c; sourceTree = "<group>"; };
+		003AC2311F49E06D007DA275 /* prefs_page_files.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = prefs_page_files.c; path = prefs/prefs_page_files.c; sourceTree = "<group>"; };
+		003AC2321F49E06D007DA275 /* prefs_page_import_asso.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = prefs_page_import_asso.c; path = prefs/prefs_page_import_asso.c; sourceTree = "<group>"; };
+		003AC2331F49E06D007DA275 /* prefs_page_import_files.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = prefs_page_import_files.c; path = prefs/prefs_page_import_files.c; sourceTree = "<group>"; };
+		003AC23A1F49E0A8007DA275 /* csv_template_rule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = csv_template_rule.h; sourceTree = "<group>"; };
+		003AC23B1F49E0A8007DA275 /* csv_template_rule.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = csv_template_rule.c; sourceTree = "<group>"; };
 		006E67001DB3E26B0038B1F0 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = SOURCE_ROOT; };
 		006E67011DB3E7AC0038B1F0 /* accueil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = accueil.c; sourceTree = "<group>"; };
 		006E67021DB3E7AC0038B1F0 /* accueil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = accueil.h; sourceTree = "<group>"; };
@@ -279,8 +311,6 @@
 		006E67521DB3E7AC0038B1F0 /* gsb_account_property.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gsb_account_property.h; sourceTree = "<group>"; };
 		006E67531DB3E7AC0038B1F0 /* gsb_account.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gsb_account.c; sourceTree = "<group>"; };
 		006E67541DB3E7AC0038B1F0 /* gsb_account.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gsb_account.h; sourceTree = "<group>"; };
-		006E67551DB3E7AC0038B1F0 /* gsb_archive_config.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gsb_archive_config.c; sourceTree = "<group>"; };
-		006E67561DB3E7AC0038B1F0 /* gsb_archive_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gsb_archive_config.h; sourceTree = "<group>"; };
 		006E67571DB3E7AC0038B1F0 /* gsb_assistant_account.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gsb_assistant_account.c; sourceTree = "<group>"; };
 		006E67581DB3E7AC0038B1F0 /* gsb_assistant_account.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gsb_assistant_account.h; sourceTree = "<group>"; };
 		006E67591DB3E7AC0038B1F0 /* gsb_assistant_archive_export.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gsb_assistant_archive_export.c; sourceTree = "<group>"; };
@@ -481,8 +511,6 @@
 		006E681E1DB3E7AC0038B1F0 /* utils_file_selection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utils_file_selection.h; sourceTree = "<group>"; };
 		006E681F1DB3E7AC0038B1F0 /* utils_files.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = utils_files.c; sourceTree = "<group>"; };
 		006E68201DB3E7AD0038B1F0 /* utils_files.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utils_files.h; sourceTree = "<group>"; };
-		006E68211DB3E7AD0038B1F0 /* utils_font.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = utils_font.c; sourceTree = "<group>"; };
-		006E68221DB3E7AD0038B1F0 /* utils_font.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utils_font.h; sourceTree = "<group>"; };
 		006E68231DB3E7AD0038B1F0 /* utils_gtkbuilder.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = utils_gtkbuilder.c; sourceTree = "<group>"; };
 		006E68241DB3E7AD0038B1F0 /* utils_gtkbuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utils_gtkbuilder.h; sourceTree = "<group>"; };
 		006E68251DB3E7AD0038B1F0 /* utils_operations.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = utils_operations.c; sourceTree = "<group>"; };
@@ -529,14 +557,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00EE9D0A1E01EBB3005BB1B0 /* libcrypto.a in Frameworks */,
-				00EE9D021E01E93C005BB1B0 /* libgoffice-0.10.10.dylib in Frameworks */,
-				006E68E41DB427DF0038B1F0 /* libofx.a in Frameworks */,
+				003AC2201F49DF68007DA275 /* libgoffice-0.10.10.dylib in Frameworks */,
+				003AC21E1F49DEA4007DA275 /* libpango-1.0.a in Frameworks */,
+				003AC21A1F49DE39007DA275 /* libintl.a in Frameworks */,
+				003AC2181F49DE25007DA275 /* libofx.a in Frameworks */,
+				003AC2141F49DDE9007DA275 /* libcrypto.a in Frameworks */,
 				006E68DE1DB427130038B1F0 /* libxml2.tbd in Frameworks */,
-				006E68D61DB426670038B1F0 /* libintl.a in Frameworks */,
 				006E68D41DB425DB0038B1F0 /* libpangocairo-1.0.a in Frameworks */,
 				006E68D21DB425BB0038B1F0 /* libz.tbd in Frameworks */,
-				006E68D01DB425880038B1F0 /* libpango-1.0.a in Frameworks */,
 				006E68CE1DB425720038B1F0 /* libgdk_pixbuf-2.0.a in Frameworks */,
 				006E68CC1DB4255D0038B1F0 /* libgdk-3.0.dylib in Frameworks */,
 				006E68CA1DB425410038B1F0 /* libgtk-3.0.dylib in Frameworks */,
@@ -550,9 +578,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		003AC2271F49E052007DA275 /* prefs */ = {
+			isa = PBXGroup;
+			children = (
+				003AC22E1F49E06D007DA275 /* prefs_page_archives.c */,
+				003AC2281F49E06D007DA275 /* prefs_page_archives.h */,
+				003AC22F1F49E06D007DA275 /* prefs_page_display_fonts.c */,
+				003AC2291F49E06D007DA275 /* prefs_page_display_fonts.h */,
+				003AC2301F49E06D007DA275 /* prefs_page_divers.c */,
+				003AC22A1F49E06D007DA275 /* prefs_page_divers.h */,
+				003AC2311F49E06D007DA275 /* prefs_page_files.c */,
+				003AC22B1F49E06D007DA275 /* prefs_page_files.h */,
+				003AC2321F49E06D007DA275 /* prefs_page_import_asso.c */,
+				003AC22C1F49E06D007DA275 /* prefs_page_import_asso.h */,
+				003AC2331F49E06D007DA275 /* prefs_page_import_files.c */,
+				003AC22D1F49E06D007DA275 /* prefs_page_import_files.h */,
+			);
+			name = prefs;
+			sourceTree = "<group>";
+		};
 		006E68BE1DB3E96C0038B1F0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				003AC21F1F49DF68007DA275 /* libgoffice-0.10.10.dylib */,
+				003AC21D1F49DEA4007DA275 /* libpango-1.0.a */,
+				003AC21B1F49DE86007DA275 /* 1.40.7 */,
+				003AC2191F49DE39007DA275 /* libintl.a */,
+				003AC2171F49DE25007DA275 /* libofx.a */,
+				003AC2151F49DE15007DA275 /* INSTALL_RECEIPT.json */,
+				003AC2131F49DDE9007DA275 /* libcrypto.a */,
 				00EE9D091E01EBB3005BB1B0 /* libcrypto.a */,
 				00EE9D011E01E93C005BB1B0 /* libgoffice-0.10.10.dylib */,
 				006E68E31DB427DF0038B1F0 /* libofx.a */,
@@ -632,7 +686,6 @@
 		00B77C421DB2A12700A5D233 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				006E68D71DB426B30038B1F0 /* plugins */,
 				006E67011DB3E7AC0038B1F0 /* accueil.c */,
 				006E67021DB3E7AC0038B1F0 /* accueil.h */,
 				006E67031DB3E7AC0038B1F0 /* affichage_liste.c */,
@@ -661,6 +714,8 @@
 				006E671A1DB3E7AC0038B1F0 /* classement_echeances.h */,
 				006E671B1DB3E7AC0038B1F0 /* csv_parse.c */,
 				006E671C1DB3E7AC0038B1F0 /* csv_parse.h */,
+				003AC23B1F49E0A8007DA275 /* csv_template_rule.c */,
+				003AC23A1F49E0A8007DA275 /* csv_template_rule.h */,
 				006E671D1DB3E7AC0038B1F0 /* custom_list.c */,
 				006E671E1DB3E7AC0038B1F0 /* custom_list.h */,
 				006E671F1DB3E7AC0038B1F0 /* dialog.c */,
@@ -705,6 +760,8 @@
 				006E67471DB3E7AC0038B1F0 /* grisbi_app.h */,
 				006E67481DB3E7AC0038B1F0 /* grisbi_osx.c */,
 				006E67491DB3E7AC0038B1F0 /* grisbi_osx.h */,
+				003AC2241F49DFE1007DA275 /* grisbi_prefs.c */,
+				003AC2261F49E00B007DA275 /* grisbi_prefs.h */,
 				006E674A1DB3E7AC0038B1F0 /* grisbi_settings.c */,
 				006E674B1DB3E7AC0038B1F0 /* grisbi_settings.h */,
 				006E674C1DB3E7AC0038B1F0 /* grisbi_win.c */,
@@ -716,8 +773,6 @@
 				006E67521DB3E7AC0038B1F0 /* gsb_account_property.h */,
 				006E67531DB3E7AC0038B1F0 /* gsb_account.c */,
 				006E67541DB3E7AC0038B1F0 /* gsb_account.h */,
-				006E67551DB3E7AC0038B1F0 /* gsb_archive_config.c */,
-				006E67561DB3E7AC0038B1F0 /* gsb_archive_config.h */,
 				006E67571DB3E7AC0038B1F0 /* gsb_assistant_account.c */,
 				006E67581DB3E7AC0038B1F0 /* gsb_assistant_account.h */,
 				006E67591DB3E7AC0038B1F0 /* gsb_assistant_archive_export.c */,
@@ -867,6 +922,7 @@
 				006E67EB1DB3E7AC0038B1F0 /* imputation_budgetaire.c */,
 				006E67EC1DB3E7AC0038B1F0 /* imputation_budgetaire.h */,
 				006E67ED1DB3E7AC0038B1F0 /* include.h */,
+				00B77C431DB2A17600A5D233 /* main.c */,
 				006E67EE1DB3E7AC0038B1F0 /* menu.c */,
 				006E67EF1DB3E7AC0038B1F0 /* menu.h */,
 				006E67F01DB3E7AC0038B1F0 /* meta_budgetary.c */,
@@ -883,6 +939,8 @@
 				006E67FB1DB3E7AC0038B1F0 /* org.gtk.grisbi.gschema.xml */,
 				006E67FC1DB3E7AC0038B1F0 /* parametres.c */,
 				006E67FD1DB3E7AC0038B1F0 /* parametres.h */,
+				006E68D71DB426B30038B1F0 /* plugins */,
+				003AC2271F49E052007DA275 /* prefs */,
 				006E67FE1DB3E7AC0038B1F0 /* print_dialog_config.c */,
 				006E67FF1DB3E7AC0038B1F0 /* print_dialog_config.h */,
 				006E68001DB3E7AC0038B1F0 /* print_report.c */,
@@ -918,19 +976,18 @@
 				006E681E1DB3E7AC0038B1F0 /* utils_file_selection.h */,
 				006E681F1DB3E7AC0038B1F0 /* utils_files.c */,
 				006E68201DB3E7AD0038B1F0 /* utils_files.h */,
-				006E68211DB3E7AD0038B1F0 /* utils_font.c */,
-				006E68221DB3E7AD0038B1F0 /* utils_font.h */,
 				006E68231DB3E7AD0038B1F0 /* utils_gtkbuilder.c */,
 				006E68241DB3E7AD0038B1F0 /* utils_gtkbuilder.h */,
 				006E68251DB3E7AD0038B1F0 /* utils_operations.c */,
 				006E68261DB3E7AD0038B1F0 /* utils_operations.h */,
+				003AC2211F49DF93007DA275 /* utils_prefs.c */,
+				003AC2221F49DF93007DA275 /* utils_prefs.h */,
 				006E68271DB3E7AD0038B1F0 /* utils_real.c */,
 				006E68281DB3E7AD0038B1F0 /* utils_real.h */,
 				006E68291DB3E7AD0038B1F0 /* utils_str.c */,
 				006E682A1DB3E7AD0038B1F0 /* utils_str.h */,
 				006E682B1DB3E7AD0038B1F0 /* utils.c */,
 				006E682C1DB3E7AD0038B1F0 /* utils.h */,
-				00B77C431DB2A17600A5D233 /* main.c */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -1044,6 +1101,7 @@
 				006E684C1DB3E7AD0038B1F0 /* go-charmap-sel.c in Sources */,
 				006E689A1DB3E7AD0038B1F0 /* gsb_transactions_list.c in Sources */,
 				006E68301DB3E7AD0038B1F0 /* bet_config.c in Sources */,
+				003AC2381F49E06D007DA275 /* prefs_page_import_asso.c in Sources */,
 				006E68361DB3E7AD0038B1F0 /* bet_hist.c in Sources */,
 				006E68901DB3E7AD0038B1F0 /* gsb_reconcile_list.c in Sources */,
 				006E68A01DB3E7AD0038B1F0 /* menu.c in Sources */,
@@ -1053,9 +1111,9 @@
 				006E68801DB3E7AD0038B1F0 /* gsb_file_others.c in Sources */,
 				006E68421DB3E7AD0038B1F0 /* etats_gtktable.c in Sources */,
 				006E68691DB3E7AD0038B1F0 /* gsb_data_archive.c in Sources */,
-				006E68B81DB3E7AD0038B1F0 /* utils_font.c in Sources */,
 				006E685D1DB3E7AD0038B1F0 /* gsb_automem.c in Sources */,
 				006E684A1DB3E7AD0038B1F0 /* file_obfuscate_qif.c in Sources */,
+				003AC2361F49E06D007DA275 /* prefs_page_divers.c in Sources */,
 				006E68DC1DB426EE0038B1F0 /* gnucash.c in Sources */,
 				006E68551DB3E7AD0038B1F0 /* gsb_assistant_account.c in Sources */,
 				006E68BD1DB3E7AD0038B1F0 /* utils.c in Sources */,
@@ -1064,11 +1122,13 @@
 				006E68AA1DB3E7AD0038B1F0 /* print_tree_view_list.c in Sources */,
 				006E68411DB3E7AD0038B1F0 /* etats_csv.c in Sources */,
 				006E68A31DB3E7AD0038B1F0 /* meta_payee.c in Sources */,
+				003AC2251F49DFE1007DA275 /* grisbi_prefs.c in Sources */,
 				006E689C1DB3E7AD0038B1F0 /* help.c in Sources */,
 				006E68501DB3E7AD0038B1F0 /* grisbi_settings.c in Sources */,
 				006E68981DB3E7AD0038B1F0 /* gsb_select_icon.c in Sources */,
 				006E688D1DB3E7AD0038B1F0 /* gsb_payment_method.c in Sources */,
 				006E68B71DB3E7AD0038B1F0 /* utils_files.c in Sources */,
+				003AC2371F49E06D007DA275 /* prefs_page_files.c in Sources */,
 				006E68A11DB3E7AD0038B1F0 /* meta_budgetary.c in Sources */,
 				006E68831DB3E7AD0038B1F0 /* gsb_file.c in Sources */,
 				006E68491DB3E7AD0038B1F0 /* fenetre_principale.c in Sources */,
@@ -1077,7 +1137,6 @@
 				006E68601DB3E7AD0038B1F0 /* gsb_calendar.c in Sources */,
 				006E686C1DB3E7AD0038B1F0 /* gsb_data_category.c in Sources */,
 				006E68371DB3E7AD0038B1F0 /* bet_tab.c in Sources */,
-				006E68541DB3E7AD0038B1F0 /* gsb_archive_config.c in Sources */,
 				006E68911DB3E7AD0038B1F0 /* gsb_reconcile_sort_config.c in Sources */,
 				006E687C1DB3E7AD0038B1F0 /* gsb_data_transaction.c in Sources */,
 				006E683B1DB3E7AD0038B1F0 /* custom_list.c in Sources */,
@@ -1090,10 +1149,12 @@
 				006E682D1DB3E7AD0038B1F0 /* accueil.c in Sources */,
 				006E68A41DB3E7AD0038B1F0 /* metatree.c in Sources */,
 				006E68A61DB3E7AD0038B1F0 /* parametres.c in Sources */,
+				003AC2341F49E06D007DA275 /* prefs_page_archives.c in Sources */,
 				00B77C441DB2A17600A5D233 /* main.c in Sources */,
 				006E68781DB3E7AD0038B1F0 /* gsb_data_report_amout_comparison.c in Sources */,
 				006E684F1DB3E7AD0038B1F0 /* grisbi_osx.c in Sources */,
 				006E683A1DB3E7AD0038B1F0 /* csv_parse.c in Sources */,
+				003AC2391F49E06D007DA275 /* prefs_page_import_files.c in Sources */,
 				006E68631DB3E7AD0038B1F0 /* gsb_combo_box.c in Sources */,
 				006E68321DB3E7AD0038B1F0 /* bet_data.c in Sources */,
 				006E687B1DB3E7AD0038B1F0 /* gsb_data_scheduled.c in Sources */,
@@ -1118,6 +1179,7 @@
 				006E68581DB3E7AD0038B1F0 /* gsb_assistant_file.c in Sources */,
 				006E688A1DB3E7AD0038B1F0 /* gsb_fyear.c in Sources */,
 				006E686E1DB3E7AD0038B1F0 /* gsb_data_currency.c in Sources */,
+				003AC2351F49E06D007DA275 /* prefs_page_display_fonts.c in Sources */,
 				006E68401DB3E7AD0038B1F0 /* etats_config.c in Sources */,
 				006E68B21DB3E7AD0038B1F0 /* transaction_model.c in Sources */,
 				006E68891DB3E7AD0038B1F0 /* gsb_fyear_config.c in Sources */,
@@ -1125,6 +1187,7 @@
 				006E68701DB3E7AD0038B1F0 /* gsb_data_fyear.c in Sources */,
 				006E685F1DB3E7AD0038B1F0 /* gsb_calendar_entry.c in Sources */,
 				006E682F1DB3E7AD0038B1F0 /* affichage.c in Sources */,
+				003AC2231F49DF93007DA275 /* utils_prefs.c in Sources */,
 				006E689D1DB3E7AD0038B1F0 /* import_csv.c in Sources */,
 				006E68461DB3E7AD0038B1F0 /* etats_support.c in Sources */,
 				006E68811DB3E7AD0038B1F0 /* gsb_file_save.c in Sources */,
@@ -1151,6 +1214,7 @@
 				006E68AC1DB3E7AD0038B1F0 /* tiers_onglet.c in Sources */,
 				006E682E1DB3E7AD0038B1F0 /* affichage_liste.c in Sources */,
 				006E68961DB3E7AD0038B1F0 /* gsb_scheduler_list.c in Sources */,
+				003AC23C1F49E0A8007DA275 /* csv_template_rule.c in Sources */,
 				006E685A1DB3E7AD0038B1F0 /* gsb_assistant_reconcile_config.c in Sources */,
 				006E68471DB3E7AD0038B1F0 /* export_csv.c in Sources */,
 				006E688C1DB3E7AD0038B1F0 /* gsb_payment_method_config.c in Sources */,
@@ -1312,6 +1376,11 @@
 					"$(inherited)",
 					/usr/local/Cellar/goffice/0.10.32/lib,
 					/usr/local/Cellar/openssl/1.0.2j/lib,
+					/usr/local/Cellar/openssl/1.0.2l/lib,
+					/usr/local/Cellar/libofx/0.9.10/lib,
+					/usr/local/Cellar/gettext/0.19.8.1/lib,
+					/usr/local/Cellar/pango/1.40.7/lib,
+					/usr/local/Cellar/goffice/0.10.35/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -1341,6 +1410,11 @@
 					"$(inherited)",
 					/usr/local/Cellar/goffice/0.10.32/lib,
 					/usr/local/Cellar/openssl/1.0.2j/lib,
+					/usr/local/Cellar/openssl/1.0.2l/lib,
+					/usr/local/Cellar/libofx/0.9.10/lib,
+					/usr/local/Cellar/gettext/0.19.8.1/lib,
+					/usr/local/Cellar/pango/1.40.7/lib,
+					/usr/local/Cellar/goffice/0.10.35/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
