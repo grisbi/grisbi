@@ -426,11 +426,12 @@ static gboolean prefs_page_display_fonts_logo_accueil_changed (PrefsPageDisplayF
 			g_free (tmp_last_directory);
 
 		default:
-			gtk_widget_destroy (file_selector);
 			break;
     }
 
-    return (FALSE);
+	gtk_widget_destroy (file_selector);
+
+	return (FALSE);
 }
 
 /**
