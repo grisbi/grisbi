@@ -3489,7 +3489,11 @@ static gboolean gsb_import_click_dialog_ope_orphelines (GtkWidget *dialog,
 	    if (result != GTK_RESPONSE_OK
 		 &&
 		 g_slist_length (liste_opes_import_celibataires))
-		break;
+		{
+			break;
+		}
+
+		/* FALLTHRU */
 	default:
 	    gtk_widget_destroy (dialog);
 	    break;

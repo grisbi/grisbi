@@ -517,21 +517,18 @@ void categories_importer_list ( void )
 
     switch ( resultat )
     {
-	case 2 :
-	    /* we want to replace the list */
+		case 1 :
+			gsb_file_others_load_category ( category_name );
+			return;
 
-	    if ( !last_transaction_number )
-		gsb_data_category_init_variables ();
+		case 2 :
+			/* we want to replace the list */
+			if ( !last_transaction_number )
+				gsb_data_category_init_variables ();
+			gsb_file_others_load_category ( category_name );
 
-        case 1 :
-	    if ( !gsb_file_others_load_category ( category_name ))
-	    {
-		return;
-	    }
-	    break;
-
-	default :
-	    return;
+		default :
+			return;
     }
 }
 

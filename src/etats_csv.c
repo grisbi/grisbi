@@ -214,15 +214,15 @@ void csv_safe ( const gchar * text )
 
     for ( ; * text; text ++ )
     {
-	switch ( * text )
-	{
-	    case '"':
-		fprintf ( csv_out, "\\" );
-
-	    default:
-		fprintf ( csv_out, "%c", *text );
-		break;
-	}
+		switch ( * text )
+		{
+			case '"':
+				fprintf ( csv_out, "\\" );
+				/* FALLTHRU */
+			default:
+				fprintf ( csv_out, "%c", *text );
+				break;
+		}
     }
 }
 

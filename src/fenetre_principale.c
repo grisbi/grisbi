@@ -214,6 +214,7 @@ gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
         gsb_form_set_expander_visible (FALSE, FALSE );
         account_number = gsb_gui_navigation_get_current_account ( );
         bet_finance_ui_update_amortization_tab ( account_number );
+		/* FALLTHRU */
     case GSB_PROPERTIES_PAGE:
         gsb_form_set_expander_visible (FALSE, FALSE );
         break;

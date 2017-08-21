@@ -109,7 +109,7 @@ GSList *csv_parse_line (gchar **contents,
                 tmp++;
                 }
             }
-
+			/* FALLTHRU */
             default:
             is_unquoted = TRUE;
             if (!strncmp (tmp, separator, len))

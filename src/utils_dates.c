@@ -713,8 +713,8 @@ GDate *gsb_date_get_last_banking_day_of_month ( const GDate *date )
     switch ( week_day )
     {
 		case G_DATE_SUNDAY :
-/* 2017.03.26 modifié pour avril 2017 car trouve le 27/04/2017 au lieu du 28/04/2017. A suivre */
-			g_date_subtract_days ( tmp_date, 1 );
+			g_date_subtract_days ( tmp_date, 2 );
+			break;
 		case G_DATE_SATURDAY :
 			g_date_subtract_days ( tmp_date, 1 );
 			break;

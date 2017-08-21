@@ -556,6 +556,7 @@ void budgetary_lines_importer_list ( void )
             if ( !last_transaction_number )
                 gsb_data_budget_init_variables ();
 
+		/* FALLTHRU */
         case 1 :
             if ( g_str_has_suffix ( budget_name, ".cgsb" ) )
                 gsb_file_others_load_budget_from_category ( budget_name );

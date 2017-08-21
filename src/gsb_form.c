@@ -3376,6 +3376,7 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 		    /* we don't set any break here, so with the case -1 the
 		     * category will be set to 0 (!! let the case -1 after here) */
 
+			/* FALLTHRU */
 		case -1:
 		    /* if the check returns -1, it's a transfert to non existant account,
 		     * so do nothing */
