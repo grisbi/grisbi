@@ -66,7 +66,7 @@ static gboolean html_last_is_hsep;
 static gboolean html_first_line;
 
 
-struct struct_etat_affichage html_affichage = {
+struct EtatAffichage html_affichage = {
     html_initialise,
     html_finish,
     html_attach_hsep,

@@ -88,23 +88,22 @@ struct _EtatsPrefsPrivate
 
 
 /*START_PRIVATE_FUNCTIONS*/
-static GtkWidget *etats_prefs_onglet_budgets_create_page (gint page);
-static GtkWidget *etats_prefs_onglet_categories_create_page (gint page);
-static GtkWidget *etats_prefs_onglet_comptes_create_page (gint page);
-static GtkWidget *etats_prefs_onglet_divers_create_page (gint page);
-static GtkWidget *etats_prefs_onglet_mode_paiement_create_page (gint page);
-static GtkWidget *etats_prefs_onglet_montants_create_page (gint page);
-static GtkWidget *etats_prefs_onglet_periode_create_page (gint page);
-static GtkWidget *etats_prefs_onglet_textes_create_page (gint page);
-static GtkWidget *etats_prefs_onglet_tiers_create_page (gint page);
-static GtkWidget *etats_prefs_onglet_virements_create_page (gint page);
-
-static GtkWidget *etats_prefs_onglet_data_grouping_create_page (gint page);
-static GtkWidget *etats_prefs_onglet_data_separation_create_page (gint page);
-static GtkWidget *etats_prefs_onglet_affichage_generalites_create_page (gint page);
-static GtkWidget *etats_prefs_onglet_affichage_titles_create_page (gint page);
-static GtkWidget *etats_prefs_onglet_affichage_operations_create_page (gint page);
-static GtkWidget *etats_prefs_onglet_affichage_devises_create_page (gint page);
+static GtkWidget *	etats_prefs_onglet_budgets_create_page 					(gint page);
+static GtkWidget *	etats_prefs_onglet_categories_create_page 				(gint page);
+static GtkWidget *	etats_prefs_onglet_comptes_create_page 					(gint page);
+static GtkWidget *	etats_prefs_onglet_divers_create_page 					(gint page);
+static GtkWidget *	etats_prefs_onglet_mode_paiement_create_page 			(gint page);
+static GtkWidget *	etats_prefs_onglet_montants_create_page 				(gint page);
+static GtkWidget *	etats_prefs_onglet_periode_create_page 					(gint page);
+static GtkWidget *	etats_prefs_onglet_textes_create_page 					(gint page);
+static GtkWidget *	etats_prefs_onglet_tiers_create_page 					(gint page);
+static GtkWidget *	etats_prefs_onglet_virements_create_page 				(gint page);
+static GtkWidget *	etats_prefs_onglet_data_grouping_create_page 			(gint page);
+static GtkWidget *	etats_prefs_onglet_data_separation_create_page 			(gint page);
+static GtkWidget *	etats_prefs_onglet_affichage_generalites_create_page 	(gint page);
+static GtkWidget *	etats_prefs_onglet_affichage_titles_create_page 		(gint page);
+static GtkWidget *	etats_prefs_onglet_affichage_operations_create_page 	(gint page);
+static GtkWidget *	etats_prefs_onglet_affichage_devises_create_page 		(gint page);
 /*END_PRIVATE_FUNCTIONS*/
 
 

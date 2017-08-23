@@ -83,7 +83,7 @@ extern gint devise_compte_en_cours_etat;
 extern gint devise_generale_etat;
 extern gint devise_ib_etat;
 extern gint devise_tiers_etat;
-extern struct struct_etat_affichage * etat_affichage_output;
+extern struct EtatAffichage * etat_affichage_output;
 extern gint exo_en_cours_etat;
 extern gint ligne_debut_partie;
 extern gsb_real montant_categ_etat;

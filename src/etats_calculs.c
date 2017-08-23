@@ -62,7 +62,7 @@ static gint compare_montants_etat ( gsb_real montant_ope,
 			     gsb_real montant_test,
 			     gint comparateur );
 static void etape_finale_affichage_etat ( GSList *ope_selectionnees,
-				   struct struct_etat_affichage *affichage,
+				   struct EtatAffichage *affichage,
 				   gchar * filename );
 static const gchar *recupere_texte_test_etat ( gint transaction_number,
 					gint champ );
@@ -77,7 +77,7 @@ static gint verifie_texte_test_etat ( gint text_comparison_number,
 static gint dernier_chq;     /* quand on a choisi le plus grand, contient le dernier no de chq dans les comptes choisis */
 static gint dernier_pc;     /* quand on a choisi le plus grand, contient le dernier no de pc dans les comptes choisis */
 static gint dernier_no_rappr;     /* quand on a choisi le plus grand, contient le dernier no de rappr dans les comptes choisis */
-struct struct_etat_affichage * etat_affichage_output;
+struct EtatAffichage * etat_affichage_output;
 
 
 /* Uh, what?! See etats_affiche.c as well... */
@@ -86,7 +86,7 @@ extern gint ancien_tiers_etat;
 
 
 /*START_EXTERN*/
-extern struct struct_etat_affichage gtktable_affichage;
+extern struct EtatAffichage gtktable_affichage;
 extern gint ligne_debut_partie;
 extern gint nb_colonnes;
 extern gint nb_lignes;
@@ -136,7 +136,7 @@ const gchar *nom_tiers_en_cours;
 
 
 /*****************************************************************************************************/
-void affichage_etat ( gint report_number, struct struct_etat_affichage * affichage,
+void affichage_etat ( gint report_number, struct EtatAffichage * affichage,
 		      gchar * filename )
 {
     GSList *liste_opes_selectionnees;
@@ -1980,7 +1980,7 @@ gint classement_ope_perso_etat ( gpointer transaction_1, gpointer transaction_2 
  *
  */
 void etape_finale_affichage_etat ( GSList *ope_selectionnees,
-				   struct struct_etat_affichage *affichage,
+				   struct EtatAffichage *affichage,
 				   gchar * filename )
 {
     GSList *liste_ope_revenus, *liste_ope_depenses, *pointeur_tmp, *pointeur_glist;

@@ -50,7 +50,7 @@ static void csv_safe ( const gchar * text ) ;
 /*END_STATIC*/
 
 
-struct struct_etat_affichage csv_affichage = {
+struct EtatAffichage csv_affichage = {
     csv_initialise,
     csv_finish,
     csv_attach_hsep,

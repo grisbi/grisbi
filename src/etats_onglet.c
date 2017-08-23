@@ -76,8 +76,8 @@ static GtkWidget *reports_toolbar = NULL;
 static gboolean maj_reports_list;
 
 /*START_EXTERN*/
-extern struct struct_etat_affichage csv_affichage;
-extern struct struct_etat_affichage html_affichage;
+extern struct EtatAffichage csv_affichage;
+extern struct EtatAffichage html_affichage;
 /*END_EXTERN*/
 
 /** Different formats supported.  */

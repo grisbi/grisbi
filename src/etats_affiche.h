@@ -10,7 +10,7 @@
 
 
 /** Device independant drawing functions for reports */
-struct struct_etat_affichage
+struct EtatAffichage
 {
     gint (* initialise)   	(GSList *, gchar *);											/** Initialisation of drawing session  */
     gint (* finish) 	  	(void);															/** End of drawing session  */
