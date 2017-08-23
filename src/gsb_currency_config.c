@@ -88,8 +88,8 @@ GtkWidget *combo_devise_totaux_ib;
 GtkWidget *combo_devise_totaux_categ;
 static GtkWidget *delete_devise_button;
 
-/* struct iso_4217_currency; */
-struct iso_4217_currency iso_4217_currencies[] = {
+/* struct Iso4217Currency; */
+struct Iso4217Currency iso_4217_currencies[] = {
     { N_("Africa"), N_("Algerian Dinar"), N_("Algeria"), "DZD", NULL, TRUE, "DZD.png", 3, 1 },
     { N_("Africa"), N_("Botswana Pula"), N_("Botswana"), "BWP", NULL, TRUE, "BWP.png", 2, 1 },
     { N_("Africa"), N_("Burundi Franc"), N_("Burundi"), "BIF", NULL, TRUE, "BIF.png", 2, 1 },
@@ -1140,7 +1140,7 @@ gint gsb_currency_config_create_currency ( const gchar *currency_name,
  */
 gint gsb_currency_config_create_currency_from_iso4217list ( gchar *currency_name )
 {
-    struct iso_4217_currency * currency = iso_4217_currencies;
+    struct Iso4217Currency * currency = iso_4217_currencies;
     gchar * tmp = g_strdup ( currency_name );
     g_strchomp ( tmp );
 
@@ -1227,7 +1227,7 @@ void gsb_currency_config_fill_popup_list ( GtkTreeView * tree_view,
 {
     GtkTreeModel *model;
     GtkTreeIter iter;
-    struct iso_4217_currency * currency = iso_4217_currencies;
+    struct Iso4217Currency * currency = iso_4217_currencies;
 
     model = gtk_tree_view_get_model ( tree_view );
 

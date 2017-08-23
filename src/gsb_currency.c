@@ -56,7 +56,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static struct cached_exchange_rate *gsb_currency_config_get_cached_exchange ( gint currency1_number,
+static struct CachedExchangeRate *gsb_currency_config_get_cached_exchange ( gint currency1_number,
                         gint currency2_number );
 static gboolean gsb_currency_checkbutton_link_changed ( GtkWidget *checkbutton,
 						  gboolean *value );
@@ -81,7 +81,7 @@ static gboolean gsb_currency_select_double_amount ( GtkWidget *entry_1,
  * used to be set in the combobox */
 static GtkListStore *combobox_currency_store;
 
-enum currency_list_columns {
+enum CurrencyListColumns {
     CURRENCY_COL_CODE = 0,
     CURRENCY_COL_NAME,
     CURRENCY_COL_NUMBER,
@@ -503,7 +503,7 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
     GtkWidget *entry, *amount_entry, *amount_1_entry, *amount_2_entry, *fees_entry;
     GtkWidget *combobox_1;
     GtkWidget *combobox_2;
-    struct cached_exchange_rate *cache;
+    struct CachedExchangeRate *cache;
     gchar* tmpstr;
     gint row = 0;
     gint result;
@@ -787,14 +787,14 @@ dialog_return:
  * \return NULL on failure, a pointer to a cached_exchange_rate
  * structure on success.
  */
-struct cached_exchange_rate *gsb_currency_config_get_cached_exchange ( gint currency1_number,
+struct CachedExchangeRate *gsb_currency_config_get_cached_exchange ( gint currency1_number,
                         gint currency2_number )
 {
     GSList * tmp_list = cached_exchange_rates;
 
     while ( tmp_list )
     {
-	struct cached_exchange_rate * tmp;
+	struct CachedExchangeRate * tmp;
 
 	tmp = tmp_list -> data;
 	if ( currency1_number == tmp -> currency1_number && currency2_number == tmp -> currency2_number )
@@ -818,9 +818,9 @@ void gsb_currency_config_set_cached_exchange ( gint currency1_number,
                         gint currency2_number,
                         gsb_real change, gsb_real fees )
 {
-    struct cached_exchange_rate * tmp;
+    struct CachedExchangeRate * tmp;
 
-    tmp = (struct cached_exchange_rate *) g_malloc0(sizeof(struct cached_exchange_rate));
+    tmp = (struct CachedExchangeRate *) g_malloc0(sizeof(struct CachedExchangeRate));
 
     tmp -> currency1_number = currency1_number;
     tmp -> currency2_number = currency2_number;

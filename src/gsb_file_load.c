@@ -100,7 +100,7 @@ extern gint bet_array_col_width[BET_ARRAY_COLUMNS];
 extern gint display_one_line;
 extern gint display_three_lines;
 extern gint display_two_lines;
-extern struct iso_4217_currency iso_4217_currencies[];
+extern struct Iso4217Currency iso_4217_currencies[];
 extern GtkWidget *logo_accueil;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern gint transaction_col_align[CUSTOM_MODEL_VISIBLE_COLUMNS];
@@ -803,7 +803,7 @@ static  void gsb_file_load_currency ( const gchar **attribute_names,
     if ( !strcmp ( attribute_names[i],
                                    "Co" ))
     {
-        struct iso_4217_currency * currency = iso_4217_currencies;
+        struct Iso4217Currency * currency = iso_4217_currencies;
 
         gsb_data_currency_set_code ( currency_number, attribute_values[i]);
 
