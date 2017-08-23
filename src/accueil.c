@@ -119,7 +119,7 @@ static void gsb_main_page_affiche_ligne_solde_partiel (GtkWidget *table,
     GtkWidget *label;
     gchar *tmp_str;
     gchar *tmp_str2;
-	kind_account kind;
+	KindAccount kind;
 
 	/* Première colonne : elle contient le nom du solde partiel avec ou sans devise*/
 	kind = gsb_data_partial_balance_get_kind (partial_number);
@@ -503,7 +503,7 @@ static gint affiche_soldes_partiels (GtkWidget *table,
 	while (liste)
     {
         gint partial_number;
-        kind_account kind;
+        KindAccount kind;
 
         partial_number = gsb_data_partial_balance_get_number (liste -> data);
         kind = gsb_data_partial_balance_get_kind (partial_number);
@@ -651,7 +651,7 @@ static void gsb_main_page_diplays_accounts (GtkWidget *pTable,
         while (list_tmp)
         {
             gint tmp_number;
-            kind_account kind;
+            KindAccount kind;
 
             tmp_number = gsb_data_partial_balance_get_number (list_tmp -> data);
 
@@ -686,7 +686,7 @@ static void gsb_main_page_diplays_accounts (GtkWidget *pTable,
         while (list_tmp)
         {
             gint account_number;
-            kind_account kind;
+            KindAccount kind;
 
             account_number = gsb_data_account_get_no_account (list_tmp -> data);
 
@@ -792,7 +792,7 @@ static void gsb_main_page_diplays_accounts (GtkWidget *pTable,
         while (list_tmp)
         {
             gint account_number;
-            kind_account kind;
+            KindAccount kind;
 
             account_number = gsb_data_account_get_no_account (list_tmp -> data);
 
@@ -928,7 +928,7 @@ static gint affiche_soldes_additionnels (GtkWidget *table,
     while (liste)
     {
         gint partial_number;
-        kind_account kind;
+        KindAccount kind;
 
         partial_number = gsb_data_partial_balance_get_number (liste -> data);
         kind = gsb_data_partial_balance_get_kind (partial_number);
@@ -1017,7 +1017,7 @@ static void update_liste_comptes_accueil (gboolean force)
     {
         while (list_tmp)
         {
-            kind_account i;
+            KindAccount i;
             i = gsb_data_partial_balance_get_number (list_tmp -> data);
 
             switch (gsb_data_partial_balance_get_kind (i))

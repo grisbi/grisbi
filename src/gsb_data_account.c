@@ -57,15 +57,13 @@
 #include "erreur.h"
 /*END_INCLUDE*/
 
-/** \struct
- * describe an account
- * */
-typedef struct		/* struct_account */
-{
+typedef struct	_AccountStruct 	AccountStruct;	/* struct_account describe an account */
+
+struct _AccountStruct {
     /** @name general stuff */
     gint 	account_number;
     gchar 	*account_id;                       /**< for ofx import, invisible for the user */
-    kind_account account_kind;
+    KindAccount account_kind;
     gchar 	*account_name;
     gint 	currency;
     gint 	closed_account;                     /**< if 1 => closed */
@@ -128,7 +126,7 @@ typedef struct		/* struct_account */
     /** @name bet data */
     gint bet_use_budget;                /* 1 = use the budget module */
     gint bet_credit_card;               /* 1 = compte type CB à débit différé */
-    bet_type_onglets bet_show_onglets;  /* enum des onglets à afficher pour le module budgetaire */
+    BetTypeOnglets bet_show_onglets;  /* enum des onglets à afficher pour le module budgetaire */
     GDate *bet_start_date;              /* date de début */
     gint bet_months;                    /* nombre de mois ou d'années */
     gint bet_spin_range;                /* echelle de la période 0 = mois 1 = années */
@@ -143,14 +141,14 @@ typedef struct		/* struct_account */
     gdouble bet_taux_annuel;            /* taux d'interet annuel */
     gdouble bet_frais;                  /* frais par echeance */
     gint bet_type_taux;                 /* type de taux : actuariel ou proportionnel */
-} struct_account;
+};
 
 
 /*START_STATIC*/
-static void _gsb_data_account_free ( struct_account* account );
+static void _gsb_data_account_free ( AccountStruct* account );
 static void gsb_data_account_delete_all_accounts (void);
-static gchar *gsb_data_account_get_account_standard_pixbuf_filename ( kind_account account_kind );
-static struct_account *gsb_data_account_get_structure ( gint no );
+static gchar *gsb_data_account_get_account_standard_pixbuf_filename ( KindAccount account_kind );
+static AccountStruct *gsb_data_account_get_structure ( gint no );
 static gint gsb_data_account_max_number ( void );
 static gboolean gsb_data_account_set_default_sort_values ( gint account_number );
 static gboolean gsb_data_form_dup_sort_values ( gint origin_account,
@@ -166,7 +164,7 @@ extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COL
 static GSList *list_accounts = NULL;
 
 /** a pointer to the last account used (to increase the speed) */
-static struct_account *account_buffer;
+static AccountStruct *account_buffer;
 
 /**
  * This function close all opened accounts and free the memory
@@ -218,12 +216,12 @@ GSList *gsb_data_account_get_list_accounts ( void )
  *
  * \return no of account, -1 if problem
  * */
-gint gsb_data_account_new ( kind_account account_kind )
+gint gsb_data_account_new ( KindAccount account_kind )
 {
-    struct_account *account;
+    AccountStruct *account;
     gint last_number;
 
-    account = g_malloc0 (sizeof ( struct_account ));
+    account = g_malloc0 (sizeof ( AccountStruct ));
 
     if ( !account )
     {
@@ -289,7 +287,7 @@ gint gsb_data_account_new ( kind_account account_kind )
 /**
  * This internal function is called to free the memory used by a struct_account structure
  */
-static void _gsb_data_account_free ( struct_account* account )
+static void _gsb_data_account_free ( AccountStruct* account )
 {
     if ( ! account )
         return;
@@ -325,7 +323,7 @@ static void _gsb_data_account_free ( struct_account* account )
  * */
 gboolean gsb_data_account_delete ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -374,7 +372,7 @@ gint gsb_data_account_max_number ( void )
 
     while ( tmp )
     {
-	struct_account *account;
+	AccountStruct *account;
 
 	account = tmp -> data;
 
@@ -402,7 +400,7 @@ gint gsb_data_account_max_number ( void )
  * */
 gint gsb_data_account_first_number ( void )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     if ( !list_accounts )
         return -1;
@@ -422,7 +420,7 @@ gint gsb_data_account_first_number ( void )
  * */
 gint gsb_data_account_first_no_closed_account ( void )
 {
-    struct_account *account;
+    AccountStruct *account;
     GSList *list_tmp;
 
     if ( !list_accounts )
@@ -453,7 +451,7 @@ gint gsb_data_account_first_no_closed_account ( void )
  * */
 gint gsb_data_account_get_no_account ( gpointer account_ptr )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     if ( !account_ptr )
 	return -1;
@@ -479,7 +477,7 @@ gint gsb_data_account_get_no_account ( gpointer account_ptr )
 gint gsb_data_account_set_account_number ( gint account_number,
                         gint new_no )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -501,7 +499,7 @@ gint gsb_data_account_set_account_number ( gint account_number,
  *
  * \return the adr of the struct of the account (NULL if doesn't exit)
  * */
-struct_account *gsb_data_account_get_structure ( gint no )
+AccountStruct *gsb_data_account_get_structure ( gint no )
 {
     GSList *tmp;
 
@@ -521,7 +519,7 @@ struct_account *gsb_data_account_get_structure ( gint no )
 
     while ( tmp )
     {
-	struct_account *account;
+	AccountStruct *account;
 
 	account = tmp -> data;
 
@@ -547,7 +545,7 @@ struct_account *gsb_data_account_get_structure ( gint no )
  * */
 gint gsb_data_account_get_nb_rows ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -566,7 +564,7 @@ gint gsb_data_account_get_nb_rows ( gint account_number )
 gboolean gsb_data_account_set_nb_rows ( gint account_number,
                         gint nb_rows )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     if ( nb_rows < 1
 	 ||
@@ -597,7 +595,7 @@ gboolean gsb_data_account_set_nb_rows ( gint account_number,
  * */
 gboolean gsb_data_account_get_l ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -618,7 +616,7 @@ gboolean gsb_data_account_get_l ( gint account_number )
 gboolean gsb_data_account_set_l ( gint account_number,
                         gboolean show_l )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -639,7 +637,7 @@ gboolean gsb_data_account_set_l ( gint account_number,
  * */
 gboolean gsb_data_account_get_r ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -660,7 +658,7 @@ gboolean gsb_data_account_get_r ( gint account_number )
 gboolean gsb_data_account_set_r ( gint account_number,
                         gboolean show_r )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -679,7 +677,7 @@ gboolean gsb_data_account_set_r ( gint account_number,
  * */
 gchar *gsb_data_account_get_id ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -702,7 +700,7 @@ gchar *gsb_data_account_get_id ( gint account_number )
 gboolean gsb_data_account_set_id ( gint account_number,
                         const gchar *id )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -733,7 +731,7 @@ gint gsb_data_account_get_account_by_id ( const gchar *account_id )
     list_tmp = gsb_data_account_get_list_accounts ();
     while ( list_tmp )
     {
-        struct_account *account;
+        AccountStruct *account;
 
         account = list_tmp -> data;
 
@@ -757,9 +755,9 @@ gint gsb_data_account_get_account_by_id ( const gchar *account_id )
  * \param account_number no of the account
  * \return account type or 0 if the account doesn't exist
  * */
-kind_account gsb_data_account_get_kind ( gint account_number )
+KindAccount gsb_data_account_get_kind ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -776,9 +774,9 @@ kind_account gsb_data_account_get_kind ( gint account_number )
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_kind ( gint account_number,
-                        kind_account account_kind )
+                        KindAccount account_kind )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -798,7 +796,7 @@ gboolean gsb_data_account_set_kind ( gint account_number,
  * */
 gchar *gsb_data_account_get_name ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -821,7 +819,7 @@ gchar *gsb_data_account_get_name ( gint account_number )
 gboolean gsb_data_account_set_name ( gint account_number,
                         const gchar *name )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -858,7 +856,7 @@ gint gsb_data_account_get_no_account_by_name ( const gchar *account_name )
 
     while ( list_tmp )
     {
-	struct_account *account;
+	AccountStruct *account;
 
 	account = list_tmp -> data;
 	if ( !strcmp ( account -> account_name,
@@ -884,7 +882,7 @@ gint gsb_data_account_get_no_account_by_name ( const gchar *account_name )
 gsb_real gsb_data_account_get_init_balance ( gint account_number,
                         gint floating_point )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -907,7 +905,7 @@ gsb_real gsb_data_account_get_init_balance ( gint account_number,
 gboolean gsb_data_account_set_init_balance ( gint account_number,
                         gsb_real balance )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -931,7 +929,7 @@ gboolean gsb_data_account_set_init_balance ( gint account_number,
  * */
 gsb_real gsb_data_account_get_mini_balance_wanted ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -953,7 +951,7 @@ gsb_real gsb_data_account_get_mini_balance_wanted ( gint account_number )
 gboolean gsb_data_account_set_mini_balance_wanted ( gint account_number,
                         gsb_real balance )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -974,7 +972,7 @@ gboolean gsb_data_account_set_mini_balance_wanted ( gint account_number,
  * */
 gsb_real gsb_data_account_get_mini_balance_authorized ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -996,7 +994,7 @@ gsb_real gsb_data_account_get_mini_balance_authorized ( gint account_number )
 gboolean gsb_data_account_set_mini_balance_authorized ( gint account_number,
                         gsb_real balance )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -1018,7 +1016,7 @@ gboolean gsb_data_account_set_mini_balance_authorized ( gint account_number,
  * */
 gboolean gsb_data_account_set_balances_are_dirty ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -1045,7 +1043,7 @@ gboolean gsb_data_account_set_balances_are_dirty ( gint account_number )
  * */
 gsb_real gsb_data_account_calculate_current_and_marked_balances ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
     GDate *date_jour;
     GSList *tmp_list;
     gsb_real current_balance;
@@ -1130,7 +1128,7 @@ gsb_real gsb_data_account_calculate_current_and_marked_balances ( gint account_n
  * */
 gsb_real gsb_data_account_get_current_balance ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -1156,7 +1154,7 @@ gsb_real gsb_data_account_get_current_balance ( gint account_number )
  * */
 gsb_real gsb_data_account_get_marked_balance ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -1182,7 +1180,7 @@ gsb_real gsb_data_account_get_marked_balance ( gint account_number )
  * */
 gsb_real gsb_data_account_calculate_waiting_marked_balance ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
     GSList *tmp_list;
     gsb_real marked_balance = null_real;
     gint floating_point;
@@ -1228,7 +1226,7 @@ gsb_real gsb_data_account_calculate_waiting_marked_balance ( gint account_number
 gint gsb_data_account_get_element_sort ( gint account_number,
                         gint no_column )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     if ( no_column < 0
 	 ||
@@ -1269,7 +1267,7 @@ gboolean gsb_data_account_set_element_sort ( gint account_number,
                         gint no_column,
                         gint element_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     if ( no_column < 0
 	 ||
@@ -1309,7 +1307,7 @@ gboolean gsb_data_account_set_element_sort ( gint account_number,
  * */
 gint gsb_data_account_get_current_transaction_number ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -1332,7 +1330,7 @@ gint gsb_data_account_get_current_transaction_number ( gint account_number )
 gboolean gsb_data_account_set_current_transaction_number ( gint account_number,
                         gint transaction_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -1355,7 +1353,7 @@ gboolean gsb_data_account_set_current_transaction_number ( gint account_number,
  * */
 gboolean gsb_data_account_get_mini_balance_wanted_message ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -1377,7 +1375,7 @@ gboolean gsb_data_account_get_mini_balance_wanted_message ( gint account_number 
 gboolean gsb_data_account_set_mini_balance_wanted_message ( gint account_number,
                         gboolean value )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -1396,7 +1394,7 @@ gboolean gsb_data_account_set_mini_balance_wanted_message ( gint account_number,
  * */
 gboolean gsb_data_account_get_mini_balance_authorized_message ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -1418,7 +1416,7 @@ gboolean gsb_data_account_get_mini_balance_authorized_message ( gint account_num
 gboolean gsb_data_account_set_mini_balance_authorized_message ( gint account_number,
                         gboolean value )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -1440,7 +1438,7 @@ gboolean gsb_data_account_set_mini_balance_authorized_message ( gint account_num
  * */
 gint gsb_data_account_get_currency ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -1459,7 +1457,7 @@ gint gsb_data_account_get_currency ( gint account_number )
 gboolean gsb_data_account_set_currency ( gint account_number,
                         gint currency )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -1478,7 +1476,7 @@ gboolean gsb_data_account_set_currency ( gint account_number,
  * */
 gint gsb_data_account_get_bank ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -1497,7 +1495,7 @@ gint gsb_data_account_get_bank ( gint account_number )
 gboolean gsb_data_account_set_bank ( gint account_number,
                         gint bank )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -1516,7 +1514,7 @@ gboolean gsb_data_account_set_bank ( gint account_number,
  * */
 gchar *gsb_data_account_get_bank_branch_code ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -1539,7 +1537,7 @@ gchar *gsb_data_account_get_bank_branch_code ( gint account_number )
 gboolean gsb_data_account_set_bank_branch_code ( gint account_number,
                         const gchar *bank_branch_code )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -1563,7 +1561,7 @@ gboolean gsb_data_account_set_bank_branch_code ( gint account_number,
  * */
 gchar *gsb_data_account_get_bank_account_number ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -1586,7 +1584,7 @@ gchar *gsb_data_account_get_bank_account_number ( gint account_number )
 gboolean gsb_data_account_set_bank_account_number ( gint account_number,
                         const gchar *bank_account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -1612,7 +1610,7 @@ gboolean gsb_data_account_set_bank_account_number ( gint account_number,
  * */
 gchar *gsb_data_account_get_bank_account_key ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -1635,7 +1633,7 @@ gchar *gsb_data_account_get_bank_account_key ( gint account_number )
 gboolean gsb_data_account_set_bank_account_key ( gint account_number,
                         const gchar *bank_account_key )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -1660,7 +1658,7 @@ gboolean gsb_data_account_set_bank_account_key ( gint account_number,
  * */
 gint gsb_data_account_get_closed_account ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -1679,7 +1677,7 @@ gint gsb_data_account_get_closed_account ( gint account_number )
 gboolean gsb_data_account_set_closed_account ( gint account_number,
                         gint closed_account )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -1698,7 +1696,7 @@ gboolean gsb_data_account_set_closed_account ( gint account_number,
  * */
 gchar *gsb_data_account_get_comment ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -1721,7 +1719,7 @@ gchar *gsb_data_account_get_comment ( gint account_number )
 gboolean gsb_data_account_set_comment ( gint account_number,
                         const gchar *comment )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -1746,7 +1744,7 @@ gboolean gsb_data_account_set_comment ( gint account_number,
  * */
 gint gsb_data_account_get_reconcile_sort_type ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -1769,7 +1767,7 @@ gint gsb_data_account_get_reconcile_sort_type ( gint account_number )
 gboolean gsb_data_account_set_reconcile_sort_type ( gint account_number,
                         gint sort_type )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -1793,7 +1791,7 @@ gboolean gsb_data_account_set_reconcile_sort_type ( gint account_number,
  * */
 GSList *gsb_data_account_get_sort_list ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -1816,7 +1814,7 @@ GSList *gsb_data_account_get_sort_list ( gint account_number )
 gboolean gsb_data_account_set_sort_list ( gint account_number,
                         GSList *list )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -1840,7 +1838,7 @@ gboolean gsb_data_account_set_sort_list ( gint account_number,
 gboolean gsb_data_account_sort_list_add ( gint account_number,
                         gint payment_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -1864,7 +1862,7 @@ gboolean gsb_data_account_sort_list_add ( gint account_number,
 gboolean gsb_data_account_sort_list_remove ( gint account_number,
                         gint payment_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -1886,7 +1884,7 @@ gboolean gsb_data_account_sort_list_remove ( gint account_number,
  * */
 gboolean gsb_data_account_sort_list_free ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -1910,7 +1908,7 @@ gboolean gsb_data_account_sort_list_free ( gint account_number )
  * */
 gint gsb_data_account_get_split_neutral_payment ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -1932,7 +1930,7 @@ gint gsb_data_account_get_split_neutral_payment ( gint account_number )
 gboolean gsb_data_account_set_split_neutral_payment ( gint account_number,
                         gint split_neutral_payment )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -1954,7 +1952,7 @@ gboolean gsb_data_account_set_split_neutral_payment ( gint account_number,
  * */
 gchar *gsb_data_account_get_holder_name ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -1977,7 +1975,7 @@ gchar *gsb_data_account_get_holder_name ( gint account_number )
 gboolean gsb_data_account_set_holder_name ( gint account_number,
                         const gchar *holder_name )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -2001,7 +1999,7 @@ gboolean gsb_data_account_set_holder_name ( gint account_number,
  * */
 gchar *gsb_data_account_get_holder_address ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -2024,7 +2022,7 @@ gchar *gsb_data_account_get_holder_address ( gint account_number )
 gboolean gsb_data_account_set_holder_address ( gint account_number,
                         const gchar *holder_address )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -2052,7 +2050,7 @@ gboolean gsb_data_account_set_holder_address ( gint account_number,
  * */
 gint gsb_data_account_get_default_debit ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -2074,7 +2072,7 @@ gint gsb_data_account_get_default_debit ( gint account_number )
 gboolean gsb_data_account_set_default_debit ( gint account_number,
                         gint default_debit )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -2097,7 +2095,7 @@ gboolean gsb_data_account_set_default_debit ( gint account_number,
  * */
 gint gsb_data_account_get_default_credit ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -2119,7 +2117,7 @@ gint gsb_data_account_get_default_credit ( gint account_number )
 gboolean gsb_data_account_set_default_credit ( gint account_number,
                         gint default_credit )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -2142,7 +2140,7 @@ gboolean gsb_data_account_set_default_credit ( gint account_number,
  * */
 gfloat gsb_data_account_get_row_align ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -2165,7 +2163,7 @@ gfloat gsb_data_account_get_row_align ( gint account_number )
 gboolean gsb_data_account_set_row_align ( gint account_number,
                         gfloat row_align )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -2187,7 +2185,7 @@ gboolean gsb_data_account_set_row_align ( gint account_number,
  * */
 gint gsb_data_account_get_sort_type ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -2210,7 +2208,7 @@ gint gsb_data_account_get_sort_type ( gint account_number )
 gboolean gsb_data_account_set_sort_type ( gint account_number,
                         gint sort_type )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -2234,7 +2232,7 @@ gboolean gsb_data_account_set_sort_type ( gint account_number,
  * */
 gint gsb_data_account_get_sort_column ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -2257,7 +2255,7 @@ gint gsb_data_account_get_sort_column ( gint account_number )
 gboolean gsb_data_account_set_sort_column ( gint account_number,
                         gint sort_column )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -2280,7 +2278,7 @@ gboolean gsb_data_account_set_sort_column ( gint account_number,
  * */
 gpointer gsb_data_account_get_form_organization ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -2302,7 +2300,7 @@ gpointer gsb_data_account_get_form_organization ( gint account_number )
 gboolean gsb_data_account_set_form_organization ( gint account_number,
                         gpointer form_organization )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -2346,7 +2344,7 @@ gboolean gsb_data_account_reorder ( GSList *new_order )
 
     while ( list_tmp )
     {
-	struct_account *account = list_tmp -> data;
+	AccountStruct *account = list_tmp -> data;
 
 	if ( ! g_slist_find ( list_accounts, account ) )
 	{
@@ -2377,8 +2375,8 @@ gint gsb_data_account_compare_position ( gint account_number_1,
                         gint account_number_2 )
 {
     gint pos_1, pos_2;
-    struct_account *account_1;
-    struct_account *account_2;
+    AccountStruct *account_1;
+    AccountStruct *account_2;
 
     account_1 = gsb_data_account_get_structure ( account_number_1 );
     account_2 = gsb_data_account_get_structure ( account_number_2 );
@@ -2408,7 +2406,7 @@ gint gsb_data_account_compare_position ( gint account_number_1,
 gboolean gsb_data_account_move_account ( gint account_number,
                         gint dest_account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -2426,7 +2424,7 @@ gboolean gsb_data_account_move_account ( gint account_number,
 	tmp_list = list_accounts;
 	while ( tmp_list )
 	{
-	    struct_account *account_tmp;
+	    AccountStruct *account_tmp;
 
 	    account_tmp = tmp_list -> data;
 
@@ -2460,7 +2458,7 @@ gboolean gsb_data_account_move_account ( gint account_number,
 gboolean gsb_data_account_set_default_sort_values ( gint account_number )
 {
     gint i, j;
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -2498,8 +2496,8 @@ gboolean gsb_data_form_dup_sort_values ( gint origin_account,
                         gint target_account )
 {
     gint j;
-    struct_account *origin_account_ptr;
-    struct_account *target_account_ptr;
+    AccountStruct *origin_account_ptr;
+    AccountStruct *target_account_ptr;
 
     origin_account_ptr = gsb_data_account_get_structure (origin_account);
     target_account_ptr = gsb_data_account_get_structure (target_account);
@@ -2527,7 +2525,7 @@ gboolean gsb_data_form_dup_sort_values ( gint origin_account,
  * */
 gchar *gsb_data_account_get_name_icon (gint account_number)
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -2550,7 +2548,7 @@ gchar *gsb_data_account_get_name_icon (gint account_number)
 gboolean gsb_data_account_set_name_icon ( gint account_number,
                         const gchar *filename )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -2601,7 +2599,7 @@ GtkWidget *gsb_data_account_get_account_icon_image ( gint account_number )
  * */
 GdkPixbuf *gsb_data_account_get_account_icon_pixbuf ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -2627,7 +2625,7 @@ GdkPixbuf *gsb_data_account_get_account_icon_pixbuf ( gint account_number )
 gboolean gsb_data_account_set_account_icon_pixbuf ( gint account_number,
                         GdkPixbuf *pixbuf )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -2654,7 +2652,7 @@ gboolean gsb_data_account_set_account_icon_pixbuf ( gint account_number,
  * \return pixbuf icon
  * */
 
-GdkPixbuf *gsb_data_account_get_account_standard_pixbuf ( kind_account account_kind )
+GdkPixbuf *gsb_data_account_get_account_standard_pixbuf ( KindAccount account_kind )
 {
     GdkPixbuf * pixbuf = NULL;
     gchar *filename;
@@ -2680,7 +2678,7 @@ GdkPixbuf *gsb_data_account_get_account_standard_pixbuf ( kind_account account_k
  * \return filename
  * */
 
-gchar *gsb_data_account_get_account_standard_pixbuf_filename ( kind_account account_kind )
+gchar *gsb_data_account_get_account_standard_pixbuf_filename ( KindAccount account_kind )
 {
     const gchar *account_icon;
     gchar *filename;
@@ -2772,7 +2770,7 @@ void gsb_data_account_change_account_icon ( GtkWidget *button, gpointer data )
  * */
 gchar *gsb_data_account_get_bank_account_iban (gint account_number)
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -2791,7 +2789,7 @@ gchar *gsb_data_account_get_bank_account_iban (gint account_number)
  * */
 gboolean gsb_data_account_set_bank_account_iban ( gint account_number, const gchar *iban )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -2850,7 +2848,7 @@ void gsb_data_account_colorize_current_balance ( gint account_number )
 gsb_real gsb_data_account_calculate_current_day_balance ( gint account_number,
                         GDate *day )
 {
-    struct_account *account;
+    AccountStruct *account;
     GDate *date_jour;
     GSList *tmp_list;
     gsb_real current_balance;
@@ -2918,7 +2916,7 @@ gsb_real gsb_data_account_calculate_current_day_balance ( gint account_number,
 GDate *gsb_data_account_get_bet_start_date ( gint account_number )
 {
     GDate *date = NULL;
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -2947,7 +2945,7 @@ GDate *gsb_data_account_get_bet_start_date ( gint account_number )
  * */
 gboolean gsb_data_account_set_bet_start_date ( gint account_number, const GDate *date )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -2979,7 +2977,7 @@ gboolean gsb_data_account_set_bet_start_date ( gint account_number, const GDate 
  * */
 gint gsb_data_account_get_bet_spin_range ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -2997,7 +2995,7 @@ gint gsb_data_account_get_bet_spin_range ( gint account_number )
  * */
 gboolean gsb_data_account_set_bet_spin_range ( gint account_number, gint spin_range )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -3017,7 +3015,7 @@ gboolean gsb_data_account_set_bet_spin_range ( gint account_number, gint spin_ra
  * */
 gint gsb_data_account_get_bet_months ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -3038,7 +3036,7 @@ gint gsb_data_account_get_bet_months ( gint account_number )
  * */
 gboolean gsb_data_account_set_bet_months ( gint account_number, gint months )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -3058,7 +3056,7 @@ gboolean gsb_data_account_set_bet_months ( gint account_number, gint months )
  * */
 gint gsb_data_account_get_bet_hist_data ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -3076,7 +3074,7 @@ gint gsb_data_account_get_bet_hist_data ( gint account_number )
  * */
 gboolean gsb_data_account_set_bet_hist_data ( gint account_number, gint hist_data )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -3096,7 +3094,7 @@ gboolean gsb_data_account_set_bet_hist_data ( gint account_number, gint hist_dat
  * */
 gint gsb_data_account_get_bet_hist_fyear ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -3114,7 +3112,7 @@ gint gsb_data_account_get_bet_hist_fyear ( gint account_number )
  * */
 gboolean gsb_data_account_set_bet_hist_fyear ( gint account_number, gint hist_fyear )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -3134,7 +3132,7 @@ gboolean gsb_data_account_set_bet_hist_fyear ( gint account_number, gint hist_fy
  * */
 gboolean gsb_data_account_get_bet_auto_inc_month ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -3153,7 +3151,7 @@ gboolean gsb_data_account_get_bet_auto_inc_month ( gint account_number )
 gboolean gsb_data_account_set_bet_auto_inc_month ( gint account_number,
                         gboolean auto_inc_month )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -3173,7 +3171,7 @@ gboolean gsb_data_account_set_bet_auto_inc_month ( gint account_number,
  * */
 gint gsb_data_account_get_bet_select_label ( gint account_number, gint origine )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -3206,7 +3204,7 @@ gboolean gsb_data_account_set_bet_select_label ( gint account_number,
                         gint origine,
                         gint type )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -3269,8 +3267,8 @@ gboolean gsb_data_account_bet_update_initial_date_if_necessary ( gint account_nu
  * */
 gint gsb_data_account_get_bet_use_budget ( gint account_number )
 {
-    struct_account *account;
-    kind_account kind;
+    AccountStruct *account;
+    KindAccount kind;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -3307,7 +3305,7 @@ gint gsb_data_account_get_bet_use_budget ( gint account_number )
  * */
 gboolean gsb_data_account_set_bet_use_budget ( gint account_number, gint value )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -3328,7 +3326,7 @@ gboolean gsb_data_account_set_bet_use_budget ( gint account_number, gint value )
  * */
 gint gsb_data_account_get_bet_maj ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -3347,7 +3345,7 @@ gint gsb_data_account_get_bet_maj ( gint account_number )
  * */
 gboolean gsb_data_account_set_bet_maj ( gint account_number, gint type_maj )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -3368,7 +3366,7 @@ gboolean gsb_data_account_set_bet_maj ( gint account_number, gint type_maj )
  * */
 gdouble gsb_data_account_get_bet_finance_capital ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -3387,7 +3385,7 @@ gdouble gsb_data_account_get_bet_finance_capital ( gint account_number )
  * */
 gboolean gsb_data_account_set_bet_finance_capital ( gint account_number, gdouble capital )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -3408,7 +3406,7 @@ gboolean gsb_data_account_set_bet_finance_capital ( gint account_number, gdouble
  * */
 gdouble gsb_data_account_get_bet_finance_taux_annuel ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -3427,7 +3425,7 @@ gdouble gsb_data_account_get_bet_finance_taux_annuel ( gint account_number )
  * */
 gboolean gsb_data_account_set_bet_finance_taux_annuel ( gint account_number, gdouble taux_annuel )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -3448,7 +3446,7 @@ gboolean gsb_data_account_set_bet_finance_taux_annuel ( gint account_number, gdo
  * */
 gdouble gsb_data_account_get_bet_finance_frais ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -3467,7 +3465,7 @@ gdouble gsb_data_account_get_bet_finance_frais ( gint account_number )
  * */
 gboolean gsb_data_account_set_bet_finance_frais ( gint account_number, gdouble frais )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -3487,7 +3485,7 @@ gboolean gsb_data_account_set_bet_finance_frais ( gint account_number, gdouble f
  * */
 gint gsb_data_account_get_bet_finance_type_taux ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -3505,7 +3503,7 @@ gint gsb_data_account_get_bet_finance_type_taux ( gint account_number )
  * */
 gboolean gsb_data_account_set_bet_finance_type_taux ( gint account_number, gint type_taux )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -3527,7 +3525,7 @@ gboolean gsb_data_account_set_bet_finance_type_taux ( gint account_number, gint 
  * */
 gint gsb_data_account_get_currency_floating_point ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
     gint floating_point;
 
     account = gsb_data_account_get_structure ( account_number );
@@ -3551,8 +3549,8 @@ gint gsb_data_account_get_currency_floating_point ( gint account_number )
  * */
 gint gsb_data_account_get_bet_credit_card ( gint account_number )
 {
-    struct_account *account;
-    kind_account kind;
+    AccountStruct *account;
+    KindAccount kind;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -3592,7 +3590,7 @@ gint gsb_data_account_get_bet_credit_card ( gint account_number )
 gboolean gsb_data_account_set_bet_credit_card ( gint account_number,
                         gint value )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -3610,11 +3608,11 @@ gboolean gsb_data_account_set_bet_credit_card ( gint account_number,
  *
  * \param account_number
  *
- * \return enum bet_type_onglets
+ * \return enum BetTypeOnglets
  * */
-bet_type_onglets gsb_data_account_get_bet_show_onglets ( gint account_number )
+BetTypeOnglets gsb_data_account_get_bet_show_onglets ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -3634,9 +3632,9 @@ bet_type_onglets gsb_data_account_get_bet_show_onglets ( gint account_number )
  * */
 gboolean gsb_data_account_set_bet_show_onglets ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
     gint bet_use_budget;
-    kind_account kind;
+    KindAccount kind;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -3723,7 +3721,7 @@ gboolean gsb_data_account_set_bet_show_onglets_all_accounts ( void )
  * */
 gboolean gsb_data_account_exists ( gint account_number )
 {
-    struct_account *account;
+    AccountStruct *account;
     account = gsb_data_account_get_structure ( account_number );
 
     if ( account )
@@ -3744,7 +3742,7 @@ gboolean gsb_data_account_exists ( gint account_number )
 gsb_real gsb_data_account_get_balance_at_date ( gint account_number,
                         GDate *date )
 {
-    struct_account *account;
+    AccountStruct *account;
     GSList *tmp_list;
     gsb_real current_balance;
     gint floating_point;

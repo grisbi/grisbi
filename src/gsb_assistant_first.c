@@ -63,7 +63,7 @@ static GtkWidget *gsb_assistant_first_page_3 ( GtkWidget *assistant );
 extern gboolean result_reconcile;
 /*END_EXTERN*/
 
-enum first_assistant_page
+enum FirstAssistantPage
 {
     FIRST_ASSISTANT_INTRO= 0,
     FIRST_ASSISTANT_PAGE_2,

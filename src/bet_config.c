@@ -1016,7 +1016,7 @@ gboolean bet_config_change_account ( GtkWidget *combo )
     GtkWidget *account_page;
     gint account_number;
     gint bet_use_budget;
-    bet_type_onglets bet_show_onglets;
+    BetTypeOnglets bet_show_onglets;
 
     devel_debug (NULL);
     widget = g_object_get_data ( G_OBJECT ( combo ), "bet_use_budget" );
@@ -1156,7 +1156,7 @@ void bet_config_sensitive_account_parameters ( gint account_number, gboolean sen
     account_page = gsb_gui_get_account_page ();
     if ( sensitive )
     {
-        bet_type_onglets bet_show_onglets;
+        BetTypeOnglets bet_show_onglets;
 
         bet_show_onglets = gsb_data_account_get_bet_show_onglets ( account_number );
 

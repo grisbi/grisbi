@@ -68,7 +68,7 @@ static gboolean gsb_assistant_account_toggled_kind_account ( GtkWidget *button,
 
 static gchar * new_icon = NULL;
 
-enum first_assistant_page
+enum FirstAccountAssistantPage
 {
     ACCOUNT_ASSISTANT_INTRO= 0,
     ACCOUNT_ASSISTANT_PAGE_2,
@@ -430,7 +430,7 @@ gboolean gsb_assistant_account_toggled_kind_account ( GtkWidget *button,
 						      GtkWidget *assistant )
 {
     GtkWidget *bouton_icon, *image;
-    kind_account account_kind;
+    KindAccount account_kind;
 
     account_kind = GPOINTER_TO_INT ( g_object_get_data
                 ( G_OBJECT (button), "account_kind"));

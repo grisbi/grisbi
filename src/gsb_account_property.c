@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2009 Cédric Auger (cedric@grisbi.org)            */
 /*          2004-2009 Benjamin Drieu (bdrieu@april.org)                       */
-/*                 2009-2016 Pierre Biava (grisbi@pierre.biava.name)          */
+/*                 2009-2017 Pierre Biava (grisbi@pierre.biava.name)          */
 /*      2009 Thomas Peel (thomas.peel@live.fr)                                */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
@@ -94,7 +94,7 @@ static gboolean gsb_account_property_iban_focus_in_event ( GtkWidget *entry,
 static gboolean gsb_account_property_iban_focus_out_event ( GtkWidget *entry,
                         GdkEventFocus *ev,
                         gpointer data );
-static struct iso_13616_iban *gsb_account_property_iban_get_struc ( gchar *pays );
+static struct Iso13616Iban *gsb_account_property_iban_get_struc ( gchar *pays );
 static void gsb_account_property_iban_insert_text ( GtkEditable *entry,
                         gchar *text,
                         gint length,
@@ -108,14 +108,14 @@ static void gsb_account_property_iban_set_iban ( const gchar *iban );
 static void gsb_account_property_iban_switch_bank_data ( gboolean sensitive );
 /*END_STATIC*/
 
-struct iso_13616_iban
+struct Iso13616Iban
 {
     gchar *locale;
     gchar *iban;
     gint nbre_char;
 };
 
-static struct iso_13616_iban iso_13616_ibans [] = {
+static struct Iso13616Iban iso_13616_ibans [] = {
     { "XX", "XXkk XXXX XXXX XXXX XXXX XXXX XXXX XXXX XX", 34 },
     { "AD", "ADkk BBBB SSSS CCCC CCCC CCCC", 24 },
     { "AT", "ATkk BBBB BCCC CCCC CCCC", 20 },
@@ -903,7 +903,7 @@ void gsb_account_property_iban_insert_text ( GtkEditable *entry,
                         gint *position,
                         GtkWidget *combobox )
 {
-    static struct iso_13616_iban *s_iban = iso_13616_ibans;
+    static struct Iso13616Iban *s_iban = iso_13616_ibans;
     gchar *iban;
     gint nbre_char;
 
@@ -976,9 +976,9 @@ void gsb_account_property_iban_delete_text ( GtkEditable *entry,
  *
  * \return une structure modèle (XX si pays non défini)
  * */
-struct iso_13616_iban *gsb_account_property_iban_get_struc ( gchar *pays )
+struct Iso13616Iban *gsb_account_property_iban_get_struc ( gchar *pays )
 {
-    struct iso_13616_iban *s_iban = iso_13616_ibans;
+    struct Iso13616Iban *s_iban = iso_13616_ibans;
 
     while (s_iban -> iban )
     {
@@ -1110,7 +1110,7 @@ gboolean gsb_account_property_iban_focus_out_event ( GtkWidget *entry,
  * */
 gboolean gsb_account_property_iban_set_bank_from_iban ( gchar *iban )
 {
-    struct iso_13616_iban *s_iban;
+    struct Iso13616Iban *s_iban;
     gchar *model;
     gchar *tmpstr;
     gchar *ptr_1;
@@ -1354,7 +1354,7 @@ void gsb_account_property_iban_clear_label_data ( void )
  * */
 gint gsb_account_property_iban_control_iban ( gchar *iban )
 {
-    struct iso_13616_iban *s_iban;
+    struct Iso13616Iban *s_iban;
     gchar *model;
     gchar *tmp_str = NULL;
     gchar *substr;

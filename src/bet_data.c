@@ -108,7 +108,7 @@ void bet_data_select_bet_pages ( gint account_number )
     GtkWidget *page;
     GtkWidget *account_page;
     gint current_page;
-    bet_type_onglets bet_show_onglets;
+    BetTypeOnglets bet_show_onglets;
 
     devel_debug_int ( account_number );
     bet_show_onglets = gsb_data_account_get_bet_show_onglets ( account_number );

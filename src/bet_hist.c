@@ -853,7 +853,7 @@ void bet_historical_populate_div_model ( gpointer key,
     gsb_real average;
     gsb_real retained;
     gsb_real amount;
-    kind_account kind;
+    KindAccount kind;
 
     div_number = sh -> div;
     div_name = bet_data_get_div_name ( div_number, 0, NULL );

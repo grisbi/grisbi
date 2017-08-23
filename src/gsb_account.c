@@ -74,7 +74,7 @@
  * \return FALSE if problem, TRUE if ok
  */
 
-gboolean gsb_account_new ( kind_account account_type,
+gboolean gsb_account_new ( KindAccount account_type,
 			   gint currency_number,
 			   gint bank_number,
 			   gsb_real init_amount,
