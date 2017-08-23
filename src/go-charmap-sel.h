@@ -41,13 +41,13 @@ typedef enum {
 	GO_CHARMAP_SEL_FROM_UTF8
 } GOCharmapSelTestDirection;
 
-GType        go_charmap_sel_get_type (void);
-GtkWidget *  go_charmap_sel_new (GOCharmapSelTestDirection test);
-
-gchar const *go_charmap_sel_get_encoding (GOCharmapSel *cs);
-gboolean     go_charmap_sel_set_encoding (GOCharmapSel *cs, const char *enc);
-
-const char  *go_charmap_sel_get_encoding_name (GOCharmapSel *cs, const char *enc);
+GType        	go_charmap_sel_get_type 			(void);
+GtkWidget *  	go_charmap_sel_new 					(GOCharmapSelTestDirection test);
+gchar const *	go_charmap_sel_get_encoding 		(GOCharmapSel *cs);
+gboolean     	go_charmap_sel_set_encoding 		(GOCharmapSel *cs,
+													 const char *enc);
+const char  *	go_charmap_sel_get_encoding_name 	(GOCharmapSel *cs,
+													 const char *enc);
 
 G_END_DECLS
 

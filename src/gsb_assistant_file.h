@@ -7,7 +7,7 @@
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
-GtkResponseType gsb_assistant_file_run ( gboolean first_opening,
-					 gboolean import );
+GtkResponseType 	gsb_assistant_file_run 	(gboolean first_opening,
+											 gboolean import);
 /* END_DECLARATION */
 #endif

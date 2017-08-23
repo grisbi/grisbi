@@ -10,9 +10,11 @@
 
 
 /* START_DECLARATION */
-void grisbi_osx_app_active_cb ( GtkosxApplication* app, gboolean* data );
-void grisbi_osx_app_update_menus_cb ( void );
-GtkWidget *grisbi_osx_init_menus ( GtkWidget *window, GtkWidget *vbox );
+void grisbi_osx_app_active_cb 					(GtkosxApplication* app,
+												 gboolean* data );
+void 		grisbi_osx_app_update_menus_cb		(void );
+GtkWidget *	grisbi_osx_init_menus 				(GtkWidget *window,
+												 GtkWidget *vbox );
 /* END_DECLARATION */
 
 #endif /* GTKOSXAPPLICATION */

@@ -7,6 +7,6 @@
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
-GtkResponseType gsb_assistant_archive_export_run ( void );
+GtkResponseType 	gsb_assistant_archive_export_run 	(void);
 /* END_DECLARATION */
 #endif

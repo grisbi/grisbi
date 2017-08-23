@@ -7,6 +7,6 @@
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
-GtkResponseType gsb_assistant_account_run ( void );
+GtkResponseType 	gsb_assistant_account_run	(void);
 /* END_DECLARATION */
 #endif
