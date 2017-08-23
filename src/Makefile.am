@@ -197,7 +197,6 @@ libgrisbi_la_SOURCES = \
 	custom_list.h		\
 	dialog.h		\
 	erreur.h		\
-	etats.h			\
 	etats_affiche.h         \
 	etats_calculs.h		\
 	etats_config.h		\
