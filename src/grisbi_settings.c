@@ -5,7 +5,7 @@
 /*                                                                               */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)               */
 /*                      2003-2008 Benjamin Drieu (bdrieu@april.org)              */
-/*          2008-2016 Pierre Biava (grisbi@pierre.biava.name)                    */
+/*          2008-2017 Pierre Biava (grisbi@pierre.biava.name)                    */
 /*          http://www.grisbi.org                                                */
 /*                                                                               */
 /*     This program is free software; you can redistribute it and/or modify      */
@@ -200,7 +200,7 @@ static void grisbi_settings_init_settings_file (GSettings *settings)
 		}
 		else
 		{
-			conf.import_directory = my_strdup (gsb_dirs_get_user_data_dir ());
+			conf.import_directory = my_strdup (g_get_user_special_dir (G_USER_DIRECTORY_DOWNLOAD));
 		}
 		g_free (import_directory);
 	}
@@ -282,7 +282,7 @@ static void grisbi_settings_init_settings_general (GSettings *settings)
     tmp_str = g_settings_get_string (settings, "last-path");
     if (tmp_str == NULL || strlen (tmp_str) == 0)
     {
-        tmp_str = g_strdup (g_get_home_dir ());
+        tmp_str = g_strdup (g_get_user_special_dir (G_USER_DIRECTORY_DOCUMENTS));
         g_settings_set_string (settings, "last-path", tmp_str);
     }
     gsb_file_init_last_path (tmp_str);
@@ -671,6 +671,13 @@ void grisbi_settings_save_app_config (void)
     g_settings_set_boolean (G_SETTINGS (priv->settings_file),
                         "force-import-directory",
                         conf.force_import_directory);
+	if (conf.force_import_directory)
+	{
+		g_settings_set_string (G_SETTINGS (priv->settings_file),
+										   "import-directory",
+										   conf.import_directory);
+	}
+
     g_settings_set_boolean (G_SETTINGS (priv->settings_file),
                         "compress-file",
                         conf.compress_file);
