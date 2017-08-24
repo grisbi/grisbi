@@ -1505,6 +1505,11 @@ static gboolean gsb_import_enter_force_dir_page (GtkWidget *assistant)
 		filename = g_file_info_get_name (info);
 
 		extension = strrchr (filename, '.');
+		if (!extension)
+		{
+			continue;
+		}
+
 		if (g_ascii_strcasecmp (extension+1, "csv") == 0)
 			type = "CSV";
 		else if (g_ascii_strcasecmp (extension+1, "gnc") == 0)
