@@ -285,7 +285,17 @@ static void grisbi_settings_init_settings_general (GSettings *settings)
         tmp_str = g_strdup (g_get_user_special_dir (G_USER_DIRECTORY_DOCUMENTS));
         g_settings_set_string (settings, "last-path", tmp_str);
     }
-    gsb_file_init_last_path (tmp_str);
+	else
+	{
+		if (!g_file_test (tmp_str, G_FILE_TEST_EXISTS))
+		{
+			g_free (tmp_str);
+			tmp_str = g_strdup (g_get_user_special_dir (G_USER_DIRECTORY_DOCUMENTS));
+			g_settings_set_string (settings, "last-path", tmp_str);
+		}
+	}
+
+	gsb_file_init_last_path (tmp_str);
     g_free (tmp_str);
 
     /* Home page */

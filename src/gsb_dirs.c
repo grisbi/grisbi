@@ -39,8 +39,6 @@ static gchar *ui_dir;
 static gchar *user_config_dir;
 static gchar *user_data_dir;
 static gchar *user_default_dir;
-static gchar *grisbirc_filename;
-static gchar *accelerator_filename;
 
 /******************************************************************************/
 /* Public functions                                                           */
@@ -69,7 +67,6 @@ void gsb_dirs_init (char* gsb_bin_path)
     gchar *dir;
 
     dir = g_win32_get_package_installation_directory_of_module (NULL);
-	printf ("PACKAGE dir = %s\n", dir);
     categories_dir = g_build_filename (dir, "\\share\\grisbi\\categories", NULL);
     help_dir = g_build_filename (dir, "\\share\\doc\\grisbi", NULL);
     locale_dir = g_strconcat (dir, "\\share\\locale", NULL);
@@ -81,7 +78,6 @@ void gsb_dirs_init (char* gsb_bin_path)
     user_config_dir = g_build_filename (g_get_user_config_dir (), "grisbi", NULL);
     user_data_dir = g_build_filename (g_get_user_data_dir (), "grisbi", NULL);
     user_default_dir = g_strdup (g_get_user_special_dir (G_USER_DIRECTORY_DOCUMENTS));
-		printf ("user_directory = %s\n", user_default_dir);
 }
 #else
 {
@@ -142,8 +138,6 @@ void gsb_dirs_init (char* gsb_bin_path)
     }
 	else
 		g_free (local_ui_dir);
-
-    accelerator_filename = g_build_filename (user_config_dir, "grisbi-accels", NULL);
 }
 
 /**
@@ -162,8 +156,6 @@ void gsb_dirs_shutdown (void)
     g_free (ui_dir);
     g_free (user_config_dir);
     g_free (user_data_dir);
-    g_free (grisbirc_filename);
-    g_free (accelerator_filename);
     g_free (user_default_dir);
 }
 
@@ -234,22 +226,6 @@ const gchar *gsb_dirs_get_ui_dir (void)
  *
  * \return
  **/
-const gchar *gsb_dirs_get_grisbirc_filename (void)
-{
-    gchar *filename;
-
-#if IS_DEVELOPMENT_VERSION == 1
-    filename = g_strconcat (PACKAGE, "dev.conf", NULL);
-#else
-    filename = g_strconcat (PACKAGE, ".conf", NULL);
-#endif
-
-    grisbirc_filename = g_build_filename (user_config_dir, filename, NULL);
-    g_free (filename);
-
-    return grisbirc_filename;
-}
-
 /**
  *
  *
@@ -275,19 +251,6 @@ const gchar *gsb_dirs_get_user_data_dir (void)
 }
 
 /**
- * return the accelerator filename
- *
- * \param
- *
- * \return the accelerator filename with an absolute path
- */
-const gchar *gsb_dirs_get_accelerator_filename (void)
-{
-    return accelerator_filename;
-}
-
-
-/**
  * return the absolute path of the default accounts files location
  * on Un*x based system return $HOME
  * on Windows based systems return "My Documents"
@@ -310,27 +273,26 @@ gchar *gsb_dirs_get_print_dir_var (void)
 {
     gchar *path_str = NULL;
 
-    path_str = g_strdup_printf ("Paths\n"
-                        "\tg_get_user_data_dir ()               = %s\n"
-                        "\tgsb_dirs_get_user_data_dir ()        = %s\n\n"
-                        "\tg_get_user_config_dir ()             = %s\n"
-                        "\tgsb_dirs_get_user_config_dir ()      = %s\n"
-                        "\tgsb_dirs_get_grisbirc_filename ()    = %s\n"
-                        "\tgsb_dirs_get_accelerator_filename () = %s\n\n"
-                        "\tgsb_dirs_get_categories_dir ()       = %s\n"
-                        "\tgsb_dirs_get_locale_dir ()           = %s\n"
-                        "\tgsb_dirs_get_pixmaps_dir ()          = %s\n"
-                        "\tgsb_dirs_get_ui_dir ()               = %s\n\n",
-                        g_get_user_data_dir (),
-                        gsb_dirs_get_user_data_dir (),
-                        g_get_user_config_dir (),
-                        gsb_dirs_get_user_config_dir (),
-                        gsb_dirs_get_grisbirc_filename (),
-                        gsb_dirs_get_accelerator_filename (),
-                        gsb_dirs_get_categories_dir (),
-                        gsb_dirs_get_locale_dir (),
-                        gsb_dirs_get_pixmaps_dir (),
-                        gsb_dirs_get_ui_dir ());
+	path_str = g_strdup_printf ("Paths\n"
+								"\tuser_default_dir             = %s\n"
+								"\tuser_data_dir                = %s\n"
+								"\tuser_config_dir              = %s\n\n"
+								"\tG_USER_DIRECTORY_DOCUMENTS   = %s\n"
+								"\tG_USER_DIRECTORY_DOWNLOAD    = %s\n\n"
+								"\tcategories_dir               = %s\n"
+								"\tlocale_dir                   = %s\n"
+								"\tpixmaps_dir                  = %s\n"
+								"\tui_dir                       = %s\n\n",
+								gsb_dirs_get_default_dir (),
+								gsb_dirs_get_user_data_dir (),
+								gsb_dirs_get_user_config_dir (),
+								g_get_user_special_dir (G_USER_DIRECTORY_DOCUMENTS),
+								g_get_user_special_dir (G_USER_DIRECTORY_DOWNLOAD),
+								gsb_dirs_get_categories_dir (),
+								gsb_dirs_get_locale_dir (),
+								gsb_dirs_get_pixmaps_dir (),
+								gsb_dirs_get_ui_dir ()
+								);
 
     return path_str;
 }
