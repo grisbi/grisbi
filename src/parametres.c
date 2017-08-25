@@ -182,6 +182,7 @@ GtkWidget *onglet_accueil ( void )
     GtkTreeSelection *selection;
     GtkTreeDragDestIface * dst_iface;
     GtkTreeDragSourceIface * src_iface;
+	const gchar *langue;
     static GtkTargetEntry row_targets[] = {
     { "GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_WIDGET, 0 }
     };
@@ -194,7 +195,8 @@ GtkWidget *onglet_accueil ( void )
     gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), BOX_BORDER_WIDTH );
 
     /* pour les francophones ;-) */
-    if ( g_strstr_len ( ( g_ascii_strup ( g_getenv ( "LANG" ), -1 ) ), -1, "FR" ) )
+	langue = gsb_locale_get_langue ();
+    if ( g_strstr_len ( ( g_ascii_strup (langue, -1 ) ), -1, "FR" ) )
     {
         paddingbox = new_paddingbox_with_title (vbox, FALSE, "Pluriel de final" );
 

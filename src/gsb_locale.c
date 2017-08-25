@@ -25,6 +25,7 @@
 
 #include <glib.h>
 #include <string.h>
+#include <stdio.h>
 
 /*START_INCLUDE*/
 #include "include.h"
@@ -32,25 +33,22 @@
 /*END_INCLUDE*/
 
 static struct lconv *_locale = NULL;
-
+static const gchar *langue;
 
 void gsb_locale_init ( void )
 {
-    struct lconv *locale;
-    const gchar *langue;
+  struct lconv *locale;
 
-    locale = localeconv ();
+	locale = localeconv ();
+	_locale = g_malloc ( sizeof (*_locale) );
 
+#ifdef _WIN32
+	langue = g_win32_getlocale ();
+	printf ("g_win32_getlocale () = %s\n", g_win32_getlocale ());
+#else
 	langue = g_getenv ( "LANG");
-
-#ifdef G_OS_WIN32
-	if (!langue || strlen (langue) == 0)
-	{
-		langue = "fr_FR";
-	}
 #endif
 
-    _locale = g_malloc ( sizeof (*_locale) );
     _locale -> decimal_point     = g_strdup ( locale -> decimal_point );
     _locale -> thousands_sep     = g_strdup ( locale -> thousands_sep );
     _locale -> grouping          = g_strdup ( locale -> grouping );
@@ -69,6 +67,14 @@ void gsb_locale_init ( void )
 
     if ( g_str_has_prefix ( langue, "fr_" ) )
     {
+#ifdef _WIN32
+	if (_locale->mon_thousands_sep && strlen (_locale->mon_thousands_sep))
+		g_free (_locale->mon_thousands_sep);
+	_locale->mon_thousands_sep = g_strdup (" ");
+	if (_locale->currency_symbol && strlen (_locale->currency_symbol))
+		g_free (_locale->currency_symbol);
+		locale->currency_symbol = g_strdup ("€");
+#endif
         _locale -> p_cs_precedes     = 0;
         _locale -> p_sep_by_space    = 1;
         _locale -> n_cs_precedes     = 0;
@@ -179,7 +185,7 @@ gchar *gsb_locale_get_print_locale_var ( void )
                         "\tn_cs_precedes     = \"%d\"\n"
                         "\tp_sep_by_space    = \"%d\"\n"
                         "\tfrac_digits       = \"%d\"\n\n",
-                        g_getenv ( "LANG"),
+                        langue,
                         currency_symbol,
                         mon_thousands_sep,
                         mon_decimal_point,
@@ -199,6 +205,18 @@ gchar *gsb_locale_get_print_locale_var ( void )
     return locale_str;
 }
 
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+const gchar *gsb_locale_get_langue (void)
+{
+	return langue;
+}
 
 /**
  *
