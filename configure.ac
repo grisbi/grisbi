@@ -335,7 +335,7 @@ dnl french doc
 dnl ================================================================
 
 AC_ARG_ENABLE(frenchdoc,
-  [AC_HELP_STRING([--disable-frenchdoc],
+  [AS_HELP_STRING([--disable-frenchdoc],
   [Install french user documentation (default=yes)])],,
   enable_frenchdoc=yes)
 AM_CONDITIONAL(FRENCHDOC, test "$enable_frenchdoc" = "yes")
