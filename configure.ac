@@ -267,24 +267,19 @@ AC_MSG_CHECKING([for MSYS2 platform])
 case $host_os in
   *msys* ) MSYS2=yes
   	AC_MSG_RESULT([MSYS2])
-  	platform_win=msys2
+  	platform_win=yes
   ;;
   *mingw32* ) MINGW32=yes
   	AC_MSG_RESULT([MINGW32])
-  	platform_win=mingw32
+  	platform_win=yes
   ;;
   *)
     platform_win=no
     ;;
 esac
 
-if test "x$platform_win" = xmsys2; then
-	AC_DEFINE([_WIN32], [1], [Defined if system is MSYS2])
-else
-	if test "x$platform_win" = xmingw32; then
-		AC_DEFINE([_WIN32], [1], [Defined if system is MINGW32])
-	fi
-fi
+AC_MSG_RESULT([$platform_win])
+AM_CONDITIONAL(WIN32, test "$platform_win" = "yes")
 
 dnl ================================================================
 dnl check for osx platform

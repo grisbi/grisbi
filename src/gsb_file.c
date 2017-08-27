@@ -33,7 +33,7 @@
 #include <glib/gstdio.h>
 #include <glib/gi18n.h>
 
-#ifdef _WIN32
+#ifdef G_OS_WIN32
 #	include <stdlib.h> // For realpath()
 #endif /* WIN32 */
 

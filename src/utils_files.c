@@ -555,7 +555,7 @@ gint utils_files_get_utf8_line_from_file (FILE *fichier,
 FILE* utils_files_utf8_fopen (const gchar *utf8filename,
 							  const gchar *mode)
 {
-#ifdef _WIN32
+#ifdef G_OS_WIN32
     return fopen (g_locale_from_utf8 (utf8filename, -1, NULL, NULL, NULL), mode);
 #else
 	return fopen (g_filename_from_utf8 (utf8filename, -1, NULL, NULL, NULL), mode);
@@ -574,7 +574,7 @@ FILE* utils_files_utf8_fopen (const gchar *utf8filename,
  **/
 gint utils_files_utf8_remove (const gchar *utf8filename)
 {
-#ifdef _WIN32
+#ifdef G_OS_WIN32
     return remove (g_locale_from_utf8 (utf8filename, -1, NULL, NULL, NULL));
 #else
     return remove (g_filename_from_utf8 (utf8filename,-1,NULL,NULL,NULL));
@@ -643,11 +643,11 @@ GtkWidget *utils_files_create_file_chooser (GtkWidget *parent,
  **/
 gboolean utils_files_create_XDG_dir (void)
 {
-#ifdef _WIN32
+#ifdef G_OS_WIN32
     int mode = 0;
 #else
     int mode = S_IRUSR | S_IWUSR | S_IXUSR;
-#endif /* _WIN32 */
+#endif /* G_OS_WIN32 */
     if (g_mkdir_with_parents (gsb_dirs_get_user_config_dir (), mode) == 0 &&
          g_mkdir_with_parents (gsb_dirs_get_user_data_dir (), mode) == 0)
         return TRUE;

@@ -4,7 +4,7 @@
 #include <glib.h>
 
 
-#ifdef _WIN32
+#ifdef G_OS_WIN32
 #define NEW_LINE "\r\n"
 #else
 #define NEW_LINE "\n"

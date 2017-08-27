@@ -29,7 +29,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#ifdef _WIN32
+#ifdef G_OS_WIN32
 #include <winnls.h>
 #endif
 

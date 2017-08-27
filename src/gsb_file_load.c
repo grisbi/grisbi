@@ -3715,7 +3715,7 @@ gboolean gsb_file_load_open_file ( gchar *filename )
 
     devel_debug ( filename );
 
-#ifndef _WIN32      /* check the access to the file and display a message */
+#ifndef G_OS_WIN32      /* check the access to the file and display a message */
     gint return_value;
     struct stat buffer_stat;
 
@@ -3723,7 +3723,7 @@ gboolean gsb_file_load_open_file ( gchar *filename )
     return_value = g_stat ( filename, &buffer_stat );
     if ( !return_value && buffer_stat.st_mode != 33152 )
         gsb_file_util_display_warning_permissions ();
-#endif /* _WIN32 */
+#endif /* G_OS_WIN32 */
 
     /* load the file */
     if ( gsb_file_util_get_contents ( filename, &file_content, &length ) )

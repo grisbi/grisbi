@@ -62,7 +62,7 @@ void gsb_dirs_init (char* gsb_bin_path)
 
 	g_free (grisbi_dir);
 
-#ifdef _WIN32
+#ifdef G_OS_WIN32
 {
     gchar *dir;
 
@@ -128,7 +128,7 @@ void gsb_dirs_init (char* gsb_bin_path)
     }
     #endif /* OS_OSX */
 }
-#endif /* _WIN32 */
+#endif /* G_OS_WIN32 */
 
     local_ui_handle = g_dir_open (local_ui_dir, 0, NULL);
     if (NULL != local_ui_handle)

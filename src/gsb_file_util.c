@@ -119,11 +119,11 @@ gboolean gsb_file_util_get_contents ( gchar *filename,
     gboolean eof = 0;
 	gchar *os_filename;
 
-#ifdef _WIN32
+#ifdef G_OS_WIN32
 	os_filename = g_locale_from_utf8(filename, -1, NULL, NULL, NULL);
 #else
 	os_filename = g_strdup(filename);
-#endif /* _WIN32 */
+#endif /* G_OS_WIN32 */
 
     file = gzopen (os_filename, "rb");
     if (!file)
@@ -140,12 +140,12 @@ gboolean gsb_file_util_get_contents ( gchar *filename,
     }
 
     orig_size = stat_buf.st_size;
-#ifndef _WIN32
+#ifndef G_OS_WIN32
     if (gzdirect (file))
 	/* the file is not compressed, keep the original size */
 	alloc_size = orig_size + 1;
     else
-#endif /*__WIN32 */
+#endif /*_G_OS_WIN32 */
 	/* the file is compressed, the final size should be about 20x more
 	 *  this is not completly true, if the file is compressed AND crypted,
 	 * the size doesn't really change. but i can't know here if the file is crypted
@@ -252,9 +252,9 @@ gboolean gsb_file_util_modify_lock ( gboolean create_lock )
 	tmp_str = g_path_get_basename (nom_fichier_comptes);
     lock_filename = g_strconcat (g_get_tmp_dir (),
 								 G_DIR_SEPARATOR_S,
-#ifndef _WIN32
+#ifndef G_OS_WIN32
 								 ".",
-#endif /* _WIN32 */
+#endif /* G_OS_WIN32 */
 								 tmp_str,
 								 ".lock",
 								 NULL);
@@ -346,13 +346,13 @@ void gsb_file_util_change_permissions ( void )
      * not display msg. */
     devel_debug (NULL);
 
-#ifndef _WIN32
+#ifndef G_OS_WIN32
     if ( question_conditional_yes_no ( "account-file-readable" ) == TRUE )
     {
         chmod ( nom_fichier_comptes, S_IRUSR | S_IWUSR );
     }
 
-#endif /* _WIN32 */
+#endif /* G_OS_WIN32 */
 }
 
 

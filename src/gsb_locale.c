@@ -42,7 +42,7 @@ void gsb_locale_init ( void )
 	locale = localeconv ();
 	_locale = g_malloc ( sizeof (*_locale) );
 
-#ifdef _WIN32
+#ifdef G_OS_WIN32
 	langue = g_win32_getlocale ();
 	printf ("g_win32_getlocale () = %s\n", g_win32_getlocale ());
 #else
@@ -67,7 +67,7 @@ void gsb_locale_init ( void )
 
     if ( g_str_has_prefix ( langue, "fr_" ) )
     {
-#ifdef _WIN32
+#ifdef G_OS_WIN32
 	if (_locale->mon_thousands_sep && strlen (_locale->mon_thousands_sep))
 		g_free (_locale->mon_thousands_sep);
 	_locale->mon_thousands_sep = g_strdup (" ");

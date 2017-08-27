@@ -4,7 +4,7 @@
 
 
 /* The following lines revert back to FPRINTF on Windows Systems(LIBINTL_FPRINTF seems BUGGY) */
-#ifdef _WIN32
+#ifdef G_OS_WIN32
 # undef fprintf
 #endif
 

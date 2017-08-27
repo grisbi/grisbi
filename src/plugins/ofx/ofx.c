@@ -49,7 +49,7 @@ static int ofx_proc_transaction_cb(struct OfxTransactionData data, void * securi
 
 
 /* It seems the following applies to everyone, otherwise OFX_* are not defined */
-/* #ifdef _WIN32 */
+/* #ifdef G_OS_WIN32 */
 /* On Windows, the Ofx Severity enumerate values are already used in wingdi.h, DELETE is used in winnt.h
  * This is a work around to this issues :
  *  INFO, WARN, ERROR, DELETE and REPLACE are used in standard libofx.h;
@@ -83,7 +83,7 @@ static int ofx_proc_transaction_cb(struct OfxTransactionData data, void * securi
 
 #endif /* _MIN_GW */
 
-/* #endif _WIN32 */
+/* #endif G_OS_WIN32 */
 
 
 
