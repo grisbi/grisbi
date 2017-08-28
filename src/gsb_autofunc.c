@@ -296,13 +296,13 @@ void gsb_autofunc_textview_set_value ( GtkWidget *text_view,
     gulong changed_hook;
 
     /* Block everything */
-    changed = GPOINTER_TO_UINT (g_object_get_data (G_OBJECT (text_view), "changed"));
+    changed = GPOINTER_TO_UINT (g_object_get_data (G_OBJECT (buffer), "changed"));
     if (changed > 0)
-        g_signal_handler_block (G_OBJECT (text_view), changed);
+        g_signal_handler_block (G_OBJECT (buffer), changed);
 
-    changed_hook = GPOINTER_TO_UINT (g_object_get_data (G_OBJECT (text_view), "changed-hook"));
+    changed_hook = GPOINTER_TO_UINT (g_object_get_data (G_OBJECT (buffer), "changed-hook"));
     if (changed_hook > 0)
-        g_signal_handler_block (G_OBJECT (text_view), changed_hook);
+        g_signal_handler_block (G_OBJECT (buffer), changed_hook);
 
     /* Fill in value */
     if (value)
@@ -315,10 +315,10 @@ void gsb_autofunc_textview_set_value ( GtkWidget *text_view,
 
     /* Unblock everything */
     if ( changed > 0 )
-        g_signal_handler_unblock (G_OBJECT (text_view), changed);
+        g_signal_handler_unblock (G_OBJECT (buffer), changed);
 
     if (changed_hook > 0)
-        g_signal_handler_unblock (G_OBJECT (text_view), changed_hook);
+        g_signal_handler_unblock (G_OBJECT (buffer), changed_hook);
 }
 
 
