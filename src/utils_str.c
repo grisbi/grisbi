@@ -638,7 +638,7 @@ GSList *gsb_string_get_string_list_from_string ( const gchar *string,
 
 
 /**
- * return a gslist of struct_categ_budget_sel
+ * return a gslist of CategBudgetSel
  * from a string as no_categ/no_sub_categ/no_sub_categ/no_sub_categ-no_categ/no_sub_categ...
  * (or idem with budget)
  *
@@ -663,7 +663,7 @@ GSList *gsb_string_get_categ_budget_struct_list_from_string ( const gchar *strin
 
     while ( tab[i] )
     {
-	struct_categ_budget_sel *categ_budget_struct = NULL;
+	CategBudgetSel *categ_budget_struct = NULL;
 	gchar **sub_tab;
 	gint j=0;
 
@@ -673,7 +673,7 @@ GSList *gsb_string_get_categ_budget_struct_list_from_string ( const gchar *strin
 	    if (!categ_budget_struct)
 	    {
 		/* no categ_budget_struct created, so we are on the category */
-		categ_budget_struct = g_malloc0 (sizeof (struct_categ_budget_sel));
+		categ_budget_struct = g_malloc0 (sizeof (CategBudgetSel));
 		categ_budget_struct -> div_number = utils_str_atoi(sub_tab[j]);
 	    }
 	    else

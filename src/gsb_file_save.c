@@ -2312,7 +2312,7 @@ gulong gsb_file_save_report_part ( gulong iterator,
 
 	while ( tmp_list )
 	{
-	    struct_categ_budget_sel *struct_categ = tmp_list -> data;
+	    CategBudgetSel *struct_categ = tmp_list -> data;
 	    gchar *last_categ;
 	    gchar *new_categ;
 	    GSList *sub_categ_list;
@@ -2357,7 +2357,7 @@ gulong gsb_file_save_report_part ( gulong iterator,
 
 	while ( tmp_list )
 	{
-	    struct_categ_budget_sel *struct_budget = tmp_list -> data;
+	    CategBudgetSel *struct_budget = tmp_list -> data;
 	    gchar *last_budget;
 	    gchar *new_budget;
 	    GSList *sub_budget_list;
