@@ -26,11 +26,6 @@ GrisbiPrefs *	grisbi_prefs_new				(GrisbiWin *win);
 void			grisbi_prefs_set_page_by_name 	(gchar *page_name);
 void 			grisbi_prefs_dialog_response  	(GtkDialog *prefs,
 				                                 gint result_id);
-
-
-//~ GtkWidget *grisbi_prefs_get_widget_by_name ( const gchar *name );
-//~ void grisbi_prefs_refresh_preferences ( gboolean new_file );
-//~ void grisb_prefs_show_dialog ( GrisbiWin *parent );
 /* END_DECLARATION */
 
 G_END_DECLS
