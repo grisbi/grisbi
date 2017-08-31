@@ -1899,7 +1899,7 @@ void bet_historical_fyear_hide_present_futures_fyears ( void )
     tmp_list = gsb_data_fyear_get_fyears_list ( );
     while (tmp_list)
     {
-        struct_fyear *fyear;
+        FyearStruct *fyear;
 
         fyear = tmp_list -> data;
 
