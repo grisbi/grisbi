@@ -886,7 +886,7 @@ static gboolean etats_config_onglet_categ_budget_fill_model ( GtkTreeModel *mode
  *
  * \param treeview_name nom du tree_view
  *
- * \return a GSList of struct_categ_budget_sel or NULL if all the categories/sub-categ were selected
+ * \return a GSList of CategBudgetSel or NULL if all the categories/sub-categ were selected
  *          to avoid to filter by categ, to improve speed
  * */
 static GSList *etats_config_onglet_categ_budget_get_selected ( const gchar *treeview_name )
@@ -908,7 +908,7 @@ static GSList *etats_config_onglet_categ_budget_get_selected ( const gchar *tree
     {
         gint div_number;
         gboolean active;
-        struct_categ_budget_sel *categ_budget_struct;
+        CategBudgetSel *categ_budget_struct;
         GtkTreeIter iter_children;
 
         gtk_tree_model_get (GTK_TREE_MODEL (model),
@@ -923,7 +923,7 @@ static GSList *etats_config_onglet_categ_budget_get_selected ( const gchar *tree
         }
 
         /* ok, we are on a selected category/budget, create and fill the structure */
-        categ_budget_struct = g_malloc0 ( sizeof ( struct_categ_budget_sel ) );
+        categ_budget_struct = g_malloc0 ( sizeof ( CategBudgetSel ) );
 
         categ_budget_struct -> div_number = div_number;
         tmp_list = g_slist_append ( tmp_list, categ_budget_struct );
@@ -1002,7 +1002,7 @@ static void etats_config_onglet_categ_budget_init_treeview ( const gchar *treevi
 
     while ( tmp_list )
     {
-        struct_categ_budget_sel *categ_budget_struct = tmp_list -> data;
+        CategBudgetSel *categ_budget_struct = tmp_list -> data;
 
         do
         {
