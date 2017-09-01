@@ -55,6 +55,7 @@
 #include "utils_gtkbuilder.h"
 #include "utils_prefs.h"
 #include "prefs/prefs_page_archives.h"
+#include "prefs/prefs_page_display_adr.h"
 #include "prefs/prefs_page_display_fonts.h"
 #include "prefs/prefs_page_divers.h"
 #include "prefs/prefs_page_files.h"
@@ -307,7 +308,7 @@ static void grisbi_prefs_left_panel_populate_tree_model (GrisbiPrefs *prefs)
 	page++;
 
 	/* append page Addresses & titles */
-	widget = GTK_WIDGET (onglet_display_addresses ());
+	widget = GTK_WIDGET (prefs_page_display_adr_new (prefs));
 	utils_widget_set_padding (widget, MARGIN_BOX, 0);
 	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Addresses & titles"), page);
 	page++;

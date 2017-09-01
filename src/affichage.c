@@ -57,7 +57,6 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gboolean change_grisbi_title_type ( GtkRadioButton *button, GtkWidget *entry );
 static gboolean change_toolbar_display_mode ( GtkRadioButton *button );
 static gboolean preferences_active_mouse_scrolling_left_pane ( GtkWidget *toggle_button,
                         gpointer null );
@@ -67,8 +66,6 @@ static gboolean preferences_switch_headings_bar ( GtkWidget *toggle_button,
 
 
 /*START_EXTERN*/
-extern gchar *adresse_commune;
-extern gchar *adresse_secondaire;
 extern GtkWidget *fenetre_preferences;
 extern GtkWidget *hbox_title;
 extern GtkWidget *logo_accueil;
@@ -87,136 +84,10 @@ extern GtkWidget *logo_accueil;
 /* Public Functions                                                           */
 /******************************************************************************/
 
-/**
- * Creates the "Titles & Addresses" tab.  This tab is mainly composed
- * of text entries and editables.
- *
- * \returns A newly allocated vbox
- */
-GtkWidget *onglet_display_addresses ( void )
-{
-    GtkWidget *vbox_pref, *scrolled_window, *label;
-    GtkWidget *paddinggrid;
-    GtkWidget *entry;
-    GtkWidget *radio, *radiogroup;
-
-    vbox_pref = new_vbox_with_title_and_icon ( _("Addresses & titles"),
-					       "gsb-addresses-32.png" );
-
-    /* Account file title */
-    paddinggrid = utils_prefs_paddinggrid_new_with_title (vbox_pref, _("Titles"));
-
-    /* It first creates the entry of title */
-    entry = gtk_entry_new ();
-	gtk_entry_set_text (GTK_ENTRY(entry), grisbi_win_get_titre_fichier ());
-	g_signal_connect (G_OBJECT(entry), "changed", G_CALLBACK (update_homepage_title), NULL);
-    gtk_widget_set_margin_top (entry, MARGIN_TOP);
-
-    /* Choice of title type */
-    radiogroup = gtk_radio_button_new_with_label ( NULL, _("Accounting entity") );
-    g_object_set_data ( G_OBJECT ( radiogroup ), "display", GINT_TO_POINTER ( GSB_ACCOUNTS_TITLE ) );
-    if ( conf.display_grisbi_title == GSB_ACCOUNTS_TITLE )
-        gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( radiogroup ), TRUE );
-    g_signal_connect ( G_OBJECT ( radiogroup ),
-                        "toggled",
-                        G_CALLBACK ( change_grisbi_title_type ),
-                        entry );
-    gtk_grid_attach (GTK_GRID (paddinggrid), radiogroup, 0, 0, 1, 1);
-
-    radio = gtk_radio_button_new_with_label_from_widget (
-                        GTK_RADIO_BUTTON ( radiogroup ),
-                        _("Account owner name") );
-    g_object_set_data ( G_OBJECT ( radio ), "display", GINT_TO_POINTER ( GSB_ACCOUNT_HOLDER ) );
-    if ( conf.display_grisbi_title == GSB_ACCOUNT_HOLDER )
-            gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( radio ), TRUE );
-    g_signal_connect ( G_OBJECT ( radio ),
-                    "toggled",
-                    G_CALLBACK ( change_grisbi_title_type ),
-                    entry );
-    gtk_grid_attach (GTK_GRID (paddinggrid), radio, 1, 0, 1, 1);
-
-    radio = gtk_radio_button_new_with_label_from_widget (
-                        GTK_RADIO_BUTTON ( radiogroup ),
-                        _("Filename") );
-    g_object_set_data ( G_OBJECT ( radio ), "display", GINT_TO_POINTER ( GSB_ACCOUNTS_FILE ) );
-    if ( conf.display_grisbi_title == GSB_ACCOUNTS_FILE )
-        gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( radio ), TRUE );
-    g_signal_connect ( G_OBJECT ( radio ),
-                        "toggled",
-                        G_CALLBACK ( change_grisbi_title_type ),
-                        entry );
-    gtk_grid_attach (GTK_GRID (paddinggrid), radio, 2, 0, 1, 1);
-
-    label = gtk_label_new ( _("Name of accounting entity: ") );
-    gtk_widget_set_margin_top (label, MARGIN_TOP);
-    gtk_grid_attach (GTK_GRID (paddinggrid), label, 0, 1, 1, 1);
-
-    /* set sensitive and grid attach */
-    if ( conf.display_grisbi_title == GSB_ACCOUNTS_TITLE )
-        gtk_widget_set_sensitive ( entry, TRUE);
-    else
-        gtk_widget_set_sensitive ( entry, FALSE);
-    gtk_grid_attach (GTK_GRID (paddinggrid), entry, 1, 1, 2, 1);
-
-    /* Addresses */
-    paddinggrid = utils_prefs_paddinggrid_new_with_title (vbox_pref, _("Addresses") );
-
-    /* Common address */
-    label = gtk_label_new ( _("Common address: ") );
-    utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
-    gtk_grid_attach (GTK_GRID (paddinggrid), label, 0, 0, 1, 1);
-
-    scrolled_window = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, SW_MIN_HEIGHT);
-    gtk_grid_attach (GTK_GRID (paddinggrid), scrolled_window, 0, 1, 2, 3);
-
-    entry = gsb_automem_textview_new ( &adresse_commune, NULL, NULL );
-    gtk_container_add ( GTK_CONTAINER ( scrolled_window ), entry );
-
-    /* Secondary address */
-    /** \note This is not implemented yet */
-    label = gtk_label_new ( _("Secondary address: ") );
-    gtk_widget_set_margin_top (label, MARGIN_TOP);
-    utils_labels_set_alignement ( GTK_LABEL (label), 0, 1);
-    gtk_grid_attach (GTK_GRID (paddinggrid), label, 0, 4, 1, 1);
-
-    scrolled_window = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, SW_MIN_HEIGHT);
-    gtk_grid_attach (GTK_GRID (paddinggrid), scrolled_window, 0, 5, 2, 3);
-
-    entry = gsb_automem_textview_new ( &adresse_secondaire, NULL, NULL );
-    gtk_container_add ( GTK_CONTAINER ( scrolled_window ), entry );
-
-    if ( !gsb_data_account_get_accounts_amount () )
-        gtk_widget_set_sensitive ( vbox_pref, FALSE );
-
-    return ( vbox_pref );
-}
-
-
 /* **************************************************************************************************************************** */
 /* **************************************************************************************************************************** */
 
 /* **************************************************************************************************************************** */
-
-/**
- * Update the label that contain main title in homepage.
- *
- * \param entry Widget that triggered this handled.  Not used.
- * \param value Not used handler parameter.
- * \param length Not used handler parameter.
- * \param position Not used handler parameter.
- */
-void update_homepage_title (GtkEditable *entry,
-							gpointer data)
-{
-    grisbi_win_set_titre_fichier (gtk_entry_get_text (GTK_ENTRY (entry)));
-
-    /* set Grisbi title */
-    grisbi_win_set_grisbi_title (-1);
-
-    /* Mark file as modified */
-    gsb_file_set_modified (TRUE);
-}
-
 
 
 /**
@@ -402,43 +273,6 @@ gboolean preferences_active_mouse_scrolling_left_pane ( GtkWidget *toggle_button
  *
  * \return FALSE
  */
-gboolean change_grisbi_title_type ( GtkRadioButton *button, GtkWidget *entry )
-{
-	const gchar *titre_fichier;
-
-    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( button ) ) )
-    {
-        conf.display_grisbi_title = GPOINTER_TO_INT ( g_object_get_data
-                        ( G_OBJECT ( button ), "display" ) );
-    }
-
-    switch ( conf.display_grisbi_title )
-    {
-        case GSB_ACCOUNTS_TITLE:
-            gtk_widget_set_sensitive ( entry, TRUE );
-			titre_fichier = grisbi_win_get_titre_fichier ();
-            if ( titre_fichier && strlen ( titre_fichier ) )
-                gtk_entry_set_text ( GTK_ENTRY ( entry ), titre_fichier );
-            else
-            {
-                gtk_entry_set_text ( GTK_ENTRY ( entry ), "" );
-            }
-        break;
-        case GSB_ACCOUNT_HOLDER:
-            gtk_widget_set_sensitive ( entry, FALSE);
-        break;
-        case GSB_ACCOUNTS_FILE:
-            gtk_widget_set_sensitive ( entry, FALSE);
-        break;
-    }
-
-    /* set Grisbi title */
-    grisbi_win_set_grisbi_title ( gsb_gui_navigation_get_current_account ( ) );
-
-    return FALSE;
-}
-
-
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
