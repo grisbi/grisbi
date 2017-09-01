@@ -159,7 +159,7 @@ static gchar *gsb_file_dialog_ask_name ( void )
     {
         gchar* tmp_str;
 
-        tmp_str = g_strconcat (grisbi_win_get_titre_fichier (), ".gsb", NULL);
+        tmp_str = g_strconcat (etat.accounting_entity, ".gsb", NULL);
         gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER ( dialog ), tmp_str);
         g_free ( tmp_str );
     }
@@ -461,7 +461,7 @@ static gboolean gsb_file_save_file ( gint origine )
         /* update variables */
         etat.fichier_deja_ouvert = 0;
         gsb_file_set_modified ( FALSE );
-        grisbi_win_set_grisbi_title ( gsb_gui_navigation_get_current_account ( ) );
+        grisbi_win_set_window_title ( gsb_gui_navigation_get_current_account ( ) );
     }
 
     grisbi_win_status_bar_message ( _("Done") );
@@ -850,7 +850,7 @@ gboolean gsb_file_open_file ( gchar *filename )
     }
 
     /* set Grisbi title */
-    grisbi_win_set_grisbi_title ( -1 );
+    grisbi_win_set_window_title ( -1 );
 
     /* update the main page */
     mise_a_jour_accueil ( TRUE );
@@ -999,7 +999,7 @@ gboolean gsb_file_close ( void )
         grisbi_win_free_general_vbox ();
         gsb_account_property_clear_config ( );
 
-        grisbi_win_set_grisbi_title ( -1 );
+        grisbi_win_set_window_title ( -1 );
 
         /* unsensitive the necessaries menus */
         gsb_menu_set_menus_with_file_sensitive ( FALSE );

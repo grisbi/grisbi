@@ -95,10 +95,6 @@ static void initialise_tab_affichage_ope ( void );
 
 gchar *nom_fichier_comptes = NULL;
 
-gchar *adresse_commune = NULL;
-gchar *adresse_secondaire = NULL;
-
-
 /*START_EXTERN*/
 extern GtkTreeModel *bank_list_model;
 extern gint bet_array_col_width[BET_ARRAY_COLUMNS];
@@ -213,9 +209,6 @@ void init_variables ( void )
     run.reconcile_final_balance = NULL;
     run.reconcile_new_date = NULL;
 
-    adresse_commune = NULL;
-    adresse_secondaire = NULL;
-
     current_tree_view_width = 0;
     scheduler_current_tree_view_width = 0;
 
@@ -302,10 +295,6 @@ void init_variables ( void )
  * */
 void free_variables (void)
 {
-    //~ if (titre_fichier && strlen (titre_fichier))
-	//~ {
-        //~ g_free (titre_fichier);
-	//~ }
 	gsb_data_print_config_free ();
     gsb_gui_navigation_free_pages_list ();
 	gsb_import_associations_free_liste ();

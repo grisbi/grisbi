@@ -94,8 +94,6 @@
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gchar *adresse_commune;
-extern gchar *adresse_secondaire;
 extern gint bet_array_col_width[BET_ARRAY_COLUMNS];
 extern gint display_one_line;
 extern gint display_three_lines;
@@ -312,7 +310,7 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
                 }
 
                 else if ( !strcmp ( attribute_names[i], "File_title" ) && strlen (attribute_values[i]))
-                    grisbi_win_set_titre_fichier (attribute_values[i]);
+                    etat.accounting_entity = my_strdup (attribute_values[i]);
 
                 else
                     unknown = 1;
@@ -327,8 +325,8 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
 
                 else if ( !strcmp ( attribute_names[i], "General_address" ))
                 {
-                    g_free ( adresse_commune );
-                    adresse_commune = my_strdup (attribute_values[i]);
+                    //~ g_free ( adresse_commune );
+                    etat.adr_common = my_strdup (attribute_values[i]);
                 }
 
                 else
@@ -420,8 +418,8 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
             case 'S':
                 if ( !strcmp ( attribute_names[i], "Second_general_address" ))
                 {
-                    g_free ( adresse_secondaire );
-                    adresse_secondaire = my_strdup (attribute_values[i]);
+                    //~ g_free ( adresse_secondaire );
+                    etat.adr_secondary = my_strdup (attribute_values[i]);
                 }
 
                 else if ( !strcmp ( attribute_names[i], "Scheduler_column_width" ) )

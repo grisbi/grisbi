@@ -69,7 +69,6 @@ static GtkWidget *gsb_assistant_file_page_finish ( GtkWidget *assistant,
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gchar *adresse_commune;
 extern gchar *nom_fichier_comptes;
 /*END_EXTERN*/
 
@@ -265,7 +264,6 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
     GtkWidget *button;
     GtkWidget *table;
     GtkWidget *filename_entry;
-	const gchar *titre_fichier;
 
     page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 15 );
     gtk_container_set_border_width ( GTK_CONTAINER (page), BOX_BORDER_WIDTH );
@@ -299,14 +297,13 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
 	filename_entry = gsb_automem_entry_new (&nom_fichier_comptes,
 			NULL, NULL);
 
-	titre_fichier = grisbi_win_get_titre_fichier ();
     entry = gtk_entry_new ();
-	gtk_entry_set_text (GTK_ENTRY(entry), grisbi_win_get_titre_fichier ());
+	gtk_entry_set_text (GTK_ENTRY(entry), etat.accounting_entity);
 	g_signal_connect (G_OBJECT(entry),
 					  "changed",
 					  G_CALLBACK (gsb_assistant_file_change_title),
 					  filename_entry);
-	g_object_set_data ( G_OBJECT (entry), "last_title", my_strdup (titre_fichier));
+	g_object_set_data ( G_OBJECT (entry), "last_title", my_strdup (etat.accounting_entity));
 	gtk_grid_attach (GTK_GRID (table), entry, 1, 0, 2, 1);
 
 	/* filename */
@@ -342,7 +339,7 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
 			 FALSE, FALSE, 0);
     gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window),
 					  GTK_SHADOW_IN );
-    textview = gsb_automem_textview_new ( &adresse_commune, NULL, NULL );
+    textview = gsb_automem_textview_new ( &etat.adr_common, NULL, NULL );
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
 			textview );
 
@@ -518,8 +515,14 @@ static void gsb_assistant_file_change_title ( GtkWidget *title_entry,
     gchar *new_filename;
     gchar *last_filename;
     gchar *last_title;
+	const gchar *text;
 
-    update_homepage_title (GTK_EDITABLE (title_entry), NULL);
+	text = gtk_entry_get_text (GTK_ENTRY (title_entry));
+	if (text && strlen (text))
+		etat.accounting_entity = g_strdup (text);
+
+    /* set Grisbi title */
+    grisbi_win_set_window_title (-1);
 
     /* first get the last content of the title to see if the filename
      * was automatically created, and in that case, we continue the automatic mode,

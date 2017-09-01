@@ -17,9 +17,9 @@ typedef struct _GrisbiWinClass  GrisbiWinClass;
 
 GType grisbi_win_get_type (void) G_GNUC_CONST;
 
-const gchar *   grisbi_win_get_filename                     (GrisbiWin *win);
-const gchar *	grisbi_win_get_titre_fichier 				(void);
+GtkWidget *     grisbi_win_create_general_widgets           (GrisbiWin *win);
 
+const gchar *   grisbi_win_get_filename                     (GrisbiWin *win);
 GtkWidget *     grisbi_win_get_notebook_general             (GrisbiWin *win);
 GtkWidget *		grisbi_win_get_prefs_dialog 				(GrisbiWin *win);
 GtkWidget *     grisbi_win_get_stack_box                    (GrisbiWin *win);
@@ -33,7 +33,6 @@ void            grisbi_win_free_private_struct              (GrisbiWin *win);
 void            grisbi_win_free_general_notebook            (void);
 void            grisbi_win_free_general_vbox                (void);
 
-GtkWidget *     grisbi_win_create_general_widgets           (GrisbiWin *win);
 void            grisbi_win_init_menubar                     (GrisbiWin *win,
                                                              gpointer app);
 void            grisbi_win_menu_move_to_acc_delete          (void);
@@ -44,11 +43,10 @@ void 			grisbi_win_no_file_page_update 				(GrisbiWin *win);
 
 void            grisbi_win_set_filename                     (GrisbiWin *win,
                                                              const gchar *filename);
-gboolean        grisbi_win_set_grisbi_title                 (gint account_number);
 void 			grisbi_win_set_prefs_dialog 				(GrisbiWin *win,
 															 GtkWidget *prefs_dialog);
 void            grisbi_win_set_size_and_position            (GtkWindow *win);
-void			grisbi_win_set_titre_fichier				(const gchar *titre_fichier);
+gboolean        grisbi_win_set_window_title                 (gint account_number);
 
 void 			grisbi_win_stack_box_show					(GrisbiWin *win,
 															 const gchar *page_name);

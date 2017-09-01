@@ -65,17 +65,19 @@
 
   <schema path="/org/gtk/grisbi/display/" id='org.gtk.grisbi.display'>
   <!-- options des onglets Adresse et titre, Eléments de l'interface et menu Affichage-->
-	  <key name="display-grisbi-title" type="s">
+	  <key name="display-window-title" type="s">
 	    <choices>
-		    <choice value="Title name"/>
+		    <choice value="Entity name"/>
 		    <choice value="Holder name"/>
 		    <choice value="Filename"/>
 		</choices>
-			<default>"Title name"</default>
+			<default>"Entity name"</default>
 	    <summary>Select the name of the main window of Grisbi</summary>
 	    <description>
-        Select the name of the main window of Grisbi : 0 = Title name
-        1 = Holder name of the account 2 = Filename.
+        Select the name of the main window of Grisbi :
+		0 = Name of the accounting entity
+        1 = Holder name of the account
+		2 = Filename.
       </description>
 	  </key>
 	  <key name="display-toolbar" type="s">
