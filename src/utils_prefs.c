@@ -150,7 +150,7 @@ static void utils_prefs_fonts_update_labels (GtkWidget *button,
 {
     GtkWidget *font_name_label;
     GtkWidget *font_size_label;
-    gchar *font_name;
+	gchar *font_name;
     gchar *font_size;
 
     font_name_label = g_object_get_data (G_OBJECT (button), "name_label");
@@ -158,10 +158,9 @@ static void utils_prefs_fonts_update_labels (GtkWidget *button,
     if (fontname)
     {
 		GtkCssProvider *css_provider = NULL;
+		GtkStyleContext *context;
 		gchar *data;
 		gchar *tmp;
-
-		css_provider = gtk_css_provider_get_default ();
 
 		font_name = my_strdup (fontname);
 		tmp = font_name + strlen(font_name) - 1;
@@ -178,10 +177,19 @@ static void utils_prefs_fonts_update_labels (GtkWidget *button,
 		}
 
 		/* set the font for label */
+		css_provider = g_object_get_data (G_OBJECT (button), "css_provider");
+		if (!css_provider)
+		{
+			css_provider = gtk_css_provider_new ();
+			g_object_set_data (G_OBJECT (button), "css_provider", css_provider);
+		}
+
 		data = utils_prefs_fonts_get_css_data_for_font (font_name);
 		gtk_css_provider_load_from_data (css_provider, data, -1, NULL);
+		context = gtk_widget_get_style_context (font_name_label);
+		gtk_style_context_add_provider (context, GTK_STYLE_PROVIDER (css_provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
 		g_free (data);
-    }
+     }
     else
     {
 		font_name = my_strdup ("Monospace");

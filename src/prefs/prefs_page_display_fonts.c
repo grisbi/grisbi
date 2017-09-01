@@ -589,7 +589,6 @@ static void prefs_page_display_fonts_setup_display_fonts_page (PrefsPageDisplayF
 							&conf.font_string);
 	g_object_set_data (G_OBJECT (font_button), "font-string", "font-string");
 
-
 	/* set the elements for colors */
 	combobox_select_colors = gsb_rgba_create_color_combobox ();
     gtk_widget_set_margin_end (combobox_select_colors, MARGIN_END);
