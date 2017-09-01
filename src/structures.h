@@ -68,7 +68,8 @@ extern struct GrisbiAppConf conf;
 extern struct GrisbiWinRun run;
 extern struct GrisbiWinEtat etat;
 
-typedef enum _SettingsSchema SettingsSchema;
+typedef enum _GsbTitleType	 	GsbTitleType;
+typedef enum _SettingsSchema 	SettingsSchema;
 
 /** structure etat
  * variables contenant juste 0 ou 1
@@ -83,7 +84,12 @@ struct GrisbiWinEtat
 
     gboolean debug_mode;            /* TRUE in debug mode, FALSE for normale mode */
 
-    /* files and backup part */
+	/* variables generales */
+    gchar *		accounting_entity;
+	gchar *		adr_common;
+	gchar *		adr_secondary;
+
+	/* files and backup part */
     gint fichier_deja_ouvert;       /* à un si lors de l'ouverture, le fichier semblait déjà ouvert */
 
     /* devises pour les catégories, imputations budgétaires et les tiers */
@@ -184,7 +190,7 @@ struct GrisbiAppConf
     gboolean    sauvegarde_demarrage;                       /* utilisé pour enregistrer le fichier s'il s'est bien ouvert */
 
 /* display part */
-    gint        display_grisbi_title;                       /* selection du titre principal de grisbi */
+    gint        display_window_title;                       /* selection du titre principal de grisbi */
     gboolean    display_toolbar;                            /* Display mode of toolbar. */
     gboolean    formulaire_toujours_affiche;                /* TRUE formulaire toujours affiché */
     gboolean    group_partial_balance_under_accounts;       /* TRUE = in home page group the partial balance with accounts */
@@ -301,12 +307,12 @@ struct GrisbiWinRun
 };
 
 /* définition du titre de grisbi */
-typedef enum GSB_TITLE_NAME
+enum _GsbTitleType
 {
-    GSB_ACCOUNTS_TITLE,
+    GSB_ACCOUNT_ENTITY,
     GSB_ACCOUNT_HOLDER,
-    GSB_ACCOUNTS_FILE,
-} GsbTitleType;
+    GSB_ACCOUNT_FILENAME,
+};
 
 
 /* définition de l'alignement */

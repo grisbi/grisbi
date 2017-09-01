@@ -145,8 +145,6 @@ static gulong gsb_file_save_transaction_part ( gulong iterator,
 
 
 /*START_EXTERN*/
-extern gchar *adresse_commune;
-extern gchar *adresse_secondaire;
 extern gint bet_array_col_width[BET_ARRAY_COLUMNS];
 extern gint display_one_line;
 extern gint display_three_lines;
@@ -746,9 +744,9 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	my_safe_null_str(VERSION_FICHIER),
 	my_safe_null_str(VERSION),
 	is_archive,
-	my_safe_null_str (grisbi_win_get_titre_fichier ()),
-	my_safe_null_str(adresse_commune),
-	my_safe_null_str(adresse_secondaire),
+	my_safe_null_str (etat.accounting_entity),
+	my_safe_null_str(etat.adr_common),
+	my_safe_null_str(etat.adr_secondary),
 	my_safe_null_str ( date_format ),
 	my_safe_null_str ( mon_decimal_point ),
 	my_safe_null_str ( mon_thousands_sep ),

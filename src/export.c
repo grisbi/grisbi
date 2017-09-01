@@ -111,12 +111,10 @@ void export_accounts ( void )
             if ( etat.export_files_traitement )
             {
                 const gchar *title;
-				const gchar *titre_fichier;
                 gchar *tmp_str;
 
-				titre_fichier = grisbi_win_get_titre_fichier ();
-				if ( titre_fichier && strlen ( titre_fichier ) )
-                    title = titre_fichier;
+				if (etat.accounting_entity && strlen (etat.accounting_entity) )
+                    title = etat.accounting_entity;
                 else
                     title = g_get_user_name ( );
 
@@ -492,7 +490,6 @@ gboolean export_account_change_format ( GtkWidget *combo,
                         struct exported_account *account )
 {
     const gchar *title;
-	const gchar *titre_fichier;
 	gchar *tmp_str;
 
     switch ( gtk_combo_box_get_active ( GTK_COMBO_BOX ( combo ) ) )
@@ -508,10 +505,9 @@ gboolean export_account_change_format ( GtkWidget *combo,
         break;
     }
 
-	titre_fichier = grisbi_win_get_titre_fichier ();
-    if ( titre_fichier && strlen ( titre_fichier ) )
+    if (etat.accounting_entity && strlen (etat.accounting_entity) )
     {
-        title = titre_fichier;
+        title = etat.accounting_entity;
     }
     else
     {

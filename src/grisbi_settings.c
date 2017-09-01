@@ -148,13 +148,13 @@ static void grisbi_settings_init_settings_display (GSettings *settings)
 {
     gchar *tmp_str;
 
-    tmp_str = g_settings_get_string (settings, "display-grisbi-title");
+    tmp_str = g_settings_get_string (settings, "display-window-title");
     if (g_strcmp0 (tmp_str, "Holder name") == 0)
-        conf.display_grisbi_title = 1;
+        conf.display_window_title = 1;
     else if (g_strcmp0 (tmp_str, "Filename") == 0)
-        conf.display_grisbi_title = 2;
+        conf.display_window_title = 2;
     else
-        conf.display_grisbi_title = 0;
+        conf.display_window_title = 0;
     g_free (tmp_str);
 
     tmp_str = g_settings_get_string (settings, "display-toolbar");
@@ -640,7 +640,7 @@ void grisbi_settings_save_app_config (void)
                         conf.make_backup_nb_minutes);
 
     /* priv->settings_display */
-    switch (conf.display_grisbi_title)
+    switch (conf.display_window_title)
     {
         case 1:
             tmp_str = "Holder name";
@@ -649,10 +649,10 @@ void grisbi_settings_save_app_config (void)
             tmp_str = "Filename";
             break;
         default:
-            tmp_str = "Title name";
+            tmp_str = "Entity name";
     }
     g_settings_set_string (G_SETTINGS (priv->settings_display),
-                        "display-grisbi-title",
+                        "display-window-title",
                         tmp_str);
 
     g_settings_set_boolean ( G_SETTINGS (priv->settings_display),

@@ -69,7 +69,7 @@ extern GSList *scheduled_transactions_to_take;
 
 GtkWidget *logo_accueil = NULL;
 GtkWidget *hbox_title = NULL;
-static GtkWidget *label_titre_fichier = NULL;
+static GtkWidget *label_accounting_entity = NULL;
 static GtkWidget *frame_etat_comptes_accueil = NULL;
 static GtkWidget *frame_etat_fin_compte_passif = NULL;
 static GtkWidget *frame_etat_echeances_manuelles_accueil = NULL;
@@ -1744,9 +1744,9 @@ GtkWidget *creation_onglet_accueil (void)
 	eb = gtk_event_box_new ();
     gtk_widget_set_name (hbox_title, "grey_box");
 
-    label_titre_fichier = gtk_label_new (NULL);
-    g_object_add_weak_pointer (G_OBJECT (label_titre_fichier),
-                                (gpointer*)&label_titre_fichier);
+    label_accounting_entity = gtk_label_new (NULL);
+    g_object_add_weak_pointer (G_OBJECT (label_accounting_entity),
+                                (gpointer*)&label_accounting_entity);
 
     if (etat.utilise_logo)
     {
@@ -1755,7 +1755,7 @@ GtkWidget *creation_onglet_accueil (void)
 		gtk_widget_set_size_request (hbox_title, -1, LOGO_HEIGHT + 20);
     }
 
-    gtk_box_pack_end (GTK_BOX (hbox_title), label_titre_fichier, TRUE, TRUE, 20);
+    gtk_box_pack_end (GTK_BOX (hbox_title), label_accounting_entity, TRUE, TRUE, 20);
     gtk_container_set_border_width (GTK_CONTAINER (hbox_title), 6);
     gtk_container_add (GTK_CONTAINER (eb), hbox_title);
     gtk_box_pack_start (GTK_BOX (vbox), eb, FALSE, FALSE, 0);
@@ -2147,13 +2147,13 @@ void gsb_main_page_update_homepage_title (const gchar *title)
 {
     gchar * tmp_str;
 
-    /* at the first use of grisbi,label_titre_fichier doesn't still exist */
-    if (!label_titre_fichier)
+    /* at the first use of grisbi,label_accounting_entity doesn't still exist */
+    if (!label_accounting_entity)
         return;
 
     tmp_str = g_markup_printf_escaped ("<span size=\"x-large\">%s</span>", title);
 
-    gtk_label_set_markup (GTK_LABEL (label_titre_fichier), tmp_str);
+    gtk_label_set_markup (GTK_LABEL (label_accounting_entity), tmp_str);
 
     g_free (tmp_str);
 }

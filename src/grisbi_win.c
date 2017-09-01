@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2001-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
-/*          2009-2016 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          2009-2017 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -106,9 +106,6 @@ struct _GrisbiWinPrivate
 
     /* nom du fichier associé à la fenêtre */
     gchar *             filename;
-
-    /* titre du fichier */
-    gchar *             titre_fichier;
 
     /* titre de la fenêtre */
     gchar *             window_title;
@@ -654,7 +651,6 @@ static void grisbi_win_init (GrisbiWin *win)
 
 	/* initialisation des variables chaînes */
     priv->filename = NULL;
-    priv->titre_fichier = NULL;
     priv->window_title = NULL;
 
     /* initialisations des widgets liés à gsb_file_new_gui */
@@ -742,7 +738,7 @@ const gchar *grisbi_win_get_filename (GrisbiWin *win)
  * \return
  **/
 void grisbi_win_set_filename (GrisbiWin *win,
-						const gchar *filename)
+							  const gchar *filename)
 {
 	GrisbiWinPrivate *priv;
 
@@ -751,22 +747,6 @@ void grisbi_win_set_filename (GrisbiWin *win,
 
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 	priv->filename = g_strdup (filename);
-}
-
-/**
- * get titre fichier.
- *
- * \param
- *
- * \return titre fichier
- * */
-const gchar *grisbi_win_get_titre_fichier (void)
-{
-	GrisbiWinPrivate *priv;
-
-	priv = grisbi_win_get_instance_private (GRISBI_WIN (grisbi_app_get_active_window (NULL)));
-
-	return priv->titre_fichier;
 }
 
 /* GET WIDGET */
@@ -849,7 +829,7 @@ GtkWidget *grisbi_win_get_stack_box (GrisbiWin *win)
  * \return
  **/
 void grisbi_win_init_menubar (GrisbiWin *win,
-						gpointer app)
+							  gpointer app)
 {
 	GAction *action;
     gchar * items[] = {
@@ -1084,7 +1064,7 @@ void grisbi_win_menu_move_to_acc_update (gboolean active)
  * \return
  **/
 void grisbi_win_stack_box_show (GrisbiWin *win,
-							   const gchar *page_name)
+							    const gchar *page_name)
 {
 	GrisbiWinPrivate *priv;
 
@@ -1112,9 +1092,6 @@ void grisbi_win_free_private_struct (GrisbiWin *win)
     g_free (priv->filename);
     priv->filename = NULL;
 
-    g_free (priv->titre_fichier);
-    priv->titre_fichier = NULL;
-
     g_free (priv->window_title);
     priv->window_title = NULL;
 
@@ -1129,28 +1106,25 @@ void grisbi_win_free_private_struct (GrisbiWin *win)
  *
  * \return			TRUE if OK, FALSE otherwise
  * */
-gboolean grisbi_win_set_grisbi_title (gint account_number)
+gboolean grisbi_win_set_window_title (gint account_number)
 {
     gchar *titre_grisbi = NULL;
     gchar *titre = NULL;
     gint tmp_number;
     gboolean return_value;
-	GrisbiWinPrivate *priv;
 
-	priv = grisbi_win_get_instance_private (GRISBI_WIN (grisbi_app_get_active_window (NULL)));
-
-    if (nom_fichier_comptes == NULL)
+	if (nom_fichier_comptes == NULL)
     {
         titre_grisbi = g_strdup (_("Grisbi"));
         return_value = TRUE;
     }
     else
     {
-        switch (conf.display_grisbi_title)
+        switch (conf.display_window_title)
         {
-            case GSB_ACCOUNTS_TITLE:
-                if (priv->titre_fichier && strlen (priv->titre_fichier))
-                    titre = g_strdup (priv->titre_fichier);
+            case GSB_ACCOUNT_ENTITY:
+                if (etat.accounting_entity && strlen (etat.accounting_entity))
+                    titre = g_strdup (etat.accounting_entity);
             break;
             case GSB_ACCOUNT_HOLDER:
             {
@@ -1161,8 +1135,8 @@ gboolean grisbi_win_set_grisbi_title (gint account_number)
 
                 if (tmp_number == -1)
                 {
-                    if (priv->titre_fichier && strlen (priv->titre_fichier))
-                        titre = g_strdup (priv->titre_fichier);
+                    if (etat.accounting_entity && etat.accounting_entity)
+                        titre = g_strdup (etat.accounting_entity);
                 }
                 else
                 {
@@ -1173,7 +1147,7 @@ gboolean grisbi_win_set_grisbi_title (gint account_number)
                 }
             break;
             }
-            case GSB_ACCOUNTS_FILE:
+            case GSB_ACCOUNT_FILENAME:
                 if (nom_fichier_comptes && strlen (nom_fichier_comptes))
                     titre = g_path_get_basename (nom_fichier_comptes);
             break;
@@ -1243,22 +1217,6 @@ void grisbi_win_set_size_and_position (GtkWindow *win)
     /* put up the screen if necessary */
     if (conf.maximize_screen)
         gtk_window_maximize (GTK_WINDOW (win));
-}
-
-/**
- * set titre fichier.
- *
- * \param
- *
- * \return
- * */
-void grisbi_win_set_titre_fichier (const gchar *titre_fichier)
-{
-	GrisbiWinPrivate *priv;
-
-	priv = grisbi_win_get_instance_private (GRISBI_WIN (grisbi_app_get_active_window (NULL)));
-
-	priv->titre_fichier = g_strdup (titre_fichier);
 }
 
 /* NO_FILE_PAGE */
