@@ -248,9 +248,11 @@ static void grisbi_app_quit (GSimpleAction *action,
             first_win = FALSE;
         }
         gsb_file_close ();
-        grisbi_win_free_private_struct (GRISBI_WIN (l->data));
+		gtk_window_close (GTK_WINDOW (l->data));
         gtk_application_remove_window (GTK_APPLICATION (app), GTK_WINDOW (l->data));
     }
+
+	g_application_quit (G_APPLICATION (app));
 }
 
 /* Disable: warning: missing field 'padding' initializer
@@ -444,7 +446,16 @@ static gboolean grisbi_app_window_delete_event (GrisbiWin *win,
                         GdkEvent *event,
                         GrisbiApp *app)
 {
+	GList *l;
+	gboolean last_win = FALSE;
+
 	devel_debug (NULL);
+
+	l = gtk_application_get_windows (GTK_APPLICATION (app));
+	if (g_list_length (l) == 1)
+	{
+		last_win = TRUE;
+	}
 
     if (conf.full_screen == 0 && conf.maximize_screen == 0)
     {
@@ -456,8 +467,11 @@ static gboolean grisbi_app_window_delete_event (GrisbiWin *win,
     }
 
     gsb_file_close ();
-    grisbi_win_free_private_struct (GRISBI_WIN (win));
+	gtk_window_close (GTK_WINDOW (win));
     gtk_application_remove_window (GTK_APPLICATION (app), GTK_WINDOW (win));
+
+	if (last_win)
+		g_application_quit (G_APPLICATION (app));
 
 	return FALSE;
 }
