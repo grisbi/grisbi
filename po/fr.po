@@ -12396,7 +12396,7 @@ msgstr "Préférences de Grisbi"
 
 #: ../src/ui/grisbi_win.ui.h:1
 msgid "Grisbi Application"
-msgstr "Fichier Grisbi anonyme"
+msgstr "Grisbi"
 
 #: ../src/ui/prefs_page_archives.ui.h:1
 msgid "Known archives"
