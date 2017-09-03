@@ -93,8 +93,6 @@ static void initialise_format_date ( void );
 static void initialise_tab_affichage_ope ( void );
 /*END_STATIC*/
 
-gchar *nom_fichier_comptes = NULL;
-
 /*START_EXTERN*/
 extern GtkTreeModel *bank_list_model;
 extern gint bet_array_col_width[BET_ARRAY_COLUMNS];
@@ -184,10 +182,6 @@ void init_variables ( void )
     run.mise_a_jour_fin_comptes_passifs = FALSE;
 
     orphan_child_transactions = NULL;
-
-    if ( nom_fichier_comptes )
-        g_free ( nom_fichier_comptes );
-    nom_fichier_comptes = NULL;
 
     etat.affichage_echeances = SCHEDULER_PERIODICITY_ONCE_VIEW;
     etat.affichage_echeances_perso_nb_libre = 0;

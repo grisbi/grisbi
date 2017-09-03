@@ -825,13 +825,15 @@ void grisbi_win_set_filename (GrisbiWin *win,
         win = grisbi_app_get_active_window (NULL);
 
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+	if (priv->filename)
+		g_free (priv->filename);
+
 	if (filename)
 	{
 		priv->filename = g_strdup (filename);
 	}
 	else
 	{
-		g_free (priv->filename);
 		priv->filename = NULL;
 	}
 }

@@ -78,7 +78,6 @@ static gchar *backup_path;
 gint id_timeout = 0;
 
 /*START_EXTERN*/
-extern gchar *nom_fichier_comptes;
 extern GtkWidget *table_etat;
 extern GtkWidget *tree_view_vbox;
 /*END_EXTERN*/
@@ -137,7 +136,7 @@ static gboolean gsb_file_test_file (const gchar *filename)
  *
  * \return a newly allocated string containing the new name
  **/
-static gchar *gsb_file_dialog_ask_name (void)
+static gchar *gsb_file_dialog_ask_name (const gchar *filename)
 {
     gchar *new_name;
     GtkWidget *dialog;
@@ -155,7 +154,7 @@ static gchar *gsb_file_dialog_ask_name (void)
     gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER (dialog), TRUE);
     gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_CENTER_ON_PARENT);
 
-    if (!nom_fichier_comptes)
+    if (!filename)
     {
         gchar* tmp_str;
 		GrisbiWinEtat *w_etat;
@@ -167,7 +166,7 @@ static gchar *gsb_file_dialog_ask_name (void)
         g_free (tmp_str);
     }
     else
-        gtk_file_chooser_select_filename (GTK_FILE_CHOOSER (dialog), nom_fichier_comptes);
+        gtk_file_chooser_select_filename (GTK_FILE_CHOOSER (dialog), filename);
 
     result = gtk_dialog_run (GTK_DIALOG (dialog));
 
@@ -206,7 +205,7 @@ static gchar *gsb_file_dialog_ask_name (void)
  *
  * \return GTK_RESPONSE_OK to save, GTK_RESPONSE_NO not to save, other to cancel
  **/
-static gint gsb_file_dialog_save (void)
+static gint gsb_file_dialog_save (const gchar *filename)
 {
     gchar * hint;
     gchar* time_elapsed;
@@ -233,7 +232,7 @@ static gint gsb_file_dialog_save (void)
                                      "If you want to save it, you must cancel and "
                                      "save it with another name or activate the "
                                      "\"%s\" option in setup."),
-                                   (nom_fichier_comptes ? g_path_get_basename(nom_fichier_comptes) : _("unnamed")),
+                                   (filename ? g_path_get_basename(filename) : _("unnamed")),
                                    _("Force saving of locked files"));
 
         gtk_dialog_add_buttons (GTK_DIALOG(dialog),
@@ -247,7 +246,7 @@ static gint gsb_file_dialog_save (void)
     else
     {
         hint = g_strdup_printf (_("Save changes to document '%s' before closing?"),
-                                (nom_fichier_comptes ? g_path_get_basename(nom_fichier_comptes) : _("unnamed")));
+                                (filename ? g_path_get_basename(filename) : _("unnamed")));
         message = g_strdup("");
 
         gtk_dialog_add_buttons (GTK_DIALOG(dialog),
@@ -302,7 +301,8 @@ static gint gsb_file_dialog_save (void)
 static gboolean gsb_file_save_backup (void)
 {
     gboolean retour;
-    gchar *filename;
+	gchar *new_filename;
+    const gchar *filename;
     struct tm *day_time;
     time_t temps;
     gchar *name;
@@ -312,7 +312,9 @@ static gboolean gsb_file_save_backup (void)
 
     grisbi_win_status_bar_message (_("Saving backup"));
 
-    name = g_path_get_basename (nom_fichier_comptes);
+	/* on récupère d'abord le nom du fichier */
+	filename = grisbi_win_get_filename (NULL);
+    name = g_path_get_basename (filename);
     if (g_str_has_suffix (name, ".gsb"))
     {
         gchar **tab_str;
@@ -329,30 +331,30 @@ static gboolean gsb_file_save_backup (void)
      * filename_yyyymmddTmmhhss.gsb */
     if (conf.make_bakup_single_file)
     {
-        filename =  g_strdup_printf ("%s%s%s_backup.gsb",
-									 gsb_file_get_backup_path (),
-									 G_DIR_SEPARATOR_S,
-									 name);
+        new_filename =  g_strdup_printf ("%s%s%s_backup.gsb",
+										 gsb_file_get_backup_path (),
+										 G_DIR_SEPARATOR_S,
+										 name);
     }
     else
     {
         time (&temps);
         day_time = localtime (&temps);
-        filename =  g_strdup_printf ("%s%s%s_%d%02d%02dT%02d%02d%02d.gsb",
-									 gsb_file_get_backup_path (),
-									 G_DIR_SEPARATOR_S,
-									 name,
-									 day_time->tm_year + 1900,
-									 day_time->tm_mon + 1,
-									 day_time->tm_mday,
-									 day_time->tm_hour,
-									 day_time->tm_min,
-									 day_time->tm_sec);
+        new_filename =  g_strdup_printf ("%s%s%s_%d%02d%02dT%02d%02d%02d.gsb",
+										 gsb_file_get_backup_path (),
+										 G_DIR_SEPARATOR_S,
+										 name,
+										 day_time->tm_year + 1900,
+										 day_time->tm_mon + 1,
+										 day_time->tm_mday,
+										 day_time->tm_hour,
+										 day_time->tm_min,
+										 day_time->tm_sec);
     }
 
-    retour = gsb_file_save_save_file (filename, conf.compress_backup, FALSE);
+    retour = gsb_file_save_save_file (new_filename, conf.compress_backup, FALSE);
 
-    g_free (filename);
+    g_free (new_filename);
     g_free (name);
 
     grisbi_win_status_bar_message (_("Done"));
@@ -394,13 +396,16 @@ static gboolean gsb_file_save_file (gint origine)
 {
     gint result = 0;
     gchar *nouveau_nom_enregistrement;
+	const gchar *filename;
 
     devel_debug_int (origine);
+	/* on récupère le nom du fichier */
+	filename = grisbi_win_get_filename (NULL);
 
     /* on commence par demander si on sauvegarde ou pas */
     if (!conf.sauvegarde_auto)
     {
-        result = gsb_file_dialog_save ();
+        result = gsb_file_dialog_save (filename);
         if (result == GTK_RESPONSE_NO)
             return (TRUE);
     }
@@ -415,10 +420,10 @@ static gboolean gsb_file_save_file (gint origine)
 
     /* si le fichier de comptes n'a pas de nom ou si on enregistre sous un nouveau nom */
     /*     c'est ici */
-    if (!nom_fichier_comptes || origine == -2)
-        nouveau_nom_enregistrement = gsb_file_dialog_ask_name ();
+    if (!filename || origine == -2)
+        nouveau_nom_enregistrement = gsb_file_dialog_ask_name (filename);
     else
-        nouveau_nom_enregistrement = nom_fichier_comptes;
+        nouveau_nom_enregistrement = g_strdup (filename);
 
     if (!nouveau_nom_enregistrement)
         return FALSE;
@@ -433,10 +438,11 @@ static gboolean gsb_file_save_file (gint origine)
 									 "Please save it with another name or activate the \"%s\" "
                                      "option in preferences."),
                                    _("Force saving of locked files"));
-        tmp_str2 = g_strdup_printf(_("Can not save file \"%s\""), nom_fichier_comptes);
+        tmp_str2 = g_strdup_printf(_("Can not save file \"%s\""), filename);
         dialogue_error_hint (tmp_str1, tmp_str2);
         g_free (tmp_str1);
         g_free (tmp_str2);
+		g_free (nouveau_nom_enregistrement);
 
         return (FALSE);
     }
@@ -453,13 +459,13 @@ static gboolean gsb_file_save_file (gint origine)
 
     if (result)
     {
-        /* saving was right, so unlock the last name */
-        gsb_file_util_modify_lock (FALSE);
+		grisbi_win_set_filename (NULL, nouveau_nom_enregistrement);
 
-        nom_fichier_comptes = nouveau_nom_enregistrement;
+		/* saving was right, so unlock the last name */
+        gsb_file_util_modify_lock (filename, FALSE);
 
         /* and lock the new name */
-        gsb_file_util_modify_lock (TRUE);
+        gsb_file_util_modify_lock (nouveau_nom_enregistrement, TRUE);
 
         /* update variables */
         etat.fichier_deja_ouvert = 0;
@@ -467,6 +473,7 @@ static gboolean gsb_file_save_file (gint origine)
         grisbi_win_set_window_title (gsb_gui_navigation_get_current_account ());
     }
 
+	g_free (nouveau_nom_enregistrement);
     grisbi_win_status_bar_message (_("Done"));
 
     return (result);
@@ -747,13 +754,9 @@ gboolean gsb_file_open_file (const gchar *filename)
         /* the file has been opened succesfully */
         /* on met à jour le nom du fichier */
         grisbi_win_set_filename (NULL, filename);
-        if (g_strcmp0 (filename, nom_fichier_comptes))
-        {
-            g_free (nom_fichier_comptes);
-            nom_fichier_comptes = g_strdup (filename);
-        }
-        /* mark the file as opened */
-        gsb_file_util_modify_lock (TRUE);
+
+		/* mark the file as opened */
+        gsb_file_util_modify_lock (filename, TRUE);
 
         /* we make a backup if necessary */
         if (conf.sauvegarde_demarrage)
@@ -928,7 +931,7 @@ gboolean gsb_file_automatic_backup_start (GtkWidget *checkbutton,
  * \return FALSE
  **/
 gboolean gsb_file_automatic_backup_change_time (GtkWidget *spinbutton,
-                        gpointer null)
+												gpointer null)
 {
     devel_debug_int (conf.make_backup_nb_minutes);
 
@@ -958,12 +961,18 @@ gboolean gsb_file_automatic_backup_change_time (GtkWidget *spinbutton,
  **/
 gboolean gsb_file_close (void)
 {
+	const gchar *filename;
     devel_debug (NULL);
 
     if (!assert_account_loaded ())
+	{
         return TRUE;
+	}
 
-    if (gsb_file_get_modified ())
+	/* on récupère le nom du fichier */
+	filename = grisbi_win_get_filename (NULL);
+
+	if (gsb_file_get_modified ())
     {
         /* try to save */
 	    if (!gsb_file_save_file (-1))
@@ -971,7 +980,7 @@ gboolean gsb_file_close (void)
     }
     else if (conf.sauvegarde_auto
         && (!etat.fichier_deja_ouvert || conf.force_enregistrement)
-        && nom_fichier_comptes)
+        && filename)
     {
         /* try to save */
 	    if (!gsb_file_save_file (-1))
@@ -985,9 +994,9 @@ gboolean gsb_file_close (void)
 			&&
 			gsb_data_account_get_accounts_amount ()
 			&&
-			nom_fichier_comptes)
+			filename)
 		{
-			gsb_file_util_modify_lock (FALSE);
+			gsb_file_util_modify_lock (filename, FALSE);
 		}
 
 	    /* free all the variables */

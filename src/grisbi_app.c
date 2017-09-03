@@ -5,7 +5,7 @@
 /*                                                                               */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)               */
 /*                      2003-2008 Benjamin Drieu (bdrieu@april.org)              */
-/*          2008-2016 Pierre Biava (grisbi@pierre.biava.name)                    */
+/*          2008-2017 Pierre Biava (grisbi@pierre.biava.name)                    */
 /*          http://www.grisbi.org                                                */
 /*                                                                               */
 /*     This program is free software; you can redistribute it and/or modify      */
@@ -56,11 +56,11 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
- static GrisbiWin *grisbi_app_create_window (GrisbiApp *app,
+static GrisbiWin *grisbi_app_create_window (GrisbiApp *app,
                                              GdkScreen *screen);
 /*END_STATIC*/
 
-/*START_EXTERN Variables externes PROVISOIRE*/
+/*START_EXTERN*/
 /*END_EXTERN*/
 
 typedef struct  _GrisbiAppPrivate	GrisbiAppPrivate;
@@ -781,7 +781,7 @@ static gboolean grisbi_app_load_file_if_necessary (GrisbiApp *app)
 	}
     else
     {
-        /* open the last file if needed, nom_fichier_comptes was filled while loading the configuration */
+        /* open the last file if needed, filename was set while loading the configuration */
         if (conf.dernier_fichier_auto && conf.last_open_file)
         {
             if (!gsb_file_open_file (conf.last_open_file))

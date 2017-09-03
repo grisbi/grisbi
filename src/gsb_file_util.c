@@ -30,6 +30,7 @@
 /*START_INCLUDE*/
 #include "gsb_file_util.h"
 #include "dialog.h"
+#include "grisbi_win.h"
 #include "gsb_data_account.h"
 #include "gsb_data_transaction.h"
 #include "gsb_file.h"
@@ -45,7 +46,6 @@
 
 /*START_EXTERN*/
 extern struct ConditionalMessage messages[];
-extern gchar *nom_fichier_comptes;
 /*END_EXTERN*/
 
 
@@ -229,7 +229,8 @@ gboolean gsb_file_util_get_contents ( const gchar *filename,
  *
  * \return TRUE if ok
  * */
-gboolean gsb_file_util_modify_lock ( gboolean create_lock )
+gboolean gsb_file_util_modify_lock (const gchar *filename,
+									gboolean create_lock )
 {
     gchar *lock_filename;
 	gchar *tmp_str;
@@ -238,18 +239,18 @@ gboolean gsb_file_util_modify_lock ( gboolean create_lock )
     /* if the file was already opened we do nothing */
     if ( ( etat.fichier_deja_ouvert )
 	 ||
-	 !nom_fichier_comptes
+	 !filename
 	 ||
-	 strlen ( nom_fichier_comptes) == 0 )
+	 strlen (filename) == 0 )
         return TRUE;
 
-    /* Check if nom_fichier_comptes exists.  If not, this is a new
+    /* Check if filename exists.  If not, this is a new
      * file so don't try to lock it. */
-    if ( !g_file_test ( nom_fichier_comptes, G_FILE_TEST_EXISTS ) )
+    if ( !g_file_test (filename, G_FILE_TEST_EXISTS ) )
         return FALSE;
 
     /* Create the name of the lock file */
-	tmp_str = g_path_get_basename (nom_fichier_comptes);
+	tmp_str = g_path_get_basename (filename);
     lock_filename = g_strconcat (g_get_tmp_dir (),
 								 G_DIR_SEPARATOR_S,
 #ifndef G_OS_WIN32
@@ -269,7 +270,7 @@ gboolean gsb_file_util_modify_lock ( gboolean create_lock )
         /* check if the file lock exists */
         if ( g_file_test ( lock_filename, G_FILE_TEST_EXISTS ) )
         {
-            dialog_message ( "account-already-opened", nom_fichier_comptes );
+            dialog_message ( "account-already-opened", filename);
 
             /* the lock is already created, return TRUE */
             etat.fichier_deja_ouvert = 1;
@@ -283,8 +284,8 @@ gboolean gsb_file_util_modify_lock ( gboolean create_lock )
         if ( !fichier )
         {
             tmp_str = g_strdup_printf ( _("Cannot write lock file: '%s': %s"),
-                                nom_fichier_comptes,
-                                g_strerror ( errno ) );
+									   filename,
+									   g_strerror ( errno ) );
             dialogue_error ( tmp_str );
             g_free ( tmp_str );
 
@@ -310,8 +311,8 @@ gboolean gsb_file_util_modify_lock ( gboolean create_lock )
             gchar* tmp_str;
 
             tmp_str = g_strdup_printf (_("Cannot erase lock file: '%s': %s"),
-                                nom_fichier_comptes,
-                                g_strerror ( errno ) );
+									   filename,
+									   g_strerror ( errno ) );
             dialogue_error ( tmp_str );
             g_free ( tmp_str );
 
@@ -349,7 +350,10 @@ void gsb_file_util_change_permissions ( void )
 #ifndef G_OS_WIN32
     if ( question_conditional_yes_no ( "account-file-readable" ) == TRUE )
     {
-        chmod ( nom_fichier_comptes, S_IRUSR | S_IWUSR );
+		const gchar *filename;
+
+		filename = grisbi_win_get_filename (NULL);
+        chmod (filename, S_IRUSR | S_IWUSR );
     }
 
 #endif /* G_OS_WIN32 */
