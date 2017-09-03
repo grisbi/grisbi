@@ -106,7 +106,7 @@ gboolean gsb_file_util_test_overwrite ( const gchar *filename )
  *
  * \return TRUE all is ok, FALSE a problem occured
  * */
-gboolean gsb_file_util_get_contents ( gchar *filename,
+gboolean gsb_file_util_get_contents ( const gchar *filename,
 				      gchar **file_content,
 				      gulong *length )
 {
