@@ -106,7 +106,6 @@ GtkWidget *fenetre_preferences = NULL;
 /*START_EXTERN*/
 extern struct ConditionalMessage delete_msg[];
 extern struct ConditionalMessage messages[];
-extern gchar *nom_fichier_comptes;
 /*END_EXTERN*/
 
 /**
@@ -403,6 +402,7 @@ GtkWidget *onglet_messages_and_warnings ( void )
     GtkCellRenderer * cell;
     GtkTreeViewColumn * column;
     gchar *tmpstr;
+	const gchar *filename;
     int i;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Messages & warnings"), "gsb-warnings-32.png" );
@@ -442,6 +442,9 @@ GtkWidget *onglet_messages_and_warnings ( void )
     column = gtk_tree_view_column_new_with_attributes (_("Message"), cell, "text", 1, NULL);
     gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), GTK_TREE_VIEW_COLUMN (column));
 
+	/* on récupère le nom du fichier */
+	filename = grisbi_win_get_filename (NULL);
+
     /* remplit le modèle */
     for  ( i = 0; messages[i].name; i++ )
     {
@@ -449,7 +452,7 @@ GtkWidget *onglet_messages_and_warnings ( void )
 
         if ( g_utf8_collate ( messages[i].name, "account-already-opened" ) == 0 )
             tmpstr = g_strdup_printf ( _(messages[i] . hint),
-                        g_path_get_basename ( nom_fichier_comptes ) );
+                        g_path_get_basename (filename) );
         else if ( g_utf8_collate ( messages[i].name, "development-version" ) == 0 )
             tmpstr = g_strdup_printf ( _(messages[i] . hint), VERSION );
         else

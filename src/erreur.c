@@ -58,7 +58,6 @@
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gchar *nom_fichier_comptes;
 /*END_EXTERN*/
 
 static gint debugging_grisbi;
@@ -138,11 +137,12 @@ static GtkWidget *debug_print_backtrace ( void )
  **/
 void debug_traitement_sigsegv ( gint signal_nb )
 {
+    GtkWidget *dialog;
     const gchar *gsb_file_default_dir;
+	const gchar *filename;
     gchar *errmsg = g_strdup ( "" );
 	gchar *old_errmsg;
     gchar *tmp_str;
-    GtkWidget *dialog;
 #ifdef HAVE_BACKTRACE
     GtkWidget *expander;
 #endif
@@ -165,61 +165,62 @@ void debug_traitement_sigsegv ( gint signal_nb )
 
 	printf ("signal name = %s\n", tmp_str );
 
+	/* on récupère le nom du fichier si possible */
+	filename = grisbi_win_get_filename (NULL);
+
     /*   il y a 3 possibilités : */
     /*     soit on était en train de charger un fichier, c'est que celui-ci est corrompu */
     /* soit on était en train de sauver un fichier, et là on peut rien faire */
     /* sinon on essaie de sauver le fichier sous le nom entouré de # */
 
-    if ( run.is_loading ||
-	 run.is_saving ||
-	 !gsb_file_get_modified ( ) )
+    if ( run.is_loading || run.is_saving || !gsb_file_get_modified ())
     {
+		if ( run.is_loading )
+		{
+			old_errmsg = errmsg;
+			errmsg = g_strconcat ( errmsg, _("File is corrupted."), NULL );
+			g_free ( old_errmsg );
+		}
 
-	if ( run.is_loading )
-	{
-	    old_errmsg = errmsg;
-	    errmsg = g_strconcat ( errmsg, _("File is corrupted."), NULL );
-	    g_free ( old_errmsg );
-	}
-
-	if ( run.is_saving )
-	{
-	    old_errmsg = errmsg;
-	    errmsg = g_strconcat ( errmsg, _("Error occured saving file."), NULL );
-	    g_free ( old_errmsg );
-	}
+		if ( run.is_saving )
+		{
+			old_errmsg = errmsg;
+			errmsg = g_strconcat ( errmsg, _("Error occured saving file."), NULL );
+			g_free ( old_errmsg );
+		}
     }
     else
     {
-	/* c'est un bug pendant le fonctionnement de Grisbi s'il n'y a
-	   pas de nom de fichier, on le crée, sinon on rajoute #
-	   autour */
+		gchar *nom_fichier_comptes;
+
+		/* c'est un bug pendant le fonctionnement de Grisbi s'il n'y a
+		pas de nom de fichier, on le crée, sinon on rajoute #
+		autour */
 
         gsb_file_default_dir = gsb_dirs_get_default_dir ();
 
-	if ( nom_fichier_comptes )
-	    /* set # around the filename */
-	    nom_fichier_comptes = g_path_get_basename (nom_fichier_comptes);
-	else
-	    /* no name for the file, create it */
-	    nom_fichier_comptes = g_strconcat ( gsb_file_default_dir,
-						"/#grisbi_crash_no_name#",
-						NULL );
+		if (filename)
+			/* set # around the filename */
+			nom_fichier_comptes = g_path_get_basename (filename);
+		else
+			/* no name for the file, create it */
+			nom_fichier_comptes = g_strconcat ( gsb_file_default_dir,
+											   "/#grisbi_crash_no_name#",
+											   NULL );
 
-	grisbi_win_status_bar_message ( _("Save file") );
+		grisbi_win_status_bar_message ( _("Save file") );
 
-	gsb_file_save_save_file ( nom_fichier_comptes,
-				  conf.compress_file,
-				  FALSE );
+		gsb_file_save_save_file ( nom_fichier_comptes, conf.compress_file, FALSE );
 
-	grisbi_win_status_bar_clear();
+		grisbi_win_status_bar_clear();
 
-    old_errmsg = errmsg;
-	errmsg = g_strconcat ( errmsg,
-			       g_strdup_printf ( _("Grisbi made a backup file at '%s'."),
-						 nom_fichier_comptes ),
-			       NULL );
-	g_free ( old_errmsg );
+		old_errmsg = errmsg;
+		errmsg = g_strconcat ( errmsg,
+							  g_strdup_printf ( _("Grisbi made a backup file at '%s'."),
+											   nom_fichier_comptes ),
+							  NULL );
+		g_free ( old_errmsg );
+		g_free (nom_fichier_comptes);
     }
 
     old_errmsg = errmsg;
@@ -255,9 +256,8 @@ void debug_traitement_sigsegv ( gint signal_nb )
 #endif
     gtk_dialog_run ( GTK_DIALOG ( dialog ) );
 
-    /*     on évite le message du fichier ouvert à la prochaine ouverture */
-
-    gsb_file_util_modify_lock ( FALSE );
+    /* on évite le message du fichier ouvert à la prochaine ouverture */
+    gsb_file_util_modify_lock (filename, FALSE);
 
     exit(1);
 }
@@ -532,8 +532,11 @@ gboolean debug_start_log ( void )
 {
     gchar *tmp_str;
     gchar *debug_filename;
+	const gchar *nom_fichier_comptes;
 
     devel_debug ( NULL );
+	/* on récupère le nom du fichier si un fichier est chargé */
+	nom_fichier_comptes = grisbi_win_get_filename (NULL);
 
     if ( nom_fichier_comptes )
     {

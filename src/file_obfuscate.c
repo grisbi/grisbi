@@ -63,7 +63,6 @@ static GtkWidget *file_obfuscate_page_2 ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gchar *nom_fichier_comptes;
 /*END_EXTERN*/
 
 
@@ -119,10 +118,13 @@ gboolean file_obfuscate_run ( void )
     {
         /* obfuscate the file */
         GSList *tmp_list;
-        gchar *filename;
+		gchar *filename;
+        gchar *nom_fichier_comptes;
 
+		/* on récupère d'abord le nom du fichier */
+		nom_fichier_comptes = g_strdup (grisbi_win_get_filename (NULL));
         /*  remove the swp file */
-        gsb_file_util_modify_lock (FALSE);
+        gsb_file_util_modify_lock (nom_fichier_comptes, FALSE);
 
         /* hide the accounts data */
         tmp_list = gsb_data_account_get_list_accounts ();
@@ -427,6 +429,7 @@ gboolean file_obfuscate_run ( void )
                      _("Obfuscation failed") );
 
         g_free ( filename );
+		g_free (nom_fichier_comptes);
 
         /* bye bye */
         exit (0);
@@ -523,8 +526,9 @@ GtkWidget *file_obfuscate_page_2 ( void )
     GtkTextBuffer *buffer;
     GtkTextIter iter;
     gchar *text, *filename;
+	const gchar *nom_fichier_comptes;
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
+	vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
 
     text_view = gtk_text_view_new ();
     gtk_text_view_set_wrap_mode ( GTK_TEXT_VIEW ( text_view ), GTK_WRAP_WORD );
@@ -541,6 +545,7 @@ GtkWidget *file_obfuscate_page_2 ( void )
     gtk_text_buffer_get_iter_at_offset ( buffer, &iter, 1 );
     gtk_text_buffer_insert ( buffer, &iter, "\n", -1 );
 
+	nom_fichier_comptes = grisbi_win_get_filename (NULL);
     if ( nom_fichier_comptes )
     {
         gchar *base_filename;

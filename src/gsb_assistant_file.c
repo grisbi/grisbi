@@ -69,7 +69,6 @@ static GtkWidget *gsb_assistant_file_page_finish ( GtkWidget *assistant,
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gchar *nom_fichier_comptes;
 /*END_EXTERN*/
 
 enum file_assistant_page
@@ -89,7 +88,8 @@ static GtkWidget *currency_list_box;
 /* the button to know what assistant to launch at the end */
 static GtkWidget *button_create_account_next;
 
-
+/* nom du fichier de compte créé PROVISOIRE */
+static gchar *nom_fichier_comptes;
 
 /**
  * this function is called to launch the file opening assistant
@@ -232,6 +232,8 @@ GtkResponseType gsb_assistant_file_run ( gboolean first_opening,
 
 	/* set the new filename */
 	grisbi_win_set_filename (NULL, nom_fichier_comptes);
+	if (nom_fichier_comptes)
+		g_free (nom_fichier_comptes);
 
     /* and now, launch the next assistant */
     if (launch_account_assistant)
@@ -294,11 +296,11 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
 
 	/* need to declare filename_entry first for the next callback,
 	 * if no filename, set the title.gsb as default name */
+	nom_fichier_comptes = g_strdup (grisbi_win_get_filename (NULL));
 	if (!nom_fichier_comptes)
 	nom_fichier_comptes = g_strconcat ( gsb_dirs_get_default_dir (),
 			G_DIR_SEPARATOR_S, _("My accounts"), ".gsb", NULL );
-	filename_entry = gsb_automem_entry_new (&nom_fichier_comptes,
-			NULL, NULL);
+	filename_entry = gsb_automem_entry_new (&nom_fichier_comptes, NULL, NULL);
 
     entry = gtk_entry_new ();
 	gtk_entry_set_text (GTK_ENTRY(entry), w_etat->accounting_entity);
