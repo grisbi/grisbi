@@ -3731,7 +3731,7 @@ static void gsb_file_load_start_element ( GMarkupParseContext *context,
  *
  * \return TRUE if ok
  * */
-gboolean gsb_file_load_open_file ( gchar *filename )
+gboolean gsb_file_load_open_file (const gchar *filename )
 {
     gchar *file_content;
     gulong length;

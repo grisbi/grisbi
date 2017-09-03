@@ -575,6 +575,7 @@ gboolean gsb_file_open_menu (void)
     GtkFileFilter * filter;
     gboolean result = FALSE;
     gchar *tmp_last_directory;
+	gchar *filename;
 
     selection_fichier = gtk_file_chooser_dialog_new (_("Open an accounts file"),
 												     GTK_WINDOW (grisbi_app_get_active_window (NULL)),
@@ -603,12 +604,13 @@ gboolean gsb_file_open_menu (void)
 			if (gsb_file_close())
 			{
 				gtk_widget_hide (selection_fichier);
-				nom_fichier_comptes = file_selection_get_filename (GTK_FILE_CHOOSER (selection_fichier));
+				filename = file_selection_get_filename (GTK_FILE_CHOOSER (selection_fichier));
 
 				tmp_last_directory = file_selection_get_last_directory (GTK_FILE_CHOOSER (selection_fichier), TRUE);
 				gsb_file_update_last_path (tmp_last_directory);
 				g_free (tmp_last_directory);
-				result = gsb_file_open_file (nom_fichier_comptes);
+				result = gsb_file_open_file (filename);
+				g_free (filename);
 			}
 			break;
 		  default:
@@ -715,7 +717,6 @@ void gsb_file_set_backup_path (const gchar *path)
     }
 }
 
-
 /**
  * open a new grisbi file, don't check anything about another opened file that must
  * have been done before
@@ -724,7 +725,7 @@ void gsb_file_set_backup_path (const gchar *path)
  *
  * \return TRUE ok, FALSE problem
  **/
-gboolean gsb_file_open_file (gchar *filename)
+gboolean gsb_file_open_file (const gchar *filename)
 {
     GSList *list_tmp;
 
@@ -946,7 +947,6 @@ gboolean gsb_file_automatic_backup_change_time (GtkWidget *spinbutton,
 
     return FALSE;
 }
-
 
 /**
  * close the file
