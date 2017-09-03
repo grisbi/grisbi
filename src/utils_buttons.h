@@ -24,7 +24,7 @@ GtkWidget *     new_image_label                                 (GsbButtonStyle 
 GtkWidget *     new_stock_image_label                           (GsbButtonStyle style,
                                                                  const gchar *stock_id,
                                                                  const gchar *name);
-#if GTK_CHECK_VERSION (3,22,0)
+#if !GTK_CHECK_VERSION (3,22,0)
 void            set_popup_position                              (GtkMenu *menu,
                                                                  gint *x,
                                                                  gint *y,
