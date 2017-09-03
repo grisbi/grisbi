@@ -23,13 +23,14 @@ const gchar *   grisbi_win_get_filename                     (GrisbiWin *win);
 GtkWidget *     grisbi_win_get_notebook_general             (GrisbiWin *win);
 GtkWidget *		grisbi_win_get_prefs_dialog 				(GrisbiWin *win);
 GtkWidget *     grisbi_win_get_stack_box                    (GrisbiWin *win);
+gpointer		grisbi_win_get_w_etat						(void);
+gpointer		grisbi_win_get_w_run						(void);
 
 void            grisbi_win_headings_update_suffix           (gchar *suffix);
 void            grisbi_win_headings_update_title            (gchar *title);
 gboolean        grisbi_win_headings_update_show_headings    (void);
 void            grisbi_win_headings_sensitive_headings      (gboolean sensitive);
 
-void            grisbi_win_free_private_struct              (GrisbiWin *win);
 void            grisbi_win_free_general_notebook            (void);
 void            grisbi_win_free_general_vbox                (void);
 

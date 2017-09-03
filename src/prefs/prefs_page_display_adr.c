@@ -63,6 +63,7 @@ struct _PrefsPageDisplayAdrPrivate
     GtkWidget *         textview_adr_common;
     GtkWidget *         textview_adr_secondary;
 
+	GrisbiWinEtat *		w_etat;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageDisplayAdr, prefs_page_display_adr, GTK_TYPE_BOX)
@@ -99,15 +100,17 @@ static gboolean prefs_page_display_adr_text_adr_changed (GtkTextBuffer *buffer,
  * \param position Not used handler parameter.
  */
 static void prefs_page_display_adr_accounting_entity_changed (GtkEditable *entry,
-													   gpointer data)
+															  gpointer data)
 {
+	GrisbiWinEtat *w_etat;
 	const gchar *text;
 
 	text = gtk_entry_get_text (GTK_ENTRY (entry));
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
 	if (text && strlen (text))
-		etat.accounting_entity = my_strdup (text);
+		w_etat->accounting_entity = my_strdup (text);
 	else
-		etat.accounting_entity = my_strdup ("");
+		w_etat->accounting_entity = my_strdup ("");
 
     /* set Grisbi title */
     grisbi_win_set_window_title (-1);
@@ -125,9 +128,11 @@ static void prefs_page_display_adr_accounting_entity_changed (GtkEditable *entry
  * \return FALSE
  */
 static gboolean prefs_page_display_adr_window_title_toggled (GtkRadioButton *button,
-													  GtkWidget *entry)
+															 GtkWidget *entry)
 {
-    if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button)))
+	GrisbiWinEtat *w_etat;
+
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button)))
     {
         conf.display_window_title = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (button), "display"));
     }
@@ -136,8 +141,9 @@ static gboolean prefs_page_display_adr_window_title_toggled (GtkRadioButton *but
     {
         case GSB_ACCOUNT_ENTITY:
             gtk_widget_set_sensitive (entry, TRUE);
-            if (etat.accounting_entity && strlen (etat.accounting_entity))
-                gtk_entry_set_text (GTK_ENTRY (entry), etat.accounting_entity);
+			w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
+            if (w_etat->accounting_entity && strlen (w_etat->accounting_entity))
+                gtk_entry_set_text (GTK_ENTRY (entry), w_etat->accounting_entity);
             else
             {
                 gtk_entry_set_text (GTK_ENTRY (entry), "");
@@ -171,11 +177,13 @@ static void prefs_page_display_adr_setup_display_adr_page (PrefsPageDisplayAdr *
 {
 	GtkWidget *head_page;
 	GtkTextBuffer *buffer;
+	GrisbiWinEtat *w_etat;
 	PrefsPageDisplayAdrPrivate *priv;
 
 	devel_debug (NULL);
 
 	priv = prefs_page_display_adr_get_instance_private (page);
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
 
 	/* On récupère le nom de la page */
 	head_page = utils_prefs_head_page_new_with_title_and_icon (_("Addresses & titles"), "gsb-addresses-32.png");
@@ -212,7 +220,7 @@ static void prefs_page_display_adr_setup_display_adr_page (PrefsPageDisplayAdr *
 					   "display",
 					   GINT_TO_POINTER ( GSB_ACCOUNT_FILENAME));
 
-	gtk_entry_set_text (GTK_ENTRY(priv->entry_accounting_entity), etat.accounting_entity);
+	gtk_entry_set_text (GTK_ENTRY(priv->entry_accounting_entity), w_etat->accounting_entity);
 
 	/* Connect signal */
 	g_signal_connect (G_OBJECT (priv->radiobutton_accounting_entity),
@@ -237,16 +245,22 @@ static void prefs_page_display_adr_setup_display_adr_page (PrefsPageDisplayAdr *
 
 	/* variables for addresses */
 	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->textview_adr_common));
+	if (w_etat->adr_common && strlen (w_etat->adr_common))
+		gtk_text_buffer_set_text (GTK_TEXT_BUFFER (buffer), w_etat->adr_common, -1);
+
 	g_signal_connect (G_OBJECT (buffer),
 					  "changed",
 					  G_CALLBACK (prefs_page_display_adr_text_adr_changed),
-					  &etat.adr_common);
+					  &w_etat->adr_common);
 
 	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->textview_adr_secondary));
+	if (w_etat->adr_secondary && strlen (w_etat->adr_secondary))
+		gtk_text_buffer_set_text (GTK_TEXT_BUFFER (buffer), w_etat->adr_secondary, -1);
+
 	g_signal_connect (G_OBJECT (buffer),
 					  "changed",
 					  G_CALLBACK (prefs_page_display_adr_text_adr_changed),
-					  &etat.adr_secondary);
+					  &w_etat->adr_secondary);
 }
 
 /******************************************************************************/

@@ -57,8 +57,7 @@
 #define GSB_NBRE_CHAR 15
 #define GSB_NAMEFILE_TOO_LONG 75				/* 5 lignes dans le bouton */
 
-/*START_EXTERN Variables externes PROVISOIRE*/
-extern gchar *nom_fichier_comptes;
+/*START_EXTERN*/
 /*END_EXTERN*/
 
 struct _GrisbiWin
@@ -130,11 +129,11 @@ struct _GrisbiWinPrivate
 	gint 				hpaned_general_width;
 
     /* variables de configuration de la fenêtre */
-/*	GrisbiWinEtat		*etat;
-*/
+	GrisbiWinEtat		*w_etat;
+
     /* structure run */
-/*    GrisbiWindowRun     *run;
-*/
+    GrisbiWinRun     	*w_run;
+
 
 	/* prefs dialog*/
 	GtkWidget *			prefs_dialog;
@@ -143,10 +142,10 @@ struct _GrisbiWinPrivate
 G_DEFINE_TYPE_WITH_PRIVATE(GrisbiWin, grisbi_win, GTK_TYPE_APPLICATION_WINDOW);
 
 /* variables initialisées lors de l'exécution de grisbi PROVISOIRE */
-struct GrisbiWinRun run;
+struct _GrisbiWinRun run;
 
 /* global "etat" structure shared in the entire program */
-struct GrisbiWinEtat etat;
+struct _GrisbiWinEtat etat;
 
 /******************************************************************************/
 /* Private functions                                                          */
@@ -624,13 +623,50 @@ static gboolean grisbi_win_change_state_window (GtkWidget *window,
     if (event->changed_mask & GDK_WINDOW_STATE_MAXIMIZED)
     {
         show = !(event->new_window_state & GDK_WINDOW_STATE_MAXIMIZED);
-
-/*        gtk_window_set_has_resize_grip (GTK_WINDOW (window), show);
-*/        conf.maximize_screen = !show;
+        conf.maximize_screen = !show;
     }
 
     /* return value */
     return FALSE;
+}
+
+/* FREE STRUCTURES */
+/**
+ * libère la mémoire utilisée par w_etat
+ *
+ * \param object
+ *
+ * \return
+ **/
+static void grisbi_win_free_w_etat (GrisbiWinEtat *w_etat)
+{
+    devel_debug (NULL);
+
+	/* variables generales */
+	if (w_etat->accounting_entity)
+		g_free (w_etat->accounting_entity);
+	if (w_etat->adr_common)
+		g_free (w_etat->adr_common);
+	if (w_etat->adr_secondary)
+		g_free (w_etat->adr_secondary);
+
+
+    g_free (w_etat);
+}
+
+/**
+ * libère la mémoire utilisée par w_run
+ *
+ * \param object
+ *
+ * \return
+ **/
+static void grisbi_win_free_w_run (GrisbiWinRun *w_run)
+{
+
+    devel_debug (NULL);
+
+    g_free (w_run);
 }
 
 /******************************************************************************/
@@ -656,6 +692,12 @@ static void grisbi_win_init (GrisbiWin *win)
     /* initialisations des widgets liés à gsb_file_new_gui */
     priv->vbox_general = NULL;
     priv->notebook_general = NULL;
+
+    /* creation de la structure w_run */
+    priv->w_run = g_malloc0 (sizeof (GrisbiWinRun));
+
+    /* initialisation de la variable w_etat */
+    priv->w_etat = g_malloc0 ( sizeof (GrisbiWinEtat));
 
     /* init widgets in grisbi_win.ui */
 	gtk_widget_init_template (GTK_WIDGET (win));
@@ -691,8 +733,45 @@ static void grisbi_win_init (GrisbiWin *win)
  *
  * \return
  **/
+static void grisbi_win_finalize (GObject *object)
+{
+	GrisbiWinPrivate *priv;
+
+    devel_debug (NULL);
+    priv = grisbi_win_get_instance_private (GRISBI_WIN (object));
+
+    g_free (priv->filename);
+    priv->filename = NULL;
+
+    g_free (priv->window_title);
+    priv->window_title = NULL;
+
+    g_clear_object (&priv->builder);
+    g_clear_object (&priv->menu);
+
+    /* libération de la mémoiré utilisée par w_etat */
+	grisbi_win_free_w_etat (priv->w_etat);
+
+	/* libération mémoire de la structure run */
+	grisbi_win_free_w_run (priv->w_run);
+
+	G_OBJECT_CLASS (grisbi_win_parent_class)->finalize (object);
+}
+
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 static void grisbi_win_class_init (GrisbiWinClass *klass)
 {
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+
+	object_class->finalize = grisbi_win_finalize;
+
 	gtk_widget_class_set_template_from_resource (GTK_WIDGET_CLASS (klass),
                                                  "/org/gtk/grisbi/ui/grisbi_win.ui");
 
@@ -746,7 +825,51 @@ void grisbi_win_set_filename (GrisbiWin *win,
         win = grisbi_app_get_active_window (NULL);
 
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
-	priv->filename = g_strdup (filename);
+	if (filename)
+	{
+		priv->filename = g_strdup (filename);
+	}
+	else
+	{
+		g_free (priv->filename);
+		priv->filename = NULL;
+	}
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+gpointer grisbi_win_get_w_etat (void)
+{
+    GrisbiWin *win;
+    GrisbiWinPrivate *priv;
+
+    win = grisbi_app_get_active_window (NULL);
+    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+
+	return priv->w_etat;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+gpointer grisbi_win_get_w_run (void)
+{
+    GrisbiWin *win;
+    GrisbiWinPrivate *priv;
+
+    win = grisbi_app_get_active_window (NULL);
+    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+
+	return priv->w_run;
 }
 
 /* GET WIDGET */
@@ -1076,30 +1199,6 @@ void grisbi_win_stack_box_show (GrisbiWin *win,
 }
 
 /**
- *
- *
- * \param
- *
- * \return
- **/
-void grisbi_win_free_private_struct (GrisbiWin *win)
-{
-	GrisbiWinPrivate *priv;
-
-    devel_debug (NULL);
-    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
-
-    g_free (priv->filename);
-    priv->filename = NULL;
-
-    g_free (priv->window_title);
-    priv->window_title = NULL;
-
-    g_clear_object (&priv->builder);
-    g_clear_object (&priv->menu);
-}
-
-/**
  * set the title of the window
  *
  * \param gint 		account_number
@@ -1108,23 +1207,30 @@ void grisbi_win_free_private_struct (GrisbiWin *win)
  * */
 gboolean grisbi_win_set_window_title (gint account_number)
 {
-    gchar *titre_grisbi = NULL;
-    gchar *titre = NULL;
-    gint tmp_number;
-    gboolean return_value;
+	const gchar *filename;
+	gchar *titre_grisbi = NULL;
+	gboolean return_value;
 
-	if (nom_fichier_comptes == NULL)
+	filename = grisbi_win_get_filename (NULL);
+	if (filename == NULL)
     {
         titre_grisbi = g_strdup (_("Grisbi"));
         return_value = TRUE;
     }
     else
     {
+		GrisbiWinEtat *w_etat;
+		gchar *titre = NULL;
+		gint tmp_number;
+
+		devel_debug_int (account_number);
+		w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
+
         switch (conf.display_window_title)
         {
             case GSB_ACCOUNT_ENTITY:
-                if (etat.accounting_entity && strlen (etat.accounting_entity))
-                    titre = g_strdup (etat.accounting_entity);
+                if (w_etat->accounting_entity && strlen (w_etat->accounting_entity))
+                    titre = g_strdup (w_etat->accounting_entity);
             break;
             case GSB_ACCOUNT_HOLDER:
             {
@@ -1135,8 +1241,8 @@ gboolean grisbi_win_set_window_title (gint account_number)
 
                 if (tmp_number == -1)
                 {
-                    if (etat.accounting_entity && etat.accounting_entity)
-                        titre = g_strdup (etat.accounting_entity);
+                    if (w_etat->accounting_entity && w_etat->accounting_entity)
+                        titre = g_strdup (w_etat->accounting_entity);
                 }
                 else
                 {
@@ -1145,12 +1251,12 @@ gboolean grisbi_win_set_window_title (gint account_number)
                     if (titre == NULL)
                         titre = g_strdup (gsb_data_account_get_name (tmp_number));
                 }
-            break;
+				break;
             }
             case GSB_ACCOUNT_FILENAME:
-                if (nom_fichier_comptes && strlen (nom_fichier_comptes))
-                    titre = g_path_get_basename (nom_fichier_comptes);
-            break;
+                if (filename && strlen (filename))
+                    titre = g_path_get_basename (filename);
+				break;
         }
 
         if (titre && strlen (titre) > 0)
