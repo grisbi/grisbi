@@ -81,6 +81,9 @@ void export_accounts ( void )
 {
     GtkWidget *dialog;
     gchar *extension = NULL;
+	GrisbiWinEtat *w_etat;
+
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
 
     selected_accounts = NULL;
     exported_accounts = NULL;
@@ -113,8 +116,8 @@ void export_accounts ( void )
                 const gchar *title;
                 gchar *tmp_str;
 
-				if (etat.accounting_entity && strlen (etat.accounting_entity) )
-                    title = etat.accounting_entity;
+				if (w_etat->accounting_entity && strlen (w_etat->accounting_entity) )
+                    title = w_etat->accounting_entity;
                 else
                     title = g_get_user_name ( );
 
@@ -491,6 +494,9 @@ gboolean export_account_change_format ( GtkWidget *combo,
 {
     const gchar *title;
 	gchar *tmp_str;
+	GrisbiWinEtat *w_etat;
+
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
 
     switch ( gtk_combo_box_get_active ( GTK_COMBO_BOX ( combo ) ) )
     {
@@ -505,9 +511,9 @@ gboolean export_account_change_format ( GtkWidget *combo,
         break;
     }
 
-    if (etat.accounting_entity && strlen (etat.accounting_entity) )
+    if (w_etat->accounting_entity && strlen (w_etat->accounting_entity) )
     {
-        title = etat.accounting_entity;
+        title = w_etat->accounting_entity;
     }
     else
     {

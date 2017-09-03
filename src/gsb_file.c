@@ -158,8 +158,11 @@ static gchar *gsb_file_dialog_ask_name ( void )
     if ( ! nom_fichier_comptes )
     {
         gchar* tmp_str;
+		GrisbiWinEtat *w_etat;
 
-        tmp_str = g_strconcat (etat.accounting_entity, ".gsb", NULL);
+		w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
+
+        tmp_str = g_strconcat (w_etat->accounting_entity, ".gsb", NULL);
         gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER ( dialog ), tmp_str);
         g_free ( tmp_str );
     }
@@ -998,6 +1001,7 @@ gboolean gsb_file_close ( void )
  	    init_variables ();
         grisbi_win_free_general_vbox ();
         gsb_account_property_clear_config ( );
+		grisbi_win_set_filename (NULL, NULL);
 
         grisbi_win_set_window_title ( -1 );
 

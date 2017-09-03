@@ -161,13 +161,18 @@ static gboolean gsb_file_load_check_new_structure ( gchar *file_content )
 static  void gsb_file_load_general_part ( const gchar **attribute_names,
                         const gchar **attribute_values )
 {
+	GrisbiWinEtat *w_etat;
     gint unknown;
     gint i=0;
 
-    if ( !attribute_names[i] )
+    if (!attribute_names[i])
+	{
         return;
+	}
 
-    do
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
+
+	do
     {
         unknown = 0;
 
@@ -310,7 +315,9 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
                 }
 
                 else if ( !strcmp ( attribute_names[i], "File_title" ) && strlen (attribute_values[i]))
-                    etat.accounting_entity = my_strdup (attribute_values[i]);
+				{
+                    w_etat->accounting_entity = my_strdup (attribute_values[i]);
+				}
 
                 else
                     unknown = 1;
@@ -325,8 +332,17 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
 
                 else if ( !strcmp ( attribute_names[i], "General_address" ))
                 {
-                    //~ g_free ( adresse_commune );
-                    etat.adr_common = my_strdup (attribute_values[i]);
+					if (g_strstr_len (attribute_values[i], -1, "\\n" ) )
+                    {
+                        gchar **adr_common_tab;
+
+                        adr_common_tab = g_strsplit ( attribute_values[i], "\\n", 0 );
+                        w_etat->adr_common = g_strjoinv ( NEW_LINE, adr_common_tab );
+
+                        g_strfreev (adr_common_tab);
+                    }
+                    else
+						w_etat->adr_common = my_strdup (attribute_values[i]);
                 }
 
                 else
@@ -418,8 +434,17 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
             case 'S':
                 if ( !strcmp ( attribute_names[i], "Second_general_address" ))
                 {
-                    //~ g_free ( adresse_secondaire );
-                    etat.adr_secondary = my_strdup (attribute_values[i]);
+					if (g_strstr_len (attribute_values[i], -1, "\\n" ) )
+                    {
+                        gchar **adr_secondary_tab;
+
+                        adr_secondary_tab = g_strsplit ( attribute_values[i], "\\n", 0 );
+                        w_etat->adr_secondary = g_strjoinv ( NEW_LINE, adr_secondary_tab );
+
+                        g_strfreev (adr_secondary_tab);
+                    }
+                    else
+						w_etat->adr_secondary = my_strdup (attribute_values[i]);
                 }
 
                 else if ( !strcmp ( attribute_names[i], "Scheduler_column_width" ) )
@@ -1238,12 +1263,12 @@ static  void gsb_file_load_account_part ( const gchar **attribute_names,
 
                 else if ( !strcmp ( attribute_names[i], "Owner_address" ))
                 {
-                    if ( g_strstr_len ( attribute_values[i], -1, "&#xA;" ) )
+                    if ( g_strstr_len ( attribute_values[i], -1, "\\n" ) )
                     {
                         gchar **owner_tab;
                         gchar *owner_str;
 
-                        owner_tab = g_strsplit ( attribute_values[i], "&#xA;", 0 );
+                        owner_tab = g_strsplit ( attribute_values[i], "\\n", 0 );
                         owner_str = g_strjoinv ( NEW_LINE, owner_tab );
                         gsb_data_account_set_holder_address ( account_number, owner_str );
 

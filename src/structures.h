@@ -65,11 +65,14 @@ extern struct GrisbiAppConf conf;
 
 /* variables initialisées lors de l'exécution de grisbi PROVISOIRE */
 /* declared in grisbi_win.c */
-extern struct GrisbiWinRun run;
-extern struct GrisbiWinEtat etat;
+extern struct _GrisbiWinRun run;
+extern struct _GrisbiWinEtat etat;
 
 typedef enum _GsbTitleType	 	GsbTitleType;
 typedef enum _SettingsSchema 	SettingsSchema;
+
+typedef struct _GrisbiWinEtat	GrisbiWinEtat;
+typedef struct _GrisbiWinRun	GrisbiWinRun;
 
 /** structure etat
  * variables contenant juste 0 ou 1
@@ -78,7 +81,7 @@ typedef enum _SettingsSchema 	SettingsSchema;
  * la partie configurée par la conf
  * la partie configurée pendant le fonctionnement de grisbi
  * */
-struct GrisbiWinEtat
+struct _GrisbiWinEtat
 {
     gint is_archive;                /** TRUE if the file is an archive, FALSE else */
 
@@ -274,7 +277,7 @@ struct GrisbiAppConf
  *
  */
 
-struct GrisbiWinRun
+struct _GrisbiWinRun
 {
     /* main window of grisbi */
     GtkWidget *window;

@@ -539,6 +539,10 @@ gulong gsb_file_save_general_part ( gulong iterator,
                         gint archive_number )
 {
     GQueue *tmp_queue;
+	gchar *adr_common_str = NULL;
+	gchar **adr_common_tab;
+	gchar *adr_secondary_str = NULL;
+	gchar **adr_secondary_tab;
     gchar *first_string_to_free;
     gchar *second_string_to_free;
 	gchar *third_string_to_free;
@@ -555,10 +559,12 @@ gulong gsb_file_save_general_part ( gulong iterator,
     gchar *mon_thousands_sep;
     gchar *navigation_order_list = NULL;
     gboolean is_archive = FALSE;
+	GrisbiWinEtat *w_etat;
 
     /* prepare stuff to save general information */
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
 
-    /* prepare transactions_view */
+	/* prepare transactions_view */
     transactions_view = NULL;
 
     for ( i=0 ; i<TRANSACTION_LIST_ROWS_NB ; i++ )
@@ -681,6 +687,27 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	etat.is_archive )
 	is_archive = TRUE;
 
+    /* protect adr_common */
+    adr_common_str = g_strdup (w_etat->adr_common);
+    if (adr_common_str && g_strstr_len (adr_common_str, -1, NEW_LINE))
+    {
+        adr_common_tab = g_strsplit (adr_common_str, NEW_LINE, 0);
+        g_free (adr_common_str);
+        adr_common_str = g_strjoinv ("\\n", adr_common_tab);
+
+        g_strfreev (adr_common_tab);
+    }
+
+    /* protect adr_secondary */
+    adr_secondary_str = g_strdup (w_etat->adr_secondary);
+    if (adr_secondary_str && g_strstr_len (adr_secondary_str, -1, NEW_LINE))
+    {
+        adr_secondary_tab = g_strsplit (adr_secondary_str, NEW_LINE, 0);
+        g_free (adr_secondary_str);
+        adr_secondary_str = g_strjoinv ("\\n", adr_secondary_tab);
+
+        g_strfreev (adr_secondary_tab);
+    }
 
     /* save the general information */
     new_string = g_markup_printf_escaped ( "\t<General\n"
@@ -744,9 +771,9 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	my_safe_null_str(VERSION_FICHIER),
 	my_safe_null_str(VERSION),
 	is_archive,
-	my_safe_null_str (etat.accounting_entity),
-	my_safe_null_str(etat.adr_common),
-	my_safe_null_str(etat.adr_secondary),
+	my_safe_null_str (w_etat->accounting_entity),
+	my_safe_null_str(adr_common_str),
+	my_safe_null_str(adr_secondary_str),
 	my_safe_null_str ( date_format ),
 	my_safe_null_str ( mon_decimal_point ),
 	my_safe_null_str ( mon_thousands_sep ),
@@ -800,6 +827,8 @@ gulong gsb_file_save_general_part ( gulong iterator,
     my_safe_null_str ( third_string_to_free = utils_str_dtostr ( etat.bet_frais, BET_TAUX_DIGITS, TRUE ) ),
     etat.bet_type_taux );
 
+	g_free (adr_common_str);
+	g_free (adr_secondary_str);
     g_free (transactions_view);
     g_free (scheduler_column_width_write);
     g_free (transaction_column_width_write);
@@ -1019,7 +1048,7 @@ gulong gsb_file_save_account_part ( gulong iterator,
     {
         owner_tab = g_strsplit ( owner_str, NEW_LINE, 0 );
         g_free ( owner_str );
-        owner_str = g_strjoinv ( "&#xA;", owner_tab );
+        owner_str = g_strjoinv ( "\\n", owner_tab );
 
         g_strfreev ( owner_tab );
     }
@@ -1187,7 +1216,7 @@ gulong gsb_file_save_account_part ( gulong iterator,
 	g_free (init_balance);
 	g_free (mini_auto);
 	g_free (mini_wanted);
-    g_free ( owner_str );
+    g_free (owner_str);
 
 	/* append the new string to the file content
 	 * and take the new iterator */
