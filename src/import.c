@@ -4140,7 +4140,7 @@ static void traitement_operations_importees (void)
         {
             /* this should be the same as the end of gsb_file_new */
             /* init the gui */
-            gsb_file_new_gui ();
+            grisbi_win_new_file_gui ();
 
             new_file = 0;
         }

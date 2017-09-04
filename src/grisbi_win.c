@@ -38,12 +38,17 @@
 /*START_INCLUDE*/
 #include "grisbi_app.h"
 #include "accueil.h"
+#include "affichage_liste.h"
+#include "dialog.h"
+#include "fenetre_principale.h"
 #include "gsb_data_account.h"
 #include "gsb_dirs.h"
 #include "gsb_form.h"
+#include "gsb_transactions_list.h"
 #include "menu.h"
 #include "navigation.h"
 #include "structures.h"
+#include "transaction_list.h"
 #include "utils.h"
 #include "utils_buttons.h"
 #include "utils_str.h"
@@ -691,7 +696,7 @@ static void grisbi_win_init (GrisbiWin *win)
     priv->filename = NULL;
     priv->window_title = NULL;
 
-    /* initialisations des widgets liés à gsb_file_new_gui */
+    /* initialisations des widgets liés à grisbi_win_new_file_gui */
     priv->vbox_general = NULL;
     priv->notebook_general = NULL;
 	priv->vbox_transactions_list = NULL;
@@ -1574,7 +1579,65 @@ void grisbi_win_free_general_notebook (void)
         priv->notebook_general = NULL;
 }
 
-/* FORM_GENERAL */
+/* FILE_GUI */
+/**
+ * Initialize user interface part when a new accounts file is created.
+ *
+ * \param
+ *
+ * \return
+ **/
+void grisbi_win_new_file_gui (void)
+{
+    GrisbiWin *win;
+    GtkWidget *tree_view_widget;
+    GtkWidget *notebook_general;
+	GtkWidget *vbox_transactions_list;
+
+    win = grisbi_app_get_active_window (NULL);
+
+    /* dégrise les menus nécessaire */
+    gsb_menu_set_menus_with_file_sensitive (TRUE);
+
+    /* récupère l'organisation des colonnes */
+    recuperation_noms_colonnes_et_tips ();
+
+    /* Create main widget. */
+    grisbi_win_status_bar_message (_("Creating main window"));
+
+    /* création de grid_general */
+    grisbi_win_create_general_widgets (GRISBI_WIN (win));
+	grisbi_win_stack_box_show (win, "file_page");
+
+    /* fill the general notebook */
+    notebook_general = grisbi_win_get_notebook_general (win);
+    gsb_gui_fill_general_notebook (notebook_general);
+
+    /* create the model */
+    if (!transaction_list_create ())
+    {
+		dialogue_error (_("The model of the list couldn't be created... "
+						  "Bad things will happen very soon..."));
+		return;
+    }
+
+    /* Create transaction list. */
+    tree_view_widget = gsb_transactions_list_make_gui_list ();
+	vbox_transactions_list = grisbi_win_get_vbox_transactions_list (win);
+    gtk_box_pack_start (GTK_BOX (vbox_transactions_list), tree_view_widget, TRUE, TRUE, 0);
+    gtk_widget_show (tree_view_widget);
+
+    //~ navigation_change_account (gsb_gui_navigation_get_current_account ());
+
+    /* Display accounts in menus */
+	grisbi_win_menu_move_to_acc_delete ();
+	grisbi_win_menu_move_to_acc_new ();
+
+    gtk_notebook_set_current_page (GTK_NOTEBOOK(notebook_general), GSB_HOME_PAGE);
+
+    gtk_widget_show (notebook_general);
+}
+
 /* HEADINGS */
 /**
  * sensitive or unsensitive the headings

@@ -19,7 +19,6 @@ const gchar *   gsb_file_get_backup_path                (void);
 const gchar *   gsb_file_get_last_path                  (void);
 void            gsb_file_init_last_path                 (const gchar *last_path);
 gboolean        gsb_file_new_finish                     (void);
-void            gsb_file_new_gui                        (void);
 gboolean        gsb_file_open_file                      (const gchar *filename);
 gboolean        gsb_file_open_menu                      (void);
 gboolean        gsb_file_save                           (void);

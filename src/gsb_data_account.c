@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2003-2008 Benjamin Drieu (bdrieu@april.org)	                      */
-/*                      2008-2012 Pierre Biava (grisbi@pierre.biava.name)     */
+/*                      2008-2017 Pierre Biava (grisbi@pierre.biava.name)     */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -3796,6 +3796,37 @@ gsb_real gsb_data_account_get_balance_at_date ( gint account_number,
     return current_balance;
 }
 
+/**
+ * set limits of current and authorized balance of all accounts
+ *
+ * \param
+ *
+ * \return
+ * */
+void			gsb_data_account_set_all_limits_of_balance (void)
+{
+    GSList *tmp_list;
+
+    tmp_list = gsb_data_account_get_list_accounts ();
+
+    while (tmp_list)
+    {
+		gint account_number;
+		volatile gint value;
+
+		account_number = gsb_data_account_get_no_account (tmp_list->data);
+
+		/* set the minimum balances to be shown or not */
+		value = gsb_real_cmp (gsb_data_account_get_current_balance (account_number),
+							  gsb_data_account_get_mini_balance_authorized (account_number)) == -1;
+		gsb_data_account_set_mini_balance_authorized_message (account_number, value);
+		value = gsb_real_cmp (gsb_data_account_get_current_balance (account_number),
+							  gsb_data_account_get_mini_balance_wanted (account_number)) == -1;
+		gsb_data_account_set_mini_balance_wanted_message (account_number, value);
+
+		tmp_list = tmp_list->next;
+    }
+}
 
 /**
  *
