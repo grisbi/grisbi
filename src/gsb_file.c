@@ -70,16 +70,14 @@
 
 /**
  * keep the last path used in grisbi, save in the configuration at the end */
-static gchar *last_path_used;
+static gchar *last_path_used = NULL;
 
-static gchar *backup_path;
+static gchar *backup_path = NULL;
 
 /** the timeout used to save a backup every x minutes */
 gint id_timeout = 0;
 
 /*START_EXTERN*/
-extern GtkWidget *table_etat;
-extern GtkWidget *tree_view_vbox;
 /*END_EXTERN*/
 
 /******************************************************************************/
@@ -523,6 +521,7 @@ void gsb_file_new_gui (void)
     GrisbiWin *win;
     GtkWidget *tree_view_widget;
     GtkWidget *notebook_general;
+	GtkWidget *vbox_transactions_list;
 
     win = grisbi_app_get_active_window (NULL);
 
@@ -553,16 +552,16 @@ void gsb_file_new_gui (void)
 
     /* Create transaction list. */
     tree_view_widget = gsb_transactions_list_make_gui_list ();
-    gtk_box_pack_start (GTK_BOX (tree_view_vbox), tree_view_widget, TRUE, TRUE, 0);
+	vbox_transactions_list = grisbi_win_get_vbox_transactions_list (win);
+    gtk_box_pack_start (GTK_BOX (vbox_transactions_list), tree_view_widget, TRUE, TRUE, 0);
     gtk_widget_show (tree_view_widget);
 
-    navigation_change_account (gsb_gui_navigation_get_current_account ());
+    //~ navigation_change_account (gsb_gui_navigation_get_current_account ());
 
     /* Display accounts in menus */
 	grisbi_win_menu_move_to_acc_delete ();
 	grisbi_win_menu_move_to_acc_new ();
 
-    notebook_general = gsb_gui_get_general_notebook ();
     gtk_notebook_set_current_page (GTK_NOTEBOOK(notebook_general), GSB_HOME_PAGE);
 
     gtk_widget_show (notebook_general);
@@ -1010,8 +1009,6 @@ gboolean gsb_file_close (void)
         /* unsensitive the necessaries menus */
         gsb_menu_set_menus_with_file_sensitive (FALSE);
         grisbi_win_menu_move_to_acc_delete ();
-
-        table_etat = NULL;
 
 	    return TRUE;
     }
