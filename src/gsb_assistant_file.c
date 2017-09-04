@@ -35,7 +35,6 @@
 
 /*START_INCLUDE*/
 #include "gsb_assistant_file.h"
-#include "affichage.h"
 #include "grisbi_app.h"
 #include "gsb_assistant.h"
 #include "gsb_automem.h"
