@@ -57,6 +57,7 @@
 #include "prefs/prefs_page_archives.h"
 #include "prefs/prefs_page_display_adr.h"
 #include "prefs/prefs_page_display_fonts.h"
+#include "prefs/prefs_page_display_gui.h"
 #include "prefs/prefs_page_divers.h"
 #include "prefs/prefs_page_files.h"
 #include "prefs/prefs_page_import_asso.h"
@@ -320,7 +321,7 @@ static void grisbi_prefs_left_panel_populate_tree_model (GrisbiPrefs *prefs)
 	page++;
 
 	/* append page Elements of interface */
-	widget = GTK_WIDGET (tab_display_toolbar ());
+	widget = GTK_WIDGET (prefs_page_display_gui_new (prefs));
 	utils_widget_set_padding (widget, MARGIN_BOX, 0);
 	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Elements of interface"), page);
 	page++;
