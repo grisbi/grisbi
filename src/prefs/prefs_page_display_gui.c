@@ -65,6 +65,7 @@ struct _PrefsPageDisplayGuiPrivate
 	GtkWidget *			eventbox_active_scrolling_left_pane;
 
     GtkWidget *			radiobutton_display_both;
+    GtkWidget *			radiobutton_display_both_horiz;
     GtkWidget *			radiobutton_display_icon;
     GtkWidget *			radiobutton_display_text;
 };
@@ -243,6 +244,10 @@ static void prefs_page_display_gui_setup_display_gui_page (PrefsPageDisplayGui *
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->radiobutton_display_both), TRUE);
 			break;
 
+		case GSB_BUTTON_BOTH_HORIZ:
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->radiobutton_display_both_horiz), TRUE);
+			break;
+
 		case GSB_BUTTON_ICON:
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->radiobutton_display_icon), TRUE);
 			break;
@@ -252,10 +257,16 @@ static void prefs_page_display_gui_setup_display_gui_page (PrefsPageDisplayGui *
 			break;
 	}
 
+	/* choix non disponible */
+	gtk_widget_set_sensitive (priv->radiobutton_display_both_horiz, FALSE);
+
 	/* set data for each widget */
 	g_object_set_data (G_OBJECT (priv->radiobutton_display_both),
 					   "display",
 					   GINT_TO_POINTER (GSB_BUTTON_BOTH));
+	g_object_set_data (G_OBJECT (priv->radiobutton_display_both_horiz),
+					   "display",
+					   GINT_TO_POINTER (GSB_BUTTON_BOTH_HORIZ));
 	g_object_set_data (G_OBJECT (priv->radiobutton_display_icon),
 					   "display",
 					   GINT_TO_POINTER (GSB_BUTTON_ICON));
@@ -265,6 +276,11 @@ static void prefs_page_display_gui_setup_display_gui_page (PrefsPageDisplayGui *
 
 	/* Connect signal */
 	g_signal_connect (G_OBJECT (priv->radiobutton_display_both),
+					  "toggled",
+					  G_CALLBACK (prefs_page_display_gui_change_toolbar_display_mode),
+					  NULL);
+
+	g_signal_connect (G_OBJECT (priv->radiobutton_display_both_horiz),
 					  "toggled",
 					  G_CALLBACK (prefs_page_display_gui_change_toolbar_display_mode),
 					  NULL);
@@ -308,6 +324,7 @@ static void prefs_page_display_gui_class_init (PrefsPageDisplayGuiClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayGui, checkbutton_active_scrolling_left_pane);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayGui, eventbox_active_scrolling_left_pane);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayGui, radiobutton_display_both);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayGui, radiobutton_display_both_horiz);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayGui, radiobutton_display_icon);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayGui, radiobutton_display_text);
 }
