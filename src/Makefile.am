@@ -35,7 +35,6 @@ libgrisbi_la_LIBADD += $(GRISBI_LIBS) $(GTK_MAC_LIBS)
 
 libgrisbi_la_SOURCES = \
 	accueil.c		\
-	affichage.c		\
 	affichage_liste.c	\
 	bet_config.c \
 	bet_data.c \
@@ -180,7 +179,6 @@ libgrisbi_la_SOURCES = \
 	utils_real.c		\
 	utils_str.c		\
 	accueil.h		\
-	affichage.h		\
 	affichage_liste.h	\
 	bet_config.h \
 	bet_data.h \

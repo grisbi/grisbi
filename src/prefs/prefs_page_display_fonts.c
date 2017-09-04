@@ -39,7 +39,6 @@
 /*START_INCLUDE*/
 #include "prefs_page_display_fonts.h"
 #include "accueil.h"
-#include "affichage.h"
 #include "custom_list.h"
 #include "grisbi_settings.h"
 #include "gsb_data_account.h"
