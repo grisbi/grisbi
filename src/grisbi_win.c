@@ -97,6 +97,8 @@ struct _GrisbiWinPrivate
 	GtkWidget *			scheduler_calendar;
     GtkWidget *         vbox_general;
 
+	GtkWidget *			vbox_transactions_list;			/* vbox contenant le tree_view des opérations */
+
 	/* allocations widgets */
 	gint 				form_expander_label_width;
 	GtkAllocation		navigation_sw_allocation;
@@ -692,6 +694,7 @@ static void grisbi_win_init (GrisbiWin *win)
     /* initialisations des widgets liés à gsb_file_new_gui */
     priv->vbox_general = NULL;
     priv->notebook_general = NULL;
+	priv->vbox_transactions_list = NULL;
 
     /* creation de la structure w_run */
     priv->w_run = g_malloc0 (sizeof (GrisbiWinRun));
@@ -942,6 +945,46 @@ GtkWidget *grisbi_win_get_stack_box (GrisbiWin *win)
 
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
     return priv->stack_box;
+}
+
+/**
+ * retourne vbox_transactions_list (ex tree_view_vbox)
+ *
+ * \param GrisbiWin *win
+ *
+ * \return vbox_transactions_list
+ **/
+GtkWidget *grisbi_win_get_vbox_transactions_list (GrisbiWin *win)
+{
+	GrisbiWinPrivate *priv;
+
+	if (win == NULL)
+		win = grisbi_app_get_active_window (NULL);
+
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+    return priv->vbox_transactions_list;
+}
+
+/**
+ * set vbox_transactions_list (ex tree_view_vbox)
+ *
+ * \param GrisbiWin *win
+ * \param vbox
+ *
+ * \return
+ **/
+gboolean grisbi_win_set_vbox_transactions_list (GrisbiWin *win,
+												GtkWidget *vbox)
+{
+	GrisbiWinPrivate *priv;
+
+	if (win == NULL)
+		win = grisbi_app_get_active_window (NULL);
+
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+	priv->vbox_transactions_list = vbox;
+
+	return TRUE;
 }
 
 /* WIN_MENU */

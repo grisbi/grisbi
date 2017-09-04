@@ -23,6 +23,7 @@ const gchar *   grisbi_win_get_filename                     (GrisbiWin *win);
 GtkWidget *     grisbi_win_get_notebook_general             (GrisbiWin *win);
 GtkWidget *		grisbi_win_get_prefs_dialog 				(GrisbiWin *win);
 GtkWidget *     grisbi_win_get_stack_box                    (GrisbiWin *win);
+GtkWidget *		grisbi_win_get_vbox_transactions_list 		(GrisbiWin *win);
 gpointer		grisbi_win_get_w_etat						(void);
 gpointer		grisbi_win_get_w_run						(void);
 
@@ -47,6 +48,8 @@ void            grisbi_win_set_filename                     (GrisbiWin *win,
 void 			grisbi_win_set_prefs_dialog 				(GrisbiWin *win,
 															 GtkWidget *prefs_dialog);
 void            grisbi_win_set_size_and_position            (GtkWindow *win);
+gboolean 		grisbi_win_set_vbox_transactions_list 		(GrisbiWin *win,
+															 GtkWidget *vbox);
 gboolean        grisbi_win_set_window_title                 (gint account_number);
 
 void 			grisbi_win_stack_box_show					(GrisbiWin *win,
