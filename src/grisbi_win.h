@@ -41,6 +41,7 @@ void            grisbi_win_menu_move_to_acc_delete          (void);
 void            grisbi_win_menu_move_to_acc_new             (void);
 void            grisbi_win_menu_move_to_acc_update          (gboolean active);
 
+void            grisbi_win_new_file_gui						(void);
 void 			grisbi_win_no_file_page_update 				(GrisbiWin *win);
 
 void            grisbi_win_set_filename                     (GrisbiWin *win,

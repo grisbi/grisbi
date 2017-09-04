@@ -121,6 +121,7 @@ gint 			gsb_data_account_new 									(KindAccount account_kind);
 gboolean 		gsb_data_account_reorder 								(GSList *new_order);
 gboolean 		gsb_data_account_set_account_icon_pixbuf 				(gint account_number,
 																		 GdkPixbuf *pixbuf);
+void			gsb_data_account_set_all_limits_of_balance				(void);
 gint 			gsb_data_account_set_account_number 					(gint account_number,
 																		 gint new_no);
 gboolean 		gsb_data_account_set_balances_are_dirty 				(gint account_number);

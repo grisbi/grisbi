@@ -500,71 +500,13 @@ gboolean gsb_file_new_finish (void)
     }
 
     /* init the gui */
-    gsb_file_new_gui ();
+    grisbi_win_new_file_gui ();
 
     mise_a_jour_accueil (TRUE);
     gsb_gui_navigation_set_selection (GSB_HOME_PAGE, -1, 0);
 
     gsb_file_set_modified (TRUE);
     return FALSE;
-}
-
-/**
- * Initialize user interface part when a new accounts file is created.
- *
- * \param
- *
- * \return
- **/
-void gsb_file_new_gui (void)
-{
-    GrisbiWin *win;
-    GtkWidget *tree_view_widget;
-    GtkWidget *notebook_general;
-	GtkWidget *vbox_transactions_list;
-
-    win = grisbi_app_get_active_window (NULL);
-
-    /* dégrise les menus nécessaire */
-    gsb_menu_set_menus_with_file_sensitive (TRUE);
-
-    /* récupère l'organisation des colonnes */
-    recuperation_noms_colonnes_et_tips ();
-
-    /* Create main widget. */
-    grisbi_win_status_bar_message (_("Creating main window"));
-
-    /* création de grid_general */
-    grisbi_win_create_general_widgets (GRISBI_WIN (win));
-	grisbi_win_stack_box_show (win, "file_page");
-
-    /* fill the general notebook */
-    notebook_general = grisbi_win_get_notebook_general (win);
-    gsb_gui_fill_general_notebook (notebook_general);
-
-    /* create the model */
-    if (!transaction_list_create ())
-    {
-		dialogue_error (_("The model of the list couldn't be created... "
-						  "Bad things will happen very soon..."));
-		return;
-    }
-
-    /* Create transaction list. */
-    tree_view_widget = gsb_transactions_list_make_gui_list ();
-	vbox_transactions_list = grisbi_win_get_vbox_transactions_list (win);
-    gtk_box_pack_start (GTK_BOX (vbox_transactions_list), tree_view_widget, TRUE, TRUE, 0);
-    gtk_widget_show (tree_view_widget);
-
-    //~ navigation_change_account (gsb_gui_navigation_get_current_account ());
-
-    /* Display accounts in menus */
-	grisbi_win_menu_move_to_acc_delete ();
-	grisbi_win_menu_move_to_acc_new ();
-
-    gtk_notebook_set_current_page (GTK_NOTEBOOK(notebook_general), GSB_HOME_PAGE);
-
-    gtk_widget_show (notebook_general);
 }
 
 /**
@@ -733,8 +675,6 @@ void gsb_file_set_backup_path (const gchar *path)
  **/
 gboolean gsb_file_open_file (const gchar *filename)
 {
-    GSList *list_tmp;
-
     devel_debug (filename);
 
 	if (!gsb_file_test_file (filename))
@@ -827,29 +767,11 @@ gboolean gsb_file_open_file (const gchar *filename)
     gsb_data_archive_store_create_list ();
 
     /* create all the gui */
-    gsb_file_new_gui ();
+    grisbi_win_new_file_gui ();
 
 	/* check the amounts of all the accounts */
     grisbi_win_status_bar_message (_("Checking amounts"));
-    list_tmp = gsb_data_account_get_list_accounts ();
-
-    while (list_tmp)
-    {
-		gint account_number;
-		volatile gint value;
-
-		account_number = gsb_data_account_get_no_account (list_tmp->data);
-
-		/* set the minimum balances to be shown or not */
-		value = gsb_real_cmp (gsb_data_account_get_current_balance (account_number),
-							  gsb_data_account_get_mini_balance_authorized (account_number)) == -1;
-		gsb_data_account_set_mini_balance_authorized_message (account_number, value);
-		value = gsb_real_cmp (gsb_data_account_get_current_balance (account_number),
-							  gsb_data_account_get_mini_balance_wanted (account_number)) == -1;
-		gsb_data_account_set_mini_balance_wanted_message (account_number, value);
-
-		list_tmp = list_tmp->next;
-    }
+	gsb_data_account_set_all_limits_of_balance ();
 
     /* set Grisbi title */
     grisbi_win_set_window_title (-1);
