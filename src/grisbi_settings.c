@@ -664,9 +664,6 @@ void grisbi_settings_save_app_config (void)
     g_settings_set_boolean (G_SETTINGS (priv->settings_display),
                         "show-closed-accounts",
                         conf.show_closed_accounts);
-    g_settings_set_boolean (G_SETTINGS (priv->settings_display),
-                        "show-headings-bar",
-                        conf.show_headings_bar);
 
     /* priv->settings_file */
     g_settings_set_boolean ( G_SETTINGS (priv->settings_file),
@@ -807,9 +804,6 @@ void grisbi_settings_save_app_config (void)
     }
 
     /* priv->settings_panel */
-    g_settings_set_boolean (G_SETTINGS (priv->settings_panel),
-                        "active-scrolling-left-pane",
-                        conf.active_scrolling_left_pane);
     g_settings_set_int (G_SETTINGS (priv->settings_panel),
                         "panel-width",
                         conf.panel_width);

@@ -32,6 +32,7 @@ grisbi_pixmaps_DATA = \
 	gsb-comments-24.png \
 	gsb-convert-16.png \
 	gsb-currencies-32.png \
+	gsb-display-gui-32.png \
 	gsb-export-16.png \
 	gsb-export-24.png \
 	gsb-export-archive-16.png \
