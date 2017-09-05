@@ -1418,7 +1418,7 @@ static void gsb_import_select_file (GSList *filenames,
 		else
 			nom_fichier = my_strdup (iterator->data);
 
-		if (strcmp (charmap, "UTF-8") != 0)
+		if (charmap && strcmp (charmap, "UTF-8") != 0)
 		{
 			/* Convert to UTF8 */
 			contents = g_convert (tmp_contents, -1, "UTF-8", charmap, NULL, NULL, NULL);
