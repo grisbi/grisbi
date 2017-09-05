@@ -713,7 +713,7 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
     /* Convert to UTF8 */
     contents = g_convert ( tmp_str, -1, "UTF-8", charmap_imported, NULL, NULL, NULL );
 
-    if ( contents == NULL )
+    if (contents == NULL || charmap_imported == NULL)
         charmap_imported = utils_files_create_sel_charset ( assistant, tmp_str,
                     charmap_imported,
                     g_path_get_basename ( iterator -> data ) );
