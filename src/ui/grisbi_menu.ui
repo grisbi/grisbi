@@ -6,7 +6,6 @@
       <item>
         <attribute name="label" translatable="yes">New window</attribute>
         <attribute name="action">app.new-window</attribute>
-        <attribute name="accel">&lt;Alt&gt;N</attribute>
         <attribute name="icon">gtk-window-new-16</attribute>
       </item>
     </section>
@@ -15,7 +14,6 @@
       <item>
         <attribute name="label" translatable="yes">_Preferences</attribute>
         <attribute name="action">app.prefs</attribute>
-        <attribute name="accel">&lt;Alt&gt;p</attribute>
         <attribute name="icon">gsb-preferences-16</attribute>
       </item>
     </section>
@@ -30,7 +28,6 @@
       <item>
         <attribute name="label" translatable="yes">_Quit</attribute>
         <attribute name="action">app.quit</attribute>
-        <attribute name="accel">&lt;Primary&gt;q</attribute>
         <attribute name="icon">gtk-quit-16</attribute>
       </item>
     </section>
@@ -43,13 +40,11 @@
         <item>
           <attribute name="label" translatable="yes">New account file</attribute>
           <attribute name="action">win.new-acc-file</attribute>
-          <attribute name="accel">&lt;Primary&gt;n</attribute>
           <attribute name="icon">gsb-new-file-16</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Open</attribute>
           <attribute name="action">win.open-file</attribute>
-          <attribute name="accel">&lt;Primary&gt;o</attribute>
           <attribute name="icon">gtk-open-16</attribute>
         </item>
 	  </section>
@@ -62,8 +57,7 @@
       	<item>
 		      <attribute name="label" translatable="yes">Save</attribute>
 		      <attribute name="action">win.save</attribute>
-		      <attribute name="accel">&lt;Primary&gt;s</attribute>
-          <attribute name="icon">gtk-save-16</attribute>
+         <attribute name="icon">gtk-save-16</attribute>
 		    </item>
 		    <item>
 		      <attribute name="label" translatable="yes">Save As</attribute>
@@ -75,7 +69,6 @@
         <item>
           <attribute name="label" translatable="yes">_Import file</attribute>
           <attribute name="action">win.import-file</attribute>
-          <attribute name="accel">&lt;Primary&gt;I</attribute>
           <attribute name="icon">gsb-import-16</attribute>
         </item>
         <item>
@@ -121,7 +114,6 @@
         <item>
           <attribute name="label" translatable="yes">Close</attribute>
           <attribute name="action">win.file-close</attribute>
-          <attribute name="accel">&lt;Primary&gt;w</attribute>
           <attribute name="icon">gtk-close-16</attribute>
         </item>
     </section>
@@ -140,7 +132,6 @@
         <item>
           <attribute name="label" translatable="yes">New transaction</attribute>
           <attribute name="action">win.new-ope</attribute>
-          <attribute name="accel">&lt;Primary&gt;t</attribute>
           <attribute name="icon">gsb-new-transaction-16</attribute>
         </item>
         <item>
@@ -169,7 +160,6 @@
         <item>
           <attribute name="label" translatable="yes">New account</attribute>
           <attribute name="action">win.new-acc</attribute>
-          <attribute name="accel">&lt;Shift&gt;&lt;Primary&gt;n</attribute>
           <attribute name="icon">gsb-new-file-16</attribute>
         </item>
         <item>
@@ -190,12 +180,10 @@
         <item>
           <attribute name="label" translatable="yes">Show reconciled</attribute>
           <attribute name="action">win.show-reconciled</attribute>
-          <attribute name="accel">&lt;Alt&gt;r</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Show lines archives</attribute>
           <attribute name="action">win.show-arch</attribute>
-          <attribute name="accel">&lt;Alt&gt;l</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Show closed accounts</attribute>
@@ -238,7 +226,6 @@
         <item>
           <attribute name="label" translatable="yes">Manual</attribute>
           <attribute name="action">win.manual</attribute>
-          <attribute name="accel">F1</attribute>
           <attribute name="icon">gsb-help-16</attribute>
         </item>
         <item>
@@ -273,7 +260,6 @@
         <item>
           <attribute name="label" translatable="yes">New window</attribute>
           <attribute name="action">win.new-window</attribute>
-          <attribute name="accel">&lt;Alt&gt;N</attribute>
           <attribute name="icon">gtk-window-new-16</attribute>
         </item>
       </section>
@@ -281,13 +267,11 @@
         <item>
           <attribute name="label" translatable="yes">New account file</attribute>
           <attribute name="action">win.new-acc-file</attribute>
-          <attribute name="accel">&lt;Primary&gt;n</attribute>
           <attribute name="icon">gsb-new-file-16</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Open</attribute>
           <attribute name="action">win.open-file</attribute>
-          <attribute name="accel">&lt;Primary&gt;o</attribute>
           <attribute name="icon">gtk-open-16</attribute>
         </item>
       </section>
@@ -300,7 +284,6 @@
       	<item>
 		      <attribute name="label" translatable="yes">Save</attribute>
 		      <attribute name="action">win.save</attribute>
-		      <attribute name="accel">&lt;Primary&gt;s</attribute>
           <attribute name="icon">gtk-save-16</attribute>
 		    </item>
 		    <item>
@@ -313,7 +296,6 @@
         <item>
           <attribute name="label" translatable="yes">Import file</attribute>
           <attribute name="action">win.import-file</attribute>
-          <attribute name="accel">&lt;Primary&gt;I</attribute>
           <attribute name="icon">gsb-import-16</attribute>
         </item>
         <item>
@@ -359,13 +341,11 @@
         <item>
           <attribute name="label" translatable="yes">Close</attribute>
           <attribute name="action">win.file-close</attribute>
-          <attribute name="accel">&lt;Primary&gt;w</attribute>
           <attribute name="icon">gtk-close-16</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">_Quit</attribute>
           <attribute name="action">win.quit</attribute>
-          <attribute name="accel">&lt;Primary&gt;q</attribute>
           <attribute name="icon">gtk-quit-16</attribute>
         </item>
     </section>
@@ -384,7 +364,6 @@
         <item>
           <attribute name="label" translatable="yes">New transaction</attribute>
           <attribute name="action">win.new-ope</attribute>
-          <attribute name="accel">&lt;Primary&gt;t</attribute>
           <attribute name="icon">gsb-new-transaction-16</attribute>
         </item>
         <item>
@@ -414,7 +393,6 @@
         <item>
           <attribute name="label" translatable="yes">New account</attribute>
           <attribute name="action">win.new-acc</attribute>
-          <attribute name="accel">&lt;Shift&gt;&lt;Primary&gt;n</attribute>
           <attribute name="icon">gsb-new-file-16</attribute>
         </item>
         <item>
@@ -427,7 +405,6 @@
         <item>
           <attribute name="label" translatable="yes">_Preferences</attribute>
           <attribute name="action">win.prefs</attribute>
-          <attribute name="accel">&lt;Alt&gt;p</attribute>
           <attribute name="icon">gsb-preferences-16</attribute>
         </item>
       </section>
@@ -443,12 +420,10 @@
         <item>
           <attribute name="label" translatable="yes">Show reconciled</attribute>
           <attribute name="action">win.show-reconciled</attribute>
-          <attribute name="accel">&lt;Alt&gt;r</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Show lines archives</attribute>
           <attribute name="action">win.show-archived</attribute>
-          <attribute name="accel">&lt;Alt&gt;l</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Show closed accounts</attribute>
@@ -491,7 +466,6 @@
         <item>
           <attribute name="label" translatable="yes">Manual</attribute>
           <attribute name="action">win.manual</attribute>
-          <attribute name="accel">F1</attribute>
           <attribute name="icon">gsb-help-16</attribute>
         </item>
         <item>

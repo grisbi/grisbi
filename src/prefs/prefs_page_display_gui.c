@@ -68,6 +68,8 @@ struct _PrefsPageDisplayGuiPrivate
     GtkWidget *			radiobutton_display_both_horiz;
     GtkWidget *			radiobutton_display_icon;
     GtkWidget *			radiobutton_display_text;
+
+	GtkWidget *			text_view_display_shorcuts;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageDisplayGui, prefs_page_display_gui, GTK_TYPE_BOX)
@@ -75,6 +77,41 @@ G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageDisplayGui, prefs_page_display_gui, GTK_TYP
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
+static void prefs_page_display_gui_dump_accels (GtkApplication *app,
+												GtkWidget *text_view)
+{
+	GtkTextBuffer *buffer;
+	GtkTextIter iter;
+	gchar **actions;
+	gint i;
+
+	actions = gtk_application_list_action_descriptions (app);
+	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view));
+	gtk_text_buffer_set_text (buffer, "", 0);
+	gtk_text_buffer_get_iter_at_offset (buffer, &iter, 0);
+
+	for (i = 0; actions[i]; i++)
+	{
+		gchar **accels;
+		gchar *str;
+		gchar *text;
+
+		accels = gtk_application_get_accels_for_action (app, actions[i]);
+		str = g_strjoinv (",", accels);
+		text = g_strdup_printf ("%s\t-> %s.\n", actions[i], str);
+		gtk_text_buffer_insert (buffer, &iter, text, -1);
+		g_strfreev (accels);
+		g_free (str);
+	}
+	g_strfreev (actions);
+	gtk_text_buffer_insert (buffer, &iter, "\n", -1);
+	gtk_text_buffer_insert_markup (buffer, &iter, _("<b>Actions in transaction list :</b>"), -1);
+	gtk_text_buffer_insert (buffer, &iter, "\n", -1);
+	gtk_text_buffer_insert (buffer, &iter, _("(Un)Pointing a transaction\t-> <Primary>p, <Primary>F12\n"), -1);
+	gtk_text_buffer_insert (buffer, &iter, _("(Un)Reconcile a transaction\t-> <Primary>r\n"), -1);
+
+}
+
 /**
  * called when switch the active mouse scrolling option
  * to set unset the scrolling
@@ -186,6 +223,7 @@ static gboolean prefs_page_display_gui_switch_headings_bar (GtkWidget *toggle_bu
 static void prefs_page_display_gui_setup_display_gui_page (PrefsPageDisplayGui *page)
 {
 	GtkWidget *head_page;
+	PangoTabArray *tabs;
 	PrefsPageDisplayGuiPrivate *priv;
 
 	devel_debug (NULL);
@@ -294,6 +332,17 @@ static void prefs_page_display_gui_setup_display_gui_page (PrefsPageDisplayGui *
 					  "toggled",
 					  G_CALLBACK (prefs_page_display_gui_change_toolbar_display_mode),
 					  NULL);
+
+	/* set shortcuts text_view */
+	tabs = pango_tab_array_new (3, TRUE);
+	pango_tab_array_set_tab (tabs, 0, PANGO_TAB_LEFT, 0);
+	pango_tab_array_set_tab (tabs, 1, PANGO_TAB_LEFT, 300);
+	gtk_text_view_set_tabs (GTK_TEXT_VIEW (priv->text_view_display_shorcuts), tabs);
+	pango_tab_array_free (tabs);
+
+	gtk_text_view_set_editable (GTK_TEXT_VIEW (priv->text_view_display_shorcuts), FALSE);
+	prefs_page_display_gui_dump_accels (GTK_APPLICATION (g_application_get_default ()), priv->text_view_display_shorcuts);
+
 }
 
 /******************************************************************************/
@@ -327,6 +376,7 @@ static void prefs_page_display_gui_class_init (PrefsPageDisplayGuiClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayGui, radiobutton_display_both_horiz);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayGui, radiobutton_display_icon);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayGui, radiobutton_display_text);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayGui, text_view_display_shorcuts);
 }
 
 /******************************************************************************/
