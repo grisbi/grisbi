@@ -87,6 +87,11 @@ G_DEFINE_TYPE_WITH_PRIVATE (GrisbiApp, grisbi_app, GTK_TYPE_APPLICATION);
 struct GrisbiAppConf    conf;                   /* conf structure Provisoire */
 GtkCssProvider *        css_provider = NULL;    /* css provider */
 
+struct accelerator {
+	const gchar *action_and_target;
+	const gchar *accelerators[2];
+};
+
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
@@ -155,13 +160,64 @@ static void grisbi_app_struct_conf_free (void)
  *
  * \return
  **/
-static void grisbi_app_setup_accelerators (GrisbiApp *app)
+static void grisbi_app_setup_accelerators (GApplication *application,
+										   gboolean has_app_menu)
 {
-    const gchar *accels[] = {NULL, NULL, NULL, NULL};
+	guint i = 0;
+	struct accelerator accels[] = {
+		{ "app.new-window", { "<Alt>n", NULL } },
+		{ "app.prefs", { "<Primary><Shift>p", NULL } },
+		{ "app.quit", { "<Primary>q", NULL } },
+		{ "win.quit", { "<Primary>q", NULL } },
+		{ "win.new-acc-file", { "<Primary>n", NULL } },
+		{ "win.open-file", { "<Primary>o", NULL } },
+		{ "win.save", { "<Primary>s", NULL } },
+		{ "win.import-file", { "<Primary>i", NULL } },
+		{ "win.file-close", { "<Primary>w", NULL } },
+		{ "win.new-ope", { "<Primary>t", NULL } },
+		{ "win.new-acc", { "<Primary><Shift>n", NULL } },
+		{ "win.show-reconciled", { "<Alt>r", NULL } },
+		{ "win.show-arch", { "<Alt>l", NULL } },
+		{ "win.manual", { "F1", NULL } },
+		{ "win.fullscreen", {"F11", NULL} }
+	};
+	struct accelerator accels_classic[] = {
+		{ "win.new-window", { "<Alt>n", NULL } },
+		{ "win.prefs", { "<Primary><Shift>p", NULL } },
+		{ "win.quit", { "<Primary>q", NULL } },
+		{ "win.new-acc-file", { "<Primary>n", NULL } },
+		{ "win.open-file", { "<Primary>o", NULL } },
+		{ "win.save", { "<Primary>s", NULL } },
+		{ "win.import-file", { "<Primary>i", NULL } },
+		{ "win.file-close", { "<Primary>w", NULL } },
+		{ "win.new-ope", { "<Primary>t", NULL } },
+		{ "win.new-acc", { "<Primary><Shift>n", NULL } },
+		{ "win.show-reconciled", { "<Alt>r", NULL } },
+		{ "win.show-arch", { "<Alt>l", NULL } },
+		{ "win.manual", { "F1", NULL } },
+		{ "win.fullscreen", {"F11", NULL} }
+	};
 
-    accels[0] = "F11";
-    gtk_application_set_accels_for_action (GTK_APPLICATION (app), "win.fullscreen", accels);
+	if (has_app_menu)
+	{
+		for (i = 0; i < G_N_ELEMENTS (accels); i++)
+		{
 
+			gtk_application_set_accels_for_action (GTK_APPLICATION (application),
+											   accels[i].action_and_target,
+											   accels[i].accelerators);
+		}
+	}
+	else
+	{
+		for (i = 0; i < G_N_ELEMENTS (accels_classic); i++)
+		{
+
+			gtk_application_set_accels_for_action (GTK_APPLICATION (application),
+												   accels_classic[i].action_and_target,
+												   accels_classic[i].accelerators);
+		}
+	}
 }
 
 /* MENU APP*/
@@ -814,7 +870,7 @@ static void grisbi_app_startup (GApplication *application)
     GtkSettings* settings;
 	gboolean has_app_menu = FALSE;
 
-    /* Chain up parent's startup */
+	/* Chain up parent's startup */
     G_APPLICATION_CLASS (grisbi_app_parent_class)->startup (application);
 
 	settings = gtk_settings_get_default ();
@@ -831,6 +887,10 @@ static void grisbi_app_startup (GApplication *application)
     /* initialisation des variables de configuration globales */
     grisbi_settings_get ();
 
+	/* MAJ de has_app_menu */
+    if (conf.force_classic_menu)
+        has_app_menu = FALSE;
+
     /* load the CSS properties */
     css_provider = gtk_css_provider_get_default ();
     tmp_dir = g_strconcat (gsb_dirs_get_ui_dir (), "/grisbi.css", NULL);
@@ -842,18 +902,18 @@ static void grisbi_app_startup (GApplication *application)
 
     /* initialise les couleurs */
     gsb_rgba_initialise_couleurs_par_defaut ();
-    /* initialise les variables d'état */
+
+	/* initialise les variables d'état */
     init_variables ();
-    /* enregistre les formats d'importation */
+
+	/* enregistre les formats d'importation */
     gsb_import_register_import_formats ();
 
-	/* app menu */
-    if (conf.force_classic_menu)
-        has_app_menu = FALSE;
-    grisbi_app_set_main_menu (app, has_app_menu);
-
     /* charge les raccourcis claviers */
-    grisbi_app_setup_accelerators (app);
+    grisbi_app_setup_accelerators (application, has_app_menu);
+
+	/* app menu */
+    grisbi_app_set_main_menu (app, has_app_menu);
 }
 
 /**
