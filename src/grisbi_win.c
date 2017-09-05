@@ -311,6 +311,9 @@ static gboolean grisbi_win_hpaned_size_allocate (GtkWidget *hpaned_general,
 	GrisbiWinPrivate *priv = (GrisbiWinPrivate *) data;
 	gint position;
 
+	/* probleme avec la maximisation de la fenêtre */
+	return FALSE;
+
 	if (priv->hpaned_general_width == 0)
 		priv->hpaned_general_width = allocation->width;
 
@@ -1483,6 +1486,7 @@ GtkWidget *grisbi_win_create_general_widgets (GrisbiWin *win)
 
     /* Then create the main hpaned. */
     priv->hpaned_general = gtk_paned_new (GTK_ORIENTATION_HORIZONTAL);
+	/* probleme avec la maximisation de la fenêtre */
     g_signal_connect (G_OBJECT (priv->hpaned_general),
                       "size_allocate",
                       G_CALLBACK (grisbi_win_hpaned_size_allocate),
