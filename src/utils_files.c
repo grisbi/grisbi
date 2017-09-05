@@ -827,11 +827,11 @@ gchar *utils_files_create_sel_charset (GtkWidget *assistant,
 }
 
 /**
+ * recherche le charmap du fichier
  *
+ * \param contents		contenu du fichier
  *
- * \param
- *
- * \return
+ * \return	charmap or UTF8 si absent.
  **/
 gchar *utils_files_get_ofx_charset (gchar *contents)
 {
@@ -868,7 +868,7 @@ gchar *utils_files_get_ofx_charset (gchar *contents)
 
 				/* CHARSET found in OFX file, but no match --> Exit function */
 	            g_free (string);
-                return NULL;
+                return g_strdup ("UTF8");;
             }
             g_free (string);
             ptr = ptr_tmp + 1;
@@ -877,7 +877,7 @@ gchar *utils_files_get_ofx_charset (gchar *contents)
             break;
     }
 
-      return NULL;
+      return g_strdup ("UTF8");;
 }
 
 /**
