@@ -62,6 +62,10 @@ GLIB_GSETTINGS
 dnl GLIB_COMPILE_RESOURCES
 AC_PATH_PROG(GLIB_COMPILE_RESOURCES, glib-compile-resources)
 
+dnl new warning from ar
+AR_FLAGS='cr'
+AC_SUBST(AR_FLAGS)
+
 dnl ================================================================
 dnl Check for NLS support.
 dnl ================================================================
