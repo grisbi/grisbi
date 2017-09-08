@@ -568,46 +568,50 @@ static void grisbi_win_no_file_page_new (GrisbiWin *win)
 	recent_files_array = grisbi_app_get_recent_files_array ();
 	for (i = 0; i < conf.nb_derniers_fichiers_ouverts; i++)
     {
-		GtkWidget *bouton;
-        gchar *tmp_str;
-		gchar *target_value;
+		if (g_file_test (recent_files_array[i], G_FILE_TEST_EXISTS))
+		{
 
-        if (g_utf8_strlen (recent_files_array[i], -1) > GSB_NAMEFILE_TOO_LONG)
-        {
-            gchar *basename;
+			GtkWidget *bouton;
+			gchar *tmp_str;
+			gchar *target_value;
 
-            basename = g_path_get_basename (recent_files_array[i]);
-            tmp_str = utils_str_break_filename (basename, GSB_NBRE_CHAR);
-            g_free (basename);
-        }
-        else
-            tmp_str = utils_str_break_filename (recent_files_array[i], GSB_NBRE_CHAR);
+			if (g_utf8_strlen (recent_files_array[i], -1) > GSB_NAMEFILE_TOO_LONG)
+			{
+				gchar *basename;
 
-        bouton = utils_buttons_button_new_from_stock ("gtk-open", tmp_str);
-        gtk_button_set_image_position (GTK_BUTTON (bouton), GTK_POS_TOP);
-        gtk_widget_set_size_request (bouton, 150, 150);
-		gtk_widget_set_halign (bouton, GTK_ALIGN_CENTER);
-		gtk_widget_set_valign (bouton, GTK_ALIGN_CENTER);
+				basename = g_path_get_basename (recent_files_array[i]);
+				tmp_str = utils_str_break_filename (basename, GSB_NBRE_CHAR);
+				g_free (basename);
+			}
+			else
+				tmp_str = utils_str_break_filename (recent_files_array[i], GSB_NBRE_CHAR);
 
-		gtk_grid_attach (GTK_GRID (priv->no_file_grid), bouton, col,row,1,1);
-        gtk_widget_show (bouton);
+			bouton = utils_buttons_button_new_from_stock ("gtk-open", tmp_str);
+			gtk_button_set_image_position (GTK_BUTTON (bouton), GTK_POS_TOP);
+			gtk_widget_set_size_request (bouton, 150, 150);
+			gtk_widget_set_halign (bouton, GTK_ALIGN_CENTER);
+			gtk_widget_set_valign (bouton, GTK_ALIGN_CENTER);
 
-		/* set action */
-		target_value = g_strdup_printf ("%d", i+1);
-		gtk_actionable_set_action_target_value (GTK_ACTIONABLE (bouton), g_variant_new_string (target_value));
-		gtk_actionable_set_action_name (GTK_ACTIONABLE (bouton), "win.direct-open-file");
+			gtk_grid_attach (GTK_GRID (priv->no_file_grid), bouton, col,row,1,1);
+			gtk_widget_show (bouton);
 
-		g_free (target_value);
+			/* set action */
+			target_value = g_strdup_printf ("%d", i+1);
+			gtk_actionable_set_action_target_value (GTK_ACTIONABLE (bouton), g_variant_new_string (target_value));
+			gtk_actionable_set_action_name (GTK_ACTIONABLE (bouton), "win.direct-open-file");
 
-        col++;
-        if ((col % 3) == 0)
-        {
-            col = 0;
-            row++;
-        }
+			g_free (target_value);
 
-        g_free (tmp_str);
-    }
+			col++;
+			if ((col % 3) == 0)
+			{
+				col = 0;
+				row++;
+			}
+
+			g_free (tmp_str);
+		}
+	}
 
 	/* finalisation de no_file_page */
 	gtk_widget_show (priv->no_file_page);
@@ -1248,7 +1252,17 @@ void grisbi_win_stack_box_show (GrisbiWin *win,
 		win = grisbi_app_get_active_window (NULL);
 
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
-	gtk_stack_set_visible_child_name (GTK_STACK (priv->stack_box), page_name);
+	if (gtk_stack_get_child_by_name (GTK_STACK (priv->stack_box), page_name))
+		gtk_stack_set_visible_child_name (GTK_STACK (priv->stack_box), page_name);
+	else
+	{
+		gtk_stack_add_named (GTK_STACK (priv->stack_box), priv->no_file_page, page_name);
+		if (strcmp (page_name, "accueil_page") == 0)
+		{
+			priv->no_file_page_OK = TRUE;
+		}
+		gtk_stack_set_visible_child_name (GTK_STACK (priv->stack_box), page_name);
+	}
 }
 
 /**

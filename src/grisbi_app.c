@@ -419,7 +419,20 @@ static void grisbi_app_init_recent_files_menu (GrisbiApp *app)
 			g_object_unref (menu_item);
 		}
 		else
-			conf.nb_derniers_fichiers_ouverts--;
+		{
+			gint j;
+
+			for (j = i; j < conf.nb_derniers_fichiers_ouverts -1; j++)
+			{
+				priv->recent_array[j] = priv->recent_array[j+1];
+			}
+		}
+	}
+	if (index < conf.nb_derniers_fichiers_ouverts)
+	{
+		priv->recent_array = g_realloc (priv->recent_array, index + 1 * sizeof (gchar*));
+		priv->recent_array[index] = NULL;
+		conf.nb_derniers_fichiers_ouverts = index;
 	}
 }
 
@@ -1275,27 +1288,18 @@ void grisbi_app_update_recent_files_menu (void)
 	/* on vide le sous menu recent_files */
 	g_menu_remove_all (priv->item_recent_files);
 
-	/* on contrôle la plage de conf.nb_derniers_fichiers_ouverts */
-	if (conf.nb_derniers_fichiers_ouverts > conf.nb_max_derniers_fichiers_ouverts)
-		conf.nb_derniers_fichiers_ouverts = conf.nb_max_derniers_fichiers_ouverts;
-
 	for (i = 0 ; i < conf.nb_derniers_fichiers_ouverts ; i++)
 	{
-		if (g_file_test (priv->recent_array[i], G_FILE_TEST_EXISTS))
-		{
-			gchar *menu_name;
+		gchar *menu_name;
 
-			detailled_action = g_strdup_printf ("win.direct-open-file::%d", index+1);
-			menu_name = gsb_menu_normalise_label_name (priv->recent_array[i]);
-			menu_item = g_menu_item_new (menu_name, detailled_action);
-			g_menu_append_item (priv->item_recent_files, menu_item);
-			index++;
-			g_free (menu_name);
-			g_free (detailled_action);
-			g_object_unref (menu_item);
-		}
-		else
-			conf.nb_derniers_fichiers_ouverts--;
+		detailled_action = g_strdup_printf ("win.direct-open-file::%d", index+1);
+		menu_name = gsb_menu_normalise_label_name (priv->recent_array[i]);
+		menu_item = g_menu_item_new (menu_name, detailled_action);
+		g_menu_append_item (priv->item_recent_files, menu_item);
+		index++;
+		g_free (menu_name);
+		g_free (detailled_action);
+		g_object_unref (menu_item);
 	}
 }
 

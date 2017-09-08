@@ -413,11 +413,11 @@ void utils_files_append_name_to_recent_array (const gchar *filename)
         {
             /* le fichier a été trouvé, on fait juste une rotation */
             for (i = position; i > 0 ; i--)
+			{
                 recent_array[i] = recent_array[i-1];
-            if (filename)
-                recent_array[0] = my_strdup (filename);
-            else
-                recent_array[0] = my_strdup ("<no file>");
+			}
+
+			recent_array[0] = my_strdup (filename);
 
 			grisbi_app_set_recent_files_array (recent_array);
 			grisbi_app_update_recent_files_menu ();
@@ -430,22 +430,30 @@ void utils_files_append_name_to_recent_array (const gchar *filename)
         /* on garde le ptit dernier dans le cas contraire */
         dernier = recent_array[conf.nb_derniers_fichiers_ouverts-1];
         for (i = conf.nb_derniers_fichiers_ouverts - 1 ; i > 0 ; i--)
+		{
             recent_array[i] = recent_array[i-1];
+		}
     }
     else
 	{
         dernier = NULL;
 	}
 
-	if (conf.nb_derniers_fichiers_ouverts < conf.nb_max_derniers_fichiers_ouverts)
-    {
-		if (conf.nb_derniers_fichiers_ouverts == 0)
-			recent_array = g_malloc ((++conf.nb_derniers_fichiers_ouverts) * sizeof (gpointer));
-		else
-			recent_array = g_realloc (recent_array, (++conf.nb_derniers_fichiers_ouverts) * sizeof (gpointer));
-        recent_array[conf.nb_derniers_fichiers_ouverts-1] = dernier;
-		recent_array[conf.nb_derniers_fichiers_ouverts] = NULL;
-    }
+	/* on ajoute 1 nom de fichier */
+
+	if (conf.nb_derniers_fichiers_ouverts == 0)
+	{
+		recent_array = g_malloc0 ((++conf.nb_derniers_fichiers_ouverts +1) * sizeof (gchar*));
+	}
+	else
+	{
+		recent_array = g_realloc (recent_array, (++conf.nb_derniers_fichiers_ouverts +1) * sizeof (gchar*));
+	}
+
+	if (conf.nb_derniers_fichiers_ouverts <= conf.nb_max_derniers_fichiers_ouverts)
+		recent_array[conf.nb_derniers_fichiers_ouverts-1] = dernier;
+
+	recent_array[conf.nb_derniers_fichiers_ouverts] = NULL;
 
     recent_array[0] = my_strdup (filename);
 	grisbi_app_set_recent_files_array (recent_array);
