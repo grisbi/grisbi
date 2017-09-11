@@ -3619,6 +3619,18 @@ gboolean gsb_form_initialise_transaction_form ( void )
  * \param
  *
  * \return
+ **/
+GtkWidget *gsb_form_get_form_transaction_part (void)
+{
+	return form_transaction_part;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
  * */
 /* Local Variables: */
 /* c-basic-offset: 4 */

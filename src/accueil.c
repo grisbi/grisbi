@@ -62,7 +62,6 @@ static void update_liste_echeances_manuelles_accueil (gboolean force);
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget *form_transaction_part;
 extern GSList *scheduled_transactions_taken;
 extern GSList *scheduled_transactions_to_take;
 /*END_EXTERN*/
@@ -1208,8 +1207,10 @@ static gboolean saisie_echeance_accueil (GtkWidget *event_box,
 {
     GtkWidget *parent_save, *dialog, *hbox;
     GtkWidget *button;
+	GtkWidget *form_transaction_part;
     gint result;
 
+	form_transaction_part = gsb_form_get_form_transaction_part ();
     parent_save = gtk_widget_get_parent (form_transaction_part);
 
     /* Create the dialog */

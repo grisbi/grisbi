@@ -33,6 +33,7 @@
 
 /*START_INCLUDE*/
 #include "gtk_combofix.h"
+#include "gsb_form.h"
 #include "utils_buttons.h"
 /*END_INCLUDE*/
 
@@ -166,8 +167,8 @@ enum combofix_key_direction {
     COMBOFIX_PAGE_DOWN,
 };
 
+
 /*START_EXTERN*/
-extern GtkWidget *form_transaction_part;
 /*END_EXTERN*/
 
 /* *********************** the first part contains the static functions ******************************************** */
@@ -1606,6 +1607,7 @@ static gint gtk_combofix_get_screen_height (GtkComboFix *combofix,
  * */
 static gboolean gtk_combofix_set_popup_position ( GtkComboFix *combofix )
 {
+	GtkWidget *form_transaction_part;
     gint x = 0;
     gint y = 0;
     gint height;
@@ -1630,6 +1632,7 @@ static gboolean gtk_combofix_set_popup_position ( GtkComboFix *combofix )
     gtk_widget_get_allocation ( GTK_WIDGET (combofix), &allocation );
 
     /* on corrige le bug (?) de gdk_window_get_origin () */
+	form_transaction_part = gsb_form_get_form_transaction_part ();
     row_spacing = gtk_grid_get_row_spacing (GTK_GRID (form_transaction_part));
     num_row = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (combofix), "num_row"));
     if (num_row)
