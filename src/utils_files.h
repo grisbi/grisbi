@@ -4,11 +4,6 @@
 #include <sys/stat.h>
 #include <gtk/gtk.h>
 
-enum get_filename_returned_value {
-    UTILS_FILES_FILENAME,
-    UTILS_FILES_BACKUP_FILENAME,
-};
-
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */
 
