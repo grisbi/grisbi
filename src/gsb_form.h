@@ -8,7 +8,7 @@
 
 /** returned values want ask for the origin
  * must be < 0 because 0 and more are reserved for account numbers */
-enum origin_values
+enum OriginValues
 {
     ORIGIN_VALUE_OTHER = -3,
     ORIGIN_VALUE_HOME,
@@ -32,7 +32,7 @@ gboolean 	gsb_form_escape_form 					(void);
 gboolean 	gsb_form_fill_by_transaction 			(gint transaction_number,
 													 gint is_transaction,
 													 gboolean grab_focus);
-void 	gsb_form_fill_element 						(gint element_number,
+void 		gsb_form_fill_element 					(gint element_number,
 													 gint account_number,
 													 gint transaction_number,
 													 gboolean is_transaction);
