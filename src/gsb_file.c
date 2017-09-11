@@ -62,7 +62,6 @@
 #include "traitement_variables.h"
 #include "transaction_list.h"
 #include "utils.h"
-#include "utils_file_selection.h"
 #include "utils_files.h"
 #include "utils_str.h"
 #include "erreur.h"
@@ -171,8 +170,8 @@ static gchar *gsb_file_dialog_ask_name (const gchar *filename)
     switch (result)
     {
 	case GTK_RESPONSE_OK :
-	    new_name = file_selection_get_filename (GTK_FILE_CHOOSER (dialog));
-        tmp_last_directory = file_selection_get_last_directory (GTK_FILE_CHOOSER (dialog), TRUE);
+	    new_name = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
+        tmp_last_directory = utils_files_selection_get_last_directory (GTK_FILE_CHOOSER (dialog), TRUE);
         gsb_file_update_last_path (tmp_last_directory);
         g_free (tmp_last_directory);
 	    gtk_widget_destroy (GTK_WIDGET (dialog));
@@ -552,9 +551,9 @@ gboolean gsb_file_open_menu (void)
 			if (gsb_file_close())
 			{
 				gtk_widget_hide (selection_fichier);
-				filename = file_selection_get_filename (GTK_FILE_CHOOSER (selection_fichier));
+				filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (selection_fichier));
 
-				tmp_last_directory = file_selection_get_last_directory (GTK_FILE_CHOOSER (selection_fichier), TRUE);
+				tmp_last_directory = utils_files_selection_get_last_directory (GTK_FILE_CHOOSER (selection_fichier), TRUE);
 				gsb_file_update_last_path (tmp_last_directory);
 				g_free (tmp_last_directory);
 				result = gsb_file_open_file (filename);
@@ -565,7 +564,7 @@ gboolean gsb_file_open_menu (void)
 			break;
     }
 
-    tmp_last_directory = file_selection_get_last_directory (GTK_FILE_CHOOSER (selection_fichier), TRUE);
+    tmp_last_directory = utils_files_selection_get_last_directory (GTK_FILE_CHOOSER (selection_fichier), TRUE);
     gsb_file_update_last_path (tmp_last_directory);
     g_free (tmp_last_directory);
     gtk_widget_destroy (selection_fichier);

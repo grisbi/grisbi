@@ -79,7 +79,6 @@
 #include "utils_buttons.h"
 #include "utils_dates.h"
 #include "utils_files.h"
-#include "utils_file_selection.h"
 #include "utils_prefs.h"
 #include "utils_real.h"
 #include "utils_str.h"
@@ -1165,7 +1164,7 @@ static GSList *gsb_import_create_file_chooser (const char *enc,
 
 	if (!conf.force_import_directory)
 	{
-		tmp_last_directory = file_selection_get_last_directory (GTK_FILE_CHOOSER (dialog), TRUE);
+		tmp_last_directory = utils_files_selection_get_last_directory (GTK_FILE_CHOOSER (dialog), TRUE);
 		gsb_file_update_last_path (tmp_last_directory);
 		g_free (tmp_last_directory);
 	}

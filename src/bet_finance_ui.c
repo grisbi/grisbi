@@ -51,7 +51,7 @@
 #include "traitement_variables.h"
 #include "utils.h"
 #include "utils_dates.h"
-#include "utils_file_selection.h"
+#include "utils_files.h"
 #include "utils_real.h"
 #include "utils_str.h"
 #include "erreur.h"
@@ -1875,8 +1875,8 @@ void bet_finance_ui_export_tab ( GtkWidget *menu_item, GtkTreeView *tree_view )
     switch ( resultat )
     {
 	case GTK_RESPONSE_OK :
-	    filename = file_selection_get_filename ( GTK_FILE_CHOOSER ( dialog ) );
-        tmp_last_directory = file_selection_get_last_directory ( GTK_FILE_CHOOSER ( dialog ), TRUE );
+	    filename = gtk_file_chooser_get_filename ( GTK_FILE_CHOOSER ( dialog ) );
+        tmp_last_directory = utils_files_selection_get_last_directory ( GTK_FILE_CHOOSER ( dialog ), TRUE );
         gsb_file_update_last_path ( tmp_last_directory );
         g_free ( tmp_last_directory );
 	    gtk_widget_destroy ( GTK_WIDGET ( dialog ) );

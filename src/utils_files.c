@@ -43,7 +43,6 @@
 #include "gsb_file.h"
 #include "structures.h"
 #include "utils.h"
-#include "utils_file_selection.h"
 #include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -886,6 +885,66 @@ gchar *utils_files_get_ofx_charset (gchar *contents)
     }
 
       return g_strdup ("UTF8");;
+}
+
+/**
+ * utils_files_selection_get_last_directory
+ * @filesel
+ * @ended    should the return string be terminated by a directory separator character
+ *
+ * Get the last directory from the history pulldown menu, add or remove (depending
+ * of the ended argument) a last directory separator character at the end of the
+ * UTF8 returned string.
+ *
+ * \return newly allocated utf-8 string which should be freed after no more needed.
+ * There is no need to use my_strdup before using the returned string.
+ *
+ * */
+gchar *utils_files_selection_get_last_directory (GtkFileChooser *filesel,
+											     gboolean ended)
+{
+    gchar *dirstr;
+    gint dirstr_len = 0;
+    gchar *sepstr;
+    gint sepstr_len = 0;
+    gboolean is_endedstr = FALSE;
+    gchar* tmpstr;
+
+    dirstr = gtk_file_chooser_get_current_folder (filesel);
+	if (dirstr == NULL)
+		dirstr = g_strdup (g_get_home_dir ());
+	dirstr_len  = strlen (dirstr);
+
+	sepstr = my_strdup (G_DIR_SEPARATOR_S);
+	sepstr_len  = strlen (sepstr);
+
+     /* Chek if the directory string is ended by a separator
+     (if directory string  is small than the separator string
+     it can not be ended by the separator string) */
+    if ( dirstr_len >= sepstr_len)
+    {
+        is_endedstr = (gboolean)(!strncmp( dirstr + dirstr_len - sepstr_len, sepstr, sepstr_len));
+    }
+
+    /* We want the dirstr ended by a sepstrarator but there no */
+    if (ended&&!is_endedstr)
+    {
+        tmpstr = g_strconcat(dirstr,G_DIR_SEPARATOR_S,NULL);
+	g_free(dirstr);
+	dirstr = tmpstr;
+    }
+    /* We do not want to have a separator at the end, but there is one */
+    else if ((!ended)&&is_endedstr)
+    {
+        dirstr[dirstr_len-sepstr_len-1] = 0;
+    }
+    g_free ( sepstr );
+
+    tmpstr = g_filename_to_utf8 ( dirstr,-1,NULL,NULL,NULL );
+    g_free ( dirstr );
+
+    return tmpstr;
+
 }
 
 /**

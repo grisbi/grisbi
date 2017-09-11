@@ -140,7 +140,6 @@ src/utils.c
 src/utils_dates.c
 src/utils_editables.c
 src/utils_files.c
-src/utils_file_selection.c
 src/utils_gtkbuilder.c
 src/utils_operations.c
 src/utils_prefs.c

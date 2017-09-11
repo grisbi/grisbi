@@ -49,7 +49,7 @@
 #include "gsb_select_icon.h"
 #include "structures.h"
 #include "transaction_list.h"
-#include "utils_file_selection.h"
+#include "utils_files.h"
 #include "utils_prefs.h"
 #include "erreur.h"
 
@@ -420,7 +420,7 @@ static gboolean prefs_page_display_fonts_logo_accueil_changed (PrefsPageDisplayF
     {
 		case GTK_RESPONSE_OK:
 			prefs_page_display_fonts_change_logo_accueil (file_selector, page);
-			tmp_last_directory = file_selection_get_last_directory (GTK_FILE_CHOOSER (file_selector), TRUE);
+			tmp_last_directory = utils_files_selection_get_last_directory (GTK_FILE_CHOOSER (file_selector), TRUE);
 			gsb_file_update_last_path (tmp_last_directory);
 			g_free (tmp_last_directory);
 

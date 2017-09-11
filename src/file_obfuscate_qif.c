@@ -36,9 +36,9 @@
 #include "file_obfuscate_qif.h"
 #include "dialog.h"
 #include "grisbi_win.h"
-#include "utils_file_selection.h"
 #include "gsb_assistant.h"
 #include "gsb_file.h"
+#include "utils_files.h"
 /*END_INCLUDE*/
 
 
@@ -112,7 +112,7 @@ gboolean file_obfuscate_qif_run ( void )
 
 	if ( gtk_dialog_run ( GTK_DIALOG (file_selection) ) == GTK_RESPONSE_OK )
 	{
-		    qif_name = file_selection_get_filename ( GTK_FILE_CHOOSER ( file_selection ) ) ;
+		    qif_name = gtk_file_chooser_get_filename ( GTK_FILE_CHOOSER ( file_selection ) ) ;
 		    gtk_widget_destroy ( file_selection );
 		    if (qif_name && strlen (qif_name))
 			file_obfuscate_qif_start (qif_name);

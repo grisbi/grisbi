@@ -35,25 +35,24 @@
 
 /*START_INCLUDE*/
 #include "etats_onglet.h"
-#include "etats_calculs.h"
 #include "dialog.h"
+#include "etats_calculs.h"
+#include "etats_config.h"
+#include "fenetre_principale.h"
 #include "grisbi_app.h"
-#include "utils_file_selection.h"
 #include "gsb_automem.h"
 #include "gsb_data_report_amout_comparison.h"
 #include "gsb_data_report.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
 #include "gsb_file_others.h"
-#include "navigation.h"
 #include "gsb_report.h"
+#include "navigation.h"
+#include "print_report.h"
+#include "structures.h"
 #include "traitement_variables.h"
 #include "utils.h"
-#include "etats_config.h"
-#include "print_report.h"
 #include "utils_files.h"
-#include "structures.h"
-#include "fenetre_principale.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -340,7 +339,7 @@ static void etats_onglet_exporter_etat (void)
     resultat = gtk_dialog_run (GTK_DIALOG (fenetre_nom));
     if (resultat == GTK_RESPONSE_OK)
     {
-		nom_etat = file_selection_get_filename (GTK_FILE_CHOOSER (fenetre_nom));
+		nom_etat = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (fenetre_nom));
 
 		grisbi_win_status_bar_message (_("Exporting report..."));
 
@@ -369,7 +368,7 @@ static void etats_onglet_exporter_etat (void)
 		grisbi_win_status_bar_stop_wait (TRUE);
 		grisbi_win_status_bar_message (_("Done"));
     }
-    tmp_last_directory = file_selection_get_last_directory (GTK_FILE_CHOOSER (fenetre_nom), TRUE);
+    tmp_last_directory = utils_files_selection_get_last_directory (GTK_FILE_CHOOSER (fenetre_nom), TRUE);
     gsb_file_update_last_path (tmp_last_directory);
     g_free (tmp_last_directory);
     gtk_widget_destroy (GTK_WIDGET (fenetre_nom));
@@ -421,8 +420,8 @@ static void etats_onglet_importer_etat (void)
     switch (resultat)
     {
 		case GTK_RESPONSE_OK :
-			nom_etat =file_selection_get_filename (GTK_FILE_CHOOSER (fenetre_nom));
-			tmp_last_directory = file_selection_get_last_directory (GTK_FILE_CHOOSER (fenetre_nom), TRUE);
+			nom_etat =gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (fenetre_nom));
+			tmp_last_directory = utils_files_selection_get_last_directory (GTK_FILE_CHOOSER (fenetre_nom), TRUE);
 			gsb_file_update_last_path (tmp_last_directory);
 			g_free (tmp_last_directory);
 			gtk_widget_destroy (GTK_WIDGET (fenetre_nom));

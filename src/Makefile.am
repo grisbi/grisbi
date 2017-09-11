@@ -171,7 +171,6 @@ libgrisbi_la_SOURCES = \
 	utils_buttons.c		\
 	utils_dates.c		\
 	utils_editables.c	\
-	utils_file_selection.c	\
 	utils_files.c		\
 	utils_gtkbuilder.c	\
 	utils_operations.c	\
@@ -319,7 +318,6 @@ libgrisbi_la_SOURCES = \
 	utils_buttons.h		\
 	utils_dates.h		\
 	utils_editables.h	\
-	utils_file_selection.h	\
 	utils_files.h		\
 	utils_gtkbuilder.h	\
 	utils_operations.h	\

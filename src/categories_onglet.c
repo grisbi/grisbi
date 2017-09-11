@@ -49,7 +49,7 @@
 #include "transaction_list.h"
 #include "utils.h"
 #include "utils_buttons.h"
-#include "utils_file_selection.h"
+#include "utils_files.h"
 #include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -430,8 +430,8 @@ void categories_exporter_list ( void )
         return;
     }
 
-    nom_categ = file_selection_get_filename ( GTK_FILE_CHOOSER ( dialog ));
-    tmp_last_directory = file_selection_get_last_directory ( GTK_FILE_CHOOSER ( dialog ), TRUE );
+    nom_categ = gtk_file_chooser_get_filename ( GTK_FILE_CHOOSER ( dialog ));
+    tmp_last_directory = utils_files_selection_get_last_directory ( GTK_FILE_CHOOSER ( dialog ), TRUE );
     gsb_file_update_last_path ( tmp_last_directory );
     g_free ( tmp_last_directory );
     gtk_widget_destroy ( GTK_WIDGET ( dialog ));
@@ -483,8 +483,8 @@ void categories_importer_list ( void )
 	return;
     }
 
-    category_name = file_selection_get_filename ( GTK_FILE_CHOOSER ( dialog ));
-    tmp_last_directory = file_selection_get_last_directory ( GTK_FILE_CHOOSER ( dialog ), TRUE );
+    category_name = gtk_file_chooser_get_filename ( GTK_FILE_CHOOSER ( dialog ));
+    tmp_last_directory = utils_files_selection_get_last_directory ( GTK_FILE_CHOOSER ( dialog ), TRUE );
     gsb_file_update_last_path ( tmp_last_directory );
     g_free ( tmp_last_directory );
     gtk_widget_destroy ( GTK_WIDGET ( dialog ));
