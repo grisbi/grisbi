@@ -3407,7 +3407,7 @@ gboolean gsb_transactions_list_title_column_button_press ( GtkWidget *button,
                 gtk_check_menu_item_set_active ( GTK_CHECK_MENU_ITEM ( menu_item ), TRUE );
             g_object_set_data ( G_OBJECT ( menu_item ),
                         "alignement",
-                        GINT_TO_POINTER ( ALIGN_LEFT ) );
+                        GINT_TO_POINTER ( GTK_JUSTIFY_LEFT ) );
             g_signal_connect ( G_OBJECT(menu_item),
                         "activate",
                         G_CALLBACK ( gsb_transactions_list_change_alignement ),
@@ -3421,7 +3421,7 @@ gboolean gsb_transactions_list_title_column_button_press ( GtkWidget *button,
                 gtk_check_menu_item_set_active ( GTK_CHECK_MENU_ITEM ( menu_item ), TRUE );
             g_object_set_data ( G_OBJECT ( menu_item ),
                         "alignement",
-                        GINT_TO_POINTER ( ALIGN_CENTER ) );
+                        GINT_TO_POINTER ( GTK_JUSTIFY_CENTER ) );
             g_signal_connect ( G_OBJECT(menu_item),
                         "activate",
                         G_CALLBACK ( gsb_transactions_list_change_alignement ),
@@ -3435,7 +3435,7 @@ gboolean gsb_transactions_list_title_column_button_press ( GtkWidget *button,
                 gtk_check_menu_item_set_active ( GTK_CHECK_MENU_ITEM ( menu_item ), TRUE );
             g_object_set_data ( G_OBJECT ( menu_item ),
                         "alignement",
-                        GINT_TO_POINTER ( ALIGN_RIGHT ) );
+                        GINT_TO_POINTER ( GTK_JUSTIFY_RIGHT ) );
             g_signal_connect ( G_OBJECT(menu_item),
                         "activate",
                         G_CALLBACK ( gsb_transactions_list_change_alignement ),
@@ -4259,15 +4259,17 @@ gboolean gsb_transactions_list_change_alignement ( GtkWidget *menu_item,
 
     switch ( alignement )
     {
-        case ALIGN_LEFT:
+        case GTK_JUSTIFY_LEFT:
             xalign = 0.0;
             break;
-        case ALIGN_CENTER:
+        case GTK_JUSTIFY_CENTER:
             xalign = 0.5;
             break;
-        case ALIGN_RIGHT:
+        case GTK_JUSTIFY_RIGHT:
             xalign = 1.0;
             break;
+		case GTK_JUSTIFY_FILL:
+			break;
     }
 
     transaction_col_align[column_number] = alignement;

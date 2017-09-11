@@ -45,7 +45,7 @@
 /*START_STATIC*/
 static void html_attach_hsep ( int x, int x2, int y, int y2);
 static void html_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2,
-			  enum alignement align, gint transaction_number );
+							   GtkJustification align, gint transaction_number );
 static void html_attach_vsep ( int x, int x2, int y, int y2);
 static gint html_finish ( void );
 static gint html_initialise ( GSList * opes_selectionnees, gchar * filename );
@@ -95,7 +95,7 @@ struct EtatAffichage html_affichage = {
  *            backend is not interactive)
  */
 void html_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2,
-			  enum alignement align, gint transaction_number )
+						GtkJustification align, gint transaction_number )
 {
     int pad, realsize;
     gint current_report_number;
@@ -139,17 +139,19 @@ void html_attach_label ( gchar * text, gdouble properties, int x, int x2, int y,
 
     switch ( align )
     {
-	case ALIGN_LEFT:
-	    fprintf ( html_out, " align=\"left\"" );
-	    break;
+		case GTK_JUSTIFY_LEFT:
+			fprintf ( html_out, " align=\"left\"" );
+			break;
 
-	case ALIGN_RIGHT:
-	    fprintf ( html_out, " align=\"right\"" );
-	    break;
+		case GTK_JUSTIFY_RIGHT:
+			fprintf ( html_out, " align=\"right\"" );
+			break;
 
-	case ALIGN_CENTER:
-	    fprintf ( html_out, " align=\"center\"" );
-	    break;
+		case GTK_JUSTIFY_CENTER:
+			fprintf ( html_out, " align=\"center\"" );
+			break;
+		case GTK_JUSTIFY_FILL:
+			break;
     }
 
     fprintf ( html_out, ">&nbsp;" );

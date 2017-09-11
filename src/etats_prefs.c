@@ -2680,7 +2680,7 @@ static void etats_prefs_onglet_data_grouping_button_clicked ( GtkWidget *button,
         /* On récupère les données des 2 lignes à modifier */
         gtk_tree_model_get ( model, &orig_iter, 1, &orig_pos, 2, &orig_type_data, -1 );
 
-        if ( sens == GSB_UP )
+        if ( sens == GTK_DIR_UP )
             gtk_tree_path_prev ( path );
         else
             gtk_tree_path_next ( path );
@@ -2734,13 +2734,13 @@ static GtkWidget *etats_prefs_onglet_data_grouping_create_page ( gint page )
     g_signal_connect ( G_OBJECT ( button ),
                         "clicked",
                         G_CALLBACK ( etats_prefs_onglet_data_grouping_button_clicked ),
-                        GINT_TO_POINTER ( GSB_UP ) );
+                        GINT_TO_POINTER ( GTK_DIR_UP ) );
 
     button = GTK_WIDGET ( gtk_builder_get_object ( etats_prefs_builder, "button_data_grouping_down" ) );
     g_signal_connect ( G_OBJECT ( button ),
                         "clicked",
                         G_CALLBACK ( etats_prefs_onglet_data_grouping_button_clicked ),
-                        GINT_TO_POINTER ( GSB_DOWN ) );
+                        GINT_TO_POINTER ( GTK_DIR_DOWN ) );
 
     gtk_widget_show_all ( vbox_onglet );
 

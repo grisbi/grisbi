@@ -68,11 +68,12 @@ extern struct GrisbiAppConf conf;
 extern struct _GrisbiWinRun run;
 extern struct _GrisbiWinEtat etat;
 
-typedef enum _GsbTitleType	 	GsbTitleType;
-typedef enum _SettingsSchema 	SettingsSchema;
+typedef enum 	_GsbOfxTransactionType	GsbOfxTransactionType;
+typedef enum 	_GsbTitleType	 		GsbTitleType;
+typedef enum 	_SettingsSchema 		SettingsSchema;
 
-typedef struct _GrisbiWinEtat	GrisbiWinEtat;
-typedef struct _GrisbiWinRun	GrisbiWinRun;
+typedef struct _GrisbiWinEtat			GrisbiWinEtat;
+typedef struct _GrisbiWinRun			GrisbiWinRun;
 
 /** structure etat
  * variables contenant juste 0 ou 1
@@ -319,14 +320,9 @@ enum _GsbTitleType
 
 
 /* définition de l'alignement */
-enum alignement
-{
-    ALIGN_LEFT, ALIGN_CENTER, ALIGN_RIGHT,
-};
-
 
 /* definition of the columns of model for the left panel  */
-enum left_panel_tree_columns
+enum LeftPanelTreeColumns
 {
     LEFT_PANEL_TREE_TEXT_COLUMN,
     LEFT_PANEL_TREE_PAGE_COLUMN,
@@ -337,7 +333,7 @@ enum left_panel_tree_columns
 
 
 /* définition du type d'origine pour les données du module budgétaire */
-enum bet_array_origin_data
+enum BetArrayOriginData
 {
     SPP_ORIGIN_TRANSACTION,             /* Ligne issue d'une opération */
     SPP_ORIGIN_SCHEDULED,               /* Ligne issue d'une opération plannifiée */
@@ -353,7 +349,7 @@ enum bet_array_origin_data
 
 
 /* définition du type de mise à jour en fonction des données du module budgétaire */
-enum bet_type_maj
+enum BetTypeMaj
 {
     BET_MAJ_FALSE = 0,
     BET_MAJ_ESTIMATE,
@@ -364,7 +360,7 @@ enum bet_type_maj
 
 
 /* recopie des types de transaction de la libofx en attendant une version propre */
-typedef enum
+enum _GsbOfxTransactionType
 {
     GSB_OFX_CREDIT,     /**< Generic credit */
     GSB_OFX_DEBIT,      /**< Generic debit */
@@ -383,16 +379,11 @@ typedef enum
     GSB_OFX_DIRECTDEBIT,/**< Merchant initiated debit */
     GSB_OFX_REPEATPMT,  /**< Repeating payment/standing order */
     GSB_OFX_OTHER       /**< Somer other type of transaction */
-  } GSB_OFXTransactionType;
+  };
 
-enum direction_move {
-    GSB_LEFT = 0,
-    GSB_RIGHT,
-    GSB_UP,
-    GSB_DOWN
-};
 
-enum _SettingsSchema {
+enum _SettingsSchema
+{
     SETTINGS_ROOT = 0,
     SETTINGS_FILES_BACKUP,
     SETTINGS_DISPLAY,

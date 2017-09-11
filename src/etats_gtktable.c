@@ -53,7 +53,7 @@
 /*START_STATIC*/
 static void gtktable_attach_hsep ( int x, int x2, int y, int y2);
 static void gtktable_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2,
-			     enum alignement align, gint transaction_number );
+								   GtkJustification align, gint transaction_number );
 static void gtktable_attach_vsep ( int x, int x2, int y, int y2);
 static void gtktable_click_sur_ope_etat ( gint transaction_number );
 static gint gtktable_finish ( void );
@@ -93,7 +93,7 @@ extern GtkWidget *scrolled_window_etat;
  *				an hyperlink if applicable
  */
 void gtktable_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2,
-			     enum alignement align, gint transaction_number )
+							GtkJustification align, gint transaction_number )
 {
     GtkWidget * label;
 	PangoContext *p_context;
@@ -112,15 +112,17 @@ void gtktable_attach_label ( gchar * text, gdouble properties, int x, int x2, in
 
     switch (align)
     {
-	case ALIGN_LEFT:
-	    utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.0 );
-	    break;
-	case ALIGN_CENTER:
-	    utils_labels_set_alignement ( GTK_LABEL ( label ), 0.5, 0.0 );
-	    break;
-	case ALIGN_RIGHT:
-	    utils_labels_set_alignement ( GTK_LABEL ( label ), 1.0, 0.0 );
-	    break;
+		case GTK_JUSTIFY_LEFT:
+			utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.0 );
+			break;
+		case GTK_JUSTIFY_CENTER:
+			utils_labels_set_alignement ( GTK_LABEL ( label ), 0.5, 0.0 );
+			break;
+		case GTK_JUSTIFY_RIGHT:
+			utils_labels_set_alignement ( GTK_LABEL ( label ), 1.0, 0.0 );
+			break;
+		case GTK_JUSTIFY_FILL:
+			break;
     }
 
     if (transaction_number)

@@ -536,7 +536,7 @@ gboolean gsb_form_fill_by_transaction ( gint transaction_number,
         if (mother_number)
             focus_to = gsb_form_widget_next_element ( account_number,
 						      TRANSACTION_FORM_DATE,
-						      GSB_RIGHT );
+						      GTK_DIR_RIGHT );
         else
             focus_to = TRANSACTION_FORM_DATE;
 
@@ -2030,7 +2030,7 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 	case GDK_KEY_Up:
 	    element_suivant = gsb_form_widget_next_element ( account_number,
 							     element_number,
-							     GSB_UP );
+							     GTK_DIR_UP );
 	    gsb_form_widget_set_focus ( element_suivant );
 	    return TRUE;
 	    break;
@@ -2038,7 +2038,7 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 	case GDK_KEY_Down:
 	    element_suivant = gsb_form_widget_next_element ( account_number,
 							     element_number,
-							     GSB_DOWN );
+							     GTK_DIR_DOWN );
 	    gsb_form_widget_set_focus ( element_suivant );
 	    return TRUE;
 	    break;
@@ -2053,7 +2053,7 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 
         element_suivant = gsb_form_widget_next_element ( account_number,
 							     element_number,
-							     GSB_LEFT );
+							     GTK_DIR_LEFT );
 
         if ( element_number == TRANSACTION_FORM_VALUE_DATE )
         {
@@ -2082,7 +2082,7 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 
         element_suivant = gsb_form_widget_next_element ( account_number,
 							     element_number,
-							     GSB_RIGHT );
+							     GTK_DIR_RIGHT );
 
         /* if element = value_date fix the bug 578 */
         if ( element_number == TRANSACTION_FORM_VALUE_DATE )

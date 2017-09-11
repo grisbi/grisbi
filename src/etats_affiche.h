@@ -12,11 +12,11 @@
 /** Device independant drawing functions for reports */
 struct EtatAffichage
 {
-    gint (* initialise)   	(GSList *, gchar *);											/** Initialisation of drawing session  */
-    gint (* finish) 	  	(void);															/** End of drawing session  */
-    void (* attach_hsep)  	(int, int, int, int); 											/** Draw horizontal separator (aka "-")  */
-    void (* attach_vsep)  	(int, int, int, int); 											/** Draw vertical separator (aka "|") */
-    void (* attach_label)	(gchar *, gdouble, int, int, int, int, enum alignement, gint);	/** Draw a label with properties  */
+    gint (* initialise)   	(GSList *, gchar *);												/** Initialisation of drawing session  */
+    gint (* finish) 	  	(void);																/** End of drawing session  */
+    void (* attach_hsep)  	(int, int, int, int); 												/** Draw horizontal separator (aka "-")  */
+    void (* attach_vsep)  	(int, int, int, int); 												/** Draw vertical separator (aka "|") */
+    void (* attach_label)	(gchar *, gdouble, int, int, int, int, GtkJustification, gint);		/** Draw a label with properties  */
 };
 
 

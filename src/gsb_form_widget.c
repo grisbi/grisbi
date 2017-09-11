@@ -544,7 +544,7 @@ gchar *gsb_form_widget_get_name ( gint element_number )
  *
  * \param account_number
  * \param element_number
- * \param direction GSB_LEFT, GSB_RIGHT, GSB_UP, GSB_DOWN
+ * \param direction GTK_DIR_LEFT, GTK_DIR_RIGHT, GTK_DIR_UP, GTK_DIR_DOWN
  *
  * \return 	the next element number
  * 		-1 if problem or not change
@@ -573,7 +573,7 @@ gint gsb_form_widget_next_element ( gint account_number,
     {
 	switch ( direction )
 	{
-	    case GSB_LEFT:
+	    case GTK_DIR_LEFT:
 		if ( !column && !row )
 		{
 		    /* we are at the upper left, go on the bottom right */
@@ -591,7 +591,7 @@ gint gsb_form_widget_next_element ( gint account_number,
 								row );
 		break;
 
-	    case GSB_RIGHT:
+	    case GTK_DIR_RIGHT:
 		if ( column == (form_column_number - 1)
 		     &&
 		     row == (form_row_number - 1))
@@ -617,7 +617,7 @@ gint gsb_form_widget_next_element ( gint account_number,
 								row );
 		break;
 
-	    case GSB_UP:
+	    case GTK_DIR_UP:
 		if ( !row )
 		{
 		    return_value_number = -1;
@@ -630,7 +630,7 @@ gint gsb_form_widget_next_element ( gint account_number,
 								row );
 		break;
 
-	    case GSB_DOWN:
+	    case GTK_DIR_DOWN:
 		if ( row == (form_row_number - 1))
 		{
 		    return_value_number = -1;
