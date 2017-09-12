@@ -33,7 +33,7 @@ enum
  * begin at NB_COLS_SCHEDULER */
 
 
-enum scheduler_periodicity
+enum SchedulerPeriodicity
 {
     SCHEDULER_PERIODICITY_ONCE_VIEW = 0,
     SCHEDULER_PERIODICITY_WEEK_VIEW,
@@ -46,7 +46,7 @@ enum scheduler_periodicity
 };
 
 
-enum periodicity_units
+enum PeriodicityUnits
 {
     PERIODICITY_DAYS,
     PERIODICITY_WEEKS,
