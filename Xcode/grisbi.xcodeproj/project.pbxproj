@@ -21,9 +21,10 @@
 		003AC2381F49E06D007DA275 /* prefs_page_import_asso.c in Sources */ = {isa = PBXBuildFile; fileRef = 003AC2321F49E06D007DA275 /* prefs_page_import_asso.c */; };
 		003AC2391F49E06D007DA275 /* prefs_page_import_files.c in Sources */ = {isa = PBXBuildFile; fileRef = 003AC2331F49E06D007DA275 /* prefs_page_import_files.c */; };
 		003AC23C1F49E0A8007DA275 /* csv_template_rule.c in Sources */ = {isa = PBXBuildFile; fileRef = 003AC23B1F49E0A8007DA275 /* csv_template_rule.c */; };
+		005BC3401F6C1943006DB25E /* prefs_page_display_adr.c in Sources */ = {isa = PBXBuildFile; fileRef = 005BC33F1F6C1943006DB25E /* prefs_page_display_adr.c */; };
+		005BC3431F6C196D006DB25E /* prefs_page_display_gui.c in Sources */ = {isa = PBXBuildFile; fileRef = 005BC3421F6C196D006DB25E /* prefs_page_display_gui.c */; };
 		006E682D1DB3E7AD0038B1F0 /* accueil.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E67011DB3E7AC0038B1F0 /* accueil.c */; };
 		006E682E1DB3E7AD0038B1F0 /* affichage_liste.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E67031DB3E7AC0038B1F0 /* affichage_liste.c */; };
-		006E682F1DB3E7AD0038B1F0 /* affichage.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E67051DB3E7AC0038B1F0 /* affichage.c */; };
 		006E68301DB3E7AD0038B1F0 /* bet_config.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E67071DB3E7AC0038B1F0 /* bet_config.c */; };
 		006E68311DB3E7AD0038B1F0 /* bet_data_finance.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E67091DB3E7AC0038B1F0 /* bet_data_finance.c */; };
 		006E68321DB3E7AD0038B1F0 /* bet_data.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E670B1DB3E7AC0038B1F0 /* bet_data.c */; };
@@ -156,7 +157,6 @@
 		006E68B31DB3E7AD0038B1F0 /* utils_buttons.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E68171DB3E7AC0038B1F0 /* utils_buttons.c */; };
 		006E68B41DB3E7AD0038B1F0 /* utils_dates.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E68191DB3E7AC0038B1F0 /* utils_dates.c */; };
 		006E68B51DB3E7AD0038B1F0 /* utils_editables.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E681B1DB3E7AC0038B1F0 /* utils_editables.c */; };
-		006E68B61DB3E7AD0038B1F0 /* utils_file_selection.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E681D1DB3E7AC0038B1F0 /* utils_file_selection.c */; };
 		006E68B71DB3E7AD0038B1F0 /* utils_files.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E681F1DB3E7AC0038B1F0 /* utils_files.c */; };
 		006E68B91DB3E7AD0038B1F0 /* utils_gtkbuilder.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E68231DB3E7AD0038B1F0 /* utils_gtkbuilder.c */; };
 		006E68BA1DB3E7AD0038B1F0 /* utils_operations.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E68251DB3E7AD0038B1F0 /* utils_operations.c */; };
@@ -227,13 +227,15 @@
 		003AC2331F49E06D007DA275 /* prefs_page_import_files.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = prefs_page_import_files.c; path = prefs/prefs_page_import_files.c; sourceTree = "<group>"; };
 		003AC23A1F49E0A8007DA275 /* csv_template_rule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = csv_template_rule.h; sourceTree = "<group>"; };
 		003AC23B1F49E0A8007DA275 /* csv_template_rule.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = csv_template_rule.c; sourceTree = "<group>"; };
+		005BC33E1F6C1943006DB25E /* prefs_page_display_adr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = prefs_page_display_adr.h; path = prefs/prefs_page_display_adr.h; sourceTree = "<group>"; };
+		005BC33F1F6C1943006DB25E /* prefs_page_display_adr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = prefs_page_display_adr.c; path = prefs/prefs_page_display_adr.c; sourceTree = "<group>"; };
+		005BC3411F6C196D006DB25E /* prefs_page_display_gui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = prefs_page_display_gui.h; path = prefs/prefs_page_display_gui.h; sourceTree = "<group>"; };
+		005BC3421F6C196D006DB25E /* prefs_page_display_gui.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = prefs_page_display_gui.c; path = prefs/prefs_page_display_gui.c; sourceTree = "<group>"; };
 		006E67001DB3E26B0038B1F0 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = SOURCE_ROOT; };
 		006E67011DB3E7AC0038B1F0 /* accueil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = accueil.c; sourceTree = "<group>"; };
 		006E67021DB3E7AC0038B1F0 /* accueil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = accueil.h; sourceTree = "<group>"; };
 		006E67031DB3E7AC0038B1F0 /* affichage_liste.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = affichage_liste.c; sourceTree = "<group>"; };
 		006E67041DB3E7AC0038B1F0 /* affichage_liste.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = affichage_liste.h; sourceTree = "<group>"; };
-		006E67051DB3E7AC0038B1F0 /* affichage.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = affichage.c; sourceTree = "<group>"; };
-		006E67061DB3E7AC0038B1F0 /* affichage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = affichage.h; sourceTree = "<group>"; };
 		006E67071DB3E7AC0038B1F0 /* bet_config.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bet_config.c; sourceTree = "<group>"; };
 		006E67081DB3E7AC0038B1F0 /* bet_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bet_config.h; sourceTree = "<group>"; };
 		006E67091DB3E7AC0038B1F0 /* bet_data_finance.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bet_data_finance.c; sourceTree = "<group>"; };
@@ -281,7 +283,6 @@
 		006E67331DB3E7AC0038B1F0 /* etats_prefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = etats_prefs.h; sourceTree = "<group>"; };
 		006E67341DB3E7AC0038B1F0 /* etats_support.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = etats_support.c; sourceTree = "<group>"; };
 		006E67351DB3E7AC0038B1F0 /* etats_support.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = etats_support.h; sourceTree = "<group>"; };
-		006E67361DB3E7AC0038B1F0 /* etats.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = etats.h; sourceTree = "<group>"; };
 		006E67371DB3E7AC0038B1F0 /* export_csv.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = export_csv.c; sourceTree = "<group>"; };
 		006E67381DB3E7AC0038B1F0 /* export_csv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = export_csv.h; sourceTree = "<group>"; };
 		006E67391DB3E7AC0038B1F0 /* export.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = export.c; sourceTree = "<group>"; };
@@ -507,8 +508,6 @@
 		006E681A1DB3E7AC0038B1F0 /* utils_dates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utils_dates.h; sourceTree = "<group>"; };
 		006E681B1DB3E7AC0038B1F0 /* utils_editables.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = utils_editables.c; sourceTree = "<group>"; };
 		006E681C1DB3E7AC0038B1F0 /* utils_editables.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utils_editables.h; sourceTree = "<group>"; };
-		006E681D1DB3E7AC0038B1F0 /* utils_file_selection.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = utils_file_selection.c; sourceTree = "<group>"; };
-		006E681E1DB3E7AC0038B1F0 /* utils_file_selection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utils_file_selection.h; sourceTree = "<group>"; };
 		006E681F1DB3E7AC0038B1F0 /* utils_files.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = utils_files.c; sourceTree = "<group>"; };
 		006E68201DB3E7AD0038B1F0 /* utils_files.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utils_files.h; sourceTree = "<group>"; };
 		006E68231DB3E7AD0038B1F0 /* utils_gtkbuilder.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = utils_gtkbuilder.c; sourceTree = "<group>"; };
@@ -583,8 +582,12 @@
 			children = (
 				003AC22E1F49E06D007DA275 /* prefs_page_archives.c */,
 				003AC2281F49E06D007DA275 /* prefs_page_archives.h */,
+				005BC33F1F6C1943006DB25E /* prefs_page_display_adr.c */,
+				005BC33E1F6C1943006DB25E /* prefs_page_display_adr.h */,
 				003AC22F1F49E06D007DA275 /* prefs_page_display_fonts.c */,
 				003AC2291F49E06D007DA275 /* prefs_page_display_fonts.h */,
+				005BC3421F6C196D006DB25E /* prefs_page_display_gui.c */,
+				005BC3411F6C196D006DB25E /* prefs_page_display_gui.h */,
 				003AC2301F49E06D007DA275 /* prefs_page_divers.c */,
 				003AC22A1F49E06D007DA275 /* prefs_page_divers.h */,
 				003AC2311F49E06D007DA275 /* prefs_page_files.c */,
@@ -690,8 +693,6 @@
 				006E67021DB3E7AC0038B1F0 /* accueil.h */,
 				006E67031DB3E7AC0038B1F0 /* affichage_liste.c */,
 				006E67041DB3E7AC0038B1F0 /* affichage_liste.h */,
-				006E67051DB3E7AC0038B1F0 /* affichage.c */,
-				006E67061DB3E7AC0038B1F0 /* affichage.h */,
 				006E67071DB3E7AC0038B1F0 /* bet_config.c */,
 				006E67081DB3E7AC0038B1F0 /* bet_config.h */,
 				006E67091DB3E7AC0038B1F0 /* bet_data_finance.c */,
@@ -741,7 +742,6 @@
 				006E67331DB3E7AC0038B1F0 /* etats_prefs.h */,
 				006E67341DB3E7AC0038B1F0 /* etats_support.c */,
 				006E67351DB3E7AC0038B1F0 /* etats_support.h */,
-				006E67361DB3E7AC0038B1F0 /* etats.h */,
 				006E67371DB3E7AC0038B1F0 /* export_csv.c */,
 				006E67381DB3E7AC0038B1F0 /* export_csv.h */,
 				006E67391DB3E7AC0038B1F0 /* export.c */,
@@ -972,8 +972,6 @@
 				006E681A1DB3E7AC0038B1F0 /* utils_dates.h */,
 				006E681B1DB3E7AC0038B1F0 /* utils_editables.c */,
 				006E681C1DB3E7AC0038B1F0 /* utils_editables.h */,
-				006E681D1DB3E7AC0038B1F0 /* utils_file_selection.c */,
-				006E681E1DB3E7AC0038B1F0 /* utils_file_selection.h */,
 				006E681F1DB3E7AC0038B1F0 /* utils_files.c */,
 				006E68201DB3E7AD0038B1F0 /* utils_files.h */,
 				006E68231DB3E7AD0038B1F0 /* utils_gtkbuilder.c */,
@@ -1086,6 +1084,7 @@
 				006E687D1DB3E7AD0038B1F0 /* gsb_debug.c in Sources */,
 				006E685C1DB3E7AD0038B1F0 /* gsb_autofunc.c in Sources */,
 				006E68931DB3E7AD0038B1F0 /* gsb_regex.c in Sources */,
+				005BC3401F6C1943006DB25E /* prefs_page_display_adr.c in Sources */,
 				006E687A1DB3E7AD0038B1F0 /* gsb_data_report.c in Sources */,
 				006E68821DB3E7AD0038B1F0 /* gsb_file_util.c in Sources */,
 				006E68BA1DB3E7AD0038B1F0 /* utils_operations.c in Sources */,
@@ -1141,7 +1140,6 @@
 				006E687C1DB3E7AD0038B1F0 /* gsb_data_transaction.c in Sources */,
 				006E683B1DB3E7AD0038B1F0 /* custom_list.c in Sources */,
 				006E68661DB3E7AD0038B1F0 /* gsb_currency.c in Sources */,
-				006E68B61DB3E7AD0038B1F0 /* utils_file_selection.c in Sources */,
 				006E688B1DB3E7AD0038B1F0 /* gsb_locale.c in Sources */,
 				006E68A71DB3E7AD0038B1F0 /* print_dialog_config.c in Sources */,
 				006E68861DB3E7AD0038B1F0 /* gsb_form_transaction.c in Sources */,
@@ -1186,7 +1184,7 @@
 				006E686B1DB3E7AD0038B1F0 /* gsb_data_budget.c in Sources */,
 				006E68701DB3E7AD0038B1F0 /* gsb_data_fyear.c in Sources */,
 				006E685F1DB3E7AD0038B1F0 /* gsb_calendar_entry.c in Sources */,
-				006E682F1DB3E7AD0038B1F0 /* affichage.c in Sources */,
+				005BC3431F6C196D006DB25E /* prefs_page_display_gui.c in Sources */,
 				003AC2231F49DF93007DA275 /* utils_prefs.c in Sources */,
 				006E689D1DB3E7AD0038B1F0 /* import_csv.c in Sources */,
 				006E68461DB3E7AD0038B1F0 /* etats_support.c in Sources */,
