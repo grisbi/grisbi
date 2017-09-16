@@ -885,7 +885,7 @@ gboolean qif_export ( const gchar *filename,
 			  g_date_get_year (gsb_data_transaction_get_date (transaction_number_tmp)));
 
 		/* met le solde initial */
-		tmpstr = utils_real_get_string (gsb_data_account_get_init_balance (account_nb, -1));
+		tmpstr = utils_real_get_string_intl (gsb_data_account_get_init_balance (account_nb, -1));
 		fprintf ( fichier_qif,
 			  "T%s\n",
 			  tmpstr);
@@ -940,7 +940,7 @@ gboolean qif_export ( const gchar *filename,
 
 
 		/* met le montant, transforme la devise si necessaire */
-		tmpstr = utils_real_get_string (gsb_data_transaction_get_adjusted_amount ( transaction_number_tmp, floating_point));
+		tmpstr = utils_real_get_string_intl (gsb_data_transaction_get_adjusted_amount ( transaction_number_tmp, floating_point));
 		fprintf ( fichier_qif,
 			  "T%s\n",
 			  tmpstr);
@@ -1035,7 +1035,7 @@ gboolean qif_export ( const gchar *filename,
 
 			    /* set the amount of the split child */
 
-			    tmpstr = utils_real_get_string (gsb_data_transaction_get_adjusted_amount (transaction_number_tmp_2, floating_point));
+			    tmpstr = utils_real_get_string_intl (gsb_data_transaction_get_adjusted_amount (transaction_number_tmp_2, floating_point));
 			    fprintf ( fichier_qif,
 				      "$%s\n",
 				      tmpstr);
