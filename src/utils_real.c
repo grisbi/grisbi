@@ -57,6 +57,32 @@ gchar *utils_real_get_string ( gsb_real number )
     return gsb_real_raw_format_string ( number, locale, NULL );
 }
 
+/**
+ * Return the real in a formatted string, according to the currency
+ * or negative sign and
+ * with "." as decimal separator and "," as thousands separator.
+ *
+ * This is used to export values in an international format so it
+ * can be imported in another application.
+ *
+ * this is directly the number coded in the real wich is returned
+ * usually, utils_real_get_string_with_currency is better to adapt the format
+ * 	of the number to the currency format
+ *
+ * \param number	Number to format.
+ *
+ * \return		A newly allocated string of the number (this
+ *			function will never return NULL)
+ */
+gchar *utils_real_get_string_intl ( gsb_real number )
+{
+	struct lconv locale = *gsb_locale_get_locale ();
+	locale.mon_decimal_point = ".";
+	locale.mon_thousands_sep = ",";
+
+	gchar *a = gsb_real_raw_format_string ( number, &locale, NULL );
+	return a;
+}
 
 /**
  * Return the real in a formatted string with an optional currency

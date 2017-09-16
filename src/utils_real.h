@@ -8,6 +8,7 @@
 /* END_INCLUDE_H */
 
 gchar *utils_real_get_string ( gsb_real number );
+gchar *utils_real_get_string_intl ( gsb_real number );
 
 gchar *utils_real_get_string_with_currency ( gsb_real number,
                         gint currency_number,
