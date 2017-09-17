@@ -315,7 +315,12 @@ static gboolean grisbi_win_hpaned_size_allocate (GtkWidget *hpaned_general,
 	return FALSE;
 
 	if (priv->hpaned_general_width == 0)
+	{
 		priv->hpaned_general_width = allocation->width;
+		conf.panel_width = position;
+
+		return FALSE;
+	}
 
     position = gtk_paned_get_position (GTK_PANED (hpaned_general));
 
@@ -1308,7 +1313,7 @@ gboolean grisbi_win_set_window_title (gint account_number)
 
                 if (tmp_number == -1)
                 {
-                    if (w_etat->accounting_entity && w_etat->accounting_entity)
+                    if (w_etat->accounting_entity && strlen (w_etat->accounting_entity))
                         titre = g_strdup (w_etat->accounting_entity);
                 }
                 else
