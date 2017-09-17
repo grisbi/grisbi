@@ -2939,7 +2939,37 @@ void gsb_scheduler_list_process_orphan_list ( GSList *orphan_scheduled,
     }
 }
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+GSList *gsb_scheduler_list_get_scheduled_transactions_taken (void)
+{
+	return scheduled_transactions_taken;
+}
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+GSList *gsb_scheduler_list_get_scheduled_transactions_to_take (void)
+{
+	return scheduled_transactions_to_take;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
