@@ -358,6 +358,7 @@ pixmaps/Makefile
 pixmaps/flags/Makefile
 po/Makefile.in
 share/Makefile
+share/grisbi.nsi
 share/categories/Makefile
 share/categories/C/Makefile
 share/categories/fr/Makefile
