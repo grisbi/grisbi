@@ -15,24 +15,23 @@ DISTCLEANFILES = $(desktop_DATA)
 # Key variable for a very own packaging; basically, I use:
 # ./configure --prefix=~/my-inst && make && make install
 #
-# As usual, configure will install in $(prefix), but variable below will also be used
-# by install-exec-hook (automatically launched at the end of make install) to add
-# binary libraries needed by Grisbi x86_64:
+# As usual, configure will install in $(prefix), but variable auto_dependencies
+# below will also be used by install-exec-hook (automatically launched at
+# the end of make install) to add binary libraries needed by Grisbi x86_64
 #
 # (see install-exec-hook target)
+auto_dependencies=`ldd $(prefix)/bin/grisbi.exe | grep mingw64 | cut -f2 -d'>' | cut -f2 -d' '`
 
 # Here we add all necessary stuff in $(prefix), including DLL libraries,
 # icons, schemas or various data. Point is to get a full dependencies
 # for Grisbi in a single directory tree.
 #
 # My view on final packaging implies this tree to be used by NSIS to
-# produce end-user's package for 64bit Windows.
+# produce end-user's package for 64bit Windows (see last command for
+# target).
 #
 # Notice that many data files are copied that might be useless for
 # Grisbi at this time...
-
-auto_dependencies=`ldd $(prefix)/bin/grisbi.exe | grep mingw64 | cut -f2 -d'>' | cut -f2 -d' '`
-
 install-exec-hook:
 if WIN32
 	@echo "Windows run"
