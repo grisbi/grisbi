@@ -1,0 +1,134 @@
+; Source file for NSIS installer
+; http://nsis.sourceforge.net/
+
+/* "Modern UI" look */
+!include "MUI2.nsh"
+
+!define MUI_LANGDLL_ALLLANGUAGES
+
+/* Support for all languages (yet, incompatible with W95/98 & Me */
+Unicode true
+
+RequestExecutionLevel admin
+
+!ifndef VERSION
+  !define VERSION '@VERSION@'
+!endif
+
+!define PACKAGERDIR "@NSIS_INSTDIR@"
+!define SRCDIR "@NSIS_SRCDIR@"
+
+Name "Grisbi 64-bit"
+Icon "${SRCDIR}\win32\grisbi.ico"
+OutFile "Grisbi-x86_64-setup.exe"
+!define COMPANYNAME "Grisbi"
+
+Caption "Grisbi 64-bit ${VERSION} Setup"
+
+InstallDir $PROGRAMFILES64\Grisi
+
+InstType "full"
+
+/* Interface */
+!define MUI_ABORTWARNING
+
+/* Pages */
+!insertmacro MUI_PAGE_WELCOME
+!insertmacro MUI_PAGE_LICENSE "${SRCDIR}\COPYING"
+!insertmacro MUI_PAGE_DIRECTORY
+!insertmacro MUI_PAGE_INSTFILES
+!define MUI_FINISHPAGE_RUN "$INSTDIR\bin\Grisbi.exe"
+; !define MUI_FINISHPAGE_RUN_TEXT "$(launchAtEnd)" 
+
+!insertmacro MUI_PAGE_FINISH
+!insertmacro MUI_UNPAGE_INSTFILES
+
+/* Languages - first is default */
+!insertmacro MUI_LANGUAGE "English"
+!insertmacro MUI_LANGUAGE "French"
+!insertmacro MUI_LANGUAGE "Czech"
+!insertmacro MUI_LANGUAGE "Danish"
+!insertmacro MUI_LANGUAGE "German"
+!insertmacro MUI_LANGUAGE "Greek"
+!insertmacro MUI_LANGUAGE "Esperanto"
+!insertmacro MUI_LANGUAGE "Spanish"
+/* !insertmacro MUI_LANGUAGE "Persian" */
+!insertmacro MUI_LANGUAGE "Hebrew"
+!insertmacro MUI_LANGUAGE "Italian"
+!insertmacro MUI_LANGUAGE "Latvian"
+!insertmacro MUI_LANGUAGE "Dutch"
+!insertmacro MUI_LANGUAGE "Polish"
+!insertmacro MUI_LANGUAGE "Portuguese"
+!insertmacro MUI_LANGUAGE "Romanian"
+!insertmacro MUI_LANGUAGE "Russian"
+/* !insertmacro MUI_LANGUAGE "Chinese" */ 
+
+/* LangString launchAtEnd ${LANG_English} "Launch application"
+   LangString launchAtEnd ${LANG_French} "Lancer l'application" */
+
+Section "" SecBin  
+  SetOutPath "$INSTDIR\bin"   
+  File /a /r "${PACKAGERDIR}\bin\"
+  File /a "${SRCDIR}\win32\grisbi.ico"
+  
+  SetOutPath "$INSTDIR\lib"   
+  File /a /r "${PACKAGERDIR}\lib\"
+  
+  ;Create uninstaller
+  WriteUninstaller "$INSTDIR\Uninstall.exe"
+  
+  createDirectory "$SMPROGRAMS\${COMPANYNAME}"
+  createShortCut "$SMPROGRAMS\${COMPANYNAME}\Gribi 64-bit @VERSION@.lnk" "$INSTDIR\bin\Grisbi.exe" "" "$INSTDIR\bin\grisbi.ico"
+  createShortCut "$SMPROGRAMS\${COMPANYNAME}\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
+  
+  # Registry information for add/remove programs
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}" "DisplayName" "Grisbi 64-bit"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}" "Publisher" "Open Source"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}" "UninstallString" "$\"$INSTDIR\Uninstall.exe$\""
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}" "QuietUninstallString" "$\"$INSTDIR\Uninstall.exe$\" /S"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}" "InstallLocation" "$\"$INSTDIR$\""
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}" "DisplayIcon" "$\"$INSTDIR\bin\grisbi.ico$\""    
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}" "URLInfoAbout" "$\"http://en.grisbi.org/$\""
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}" "DisplayVersion" "@VERSION@"
+  
+  # There is no option for modifying or repairing the install
+  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}" "NoModify" 1
+  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}" "NoRepair" 1
+  
+  # Set the INSTALLSIZE constant (!defined at the top of this script) so Add/Remove Programs can accurately report the size
+  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}" "EstimatedSize" 121000
+  
+  # Registry for language  
+  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}" "Language" $language 
+  
+  !define MUI_LANGDLL_REGISTRY_ROOT "HKLM" 
+  !define MUI_LANGDLL_REGISTRY_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}" 
+  !define MUI_LANGDLL_REGISTRY_VALUENAME "Language"
+
+SectionEnd
+
+Section "" SecShare
+  SetOutPath "$INSTDIR\share"   
+  File /a /r "${PACKAGERDIR}\share\"
+SectionEnd
+
+Section "Uninstall"
+  Delete "$INSTDIR\Uninstall.exe"
+  DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}"
+
+  RMDir /r "$INSTDIR"
+  RMDir /r "$SMPROGRAMS\${COMPANYNAME}"
+SectionEnd
+
+
+/* Installer functions */
+Function .onInit
+  !insertmacro MUI_LANGDLL_DISPLAY
+FunctionEnd
+
+/* Uninstaller functions */
+Function un.onInit  
+  !insertmacro MUI_UNGETLANGUAGE
+  ; ReadRegDWORD $language HKLM Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}" "Language"
+  ; !insertmacro MUI_UNGETLANGUAGE  
+FunctionEnd
