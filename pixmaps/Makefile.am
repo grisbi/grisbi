@@ -19,9 +19,7 @@ grisbi_pixmaps_DATA = \
 	gsb-archive-16.png \
 	gsb-archive-24.png \
 	gsb-archive-32.png \
-	gsb-arrow-down.svg \
-	gsb-arrow-left.svg \
-	gsb-arrow-right.svg \
+	gsb-arrow-down-16.png \
 	gsb-balance_estimate-32.png \
 	gsb-banks-32.png \
 	gsb-budgetary_lines-32.png \
