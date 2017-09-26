@@ -20,12 +20,12 @@ RequestExecutionLevel admin
 
 Name "Grisbi 64-bit"
 Icon "${SRCDIR}\win32\grisbi.ico"
-OutFile "Grisbi-x86_64-setup.exe"
+OutFile "Grisbi-x86_64-${VERSION}-setup.exe"
 !define COMPANYNAME "Grisbi"
 
 Caption "Grisbi 64-bit ${VERSION} Setup"
 
-InstallDir $PROGRAMFILES64\Grisi
+InstallDir $PROGRAMFILES64\Grisbi-${VERSION}
 
 InstType "full"
 
@@ -80,6 +80,7 @@ Section "" SecBin
   createDirectory "$SMPROGRAMS\${COMPANYNAME}"
   createShortCut "$SMPROGRAMS\${COMPANYNAME}\Gribi 64-bit @VERSION@.lnk" "$INSTDIR\bin\Grisbi.exe" "" "$INSTDIR\bin\grisbi.ico"
   createShortCut "$SMPROGRAMS\${COMPANYNAME}\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
+  CreateShortCut "$DESKTOP\Grisbi.lnk" "$INSTDIR\bin\grisbi.exe" "" "$INSTDIR\bin\grisbi.ico"
   
   # Registry information for add/remove programs
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}" "DisplayName" "Grisbi 64-bit"
