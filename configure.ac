@@ -66,6 +66,13 @@ dnl new warning from ar
 AR_FLAGS='cr'
 AC_SUBST(AR_FLAGS)
 
+dnl NSIS support (for Windows packaging)
+NSIS_SRCDIR=$({ cd $srcdir && pwd -W; } | sed 's|/|\\|g')
+NSIS_INSTDIR=$({ cd $prefix && pwd -W; } | sed 's|/|\\|g')
+
+AC_SUBST(NSIS_SRCDIR)
+AC_SUBST(NSIS_INSTDIR)
+
 dnl ================================================================
 dnl Check for NLS support.
 dnl ================================================================
@@ -358,6 +365,7 @@ pixmaps/Makefile
 pixmaps/flags/Makefile
 po/Makefile.in
 share/Makefile
+share/grisbi.nsi
 share/categories/Makefile
 share/categories/C/Makefile
 share/categories/fr/Makefile
