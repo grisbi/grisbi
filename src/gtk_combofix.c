@@ -929,7 +929,8 @@ static void gtk_combofix_init ( GtkComboFix *combofix )
     gtk_widget_show ( combofix -> entry );
 
     /* set the button */
-    priv->button = utils_buttons_button_new_from_image ("gsb-arrow-down.svg");
+
+    priv->button = utils_buttons_button_new_from_image ("gsb-arrow-down-16.png");
     gtk_button_set_relief ( GTK_BUTTON ( priv -> button ), GTK_RELIEF_NONE );
     g_signal_connect_swapped ( G_OBJECT ( priv -> button ),
                         "clicked",
