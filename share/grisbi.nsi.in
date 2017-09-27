@@ -1,4 +1,4 @@
-; Source file for NSIS installer
+﻿; Source file for NSIS installer
 ; http://nsis.sourceforge.net/
 
 /* "Modern UI" look */
@@ -40,6 +40,14 @@ InstType "full"
 !define MUI_FINISHPAGE_RUN "$INSTDIR\bin\Grisbi.exe"
 ; !define MUI_FINISHPAGE_RUN_TEXT "$(launchAtEnd)" 
 
+Function finishInstallDesktopShortcut
+	CreateShortCut "$DESKTOP\Grisbi.lnk" "$INSTDIR\bin\Grisbi.exe" "" "$INSTDIR\bin\grisbi.ico"
+FunctionEnd
+
+!define MUI_FINISHPAGE_SHOWREADME ""
+!define MUI_FINISHPAGE_SHOWREADME_TEXT "$(desktopShortcut)"
+!define MUI_FINISHPAGE_SHOWREADME_FUNCTION finishInstallDesktopShortcut
+
 !insertmacro MUI_PAGE_FINISH
 !insertmacro MUI_UNPAGE_INSTFILES
 
@@ -63,8 +71,8 @@ InstType "full"
 !insertmacro MUI_LANGUAGE "Russian"
 /* !insertmacro MUI_LANGUAGE "Chinese" */ 
 
-/* LangString launchAtEnd ${LANG_English} "Launch application"
-   LangString launchAtEnd ${LANG_French} "Lancer l'application" */
+LangString desktopShortcut ${LANG_English} "Create shortcut on Desktop"
+LangString desktopShortcut ${LANG_French} "Créer une icône sur le bureau"
 
 Section "" SecBin  
   SetOutPath "$INSTDIR\bin"   
@@ -80,7 +88,6 @@ Section "" SecBin
   createDirectory "$SMPROGRAMS\${COMPANYNAME}"
   createShortCut "$SMPROGRAMS\${COMPANYNAME}\Gribi 64-bit @VERSION@.lnk" "$INSTDIR\bin\Grisbi.exe" "" "$INSTDIR\bin\grisbi.ico"
   createShortCut "$SMPROGRAMS\${COMPANYNAME}\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
-  CreateShortCut "$DESKTOP\Grisbi.lnk" "$INSTDIR\bin\grisbi.exe" "" "$INSTDIR\bin\grisbi.ico"
   
   # Registry information for add/remove programs
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}" "DisplayName" "Grisbi 64-bit"
@@ -115,6 +122,8 @@ SectionEnd
 
 Section "Uninstall"
   Delete "$INSTDIR\Uninstall.exe"
+  Delete "$DESKTOP\Grisbi.lnk"
+  Delete "$SMPROGRAMS\${COMPANYNAME}\Gribi 64-bit @VERSION@.lnk"
   DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}"
 
   RMDir /r "$INSTDIR"
