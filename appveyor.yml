@@ -1,0 +1,13 @@
+version: 1.0.{build}
+image: Visual Studio 2017
+clone_folder: c:\projects\grisbi-src
+init:
+- cmd: c:\msys64\usr\bin\bash -lc "pacman -S --noconfirm mingw-w64-x86_64-gtk3 mingw-w64-x86_64-libgsf"
+build_script:
+- cmd: >-
+    rem Setting variable is mandatory so that pkg-config to find
+    rem all .pc files. Note that we DO NOT want space after MINGW64
+    set MSYSTEM=MINGW64&c:\msys64\usr\bin\mintty /usr/bin/bash --login -c "cd /c/projects/grisbi-src/ && ./autogen.sh"
+    
+    c:\msys64\usr\bin\bash -lc "cd /c/projects/grisbi-src && ./configure"
+    c:\msys64\usr\bin\bash -lc "cd /c/projects/grisbi-src && make -j 2"
