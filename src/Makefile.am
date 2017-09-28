@@ -340,6 +340,10 @@ gsettings_SCHEMAS = org.gtk.grisbi.gschema.xml
 
 @INTLTOOL_XML_NOMERGE_RULE@
 
+if WIN32
+grisbi_LDFLAGS = -mwindows
+endif
+
 SUBDIRS = ui prefs plugins/gnucash plugins/ofx plugins/openssl
 
 if HAVE_CUNIT
