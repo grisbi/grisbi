@@ -68,7 +68,7 @@ AC_SUBST(AR_FLAGS)
 
 dnl NSIS support (for Windows packaging)
 NSIS_SRCDIR=$({ cd ${srcdir} && pwd -W; } | sed 's|/|\\|g')
-NSIS_INSTDIR=`echo $prefix | perl -p -e 's|^/(.)/|$1:\\|' | perl -p -e 's|/|\\|g'`
+NSIS_INSTDIR=$(echo $prefix | perl -p -e 's|^/(.)/|$1:\\|' | perl -p -e 's|/|\\|g'`)
 
 echo "INST: $NSIS_INSTDIR"
 
