@@ -18,13 +18,12 @@ build_script:
     rem all .pc files. Note that we DO NOT want space after MINGW64
 
 
-    set MSYSTEM=MINGW64&c:\msys64\usr\bin\mintty /usr/bin/bash --login -c "cd /c/projects/grisbi-src/ && ./autogen.sh"
+    set MSYSTEM=MINGW64
 
-
-    c:\msys64\usr\bin\bash -lc "pacman -Q -s gtk"
+    c:\msys64\usr\bin\bash -lc "cd /c/projects/grisbi-src/ && ./autogen.sh"
 
 
     c:\msys64\usr\bin\bash -lc "cd /c/projects/grisbi-src && ./configure"
 
 
-    c:\msys64\usr\bin\bash -lc "cd /c/projects/grisbi-src && make -j 2"
+    c:\msys64\usr\bin\bash -lc "cd /c/projects/grisbi-src && make -j 4"
