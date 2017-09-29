@@ -1,8 +1,10 @@
 version: 1.0.{build}
 image: Visual Studio 2017
 clone_folder: c:\projects\grisbi-src
-init:
+install:
 - cmd: >-
+    c:\msys64\usr\bin\bash -lc "pacman -Syu --noconfirm"
+
     c:\msys64\usr\bin\bash -lc "pacman -S --noconfirm mingw-w64-x86_64-cairo"
 
     c:\msys64\usr\bin\bash -lc "pacman -S --noconfirm mingw-w64-x86_64-gtk3"
