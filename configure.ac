@@ -67,8 +67,8 @@ AR_FLAGS='cr'
 AC_SUBST(AR_FLAGS)
 
 dnl NSIS support (for Windows packaging)
-NSIS_SRCDIR=$({ cd $srcdir && pwd -W; } | sed 's|/|\\|g')
-NSIS_INSTDIR=$({ cd $prefix && pwd -W; } | sed 's|/|\\|g')
+NSIS_SRCDIR=$({ cd ${srcdir} && pwd -W; } | sed 's|/|\\|g')
+NSIS_INSTDIR=$({ cd ${prefix} && pwd -W; } | sed 's|/|\\|g')
 
 AC_SUBST(NSIS_SRCDIR)
 AC_SUBST(NSIS_INSTDIR)
