@@ -67,8 +67,8 @@ AR_FLAGS='cr'
 AC_SUBST(AR_FLAGS)
 
 dnl NSIS support (for Windows packaging)
-NSIS_SRCDIR=$({ cd $srcdir && pwd -W; } | sed 's|/|\\|g')
-NSIS_INSTDIR=$({ cd $prefix && pwd -W; } | sed 's|/|\\|g')
+NSIS_SRCDIR=$({ cd ${srcdir} && pwd -W; } | sed 's|/|\\|g')
+NSIS_INSTDIR=$(echo $prefix | perl -p -e 's|^/(.)/|$1:\\|' | perl -p -e 's|/|\\|g')
 
 AC_SUBST(NSIS_SRCDIR)
 AC_SUBST(NSIS_INSTDIR)
@@ -286,10 +286,10 @@ case $host_os in
   ;;
   *)
     platform_win=no
+    AC_MSG_RESULT([$platform_win])    
     ;;
 esac
 
-AC_MSG_RESULT([$platform_win])
 AM_CONDITIONAL(WIN32, test "$platform_win" = "yes")
 
 dnl ================================================================
