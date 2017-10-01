@@ -28,7 +28,7 @@ build_script:
     c:\msys64\usr\bin\bash -lc "cd /c/projects/grisbi-src && ./configure"
     
     
-    c:\msys64\usr\bin\bash -lc "cd /c/projects/grisbi-src && v=$(grep PACKAGE_VERSION config.h | cut -f2 -d '\"'); powershell.exe -command \"Update-AppveyorBuild -Version '\$v-B%APPVEYOR_BUILD_NUMBER%'\""
+    c:\msys64\usr\bin\bash -lc "cd /c/projects/grisbi-src && v=$(grep PACKAGE_VERSION config.h | cut -f2 -d '\"'); powershell.exe -command \"Update-AppveyorBuild -Version '$v-B%APPVEYOR_BUILD_NUMBER%'\""
 
 
     c:\msys64\usr\bin\bash -lc "cd /c/projects/grisbi-src && make"
