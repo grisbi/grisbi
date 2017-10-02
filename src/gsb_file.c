@@ -202,80 +202,86 @@ static gchar *gsb_file_dialog_ask_name (const gchar *filename)
  *
  * \return GTK_RESPONSE_OK to save, GTK_RESPONSE_NO not to save, other to cancel
  **/
-static gint gsb_file_dialog_save (const gchar *filename)
+static gint gsb_file_dialog_save (const gchar *filename,
+								  gint origine)
 {
-    gchar * hint;
-    gchar* time_elapsed;
-    time_t now = time (NULL);
-    gint result;
     GtkWidget *dialog;
-    gint difference = (gint) difftime (now, run.file_modification);
-    gchar* message;
-	gchar* tmp_str1;
-	gchar* tmp_str2;
+    gchar *hint;
+    gchar *message;
+    gint result;
 
     dialog = gtk_message_dialog_new (GTK_WINDOW (grisbi_app_get_active_window (NULL)),
 									 GTK_DIALOG_DESTROY_WITH_PARENT,
 									 GTK_MESSAGE_WARNING,
 									 GTK_BUTTONS_NONE,
 									 " ");
+	switch (origine)
+	{
+		case -2:
+		{
+			hint = g_strdup_printf (_("Rename '%s' file?"),
+									(filename ? g_path_get_basename(filename) : _("unnamed")));
 
-    /*     si le fichier était déjà locké et que force enregistrement n'est pas mis, */
-    /*     on prévient ici */
-    if (etat.fichier_deja_ouvert && !conf.force_enregistrement)
-    {
-        hint = g_strdup(_("Save locked files?"));
-        message = g_strdup_printf (_("The document '%s' is locked but modified. "
-                                     "If you want to save it, you must cancel and "
-                                     "save it with another name or activate the "
-                                     "\"%s\" option in setup."),
-                                   (filename ? g_path_get_basename(filename) : _("unnamed")),
-                                   _("Force saving of locked files"));
+			gtk_dialog_add_buttons (GTK_DIALOG(dialog),
+									"gtk-no", GTK_RESPONSE_NO,
+									"gtk-yes", GTK_RESPONSE_OK,
+									NULL);
+			message = g_strdup("");
 
-        gtk_dialog_add_buttons (GTK_DIALOG(dialog),
-                                _("Close without saving"),
-                                GTK_RESPONSE_NO,
-                                "gtk-cancel",
-                                GTK_RESPONSE_CANCEL,
-                                NULL);
-        gtk_dialog_set_default_response (GTK_DIALOG(dialog), GTK_RESPONSE_CANCEL);
-    }
-    else
-    {
-        hint = g_strdup_printf (_("Save changes to document '%s' before closing?"),
-                                (filename ? g_path_get_basename(filename) : _("unnamed")));
-        message = g_strdup("");
+			break;
+		}
+		case -1:
+		{
+			gchar *time_elapsed;
+			time_t now;
+			gint difference;
 
-        gtk_dialog_add_buttons (GTK_DIALOG(dialog),
-                                _("Close without saving"), GTK_RESPONSE_NO,
-                                "gtk-cancel", GTK_RESPONSE_CANCEL,
-                                "gtk-save", GTK_RESPONSE_OK,
-                                NULL);
-        gtk_dialog_set_default_response (GTK_DIALOG(dialog), GTK_RESPONSE_OK);
-    }
+			now = time (NULL);
+			difference = (gint) difftime (now, run.file_modification);
+			hint = g_strdup_printf (_("Save changes to document '%s' before closing?"),
+									(filename ? g_path_get_basename(filename) : _("unnamed")));
 
-    if (difference >= 120)
-    {
-        time_elapsed = g_strdup_printf (_("%d minutes and %d seconds"), difference / 60, difference % 60);
-    }
-    else if (difference >= 60)
-    {
-        time_elapsed = g_strdup_printf (_("1 minute and %d seconds"), difference % 60);
-    }
-    else
-    {
-        time_elapsed = g_strdup_printf (_("%d seconds"), difference);
-    }
-    tmp_str1 = message;
-    tmp_str2 = g_strdup_printf (_("If you close without saving, all of your changes "
-                                 "since %s will be discarded."),
-								time_elapsed);
-    message = g_strconcat (tmp_str1, tmp_str2 , NULL);
-    g_free (tmp_str1);
-    g_free (tmp_str2);
-    g_free (time_elapsed);
 
-    g_object_set (G_OBJECT (dialog), "text", hint, "secondary-text", message, NULL);
+			gtk_dialog_add_buttons (GTK_DIALOG(dialog),
+									_("Close without saving"), GTK_RESPONSE_NO,
+									"gtk-save", GTK_RESPONSE_OK,
+									NULL);
+			if (difference >= 120)
+			{
+				time_elapsed = g_strdup_printf (_("%d minutes and %d seconds"), difference / 60, difference % 60);
+			}
+			else if (difference >= 60)
+			{
+				time_elapsed = g_strdup_printf (_("1 minute and %d seconds"), difference % 60);
+			}
+			else
+			{
+				time_elapsed = g_strdup_printf (_("%d seconds"), difference);
+			}
+			message = g_strdup_printf (_("If you close without saving, all of your changes "
+										 "since %s will be discarded."),
+										time_elapsed);
+			g_free (time_elapsed);
+
+
+			break;
+		}
+		case 0:
+		{
+			hint = g_strdup_printf (_("Save changes in '%s' file?"),
+									(filename ? g_path_get_basename(filename) : _("unnamed")));
+
+			gtk_dialog_add_buttons (GTK_DIALOG(dialog),
+									"gtk-cancel", GTK_RESPONSE_NO,
+									"gtk-save", GTK_RESPONSE_OK,
+									NULL);
+			message = g_strdup("");
+
+			break;
+		}
+	}
+	gtk_dialog_set_default_response (GTK_DIALOG(dialog), GTK_RESPONSE_OK);
+	g_object_set (G_OBJECT (dialog), "text", hint, "secondary-text", message, NULL);
 
     g_free (message);
     g_free (hint);
@@ -396,18 +402,9 @@ static gboolean gsb_file_save_file (gint origine)
 	const gchar *filename;
 
     devel_debug_int (origine);
-	/* on récupère le nom du fichier */
-	filename = grisbi_win_get_filename (NULL);
 
-    /* on commence par demander si on sauvegarde ou pas */
-    if (!conf.sauvegarde_auto)
-    {
-        result = gsb_file_dialog_save (filename);
-        if (result == GTK_RESPONSE_NO)
-            return (TRUE);
-    }
-
-    if ((!gsb_file_get_modified () && origine != -2)
+	/* on regarde si il y a quelque chose à sauvegarder sinon on sort */
+	if ((!gsb_file_get_modified () && origine != -2)
         ||
         !gsb_data_account_get_accounts_amount ())
     {
@@ -415,17 +412,10 @@ static gboolean gsb_file_save_file (gint origine)
         return (TRUE);
     }
 
-    /* si le fichier de comptes n'a pas de nom ou si on enregistre sous un nouveau nom */
-    /*     c'est ici */
-    if (!filename || origine == -2)
-        nouveau_nom_enregistrement = gsb_file_dialog_ask_name (filename);
-    else
-        nouveau_nom_enregistrement = g_strdup (filename);
+	/* on récupère le nom du fichier */
+	filename = grisbi_win_get_filename (NULL);
 
-    if (!nouveau_nom_enregistrement)
-        return FALSE;
-
-    /*     on vérifie que le fichier n'est pas locké */
+	/* on vérifie que le fichier n'est pas locké si il l'est on sort */
     if (etat.fichier_deja_ouvert && !conf.force_enregistrement && origine != -2)
     {
         gchar* tmp_str1;
@@ -439,17 +429,36 @@ static gboolean gsb_file_save_file (gint origine)
         dialogue_error_hint (tmp_str1, tmp_str2);
         g_free (tmp_str1);
         g_free (tmp_str2);
-		g_free (nouveau_nom_enregistrement);
 
         return (FALSE);
     }
+
+    /* on commence par demander si on sauvegarde ou pas */
+    if (!conf.sauvegarde_auto)
+    {
+        result = gsb_file_dialog_save (filename, origine);
+        if (result == GTK_RESPONSE_NO)
+		{
+			gsb_file_set_modified (FALSE);
+            return (TRUE);
+		}
+    }
+
+    /* si le fichier de comptes n'a pas de nom ou si on enregistre sous un nouveau nom */
+    /*     c'est ici */
+    if (!filename || origine == -2)
+        nouveau_nom_enregistrement = gsb_file_dialog_ask_name (filename);
+    else
+        nouveau_nom_enregistrement = g_strdup (filename);
+
+    if (!nouveau_nom_enregistrement)
+        return FALSE;
 
     /* make backup before saving if asked */
     if (conf.make_backup)
         gsb_file_save_backup();
 
-    /*   on a maintenant un nom de fichier */
-    /*     et on sait qu'on peut sauvegarder */
+    /*  on a maintenant un nom de fichier et on sait qu'on peut sauvegarder */
     grisbi_win_status_bar_message (_("Saving file"));
 
     result = gsb_file_save_save_file (nouveau_nom_enregistrement, conf.compress_file, FALSE);
@@ -898,9 +907,7 @@ gboolean gsb_file_close (void)
 	    if (!gsb_file_save_file (-1))
             return FALSE;
     }
-    else if (conf.sauvegarde_auto
-        && (!etat.fichier_deja_ouvert || conf.force_enregistrement)
-        && filename)
+    else if (conf.sauvegarde_auto && filename)
     {
         /* try to save */
 	    if (!gsb_file_save_file (-1))
