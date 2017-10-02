@@ -46,7 +46,7 @@ build_script:
     c:\msys64\usr\bin\bash -lc "cd / && unzip nsis.zip"
     
     
-    c:\msys64\usr\bin\bash -lc "cd /nsis-3.02.1 && makensis.exe /c/projects/grisbi-src/share/grisbi.nsi"
+    c:\msys64\usr\bin\bash -lc "cd /nsis-3.02.1 && ./makensis.exe /c/projects/grisbi-src/share/grisbi.nsi"
 artifacts:
 - path: share/Grisbi-x86_64-1.1.1-setup.exe
   name: Grisbi wizard
