@@ -5,7 +5,7 @@ desktop_in_files = grisbi.desktop.in
 desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
 @INTLTOOL_DESKTOP_RULE@
 
-EXTRA_DIST = $(desktop_in_files) grisbi.xml
+EXTRA_DIST = $(desktop_in_files) grisbi.xml grisbi.nsi.in
 
 mimedir = $(datadir)/mime/packages
 mime_DATA = grisbi.xml
@@ -71,4 +71,5 @@ if WIN32
 	/mingw64/share/locale/de/LC_MESSAGES/gtk30-properties.mo \
 	/mingw64/share/locale/de/LC_MESSAGES/glib20.mo \
 	$(prefix)/share/locale/de/LC_MESSAGES/;
+	echo "Use makensisw.exe from NSIS (http://nsis.sourceforget.net/) on $(bindir)/share/grisbi.nsi";
 endif
