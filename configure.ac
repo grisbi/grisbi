@@ -290,6 +290,13 @@ case $host_os in
     ;;
 esac
 
+if test "$platform_win" = "yes"; then
+	NSIS_BITS=64bit
+	if test "$MSYSTEM"x == "MINGW32"x; then NSIS_BITS=32bit; fi
+	AC_SUBST(NSIS_BITS)
+fi
+
+
 AM_CONDITIONAL(WIN32, test "$platform_win" = "yes")
 
 dnl ================================================================
