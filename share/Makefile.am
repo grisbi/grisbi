@@ -31,7 +31,7 @@ DISTCLEANFILES = $(desktop_DATA)
 # Notice that many data files are copied that might be useless for
 # Grisbi at this time...
 
-auto_dependencies=`ldd $(prefix)/bin/grisbi.exe | grep "mingw64\|mingw32" | cut -f2 -d'>' | cut -f2 -d' '`
+auto_dependencies=`ntldd $(prefix)/bin/grisbi.exe | grep "mingw64\|mingw32" | cut -f2 -d'>' | cut -f2 -d' '`
 
 install-exec-hook:
 if WIN32
