@@ -25,7 +25,9 @@ OutFile "Grisbi-@NSIS_BITS@-${VERSION}-setup.exe"
 
 Caption "Grisbi @NSIS_BITS@ ${VERSION} Setup"
 
-InstallDir $PROGRAMFILES@NSIS_BITS@\Grisbi-${VERSION}
+# $PROGRAMFILES
+InstallDir @NSIS_DEFAULTINSTDIR@\Grisbi-${VERSION}
+
 
 InstType "full"
 
