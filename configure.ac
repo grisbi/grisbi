@@ -292,8 +292,13 @@ esac
 
 if test "$platform_win" = "yes"; then
 	NSIS_BITS=64bit
-	if test "$MSYSTEM"x == "MINGW32"x; then NSIS_BITS=32bit; fi
+	NSIS_DEFAULTINSTDIR="Program Files"
+	if test "$MSYSTEM"x == "MINGW32"x; then
+		NSIS_BITS=32bit;
+		NSIS_DEFAULTINSTDIR="Program Files (x86)"
+	fi
 	AC_SUBST(NSIS_BITS)
+	AC_SUBST(NSIS_DEFAULTINSTDIR)
 fi
 
 
