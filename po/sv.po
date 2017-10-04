@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-03 05:51+0200\n"
+"POT-Creation-Date: 2017-10-04 22:54+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -10113,16 +10113,16 @@ msgid "(Un)Reconcile a transaction\t-> <Primary>r\n"
 msgstr ""
 
 #. On récupère le nom de la page
-#: ../src/prefs/prefs_page_divers.c:109
+#: ../src/prefs/prefs_page_divers.c:167
 msgid "Divers"
 msgstr ""
 
 #. set the scheduled variables
-#: ../src/prefs/prefs_page_divers.c:118
+#: ../src/prefs/prefs_page_divers.c:176
 msgid "Warn/Execute the scheduled transactions arriving at expiration date"
 msgstr ""
 
-#: ../src/prefs/prefs_page_divers.c:119
+#: ../src/prefs/prefs_page_divers.c:177
 msgid "Warn/Execute the scheduled transactions of the month"
 msgstr ""
 
@@ -10631,6 +10631,23 @@ msgid ""
 "leur date d'exécution."
 msgstr ""
 
+#: ../src/org.gtk.grisbi.gschema.xml.h:114
+msgid "Fixed day to initiate scheduled transactions on a monthly basis"
+msgstr ""
+
+#: ../src/org.gtk.grisbi.gschema.xml.h:115
+msgid ""
+"Utiliser un jour fixe pour lancer mensuellement les opérations planifiées."
+msgstr ""
+
+#: ../src/org.gtk.grisbi.gschema.xml.h:116
+msgid "fixed day for sheduled transactions"
+msgstr ""
+
+#: ../src/org.gtk.grisbi.gschema.xml.h:117
+msgid "Jour fixe du lancement mensuel des opérations planifiées."
+msgstr ""
+
 #: ../src/ui/bet_graph.ui.h:1
 msgid "Diagram"
 msgstr ""
@@ -10803,7 +10820,7 @@ msgstr ""
 #: ../src/ui/csv_template_rule.ui.h:25 ../src/ui/prefs_page_archives.ui.h:12
 #: ../src/ui/prefs_page_display_adr.ui.h:1
 #: ../src/ui/prefs_page_display_fonts.ui.h:9
-#: ../src/ui/prefs_page_display_gui.ui.h:14 ../src/ui/prefs_page_divers.ui.h:10
+#: ../src/ui/prefs_page_display_gui.ui.h:14 ../src/ui/prefs_page_divers.ui.h:11
 #: ../src/ui/prefs_page_files.ui.h:20 ../src/ui/prefs_page_import_asso.ui.h:8
 #: ../src/ui/prefs_page_import_files.ui.h:13
 msgid "label"
@@ -10812,7 +10829,7 @@ msgstr ""
 #: ../src/ui/csv_template_rule.ui.h:26 ../src/ui/prefs_page_archives.ui.h:13
 #: ../src/ui/prefs_page_display_adr.ui.h:2
 #: ../src/ui/prefs_page_display_fonts.ui.h:10
-#: ../src/ui/prefs_page_display_gui.ui.h:15 ../src/ui/prefs_page_divers.ui.h:11
+#: ../src/ui/prefs_page_display_gui.ui.h:15 ../src/ui/prefs_page_divers.ui.h:12
 #: ../src/ui/prefs_page_files.ui.h:21 ../src/ui/prefs_page_import_asso.ui.h:9
 #: ../src/ui/prefs_page_import_files.ui.h:14
 msgid "Title"
@@ -11539,10 +11556,14 @@ msgid "Number of days before the warning or the execution: "
 msgstr ""
 
 #: ../src/ui/prefs_page_divers.ui.h:8
-msgid "Use a default account for sheduler form: "
+msgid "Launch day for scheduled operations performed monthly: "
 msgstr ""
 
 #: ../src/ui/prefs_page_divers.ui.h:9
+msgid "Use a default account for sheduler form: "
+msgstr ""
+
+#: ../src/ui/prefs_page_divers.ui.h:10
 msgid "Localization"
 msgstr ""
 
