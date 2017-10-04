@@ -5,7 +5,7 @@ export MSYSTEM
 
 cd /c/projects/grisbi-src
 ./autogen.sh
-./configure --prefix /c/projects/grisbi-inst/ --enable-static --disable-shared --disable-installed --disable-modules --disable-delegate-build --enable-zero-configuration
+./configure --prefix /c/projects/grisbi-inst/
 
 v=$(grep PACKAGE_VERSION config.h | cut -f2 -d '"')
 powershell.exe -command "Update-AppveyorBuild -Version \"$v\""
