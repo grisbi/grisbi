@@ -9,10 +9,6 @@ else
 	i_pkg_postfix="w64-i686"
 fi
 
-#if test "$MSYSTEM"x == "MINGW64"; then
-# pacman -Syu --noconfirm
-#fi
-
 pacman -S --noconfirm mingw-glib2-devel
 pacman -S --noconfirm mingw-$i_pkg_postfix-cairo
 pacman -S --noconfirm mingw-$i_pkg_postfix-gtk3
