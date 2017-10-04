@@ -25,7 +25,7 @@ OutFile "Grisbi-@NSIS_BITS@-${VERSION}-setup.exe"
 
 Caption "Grisbi @NSIS_BITS@ ${VERSION} Setup"
 
-InstallDir $PROGRAMFILES64\Grisbi-${VERSION}
+InstallDir $PROGRAMFILES@NSIS_BITS@\Grisbi-${VERSION}
 
 InstType "full"
 
@@ -123,7 +123,7 @@ SectionEnd
 Section "Uninstall"
   Delete "$INSTDIR\Uninstall.exe"
   Delete "$DESKTOP\Grisbi.lnk"
-  Delete "$SMPROGRAMS\${COMPANYNAME}\Gribi 64-bit @VERSION@.lnk"
+  Delete "$SMPROGRAMS\${COMPANYNAME}\Gribi @NSIS_BITS@-bit @VERSION@.lnk"
   DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}"
 
   RMDir /r "$INSTDIR"
