@@ -530,11 +530,26 @@
 	    <default>true</default>
 	    <summary></summary>
 	    <description></description>
-	  </key>	  <key name="nb-days-before-scheduled" type="i">
+	  </key>
+	  <key name="nb-days-before-scheduled" type="i">
 	    <default>0</default>
 	    <summary>Number of days before scheduled operations start</summary>
 	    <description>
 	    Nombre de jours avant le lancement des opérations planifiées par rapport à leur date d'exécution.
+	    </description>
+	  </key>
+	  <key name="scheduler-set-fixed-day" type="b">
+	    <default>false</default>
+	    <summary>Fixed day to initiate scheduled transactions on a monthly basis</summary>
+	    <description>
+	    Utiliser un jour fixe pour lancer mensuellement les opérations planifiées.
+	    </description>
+	  </key>
+	  <key name="scheduler-fixed-day" type="i">
+	    <default>0</default>
+	    <summary>fixed day for sheduled transactions</summary>
+	    <description>
+	    Jour fixe du lancement mensuel des opérations planifiées.
 	    </description>
 	  </key>
   </schema>
