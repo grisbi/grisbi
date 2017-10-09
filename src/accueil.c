@@ -2125,14 +2125,17 @@ gboolean gsb_main_page_update_finished_scheduled_transactions (gint scheduled_nu
     gtk_box_pack_end (GTK_BOX (hbox), label, FALSE, TRUE, 0);
     gtk_widget_show ( label);
 
-    gtk_box_pack_start (GTK_BOX (main_page_finished_scheduled_transactions_part),
-			 hbox,
-			 FALSE,
-			 TRUE,
-			 0);
-    gtk_widget_show ( label);
+	if (main_page_finished_scheduled_transactions_part)
+	{
+		gtk_box_pack_start (GTK_BOX (main_page_finished_scheduled_transactions_part),
+				hbox,
+				FALSE,
+				TRUE,
+				0);
+		gtk_widget_show ( label);
 
-    show_paddingbox (main_page_finished_scheduled_transactions_part);
+		show_paddingbox (main_page_finished_scheduled_transactions_part);
+	}
 
     return FALSE;
 }
