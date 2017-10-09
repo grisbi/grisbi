@@ -279,10 +279,29 @@ case $host_os in
   ;;
   *)
     platform_win=no
+    AC_MSG_RESULT([$platform_win])    
     ;;
 esac
 
-AC_MSG_RESULT([$platform_win])
+if test "$platform_win" = "yes"; then
+	NSIS_BITS=64bit
+	NSIS_DEFAULTINSTDIR="Program Files"
+	if test "$MSYSTEM"x == "MINGW32"x; then
+		NSIS_BITS=32bit;
+		NSIS_DEFAULTINSTDIR="Program Files (x86)"
+	fi
+	NSIS_SRCDIR=$({ cd ${srcdir} && pwd -W; } | sed 's|/|\\|g')
+	NSIS_INSTDIR=$(echo $prefix | perl -p -e 's|^/(.)/|$1:\\|' | perl -p -e 's|/|\\|g')
+	
+	AC_SUBST(NSIS_BITS)
+	AC_SUBST(NSIS_DEFAULTINSTDIR)
+	
+
+	AC_SUBST(NSIS_SRCDIR)
+	AC_SUBST(NSIS_INSTDIR)
+fi
+
+
 AM_CONDITIONAL(WIN32, test "$platform_win" = "yes")
 
 dnl ================================================================
@@ -358,6 +377,7 @@ pixmaps/Makefile
 pixmaps/flags/Makefile
 po/Makefile.in
 share/Makefile
+share/grisbi.nsi
 share/categories/Makefile
 share/categories/C/Makefile
 share/categories/fr/Makefile
