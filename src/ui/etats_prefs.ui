@@ -1684,7 +1684,6 @@ Grisbi will automatically create transactions for all payees from the report</pr
             <property name="can_focus">True</property>
             <property name="hscrollbar_policy">never</property>
             <property name="shadow_type">in</property>
-            <property name="propagate_natural_width">True</property>
             <child>
               <object class="GtkTreeView" id="treeview_left_panel">
                 <property name="visible">True</property>
@@ -1778,7 +1777,6 @@ Grisbi will automatically create transactions for all payees from the report</pr
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="shadow_type">in</property>
-                <property name="propagate_natural_width">True</property>
                 <child>
                   <object class="GtkTreeView" id="treeview_categ">
                     <property name="visible">True</property>
@@ -2022,7 +2020,6 @@ Grisbi will automatically create transactions for all payees from the report</pr
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="shadow_type">in</property>
-                <property name="propagate_natural_width">True</property>
                 <child>
                   <object class="GtkTreeView" id="treeview_comptes">
                     <property name="visible">True</property>
@@ -2532,7 +2529,6 @@ to add at the selection</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="shadow_type">in</property>
-                <property name="propagate_natural_width">True</property>
                 <child>
                   <object class="GtkTreeView" id="treeview_budget">
                     <property name="visible">True</property>
@@ -2774,7 +2770,6 @@ to add at the selection</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="shadow_type">in</property>
-                <property name="propagate_natural_width">True</property>
                 <property name="propagate_natural_height">True</property>
                 <child>
                   <object class="GtkTreeView" id="treeview_mode_paiement">
@@ -3356,7 +3351,6 @@ to add at the selection</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="shadow_type">in</property>
-                <property name="propagate_natural_width">True</property>
                 <child>
                   <object class="GtkTreeView" id="treeview_tiers">
                     <property name="visible">True</property>
@@ -3689,7 +3683,6 @@ to add at the selection</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="shadow_type">in</property>
-            <property name="propagate_natural_width">True</property>
             <child>
               <object class="GtkTreeView" id="treeview_virements">
                 <property name="visible">True</property>
@@ -4014,7 +4007,6 @@ to add at the selection</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="shadow_type">in</property>
-                    <property name="propagate_natural_width">True</property>
                     <property name="propagate_natural_height">True</property>
                     <child>
                       <object class="GtkTreeView" id="treeview_data_grouping">
