@@ -31,6 +31,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <glib/gstdio.h>
+#include <math.h>
 
 /*START_INCLUDE*/
 #include "utils_str.h"
@@ -1096,7 +1097,7 @@ gchar *utils_str_break_filename (const gchar *string,
     /* on traite en premier dirname */
     if (dirname && size2 > trunc)
     {
-        n = size2 / trunc;
+        n = ceil((0.0 + size2) / trunc);
         tmp_dir = g_malloc (size2 + n);
         tmp_dir = g_utf8_strncpy (tmp_dir, dirname, trunc);
         tmp_str2 = utils_string_get_ligne_longueur_fixe (tmp_dir, G_DIR_SEPARATOR_S, trunc);
