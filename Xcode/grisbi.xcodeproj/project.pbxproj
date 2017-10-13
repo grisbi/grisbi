@@ -192,6 +192,7 @@
 		00EA60FE1F91505400569C19 /* prefs_page_files.ui in CopyFiles */ = {isa = PBXBuildFile; fileRef = 00EA60F61F91503000569C19 /* prefs_page_files.ui */; };
 		00EA60FF1F91505400569C19 /* prefs_page_import_asso.ui in CopyFiles */ = {isa = PBXBuildFile; fileRef = 00EA60F31F91503000569C19 /* prefs_page_import_asso.ui */; };
 		00EA61001F91505400569C19 /* prefs_page_import_files.ui in CopyFiles */ = {isa = PBXBuildFile; fileRef = 00EA60EE1F91502F00569C19 /* prefs_page_import_files.ui */; };
+		00EA61021F915CBA00569C19 /* grisbi_resources.c in Sources */ = {isa = PBXBuildFile; fileRef = 00EA61011F915CBA00569C19 /* grisbi_resources.c */; };
 		00EE9D061E01EAFB005BB1B0 /* openssl.c in Sources */ = {isa = PBXBuildFile; fileRef = 00EE9D041E01EAFB005BB1B0 /* openssl.c */; };
 /* End PBXBuildFile section */
 
@@ -595,6 +596,7 @@
 		00EA60F41F91503000569C19 /* prefs_page_display_fonts.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = prefs_page_display_fonts.ui; path = src/ui/prefs_page_display_fonts.ui; sourceTree = "<group>"; };
 		00EA60F51F91503000569C19 /* prefs_page_display_gui.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = prefs_page_display_gui.ui; path = src/ui/prefs_page_display_gui.ui; sourceTree = "<group>"; };
 		00EA60F61F91503000569C19 /* prefs_page_files.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = prefs_page_files.ui; path = src/ui/prefs_page_files.ui; sourceTree = "<group>"; };
+		00EA61011F915CBA00569C19 /* grisbi_resources.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = grisbi_resources.c; sourceTree = "<group>"; };
 		00EE9D011E01E93C005BB1B0 /* libgoffice-0.10.10.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libgoffice-0.10.10.dylib"; path = "../../../../../../usr/local/Cellar/goffice/0.10.32/lib/libgoffice-0.10.10.dylib"; sourceTree = "<group>"; };
 		00EE9D041E01EAFB005BB1B0 /* openssl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = openssl.c; path = openssl/openssl.c; sourceTree = "<group>"; };
 		00EE9D051E01EAFB005BB1B0 /* openssl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = openssl.h; path = openssl/openssl.h; sourceTree = "<group>"; };
@@ -815,6 +817,7 @@
 				006E67491DB3E7AC0038B1F0 /* grisbi_osx.h */,
 				003AC2241F49DFE1007DA275 /* grisbi_prefs.c */,
 				003AC2261F49E00B007DA275 /* grisbi_prefs.h */,
+				00EA61011F915CBA00569C19 /* grisbi_resources.c */,
 				006E674A1DB3E7AC0038B1F0 /* grisbi_settings.c */,
 				006E674B1DB3E7AC0038B1F0 /* grisbi_settings.h */,
 				006E674C1DB3E7AC0038B1F0 /* grisbi_win.c */,
@@ -1213,6 +1216,7 @@
 				006E689C1DB3E7AD0038B1F0 /* help.c in Sources */,
 				006E68501DB3E7AD0038B1F0 /* grisbi_settings.c in Sources */,
 				006E68981DB3E7AD0038B1F0 /* gsb_select_icon.c in Sources */,
+				00EA61021F915CBA00569C19 /* grisbi_resources.c in Sources */,
 				006E688D1DB3E7AD0038B1F0 /* gsb_payment_method.c in Sources */,
 				006E68B71DB3E7AD0038B1F0 /* utils_files.c in Sources */,
 				003AC2371F49E06D007DA275 /* prefs_page_files.c in Sources */,
