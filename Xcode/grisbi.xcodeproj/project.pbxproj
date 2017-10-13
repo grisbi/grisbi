@@ -545,6 +545,24 @@
 		00BCBD311E07018400579172 /* grisbi_menu.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = grisbi_menu.ui; path = src/ui/grisbi_menu.ui; sourceTree = "<group>"; };
 		00BCBD321E07018400579172 /* grisbi_win.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = grisbi_win.ui; path = src/ui/grisbi_win.ui; sourceTree = "<group>"; };
 		00BCBD331E07018400579172 /* grisbi.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = grisbi.css; path = src/ui/grisbi.css; sourceTree = "<group>"; };
+		00EA60731F91018300569C19 /* he.po */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = he.po; path = po/he.po; sourceTree = "<group>"; };
+		00EA60751F91018300569C19 /* cs.po */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = cs.po; path = po/cs.po; sourceTree = "<group>"; };
+		00EA60761F91018300569C19 /* fr.po */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = fr.po; path = po/fr.po; sourceTree = "<group>"; };
+		00EA60791F91018300569C19 /* eo.po */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = eo.po; path = po/eo.po; sourceTree = "<group>"; };
+		00EA607B1F91018300569C19 /* de.po */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = de.po; path = po/de.po; sourceTree = "<group>"; };
+		00EA607F1F91018400569C19 /* lv.po */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = lv.po; path = po/lv.po; sourceTree = "<group>"; };
+		00EA60831F91018400569C19 /* fa.po */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = fa.po; path = po/fa.po; sourceTree = "<group>"; };
+		00EA60851F91018400569C19 /* da.po */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = da.po; path = po/da.po; sourceTree = "<group>"; };
+		00EA60871F91018400569C19 /* pl.po */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = pl.po; path = po/pl.po; sourceTree = "<group>"; };
+		00EA60891F91018400569C19 /* it.po */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = it.po; path = po/it.po; sourceTree = "<group>"; };
+		00EA608B1F91018500569C19 /* nl.po */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = nl.po; path = po/nl.po; sourceTree = "<group>"; };
+		00EA608C1F91018500569C19 /* zh_CN.po */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = zh_CN.po; path = po/zh_CN.po; sourceTree = "<group>"; };
+		00EA608E1F91018500569C19 /* el.po */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = el.po; path = po/el.po; sourceTree = "<group>"; };
+		00EA60901F91018500569C19 /* ru.po */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = ru.po; path = po/ru.po; sourceTree = "<group>"; };
+		00EA60931F91018600569C19 /* sv.po */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = sv.po; path = po/sv.po; sourceTree = "<group>"; };
+		00EA60951F91018600569C19 /* ro.po */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = ro.po; path = po/ro.po; sourceTree = "<group>"; };
+		00EA60981F91018600569C19 /* pt_BR.po */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = pt_BR.po; path = po/pt_BR.po; sourceTree = "<group>"; };
+		00EA609B1F91018700569C19 /* es.po */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = es.po; path = po/es.po; sourceTree = "<group>"; };
 		00EE9D011E01E93C005BB1B0 /* libgoffice-0.10.10.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libgoffice-0.10.10.dylib"; path = "../../../../../../usr/local/Cellar/goffice/0.10.32/lib/libgoffice-0.10.10.dylib"; sourceTree = "<group>"; };
 		00EE9D041E01EAFB005BB1B0 /* openssl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = openssl.c; path = openssl/openssl.c; sourceTree = "<group>"; };
 		00EE9D051E01EAFB005BB1B0 /* openssl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = openssl.h; path = openssl/openssl.h; sourceTree = "<group>"; };
@@ -678,6 +696,7 @@
 		00B77C3A1DB2A0EC00A5D233 /* grisbi */ = {
 			isa = PBXGroup;
 			children = (
+				00EA60711F91016000569C19 /* po */,
 				00BCBD2E1E07016F00579172 /* ui */,
 				006E67001DB3E26B0038B1F0 /* config.h */,
 				00B77C421DB2A12700A5D233 /* src */,
@@ -1000,6 +1019,31 @@
 				00BCBD331E07018400579172 /* grisbi.css */,
 			);
 			name = ui;
+			sourceTree = "<group>";
+		};
+		00EA60711F91016000569C19 /* po */ = {
+			isa = PBXGroup;
+			children = (
+				00EA60751F91018300569C19 /* cs.po */,
+				00EA60851F91018400569C19 /* da.po */,
+				00EA607B1F91018300569C19 /* de.po */,
+				00EA608E1F91018500569C19 /* el.po */,
+				00EA60791F91018300569C19 /* eo.po */,
+				00EA609B1F91018700569C19 /* es.po */,
+				00EA60831F91018400569C19 /* fa.po */,
+				00EA60761F91018300569C19 /* fr.po */,
+				00EA60731F91018300569C19 /* he.po */,
+				00EA60891F91018400569C19 /* it.po */,
+				00EA607F1F91018400569C19 /* lv.po */,
+				00EA608B1F91018500569C19 /* nl.po */,
+				00EA60871F91018400569C19 /* pl.po */,
+				00EA60981F91018600569C19 /* pt_BR.po */,
+				00EA60951F91018600569C19 /* ro.po */,
+				00EA60901F91018500569C19 /* ru.po */,
+				00EA60931F91018600569C19 /* sv.po */,
+				00EA608C1F91018500569C19 /* zh_CN.po */,
+			);
+			name = po;
 			sourceTree = "<group>";
 		};
 		00EE9D031E01EAF0005BB1B0 /* openssl */ = {
