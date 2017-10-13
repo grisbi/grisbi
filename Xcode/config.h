@@ -1,3 +1,6 @@
+/* Defined if app is GtkOSXApplication */
+#define GTKOSXAPPLICATION 1
+
 /* Gettext package. */
 #define GETTEXT_PACKAGE "grisbi"
 
@@ -76,3 +79,8 @@
 
 #define HELP_PATH ""
 #define LOGO_PATH ""
+
+#define DATA_PATH "/usr/local/share/grisbi/"
+#define LOCALEDIR "/usr/local/share/locale"
+#define PIXMAPS_DIR "/usr/local/share/pixmaps/grisbi"
+#define UI_DIR ""
