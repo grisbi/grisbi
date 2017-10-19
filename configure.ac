@@ -66,13 +66,6 @@ dnl new warning from ar
 AR_FLAGS='cr'
 AC_SUBST(AR_FLAGS)
 
-dnl NSIS support (for Windows packaging)
-NSIS_SRCDIR=$({ cd ${srcdir} && pwd -W; } | sed 's|/|\\|g')
-NSIS_INSTDIR=$(echo $prefix | perl -p -e 's|^/(.)/|$1:\\|' | perl -p -e 's|/|\\|g')
-
-AC_SUBST(NSIS_SRCDIR)
-AC_SUBST(NSIS_INSTDIR)
-
 dnl ================================================================
 dnl Check for NLS support.
 dnl ================================================================
@@ -289,6 +282,25 @@ case $host_os in
     AC_MSG_RESULT([$platform_win])    
     ;;
 esac
+
+if test "$platform_win" = "yes"; then
+	NSIS_BITS=64bit
+	NSIS_DEFAULTINSTDIR="Program Files"
+	if test "$MSYSTEM"x == "MINGW32"x; then
+		NSIS_BITS=32bit;
+		NSIS_DEFAULTINSTDIR="Program Files (x86)"
+	fi
+	NSIS_SRCDIR=$({ cd ${srcdir} && pwd -W; } | sed 's|/|\\|g')
+	NSIS_INSTDIR=$(echo $prefix | perl -p -e 's|^/(.)/|$1:\\|' | perl -p -e 's|/|\\|g')
+	
+	AC_SUBST(NSIS_BITS)
+	AC_SUBST(NSIS_DEFAULTINSTDIR)
+	
+
+	AC_SUBST(NSIS_SRCDIR)
+	AC_SUBST(NSIS_INSTDIR)
+fi
+
 
 AM_CONDITIONAL(WIN32, test "$platform_win" = "yes")
 

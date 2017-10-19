@@ -1,52 +1,47 @@
 version: 1.0.{build}
 image: Visual Studio 2017
 clone_folder: c:\projects\grisbi-src
+init:
+- cmd: >-
+    c:\msys64\usr\bin\bash -lc "echo MSYSTEM=%MSYSTEM% > /appveyor.environment"
+
+
+    c:\msys64\usr\bin\bash -lc "pacman -S unzip --noconfirm"
+
+
+    c:\msys64\usr\bin\bash -lc "wget -O /nsis.zip \"https://sourceforge.net/projects/nsis/files/NSIS 3/3.02.1/nsis-3.02.1.zip/download?use_mirror=kent\""
+
+    c:\msys64\usr\bin\bash -lc "cd / && unzip nsis.zip"
+environment:
+  matrix:
+  - MSYSTEM: MINGW32
+  - MSYSTEM: MINGW64
 install:
 - cmd: >-
-    c:\msys64\usr\bin\bash -lc "pacman -Syu --noconfirm"
+    c:\msys64\usr\bin\bash -lc "cd /c/projects/grisbi-src/share && ./appveyor-install.sh"
 
-    c:\msys64\usr\bin\bash -lc "pacman -S --noconfirm mingw-w64-x86_64-cairo"
-
-    c:\msys64\usr\bin\bash -lc "pacman -S --noconfirm mingw-w64-x86_64-gtk3"
-
-
-    c:\msys64\usr\bin\bash -lc "pacman -S --noconfirm mingw-w64-x86_64-freetype"
-
-    c:\msys64\usr\bin\bash -lc "pacman -S --noconfirm mingw-w64-x86_64-libgsf"
-    
-    
-    c:\msys64\usr\bin\bash -lc "pacman -S unzip --noconfirm"
+    c:\msys64\usr\bin\bash -lc "ls /mingw*/share/glib-2.0/schemas/gschema.dtd"
 build_script:
-- cmd: >-
-    rem Setting variable is mandatory so that pkg-config to find
-
-    rem all .pc files. Note that we DO NOT want space after MINGW64
-
-
-    set MSYSTEM=MINGW64
-
-    c:\msys64\usr\bin\bash -lc "cd /c/projects/grisbi-src/ && ./autogen.sh"
-
-
-    c:\msys64\usr\bin\bash -lc "cd /c/projects/grisbi-src && ./configure --prefix /c/projects/grisbi-inst/"
-    
-    
-    c:\msys64\usr\bin\bash -lc "cd /c/projects/grisbi-src && v=$(grep PACKAGE_VERSION config.h | cut -f2 -d '\"'); powershell.exe -command \"Update-AppveyorBuild -Version '$v-B%APPVEYOR_BUILD_NUMBER%'\""
-
-
-    c:\msys64\usr\bin\bash -lc "cd /c/projects/grisbi-src && make -j 2"
-    
-    
-    c:\msys64\usr\bin\bash -lc "cd /c/projects/grisbi-src && make install"
-    
-    
-    c:\msys64\usr\bin\bash -lc "wget -O /nsis.zip \"https://sourceforge.net/projects/nsis/files/NSIS 3/3.02.1/nsis-3.02.1.zip/download?use_mirror=kent\""
-    
-    
-    c:\msys64\usr\bin\bash -lc "cd / && unzip nsis.zip"
-    
-    
-    c:\msys64\usr\bin\bash -lc "cd /nsis-3.02.1 && ./makensis.exe /c/projects/grisbi-src/share/grisbi.nsi"
+- cmd: c:\msys64\usr\bin\bash -lc "cd /c/projects/grisbi-src/share && ./appveyor-build.sh"
 artifacts:
-- path: share/Grisbi-x86_64-1.1.1-setup.exe
-  name: Grisbi wizard
+- path: share/Grisbi-32bit-$(appveyor_build_version)-setup.exe
+  name: Grisbi 32-bit
+- path: share/Grisbi-64bit-$(appveyor_build_version)-setup.exe
+  name: Grisbi 64-bit
+deploy:
+- provider: GitHub
+  release: v$(appveyor_build_version)
+  auth_token:
+    secure: sZu+i3QuPeW93JlxEBOJ7E1WYsAZQtIsOHVjzftLxkBvBKX/9Akt4GRYUdQWK3/Z
+  artifact: Grisbi 32-bit
+  draft: true
+  on:
+    MSYSTEM: MINGW32
+- provider: GitHub
+  release: v$(appveyor_build_version)
+  auth_token:
+    secure: sZu+i3QuPeW93JlxEBOJ7E1WYsAZQtIsOHVjzftLxkBvBKX/9Akt4GRYUdQWK3/Z
+  artifact: Grisbi 64-bit
+  draft: true
+  on:
+    MSYSTEM: MINGW64
