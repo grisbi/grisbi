@@ -29,6 +29,8 @@
 #include "include.h"
 #include <glib/gstdio.h>
 #include <glib/gi18n.h>
+#include <sys/stat.h>
+#include <sys/time.h>
 
 /*START_INCLUDE*/
 #include "import.h"
@@ -145,6 +147,7 @@ enum ImportFileselColumns
     IMPORT_FILESEL_REALNAME,
     IMPORT_FILESEL_TYPE,
     IMPORT_FILESEL_CODING,
+	IMPORT_FILESEL_DATE,
     IMPORT_FILESEL_NUM_COLS,
 };
 
@@ -1379,10 +1382,36 @@ static void gsb_import_select_file (GSList *filenames,
 		gchar *contents;
 		gchar *charmap;
 		gchar *tmp_str;
+		gchar *str_last_modif = NULL;
 		GError *error = NULL;
 		gchar *extension;
+		struct stat buf;
 
 		/* Open file */
+		if (stat (iterator->data, &buf) == 0)
+		{
+			struct tm *file_time;
+
+			file_time = localtime ( (&buf.st_mtime));
+			if (file_time)
+			{
+				tmp_str = gsb_format_date (file_time->tm_mday,file_time->tm_mon + 1,file_time->tm_year + 1900);
+				str_last_modif = g_strdup_printf ("%s %02d:%02d:%02d",
+												  tmp_str,
+												  file_time->tm_hour,
+												  file_time->tm_min,
+												  file_time->tm_sec);
+
+				g_free (tmp_str);
+			}
+			else
+			{
+				str_last_modif = g_strdup ("");
+			}
+		}
+		else
+			str_last_modif = g_strdup ("");
+
 		extension = strrchr (iterator->data, '.');
 
 		/* unzip Gnucash file if necessary */
@@ -1440,10 +1469,12 @@ static void gsb_import_select_file (GSList *filenames,
 							IMPORT_FILESEL_REALNAME, nom_fichier,
 							IMPORT_FILESEL_TYPE, type,
 							IMPORT_FILESEL_CODING, charmap,
+							IMPORT_FILESEL_DATE, str_last_modif,
 							-1);
 		g_free (nom_fichier);
 		g_free (tmp_contents);
 		g_free (tmp_str);
+		g_free (str_last_modif);
 
 		if (selected && strcmp (type, _("Unknown")) != 0)
 		{
@@ -1576,10 +1607,21 @@ static GtkWidget *gsb_import_create_force_dir_page (GtkWidget *assistant)
 												G_TYPE_STRING,				/* IMPORT_FILESEL_FILENAME */
 												G_TYPE_STRING,				/* IMPORT_FILESEL_REALNAME */
 												G_TYPE_STRING,				/* IMPORT_FILESEL_TYPE */
-												G_TYPE_STRING));			/* IMPORT_FILESEL_CODING */
+												G_TYPE_STRING,				/* IMPORT_FILESEL_CODING */
+												G_TYPE_STRING));			/* IMPORT_FILESEL_DATE */
 
     tree_view = gtk_tree_view_new_with_model (GTK_TREE_MODEL (model));
 	gtk_widget_set_name (tree_view, "tree_view");
+    /* sort by date */
+    gtk_tree_sortable_set_sort_func (GTK_TREE_SORTABLE (model),
+                        IMPORT_FILESEL_DATE,
+                        (GtkTreeIterCompareFunc) g_strcmp0,
+                        NULL,
+                        NULL );
+    gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (model),
+                        IMPORT_FILESEL_DATE,
+                        GTK_SORT_DESCENDING );
+
     gtk_container_add (GTK_CONTAINER (sw), tree_view);
 	g_object_unref (model);
 
@@ -1634,6 +1676,16 @@ static GtkWidget *gsb_import_create_force_dir_page (GtkWidget *assistant)
 													   "text", IMPORT_FILESEL_FILENAME,
 													   NULL);
     gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), column);
+
+	/* Date column. */
+    renderer = gtk_cell_renderer_text_new ();
+    column = gtk_tree_view_column_new_with_attributes (_("Date"),
+													   renderer,
+													   "text", IMPORT_FILESEL_DATE,
+													   NULL);
+	gtk_tree_view_column_set_sort_column_id (column, 0);
+	gtk_tree_view_column_set_sort_indicator (column, TRUE);
+	gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), column);
 
     g_object_set_data (G_OBJECT(assistant), "tree_view", tree_view);
     g_object_set_data (G_OBJECT(assistant), "model", model);
@@ -1707,12 +1759,30 @@ static GtkWidget *gsb_import_create_file_selection_page (GtkWidget *assistant)
     gtk_box_pack_start (GTK_BOX(paddingbox), sw, TRUE, TRUE, 6);
 
     /* Tree view and model. */
-    model = GTK_TREE_MODEL (gtk_tree_store_new (IMPORT_FILESEL_NUM_COLS, G_TYPE_BOOLEAN,
-                        G_TYPE_STRING, G_TYPE_STRING,
-                        G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING));
-    tree_view = gtk_tree_view_new_with_model (GTK_TREE_MODEL (model));
+    model = GTK_TREE_MODEL (gtk_tree_store_new (IMPORT_FILESEL_NUM_COLS,
+												G_TYPE_BOOLEAN,				/* IMPORT_FILESEL_SELECTED checked*/
+												G_TYPE_STRING,				/* IMPORT_FILESEL_TYPENAME OFX, CVS QIF*/
+												G_TYPE_STRING,				/* IMPORT_FILESEL_FILENAME */
+												G_TYPE_STRING,				/* IMPORT_FILESEL_REALNAME */
+												G_TYPE_STRING,				/* IMPORT_FILESEL_TYPE */
+												G_TYPE_STRING,				/* IMPORT_FILESEL_CODING */
+												G_TYPE_STRING));			/* IMPORT_FILESEL_DATE */
+
+	tree_view = gtk_tree_view_new_with_model (GTK_TREE_MODEL (model));
 	gtk_widget_set_name (tree_view, "tree_view");
-    gtk_container_add (GTK_CONTAINER (sw), tree_view);
+
+	/* sort by date */
+    gtk_tree_sortable_set_sort_func (GTK_TREE_SORTABLE (model),
+                        IMPORT_FILESEL_DATE,
+                        (GtkTreeIterCompareFunc) g_strcmp0,
+                        NULL,
+                        NULL );
+    gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (model),
+                        IMPORT_FILESEL_DATE,
+                        GTK_SORT_DESCENDING );
+
+	gtk_container_add (GTK_CONTAINER (sw), tree_view);
+	g_object_unref (model);
 
     /* Toggle column. */
     renderer = gtk_cell_renderer_toggle_new ();
@@ -1761,6 +1831,16 @@ static GtkWidget *gsb_import_create_file_selection_page (GtkWidget *assistant)
     column = gtk_tree_view_column_new_with_attributes (_("File name"), renderer,
                         "text", IMPORT_FILESEL_FILENAME,
                         NULL);
+    gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), column);
+
+	/* Date column. */
+    renderer = gtk_cell_renderer_text_new ();
+    column = gtk_tree_view_column_new_with_attributes (_("Date"),
+													   renderer,
+													   "text", IMPORT_FILESEL_DATE,
+													   NULL);
+	gtk_tree_view_column_set_sort_column_id (column, 0);
+	gtk_tree_view_column_set_sort_indicator (column, TRUE);
     gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), column);
 
     g_object_set_data (G_OBJECT(assistant), "tree_view", tree_view);
@@ -4090,6 +4170,7 @@ static void traitement_operations_importees (void)
     GSList *tmp_list;
     gint new_file;
 
+    devel_debug (NULL);
     /* when come here, all the currencies are already created
      * and init_variables is already called
      * (see affichage_recapitulatif_importation) */
@@ -4726,6 +4807,7 @@ gboolean gsb_import_by_rule (gint rule)
     gchar **array;
     gint i=0;
 
+    devel_debug (NULL);
     charmap_imported = my_strdup (gsb_data_import_rule_get_charmap (rule));
     array = gsb_import_by_rule_ask_filename (rule);
     if (!array)
