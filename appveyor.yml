@@ -13,6 +13,9 @@ install:
     c:\msys64\usr\bin\bash -lc "pacman -S --noconfirm mingw-w64-x86_64-freetype"
 
     c:\msys64\usr\bin\bash -lc "pacman -S --noconfirm mingw-w64-x86_64-libgsf"
+    
+    
+    c:\msys64\usr\bin\bash -lc "pacman -S unzip --noconfirm"
 build_script:
 - cmd: >-
     rem Setting variable is mandatory so that pkg-config to find
@@ -25,7 +28,25 @@ build_script:
     c:\msys64\usr\bin\bash -lc "cd /c/projects/grisbi-src/ && ./autogen.sh"
 
 
-    c:\msys64\usr\bin\bash -lc "cd /c/projects/grisbi-src && ./configure"
+    c:\msys64\usr\bin\bash -lc "cd /c/projects/grisbi-src && ./configure --prefix /c/projects/grisbi-inst/"
+    
+    
+    c:\msys64\usr\bin\bash -lc "cd /c/projects/grisbi-src && v=$(grep PACKAGE_VERSION config.h | cut -f2 -d '\"'); powershell.exe -command \"Update-AppveyorBuild -Version '$v-B%APPVEYOR_BUILD_NUMBER%'\""
 
 
-    c:\msys64\usr\bin\bash -lc "cd /c/projects/grisbi-src && make -j 4"
+    c:\msys64\usr\bin\bash -lc "cd /c/projects/grisbi-src && make -j 2"
+    
+    
+    c:\msys64\usr\bin\bash -lc "cd /c/projects/grisbi-src && make install"
+    
+    
+    c:\msys64\usr\bin\bash -lc "wget -O /nsis.zip \"https://sourceforge.net/projects/nsis/files/NSIS 3/3.02.1/nsis-3.02.1.zip/download?use_mirror=kent\""
+    
+    
+    c:\msys64\usr\bin\bash -lc "cd / && unzip nsis.zip"
+    
+    
+    c:\msys64\usr\bin\bash -lc "cd /nsis-3.02.1 && ./makensis.exe /c/projects/grisbi-src/share/grisbi.nsi"
+artifacts:
+- path: share/Grisbi-x86_64-1.1.1-setup.exe
+  name: Grisbi wizard
