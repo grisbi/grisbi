@@ -206,8 +206,8 @@ static gint gsb_file_dialog_save (const gchar *filename,
 								  gint origine)
 {
     GtkWidget *dialog;
-    gchar *hint;
-    gchar *message;
+    gchar *hint = NULL;
+    gchar *message = NULL;
     gint result;
 
     dialog = gtk_message_dialog_new (GTK_WINDOW (grisbi_app_get_active_window (NULL)),
