@@ -1365,7 +1365,7 @@ void gsb_transaction_list_config_toggle_element_button ( GtkWidget *toggle_butto
 
     if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( toggle_button ) ) )
     {
-        gint row, column;
+        gint row, column = 0;
         gboolean place_trouvee = FALSE;
 
         /* button is on, append the element */
