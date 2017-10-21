@@ -1071,10 +1071,10 @@ gchar *utils_str_break_filename (const gchar *string,
     gchar *ptr = NULL;
     gchar *separator;
     gint i = 1;
-    gint n = 0;
-    gint size1;
-    gint size2;
-    gint size3;
+    ssize_t n = 0;
+    ssize_t size1;
+    ssize_t size2;
+    ssize_t size3;
 
     if ((gint) g_utf8_strlen (string, -1) <= trunc)
         return g_strdup (string);
