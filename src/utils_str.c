@@ -718,7 +718,7 @@ gchar *gsb_string_remplace_string ( const gchar *str,
                         gchar *new_str )
 {
     gchar *ptr_debut;
-    gint long_old, str_len;
+    size_t long_old, str_len;
     gchar *chaine, *ret, *tail;
 
     ptr_debut = g_strstr_len ( str, -1, old_str);
