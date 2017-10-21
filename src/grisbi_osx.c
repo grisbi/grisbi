@@ -228,10 +228,9 @@ void grisbi_osx_app_active_cb ( GtkosxApplication* app, gboolean* data )
  * */
 GtkWidget *grisbi_osx_init_menus ( GtkWidget *window, GtkWidget *menubar )
 {
-    GtkWidget *widget;
     GtkWidget *sep;
     MenuItems *items;
-    GtkUIManager *ui_manager;
+/*    GtkUIManager *ui_manager; */
     GtkosxApplication *theApp;
 
     theApp = g_object_new ( GTKOSX_TYPE_APPLICATION, NULL );
