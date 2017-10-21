@@ -747,9 +747,9 @@ static gboolean grisbi_app_cmdline (GApplication *application,
 		errno = 0;
 		number = g_ascii_strtoll (tmp_str, &endptr, 10);
 		if (endptr == NULL)
-			priv->debug_level = number;
+			priv->debug_level = (gint)number;
 		else if (errno == 0 && number == 0)
-			priv->debug_level = number;
+			priv->debug_level = (gint)number;
 	}
 
 	if (IS_DEVELOPMENT_VERSION == 1)
