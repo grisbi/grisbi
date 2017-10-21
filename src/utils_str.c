@@ -155,9 +155,9 @@ static gchar *utils_string_get_separator (const gchar *string)
     gchar *ptr_1 = NULL;
     gchar *ptr_2 = NULL;
     gchar *ptr_3 = NULL;
-    gint long_1 = 0;
-    gint long_2 = 0;
-    gint long_3 = 0;
+    size_t long_1 = 0;
+    size_t long_2 = 0;
+    size_t long_3 = 0;
 
     ptr_1 = g_strrstr (string, " ");
     ptr_2 = g_strrstr (string, "-");
