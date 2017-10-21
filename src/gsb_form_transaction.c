@@ -442,7 +442,7 @@ gint gsb_form_transaction_validate_transfer ( gint transaction_number,
     GDate *contra_value_date = NULL;
     const gchar *contra_transaction_content = NULL;
     gint contra_payment_number = 0;
-    gint contra_transaction_number;
+    gint contra_transaction_number = 0;
     gint contra_mother_number = 0;
     gint contra_marked_transaction = 0;
     GtkWidget *contra_payment_button;
