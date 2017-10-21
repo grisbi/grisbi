@@ -1139,10 +1139,6 @@ gchar *utils_str_break_filename (const gchar *string,
     {
         tmp_str2 = g_strconcat (tmp_dir, G_DIR_SEPARATOR_S, "\n", basename, NULL);
         g_free (tmp_dir);
-        g_free (basename);
-        g_free (dirname);
-
-        return tmp_str2;
     }
     else
     {
@@ -1197,17 +1193,13 @@ gchar *utils_str_break_filename (const gchar *string,
 
         g_free (tmp_dir);
 		g_free (tmp_base);
-        g_free (basename);
-        g_free (dirname);
-
-        return tmp_str2;
     }
 
 	g_free (basename);
 	g_free (dirname);
 
     /* return */
-    return NULL;
+    return tmp_str2;
 }
 /* Local Variables: */
 /* c-basic-offset: 4 */
