@@ -735,7 +735,7 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
 {
     GtkWidget * dialog, *paddingbox, *table, *label, *entry, *hbox, *radiogroup;
     GtkTreeSelection * selection;
-    GtkTreeModel * model;
+    GtkTreeModel * model = NULL;
     GtkTreeIter iter;
     gint budget_number = -1, sub_budget_number = -1;
     gchar * title;
