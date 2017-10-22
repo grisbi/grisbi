@@ -26,11 +26,7 @@
 
     <!-- Comment this out to keep the install names in binaries -->
     <run-install-name-tool/>
-<<<<<<< HEAD
- 
-=======
 
->>>>>>> upstream/master
     <!-- Optionally specify a launcher script to use. If the
          application sets up everything needed itself, like
          environment variable, linker paths, etc, a launcher script is
@@ -103,10 +99,11 @@
   <!-- Copy icons. Note that the .icns file is an Apple format which
        contains up to 4 sizes of icon. You can use
        /Developer/Applications/Utilities/Icon Composer.app to import
-       artwork and create the file. >
+       artwork and create the file. -->
+       
   <data dest="${bundle}/Contents/Resources">
-    ${project}/Giggle.icns
-  </data -->
+    ${project}/Grisbi.icns
+  </data>
 
   <!-- This is where theme commands go. You can copy them in from your
        theme of choice if they provide and example, or you can just
@@ -131,6 +128,10 @@
 
     <data>
     ${prefix}/share/glib-2.0/schemas
-  </data>
+    </data>
+    <data>
+      ${prefix}/share/icons
+    </data>
 
+    
 </app-bundle>

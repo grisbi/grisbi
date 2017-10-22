@@ -1733,6 +1733,7 @@ GtkWidget *creation_onglet_accueil (void)
     GtkWidget *base_scroll;
     GtkWidget *eb;
 
+    printf("\n\n\n*****************************************************************\n\n");
     devel_debug (NULL);
 
     vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
@@ -2081,6 +2082,9 @@ gboolean gsb_main_page_update_finished_scheduled_transactions (gint scheduled_nu
     account_number = gsb_data_scheduled_get_account_number (scheduled_number);
     currency_number = gsb_data_scheduled_get_currency_number (scheduled_number) ;
 
+    printf("account_number=%d\n", account_number);
+    printf("currency_number=%d\n", currency_number);
+    
     /* append in the page the finished scheduled transaction */
     hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
     gtk_box_set_homogeneous (GTK_BOX (hbox), TRUE);
@@ -2125,20 +2129,20 @@ gboolean gsb_main_page_update_finished_scheduled_transactions (gint scheduled_nu
     gtk_box_pack_end (GTK_BOX (hbox), label, FALSE, TRUE, 0);
     gtk_widget_show ( label);
 
-	//~ if (main_page_finished_scheduled_transactions_part)
-	//~ {
-		gtk_box_pack_start (GTK_BOX (main_page_finished_scheduled_transactions_part),
-				hbox,
-				FALSE,
-				TRUE,
-				0);
-		gtk_widget_show ( label);
+    printf("Avant le drame %x\n", main_page_finished_scheduled_transactions_part);
+    if (main_page_finished_scheduled_transactions_part) {
+    gtk_box_pack_start (GTK_BOX (main_page_finished_scheduled_transactions_part),
+			 hbox,
+			 FALSE,
+			 TRUE,
+			 0);
+    gtk_widget_show ( label);
 
-		show_paddingbox (main_page_finished_scheduled_transactions_part);
-	//~ }
-
+    show_paddingbox (main_page_finished_scheduled_transactions_part);
+    }
     return FALSE;
-}
+    }
+    
 
 /**
  * update the title of the main page
