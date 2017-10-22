@@ -266,7 +266,7 @@ static gint gsb_file_dialog_save (const gchar *filename,
 
 			break;
 		}
-		case 0:
+		default:
 		{
 			hint = g_strdup_printf (_("Save changes in '%s' file?"),
 									(filename ? g_path_get_basename(filename) : _("unnamed")));
@@ -276,8 +276,6 @@ static gint gsb_file_dialog_save (const gchar *filename,
 									"gtk-save", GTK_RESPONSE_OK,
 									NULL);
 			message = g_strdup("");
-
-			break;
 		}
 	}
 	gtk_dialog_set_default_response (GTK_DIALOG(dialog), GTK_RESPONSE_OK);
