@@ -30,7 +30,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -52,9 +52,9 @@
  * are properly separated and a libgrisbi_core.a library is generated.
  */
 GtkWidget *window = NULL;
-struct gsb_run_t run;
-extern gchar *nom_fichier_comptes;
-gboolean gsb_main_grisbi_close( void )
+struct GrisbiAppRun run;
+#if 0
+gboolean grisbi_app_quit( void )
 {
 	return FALSE;
 }
@@ -64,60 +64,10 @@ gboolean gsb_main_set_grisbi_title ( gint account_number )
 }
 gchar *gsb_main_get_print_locale_var(void) { return NULL; }
 gchar *gsb_main_get_print_dir_var(void) { return NULL; }
+#endif
 
 /* End of unnecessary things */
 
-
-
-
-int gsb_cunit_run_tests()
-{
-    /* initialize the CUnit test registry */
-    if (CUE_SUCCESS != CU_initialize_registry())
-        return CU_get_error();
-
-    /* add a suite to the registry */
-    if ( ( NULL == gsb_data_account_cunit_create_suite ( ) )
-      || ( NULL == gsb_real_cunit_create_suite ( ) )
-      || ( NULL == utils_dates_cunit_create_suite ( ) )
-      || ( NULL == utils_real_cunit_create_suite ( ) )
-        )
-    {
-        CU_cleanup_registry();
-        return CU_get_error();
-    }
-
-    /* Run all tests */
-#ifdef _WIN32
-    CU_automated_run_tests();
-#else /* _WIN32 */
-    CU_basic_set_mode(CU_BRM_VERBOSE);
-    CU_basic_run_tests();
-#endif /* _WIN32 */
-    CU_cleanup_registry();
-    return CU_get_error();
-}
-
-
-#ifdef _MSC_VER
-int APIENTRY wWinMain(HINSTANCE hInstance,
-                      HINSTANCE hPrevInstance,
-                      LPWSTR    lpCmdLine,
-                      int       nCmdShow)
-{
-	int argc, nLen;
-	LPWSTR * argvP;
-	char ** argv = malloc(sizeof(char**));
-	argvP = CommandLineToArgvW(GetCommandLineW(), &(argc));
-	nLen = WideCharToMultiByte(CP_UTF8, 0,argvP[0], -1, NULL, 0, NULL, NULL);
-	*argv = malloc((nLen + 1) * sizeof(char));
-	WideCharToMultiByte(CP_UTF8, 0, argvP[0], -1, *argv, nLen, NULL, NULL);
-	int result = main(argc, argv);
-	free(*argv);
-	free(argv);
-	return result;
-}
-#endif /* _MSC_VER */
 
 int main(int argc, char** argv)
 {

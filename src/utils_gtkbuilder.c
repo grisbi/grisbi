@@ -23,7 +23,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include <glib/gi18n.h>
@@ -88,10 +88,12 @@ GtkWidget *utils_gtkbuilder_get_widget_by_name ( GtkBuilder *builder,
 
 
 /**
- * retourne le nom long du fichier de l'interface graphique
  *
  *
+ * \param
+ * \param
  *
+ * \return
  * */
 gint utils_gtkbuilder_merge_ui_data_in_builder ( GtkBuilder *builder,
                     const gchar *ui_name )
@@ -127,6 +129,49 @@ gint utils_gtkbuilder_merge_ui_data_in_builder ( GtkBuilder *builder,
 }
 
 
+/**
+ *  return a new GtkBuilder initiate with a file
+ *
+ * \param gchar         short name of UI file
+ *
+ * \return GtkBuilder    new GtkBuildeR
+ * */
+GtkBuilder *utils_gtk_builder_new_from_file ( const gchar *ui_name )
+{
+    GtkBuilder *builder;
+    gchar *filename;
+
+    /* obtention du nom long du fichier UI */
+    filename = utils_gtkbuilder_get_full_path ( ui_name );
+    if ( !g_file_test ( filename, G_FILE_TEST_EXISTS ) )
+    {
+        gchar* tmpstr;
+
+        tmpstr = g_strdup_printf ( _("Cannot open file '%s': %s"),
+                        filename,
+                        _("File does not exist") );
+        dialogue_error ( tmpstr );
+        g_free ( tmpstr );
+        g_free ( filename );
+
+        return NULL;
+    }
+
+    builder = gtk_builder_new_from_file ( filename );
+
+    g_free ( filename );
+
+    return builder;
+}
+
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ * */
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

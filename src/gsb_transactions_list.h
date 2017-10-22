@@ -26,12 +26,6 @@ enum
     ELEMENT_CHQ,
 };
 
-
-/* used for gtk_tree_view_column_set_alignment() (GTK2) */
-#define COLUMN_LEFT 0.0
-#define COLUMN_CENTER 0.5
-#define COLUMN_RIGHT 1.0
-
 /* START_INCLUDE_H */
 #include "gsb_real.h"
 /* END_INCLUDE_H */
@@ -88,10 +82,11 @@ gboolean gsb_transactions_list_update_transaction ( gint transaction_number );
 void gsb_transactions_list_update_tree_view ( gint account_number,
                         gboolean keep_selected_transaction );
 void mise_a_jour_affichage_r ( gboolean show_r );
-void move_selected_operation_to_account_nb ( GtkAction *action, gint *account );
-gboolean new_transaction ();
-void remove_transaction ();
-void schedule_selected_transaction ();
+void 			move_selected_operation_to_account_nb 		(gint source_account,
+				                                             gint target_account);
+gboolean new_transaction (void);
+void remove_transaction (void);
+void schedule_selected_transaction (void);
 gsb_real solde_debut_affichage ( gint account_number,
                         gint floating_point);
 void update_titres_tree_view ( void );

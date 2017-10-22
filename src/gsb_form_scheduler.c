@@ -28,7 +28,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -144,25 +144,36 @@ gboolean gsb_form_scheduler_create ( GtkWidget *table )
 	    switch ( element_number )
 	    {
 		case SCHEDULED_FORM_ACCOUNT:
-		    widget = gsb_account_create_combo_list ( G_CALLBACK ( gsb_form_scheduler_change_account ),
-                        NULL, FALSE);
-		    gtk_combo_box_set_active ( GTK_COMBO_BOX (widget), 0 );
-		    tooltip_text = _("Choose the account");
+			widget = gsb_account_create_combo_list (G_CALLBACK (gsb_form_scheduler_change_account), NULL, FALSE);
+			gtk_widget_set_hexpand (widget, TRUE);
+			if (etat.scheduler_set_default_account)
+			{
+				g_signal_handlers_block_by_func (widget, gsb_form_scheduler_change_account, NULL);
+				gsb_account_set_combo_account_number (widget, etat.scheduler_default_account_number);
+				g_signal_handlers_unblock_by_func (widget, gsb_form_scheduler_change_account, NULL);
+			}
+			else
+				gtk_combo_box_set_active (GTK_COMBO_BOX (widget), 0);
+
+			tooltip_text = _("Choose the account");
 		    break;
 
 		case SCHEDULED_FORM_AUTO:
 		    widget = gsb_combo_box_new_with_index ( text_auto, NULL, NULL );
+			gtk_widget_set_hexpand (widget, TRUE);
 		    tooltip_text = _("Automatic/manual scheduled transaction");
 		    break;
 
 		case SCHEDULED_FORM_FREQUENCY_BUTTON:
 		    widget = gsb_combo_box_new_with_index ( text_frequency,
                         G_CALLBACK (gsb_form_scheduler_frequency_button_changed), NULL );
+			gtk_widget_set_hexpand (widget, TRUE);
 		    tooltip_text = _("Frequency");
 		    break;
 
         case SCHEDULED_FORM_LIMIT_DATE:
             widget = gsb_calendar_entry_new (FALSE);
+			gtk_widget_set_hexpand (widget, TRUE);
             g_signal_connect ( G_OBJECT (widget),
                         "button-press-event",
                         G_CALLBACK (gsb_form_scheduler_button_press_event),
@@ -245,10 +256,6 @@ gboolean gsb_form_scheduler_free_list ( void )
 	struct_element *element;
 
 	element = list_tmp -> data;
-	if (element -> element_widget
-	    &&
-	    GTK_IS_WIDGET (element -> element_widget))
-	    gtk_widget_destroy (element -> element_widget);
 	g_free (element);
 
 	list_tmp = list_tmp -> next;
@@ -312,8 +319,7 @@ gboolean gsb_form_scheduler_change_account ( GtkWidget *button,
     save_execute = GPOINTER_TO_INT (g_object_get_data ( G_OBJECT (gsb_form_get_form_widget ()),
 							"execute_scheduled"));
     content_list = gsb_form_scheduler_get_content_list ();
-
-    gsb_form_fill_from_account (new_account_number);
+	gsb_form_clean (new_account_number);
 
     /* a problem now, fill_from_account will clean the form,
      * and make unsensitive some part of the form (method of payment...)
@@ -610,6 +616,17 @@ gboolean gsb_form_scheduler_clean ( void )
 	    switch (column)
 	    {
 		case SCHEDULED_FORM_ACCOUNT:
+			if (etat.scheduler_set_default_account)
+			{
+				g_signal_handlers_block_by_func (widget, gsb_form_scheduler_change_account, NULL);
+				gsb_account_set_combo_account_number (widget, etat.scheduler_default_account_number);
+				g_signal_handlers_unblock_by_func (widget, gsb_form_scheduler_change_account, NULL);
+			}
+			else
+				gtk_combo_box_set_active (GTK_COMBO_BOX (widget), 0);
+			gtk_widget_set_sensitive ( widget, FALSE );
+			break;
+
 		case SCHEDULED_FORM_AUTO:
 		case SCHEDULED_FORM_FREQUENCY_BUTTON:
 		case SCHEDULED_FORM_FREQUENCY_USER_BUTTON:
@@ -761,10 +778,10 @@ gboolean gsb_form_scheduler_button_press_event ( GtkWidget *entry,
                         GdkEventButton *ev,
                         gint *ptr_origin )
 {
-    gint element_number;
+    //~ gint element_number;
     GtkWidget *date_entry;
 
-    element_number = GPOINTER_TO_INT (ptr_origin);
+    //~ element_number = GPOINTER_TO_INT (ptr_origin);
 
     /* set the form sensitive */
     gsb_form_change_sensitive_buttons (TRUE);
@@ -796,13 +813,13 @@ gboolean gsb_form_scheduler_entry_lose_focus ( GtkWidget *entry,
 {
     gchar *string;
     gint element_number;
-    gint account_number;
+    //~ gint account_number;
 
     /* remove the selection */
 
     gtk_editable_select_region ( GTK_EDITABLE ( entry ), 0, 0 );
     element_number = GPOINTER_TO_INT ( ptr_origin );
-    account_number = gsb_form_get_account_number ();
+    //~ account_number = gsb_form_get_account_number ();
 
     /* string will be filled only if the field is empty */
     string = NULL;

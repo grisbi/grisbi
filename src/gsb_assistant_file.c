@@ -27,7 +27,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -35,7 +35,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_assistant_file.h"
-#include "affichage.h"
+#include "grisbi_app.h"
 #include "gsb_assistant.h"
 #include "gsb_automem.h"
 #include "gsb_bank.h"
@@ -47,6 +47,7 @@
 #include "gsb_select_icon.h"
 #include "import.h"
 #include "parametres.h"
+#include "structures.h"
 #include "traitement_variables.h"
 #include "utils.h"
 #include "utils_str.h"
@@ -54,7 +55,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gboolean gsb_assistant_file_change_title ( GtkWidget *title_entry,
+static void gsb_assistant_file_change_title ( GtkWidget *title_entry,
 						  GtkWidget *filename_entry );
 static gboolean gsb_assistant_file_choose_filename ( GtkWidget *button,
 						     GtkWidget *entry );
@@ -67,9 +68,6 @@ static GtkWidget *gsb_assistant_file_page_finish ( GtkWidget *assistant,
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gchar *adresse_commune;
-extern gchar *nom_fichier_comptes;
-extern gchar *titre_fichier;
 /*END_EXTERN*/
 
 enum file_assistant_page
@@ -89,7 +87,8 @@ static GtkWidget *currency_list_box;
 /* the button to know what assistant to launch at the end */
 static GtkWidget *button_create_account_next;
 
-
+/* nom du fichier de compte créé PROVISOIRE */
+static gchar *nom_fichier_comptes;
 
 /**
  * this function is called to launch the file opening assistant
@@ -149,7 +148,7 @@ GtkResponseType gsb_assistant_file_run ( gboolean first_opening,
     }
 
     assistant = gsb_assistant_new (text_1, text_2,
-				   "grisbi.png", NULL);
+				   "gsb-new-file-32.png", NULL);
 
     gsb_assistant_add_page ( assistant,
 			     gsb_assistant_file_page_2 (assistant),
@@ -230,11 +229,16 @@ GtkResponseType gsb_assistant_file_run ( gboolean first_opening,
     gsb_select_icon_set_logo_pixbuf (
                         gsb_select_icon_get_default_logo_pixbuf ( ) );
 
+	/* set the new filename */
+	grisbi_win_set_filename (NULL, nom_fichier_comptes);
+	if (nom_fichier_comptes)
+		g_free (nom_fichier_comptes);
+
     /* and now, launch the next assistant */
     if (launch_account_assistant)
 	gsb_file_new_finish ();
     else
-	importer_fichier ();
+	gsb_import_assistant_importer_fichier ();
 
     return return_value;
 }
@@ -261,13 +265,15 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
     GtkWidget *button;
     GtkWidget *table;
     GtkWidget *filename_entry;
+	GrisbiWinEtat *w_etat;
+
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
 
     page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 15 );
-    gtk_container_set_border_width ( GTK_CONTAINER (page),
-				     10 );
+    gtk_container_set_border_width ( GTK_CONTAINER (page), BOX_BORDER_WIDTH );
 
     vbox = new_vbox_with_title_and_icon ( _("General configuration"),
-					  "payees.png" );
+					  "gsb-payees-32.png" );
     gtk_box_pack_start ( GTK_BOX (page),
 			 vbox,
 			 TRUE, TRUE, 0 );
@@ -289,16 +295,19 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
 
 	/* need to declare filename_entry first for the next callback,
 	 * if no filename, set the title.gsb as default name */
+	nom_fichier_comptes = g_strdup (grisbi_win_get_filename (NULL));
 	if (!nom_fichier_comptes)
 	nom_fichier_comptes = g_strconcat ( gsb_dirs_get_default_dir (),
-			G_DIR_SEPARATOR_S, titre_fichier, ".gsb", NULL );
-	filename_entry = gsb_automem_entry_new (&nom_fichier_comptes,
-			NULL, NULL);
+			G_DIR_SEPARATOR_S, _("My accounts"), ".gsb", NULL );
+	filename_entry = gsb_automem_entry_new (&nom_fichier_comptes, NULL, NULL);
 
-	entry = gsb_automem_entry_new (&titre_fichier,
-			((GCallback)gsb_assistant_file_change_title), filename_entry);
-	g_object_set_data ( G_OBJECT (entry),
-			"last_title", my_strdup (titre_fichier));
+    entry = gtk_entry_new ();
+	gtk_entry_set_text (GTK_ENTRY(entry), w_etat->accounting_entity);
+	g_signal_connect (G_OBJECT(entry),
+					  "changed",
+					  G_CALLBACK (gsb_assistant_file_change_title),
+					  filename_entry);
+	g_object_set_data ( G_OBJECT (entry), "last_title", my_strdup (w_etat->accounting_entity));
 	gtk_grid_attach (GTK_GRID (table), entry, 1, 0, 2, 1);
 
 	/* filename */
@@ -315,23 +324,6 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
 			G_CALLBACK (gsb_assistant_file_choose_filename), filename_entry );
 
 	gtk_grid_attach (GTK_GRID (table), button, 2, 1, 1, 1);
-
-    /* will we crypt the file ? */
-#ifdef HAVE_SSL
-    {
-        button = gsb_automem_checkbutton_new ( _("Encrypt Grisbi file"),
-                                               &(etat.crypt_file), G_CALLBACK (gsb_gui_encryption_toggled), NULL);
-        gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
-                             FALSE, FALSE, 0 );
-
-        if ( etat.crypt_file )
-            run.new_crypted_file = TRUE;
-    }
-#else
-    {
-        run.new_crypted_file = FALSE;
-    }
-#endif
 
     /* date format */
     paddingbox = gsb_config_date_format_chosen ( vbox, GTK_ORIENTATION_HORIZONTAL );
@@ -351,7 +343,7 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
 			 FALSE, FALSE, 0);
     gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window),
 					  GTK_SHADOW_IN );
-    textview = gsb_automem_textview_new ( &adresse_commune, NULL, NULL );
+    textview = gsb_automem_textview_new ( &w_etat->adr_common, NULL, NULL );
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
 			textview );
 
@@ -372,12 +364,11 @@ static GtkWidget *gsb_assistant_file_page_3 ( GtkWidget *assistant )
     GtkWidget *page;
     GtkWidget *vbox;
 
-    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 15 );
-    gtk_container_set_border_width ( GTK_CONTAINER (page),
-				     10 );
+    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
+    gtk_container_set_border_width ( GTK_CONTAINER (page), BOX_BORDER_WIDTH );
 
     vbox = new_vbox_with_title_and_icon ( _("Select base currency"),
-					  "currencies.png" );
+					  "gsb-currencies-32.png" );
     gtk_box_pack_start ( GTK_BOX (page),
 			 vbox,
 			 TRUE, TRUE, 0 );
@@ -411,12 +402,11 @@ static GtkWidget *gsb_assistant_file_page_4 ( GtkWidget *assistant )
     GtkWidget *vbox;
     GtkWidget *button_list;
 
-    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 15 );
-    gtk_container_set_border_width ( GTK_CONTAINER (page),
-				     10 );
+    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
+    gtk_container_set_border_width ( GTK_CONTAINER (page), BOX_BORDER_WIDTH );
 
     vbox = new_vbox_with_title_and_icon ( _("Select the list of categories you will use"),
-					  "categories.png" );
+					  "gsb-categories-32.png" );
     gtk_box_pack_start ( GTK_BOX (page),
 			 vbox,
 			 TRUE, TRUE, 0 );
@@ -443,9 +433,8 @@ static GtkWidget *gsb_assistant_file_page_5 ( GtkWidget *assistant )
     GtkWidget *page;
     GtkWidget *bank_page;
 
-    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 15 );
-    gtk_container_set_border_width ( GTK_CONTAINER (page),
-				     10 );
+    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
+    gtk_container_set_border_width ( GTK_CONTAINER (page), BOX_BORDER_WIDTH );
 
     /* the configuration page is very good, keep it */
     bank_page = gsb_bank_create_page (TRUE);
@@ -474,12 +463,11 @@ static GtkWidget *gsb_assistant_file_page_finish ( GtkWidget *assistant,
     GtkWidget *label;
     GtkWidget *button;
 
-    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 15 );
-    gtk_container_set_border_width ( GTK_CONTAINER (page),
-				     10 );
+    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
+    gtk_container_set_border_width ( GTK_CONTAINER (page), BOX_BORDER_WIDTH );
 
     vbox = new_vbox_with_title_and_icon ( _("Configuration finished!"),
-					  "reconciliationlg.png" );
+					  "reconciliation-32.png" );
     gtk_box_pack_start ( GTK_BOX (page),
 			 vbox,
 			 TRUE, TRUE, 0 );
@@ -525,14 +513,23 @@ static GtkWidget *gsb_assistant_file_page_finish ( GtkWidget *assistant,
  *
  * \return FALSE
  * */
-static gboolean gsb_assistant_file_change_title ( GtkWidget *title_entry,
+static void gsb_assistant_file_change_title ( GtkWidget *title_entry,
 						  GtkWidget *filename_entry )
 {
     gchar *new_filename;
     gchar *last_filename;
     gchar *last_title;
+	const gchar *text;
+	GrisbiWinEtat *w_etat;
 
-    update_homepage_title (GTK_ENTRY (title_entry), NULL, 0, 0);
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
+
+	text = gtk_entry_get_text (GTK_ENTRY (title_entry));
+	if (text && strlen (text))
+		w_etat->accounting_entity = g_strdup (text);
+
+    /* set Grisbi title */
+    grisbi_win_set_window_title (-1);
 
     /* first get the last content of the title to see if the filename
      * was automatically created, and in that case, we continue the automatic mode,
@@ -555,7 +552,7 @@ static gboolean gsb_assistant_file_change_title ( GtkWidget *title_entry,
 	/* there is a difference between the last title and the filename,
 	 * so juste free the memory and do nothing */
 	g_free (last_filename);
-	return FALSE;
+	return;
     }
 
     /* ok, the filename is an automatic creation,
@@ -583,7 +580,7 @@ static gboolean gsb_assistant_file_change_title ( GtkWidget *title_entry,
 			 new_filename );
     g_free (new_filename);
 
-    return FALSE;
+    return;
 }
 
 /**
@@ -602,7 +599,7 @@ static gboolean gsb_assistant_file_choose_filename ( GtkWidget *button,
     gchar *tmpstr;
 
     dialog = gtk_file_chooser_dialog_new ( _("Create filename"),
-					   GTK_WINDOW ( run.window ),
+					   GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
 					   GTK_FILE_CHOOSER_ACTION_SAVE,
 					   "gtk-cancel", GTK_RESPONSE_CANCEL,
 					   "gtk-ok", GTK_RESPONSE_ACCEPT,

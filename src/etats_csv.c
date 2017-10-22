@@ -22,7 +22,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -42,15 +42,15 @@
 /*START_STATIC*/
 static void csv_attach_hsep ( gint x, gint x2, gint y, gint y2);
 static void csv_attach_label ( gchar * text, gdouble properties, gint x, gint x2, gint y, gint y2,
-                        enum alignement align, gint transaction_number );
+							  GtkJustification align, gint transaction_number );
 static void csv_attach_vsep ( gint x, gint x2, gint y, gint y2);
-static gint csv_finish ();
+static gint csv_finish ( void );
 static gint csv_initialise (GSList * opes_selectionnees, gchar * filename );
 static void csv_safe ( const gchar * text ) ;
 /*END_STATIC*/
 
 
-struct struct_etat_affichage csv_affichage = {
+struct EtatAffichage csv_affichage = {
     csv_initialise,
     csv_finish,
     csv_attach_hsep,
@@ -87,7 +87,7 @@ static gint csv_lastline = 1;
  *            backend is not interactive)
  */
 void csv_attach_label ( gchar * text, gdouble properties, gint x, gint x2, gint y, gint y2,
-                        enum alignement align, gint transaction_number )
+                        GtkJustification align, gint transaction_number )
 {
     gint pad;
 
@@ -167,7 +167,7 @@ gint csv_initialise (GSList * opes_selectionnees, gchar * filename )
     if ( g_file_test ( filename, G_FILE_TEST_IS_REGULAR ) )
         g_unlink ( filename );
 
-    csv_out = utf8_fopen ( filename, "w" );
+    csv_out = utils_files_utf8_fopen ( filename, "w" );
     if ( ! csv_out )
     {
         gchar *sMessage = NULL;
@@ -191,7 +191,7 @@ gint csv_initialise (GSList * opes_selectionnees, gchar * filename )
  *
  * \return TRUE on success, FALSE otherwise.
  */
-gint csv_finish ()
+gint csv_finish ( void )
 {
     fclose (csv_out);
 
@@ -214,15 +214,15 @@ void csv_safe ( const gchar * text )
 
     for ( ; * text; text ++ )
     {
-	switch ( * text )
-	{
-	    case '"':
-		fprintf ( csv_out, "\\" );
-
-	    default:
-		fprintf ( csv_out, "%c", *text );
-		break;
-	}
+		switch ( * text )
+		{
+			case '"':
+				fprintf ( csv_out, "\\" );
+				/* FALLTHRU */
+			default:
+				fprintf ( csv_out, "%c", *text );
+				break;
+		}
     }
 }
 

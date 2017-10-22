@@ -28,7 +28,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -40,6 +40,7 @@
 #include "gsb_reconcile.h"
 #include "dialog.h"
 #include "fenetre_principale.h"
+#include "grisbi_win.h"
 #include "gsb_calendar_entry.h"
 #include "gsb_data_account.h"
 #include "gsb_data_reconcile.h"
@@ -49,6 +50,7 @@
 #include "gsb_form_widget.h"
 #include "gsb_real.h"
 #include "gsb_reconcile_list.h"
+#include "gsb_rgba.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
 #include "menu.h"
@@ -118,7 +120,7 @@ GtkWidget *gsb_reconcile_create_box ( void )
     GtkWidget *frame, *label, *table, *vbox, *hbox, *button, *separator;
 
     frame = gtk_frame_new ( NULL );
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 3 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
     gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 3 );
     gtk_container_add ( GTK_CONTAINER ( frame ), vbox );
 
@@ -129,7 +131,7 @@ GtkWidget *gsb_reconcile_create_box ( void )
     gtk_frame_set_label_widget ( GTK_FRAME(frame), label);
 
     /* number of reconcile */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0);
 
     label = gtk_label_new ( _("Reconciliation reference: ") );
@@ -141,14 +143,14 @@ GtkWidget *gsb_reconcile_create_box ( void )
                             "automatically incremented at each reconciliation.\n"
                             "You can let it empty if you don't want to keep a trace of "
                             "the reconciliation.") );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), reconcile_number_entry, TRUE, TRUE, 0);
+    gtk_box_pack_start ( GTK_BOX ( hbox ), reconcile_number_entry, FALSE, FALSE, 0);
 
     separator = gtk_separator_new ( GTK_ORIENTATION_HORIZONTAL );
     gtk_box_pack_start ( GTK_BOX ( vbox ), separator, FALSE, FALSE, 0);
 
     /* under the reconcile number, we have a table */
     table = gtk_grid_new ();
-    gtk_grid_set_row_spacing (GTK_GRID (table), 3 );
+    gtk_grid_set_row_spacing (GTK_GRID (table), 5);
     gtk_box_pack_start ( GTK_BOX ( vbox ), table, FALSE, FALSE, 0);
 
     separator = gtk_separator_new ( GTK_ORIENTATION_HORIZONTAL );
@@ -204,7 +206,6 @@ GtkWidget *gsb_reconcile_create_box ( void )
     separator = gtk_separator_new ( GTK_ORIENTATION_HORIZONTAL );
     gtk_box_pack_start ( GTK_BOX ( vbox ), separator, FALSE, FALSE, 0);
 
-
     /* 2nd table under that, with the balances labels */
     table = gtk_grid_new ();
     gtk_grid_set_row_spacing (GTK_GRID (table), 5);
@@ -253,7 +254,7 @@ GtkWidget *gsb_reconcile_create_box ( void )
     separator = gtk_separator_new ( GTK_ORIENTATION_HORIZONTAL );
     gtk_box_pack_start ( GTK_BOX ( vbox ), separator, FALSE, FALSE, 0);
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 3 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
     gtk_box_set_homogeneous ( GTK_BOX ( hbox ), TRUE );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0);
 
@@ -264,7 +265,7 @@ GtkWidget *gsb_reconcile_create_box ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), reconcile_sort_list_button, FALSE, FALSE, 0);
 
     /* make the buttons */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 3 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
     gtk_box_set_homogeneous ( GTK_BOX ( hbox ), TRUE );
     gtk_box_pack_end ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0);
 
@@ -310,7 +311,7 @@ gchar *gsb_reconcile_build_label ( int reconcile_number )
     gchar *new_label;
     gchar format[6] = "%s%0d";
     int __reconcile_number;
-    int __size;
+    size_t __size;
     int __expand;
 
     /* old_label = NAME + NUMBER */
@@ -449,8 +450,8 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
             tmpstr = utils_real_get_string (gsb_data_reconcile_get_final_balance (reconcile_number));
             gtk_entry_set_text ( GTK_ENTRY ( reconcile_initial_balance_entry ), tmpstr);
             g_free ( tmpstr );
-            gtk_widget_set_sensitive ( GTK_WIDGET ( reconcile_initial_balance_entry ),
-                    FALSE );
+			gtk_widget_set_name (reconcile_initial_balance_entry, "reconcile_old_entry_insensitive");
+            gtk_widget_set_sensitive ( GTK_WIDGET ( reconcile_initial_balance_entry ), FALSE );
         }
         else
         {
@@ -463,6 +464,7 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
             tmpstr = utils_real_get_string ( gsb_data_account_get_init_balance (account_number, -1));
             gtk_entry_set_text ( GTK_ENTRY ( reconcile_initial_balance_entry ), tmpstr);
             g_free ( tmpstr );
+			gtk_widget_set_name (reconcile_initial_balance_entry, "reconcile_old_entry");
             gtk_widget_set_sensitive ( GTK_WIDGET ( reconcile_initial_balance_entry ), TRUE );
         }
     }
@@ -691,7 +693,7 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
 
     if ( reconcile_save_last_scheduled_convert )
     {
-        gsb_gui_navigation_set_selection ( GSB_SCHEDULER_PAGE, 0, NULL );
+        gsb_gui_navigation_set_selection ( GSB_SCHEDULER_PAGE, 0, 0);
         gsb_scheduler_list_select ( reconcile_save_last_scheduled_convert );
         gsb_scheduler_list_edit_transaction ( reconcile_save_last_scheduled_convert );
         reconcile_save_last_scheduled_convert = 0;
@@ -711,30 +713,8 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
  * */
 void gsb_reconcile_sensitive ( gboolean sensitive )
 {
-    GtkUIManager *ui_manager;
-
-    ui_manager = gsb_menu_get_ui_manager ( );
     gtk_widget_set_sensitive ( gsb_gui_navigation_get_tree_view ( ), sensitive );
-    gsb_gui_sensitive_headings (sensitive);
-    /* add by pbiava 02/11/2009 */
-    gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( ui_manager,
-                              "/menubar/ViewMenu/ShowReconciled/" ),
-			       sensitive );
-    gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( ui_manager,
-                              "/menubar/ViewMenu/ShowArchived/" ),
-			       sensitive );
-    gtk_widget_set_sensitive ( gtk_ui_manager_get_widget (ui_manager,
-							  "/menubar/ViewMenu/ShowClosed/" ),
-			       sensitive );
-    gtk_widget_set_sensitive ( gtk_ui_manager_get_widget (ui_manager,
-							  "/menubar/EditMenu/ConvertToScheduled/" ),
-			       sensitive );
-    gtk_widget_set_sensitive ( gtk_ui_manager_get_widget (ui_manager,
-							  "/menubar/EditMenu/NewAccount/" ),
-			       sensitive );
-    gtk_widget_set_sensitive ( gtk_ui_manager_get_widget (ui_manager,
-							  "/menubar/EditMenu/RemoveAccount/" ),
-			       sensitive );
+    grisbi_win_headings_sensitive_headings (sensitive);
 }
 
 
@@ -809,9 +789,6 @@ gboolean gsb_reconcile_update_amounts ( GtkWidget *entry,
     gchar *tmp_string;
 	gchar* tmpstr;
     gboolean valide = FALSE;
-    GtkStyleContext* context;
-
-    context = gtk_widget_get_style_context  (entry);
 
     /* first get the current account number */
     account_number = gsb_gui_navigation_get_current_account ();

@@ -1,34 +1,35 @@
 /* Default color scheme */
 /* Couleurs de base */
+@define-color couleur_blanche white;
 @define-color couleur_bleue blue;
 @define-color couleur_jaune yellow;
 @define-color couleur_grey_box rgba(192,192,192,1.0);
 
-
 /* colors of the amounts in the first page */
 @define-color couleur_nom_compte_normal rgb(0,0,0);
-@define-color couleur_nom_compte_prelight rgb(156,156,156);
+@define-color couleur_nom_compte_hover rgb(156,156,156);
 @define-color couleur_solde_alarme_verte_normal rgb(0,127,0);
-@define-color couleur_solde_alarme_verte_prelight rgb(0,230,0);
+@define-color couleur_solde_alarme_verte_hover rgb(0,230,0);
 @define-color couleur_solde_alarme_orange_normal rgb(230,155,0);
-@define-color couleur_solde_alarme_orange_prelight rgb(255,200,0);
+@define-color couleur_solde_alarme_orange_hover rgb(255,200,0);
 @define-color couleur_solde_alarme_rouge_normal rgb(153,0,0);
-@define-color couleur_solde_alarme_rouge_prelight rgb(255,0,0);
+@define-color couleur_solde_alarme_rouge_hover rgb(255,0,0);
 
 /* Couleur des entry en erreur */
 @define-color default_entry_error_color rgb(255,0,0);
 
 /* Couleurs des tree_view */
 @define-color background_archive rgb(58,117,39);
-@define-color background_scheduled rgb(255,0,0);
+@define-color background_scheduled rgb(186,189,182);
 @define-color background_split rgb(239,197,197);
-@define-color couleur_fond_0 rgb(214,214,255);
+@define-color couleur_fond_0 rgb(215,215,255);
 @define-color couleur_fond_1 rgb(255,255,255);
 @define-color couleur_jour rgb(179,174,174);
 @define-color couleur_selection rgb(245,156,156);
 @define-color text_color_0 rgb(0,0,0);
 @define-color text_color_1 rgb(195,195,195);
 @define-color text_color_2 rgb(255,0,0);
+@define-color couleur_column_header rgb(141,177,221);
 
 /* colors for the balance estimate module */
 @define-color couleur_bet_division rgb(0,0,0);
@@ -36,14 +37,107 @@
 @define-color couleur_bet_solde rgb(0,0,0);
 @define-color couleur_bet_transfert rgb(0,0,0);
 
-.view {
-  color: #2e3436;
-  background-color: alpha(white, 0.30);
+/***********
+ * default *
+ ***********/
+
+*:selected,
+*:selected:focus {
+  background-color: @couleur_selection;
 }
 
-.view:selected {
-  color: white;
-  background-color: rgba(74,144,217,1.0);
+/**********
+ * button *
+ **********/
+
+ /***********
+* calendar *
+************/
+
+/****************
+ * cell and row *
+ ****************/
+
+.cell:selected,
+.cell:selected:focus {
+	background-color: @couleur_selection;
+}
+
+row:selected,
+row:selected:focus {
+	background-color: @couleur_selection;
+    background-image: none;
+}
+
+/*****************
+ * column-header *
+ *****************/
+
+column-header .button {
+}
+
+/*********
+ * entry *
+ *********/
+
+.entry:selected,
+.entry:selected:focus {
+    background-color: @couleur_selection;
+}
+
+/*****************
+ * miscellaneous *
+ *****************/
+
+/************
+ * menuitem *
+ ************/
+
+.menu.button:hover {
+    border: 1px solid @border;
+    border-radius: 0;
+    border-image: none;
+    background-color: @couleur_selection;
+    background-image: none;
+}
+
+/************
+ * treeview *
+ ************/
+
+/*GtkTreeView row:nth-child(even) {
+	background-color: @couleur_fond_0;
+}
+
+GtkTreeView row:nth-child(odd) {
+	background-color: @couleur_fond_1;
+}
+*/
+/************
+ * viewport *
+ ************/
+
+.view:selected,
+.view:selected:focus {
+	background-color: shade (@couleur_selection, 0.9);
+}
+
+.view row:selected:focus {
+	background-color: @couleur_selection;
+}
+
+/************
+ * private  *
+ ************/
+
+#tree_view.view:hover {
+	background-color: mix(@couleur_selection, white, 0.5);
+	background-image: none;
+}
+
+#tree_view.view:selected {
+	background-color: @couleur_selection;
+	background-image: none;
 }
 
 #grey_box {
@@ -54,32 +148,32 @@
   color: @couleur_nom_compte_normal;
 }
 
-#accueil_nom_compte:prelight {
-  color: @couleur_nom_compte_prelight;
+#accueil_nom_compte:hover {
+  color: @couleur_nom_compte_hover;
 }
 
 #accueil_solde_alarme_verte {
   color: @couleur_solde_alarme_verte_normal;
 }
 
-#accueil_solde_alarme_verte:prelight {
-  color: @couleur_solde_alarme_verte_prelight;
+#accueil_solde_alarme_verte:hover {
+  color: @couleur_solde_alarme_verte_hover;
 }
 
 #accueil_solde_alarme_orange {
   color: @couleur_solde_alarme_orange_normal;
 }
 
-#accueil_solde_alarme_orange:prelight {
-  color: @couleur_solde_alarme_orange_prelight;
+#accueil_solde_alarme_orange:hover {
+  color: @couleur_solde_alarme_orange_hover;
 }
 
 #accueil_solde_alarme_rouge {
   color: @couleur_solde_alarme_rouge_normal;
 }
 
-#accueil_solde_alarme_rouge:prelight {
-  color: @couleur_solde_alarme_rouge_prelight;
+#accueil_solde_alarme_rouge:hover {
+  color: @couleur_solde_alarme_rouge_hover;
 }
 
 #form_entry {
@@ -98,8 +192,8 @@
   color: @text_color_0;
 }
 
-#etat_event_box:prelight {
-  color: @couleur_solde_alarme_rouge_prelight;
+#etat_event_box:hover {
+  color: @couleur_solde_alarme_rouge_hover;
 }
 
 #list_config_buttons {
@@ -110,4 +204,14 @@
 #list_config_buttons:checked {
   color: green;
   background-color: @couleur_selection;
+}
+
+#reconcile_old_entry {
+  color: @text_color_0;
+}
+
+#reconcile_old_entry_insensitive {
+  background-color: transparent;
+  background-image: none;
+  color: @text_color_1;
 }

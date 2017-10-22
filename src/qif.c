@@ -22,7 +22,7 @@
 /* ************************************************************************** */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -44,6 +44,7 @@
 #include "gsb_data_transaction.h"
 #include "gsb_file_util.h"
 #include "gsb_real.h"
+#include "structures.h"
 #include "utils_real.h"
 #include "utils_str.h"
 #include "import.h"
@@ -59,7 +60,7 @@ static gint gsb_qif_get_account_type ( gchar *header );
 static gint gsb_qif_recupere_categories ( FILE *qif_file, const gchar *coding_system );
 static gint gsb_qif_recupere_operations_from_account ( FILE *qif_file,
                         const gchar *coding_system,
-                        struct struct_compte_importation *imported_account );
+                        struct ImportAccount *imported_account );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -95,7 +96,7 @@ static gchar *order_names[] = {
 /**
  * \brief Import QIF data.
  *
- * Open a QIF file and fills in data in a struct_compte_importation
+ * Open a QIF file and fills in data in a ImportAccount
  * data structure.
  *
  * \param assistant	Not used.
@@ -104,15 +105,15 @@ static gchar *order_names[] = {
  *
  * \return		TRUE on success.
  */
-gboolean recuperation_donnees_qif ( GtkWidget *assistant, struct imported_file *imported )
+gboolean recuperation_donnees_qif ( GtkWidget *assistant, struct ImportFile *imported )
 {
     gchar *tmp_str;
-    struct struct_compte_importation *imported_account;
+    struct ImportAccount *imported_account;
     gint returned_value = 0;
     gboolean premier_compte = TRUE;
     FILE *qif_file;
 
-    qif_file = utf8_fopen ( imported -> name, "r" );
+    qif_file = utils_files_utf8_fopen ( imported -> name, "r" );
     if ( ! qif_file )
         return FALSE;
 
@@ -121,8 +122,8 @@ gboolean recuperation_donnees_qif ( GtkWidget *assistant, struct imported_file *
     /* qif_file pointe sur le qif_file qui a été reconnu comme qif */
     rewind ( qif_file );
 
-    imported_account = g_malloc0 ( sizeof ( struct struct_compte_importation ));
-    imported_account -> nom_de_compte = unique_imported_name ( _("Invalid QIF file") );
+    imported_account = g_malloc0 ( sizeof ( struct ImportAccount ));
+    imported_account -> nom_de_compte = gsb_import_unique_imported_name ( _("Invalid QIF file") );
     imported_account -> filename = my_strdup ( imported -> name );
     imported_account -> origine = my_strdup ( "QIF" );
 
@@ -130,7 +131,7 @@ gboolean recuperation_donnees_qif ( GtkWidget *assistant, struct imported_file *
     imported_account -> real_filename = my_strdup (imported -> name);
 
     /* It is positioned on the first line of file */
-    returned_value = get_utf8_line_from_file ( qif_file, &tmp_str, imported -> coding_system );
+    returned_value = utils_files_get_utf8_line_from_file ( qif_file, &tmp_str, imported -> coding_system );
 
     do
     {
@@ -138,7 +139,7 @@ gboolean recuperation_donnees_qif ( GtkWidget *assistant, struct imported_file *
         gchar *account_name = NULL;
         gint order = 0;
         gboolean name_preced = FALSE;
-        struct struct_ope_importation *imported_transaction;
+        struct ImportTransaction *imported_transaction;
 
         do
         {
@@ -149,7 +150,7 @@ gboolean recuperation_donnees_qif ( GtkWidget *assistant, struct imported_file *
              g_ascii_strncasecmp ( tmp_str, "!Account", 8 ) == 0 )
             {
                 /* create and fill the new account */
-                imported_account = g_malloc0 ( sizeof ( struct struct_compte_importation ) );
+                imported_account = g_malloc0 ( sizeof ( struct ImportAccount ) );
                 imported_account -> origine = my_strdup ( "QIF" );
 
                 /* save filename and account_name */
@@ -157,12 +158,12 @@ gboolean recuperation_donnees_qif ( GtkWidget *assistant, struct imported_file *
                 imported_account -> filename = my_strdup ( imported -> name );
 
                 account_name = gsb_qif_get_account_name ( qif_file, imported -> coding_system );
-                imported_account -> nom_de_compte = unique_imported_name ( account_name );
+                imported_account -> nom_de_compte = gsb_import_unique_imported_name ( account_name );
                 g_free ( account_name );
 
                 name_preced = TRUE;
                 premier_compte = FALSE;
-                returned_value = get_utf8_line_from_file ( qif_file, &tmp_str, imported -> coding_system );
+                returned_value = utils_files_get_utf8_line_from_file ( qif_file, &tmp_str, imported -> coding_system );
             }
             else if ( returned_value != EOF
              &&
@@ -201,13 +202,13 @@ gboolean recuperation_donnees_qif ( GtkWidget *assistant, struct imported_file *
                     if ( name_preced == FALSE )
                     {
                         /* create and fill the new account */
-                        imported_account = g_malloc0 ( sizeof ( struct struct_compte_importation ) );
+                        imported_account = g_malloc0 ( sizeof ( struct ImportAccount ) );
                         imported_account -> origine = my_strdup ( "QIF" );
 
                         /* save filename and account_name */
                         imported_account -> real_filename = my_strdup ( imported -> name );
                         imported_account -> filename = my_strdup ( imported -> name );
-                        imported_account -> nom_de_compte = unique_imported_name (
+                        imported_account -> nom_de_compte = gsb_import_unique_imported_name (
                                                                 my_strdup ( _("Imported QIF account" ) ) );
 
                         premier_compte = FALSE;
@@ -293,7 +294,7 @@ gboolean recuperation_donnees_qif ( GtkWidget *assistant, struct imported_file *
                 tmp_str = my_strdelimit (imported_transaction -> categ, "[]", "");
                 if ( imported_account -> nom_de_compte )
                     g_free ( imported_account -> nom_de_compte );
-                imported_account -> nom_de_compte = unique_imported_name ( tmp_str );
+                imported_account -> nom_de_compte = gsb_import_unique_imported_name ( tmp_str );
                 g_free (tmp_str);
 
                 /* get the date of the file */
@@ -368,7 +369,7 @@ static gint gsb_qif_get_date_order ( GSList *transactions_list )
     tmp_list = transactions_list;
     while ( tmp_list )
     {
-        struct struct_ope_importation *transaction = tmp_list -> data;
+        struct ImportTransaction *transaction = tmp_list -> data;
         gchar **array;
         gint year = 0, month = 0, day = 0;
 
@@ -516,7 +517,7 @@ static gchar **gsb_qif_get_date_content ( gchar *date_string )
     /* as the format is risky, we will not check only / ' and -
      * we will remove all wich is not a number */
     pointer = date_string;
-    for ( i = 0; i < strlen ( date_string ); i++ )
+    for ( i = 0; i < (gint) strlen ( date_string ); i++ )
     {
         if ( !isalnum ( pointer[i] ) )
             pointer[i] = '/';
@@ -525,7 +526,7 @@ static gchar **gsb_qif_get_date_content ( gchar *date_string )
     /* some qif have some text at the end of the date... i don't know what to do with
      * that, so i remove all the text after the 2nd / */
     pointer = date_string;
-    for ( i = 0; i < strlen ( date_string ); i++ )
+    for ( i = 0; i < (gint) strlen ( date_string ); i++ )
     {
         if ( !isalnum ( pointer [i] ) )
         {
@@ -643,15 +644,15 @@ static GDate *gsb_qif_get_date ( gchar *date_string, gint order )
  *
  * \return TRUE si OK
  * */
-static gboolean qif_traite_champs_n ( struct struct_ope_importation *imported_transaction )
+static gboolean qif_traite_champs_n ( struct ImportTransaction *imported_transaction )
 {
-    printf ("Champs N = %s champ P = %s\n", imported_transaction->cheque, imported_transaction->tiers );
+    //~ printf ("Champs N = %s champ P = %s\n", imported_transaction->cheque, imported_transaction->tiers );
 
     if ( ! imported_transaction->cheque )
     {
-        if ( etat.get_qif_use_field_extract_method_payment )
+        if ( etat.qif_use_field_extract_method_payment )
         {
-            if ( strncmp ( imported_transaction->tiers, "VIR RECU", 8 ) == 0 );
+            if ( strncmp ( imported_transaction->tiers, "VIR RECU", 8 ) == 0 )
             {
                 gchar *tmp_str;
 
@@ -686,7 +687,7 @@ static gboolean qif_traite_champs_n ( struct struct_ope_importation *imported_tr
     }
 
     /* Ici on traie le fichuier type SG voir si généralisable */
-    if ( etat.get_qif_use_field_extract_method_payment )
+    if ( etat.qif_use_field_extract_method_payment )
     {
         if ( strcmp ( imported_transaction->cheque, "Prélvmt" ) == 0 )
         {
@@ -833,7 +834,7 @@ gboolean qif_export ( const gchar *filename,
     if (!gsb_file_util_test_overwrite (filename))
 	return FALSE;
 
-    if ( !( fichier_qif = utf8_fopen ( filename, "w" ) ))
+    if ( !( fichier_qif = utils_files_utf8_fopen ( filename, "w" ) ))
     {
 	dialogue_error_hint ( g_strerror(errno),
 			      g_strdup_printf ( _("Error opening file '%s'"),
@@ -884,7 +885,7 @@ gboolean qif_export ( const gchar *filename,
 			  g_date_get_year (gsb_data_transaction_get_date (transaction_number_tmp)));
 
 		/* met le solde initial */
-		tmpstr = utils_real_get_string (gsb_data_account_get_init_balance (account_nb, -1));
+		tmpstr = utils_real_get_string_intl (gsb_data_account_get_init_balance (account_nb, -1));
 		fprintf ( fichier_qif,
 			  "T%s\n",
 			  tmpstr);
@@ -939,7 +940,7 @@ gboolean qif_export ( const gchar *filename,
 
 
 		/* met le montant, transforme la devise si necessaire */
-		tmpstr = utils_real_get_string (gsb_data_transaction_get_adjusted_amount ( transaction_number_tmp, floating_point));
+		tmpstr = utils_real_get_string_intl (gsb_data_transaction_get_adjusted_amount ( transaction_number_tmp, floating_point));
 		fprintf ( fichier_qif,
 			  "T%s\n",
 			  tmpstr);
@@ -1034,7 +1035,7 @@ gboolean qif_export ( const gchar *filename,
 
 			    /* set the amount of the split child */
 
-			    tmpstr = utils_real_get_string (gsb_data_transaction_get_adjusted_amount (transaction_number_tmp_2, floating_point));
+			    tmpstr = utils_real_get_string_intl (gsb_data_transaction_get_adjusted_amount (transaction_number_tmp_2, floating_point));
 			    fprintf ( fichier_qif,
 				      "$%s\n",
 				      tmpstr);
@@ -1119,7 +1120,7 @@ gchar *gsb_qif_get_account_name ( FILE *qif_file, const gchar *coding_system )
 
     do
     {
-        returned_value = get_utf8_line_from_file ( qif_file, &tmp_str, coding_system );
+        returned_value = utils_files_get_utf8_line_from_file ( qif_file, &tmp_str, coding_system );
 
         if ( tmp_str[0] == 'N' )
             name = my_strdup ( tmp_str + 1 );
@@ -1171,17 +1172,17 @@ gint gsb_qif_get_account_type ( gchar *header )
  * */
 gint gsb_qif_recupere_operations_from_account ( FILE *qif_file,
                         const gchar *coding_system,
-                        struct struct_compte_importation *imported_account )
+                        struct ImportAccount *imported_account )
 {
     gchar *string;
     gint returned_value;
-    struct struct_ope_importation *imported_splitted = NULL;
-    struct struct_ope_importation *imported_transaction;
+    struct ImportTransaction *imported_splitted = NULL;
+    struct ImportTransaction *imported_transaction;
 
-    imported_transaction = g_malloc0 ( sizeof ( struct struct_ope_importation ) );
+    imported_transaction = g_malloc0 ( sizeof ( struct ImportTransaction ) );
     do
     {
-        returned_value = get_utf8_line_from_file ( qif_file, &string, coding_system );
+        returned_value = utils_files_get_utf8_line_from_file ( qif_file, &string, coding_system );
 
         /* a transaction never begin with ^ and ! */
         if ( strlen ( string )
@@ -1267,7 +1268,7 @@ gint gsb_qif_recupere_operations_from_account ( FILE *qif_file,
                     imported_account -> operations_importees = g_slist_append (
                                         imported_account -> operations_importees, imported_splitted );
 
-                imported_splitted = g_malloc0 ( sizeof ( struct struct_ope_importation ) );
+                imported_splitted = g_malloc0 ( sizeof ( struct ImportTransaction ) );
 
                 if ( imported_transaction )
                 {
@@ -1374,7 +1375,7 @@ gint gsb_qif_recupere_categories ( FILE *qif_file, const gchar *coding_system )
 
     do
     {
-        returned_value = get_utf8_line_from_file ( qif_file, &string, coding_system );
+        returned_value = utils_files_get_utf8_line_from_file ( qif_file, &string, coding_system );
 
         /* a category never begin with ^ and ! */
         if ( strlen ( string )
@@ -1394,7 +1395,7 @@ gint gsb_qif_recupere_categories ( FILE *qif_file, const gchar *coding_system )
 
             do
             {
-                returned_value = get_utf8_line_from_file ( qif_file,
+                returned_value = utils_files_get_utf8_line_from_file ( qif_file,
                             &string, coding_system );
                 if ( strlen ( string )
                  &&

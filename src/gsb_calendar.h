@@ -9,7 +9,7 @@
 
 
 /* START_DECLARATION */
-GtkWidget *gsb_calendar_new ( void );
-gboolean gsb_calendar_update ( void );
+GtkWidget *	gsb_calendar_new 		(void);
+gboolean 	gsb_calendar_update 	(void);
 /* END_DECLARATION */
 #endif

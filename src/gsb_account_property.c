@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2009 Cédric Auger (cedric@grisbi.org)            */
 /*          2004-2009 Benjamin Drieu (bdrieu@april.org)                       */
-/*                 2009-2016 Pierre Biava (grisbi@pierre.biava.name)          */
+/*                 2009-2017 Pierre Biava (grisbi@pierre.biava.name)          */
 /*      2009 Thomas Peel (thomas.peel@live.fr)                                */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
@@ -30,7 +30,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -40,6 +40,7 @@
 /*START_INCLUDE*/
 #include "gsb_account_property.h"
 #include "dialog.h"
+#include "grisbi_win.h"
 #include "gsb_account.h"
 #include "gsb_autofunc.h"
 #include "gsb_bank.h"
@@ -57,7 +58,6 @@
 #include "accueil.h"
 #include "menu.h"
 #include "gsb_scheduler_list.h"
-#include "main.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
 #include "utils.h"
@@ -94,7 +94,7 @@ static gboolean gsb_account_property_iban_focus_in_event ( GtkWidget *entry,
 static gboolean gsb_account_property_iban_focus_out_event ( GtkWidget *entry,
                         GdkEventFocus *ev,
                         gpointer data );
-static struct iso_13616_iban *gsb_account_property_iban_get_struc ( gchar *pays );
+static struct Iso13616Iban *gsb_account_property_iban_get_struc ( gchar *pays );
 static void gsb_account_property_iban_insert_text ( GtkEditable *entry,
                         gchar *text,
                         gint length,
@@ -108,14 +108,14 @@ static void gsb_account_property_iban_set_iban ( const gchar *iban );
 static void gsb_account_property_iban_switch_bank_data ( gboolean sensitive );
 /*END_STATIC*/
 
-struct iso_13616_iban
+struct Iso13616Iban
 {
     gchar *locale;
     gchar *iban;
     gint nbre_char;
 };
 
-static struct iso_13616_iban iso_13616_ibans [] = {
+static struct Iso13616Iban iso_13616_ibans [] = {
     { "XX", "XXkk XXXX XXXX XXXX XXXX XXXX XXXX XXXX XX", 34 },
     { "AD", "ADkk BBBB SSSS CCCC CCCC CCCC", 24 },
     { "AT", "ATkk BBBB BCCC CCCC CCCC", 20 },
@@ -141,7 +141,7 @@ static struct iso_13616_iban iso_13616_ibans [] = {
     { "NL", "NLkk BBBB CCCC CCCC CC", 18 },
     { "PT", "PTkk BBBB BBBB CCCC CCCC CCCK K", 25 },
     { "SE", "SEkk BBBB CCCC CCCC CCCC CCCC", 24 },
-    { NULL },
+    { NULL, NULL, 0 },
 };
 
 static GtkWidget *edit_bank_button = NULL;
@@ -154,7 +154,7 @@ static GtkWidget *label_code_banque = NULL;
 static GtkWidget *detail_guichet = NULL;
 static GtkWidget *detail_no_compte = NULL;
 static GtkWidget *detail_cle_compte = NULL;
-GtkWidget *detail_devise_compte = NULL;
+       GtkWidget *detail_devise_compte = NULL;
 static GtkWidget *detail_compte_cloture = NULL;
 static GtkWidget *detail_solde_init = NULL;
 static GtkWidget *detail_solde_mini_autorise = NULL;
@@ -200,18 +200,18 @@ GtkWidget *gsb_account_property_create_page ( void )
     devel_debug ( NULL );
 
     /* la fenetre ppale est une vbox avec les détails en haut et appliquer en bas */
-    onglet = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
+    onglet = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_widget_set_name ( onglet, "properties_page" );
-    gtk_container_set_border_width ( GTK_CONTAINER ( onglet ), 10 );
+    gtk_container_set_border_width ( GTK_CONTAINER ( onglet ), BOX_BORDER_WIDTH );
 
     size_group = gtk_size_group_new ( GTK_SIZE_GROUP_HORIZONTAL );
 
     /* Création du bouton pour modifier l'icône de compte. C'est un moyen de
      * contourner le bug du gtk_viewport */
-    bouton_icon = gtk_button_new ( );
+    bouton_icon = gtk_button_new ();
     gtk_widget_set_size_request ( bouton_icon, -1, 40 );
     gtk_widget_set_halign ( bouton_icon, GTK_ALIGN_CENTER );
-    gtk_button_set_relief ( GTK_BUTTON ( bouton_icon ), GTK_RELIEF_NONE );
+    gtk_button_set_relief ( GTK_BUTTON ( bouton_icon ), GTK_RELIEF_NORMAL );
     gtk_box_pack_start ( GTK_BOX ( onglet ), bouton_icon, FALSE, FALSE, 0);
 
     /* partie du haut avec les détails du compte */
@@ -221,7 +221,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW ( scrolled_window ), GTK_SHADOW_OUT );
     gtk_box_pack_start ( GTK_BOX ( onglet ), scrolled_window, TRUE, TRUE, 0 );
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     utils_widget_set_padding (vbox, MARGIN_START, 0);
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ), vbox );
 
@@ -229,7 +229,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     paddingbox = new_paddingbox_with_title (vbox, FALSE, _("Account details"));
 
    /* création de la ligne du nom du compte */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Account name: ") );
@@ -250,7 +250,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), detail_nom_compte, TRUE, TRUE, 0 );
 
     /* create the box of kind of account */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Account type: ") );
@@ -268,7 +268,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_box_pack_start ( GTK_BOX(hbox), detail_type_compte, TRUE, TRUE, 0);
 
     /* create the currency line */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Account currency: ") );
@@ -303,7 +303,7 @@ GtkWidget *gsb_account_property_create_page ( void )
 
     /* création de la ligne du titulaire du compte */
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Account holder"));
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Holder name: ") );
@@ -323,7 +323,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_box_pack_start ( GTK_BOX(hbox), detail_titulaire_compte, TRUE, TRUE, 0);
 
     /* address of the holder line */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
 
     vbox2 = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
@@ -367,7 +367,7 @@ GtkWidget *gsb_account_property_create_page ( void )
 
     /* création de la ligne de l'établissement financier */
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Bank"));
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Financial institution: ") );
@@ -391,7 +391,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), edit_bank_button, FALSE, FALSE, 0 );
 
     /* création du numéro BIC */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("BIC code: ") );
@@ -405,7 +405,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_box_pack_start ( GTK_BOX(hbox), label_code_bic, TRUE, TRUE, 0 );
 
      /* création de la ligne du numéro IBAN */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("IBAN number: ") );
@@ -434,7 +434,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), detail_IBAN, FALSE, FALSE, 0 );
 
     /* create the code of bank */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Bank sort code: ") );
@@ -448,7 +448,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_box_pack_start ( GTK_BOX(hbox), label_code_banque, TRUE, TRUE, 0 );
 
     /* création de la ligne du guichet */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Bank branch code: ") );
@@ -469,7 +469,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_box_pack_start ( GTK_BOX(hbox), detail_guichet, TRUE, TRUE, 0);
 
     /* création de la ligne du numéro du compte */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Account number / Key: ") );
@@ -505,7 +505,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     /* création de la ligne du solde initial */
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Balances"));
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Initial balance: ") );
@@ -520,7 +520,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), detail_solde_init, TRUE, TRUE, 0 );
 
     /* création de la ligne du solde mini autorisé */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Minimum authorised balance: ") );
@@ -536,7 +536,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), detail_solde_mini_autorise, TRUE, TRUE, 0 );
 
     /* création de la ligne du solde mini voulu */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Minimum desired balance: ") );
@@ -726,7 +726,7 @@ gboolean gsb_account_property_changed ( GtkWidget *widget,
         break;
     case PROPERTY_CLOSED_ACCOUNT:
         gsb_gui_navigation_update_account ( account_number );
-        gsb_menu_update_accounts_in_menus ();
+        grisbi_win_menu_move_to_acc_update  ( FALSE );
 
         /* update the name of accounts in form */
         gsb_account_update_combo_list ( gsb_form_scheduler_get_element_widget (
@@ -903,7 +903,7 @@ void gsb_account_property_iban_insert_text ( GtkEditable *entry,
                         gint *position,
                         GtkWidget *combobox )
 {
-    static struct iso_13616_iban *s_iban = iso_13616_ibans;
+    static struct Iso13616Iban *s_iban = iso_13616_ibans;
     gchar *iban;
     gint nbre_char;
 
@@ -976,9 +976,9 @@ void gsb_account_property_iban_delete_text ( GtkEditable *entry,
  *
  * \return une structure modèle (XX si pays non défini)
  * */
-struct iso_13616_iban *gsb_account_property_iban_get_struc ( gchar *pays )
+struct Iso13616Iban *gsb_account_property_iban_get_struc ( gchar *pays )
 {
-    struct iso_13616_iban *s_iban = iso_13616_ibans;
+    struct Iso13616Iban *s_iban = iso_13616_ibans;
 
     while (s_iban -> iban )
     {
@@ -1110,7 +1110,7 @@ gboolean gsb_account_property_iban_focus_out_event ( GtkWidget *entry,
  * */
 gboolean gsb_account_property_iban_set_bank_from_iban ( gchar *iban )
 {
-    struct iso_13616_iban *s_iban;
+    struct Iso13616Iban *s_iban;
     gchar *model;
     gchar *tmpstr;
     gchar *ptr_1;
@@ -1354,7 +1354,7 @@ void gsb_account_property_iban_clear_label_data ( void )
  * */
 gint gsb_account_property_iban_control_iban ( gchar *iban )
 {
-    struct iso_13616_iban *s_iban;
+    struct Iso13616Iban *s_iban;
     gchar *model;
     gchar *tmp_str = NULL;
     gchar *substr;
@@ -1517,8 +1517,8 @@ gboolean gsb_account_property_focus_out ( GtkWidget *widget,
         /* update the scheduler list */
         gsb_scheduler_list_fill_list (gsb_scheduler_list_get_tree_view ());
 
-        /*update the the view menu */
-        gsb_menu_update_accounts_in_menus ();
+        /*update the view menu */
+        grisbi_win_menu_move_to_acc_update  ( FALSE );
 
         /* update the name of accounts in form */
         gsb_account_update_combo_list ( gsb_form_scheduler_get_element_widget (
@@ -1530,7 +1530,7 @@ gboolean gsb_account_property_focus_out ( GtkWidget *widget,
         payees_fill_list ();
         break;
     case PROPERTY_HOLDER_NAME:
-        gsb_main_set_grisbi_title ( account_number );
+        grisbi_win_set_window_title ( account_number );
         break;
     }
 

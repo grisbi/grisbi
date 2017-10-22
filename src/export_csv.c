@@ -28,7 +28,7 @@
  */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -50,7 +50,6 @@
 #include "gsb_data_transaction.h"
 #include "gsb_file_util.h"
 #include "gsb_real.h"
-#include "main.h"
 #include "utils_real.h"
 #include "utils_str.h"
 #include "utils_files.h"
@@ -410,7 +409,7 @@ static FILE *gsb_csv_export_open_file ( const gchar *filename )
     FILE *csv_file;
 
     /* Création du fichier, si pb, on marque l'erreur et passe au fichier suivant */
-    csv_file = utf8_fopen ( filename, "w" );
+    csv_file = utils_files_utf8_fopen ( filename, "w" );
     if ( ! csv_file )
     {
         gchar *sMessage = NULL;

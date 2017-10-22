@@ -26,7 +26,7 @@
  */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -36,6 +36,7 @@
 /*START_INCLUDE*/
 #include "gsb_data_partial_balance.h"
 #include "dialog.h"
+#include "grisbi_app.h"
 #include "gsb_currency_config.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
@@ -49,6 +50,7 @@
 #include "utils_str.h"
 #include "utils.h"
 #include "structures.h"
+#include "utils_prefs.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -60,7 +62,7 @@ typedef struct
     gint partial_balance_number;
     gchar *balance_name;
     gchar *liste_cptes;
-    kind_account kind;
+    KindAccount kind;
     gint currency;
     gboolean colorise;
 } struct_partial_balance;
@@ -290,7 +292,7 @@ dialog_return:
          g_utf8_strchr  ( liste_cptes, -1, ';' ) )
         {
             position = gtk_spin_button_get_value_as_int ( GTK_SPIN_BUTTON ( spin_bouton ) );
-            if ( position > g_slist_length ( partial_balance_list ) )
+            if ( position > (gint) g_slist_length ( partial_balance_list ) )
                 partial_balance_number = gsb_partial_balance_new ( name );
             else
                 partial_balance_number = gsb_partial_balance_new_at_position (
@@ -907,7 +909,7 @@ gboolean gsb_data_partial_balance_set_name ( gint partial_balance_number,
  *
  * \return partial_balance type or 0 if the partial_balance doesn't exist
  * */
-kind_account gsb_data_partial_balance_get_kind ( gint partial_balance_number )
+KindAccount gsb_data_partial_balance_get_kind ( gint partial_balance_number )
 {
     struct_partial_balance *partial_balance;
 
@@ -928,7 +930,7 @@ kind_account gsb_data_partial_balance_get_kind ( gint partial_balance_number )
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_partial_balance_set_kind ( gint partial_balance_number,
-                        kind_account kind )
+                        KindAccount kind )
 {
     struct_partial_balance *partial_balance;
 
@@ -1084,17 +1086,17 @@ gchar *gsb_data_partial_balance_get_marked_balance ( gint partial_balance_number
     if (partial_balance->colorise)
     {
         gchar *color;
+		gchar *tmp_str;
 
         if (solde.mantissa < 0)
             color = g_strdup ("red");
         else
             color = g_strdup ("blue");
 
-        string = g_strdup_printf ( "<span color=\"%s\">%s</span>",
-                        color,
-                        utils_real_get_string_with_currency (
-                        solde, partial_balance -> currency, TRUE ) );
+		tmp_str = utils_real_get_string_with_currency (solde, partial_balance -> currency, TRUE);
+        string = g_strdup_printf ("<span color=\"%s\">%s</span>", color, tmp_str);
         g_free ( color );
+		g_free (tmp_str);
     }
     else
         string = utils_real_get_string_with_currency (
@@ -1178,17 +1180,17 @@ gchar *gsb_data_partial_balance_get_current_balance ( gint partial_balance_numbe
     if (partial_balance->colorise)
     {
         gchar *color;
+		gchar *tmp_str;
 
         if (solde.mantissa < 0)
             color = g_strdup ("red");
         else
             color = g_strdup ("blue");
 
-        string = g_strdup_printf ( "<span color=\"%s\">%s</span>",
-                        color,
-                        utils_real_get_string_with_currency (
-                        solde, partial_balance -> currency, TRUE ) );
+		tmp_str = utils_real_get_string_with_currency (solde, partial_balance -> currency, TRUE);
+        string = g_strdup_printf ( "<span color=\"%s\">%s</span>", color, tmp_str);
         g_free ( color );
+		g_free (tmp_str);
     }
     else
         string = utils_real_get_string_with_currency (
@@ -1284,8 +1286,8 @@ gboolean gsb_data_partial_balance_init_from_liste_cptes ( gint partial_balance_n
     gint i;
     gint account_nb;
     gint currency_nb = 0;
-    kind_account kind = -1;
-    kind_account kind_nb = -1;
+    KindAccount kind = -1;
+    KindAccount kind_nb = -1;
     gchar *tmp_str;
     gboolean return_val = TRUE;
     gboolean currency_mixte = FALSE;
@@ -1612,7 +1614,7 @@ GtkWidget *gsb_partial_balance_create_list_accounts ( GtkWidget *entry )
     GtkTreeSelection *selection;
     gint i = 0;
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 12 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     sw = gtk_scrolled_window_new (NULL, NULL);
     gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw),
                         GTK_SHADOW_ETCHED_IN);
@@ -1646,9 +1648,9 @@ GtkWidget *gsb_partial_balance_create_list_accounts ( GtkWidget *entry )
         i = 10;
     /* create the treeview */
     treeview = gtk_tree_view_new_with_model ( GTK_TREE_MODEL ( list_store ) );
+ 	gtk_widget_set_name (treeview, "tree_view");
     g_object_unref ( list_store );
 
-    //~ gtk_tree_view_set_rules_hint ( GTK_TREE_VIEW ( treeview ), TRUE );
     gtk_widget_set_size_request ( treeview, -1, i*20 );
     selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( treeview ) );
     gtk_tree_selection_set_mode ( selection, GTK_SELECTION_MULTIPLE );
@@ -1680,7 +1682,7 @@ GtkWidget *gsb_partial_balance_create_list_accounts ( GtkWidget *entry )
  * */
 GtkWidget *gsb_partial_balance_create_dialog ( gint action, gint spin_value )
 {
-    GtkWidget *dialog, *label, *paddingbox, *main_vbox, *vbox;
+    GtkWidget *dialog, *label, *main_vbox;
     GtkWidget *paddinggrid;
     GtkWidget *entry_name, *entry_list, *account_list, *bouton;
 
@@ -1688,21 +1690,21 @@ GtkWidget *gsb_partial_balance_create_dialog ( gint action, gint spin_value )
 
     if ( action == 1 )
         dialog = gtk_dialog_new_with_buttons ( _("Add a partial balance"),
-                            GTK_WINDOW ( run.window ),
+                            GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
                             GTK_DIALOG_MODAL,
                             "gtk-cancel", 0,
                             "gtk-ok", 1,
                             NULL );
     else
         dialog = gtk_dialog_new_with_buttons ( _("Modify a partial balance"),
-                            GTK_WINDOW ( run.window ),
+                            GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
                             GTK_DIALOG_MODAL,
                             "gtk-cancel", 0,
                             "gtk-ok", 1,
                             NULL );
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
 
-    main_vbox = new_vbox_with_title_and_icon ( _("Partial balance details"), "payment.png" );
+    main_vbox = new_vbox_with_title_and_icon ( _("Partial balance details"), "gsb-payment-32.png" );
     gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), main_vbox, TRUE, TRUE, 0 );
 
     /* Create paddinggrid */
@@ -1770,7 +1772,6 @@ gint gsb_partial_balance_request_currency ( GtkWidget *parent )
 {
     GtkWidget *dialog, *hbox, *label, *combo_devise;
     gint currency_nb;
-    gint result;
 
     dialog = gtk_dialog_new_with_buttons ( _("Enter the currency of the balance part"),
                             GTK_WINDOW ( parent ),
@@ -1781,7 +1782,7 @@ gint gsb_partial_balance_request_currency ( GtkWidget *parent )
     gtk_widget_set_size_request ( dialog, -1, 150 );
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area( dialog ) ), hbox, TRUE, FALSE, 0 );
 
     label = gtk_label_new ( _("Select the currency of the partial balance: ") );
@@ -1794,9 +1795,9 @@ gint gsb_partial_balance_request_currency ( GtkWidget *parent )
 
     gtk_widget_show_all ( GTK_WIDGET ( dialog ) );
 
-    gsb_currency_set_combobox_history ( combo_devise, 2 );
+    //~ gsb_currency_set_combobox_history ( combo_devise, 2 );
     gsb_currency_set_combobox_history ( combo_devise, 1 );
-    result = gtk_dialog_run ( GTK_DIALOG ( dialog ) );
+    gtk_dialog_run ( GTK_DIALOG ( dialog ) );
 
     gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
 

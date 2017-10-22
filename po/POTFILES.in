@@ -1,5 +1,4 @@
 src/accueil.c
-src/affichage.c
 src/affichage_liste.c
 src/bet_config.c
 src/bet_data.c
@@ -12,6 +11,7 @@ src/bet_tab.c
 src/categories_onglet.c
 src/classement_echeances.c
 src/csv_parse.c
+src/csv_template_rule.c
 src/custom_list.c
 src/dialog.c
 src/erreur.c
@@ -32,10 +32,13 @@ src/file_obfuscate.c
 src/file_obfuscate_qif.c
 src/go-charmap-sel.c
 src/go-optionmenu.c
+src/grisbi_app.c
 src/grisbi_osx.c
+src/grisbi_prefs.c
+src/grisbi_settings.c
+src/grisbi_win.c
 src/gsb_account.c
 src/gsb_account_property.c
-src/gsb_archive_config.c
 src/gsb_assistant_account.c
 src/gsb_assistant_archive.c
 src/gsb_assistant_archive_export.c
@@ -78,7 +81,6 @@ src/gsb_data_scheduled.c
 src/gsb_data_transaction.c
 src/gsb_debug.c
 src/gsb_file.c
-src/gsb_file_config.c
 src/gsb_file_load.c
 src/gsb_file_others.c
 src/gsb_file_save.c
@@ -99,10 +101,10 @@ src/gsb_reconcile_list.c
 src/gsb_reconcile_sort_config.c
 src/gsb_regex.c
 src/gsb_report.c
+src/gsb_rgba.c
 src/gsb_scheduler.c
 src/gsb_scheduler_list.c
 src/gsb_select_icon.c
-src/gsb_status.c
 src/gsb_transactions_list.c
 src/gsb_transactions_list_sort.c
 src/gtk_combofix.c
@@ -118,7 +120,6 @@ src/meta_payee.c
 src/metatree.c
 src/navigation.c
 src/parametres.c
-src/parse_cmdline.c
 src/plugins/gnucash/gnucash.c
 src/plugins/ofx/ofx.c
 src/plugins/openssl/openssl.c
@@ -139,11 +140,31 @@ src/utils.c
 src/utils_dates.c
 src/utils_editables.c
 src/utils_files.c
-src/utils_file_selection.c
-src/utils_font.c
 src/utils_gtkbuilder.c
 src/utils_operations.c
+src/utils_prefs.c
 src/utils_str.c
+src/prefs/prefs_page_archives.c
+src/prefs/prefs_page_display_adr.c
+src/prefs/prefs_page_display_fonts.c
+src/prefs/prefs_page_display_gui.c
+src/prefs/prefs_page_divers.c
+src/prefs/prefs_page_files.c
+src/prefs/prefs_page_import_asso.c
+src/prefs/prefs_page_import_files.c
+[type: gettext/gsettings]src/org.gtk.grisbi.gschema.xml
 [type: gettext/glade]src/ui/bet_graph.ui
+[type: gettext/glade]src/ui/csv_template_rule.ui
 [type: gettext/glade]src/ui/etats_prefs.ui
+[type: gettext/glade]src/ui/grisbi_menu.ui
+[type: gettext/glade]src/ui/grisbi_prefs.ui
+[type: gettext/glade]src/ui/grisbi_win.ui
+[type: gettext/glade]src/ui/prefs_page_archives.ui
+[type: gettext/glade]src/ui/prefs_page_display_adr.ui
+[type: gettext/glade]src/ui/prefs_page_display_fonts.ui
+[type: gettext/glade]src/ui/prefs_page_display_gui.ui
+[type: gettext/glade]src/ui/prefs_page_divers.ui
+[type: gettext/glade]src/ui/prefs_page_files.ui
+[type: gettext/glade]src/ui/prefs_page_import_asso.ui
+[type: gettext/glade]src/ui/prefs_page_import_files.ui
 share/grisbi.desktop.in

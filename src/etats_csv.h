@@ -3,7 +3,7 @@
 
 #include "structures.h"
 
-extern struct struct_etat_affichage csv_affichage;
+extern struct EtatAffichage csv_affichage;
 
 
 /* START_INCLUDE_H */

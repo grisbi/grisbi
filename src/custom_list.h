@@ -87,12 +87,12 @@ struct _CustomRecord
      * or pos within the 'children_rows' array of the mother for a child */
     /* position in the list, and in the filtered list
      * for a child, pos = filtered_pos */
-    guint pos;
-    guint filtered_pos;		/* -1 if the record is not visible */
+    gint pos;
+    gint filtered_pos;		/* -1 if the record is not visible */
 
     /* number of children, 0 when no child,
      * increase for each child added */
-    guint number_of_children;
+    gint number_of_children;
 
     /* array of pointers to the structure of the chidren */
     CustomRecord	**children_rows;
@@ -122,7 +122,7 @@ struct _CustomList
     /* we keep here ONLY the mothers row,
      * the children and number of children are saved directly into their mother
      * this increase a lot the speed of the list */
-    guint		num_rows;    		/* number of mother rows that we have   */
+    gint		num_rows;    		/* number of mother rows that we have   */
     CustomRecord	**rows;        		/* a dynamically allocated array of pointers to
 						 *   the CustomRecord structure for each mother row    */
 
@@ -130,7 +130,7 @@ struct _CustomList
      * the visible transactions and the are sorted
      * visibles_rows has the same size in memory as rows, so the end cannot be reached
      * num_visibles_rows is the number of visible rows */
-    guint		num_visibles_rows;
+    gint		num_visibles_rows;
     CustomRecord	**visibles_rows;
 
     /* to avoid to tell all the time the account to the model functions */
@@ -165,11 +165,11 @@ struct _CustomListClass
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
-GType custom_list_get_type (void);
-CustomList *custom_list_new (void);
-void custom_list_set_value (GtkTreeModel *tree_model,
-			    GtkTreeIter  *iter,
-			    gint          column,
-			    GValue       *value);
+GType 			custom_list_get_type 	(void);
+CustomList *	custom_list_new 		(void);
+void 			custom_list_set_value 	(GtkTreeModel *tree_model,
+										 GtkTreeIter  *iter,
+										 gint          column,
+										 GValue       *value);
 /* END_DECLARATION */
 #endif

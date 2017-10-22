@@ -1,3 +1,13 @@
+New in version 1.0.2
+- adding Cuban Convertible Peso currency
+- fixes bug when creating and removing a report in gtk_combofix.c
+- fixes bug of test date for a transaction in bet_transfert
+- fixes a bug when importing a category without sub-category
+- Fixed a bug of calculation of the balance of cash account
+- Adding the descending sort of dates for the reconciliations
+- fixes truncated month name for certain locales from Yuriy M. Kaminskiy
+- Fixes a bug of update of main account if more deferred debit accounts
+
 New in version 1.0.1
 - fix majeur crash with gtk-2.24.30
 - fix many others bugs

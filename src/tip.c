@@ -23,7 +23,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -106,7 +106,7 @@ static const gchar* tips[] =
 /**
  * Display a tip forcefully, even if show_tip option has been disabled.
  */
-void force_display_tip (  )
+void force_display_tip ( void )
 {
     display_tip ( TRUE );
 }
@@ -128,7 +128,7 @@ void display_tip ( gboolean force )
     if ( !force && !conf.show_tip )
         return;
 
-    conf.last_tip = CLAMP ( conf.last_tip+1, 0, sizeof(tips)/sizeof(gpointer)-1);
+    conf.last_tip = CLAMP ( conf.last_tip+1, 0, (gint) (sizeof(tips)/sizeof(gpointer)-1));
 
     /* the dialog is created with empty text because we set it using gtk's markup
        function instead */
@@ -146,6 +146,7 @@ void display_tip ( gboolean force )
     btn_back =    gtk_dialog_add_button (GTK_DIALOG(dialog), "gtk-go-back", 1);
     btn_forward = gtk_dialog_add_button (GTK_DIALOG(dialog), "gtk-go-forward", 2);
     btn_close =   gtk_dialog_add_button (GTK_DIALOG(dialog), "gtk-close", 3);
+	(void)btn_close; /* unused value: fix warning -Wunused-but-set-variable */
 
     /* gtk_widget_set_size_request ( dialog, 450, -1 ); */
     /* We iterate as user can select several tips. */
@@ -167,7 +168,7 @@ void display_tip ( gboolean force )
         break;
 
         case 2:
-        if ( conf.last_tip < sizeof(tips)/sizeof(gpointer)-1)
+        if ( conf.last_tip < (gint) (sizeof(tips)/sizeof(gpointer)-1))
             conf.last_tip++;
         gtk_message_dialog_format_secondary_markup ( GTK_MESSAGE_DIALOG (dialog),
                                                      "%s", g_dgettext (NULL, tips[conf.last_tip]) );

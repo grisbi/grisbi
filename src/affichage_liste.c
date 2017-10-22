@@ -22,7 +22,7 @@
 /* ************************************************************************** */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -32,6 +32,8 @@
 #include "affichage_liste.h"
 #include "custom_list.h"
 #include "fenetre_principale.h"
+#include "grisbi_app.h"
+#include "grisbi_settings.h"
 #include "gsb_automem.h"
 #include "gsb_data_account.h"
 #include "gsb_data_form.h"
@@ -45,6 +47,7 @@
 #include "traitement_variables.h"
 #include "transaction_list.h"
 #include "utils.h"
+#include "utils_prefs.h"
 #include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -107,6 +110,25 @@ extern gchar *titres_colonnes_liste_operations[CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern gint transaction_col_width[CUSTOM_MODEL_VISIBLE_COLUMNS];
 /*END_EXTERN*/
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ * */
+static gboolean fyear_combobox_sort_order_changed (GtkWidget *checkbutton,
+												   gpointer data)
+{
+	GSettings *settings;
+
+	settings = grisbi_settings_get_settings (SETTINGS_FORM);
+	g_settings_set_int ( G_SETTINGS (settings),
+                        "fyear-combobox-sort-order",
+                        conf.fyear_combobox_sort_order);
+
+	return FALSE;
+}
 
 /**
  * create the page of configuration for the transaction list behavior
@@ -147,15 +169,15 @@ GtkWidget *onglet_affichage_operations ( void )
     gint i;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Transaction list behavior"),
-                        "transaction-list.png" );
+                        "gsb-transaction-list-32.png" );
 
     /* heading and boxes for layout */
     paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE, _( "Display modes" ) );
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5);
-    vbox_label = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
+    vbox_label = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_box_set_homogeneous ( GTK_BOX ( vbox_label ), TRUE );
-    vbox_buttons = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
+    vbox_buttons = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_box_set_homogeneous ( GTK_BOX ( vbox_buttons ), TRUE );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
@@ -227,14 +249,14 @@ GtkWidget *onglet_affichage_operations ( void )
     paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE,
                         _("Primary sorting option") );
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5);
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
     button = gtk_combo_box_text_new ();
     g_signal_connect ( G_OBJECT ( button ),
                         "changed",
                         G_CALLBACK ( gsb_transactions_list_display_sort_changed ),
-                        &conf.transactions_list_primary_sorting );
+                        GINT_TO_POINTER ( PRIMARY_SORT ));
 
     for ( i = 0 ; i < 2 ; i++ )
     {
@@ -247,14 +269,14 @@ GtkWidget *onglet_affichage_operations ( void )
     paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE,
                         _("Secondary sorting option") );
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5);
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
     button = gtk_combo_box_text_new ();
     g_signal_connect ( G_OBJECT ( button ),
                         "changed",
                         G_CALLBACK ( gsb_transactions_list_display_sort_changed ),
-                        &conf.transactions_list_secondary_sorting );
+                        GINT_TO_POINTER ( SECONDARY_SORT ) );
 
     for ( i = 0 ; i < 4 ; i++ )
     {
@@ -290,27 +312,59 @@ GtkWidget *onglet_affichage_operations ( void )
 static gboolean gsb_transactions_list_display_sort_changed ( GtkComboBox *widget,
                         gint *pointeur )
 {
+    GSettings *settings;
     gint page_number;
     gint account_nb;
+    gint value = 0;
+    gint sort_type = 0;
+
+    settings = grisbi_settings_get_settings ( SETTINGS_GENERAL );
 
     page_number = gsb_gui_navigation_get_current_page ( );
+    value = gtk_combo_box_get_active ( widget );
+    sort_type = GPOINTER_TO_INT ( pointeur );
 
-    if ( pointeur )
+    switch ( sort_type )
     {
-        gint value = 0;
+        case PRIMARY_SORT:
+            conf.transactions_list_primary_sorting = value;
+            if ( value )
+                g_settings_set_string ( G_SETTINGS ( settings ), "transactions-list-primary-sorting",
+                                       "Sort by value date and then by date" );
+            else
+                g_settings_reset ( G_SETTINGS ( settings ), "transactions-list-primary-sorting" );
 
-        value = gtk_combo_box_get_active ( widget );
-        *pointeur = value;
-        gsb_file_set_modified ( TRUE );
+            break;
+        case SECONDARY_SORT:
+            conf.transactions_list_secondary_sorting = value;
+            switch ( value )
+            {
+                case 0:
+                    g_settings_reset ( G_SETTINGS ( settings ), "transactions-list-secondary-sorting" );
+                    break;
+                case 1:
+                    g_settings_set_string ( G_SETTINGS ( settings ), "transactions-list-secondary-sorting",
+                                           "Sort by type of amount" );
+                    break;
+                case 2:
+                    g_settings_set_string ( G_SETTINGS ( settings ), "transactions-list-secondary-sorting",
+                                           "Sort by payee name" );
+                    break;
+                case 3:
+                    g_settings_set_string ( G_SETTINGS ( settings ), "transactions-list-secondary-sorting",
+                                           "Sort by date and then by transaction number" );
+            }
+            break;
     }
+    gsb_file_set_modified ( TRUE );
 
     switch ( page_number )
     {
-	case GSB_ACCOUNT_PAGE:
-        account_nb = gsb_gui_navigation_get_current_account ();
-        if (account_nb != -1)
-            gsb_transactions_list_update_tree_view (account_nb, TRUE);
-	    break;
+        case GSB_ACCOUNT_PAGE:
+            account_nb = gsb_gui_navigation_get_current_account ();
+            if ( account_nb != -1 )
+                gsb_transactions_list_update_tree_view ( account_nb, TRUE );
+            break;
     }
 
     return FALSE;
@@ -513,7 +567,7 @@ GtkWidget *onglet_diverse_form_and_lists ( void )
     GtkWidget *vbox_pref, *paddingbox;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Form behavior"),
-					       "form.png" );
+					       "gsb-form-32.png" );
 
     /* What to do if RETURN is pressed into transaction form */
     gsb_automem_radiobutton_new_with_title (vbox_pref,
@@ -529,6 +583,14 @@ GtkWidget *onglet_diverse_form_and_lists ( void )
 							 _("according to transaction value date"),
 							 &conf.affichage_exercice_automatique,
 							 NULL, NULL);
+
+	gtk_box_pack_start (GTK_BOX (vbox_pref),
+						gsb_automem_checkbutton_new (
+													 _("Sorting descending in the button of the exercises"),
+													 &conf.fyear_combobox_sort_order,
+													 G_CALLBACK (fyear_combobox_sort_order_changed),
+													 "fyear-combobox-sort-order"),
+						FALSE, FALSE, 0);
 
     /* automatic amount separatior fields */
     paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,
@@ -560,7 +622,7 @@ GtkWidget *onglet_form_completion ( void )
     GtkWidget *button;
 	gchar* tmpstr;
 
-    vbox_pref = new_vbox_with_title_and_icon ( _("Form completion"), "form.png" );
+    vbox_pref = new_vbox_with_title_and_icon ( _("Form completion"), "gsb-form-32.png" );
 
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
                         gsb_automem_checkbutton_new (
@@ -570,7 +632,7 @@ GtkWidget *onglet_form_completion ( void )
                         vbox_pref ),
                         FALSE, FALSE, 0 );
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ), hbox, FALSE, FALSE, 0 );
 
     button = gsb_automem_checkbutton_new (
@@ -582,7 +644,7 @@ GtkWidget *onglet_form_completion ( void )
     gtk_widget_set_sensitive ( button, conf.automatic_completion_payee );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 20 );
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ), hbox, FALSE, FALSE, 0 );
 
     button = gsb_automem_checkbutton_new (
@@ -594,7 +656,7 @@ GtkWidget *onglet_form_completion ( void )
     gtk_widget_set_sensitive ( button, conf.automatic_completion_payee );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 20 );
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ), hbox, FALSE, FALSE, 0 );
 
     button = gsb_automem_checkbutton_new (
@@ -629,7 +691,7 @@ GtkWidget *onglet_form_completion ( void )
                         G_CALLBACK ( gsb_transactions_list_display_update_combofix), NULL),
                         FALSE, FALSE, 0 );
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX (vbox_pref), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new (
@@ -800,14 +862,14 @@ GtkWidget *onglet_affichage_liste ( void )
     GtkListStore* list_store;
 
 	/* à la base, on met une vbox */
-	onglet = new_vbox_with_title_and_icon ( _("Transactions list cells"), "transaction-list.png" );
+	onglet = new_vbox_with_title_and_icon ( _("Transactions list cells"), "gsb-transaction-list-32.png" );
 
     /* partie 1 visualisation de l'arrangement des données */
 	paddinggrid = utils_prefs_paddinggrid_new_with_title (onglet, _("Transactions list preview"));
-    utils_widget_set_padding (paddinggrid, 15, 0);
+    utils_widget_set_padding (paddinggrid, MARGIN_PADDING_BOX, 0);
 
     /*create the scolled window for tree_view */
-    sw = utils_prefs_scrolled_window_new ( NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, 160 );
+    sw = utils_prefs_scrolled_window_new ( NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, SW_MIN_HEIGHT );
     gtk_grid_attach (GTK_GRID (paddinggrid), sw, 0, 0, 1, 1);
 
     /* create the list_store */
@@ -834,7 +896,6 @@ GtkWidget *onglet_affichage_liste ( void )
 
     /* partie 2 Source des données */
 	paddingbox = new_paddingbox_with_title ( onglet, FALSE, _("Transactions list contents") );
-    utils_widget_set_padding (paddingbox, 15, 0);
 
 	/* on crée maintenant une table de 3x6 boutons */
 	table = gsb_transaction_list_config_create_buttons_table ( tree_view );
@@ -866,7 +927,7 @@ GtkWidget *gsb_transaction_list_config_create_tree_view ( GtkListStore *store )
 
     /* create the tree_view */
     tree_view = gtk_tree_view_new_with_model ( GTK_TREE_MODEL ( store ) );
-
+	gtk_widget_set_name (tree_view, "tree_view");
     gtk_tree_view_set_grid_lines ( GTK_TREE_VIEW ( tree_view ), GTK_TREE_VIEW_GRID_LINES_BOTH );
 
     gtk_tree_selection_set_mode ( GTK_TREE_SELECTION (
@@ -933,7 +994,6 @@ gboolean gsb_transaction_list_config_realized ( GtkWidget *tree_view,
 {
     GdkCursor *cursor;
     GdkDisplay *display;
-    gint column;
 
     if ( !assert_account_loaded ( ) )
       return FALSE;
@@ -941,7 +1001,7 @@ gboolean gsb_transaction_list_config_realized ( GtkWidget *tree_view,
     /* fill and update the transaction list and buttons */
     gsb_transaction_list_config_update_list_config ( tree_view );
 
-    display = gdk_window_get_display (gtk_widget_get_window (run.window));
+    display = gdk_window_get_display (gtk_widget_get_window (GTK_WIDGET (grisbi_app_get_active_window (NULL))));
     cursor = gdk_cursor_new_for_display (display, GDK_HAND2);
     gdk_window_set_cursor ( gtk_widget_get_window (tree_view), cursor);
 
@@ -967,7 +1027,6 @@ gboolean gsb_transaction_list_config_drag_begin ( GtkWidget *tree_view,
     gint x, y;
     GtkTreePath *path;
     GtkTreeViewColumn *tree_column;
-    GdkWindow *drawable;
     GdkRectangle rectangle;
     GdkPixbuf *pixbuf_cursor;
     cairo_surface_t *s;
@@ -997,7 +1056,6 @@ gboolean gsb_transaction_list_config_drag_begin ( GtkWidget *tree_view,
     start_drag_row = utils_str_atoi ( gtk_tree_path_to_string ( path ) );
 
     /* draw the new cursor */
-    drawable = gtk_tree_view_get_bin_window (GTK_TREE_VIEW ( tree_view ) );
     gtk_tree_view_get_cell_area ( GTK_TREE_VIEW ( tree_view ),
                         path,
                         tree_column,
@@ -1241,9 +1299,13 @@ GtkWidget *gsb_transaction_list_config_create_buttons_table ( GtkWidget *tree_vi
     GtkWidget *table;
     gint current_number = 0;
     gint row, column;
+	gint button_width;
 
     /* the table is 3x6 buttons */
     table = gtk_grid_new ();
+
+	/* calcul de la largeur du bouton */
+	button_width = (SW_MAX_CONTENT_WIDTH - 24)/6;
 
     for ( row=0 ; row < 3 ; row++ )
 	for ( column = 0 ; column < 6 ; column++ )
@@ -1259,7 +1321,7 @@ GtkWidget *gsb_transaction_list_config_create_buttons_table ( GtkWidget *tree_vi
             changed_string = limit_string ( string, 10 );
 
             list_config_buttons[current_number] = gtk_toggle_button_new_with_label ( changed_string );
-            gtk_widget_set_size_request (list_config_buttons[current_number], 110, -1);
+            gtk_widget_set_size_request (list_config_buttons[current_number], button_width, -1);
             gtk_widget_set_name (list_config_buttons[current_number], "list_config_buttons");
             utils_widget_set_padding (list_config_buttons[current_number], 2, 2);
             g_object_set_data ( G_OBJECT ( list_config_buttons[current_number] ),
@@ -1303,7 +1365,7 @@ void gsb_transaction_list_config_toggle_element_button ( GtkWidget *toggle_butto
 
     if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( toggle_button ) ) )
     {
-        gint row, column;
+        gint row, column = 0;
         gboolean place_trouvee = FALSE;
 
         /* button is on, append the element */

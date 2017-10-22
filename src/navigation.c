@@ -22,7 +22,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -38,6 +38,7 @@
 #include "dialog.h"
 #include "etats_onglet.h"
 #include "fenetre_principale.h"
+#include "grisbi_win.h"
 #include "gsb_account.h"
 #include "gsb_account_property.h"
 #include "gsb_assistant_account.h"
@@ -57,7 +58,6 @@
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
 #include "imputation_budgetaire.h"
-#include "main.h"
 #include "menu.h"
 #include "metatree.h"
 #include "mouse.h"
@@ -105,15 +105,10 @@ static gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
                         GtkTreeModel *model );
 static void gsb_gui_navigation_set_selection_branch ( GtkTreeSelection *selection,
 					    GtkTreeIter * iter, gint page,
-					    gint account_number, gpointer report );
+					    gint account_number, gint report_number );
 static void gsb_gui_navigation_set_navigation_pages ( GtkTreeModel *model,
                         gint type_page,
                         gint ordre );
-static void gsb_gui_navigation_set_selection_branch ( GtkTreeSelection *selection,
-					    GtkTreeIter *iter,
-                        gint page,
-					    gint account_number,
-                        gpointer report );
 static void gsb_gui_navigation_update_account_iter ( GtkTreeModel *model,
                         GtkTreeIter * account_iter,
                         gint account_number );
@@ -202,7 +197,8 @@ static GtkTargetEntry row_targets[] =
  */
 GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
 {
-    GtkWidget * sw, *vbox;
+    GtkWidget *grid;
+    GtkWidget *sw;
     GQueue *tmp_queue;
     GtkCellRenderer *renderer;
     GtkTreeDragDestIface *navigation_dst_iface;
@@ -212,15 +208,17 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
     gint xpad;
     gint ypad;
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
+    grid = gtk_grid_new ();
 
     sw = gtk_scrolled_window_new (NULL, NULL);
     gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw), GTK_SHADOW_ETCHED_IN);
-    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_NEVER,
-				    GTK_POLICY_AUTOMATIC);
+    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
+                                    GTK_POLICY_AUTOMATIC,
+                                    GTK_POLICY_AUTOMATIC);
 
     /* Create the view */
     navigation_tree_view = gtk_tree_view_new ();
+	gtk_widget_set_name (navigation_tree_view, "tree_view");
     gtk_tree_view_set_headers_visible ( GTK_TREE_VIEW(navigation_tree_view), FALSE );
     gtk_container_add ( GTK_CONTAINER(sw), navigation_tree_view );
 
@@ -232,7 +230,7 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
                                 G_TYPE_INT,             /* NAVIGATION_PAGE */
 							    G_TYPE_INT,             /* NAVIGATION_ACCOUNT */
                                 G_TYPE_INT,             /* NAVIGATION_REPORT */
-							    G_TYPE_INT,             /* NAVIGATION_SENSITIVE */
+							    G_TYPE_STRING,          /* NAVIGATION_SENSITIVE */
                                 G_TYPE_INT ) );         /* NAVIGATION_ORDRE */
 
     gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE ( navigation_model ),
@@ -283,7 +281,7 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
                         G_CALLBACK ( gsb_gui_navigation_check_key_press ),
                         navigation_model );
 
-        g_signal_connect ( navigation_tree_view,
+    g_signal_connect ( navigation_tree_view,
                         "scroll-event",
                         G_CALLBACK ( gsb_gui_navigation_check_scroll ),
                         NULL );
@@ -321,7 +319,7 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
     gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(column), renderer,
 				       "weight", NAVIGATION_FONT);
     gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(column), renderer,
-				       "sensitive", NAVIGATION_SENSITIVE);
+				       "foreground", NAVIGATION_SENSITIVE);
 
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( navigation_tree_view ),
 				  GTK_TREE_VIEW_COLUMN ( column ) );
@@ -329,7 +327,7 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
     /* crée les pages dans le panneau de gauche */
     tmp_queue = gsb_gui_navigation_get_pages_list ( );
 
-    for ( i = 0 ; i < tmp_queue -> length ; i++ )
+    for ( i = 0 ; i < (gint) tmp_queue->length ; i++ )
     {
         struct_page *page;
 
@@ -338,15 +336,17 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
     }
 
     /* Finish tree. */
-    gtk_box_pack_start ( GTK_BOX(vbox), sw, TRUE, TRUE, 0 );
+    gtk_grid_attach (GTK_GRID (grid), sw, 0,0,1,1);
+	gtk_widget_set_hexpand (sw, TRUE);
+	gtk_widget_set_vexpand (sw, TRUE);
 
     /* Create calendar (hidden for now). */
     scheduler_calendar = gsb_calendar_new ();
-    gtk_box_pack_end ( GTK_BOX(vbox), scheduler_calendar, FALSE, FALSE, 0 );
+    gtk_grid_attach (GTK_GRID (grid), scheduler_calendar, 0,1,1,1);
 
     /* Create reconcile stuff (hidden for now). */
     reconcile_panel = gsb_reconcile_create_box ();
-    gtk_box_pack_end ( GTK_BOX(vbox), reconcile_panel, FALSE, FALSE, 0 );
+    gtk_grid_attach (GTK_GRID (grid), reconcile_panel, 0,2,1,1);
 
     /* signals of tree_view */
     g_signal_connect ( G_OBJECT ( navigation_tree_view ),
@@ -363,11 +363,11 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
 		                G_CALLBACK ( gsb_gui_navigation_activate_expander ),
 		                GINT_TO_POINTER ( 1 ) );
 
-    gtk_widget_show_all ( vbox );
+    gtk_widget_show_all (grid);
     gtk_widget_hide ( scheduler_calendar );
     gtk_widget_hide ( reconcile_panel );
 
-    return vbox;
+    return grid;
 }
 
 
@@ -515,8 +515,9 @@ void gsb_gui_navigation_create_account_list ( GtkTreeModel *model )
 
     path = gsb_gui_navigation_get_page_path ( model, GSB_HOME_PAGE );
     gtk_tree_model_get_iter ( GTK_TREE_MODEL( model ), &parent, path );
+	gtk_tree_path_free (path);
 
-    /* Remove childs if any. */
+	/* Remove childs if any. */
     while ( gtk_tree_model_iter_children ( model, &child, &parent ) )
     {
         gtk_tree_store_remove ( GTK_TREE_STORE ( model ), &child );
@@ -562,6 +563,7 @@ void gsb_gui_navigation_create_report_list ( GtkTreeModel *model )
 
     path = gsb_gui_navigation_get_page_path ( model, GSB_REPORTS_PAGE );
     gtk_tree_model_get_iter ( GTK_TREE_MODEL( model ), &parent, path );
+    gtk_tree_path_free (path);
 
     /* Remove childs if any. */
     while ( gtk_tree_model_iter_children ( model, &child, &parent ) )
@@ -585,7 +587,7 @@ void gsb_gui_navigation_create_report_list ( GtkTreeModel *model )
                         NAVIGATION_FONT, 400,
                         NAVIGATION_PAGE, GSB_REPORTS_PAGE,
                         NAVIGATION_ACCOUNT, -1,
-                        NAVIGATION_SENSITIVE, 1,
+                        NAVIGATION_SENSITIVE, "black",
                         NAVIGATION_REPORT, report_number,
                         -1 );
 
@@ -750,7 +752,7 @@ void gsb_gui_navigation_update_report_iter ( GtkTreeModel *model,
 		       NAVIGATION_PAGE, GSB_REPORTS_PAGE,
 		       NAVIGATION_REPORT, report_number,
 		       NAVIGATION_ACCOUNT, -1,
-		       NAVIGATION_SENSITIVE, 1,
+		       NAVIGATION_SENSITIVE, "black",
 		       -1 );
 }
 
@@ -857,8 +859,14 @@ void gsb_gui_navigation_update_account_iter ( GtkTreeModel *model,
                         gint account_number )
 {
     GdkPixbuf * pixbuf = NULL;
+	gboolean closed_account;
+	gchar *str_color = "black";
 
-    pixbuf = gsb_data_account_get_account_icon_pixbuf ( account_number );
+	closed_account = gsb_data_account_get_closed_account (account_number);
+	if (closed_account)
+		str_color = "grey";
+
+	pixbuf = gsb_data_account_get_account_icon_pixbuf ( account_number );
 
     gtk_tree_store_set ( GTK_TREE_STORE ( model ), account_iter,
                         NAVIGATION_PIX, pixbuf,
@@ -867,7 +875,7 @@ void gsb_gui_navigation_update_account_iter ( GtkTreeModel *model,
                         NAVIGATION_FONT, 400,
                         NAVIGATION_PAGE, GSB_ACCOUNT_PAGE,
                         NAVIGATION_ACCOUNT, account_number,
-                        NAVIGATION_SENSITIVE, !gsb_data_account_get_closed_account ( account_number ),
+                        NAVIGATION_SENSITIVE, str_color,
                         NAVIGATION_REPORT, -1,
                         -1 );
 
@@ -925,6 +933,7 @@ void gsb_gui_navigation_add_account ( gint account_number,
     path = gsb_gui_navigation_get_page_path ( navigation_model, GSB_HOME_PAGE );
     gtk_tree_model_get_iter ( GTK_TREE_MODEL( navigation_model ), &parent, path );
     gtk_tree_store_append ( GTK_TREE_STORE ( navigation_model ), &iter, &parent );
+	gtk_tree_path_free (path);
 
     gsb_gui_navigation_update_account_iter ( GTK_TREE_MODEL ( navigation_model ), &iter, account_number );
 
@@ -949,7 +958,7 @@ void gsb_gui_navigation_add_account ( gint account_number,
 gboolean navigation_change_account ( gint new_account )
 {
     gint current_account;
-    gchar *tmp_menu_path;
+    //~ printf ("navigation_change_account : new_account = %d\n", new_account);
 
     devel_debug_int (new_account);
     if ( new_account < 0 )
@@ -959,14 +968,8 @@ gboolean navigation_change_account ( gint new_account )
      * have to use a buffer variable to get the last account */
     current_account = gsb_gui_navigation_get_last_account ();
 
-    /* sensitive the last account in the menu */
-    tmp_menu_path = g_strconcat ( "/menubar/EditMenu/MoveToAnotherAccount/",
-                        gsb_data_account_get_name (current_account),
-                        NULL );
-    gsb_gui_sensitive_menu_item ( tmp_menu_path, TRUE );
-    g_free ( tmp_menu_path );
-
-    gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/NewTransaction", TRUE );
+    /* mise à jour du menu Editer */
+    gsb_menu_gui_sensitive_win_menu_item ( "new-ope", TRUE );
 
     /* save the row_align of the last account */
     gsb_data_account_set_row_align ( current_account,
@@ -982,14 +985,6 @@ gboolean navigation_change_account ( gint new_account )
     /* mise en place de la date du dernier relevé */
     gsb_navigation_update_statement_label ( new_account );
 
-    /* on met le nom insensitif dans la liste des comptes */
-    tmp_menu_path = g_strconcat ( "/menubar/EditMenu/MoveToAnotherAccount/",
-                        gsb_data_account_get_name (new_account),
-                        NULL );
-    gsb_gui_sensitive_menu_item ( tmp_menu_path, FALSE );
-
-    g_free ( tmp_menu_path );
-
     /* show or hide the rules button in toolbar */
     if ( gsb_data_import_rule_account_has_rule ( new_account ) )
         gtk_widget_show ( menu_import_rules );
@@ -997,8 +992,8 @@ gboolean navigation_change_account ( gint new_account )
         gtk_widget_hide ( menu_import_rules );
 
     /* Update the title of the file if needed */
-    if ( conf.display_grisbi_title == GSB_ACCOUNT_HOLDER )
-        gsb_main_set_grisbi_title ( new_account );
+    if ( conf.display_window_title == GSB_ACCOUNT_HOLDER )
+        grisbi_win_set_window_title ( new_account );
 
     /* select the good tab */
     bet_data_select_bet_pages ( new_account );
@@ -1097,7 +1092,7 @@ void gsb_navigation_update_account_label ( gint account_number )
     }
 
     gsb_data_account_colorize_current_balance ( account_number );
-    gsb_gui_headings_update_title ( title );
+    grisbi_win_headings_update_title ( title );
 
     g_free ( title );
 }
@@ -1137,171 +1132,182 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
     gboolean clear_suffix = TRUE;
 
     devel_debug (NULL);
-
     page_number = gsb_gui_navigation_get_current_page ();
+
     gtk_notebook_set_current_page ( GTK_NOTEBOOK ( gsb_gui_get_general_notebook ( ) ), page_number );
 
     if ( page_number != GSB_ACCOUNT_PAGE )
     {
-        gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/NewTransaction", FALSE );
-        gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/RemoveAccount", FALSE );
+        /* on update le menu de la liste des comptes */
+        grisbi_win_menu_move_to_acc_update ( FALSE );
+
+        /* on dé-sensibilise le menu view account */
         gsb_menu_set_menus_view_account_sensitive ( FALSE );
-        gsb_menu_set_menus_select_transaction_sensitive ( FALSE );
     }
 
     if ( page_number != GSB_SCHEDULER_PAGE )
     {
-	gtk_widget_hide ( scheduler_calendar );
+        gtk_widget_hide ( scheduler_calendar );
     }
 
     switch ( page_number )
-    {
-	case GSB_HOME_PAGE:
-	    notice_debug ("Home page selected");
+	{
+		case GSB_HOME_PAGE:
+			notice_debug ("Home page selected");
 
-        title = g_strdup(_("My accounts"));
+			title = g_strdup(_("My accounts"));
 
-        gsb_gui_sensitive_menu_item ( "/menubar/ViewMenu/ShowClosed", TRUE );
+			/* what to be done if switch to that page */
+			mise_a_jour_accueil ( FALSE );
+			gsb_form_set_expander_visible ( FALSE, FALSE );
+			gsb_form_hide ();
+			break;
 
-	    /* what to be done if switch to that page */
-	    mise_a_jour_accueil ( FALSE );
-	    gsb_form_set_expander_visible ( FALSE, FALSE );
-	    break;
+		case GSB_ACCOUNT_PAGE:
+			notice_debug ("Account page selected");
 
-	case GSB_ACCOUNT_PAGE:
-	    notice_debug ("Account page selected");
+			gsb_menu_gui_sensitive_win_menu_item ( "remove-acc", TRUE );
 
-        gsb_menu_set_menus_view_account_sensitive ( TRUE );
-	    gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/RemoveAccount", TRUE );
+			account_number = gsb_gui_navigation_get_current_account ();
 
-	    account_number = gsb_gui_navigation_get_current_account ();
+			/* update title now -- different from others */
+			gsb_navigation_update_account_label (account_number);
 
-        /* update title now -- different from others */
-        gsb_navigation_update_account_label (account_number);
+			/* what to be done if switch to that page */
+			if (account_number >= 0 )
+			{
+				navigation_change_account ( account_number );
+				gsb_account_property_fill_page ();
+				clear_suffix = FALSE;
+				if ( gsb_data_archive_store_account_have_transactions_visibles ( account_number ) )
+					gsb_transaction_list_set_visible_archived_button ( TRUE );
+				else
+					gsb_transaction_list_set_visible_archived_button ( FALSE );
+			}
+			grisbi_win_menu_move_to_acc_update (FALSE);
+			gsb_menu_update_view_menu ( account_number );
 
-	    /* what to be done if switch to that page */
-	    if (account_number >= 0 )
-	    {
-            navigation_change_account ( account_number );
-            gsb_account_property_fill_page ();
-            clear_suffix = FALSE;
-            if ( gsb_data_archive_store_account_have_transactions_visibles ( account_number ) )
-                gsb_transaction_list_set_visible_archived_button ( TRUE );
-            else
-                gsb_transaction_list_set_visible_archived_button ( FALSE );
-	    }
-	    gsb_menu_update_accounts_in_menus ();
-	    gsb_menu_update_view_menu ( account_number );
+			/* set the form */
+			gsb_gui_on_account_switch_page ( GTK_NOTEBOOK ( gsb_gui_get_account_page () ),
+							NULL,
+							gtk_notebook_get_current_page ( GTK_NOTEBOOK ( gsb_gui_get_account_page () ) ),
+							NULL );
+			gsb_form_show (TRUE);
 
-	    /* set the form */
-        gsb_gui_on_account_switch_page ( GTK_NOTEBOOK ( gsb_gui_get_account_page () ),
-                        NULL,
-                        gtk_notebook_get_current_page ( GTK_NOTEBOOK ( gsb_gui_get_account_page () ) ),
-                        NULL );
-	    /* gsb_form_show ( FALSE ); */
+			buffer_last_account = account_number;
 
-	    buffer_last_account = account_number;
+			break;
 
-	    break;
+		case GSB_SCHEDULER_PAGE:
+			notice_debug ("Scheduler page selected");
 
-	case GSB_SCHEDULER_PAGE:
-	    notice_debug ("Scheduler page selected");
+			title = g_strdup(_("Scheduled transactions"));
 
-	    title = g_strdup(_("Scheduled transactions"));
+			/* what to be done if switch to that page */
+			/* update the list (can do that because short list, so very fast) */
+			gsb_scheduler_list_fill_list (gsb_scheduler_list_get_tree_view ());
+			gsb_scheduler_list_set_background_color (gsb_scheduler_list_get_tree_view ());
 
-	    /* what to be done if switch to that page */
-	    /* update the list (can do that because short list, so very fast) */
-	    gsb_scheduler_list_fill_list (gsb_scheduler_list_get_tree_view ());
-	    gsb_scheduler_list_set_background_color (gsb_scheduler_list_get_tree_view ());
+			gsb_scheduler_list_select (gsb_scheduler_list_get_last_scheduled_number ());
 
-	    gsb_scheduler_list_select (gsb_scheduler_list_get_last_scheduled_number ());
+			/* set the form */
+			gsb_form_set_expander_visible (TRUE, FALSE );
+			gsb_form_scheduler_clean ();
+			gsb_form_show ( FALSE );
 
-	    /* set the form */
-	    gsb_form_set_expander_visible (TRUE, FALSE );
-	    gsb_form_scheduler_clean ();
-	    gsb_form_show ( FALSE );
+			/* show the calendar */
+			gsb_calendar_update ();
+			gtk_widget_show_all ( scheduler_calendar );
 
-	    /* show the calendar */
-	    gsb_calendar_update ();
-	    gtk_widget_show_all ( scheduler_calendar );
+			/* show menu NewTransaction */
+			gsb_menu_gui_sensitive_win_menu_item ( "new-ope", TRUE );
 
-        /* show menu NewTransaction */
-        gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/NewTransaction", TRUE );
+			/* show menu InitwidthCol */
+			gsb_menu_gui_sensitive_win_menu_item ( "reset-width-col", TRUE );
+			break;
 
-        /* show menu InitwidthCol */
-        gsb_gui_sensitive_menu_item ( "/menubar/ViewMenu/InitwidthCol", TRUE );
-	    break;
+		case GSB_PAYEES_PAGE:
+			notice_debug ("Payee page selected");
 
-	case GSB_PAYEES_PAGE:
-	    notice_debug ("Payee page selected");
+			/* what to be done if switch to that page */
+			gsb_form_set_expander_visible (FALSE, FALSE );
+			payees_fill_list ();
+			clear_suffix = FALSE;
+			gsb_form_hide ();
+			break;
 
-	    /* what to be done if switch to that page */
-	    gsb_form_set_expander_visible (FALSE, FALSE );
-        payees_fill_list ();
-        clear_suffix = FALSE;
-	    break;
+		case GSB_SIMULATOR_PAGE:
+			notice_debug ("Credits simulator page selected");
 
-	case GSB_SIMULATOR_PAGE:
-	    notice_debug ("Credits simulator page selected");
+			title = g_strdup(_("Credits simulator"));
 
-	    title = g_strdup(_("Credits simulator"));
+			/* what to be done if switch to that page */
+			gsb_form_set_expander_visible (FALSE, FALSE);
+			bet_finance_switch_simulator_page ( );
+			gsb_form_hide ();
+			break;
 
-	    /* what to be done if switch to that page */
-        gsb_form_set_expander_visible (FALSE, FALSE);
-        bet_finance_switch_simulator_page ( );
-	    break;
+		case GSB_CATEGORIES_PAGE:
+			notice_debug ("Category page selected");
 
-	case GSB_CATEGORIES_PAGE:
-	    notice_debug ("Category page selected");
+			/* what to be done if switch to that page */
+			gsb_form_set_expander_visible (FALSE, FALSE );
+			categories_fill_list ();
+			clear_suffix = FALSE;
+			gsb_form_hide ();
+			break;
 
-	    /* what to be done if switch to that page */
-	    gsb_form_set_expander_visible (FALSE, FALSE );
-        categories_fill_list ();
-        clear_suffix = FALSE;
-	    break;
+		case GSB_BUDGETARY_LINES_PAGE:
+			notice_debug ("Budgetary page selected");
 
-	case GSB_BUDGETARY_LINES_PAGE:
-	    notice_debug ("Budgetary page selected");
+			/* what to be done if switch to that page */
+			gsb_form_set_expander_visible (FALSE, FALSE );
+			budgetary_lines_fill_list ();
+			clear_suffix = FALSE;
+			gsb_form_hide ();
+			break;
 
-	    /* what to be done if switch to that page */
-	    gsb_form_set_expander_visible (FALSE, FALSE );
-		budgetary_lines_fill_list ();
-        clear_suffix = FALSE;
-	    break;
+		case GSB_REPORTS_PAGE:
+			notice_debug ("Reports page selected");
 
-	case GSB_REPORTS_PAGE:
-	    notice_debug ("Reports page selected");
+			report_number = gsb_gui_navigation_get_current_report ();
 
-	    report_number = gsb_gui_navigation_get_current_report ();
+			if ( report_number >= 0 )
+			title = g_strconcat ( _("Report"), " : ", gsb_data_report_get_report_name (report_number), NULL );
+			else
+			title = g_strdup(_("Reports"));
 
-	    if ( report_number >= 0 )
-		title = g_strconcat ( _("Report"), " : ", gsb_data_report_get_report_name (report_number), NULL );
-	    else
-		title = g_strdup(_("Reports"));
+			/* what to be done if switch to that page */
+			gsb_form_set_expander_visible ( FALSE, FALSE );
 
-	    /* what to be done if switch to that page */
-	    gsb_form_set_expander_visible ( FALSE, FALSE );
+			if ( report_number > 0 )
+			{
+				gtk_notebook_set_current_page (GTK_NOTEBOOK (etats_onglet_get_notebook_etats ()), 0);
+				etats_onglet_update_gui_to_report ( report_number );
+			}
+			else
+			{
+				gtk_notebook_set_current_page (GTK_NOTEBOOK (etats_onglet_get_notebook_etats ()), 1);
+				etats_onglet_unsensitive_reports_widgets ();
+			}
+			gsb_form_hide ();
+			break;
 
-	    if ( report_number > 0 )
-            gsb_gui_update_gui_to_report ( report_number );
-	    else
-            gsb_gui_unsensitive_report_widgets ();
-	    break;
-
-	default:
-	    notice_debug ("B0rk page selected");
-	    title = g_strdup("B0rk");
-	    break;
+		default:
+			notice_debug ("B0rk page selected");
+			title = g_strdup("B0rk");
+			gsb_form_hide ();
+			break;
     }
 
     /* title is set here if necessary */
     if (title)
     {
-        gsb_gui_headings_update_title ( title );
+        grisbi_win_headings_update_title ( title );
         g_free ( title );
     }
     if (clear_suffix)
-        gsb_gui_headings_update_suffix ( "" );
+        grisbi_win_headings_update_suffix ( "" );
 
     return FALSE;
 }
@@ -1322,7 +1328,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
  */
 gboolean gsb_gui_navigation_set_selection ( gint page,
                         gint account_number,
-                        gpointer report )
+                        gint report_number )
 {
     GtkTreeIter iter;
     GtkTreeSelection *selection;
@@ -1331,17 +1337,17 @@ gboolean gsb_gui_navigation_set_selection ( gint page,
     g_return_val_if_fail ( selection, FALSE );
 
     /* if we select an account, open the expander if necessary */
-    if ( page == GSB_ACCOUNT_PAGE )
+    if (page == GSB_ACCOUNT_PAGE || page == GSB_REPORTS_PAGE)
     {
         GtkTreePath *path;
 
-        path = gsb_gui_navigation_get_page_path ( navigation_model, GSB_HOME_PAGE );
+        path = gsb_gui_navigation_get_page_path ( navigation_model, page );
         gtk_tree_view_expand_row ( GTK_TREE_VIEW ( navigation_tree_view ), path, TRUE );
         gtk_tree_path_free (path);
     }
 
     gtk_tree_model_get_iter_first ( GTK_TREE_MODEL(navigation_model), &iter );
-    gsb_gui_navigation_set_selection_branch ( selection, &iter, page, account_number, report );
+    gsb_gui_navigation_set_selection_branch (selection, &iter, page, account_number, report_number);
 
     return TRUE;
 }
@@ -1365,36 +1371,36 @@ void gsb_gui_navigation_set_selection_branch ( GtkTreeSelection *selection,
 					    GtkTreeIter *iter,
                         gint page,
 					    gint account_number,
-                        gpointer report )
+                        gint report_number)
 {
-    do
+	do
     {
-	gint iter_page, iter_account_nb;
-	gpointer iter_report;
+		gint iter_page, iter_account_nb;
+		gint iter_report;
 
-	gtk_tree_model_get ( GTK_TREE_MODEL(navigation_model), iter,
-			     NAVIGATION_REPORT, &iter_report,
-			     NAVIGATION_ACCOUNT, &iter_account_nb,
-			     NAVIGATION_PAGE, &iter_page,
-			     -1 );
+		gtk_tree_model_get ( GTK_TREE_MODEL(navigation_model), iter,
+					 NAVIGATION_REPORT, &iter_report,
+					 NAVIGATION_ACCOUNT, &iter_account_nb,
+					 NAVIGATION_PAGE, &iter_page,
+					 -1 );
 
-	if ( iter_page == page &&
-	     ! ( page == GSB_ACCOUNT_PAGE &&
-		 iter_account_nb != account_number ) &&
-	     ! ( page == GSB_REPORTS_PAGE &&
-		 iter_report != report ) )
-	{
-	    gtk_tree_selection_select_iter ( selection, iter );
-	}
+		if ( iter_page == page &&
+			 ! ( page == GSB_ACCOUNT_PAGE &&
+			 iter_account_nb != account_number ) &&
+			 ! ( page == GSB_REPORTS_PAGE &&
+			 iter_report != report_number ) )
+		{
+			gtk_tree_selection_select_iter ( selection, iter );
+		}
 
-	if ( gtk_tree_model_iter_has_child ( GTK_TREE_MODEL(navigation_model), iter ) )
-	{
-	    GtkTreeIter child;
+		if ( gtk_tree_model_iter_has_child ( GTK_TREE_MODEL(navigation_model), iter ) )
+		{
+			GtkTreeIter child;
 
-	    gtk_tree_model_iter_children ( GTK_TREE_MODEL(navigation_model), &child, iter );
-	    gsb_gui_navigation_set_selection_branch ( selection, &child,
-						      page, account_number, report );
-	}
+			gtk_tree_model_iter_children ( GTK_TREE_MODEL(navigation_model), &child, iter );
+			gsb_gui_navigation_set_selection_branch ( selection, &child,
+								  page, account_number, report_number);
+		}
     }
     while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL(navigation_model), iter ) );
 
@@ -1657,9 +1663,9 @@ gboolean navigation_drag_data_received ( GtkTreeDragDest *drag_dest,
         GtkTreeModel *model;
         GtkTreeIter iter;
         GtkTreePath *orig_path;
-        gint src_report, dst_report = -1;
-        gint src_account, dst_account = -1;
-        gint src_ordre, dst_ordre = -1;
+        gint src_report = -1, dst_report = -1;
+        gint src_account = -1, dst_account = -1;
+        gint src_ordre = -1, dst_ordre = -1;
 
         gtk_tree_get_row_drag_data (selection_data, &model, &orig_path);
 
@@ -1719,9 +1725,9 @@ gboolean navigation_row_drop_possible ( GtkTreeDragDest *drag_dest,
     {
         GtkTreePath *orig_path;
         GtkTreeModel *model;
-        gint src_report, dst_report = -1;
-        gint src_account, dst_account = -1;
-        gint src_ordre, dst_ordre = -1;
+        gint src_report = -1, dst_report = -1;
+        gint src_account = -1, dst_account = -1;
+        gint src_ordre = -1, dst_ordre = -1;
         GtkTreeIter iter;
 
         gtk_tree_get_row_drag_data ( selection_data, &model, &orig_path );
@@ -1802,7 +1808,7 @@ gboolean gsb_gui_navigation_move_ordre ( gint src_ordre,
     struct_page *page = NULL;
 
     tmp_queue = pages_list;
-    for ( i = 0 ; i < tmp_queue -> length ; i++ )
+    for ( i = 0 ; i < (gint) tmp_queue->length ; i++ )
     {
         page = g_queue_peek_nth ( tmp_queue, i );
         if ( page -> ordre == src_ordre )
@@ -1822,7 +1828,7 @@ gboolean gsb_gui_navigation_move_ordre ( gint src_ordre,
 
     tmp_queue = pages_list;
 
-    for ( i = 0 ; i < tmp_queue -> length ; i++ )
+    for ( i = 0 ; i < (gint) tmp_queue->length ; i++ )
     {
         page = g_queue_peek_nth ( tmp_queue, i );
         page -> ordre = i;
@@ -1974,31 +1980,31 @@ void gsb_gui_navigation_set_navigation_pages ( GtkTreeModel *model,
     switch ( type_page )
     {
         case GSB_HOME_PAGE :
-            tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "ac_home.png", NULL );
+            tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "gsb-ac-home-32.png", NULL );
             title = g_strdup ( _("Accounts") );
         break;
         case GSB_SCHEDULER_PAGE :
-            tmp_str = g_build_filename( gsb_dirs_get_pixmaps_dir ( ), "scheduler.png", NULL );
+            tmp_str = g_build_filename( gsb_dirs_get_pixmaps_dir ( ), "gsb-scheduler-32.png", NULL );
             title = g_strdup ( _("Scheduler") );
         break;
         case GSB_PAYEES_PAGE :
-            tmp_str = g_build_filename( gsb_dirs_get_pixmaps_dir ( ), "payees.png", NULL );
+            tmp_str = g_build_filename( gsb_dirs_get_pixmaps_dir ( ), "gsb-payees-32.png", NULL );
             title = g_strdup ( _("Payees") );
         break;
         case GSB_SIMULATOR_PAGE :
-            tmp_str = g_build_filename( gsb_dirs_get_pixmaps_dir ( ), "ac_liability.png", NULL );
+            tmp_str = g_build_filename( gsb_dirs_get_pixmaps_dir ( ), "gsb-ac-liability-32.png", NULL );
             title = g_strdup ( _("Credits simulator") );
         break;
         case GSB_CATEGORIES_PAGE :
-            tmp_str = g_build_filename( gsb_dirs_get_pixmaps_dir ( ), "categories.png", NULL );
+            tmp_str = g_build_filename( gsb_dirs_get_pixmaps_dir ( ), "gsb-categories-32.png", NULL );
             title = g_strdup ( _("Categories") );
         break;
         case GSB_BUDGETARY_LINES_PAGE :
-            tmp_str = g_build_filename( gsb_dirs_get_pixmaps_dir ( ), "budgetary_lines.png", NULL );
+            tmp_str = g_build_filename( gsb_dirs_get_pixmaps_dir ( ), "gsb-budgetary_lines-32.png", NULL );
             title = g_strdup ( _("Budgetary lines") );
         break;
         case GSB_REPORTS_PAGE :
-            tmp_str = g_build_filename( gsb_dirs_get_pixmaps_dir ( ), "reports.png", NULL );
+            tmp_str = g_build_filename( gsb_dirs_get_pixmaps_dir ( ), "gsb-reports-32.png", NULL );
             title = g_strdup ( _("Reports") );
         break;
     }
@@ -2013,7 +2019,7 @@ void gsb_gui_navigation_set_navigation_pages ( GtkTreeModel *model,
                         NAVIGATION_PAGE, type_page,
                         NAVIGATION_ACCOUNT, -1,
                         NAVIGATION_REPORT, -1,
-                        NAVIGATION_SENSITIVE, 1,
+                        NAVIGATION_SENSITIVE, "black",
                         NAVIGATION_ORDRE, ordre,
                         -1);
 
@@ -2121,12 +2127,10 @@ gboolean gsb_gui_navigation_button_press ( GtkWidget *tree_view,
 void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
                         GtkTreePath *path )
 {
-    GtkWidget *image;
     GtkWidget *menu = NULL;
     GtkWidget *menu_item;
     GtkTreeModel *model;
     GtkTreeIter iter;
-    gchar *tmp_str;
     gint type_page;
     gint account_number;
     gint report_number;
@@ -2145,7 +2149,7 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
         case GSB_HOME_PAGE :
         case GSB_ACCOUNT_PAGE :
             menu = gtk_menu_new ();
-            menu_item = gtk_menu_item_new_with_label ( _("New account") );
+            menu_item = utils_menu_item_new_from_image_label ("gsb-new-file-16.png", _("New account"));
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( gsb_assistant_account_run ),
@@ -2157,7 +2161,7 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
             /* Separator */
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
 
-            menu_item = gtk_menu_item_new_with_label ( _("Remove this account") );
+            menu_item = utils_menu_item_new_from_image_label ("gtk-delete-16.png", _("Remove this account"));
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( gsb_account_delete ),
@@ -2167,17 +2171,14 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
         break;
         case GSB_PAYEES_PAGE :
             menu = gtk_menu_new ();
-            tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "new-payee.png", NULL);
-            image = gtk_image_new_from_file ( tmp_str );
-            g_free ( tmp_str );
-            menu_item = gtk_menu_item_new_with_label ( _("New payee") );
+            menu_item = utils_menu_item_new_from_image_label ("gsb-new-payee-16.png",_("New payee"));
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( payees_new_payee ),
                         NULL );
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
-            menu_item = gtk_menu_item_new_with_label ( _("Delete selected payee") );
+            menu_item = utils_menu_item_new_from_image_label ("gtk-delete-16.png", _("Delete selected payee"));
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( payees_delete_payee ),
@@ -2190,7 +2191,7 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
             else
                 gtk_widget_set_sensitive ( menu_item, FALSE );
 
-            menu_item = gtk_menu_item_new_with_label ( _("Edit selected payee") );
+            menu_item = utils_menu_item_new_from_image_label ("gtk-edit-16.png", _("Edit selected payee"));
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( payees_edit_payee ),
@@ -2206,17 +2207,14 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
             /* Separator */
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
 
-            tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "payeesmg.png", NULL);
-            image = gtk_image_new_from_file ( tmp_str );
-            g_free ( tmp_str );
-            menu_item = gtk_menu_item_new_with_label ( _("Manage payees") );
+            menu_item = utils_menu_item_new_from_image_label ("gsb-payees-manage-16.png", _("Manage payees"));
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( payees_manage_payees ),
                         NULL );
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
-            menu_item = gtk_menu_item_new_with_label ( _("Remove unused payees") );
+            menu_item = utils_menu_item_new_from_image_label ("gtk-delete-16.png", _("Remove unused payees"));
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( payees_remove_unused_payees ),
@@ -2225,17 +2223,14 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
         break;
         case GSB_CATEGORIES_PAGE :
             menu = gtk_menu_new ();
-            tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "new-categ.png", NULL);
-            image = gtk_image_new_from_file ( tmp_str );
-            g_free ( tmp_str );
-            menu_item = gtk_menu_item_new_with_label ( _("New category") );
+            menu_item = utils_menu_item_new_from_image_label ("gsb-new-categ-16.png", _("New category"));
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( categories_new_category ),
                         NULL );
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
-            menu_item = gtk_menu_item_new_with_label ( _("Delete selected category") );
+            menu_item = utils_menu_item_new_from_image_label ("gtk-delete-16.png", _("Delete selected category") );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( categories_delete_category ),
@@ -2248,7 +2243,7 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
             else
                 gtk_widget_set_sensitive ( menu_item, FALSE );
 
-            menu_item = gtk_menu_item_new_with_label ( _("Edit selected category") );
+            menu_item = utils_menu_item_new_from_image_label ("gtk-edit-16.png", _("Edit selected category"));
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( categories_edit_category ),
@@ -2264,14 +2259,14 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
             /* Separator */
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
 
-            menu_item = gtk_menu_item_new_with_label ( _("Import a file of categories (.cgsb)") );
+            menu_item = utils_menu_item_new_from_image_label ("gsb-import-16.png", _("Import a file of categories (.cgsb)"));
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( categories_importer_list ),
                         NULL );
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
-            menu_item = gtk_menu_item_new_with_label ( _("Export the list of categories (.cgsb)") );
+            menu_item = utils_menu_item_new_from_image_label ("gsb-export-16.png", _("Export the list of categories (.cgsb)"));
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( categories_exporter_list ),
@@ -2280,17 +2275,14 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
         break;
         case GSB_BUDGETARY_LINES_PAGE :
             menu = gtk_menu_new ();
-            tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "new-ib.png", NULL);
-            image = gtk_image_new_from_file ( tmp_str );
-            g_free ( tmp_str );
-            menu_item = gtk_menu_item_new_with_label ( _("New budgetary line") );
+            menu_item = utils_menu_item_new_from_image_label ("gsb-new-ib-16.png", _("New budgetary line"));
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( budgetary_lines_new_budgetary_line ),
                         NULL );
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
-            menu_item = gtk_menu_item_new_with_label ( _("Delete selected budgetary line") );
+            menu_item = utils_menu_item_new_from_image_label ("gtk-delete-16.png", _("Delete selected budgetary line"));
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( budgetary_lines_delete_budgetary_line ),
@@ -2303,7 +2295,7 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
             else
                 gtk_widget_set_sensitive ( menu_item, FALSE );
 
-            menu_item = gtk_menu_item_new_with_label ( _("Edit selected budgetary line") );
+            menu_item = utils_menu_item_new_from_image_label ("gtk-edit-16.png", _("Edit selected budgetary line") );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( budgetary_lines_edit_budgetary_line ),
@@ -2319,14 +2311,14 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
             /* Separator */
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
 
-            menu_item = gtk_menu_item_new_with_label ( _("Import a file of budgetary lines (.igsb)") );
+            menu_item = utils_menu_item_new_from_image_label ("gsb-import-16.png", _("Import a file of budgetary lines (.igsb)") );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( budgetary_lines_importer_list ),
                         NULL );
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
-            menu_item = gtk_menu_item_new_with_label ( _("Export the list of budgetary lines (.igsb)") );
+            menu_item = utils_menu_item_new_from_image_label ("gsb-export-16.png", _("Export the list of budgetary lines (.igsb)") );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( budgetary_lines_exporter_list ),
@@ -2335,13 +2327,10 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
         break;
         case GSB_REPORTS_PAGE :
             menu = gtk_menu_new ();
-            tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "new-report.png", NULL);
-            image = gtk_image_new_from_file ( tmp_str );
-            g_free ( tmp_str );
-            menu_item = gtk_menu_item_new_with_label ( _("New report") );
+            menu_item = utils_menu_item_new_from_image_label ("gsb-new-report-16.png", _("New report"));
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
-                        G_CALLBACK ( ajout_etat ),
+                        G_CALLBACK ( etats_onglet_ajoute_etat ),
                         NULL );
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
             if ( report_number == -1 )
@@ -2349,10 +2338,10 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
             /* Separator */
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
 
-            menu_item = gtk_menu_item_new_with_label ( _("Remove this report") );
+            menu_item = utils_menu_item_new_from_image_label ("gtk-delete-16.png", _("Remove this report"));
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
-                        G_CALLBACK ( efface_etat ),
+                        G_CALLBACK ( etats_onglet_efface_etat ),
                         NULL );
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
@@ -2363,7 +2352,12 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
     if ( menu )
     {
         gtk_widget_show_all ( menu );
-        gtk_menu_popup ( GTK_MENU( menu ), NULL, NULL, NULL, NULL, 3, gtk_get_current_event_time ( ) );
+
+#if GTK_CHECK_VERSION (3,22,0)
+		gtk_menu_popup_at_pointer (GTK_MENU (menu), NULL);
+#else
+		gtk_menu_popup ( GTK_MENU( menu ), NULL, NULL, NULL, NULL, 3, gtk_get_current_event_time ( ) );
+#endif
     }
 }
 
@@ -2406,10 +2400,10 @@ void gsb_gui_navigation_activate_expander ( GtkTreeView *tree_view,
 /**
  *
  *
+ * \param
  *
- */
-
-
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

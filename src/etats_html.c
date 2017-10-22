@@ -19,7 +19,7 @@
 /*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -38,16 +38,16 @@
 /*END_INCLUDE*/
 
 /* FOLLOWING LINES REVERTS BACK TO THE ORIGINAL FPRINTF (LIBINTL_FPRINTF IS BUGGY) */
-#ifdef _WIN32
+#ifdef G_OS_WIN32
 	#undef fprintf
 #endif
 
 /*START_STATIC*/
 static void html_attach_hsep ( int x, int x2, int y, int y2);
 static void html_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2,
-			  enum alignement align, gint transaction_number );
+							   GtkJustification align, gint transaction_number );
 static void html_attach_vsep ( int x, int x2, int y, int y2);
-static gint html_finish ();
+static gint html_finish ( void );
 static gint html_initialise ( GSList * opes_selectionnees, gchar * filename );
 static void html_safe ( gchar * text ) ;
 /*END_STATIC*/
@@ -66,7 +66,7 @@ static gboolean html_last_is_hsep;
 static gboolean html_first_line;
 
 
-struct struct_etat_affichage html_affichage = {
+struct EtatAffichage html_affichage = {
     html_initialise,
     html_finish,
     html_attach_hsep,
@@ -95,7 +95,7 @@ struct struct_etat_affichage html_affichage = {
  *            backend is not interactive)
  */
 void html_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2,
-			  enum alignement align, gint transaction_number )
+						GtkJustification align, gint transaction_number )
 {
     int pad, realsize;
     gint current_report_number;
@@ -139,17 +139,19 @@ void html_attach_label ( gchar * text, gdouble properties, int x, int x2, int y,
 
     switch ( align )
     {
-	case ALIGN_LEFT:
-	    fprintf ( html_out, " align=\"left\"" );
-	    break;
+		case GTK_JUSTIFY_LEFT:
+			fprintf ( html_out, " align=\"left\"" );
+			break;
 
-	case ALIGN_RIGHT:
-	    fprintf ( html_out, " align=\"right\"" );
-	    break;
+		case GTK_JUSTIFY_RIGHT:
+			fprintf ( html_out, " align=\"right\"" );
+			break;
 
-	case ALIGN_CENTER:
-	    fprintf ( html_out, " align=\"center\"" );
-	    break;
+		case GTK_JUSTIFY_CENTER:
+			fprintf ( html_out, " align=\"center\"" );
+			break;
+		case GTK_JUSTIFY_FILL:
+			break;
     }
 
     fprintf ( html_out, ">&nbsp;" );
@@ -286,7 +288,7 @@ gint html_initialise ( GSList * opes_selectionnees, gchar * filename )
     html_last_is_hsep = FALSE;
     html_first_line = TRUE;
 
-    html_out = utf8_fopen ( filename, "w" );
+    html_out = utils_files_utf8_fopen ( filename, "w" );
     if ( ! html_out )
     {
       dialogue_error_hint ( _("Make sure file exists and is writable."),
@@ -323,7 +325,7 @@ gint html_initialise ( GSList * opes_selectionnees, gchar * filename )
  *
  * \return TRUE on success, FALSE otherwise.
  */
-gint html_finish ()
+gint html_finish ( void )
 {
     fprintf (html_out,
 	     "      </tr>\n\n"

@@ -27,7 +27,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -36,6 +36,7 @@
 /*START_INCLUDE*/
 #include "gsb_assistant.h"
 #include "dialog.h"
+#include "grisbi_app.h"
 #include "gsb_dirs.h"
 #include "structures.h"
 #include "utils.h"
@@ -103,6 +104,7 @@ GtkWidget * gsb_assistant_new ( const gchar * title, const gchar * explanation,
                         const gchar * image_filename,
                         GCallback enter_callback )
 {
+    GtkWindow *window;
     GtkWidget * assistant, *notebook, *hbox, *label, *image, *view, *eb;
     GtkWidget * button_cancel, * button_prev, * button_next;
     GtkWidget *button_select;
@@ -110,8 +112,9 @@ GtkWidget * gsb_assistant_new ( const gchar * title, const gchar * explanation,
     gchar *tmpstr;
     gint width = 140;
 
+    window = GTK_WINDOW (grisbi_app_get_active_window (NULL));
     assistant = gtk_dialog_new_with_buttons ( title,
-                        GTK_WINDOW ( run.window ),
+                        GTK_WINDOW ( window ),
                         GTK_DIALOG_MODAL,
                         NULL, 0,
                         NULL );
@@ -119,7 +122,7 @@ GtkWidget * gsb_assistant_new ( const gchar * title, const gchar * explanation,
     gtk_window_set_default_size ( GTK_WINDOW ( assistant ), 800, 500 );
     gtk_window_set_position ( GTK_WINDOW ( assistant ), GTK_WIN_POS_CENTER_ON_PARENT );
     gtk_window_set_resizable ( GTK_WINDOW ( assistant ), TRUE );
-    g_object_set_data ( G_OBJECT ( run.window ), "assistant", assistant );
+    g_object_set_data ( G_OBJECT ( window ), "assistant", assistant );
 
     button_select = gtk_toggle_button_new_with_label ( _("Select all") );
     gtk_widget_set_size_request ( button_select, width, -1 );
@@ -146,9 +149,9 @@ GtkWidget * gsb_assistant_new ( const gchar * title, const gchar * explanation,
     eb = gtk_event_box_new ();
     gtk_widget_set_name (eb, "grey_box");
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 12 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_container_add ( GTK_CONTAINER(eb), hbox );
-    gtk_container_set_border_width ( GTK_CONTAINER(hbox), 12 );
+    gtk_container_set_border_width ( GTK_CONTAINER(hbox), BOX_BORDER_WIDTH );
 
     label = gtk_label_new ( NULL );
     tmpstr = g_markup_printf_escaped (
@@ -158,7 +161,7 @@ GtkWidget * gsb_assistant_new ( const gchar * title, const gchar * explanation,
     gtk_box_pack_start ( GTK_BOX(hbox), label, TRUE, TRUE, 0 );
 
     if (!image_filename)
-        image_filename = "grisbi.png";
+        image_filename = "grisbi-32.png";
 
     tmpstr = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), image_filename, NULL);
     image = gtk_image_new_from_file ( tmpstr );
@@ -254,8 +257,10 @@ void gsb_assistant_add_page ( GtkWidget * assistant, GtkWidget * widget, gint po
  */
 GtkResponseType gsb_assistant_run ( GtkWidget * assistant )
 {
-    GtkWidget * notebook, * button_prev;
+    GtkWidget *notebook;
+    GtkWidget *button_prev;
     GtkWidget *button_select;
+    GtkWidget *button_next;
 
     button_prev = g_object_get_data ( G_OBJECT(assistant), "button_prev" );
     button_select = g_object_get_data ( G_OBJECT ( assistant ), "button_select" );
@@ -264,10 +269,11 @@ GtkResponseType gsb_assistant_run ( GtkWidget * assistant )
     gtk_widget_hide ( button_select );
 
     notebook = g_object_get_data ( G_OBJECT(assistant), "notebook" );
-    gtk_notebook_set_current_page ( GTK_NOTEBOOK (notebook),
-			    0 );
-    gtk_widget_grab_focus (GTK_WIDGET (g_object_get_data (G_OBJECT (assistant),
-							  "button_next")));
+    gtk_notebook_set_current_page ( GTK_NOTEBOOK (notebook), 0 );
+
+	button_next = g_object_get_data (G_OBJECT (assistant), "button_next");
+	gtk_widget_set_sensitive (button_next, TRUE);
+    gtk_widget_grab_focus (GTK_WIDGET (button_next));
 
     while ( TRUE )
     {
@@ -384,6 +390,7 @@ void gsb_assistant_set_next ( GtkWidget * assistant, gint page, gint next )
  */
 gboolean gsb_assistant_sensitive_button_next ( GtkWidget * assistant, gboolean state )
 {
+	devel_debug_int (state);
     gtk_widget_set_sensitive ( g_object_get_data ( G_OBJECT (assistant), "button_next" ),
 			       state );
 

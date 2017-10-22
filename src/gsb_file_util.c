@@ -19,7 +19,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -30,6 +30,7 @@
 /*START_INCLUDE*/
 #include "gsb_file_util.h"
 #include "dialog.h"
+#include "grisbi_win.h"
 #include "gsb_data_account.h"
 #include "gsb_data_transaction.h"
 #include "gsb_file.h"
@@ -44,8 +45,7 @@
 
 
 /*START_EXTERN*/
-extern struct conditional_message messages[];
-extern gchar *nom_fichier_comptes;
+extern struct ConditionalMessage messages[];
 /*END_EXTERN*/
 
 
@@ -106,7 +106,7 @@ gboolean gsb_file_util_test_overwrite ( const gchar *filename )
  *
  * \return TRUE all is ok, FALSE a problem occured
  * */
-gboolean gsb_file_util_get_contents ( gchar *filename,
+gboolean gsb_file_util_get_contents ( const gchar *filename,
 				      gchar **file_content,
 				      gulong *length )
 {
@@ -115,16 +115,15 @@ gboolean gsb_file_util_get_contents ( gchar *filename,
     gulong alloc_size;
     gulong orig_size;
     gchar *content;
-    gulong iterator = 0;
-    gulong bytes_read;
+    int iterator = 0;
     gboolean eof = 0;
 	gchar *os_filename;
 
-#ifdef _MSC_VER
+#ifdef G_OS_WIN32
 	os_filename = g_locale_from_utf8(filename, -1, NULL, NULL, NULL);
 #else
 	os_filename = g_strdup(filename);
-#endif
+#endif /* G_OS_WIN32 */
 
     file = gzopen (os_filename, "rb");
     if (!file)
@@ -141,12 +140,12 @@ gboolean gsb_file_util_get_contents ( gchar *filename,
     }
 
     orig_size = stat_buf.st_size;
-#ifndef _WIN32
+#ifndef G_OS_WIN32
     if (gzdirect (file))
 	/* the file is not compressed, keep the original size */
 	alloc_size = orig_size + 1;
     else
-#endif /*_MSC_VER */
+#endif /*_G_OS_WIN32 */
 	/* the file is compressed, the final size should be about 20x more
 	 *  this is not completly true, if the file is compressed AND crypted,
 	 * the size doesn't really change. but i can't know here if the file is crypted
@@ -161,8 +160,6 @@ gboolean gsb_file_util_get_contents ( gchar *filename,
 	dialogue_error_memory ();
 	return FALSE;
     }
-
-    bytes_read = 0;
 
     /* we should be able to get directly the orig_size
      * for most of files it's enough, if the file is compressed,
@@ -195,7 +192,7 @@ gboolean gsb_file_util_get_contents ( gchar *filename,
 	    content[iterator] = c;
 	    iterator++;
 
-	    if (iterator >= alloc_size)
+	    if (iterator >= (gint) alloc_size)
 	    {
 		/* we need more space, should be rare,
 		 * show a warning to prevent and correct if necessary */
@@ -224,53 +221,6 @@ gboolean gsb_file_util_get_contents ( gchar *filename,
     return TRUE;
 }
 
-
-/**
- * for a grisbi file before 0.5.1, switch the R and T transactions because T appears
- * called only for a file before 0.5.1
- *
- * \param
- *
- * \return
- * */
-void switch_t_r ( void )
-{
-    /* cette fonction fait le tour des opérations et change le marquage T et R des opés */
-    /*     R devient pointe=3 */
-    /*     T devient pointe=2 */
-    /*     à n'appeler que pour une version antérieure à 0.5.1 */
-
-    GSList *list_tmp_transactions;
-
-    if ( !gsb_data_account_get_accounts_amount () )
-	return;
-
-    devel_debug ( "switch_t_r");
-
-
-    list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
-
-    while ( list_tmp_transactions )
-    {
-	gint transaction_number_tmp;
-	transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
-
-	switch ( gsb_data_transaction_get_marked_transaction (transaction_number_tmp))
-	{
-	    case 2 :
-		gsb_data_transaction_set_marked_transaction ( transaction_number_tmp,
-							      3 );
-		break;
-	    case 3:
-		gsb_data_transaction_set_marked_transaction ( transaction_number_tmp,
-							      2 );
-		break;
-	}
-	list_tmp_transactions = list_tmp_transactions -> next;
-    }
-}
-
-
 /**
  * create or delete a file ".name_of_file.lock" to check if the file is opened
  * already or not
@@ -279,33 +229,37 @@ void switch_t_r ( void )
  *
  * \return TRUE if ok
  * */
-gboolean gsb_file_util_modify_lock ( gboolean create_lock )
+gboolean gsb_file_util_modify_lock (const gchar *filename,
+									gboolean create_lock )
 {
     gchar *lock_filename;
+	gchar *tmp_str;
 
     devel_debug_int ( create_lock );
     /* if the file was already opened we do nothing */
     if ( ( etat.fichier_deja_ouvert )
 	 ||
-	 !nom_fichier_comptes
+	 !filename
 	 ||
-	 strlen ( nom_fichier_comptes) == 0 )
+	 strlen (filename) == 0 )
         return TRUE;
 
-    /* Check if nom_fichier_comptes exists.  If not, this is a new
+    /* Check if filename exists.  If not, this is a new
      * file so don't try to lock it. */
-    if ( !g_file_test ( nom_fichier_comptes, G_FILE_TEST_EXISTS ) )
+    if ( !g_file_test (filename, G_FILE_TEST_EXISTS ) )
         return FALSE;
 
     /* Create the name of the lock file */
-    lock_filename = g_strconcat ( g_get_tmp_dir ( ),
-                        G_DIR_SEPARATOR_S,
-#ifndef _WIN32
-                        ".",
-#endif
-                        g_path_get_basename ( nom_fichier_comptes ),
-                        ".lock",
-                        NULL );
+	tmp_str = g_path_get_basename (filename);
+    lock_filename = g_strconcat (g_get_tmp_dir (),
+								 G_DIR_SEPARATOR_S,
+#ifndef G_OS_WIN32
+								 ".",
+#endif /* G_OS_WIN32 */
+								 tmp_str,
+								 ".lock",
+								 NULL);
+    g_free (tmp_str);
 
     if ( create_lock )
     {
@@ -316,7 +270,7 @@ gboolean gsb_file_util_modify_lock ( gboolean create_lock )
         /* check if the file lock exists */
         if ( g_file_test ( lock_filename, G_FILE_TEST_EXISTS ) )
         {
-            dialog_message ( "account-already-opened", nom_fichier_comptes );
+            dialog_message ( "account-already-opened", filename);
 
             /* the lock is already created, return TRUE */
             etat.fichier_deja_ouvert = 1;
@@ -325,15 +279,13 @@ gboolean gsb_file_util_modify_lock ( gboolean create_lock )
 
         etat.fichier_deja_ouvert = 0;
 
-        fichier = utf8_fopen ( lock_filename, "w" );
+        fichier = utils_files_utf8_fopen ( lock_filename, "w" );
 
         if ( !fichier )
         {
-            gchar* tmp_str;
-
             tmp_str = g_strdup_printf ( _("Cannot write lock file: '%s': %s"),
-                                nom_fichier_comptes,
-                                g_strerror ( errno ) );
+									   filename,
+									   g_strerror ( errno ) );
             dialogue_error ( tmp_str );
             g_free ( tmp_str );
 
@@ -352,15 +304,15 @@ gboolean gsb_file_util_modify_lock ( gboolean create_lock )
         if ( !g_file_test ( lock_filename, G_FILE_TEST_EXISTS ) )
             return TRUE;
 
-        result = utf8_remove ( lock_filename );
+        result = utils_files_utf8_remove ( lock_filename );
 
         if ( result == -1 )
         {
             gchar* tmp_str;
 
             tmp_str = g_strdup_printf (_("Cannot erase lock file: '%s': %s"),
-                                nom_fichier_comptes,
-                                g_strerror ( errno ) );
+									   filename,
+									   g_strerror ( errno ) );
             dialogue_error ( tmp_str );
             g_free ( tmp_str );
 
@@ -395,13 +347,16 @@ void gsb_file_util_change_permissions ( void )
      * not display msg. */
     devel_debug (NULL);
 
-#ifndef _WIN32
+#ifndef G_OS_WIN32
     if ( question_conditional_yes_no ( "account-file-readable" ) == TRUE )
     {
-        chmod ( nom_fichier_comptes, S_IRUSR | S_IWUSR );
+		const gchar *filename;
+
+		filename = grisbi_win_get_filename (NULL);
+        chmod (filename, S_IRUSR | S_IWUSR );
     }
 
-#endif /* _WIN32 */
+#endif /* G_OS_WIN32 */
 }
 
 

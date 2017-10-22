@@ -20,7 +20,7 @@
 /* ************************************************************************** */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -29,6 +29,7 @@
 /*START_INCLUDE*/
 #include "gsb_debug.h"
 #include "dialog.h"
+#include "grisbi_win.h"
 #include "gsb_assistant.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
@@ -39,7 +40,6 @@
 #include "gsb_data_transaction.h"
 #include "gsb_file.h"
 #include "gsb_real.h"
-#include "gsb_status.h"
 #include "traitement_variables.h"
 #include "utils.h"
 #include "utils_real.h"
@@ -51,15 +51,15 @@
 static void gsb_debug_add_report_page ( GtkWidget * assistant, gint page,
 				 struct gsb_debug_test * test, gchar * summary );
 static gchar *gsb_debug_budget_test  ( void );
-static gboolean gsb_debug_budget_test_fix ();
+static gboolean gsb_debug_budget_test_fix ( void );
 static gchar *gsb_debug_category_test  ( void );
-static gboolean gsb_debug_category_test_fix ();
+static gboolean gsb_debug_category_test_fix ( void );
 static gboolean gsb_debug_enter_test_page ( GtkWidget * assistant );
 static gchar *gsb_debug_payee_test  ( void );
-static gboolean gsb_debug_payee_test_fix ();
+static gboolean gsb_debug_payee_test_fix ( void );
 static gchar * gsb_debug_reconcile_test ( void );
 static gchar * gsb_debug_transfer_test ( void );
-static gboolean gsb_debug_try_fix ( gboolean (* fix) () );
+static gboolean gsb_debug_try_fix ( gboolean (* fix) (void) );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -150,13 +150,13 @@ gboolean gsb_debug ( void )
     GtkTextBuffer * text_buffer;
     GtkWidget *scrolled_window;
 
-    gsb_status_message ( _("Checking file for possible corruption...") );
+    grisbi_win_status_bar_message ( _("Checking file for possible corruption...") );
 
     assistant = gsb_assistant_new ( _("Grisbi accounts debug"),
 				    _("This assistant will help you to search your account "
 				      "file for inconsistencies, which can be caused either "
 				      "by bugs or by erroneous manipulation."),
-				    "bug.png",
+				    "gsb-bug-32.png",
 				    NULL );
 
     scrolled_window = gtk_scrolled_window_new (FALSE, FALSE);
@@ -245,7 +245,7 @@ gboolean gsb_debug_enter_test_page ( GtkWidget * assistant )
 	}
     }
 
-    gsb_status_message ( _("Done") );
+    grisbi_win_status_bar_message ( _("Done") );
 
     if ( !inconsistency )
     {
@@ -277,7 +277,7 @@ void gsb_debug_add_report_page ( GtkWidget * assistant, gint page,
     gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
 				    GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_container_add ( GTK_CONTAINER (scrolled_window), vbox );
 
     label = gtk_label_new ( NULL );
@@ -291,7 +291,7 @@ void gsb_debug_add_report_page ( GtkWidget * assistant, gint page,
     g_free ( tmp_str );
 
     gtk_box_pack_start ( GTK_BOX(vbox), label, FALSE, FALSE, 0 );
-    gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
+    gtk_container_set_border_width ( GTK_CONTAINER(vbox), BOX_BORDER_WIDTH );
 
     if ( test -> instructions )
     {
@@ -331,7 +331,7 @@ void gsb_debug_add_report_page ( GtkWidget * assistant, gint page,
  *
  *
  */
-gboolean gsb_debug_try_fix ( gboolean (* fix) () )
+gboolean gsb_debug_try_fix ( gboolean (* fix) (void) )
 {
 
     if ( fix () )
@@ -651,7 +651,7 @@ gchar *gsb_debug_category_test  ( void )
  *
  * \return TRUE if ok
  * */
-gboolean gsb_debug_category_test_fix ()
+gboolean gsb_debug_category_test_fix ( void )
 {
     GSList *tmp_list;
 
@@ -761,7 +761,7 @@ gchar *gsb_debug_budget_test  ( void )
  *
  * \return TRUE if ok
  * */
-gboolean gsb_debug_budget_test_fix ()
+gboolean gsb_debug_budget_test_fix ( void )
 {
     GSList *tmp_list;
 
@@ -851,7 +851,7 @@ gchar *gsb_debug_payee_test  ( void )
  *
  * \return TRUE if ok
  * */
-gboolean gsb_debug_payee_test_fix ()
+gboolean gsb_debug_payee_test_fix ( void )
 {
     GSList *tmp_list;
 

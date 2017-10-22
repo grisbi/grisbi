@@ -22,7 +22,7 @@
 /* ************************************************************************** */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -33,9 +33,11 @@
 
 /*START_INCLUDE*/
 #include "gtk_combofix.h"
+#include "gsb_form.h"
 #include "utils_buttons.h"
 /*END_INCLUDE*/
 
+#define COMBOFIX_MIN_WIDTH		250
 
 G_DEFINE_TYPE ( GtkComboFix, gtk_combofix, GTK_TYPE_BOX );
 
@@ -71,10 +73,8 @@ struct _GtkComboFixPrivate
 /* Liste des fonctions statiques */
 
 /* common */
-static void gtk_combofix_class_init ( GtkComboFixClass *klass );
 static void gtk_combofix_dispose ( GObject *combofix );
 static void gtk_combofix_finalize ( GObject *combofix );
-static void gtk_combofix_init ( GtkComboFix *combofix );
 static void gtk_combofix_dialog ( gchar *text, gchar *hint );
 
 /* entry */
@@ -149,6 +149,7 @@ static gboolean gtk_combofix_select_item ( GtkComboFix *combofix,
 
 /* globals variables */
 static gint block_expose_event;
+static GtkTreeIter report_parent_iter;
 
 enum combofix_columns {
     COMBOFIX_COL_VISIBLE_STRING = 0,    /* string : what we see in the combofix */
@@ -166,8 +167,8 @@ enum combofix_key_direction {
     COMBOFIX_PAGE_DOWN,
 };
 
+
 /*START_EXTERN*/
-extern GtkWidget *form_transaction_part;
 /*END_EXTERN*/
 
 /* *********************** the first part contains the static functions ******************************************** */
@@ -207,12 +208,10 @@ static void gtk_combofix_remove_for_report ( GtkTreeModel *model,
 * vérifie si il existe un séparateur, l'ajoute si nécessaire
 *
 * \param model
-* \param iter_parent
 *
-* \return the position of parent_iter
+* \return TRUE si un séparateur a été ajouté, FALSE sinon
 * */
-static gboolean gtk_combofix_search_for_report ( GtkTreeModel *model,
-                        GtkTreeIter *iter_parent )
+static gboolean gtk_combofix_search_for_report ( GtkTreeModel *model )
 {
     GtkTreeIter iter;
     gchar *tmp_str;
@@ -228,7 +227,7 @@ static gboolean gtk_combofix_search_for_report ( GtkTreeModel *model,
         if ( separator )
         {
             gtk_tree_model_iter_next ( GTK_TREE_MODEL( model ), &iter );
-            iter_parent = &iter;
+			report_parent_iter = iter;
 
             return FALSE;
         }
@@ -252,7 +251,7 @@ static gboolean gtk_combofix_search_for_report ( GtkTreeModel *model,
                         COMBOFIX_COL_LIST_NUMBER, 1,
                         -1 );
     g_free ( tmp_str );
-    iter_parent = &iter;
+	report_parent_iter = iter;
 
     return TRUE;
 }
@@ -266,33 +265,15 @@ static gboolean gtk_combofix_search_for_report ( GtkTreeModel *model,
 *
 * \return TRUE if exist or FALSE
 * */
-static gboolean gtk_combofix_search_report ( GtkTreeModel *model,
-                        const gchar *report_name )
+static gboolean gtk_combofix_search_report (GtkTreeModel *model,
+                                            const gchar *report_name)
 {
     GtkTreeIter iter;
-    GtkTreeIter iter_parent;
-    gboolean separator;
 
-    /* on recherche le parent des états */
-    gtk_tree_model_get_iter_first (  GTK_TREE_MODEL( model ), &iter_parent );
-    do
-    {
-        gtk_tree_model_get ( GTK_TREE_MODEL( model ), &iter_parent,
-                        COMBOFIX_COL_SEPARATOR, &separator,
-			            -1 );
-
-        if ( separator )
-        {
-            gtk_tree_model_iter_next ( GTK_TREE_MODEL( model ), &iter_parent );
-            break;
-        }
-    }
-    while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL( model ), &iter_parent ) );
-
-    if ( !gtk_tree_model_iter_has_child ( GTK_TREE_MODEL ( model ), &iter_parent ) )
+    if ( !gtk_tree_model_iter_has_child ( GTK_TREE_MODEL ( model ), &report_parent_iter ) )
         return FALSE;
 
-    if ( !gtk_tree_model_iter_children ( GTK_TREE_MODEL ( model ), &iter, &iter_parent ) )
+    if ( !gtk_tree_model_iter_children ( GTK_TREE_MODEL ( model ), &iter, &report_parent_iter ) )
         return FALSE;
     do
     {
@@ -339,6 +320,8 @@ GtkWidget *gtk_combofix_new ( GSList *list )
 
     gtk_combofix_set_list (combofix, list);
 
+	gtk_widget_set_size_request (GTK_WIDGET (combofix), COMBOFIX_MIN_WIDTH, -1);
+
     return ( GTK_WIDGET ( combofix ) );
 }
 
@@ -370,6 +353,9 @@ const gchar *gtk_combofix_get_text ( GtkComboFix *combofix )
  * */
 void gtk_combofix_set_text ( GtkComboFix *combofix, const gchar *text )
 {
+	/* bloque l'appel à gtk_combofix_expose_entry () pendant cette fonction */
+	block_expose_event = 1;
+
     g_return_if_fail ( combofix );
     g_return_if_fail ( GTK_IS_COMBOFIX ( combofix ) );
 
@@ -450,7 +436,6 @@ gboolean gtk_combofix_hide_popup ( GtkComboFix *combofix )
     if ( gtk_widget_get_visible ( priv -> popup ))
     {
         gtk_grab_remove ( priv -> popup );
-        //~ gdk_pointer_ungrab ( GDK_CURRENT_TIME );
         gtk_widget_hide ( priv -> popup );
     }
     return FALSE;
@@ -658,7 +643,6 @@ void gtk_combofix_append_report ( GtkComboFix *combofix,
                         const gchar *report_name )
 {
     GtkComboFixPrivate *priv;
-    GtkTreeIter iter_parent;
     gchar *tmp_str;
     gchar *tmp_str2;
 
@@ -670,9 +654,14 @@ void gtk_combofix_append_report ( GtkComboFix *combofix,
 
     priv = combofix->priv;
 
+	/* initialisation iter à invalid probablement inutile */
+	report_parent_iter.stamp = 0;
     /* on cherche la partie etats on l'ajoute si nécessaire */
-    if ( gtk_combofix_search_for_report ( GTK_TREE_MODEL ( priv->store ), &iter_parent ) )
+    if ( gtk_combofix_search_for_report ( GTK_TREE_MODEL ( priv->store ) ) )
         priv -> visible_items++;
+
+    if (!report_parent_iter.stamp)
+        return;
 
     /* on sort si l'état demandé existe déjà */
     if ( gtk_combofix_search_report ( GTK_TREE_MODEL ( priv->store ), report_name ) )
@@ -681,7 +670,7 @@ void gtk_combofix_append_report ( GtkComboFix *combofix,
     /* sinon on l'ajoute dans la liste des tiers */
     tmp_str = g_strdup ( _("Report") );
     tmp_str2 = g_strconcat ( tmp_str, " : ", report_name, NULL );
-    gtk_combofix_fill_iter_child ( priv->store, &iter_parent, report_name, tmp_str2, 1 );
+    gtk_combofix_fill_iter_child ( priv->store, &report_parent_iter, report_name, tmp_str2, 1 );
     priv -> visible_items++;
 
     g_free ( tmp_str );
@@ -861,13 +850,10 @@ void gtk_combofix_set_selection_callback ( GtkComboFix *combofix,
 static void gtk_combofix_class_init ( GtkComboFixClass *klass )
 {
     GObjectClass *object_class;
-    GtkWidgetClass *widget_class;
 
     object_class = G_OBJECT_CLASS (klass);
     object_class -> dispose = gtk_combofix_dispose;
     object_class -> finalize = gtk_combofix_finalize;
-
-    widget_class = GTK_WIDGET_CLASS (klass);
 
     g_type_class_add_private ( klass, sizeof ( GtkComboFixPrivate ) );
 }
@@ -943,7 +929,8 @@ static void gtk_combofix_init ( GtkComboFix *combofix )
     gtk_widget_show ( combofix -> entry );
 
     /* set the button */
-    priv->button = utils_buttons_button_new_from_image ("arrow-down.svg");
+
+    priv->button = utils_buttons_button_new_from_image ("gsb-arrow-down-16.png");
     gtk_button_set_relief ( GTK_BUTTON ( priv -> button ), GTK_RELIEF_NONE );
     g_signal_connect_swapped ( G_OBJECT ( priv -> button ),
                         "clicked",
@@ -1016,6 +1003,7 @@ static void gtk_combofix_init ( GtkComboFix *combofix )
     /* set the sorting model in the tree view */
     priv -> tree_view = gtk_tree_view_new_with_model (
                                     GTK_TREE_MODEL ( priv -> model_sort ) );
+	gtk_widget_set_name (priv->tree_view, "tree_view");
 
     priv -> selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( priv -> tree_view ) );
     gtk_tree_selection_set_mode ( GTK_TREE_SELECTION ( priv -> selection ),
@@ -1391,7 +1379,6 @@ static gchar *gtk_combofix_update_visible_rows ( GtkComboFix *combofix,
     GtkTreeIter iter;
     gint path_ok;
     gint length;
-    gboolean text_written = FALSE;
     gboolean separator = FALSE;
     GtkComboFixPrivate *priv = combofix -> priv;
 
@@ -1461,7 +1448,6 @@ static gchar *gtk_combofix_update_visible_rows ( GtkComboFix *combofix,
                     complete_string = model_string;
 
                 priv -> visible_items ++;
-                text_written = TRUE;
             }
         }
         gtk_tree_store_set ( GTK_TREE_STORE (model),
@@ -1585,6 +1571,34 @@ static gboolean gtk_combofix_set_all_visible_rows ( GtkComboFix *combofix )
 }
 
 
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+static gint gtk_combofix_get_screen_height (GtkComboFix *combofix,
+											gint y)
+{
+#if GTK_CHECK_VERSION (3,22,0)
+	GdkWindow *window;
+	GdkDisplay *display;
+	GdkMonitor *monitor;
+	GdkRectangle rectangle;
+
+	window = gtk_widget_get_window (GTK_WIDGET (combofix));
+	display = gdk_window_get_display (window);
+	monitor = gdk_display_get_monitor_at_point (display, 0, y);
+	gdk_monitor_get_geometry (monitor, &rectangle);
+
+		return rectangle.height;
+#else
+		return gdk_screen_height ();
+#endif
+}
+
 /**
  * set the position and the size of the popup
  *
@@ -1594,6 +1608,7 @@ static gboolean gtk_combofix_set_all_visible_rows ( GtkComboFix *combofix )
  * */
 static gboolean gtk_combofix_set_popup_position ( GtkComboFix *combofix )
 {
+	GtkWidget *form_transaction_part;
     gint x = 0;
     gint y = 0;
     gint height;
@@ -1602,6 +1617,7 @@ static gboolean gtk_combofix_set_popup_position ( GtkComboFix *combofix )
     GdkRectangle rectangle;
     GtkAllocation allocation;
     gint horizontal_separator;
+	gint screen_height;
     GtkComboFixPrivate *priv;
 
     if ( !combofix )
@@ -1617,6 +1633,7 @@ static gboolean gtk_combofix_set_popup_position ( GtkComboFix *combofix )
     gtk_widget_get_allocation ( GTK_WIDGET (combofix), &allocation );
 
     /* on corrige le bug (?) de gdk_window_get_origin () */
+	form_transaction_part = gsb_form_get_form_transaction_part ();
     row_spacing = gtk_grid_get_row_spacing (GTK_GRID (form_transaction_part));
     num_row = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (combofix), "num_row"));
     if (num_row)
@@ -1643,9 +1660,15 @@ static gboolean gtk_combofix_set_popup_position ( GtkComboFix *combofix )
     /* if the popup is too small to contain all, we check to set it on the bottom or on the top
      * if the place on the top is more than 2 times bigger than the bottom, we set it on the top */
 
-    if ( ( ( gdk_screen_height ( ) - y - allocation.height ) < height )
+#if GTK_CHECK_VERSION (3,22,0)
+	screen_height = gtk_combofix_get_screen_height (combofix, y);
+#else
+	screen_height = gdk_screen_height;
+#endif
+
+    if ( ( ( screen_height - y - allocation.height ) < height )
      &&
-     ( ( ( gdk_screen_height () - y ) * 2 ) <= y ) )
+     ( ( ( screen_height - y ) * 2 ) <= y ) )
     {
         /* popup on the top */
         if ( y > height )
@@ -1661,8 +1684,8 @@ static gboolean gtk_combofix_set_popup_position ( GtkComboFix *combofix )
         /* popup on the bottom */
         y += allocation.height;
 
-        if ( ( gdk_screen_height ( ) - y ) < height )
-            height = gdk_screen_height ( ) - y;
+        if ( ( screen_height - y ) < height )
+            height = screen_height - y;
     }
 
     gtk_window_move ( GTK_WINDOW ( priv -> popup ), x, y );

@@ -7,6 +7,6 @@
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
-GtkWidget *gsb_currency_link_config_create_page ( void );
+GtkWidget *	gsb_currency_link_config_create_page 	(void);
 /* END_DECLARATION */
 #endif

@@ -21,7 +21,7 @@
 /* ************************************************************************** */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -968,13 +968,13 @@ GtkWidget *print_tree_view_list_layout_config ( GtkPrintOperation *operation, gp
 
     size_group = gtk_size_group_new ( GTK_SIZE_GROUP_HORIZONTAL );
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 12 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
+    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), BOX_BORDER_WIDTH );
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Layout") );
 
     /* set up the title, this is never saved, so ask each time */
     /* title line */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 10 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
     entry = gsb_automem_entry_new ( &title_string, NULL, NULL);
@@ -1015,7 +1015,7 @@ GtkWidget *print_tree_view_list_layout_config ( GtkPrintOperation *operation, gp
 
     /* set up the font of the transactions,
      * by default use the font of the lists */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 12 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Transactions font") );
@@ -1032,7 +1032,7 @@ GtkWidget *print_tree_view_list_layout_config ( GtkPrintOperation *operation, gp
     gtk_box_pack_start ( GTK_BOX ( hbox ), font_button_transactions, TRUE, TRUE, 0 );
 
     /* set up the font for the title */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 12 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Title font") );
@@ -1134,7 +1134,7 @@ static gint print_tree_view_list_get_columns_data_nbre_lines ( GtkTreeView *tree
     while ( list_tmp )
     {
         GtkTreeViewColumn *col;
-        const gchar *text;
+        const gchar *text = NULL;
         gint nbre_motifs = 0;
         gint col_num_model;
         GType col_type_model;

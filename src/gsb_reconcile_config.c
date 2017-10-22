@@ -27,7 +27,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -49,6 +49,7 @@
 #include "traitement_variables.h"
 #include "utils.h"
 #include "utils_dates.h"
+#include "utils_prefs.h"
 #include "utils_real.h"
 /*END_INCLUDE*/
 
@@ -105,8 +106,8 @@ static void gsb_reconcile_config_sort_reconcile (GtkToggleButton *togglebutton,
  */
 GtkWidget *gsb_reconcile_config_create ( void )
 {
-    GtkWidget *hbox, *scrolled_window;
-    GtkWidget *vbox_pref, *paddingbox;
+    GtkWidget *scrolled_window;
+    GtkWidget *vbox_pref;
     GtkWidget *paddinggrid;
     GtkTreeViewColumn *column;
     GtkCellRenderer *cell;
@@ -127,7 +128,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
     gint width_entry = 80;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Reconciliation"),
-					       "reconciliationlg.png" );
+					       "gsb-reconciliation-32.png" );
 
     gsb_automem_radiobutton3_new_with_title ( vbox_pref,
                         _("Select the end date of reconciliation: "),
@@ -142,7 +143,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
     paddinggrid = utils_prefs_paddinggrid_new_with_title (vbox_pref, _("List of reconciliations"));
 
     /* set the list */
-    scrolled_window = utils_prefs_scrolled_window_new ( NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, 200 );
+    scrolled_window = utils_prefs_scrolled_window_new ( NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, SW_MIN_HEIGHT );
     gtk_grid_attach (GTK_GRID (paddinggrid), scrolled_window, 0, 0, 1, 3);
 
     /* need to create first the table to set it in the arg of the changed signal of selection */
@@ -161,6 +162,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
 					   G_TYPE_INT,       /* Bold or regular text */
 					   G_TYPE_INT );     /* reconciliation number */
     reconcile_treeview = gtk_tree_view_new_with_model ( GTK_TREE_MODEL (reconcile_model) );
+	gtk_widget_set_name (reconcile_treeview, "tree_view");
     g_object_unref (G_OBJECT(reconcile_model));
     gtk_tree_selection_set_mode ( gtk_tree_view_get_selection (GTK_TREE_VIEW (reconcile_treeview)),
 				  GTK_SELECTION_SINGLE );
@@ -352,7 +354,7 @@ void gsb_reconcile_config_fill ( void )
 	/* for each account, get the concerned reconciles */
 	reconcile_list = gsb_data_reconcile_get_sort_reconcile_list (account_number);
     if (etat.reconcile_sort)
-        reconcile_list = g_list_reverse (reconcile_list);
+		reconcile_list = g_list_reverse (reconcile_list);
 
 	while (reconcile_list)
 	{

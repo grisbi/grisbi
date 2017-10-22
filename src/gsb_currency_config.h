@@ -9,7 +9,7 @@
 
 /** This structure holds information needed for exchange rates
   cache. */
-struct cached_exchange_rate {
+struct CachedExchangeRate {
     gint currency1_number;	/** First currency */
     gint currency2_number;	/** Second currency */
     gsb_real rate;				/** Exchange rate betweend
@@ -19,7 +19,7 @@ struct cached_exchange_rate {
 };
 
 /** ISO 4217 currency.  Not specific to Grisbi. */
-struct iso_4217_currency
+struct Iso4217Currency
 {
     const gchar * continent;
     const gchar * currency_name;
@@ -38,7 +38,7 @@ struct iso_4217_currency
 };
 
 /** Columns numbers for currencies list  */
-enum currency_list_column {
+enum CurrencyConfigListColumns {
     CURRENCY_FLAG_COLUMN,
     CURRENCY_HAS_FLAG,
     COUNTRY_NAME_COLUMN,
@@ -53,20 +53,23 @@ enum currency_list_column {
 
 
 /* START_DECLARATION */
-gboolean gsb_currency_config_add_currency ( GtkWidget *button,
-                        GtkTreeModel *currency_tree_model );
-gboolean gsb_currency_config_add_currency_set_combobox ( GtkWidget * button,
-                        GtkWidget * combobox );
-GtkWidget *gsb_currency_config_create_box_popup ( GCallback select_callback );
-gint gsb_currency_config_create_currency ( const gchar *currency_name,
-                        const gchar *currency_code,
-                        const gchar *currency_isocode,
-                        gint floating_point );
-gint gsb_currency_config_create_currency_from_iso4217list ( gchar *currency_name );
-GtkWidget *gsb_currency_config_create_page ( void );
-GtkWidget *gsb_currency_config_create_totals_page ( void );
-GtkWidget * gsb_currency_config_new_combobox ( gint * value, GCallback hook );
-gboolean gsb_currency_config_select_default ( GtkTreeModel * tree_model, GtkTreePath * path,
-                        GtkTreeIter * iter, GtkTreeView * tree_view );
+gboolean 	gsb_currency_config_add_currency 						(GtkWidget *button,
+																	 GtkTreeModel *currency_tree_model);
+gboolean 	gsb_currency_config_add_currency_set_combobox 			(GtkWidget *button,
+																	 GtkWidget *combobox);
+GtkWidget *	gsb_currency_config_create_box_popup 					(GCallback select_callback);
+gint 		gsb_currency_config_create_currency 					(const gchar *currency_name,
+																	 const gchar *currency_code,
+																	 const gchar *currency_isocode,
+																	 gint floating_point);
+gint 		gsb_currency_config_create_currency_from_iso4217list	(gchar *currency_name);
+GtkWidget *	gsb_currency_config_create_page 						(void);
+GtkWidget *	gsb_currency_config_create_totals_page 					(void);
+GtkWidget * gsb_currency_config_new_combobox						(gint *value,
+																	 GCallback hook);
+gboolean 	gsb_currency_config_select_default 						(GtkTreeModel *tree_model,
+																	 GtkTreePath *path,
+																	 GtkTreeIter *iter,
+																	 GtkTreeView *tree_view);
 /* END_DECLARATION */
 #endif

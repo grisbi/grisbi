@@ -29,7 +29,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -89,7 +89,7 @@ void gsb_data_print_config_init ( void )
     draw_interval_dates = FALSE;
     draw_dates_are_value_dates = FALSE;
 
-    if ( conf.utilise_fonte_listes && conf.font_string )
+    if ( conf.custom_fonte_listes && conf.font_string )
 	new_font = pango_font_description_from_string ( conf.font_string );
     else
 	new_font = pango_font_description_from_string  ("sans 6");

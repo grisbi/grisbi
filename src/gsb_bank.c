@@ -30,7 +30,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -39,6 +39,7 @@
 /*START_INCLUDE*/
 #include "gsb_bank.h"
 #include "dialog.h"
+#include "grisbi_app.h"
 #include "gsb_account_property.h"
 #include "gsb_autofunc.h"
 #include "gsb_data_account.h"
@@ -51,6 +52,7 @@
 #include "utils.h"
 #include "utils_buttons.h"
 #include "utils_editables.h"
+#include "utils_prefs.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -271,9 +273,11 @@ gboolean gsb_bank_edit_from_button ( GtkWidget *button,
 
     /* if bank_number = 0, it's none ; -1 : it's new bank, so don't edit */
     if ( bank_number <= 0 )
-	return FALSE;
+        return FALSE;
 
+    delete_bank_button = NULL;
     gsb_bank_edit_bank ( bank_number, combobox );
+
     return FALSE;
 }
 
@@ -445,25 +449,21 @@ static gboolean gsb_bank_list_changed ( GtkWidget *combobox,
 GtkWidget *gsb_bank_create_page ( gboolean default_sensitive )
 {
     GtkWidget *vbox_pref;
-    GtkWidget *scrolled_window, *vbox, *vbox2;
-    GtkWidget *button, *hbox, *paddingbox;
+    GtkWidget *scrolled_window, *vbox2;
+    GtkWidget *button;
     GtkWidget *vpaned;
     GtkWidget *paned1, *paned2;
     GtkWidget *paddinggrid;
-    GtkWidget *paned2_grid;
     GtkWidget *paned2_sw;
-    GtkWidget *grid;
-    GtkWidget *label;
     GtkListStore *store;
     GtkTreeSelection *selection;
-    GtkSizeGroup * size_group;
     gint i;
-    gint nbre_bank;
-    gint sw_height;
+    gint nbre_bank = 0;
+    gint sw_height = 0;
     gchar *titles[] = {("Bank"), _("Contact name")};
     gfloat alignment[] = {COLUMN_LEFT, COLUMN_LEFT};
 
-    vbox_pref = new_vbox_with_title_and_icon ( _("Banks"), "banks.png" );
+    vbox_pref = new_vbox_with_title_and_icon ( _("Banks"), "gsb-banks-32.png" );
 
     vpaned = gtk_paned_new (GTK_ORIENTATION_VERTICAL);
     gtk_box_pack_start ( GTK_BOX (vbox_pref), vpaned, TRUE, TRUE, 0 );
@@ -474,7 +474,7 @@ GtkWidget *gsb_bank_create_page ( gboolean default_sensitive )
 
     paddinggrid = utils_prefs_paddinggrid_new_with_title (paned1, _("Known banks"));
 
-    scrolled_window = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, 0);
+    scrolled_window = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, SW_MIN_HEIGHT);
     gtk_grid_attach (GTK_GRID (paddinggrid), scrolled_window, 0, 0, 2, 3);
 
     /* set the store */
@@ -483,6 +483,7 @@ GtkWidget *gsb_bank_create_page ( gboolean default_sensitive )
 				 G_TYPE_STRING,
 				 G_TYPE_INT );
     bank_list_tree_view = gtk_tree_view_new_with_model (GTK_TREE_MODEL (store));
+	gtk_widget_set_name (bank_list_tree_view, "tree_view");
     g_object_unref (G_OBJECT(store));
     gtk_container_add ( GTK_CONTAINER (scrolled_window),
 			bank_list_tree_view );
@@ -551,12 +552,19 @@ GtkWidget *gsb_bank_create_page ( gboolean default_sensitive )
     }
 
     /* set the height of sw */
-    if ( nbre_bank <= 3 )
-        sw_height = 110;
-    else if (nbre_bank > 5)
-        sw_height = 200;
+    if (default_sensitive)
+    {
+        sw_height = 80;
+    }
     else
-        sw_height = (33 * nbre_bank) + 10;
+    {
+        if ( nbre_bank <= 3 )
+            sw_height = 110;
+        else if (nbre_bank > 5)
+            sw_height = 200;
+        else
+            sw_height = (33 * nbre_bank) + 10;
+    }
 
     g_object_set_data (G_OBJECT (scrolled_window), "height", GINT_TO_POINTER (sw_height));
 
@@ -580,14 +588,14 @@ GtkWidget *gsb_bank_create_page ( gboolean default_sensitive )
                       NULL);
     gtk_grid_attach (GTK_GRID (paddinggrid), delete_bank_button, 1, 3, 1, 1);
 
-    /* Add a scroll because bank details are huge */
+	/* Add a scroll because bank details are huge */
     paned2 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-    gtk_paned_pack2 (GTK_PANED (vpaned), paned2, TRUE, FALSE);
-    paned2_grid = gtk_grid_new ();
-    gtk_box_pack_start (GTK_BOX (paned2), paned2_grid, FALSE, FALSE, 0);
+    gtk_paned_pack2 (GTK_PANED (vpaned), paned2, FALSE, FALSE);
 
-    paned2_sw = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_SW, 0);
-    gtk_grid_attach (GTK_GRID (paned2_grid), paned2_sw, 0, 0, 1, 1);
+	paddinggrid = utils_prefs_paddinggrid_new_with_title (paned2, _("Bank details"));
+
+    paned2_sw = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_SW, 230);
+    gtk_grid_attach (GTK_GRID (paddinggrid), paned2_sw, 0, 0, 1, 1);
 
     vbox2 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
     gtk_container_add (GTK_CONTAINER (paned2_sw), vbox2);
@@ -654,7 +662,7 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
     GtkSizeGroup * size_group;
 
     /* Bank details */
-    paddinggrid = utils_prefs_paddinggrid_new_with_title ( parent, _("Bank details") );
+    paddinggrid = utils_prefs_paddinggrid_new_with_title ( parent, _("Generalities") );
 
     gtk_grid_set_column_spacing (GTK_GRID (paddinggrid), 5);
     gtk_grid_set_row_spacing (GTK_GRID (paddinggrid), 5);
@@ -947,11 +955,11 @@ static gboolean gsb_bank_update_form ( gint bank_number,
 static gboolean gsb_bank_edit_bank ( gint bank_number,
                         GtkWidget *combobox )
 {
-    GtkWidget *dialog, *form, *scrolled_window, *vbox;
+    GtkWidget *dialog, *scrolled_window, *vbox;
     gint result;
 
     dialog = gtk_dialog_new_with_buttons ( _("Edit bank"),
-					   GTK_WINDOW ( run.window ),
+					   GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
 					   GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
 					   "gtk-cancel", GTK_RESPONSE_CANCEL,
 					   "gtk-apply", GTK_RESPONSE_APPLY,
@@ -968,9 +976,9 @@ static gboolean gsb_bank_edit_bank ( gint bank_number,
     gtk_container_add ( GTK_CONTAINER ( dialog_get_content_area ( dialog ) ), scrolled_window );
     gtk_widget_set_size_request ( scrolled_window, 600, 400 );
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
-    gtk_container_set_border_width ( GTK_CONTAINER (vbox), 12 );
-    form = gsb_bank_create_form ( vbox, combobox );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
+    gtk_container_set_border_width ( GTK_CONTAINER (vbox), BOX_BORDER_WIDTH );
+    gsb_bank_create_form ( vbox, combobox );
     gtk_container_add ( GTK_CONTAINER (scrolled_window), vbox);
 
     gtk_widget_show_all ( dialog );

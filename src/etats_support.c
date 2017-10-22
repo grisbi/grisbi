@@ -20,17 +20,19 @@
 /*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
 #include <glib/gi18n.h>
+#include <stdlib.h>
 
 /*START_INCLUDE*/
 #include "etats_support.h"
-#include "utils_dates.h"
 #include "gsb_data_fyear.h"
 #include "gsb_data_report.h"
+#include "utils_dates.h"
+#include "utils_str.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -43,10 +45,77 @@
 /*END_EXTERN*/
 
 
+/******************************************************************************/
+/* Private functions                                                          */
+/******************************************************************************/
+/**
+ * reourne une chaine de deux lignes centrées pour complément de nom
+ *
+ * \param
+ * \param
+ * \param
+ *
+ * \return a new allocated string
+ **/
+static gchar *etats_support_get_titre_formated (gchar *titre,
+												gchar **tab,
+												gint function)
+{
+	gchar *tmp_str;
+	gchar *new_titre = NULL;
 
+	if (function == 1)
+		tmp_str = g_strconcat ("(", _("Edited"), " ", tab[0], " ", _("at"), " ", tab[1], ")", NULL);
+	else
+		tmp_str = g_strconcat ("(", _("Edited"), " ", tab[0], ")", NULL);
 
+	new_titre = g_strconcat (titre, "\n", tmp_str, NULL);
+	g_free (tmp_str);
+
+	return new_titre;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+static void etats_support_set_export_pdf_name (gint report_number,
+											   gchar **tab)
+{
+	gchar *report_name;
+	gchar *tmp_str;
+
+	report_name = gsb_data_report_get_report_name (report_number);
+	tmp_str = my_strdelimit (report_name, " ", "_");
+	if (tmp_str)
+	{
+		gchar **tmp_tab;
+		gchar *export_name;
+
+		tmp_tab = g_strsplit (tab[0], "/", 3);
+		export_name = g_strconcat (tmp_tab[2], ".",tmp_tab[1], ".",tmp_tab[0], "-",tab[1], " ", tmp_str, ".pdf", NULL);
+		gsb_data_report_set_export_pdf_name (report_number, export_name);
+		g_strfreev (tmp_tab);
+		g_free (export_name);
+	}
+}
+
+/******************************************************************************/
+/* Public functions                                                           */
+/******************************************************************************/
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 gchar *etats_titre ( gint report_number)
 {
+	gchar **tab;
     gchar *titre;
     GDate *today_date;
 
@@ -397,9 +466,59 @@ gchar *etats_titre ( gint report_number)
 	}
     }
 
-    return titre;
+	/* set complement for the filename of export pdf */
+	tab = gsb_date_get_date_time_now_local ();
+	etats_support_set_export_pdf_name (report_number, tab);
+
+	/* on ajoute éventuellement le complément de titre */
+	if (gsb_data_report_get_compl_name_used (report_number))
+	{
+		gchar *new_titre;
+		gint function;
+		gint position;
+
+		function = gsb_data_report_get_compl_name_function (report_number);
+		position = gsb_data_report_get_compl_name_position (report_number);
+
+		/* set complement of title */
+		switch (position)
+		{
+			case 1:
+				if (function == 1)
+					new_titre = g_strconcat (titre, " - ", tab[0], " ", tab[1], NULL);
+				else
+					new_titre = g_strconcat (titre, " - ", tab[0], NULL);
+				break;
+			case 2:
+				new_titre = etats_support_get_titre_formated (titre, tab, function);
+				break;
+			default:
+				if (function == 1)
+					new_titre = g_strconcat (tab[0], " ", tab[1], " - ", titre, NULL);
+				else
+					new_titre = g_strconcat (tab[0], " - ", titre, NULL);
+		}
+		g_strfreev (tab);
+		g_free (titre);
+		g_date_free (today_date);
+
+		return new_titre;
+	}
+	else
+	{
+		g_date_free (today_date);
+
+		return titre;
+	}
 }
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

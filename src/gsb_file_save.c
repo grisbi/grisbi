@@ -27,7 +27,7 @@
  */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -36,9 +36,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#ifdef _MSC_VER
-#	include <io.h> // for _chmod()
-#endif /*_MSC_VER */
 #include <zlib.h>
 
 /*START_INCLUDE*/
@@ -48,6 +45,7 @@
 #include "bet_graph.h"
 #include "custom_list.h"
 #include "dialog.h"
+#include "grisbi_app.h"
 #include "gsb_calendar.h"
 #include "gsb_data_account.h"
 #include "gsb_data_archive.h"
@@ -75,6 +73,7 @@
 #include "gsb_rgba.h"
 #include "gsb_select_icon.h"
 #include "gsb_scheduler_list.h"
+#include "import_csv.h"
 #include "navigation.h"
 #include "structures.h"
 #include "utils_dates.h"
@@ -86,9 +85,6 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gulong gsb_file_save_account_icon_part ( gulong iterator,
-                        gulong *length_calculated,
-                        gchar **file_content );
 static gulong gsb_file_save_account_part ( gulong iterator,
                         gulong *length_calculated,
                         gchar **file_content );
@@ -122,9 +118,6 @@ static gulong gsb_file_save_general_part ( gulong iterator,
 static gulong gsb_file_save_import_rule_part ( gulong iterator,
                         gulong *length_calculated,
                         gchar **file_content );
-static gulong gsb_file_save_logo_part ( gulong iterator,
-                        gulong *length_calculated,
-                        gchar **file_content );
 static gulong gsb_file_save_partial_balance_part ( gulong iterator,
                         gulong *length_calculated,
                         gchar **file_content );
@@ -152,22 +145,18 @@ static gulong gsb_file_save_transaction_part ( gulong iterator,
 
 
 /*START_EXTERN*/
-extern gchar *adresse_commune;
-extern gchar *adresse_secondaire;
 extern gint bet_array_col_width[BET_ARRAY_COLUMNS];
 extern gint display_one_line;
 extern gint display_three_lines;
 extern gint display_two_lines;
 extern gint scheduler_col_width[SCHEDULER_COL_VISIBLE_COLUMNS];
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
-extern gchar *titre_fichier;
 extern gint transaction_col_align[CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern gint transaction_col_width[CUSTOM_MODEL_VISIBLE_COLUMNS];
-extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/
 
 /******************************************************************************/
-/* Private functions                                                           */
+/* Private functions                                                          */
 /******************************************************************************/
 /**
  * save the rgba part
@@ -237,11 +226,9 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
     gint import_rule_part = 50;
     gint partial_balance_part = 50;
     gint logo_part = 65536;
-    gint account_icon_part = 4500;
     gint bet_part = 500;
     gint bet_graph_part = 100;
     gint rgba_part = 1000;
-
     struct stat buf;
 
     devel_debug (filename);
@@ -283,7 +270,6 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
 	+ import_rule_part * g_slist_length ( gsb_data_import_rule_get_list ())
     + partial_balance_part * g_slist_length ( gsb_data_partial_balance_get_list ())
     + logo_part
-    + account_icon_part * g_slist_length ( gsb_select_icon_list_accounts_icon () )
     + bet_part
     + bet_graph_part
     + rgba_part;
@@ -391,47 +377,11 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
 					   &file_content,
 					   FALSE );
 
-    if ( etat.utilise_logo && etat.is_pixmaps_dir == FALSE )
-        iterator = gsb_file_save_logo_part ( iterator,
-					   &length_calculated,
-					   &file_content );
-
-    if ( g_slist_length ( gsb_select_icon_list_accounts_icon () ) > 0 )
-        iterator = gsb_file_save_account_icon_part ( iterator,
-					   &length_calculated,
-					   &file_content );
-
     /* finish the file */
     iterator = gsb_file_save_append_part ( iterator,
 					   &length_calculated,
 					   &file_content,
 					   my_strdup ("</Grisbi>"));
-
-    /* crypt the file if asked */
-    if ( etat.crypt_file )
-    {
-#ifdef HAVE_SSL
-        {
-            iterator = gsb_file_util_crypt_file ( filename, &file_content, TRUE, iterator );
-            if ( ! iterator )
-            {
-                g_free ( file_content);
-                return FALSE;
-            }
-        }
-#else
-        {
-            g_free ( file_content);
-            gchar *text = _("This build of Grisbi does not support encryption.\n"
-                    "Please recompile Grisbi with OpenSSL encryption enabled.");
-            gchar *hint = g_strdup_printf ( _("Cannot open encrypted file '%s'"),
-                                                filename );
-            dialogue_error_hint ( text, hint );
-            g_free ( hint );
-            return FALSE;
-        }
-#endif
-    }
 
     /* the file is in memory, we can save it */
     /* i didn't succeed to save a "proper" file with zlib without compression,
@@ -482,17 +432,13 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
     {
         /* it's a new file or stat couldn't find the permissions,
          * so set only user can see the file by default */
-#ifdef _MSC_VER
-	_chmod ( filename, _S_IREAD | _S_IWRITE );
-#else
         chmod ( filename, S_IRUSR | S_IWUSR );
-#endif /*_MSC_VER */
 	}
     else
     {
         /* it's not a new file but gtk overwrite the permissions
          * so need to re-set the good permissions saved before */
-#if defined(_MSC_VER) || defined(_MINGW)
+#if defined (_MINGW)
         if (_chmod (filename, buf.st_mode) == -1)
         {
             /* we couldn't set the chmod, set the default permission */
@@ -506,15 +452,13 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
         }
         /* restores uid and gid */
 /*        chown ( filename, buf.st_uid, buf.st_gid );
-*/#endif /*_MSC_VER */
+*/#endif /*_MINGW */
     }
 
     run.is_saving = FALSE;
 
     return ( TRUE );
 }
-
-
 
 /**
  * add the string given in arg and
@@ -595,8 +539,13 @@ gulong gsb_file_save_general_part ( gulong iterator,
                         gint archive_number )
 {
     GQueue *tmp_queue;
+	gchar *adr_common_str = NULL;
+	gchar **adr_common_tab;
+	gchar *adr_secondary_str = NULL;
+	gchar **adr_secondary_tab;
     gchar *first_string_to_free;
     gchar *second_string_to_free;
+	gchar *third_string_to_free;
     gint i,j;
     gchar *transactions_view;
     gchar *scheduler_column_width_write;
@@ -610,10 +559,12 @@ gulong gsb_file_save_general_part ( gulong iterator,
     gchar *mon_thousands_sep;
     gchar *navigation_order_list = NULL;
     gboolean is_archive = FALSE;
+	GrisbiWinEtat *w_etat;
 
     /* prepare stuff to save general information */
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
 
-    /* prepare transactions_view */
+	/* prepare transactions_view */
     transactions_view = NULL;
 
     for ( i=0 ; i<TRANSACTION_LIST_ROWS_NB ; i++ )
@@ -681,7 +632,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
     /* prépare l'ordre des pages dans le panneau de gauche */
     tmp_queue = gsb_gui_navigation_get_pages_list ( );
 
-    for ( i = 0 ; i < tmp_queue -> length ; i++ )
+    for ( i = 0 ; i < (gint) tmp_queue->length ; i++ )
     {
         struct_page *page;
 
@@ -703,20 +654,9 @@ gulong gsb_file_save_general_part ( gulong iterator,
     }
 
     /* CSV skipped lines */
-    skipped_lines_string = utils_str_itoa ( etat.csv_skipped_lines[0] );
-    for ( i = 1; i < CSV_MAX_TOP_LINES ; i ++ )
-    {
-        skipped_lines_string = g_strconcat (
-                        first_string_to_free =  skipped_lines_string ,
-					    "-",
-					    second_string_to_free = utils_str_itoa ( etat.csv_skipped_lines[i] ),
-					    NULL );
+    skipped_lines_string = csv_import_skipped_lines_to_string ();
 
-        g_free ( first_string_to_free );
-	    g_free ( second_string_to_free );
-    }
-
-    /* prepare bet_array_column_width_write */
+	/* prepare bet_array_column_width_write */
     bet_array_column_width_write = NULL;
 
     for ( i=0 ; i < BET_ARRAY_COLUMNS ; i++ )
@@ -747,11 +687,32 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	etat.is_archive )
 	is_archive = TRUE;
 
+    /* protect adr_common */
+    adr_common_str = g_strdup (w_etat->adr_common);
+    if (adr_common_str && g_strstr_len (adr_common_str, -1, NEW_LINE))
+    {
+        adr_common_tab = g_strsplit (adr_common_str, NEW_LINE, 0);
+        g_free (adr_common_str);
+        adr_common_str = g_strjoinv ("\\n", adr_common_tab);
+
+        g_strfreev (adr_common_tab);
+    }
+
+    /* protect adr_secondary */
+    adr_secondary_str = g_strdup (w_etat->adr_secondary);
+    if (adr_secondary_str && g_strstr_len (adr_secondary_str, -1, NEW_LINE))
+    {
+        adr_secondary_tab = g_strsplit (adr_secondary_str, NEW_LINE, 0);
+        g_free (adr_secondary_str);
+        adr_secondary_str = g_strjoinv ("\\n", adr_secondary_tab);
+
+        g_strfreev (adr_secondary_tab);
+    }
+
     /* save the general information */
     new_string = g_markup_printf_escaped ( "\t<General\n"
 					   "\t\tFile_version=\"%s\"\n"
 					   "\t\tGrisbi_version=\"%s\"\n"
-					   "\t\tCrypt_file=\"%d\"\n"
 					   "\t\tArchive_file=\"%d\"\n"
 					   "\t\tFile_title=\"%s\"\n"
 					   "\t\tGeneral_address=\"%s\"\n"
@@ -766,6 +727,8 @@ gulong gsb_file_save_general_part ( gulong iterator,
 					   "\t\tScheduler_view=\"%d\"\n"
 					   "\t\tScheduler_custom_number=\"%d\"\n"
 					   "\t\tScheduler_custom_menu=\"%d\"\n"
+					   "\t\tScheduler_set_default_account=\"%d\"\n"
+					   "\t\tScheduler_default_account_number=\"%d\"\n"
 					   "\t\tImport_interval_search=\"%d\"\n"
                        "\t\tImport_copy_payee_in_note=\"%d\"\n"
                        "\t\tImport_extract_number_for_check=\"%d\"\n"
@@ -779,7 +742,6 @@ gulong gsb_file_save_general_part ( gulong iterator,
                        "\t\tReconcile_sort=\"%d\"\n"
 					   "\t\tUse_logo=\"%d\"\n"
                        "\t\tName_logo=\"%s\"\n"
-                       "\t\tIs_pixmaps_dir=\"%d\"\n"
 					   "\t\tRemind_display_per_account=\"%d\"\n"
 					   "\t\tTransactions_view=\"%s\"\n"
 					   "\t\tOne_line_showed=\"%d\"\n"
@@ -796,6 +758,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
 					   "\t\tAutomatic_amount_separator=\"%d\"\n"
 					   "\t\tCSV_separator=\"%s\"\n"
 					   "\t\tCSV_skipped_lines=\"%s\"\n"
+					   "\t\tCSV_force_date_valeur_with_date=\"%d\"\n"
 					   "\t\tMetatree_sort_transactions=\"%d\"\n"
 					   "\t\tAdd_archive_in_total_balance=\"%d\"\n"
                        "\t\tBet_array_column_width=\"%s\"\n"
@@ -807,11 +770,10 @@ gulong gsb_file_save_general_part ( gulong iterator,
                        "\t\tBet_type_taux=\"%d\" />\n",
 	my_safe_null_str(VERSION_FICHIER),
 	my_safe_null_str(VERSION),
-	etat.crypt_file,
 	is_archive,
-	my_safe_null_str ( titre_fichier ),
-	my_safe_null_str(adresse_commune),
-	my_safe_null_str(adresse_secondaire),
+	my_safe_null_str (w_etat->accounting_entity),
+	my_safe_null_str(adr_common_str),
+	my_safe_null_str(adr_secondary_str),
 	my_safe_null_str ( date_format ),
 	my_safe_null_str ( mon_decimal_point ),
 	my_safe_null_str ( mon_thousands_sep ),
@@ -822,20 +784,21 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	etat.affichage_echeances,
 	etat.affichage_echeances_perso_nb_libre,
 	etat.affichage_echeances_perso_j_m_a,
-	valeur_echelle_recherche_date_import,
-	etat.get_copy_payee_in_note,
-	etat.get_extract_number_for_check,
-	etat.get_fusion_import_transactions,
-	etat.get_categorie_for_payee,
+	etat.scheduler_set_default_account,
+	etat.scheduler_default_account_number,
+	etat.import_files_nb_days,
+	etat.copy_payee_in_note,
+	etat.extract_number_for_check,
+	etat.fusion_import_transactions,
+	etat.associate_categorie_for_payee,
 	etat.get_fyear_by_value_date,
-    etat.get_qif_use_field_extract_method_payment,
+    etat.qif_use_field_extract_method_payment,
     etat.export_file_format,
     etat.export_files_traitement,
     etat.reconcile_end_date,
     etat.reconcile_sort,
 	etat.utilise_logo,
     my_safe_null_str( etat.name_logo ),
-    etat.is_pixmaps_dir,
 	etat.retient_affichage_par_compte,
 	my_safe_null_str(transactions_view),
 	display_one_line,
@@ -852,17 +815,20 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	etat.automatic_separator,
 	my_safe_null_str(etat.csv_separator),
 	my_safe_null_str(skipped_lines_string),
+	etat.csv_force_date_valeur_with_date,
     etat.metatree_sort_transactions,
     etat.add_archive_in_total_balance,
     my_safe_null_str ( bet_array_column_width_write ),
-    my_safe_null_str ( utils_str_dtostr ( etat.bet_capital,
+    my_safe_null_str ( first_string_to_free = utils_str_dtostr ( etat.bet_capital,
     gsb_data_currency_get_floating_point ( etat.bet_currency ), TRUE ) ),
     etat.bet_currency,
-    my_safe_null_str ( utils_str_dtostr ( etat.bet_taux_annuel, BET_TAUX_DIGITS, TRUE ) ),
+    my_safe_null_str ( second_string_to_free = utils_str_dtostr ( etat.bet_taux_annuel, BET_TAUX_DIGITS, TRUE ) ),
     etat.bet_index_duree,
-    my_safe_null_str ( utils_str_dtostr ( etat.bet_frais, BET_TAUX_DIGITS, TRUE ) ),
+    my_safe_null_str ( third_string_to_free = utils_str_dtostr ( etat.bet_frais, BET_TAUX_DIGITS, TRUE ) ),
     etat.bet_type_taux );
 
+	g_free (adr_common_str);
+	g_free (adr_secondary_str);
     g_free (transactions_view);
     g_free (scheduler_column_width_write);
     g_free (transaction_column_width_write);
@@ -871,6 +837,11 @@ gulong gsb_file_save_general_part ( gulong iterator,
     g_free ( mon_decimal_point );
     g_free ( mon_thousands_sep );
     g_free ( navigation_order_list );
+	g_free (skipped_lines_string);
+
+	g_free (first_string_to_free);
+	g_free (second_string_to_free);
+	g_free (third_string_to_free);
 
     /* append the new string to the file content
      * and return the new iterator */
@@ -974,7 +945,7 @@ gulong gsb_file_save_account_part ( gulong iterator,
     gchar **owner_tab;
     gchar *owner_str;
     gchar *bet_str;
-    kind_account kind;
+    KindAccount kind;
 
 	account_number = gsb_data_account_get_no_account ( list_tmp -> data );
 
@@ -1077,7 +1048,7 @@ gulong gsb_file_save_account_part ( gulong iterator,
     {
         owner_tab = g_strsplit ( owner_str, NEW_LINE, 0 );
         g_free ( owner_str );
-        owner_str = g_strjoinv ( "&#xA;", owner_tab );
+        owner_str = g_strjoinv ( "\\n", owner_tab );
 
         g_strfreev ( owner_tab );
     }
@@ -1157,7 +1128,7 @@ gulong gsb_file_save_account_part ( gulong iterator,
 
     if ( gsb_data_account_get_bet_use_budget ( account_number ) > 0 )
     {
-        bet_type_onglets bet_show_onglets;
+        BetTypeOnglets bet_show_onglets;
 
         bet_show_onglets = gsb_data_account_get_bet_show_onglets ( account_number );
 
@@ -1245,7 +1216,7 @@ gulong gsb_file_save_account_part ( gulong iterator,
 	g_free (init_balance);
 	g_free (mini_auto);
 	g_free (mini_wanted);
-    g_free ( owner_str );
+    g_free (owner_str);
 
 	/* append the new string to the file content
 	 * and take the new iterator */
@@ -1583,19 +1554,20 @@ gulong gsb_file_save_category_part ( gulong iterator,
     while ( list_tmp )
     {
 	gchar *new_string;
+	gchar *tmp_str;
 	gint category_number;
 	GSList *sub_list_tmp;
 
 	category_number = gsb_data_category_get_no_category (list_tmp -> data);
 
 	/* now we can fill the file content */
+	tmp_str = gsb_data_category_get_name (category_number, 0, "(null)");
 
 	new_string = g_markup_printf_escaped ( "\t<Category Nb=\"%d\" Na=\"%s\" Kd=\"%d\" />\n",
-					       category_number,
-					       my_safe_null_str(gsb_data_category_get_name ( category_number,
-									    0,
-									    NULL )),
-					       gsb_data_category_get_type ( category_number ));
+										  category_number,
+										  tmp_str,
+										  gsb_data_category_get_type ( category_number ));
+	g_free (tmp_str);
 
 	/* append the new string to the file content
 	 * and take the new iterator */
@@ -1617,12 +1589,14 @@ gulong gsb_file_save_category_part ( gulong iterator,
 	    /* now we can fill the file content
 	     * carrefull : the number of category must be the first */
 
+		tmp_str = gsb_data_category_get_sub_category_name (category_number,
+														   sub_category_number,
+														   "(null)");
 	    new_string = g_markup_printf_escaped ( "\t<Sub_category Nbc=\"%d\" Nb=\"%d\" Na=\"%s\" />\n",
-						   category_number,
-						   sub_category_number,
-						   my_safe_null_str(gsb_data_category_get_sub_category_name ( category_number,
-											     sub_category_number,
-											     NULL )));
+											  category_number,
+											  sub_category_number,
+											  tmp_str);
+		g_free (tmp_str);
 
 	    /* append the new string to the file content
 	     * and take the new iterator */
@@ -2085,29 +2059,61 @@ gulong gsb_file_save_import_rule_part ( gulong iterator,
 
     while ( list_tmp )
     {
-	gchar *new_string;
-	gint import_rule_number;
+		gchar *new_string;
+		gchar *tmp_str;
+		gint import_rule_number;
+		const gchar *import_rule_type;
 
-	import_rule_number = gsb_data_import_rule_get_number (list_tmp -> data);
+		import_rule_number = gsb_data_import_rule_get_number (list_tmp -> data);
+		import_rule_type = gsb_data_import_rule_get_type (import_rule_number);
 
-	new_string = g_markup_printf_escaped ( "\t<Import_rule Nb=\"%d\" Na=\"%s\" Acc=\"%d\" "
-                           "Cur=\"%d\" Inv=\"%d\" Enc=\"%s\" Fil=\"%s\" Act=\"%d\" />\n",
-					       import_rule_number,
-					       my_safe_null_str(gsb_data_import_rule_get_name (import_rule_number)),
-					       gsb_data_import_rule_get_account (import_rule_number),
-					       gsb_data_import_rule_get_currency (import_rule_number),
-					       gsb_data_import_rule_get_invert (import_rule_number),
-					       my_safe_null_str(gsb_data_import_rule_get_charmap (import_rule_number)),
-					       my_safe_null_str(gsb_data_import_rule_get_last_file_name (import_rule_number)),
-					       gsb_data_import_rule_get_action (import_rule_number));
+		tmp_str = g_markup_printf_escaped ("\t<Import_rule Nb=\"%d\" Na=\"%s\" Acc=\"%d\" "
+										   "Cur=\"%d\" Inv=\"%d\" Enc=\"%s\" Fil=\"%s\" Act=\"%d\" Typ=\"%s\" ",
+										   import_rule_number,
+										   my_safe_null_str(gsb_data_import_rule_get_name (import_rule_number)),
+										   gsb_data_import_rule_get_account (import_rule_number),
+										   gsb_data_import_rule_get_currency (import_rule_number),
+										   gsb_data_import_rule_get_invert (import_rule_number),
+										   my_safe_null_str(gsb_data_import_rule_get_charmap (import_rule_number)),
+										   my_safe_null_str(gsb_data_import_rule_get_last_file_name (import_rule_number)),
+										   gsb_data_import_rule_get_action (import_rule_number),
+										   my_safe_null_str(import_rule_type));
 
-	/* append the new string to the file content
-	 * and take the new iterator */
-	iterator = gsb_file_save_append_part ( iterator,
-					       length_calculated,
-					       file_content,
-					       new_string );
-	list_tmp = list_tmp -> next;
+		if (import_rule_type && strcmp (import_rule_type, "CSV") == 0)
+		{
+			gchar *tmp_str2;
+
+			tmp_str2 = g_markup_printf_escaped ("IdC=\"%d\" IdR=\"%d\" FiS=\"%s\" Fld=\"%d\" Hp=\"%d\" Sep=\"%s\" "
+												"SkiS=\"%s\" SpA=\"%d\" SpAC=\"%d\" SpTC=\"%d\" SpTS=\"%s\" />\n",
+												gsb_data_import_rule_get_csv_account_id_col (import_rule_number),
+												gsb_data_import_rule_get_csv_account_id_row (import_rule_number),
+												gsb_data_import_rule_get_csv_fields_str (import_rule_number),
+											    gsb_data_import_rule_get_csv_first_line_data (import_rule_number),
+												gsb_data_import_rule_get_csv_headers_present (import_rule_number),
+												gsb_data_import_rule_get_csv_separator (import_rule_number),
+												gsb_data_import_rule_get_csv_skipped_lines_str (import_rule_number),
+												gsb_data_import_rule_get_csv_spec_action (import_rule_number),
+												gsb_data_import_rule_get_csv_spec_amount_col (import_rule_number),
+												gsb_data_import_rule_get_csv_spec_text_col (import_rule_number),
+												gsb_data_import_rule_get_csv_spec_text_str (import_rule_number));
+
+			new_string = g_strconcat (tmp_str, tmp_str2, NULL);
+			g_free (tmp_str);
+			g_free (tmp_str2);
+		}
+		else
+		{
+			new_string = g_strconcat (tmp_str, "/>\n", NULL);
+			g_free (tmp_str);
+		}
+
+		/* append the new string to the file content
+		 * and take the new iterator */
+		iterator = gsb_file_save_append_part ( iterator,
+							   length_calculated,
+							   file_content,
+							   new_string );
+		list_tmp = list_tmp -> next;
     }
     return iterator;
 }
@@ -2235,12 +2241,16 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	{
 	    if ( general_sort_type )
 	    {
-	        gchar* tmpstr = general_sort_type;
-		general_sort_type = g_strconcat ( tmpstr,
-						  "/-/",
-						  utils_str_itoa ( GPOINTER_TO_INT ( tmp_list -> data )),
-						  NULL );
-	        g_free ( tmpstr );
+			gchar *string_to_free;
+	        gchar* tmp_str;
+
+			tmp_str = general_sort_type;
+			general_sort_type = g_strconcat (tmp_str,
+											 "/-/",
+											 string_to_free = utils_str_itoa (GPOINTER_TO_INT (tmp_list -> data )),
+											 NULL);
+	        g_free (tmp_str);
+			g_free (string_to_free);
 	    }
 	    else
 		general_sort_type = utils_str_itoa ( GPOINTER_TO_INT ( tmp_list -> data ));
@@ -2256,12 +2266,16 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	{
 	    if ( financial_year_select )
 	    {
-	        gchar* tmpstr = financial_year_select ;
-		financial_year_select = g_strconcat ( tmpstr,
-						      "/-/",
-						      utils_str_itoa ( GPOINTER_TO_INT ( tmp_list -> data )),
-						      NULL );
-	        g_free (tmpstr);
+			gchar *string_to_free;
+	        gchar* tmp_str;
+
+			tmp_str = financial_year_select ;
+			financial_year_select = g_strconcat (tmp_str,
+												 "/-/",
+												 string_to_free = utils_str_itoa (GPOINTER_TO_INT (tmp_list -> data)),
+												 NULL);
+	        g_free (tmp_str);
+			g_free (string_to_free);
 	    }
 	    else
 		financial_year_select = utils_str_itoa ( GPOINTER_TO_INT ( tmp_list -> data ));
@@ -2277,12 +2291,16 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	{
 	    if ( account_selected )
 	    {
-	        gchar* tmpstr = account_selected;
-		account_selected = g_strconcat ( tmpstr,
-						 "/-/",
-						 utils_str_itoa ( GPOINTER_TO_INT ( tmp_list -> data )),
-						 NULL );
-	        g_free (tmpstr);
+			gchar *string_to_free;
+	        gchar* tmp_str;
+
+			tmp_str = account_selected;
+			account_selected = g_strconcat (tmp_str,
+											"/-/",
+											string_to_free = utils_str_itoa (GPOINTER_TO_INT (tmp_list -> data)),
+											NULL);
+	        g_free (tmp_str);
+			g_free (string_to_free);
 	    }
 	    else
 		account_selected = utils_str_itoa ( GPOINTER_TO_INT ( tmp_list -> data ));
@@ -2298,12 +2316,16 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	{
 	    if ( transfer_selected_accounts )
 	    {
-	        gchar* tmpstr = transfer_selected_accounts;
-		transfer_selected_accounts = g_strconcat ( tmpstr,
-					      "/-/",
-					      utils_str_itoa ( GPOINTER_TO_INT ( tmp_list -> data )),
-					      NULL );
-	        g_free ( tmpstr );
+			gchar *string_to_free;
+	        gchar* tmp_str;
+
+			tmp_str = transfer_selected_accounts;
+			transfer_selected_accounts = g_strconcat (tmp_str,
+													  "/-/",
+													  string_to_free = utils_str_itoa (GPOINTER_TO_INT (tmp_list -> data)),
+													  NULL );
+	        g_free (tmp_str);
+			g_free (string_to_free);
 	    }
 	    else
 		transfer_selected_accounts = utils_str_itoa ( GPOINTER_TO_INT ( tmp_list -> data ));
@@ -2317,7 +2339,7 @@ gulong gsb_file_save_report_part ( gulong iterator,
 
 	while ( tmp_list )
 	{
-	    struct_categ_budget_sel *struct_categ = tmp_list -> data;
+	    CategBudgetSel *struct_categ = tmp_list -> data;
 	    gchar *last_categ;
 	    gchar *new_categ;
 	    GSList *sub_categ_list;
@@ -2362,7 +2384,7 @@ gulong gsb_file_save_report_part ( gulong iterator,
 
 	while ( tmp_list )
 	{
-	    struct_categ_budget_sel *struct_budget = tmp_list -> data;
+	    CategBudgetSel *struct_budget = tmp_list -> data;
 	    gchar *last_budget;
 	    gchar *new_budget;
 	    GSList *sub_budget_list;
@@ -2409,15 +2431,19 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	{
 	    if ( payee_selected )
 	    {
-	        gchar* tmpstr = payee_selected;
-		payee_selected = g_strconcat ( tmpstr,
-					      "/-/",
-					      utils_str_itoa ( GPOINTER_TO_INT ( tmp_list -> data )),
-					      NULL );
-	        g_free ( tmpstr );
+			gchar *string_to_free;
+	        gchar* tmp_str;
+
+			tmp_str = payee_selected;
+			payee_selected = g_strconcat (tmp_str,
+										  "/-/",
+										  string_to_free = utils_str_itoa (GPOINTER_TO_INT (tmp_list -> data)),
+										  NULL);
+	        g_free (tmp_str);
+			g_free (string_to_free);
 	    }
 	    else
-		payee_selected = utils_str_itoa ( GPOINTER_TO_INT ( tmp_list -> data ));
+			payee_selected = utils_str_itoa (GPOINTER_TO_INT (tmp_list -> data));
 
 	    tmp_list = tmp_list -> next;
 	}
@@ -2451,6 +2477,9 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	new_string = g_markup_printf_escaped ( "\t<Report\n"
 					       "\t\tNb=\"%d\"\n"
 					       "\t\tName=\"%s\"\n"
+					       "\t\tCompl_name_function=\"%d\"\n"
+					       "\t\tCompl_name_position=\"%d\"\n"
+					       "\t\tCompl_name_used=\"%d\"\n"
 					       "\t\tGeneral_sort_type=\"%s\"\n"
                            "\t\tIgnore_archives=\"%d\"\n"
 					       "\t\tShow_m=\"%d\"\n"
@@ -2533,6 +2562,9 @@ gulong gsb_file_save_report_part ( gulong iterator,
 					       "\t\tUse_amount=\"%d\" />\n",
 	    report_number_to_write,
 	    my_safe_null_str(report_name),
+	    gsb_data_report_get_compl_name_function (report_number),
+	    gsb_data_report_get_compl_name_position (report_number),
+	    gsb_data_report_get_compl_name_used (report_number),
 	    my_safe_null_str(general_sort_type),
         gsb_data_report_get_ignore_archives ( report_number ),
 	    gsb_data_report_get_show_m (report_number),
@@ -2763,99 +2795,6 @@ gulong gsb_file_save_report_part ( gulong iterator,
 
 
 /**
- * save the logo
- *
- * \param iterator the current iterator
- * \param length_calculated a pointer to the variable lengh_calculated
- * \param file_content a pointer to the variable file_content
- *
- * \return the new iterator
- * */
-gulong gsb_file_save_logo_part ( gulong iterator,
-                        gulong *length_calculated,
-                        gchar **file_content )
-{
-    GdkPixbuf *pixbuf = NULL;
-    gchar *new_string = NULL;
-    gchar *str64;
-
-    pixbuf = gsb_select_icon_get_logo_pixbuf ( );
-    if ( pixbuf )
-    {
-        str64 = gsb_select_icon_create_chaine_base64_from_pixbuf ( pixbuf );
-
-        new_string = g_markup_printf_escaped ( "\t<Logo\n"
-                        "\t\tImage=\"%s\" />\n",
-                        my_safe_null_str(str64) );
-
-        g_free ( str64 );
-    }
-
-    iterator = gsb_file_save_append_part ( iterator,
-                        length_calculated,
-                        file_content,
-                        new_string );
-
-    return iterator;
-}
-
-
-/**
- * save the accounts_icon
- *
- * \param iterator the current iterator
- * \param length_calculated a pointer to the variable lengh_calculated
- * \param file_content a pointer to the variable file_content
- *
- * \return the new iterator
- * */
-gulong gsb_file_save_account_icon_part ( gulong iterator,
-                        gulong *length_calculated,
-                        gchar **file_content )
-{
-    GSList *list_tmp;
-
-    list_tmp = gsb_select_icon_list_accounts_icon ();
-
-    while ( list_tmp )
-    {
-        GdkPixbuf *pixbuf = NULL;
-        gchar *new_string = NULL;
-        gchar *str64;
-        gint account_number;
-
-        account_number = gsb_select_icon_get_no_account_by_ptr ( list_tmp -> data );
-
-        if ( account_number == -1 )
-        {
-            list_tmp = list_tmp -> next;
-            continue;
-        }
-
-        pixbuf = gsb_select_icon_get_account_pixbuf_by_ptr ( list_tmp -> data );
-        str64 = gsb_select_icon_create_chaine_base64_from_pixbuf ( pixbuf );
-
-        new_string = g_markup_printf_escaped ( "\t<Account_icon\n"
-                            "\t\tAccount_number=\"%d\"\n"
-                            "\t\tImage=\"%s\" />\n",
-                            account_number,
-                            my_safe_null_str(str64) );
-
-        g_free ( str64 );
-
-        iterator = gsb_file_save_append_part ( iterator,
-                        length_calculated,
-                        file_content,
-                        new_string );
-
-        list_tmp = list_tmp -> next;
-    }
-
-    return iterator;
-}
-
-
-/**
  * save the balance estimate part
  *
  * \param iterator the current iterator
@@ -2887,7 +2826,7 @@ gulong gsb_file_save_bet_part ( gulong iterator,
     if ( tab == NULL )
         return iterator;
 
-    for ( i = 0; i < tab -> len; i++ )
+    for ( i = 0; i < (gint) tab->len; i++ )
     {
         new_string = g_ptr_array_index ( tab, i );
         iterator =  gsb_file_save_append_part ( iterator,

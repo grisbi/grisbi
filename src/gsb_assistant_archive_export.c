@@ -27,7 +27,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -110,7 +110,7 @@ GtkResponseType gsb_assistant_archive_export_run ( void )
 				    _("This assistant will help you to export an archive into gsb, QIF or CSV format."
 				      "Note that nothing will be deleted in Grisbi, it's just an export."
 				      "If you want to delete the archive from Grisbi, you need to do it from the preference window."),
-				    "archive.png",
+				    "gsb-export-archive-32.png",
 				    G_CALLBACK (gsb_assistant_archive_switch));
     gsb_assistant_add_page ( assistant,
 			     gsb_assistant_archive_export_page_choose (assistant),
@@ -160,7 +160,7 @@ static GtkWidget *gsb_assistant_archive_export_page_choose ( GtkWidget *assistan
 
     /* create the page */
     vbox_page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0);
-    gtk_container_set_border_width ( GTK_CONTAINER(vbox_page), 12 );
+    gtk_container_set_border_width ( GTK_CONTAINER(vbox_page), BOX_BORDER_WIDTH );
     paddingbox = new_paddingbox_with_title (vbox_page, TRUE,
 					    _("Select the archive to export"));
 
@@ -186,7 +186,7 @@ static GtkWidget *gsb_assistant_archive_export_page_choose ( GtkWidget *assistan
 					G_TYPE_STRING,
 					G_TYPE_INT );
     archive_export_treeview = gtk_tree_view_new_with_model ( GTK_TREE_MODEL (archive_model) );
-    //~ gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (archive_export_treeview), TRUE);
+	gtk_widget_set_name (archive_export_treeview, "tree_view");
     gtk_container_add ( GTK_CONTAINER (scrolled_window),
 			archive_export_treeview );
 
@@ -286,8 +286,8 @@ static GtkWidget *gsb_assistant_archive_export_page_name ( GtkWidget *assistant 
 {
     GtkWidget * vbox, * hbox;
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
-    gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
+    gtk_container_set_border_width ( GTK_CONTAINER(vbox), BOX_BORDER_WIDTH );
 
     archive_export_label = gtk_label_new ( NULL );
     utils_labels_set_alignement ( GTK_LABEL ( archive_export_label ), 0, 0.5);
@@ -295,7 +295,7 @@ static GtkWidget *gsb_assistant_archive_export_page_name ( GtkWidget *assistant 
     gtk_box_pack_start ( GTK_BOX ( vbox ), archive_export_label, FALSE, FALSE, 0 );
 
     /* Layout */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 gtk_label_new ( _("Export format: ") ),
 			 FALSE, FALSE, 0 );
@@ -329,8 +329,8 @@ static GtkWidget *gsb_assistant_archive_export_page_succes ( GtkWidget *assistan
 {
     GtkWidget *vbox;
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
-    gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
+    gtk_container_set_border_width ( GTK_CONTAINER(vbox), BOX_BORDER_WIDTH );
 
     archive_export_label_success = gtk_label_new ( NULL );
     utils_labels_set_alignement ( GTK_LABEL (archive_export_label_success), 0, 0.5);

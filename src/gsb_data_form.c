@@ -1,8 +1,8 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
+/*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -27,7 +27,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -53,8 +53,9 @@
  * */
 
 /* struct organisation_formulaire */
-typedef struct
-{
+typedef struct _FormOrganization	FormOrganization;
+
+struct _FormOrganization {
     /* 1 to 6 columns */
     gint columns;
 
@@ -87,7 +88,7 @@ typedef struct
 
     /* percentage of each columns */
     gint width_columns_percent[MAX_WIDTH];
-} form_organization;
+};
 
 
 /**
@@ -101,9 +102,9 @@ typedef struct
  * */
 gboolean gsb_data_form_new_organization ( gint account_number )
 {
-    form_organization *new_form;
+    FormOrganization *new_form;
 
-    new_form = g_malloc0 (sizeof (form_organization));
+    new_form = g_malloc0 (sizeof (FormOrganization));
 
     if ( !new_form )
     {
@@ -127,7 +128,7 @@ gboolean gsb_data_form_new_organization ( gint account_number )
  * */
 gboolean gsb_data_form_set_default_organization ( gint account_number )
 {
-    form_organization *form;
+    FormOrganization *form;
     gint tab[MAX_HEIGHT][MAX_WIDTH] = {
 	{ TRANSACTION_FORM_DATE, TRANSACTION_FORM_PARTY, TRANSACTION_FORM_DEBIT, TRANSACTION_FORM_CREDIT, 0, 0 },
 	{ 0, TRANSACTION_FORM_CATEGORY, TRANSACTION_FORM_TYPE, TRANSACTION_FORM_CHEQUE, 0, 0 },
@@ -168,15 +169,15 @@ gboolean gsb_data_form_set_default_organization ( gint account_number )
 gboolean gsb_data_form_dup_organization ( gint origin_account,
 					  gint target_account )
 {
-    form_organization *origin_form;
-    form_organization *new_form;
+    FormOrganization *origin_form;
+    FormOrganization *new_form;
 
     origin_form = gsb_data_account_get_form_organization (origin_account);
 
     if ( !origin_form )
 	return FALSE;
 
-    new_form = g_malloc0 ( sizeof (form_organization));
+    new_form = g_malloc0 ( sizeof (FormOrganization));
 
      if ( !new_form )
     {
@@ -186,7 +187,7 @@ gboolean gsb_data_form_dup_organization ( gint origin_account,
 
     memcpy ( new_form,
 	     origin_form,
-	     sizeof (form_organization));
+	     sizeof (FormOrganization));
 
     gsb_data_account_set_form_organization ( target_account,
 					     new_form );
@@ -204,7 +205,7 @@ gboolean gsb_data_form_dup_organization ( gint origin_account,
  * */
 gint gsb_data_form_get_nb_columns ( gint account_number )
 {
-    form_organization *form;
+    FormOrganization *form;
 
     form = gsb_data_account_get_form_organization ( account_number );
 
@@ -228,7 +229,7 @@ gint gsb_data_form_get_nb_columns ( gint account_number )
 gboolean gsb_data_form_set_nb_columns ( gint account_number,
 					gint columns )
 {
-    form_organization *form;
+    FormOrganization *form;
 
     form = gsb_data_account_get_form_organization ( account_number );
 
@@ -249,7 +250,7 @@ gboolean gsb_data_form_set_nb_columns ( gint account_number,
  * */
 gint gsb_data_form_get_nb_rows ( gint account_number )
 {
-    form_organization *form;
+    FormOrganization *form;
 
     form = gsb_data_account_get_form_organization ( account_number );
 
@@ -271,7 +272,7 @@ gint gsb_data_form_get_nb_rows ( gint account_number )
 gboolean gsb_data_form_set_nb_rows ( gint account_number,
 				     gint rows )
 {
-    form_organization *form;
+    FormOrganization *form;
 
     form = gsb_data_account_get_form_organization ( account_number );
 
@@ -296,7 +297,7 @@ gint gsb_data_form_get_value ( gint account_number,
 			       gint column,
 			       gint row )
 {
-    form_organization *form;
+    FormOrganization *form;
 
     form = gsb_data_account_get_form_organization ( account_number );
 
@@ -327,7 +328,7 @@ gboolean gsb_data_form_set_value ( gint account_number,
 				   gint row,
 				   gint value )
 {
-    form_organization *form;
+    FormOrganization *form;
 
     form = gsb_data_account_get_form_organization ( account_number );
 
@@ -354,7 +355,7 @@ gboolean gsb_data_form_set_value ( gint account_number,
 gint gsb_data_form_get_width_column ( gint account_number,
 				      gint column )
 {
-    form_organization *form;
+    FormOrganization *form;
 
     form = gsb_data_account_get_form_organization ( account_number );
 
@@ -381,7 +382,7 @@ gboolean gsb_data_form_set_width_column ( gint account_number,
 					  gint column,
 					  gint width )
 {
-    form_organization *form;
+    FormOrganization *form;
 
     form = gsb_data_account_get_form_organization ( account_number );
 
@@ -412,7 +413,7 @@ gboolean gsb_data_form_look_for_value ( gint account_number,
 					gint *return_row,
 					gint *return_column )
 {
-    form_organization *form;
+    FormOrganization *form;
     gint row, column;
 
     form = gsb_data_account_get_form_organization ( account_number );
@@ -457,7 +458,7 @@ gboolean gsb_data_form_check_for_value ( gint value )
  * */
 gint gsb_data_form_get_values_total ( gint account_number )
 {
-    form_organization *form;
+    FormOrganization *form;
     gint row, column;
     gint values = 0;
 
@@ -486,7 +487,7 @@ gint gsb_data_form_get_values_total ( gint account_number )
  * */
 gboolean gsb_form_config_update_from_account (gint account_number)
 {
-    form_organization *form;
+    FormOrganization *form;
     GSList *tmp_list;
 
     if (account_number == -1)
@@ -500,7 +501,7 @@ gboolean gsb_form_config_update_from_account (gint account_number)
 
     while ( tmp_list )
     {
-        form_organization *tmp_form;
+        FormOrganization *tmp_form;
         gint col;
         gint no_account;
 

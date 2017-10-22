@@ -26,7 +26,7 @@
  */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -35,6 +35,7 @@
 /*START_INCLUDE*/
 #include "gsb_currency_config.h"
 #include "dialog.h"
+#include "grisbi_app.h"
 #include "gsb_autofunc.h"
 #include "gsb_automem.h"
 #include "parametres.h"
@@ -45,7 +46,6 @@
 #include "gsb_data_transaction.h"
 #include "gsb_file.h"
 #include "gsb_locale.h"
-#include "main.h"
 #include "traitement_variables.h"
 #include "utils.h"
 #include "tiers_onglet.h"
@@ -56,12 +56,13 @@
 #include "utils_files.h"
 #include "erreur.h"
 #include "gsb_dirs.h"
+#include "utils_prefs.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
 static void gsb_currency_append_currency_to_list ( GtkListStore *model,
                         gint currency_number );
-static GtkWidget *gsb_currency_config_create_list ();
+static GtkWidget *gsb_currency_config_create_list ( void );
 static gboolean gsb_currency_config_entry_changed ( GtkWidget *entry,
                         GtkWidget *tree_view );
 static void gsb_currency_config_fill_popup_list ( GtkTreeView * tree_view,
@@ -87,8 +88,8 @@ GtkWidget *combo_devise_totaux_ib;
 GtkWidget *combo_devise_totaux_categ;
 static GtkWidget *delete_devise_button;
 
-/* struct iso_4217_currency; */
-struct iso_4217_currency iso_4217_currencies[] = {
+/* struct Iso4217Currency; */
+struct Iso4217Currency iso_4217_currencies[] = {
     { N_("Africa"), N_("Algerian Dinar"), N_("Algeria"), "DZD", NULL, TRUE, "DZD.png", 3, 1 },
     { N_("Africa"), N_("Botswana Pula"), N_("Botswana"), "BWP", NULL, TRUE, "BWP.png", 2, 1 },
     { N_("Africa"), N_("Burundi Franc"), N_("Burundi"), "BIF", NULL, TRUE, "BIF.png", 2, 1 },
@@ -231,6 +232,7 @@ struct iso_4217_currency iso_4217_currencies[] = {
     { N_("Northern America"), N_("Bermuda Dollar"), N_("Bermuda"), "BMD", "$", TRUE, "BMD.png", 2, 1 },
     { N_("Northern America"), N_("Canadian Dollar"), N_("Canada"), "CAD", "$", TRUE, "CAD.png", 2, 1 },
     { N_("Northern America"), N_("Cayman Islands Dollar"), N_("Cayman Islands"), "KYD", NULL, TRUE, "KYD.png", 2, 1 },
+    { N_("Northern America"), N_("Cuban Convertible Peso"), N_("Cuba"), "CUC", "$", TRUE, "CUP.png", 2, 1 },
     { N_("Northern America"), N_("Cuban Peso"), N_("Cuba"), "CUP", "₱ 	", TRUE, "CUP.png", 2, 1 },
     { N_("Northern America"), N_("Dominican Peso"), N_("Dominican Republic"), "DOP", "₱", TRUE, "DOP.png", 2, 1 },
     { N_("Northern America"), N_("East Caribbean Dollar"), N_("Grenada"), "XCD", "$", TRUE, "GRE.png", 2, 1 },
@@ -269,7 +271,7 @@ struct iso_4217_currency iso_4217_currencies[] = {
     { N_("Southern America"), N_("Suriname Guilder"), N_("Suriname"), "SRG", NULL, TRUE, "SRD.png", 2, 1 },
     { N_("Southern America"), N_("Peso"), N_("Uruguay"), "UYU", "₱", TRUE, "UYU.png", 2, 1 },
     { N_("Southern America"), N_("Venezuelan Bolivar"), N_("Venezuela"), "VEB", NULL, TRUE, "VEB.png", 2, 1 },
-    { NULL },
+    { NULL, NULL, NULL, NULL, NULL, FALSE, NULL, 0, 0 },
 };
 
 /******************************************************************************/
@@ -291,11 +293,13 @@ static gboolean gsb_currency_config_change_selection (GtkTreeSelection *selectio
 
     tmp_list = gsb_data_currency_get_currency_list ();
     nbre_devises = g_slist_length (tmp_list);
-    if (nbre_devises > 1)
-        gtk_widget_set_sensitive (delete_devise_button, TRUE);
-    else
-        gtk_widget_set_sensitive (delete_devise_button, FALSE);
-
+    if (delete_devise_button)
+    {
+        if (nbre_devises > 1)
+            gtk_widget_set_sensitive (delete_devise_button, TRUE);
+        else
+            gtk_widget_set_sensitive (delete_devise_button, FALSE);
+    }
     return FALSE;
 }
 
@@ -329,11 +333,11 @@ GtkWidget *gsb_currency_config_create_page ( void )
     GtkTreeView *currency_list_view;
     GtkTreeModel *currency_tree_model;
 
-    vbox_pref = new_vbox_with_title_and_icon ( _("Currencies"), "currencies.png" );
+    vbox_pref = new_vbox_with_title_and_icon ( _("Currencies"), "currencies-32.png" );
     paddinggrid = utils_prefs_paddinggrid_new_with_title (vbox_pref, _("Known currencies"));
 
     /* Currency list */
-    scrolled_window = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, 160);
+    scrolled_window = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, SW_MIN_HEIGHT);
     gtk_grid_attach (GTK_GRID (paddinggrid), scrolled_window, 0, 0, 2, 3);
 
     /* Create it. */
@@ -432,7 +436,7 @@ GtkWidget *gsb_currency_config_create_page ( void )
  *
  * \return a GtkTreeView
  */
-GtkWidget *gsb_currency_config_create_list ()
+GtkWidget *gsb_currency_config_create_list ( void )
 {
     GtkTreeSelection *selection;
     GtkTreeViewColumn *column;
@@ -460,6 +464,7 @@ GtkWidget *gsb_currency_config_create_list ()
 
     /* Create tree tree_view */
     treeview = gtk_tree_view_new_with_model (GTK_TREE_MODEL(model));
+ 	gtk_widget_set_name (treeview, "tree_view");
     g_object_unref ( G_OBJECT(model) );
 
     /* connect the selection */
@@ -891,10 +896,13 @@ GtkWidget * gsb_currency_config_new_combobox ( gint * value, GCallback hook )
                         value );
     g_object_set_data ( G_OBJECT ( combo_box ), "pointer", value);
 
-    if ( hook )
-    g_object_set_data ( G_OBJECT (combo_box), "changed-hook",
-                        (gpointer) g_signal_connect_after (G_OBJECT(combo_box), "changed",
-                        G_CALLBACK (hook), value ));
+    if (hook)
+		g_object_set_data (G_OBJECT (combo_box),
+						   "changed-hook",
+						   GUINT_TO_POINTER (g_signal_connect_after (G_OBJECT(combo_box),
+																	 "changed",
+																	 G_CALLBACK (hook),
+																	 value)));
 
     return combo_box;
 }
@@ -949,7 +957,7 @@ gboolean gsb_currency_config_add_currency ( GtkWidget *button,
     GtkTreeModel *model;
 
     dialog = gtk_dialog_new_with_buttons ( _("Add a currency"),
-					   GTK_WINDOW ( run.window ),
+					   GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
 					   GTK_DIALOG_MODAL,
 					   "gtk-close", 1,
 					   NULL );
@@ -958,12 +966,12 @@ gboolean gsb_currency_config_add_currency ( GtkWidget *button,
     gtk_window_set_resizable ( GTK_WINDOW ( dialog ), TRUE );
 
     main_vbox = new_vbox_with_title_and_icon ( _("Select base currency for your account"),
-					       "currencies.png" );
+					       "currencies-32.png" );
     gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), main_vbox, TRUE, TRUE, 0 );
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 12 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( main_vbox ), vbox, TRUE, TRUE, 0 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 12 );
+    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), BOX_BORDER_WIDTH );
 
     paddingbox = new_paddingbox_with_title ( vbox,
 					     TRUE, _("World currencies"));
@@ -1132,7 +1140,7 @@ gint gsb_currency_config_create_currency ( const gchar *currency_name,
  */
 gint gsb_currency_config_create_currency_from_iso4217list ( gchar *currency_name )
 {
-    struct iso_4217_currency * currency = iso_4217_currencies;
+    struct Iso4217Currency * currency = iso_4217_currencies;
     gchar * tmp = g_strdup ( currency_name );
     g_strchomp ( tmp );
 
@@ -1186,7 +1194,7 @@ GtkWidget *gsb_currency_config_create_box_popup ( GCallback select_callback )
 
     gtk_container_add (GTK_CONTAINER (sw), treeview);
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX(vbox), sw, TRUE, TRUE, 0 );
 
     checkbox = gtk_check_button_new_with_label ( _("Include obsolete currencies"));
@@ -1219,7 +1227,7 @@ void gsb_currency_config_fill_popup_list ( GtkTreeView * tree_view,
 {
     GtkTreeModel *model;
     GtkTreeIter iter;
-    struct iso_4217_currency * currency = iso_4217_currencies;
+    struct Iso4217Currency * currency = iso_4217_currencies;
 
     model = gtk_tree_view_get_model ( tree_view );
 

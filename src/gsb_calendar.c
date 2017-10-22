@@ -29,7 +29,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -37,8 +37,9 @@
 /*START_INCLUDE*/
 #include "gsb_calendar.h"
 #include "gsb_data_scheduled.h"
-#include "utils_dates.h"
 #include "gsb_scheduler.h"
+#include "structures.h"
+#include "utils_dates.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -70,6 +71,7 @@ GtkWidget *gsb_calendar_new ( void )
     time ( &temps );
 
     scheduled_calendar = gtk_calendar_new ();
+	gtk_widget_set_margin_top (scheduled_calendar, MARGIN_BOX);
     gtk_calendar_select_month ( GTK_CALENDAR ( scheduled_calendar ),
 				localtime ( &temps ) -> tm_mon,
 				localtime ( &temps ) -> tm_year + 1900 );
@@ -113,9 +115,9 @@ gboolean gsb_calendar_update ( void )
     /* select the current day */
     time ( &temps );
 
-    if ( ( localtime ( &temps ) -> tm_mon == calendar_month )
+    if ( ( localtime ( &temps ) -> tm_mon == (gint) calendar_month )
      &&
-     ( ( localtime ( &temps ) -> tm_year + 1900 ) == calendar_year ) )
+     ( ( localtime ( &temps ) -> tm_year + 1900 ) == (gint) calendar_year ) )
         gtk_calendar_select_day ( GTK_CALENDAR ( scheduled_calendar ), localtime ( &temps ) -> tm_mday );
     else
         gtk_calendar_select_day ( GTK_CALENDAR ( scheduled_calendar ), FALSE );
@@ -170,9 +172,9 @@ void click_sur_jour_calendrier_echeance ( GtkWidget *calendrier,
 				       G_CALLBACK ( click_sur_jour_calendrier_echeance ),
 				       NULL );
 
-    if ( ( localtime ( &temps ) -> tm_mon == calendar_month )
+    if ( ( localtime ( &temps ) -> tm_mon == (gint) calendar_month )
      &&
-     ( ( localtime ( &temps ) -> tm_year + 1900 ) == calendar_year ) )
+     ( ( localtime ( &temps ) -> tm_year + 1900 ) == (gint) calendar_year ) )
         gtk_calendar_select_day ( GTK_CALENDAR ( scheduled_calendar ), localtime ( &temps ) -> tm_mday );
     else
         gtk_calendar_select_day ( GTK_CALENDAR ( scheduled_calendar ), FALSE );

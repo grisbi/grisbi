@@ -22,7 +22,7 @@
 /* ************************************************************************** */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -47,6 +47,7 @@
 #include "gsb_file.h"
 #include "gsb_form_widget.h"
 #include "gsb_fyear.h"
+#include "gsb_rgba.h"
 #include "navigation.h"
 #include "structures.h"
 #include "traitement_variables.h"
@@ -116,8 +117,8 @@ GtkWidget *bet_config_general_create_general_page ( void )
     GtkWidget *widget;
 
 
-    vbox = new_vbox_with_title_and_icon ( _("General Options"), "balance_estimate.png" );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 12 );
+    vbox = new_vbox_with_title_and_icon ( _("General Options"), "gsb-balance_estimate-32.png" );
+    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), BOX_BORDER_WIDTH );
 
     /* Calculation of period */
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Common data") );
@@ -163,7 +164,7 @@ GtkWidget *bet_config_general_get_period_widget ( GtkWidget *container )
     /* devel_debug (NULL); */
     size_group = gtk_size_group_new ( GTK_SIZE_GROUP_HORIZONTAL );
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( container ), vbox, FALSE, FALSE, 5);
 
     label = gtk_label_new ( _("Beginning of period") );
@@ -171,7 +172,7 @@ GtkWidget *bet_config_general_get_period_widget ( GtkWidget *container )
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 5) ;
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 5) ;
 
     button_1 = gtk_radio_button_new_with_label ( NULL,
@@ -203,6 +204,7 @@ GtkWidget *bet_config_general_get_period_widget ( GtkWidget *container )
 
     text = make_blue ( _("Note: This option is used if no starting date for forecasts.") );
     label = gtk_label_new ( text );
+	gtk_label_set_line_wrap (GTK_LABEL(label), TRUE);
     gtk_label_set_use_markup ( GTK_LABEL(label), TRUE );
     utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
@@ -259,8 +261,8 @@ GtkWidget *bet_config_account_create_account_page ( void )
     GtkWidget *vbox;
     GtkWidget *widget;
 
-    vbox_pref = new_vbox_with_title_and_icon ( _("Accounts data"), "balance_estimate.png" );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox_pref ), 12 );
+    vbox_pref = new_vbox_with_title_and_icon ( _("Accounts data"), "gsb-balance_estimate-32.png" );
+    gtk_container_set_border_width ( GTK_CONTAINER ( vbox_pref ), BOX_BORDER_WIDTH );
     account_page = gsb_gui_get_account_page ();
 
     /* set the choice of account */
@@ -335,7 +337,7 @@ GtkWidget *bet_config_account_get_select_account ( gchar *title )
     /* set the choice of account */
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, title );
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 5 );
 
     label = gtk_label_new ( _("Account: ") );
@@ -692,7 +694,7 @@ GtkWidget *bet_config_get_select_historical_data ( GtkWidget *container,
     gint year;
 
     /* Choix des données sources */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( container ), hbox, FALSE, FALSE, 0 );
 
     button_1 = gtk_radio_button_new_with_label ( NULL,
@@ -1014,7 +1016,7 @@ gboolean bet_config_change_account ( GtkWidget *combo )
     GtkWidget *account_page;
     gint account_number;
     gint bet_use_budget;
-    bet_type_onglets bet_show_onglets;
+    BetTypeOnglets bet_show_onglets;
 
     devel_debug (NULL);
     widget = g_object_get_data ( G_OBJECT ( combo ), "bet_use_budget" );
@@ -1154,7 +1156,7 @@ void bet_config_sensitive_account_parameters ( gint account_number, gboolean sen
     account_page = gsb_gui_get_account_page ();
     if ( sensitive )
     {
-        bet_type_onglets bet_show_onglets;
+        BetTypeOnglets bet_show_onglets;
 
         bet_show_onglets = gsb_data_account_get_bet_show_onglets ( account_number );
 
@@ -1280,14 +1282,12 @@ GtkWidget *bet_config_account_get_finance_data ( gchar *title )
  *
  * \return
  * */
-void bet_config_account_amount_entry_changed ( GtkWidget *entry,
+static void bet_config_account_amount_entry_changed ( GtkWidget *entry,
                         GtkWidget *parent )
 {
     gboolean valide = FALSE;
     const gchar *text;
-    GtkStyleContext* context;
 
-    context = gtk_widget_get_style_context  (entry);
     text = gtk_entry_get_text ( GTK_ENTRY ( entry ) );
     /* if nothing in the entry, keep the normal style */
     if ( strlen ( text ) == 0 )
@@ -1421,10 +1421,10 @@ GtkWidget *bet_config_get_finance_widget ( GtkWidget *parent )
     GtkWidget *spin_button = NULL;
     GtkWidget *button_1, *button_2;
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
 
     /* Loan Capital */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 5);
 
     label = gtk_label_new ( _("Loan Capital: ") );
@@ -1458,7 +1458,7 @@ GtkWidget *bet_config_get_finance_widget ( GtkWidget *parent )
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
 
     /* Date of first Repayment */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 5);
 
     label = gtk_label_new ( _("Date of first repayment: ") );
@@ -1471,7 +1471,7 @@ GtkWidget *bet_config_get_finance_widget ( GtkWidget *parent )
     gtk_box_pack_start ( GTK_BOX ( hbox ), widget, FALSE, FALSE, 5 );
 
     /* Annuel rate interest */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 5);
 
     label = gtk_label_new ( _("Annuel rate interest: ") );
@@ -1489,7 +1489,7 @@ GtkWidget *bet_config_get_finance_widget ( GtkWidget *parent )
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
 
     /* frais */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 5);
 
     label = gtk_label_new ( _("Fees per month: ") );
@@ -1508,7 +1508,7 @@ GtkWidget *bet_config_get_finance_widget ( GtkWidget *parent )
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
 
     /* Rate Type */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 5);
 
     label = gtk_label_new ( _("Rate Type: ") );

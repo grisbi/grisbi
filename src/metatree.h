@@ -12,14 +12,14 @@
 typedef struct metatree_interface {
     gint depth;
     gint content;	/* content of the metatree : 0 : payee, 1 : category, 2 : budget */
-    gint (* tree_currency) ();
+    gint (* tree_currency) (void);
     /* Read operations */
     const gchar * meta_name;
     const gchar * meta_name_minus;
     const gchar *meta_sub_name;
     const gchar * no_div_label;
     const gchar * no_sub_div_label;
-    gint (* get_without_div_pointer) ();
+    gint (* get_without_div_pointer) (void);
     gint (* get_div_pointer_from_name) (const gchar *,gboolean);
     gint (* get_sub_div_pointer_from_name) (int,const gchar *,gboolean);
     gint (* div_nb_transactions) (gint);
@@ -30,7 +30,7 @@ typedef struct metatree_interface {
     gsb_real (* sub_div_balance) (gint,gint);
     gint (* div_id) (gpointer);
     gint (* sub_div_id) (gpointer);
-    GSList * (* div_list) ();
+    GSList * (* div_list) (void);
     GSList * (* div_sub_div_list) (gint);
     gint (* div_type) (gint);
 
@@ -45,7 +45,7 @@ typedef struct metatree_interface {
     gboolean (* scheduled_set_sub_div_id) (int, int);
 
     /* Write operations on div */
-    gint (* add_div) ();
+    gint (* add_div) (void);
     gint (* add_sub_div) (int);
     gboolean (* remove_div) (int);
     gboolean (* remove_sub_div) (int,int);

@@ -30,7 +30,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -47,14 +47,14 @@
 static glong gsb_real_power_10[] = { 1, 10, 100, 1000, 10000, 100000,
                             1000000, 10000000, 100000000, 1000000000 };
 
-#ifdef _MSC_VER
+#ifdef G_OS_WIN32
 #define rint(x) (floor(x + 0.5))
-#endif /*_MSC_VER */
+#endif /*G_OS_WIN32 */
 
 /*START_STATIC*/
 static gchar *gsb_real_add_thousands_sep ( gchar *str_number, const gchar *thousands_sep );
 static gsb_real gsb_real_double_to_real_add_exponent ( gdouble number, gint exp_add );
-static gboolean gsb_real_grow_exponent( gsb_real *num, guint target_exponent );
+static gboolean gsb_real_grow_exponent( gsb_real *num, gint target_exponent );
 static void gsb_real_minimize_exponent ( gsb_real *num );
 static void gsb_real_raw_minimize_exponent ( gint64 *mantissa, gint *exponent );
 static gboolean gsb_real_raw_truncate_number ( gint64 *mantissa, gint *exponent );
@@ -70,7 +70,7 @@ static gboolean gsb_real_raw_truncate_number ( gint64 *mantissa, gint *exponent 
  * thousands separator and positive or negative sign.
  *
  * \param number		    Number to format.
- * \param locale      		the locale obtained with localeconv(), or built manually
+ * \param locale      		the locale obtained with gsb_locale_get_locale (), or built manually
  * \param currency_symbol 	the currency symbol
  *
  * \return		A newly allocated string of the number (this
@@ -411,7 +411,7 @@ void gsb_real_minimize_exponent ( gsb_real *num )
  * \param num a pointer to the number
  * \param target_exponent the desired exponent
  **/
-gboolean gsb_real_grow_exponent( gsb_real *num, guint target_exponent )
+gboolean gsb_real_grow_exponent( gsb_real *num, gint target_exponent )
 {
     gint64 mantissa = num->mantissa;
     gint exponent = num->exponent;
@@ -572,7 +572,7 @@ gsb_real gsb_real_add ( gsb_real number_1,
     if ( ( number_1.mantissa == error_real.mantissa )
       || ( number_2.mantissa == error_real.mantissa )
       || !gsb_real_normalize ( &number_1, &number_2 ) )
-        return error_real;
+		return error_real;
 
 	mantissa = ( gint64 ) number_1.mantissa + number_2.mantissa;
     if ( ( mantissa > G_MAXINT64 ) || ( mantissa < G_MININT64 ) )
@@ -710,7 +710,7 @@ gsb_real gsb_real_double_to_real_add_exponent ( gdouble number, gint exp_add )
     gdouble maxlong;
 	gsb_real real_number = {0, exp_add};
 
-    maxlong = G_MAXINT64 / 10;
+    maxlong = (gdouble) G_MAXINT64 / 10;
 /*     printf ("number initial = %f exp_add = %d\n",number, exp_add);  */
 
 	if(exp_add >=9)

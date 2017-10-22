@@ -26,7 +26,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -35,10 +35,10 @@
 /*START_INCLUDE*/
 #include "file_obfuscate_qif.h"
 #include "dialog.h"
-#include "utils_file_selection.h"
+#include "grisbi_win.h"
 #include "gsb_assistant.h"
 #include "gsb_file.h"
-#include "gsb_status.h"
+#include "utils_files.h"
 /*END_INCLUDE*/
 
 
@@ -65,7 +65,7 @@ gboolean file_obfuscate_qif_run ( void )
     GtkWidget *assistant;
     gint result;
 
-    gsb_status_message ( _("Obfuscating qif file...") );
+    grisbi_win_status_bar_message ( _("Obfuscating qif file...") );
 
     assistant = gsb_assistant_new ( _("Grisbi QIF obfuscation"),
 				    _("This assistant produces anonymized copies of qif files, with "
@@ -78,7 +78,7 @@ gboolean file_obfuscate_qif_run ( void )
 				      "\n"
 				      "In next page, you will have to choose a QIF file wich will be renamed"
 				      "with -obfuscate at the end."),
-				    "bug.png",
+				    "gsb-bug-32.png",
 				    NULL );
     gsb_assistant_change_button_next (assistant, "gtk-go-forward", GTK_RESPONSE_APPLY);
     result = gsb_assistant_run ( assistant );
@@ -112,7 +112,7 @@ gboolean file_obfuscate_qif_run ( void )
 
 	if ( gtk_dialog_run ( GTK_DIALOG (file_selection) ) == GTK_RESPONSE_OK )
 	{
-		    qif_name = file_selection_get_filename ( GTK_FILE_CHOOSER ( file_selection ) ) ;
+		    qif_name = gtk_file_chooser_get_filename ( GTK_FILE_CHOOSER ( file_selection ) ) ;
 		    gtk_widget_destroy ( file_selection );
 		    if (qif_name && strlen (qif_name))
 			file_obfuscate_qif_start (qif_name);
@@ -122,7 +122,7 @@ gboolean file_obfuscate_qif_run ( void )
 
     gtk_widget_destroy ( assistant );
 
-    gsb_status_message ( _("Done.") );
+    grisbi_win_status_bar_message ( _("Done.") );
 
     return FALSE;
 }
@@ -189,6 +189,7 @@ static void file_obfuscate_qif_start ( gchar *filename )
 			position++;
 			position_in_line++;
 		}
+		/* fallthrough */
 
 	    case 1:
 		/* we are on the 2nd col, we pass this line if it's a transfer */

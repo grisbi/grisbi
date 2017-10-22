@@ -33,7 +33,8 @@ enum
  * begin at NB_COLS_SCHEDULER */
 
 
-enum scheduler_periodicity {
+enum SchedulerPeriodicity
+{
     SCHEDULER_PERIODICITY_ONCE_VIEW = 0,
     SCHEDULER_PERIODICITY_WEEK_VIEW,
     SCHEDULER_PERIODICITY_MONTH_VIEW,
@@ -45,7 +46,8 @@ enum scheduler_periodicity {
 };
 
 
-enum periodicity_units {
+enum PeriodicityUnits
+{
     PERIODICITY_DAYS,
     PERIODICITY_WEEKS,
     PERIODICITY_MONTHS,
@@ -58,31 +60,33 @@ enum periodicity_units {
 
 
 /* START_DECLARATION */
-void gsb_gui_scheduler_toolbar_set_style ( gint toolbar_style );
-gboolean gsb_scheduler_list_append_new_scheduled ( gint scheduled_number,
-                        GDate *end_date );
-gboolean gsb_scheduler_list_clone_selected_scheduled ( GtkWidget *menu_item,
-                        gint *scheduled_number );
-GtkWidget *gsb_scheduler_list_create_list ( void );
-gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number,
-                        gboolean show_warning );
-gboolean gsb_scheduler_list_delete_scheduled_transaction_by_menu ( GtkWidget *button,
-                        gpointer null );
-gboolean gsb_scheduler_list_edit_transaction ( gint scheduled_number );
-gboolean gsb_scheduler_list_execute_transaction ( gint scheduled_number );
-gboolean gsb_scheduler_list_fill_list ( GtkWidget *tree_view );
-gint gsb_scheduler_list_get_current_scheduled_number ( void );
-GDate *gsb_scheduler_list_get_end_date_scheduled_showed ( void );
-gint gsb_scheduler_list_get_last_scheduled_number ( void );
-GtkWidget *gsb_scheduler_list_get_toolbar ( void );
-GtkWidget *gsb_scheduler_list_get_tree_view ( void );
-void gsb_scheduler_list_init_variables ( void );
-gboolean gsb_scheduler_list_redraw ( void );
-gboolean gsb_scheduler_list_remove_transaction_from_list ( gint scheduled_number );
-gboolean gsb_scheduler_list_select ( gint scheduled_number );
-gboolean gsb_scheduler_list_set_background_color ( GtkWidget *tree_view );
-gboolean gsb_scheduler_list_set_largeur_col ( void );
-gboolean gsb_scheduler_list_update_transaction_in_list ( gint scheduled_number );
+void 		gsb_gui_scheduler_toolbar_set_style 						(gint toolbar_style);
+gboolean 	gsb_scheduler_list_append_new_scheduled 					(gint scheduled_number,
+																		 GDate *end_date);
+gboolean 	gsb_scheduler_list_clone_selected_scheduled 				(GtkWidget *menu_item,
+																		 gint *scheduled_number);
+GtkWidget *	gsb_scheduler_list_create_list 								(void);
+gboolean 	gsb_scheduler_list_delete_scheduled_transaction 			(gint scheduled_number,
+																		 gboolean show_warning);
+gboolean 	gsb_scheduler_list_delete_scheduled_transaction_by_menu		(GtkWidget *button,
+																		 gpointer null);
+gboolean 	gsb_scheduler_list_edit_transaction 						(gint scheduled_number);
+gboolean 	gsb_scheduler_list_execute_transaction 						(gint scheduled_number);
+gboolean 	gsb_scheduler_list_fill_list 								(GtkWidget *tree_view);
+gint 		gsb_scheduler_list_get_current_scheduled_number 			(void);
+GDate *		gsb_scheduler_list_get_end_date_scheduled_showed 			(void);
+gint 		gsb_scheduler_list_get_last_scheduled_number 				(void);
+GSList *	gsb_scheduler_list_get_scheduled_transactions_taken			(void);
+GSList *	gsb_scheduler_list_get_scheduled_transactions_to_take		(void);
+GtkWidget *	gsb_scheduler_list_get_toolbar 								(void);
+GtkWidget *	gsb_scheduler_list_get_tree_view 							(void);
+void 		gsb_scheduler_list_init_variables 							(void);
+gboolean 	gsb_scheduler_list_redraw 									(void);
+gboolean 	gsb_scheduler_list_remove_transaction_from_list 			(gint scheduled_number);
+gboolean 	gsb_scheduler_list_select 									(gint scheduled_number);
+gboolean 	gsb_scheduler_list_set_background_color 					(GtkWidget *tree_view);
+gboolean 	gsb_scheduler_list_set_largeur_col 							(void);
+gboolean 	gsb_scheduler_list_update_transaction_in_list 				(gint scheduled_number);
 /* END_DECLARATION */
 
 #endif

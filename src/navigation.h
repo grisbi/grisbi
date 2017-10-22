@@ -41,7 +41,7 @@ gboolean gsb_gui_navigation_select_prev ( void );
 gboolean gsb_gui_navigation_set_page_list_order ( const gchar *order_list );
 gboolean gsb_gui_navigation_set_selection ( gint page,
                         gint account_number,
-                        gpointer report );
+                        gint report_number );
 void gsb_gui_navigation_update_account ( gint account_number );
 void gsb_gui_navigation_update_home_page ( void );
 void gsb_gui_navigation_update_report ( gint report_number ) ;

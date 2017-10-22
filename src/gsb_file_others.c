@@ -27,7 +27,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -147,7 +147,7 @@ gboolean gsb_file_others_save_category ( gchar *filename )
 
     /* the file is in memory, we can save it */
 
-	file = utf8_fopen ( filename, "w" );
+	file = utils_files_utf8_fopen ( filename, "w" );
 
     if ( !file
 	 ||
@@ -191,6 +191,7 @@ gboolean gsb_file_others_save_budget ( gchar *filename )
     gulong length_part;
 
     devel_debug (filename);
+    gboolean ret = TRUE;
 
     /* we begin to try to reserve enough memory to make the entire file
      * if not enough, we will make it growth later
@@ -237,7 +238,7 @@ gboolean gsb_file_others_save_budget ( gchar *filename )
 
     /* the file is in memory, we can save it */
 
-	file = utf8_fopen ( filename, "w" );
+	file = utils_files_utf8_fopen ( filename, "w" );
 
     if ( !file
 	 ||
@@ -251,14 +252,14 @@ gboolean gsb_file_others_save_budget ( gchar *filename )
                         g_strerror ( errno ) );
         dialogue_error ( tmp_str );
         g_free ( tmp_str );
-        g_free ( file_content );
-        return ( FALSE );
+        ret = FALSE;
     }
 
-    fclose ( file );
+    if (file)
+	fclose ( file );
     g_free ( file_content);
 
-    return ( TRUE );
+    return ( ret );
 }
 
 /**
@@ -520,11 +521,11 @@ gboolean gsb_file_others_load ( gchar *filename,
         return FALSE;
     }
 
+    gint report_number;
+
 	/* now, import_list contains the list of categories/budget or report */
 	switch ( origin )
 	{
-	    gint report_number;
-
 	    case 0:
 		/* comes for category */
 		categories_fill_list ();

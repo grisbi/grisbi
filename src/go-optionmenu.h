@@ -75,13 +75,13 @@ struct _GOOptionMenuClass
 };
 
 
-GType      go_option_menu_get_type    (void) G_GNUC_CONST;
-GtkWidget* go_option_menu_new         (void);
-void       go_option_menu_set_menu    (GOOptionMenu *option_menu,
-				       GtkWidget *menu);
-void       go_option_menu_set_history (GOOptionMenu *option_menu,
-				       GSList *selection);
-GtkWidget *go_option_menu_get_history (GOOptionMenu *option_menu);
+GType      	go_option_menu_get_type    		(void) G_GNUC_CONST;
+GtkWidget*	go_option_menu_new         		(void);
+void       	go_option_menu_set_menu    		(GOOptionMenu *option_menu,
+											 GtkWidget *menu);
+void       	go_option_menu_set_history 		(GOOptionMenu *option_menu,
+											 GSList *selection);
+GtkWidget *	go_option_menu_get_history		(GOOptionMenu *option_menu);
 
 G_END_DECLS
 

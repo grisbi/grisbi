@@ -25,7 +25,7 @@
  */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -139,13 +139,13 @@ GtkWidget * print_transactions_list_layout_config ( GtkPrintOperation * operatio
 
     size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
-    gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
+    gtk_container_set_border_width ( GTK_CONTAINER(vbox), BOX_BORDER_WIDTH );
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Layout") );
 
     /* set up the title and dates, this is never saved, so ask each time */
     /* title line */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 10 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start (GTK_BOX (paddingbox),
 			hbox,
 			FALSE, FALSE, 0);
@@ -166,7 +166,7 @@ GtkWidget * print_transactions_list_layout_config ( GtkPrintOperation * operatio
 			TRUE, TRUE, 0);
 
     /* add the dates interval */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 10 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
 
     check_button = gsb_autofunc_checkbutton_new (_("Select dates interval: "),
 						 gsb_data_print_config_get_draw_interval_dates (),
@@ -263,7 +263,7 @@ GtkWidget * print_transactions_list_layout_config ( GtkPrintOperation * operatio
 
     /* set up the font of the transactions,
      * by default use the font of the lists */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 12 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start (GTK_BOX (paddingbox),
 			hbox,
 			FALSE, FALSE, 0);
@@ -286,7 +286,7 @@ GtkWidget * print_transactions_list_layout_config ( GtkPrintOperation * operatio
 			TRUE, TRUE, 0);
 
     /* set up the font for the title */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 12 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start (GTK_BOX (paddingbox),
 			hbox,
 			FALSE, FALSE, 0);
@@ -896,7 +896,7 @@ static gint print_transactions_list_draw_row ( GtkPrintContext *context,
 					      gint line_position )
 {
     gint column;
-    gfloat alignment[] = {
+    PangoAlignment alignment[] = {
 	PANGO_ALIGN_CENTER, PANGO_ALIGN_CENTER, PANGO_ALIGN_LEFT,
 	PANGO_ALIGN_CENTER, PANGO_ALIGN_RIGHT, PANGO_ALIGN_RIGHT, PANGO_ALIGN_RIGHT
     };

@@ -28,7 +28,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -438,7 +438,7 @@ gint gsb_transactions_list_sort_by_date_and_amount ( gint transaction_number_1,
         /* no difference in the dates, sort by amount of transaction */
         amount_1 = gsb_data_transaction_get_amount ( transaction_number_1 );
         amount_2 = gsb_data_transaction_get_amount ( transaction_number_2 );
-        return_value = amount_2.mantissa - amount_1.mantissa;
+        return_value = (gint)(amount_2.mantissa - amount_1.mantissa);
         if ( return_value == 0 )
             return_value = transaction_number_1 - transaction_number_2;
     }
@@ -458,8 +458,6 @@ gint gsb_transactions_list_sort_by_date_and_party ( gint transaction_number_1,
                         gint transaction_number_2 )
 {
     gint return_value;
-    gsb_real amount_1;
-    gsb_real amount_2;
 
     if ( !gsb_data_transaction_get_date (transaction_number_1) )
     {
@@ -475,9 +473,7 @@ gint gsb_transactions_list_sort_by_date_and_party ( gint transaction_number_1,
 
     if ( return_value == 0 )
     {
-        /* no difference in the dates, sort by amount of transaction */
-        amount_1 = gsb_data_transaction_get_amount ( transaction_number_1 );
-        amount_2 = gsb_data_transaction_get_amount ( transaction_number_2 );
+        /* no difference in the dates, sort by party */
         return_value = gsb_transactions_list_sort_by_party ( transaction_number_1,
                         transaction_number_2 );
     }
@@ -668,7 +664,7 @@ gint gsb_transactions_list_sort_by_budget ( gint transaction_number_1,
 
         /* g_utf8_collate is said not very fast, must try with big big account to check
          * if it's enough, for me it's ok (cedric), eventually, change with gsb_strcasecmp */
-        return_value = g_utf8_collate ( g_utf8_casefold ( temp_1 ? temp_1 : "", -1 ),
+        return_value = g_utf8_collate ( g_utf8_casefold ( temp_1, -1 ),
                         g_utf8_casefold ( temp_2 ? temp_2 : "", -1 ) );
     }
 

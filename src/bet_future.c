@@ -24,7 +24,7 @@
 /* ./configure --with-balance-estimate */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -36,6 +36,7 @@
 #include "bet_tab.h"
 #include "dialog.h"
 #include "fenetre_principale.h"
+#include "grisbi_app.h"
 #include "gsb_calendar_entry.h"
 #include "gsb_combo_box.h"
 #include "gsb_data_account.h"
@@ -88,7 +89,7 @@ static GtkWidget *bet_form_widget_get_widget ( gint element_number );
 static GtkWidget *bet_future_create_dialog ( gint account_number );
 static gboolean bet_future_set_form_data_from_line ( gint account_number,
                         gint number  );
-static gboolean bet_future_take_data_from_form (  struct_futur_data *scheduled );
+static gboolean bet_future_take_data_from_form (  FuturData *scheduled );
 /* static void bet_transfert_auto_inc_toggle ( GtkToggleButton *button, gpointer data ); */
 static GtkWidget *bet_transfert_create_account_list_part ( GtkWidget *dialog, gint account_number );
 static gboolean bet_transfert_entry_lose_focus ( GtkWidget *entry,
@@ -103,9 +104,6 @@ static gboolean bet_transfert_selection_changed ( GtkTreeSelection *selection, G
 /* dimmension du formulaire de données futures */
 #define BET_FUTURE_FORM_WIDTH 4
 #define BET_FUTURE_FORM_HEIGHT 5
-
-static gint width = 250;
-
 
 /** contains the list of the scheduled elements, ie list of link
  * between an element number and the pointer of its widget
@@ -238,7 +236,7 @@ dialog_return:
 
     if ( result == GTK_RESPONSE_OK )
     {
-        struct_futur_data *scheduled;
+        FuturData *scheduled;
 
         scheduled = struct_initialise_bet_future ( );
 
@@ -284,7 +282,7 @@ GtkWidget *bet_future_create_dialog ( gint account_number )
 
     /* Create the dialog */
     dialog = gtk_dialog_new_with_buttons ( _("Enter a budget line"),
-					   GTK_WINDOW ( run.window ),
+					   GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
 					   GTK_DIALOG_MODAL,
 					   "gtk-cancel", GTK_RESPONSE_CANCEL,
 					   "gtk-ok", GTK_RESPONSE_OK,
@@ -296,7 +294,7 @@ GtkWidget *bet_future_create_dialog ( gint account_number )
 
 	vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
 	gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), vbox, TRUE, TRUE, 0 );
-	gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 12 );
+	gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), BOX_BORDER_WIDTH );
 
     /* next we fill the bet_form */
     table = gtk_grid_new ();
@@ -457,7 +455,6 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
                         gint account_number )
 {
 	GtkWidget *widget;
-    GtkWidget *credit;
     gint element_number;
     gint row = 2;
     gint column = 0;
@@ -479,7 +476,6 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
     element_number = TRANSACTION_FORM_PARTY;
     widget = gtk_combofix_new (
                         gsb_data_payee_get_name_and_report_list ( ) );
-    gtk_widget_set_size_request ( widget, width, -1 );
     gtk_combofix_set_force_text ( GTK_COMBOFIX (widget), TRUE ); /* on ne peut pas créer d'item */
     gtk_combofix_set_max_items ( GTK_COMBOFIX (widget),
 					 etat.combofix_max_item );
@@ -513,7 +509,6 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
 
     element_number = TRANSACTION_FORM_CREDIT;
     widget = gtk_entry_new ( );
-    credit = widget;
     g_object_set_data ( G_OBJECT ( widget ), "element_number",
                         GINT_TO_POINTER ( TRANSACTION_FORM_CREDIT ) );
     g_signal_connect ( G_OBJECT ( widget ),
@@ -542,9 +537,9 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
     column ++;
 
     element_number = TRANSACTION_FORM_CATEGORY;
-    widget = gtk_combofix_new (
-                         gsb_data_category_get_name_list ( TRUE, TRUE, TRUE, FALSE ) );
-    gtk_widget_set_size_request ( widget, width, -1 );
+	tmp_list = gsb_data_category_get_name_list (TRUE, TRUE, TRUE, TRUE);
+	widget = gtk_combofix_new (tmp_list);
+	gsb_data_categorie_free_name_list (tmp_list);
     gtk_combofix_set_force_text ( GTK_COMBOFIX (widget), TRUE ); /* on ne peut pas créer d'item */
     gtk_combofix_set_max_items ( GTK_COMBOFIX (widget),
 					 etat.combofix_max_item );
@@ -581,7 +576,6 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
     element_number = TRANSACTION_FORM_BUDGET;
     widget = gtk_combofix_new (
                         gsb_data_budget_get_name_list (TRUE, TRUE));
-    gtk_widget_set_size_request ( widget, width, -1 );
     gtk_combofix_set_force_text ( GTK_COMBOFIX (widget), TRUE ); /* on ne peut pas créer d'item */
     gtk_combofix_set_max_items ( GTK_COMBOFIX (widget),
 					 etat.combofix_max_item );
@@ -1315,7 +1309,6 @@ gboolean bet_form_key_press_event ( GtkWidget *widget,
     GtkWidget *widget_suivant;
     GtkWidget *widget_prov;
     gint element_number;
-    gint account_number;
     gint form_type = 0;
 
     form_type = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( widget ), "form_type" ) );
@@ -1325,7 +1318,6 @@ gboolean bet_form_key_press_event ( GtkWidget *widget,
         return FALSE;
 
     element_number = GPOINTER_TO_INT (ptr_origin);
-    account_number = gsb_form_get_account_number ();
 
     /* if conf.entree = 1, entry finish the transaction, else does as tab */
     if ( !conf.entree
@@ -1437,10 +1429,6 @@ gboolean bet_form_button_press_event ( GtkWidget *entry,
                         gint *ptr_origin )
 {
     GtkWidget *date_entry;
-    gint element_number;
-
-
-    element_number = GPOINTER_TO_INT ( ptr_origin );
 
 	/* set the current date into the date entry */
 	date_entry = bet_form_widget_get_widget (TRANSACTION_FORM_DATE);
@@ -1465,7 +1453,7 @@ static gboolean bet_future_get_payee_data ( GtkWidget *widget,
                         gpointer *value )
 {
     const gchar *string;
-    struct_transfert_data *sd = (struct_transfert_data *) value;
+    TransfertData *sd = (TransfertData *) value;
 
     string = gtk_combofix_get_text ( GTK_COMBOFIX ( widget ) );
     if ( string && strlen ( string ) > 0 )
@@ -1497,7 +1485,7 @@ static gboolean bet_future_get_payment_data ( GtkWidget *widget,
                         gpointer *value )
 {
     gint payment_number;
-    struct_transfert_data *sd = (struct_transfert_data *) value;
+    TransfertData *sd = (TransfertData *) value;
 
     payment_number = gsb_payment_method_get_selected_number ( widget );
     if ( payment_number > 0 )
@@ -1532,7 +1520,7 @@ static gboolean bet_future_get_category_data ( GtkWidget *widget,
 
     if ( struct_type == 0 )
     {
-        struct_futur_data *sd = ( struct_futur_data *) value;
+        FuturData *sd = ( FuturData *) value;
 
         if ( string && strlen ( string ) > 0 )
         {
@@ -1567,7 +1555,7 @@ static gboolean bet_future_get_category_data ( GtkWidget *widget,
     }
     else if ( struct_type == 1 )
     {
-        struct_transfert_data *sd = ( struct_transfert_data *) value;
+        TransfertData *sd = ( TransfertData *) value;
 
         if ( string && strlen ( string ) > 0 )
         {
@@ -1595,7 +1583,7 @@ static gboolean bet_future_get_category_data ( GtkWidget *widget,
     else if ( struct_type == 2 )
     {
         /* on est toujours avec une struture transfert mais on récupère les éléments pour le compte carte */
-        struct_transfert_data *sd = ( struct_transfert_data *) value;
+        TransfertData *sd = ( TransfertData *) value;
 
         if ( string && strlen ( string ) > 0 )
         {
@@ -1663,14 +1651,14 @@ static gboolean bet_future_get_budget_data ( GtkWidget *widget,
 
     if ( struct_type == 0 )
     {
-        struct_futur_data *sd = ( struct_futur_data *) value;
+        FuturData *sd = ( FuturData *) value;
 
         sd -> budgetary_number = budgetary_number;
         sd -> sub_budgetary_number = sub_budgetary_number;
     }
     else if ( struct_type == 1 )
     {
-        struct_transfert_data *sd = ( struct_transfert_data *) value;
+        TransfertData *sd = ( TransfertData *) value;
 
         sd->main_budgetary_number = budgetary_number;
         sd->main_sub_budgetary_number = sub_budgetary_number;
@@ -1693,7 +1681,7 @@ gboolean bet_future_set_form_data_from_line ( gint account_number,
     GHashTable *future_list;
     gchar *key;
     const gchar *tmp_str;
-    struct_futur_data *scheduled;
+    FuturData *scheduled;
 
     if ( account_number == 0 )
         key = g_strconcat ("0:", utils_str_itoa ( number ), NULL );
@@ -1822,7 +1810,7 @@ gboolean bet_future_set_form_data_from_line ( gint account_number,
  *
  *
  * */
-gboolean bet_future_take_data_from_form (  struct_futur_data *scheduled )
+gboolean bet_future_take_data_from_form (  FuturData *scheduled )
 {
     GtkWidget *widget;
 
@@ -1986,7 +1974,7 @@ dialog_return:
 
     if ( result == GTK_RESPONSE_OK )
     {
-        struct_futur_data *scheduled;
+        FuturData *scheduled;
 
         scheduled = struct_initialise_bet_future ( );
 
@@ -2123,7 +2111,7 @@ static GtkListStore *bet_transfert_create_account_list_store ( gint account_numb
             bet_credit_card = gsb_data_account_get_bet_credit_card ( tmp_account_number );
             if ( bet_credit_card )
             {
-                kind_account kind;
+                KindAccount kind;
                 gchar *tmp_str = NULL;
 
                 kind = gsb_data_account_get_kind ( tmp_account_number );
@@ -2176,7 +2164,7 @@ static GtkListStore *bet_transfert_create_account_list_store ( gint account_numb
 
         liste_cptes = gsb_data_partial_balance_get_liste_cptes ( tmp_number );
         tab = g_strsplit ( liste_cptes, ";", 0 );
-        for ( i = 0; i < g_strv_length ( tab ); i++ )
+        for ( i = 0; i < (gint) g_strv_length ( tab ); i++ )
         {
             gint tmp_account_number;
 
@@ -2230,10 +2218,11 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
     GtkWidget *tree_view;
     GtkWidget *label;
     GtkWidget *icon;
+    GSList *tmp_list;
 
     /* Create the dialog */
     dialog = gtk_dialog_new_with_buttons ( _("Configuring a deferred debit account"),
-                        GTK_WINDOW ( run.window ),
+                        GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
                         GTK_DIALOG_MODAL,
                         "gtk-cancel", GTK_RESPONSE_CANCEL,
                         "gtk-ok", GTK_RESPONSE_OK,
@@ -2245,15 +2234,16 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
 
     main_vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
     gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), main_vbox, TRUE, TRUE, 0 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( main_vbox ), 12 );
+    gtk_container_set_border_width ( GTK_CONTAINER ( main_vbox ), BOX_BORDER_WIDTH );
 
     /* list of accounts */
     paddingbox = new_paddingbox_with_title ( main_vbox, FALSE,  _("List of accounts") );
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, TRUE, TRUE, 0 );
 
     sw = gtk_scrolled_window_new (NULL, NULL);
+	gtk_widget_set_size_request (GTK_WIDGET (sw), SW_MIN_HEIGHT, -1);
     gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW ( sw ),
                         GTK_SHADOW_ETCHED_IN);
     gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
@@ -2275,7 +2265,7 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
     paddingbox = new_paddingbox_with_title ( main_vbox, FALSE, _("Deferred debit card") );
 
     /* Effective Date */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, TRUE, 0 );
 
     label = gtk_label_new ( _("Date of beginning of period: ") );
@@ -2286,7 +2276,7 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
     gtk_box_pack_start ( GTK_BOX ( hbox ), date_bascule, FALSE, FALSE, 0 );
 
     /* création de la boite de sélection du tiers */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, TRUE, 0 );
 
     icon = utils_get_image_with_etat ( GTK_MESSAGE_ERROR, FALSE, _("This field is required"), NULL );
@@ -2320,15 +2310,16 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
                         GINT_TO_POINTER ( TRANSACTION_FORM_PARTY ) );
 
     /* saisie des (sous)catégories et (sous)IB */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, TRUE, 0 );
 
     icon = utils_get_image_with_etat ( GTK_MESSAGE_WARNING, FALSE, _("One of the two fields is recommended"), NULL );
+
     gtk_box_pack_start ( GTK_BOX ( hbox ), icon, FALSE, FALSE, 0 );
 
-    combo = gtk_combofix_new (
-                        gsb_data_category_get_name_list ( TRUE, TRUE, FALSE, FALSE ) );
-    gtk_widget_set_size_request ( combo, width, -1 );
+	tmp_list = gsb_data_category_get_name_list (TRUE, TRUE, TRUE, TRUE);
+	combo = gtk_combofix_new (tmp_list);
+	gsb_data_categorie_free_name_list (tmp_list);
     gtk_combofix_set_force_text ( GTK_COMBOFIX ( combo ),
                         etat.combofix_force_category );
     gtk_combofix_set_max_items ( GTK_COMBOFIX ( combo ),
@@ -2356,7 +2347,6 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
 
     combo = gtk_combofix_new (
                         gsb_data_budget_get_name_list ( TRUE, TRUE ) );
-    gtk_widget_set_size_request ( combo, width, -1 );
     gtk_combofix_set_force_text ( GTK_COMBOFIX ( combo ),
                         etat.combofix_force_category );
     gtk_combofix_set_max_items ( GTK_COMBOFIX ( combo ),
@@ -2385,7 +2375,7 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
     /* Main account */
     paddingbox = new_paddingbox_with_title ( main_vbox, FALSE, _("Main account") );
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, TRUE, 0 );
 
     /* Effective Date */
@@ -2409,7 +2399,7 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
 
 
     /* boite verticale pour rendre actif ou non les champs ci-dessous */
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     g_object_set_data ( G_OBJECT ( dialog ), "bet_transfert_main_vbox_data", vbox );
 
     /* check button Automatic creation of the direct debit transaction */
@@ -2439,7 +2429,7 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), vbox, FALSE, FALSE, 0 );
 
     /* création de la boite de sélection du tiers */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, TRUE, 0 );
 
     icon = utils_get_image_with_etat ( GTK_MESSAGE_ERROR, FALSE, _("This field is required"), NULL );
@@ -2484,16 +2474,16 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
     gtk_box_pack_start ( GTK_BOX ( hbox ), combo, FALSE, FALSE, 0 );
 
     /* saisie des (sous)catégories et (sous)IB */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, TRUE, 0 );
     g_object_set_data ( G_OBJECT ( dialog ), "bet_transfert_hbox_replace_data", hbox );
 
     icon = utils_get_image_with_etat ( GTK_MESSAGE_ERROR, FALSE, _("One of the two fields is required"), NULL );
     gtk_box_pack_start ( GTK_BOX ( hbox ), icon, FALSE, FALSE, 0 );
 
-    combo = gtk_combofix_new (
-                        gsb_data_category_get_name_list ( TRUE, TRUE, FALSE, FALSE ) );
-    gtk_widget_set_size_request ( combo, width, -1 );
+	tmp_list = gsb_data_category_get_name_list (TRUE, TRUE, TRUE, TRUE);
+	combo = gtk_combofix_new (tmp_list);
+	gsb_data_categorie_free_name_list (tmp_list);
     gtk_combofix_set_force_text ( GTK_COMBOFIX ( combo ),
                         etat.combofix_force_category );
     gtk_combofix_set_max_items ( GTK_COMBOFIX ( combo ),
@@ -2520,7 +2510,6 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
 
     combo = gtk_combofix_new (
                         gsb_data_budget_get_name_list ( TRUE, TRUE ) );
-    gtk_widget_set_size_request ( combo, width, -1 );
     gtk_combofix_set_force_text ( GTK_COMBOFIX ( combo ),
                         etat.combofix_force_category );
     gtk_combofix_set_max_items ( GTK_COMBOFIX ( combo ),
@@ -2563,7 +2552,7 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
  *
  *\return TRUE if OK FALSE if error
  * */
-static gboolean bet_transfert_take_data (  struct_transfert_data *transfert,
+static gboolean bet_transfert_take_data (  TransfertData *transfert,
                         GtkWidget *dialog )
 {
     GtkWidget *widget;
@@ -2601,7 +2590,7 @@ static gboolean bet_transfert_take_data (  struct_transfert_data *transfert,
         bet_future_get_payee_data ( widget, 2, ( gpointer ) transfert );
         if ( transfert->card_payee_number == 0 )
         {
-            printf ("bet_transfert_card_payee_combo est vide\n");
+            //~ printf ("bet_transfert_card_payee_combo est vide\n");
             return FALSE;
         }
     }
@@ -2685,7 +2674,7 @@ static gboolean bet_transfert_take_data (  struct_transfert_data *transfert,
  *
  * \return
  * */
-static void bet_transfert_select_account_in_treeview ( struct_transfert_data *transfert )
+static void bet_transfert_select_account_in_treeview ( TransfertData *transfert )
 {
     GtkWidget *tree_view;
     GtkTreeModel *model;
@@ -2727,7 +2716,7 @@ static gboolean bet_transfert_set_form_data_from_line ( gint account_number,
     GtkWidget *widget;
     GHashTable *transfert_list;
     gchar *key;
-    struct_transfert_data *transfert;
+    TransfertData *transfert;
 
     if ( account_number == 0 )
         key = g_strconcat ("0:", utils_str_itoa ( number ), NULL );
@@ -2815,6 +2804,10 @@ static gboolean bet_transfert_set_form_data_from_line ( gint account_number,
     widget = g_object_get_data ( G_OBJECT ( bet_transfert_dialog ), "date_entry" );
     gsb_calendar_entry_set_date ( widget, transfert -> date );
     gsb_form_widget_set_empty ( widget, FALSE );
+	if (transfert->main_last_banking_date)
+		gtk_widget_set_sensitive (widget, FALSE);
+	else
+		gtk_widget_set_sensitive (widget, TRUE);
 
     widget = g_object_get_data ( G_OBJECT ( bet_transfert_dialog ), "bet_transfert_last_banking_day" );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( widget ), transfert->main_last_banking_date );
@@ -2939,7 +2932,7 @@ dialog_return:
     {
         GtkWidget *tree_view;
         gchar *tmp_str;
-        struct_transfert_data *transfert;
+        TransfertData *transfert;
 
         transfert = struct_initialise_bet_transfert ( );
 
@@ -3007,8 +3000,7 @@ GtkWidget *bet_transfert_create_account_list_part ( GtkWidget *dialog,
     tree_view = gtk_tree_view_new_with_model ( GTK_TREE_MODEL ( list_store ) );
     g_object_unref ( list_store );
 
-    utils_set_tree_view_selection_and_text_color ( tree_view );
-    //~ gtk_tree_view_set_rules_hint ( GTK_TREE_VIEW ( tree_view ), TRUE );
+    /* set the color of selected row */
     gtk_widget_set_size_request ( tree_view, 400, 150 );
 
     /* Account_name */
@@ -3073,7 +3065,6 @@ gboolean bet_transfert_entry_lose_focus ( GtkWidget *entry,
     GtkWidget *widget;
     gchar *string;
     gint element_number;
-    gint account_number;
 
     /* still not found, if change the content of the form, something come in entry
      * wich is nothing, so protect here */
@@ -3094,7 +3085,6 @@ gboolean bet_transfert_entry_lose_focus ( GtkWidget *entry,
         return FALSE;
 
     widget = g_object_get_data ( G_OBJECT ( entry ), "combo" );
-    account_number = gsb_form_get_account_number ();
 
     /* sometimes the combofix popus stays showed, so remove here */
     gtk_combofix_hide_popup ( GTK_COMBOFIX ( widget ) );
@@ -3220,7 +3210,7 @@ dialog_return:
     {
         GtkWidget *tree_view;
         gchar *tmp_str;
-        struct_transfert_data *transfert;
+        TransfertData *transfert;
 
         transfert = struct_initialise_bet_transfert ( );
 

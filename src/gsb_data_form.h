@@ -36,34 +36,34 @@ enum transaction_form_widget {
 #define MAX_HEIGHT 4
 
 /* START_DECLARATION */
-gboolean gsb_data_form_check_for_value ( gint value );
-gboolean gsb_data_form_dup_organization ( gint origin_account,
-					  gint target_account );
-gint gsb_data_form_get_nb_columns ( gint account_number );
-gint gsb_data_form_get_nb_rows ( gint account_number );
-gint gsb_data_form_get_value ( gint account_number,
-			       gint column,
-			       gint row );
-gint gsb_data_form_get_values_total ( gint account_number );
-gint gsb_data_form_get_width_column ( gint account_number,
-				      gint column );
-gboolean gsb_data_form_look_for_value ( gint account_number,
-					gint value,
-					gint *return_row,
-					gint *return_column );
-gboolean gsb_data_form_new_organization ( gint account_number );
-gboolean gsb_data_form_set_default_organization ( gint account_number );
-gboolean gsb_data_form_set_nb_columns ( gint account_number,
-					gint columns );
-gboolean gsb_data_form_set_nb_rows ( gint account_number,
-				     gint rows );
-gboolean gsb_data_form_set_value ( gint account_number,
-				   gint column,
-				   gint row,
-				   gint value );
-gboolean gsb_data_form_set_width_column ( gint account_number,
-					  gint column,
-					  gint width );
-gboolean gsb_form_config_update_from_account (gint account_number);
+gboolean 	gsb_data_form_check_for_value 			(gint value);
+gboolean 	gsb_data_form_dup_organization 			(gint origin_account,
+													 gint target_account);
+gint 		gsb_data_form_get_nb_columns 			(gint account_number);
+gint 		gsb_data_form_get_nb_rows 				(gint account_number);
+gint 		gsb_data_form_get_value 				(gint account_number,
+												     gint column,
+												     gint row);
+gint 		gsb_data_form_get_values_total 			(gint account_number);
+gint 		gsb_data_form_get_width_column 			(gint account_number,
+													 gint column);
+gboolean 	gsb_data_form_look_for_value 			(gint account_number,
+													 gint value,
+													 gint *return_row,
+													 gint *return_column);
+gboolean 	gsb_data_form_new_organization 			(gint account_number);
+gboolean 	gsb_data_form_set_default_organization 	(gint account_number);
+gboolean 	gsb_data_form_set_nb_columns 			(gint account_number,
+													 gint columns);
+gboolean 	gsb_data_form_set_nb_rows 				(gint account_number,
+													 gint rows);
+gboolean 	gsb_data_form_set_value 				(gint account_number,
+													 gint column,
+													 gint row,
+													 gint value);
+gboolean 	gsb_data_form_set_width_column 			(gint account_number,
+													 gint column,
+													 gint width);
+gboolean 	gsb_form_config_update_from_account 	(gint account_number);
 /* END_DECLARATION */
 #endif

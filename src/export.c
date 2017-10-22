@@ -22,7 +22,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -32,6 +32,7 @@
 #include "export.h"
 #include "dialog.h"
 #include "export_csv.h"
+#include "grisbi_win.h"
 #include "gsb_assistant.h"
 #include "gsb_automem.h"
 #include "gsb_data_account.h"
@@ -64,7 +65,6 @@ static void export_resume_maybe_sensitive_next ( GtkWidget * assistant );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gchar *titre_fichier;
 /*END_EXTERN*/
 
 
@@ -81,6 +81,9 @@ void export_accounts ( void )
 {
     GtkWidget *dialog;
     gchar *extension = NULL;
+	GrisbiWinEtat *w_etat;
+
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
 
     selected_accounts = NULL;
     exported_accounts = NULL;
@@ -91,7 +94,7 @@ void export_accounts ( void )
                         "As QIF and CSV do not support currencies, all "
                         "transactions will be converted into currency of their "
                         "respective account."),
-                        "impexp.png",
+                        "gsb-export-32.png",
                         NULL );
 
     gsb_assistant_add_page ( dialog, export_create_selection_page ( dialog ), 1, 0, 2,
@@ -113,8 +116,8 @@ void export_accounts ( void )
                 const gchar *title;
                 gchar *tmp_str;
 
-                if ( titre_fichier && strlen ( titre_fichier ) )
-                    title = titre_fichier;
+				if (w_etat->accounting_entity && strlen (w_etat->accounting_entity) )
+                    title = w_etat->accounting_entity;
                 else
                     title = g_get_user_name ( );
 
@@ -168,8 +171,8 @@ GtkWidget * export_create_selection_page ( GtkWidget * assistant )
     GtkListStore * model;
     GSList * tmp_list;
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
-    gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
+    gtk_container_set_border_width ( GTK_CONTAINER(vbox), BOX_BORDER_WIDTH );
     padding_box = new_paddingbox_with_title ( vbox, TRUE, _("Select accounts to export" ) );
 
     /* Create list store */
@@ -178,8 +181,8 @@ GtkWidget * export_create_selection_page ( GtkWidget * assistant )
 
     /* Create list view */
     view = gtk_tree_view_new_with_model ( GTK_TREE_MODEL(model) );
+	gtk_widget_set_name (view, "tree_view");
     g_object_unref (G_OBJECT(model));
-    //~ gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (view), TRUE);
 
     /* Scroll for tree view. */
     sw = gtk_scrolled_window_new (NULL, NULL);
@@ -435,8 +438,8 @@ GtkWidget * create_export_account_resume_page ( struct exported_account * accoun
     GtkWidget * vbox, * hbox, * label, * combo;
     gchar *tmpstr;
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
-    gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
+    gtk_container_set_border_width ( GTK_CONTAINER(vbox), BOX_BORDER_WIDTH );
 
     tmpstr = make_pango_attribut ( "size=\"x-large\"",
                         g_strdup_printf ( "Export of : %s",
@@ -450,7 +453,7 @@ GtkWidget * create_export_account_resume_page ( struct exported_account * accoun
     gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 0 );
 
     /* Layout */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( hbox ), gtk_label_new ( _("Export format: ") ),
 			 FALSE, FALSE, 0 );
 
@@ -489,7 +492,11 @@ GtkWidget * create_export_account_resume_page ( struct exported_account * accoun
 gboolean export_account_change_format ( GtkWidget *combo,
                         struct exported_account *account )
 {
-    gchar *title;
+    const gchar *title;
+	gchar *tmp_str;
+	GrisbiWinEtat *w_etat;
+
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
 
     switch ( gtk_combo_box_get_active ( GTK_COMBO_BOX ( combo ) ) )
     {
@@ -504,20 +511,23 @@ gboolean export_account_change_format ( GtkWidget *combo,
         break;
     }
 
-    if ( titre_fichier && strlen ( titre_fichier ) )
+    if (w_etat->accounting_entity && strlen (w_etat->accounting_entity) )
     {
-        title = titre_fichier;
+        title = w_etat->accounting_entity;
     }
     else
     {
-        title = (gchar *) g_get_user_name ( );
+        title = g_get_user_name ( );
     }
 
-    gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER ( account->chooser ),
-                        g_strconcat ( title, "-",
-                        gsb_data_account_get_name ( account->account_nb ), ".", account->extension,
-                        NULL ) );
+	tmp_str = g_strconcat (title, "-",
+						   gsb_data_account_get_name ( account->account_nb ),
+						   ".",
+						   account->extension,
+						   NULL);
+    gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER ( account->chooser ), tmp_str);
     gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( account->chooser ), gsb_file_get_last_path () );
+	g_free (tmp_str);
 
     return FALSE;
 }

@@ -21,7 +21,7 @@
 /* ************************************************************************** */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -32,6 +32,7 @@
 #include "categories_onglet.h"
 #include "dialog.h"
 #include "fenetre_principale.h"
+#include "grisbi_win.h"
 #include "gsb_account_property.h"
 #include "gsb_category.h"
 #include "gsb_data_account.h"
@@ -45,7 +46,6 @@
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
 #include "imputation_budgetaire.h"
-#include "main.h"
 #include "menu.h"
 #include "navigation.h"
 #include "structures.h"
@@ -74,7 +74,7 @@
  * \return FALSE if problem, TRUE if ok
  */
 
-gboolean gsb_account_new ( kind_account account_type,
+gboolean gsb_account_new ( KindAccount account_type,
 			   gint currency_number,
 			   gint bank_number,
 			   gsb_real init_amount,
@@ -101,7 +101,7 @@ gboolean gsb_account_new ( kind_account account_type,
         GdkPixbuf *pixbuf;
 
         gsb_data_account_set_name_icon ( account_number, name_icon );
-        pixbuf = gdk_pixbuf_new_from_file_at_size ( name_icon , 32, 32, NULL );
+        pixbuf = gdk_pixbuf_new_from_file_at_size ( name_icon , LOGO_WIDTH, LOGO_HEIGHT, NULL );
         if ( pixbuf )
             gsb_data_account_set_account_icon_pixbuf ( account_number, pixbuf );
     }
@@ -128,7 +128,8 @@ gboolean gsb_account_new ( kind_account account_type,
     run.mise_a_jour_liste_comptes_accueil = TRUE;
 
     /* update the accounts lists */
-    gsb_menu_update_accounts_in_menus ();
+	grisbi_win_menu_move_to_acc_delete ();
+	grisbi_win_menu_move_to_acc_new ();
 
     /* do the next part only if the widgets are created
      * (can come here at the end of the new file assistant...) */
@@ -263,15 +264,12 @@ gboolean gsb_account_delete ( void )
         first_account = gsb_data_account_first_no_closed_account ();
 
         gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general ), page_number );
-        gsb_gui_navigation_set_selection ( 1, first_account, NULL );
+        gsb_gui_navigation_set_selection ( 1, first_account, 0);
         navigation_change_account ( first_account );
     }
 
     /* Update navigation pane. */
     gsb_gui_navigation_remove_account ( deleted_account );
-
-    /* update the buttons lists */
-    gsb_menu_update_accounts_in_menus();
 
     /* update the name of accounts in form */
     gsb_account_update_combo_list ( gsb_form_scheduler_get_element_widget (SCHEDULED_FORM_ACCOUNT), FALSE );

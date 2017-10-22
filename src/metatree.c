@@ -22,7 +22,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -33,6 +33,7 @@
 #include "categories_onglet.h"
 #include "dialog.h"
 #include "fenetre_principale.h"
+#include "grisbi_win.h"
 #include "gsb_account_property.h"
 #include "gsb_automem.h"
 #include "gsb_data_account.h"
@@ -748,7 +749,7 @@ void appui_sur_ajout_sub_division ( GtkTreeModel * model )
 gboolean supprimer_division ( GtkTreeView * tree_view )
 {
     GtkTreeSelection * selection;
-    GtkTreeModel * model;
+    GtkTreeModel * model = NULL;
     GtkTreeIter iter;
     GtkTreePath * path;
     gint no_division = 0, no_sub_division = 0;
@@ -930,7 +931,7 @@ void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * model,
         it = get_iter_from_sub_div_zero ( model, iface, parent_iter );
     }
     else
-        it = get_iter_from_div ( model, nouveau_no_division, nouveau_no_sub_division );
+		it = get_iter_from_div ( model, nouveau_no_division, nouveau_no_sub_division );
 
 	if ( it )
     {
@@ -1205,7 +1206,7 @@ gboolean division_activated ( GtkTreeView * treeview, GtkTreePath * path,
 	    gsb_gui_notebook_change_page ( GSB_ACCOUNT_PAGE );
 	    gsb_gui_navigation_set_selection ( GSB_ACCOUNT_PAGE,
 					       gsb_data_transaction_get_account_number (transaction_number),
-					       NULL );
+					       0);
 
         /* move selected iter */
         path = gtk_tree_model_get_path ( model, &iter );
@@ -1759,7 +1760,7 @@ gboolean find_destination_blob ( MetatreeInterface * iface,
     g_free ( hint );
     g_free ( text );
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), hbox,
 			 FALSE, FALSE, 0 );
 
@@ -1859,7 +1860,7 @@ gboolean find_destination_blob ( MetatreeInterface * iface,
     gtk_box_pack_start ( GTK_BOX ( hbox ), combofix, TRUE, TRUE, 0 );
 
     /* other choice, just remove the division */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), hbox,
 			 FALSE, FALSE, 0 );
 
@@ -2382,8 +2383,8 @@ gboolean metatree_selection_changed ( GtkTreeSelection *selection, GtkTreeModel 
                 break;
         }
 
-        gsb_gui_headings_update_title ( text );
-        gsb_gui_headings_update_suffix ( balance );
+        grisbi_win_headings_update_title ( text );
+        grisbi_win_headings_update_suffix ( balance );
         g_free ( text );
         g_free ( balance );
         selection_is_set = TRUE;
@@ -2911,7 +2912,7 @@ gboolean metatree_find_destination_blob ( MetatreeInterface *iface,
         gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), button, FALSE, FALSE, 0 );
 
         /* create the list containing division and sub-division without the current division */
-        hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
+        hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
         gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), hbox, FALSE, FALSE, 0 );
 
         label = gtk_label_new ( _("Select the destination: ") );
@@ -2932,7 +2933,7 @@ gboolean metatree_find_destination_blob ( MetatreeInterface *iface,
         /* on reset le choix */
         button_action_selected = 0;
 
-        hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
+        hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
         gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), hbox, FALSE, FALSE, 0 );
 
         label = gtk_label_new ( _("Select the destination: ") );
@@ -3204,7 +3205,7 @@ void metatree_button_action_sub_div_clicked ( GtkWidget *togglebutton,
     if ( pointeur )
     {
         GtkWidget *parent = NULL;
-        GtkWidget *label;
+        GtkWidget *label = NULL;
         GtkWidget *combofix = NULL;
         GSList *list;
         gint value = 0;
@@ -3783,7 +3784,7 @@ static gboolean metatree_select_transactions_destination ( MetatreeInterface *if
     }
 
     /* create the list containing division and sub-division without the current division */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Select the destination: ") );

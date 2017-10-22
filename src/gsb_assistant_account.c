@@ -27,7 +27,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -68,7 +68,7 @@ static gboolean gsb_assistant_account_toggled_kind_account ( GtkWidget *button,
 
 static gchar * new_icon = NULL;
 
-enum first_assistant_page
+enum FirstAccountAssistantPage
 {
     ACCOUNT_ASSISTANT_INTRO= 0,
     ACCOUNT_ASSISTANT_PAGE_2,
@@ -165,12 +165,11 @@ static GtkWidget *gsb_assistant_account_page_2 ( GtkWidget *assistant )
 	_("Assets account\nSpecial account to represent an asset, like a car or special subscriptions."),
 	NULL };
 
-    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 15 );
-    gtk_container_set_border_width ( GTK_CONTAINER (page),
-				     10 );
+    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
+    gtk_container_set_border_width ( GTK_CONTAINER (page), BOX_BORDER_WIDTH );
 
     vbox = new_vbox_with_title_and_icon ( _("Account type selection"),
-					  "ac_bank.png" );
+					  "gsb-ac-bank-32.png" );
     gtk_box_pack_start ( GTK_BOX (page),
 			 vbox,
 			 TRUE, TRUE, 0 );
@@ -224,13 +223,11 @@ static GtkWidget *gsb_assistant_account_page_2 ( GtkWidget *assistant )
 static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
 {
     GtkWidget *page, *label, *button, *table;
-    GtkWidget *align;
     GtkWidget *image;
     struct lconv *locale = gsb_locale_get_locale ( );
 
-    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 15 );
-    gtk_container_set_border_width ( GTK_CONTAINER (page),
-				     10 );
+    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
+    gtk_container_set_border_width ( GTK_CONTAINER (page), BOX_BORDER_WIDTH );
 
     table = gtk_grid_new ();
     gtk_grid_set_row_spacing (GTK_GRID (table), 6);
@@ -292,16 +289,16 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
 
     /* création du choix de l'icône du compte */
     /* Récupération de l'icône par défaut */
-    align = gtk_alignment_new (0.5,0.5,1,1);
-    gtk_alignment_set_padding ( GTK_ALIGNMENT ( align ), 0, 0, 20, 20 );
     button = gtk_button_new ( );
     gtk_widget_set_size_request ( button, 80, 80 );
     image = gtk_image_new_from_pixbuf (
                 gsb_data_account_get_account_standard_pixbuf ( 0 ) );
     gtk_button_set_image ( GTK_BUTTON ( button ), image);
     gtk_button_set_relief ( GTK_BUTTON ( button ), GTK_RELIEF_NORMAL );
-    gtk_container_add (GTK_CONTAINER (align), button);
-    gtk_grid_attach (GTK_GRID (table), align, 3, 0, 1, 3);
+    gtk_grid_attach (GTK_GRID (table), button, 3, 0, 1, 3);
+	utils_widget_set_padding (button, 20, 0);
+	gtk_widget_set_halign (button, GTK_ALIGN_CENTER);
+	gtk_widget_set_valign (button, GTK_ALIGN_CENTER);
     g_object_set_data ( G_OBJECT (assistant), "bouton_icon", button );
     g_signal_connect ( G_OBJECT( button ),
                             "clicked",
@@ -329,11 +326,10 @@ static GtkWidget *gsb_assistant_account_page_finish ( GtkWidget *assistant )
     GtkWidget *label;
     GtkWidget *hbox;
 
-    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 15 );
-    gtk_container_set_border_width ( GTK_CONTAINER (page),
-				     10 );
+    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
+    gtk_container_set_border_width ( GTK_CONTAINER (page), BOX_BORDER_WIDTH );
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX (page),
 			 vbox,
 			 FALSE, FALSE, 0 );
@@ -349,7 +345,7 @@ static GtkWidget *gsb_assistant_account_page_finish ( GtkWidget *assistant )
 			 FALSE, FALSE, 0 );
 
     /* enter the name */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5);
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
     gtk_box_pack_start ( GTK_BOX (vbox),
 			 hbox,
 			 FALSE, FALSE, 0 );
@@ -434,7 +430,7 @@ gboolean gsb_assistant_account_toggled_kind_account ( GtkWidget *button,
 						      GtkWidget *assistant )
 {
     GtkWidget *bouton_icon, *image;
-    kind_account account_kind;
+    KindAccount account_kind;
 
     account_kind = GPOINTER_TO_INT ( g_object_get_data
                 ( G_OBJECT (button), "account_kind"));

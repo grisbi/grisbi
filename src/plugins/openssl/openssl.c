@@ -20,7 +20,7 @@
 /* ************************************************************************** */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -33,8 +33,10 @@
 
 /*START_INCLUDE*/
 #include "openssl.h"
+#include "grisbi_app.h"
 #include "structures.h"
 #include "utils.h"
+#include "dialog.h"
 /*END_INCLUDE*/
 
 /*START_EXTERN*/
@@ -43,7 +45,6 @@
 /*START_STATIC*/
 static gchar *gsb_file_util_ask_for_crypt_key ( const gchar * file_name, gchar * additional_message,
                         gboolean encrypt );
-static void gsb_file_util_show_hide_passwd ( GtkToggleButton *togglebutton, GtkWidget *entry );
 /*END_STATIC*/
 
 static gchar *saved_crypt_key = NULL;
@@ -210,13 +211,6 @@ gulong gsb_file_util_crypt_file ( const gchar * file_name, gchar **file_content,
 {
     gchar * key, * message = "";
 
-    if ( run.new_crypted_file )
-    {
-        if ( saved_crypt_key )
-            g_free ( saved_crypt_key );
-	    saved_crypt_key = NULL;
-    }
-
     if ( crypt )
     {
         /* now, if we know here a key to crypt, we use it, else, we ask for it */
@@ -290,7 +284,7 @@ gchar *gsb_file_util_ask_for_crypt_key ( const gchar * file_name, gchar * additi
     gint result;
 
     dialog = gtk_dialog_new_with_buttons ( _("Grisbi password"),
-                        GTK_WINDOW ( run.window ),
+                        GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
                         GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
                         "gtk-cancel", GTK_RESPONSE_CANCEL,
                         ( encrypt ? _("Crypt file") : _("Decrypt file") ), GTK_RESPONSE_OK,
@@ -300,16 +294,16 @@ gchar *gsb_file_util_ask_for_crypt_key ( const gchar * file_name, gchar * additi
     gtk_window_set_resizable ( GTK_WINDOW ( dialog ), FALSE );
     gtk_dialog_set_default_response ( GTK_DIALOG ( dialog ), GTK_RESPONSE_OK );
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( gtk_dialog_get_content_area ( GTK_DIALOG ( dialog ) ) ), hbox, TRUE, TRUE, 6 );
 
     /* Ugly dance to force alignement. */
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( hbox ), vbox, FALSE, FALSE, 6 );
     icon = gtk_image_new_from_icon_name ( "gtk-dialog-authentication", GTK_ICON_SIZE_DIALOG );
     gtk_box_pack_start ( GTK_BOX ( vbox ), icon, FALSE, FALSE, 6 );
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( hbox ), vbox, TRUE, TRUE, 6 );
 
     label = gtk_label_new ("");
@@ -331,7 +325,7 @@ gchar *gsb_file_util_ask_for_crypt_key ( const gchar * file_name, gchar * additi
                         additional_message, file_name ) );
     gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 6 );
 
-    hbox2 = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
+    hbox2 = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox2, FALSE, FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ),
                         gtk_label_new ( _("Password: ") ),
@@ -341,16 +335,6 @@ gchar *gsb_file_util_ask_for_crypt_key ( const gchar * file_name, gchar * additi
     gtk_entry_set_activates_default ( GTK_ENTRY ( entry ), TRUE );
     gtk_entry_set_visibility ( GTK_ENTRY ( entry ), FALSE );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), entry, TRUE, TRUE, 0 );
-
-    if ( run.new_crypted_file )
-    {
-        button = gtk_check_button_new_with_label ( _("View password") );
-        gtk_box_pack_start ( GTK_BOX ( vbox ), button, FALSE, FALSE, 5 );
-        g_signal_connect ( G_OBJECT ( button ),
-			            "toggled",
-			            G_CALLBACK ( gsb_file_util_show_hide_passwd ),
-			            entry );
-    }
 
     button = gtk_check_button_new_with_label ( _("Don't ask password again for this session."));
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button ), TRUE );
@@ -389,8 +373,6 @@ return_bad_password:
         else
             saved_crypt_key = NULL;
 
-        run.new_crypted_file = FALSE;
-
         break;
 
     case GTK_RESPONSE_CANCEL:
@@ -401,22 +383,6 @@ return_bad_password:
 
     return key;
 }
-
-
-
-void gsb_file_util_show_hide_passwd ( GtkToggleButton *togglebutton, GtkWidget *entry )
-{
-    gint visibility;
-
-    visibility = gtk_entry_get_visibility ( GTK_ENTRY ( entry ) );
-    if ( visibility )
-        gtk_button_set_label ( GTK_BUTTON ( togglebutton ), _("View password") );
-    else
-        gtk_button_set_label ( GTK_BUTTON ( togglebutton ), _("Hide password") );
-
-    gtk_entry_set_visibility ( GTK_ENTRY ( entry ), !visibility );
-}
-
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

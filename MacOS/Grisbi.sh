@@ -22,7 +22,6 @@ bundle_bin="$bundle_res"/bin
 bundle_data="$bundle_res"/share
 bundle_etc="$bundle_res"/etc
 
-
 export DYLD_LIBRARY_PATH="$bundle_lib"
 export XDG_CONFIG_DIRS="$bundle_etc"/xdg
 export XDG_DATA_DIRS="$bundle_data"
@@ -41,10 +40,11 @@ if [ `uname -r | cut -d . -f 1` -ge 10 ]; then
 fi
 
 APP=$name
-
 I18NDIR="$bundle_data/locale"
 # Set the locale-related variables appropriately:
-unset LANG LC_MESSAGES LC_MONETARY LC_COLLATE
+#unset LANG LC_MESSAGES LC_MONETARY LC_COLLATE
+$EXEC "$bundle_contents/MacOS/$name-bin" "$@" $EXTRA_ARGS
+
 
 # Has a language ordering been set?
 # If so, set LC_MESSAGES and LANG accordingly; otherwise skip it.
@@ -81,7 +81,7 @@ unset APPLELANGUAGES L
 
 # If we didn't get a language from the language list, try the Collation preference, in case it's the only setting that exists.
 APPLECOLLATION=`defaults read .GlobalPreferences AppleCollationOrder`
-if test -z "${LANG}" -a -n "$APPLECOLLATION"; then
+if test -z ${LANG} -a -n $APPLECOLLATION; then
     if test -f "$I18NDIR/${APPLECOLLATION:0:2}/LC_MESSAGES/$APP.mo"; then
 	export LANG=${APPLECOLLATION:0:2}
     fi
@@ -115,7 +115,7 @@ if test -n $LANG; then
 	export LC_MESSAGES=$LANG
 #Next try if the Applelocale is longer than 2 chars and the language
 #bit matches $LANG
-    elif test $LANG == ${APPLELOCALE:0:2} -a $APPLELOCALE > ${APPLELOCALE:0:2}; then
+    elif test $LANG == ${APPLELOCALE:0:2} -a $APPLELOCALE -gt ${APPLELOCALE:0:2}; then
 	export LC_MESSAGES=${APPLELOCALE:0:5}
 #Fail. Get a list of the locales in $PREFIX/share/locale that match
 #our two letter language code and pick the first one, special casing
@@ -172,4 +172,3 @@ if /bin/expr "x$1" : '^x-psn_' > /dev/null; then
     shift 1
 fi
 
-$EXEC "$bundle_contents/MacOS/$name-bin" "$@" $EXTRA_ARGS

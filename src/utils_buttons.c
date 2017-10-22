@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                  utils_buttons.c			                  */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 CÈdric Auger (cedric@grisbi.org)	          */
+/*     Copyright (C)	2000-2008 CÔøΩdric Auger (cedric@grisbi.org)	          */
 /*			2003-2008 Benjamin Drieu (bdrieu@april.org)	                      */
 /*                 2009-2016 Pierre Biava (grisbi@pierre.biava.name)          */
 /* 			http://www.grisbi.org				                              */
@@ -23,7 +23,7 @@
 /* ************************************************************************** */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -51,7 +51,7 @@ GtkWidget * new_stock_image_label ( GsbButtonStyle style, const gchar * stock_id
     GtkWidget * vbox, *hbox, * label, * image;
 
     vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
 
     /* Define image */
     if ( style == GSB_BUTTON_ICON || style == GSB_BUTTON_BOTH )
@@ -151,6 +151,8 @@ GtkWidget * new_image_label ( GsbButtonStyle style, const gchar * image_name, co
 
 
 
+
+#if !GTK_CHECK_VERSION (3,22,0)
 /**
  * TODO: document
  * Borrowed from the Gimp Toolkit and modified.
@@ -189,7 +191,7 @@ void set_popup_position (GtkMenu *menu, gint *x, gint *y, gboolean *push_in, gpo
     *y = menu_ypos;
     *push_in = TRUE;
 }
-
+#endif
 
 /**
  * called by a gsb_automem_checkbutton_new or a g_signal_connect on a checkbutton
@@ -210,11 +212,11 @@ gboolean gsb_button_sensitive_by_checkbutton ( GtkWidget *check_button,
 
 
 /**
- * Cette fonction rÈduit ou dÈveloppe toutes les lignes du tree_view.
- * Le libellÈ du bouton est modifiÈ en consÈquence.
+ * Cette fonction r√©duit ou d√©veloppe toutes les lignes du tree_view.
+ * Le libell√© du bouton est modifi√© en cons√©quence.
  *
  * \param le button de commande
- * \param le tree_view considÈrÈ
+ * \param le tree_view consid√©r√©
  *
  * \return
  */
@@ -226,11 +228,15 @@ void utils_togglebutton_collapse_expand_all_rows ( GtkToggleButton *togglebutton
 
     hbox_expand = g_object_get_data ( G_OBJECT ( togglebutton ), "hbox_expand" );
     hbox_collapse = g_object_get_data ( G_OBJECT ( togglebutton ), "hbox_collapse" );
+	/* on remet √† FALSE la propri√©t√© "no-show-all" utilis√©e pour initialiser le bouton */
+	/* voir etats_prefs_toggle_button_init_button_expand () */
+	if (gtk_widget_get_no_show_all (hbox_collapse))
+		gtk_widget_set_no_show_all (hbox_collapse, FALSE);
 
     if ( gtk_toggle_button_get_active ( togglebutton ) )
     {
         gtk_widget_hide ( hbox_expand );
-        gtk_widget_show ( hbox_collapse );
+        gtk_widget_show_all ( hbox_collapse );
         gtk_tree_view_expand_all ( GTK_TREE_VIEW ( tree_view ) );
     }
     else
@@ -243,11 +249,11 @@ void utils_togglebutton_collapse_expand_all_rows ( GtkToggleButton *togglebutton
 
 
 /**
- * Cette fonction (dÈ)sÈlectionne toutes les lignes du tree_view.
- * Le libellÈ du bouton est modifiÈ en consÈquence.
+ * Cette fonction (d√©)s√©lectionne toutes les lignes du tree_view.
+ * Le libell√© du bouton est modifi√© en cons√©quence.
  *
  * \param le button de commande
- * \param le tree_view considÈrÈ
+ * \param le tree_view consid√©r√©
  *
  * \return
  */
@@ -274,8 +280,8 @@ void utils_togglebutton_select_unselect_all_rows ( GtkToggleButton *togglebutton
 
 
 /**
- * Cette fonction remplace le libellÈ select par unselect et vice versa
- * en fonction de l'Ètat du bouton.
+ * Cette fonction remplace le libell√© select par unselect et vice versa
+ * en fonction de l'√©tat du bouton.
  *
  * \param le button de commande
  *
@@ -302,7 +308,7 @@ void utils_togglebutton_change_label_select_unselect ( GtkToggleButton *togglebu
 
 
 /**
- * Cette fonction remplace le libellÈ select par unselect et positionne le bouton sur ON
+ * Cette fonction remplace le libell√© select par unselect et positionne le bouton sur ON
  *
  * \param le button de commande
  *
@@ -372,10 +378,10 @@ gint utils_radiobutton_get_active_index ( GtkWidget *radiobutton )
 
 
 /**
- * rend actif le button qui correspond ‡ l'index passÈ en paramËtre.
+ * rend actif le button qui correspond √† l'index pass√© en param√®tre.
  *
  * \param radio_button
- * \param index du bouton ‡ rendre actif
+ * \param index du bouton √† rendre actif
  *
  * \return
  */
@@ -394,7 +400,7 @@ void utils_radiobutton_set_active_index ( GtkWidget *radiobutton,
 }
 
 /**
- * CrÈe un bouton avec une image
+ * Cr√©e un bouton avec une image
  *
  * \param const gchar   name of image
  *
@@ -421,7 +427,7 @@ GtkWidget *utils_buttons_button_new_from_image (const gchar *image_name)
 }
 
 /**
- * similaire ‡ gtk_button_new_from_stock ()
+ * similaire √† gtk_button_new_from_stock ()
  *
  * \param const gchar   stock item
  *
@@ -441,7 +447,7 @@ GtkWidget *utils_buttons_button_new_from_stock (const gchar *icon_name,
 }
 
 /**
- * CrÈation d'un GtkToolButton ‡ partir d'une image et d'un label
+ * Cr√©ation d'un GtkToolButton √† partir d'une image et d'un label
  *
  * \param image_name    filename
  * \param label_name    label for button
@@ -468,25 +474,7 @@ GtkToolItem *utils_buttons_tool_button_new_from_image_label ( const gchar *image
 }
 
 /**
- *
- *
- * \param
- *
- * \return
- * */
-GtkToolItem *utils_buttons_tool_button_new_from_stock ( const gchar *icon_name )
-{
-    GtkToolItem *button = NULL;
-    GtkWidget *image;
-
-    image = gtk_image_new_from_icon_name ( icon_name, GTK_ICON_SIZE_SMALL_TOOLBAR );
-    button = gtk_tool_button_new ( image, NULL );
-
-    return button;
-}
-
-/**
- * CrÈation d'un GtkMenuToolButton ‡ partir d'une image et d'un label
+ * Cr√©ation d'un GtkMenuToolButton √† partir d'une image et d'un label
  *
  * \param image_name    filename
  * \param label_name    label for button
@@ -507,24 +495,6 @@ GtkToolItem *utils_buttons_tool_menu_new_from_image_label ( const gchar *image_n
         g_free ( filename );
         button = gtk_menu_tool_button_new ( image, label_name );
     }
-
-    return button;
-}
-
-/**
- *
- *
- * \param
- *
- * \return
- * */
-GtkToolItem *utils_buttons_tool_menu_new_from_stock ( const gchar *icon_name )
-{
-    GtkToolItem *button = NULL;
-    GtkWidget *image;
-
-    image = gtk_image_new_from_icon_name ( icon_name, GTK_ICON_SIZE_SMALL_TOOLBAR );
-    button = gtk_menu_tool_button_new ( image, NULL );
 
     return button;
 }

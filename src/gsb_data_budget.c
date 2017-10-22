@@ -28,7 +28,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -56,7 +56,7 @@
 typedef struct
 {
     /** @name budget content */
-    guint budget_number;
+    gint budget_number;
     gchar *budget_name;
     gint budget_type;		/**< 0:credit / 1:debit  */
 
@@ -77,10 +77,10 @@ typedef struct
 typedef struct
 {
     /** @name sub-budget content */
-    guint sub_budget_number;
+    gint sub_budget_number;
     gchar *sub_budget_name;
 
-    guint mother_budget_number;
+    gint mother_budget_number;
 
     /** @name gui sub-budget list content (not saved)*/
     gint sub_budget_nb_transactions;
@@ -912,7 +912,7 @@ gboolean gsb_data_budget_set_sub_budget_name ( gint no_budget,
  * \return a g_slist of g_slist of gchar *
  * */
 GSList *gsb_data_budget_get_name_list ( gboolean set_debit,
-                        gboolean set_credit )
+									   gboolean set_credit )
 {
     GSList *return_list;
     GSList *tmp_list;
@@ -924,48 +924,42 @@ GSList *gsb_data_budget_get_name_list ( gboolean set_debit,
     /* fill debit_list and/or credit_list and them sub-budgets */
     tmp_list = budget_list;
 
-    while ( tmp_list )
+    while (tmp_list)
     {
-	struct_budget *budget;
+		struct_budget *budget;
 
-	budget = tmp_list -> data;
+		budget = tmp_list->data;
 
-	if ( budget -> budget_type )
-	{
-	    if ( set_debit )
-	    {
-		debit_list = g_slist_append ( debit_list,
-					      budget -> budget_name);
-		debit_list = gsb_data_budget_append_sub_budget_to_list ( debit_list,
-									 budget -> sub_budget_list);
-	    }
-	}
-	else
-	{
-	    if ( set_credit )
-	    {
-		credit_list = g_slist_append ( credit_list,
-					       budget -> budget_name);
-		credit_list = gsb_data_budget_append_sub_budget_to_list ( credit_list,
-									  budget -> sub_budget_list);
-	    }
-	}
-	tmp_list = tmp_list -> next;
+		if ( budget->budget_type )
+		{
+			if (set_debit)
+			{
+				debit_list = g_slist_append (debit_list, g_strdup (budget->budget_name));
+				debit_list = gsb_data_budget_append_sub_budget_to_list (debit_list,
+																		budget->sub_budget_list);
+			}
+		}
+		else
+		{
+			if (set_credit)
+			{
+				credit_list = g_slist_append (credit_list, g_strdup (budget->budget_name));
+				credit_list = gsb_data_budget_append_sub_budget_to_list (credit_list,
+																		 budget->sub_budget_list);
+			}
+		}
+		tmp_list = tmp_list->next;
     }
 
     /* append what we need to return_list */
 
     if ( set_debit )
-	return_list = g_slist_append ( return_list,
-				       debit_list );
+		return_list = g_slist_append (return_list, debit_list);
     if ( set_credit )
-	return_list = g_slist_append ( return_list,
-				       credit_list );
+		return_list = g_slist_append (return_list, credit_list);
 
     return return_list;
 }
-
-
 
 /**
  * append the sub-budgets name with a tab at the beginning
@@ -1406,7 +1400,7 @@ gint gsb_data_sub_budget_compare ( struct_sub_budget * a, struct_sub_budget * b 
  * \return	NULL if no error found.  A string describing any issue
  *		if any.
  */
-gchar * gsb_debug_duplicate_budget_check ()
+gchar * gsb_debug_duplicate_budget_check (void)
 {
     GSList * tmp;
     gint num_duplicate = 0;
@@ -1462,7 +1456,7 @@ gchar * gsb_debug_duplicate_budget_check ()
  *
  * \return	TRUE on success.  FALSE otherwise.
  */
-gboolean gsb_debug_duplicate_budget_fix ()
+gboolean gsb_debug_duplicate_budget_fix (void)
 {
     GSList * tmp;
 
@@ -1650,7 +1644,6 @@ gboolean gsb_data_budget_test_create_sub_budget ( gint no_budget,
                         const gchar *name )
 {
     GSList *list_tmp;
-    gint sub_budget_number = 0;
     struct_budget *budget;
     struct_sub_budget *sub_budget;
 
@@ -1667,13 +1660,13 @@ gboolean gsb_data_budget_test_create_sub_budget ( gint no_budget,
                         no_sub_budget );
         if ( !sub_budget )
         {
-            sub_budget_number = gsb_data_budget_new_sub_budget_with_number (
+            gsb_data_budget_new_sub_budget_with_number (
                         no_sub_budget, no_budget );
             gsb_data_budget_set_sub_budget_name ( no_budget, no_sub_budget, name );
         }
         else
         {
-            sub_budget_number = gsb_data_budget_new_sub_budget ( no_budget, name );
+            gsb_data_budget_new_sub_budget ( no_budget, name );
             gsb_budget_update_combofix ( FALSE );
         }
         return TRUE;

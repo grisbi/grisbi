@@ -26,7 +26,7 @@
  */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -35,6 +35,7 @@
 /*START_INCLUDE*/
 #include "gsb_form_config.h"
 #include "dialog.h"
+#include "grisbi_app.h"
 #include "gsb_account.h"
 #include "gsb_automem.h"
 #include "gsb_data_account.h"
@@ -46,7 +47,9 @@
 #include "structures.h"
 #include "traitement_variables.h"
 #include "utils.h"
+#include "utils_prefs.h"
 #include "utils_str.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -54,9 +57,9 @@ static gboolean gsb_form_config_add_column ( void );
 static gboolean gsb_form_config_add_line ( void );
 static gboolean gsb_form_config_change_account_choice ( GtkWidget *combobox,
 						 gpointer null );
-static gboolean gsb_form_config_change_column_size ( GtkWidget *tree_view,
-					      GtkAllocation *allocation,
-					      gpointer null );
+//~ static gboolean gsb_form_config_change_column_size ( GtkWidget *tree_view,
+					      //~ GtkAllocation *allocation,
+					      //~ gpointer null );
 static gboolean gsb_form_config_check_for_removing ( gint account_number,
 					      gint removing_row );
 static GtkWidget *gsb_form_config_create_buttons_table ( void );
@@ -80,8 +83,6 @@ static gboolean gsb_form_config_update_form_config ( gint account_number );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget *form_transaction_part;
-extern gint saved_allocation_size;
 /*END_EXTERN*/
 
 
@@ -113,7 +114,7 @@ GtkWidget *gsb_form_config_create_page ( void )
 {
     GtkWidget *vbox_pref;
 
-    vbox_pref = new_vbox_with_title_and_icon ( _("Transaction form"), "form.png" );
+    vbox_pref = new_vbox_with_title_and_icon ( _("Transaction form"), "gsb-form-32.png" );
 
     /* add the page into the box */
 
@@ -139,7 +140,6 @@ GtkWidget *gsb_form_config_create_page ( void )
 void gsb_form_config_make_configuration_box ( GtkWidget *vbox_parent )
 {
     GtkWidget *sw;
-    GtkWidget *hbox;
     GtkWidget *paddingbox;
     GtkWidget *paddinggrid;
     GtkListStore* list_store;
@@ -235,7 +235,11 @@ GtkWidget *gsb_form_config_create_tree_view ( GtkListStore *store )
      * the config box increase too */
 
     tree_view = gtk_tree_view_new_with_model ( GTK_TREE_MODEL ( store ));
-    gtk_tree_view_set_grid_lines (GTK_TREE_VIEW (tree_view), GTK_TREE_VIEW_GRID_LINES_BOTH);
+
+    /* set the color of selected row */
+	gtk_widget_set_name (tree_view, "tree_view");
+
+	gtk_tree_view_set_grid_lines (GTK_TREE_VIEW (tree_view), GTK_TREE_VIEW_GRID_LINES_BOTH);
     gtk_tree_selection_set_mode ( GTK_TREE_SELECTION ( gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view))),
 				  GTK_SELECTION_NONE );
 
@@ -299,11 +303,11 @@ GtkWidget *gsb_form_config_create_sizing_buttons_line ( void )
     GtkWidget *button;
     GtkWidget *label;
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
 
     /* line number choice */
 
-    hbox2 = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox2 = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 hbox2,
 			 FALSE,
@@ -349,7 +353,7 @@ GtkWidget *gsb_form_config_create_sizing_buttons_line ( void )
 
     /* columns number choice */
 
-    hbox2 = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox2 = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_end ( GTK_BOX ( hbox ),
 		       hbox2,
 		       FALSE,
@@ -409,12 +413,15 @@ GtkWidget *gsb_form_config_create_buttons_table ( void )
     GtkWidget *table;
     gint current_element_number;
     gint row, column;
+	gint button_width;
 
     /* the table is 3x6 buttons */
     table = gtk_grid_new ();
 
-    /* the date, debit and credit are obligatory, so begin to number 4 */
+	/* calcul de la largeur du bouton */
+	button_width = (SW_MAX_CONTENT_WIDTH - 24)/6;
 
+    /* the date, debit and credit are obligatory, so begin to number 4 */
     current_element_number = 4;
 
     for ( row=0 ; row<3 ; row++ )
@@ -432,7 +439,7 @@ GtkWidget *gsb_form_config_create_buttons_table ( void )
 		changed_string = limit_string ( string, 10 );
 
 		form_config_buttons[column + row*6] = gtk_toggle_button_new_with_label ( changed_string );
-        gtk_widget_set_size_request (form_config_buttons[column + row*6], 110, -1);
+        gtk_widget_set_size_request (form_config_buttons[column + row*6], button_width, -1);
         utils_widget_set_padding (form_config_buttons[column + row*6], 2, 2);
         gtk_widget_set_name (form_config_buttons[column + row*6], "list_config_buttons");
 		g_object_set_data ( G_OBJECT ( form_config_buttons[column + row*6] ),
@@ -707,7 +714,7 @@ gboolean gsb_form_config_toggle_element_button ( GtkWidget *toggle_button )
 
     /* fill the list */
     gsb_form_config_fill_store (account_number);
-    gsb_form_fill_from_account (account_number);
+	gsb_form_clean (account_number);
 
     gsb_form_config_update_from_account (
                         gsb_account_get_combo_account_number ( accounts_combobox ) );
@@ -731,7 +738,7 @@ gboolean gsb_form_config_fill_store ( gint account_number )
 {
     gint row;
     GtkListStore *store;
-
+devel_debug (NULL);
     store = GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( form_config_tree_view )));
 
     gtk_list_store_clear ( store );
@@ -767,7 +774,6 @@ gboolean gsb_form_config_fill_store ( gint account_number )
 gboolean gsb_form_config_realized ( GtkWidget *tree_view,
 				    gpointer null )
 {
-    gint column;
     gint account_number;
     GdkCursor *cursor;
     GdkDisplay *display;
@@ -780,7 +786,8 @@ gboolean gsb_form_config_realized ( GtkWidget *tree_view,
     /* fill and update the form list and buttons */
     gsb_form_config_update_form_config (account_number);
 
-    display = gdk_window_get_display (gtk_widget_get_window (run.window));
+    display = gdk_window_get_display (gtk_widget_get_window (
+                                      GTK_WIDGET (grisbi_app_get_active_window (NULL))));
     cursor = gdk_cursor_new_for_display (display, GDK_FLEUR);
     gdk_window_set_cursor (gtk_widget_get_window (tree_view), cursor);
 
@@ -798,44 +805,41 @@ gboolean gsb_form_config_realized ( GtkWidget *tree_view,
  *
  * \return FALSE
  * */
-gboolean gsb_form_config_change_column_size ( GtkWidget *tree_view,
-					      GtkAllocation *allocation,
-					      gpointer null )
-{
-    gint column;
-    gint account_number;
-    gint i;
-    GtkAllocation tmp_allocation;
+//~ gboolean gsb_form_config_change_column_size ( GtkWidget *tree_view,
+					      //~ GtkAllocation *allocation,
+					      //~ gpointer null )
+//~ {
+    //~ gint column;
+    //~ gint account_number;
+    //~ gint i;
+    //~ GtkAllocation tmp_allocation;
 
-    if ( !gtk_widget_get_realized (tree_view))
-	return FALSE;
+    //~ if ( !gtk_widget_get_realized (tree_view))
+	//~ return FALSE;
 
-    account_number = gsb_account_get_combo_account_number ( accounts_combobox );
+    //~ account_number = gsb_account_get_combo_account_number ( accounts_combobox );
 
-    for (i=0 ; i<gsb_data_account_get_accounts_amount () ; i++)
-    {
-	    for ( column=0 ; column < gsb_data_form_get_nb_columns (i) ; column++ )
-	    {
-		gint size_column;
+    //~ for (i=0 ; i<gsb_data_account_get_accounts_amount () ; i++)
+    //~ {
+	    //~ for ( column=0 ; column < gsb_data_form_get_nb_columns (i) ; column++ )
+	    //~ {
+		//~ gint size_column;
 
-		size_column = gtk_tree_view_column_get_width ( gtk_tree_view_get_column ( GTK_TREE_VIEW ( tree_view ),
-											  column ));
-		gsb_data_form_set_width_column ( i,
-						 column,
-						 size_column * 100 / allocation -> width );
-	    }
-    }
+		//~ size_column = gtk_tree_view_column_get_width ( gtk_tree_view_get_column ( GTK_TREE_VIEW ( tree_view ),
+											  //~ column ));
+		//~ gsb_data_form_set_width_column ( i,
+						 //~ column,
+						 //~ size_column * 100 / allocation -> width );
+	    //~ }
+    //~ }
 
-    gsb_file_set_modified ( TRUE );
+    //~ gsb_file_set_modified ( TRUE );
 
-    /* update the form if needed */
-    saved_allocation_size = 0;
-    gtk_widget_get_allocation ( form_transaction_part, &tmp_allocation );
-    gsb_form_allocate_size ( NULL, &tmp_allocation, NULL );
-    gsb_form_create_widgets ();
+    //~ /* update the form if needed */
+    //~ gsb_form_create_widgets ();
 
-    return FALSE;
-}
+    //~ return FALSE;
+//~ }
 
 
 /**
@@ -1124,7 +1128,7 @@ gboolean gsb_form_config_drag_begin ( GtkWidget *tree_view,
     gint x, y;
     GtkTreePath *path;
     GtkTreeViewColumn *tree_column;
-    GdkWindow *drawable;
+    //~ GdkWindow *drawable;
     GdkRectangle rectangle;
     GdkPixbuf *pixbuf_cursor;
     cairo_surface_t *s;
@@ -1155,7 +1159,7 @@ gboolean gsb_form_config_drag_begin ( GtkWidget *tree_view,
     start_drag_row = utils_str_atoi ( gtk_tree_path_to_string ( path ));
 
     /* draw the new cursor */
-    drawable = gtk_tree_view_get_bin_window (GTK_TREE_VIEW ( tree_view ));
+    //~ drawable = gtk_tree_view_get_bin_window (GTK_TREE_VIEW ( tree_view ));
     gtk_tree_view_get_cell_area ( GTK_TREE_VIEW ( tree_view ),
 				  path,
 				  tree_column,
@@ -1250,7 +1254,7 @@ gboolean gsb_form_config_drag_end ( GtkWidget *tree_view,
 
     /* fill the list */
     gsb_form_config_fill_store (account_number);
-    gsb_form_fill_from_account (account_number);
+	gsb_form_clean (account_number);
 
     gsb_file_set_modified ( TRUE );
     return (FALSE);

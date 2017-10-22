@@ -27,17 +27,18 @@
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
-GtkWidget *bet_array_create_page ( void );
-void bet_array_create_transaction_from_transfert ( struct_transfert_data *transfert,
-                        gboolean same_month );
-void bet_array_list_add_new_hist_line ( GtkTreeModel *tab_model,
-                        GtkTreeModel *model,
-                        GtkTreeIter *iter,
-                        GDate *date_min,
-                        GDate *date_max );
-gboolean bet_array_list_select_path ( GtkWidget *tree_view, GtkTreePath *path );
-void bet_array_update_estimate_tab ( gint account_number, gint type_maj );
-void bet_array_update_toolbar ( gint toolbar_style );
+GtkWidget *	bet_array_create_page (void);
+void 		bet_array_create_transaction_from_transfert 	(TransfertData *transfert);
+void 		bet_array_list_add_new_hist_line 				(GtkTreeModel *tab_model,
+															 GtkTreeModel *model,
+															 GtkTreeIter *iter,
+															 GDate *date_min,
+															 GDate *date_max);
+gboolean 	bet_array_list_select_path 						(GtkWidget *tree_view,
+															 GtkTreePath *path);
+void 		bet_array_update_estimate_tab 					(gint account_number,
+															 gint type_maj);
+void 		bet_array_update_toolbar 						(gint toolbar_style);
 /* END_DECLARATION */
 
 #endif /*_BALANCE_ESTIMATE_TAB_H*/

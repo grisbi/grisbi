@@ -21,7 +21,7 @@
 /* ************************************************************************** */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include <gdk/gdk.h>
@@ -36,6 +36,7 @@
 #include "bet_data.h"
 #include "bet_hist.h"
 #include "dialog.h"
+#include "grisbi_app.h"
 #include "gsb_automem.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
@@ -186,15 +187,14 @@ static struct_bet_graph_button *struct_initialise_bet_graph_button ( void )
  *
  * \return TRUE
  * */
-static void struct_free_bet_graph_button ( struct_bet_graph_button *self )
-{
-    g_free ( self->name );
-    g_free ( self->filename );
-    g_free ( self->service_id );
+//~ static void struct_free_bet_graph_button ( struct_bet_graph_button *self )
+//~ {
+    //~ g_free ( self->name );
+    //~ g_free ( self->filename );
+    //~ g_free ( self->service_id );
 
-    g_free ( self );
-}
-
+    //~ g_free ( self );
+//~ }
 
 /**
  *
@@ -318,10 +318,10 @@ static gboolean bet_graph_populate_sectors_by_sub_divisions ( struct_bet_graph_d
     {
         gint account_number;
         gchar *libelle_division = self -> tab_libelle[0];
-        gchar **tab_libelle_division;
+        //~ gchar **tab_libelle_division;
         gdouble *tab_montant_division = self -> tab_Y;
 
-        tab_libelle_division = &libelle_division;
+        //~ tab_libelle_division = &libelle_division;
 
         /* test du numero de compte */
         gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &iter,
@@ -450,7 +450,6 @@ static void bet_graph_affiche_sub_divisions ( struct_bet_graph_data *parent,
     GtkWidget *notebook;
     GtkWidget *box_pie;
     gchar *title;
-    gint result;
     struct_bet_graph_data *self;
 
     /* initialisation de la structure des données */
@@ -514,12 +513,12 @@ static void bet_graph_affiche_sub_divisions ( struct_bet_graph_data *parent,
     self->valid_data = bet_graph_populate_sectors_by_sub_divisions ( self, div_number );
 
     if ( self->valid_data )
-        result = bet_graph_affiche_camemberts ( self );
+        bet_graph_affiche_camemberts ( self );
 
     /* show or hide widgets */
     gtk_widget_show_all ( dialog );
 
-    result = gtk_dialog_run ( GTK_DIALOG ( dialog ) );
+    gtk_dialog_run ( GTK_DIALOG ( dialog ) );
 
     /* free the data */
     struct_free_bet_graph_data ( self );
@@ -805,7 +804,6 @@ static gboolean bet_graph_affiche_XY_line ( struct_bet_graph_data *self )
     GOStyle *style;
     GogObject *axis;
     GogObject *axis_line = NULL;
-    GogObject *grid_line;
     GError *error = NULL;
     gchar *position;
     struct_bet_graph_prefs *prefs;
@@ -881,9 +879,9 @@ static gboolean bet_graph_affiche_XY_line ( struct_bet_graph_data *self )
         {
             axis = gog_object_get_child_by_name ( GOG_OBJECT ( self->chart ), "Y-Axis" );
 
-            grid_line = gog_object_add_by_name ( GOG_OBJECT ( axis ), "MajorGrid", NULL );
+            gog_object_add_by_name ( GOG_OBJECT ( axis ), "MajorGrid", NULL );
             if ( prefs->minor_grid_y )
-                grid_line = gog_object_add_by_name ( GOG_OBJECT ( axis ), "MinorGrid", NULL );
+                gog_object_add_by_name ( GOG_OBJECT ( axis ), "MinorGrid", NULL );
         }
     }
 
@@ -1385,12 +1383,8 @@ static gboolean bet_graph_populate_sectors_by_hist_data ( struct_bet_graph_data 
     if ( gtk_tree_model_get_iter_first ( model, &iter ) )
     {
         gint account_number;
-        gint type_compte;
         gchar *libelle_division = self -> tab_libelle[0];
-        gchar **tab_libelle_division;
         gdouble *tab_montant_division = self -> tab_Y;
-
-        tab_libelle_division = &libelle_division;
 
         /* test du numero de compte */
         gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &iter,
@@ -1399,7 +1393,6 @@ static gboolean bet_graph_populate_sectors_by_hist_data ( struct_bet_graph_data 
         if ( account_number != self -> account_number )
             return FALSE;
 
-        type_compte = gsb_data_account_get_kind ( account_number );
         do
         {
             gchar *desc = NULL;
@@ -1463,7 +1456,6 @@ static gboolean bet_graph_populate_lines_by_forecast_data ( struct_bet_graph_dat
     if ( gtk_tree_model_get_iter_first ( model, &iter ) )
     {
         gchar *libelle_axe_x = self -> tab_libelle[0];
-        gchar **tab_libelle_axe_x;
         gdouble *tab_Y = self -> tab_Y;
         gdouble montant = 0.;
         GDate *first_date;
@@ -1473,18 +1465,19 @@ static gboolean bet_graph_populate_lines_by_forecast_data ( struct_bet_graph_dat
         GDateMonth month_courant = G_DATE_BAD_MONTH;
         gint nbre_iterations = 0;
 
-        tab_libelle_axe_x = &libelle_axe_x;
-
         do
         {
             gchar *amount;
             gchar *str_date;
-            GValue date_value = {0,};
+            GValue date_value = G_VALUE_INIT;
             GDate *date;
             GDateDay day;
             GDateMonth month;
             gint diff_jours;
             gint i;
+
+			if (G_IS_VALUE (&date_value))
+				g_value_init ( &date_value, G_TYPE_DATE );
 
             gtk_tree_model_get_value ( model,
                         &iter,
@@ -1562,7 +1555,7 @@ static gboolean bet_graph_populate_lines_by_forecast_data ( struct_bet_graph_dat
 
                 break;
             }
-
+			g_value_unset (&date_value);
         }
         while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &iter ) );
 
@@ -1717,14 +1710,12 @@ static gboolean bet_graph_populate_lines_by_historical_line ( struct_bet_graph_d
     gchar *desc;
     gchar *str_amount = NULL;
     gchar *libelle_axe_x = self->tab_libelle[0];
-    gchar **tab_libelle_axe_x;
     gdouble *tab_Y = self->tab_Y;
     gdouble *tab_Y2 = self->tab_Y2;
     gint div_number;
     gint sub_div_nb;
     gint fyear_number;
     gint i;
-    gboolean line_graph;
     gsb_real tab[12];
     gsb_real tab2[12];
 
@@ -1811,14 +1802,11 @@ static gboolean bet_graph_populate_lines_by_historical_line ( struct_bet_graph_d
         }
     }
 
-    tab_libelle_axe_x = &libelle_axe_x;
-
     /* On commence par le début de l'exercice courant puis on balaie les douze mois */
     start_current_fyear = bet_historical_get_start_date_current_fyear ();
     date_month = g_date_get_month ( start_current_fyear );
     today_month = g_date_get_month ( gdate_today () );
 
-    line_graph = strcmp ( self->service_id, "GogLinePlot" ) == 0 ? 1:0;
     for ( i = 0; i < 12; i++ )
     {
         if ( fyear_number > 0 )
@@ -1831,7 +1819,7 @@ static gboolean bet_graph_populate_lines_by_historical_line ( struct_bet_graph_d
         /* Pour un graphique line on n'affiche pas 0 comme donnée des mois futurs */
         if ( strcmp ( self->service_id, "GogLinePlot" ) == 0 )
         {
-            if ( i < today_month )
+            if ( i < (gint) today_month )
             {
                 tab_Y[self->nbre_elemnts] = gsb_real_real_to_double ( tab[date_month-1] );
                 if ( fyear_number > 0 )
@@ -1939,7 +1927,7 @@ GtkToolItem *bet_graph_button_menu_new ( GtkWidget *toolbar,
     self = struct_initialise_bet_graph_button ( );
 
     self->name = g_strdup ( _("Column") );
-    self->filename = g_strdup ( "graph-histo.png" );
+    self->filename = g_strdup ( "gsb-graph-histo-24.png" );
     self->service_id = g_strdup ( "GogBarColPlot" );
     self->callback = callback;
     self->toolbar = toolbar;
@@ -1966,7 +1954,7 @@ GtkToolItem *bet_graph_button_menu_new ( GtkWidget *toolbar,
     self = struct_initialise_bet_graph_button ( );
 
     self->name = g_strdup ( _("Line") );
-    self->filename = g_strdup ( "graph-line.png" );
+    self->filename = g_strdup ( "gsb-graph-line-24.png" );
     self->service_id = g_strdup ( "GogLinePlot" );
     self->callback = callback;
     self->toolbar = toolbar;
@@ -2029,6 +2017,9 @@ gchar *bet_graph_get_configuration_string ( gint origin_tab )
         prefs = prefs_hist;
         tmp_str = "historical_prefs";
     }
+
+	if (NULL == prefs)
+		return NULL;
 
     new_str = g_markup_printf_escaped ( "\t<Bet_graph prefs=\"%s:%d:%d:%d:%d:%d:%d:%d:%.0f:%d:%d:%d:%d\" />\n",
                         tmp_str,
@@ -2098,7 +2089,7 @@ void bet_graph_line_graph_new ( GtkWidget *button,
 
     /* Création de la fenêtre de dialogue pour le graph */
     dialog = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "bet_graph_dialog" ) );
-    gtk_window_set_transient_for ( GTK_WINDOW ( dialog ), GTK_WINDOW ( run.window ) );
+    gtk_window_set_transient_for ( GTK_WINDOW ( dialog ), GTK_WINDOW ( grisbi_app_get_active_window (NULL) ) );
     gtk_widget_set_size_request ( dialog, PAGE_WIDTH+30, PAGE_HEIGHT+70 );
     g_signal_connect ( G_OBJECT ( dialog ),
                         "destroy",
@@ -2109,7 +2100,7 @@ void bet_graph_line_graph_new ( GtkWidget *button,
     self->button_show_grid = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "button_show_grid" ) );
     gtk_button_set_image ( GTK_BUTTON ( self->button_show_grid ),
                         gtk_image_new_from_file ( g_build_filename ( gsb_dirs_get_pixmaps_dir ( ),
-                        "grille.png", NULL ) ) );
+                        "gsb-grille-16.png", NULL ) ) );
     if ( prefs->major_grid_y )
         bet_graph_show_grid_button_configure ( self, TRUE, -1 );
     g_signal_connect ( self->button_show_grid,
@@ -2234,7 +2225,7 @@ void bet_graph_montly_graph_new ( GtkWidget *button,
 
     /* Création de la fenêtre de dialogue pour le graph */
     dialog = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "bet_graph_dialog" ) );
-    gtk_window_set_transient_for ( GTK_WINDOW ( dialog ), GTK_WINDOW ( run.window ) );
+    gtk_window_set_transient_for ( GTK_WINDOW ( dialog ), GTK_WINDOW ( grisbi_app_get_active_window (NULL) ) );
     gtk_widget_set_size_request ( dialog, PAGE_WIDTH+30, PAGE_HEIGHT+70 );
     g_signal_connect ( G_OBJECT ( dialog ),
                         "destroy",
@@ -2245,7 +2236,7 @@ void bet_graph_montly_graph_new ( GtkWidget *button,
     self->button_show_grid = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "button_show_grid" ) );
     gtk_button_set_image ( GTK_BUTTON ( self->button_show_grid ),
                         gtk_image_new_from_file ( g_build_filename ( gsb_dirs_get_pixmaps_dir ( ),
-                        "grille.png", NULL ) ) );
+                        "gsb-grille-16.png", NULL ) ) );
     if ( self->prefs->major_grid_y )
         bet_graph_show_grid_button_configure ( self, TRUE, -1 );
     g_signal_connect ( self->button_show_grid,
@@ -2327,7 +2318,7 @@ void bet_graph_sectors_graph_new ( GtkWidget *button,
 
     /* Création de la fenêtre de dialogue pour le graph */
     dialog = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "bet_graph_dialog" ) );
-    gtk_window_set_transient_for ( GTK_WINDOW ( dialog ), GTK_WINDOW ( run.window ) );
+    gtk_window_set_transient_for ( GTK_WINDOW ( dialog ), GTK_WINDOW ( grisbi_app_get_active_window (NULL) ) );
     gtk_widget_set_size_request ( dialog, PAGE_WIDTH+30, PAGE_HEIGHT+70 );
     g_signal_connect ( G_OBJECT ( dialog ),
                         "destroy",

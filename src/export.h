@@ -22,7 +22,7 @@ struct exported_account
 };
 
 /* START_DECLARATION */
-void export_accounts ( void );
+void 	export_accounts 	(void);
 /* END_DECLARATION */
 
 #endif

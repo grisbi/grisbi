@@ -3,9 +3,9 @@
 /*                                                                            */
 /*                                  gsb_data_report_amount_comparison         */
 /*                                                                            */
-/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)    2000-2007 Cédric Auger (cedric@grisbi.org)            */
+/*          2003-2007 Benjamin Drieu (bdrieu@april.org)                       */
+/*         http://www.grisbi.org                                              */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -30,7 +30,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -44,8 +44,9 @@
  * describe a report amount comparison
  * */
 
-typedef struct
-{
+typedef struct _AmountComparaison	AmountComparaison;
+
+struct _AmountComparaison {
     /** @name general stuff */
     gint amount_comparison_number;
     gint report_number;				/**< the associated report */
@@ -67,12 +68,12 @@ typedef struct
     gpointer hbox_second_part;
     gpointer button_second_comparison;
     gpointer entry_second_amount;
-} struct_amount_comparison;
+};
 
 
 /*START_STATIC*/
-static void _gsb_data_report_amount_comparison_free ( struct_amount_comparison *amount_comparison );
-static struct_amount_comparison *gsb_data_report_amount_comparison_get_struct_by_no ( gint amount_comparison_number );
+static void _gsb_data_report_amount_comparison_free ( AmountComparaison *amount_comparison );
+static AmountComparaison *gsb_data_report_amount_comparison_get_struct_by_no ( gint amount_comparison_number );
 static gint gsb_data_report_amount_comparison_max_number ( void );
 /*END_STATIC*/
 
@@ -81,11 +82,11 @@ static gint gsb_data_report_amount_comparison_max_number ( void );
 
 
 
-/** contains a g_slist of struct_amount_comparison */
+/** contains a g_slist of AmountComparaison */
 static GSList *amount_comparison_list = NULL;
 
 /** a pointers to the last amount comparison used (to increase the speed) */
-static struct_amount_comparison *amount_comparison_buffer;
+static AmountComparaison *amount_comparison_buffer;
 
 
 
@@ -103,7 +104,7 @@ gboolean gsb_data_report_amount_comparison_init_variables ( void )
         GSList* tmp_list = amount_comparison_list;
         while ( tmp_list )
         {
-	    struct_amount_comparison *amount_comparison;
+	    AmountComparaison *amount_comparison;
 	    amount_comparison = tmp_list -> data;
 	    tmp_list = tmp_list -> next;
 	    _gsb_data_report_amount_comparison_free ( amount_comparison );
@@ -127,7 +128,7 @@ gboolean gsb_data_report_amount_comparison_init_variables ( void )
  *
  * \return a pointer to the amount_comparison, NULL if not found
  * */
-static struct_amount_comparison *gsb_data_report_amount_comparison_get_struct_by_no ( gint amount_comparison_number )
+static AmountComparaison *gsb_data_report_amount_comparison_get_struct_by_no ( gint amount_comparison_number )
 {
     GSList *amount_comparison_list_tmp;
 
@@ -142,7 +143,7 @@ static struct_amount_comparison *gsb_data_report_amount_comparison_get_struct_by
 
     while ( amount_comparison_list_tmp )
     {
-	struct_amount_comparison *amount_comparison;
+	AmountComparaison *amount_comparison;
 
 	amount_comparison = amount_comparison_list_tmp -> data;
 
@@ -178,7 +179,7 @@ gint gsb_data_report_amount_comparison_max_number ( void )
 
     while ( tmp )
     {
-	struct_amount_comparison *amount_comparison;
+	AmountComparaison *amount_comparison;
 
 	amount_comparison = tmp -> data;
 
@@ -202,9 +203,9 @@ gint gsb_data_report_amount_comparison_max_number ( void )
  * */
 gint gsb_data_report_amount_comparison_new ( gint number )
 {
-    struct_amount_comparison *amount_comparison;
+    AmountComparaison *amount_comparison;
 
-    amount_comparison = g_malloc0 ( sizeof ( struct_amount_comparison ));
+    amount_comparison = g_malloc0 ( sizeof ( AmountComparaison ));
 
     if ( number )
 	amount_comparison -> amount_comparison_number = number;
@@ -220,9 +221,9 @@ gint gsb_data_report_amount_comparison_new ( gint number )
 }
 
 /**
- * This function is called to free the memory used by a struct_amount_comparison structure
+ * This function is called to free the memory used by a AmountComparaison structure
  */
-static void _gsb_data_report_amount_comparison_free ( struct_amount_comparison *amount_comparison )
+static void _gsb_data_report_amount_comparison_free ( AmountComparaison *amount_comparison )
 {
     if ( ! amount_comparison )
         return;
@@ -240,7 +241,7 @@ static void _gsb_data_report_amount_comparison_free ( struct_amount_comparison *
  * */
 gboolean gsb_data_report_amount_comparison_remove ( gint amount_comparison_number )
 {
-    struct_amount_comparison *amount_comparison;
+    AmountComparaison *amount_comparison;
 
     amount_comparison = gsb_data_report_amount_comparison_get_struct_by_no ( amount_comparison_number );
 
@@ -264,8 +265,8 @@ gboolean gsb_data_report_amount_comparison_remove ( gint amount_comparison_numbe
  * */
 gint gsb_data_report_amount_comparison_dup ( gint last_amount_comparison_number )
 {
-    struct_amount_comparison *amount_comparison;
-    struct_amount_comparison *last_amount_comparison;
+    AmountComparaison *amount_comparison;
+    AmountComparaison *last_amount_comparison;
     gint amount_comparison_number;
 
     last_amount_comparison = gsb_data_report_amount_comparison_get_struct_by_no (last_amount_comparison_number);
@@ -300,7 +301,7 @@ gint gsb_data_report_amount_comparison_dup ( gint last_amount_comparison_number 
 gboolean gsb_data_report_amount_comparison_set_report_number ( gint amount_comparison_number,
 							       gint report_number)
 {
-    struct_amount_comparison *amount_comparison;
+    AmountComparaison *amount_comparison;
 
     amount_comparison = gsb_data_report_amount_comparison_get_struct_by_no (amount_comparison_number);
 
@@ -321,7 +322,7 @@ gboolean gsb_data_report_amount_comparison_set_report_number ( gint amount_compa
  * */
 gint gsb_data_report_amount_comparison_get_link_to_last_amount_comparison ( gint amount_comparison_number )
 {
-    struct_amount_comparison *amount_comparison;
+    AmountComparaison *amount_comparison;
 
     amount_comparison = gsb_data_report_amount_comparison_get_struct_by_no (amount_comparison_number);
 
@@ -342,7 +343,7 @@ gint gsb_data_report_amount_comparison_get_link_to_last_amount_comparison ( gint
 gboolean gsb_data_report_amount_comparison_set_link_to_last_amount_comparison ( gint amount_comparison_number,
 										gint link_to_last_amount_comparison)
 {
-    struct_amount_comparison *amount_comparison;
+    AmountComparaison *amount_comparison;
 
     amount_comparison = gsb_data_report_amount_comparison_get_struct_by_no (amount_comparison_number);
 
@@ -363,7 +364,7 @@ gboolean gsb_data_report_amount_comparison_set_link_to_last_amount_comparison ( 
  * */
 gint gsb_data_report_amount_comparison_get_first_comparison ( gint amount_comparison_number )
 {
-    struct_amount_comparison *amount_comparison;
+    AmountComparaison *amount_comparison;
 
     amount_comparison = gsb_data_report_amount_comparison_get_struct_by_no (amount_comparison_number);
 
@@ -384,7 +385,7 @@ gint gsb_data_report_amount_comparison_get_first_comparison ( gint amount_compar
 gboolean gsb_data_report_amount_comparison_set_first_comparison ( gint amount_comparison_number,
 								  gint first_comparison)
 {
-    struct_amount_comparison *amount_comparison;
+    AmountComparaison *amount_comparison;
 
     amount_comparison = gsb_data_report_amount_comparison_get_struct_by_no (amount_comparison_number);
 
@@ -406,7 +407,7 @@ gboolean gsb_data_report_amount_comparison_set_first_comparison ( gint amount_co
  * */
 gsb_real gsb_data_report_amount_comparison_get_first_amount ( gint amount_comparison_number )
 {
-    struct_amount_comparison *amount_comparison;
+    AmountComparaison *amount_comparison;
 
     amount_comparison = gsb_data_report_amount_comparison_get_struct_by_no (amount_comparison_number);
 
@@ -427,7 +428,7 @@ gsb_real gsb_data_report_amount_comparison_get_first_amount ( gint amount_compar
 gboolean gsb_data_report_amount_comparison_set_first_amount ( gint amount_comparison_number,
 							      gsb_real first_amount)
 {
-    struct_amount_comparison *amount_comparison;
+    AmountComparaison *amount_comparison;
 
     amount_comparison = gsb_data_report_amount_comparison_get_struct_by_no (amount_comparison_number);
 
@@ -449,7 +450,7 @@ gboolean gsb_data_report_amount_comparison_set_first_amount ( gint amount_compar
  * */
 gint gsb_data_report_amount_comparison_get_link_first_to_second_part ( gint amount_comparison_number )
 {
-    struct_amount_comparison *amount_comparison;
+    AmountComparaison *amount_comparison;
 
     amount_comparison = gsb_data_report_amount_comparison_get_struct_by_no (amount_comparison_number);
 
@@ -470,7 +471,7 @@ gint gsb_data_report_amount_comparison_get_link_first_to_second_part ( gint amou
 gboolean gsb_data_report_amount_comparison_set_link_first_to_second_part ( gint amount_comparison_number,
 									   gint link_first_to_second_part)
 {
-    struct_amount_comparison *amount_comparison;
+    AmountComparaison *amount_comparison;
 
     amount_comparison = gsb_data_report_amount_comparison_get_struct_by_no (amount_comparison_number);
 
@@ -492,7 +493,7 @@ gboolean gsb_data_report_amount_comparison_set_link_first_to_second_part ( gint 
  * */
 gint gsb_data_report_amount_comparison_get_second_comparison ( gint amount_comparison_number )
 {
-    struct_amount_comparison *amount_comparison;
+    AmountComparaison *amount_comparison;
 
     amount_comparison = gsb_data_report_amount_comparison_get_struct_by_no (amount_comparison_number);
 
@@ -513,7 +514,7 @@ gint gsb_data_report_amount_comparison_get_second_comparison ( gint amount_compa
 gboolean gsb_data_report_amount_comparison_set_second_comparison ( gint amount_comparison_number,
 								   gint second_comparison)
 {
-    struct_amount_comparison *amount_comparison;
+    AmountComparaison *amount_comparison;
 
     amount_comparison = gsb_data_report_amount_comparison_get_struct_by_no (amount_comparison_number);
 
@@ -535,7 +536,7 @@ gboolean gsb_data_report_amount_comparison_set_second_comparison ( gint amount_c
  * */
 gsb_real gsb_data_report_amount_comparison_get_second_amount ( gint amount_comparison_number )
 {
-    struct_amount_comparison *amount_comparison;
+    AmountComparaison *amount_comparison;
 
     amount_comparison = gsb_data_report_amount_comparison_get_struct_by_no (amount_comparison_number);
 
@@ -556,7 +557,7 @@ gsb_real gsb_data_report_amount_comparison_get_second_amount ( gint amount_compa
 gboolean gsb_data_report_amount_comparison_set_second_amount ( gint amount_comparison_number,
 							       gsb_real second_amount)
 {
-    struct_amount_comparison *amount_comparison;
+    AmountComparaison *amount_comparison;
 
     amount_comparison = gsb_data_report_amount_comparison_get_struct_by_no (amount_comparison_number);
 
@@ -578,7 +579,7 @@ gboolean gsb_data_report_amount_comparison_set_second_amount ( gint amount_compa
  * */
 gpointer gsb_data_report_amount_comparison_get_hbox_line ( gint amount_comparison_number )
 {
-    struct_amount_comparison *amount_comparison;
+    AmountComparaison *amount_comparison;
 
     amount_comparison = gsb_data_report_amount_comparison_get_struct_by_no (amount_comparison_number);
 
@@ -599,7 +600,7 @@ gpointer gsb_data_report_amount_comparison_get_hbox_line ( gint amount_compariso
 gboolean gsb_data_report_amount_comparison_set_hbox_line ( gint amount_comparison_number,
 							   gpointer hbox_line)
 {
-    struct_amount_comparison *amount_comparison;
+    AmountComparaison *amount_comparison;
 
     amount_comparison = gsb_data_report_amount_comparison_get_struct_by_no (amount_comparison_number);
 
@@ -620,7 +621,7 @@ gboolean gsb_data_report_amount_comparison_set_hbox_line ( gint amount_compariso
  * */
 gpointer gsb_data_report_amount_comparison_get_button_link ( gint amount_comparison_number )
 {
-    struct_amount_comparison *amount_comparison;
+    AmountComparaison *amount_comparison;
 
     amount_comparison = gsb_data_report_amount_comparison_get_struct_by_no (amount_comparison_number);
 
@@ -641,7 +642,7 @@ gpointer gsb_data_report_amount_comparison_get_button_link ( gint amount_compari
 gboolean gsb_data_report_amount_comparison_set_button_link ( gint amount_comparison_number,
 							     gpointer button_link)
 {
-    struct_amount_comparison *amount_comparison;
+    AmountComparaison *amount_comparison;
 
     amount_comparison = gsb_data_report_amount_comparison_get_struct_by_no (amount_comparison_number);
 
@@ -662,7 +663,7 @@ gboolean gsb_data_report_amount_comparison_set_button_link ( gint amount_compari
  * */
 gpointer gsb_data_report_amount_comparison_get_button_first_comparison ( gint amount_comparison_number )
 {
-    struct_amount_comparison *amount_comparison;
+    AmountComparaison *amount_comparison;
 
     amount_comparison = gsb_data_report_amount_comparison_get_struct_by_no (amount_comparison_number);
 
@@ -683,7 +684,7 @@ gpointer gsb_data_report_amount_comparison_get_button_first_comparison ( gint am
 gboolean gsb_data_report_amount_comparison_set_button_first_comparison ( gint amount_comparison_number,
 									 gpointer button_first_comparison)
 {
-    struct_amount_comparison *amount_comparison;
+    AmountComparaison *amount_comparison;
 
     amount_comparison = gsb_data_report_amount_comparison_get_struct_by_no (amount_comparison_number);
 
@@ -704,7 +705,7 @@ gboolean gsb_data_report_amount_comparison_set_button_first_comparison ( gint am
  * */
 gpointer gsb_data_report_amount_comparison_get_entry_first_amount ( gint amount_comparison_number )
 {
-    struct_amount_comparison *amount_comparison;
+    AmountComparaison *amount_comparison;
 
     amount_comparison = gsb_data_report_amount_comparison_get_struct_by_no (amount_comparison_number);
 
@@ -725,7 +726,7 @@ gpointer gsb_data_report_amount_comparison_get_entry_first_amount ( gint amount_
 gboolean gsb_data_report_amount_comparison_set_entry_first_amount ( gint amount_comparison_number,
 								    gpointer entry_first_amount)
 {
-    struct_amount_comparison *amount_comparison;
+    AmountComparaison *amount_comparison;
 
     amount_comparison = gsb_data_report_amount_comparison_get_struct_by_no (amount_comparison_number);
 
@@ -746,7 +747,7 @@ gboolean gsb_data_report_amount_comparison_set_entry_first_amount ( gint amount_
  * */
 gpointer gsb_data_report_amount_comparison_get_button_link_first_to_second_part ( gint amount_comparison_number )
 {
-    struct_amount_comparison *amount_comparison;
+    AmountComparaison *amount_comparison;
 
     amount_comparison = gsb_data_report_amount_comparison_get_struct_by_no (amount_comparison_number);
 
@@ -767,7 +768,7 @@ gpointer gsb_data_report_amount_comparison_get_button_link_first_to_second_part 
 gboolean gsb_data_report_amount_comparison_set_button_link_first_to_second_part ( gint amount_comparison_number,
 										  gpointer button_link_first_to_second_part)
 {
-    struct_amount_comparison *amount_comparison;
+    AmountComparaison *amount_comparison;
 
     amount_comparison = gsb_data_report_amount_comparison_get_struct_by_no (amount_comparison_number);
 
@@ -788,7 +789,7 @@ gboolean gsb_data_report_amount_comparison_set_button_link_first_to_second_part 
  * */
 gpointer gsb_data_report_amount_comparison_get_hbox_second_part ( gint amount_comparison_number )
 {
-    struct_amount_comparison *amount_comparison;
+    AmountComparaison *amount_comparison;
 
     amount_comparison = gsb_data_report_amount_comparison_get_struct_by_no (amount_comparison_number);
 
@@ -809,7 +810,7 @@ gpointer gsb_data_report_amount_comparison_get_hbox_second_part ( gint amount_co
 gboolean gsb_data_report_amount_comparison_set_hbox_second_part ( gint amount_comparison_number,
 								  gpointer hbox_second_part)
 {
-    struct_amount_comparison *amount_comparison;
+    AmountComparaison *amount_comparison;
 
     amount_comparison = gsb_data_report_amount_comparison_get_struct_by_no (amount_comparison_number);
 
@@ -830,7 +831,7 @@ gboolean gsb_data_report_amount_comparison_set_hbox_second_part ( gint amount_co
  * */
 gpointer gsb_data_report_amount_comparison_get_button_second_comparison ( gint amount_comparison_number )
 {
-    struct_amount_comparison *amount_comparison;
+    AmountComparaison *amount_comparison;
 
     amount_comparison = gsb_data_report_amount_comparison_get_struct_by_no (amount_comparison_number);
 
@@ -851,7 +852,7 @@ gpointer gsb_data_report_amount_comparison_get_button_second_comparison ( gint a
 gboolean gsb_data_report_amount_comparison_set_button_second_comparison ( gint amount_comparison_number,
 									  gpointer button_second_comparison)
 {
-    struct_amount_comparison *amount_comparison;
+    AmountComparaison *amount_comparison;
 
     amount_comparison = gsb_data_report_amount_comparison_get_struct_by_no (amount_comparison_number);
 
@@ -872,7 +873,7 @@ gboolean gsb_data_report_amount_comparison_set_button_second_comparison ( gint a
  * */
 gpointer gsb_data_report_amount_comparison_get_entry_second_amount ( gint amount_comparison_number )
 {
-    struct_amount_comparison *amount_comparison;
+    AmountComparaison *amount_comparison;
 
     amount_comparison = gsb_data_report_amount_comparison_get_struct_by_no (amount_comparison_number);
 
@@ -893,7 +894,7 @@ gpointer gsb_data_report_amount_comparison_get_entry_second_amount ( gint amount
 gboolean gsb_data_report_amount_comparison_set_entry_second_amount ( gint amount_comparison_number,
 								     gpointer entry_second_amount)
 {
-    struct_amount_comparison *amount_comparison;
+    AmountComparaison *amount_comparison;
 
     amount_comparison = gsb_data_report_amount_comparison_get_struct_by_no (amount_comparison_number);
 

@@ -28,7 +28,7 @@
  * */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -38,6 +38,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_calendar_entry.h"
+#include "grisbi_app.h"
 #include "gsb_form_widget.h"
 #include "structures.h"
 #include "utils_dates.h"
@@ -179,8 +180,6 @@ GDate *gsb_calendar_entry_get_date ( GtkWidget *entry )
 gboolean gsb_calendar_entry_set_color ( GtkWidget *entry,
 					gboolean normal_color )
 {
-    GtkStyleContext* context;
-
     if (!entry)
         return FALSE;
 
@@ -442,28 +441,24 @@ gboolean gsb_calendar_entry_changed ( GtkWidget *entry,
 GtkWidget *gsb_calendar_entry_popup ( GtkWidget *entry )
 {
     GtkWidget *popup, *pVBox, *pCalendar, *button, *frame;
+	GdkWindow *window;
     GtkRequisition popup_size;
     gint x, y;
-    gint screen_width = gdk_screen_width ( );
     GDate * date;
 
     /* make the popup */
     popup = gtk_window_new ( GTK_WINDOW_TOPLEVEL );
     gtk_window_set_modal ( GTK_WINDOW ( popup ), TRUE );
     gtk_window_set_transient_for ( GTK_WINDOW ( popup ),
-                        GTK_WINDOW ( run.window ) );
+                        GTK_WINDOW ( grisbi_app_get_active_window (NULL) ) );
     gtk_window_set_decorated ( GTK_WINDOW ( popup ), FALSE );
-    g_signal_connect_swapped ( G_OBJECT ( popup ),
-				"destroy",
-				G_CALLBACK ( gdk_pointer_ungrab ),
-				GDK_CURRENT_TIME );
 
     /* set the decoration */
     frame = gtk_frame_new ( NULL );
     gtk_container_add ( GTK_CONTAINER ( popup ), frame );
     gtk_widget_show ( frame );
 
-    pVBox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
+    pVBox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_container_set_border_width ( GTK_CONTAINER ( pVBox ), 5 );
     gtk_container_add ( GTK_CONTAINER ( frame ), pVBox );
     gtk_widget_show ( pVBox );
@@ -509,7 +504,8 @@ GtkWidget *gsb_calendar_entry_popup ( GtkWidget *entry )
     gtk_widget_show ( button );
 
     /* set the position */
-    gdk_window_get_origin ( gtk_widget_get_window ( GTK_WIDGET ( entry ) ), &x, &y );
+	window = gtk_widget_get_window (GTK_WIDGET (entry));
+    gdk_window_get_origin (window, &x, &y );
 
     /* on récupère la taille de la popup */
     gtk_widget_get_preferred_size (GTK_WIDGET (popup), &popup_size, NULL);
@@ -517,9 +513,25 @@ GtkWidget *gsb_calendar_entry_popup ( GtkWidget *entry )
     /* pour la soustraire à la position de l'entrée date */
     y -= popup_size.height;
 
+#if GTK_CHECK_VERSION (3,22,0)
+	GdkDisplay *display;
+	GdkMonitor *monitor;
+	GdkRectangle rectangle;
+
+	display = gdk_window_get_display (window);
+	monitor = gdk_display_get_monitor_at_point (display, x, y);
+	gdk_monitor_get_geometry (monitor, &rectangle);
+
+    /* on décale le popup si on est trop près de bord droit de l'écran */
+    if (x > (rectangle.width - popup_size.width))
+        x = rectangle.width - popup_size.width - 10;
+#else
+    gint screen_width = gdk_screen_width ( );
+
     /* on décale le popup si on est trop près de bord droit de l'écran */
     if ( x > ( screen_width - popup_size.width ) )
         x = screen_width - popup_size.width - 10;
+#endif
 
     /* si une des coordonnées est négative, alors la fonction
        gtk_window_move échoue et affiche la popup en 0,0 */

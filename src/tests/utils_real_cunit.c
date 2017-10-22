@@ -24,7 +24,7 @@
 /* ************************************************************************** */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -50,7 +50,7 @@ static int utils_real_cunit_clean_suite ( void )
 }
 
 
-void utils_real_cunit__utils_real_get_from_string ( void )
+static void utils_real_cunit__utils_real_get_from_string ( void )
 {
     char *lc_monetary_orig;
     char *result = setlocale(LC_MONETARY, NULL);
@@ -127,7 +127,7 @@ void utils_real_cunit__utils_real_get_from_string ( void )
 }
 
 
-void utils_real_cunit__utils_real_get_string_with_currency ( void )
+static void utils_real_cunit__utils_real_get_string_with_currency ( void )
 {
     gchar *s;
     gsb_real n;

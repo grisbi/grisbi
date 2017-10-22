@@ -27,7 +27,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -55,7 +55,7 @@
 typedef struct
 {
     /** @name category content */
-    guint category_number;
+    gint category_number;
     gchar *category_name;
     gint category_type;		/**< 0:credit / 1:debit / 2:special (transfert, split...) */
 
@@ -76,10 +76,10 @@ typedef struct
 typedef struct
 {
     /** @name sub-category content */
-    guint sub_category_number;
+    gint sub_category_number;
     gchar *sub_category_name;
 
-    guint mother_category_number;
+    gint mother_category_number;
 
     /** @name gui sub-category list content (not saved)*/
     gint sub_category_nb_transactions;
@@ -1092,15 +1092,15 @@ void gsb_data_categorie_free_name_list ( GSList *liste )
     gint i;
 
     nbre_list = g_slist_length ( liste );
-
-    for ( i = 0; i < nbre_list -1; i++ )
+    for ( i = 0; i < nbre_list; i++ )
     {
         GSList *tmp_list;
 
-        tmp_list = liste->data;
-        liste = liste->next;
-        g_slist_foreach ( tmp_list, (GFunc) g_free, NULL );
-        g_slist_free ( tmp_list );
+		tmp_list = liste->data;
+		if (i < 2)
+			liste = liste->next;
+
+        g_slist_free_full (tmp_list, (GDestroyNotify) g_free);
     }
 
     g_slist_free ( liste );
@@ -1560,7 +1560,7 @@ gint gsb_data_sub_category_compare ( struct_sub_category * a, struct_sub_categor
  * \return	NULL if no error found.  A string describing any issue
  *		if any.
  */
-gchar * gsb_debug_duplicate_categ_check ()
+gchar * gsb_debug_duplicate_categ_check (void)
 {
     GSList * tmp;
     gint num_duplicate = 0;
@@ -1616,7 +1616,7 @@ gchar * gsb_debug_duplicate_categ_check ()
  *
  * \return	TRUE on success.  FALSE otherwise.
  */
-gboolean gsb_debug_duplicate_categ_fix ()
+gboolean gsb_debug_duplicate_categ_fix (void)
 {
     GSList * tmp;
 
@@ -1707,7 +1707,6 @@ gboolean gsb_data_category_test_create_sub_category ( gint no_category,
                         const gchar *name )
 {
     GSList *list_tmp;
-    gint sub_category_number = 0;
     struct_category *category;
     struct_sub_category *sub_category;
 
@@ -1724,13 +1723,12 @@ gboolean gsb_data_category_test_create_sub_category ( gint no_category,
                         no_sub_category );
         if ( !sub_category )
         {
-            sub_category_number = gsb_data_category_new_sub_category_with_number (
-                        no_sub_category, no_category );
+            gsb_data_category_new_sub_category_with_number (no_sub_category, no_category);
             gsb_data_category_set_sub_category_name ( no_category, no_sub_category, name );
         }
         else
         {
-            sub_category_number = gsb_data_category_new_sub_category ( no_category, name );
+            gsb_data_category_new_sub_category ( no_category, name );
             gsb_category_update_combofix ( FALSE );
         }
         return TRUE;

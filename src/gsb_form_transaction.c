@@ -28,7 +28,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -411,7 +411,7 @@ GSList *gsb_form_transaction_get_parties_list_from_report ( void )
             else
                 /* the report was not found, set -1 */
                 parties_list = g_slist_append ( parties_list, GINT_TO_POINTER ( -1 ) );
-                g_strfreev ( tab_char );
+			g_strfreev ( tab_char );
         }
     }
     else
@@ -442,7 +442,7 @@ gint gsb_form_transaction_validate_transfer ( gint transaction_number,
     GDate *contra_value_date = NULL;
     const gchar *contra_transaction_content = NULL;
     gint contra_payment_number = 0;
-    gint contra_transaction_number;
+    gint contra_transaction_number = 0;
     gint contra_mother_number = 0;
     gint contra_marked_transaction = 0;
     GtkWidget *contra_payment_button;

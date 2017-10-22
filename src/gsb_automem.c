@@ -30,7 +30,7 @@
  */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -70,7 +70,6 @@ static gboolean gsb_automem_textview_changed ( GtkTextBuffer *buffer,
 
 
 
-
 /*
  * Creates a new GtkEntry with a pointer to a string that will be
  * modified according to the entry's value.
@@ -94,13 +93,19 @@ GtkWidget *gsb_automem_entry_new ( gchar **value,
 
     g_object_set_data ( G_OBJECT ( entry ),
 			"pointer", value);
-    g_object_set_data ( G_OBJECT (entry), "changed",
-			(gpointer) g_signal_connect_after ( G_OBJECT(entry), "changed",
-							    G_CALLBACK (gsb_automem_entry_changed), NULL));
+    g_object_set_data (G_OBJECT (entry),
+					   "changed",
+					   GUINT_TO_POINTER (g_signal_connect (G_OBJECT (entry),
+														   "changed",
+														   G_CALLBACK (gsb_automem_entry_changed),
+														   NULL)));
     if (hook)
-	g_object_set_data ( G_OBJECT (entry), "changed-hook",
-			    (gpointer) g_signal_connect_after ( G_OBJECT(entry), "changed",
-								G_CALLBACK (hook), data));
+		g_object_set_data (G_OBJECT (entry),
+						   "changed-hook",
+						   GUINT_TO_POINTER (g_signal_connect_after (G_OBJECT (entry),
+																	 "changed",
+																	 ((GCallback) hook),
+																	 data)));
     return entry;
 }
 
@@ -157,17 +162,19 @@ GtkWidget *gsb_automem_textview_new ( gchar **value,
 
     g_object_set_data ( G_OBJECT ( buffer ), "pointer", value);
 
-    g_object_set_data ( G_OBJECT ( buffer ), "changed",
-			(gpointer) g_signal_connect (G_OBJECT(buffer),
-						     "changed",
-						     G_CALLBACK (gsb_automem_textview_changed),
-						     NULL));
-    if ( hook )
-	g_object_set_data ( G_OBJECT ( buffer ), "changed-hook",
-			    (gpointer) g_signal_connect (G_OBJECT(buffer),
-							 "changed",
-							 G_CALLBACK (hook),
-							 data ));
+    g_object_set_data (G_OBJECT (buffer),
+					   "changed",
+					   GUINT_TO_POINTER (g_signal_connect (G_OBJECT (buffer),
+														   "changed",
+														   G_CALLBACK (gsb_automem_textview_changed),
+														   NULL)));
+    if (hook)
+		g_object_set_data (G_OBJECT (buffer),
+						   "changed-hook",
+						   GUINT_TO_POINTER (g_signal_connect_after (G_OBJECT (buffer),
+																	 "changed",
+																	 ((GCallback) hook),
+																	 data)));
     return text_view;
 }
 
@@ -278,14 +285,20 @@ GtkWidget *gsb_automem_checkbutton_new ( const gchar *label,
     g_object_set_data ( G_OBJECT (checkbutton),
 			"pointer", value);
 
-    g_object_set_data ( G_OBJECT (checkbutton), "changed",
-			(gpointer) g_signal_connect (checkbutton, "toggled",
-						     G_CALLBACK (gsb_automem_checkbutton_changed), NULL));
+    g_object_set_data (G_OBJECT (checkbutton),
+					   "changed",
+					   GUINT_TO_POINTER (g_signal_connect (checkbutton,
+														   "toggled",
+														   G_CALLBACK (gsb_automem_checkbutton_changed),
+														   NULL)));
 
-    if ( hook )
-	g_object_set_data ( G_OBJECT ( checkbutton ), "changed-hook",
-			    (gpointer) g_signal_connect (checkbutton, "toggled",
-							 G_CALLBACK (hook), data ));
+    if (hook)
+		g_object_set_data (G_OBJECT (checkbutton),
+						   "changed-hook",
+						   GUINT_TO_POINTER (g_signal_connect (checkbutton,
+															   "toggled",
+															   G_CALLBACK (hook),
+															   data)));
     return checkbutton;
 }
 
@@ -413,7 +426,7 @@ GtkWidget *gsb_automem_radiobutton_new ( const gchar *choice1,
 {
     GtkWidget *button1, *button2, *vbox;
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
 
     button1 = gtk_radio_button_new_with_mnemonic ( NULL, choice1 );
     gtk_box_pack_start (GTK_BOX(vbox), button1, FALSE, FALSE, 0 );
@@ -506,9 +519,9 @@ GtkWidget *gsb_automem_radiobutton3_new ( const gchar *choice1,
     GtkWidget *button3 = NULL;
 
     if ( orientation == GTK_ORIENTATION_HORIZONTAL )
-        box = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
+        box = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     else
-        box = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
+        box = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
 
     button1 = gtk_radio_button_new_with_mnemonic ( NULL, choice1 );
     gtk_box_pack_start ( GTK_BOX ( box ), button1, FALSE, FALSE, 0 );
@@ -640,17 +653,19 @@ GtkWidget *gsb_automem_spin_button_new_full ( gint *value,
     g_object_set_data ( G_OBJECT (spin), "pointer", value);
     g_object_set_data ( G_OBJECT (spin), "adj", adjustment);
 
-    g_object_set_data ( G_OBJECT (spin), "changed",
-			(gpointer) g_signal_connect ( G_OBJECT (spin),
-						      "value-changed",
-						      G_CALLBACK (gsb_automem_spin_button_changed),
-						      NULL ));
-    if ( hook )
-	g_object_set_data ( G_OBJECT (spin), "changed-hook",
-			    (gpointer) g_signal_connect ( G_OBJECT (spin),
-							  "value-changed",
-							  G_CALLBACK (hook),
-							  data ));
+    g_object_set_data ( G_OBJECT (spin),
+					   "changed",
+					   GUINT_TO_POINTER (g_signal_connect (G_OBJECT (spin),
+														   "value-changed",
+														   G_CALLBACK (gsb_automem_spin_button_changed),
+														   NULL)));
+    if (hook)
+		g_object_set_data (G_OBJECT (spin),
+						   "changed-hook",
+						   GUINT_TO_POINTER (g_signal_connect (G_OBJECT (spin),
+															   "value-changed",
+															   G_CALLBACK (hook),
+															   data)));
     return spin;
 }
 
@@ -733,47 +748,6 @@ static gboolean gsb_automem_spin_button_changed ( GtkWidget *spin,
 }
 
 
-
-/**
- * TODO : document
- *
- */
-GtkWidget *gsb_automem_stock_button_new ( GsbButtonStyle style,
-                        const gchar *stock_id,
-                        const gchar *name,
-                        GCallback callback,
-                        gpointer data )
-{
-    GtkWidget *vbox;
-    GtkWidget *button;
-    GtkWidget *label;
-
-    vbox = new_stock_image_label ( style, stock_id, name );
-
-    label = g_object_get_data ( G_OBJECT ( vbox ), "label" );
-
-    button = gtk_button_new ();
-    gtk_button_set_relief ( GTK_BUTTON(button), GTK_RELIEF_NONE );
-    g_object_set_data ( G_OBJECT ( button ), "label", label );
-
-    gtk_container_add ( GTK_CONTAINER(button), vbox );
-    gtk_widget_show_all ( button );
-
-    if ( callback )
-    {
-	if ( data >= 0 )
-	{
-	    g_signal_connect_swapped ( G_OBJECT(button), "clicked",
-				       G_CALLBACK(callback), data );
-	}
-	else
-	{
-	    g_signal_connect ( G_OBJECT(button), "clicked",
-			       G_CALLBACK(callback), data );
-	}
-    }
-    return button;
-}
 
 /**
  *

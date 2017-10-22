@@ -28,7 +28,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -48,7 +48,7 @@
  */
 typedef struct
 {
-    guint archive_number;
+    gint archive_number;
     gchar *archive_name;
 
     /* for the archive created by date,

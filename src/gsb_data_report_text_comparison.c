@@ -3,9 +3,9 @@
 /*                                                                            */
 /*                                  gsb_data_report_text_comparison           */
 /*                                                                            */
-/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)    2000-2007 Cédric Auger (cedric@grisbi.org)            */
+/*          2003-2007 Benjamin Drieu (bdrieu@april.org)                       */
+/*         http://www.grisbi.org                                              */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -30,7 +30,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -45,8 +45,9 @@
  * describe a report text comparison
  * */
 
-typedef struct
-{
+typedef struct _TextComparaison	TextComparaison;
+
+struct _TextComparaison {
     /** @name general stuff */
     gint text_comparison_number;
     gint report_number;				/**< the associated report */
@@ -88,12 +89,12 @@ typedef struct
     gpointer hbox_second_part;
     gpointer button_second_comparison;
     gpointer entry_second_amount;
-} struct_text_comparison;
+};
 
 
 /*START_STATIC*/
-static void _gsb_data_report_text_comparison_free ( struct_text_comparison* text_comparison );
-static struct_text_comparison *gsb_data_report_text_comparison_get_struct_by_no ( gint text_comparison_number );
+static void _gsb_data_report_text_comparison_free ( TextComparaison* text_comparison );
+static TextComparaison *gsb_data_report_text_comparison_get_struct_by_no ( gint text_comparison_number );
 static gint gsb_data_report_text_comparison_max_number ( void );
 /*END_STATIC*/
 
@@ -101,11 +102,11 @@ static gint gsb_data_report_text_comparison_max_number ( void );
 /*END_EXTERN*/
 
 
-/** contains a g_slist of struct_text_comparison */
+/** contains a g_slist of TextComparaison */
 static GSList *text_comparison_list = NULL;
 
 /** a pointers to the last text comparison used (to increase the speed) */
-static struct_text_comparison *text_comparison_buffer;
+static TextComparaison *text_comparison_buffer;
 
 
 
@@ -123,7 +124,7 @@ gboolean gsb_data_report_text_comparison_init_variables ( void )
         GSList *tmp_list = text_comparison_list;
         while ( tmp_list )
         {
-	    struct_text_comparison *text_comparison;
+	    TextComparaison *text_comparison;
 	    text_comparison = tmp_list-> data;
 	    tmp_list = tmp_list -> next;
 	    _gsb_data_report_text_comparison_free ( text_comparison );
@@ -147,7 +148,7 @@ gboolean gsb_data_report_text_comparison_init_variables ( void )
  *
  * \return a pointer to the text_comparison, NULL if not found
  * */
-static struct_text_comparison *gsb_data_report_text_comparison_get_struct_by_no ( gint text_comparison_number )
+static TextComparaison *gsb_data_report_text_comparison_get_struct_by_no ( gint text_comparison_number )
 {
     GSList *text_comparison_list_tmp;
 
@@ -162,7 +163,7 @@ static struct_text_comparison *gsb_data_report_text_comparison_get_struct_by_no 
 
     while ( text_comparison_list_tmp )
     {
-	struct_text_comparison *text_comparison;
+	TextComparaison *text_comparison;
 
 	text_comparison = text_comparison_list_tmp -> data;
 
@@ -198,7 +199,7 @@ gint gsb_data_report_text_comparison_max_number ( void )
 
     while ( tmp )
     {
-	struct_text_comparison *text_comparison;
+	TextComparaison *text_comparison;
 
 	text_comparison = tmp -> data;
 
@@ -222,9 +223,9 @@ gint gsb_data_report_text_comparison_max_number ( void )
  * */
 gint gsb_data_report_text_comparison_new ( gint number )
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
-    text_comparison = g_malloc0 ( sizeof ( struct_text_comparison ));
+    text_comparison = g_malloc0 ( sizeof ( TextComparaison ));
 
     if ( number )
 	text_comparison -> text_comparison_number = number;
@@ -241,9 +242,9 @@ gint gsb_data_report_text_comparison_new ( gint number )
 }
 
 /**
- * This function is called to free the memory used by a struct_text_comparison structure
+ * This function is called to free the memory used by a TextComparaison structure
  */
-static void _gsb_data_report_text_comparison_free ( struct_text_comparison* text_comparison )
+static void _gsb_data_report_text_comparison_free ( TextComparaison* text_comparison )
 {
     if ( ! text_comparison )
         return;
@@ -263,7 +264,7 @@ static void _gsb_data_report_text_comparison_free ( struct_text_comparison* text
  * */
 gboolean gsb_data_report_text_comparison_remove ( gint text_comparison_number )
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no ( text_comparison_number );
 
@@ -288,8 +289,8 @@ gboolean gsb_data_report_text_comparison_remove ( gint text_comparison_number )
  * */
 gint gsb_data_report_text_comparison_dup ( gint last_text_comparison_number )
 {
-    struct_text_comparison *text_comparison;
-    struct_text_comparison *last_text_comparison;
+    TextComparaison *text_comparison;
+    TextComparaison *last_text_comparison;
     gint text_comparison_number;
 
     last_text_comparison = gsb_data_report_text_comparison_get_struct_by_no (last_text_comparison_number);
@@ -329,7 +330,7 @@ gint gsb_data_report_text_comparison_dup ( gint last_text_comparison_number )
 gboolean gsb_data_report_text_comparison_set_report_number ( gint text_comparison_number,
 							     gint report_number)
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -350,7 +351,7 @@ gboolean gsb_data_report_text_comparison_set_report_number ( gint text_compariso
  * */
 gint gsb_data_report_text_comparison_get_link_to_last_text_comparison ( gint text_comparison_number )
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -371,7 +372,7 @@ gint gsb_data_report_text_comparison_get_link_to_last_text_comparison ( gint tex
 gboolean gsb_data_report_text_comparison_set_link_to_last_text_comparison ( gint text_comparison_number,
 									    gint link_to_last_text_comparison)
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -393,7 +394,7 @@ gboolean gsb_data_report_text_comparison_set_link_to_last_text_comparison ( gint
  * */
 gint gsb_data_report_text_comparison_get_field ( gint text_comparison_number )
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -414,7 +415,7 @@ gint gsb_data_report_text_comparison_get_field ( gint text_comparison_number )
 gboolean gsb_data_report_text_comparison_set_field ( gint text_comparison_number,
 						     gint field)
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -436,7 +437,7 @@ gboolean gsb_data_report_text_comparison_set_field ( gint text_comparison_number
  * */
 gint gsb_data_report_text_comparison_get_operator ( gint text_comparison_number )
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -457,7 +458,7 @@ gint gsb_data_report_text_comparison_get_operator ( gint text_comparison_number 
 gboolean gsb_data_report_text_comparison_set_operator ( gint text_comparison_number,
 							gint operator)
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -479,7 +480,7 @@ gboolean gsb_data_report_text_comparison_set_operator ( gint text_comparison_num
  * */
 gchar *gsb_data_report_text_comparison_get_text ( gint text_comparison_number )
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -501,7 +502,7 @@ gchar *gsb_data_report_text_comparison_get_text ( gint text_comparison_number )
 gboolean gsb_data_report_text_comparison_set_text ( gint text_comparison_number,
 						    const gchar *text)
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -525,7 +526,7 @@ gboolean gsb_data_report_text_comparison_set_text ( gint text_comparison_number,
  * */
 gint gsb_data_report_text_comparison_get_use_text ( gint text_comparison_number )
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -546,7 +547,7 @@ gint gsb_data_report_text_comparison_get_use_text ( gint text_comparison_number 
 gboolean gsb_data_report_text_comparison_set_use_text ( gint text_comparison_number,
 							gint use_text)
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -568,7 +569,7 @@ gboolean gsb_data_report_text_comparison_set_use_text ( gint text_comparison_num
  * */
 gint gsb_data_report_text_comparison_get_first_comparison ( gint text_comparison_number )
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -589,7 +590,7 @@ gint gsb_data_report_text_comparison_get_first_comparison ( gint text_comparison
 gboolean gsb_data_report_text_comparison_set_first_comparison ( gint text_comparison_number,
 								gint first_comparison)
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -611,7 +612,7 @@ gboolean gsb_data_report_text_comparison_set_first_comparison ( gint text_compar
  * */
 gint gsb_data_report_text_comparison_get_first_amount ( gint text_comparison_number )
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -632,7 +633,7 @@ gint gsb_data_report_text_comparison_get_first_amount ( gint text_comparison_num
 gboolean gsb_data_report_text_comparison_set_first_amount ( gint text_comparison_number,
 							    gint first_amount)
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -654,7 +655,7 @@ gboolean gsb_data_report_text_comparison_set_first_amount ( gint text_comparison
  * */
 gint gsb_data_report_text_comparison_get_link_first_to_second_part ( gint text_comparison_number )
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -675,7 +676,7 @@ gint gsb_data_report_text_comparison_get_link_first_to_second_part ( gint text_c
 gboolean gsb_data_report_text_comparison_set_link_first_to_second_part ( gint text_comparison_number,
 									 gint link_first_to_second_part)
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -697,7 +698,7 @@ gboolean gsb_data_report_text_comparison_set_link_first_to_second_part ( gint te
  * */
 gint gsb_data_report_text_comparison_get_second_comparison ( gint text_comparison_number )
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -718,7 +719,7 @@ gint gsb_data_report_text_comparison_get_second_comparison ( gint text_compariso
 gboolean gsb_data_report_text_comparison_set_second_comparison ( gint text_comparison_number,
 								 gint second_comparison)
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -740,7 +741,7 @@ gboolean gsb_data_report_text_comparison_set_second_comparison ( gint text_compa
  * */
 gint gsb_data_report_text_comparison_get_second_amount ( gint text_comparison_number )
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -761,7 +762,7 @@ gint gsb_data_report_text_comparison_get_second_amount ( gint text_comparison_nu
 gboolean gsb_data_report_text_comparison_set_second_amount ( gint text_comparison_number,
 							     gint second_amount)
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -783,7 +784,7 @@ gboolean gsb_data_report_text_comparison_set_second_amount ( gint text_compariso
  * */
 gpointer gsb_data_report_text_comparison_get_vbox_line ( gint text_comparison_number )
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -804,7 +805,7 @@ gpointer gsb_data_report_text_comparison_get_vbox_line ( gint text_comparison_nu
 gboolean gsb_data_report_text_comparison_set_vbox_line ( gint text_comparison_number,
 							 gpointer vbox_line)
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -825,7 +826,7 @@ gboolean gsb_data_report_text_comparison_set_vbox_line ( gint text_comparison_nu
  * */
 gpointer gsb_data_report_text_comparison_get_button_link ( gint text_comparison_number )
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -846,7 +847,7 @@ gpointer gsb_data_report_text_comparison_get_button_link ( gint text_comparison_
 gboolean gsb_data_report_text_comparison_set_button_link ( gint text_comparison_number,
 							   gpointer button_link)
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -869,7 +870,7 @@ gboolean gsb_data_report_text_comparison_set_button_link ( gint text_comparison_
  * */
 gpointer gsb_data_report_text_comparison_get_button_field ( gint text_comparison_number )
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -890,7 +891,7 @@ gpointer gsb_data_report_text_comparison_get_button_field ( gint text_comparison
 gboolean gsb_data_report_text_comparison_set_button_field ( gint text_comparison_number,
 							    gpointer button_field)
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -912,7 +913,7 @@ gboolean gsb_data_report_text_comparison_set_button_field ( gint text_comparison
  * */
 gpointer gsb_data_report_text_comparison_get_button_use_text ( gint text_comparison_number )
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -933,7 +934,7 @@ gpointer gsb_data_report_text_comparison_get_button_use_text ( gint text_compari
 gboolean gsb_data_report_text_comparison_set_button_use_text ( gint text_comparison_number,
 							       gpointer button_use_text)
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -955,7 +956,7 @@ gboolean gsb_data_report_text_comparison_set_button_use_text ( gint text_compari
  * */
 gpointer gsb_data_report_text_comparison_get_hbox_text ( gint text_comparison_number )
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -976,7 +977,7 @@ gpointer gsb_data_report_text_comparison_get_hbox_text ( gint text_comparison_nu
 gboolean gsb_data_report_text_comparison_set_hbox_text ( gint text_comparison_number,
 							 gpointer hbox_text)
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -998,7 +999,7 @@ gboolean gsb_data_report_text_comparison_set_hbox_text ( gint text_comparison_nu
  * */
 gpointer gsb_data_report_text_comparison_get_button_operator ( gint text_comparison_number )
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -1019,7 +1020,7 @@ gpointer gsb_data_report_text_comparison_get_button_operator ( gint text_compari
 gboolean gsb_data_report_text_comparison_set_button_operator ( gint text_comparison_number,
 							       gpointer button_operator)
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -1041,7 +1042,7 @@ gboolean gsb_data_report_text_comparison_set_button_operator ( gint text_compari
  * */
 gpointer gsb_data_report_text_comparison_get_entry_text ( gint text_comparison_number )
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -1062,7 +1063,7 @@ gpointer gsb_data_report_text_comparison_get_entry_text ( gint text_comparison_n
 gboolean gsb_data_report_text_comparison_set_entry_text ( gint text_comparison_number,
 							  gpointer entry_text)
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -1084,7 +1085,7 @@ gboolean gsb_data_report_text_comparison_set_entry_text ( gint text_comparison_n
  * */
 gpointer gsb_data_report_text_comparison_get_button_use_number ( gint text_comparison_number )
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -1105,7 +1106,7 @@ gpointer gsb_data_report_text_comparison_get_button_use_number ( gint text_compa
 gboolean gsb_data_report_text_comparison_set_button_use_number ( gint text_comparison_number,
 								 gpointer button_use_number)
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -1127,7 +1128,7 @@ gboolean gsb_data_report_text_comparison_set_button_use_number ( gint text_compa
  * */
 gpointer gsb_data_report_text_comparison_get_hbox_cheque ( gint text_comparison_number )
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -1148,7 +1149,7 @@ gpointer gsb_data_report_text_comparison_get_hbox_cheque ( gint text_comparison_
 gboolean gsb_data_report_text_comparison_set_hbox_cheque ( gint text_comparison_number,
 							   gpointer hbox_cheque)
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -1170,7 +1171,7 @@ gboolean gsb_data_report_text_comparison_set_hbox_cheque ( gint text_comparison_
  * */
 gpointer gsb_data_report_text_comparison_get_button_first_comparison ( gint text_comparison_number )
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -1191,7 +1192,7 @@ gpointer gsb_data_report_text_comparison_get_button_first_comparison ( gint text
 gboolean gsb_data_report_text_comparison_set_button_first_comparison ( gint text_comparison_number,
 								       gpointer button_first_comparison)
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -1212,7 +1213,7 @@ gboolean gsb_data_report_text_comparison_set_button_first_comparison ( gint text
  * */
 gpointer gsb_data_report_text_comparison_get_entry_first_amount ( gint text_comparison_number )
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -1233,7 +1234,7 @@ gpointer gsb_data_report_text_comparison_get_entry_first_amount ( gint text_comp
 gboolean gsb_data_report_text_comparison_set_entry_first_amount ( gint text_comparison_number,
 								  gpointer entry_first_amount)
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -1254,7 +1255,7 @@ gboolean gsb_data_report_text_comparison_set_entry_first_amount ( gint text_comp
  * */
 gpointer gsb_data_report_text_comparison_get_button_link_first_to_second_part ( gint text_comparison_number )
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -1275,7 +1276,7 @@ gpointer gsb_data_report_text_comparison_get_button_link_first_to_second_part ( 
 gboolean gsb_data_report_text_comparison_set_button_link_first_to_second_part ( gint text_comparison_number,
 										gpointer button_link_first_to_second_part)
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -1296,7 +1297,7 @@ gboolean gsb_data_report_text_comparison_set_button_link_first_to_second_part ( 
  * */
 gpointer gsb_data_report_text_comparison_get_hbox_second_part ( gint text_comparison_number )
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -1317,7 +1318,7 @@ gpointer gsb_data_report_text_comparison_get_hbox_second_part ( gint text_compar
 gboolean gsb_data_report_text_comparison_set_hbox_second_part ( gint text_comparison_number,
 								gpointer hbox_second_part)
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -1338,7 +1339,7 @@ gboolean gsb_data_report_text_comparison_set_hbox_second_part ( gint text_compar
  * */
 gpointer gsb_data_report_text_comparison_get_button_second_comparison ( gint text_comparison_number )
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -1359,7 +1360,7 @@ gpointer gsb_data_report_text_comparison_get_button_second_comparison ( gint tex
 gboolean gsb_data_report_text_comparison_set_button_second_comparison ( gint text_comparison_number,
 									gpointer button_second_comparison)
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -1380,7 +1381,7 @@ gboolean gsb_data_report_text_comparison_set_button_second_comparison ( gint tex
  * */
 gpointer gsb_data_report_text_comparison_get_entry_second_amount ( gint text_comparison_number )
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
@@ -1401,7 +1402,7 @@ gpointer gsb_data_report_text_comparison_get_entry_second_amount ( gint text_com
 gboolean gsb_data_report_text_comparison_set_entry_second_amount ( gint text_comparison_number,
 								   gpointer entry_second_amount)
 {
-    struct_text_comparison *text_comparison;
+    TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 

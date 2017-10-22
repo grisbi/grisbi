@@ -24,7 +24,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -35,14 +35,15 @@
 /*START_INCLUDE*/
 #include "erreur.h"
 #include "dialog.h"
+#include "grisbi_win.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
 #include "gsb_file_save.h"
 #include "gsb_file_util.h"
+#include "gsb_locale.h"
 #include "gsb_real.h"
-#include "gsb_status.h"
 #include "import.h"
-#include "main.h"
+#include "structures.h"
 #include "utils.h"
 #include "utils_str.h"
 #include "menu.h"
@@ -54,12 +55,9 @@
 
 
 /*START_STATIC*/
-static gchar *get_debug_time ( void );
-static GtkWidget * print_backtrace ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gchar *nom_fichier_comptes;
 /*END_EXTERN*/
 
 static gint debugging_grisbi;
@@ -68,73 +66,161 @@ static gint debugging_grisbi;
  * this values should not be freed when begin a new file to continue the log */
 static FILE *debug_file = NULL;
 
-/*************************************************************************************************************/
-void traitement_sigsegv ( gint signal_nb )
+ /**
+ * return a string with the current time
+ * use to debug lines
+ *
+ * \param
+ *
+ * \return a string with the date and time, don't free it
+ * */
+static gchar *debug_get_debug_time ( void )
 {
+    /* le temps courant et une chaine dans laquelle on stocke le temps courant */
+    time_t debug_time;
+    gchar *str_debug_time;
+
+    /* on choppe le temps courant et on va le mettre dans une chaine */
+    time(&debug_time);
+    str_debug_time=ctime(&debug_time);
+
+    /* on fait sauter le retour a la ligne */
+    str_debug_time[strlen(str_debug_time) - 1] = '\0';
+
+    /* on renvoit le temps */
+    return str_debug_time;
+}
+
+#ifdef HAVE_BACKTRACE
+/**
+ * Print the backtrace upon segfault
+ *
+ * \param
+ *
+ * \return
+ **/
+static GtkWidget *debug_print_backtrace ( void )
+{
+    void *backtrace_content[15];
+    int backtrace_size;
+    gint i;
+    gchar **backtrace_strings, *text = g_strdup("");
+    GtkWidget * label;
+
+    backtrace_size = backtrace (backtrace_content, 15);
+    backtrace_strings = backtrace_symbols (backtrace_content, backtrace_size);
+
+    g_print ("%s : %d elements in stack.\n", debug_get_debug_time(), backtrace_size);
+
+    for (i = 0; i < backtrace_size; i++)
+    {
+	g_print ("\t%s\n", backtrace_strings[i]);
+	gchar* old_text = text;
+	text = g_strconcat ( text, g_strconcat ( "\t", backtrace_strings[i], "\n", NULL ),
+			     NULL );
+	g_free ( old_text );
+    }
+
+    label = gtk_label_new ( text );
+    g_free ( text );
+    gtk_label_set_selectable ( GTK_LABEL ( label ), TRUE );
+    return label;
+}
+#endif
+
+/**
+ * traitement des interruptions SIGINT, SIGTERM, SIGSEGV
+ *
+ * \param gint 	signal_nb
+ *
+ * \return
+ **/
+void debug_traitement_sigsegv ( gint signal_nb )
+{
+    GtkWidget *dialog;
     const gchar *gsb_file_default_dir;
+	const gchar *filename;
     gchar *errmsg = g_strdup ( "" );
 	gchar *old_errmsg;
-    gchar *tmpstr;
-    GtkWidget * dialog;
+    gchar *tmp_str;
 #ifdef HAVE_BACKTRACE
-    GtkWidget * expander;
+    GtkWidget *expander;
 #endif
+
+	switch ( signal_nb )
+	{
+		case 2:
+			tmp_str = "SIGINT";
+			break;
+		case 11:
+			tmp_str = "SIGSEGV";
+			break;
+		case 15:
+			tmp_str = "SIGTERM";
+			break;
+		default:
+			tmp_str = "NA";
+			printf ("signal number: %d\n", signal_nb );
+	}
+
+	printf ("signal name = %s\n", tmp_str );
+
+	/* on récupère le nom du fichier si possible */
+	filename = grisbi_win_get_filename (NULL);
 
     /*   il y a 3 possibilités : */
     /*     soit on était en train de charger un fichier, c'est que celui-ci est corrompu */
     /* soit on était en train de sauver un fichier, et là on peut rien faire */
     /* sinon on essaie de sauver le fichier sous le nom entouré de # */
 
-    if ( run.is_loading ||
-	 run.is_saving ||
-	 !gsb_file_get_modified ( ) )
+    if ( run.is_loading || run.is_saving || !gsb_file_get_modified ())
     {
+		if ( run.is_loading )
+		{
+			old_errmsg = errmsg;
+			errmsg = g_strconcat ( errmsg, _("File is corrupted."), NULL );
+			g_free ( old_errmsg );
+		}
 
-	if ( run.is_loading )
-	{
-	    old_errmsg = errmsg;
-	    errmsg = g_strconcat ( errmsg, _("File is corrupted."), NULL );
-	    g_free ( old_errmsg );
-	}
-
-	if ( run.is_saving )
-	{
-	    old_errmsg = errmsg;
-	    errmsg = g_strconcat ( errmsg, _("Error occured saving file."), NULL );
-	    g_free ( old_errmsg );
-	}
+		if ( run.is_saving )
+		{
+			old_errmsg = errmsg;
+			errmsg = g_strconcat ( errmsg, _("Error occured saving file."), NULL );
+			g_free ( old_errmsg );
+		}
     }
     else
     {
-	/* c'est un bug pendant le fonctionnement de Grisbi s'il n'y a
-	   pas de nom de fichier, on le crée, sinon on rajoute #
-	   autour */
+		gchar *nom_fichier_comptes;
+
+		/* c'est un bug pendant le fonctionnement de Grisbi s'il n'y a
+		pas de nom de fichier, on le crée, sinon on rajoute #
+		autour */
 
         gsb_file_default_dir = gsb_dirs_get_default_dir ();
 
-	if ( nom_fichier_comptes )
-	    /* set # around the filename */
-	    nom_fichier_comptes = g_path_get_basename (nom_fichier_comptes);
-	else
-	    /* no name for the file, create it */
-	    nom_fichier_comptes = g_strconcat ( gsb_file_default_dir,
-						"/#grisbi_crash_no_name#",
-						NULL );
+		if (filename)
+			/* set # around the filename */
+			nom_fichier_comptes = g_path_get_basename (filename);
+		else
+			/* no name for the file, create it */
+			nom_fichier_comptes = g_strconcat ( gsb_file_default_dir,
+											   "/#grisbi_crash_no_name#",
+											   NULL );
 
-	gsb_status_message ( _("Save file") );
+		grisbi_win_status_bar_message ( _("Save file") );
 
-	gsb_file_save_save_file ( nom_fichier_comptes,
-				  conf.compress_file,
-				  FALSE );
+		gsb_file_save_save_file ( nom_fichier_comptes, conf.compress_file, FALSE );
 
-	gsb_status_clear();
+		grisbi_win_status_bar_clear();
 
-    old_errmsg = errmsg;
-	errmsg = g_strconcat ( errmsg,
-			       g_strdup_printf ( _("Grisbi made a backup file at '%s'."),
-						 nom_fichier_comptes ),
-			       NULL );
-	g_free ( old_errmsg );
+		old_errmsg = errmsg;
+		errmsg = g_strconcat ( errmsg,
+							  g_strdup_printf ( _("Grisbi made a backup file at '%s'."),
+											   nom_fichier_comptes ),
+							  NULL );
+		g_free ( old_errmsg );
+		g_free (nom_fichier_comptes);
     }
 
     old_errmsg = errmsg;
@@ -158,104 +244,140 @@ void traitement_sigsegv ( gint signal_nb )
     g_free ( errmsg );
 
 #ifdef HAVE_BACKTRACE
-    tmpstr = g_strconcat ( "<b>", _("Backtrace"), "</b>", NULL );
-    expander = gtk_expander_new ( tmpstr );
-    g_free ( tmpstr );
+    tmp_str = g_strconcat ( "<b>", _("Backtrace"), "</b>", NULL );
+    expander = gtk_expander_new ( tmp_str );
+    g_free ( tmp_str );
 
     gtk_expander_set_use_markup ( GTK_EXPANDER ( expander ), TRUE );
-    gtk_container_add ( GTK_CONTAINER ( expander ), print_backtrace() );
+    gtk_container_add ( GTK_CONTAINER ( expander ), debug_print_backtrace() );
     gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), expander, FALSE, FALSE, 6 );
 
     gtk_widget_show_all ( dialog );
 #endif
     gtk_dialog_run ( GTK_DIALOG ( dialog ) );
 
-    /*     on évite le message du fichier ouvert à la prochaine ouverture */
-
-    gsb_file_util_modify_lock ( FALSE );
+    /* on évite le message du fichier ouvert à la prochaine ouverture */
+    gsb_file_util_modify_lock (filename, FALSE);
 
     exit(1);
 }
 
-/*************************************************************************************************************/
-/* initialise show_grisbi_debug a TRUE si on souhaite le debug																							 */
-/*************************************************************************************************************/
-void initialize_debugging ( void )
+/**
+ * initialise show_grisbi_debug a TRUE si on souhaite le debug
+ * updated by command line
+ *
+ * \param
+ *
+ * \return
+ **/
+void debug_initialize_debugging ( gint level )
 {
     /* un int pour stocker le level de debug et une chaine qui contient sa version texte */
     gint debug_variable=0;
     const gchar *debug_level="";
-	gchar* tmpstr1;
-	gchar* tmpstr2;
+	gchar* tmp_str1;
+	gchar* tmp_str2;
 
     if (getenv ("DEBUG_GRISBI"))
     {
-	/* on choppe la variable d'environnement */
-	debug_variable=utils_str_atoi (getenv ("DEBUG_GRISBI"));
+        /* on choppe la variable d'environnement */
+        debug_variable = utils_str_atoi (getenv ("DEBUG_GRISBI"));
 
-	/* on verifie que la variable est cohérente */
-	if (debug_variable > 0 && debug_variable <= MAX_DEBUG_LEVEL)
-	{
-	    /* on renseigne le texte du level de debug */
-	    debugging_grisbi = debug_variable;
-	    switch(debug_variable)
-	    {
-		case DEBUG_LEVEL_ALERT: { debug_level="Alert"; break; }
-		case DEBUG_LEVEL_IMPORTANT: { debug_level="Important"; break; }
-		case DEBUG_LEVEL_NOTICE: { debug_level="Notice"; break; }
-		case DEBUG_LEVEL_INFO: { debug_level="Info"; break; }
-		case DEBUG_LEVEL_DEBUG: { debug_level="Debug"; break; }
-	    }
+        /* on verifie que la variable est cohérente */
+        if (debug_variable > 0 && debug_variable <= MAX_DEBUG_LEVEL)
+        {
+            /* on renseigne le texte du level de debug */
+            debugging_grisbi = debug_variable;
+            switch(debug_variable)
+            {
+            case DEBUG_LEVEL_ALERT: { debug_level="Alert"; break; }
+            case DEBUG_LEVEL_IMPORTANT: { debug_level="Important"; break; }
+            case DEBUG_LEVEL_NOTICE: { debug_level="Notice"; break; }
+            case DEBUG_LEVEL_INFO: { debug_level="Info"; break; }
+            case DEBUG_LEVEL_DEBUG: { debug_level="Debug"; break; }
+            }
 
-	    /* on affiche un message de debug pour indiquer que le debug est actif */
-	    tmpstr1 = g_strdup_printf(_("GRISBI %s Debug"),VERSION);
-	    tmpstr2 = g_strdup_printf(_("Debug enabled, level is '%s'"),debug_level);
-	    debug_message_string ( tmpstr1 ,
-				   __FILE__, __LINE__, __PRETTY_FUNCTION__,
-				   tmpstr2,
-				   DEBUG_LEVEL_INFO, TRUE);
-	    g_free ( tmpstr1 );
-	    g_free ( tmpstr2 );
-	}
-	else
-	{
-	    /* on affiche un message de debug pour indiquer que le debug est actif */
-	    gchar* tmpstr = g_strdup_printf(_("GRISBI %s Debug"),VERSION);
-	    debug_message_string (tmpstr ,
-				  __FILE__, __LINE__, __PRETTY_FUNCTION__,
-				  _("Wrong debug level, please check DEBUG_GRISBI environnement variable"),
-				  DEBUG_LEVEL_INFO, TRUE);
-	    g_free ( tmpstr );
-	}
+            /* on affiche un message de debug pour indiquer que le debug est actif */
+            tmp_str1 = g_strdup_printf ( _("GRISBI %s Debug"), VERSION );
+            tmp_str2 = g_strdup_printf ( _("Debug enabled, level is '%s'"),debug_level);
+            debug_message_string ( tmp_str1 ,
+                       __FILE__, __LINE__, __PRETTY_FUNCTION__,
+                       tmp_str2,
+                       DEBUG_LEVEL_INFO, TRUE);
+            g_free ( tmp_str1 );
+            g_free ( tmp_str2 );
+        }
+        else
+        {
+            gchar* tmp_str;
+
+            debugging_grisbi = DEBUG_LEVEL_DEBUG;
+            /* on affiche un message de debug pour indiquer que le debug est actif */
+            tmp_str = g_strdup_printf (_("GRISBI %s Debug"),VERSION);
+            debug_message_string (tmp_str ,
+                      __FILE__, __LINE__, __PRETTY_FUNCTION__,
+                      _("Wrong debug level, please check DEBUG_GRISBI environnement variable"),
+                      DEBUG_LEVEL_INFO, TRUE);
+            g_free (tmp_str);
+        }
+    }
+    else
+    {
+        gchar* tmp_str;
+
+        debugging_grisbi = DEBUG_LEVEL_DEBUG;
+        /* on affiche un message de debug pour indiquer que le debug est actif */
+        tmp_str = g_strdup_printf (_("GRISBI %s Debug"),VERSION);
+        debug_message_string (tmp_str ,
+                  __FILE__, __LINE__, __PRETTY_FUNCTION__,
+                  _("Default debug level: Debug"),
+                  DEBUG_LEVEL_INFO, TRUE);
+        g_free (tmp_str);
     }
 }
 
 /**
- * return a string with the current time
- * use to debug lines
+ * set commande line mode for debugging
  *
  * \param
  *
- * \return a string with the date and time, don't free it
- * */
-gchar *get_debug_time ( void )
+ * \return
+ **/
+void debug_set_cmd_line_debug_level ( gint debug_level )
 {
-    /* le temps courant et une chaine dans laquelle on stocke le temps courant */
-    time_t debug_time;
-    gchar *str_debug_time;
+    /* un int pour stocker le level de debug et une chaine qui contient sa version texte */
+    const gchar *str_debug_level = "";
+	gchar* tmp_str1;
+	gchar* tmp_str2;
 
-    /* on choppe le temps courant et on va le mettre dans une chaine */
-    time(&debug_time);
-    str_debug_time=ctime(&debug_time);
+	/* on verifie que la variable est cohérente */
+	if ( debug_level > MAX_DEBUG_LEVEL)
+		debug_level = 5;
 
-    /* on fait sauter le retour a la ligne */
-    str_debug_time[strlen(str_debug_time) - 1] = '\0';
+	/* on renseigne le texte du level de debug */
+	debugging_grisbi = debug_level;
 
-    /* on renvoit le temps */
-    return str_debug_time;
+	switch ( debug_level )
+	{
+		case DEBUG_NO_DEBUG: { str_debug_level="No message"; break; }
+		case DEBUG_LEVEL_ALERT: { str_debug_level="Alert"; break; }
+		case DEBUG_LEVEL_IMPORTANT: { str_debug_level="Important"; break; }
+		case DEBUG_LEVEL_NOTICE: { str_debug_level="Notice"; break; }
+		case DEBUG_LEVEL_INFO: { str_debug_level="Info"; break; }
+		case DEBUG_LEVEL_DEBUG: { str_debug_level="Debug"; break; }
+	}
+
+	/* on affiche un message de debug pour indiquer que le debug est actif */
+	tmp_str1 = g_strdup_printf ( _("GRISBI %s Debug"), VERSION );
+	tmp_str2 = g_strdup_printf ( _("Debug updated by cmd line, level is '%s'"), str_debug_level );
+
+	debug_message_string ( tmp_str1,
+			   __FILE__, __LINE__, __PRETTY_FUNCTION__,
+			   tmp_str2,
+			   DEBUG_LEVEL_INFO, TRUE);
+	g_free ( tmp_str1 );
+	g_free ( tmp_str2 );
 }
-
-
 
 /**
  * show a debug message in the terminal
@@ -282,18 +404,18 @@ void debug_message_string ( const gchar *prefixe,
                         gboolean force_debug_display )
 {
     /* il faut bien entendu que le mode debug soit actif ou que l'on force l'affichage */
-    if ( ( debugging_grisbi && level <= debugging_grisbi) || force_debug_display || etat.debug_mode )
+    if (debugging_grisbi || force_debug_display || etat.debug_mode)
     {
         gchar* tmp_str;
 
         /* on affiche dans la console le message */
         if (message)
             tmp_str = g_strdup_printf(_("%s, %2f : %s - %s:%d:%s - %s\n"),
-                        get_debug_time (), (double )clock()/ CLOCKS_PER_SEC, prefixe,
+                        debug_get_debug_time (), (clock() + 0.0)/ CLOCKS_PER_SEC, prefixe,
                         file, line, function, message);
         else
             tmp_str = g_strdup_printf(_("%s, %2f : %s - %s:%d:%s\n"),
-                        get_debug_time (), (double )clock()/ CLOCKS_PER_SEC, prefixe,
+                        debug_get_debug_time (), (clock() + 0.0)/ CLOCKS_PER_SEC, prefixe,
                         file, line, function);
 
         if ( etat.debug_mode )
@@ -302,7 +424,7 @@ void debug_message_string ( const gchar *prefixe,
             fflush ( debug_file );
         }
 
-        g_print( "%s", tmp_str );
+        g_print ("%s", tmp_str);
         g_free ( tmp_str );
     }
 }
@@ -338,7 +460,7 @@ void debug_message_int ( const gchar *prefixe,
 
         /* on affiche dans la console le message */
         tmp_str = g_strdup_printf(_("%s, %2f : %s - %s:%d:%s - %d\n"),
-                        get_debug_time (), (double )clock()/ CLOCKS_PER_SEC, prefixe,
+                        debug_get_debug_time (), (clock() + 0.0)/ CLOCKS_PER_SEC, prefixe,
                         file, line, function, message);
 
         if (etat.debug_mode)
@@ -384,7 +506,7 @@ void debug_message_real ( const gchar *prefixe,
 
         /* on affiche dans la console le message */
         tmp_str = g_strdup_printf ("%s, %2f : %s - %s:%d:%s - %"G_GINT64_MODIFIER"d E %d\n",
-                        get_debug_time (), (double )clock()/ CLOCKS_PER_SEC, prefixe,
+                        debug_get_debug_time (), (clock() + 0.0)/ CLOCKS_PER_SEC, prefixe,
                         file, line, function, message.mantissa, message.exponent );
 
         if ( etat.debug_mode )
@@ -398,44 +520,6 @@ void debug_message_real ( const gchar *prefixe,
     }
 }
 
-
-
-
-/**
- * Print the backtrace upon segfault.
- */
-GtkWidget * print_backtrace ( void )
-{
-#ifdef HAVE_BACKTRACE
-    void *backtrace_content[15];
-    int backtrace_size;
-    size_t i;
-    gchar **backtrace_strings, *text = g_strdup("");
-    GtkWidget * label;
-
-    backtrace_size = backtrace (backtrace_content, 15);
-    backtrace_strings = backtrace_symbols (backtrace_content, backtrace_size);
-
-    g_print ("%s : %d elements in stack.\n", get_debug_time(), backtrace_size);
-
-    for (i = 0; i < backtrace_size; i++)
-    {
-	g_print ("\t%s\n", backtrace_strings[i]);
-	gchar* old_text = text;
-	text = g_strconcat ( text, g_strconcat ( "\t", backtrace_strings[i], "\n", NULL ),
-			     NULL );
-	g_free ( old_text );
-    }
-
-    label = gtk_label_new ( text );
-    g_free ( text );
-    gtk_label_set_selectable ( GTK_LABEL ( label ), TRUE );
-    return label;
-#else
-    return NULL;
-#endif
-}
-
 /**
  * called by menu : begin the debug mode
  * show a message to say where the log will be saved
@@ -444,12 +528,15 @@ GtkWidget * print_backtrace ( void )
  *
  * \return FALSE
  * */
-gboolean gsb_debug_start_log ( void )
+gboolean debug_start_log ( void )
 {
     gchar *tmp_str;
     gchar *debug_filename;
+	const gchar *nom_fichier_comptes;
 
     devel_debug ( NULL );
+	/* on récupère le nom du fichier si un fichier est chargé */
+	nom_fichier_comptes = grisbi_win_get_filename (NULL);
 
     if ( nom_fichier_comptes )
     {
@@ -486,21 +573,13 @@ gboolean gsb_debug_start_log ( void )
 
     if ( debug_file )
     {
-        GtkWidget *widget;
         gchar *tmp_str_2;
-        GtkUIManager *ui_manager = gsb_menu_get_ui_manager ( );
 
-        widget = gtk_ui_manager_get_widget ( ui_manager, "/menubar/FileMenu/DebugMode" );
         etat.debug_mode = TRUE;
-
-        /* unsensitive the menu, we cannot reverse the debug mode */
-        if ( widget && GTK_IS_WIDGET ( widget ) )
-            gtk_widget_set_sensitive ( widget, FALSE );
-
         /* début du mode de débogage */
         tmp_str = g_strdup_printf(_("%s, %2f : Debug - %s:%d:%s\n\n"),
-                        get_debug_time ( ),
-                        (double ) clock ( )/ CLOCKS_PER_SEC,
+                        debug_get_debug_time ( ),
+                        (clock() + 0.0)/ CLOCKS_PER_SEC,
                         __FILE__,
                         __LINE__,
                         __PRETTY_FUNCTION__ );
@@ -510,7 +589,7 @@ gboolean gsb_debug_start_log ( void )
         g_free ( tmp_str );
 
         /* write locales */
-        tmp_str = gsb_main_get_print_locale_var ( );
+        tmp_str = gsb_locale_get_print_locale_var ();
 
         fwrite ( tmp_str, sizeof (gchar), strlen ( tmp_str ), debug_file );
 	    fflush ( debug_file );
@@ -527,7 +606,7 @@ gboolean gsb_debug_start_log ( void )
 
         g_free ( tmp_str );
 
-        tmp_str = gsb_main_get_print_dir_var ( );
+        tmp_str = gsb_dirs_get_print_dir_var ( );
 
         fwrite ( tmp_str, sizeof (gchar), strlen ( tmp_str ), debug_file );
 	    fflush ( debug_file );
@@ -540,7 +619,7 @@ gboolean gsb_debug_start_log ( void )
 
         g_free ( tmp_str );
 
-        tmp_str = gsb_import_formats_get_list_formats_to_string ( );
+        tmp_str = gsb_ImportFormats_get_list_formats_to_string ( );
         tmp_str_2 = g_strconcat ( tmp_str, "\n", NULL );
 
         fwrite ( tmp_str_2, sizeof (gchar), strlen ( tmp_str_2 ), debug_file );
@@ -555,11 +634,10 @@ gboolean gsb_debug_start_log ( void )
     return FALSE;
 }
 
-
 /**
  *
  * */
-void gsb_debug_finish_log ( void )
+void debug_finish_log ( void )
 {
     if ( debug_file )
         fclose (debug_file);
@@ -589,8 +667,8 @@ void debug_print_log_string ( const gchar *prefixe,
         message = g_strdup ( "(null)" );
 
     tmp_str = g_strdup_printf(_("%s, %2f : %s - %s:%d:%s - %s\n"),
-                        get_debug_time ( ),
-                        (double ) clock ( )/ CLOCKS_PER_SEC,
+                        debug_get_debug_time ( ),
+                        (clock() + 0.0) / CLOCKS_PER_SEC,
                         prefixe,
                         file,
                         line,
@@ -604,6 +682,13 @@ void debug_print_log_string ( const gchar *prefixe,
     g_free ( message );
 }
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

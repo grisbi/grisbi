@@ -22,6 +22,18 @@ AC_SUBST(GRISBI_MINOR_VERSION, grisbi_minor_version)
 AC_DEFINE(GRISBI_MICRO_VERSION, grisbi_micro_version, [grisbi micro version])
 AC_SUBST(GRISBI_MICRO_VERSION, grisbi_micro_version)
 
+# Dependencies
+GLIB_REQUIRED=2.44
+GTK_REQUIRED=3.16
+LIBGSF_REQUIRED=1.14
+
+# Optionnel
+LIBGOFFICE_REQUIRED=0.10.0
+LIBOFX_REQUIRED=0.9
+LIBSSL_REQUIRED=1.0.0
+LIBXML_REQUIRED=2.5.0
+
+
 dnl ================================================================
 dnl Standard checks.
 dnl ================================================================
@@ -44,6 +56,16 @@ dnl Initialize libtool
 LT_INIT
 LT_LIB_M
 
+dnl GSettings
+GLIB_GSETTINGS
+
+dnl GLIB_COMPILE_RESOURCES
+AC_PATH_PROG(GLIB_COMPILE_RESOURCES, glib-compile-resources)
+
+dnl new warning from ar
+AR_FLAGS='cr'
+AC_SUBST(AR_FLAGS)
+
 dnl ================================================================
 dnl Check for NLS support.
 dnl ================================================================
@@ -58,8 +80,7 @@ AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE", [Gettext package.])
 dnl ================================================================
 dnl Main Grisbi libraries
 dnl ================================================================
-
-grisbi_modules="gtk+-3.0 >= 3.0.12 glib-2.0 >= 2.28 libgsf-1 >= 1.14"
+grisbi_modules="gtk+-3.0 >= $GTK_REQUIRED glib-2.0 >= $GLIB_REQUIRED libgsf-1 >= $LIBGSF_REQUIRED"
 PKG_CHECK_MODULES(ZLIB, [zlib], have_zlib_pc=yes, have_zlib_pc=no)
 if test "$have_zlib_pc" = "yes"; then
 	grisbi_modules="$grisbi_modules zlib"
@@ -113,7 +134,7 @@ AC_ARG_WITH(openssl,
 	[build_openssl=$withval],
 	[build_openssl=auto])
 
-PKG_CHECK_MODULES(OPENSSL, [libcrypto >= 0.9.7], have_openssl=yes, have_openssl=no)
+PKG_CHECK_MODULES(OPENSSL, [libcrypto >= LIBSSL_REQUIRED], have_openssl=yes, have_openssl=no)
 if test "$build_openssl" = yes -a "$have_openssl" = no; then
 	AC_MSG_ERROR([OpenSSL support was requested but libssl could not be found.])
 fi
@@ -162,7 +183,7 @@ AC_ARG_WITH(ofx,
 	[build_ofx=$withval],
 	[build_ofx=auto])
 
-PKG_CHECK_MODULES(LIBOFX, [libofx >= 0.7], have_ofx=yes, have_ofx=no)
+PKG_CHECK_MODULES(LIBOFX, [libofx >= $LIBOFX_REQUIRED], have_ofx=yes, have_ofx=no)
 if test "$build_ofx" = yes -a "$with_ofx" = no; then
 	AC_MSG_ERROR([Ofx support was requested but libofx could not be found.])
 fi
@@ -185,7 +206,7 @@ AC_ARG_WITH(goffice,
 	[build_goffice=$withval],
 	[build_goffice=auto])
 
-PKG_CHECK_MODULES(GOFFICE, [libgoffice-0.10 >= 0.10.0], have_goffice=yes, have_goffice=no)
+PKG_CHECK_MODULES(GOFFICE, [libgoffice-0.10 >= LIBGOFFICE_REQUIRED], have_goffice=yes, have_goffice=no)
 if test "$build_goffice" = yes -a "$have_goffice" = no; then
 	AC_MSG_ERROR([GOffice support was requested but goffice could not be found.])
 fi
@@ -210,11 +231,20 @@ AC_ARG_ENABLE(werror,
  	enable_werror=no)
 if test "x$enable_werror" = xyes ; then
 	if test "x$GCC" = "xyes" ; then
-		CFLAGS="$CFLAGS -pedantic-Wall -Wextra"
-		AC_MSG_WARN([Wall and Wunused flags are enabled])
+		CFLAGS="$CFLAGS -Wall -Wextra -Wno-deprecated-declarations -Wno-unused-parameter"
+		AC_MSG_WARN([Wall -Wextra and other flags are enabled])
 	else
-		AC_MSG_WARN([Wall and Wunused can be enabled only with gcc])
+		AC_MSG_WARN([Wall -Wextra and other flags can be enabled only with gcc])
 	fi
+fi
+
+AC_ARG_ENABLE(real-werror,
+ 	[AS_HELP_STRING([--enable-real-werror],
+ 	[Treates warning as errors (default=no)])],,
+ 	enable_real_werror=no)
+if test "x$enable_real_werror" = xyes ; then
+	CFLAGS="$CFLAGS -Werror"
+	AC_MSG_WARN([-Werror flag is enabled])
 fi
 
 dnl ================================================================
@@ -232,6 +262,47 @@ fi
 AC_DEFINE_UNQUOTED([GSB_NOOPTIM], [${GSB_NOOPTIM}],
 	[define to 1 if g_no_optim support is enabled])
 AC_SUBST(GSB_NOOPTIM)
+
+dnl ================================================================
+dnl basic check for msys2 platform
+dnl ================================================================
+
+AC_MSG_CHECKING([for MSYS2 platform])
+case $host_os in
+  *msys* ) MSYS2=yes
+  	AC_MSG_RESULT([MSYS2])
+  	platform_win=yes
+  ;;
+  *mingw32* ) MINGW32=yes
+  	AC_MSG_RESULT([MINGW32])
+  	platform_win=yes
+  ;;
+  *)
+    platform_win=no
+    AC_MSG_RESULT([$platform_win])    
+    ;;
+esac
+
+if test "$platform_win" = "yes"; then
+	NSIS_BITS=64bit
+	NSIS_DEFAULTINSTDIR="Program Files"
+	if test "$MSYSTEM"x == "MINGW32"x; then
+		NSIS_BITS=32bit;
+		NSIS_DEFAULTINSTDIR="Program Files (x86)"
+	fi
+	NSIS_SRCDIR=$({ cd ${srcdir} && pwd -W; } | sed 's|/|\\|g')
+	NSIS_INSTDIR=$(echo $prefix | perl -p -e 's|^/(.)/|$1:\\|' | perl -p -e 's|/|\\|g')
+	
+	AC_SUBST(NSIS_BITS)
+	AC_SUBST(NSIS_DEFAULTINSTDIR)
+	
+
+	AC_SUBST(NSIS_SRCDIR)
+	AC_SUBST(NSIS_INSTDIR)
+fi
+
+
+AM_CONDITIONAL(WIN32, test "$platform_win" = "yes")
 
 dnl ================================================================
 dnl check for osx platform
@@ -282,7 +353,7 @@ dnl french doc
 dnl ================================================================
 
 AC_ARG_ENABLE(frenchdoc,
-  [AC_HELP_STRING([--disable-frenchdoc],
+  [AS_HELP_STRING([--disable-frenchdoc],
   [Install french user documentation (default=yes)])],,
   enable_frenchdoc=yes)
 AM_CONDITIONAL(FRENCHDOC, test "$enable_frenchdoc" = "yes")
@@ -306,6 +377,7 @@ pixmaps/Makefile
 pixmaps/flags/Makefile
 po/Makefile.in
 share/Makefile
+share/grisbi.nsi
 share/categories/Makefile
 share/categories/C/Makefile
 share/categories/fr/Makefile
@@ -319,20 +391,27 @@ src/tests/Makefile
 src/plugins/gnucash/Makefile
 src/plugins/ofx/Makefile
 src/plugins/openssl/Makefile
+src/prefs/Makefile
 src/ui/Makefile
 ])
 
 AC_OUTPUT
 
+if test "x$enable_werror" = "xyes" ; then
+	echo "
+                werror:                    yes"
+fi
 echo "
 
                 Build with libxml2:        $build_libxml2
                 Build with OpenSSL:        $build_openssl
                 Build with OFX plugin:     $build_ofx
                 Build with goffice:        $build_goffice
+                Build win32:               $platform_win
                 Build gtk_mac_integration: $os_osx
                 CUnit/unit tests support:  $build_cunit
                 Install french user doc:   $enable_frenchdoc
+                Compiler flags:            $CFLAGS
 
 "
 if expr ${GRISBI_MINOR_VERSION} % 2 > /dev/null; then

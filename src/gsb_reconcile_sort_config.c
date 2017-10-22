@@ -27,7 +27,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -44,6 +44,7 @@
 #include "traitement_variables.h"
 #include "utils.h"
 #include "utils_buttons.h"
+#include "utils_prefs.h"
 #include "utils_str.h"
 /*END_INCLUDE*/
 
@@ -82,17 +83,16 @@ static GtkWidget *button_move_down;
  */
 GtkWidget *gsb_reconcile_sort_config_create ( void )
 {
-    GtkWidget *hbox, *scrolled_window;
+    GtkWidget *scrolled_window;
     GtkWidget *vbox_pref;
     GtkWidget *paddinggrid;
     GtkTreeViewColumn *column;
     GtkCellRenderer *cell;
-    GtkWidget *box_fleches_tri;
     GtkTreeStore *reconcile_model;
     GtkTreeSelection *reconcile_selection;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Sort for reconciliation"),
-					       "reconciliationlg.png" );
+					       "gsb-reconciliation-32.png" );
     paddinggrid = utils_prefs_paddinggrid_new_with_title (vbox_pref,
                                                           _("Reconciliation: sort transactions") );
 
@@ -110,6 +110,7 @@ GtkWidget *gsb_reconcile_sort_config_create ( void )
 					   G_TYPE_BOOLEAN ); /* sensitive line */
 
     reconcile_treeview = gtk_tree_view_new_with_model ( GTK_TREE_MODEL (reconcile_model) );
+	gtk_widget_set_name (reconcile_treeview, "tree_view");
     g_object_unref (G_OBJECT(reconcile_model));
     gtk_tree_selection_set_mode ( gtk_tree_view_get_selection (GTK_TREE_VIEW (reconcile_treeview)),
 				  GTK_SELECTION_SINGLE );
@@ -388,10 +389,10 @@ gboolean gsb_reconcile_sort_config_move_up ( GtkWidget *button,
 					     GtkWidget *tree_view )
 {
     GtkTreePath * treepath;
-    gboolean good, visible;
+    gboolean good, visible = 0;
     GtkTreeIter iter, other;
     gint payment_number;
-    gint account_number;
+    gint account_number = -1;
     GtkTreeModel *model;
     GtkTreeSelection *selection;
 
@@ -441,10 +442,10 @@ gboolean gsb_reconcile_sort_config_move_down ( GtkWidget *button,
 					       GtkWidget *tree_view )
 {
     GtkTreePath * treepath;
-    gboolean good, visible;
+    gboolean good, visible = 0;
     GtkTreeIter iter, other;
     gint payment_number;
-    gint account_number;
+    gint account_number = -1;
     GtkTreeModel *model;
     GtkTreeSelection *selection;
 

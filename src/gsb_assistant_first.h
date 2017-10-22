@@ -7,7 +7,7 @@
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
-GtkResponseType gsb_assistant_first_come_to_0_6 ( void );
-GtkResponseType gsb_assistant_first_run ( void );
+GtkResponseType 	gsb_assistant_first_come_to_0_6 	(void);
+GtkResponseType 	gsb_assistant_first_run 			(void);
 /* END_DECLARATION */
 #endif

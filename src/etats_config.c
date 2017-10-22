@@ -23,7 +23,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include <glib/gi18n.h>
@@ -38,6 +38,7 @@
 #include "etats_prefs.h"
 #include "etats_onglet.h"
 #include "fenetre_principale.h"
+#include "grisbi_app.h"
 #include "gsb_calendar_entry.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
@@ -57,6 +58,7 @@
 #include "utils_buttons.h"
 #include "utils_dates.h"
 #include "utils_gtkbuilder.h"
+#include "utils_prefs.h"
 #include "utils_real.h"
 #include "utils_str.h"
 #include "erreur.h"
@@ -74,9 +76,10 @@ static void etats_config_onglet_texte_get_buttons_add_remove ( GtkWidget *parent
 /*START_EXTERN*/
 /*END_EXTERN*/
 
-
 /* last_report */
 static gint last_report = -1;
+
+static gboolean payee_last_state;
 
 /* the def of the columns in the categ and budget list to filter by categ and budget */
 enum
@@ -883,7 +886,7 @@ static gboolean etats_config_onglet_categ_budget_fill_model ( GtkTreeModel *mode
  *
  * \param treeview_name nom du tree_view
  *
- * \return a GSList of struct_categ_budget_sel or NULL if all the categories/sub-categ were selected
+ * \return a GSList of CategBudgetSel or NULL if all the categories/sub-categ were selected
  *          to avoid to filter by categ, to improve speed
  * */
 static GSList *etats_config_onglet_categ_budget_get_selected ( const gchar *treeview_name )
@@ -905,7 +908,7 @@ static GSList *etats_config_onglet_categ_budget_get_selected ( const gchar *tree
     {
         gint div_number;
         gboolean active;
-        struct_categ_budget_sel *categ_budget_struct;
+        CategBudgetSel *categ_budget_struct;
         GtkTreeIter iter_children;
 
         gtk_tree_model_get (GTK_TREE_MODEL (model),
@@ -920,7 +923,7 @@ static GSList *etats_config_onglet_categ_budget_get_selected ( const gchar *tree
         }
 
         /* ok, we are on a selected category/budget, create and fill the structure */
-        categ_budget_struct = g_malloc0 ( sizeof ( struct_categ_budget_sel ) );
+        categ_budget_struct = g_malloc0 ( sizeof ( CategBudgetSel ) );
 
         categ_budget_struct -> div_number = div_number;
         tmp_list = g_slist_append ( tmp_list, categ_budget_struct );
@@ -999,7 +1002,7 @@ static void etats_config_onglet_categ_budget_init_treeview ( const gchar *treevi
 
     while ( tmp_list )
     {
-        struct_categ_budget_sel *categ_budget_struct = tmp_list -> data;
+        CategBudgetSel *categ_budget_struct = tmp_list -> data;
 
         do
         {
@@ -1122,27 +1125,11 @@ static gint etats_config_onglet_categ_budget_sort_function ( GtkTreeModel *model
 {
     gchar *name_1;
     gchar *name_2;
-    gchar *without_name;
-    gchar *without_sub_name;
     gint number_1;
     gint number_2;
     gint sub_number_1;
     gint sub_number_2;
     gint return_value = 0;
-    gboolean is_categ;
-
-    is_categ = GPOINTER_TO_INT ( ptr );
-
-    if ( is_categ )
-    {
-        without_name = _("No category");
-        without_sub_name = _("No subcategory");
-    }
-    else
-    {
-        without_name = _("No budgetary line");
-        without_sub_name = _("No sub-budgetary line");
-    }
 
     /* first, we sort by date (col 0) */
     gtk_tree_model_get ( model,
@@ -1523,10 +1510,10 @@ static GtkWidget *etats_config_onglet_texte_new_comparison_line ( GtkWidget *par
     GtkWidget *radio_2;
 
     /* la vbox qui contient la ligne complète */
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
 
     /* la première hbox pour le type de donnée concernée */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 );
 
     /* on crée le premier lien ne sert pas si c'est la première ligne */
@@ -1542,9 +1529,9 @@ static GtkWidget *etats_config_onglet_texte_new_comparison_line ( GtkWidget *par
 
     /* avant de créer le bouton des champs, on doit créer hbox_txt, hbox_chq et les 2 check button */
     gsb_data_report_text_comparison_set_hbox_text ( text_comparison_number,
-                        gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 ) );
+                        gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX ) );
     gsb_data_report_text_comparison_set_hbox_cheque ( text_comparison_number,
-                        gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 ) );
+                        gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX ) );
 
     /* on crée le radio bouton de sélection entre les deux types de recherche caché par défaut */
     radio_1 = gtk_radio_button_new ( NULL );
@@ -1565,7 +1552,7 @@ static GtkWidget *etats_config_onglet_texte_new_comparison_line ( GtkWidget *par
                         GINT_TO_POINTER ( text_comparison_number ) );
 
     /* la suite se met dans hbox_txt en 2ème row */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( NULL );
@@ -1602,7 +1589,7 @@ static GtkWidget *etats_config_onglet_texte_new_comparison_line ( GtkWidget *par
     gtk_box_pack_start ( GTK_BOX ( hbox_1 ), entry, FALSE, FALSE, 0 );
 
     /* on crée maintenant la 2ème row qui concerne les tests de chq */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( NULL );
@@ -1645,7 +1632,7 @@ static GtkWidget *etats_config_onglet_texte_new_comparison_line ( GtkWidget *par
     gtk_box_pack_start ( GTK_BOX ( hbox_1 ), combo, FALSE, FALSE, 0 );
 
     /* on crée la hbox pour la deuxième partie de la comparaison*/
-    hbox_2 = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox_2 = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gsb_data_report_text_comparison_set_hbox_second_part ( text_comparison_number, hbox_2 );
     gtk_box_pack_start ( GTK_BOX ( hbox_1 ), hbox_2, FALSE, FALSE, 0 );
 
@@ -1932,7 +1919,7 @@ static void etats_config_onglet_texte_remplit_liste_comparaisons ( gint report_n
  *
  * \return
  */
-void etats_config_onglet_texte_retire_ligne_liste_comparaisons ( gint last_text_comparison_number )
+static void etats_config_onglet_texte_retire_ligne_liste_comparaisons ( gint last_text_comparison_number )
 {
     gint current_report_number;
 
@@ -1975,37 +1962,28 @@ void etats_config_onglet_texte_retire_ligne_liste_comparaisons ( gint last_text_
 static void etats_config_onglet_texte_get_buttons_add_remove ( GtkWidget *parent,
                         gint text_comparison_number )
 {
-    GtkWidget *alignement;
     GtkWidget *button;
-
-    alignement = gtk_alignment_new ( 0.3, 0, 0, 0 );
-    gtk_widget_show ( alignement );
-    gtk_box_pack_start ( GTK_BOX ( parent ), alignement, TRUE, TRUE, 0 );
 
     button = gtk_button_new_with_label ( _("Add") );
     gtk_widget_show ( button );
-    gtk_button_set_relief ( GTK_BUTTON ( button ), GTK_RELIEF_NONE );
+    gtk_button_set_relief ( GTK_BUTTON ( button ), GTK_RELIEF_NORMAL );
 
     g_signal_connect_swapped ( G_OBJECT ( button ),
                         "clicked",
                         G_CALLBACK ( etats_config_onglet_texte_ajoute_ligne_liste_comparaisons ),
                         GINT_TO_POINTER ( text_comparison_number ) );
 
-    gtk_container_add ( GTK_CONTAINER ( alignement ), button );
-
-    alignement = gtk_alignment_new ( 0.3, 0, 0, 0 );
-    gtk_widget_show ( alignement );
-    gtk_box_pack_start ( GTK_BOX ( parent ), alignement, TRUE, TRUE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( parent ), button, TRUE, TRUE, MARGIN_BOX );
 
     button = gtk_button_new_with_label ( _("Remove") );
-    gtk_button_set_relief ( GTK_BUTTON ( button ), GTK_RELIEF_NONE );
+    gtk_button_set_relief ( GTK_BUTTON ( button ), GTK_RELIEF_NORMAL );
 
     g_signal_connect_swapped ( G_OBJECT ( button ),
                         "clicked",
                         G_CALLBACK ( etats_config_onglet_texte_retire_ligne_liste_comparaisons ),
                         GINT_TO_POINTER ( text_comparison_number ) );
 
-    gtk_container_add ( GTK_CONTAINER ( alignement ), button );
+    gtk_box_pack_start ( GTK_BOX ( parent ), button, TRUE, TRUE, MARGIN_BOX );
 }
 
 
@@ -2126,7 +2104,7 @@ static GtkWidget *etats_config_onglet_montants_new_comparison_line ( GtkWidget *
     GtkWidget *entry;
     GtkWidget *combo;
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
 
     /* on crée le premier lien ne sert pas si c'est la première ligne */
     if ( with_link )
@@ -2159,7 +2137,7 @@ static GtkWidget *etats_config_onglet_montants_new_comparison_line ( GtkWidget *
     gsb_data_report_amount_comparison_set_button_link_first_to_second_part ( amount_comparison_number, combo );
 
     /* the hbox is created in hbox_2 and is used later */
-    hbox_2 = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox_2 = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gsb_data_report_amount_comparison_set_hbox_second_part ( amount_comparison_number, hbox_2 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), hbox_2, FALSE, FALSE, 0 );
 
@@ -2420,12 +2398,7 @@ static void etats_config_onglet_montants_retire_ligne_liste_comparaisons ( gint 
 static void etats_config_onglet_montants_get_buttons_add_remove ( GtkWidget *parent,
                         gint text_comparison_number )
 {
-    GtkWidget *alignement;
     GtkWidget *button;
-
-    alignement = gtk_alignment_new ( 0.3, 0, 0, 0 );
-    gtk_widget_show ( alignement );
-    gtk_box_pack_start ( GTK_BOX ( parent ), alignement, TRUE, TRUE, 0 );
 
     button = gtk_button_new_with_label ( _("Add") );
     gtk_widget_show ( button );
@@ -2436,11 +2409,7 @@ static void etats_config_onglet_montants_get_buttons_add_remove ( GtkWidget *par
                         G_CALLBACK ( etats_config_onglet_montants_ajoute_ligne_liste_comparaisons ),
                         GINT_TO_POINTER ( text_comparison_number ) );
 
-    gtk_container_add ( GTK_CONTAINER ( alignement ), button );
-
-    alignement = gtk_alignment_new ( 0.3, 0, 0, 0 );
-    gtk_widget_show ( alignement );
-    gtk_box_pack_start ( GTK_BOX ( parent ), alignement, TRUE, TRUE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( parent ), button, TRUE, TRUE, 0 );
 
     button = gtk_button_new_with_label ( _("Remove") );
     gtk_button_set_relief ( GTK_BUTTON ( button ), GTK_RELIEF_NONE );
@@ -2450,7 +2419,7 @@ static void etats_config_onglet_montants_get_buttons_add_remove ( GtkWidget *par
                         G_CALLBACK ( etats_config_onglet_montants_retire_ligne_liste_comparaisons ),
                         GINT_TO_POINTER ( text_comparison_number ) );
 
-    gtk_container_add ( GTK_CONTAINER ( alignement ), button );
+    gtk_box_pack_start ( GTK_BOX ( parent ), button, TRUE, TRUE, 0 );
 }
 
 
@@ -3105,16 +3074,170 @@ void etats_config_onglet_data_separation_combo_changed ( GtkComboBox *combo,
 
 /*ONGLET_AFFICHAGE_GENERALITES*/
 /**
+ * pré visualise le titre avec son complément
+ *
+ * \param report_number
+ *
+ * \return
+ **/
+static void etats_config_display_name_with_complement (gint report_number)
+{
+	gchar **tab;
+	gchar *report_name = NULL;
+	gchar *compl_str;
+	gchar *tmp_str = NULL;
+	gint function;
+	gint position;
+
+	devel_debug_int (report_number);
+	report_name = gsb_data_report_get_report_name (report_number);
+	function = gsb_data_report_get_compl_name_function (report_number);
+	position = gsb_data_report_get_compl_name_position (report_number);
+	tab = gsb_date_get_date_time_now_local ();
+
+	if (function == 1)
+	{
+		if (position == 2)
+		{
+			compl_str = g_strconcat (tab[0], " ", _("at"), " ", tab[1], NULL);
+		}
+		else
+		{
+			compl_str = g_strconcat (tab[0], " ", tab[1], NULL);
+		}
+	}
+	else
+	{
+		compl_str = g_strdup (tab[0]);
+	}
+
+	switch (position)
+	{
+		case 1:
+			tmp_str = g_strconcat (report_name, " - ", compl_str, NULL);
+			break;
+		case 2:
+			tmp_str = g_strconcat (report_name, "\n(", _("Edited"), " ", compl_str, ")", NULL);
+			break;
+		default:
+			tmp_str = g_strconcat (compl_str, " - ", report_name, NULL);
+	}
+	g_free (compl_str);
+	g_strfreev (tab);
+
+	if (tmp_str)
+	{
+		GtkWidget *textview;
+		GtkTextBuffer *buffer;
+
+		textview = etats_prefs_widget_get_widget_by_name ("textview_compl_name", NULL);
+		buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
+		gtk_text_buffer_set_text (buffer, tmp_str, -1);
+		g_free (tmp_str);
+	}
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void etats_config_combo_box_compl_name_changed (GtkComboBox *widget,
+													   void function (gint report_number,
+																	  gint compl_name_int))
+{
+	gint report_number;
+
+	report_number = gsb_gui_navigation_get_current_report ();
+	function (report_number, gtk_combo_box_get_active (GTK_COMBO_BOX (widget)));
+	etats_config_display_name_with_complement (report_number);
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static gboolean etats_config_check_button_compl_name_toggled (GtkWidget *check_button,
+															  GtkWidget *widget)
+{
+	gboolean activ;
+
+	activ = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check_button));
+    gtk_widget_set_sensitive ( widget, activ);
+
+	if (activ)
+		etats_config_display_name_with_complement (gsb_gui_navigation_get_current_report ());
+	else
+	{
+		GtkWidget *textview;
+		GtkTextBuffer *buffer;
+
+		textview = etats_prefs_widget_get_widget_by_name ("textview_compl_name", NULL);
+		buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
+		gtk_text_buffer_set_text (buffer, "", -1);
+	}
+
+	return FALSE;
+}
+
+/**
  * Initialise les informations de l'onglet généraités
  *
  * \param report_number
  *
  * \return
- */
+ **/
 static void etats_config_initialise_onglet_affichage_generalites ( gint report_number )
 {
+	GtkWidget *checkbutton;
+	GtkWidget *widget;
+	gchar *report_name = NULL;
+	gboolean activ;
+
+	report_name = gsb_data_report_get_report_name (report_number);
     gtk_entry_set_text ( GTK_ENTRY ( etats_prefs_widget_get_widget_by_name ( "entree_nom_etat", NULL ) ),
-                        gsb_data_report_get_report_name ( report_number ) );
+                        report_name);
+
+    /* on initialise le complément du nom si actif */
+	checkbutton = etats_prefs_widget_get_widget_by_name ("check_button_compl_name", NULL);
+	widget = etats_prefs_widget_get_widget_by_name ("hbox_combo_compl_name", NULL);
+	activ = gsb_data_report_get_compl_name_used (report_number);
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton), activ);
+	if (report_name && activ)
+	{
+		gsb_button_sensitive_by_checkbutton (checkbutton, widget);
+		gtk_combo_box_set_active (GTK_COMBO_BOX (etats_prefs_widget_get_widget_by_name ("combo_box_compl_name_function", NULL)),
+								  gsb_data_report_get_compl_name_function (report_number));
+		gtk_combo_box_set_active (GTK_COMBO_BOX (etats_prefs_widget_get_widget_by_name ("combo_box_compl_name_position", NULL)),
+								  gsb_data_report_get_compl_name_position (report_number));
+		etats_config_display_name_with_complement (report_number);
+	}
+
+    /* Connect signal */
+    g_signal_connect (etats_prefs_widget_get_widget_by_name ("event_box_compl_name", NULL),
+					  "button-press-event",
+					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
+					  checkbutton);
+    g_signal_connect (checkbutton,
+					  "toggled",
+					  G_CALLBACK (etats_config_check_button_compl_name_toggled),
+					  widget);
+
+	g_signal_connect (etats_prefs_widget_get_widget_by_name ("combo_box_compl_name_function", NULL),
+					  "changed",
+					  G_CALLBACK (etats_config_combo_box_compl_name_changed),
+					  gsb_data_report_set_compl_name_function);
+    g_signal_connect (etats_prefs_widget_get_widget_by_name ("combo_box_compl_name_position", NULL),
+					  "changed",
+					  G_CALLBACK (etats_config_combo_box_compl_name_changed),
+					  gsb_data_report_set_compl_name_position);
 
     /* on initialise le type de date à sélectionner */
     etats_prefs_button_toggle_set_actif ( "button_sel_value_date",
@@ -3125,10 +3248,11 @@ static void etats_config_initialise_onglet_affichage_generalites ( gint report_n
                         gsb_data_report_get_ignore_archives ( report_number ) );
     etats_prefs_button_toggle_set_actif ( "bouton_afficher_nb_opes",
                         gsb_data_report_get_show_report_transaction_amount ( report_number ) );
-    etats_prefs_button_toggle_set_actif ( "bouton_inclure_dans_tiers",
-                        gsb_data_report_get_append_in_payee ( report_number ) );
-}
 
+	/* mémorisation de l'état avant initialisation */
+	payee_last_state = gsb_data_report_get_append_in_payee (report_number);
+    etats_prefs_button_toggle_set_actif ("bouton_inclure_dans_tiers", payee_last_state);
+}
 
 /**
  * Récupère les informations de l'onglet généralités
@@ -3151,6 +3275,25 @@ static void etats_config_recupere_info_onglet_affichage_generalites ( gint repor
     {
         gsb_data_report_set_report_name ( report_number, text );
     }
+
+	if (etats_prefs_button_toggle_get_actif ("check_button_compl_name"))
+	{
+		GtkWidget *widget;
+
+		gsb_data_report_set_compl_name_used (report_number, TRUE);
+		widget = etats_prefs_widget_get_widget_by_name ("combo_box_compl_name_function", NULL);
+		gsb_data_report_set_compl_name_function (report_number,
+												 gtk_combo_box_get_active (GTK_COMBO_BOX (widget)));
+		widget = etats_prefs_widget_get_widget_by_name ("combo_box_compl_name_position", NULL);
+		gsb_data_report_set_compl_name_position (report_number,
+												 gtk_combo_box_get_active (GTK_COMBO_BOX (widget)));
+	}
+	else
+	{
+		gsb_data_report_set_compl_name_used (report_number, FALSE);
+		gsb_data_report_set_compl_name_function (report_number, 0);
+		gsb_data_report_set_compl_name_function (report_number, 0);
+	}
 
     /* on récupère les autres informations */
     gsb_data_report_set_date_select_value ( report_number,
@@ -3614,6 +3757,8 @@ static gboolean etats_config_initialise_dialog_from_etat ( gint report_number )
  */
 static gboolean etats_config_recupere_info_to_etat ( gint report_number )
 {
+	gboolean payee_new_state = FALSE;
+
     /* onglet période */
     etats_config_recupere_info_onglet_periode ( report_number );
 
@@ -3663,8 +3808,9 @@ static gboolean etats_config_recupere_info_to_etat ( gint report_number )
     etats_config_recupere_info_onglet_affichage_devises ( report_number );
 
     /* update the payee combofix in the form, to add that report if asked */
-    if ( gsb_data_report_get_append_in_payee ( report_number ) )
-        gsb_form_widget_update_payee_combofix ( report_number, TRUE );
+	payee_new_state = gsb_data_report_get_append_in_payee (report_number);
+    if (payee_last_state || payee_new_state)
+        gsb_form_widget_update_payee_combofix (report_number, payee_new_state);
 
     /* on avertit grisbi de la modification à enregistrer */
     gsb_file_set_modified ( TRUE );
@@ -3705,7 +3851,7 @@ void etats_config_personnalisation_etat ( void )
         gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general), GSB_REPORTS_PAGE );
 
     /* Création de la fenetre de dialog */
-    dialog = etats_prefs_new ( run.window );
+    dialog = etats_prefs_new (GTK_WIDGET (grisbi_app_get_active_window (NULL)));
     if ( dialog == NULL )
         return;
 

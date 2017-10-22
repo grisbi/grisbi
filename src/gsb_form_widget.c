@@ -28,7 +28,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -115,7 +115,10 @@ gboolean gsb_form_widget_free_list ( void )
         element = tmp_list -> data;
 
         if (! element )
+		{
+			tmp_list = tmp_list -> next;
             continue;
+		}
 
         /* just to make sure... */
         if ( element -> element_widget )
@@ -131,6 +134,23 @@ gboolean gsb_form_widget_free_list ( void )
                 {
                     widget_signals = GTK_COMBOFIX ( element -> element_widget ) -> entry;
                 }
+				else if (GTK_IS_COMBO_BOX (element->element_widget))
+				{
+					if (element->element_number == TRANSACTION_FORM_TYPE)
+					{
+						g_signal_handlers_block_by_func (element -> element_widget,
+														 gsb_payment_method_changed_callback,
+														 NULL);
+					}
+					/* Ajout du 24/07/2017 : pour une raison encore indéterminée, les éléments de type GtkComboBox */
+					/* provoquent un warning de la part de gtk (version 3.22.11) lorsque le widget est détruit :                                 */
+					/* (grisbi:10426): Gtk-CRITICAL **: gtk_widget_is_drawable: assertion 'GTK_IS_WIDGET (widget)' failed */
+
+					element -> element_widget = NULL;
+					g_free (element);
+					tmp_list = tmp_list -> next;
+					continue;
+				}
 
                 if ( widget_signals )
                 {
@@ -151,18 +171,16 @@ gboolean gsb_form_widget_free_list ( void )
                         GINT_TO_POINTER ( element -> element_number ));
                 }
 
-                /* if there is something in the combofix we destroy, the popup will
+				/* if there is something in the combofix we destroy, the popup will
                  * be showed because destroying the gtk_entry will erase it directly,
                  * so the simpliest way to avoid that is to erase now the entry, but with
                  * gtk_combofix_set_text [cedric] (didn't succeed with another thing...) */
                 if (GTK_IS_COMBOFIX (element -> element_widget))
                 {
-                    g_signal_handlers_block_by_func ( element -> element_widget,
-                        gsb_payment_method_changed_callback, NULL );
-                    gtk_combofix_set_text ( GTK_COMBOFIX (element -> element_widget), "" );
+					gtk_combofix_set_text ( GTK_COMBOFIX (element -> element_widget), "" );
                     gsb_form_widget_set_empty ( GTK_WIDGET ( element -> element_widget ), TRUE );
                 }
-                gtk_widget_destroy (element -> element_widget);
+				gtk_widget_destroy (element -> element_widget);
                 element -> element_widget = NULL;
             }
         }
@@ -275,8 +293,9 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 	    break;
 
 	case TRANSACTION_FORM_BUDGET:
-	    widget = gtk_combofix_new (
-                        gsb_data_budget_get_name_list (TRUE, TRUE));
+		tmp_list = gsb_data_budget_get_name_list (TRUE, TRUE);
+	    widget = gtk_combofix_new (tmp_list);
+		gsb_data_categorie_free_name_list (tmp_list);
 	    gtk_combofix_set_force_text ( GTK_COMBOFIX (widget),
 					  etat.combofix_force_category );
 	    gtk_combofix_set_max_items ( GTK_COMBOFIX (widget),
@@ -525,7 +544,7 @@ gchar *gsb_form_widget_get_name ( gint element_number )
  *
  * \param account_number
  * \param element_number
- * \param direction GSB_LEFT, GSB_RIGHT, GSB_UP, GSB_DOWN
+ * \param direction GTK_DIR_LEFT, GTK_DIR_RIGHT, GTK_DIR_UP, GTK_DIR_DOWN
  *
  * \return 	the next element number
  * 		-1 if problem or not change
@@ -554,7 +573,7 @@ gint gsb_form_widget_next_element ( gint account_number,
     {
 	switch ( direction )
 	{
-	    case GSB_LEFT:
+	    case GTK_DIR_LEFT:
 		if ( !column && !row )
 		{
 		    /* we are at the upper left, go on the bottom right */
@@ -572,7 +591,7 @@ gint gsb_form_widget_next_element ( gint account_number,
 								row );
 		break;
 
-	    case GSB_RIGHT:
+	    case GTK_DIR_RIGHT:
 		if ( column == (form_column_number - 1)
 		     &&
 		     row == (form_row_number - 1))
@@ -598,7 +617,7 @@ gint gsb_form_widget_next_element ( gint account_number,
 								row );
 		break;
 
-	    case GSB_UP:
+	    case GTK_DIR_UP:
 		if ( !row )
 		{
 		    return_value_number = -1;
@@ -611,7 +630,7 @@ gint gsb_form_widget_next_element ( gint account_number,
 								row );
 		break;
 
-	    case GSB_DOWN:
+	    case GTK_DIR_DOWN:
 		if ( row == (form_row_number - 1))
 		{
 		    return_value_number = -1;

@@ -29,7 +29,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -40,6 +40,7 @@
 /*START_INCLUDE*/
 #include "tiers_onglet.h"
 #include "fenetre_principale.h"
+#include "grisbi_app.h"
 #include "gsb_assistant.h"
 #include "gsb_automem.h"
 #include "gsb_data_form.h"
@@ -49,7 +50,6 @@
 #include "gsb_data_transaction.h"
 #include "gsb_file.h"
 #include "gsb_form_widget.h"
-#include "gsb_status.h"
 #include "gsb_transactions_list.h"
 #include "gtk_combofix.h"
 #include "import.h"
@@ -121,7 +121,6 @@ static gboolean sortie_edit_payee = FALSE;
 static struct metatree_hold_position *payee_hold_position;
 
 /*START_EXTERN*/
-extern GSList *liste_associations_tiers;
 /*END_EXTERN*/
 
 enum payees_assistant_page
@@ -179,7 +178,7 @@ GtkWidget *payees_create_list ( void )
     };
 
     /* création de la fenêtre qui sera renvoyée */
-    onglet = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
+    onglet = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_widget_show ( onglet );
 
     /* frame pour la barre d'outils */
@@ -190,7 +189,7 @@ GtkWidget *payees_create_list ( void )
     payee_tree = gtk_tree_view_new();
 
     /* set the color of selected row */
-    utils_set_tree_view_selection_and_text_color ( payee_tree );
+	gtk_widget_set_name (payee_tree, "tree_view");
 
     payee_tree_model = gtk_tree_store_new ( META_TREE_NUM_COLUMNS, META_TREE_COLUMN_TYPES );
 
@@ -217,7 +216,6 @@ GtkWidget *payees_create_list ( void )
                         payee_get_metatree_interface ( ) );
 
     /* Create container + TreeView */
-    //~ gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (payee_tree), TRUE);
     gtk_tree_view_enable_model_drag_source(GTK_TREE_VIEW(payee_tree),
                         GDK_BUTTON1_MASK, row_targets, 1,
                         GDK_ACTION_MOVE | GDK_ACTION_COPY );
@@ -333,7 +331,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
     toolbar = gtk_toolbar_new ();
 
     /* New payee button */
-    item = utils_buttons_tool_button_new_from_image_label ( "new-payee.png", _("New payee") );
+    item = utils_buttons_tool_button_new_from_image_label ("gsb-new-payee-24.png", _("New payee"));
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Create a new payee") );
     g_signal_connect_swapped ( G_OBJECT ( item ),
                         "clicked",
@@ -342,8 +340,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* delete button */
-    item = utils_buttons_tool_button_new_from_stock ( "gtk-delete" );
-    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Delete") );
+    item = utils_buttons_tool_button_new_from_image_label ("gtk-delete-24.png", _("Delete"));
     metatree_register_widget_as_linked ( GTK_TREE_MODEL ( payee_tree_model ),
                         GTK_WIDGET ( item ),
                         "selection" );
@@ -355,8 +352,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* edit button */
-    item = utils_buttons_tool_button_new_from_stock ( "gtk-edit" );
-    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Edit") );
+    item = utils_buttons_tool_button_new_from_image_label ("gtk-edit-24.png", _("Edit"));
     metatree_register_widget_as_linked ( GTK_TREE_MODEL ( payee_tree_model ),
                         GTK_WIDGET ( item ),
                         "selection" );
@@ -368,8 +364,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Change view mode button */
-    item = utils_buttons_tool_button_new_from_stock ( "gtk-select-color" );
-    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("View") );
+    item = utils_buttons_tool_button_new_from_image_label ("gtk-select-color-24.png", _("View"));
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Change view mode") );
     g_signal_connect ( G_OBJECT ( item ),
                         "clicked",
@@ -378,7 +373,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Manage payees button */
-    item = utils_buttons_tool_button_new_from_image_label ( "payeesmg.png", _("Manage payees") );
+    item = utils_buttons_tool_button_new_from_image_label ("gsb-payees-manage-24.png", _("Manage payees"));
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Manage the payees") );
     g_signal_connect ( G_OBJECT ( item ),
                         "clicked",
@@ -387,8 +382,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Remove unused payees button */
-    item = utils_buttons_tool_button_new_from_stock ( "gtk-delete" );
-    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Remove unused payees") );
+    item = utils_buttons_tool_button_new_from_image_label ("gtk-delete-24.png", _("Remove unused payees"));
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Remove orphan payees") );
     g_signal_connect ( G_OBJECT ( item ),
                         "clicked",
@@ -529,9 +523,12 @@ gboolean popup_payee_view_mode_menu ( GtkWidget * button )
 
     gtk_widget_show_all ( menu );
 
+#if GTK_CHECK_VERSION (3,22,0)
+	gtk_menu_popup_at_pointer (GTK_MENU (menu), NULL);
+#else
     gtk_menu_popup ( GTK_MENU(menu), NULL, button, set_popup_position, button, 1,
 		     gtk_get_current_event_time());
-
+#endif
     return FALSE;
 }
 
@@ -554,7 +551,7 @@ void payees_fill_list ( void )
 
     devel_debug (NULL);
 
-    gsb_status_wait ( FALSE );
+    grisbi_win_status_bar_wait ( FALSE );
 
     /* on bloque la fonction pendant la mise à jour du model */
     selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( payee_tree ) );
@@ -639,14 +636,14 @@ void payees_fill_list ( void )
         utils_set_tree_view_background_color ( payee_tree, META_TREE_BACKGROUND_COLOR );
         /* on fixe le titre et le suffixe de la barre d'information */
 	    title = g_strdup(_("Payees"));
-        gsb_gui_headings_update_title ( title );
+        grisbi_win_headings_update_title ( title );
         g_free ( title );
-        gsb_gui_headings_update_suffix ( "" );
+        grisbi_win_headings_update_suffix ( "" );
     }
 
     g_object_unref ( G_OBJECT ( payee_tree_model ) );
 
-    gsb_status_stop_wait ( FALSE );
+    grisbi_win_status_bar_stop_wait ( FALSE );
 }
 
 
@@ -683,7 +680,7 @@ gboolean edit_payee ( GtkTreeView * view )
     GtkWidget * dialog, *paddingbox, *table, *label, *entry_name;
     GtkWidget *entry_description, *hbox, *scrolled_window;
     GtkTreeSelection * selection;
-    GtkTreeModel * model;
+    GtkTreeModel * model = NULL;
     GtkTreeIter iter;
     GtkTreePath *path;
     gint no_division = -1;
@@ -711,7 +708,7 @@ gboolean edit_payee ( GtkTreeView * view )
     title = g_strdup_printf ( _("Properties for %s"), old_payee );
 
     dialog = gtk_dialog_new_with_buttons ( title,
-                        GTK_WINDOW ( run.window ),
+                        GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
                         GTK_DIALOG_MODAL,
                         "gtk-cancel", GTK_RESPONSE_NO,
                         "gtk-apply", GTK_RESPONSE_OK,
@@ -915,7 +912,7 @@ void payees_manage_payees ( void )
                         _("This wizard will help you to simplify the list of payees.\n\n"
                         "Warning the changes you will make be irreparable.\n\n"
                         "It is better to make a backup of your Grisbi file if you have not yet done. "),
-                        "payeeslg.png",
+                        "gsb-payees-32.png",
                         NULL );
 
     gsb_assistant_add_page ( assistant,
@@ -955,10 +952,9 @@ void payees_manage_payees ( void )
         gint nb_removed;
         gboolean save_notes = FALSE;
         gboolean extract_num = FALSE;
-        struct struct_payee_asso *assoc;
 
         /* on remplace les anciens tiers par le nouveau et on sauvegarde si nécessaire */
-        gsb_status_wait ( TRUE );
+        grisbi_win_status_bar_wait ( TRUE );
 
         sup_payees = g_object_get_data ( G_OBJECT (assistant), "sup_payees" );
         if ( (nb_removed = g_slist_length ( sup_payees ) ) == 1 )
@@ -980,20 +976,9 @@ void payees_manage_payees ( void )
                         "check_option_2" ) ) );
 
         /* on ajoute la nouvelle association à la liste des assoc */
-        assoc = g_malloc ( sizeof ( struct struct_payee_asso ) );
-        assoc -> payee_number = new_payee_number;
-        assoc -> search_str = g_strdup ( str_cherche );
-        if ( !g_slist_find_custom ( liste_associations_tiers,
-                    assoc,
-                    (GCompareFunc) gsb_import_associations_cmp_assoc ) )
-        {
-            liste_associations_tiers = g_slist_insert_sorted (
-                    liste_associations_tiers,
-                    assoc,
-                    (GCompareFunc) gsb_import_associations_cmp_assoc );
-        }
+		gsb_import_associations_add_assoc (new_payee_number, str_cherche);
 
-        if ( nb_removed > 1 )
+		if ( nb_removed > 1 )
         {
             tmp_list = gsb_data_transaction_get_complete_transactions_list ( );
             while ( tmp_list )
@@ -1064,7 +1049,7 @@ void payees_manage_payees ( void )
         gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW (payee_tree), path,
                         NULL, TRUE, 0.5, 0.5 );
         gtk_tree_path_free ( path );
-        gsb_status_stop_wait ( TRUE );
+        grisbi_win_status_bar_stop_wait ( TRUE );
     }
 
     g_slist_free ( g_object_get_data ( G_OBJECT (assistant), "sup_payees" ) );
@@ -1088,8 +1073,8 @@ static GtkWidget *gsb_assistant_payees_page_2 ( GtkWidget *assistant )
 
     devel_debug ( "PAGE 2" );
 
-    page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
-    gtk_container_set_border_width ( GTK_CONTAINER( page ), 12 );
+    page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
+    gtk_container_set_border_width ( GTK_CONTAINER( page ), BOX_BORDER_WIDTH );
 
     paddingbox = new_paddingbox_with_title ( page, TRUE, _("Choose a payee"));
 
@@ -1166,8 +1151,8 @@ static GtkWidget *gsb_assistant_payees_page_3 ( GtkWidget *assistant )
 
     devel_debug ( "PAGE 3" );
 
-    page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
-    gtk_container_set_border_width ( GTK_CONTAINER( page ), 12 );
+    page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
+    gtk_container_set_border_width ( GTK_CONTAINER( page ), BOX_BORDER_WIDTH );
 
     paddingbox = new_paddingbox_with_title ( page, TRUE,
                         _("List of payees who will be modified"));
@@ -1198,9 +1183,9 @@ static GtkWidget *gsb_assistant_payees_page_3 ( GtkWidget *assistant )
     /* create the treeview */
     treeview = gtk_tree_view_new_with_model (
                         GTK_TREE_MODEL (list_store) );
+	gtk_widget_set_name (treeview, "tree_view");
     g_object_unref (list_store);
 
-    //~ gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (treeview), TRUE);
     gtk_widget_set_size_request ( treeview, -1, 230 );
     gtk_container_add (GTK_CONTAINER (sw), treeview);
     gtk_box_pack_start ( GTK_BOX (paddingbox), sw, FALSE, FALSE, 0 );
@@ -1292,8 +1277,8 @@ static GtkWidget *gsb_assistant_payees_page_finish ( GtkWidget *assistant )
 
     devel_debug ( "PAGE FINISH" );
 
-    page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
-    gtk_container_set_border_width ( GTK_CONTAINER( page ), 12 );
+    page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
+    gtk_container_set_border_width ( GTK_CONTAINER( page ), BOX_BORDER_WIDTH );
 
     label = gtk_label_new ( NULL );
     utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.0 );
@@ -1697,7 +1682,7 @@ void gsb_assistant_payees_modifie_operations ( GSList *sup_payees,
     gint payee_number;
     gchar *nombre;
     gboolean question = TRUE;
-    struct conditional_message overwrite_payee;
+    struct ConditionalMessage overwrite_payee;
 
 
     payee_number = gsb_data_mix_get_party_number ( transaction_number, is_transaction );
@@ -1724,9 +1709,9 @@ void gsb_assistant_payees_modifie_operations ( GSList *sup_payees,
                 if ( question_conditional_yes_no_with_struct (
                  &overwrite_payee ) == FALSE )
                     question = FALSE;
-                g_free ( overwrite_payee.name );
-                g_free ( overwrite_payee.hint );
-                g_free ( overwrite_payee.message );
+                g_free ( (gchar*) overwrite_payee.name );
+                g_free ( (gchar*) overwrite_payee.hint );
+                g_free ( (gchar*) overwrite_payee.message );
                 g_free ( tmpstr );
             }
             else

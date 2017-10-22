@@ -22,7 +22,7 @@
 /* ************************************************************************** */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -38,6 +38,7 @@
 #include "dialog.h"
 #include "export_csv.h"
 #include "fenetre_principale.h"
+#include "grisbi_app.h"
 #include "gsb_automem.h"
 #include "gsb_calendar_entry.h"
 #include "gsb_data_account.h"
@@ -63,7 +64,7 @@
 #include "transaction_list_select.h"
 #include "utils.h"
 #include "utils_dates.h"
-#include "utils_file_selection.h"
+#include "utils_files.h"
 #include "utils_real.h"
 #include "utils_str.h"
 #include "erreur.h"
@@ -150,7 +151,6 @@ static gboolean bet_array_update_average_column ( GtkTreeModel *model,
 
 /*START_EXTERN*/
 extern const gdouble prev_month_max;
-extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/
 
 /* gestion de la largeur des colonnes du tableau */
@@ -177,7 +177,7 @@ static GtkWidget *bet_array_toolbar;
  * \return FALSE
  * */
 static gboolean bet_array_list_replace_line_by_transfert ( GtkTreeModel *tab_model,
-                        struct_transfert_data *transfert,
+                        TransfertData *transfert,
                         gint origin_data )
 {
     GtkTreeIter iter;
@@ -197,13 +197,13 @@ static gboolean bet_array_list_replace_line_by_transfert ( GtkTreeModel *tab_mod
                     g_date_get_month ( transfert -> date ),
                     g_date_get_year ( transfert -> date ));
         g_date_subtract_days ( date_debut_comparaison,
-                    valeur_echelle_recherche_date_import );
+                    etat.import_files_nb_days );
 
         date_fin_comparaison = g_date_new_dmy ( g_date_get_day ( transfert -> date ),
                     g_date_get_month ( transfert -> date ),
                     g_date_get_year ( transfert -> date ));
         g_date_add_days ( date_fin_comparaison,
-                    valeur_echelle_recherche_date_import );
+                    etat.import_files_nb_days );
 
         do
         {
@@ -344,7 +344,7 @@ static void bet_array_list_replace_transactions_by_transfert ( GtkTreeModel *tab
     g_hash_table_iter_init ( &iter, transfert_list );
     while ( g_hash_table_iter_next ( &iter, &key, &value ) )
     {
-        struct_transfert_data *transfert = ( struct_transfert_data *) value;
+        TransfertData *transfert = ( TransfertData *) value;
 
         if ( account_number != transfert -> account_number )
             continue;
@@ -399,8 +399,8 @@ static gint bet_array_date_sort_function ( GtkTreeModel *model,
                         GtkTreeIter *iterb,
                         gpointer data )
 {
-    GValue date_value_a = {0,};
-    GValue date_value_b = {0,};
+    GValue date_value_a = G_VALUE_INIT;
+    GValue date_value_b = G_VALUE_INIT;
     GDate* date_a;
     GDate* date_b;
     gint result;
@@ -489,7 +489,7 @@ static gboolean bet_array_update_average_column ( GtkTreeModel *model,
     gchar *color_str = NULL;
     gint selected_account;
     gboolean select = FALSE;
-    SBR *tmp_range = (SBR*) data;
+    BetRange *tmp_range = (BetRange*) data;
     gsb_real amount;
 
     if ( tmp_range -> first_pass )
@@ -563,8 +563,8 @@ void bet_array_refresh_estimate_tab ( gint account_number )
     GDate *date_min;
     GDate *date_max;
     gsb_real current_balance;
-    SBR *tmp_range;
-    GValue date_value = {0, };
+    BetRange *tmp_range;
+    GValue date_value = G_VALUE_INIT;
     gint currency_number;
 
     devel_debug (NULL);
@@ -707,14 +707,13 @@ GtkWidget *bet_array_create_page ( void )
     GtkWidget *widget = NULL;
     GtkWidget *initial_date = NULL;
     GtkWidget *hbox;
-    GtkWidget *align;
     GtkWidget *label_title;
     GtkWidget *label;
     GtkWidget *tree_view;
     GtkWidget *account_page;
 
     devel_debug (NULL);
-    page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
+    page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_widget_set_name ( page, "forecast_page" );
 
     account_page = gsb_gui_get_account_page ();
@@ -724,21 +723,17 @@ GtkWidget *bet_array_create_page ( void )
     gtk_box_pack_start ( GTK_BOX ( page ), frame, FALSE, FALSE, 0 );
 
     /* create the title */
-    align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
-    gtk_box_pack_start ( GTK_BOX ( page ), align, FALSE, FALSE, 5) ;
-
     label_title = gtk_label_new ("Estimate array");
-    gtk_container_add ( GTK_CONTAINER ( align ), label_title );
+	gtk_widget_set_halign (label_title, GTK_ALIGN_CENTER);
+    gtk_box_pack_start ( GTK_BOX ( page ), label_title, FALSE, FALSE, 5);
     g_object_set_data ( G_OBJECT ( account_page ),
                         "bet_array_title",
                         label_title );
 
-    align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
-    gtk_box_pack_start ( GTK_BOX ( page ), align, FALSE, FALSE, 5) ;
-
     /* set the duration widget */
     hbox = bet_config_get_duration_widget ( SPP_ORIGIN_ARRAY );
-    gtk_container_add ( GTK_CONTAINER ( align ), hbox );
+	gtk_widget_set_halign (hbox, GTK_ALIGN_CENTER);
+    gtk_box_pack_start ( GTK_BOX ( page ), hbox, FALSE, FALSE, 5);
 
     /* set the start date and the automatic change of month */
     label = gtk_label_new ( _("Start date: " ) );
@@ -792,13 +787,11 @@ GtkWidget *bet_array_create_tree_view ( GtkWidget *container )
     GtkWidget *scrolled_window;
     GtkWidget *tree_view;
     GtkTreeStore *tree_model;
-    GtkTreeModel *sortable;
     GtkCellRenderer *cell;
     gint i;
 
     /* create the estimate treeview */
     tree_view = gtk_tree_view_new ( );
-    //~ gtk_tree_view_set_rules_hint ( GTK_TREE_VIEW ( tree_view ), FALSE );
     g_object_set_data ( G_OBJECT ( gsb_gui_get_account_page () ), "bet_estimate_treeview", tree_view );
     g_object_set_data ( G_OBJECT ( tree_view ), "origin_data_model",
                         GINT_TO_POINTER ( SPP_ESTIMATE_TREE_ORIGIN_DATA ) );
@@ -806,7 +799,7 @@ GtkWidget *bet_array_create_tree_view ( GtkWidget *container )
                         GINT_TO_POINTER ( SPP_ESTIMATE_TREE_COLOR_STRING ) );
 
     /* set the color of selected row */
-    utils_set_tree_view_selection_and_text_color ( tree_view );
+	gtk_widget_set_name (tree_view, "tree_view");
 
     /* create the model */
     tree_model = gtk_tree_store_new ( SPP_ESTIMATE_TREE_NUM_COLUMNS,
@@ -829,7 +822,6 @@ GtkWidget *bet_array_create_tree_view ( GtkWidget *container )
     g_object_unref ( G_OBJECT ( tree_model ) );
 
     /* sort by date */
-    sortable = gtk_tree_model_sort_new_with_model ( GTK_TREE_MODEL ( tree_model ) );
     gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE ( tree_model ),
                         SPP_ESTIMATE_TREE_SORT_DATE_COLUMN,
                         (GtkTreeIterCompareFunc) bet_array_date_sort_function,
@@ -984,7 +976,7 @@ void bet_array_refresh_scheduled_data ( GtkTreeModel *tab_model,
         gint sub_div_nb;
         gint currency_number;
         GDate *date;
-        GValue date_value = {0, };
+        GValue date_value = G_VALUE_INIT;
         gsb_real amount;
 
         scheduled_number = gsb_data_scheduled_get_scheduled_number ( tmp_list->data );
@@ -1160,7 +1152,7 @@ void bet_array_refresh_transactions_data ( GtkTreeModel *tab_model,
         gint sub_div_nb;
         gint currency_number;
         const GDate *date;
-        GValue date_value = {0, };
+        GValue date_value = G_VALUE_INIT;
         gsb_real amount;
 
         transaction_number = gsb_data_transaction_get_transaction_number ( tmp_list->data );
@@ -1276,7 +1268,7 @@ void bet_array_list_add_new_hist_line ( GtkTreeModel *tab_model,
     GtkTreeIter tab_iter;
     GDate *date, *date_tmp;
     GDate *date_jour;
-    GValue date_value = {0, };
+    GValue date_value = G_VALUE_INIT;
     gchar *str_date;
     gchar *str_description;
     gchar *str_value;
@@ -1398,9 +1390,9 @@ gboolean bet_array_refresh_futur_data ( GtkTreeModel *tab_model,
     g_hash_table_iter_init ( &iter, future_list );
     while ( g_hash_table_iter_next ( &iter, &key, &value ) )
     {
-        struct_futur_data *scheduled = ( struct_futur_data *) value;
+        FuturData *scheduled = ( FuturData *) value;
         GtkTreeIter tab_iter;
-        GValue date_value = {0, };
+        GValue date_value = G_VALUE_INIT;
         gchar *str_debit = NULL;
         gchar *str_credit = NULL;
         gchar *str_date;
@@ -1530,7 +1522,6 @@ gboolean bet_array_list_button_press ( GtkWidget *tree_view,
 void bet_array_list_context_menu ( GtkWidget *tree_view,
                         GtkTreePath *path )
 {
-    GtkWidget *image;
     GtkWidget *menu, *menu_item;
     GtkTreeModel *model;
     GtkTreeSelection *tree_selection;
@@ -1538,7 +1529,6 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
     GDate *date;
     GDate *date_jour;
     gchar *str_date;
-    gchar *tmp_str;
     gboolean select = FALSE;
     gint origine;
 
@@ -1560,11 +1550,13 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
     /* Add substract amount menu */
     if ( select == FALSE )
     {
-        menu_item = gtk_menu_item_new_with_label ( _("Subtract to the balance") );
+        menu_item = utils_menu_item_new_from_image_label ("gtk-remove-16.png",
+														  _("Subtract to the balance"));
     }
     else
     {
-        menu_item = gtk_menu_item_new_with_label ( _("Adding to the balance") );
+        menu_item = utils_menu_item_new_from_image_label ("gtk-add-16.png",
+														  _("Adding to the balance"));
     }
     g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
@@ -1578,7 +1570,7 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
     gtk_widget_show ( menu_item );
 
     /* Insert Row */
-    menu_item = gtk_menu_item_new_with_label ( _("Insert row") );
+    menu_item = utils_menu_item_new_from_image_label ("gtk-add-16.png", _("Insert row"));
     g_signal_connect ( G_OBJECT ( menu_item ),
                     "activate",
                     G_CALLBACK ( bet_array_list_insert_menu ),
@@ -1591,7 +1583,7 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
         case SPP_ORIGIN_TRANSACTION:
             if ( g_date_compare ( date, date_jour ) > 0 )
             {
-                menu_item = gtk_menu_item_new_with_label ( _("Delete selection") );
+                menu_item = utils_menu_item_new_from_image_label ("gtk-delete-16.png", _("Delete selection"));
                 g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_array_list_delete_menu ),
@@ -1602,7 +1594,7 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
         case SPP_ORIGIN_SCHEDULED:
             break;
         case SPP_ORIGIN_HISTORICAL:
-            menu_item = gtk_menu_item_new_with_label ( _("Delete selection") );
+            menu_item = utils_menu_item_new_from_image_label ("gtk-delete-16.png", _("Delete selection"));
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_array_list_delete_menu ),
@@ -1610,22 +1602,22 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
             break;
         case SPP_ORIGIN_FUTURE:
-            menu_item = gtk_menu_item_new_with_label ( _("Change selection") );
+            menu_item = utils_menu_item_new_from_image_label ("gtk-edit-16.png", _("Change selection"));
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_array_list_change_menu ),
                         tree_selection );
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
-            menu_item = gtk_menu_item_new_with_label ( _("Delete selection") );
+            menu_item = utils_menu_item_new_from_image_label ("gtk-delete-16.png", _("Delete selection"));
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_array_list_delete_menu ),
                         tree_selection );
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
-            menu_item = gtk_menu_item_new_with_label (
-                        _("Delete all occurences of the selection") );
+            menu_item = utils_menu_item_new_from_image_label ("gtk-delete-16.png",
+															  _("Delete all occurences of the selection"));
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_array_list_delete_all_menu ),
@@ -1636,8 +1628,8 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
 
             /* Convert to scheduled transaction */
-            menu_item = gtk_menu_item_new_with_label (
-                                _("Convert selection to scheduled transaction") );
+            menu_item = utils_menu_item_new_from_image_label ("gsb-convert-16.png",
+															  _("Convert selection to scheduled transaction"));
             g_signal_connect ( G_OBJECT ( menu_item ),
                                 "activate",
                                 G_CALLBACK ( bet_array_list_schedule_selected_line ),
@@ -1653,11 +1645,8 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
     /* Insert an account balance */
     if ( gsb_data_account_get_kind ( gsb_gui_navigation_get_current_account ( ) ) != GSB_TYPE_CASH )
     {
-        tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "ac_bank_16.png", NULL);
-        image = gtk_image_new_from_file ( tmp_str );
-        g_free ( tmp_str );
-        menu_item = gtk_menu_item_new_with_label (
-                        _("Insert the balance of a deferred debit account") );
+        menu_item = utils_menu_item_new_from_image_label ("gsb-ac-bank-16.png",
+														  _("Insert the balance of a deferred debit account"));
         g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_array_list_insert_account_balance_menu ),
@@ -1666,7 +1655,7 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
 
         if ( origine == SPP_ORIGIN_ACCOUNT )
         {
-            menu_item = gtk_menu_item_new_with_label ( _("Delete selection") );
+            menu_item = utils_menu_item_new_from_image_label ("gtk-delete-16.png", _("Delete selection"));
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_array_list_delete_menu ),
@@ -1679,6 +1668,7 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
         gtk_widget_show ( menu_item );
     }
     /* redo item */
+	menu_item = utils_menu_item_new_from_image_label ("gtk-refresh-16.png", _("Reset data"));
     g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_array_list_redo_menu ),
@@ -1689,7 +1679,7 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
 
     /* Print list */
-    menu_item = gtk_menu_item_new_with_label ( _("Print the array") );
+    menu_item = utils_menu_item_new_from_image_label ("gtk-print-16.png", _("Print the array"));
     g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( print_tree_view_list ),
@@ -1697,7 +1687,7 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
     /* Export list */
-    menu_item = gtk_menu_item_new_with_label ( _("Export the array") );
+    menu_item = utils_menu_item_new_from_image_label ("gsb-export-16.png", _("Export the array"));
     g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_array_export_tab ),
@@ -1706,8 +1696,13 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
 
     /* Finish all. */
     gtk_widget_show_all ( menu );
-    gtk_menu_popup ( GTK_MENU( menu ), NULL, NULL, NULL, NULL, 3,
+
+#if GTK_CHECK_VERSION (3,22,0)
+	gtk_menu_popup_at_pointer (GTK_MENU (menu), NULL);
+#else
+	gtk_menu_popup ( GTK_MENU( menu ), NULL, NULL, NULL, NULL, 3,
                         gtk_get_current_event_time ( ) );
+#endif
 
     g_date_free ( date_jour );
 }
@@ -1765,7 +1760,7 @@ void bet_array_list_change_menu ( GtkWidget *menu_item,
     }
     else if ( origine == SPP_ORIGIN_SCHEDULED )
     {
-        gsb_gui_navigation_set_selection ( GSB_SCHEDULER_PAGE, 0, NULL );
+        gsb_gui_navigation_set_selection ( GSB_SCHEDULER_PAGE, 0, 0);
         gsb_scheduler_list_select ( number );
         gsb_scheduler_list_edit_transaction ( number );
     }
@@ -2089,7 +2084,7 @@ void bet_array_list_update_balance ( GtkTreeModel *model )
     {
         gchar *str_current_balance;
         gsb_real current_balance;
-        SBR *tmp_range;
+        BetRange *tmp_range;
 
         gtk_tree_model_get ( model, &iter,
                         SPP_ESTIMATE_TREE_AMOUNT_COLUMN, &str_current_balance, -1 );
@@ -2270,7 +2265,7 @@ gboolean bet_array_list_set_background_color ( GtkWidget *tree_view )
             /* gestion de la date du jour */
             if ( conf.show_transaction_gives_balance && absent )
             {
-                GValue date_value = {0,};
+                GValue date_value = G_VALUE_INIT;
                 GDate* date;
                 GDate *date_jour;
 
@@ -2476,7 +2471,7 @@ void bet_array_list_schedule_selected_line ( GtkWidget *menu_item,
 
     run.mise_a_jour_liste_echeances_auto_accueil = TRUE;
 
-    gsb_gui_navigation_set_selection ( GSB_SCHEDULER_PAGE, 0, NULL );
+    gsb_gui_navigation_set_selection ( GSB_SCHEDULER_PAGE, 0, 0);
     gsb_scheduler_list_select ( scheduled_number );
     gsb_scheduler_list_edit_transaction ( scheduled_number );
 
@@ -2502,7 +2497,7 @@ gint bet_array_list_schedule_line ( gint origine, gint account_number, gint numb
 
     if ( origine == SPP_ORIGIN_FUTURE )
     {
-        struct_futur_data *scheduled;
+        FuturData *scheduled;
 
         scheduled = bet_data_future_get_struct ( account_number, number );
         if ( scheduled == NULL )
@@ -2649,7 +2644,7 @@ gchar *bet_array_list_get_description ( gint account_number,
     }
     else if ( origine == SPP_ORIGIN_FUTURE )
     {
-        struct_futur_data *scheduled = ( struct_futur_data * ) value;
+        FuturData *scheduled = ( FuturData * ) value;
 
         if ( scheduled -> is_transfert )
         {
@@ -2706,7 +2701,7 @@ gchar *bet_array_list_get_description ( gint account_number,
     }
     else if ( origine == SPP_ORIGIN_ACCOUNT )
     {
-        struct_transfert_data *transfert = ( struct_transfert_data * ) value;
+        TransfertData *transfert = ( TransfertData * ) value;
 
         if ( transfert -> type == 0 )
             desc = g_strdup_printf ( _("Balance of account: %s"),
@@ -2776,9 +2771,9 @@ gboolean bet_array_refresh_transfert_data ( GtkTreeModel *tab_model,
     g_hash_table_iter_init ( &iter, transfert_list );
     while ( g_hash_table_iter_next ( &iter, &key, &value ) )
     {
-        struct_transfert_data *transfert = ( struct_transfert_data *) value;
+        TransfertData *transfert = ( TransfertData *) value;
         GtkTreeIter tab_iter;
-        GValue date_value = {0, };
+        GValue date_value = G_VALUE_INIT;
         gchar *str_debit = NULL;
         gchar *str_credit = NULL;
         gchar *str_date;
@@ -2926,8 +2921,7 @@ GtkWidget *bet_array_list_create_toolbar ( GtkWidget *parent,
     g_object_set_data ( G_OBJECT ( toolbar ), "page", parent );
 
     /* print button */
-    item = gtk_tool_button_new ( NULL, _("Print") );
-    gtk_tool_button_set_icon_name ( GTK_TOOL_BUTTON ( item ), "gtk-print" );
+    item = utils_buttons_tool_button_new_from_image_label ("gtk-print-24.png", _("Print"));
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Print the array") );
     g_signal_connect ( G_OBJECT ( item ),
                         "clicked",
@@ -2936,8 +2930,7 @@ GtkWidget *bet_array_list_create_toolbar ( GtkWidget *parent,
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Export button */
-    item = gtk_tool_button_new ( NULL,  _("Export") );
-    gtk_tool_button_set_icon_name ( GTK_TOOL_BUTTON ( item ), "gtk-save" );
+    item = utils_buttons_tool_button_new_from_image_label ("gsb-export-24.png", _("Export"));
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Export the array of forecast") );
     g_signal_connect ( G_OBJECT ( item ),
                         "clicked",
@@ -2980,7 +2973,7 @@ gboolean bet_array_shows_balance_at_beginning_of_month ( GtkTreeModel *tab_model
     while ( g_date_compare ( date, date_max ) < 0 )
     {
         GtkTreeIter tab_iter;
-        GValue date_value = {0, };
+        GValue date_value = G_VALUE_INIT;
         gchar *str_date;
         gchar *str_description;
 
@@ -3032,7 +3025,7 @@ void bet_array_export_tab ( GtkWidget *menu_item, GtkTreeView *tree_view )
     gchar *tmp_last_directory;
 
     dialog = gtk_file_chooser_dialog_new ( _("Export the array of forecast"),
-					   GTK_WINDOW ( run.window ),
+					   GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
 					   GTK_FILE_CHOOSER_ACTION_SAVE,
 					   "gtk-cancel", GTK_RESPONSE_CANCEL,
 					   "gtk-save", GTK_RESPONSE_OK,
@@ -3048,8 +3041,8 @@ void bet_array_export_tab ( GtkWidget *menu_item, GtkTreeView *tree_view )
     switch ( resultat )
     {
 	case GTK_RESPONSE_OK :
-	    filename = file_selection_get_filename ( GTK_FILE_CHOOSER ( dialog ) );
-        tmp_last_directory = file_selection_get_last_directory ( GTK_FILE_CHOOSER ( dialog ), TRUE );
+	    filename = gtk_file_chooser_get_filename ( GTK_FILE_CHOOSER ( dialog ) );
+        tmp_last_directory = utils_files_selection_get_last_directory ( GTK_FILE_CHOOSER ( dialog ), TRUE );
         gsb_file_update_last_path ( tmp_last_directory );
         g_free ( tmp_last_directory );
 	    gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
@@ -3088,12 +3081,13 @@ void bet_array_update_toolbar ( gint toolbar_style )
  *
  * \return
  * */
-void bet_array_create_transaction_from_transfert ( struct_transfert_data *transfert,
-                        gboolean same_month )
+void bet_array_create_transaction_from_transfert (TransfertData *transfert)
 {
     GSList *tmp_list;
     GDate *date_debut_comparaison;
     GDate *date_fin_comparaison;
+    GDate *date_jour;
+    GDate *date_exec;
     GDateDay day;
     GDateMonth month;
     GDateYear year;
@@ -3104,123 +3098,118 @@ void bet_array_create_transaction_from_transfert ( struct_transfert_data *transf
     year = g_date_get_year ( transfert->date );
 
     date_debut_comparaison = g_date_new_dmy ( day, month, year );
-    g_date_subtract_days ( date_debut_comparaison, valeur_echelle_recherche_date_import );
+    g_date_subtract_days ( date_debut_comparaison, etat.import_files_nb_days );
 
     date_fin_comparaison = g_date_new_dmy ( day, month, year );
-    g_date_add_days ( date_fin_comparaison, valeur_echelle_recherche_date_import );
+    g_date_add_days ( date_fin_comparaison, etat.import_files_nb_days );
 
-    /* Si même mois on cherche une opération existante dans le compte */
-    if ( same_month )
+    date_jour = gdate_today ();
+    date_exec = g_date_new_dmy (day, month, year);
+    g_date_subtract_days ( date_exec, conf.nb_days_before_scheduled);
+
+    if (conf.execute_scheduled_of_month || g_date_compare (date_jour, date_exec) >= 0)
     {
-        GDate *date_jour;
+        GDate *date_bascule;
 
-        date_jour = gdate_today ( );
+        date_bascule = gsb_date_copy ( transfert->date_bascule );
+        g_date_subtract_days ( date_bascule, 1 );
 
-        if ( conf.execute_scheduled_of_month || g_date_compare ( date_jour, transfert -> date ) >= 0 )
+        /* on recherche une transaction */
+        tmp_list = gsb_data_transaction_get_transactions_list ( );
+
+        while ( tmp_list )
         {
-            GDate *date_bascule;
+            gint transaction_number;
+            gint div_number = 0;
+            gint sub_div_number = 0;
+            gint account_number;
+            const GDate *date;
+            gsb_real amount;
 
-            date_bascule = gsb_date_copy ( transfert->date_bascule );
-            g_date_subtract_days ( date_bascule, 1 );
+            transaction_number = gsb_data_transaction_get_transaction_number ( tmp_list->data );
+            tmp_list = tmp_list->next;
 
-            /* on recherche une transaction */
-            tmp_list = gsb_data_transaction_get_transactions_list ( );
+            account_number =  gsb_data_transaction_get_account_number ( transaction_number );
+            if ( account_number != transfert->account_number )
+                continue;
 
-            while ( tmp_list )
+            date = gsb_data_transaction_get_value_date_or_date ( transaction_number );
+
+            /* ignore transaction which are different date */
+            if ( g_date_compare ( date, date_debut_comparaison ) < 0
+             ||
+             g_date_compare ( date, date_fin_comparaison ) > 0 )
+                continue;
+
+            /* find the transaction which has the same payee */
+            if ( gsb_data_transaction_get_party_number ( transaction_number ) == transfert->main_payee_number )
             {
-                gint transaction_number;
-                gint div_number = 0;
-                gint sub_div_number = 0;
-                gint account_number;
-                const GDate *date;
-                gsb_real amount;
-
-                transaction_number = gsb_data_transaction_get_transaction_number ( tmp_list->data );
-                tmp_list = tmp_list->next;
-
-                account_number =  gsb_data_transaction_get_account_number ( transaction_number );
-                if ( account_number != transfert->account_number )
-                    continue;
-
-                date = gsb_data_transaction_get_value_date_or_date ( transaction_number );
-
-                /* ignore transaction which are different date */
-                if ( g_date_compare ( date, date_debut_comparaison ) < 0
-                 ||
-                 g_date_compare ( date, date_fin_comparaison ) > 0 )
-                    continue;
-
-                /* find the transaction which has the same payee */
-                if ( gsb_data_transaction_get_party_number ( transaction_number ) == transfert->main_payee_number )
+                if ( transfert->main_category_number )
                 {
-                    if ( transfert->main_category_number )
+                    div_number = gsb_data_transaction_get_category_number ( transaction_number );
+                    if ( transfert->main_sub_category_number )
                     {
-                        div_number = gsb_data_transaction_get_category_number ( transaction_number );
-                        if ( transfert->main_sub_category_number )
-                        {
-                            sub_div_number = gsb_data_transaction_get_sub_category_number ( transaction_number );
-                        }
-                        if ( transfert->main_category_number == div_number
-                         &&
-                         transfert->main_sub_category_number == sub_div_number )
-                        {
-                            if ( transfert->type == 0 )
-                            {
-                                amount = gsb_data_account_get_balance_at_date ( transfert->replace_account, date_bascule );
-                            }
-                            else
-                            {
-                                amount = gsb_data_partial_balance_get_balance_at_date ( transfert -> replace_account, date_bascule );
-                            }
-                            gsb_data_transaction_set_amount ( transaction_number, amount );
-                            gsb_data_transaction_set_date ( transaction_number, transfert->date );
-                            gsb_transactions_list_update_transaction ( transaction_number );
-                            gsb_transactions_list_update_tree_view ( transfert->account_number, FALSE );
-                            find = TRUE;
-                            break;
-                        }
+                        sub_div_number = gsb_data_transaction_get_sub_category_number ( transaction_number );
                     }
-                    else if ( transfert->main_budgetary_number )
+                    if ( transfert->main_category_number == div_number
+                     &&
+                     transfert->main_sub_category_number == sub_div_number )
                     {
-                        div_number = gsb_data_transaction_get_budgetary_number ( transaction_number );
-                        if ( transfert->main_sub_budgetary_number )
+                        if ( transfert->type == 0 )
                         {
-                            sub_div_number = gsb_data_transaction_get_sub_budgetary_number ( transaction_number );
+                            amount = gsb_data_account_get_balance_at_date ( transfert->replace_account, date_bascule );
                         }
-                        if ( transfert->main_budgetary_number == div_number
-                         &&
-                         transfert->main_sub_budgetary_number == sub_div_number )
+                        else
                         {
-                            if ( transfert -> type == 0 )
-                            {
-                                amount = gsb_data_account_get_balance_at_date ( transfert->replace_account, date_bascule );
-                            }
-                            else
-                            {
-                                amount = gsb_data_partial_balance_get_balance_at_date ( transfert -> replace_account, date_bascule );
-                            }
-                            gsb_data_transaction_set_amount ( transaction_number, amount );
-                            gsb_data_transaction_set_date ( transaction_number, transfert->date );
-                            gsb_transactions_list_update_transaction ( transaction_number );
-                            gsb_transactions_list_update_tree_view ( transfert->account_number, FALSE );
-                            find = TRUE;
-                            break;
+                            amount = gsb_data_partial_balance_get_balance_at_date ( transfert -> replace_account, date_bascule );
                         }
+                        gsb_data_transaction_set_amount ( transaction_number, amount );
+                        gsb_data_transaction_set_date ( transaction_number, transfert->date );
+                        gsb_transactions_list_update_transaction ( transaction_number );
+                        gsb_transactions_list_update_tree_view ( transfert->account_number, FALSE );
+                        find = TRUE;
+                        break;
+                    }
+                }
+                else if ( transfert->main_budgetary_number )
+                {
+                    div_number = gsb_data_transaction_get_budgetary_number ( transaction_number );
+                    if ( transfert->main_sub_budgetary_number )
+                    {
+                        sub_div_number = gsb_data_transaction_get_sub_budgetary_number ( transaction_number );
+                    }
+                    if ( transfert->main_budgetary_number == div_number
+                     &&
+                     transfert->main_sub_budgetary_number == sub_div_number )
+                    {
+                        if ( transfert -> type == 0 )
+                        {
+                            amount = gsb_data_account_get_balance_at_date ( transfert->replace_account, date_bascule );
+                        }
+                        else
+                        {
+                            amount = gsb_data_partial_balance_get_balance_at_date ( transfert -> replace_account, date_bascule );
+                        }
+                        gsb_data_transaction_set_amount ( transaction_number, amount );
+                        gsb_data_transaction_set_date ( transaction_number, transfert->date );
+                        gsb_transactions_list_update_transaction ( transaction_number );
+                        gsb_transactions_list_update_tree_view ( transfert->account_number, FALSE );
+                        find = TRUE;
+                        break;
                     }
                 }
             }
-            g_date_free ( date_bascule );
-
-            if ( find == FALSE )
-            {
-                bet_data_transfert_create_new_transaction ( transfert );
-            }
         }
-        g_date_free ( date_jour );
+        g_date_free ( date_bascule );
+
+        if ( find == FALSE )
+        {
+            bet_data_transfert_create_new_transaction ( transfert );
+        }
     }
     else
     {
-        gint scheduled_number;
+        gint scheduled_number = 0;
 
         /* on recherche une opération planifiée */
         tmp_list = gsb_data_scheduled_get_scheduled_list ( );
@@ -3295,6 +3284,8 @@ void bet_array_create_transaction_from_transfert ( struct_transfert_data *transf
             g_date_free ( tmp_date );
         }
     }
+    g_date_free (date_jour);
+    g_date_free (date_exec);
     g_date_free ( date_debut_comparaison );
     g_date_free ( date_fin_comparaison );
 }

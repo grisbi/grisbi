@@ -21,7 +21,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -39,7 +39,7 @@
 
 
 /*START_STATIC*/
-static gint payee_add_div ();
+static gint payee_add_div ( void );
 static gint payee_add_sub_div ( int div_id );
 static gboolean payee_add_transaction_to_div ( gint transaction_number,
 					int div_id );
@@ -50,7 +50,7 @@ static GSList * payee_div_sub_div_list ( gint div );
 static gint payee_div_type ( gint div );
 static gint payee_get_sub_div_pointer_from_name ( int div_id, const gchar * name,
 					   gboolean create );
-static gint payee_get_without_div_pointer ( );
+static gint payee_get_without_div_pointer ( void );
 static gboolean payee_remove_sub_div ( int div_id, int sub_div_id );
 static gint payee_scheduled_div_id ( gint scheduled_number );
 static gboolean payee_scheduled_set_div_id ( gint scheduled_number,
@@ -123,7 +123,7 @@ static MetatreeInterface *payee_interface = &_payee_interface;
  *
  *
  */
-gint payee_tree_currency ( )
+gint payee_tree_currency ( void )
 {
     return etat.no_devise_totaux_tiers;
 }
@@ -133,7 +133,7 @@ gint payee_tree_currency ( )
  *
  *
  */
-gint payee_get_without_div_pointer ( )
+gint payee_get_without_div_pointer ( void )
 {
     return 0;
 }
@@ -316,7 +316,7 @@ gboolean payee_scheduled_set_sub_div_id ( gint scheduled_number,
  * \return the new number of the payee
  *
  */
-gint payee_add_div ()
+gint payee_add_div ( void )
 {
     gint payee_number;
     gchar *name;

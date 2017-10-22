@@ -22,7 +22,7 @@
 /* ************************************************************************** */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -30,8 +30,10 @@
 
 /*START_INCLUDE*/
 #include "dialog.h"
+#include "grisbi_app.h"
 #include "parametres.h"
 #include "structures.h"
+#include "dialog.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -53,7 +55,7 @@ static gchar *make_hint ( const gchar *hint, const gchar *text );
 
 
 /** All messages */
-struct conditional_message messages[] =
+struct ConditionalMessage messages[] =
 {
     { "ofx-security-not-implemented", N_("Security feature not implemented"),
       N_("This file contains security information, which processing is not implemented at "
@@ -120,7 +122,7 @@ struct conditional_message messages[] =
       N_(),
       FALSE, FALSE, },
 */
-    { NULL },
+    { NULL, NULL, NULL, FALSE, FALSE },
 };
 
 
@@ -208,7 +210,7 @@ void dialogue_special ( GtkMessageType param, const gchar *text, const gchar *hi
     GtkWidget *dialog;
     const gchar *primary_text = hint ? hint : text;
 
-    dialog = gtk_message_dialog_new ( GTK_WINDOW ( run.window ),
+    dialog = gtk_message_dialog_new ( GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
                         GTK_DIALOG_DESTROY_WITH_PARENT,
                         param, GTK_BUTTONS_CLOSE,
                         NULL );
@@ -239,12 +241,15 @@ GtkWidget *dialogue_special_no_run ( GtkMessageType param,
                         GtkButtonsType buttons,
                         const gchar *text, const gchar *hint )
 {
+    GtkWindow *window;
     GtkWidget *dialog;
     const gchar *primary_text = hint ? hint : text;
 
-    if ( GTK_IS_WINDOW ( run.window ) )
+    window = GTK_WINDOW (grisbi_app_get_active_window (NULL));
+
+    if (window)
     {
-        dialog = gtk_message_dialog_new ( GTK_WINDOW ( run.window ),
+        dialog = gtk_message_dialog_new (window,
                         GTK_DIALOG_DESTROY_WITH_PARENT || GTK_DIALOG_MODAL,
                         param, buttons,
                         NULL );
@@ -272,12 +277,12 @@ GtkWidget *dialogue_special_no_run ( GtkMessageType param,
  * dialogue_conditional_new()).  Normally called as an event.
  *
  * \param checbox   GtkCheckbox that triggered this event.
- * \param message   struct conditional_message Message
+ * \param message   struct ConditionalMessage Message
  *
  * \return      FALSE.
  */
 gboolean dialogue_update_struct_message ( GtkWidget *checkbox,
-                        struct conditional_message *message )
+                        struct ConditionalMessage *message )
 {
     message -> hidden = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( checkbox ) );
 
@@ -339,7 +344,7 @@ GtkDialog *dialogue_conditional_new ( gchar *text,
         }
     }
 
-    dialog = gtk_message_dialog_new ( GTK_WINDOW ( run.window ),
+    dialog = gtk_message_dialog_new ( GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
                         GTK_DIALOG_DESTROY_WITH_PARENT,
                         type, buttons,
                         NULL );
@@ -434,7 +439,7 @@ gboolean question_yes_no ( const gchar *text, const gchar *hint, gint default_an
     const gchar *primary_text = hint ? hint : text;
     gint response;
 
-    dialog = gtk_message_dialog_new ( GTK_WINDOW ( run.window ),
+    dialog = gtk_message_dialog_new ( GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
                         GTK_DIALOG_DESTROY_WITH_PARENT,
                         GTK_MESSAGE_QUESTION,
                         GTK_BUTTONS_YES_NO,
@@ -509,11 +514,11 @@ gboolean question_conditional_yes_no ( gchar *var )
  * this message not to be displayed again thanks to preferences and wait
  * for user to press 'YES' or 'NO'.
  *
- * \param struct conditional_message
+ * \param struct ConditionalMessage
  *
  * \return TRUE if user pressed 'YES'.  FALSE otherwise.
  */
-gboolean question_conditional_yes_no_with_struct ( struct conditional_message *message )
+gboolean question_conditional_yes_no_with_struct ( struct ConditionalMessage *message )
 {
     GtkWidget *dialog, *vbox, *checkbox;
     gchar *text;
@@ -523,7 +528,7 @@ gboolean question_conditional_yes_no_with_struct ( struct conditional_message *m
         return message -> default_answer;
 
     text = make_hint ( _(message -> hint), message -> message );
-    dialog = gtk_message_dialog_new ( GTK_WINDOW ( run.window ),
+    dialog = gtk_message_dialog_new ( GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
                         GTK_DIALOG_DESTROY_WITH_PARENT,
                         GTK_MESSAGE_WARNING,
                         GTK_BUTTONS_YES_NO,
@@ -556,12 +561,12 @@ gboolean question_conditional_yes_no_with_struct ( struct conditional_message *m
 /**
  * return the number of message
  *
- * \param struct conditional_message
+ * \param struct ConditionalMessage
  * \param name of message
  *
  * \return message number or -1 is not present.
  */
-gint question_conditional_yes_no_get_no_struct ( struct conditional_message *msg,
+gint question_conditional_yes_no_get_no_struct ( struct ConditionalMessage *msg,
                         gchar *name )
 {
     gint i;
@@ -665,7 +670,7 @@ gchar *make_blue ( const gchar *text )
  * soon.  This dialog should not appear theorically, but it is here
  * just in case to spot bugs.
  */
-void dialogue_error_brain_damage ()
+void dialogue_error_brain_damage ( void )
 {
     dialogue_error_hint ( _("Hi, you are in the middle of nowhere, between two lines of code."
                         " Grisbi is expected to crash very soon. Have a nice day."),
@@ -678,7 +683,7 @@ void dialogue_error_brain_damage ()
  * soon.  This dialog should not appear theorically, but it is here
  * just in case to spot bugs.
  */
-void dialogue_error_memory ()
+void dialogue_error_memory ( void )
 {
     dialogue_error_hint ( _("Bad things will happen soon.  Be sure to save any modification "
                         "in a separate file in case Grisbi would corrupt files."),
@@ -703,13 +708,16 @@ void dialog_message ( gchar *label, ... )
 	{
 	    if ( ! messages[i] . hidden )
 	    {
-		gchar hint_buffer[1024], message_buffer[1024];
-		va_start ( ap, label );
-		vsnprintf ( hint_buffer, 1024, _(messages[i] . hint), ap );
-		vsnprintf ( message_buffer, 1024, _(messages[i] . message), ap );
+			gchar hint_buffer[1024];
+			gchar message_buffer[1024];
 
-		dialogue_conditional_hint ( hint_buffer, message_buffer,
-					    messages[i] . name );
+			va_start ( ap, label );
+			vsnprintf ( hint_buffer, 1024, _(messages[i] . hint), ap );
+			vsnprintf ( message_buffer, 1024, _(messages[i] . message), ap );
+
+			dialogue_conditional_hint ( hint_buffer, message_buffer,
+							messages[i] . name );
+			va_end(ap);
 	    }
 	    return;
 	}
@@ -727,16 +735,16 @@ void dialog_message ( gchar *label, ... )
  * \param hint 			Hint to display
  * \param entry_description 	label to set in front of the entry
  */
-const gchar *dialogue_hint_with_entry ( gchar *text, gchar *hint, gchar *entry_description )
+gchar *dialogue_hint_with_entry ( gchar *text, gchar *hint, gchar *entry_description )
 {
     GtkWidget *dialog;
     const gchar *primary_text = hint ? hint : text;
     GtkWidget *entry;
     GtkWidget *hbox;
     GtkWidget *label;
-    const gchar *string;
+    gchar *string;
 
-    dialog = gtk_message_dialog_new ( GTK_WINDOW ( run.window ),
+    dialog = gtk_message_dialog_new ( GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
                         GTK_DIALOG_DESTROY_WITH_PARENT,
                         GTK_MESSAGE_INFO,
                         GTK_BUTTONS_CLOSE,
@@ -747,7 +755,7 @@ const gchar *dialogue_hint_with_entry ( gchar *text, gchar *hint, gchar *entry_d
         gtk_message_dialog_format_secondary_text ( GTK_MESSAGE_DIALOG ( dialog ),
                                                    "%s", text );
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( gtk_dialog_get_content_area ( GTK_DIALOG ( dialog ) ) ),
                         hbox,
                         FALSE, FALSE, 0);
@@ -762,7 +770,7 @@ const gchar *dialogue_hint_with_entry ( gchar *text, gchar *hint, gchar *entry_d
 
     gtk_window_set_modal ( GTK_WINDOW ( dialog ), TRUE );
     gtk_dialog_run (GTK_DIALOG (dialog));
-    string = gtk_entry_get_text (GTK_ENTRY (entry));
+    string = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
     gtk_widget_destroy ( dialog );
 
     return string;

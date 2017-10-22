@@ -26,7 +26,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -37,6 +37,7 @@
 #include "file_obfuscate.h"
 #include "bet_data.h"
 #include "dialog.h"
+#include "grisbi_win.h"
 #include "gsb_assistant.h"
 #include "gsb_data_account.h"
 #include "gsb_data_bank.h"
@@ -51,7 +52,7 @@
 #include "gsb_dirs.h"
 #include "gsb_file_save.h"
 #include "gsb_file_util.h"
-#include "gsb_status.h"
+#include "structures.h"
 #include "utils.h"
 /*END_INCLUDE*/
 
@@ -62,7 +63,6 @@ static GtkWidget *file_obfuscate_page_2 ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gchar *nom_fichier_comptes;
 /*END_EXTERN*/
 
 
@@ -89,7 +89,7 @@ gboolean file_obfuscate_run ( void )
     GtkWidget *assistant;
     gint result;
 
-    gsb_status_message ( _("Obfuscating file...") );
+    grisbi_win_status_bar_message ( _("Obfuscating file...") );
 
     assistant = gsb_assistant_new ( _("Grisbi file obfuscation"),
                         _("This assistant produces anonymized copies of account files, with "
@@ -106,7 +106,7 @@ gboolean file_obfuscate_run ( void )
                         "save your work and restart the obfuscation process.\n\n"
                         "In next page, you will be able to select individual features to "
                         "obfuscate or to keep depending on the level of privacy needed."),
-                        "bug.png",
+                        "gsb-bug-32.png",
                         NULL );
 
     gsb_assistant_add_page ( assistant, file_obfuscate_page_1 (), 1, 0, 2, NULL );
@@ -118,10 +118,13 @@ gboolean file_obfuscate_run ( void )
     {
         /* obfuscate the file */
         GSList *tmp_list;
-        gchar *filename;
+		gchar *filename;
+        gchar *nom_fichier_comptes;
 
+		/* on récupère d'abord le nom du fichier */
+		nom_fichier_comptes = g_strdup (grisbi_win_get_filename (NULL));
         /*  remove the swp file */
-        gsb_file_util_modify_lock (FALSE);
+        gsb_file_util_modify_lock (nom_fichier_comptes, FALSE);
 
         /* hide the accounts data */
         tmp_list = gsb_data_account_get_list_accounts ();
@@ -426,13 +429,14 @@ gboolean file_obfuscate_run ( void )
                      _("Obfuscation failed") );
 
         g_free ( filename );
+		g_free (nom_fichier_comptes);
 
         /* bye bye */
         exit (0);
     }
 
     gtk_widget_destroy ( assistant );
-    gsb_status_message ( _("Done.") );
+    grisbi_win_status_bar_message ( _("Done.") );
 
     return FALSE;
 }
@@ -452,8 +456,8 @@ GtkWidget *file_obfuscate_page_1 ( void )
     GtkWidget *vbox, *paddingbox;
     GtkWidget *button_everything;
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 12 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
+    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), BOX_BORDER_WIDTH );
 
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Select features to hide :\n") );
 
@@ -522,8 +526,9 @@ GtkWidget *file_obfuscate_page_2 ( void )
     GtkTextBuffer *buffer;
     GtkTextIter iter;
     gchar *text, *filename;
+	const gchar *nom_fichier_comptes;
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
+	vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
 
     text_view = gtk_text_view_new ();
     gtk_text_view_set_wrap_mode ( GTK_TEXT_VIEW ( text_view ), GTK_WRAP_WORD );
@@ -540,6 +545,7 @@ GtkWidget *file_obfuscate_page_2 ( void )
     gtk_text_buffer_get_iter_at_offset ( buffer, &iter, 1 );
     gtk_text_buffer_insert ( buffer, &iter, "\n", -1 );
 
+	nom_fichier_comptes = grisbi_win_get_filename (NULL);
     if ( nom_fichier_comptes )
     {
         gchar *base_filename;

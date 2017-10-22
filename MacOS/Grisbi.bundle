@@ -26,7 +26,11 @@
 
     <!-- Comment this out to keep the install names in binaries -->
     <run-install-name-tool/>
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> upstream/master
     <!-- Optionally specify a launcher script to use. If the
          application sets up everything needed itself, like
          environment variable, linker paths, etc, a launcher script is

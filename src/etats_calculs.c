@@ -23,7 +23,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -33,6 +33,7 @@
 #include "etats_calculs.h"
 #include "etats_affiche.h"
 #include "utils_dates.h"
+#include "grisbi_win.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
@@ -46,7 +47,6 @@
 #include "gsb_data_transaction.h"
 #include "navigation.h"
 #include "gsb_real.h"
-#include "gsb_status.h"
 #include "utils_str.h"
 #include "structures.h"
 #include "erreur.h"
@@ -62,7 +62,7 @@ static gint compare_montants_etat ( gsb_real montant_ope,
 			     gsb_real montant_test,
 			     gint comparateur );
 static void etape_finale_affichage_etat ( GSList *ope_selectionnees,
-				   struct struct_etat_affichage *affichage,
+				   struct EtatAffichage *affichage,
 				   gchar * filename );
 static const gchar *recupere_texte_test_etat ( gint transaction_number,
 					gint champ );
@@ -77,7 +77,7 @@ static gint verifie_texte_test_etat ( gint text_comparison_number,
 static gint dernier_chq;     /* quand on a choisi le plus grand, contient le dernier no de chq dans les comptes choisis */
 static gint dernier_pc;     /* quand on a choisi le plus grand, contient le dernier no de pc dans les comptes choisis */
 static gint dernier_no_rappr;     /* quand on a choisi le plus grand, contient le dernier no de rappr dans les comptes choisis */
-struct struct_etat_affichage * etat_affichage_output;
+struct EtatAffichage * etat_affichage_output;
 
 
 /* Uh, what?! See etats_affiche.c as well... */
@@ -86,9 +86,10 @@ extern gint ancien_tiers_etat;
 
 
 /*START_EXTERN*/
-extern struct struct_etat_affichage gtktable_affichage;
+extern struct EtatAffichage gtktable_affichage;
 extern gint ligne_debut_partie;
 extern gint nb_colonnes;
+extern gint nb_lignes;
 /*END_EXTERN*/
 
 /* VARIABLES À TRAITER */
@@ -135,12 +136,12 @@ const gchar *nom_tiers_en_cours;
 
 
 /*****************************************************************************************************/
-void affichage_etat ( gint report_number, struct struct_etat_affichage * affichage,
+void affichage_etat ( gint report_number, struct EtatAffichage * affichage,
 		      gchar * filename )
 {
     GSList *liste_opes_selectionnees;
 
-    gsb_status_wait ( FALSE );
+    grisbi_win_status_bar_wait ( FALSE );
 
     if ( !report_number )
     {
@@ -164,7 +165,7 @@ void affichage_etat ( gint report_number, struct struct_etat_affichage * afficha
 
     etat_affichage_output = affichage;
     etape_finale_affichage_etat ( liste_opes_selectionnees, affichage, filename );
-    gsb_status_stop_wait ( FALSE );
+    grisbi_win_status_bar_stop_wait ( FALSE );
 }
 /*****************************************************************************************************/
 
@@ -342,10 +343,10 @@ GSList *recupere_opes_etat ( gint report_number )
 
 	    GSList *list_tmp_transactions;
 
-        if ( ignore_archives )
-            list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
-        else
-            list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
+		if ( ignore_archives )
+			list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
+		else
+			list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
 
 	    while ( list_tmp_transactions )
 	    {
@@ -1979,7 +1980,7 @@ gint classement_ope_perso_etat ( gpointer transaction_1, gpointer transaction_2 
  *
  */
 void etape_finale_affichage_etat ( GSList *ope_selectionnees,
-				   struct struct_etat_affichage *affichage,
+				   struct EtatAffichage *affichage,
 				   gchar * filename )
 {
     GSList *liste_ope_revenus, *liste_ope_depenses, *pointeur_tmp, *pointeur_glist;
@@ -2595,8 +2596,8 @@ pas_decalage:
 
     /* on affiche maintenant le total général */
 
-    ligne = etat_affiche_affiche_total_general ( total_general,
-						 ligne );
+    ligne = etat_affiche_affiche_total_general ( total_general, ligne );
+	nb_lignes = ligne;
 
     etat_affiche_finish ();
 }

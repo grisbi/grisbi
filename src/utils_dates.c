@@ -22,18 +22,16 @@
 /* ************************************************************************** */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#if defined(_MSC_VER) || defined (_MINGW)
+#ifdef G_OS_WIN32
 #include <winnls.h>
-#else
-#include <langinfo.h>
-#endif /*_MSC_VER */
+#endif
 
 /*START_INCLUDE*/
 #include "utils_dates.h"
@@ -714,18 +712,61 @@ GDate *gsb_date_get_last_banking_day_of_month ( const GDate *date )
     week_day = g_date_get_weekday ( tmp_date );
     switch ( week_day )
     {
-    case G_DATE_SUNDAY :
-        g_date_subtract_days ( tmp_date, 2 );
-    case G_DATE_SATURDAY :
-        g_date_subtract_days ( tmp_date, 1 );
-        break;
-    default :
-        break;
+		case G_DATE_SUNDAY :
+			g_date_subtract_days ( tmp_date, 2 );
+			break;
+		case G_DATE_SATURDAY :
+			g_date_subtract_days ( tmp_date, 1 );
+			break;
+		default :
+			break;
     }
 
     return tmp_date;
 }
 
+/**
+ * retourn la date et l'heure actuelle
+ *
+ * \param with_time si TRUE retourne aussi l'heure
+ *
+ * \return date sous forme de string
+ **/
+gchar **gsb_date_get_date_time_now_local (void)
+{
+	GDateTime *datetime;
+	gchar *date_str;
+	gchar *time_str = NULL;
+	gchar **tab;
+	gint year;
+    gint month;
+    gint day;
+	gint hour;
+	gint min;
+	gint sec;
+
+	tab = g_malloc0 (3 * sizeof (gchar *));
+	datetime = g_date_time_new_now_local ();
+	g_date_time_get_ymd (datetime, &year,&month,&day);
+	date_str = gsb_format_date (day, month, year);
+
+	hour = g_date_time_get_hour (datetime);
+	min = g_date_time_get_minute (datetime);
+	sec = g_date_time_get_second (datetime);
+	time_str = g_strdup_printf ("%.2d:%.2d:%.2d", hour,min,sec);
+	tab[0] = date_str;
+	tab[1] = time_str;
+
+	return tab;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

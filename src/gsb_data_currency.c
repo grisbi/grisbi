@@ -27,7 +27,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -45,7 +45,7 @@
  */
 typedef struct
 {
-    guint currency_number;
+    gint currency_number;
     gchar *currency_name;
     gchar *currency_code;
     gchar *currency_code_iso4217;

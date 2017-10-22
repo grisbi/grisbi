@@ -21,7 +21,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -41,13 +41,13 @@
 
 
 /*START_STATIC*/
-static gint category_add_div ();
+static gint category_add_div ( void );
 static gint category_add_sub_div ( int div_id );
 static gboolean category_add_transaction_to_div ( gint transaction_number,
 					   int div_id );
 static gchar *category_div_name ( gint div );
 static gint category_get_div_pointer_from_name ( const gchar * name, gboolean create );
-static gint category_get_without_div_pointer ( );
+static gint category_get_without_div_pointer ( void );
 static gboolean category_scheduled_set_div_id ( gint scheduled_number,
 					 int no_div );
 static gsb_real category_sub_div_balance ( gint div, gint sub_div );
@@ -113,7 +113,7 @@ static MetatreeInterface *category_interface = &_category_interface;
  *
  *
  */
-gint category_tree_currency ( )
+gint category_tree_currency ( void )
 {
     return etat.no_devise_totaux_categ;
 }
@@ -124,7 +124,7 @@ gint category_tree_currency ( )
  *
  *
  */
-gint category_get_without_div_pointer ( )
+gint category_get_without_div_pointer ( void )
 {
     return 0;
 }

@@ -27,7 +27,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -44,7 +44,6 @@
 #include "gsb_file.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
-#include "main.h"
 #include "structures.h"
 #include "traitement_variables.h"
 #include "utils_dates.h"
@@ -62,9 +61,6 @@ static gboolean gsb_scheduler_get_category_for_transaction_from_transaction ( gi
 extern GSList *scheduled_transactions_taken;
 extern GSList *scheduled_transactions_to_take;
 /*END_EXTERN*/
-
-/** number of days before the scheduled to execute it */
-gint nb_days_before_scheduled;
 
 /**
  * set the next date in the scheduled transaction
@@ -424,7 +420,7 @@ gboolean gsb_scheduler_execute_children_of_scheduled_transaction ( gint schedule
     /* pbiava the 03/16/2009 supprime le crash quand on execute la transaction
      * a partir du planificateur risque d'effet de bord */
     if ( child_number > 0 )
-        gsb_scheduler_create_transaction_from_scheduled_transaction ( child_number,
+		gsb_scheduler_create_transaction_from_scheduled_transaction ( child_number,
 								      transaction_number );
 
 	children_numbers_list = children_numbers_list -> next;
@@ -456,25 +452,36 @@ void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
 
     scheduled_transactions_to_take = NULL;
 
-    /* get the date today + nb_days_before_scheduled */
+    /* get the date today + conf.nb_days_before_scheduled */
 
     /* the date untill we execute the scheduled transactions is :
-     * - either today + nb_days_before_scheduled if warn n days before the scheduled
-     * - either the end of the month in nb_days_before_scheduled days (so current month or next month)
+     * - either today + conf.nb_days_before_scheduled if warn n days before the scheduled
+     * - either the end of the month in conf.nb_days_before_scheduled days (so current month or next month)
+	 *   or the fixed date
      *   */
     date = gdate_today ();
-    g_date_add_days ( date,
-		      nb_days_before_scheduled );
-    /* now date is in nb_days_before_scheduled, if we want the transactions of the month,
+    /* now date is in conf.nb_days_before_scheduled, if we want the transactions of the month,
      * we change date to the end of its month */
-    if ( conf.execute_scheduled_of_month)
+    if (conf.execute_scheduled_of_month)
     {
-	gint last_day;
+		gint last_day;
 
-	last_day = g_date_get_days_in_month ( g_date_get_month (date),
-					      g_date_get_year (date));
-	g_date_set_day (date, last_day);
+		last_day = g_date_get_days_in_month (g_date_get_month (date),
+											 g_date_get_year (date));
+		if (conf.scheduler_set_fixed_day
+			&&
+			g_date_get_day (date) >= conf.scheduler_fixed_day )
+
+		{
+			g_date_add_months (date, 1);
+		}
+
+		g_date_set_day (date, last_day);
     }
+	else
+	{
+		g_date_add_days ( date, conf.nb_days_before_scheduled );
+	}
 
     /* check all the scheduled transactions,
      * if automatic, it's taken
@@ -483,58 +490,58 @@ void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
 
     while ( tmp_list )
     {
-	gint scheduled_number;
+		gint scheduled_number;
 
-	scheduled_number = gsb_data_scheduled_get_scheduled_number (tmp_list -> data);
+		scheduled_number = gsb_data_scheduled_get_scheduled_number (tmp_list -> data);
 
-	/* we check that scheduled transaction only if it's not a child of a split */
-	if ( !gsb_data_scheduled_get_mother_scheduled_number (scheduled_number)
-	     &&
-	     gsb_data_scheduled_get_date (scheduled_number)
-	     &&
-	     g_date_compare ( gsb_data_scheduled_get_date (scheduled_number),
-			      date ) <= 0 )
-	{
-	    if ( gsb_data_scheduled_get_automatic_scheduled (scheduled_number))
-	    {
-		/* this is an automatic scheduled, we get it */
-		gint transaction_number;
-
-		/* take automatically the scheduled transaction untill today */
-		transaction_number = gsb_scheduler_create_transaction_from_scheduled_transaction (scheduled_number,
-												  0 );
-		if ( gsb_data_scheduled_get_split_of_scheduled (scheduled_number))
-		    gsb_scheduler_execute_children_of_scheduled_transaction ( scheduled_number,
-									      transaction_number );
-
-		scheduled_transactions_taken = g_slist_append ( scheduled_transactions_taken,
-								GINT_TO_POINTER (transaction_number));
-		automatic_transactions_taken = TRUE;
-
-		/* set the scheduled transaction to the next date,
-		 * if it's not finished, we check them again if it need to be
-		 * executed more than one time (the easiest way is to check
-		 * all again, i don't think it will have thousand of scheduled transactions,
-		 * so no much waste of time...) */
-		if (gsb_scheduler_increase_scheduled (scheduled_number))
+		/* we check that scheduled transaction only if it's not a child of a split */
+		if ( !gsb_data_scheduled_get_mother_scheduled_number (scheduled_number)
+			 &&
+			 gsb_data_scheduled_get_date (scheduled_number)
+			 &&
+			 g_date_compare ( gsb_data_scheduled_get_date (scheduled_number),
+					  date ) <= 0 )
 		{
-		    scheduled_transactions_to_take = NULL;
-		    tmp_list = gsb_data_scheduled_get_scheduled_list ();
+			if ( gsb_data_scheduled_get_automatic_scheduled (scheduled_number))
+			{
+				/* this is an automatic scheduled, we get it */
+				gint transaction_number;
+
+				/* take automatically the scheduled transaction untill today */
+				transaction_number = gsb_scheduler_create_transaction_from_scheduled_transaction (scheduled_number,
+														  0 );
+				if ( gsb_data_scheduled_get_split_of_scheduled (scheduled_number))
+					gsb_scheduler_execute_children_of_scheduled_transaction ( scheduled_number,
+												  transaction_number );
+
+				scheduled_transactions_taken = g_slist_append ( scheduled_transactions_taken,
+										GINT_TO_POINTER (transaction_number));
+				automatic_transactions_taken = TRUE;
+
+				/* set the scheduled transaction to the next date,
+				 * if it's not finished, we check them again if it need to be
+				 * executed more than one time (the easiest way is to check
+				 * all again, i don't think it will have thousand of scheduled transactions,
+				 * so no much waste of time...) */
+				if (gsb_scheduler_increase_scheduled (scheduled_number))
+				{
+					scheduled_transactions_to_take = NULL;
+					tmp_list = gsb_data_scheduled_get_scheduled_list ();
+				}
+				else
+					/* the scheduled is finish, so we needn't to check it again ... */
+					tmp_list = tmp_list -> next;
+			}
+			else
+			{
+				/* it's a manual scheduled transaction, we put it in the slist */
+				scheduled_transactions_to_take = g_slist_append ( scheduled_transactions_to_take ,
+										  GINT_TO_POINTER (scheduled_number));
+				tmp_list = tmp_list -> next;
+			}
 		}
 		else
-		    /* the scheduled is finish, so we needn't to check it again ... */
-		    tmp_list = tmp_list -> next;
-	    }
-	    else
-	    {
-		/* it's a manual scheduled transaction, we put it in the slist */
-		scheduled_transactions_to_take = g_slist_append ( scheduled_transactions_to_take ,
-								  GINT_TO_POINTER (scheduled_number));
-		tmp_list = tmp_list -> next;
-	    }
-	}
-	else
-	    tmp_list = tmp_list -> next;
+			tmp_list = tmp_list -> next;
     }
 
     if ( automatic_transactions_taken )
@@ -544,7 +551,7 @@ void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
     }
 
     if ( scheduled_transactions_to_take )
-	run.mise_a_jour_liste_echeances_manuelles_accueil = TRUE;
+		run.mise_a_jour_liste_echeances_manuelles_accueil = TRUE;
 
     g_date_free ( date );
 }

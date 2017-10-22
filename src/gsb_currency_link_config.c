@@ -27,7 +27,7 @@
  */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -49,6 +49,7 @@
 #include "traitement_variables.h"
 #include "utils.h"
 #include "utils_buttons.h"
+#include "utils_prefs.h"
 #include "utils_real.h"
 /*END_INCLUDE*/
 
@@ -74,7 +75,7 @@ static gboolean gsb_currency_link_config_select_currency ( GtkTreeSelection *tre
 static GtkWidget *delete_link_button;
 
 /** Columns numbers for links list  */
-enum link_list_column {
+enum LinkListColumns {
     LINK_1_COLUMN = 0,
     LINK_CURRENCY1_COLUMN,
     LINK_EQUAL_COLUMN,
@@ -135,12 +136,12 @@ GtkWidget *gsb_currency_link_config_create_page ( void )
     GtkTreeModel *tree_model;
     gint width_entry = 170;
 
-    vbox_pref = new_vbox_with_title_and_icon (_("Links between currencies"), "currencies.png");
+    vbox_pref = new_vbox_with_title_and_icon (_("Links between currencies"), "gsb-currencies-32.png");
     paddinggrid = utils_prefs_paddinggrid_new_with_title (vbox_pref, _("Known links"));
 
 
     /* links list */
-    scrolled_window = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, 160);
+    scrolled_window = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, SW_MIN_HEIGHT);
     gtk_grid_attach (GTK_GRID (paddinggrid), scrolled_window, 0, 0, 2, 3);
 
     /* Create it. */
@@ -189,7 +190,7 @@ GtkWidget *gsb_currency_link_config_create_page ( void )
     paddinggrid = utils_prefs_paddinggrid_new_with_title (vbox_pref, _("Link properties"));
 
     /* Create hbox line */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_widget_set_margin_top (hbox, MARGIN_TOP);
     gtk_grid_attach (GTK_GRID (paddinggrid), hbox, 0, 0, 1, 1);
 
@@ -299,6 +300,7 @@ GtkWidget *gsb_currency_link_config_create_list ( void )
 
     /* Create tree tree_view */
     treeview = gtk_tree_view_new_with_model (GTK_TREE_MODEL(model));
+ 	gtk_widget_set_name (treeview, "tree_view");
     g_object_unref (G_OBJECT(model));
 
     /* connect the selection */
@@ -686,27 +688,27 @@ gboolean gsb_currency_link_config_remove_link ( GtkWidget *tree_view )
     if ( gtk_tree_selection_get_selected ( gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view)),
 					   &model,
 					   &iter ))
-    {
-    GtkWidget *label;
-	gint link_number;
+	{
+		GtkWidget *label;
+		gint link_number;
 
-    gtk_tree_model_get ( GTK_TREE_MODEL (model),
-			     &iter,
-			     LINK_NUMBER_COLUMN, &link_number,
-			     -1 );
-        /* set here to sensitive the delete_link_button */
-	gsb_data_currency_link_remove (link_number);
-	gtk_list_store_remove ( GTK_LIST_STORE (model), &iter );
-	gtk_widget_set_sensitive ( GTK_WIDGET ( g_object_get_data ( G_OBJECT (model), "hbox_line")),
-                              FALSE );
+		gtk_tree_model_get ( GTK_TREE_MODEL (model),
+				&iter,
+				LINK_NUMBER_COLUMN, &link_number,
+				-1 );
+		/* set here to sensitive the delete_link_button */
+		gsb_data_currency_link_remove (link_number);
+		gtk_list_store_remove ( GTK_LIST_STORE (model), &iter );
+		gtk_widget_set_sensitive ( GTK_WIDGET ( g_object_get_data ( G_OBJECT (model), "hbox_line")),
+				FALSE );
 
-    /* hide the warning label */
-    label = g_object_get_data (G_OBJECT (model), "warning_label");
-    if ( gtk_widget_get_visible ( label ) )
-        gtk_widget_hide (label);
+		/* hide the warning label */
+		label = g_object_get_data (G_OBJECT (model), "warning_label");
+		if ( gtk_widget_get_visible ( label ) )
+			gtk_widget_hide (label);
 
-        gsb_file_set_modified ( TRUE );
-    }
+		gsb_file_set_modified ( TRUE );
+	}
     return FALSE;
 }
 

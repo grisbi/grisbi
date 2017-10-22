@@ -21,7 +21,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -41,12 +41,12 @@
 
 
 /*START_STATIC*/
-static gint budgetary_line_add_div ();
+static gint budgetary_line_add_div ( void );
 static gint budgetary_line_add_sub_div ( int div_id );
 static gboolean budgetary_line_add_transaction_to_div ( gint transaction_number,
 						 int div_id );
 static gchar *budgetary_line_div_name ( gint div );
-static gint budgetary_line_get_without_div_pointer ( );
+static gint budgetary_line_get_without_div_pointer ( void );
 static gsb_real budgetary_line_sub_div_balance ( gint div, gint sub_div );
 static gchar *budgetary_line_sub_div_name ( gint div, gint sub_div );
 static gint budgetary_line_sub_div_nb_transactions ( gint div, gint sub_div );
@@ -109,7 +109,7 @@ static MetatreeInterface *budgetary_interface = &_budgetary_interface;
  *
  *
  */
-gint budgetary_line_tree_currency ( )
+gint budgetary_line_tree_currency ( void )
 {
     return etat.no_devise_totaux_ib;
 }
@@ -120,7 +120,7 @@ gint budgetary_line_tree_currency ( )
  *
  *
  */
-gint budgetary_line_get_without_div_pointer ( )
+gint budgetary_line_get_without_div_pointer ( void )
 {
     return 0;
 }
@@ -209,7 +209,7 @@ gsb_real budgetary_line_sub_div_balance ( gint div, gint sub_div )
  *
  *
  */
-gint budgetary_line_add_div ()
+gint budgetary_line_add_div ( void )
 {
     gint new_budget_number;
     gchar * name;

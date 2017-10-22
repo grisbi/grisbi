@@ -27,7 +27,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -35,9 +35,10 @@
 
 /*START_INCLUDE*/
 #include "gsb_data_fyear.h"
-#include "utils_dates.h"
-#include "gsb_fyear.h"
 #include "dialog.h"
+#include "gsb_fyear.h"
+#include "structures.h"
+#include "utils_dates.h"
 #include "utils_str.h"
 /*END_INCLUDE*/
 
@@ -52,7 +53,7 @@ enum fyear_invalid {
 };
 
 /*START_STATIC*/
-static void _gsb_data_fyear_free ( struct_fyear *fyear );
+static void _gsb_data_fyear_free ( FyearStruct *fyear );
 static gpointer gsb_data_fyear_get_structure ( gint fyear_number );
 static gint gsb_data_fyear_max_number ( void );
 /*END_STATIC*/
@@ -60,11 +61,11 @@ static gint gsb_data_fyear_max_number ( void );
 /*START_EXTERN*/
 /*END_EXTERN*/
 
-/** contains the g_slist of struct_fyear */
+/** contains the g_slist of FyearStruct */
 static GSList *fyear_list = NULL;
 
 /** a pointer to the last fyear used (to increase the speed) */
-static struct_fyear *fyear_buffer;
+static FyearStruct *fyear_buffer;
 
 
 /**
@@ -82,7 +83,7 @@ gboolean gsb_data_fyear_init_variables ( void )
         GSList* tmp_list  = fyear_list;
         while ( tmp_list  )
         {
-	    struct_fyear *fyear;
+	    FyearStruct *fyear;
 	    fyear = tmp_list  -> data;
 	    tmp_list = tmp_list -> next;
 	    _gsb_data_fyear_free ( fyear );
@@ -120,7 +121,7 @@ gpointer gsb_data_fyear_get_structure ( gint fyear_number )
 
     while ( tmp )
     {
-        struct_fyear *fyear;
+        FyearStruct *fyear;
 
 	    fyear = tmp -> data;
 
@@ -158,7 +159,7 @@ GSList *gsb_data_fyear_get_fyears_list ( void )
  * */
 gint gsb_data_fyear_get_no_fyear ( gpointer fyear_ptr )
 {
-    struct_fyear *fyear;
+    FyearStruct *fyear;
 
     if ( !fyear_ptr )
 	return 0;
@@ -185,7 +186,7 @@ gint gsb_data_fyear_max_number ( void )
 
     while ( tmp )
     {
-	struct_fyear *fyear;
+	FyearStruct *fyear;
 
 	fyear = tmp -> data;
 
@@ -208,9 +209,9 @@ gint gsb_data_fyear_max_number ( void )
  * */
 gint gsb_data_fyear_new ( const gchar *name )
 {
-    struct_fyear *fyear;
+    FyearStruct *fyear;
 
-    fyear = g_malloc0 ( sizeof ( struct_fyear ));
+    fyear = g_malloc0 ( sizeof ( FyearStruct ));
     fyear -> fyear_number = gsb_data_fyear_max_number () + 1;
 
     if (name)
@@ -226,9 +227,9 @@ gint gsb_data_fyear_new ( const gchar *name )
 
 
 /**
- * This internal function is called to free the memory used by a struct_fyear structure
+ * This internal function is called to free the memory used by a FyearStruct structure
  */
-static void _gsb_data_fyear_free ( struct_fyear *fyear )
+static void _gsb_data_fyear_free ( FyearStruct *fyear )
 {
     if ( ! fyear )
 	return;
@@ -253,7 +254,7 @@ static void _gsb_data_fyear_free ( struct_fyear *fyear )
  * */
 gboolean gsb_data_fyear_remove ( gint fyear_number )
 {
-    struct_fyear *fyear;
+    FyearStruct *fyear;
 
     fyear = gsb_data_fyear_get_structure ( fyear_number );
 
@@ -282,7 +283,7 @@ gboolean gsb_data_fyear_remove ( gint fyear_number )
 gint gsb_data_fyear_set_new_number ( gint fyear_number,
                         gint new_no_fyear )
 {
-    struct_fyear *fyear;
+    FyearStruct *fyear;
 
     fyear = gsb_data_fyear_get_structure ( fyear_number );
 
@@ -303,7 +304,7 @@ gint gsb_data_fyear_set_new_number ( gint fyear_number,
  * */
 const gchar *gsb_data_fyear_get_name ( gint fyear_number )
 {
-    struct_fyear *fyear;
+    FyearStruct *fyear;
 
     fyear = gsb_data_fyear_get_structure ( fyear_number );
 
@@ -326,7 +327,7 @@ const gchar *gsb_data_fyear_get_name ( gint fyear_number )
 gboolean gsb_data_fyear_set_name ( gint fyear_number,
 				   const gchar *name )
 {
-    struct_fyear *fyear;
+    FyearStruct *fyear;
 
     fyear = gsb_data_fyear_get_structure ( fyear_number );
 
@@ -358,7 +359,7 @@ gboolean gsb_data_fyear_set_name ( gint fyear_number,
  * */
 GDate *gsb_data_fyear_get_beginning_date ( gint fyear_number )
 {
-    struct_fyear *fyear;
+    FyearStruct *fyear;
 
     fyear = gsb_data_fyear_get_structure ( fyear_number );
 
@@ -381,7 +382,7 @@ GDate *gsb_data_fyear_get_beginning_date ( gint fyear_number )
 gboolean gsb_data_fyear_set_beginning_date ( gint fyear_number,
 					    GDate *date )
 {
-    struct_fyear *fyear;
+    FyearStruct *fyear;
 
     fyear = gsb_data_fyear_get_structure ( fyear_number );
 
@@ -408,7 +409,7 @@ gboolean gsb_data_fyear_set_beginning_date ( gint fyear_number,
  * */
 GDate *gsb_data_fyear_get_end_date ( gint fyear_number )
 {
-    struct_fyear *fyear;
+    FyearStruct *fyear;
 
     fyear = gsb_data_fyear_get_structure ( fyear_number );
 
@@ -431,7 +432,7 @@ GDate *gsb_data_fyear_get_end_date ( gint fyear_number )
 gboolean gsb_data_fyear_set_end_date ( gint fyear_number,
 				       GDate *date )
 {
-    struct_fyear *fyear;
+    FyearStruct *fyear;
 
     fyear = gsb_data_fyear_get_structure ( fyear_number );
 
@@ -459,7 +460,7 @@ gboolean gsb_data_fyear_set_end_date ( gint fyear_number,
  * */
 gboolean gsb_data_fyear_get_form_show ( gint fyear_number )
 {
-    struct_fyear *fyear;
+    FyearStruct *fyear;
 
     fyear = gsb_data_fyear_get_structure ( fyear_number );
 
@@ -481,7 +482,7 @@ gboolean gsb_data_fyear_get_form_show ( gint fyear_number )
 gboolean gsb_data_fyear_set_form_show ( gint fyear_number,
 					gboolean showed_in_form )
 {
-    struct_fyear *fyear;
+    FyearStruct *fyear;
 
     fyear = gsb_data_fyear_get_structure ( fyear_number );
 
@@ -508,7 +509,7 @@ gboolean gsb_data_fyear_set_form_show ( gint fyear_number,
  * */
 gint gsb_data_fyear_get_invalid ( gint fyear_number )
 {
-    struct_fyear *fyear;
+    FyearStruct *fyear;
 
     fyear = gsb_data_fyear_get_structure ( fyear_number );
 
@@ -527,7 +528,7 @@ gint gsb_data_fyear_get_invalid ( gint fyear_number )
  * */
 const gchar *gsb_data_fyear_get_invalid_message ( gint fyear_number )
 {
-    struct_fyear *fyear;
+    FyearStruct *fyear;
     gchar *string = NULL;
 
     fyear = gsb_data_fyear_get_structure ( fyear_number );
@@ -587,7 +588,7 @@ void gsb_data_fyear_check_all_for_invalid ( void )
  * */
 gboolean gsb_data_fyear_check_for_invalid ( gint fyear_number )
 {
-    struct_fyear *fyear;
+    FyearStruct *fyear;
 
     fyear = gsb_data_fyear_get_structure ( fyear_number );
 
@@ -647,7 +648,7 @@ gint gsb_data_fyear_get_from_date ( const GDate *date )
     tmp_list = fyear_list;
     while (tmp_list)
     {
-	struct_fyear *fyear;
+	FyearStruct *fyear;
 
 	fyear = tmp_list -> data;
 
@@ -680,8 +681,8 @@ gint gsb_data_fyear_get_from_date ( const GDate *date )
  * */
 gint gsb_data_fyear_compare ( gint fyear_number_1, gint fyear_number_2 )
 {
-    struct_fyear *fyear_1;
-    struct_fyear *fyear_2;
+    FyearStruct *fyear_1;
+    FyearStruct *fyear_2;
 
     fyear_1 = gsb_data_fyear_get_structure (fyear_number_1);
     fyear_2 = gsb_data_fyear_get_structure (fyear_number_2);
@@ -692,29 +693,47 @@ gint gsb_data_fyear_compare ( gint fyear_number_1, gint fyear_number_2 )
 
 
 /**
- * compare 2 financial years bye struct_fyear *fyear
+ * compare 2 financial years bye FyearStruct *fyear
  *
- * \param struct_fyear *fyear_1
- * \param struct_fyear *fyear_2
+ * \param FyearStruct *fyear_1
+ * \param FyearStruct *fyear_2
  *
  * \return -1 if fyear 2 is before 1 ; +1 if fyear 2 is after 1 ; 0 if problem
  * */
-gint gsb_data_fyear_compare_from_struct ( struct_fyear *fyear_1,
-                        struct_fyear *fyear_2 )
+gint gsb_data_fyear_compare_from_struct ( FyearStruct *fyear_1,
+                        FyearStruct *fyear_2 )
 {
     if ( !fyear_1 || !fyear_2 )
+	{
         return 0;
+	}
 
-    if ( !fyear_1 -> beginning_date )
-        return -1;
-    if ( !fyear_2 -> beginning_date )
-        return -1;
+	if (conf.fyear_combobox_sort_order)
+	{
+		if ( !fyear_1 -> beginning_date )
+			return 1;
+		if ( !fyear_2 -> beginning_date )
+			return 1;
 
-    if ( g_date_compare ( fyear_1 -> end_date, fyear_2 -> beginning_date ) < 0 )
-        return -1;
-    if ( g_date_compare ( fyear_1 -> beginning_date, fyear_2 -> end_date ) > 0 )
-        return 1;
-    return 0;
+		if ( g_date_compare ( fyear_1 -> end_date, fyear_2 -> beginning_date ) < 0 )
+			return 1;
+		if ( g_date_compare ( fyear_1 -> beginning_date, fyear_2 -> end_date ) > 0 )
+			return -1;
+		return 0;
+	}
+	else
+	{
+		if ( !fyear_1 -> beginning_date )
+			return -1;
+		if ( !fyear_2 -> beginning_date )
+			return -1;
+
+		if ( g_date_compare ( fyear_1 -> end_date, fyear_2 -> beginning_date ) < 0 )
+			return -1;
+		if ( g_date_compare ( fyear_1 -> beginning_date, fyear_2 -> end_date ) > 0 )
+			return 1;
+		return 0;
+	}
 }
 
 

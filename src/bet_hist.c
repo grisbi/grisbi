@@ -22,7 +22,7 @@
 /* ************************************************************************** */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -37,6 +37,7 @@
 #include "dialog.h"
 #include "export_csv.h"
 #include "fenetre_principale.h"
+#include "grisbi_app.h"
 #include "gsb_automem.h"
 #include "gsb_data_account.h"
 #include "gsb_data_currency.h"
@@ -53,7 +54,7 @@
 #include "traitement_variables.h"
 #include "utils.h"
 #include "utils_dates.h"
-#include "utils_file_selection.h"
+#include "utils_files.h"
 #include "utils_real.h"
 #include "utils_str.h"
 #include "erreur.h"
@@ -152,7 +153,6 @@ GtkWidget *bet_historical_create_page ( void )
     GtkWidget *page;
     GtkWidget *frame;
     GtkWidget *hbox;
-    GtkWidget *align;
     GtkWidget *label_title;
     GtkWidget *button_1, *button_2;
     GtkWidget *tree_view;
@@ -160,7 +160,7 @@ GtkWidget *bet_historical_create_page ( void )
     gpointer pointeur;
 
     devel_debug (NULL);
-    page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
+    page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_widget_set_name ( page, "historical_page" );
 
     account_page = gsb_gui_get_account_page ();
@@ -170,19 +170,15 @@ GtkWidget *bet_historical_create_page ( void )
     gtk_box_pack_start ( GTK_BOX ( page ), frame, FALSE, FALSE, 0 );
 
     /* titre de la page */
-    align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
-    gtk_box_pack_start ( GTK_BOX ( page ), align, FALSE, FALSE, 5) ;
-
     label_title = gtk_label_new ( "bet_hist_title" );
-    gtk_container_add ( GTK_CONTAINER ( align ), label_title );
+	gtk_widget_set_halign (label_title, GTK_ALIGN_CENTER);
+    gtk_box_pack_start ( GTK_BOX ( page ), label_title, FALSE, FALSE, 5);
     g_object_set_data ( G_OBJECT ( gsb_gui_get_account_page () ), "bet_hist_title", label_title);
 
     /* Choix des données sources */
-    align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
-    gtk_box_pack_start ( GTK_BOX ( page ), align, FALSE, FALSE, 5) ;
-
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
-    gtk_container_add ( GTK_CONTAINER ( align ), hbox );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
+	gtk_widget_set_halign (hbox, GTK_ALIGN_CENTER);
+    gtk_box_pack_start ( GTK_BOX ( page ), hbox, FALSE, FALSE, 5);
     g_object_set_data ( G_OBJECT ( account_page ), "bet_historical_data", hbox );
 
     button_1 = gtk_radio_button_new_with_label ( NULL,
@@ -239,7 +235,7 @@ GtkWidget *bet_historical_create_page ( void )
     g_object_set_data ( G_OBJECT ( tree_view ), "label_title", label_title );
 
     /* set the color of selected row */
-    utils_set_tree_view_selection_and_text_color ( tree_view );
+	gtk_widget_set_name (tree_view, "tree_view");
 
     /* on y ajoute la barre d'outils */
     bet_historical_toolbar = bet_historical_create_toolbar ( page, tree_view );
@@ -509,7 +505,7 @@ GtkWidget *bet_historical_get_data_tree_view ( GtkWidget *container )
     /* devel_debug (NULL); */
     account_page = gsb_gui_get_account_page ();
     tree_view = gtk_tree_view_new ( );
-    //~ gtk_tree_view_set_rules_hint ( GTK_TREE_VIEW (tree_view), FALSE );
+	gtk_widget_set_name (tree_view, "tree_view");
     g_object_set_data ( G_OBJECT ( account_page ), "hist_tree_view", tree_view );
 
     tree_model = gtk_tree_store_new ( SPP_HISTORICAL_NUM_COLUMNS,
@@ -527,7 +523,7 @@ GtkWidget *bet_historical_get_data_tree_view ( GtkWidget *container )
                         G_TYPE_INT,         /* SPP_HISTORICAL_DIV_NUMBER        */
                         G_TYPE_INT,         /* SPP_HISTORICAL_SUB_DIV_NUMBER    */
                         G_TYPE_BOOLEAN,     /* SPP_HISTORICAL_EDITED_COLUMN     */
-                        GDK_TYPE_RGBA );   /* SPP_HISTORICAL_BACKGROUND_COLOR  */
+                        GDK_TYPE_RGBA );    /* SPP_HISTORICAL_BACKGROUND_COLOR  */
     gtk_tree_view_set_model ( GTK_TREE_VIEW (tree_view), GTK_TREE_MODEL ( tree_model ) );
     g_object_unref ( G_OBJECT ( tree_model ) );
 
@@ -582,6 +578,8 @@ GtkWidget *bet_historical_get_data_tree_view ( GtkWidget *container )
     gtk_tree_view_column_set_resizable ( column, TRUE );
     g_object_set_data ( G_OBJECT ( column ), "num_col_model",
                         GINT_TO_POINTER ( SPP_HISTORICAL_DESC_COLUMN ) );
+
+	g_free (title);
 
     /* amount column */
     cell = gtk_cell_renderer_text_new ( );
@@ -814,11 +812,7 @@ void bet_historical_populate_data ( gint account_number )
  * */
 gboolean bet_historical_affiche_div ( GHashTable  *list_div, GtkWidget *tree_view )
 {
-    GtkTreeModel *model;
-
     /* devel_debug (NULL); */
-    model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
-
     g_hash_table_foreach ( list_div, bet_historical_populate_div_model, tree_view );
 
     return FALSE;
@@ -835,8 +829,8 @@ void bet_historical_populate_div_model ( gpointer key,
                         gpointer value,
                         gpointer user_data )
 {
-    SH *sh = ( SH* ) value;
-    SBR *sbr = sh -> sbr;
+    BetHist *sh = (BetHist*) value;
+    BetRange *sbr = sh -> sbr;
     GtkTreeView *tree_view = ( GtkTreeView * ) user_data;
     GtkTreeModel *model;
     GtkTreeIter parent;
@@ -859,7 +853,7 @@ void bet_historical_populate_div_model ( gpointer key,
     gsb_real average;
     gsb_real retained;
     gsb_real amount;
-    kind_account kind;
+    KindAccount kind;
 
     div_number = sh -> div;
     div_name = bet_data_get_div_name ( div_number, 0, NULL );
@@ -928,8 +922,8 @@ void bet_historical_populate_div_model ( gpointer key,
     g_hash_table_iter_init ( &iter, sh -> list_sub_div );
     while ( g_hash_table_iter_next ( &iter, &sub_key, &sub_value ) )
     {
-        SH *sub_sh = ( SH* ) sub_value;
-        SBR *sub_sbr = sub_sh -> sbr;
+        BetHist *sub_sh = (BetHist* ) sub_value;
+        BetRange *sub_sbr = sub_sh -> sbr;
         GtkTreeIter fils;
         gchar **tab_str = NULL;
 
@@ -1236,7 +1230,7 @@ gboolean bet_historical_set_full_sub_div ( GtkTreeModel *model, GtkTreeIter *par
 {
     GtkTreeView *tree_view;
     GtkTreeIter fils_iter;
-    gint edited;
+    gint edited = 0;
 
     if ( gtk_tree_model_iter_children ( GTK_TREE_MODEL ( model ), &fils_iter, parent ) )
     {
@@ -1483,7 +1477,8 @@ void bet_historical_context_menu ( GtkWidget *tree_view )
     menu = gtk_menu_new ();
 
     /* Add last amount menu */
-    menu_item = gtk_menu_item_new_with_label ( _("Assign the amount of the last operation") );
+    menu_item = utils_menu_item_new_from_image_label ("gtk-add-16.png",
+													  _("Assign the amount of the last operation"));
     g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_historical_add_last_amount ),
@@ -1502,7 +1497,7 @@ void bet_historical_context_menu ( GtkWidget *tree_view )
 
 
     /* Add average amount menu */
-    menu_item = gtk_menu_item_new_with_label ( _("Copy the average amount") );
+    menu_item = utils_menu_item_new_from_image_label ("gtk-copy-16.png", _("Copy the average amount"));
     g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_historical_add_average_amount ),
@@ -1512,8 +1507,14 @@ void bet_historical_context_menu ( GtkWidget *tree_view )
 
     /* Finish all. */
     gtk_widget_show_all ( menu );
+
+#if GTK_CHECK_VERSION (3,22,0)
+	gtk_menu_popup_at_pointer (GTK_MENU (menu), NULL);
+#else
+
     gtk_menu_popup ( GTK_MENU( menu ), NULL, NULL, NULL, NULL,
                         3, gtk_get_current_event_time ( ) );
+#endif
 }
 
 
@@ -1898,7 +1899,7 @@ void bet_historical_fyear_hide_present_futures_fyears ( void )
     tmp_list = gsb_data_fyear_get_fyears_list ( );
     while (tmp_list)
     {
-        struct_fyear *fyear;
+        FyearStruct *fyear;
 
         fyear = tmp_list -> data;
 
@@ -1940,8 +1941,7 @@ GtkWidget *bet_historical_create_toolbar ( GtkWidget *parent,
     g_object_set_data ( G_OBJECT ( toolbar ), "page", parent );
 
     /* print button */
-    item = utils_buttons_tool_button_new_from_stock ( "gtk-print" );
-    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Print") );
+    item = utils_buttons_tool_button_new_from_image_label ("gtk-print-24.png", _("Print"));
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Print the array") );
     g_signal_connect ( G_OBJECT ( item ),
                         "clicked",
@@ -1950,8 +1950,7 @@ GtkWidget *bet_historical_create_toolbar ( GtkWidget *parent,
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Export button */
-    item = utils_buttons_tool_button_new_from_stock ( "gtk-save" );
-    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Export") );
+    item = utils_buttons_tool_button_new_from_image_label ("gsb-export-24.png", _("Export"));
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Export the array") );
     g_signal_connect ( G_OBJECT ( item ),
                         "clicked",
@@ -1961,7 +1960,7 @@ GtkWidget *bet_historical_create_toolbar ( GtkWidget *parent,
 
 #ifdef HAVE_GOFFICE
     /* sectors button */
-    item = utils_buttons_tool_button_new_from_image_label ( "graph-sectors.png", _("Data graph") );
+    item = utils_buttons_tool_button_new_from_image_label ("gsb-graph-sectors-24.png", _("Data graph"));
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Display the pie graph") );
     g_signal_connect ( G_OBJECT ( item ),
                         "clicked",
@@ -2009,7 +2008,7 @@ void bet_historical_export_tab ( GtkWidget *menu_item,
     gchar *tmp_last_directory;
 
     dialog = gtk_file_chooser_dialog_new ( _("Export the historical data"),
-					   GTK_WINDOW ( run.window ),
+					   GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
 					   GTK_FILE_CHOOSER_ACTION_SAVE,
 					   "gtk-cancel", GTK_RESPONSE_CANCEL,
 					   "gtk-save", GTK_RESPONSE_OK,
@@ -2025,8 +2024,8 @@ void bet_historical_export_tab ( GtkWidget *menu_item,
     switch ( resultat )
     {
 	case GTK_RESPONSE_OK :
-	    filename = file_selection_get_filename ( GTK_FILE_CHOOSER ( dialog ) );
-        tmp_last_directory = file_selection_get_last_directory ( GTK_FILE_CHOOSER ( dialog ), TRUE );
+	    filename = gtk_file_chooser_get_filename ( GTK_FILE_CHOOSER ( dialog ) );
+        tmp_last_directory = utils_files_selection_get_last_directory ( GTK_FILE_CHOOSER ( dialog ), TRUE );
         gsb_file_update_last_path ( tmp_last_directory );
         g_free ( tmp_last_directory );
 	    gtk_widget_destroy ( GTK_WIDGET ( dialog ) );

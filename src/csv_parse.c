@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*     Copyright (C)    2005-2006 Benjamin Drieu (bdrieu@april.org)           */
-/*          2008-2011 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          2008-2017 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -22,7 +22,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -30,20 +30,21 @@
 
 /*START_INCLUDE*/
 #include "csv_parse.h"
-#include "utils_dates.h"
 #include "gsb_data_currency.h"
+#include "gsb_data_transaction.h"
 #include "gsb_real.h"
+#include "import.h"
+#include "utils_dates.h"
 #include "utils_real.h"
 #include "utils_str.h"
-#include "gsb_data_transaction.h"
-#include "import.h"
 /*END_INCLUDE*/
 
 /*START_EXTERN*/
 /*END_EXTERN*/
 
 /*START_STATIC*/
-static gchar *sanitize_field ( gchar *begin, gchar *end  );
+static gchar *sanitize_field (gchar *begin,
+							  gchar *end);
 /*END_STATIC*/
 
 
@@ -52,7 +53,8 @@ static gchar *sanitize_field ( gchar *begin, gchar *end  );
  *
  *
  */
-GSList * csv_parse_line ( gchar **contents, gchar *separator )
+GSList *csv_parse_line (gchar **contents,
+						gchar *separator)
 {
     gchar *tmp;
     gchar *begin;
@@ -60,46 +62,46 @@ GSList * csv_parse_line ( gchar **contents, gchar *separator )
     gint len;
     GSList *list = NULL;
 
-    len = strlen ( separator );
+    len = strlen (separator);
     tmp = (*contents);
     begin = tmp;
 
-    if ( *tmp == '\n' )
+    if (*tmp == '\n')
     {
         *contents = tmp + 1;
-        return GINT_TO_POINTER ( -1 );
+        return GINT_TO_POINTER (-1);
     }
 
-    if ( *tmp == '!' || *tmp == '#' || *tmp == ';' )
+    if (*tmp == '!' || *tmp == '#' || *tmp == ';')
     {
-        *contents = strchr ( tmp, '\n' ) + 1;
+        *contents = strchr (tmp, '\n') + 1;
         return GINT_TO_POINTER(-1);
     }
 
-    while ( *tmp )
+    while (*tmp)
     {
-        switch ( *tmp )
+        switch (*tmp)
         {
             case '\n':
-            list = g_slist_append ( list, sanitize_field ( begin, tmp ) );
+            list = g_slist_append (list, sanitize_field (begin, tmp));
             *contents = tmp+1;
             return list;
 
             case '"':
-            if ( ! is_unquoted )
+            if (! is_unquoted)
             {
                 tmp++;
-                while ( *tmp )
+                while (*tmp)
                 {
                 /* This is lame escaping but we need to
                  * support it. */
-                if ( *tmp == '\\' && *(tmp+1) == '"' )
+                if (*tmp == '\\' && *(tmp+1) == '"')
                 {
                     tmp += 2;
                 }
 
                 /* End of quoted string. */
-                if ( *tmp == '"' && *(tmp+1) != '"' )
+                if (*tmp == '"' && *(tmp+1) != '"')
                 {
                     break;
                 }
@@ -107,12 +109,12 @@ GSList * csv_parse_line ( gchar **contents, gchar *separator )
                 tmp++;
                 }
             }
-
+			/* FALLTHRU */
             default:
             is_unquoted = TRUE;
-            if ( !strncmp ( tmp, separator, len ) )
+            if (!strncmp (tmp, separator, len))
             {
-                list = g_slist_append ( list, sanitize_field ( begin, tmp ) );
+                list = g_slist_append (list, sanitize_field (begin, tmp));
                 begin = tmp + len;
                 is_unquoted = FALSE;
             }
@@ -130,42 +132,49 @@ GSList * csv_parse_line ( gchar **contents, gchar *separator )
  * TODO
  *
  */
-gchar *sanitize_field ( gchar *begin, gchar *end  )
+gchar *sanitize_field (gchar *begin,
+					   gchar *end )
 {
     gchar *field;
     gchar *iter;
 
-    g_return_val_if_fail ( begin <= end, NULL );
+    g_return_val_if_fail (begin <= end, NULL);
 
-    if ( end <= begin )
+    if (end <= begin)
+	{
         return "";
+	}
 
-    iter = field = g_malloc0 ( end - begin + 1 );
+	if ((end-begin) == 1)
+	{
+		return "";
+	}
+
+    iter = field = g_malloc0 (end - begin + 1);
 
     /* Strip out intial white spaces. */
-    while ( *begin == ' ' )
+    while (*begin == ' ')
         begin++;
 
-    if ( *begin == '"' )
+    if (*begin == '"')
     {
         begin++;
-        while ( *end != '"' && end >= begin )
+        while (*end != '"' && end >= begin)
             end--;
     }
 
-    while ( begin < end )
+    while (begin < end)
     {
-        if ( *begin == '"' && *(begin+1) == '"' )
+        if (*begin == '"' && *(begin+1) == '"')
             begin++;
 
-        if ( *begin == '\\' && *(begin+1) == '"' )
+        if (*begin == '\\' && *(begin+1) == '"')
             begin++;
 
         *iter++ = *begin++;
     }
-
     /* Strip out remaining white spaces. */
-    while ( *(iter-1) == ' ' || *(iter-1) == '\r' || *(iter-1) == '\n' )
+    while (*(iter-1) == ' ' || *(iter-1) == '\r' || *(iter-1) == '\n')
         iter--;
 
     *iter = '\0';
@@ -178,9 +187,9 @@ gchar *sanitize_field ( gchar *begin, gchar *end  )
  *
  *
  */
-gboolean csv_import_validate_string ( gchar * string )
+gboolean csv_import_validate_string (gchar *string)
 {
-    g_return_val_if_fail ( string, FALSE );
+    g_return_val_if_fail (string, FALSE);
 
     return string != NULL;
 }
@@ -191,21 +200,21 @@ gboolean csv_import_validate_string ( gchar * string )
  *
  *
  */
-gboolean csv_import_validate_date ( gchar * string )
+gboolean csv_import_validate_date (gchar *string)
 {
-    GDate * date;
-    g_return_val_if_fail ( string, FALSE );
+    GDate *date;
+    g_return_val_if_fail (string, FALSE);
 
-    date = gsb_parse_date_string ( string );
-    if ( date && g_date_valid ( date ) &&
-	 ! csv_import_validate_number ( string ) )
+    date = gsb_parse_date_string (string);
+    if (date && g_date_valid (date) &&
+	 ! csv_import_validate_number (string))
     {
-        g_date_free ( date );
+        g_date_free (date);
         return TRUE;
     }
 
-    if ( date )
-        g_date_free ( date );
+    if (date)
+        g_date_free (date);
     return FALSE;
 }
 
@@ -215,14 +224,14 @@ gboolean csv_import_validate_date ( gchar * string )
  *
  *
  */
-gboolean csv_import_validate_number ( gchar * string )
+gboolean csv_import_validate_number (gchar *string)
 {
-    g_return_val_if_fail ( string, FALSE );
+    g_return_val_if_fail (string, FALSE);
 
-    while ( *string )
+    while (*string)
     {
-	if ( ! g_ascii_isdigit ( * string ) &&
-	     ! g_ascii_isspace ( * string ) )
+	if (! g_ascii_isdigit (*string) &&
+	     ! g_ascii_isspace (*string))
 	{
 	    return FALSE;
 	}
@@ -237,16 +246,16 @@ gboolean csv_import_validate_number ( gchar * string )
 
 /**
  *
- * We don't check punctuation signs because mileage may vary with
+ *We don't check punctuation signs because mileage may vary with
  * locales.
  */
-gboolean csv_import_validate_amount ( gchar * string )
+gboolean csv_import_validate_amount (gchar *string)
 {
-    g_return_val_if_fail ( string, FALSE );
+    g_return_val_if_fail (string, FALSE);
 
-    while ( *string )
+    while (*string)
     {
-	if ( g_ascii_isalpha ( * string ) )
+	if (g_ascii_isalpha (* string))
 	{
 	    return FALSE;
 	}
@@ -262,11 +271,12 @@ gboolean csv_import_validate_amount ( gchar * string )
  *
  *
  */
-gboolean csv_import_parse_currency ( struct struct_ope_importation * ope, gchar * string )
+gboolean csv_import_parse_currency (struct ImportTransaction *ope,
+									gchar *string)
 {
     gint currency_number;
 
-    g_return_val_if_fail ( string, FALSE );
+    g_return_val_if_fail (string, FALSE);
 
     currency_number = gsb_data_currency_get_number_by_name (string);
 
@@ -279,20 +289,21 @@ gboolean csv_import_parse_currency ( struct struct_ope_importation * ope, gchar 
  *
  *
  */
-gboolean csv_import_parse_date ( struct struct_ope_importation * ope, gchar * string )
+gboolean csv_import_parse_date (struct ImportTransaction *ope,
+								gchar *string)
 {
-    g_return_val_if_fail ( string, FALSE );
+    g_return_val_if_fail (string, FALSE);
 
-    if ( ope -> date )
-        g_date_free ( ope-> date );
-    ope -> date = gsb_parse_date_string ( string );
+    if (ope->date)
+        g_date_free (ope-> date);
+    ope->date = gsb_parse_date_string (string);
 
-    if ( ! ope -> date )
+    if (! ope->date)
     {
-	ope -> date = gdate_today ();
+	ope->date = gdate_today ();
     }
 
-    return g_date_valid ( ope -> date );
+    return g_date_valid (ope->date);
 }
 
 
@@ -301,15 +312,16 @@ gboolean csv_import_parse_date ( struct struct_ope_importation * ope, gchar * st
  *
  *
  */
-gboolean csv_import_parse_value_date ( struct struct_ope_importation * ope, gchar * string )
+gboolean csv_import_parse_value_date (struct ImportTransaction *ope,
+									  gchar *string)
 {
-    g_return_val_if_fail ( string, FALSE );
+    g_return_val_if_fail (string, FALSE);
 
-    if (ope -> date_de_valeur )
-        g_free ( ope -> date_de_valeur);
-    ope -> date_de_valeur = gsb_parse_date_string ( string );
+    if (ope->date_de_valeur)
+        g_free (ope->date_de_valeur);
+    ope->date_de_valeur = gsb_parse_date_string (string);
 
-    return g_date_valid ( ope -> date_de_valeur );
+    return g_date_valid (ope->date_de_valeur);
 }
 
 
@@ -318,12 +330,13 @@ gboolean csv_import_parse_value_date ( struct struct_ope_importation * ope, gcha
  *
  *
  */
-gboolean csv_import_parse_payee ( struct struct_ope_importation * ope, gchar * string )
+gboolean csv_import_parse_payee (struct ImportTransaction *ope,
+								 gchar *string)
 {
-    g_return_val_if_fail ( string, FALSE );
-    if ( ope -> tiers )
-        g_free ( ope -> tiers );
-    ope -> tiers = my_strdup ( string );
+    g_return_val_if_fail (string, FALSE);
+    if (ope->tiers)
+        g_free (ope->tiers);
+    ope->tiers = my_strdup (string);
     return TRUE;
 }
 
@@ -333,12 +346,13 @@ gboolean csv_import_parse_payee ( struct struct_ope_importation * ope, gchar * s
  *
  *
  */
-gboolean csv_import_parse_notes ( struct struct_ope_importation * ope, gchar * string )
+gboolean csv_import_parse_notes (struct ImportTransaction *ope,
+								 gchar *string)
 {
-    g_return_val_if_fail ( string, FALSE );
-    if ( ope -> notes )
-        g_free ( ope -> notes );
-    ope -> notes = my_strdup ( string );
+    g_return_val_if_fail (string, FALSE);
+    if (ope->notes)
+        g_free (ope->notes);
+    ope->notes = my_strdup (string);
     return TRUE;
 }
 
@@ -348,12 +362,13 @@ gboolean csv_import_parse_notes ( struct struct_ope_importation * ope, gchar * s
  *
  *
  */
-gboolean csv_import_parse_voucher ( struct struct_ope_importation * ope, gchar * string )
+gboolean csv_import_parse_cheque (struct ImportTransaction *ope,
+								  gchar *string)
 {
-    g_return_val_if_fail ( string, FALSE );
-    if ( ope -> cheque )
-        g_free ( ope -> cheque );
-    ope -> cheque = my_strdup ( string );
+    g_return_val_if_fail (string, FALSE);
+    if (ope->cheque)
+        g_free (ope->cheque);
+    ope->cheque = my_strdup (string);
     return TRUE;
 }
 
@@ -363,12 +378,13 @@ gboolean csv_import_parse_voucher ( struct struct_ope_importation * ope, gchar *
  *
  *
  */
-gboolean csv_import_parse_category ( struct struct_ope_importation * ope, gchar * string )
+gboolean csv_import_parse_category (struct ImportTransaction *ope,
+									gchar *string)
 {
-    g_return_val_if_fail ( string, FALSE );
-    if ( ope -> categ )
-        g_free ( ope -> categ );
-    ope -> categ = my_strdup ( string );
+    g_return_val_if_fail (string, FALSE);
+    if (ope->categ)
+        g_free (ope->categ);
+    ope->categ = my_strdup (string);
     return TRUE;
 }
 
@@ -378,12 +394,13 @@ gboolean csv_import_parse_category ( struct struct_ope_importation * ope, gchar 
  *
  *
  */
-gboolean csv_import_parse_budget ( struct struct_ope_importation * ope, gchar * string )
+gboolean csv_import_parse_budget (struct ImportTransaction *ope,
+								  gchar *string)
 {
-    g_return_val_if_fail ( string, FALSE );
-    if ( ope -> budget )
-        g_free ( ope -> budget );
-    ope -> budget = my_strdup ( string );
+    g_return_val_if_fail (string, FALSE);
+    if (ope->budget)
+        g_free (ope->budget);
+    ope->budget = my_strdup (string);
     return TRUE;
 }
 
@@ -393,12 +410,13 @@ gboolean csv_import_parse_budget ( struct struct_ope_importation * ope, gchar * 
  *
  *
  */
-gboolean csv_import_parse_sub_category ( struct struct_ope_importation * ope, gchar * string )
+gboolean csv_import_parse_sub_category (struct ImportTransaction *ope,
+										gchar *string)
 {
-    g_return_val_if_fail ( string, FALSE );
-    if ( ! ope -> categ || ! strlen ( string ) )
+    g_return_val_if_fail (string, FALSE);
+    if (! ope->categ || ! strlen (string))
 	return FALSE;
-    ope -> categ = g_strconcat ( ope -> categ, " : ", string, NULL );
+    ope->categ = g_strconcat (ope->categ, " : ", string, NULL);
     return TRUE;
 }
 
@@ -408,12 +426,13 @@ gboolean csv_import_parse_sub_category ( struct struct_ope_importation * ope, gc
  *
  *
  */
-gboolean csv_import_parse_sub_budget ( struct struct_ope_importation * ope, gchar * string )
+gboolean csv_import_parse_sub_budget (struct ImportTransaction *ope,
+									  gchar *string)
 {
-    g_return_val_if_fail ( string, FALSE );
-    if ( ! ope -> budget || ! strlen ( string ) )
+    g_return_val_if_fail (string, FALSE);
+    if (! ope->budget || ! strlen (string))
 	return FALSE;
-    ope -> budget = g_strconcat ( ope -> budget, " : ", string, NULL );
+    ope->budget = g_strconcat (ope->budget, " : ", string, NULL);
     return TRUE;
 }
 
@@ -423,14 +442,15 @@ gboolean csv_import_parse_sub_budget ( struct struct_ope_importation * ope, gcha
  * TODO: Use  a real parsing
  *
  */
-gboolean csv_import_parse_balance ( struct struct_ope_importation * ope, gchar * string )
+gboolean csv_import_parse_balance (struct ImportTransaction *ope,
+								   gchar *string)
 {
-    if ( !string )
+    if (!string)
         return FALSE;
 
-    if ( strlen ( string ) > 0 )
+    if (strlen (string) > 0)
     {
-        ope -> montant = utils_real_get_from_string ( string );
+        ope->montant = utils_real_get_from_string (string);
         return TRUE;
     }
 
@@ -441,14 +461,15 @@ gboolean csv_import_parse_balance ( struct struct_ope_importation * ope, gchar *
  *
  *
  */
-gboolean csv_import_parse_credit ( struct struct_ope_importation * ope, gchar * string )
+gboolean csv_import_parse_credit (struct ImportTransaction *ope,
+								  gchar *string)
 {
-    if ( !string )
+    if (!string)
         return FALSE;
 
-    if ( strlen ( string ) > 0 )
+    if (strlen (string) > 0)
     {
-        ope -> montant = gsb_real_add ( ope -> montant,
+        ope->montant = gsb_real_add (ope->montant,
                         utils_real_get_from_string (string));
     }
 
@@ -460,15 +481,16 @@ gboolean csv_import_parse_credit ( struct struct_ope_importation * ope, gchar * 
  *
  *
  */
-gboolean csv_import_parse_debit ( struct struct_ope_importation * ope, gchar * string )
+gboolean csv_import_parse_debit (struct ImportTransaction *ope,
+								 gchar *string)
 {
-    if ( !string )
+    if (!string)
         return FALSE;
 
-    if ( strlen ( string ) > 0 )
+    if (strlen (string) > 0)
     {
-        ope -> montant = gsb_real_sub ( ope -> montant,
-                        utils_real_get_from_string ( string ) );
+        ope->montant = gsb_real_sub (ope->montant,
+                        utils_real_get_from_string (string));
     }
 
     return TRUE;
@@ -479,28 +501,29 @@ gboolean csv_import_parse_debit ( struct struct_ope_importation * ope, gchar * s
  *
  *
  */
-gboolean csv_import_parse_p_r ( struct struct_ope_importation * ope, gchar * string )
+gboolean csv_import_parse_p_r (struct ImportTransaction *ope,
+							   gchar *string)
 {
-    g_return_val_if_fail ( string, FALSE );
+    g_return_val_if_fail (string, FALSE);
 
-    if ( ! strcmp ( string, "P" ) )
+    if (! strcmp (string, "P"))
     {
-	ope -> p_r = OPERATION_POINTEE;
+	ope->p_r = OPERATION_POINTEE;
 	return TRUE;
     }
-    else if ( ! strcmp ( string, "T" ) )
+    else if (! strcmp (string, "T"))
     {
-	ope -> p_r = OPERATION_TELERAPPROCHEE;
+	ope->p_r = OPERATION_TELERAPPROCHEE;
 	return TRUE;
     }
-    else if ( ! strcmp ( string, "R" ) )
+    else if (! strcmp (string, "R"))
     {
-	ope -> p_r = OPERATION_RAPPROCHEE;
+	ope->p_r = OPERATION_RAPPROCHEE;
 	return TRUE;
     }
-    else if ( ! strlen ( string ) )
+    else if (! strlen (string))
     {
-	ope -> p_r = OPERATION_NORMALE;
+	ope->p_r = OPERATION_NORMALE;
 	return TRUE;
     }
     return FALSE;
@@ -512,13 +535,14 @@ gboolean csv_import_parse_p_r ( struct struct_ope_importation * ope, gchar * str
  *
  *
  */
-gboolean csv_import_parse_split ( struct struct_ope_importation * ope, gchar * string )
+gboolean csv_import_parse_split (struct ImportTransaction *ope,
+								 gchar *string)
 {
-    g_return_val_if_fail ( string, FALSE );
+    g_return_val_if_fail (string, FALSE);
 
-    if ( ! strcmp ( string, "V" ) )
+    if (! strcmp (string, "V"))
     {
-        ope -> ope_de_ventilation = 1;
+        ope->ope_de_ventilation = 1;
         return TRUE;
     }
 

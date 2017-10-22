@@ -30,7 +30,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -41,6 +41,7 @@
 #include "gsb_scheduler_list.h"
 #include "dialog.h"
 #include "fenetre_principale.h"
+#include "grisbi_app.h"
 #include "gsb_automem.h"
 #include "gsb_calendar.h"
 #include "gsb_data_account.h"
@@ -123,7 +124,7 @@ static void popup_scheduled_context_menu ( void );
 
 
 /*START_EXTERN*/
-extern struct conditional_message delete_msg[];
+extern struct ConditionalMessage delete_msg[];
 /*END_EXTERN*/
 
 
@@ -195,8 +196,8 @@ static void gsb_scheduler_list_change_scheduler_view ( GtkWidget *item,
     tmpstr = g_strconcat ( _("Scheduled transactions"), " : ",
                         g_dgettext ( NULL, periodicity_names[periodicity] ),
                         NULL );
-    gsb_gui_headings_update_title ( tmpstr );
-    gsb_gui_headings_update_suffix ( "" );
+    grisbi_win_headings_update_title ( tmpstr );
+    grisbi_win_headings_update_suffix ( "" );
     g_free ( tmpstr );
 
     etat.affichage_echeances = periodicity;
@@ -276,9 +277,12 @@ static gboolean popup_scheduled_view_mode_menu ( GtkWidget *button,
     }
 
     gtk_widget_show_all ( menu );
+#if GTK_CHECK_VERSION (3,22,0)
+	gtk_menu_popup_at_pointer (GTK_MENU (menu), NULL);
+#else
     gtk_menu_popup ( GTK_MENU ( menu ), NULL, button, set_popup_position, button, 1,
                 gtk_get_current_event_time () );
-
+#endif
     view_menu_block_cb = FALSE;
 
     return TRUE;
@@ -325,8 +329,7 @@ GtkWidget *gsb_scheduler_list_create_list ( void )
     devel_debug (NULL);
 
     /* first, a vbox */
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 0 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
 
     /* frame pour la barre d'outils */
     frame = gtk_frame_new ( NULL );
@@ -351,7 +354,7 @@ GtkWidget *gsb_scheduler_list_create_list ( void )
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ), tree_view );
 
     /* set the color of selected row */
-    utils_set_tree_view_selection_and_text_color ( tree_view );
+	gtk_widget_set_name (tree_view, "tree_view");
 
     /* create the store and set it in the tree_view */
     tree_model = gsb_scheduler_list_create_model ();
@@ -391,7 +394,7 @@ GtkWidget *creation_barre_outils_echeancier ( void )
     toolbar = gtk_toolbar_new ();
 
     /* new scheduled button */
-    item = utils_buttons_tool_button_new_from_image_label ( "new-scheduled.png", _("New scheduled") );
+    item = utils_buttons_tool_button_new_from_image_label ( "gsb-new-scheduled-24.png", _("New scheduled") );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ),
                         _("Prepare form to create a new scheduled transaction") );
     g_signal_connect_swapped ( G_OBJECT ( item ),
@@ -401,8 +404,7 @@ GtkWidget *creation_barre_outils_echeancier ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* delete button */
-    scheduler_button_delete = GTK_WIDGET ( utils_buttons_tool_button_new_from_stock ( "gtk-delete" ) );
-    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( scheduler_button_delete ), _("Delete") );
+    scheduler_button_delete = GTK_WIDGET (utils_buttons_tool_button_new_from_image_label ("gtk-delete-24.png", _("Delete")));
     gtk_widget_set_sensitive ( scheduler_button_delete, FALSE );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( scheduler_button_delete ),
                         _("Delete selected scheduled transaction"));
@@ -413,8 +415,7 @@ GtkWidget *creation_barre_outils_echeancier ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), GTK_TOOL_ITEM ( scheduler_button_delete ), -1 );
 
     /* edit button */
-    scheduler_button_edit = GTK_WIDGET ( utils_buttons_tool_button_new_from_stock ( "gtk-edit" ) );
-    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( scheduler_button_edit ), _("Edit") );
+    scheduler_button_edit = GTK_WIDGET (utils_buttons_tool_button_new_from_image_label ("gtk-edit-24.png", _("Edit")));
     gtk_widget_set_sensitive ( scheduler_button_edit, FALSE );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( scheduler_button_edit ),
                         _("Edit selected transaction"));
@@ -425,7 +426,7 @@ GtkWidget *creation_barre_outils_echeancier ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), GTK_TOOL_ITEM ( scheduler_button_edit ), -1 );
 
     /* Display/hide comments */
-    scheduler_display_hide_notes = GTK_WIDGET ( utils_buttons_tool_button_new_from_image_label ( "comments.png", _("Notes") ) );
+    scheduler_display_hide_notes = GTK_WIDGET ( utils_buttons_tool_button_new_from_image_label ("gsb-comments-24.png", _("Notes") ) );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( scheduler_display_hide_notes ),
                         _("Display the notes of scheduled transactions") );
     g_signal_connect ( G_OBJECT ( scheduler_display_hide_notes ),
@@ -435,8 +436,7 @@ GtkWidget *creation_barre_outils_echeancier ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), GTK_TOOL_ITEM ( scheduler_display_hide_notes ), -1 );
 
     /* Execute transaction */
-    scheduler_button_execute = GTK_WIDGET ( utils_buttons_tool_button_new_from_stock ( "gtk-execute" ) );
-    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( scheduler_button_execute ), _("Execute") );
+    scheduler_button_execute = GTK_WIDGET (utils_buttons_tool_button_new_from_image_label ("gtk-execute-24.png", _("Execute")));
     gtk_widget_set_sensitive ( scheduler_button_execute, FALSE );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( scheduler_button_execute ),
                         _("Execute current scheduled transaction"));
@@ -446,8 +446,7 @@ GtkWidget *creation_barre_outils_echeancier ( void )
                         NULL );
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), GTK_TOOL_ITEM ( scheduler_button_execute ), -1 );
 
-    item = utils_buttons_tool_button_new_from_stock ( "gtk-select-color" );
-    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("View") );
+    item = utils_buttons_tool_button_new_from_image_label ("gtk-select-color-24.png", _("View"));
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ),
                         _("Change display mode of scheduled transaction list"));
     g_signal_connect ( G_OBJECT ( item ),
@@ -560,7 +559,7 @@ GtkWidget *gsb_scheduler_list_create_tree_view (void)
     GtkWidget * tree_view;
 
     tree_view = gtk_tree_view_new ( );
-    //~ gtk_tree_view_set_rules_hint ( GTK_TREE_VIEW ( tree_view ), TRUE );
+	gtk_widget_set_name (tree_view, "tree_view");
 
     /* can select only one line */
     gtk_tree_selection_set_mode ( GTK_TREE_SELECTION (
@@ -1496,7 +1495,7 @@ gboolean gsb_scheduler_list_set_background_color ( GtkWidget *tree_view )
         if ( virtual_transaction )
             gtk_tree_store_set ( store,
                         &iter,
-                        SCHEDULER_COL_NB_BACKGROUND, gsb_rgba_get_couleur ( "couleur_grise" ),
+                        SCHEDULER_COL_NB_BACKGROUND, gsb_rgba_get_couleur ( "background_scheduled" ),
                         -1 );
         else
         {
@@ -2206,7 +2205,7 @@ gboolean gsb_scheduler_list_popup_custom_periodicity_dialog (void)
     int i;
 
     dialog = gtk_dialog_new_with_buttons ( _("Show scheduled transactions"),
-					   GTK_WINDOW ( run.window ),
+					   GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
 					   GTK_DIALOG_MODAL,
 					   "gtk-cancel", GTK_RESPONSE_CANCEL,
 					   "gtk-apply", GTK_RESPONSE_OK,
@@ -2359,7 +2358,8 @@ gboolean gsb_scheduler_list_size_allocate ( GtkWidget *tree_view,
  */
 void popup_scheduled_context_menu ( void )
 {
-    GtkWidget *menu, *menu_item;
+    GtkWidget *menu;
+    GtkWidget *menu_item;
     gint scheduled_number;
 
     menu = gtk_menu_new ();
@@ -2367,7 +2367,7 @@ void popup_scheduled_context_menu ( void )
     /* Edit transaction */
     scheduled_number = gsb_scheduler_list_get_current_scheduled_number ( );
 
-    menu_item = gtk_menu_item_new_with_label ( _("Edit transaction") );
+    menu_item = GTK_WIDGET (utils_menu_item_new_from_image_label ("gtk-edit-16.png", _("Edit transaction")));
     g_signal_connect_swapped ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( gsb_scheduler_list_edit_transaction_by_pointer ),
@@ -2378,7 +2378,7 @@ void popup_scheduled_context_menu ( void )
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
     /* Clone transaction */
-    menu_item = gtk_menu_item_new_with_label ( _("Clone transaction") );
+    menu_item = GTK_WIDGET (utils_menu_item_new_from_image_label ("gtk-copy-16.png", _("Clone transaction")));
     g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( gsb_scheduler_list_clone_selected_scheduled ),
@@ -2392,7 +2392,7 @@ void popup_scheduled_context_menu ( void )
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new ( ) );
 
     /* New transaction */
-    menu_item = gtk_menu_item_new_with_label ( _("New transaction") );
+    menu_item = GTK_WIDGET (utils_menu_item_new_from_image_label  ("gsb-new-transaction-16.png", _("New transaction")));
     g_signal_connect_swapped ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( gsb_scheduler_list_edit_transaction_by_pointer ),
@@ -2400,7 +2400,7 @@ void popup_scheduled_context_menu ( void )
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
     /* Delete transaction */
-    menu_item = gtk_menu_item_new_with_label ( _("Delete transaction") );
+    menu_item = GTK_WIDGET (utils_menu_item_new_from_image_label ("gtk-delete-16.png", _("Delete transaction")));
     g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( gsb_scheduler_list_delete_scheduled_transaction_by_menu ),
@@ -2416,9 +2416,9 @@ void popup_scheduled_context_menu ( void )
 
     /* Display/hide notes */
     if ( etat.affichage_commentaire_echeancier )
-        menu_item = gtk_menu_item_new_with_label ( _("Displays notes") );
+        menu_item = GTK_WIDGET (utils_menu_item_new_from_image_label ("gsb-comments-16.png", _("Displays notes")));
     else
-        menu_item = gtk_menu_item_new_with_label ( _("Displays Frequency/Mode") );
+        menu_item = GTK_WIDGET (utils_menu_item_new_from_image_label ("gsb-comments-16.png", _("Displays Frequency/Mode")));
 
     g_signal_connect_swapped ( G_OBJECT ( menu_item ),
                         "activate",
@@ -2430,7 +2430,7 @@ void popup_scheduled_context_menu ( void )
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new ( ) );
 
     /* Execute transaction */
-    menu_item = gtk_menu_item_new_with_label ( _("Execute transaction") );
+    menu_item = utils_menu_item_new_from_image_label ("gtk-execute-16.png",_("Execute transaction"));
     g_signal_connect_swapped ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( gsb_scheduler_list_execute_transaction ),
@@ -2442,7 +2442,12 @@ void popup_scheduled_context_menu ( void )
 
     /* Finish all. */
     gtk_widget_show_all (menu);
-    gtk_menu_popup ( GTK_MENU(menu), NULL, NULL, NULL, NULL, 3, gtk_get_current_event_time());
+
+#if GTK_CHECK_VERSION (3,22,0)
+	gtk_menu_popup_at_pointer (GTK_MENU (menu), NULL);
+#else
+	gtk_menu_popup ( GTK_MENU(menu), NULL, NULL, NULL, NULL, 3, gtk_get_current_event_time());
+#endif
 }
 
 
@@ -2923,7 +2928,7 @@ void gsb_scheduler_list_process_orphan_list ( GSList *orphan_scheduled,
         {
             gint i;
 
-            for ( i = 0; i < garray->len; i++ )
+            for ( i = 0; i < (gint) garray->len; i++ )
                 gsb_data_scheduled_remove_scheduled ( g_array_index ( garray, gint, i ) );
 
         }
@@ -2934,7 +2939,37 @@ void gsb_scheduler_list_process_orphan_list ( GSList *orphan_scheduled,
     }
 }
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+GSList *gsb_scheduler_list_get_scheduled_transactions_taken (void)
+{
+	return scheduled_transactions_taken;
+}
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+GSList *gsb_scheduler_list_get_scheduled_transactions_to_take (void)
+{
+	return scheduled_transactions_to_take;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

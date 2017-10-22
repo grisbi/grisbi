@@ -4,13 +4,10 @@
 #include "gsb_real.h"
 /* END_INCLUDE_H */
 
-/* constante de debug originale, obsolete il faudrait utiliser maintenant */
-/* la variable globale debugging_grisbi, voir erreur.c */
-#define DEBUG utils_str_atoi (getenv ("DEBUG_GRISBI"))
-
 /* constantes definissant le niveau de debug */
+#define DEBUG_NO_DEBUG				0		/* pas de de débug */
 #define	DEBUG_LEVEL_ALERT			1		/* grave probleme */
-#define DEBUG_LEVEL_IMPORTANT			2		/* probleme moins grave */
+#define DEBUG_LEVEL_IMPORTANT		2		/* probleme moins grave */
 #define DEBUG_LEVEL_NOTICE			3		/* probleme encore moins grave :) */
 #define DEBUG_LEVEL_INFO			4		/* autre information */
 #define DEBUG_LEVEL_DEBUG			5		/* information de debug */
@@ -27,35 +24,37 @@
 #define devel_print_str(x) debug_print_log_string("Debug",__FILE__,__LINE__,__PRETTY_FUNCTION__,x)
 
 /* START_DECLARATION */
-void debug_message_int ( const gchar *prefixe,
-                        const gchar *file,
-                        gint line,
-                        const char *function,
-                        gint message,
-                        gint level,
-                        gboolean force_debug_display );
-void debug_message_real ( const gchar *prefixe,
-                        const gchar *file,
-                        gint line,
-                        const char *function,
-                        gsb_real message,
-                        gint level,
-                        gboolean force_debug_display);
-void debug_message_string ( const gchar *prefixe,
-                        const gchar *file,
-                        gint line,
-                        const char *function,
-                        const gchar *message,
-                        gint level,
-                        gboolean force_debug_display );
-void debug_print_log_string ( const gchar *prefixe,
-                        const gchar *file,
-                        gint line,
-                        const char *function,
-                        const gchar *msg );
-gboolean gsb_debug_start_log ( void );
-void gsb_debug_finish_log ( void );
-void initialize_debugging ( void );
-void traitement_sigsegv ( gint signal_nb );
+void 		debug_message_int 				(const gchar *prefixe,
+											 const gchar *file,
+											 gint line,
+											 const char *function,
+											 gint message,
+											 gint level,
+											 gboolean force_debug_display);
+void 		debug_message_real 				(const gchar *prefixe,
+											 const gchar *file,
+											 gint line,
+											 const char *function,
+											 gsb_real message,
+											 gint level,
+											 gboolean force_debug_display);
+void 		debug_message_string 			(const gchar *prefixe,
+											 const gchar *file,
+											 gint line,
+											 const char *function,
+											 const gchar *message,
+											 gint level,
+											 gboolean force_debug_display);
+void 		debug_print_log_string 			(const gchar *prefixe,
+											 const gchar *file,
+											 gint line,
+											 const char *function,
+											 const gchar *msg);
+gboolean 	debug_start_log 				(void);
+void 		debug_finish_log 				(void);
+void 		debug_initialize_debugging 		(gint level);
+void 		debug_set_cmd_line_debug_level 	(gint debug_level);
+void 		debug_set_cmd_line_mode 		(gint level);
+void 		debug_traitement_sigsegv 		(gint signal_nb);
 /* END_DECLARATION */
 #endif

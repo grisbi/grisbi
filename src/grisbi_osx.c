@@ -24,7 +24,7 @@
 /* WARNING this is a copy of test_integration.c (from ige-mac-integration-0.9.5) */
 
 #ifdef HAVE_CONFIG_H
-# include <config.h>
+# include "config.h"
 #endif
 
 #ifdef GTKOSXAPPLICATION
@@ -40,13 +40,10 @@
 #include "gsb_assistant_archive_export.h"
 #include "gsb_debug.h"
 #include "gsb_file.h"
-#include "gsb_file_config.h"
-#include "gsb_status.h"
 #include "gsb_transactions_list.h"
 #include "file_obfuscate.h"
 #include "file_obfuscate_qif.h"
 #include "import.h"
-#include "main.h"
 #include "menu.h"
 #include "parametres.h"
 #include "structures.h"
@@ -231,18 +228,17 @@ void grisbi_osx_app_active_cb ( GtkosxApplication* app, gboolean* data )
  * */
 GtkWidget *grisbi_osx_init_menus ( GtkWidget *window, GtkWidget *menubar )
 {
-    GtkWidget *widget;
     GtkWidget *sep;
     MenuItems *items;
-    GtkUIManager *ui_manager;
+/*    GtkUIManager *ui_manager; */
     GtkosxApplication *theApp;
 
     theApp = g_object_new ( GTKOSX_TYPE_APPLICATION, NULL );
 
-    ui_manager = gsb_menu_get_ui_manager ( );
-    items = menu_items_new ( );
+/*    ui_manager = gsb_menu_get_ui_manager ( );
+*/    items = menu_items_new ( );
 
-    items->open_item = gtk_ui_manager_get_widget ( ui_manager, "/menubar/FileMenu/Open" );
+/*    items->open_item = gtk_ui_manager_get_widget ( ui_manager, "/menubar/FileMenu/Open" );
     items->edit_item = gtk_ui_manager_get_widget ( ui_manager, "/menubar/EditMenu" );
     items->view_item = gtk_ui_manager_get_widget ( ui_manager, "/menubar/ViewMenu" );
     items->help_menu = gtk_ui_manager_get_widget ( ui_manager, "/menubar/Help/Manual" );
@@ -250,7 +246,7 @@ GtkWidget *grisbi_osx_init_menus ( GtkWidget *window, GtkWidget *menubar )
     items->about_item = gtk_ui_manager_get_widget ( ui_manager, "/menubar/Help/About" );
     items->preferences_item = gtk_ui_manager_get_widget ( ui_manager, "/menubar/EditMenu/Preferences" );
 
-    gtk_widget_set_sensitive ( items->preferences_item, FALSE );
+*/    gtk_widget_set_sensitive ( items->preferences_item, FALSE );
     gtk_widget_hide ( items->quit_item );
     gtk_widget_hide ( menubar );
 

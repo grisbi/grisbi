@@ -26,7 +26,7 @@
  * all that you need for the config of the payment method is here !!!
  */
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -53,6 +53,7 @@
 #include "transaction_list.h"
 #include "utils.h"
 #include "utils_buttons.h"
+#include "utils_prefs.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -118,9 +119,9 @@ static gchar *payment_sign_list[] =
  */
 GtkWidget *gsb_payment_method_config_create ( void )
 {
-    GtkWidget *vbox_pref, *hbox, *scrolled_window, *paddingbox;
+    GtkWidget *vbox_pref, *scrolled_window;
     GtkWidget *paddinggrid;
-    GtkWidget *vbox, *label;
+    GtkWidget *label;
     GtkTreeViewColumn *column;
     GtkCellRenderer *cell;
     GtkWidget *bouton_ajouter_type;
@@ -128,7 +129,7 @@ GtkWidget *gsb_payment_method_config_create ( void )
     gint width_entry = 150;
 
     /* Now we have a model, create view */
-    vbox_pref = new_vbox_with_title_and_icon (_("Payment methods"), "payment.png");
+    vbox_pref = new_vbox_with_title_and_icon (_("Payment methods"), "gsb-payment-32.png");
 
     /* Known payment methods */
     paddinggrid = utils_prefs_paddinggrid_new_with_title (vbox_pref, _("Known payment methods"));
@@ -148,6 +149,7 @@ GtkWidget *gsb_payment_method_config_create ( void )
 					       G_TYPE_INT,
 					       G_TYPE_INT );
     payment_method_treeview = gtk_tree_view_new_with_model ( GTK_TREE_MODEL (payment_method_model) );
+	gtk_widget_set_name (payment_method_treeview, "tree_view");
     g_object_unref (G_OBJECT(payment_method_model));
     g_signal_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW (payment_method_treeview)),
 		      "changed",

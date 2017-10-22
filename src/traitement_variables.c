@@ -27,7 +27,7 @@
  */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -42,6 +42,7 @@
 #include "categories_onglet.h"
 #include "custom_list.h"
 #include "fenetre_principale.h"
+#include "grisbi_win.h"
 #include "gsb_calendar.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
@@ -77,7 +78,6 @@
 #include "gsb_transactions_list.h"
 #include "import.h"
 #include "imputation_budgetaire.h"
-#include "main.h"
 #include "menu.h"
 #include "navigation.h"
 #include "structures.h"
@@ -90,16 +90,8 @@
 
 /*START_STATIC*/
 static void initialise_format_date ( void );
-static void initialise_number_separators ( void );
 static void initialise_tab_affichage_ope ( void );
 /*END_STATIC*/
-
-gchar *nom_fichier_comptes = NULL;
-
-gchar *titre_fichier = NULL;
-gchar *adresse_commune = NULL;
-gchar *adresse_secondaire = NULL;
-
 
 /*START_EXTERN*/
 extern GtkTreeModel *bank_list_model;
@@ -116,7 +108,6 @@ extern gint scheduler_current_tree_view_width;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern gint transaction_col_align[CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern gint transaction_col_width[CUSTOM_MODEL_VISIBLE_COLUMNS];
-extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/
 
 /* the total of % of scheduled columns can be > 100 because all the columns are not showed at the same time */
@@ -137,18 +128,10 @@ void init_variables ( void )
     gint transaction_col_align_init[CUSTOM_MODEL_VISIBLE_COLUMNS] = { 1, 1, 0, 1, 2, 2, 2 };
     gint i;
 
-/* xxx on devrait séparer ça en 2 : les variables liées au fichier de compte, qui doivent être remises  à 0,
- * et les variables liées à grisbi (ex sauvegarde auto...) qui doivent rester */
     devel_debug (NULL);
-
-    /* init the new crypted file */
-    run.new_crypted_file = FALSE;
 
     /* init the format date */
     initialise_format_date ( );
-
-    /* init the decimal point and the thousands separator. */
-    initialise_number_separators ( );
 
     /* initialise l'ordre des pages du panneau de gauche */
     gsb_gui_navigation_init_pages_list ( );
@@ -200,25 +183,10 @@ void init_variables ( void )
 
     orphan_child_transactions = NULL;
 
-    /* the main notebook is set to NULL,
-     * important because it's the checked variable in a new file
-     * to know if the widgets are created or not */
-    gsb_gui_init_general_notebook ( );
-
-    if ( nom_fichier_comptes )
-        g_free ( nom_fichier_comptes );
-    nom_fichier_comptes = NULL;
-
     etat.affichage_echeances = SCHEDULER_PERIODICITY_ONCE_VIEW;
     etat.affichage_echeances_perso_nb_libre = 0;
     etat.affichage_echeances_perso_j_m_a = PERIODICITY_DAYS;
 
-    /* initialization of titles and logo part */
-    if ( titre_fichier && strlen ( titre_fichier ) )
-        g_free ( titre_fichier );
-    titre_fichier = g_strdup( _("My accounts") );
-
-    etat.is_pixmaps_dir = TRUE;
     if ( etat.name_logo && strlen ( etat.name_logo ) )
         g_free ( etat.name_logo );
     etat.name_logo = NULL;
@@ -235,15 +203,12 @@ void init_variables ( void )
     run.reconcile_final_balance = NULL;
     run.reconcile_new_date = NULL;
 
-    adresse_commune = NULL;
-    adresse_secondaire = NULL;
-
     current_tree_view_width = 0;
     scheduler_current_tree_view_width = 0;
 
     initialise_tab_affichage_ope();
 
-    valeur_echelle_recherche_date_import = 2;
+    etat.import_files_nb_days = 2;
     etat.get_fyear_by_value_date = FALSE;
 
     /* init default combofix values */
@@ -257,6 +222,11 @@ void init_variables ( void )
     /* mis à NULL prévient un plantage aléatoire dans
      * gsb_currency_update_combobox_currency_list */
     detail_devise_compte = NULL;
+
+    /* the main notebook is set to NULL,
+     * important because it's the checked variable in a new file
+     * to know if the widgets are created or not */
+    grisbi_win_free_general_notebook ();
 
     /* defaut value for width and align of columns */
     initialise_largeur_colonnes_tab_affichage_ope ( GSB_ACCOUNT_PAGE, transaction_col_width_init );
@@ -317,16 +287,19 @@ void init_variables ( void )
  * Free allocations of grisbi variables
  *
  * */
-void free_variables ( void )
+void free_variables (void)
 {
-    gsb_data_print_config_free ();
+	gsb_data_print_config_free ();
     gsb_gui_navigation_free_pages_list ();
+	gsb_import_associations_free_liste ();
     gsb_regex_destroy ();
     bet_data_free_variables ();
+	if (etat.csv_separator)
+		g_free (etat.csv_separator);
+
 #ifdef HAVE_GOFFICE
     struct_free_bet_graph_prefs ();
 #endif /* HAVE_GOFFICE */
-    gsb_menu_free_ui_manager ();
 }
 
 
@@ -403,43 +376,20 @@ void initialise_format_date ( void )
 
     gsb_date_set_format_date ( NULL );
 
-    langue = g_getenv ( "LANG");
-
-    if ( g_str_has_prefix ( langue, "en_" ) || g_str_has_prefix ( langue, "cs_" ) )
-        gsb_date_set_format_date ( "%m/%d/%Y" );
-    else if ( g_str_has_prefix ( langue, "de_" ) )
-        gsb_date_set_format_date ( "%d.%m.%Y" );
+    langue = g_getenv ("LANG");
+	if (langue)
+	{
+		if ( g_str_has_prefix ( langue, "en_" ) || g_str_has_prefix ( langue, "cs_" ) )
+			gsb_date_set_format_date ( "%m/%d/%Y" );
+		else if ( g_str_has_prefix ( langue, "de_" ) )
+			gsb_date_set_format_date ( "%d.%m.%Y" );
+		else
+			gsb_date_set_format_date ( "%d/%m/%Y" );
+	}
     else
-        gsb_date_set_format_date ( "%d/%m/%Y" );
-}
-
-
-/**
- * init the decimal point and the thousands separator.
- *
- * */
-void initialise_number_separators ( void )
-{
-    struct lconv *conv;
-    gchar *dec_point = NULL, *thousand_sep = NULL;
-
-    gsb_locale_set_mon_decimal_point ( NULL );
-    gsb_locale_set_mon_thousands_sep ( NULL );
-
-    conv = localeconv();
-
-    if ( conv->mon_decimal_point && strlen ( conv->mon_decimal_point ) )
-    {
-        dec_point = g_locale_to_utf8 ( conv->mon_decimal_point, -1, NULL, NULL, NULL );
-        gsb_locale_set_mon_decimal_point ( dec_point );
-        g_free ( dec_point );
-    }
-    else
-        gsb_locale_set_mon_decimal_point ( "." );
-
-    thousand_sep = g_locale_to_utf8 ( conv->mon_thousands_sep, -1, NULL, NULL, NULL );
-    gsb_locale_set_mon_thousands_sep ( thousand_sep );
-    g_free ( thousand_sep );
+	{
+		gsb_date_set_format_date ( "%d/%m/%Y" );
+	}
 }
 
 

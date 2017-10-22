@@ -24,7 +24,7 @@ Then use the following command lines:
 % # install GTK3 env
 % jhbuild build meta-gtk-osx-gtk3
 
-% # required package for Grisbi 
+% # required package for Grisbi
 % jhbuild build libgsf
 
 % # ensure that mac-integration is properly installed for both GTK2 and GTK3
@@ -57,5 +57,3 @@ Optionnaly download "libofx" (Broken at the moment)
 % make bundle
 
 Grisbi.dmg should appear in MacOS/ directory
-
-

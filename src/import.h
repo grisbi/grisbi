@@ -4,13 +4,13 @@
 #include <gtk/gtk.h>
 
 /* START_INCLUDE_H */
-#include "gsb_real.h"
+#include "csv_template_rule.h"
 #include "gsb_data_transaction.h"
-#include "structures.h"
+#include "gsb_real.h"
 /* END_INCLUDE_H */
 
 /* struture d'une importation : compte contient la liste des opés importées */
-struct struct_compte_importation
+struct ImportAccount
 {
     gchar *id_compte;
 
@@ -40,8 +40,7 @@ struct struct_compte_importation
     GtkWidget	*hbox_rule;
 
     GtkWidget *bouton_type_compte;             /* adr du bouton du type de compte dans le récapitulatif */
-    GtkWidget *bouton_compte_add;             /* adr du bouton du compte
-					   * dans le récapitulatif */
+    GtkWidget *bouton_compte_add;             /* adr du bouton du compte dans le récapitulatif */
     GtkWidget *bouton_compte_mark;             /* adr du bouton du compte dans le récapitulatif */
 
     GtkWidget * hbox1;
@@ -49,7 +48,19 @@ struct struct_compte_importation
     GtkWidget * hbox3;
 
     /* Used by gnucash import */
-    gchar * guid;
+	gchar * guid;
+
+	/* for CSV type */
+	gchar *		csv_rule_name;
+	gint		csv_account_id_col;			/* numéro de colonne contenant Id compte */
+	gint 		csv_account_id_row;			/* numéro de ligne contenant Id compte */
+	gchar *		csv_fields_str;				/* liste des libellés grisbi des colonnes du fichier CSV */
+	gint		csv_first_line_data;		/* première ligne de données actives */
+	gboolean	csv_headers_present;		/* TRUE si les libellés des colonnes existent */
+	gint		csv_spec_action;
+	gint		csv_spec_amount_col;		/* numéro de colonne contenant le montant de l'opération */
+	gint		csv_spec_text_col;			/* numéro de colonne contenant le texte à rechercher */
+	gchar *		csv_spec_text_str;			/* texte à rechercher */
 };
 
 /* possible actions to the import */
@@ -59,7 +70,7 @@ struct struct_compte_importation
 
 
 /** Imported transaction.  */
-struct struct_ope_importation
+struct ImportTransaction
 {
     gchar *id_operation;
 
@@ -98,7 +109,7 @@ struct struct_ope_importation
 #define IMPORT_TRANSACTION_ASK_FOR_TRANSACTION 1
 #define IMPORT_TRANSACTION_LEAVE_TRANSACTION 2
 
-struct imported_file
+struct ImportFile
 {
     gchar * name;
     const gchar * coding_system;
@@ -106,31 +117,45 @@ struct imported_file
 };
 
 
-struct import_format
+struct ImportFormat
 {
     gchar * name;
     gchar * complete_name;
     gchar * extension;
-    gboolean ( * import ) ( GtkWidget * assistant, struct imported_file * );
+    gboolean (* import) (GtkWidget * assistant, struct ImportFile *);
+};
+
+/* structure définissant une association entre un tiers
+ * et une chaine de recherche contenant un ou des jokers (%)
+ */
+struct ImportPayeeAsso
+{
+    gint    payee_number;
+    gchar   *search_str;
 };
 
 /* START_DECLARATION */
-gint gsb_import_associations_cmp_assoc (struct struct_payee_asso *assoc_1,
-                                        struct struct_payee_asso *assoc_2);
-GtkWidget *gsb_import_associations_gere_tiers ( void );
-void gsb_import_associations_init_variables ( void );
-gint gsb_import_associations_list_append_assoc ( gint payee_number,
-                        const gchar *search_str );
-gboolean gsb_import_by_rule ( gint rule );
-gchar *gsb_import_formats_get_list_formats_to_string ( void );
-void gsb_import_register_account ( struct struct_compte_importation * account );
-void gsb_import_register_account_error ( struct struct_compte_importation * account );
-GSList *import_selected_files ( GtkWidget * assistant );
-void importer_fichier ( void );
-GtkWidget *onglet_importation ( void );
-void register_import_format ( struct import_format *format );
-void register_import_formats ( void );
-gchar * unique_imported_name ( gchar * account_name );
+void 		gsb_import_assistant_importer_fichier 			(void);
+
+gboolean 	gsb_import_associations_add_assoc 				(gint payee_number,
+															 const gchar *search_str);
+gint 		gsb_import_associations_cmp_assoc 				(struct ImportPayeeAsso *assoc_1,
+															 struct ImportPayeeAsso *assoc_2);
+GSList *	gsb_import_associations_get_liste_associations	(void);
+void 		gsb_import_associations_free_liste				(void);
+void 		gsb_import_associations_init_variables 			(void);
+gint 		gsb_import_associations_list_append_assoc 		(gint payee_number,
+															 const gchar *search_str);
+void 		gsb_import_associations_remove_assoc 			(gint payee_number);
+
+gboolean 	gsb_import_by_rule 								(gint rule);
+
+gchar *		gsb_ImportFormats_get_list_formats_to_string 	(void);
+GSList *	gsb_import_import_selected_files 				(GtkWidget *assistant);
+void 		gsb_import_register_account 					(struct ImportAccount *account);
+void 		gsb_import_register_account_error 				(struct ImportAccount *account);
+void 		gsb_import_register_import_formats 				(void);
+gchar * 	gsb_import_unique_imported_name 				(gchar *account_name);
 /* END_DECLARATION */
 
 

@@ -28,7 +28,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -151,7 +151,7 @@ GtkResponseType gsb_assistant_archive_run ( gboolean origin )
     /* create the assistant */
     assistant = gsb_assistant_new ( _("Archive transactions"),
 				    tmpstr,
-				    "archive.png",
+				    "gsb-archive-32.png",
 				    G_CALLBACK (gsb_assistant_archive_switch_to_intro));
     g_free (tmpstr);
 
@@ -199,10 +199,10 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
     GtkWidget *button;
     GtkWidget *hbox;
 
-    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 15 );
-    gtk_container_set_border_width ( GTK_CONTAINER (page), 10 );
+    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
+    gtk_container_set_border_width ( GTK_CONTAINER (page), BOX_BORDER_WIDTH );
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5);
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
     gtk_box_pack_start ( GTK_BOX (page), vbox, FALSE, FALSE, 0 );
 
     /* set up the menu */
@@ -225,7 +225,7 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
     utils_widget_set_padding (GTK_WIDGET (label), 24, 0);
     gtk_box_pack_start ( GTK_BOX (vbox), label, FALSE, FALSE, 0 );
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     g_signal_connect ( G_OBJECT (button),
                         "toggled",
                         G_CALLBACK  (sens_desensitive_pointeur),
@@ -273,7 +273,7 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
     utils_labels_set_alignement ( GTK_LABEL (label), 0, 0.5 );
     gtk_box_pack_start ( GTK_BOX (vbox), label, FALSE, FALSE, 0 );
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 10 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     g_signal_connect ( G_OBJECT (button),
                         "toggled",
                         G_CALLBACK  ( sens_desensitive_pointeur ),
@@ -309,7 +309,7 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
     utils_labels_set_alignement ( GTK_LABEL (label), 0, 0.5 );
     gtk_box_pack_start ( GTK_BOX (vbox), label, FALSE, FALSE, 0 );
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 10 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     g_signal_connect ( G_OBJECT (button),
                         "toggled",
                         G_CALLBACK  (sens_desensitive_pointeur),
@@ -353,11 +353,10 @@ static GtkWidget *gsb_assistant_archive_page_archive_name ( GtkWidget *assistant
     GtkWidget *vbox;
     GtkWidget *label;
 
-    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 15 );
-    gtk_container_set_border_width ( GTK_CONTAINER (page),
-				     10 );
+    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
+    gtk_container_set_border_width ( GTK_CONTAINER (page), BOX_BORDER_WIDTH );
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5);
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
     gtk_box_pack_start ( GTK_BOX (page),
 			 vbox,
 			 FALSE, FALSE, 0 );
@@ -403,8 +402,7 @@ static GtkWidget *gsb_assistant_archive_page_success ( void )
     GtkTextIter iter;
 
     page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
-    gtk_container_set_border_width ( GTK_CONTAINER (page),
-				     0 );
+    gtk_container_set_border_width ( GTK_CONTAINER (page), BOX_BORDER_WIDTH );
 
     /* we create 2 vbox, one for congratulation, one for failed,
      * only one will be showed */

@@ -27,7 +27,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"
 #endif
 
 #include "include.h"
@@ -192,10 +192,9 @@ GtkWidget *gsb_category_assistant_create_choice_page ( GtkWidget *assistant )
     GtkTreeModel * builtin_category_model;
     GtkTreeView * builtin_category_view;
     GtkCellRenderer *cell;
-    gint col_offset;
 
-    page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
-    gtk_container_set_border_width ( GTK_CONTAINER(page), 12 );
+    page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
+    gtk_container_set_border_width ( GTK_CONTAINER(page), BOX_BORDER_WIDTH );
 
     sw = gtk_scrolled_window_new (NULL, NULL);
     gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw),
@@ -207,11 +206,11 @@ GtkWidget *gsb_category_assistant_create_choice_page ( GtkWidget *assistant )
     builtin_category_model = (GtkTreeModel *) gtk_list_store_new (BUILTIN_CATEGORY_MODEL_COLUMNS,
 								  G_TYPE_STRING, G_TYPE_STRING );
     builtin_category_view = (GtkTreeView *) gtk_tree_view_new_with_model ( GTK_TREE_MODEL ( builtin_category_model ) );
+ 	gtk_widget_set_name (GTK_WIDGET (builtin_category_view), "tree_view");
 
     gtk_container_add ( GTK_CONTAINER ( sw ), (GtkWidget *) builtin_category_view );
 
     cell = gtk_cell_renderer_text_new ();
-    col_offset =
 	gtk_tree_view_insert_column_with_attributes ( GTK_TREE_VIEW ( builtin_category_view ),
 						      -1, _("Category list"),
 						      cell, "markup",
