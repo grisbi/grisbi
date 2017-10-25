@@ -1660,11 +1660,7 @@ static gboolean gtk_combofix_set_popup_position ( GtkComboFix *combofix )
     /* if the popup is too small to contain all, we check to set it on the bottom or on the top
      * if the place on the top is more than 2 times bigger than the bottom, we set it on the top */
 
-#if GTK_CHECK_VERSION (3,22,0)
 	screen_height = gtk_combofix_get_screen_height (combofix, y);
-#else
-	screen_height = gdk_screen_height;
-#endif
 
     if ( ( ( screen_height - y - allocation.height ) < height )
      &&
