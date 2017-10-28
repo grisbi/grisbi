@@ -772,8 +772,6 @@ gchar *gsb_data_budget_get_name ( gint no_budget,
     struct_budget *budget;
     gchar *return_value;
 
-    devel_debug (NULL);
-
     budget = gsb_data_budget_get_structure ( no_budget );
 
     if (!budget || !no_budget)
