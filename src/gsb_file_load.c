@@ -4102,8 +4102,7 @@ void gsb_file_load_sub_budgetary ( const gchar **attribute_names,
     if ( !strcmp (attribute_values[i],
          "(null)"))
     {
-        i++;
-        continue;
+		return;
     }
 
     if ( !strcmp ( attribute_names[i], "Nbb" )
@@ -4233,8 +4232,7 @@ void gsb_file_load_sub_category ( const gchar **attribute_names,
     if ( !strcmp (attribute_values[i],
          "(null)"))
     {
-        i++;
-        continue;
+		return;
     }
 
     if ( !strcmp ( attribute_names[i],
