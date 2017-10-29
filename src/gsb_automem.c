@@ -479,13 +479,16 @@ GtkWidget *gsb_automem_radiobutton3_new_with_title ( GtkWidget *parent,
                         gint orientation )
 {
     GtkWidget *paddingbox;
+	GtkWidget *box;
 
     paddingbox = new_paddingbox_with_title ( parent, FALSE, title );
 
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ),
-			gsb_automem_radiobutton3_new ( choice1, choice2, choice3,
-						       value, hook, data, orientation ),
-			FALSE, FALSE, 0 );
+	box = gsb_automem_radiobutton3_new ( choice1, choice2, choice3,
+						       value, hook, data, orientation );
+    gtk_box_pack_start (GTK_BOX (paddingbox), box, FALSE, FALSE, 0);
+
+	g_object_set_data (G_OBJECT (paddingbox), "box", box);
+
     return paddingbox;
 }
 
@@ -518,10 +521,7 @@ GtkWidget *gsb_automem_radiobutton3_new ( const gchar *choice1,
     GtkWidget *button2;
     GtkWidget *button3 = NULL;
 
-    if ( orientation == GTK_ORIENTATION_HORIZONTAL )
-        box = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
-    else
-        box = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
+    box = gtk_box_new (orientation, MARGIN_BOX);
 
     button1 = gtk_radio_button_new_with_mnemonic ( NULL, choice1 );
     gtk_box_pack_start ( GTK_BOX ( box ), button1, FALSE, FALSE, 0 );

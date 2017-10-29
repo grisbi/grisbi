@@ -54,6 +54,10 @@
 static GSList *selected_accounts = NULL;
 static GSList *exported_accounts = NULL;
 
+/* bouton pour les options US de l'export QIF */
+static 	GtkWidget *box_US;
+
+
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
@@ -263,6 +267,7 @@ static gboolean export_account_radiobutton_format_changed (GtkWidget *checkbutto
         value = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (checkbutton), "pointer"));
         *pointeur = value;
 
+		gtk_widget_set_sensitive (box_US, !value);
         gsb_file_set_modified (TRUE);
     }
 
@@ -279,8 +284,10 @@ static gboolean export_account_radiobutton_format_changed (GtkWidget *checkbutto
 static GtkWidget *export_create_selection_page (GtkWidget *assistant)
 {
     GtkWidget *view, *vbox, *padding_box, *sw;
+	GtkWidget *box;
     GtkWidget *button;
     GtkWidget *button_select;
+	GtkWidget *separator;
     GtkTreeViewColumn *column;
     GtkCellRenderer *cell;
     GtkListStore *model;
@@ -352,16 +359,40 @@ static GtkWidget *export_create_selection_page (GtkWidget *assistant)
 					  G_CALLBACK (export_account_all_toggled),
 					  view);
 
-    gsb_automem_radiobutton3_new_with_title (vbox,
-											 _("Select options to export"),
-											 _("QIF format"),
-											 _("CSV format"),
-											 NULL,
-											 &etat.export_file_format,
-											 G_CALLBACK (export_account_radiobutton_format_changed),
-											 &etat.export_file_format,
-											 GTK_ORIENTATION_HORIZONTAL);
+    padding_box = gsb_automem_radiobutton3_new_with_title (vbox,
+														   _("Select options to export"),
+														   _("QIF format"),
+														   _("CSV format"),
+														   NULL,
+														   &etat.export_file_format,
+														   G_CALLBACK (export_account_radiobutton_format_changed),
+														   &etat.export_file_format,
+														   GTK_ORIENTATION_HORIZONTAL);
 
+	/* Adding options for export in US data */
+	box = g_object_get_data (G_OBJECT (padding_box), "box");
+
+	separator = gtk_separator_new (GTK_ORIENTATION_VERTICAL);
+	gtk_widget_set_margin_start (separator, 50);
+	gtk_box_pack_start (GTK_BOX (box), separator, FALSE, FALSE, MARGIN_BOX);
+
+	box_US = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
+
+    button = gsb_automem_checkbutton_new (_("Force US dates"),
+										  &etat.export_force_US_dates,
+										  NULL,
+										  NULL);
+    gtk_box_pack_start (GTK_BOX (box_US), button, FALSE, FALSE, MARGIN_BOX);
+    button = gsb_automem_checkbutton_new (_("Force US numbers"),
+										  &etat.export_force_US_numbers,
+										  NULL,
+										  NULL);
+    gtk_box_pack_start (GTK_BOX (box_US), button, FALSE, FALSE, MARGIN_BOX);
+
+	gtk_widget_set_sensitive (box_US, !etat.export_file_format);
+    gtk_box_pack_start (GTK_BOX (box), box_US, FALSE, FALSE, MARGIN_BOX);
+
+	/* Adding treat all files button */
     button = gsb_automem_checkbutton_new (_("Treat all files as the first"),
 										  &etat.export_files_traitement,
 										  NULL,
