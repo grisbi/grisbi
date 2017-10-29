@@ -80,7 +80,6 @@ static GSList *exported_accounts = NULL;
 void export_accounts ( void )
 {
     GtkWidget *dialog;
-    gchar *extension = NULL;
 	GrisbiWinEtat *w_etat;
 
 	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
@@ -121,26 +120,22 @@ void export_accounts ( void )
                 else
                     title = g_get_user_name ( );
 
-                if ( extension == NULL )
-                    extension = g_strdup ( account->extension );
-
                 tmp_str = g_strconcat ( title, "-",
                                 gsb_data_account_get_name ( account -> account_nb ),
                                 ".",
-                                extension,
+                                account->extension,
                                 NULL );
 
-                account -> filename = g_build_filename ( gsb_file_get_last_path (), tmp_str, NULL );
+                account->filename = g_build_filename ( gsb_file_get_last_path (), tmp_str, NULL );
 
                 g_free ( tmp_str );
             }
             else
             {
                 account->filename = gtk_file_chooser_get_filename ( GTK_FILE_CHOOSER ( account -> chooser ) );
-                extension = g_strdup ( account->extension );
             }
 
-            if ( strcmp ( extension, "qif" ) == 0 )
+            if ( strcmp ( account->extension, "qif" ) == 0 )
                 qif_export ( account->filename, account->account_nb, 0 );
             else    /* extension = csv */
                 gsb_csv_export_account ( account->filename, account->account_nb );
@@ -149,7 +144,6 @@ void export_accounts ( void )
         }
     }
 
-    g_free ( extension );
     g_slist_free ( selected_accounts );
     g_slist_free_full ( exported_accounts, ( GDestroyNotify ) expert_account_free_account_structure );
 
@@ -391,7 +385,7 @@ gboolean export_enter_resume_page ( GtkWidget * assistant )
 
 	    account = g_malloc0 ( sizeof ( struct exported_account ) );
 	    account -> account_nb = i;
-        account->extension = "";
+        account->extension = g_strdup ("");
 	    exported_accounts = g_slist_append ( exported_accounts, account );
 
         if ( etat.export_files_traitement )
@@ -501,12 +495,12 @@ gboolean export_account_change_format ( GtkWidget *combo,
     switch ( gtk_combo_box_get_active ( GTK_COMBO_BOX ( combo ) ) )
     {
         case EXPORT_QIF:
-        account->extension = "qif";
+        account->extension = g_strdup ("qif");
         account->format = EXPORT_QIF;
         break;
 
         case EXPORT_CSV:
-        account->extension = "csv";
+        account->extension = g_strdup ("csv");
         account -> format = EXPORT_CSV;
         break;
     }
@@ -679,8 +673,10 @@ gboolean export_account_radiobutton_format_changed ( GtkWidget *checkbutton,
 
 void expert_account_free_account_structure ( struct exported_account *account )
 {
-    g_free ( account->extension );
-    g_free ( account->filename );
+	if (account->extension)
+		g_free (account->extension);
+	if (account->filename)
+		g_free (account->filename);
 
     g_free ( account );
 }
