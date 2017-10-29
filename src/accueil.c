@@ -1840,6 +1840,8 @@ GtkWidget *creation_onglet_accueil (void)
 
     gtk_box_pack_start (GTK_BOX (vbox), base_scroll, TRUE, TRUE, 0);
 
+	update_liste_comptes_accueil (TRUE);
+
     return (vbox);
 }
 
@@ -2125,8 +2127,6 @@ gboolean gsb_main_page_update_finished_scheduled_transactions (gint scheduled_nu
     gtk_box_pack_end (GTK_BOX (hbox), label, FALSE, TRUE, 0);
     gtk_widget_show ( label);
 
-	//~ if (main_page_finished_scheduled_transactions_part)
-	//~ {
 		gtk_box_pack_start (GTK_BOX (main_page_finished_scheduled_transactions_part),
 				hbox,
 				FALSE,
@@ -2135,7 +2135,6 @@ gboolean gsb_main_page_update_finished_scheduled_transactions (gint scheduled_nu
 		gtk_widget_show ( label);
 
 		show_paddingbox (main_page_finished_scheduled_transactions_part);
-	//~ }
 
     return FALSE;
 }
