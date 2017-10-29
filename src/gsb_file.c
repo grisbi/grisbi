@@ -782,9 +782,6 @@ gboolean gsb_file_open_file (const gchar *filename)
     /* set Grisbi title */
     grisbi_win_set_window_title (-1);
 
-    /* update the main page */
-    //~ mise_a_jour_accueil (TRUE);
-
     /* for now, the flag for modification of the file is ok, but the menu couldn't be set
      * as sensitive/unsensitive so do it now */
     gsb_file_set_modified (gsb_file_get_modified ());

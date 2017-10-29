@@ -1650,8 +1650,6 @@ void grisbi_win_new_file_gui (void)
     gtk_box_pack_start (GTK_BOX (vbox_transactions_list), tree_view_widget, TRUE, TRUE, 0);
     gtk_widget_show (tree_view_widget);
 
-    //~ navigation_change_account (gsb_gui_navigation_get_current_account ());
-
     /* Display accounts in menus */
 	grisbi_win_menu_move_to_acc_delete ();
 	grisbi_win_menu_move_to_acc_new ();
