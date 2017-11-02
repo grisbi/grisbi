@@ -684,7 +684,10 @@ gboolean gsb_file_open_file (const gchar *filename)
     devel_debug (filename);
 
 	if (!gsb_file_test_file (filename))
+	{
+		grisbi_win_stack_box_show (NULL, "accueil_page");
 		return FALSE;
+	}
 
     grisbi_win_status_bar_wait (TRUE);
     grisbi_win_status_bar_message (_("Loading accounts"));
@@ -761,7 +764,7 @@ gboolean gsb_file_open_file (const gchar *filename)
 		g_free (tmp_str2);
 
 		grisbi_win_status_bar_stop_wait (TRUE);
-
+		grisbi_win_stack_box_show (NULL, "accueil_page");
 		return FALSE;
     }
 
