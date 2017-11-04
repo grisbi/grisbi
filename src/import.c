@@ -1023,24 +1023,63 @@ static gboolean gsb_import_active_toggled (GtkCellRendererToggle *cell,
     gtk_tree_store_set (GTK_TREE_STORE (model), &iter,
                         IMPORT_FILESEL_SELECTED, !toggle_item, -1);
 
-	gtk_tree_path_free (path);
-
-	if (conf.force_import_directory && strcmp (type, "CSV") == 0)
+	if (conf.force_import_directory)
 	{
-		/* !toggle_item parce que la case à cocher vient de passer de 0 à 1 */
-		if (!toggle_item)
+		gchar *contents;
+		gchar *tmp_contents;
+		gchar *charmap;
+		gchar *new_charmap = NULL;
+		gchar *nom_fichier;
+
+		gtk_tree_model_get (GTK_TREE_MODEL (model),
+							&iter,
+							IMPORT_FILESEL_REALNAME, &nom_fichier,
+							IMPORT_FILESEL_CODING, &charmap,
+							-1);
+		g_file_get_contents (nom_fichier, &tmp_contents, NULL, NULL);
+		contents = g_convert (tmp_contents, -1, "UTF-8", charmap, NULL, NULL, NULL);
+
+		if (contents == NULL)
 		{
-			gsb_assistant_set_next (assistant, IMPORT_FILESEL_PAGE, IMPORT_CSV_PAGE);
-			gsb_assistant_set_prev (assistant, IMPORT_RESUME_PAGE, IMPORT_CSV_PAGE);
-			add_csv_page = TRUE;
+			new_charmap = utils_files_create_sel_charset (assistant,
+														  tmp_contents,
+														  charmap,
+														  g_path_get_basename (nom_fichier));
+			if (new_charmap)
+			{
+				gtk_tree_store_set (GTK_TREE_STORE (model), &iter, IMPORT_FILESEL_CODING, new_charmap, -1);
+				g_free (new_charmap);
+			}
+
 		}
 		else
 		{
-			gsb_assistant_set_next (assistant, IMPORT_FILESEL_PAGE, IMPORT_RESUME_PAGE);
-			gsb_assistant_set_prev (assistant, IMPORT_RESUME_PAGE, IMPORT_FILESEL_PAGE);
-			add_csv_page = FALSE;
+			g_free (contents);
+		}
+
+		g_free (tmp_contents);
+		g_free (charmap);
+		g_free (nom_fichier);
+
+		if (strcmp (type, "CSV") == 0)
+		{
+			/* !toggle_item parce que la case à cocher vient de passer de 0 à 1 */
+			if (!toggle_item)
+			{
+				gsb_assistant_set_next (assistant, IMPORT_FILESEL_PAGE, IMPORT_CSV_PAGE);
+				gsb_assistant_set_prev (assistant, IMPORT_RESUME_PAGE, IMPORT_CSV_PAGE);
+				add_csv_page = TRUE;
+			}
+			else
+			{
+				gsb_assistant_set_next (assistant, IMPORT_FILESEL_PAGE, IMPORT_RESUME_PAGE);
+				gsb_assistant_set_prev (assistant, IMPORT_RESUME_PAGE, IMPORT_FILESEL_PAGE);
+				add_csv_page = FALSE;
+			}
 		}
 	}
+
+	gtk_tree_path_free (path);
 	g_free (type);
 
     gsb_import_preview_maybe_sensitive_next (assistant, model);
@@ -1361,12 +1400,12 @@ static void gsb_import_select_file (GSList *filenames,
 	gboolean selected;
 	devel_debug (NULL);
 
+	devel_debug (charmap_imported);
     model = g_object_get_data (G_OBJECT (assistant), "model");
 	gtk_tree_store_clear (GTK_TREE_STORE (model));
 
 	if (conf.force_import_directory)
 	{
-		charmap_imported = g_strdup ("UTF-8");
 		selected = FALSE;
 	}
 	else
@@ -1427,7 +1466,6 @@ static void gsb_import_select_file (GSList *filenames,
 		}
 
 		type = gsb_import_autodetect_file_type (iterator->data, tmp_contents);
-		charmap = charmap_imported;
 
 		/* passe par un fichier temporaire pour bipasser le bug libofx */
 		if (strcmp (type, "OFX") == 0)
@@ -1444,11 +1482,14 @@ static void gsb_import_select_file (GSList *filenames,
 			charmap = utils_files_get_ofx_charset (tmp_contents);
 		}
 		else
-			nom_fichier = my_strdup (iterator->data);
-
-		if (charmap && strcmp (charmap, "UTF-8") != 0)
 		{
-			/* Convert to UTF8 */
+			nom_fichier = my_strdup (iterator->data);
+			charmap = charmap_imported;
+		}
+
+		/* Test Convert to UTF8 */
+		if (charmap && !conf.force_import_directory)
+		{
 			contents = g_convert (tmp_contents, -1, "UTF-8", charmap, NULL, NULL, NULL);
 
 			if (contents == NULL)
@@ -1500,8 +1541,7 @@ static gboolean gsb_import_enter_force_dir_page (GtkWidget *assistant)
 	GFile *dir;
     GSList *filenames = NULL;
 
-	devel_debug (NULL);
-
+	devel_debug (charmap_imported);
 	if (add_csv_page)
 	{
 		gsb_assistant_set_next (assistant, IMPORT_FILESEL_PAGE, IMPORT_RESUME_PAGE);
@@ -1572,132 +1612,6 @@ static gboolean gsb_import_enter_force_dir_page (GtkWidget *assistant)
  *
  *
  * \param
- *
- * \return
- **/
-static GtkWidget *gsb_import_create_force_dir_page (GtkWidget *assistant)
-{
-    GtkWidget *vbox;
-    GtkWidget *paddingbox;
-    GtkWidget *tree_view;
-    GtkWidget *sw;
-    GtkTreeViewColumn *column;
-    GtkCellRenderer *renderer;
-    GtkTreeModel *model;
-    GtkTreeModel *list_acc;
-    GSList *tmp_list;
-
-    vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
-    gtk_container_set_border_width (GTK_CONTAINER(vbox), BOX_BORDER_WIDTH);
-
-    paddingbox = new_paddingbox_with_title (vbox, TRUE, _("Choose file to import"));
-
-    /* Scroll for tree view. */
-    sw = gtk_scrolled_window_new (NULL, NULL);
-    gtk_widget_set_size_request (sw, 480, 120);
-    gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw), GTK_SHADOW_ETCHED_IN);
-    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC,
-                        GTK_POLICY_AUTOMATIC);
-    gtk_box_pack_start (GTK_BOX(paddingbox), sw, TRUE, TRUE, 6);
-
-    /* Tree view and model. */
-    model = GTK_TREE_MODEL (gtk_tree_store_new (IMPORT_FILESEL_NUM_COLS,
-												G_TYPE_BOOLEAN,				/* IMPORT_FILESEL_SELECTED checked*/
-												G_TYPE_STRING,				/* IMPORT_FILESEL_TYPENAME OFX, CVS QIF*/
-												G_TYPE_STRING,				/* IMPORT_FILESEL_FILENAME */
-												G_TYPE_STRING,				/* IMPORT_FILESEL_REALNAME */
-												G_TYPE_STRING,				/* IMPORT_FILESEL_TYPE */
-												G_TYPE_STRING,				/* IMPORT_FILESEL_CODING */
-												G_TYPE_STRING));			/* IMPORT_FILESEL_DATE */
-
-    tree_view = gtk_tree_view_new_with_model (GTK_TREE_MODEL (model));
-	gtk_widget_set_name (tree_view, "tree_view");
-    /* sort by date */
-    gtk_tree_sortable_set_sort_func (GTK_TREE_SORTABLE (model),
-                        IMPORT_FILESEL_DATE,
-                        (GtkTreeIterCompareFunc) g_strcmp0,
-                        NULL,
-                        NULL );
-    gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (model),
-                        IMPORT_FILESEL_DATE,
-                        GTK_SORT_DESCENDING );
-
-    gtk_container_add (GTK_CONTAINER (sw), tree_view);
-	g_object_unref (model);
-
-    /* Toggle column. */
-    renderer = gtk_cell_renderer_toggle_new ();
-    g_signal_connect (renderer, "toggled", G_CALLBACK (gsb_import_active_toggled), model);
-    column = gtk_tree_view_column_new_with_attributes (_("Import"),
-													   renderer,
-													   "active", IMPORT_FILESEL_SELECTED,
-													   NULL);
-    gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), column);
-
-    /* Type column. */
-    renderer = gtk_cell_renderer_combo_new ();
-    g_signal_connect (G_OBJECT (renderer),
-					  "edited",
-					  G_CALLBACK (gsb_import_switch_type),
-					  model);
-
-    list_acc = GTK_TREE_MODEL (gtk_list_store_new (1, G_TYPE_STRING));
-
-    tmp_list = ImportFormats;
-    while (tmp_list)
-    {
-        GtkTreeIter iter;
-        struct ImportFormat *format = (struct ImportFormat *) tmp_list->data;
-
-        gtk_list_store_append (GTK_LIST_STORE (list_acc), &iter);
-        gtk_list_store_set (GTK_LIST_STORE (list_acc), &iter, 0, format->name, -1);
-
-        tmp_list = tmp_list->next;
-    }
-
-    g_object_set (renderer,
-				  "model", list_acc,
-				  "text-column", 0,
-				  "editable", TRUE,
-				  "editable-set", FALSE,
-				  "has-entry", FALSE,
-				  NULL);
-
-    column = gtk_tree_view_column_new_with_attributes (_("Type"),
-													   renderer,
-													   "text", IMPORT_FILESEL_TYPENAME,
-													   NULL);
-    gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), column);
-
-    /* Name column. */
-    renderer = gtk_cell_renderer_text_new ();
-    column = gtk_tree_view_column_new_with_attributes (_("File name"),
-													   renderer,
-													   "text", IMPORT_FILESEL_FILENAME,
-													   NULL);
-    gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), column);
-
-	/* Date column. */
-    renderer = gtk_cell_renderer_text_new ();
-    column = gtk_tree_view_column_new_with_attributes (_("Date"),
-													   renderer,
-													   "text", IMPORT_FILESEL_DATE,
-													   NULL);
-	gtk_tree_view_column_set_sort_column_id (column, 0);
-	gtk_tree_view_column_set_sort_indicator (column, TRUE);
-	gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), column);
-
-    g_object_set_data (G_OBJECT(assistant), "tree_view", tree_view);
-    g_object_set_data (G_OBJECT(assistant), "model", model);
-    g_object_set_data (G_OBJECT(model), "assistant", assistant);
-
-    return vbox;
-}
-
-/**
- *
- *
- * \param
  * \param
  *
  * \return
@@ -1727,7 +1641,7 @@ static gboolean gsb_import_select_file_from_chooser (GtkWidget *button,
  **/
 static GtkWidget *gsb_import_create_file_selection_page (GtkWidget *assistant)
 {
-    GtkWidget *vbox, *paddingbox, *chooser, *tree_view, *sw;
+    GtkWidget *vbox, *paddingbox, *tree_view, *sw;
     GtkTreeViewColumn *column;
     GtkCellRenderer *renderer;
     GtkTreeModel *model, *list_acc;
@@ -1739,16 +1653,20 @@ static GtkWidget *gsb_import_create_file_selection_page (GtkWidget *assistant)
 
     paddingbox = new_paddingbox_with_title (vbox, TRUE, _("Choose file to import"));
 
-    chooser = gtk_button_new_with_label (_("Add file to import..."));
-    tmp_str = g_build_filename (gsb_dirs_get_pixmaps_dir (), "gsb-import-32.png", NULL);
-    gtk_button_set_image (GTK_BUTTON(chooser),
-                        gtk_image_new_from_file (tmp_str));
-    g_free (tmp_str);
-    gtk_box_pack_start (GTK_BOX(paddingbox), chooser, FALSE, FALSE, 6);
-    g_signal_connect (G_OBJECT (chooser),
-					  "clicked",
-					  G_CALLBACK (gsb_import_select_file_from_chooser),
-                        assistant);
+	if (!conf.force_import_directory)
+	{
+		GtkWidget *chooser;
+
+		chooser = gtk_button_new_with_label (_("Add file to import..."));
+		tmp_str = g_build_filename (gsb_dirs_get_pixmaps_dir (), "gsb-import-32.png", NULL);
+		gtk_button_set_image (GTK_BUTTON(chooser), gtk_image_new_from_file (tmp_str));
+		g_free (tmp_str);
+		gtk_box_pack_start (GTK_BOX(paddingbox), chooser, FALSE, FALSE, 6);
+		g_signal_connect (G_OBJECT (chooser),
+						  "clicked",
+						  G_CALLBACK (gsb_import_select_file_from_chooser),
+							assistant);
+	}
 
     /* Scroll for tree view. */
     sw = gtk_scrolled_window_new (NULL, NULL);
@@ -1860,6 +1778,7 @@ static GtkWidget *gsb_import_create_file_selection_page (GtkWidget *assistant)
 static gboolean gsb_import_enter_file_selection_page (GtkWidget *assistant)
 {
     GtkTreeModel *model;
+	devel_debug (charmap_imported);
 
     model = g_object_get_data (G_OBJECT (assistant), "model");
     gsb_import_preview_maybe_sensitive_next (assistant, model);
@@ -4374,8 +4293,9 @@ void gsb_import_assistant_importer_fichier (void)
     GtkWidget *assistant;
 	gchar *tmp_str;
     gchar *format_str;
-devel_debug (NULL);
-    /* if nothing opened, we need to create a new file to set up all the variables */
+
+	devel_debug (NULL);
+	/* if nothing opened, we need to create a new file to set up all the variables */
     if (!gsb_data_currency_get_currency_list ())
     {
         init_variables ();
@@ -4403,18 +4323,19 @@ devel_debug (NULL);
     g_free (format_str);
     g_free (tmp_str);
 
+	/* Set the charmap_imported variable to the local character set. */
+	if (charmap_imported && strlen (charmap_imported) > 0)
+		g_free (charmap_imported);
+	charmap_imported = g_get_codeset ();
+
 	if (conf.force_import_directory)
 	{
 		gsb_assistant_add_page (assistant,
-							gsb_import_create_force_dir_page (assistant),
+							gsb_import_create_file_selection_page (assistant),
 							IMPORT_FILESEL_PAGE,
 							IMPORT_STARTUP_PAGE,
 							IMPORT_RESUME_PAGE,
 							G_CALLBACK (gsb_import_enter_force_dir_page));
-
-		if (charmap_imported && strlen (charmap_imported) > 0)
-			g_free (charmap_imported);
-		charmap_imported = g_strndup ("UTF-8", 5);
 	}
 	else
 	{
