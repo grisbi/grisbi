@@ -1270,35 +1270,6 @@ static void gsb_import_register_ImportFormat (struct ImportFormat *format)
 }
 
 /**
- * fonction de contournement du bug des fichiers OFX des PTT
- *
- * \param filename          nom du fichier provisoire
- * \param pointeur_char     contenu du fichier à traiter
- *
- * \return TRUE si OK FALSE autrement
- **/
-static gboolean gsb_import_set_tmp_file (gchar *filename,
-										 gchar *pointeur_char)
-{
-    gchar *contenu_fichier;
-    GError *error = NULL;
-
-    contenu_fichier = my_strdelimit (pointeur_char, "°", "&");
-
-    /* create tmp file */
-    if (!g_file_set_contents (filename, contenu_fichier, -1, &error))
-    {
-        g_free (contenu_fichier);
-        g_print (_("Unable to create tmp file: %s\n"), error->message);
-        g_error_free (error);
-        return FALSE;
-    }
-
-    g_free (contenu_fichier);
-    return TRUE;
-}
-
-/**
  *
  *
  * \param
@@ -1470,20 +1441,10 @@ static void gsb_import_select_file (GSList *filenames,
 		/* passe par un fichier temporaire pour bipasser le bug libofx */
 		if (strcmp (type, "OFX") == 0)
 		{
-			nom_fichier = g_strconcat (g_get_tmp_dir (),
-									   G_DIR_SEPARATOR_S,
-									   g_path_get_basename (iterator->data),
-									   NULL);
-			if (!gsb_import_set_tmp_file (nom_fichier, tmp_contents))
-			{
-				g_free (tmp_contents);
-				return;
-			}
 			charmap = utils_files_get_ofx_charset (tmp_contents);
 		}
 		else
 		{
-			nom_fichier = my_strdup (iterator->data);
 			charmap = charmap_imported;
 		}
 
@@ -1502,6 +1463,7 @@ static void gsb_import_select_file (GSList *filenames,
 		}
 
 		tmp_str = g_path_get_basename (iterator->data);
+		nom_fichier = my_strdup (iterator->data);
 		gtk_tree_store_append (GTK_TREE_STORE (model), &iter, NULL);
 		gtk_tree_store_set (GTK_TREE_STORE (model), &iter,
 							IMPORT_FILESEL_SELECTED, selected,
@@ -2932,13 +2894,6 @@ static gboolean gsb_import_define_action (struct ImportAccount *imported_account
         struct ImportTransaction *imported_transaction;
 
         imported_transaction = tmp_list->data;
-
-        /* on corrige le bug de la libofx */
-        if (imported_account->origine
-         && g_ascii_strcasecmp (imported_account->origine, "OFX") == 0
-         && imported_transaction->cheque)
-            imported_transaction->tiers = my_strdelimit (
-                    imported_transaction->tiers, "&", "°");
 
         tmp_list_transactions = ope_list;
         while (tmp_list_transactions)
@@ -4758,29 +4713,6 @@ gboolean gsb_import_by_rule (gint rule)
             i++;
             continue;
         }
-        else if (!strcmp (type, "OFX"))
-        {
-            gchar *pointeur_char;
-            GError *error = NULL;
-
-            if (!g_file_get_contents (filename, &pointeur_char, NULL, &error))
-            {
-                g_print (_("Unable to read file: %s\n"), error->message);
-                g_error_free (error);
-                i++;
-                continue;
-            }
-            nom_fichier = g_strconcat (g_get_tmp_dir (),G_DIR_SEPARATOR_S,
-                                       g_path_get_basename (filename), NULL);
-            if (!gsb_import_set_tmp_file (nom_fichier, pointeur_char))
-            {
-                g_free (pointeur_char);
-                g_free (nom_fichier);
-                i++;
-                continue;
-            }
-            g_free (pointeur_char);
-        }
         else
             nom_fichier = my_strdup (filename);
 
@@ -4862,11 +4794,6 @@ gboolean gsb_import_by_rule (gint rule)
 
         /* save the last file used */
         gsb_data_import_rule_set_last_file_name (rule, filename);
-
-        if (!strcmp (type, "OFX"))
-        {
-            g_remove (nom_fichier);
-        }
 
         g_slist_free (liste_comptes_importes);
         g_free (nom_fichier);
