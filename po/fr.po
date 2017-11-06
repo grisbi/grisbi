@@ -9870,7 +9870,7 @@ msgstr "Dernier relevé : "
 
 #: ../src/navigation.c:1050 ../src/navigation.c:1062
 msgid "Reconciled balance: "
-msgstr "Solde pointé : "
+msgstr "Solde rapproché : "
 
 #: ../src/navigation.c:1061 ../src/navigation.c:1069
 msgid "Last statement: none"
