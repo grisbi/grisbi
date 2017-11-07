@@ -64,15 +64,100 @@ if WIN32
 	echo "Copying Adwaita icons"; \
 	cp -rf /mingw$$bits/share/icons/Adwaita $(prefix)/share/icons/; \
 	echo "Copying LC_MESSAGES for GTK"; \
+    if test ! -d $(prefix)/share/locale/cs/LC_MESSAGES/; then mkdir -p $(prefix)/share/locale/cs/LC_MESSAGES/; fi; \
+	cp -v /mingw$$bits/share/locale/cs/LC_MESSAGES/gtk30.mo \
+	/mingw$$bits/share/locale/cs/LC_MESSAGES/gtk30-properties.mo \
+	/mingw$$bits/share/locale/cs/LC_MESSAGES/glib20.mo \
+	$(prefix)/share/locale/cs/LC_MESSAGES/; \
+	if test ! -d $(prefix)/share/locale/da/LC_MESSAGES/; then mkdir -p $(prefix)/share/locale/da/LC_MESSAGES/; fi; \
+	cp -v /mingw$$bits/share/locale/da/LC_MESSAGES/gtk30.mo \
+	/mingw$$bits/share/locale/da/LC_MESSAGES/gtk30-properties.mo \
+	/mingw$$bits/share/locale/da/LC_MESSAGES/glib20.mo \
+	$(prefix)/share/locale/da/LC_MESSAGES/; \
+	if test ! -d $(prefix)/share/locale/de/LC_MESSAGES/; then mkdir -p $(prefix)/share/locale/de/LC_MESSAGES/; fi; \
+	cp -v /mingw$$bits/share/locale/de/LC_MESSAGES/gtk30.mo \
+	/mingw$$bits/share/locale/de/LC_MESSAGES/gtk30-properties.mo \
+	/mingw$$bits/share/locale/de/LC_MESSAGES/glib20.mo \
+	$(prefix)/share/locale/de/LC_MESSAGES/; \
+	if test ! -d $(prefix)/share/locale/el/LC_MESSAGES/; then mkdir -p $(prefix)/share/locale/el/LC_MESSAGES/; fi; \
+	cp -v /mingw$$bits/share/locale/el/LC_MESSAGES/gtk30.mo \
+	/mingw$$bits/share/locale/el/LC_MESSAGES/gtk30-properties.mo \
+	/mingw$$bits/share/locale/el/LC_MESSAGES/glib20.mo \
+	$(prefix)/share/locale/el/LC_MESSAGES/; \
+	if test ! -d $(prefix)/share/locale/eo/LC_MESSAGES/; then mkdir -p $(prefix)/share/locale/eo/LC_MESSAGES/; fi; \
+	cp -v /mingw$$bits/share/locale/eo/LC_MESSAGES/gtk30.mo \
+	/mingw$$bits/share/locale/eo/LC_MESSAGES/gtk30-properties.mo \
+	/mingw$$bits/share/locale/eo/LC_MESSAGES/glib20.mo \
+	$(prefix)/share/locale/eo/LC_MESSAGES/; \
+	if test ! -d $(prefix)/share/locale/es/LC_MESSAGES/; then mkdir -p $(prefix)/share/locale/es/LC_MESSAGES/; fi; \
+	cp -v /mingw$$bits/share/locale/es/LC_MESSAGES/gtk30.mo \
+	/mingw$$bits/share/locale/es/LC_MESSAGES/gtk30-properties.mo \
+	/mingw$$bits/share/locale/es/LC_MESSAGES/glib20.mo \
+	$(prefix)/share/locale/es/LC_MESSAGES/; \
+	if test ! -d $(prefix)/share/locale/fa/LC_MESSAGES/; then mkdir -p $(prefix)/share/locale/fa/LC_MESSAGES/; fi; \
+	cp -v /mingw$$bits/share/locale/fa/LC_MESSAGES/gtk30.mo \
+	/mingw$$bits/share/locale/fa/LC_MESSAGES/gtk30-properties.mo \
+	/mingw$$bits/share/locale/fa/LC_MESSAGES/glib20.mo \
+	$(prefix)/share/locale/fa/LC_MESSAGES/; \
 	if test ! -d $(prefix)/share/locale/fr/LC_MESSAGES/; then mkdir -p $(prefix)/share/locale/fr/LC_MESSAGES/; fi; \
 	cp -v /mingw$$bits/share/locale/fr/LC_MESSAGES/gtk30.mo \
 	/mingw$$bits/share/locale/fr/LC_MESSAGES/gtk30-properties.mo \
 	/mingw$$bits/share/locale/fr/LC_MESSAGES/glib20.mo \
 	$(prefix)/share/locale/fr/LC_MESSAGES/; \
-	if test ! -d $(prefix)/share/locale/de/LC_MESSAGES/; then mkdir -p $(prefix)/share/locale/de/LC_MESSAGES/; fi; \
-	cp -v /mingw$$bits/share/locale/de/LC_MESSAGES/gtk30.mo \
-	/mingw$$bits/share/locale/de/LC_MESSAGES/gtk30-properties.mo \
-	/mingw$$bits/share/locale/de/LC_MESSAGES/glib20.mo \
-	$(prefix)/share/locale/de/LC_MESSAGES/;
+	if test ! -d $(prefix)/share/locale/lv/LC_MESSAGES/; then mkdir -p $(prefix)/share/locale/lv/LC_MESSAGES/; fi; \
+	cp -v /mingw$$bits/share/locale/lv/LC_MESSAGES/gtk30.mo \
+	/mingw$$bits/share/locale/lv/LC_MESSAGES/gtk30-properties.mo \
+	/mingw$$bits/share/locale/lv/LC_MESSAGES/glib20.mo \
+	$(prefix)/share/locale/lv/LC_MESSAGES/; \
+	if test ! -d $(prefix)/share/locale/he/LC_MESSAGES/; then mkdir -p $(prefix)/share/locale/he/LC_MESSAGES/; fi; \
+	cp -v /mingw$$bits/share/locale/he/LC_MESSAGES/gtk30.mo \
+	/mingw$$bits/share/locale/he/LC_MESSAGES/gtk30-properties.mo \
+	/mingw$$bits/share/locale/he/LC_MESSAGES/glib20.mo \
+	$(prefix)/share/locale/he/LC_MESSAGES/; \
+	if test ! -d $(prefix)/share/locale/it/LC_MESSAGES/; then mkdir -p $(prefix)/share/locale/it/LC_MESSAGES/; fi; \
+	cp -v /mingw$$bits/share/locale/it/LC_MESSAGES/gtk30.mo \
+	/mingw$$bits/share/locale/it/LC_MESSAGES/gtk30-properties.mo \
+	/mingw$$bits/share/locale/it/LC_MESSAGES/glib20.mo \
+	$(prefix)/share/locale/it/LC_MESSAGES/; \
+	if test ! -d $(prefix)/share/locale/lv/LC_MESSAGES/; then mkdir -p $(prefix)/share/locale/lv/LC_MESSAGES/; fi; \
+	cp -v /mingw$$bits/share/locale/lv/LC_MESSAGES/gtk30.mo \
+	/mingw$$bits/share/locale/lv/LC_MESSAGES/gtk30-properties.mo \
+	/mingw$$bits/share/locale/lv/LC_MESSAGES/glib20.mo \
+	$(prefix)/share/locale/lv/LC_MESSAGES/; \
+	if test ! -d $(prefix)/share/locale/nl/LC_MESSAGES/; then mkdir -p $(prefix)/share/locale/nl/LC_MESSAGES/; fi; \
+	cp -v /mingw$$bits/share/locale/nl/LC_MESSAGES/gtk30.mo \
+	/mingw$$bits/share/locale/nl/LC_MESSAGES/gtk30-properties.mo \
+	/mingw$$bits/share/locale/nl/LC_MESSAGES/glib20.mo \
+	$(prefix)/share/locale/nl/LC_MESSAGES/; \
+	if test ! -d $(prefix)/share/locale/pl/LC_MESSAGES/; then mkdir -p $(prefix)/share/locale/pl/LC_MESSAGES/; fi; \
+	cp -v /mingw$$bits/share/locale/pl/LC_MESSAGES/gtk30.mo \
+	/mingw$$bits/share/locale/pl/LC_MESSAGES/gtk30-properties.mo \
+	/mingw$$bits/share/locale/pl/LC_MESSAGES/glib20.mo \
+	$(prefix)/share/locale/pl/LC_MESSAGES/; \
+	if test ! -d $(prefix)/share/locale/pt_BR/LC_MESSAGES/; then mkdir -p $(prefix)/share/locale/pt_BR/LC_MESSAGES/; fi; \
+	cp -v /mingw$$bits/share/locale/pt_BR/LC_MESSAGES/gtk30.mo \
+	/mingw$$bits/share/locale/pt_BR/LC_MESSAGES/gtk30-properties.mo \
+	/mingw$$bits/share/locale/pt_BR/LC_MESSAGES/glib20.mo \
+	$(prefix)/share/locale/pt_BR/LC_MESSAGES/; \
+	if test ! -d $(prefix)/share/locale/ro/LC_MESSAGES/; then mkdir -p $(prefix)/share/locale/ro/LC_MESSAGES/; fi; \
+	cp -v /mingw$$bits/share/locale/ro/LC_MESSAGES/gtk30.mo \
+	/mingw$$bits/share/locale/ro/LC_MESSAGES/gtk30-properties.mo \
+	/mingw$$bits/share/locale/ro/LC_MESSAGES/glib20.mo \
+	$(prefix)/share/locale/ro/LC_MESSAGES/; \
+	if test ! -d $(prefix)/share/locale/ru/LC_MESSAGES/; then mkdir -p $(prefix)/share/locale/ru/LC_MESSAGES/; fi; \
+	cp -v /mingw$$bits/share/locale/ru/LC_MESSAGES/gtk30.mo \
+	/mingw$$bits/share/locale/ru/LC_MESSAGES/gtk30-properties.mo \
+	/mingw$$bits/share/locale/ru/LC_MESSAGES/glib20.mo \
+	$(prefix)/share/locale/ru/LC_MESSAGES/; \
+	if test ! -d $(prefix)/share/locale/sv/LC_MESSAGES/; then mkdir -p $(prefix)/share/locale/sv/LC_MESSAGES/; fi; \
+	cp -v /mingw$$bits/share/locale/sv/LC_MESSAGES/gtk30.mo \
+	/mingw$$bits/share/locale/sv/LC_MESSAGES/gtk30-properties.mo \
+	/mingw$$bits/share/locale/sv/LC_MESSAGES/glib20.mo \
+	$(prefix)/share/locale/sv/LC_MESSAGES/; \
+	if test ! -d $(prefix)/share/locale/zh_CN/LC_MESSAGES/; then mkdir -p $(prefix)/share/locale/zh_CN/LC_MESSAGES/; fi; \
+	cp -v /mingw$$bits/share/locale/zh_CN/LC_MESSAGES/gtk30.mo \
+	/mingw$$bits/share/locale/zh_CN/LC_MESSAGES/gtk30-properties.mo \
+	/mingw$$bits/share/locale/zh_CN/LC_MESSAGES/glib20.mo \
+	$(prefix)/share/locale/zh_CN/LC_MESSAGES/; \
 	echo "Use makensis[w].exe from NSIS (http://nsis.sourceforget.net/) on $(bindir)/share/grisbi.nsi";
 endif
