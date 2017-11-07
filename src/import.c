@@ -1517,10 +1517,13 @@ static gboolean gsb_import_enter_force_dir_page (GtkWidget *assistant)
 
 	dir =  g_file_new_for_path (conf.import_directory);
 	direnum = g_file_enumerate_children (dir,
-										"*.ofx:*.qif:*.csv",
-										G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS,
+										"standard::*",
+										G_FILE_QUERY_INFO_NONE,
 										NULL,
 										NULL);
+	if (!direnum)
+		return FALSE;
+
 	while (TRUE)
 	{
 		GFileInfo *info;
@@ -1535,8 +1538,15 @@ static gboolean gsb_import_enter_force_dir_page (GtkWidget *assistant)
 		  break;
 
 		filename = g_file_info_get_name (info);
+		if (filename && strlen (filename))
+		{
+			extension = strrchr (filename, '.');
+		}
+		else
+		{
+			continue;
+		}
 
-		extension = strrchr (filename, '.');
 		if (!extension)
 		{
 			continue;
