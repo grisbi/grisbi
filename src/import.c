@@ -393,6 +393,68 @@ void gsb_import_associations_free_liste (void)
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
+/*
+ * date_sort_function
+ * This function is called by the Tree Model to sort the files by date
+ *
+ * \param	model
+ * \param	itera
+ * \param	iterb
+ * \param	NULL
+ *
+ * \return	qsort()-style comparison
+ **/
+static gint gsb_import_date_sort_function (GtkTreeModel *model,
+										   GtkTreeIter *itera,
+										   GtkTreeIter *iterb,
+										   gpointer data)
+{
+    gchar *date_a_str = NULL;
+    gchar *date_b_str = NULL;
+	gchar **tab_a;
+	gchar **tab_b;
+	GDate *date_a;
+	GDate *date_b;
+
+    gint result;
+
+    if (itera == NULL)
+        return -1;
+    if (iterb == NULL)
+        return -1;
+
+    /* get first date to compare */
+    gtk_tree_model_get (model, itera, IMPORT_FILESEL_DATE, &date_a_str, -1);
+	if (date_a_str == NULL)
+	{
+		return -1;
+	}
+
+    /* get second date to compare */
+    gtk_tree_model_get (model, iterb, IMPORT_FILESEL_DATE, &date_b_str, -1);
+	if (date_b_str == NULL)
+	{
+		return -1;
+	}
+
+	tab_a = g_strsplit (date_a_str, " ", 2);
+	date_a = gsb_parse_date_string (tab_a[0]);
+	tab_b = g_strsplit (date_b_str, " ", 2);
+	date_b = gsb_parse_date_string (tab_b[0]);
+
+    result = g_date_compare (date_a, date_b);
+	if (result == 0)
+	{
+		result = g_strcmp0 (tab_a[1],tab_b[1]);
+	}
+    g_free (date_a_str);
+    g_free (date_b_str);
+	g_strfreev (tab_a);
+	g_strfreev (tab_b);
+
+    return result;
+}
+
 /**
  *
  *
@@ -1402,7 +1464,7 @@ static void gsb_import_select_file (GSList *filenames,
 		{
 			struct tm *file_time;
 
-			file_time = localtime ( (&buf.st_mtime));
+			file_time = localtime ((&buf.st_mtime));
 			if (file_time)
 			{
 				tmp_str = gsb_format_date (file_time->tm_mday,file_time->tm_mon + 1,file_time->tm_year + 1900);
@@ -1499,7 +1561,7 @@ static void gsb_import_select_file (GSList *filenames,
  **/
 static gboolean gsb_import_enter_force_dir_page (GtkWidget *assistant)
 {
-	GFileEnumerator *direnum;
+	GFileEnumerator *direnum = NULL;
 	GFile *dir;
     GSList *filenames = NULL;
 
@@ -1526,7 +1588,7 @@ static gboolean gsb_import_enter_force_dir_page (GtkWidget *assistant)
 
 	while (TRUE)
 	{
-		GFileInfo *info;
+		GFileInfo *info = NULL;
 		const gchar *filename;
 		gchar *extension;
 		gchar *type = NULL;
@@ -1558,7 +1620,7 @@ static gboolean gsb_import_enter_force_dir_page (GtkWidget *assistant)
 			type = "Gnucash";
 		else if (g_ascii_strcasecmp (extension+1, "qif") == 0)
 			type = "QIF";
-		else if (g_ascii_strcasecmp (extension+1, "ofx") == 0 )
+		else if (g_ascii_strcasecmp (extension+1, "ofx") == 0)
 			type = "OFX";
 		if (type)
 		{
@@ -1663,13 +1725,13 @@ static GtkWidget *gsb_import_create_file_selection_page (GtkWidget *assistant)
 
 	/* sort by date */
     gtk_tree_sortable_set_sort_func (GTK_TREE_SORTABLE (model),
-                        IMPORT_FILESEL_DATE,
-                        (GtkTreeIterCompareFunc) g_strcmp0,
-                        NULL,
-                        NULL );
+									 IMPORT_FILESEL_DATE,
+									 (GtkTreeIterCompareFunc) gsb_import_date_sort_function,
+									 NULL,
+									 NULL);
     gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (model),
-                        IMPORT_FILESEL_DATE,
-                        GTK_SORT_DESCENDING );
+										  IMPORT_FILESEL_DATE,
+										  GTK_SORT_DESCENDING);
 
 	gtk_container_add (GTK_CONTAINER (sw), tree_view);
 	g_object_unref (model);
@@ -1729,8 +1791,6 @@ static GtkWidget *gsb_import_create_file_selection_page (GtkWidget *assistant)
 													   renderer,
 													   "text", IMPORT_FILESEL_DATE,
 													   NULL);
-	gtk_tree_view_column_set_sort_column_id (column, 0);
-	gtk_tree_view_column_set_sort_indicator (column, TRUE);
     gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), column);
 
     g_object_set_data (G_OBJECT(assistant), "tree_view", tree_view);
@@ -3944,7 +4004,7 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
                                         etat.import_files_nb_days);
 
                 if (!gsb_real_cmp (ope_import_tmp->montant,
-                         ope_import->montant )
+                         ope_import->montant)
                  &&
                  (g_date_compare (ope_import->date,
                             date_debut_comparaison) >= 0)
