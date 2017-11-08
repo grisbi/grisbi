@@ -329,8 +329,7 @@ gboolean gsb_file_others_save_report ( gchar *filename )
 
     /* the file is in memory, we can save it */
 
-    file = fopen ( filename,
-			  "w" );
+    file = utils_files_utf8_fopen ( filename, "w" );
 
     if ( !file
 	 ||
