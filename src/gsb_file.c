@@ -244,6 +244,7 @@ static gint gsb_file_dialog_save (const gchar *filename,
 
 			gtk_dialog_add_buttons (GTK_DIALOG(dialog),
 									_("Close without saving"), GTK_RESPONSE_NO,
+									"gtk-cancel", GTK_RESPONSE_REJECT,
 									"gtk-save", GTK_RESPONSE_OK,
 									NULL);
 			if (difference >= 120)
@@ -439,6 +440,11 @@ static gboolean gsb_file_save_file (gint origine)
 		{
 			gsb_file_set_modified (FALSE);
             return (TRUE);
+		}
+		else if (result == GTK_RESPONSE_REJECT)
+		{
+			gsb_file_set_modified (FALSE);
+            return (FALSE);
 		}
     }
 
