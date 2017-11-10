@@ -2067,7 +2067,7 @@ gint transaction_list_get_last_line ( gint nb_rows )
  *
  * \return
  * */
-void transaction_list_set_color_jour ( gint account_number )
+gint transaction_list_set_color_jour ( gint account_number )
 {
     GDate *date_jour;
     gint i, j;
@@ -2077,7 +2077,7 @@ void transaction_list_set_color_jour ( gint account_number )
     CustomList *custom_list;
 
     custom_list = transaction_model_get_model ();
-    g_return_if_fail ( custom_list != NULL );
+    g_return_val_if_fail ( custom_list != NULL, 0);
 
     date_jour = gdate_today ( );
     element_sort = gsb_data_account_get_element_sort ( account_number,
@@ -2115,12 +2115,16 @@ void transaction_list_set_color_jour ( gint account_number )
                     }
                     /* on se positionne sur la première ligne */
                     record = custom_list -> visibles_rows[0];
-                    break;
+					g_date_free (date_jour);
+
+					return transaction_number;
                 }
             }
         }
     }
     g_date_free ( date_jour );
+
+	return 0;
 }
 
 
