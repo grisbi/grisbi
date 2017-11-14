@@ -2018,6 +2018,9 @@ gchar *bet_graph_get_configuration_string ( gint origin_tab )
         tmp_str = "historical_prefs";
     }
 
+	if (NULL == prefs)
+		return NULL;
+
     new_str = g_markup_printf_escaped ( "\t<Bet_graph prefs=\"%s:%d:%d:%d:%d:%d:%d:%d:%.0f:%d:%d:%d:%d\" />\n",
                         tmp_str,
                         prefs->type_graph,

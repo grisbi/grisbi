@@ -45,6 +45,7 @@
 #include "import.h"
 #include "structures.h"
 #include "utils.h"
+#include "utils_files.h"
 #include "utils_str.h"
 #include "menu.h"
 /*END_INCLUDE*/
@@ -567,7 +568,7 @@ gboolean debug_start_log ( void )
     dialogue ( tmp_str );
     g_free (tmp_str);
 
-    debug_file = g_fopen ( debug_filename, "w" );
+    debug_file = utils_files_utf8_fopen ( debug_filename, "w" );
 
     g_free ( debug_filename );
 

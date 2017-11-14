@@ -256,10 +256,6 @@ gboolean gsb_form_scheduler_free_list ( void )
 	struct_element *element;
 
 	element = list_tmp -> data;
-	if (element -> element_widget
-	    &&
-	    GTK_IS_WIDGET (element -> element_widget))
-	    gtk_widget_destroy (element -> element_widget);
 	g_free (element);
 
 	list_tmp = list_tmp -> next;

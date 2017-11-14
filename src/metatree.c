@@ -749,7 +749,7 @@ void appui_sur_ajout_sub_division ( GtkTreeModel * model )
 gboolean supprimer_division ( GtkTreeView * tree_view )
 {
     GtkTreeSelection * selection;
-    GtkTreeModel * model;
+    GtkTreeModel * model = NULL;
     GtkTreeIter iter;
     GtkTreePath * path;
     gint no_division = 0, no_sub_division = 0;
@@ -3205,7 +3205,7 @@ void metatree_button_action_sub_div_clicked ( GtkWidget *togglebutton,
     if ( pointeur )
     {
         GtkWidget *parent = NULL;
-        GtkWidget *label;
+        GtkWidget *label = NULL;
         GtkWidget *combofix = NULL;
         GSList *list;
         gint value = 0;

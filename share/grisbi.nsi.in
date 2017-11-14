@@ -18,14 +18,16 @@ RequestExecutionLevel admin
 !define PACKAGERDIR "@NSIS_INSTDIR@"
 !define SRCDIR "@NSIS_SRCDIR@"
 
-Name "Grisbi 64-bit"
+Name "Grisbi @NSIS_BITS@"
 Icon "${SRCDIR}\win32\grisbi.ico"
-OutFile "Grisbi-x86_64-${VERSION}-setup.exe"
+OutFile "Grisbi-@NSIS_BITS@-${VERSION}-setup.exe"
 !define COMPANYNAME "Grisbi"
 
-Caption "Grisbi 64-bit ${VERSION} Setup"
+Caption "Grisbi @NSIS_BITS@ ${VERSION} Setup"
 
-InstallDir $PROGRAMFILES64\Grisbi-${VERSION}
+# $PROGRAMFILES
+InstallDir "C:\@NSIS_DEFAULTINSTDIR@\Grisbi-${VERSION}"
+
 
 InstType "full"
 
@@ -86,11 +88,11 @@ Section "" SecBin
   WriteUninstaller "$INSTDIR\Uninstall.exe"
   
   createDirectory "$SMPROGRAMS\${COMPANYNAME}"
-  createShortCut "$SMPROGRAMS\${COMPANYNAME}\Gribi 64-bit @VERSION@.lnk" "$INSTDIR\bin\Grisbi.exe" "" "$INSTDIR\bin\grisbi.ico"
-  createShortCut "$SMPROGRAMS\${COMPANYNAME}\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
+  createShortCut "$SMPROGRAMS\${COMPANYNAME}\Gribi @NSIS_BITS@ @VERSION@.lnk" "$INSTDIR\bin\Grisbi.exe" "" "$INSTDIR\bin\grisbi.ico"
+  createShortCut "$SMPROGRAMS\${COMPANYNAME}\Uninstall Gribi @NSIS_BITS@ @VERSION@.lnk" "$INSTDIR\Uninstall.exe"
   
   # Registry information for add/remove programs
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}" "DisplayName" "Grisbi 64-bit"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}" "DisplayName" "Grisbi @NSIS_BITS@"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}" "Publisher" "Open Source"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}" "UninstallString" "$\"$INSTDIR\Uninstall.exe$\""
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}" "QuietUninstallString" "$\"$INSTDIR\Uninstall.exe$\" /S"
@@ -123,7 +125,7 @@ SectionEnd
 Section "Uninstall"
   Delete "$INSTDIR\Uninstall.exe"
   Delete "$DESKTOP\Grisbi.lnk"
-  Delete "$SMPROGRAMS\${COMPANYNAME}\Gribi 64-bit @VERSION@.lnk"
+  Delete "$SMPROGRAMS\${COMPANYNAME}\Gribi @NSIS_BITS@-bit @VERSION@.lnk"
   DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}"
 
   RMDir /r "$INSTDIR"

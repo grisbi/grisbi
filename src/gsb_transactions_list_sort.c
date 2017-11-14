@@ -438,7 +438,7 @@ gint gsb_transactions_list_sort_by_date_and_amount ( gint transaction_number_1,
         /* no difference in the dates, sort by amount of transaction */
         amount_1 = gsb_data_transaction_get_amount ( transaction_number_1 );
         amount_2 = gsb_data_transaction_get_amount ( transaction_number_2 );
-        return_value = amount_2.mantissa - amount_1.mantissa;
+        return_value = (gint)(amount_2.mantissa - amount_1.mantissa);
         if ( return_value == 0 )
             return_value = transaction_number_1 - transaction_number_2;
     }

@@ -76,6 +76,8 @@ gboolean 	gsb_scheduler_list_fill_list 								(GtkWidget *tree_view);
 gint 		gsb_scheduler_list_get_current_scheduled_number 			(void);
 GDate *		gsb_scheduler_list_get_end_date_scheduled_showed 			(void);
 gint 		gsb_scheduler_list_get_last_scheduled_number 				(void);
+GSList *	gsb_scheduler_list_get_scheduled_transactions_taken			(void);
+GSList *	gsb_scheduler_list_get_scheduled_transactions_to_take		(void);
 GtkWidget *	gsb_scheduler_list_get_toolbar 								(void);
 GtkWidget *	gsb_scheduler_list_get_tree_view 							(void);
 void 		gsb_scheduler_list_init_variables 							(void);

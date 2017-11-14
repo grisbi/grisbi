@@ -329,8 +329,7 @@ gboolean gsb_file_others_save_report ( gchar *filename )
 
     /* the file is in memory, we can save it */
 
-    file = fopen ( filename,
-			  "w" );
+    file = utils_files_utf8_fopen ( filename, "w" );
 
     if ( !file
 	 ||
@@ -521,11 +520,11 @@ gboolean gsb_file_others_load ( gchar *filename,
         return FALSE;
     }
 
+    gint report_number;
+
 	/* now, import_list contains the list of categories/budget or report */
 	switch ( origin )
 	{
-	    gint report_number;
-
 	    case 0:
 		/* comes for category */
 		categories_fill_list ();

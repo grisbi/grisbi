@@ -311,7 +311,7 @@ gchar *gsb_reconcile_build_label ( int reconcile_number )
     gchar *new_label;
     gchar format[6] = "%s%0d";
     int __reconcile_number;
-    int __size;
+    size_t __size;
     int __expand;
 
     /* old_label = NAME + NUMBER */

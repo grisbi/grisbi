@@ -315,7 +315,12 @@ static gboolean grisbi_win_hpaned_size_allocate (GtkWidget *hpaned_general,
 	return FALSE;
 
 	if (priv->hpaned_general_width == 0)
+	{
 		priv->hpaned_general_width = allocation->width;
+		conf.panel_width = position;
+
+		return FALSE;
+	}
 
     position = gtk_paned_get_position (GTK_PANED (hpaned_general));
 
@@ -1308,7 +1313,7 @@ gboolean grisbi_win_set_window_title (gint account_number)
 
                 if (tmp_number == -1)
                 {
-                    if (w_etat->accounting_entity && w_etat->accounting_entity)
+                    if (w_etat->accounting_entity && strlen (w_etat->accounting_entity))
                         titre = g_strdup (w_etat->accounting_entity);
                 }
                 else
@@ -1644,8 +1649,6 @@ void grisbi_win_new_file_gui (void)
 	vbox_transactions_list = grisbi_win_get_vbox_transactions_list (win);
     gtk_box_pack_start (GTK_BOX (vbox_transactions_list), tree_view_widget, TRUE, TRUE, 0);
     gtk_widget_show (tree_view_widget);
-
-    //~ navigation_change_account (gsb_gui_navigation_get_current_account ());
 
     /* Display accounts in menus */
 	grisbi_win_menu_move_to_acc_delete ();

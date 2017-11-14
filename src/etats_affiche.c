@@ -924,13 +924,13 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 	    return ( ligne );
 	}
 
+	gchar buffer[256];
+	gsize rc;
+	GDate *date_tmp;
+
 	/* on vérifie maintenant s'il faut afficher un total ou pas */
 	switch ( gsb_data_report_get_period_split_type (current_report_number))
 	{
-	    gchar buffer[256];
-	    gsize rc;
-	    GDate *date_tmp;
-
 	    case 0:
 	    /* split by day, we do nothing only if it's the same day as the transaction before */
 	    if ( !force

@@ -446,6 +446,8 @@ static void grisbi_settings_init_settings_scheduled (GSettings *settings)
     conf.balances_with_scheduled = g_settings_get_boolean (settings, "balances-with-scheduled");
     conf.execute_scheduled_of_month = g_settings_get_boolean (settings, "execute-scheduled-of-month");
     conf.nb_days_before_scheduled = g_settings_get_int (settings, "nb-days-before-scheduled");
+    conf.scheduler_set_fixed_day = g_settings_get_boolean (settings, "scheduler-set-fixed-day");
+    conf.scheduler_fixed_day = g_settings_get_int (settings, "scheduler-fixed-day");
 }
 
 /**
@@ -818,6 +820,12 @@ void grisbi_settings_save_app_config (void)
     g_settings_set_int (priv->settings_scheduled,
                         "nb-days-before-scheduled",
                         conf.nb_days_before_scheduled);
+    g_settings_set_boolean (priv->settings_scheduled,
+							"scheduler-set-fixed-day",
+							conf.scheduler_set_fixed_day);
+    g_settings_set_int (priv->settings_scheduled,
+						"scheduler-fixed-day",
+						conf.scheduler_fixed_day);
 }
 
 GSettings *grisbi_settings_get_settings (gint schema)

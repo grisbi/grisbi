@@ -24,4 +24,5 @@ Website :     http://www.grisbi.org/
 
 Bug reports : http://www.grisbi.org/bugsreports/
 
-[![Build Status](https://travis-ci.org/grisbi/grisbi.svg?branch=master)](https://travis-ci.org/grisbi/grisbi)
+[![Linux/MacOSX](https://travis-ci.org/grisbi/grisbi.svg?branch=master)](https://travis-ci.org/grisbi/grisbi)
+[![Windows 64-bit](https://ci.appveyor.com/api/projects/status/3y7616oplt5q64p6?svg=true)](https://ci.appveyor.com/project/xfred81/grisbi)

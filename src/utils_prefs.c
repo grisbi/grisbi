@@ -75,7 +75,7 @@ static gboolean utils_prefs_automem_checkbutton_changed (GtkWidget *checkbutton,
     value = g_object_get_data (G_OBJECT (checkbutton), "pointer");
     if (value)
     {
-	*value = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(checkbutton));
+		*value = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(checkbutton));
         gsb_file_set_modified (TRUE);
     }
 

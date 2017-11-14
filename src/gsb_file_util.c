@@ -236,12 +236,11 @@ gboolean gsb_file_util_modify_lock (const gchar *filename,
 	gchar *tmp_str;
 
     devel_debug_int ( create_lock );
+	if (!filename)
+		return TRUE;
+
     /* if the file was already opened we do nothing */
-    if ( ( etat.fichier_deja_ouvert )
-	 ||
-	 !filename
-	 ||
-	 strlen (filename) == 0 )
+    if ((etat.fichier_deja_ouvert) || strlen (filename) == 0)
         return TRUE;
 
     /* Check if filename exists.  If not, this is a new
@@ -295,37 +294,38 @@ gboolean gsb_file_util_modify_lock (const gchar *filename,
         fclose ( fichier );
         return TRUE;
     }
-    else if ( etat.fichier_deja_ouvert == 0 )
-    {
-        /* delete the lock file */
-        gint result;
-
-        /* check if it exits, if not, just go away */
-        if ( !g_file_test ( lock_filename, G_FILE_TEST_EXISTS ) )
-            return TRUE;
-
-        result = utils_files_utf8_remove ( lock_filename );
-
-        if ( result == -1 )
-        {
-            gchar* tmp_str;
-
-            tmp_str = g_strdup_printf (_("Cannot erase lock file: '%s': %s"),
-									   filename,
-									   g_strerror ( errno ) );
-            dialogue_error ( tmp_str );
-            g_free ( tmp_str );
-
-            return FALSE;
-        }
-        return TRUE;
-    }
     else
-    {
-        /* si le fichier est déjà ouvert on ne fait rien */
-        etat.fichier_deja_ouvert = 0;
-        return TRUE;
-    }
+	{
+		if ( etat.fichier_deja_ouvert == 0 )
+		{
+			/* delete the lock file */
+			gint result;
+
+			/* check if it exits, if not, just go away */
+			if ( !g_file_test ( lock_filename, G_FILE_TEST_EXISTS ) )
+				return TRUE;
+
+			result = utils_files_utf8_remove ( lock_filename );
+
+			if ( result == -1 )
+			{
+				gchar* tmp_str;
+
+				tmp_str = g_strdup_printf (_("Cannot erase lock file: '%s': %s"),
+										   filename,
+										   g_strerror ( errno ) );
+				dialogue_error ( tmp_str );
+				g_free ( tmp_str );
+
+				return FALSE;
+			}
+			return TRUE;
+		}
+		else
+		{
+			return TRUE;
+		}
+	}
 }
 
 /**

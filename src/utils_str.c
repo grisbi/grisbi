@@ -31,6 +31,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <glib/gstdio.h>
+#include <math.h>
 
 /*START_INCLUDE*/
 #include "utils_str.h"
@@ -154,9 +155,9 @@ static gchar *utils_string_get_separator (const gchar *string)
     gchar *ptr_1 = NULL;
     gchar *ptr_2 = NULL;
     gchar *ptr_3 = NULL;
-    gint long_1 = 0;
-    gint long_2 = 0;
-    gint long_3 = 0;
+    size_t long_1 = 0;
+    size_t long_2 = 0;
+    size_t long_3 = 0;
 
     ptr_1 = g_strrstr (string, " ");
     ptr_2 = g_strrstr (string, "-");
@@ -717,7 +718,7 @@ gchar *gsb_string_remplace_string ( const gchar *str,
                         gchar *new_str )
 {
     gchar *ptr_debut;
-    gint long_old, str_len;
+    size_t long_old, str_len;
     gchar *chaine, *ret, *tail;
 
     ptr_debut = g_strstr_len ( str, -1, old_str);
@@ -1070,10 +1071,10 @@ gchar *utils_str_break_filename (const gchar *string,
     gchar *ptr = NULL;
     gchar *separator;
     gint i = 1;
-    gint n = 0;
-    gint size1;
-    gint size2;
-    gint size3;
+    ssize_t n = 0;
+    ssize_t size1;
+    ssize_t size2;
+    ssize_t size3;
 
     if ((gint) g_utf8_strlen (string, -1) <= trunc)
         return g_strdup (string);
@@ -1096,7 +1097,7 @@ gchar *utils_str_break_filename (const gchar *string,
     /* on traite en premier dirname */
     if (dirname && size2 > trunc)
     {
-        n = size2 / trunc;
+        n = ceil((0.0 + size2) / trunc);
         tmp_dir = g_malloc (size2 + n);
         tmp_dir = g_utf8_strncpy (tmp_dir, dirname, trunc);
         tmp_str2 = utils_string_get_ligne_longueur_fixe (tmp_dir, G_DIR_SEPARATOR_S, trunc);
@@ -1138,10 +1139,6 @@ gchar *utils_str_break_filename (const gchar *string,
     {
         tmp_str2 = g_strconcat (tmp_dir, G_DIR_SEPARATOR_S, "\n", basename, NULL);
         g_free (tmp_dir);
-        g_free (basename);
-        g_free (dirname);
-
-        return tmp_str2;
     }
     else
     {
@@ -1196,17 +1193,13 @@ gchar *utils_str_break_filename (const gchar *string,
 
         g_free (tmp_dir);
 		g_free (tmp_base);
-        g_free (basename);
-        g_free (dirname);
-
-        return tmp_str2;
     }
 
 	g_free (basename);
 	g_free (dirname);
 
     /* return */
-    return NULL;
+    return tmp_str2;
 }
 /* Local Variables: */
 /* c-basic-offset: 4 */

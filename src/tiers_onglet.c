@@ -680,7 +680,7 @@ gboolean edit_payee ( GtkTreeView * view )
     GtkWidget * dialog, *paddingbox, *table, *label, *entry_name;
     GtkWidget *entry_description, *hbox, *scrolled_window;
     GtkTreeSelection * selection;
-    GtkTreeModel * model;
+    GtkTreeModel * model = NULL;
     GtkTreeIter iter;
     GtkTreePath *path;
     gint no_division = -1;

@@ -131,6 +131,8 @@ struct _GrisbiWinEtat
     /* export files */
     gint export_file_format;                /* EXPORT_QIF or EXPORT_CSV */
     gboolean export_files_traitement;       /* 0 = traitement individuel, 1 = traitement automatique */
+	gboolean	export_force_US_dates;		/* 0 = format interne 1 = format US */
+	gboolean	export_force_US_numbers;	/* 0 = format interne 1 = format US */
 
     /* combofix configuration */
     gint combofix_mixed_sort;               /* TRUE for no separation between the categories */
@@ -266,6 +268,8 @@ struct GrisbiAppConf
     gboolean    balances_with_scheduled;                    /* TRUE = the balance incorporates the scheduled operations */
     gboolean    execute_scheduled_of_month;                 /* warn/execute scheduled at expiration (FALSE) or of the month (TRUE) */
 	gint		nb_days_before_scheduled;					/* nombre de jours avant relance des opérations planifiées */
+	gboolean	scheduler_set_fixed_day;					/* Si coché le nombre est considéré comme un jour fixe */
+	gint		scheduler_fixed_day;
 
     /* Tips */
     gint        last_tip;

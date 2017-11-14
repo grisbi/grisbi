@@ -463,7 +463,7 @@ go_option_menu_init (GOOptionMenu *option_menu)
 	gtk_box_pack_start (box, GTK_WIDGET (option_menu->button_label),
 			    FALSE, TRUE, 0);
 
-    tmp_filename = g_build_filename (gsb_dirs_get_pixmaps_dir (), "arrow-down.svg", NULL);
+    tmp_filename = g_build_filename (gsb_dirs_get_pixmaps_dir (), "gsb-arrow-down-16.png", NULL);
     arrow = gtk_image_new_from_file (tmp_filename);
     g_free (tmp_filename);
 

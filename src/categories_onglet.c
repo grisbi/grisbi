@@ -697,7 +697,7 @@ gboolean edit_category ( GtkTreeView *tree_view )
     GtkWidget * dialog, *paddingbox, *table, *label, *entry, *hbox, *radiogroup;
     gint category_number = -1, sub_category_number = -1;
     GtkTreeSelection * selection;
-    GtkTreeModel * model;
+    GtkTreeModel * model = NULL;
     GtkTreeIter iter;
     gchar * title;
     GtkTreeIter *div_iter;

@@ -46,47 +46,6 @@ static int ofx_proc_status_cb(struct OfxStatusData data, void * status_data);;
 static int ofx_proc_transaction_cb(struct OfxTransactionData data, void * security_data);;
 /*END_STATIC*/
 
-
-
-/* It seems the following applies to everyone, otherwise OFX_* are not defined */
-/* #ifdef G_OS_WIN32 */
-/* On Windows, the Ofx Severity enumerate values are already used in wingdi.h, DELETE is used in winnt.h
- * This is a work around to this issues :
- *  INFO, WARN, ERROR, DELETE and REPLACE are used in standard libofx.h;
- *  on windows they should be prefixed by OFX_
- */
-
-#ifndef _MINGW
-
-#ifndef OFX_INFO
-#define OFX_INFO    INFO
-#endif
-
-#ifndef OFX_WARN
-#define OFX_WARN    WARN
-#endif
-
-#ifndef OFX_ERROR
-#if defined (_MINGW)
-#undef ERROR
-#endif /* _MINGW */
-#define OFX_ERROR   ERROR
-#endif
-
-#ifndef OFX_DELETE
-#define OFX_DELETE  DELETE
-#endif
-
-#ifndef OFX_REPLACE
-#define OFX_REPLACE REPLACE
-#endif
-
-#endif /* _MIN_GW */
-
-/* #endif G_OS_WIN32 */
-
-
-
 /* on doit mettre le compte en cours d'importation en global pour que
  * la libofx puisse le traiter de plus un fichier ofx peut intégrer
  * plusieurs comptes, donc on crée une liste... */
@@ -99,7 +58,6 @@ gchar * ofx_filename;
 
 LibofxContextPtr ofx_context;
 int ofx_proc_status_cb(struct OfxStatusData data, void * status_data);
-/* void ofx_proc_security_cb ( LibofxContextPtr, LibofxProcSecurityCallback, void * ); */
 int ofx_proc_account_cb(struct OfxAccountData data, void * account_data);
 int ofx_proc_transaction_cb(struct OfxTransactionData data, void * security_data);
 int ofx_proc_statement_cb(struct OfxStatementData data, void * statement_data);
@@ -194,11 +152,11 @@ int ofx_proc_status_cb(struct OfxStatusData data, void * status_data)
     {
 	switch ( data.severity )
 	{
-	    case OFX_INFO :
+	    case INFO :
 		/* 		pas de pb, on fait rien */
 		break;
 
-	    case OFX_WARN :
+	    case WARN :
 		if ( data.code_valid )
 		    dialogue_warning ( g_strconcat ( _("OFX processing returned following message:\n"),
 						     data.name,
@@ -210,7 +168,7 @@ int ofx_proc_status_cb(struct OfxStatusData data, void * status_data)
 /* 		erreur_import_ofx = 1; */
 		break;
 
-	    case OFX_ERROR:
+	    case ERROR:
 		if ( data.code_valid )
 		    dialogue_error ( g_strconcat ( _("OFX processing returned following error message:\n"),
 						   data.name,

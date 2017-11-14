@@ -3209,7 +3209,7 @@ void bet_array_create_transaction_from_transfert (TransfertData *transfert)
     }
     else
     {
-        gint scheduled_number;
+        gint scheduled_number = 0;
 
         /* on recherche une opération planifiée */
         tmp_list = gsb_data_scheduled_get_scheduled_list ( );

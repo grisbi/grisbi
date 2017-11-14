@@ -1381,7 +1381,6 @@ void gsb_data_category_update_counters ( void )
 {
     GSList *list_tmp_transactions;
 
-    devel_debug ( NULL );
     gsb_data_category_reset_counters ();
 
     if ( etat.add_archive_in_total_balance )

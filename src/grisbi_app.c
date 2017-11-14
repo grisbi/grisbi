@@ -303,9 +303,13 @@ static void grisbi_app_quit (GSimpleAction *action,
             }
             first_win = FALSE;
         }
-        gsb_file_close ();
-		gtk_window_close (GTK_WINDOW (l->data));
-        gtk_application_remove_window (GTK_APPLICATION (app), GTK_WINDOW (l->data));
+        if (gsb_file_close ())
+		{
+			gtk_window_close (GTK_WINDOW (l->data));
+			gtk_application_remove_window (GTK_APPLICATION (app), GTK_WINDOW (l->data));
+		}
+		else
+			return;
     }
 
 	g_application_quit (G_APPLICATION (app));
@@ -519,7 +523,6 @@ static gboolean grisbi_app_window_delete_event (GrisbiWin *win,
 	gboolean last_win = FALSE;
 
 	devel_debug (NULL);
-
 	l = gtk_application_get_windows (GTK_APPLICATION (app));
 	if (g_list_length (l) == 1)
 	{
@@ -535,14 +538,17 @@ static gboolean grisbi_app_window_delete_event (GrisbiWin *win,
         gtk_window_get_size (GTK_WINDOW (win), &conf.main_width, &conf.main_height);
     }
 
-    gsb_file_close ();
-	gtk_window_close (GTK_WINDOW (win));
-    gtk_application_remove_window (GTK_APPLICATION (app), GTK_WINDOW (win));
+    if (gsb_file_close ())
+	{
+		gtk_window_close (GTK_WINDOW (win));
+		gtk_application_remove_window (GTK_APPLICATION (app), GTK_WINDOW (win));
 
-	if (last_win)
-		g_application_quit (G_APPLICATION (app));
-
-	return FALSE;
+		if (last_win)
+			g_application_quit (G_APPLICATION (app));
+		return FALSE;
+	}
+	else
+		return TRUE;
 }
 
 /**
@@ -743,9 +749,9 @@ static gboolean grisbi_app_cmdline (GApplication *application,
 		errno = 0;
 		number = g_ascii_strtoll (tmp_str, &endptr, 10);
 		if (endptr == NULL)
-			priv->debug_level = number;
+			priv->debug_level = (gint)number;
 		else if (errno == 0 && number == 0)
-			priv->debug_level = number;
+			priv->debug_level = (gint)number;
 	}
 
 	if (IS_DEVELOPMENT_VERSION == 1)
