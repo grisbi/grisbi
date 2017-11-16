@@ -4249,10 +4249,6 @@ static void traitement_operations_importees (void)
 			gsb_data_import_rule_set_csv_spec_text_str (rule, compte->csv_spec_text_str);
 		}
     }
-    if (!strcmp (compte->origine, "OFX"))
-    {
-        g_remove (compte->real_filename);
-    }
     tmp_list = tmp_list->next;
     }
 
