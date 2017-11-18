@@ -1450,8 +1450,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/usr/local/Cellar/goffice/0.10.32/lib,
-					/usr/local/Cellar/openssl/1.0.2j/lib,
-					/usr/local/Cellar/openssl/1.0.2l/lib,
+					/usr/local/opt/openssl/lib,
 					/usr/local/Cellar/libofx/0.9.10/lib,
 					/usr/local/Cellar/gettext/0.19.8.1/lib,
 					/usr/local/Cellar/pango/1.40.7/lib,
@@ -1486,8 +1485,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/usr/local/Cellar/goffice/0.10.32/lib,
-					/usr/local/Cellar/openssl/1.0.2j/lib,
-					/usr/local/Cellar/openssl/1.0.2l/lib,
+					/usr/local/opt/openssl/lib,
 					/usr/local/Cellar/libofx/0.9.10/lib,
 					/usr/local/Cellar/gettext/0.19.8.1/lib,
 					/usr/local/Cellar/pango/1.40.7/lib,
