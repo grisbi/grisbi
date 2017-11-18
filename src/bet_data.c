@@ -2071,7 +2071,7 @@ gchar *bet_data_get_str_amount_in_account_currency ( gsb_real amount,
     gchar *str_amount = NULL;
     gint account_currency;
     gint floating_point;
-    gsb_real new_amount;
+	gsb_real new_amount = {0, 0};
 
     account_currency = gsb_data_account_get_currency ( account_number );
     floating_point = gsb_data_account_get_currency_floating_point ( account_number );
