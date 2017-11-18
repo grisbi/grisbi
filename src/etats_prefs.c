@@ -616,7 +616,7 @@ gboolean etats_prefs_left_panel_tree_view_select_last_page ( void )
     GtkWidget *notebook;
 
     tree_view = GTK_WIDGET ( gtk_builder_get_object ( etats_prefs_builder, "treeview_left_panel" ) );
-    notebook = GTK_WIDGET ( gtk_builder_get_object ( etats_prefs_builder, "notebook_etats_prefs" ) ),
+    notebook = GTK_WIDGET ( gtk_builder_get_object ( etats_prefs_builder, "notebook_etats_prefs" ) );
 
     utils_prefs_left_panel_tree_view_select_page ( tree_view, notebook, last_page );
 
