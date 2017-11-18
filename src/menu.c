@@ -521,7 +521,7 @@ gboolean help_website ( void )
  */
 gboolean help_bugreport ( void )
 {
-    lance_navigateur_web ( "http://www.grisbi.org/bugtracking/" );
+    lance_navigateur_web ( "http://www.grisbi.org/bugsreports/" );
 
     return FALSE;
 }

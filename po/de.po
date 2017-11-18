@@ -1990,9 +1990,9 @@ msgstr "Grisbi hat eine Sicherung im Verzeichnis '%s' erstellt."
 
 #: ../src/erreur.c:143
 msgid ""
-"Please report this problem to <tt>http://www.grisbi.org/bugtracking/</tt>.  "
+"Please report this problem to <tt>http://www.grisbi.org/bugsreports/</tt>.  "
 msgstr ""
-"Bitte den Fehler unter <tt>http://www.grisbi.org/bugtracking/</tt> melden.  "
+"Bitte den Fehler unter <tt>http://www.grisbi.org/bugsreports/</tt> melden.  "
 
 #: ../src/erreur.c:149
 msgid "Copy and paste the following backtrace with your bug report."

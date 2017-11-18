@@ -2098,9 +2098,9 @@ msgstr "Grisbi criou um arquivo de backup para %s ."
 #: ../src/erreur.c:143
 #, fuzzy
 msgid ""
-"Please report this problem to <tt>http://www.grisbi.org/bugtracking/</tt>.  "
+"Please report this problem to <tt>http://www.grisbi.org/bugsreports/</tt>.  "
 msgstr ""
-"Por favor, reporte este problema para http://www.grisbi.org/bugtracking/"
+"Por favor, reporte este problema para http://www.grisbi.org/bugsreports/"
 
 #: ../src/erreur.c:149
 msgid "Copy and paste the following backtrace with your bug report."

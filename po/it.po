@@ -2092,7 +2092,7 @@ msgstr "Grisbi ha fatto un file di ripristino in '%s'."
 #: ../src/erreur.c:143
 #, fuzzy
 msgid ""
-"Please report this problem to <tt>http://www.grisbi.org/bugtracking/</tt>.  "
+"Please report this problem to <tt>http://www.grisbi.org/bugsreports/</tt>.  "
 msgstr ""
 "E' consigliato riportare questo problema su http://www.grisbi.org/"
 "bugtracking/"

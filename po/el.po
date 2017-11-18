@@ -2112,7 +2112,7 @@ msgstr "Το Grisbi έκανε ένα εφεδρικό αρχείο '%s'."
 #: ../src/erreur.c:143
 #, fuzzy
 msgid ""
-"Please report this problem to <tt>http://www.grisbi.org/bugtracking/</tt>.  "
+"Please report this problem to <tt>http://www.grisbi.org/bugsreports/</tt>.  "
 msgstr ""
 "Παρακαλώ αναφέρετε αυτό το πρόβλημα στην σελίδα <tt>http://www.grisbi.org/"
 "bugtracking/</tt>.  "

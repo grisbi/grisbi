@@ -2045,7 +2045,7 @@ msgstr ""
 
 #: ../src/erreur.c:143
 msgid ""
-"Please report this problem to <tt>http://www.grisbi.org/bugtracking/</tt>.  "
+"Please report this problem to <tt>http://www.grisbi.org/bugsreports/</tt>.  "
 msgstr ""
 
 #: ../src/erreur.c:149
