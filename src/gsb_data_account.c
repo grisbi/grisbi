@@ -420,7 +420,7 @@ gint gsb_data_account_first_number ( void )
  * */
 gint gsb_data_account_first_no_closed_account ( void )
 {
-    AccountStruct *account;
+    AccountStruct *account = NULL;
     GSList *list_tmp;
 
     if ( !list_accounts )
