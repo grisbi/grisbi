@@ -2014,7 +2014,7 @@ msgstr "Grisbi veido rezerves failu '%s'."
 #: ../src/erreur.c:143
 #, fuzzy
 msgid ""
-"Please report this problem to <tt>http://www.grisbi.org/bugtracking/</tt>.  "
+"Please report this problem to <tt>http://www.grisbi.org/bugsreports/</tt>.  "
 msgstr ""
 "Lūdzu rakstiet par šīm problēmām uz <t>htp://www.grisbi.org/bugtracking/</"
 "t>. "

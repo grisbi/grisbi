@@ -2374,8 +2374,8 @@ msgstr "גריסבי יצר קובץ גיבוי ב '%s'."
 #: ../src/erreur.c:143
 #, fuzzy
 msgid ""
-"Please report this problem to <tt>http://www.grisbi.org/bugtracking/</tt>.  "
-msgstr "נא דווחו על בעיה זו בכתובת הבאה http://www.grisbi.org/bugtracking/"
+"Please report this problem to <tt>http://www.grisbi.org/bugsreports/</tt>.  "
+msgstr "נא דווחו על בעיה זו בכתובת הבאה http://www.grisbi.org/bugsreports/"
 
 #: ../src/erreur.c:149
 msgid "Copy and paste the following backtrace with your bug report."

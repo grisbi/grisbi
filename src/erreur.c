@@ -140,7 +140,7 @@ void traitement_sigsegv ( gint signal_nb )
     old_errmsg = errmsg;
     errmsg = g_strconcat ( errmsg,
 			   "\n\n",
-			   _("Please report this problem to <tt>http://www.grisbi.org/bugtracking/</tt>.  "),
+			   _("Please report this problem to <tt>http://www.grisbi.org/bugsreports/</tt>.  "),
 			   NULL );
      g_free ( old_errmsg );
 
