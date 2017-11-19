@@ -25,6 +25,7 @@ gint 		gsb_data_scheduled_get_currency_floating_point 				(gint scheduled_number
 gint 		gsb_data_scheduled_get_currency_number 						(gint scheduled_number);
 GDate *		gsb_data_scheduled_get_date 								(gint scheduled_number);
 gint 		gsb_data_scheduled_get_financial_year_number 				(gint scheduled_number);
+gint 		gsb_data_scheduled_get_fixed_date 							(gint scheduled_number);
 gint 		gsb_data_scheduled_get_frequency 							(gint scheduled_number);
 GDate *		gsb_data_scheduled_get_limit_date 							(gint scheduled_number);
 gchar *		gsb_data_scheduled_get_method_of_payment_content 			(gint scheduled_number);
@@ -67,6 +68,8 @@ gboolean 	gsb_data_scheduled_set_date 								(gint scheduled_number,
 																		 const GDate *date);
 gboolean 	gsb_data_scheduled_set_financial_year_number 				(gint scheduled_number,
 																		 gint financial_year_number);
+gboolean 	gsb_data_scheduled_set_fixed_date 							(gint scheduled_number,
+																		 gint fixed_date);
 gboolean 	gsb_data_scheduled_set_frequency 							(gint scheduled_number,
 																		 gint number);
 gboolean 	gsb_data_scheduled_set_limit_date 							(gint scheduled_number,

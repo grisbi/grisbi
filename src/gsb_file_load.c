@@ -1961,6 +1961,13 @@ static  void gsb_file_load_scheduled_transactions ( const gchar **attribute_name
         continue;
     }
 
+    if ( !strcmp ( attribute_names[i], "Fd" ))
+    {
+        gsb_data_scheduled_set_fixed_date ( scheduled_number, utils_str_atoi (attribute_values[i]));
+        i++;
+        continue;
+    }
+
     if ( !strcmp ( attribute_names[i],
                "Pe" ))
     {

@@ -58,6 +58,7 @@ struct _ScheduledStruct
     gchar *		notes;
     gshort 		automatic_scheduled;			/* < 0=manual, 1=automatic (scheduled scheduled) */
     guint 		financial_year_number;
+	gint		fixed_date;						/* 0=flottant 1=fixed 2=last_banking_day */
 
     /** @name dates of the scheduled */
     GDate *		date;
@@ -1818,6 +1819,48 @@ gboolean gsb_data_scheduled_get_variance (gint mother_scheduled_number)
         return TRUE;
     else
         return FALSE;
+}
+
+/**
+ *
+ *
+ * \param	scheduled_number
+ *
+ * \return	0=flottant 1=fixed 2=last_banking_day
+ **/
+gint gsb_data_scheduled_get_fixed_date (gint scheduled_number)
+{
+    ScheduledStruct *scheduled;
+
+    scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
+
+    if (!scheduled)
+		return 0;
+
+    return scheduled->fixed_date;
+}
+
+/**
+ *
+ *
+ * \param	scheduled number
+ * \param	fixed date
+ *
+ * \return TRUE if set or FALSE is not set
+ **/
+gboolean gsb_data_scheduled_set_fixed_date (gint scheduled_number,
+											gint fixed_date)
+{
+    ScheduledStruct *scheduled;
+
+    scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
+
+    if (!scheduled)
+		return FALSE;
+
+    scheduled->fixed_date = fixed_date;
+
+    return TRUE;
 }
 
 /**

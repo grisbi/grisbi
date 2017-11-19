@@ -1444,7 +1444,7 @@ gulong gsb_file_save_scheduled_part ( gulong iterator,
 	new_string = g_markup_printf_escaped ( "\t<Scheduled Nb=\"%d\" Dt=\"%s\" Ac=\"%d\" Am=\"%s\" "
                            "Cu=\"%d\" Pa=\"%d\" Ca=\"%d\" Sca=\"%d\" Tra=\"%d\" Pn=\"%d\" "
                            "CPn=\"%d\" Pc=\"%s\" Fi=\"%d\" Bu=\"%d\" Sbu=\"%d\" No=\"%s\" "
-                           "Au=\"%d\" Pe=\"%d\" Pei=\"%d\" Pep=\"%d\" Dtl=\"%s\" Br=\"%d\" "
+                           "Au=\"%d\" Fd=\"%d\" Pe=\"%d\" Pei=\"%d\" Pep=\"%d\" Dtl=\"%s\" Br=\"%d\" "
                            "Mo=\"%d\" />\n",
 					       scheduled_number,
 					       my_safe_null_str(date),
@@ -1463,6 +1463,7 @@ gulong gsb_file_save_scheduled_part ( gulong iterator,
 					       gsb_data_scheduled_get_sub_budgetary_number ( scheduled_number),
 					       my_safe_null_str(gsb_data_scheduled_get_notes ( scheduled_number)),
 					       gsb_data_scheduled_get_automatic_scheduled ( scheduled_number),
+						   gsb_data_scheduled_get_fixed_date (scheduled_number),
 					       gsb_data_scheduled_get_frequency ( scheduled_number),
 					       gsb_data_scheduled_get_user_interval ( scheduled_number),
 					       gsb_data_scheduled_get_user_entry ( scheduled_number),
