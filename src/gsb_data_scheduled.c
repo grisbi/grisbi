@@ -46,12 +46,9 @@
 #include "erreur.h"
 /*END_INCLUDE*/
 
+typedef struct	_ScheduledStruct	ScheduledStruct;  /* Describe a scheduled transaction */
 
-/**
- * \struct
- * Describe a scheduled
- */
-typedef struct
+struct _ScheduledStruct
 {
     /** @name general stuff */
     gint 		scheduled_number;
@@ -87,7 +84,7 @@ typedef struct
     gint 		user_interval;					/* <  0=days, 1=monthes, 2=years */
     gint 		user_entry;
     GDate *		limit_date;
-} struct_scheduled;
+};
 
 /*END_STATIC*/
 
@@ -104,7 +101,7 @@ static GSList *scheduled_list = NULL;
 static GSList *white_scheduled_list = NULL;
 
 /** 2 pointers to the 2 last scheduled used (to increase the speed) */
-static struct_scheduled *scheduled_buffer[2];
+static ScheduledStruct *scheduled_buffer[2];
 
 /** set the current buffer used */
 static gint current_scheduled_buffer;
@@ -113,13 +110,13 @@ static gint current_scheduled_buffer;
 /* Private Methods                                                            */
 /******************************************************************************/
 /**
- * This internal function is called to free memory used by a struct_scheduled structure.
+ * This internal function is called to free memory used by a ScheduledStruct structure.
  *
- * \param 		struct_scheduled
+ * \param 		ScheduledStruct
  *
  * \return
  **/
-static void _gsb_data_scheduled_free (struct_scheduled *scheduled)
+static void _gsb_data_scheduled_free (ScheduledStruct *scheduled)
 {
     if (!scheduled)
         return;
@@ -154,7 +151,7 @@ static void gsb_data_scheduled_delete_all_scheduled (void)
         tmp_list = scheduled_list;
         while (tmp_list)
         {
-            struct_scheduled *scheduled;
+            ScheduledStruct *scheduled;
 
             scheduled = tmp_list->data;
             tmp_list = tmp_list->next;
@@ -181,7 +178,7 @@ static gint gsb_data_scheduled_get_last_number (void)
 
     while (scheduled_list_tmp)
     {
-		struct_scheduled *scheduled;
+		ScheduledStruct *scheduled;
 
 		scheduled = scheduled_list_tmp->data;
 		if (scheduled->scheduled_number > last_number)
@@ -211,7 +208,7 @@ static gint gsb_data_scheduled_get_last_white_number (void)
 
     while (scheduled_list_tmp)
     {
-		struct_scheduled *scheduled;
+		ScheduledStruct *scheduled;
 
 		scheduled = scheduled_list_tmp->data;
 		if (scheduled->scheduled_number < last_number)
@@ -260,7 +257,7 @@ static gboolean gsb_data_scheduled_save_scheduled_pointer (gpointer scheduled)
  *
  * \return a pointer to the scheduled, NULL if not found
  **/
-static struct_scheduled *gsb_data_scheduled_get_scheduled_by_no (gint scheduled_number)
+static ScheduledStruct *gsb_data_scheduled_get_scheduled_by_no (gint scheduled_number)
 {
     GSList *scheduled_list_tmp;
 
@@ -283,7 +280,7 @@ static struct_scheduled *gsb_data_scheduled_get_scheduled_by_no (gint scheduled_
 
     while (scheduled_list_tmp)
     {
-		struct_scheduled *scheduled;
+		ScheduledStruct *scheduled;
 
 		scheduled = scheduled_list_tmp->data;
 
@@ -343,7 +340,7 @@ GSList *gsb_data_scheduled_get_scheduled_list (void)
  **/
 gint gsb_data_scheduled_get_scheduled_number (gpointer scheduled_pointer)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
     scheduled = scheduled_pointer;
 
@@ -367,7 +364,7 @@ gint gsb_data_scheduled_get_scheduled_number (gpointer scheduled_pointer)
  **/
 gint gsb_data_scheduled_get_account_number (gint scheduled_number)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
 
@@ -389,7 +386,7 @@ gint gsb_data_scheduled_get_account_number (gint scheduled_number)
 gboolean gsb_data_scheduled_set_account_number (gint scheduled_number,
 												gint no_account)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
 
@@ -428,7 +425,7 @@ gboolean gsb_data_scheduled_set_account_number (gint scheduled_number,
  **/
 GDate *gsb_data_scheduled_get_date (gint scheduled_number)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
 
@@ -450,7 +447,7 @@ GDate *gsb_data_scheduled_get_date (gint scheduled_number)
 gboolean gsb_data_scheduled_set_date (gint scheduled_number,
 									  const GDate *date)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
 
@@ -496,7 +493,7 @@ gboolean gsb_data_scheduled_set_date (gint scheduled_number,
  **/
 gsb_real gsb_data_scheduled_get_amount (gint scheduled_number)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
 
@@ -517,7 +514,7 @@ gsb_real gsb_data_scheduled_get_amount (gint scheduled_number)
 gboolean gsb_data_scheduled_set_amount (gint scheduled_number,
 										gsb_real amount)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
 
@@ -538,7 +535,7 @@ gboolean gsb_data_scheduled_set_amount (gint scheduled_number,
  **/
 gint gsb_data_scheduled_get_currency_number (gint scheduled_number)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
 
@@ -560,7 +557,7 @@ gint gsb_data_scheduled_get_currency_number (gint scheduled_number)
 gboolean gsb_data_scheduled_set_currency_number (gint scheduled_number,
 												 gint no_currency)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
 
@@ -599,7 +596,7 @@ gboolean gsb_data_scheduled_set_currency_number (gint scheduled_number,
  **/
 gint gsb_data_scheduled_get_party_number (gint scheduled_number)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
 
@@ -621,7 +618,7 @@ gint gsb_data_scheduled_get_party_number (gint scheduled_number)
 gboolean gsb_data_scheduled_set_party_number (gint scheduled_number,
 											  gint no_party)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
 
@@ -660,7 +657,7 @@ gboolean gsb_data_scheduled_set_party_number (gint scheduled_number,
  **/
 gint gsb_data_scheduled_get_category_number (gint scheduled_number)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
 
@@ -681,7 +678,7 @@ gint gsb_data_scheduled_get_category_number (gint scheduled_number)
 gboolean gsb_data_scheduled_set_category_number (gint scheduled_number,
 												 gint no_category)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
 
@@ -702,7 +699,7 @@ gboolean gsb_data_scheduled_set_category_number (gint scheduled_number,
  **/
 gint gsb_data_scheduled_get_sub_category_number (gint scheduled_number)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
 
@@ -723,7 +720,7 @@ gint gsb_data_scheduled_get_sub_category_number (gint scheduled_number)
 gboolean gsb_data_scheduled_set_sub_category_number (gint scheduled_number,
 													 gint no_sub_category)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
 
@@ -744,7 +741,7 @@ gboolean gsb_data_scheduled_set_sub_category_number (gint scheduled_number,
  **/
 gint gsb_data_scheduled_get_split_of_scheduled (gint scheduled_number)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
 
@@ -764,7 +761,7 @@ gint gsb_data_scheduled_get_split_of_scheduled (gint scheduled_number)
 gboolean gsb_data_scheduled_set_split_of_scheduled (gint scheduled_number,
 													gint is_split)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
 
@@ -785,7 +782,7 @@ gboolean gsb_data_scheduled_set_split_of_scheduled (gint scheduled_number,
  **/
 gchar *gsb_data_scheduled_get_notes (gint scheduled_number)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
 
@@ -807,7 +804,7 @@ gchar *gsb_data_scheduled_get_notes (gint scheduled_number)
 gboolean gsb_data_scheduled_set_notes (gint scheduled_number,
 									   const gchar *notes)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
     if (!scheduled)
@@ -828,7 +825,7 @@ gboolean gsb_data_scheduled_set_notes (gint scheduled_number,
  **/
 gint gsb_data_scheduled_get_method_of_payment_number (gint scheduled_number)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
 
@@ -850,7 +847,7 @@ gint gsb_data_scheduled_get_method_of_payment_number (gint scheduled_number)
 gboolean gsb_data_scheduled_set_method_of_payment_number (gint scheduled_number,
 														  gint number)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
 
@@ -889,7 +886,7 @@ gboolean gsb_data_scheduled_set_method_of_payment_number (gint scheduled_number,
  **/
 gchar *gsb_data_scheduled_get_method_of_payment_content (gint scheduled_number)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
 
@@ -911,7 +908,7 @@ gchar *gsb_data_scheduled_get_method_of_payment_content (gint scheduled_number)
 gboolean gsb_data_scheduled_set_method_of_payment_content (gint scheduled_number,
 														   const gchar *method_of_payment_content)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
     if (!scheduled)
@@ -932,7 +929,7 @@ gboolean gsb_data_scheduled_set_method_of_payment_content (gint scheduled_number
  **/
 gint gsb_data_scheduled_get_automatic_scheduled (gint scheduled_number)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
 
@@ -953,7 +950,7 @@ gint gsb_data_scheduled_get_automatic_scheduled (gint scheduled_number)
 gboolean gsb_data_scheduled_set_automatic_scheduled (gint scheduled_number,
 													 gint automatic_scheduled)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
 
@@ -974,7 +971,7 @@ gboolean gsb_data_scheduled_set_automatic_scheduled (gint scheduled_number,
  **/
 gint gsb_data_scheduled_get_financial_year_number (gint scheduled_number)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
 
@@ -995,7 +992,7 @@ gint gsb_data_scheduled_get_financial_year_number (gint scheduled_number)
 gboolean gsb_data_scheduled_set_financial_year_number (gint scheduled_number,
 													   gint financial_year_number)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
 
@@ -1016,7 +1013,7 @@ gboolean gsb_data_scheduled_set_financial_year_number (gint scheduled_number,
  **/
 gint gsb_data_scheduled_get_budgetary_number (gint scheduled_number)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
 
@@ -1037,7 +1034,7 @@ gint gsb_data_scheduled_get_budgetary_number (gint scheduled_number)
 gboolean gsb_data_scheduled_set_budgetary_number (gint scheduled_number,
 												  gint budgetary_number)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
 
@@ -1058,7 +1055,7 @@ gboolean gsb_data_scheduled_set_budgetary_number (gint scheduled_number,
  **/
 gint gsb_data_scheduled_get_sub_budgetary_number (gint scheduled_number)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
 
@@ -1079,7 +1076,7 @@ gint gsb_data_scheduled_get_sub_budgetary_number (gint scheduled_number)
 gboolean gsb_data_scheduled_set_sub_budgetary_number (gint scheduled_number,
 													  gint sub_budgetary_number)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
 
@@ -1101,7 +1098,7 @@ gboolean gsb_data_scheduled_set_sub_budgetary_number (gint scheduled_number,
  **/
 gboolean gsb_data_scheduled_is_transfer (gint scheduled_number)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
 
@@ -1135,7 +1132,7 @@ gboolean gsb_data_scheduled_is_transfer (gint scheduled_number)
  **/
 gint gsb_data_scheduled_get_account_number_transfer (gint scheduled_number)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
 
@@ -1156,7 +1153,7 @@ gint gsb_data_scheduled_get_account_number_transfer (gint scheduled_number)
 gboolean gsb_data_scheduled_set_account_number_transfer (gint scheduled_number,
 														 gint account_number_transfer)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
 
@@ -1177,7 +1174,7 @@ gboolean gsb_data_scheduled_set_account_number_transfer (gint scheduled_number,
  **/
 gint gsb_data_scheduled_get_mother_scheduled_number (gint scheduled_number)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
 
@@ -1198,7 +1195,7 @@ gint gsb_data_scheduled_get_mother_scheduled_number (gint scheduled_number)
 gboolean gsb_data_scheduled_set_mother_scheduled_number (gint scheduled_number,
 														 gint mother_scheduled_number)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
 
@@ -1219,7 +1216,7 @@ gboolean gsb_data_scheduled_set_mother_scheduled_number (gint scheduled_number,
  **/
 gint gsb_data_scheduled_get_contra_method_of_payment_number (gint scheduled_number)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
 
@@ -1240,7 +1237,7 @@ gint gsb_data_scheduled_get_contra_method_of_payment_number (gint scheduled_numb
 gboolean gsb_data_scheduled_set_contra_method_of_payment_number (gint scheduled_number,
 																 gint number)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
 
@@ -1261,7 +1258,7 @@ gboolean gsb_data_scheduled_set_contra_method_of_payment_number (gint scheduled_
  **/
 gint gsb_data_scheduled_get_frequency (gint scheduled_number)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
 
@@ -1282,7 +1279,7 @@ gint gsb_data_scheduled_get_frequency (gint scheduled_number)
 gboolean gsb_data_scheduled_set_frequency (gint scheduled_number,
 										   gint number)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
 
@@ -1303,7 +1300,7 @@ gboolean gsb_data_scheduled_set_frequency (gint scheduled_number,
  **/
 gint gsb_data_scheduled_get_user_interval (gint scheduled_number)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
 
@@ -1324,7 +1321,7 @@ gint gsb_data_scheduled_get_user_interval (gint scheduled_number)
 gboolean gsb_data_scheduled_set_user_interval (gint scheduled_number,
 											   gint number)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
 
@@ -1345,7 +1342,7 @@ gboolean gsb_data_scheduled_set_user_interval (gint scheduled_number,
  **/
 gint gsb_data_scheduled_get_user_entry (gint scheduled_number)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
 
@@ -1366,7 +1363,7 @@ gint gsb_data_scheduled_get_user_entry (gint scheduled_number)
 gboolean gsb_data_scheduled_set_user_entry (gint scheduled_number,
 											gint number)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
 
@@ -1387,7 +1384,7 @@ gboolean gsb_data_scheduled_set_user_entry (gint scheduled_number,
  **/
 GDate *gsb_data_scheduled_get_limit_date (gint scheduled_number)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
 
@@ -1408,7 +1405,7 @@ GDate *gsb_data_scheduled_get_limit_date (gint scheduled_number)
 gboolean gsb_data_scheduled_set_limit_date (gint scheduled_number,
 											const GDate *date)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
 
@@ -1435,9 +1432,9 @@ gboolean gsb_data_scheduled_set_limit_date (gint scheduled_number,
  **/
 gint gsb_data_scheduled_new_scheduled_with_number (gint scheduled_number)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
-    scheduled = g_malloc0 (sizeof (struct_scheduled));
+    scheduled = g_malloc0 (sizeof (ScheduledStruct));
 
     if (!scheduled)
     {
@@ -1487,9 +1484,9 @@ gint gsb_data_scheduled_new_scheduled (void)
  **/
 gint gsb_data_scheduled_new_white_line (gint mother_scheduled_number)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
-    scheduled = g_malloc0 (sizeof (struct_scheduled));
+    scheduled = g_malloc0 (sizeof (ScheduledStruct));
 
     if (!scheduled)
     {
@@ -1530,7 +1527,7 @@ gint gsb_data_scheduled_new_white_line (gint mother_scheduled_number)
  **/
 gboolean gsb_data_scheduled_remove_scheduled (gint scheduled_number)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
 
@@ -1545,7 +1542,7 @@ gboolean gsb_data_scheduled_remove_scheduled (gint scheduled_number)
 
         while (list_tmp)
         {
-            struct_scheduled *scheduled_child;
+            ScheduledStruct *scheduled_child;
 
             scheduled_child = list_tmp->data;
 
@@ -1580,7 +1577,7 @@ gboolean gsb_data_scheduled_remove_scheduled (gint scheduled_number)
 GSList *gsb_data_scheduled_get_children (gint scheduled_number,
 										 gboolean return_number)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
     GSList *children_list = NULL;
     GSList *tmp_list;
 
@@ -1593,7 +1590,7 @@ GSList *gsb_data_scheduled_get_children (gint scheduled_number,
     tmp_list = scheduled_list;
     while (tmp_list)
     {
-		struct_scheduled *tmp_scheduled;
+		ScheduledStruct *tmp_scheduled;
 
 		tmp_scheduled = tmp_list->data;
 
@@ -1612,7 +1609,7 @@ GSList *gsb_data_scheduled_get_children (gint scheduled_number,
     tmp_list = white_scheduled_list;
     while (tmp_list)
     {
-		struct_scheduled *tmp_scheduled;
+		ScheduledStruct *tmp_scheduled;
 
 		tmp_scheduled = tmp_list->data;
 
@@ -1641,7 +1638,7 @@ GSList *gsb_data_scheduled_get_children (gint scheduled_number,
  **/
 gint gsb_data_scheduled_get_white_line (gint scheduled_number)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
     GSList *tmp_list;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
@@ -1653,7 +1650,7 @@ gint gsb_data_scheduled_get_white_line (gint scheduled_number)
 
     while (tmp_list)
     {
-		struct_scheduled *tmp_scheduled;
+		ScheduledStruct *tmp_scheduled;
 
 		tmp_scheduled = tmp_list->data;
 
@@ -1674,7 +1671,7 @@ gint gsb_data_scheduled_get_white_line (gint scheduled_number)
  **/
 gint gsb_data_scheduled_get_currency_floating_point (gint scheduled_number)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
     gint floating_point;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
@@ -1702,7 +1699,7 @@ gsb_real gsb_data_scheduled_get_adjusted_amount_for_currency (gint scheduled_num
 															  gint return_currency_number,
 															  gint return_exponent)
 {
-    struct_scheduled *scheduled;
+    ScheduledStruct *scheduled;
     gsb_real amount = null_real;
     gint link_number;
 
@@ -1759,8 +1756,8 @@ gsb_real gsb_data_scheduled_get_adjusted_amount_for_currency (gint scheduled_num
 gboolean gsb_data_scheduled_copy_scheduled (gint source_scheduled_number,
 											gint target_scheduled_number)
 {
-    struct_scheduled *source_scheduled;
-    struct_scheduled *target_scheduled;
+    ScheduledStruct *source_scheduled;
+    ScheduledStruct *target_scheduled;
 
     source_scheduled = gsb_data_scheduled_get_scheduled_by_no (source_scheduled_number);
     target_scheduled = gsb_data_scheduled_get_scheduled_by_no (target_scheduled_number);
@@ -1768,7 +1765,7 @@ gboolean gsb_data_scheduled_copy_scheduled (gint source_scheduled_number,
     if (!source_scheduled || !target_scheduled)
         return FALSE;
 
-    memcpy (target_scheduled, source_scheduled, sizeof (struct_scheduled));
+    memcpy (target_scheduled, source_scheduled, sizeof (ScheduledStruct));
 
     target_scheduled->scheduled_number = target_scheduled_number;
 
@@ -1803,7 +1800,7 @@ gboolean gsb_data_scheduled_get_variance (gint mother_scheduled_number)
     tmp_list = scheduled_list;
     while (tmp_list)
     {
-        struct_scheduled *tmp_scheduled;
+        ScheduledStruct *tmp_scheduled;
 
         tmp_scheduled = tmp_list->data;
 
