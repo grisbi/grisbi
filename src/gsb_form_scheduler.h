@@ -14,7 +14,7 @@
 
 /* that enum is in the order of the widgets, if we switch 2 of them,
  * they will be switched on the form */
-enum scheduled_form_widget {
+enum ScheduledFormWidget {
     SCHEDULED_FORM_ACCOUNT = 0,
     SCHEDULED_FORM_AUTO,
     SCHEDULED_FORM_FREQUENCY_BUTTON,
