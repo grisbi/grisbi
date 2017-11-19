@@ -1909,9 +1909,9 @@ msgstr "Grisbi a effectué une copie de sauvegarde dans '%s'."
 
 #: ../src/erreur.c:229
 msgid ""
-"Please report this problem to <tt>http://www.grisbi.org/bugtracking/</tt>.  "
+"Please report this problem to <tt>http://www.grisbi.org/bugsreports/</tt>.  "
 msgstr ""
-"Veuillez rapporter cette erreur à <tt>http://www.grisbi.org/bugtracking/</"
+"Veuillez rapporter cette erreur à <tt>http://www.grisbi.org/bugsreports/</"
 "tt>. "
 
 #: ../src/erreur.c:235

@@ -1929,9 +1929,9 @@ msgstr "Grisbi vytvořil zálohu v '%s'."
 
 #: ../src/erreur.c:229
 msgid ""
-"Please report this problem to <tt>http://www.grisbi.org/bugtracking/</tt>.  "
+"Please report this problem to <tt>http://www.grisbi.org/bugsreports/</tt>.  "
 msgstr ""
-"Prosím nahlaste tento problém na <tt>http://www.grisbi.org/bugtracking/</tt>."
+"Prosím nahlaste tento problém na <tt>http://www.grisbi.org/bugsreports/</tt>."
 
 #: ../src/erreur.c:235
 msgid "Copy and paste the following backtrace with your bug report."

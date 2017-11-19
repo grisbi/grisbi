@@ -2018,10 +2018,10 @@ msgstr "Το Grisbi έκανε ένα εφεδρικό αρχείο '%s'."
 #: ../src/erreur.c:229
 #, fuzzy
 msgid ""
-"Please report this problem to <tt>http://www.grisbi.org/bugtracking/</tt>.  "
+"Please report this problem to <tt>http://www.grisbi.org/bugsreports/</tt>.  "
 msgstr ""
 "Παρακαλώ αναφέρετε αυτό το πρόβλημα στην σελίδα <tt>http://www.grisbi.org/"
-"bugtracking/</tt>.  "
+"bugsreports/</tt>.  "
 
 #: ../src/erreur.c:235
 msgid "Copy and paste the following backtrace with your bug report."

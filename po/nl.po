@@ -2012,9 +2012,9 @@ msgstr "Grisbi maakt zijn reservebestand in '%s'."
 #: ../src/erreur.c:229
 #, fuzzy
 msgid ""
-"Please report this problem to <tt>http://www.grisbi.org/bugtracking/</tt>.  "
+"Please report this problem to <tt>http://www.grisbi.org/bugsreports/</tt>.  "
 msgstr ""
-"Maak a.u.b. melding van dit probleem via http://www.grisbi.org/bugtracking/"
+"Maak a.u.b. melding van dit probleem via http://www.grisbi.org/bugsreports/"
 
 #: ../src/erreur.c:235
 msgid "Copy and paste the following backtrace with your bug report."

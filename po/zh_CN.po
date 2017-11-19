@@ -1986,8 +1986,8 @@ msgstr "Grisbi在 '%s'生成了一个备份文件。"
 #: ../src/erreur.c:229
 #, fuzzy
 msgid ""
-"Please report this problem to <tt>http://www.grisbi.org/bugtracking/</tt>.  "
-msgstr "请到 http://www.grisbi.org/bugtracking/报告错误"
+"Please report this problem to <tt>http://www.grisbi.org/bugsreports/</tt>.  "
+msgstr "请到 http://www.grisbi.org/bugsreports/报告错误"
 
 #: ../src/erreur.c:235
 msgid "Copy and paste the following backtrace with your bug report."

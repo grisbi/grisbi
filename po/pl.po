@@ -1991,8 +1991,8 @@ msgstr "Program wykonał kopię bezpieczeństwa w '%s'."
 #: ../src/erreur.c:229
 #, fuzzy
 msgid ""
-"Please report this problem to <tt>http://www.grisbi.org/bugtracking/</tt>.  "
-msgstr "Proszę zgłosić ten problem do http://www.grisbi.org/bugtracking/"
+"Please report this problem to <tt>http://www.grisbi.org/bugsreports/</tt>.  "
+msgstr "Proszę zgłosić ten problem do http://www.grisbi.org/bugsreports/"
 
 #: ../src/erreur.c:235
 msgid "Copy and paste the following backtrace with your bug report."
