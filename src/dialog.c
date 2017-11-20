@@ -356,7 +356,7 @@ GtkDialog *dialogue_conditional_new ( gchar *text,
 
     vbox = gtk_dialog_get_content_area ( GTK_DIALOG ( dialog ) );
 
-    checkbox = gtk_check_button_new_with_label ( _("Do not show this message again") );
+    checkbox = gtk_check_button_new_with_label (_("Keep this choice permanently?"));
     g_signal_connect ( G_OBJECT ( checkbox ), "toggled",
                         G_CALLBACK ( dialogue_update_var ), GINT_TO_POINTER ( i ) );
     gtk_box_pack_start ( GTK_BOX ( vbox ), checkbox, TRUE, TRUE, 6 );
