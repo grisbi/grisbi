@@ -1061,11 +1061,13 @@ gboolean gsb_scheduler_list_redraw ( void )
 gboolean gsb_scheduler_list_append_new_scheduled ( gint scheduled_number,
                         GDate *end_date )
 {
+	GDate *tmp_date;
     GDate *pGDateCurrent;
     gint virtual_transaction = 0;
     GtkTreeIter *mother_iter = NULL;
     const gchar *line[SCHEDULER_COL_VISIBLE_COLUMNS];
     gint mother_scheduled_number;
+	gint fixed_date = 0;
 
     /* devel_debug_int (scheduled_number); */
     if ( !tree_model_scheduler_list )
@@ -1088,7 +1090,13 @@ gboolean gsb_scheduler_list_append_new_scheduled ( gint scheduled_number,
         gsb_scheduler_list_update_white_child ( white_line_number, mother_scheduled_number );
     }
 
-    pGDateCurrent = gsb_date_copy ( gsb_data_scheduled_get_date ( scheduled_number ) );
+	/* set the good date */
+	tmp_date = gsb_data_scheduled_get_date (scheduled_number);
+	fixed_date = gsb_data_scheduled_get_fixed_date (scheduled_number);
+	if (fixed_date)
+			pGDateCurrent = gsb_date_copy (gsb_date_get_last_day_of_month (tmp_date));
+	else
+			pGDateCurrent = gsb_date_copy (tmp_date);
 
     /* fill the text line */
     gsb_scheduler_list_fill_transaction_text ( scheduled_number, line );

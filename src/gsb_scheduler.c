@@ -140,6 +140,8 @@ GDate *gsb_scheduler_get_next_date ( gint scheduled_number,
 				     const GDate *date )
 {
     GDate *return_date;
+	gint fixed_date;
+	gboolean last_day;
 
     if ( !scheduled_number
 	 ||
@@ -150,8 +152,12 @@ GDate *gsb_scheduler_get_next_date ( gint scheduled_number,
 	 !g_date_valid (date))
 	return NULL;
 
-    /* we don't change the initial date */
+	/* we don't change the initial date */
     return_date = gsb_date_copy (date);
+
+	/* initialise les données pour fixed date */
+	last_day = g_date_is_last_of_month (date);
+	fixed_date = gsb_data_scheduled_get_fixed_date (scheduled_number);
 
     switch (gsb_data_scheduled_get_frequency (scheduled_number))
     {
@@ -169,10 +175,34 @@ GDate *gsb_scheduler_get_next_date ( gint scheduled_number,
 
 	case SCHEDULER_PERIODICITY_MONTH_VIEW:
 	    g_date_add_months ( return_date, 1 );
+		/* set the correct date if necessary */
+		if (last_day && fixed_date)
+		{
+			if (!g_date_is_last_of_month (return_date))
+			{
+				GDate *tmp_date;
+
+				tmp_date = return_date;
+				return_date = gsb_date_copy (gsb_date_get_last_day_of_month (tmp_date));
+				g_date_free (tmp_date);
+			}
+		}
 	    break;
 
 	case SCHEDULER_PERIODICITY_TWO_MONTHS_VIEW:
 	    g_date_add_months ( return_date, 2 );
+		/* set the correct date if necessary */
+		if (last_day && fixed_date)
+		{
+			if (!g_date_is_last_of_month (return_date))
+			{
+				GDate *tmp_date;
+
+				tmp_date = return_date;
+				return_date = gsb_date_copy (gsb_date_get_last_day_of_month (tmp_date));
+				g_date_free (tmp_date);
+			}
+		}
 	    break;
 
 	case SCHEDULER_PERIODICITY_TRIMESTER_VIEW:
@@ -210,6 +240,18 @@ GDate *gsb_scheduler_get_next_date ( gint scheduled_number,
 		case PERIODICITY_MONTHS:
 		    g_date_add_months ( return_date,
 					gsb_data_scheduled_get_user_entry (scheduled_number));
+			/* set the correct date if necessary */
+			if (last_day && fixed_date)
+			{
+				if (!g_date_is_last_of_month (return_date))
+				{
+					GDate *tmp_date;
+
+					tmp_date = return_date;
+					return_date = gsb_date_copy (gsb_date_get_last_day_of_month (tmp_date));
+					g_date_free (tmp_date);
+				}
+			}
 		    break;
 
 		case PERIODICITY_YEARS:
@@ -248,17 +290,32 @@ GDate *gsb_scheduler_get_next_date ( gint scheduled_number,
 gint gsb_scheduler_create_transaction_from_scheduled_transaction ( gint scheduled_number,
 								   gint transaction_mother )
 {
+	GDate *date;
+	GDate *tmp_date;
     gint transaction_number, payment_number;
     gint account_number;
+	gint fixed_date;
+	gboolean last_day;
 
     account_number = gsb_data_scheduled_get_account_number (scheduled_number);
 
     transaction_number = gsb_data_transaction_new_transaction (account_number);
 
-    /* begin to fill the new transaction */
-    gsb_data_transaction_set_date ( transaction_number,
-				    gsb_date_copy (gsb_data_scheduled_get_date (scheduled_number)));
-    gsb_data_transaction_set_party_number ( transaction_number,
+	/* initialise les données pour fixed date */
+	tmp_date = gsb_data_scheduled_get_date (scheduled_number);
+	last_day = g_date_is_last_of_month (tmp_date);
+	fixed_date = gsb_data_scheduled_get_fixed_date (scheduled_number);
+
+	/* begin to fill the new transaction */
+	/* Set the correct date if necessary */
+	if (last_day && fixed_date == 2)
+		date = gsb_date_copy (gsb_date_get_last_banking_day_of_month (tmp_date));
+	else
+		date = gsb_date_copy (tmp_date);
+    gsb_data_transaction_set_date (transaction_number, date);
+	g_date_free (date);
+
+	gsb_data_transaction_set_party_number ( transaction_number,
 					    gsb_data_scheduled_get_party_number (scheduled_number));
     gsb_data_transaction_set_amount ( transaction_number,
 				      gsb_data_scheduled_get_amount (scheduled_number));

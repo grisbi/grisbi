@@ -155,6 +155,36 @@ static GDate *save_form_date;
 
 static gchar *save_entry;
 
+/******************************************************************************/
+/* Private Methods                                                            */
+/******************************************************************************/
+/**
+ * set fixed date if available for the scheduled transaction
+ *
+ * \param	transaction_number
+ * \param	date
+ *
+ * \return
+ **/
+ static void gsb_form_set_fixed_date_if_necessary (gint scheduled_number,
+												   GDate *date)
+ {
+	if (g_date_is_last_of_month (date))
+	{
+		gint fixed_date;
+
+		if (etat.scheduler_set_fixed_date)
+			fixed_date = etat.scheduler_default_fixed_date;
+		else
+			fixed_date = gsb_form_scheduler_get_last_day_of_month_dialog (scheduled_number, date);
+
+		gsb_data_scheduled_set_fixed_date (scheduled_number, fixed_date);
+	}
+ }
+
+/******************************************************************************/
+/* Public Methods                                                             */
+/******************************************************************************/
 /**
  * the value transaction_form is static,
  * that function return it
@@ -2728,6 +2758,10 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
         if ( save_form_date )
             g_date_free ( save_form_date );
         save_form_date = gsb_date_copy ( gsb_calendar_entry_get_date ( date_widget ) );
+		if (!is_transaction)
+		{
+			gsb_form_set_fixed_date_if_necessary (transaction_number, save_form_date);
+		}
     }
 
     /* work with value date */

@@ -39,6 +39,8 @@ gboolean 	gsb_form_scheduler_entry_lose_focus 				(GtkWidget *entry,
 gboolean 	gsb_form_scheduler_free_list 						(void);
 gint 		gsb_form_scheduler_get_account 						(void);
 GtkWidget *	gsb_form_scheduler_get_element_widget 				(gint element_number);
+gint 		gsb_form_scheduler_get_last_day_of_month_dialog 	(gint scheduled_number,
+																 GDate *date);
 gboolean 	gsb_form_scheduler_get_scheduler_part 				(gint scheduled_number);
 gboolean 	gsb_form_scheduler_recover_splits_of_transaction 	(gint scheduled_transaction,
 																 gint transaction_number);

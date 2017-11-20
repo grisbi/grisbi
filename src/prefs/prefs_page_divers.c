@@ -62,12 +62,16 @@ struct _PrefsPageDiversPrivate
 	GtkWidget *         hbox_divers_scheduler_set_default_account;
 	GtkWidget *			checkbutton_scheduler_set_default_account;
 	GtkWidget *			eventbox_scheduler_set_default_account;
+	GtkWidget *         hbox_divers_scheduler_set_fixed_date;
+	GtkWidget *			checkbutton_scheduler_set_fixed_date;
+	GtkWidget *			eventbox_scheduler_set_fixed_date;
+	GtkWidget *         gtkcombobox_scheduler_fixed_date;
 	GtkWidget *         hbox_divers_scheduler_set_fixed_day;
 	GtkWidget *			checkbutton_scheduler_set_fixed_day;
 	GtkWidget *			eventbox_scheduler_set_fixed_day;
-    GtkWidget *         spinbutton_nb_days_before_scheduled;
 	GtkWidget *         spinbutton_scheduler_fixed_day;
-
+	GtkWidget *			hbox_divers_scheduler_nb_days_before_scheduled;
+    GtkWidget *         spinbutton_nb_days_before_scheduled;
 	GtkWidget *			box_divers_localisation;
 };
 
@@ -119,6 +123,31 @@ static gboolean prefs_page_divers_scheduler_warm_button_changed (GtkWidget *chec
  *
  * \return
  **/
+static gboolean prefs_page_divers_scheduler_set_fixed_date_changed (GtkWidget *checkbutton,
+																	GtkWidget *widget)
+{
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton)))
+	{
+		gtk_widget_set_sensitive (GTK_WIDGET (widget), TRUE);
+	}
+	else
+	{
+		gtk_combo_box_set_active (GTK_COMBO_BOX (widget), 0);
+		etat.scheduler_default_fixed_date = 0;
+		gtk_widget_set_sensitive (GTK_WIDGET (widget), FALSE);
+	}
+
+    return FALSE;
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
 static gboolean prefs_page_divers_scheduler_set_fixed_day_changed (GtkWidget *checkbutton,
 																   GtkWidget *widget)
 {
@@ -128,6 +157,20 @@ static gboolean prefs_page_divers_scheduler_set_fixed_day_changed (GtkWidget *ch
 		gtk_widget_set_sensitive (GTK_WIDGET (widget), FALSE);
 
     return FALSE;
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void prefs_page_divers_scheduler_default_fixed_day_changed (GtkComboBox *widget,
+																   gpointer     user_data)
+{
+	etat.scheduler_default_fixed_date = gtk_combo_box_get_active (GTK_COMBO_BOX (widget));
 }
 
 /**
@@ -155,7 +198,7 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page)
 {
 	GtkWidget *head_page;
 	GtkWidget *entry_divers_programs;
-    GtkWidget *button;
+    GtkWidget *vbox_button;
     GtkWidget *combo;
 	PrefsPageDiversPrivate *priv;
 
@@ -173,17 +216,41 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page)
 	gtk_grid_attach (GTK_GRID (priv->grid_divers_programs), entry_divers_programs, 1, 0, 1, 1);
 
 	/* set the scheduled variables */
-	button = utils_prefs_automem_radiobutton_blue_new (_("Warn/Execute the scheduled transactions arriving at expiration date"),
-													   _("Warn/Execute the scheduled transactions of the month"),
-													   &conf.execute_scheduled_of_month,
-													   (GCallback) prefs_page_divers_scheduler_warm_button_changed,
-													   page);
-	gtk_box_pack_start (GTK_BOX (priv->vbox_divers_scheduler), button, FALSE, FALSE, 0);
-	gtk_box_reorder_child (GTK_BOX (priv->vbox_divers_scheduler), button, 0);
+	vbox_button = utils_prefs_automem_radiobutton_blue_new (_("Warn/Execute the scheduled transactions arriving at expiration date"),
+															_("Warn/Execute the scheduled transactions of the month"),
+															&conf.execute_scheduled_of_month,
+															(GCallback) prefs_page_divers_scheduler_warm_button_changed,
+															page);
+
+	gtk_box_pack_start (GTK_BOX (vbox_button), priv->hbox_divers_scheduler_nb_days_before_scheduled, FALSE, FALSE, 0);
+	gtk_box_reorder_child (GTK_BOX (vbox_button), priv->hbox_divers_scheduler_nb_days_before_scheduled, 1);
+	gtk_box_pack_start (GTK_BOX (priv->vbox_divers_scheduler), vbox_button, FALSE, FALSE, 0);
+	gtk_box_reorder_child (GTK_BOX (priv->vbox_divers_scheduler), vbox_button, 0);
 
 	/* initialise le bouton nombre de jours avant alerte execution */
 	if (conf.execute_scheduled_of_month)
 		gtk_widget_set_sensitive (GTK_WIDGET (priv->spinbutton_nb_days_before_scheduled), FALSE);
+
+	/* Adding set fixed date */
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_scheduler_set_fixed_date),
+								  etat.scheduler_set_fixed_date);
+	if (!etat.scheduler_set_fixed_date)
+		gtk_widget_set_sensitive (GTK_WIDGET (priv->gtkcombobox_scheduler_fixed_date), FALSE);
+
+    g_signal_connect (priv->eventbox_scheduler_set_fixed_date,
+					  "button-press-event",
+					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
+					  priv->checkbutton_scheduler_set_fixed_date);
+
+    g_signal_connect (priv->checkbutton_scheduler_set_fixed_date,
+					  "toggled",
+					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
+					  &etat.scheduler_set_fixed_date);
+
+	g_signal_connect_after (G_OBJECT (priv->checkbutton_scheduler_set_fixed_date),
+							"toggled",
+							G_CALLBACK (prefs_page_divers_scheduler_set_fixed_date_changed),
+							priv->gtkcombobox_scheduler_fixed_date);
 
 	/* Adding set fixed day */
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_scheduler_set_fixed_day),
@@ -253,6 +320,15 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page)
 					  G_CALLBACK (utils_prefs_spinbutton_changed),
 					  &conf.nb_days_before_scheduled);
 
+	/* gtkcombobox_scheduler_fixed_date */
+	gtk_combo_box_set_active (GTK_COMBO_BOX (priv->gtkcombobox_scheduler_fixed_date), etat.scheduler_default_fixed_date);
+
+    /* callback for gtkcombobox_scheduler_fixed_date */
+    g_signal_connect (priv->gtkcombobox_scheduler_fixed_date,
+					  "changed",
+					  G_CALLBACK (prefs_page_divers_scheduler_default_fixed_day_changed),
+					  NULL);
+
 	/* set spinbutton_scheduler_fixed_day */
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (priv->spinbutton_scheduler_fixed_day),
 							   conf.scheduler_fixed_day);
@@ -298,11 +374,16 @@ static void prefs_page_divers_class_init (PrefsPageDiversClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, hbox_divers_scheduler_set_default_account);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, checkbutton_scheduler_set_default_account);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, eventbox_scheduler_set_default_account);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, hbox_divers_scheduler_set_fixed_date);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, checkbutton_scheduler_set_fixed_date);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, eventbox_scheduler_set_fixed_date);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, gtkcombobox_scheduler_fixed_date);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, hbox_divers_scheduler_set_fixed_day);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, checkbutton_scheduler_set_fixed_day);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, eventbox_scheduler_set_fixed_day);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, spinbutton_nb_days_before_scheduled);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, spinbutton_scheduler_fixed_day);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, hbox_divers_scheduler_nb_days_before_scheduled);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, spinbutton_nb_days_before_scheduled);
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, box_divers_localisation);
 }
