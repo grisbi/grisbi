@@ -154,6 +154,8 @@ struct _GrisbiWinEtat
     gint affichage_echeances_perso_j_m_a;       /* type de périodicité des échéances personnalisées */
 	gboolean scheduler_set_default_account;		/* set default account for the scheduled form */
 	gint scheduler_default_account_number;		/* default account number for the scheduled form */
+	gboolean scheduler_set_fixed_date;			/* set fixed date for the scheduled form */
+	gint scheduler_default_fixed_date;			/* default fixed date for the scheduled form */
 
     /* variables pour les metatree */
     gint metatree_sort_transactions;        /* 1 = sorting by increasing date 2 = Sort by date descending */
