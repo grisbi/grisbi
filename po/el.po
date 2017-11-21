@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Grisbi 0.5.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-04 22:54+0200\n"
+"POT-Creation-Date: 2017-11-21 09:06+0100\n"
 "PO-Revision-Date: 2009-04-13 14:53+0200\n"
 "Last-Translator: \n"
 "Language-Team: KASKAS <ttnfy17@yahoo.gr>\n"
@@ -100,12 +100,12 @@ msgstr ""
 msgid "Enter a scheduled transaction"
 msgstr "Εισάγετε μια σχεδιασμένη συναλλαγή"
 
-#: ../src/accueil.c:1380 ../src/accueil.c:1504 ../src/accueil.c:2110
+#: ../src/accueil.c:1380 ../src/accueil.c:1504 ../src/accueil.c:2112
 #, c-format
 msgid "%s credited on %s"
 msgstr "%s πιστωμένος %s"
 
-#: ../src/accueil.c:1390 ../src/accueil.c:1514 ../src/accueil.c:2114
+#: ../src/accueil.c:1390 ../src/accueil.c:1514 ../src/accueil.c:2116
 #, c-format
 msgid "%s debited on %s"
 msgstr "%s χρεωμένος %s"
@@ -142,14 +142,14 @@ msgstr "Λογαριασμοί κάτω από την εξουσιοδοτημέ
 msgid "Accounts under desired balance"
 msgstr "Λογαριασμοί κάτω από την επιθυμητή ισορροπία"
 
-#: ../src/accueil.c:1957
+#: ../src/accueil.c:1959
 #, c-format
 msgid "balance of account %s is under desired and authorised minima!"
 msgstr ""
 "η ισορροπία του απολογισμού %s είναι κάτω από τα επιθυμητά και "
 "εξουσιοδοτημένα ελάχιστα!"
 
-#: ../src/accueil.c:1961
+#: ../src/accueil.c:1963
 #, fuzzy
 msgid ""
 "accounts with the balance under desired and authorised minimal:\n"
@@ -159,13 +159,13 @@ msgstr ""
 "ελάχιστο :\n"
 "\n"
 
-#: ../src/accueil.c:1990
+#: ../src/accueil.c:1992
 #, c-format
 msgid "balance of account %s is under authorised minimum!"
 msgstr ""
 "η ισορροπία του λογαριασμού %s είναι κάτω από το εξουσιοδοτημένο ελάχιστο!"
 
-#: ../src/accueil.c:2000
+#: ../src/accueil.c:2002
 #, fuzzy
 msgid ""
 "accounts with the balance under authorised minimal:\n"
@@ -174,12 +174,12 @@ msgstr ""
 "Λογαριασμοί με την ισορροπία κάτω από εξουσιοδοτημένο ελάχιστο: :\n"
 "\n"
 
-#: ../src/accueil.c:2032
+#: ../src/accueil.c:2034
 #, c-format
 msgid "balance of account %s is under desired minimum!"
 msgstr "η ισορροπία του λογαριασμού %s είναι κάτω από το επιθυμητό ελάχιστο!"
 
-#: ../src/accueil.c:2042
+#: ../src/accueil.c:2044
 #, fuzzy
 msgid ""
 "accounts with the balance under desired minimal:\n"
@@ -529,7 +529,7 @@ msgstr "Κατηγορία"
 #: ../src/bet_config.c:955 ../src/bet_future.c:790 ../src/bet_future.c:2361
 #: ../src/bet_future.c:2523 ../src/bet_future.c:2793 ../src/bet_future.c:2866
 #: ../src/bet_hist.c:1638 ../src/etats_affiche.c:2467
-#: ../src/etats_config.c:2884 ../src/gsb_form.c:1266
+#: ../src/etats_config.c:2884 ../src/gsb_form.c:1296
 #: ../src/gsb_form_widget.c:495 ../src/gsb_transactions_list.c:170
 #: ../src/imputation_budgetaire.c:182 ../src/meta_budgetary.c:64
 msgid "Budgetary line"
@@ -773,10 +773,11 @@ msgstr "Φόρτωση λογαριασμών:"
 #. 1
 #: ../src/bet_finance_ui.c:1178 ../src/bet_future.c:744 ../src/bet_tab.c:848
 #: ../src/etats_affiche.c:2432 ../src/export_csv.c:783
-#: ../src/gsb_assistant_reconcile_config.c:590 ../src/gsb_form.c:1221
+#: ../src/gsb_assistant_reconcile_config.c:590 ../src/gsb_form.c:1251
 #: ../src/gsb_form_widget.c:463 ../src/gsb_reconcile.c:165
 #: ../src/gsb_scheduler_list.c:602 ../src/gsb_transactions_list.c:167
-#: ../src/import.c:3728 ../src/import_csv.c:69 ../src/ui/etats_prefs.ui.h:9
+#: ../src/import.c:1790 ../src/import.c:3752 ../src/import_csv.c:69
+#: ../src/ui/etats_prefs.ui.h:9
 msgid "Date"
 msgstr "Ημερομηνία"
 
@@ -821,13 +822,13 @@ msgstr "Έναρξη:"
 #. création du bouton print
 #. print button
 #: ../src/bet_finance_ui.c:1812 ../src/bet_hist.c:1944 ../src/bet_tab.c:2924
-#: ../src/etats_onglet.c:508 ../src/gsb_transactions_list.c:379
+#: ../src/etats_onglet.c:508 ../src/gsb_transactions_list.c:388
 msgid "Print"
 msgstr "Εκτύπωση"
 
 #. Export button
 #: ../src/bet_finance_ui.c:1821 ../src/bet_hist.c:1953 ../src/bet_tab.c:2933
-#: ../src/categories_onglet.c:587 ../src/etats_onglet.c:498 ../src/export.c:204
+#: ../src/categories_onglet.c:587 ../src/etats_onglet.c:498 ../src/export.c:324
 #: ../src/imputation_budgetaire.c:625
 msgid "Export"
 msgstr "Εξαγωγή"
@@ -875,84 +876,84 @@ msgid "Enter a budget line"
 msgstr "Κονδύλια του εισοδηματικού προϋπολογισμού"
 
 #: ../src/bet_future.c:338 ../src/bet_future.c:829
-#: ../src/gsb_form_scheduler.c:138 ../src/gsb_form_scheduler.c:878
-#: ../src/gsb_scheduler_list.c:1387
+#: ../src/gsb_form_scheduler.c:164 ../src/gsb_form_scheduler.c:900
+#: ../src/gsb_scheduler_list.c:1395
 msgid "Once"
 msgstr "Μόλις"
 
-#: ../src/bet_future.c:338 ../src/gsb_form_scheduler.c:138
-#: ../src/gsb_scheduler_list.c:1387
+#: ../src/bet_future.c:338 ../src/gsb_form_scheduler.c:164
+#: ../src/gsb_scheduler_list.c:1395
 msgid "Weekly"
 msgstr "Εβδομαδιαίος"
 
-#: ../src/bet_future.c:338 ../src/gsb_form_scheduler.c:138
-#: ../src/gsb_scheduler_list.c:1387
+#: ../src/bet_future.c:338 ../src/gsb_form_scheduler.c:164
+#: ../src/gsb_scheduler_list.c:1395
 msgid "Monthly"
 msgstr "Μηνιαία"
 
-#: ../src/bet_future.c:338 ../src/gsb_form_scheduler.c:138
-#: ../src/gsb_scheduler_list.c:1388
+#: ../src/bet_future.c:338 ../src/gsb_form_scheduler.c:164
+#: ../src/gsb_scheduler_list.c:1396
 msgid "Bimonthly"
 msgstr "Διμηνιαία"
 
-#: ../src/bet_future.c:339 ../src/gsb_form_scheduler.c:139
-#: ../src/gsb_scheduler_list.c:1388
+#: ../src/bet_future.c:339 ../src/gsb_form_scheduler.c:165
+#: ../src/gsb_scheduler_list.c:1396
 msgid "Quarterly"
 msgstr "Τριμηνιαία"
 
-#: ../src/bet_future.c:339 ../src/gsb_form_scheduler.c:139
-#: ../src/gsb_scheduler_list.c:1388
+#: ../src/bet_future.c:339 ../src/gsb_form_scheduler.c:165
+#: ../src/gsb_scheduler_list.c:1396
 msgid "Yearly"
 msgstr "Ετήσια"
 
 #: ../src/bet_future.c:339 ../src/bet_future.c:843
-#: ../src/etats_prefs_private.h:16 ../src/gsb_form_scheduler.c:139
-#: ../src/gsb_form_scheduler.c:888
+#: ../src/etats_prefs_private.h:16 ../src/gsb_form_scheduler.c:165
+#: ../src/gsb_form_scheduler.c:910
 msgid "Custom"
 msgstr "Συνήθεια"
 
-#: ../src/bet_future.c:340 ../src/gsb_form_scheduler.c:140
+#: ../src/bet_future.c:340 ../src/gsb_form_scheduler.c:166
 msgid "Days"
 msgstr "Ημέρες"
 
-#: ../src/bet_future.c:340 ../src/gsb_form_scheduler.c:140
+#: ../src/bet_future.c:340 ../src/gsb_form_scheduler.c:166
 msgid "Weeks"
 msgstr "Εβδομάδες"
 
-#: ../src/bet_future.c:340 ../src/gsb_form_scheduler.c:140
+#: ../src/bet_future.c:340 ../src/gsb_form_scheduler.c:166
 msgid "Months"
 msgstr "Μήνες"
 
-#: ../src/bet_future.c:340 ../src/gsb_form_scheduler.c:140
+#: ../src/bet_future.c:340 ../src/gsb_form_scheduler.c:166
 msgid "Years"
 msgstr "Χρόνια"
 
-#: ../src/bet_future.c:355 ../src/gsb_form_scheduler.c:171
+#: ../src/bet_future.c:355 ../src/gsb_form_scheduler.c:197
 #: ../src/gsb_scheduler_list.c:602
 msgid "Frequency"
 msgstr "Συχνότητα"
 
 #: ../src/bet_future.c:364 ../src/bet_future.c:705
-#: ../src/gsb_form_scheduler.c:189 ../src/gsb_form_scheduler.c:644
-#: ../src/gsb_form_scheduler.c:837 ../src/gsb_form_scheduler.c:1099
+#: ../src/gsb_form_scheduler.c:215 ../src/gsb_form_scheduler.c:666
+#: ../src/gsb_form_scheduler.c:859 ../src/gsb_form_scheduler.c:1121
 msgid "Limit date"
 msgstr "Ημερομηνία ορίου"
 
 #: ../src/bet_future.c:381 ../src/gsb_assistant_archive_export.c:153
 #: ../src/gsb_assistant_reconcile_config.c:1224
-#: ../src/gsb_reconcile_config.c:123 ../src/gsb_transactions_list.c:2103
+#: ../src/gsb_reconcile_config.c:123 ../src/gsb_transactions_list.c:2112
 #: ../src/prefs/prefs_page_archives.c:460
 msgid "Final date"
 msgstr "Τελική ημερομηνία"
 
 #: ../src/bet_future.c:389 ../src/bet_future.c:709
-#: ../src/gsb_form_scheduler.c:202 ../src/gsb_form_scheduler.c:651
-#: ../src/gsb_form_scheduler.c:843
+#: ../src/gsb_form_scheduler.c:228 ../src/gsb_form_scheduler.c:673
+#: ../src/gsb_form_scheduler.c:865
 msgid "Own frequency"
 msgstr "Συχνότητα"
 
 #: ../src/bet_future.c:403 ../src/bet_future.c:414
-#: ../src/gsb_form_scheduler.c:208
+#: ../src/gsb_form_scheduler.c:234
 msgid "Custom frequency"
 msgstr "Συχνότητα συνήθειας"
 
@@ -971,15 +972,15 @@ msgstr "Επιλέξτε τη μέθοδο πληρωμής"
 #: ../src/etats_affiche.c:2453 ../src/etats_config.c:2892
 #: ../src/etats_prefs.c:671 ../src/export_csv.c:798
 #: ../src/fenetre_principale.c:140 ../src/gsb_assistant_reconcile_config.c:590
-#: ../src/gsb_form.c:1242 ../src/gsb_form_widget.c:483
+#: ../src/gsb_form.c:1272 ../src/gsb_form_widget.c:483
 #: ../src/gsb_scheduler_list.c:602 ../src/gsb_transactions_list.c:169
-#: ../src/import.c:3735 ../src/import_csv.c:71 ../src/meta_payee.c:78
+#: ../src/import.c:3759 ../src/import_csv.c:71 ../src/meta_payee.c:78
 #: ../src/ui/etats_prefs.ui.h:50
 msgid "Payee"
 msgstr "Δικαιούχος πληρωμής"
 
 #: ../src/bet_future.c:769 ../src/bet_tab.c:882 ../src/categories_onglet.c:781
-#: ../src/export_csv.c:804 ../src/gsb_form.c:1247 ../src/gsb_form_widget.c:467
+#: ../src/export_csv.c:804 ../src/gsb_form.c:1277 ../src/gsb_form_widget.c:467
 #: ../src/gsb_payment_method_config.c:107
 #: ../src/gsb_payment_method_config.c:332
 #: ../src/gsb_payment_method_config.c:1040 ../src/gsb_transactions_list.c:171
@@ -989,7 +990,7 @@ msgstr "Χρέωση"
 
 #. 11
 #: ../src/bet_future.c:776 ../src/bet_tab.c:900 ../src/categories_onglet.c:781
-#: ../src/export_csv.c:801 ../src/gsb_form.c:1252 ../src/gsb_form_widget.c:471
+#: ../src/export_csv.c:801 ../src/gsb_form.c:1282 ../src/gsb_form_widget.c:471
 #: ../src/gsb_payment_method_config.c:108
 #: ../src/gsb_payment_method_config.c:345
 #: ../src/gsb_payment_method_config.c:1036 ../src/gsb_transactions_list.c:172
@@ -998,7 +999,7 @@ msgid "Credit"
 msgstr "Πίστωση"
 
 #: ../src/bet_future.c:783 ../src/bet_future.c:2334 ../src/bet_future.c:2497
-#: ../src/bet_future.c:2778 ../src/bet_future.c:2848 ../src/gsb_form.c:1258
+#: ../src/bet_future.c:2778 ../src/bet_future.c:2848 ../src/gsb_form.c:1288
 #: ../src/gsb_form_widget.c:487
 msgid "Categories : Sub-categories"
 msgstr "Κατηγορίες :Υποκατηγορίες"
@@ -1007,7 +1008,7 @@ msgstr "Κατηγορίες :Υποκατηγορίες"
 #. Display/hide comments
 #. 4
 #: ../src/bet_future.c:797 ../src/etats_affiche.c:2474 ../src/export_csv.c:819
-#: ../src/gsb_bank.c:869 ../src/gsb_form.c:1271 ../src/gsb_form_widget.c:499
+#: ../src/gsb_bank.c:869 ../src/gsb_form.c:1301 ../src/gsb_form_widget.c:499
 #: ../src/gsb_scheduler_list.c:429 ../src/gsb_scheduler_list.c:603
 #: ../src/gsb_scheduler_list.c:889 ../src/gsb_transactions_list.c:181
 #: ../src/import_csv.c:72
@@ -1022,8 +1023,8 @@ msgstr "Σημειώσεις"
 #: ../src/etats_affiche.c:1871 ../src/export_csv.c:624 ../src/export_csv.c:736
 #: ../src/export_csv.c:748 ../src/gsb_data_category.c:1057
 #: ../src/gsb_data_payment.c:635 ../src/gsb_data_payment.c:719
-#: ../src/gsb_data_payment.c:758 ../src/gsb_form.c:2232 ../src/import.c:2379
-#: ../src/import.c:2397 ../src/plugins/ofx/ofx.c:393
+#: ../src/gsb_data_payment.c:758 ../src/gsb_form.c:2262 ../src/import.c:2410
+#: ../src/import.c:2428 ../src/plugins/ofx/ofx.c:393
 msgid "Transfer"
 msgstr "Μεταφορά"
 
@@ -1131,19 +1132,19 @@ msgstr ""
 #. Name entry
 #: ../src/bet_future.c:3008 ../src/categories_onglet.c:753
 #: ../src/gsb_assistant_archive_export.c:153 ../src/gsb_fyear_config.c:275
-#: ../src/gsb_transactions_list.c:2103 ../src/imputation_budgetaire.c:790
+#: ../src/gsb_transactions_list.c:2112 ../src/imputation_budgetaire.c:790
 #: ../src/parametres.c:310 ../src/tiers_onglet.c:733
 #: ../src/prefs/prefs_page_archives.c:460
 msgid "Name"
 msgstr "Όνομα"
 
 #. Description entry
-#: ../src/bet_future.c:3017 ../src/categories_onglet.c:777 ../src/import.c:1624
-#: ../src/import.c:1754 ../src/imputation_budgetaire.c:814
+#: ../src/bet_future.c:3017 ../src/categories_onglet.c:777 ../src/import.c:1776
+#: ../src/imputation_budgetaire.c:814
 msgid "Type"
 msgstr "Τύπος"
 
-#: ../src/bet_future.c:3167 ../src/gsb_data_scheduled.c:1816
+#: ../src/bet_future.c:3167 ../src/gsb_data_scheduled.c:1737
 msgid ""
 "Error: is missing one or more links between currencies.\n"
 "You need to fix it and start over."
@@ -1284,7 +1285,7 @@ msgstr ""
 "</span>\n"
 "\n"
 
-#: ../src/bet_graph.c:501 ../src/bet_graph.c:739 ../src/bet_graph.c:2340
+#: ../src/bet_graph.c:501 ../src/bet_graph.c:739 ../src/bet_graph.c:2343
 msgid "Graph"
 msgstr ""
 
@@ -1345,21 +1346,21 @@ msgstr "Στήλες"
 msgid "Line"
 msgstr ""
 
-#: ../src/bet_graph.c:2200
+#: ../src/bet_graph.c:2203
 #, fuzzy, c-format
 msgid "Amounts %s - %s for the account: '%s'"
 msgstr "Νόμισμα για τον λογαριασμό.:"
 
-#: ../src/bet_graph.c:2213
+#: ../src/bet_graph.c:2216
 #, fuzzy, c-format
 msgid "Monthly amounts since %s for the account: '%s'"
 msgstr "Νόμισμα για τον λογαριασμό.:"
 
-#: ../src/bet_graph.c:2353
+#: ../src/bet_graph.c:2356
 msgid "Expenses"
 msgstr ""
 
-#: ../src/bet_graph.c:2374 ../src/etats_affiche.c:2322
+#: ../src/bet_graph.c:2377 ../src/etats_affiche.c:2322
 msgid "Incomes"
 msgstr "Εισοδήματα"
 
@@ -1374,7 +1375,7 @@ msgstr "Επιλέξτε"
 #: ../src/etats_affiche.c:2515 ../src/etats_prefs.c:2124
 #: ../src/export_csv.c:807 ../src/gsb_assistant_reconcile_config.c:590
 #: ../src/gsb_scheduler_list.c:603 ../src/gsb_transactions_list.c:174
-#: ../src/import.c:3742 ../src/import_csv.c:78
+#: ../src/import.c:3766 ../src/import_csv.c:78
 #: ../src/imputation_budgetaire.c:202 ../src/tiers_onglet.c:254
 msgid "Amount"
 msgstr "Ποσό"
@@ -1453,8 +1454,8 @@ msgstr ""
 msgid "Start date: "
 msgstr "Έναρξη:"
 
-#: ../src/bet_tab.c:755 ../src/gsb_form_scheduler.c:137
-#: ../src/gsb_scheduler_list.c:1396
+#: ../src/bet_tab.c:755 ../src/gsb_form_scheduler.c:163
+#: ../src/gsb_scheduler_list.c:1404
 msgid "Automatic"
 msgstr "Αυτόματος"
 
@@ -1468,7 +1469,7 @@ msgid "Description"
 msgstr "Περιγραφή"
 
 #: ../src/bet_tab.c:918 ../src/export_csv.c:810 ../src/gsb_reconcile.c:168
-#: ../src/gsb_transactions_list.c:173 ../src/gsb_transactions_list.c:3343
+#: ../src/gsb_transactions_list.c:173 ../src/gsb_transactions_list.c:3356
 msgid "Balance"
 msgstr "Ισορροπία"
 
@@ -1606,7 +1607,7 @@ msgid "Grisbi category files (*.cgsb)"
 msgstr "Αρχεία κατηγορίας Grisbi (*.cgsb)"
 
 #: ../src/categories_onglet.c:474 ../src/etats_onglet.c:414
-#: ../src/file_obfuscate_qif.c:109 ../src/gsb_file.c:553 ../src/import.c:1144
+#: ../src/file_obfuscate_qif.c:109 ../src/gsb_file.c:557 ../src/import.c:1248
 #: ../src/imputation_budgetaire.c:508
 msgid "All files"
 msgstr "Όλα τα αρχεία"
@@ -1672,7 +1673,7 @@ msgstr "Δημιουργήστε μια νέα υποκατηγορία"
 #. Import button
 #: ../src/categories_onglet.c:578 ../src/etats_onglet.c:489
 #: ../src/grisbi_prefs.c:215 ../src/grisbi_prefs.c:282 ../src/grisbi_win.c:562
-#: ../src/import.c:1589 ../src/import.c:1720 ../src/imputation_budgetaire.c:614
+#: ../src/import.c:1742 ../src/imputation_budgetaire.c:614
 #: ../src/utils_files.c:747
 msgid "Import"
 msgstr "Εισαγωγή"
@@ -1690,7 +1691,7 @@ msgstr "Εξάγετε ένα αρχείο κατηγορίας Grisbi (.cgsb)"
 #. Delete button
 #. delete button
 #: ../src/categories_onglet.c:596 ../src/etats_onglet.c:517
-#: ../src/gsb_scheduler_list.c:407 ../src/gsb_transactions_list.c:352
+#: ../src/gsb_scheduler_list.c:407 ../src/gsb_transactions_list.c:361
 #: ../src/imputation_budgetaire.c:635 ../src/tiers_onglet.c:343
 msgid "Delete"
 msgstr "Διαγράψτε"
@@ -1705,7 +1706,7 @@ msgstr "Διαγράψτε την επιλεγμένη κατηγορία"
 #. Button "Edit"
 #. edit button
 #: ../src/categories_onglet.c:608 ../src/gsb_scheduler_list.c:418
-#: ../src/gsb_transactions_list.c:361 ../src/imputation_budgetaire.c:647
+#: ../src/gsb_transactions_list.c:370 ../src/imputation_budgetaire.c:647
 #: ../src/parametres.c:244 ../src/tiers_onglet.c:355
 #: ../src/ui/grisbi_menu.ui.h:47
 msgid "Edit"
@@ -1721,7 +1722,7 @@ msgstr "Επεξεργαστείτε την επιλεγμένη κατηγορ�
 #. View button
 #. Change view mode button
 #: ../src/categories_onglet.c:620 ../src/gsb_scheduler_list.c:449
-#: ../src/gsb_transactions_list.c:388 ../src/imputation_budgetaire.c:659
+#: ../src/gsb_transactions_list.c:397 ../src/imputation_budgetaire.c:659
 #: ../src/tiers_onglet.c:367 ../src/ui/grisbi_menu.ui.h:29
 msgid "View"
 msgstr "Προβολή"
@@ -1739,7 +1740,7 @@ msgstr "Προβολή κατηγορίας"
 msgid "Subcategory view"
 msgstr "Άποψη υποκατηγορίας"
 
-#: ../src/categories_onglet.c:672 ../src/gsb_transactions_list.c:573
+#: ../src/categories_onglet.c:672 ../src/gsb_transactions_list.c:582
 #: ../src/imputation_budgetaire.c:711 ../src/tiers_onglet.c:491
 msgid "Complete view"
 msgstr "Πλήρης άποψη"
@@ -1755,7 +1756,7 @@ msgstr "Ιδιότητες για %s"
 msgid "No sub-category defined"
 msgstr "Υποκατηγορία που καθορίζεται καμία"
 
-#: ../src/categories_onglet.c:727 ../src/qif.c:1019 ../src/qif.c:1026
+#: ../src/categories_onglet.c:727 ../src/qif.c:1054 ../src/qif.c:1063
 msgid "No category defined"
 msgstr "Κατηγορία που καθορίζεται καμία"
 
@@ -1968,11 +1969,16 @@ msgstr ""
 "αρχεία λογιστικής σας. (Η μορφή αρχείου μπορεί να αλλάξει και να καταστήσει "
 "τα αρχεία ασύμβατα με τις προηγούμενες εκδόσεις)."
 
-#: ../src/dialog.c:356 ../src/dialog.c:541 ../src/gsb_scheduler_list.c:2151
+#: ../src/dialog.c:359 ../src/gsb_form_scheduler.c:1295
+#: ../src/gsb_scheduler_list.c:2159
+msgid "Keep this choice permanently?"
+msgstr ""
+
+#: ../src/dialog.c:544
 msgid "Do not show this message again"
 msgstr "Μην παρουσιάστε αυτό το μήνυμα πάλι"
 
-#: ../src/dialog.c:675
+#: ../src/dialog.c:678
 #, fuzzy
 msgid ""
 "Hi, you are in the middle of nowhere, between two lines of code. Grisbi is "
@@ -1981,11 +1987,11 @@ msgstr ""
 "Γεια, είστε στη μέση του πουθενά, μεταξύ δύο γραμμών κώδικα.  Το Grisbi "
 "αναμένεται να κλείσει πολύ σύντομα.  Να έχετε μια συμπαθητική ημέρα."
 
-#: ../src/dialog.c:677
+#: ../src/dialog.c:680
 msgid "Serious brain damage expected."
 msgstr "Σοβαρή ζημία εγκεφάλου αναμενόμενη."
 
-#: ../src/dialog.c:688
+#: ../src/dialog.c:691
 msgid ""
 "Bad things will happen soon.  Be sure to save any modification in a separate "
 "file in case Grisbi would corrupt files."
@@ -1994,28 +2000,28 @@ msgstr ""
 "τροποποίηση σε ένα χωριστό αρχείο σε περίπτωση που Grisbi θα αλλοίωνε τα "
 "αρχεία"
 
-#: ../src/dialog.c:690
+#: ../src/dialog.c:693
 msgid "Cannot allocate memory"
 msgstr "Αδύνατη η διάθεση μνήμης"
 
-#: ../src/erreur.c:181
+#: ../src/erreur.c:182
 msgid "File is corrupted."
 msgstr "Το αρχείο αλλοιώθηκε."
 
-#: ../src/erreur.c:188
+#: ../src/erreur.c:189
 msgid "Error occured saving file."
 msgstr "Εμφανίστηκε ένα λάθος κατά την αποθήκευση του αρχείου."
 
-#: ../src/erreur.c:211
+#: ../src/erreur.c:212
 msgid "Save file"
 msgstr "Αποθήκευση αρχείου"
 
-#: ../src/erreur.c:219
+#: ../src/erreur.c:220
 #, c-format
 msgid "Grisbi made a backup file at '%s'."
 msgstr "Το Grisbi έκανε ένα εφεδρικό αρχείο '%s'."
 
-#: ../src/erreur.c:229
+#: ../src/erreur.c:230
 #, fuzzy
 msgid ""
 "Please report this problem to <tt>http://www.grisbi.org/bugsreports/</tt>.  "
@@ -2023,61 +2029,61 @@ msgstr ""
 "Παρακαλώ αναφέρετε αυτό το πρόβλημα στην σελίδα <tt>http://www.grisbi.org/"
 "bugsreports/</tt>.  "
 
-#: ../src/erreur.c:235
+#: ../src/erreur.c:236
 msgid "Copy and paste the following backtrace with your bug report."
 msgstr "Αντιγράψτε και επικολλήσετε το ίχνος με την αναφορά σας για σφάλματα."
 
-#: ../src/erreur.c:243
+#: ../src/erreur.c:244
 msgid "Grisbi terminated due to a segmentation fault."
 msgstr "Το Grisbi τερματίζεται λόγω ενός ελαττώματος κατάτμησης."
 
-#: ../src/erreur.c:247
+#: ../src/erreur.c:248
 msgid "Backtrace"
 msgstr "Ίχνος"
 
 #. on affiche un message de debug pour indiquer que le debug est actif
-#: ../src/erreur.c:301 ../src/erreur.c:316 ../src/erreur.c:330
-#: ../src/erreur.c:371
+#: ../src/erreur.c:302 ../src/erreur.c:317 ../src/erreur.c:331
+#: ../src/erreur.c:372
 #, c-format
 msgid "GRISBI %s Debug"
 msgstr "Αποσφαλμάτωση GRISBI %s "
 
-#: ../src/erreur.c:302
+#: ../src/erreur.c:303
 #, c-format
 msgid "Debug enabled, level is '%s'"
 msgstr "Διόρθωση σφαλμάτων ενεργοποιημένη,το επίπεδο είναι '%s'"
 
-#: ../src/erreur.c:319
+#: ../src/erreur.c:320
 msgid "Wrong debug level, please check DEBUG_GRISBI environnement variable"
 msgstr ""
 "Εσφαλμένο επίπεδο αποσφαλμάτωσης,παρακαλώ ελέγξτε την τιμή DEBUG_GRISBI"
 
-#: ../src/erreur.c:333
+#: ../src/erreur.c:334
 msgid "Default debug level: Debug"
 msgstr ""
 
-#: ../src/erreur.c:372
+#: ../src/erreur.c:373
 #, fuzzy, c-format
 msgid "Debug updated by cmd line, level is '%s'"
 msgstr "Διόρθωση σφαλμάτων ενεργοποιημένη,το επίπεδο είναι '%s'"
 
-#: ../src/erreur.c:413 ../src/erreur.c:669
+#: ../src/erreur.c:414 ../src/erreur.c:670
 #, fuzzy, c-format
 msgid "%s, %2f : %s - %s:%d:%s - %s\n"
 msgstr "%s : %s - %s:%d:%s - %s\n"
 
-#: ../src/erreur.c:417
+#: ../src/erreur.c:418
 #, fuzzy, c-format
 msgid "%s, %2f : %s - %s:%d:%s\n"
 msgstr "%s : %s - %s:%d:%s\n"
 
 #. on affiche dans la console le message
-#: ../src/erreur.c:462
+#: ../src/erreur.c:463
 #, fuzzy, c-format
 msgid "%s, %2f : %s - %s:%d:%s - %d\n"
 msgstr "%s : %s - %s:%d:%s - %d\n"
 
-#: ../src/erreur.c:563
+#: ../src/erreur.c:564
 #, c-format
 msgid ""
 "The debug-mode is starting. Grisbi will write a log into %s. Please send "
@@ -2087,14 +2093,14 @@ msgstr ""
 "σφαλμάτων στο %s. Παρακαλώ στείλτε αυτό το αρχείο στην αναφορά για σφάλματα."
 
 #. début du mode de débogage
-#: ../src/erreur.c:580
+#: ../src/erreur.c:581
 #, fuzzy, c-format
 msgid ""
 "%s, %2f : Debug - %s:%d:%s\n"
 "\n"
 msgstr "%s : %s - %s:%d:%s\n"
 
-#: ../src/erreur.c:632
+#: ../src/erreur.c:633
 msgid "Grisbi failed to create the log file..."
 msgstr "Το Grisbi απέτυχε να δημιουργήσει το αρχείο σφαλμάτων..."
 
@@ -2304,14 +2310,14 @@ msgstr "Αποτέλεσμα χωρίς δημοσιονομικό έτος (%d 
 msgid "Result without financial year: "
 msgstr "Αποτέλεσμα χωρίς δημοσιονομικό έτος:"
 
-#: ../src/etats_affiche.c:1428 ../src/gsb_scheduler_list.c:1337
-#: ../src/gsb_transactions_list.c:3861
+#: ../src/etats_affiche.c:1428 ../src/gsb_scheduler_list.c:1345
+#: ../src/gsb_transactions_list.c:3886
 #, c-format
 msgid "Transfer to %s"
 msgstr "Μεταφορά σε %s"
 
-#: ../src/etats_affiche.c:1430 ../src/gsb_scheduler_list.c:1341
-#: ../src/gsb_transactions_list.c:3864
+#: ../src/etats_affiche.c:1430 ../src/gsb_scheduler_list.c:1349
+#: ../src/gsb_transactions_list.c:3889
 #, c-format
 msgid "Transfer from %s"
 msgstr "Μεταφορά από %s"
@@ -2362,9 +2368,9 @@ msgid "General total: "
 msgstr "Γενικό σύνολο:"
 
 #: ../src/etats_affiche.c:1880 ../src/export_csv.c:594
-#: ../src/gsb_data_category.c:1056 ../src/gsb_form.c:726 ../src/gsb_form.c:1684
-#: ../src/gsb_form.c:2876 ../src/gsb_form.c:3285
-#: ../src/gsb_form_scheduler.c:308 ../src/gsb_transactions_list.c:3839
+#: ../src/gsb_data_category.c:1056 ../src/gsb_form.c:756 ../src/gsb_form.c:1714
+#: ../src/gsb_form.c:2910 ../src/gsb_form.c:3319
+#: ../src/gsb_form_scheduler.c:330 ../src/gsb_transactions_list.c:3864
 msgid "Split of transaction"
 msgstr "Διάσπαση της συναλλαγής"
 
@@ -2387,8 +2393,8 @@ msgid "Outgoings"
 msgstr "έξοδα"
 
 #. 2
-#: ../src/etats_affiche.c:2439 ../src/export_csv.c:786 ../src/gsb_form.c:1226
-#: ../src/gsb_form.c:2066 ../src/gsb_form.c:2096 ../src/gsb_form_widget.c:475
+#: ../src/etats_affiche.c:2439 ../src/export_csv.c:786 ../src/gsb_form.c:1256
+#: ../src/gsb_form.c:2096 ../src/gsb_form.c:2126 ../src/gsb_form_widget.c:475
 #: ../src/gsb_transactions_list.c:168 ../src/import_csv.c:70
 #: ../src/ui/etats_prefs.ui.h:17
 msgid "Value date"
@@ -2411,12 +2417,12 @@ msgstr "Μέθοδοι πληρωμής"
 msgid "Cheque"
 msgstr "Επιταγή"
 
-#: ../src/etats_affiche.c:2495 ../src/export_csv.c:828 ../src/gsb_form.c:1318
+#: ../src/etats_affiche.c:2495 ../src/export_csv.c:828 ../src/gsb_form.c:1348
 #: ../src/gsb_form_widget.c:519 ../src/gsb_transactions_list.c:180
 msgid "Voucher"
 msgstr "Απόδειξη"
 
-#: ../src/etats_affiche.c:2502 ../src/export_csv.c:834 ../src/gsb_form.c:1313
+#: ../src/etats_affiche.c:2502 ../src/export_csv.c:834 ../src/gsb_form.c:1343
 #: ../src/gsb_form_widget.c:523 ../src/gsb_transactions_list.c:182
 msgid "Bank references"
 msgstr "Αναφορές τράπεζας"
@@ -2817,8 +2823,8 @@ msgstr "Αρχείο CSV"
 msgid "Exporting report..."
 msgstr "Εξαγωγή αναφοράς..."
 
-#: ../src/etats_onglet.c:369 ../src/gsb_debug.c:248 ../src/gsb_file.c:363
-#: ../src/gsb_file.c:483 ../src/gsb_file.c:794
+#: ../src/etats_onglet.c:369 ../src/gsb_debug.c:248 ../src/gsb_file.c:362
+#: ../src/gsb_file.c:487 ../src/gsb_file.c:798
 msgid "Done"
 msgstr "Έτοιμο"
 
@@ -3050,13 +3056,13 @@ msgid "Payees"
 msgstr "Δικαιούχοι πληρωμής"
 
 #. ajoute le bouton (dé)sélectionne tout
-#: ../src/etats_prefs.c:1828 ../src/export.c:615 ../src/import.c:2685
+#: ../src/etats_prefs.c:1828 ../src/export.c:210 ../src/import.c:2716
 #: ../src/tiers_onglet.c:1255 ../src/tiers_onglet.c:1470
 #: ../src/utils_buttons.c:268
 msgid "Unselect all"
 msgstr "Αποεπιλογή όλων"
 
-#: ../src/etats_prefs.c:1830 ../src/export.c:620 ../src/gsb_assistant.c:127
+#: ../src/etats_prefs.c:1830 ../src/export.c:215 ../src/gsb_assistant.c:127
 #: ../src/tiers_onglet.c:1468 ../src/tiers_onglet.c:1488
 #: ../src/utils_buttons.c:273 ../src/ui/etats_prefs.ui.h:67
 msgid "Select all"
@@ -3252,11 +3258,78 @@ msgstr "από %s %d"
 msgid "to %s %d"
 msgstr "από %s %d"
 
-#: ../src/export.c:91
+#: ../src/export.c:298
+msgid "Select accounts to export"
+msgstr "Επιλέξτε τους λογαριασμούς για να εξαγάγετε"
+
+#: ../src/export.c:333 ../src/export_csv.c:777
+#: ../src/gsb_data_partial_balance.c:1666
+msgid "Account name"
+msgstr "Όνομα λογαριασμού"
+
+#: ../src/export.c:363
+#, fuzzy
+msgid "Select options to export"
+msgstr "Επιλέξτε τους λογαριασμούς για να εξαγάγετε"
+
+#: ../src/export.c:364 ../src/export.c:515
+#: ../src/gsb_assistant_archive_export.c:306
+msgid "QIF format"
+msgstr "Μορφή QIF"
+
+#: ../src/export.c:365 ../src/export.c:516
+#: ../src/gsb_assistant_archive_export.c:307
+msgid "CSV format"
+msgstr "Μορφή CSV"
+
+#: ../src/export.c:381
+#, fuzzy
+msgid "Force US dates"
+msgstr "Αρχείο κατά την ημερομηνία"
+
+#: ../src/export.c:386
+#, fuzzy
+msgid "Force US numbers"
+msgstr "Αριθμός αποδείξεων"
+
+#. Adding treat all files button
+#: ../src/export.c:396
+msgid "Treat all files as the first"
+msgstr ""
+
+#: ../src/export.c:472
+msgid "Export settings completed successfully"
+msgstr ""
+
+#: ../src/export.c:476
+#, fuzzy
+msgid "Press the 'Close' button to finish the export."
+msgstr ""
+"Έχετε επιτυχώς  εξαγάγει τα  στοιχεία οργάνωσης στο Grisbi.  Πιέστε το "
+"'Κλείσιμο' για να εξαγάγετε πραγματικά τα στοιχεία."
+
+#: ../src/export.c:511 ../src/gsb_assistant_archive_export.c:300
+#, fuzzy
+msgid "Export format: "
+msgstr "Μορφή εξαγωγής:"
+
+#: ../src/export.c:559
+msgid "Accounts to export"
+msgstr "Λογαριασμοί προς εξαγωγή"
+
+#: ../src/export.c:567
+msgid ""
+"The following accounts are to be exported. In the next screens, you will "
+"choose what to do with each of them."
+msgstr ""
+"Οι ακόλουθοι λογαριασμοί πρόκειται να εξαχθούν. Στις επόμενες οθόνες, θα "
+"επιλέξετε τι θα κάνετε με κάθε έναν από αυτούς."
+
+#: ../src/export.c:679
 msgid "Exporting Grisbi accounts"
 msgstr "Εξαγωγή λογαριασμών του Grisbi"
 
-#: ../src/export.c:92
+#: ../src/export.c:680
 msgid ""
 "This assistant will guide you through the process of exporting Grisbi "
 "accounts into QIF or CSV files.\n"
@@ -3270,62 +3343,6 @@ msgstr ""
 "Δεδομένου ότι τα QIF και CSV δεν υποστηρίζουν τα νομίσματα, όλες οι "
 "συναλλαγές θα μετατραπούν στο νόμισμα του αντίστοιχου λογαριασμού τους."
 
-#: ../src/export.c:176
-msgid "Select accounts to export"
-msgstr "Επιλέξτε τους λογαριασμούς για να εξαγάγετε"
-
-#: ../src/export.c:213 ../src/export_csv.c:777
-#: ../src/gsb_data_partial_balance.c:1666
-msgid "Account name"
-msgstr "Όνομα λογαριασμού"
-
-#: ../src/export.c:242
-#, fuzzy
-msgid "Select options to export"
-msgstr "Επιλέξτε τους λογαριασμούς για να εξαγάγετε"
-
-#: ../src/export.c:243 ../src/export.c:462
-#: ../src/gsb_assistant_archive_export.c:306
-msgid "QIF format"
-msgstr "Μορφή QIF"
-
-#: ../src/export.c:243 ../src/export.c:463
-#: ../src/gsb_assistant_archive_export.c:307
-msgid "CSV format"
-msgstr "Μορφή CSV"
-
-#: ../src/export.c:249
-msgid "Treat all files as the first"
-msgstr ""
-
-#: ../src/export.c:326
-msgid "Export settings completed successfully"
-msgstr ""
-
-#: ../src/export.c:330
-#, fuzzy
-msgid "Press the 'Close' button to finish the export."
-msgstr ""
-"Έχετε επιτυχώς  εξαγάγει τα  στοιχεία οργάνωσης στο Grisbi.  Πιέστε το "
-"'Κλείσιμο' για να εξαγάγετε πραγματικά τα στοιχεία."
-
-#: ../src/export.c:363
-msgid "Accounts to export"
-msgstr "Λογαριασμοί προς εξαγωγή"
-
-#: ../src/export.c:368
-msgid ""
-"The following accounts are to be exported. In the next screens, you will "
-"choose what to do with each of them."
-msgstr ""
-"Οι ακόλουθοι λογαριασμοί πρόκειται να εξαχθούν. Στις επόμενες οθόνες, θα "
-"επιλέξετε τι θα κάνετε με κάθε έναν από αυτούς."
-
-#: ../src/export.c:457 ../src/gsb_assistant_archive_export.c:300
-#, fuzzy
-msgid "Export format: "
-msgstr "Μορφή εξαγωγής:"
-
 #: ../src/export_csv.c:293
 msgid "Initial balance"
 msgstr "Αρχική ισορροπία"
@@ -3334,7 +3351,7 @@ msgstr "Αρχική ισορροπία"
 msgid "B"
 msgstr "B"
 
-#: ../src/export_csv.c:738 ../src/gsb_form.c:1838
+#: ../src/export_csv.c:738 ../src/gsb_form.c:1868
 msgid "Deleted account"
 msgstr "Διαγραμμένος λογαριασμός"
 
@@ -4008,44 +4025,44 @@ msgstr "Επιλογές"
 msgid "The menu of options"
 msgstr "Κατάλογος επιλογών"
 
-#: ../src/grisbi_app.c:630
+#: ../src/grisbi_app.c:632
 #, fuzzy
 msgid "Show the application's version"
 msgstr "Παρουσιάστε _τρεις γραμμές  ανά συναλλαγή"
 
-#: ../src/grisbi_app.c:636
+#: ../src/grisbi_app.c:638
 msgid "Create a new top-level window in an existing instance of grisbi"
 msgstr ""
 
-#: ../src/grisbi_app.c:643
+#: ../src/grisbi_app.c:645
 #, fuzzy
 msgid "Debug mode: level 0-5"
 msgstr "Εκκινήστε την διαδικασία διόρθωσης"
 
-#: ../src/grisbi_app.c:644
+#: ../src/grisbi_app.c:646
 msgid "DEBUG"
 msgstr ""
 
-#: ../src/grisbi_app.c:657
+#: ../src/grisbi_app.c:659
 msgid "[FILE...]"
 msgstr ""
 
-#: ../src/grisbi_app.c:813
+#: ../src/grisbi_app.c:815
 #, fuzzy, c-format
 msgid "Error on sigaction: SIGINT won't be trapped\n"
 msgstr "Λάθος στο sigaction: SIGSEGV δεν  είναι παγιδευμένο\n"
 
-#: ../src/grisbi_app.c:816
+#: ../src/grisbi_app.c:818
 #, fuzzy, c-format
 msgid "Error on sigaction: SIGTERM won't be trapped\n"
 msgstr "Λάθος στο sigaction: SIGSEGV δεν  είναι παγιδευμένο\n"
 
-#: ../src/grisbi_app.c:819
+#: ../src/grisbi_app.c:821
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Λάθος στο sigaction: SIGSEGV δεν  είναι παγιδευμένο\n"
 
-#: ../src/grisbi_app.c:976 ../src/menu.c:597
+#: ../src/grisbi_app.c:978 ../src/menu.c:597
 #, fuzzy
 msgid "Start an action!"
 msgstr "Συναλλαγές είδους  κατά"
@@ -4168,7 +4185,7 @@ msgstr "Δεν καθορίστηκε γραμματοσειρά"
 msgid "Unnamed account"
 msgstr "Απροσδιόριστος λογαριασμός"
 
-#: ../src/grisbi_win.c:1180 ../src/gsb_transactions_list.c:2570
+#: ../src/grisbi_win.c:1180 ../src/gsb_transactions_list.c:2583
 msgid "Move transaction to another account"
 msgstr "Μετακίνηση συναλλαγής σε άλλο λογαριασμό."
 
@@ -4178,7 +4195,7 @@ msgid "Grisbi"
 msgstr "Grisbi"
 
 #: ../src/grisbi_win.c:1343 ../src/gsb_file.c:223 ../src/gsb_file.c:242
-#: ../src/gsb_file.c:272
+#: ../src/gsb_file.c:273
 msgid "unnamed"
 msgstr "απροσδιόριστος"
 
@@ -4220,17 +4237,17 @@ msgstr ""
 msgid "Account details"
 msgstr "Λεπτομέρειες λογαριασμού"
 
-#: ../src/gsb_account_property.c:235 ../src/import.c:726 ../src/import.c:748
+#: ../src/gsb_account_property.c:235 ../src/import.c:791 ../src/import.c:813
 #, fuzzy
 msgid "Account name: "
 msgstr "Όνομα λογαριασμού:"
 
-#: ../src/gsb_account_property.c:256 ../src/import.c:682
+#: ../src/gsb_account_property.c:256 ../src/import.c:747
 #, fuzzy
 msgid "Account type: "
 msgstr "Τύπος λογαριασμού:"
 
-#: ../src/gsb_account_property.c:274 ../src/import.c:775
+#: ../src/gsb_account_property.c:274 ../src/import.c:840
 #, fuzzy
 msgid "Account currency: "
 msgstr "Νόμισμα λογαριασμού:"
@@ -4357,7 +4374,7 @@ msgid "Your IBAN number is not correct. Please check your entry."
 msgstr ""
 
 #. New account
-#: ../src/gsb_assistant_account.c:102 ../src/import.c:674
+#: ../src/gsb_assistant_account.c:102 ../src/import.c:739
 msgid "Create a new account"
 msgstr "Δημιουργία νέου λογαριασμού"
 
@@ -4608,7 +4625,7 @@ msgstr "Έκθεση:"
 msgid "Please choose a name for archive: "
 msgstr "Παρακαλώ επιλέξτε ένα όνομα για το αρχείο:"
 
-#: ../src/gsb_assistant_archive.c:429 ../src/import.c:1880
+#: ../src/gsb_assistant_archive.c:429 ../src/import.c:1911
 #, fuzzy
 msgid "Congratulations!"
 msgstr "Συγχαρητήρια!"
@@ -5351,7 +5368,7 @@ msgstr "Όλες οι επιλεγμένες συναλλαγές πρέπει �
 #. ok, all the transactions belong to the same account, we can
 #. * show a dialog to select the reconcile
 #: ../src/gsb_assistant_reconcile_config.c:1178
-#: ../src/gsb_transactions_list.c:2054
+#: ../src/gsb_transactions_list.c:2063
 msgid "Selection of a reconciliation"
 msgstr "Επιλογή μιας συμφωνίας"
 
@@ -5468,7 +5485,7 @@ msgid "Are you sure you want to remove bank \"%s\"?\n"
 msgstr "Είστε σίγουροι ότι θέλετε να μετακινήσετε την Τράπεζα \"%s\"?\n"
 
 #. cancel button
-#: ../src/gsb_calendar_entry.c:494 ../src/gsb_form.c:327
+#: ../src/gsb_calendar_entry.c:494 ../src/gsb_form.c:357
 #: ../src/gsb_reconcile.c:272
 msgid "Cancel"
 msgstr "Ακύρωση"
@@ -7174,7 +7191,7 @@ msgstr ""
 msgid "No budget line"
 msgstr "Κανένα κονδύλι του προϋπολογισμού"
 
-#: ../src/gsb_data_budget.c:1426 ../src/gsb_data_category.c:1586
+#: ../src/gsb_data_budget.c:1424 ../src/gsb_data_category.c:1585
 #, c-format
 msgid "In <i>%s</i>, <i>%s</i> is a duplicate of <i>%s</i>.\n"
 msgstr "Στο <i>%s</i>, <i>%s</i> υπάρχει ένα διπλόγραφο του <i>%s</i>.\n"
@@ -7290,33 +7307,33 @@ msgstr "Δεν καθορίζεται κανένας δικαιούχος πλη
 
 #. sinon on l'ajoute dans la liste des tiers
 #. on récupère le nom de l'état
-#: ../src/gsb_data_payee.c:563 ../src/gsb_form.c:2989 ../src/gsb_form.c:2990
+#: ../src/gsb_data_payee.c:563 ../src/gsb_form.c:3023 ../src/gsb_form.c:3024
 #: ../src/gtk_combofix.c:244 ../src/gtk_combofix.c:671
 #: ../src/gtk_combofix.c:752 ../src/navigation.c:1276
 msgid "Report"
 msgstr "Αναφορά"
 
 #. Deposit = Dépôt
-#: ../src/gsb_data_payment.c:724 ../src/import.c:2361
+#: ../src/gsb_data_payment.c:724 ../src/import.c:2392
 #: ../src/plugins/ofx/ofx.c:381
 msgid "Deposit"
 msgstr "Κατάθεση"
 
 #. Retrait dans un distributeur de billets replacé par carte de crédit
 #. Point of sale = Point de vente remplacé par carte de crédit
-#: ../src/gsb_data_payment.c:733 ../src/gsb_form.c:2184 ../src/import.c:2367
-#: ../src/import.c:2373
+#: ../src/gsb_data_payment.c:733 ../src/gsb_form.c:2214 ../src/import.c:2398
+#: ../src/import.c:2404
 msgid "Credit card"
 msgstr "Πιστωτική κάρτα"
 
 #. Electronic payment remplacé par Direct debit = Prélèvement
 #. Merchant initiated debit remplacé par Direct debit = Prélèvement
-#: ../src/gsb_data_payment.c:742 ../src/gsb_form.c:2221 ../src/import.c:2385
-#: ../src/import.c:2407
+#: ../src/gsb_data_payment.c:742 ../src/gsb_form.c:2251 ../src/import.c:2416
+#: ../src/import.c:2438
 msgid "Direct debit"
 msgstr "Απευθείας χρέωση"
 
-#: ../src/gsb_data_scheduled.c:1537 ../src/gsb_data_transaction.c:2012
+#: ../src/gsb_data_scheduled.c:1494 ../src/gsb_data_transaction.c:2012
 #: ../src/gsb_data_transaction.c:2074
 msgid "Cannot allocate memory, bad things will happen soon"
 msgstr "Αδύνατη η διάθεση μνήμης,άσχημα πράγματα θα συμβούν σύντομα"
@@ -7616,9 +7633,9 @@ msgstr "Η συναλλαγή %d έχει τον άκυρο προϋπολογι
 msgid "Transaction %d has invalid payee %d.\n"
 msgstr "Η συναλλαγή %d έχει τον άκυρο δικαιούχο πληρωμής %d.\n"
 
-#: ../src/gsb_file.c:99 ../src/gsb_file_others.c:460
-#: ../src/gsb_file_others.c:604 ../src/gsb_file_others.c:791
-#: ../src/gsb_file_others.c:851 ../src/utils_gtkbuilder.c:111
+#: ../src/gsb_file.c:99 ../src/gsb_file_others.c:459
+#: ../src/gsb_file_others.c:603 ../src/gsb_file_others.c:790
+#: ../src/gsb_file_others.c:850 ../src/utils_gtkbuilder.c:111
 #: ../src/utils_gtkbuilder.c:150
 #, c-format
 msgid "Cannot open file '%s': %s"
@@ -7629,13 +7646,13 @@ msgstr "Αδύνατο το άνοιγμαι του αρχείο '%s': %s"
 msgid "File does not exist"
 msgstr "Το αρχείο δεν υπάρχει"
 
-#: ../src/gsb_file.c:103 ../src/gsb_file.c:117 ../src/gsb_file.c:733
+#: ../src/gsb_file.c:103 ../src/gsb_file.c:117 ../src/gsb_file.c:740
 #, c-format
 msgid "Error loading file '%s'"
 msgstr "Λάθος φόρτωσης αρχείου '%s'"
 
-#: ../src/gsb_file.c:114 ../src/gsb_file_others.c:473
-#: ../src/gsb_file_others.c:803
+#: ../src/gsb_file.c:114 ../src/gsb_file_others.c:472
+#: ../src/gsb_file_others.c:802
 #, c-format
 msgid ""
 "%s doesn't seem to be a regular file,\n"
@@ -7662,38 +7679,38 @@ msgstr "Αποθήκευση αλλαγών του εγγράφου '%s' πρι�
 msgid "Close without saving"
 msgstr "Κλείσιμο χωρίς αποθήκευση"
 
-#: ../src/gsb_file.c:251
+#: ../src/gsb_file.c:252
 #, c-format
 msgid "%d minutes and %d seconds"
 msgstr "%d λεπτά και %d δευτερόλεπτα"
 
-#: ../src/gsb_file.c:255
+#: ../src/gsb_file.c:256
 #, c-format
 msgid "1 minute and %d seconds"
 msgstr "1 λεπτό και %d δευτερόλεπτα"
 
-#: ../src/gsb_file.c:259
+#: ../src/gsb_file.c:260
 #, c-format
 msgid "%d seconds"
 msgstr "%d δευτερόλεπτα"
 
-#: ../src/gsb_file.c:261
+#: ../src/gsb_file.c:262
 #, c-format
 msgid ""
 "If you close without saving, all of your changes since %s will be discarded."
 msgstr ""
 "Εάν κλείσετε χωρίς αποθήκευση, όλες οι αλλαγές σας από %s θα απορριφθούν."
 
-#: ../src/gsb_file.c:271
+#: ../src/gsb_file.c:272
 #, fuzzy, c-format
 msgid "Save changes in '%s' file?"
 msgstr "Αποθήκευση αλλαγών του εγγράφου '%s' πριν κλείσει;"
 
-#: ../src/gsb_file.c:316
+#: ../src/gsb_file.c:315
 msgid "Saving backup"
 msgstr "Δημιουργία backup"
 
-#: ../src/gsb_file.c:424
+#: ../src/gsb_file.c:423
 #, fuzzy, c-format
 msgid ""
 "Grisbi was unable to save this file because it is locked.\n"
@@ -7704,33 +7721,33 @@ msgstr ""
 "Παρακαλώ  σώστε το με ένα άλλο όνομα ή ενεργοποιήστε την επιλογή \"%s\" στις "
 "προτιμήσεις."
 
-#: ../src/gsb_file.c:427 ../src/ui/prefs_page_files.ui.h:5
+#: ../src/gsb_file.c:426 ../src/ui/prefs_page_files.ui.h:5
 msgid "Force saving of locked files"
 msgstr "Αναγκαστική αποθήκευση κλειδωμένων αρχείων"
 
-#: ../src/gsb_file.c:428
+#: ../src/gsb_file.c:427
 #, c-format
 msgid "Can not save file \"%s\""
 msgstr "Αδύνατη η αποθήκευση του αρχείου \"%s\""
 
 #. on a maintenant un nom de fichier et on sait qu'on peut sauvegarder
-#: ../src/gsb_file.c:462
+#: ../src/gsb_file.c:466
 msgid "Saving file"
 msgstr "Σώζοντας το αρχείο"
 
-#: ../src/gsb_file.c:536
+#: ../src/gsb_file.c:540
 msgid "Open an accounts file"
 msgstr "Άνοιγμα αρχείου λογαριασμού"
 
-#: ../src/gsb_file.c:547
+#: ../src/gsb_file.c:551
 msgid "Grisbi files (*.gsb)"
 msgstr "Αρχεία Grisbi (*.gsb)"
 
-#: ../src/gsb_file.c:692
+#: ../src/gsb_file.c:699
 msgid "Loading accounts"
 msgstr "Φόρτωση λογαριασμών"
 
-#: ../src/gsb_file.c:722
+#: ../src/gsb_file.c:729
 #, fuzzy
 msgid ""
 "The version of your file is less than 0.6. This file can not be imported by "
@@ -7738,16 +7755,16 @@ msgid ""
 msgstr ""
 "Η έκδοση αρχείων είναι κάτω από 0.6.0, το Grisbi δεν μπορεί να το εισαγάγει."
 
-#: ../src/gsb_file.c:724
+#: ../src/gsb_file.c:731
 msgid "Version of Grisbi file too old :"
 msgstr ""
 
 #. Loading failed.
-#: ../src/gsb_file.c:731
+#: ../src/gsb_file.c:738
 msgid "Failed to load accounts"
 msgstr "Αδυναμία φόρτωσης λογαριασμών"
 
-#: ../src/gsb_file.c:737
+#: ../src/gsb_file.c:744
 #, c-format
 msgid ""
 "Grisbi was unable to load file. You should find the last backups in '%s', "
@@ -7762,7 +7779,7 @@ msgstr ""
 "Παρακαλώ ελάτε σε επαφή με την ομάδα του Grisbi στο devel@listes.grisbi.org "
 "για να βρείτε τι συνέβη στο τρέχον αρχείο."
 
-#: ../src/gsb_file.c:748
+#: ../src/gsb_file.c:755
 #, c-format
 msgid ""
 "Grisbi was unable to load file and the backups seem not to be activated... "
@@ -7779,7 +7796,7 @@ msgstr ""
 "Παρακαλώ ελάτε σε επαφή με την ομάδα του Grisbi στο devel@listes.grisbi.org "
 "για να βρείτε τι συνέβη στο τρέχον αρχείο."
 
-#: ../src/gsb_file.c:755
+#: ../src/gsb_file.c:762
 msgid ""
 "Grisbi was unable to load file and the backups seem not to be activated... "
 "This is a bad thing.\n"
@@ -7792,37 +7809,37 @@ msgstr ""
 "για να βρεί τι συνέβη στο τρέχον αρχείο."
 
 #. ok, here the file or backup is loaded
-#: ../src/gsb_file.c:771
+#: ../src/gsb_file.c:778
 msgid "Checking schedulers"
 msgstr "Έλεγχος χρονοδιαγραμμάτων"
 
 #. check the amounts of all the accounts
-#: ../src/gsb_file.c:781
+#: ../src/gsb_file.c:788
 msgid "Checking amounts"
 msgstr "Έλεγχος ποσών"
 
-#: ../src/gsb_file_load.c:3483
+#: ../src/gsb_file_load.c:3503
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Αυτό δεν είναι ένα αρχείο Grisbi… Η φόρτωση αναβάλλεται."
 
-#: ../src/gsb_file_load.c:3776 ../src/gsb_file_load.c:3794
+#: ../src/gsb_file_load.c:3796 ../src/gsb_file_load.c:3814
 #, c-format
 msgid ""
 "Grisbit no longer supports file encryption due to the existence of reliable "
 "external solutions."
 msgstr ""
 
-#: ../src/gsb_file_load.c:3779
+#: ../src/gsb_file_load.c:3799
 #, c-format
 msgid "Your file '%s' will be saved unencrypted"
 msgstr ""
 
-#: ../src/gsb_file_load.c:3797
+#: ../src/gsb_file_load.c:3817
 #, fuzzy, c-format
 msgid "Unable to use file encryption"
 msgstr "Αδύνατο το άνοιγμα του αρχείου '%s'"
 
-#: ../src/gsb_file_load.c:3860
+#: ../src/gsb_file_load.c:3880
 #, fuzzy
 msgid ""
 "You have opened an archive.\n"
@@ -7835,11 +7852,11 @@ msgstr ""
 "θέλετε και σώζετε αργότερα (νέες εκθέσεις…) αλλά θυμηθείτε ότι είναι ένα "
 "αρχείο πριν τροποποιηθούν  μερικές συναλλαγές ή σημαντικές πληροφορίες."
 
-#: ../src/gsb_file_load.c:3864
+#: ../src/gsb_file_load.c:3884
 msgid "Grisbi archive opened"
 msgstr "Αρχείο Grisbi που ανοίγουν"
 
-#: ../src/gsb_file_load.c:3874
+#: ../src/gsb_file_load.c:3894
 #, c-format
 msgid ""
 "You import a file from version %s of Grisbi. After updating your file will "
@@ -7849,12 +7866,12 @@ msgid ""
 "abandon the encryption of your account file."
 msgstr ""
 
-#: ../src/gsb_file_load.c:3881
+#: ../src/gsb_file_load.c:3901
 #, c-format
 msgid "Importing a file whose version is for an earlier version of Grisbi"
 msgstr ""
 
-#: ../src/gsb_file_load.c:4303
+#: ../src/gsb_file_load.c:4321
 #, c-format
 msgid ""
 "An error occured while parsing the file :\n"
@@ -7870,7 +7887,7 @@ msgid "There is no category to record. Back."
 msgstr ""
 
 #: ../src/gsb_file_others.c:159 ../src/gsb_file_others.c:250
-#: ../src/gsb_file_others.c:342 ../src/gsb_file_save.c:400
+#: ../src/gsb_file_others.c:341 ../src/gsb_file_save.c:400
 #: ../src/gsb_file_save.c:419
 #, c-format
 msgid "Cannot save file '%s': %s"
@@ -7885,13 +7902,13 @@ msgstr "Νόμισμα για το δημοσιονομικό δέντρο γρ�
 msgid "There is no report to record. Back."
 msgstr ""
 
-#: ../src/gsb_file_others.c:513
+#: ../src/gsb_file_others.c:512
 #, fuzzy, c-format
 msgid "Error parsing file '%s': %s"
 msgstr "Λάθος φόρτωσης αρχείου '%s'"
 
 #. inform the user of that
-#: ../src/gsb_file_others.c:585
+#: ../src/gsb_file_others.c:584
 #, fuzzy
 msgid ""
 "Some things in a report cannot be imported:\n"
@@ -7910,30 +7927,30 @@ msgstr ""
 "Πρέπει να ελέγξετε και να τροποποιήσετε αυτού στο κιβώτιο ιδιοκτησίας "
 "εκείνου του λογαριασμού."
 
-#: ../src/gsb_file_others.c:591
+#: ../src/gsb_file_others.c:590
 msgid "Importing a report"
 msgstr "Εισαγωγή μιας έκθεσης"
 
-#: ../src/gsb_file_others.c:630 ../src/gsb_file_others.c:637
+#: ../src/gsb_file_others.c:629 ../src/gsb_file_others.c:636
 #, fuzzy
 msgid "This is not a Grisbi file, loading canceled..."
 msgstr "Αυτό δεν είναι ένα αρχείο grisbi, η φόρτωση  ακυρώνεται…"
 
-#: ../src/gsb_file_others.c:654 ../src/gsb_file_others.c:665
-#: ../src/gsb_file_others.c:682 ../src/gsb_file_others.c:705
+#: ../src/gsb_file_others.c:653 ../src/gsb_file_others.c:664
+#: ../src/gsb_file_others.c:681 ../src/gsb_file_others.c:704
 msgid "The file version is below 0.6.0, Grisbi cannot import it."
 msgstr ""
 "Η έκδοση αρχείων είναι κάτω από 0.6.0, το Grisbi δεν μπορεί να το εισαγάγει."
 
-#: ../src/gsb_file_others.c:657 ../src/gsb_file_others.c:708
+#: ../src/gsb_file_others.c:656 ../src/gsb_file_others.c:707
 msgid "This is not a category file, loading canceled..."
 msgstr "Αυτό δεν είναι ένα αρχείο κατηγορίας,η φόρτωση  ακυρώνεται…"
 
-#: ../src/gsb_file_others.c:673
+#: ../src/gsb_file_others.c:672
 msgid "This is not a budget file, loading canceled..."
 msgstr "Αυτό δεν είναι ένα αρχείο προϋπολογισμών, η φόρτωση  ακυρώνεται…"
 
-#: ../src/gsb_file_others.c:690
+#: ../src/gsb_file_others.c:689
 msgid "This is not a report file, loading canceled..."
 msgstr "Αυτό δεν είναι ένα αρχείο εκθέσεων, η φόρτωση  ακυρώνεται…"
 
@@ -7970,114 +7987,114 @@ msgstr ""
 msgid "Failed to read from file '%s': %s"
 msgstr "Απέτυχε να διαβάσει από το αρχείο '%s': %s"
 
-#: ../src/gsb_file_util.c:286
+#: ../src/gsb_file_util.c:285
 #, fuzzy, c-format
 msgid "Cannot write lock file: '%s': %s"
 msgstr "Αδύνατη η εγγραφή στο κλειδωμένο αρχείο :'%s': %s"
 
-#: ../src/gsb_file_util.c:313
+#: ../src/gsb_file_util.c:314
 #, fuzzy, c-format
 msgid "Cannot erase lock file: '%s': %s"
 msgstr "Αδύνατη η διαγραφή του κλειδωμένου αρχείου: '%s': %s"
 
-#: ../src/gsb_form.c:245
+#: ../src/gsb_form.c:275
 msgid "Transaction/Scheduled _form"
 msgstr "Συναλλαγή/σχέδιο _form"
 
 #. create the check button to recover the children of splits
-#: ../src/gsb_form.c:317
+#: ../src/gsb_form.c:347
 msgid "Recover the children"
 msgstr "Ανάκτηση των απογόνων"
 
 #. create the valid/cancel buttons
-#: ../src/gsb_form.c:321 ../src/gsb_reconcile.c:278
+#: ../src/gsb_form.c:351 ../src/gsb_reconcile.c:278
 #, fuzzy
 msgid "Validate"
 msgstr "Τοκοφόρος ημερομηνία"
 
-#: ../src/gsb_form.c:739
+#: ../src/gsb_form.c:769
 msgid "Transfer : Deleted account"
 msgstr "Μεταφορά: Διαγραμμένος λογαριασμός"
 
-#: ../src/gsb_form.c:758 ../src/gsb_form.c:1827 ../src/gsb_form.c:1828
+#: ../src/gsb_form.c:788 ../src/gsb_form.c:1857 ../src/gsb_form.c:1858
 #: ../src/gsb_form_widget.c:1134
 msgid "Transfer : "
 msgstr "Μεταφορά : "
 
-#: ../src/gsb_form.c:927
+#: ../src/gsb_form.c:957
 msgid "Auto"
 msgstr "Αυτόματο"
 
-#: ../src/gsb_form.c:930 ../src/gsb_form_scheduler.c:137
-#: ../src/gsb_scheduler_list.c:1398 ../src/ui/grisbi_menu.ui.h:40
+#: ../src/gsb_form.c:960 ../src/gsb_form_scheduler.c:163
+#: ../src/gsb_scheduler_list.c:1406 ../src/ui/grisbi_menu.ui.h:40
 msgid "Manual"
 msgstr "Εγχειρίδιο"
 
-#: ../src/gsb_form.c:1292 ../src/gsb_form_widget.c:507
+#: ../src/gsb_form.c:1322 ../src/gsb_form_widget.c:507
 msgid "Cheque/Transfer number"
 msgstr "Επιταγή/αριθμός μεταφοράς"
 
-#: ../src/gsb_form.c:2193 ../src/plugins/ofx/ofx.c:405
+#: ../src/gsb_form.c:2223 ../src/plugins/ofx/ofx.c:405
 msgid "Direct deposit"
 msgstr "Άμεση κατάθεση"
 
 #. Check = Chèque
-#: ../src/gsb_form.c:2202 ../src/import.c:2167 ../src/import.c:2215
-#: ../src/import.c:2342 ../src/plugins/ofx/ofx.c:361
+#: ../src/gsb_form.c:2232 ../src/import.c:2198 ../src/import.c:2246
+#: ../src/import.c:2373 ../src/plugins/ofx/ofx.c:361
 msgid "Check"
 msgstr "Έλεγχος"
 
 #. Cash withdrawal = retrait en liquide
-#: ../src/gsb_form.c:2211 ../src/import.c:2391
+#: ../src/gsb_form.c:2241 ../src/import.c:2422
 msgid "Cash withdrawal"
 msgstr "Απόσυρση μετρητών"
 
-#: ../src/gsb_form.c:2340
+#: ../src/gsb_form.c:2370
 msgid "No payee selected for this report."
 msgstr "Δεν επιλέχτηκε κανένας δικαιούχος πληρωμής  σε αυτήν την έκθεση."
 
-#: ../src/gsb_form.c:2710
+#: ../src/gsb_form.c:2740
 msgid "You must enter a date."
 msgstr "Πρέπει να εισαγάγετε μια ημερομηνία."
 
-#: ../src/gsb_form.c:2717
+#: ../src/gsb_form.c:2747
 #, c-format
 msgid "Invalid date %s"
 msgstr "Άκυρη ημερομηνία %s"
 
-#: ../src/gsb_form.c:2744
+#: ../src/gsb_form.c:2778
 #, c-format
 msgid "Invalid value date %s"
 msgstr "Άκυρη τοκοφόρος ημερομηνία %s"
 
-#: ../src/gsb_form.c:2770
+#: ../src/gsb_form.c:2804
 #, c-format
 msgid "Beware the date must be between %s and %s"
 msgstr ""
 
-#: ../src/gsb_form.c:2773 ../src/gsb_form.c:2800
+#: ../src/gsb_form.c:2807 ../src/gsb_form.c:2834
 #, fuzzy
 msgid "Invalid date"
 msgstr "Άκυρη ημερομηνία %s"
 
-#: ../src/gsb_form.c:2798
+#: ../src/gsb_form.c:2832
 #, fuzzy, c-format
 msgid "The date must be less than or equal to %s"
 msgstr "λιγότερο από ή ίσο"
 
-#: ../src/gsb_form.c:2833
+#: ../src/gsb_form.c:2867
 #, fuzzy
 msgid "You must enter an amount."
 msgstr "Πρέπει να εισαγάγετε μια ημερομηνία."
 
-#: ../src/gsb_form.c:2857
+#: ../src/gsb_form.c:2891
 msgid ""
 "This account cannot be negative.\n"
 "\n"
 "Please enter another amount or cancel this transaction."
 msgstr ""
 
-#: ../src/gsb_form.c:2878
+#: ../src/gsb_form.c:2912
 msgid ""
 "You cannot set split of transaction in category for a daughter of a split of "
 "transaction."
@@ -8085,14 +8102,14 @@ msgstr ""
 "Δεν μπορείτε να θέσετε τη διάσπαση της συναλλαγής στην κατηγορία για μια "
 "απόγονο μιας διάσπασης της συναλλαγής."
 
-#: ../src/gsb_form.c:2912
+#: ../src/gsb_form.c:2946
 msgid ""
 "Cannot associate a transfer to a deleted account in a scheduled transaction."
 msgstr ""
 "Αδύνατη η σύνδεση μιας μεταφοράς σε έναν διαγραμμένο λογαριασμό σε μια "
 "σχεδιασμένη συναλλαγή."
 
-#: ../src/gsb_form.c:2919
+#: ../src/gsb_form.c:2953
 msgid ""
 "There is no associated account for this transfer or associated account is "
 "invalid."
@@ -8100,15 +8117,15 @@ msgstr ""
 "Δεν υπάρχει κανένας σχετικός λογαριασμός για αυτήν την μεταφορά ή ο σχετικός "
 "λογαριασμός είναι άκυρος."
 
-#: ../src/gsb_form.c:2927
+#: ../src/gsb_form.c:2961
 msgid "Can't issue a transfer its own account."
 msgstr "Αδύνατη η εκροή της μεταφοράς στον λογαριασμό"
 
-#: ../src/gsb_form.c:2932
+#: ../src/gsb_form.c:2966
 msgid "Can't issue a transfer on a closed account."
 msgstr "Αδύνατη η εκροή της μεταφοράς σε έναν κλειστό λογαριασμό"
 
-#: ../src/gsb_form.c:2958
+#: ../src/gsb_form.c:2992
 msgid ""
 "Selected method of payment has an automatic incremental number\n"
 "but doesn't contain any number.\n"
@@ -8118,7 +8135,7 @@ msgstr ""
 "αλλά δεν περιέχει οποιοδήποτε αριθμό.\n"
 "Θα συνεχίσετε παρόλα αυτά;"
 
-#: ../src/gsb_form.c:2976
+#: ../src/gsb_form.c:3010
 msgid ""
 "Warning: this cheque number is already used.\n"
 "Continue anyway?"
@@ -8126,27 +8143,27 @@ msgstr ""
 "Προειδοποίηση: αυτός ο αριθμός επιταγών χρησιμοποιείται ήδη.\n"
 "θα συνεχίσετε παρόλα αυτά;"
 
-#: ../src/gsb_form.c:2997
+#: ../src/gsb_form.c:3031
 msgid "A transaction with a multiple payee must be a new one."
 msgstr ""
 "Μια συναλλαγή με έναν πολλαπλάσιο δικαιούχο πληρωμής πρέπει να είναι νέα."
 
-#: ../src/gsb_form.c:3002
+#: ../src/gsb_form.c:3036
 msgid "A transaction with a multiple payee cannot be a split child."
 msgstr ""
 "Μια συναλλαγή με έναν πολλαπλάσιο δικαιούχο πληρωμής δεν μπορεί να είναι "
 "διασπασμένος απόγονος."
 
-#: ../src/gsb_form.c:3013
+#: ../src/gsb_form.c:3047
 msgid "The word \"Report\" is reserved. Please use another one."
 msgstr ""
 "Η λέξη \"έκθεση \" είναι διατηρημένη. Παρακαλώ χρησιμοποιήστε μια άλλη."
 
-#: ../src/gsb_form.c:3020
+#: ../src/gsb_form.c:3054
 msgid "Invalid multiple payee."
 msgstr "Άκυρος πολλαπλάσιος δικαιούχος πληρωμής."
 
-#: ../src/gsb_form.c:3308
+#: ../src/gsb_form.c:3342
 #, fuzzy
 msgid ""
 "You are trying to change a split of transaction to another kind of "
@@ -8161,12 +8178,12 @@ msgstr ""
 "απόγονοι θα διαγραφούν.\n"
 "Είστε βέβαιοι;"
 
-#: ../src/gsb_form.c:3311
+#: ../src/gsb_form.c:3345
 msgid "Modifying a transaction"
 msgstr "Τροποποίηση μιας συναλλαγής"
 
 #. propose to configure the form
-#: ../src/gsb_form.c:3523
+#: ../src/gsb_form.c:3557
 msgid "Configure the form"
 msgstr "Διαμορφώστε τη μορφή"
 
@@ -8234,13 +8251,42 @@ msgstr ""
 "στοιχείο που περιέχει δύο). Πρέπει να αυξήσετε τον αριθμό σειρών ή στηλών "
 "για να προσθέσετε τα στοιχεία."
 
-#: ../src/gsb_form_scheduler.c:158
+#: ../src/gsb_form_scheduler.c:184
 msgid "Choose the account"
 msgstr "Επιλέξτε τον λογαριασμό"
 
-#: ../src/gsb_form_scheduler.c:164
+#: ../src/gsb_form_scheduler.c:190
 msgid "Automatic/manual scheduled transaction"
 msgstr "Αυτόματη/χειρωνακτική σχεδιασμένη συναλλαγή"
+
+#: ../src/gsb_form_scheduler.c:1277
+#, c-format
+msgid ""
+"Choose the option to use for the last day of the month\n"
+"\n"
+"Do nothing\n"
+"Keep the last day of the month\n"
+"Use the last banking day"
+msgstr ""
+
+#: ../src/gsb_form_scheduler.c:1284
+#, fuzzy
+msgid "What to do for the last day of the month?"
+msgstr "Τελευταίες 30 ημέρες"
+
+#: ../src/gsb_form_scheduler.c:1288
+msgid "Nothing to do"
+msgstr ""
+
+#: ../src/gsb_form_scheduler.c:1289
+#, fuzzy
+msgid "Last day of the month"
+msgstr "Τελευταίες 30 ημέρες"
+
+#: ../src/gsb_form_scheduler.c:1290
+#, fuzzy
+msgid "Last bankind day"
+msgstr "Τελευταίες 30 ημέρες"
 
 #: ../src/gsb_form_widget.c:326
 msgid "Choose currency"
@@ -8537,7 +8583,7 @@ msgstr ""
 msgid "Last statement: %s"
 msgstr "Τελευταία δήλωση: %s"
 
-#: ../src/gsb_reconcile_config.c:123 ../src/gsb_transactions_list.c:2103
+#: ../src/gsb_reconcile_config.c:123 ../src/gsb_transactions_list.c:2112
 msgid "Init date"
 msgstr "Init date"
 
@@ -8732,7 +8778,7 @@ msgstr "Συχνότητα"
 msgid "Display the frequency and mode of scheduled transactions"
 msgstr "Αλλαγή του τρόπου εμφάνισης των καταλόγων προγραμματισμένων συναλλαγών"
 
-#: ../src/gsb_scheduler_list.c:1204
+#: ../src/gsb_scheduler_list.c:1212
 #, c-format
 msgid ""
 "in gsb_scheduler_list_remove_transaction_from_list, ask to remove the "
@@ -8745,27 +8791,27 @@ msgstr ""
 "αλλά δεν βρήκε την επανάληψη στον κατάλογο… \n"
 "Είναι κανονικό εάν επισυνάψετε μια νέα σχεδιασμένη συναλλαγή."
 
-#: ../src/gsb_scheduler_list.c:1363
+#: ../src/gsb_scheduler_list.c:1371
 #, c-format
 msgid "%d days"
 msgstr "%d ημέρες"
 
-#: ../src/gsb_scheduler_list.c:1368
+#: ../src/gsb_scheduler_list.c:1376
 #, fuzzy, c-format
 msgid "%d weeks"
 msgstr "Εβδομάδες"
 
-#: ../src/gsb_scheduler_list.c:1373
+#: ../src/gsb_scheduler_list.c:1381
 #, c-format
 msgid "%d months"
 msgstr "%d μήνες"
 
-#: ../src/gsb_scheduler_list.c:1378
+#: ../src/gsb_scheduler_list.c:1386
 #, c-format
 msgid "%d years"
 msgstr "%d έτη"
 
-#: ../src/gsb_scheduler_list.c:2062
+#: ../src/gsb_scheduler_list.c:2070
 #, c-format
 msgid ""
 "Do you really want to delete the child of the scheduled transaction with "
@@ -8774,7 +8820,7 @@ msgstr ""
 "Θέλετε πραγματικά να διαγράψετε το παιδί της σχεδιασμένης συναλλαγής με το "
 "συμβαλλόμενο μέρος '%s' ;"
 
-#: ../src/gsb_scheduler_list.c:2081
+#: ../src/gsb_scheduler_list.c:2089
 #, c-format
 msgid ""
 "Do you really want to delete the scheduled transaction with party '%s' ?"
@@ -8782,7 +8828,7 @@ msgstr ""
 "Θέλετε πραγματικά να διαγράψετε τη σχεδιασμένη συναλλαγή με το συμβαλλόμενο "
 "μέρος '%s' ;"
 
-#: ../src/gsb_scheduler_list.c:2130
+#: ../src/gsb_scheduler_list.c:2138
 #, c-format
 msgid ""
 "Do you want to delete just this occurrence or the whole scheduled "
@@ -8795,78 +8841,78 @@ msgstr ""
 "\n"
 "%s : %s [%s %s]"
 
-#: ../src/gsb_scheduler_list.c:2141
+#: ../src/gsb_scheduler_list.c:2149
 msgid "Delete this scheduled transaction?"
 msgstr "Διαγράψτε αυτήν την σχεδιασμένη συναλλαγή;"
 
-#: ../src/gsb_scheduler_list.c:2145
+#: ../src/gsb_scheduler_list.c:2153
 msgid "All the occurences"
 msgstr "Όλα τα νομίσματα"
 
-#: ../src/gsb_scheduler_list.c:2146
+#: ../src/gsb_scheduler_list.c:2154
 msgid "Only this one"
 msgstr "Μόνο αυτό"
 
-#: ../src/gsb_scheduler_list.c:2207
+#: ../src/gsb_scheduler_list.c:2215
 msgid "Show scheduled transactions"
 msgstr "Εμφάνιση προγραμματισμένων μεταφορών"
 
-#: ../src/gsb_scheduler_list.c:2220
+#: ../src/gsb_scheduler_list.c:2228
 msgid "Scheduler frequency"
 msgstr "Συχνότητα χρονοπρογραμματιστών"
 
-#: ../src/gsb_scheduler_list.c:2227
+#: ../src/gsb_scheduler_list.c:2235
 #, fuzzy
 msgid "Show transactions for the next: "
 msgstr "Παρουσιάστε συναλλαγές για τον επόμενο:"
 
 #. Edit transaction
-#: ../src/gsb_scheduler_list.c:2370 ../src/gsb_transactions_list.c:2515
+#: ../src/gsb_scheduler_list.c:2378 ../src/gsb_transactions_list.c:2528
 #: ../src/ui/grisbi_menu.ui.h:21
 msgid "Edit transaction"
 msgstr "Επεξεργασία της συναλλαγής"
 
 #. Clone transaction
-#: ../src/gsb_scheduler_list.c:2381 ../src/gsb_transactions_list.c:2552
+#: ../src/gsb_scheduler_list.c:2389 ../src/gsb_transactions_list.c:2565
 #: ../src/ui/grisbi_menu.ui.h:25
 msgid "Clone transaction"
 msgstr "Κλωνοποιημένη συναλλαγή"
 
 #. New transaction
 #. new transaction button
-#: ../src/gsb_scheduler_list.c:2395 ../src/gsb_transactions_list.c:343
-#: ../src/gsb_transactions_list.c:2528 ../src/ui/grisbi_menu.ui.h:22
+#: ../src/gsb_scheduler_list.c:2403 ../src/gsb_transactions_list.c:352
+#: ../src/gsb_transactions_list.c:2541 ../src/ui/grisbi_menu.ui.h:22
 msgid "New transaction"
 msgstr "Νέα συναλλαγή"
 
 #. Delete transaction
-#: ../src/gsb_scheduler_list.c:2403 ../src/gsb_transactions_list.c:2533
+#: ../src/gsb_scheduler_list.c:2411 ../src/gsb_transactions_list.c:2546
 msgid "Delete transaction"
 msgstr "Διαγραφή της συναλλαγής"
 
-#: ../src/gsb_scheduler_list.c:2419
+#: ../src/gsb_scheduler_list.c:2427
 #, fuzzy
 msgid "Displays notes"
 msgstr "Απόκρυψη σημειώσεων"
 
-#: ../src/gsb_scheduler_list.c:2421
+#: ../src/gsb_scheduler_list.c:2429
 #, fuzzy
 msgid "Displays Frequency/Mode"
 msgstr "Συχνότητα"
 
 #. Execute transaction
-#: ../src/gsb_scheduler_list.c:2433
+#: ../src/gsb_scheduler_list.c:2441
 #, fuzzy
 msgid "Execute transaction"
 msgstr "Διαγραφή της συναλλαγής"
 
-#: ../src/gsb_scheduler_list.c:2812 ../src/transaction_list.c:164
+#: ../src/gsb_scheduler_list.c:2820 ../src/transaction_list.c:164
 #: ../src/transaction_list.c:1058 ../src/transaction_list.c:1968
 #, fuzzy, c-format
 msgid "Total: %s (variance : %s)"
 msgstr "Σύνολο: %s (διαφορά: %s)"
 
-#: ../src/gsb_scheduler_list.c:2919
+#: ../src/gsb_scheduler_list.c:2927
 #, fuzzy, c-format
 msgid ""
 "Some scheduled children didn't find their mother in the list, this shouldn't "
@@ -8883,7 +8929,7 @@ msgstr ""
 "\n"
 "Ο ενδιαφερόμενος αριθμός απογόνων είναι:\n"
 
-#: ../src/gsb_scheduler_list.c:2925 ../src/gsb_transactions_list.c:4583
+#: ../src/gsb_scheduler_list.c:2933 ../src/gsb_transactions_list.c:4608
 #, fuzzy
 msgid "Remove orphan children"
 msgstr "Ανάκτηση των απογόνων"
@@ -8936,100 +8982,100 @@ msgstr "Διαγράψτε την επιλεγμένη σχεδιασμένη σ
 msgid "Delete a rule file import."
 msgstr "Διαγράψτε την επιλεγμένη αναφορά"
 
-#: ../src/gsb_transactions_list.c:344
+#: ../src/gsb_transactions_list.c:353
 msgid "Blank the form to create a new transaction"
 msgstr "Αδειάστε την φόρμα για να δημιουργήσετε νέα συναλλαγή"
 
-#: ../src/gsb_transactions_list.c:353
+#: ../src/gsb_transactions_list.c:362
 msgid "Delete selected transaction"
 msgstr "Διαγράψτε την επιλεγμένη συναλλαγή"
 
-#: ../src/gsb_transactions_list.c:362
+#: ../src/gsb_transactions_list.c:371
 msgid "Edit current transaction"
 msgstr "Επεξεργασία της τρέχουσας συναλλαγής"
 
 #. reconcile button
-#: ../src/gsb_transactions_list.c:370
+#: ../src/gsb_transactions_list.c:379
 msgid "Reconcile"
 msgstr "Συμφωνία"
 
-#: ../src/gsb_transactions_list.c:371
+#: ../src/gsb_transactions_list.c:380
 msgid "Start account reconciliation"
 msgstr "Έναρξη συμφωνίας λογαριασμού"
 
-#: ../src/gsb_transactions_list.c:380
+#: ../src/gsb_transactions_list.c:389
 msgid "Print the transactions list"
 msgstr "Τυπώστε τον κατάλογο συναλλαγών"
 
-#: ../src/gsb_transactions_list.c:389
+#: ../src/gsb_transactions_list.c:398
 msgid "Change display mode of the list"
 msgstr "Αλλαγή τρόπου εμφάνισης της λίστας"
 
 #. select the rule
-#: ../src/gsb_transactions_list.c:397
+#: ../src/gsb_transactions_list.c:406
 msgid "Import rules"
 msgstr "Εισαγωγή κανόνων"
 
-#: ../src/gsb_transactions_list.c:398
+#: ../src/gsb_transactions_list.c:407
 msgid "Quick file import by rules"
 msgstr "Γρήγορη εισαγωγή αρχείων από τους κανόνες"
 
 #. archive button
-#: ../src/gsb_transactions_list.c:413
+#: ../src/gsb_transactions_list.c:422
 #, fuzzy
 msgid "Recreates archive"
 msgstr "Διαγράψτε το αρχείο"
 
-#: ../src/gsb_transactions_list.c:415
+#: ../src/gsb_transactions_list.c:424
 #, fuzzy
 msgid "Recreates the line of the archive and hiding the transactions"
 msgstr "Διαγράψτε το αρχείο και τις συναλλαγές"
 
-#: ../src/gsb_transactions_list.c:485
+#: ../src/gsb_transactions_list.c:494
 msgid "Remove the rule"
 msgstr "Διαγράψτε τον κανόνα"
 
-#: ../src/gsb_transactions_list.c:555
+#: ../src/gsb_transactions_list.c:564
 msgid "Simple view"
 msgstr "Απλή άποψη"
 
-#: ../src/gsb_transactions_list.c:561
+#: ../src/gsb_transactions_list.c:570
 msgid "Two lines view"
 msgstr "Άποψη δύο γραμμών"
 
-#: ../src/gsb_transactions_list.c:567
+#: ../src/gsb_transactions_list.c:576
 msgid "Three lines view"
 msgstr "Άποψη τριών γραμμών"
 
-#: ../src/gsb_transactions_list.c:601
+#: ../src/gsb_transactions_list.c:610
 #, fuzzy
 msgid "Show reconciled transactions"
 msgstr "Συμφωνημένες συναλλαγές"
 
-#: ../src/gsb_transactions_list.c:615 ../src/ui/grisbi_menu.ui.h:32
+#: ../src/gsb_transactions_list.c:624 ../src/ui/grisbi_menu.ui.h:32
 #, fuzzy
 msgid "Show lines archives"
 msgstr "Γνωστά αρχεία"
 
-#: ../src/gsb_transactions_list.c:1112
+#: ../src/gsb_transactions_list.c:1121
 msgid "P"
 msgstr "P"
 
-#: ../src/gsb_transactions_list.c:1116
+#: ../src/gsb_transactions_list.c:1125
 msgid "T"
 msgstr "T"
 
 #. set the R on the transaction
-#: ../src/gsb_transactions_list.c:1120 ../src/gsb_transactions_list.c:1974
+#: ../src/gsb_transactions_list.c:1129 ../src/gsb_transactions_list.c:1983
 msgid "R"
 msgstr "R"
 
-#: ../src/gsb_transactions_list.c:1501
+#: ../src/gsb_transactions_list.c:1510
 #, fuzzy, c-format
 msgid "Do you want to add the transactions of the archive %s into the list?"
 msgstr "Θέλετε να φορτώσετε τη συναλλαγή του αρχείου %s στον κατάλογο;"
 
-#: ../src/gsb_transactions_list.c:1514
+#: ../src/gsb_transactions_list.c:1523
 msgid ""
 "An archive was clicked but Grisbi is unable to get the name. It seems like a "
 "bug.\n"
@@ -9040,7 +9086,7 @@ msgstr ""
 "Παρακαλώ προσπαθήστε να το αναπαράγετε και επικοινωνείστε με την ομάδα του  "
 "Grisbi."
 
-#: ../src/gsb_transactions_list.c:1518
+#: ../src/gsb_transactions_list.c:1527
 msgid ""
 "An archive was clicked but it seems to have the number 0, wich should not "
 "happen.\n"
@@ -9051,7 +9097,7 @@ msgstr ""
 "Παρακαλώ προσπαθήστε να το αναπαράγετε και επικοινωνείστε με την ομάδα του "
 "Grisbi."
 
-#: ../src/gsb_transactions_list.c:1905
+#: ../src/gsb_transactions_list.c:1914
 msgid ""
 "You cannot switch a transaction between R and non R while reconciling.\n"
 "Please finish or cancel the reconciliation first."
@@ -9060,7 +9106,7 @@ msgstr ""
 "συμφωνώντας.\n"
 "παρακαλώ τελειώστε ή ακυρώστε τη συμφωνία πρώτα."
 
-#: ../src/gsb_transactions_list.c:1917
+#: ../src/gsb_transactions_list.c:1926
 #, fuzzy, c-format
 msgid ""
 "You are trying to reconcile or unreconcile a transaction manually, which is "
@@ -9082,7 +9128,7 @@ msgstr ""
 
 #. we warn the user the transaction disappear
 #. * don't laugh ! there were several bugs reports about a transaction wich disappear :-)
-#: ../src/gsb_transactions_list.c:1986
+#: ../src/gsb_transactions_list.c:1995
 msgid ""
 "The transaction has disappear from the list...\n"
 "Don't worry, it's because you marked it as R, and you choosed not to show "
@@ -9094,25 +9140,25 @@ msgstr ""
 "παρουσιάσετε συναλλαγές Ρ στον κατάλογο  τους παρουσιάστε εάν θέλετε να "
 "ελέγξετε τι κάνατε."
 
-#: ../src/gsb_transactions_list.c:1987
+#: ../src/gsb_transactions_list.c:1996
 msgid "Marking a transaction as R"
 msgstr "Χαρακτηρισμός μιας συναλλαγής ως Ρ"
 
-#: ../src/gsb_transactions_list.c:2066
+#: ../src/gsb_transactions_list.c:2075
 #, fuzzy
 msgid "Select the reconciliation to associate to the selected transaction: "
 msgstr "Επιλέξτε τη συμφωνία που συνδέει στην επιλεγμένη συναλλαγή:"
 
-#: ../src/gsb_transactions_list.c:2218
+#: ../src/gsb_transactions_list.c:2227
 msgid "Grisbi couldn't get the selection, operation canceled..."
 msgstr ""
 "Το Grisbi δεν θα μπορούσε να πάρει την επιλογή, η λειτουργία ακυρώθηκε…"
 
-#: ../src/gsb_transactions_list.c:2262
+#: ../src/gsb_transactions_list.c:2272
 msgid "Impossible to delete an archived transaction."
 msgstr "Αδύνατη η διαγραφή  μιας αρχειοθετημένης συναλλαγής."
 
-#: ../src/gsb_transactions_list.c:2271
+#: ../src/gsb_transactions_list.c:2281
 msgid ""
 "Impossible to delete a reconciled transaction.\n"
 "The transaction, the contra-transaction or the children if it is a split are "
@@ -9124,7 +9170,7 @@ msgstr ""
 "συμφωνούν. Μπορείτε να αφαιρέσετε τη συμφωνία με το CTRL Ρ εάν είναι "
 "πραγματικά απαραίτητο."
 
-#: ../src/gsb_transactions_list.c:2286
+#: ../src/gsb_transactions_list.c:2296
 #, c-format
 msgid ""
 "Do you really want to delete the child of the transaction with party '%s' ?"
@@ -9132,70 +9178,70 @@ msgstr ""
 "Θέλετε πραγματικά να διαγράψετε το παιδί της συναλλαγής με το συμβαλλόμενο "
 "μέρος '%s' ;"
 
-#: ../src/gsb_transactions_list.c:2298
+#: ../src/gsb_transactions_list.c:2308
 #, c-format
 msgid "Do you really want to delete transaction with party '%s' ?"
 msgstr ""
 "Θέλετε πραγματικά να διαγράψετε τη συναλλαγή με το συμβαλλόμενο μέρος '%s' ;"
 
-#: ../src/gsb_transactions_list.c:2502
+#: ../src/gsb_transactions_list.c:2515
 #, fuzzy
 msgid "Displays the contra-transaction"
 msgstr "Εμφάνιση συναλλαγών"
 
-#: ../src/gsb_transactions_list.c:2545 ../src/ui/grisbi_menu.ui.h:24
+#: ../src/gsb_transactions_list.c:2558 ../src/ui/grisbi_menu.ui.h:24
 msgid "Use selected transaction as a template"
 msgstr "Χρησιμοποιήστε την επιλεγμένη συναλλαγή ως πρότυπο."
 
-#: ../src/gsb_transactions_list.c:2563
+#: ../src/gsb_transactions_list.c:2576
 msgid "Convert transaction to scheduled transaction"
 msgstr "Μετατρέψτε τη συναλλαγή στη σχεδιασμένη συναλλαγή"
 
 #. Change cell content.
-#: ../src/gsb_transactions_list.c:2590
+#: ../src/gsb_transactions_list.c:2603
 msgid "Change cell content"
 msgstr "Αλλαγή περιεχομένου κελιού"
 
-#: ../src/gsb_transactions_list.c:2652
+#: ../src/gsb_transactions_list.c:2665
 #, fuzzy
 msgid "Clear cell"
 msgstr "Ακύρωση"
 
-#: ../src/gsb_transactions_list.c:3045
+#: ../src/gsb_transactions_list.c:3058
 msgid "Cannot move a transfer on his contra-account"
 msgstr "Αδύνατη η μετακίνηση του σε αντίθετο λογαριασμό."
 
 #. sort by line
-#: ../src/gsb_transactions_list.c:3349
+#: ../src/gsb_transactions_list.c:3362
 #, fuzzy
 msgid "Sort list by: "
 msgstr "Κατηγοριοποίηση λίστας κατά :"
 
-#: ../src/gsb_transactions_list.c:3396
+#: ../src/gsb_transactions_list.c:3409
 msgid "alignment: "
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:3404
+#: ../src/gsb_transactions_list.c:3417
 msgid "LEFT"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:3418
+#: ../src/gsb_transactions_list.c:3431
 msgid "CENTER"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:3432
+#: ../src/gsb_transactions_list.c:3445
 msgid "RIGHT"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:3848
+#: ../src/gsb_transactions_list.c:3873
 msgid "Transfer to a deleted account"
 msgstr "Μεταφορά σε έναν διαγραμμένο λογαριασμό."
 
-#: ../src/gsb_transactions_list.c:3850
+#: ../src/gsb_transactions_list.c:3875
 msgid "Transfer from a deleted account"
 msgstr "Μεταφορά από έναν διαγραμμένο λογαριασμό."
 
-#: ../src/gsb_transactions_list.c:3978 ../src/gsb_transactions_list.c:4094
+#: ../src/gsb_transactions_list.c:4003 ../src/gsb_transactions_list.c:4119
 #, fuzzy
 msgid ""
 "Some children didn't find their mother in the list, this shouldn't happen "
@@ -9209,7 +9255,7 @@ msgstr ""
 "\n"
 "Ο ενδιαφερόμενος αριθμός απογόνων είναι:\n"
 
-#: ../src/gsb_transactions_list.c:4010 ../src/gsb_transactions_list.c:4120
+#: ../src/gsb_transactions_list.c:4035 ../src/gsb_transactions_list.c:4145
 #, fuzzy
 msgid ""
 "You have just recovered an archive, if you don't see any new transaction, "
@@ -9224,13 +9270,13 @@ msgstr ""
 "\n"
 "Σπείρετε τις συναλλαγές Ρ για να τις καταστήσετε ορατές."
 
-#: ../src/gsb_transactions_list.c:4517
+#: ../src/gsb_transactions_list.c:4542
 #, fuzzy
 msgid "Do you really want to delete this file import rule?"
 msgstr ""
 "Θέλετε πραγματικά να διαγράψετε τη συναλλαγή με το συμβαλλόμενο μέρος '%s' ;"
 
-#: ../src/gsb_transactions_list.c:4577
+#: ../src/gsb_transactions_list.c:4602
 #, fuzzy, c-format
 msgid ""
 "Some children didn't find their mother in the list, this shouldn't happen "
@@ -9329,23 +9375,23 @@ msgstr "Προσωπικός διευθυντής χρηματοδότησης �
 msgid "This instance of Grisbi was compiled on\n"
 msgstr ""
 
-#: ../src/import.c:129
+#: ../src/import.c:131
 msgid "Comma Separated Values"
 msgstr "Τιμές χωρισμένες με κόμμα "
 
-#: ../src/import.c:130
+#: ../src/import.c:132
 msgid "Quicken Interchange Format"
 msgstr "Επιταχύνετε το σχήμα ανταλλαγής"
 
-#: ../src/import.c:132 ../src/plugins/gnucash/gnucash.c:132
+#: ../src/import.c:134 ../src/plugins/gnucash/gnucash.c:132
 msgid "Gnucash"
 msgstr "Gnucash"
 
-#: ../src/import.c:135
+#: ../src/import.c:137
 msgid "Open Financial Exchange"
 msgstr ""
 
-#: ../src/import.c:439
+#: ../src/import.c:504
 #, c-format
 msgid ""
 "The account currency imported %s is %s.\n"
@@ -9354,37 +9400,37 @@ msgid ""
 "Do you create it?"
 msgstr ""
 
-#: ../src/import.c:446
+#: ../src/import.c:511
 #, c-format
 msgid "Can't associate ISO 4217 code for currency '%s'."
 msgstr "Αδύνατη η σύνδεση του  ISO 4217 κωδικού για το νόμισμα '%s'."
 
-#: ../src/import.c:463
+#: ../src/import.c:528
 msgid ""
 "Use this currency for totals for the payees categories\n"
 "and budgetary lines"
 msgstr ""
 
-#: ../src/import.c:518
+#: ../src/import.c:583
 msgid "Import settings completed successfully"
 msgstr ""
 
-#: ../src/import.c:522
+#: ../src/import.c:587
 #, fuzzy
 msgid "Press the 'Close' button to finish the import."
 msgstr ""
 "Έχετε επιτυχώς  εξαγάγει τα  στοιχεία οργάνωσης στο Grisbi.  Πιέστε το "
 "'Κλείσιμο' για να εξαγάγετε πραγματικά τα στοιχεία."
 
-#: ../src/import.c:612
+#: ../src/import.c:677
 msgid "Imported account"
 msgstr "Εισαχθείς λογαριασμός"
 
-#: ../src/import.c:658
+#: ../src/import.c:723
 msgid "file"
 msgstr "Αρχείο"
 
-#: ../src/import.c:664
+#: ../src/import.c:729
 #, c-format
 msgid ""
 "<span size=\"x-large\">%s</span>\n"
@@ -9397,82 +9443,77 @@ msgstr ""
 "Τι θέλετε να κάνετε με το περιεχόμενο από <span foreground=\"blue\">%s</"
 "span> ?\n"
 
-#: ../src/import.c:719
+#: ../src/import.c:784
 msgid "Add transactions to an account"
 msgstr "Προσθέστε τις συναλλαγές σε έναν λογαριασμό."
 
-#: ../src/import.c:742
+#: ../src/import.c:807
 msgid "Mark transactions of an account"
 msgstr "Επιλέξτε συναλλαγές ενός λογαριασμού."
 
 #. invert amount of transactions
-#: ../src/import.c:806
+#: ../src/import.c:871
 msgid "Invert the amount of the imported transactions"
 msgstr "Αναστρέψτε το ποσό των εισαγόμενων συναλλαγών"
 
-#: ../src/import.c:815
+#: ../src/import.c:880
 #, fuzzy
 msgid "Create a rule for this import. Name of the rule: "
 msgstr "Δημιουργήστε έναν κανόνα για αυτήν την εισαγωγή. Όνομα του κανόνα:"
 
-#: ../src/import.c:919 ../src/import.c:942 ../src/import.c:981
-#: ../src/import.c:1448
+#: ../src/import.c:984 ../src/import.c:1007 ../src/import.c:1046
+#: ../src/import.c:1544
 msgid "Unknown"
 msgstr "Άγνωστο"
 
-#: ../src/import.c:1071
+#: ../src/import.c:1175
 msgid "Choose files to import."
 msgstr "Επιλέξτε αρχεία για εισαγωγή"
 
-#: ../src/import.c:1101
+#: ../src/import.c:1205
 #, c-format
 msgid "Known files (%s)"
 msgstr "Γνωστά αρχεία (%s)"
 
-#: ../src/import.c:1113
+#: ../src/import.c:1217
 #, c-format
 msgid "%s files (*.%s)"
 msgstr "%s αρχεία (*.%s)"
 
-#: ../src/import.c:1151
+#: ../src/import.c:1255
 #, fuzzy
 msgid "Encoding: "
 msgstr "Κωδικοποίηση:"
 
-#: ../src/import.c:1197
+#: ../src/import.c:1301
 #, fuzzy, c-format
 msgid "cannot unzip file '%s': %s"
 msgstr "Αδύνατο το άνοιγμαι του αρχείο '%s': %s"
 
-#: ../src/import.c:1224
+#: ../src/import.c:1328
 #, c-format
 msgid "Adding '%s' as an import format"
 msgstr "Προσθέτοντας '%s' ως σχήμα εισαγωγών"
 
-#: ../src/import.c:1250
-#, c-format
-msgid "Unable to create tmp file: %s\n"
-msgstr "Αδύνατη η δημιουργία αρχείου tmp: %s\n"
-
-#: ../src/import.c:1315 ../src/import.c:1395 ../src/import.c:4765
-#: ../src/import_csv.c:177 ../src/import_csv.c:223
+#: ../src/import.c:1390 ../src/import.c:1496 ../src/import_csv.c:177
+#: ../src/import_csv.c:223
 #, c-format
 msgid "Unable to read file: %s\n"
 msgstr "Αδύνατο το άνοιγμα του αρχείου: %s\n"
 
-#: ../src/import.c:1562 ../src/import.c:1688
+#: ../src/import.c:1688
 msgid "Choose file to import"
 msgstr "Επιλέξτε αρχείο για εισαγωγή"
 
-#: ../src/import.c:1632 ../src/import.c:1761
-msgid "File name"
-msgstr "Όνομα αρχείου"
-
-#: ../src/import.c:1690
+#: ../src/import.c:1694
 msgid "Add file to import..."
 msgstr "Προσθέστε αρχείο για εισαγωγή"
 
-#: ../src/import.c:1885
+#: ../src/import.c:1783
+msgid "File name"
+msgstr "Όνομα αρχείου"
+
+#: ../src/import.c:1916
 msgid ""
 "You successfully imported files into Grisbi.  The following pages will help "
 "you set up imported data for the following files"
@@ -9480,16 +9521,16 @@ msgstr ""
 "Εισαγάγατε επιτυχώς τα αρχεία στο Grisbi.  Οι ακόλουθες σελίδες θα σας "
 "βοηθήσουν να οργανώσετε τα εισαγόμενα στοιχεία για τα ακόλουθα αρχεία"
 
-#: ../src/import.c:1900
+#: ../src/import.c:1931
 msgid "Unnamed Imported account"
 msgstr "Απροσδιόριστος εισαγόμενος λογαριασμός"
 
-#: ../src/import.c:1927
+#: ../src/import.c:1958
 #, fuzzy
 msgid "Error!"
 msgstr "Λάθος!"
 
-#: ../src/import.c:1932
+#: ../src/import.c:1963
 msgid ""
 "No file has been imported, please double check that they are valid files.  "
 "Please make sure that they are not compressed and that their format is valid."
@@ -9497,12 +9538,12 @@ msgstr ""
 "Κανένα αρχείο δεν έχει εισαχθεί, παρακαλώ ελέγξτε ότι είναι έγκυρα αρχεία.  "
 "Παρακαλώ σιγουρευτείτε ότι δεν συμπιέζονται και ότι το σχήμα τους ισχύει."
 
-#: ../src/import.c:1946
+#: ../src/import.c:1977
 #, fuzzy
 msgid "The following files are in error: "
 msgstr "Τα ακόλουθα αρχεία είναι λανθασμένα:"
 
-#: ../src/import.c:2486
+#: ../src/import.c:2517
 #, fuzzy, c-format
 msgid ""
 "Warning : the cheque number %s is already used.\n"
@@ -9511,21 +9552,21 @@ msgstr ""
 "Προειδοποίηση: ο αριθμός επιταγών %ld  χρησιμοποιείται ήδη.\n"
 "Το προσπερνάμε."
 
-#: ../src/import.c:2675
+#: ../src/import.c:2706
 #, fuzzy, c-format
 msgid "Confirmation of transactions to be merged in: %s"
 msgstr "Επιβεβαίωση των συναλλαγών που συγχωνεύονται"
 
-#: ../src/import.c:2679
+#: ../src/import.c:2710
 #, fuzzy, c-format
 msgid "Confirmation of importation of transactions in: %s"
 msgstr "Επιβεβαίωση της εισαγωγής των συναλλαγών"
 
-#: ../src/import.c:2699
+#: ../src/import.c:2730
 msgid "Please select the transactions to be merged"
 msgstr "Παρακαλώ επιλέξτε τις συναλλαγές που συγχωνεύονται"
 
-#: ../src/import.c:2705
+#: ../src/import.c:2736
 msgid ""
 "Some imported transactions seem to be already saved.Please select the "
 "transactions to import."
@@ -9533,29 +9574,29 @@ msgstr ""
 "Μερικές εισαγόμενες συναλλαγές φαίνονται να σώζονται ήδη. Παρακαλώ επιλέξτε "
 "τις συναλλαγές στην εισαγωγή."
 
-#: ../src/import.c:2779
+#: ../src/import.c:2810
 #, fuzzy, c-format
 msgid "Transaction to be merged: %s ; %s ; %s"
 msgstr "Συναλλαγές που συγχωνεύονται: %s ; %s ; %s"
 
-#: ../src/import.c:2784
+#: ../src/import.c:2815
 #, fuzzy, c-format
 msgid "Transaction to import: %s ; %s ; %s"
 msgstr "Συναλλαγές στην εισαγωγή: %s ; %s ; %s"
 
-#: ../src/import.c:2810
+#: ../src/import.c:2841
 #, fuzzy, c-format
 msgid "Transaction found: %s ; %s ; %s ; %s"
 msgstr "Συναλλαγή που βρίσκεται: %s ; %s ; %s ; %s"
 
-#: ../src/import.c:2824
+#: ../src/import.c:2855
 #, fuzzy, c-format
 msgid "Transaction found: %s ; %s ; %s"
 msgstr "Συναλλαγή που βρίσκεται: %s ; %s ; %s"
 
 #. l'id du compte choisi et l'id du compte importé sont différents
 #. on propose encore d'arrêter...
-#: ../src/import.c:3092
+#: ../src/import.c:3116
 #, fuzzy
 msgid ""
 "Perhaps you choose a wrong account?  If you choose to continue, the id of "
@@ -9564,28 +9605,28 @@ msgstr ""
 "Ίσως επιλέγετε έναν λανθασμένο λογαριασμό;  Εάν επιλέξετε να συνεχιστείτε, η "
 "ταυτότητα του λογαριασμού θα αλλάξει.  Θέλετε να συνεχιστείτε;"
 
-#: ../src/import.c:3094
+#: ../src/import.c:3118
 msgid "The id of the imported and chosen accounts are different"
 msgstr ""
 "Η ταυτότητα των εισαγόμενων και επιλεγμένων λογαριασμών είναι διαφορετική"
 
-#: ../src/import.c:3638
+#: ../src/import.c:3662
 #, fuzzy, c-format
 msgid "Orphaned transactions for: %s"
 msgstr "Ορφανές μεταφορές"
 
-#: ../src/import.c:3656
+#: ../src/import.c:3680
 #, fuzzy
 msgid "Mark transactions you want to add to the list and click the OK button"
 msgstr ""
 "Επιλέξτε τις συναλλαγές  που θέλετε να προσθέσετε στον κατάλογο και πατήστε "
 "'Προσθήκη'"
 
-#: ../src/import.c:3721
+#: ../src/import.c:3745
 msgid "Mark"
 msgstr "Σημάδι"
 
-#: ../src/import.c:4126
+#: ../src/import.c:4151
 #, c-format
 msgid ""
 "An error occured while creating the new account %s,\n"
@@ -9595,7 +9636,7 @@ msgstr ""
 "προσπαθούμε να συνεχίσουμε να εισάγουμε αλλά κακά πράγματα μπορούν να "
 "συμβούν…"
 
-#: ../src/import.c:4187
+#: ../src/import.c:4212
 #, fuzzy, c-format
 msgid ""
 "You want to create an import rule for the account %s but didn't give a name "
@@ -9605,16 +9646,16 @@ msgstr ""
 "δώσατε ένα όνομα σε εκείνο τον κανόνα. Παρακαλώ θέστε ένα όνομα ή  αφήστε το "
 "κενό για να ακυρώσετε τη δημιουργία κανόνα."
 
-#: ../src/import.c:4191
+#: ../src/import.c:4216
 msgid "No name for the import rule"
 msgstr "Κανένα όνομα για τον κανόνα εισαγωγών"
 
-#: ../src/import.c:4192 ../src/ui/csv_template_rule.ui.h:4
+#: ../src/import.c:4217 ../src/ui/csv_template_rule.ui.h:4
 #, fuzzy
 msgid "Name of the rule: "
 msgstr "Όνομα του κανόνα:"
 
-#: ../src/import.c:4238
+#: ../src/import.c:4259
 #, fuzzy
 msgid ""
 "No account in memory now, this is bad...\n"
@@ -9628,11 +9669,11 @@ msgstr ""
 "Παρακαλώ ελάτε σε επαφή με την ομάδα του  grisbi για να βρείτε λύση στο "
 "πρόβλημα."
 
-#: ../src/import.c:4248
+#: ../src/import.c:4269
 msgid "Please wait"
 msgstr "Παρακαλώ περιμένετε"
 
-#: ../src/import.c:4274
+#: ../src/import.c:4295
 #, fuzzy
 msgid ""
 "You have just imported reconciled transactions but they not associated with "
@@ -9640,7 +9681,7 @@ msgid ""
 "via the preferences windows."
 msgstr "προτιμήσεων."
 
-#: ../src/import.c:4310
+#: ../src/import.c:4332
 msgid ""
 "This assistant will help you import one or several files into Grisbi.\n"
 "\n"
@@ -9657,31 +9698,31 @@ msgstr ""
 "τώρα, τα ακόλουθα σχήματα υποστηρίζονται:\n"
 "\n"
 
-#: ../src/import.c:4318
+#: ../src/import.c:4340
 msgid "Importing transactions into Grisbi"
 msgstr "Εισαγωγή συναλλαγών στο Grisbi"
 
-#: ../src/import.c:4526
+#: ../src/import.c:4549
 #, c-format
 msgid "%s #%d"
 msgstr "%s #%d"
 
-#: ../src/import.c:4616
+#: ../src/import.c:4639
 msgid "Import a file with a rule"
 msgstr "Εισάγετε ένα αρχείο με έναν κανόνα"
 
 #. text for paddingbox
-#: ../src/import.c:4627
+#: ../src/import.c:4650
 #, fuzzy, c-format
 msgid "Properties of the rule: %s\n"
 msgstr "Ιδιότητες του κανόνα: %s\n"
 
-#: ../src/import.c:4646
+#: ../src/import.c:4669
 #, c-format
 msgid "Imported transactions will be added to the account %s.\n"
 msgstr "Οι εισαγόμενες συναλλαγές θα προστεθούν στον λογαριασμό %s.\n"
 
-#: ../src/import.c:4649
+#: ../src/import.c:4672
 #, c-format
 msgid "Imported transactions will mark transactions in the account %s.\n"
 msgstr ""
@@ -9689,28 +9730,28 @@ msgstr ""
 "%s.\n"
 
 #. textstring 2
-#: ../src/import.c:4654
+#: ../src/import.c:4677
 #, c-format
 msgid "Currency to import is %s.\n"
 msgstr "Νόμισμα προς εισαγωγή %s.\n"
 
-#: ../src/import.c:4663
+#: ../src/import.c:4686
 #, c-format
 msgid "Amounts of the transactions will be inverted.\n"
 msgstr "Τα ποσά των συναλλαγών θα αναστραφούν.\n"
 
 #. label filename
-#: ../src/import.c:4675
+#: ../src/import.c:4698
 #, fuzzy
 msgid "Name of the file to import: "
 msgstr "Όνομα του αρχείου προς εισαγωγή:"
 
-#: ../src/import.c:4692
+#: ../src/import.c:4715
 #, fuzzy
 msgid "Select a new file"
 msgstr "Επιλέξτε ένα νέο λογότυπο"
 
-#: ../src/import.c:4749
+#: ../src/import.c:4773
 #, c-format
 msgid ""
 "%s is neither an OFX file, neither a QIF file. Nothing will be done for that "
@@ -9719,7 +9760,7 @@ msgstr ""
 "%s Δεν είναι αρχείο OFX, ούτε αρχείο QIF. Τίποτα δεν θα γίνει με αυτό το "
 "αρχείο."
 
-#: ../src/import.c:4816
+#: ../src/import.c:4817
 #, c-format
 msgid ""
 "%s was not imported successfully. An error occured while getting the "
@@ -10664,15 +10705,15 @@ msgstr "Πηγή τίτλου"
 msgid "Fonts & layout"
 msgstr "Πηγές & σχεδιάγραμμα"
 
-#: ../src/qif.c:126
+#: ../src/qif.c:127
 msgid "Invalid QIF file"
 msgstr "Άκυρο αρχείο QIF"
 
-#: ../src/qif.c:212
+#: ../src/qif.c:213
 msgid "Imported QIF account"
 msgstr "Εισαγόμενος λογαριασμός QIF"
 
-#: ../src/qif.c:223
+#: ../src/qif.c:224
 #, fuzzy, c-format
 msgid ""
 "Grisbi found an investment account:\n"
@@ -10684,11 +10725,11 @@ msgstr ""
 "ακόμα.  Εντούτοις, το Grisbi θα προσπαθήσει να το εισαγάγει ως τραπεζικό "
 "λογαριασμό"
 
-#: ../src/qif.c:285
+#: ../src/qif.c:286
 msgid "Opening Balance"
 msgstr "Ισορροπία ανοίγματος"
 
-#: ../src/qif.c:313
+#: ../src/qif.c:314
 msgid ""
 "Grisbi couldn't determine the format of the date into the qif file.\n"
 "Please contact the Grisbi team (devel@listes.grisbi.org) to find the "
@@ -10700,7 +10741,7 @@ msgstr ""
 "να βρείτε λύση στο πρόβλημα.\n"
 "Για τώρα, όλες οι ημερομηνίες θα εισαχθούν ως 01.01.1970"
 
-#: ../src/qif.c:384
+#: ../src/qif.c:385
 #, c-format
 msgid ""
 "The date %s seems contains more than 2 separators.\n"
@@ -10711,21 +10752,21 @@ msgstr ""
 "Αυτό δεν πρέπει να συμβεί. Παρακαλώ ελάτε σε επαφή με την ομάδα Grisbi για "
 "να προσπαθήσετε να προσθέσετε το παράξενο σχήμα σας στο Grisbi."
 
-#: ../src/qif.c:458
+#: ../src/qif.c:459
 msgid "The order cannot be determined,\n"
 msgstr "Η διαταγή δεν μπορεί να καθοριστεί,\n"
 
-#: ../src/qif.c:463
+#: ../src/qif.c:464
 msgid "Date wrong for the order "
 msgstr "Ημερομηνία λανθασμένη για τη διαταγή"
 
-#: ../src/qif.c:547
+#: ../src/qif.c:548
 msgid ""
 "Warning the date has three fields of two numbers. In these circumstances the "
 "date might be wrong."
 msgstr ""
 
-#: ../src/qif.c:777
+#: ../src/qif.c:778
 #, c-format
 msgid ""
 "There were many accounts to export in the archive,\n"
@@ -10736,36 +10777,36 @@ msgstr ""
 "αλλά ένα αρχείο QIF υποστηρίζει μόνο αρχείο ανά λογαριασμό,\n"
 "έτσι το Grisbi δημιούργησε %d τα αρχεία, ένα ανά λογαριασμό:\n"
 
-#: ../src/qif.c:840
+#: ../src/qif.c:842
 #, c-format
 msgid "Error opening file '%s'"
 msgstr "Λάθος κατά το άνοιγμα του αρχείου '%s'"
 
-#: ../src/qif.c:1148
+#: ../src/qif.c:1191
 msgid "bank"
 msgstr "τράπεζα"
 
-#: ../src/qif.c:1150
+#: ../src/qif.c:1193
 msgid "invst)"
 msgstr "invst)"
 
-#: ../src/qif.c:1152
+#: ../src/qif.c:1195
 msgid "cash)"
 msgstr "μετρητό)"
 
-#: ../src/qif.c:1154
+#: ../src/qif.c:1197
 msgid "oth a)"
 msgstr "oth a)"
 
-#: ../src/qif.c:1156
+#: ../src/qif.c:1199
 msgid "oth l)"
 msgstr "oth l)"
 
-#: ../src/qif.c:1158
+#: ../src/qif.c:1201
 msgid "ccard)"
 msgstr "ccard)"
 
-#: ../src/qif.c:1338 ../src/qif.c:1341
+#: ../src/qif.c:1381 ../src/qif.c:1384
 msgid " [Transaction imported without date]"
 msgstr " [Συναλλαγή που εισάγεται χωρίς ημερομηνία]"
 
@@ -11329,18 +11370,18 @@ msgid "(Un)Reconcile a transaction\t-> <Primary>r\n"
 msgstr "Συμφωνημένες συναλλαγές"
 
 #. On récupère le nom de la page
-#: ../src/prefs/prefs_page_divers.c:167
+#: ../src/prefs/prefs_page_divers.c:210
 msgid "Divers"
 msgstr ""
 
 #. set the scheduled variables
-#: ../src/prefs/prefs_page_divers.c:176
+#: ../src/prefs/prefs_page_divers.c:219
 msgid "Warn/Execute the scheduled transactions arriving at expiration date"
 msgstr ""
 "Προειδοποιείστε/εκτελέστε τις σχεδιασμένες συναλλαγές φθάνοντας στην "
 "ημερομηνία λήξης"
 
-#: ../src/prefs/prefs_page_divers.c:177
+#: ../src/prefs/prefs_page_divers.c:220
 #, fuzzy
 msgid "Warn/Execute the scheduled transactions of the month"
 msgstr "Προειδοποιήστε/εκτελέστε τις σχεδιασμένες συναλλαγές του μήνα"
@@ -12047,7 +12088,7 @@ msgstr ""
 msgid "Line number: "
 msgstr "Αριθμός:"
 
-#: ../src/ui/csv_template_rule.ui.h:13
+#: ../src/ui/csv_template_rule.ui.h:13 ../src/ui/prefs_page_divers.ui.h:8
 msgid "1"
 msgstr "1"
 
@@ -12105,7 +12146,7 @@ msgstr "Επιλογή στοιχείων"
 #: ../src/ui/csv_template_rule.ui.h:25 ../src/ui/prefs_page_archives.ui.h:12
 #: ../src/ui/prefs_page_display_adr.ui.h:1
 #: ../src/ui/prefs_page_display_fonts.ui.h:9
-#: ../src/ui/prefs_page_display_gui.ui.h:14 ../src/ui/prefs_page_divers.ui.h:11
+#: ../src/ui/prefs_page_display_gui.ui.h:14 ../src/ui/prefs_page_divers.ui.h:15
 #: ../src/ui/prefs_page_files.ui.h:20 ../src/ui/prefs_page_import_asso.ui.h:8
 #: ../src/ui/prefs_page_import_files.ui.h:13
 msgid "label"
@@ -12114,7 +12155,7 @@ msgstr ""
 #: ../src/ui/csv_template_rule.ui.h:26 ../src/ui/prefs_page_archives.ui.h:13
 #: ../src/ui/prefs_page_display_adr.ui.h:2
 #: ../src/ui/prefs_page_display_fonts.ui.h:10
-#: ../src/ui/prefs_page_display_gui.ui.h:15 ../src/ui/prefs_page_divers.ui.h:12
+#: ../src/ui/prefs_page_display_gui.ui.h:15 ../src/ui/prefs_page_divers.ui.h:18
 #: ../src/ui/prefs_page_files.ui.h:21 ../src/ui/prefs_page_import_asso.ui.h:9
 #: ../src/ui/prefs_page_import_files.ui.h:14
 #, fuzzy
@@ -12920,22 +12961,45 @@ msgstr "Προγράμματα"
 
 #: ../src/ui/prefs_page_divers.ui.h:7
 #, fuzzy
-msgid "Number of days before the warning or the execution: "
-msgstr "Αριθμός ημερών πριν από την προειδοποίηση ή την εκτέλεση:"
-
-#: ../src/ui/prefs_page_divers.ui.h:8
-#, fuzzy
 msgid "Launch day for scheduled operations performed monthly: "
 msgstr "Αριθμός ημερών πριν από την προειδοποίηση ή την εκτέλεση:"
 
 #: ../src/ui/prefs_page_divers.ui.h:9
+#, fuzzy
+msgid "Set fixed date of all scheduled transactions: "
+msgstr "Κλειστές προγραμματισμένες συναλλαγές"
+
+#: ../src/ui/prefs_page_divers.ui.h:10
+msgid "Like before"
+msgstr ""
+
+#: ../src/ui/prefs_page_divers.ui.h:11
+#, fuzzy
+msgid "With the last day of the month"
+msgstr "Τελευταίες 30 ημέρες"
+
+#: ../src/ui/prefs_page_divers.ui.h:12
+#, fuzzy
+msgid "With the last banking day"
+msgstr "Τελευταίες 30 ημέρες"
+
+#: ../src/ui/prefs_page_divers.ui.h:13
 msgid "Use a default account for sheduler form: "
 msgstr ""
 
-#: ../src/ui/prefs_page_divers.ui.h:10
+#: ../src/ui/prefs_page_divers.ui.h:14
 #, fuzzy
 msgid "Localization"
 msgstr "Συμφωνία"
+
+#: ../src/ui/prefs_page_divers.ui.h:16
+#, fuzzy
+msgid "Number of days before the warning or the execution: "
+msgstr "Αριθμός ημερών πριν από την προειδοποίηση ή την εκτέλεση:"
+
+#: ../src/ui/prefs_page_divers.ui.h:17 ../src/ui/prefs_page_files.ui.h:14
+msgid "0"
+msgstr ""
 
 #: ../src/ui/prefs_page_files.ui.h:6
 msgid "Compress Grisbi file"
@@ -12962,10 +13026,6 @@ msgstr "Συμπίεση αντιγράφων Grisbi"
 #: ../src/ui/prefs_page_files.ui.h:11
 msgid "Make a backup copy after opening files"
 msgstr "Κάνετε ένα εφεδρικό αντίγραφο μετά το άνοιγμα των αρχείων"
-
-#: ../src/ui/prefs_page_files.ui.h:14
-msgid "0"
-msgstr ""
 
 #: ../src/ui/prefs_page_files.ui.h:17
 msgid "Sélectionner un répertoire"
@@ -13064,6 +13124,9 @@ msgstr ""
 msgid "Personnal finances manager"
 msgstr "Προσωπικός διευθυντής χρηματοδότησης για τον καθέναν\n"
 
+#~ msgid "Unable to create tmp file: %s\n"
+#~ msgstr "Αδύνατη η δημιουργία αρχείου tmp: %s\n"
+
 #~ msgid "Save locked files?"
 #~ msgstr "Αποθήκευση κλειδωμένων αρχείων;"
 
@@ -13135,9 +13198,6 @@ msgstr "Προσωπικός διευθυντής χρηματοδότησης �
 #~ "της διαμόρφωσης μιας παλαιάς έκδοσης Grisbi.\n"
 #~ "\n"
 #~ "<b>Θέλετε να συνεχίσετε;</b>"
-
-#~ msgid "Voucher number"
-#~ msgstr "Αριθμός αποδείξεων"
 
 #, fuzzy
 #~ msgid "View password"
