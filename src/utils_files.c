@@ -240,7 +240,7 @@ static GSList *utils_files_check_UTF8_validity (const gchar *contents,
     GSList *list = NULL;
     struct struc_check_encoding *result;
     gchar *string = NULL;
-    gint long_str = 0;
+    gsize long_str = 0;
     gsize size = 0;
     gsize bytes_written = 0;
     gint i = 0;
@@ -904,9 +904,9 @@ gchar *utils_files_selection_get_last_directory (GtkFileChooser *filesel,
 											     gboolean ended)
 {
     gchar *dirstr;
-    gint dirstr_len = 0;
+    gsize dirstr_len = 0;
     gchar *sepstr;
-    gint sepstr_len = 0;
+    gsize sepstr_len = 0;
     gboolean is_endedstr = FALSE;
     gchar* tmpstr;
 
