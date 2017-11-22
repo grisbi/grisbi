@@ -250,7 +250,7 @@ GtkWidget *dialogue_special_no_run ( GtkMessageType param,
     if (window)
     {
         dialog = gtk_message_dialog_new (window,
-                        GTK_DIALOG_DESTROY_WITH_PARENT || GTK_DIALOG_MODAL,
+                        GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL,
                         param, buttons,
                         NULL );
     }
