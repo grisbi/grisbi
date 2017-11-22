@@ -164,7 +164,7 @@ gboolean gsb_file_util_get_contents ( const gchar *filename,
     /* we should be able to get directly the orig_size
      * for most of files it's enough, if the file is compressed,
      * we continue */
-    iterator = gzread (file, content, orig_size);
+    iterator = gzread (file, content, (unsigned)orig_size);
 
     if (iterator < 0)
     {
