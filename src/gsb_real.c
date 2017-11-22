@@ -879,11 +879,11 @@ gchar *gsb_real_add_thousands_sep ( gchar *str_number, const gchar *thousands_se
     gchar *dest;
     gchar *tmp_ptr;
     gchar **tab_str = NULL;
-    gint nbre_char;
+    gssize nbre_char;
     gint i = 0;
     gint j = 0;
     gint sep = 0;
-    gint longueur;
+    gssize longueur;
 
     if ( thousands_sep == NULL )
         return str_number;
