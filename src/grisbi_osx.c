@@ -75,16 +75,8 @@ typedef struct
 
 
 /*START_STATIC*/
-static void action_activate_cb ( GtkAction *action, gpointer data );
-static gboolean attention_cb ( AttentionRequest* req );
-static void bounce_cb ( GtkWidget  *button, GtkosxApplication *app );
-static MenuCBData *menu_cbdata_new ( gchar *label, gpointer item );
-static void menu_cbdata_delete ( MenuCBData *datum );
-static void menu_item_activate_cb ( GtkWidget *item, MenuCBData  *datum );
 static void menu_items_destroy ( MenuItems *items );
 static MenuItems *menu_items_new ( void );
-static void radio_item_changed_cb ( GtkAction* action, GtkAction* current, MenuCBData *datum );
-static void view_menu_cb (GtkWidget *button, gpointer user_data);
 /*END_STATIC*/
 
 
@@ -115,96 +107,6 @@ static MenuItems *menu_items_new ( void )
 static void menu_items_destroy ( MenuItems *items )
 {
     g_slice_free ( MenuItems, items );
-}
-
-/**
- *
- *
- *
- *
- * */
-static MenuCBData *menu_cbdata_new ( gchar *label, gpointer item )
-{
-    MenuCBData *datum =  g_slice_new0 ( MenuCBData );
-    datum->label = label;
-    datum->item = item;
-    g_object_ref ( datum->item );
-
-    return datum;
-}
-
-
-/**
- *
- *
- *
- *
- * */
-static void menu_cbdata_delete ( MenuCBData *datum )
-{
-    g_object_unref ( datum->item );
-    g_slice_free ( MenuCBData, datum );
-}
-
-
-/**
- *
- *
- *
- *
- * */
-static void action_activate_cb ( GtkAction *action, gpointer data )
-{
-    GtkWindow *window = data;
-
-    g_print ("Window %s, Action %s\n", gtk_window_get_title ( window ), gtk_action_get_name ( action ));
-}
-
-
-/**
- *
- *
- *
- *
- * */
-static void radio_item_changed_cb ( GtkAction* action, GtkAction* current, MenuCBData *datum )
-{
-    g_print ("Radio group %s in window %s changed value: %s is now active.\n",
-                        datum->label, gtk_window_get_title ( GTK_WINDOW ( datum->item ) ),
-                        gtk_action_get_name ( GTK_ACTION ( current ) ) );
-}
-
-
-/**
- *
- *
- *
- *
- * */
-static gboolean attention_cb ( AttentionRequest* req )
-{
-    gtkosx_application_attention_request ( req->app, req->type );
-
-    g_free(req);
-
-    return FALSE;
-}
-
-
-/**
- *
- *
- *
- *
- * */
-static void bounce_cb ( GtkWidget  *button, GtkosxApplication *app )
-{
-    AttentionRequest *req = g_new0 ( AttentionRequest, 1 );
-
-    req->app = app;
-    req->type = CRITICAL_REQUEST;
-    g_timeout_add_seconds ( 2, (GSourceFunc) attention_cb, req );
-    g_print("Now switch to some other application\n");
 }
 
 
