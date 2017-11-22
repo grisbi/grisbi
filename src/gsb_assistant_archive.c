@@ -729,7 +729,7 @@ static gboolean gsb_assistant_archive_switch_to_success ( GtkWidget *assistant,
     buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (congratulations_view));
     gtk_text_buffer_get_iter_at_mark ( buffer, &iter,
                         gtk_text_buffer_get_mark ( buffer, "status" ) );
-    gtk_text_buffer_insert ( buffer, &iter, string, strlen(string) );
+    gtk_text_buffer_insert ( buffer, &iter, string, (gint)strlen(string) );
 
     g_free (string);
 
