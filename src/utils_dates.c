@@ -509,7 +509,7 @@ gchar *gsb_format_date ( gint day, gint month, gint year )
 gchar *gsb_format_gdate ( const GDate *date )
 {
     gchar retour_str[SIZEOF_FORMATTED_STRING_DATE];
-    guint longueur = 0;
+    gsize longueur = 0;
 
     if ( !date || !g_date_valid ( date ) )
         return my_strdup ( "" );
@@ -536,7 +536,7 @@ gchar *gsb_format_gdate ( const GDate *date )
 gchar *gsb_format_gdate_safe ( const GDate *date )
 {
     gchar retour_str[SIZEOF_FORMATTED_STRING_DATE];
-    guint longueur;
+    gsize longueur;
 
     if ( !date || !g_date_valid ( date ) )
     {
