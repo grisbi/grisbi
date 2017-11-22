@@ -1744,7 +1744,7 @@ void gsb_form_check_auto_separator ( GtkWidget *entry )
     gchar *tmp = NULL;
     gchar *mon_decimal_point;
     gunichar decimal_point;
-    gint i;
+    gsize i;
 
     if (!etat.automatic_separator
 	||
@@ -1778,7 +1778,7 @@ void gsb_form_check_auto_separator ( GtkWidget *entry )
         gchar *concat_tmp;
 
         tmp = g_malloc (floating_point - strlen(string) + 2);
-        for (i=0 ; i<(floating_point - (gint) strlen(string) + 1) ; i++)
+        for (i=0 ; i<(floating_point - strlen(string) + 1) ; i++)
             tmp[i] = '0';
         tmp[floating_point - strlen(string) + 1] = 0;
         concat_tmp = g_strconcat ( tmp, string, NULL );
