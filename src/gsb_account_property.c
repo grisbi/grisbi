@@ -1116,8 +1116,8 @@ gboolean gsb_account_property_iban_set_bank_from_iban ( gchar *iban )
     gchar *ptr_1;
     gchar *ptr_2;
     gchar *code;
-    gint pos_char_1;
-    gint pos_char_2;
+    glong pos_char_1;
+    glong pos_char_2;
     gint bank_number;
     gint current_account;
     gunichar c;
