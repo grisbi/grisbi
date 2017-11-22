@@ -880,7 +880,7 @@ gchar *gsb_string_extract_int ( const gchar *chaine )
  *
  * \return chaine au format unix
  */
-gchar *gsb_string_uniform_new_line ( const gchar *chaine, gint nbre_char )
+gchar *gsb_string_uniform_new_line ( const gchar *chaine, gssize nbre_char )
 {
     gchar **tab_str = NULL;
     gchar *result = NULL;
