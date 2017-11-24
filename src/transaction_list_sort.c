@@ -142,7 +142,7 @@ void transaction_list_sort_set_column ( gint new_sort_col,
 
     if (new_sort_col >= CUSTOM_MODEL_VISIBLE_COLUMNS)
     {
-	g_warning (_("Asked to sort by column %d, wich is bigger than the visible columns (%d)"),
+	g_warning (_("Asked to sort by column %d, which is bigger than the visible columns (%d)"),
 		   new_sort_col,
 		   CUSTOM_MODEL_VISIBLE_COLUMNS );
 	return;

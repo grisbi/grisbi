@@ -295,7 +295,7 @@ GtkWidget *gsb_form_config_create_tree_view ( GtkListStore *store )
  *
  * \param
  *
- * \return a hbox wich contains the buttons
+ * \return a hbox which contains the buttons
  * */
 GtkWidget *gsb_form_config_create_sizing_buttons_line ( void )
 {
@@ -909,7 +909,7 @@ gboolean gsb_form_config_remove_line ( void )
 				       column,
 				       nb_rows))
 	{
-	    /* there is something inside the part wich will be removed, so look for the first
+	    /* there is something inside the part which will be removed, so look for the first
 	     * place possible to move it */
 
 	    gint tmp_row, tmp_column;

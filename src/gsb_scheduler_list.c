@@ -982,7 +982,7 @@ gboolean gsb_scheduler_list_fill_list ( GtkWidget *tree_view )
         tmp_list = tmp_list -> next;
     }
 
-    /* if there are some orphan sheduler (children of breakdonw wich didn't find their mother */
+    /* if there are some orphan sheduler (children of breakdonw which didn't find their mother */
     if ( orphan_scheduled )
     {
         gsb_scheduler_list_process_orphan_list ( orphan_scheduled, end_date );
@@ -1305,7 +1305,7 @@ gboolean gsb_scheduler_list_update_transaction_in_list ( gint scheduled_number )
  * fill the char tab in the param with the transaction given in param
  *
  * \param scheduled_number
- * \param  line a tab of gchar with SCHEDULER_COL_VISIBLE_COLUMNS of size, wich will contain the text of the line
+ * \param  line a tab of gchar with SCHEDULER_COL_VISIBLE_COLUMNS of size, which will contain the text of the line
  *
  * \return FALSE
  * */
@@ -1423,7 +1423,7 @@ gboolean gsb_scheduler_list_fill_transaction_text ( gint scheduled_number,
  *
  * \param store
  * \param iter
- * \param line a tab of gchar with SCHEDULER_COL_VISIBLE_COLUMNS of size, wich is the text content of the line
+ * \param line a tab of gchar with SCHEDULER_COL_VISIBLE_COLUMNS of size, which is the text content of the line
  *
  * \return FALSE
  * */
@@ -2514,7 +2514,7 @@ gboolean gsb_scheduler_list_clone_selected_scheduled ( GtkWidget *menu_item,
  * Called to edit a specific transaction but the number of transaction
  * is passed via a pointer (by g_signal_connect)
  *
- * \param scheduled_number a pointer wich is the number of the transaction
+ * \param scheduled_number a pointer which is the number of the transaction
  *
  * \return FALSE
  * */
@@ -2910,7 +2910,7 @@ void gsb_scheduler_list_process_orphan_list ( GSList *orphan_scheduled,
     }
 
     /* if string is not null, there is still some children
-     * wich didn't find their mother. show them now */
+     * which didn't find their mother. show them now */
     if ( string )
     {
         gchar *message;

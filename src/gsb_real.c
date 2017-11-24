@@ -441,8 +441,8 @@ gboolean gsb_real_grow_exponent( gsb_real *num, gint target_exponent )
  * for that transform the 2 numbers to have the same exponent
  * and after that we can work on the mantissa
  *
- * \param number_1 a pointer to gsb_real wich contains the number_1 to transform
- * \param number_2 a pointer to gsb_real wich contains the number_2 to transform
+ * \param number_1 a pointer to gsb_real which contains the number_1 to transform
+ * \param number_2 a pointer to gsb_real which contains the number_2 to transform
  *
  * \return TRUE if normalization occurred without loss of precision
  * FALSE if exponents can't be the same without loss of precision

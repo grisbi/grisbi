@@ -3291,7 +3291,7 @@ static gboolean gsb_import_check_transaction_link (gint transaction_number,
 }
 
 /**
- * called at the end of an import, check all the transactions wich need a link
+ * called at the end of an import, check all the transactions which need a link
  * to another transaction.
  * we can find that transactions because they have contra_transaction_number to -1
  * and the bank_references is the name of the contra account, with [ ]

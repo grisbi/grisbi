@@ -777,7 +777,7 @@ gboolean gsb_file_open_file (const gchar *filename)
     /* ok, here the file or backup is loaded */
     grisbi_win_status_bar_message (_("Checking schedulers"));
 
-	/* create the archives store data, ie the transaction wich will replace the archive in
+	/* create the archives store data, ie the transaction which will replace the archive in
      * the list of transactions */
     gsb_data_archive_store_create_list ();
 

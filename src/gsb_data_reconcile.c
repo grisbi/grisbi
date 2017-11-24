@@ -370,7 +370,7 @@ gboolean gsb_data_reconcile_set_name ( gint reconcile_number,
 
 
 /**
- * return the number of the reconcile wich has the name in param
+ * return the number of the reconcile which has the name in param
  * create it if necessary
  *
  * \param name the name of the reconcile
@@ -660,7 +660,7 @@ gint gsb_data_reconcile_get_account_last_number ( gint account_number )
 
 
 /**
- * try to find a reconcile wich contains the date given in param
+ * try to find a reconcile which contains the date given in param
  * for the given account
  *
  * \param date

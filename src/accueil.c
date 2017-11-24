@@ -317,7 +317,7 @@ static gint gsb_main_page_account_have_partial_balance (gint account_number,
  * called by a click on an account name or balance of accounts on the main page
  * it's just a mediator between the signal and gsb_navigation_show_account
  *
- * \param account_number a pointer wich is the number of account we want to switch
+ * \param account_number a pointer which is the number of account we want to switch
  *
  * \return FALSE
  * */

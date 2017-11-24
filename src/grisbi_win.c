@@ -448,7 +448,7 @@ static gboolean grisbi_win_notebook_size_allocate (GtkWidget *notebook_general,
 
 /**
  * Init the main notebook :
- * a notebook wich contains the pages : main page, accounts, scheduler... and
+ * a notebook which contains the pages : main page, accounts, scheduler... and
  * the form on the bottom, the form will be showed only for accounts page and
  * scheduler page
  *

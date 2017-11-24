@@ -256,7 +256,7 @@ GtkWidget *gsb_currency_link_config_create_page ( void )
 
 
 /**
- * create the tree wich contains the currency list
+ * create the tree which contains the currency list
  * used both for the currency known list, and the currency to add list
  *
  * \param

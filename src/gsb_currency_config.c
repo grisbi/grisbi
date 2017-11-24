@@ -429,7 +429,7 @@ GtkWidget *gsb_currency_config_create_page ( void )
 
 
 /**
- * create the tree wich contains the currency list
+ * create the tree which contains the currency list
  * used both for the currency known list, and the currency to add list
  *
  * \param
@@ -876,7 +876,7 @@ GtkWidget *gsb_currency_config_create_totals_page ( void )
  * Create a new GtkComboBox with a pointer to an integer that will be
  * modified according to the entry's value.
  *
- * \param value A pointer to a gint wich contains the currency number
+ * \param value A pointer to a gint which contains the currency number
  * \param hook An optional function to execute as a handler
  *
  * \return A newly allocated option menu.
@@ -1165,7 +1165,7 @@ gint gsb_currency_config_create_currency_from_iso4217list ( gchar *currency_name
 
 
 /**
- * create the box wich contains the world currencies list for the
+ * create the box which contains the world currencies list for the
  * add currency popup
  * the tree view and model are saved into the box with the keys :
  * 	"model" and "treeview"

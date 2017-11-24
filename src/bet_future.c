@@ -746,7 +746,7 @@ gboolean bet_form_clean ( gint account_number )
                 break;
 
             case TRANSACTION_FORM_EXERCICE:
-                /* editing a transaction can show some fyear wich shouldn't be showed,
+                /* editing a transaction can show some fyear which shouldn't be showed,
                  * so hide them here */
                 gsb_fyear_update_fyear_list ();
 
@@ -904,7 +904,7 @@ gboolean bet_form_entry_get_focus ( GtkWidget *entry,
  *
  * \param entry
  * \param ev
- * \param ptr_origin a pointer gint wich is the number of the element
+ * \param ptr_origin a pointer gint which is the number of the element
  *
  * \return FALSE
  * */
@@ -918,7 +918,7 @@ gboolean bet_form_entry_lose_focus ( GtkWidget *entry,
     gint account_number;
 
     /* still not found, if change the content of the form, something come in entry
-     * wich is nothing, so protect here */
+     * which is nothing, so protect here */
     if ( !GTK_IS_WIDGET ( entry )
      ||
      !GTK_IS_ENTRY ( entry ))
@@ -1296,7 +1296,7 @@ static GtkWidget *bet_form_widget_get_next_element ( gint element_number,
 /**
  * called when press a key on an element of the form
  *
- * \param widget wich receive the signal
+ * \param widget which receive the signal
  * \param ev
  * \param ptr_origin a pointer number of the element
  *
@@ -1418,7 +1418,7 @@ gboolean bet_form_key_press_event ( GtkWidget *widget,
  * called when we press the button in an entry field in
  * the form
  *
- * \param entry wich receive the signal
+ * \param entry which receive the signal
  * \param ev can be NULL
  * \param ptr_origin a pointer to int on the element_number
  *
@@ -3067,7 +3067,7 @@ gboolean bet_transfert_entry_lose_focus ( GtkWidget *entry,
     gint element_number;
 
     /* still not found, if change the content of the form, something come in entry
-     * wich is nothing, so protect here */
+     * which is nothing, so protect here */
     if ( !GTK_IS_WIDGET ( entry )
      ||
      !GTK_IS_ENTRY ( entry ) )

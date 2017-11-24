@@ -170,7 +170,7 @@ gboolean transaction_model_get_transaction_iter ( GtkTreeIter *iter,
 
 /**
  * convert a tree path into a tree iter structure
- * this function work with the complete list, so path refer a row wich can be not visible
+ * this function work with the complete list, so path refer a row which can be not visible
  * to work in the filtered list, use gtk_tree_model_get_iter
  *
  * \param tree_model 	the custom list

@@ -378,7 +378,7 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
  *
  * \param
  *
- * \return a gint wich is the numero of the page, -1 if problem
+ * \return a gint which is the numero of the page, -1 if problem
  *
  * */
 gint gsb_gui_navigation_get_current_page ( void )

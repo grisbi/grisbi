@@ -644,7 +644,7 @@ gint gsb_data_payment_get_transfer_payment_number ( gint account_number )
  * return the last_number of the method of payment
  * this is the last number to set automatically that number + 1
  * 	in the cheque entry ; nothing to deal with gsb_data_payment_max_number
- * 	wich give the last payment_number, internal number to count the method of payment
+ * 	which give the last payment_number, internal number to count the method of payment
  *
  * \param payment_number the number of the method of payment
  *
@@ -837,7 +837,7 @@ gchar *gsb_data_payment_incremente_last_number ( gint payment_number,
  * return the last_number of the method of payment to int
  * this is the last number to set automatically that number + 1
  * 	in the cheque entry ; nothing to deal with gsb_data_payment_max_number
- * 	wich give the last payment_number, internal number to count the method of payment
+ * 	which give the last payment_number, internal number to count the method of payment
  *
  * \param payment_number the number of the method of payment
  *

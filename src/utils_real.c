@@ -41,7 +41,7 @@
  * Return the real in a formatted string, according to the currency
  * regarding decimal separator, thousands separator and positive or
  * negative sign.
- * this is directly the number coded in the real wich is returned
+ * this is directly the number coded in the real which is returned
  * usually, utils_real_get_string_with_currency is better to adapt the format
  * 	of the number to the currency format
  *
@@ -65,7 +65,7 @@ gchar *utils_real_get_string ( gsb_real number )
  * This is used to export values in an international format so it
  * can be imported in another application.
  *
- * this is directly the number coded in the real wich is returned
+ * this is directly the number coded in the real which is returned
  * usually, utils_real_get_string_with_currency is better to adapt the format
  * 	of the number to the currency format
  *

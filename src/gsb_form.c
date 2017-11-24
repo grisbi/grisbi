@@ -429,7 +429,7 @@ gboolean gsb_form_fill_by_transaction ( gint transaction_number,
 
         if ( gsb_form_widget_check_empty (date_entry))
             /* for now,  transaction_number_in_form is NULL so can call the next function
-             * wich will prepare the form for a new transaction */
+             * which will prepare the form for a new transaction */
             gsb_form_button_press_event ( date_entry,
                           NULL,
                           GINT_TO_POINTER (TRANSACTION_FORM_DATE));
@@ -1227,7 +1227,7 @@ gboolean gsb_form_clean ( gint account_number )
 		    break;
 
 		case TRANSACTION_FORM_EXERCICE:
-		    /* editing a transaction can show some fyear wich shouldn't be showed,
+		    /* editing a transaction can show some fyear which shouldn't be showed,
 		     * so hide them here */
 		    gsb_fyear_update_fyear_list ();
 
@@ -1406,7 +1406,7 @@ gboolean gsb_form_entry_get_focus ( GtkWidget *entry )
  *
  * \param entry
  * \param ev
- * \param ptr_origin a pointer gint wich is the number of the element
+ * \param ptr_origin a pointer gint which is the number of the element
  *
  * \return FALSE
  * */
@@ -1423,7 +1423,7 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
     gint payment_number;
 
     /* still not found, if change the content of the form, something come in entry
-     * wich is nothing, so protect here */
+     * which is nothing, so protect here */
     if ( !GTK_IS_WIDGET (entry)
      ||
      !GTK_IS_ENTRY (entry))
@@ -1849,7 +1849,7 @@ gint gsb_form_check_for_transfer ( const gchar *entry_string )
  * if "transaction_number_in_form" as data of transaction_form is NULL,
  * do the necessary to begin a new empty transaction
  *
- * \param entry wich receive the signal
+ * \param entry which receive the signal
  * \param ev can be NULL
  * \param ptr_origin a pointer to int on the element_number
  *
@@ -1957,7 +1957,7 @@ gboolean gsb_form_change_sensitive_buttons ( gboolean sensitive )
 /**
  * called when press a key on an element of the form
  *
- * \param widget wich receive the signal
+ * \param widget which receive the signal
  * \param ev
  * \param ptr_origin a pointer number of the element
  *
@@ -2110,7 +2110,7 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 
 	    /* need to check here if we are performing a scheduled transaction in home page
 	     * or another transaction, because if we are in home page, cannot finish like that,
-	     * we need to finish with the dialog wich contains the form */
+	     * we need to finish with the dialog which contains the form */
 	    if (gsb_gui_navigation_get_current_page () == GSB_HOME_PAGE)
 	    {
             GtkWidget *tmp_widget;

@@ -824,7 +824,7 @@ static gboolean gsb_assistant_reconcile_config_page_add_new_reconcile ( GtkWidge
     gsb_data_reconcile_set_account ( reconcile_number,
                         gsb_account_get_combo_account_number ( reconcile_account_button ) );
 
-    /* erase the entries but not the account wich can be used again */
+    /* erase the entries but not the account which can be used again */
     gtk_entry_set_text ( GTK_ENTRY (reconcile_name_entry), "" );
     gtk_entry_set_text ( GTK_ENTRY (reconcile_init_date_entry), "" );
     gtk_entry_set_text ( GTK_ENTRY (reconcile_final_date_entry), "" );

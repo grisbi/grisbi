@@ -251,7 +251,7 @@ gint gsb_currency_get_currency_from_combobox ( GtkWidget *combo_box )
 
 
 /**
- * update the list of the currencies for combobox, wich change all
+ * update the list of the currencies for combobox, which change all
  * the current combobox content
  *
  * \param
@@ -863,7 +863,7 @@ gboolean gsb_currency_create_combobox_store ( void )
  * Handler that change the second combobox of a window that ask for
  * change.
  *
- * \param combobox_1 the combobox wich receive the signal
+ * \param combobox_1 the combobox which receive the signal
  * \param combobox_2 the combobox we want to change
  *
  * \return FALSE
@@ -947,7 +947,7 @@ void gsb_currency_init_exchanges ( void )
  * Handler that change the entries and calculate the exchange_rate
  *
  *
- * \param entry_1 the entry wich receive the signal
+ * \param entry_1 the entry which receive the signal
  * \param entry_2 the other entry
  *
  * \return FALSE

@@ -113,21 +113,21 @@ struct gsb_debug_test debug_tests [8] = {
       gsb_debug_transfer_test, NULL },
 
     { N_("Incorrect category/sub-category number"),
-      N_("This test will look for transactions wich have non existant categories/sub-categories."),
+      N_("This test will look for transactions which have non existant categories/sub-categories."),
       N_("Grisbi found some transactions with non existants categories/sub-categories "
 	 "If you choose to continue, Grisbi will remove that category error "
 	 "and that transactions will have no categories." ),
       gsb_debug_category_test, gsb_debug_category_test_fix },
 
     { N_("Incorrect budget/sub-budget number"),
-      N_("This test will look for transactions wich have non existant budgets/sub-budgets."),
+      N_("This test will look for transactions which have non existant budgets/sub-budgets."),
       N_("Grisbi found some transactions with non existants budgets/sub-budgets "
 	 "If you choose to continue, Grisbi will remove that budget error "
 	 "and that transactions will have no budgets." ),
       gsb_debug_budget_test, gsb_debug_budget_test_fix },
 
     { N_("Incorrect payee number"),
-      N_("This test will look for transactions wich have non existant payees."),
+      N_("This test will look for transactions which have non existant payees."),
       N_("Grisbi found some transactions with non existants payees "
 	 "If you choose to continue, Grisbi will "
 	 "remove them and that transactions will have no payee." ),

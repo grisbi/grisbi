@@ -78,7 +78,7 @@ extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COL
 /*END_EXTERN*/
 
 
-/* this is a buffer wich contains the last mother appended, to increase
+/* this is a buffer which contains the last mother appended, to increase
  * the speed when filling the list and adding children */
 static CustomRecord *last_mother_appended = NULL;
 
@@ -620,10 +620,10 @@ void transaction_list_filter ( gint account_number )
     g_return_if_fail ( custom_list != NULL );
     g_return_if_fail ( custom_list->num_rows != 0 );
 
-    /* there is a bug, i think in gtk, wich when we re-filter the list with opened split, and when
+    /* there is a bug, i think in gtk, which when we re-filter the list with opened split, and when
      * there is less lines in the list that the window, gtk close the split opened without
      * informing the tree view so tree view errors laters... i didn't find anything here
-     * wich close the split, so i assume is gtk. the solution is to close all the split.
+     * which close the split, so i assume is gtk. the solution is to close all the split.
      * this is very important to keep gtk_tree_view_collapse_all to avoid very nuts bugs !!!  */
     gtk_tree_view_collapse_all (GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()));
 
@@ -1015,7 +1015,7 @@ gboolean transaction_list_update_transaction ( gint transaction_number )
 
     g_return_val_if_fail ( custom_list != NULL, FALSE);
 
-    /* we can update a transaction wich is not visible, so need to find the iter into
+    /* we can update a transaction which is not visible, so need to find the iter into
      * all the transactions */
     if (!transaction_model_get_transaction_iter (&iter, transaction_number, 0))
         return FALSE;
@@ -1339,7 +1339,7 @@ gboolean transaction_list_update_column ( gint column,
 
 /**
  * update a cell with it's element
- * usually you need transaction_list_update_element wich will update all the cells of the element
+ * usually you need transaction_list_update_element which will update all the cells of the element
  * this function is called to erase some cell after moving the element
  * (ie the notes element has moved the cell location, we need to erase the last cells,
  *     so we call this with the last cell_col and cell_line
@@ -1764,7 +1764,7 @@ static void transaction_list_append_child ( gint transaction_number )
         else
         {
             /* we didn't find the mother of the child, we append the child number to
-             * orphan_child_transactions and the function wich called here has to play
+             * orphan_child_transactions and the function which called here has to play
              * with it
              * (it happens in the versions before 0.6 when the children could have a number
              * before the mother */
@@ -1846,7 +1846,7 @@ static void transaction_list_append_child ( gint transaction_number )
 	GtkTreeIter iter;
     gint last_line;
 
-	/* we go on the last mother record, wich contains the expander */
+	/* we go on the last mother record, which contains the expander */
     last_line = transaction_list_get_last_line ( custom_list -> nb_rows_by_transaction );
 	mother_record = mother_record -> transaction_records[last_line];
 
@@ -1854,7 +1854,7 @@ static void transaction_list_append_child ( gint transaction_number )
 	/* this is very important to keep to compatibility with the normal transactions */
 	newrecord -> transaction_records[0] = newrecord;
 
-	/* update the new line, wich replace the white line */
+	/* update the new line, which replace the white line */
 	path = gtk_tree_path_new();
 	gtk_tree_path_append_index(path, mother_record->filtered_pos);
 	gtk_tree_path_append_index(path, newrecord->filtered_pos);
@@ -1865,7 +1865,7 @@ static void transaction_list_append_child ( gint transaction_number )
 	gtk_tree_model_row_changed (GTK_TREE_MODEL(custom_list), path, &iter);
 	gtk_tree_path_free(path);
 
-	/* update white line, wich moved to the end */
+	/* update white line, which moved to the end */
 	path = gtk_tree_path_new();
 	gtk_tree_path_append_index(path, mother_record->filtered_pos);
 	gtk_tree_path_append_index(path, white_record->filtered_pos);

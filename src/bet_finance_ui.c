@@ -2056,7 +2056,7 @@ gboolean bet_finance_capital_entry_changed ( GtkWidget *entry, GtkWidget *page  
 /**
  * called when press a key on an element of the form
  *
- * \param widget wich receive the signal
+ * \param widget which receive the signal
  * \param ev
  * \param page
  *

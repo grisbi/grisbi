@@ -539,7 +539,7 @@ gboolean gsb_data_currency_set_floating_point ( gint currency_number,
 
 
 /**
- * return the number of the currency wich has the name in param
+ * return the number of the currency which has the name in param
  * create it if necessary
  *
  * \param name the name of the currency
@@ -571,7 +571,7 @@ gint gsb_data_currency_get_number_by_name ( const gchar *name )
 }
 
 /**
- * return the number of the currency wich has the code iso4217 in param
+ * return the number of the currency which has the code iso4217 in param
  * create it if necessary
  *
  * \param code the iso code of the currency

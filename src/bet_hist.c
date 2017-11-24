@@ -135,8 +135,8 @@ static GHashTable *list_trans_hist = NULL;
 GtkTreeModel *bet_fyear_model = NULL;
 
 /**
- * this is a tree model filter from fyear_model_filter wich
- * show only the financial years wich must be showed
+ * this is a tree model filter from fyear_model_filter which
+ * show only the financial years which must be showed
  * */
 GtkTreeModel *bet_fyear_model_filter = NULL;
 

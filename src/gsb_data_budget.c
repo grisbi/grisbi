@@ -624,7 +624,7 @@ gint gsb_data_budget_new_sub_budget_with_number ( gint number,
 
 
 /**
- * return the number of the budget wich has the name in param
+ * return the number of the budget which has the name in param
  * create it if necessary
  *
  * \param name the name of the budget
@@ -672,7 +672,7 @@ gint gsb_data_budget_get_number_by_name ( const gchar *name,
 
 
 /**
- * return the number of the sub-budget wich has the name in param
+ * return the number of the sub-budget which has the name in param
  * create it if necessary
  *
  * \param budget_number the number of the budget
@@ -1269,7 +1269,7 @@ void gsb_data_budget_add_transaction_to_budget ( gint transaction_number,
     sub_budget = gsb_data_budget_get_sub_budget_structure ( budget_id ,
 							    sub_budget_id );
 
-    /* should not happen, this is if the transaction has a budget wich doesn't exist
+    /* should not happen, this is if the transaction has a budget which doesn't exist
      * we show a debug warning and get without budget */
     if (!budget)
     {

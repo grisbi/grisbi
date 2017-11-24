@@ -982,7 +982,7 @@ static gboolean gsb_assistant_archive_update_labels ( GtkWidget *assistant )
 
 
 /**
- * add a transaction (in fact is pointer) to the list of transactions wich will be archived
+ * add a transaction (in fact is pointer) to the list of transactions which will be archived
  * add too all the linked transactions with it
  *  ie :    the contra-transfer if exists
  *      if child, the mother and the other children

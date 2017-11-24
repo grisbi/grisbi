@@ -232,7 +232,7 @@ gint gsb_transactions_list_sort_check_archive (  CustomRecord *record_1,
 }
 
 /**
- * check for the part wich cannot change : the white line must always be at
+ * check for the part which cannot change : the white line must always be at
  * the end of the list
  * and into a transaction, the lines are not sorted in ascending or descending method
  *

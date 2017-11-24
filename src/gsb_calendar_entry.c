@@ -201,7 +201,7 @@ gboolean gsb_calendar_entry_set_color ( GtkWidget *entry,
  * callback called when press button on the date entry
  * used to popup a calendar if double click
  *
- * \param entry the entry wich receive the signal
+ * \param entry the entry which receive the signal
  * \param event
  * \param null not used
  *
@@ -222,7 +222,7 @@ gboolean gsb_calendar_entry_button_press ( GtkWidget *entry,
  * callback called when press a key on the date entry
  * used to increase/decrease the date and popup the calendar
  *
- * \param entry the entry wich receive the signal
+ * \param entry the entry which receive the signal
  * \param event
  * \param null not used
  *
@@ -369,7 +369,7 @@ void gsb_calendar_entry_step_date ( GtkWidget *entry,
  * callback called on focus-out on the date entry
  * complete and check the date
  *
- * \param entry the entry wich receive the signal
+ * \param entry the entry which receive the signal
  * \param event
  * \param set_today TRUE (but pointer) if we want to set the current day if the entry is left empty
  *
@@ -436,7 +436,7 @@ gboolean gsb_calendar_entry_changed ( GtkWidget *entry,
  *
  * \param entry the date entry
  *
- * \return a GtkWindow wich contains the calendar
+ * \return a GtkWindow which contains the calendar
  * */
 GtkWidget *gsb_calendar_entry_popup ( GtkWidget *entry )
 {

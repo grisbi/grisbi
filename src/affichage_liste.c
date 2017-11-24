@@ -374,8 +374,8 @@ static gboolean gsb_transactions_list_display_sort_changed ( GtkComboBox *widget
 /**
  * called when we change a button for the display mode
  *
- * \param button 	the combo box wich changed
- * \param line_ptr	a gint* wich is the line of the button (ie 1 line mode, 2 lines or 3 lines)
+ * \param button 	the combo box which changed
+ * \param line_ptr	a gint* which is the line of the button (ie 1 line mode, 2 lines or 3 lines)
  *
  * \return FALSE
  * */

@@ -890,7 +890,7 @@ static void gtk_combofix_init ( GtkComboFix *combofix )
     gtk_container_add ( GTK_CONTAINER ( combofix ), vbox );
     gtk_widget_show ( vbox );
 
-    /* a hbox wich contains the entry and the button */
+    /* a hbox which contains the entry and the button */
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, TRUE, FALSE, 0 );
     gtk_widget_show ( hbox );
@@ -1366,7 +1366,7 @@ static gboolean gtk_combofix_expose_entry ( GtkComboFix *combofix )
  * the visible_items variable is set
  *
  * \param combofix
- * \param string the string wich will be completed
+ * \param string the string which will be completed
  *
  * \return the first completed string found
  * */

@@ -698,7 +698,7 @@ gboolean gsb_data_category_fill_transaction_by_string ( gint transaction_number,
 }
 
 /**
- * return the number of the category wich has the name in param
+ * return the number of the category which has the name in param
  * create it if necessary
  *
  * \param name the name of the category
@@ -740,7 +740,7 @@ gint gsb_data_category_get_number_by_name ( const gchar *name,
 
 
 /**
- * return the number of the sub-category wich has the name in param
+ * return the number of the sub-category which has the name in param
  * create it if necessary
  *
  * \param category_number the number of the category
@@ -1430,7 +1430,7 @@ void gsb_data_category_add_transaction_to_category ( gint transaction_number,
     sub_category = gsb_data_category_get_sub_category_structure ( category_id,
 								  sub_category_id );
 
-    /* should not happen, this is if the transaction has a categ wich doesn't exist
+    /* should not happen, this is if the transaction has a categ which doesn't exist
      * we show a debug warning and get without categ */
     if (!category)
     {

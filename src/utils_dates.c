@@ -312,7 +312,7 @@ gboolean gsb_date_check_entry ( GtkWidget *entry )
  * separator can be "/.-:" and numbers can be stick (ex 01012001)
  * Moreover, month can be specified as its non-localized string format (ex Jan)
  *
- * \param a string wich represent a date
+ * \param a string which represent a date
  *
  * \return a newly allocated gdate or NULL if cannot set
  */
