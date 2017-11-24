@@ -4148,7 +4148,7 @@ static void traitement_operations_importees (void)
 
         if (account_number == -1)
         {
-            gchar *tmp_str = g_strdup_printf (_("An error occured while creating the new "
+            gchar *tmp_str = g_strdup_printf (_("An error occurred while creating the new "
                                                 "account %s,\nWe try to continue to import "
                                                 "but bad things can happen..."),
                                                 compte->nom_de_compte);
@@ -4814,7 +4814,7 @@ gboolean gsb_import_by_rule (gint rule)
         if (liste_comptes_importes_error)
         {
             gchar *tmp_str = g_path_get_basename (filename);
-            gchar *tmp_str2 = g_strdup_printf (_("%s was not imported successfully. An error occured while getting the transactions."),
+            gchar *tmp_str2 = g_strdup_printf (_("%s was not imported successfully. An error occurred while getting the transactions."),
                             tmp_str);
             dialogue_error (tmp_str2);
             g_free (tmp_str);

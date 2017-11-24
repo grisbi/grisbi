@@ -440,7 +440,7 @@ static gboolean gsb_assistant_archive_switch ( GtkWidget *assistant,
 	    else
 	    {
 		gtk_label_set_text ( GTK_LABEL (archive_export_label_success),
-				     _("Error!\nAn error occured while saving the archive.\n\nPlease press the Previous button to correct the problem,\nor the close button to cancel the action."));
+				     _("Error!\nAn error occurred while saving the archive.\n\nPlease press the Previous button to correct the problem,\nor the close button to cancel the action."));
 		gsb_assistant_sensitive_button_prev ( assistant, TRUE );
 	    }
     }

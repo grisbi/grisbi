@@ -4305,7 +4305,7 @@ void gsb_file_load_error ( GMarkupParseContext *context,
 {
     /* the first time we come here, we check if it's a Grisbi file */
     gchar* tmpstr = g_strdup_printf (
-                        _("An error occured while parsing the file :\nError number : %d\n%s"),
+                        _("An error occurred while parsing the file :\nError number : %d\n%s"),
                         error -> code,
                         error -> message );
     dialogue_error ( tmpstr );

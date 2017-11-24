@@ -444,7 +444,7 @@ gboolean gsb_real_grow_exponent( gsb_real *num, gint target_exponent )
  * \param number_1 a pointer to gsb_real wich contains the number_1 to transform
  * \param number_2 a pointer to gsb_real wich contains the number_2 to transform
  *
- * \return TRUE if normalization occured without loss of precision
+ * \return TRUE if normalization occurred without loss of precision
  * FALSE if exponents can't be the same without loss of precision
  * */
 gboolean gsb_real_normalize ( gsb_real *number_1, gsb_real *number_2 )
@@ -562,7 +562,7 @@ gsb_real gsb_real_adjust_exponent ( gsb_real number,
  * \param number_1
  * \param number_2
  *
- * \return a gsb_real = number_1 + number_2, or error_real when an error occured
+ * \return a gsb_real = number_1 + number_2, or error_real when an error occurred
  * */
 gsb_real gsb_real_add ( gsb_real number_1,
                         gsb_real number_2 )
