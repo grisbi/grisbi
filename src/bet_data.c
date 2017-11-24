@@ -1473,7 +1473,7 @@ gboolean bet_data_future_remove_line ( gint account_number, gint number, gboolea
 
 
 /**
- * supprime touts les occurences de la ligne sélectionnée
+ * supprime touts les occurrences de la ligne sélectionnée
  *
  *
  *

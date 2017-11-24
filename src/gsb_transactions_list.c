@@ -210,7 +210,7 @@ struct ConditionalMessage delete_msg[] =
       NULL,
       FALSE, FALSE, },
 
-    { "delete-scheduled-occurences", N_("Delete one or all occurences of scheduled "
+    { "delete-scheduled-occurrences", N_("Delete one or all occurences of scheduled "
       "transaction."),
       NULL,
       FALSE, FALSE, },
