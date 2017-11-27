@@ -1831,7 +1831,7 @@ gboolean gsb_data_account_set_sort_list ( gint account_number,
  * add a number of method of payment to the sort list of the account
  *
  * \param account_number
- * \param payment_number a gint wich is the number of method of payment
+ * \param payment_number a gint which is the number of method of payment
  *
  * \return TRUE ok, FALSE problem
  * */
@@ -1855,7 +1855,7 @@ gboolean gsb_data_account_sort_list_add ( gint account_number,
  * remove a number of method of payment to the sort list of the account
  *
  * \param account_number
- * \param payment_number a gint wich is the number of method of payment
+ * \param payment_number a gint which is the number of method of payment
  *
  * \return TRUE ok, FALSE problem
  * */

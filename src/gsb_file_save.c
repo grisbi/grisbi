@@ -395,7 +395,7 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
 
         if ( !grisbi_file
          ||
-         !gzwrite ( grisbi_file, file_content, iterator ) )
+         !gzwrite ( grisbi_file, file_content, (unsigned)iterator ) )
         {
             gchar* tmpstr = g_strdup_printf ( _("Cannot save file '%s': %s"),
                               filename,

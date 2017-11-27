@@ -312,7 +312,7 @@ gboolean gsb_date_check_entry ( GtkWidget *entry )
  * separator can be "/.-:" and numbers can be stick (ex 01012001)
  * Moreover, month can be specified as its non-localized string format (ex Jan)
  *
- * \param a string wich represent a date
+ * \param a string which represent a date
  *
  * \return a newly allocated gdate or NULL if cannot set
  */
@@ -509,7 +509,7 @@ gchar *gsb_format_date ( gint day, gint month, gint year )
 gchar *gsb_format_gdate ( const GDate *date )
 {
     gchar retour_str[SIZEOF_FORMATTED_STRING_DATE];
-    guint longueur = 0;
+    gsize longueur = 0;
 
     if ( !date || !g_date_valid ( date ) )
         return my_strdup ( "" );
@@ -536,7 +536,7 @@ gchar *gsb_format_gdate ( const GDate *date )
 gchar *gsb_format_gdate_safe ( const GDate *date )
 {
     gchar retour_str[SIZEOF_FORMATTED_STRING_DATE];
-    guint longueur;
+    gsize longueur;
 
     if ( !date || !g_date_valid ( date ) )
     {

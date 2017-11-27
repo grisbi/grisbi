@@ -96,7 +96,7 @@ static GSList *scheduled_element_list = NULL;
 
 /**
  * used when change the account with the button, have only the new account,
- * so can use that variable wich will be set to the new account at the end
+ * so can use that variable which will be set to the new account at the end
  * of the callback when change the button (gsb_form_scheduler_change_account)
  * */
 static gint last_account_number = 0;
@@ -349,7 +349,7 @@ gboolean gsb_form_scheduler_change_account ( GtkWidget *button,
 
     /* a problem now, fill_from_account will clean the form,
      * and make unsensitive some part of the form (method of payment...)
-     * and make sensitive some other part wich could be unsensitive (for split for example)
+     * and make sensitive some other part which could be unsensitive (for split for example)
      * so we call gsb_form_set_sensitive, but 2 args, split or child.
      * cannot be a child because child cannot access to the account button, so just to check
      * if it's a split (done before)
@@ -794,7 +794,7 @@ GtkWidget *gsb_form_scheduler_get_element_widget ( gint element_number )
  * called when we press the button in an entry field in
  * the form for the scheduled part
  *
- * \param entry wich receive the signal
+ * \param entry which receive the signal
  * \param ev can be NULL
  * \param ptr_origin a pointer to int on the element_number
  *
@@ -829,7 +829,7 @@ gboolean gsb_form_scheduler_button_press_event ( GtkWidget *entry,
  *
  * \param entry
  * \param ev
- * \param ptr_origin a pointer gint wich is the number of the element
+ * \param ptr_origin a pointer gint which is the number of the element
  *
  * \return FALSE
  * */

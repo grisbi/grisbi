@@ -32,7 +32,7 @@
  * but if the function can work with transactions and scheduled (usually a
  * boolean is_transaction is used), it can call the function here :
  * gsb_data_mix_set_account_number with the is_transaction param (TRUE for transaction,
- * FALSE for scheduled transaction), wich will call the directly gsb_data_mix_set_account_number
+ * FALSE for scheduled transaction), which will call the directly gsb_data_mix_set_account_number
  * or gsb_data_scheduled_set_account_number
  *
  * there is no description here, to see the description, go to see the description of
@@ -41,7 +41,7 @@
  * -2 interestings points with that functions :
  *  -reduce place of code, instead of if (is_transaction) gsb_data_... 4 lines, only one
  *  with gsb_data_mix_...
- *  -it exists also some gsb_data_mix_ wich exist only for transaction. it's a good thing because avoid to fill
+ *  -it exists also some gsb_data_mix_ which exist only for transaction. it's a good thing because avoid to fill
  *  a transaction with the number of the scheduled transaction (for example if someone succeed to fill a value date
  *  for a scheduled transaction (normally not possible), if we don't use gsb_data_mix and don't protect before against
  *  that kind of error, the transaction with the number of the scheduled transaction will have its value date changed...

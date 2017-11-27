@@ -46,8 +46,8 @@
 static GtkTreeModel *fyear_model;
 
 /**
- * this is a tree model filter from fyear_model_filter wich
- * show only the financial years wich must be showed
+ * this is a tree model filter from fyear_model_filter which
+ * show only the financial years which must be showed
  * */
 static GtkTreeModel *fyear_model_filter;
 
@@ -214,7 +214,7 @@ gboolean gsb_fyear_set_automatic ( gboolean set_automatic )
 
 
 /**
- * update the list of the financial years, wich change all
+ * update the list of the financial years, which change all
  * the current combobox content
  * set the first row with Automatic with 0 as number
  *
@@ -231,7 +231,7 @@ gboolean gsb_fyear_update_fyear_list ( void )
 
 
 /**
- * update the list of the financial years, wich change all
+ * update the list of the financial years, which change all
  * the current combobox content
  * set the first row with title with 0 as number
  *

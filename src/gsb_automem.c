@@ -23,7 +23,7 @@
 
 /**
  * \file gsb_automem.c
- * this file groups some widget functions wich update value automatickly
+ * this file groups some widget functions which update value automatickly
  * when the widget change
  * a change in the widget change directly the value in memory
  * (for changes on internal structure in gsb_data_x_set_x, see gsb_autofunc.c)
@@ -586,7 +586,7 @@ GtkWidget *gsb_automem_radiobutton3_new ( const gchar *choice1,
  * set defaults parameters
  * by default : between 0 and GSB_MAX_SPIN_BUTTON ; value is integer, step increment is 1 and page is 5
  *
- * \param value a pointer to an integer wich will change with the value of the spin button
+ * \param value a pointer to an integer which will change with the value of the spin button
  * \param hook An optional hook to run at each change
  * \param data optional data to send to hook
  *
@@ -620,7 +620,7 @@ GtkWidget *gsb_automem_spin_button_new ( gint *value,
  * modified according to the spin's value.
  * this is a gint spin button
  *
- * \param value a pointer to an integer wich will change with the value of the spin button
+ * \param value a pointer to an integer which will change with the value of the spin button
  * \param lower min value
  * \param upper high value
  * \param step_increment
@@ -675,7 +675,7 @@ GtkWidget *gsb_automem_spin_button_new_full ( gint *value,
  * set the value of a automem spin button
  *
  * \param spin the automem_spin_button
- * \param value a pointer to an integer wich will change with the value of the spin button
+ * \param value a pointer to an integer which will change with the value of the spin button
  *
  * \return
  *

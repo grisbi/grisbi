@@ -107,7 +107,7 @@ gboolean gsb_payment_method_create_combo_list ( GtkWidget *combo_box,
                         GTK_TREE_MODEL (store));
     }
 
-    /* we check all the method of payment to find wich of them we want in our store */
+    /* we check all the method of payment to find which of them we want in our store */
     tmp_list = gsb_data_payment_get_payments_list ();
     while (tmp_list)
     {
@@ -173,7 +173,7 @@ gboolean gsb_payment_method_create_combo_list ( GtkWidget *combo_box,
  * get the sign of the current combo_box of method of payment
  * in the combo_box given in param
  *
- * \param combo_box the box wich contains the method of payment list
+ * \param combo_box the box which contains the method of payment list
  *
  * \return GSB_PAYMENT_DEBIT or GSB_PAYMENT_CREDIT
  * */
@@ -314,7 +314,7 @@ void gsb_payment_method_set_payment_position ( GtkWidget *combo_box,
  * \param payment_number
  * \param account_number
  *
- * \return TRUE if we can set the payment_number, FALSE if it's the default wich is set
+ * \return TRUE if we can set the payment_number, FALSE if it's the default which is set
  * */
 gboolean gsb_payment_method_set_combobox_history ( GtkWidget *combo_box,
                         gint payment_number,

@@ -345,7 +345,7 @@ gint gsb_data_payee_set_new_number ( gint no_payee,
 
 
 /**
- * return the number of the payee wich has the name in param
+ * return the number of the payee which has the name in param
  * create it if necessary
  *
  * \param name the name of the payee
@@ -762,7 +762,7 @@ void gsb_data_payee_add_transaction_to_payee ( gint transaction_number )
     /* if no payee in that transaction, and it's neither a split, neither a transfer,
      * we work with empty_payee */
 
-    /* should not happen, this is if the transaction has a payee wich doesn't exists
+    /* should not happen, this is if the transaction has a payee which doesn't exists
      * we show a debug warning and get without payee */
     if (!payee)
     {
@@ -822,7 +822,7 @@ void gsb_data_payee_remove_transaction_from_payee ( gint transaction_number )
 
 
 /**
- * remove all the payees wich are not used
+ * remove all the payees which are not used
  *
  * \param button	the toolbar button
  * \param null

@@ -210,7 +210,7 @@ struct ConditionalMessage delete_msg[] =
       NULL,
       FALSE, FALSE, },
 
-    { "delete-scheduled-occurences", N_("Delete one or all occurences of scheduled "
+    { "delete-scheduled-occurrences", N_("Delete one or all occurences of scheduled "
       "transaction."),
       NULL,
       FALSE, FALSE, },
@@ -873,7 +873,7 @@ gboolean gsb_transactions_list_fill_model ( void )
 
     devel_debug (NULL);
 
-    /* add the transations wich represent the archives to the store
+    /* add the transations which represent the archives to the store
      * 1 line per archive and per account */
     gsb_transactions_list_fill_archive_store ();
 
@@ -888,7 +888,7 @@ gboolean gsb_transactions_list_fill_model ( void )
 	tmp_list = tmp_list -> next;
     }
 
-    /* if orphan_child_transactions if filled, there are some children wich didn't fing their
+    /* if orphan_child_transactions if filled, there are some children which didn't fing their
      * mother, we try again now that all the mothers are in the model */
     if ( orphan_child_transactions )
     {
@@ -1525,7 +1525,7 @@ gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
                         "Grisbi team.") );
 		else
 		    warning_debug ( _("An archive was clicked but it seems to have the number 0, "
-                        "wich should not happen.\nPlease try to reproduce and contact "
+                        "which should not happen.\nPlease try to reproduce and contact "
                         "the Grisbi team.") );
 	    }
 	}
@@ -1691,7 +1691,7 @@ gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
 
 /**
  * called when the selection changed
- * do some stuff wich happen in that case
+ * do some stuff which happen in that case
  *
  * \param new_selected_transaction
  *
@@ -1764,7 +1764,7 @@ gboolean gsb_transactions_list_edit_transaction ( gint transaction_number )
  * Called to edit a specific transaction but the number of transaction
  * is passed via a pointer (by g_signal_connect)
  *
- * \param transaction_number a pointer wich is the number of the transaction
+ * \param transaction_number a pointer which is the number of the transaction
  *
  * \return FALSE
  * */
@@ -1991,7 +1991,7 @@ gboolean gsb_transactions_list_switch_R_mark ( gint transaction_number )
 	    gsb_transactions_list_update_tree_view (account_number, TRUE);
 
 	    /* we warn the user the transaction disappear
-	     * don't laugh ! there were several bugs reports about a transaction wich disappear :-) */
+	     * don't laugh ! there were several bugs reports about a transaction which disappear :-) */
 	    dialogue_hint ( _("The transaction has disappear from the list...\nDon't worry, it's because you marked it as R, and you choosed not to show the R transactions into the list ; show them if you want to check what you did."),
 			   _("Marking a transaction as R"));
 	}
@@ -3315,7 +3315,7 @@ void gsb_transactions_list_splitted_to_scheduled ( gint transaction_number,
  *
  * \param button
  * \param ev
- * \param no_column a pointer wich is the number of the column the user press
+ * \param no_column a pointer which is the number of the column the user press
  *
  * \return FALSE
  * */
@@ -3977,7 +3977,7 @@ gboolean gsb_transactions_list_restore_archive ( gint archive_number,
             tmp_list = tmp_list -> next;
         }
 
-        /* if orphan_child_transactions if filled, there are some children wich didn't find their
+        /* if orphan_child_transactions if filled, there are some children which didn't find their
          * mother, we try again now that all the mothers are in the model */
         if (orphan_child_transactions)
         {
@@ -3997,7 +3997,7 @@ gboolean gsb_transactions_list_restore_archive ( gint archive_number,
         g_slist_free (orphan_list_copy);
 
         /* if orphan_child_transactions is not null, there is still some children
-         * wich didn't find their mother. show them now */
+         * which didn't find their mother. show them now */
         if (orphan_child_transactions)
         {
             gchar *message = _("Some children didn't find their mother in the list, this shouldn't happen and there is probably a bug behind that. Please contact the Grisbi team.\n\nThe concerned children number are:\n");
@@ -4093,7 +4093,7 @@ gboolean gsb_transactions_list_add_transactions_from_archive ( gint archive_numb
             tmp_list = tmp_list -> next;
         }
 
-        /* if orphan_child_transactions if filled, there are some children wich didn't find their
+        /* if orphan_child_transactions if filled, there are some children which didn't find their
          * mother, we try again now that all the mothers are in the model */
         if ( orphan_child_transactions )
         {
@@ -4113,7 +4113,7 @@ gboolean gsb_transactions_list_add_transactions_from_archive ( gint archive_numb
             g_slist_free ( orphan_list_copy );
 
             /* if orphan_child_transactions is not null, there is still some children
-             * wich didn't find their mother. show them now */
+             * which didn't find their mother. show them now */
             if (orphan_child_transactions)
             {
                 gchar *message = _("Some children didn't find their mother in the list, "
@@ -4593,7 +4593,7 @@ void gsb_transactions_list_process_orphan_list ( GSList *orphan_list )
     }
 
     /* if string is not null, there is still some children
-     * wich didn't find their mother. show them now */
+     * which didn't find their mother. show them now */
     if ( string )
     {
         gchar *message;

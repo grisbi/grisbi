@@ -26,7 +26,7 @@
  * work with the archive store structure, no GUI here
  * the archive store are used to show the archive in the list of transactions
  * as an archive by itself contains several accounts and no balance for each account
- * at the opening of grisbi, we create an intermediate list of structures wich contains
+ * at the opening of grisbi, we create an intermediate list of structures which contains
  * the link to the archive, but 1 structure per account, with the number of transactions
  * and the balance for each.
  */

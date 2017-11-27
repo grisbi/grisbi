@@ -59,7 +59,7 @@ GSList *csv_parse_line (gchar **contents,
     gchar *tmp;
     gchar *begin;
     gint is_unquoted = FALSE;
-    gint len;
+    gsize len;
     GSList *list = NULL;
 
     len = strlen (separator);

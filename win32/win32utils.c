@@ -641,7 +641,7 @@ DWORD win32_get_long_path_name(LPCTSTR lpszShortPath, LPTSTR lpszLongPath, DWORD
         
     iFound = strlen(lpszShortPath);
 
-    // UNC path form is not supported, return immediatly
+    // UNC path form is not supported, return immediately
     if ( (iFound >= 2) && (_WIN32_CHAR_IS_DIR_SEPARATOR(lpszShortPath[0])) && (_WIN32_CHAR_IS_DIR_SEPARATOR(lpszShortPath[1]) ))
     {
         return -1;

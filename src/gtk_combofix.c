@@ -890,7 +890,7 @@ static void gtk_combofix_init ( GtkComboFix *combofix )
     gtk_container_add ( GTK_CONTAINER ( combofix ), vbox );
     gtk_widget_show ( vbox );
 
-    /* a hbox wich contains the entry and the button */
+    /* a hbox which contains the entry and the button */
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, TRUE, FALSE, 0 );
     gtk_widget_show ( hbox );
@@ -1366,7 +1366,7 @@ static gboolean gtk_combofix_expose_entry ( GtkComboFix *combofix )
  * the visible_items variable is set
  *
  * \param combofix
- * \param string the string wich will be completed
+ * \param string the string which will be completed
  *
  * \return the first completed string found
  * */
@@ -1378,7 +1378,7 @@ static gchar *gtk_combofix_update_visible_rows ( GtkComboFix *combofix,
     GtkTreePath *path;
     GtkTreeIter iter;
     gint path_ok;
-    gint length;
+    gsize length;
     gboolean separator = FALSE;
     GtkComboFixPrivate *priv = combofix -> priv;
 
@@ -1401,7 +1401,7 @@ static gchar *gtk_combofix_update_visible_rows ( GtkComboFix *combofix,
         gchar *model_string;
         gint showed;
         gint show_row = 0;
-        gint model_string_length;
+        gsize model_string_length;
 
         gtk_tree_model_get ( model,
                         &iter,
@@ -1427,7 +1427,7 @@ static gchar *gtk_combofix_update_visible_rows ( GtkComboFix *combofix,
 			{
 				gchar *tmp_str1;
 				gchar *tmp_str2;
-				gint len;
+				gsize len;
 
 				len = MIN ( length, model_string_length );
 				tmp_str1 = g_utf8_casefold ( model_string, len );
@@ -2499,10 +2499,10 @@ gchar *gtk_combofix_get_first_string_from_sort_model ( GtkTreeModel *sort_model,
 {
     GtkTreeIter iter;
     GtkTreeIter child_iter;
-    gint length;
+    gsize length;
     gboolean separator = FALSE;
     gchar *model_string;
-    gint model_string_length;
+    gsize model_string_length;
 
     length = strlen ( string );
 

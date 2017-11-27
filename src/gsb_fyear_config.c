@@ -260,7 +260,7 @@ GtkWidget *gsb_fyear_config_create_page ( void )
 
 
 /**
- * create the tree wich contains the fyear list
+ * create the tree which contains the fyear list
  *
  * \param
  *
@@ -487,7 +487,7 @@ gboolean gsb_fyear_config_select ( GtkTreeSelection *tree_selection,
  * called when something change for a fyear
  * update the list and the invalid
  *
- * \param entry the entry wich change
+ * \param entry the entry which change
  * \param tree_view the tree_view
  *
  * \return FALSE

@@ -441,10 +441,10 @@ gboolean gsb_real_grow_exponent( gsb_real *num, gint target_exponent )
  * for that transform the 2 numbers to have the same exponent
  * and after that we can work on the mantissa
  *
- * \param number_1 a pointer to gsb_real wich contains the number_1 to transform
- * \param number_2 a pointer to gsb_real wich contains the number_2 to transform
+ * \param number_1 a pointer to gsb_real which contains the number_1 to transform
+ * \param number_2 a pointer to gsb_real which contains the number_2 to transform
  *
- * \return TRUE if normalization occured without loss of precision
+ * \return TRUE if normalization occurred without loss of precision
  * FALSE if exponents can't be the same without loss of precision
  * */
 gboolean gsb_real_normalize ( gsb_real *number_1, gsb_real *number_2 )
@@ -562,7 +562,7 @@ gsb_real gsb_real_adjust_exponent ( gsb_real number,
  * \param number_1
  * \param number_2
  *
- * \return a gsb_real = number_1 + number_2, or error_real when an error occured
+ * \return a gsb_real = number_1 + number_2, or error_real when an error occurred
  * */
 gsb_real gsb_real_add ( gsb_real number_1,
                         gsb_real number_2 )
@@ -879,11 +879,11 @@ gchar *gsb_real_add_thousands_sep ( gchar *str_number, const gchar *thousands_se
     gchar *dest;
     gchar *tmp_ptr;
     gchar **tab_str = NULL;
-    gint nbre_char;
+    gssize nbre_char;
     gint i = 0;
     gint j = 0;
     gint sep = 0;
-    gint longueur;
+    gssize longueur;
 
     if ( thousands_sep == NULL )
         return str_number;

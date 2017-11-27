@@ -259,7 +259,7 @@ gboolean gsb_bank_list_set_bank ( GtkWidget *combobox,
  * callback called when click on the edit-bank in the property of account
  * show a window with the parameters of the bank in the combobox
  *
- * \param button the button wich was clicked
+ * \param button the button which was clicked
  * \param combobox the combobox selected a bank
  *
  * \return FALSE

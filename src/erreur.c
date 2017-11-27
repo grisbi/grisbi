@@ -186,7 +186,7 @@ void debug_traitement_sigsegv ( gint signal_nb )
 		if ( run.is_saving )
 		{
 			old_errmsg = errmsg;
-			errmsg = g_strconcat ( errmsg, _("Error occured saving file."), NULL );
+			errmsg = g_strconcat ( errmsg, _("Error occurred saving file."), NULL );
 			g_free ( old_errmsg );
 		}
     }

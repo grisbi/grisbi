@@ -343,7 +343,7 @@ static gboolean gsb_autofunc_textview_changed (GtkTextBuffer *buffer,
  *
  * \param data An optional pointer to pass to hooks.
  * \param default_func The function to call to change the value in memory (function must be func (number, gboolean)) or NULL
- * \param number_for_func a gint wich we be used to call default_func (will be saved as g_object_set_data with "number_for_func")
+ * \param number_for_func a gint which we be used to call default_func (will be saved as g_object_set_data with "number_for_func")
  *
  * \return a new GtkCheckButton
  * */
@@ -385,7 +385,7 @@ GtkWidget *gsb_autofunc_checkbutton_new (const gchar *label,
  * set the value in a gsb_editable_checkbutton
  * a value is in 2 parts :
  * 	a boolean, so value TRUE or FALSE
- * 	a number, wich is used when there is a change in that button (see gsb_autofunc_checkbutton_new)
+ * 	a number, which is used when there is a change in that button (see gsb_autofunc_checkbutton_new)
  *
  * \param button
  * \param value a gboolean
@@ -423,7 +423,7 @@ void gsb_autofunc_checkbutton_set_value (GtkWidget *button,
 
 /* COMBO_BOX */
 /*
- * creates a new Combobox wich will modify the value according to the index
+ * creates a new Combobox which will modify the value according to the index
  * but made for values in grisbi structure :
  * for each change, will call the corresponding given function : gsb_data_... (number, index)
  * ie the target function must be :
@@ -444,7 +444,7 @@ void gsb_autofunc_checkbutton_set_value (GtkWidget *button,
  *
  * \param data An optional pointer to pass to hooks.
  * \param default_func The function to call to change the value in memory (function must be func (number, number)) or NULL
- * \param number_for_func a gint wich we be used to call default_func (will be saved as g_object_set_data with "number_for_func")
+ * \param number_for_func a gint which we be used to call default_func (will be saved as g_object_set_data with "number_for_func")
  * 				that number can be changed with gsb_autofunc_combobox_set_index
  *
  * \return a new GtkComboBox
@@ -487,8 +487,8 @@ GtkWidget *gsb_autofunc_combobox_new (GSList *list,
 /**
  * set the value in a gsb_autofunc_combobox
  * a value is in 2 parts :
- * 	an index, wich place the combobox on the good place
- * 	a number, wich is used when there is a change in that combobox (see gsb_autofunc_combobox_new)
+ * 	an index, which place the combobox on the good place
+ * 	a number, which is used when there is a change in that combobox (see gsb_autofunc_combobox_new)
  *
  * \param combobox
  * \param index the index to place the combobox
@@ -550,7 +550,7 @@ void gsb_autofunc_combobox_set_index (GtkWidget *combobox,
  *
  * \param data An optional pointer to pass to hooks.
  * \param default_func The function to call to change the value in memory (function must be func (number, currency_number)) or NULL
- * \param number_for_func a gint wich we be used to call default_func (will be saved as g_object_set_data with "number_for_func")
+ * \param number_for_func a gint which we be used to call default_func (will be saved as g_object_set_data with "number_for_func")
  * 				that number can be changed with gsb_autofunc_currency_set_currency_number
  *
  * \return a new GtkComboBox
@@ -595,8 +595,8 @@ GtkWidget *gsb_autofunc_currency_new (gboolean set_name,
 /**
  * show the currency in a gsb_autofunc_currency
  * a value is in 2 parts :
- * 	an currency number, wich place the combobox on the good place
- * 	a number, wich is used when there is a change in that combobox (see gsb_autofunc_currency_new)
+ * 	an currency number, which place the combobox on the good place
+ * 	a number, which is used when there is a change in that combobox (see gsb_autofunc_currency_new)
  *
  * \param combobox
  * \param currency_number the currency to place the combobox
@@ -635,7 +635,7 @@ void gsb_autofunc_currency_set_currency_number (GtkWidget *combobox,
 
 /* DATE */
 /*
- * creates a new GtkEntry to contain dates wich will modify the value according to the entry
+ * creates a new GtkEntry to contain dates which will modify the value according to the entry
  * but made for values in grisbi structure :
  * for each change, will call the corresponding given function : gsb_data_... (number, date)
  * ie the target function must be :
@@ -654,7 +654,7 @@ void gsb_autofunc_currency_set_currency_number (GtkWidget *combobox,
  *
  * \param data An optional pointer to pass to hooks.
  * \param default_func a function to call when something change (function must be func (number, date)) or NULL
- * \param number_for_func a gint wich we be used to call default_func (will be saved as g_object_set_data with "number_for_func")
+ * \param number_for_func a gint which we be used to call default_func (will be saved as g_object_set_data with "number_for_func")
  * 				that number can be changed with gsb_autofunc_entry_set_value
  *
  * \return a new GtkEntry
@@ -696,8 +696,8 @@ GtkWidget *gsb_autofunc_date_new (const GDate *date,
 /**
  * set the date in a gsb_editable_date
  * a value is in 2 parts :
- * 	a date, wich be showed in the entry
- * 	a number, wich is used when there is a change in that entry (see gsb_autofunc_date_new)
+ * 	a date, which be showed in the entry
+ * 	a number, which is used when there is a change in that entry (see gsb_autofunc_date_new)
  *
  * \param entry
  * \param date a date to set in the entry
@@ -736,7 +736,7 @@ void gsb_autofunc_date_set (GtkWidget *entry,
 
 /* ENTRY */
 /*
- * creates a new GtkEntry wich will modify the value according to the entry
+ * creates a new GtkEntry which will modify the value according to the entry
  * but made for values in grisbi structure :
  * for each change, will call the corresponding given function : gsb_data_... (number, string content)
  * ie the target function must be :
@@ -753,7 +753,7 @@ void gsb_autofunc_date_set (GtkWidget *entry,
  *
  * \param data An optional pointer to pass to hooks.
  * \param default_func The function to call to change the value in memory (function must be func (number, string)) or NULL
- * \param number_for_func a gint wich we be used to call default_func (will be saved as g_object_set_data with "number_for_func")
+ * \param number_for_func a gint which we be used to call default_func (will be saved as g_object_set_data with "number_for_func")
  * 				that number can be changed with gsb_autofunc_entry_set_value
  *
  * \return a new GtkEntry
@@ -797,8 +797,8 @@ GtkWidget *gsb_autofunc_entry_new (const gchar *value,
 /**
  * set the value in a gsb_editable_entry
  * a value is in 2 parts :
- * 	a string, wich be showed in the entry
- * 	a number, wich is used when there is a change in that entry (see gsb_autofunc_entry_new)
+ * 	a string, which be showed in the entry
+ * 	a number, which is used when there is a change in that entry (see gsb_autofunc_entry_new)
  *
  * \param entry
  * \param value a string to set in the entry
@@ -840,7 +840,7 @@ void gsb_autofunc_entry_set_value (GtkWidget *entry,
 
 /* INT */
 /*
- * creates a new GtkEntry wich will modify the value according to the entry for a gint
+ * creates a new GtkEntry which will modify the value according to the entry for a gint
  * but made for values in grisbi structure :
  * for each change, will call the corresponding given function : gsb_data_... (number, gint value content)
  * ie the target function must be :
@@ -858,7 +858,7 @@ void gsb_autofunc_entry_set_value (GtkWidget *entry,
  *
  * \param data An optional pointer to pass to hooks.
  * \param default_func The function to call to change the value in memory (function must be func (number, gint)) or NULL
- * \param number_for_func a gint wich we be used to call default_func (will be saved as g_object_set_data with number_for_func)
+ * \param number_for_func a gint which we be used to call default_func (will be saved as g_object_set_data with number_for_func)
  *
  * \return a new GtkEntry
  * */
@@ -902,8 +902,8 @@ GtkWidget *gsb_autofunc_int_new (gint value,
 /**
  * set the value in a gsb_editable_int_entry
  * a value is in 2 parts :
- * 	a string, wich be showed in the entry
- * 	a number, wich is used when there is a change in that entry (see gsb_autofunc_int_new)
+ * 	a string, which be showed in the entry
+ * 	a number, which is used when there is a change in that entry (see gsb_autofunc_int_new)
  *
  * \param entry
  * \param value a gint to set in the entry
@@ -998,7 +998,7 @@ void gsb_autofunc_int_erase_entry (GtkWidget *entry)
  * \param hook An optional hook to run at each toggle
  * \param data optional data to send to hook
  * \param default_func The function to call to change the value in memory (function must be func (number, gboolean)) or NULL
- * \param number_for_func a gint wich we be used to call default_func (will be saved as g_object_set_data with "number_for_func")
+ * \param number_for_func a gint which we be used to call default_func (will be saved as g_object_set_data with "number_for_func")
  *
  * \return a vbox with the 2 radiobuttons
  *
@@ -1043,7 +1043,7 @@ GtkWidget *gsb_autofunc_radiobutton_new (const gchar *choice1,
 
 /* REAL */
 /*
- * creates a new GtkEntry to contain a gsb_real wich will modify the value according to the entry
+ * creates a new GtkEntry to contain a gsb_real which will modify the value according to the entry
  * but made for values in grisbi structure :
  * for each change, will call the corresponding given function : gsb_data_... (number, gsb_real)
  * ie the target function must be :
@@ -1060,7 +1060,7 @@ GtkWidget *gsb_autofunc_radiobutton_new (const gchar *choice1,
  *
  * \param data An optional pointer to pass to hooks.
  * \param default_func a function to call when something change (function must be func (number, real)) or null_real
- * \param number_for_func a gint wich we be used to call default_func (will be saved as g_object_set_data with "number_for_func")
+ * \param number_for_func a gint which we be used to call default_func (will be saved as g_object_set_data with "number_for_func")
  * 				that number can be changed with gsb_autofunc_entry_set_value
  *
  * \return a new GtkEntry
@@ -1105,8 +1105,8 @@ GtkWidget *gsb_autofunc_real_new (gsb_real real,
 /**
  * set the gsb_real in a gsb_editable_date
  * a value is in 2 parts :
- * 	a date, wich be showed in the entry
- * 	a number, wich is used when there is a change in that entry (see gsb_autofunc_date_new)
+ * 	a date, which be showed in the entry
+ * 	a number, which is used when there is a change in that entry (see gsb_autofunc_date_new)
  *
  * \param entry
  * \param date a date to set in the entry
@@ -1148,7 +1148,7 @@ void gsb_autofunc_real_set (GtkWidget *entry,
 
 /* SPIN */
 /*
- * creates a new GtkSpinButton with a int inside (not float) wich will modify the value according to the entry for a gint
+ * creates a new GtkSpinButton with a int inside (not float) which will modify the value according to the entry for a gint
  * but made for values in grisbi structure :
  * for each change, will call the corresponding given function : gsb_data_... (number, gint value content)
  * ie the target function must be :
@@ -1169,7 +1169,7 @@ void gsb_autofunc_real_set (GtkWidget *entry,
  *
  * \param data An optional pointer to pass to hooks.
  * \param default_func The function to call to change the value in memory (function must be func (number, gint)) or NULL
- * \param number_for_func a gint wich we be used to call default_func (will be saved as g_object_set_data with number_for_func)
+ * \param number_for_func a gint which we be used to call default_func (will be saved as g_object_set_data with number_for_func)
  *
  * \return a new GtkSpinButton
  * */
@@ -1210,8 +1210,8 @@ GtkWidget *gsb_autofunc_spin_new (gint value,
 /**
  * set the value in a autofunc_spin entry
  * a value is in 2 parts :
- * 	a gint, wich be showed in the spint button
- * 	a number, wich is used when there is a change in that sping button (see gsb_autofunc_int_new)
+ * 	a gint, which be showed in the spint button
+ * 	a number, which is used when there is a change in that sping button (see gsb_autofunc_int_new)
  *
  * \param spin_button
  * \param value a gint to set in the spin_button
@@ -1250,7 +1250,7 @@ void gsb_autofunc_spin_set_value (GtkWidget *spin_button,
 
 /* TEXT_VIEW */
 /*
- * creates a new GtkTextView wich will automatickly modify the value according to the text in memory
+ * creates a new GtkTextView which will automatickly modify the value according to the text in memory
  * in grisbi structure :
  * for each change, will call the corresponding given function : gsb_data_... (number, string content)
  * ie the target function must be :
@@ -1268,7 +1268,7 @@ void gsb_autofunc_spin_set_value (GtkWidget *spin_button,
  *
  * \param data An optional pointer to pass to hooks.
  * \param default_func The function to call to change the value in memory (function must be func (number, string)) or NULL
- * \param number_for_func a gint wich we be used to call default_func (will be saved as g_object_set_data with "number_for_func")
+ * \param number_for_func a gint which we be used to call default_func (will be saved as g_object_set_data with "number_for_func")
  *
  * \return a new GtkTextView
  * */
@@ -1307,8 +1307,8 @@ GtkWidget *gsb_autofunc_textview_new (const gchar *value,
 /**
  * set the value in a gsb_editable_text_area
  * a value is in 2 parts :
- * 	a string, wich be showed in the text_view
- * 	a number, wich is used when there is a change in that text_view (see gsb_autofunc_entry_new)
+ * 	a string, which be showed in the text_view
+ * 	a number, which is used when there is a change in that text_view (see gsb_autofunc_entry_new)
  *
  * \param text_view
  * \param value a string to set in the text_view

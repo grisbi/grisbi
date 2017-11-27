@@ -76,7 +76,7 @@ gboolean file_obfuscate_qif_run ( void )
 				      "That said, please check that bugs you submit are still valid with "
 				      "anonymized version of that anonymized QIF file.\n"
 				      "\n"
-				      "In next page, you will have to choose a QIF file wich will be renamed"
+				      "In next page, you will have to choose a QIF file which will be renamed"
 				      "with -obfuscate at the end."),
 				    "gsb-bug-32.png",
 				    NULL );

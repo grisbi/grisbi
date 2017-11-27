@@ -46,7 +46,7 @@ static GtkTreeModel *report_model;
 
 /**
  * this is a tree model filter from report_model_filter wich
- * show only the reports wich must be showed
+ * show only the reports which must be showed
  * */
 static GtkTreeModel *report_model_filter;
 
@@ -153,7 +153,7 @@ gint gsb_report_get_report_from_combobox ( GtkWidget *combo_box )
 
 
 /**
- * update the list of the reports, wich change all
+ * update the list of the reports, which change all
  * the current combobox content
  *
  * \param

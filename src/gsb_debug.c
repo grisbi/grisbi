@@ -113,22 +113,22 @@ struct gsb_debug_test debug_tests [8] = {
       gsb_debug_transfer_test, NULL },
 
     { N_("Incorrect category/sub-category number"),
-      N_("This test will look for transactions wich have non existant categories/sub-categories."),
-      N_("Grisbi found some transactions with non existants categories/sub-categories "
+      N_("This test will look for transactions which have non-existent categories/sub-categories."),
+      N_("Grisbi found some transactions with non existents categories/sub-categories "
 	 "If you choose to continue, Grisbi will remove that category error "
 	 "and that transactions will have no categories." ),
       gsb_debug_category_test, gsb_debug_category_test_fix },
 
     { N_("Incorrect budget/sub-budget number"),
-      N_("This test will look for transactions wich have non existant budgets/sub-budgets."),
-      N_("Grisbi found some transactions with non existants budgets/sub-budgets "
+      N_("This test will look for transactions which have non-existent budgets/sub-budgets."),
+      N_("Grisbi found some transactions with non existents budgets/sub-budgets "
 	 "If you choose to continue, Grisbi will remove that budget error "
 	 "and that transactions will have no budgets." ),
       gsb_debug_budget_test, gsb_debug_budget_test_fix },
 
     { N_("Incorrect payee number"),
-      N_("This test will look for transactions wich have non existant payees."),
-      N_("Grisbi found some transactions with non existants payees "
+      N_("This test will look for transactions which have non-existent payees."),
+      N_("Grisbi found some transactions with non existents payees "
 	 "If you choose to continue, Grisbi will "
 	 "remove them and that transactions will have no payee." ),
       gsb_debug_payee_test, gsb_debug_payee_test_fix },
@@ -522,7 +522,7 @@ gchar * gsb_debug_transfer_test ( void )
 		    g_free ( oldstr );
 		    g_free ( tmpstr );
 		}
-		tmpstr = g_strdup_printf ( _("Transaction #%d is linked to non existent transaction #%d.\n"),
+		tmpstr = g_strdup_printf ( _("Transaction #%d is linked to non-existent transaction #%d.\n"),
 							transaction, transfer_transaction );
 		oldstr = pText;
 		pText = g_strconcat ( pText , tmpstr, NULL );
@@ -644,7 +644,7 @@ gchar *gsb_debug_category_test  ( void )
 }
 
 /**
- * fix the transactions with non-existant categories,
+ * fix the transactions with non-existent categories,
  * just remove the categories
  *
  * \param
@@ -754,7 +754,7 @@ gchar *gsb_debug_budget_test  ( void )
 }
 
 /**
- * fix the transactions with non-existant budgets,
+ * fix the transactions with non-existent budgets,
  * just remove the categories
  *
  * \param
@@ -844,7 +844,7 @@ gchar *gsb_debug_payee_test  ( void )
 }
 
 /**
- * fix the transactions with non-existant payees,
+ * fix the transactions with non-existent payees,
  * just remove the categories
  *
  * \param

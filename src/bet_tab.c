@@ -1617,7 +1617,7 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
             menu_item = utils_menu_item_new_from_image_label ("gtk-delete-16.png",
-															  _("Delete all occurences of the selection"));
+															  _("Delete all occurrences of the selection"));
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_array_list_delete_all_menu ),
@@ -1826,7 +1826,7 @@ void bet_array_list_delete_menu ( GtkWidget *menu_item,
 
 
 /**
- * delete all occurences of future data row
+ * delete all occurrences of future data row
  *
  * /param menu item
  * /param row selected

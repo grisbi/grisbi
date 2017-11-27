@@ -126,7 +126,8 @@ static gchar *gsb_select_icon_troncate_name_icon (gchar *name_icon,
         gchar *tmpstr, *tmpstr2;
         gchar *end;
         gchar *ptr = NULL;
-        gint i = 1, n = 0;
+        gint i = 1;
+        glong n = 0;
 
         n = size / trunc;
         if ((size % trunc) == 0)

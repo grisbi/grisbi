@@ -1318,7 +1318,7 @@ static void etats_prefs_onglet_tiers_search_iter_from_entry ( const gchar *text,
     GtkTreeIter iter;
     GtkTreePath *path;
     gint index = 1;
-    gint longueur;
+    glong longueur;
 
     if ( !text || strlen ( text ) == 0 )
         return;

@@ -1449,12 +1449,8 @@
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/usr/local/Cellar/goffice/0.10.32/lib,
 					/usr/local/opt/openssl/lib,
-					/usr/local/Cellar/libofx/0.9.10/lib,
 					/usr/local/Cellar/gettext/0.19.8.1/lib,
-					/usr/local/Cellar/pango/1.40.7/lib,
-					/usr/local/Cellar/goffice/0.10.35/lib,
 					"/usr/local/Cellar/gtk-mac-integration/2.0.8_1/lib",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1484,12 +1480,8 @@
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/usr/local/Cellar/goffice/0.10.32/lib,
 					/usr/local/opt/openssl/lib,
-					/usr/local/Cellar/libofx/0.9.10/lib,
 					/usr/local/Cellar/gettext/0.19.8.1/lib,
-					/usr/local/Cellar/pango/1.40.7/lib,
-					/usr/local/Cellar/goffice/0.10.35/lib,
 					"/usr/local/Cellar/gtk-mac-integration/2.0.8_1/lib",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";

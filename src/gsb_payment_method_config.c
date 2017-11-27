@@ -699,7 +699,7 @@ gboolean gsb_payment_method_config_name_changed ( GtkWidget *entry,
  * deactivated for current payment method.  It activates or
  * deactivates the automatic numbering button
  *
- * \param button the checkbutton wich send the signal
+ * \param button the checkbutton which send the signal
  * \param tree_view
  *
  * \return FALSE
@@ -737,7 +737,7 @@ gboolean gsb_payment_method_config_show_entry_changed ( GtkWidget *button,
  * deactivates the "current number" field and updates display of
  * current number in the list.
  *
- * \param button the checkbutton wich send the signal
+ * \param button the checkbutton which send the signal
  * \param tree_view
  *
  * \return FALSE
@@ -883,7 +883,7 @@ gint gsb_payment_method_config_get_transaction_by_sign ( gint account_number,
 /**
  * callback called when changing the sign type of the method of payment
  *
- * \param menu_item the widget wich receive the signal
+ * \param menu_item the widget which receive the signal
  * \param sign a pointer to an int : GSB_PAYMENT_NEUTRAL, GSB_PAYMENT_DEBIT or GSB_PAYMENT_CREDIT
  *
  * \return FALSE

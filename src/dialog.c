@@ -250,7 +250,7 @@ GtkWidget *dialogue_special_no_run ( GtkMessageType param,
     if (window)
     {
         dialog = gtk_message_dialog_new (window,
-                        GTK_DIALOG_DESTROY_WITH_PARENT || GTK_DIALOG_MODAL,
+                        GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL,
                         param, buttons,
                         NULL );
     }
@@ -715,8 +715,8 @@ void dialog_message ( gchar *label, ... )
 			gchar message_buffer[1024];
 
 			va_start ( ap, label );
-			vsnprintf ( hint_buffer, 1024, _(messages[i] . hint), ap );
-			vsnprintf ( message_buffer, 1024, _(messages[i] . message), ap );
+			vsnprintf ( hint_buffer, sizeof hint_buffer, _(messages[i] . hint), ap );
+			vsnprintf ( message_buffer, sizeof message_buffer, _(messages[i] . message), ap );
 
 			dialogue_conditional_hint ( hint_buffer, message_buffer,
 							messages[i] . name );

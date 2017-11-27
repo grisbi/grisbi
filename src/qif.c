@@ -516,7 +516,7 @@ static gchar **gsb_qif_get_date_content ( gchar *date_string )
     date_string = tmp_str;
 
     /* as the format is risky, we will not check only / ' and -
-     * we will remove all wich is not a number */
+     * we will remove all which is not a number */
     pointer = date_string;
     for ( i = 0; i < (gint) strlen ( date_string ); i++ )
     {

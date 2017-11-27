@@ -104,7 +104,7 @@ gboolean gsb_file_util_test_overwrite ( const gchar *filename )
  * \param file_content a gchar pointer to fill with the adress of the content of the file
  * \param length a gulong pointer to file with the length of the loaded file
  *
- * \return TRUE all is ok, FALSE a problem occured
+ * \return TRUE all is ok, FALSE a problem occurred
  * */
 gboolean gsb_file_util_get_contents ( const gchar *filename,
 				      gchar **file_content,
@@ -164,7 +164,7 @@ gboolean gsb_file_util_get_contents ( const gchar *filename,
     /* we should be able to get directly the orig_size
      * for most of files it's enough, if the file is compressed,
      * we continue */
-    iterator = gzread (file, content, orig_size);
+    iterator = gzread (file, content, (unsigned)orig_size);
 
     if (iterator < 0)
     {

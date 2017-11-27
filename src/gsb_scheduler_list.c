@@ -982,7 +982,7 @@ gboolean gsb_scheduler_list_fill_list ( GtkWidget *tree_view )
         tmp_list = tmp_list -> next;
     }
 
-    /* if there are some orphan sheduler (children of breakdonw wich didn't find their mother */
+    /* if there are some orphan sheduler (children of breakdonw which didn't find their mother */
     if ( orphan_scheduled )
     {
         gsb_scheduler_list_process_orphan_list ( orphan_scheduled, end_date );
@@ -1313,7 +1313,7 @@ gboolean gsb_scheduler_list_update_transaction_in_list ( gint scheduled_number )
  * fill the char tab in the param with the transaction given in param
  *
  * \param scheduled_number
- * \param  line a tab of gchar with SCHEDULER_COL_VISIBLE_COLUMNS of size, wich will contain the text of the line
+ * \param  line a tab of gchar with SCHEDULER_COL_VISIBLE_COLUMNS of size, which will contain the text of the line
  *
  * \return FALSE
  * */
@@ -1431,7 +1431,7 @@ gboolean gsb_scheduler_list_fill_transaction_text ( gint scheduled_number,
  *
  * \param store
  * \param iter
- * \param line a tab of gchar with SCHEDULER_COL_VISIBLE_COLUMNS of size, wich is the text content of the line
+ * \param line a tab of gchar with SCHEDULER_COL_VISIBLE_COLUMNS of size, which is the text content of the line
  *
  * \return FALSE
  * */
@@ -2125,17 +2125,17 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number
         if ( gsb_data_scheduled_get_frequency ( scheduled_number) )
         {
             GtkWidget * vbox, * checkbox, *dialog = NULL;
-            gchar *occurences;
+            gchar *occurrences;
 
             msg_no = question_conditional_yes_no_get_no_struct ( &delete_msg[0],
-                            "delete-scheduled-occurences" );
+                            "delete-scheduled-occurrences" );
 
             if ( delete_msg[msg_no].hidden )
                 result = delete_msg[msg_no].default_answer;
             else
             {
             tmpstr = utils_real_get_string (gsb_data_scheduled_get_amount (scheduled_number));
-            occurences = g_strdup_printf ( _("Do you want to delete just this occurrence or "
+            occurrences = g_strdup_printf ( _("Do you want to delete just this occurrence or "
                             "the whole scheduled transaction?\n\n%s : %s [%s %s]"),
                             gsb_format_gdate ( gsb_data_scheduled_get_date (scheduled_number)),
                             gsb_data_payee_get_name (
@@ -2146,11 +2146,11 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number
             g_free ( tmpstr );
 
             dialog = dialogue_special_no_run ( GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
-                            occurences, _("Delete this scheduled transaction?") );
+                            occurrences, _("Delete this scheduled transaction?") );
 
             gtk_dialog_add_buttons ( GTK_DIALOG(dialog),
                              "gtk-cancel", 2,
-                             _("All the occurences"), 1,
+                             _("All the occurrences"), 1,
                              _("Only this one"), 0,
                              NULL );
 
@@ -2167,7 +2167,7 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number
             result = gtk_dialog_run ( GTK_DIALOG ( dialog ));
 
             delete_msg[msg_no].default_answer = result;
-            g_free (occurences);
+            g_free (occurrences);
             gtk_widget_destroy ( dialog );
             }
         }
@@ -2522,7 +2522,7 @@ gboolean gsb_scheduler_list_clone_selected_scheduled ( GtkWidget *menu_item,
  * Called to edit a specific transaction but the number of transaction
  * is passed via a pointer (by g_signal_connect)
  *
- * \param scheduled_number a pointer wich is the number of the transaction
+ * \param scheduled_number a pointer which is the number of the transaction
  *
  * \return FALSE
  * */
@@ -2918,7 +2918,7 @@ void gsb_scheduler_list_process_orphan_list ( GSList *orphan_scheduled,
     }
 
     /* if string is not null, there is still some children
-     * wich didn't find their mother. show them now */
+     * which didn't find their mother. show them now */
     if ( string )
     {
         gchar *message;

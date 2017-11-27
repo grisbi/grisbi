@@ -386,7 +386,7 @@
 	    <summary></summary>
 	    <description></description>
 	  </key>
-	  <key name="delete-scheduled-occurences" type="b">
+	  <key name="delete-scheduled-occurrences" type="b">
 	    <default>true</default>
 	    <summary></summary>
 	    <description></description>

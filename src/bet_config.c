@@ -1111,8 +1111,8 @@ gint bet_config_get_account_from_combo ( void )
 /**
  * called for a change in automem_radiobutton3
  *
- * \param checkbutton	the button wich changed
- * \param value_ptr	a gint* wich is the value to set in the memory (0, 1 or 2)
+ * \param checkbutton	the button which changed
+ * \param value_ptr	a gint* which is the value to set in the memory (0, 1 or 2)
  *
  * \return FALSE
  * */
@@ -1383,7 +1383,7 @@ static gboolean bet_config_account_entry_lose_focus ( GtkWidget *entry,
 /**
  * called when we press the button in an entry field in the entry
  *
- * \param entry     wich receive the signal
+ * \param entry     which receive the signal
  * \param event     can be NULL
  * \param parent    parent widget for callback
  *

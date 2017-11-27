@@ -308,11 +308,11 @@ static gboolean grisbi_win_hpaned_size_allocate (GtkWidget *hpaned_general,
                                           GtkAllocation *allocation,
                                           gpointer data)
 {
+	/* probleme avec la maximisation de la fenêtre */
+#if 0
+
 	GrisbiWinPrivate *priv = (GrisbiWinPrivate *) data;
 	gint position;
-
-	/* probleme avec la maximisation de la fenêtre */
-	return FALSE;
 
 	if (priv->hpaned_general_width == 0)
 	{
@@ -334,6 +334,7 @@ static gboolean grisbi_win_hpaned_size_allocate (GtkWidget *hpaned_general,
 		/* on conserve la largeur du panel droit */
 		gtk_paned_set_position (GTK_PANED (hpaned_general), conf.panel_width);
 	}
+#endif
 
 	return FALSE;
 }
@@ -447,7 +448,7 @@ static gboolean grisbi_win_notebook_size_allocate (GtkWidget *notebook_general,
 
 /**
  * Init the main notebook :
- * a notebook wich contains the pages : main page, accounts, scheduler... and
+ * a notebook which contains the pages : main page, accounts, scheduler... and
  * the form on the bottom, the form will be showed only for accounts page and
  * scheduler page
  *

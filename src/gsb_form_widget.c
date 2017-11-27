@@ -77,7 +77,7 @@ static gchar *old_credit_payment_content = NULL;
 static gchar *old_debit_payment_content = NULL;
 
 /**
- * return the list wich contains the widgets of the form
+ * return the list which contains the widgets of the form
  *
  * \param
  *
@@ -455,7 +455,7 @@ gchar *gsb_form_widget_get_name ( gint element_number )
 	case -1:
 	    /* that value shouldn't be there, it shows that a gsb_data_form_... returns
 	     * an error value */
-	    warning_debug ( "gsb_form_widget_get_name : a value in the form is -1 wich should not happen.\nA gsb_data_form_... function must have returned an error value..." );
+	    warning_debug ( "gsb_form_widget_get_name : a value in the form is -1 which should not happen.\nA gsb_data_form_... function must have returned an error value..." );
 	    return NULL;
 	    break;
 
@@ -792,7 +792,7 @@ gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry,
     gint account_number;
 
     /* still not found, if change the content of the form, something come in entry
-     * wich is nothing, so protect here */
+     * which is nothing, so protect here */
     if ( !GTK_IS_WIDGET (entry)
      ||
      !GTK_IS_ENTRY (entry))

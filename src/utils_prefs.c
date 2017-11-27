@@ -257,7 +257,7 @@ static gboolean utils_prefs_fonts_button_choose_font_clicked (GtkWidget *button,
 /**
  * set the size of scrolled_window in prefs tab
  *
- * \param table the table wich receive the 'size-allocate' signal
+ * \param table the table which receive the 'size-allocate' signal
  * \param allocation
  *
  * \return FALSE

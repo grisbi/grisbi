@@ -177,7 +177,7 @@ gboolean gsb_category_display_foreign_toggled ( GtkWidget * button )
  * later, to create the categories according to the choice,
  * 	call gsb_category_assistant_create_categories
  *
- * \param assistant the assistant wich that page will be added to
+ * \param assistant the assistant which that page will be added to
  * 	the choice will be set into the assistant widget with the key "choice_value"
  *		CATEGORY_CHOICE_NONE
  *		CATEGORY_CHOICE_DEFAULT

@@ -75,7 +75,7 @@ typedef struct
     gshort automatic_transaction;       /**< 0=manual, 1=automatic (scheduled transaction) */
     gint reconcile_number;              /**< the number of reconciliation, carreful : can be filled without marked_transaction=OPERATION_RAPPROCHEE sometimes,
                                              it happen if the user did ctrl R to un-R the transaction, we keep reconcile_number because most of them
-                                             will re-R after the change, and that value will help the user to find wich statement it belong.
+                                             will re-R after the change, and that value will help the user to find which statement it belong.
                                              o always check marked_transaction before checking reconcile_number here */
     guint financial_year_number;
     gchar *voucher;

@@ -302,7 +302,7 @@ gboolean transaction_list_select_down ( gboolean into_children )
 	if (record -> number_of_children && into_children)
 	{
 	    path = gtk_tree_path_new ();
-	    /* set the path on the mother row wich have the expander */
+	    /* set the path on the mother row which have the expander */
 	    gtk_tree_path_append_index (path, record -> children_rows[0] -> mother_row -> filtered_pos);
 	}
 	else
