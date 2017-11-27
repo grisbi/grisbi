@@ -44,7 +44,6 @@
 #include "gsb_assistant_archive.h"
 #include "gsb_assistant_first.h"
 #include "gsb_calendar.h"
-#include "gsb_color.h"
 #include "gsb_currency_config.h"
 #include "gsb_data_account.h"
 #include "gsb_data_archive.h"
@@ -3886,7 +3885,7 @@ gboolean gsb_file_load_open_file (const gchar *filename )
     /* positionnement de l'option bet_show_onglets pour tous les comptes */
     gsb_data_account_set_bet_show_onglets_all_accounts ();
 
-    if (g_strcmp0 (download_tmp_values.file_version, download_tmp_values.grisbi_version))
+    if (g_strcmp0 (download_tmp_values.file_version, OLD_VERSION_FICHIER) == 0)
     {
         gchar *text;
         gchar *hint;
@@ -3896,7 +3895,7 @@ gboolean gsb_file_load_open_file (const gchar *filename )
                                   "You will have to re-customize the icons and colors and you "
 								  "will have to abandon the encryption of your account file."),
                                 download_tmp_values.file_version,
-                                download_tmp_values.file_version);
+                                download_tmp_values.grisbi_version);
 
         hint = g_strdup_printf (_("Importing a file whose version is for an earlier version of Grisbi"));
 

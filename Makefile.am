@@ -6,7 +6,6 @@ man_MANS = grisbi.1
 EXTRA_DIST = \
     grisbi.spec \
     win32 \
-    win32-msvc\
     win32-msys2\
     $(man_MANS)
 

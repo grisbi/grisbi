@@ -11,7 +11,8 @@
 /* the VERSION_FICHIER is in fact the lowest version which can be used to open the
  * file, so each time we make an incompatibility issue, VERSION_FICHIER must be set
  * to VERSION_GRISBI */
-#define VERSION_FICHIER         "1.1.1"
+#define VERSION_FICHIER         "1.2.0"
+#define OLD_VERSION_FICHIER		"0.6.0"
 
 /* Define this when in Git development branch. */
 #define IS_DEVELOPMENT_VERSION  1
