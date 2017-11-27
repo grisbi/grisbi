@@ -242,6 +242,7 @@
         <item>
           <attribute name="label" translatable="yes">Report a bug</attribute>
           <attribute name="action">win.report-bug</attribute>
+          <attribute name="icon">gsb-bug-16</attribute>
         </item>
       </section>
       <section>
@@ -487,6 +488,7 @@
         <item>
           <attribute name="label" translatable="yes">Report a bug</attribute>
           <attribute name="action">win.report-bug</attribute>
+          <attribute name="icon">gsb-bug-16</attribute>
         </item>
       </section>
       <section>
