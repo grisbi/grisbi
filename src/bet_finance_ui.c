@@ -59,7 +59,7 @@
 
 /*START_STATIC*/
 static void bet_finance_calcule_show_months_tab ( GtkTreeModel *model,
-                        struct_echeance *s_echeance,
+                        EcheanceStruct *s_echeance,
                         gdouble taux_frais );
 static void bet_finance_calculer_clicked ( GtkButton *button, GtkWidget *widget );
 static gboolean bet_finance_capital_entry_changed ( GtkWidget *entry, GtkWidget *page  );
@@ -85,15 +85,15 @@ static gboolean bet_finance_duration_button_changed ( GtkWidget *combobox, GtkWi
 static void bet_finance_fill_amortization_array ( GtkWidget *menu_item,
                         GtkTreeSelection *tree_selection );
 static void bet_finance_fill_amortization_ligne ( GtkTreeModel *model,
-                        struct_amortissement *s_amortissement );
+                        AmortissementStruct *s_amortissement );
 static void bet_finance_fill_data_ligne ( GtkTreeModel *model,
-                        struct_echeance *s_echeance,
+                        EcheanceStruct *s_echeance,
                         const gchar *unit );
 static void bet_finance_spin_button_fees_changed ( GtkSpinButton *spinbutton, GtkWidget *page );
 static void bet_finance_spin_button_taux_changed ( GtkSpinButton *spinbutton, GtkWidget *page );
 static void bet_finance_switch_amortization_initial_date ( GtkWidget *button, GtkWidget *tree_view );
 static void bet_finance_ui_export_tab ( GtkWidget *menu_item, GtkTreeView *tree_view );
-static void bet_finance_ui_struct_amortization_free ( struct_amortissement *s_amortissement );
+static void bet_finance_ui_struct_amortization_free ( AmortissementStruct *s_amortissement );
 static void bet_finance_type_taux_changed ( GtkWidget *togglebutton, GdkEventButton *event, GtkWidget *widget );
 /*END_STATIC*/
 
@@ -658,13 +658,13 @@ void bet_finance_calculer_clicked ( GtkButton *button, GtkWidget *widget )
     gint duree_min, duree_max;
     gint type_taux;
     gint index = 0;
-    struct_echeance *s_echeance;
+    EcheanceStruct *s_echeance;
 
     tree_view = g_object_get_data ( G_OBJECT ( widget ), "tree_view" );
     if ( !GTK_IS_TREE_VIEW ( tree_view ) )
         return;
 
-    s_echeance = g_malloc0 ( sizeof ( struct_echeance ) );
+    s_echeance = g_malloc0 ( sizeof ( EcheanceStruct ) );
 
     /* devise */
     combobox = g_object_get_data ( G_OBJECT ( widget ), "devise" );
@@ -820,7 +820,7 @@ gdouble bet_finance_get_number_from_string ( GtkWidget *parent, const gchar *nam
  *
  * */
 void bet_finance_fill_data_ligne ( GtkTreeModel *model,
-                        struct_echeance *s_echeance,
+                        EcheanceStruct *s_echeance,
                         const gchar *unit )
 {
     GtkTreeIter iter;
@@ -1344,7 +1344,7 @@ void bet_finance_fill_amortization_array ( GtkWidget *menu_item,
     gint index = 0;
     gint nbre_echeances;
     gdouble taux_periodique;
-    struct_amortissement *s_amortissement;
+    AmortissementStruct *s_amortissement;
 
     devel_debug ( NULL );
     if ( !gtk_tree_selection_get_selected ( GTK_TREE_SELECTION ( tree_selection ),
@@ -1433,7 +1433,7 @@ void bet_finance_fill_amortization_array ( GtkWidget *menu_item,
  *
  * */
 void bet_finance_fill_amortization_ligne ( GtkTreeModel *model,
-                        struct_amortissement *s_amortissement )
+                        AmortissementStruct *s_amortissement )
 {
     GtkTreeIter iter;
     gchar *str_capital_du = NULL;
@@ -1600,7 +1600,7 @@ void bet_finance_ui_update_amortization_tab ( gint account_number )
     gdouble taux_periodique;
     GDate *date;
     GDate *last_paid_date = NULL;
-    struct_amortissement *s_amortissement;
+    AmortissementStruct *s_amortissement;
     gboolean amortization_initial_date;
 
 /*     devel_debug ( NULL );  */
@@ -1609,7 +1609,7 @@ void bet_finance_ui_update_amortization_tab ( gint account_number )
 
     account_page = gsb_gui_get_account_page ();
 
-    s_amortissement = g_malloc0 ( sizeof ( struct_amortissement ) );
+    s_amortissement = g_malloc0 ( sizeof ( AmortissementStruct ) );
     s_amortissement -> origin = SPP_ORIGIN_FINANCE;
 
     /* récupère le tableau d'amortissement */
@@ -1731,7 +1731,7 @@ void bet_finance_ui_update_amortization_tab ( gint account_number )
  *
  *
  * */
-void bet_finance_ui_struct_amortization_free ( struct_amortissement *s_amortissement )
+void bet_finance_ui_struct_amortization_free ( AmortissementStruct *s_amortissement )
 {
     if ( s_amortissement -> str_date )
         g_free ( s_amortissement -> str_date );
@@ -1946,7 +1946,7 @@ void bet_finance_switch_amortization_initial_date ( GtkWidget *widget, GtkWidget
  *
  * */
 void bet_finance_calcule_show_months_tab ( GtkTreeModel *model,
-                        struct_echeance *s_echeance,
+                        EcheanceStruct *s_echeance,
                         gdouble taux_frais )
 {
     gint duree_min = 3;

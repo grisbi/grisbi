@@ -213,7 +213,7 @@ GDate *bet_data_finance_get_date_last_installment_paid ( GDate *date_depart )
  *
  *
  * */
-gdouble bet_data_finance_get_total_cost ( struct_echeance *s_echeance )
+gdouble bet_data_finance_get_total_cost ( EcheanceStruct *s_echeance )
 {
     gdouble capital_du;
     gdouble cost;
@@ -259,7 +259,7 @@ gdouble bet_data_finance_get_total_cost ( struct_echeance *s_echeance )
  *
  *
  * */
-void bet_data_finance_structure_amortissement_free ( struct_amortissement *s_amortissement )
+void bet_data_finance_structure_amortissement_free ( AmortissementStruct *s_amortissement )
 {
     g_free ( s_amortissement -> str_date );
     g_free ( s_amortissement -> str_echeance );
@@ -275,11 +275,11 @@ void bet_data_finance_structure_amortissement_free ( struct_amortissement *s_amo
  *
  *
  * */
-struct_amortissement *bet_data_finance_structure_amortissement_init ( void )
+AmortissementStruct *bet_data_finance_structure_amortissement_init ( void )
 {
-    struct_amortissement *s_amortissement;
+    AmortissementStruct *s_amortissement;
 
-    s_amortissement = g_malloc0 ( sizeof ( struct_amortissement ) );
+    s_amortissement = g_malloc0 ( sizeof ( AmortissementStruct ) );
 
     s_amortissement -> str_date = NULL;
     s_amortissement -> str_echeance = NULL;

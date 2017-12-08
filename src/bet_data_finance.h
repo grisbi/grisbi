@@ -8,9 +8,13 @@
 /* END_INCLUDE_H */
 
 #define BET_TAUX_DIGITS 3
+typedef struct _EcheanceStruct			EcheanceStruct;
+typedef struct _AmortissementStruct		AmortissementStruct;
+
+
 
 /* structure échéance */
- typedef struct {
+struct _EcheanceStruct {
     gint duree;
     gint nbre_echeances;
     gint devise;
@@ -21,10 +25,10 @@
     gdouble echeance;
     gdouble total_echeance;
     gdouble total_cost;
-}  struct_echeance;
+};
 
 /* structure amortissement */
- typedef struct {
+struct _AmortissementStruct {
     gint origin;
     gint num_echeance;
     gint devise;
@@ -37,7 +41,7 @@
     gchar *str_date;
     gchar *str_echeance;
     gchar *str_frais;
-}  struct_amortissement;
+};
 
 
 /* START_DECLARATION */
@@ -60,9 +64,9 @@ gdouble 				bet_data_finance_get_principal 						(gdouble echeance,
 																			 gdouble frais);
 gdouble 				bet_data_finance_get_taux_periodique 				(gdouble taux,
 																			 gint type_taux);
-gdouble 				bet_data_finance_get_total_cost 					(struct_echeance *s_echeance);
-void 					bet_data_finance_structure_amortissement_free 		(struct_amortissement *s_amortissement);
-struct_amortissement *	bet_data_finance_structure_amortissement_init 		(void);
+gdouble 				bet_data_finance_get_total_cost 					(EcheanceStruct *s_echeance);
+void 					bet_data_finance_structure_amortissement_free 		(AmortissementStruct *s_amortissement);
+AmortissementStruct *	bet_data_finance_structure_amortissement_init 		(void);
 gdouble 				bet_data_finance_troncate_number 					(gdouble number,
 																			 gint nbre_decimal);
 /* END_DECLARATION */
