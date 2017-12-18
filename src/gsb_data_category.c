@@ -1,6 +1,6 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
+/*     Copyright (C)    2000-2008 CÃ©dric Auger (cedric@grisbi.org)            */
 /*          2009-2010 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
@@ -1737,7 +1737,7 @@ gboolean gsb_data_category_test_create_sub_category ( gint no_category,
 
 
 /**
- * retourne le nombre de sous catégories
+ * retourne le nombre de sous catÃ©gories
  *
  * \param   no_category
  *

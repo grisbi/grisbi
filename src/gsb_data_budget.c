@@ -1,6 +1,6 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
+/*     Copyright (C)    2000-2008 CÃ©dric Auger (cedric@grisbi.org)            */
 /*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
 /*          2009-2015 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          http://www.grisbi.org                                             */
@@ -1579,7 +1579,7 @@ gint gsb_data_budget_get_sub_budget_list_length ( gint budget_number )
 
 
 /**
- * Teste l'existence d'un budget et le crée si nécessaire
+ * Teste l'existence d'un budget et le crÃ©e si nÃ©cessaire
  *
  *
  * \param gint          no_budget
@@ -1628,7 +1628,7 @@ gint gsb_data_budget_test_create_budget ( gint no_budget,
 
 
 /**
- * Teste l'existence d'un sous budget et le crée si nécessaire
+ * Teste l'existence d'un sous budget et le crÃ©e si nÃ©cessaire
  *
  *
  * \param gint          no_budget

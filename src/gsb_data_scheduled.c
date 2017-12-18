@@ -1,6 +1,6 @@
 /* ***************************************************************************/
 /*                                                                            */
-/*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
+/*     Copyright (C)    2000-2008 CÃ©dric Auger (cedric@grisbi.org)            */
 /*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
@@ -1790,7 +1790,7 @@ gboolean gsb_data_scheduled_copy_scheduled (gint source_scheduled_number,
  *
  * \param	mother_scheduled_number
  *
- * \return TRUE si la variance de l'opération ventilée == 0
+ * \return TRUE si la variance de l'opÃ©ration ventilÃ©e == 0
  **/
 gboolean gsb_data_scheduled_get_variance (gint mother_scheduled_number)
 {

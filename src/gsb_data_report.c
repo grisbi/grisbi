@@ -2,7 +2,7 @@
 /*                                                                            */
 /*                                  gsb_data_report                           */
 /*                                                                            */
-/*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
+/*     Copyright (C)    2000-2008 CÃ©dric Auger (cedric@grisbi.org)            */
 /*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
 /*          2008-2013 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          http://www.grisbi.org                                             */
@@ -56,9 +56,9 @@ struct _ReportStruct {
     /** @name general stuff */
     gint report_number;
     gchar *report_name;
-	gboolean compl_name_used;						/* TRUE si utilisation d'un complément au nom du rapport */
-	gint compl_name_function;						/* Date ou Date + heure système */
-	gint compl_name_position;						/* Devant, derrière ou dessous le nom du rapport */
+	gboolean compl_name_used;						/* TRUE si utilisation d'un complÃ©ment au nom du rapport */
+	gint compl_name_function;						/* Date ou Date + heure systÃ¨me */
+	gint compl_name_position;						/* Devant, derriÃ¨re ou dessous le nom du rapport */
 	gchar *export_pdf_name;							/* Nom du fichier pour l'export pdf */
 
     /** @name what we show of the transactions */
@@ -95,7 +95,7 @@ struct _ReportStruct {
     gint column_title_type;                         /* 0 = botton, 1 = each section */
     gint append_in_payee;                           /* TRUE : the name of the report will be in the payee list */
     gint report_can_click;                          /* TRUE : we can click on the reports */
-    gint ignore_archives;                           /* TRUE ignore les opérations archivées choix manuel */
+    gint ignore_archives;                           /* TRUE ignore les opÃ©rations archivÃ©es choix manuel */
 
 
     /** @name period part of the report */
@@ -116,7 +116,7 @@ struct _ReportStruct {
     gint period_split_type;                         /* 0=day, 1=week, 2=month, 3=year */
     gint period_split_day;                          /* 0 = monday ... */
 
-    /** à compléter  */
+    /** Ã  complÃ©ter  */
     GSList *sorting_type;                           /* list of numbers : 1=categ,2=sub-categ,3=budget,4=sub-budget,5=account,6=payee */
 
     /** @name account part of the report */
@@ -4481,15 +4481,15 @@ gboolean gsb_data_report_set_ignore_archives ( gint report_number,
 
 
 /**
- * cherche la valeur d'ignore_archives en fonction de l'état
+ * cherche la valeur d'ignore_archives en fonction de l'Ã©tat
  *
- * \param report_number de l'état dont on veut déterminer ignore_archives
+ * \param report_number de l'Ã©tat dont on veut dÃ©terminer ignore_archives
  *
  * \return ignore_archives
  * */
 gint gsb_data_report_test_ignore_archives ( gint report_number )
 {
-    gint ignore_archives = 0;       /* valeur par défaut */
+    gint ignore_archives = 0;       /* valeur par dÃ©faut */
 
     if ( gsb_data_report_get_use_financial_year ( report_number ) )
     {
@@ -4560,7 +4560,7 @@ gint gsb_data_report_test_ignore_archives ( gint report_number )
             ignore_archives = 1;
             break;
         case 2:
-            /* cumul à ce jour */
+            /* cumul Ã  ce jour */
             ignore_archives = 0;
             break;
         case 3:
@@ -4587,7 +4587,7 @@ gint gsb_data_report_test_ignore_archives ( gint report_number )
             g_date_free ( tmp_date2 );
             break;
         case 4:
-            /* année en cours */
+            /* annÃ©e en cours */
             tmp_date = gdate_today ();
             g_date_set_day ( tmp_date, 1 );
             g_date_set_month ( tmp_date, 1 );
@@ -4652,7 +4652,7 @@ gint gsb_data_report_test_ignore_archives ( gint report_number )
             break;
 
         case 7:
-            /* mois précédent */
+            /* mois prÃ©cÃ©dent */
             tmp_date2 = gdate_today ();
             g_date_subtract_months ( tmp_date2, 1 );
             g_date_set_day ( tmp_date2, 1 );
@@ -4676,7 +4676,7 @@ gint gsb_data_report_test_ignore_archives ( gint report_number )
             g_date_free ( tmp_date2 );
             break;
         case 8:
-            /* année précédente */
+            /* annÃ©e prÃ©cÃ©dente */
             tmp_date = gdate_today ();
             g_date_subtract_years ( tmp_date, 1 );
             g_date_set_day ( tmp_date, 1 );

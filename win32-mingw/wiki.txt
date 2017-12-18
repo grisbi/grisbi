@@ -1,26 +1,26 @@
 ====== avec mingw ======
-<FIXME:  attention page en cours de création>
+<FIXME:  attention page en cours de crÃ©ation>
 ==== A installer tout le support ====
  
   - installer mingw [http://sourceforge.net/projects/mingw/files/Automated%20MinGW%20Installer/mingw-get-inst/mingw-get-inst-20100909/mingw-get-inst-20100909.exe/download]
   - installer wget [http://sourceforge.net/projects/gnuwin32/files/wget/1.11.4-1/wget-1.11.4-1-setup.exe/download]
   - installer unzip [http://sourceforge.net/projects/gnuwin32/files/unzip/5.51-1/unzip-5.51-1.exe/download]
   - installer getext [http://sourceforge.net/projects/gnuwin32/files/gettext/0.14.4/gettext-0.14.4.exe/download]
-  - rajouter les 1 à 4 dans le path ( a priori les 2,3 et 4 sont dans le même répertoire)
+  - rajouter les 1 Ã  4 dans le path ( a priori les 2,3 et 4 sont dans le mÃªme rÃ©pertoire)
   - installer putty [http://the.earth.li/~sgtatham/putty/latest/x86/putty-0.60-installer.exe] (pas absolument necessaire mais bon)
-  - créer au besoin une clé SSH
+  - crÃ©er au besoin une clÃ© SSH
   - installer git extensions  [http://code.google.com/p/gitextensions/downloads/list]
   - installer cmake [http://www.cmake.org/cmake/resources/software.html] (installer dans un endroit sans espaces)
   - NSIS [http://nsis.sourceforge.net/Download] (ajoutez NSIS au PATH )
-  - redémarrer le pc
+  - redÃ©marrer le pc
 
-==== B récupérer les sources ====
+==== B rÃ©cupÃ©rer les sources ====
 
   - lancer git extension  <code>git clone git://grisbi.git.sourceforge.net/gitroot/grisbi/grisbi </code>
   - attendre
 
 ==== C compiler ====
 
-  - Lancer le script %GRISBISRC%\win32-mingw\prepare_win32.cmd qui va effectuer les opération suivantes :  il va télécharger le kit de développement de gtk+ et le décompresser et générer les make pour mingw \\
+  - Lancer le script %GRISBISRC%\win32-mingw\prepare_win32.cmd qui va effectuer les opÃ©ration suivantes :  il va tÃ©lÃ©charger le kit de dÃ©veloppement de gtk+ et le dÃ©compresser et gÃ©nÃ©rer les make pour mingw \\
   - Lancer le script %GRISBISRC%\win32-mingw\build.cmd qui va compiler les versions Debug et Release. \\
-  - Lancer le script %GRISBISRC%\win32-mingw\package.cmd qui va générer un zip <FIXME: pas encore testé>\\
+  - Lancer le script %GRISBISRC%\win32-mingw\package.cmd qui va gÃ©nÃ©rer un zip <FIXME: pas encore testÃ©>\\

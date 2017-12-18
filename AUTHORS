@@ -5,15 +5,15 @@ Main Grisbi authors:
 Programming:
   Alain Portal (dionysos@grisbi.org)
   Benjamin Drieu (bdrieu@april.org)
-  Cédric Auger (cedric@grisbi.org)
-  François Terrot (francois.terrot@grisbi.org)
+  CÃ©dric Auger (cedric@grisbi.org)
+  FranÃ§ois Terrot (francois.terrot@grisbi.org)
   Pierre Biava (pierre.biava@nerim.net)
-  Mickaël Remars (grisbi@remars.com)
-  Rémi Cardona (remi@gentoo.org)
+  MickaÃ«l Remars (grisbi@remars.com)
+  RÃ©mi Cardona (remi@gentoo.org)
   Ludovic Rousseau (ludovic.rousseau@gmail.com)
 
 Graphics:
-  André Pascual (andre@linuxgraphic.org)
+  AndrÃ© Pascual (andre@linuxgraphic.org)
   Jakub 'jimmac' Steiner (jimmac[at]ximian.com)
   Jean-Baptiste Renard (renardjb[at]free.fr)
   Tuomas 'tigert' Kuosmanen (tigert[at]gimp.org)
@@ -46,8 +46,8 @@ Packaging:
   Alain Pichon (alain.pichon@grisbi.org)
   Alain Portal (dionysos@grisbi.org)
   Benjamin Drieu (benj@debian.org)
-  François Terrot (francois.terrot@grisbi.org)
-  Gérald Niel (gerald@grisbi.org)
+  FranÃ§ois Terrot (francois.terrot@grisbi.org)
+  GÃ©rald Niel (gerald@grisbi.org)
   Gilles Morel (g.morel@gmail.com)
   Matthieu Pupat (mpupat@free.fr)
   Thierry Thomas (thierry@pompo.net)
@@ -64,8 +64,8 @@ Code borrowed from:
   Marco Pesenti Gritti
 
 Thanks:
-  Alcôve (http://www.alcove.fr/), for letting Benj code on Grisbi!
-  Cédric, for being the one who started it all!
+  AlcÃ´ve (http://www.alcove.fr/), for letting Benj code on Grisbi!
+  CÃ©dric, for being the one who started it all!
 
 If you think you should be on this list, please let us know
 (team@lists.grisbi.org).

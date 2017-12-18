@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	          */
+/*     Copyright (C)	2000-2008 CÃ©dric Auger (cedric@grisbi.org)	          */
 /*			2003-2008 Benjamin Drieu (bdrieu@april.org)             	      */
 /* 			http://www.grisbi.org				                              */
 /*                                                                            */
@@ -924,7 +924,7 @@ gboolean gsb_data_payee_set_search_string ( gint no_payee, const gchar *search_s
 
 
 /**
- * renvoie le nombre de tiers non utilisé (fonction à revoir )
+ * renvoie le nombre de tiers non utilisÃ© (fonction Ã  revoir )
  *
  * \param
  *
@@ -936,7 +936,7 @@ gint gsb_data_payee_get_unused_payees ( void )
     GSList *used = NULL;
     gint nb_unused = 0;
 
-    /* on tient compte de toutes les opérations : méthode courte*/
+    /* on tient compte de toutes les opÃ©rations : mÃ©thode courte*/
     if ( etat.add_archive_in_total_balance )
     {
         /* it scans the list of sheduled transactions. fix bug 538 */
@@ -977,7 +977,7 @@ gint gsb_data_payee_get_unused_payees ( void )
         return nb_unused;
     }
 
-    /* méthode longue */
+    /* mÃ©thode longue */
     /* first we create a list of used payees */
     tmp_list = gsb_data_transaction_get_complete_transactions_list ();
     while (tmp_list)
