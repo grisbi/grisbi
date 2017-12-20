@@ -2,14 +2,15 @@
 
 source /appveyor.environment
 export MSYSTEM
+export BUILD_NUMBER
 
 cd /c/projects/grisbi-src
 ./autogen.sh
 ./configure --prefix /c/projects/grisbi-inst/
 
 v=$(grep PACKAGE_VERSION config.h | cut -f2 -d '"')
+v="$v Build-$BUILD_NUMBER" 
 powershell.exe -command "Update-AppveyorBuild -Version \"$v\""
-# -B%APPVEYOR_BUILD_NUMBER%\""
 
 make -j 2
 
