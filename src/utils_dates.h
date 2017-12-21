@@ -17,6 +17,7 @@ GDate *gsb_date_copy ( const GDate *date );
 void gsb_date_free_last_date ( void );
 gchar *gsb_date_get_compiled_time ( void );
 gchar *gsb_date_get_format_date ( void );
+GDate *gsb_date_get_first_day_of_current_month (void);
 GDate *gsb_date_get_last_banking_day_of_month ( const GDate *date );
 GDate *gsb_date_get_last_day_of_month ( const GDate *date );
 GDate *gsb_date_get_last_entry_date ( const gchar *string );

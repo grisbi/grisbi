@@ -704,6 +704,7 @@ GDate *gsb_date_get_last_banking_day_of_month ( const GDate *date )
     {
     case G_DATE_SUNDAY :
         g_date_subtract_days ( tmp_date, 2 );
+		break;
     case G_DATE_SATURDAY :
         g_date_subtract_days ( tmp_date, 1 );
         break;
@@ -714,7 +715,30 @@ GDate *gsb_date_get_last_banking_day_of_month ( const GDate *date )
     return tmp_date;
 }
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+GDate *gsb_date_get_first_day_of_current_month (void)
+{
+	GDate *tmp_date;
 
+	tmp_date = gdate_today ();
+	g_date_set_day (tmp_date, 1);
+
+	return tmp_date;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
