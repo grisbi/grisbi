@@ -3080,8 +3080,7 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account,
                     {
                         gint transaction_number_tmp;
 
-                        transaction_number_tmp = gsb_data_transaction_get_transaction_number (
-                                                    list_tmp_transactions->data);
+                        transaction_number_tmp = GPOINTER_TO_INT (list_tmp_transactions->data);
 
                         if ( gsb_data_transaction_get_mother_transaction_number (
                          transaction_number_tmp ) == transaction_number )
