@@ -3945,8 +3945,7 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
                     {
                         gint transaction_number_tmp;
 
-                        transaction_number_tmp = gsb_data_transaction_get_transaction_number (
-                                                    tmp_list_transactions->data);
+                        transaction_number_tmp = GPOINTER_TO_INT (tmp_list_transactions->data);
 
                         if (gsb_data_transaction_get_mother_transaction_number (
                          transaction_number_tmp) == transaction_number)
