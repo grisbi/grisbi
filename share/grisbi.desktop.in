@@ -7,3 +7,4 @@ Terminal=false
 MimeType=application/x-grisbi;
 Type=Application
 Categories=Office;Finance;
+StartupNotify=true
