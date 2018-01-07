@@ -236,9 +236,9 @@ struct GrisbiAppConf
     gboolean    limit_completion_to_current_account;        /* Limit payee completion to current account or do a full search. */
 
 /* general part */
+    gchar *     browser_command;
     gint        custom_fonte_listes;                        /* TRUE to use a custom font for the lists */
     gchar *     font_string;                                /* contain the description of the font, or NULL */
-    gchar *     browser_command;
 
     /* Home page */
     gint        pluriel_final;                              /* 0 = finals 1 = finaux */
@@ -261,7 +261,7 @@ struct GrisbiAppConf
     gboolean    maximize_screen;                            /* TRUE to maximize screen, 0 else */
 
 /* panel part */
-    gboolean active_scrolling_left_pane;                    /* active mouse scrolling in the left_pane. */
+    gboolean 	active_scrolling_left_pane;                 /* active mouse scrolling in the left_pane. */
     gint        panel_width;                                /* navigation paned width */
 
 /* prefs part */
