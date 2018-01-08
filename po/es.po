@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-21 09:06+0100\n"
+"POT-Creation-Date: 2018-01-08 16:40+0100\n"
 "PO-Revision-Date: 2010-05-09 11:48+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <cmcamara@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -1476,7 +1476,8 @@ msgid "Change selection"
 msgstr "Cambiar selección"
 
 #: ../src/bet_tab.c:1620
-msgid "Delete all occurences of the selection"
+#, fuzzy
+msgid "Delete all occurrences of the selection"
 msgstr "Borrar todas las ocurrencias de la selección"
 
 #: ../src/bet_tab.c:1632
@@ -1636,7 +1637,7 @@ msgstr "Crear una nueva subcategoría"
 #. set the button "import"
 #. Import button
 #: ../src/categories_onglet.c:578 ../src/etats_onglet.c:489
-#: ../src/grisbi_prefs.c:215 ../src/grisbi_prefs.c:282 ../src/grisbi_win.c:562
+#: ../src/grisbi_prefs.c:215 ../src/grisbi_prefs.c:282 ../src/grisbi_win.c:563
 #: ../src/import.c:1742 ../src/imputation_budgetaire.c:614
 #: ../src/utils_files.c:747
 msgid "Import"
@@ -1970,7 +1971,8 @@ msgid "File is corrupted."
 msgstr "El fichero está dañado"
 
 #: ../src/erreur.c:189
-msgid "Error occured saving file."
+#, fuzzy
+msgid "Error occurred saving file."
 msgstr "Ocurrió un fallo al guardar el fichero"
 
 #: ../src/erreur.c:212
@@ -3347,7 +3349,7 @@ msgid "Amortization array"
 msgstr "Estimar tabla"
 
 #: ../src/fenetre_principale.c:135 ../src/navigation.c:1988
-#: ../src/ui/prefs_page_divers.ui.h:6
+#: ../src/ui/prefs_page_divers.ui.h:8
 msgid "Scheduler"
 msgstr "Planificador"
 
@@ -3472,7 +3474,7 @@ msgid "Hide reconciliation names and amounts"
 msgstr "Ocultar nombres reconciliados y cantidades"
 
 #: ../src/file_obfuscate.c:566
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Please press the 'Close' button to obfuscate your file\n"
 "\n"
@@ -3484,7 +3486,7 @@ msgid ""
 "\n"
 "The account is saved in text, you may double check with a text editor if "
 "there is no personal information anymore in this file.Grisbi will close "
-"immediatly after saving the obfuscated file"
+"immediately after saving the obfuscated file"
 msgstr ""
 "Por favor, pulse el botón 'Cerrar' para truncar su fichero\n"
 "\n"
@@ -3509,6 +3511,7 @@ msgid "Grisbi QIF obfuscation"
 msgstr "Truncamiento QIF de Grisbi"
 
 #: ../src/file_obfuscate_qif.c:71
+#, fuzzy
 msgid ""
 "This assistant produces anonymized copies of qif files, with all personal "
 "data replaced with harmless random data, in order to attach an anonimized "
@@ -3517,7 +3520,7 @@ msgid ""
 "That said, please check that bugs you submit are still valid with anonymized "
 "version of that anonymized QIF file.\n"
 "\n"
-"In next page, you will have to choose a QIF file wich will be renamedwith -"
+"In next page, you will have to choose a QIF file which will be renamedwith -"
 "obfuscate at the end."
 msgstr ""
 "Este asistente creará copias anónimas de sus ficheros qif, con toda la "
@@ -3969,44 +3972,44 @@ msgstr "Menú"
 msgid "The menu of options"
 msgstr "El menú de opciones"
 
-#: ../src/grisbi_app.c:632
+#: ../src/grisbi_app.c:638
 #, fuzzy
 msgid "Show the application's version"
 msgstr "Muestra _tres líneas por transacción"
 
-#: ../src/grisbi_app.c:638
+#: ../src/grisbi_app.c:644
 msgid "Create a new top-level window in an existing instance of grisbi"
 msgstr ""
 
-#: ../src/grisbi_app.c:645
+#: ../src/grisbi_app.c:651
 #, fuzzy
 msgid "Debug mode: level 0-5"
 msgstr "Mode de depuración"
 
-#: ../src/grisbi_app.c:646
+#: ../src/grisbi_app.c:652
 msgid "DEBUG"
 msgstr ""
 
-#: ../src/grisbi_app.c:659
+#: ../src/grisbi_app.c:665
 msgid "[FILE...]"
 msgstr ""
 
-#: ../src/grisbi_app.c:815
+#: ../src/grisbi_app.c:821
 #, fuzzy, c-format
 msgid "Error on sigaction: SIGINT won't be trapped\n"
 msgstr "Error en sigaction: SIGSEGV no será interrumpido\n"
 
-#: ../src/grisbi_app.c:818
+#: ../src/grisbi_app.c:824
 #, fuzzy, c-format
 msgid "Error on sigaction: SIGTERM won't be trapped\n"
 msgstr "Error en sigaction: SIGSEGV no será interrumpido\n"
 
-#: ../src/grisbi_app.c:821
+#: ../src/grisbi_app.c:827
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Error en sigaction: SIGSEGV no será interrumpido\n"
 
-#: ../src/grisbi_app.c:978 ../src/menu.c:597
+#: ../src/grisbi_app.c:995 ../src/menu.c:597
 #, fuzzy
 msgid "Start an action!"
 msgstr "Ordenar las transacciones por"
@@ -4123,35 +4126,35 @@ msgstr "Balance estimado"
 msgid "No font defined"
 msgstr "No se definión ninguna fuente"
 
-#: ../src/grisbi_win.c:1158
+#: ../src/grisbi_win.c:1159
 msgid "Unnamed account"
 msgstr "Cuenta sin nombre"
 
-#: ../src/grisbi_win.c:1180 ../src/gsb_transactions_list.c:2583
+#: ../src/grisbi_win.c:1181 ../src/gsb_transactions_list.c:2583
 msgid "Move transaction to another account"
 msgstr "Mover la transacción a otra cuenta"
 
-#: ../src/grisbi_win.c:1289 ../src/grisbi_win.c:1336
+#: ../src/grisbi_win.c:1290 ../src/grisbi_win.c:1337
 #: ../share/grisbi.desktop.in.h:1
 msgid "Grisbi"
 msgstr "Grisbi"
 
-#: ../src/grisbi_win.c:1343 ../src/gsb_file.c:223 ../src/gsb_file.c:242
+#: ../src/grisbi_win.c:1344 ../src/gsb_file.c:223 ../src/gsb_file.c:242
 #: ../src/gsb_file.c:273
 msgid "unnamed"
 msgstr "Sin nombre"
 
-#: ../src/grisbi_win.c:1435 ../src/ui/grisbi_menu.ui.h:7
+#: ../src/grisbi_win.c:1436 ../src/ui/grisbi_menu.ui.h:7
 #, fuzzy
 msgid "Open"
 msgstr "_Abrir..."
 
 #. Create main widget.
-#: ../src/grisbi_win.c:1629
+#: ../src/grisbi_win.c:1630
 msgid "Creating main window"
 msgstr "Creando la ventana principal"
 
-#: ../src/grisbi_win.c:1642
+#: ../src/grisbi_win.c:1643
 msgid ""
 "The model of the list couldn't be created... Bad things will happen very "
 "soon..."
@@ -4705,7 +4708,7 @@ msgstr ""
 #, fuzzy
 msgid ""
 "Error!\n"
-"An error occured while saving the archive.\n"
+"An error occurred while saving the archive.\n"
 "\n"
 "Please press the Previous button to correct the problem,\n"
 "or the close button to cancel the action."
@@ -4930,11 +4933,11 @@ msgstr "Configuración general de Grisbi"
 msgid "Web"
 msgstr "Web"
 
-#: ../src/gsb_assistant_first.c:219 ../src/ui/prefs_page_divers.ui.h:3
+#: ../src/gsb_assistant_first.c:219 ../src/ui/prefs_page_divers.ui.h:5
 msgid "Web browser command: "
 msgstr "Comando para el navegador web: "
 
-#: ../src/gsb_assistant_first.c:226 ../src/ui/prefs_page_divers.ui.h:5
+#: ../src/gsb_assistant_first.c:226 ../src/ui/prefs_page_divers.ui.h:7
 #, fuzzy, no-c-format
 msgid "You may use %s to expand the URL - I.e: 'firefox %s' "
 msgstr "Podrá usar %s para cargar la URL. EJ: 'firefox -remote %s' "
@@ -5380,63 +5383,6 @@ msgstr "No se puede abrir el fichero de categorías"
 #: ../src/gsb_category.c:385
 msgid "Unnamed category list"
 msgstr "Lista de categorías sin nombre"
-
-#: ../src/gsb_color.c:428 ../src/gsb_rgba.c:341
-msgid "Transaction list background 1"
-msgstr "Fondo 1 de la lista de transacciónes"
-
-#: ../src/gsb_color.c:429 ../src/gsb_rgba.c:342
-msgid "Transaction list background 2"
-msgstr "Fondo 2 de la lista de transacciones"
-
-#: ../src/gsb_color.c:430 ../src/gsb_rgba.c:343
-msgid "Color for the operation that gives the balance today"
-msgstr "Color de la operación que da el balance diario"
-
-#: ../src/gsb_color.c:431 ../src/gsb_rgba.c:344
-msgid "Color of transaction's text"
-msgstr "Color del texto de la transacción"
-
-#: ../src/gsb_color.c:432 ../src/gsb_rgba.c:345
-msgid "Text of unfinished split transaction"
-msgstr "Texto de la transacción dividida sin finalizar"
-
-#: ../src/gsb_color.c:433 ../src/gsb_rgba.c:346
-msgid "Children of split transaction"
-msgstr "Hijos de una transacción dividida"
-
-#: ../src/gsb_color.c:434 ../src/gsb_rgba.c:347
-msgid "Selection color"
-msgstr "Color de la selección"
-
-#: ../src/gsb_color.c:435 ../src/gsb_rgba.c:348
-msgid "Background of non selectable scheduled transactions"
-msgstr "Fondo de las transacciones programadas no seleccionables"
-
-#: ../src/gsb_color.c:436 ../src/gsb_rgba.c:349
-msgid "Archive color"
-msgstr "Color del archivo"
-
-#: ../src/gsb_color.c:437
-msgid "Background of invalid date entry"
-msgstr "Fondo de una entrada de fecha incorrecta"
-
-#: ../src/gsb_color.c:438 ../src/gsb_rgba.c:350
-msgid "Background of bet division"
-msgstr "Fondo de la división de apuestas"
-
-#: ../src/gsb_color.c:439 ../src/gsb_rgba.c:351
-msgid "Background of bet futur"
-msgstr "Trasfondo de la división de apuestas"
-
-#: ../src/gsb_color.c:440 ../src/gsb_rgba.c:352
-#, fuzzy
-msgid "Background of bet solde"
-msgstr "Fondo de la división de apuestas"
-
-#: ../src/gsb_color.c:441 ../src/gsb_rgba.c:353
-msgid "Background of bet transfer"
-msgstr "Trasfondo de la transferencia de apuestas"
 
 #: ../src/gsb_currency.c:526
 msgid "Enter exchange rate"
@@ -7279,16 +7225,18 @@ msgid "Incorrect category/sub-category number"
 msgstr "Número de categoría/subcategoría incorrecto"
 
 #: ../src/gsb_debug.c:116
+#, fuzzy
 msgid ""
-"This test will look for transactions wich have non existant categories/sub-"
+"This test will look for transactions which have non-existent categories/sub-"
 "categories."
 msgstr ""
 "Esta prueba buscará las transacciones que tienen categorías/subcategorías no "
 "existentes."
 
 #: ../src/gsb_debug.c:117
+#, fuzzy
 msgid ""
-"Grisbi found some transactions with non existants categories/sub-categories "
+"Grisbi found some transactions with non existents categories/sub-categories "
 "If you choose to continue, Grisbi will remove that category error and that "
 "transactions will have no categories."
 msgstr ""
@@ -7301,16 +7249,18 @@ msgid "Incorrect budget/sub-budget number"
 msgstr "Número de prespuesto/sub presupuesto incorrecto"
 
 #: ../src/gsb_debug.c:123
+#, fuzzy
 msgid ""
-"This test will look for transactions wich have non existant budgets/sub-"
+"This test will look for transactions which have non-existent budgets/sub-"
 "budgets."
 msgstr ""
 "Esta prueba buscará transacciones que tengan lineas presupuestarias/"
 "subpresupuestarias inexistentes."
 
 #: ../src/gsb_debug.c:124
+#, fuzzy
 msgid ""
-"Grisbi found some transactions with non existants budgets/sub-budgets If you "
+"Grisbi found some transactions with non existents budgets/sub-budgets If you "
 "choose to continue, Grisbi will remove that budget error and that "
 "transactions will have no budgets."
 msgstr ""
@@ -7324,12 +7274,14 @@ msgid "Incorrect payee number"
 msgstr "Número de tercero incorrecto"
 
 #: ../src/gsb_debug.c:130
-msgid "This test will look for transactions wich have non existant payees."
+#, fuzzy
+msgid "This test will look for transactions which have non-existent payees."
 msgstr "Este test buscará tranascciones que tengan terceros que no existen."
 
 #: ../src/gsb_debug.c:131
+#, fuzzy
 msgid ""
-"Grisbi found some transactions with non existants payees If you choose to "
+"Grisbi found some transactions with non existents payees If you choose to "
 "continue, Grisbi will remove them and that transactions will have no payee."
 msgstr ""
 "Grisbi encontró algunas transacciones con terceros inexistentes si elige "
@@ -7421,8 +7373,8 @@ msgstr ""
 "  Cantidad calculada de la reconciliación : %s\n"
 
 #: ../src/gsb_debug.c:525
-#, c-format
-msgid "Transaction #%d is linked to non existent transaction #%d.\n"
+#, fuzzy, c-format
+msgid "Transaction #%d is linked to non-existent transaction #%d.\n"
 msgstr "La transacción #%d está unida a una transacción que no existe #%d.\n"
 
 #: ../src/gsb_debug.c:548
@@ -7652,28 +7604,28 @@ msgstr "Comprobando los planificadores"
 msgid "Checking amounts"
 msgstr "Comprobando cantidades"
 
-#: ../src/gsb_file_load.c:3503
+#: ../src/gsb_file_load.c:3502
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Este fichero no es de de Grisbi... Carga interrumpida."
 
-#: ../src/gsb_file_load.c:3796 ../src/gsb_file_load.c:3814
+#: ../src/gsb_file_load.c:3795 ../src/gsb_file_load.c:3813
 #, c-format
 msgid ""
 "Grisbit no longer supports file encryption due to the existence of reliable "
 "external solutions."
 msgstr ""
 
-#: ../src/gsb_file_load.c:3799
+#: ../src/gsb_file_load.c:3798
 #, c-format
 msgid "Your file '%s' will be saved unencrypted"
 msgstr ""
 
-#: ../src/gsb_file_load.c:3817
+#: ../src/gsb_file_load.c:3816
 #, fuzzy, c-format
 msgid "Unable to use file encryption"
 msgstr "No se puede abrir el archivo '%s'"
 
-#: ../src/gsb_file_load.c:3880
+#: ../src/gsb_file_load.c:3879
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -7685,11 +7637,11 @@ msgstr ""
 "más tarde (nuevos informes...) pero recuerde que es un archivo antes de "
 "modificar algunas transacciones o informaciones importantes."
 
-#: ../src/gsb_file_load.c:3884
+#: ../src/gsb_file_load.c:3883
 msgid "Grisbi archive opened"
 msgstr "Archivo de Grisbi abierto"
 
-#: ../src/gsb_file_load.c:3894
+#: ../src/gsb_file_load.c:3893
 #, c-format
 msgid ""
 "You import a file from version %s of Grisbi. After updating your file will "
@@ -7699,15 +7651,15 @@ msgid ""
 "abandon the encryption of your account file."
 msgstr ""
 
-#: ../src/gsb_file_load.c:3901
+#: ../src/gsb_file_load.c:3900
 #, c-format
 msgid "Importing a file whose version is for an earlier version of Grisbi"
 msgstr ""
 
-#: ../src/gsb_file_load.c:4321
-#, c-format
+#: ../src/gsb_file_load.c:4320
+#, fuzzy, c-format
 msgid ""
-"An error occured while parsing the file :\n"
+"An error occurred while parsing the file :\n"
 "Error number : %d\n"
 "%s"
 msgstr ""
@@ -8508,6 +8460,59 @@ msgstr ""
 msgid "Unable to compile regex: %s\n"
 msgstr "No se ha podido crear el fichero tmp: %s\n"
 
+#: ../src/gsb_rgba.c:341
+msgid "Transaction list background 1"
+msgstr "Fondo 1 de la lista de transacciónes"
+
+#: ../src/gsb_rgba.c:342
+msgid "Transaction list background 2"
+msgstr "Fondo 2 de la lista de transacciones"
+
+#: ../src/gsb_rgba.c:343
+msgid "Color for the operation that gives the balance today"
+msgstr "Color de la operación que da el balance diario"
+
+#: ../src/gsb_rgba.c:344
+msgid "Color of transaction's text"
+msgstr "Color del texto de la transacción"
+
+#: ../src/gsb_rgba.c:345
+msgid "Text of unfinished split transaction"
+msgstr "Texto de la transacción dividida sin finalizar"
+
+#: ../src/gsb_rgba.c:346
+msgid "Children of split transaction"
+msgstr "Hijos de una transacción dividida"
+
+#: ../src/gsb_rgba.c:347
+msgid "Selection color"
+msgstr "Color de la selección"
+
+#: ../src/gsb_rgba.c:348
+msgid "Background of non selectable scheduled transactions"
+msgstr "Fondo de las transacciones programadas no seleccionables"
+
+#: ../src/gsb_rgba.c:349
+msgid "Archive color"
+msgstr "Color del archivo"
+
+#: ../src/gsb_rgba.c:350
+msgid "Background of bet division"
+msgstr "Fondo de la división de apuestas"
+
+#: ../src/gsb_rgba.c:351
+msgid "Background of bet futur"
+msgstr "Trasfondo de la división de apuestas"
+
+#: ../src/gsb_rgba.c:352
+#, fuzzy
+msgid "Background of bet solde"
+msgstr "Fondo de la división de apuestas"
+
+#: ../src/gsb_rgba.c:353
+msgid "Background of bet transfer"
+msgstr "Trasfondo de la transferencia de apuestas"
+
 #. popup view menu
 #: ../src/gsb_scheduler_list.c:163
 msgid "Unique view"
@@ -8670,7 +8675,8 @@ msgid "Delete this scheduled transaction?"
 msgstr "¿ Borrar esta transacción programada ?"
 
 #: ../src/gsb_scheduler_list.c:2153
-msgid "All the occurences"
+#, fuzzy
+msgid "All the occurrences"
 msgstr "Todos los resultados"
 
 #: ../src/gsb_scheduler_list.c:2154
@@ -8756,16 +8762,16 @@ msgstr ""
 msgid "Remove orphan children"
 msgstr "Recuperar los hijos"
 
-#: ../src/gsb_select_icon.c:296
+#: ../src/gsb_select_icon.c:297
 msgid "Select icon directory"
 msgstr "Elegir directorio de iconos"
 
-#: ../src/gsb_select_icon.c:471
+#: ../src/gsb_select_icon.c:472
 msgid "Browse icons"
 msgstr "Iconos de navegación"
 
 #. création du bouton de sélection des répertoires
-#: ../src/gsb_select_icon.c:497
+#: ../src/gsb_select_icon.c:498
 msgid "Browse"
 msgstr "Navegar"
 
@@ -8791,7 +8797,8 @@ msgid "Delete a scheduled transaction."
 msgstr "Borrar una transacción programada."
 
 #: ../src/gsb_transactions_list.c:213
-msgid "Delete one or all occurences of scheduled transaction."
+#, fuzzy
+msgid "Delete one or all occurrences of scheduled transaction."
 msgstr "Borrar un o todas las ocurrencias de la transacción programada."
 
 #: ../src/gsb_transactions_list.c:218
@@ -8901,8 +8908,9 @@ msgstr ""
 "Por favor, intente reproducir el fallo y contacte con el equipo de Grisbi."
 
 #: ../src/gsb_transactions_list.c:1527
+#, fuzzy
 msgid ""
-"An archive was clicked but it seems to have the number 0, wich should not "
+"An archive was clicked but it seems to have the number 0, which should not "
 "happen.\n"
 "Please try to reproduce and contact the Grisbi team."
 msgstr ""
@@ -8940,7 +8948,7 @@ msgstr ""
 "¿ Está seguro de que sabe lo que está haciendo ?"
 
 #. we warn the user the transaction disappear
-#. * don't laugh ! there were several bugs reports about a transaction wich disappear :-)
+#. * don't laugh ! there were several bugs reports about a transaction which disappear :-)
 #: ../src/gsb_transactions_list.c:1995
 msgid ""
 "The transaction has disappear from the list...\n"
@@ -9443,16 +9451,16 @@ msgstr ""
 msgid "Mark"
 msgstr "Marcar"
 
-#: ../src/import.c:4151
-#, c-format
+#: ../src/import.c:4150
+#, fuzzy, c-format
 msgid ""
-"An error occured while creating the new account %s,\n"
+"An error occurred while creating the new account %s,\n"
 "We try to continue to import but bad things can happen..."
 msgstr ""
 "Ha ocurrido un error mientras se creaba la nueva cuenta %s,\n"
 "Intentaremos continuar con la importación, pero pueden suceder cosas malas..."
 
-#: ../src/import.c:4212
+#: ../src/import.c:4211
 #, c-format
 msgid ""
 "You want to create an import rule for the account %s but didn't give a name "
@@ -9462,15 +9470,15 @@ msgstr ""
 "nombre a esa regla. Por favor, elija un nombre o déjelo en blanco para "
 "cancelar la creación de la regla."
 
-#: ../src/import.c:4216
+#: ../src/import.c:4215
 msgid "No name for the import rule"
 msgstr "No hay un nombre para la regla de importación"
 
-#: ../src/import.c:4217 ../src/ui/csv_template_rule.ui.h:4
+#: ../src/import.c:4216 ../src/ui/csv_template_rule.ui.h:4
 msgid "Name of the rule: "
 msgstr "Nombre de la regla: "
 
-#: ../src/import.c:4259
+#: ../src/import.c:4258
 #, fuzzy
 msgid ""
 "No account in memory now, this is bad...\n"
@@ -9483,11 +9491,11 @@ msgstr ""
 "\n"
 "Por favor, contacto con el equipo de Grisbi para encontrar el problema."
 
-#: ../src/import.c:4269
+#: ../src/import.c:4268
 msgid "Please wait"
 msgstr "Por favor espere"
 
-#: ../src/import.c:4295
+#: ../src/import.c:4294
 msgid ""
 "You have just imported reconciled transactions but they not associated with "
 "any reconcile number yet.  You may associate them with a reconcilation later "
@@ -9497,7 +9505,7 @@ msgstr ""
 "ningún número de reconciliación todavía. Puede asociarlas con una "
 "reconciliación más tarde a través de las ventanas de configuración."
 
-#: ../src/import.c:4332
+#: ../src/import.c:4331
 msgid ""
 "This assistant will help you import one or several files into Grisbi.\n"
 "\n"
@@ -9513,58 +9521,58 @@ msgstr ""
 "de la siguiente página.  Los siguientes formatos son soportados:\n"
 "\n"
 
-#: ../src/import.c:4340
+#: ../src/import.c:4339
 msgid "Importing transactions into Grisbi"
 msgstr "Importando transacciones a Grisbi"
 
-#: ../src/import.c:4549
+#: ../src/import.c:4548
 #, c-format
 msgid "%s #%d"
 msgstr "%s #%d"
 
-#: ../src/import.c:4639
+#: ../src/import.c:4638
 msgid "Import a file with a rule"
 msgstr "Importar un fichero con una regla"
 
 #. text for paddingbox
-#: ../src/import.c:4650
+#: ../src/import.c:4649
 #, c-format
 msgid "Properties of the rule: %s\n"
 msgstr "Propiedades de la regla: %s\n"
 
-#: ../src/import.c:4669
+#: ../src/import.c:4668
 #, c-format
 msgid "Imported transactions will be added to the account %s.\n"
 msgstr "Las transacciones importadas se añadirán a la cuenta %s.\n"
 
-#: ../src/import.c:4672
+#: ../src/import.c:4671
 #, c-format
 msgid "Imported transactions will mark transactions in the account %s.\n"
 msgstr ""
 "Las transacciones importadas marcarán las transacciones en la cuenta %s.\n"
 
 #. textstring 2
-#: ../src/import.c:4677
+#: ../src/import.c:4676
 #, c-format
 msgid "Currency to import is %s.\n"
 msgstr "La moneda a importar es %s.\n"
 
-#: ../src/import.c:4686
+#: ../src/import.c:4685
 #, c-format
 msgid "Amounts of the transactions will be inverted.\n"
 msgstr "Se invertirán las cantidades de las transacciones.\n"
 
 #. label filename
-#: ../src/import.c:4698
+#: ../src/import.c:4697
 msgid "Name of the file to import: "
 msgstr "Nombre del fichero a importar: "
 
-#: ../src/import.c:4715
+#: ../src/import.c:4714
 #, fuzzy
 msgid "Select a new file"
 msgstr "Seleccione un nuevo logotipo"
 
-#: ../src/import.c:4773
+#: ../src/import.c:4772
 #, c-format
 msgid ""
 "%s is neither an OFX file, neither a QIF file. Nothing will be done for that "
@@ -9573,10 +9581,10 @@ msgstr ""
 "%s no es un fichero OFX, ni un fichero QIF. No se hará nada para este "
 "fichero."
 
-#: ../src/import.c:4817
-#, c-format
+#: ../src/import.c:4816
+#, fuzzy, c-format
 msgid ""
-"%s was not imported successfully. An error occured while getting the "
+"%s was not imported successfully. An error occurred while getting the "
 "transactions."
 msgstr ""
 "%s no se importó con éxito. Un error ocurrió mientras que se tomaban las "
@@ -9625,7 +9633,7 @@ msgstr ""
 
 #: ../src/import_csv.c:190
 #, fuzzy
-msgid "File emty."
+msgid "File empty."
 msgstr "Nombre del archivo"
 
 #: ../src/import_csv.c:213
@@ -10620,8 +10628,9 @@ msgid "Remove orphan payees"
 msgstr "Eliminar terceros huérfanos"
 
 #: ../src/tiers_onglet.c:424
+#, fuzzy
 msgid ""
-"This will remove all the payees wich are not used in any transactions.  "
+"This will remove all the payees which are not used in any transactions.  "
 "Payees linked to an archived transactions will not be removed, even if not "
 "used outside the archive.\n"
 "\n"
@@ -11057,9 +11066,9 @@ msgstr ""
 "con el equipo de Grisbi para solucionar este problema."
 
 #: ../src/transaction_list_sort.c:145
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"Asked to sort by column %d, wich is bigger than the visible columns (%d)"
+"Asked to sort by column %d, which is bigger than the visible columns (%d)"
 msgstr ""
 "Pidió ordenar por columna %d, que es mayor que las columnas visibles (%d)"
 
@@ -11239,18 +11248,18 @@ msgid "(Un)Reconcile a transaction\t-> <Primary>r\n"
 msgstr "Transacciones reconciliadas"
 
 #. On récupère le nom de la page
-#: ../src/prefs/prefs_page_divers.c:210
+#: ../src/prefs/prefs_page_divers.c:274
 msgid "Divers"
 msgstr ""
 
 #. set the scheduled variables
-#: ../src/prefs/prefs_page_divers.c:219
+#: ../src/prefs/prefs_page_divers.c:283
 msgid "Warn/Execute the scheduled transactions arriving at expiration date"
 msgstr ""
 "Aviso/Ejecutar la transacción programada actual si está en la fecha de "
 "vencimiento"
 
-#: ../src/prefs/prefs_page_divers.c:220
+#: ../src/prefs/prefs_page_divers.c:284
 #, fuzzy
 msgid "Warn/Execute the scheduled transactions of the month"
 msgstr "Aviso/Ejecutar las transacciones programadas del mes"
@@ -11912,7 +11921,7 @@ msgstr "Crear una regla para esta importación. Nombre de la regla : "
 #: ../src/ui/csv_template_rule.ui.h:3 ../src/ui/prefs_page_archives.ui.h:2
 #: ../src/ui/prefs_page_display_adr.ui.h:3
 #: ../src/ui/prefs_page_display_fonts.ui.h:2
-#: ../src/ui/prefs_page_display_gui.ui.h:2 ../src/ui/prefs_page_divers.ui.h:2
+#: ../src/ui/prefs_page_display_gui.ui.h:2 ../src/ui/prefs_page_divers.ui.h:1
 #: ../src/ui/prefs_page_files.ui.h:2 ../src/ui/prefs_page_import_asso.ui.h:2
 #: ../src/ui/prefs_page_import_files.ui.h:2
 msgid "    "
@@ -11951,7 +11960,7 @@ msgstr ""
 msgid "Line number: "
 msgstr "Número IBAN: "
 
-#: ../src/ui/csv_template_rule.ui.h:13 ../src/ui/prefs_page_divers.ui.h:8
+#: ../src/ui/csv_template_rule.ui.h:13 ../src/ui/prefs_page_divers.ui.h:10
 #, fuzzy
 msgid "1"
 msgstr "1 "
@@ -12010,7 +12019,7 @@ msgstr "Selección de datos"
 #: ../src/ui/csv_template_rule.ui.h:25 ../src/ui/prefs_page_archives.ui.h:12
 #: ../src/ui/prefs_page_display_adr.ui.h:1
 #: ../src/ui/prefs_page_display_fonts.ui.h:9
-#: ../src/ui/prefs_page_display_gui.ui.h:14 ../src/ui/prefs_page_divers.ui.h:15
+#: ../src/ui/prefs_page_display_gui.ui.h:14 ../src/ui/prefs_page_divers.ui.h:18
 #: ../src/ui/prefs_page_files.ui.h:20 ../src/ui/prefs_page_import_asso.ui.h:8
 #: ../src/ui/prefs_page_import_files.ui.h:13
 msgid "label"
@@ -12019,7 +12028,7 @@ msgstr ""
 #: ../src/ui/csv_template_rule.ui.h:26 ../src/ui/prefs_page_archives.ui.h:13
 #: ../src/ui/prefs_page_display_adr.ui.h:2
 #: ../src/ui/prefs_page_display_fonts.ui.h:10
-#: ../src/ui/prefs_page_display_gui.ui.h:15 ../src/ui/prefs_page_divers.ui.h:18
+#: ../src/ui/prefs_page_display_gui.ui.h:15 ../src/ui/prefs_page_divers.ui.h:19
 #: ../src/ui/prefs_page_files.ui.h:21 ../src/ui/prefs_page_import_asso.ui.h:9
 #: ../src/ui/prefs_page_import_files.ui.h:14
 #, fuzzy
@@ -12797,51 +12806,56 @@ msgstr ""
 msgid "Shortcuts"
 msgstr ""
 
-#: ../src/ui/prefs_page_divers.ui.h:1
-msgid "Programs"
-msgstr "Programas"
-
-#: ../src/ui/prefs_page_divers.ui.h:7
-#, fuzzy
-msgid "Launch day for scheduled operations performed monthly: "
-msgstr "Número de días antes del mensaje de aviso o de la ejecución: "
-
-#: ../src/ui/prefs_page_divers.ui.h:9
-#, fuzzy
-msgid "Set fixed date of all scheduled transactions: "
-msgstr "Etiquetas para las transacciones programadas"
-
-#: ../src/ui/prefs_page_divers.ui.h:10
-msgid "Like before"
-msgstr ""
-
-#: ../src/ui/prefs_page_divers.ui.h:11
-#, fuzzy
-msgid "With the last day of the month"
-msgstr "Primer día del mes"
-
-#: ../src/ui/prefs_page_divers.ui.h:12
-#, fuzzy
-msgid "With the last banking day"
-msgstr "Primer día del mes"
-
-#: ../src/ui/prefs_page_divers.ui.h:13
-msgid "Use a default account for sheduler form: "
-msgstr ""
-
-#: ../src/ui/prefs_page_divers.ui.h:14
-#, fuzzy
-msgid "Localization"
-msgstr "Reconciliación"
-
-#: ../src/ui/prefs_page_divers.ui.h:16
+#: ../src/ui/prefs_page_divers.ui.h:2
 #, fuzzy
 msgid "Number of days before the warning or the execution: "
 msgstr "Número de días antes del mensaje de aviso o de la ejecución: "
 
-#: ../src/ui/prefs_page_divers.ui.h:17 ../src/ui/prefs_page_files.ui.h:14
+#: ../src/ui/prefs_page_divers.ui.h:3 ../src/ui/prefs_page_files.ui.h:14
 msgid "0"
 msgstr ""
+
+#: ../src/ui/prefs_page_divers.ui.h:4
+msgid "Programs"
+msgstr "Programas"
+
+#: ../src/ui/prefs_page_divers.ui.h:9
+#, fuzzy
+msgid "Launch day for scheduled operations performed monthly: "
+msgstr "Número de días antes del mensaje de aviso o de la ejecución: "
+
+#: ../src/ui/prefs_page_divers.ui.h:11
+#, fuzzy
+msgid "Set fixed date of all scheduled transactions: "
+msgstr "Etiquetas para las transacciones programadas"
+
+#: ../src/ui/prefs_page_divers.ui.h:12
+msgid "Like before"
+msgstr ""
+
+#: ../src/ui/prefs_page_divers.ui.h:13
+#, fuzzy
+msgid "With the last day of the month"
+msgstr "Primer día del mes"
+
+#: ../src/ui/prefs_page_divers.ui.h:14
+#, fuzzy
+msgid "With the last banking day"
+msgstr "Primer día del mes"
+
+#: ../src/ui/prefs_page_divers.ui.h:15
+msgid "Use a default account for sheduler form: "
+msgstr ""
+
+#: ../src/ui/prefs_page_divers.ui.h:16
+#, fuzzy
+msgid "Localization"
+msgstr "Reconciliación"
+
+#: ../src/ui/prefs_page_divers.ui.h:17
+#, fuzzy
+msgid "Choose the language"
+msgstr "Elegir la cuenta"
 
 #: ../src/ui/prefs_page_files.ui.h:6
 msgid "Compress Grisbi file"
@@ -12957,6 +12971,14 @@ msgstr ""
 #, fuzzy
 msgid "Personnal finances manager"
 msgstr "Gestor de finanzas personal para todo el mundo\n"
+
+#: ../share/grisbi.desktop.in.h:3
+#, fuzzy
+msgid "finance"
+msgstr "años financiero"
+
+#~ msgid "Background of invalid date entry"
+#~ msgstr "Fondo de una entrada de fecha incorrecta"
 
 #~ msgid "Unable to create tmp file: %s\n"
 #~ msgstr "No se ha podido crear el fichero tmp: %s\n"
