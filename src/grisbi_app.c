@@ -109,6 +109,7 @@ static void grisbi_app_struct_conf_init (void)
     conf.font_string = NULL;
     conf.browser_command = NULL;
 	conf.import_directory = NULL;
+	conf.language_chosen = NULL;
     conf.last_open_file = NULL;
 }
 
@@ -140,7 +141,13 @@ static void grisbi_app_struct_conf_free (void)
         conf.import_directory = NULL;
     }
 
-    if (conf.last_open_file)
+    if (conf.language_chosen)
+    {
+        g_free (conf.language_chosen);
+        conf.language_chosen = NULL;
+    }
+
+	if (conf.last_open_file)
     {
         g_free (conf.last_open_file);
         conf.last_open_file = NULL;
@@ -905,6 +912,16 @@ static void grisbi_app_startup (GApplication *application)
     /* initialisation des variables de configuration globales */
     grisbi_settings_get ();
 
+	/* set language and init locale parameters */
+	gsb_locale_init_language (conf.language_chosen);
+	gsb_locale_init_lconv_struct ();
+
+	/* Print variables if necessary */
+	if (IS_DEVELOPMENT_VERSION == 1)
+    {
+        grisbi_app_print_environment_var ();
+    }
+
 	/* MAJ de has_app_menu */
     if (conf.force_classic_menu)
         has_app_menu = FALSE;
@@ -1081,10 +1098,7 @@ static void grisbi_app_init (GrisbiApp *app)
 {
     /* initialize debugging */
     if (IS_DEVELOPMENT_VERSION == 1)
-    {
         debug_initialize_debugging (5);
-        grisbi_app_print_environment_var ();
-    }
 
     g_set_application_name ("Grisbi");
 

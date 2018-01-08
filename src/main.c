@@ -76,7 +76,6 @@ int main (int argc, char **argv)
     bindtextdomain (GETTEXT_PACKAGE, gsb_dirs_get_locale_dir ());
     bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
     textdomain (GETTEXT_PACKAGE);
-    gsb_locale_init ();
 
 #ifdef HAVE_GOFFICE
     /* initialisation libgoffice */

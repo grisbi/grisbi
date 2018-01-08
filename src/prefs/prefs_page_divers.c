@@ -38,8 +38,11 @@
 
 /*START_INCLUDE*/
 #include "prefs_page_divers.h"
+#include "dialog.h"
+#include "grisbi_settings.h"
 #include "gsb_account.h"
 #include "gsb_automem.h"
+#include "gsb_dirs.h"
 #include "parametres.h"
 #include "structures.h"
 #include "utils_prefs.h"
@@ -73,6 +76,7 @@ struct _PrefsPageDiversPrivate
 	GtkWidget *			hbox_divers_scheduler_nb_days_before_scheduled;
     GtkWidget *         spinbutton_nb_days_before_scheduled;
 	GtkWidget *			box_divers_localisation;
+	GtkWidget *			combo_choose_language;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageDivers, prefs_page_divers, GTK_TYPE_BOX)
@@ -188,6 +192,121 @@ static gboolean prefs_page_divers_scheduler_change_account (GtkWidget *combo)
 }
 
 /**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void prefs_page_divers_choose_language_changed (GtkComboBox *combo,
+													   PrefsPageDivers *page)
+{
+	GtkTreeIter iter;
+
+	if (gtk_combo_box_get_active_iter (combo, &iter))
+	{
+		GSettings *settings;
+		GtkTreeModel *model;
+		gchar *string;
+		gchar *tmp_str;
+		gchar *hint;
+		gint index;
+
+		settings = grisbi_settings_get_settings (SETTINGS_GENERAL);
+		model = gtk_combo_box_get_model (GTK_COMBO_BOX (combo));
+		gtk_tree_model_get (model, &iter, 0, &string, 1, &index, -1);
+		if (index == 0)
+		{
+			conf.language_chosen = NULL;
+			g_settings_reset (G_SETTINGS (settings), "language-chosen");
+		}
+		else
+		{
+			conf.language_chosen = string;
+			g_settings_set_string (G_SETTINGS (settings), "language-chosen", conf.language_chosen);
+		}
+
+		tmp_str = g_strdup (_("You will have to restart Grisbi for the new langage to take effect."));
+		hint = g_strdup_printf ( _("Changes the language of Grisbi for \"%s\"!"), string );
+        dialogue_warning_hint (tmp_str , hint);
+	}
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+static gint prefs_page_divers_choose_language_list_new (GtkWidget *combo)
+{
+	GtkListStore *store = NULL;
+	GtkTreeIter iter;
+	GtkCellRenderer *renderer;
+	GSList *list = NULL;
+	GSList *tmp_list;
+	GDir *dir;
+	const gchar *dirname;
+	const gchar *locale_dir;
+	gint i = 0;
+	gint activ_index = 0;
+
+	locale_dir = gsb_dirs_get_locale_dir ();
+	dir = g_dir_open (locale_dir, 0, NULL);
+	if (!dir)
+		return 0;
+
+	store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_INT);
+
+	while ((dirname = g_dir_read_name (dir)) != NULL)
+    {
+		gchar *filename;
+
+		filename = g_build_filename (locale_dir,
+									 dirname,
+									 "LC_MESSAGES",
+									 GETTEXT_PACKAGE ".mo",
+									 NULL);
+		if (g_file_test (filename, G_FILE_TEST_EXISTS))
+		{
+			list = g_slist_insert_sorted (list, g_strdup (dirname), (GCompareFunc) g_strcmp0);
+		}
+
+	  g_free (filename);
+	}
+
+	g_dir_close (dir);
+	tmp_list = list;
+
+	gtk_list_store_append (store, &iter);
+	gtk_list_store_set (store, &iter, 0, _("System Language"), 1, i, -1);
+	i++;
+
+	while (tmp_list)
+	{
+		if (g_strcmp0 (conf.language_chosen, tmp_list->data) == 0)
+			activ_index = i;
+        gtk_list_store_append (store, &iter);
+        gtk_list_store_set (store, &iter, 0, (gchar *) tmp_list->data, 1, i, -1);
+
+        i++;
+		tmp_list = tmp_list->next;
+    }
+
+	gtk_combo_box_set_model (GTK_COMBO_BOX (combo), GTK_TREE_MODEL (store));
+	renderer = gtk_cell_renderer_text_new ();
+	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo), renderer, TRUE);
+	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo),
+									renderer,
+									"text", 0,
+									NULL);
+
+	return activ_index;
+}
+
+/**
  * Création de la page de gestion des divers
  *
  * \param prefs
@@ -200,6 +319,7 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page)
 	GtkWidget *entry_divers_programs;
     GtkWidget *vbox_button;
     GtkWidget *combo;
+	gint combo_index;
 	PrefsPageDiversPrivate *priv;
 
 	devel_debug (NULL);
@@ -309,7 +429,6 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page)
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
 					  &etat.scheduler_set_default_account);
 
-
 	/* set spinbutton_nb_days_before_scheduled value */
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (priv->spinbutton_nb_days_before_scheduled),
 							   conf.nb_days_before_scheduled);
@@ -340,6 +459,16 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page)
 					  &conf.scheduler_fixed_day);
 
 	/* set the localization parameters */
+	/* set the language */
+	combo_index = prefs_page_divers_choose_language_list_new (priv->combo_choose_language);
+
+	gtk_combo_box_set_active (GTK_COMBO_BOX (priv->combo_choose_language), combo_index);
+	g_signal_connect (G_OBJECT (priv->combo_choose_language),
+					  "changed",
+					  G_CALLBACK (prefs_page_divers_choose_language_changed),
+					  NULL);
+
+	/* set the others parameters */
 	gsb_config_date_format_chosen (priv->box_divers_localisation, GTK_ORIENTATION_HORIZONTAL);
     gsb_config_number_format_chosen (priv->box_divers_localisation, GTK_ORIENTATION_VERTICAL);
 
@@ -386,6 +515,7 @@ static void prefs_page_divers_class_init (PrefsPageDiversClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, spinbutton_nb_days_before_scheduled);
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, box_divers_localisation);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, combo_choose_language);
 }
 
 /******************************************************************************/

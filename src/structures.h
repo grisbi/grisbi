@@ -239,6 +239,7 @@ struct GrisbiAppConf
     gchar *     browser_command;
     gint        custom_fonte_listes;                        /* TRUE to use a custom font for the lists */
     gchar *     font_string;                                /* contain the description of the font, or NULL */
+	gchar *		language_chosen;							/* choix de la langue : NULL par défaut = langue système */
 
     /* Home page */
     gint        pluriel_final;                              /* 0 = finals 1 = finaux */
