@@ -148,20 +148,18 @@ void display_tip ( gboolean force )
     btn_close =   gtk_dialog_add_button (GTK_DIALOG(dialog), "gtk-close", 3);
 	(void)btn_close; /* unused value: fix warning -Wunused-but-set-variable */
 
-    /* gtk_widget_set_size_request ( dialog, 450, -1 ); */
+    gtk_widget_set_size_request ( dialog, 680, 380 );
     /* We iterate as user can select several tips. */
     while ( TRUE )
     {
-    if ( conf.last_tip == sizeof(tips)/sizeof(gpointer)-1)
-        gtk_widget_set_sensitive (btn_forward, FALSE);
-    if ( conf.last_tip == 0)
-        gtk_widget_set_sensitive (btn_back, FALSE);
-
     switch ( gtk_dialog_run ( GTK_DIALOG(dialog) ) )
     {
         case 1:
         if ( conf.last_tip > 0 )
             conf.last_tip--;
+		else
+			conf.last_tip = sizeof(tips)/sizeof(gpointer)-1;
+
         gtk_widget_set_sensitive (btn_forward, TRUE);
         gtk_message_dialog_format_secondary_markup ( GTK_MESSAGE_DIALOG (dialog),
                                                      "%s", g_dgettext (NULL, tips[conf.last_tip]) );
@@ -170,6 +168,9 @@ void display_tip ( gboolean force )
         case 2:
         if ( conf.last_tip < (gint) (sizeof(tips)/sizeof(gpointer)-1))
             conf.last_tip++;
+		else
+			conf.last_tip = 0;
+
         gtk_message_dialog_format_secondary_markup ( GTK_MESSAGE_DIALOG (dialog),
                                                      "%s", g_dgettext (NULL, tips[conf.last_tip]) );
         gtk_widget_set_sensitive (btn_back, TRUE);
