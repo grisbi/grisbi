@@ -303,13 +303,15 @@ GtkWidget *gsb_account_create_combo_list ( GCallback func,
     GtkListStore *store;
     GtkCellRenderer *renderer;
     GtkWidget *combobox;
+	gboolean is_loading;
 
     combobox = gtk_combo_box_new ();
 
-    store = gtk_list_store_new ( 2,
-				 G_TYPE_STRING,
-				 G_TYPE_INT );
+    store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_INT);
+	is_loading = grisbi_win_file_is_loading ();
 
+	if (is_loading)
+	{
     list_tmp = gsb_data_account_get_list_accounts ();
 
     while ( list_tmp )
@@ -332,6 +334,16 @@ GtkWidget *gsb_account_create_combo_list ( GCallback func,
 	}
 	list_tmp = list_tmp -> next;
     }
+	}
+	else
+	{
+		GtkTreeIter iter;
+	    gtk_list_store_append (GTK_LIST_STORE (store), &iter);
+	    gtk_list_store_set (store, &iter,
+				 0, _("Not available"),
+				 1, -1,
+				 -1 );
+	}
 
     gtk_combo_box_set_model ( GTK_COMBO_BOX (combobox),
 			      GTK_TREE_MODEL (store));
@@ -340,7 +352,7 @@ GtkWidget *gsb_account_create_combo_list ( GCallback func,
     gtk_combo_box_set_active ( GTK_COMBO_BOX (combobox),
 			       0 );
 
-    if ( func )
+    if (is_loading && func )
 	g_signal_connect ( G_OBJECT (combobox),
 			   "changed",
 			   G_CALLBACK(func),

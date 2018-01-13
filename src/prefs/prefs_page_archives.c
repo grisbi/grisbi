@@ -528,11 +528,13 @@ static void prefs_page_archives_setup_archives_page (PrefsPageArchives *page)
 {
 	GtkWidget *head_page;
 	gchar* tmp_str;
+	gboolean is_loading;
 	PrefsPageArchivesPrivate *priv;
 
 	devel_debug (NULL);
 
 	priv = prefs_page_archives_get_instance_private (page);
+	is_loading = grisbi_win_file_is_loading ();
 
 	/* On récupère le nom de la page */
 	head_page = utils_prefs_head_page_new_with_title_and_icon (_("Archives"), "gsb-archive-32.png");
@@ -549,7 +551,17 @@ static void prefs_page_archives_setup_archives_page (PrefsPageArchives *page)
     gtk_grid_attach (GTK_GRID (priv->grid_archives_modification), priv->entry_archives_name, 1,0, 1, 1);
 
 	/* setup treeview_archives */
-	prefs_page_archives_setup_treeview_archives (page);
+	if (is_loading)
+	{
+		prefs_page_archives_setup_treeview_archives (page);
+	}
+	else
+	{
+		gtk_widget_set_sensitive (priv->treeview_archives, FALSE);
+		gtk_widget_set_sensitive (priv->button_archives_delete, FALSE);
+		gtk_widget_set_sensitive (priv->button_archives_destroy, FALSE);
+		gtk_widget_set_sensitive (priv->entry_archives_name, FALSE);
+	}
 
     /* set the checkbutton to sort archives */
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_archives_sort_order),

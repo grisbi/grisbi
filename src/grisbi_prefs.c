@@ -198,7 +198,7 @@ static gboolean grisbi_prefs_paned_size_allocate (GtkWidget *prefs_hpaned,
  *
  * \return
  */
-static void grisbi_prefs_setup_import_page (GrisbiPrefs *prefs)
+static GtkWidget *grisbi_prefs_setup_import_page (GrisbiPrefs *prefs)
 {
 	GtkWidget *head_page;
 	GtkWidget *notebook_import_pages;
@@ -237,10 +237,10 @@ static void grisbi_prefs_setup_import_page (GrisbiPrefs *prefs)
 	label = gtk_label_new (_("Associations for import"));
 	utils_widget_set_padding (label, MARGIN_BOX, 0);
 	gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook_import_pages), vbox_import_asso, label);
-
 	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_prefs), priv->vbox_import_page, NULL);
-
 	gtk_widget_show (notebook_import_pages);
+
+	return priv->vbox_import_page;
 }
 
 /* LEFT PANED */
@@ -257,11 +257,13 @@ static void grisbi_prefs_left_panel_populate_tree_model (GrisbiPrefs *prefs)
     GtkWidget *widget = NULL;
 	GtkTreeStore *tree_model;
     gint page = 0;
+	gboolean is_loading;
 	GrisbiPrefsPrivate *priv;
 
 	devel_debug (NULL);
 
 	priv = grisbi_prefs_get_instance_private (prefs);
+	is_loading = grisbi_win_file_is_loading ();
 
 	tree_model = GTK_TREE_STORE (gtk_tree_view_get_model (GTK_TREE_VIEW (priv->left_treeview)));
 	/* append group page "Generalities" */
@@ -278,7 +280,9 @@ static void grisbi_prefs_left_panel_populate_tree_model (GrisbiPrefs *prefs)
     page++;
 
 	/* append page Import */
-    grisbi_prefs_setup_import_page (prefs);
+    widget = grisbi_prefs_setup_import_page (prefs);
+	if (is_loading == FALSE)
+		gtk_widget_set_sensitive (widget, FALSE);
     utils_prefs_left_panel_add_line (tree_model, NULL, NULL, _("Import"), page);
     page++;
 
@@ -316,6 +320,8 @@ static void grisbi_prefs_left_panel_populate_tree_model (GrisbiPrefs *prefs)
 	/* append page Payees, categories and budgetaries */
 	widget = GTK_WIDGET (onglet_metatree ());
 	utils_widget_set_padding (widget, MARGIN_BOX, 0);
+	if (is_loading == FALSE)
+		gtk_widget_set_sensitive (widget, FALSE);
 	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Payees, categories and budgetaries"), page);
 	page++;
 
@@ -337,6 +343,8 @@ static void grisbi_prefs_left_panel_populate_tree_model (GrisbiPrefs *prefs)
 	/* append page Transactions list cells */
 	widget = GTK_WIDGET (onglet_affichage_liste ());
 	utils_widget_set_padding (widget, MARGIN_BOX, 0);
+	if (is_loading == FALSE)
+		gtk_widget_set_sensitive (widget, FALSE);
 	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Transactions list cells"), page);
 	page++;
 
@@ -419,12 +427,16 @@ static void grisbi_prefs_left_panel_populate_tree_model (GrisbiPrefs *prefs)
 	/* append page General Options */
 	widget = GTK_WIDGET (bet_config_general_create_general_page ());
 	utils_widget_set_padding (widget, MARGIN_BOX, 0);
+	if (is_loading == FALSE)
+		gtk_widget_set_sensitive (widget, FALSE);
 	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("General Options"), page);
 	page++;
 
 	/* append page Accounts data */
 	widget = GTK_WIDGET (bet_config_account_create_account_page ());
 	utils_widget_set_padding (widget, MARGIN_BOX, 0);
+	if (is_loading == FALSE)
+		gtk_widget_set_sensitive (widget, FALSE);
 	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Accounts data"), page);
 	page++;
 }

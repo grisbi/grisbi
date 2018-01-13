@@ -69,6 +69,7 @@ struct _PrefsPageDisplayFontsPrivate
     GtkWidget *         hbox_display_logo;
     GtkWidget *         button_display_logo;
 	GtkWidget *			preview_display_logo;
+    GtkWidget *         vbox_display_logo;				/* sert à invalider le choix quand pas de fichier chargé */
 
     GtkWidget *			checkbutton_display_fonts;
 	GtkWidget *			eventbox_display_fonts;
@@ -496,11 +497,13 @@ static void prefs_page_display_fonts_setup_display_fonts_page (PrefsPageDisplayF
 	GtkWidget *font_button;
 	GdkPixbuf * pixbuf = NULL;
 	GtkWidget *combobox_select_colors;
+	gboolean is_loading;
 	PrefsPageDisplayFontsPrivate *priv;
 
 	devel_debug (NULL);
 
 	priv = prefs_page_display_fonts_get_instance_private (page);
+	is_loading = grisbi_win_file_is_loading ();
 
 	/* On récupère le nom de la page */
 	head_page = utils_prefs_head_page_new_with_title_and_icon (_("Fonts & logo"), "gsb-fonts-32.png");
@@ -562,7 +565,7 @@ static void prefs_page_display_fonts_setup_display_fonts_page (PrefsPageDisplayF
 	g_object_set_data (G_OBJECT (priv->checkbutton_display_fonts), "widget", font_button);
     gtk_box_pack_start (GTK_BOX (priv->hbox_display_fonts), font_button, FALSE, FALSE, 0);
 
-    if (!gsb_data_account_get_accounts_amount () || !conf.custom_fonte_listes)
+    if (!conf.custom_fonte_listes)
     {
         gtk_widget_set_sensitive (font_button, FALSE);
     }
@@ -611,6 +614,12 @@ static void prefs_page_display_fonts_setup_display_fonts_page (PrefsPageDisplayF
 					  "clicked",
 					  G_CALLBACK (prefs_page_display_fonts_set_color_default),
 					  combobox_select_colors);
+
+	if (is_loading == FALSE)
+	{
+		gtk_widget_set_sensitive (priv->vbox_display_logo, FALSE);
+		gtk_widget_set_sensitive (priv->grid_select_colors, FALSE);
+	}
 }
 
 /******************************************************************************/
@@ -639,6 +648,7 @@ static void prefs_page_display_fonts_class_init (PrefsPageDisplayFontsClass *kla
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, checkbutton_display_logo);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, eventbox_display_logo);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, hbox_display_logo);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, vbox_display_logo);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, button_display_logo);
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, checkbutton_display_fonts);

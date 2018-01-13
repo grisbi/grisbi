@@ -319,12 +319,16 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page)
 	GtkWidget *entry_divers_programs;
     GtkWidget *vbox_button;
     GtkWidget *combo;
+	GtkWidget *date_widget;
+	GtkWidget *number_widget;
 	gint combo_index;
+	gboolean is_loading;
 	PrefsPageDiversPrivate *priv;
 
 	devel_debug (NULL);
 
 	priv = prefs_page_divers_get_instance_private (page);
+	is_loading = grisbi_win_file_is_loading ();
 
 	/* On récupère le nom de la page */
 	head_page = utils_prefs_head_page_new_with_title_and_icon (_("Divers"), "gsb-generalities-32.png");
@@ -469,9 +473,16 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page)
 					  NULL);
 
 	/* set the others parameters */
-	gsb_config_date_format_chosen (priv->box_divers_localisation, GTK_ORIENTATION_HORIZONTAL);
-    gsb_config_number_format_chosen (priv->box_divers_localisation, GTK_ORIENTATION_VERTICAL);
+	date_widget = gsb_config_date_format_chosen (priv->box_divers_localisation, GTK_ORIENTATION_HORIZONTAL);
+    number_widget = gsb_config_number_format_chosen (priv->box_divers_localisation, GTK_ORIENTATION_VERTICAL);
 
+	if (is_loading == FALSE)
+	{
+		gtk_widget_set_sensitive (priv->hbox_divers_scheduler_set_default_account, FALSE);
+		gtk_widget_set_sensitive (GTK_WIDGET (combo), FALSE);
+		gtk_widget_set_sensitive (GTK_WIDGET (date_widget), FALSE);
+		gtk_widget_set_sensitive (GTK_WIDGET (number_widget), FALSE);
+	}
 }
 
 /******************************************************************************/

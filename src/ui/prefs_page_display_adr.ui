@@ -397,6 +397,7 @@
                                   <object class="GtkTextView" id="textview_adr_common">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
+                                    <property name="halign">start</property>
                                     <property name="hexpand">True</property>
                                     <property name="vexpand">True</property>
                                     <property name="buffer">textbuffer_adr_common</property>
@@ -438,6 +439,8 @@
                                   <object class="GtkTextView" id="textview_adr_secondary">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
+                                    <property name="halign">start</property>
+                                    <property name="valign">center</property>
                                     <property name="hexpand">True</property>
                                     <property name="vexpand">True</property>
                                     <property name="buffer">textbuffer_adr_secondary</property>

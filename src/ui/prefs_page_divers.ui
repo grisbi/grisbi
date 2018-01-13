@@ -348,6 +348,12 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="label" translatable="yes">Set fixed date of all scheduled transactions: </property>
+                                    <attributes>
+                                      <attribute name="foreground" value="#00000000ffff"/>
+                                    </attributes>
+                                    <style>
+                                      <class name="#label_blue"/>
+                                    </style>
                                   </object>
                                 </child>
                               </object>

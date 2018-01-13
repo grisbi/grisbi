@@ -38,6 +38,7 @@
 #include "bet_tab.h"
 #include "dialog.h"
 #include "fenetre_principale.h"
+#include "grisbi_app.h"
 #include "gsb_account.h"
 #include "gsb_automem.h"
 #include "gsb_calendar_entry.h"
@@ -115,7 +116,6 @@ GtkWidget *bet_config_general_create_general_page ( void )
     GtkWidget *vbox;
     GtkWidget *paddingbox;
     GtkWidget *widget;
-
 
     vbox = new_vbox_with_title_and_icon ( _("General Options"), "gsb-balance_estimate-32.png" );
     gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), BOX_BORDER_WIDTH );
@@ -255,63 +255,76 @@ gboolean bet_config_general_cash_account_option_clicked ( GtkWidget *checkbutton
 
 GtkWidget *bet_config_account_create_account_page ( void )
 {
-    GtkWidget *notebook;
-    GtkWidget *account_page;
     GtkWidget *vbox_pref;
-    GtkWidget *vbox;
     GtkWidget *widget;
+	gboolean is_loading;
 
+	devel_debug (NULL);
     vbox_pref = new_vbox_with_title_and_icon ( _("Accounts data"), "gsb-balance_estimate-32.png" );
     gtk_container_set_border_width ( GTK_CONTAINER ( vbox_pref ), BOX_BORDER_WIDTH );
-    account_page = gsb_gui_get_account_page ();
+	is_loading = grisbi_win_file_is_loading ();
+	if (is_loading)
+	{
+		GtkWidget *account_page;
+		GtkWidget *notebook;
+		GtkWidget *vbox;
 
-    /* set the choice of account */
-    widget = bet_config_account_get_select_account ( _("Select an account") );
-    gtk_box_pack_start ( GTK_BOX ( vbox_pref ), widget, FALSE, FALSE, 0 );
-    gtk_widget_show_all ( vbox_pref );
+		account_page = gsb_gui_get_account_page ();
+		/* set the choice of account */
+		widget = bet_config_account_get_select_account ( _("Select an account") );
+		gtk_box_pack_start ( GTK_BOX ( vbox_pref ), widget, FALSE, FALSE, 0 );
 
-    /* sélectionne un compte carte bancaire à débit différé */
-    widget = bet_config_account_get_select_bank_card ();
-    gtk_box_pack_start ( GTK_BOX ( vbox_pref ), widget, FALSE, FALSE, 0 );
-    g_object_set_data ( G_OBJECT ( account_page ), "bet_credit_card_hbox", widget );
+		/* sélectionne un compte carte bancaire à débit différé */
+		widget = bet_config_account_get_select_bank_card ();
+		gtk_box_pack_start ( GTK_BOX ( vbox_pref ), widget, FALSE, FALSE, 0 );
+		g_object_set_data ( G_OBJECT ( account_page ), "bet_credit_card_hbox", widget );
 
-    notebook = gtk_notebook_new ( );
-    gtk_notebook_set_show_border ( GTK_NOTEBOOK ( notebook ), FALSE );
-    gtk_notebook_set_show_tabs  ( GTK_NOTEBOOK ( notebook ), FALSE );
-    gtk_notebook_set_scrollable ( GTK_NOTEBOOK ( notebook ), TRUE );
-    gtk_box_pack_start ( GTK_BOX ( vbox_pref ), notebook, FALSE, FALSE, 0 );
-    g_object_set_data ( G_OBJECT ( account_page ), "config_notebook", notebook );
-    gtk_widget_show ( notebook );
+		notebook = gtk_notebook_new ( );
+		gtk_notebook_set_show_border ( GTK_NOTEBOOK ( notebook ), FALSE );
+		gtk_notebook_set_show_tabs  ( GTK_NOTEBOOK ( notebook ), FALSE );
+		gtk_notebook_set_scrollable ( GTK_NOTEBOOK ( notebook ), TRUE );
+		gtk_box_pack_start ( GTK_BOX ( vbox_pref ), notebook, FALSE, FALSE, 0 );
+		g_object_set_data ( G_OBJECT ( account_page ), "config_notebook", notebook );
+		gtk_widget_show ( notebook );
 
-    /* Data for the account of type GSB_TYPE_BANK, GSB_TYPE_CASH */
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ), vbox, NULL );
-    gtk_widget_show ( vbox );
+		/* Data for the account of type GSB_TYPE_BANK, GSB_TYPE_CASH */
+		vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
+		gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ), vbox, NULL );
+		gtk_widget_show ( vbox );
 
-    /* Data for the forecast */
-    widget = bet_config_account_get_forecast_data ( _("Data for the forecast") );
-    g_object_set_data ( G_OBJECT ( account_page ), "Data_for_forecast", widget );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), widget, FALSE, FALSE, 0 );
+		/* Data for the forecast */
+		widget = bet_config_account_get_forecast_data ( _("Data for the forecast") );
+		g_object_set_data ( G_OBJECT ( account_page ), "Data_for_forecast", widget );
+		gtk_box_pack_start ( GTK_BOX ( vbox ), widget, FALSE, FALSE, 0 );
 
-    /* Sources of historical data */
-    widget = bet_config_account_get_select_historical_data ( _("Sources of historical data") );
-    g_object_set_data ( G_OBJECT ( account_page ), "Data_for_historical", widget );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), widget, FALSE, FALSE, 0 );
+		/* Sources of historical data */
+		widget = bet_config_account_get_select_historical_data ( _("Sources of historical data") );
+		g_object_set_data ( G_OBJECT ( account_page ), "Data_for_historical", widget );
+		gtk_box_pack_start ( GTK_BOX ( vbox ), widget, FALSE, FALSE, 0 );
 
-    /* Data for the account of type GSB_TYPE_LIABILITIES */
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ), vbox, NULL );
-    gtk_widget_show ( vbox );
+		/* Data for the account of type GSB_TYPE_LIABILITIES */
+		vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
+		gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ), vbox, NULL );
+		gtk_widget_show ( vbox );
 
-    /* Data for the credit */
-    widget = bet_config_account_get_finance_data ( _("Credit Data") );
-    g_object_set_data ( G_OBJECT ( account_page ), "Data_for_credit", widget );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), widget, FALSE, FALSE, 0 );
+		/* Data for the credit */
+		widget = bet_config_account_get_finance_data ( _("Credit Data") );
+		g_object_set_data ( G_OBJECT ( account_page ), "Data_for_credit", widget );
+		gtk_box_pack_start ( GTK_BOX ( vbox ), widget, FALSE, FALSE, 0 );
 
-    /* mettre à jour les données du compte */
-    widget = g_object_get_data ( G_OBJECT ( account_page ), "account_combo" );
-    bet_config_change_account ( widget );
+		/* mettre à jour les données du compte */
+		widget = g_object_get_data ( G_OBJECT ( account_page ), "account_combo" );
+		bet_config_change_account ( widget );
+	}
+	else
+	{
+		/* set the choice of account */
+		widget = bet_config_account_get_select_account ( _("Select an account") );
+		gtk_box_pack_start ( GTK_BOX ( vbox_pref ), widget, FALSE, FALSE, 0 );
+		widget = bet_config_account_get_select_bank_card ();
+		gtk_box_pack_start ( GTK_BOX ( vbox_pref ), widget, FALSE, FALSE, 0 );
 
+	}
     return vbox_pref;
 }
 
@@ -331,8 +344,10 @@ GtkWidget *bet_config_account_get_select_account ( gchar *title )
     GtkWidget *paddingbox;
     GtkWidget *label;
     gint account_number;
+	gboolean is_loading;
 
     vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
+	is_loading = grisbi_win_file_is_loading ();
 
     /* set the choice of account */
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, title );
@@ -345,23 +360,30 @@ GtkWidget *bet_config_account_get_select_account ( gchar *title )
     gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX (hbox ), label, FALSE, FALSE, 0 );
 
-    combo = gsb_account_create_combo_list ( G_CALLBACK ( bet_config_change_account ),
-                        NULL, FALSE );
-    g_object_set_data ( G_OBJECT ( gsb_gui_get_account_page () ), "account_combo", combo );
-    if ( ( account_number = gsb_gui_navigation_get_current_account ( ) ) == -1 )
-        gtk_combo_box_set_active ( GTK_COMBO_BOX ( combo ), 0 );
-    else
-        gsb_account_set_combo_account_number ( combo, account_number );
+	if (is_loading)
+	{
+		combo = gsb_account_create_combo_list (G_CALLBACK ( bet_config_change_account), NULL, FALSE);
+		g_object_set_data (G_OBJECT (gsb_gui_get_account_page ()), "account_combo", combo);
+		if ( ( account_number = gsb_gui_navigation_get_current_account ( ) ) == -1 )
+			gtk_combo_box_set_active ( GTK_COMBO_BOX ( combo ), 0 );
+		else
+			gsb_account_set_combo_account_number ( combo, account_number );
+	}
+	else
+	{
+		combo = gsb_account_create_combo_list (NULL, NULL, FALSE);
+	}
     gtk_box_pack_start ( GTK_BOX ( hbox ), combo, FALSE, FALSE, 0 );
 
-    button = gtk_check_button_new_with_label ( _("Use the budget module") );
+	button = gtk_check_button_new_with_label ( _("Use the budget module") );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button ), FALSE );
     g_object_set_data ( G_OBJECT ( combo ), "bet_use_budget", button );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
-    g_signal_connect ( G_OBJECT ( button ),
-                        "toggled",
-                        G_CALLBACK ( bet_config_use_budget_toggle ),
-                        combo );
+	if (is_loading)
+		g_signal_connect (G_OBJECT (button),
+						  "toggled",
+						  G_CALLBACK (bet_config_use_budget_toggle),
+						  combo);
 
     return vbox;
 }
@@ -1740,26 +1762,33 @@ static GtkWidget *bet_config_account_get_select_bank_card ( void )
 {
     GtkWidget *hbox;
     GtkWidget *button;
-    GtkWidget *combo;
-    GtkWidget *account_page;
+	gboolean is_loading;
 
-    account_page = gsb_gui_get_account_page ();
-    /* partie de gestion des comptes cartes avec débit différé */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
+	is_loading = grisbi_win_file_is_loading ();
 
-    button = gtk_check_button_new_with_label ( _("Account with deferred debit card") );
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button ), FALSE );
-    g_object_set_data ( G_OBJECT ( account_page ), "bet_credit_card_button", button );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
+	/* partie de gestion des comptes cartes avec débit différé */
+	hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
+	button = gtk_check_button_new_with_label ( _("Account with deferred debit card") );
+	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button ), FALSE );
+	gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
 
-    /* set the signal */
-    combo = g_object_get_data ( G_OBJECT ( account_page ), "account_combo" );
-    g_signal_connect ( G_OBJECT ( button ),
-                        "toggled",
-                        G_CALLBACK ( bet_config_select_bank_card_toggle ),
-                        combo );
+	if (is_loading)
+	{
+		GtkWidget *account_page;
+		GtkWidget *combo;
 
-    /* return */
+		account_page = gsb_gui_get_account_page ();
+		g_object_set_data ( G_OBJECT (account_page), "bet_credit_card_button", button);
+
+		/* set the signal */
+		combo = g_object_get_data ( G_OBJECT ( account_page ), "account_combo" );
+		g_signal_connect ( G_OBJECT ( button ),
+							"toggled",
+							G_CALLBACK ( bet_config_select_bank_card_toggle ),
+							combo );
+	}
+
+	/* return */
     return hbox;
 }
 

@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2001-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
-/*          2009-2017 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          2009-2018 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -92,7 +92,6 @@ struct _GrisbiWinPrivate
 	GtkWidget *			bouton_nouveau;
 	GtkWidget *			bouton_ouvrir;
 	GtkWidget *			bouton_importer;
-	gboolean			no_file_page_OK;
 
     /* widgets si un fichier est chargé */
 	GtkWidget *			form_general;
@@ -736,11 +735,12 @@ static void grisbi_win_init (GrisbiWin *win)
 	{
 		grisbi_win_init_general_widgets (win);
 		gtk_stack_add_named (GTK_STACK (priv->stack_box), priv->vbox_general, "file_page");
+		(priv->w_run)->is_loading = TRUE;
 	}
 	else
 	{
 		gtk_stack_add_named (GTK_STACK (priv->stack_box), priv->no_file_page, "accueil_page");
-		priv->no_file_page_OK = TRUE;
+		(priv->w_run)->is_loading = FALSE;
 	}
 
 	/* initialisation de la barre d'état */
@@ -828,6 +828,27 @@ const gchar *grisbi_win_get_filename (GrisbiWin *win)
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
 	return priv->filename;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+gboolean grisbi_win_file_is_loading (void)
+{
+    GrisbiWin *win;
+	GrisbiWinPrivate *priv;
+	GrisbiWinRun *w_run;
+
+	win = grisbi_app_get_active_window (NULL);
+
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+	w_run = priv->w_run;
+
+	return w_run->is_loading;
 }
 
 /**
@@ -1065,10 +1086,6 @@ void grisbi_win_init_menubar (GrisbiWin *win,
     has_app_menu = grisbi_app_get_has_app_menu (GRISBI_APP (app));
 	if (!has_app_menu)
 		gsb_menu_gui_sensitive_win_menu_item ("new-window", FALSE);
-
-    /* sensibilise le menu preferences */
-    action = grisbi_app_get_prefs_action ();
-    g_simple_action_set_enabled (G_SIMPLE_ACTION (action), FALSE);
 }
 
 /**
@@ -1263,11 +1280,15 @@ void grisbi_win_stack_box_show (GrisbiWin *win,
 	else
 	{
 		gtk_stack_add_named (GTK_STACK (priv->stack_box), priv->no_file_page, page_name);
-		if (strcmp (page_name, "accueil_page") == 0)
-		{
-			priv->no_file_page_OK = TRUE;
-		}
 		gtk_stack_set_visible_child_name (GTK_STACK (priv->stack_box), page_name);
+	}
+	if (strcmp (page_name, "accueil_page") == 0)
+	{
+		(priv->w_run)->is_loading = FALSE;
+	}
+	else
+	{
+		(priv->w_run)->is_loading = TRUE;
 	}
 }
 
@@ -1417,10 +1438,10 @@ void grisbi_win_no_file_page_update (GrisbiWin *win)
     devel_debug (NULL);
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
-	if (priv->no_file_page_OK == FALSE)
+	if ((priv->w_run)->is_loading == TRUE)
 	{
 		gtk_stack_add_named (GTK_STACK (priv->stack_box), priv->no_file_page, "accueil_page");
-		priv->no_file_page_OK = TRUE;
+		(priv->w_run)->is_loading = FALSE;
 	}
 
 	recent_files_array = grisbi_app_get_recent_files_array ();

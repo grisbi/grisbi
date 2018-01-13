@@ -32,6 +32,7 @@ void            grisbi_win_headings_update_title            (gchar *title);
 gboolean        grisbi_win_headings_update_show_headings    (void);
 void            grisbi_win_headings_sensitive_headings      (gboolean sensitive);
 
+gboolean 		grisbi_win_file_is_loading 					(void);
 void            grisbi_win_free_general_notebook            (void);
 void            grisbi_win_free_general_vbox                (void);
 

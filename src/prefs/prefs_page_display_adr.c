@@ -177,6 +177,7 @@ static void prefs_page_display_adr_setup_display_adr_page (PrefsPageDisplayAdr *
 {
 	GtkWidget *head_page;
 	GtkTextBuffer *buffer;
+	gboolean is_loading;
 	GrisbiWinEtat *w_etat;
 	PrefsPageDisplayAdrPrivate *priv;
 
@@ -184,11 +185,18 @@ static void prefs_page_display_adr_setup_display_adr_page (PrefsPageDisplayAdr *
 
 	priv = prefs_page_display_adr_get_instance_private (page);
 	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
+	is_loading = grisbi_win_file_is_loading ();
 
 	/* On récupère le nom de la page */
 	head_page = utils_prefs_head_page_new_with_title_and_icon (_("Addresses & titles"), "gsb-addresses-32.png");
 	gtk_box_pack_start (GTK_BOX (priv->vbox_display_adr), head_page, FALSE, FALSE, 0);
 	gtk_box_reorder_child (GTK_BOX (priv->vbox_display_adr), head_page, 0);
+
+	if (is_loading == FALSE)
+	{
+		gtk_widget_set_sensitive (priv->vbox_display_adr, FALSE);
+		return;
+	}
 
     /* set the variables for title */
 	switch (conf.display_window_title)

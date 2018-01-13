@@ -77,10 +77,14 @@
                             <property name="shadow_type">in</property>
                             <property name="kinetic_scrolling">False</property>
                             <property name="overlay_scrolling">False</property>
+                            <property name="propagate_natural_width">True</property>
                             <child>
                               <object class="GtkTreeView" id="treeview_archives">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="halign">start</property>
+                                <property name="hexpand">True</property>
+                                <property name="vexpand">True</property>
                                 <child internal-child="selection">
                                   <object class="GtkTreeSelection" id="treeview-selection1"/>
                                 </child>
@@ -88,7 +92,7 @@
                             </child>
                           </object>
                           <packing>
-                            <property name="expand">False</property>
+                            <property name="expand">True</property>
                             <property name="fill">True</property>
                             <property name="position">0</property>
                           </packing>
@@ -145,21 +149,21 @@
                       </object>
                       <packing>
                         <property name="expand">False</property>
-                        <property name="fill">False</property>
+                        <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
                     </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
-                    <property name="fill">False</property>
+                    <property name="fill">True</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
               </object>
               <packing>
                 <property name="expand">False</property>
-                <property name="fill">False</property>
+                <property name="fill">True</property>
                 <property name="padding">5</property>
                 <property name="position">0</property>
               </packing>

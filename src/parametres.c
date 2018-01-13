@@ -181,12 +181,14 @@ GtkWidget *onglet_accueil ( void )
     GtkTreeDragDestIface * dst_iface;
     GtkTreeDragSourceIface * src_iface;
 	const gchar *langue;
+	gboolean is_loading;
     static GtkTargetEntry row_targets[] = {
     { "GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_WIDGET, 0 }
     };
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Configuration of the main page"),
                         "gsb-title-32.png" );
+	is_loading = grisbi_win_file_is_loading ();
 
     vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ), vbox, TRUE, TRUE, 0 );
@@ -371,7 +373,6 @@ GtkWidget *onglet_accueil ( void )
     }
 
     /* mettre les soldes partiels sous les comptes si possibles */
-
     button = gsb_automem_checkbutton_new (
                         _("Place the partial balance  under its accounts if it's possible"),
                         &conf.group_partial_balance_under_accounts,
@@ -381,6 +382,8 @@ GtkWidget *onglet_accueil ( void )
     gtk_grid_attach (GTK_GRID (paddinggrid), button, 0, 4, 3, 1);
 
     gtk_widget_show_all ( vbox_pref );
+	if (is_loading == FALSE)
+		gtk_widget_set_sensitive (paddinggrid, FALSE);
 
     return ( vbox_pref );
 }
@@ -403,8 +406,10 @@ GtkWidget *onglet_messages_and_warnings ( void )
     gchar *tmpstr;
 	const gchar *filename;
     int i;
+	gboolean is_loading;
 
-    vbox_pref = new_vbox_with_title_and_icon ( _("Messages & warnings"), "gsb-warnings-32.png" );
+	vbox_pref = new_vbox_with_title_and_icon ( _("Messages & warnings"), "gsb-warnings-32.png" );
+	is_loading = grisbi_win_file_is_loading ();
 
     /* Tip of the day */
     paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("Tip of the day"));
@@ -441,38 +446,40 @@ GtkWidget *onglet_messages_and_warnings ( void )
     column = gtk_tree_view_column_new_with_attributes (_("Message"), cell, "text", 1, NULL);
     gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), GTK_TREE_VIEW_COLUMN (column));
 
-	/* on récupère le nom du fichier */
-	filename = grisbi_win_get_filename (NULL);
+	if (is_loading)
+	{
+		/* on récupère le nom du fichier */
+		filename = grisbi_win_get_filename (NULL);
 
-    /* remplit le modèle */
-    for  ( i = 0; messages[i].name; i++ )
-    {
-        GtkTreeIter iter;
+		/* remplit le modèle */
+		for  ( i = 0; messages[i].name; i++ )
+		{
+			GtkTreeIter iter;
 
-        if ( g_utf8_collate ( messages[i].name, "account-already-opened" ) == 0 )
-            tmpstr = g_strdup_printf ( _(messages[i] . hint),
-                        g_path_get_basename (filename) );
-        else if ( g_utf8_collate ( messages[i].name, "development-version" ) == 0 )
-            tmpstr = g_strdup_printf ( _(messages[i] . hint), VERSION );
-        else
-            tmpstr = g_strdup ( _(messages[i] . hint) );
+			if ( g_utf8_collate ( messages[i].name, "account-already-opened" ) == 0 )
+				tmpstr = g_strdup_printf ( _(messages[i] . hint),
+							g_path_get_basename (filename) );
+			else if ( g_utf8_collate ( messages[i].name, "development-version" ) == 0 )
+				tmpstr = g_strdup_printf ( _(messages[i] . hint), VERSION );
+			else
+				tmpstr = g_strdup ( _(messages[i] . hint) );
 
-        gtk_tree_store_append (GTK_TREE_STORE (model), &iter, NULL);
-        gtk_tree_store_set (GTK_TREE_STORE (model), &iter,
-                        0, !messages[i] . hidden,
-                        1, tmpstr,
-                        2, i,
-                        -1);
+			gtk_tree_store_append (GTK_TREE_STORE (model), &iter, NULL);
+			gtk_tree_store_set (GTK_TREE_STORE (model), &iter,
+							0, !messages[i] . hidden,
+							1, tmpstr,
+							2, i,
+							-1);
 
-        g_free ( tmpstr );
-    }
-
+			g_free ( tmpstr );
+		}
+	}
     /* Show everything */
     gtk_widget_show_all ( vbox_pref );
 
     if ( !gsb_data_account_get_accounts_amount () )
     {
-        gtk_widget_set_sensitive ( vbox_pref, FALSE );
+        gtk_widget_set_sensitive (paddinggrid, FALSE);
     }
 
     return ( vbox_pref );

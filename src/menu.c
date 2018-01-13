@@ -1122,7 +1122,6 @@ void gsb_menu_set_menus_select_scheduled_sensitive (gboolean sensitive)
  * */
 void gsb_menu_set_menus_with_file_sensitive (gboolean sensitive)
 {
-    GAction *action;
     gchar * items[] = {
         "save-as",
         "export-accounts",
@@ -1150,9 +1149,6 @@ void gsb_menu_set_menus_with_file_sensitive (gboolean sensitive)
         gsb_menu_gui_sensitive_win_menu_item (*tmp, sensitive);
         tmp++;
     }
-    /* sensibilise le menu preferences */
-    action = grisbi_app_get_prefs_action ();
-    g_simple_action_set_enabled (G_SIMPLE_ACTION (action), sensitive);
 }
 
 /**
