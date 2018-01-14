@@ -801,50 +801,53 @@ static gboolean etats_config_onglet_categ_budget_fill_model ( GtkTreeModel *mode
             name = gsb_data_budget_get_name ( div_number, 0, NULL );
             tmp_list_sub_div = gsb_data_budget_get_sub_budget_list ( div_number );
         }
+		if (name)
+		{
+			/* append to the model */
+				gtk_tree_store_append ( GTK_TREE_STORE ( model ), &parent_iter, NULL );
+				gtk_tree_store_set (GTK_TREE_STORE ( model ),
+									&parent_iter,
+									GSB_ETAT_CATEG_BUDGET_LIST_NAME, name,
+									GSB_ETAT_CATEG_BUDGET_LIST_NUMBER, div_number,
+									GSB_ETAT_CATEG_BUDGET_LIST_SUB_NUMBER, -1,
+									GSB_ETAT_CATEG_BUDGET_LIST_ACTIVATABLE, TRUE,
+									-1 );
 
-        /* append to the model */
-            gtk_tree_store_append ( GTK_TREE_STORE ( model ), &parent_iter, NULL );
-            gtk_tree_store_set (GTK_TREE_STORE ( model ),
-                                &parent_iter,
-                                GSB_ETAT_CATEG_BUDGET_LIST_NAME, name,
-                                GSB_ETAT_CATEG_BUDGET_LIST_NUMBER, div_number,
-                                GSB_ETAT_CATEG_BUDGET_LIST_SUB_NUMBER, -1,
-                                GSB_ETAT_CATEG_BUDGET_LIST_ACTIVATABLE, TRUE,
-                                -1 );
+			g_free (name);
 
-        g_free (name);
+			/* append the sub categories */
+			while (tmp_list_sub_div)
+			{
+				gint sub_div_number;
 
-        /* append the sub categories */
-        while (tmp_list_sub_div)
-        {
-            gint sub_div_number;
+				if ( is_categ )
+				{
+					sub_div_number = gsb_data_category_get_no_sub_category ( tmp_list_sub_div -> data );
+					name = gsb_data_category_get_sub_category_name ( div_number, sub_div_number, NULL );
+				}
+				else
+				{
+					sub_div_number = gsb_data_budget_get_no_sub_budget ( tmp_list_sub_div -> data );
+					name = gsb_data_budget_get_sub_budget_name ( div_number, sub_div_number, NULL );
+				}
+				if (!name)
+					name = g_strdup (_("Not available"));
 
-            if ( is_categ )
-            {
-                sub_div_number = gsb_data_category_get_no_sub_category ( tmp_list_sub_div -> data );
-                name = gsb_data_category_get_sub_category_name ( div_number, sub_div_number, NULL );
-            }
-            else
-            {
-                sub_div_number = gsb_data_budget_get_no_sub_budget ( tmp_list_sub_div -> data );
-                name = gsb_data_budget_get_sub_budget_name ( div_number, sub_div_number, NULL );
-            }
+				/* append to the model */
+				gtk_tree_store_append ( GTK_TREE_STORE ( model ), &child_iter, &parent_iter );
+				gtk_tree_store_set ( GTK_TREE_STORE ( model ),
+									&child_iter,
+									GSB_ETAT_CATEG_BUDGET_LIST_NAME, name,
+									GSB_ETAT_CATEG_BUDGET_LIST_NUMBER, -1,
+									GSB_ETAT_CATEG_BUDGET_LIST_SUB_NUMBER, sub_div_number,
+									GSB_ETAT_CATEG_BUDGET_LIST_ACTIVATABLE, TRUE,
+									-1 );
 
-            /* append to the model */
-            gtk_tree_store_append ( GTK_TREE_STORE ( model ), &child_iter, &parent_iter );
-            gtk_tree_store_set ( GTK_TREE_STORE ( model ),
-                                &child_iter,
-                                GSB_ETAT_CATEG_BUDGET_LIST_NAME, name,
-                                GSB_ETAT_CATEG_BUDGET_LIST_NUMBER, -1,
-                                GSB_ETAT_CATEG_BUDGET_LIST_SUB_NUMBER, sub_div_number,
-                                GSB_ETAT_CATEG_BUDGET_LIST_ACTIVATABLE, TRUE,
-                                -1 );
+				g_free (name);
 
-            g_free (name);
-
-            tmp_list_sub_div = tmp_list_sub_div -> next;
-        }
-
+				tmp_list_sub_div = tmp_list_sub_div -> next;
+			}
+		}
         /* append without sub-div */
             gtk_tree_store_append ( GTK_TREE_STORE ( model ), &child_iter, &parent_iter );
             gtk_tree_store_set ( GTK_TREE_STORE ( model ),
