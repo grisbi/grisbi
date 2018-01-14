@@ -440,7 +440,7 @@ static void grisbi_app_init_recent_files_menu (GrisbiApp *app)
 	}
 	if (index < conf.nb_derniers_fichiers_ouverts)
 	{
-		priv->recent_array = g_realloc (priv->recent_array, index + 1 * sizeof (gchar*));
+		priv->recent_array = g_realloc (priv->recent_array, (index + 1) * sizeof (gchar*));
 		priv->recent_array[index] = NULL;
 		conf.nb_derniers_fichiers_ouverts = index;
 	}
