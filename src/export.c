@@ -593,23 +593,13 @@ static gboolean export_enter_resume_page (GtkWidget *assistant)
 
 			account = g_malloc0 (sizeof (struct exported_account));
 			account->account_nb = i;
-			account->extension = g_strdup ("");
+			if (etat.export_file_format)
+				account->extension = g_strdup ("csv");
+			else
+				account->extension = g_strdup ("qif");
 			exported_accounts = g_slist_append (exported_accounts, account);
 
-			if (etat.export_files_traitement)
-			{
-				if (index == 0)
-				{
-					gsb_assistant_add_page (assistant,
-											create_export_account_resume_page (account),
-											page,
-											page - 1,
-											page + 1,
-											G_CALLBACK (NULL));
-					page ++;
-				}
-			}
-			else
+			if (!etat.export_files_traitement || g_slist_length (selected_accounts) == 1)
 			{
 				gsb_assistant_add_page (assistant,
 										create_export_account_resume_page (account),
@@ -701,13 +691,16 @@ void export_accounts (void)
 
     if (gsb_assistant_run (dialog) == GTK_RESPONSE_APPLY)
     {
-        while (exported_accounts)
+		GSList *list;
+
+		list = exported_accounts;
+		while (list)
         {
             struct exported_account *account;
 
-            account = (struct exported_account *) exported_accounts->data;
+            account = (struct exported_account *) list->data;
 
-            if (etat.export_files_traitement)
+            if (etat.export_files_traitement && g_slist_length (selected_accounts) > 1)
             {
                 const gchar *title;
                 gchar *tmp_str;
@@ -737,7 +730,7 @@ void export_accounts (void)
             else    /* extension = csv */
                 gsb_csv_export_account (account->filename, account->account_nb);
 
-            exported_accounts = exported_accounts->next;
+            list = list->next;
         }
     }
 
