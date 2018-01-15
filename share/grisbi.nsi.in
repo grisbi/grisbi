@@ -43,7 +43,7 @@ InstType "full"
 ; !define MUI_FINISHPAGE_RUN_TEXT "$(launchAtEnd)" 
 
 Function finishInstallDesktopShortcut
-	CreateShortCut "$DESKTOP\Grisbi.lnk" "$INSTDIR\bin\Grisbi.exe" "" "$INSTDIR\bin\grisbi.ico"
+	CreateShortCut "$DESKTOP\Grisbi-1.2.lnk" "$INSTDIR\bin\Grisbi.exe" "" "$INSTDIR\bin\grisbi.ico"
 FunctionEnd
 
 !define MUI_FINISHPAGE_SHOWREADME ""
@@ -124,7 +124,7 @@ SectionEnd
 
 Section "Uninstall"
   Delete "$INSTDIR\Uninstall.exe"
-  Delete "$DESKTOP\Grisbi.lnk"
+  Delete "$DESKTOP\Grisbi-1.2.lnk"
   Delete "$SMPROGRAMS\${COMPANYNAME}\Gribi @NSIS_BITS@-bit @VERSION@.lnk"
   DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}"
 

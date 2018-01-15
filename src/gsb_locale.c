@@ -246,8 +246,27 @@ void gsb_locale_init_language (const gchar *language)
 		const gchar *tmp_language = NULL;
 
 #ifdef G_OS_WIN32
-		language = g_win32_getlocale ();
-		printf ("g_win32_getlocale () = %s\n", g_win32_getlocale ());
+		tmp_str = g_win32_getlocale ();
+		if (tmp_str)
+		{
+			gchar *ptr;
+
+			ptr = g_strrstr (tmp_str, ".");
+			if (ptr)
+			{
+				language = g_strndup (tmp_str, (ptr - tmp_str));
+			}
+			else
+			{
+				language = g_strdup (tmp_str);
+			}
+			g_setenv ("LANGUAGE", language, TRUE);
+			g_setenv ("LANG", tmp_str, TRUE);
+			langue = g_strdup (language);
+			setlocale (LC_ALL, "");
+			g_free (tmp_str);
+			return;
+		}
 #else
 		tmp_language = g_getenv ("LANGUAGE");
 		if (tmp_language && strlen (tmp_language))
