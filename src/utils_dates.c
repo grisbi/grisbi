@@ -767,7 +767,22 @@ gchar **gsb_date_get_date_time_now_local (void)
  *
  * \return
  **/
+GDate *gsb_date_get_first_day_of_current_month (void)
+{
+	GDate *tmp_date;
 
+	tmp_date = gdate_today ();
+	g_date_set_day (tmp_date, 1);
+
+	return tmp_date;
+}
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
