@@ -559,6 +559,7 @@ void bet_array_refresh_estimate_tab ( gint account_number )
     gchar *str_amount;
     gchar *title;
     gchar *tmp_str;
+	GDate *first_day_current_month;
     GDate *date_init;
     GDate *date_min;
     GDate *date_max;
@@ -572,10 +573,10 @@ void bet_array_refresh_estimate_tab ( gint account_number )
 
     tmp_range = struct_initialise_bet_range ( );
 
-    /* calculate date_min and date_max with user choice */
+    /* calculate date_min, date_max and first_day_current_month with user choice */
     date_min = gsb_data_account_get_bet_start_date ( account_number );
-
     date_max = bet_data_array_get_date_max ( account_number );
+	first_day_current_month = gsb_date_get_first_day_of_current_month ();
 
     widget = g_object_get_data ( G_OBJECT ( account_page ), "bet_initial_date");
     gsb_calendar_entry_set_date ( widget, date_min );
@@ -652,13 +653,13 @@ void bet_array_refresh_estimate_tab ( gint account_number )
     g_free ( str_amount );
 
     /* search data from the past */
-    bet_historical_refresh_data ( tree_model, date_min, date_max );
+    bet_historical_refresh_data ( tree_model, first_day_current_month, date_max );
 
     /* search data from the futur */
-    bet_array_refresh_futur_data ( tree_model, date_min, date_max );
+    bet_array_refresh_futur_data ( tree_model, first_day_current_month, date_max );
 
     /* search data from a transfer */
-    bet_array_refresh_transfert_data ( tree_model, date_min, date_max );
+    bet_array_refresh_transfert_data ( tree_model, first_day_current_month, date_max );
 
     /* search transactions of the account which are in the period */
     bet_array_refresh_transactions_data ( tree_model,
@@ -680,6 +681,7 @@ void bet_array_refresh_estimate_tab ( gint account_number )
     g_date_free ( date_min );
     g_date_free ( date_init );
     g_date_free ( date_max );
+	g_date_free (first_day_current_month);
 
     /* Calculate the balance column */
     tmp_range -> first_pass = TRUE;
