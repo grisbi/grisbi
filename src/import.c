@@ -1510,7 +1510,15 @@ static void gsb_import_select_file (GSList *filenames,
 			charmap = charmap_imported;
 		}
 
-		/* Test Convert to UTF8 */
+		/* CSV is special because it needs configuration, so we
+		 * add a conditional jump here when selected = TRUE. */
+		if (selected && !strcmp (type, "CSV"))
+		{
+			gsb_assistant_set_next ( assistant, IMPORT_FILESEL_PAGE, IMPORT_CSV_PAGE );
+			gsb_assistant_set_prev ( assistant, IMPORT_RESUME_PAGE, IMPORT_CSV_PAGE );
+		}
+
+ 		/* Test Convert to UTF8 */
 		if (charmap && !conf.force_import_directory)
 		{
 			contents = g_convert (tmp_contents, -1, "UTF-8", charmap, NULL, NULL, NULL);
@@ -1576,6 +1584,10 @@ static gboolean gsb_import_enter_force_dir_page (GtkWidget *assistant)
 
 	/* Don't allow going to next page if no file is selected yet. */
     gtk_widget_set_sensitive (g_object_get_data (G_OBJECT (assistant), "button_next"), FALSE);
+
+	/* if conf.import_directory is not set force a default directory */
+	if (!conf.import_directory)
+		conf.import_directory = my_strdup (g_get_user_special_dir (G_USER_DIRECTORY_DOWNLOAD));
 
 	dir =  g_file_new_for_path (conf.import_directory);
 	direnum = g_file_enumerate_children (dir,
