@@ -228,6 +228,11 @@ static gchar *gsb_file_test_and_load_csv_file (struct ImportFile *imported)
 
     g_free (tmp_str1);
 
+	/* uniformise les sauts de ligne */
+	tmp_str1 = contents;
+    contents = gsb_string_uniform_new_line ( tmp_str1, (gssize) size);
+
+
 	return contents;
 }
 
