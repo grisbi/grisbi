@@ -2093,7 +2093,7 @@ gulong gsb_file_save_import_rule_part ( gulong iterator,
 			gchar *tmp_str2;
 
 			tmp_str2 = g_markup_printf_escaped ("IdC=\"%d\" IdR=\"%d\" FiS=\"%s\" Fld=\"%d\" Hp=\"%d\" Sep=\"%s\" "
-												"SkiS=\"%s\" SpA=\"%d\" SpAC=\"%d\" SpTC=\"%d\" SpTS=\"%s\" />\n",
+												"SkiS=\"%s\" SpA=\"%d\" SpAC=\"%d\" SpTC=\"%d\" SpTS=\"%s\" SpCN=\"%s\" />\n",
 												gsb_data_import_rule_get_csv_account_id_col (import_rule_number),
 												gsb_data_import_rule_get_csv_account_id_row (import_rule_number),
 												gsb_data_import_rule_get_csv_fields_str (import_rule_number),
@@ -2104,7 +2104,9 @@ gulong gsb_file_save_import_rule_part ( gulong iterator,
 												gsb_data_import_rule_get_csv_spec_action (import_rule_number),
 												gsb_data_import_rule_get_csv_spec_amount_col (import_rule_number),
 												gsb_data_import_rule_get_csv_spec_text_col (import_rule_number),
-												gsb_data_import_rule_get_csv_spec_text_str (import_rule_number));
+												gsb_data_import_rule_get_csv_spec_text_str (import_rule_number),
+												gsb_data_import_rule_get_csv_spec_cols_name (import_rule_number)
+												);
 
 			new_string = g_strconcat (tmp_str, tmp_str2, NULL);
 			g_free (tmp_str);

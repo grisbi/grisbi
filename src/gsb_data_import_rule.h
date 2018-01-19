@@ -22,6 +22,7 @@ const gchar *	gsb_data_import_rule_get_csv_separator			(gint import_rule_number)
 const gchar *	gsb_data_import_rule_get_csv_skipped_lines_str	(gint import_rule_number);
 gint			gsb_data_import_rule_get_csv_spec_action		(gint import_rule_number);
 gint			gsb_data_import_rule_get_csv_spec_amount_col	(gint import_rule_number);
+const gchar *	gsb_data_import_rule_get_csv_spec_cols_name		(gint import_rule_number);
 gint			gsb_data_import_rule_get_csv_spec_text_col		(gint import_rule_number);
 const gchar *	gsb_data_import_rule_get_csv_spec_text_str		(gint import_rule_number);
 gint 			gsb_data_import_rule_get_currency 				(gint import_rule_number);
@@ -59,6 +60,8 @@ gboolean		gsb_data_import_rule_set_csv_spec_action		(gint import_rule_number,
 																 gint csv_spec_action);
 gboolean		gsb_data_import_rule_set_csv_spec_amount_col	(gint import_rule_number,
 																 gint csv_spec_amount_col);
+gboolean		gsb_data_import_rule_set_csv_spec_cols_name		(gint import_rule_number,
+																 const gchar *csv_spec_cols_name);
 gboolean		gsb_data_import_rule_set_csv_spec_text_col		(gint import_rule_number,
 																 gint csv_spec_text_col);
 gboolean		gsb_data_import_rule_set_csv_spec_text_str		(gint import_rule_number,

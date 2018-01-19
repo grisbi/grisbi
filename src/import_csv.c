@@ -231,7 +231,7 @@ static gchar *gsb_file_test_and_load_csv_file (struct ImportFile *imported)
 	/* uniformise les sauts de ligne */
 	tmp_str1 = contents;
     contents = gsb_string_uniform_new_line ( tmp_str1, (gssize) size);
-
+	g_free (tmp_str1);
 
 	return contents;
 }
@@ -364,9 +364,8 @@ static void csv_import_button_rule_clicked (GtkButton *button,
 			if (index)
 				csv_import_button_rule_traite_spec_line (spec_conf_data, lines_tab, index);
 		}
+		gtk_widget_destroy (GTK_WIDGET (dialog));
 	}
-
-	gtk_widget_destroy (GTK_WIDGET (dialog));
 }
 
 /**
@@ -419,7 +418,6 @@ static GArray *csv_import_init_lines_tab (gchar **contents,
 	while (list);
 
 	return lines_tab;
-
 }
 
 /**
@@ -1547,6 +1545,7 @@ gboolean csv_import_csv_account (GtkWidget *assistant,
 			compte->csv_spec_amount_col = spec_conf_data->combobox_amount_col;
 			compte->csv_spec_text_col = spec_conf_data->combobox_text_col;
 			compte->csv_spec_text_str = spec_conf_data->entry_text_str;
+			compte->csv_spec_cols_name = spec_conf_data->combobox_cols_name;
 		}
 
 		/* détermination de la première transaction du fichier */

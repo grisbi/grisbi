@@ -4258,6 +4258,7 @@ static void traitement_operations_importees (void)
 			gsb_data_import_rule_set_csv_spec_amount_col (rule, compte->csv_spec_amount_col);
 			gsb_data_import_rule_set_csv_spec_text_col (rule, compte->csv_spec_text_col);
 			gsb_data_import_rule_set_csv_spec_text_str (rule, compte->csv_spec_text_str);
+			gsb_data_import_rule_set_csv_spec_cols_name (rule, compte->csv_spec_cols_name);
 		}
     }
     tmp_list = tmp_list->next;

@@ -61,6 +61,7 @@ struct ImportAccount
 	gint		csv_spec_amount_col;		/* numéro de colonne contenant le montant de l'opération */
 	gint		csv_spec_text_col;			/* numéro de colonne contenant le texte à rechercher */
 	gchar *		csv_spec_text_str;			/* texte à rechercher */
+	gchar *		csv_spec_cols_name;			/* nom des colonnes du fichier importé pour combo action et montant */
 };
 
 /* possible actions to the import */

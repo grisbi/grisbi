@@ -71,6 +71,7 @@ struct _ImportRule
 	gint		csv_spec_amount_col;		/* numéro de colonne contenant le montant de l'opération */
 	gint		csv_spec_text_col;			/* numéro de colonne contenant le texte à rechercher */
 	gchar *		csv_spec_text_str;			/* texte à rechercher */
+	gchar *		csv_spec_cols_name;			/* nom des colonnes du fichier importé pour combo action et montant */
 };
 
 
@@ -1273,6 +1274,52 @@ gint gsb_data_import_rule_account_has_rule_name (gint account_number,
     }
 
 	return 0;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+const gchar *gsb_data_import_rule_get_csv_spec_cols_name		(gint import_rule_number)
+{
+    ImportRule *import_rule;
+
+    import_rule = gsb_data_import_rule_get_structure (import_rule_number);
+
+    if (!import_rule)
+		return NULL;
+
+    return import_rule->csv_spec_cols_name;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+gboolean gsb_data_import_rule_set_csv_spec_cols_name (gint import_rule_number,
+													  const gchar *csv_spec_cols_name)
+{
+    ImportRule *import_rule;
+
+    import_rule = gsb_data_import_rule_get_structure (import_rule_number);
+
+    if (!import_rule)
+	return FALSE;
+
+    /* we free the last csv_spec_cols_name string */
+    if (import_rule->csv_spec_cols_name)
+		g_free (import_rule->csv_spec_cols_name);
+
+    /* and copy the new one */
+    import_rule->csv_spec_cols_name = my_strdup (csv_spec_cols_name);
+
+    return TRUE;
 }
 
 /**

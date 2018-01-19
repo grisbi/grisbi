@@ -2823,7 +2823,15 @@ static  void gsb_file_load_import_rule ( const gchar **attribute_names,
         i++;
         continue;
     }
-   /* normally, shouldn't come here */
+
+		if ( !strcmp ( attribute_names[i], "SpCN" ))
+    {
+        gsb_data_import_rule_set_csv_spec_cols_name (import_rule_number, attribute_values[i]);
+        i++;
+        continue;
+    }
+
+	/* normally, shouldn't come here */
     i++;
     }
     while ( attribute_names[i] );

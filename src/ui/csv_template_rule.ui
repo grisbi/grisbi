@@ -26,7 +26,6 @@
   <template class="CsvTemplateRule" parent="GtkDialog">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="title" translatable="yes">Create an import rule for CSV file</property>
     <property name="type_hint">dialog</property>
     <signal name="response" handler="csv_template_dialog_response" swapped="no"/>
     <child internal-child="vbox">
@@ -56,7 +55,7 @@
             </child>
             <child>
               <object class="GtkButton" id="button_add">
-                <property name="label">gtk-add</property>
+                <property name="label">gtk-apply</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -66,6 +65,19 @@
                 <property name="expand">True</property>
                 <property name="fill">True</property>
                 <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="button_modifier">
+                <property name="label">gtk-edit</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">2</property>
               </packing>
             </child>
           </object>
@@ -699,6 +711,7 @@
     <action-widgets>
       <action-widget response="-6">button_remove</action-widget>
       <action-widget response="-10">button_add</action-widget>
+      <action-widget response="-5">button_modifier</action-widget>
     </action-widgets>
   </template>
   <object class="GtkBox" id="hbox_black">

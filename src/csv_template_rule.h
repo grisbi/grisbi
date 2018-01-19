@@ -47,6 +47,7 @@ struct _SpecConfData
 	guint			combobox_text_col;			/* colonne de la donnée générant l'action */
 	guint			combobox_amount_col;		/* colonne de la donnée montant pour l'action inversion du montant */
 	gchar *			entry_text_str;				/* donnée générant l'action */
+	gchar *			combobox_cols_name;			/* noms des colonnes du fichier importé */
 };
 
 /*structure pour les regles d'import des fichiers CSV */
@@ -54,6 +55,8 @@ struct _SpecConfData
 GType               csv_template_rule_get_type				(void) G_GNUC_CONST;
 
 CsvTemplateRule * 	csv_template_rule_new					(GtkWidget *assistant);
+CsvTemplateRule * 	csv_template_rule_edit					(GtkWindow *parent,
+															 gint rule_number);
 void				csv_template_rule_csv_rule_struct_free	(CSVImportRule *csv_rule);
 
 /* END_DECLARATION */

@@ -37,6 +37,7 @@
 /*START_INCLUDE*/
 #include "csv_template_rule.h"
 #include "dialog.h"
+#include "gsb_data_import_rule.h"
 #include "import_csv.h"
 #include "structures.h"
 #include "utils_prefs.h"
@@ -53,8 +54,6 @@ typedef struct _CsvTemplateRulePrivate	CsvTemplateRulePrivate;
 
 struct _CsvTemplateRulePrivate
 {
-	GtkWidget *		assistant;
-
 	GtkWidget *		dialog_csv_template;
 
 	GtkWidget *		entry_csv_rule_name;
@@ -72,6 +71,8 @@ struct _CsvTemplateRulePrivate
 	GtkWidget *		combobox_csv_spec_action;
 	GtkWidget *		combobox_csv_spec_col_montant;
 	GtkWidget *		entry_csv_spec_text;
+
+	gchar *			combobox_csv_spec_col_name;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (CsvTemplateRule, csv_template_rule, GTK_TYPE_DIALOG)
@@ -159,6 +160,34 @@ static void csv_template_rule_spec_conf_set_actions (GtkComboBoxText *combobox)
  *
  *
  * \param
+ * \param
+ *
+ * \return
+ **/
+static void csv_template_rule_spec_conf_set_cols_name (GtkWidget *combobox,
+													   gint rule_number)
+{
+	const gchar *tmp_str;
+	gchar **tab;
+    gint i=0;
+
+	tmp_str = gsb_data_import_rule_get_csv_spec_cols_name (rule_number);
+	tab = g_strsplit (tmp_str, ";", 0);
+    while ( tab[i] )
+    {
+		gtk_combo_box_text_append ((GtkComboBoxText *) combobox, NULL, tab[i]);
+		i++;
+    }
+
+    g_strfreev ( tab );
+	gtk_combo_box_set_active ((GtkComboBox *) combobox,0);
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
  *
  * \return
  **/
@@ -190,6 +219,7 @@ static void csv_template_rule_checkbutton_account_changed (GtkToggleButton *chec
  *
  *
  * \param
+ * \param
  *
  * \return
  **/
@@ -216,6 +246,7 @@ static void csv_template_rule_checkbutton_spec_conf_changed (GtkToggleButton *ch
 	{
 		gtk_widget_set_sensitive (GTK_WIDGET (priv->combobox_csv_spec_action), FALSE);
 		gtk_widget_set_sensitive (GTK_WIDGET (priv->combobox_csv_spec_col_data), FALSE);
+		gtk_widget_set_sensitive (GTK_WIDGET (priv->combobox_csv_spec_col_montant), FALSE);
 		gtk_widget_set_sensitive (GTK_WIDGET (priv->entry_csv_spec_text), FALSE);
 		if (gtk_entry_get_text_length (GTK_ENTRY (priv->entry_csv_rule_name)) > 0)
 			gtk_dialog_set_response_sensitive (GTK_DIALOG (template_rule), GTK_RESPONSE_APPLY, TRUE);
@@ -225,6 +256,7 @@ static void csv_template_rule_checkbutton_spec_conf_changed (GtkToggleButton *ch
 /**
  *
  *
+ * \param
  * \param
  *
  * \return
@@ -260,6 +292,7 @@ static void csv_template_rule_combobox_spec_conf_action_changed (GtkComboBox *wi
 static void csv_template_dialog_response  (GtkDialog *dialog,
 										   gint result_id)
 {
+	gint rule_number;
 	CsvTemplateRulePrivate *priv;
 
 	devel_debug_int (result_id);
@@ -306,11 +339,59 @@ static void csv_template_dialog_response  (GtkDialog *dialog,
 				spec_conf_data->combobox_text_col = gtk_combo_box_get_active (GTK_COMBO_BOX (widget));
 				widget = priv->entry_csv_spec_text;
 				spec_conf_data->entry_text_str = g_strdup (gtk_entry_get_text (GTK_ENTRY (widget)));
+				spec_conf_data->combobox_cols_name = g_strdup (priv->combobox_csv_spec_col_name);
 				csv_rule->csv_spec_conf_data = spec_conf_data;
 			}
 				g_object_set_data (G_OBJECT (dialog), "csv-import-rule", csv_rule);
 			break;
+		case GTK_RESPONSE_OK:			/* EDIT rule */
+			rule_number = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (dialog), "rule_number"));
+			if (rule_number)
+			{
+				const gchar *tmp_str;
+
+				tmp_str = gtk_entry_get_text (GTK_ENTRY (priv->entry_csv_rule_name));
+				gsb_data_import_rule_set_name (rule_number, tmp_str);
+				gsb_data_import_rule_set_csv_account_id_col (rule_number,
+															 gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON
+																							   (priv->spinbutton_csv_account_id_col)));
+				gsb_data_import_rule_set_csv_account_id_row (rule_number,
+															 gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON
+																							   (priv->spinbutton_csv_account_id_row)));
+				gsb_data_import_rule_set_csv_first_line_data (rule_number,
+															  gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON
+																								(priv->spinbutton_csv_first_line)));
+				gsb_data_import_rule_set_csv_headers_present (rule_number,
+															  gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON
+																							(priv->checkbutton_csv_header_col)));
+				/* specific configuration */
+				if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->checkbutton_csv_spec)))
+				{
+					gint combobox_action;
+
+					combobox_action = gtk_combo_box_get_active (GTK_COMBO_BOX (priv->combobox_csv_spec_action));
+					gsb_data_import_rule_set_csv_spec_action (rule_number, combobox_action);
+
+					if (combobox_action == 1)
+					{
+						gsb_data_import_rule_set_csv_spec_amount_col (rule_number,
+																	  gtk_combo_box_get_active (GTK_COMBO_BOX
+																								(priv->combobox_csv_spec_col_montant)));
+					}
+					gsb_data_import_rule_set_csv_spec_text_col (rule_number,
+																gtk_combo_box_get_active (GTK_COMBO_BOX
+																						  (priv->combobox_csv_spec_col_data)));
+					gsb_data_import_rule_set_csv_spec_text_str (rule_number,
+																g_strdup (gtk_entry_get_text (GTK_ENTRY
+																							  (priv->entry_csv_spec_text))));
+				}
+
+				utils_prefs_gsb_file_set_modified ();
+			}
+			gtk_widget_destroy (GTK_WIDGET (dialog));
+			break;
 		case GTK_RESPONSE_CANCEL:
+			gtk_widget_destroy (GTK_WIDGET (dialog));
 			break;
 	}
 }
@@ -335,7 +416,8 @@ static void csv_template_rule_setup_dialog (CsvTemplateRule *template_rule,
 
 	priv = csv_template_rule_get_instance_private (template_rule);
 
-	priv->assistant = assistant;
+	/* window title */
+	gtk_window_set_title (GTK_WINDOW (template_rule), _("Create an import rule for CSV file"));
 
 	/* Rule_name */
 	gtk_widget_set_name (GTK_WIDGET (priv->entry_csv_rule_name), "entry_csv_rule_name");
@@ -370,7 +452,19 @@ static void csv_template_rule_setup_dialog (CsvTemplateRule *template_rule,
 	list = csv_file_columns;
 	while (list)
 	{
-		//~ printf ("colonne = %s\n", (gchar *) list->data);
+		gchar *string_to_free = NULL;
+
+		if (priv->combobox_csv_spec_col_name == NULL)
+			priv->combobox_csv_spec_col_name = g_strdup (list->data);
+		else
+		{
+			priv->combobox_csv_spec_col_name = g_strconcat ((string_to_free = priv->combobox_csv_spec_col_name),
+															";",
+															list->data,
+															NULL);
+			g_free (string_to_free);
+		}
+
 		gtk_combo_box_text_append ((GtkComboBoxText *) priv->combobox_csv_spec_col_data,
 								   NULL,
 								   (const gchar *) list->data);
@@ -396,12 +490,99 @@ static void csv_template_rule_setup_dialog (CsvTemplateRule *template_rule,
 	gtk_combo_box_set_active ((GtkComboBox *) priv->combobox_csv_spec_col_montant, 0);
 }
 
+/**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void csv_template_rule_edit_dialog (CsvTemplateRule *template_rule,
+										   gint rule_number)
+{
+	GtkWidget *button;
+	const gchar *tmp_str;
+	gint index;
+	gboolean checked;
+	CsvTemplateRulePrivate *priv;
+
+	devel_debug (NULL);
+
+	priv = csv_template_rule_get_instance_private (template_rule);
+
+	/* window title */
+	gtk_window_set_title (GTK_WINDOW (template_rule), _("Edit an import rule for CSV file"));
+
+	/* set the edit button */
+	button = gtk_dialog_get_widget_for_response (GTK_DIALOG (template_rule), GTK_RESPONSE_APPLY);
+	gtk_widget_hide (button);
+	button = gtk_dialog_get_widget_for_response (GTK_DIALOG (template_rule), GTK_RESPONSE_OK);
+	gtk_widget_show (button);
+	g_object_set_data (G_OBJECT (template_rule), "rule_number", GINT_TO_POINTER (rule_number));
+
+	tmp_str = gsb_data_import_rule_get_name (rule_number);
+	gtk_entry_set_text (GTK_ENTRY (priv->entry_csv_rule_name), tmp_str);
+
+	index = gsb_data_import_rule_get_csv_account_id_col (rule_number);
+	if (index)
+	{
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_csv_account_id), TRUE);
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (priv->spinbutton_csv_account_id_col), (gdouble) index);
+		index = gsb_data_import_rule_get_csv_account_id_row (rule_number);
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (priv->spinbutton_csv_account_id_row), (gdouble) index);
+	}
+	index = gsb_data_import_rule_get_csv_first_line_data (rule_number);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (priv->spinbutton_csv_first_line), (gdouble) index);
+	checked = gsb_data_import_rule_get_csv_headers_present (rule_number);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_csv_header_col), checked);
+	tmp_str = gsb_data_import_rule_get_csv_spec_text_str (rule_number);
+	if (tmp_str && strlen (tmp_str) > 0)
+	{
+		gtk_entry_set_text (GTK_ENTRY (priv->entry_csv_spec_text), tmp_str);
+
+		csv_template_rule_spec_conf_set_cols_name (priv->combobox_csv_spec_col_data, rule_number);
+		index = gsb_data_import_rule_get_csv_spec_text_col (rule_number);
+		gtk_combo_box_set_active (GTK_COMBO_BOX (priv->combobox_csv_spec_col_data), index);
+
+		csv_template_rule_spec_conf_set_cols_name (priv->combobox_csv_spec_col_montant, rule_number);
+		index = gsb_data_import_rule_get_csv_spec_amount_col (rule_number);
+		gtk_combo_box_set_active (GTK_COMBO_BOX (priv->combobox_csv_spec_col_montant), index);
+
+		csv_template_rule_spec_conf_set_actions ((GtkComboBoxText *) priv->combobox_csv_spec_action);
+		index = gsb_data_import_rule_get_csv_spec_action (rule_number);
+		gtk_combo_box_set_active (GTK_COMBO_BOX (priv->combobox_csv_spec_action), index);
+		if (index)
+			gtk_widget_set_sensitive (priv->combobox_csv_spec_col_montant, TRUE);
+
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_csv_spec), TRUE);
+		gtk_widget_set_sensitive (priv->entry_csv_spec_text, TRUE);
+		gtk_widget_set_sensitive (priv->combobox_csv_spec_action, TRUE);
+		gtk_widget_set_sensitive (priv->combobox_csv_spec_col_data, TRUE);
+	}
+
+	/* Connect signal */
+	g_signal_connect (priv->checkbutton_csv_spec,
+					  "toggled",
+					  G_CALLBACK (csv_template_rule_checkbutton_spec_conf_changed),
+					  template_rule);
+	g_signal_connect (priv->combobox_csv_spec_action,
+					  "changed",
+					  G_CALLBACK (csv_template_rule_combobox_spec_conf_action_changed),
+					  template_rule);
+}
 /******************************************************************************/
 /* Fonctions propres à l'initialisation des fenêtres                          */
 /******************************************************************************/
 static void csv_template_rule_init (CsvTemplateRule *template_rule)
 {
+	CsvTemplateRulePrivate *priv;
+
+	priv = csv_template_rule_get_instance_private ((CsvTemplateRule *) template_rule);
 	gtk_widget_init_template (GTK_WIDGET (template_rule));
+
+	/* initialisation des variables chaînes */
+	priv->combobox_csv_spec_col_name = NULL;
 
 	/* Add action buttons */
 	gtk_dialog_set_response_sensitive (GTK_DIALOG (template_rule), GTK_RESPONSE_APPLY, FALSE);
@@ -409,10 +590,6 @@ static void csv_template_rule_init (CsvTemplateRule *template_rule)
 
 static void csv_template_rule_dispose (GObject *object)
 {
-	//~ CsvTemplateRulePrivate *priv;
-
-	//~ priv = csv_template_rule_get_instance_private ((CsvTemplateRule *) object);
-
 	G_OBJECT_CLASS (csv_template_rule_parent_class)->dispose (object);
 }
 
@@ -448,6 +625,13 @@ static void csv_template_rule_class_init (CsvTemplateRuleClass *klass)
 /******************************************************************************/
 /* Public functions                                                           */
 /******************************************************************************/
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 CsvTemplateRule *csv_template_rule_new (GtkWidget *assistant)
 {
 	CsvTemplateRule *template_rule;
@@ -456,6 +640,26 @@ CsvTemplateRule *csv_template_rule_new (GtkWidget *assistant)
 	gtk_window_set_modal (GTK_WINDOW (template_rule), TRUE);
 
 	csv_template_rule_setup_dialog (template_rule, assistant);
+
+	return template_rule;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+CsvTemplateRule *csv_template_rule_edit (GtkWindow *parent,
+										 gint rule_number)
+{
+	CsvTemplateRule *template_rule;
+
+	template_rule = g_object_new (CSV_TEMPLATE_RULE_TYPE, "transient-for", GTK_WINDOW (parent), NULL);
+	gtk_window_set_modal (GTK_WINDOW (template_rule), TRUE);
+
+	csv_template_rule_edit_dialog (template_rule, rule_number);
 
 	return template_rule;
 }

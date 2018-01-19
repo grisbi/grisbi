@@ -227,7 +227,17 @@ struct ConditionalMessage delete_msg[] =
     { NULL, NULL, NULL, FALSE, FALSE },
 };
 
+/******************************************************************************/
+/* Private functions                                                          */
+/******************************************************************************/
+static void gsb_transactions_list_edit_import_rule (gint import_rule_number)
+{
+	csv_template_rule_edit (GTK_WINDOW (grisbi_app_get_active_window (NULL)), import_rule_number);
+}
 
+/******************************************************************************/
+/* Public functions                                                           */
+/******************************************************************************/
 /**
  * save the transactions tree_view
  *
@@ -475,8 +485,10 @@ gboolean popup_transaction_rules_menu ( GtkWidget * button,
     while ( tmp_list )
     {
         gint rule;
+		const gchar *type;
 
         rule = gsb_data_import_rule_get_number ( tmp_list -> data );
+		type = gsb_data_import_rule_get_type (rule);
 
         if ( i > 0 )
         {
@@ -490,6 +502,16 @@ gboolean popup_transaction_rules_menu ( GtkWidget * button,
                         "activate",
                         G_CALLBACK ( gsb_import_by_rule ),
                         GINT_TO_POINTER ( rule ) );
+
+		if (g_strcmp0 (type, "CSV") == 0)
+		{
+			menu_item = gtk_menu_item_new_with_label ( _("Edit the rule") );
+			g_signal_connect_swapped (G_OBJECT (menu_item),
+									  "activate",
+									  G_CALLBACK (gsb_transactions_list_edit_import_rule),
+									  GINT_TO_POINTER (rule));
+			gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
+		}
 
         menu_item = gtk_menu_item_new_with_label ( _("Remove the rule") );
         g_signal_connect_swapped ( G_OBJECT ( menu_item ),
