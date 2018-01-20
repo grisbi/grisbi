@@ -36,7 +36,7 @@ Optionnaly download goffice
   Patch configure.ac to instruct to use GTK3 instead of GTK2.
   Compile and install goffice :
   % jhbuild shell
-  % ./configure
+  % ./configure --prefix=$PREFIX
   % make
   % make install
 
