@@ -33,7 +33,6 @@ Then use the following command lines:
 
 Optionnaly download goffice
   Patch goffice.c) (180, 184) to rename "quartz_*" function calls to "gtkosx_*".
-  Patch configure.ac to instruct to use GTK3 instead of GTK2.
   Compile and install goffice :
   % jhbuild shell
   % ./configure --prefix=$PREFIX
