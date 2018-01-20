@@ -43,6 +43,9 @@ Optionnaly download "libofx" (Broken at the moment)
   https://sourceforge.net/projects/libofx/files/latest/download
   https://sourceforge.net/projects/openjade/files/opensp/1.5.1/OpenSP-1.5.1.tar.gz
 
+Download gtk-mac-bundler from https://wiki.gnome.org/Projects/GTK+/OSX/Bundling
+Use the git version. Version 0.7.4 failed for me.
+
 2. Compile
 
 % jhbuild shell
