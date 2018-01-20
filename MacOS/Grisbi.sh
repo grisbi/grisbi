@@ -67,7 +67,7 @@ if test "$APPLELANGUAGES"; then
 	fi
 	#OK, now test for just the first two letters:
         if test -f "$I18NDIR/${L:0:2}/LC_MESSAGES/$APP.mo"; then
-	    export LANG=${L:0:2}
+	    export LANG=$L
 	    break
 	fi
 	#Same thing, but checking for any english variant.
