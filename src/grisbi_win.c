@@ -821,13 +821,18 @@ static void grisbi_win_class_init (GrisbiWinClass *klass)
 const gchar *grisbi_win_get_filename (GrisbiWin *win)
 {
 	GrisbiWinPrivate *priv;
+	gchar *filename = NULL;
 
 	if (win == NULL)
 		win = grisbi_app_get_active_window (NULL);
 
-	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+	if (win)
+	{
+		priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+		filename = priv->filename;
+	}
 
-	return priv->filename;
+	return filename;
 }
 
 /**
