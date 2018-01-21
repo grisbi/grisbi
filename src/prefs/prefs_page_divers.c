@@ -227,7 +227,7 @@ static void prefs_page_divers_choose_language_changed (GtkComboBox *combo,
 			g_settings_set_string (G_SETTINGS (settings), "language-chosen", conf.language_chosen);
 		}
 
-		tmp_str = g_strdup (_("You will have to restart Grisbi for the new langage to take effect."));
+		tmp_str = g_strdup (_("You will have to restart Grisbi for the new language to take effect."));
 		hint = g_strdup_printf ( _("Changes the language of Grisbi for \"%s\"!"), string );
         dialogue_warning_hint (tmp_str , hint);
 	}
