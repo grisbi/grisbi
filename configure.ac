@@ -153,9 +153,9 @@ dnl Check for cunit
 dnl ================================================================
 
 AC_ARG_WITH(cunit,
-	AS_HELP_STRING([--with-cunit],[CUnit support for unit tests (default=auto)]),
+	AS_HELP_STRING([--with-cunit],[CUnit support for unit tests (default=no)]),
 	[build_cunit=$withval],
-	[build_cunit=auto])
+	[build_cunit=no])
 
 AC_CHECK_HEADER([CUnit/Basic.h], have_cunit=yes, have_cunit=no)
 if test "$build_cunit" = yes -a "$have_cunit" = no; then
