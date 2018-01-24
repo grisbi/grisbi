@@ -175,7 +175,7 @@ gboolean lance_navigateur_web (const gchar *url)
         {
             /* he has a %s in the command */
             /* concat the string before %s, the url and the string after %s */
-            tmp_str = g_strconcat (" ", url, " ", NULL);
+            tmp_str = g_strconcat (" \"", url, "\" ", NULL);
             chaine = g_strjoinv (tmp_str, split);
             g_free(tmp_str);
             g_strfreev (split);
@@ -186,7 +186,7 @@ gboolean lance_navigateur_web (const gchar *url)
             chaine = tmp_str;
         }
         else
-            chaine = g_strconcat (conf.browser_command, " ", url, "&", NULL);
+            chaine = g_strconcat (conf.browser_command, " \"", url, "\"&", NULL);
 
         if (system (chaine) == -1)
         {
