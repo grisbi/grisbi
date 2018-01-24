@@ -54,6 +54,8 @@ void gsb_locale_init_lconv_struct (void)
 
 	if (locale->mon_thousands_sep && strlen (locale->mon_thousands_sep) > 0)
 		_locale->mon_thousands_sep = g_strdup (locale->mon_thousands_sep);
+	else
+		_locale->mon_thousands_sep = NULL;
     _locale->decimal_point     = g_strdup (locale->decimal_point);
     _locale->thousands_sep     = g_strdup (locale->thousands_sep);
     _locale->grouping          = g_strdup (locale->grouping);
