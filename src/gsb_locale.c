@@ -173,7 +173,7 @@ void gsb_locale_set_mon_thousands_sep (const gchar *thousands_sep)
 gchar *gsb_locale_get_print_locale_var (void)
 {
     gchar *locale_str = NULL;
-    gchar *mon_thousands_sep;
+    gchar *mon_thousands_sep = NULL;
     gchar *mon_decimal_point;
     gchar *positive_sign;
     gchar *negative_sign;
@@ -184,7 +184,8 @@ gchar *gsb_locale_get_print_locale_var (void)
 		currency_symbol = g_strdup (_locale->currency_symbol);
 	else
 		currency_symbol = g_locale_to_utf8 (_locale->currency_symbol, -1, NULL, NULL, NULL);
-	mon_thousands_sep = g_locale_to_utf8 (_locale->mon_thousands_sep, -1, NULL, NULL, NULL);
+	if (_locale->mon_thousands_sep)
+		mon_thousands_sep = g_locale_to_utf8 (_locale->mon_thousands_sep, -1, NULL, NULL, NULL);
     mon_decimal_point = g_locale_to_utf8 (_locale->mon_decimal_point, -1, NULL, NULL, NULL);
     positive_sign = g_locale_to_utf8 (_locale->positive_sign, -1, NULL, NULL, NULL);
     negative_sign = g_locale_to_utf8 (_locale->negative_sign, -1, NULL, NULL, NULL);
