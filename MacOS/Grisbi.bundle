@@ -126,7 +126,11 @@
     Tango
   </icon-theme -->
 
-    <data>
+  <data>
+	${prefix}/share/doc/grisbi
+  </data>
+
+  <data>
     ${prefix}/share/glib-2.0/schemas
   </data>
 
