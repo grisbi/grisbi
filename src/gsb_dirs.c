@@ -282,6 +282,7 @@ gchar *gsb_dirs_get_print_dir_var (void)
 								"\tcategories_dir               = %s\n"
 								"\tlocale_dir                   = %s\n"
 								"\tpixmaps_dir                  = %s\n"
+								"\thelp_dir                     = %s\n"
 								"\tui_dir                       = %s\n\n",
 								gsb_dirs_get_default_dir (),
 								gsb_dirs_get_user_data_dir (),
@@ -291,6 +292,7 @@ gchar *gsb_dirs_get_print_dir_var (void)
 								gsb_dirs_get_categories_dir (),
 								gsb_dirs_get_locale_dir (),
 								gsb_dirs_get_pixmaps_dir (),
+								gsb_dirs_get_help_dir(),
 								gsb_dirs_get_ui_dir ()
 								);
 
