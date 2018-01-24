@@ -11,7 +11,6 @@ EXTRA_DIST = \
 
 ACLOCAL_AMFLAGS = -I m4
 
-# !!! Still used?
 bundle:
 	@if [ "x$(UNDER_JHBUILD)" != "xtrue" ]; then echo "*** Please run this command under JHbuild env."; exit 1; fi
 	@if [ "x$(PREFIX)" != "x$(prefix)" ]; then echo "*** Please use ./configure --prefix=$(PREFIX) to configure Grisbi."; exit 1; fi
