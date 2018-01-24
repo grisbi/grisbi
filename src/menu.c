@@ -96,7 +96,7 @@ static gboolean gsb_menu_help_quick_start (void)
 {
     gchar *lang = _("en");
 
-    gchar* tmpstr = g_build_filename (HELP_PATH, lang, "quickstart.html", NULL);
+    gchar* tmpstr = g_build_filename (gsb_dirs_get_help_dir (), lang, "quickstart.html", NULL);
     lance_navigateur_web (tmpstr);
     g_free (tmpstr);
 
