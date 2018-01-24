@@ -2,7 +2,7 @@
 
 AM_CPPFLAGS =	\
 							-I$(top_srcdir) $(GRISBI_CFLAGS) $(GTK_MAC_CFLAGS) $(GOFFICE_CFLAGS)	\
-							-DLOCALEDIR=\"$(localedir)\"	\
+							-DLOCALEDIR="\"$(localedir)\""	\
 							-DPIXMAPS_DIR="\"$(datadir)/pixmaps/@PACKAGE@\""	\
 							-DLOGO_PATH="\"$(datadir)/pixmaps/@PACKAGE@/grisbi-logo.png\""	\
 							-DDATA_PATH="\"$(datadir)/@PACKAGE@\""	\
