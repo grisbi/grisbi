@@ -111,6 +111,7 @@ gboolean recuperation_donnees_gnucash ( GtkWidget * assistant,
   xmlDocPtr doc;
   struct ImportAccount * account;
 
+  (void)assistant;
   gnucash_filename = my_strdup ( imported -> name );
   doc = parse_gnucash_file ( gnucash_filename );
 
@@ -664,6 +665,7 @@ struct gnucash_split * find_split ( GSList * split_list, gsb_real amount,
 {
   GSList * tmp;
 
+  (void)account;
   tmp = split_list;
   while ( tmp )
     {
