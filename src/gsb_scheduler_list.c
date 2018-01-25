@@ -440,12 +440,13 @@ GtkWidget *creation_barre_outils_echeancier ( void )
     gtk_widget_set_sensitive ( scheduler_button_execute, FALSE );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( scheduler_button_execute ),
                         _("Execute current scheduled transaction"));
-    g_signal_connect ( G_OBJECT ( scheduler_button_execute ),
+    g_signal_connect_swapped ( G_OBJECT ( scheduler_button_execute ),
                         "clicked",
                         G_CALLBACK ( gsb_scheduler_list_execute_transaction ),
                         NULL );
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), GTK_TOOL_ITEM ( scheduler_button_execute ), -1 );
 
+	/* View button */
     item = utils_buttons_tool_button_new_from_image_label ("gtk-select-color-24.png", _("View"));
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ),
                         _("Change display mode of scheduled transaction list"));
