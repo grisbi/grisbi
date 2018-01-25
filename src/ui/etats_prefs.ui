@@ -597,7 +597,6 @@ Grisbi will automatically create transactions for all payees from the report</pr
         <child>
           <object class="GtkBox" id="vbox_paddingbox2">
             <property name="visible">True</property>
-            <property name="sensitive">False</property>
             <property name="can_focus">False</property>
             <property name="orientation">vertical</property>
             <property name="spacing">5</property>
@@ -2154,7 +2153,6 @@ to add at the selection</property>
   </object>
   <object class="GtkBox" id="onglet_etat_divers">
     <property name="visible">True</property>
-    <property name="sensitive">False</property>
     <property name="can_focus">False</property>
     <property name="orientation">vertical</property>
     <property name="spacing">5</property>
