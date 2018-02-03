@@ -398,7 +398,7 @@ static gboolean gsb_file_save_file (gint origine)
 {
     gint result = 0;
     gchar *nouveau_nom_enregistrement;
-	const gchar *filename;
+	gchar *filename;
 
     devel_debug_int (origine);
 
@@ -412,7 +412,7 @@ static gboolean gsb_file_save_file (gint origine)
     }
 
 	/* on récupère le nom du fichier */
-	filename = grisbi_win_get_filename (NULL);
+	filename = g_strdup (grisbi_win_get_filename (NULL));
 
 	/* on vérifie que le fichier n'est pas locké si il l'est on sort */
     if (etat.fichier_deja_ouvert && !conf.force_enregistrement && origine != -2)
@@ -483,6 +483,7 @@ static gboolean gsb_file_save_file (gint origine)
         grisbi_win_set_window_title (gsb_gui_navigation_get_current_account ());
     }
 
+	g_free (filename);
 	g_free (nouveau_nom_enregistrement);
     grisbi_win_status_bar_message (_("Done"));
 
@@ -894,7 +895,7 @@ gboolean gsb_file_automatic_backup_change_time (GtkWidget *spinbutton,
  **/
 gboolean gsb_file_close (void)
 {
-	const gchar *filename;
+	gchar *filename;
     devel_debug (NULL);
 
     if (!assert_account_loaded ())
@@ -903,7 +904,7 @@ gboolean gsb_file_close (void)
 	}
 
 	/* on récupère le nom du fichier */
-	filename = grisbi_win_get_filename (NULL);
+	filename = g_strdup (grisbi_win_get_filename (NULL));
 
 	if (gsb_file_get_modified ())
     {
@@ -942,6 +943,7 @@ gboolean gsb_file_close (void)
         gsb_menu_set_menus_with_file_sensitive (FALSE);
         grisbi_win_menu_move_to_acc_delete ();
 
+		g_free (filename);
 	    return TRUE;
     }
 
