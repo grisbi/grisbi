@@ -1341,7 +1341,11 @@ gboolean gsb_gui_navigation_set_selection ( gint page,
     {
         GtkTreePath *path;
 
-        path = gsb_gui_navigation_get_page_path ( navigation_model, page );
+		if (page == GSB_ACCOUNT_PAGE)
+			path = gsb_gui_navigation_get_page_path (navigation_model, GSB_HOME_PAGE);
+		else
+			path = gsb_gui_navigation_get_page_path (navigation_model,GSB_REPORTS_PAGE);
+
         gtk_tree_view_expand_row ( GTK_TREE_VIEW ( navigation_tree_view ), path, TRUE );
         gtk_tree_path_free (path);
     }

@@ -264,7 +264,7 @@ gboolean gsb_account_delete ( void )
         first_account = gsb_data_account_first_no_closed_account ();
 
         gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general ), page_number );
-        gsb_gui_navigation_set_selection ( 1, first_account, 0);
+        gsb_gui_navigation_set_selection (GSB_ACCOUNT_PAGE, first_account, 0);
         navigation_change_account ( first_account );
     }
 
