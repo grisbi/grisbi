@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2004-2008 Benjamin Drieu (bdrieu@april.org)                       */
-/*                      2008-2017 Pierre Biava (grisbi@pierre.biava.name)     */
+/*                      2008-2018 Pierre Biava (grisbi@pierre.biava.name)     */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -4211,7 +4211,6 @@ static void traitement_operations_importees (void)
     {
         /* ok, we create the rule */
         gchar *name;
-		gchar *skipped_lines_str;
         gint rule;
 
         name = (gchar *) gtk_entry_get_text (GTK_ENTRY (compte->entry_name_rule));
@@ -4251,13 +4250,7 @@ static void traitement_operations_importees (void)
 			gsb_data_import_rule_set_csv_first_line_data (rule, compte->csv_first_line_data);
 			gsb_data_import_rule_set_csv_headers_present (rule, compte->csv_headers_present);
 			gsb_data_import_rule_set_csv_separator (rule, etat.csv_separator);
-			skipped_lines_str = csv_import_skipped_lines_to_string ();
-			gsb_data_import_rule_set_csv_skipped_lines_str (rule, skipped_lines_str);
-			g_free (skipped_lines_str);
-			gsb_data_import_rule_set_csv_spec_action (rule, compte->csv_spec_action);
-			gsb_data_import_rule_set_csv_spec_amount_col (rule, compte->csv_spec_amount_col);
-			gsb_data_import_rule_set_csv_spec_text_col (rule, compte->csv_spec_text_col);
-			gsb_data_import_rule_set_csv_spec_text_str (rule, compte->csv_spec_text_str);
+			gsb_data_import_rule_set_csv_spec_lines_list (rule, compte->csv_spec_lines_list);
 			gsb_data_import_rule_set_csv_spec_cols_name (rule, compte->csv_spec_cols_name);
 		}
     }

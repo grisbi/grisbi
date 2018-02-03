@@ -37,6 +37,7 @@
 #include "gsb_category.h"
 #include "gsb_data_account.h"
 #include "gsb_data_currency.h"
+#include "gsb_data_import_rule.h"
 #include "gsb_data_payment.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
@@ -241,12 +242,28 @@ gboolean gsb_account_delete ( void )
         gpointer ptr;
         gint payment_number;
 
-        ptr = list_tmp -> data;
+        ptr = list_tmp->data;
         payment_number = GPOINTER_TO_INT ( ptr );
         gsb_data_payment_remove ( payment_number );
 
         list_tmp = list_tmp -> next;
     }
+
+	/* delete the rules if necessary */
+	list_tmp = gsb_data_import_rule_get_from_account (deleted_account);
+	if (list_tmp)
+	{
+		while (list_tmp)
+		{
+			ImportRule *import_rule;
+
+			import_rule = (ImportRule *) list_tmp->data;
+			gsb_data_import_rule_remove (import_rule->import_rule_number);
+
+			list_tmp = list_tmp -> next;
+		}
+		g_slist_free (list_tmp);
+	}
 
     /* delete the account */
     gsb_data_account_delete ( deleted_account );
@@ -263,7 +280,7 @@ gboolean gsb_account_delete ( void )
         page_number = gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general ) );
         first_account = gsb_data_account_first_no_closed_account ();
 
-        gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general ), page_number );
+		gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general ), page_number );
         gsb_gui_navigation_set_selection (GSB_ACCOUNT_PAGE, first_account, 0);
         navigation_change_account ( first_account );
     }

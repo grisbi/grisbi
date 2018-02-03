@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2003 Cédric Auger  (cedric@grisbi.org)           */
 /*          2004-2006 Benjamin Drieu (bdrieu@april.org)                       */
-/*                      2008-2017 Pierre Biava (grisbi@pierre.biava.name)     */
+/*                      2008-2018 Pierre Biava (grisbi@pierre.biava.name)     */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -267,9 +267,9 @@ static gchar *csv_import_button_rule_get_account_id (GArray *lines_tab,
  *
  * \return
  **/
-static void csv_import_button_rule_traite_spec_line (SpecConfData *spec_conf_data,
-													 GArray *lines_tab,
-													 gint index)
+static GArray *csv_import_button_rule_traite_spec_line (SpecConfData *spec_conf_data,
+														GArray *lines_tab,
+														gint index)
 {
     GSList *list;
 	gint action;
@@ -277,21 +277,19 @@ static void csv_import_button_rule_traite_spec_line (SpecConfData *spec_conf_dat
 	devel_debug (NULL);
 	if (!csv_fields_config || !lines_tab)
 	{
-		g_free (spec_conf_data->entry_text_str);
-		g_free (spec_conf_data);
-		return;
+		return lines_tab;
 	}
 
 	/* adaptation du tableau des données */
-	action = spec_conf_data->combobox_action;
+	action = spec_conf_data->csv_spec_conf_action;
 
 	list = g_array_index (lines_tab, GSList *, index);
     do
     {
 		gchar *data_entry;
 
-		data_entry = (gchar*) g_slist_nth_data (list, spec_conf_data->combobox_text_col);
-		if (g_utf8_collate (data_entry, spec_conf_data->entry_text_str) == 0)
+		data_entry = (gchar*) g_slist_nth_data (list, spec_conf_data->csv_spec_conf_used_data);
+		if (g_utf8_collate (data_entry, spec_conf_data->csv_spec_conf_used_text) == 0)
 		{
 			if (action == 0) 		/* suppression de la ligne */
 			{
@@ -304,12 +302,12 @@ static void csv_import_button_rule_traite_spec_line (SpecConfData *spec_conf_dat
 				gchar *str_montant;
 				gsb_real montant;
 
-				link = g_slist_nth (list, spec_conf_data->combobox_amount_col);
+				link = g_slist_nth (list, spec_conf_data->csv_spec_conf_action_data);
 				str_montant = (gchar*) link->data;
 				montant = gsb_real_opposite (utils_real_get_from_string (str_montant));
 				str_montant = utils_real_get_string (montant);
 				list = g_slist_delete_link (list, link);
-				list = g_slist_insert (list, g_strdup (str_montant), spec_conf_data->combobox_amount_col);
+				list = g_slist_insert (list, g_strdup (str_montant), spec_conf_data->csv_spec_conf_action_data);
 			}
 		}
 
@@ -317,6 +315,8 @@ static void csv_import_button_rule_traite_spec_line (SpecConfData *spec_conf_dat
         list = g_array_index (lines_tab, GSList *, index);
     }
     while (list);
+
+	return lines_tab;
 }
 
 /**
@@ -342,29 +342,58 @@ static void csv_import_button_rule_clicked (GtkButton *button,
 
 	if (csv_import_rule)
 	{
+		GSList *list;
+		gint i = 0;
+		SpecConfData *spec_conf_data;
+
 		csv_create_rule = TRUE;
 		g_object_set_data (G_OBJECT (assistant), "csv-import-rule", csv_import_rule);
-		if (csv_import_rule->csv_spec_conf_data)
+		list = csv_import_rule->csv_spec_lines_list;
+		if (!list)
+		{
+			gtk_widget_destroy (GTK_WIDGET (dialog));
+			return;
+		}
+
+		spec_conf_data = (SpecConfData *) list->data;
+		if (spec_conf_data->csv_spec_conf_used_text)
 		{
 			GArray *lines_tab;
-			gint action;
-			gint index;
-			SpecConfData *spec_conf_data;
 
 			lines_tab = g_object_get_data (G_OBJECT(assistant), "lines-tab");
-			spec_conf_data = csv_import_rule->csv_spec_conf_data;
-			action = spec_conf_data->combobox_action;
-			if (action == 0)
-				index = CSV_MAX_TOP_LINES;
-			else if (action == 1)
-				index = first_line_with_cols +1;
-			else
-				index = 0;
+			do
+			{
+				gint action;
+				gint index;
+				if (i)
+					spec_conf_data = (SpecConfData *) list->data;
 
-			if (index)
-				csv_import_button_rule_traite_spec_line (spec_conf_data, lines_tab, index);
+				/* détermination de la première transaction du fichier */
+				action = spec_conf_data->csv_spec_conf_action;
+				if (action == 0)
+					index = CSV_MAX_TOP_LINES;
+				else if (action == 1)
+				{
+					if (csv_import_rule->csv_headers_present)
+						index = csv_import_rule->csv_first_line_data;
+					else
+						index = csv_import_rule->csv_first_line_data-1;
+				}
+				else
+					index = 0;
+
+				if (index)
+					lines_tab = csv_import_button_rule_traite_spec_line (spec_conf_data, lines_tab, index);
+				i++;
+				list = list->next;
+			}
+			while (list);
+
+			g_object_set_data (G_OBJECT(assistant), "lines-tab", lines_tab);
 		}
 		gtk_widget_destroy (GTK_WIDGET (dialog));
+
+		gtk_widget_set_sensitive (GTK_WIDGET (button), FALSE);
 	}
 }
 
@@ -1294,20 +1323,17 @@ static gboolean csv_import_change_separator (GtkEntry *entry,
  * \return
  **/
 gboolean csv_import_file_by_rule (gint rule,
-							 struct ImportFile *imported)
+								  struct ImportFile *imported)
 {
     struct ImportAccount *compte;
 	GArray *lines_tab;
     GSList *list;
 	gchar **pointeur_char;
     gchar *contents;
-	const gchar *skipped_lines_str;
 	const gchar *csv_fields_str;
-	const gchar *csv_spec_text_str;
 	gint line = 0;
 	guint count;
 	gint index = 0;
-	gboolean csv_skipped_lines [CSV_MAX_TOP_LINES];
 
 	devel_debug (imported->name);
 	compte = g_malloc0 (sizeof (struct ImportAccount));
@@ -1324,6 +1350,8 @@ gboolean csv_import_file_by_rule (gint rule,
 
 	/* définitions des colonnes utiles pour Grisbi */
 	csv_fields_str = gsb_data_import_rule_get_csv_fields_str (rule);
+	if (!csv_fields_str)
+		return FALSE;
 	pointeur_char = g_strsplit (csv_fields_str, "-", 0);
 	count = g_strv_length (pointeur_char);
 	csv_fields_config = (gint *) g_malloc ((count + 2) * sizeof (gint));
@@ -1343,55 +1371,25 @@ gboolean csv_import_file_by_rule (gint rule,
 		index = gsb_data_import_rule_get_csv_first_line_data (rule)-1;
 
 	/* on regarde si il y a un traitement spécial */
-	if ((csv_spec_text_str = gsb_data_import_rule_get_csv_spec_text_str (rule)))
+	if (gsb_data_import_rule_get_csv_spec_nbre_lines (rule))
 	{
 		SpecConfData *spec_conf_data;
 
-		spec_conf_data = g_malloc0 (sizeof (SpecConfData));
-
-		spec_conf_data->combobox_action = gsb_data_import_rule_get_csv_spec_action (rule);
-		spec_conf_data->combobox_amount_col = gsb_data_import_rule_get_csv_spec_amount_col (rule);
-		spec_conf_data->combobox_text_col = gsb_data_import_rule_get_csv_spec_text_col (rule);
-		spec_conf_data->entry_text_str = (gchar *) csv_spec_text_str;
-		csv_import_button_rule_traite_spec_line (spec_conf_data, lines_tab, index);
-		g_free (spec_conf_data);
-	}
-
-	/* création de la liste des lignes à passer */
-	skipped_lines_str = gsb_data_import_rule_get_csv_skipped_lines_str (rule);
-	pointeur_char = g_strsplit (skipped_lines_str, "-", 0);
-	line = 0;
-	while (pointeur_char[line])
-	{
-		csv_skipped_lines[line] = utils_str_atoi (pointeur_char[line]);
-		line ++;
-	}
-	if (line != CSV_MAX_TOP_LINES)
-	{
-		gint i;
-
-		for (i = line; i < CSV_MAX_TOP_LINES; i++)
+		list = gsb_data_import_rule_get_csv_spec_lines_list (rule);
+		spec_conf_data = (SpecConfData *) list->data;
+		while (list)
 		{
-			csv_skipped_lines[line] = 0;
-		}
+			spec_conf_data = (SpecConfData *) list->data;
+			lines_tab = csv_import_button_rule_traite_spec_line (spec_conf_data, lines_tab, index);
+			list = list->next;
+		};
 	}
-	g_strfreev (pointeur_char);
 
     list = g_array_index (lines_tab, GSList *, index);
     do
     {
         struct ImportTransaction *ope;
         gint i;
-
-        /* Check if this line was specified as to be skipped earlier. */
-        if (index < CSV_MAX_TOP_LINES && csv_skipped_lines [index])
-        {
-            g_print ("Skipping line %d\n", index );
-            index++;
-			list = g_array_index (lines_tab, GSList *, index);
-
-            continue;
-        }
 
 		ope = g_malloc0 (sizeof (struct ImportTransaction));
         ope->date = gdate_today ();
@@ -1500,6 +1498,7 @@ gboolean csv_import_csv_account (GtkWidget *assistant,
 	compte->create_rule = csv_create_rule;
 	if (csv_create_rule)
 	{
+		GSList *list;
 		gchar *first_string_to_free;
 		gchar *second_string_to_free;
 		gchar *csv_fields_str;
@@ -1537,27 +1536,28 @@ gboolean csv_import_csv_account (GtkWidget *assistant,
 
 		compte->csv_fields_str = csv_fields_str;
 
-		/* saves the line of special configuration */
-		if (csv_import_rule->csv_spec_conf_data)
-		{
-			spec_conf_data = csv_import_rule->csv_spec_conf_data;
-			compte->csv_spec_action = spec_conf_data->combobox_action;
-			compte->csv_spec_amount_col = spec_conf_data->combobox_amount_col;
-			compte->csv_spec_text_col = spec_conf_data->combobox_text_col;
-			compte->csv_spec_text_str = spec_conf_data->entry_text_str;
-			compte->csv_spec_cols_name = spec_conf_data->combobox_cols_name;
-		}
+		/* save the columns names */
+		compte->csv_spec_cols_name = csv_import_rule->csv_cols_name;
 
-		/* détermination de la première transaction du fichier */
-		if (compte->csv_headers_present)
-			index = compte->csv_first_line_data;
-		else
-			index = compte->csv_first_line_data-1;
+		/* saves the line of special configuration */
+		list = csv_import_rule->csv_spec_lines_list;
+		if (list)
+		{
+			spec_conf_data = (SpecConfData *) list->data;
+			if (spec_conf_data->csv_spec_conf_used_text)
+			{
+				compte->csv_spec_lines_list = g_slist_copy_deep (list,
+																 (GCopyFunc) csv_template_rule_spec_conf_data_struct_copy,
+																 NULL);
+			}
+		}
 	}
-	else
-	{
+
+	/* détermination de la première transaction du fichier */
+	if (compte->csv_headers_present)
 		index = compte->csv_first_line_data;
-	}
+	else
+		index = compte->csv_first_line_data-1;
 
     list = g_array_index (lines_tab, GSList *, index);
     do
@@ -1810,36 +1810,6 @@ GSList *csv_import_get_columns_list	(GtkWidget *assistant)
 	list = g_slist_copy_deep (tmp_list, (GCopyFunc) g_strdup, NULL);
 
 	return list;
-}
-
-/**
- *
- *
- * \param
- *
- * \return must be freed
- **/
-gchar *csv_import_skipped_lines_to_string	(void)
-{
-    gchar *skipped_lines_string;
-    gchar *first_string_to_free;
-    gchar *second_string_to_free;
-    gint i;
-
-    /* CSV skipped lines */
-    skipped_lines_string = utils_str_itoa (etat.csv_skipped_lines[0]);
-    for (i = 1; i < CSV_MAX_TOP_LINES ; i ++)
-    {
-        skipped_lines_string = g_strconcat (first_string_to_free =  skipped_lines_string,
-											"-",
-											second_string_to_free = utils_str_itoa (etat.csv_skipped_lines[i]),
-											NULL );
-
-        g_free ( first_string_to_free );
-	    g_free ( second_string_to_free );
-    }
-
-	return skipped_lines_string;
 }
 
 /**

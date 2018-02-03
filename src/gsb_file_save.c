@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2003-2009 Benjamin Drieu (bdrieu@april.org)	                      */
-/*          2008-2015 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          2008-2018 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -552,7 +552,6 @@ gulong gsb_file_save_general_part ( gulong iterator,
     gchar *transaction_column_width_write;
     gchar *transaction_column_align_write;
     gchar *new_string;
-    gchar *skipped_lines_string;
     gchar *bet_array_column_width_write;
     gchar *date_format;
     gchar *mon_decimal_point;
@@ -652,9 +651,6 @@ gulong gsb_file_save_general_part ( gulong iterator,
             g_free ( second_string_to_free );
         }
     }
-
-    /* CSV skipped lines */
-    skipped_lines_string = csv_import_skipped_lines_to_string ();
 
 	/* prepare bet_array_column_width_write */
     bet_array_column_width_write = NULL;
@@ -761,7 +757,6 @@ gulong gsb_file_save_general_part ( gulong iterator,
 					   "\t\tCombofix_force_category=\"%d\"\n"
 					   "\t\tAutomatic_amount_separator=\"%d\"\n"
 					   "\t\tCSV_separator=\"%s\"\n"
-					   "\t\tCSV_skipped_lines=\"%s\"\n"
 					   "\t\tCSV_force_date_valeur_with_date=\"%d\"\n"
 					   "\t\tMetatree_sort_transactions=\"%d\"\n"
 					   "\t\tAdd_archive_in_total_balance=\"%d\"\n"
@@ -822,7 +817,6 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	etat.combofix_force_category,
 	etat.automatic_separator,
 	my_safe_null_str(etat.csv_separator),
-	my_safe_null_str(skipped_lines_string),
 	etat.csv_force_date_valeur_with_date,
     etat.metatree_sort_transactions,
     etat.add_archive_in_total_balance,
@@ -845,7 +839,6 @@ gulong gsb_file_save_general_part ( gulong iterator,
     g_free ( mon_decimal_point );
     g_free ( mon_thousands_sep );
     g_free ( navigation_order_list );
-	g_free (skipped_lines_string);
 
 	g_free (first_string_to_free);
 	g_free (second_string_to_free);
@@ -2091,39 +2084,78 @@ gulong gsb_file_save_import_rule_part ( gulong iterator,
 		if (import_rule_type && strcmp (import_rule_type, "CSV") == 0)
 		{
 			gchar *tmp_str2;
+			gint nbre_spec_lines;
+
+			nbre_spec_lines = g_slist_length (gsb_data_import_rule_get_csv_spec_lines_list (import_rule_number));
 
 			tmp_str2 = g_markup_printf_escaped ("IdC=\"%d\" IdR=\"%d\" FiS=\"%s\" Fld=\"%d\" Hp=\"%d\" Sep=\"%s\" "
-												"SkiS=\"%s\" SpA=\"%d\" SpAC=\"%d\" SpTC=\"%d\" SpTS=\"%s\" SpCN=\"%s\" />\n",
+												"SpCN=\"%s\" NbSL=\"%d\" />\n",
 												gsb_data_import_rule_get_csv_account_id_col (import_rule_number),
 												gsb_data_import_rule_get_csv_account_id_row (import_rule_number),
 												gsb_data_import_rule_get_csv_fields_str (import_rule_number),
 											    gsb_data_import_rule_get_csv_first_line_data (import_rule_number),
 												gsb_data_import_rule_get_csv_headers_present (import_rule_number),
 												gsb_data_import_rule_get_csv_separator (import_rule_number),
-												gsb_data_import_rule_get_csv_skipped_lines_str (import_rule_number),
-												gsb_data_import_rule_get_csv_spec_action (import_rule_number),
-												gsb_data_import_rule_get_csv_spec_amount_col (import_rule_number),
-												gsb_data_import_rule_get_csv_spec_text_col (import_rule_number),
-												gsb_data_import_rule_get_csv_spec_text_str (import_rule_number),
-												gsb_data_import_rule_get_csv_spec_cols_name (import_rule_number)
+												gsb_data_import_rule_get_csv_spec_cols_name (import_rule_number),
+												nbre_spec_lines
 												);
 
 			new_string = g_strconcat (tmp_str, tmp_str2, NULL);
 			g_free (tmp_str);
 			g_free (tmp_str2);
+
+			if (nbre_spec_lines)
+			{
+				GSList *tmp_list;
+				gint index = 1;
+
+				/* append the new string to the file content
+				 * and take the new iterator */
+				iterator = gsb_file_save_append_part (iterator,
+													  length_calculated,
+													  file_content,
+													  new_string);
+
+				tmp_list = gsb_data_import_rule_get_csv_spec_lines_list (import_rule_number);
+				while (tmp_list)
+				{
+					SpecConfData *spec_conf_data;
+
+					spec_conf_data = (SpecConfData *) tmp_list->data;
+					new_string = g_markup_printf_escaped ("\t<Special_line Nb=\"%d\" NuR=\"%d\" SpA=\"%d\" "
+														  "SpAD=\"%d\" SpUD=\"%d\" SpUT=\"%s\" />\n",
+														  index,
+														  import_rule_number,
+														  spec_conf_data->csv_spec_conf_action,
+														  spec_conf_data->csv_spec_conf_action_data,
+														  spec_conf_data->csv_spec_conf_used_data,
+														  spec_conf_data->csv_spec_conf_used_text);
+
+					/* append the new string to the file content
+					 * and take the new iterator */
+					iterator = gsb_file_save_append_part (iterator,
+														  length_calculated,
+														  file_content,
+														  new_string);
+					index++;
+
+					tmp_list = tmp_list->next;
+				}
+			}
 		}
 		else
 		{
 			new_string = g_strconcat (tmp_str, "/>\n", NULL);
 			g_free (tmp_str);
+
+			/* append the new string to the file content
+			 * and take the new iterator */
+			iterator = gsb_file_save_append_part (iterator,
+												  length_calculated,
+												  file_content,
+												  new_string);
 		}
 
-		/* append the new string to the file content
-		 * and take the new iterator */
-		iterator = gsb_file_save_append_part ( iterator,
-							   length_calculated,
-							   file_content,
-							   new_string );
 		list_tmp = list_tmp -> next;
     }
     return iterator;

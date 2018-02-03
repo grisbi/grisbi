@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2003-2009 Benjamin Drieu (bdrieu@april.org)                       */
-/*          2008-2016 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          2008-2018 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -2651,7 +2651,7 @@ static  void gsb_file_load_import_rule ( const gchar **attribute_names,
     gint i=0;
     gint import_rule_number = 0;
 
-    if ( !attribute_names[i] )
+	if ( !attribute_names[i] )
     return;
 
     import_rule_number = gsb_data_import_rule_new (NULL);
@@ -2788,45 +2788,23 @@ static  void gsb_file_load_import_rule ( const gchar **attribute_names,
         continue;
     }
 
-	if ( !strcmp ( attribute_names[i], "SkiS" ))
-    {
-        gsb_data_import_rule_set_csv_skipped_lines_str (import_rule_number, attribute_values[i]);
-        i++;
-        continue;
-    }
-
-	if (!strcmp( attribute_names[i], "SpA"))
-    {
-        gsb_data_import_rule_set_csv_spec_action (import_rule_number, utils_str_atoi (attribute_values[i]));
-        i++;
-        continue;
-    }
-
-	if (!strcmp( attribute_names[i], "SpAC"))
-    {
-        gsb_data_import_rule_set_csv_spec_amount_col (import_rule_number, utils_str_atoi (attribute_values[i]));
-        i++;
-        continue;
-    }
-
-	if (!strcmp( attribute_names[i], "SpTC"))
-    {
-        gsb_data_import_rule_set_csv_spec_text_col (import_rule_number, utils_str_atoi (attribute_values[i]));
-        i++;
-        continue;
-    }
-
-
-	if ( !strcmp ( attribute_names[i], "SpTS" ))
-    {
-        gsb_data_import_rule_set_csv_spec_text_str (import_rule_number, attribute_values[i]);
-        i++;
-        continue;
-    }
-
-		if ( !strcmp ( attribute_names[i], "SpCN" ))
+	if ( !strcmp ( attribute_names[i], "SpCN" ))
     {
         gsb_data_import_rule_set_csv_spec_cols_name (import_rule_number, attribute_values[i]);
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "SpCN" ))
+    {
+        gsb_data_import_rule_set_csv_spec_cols_name (import_rule_number, attribute_values[i]);
+        i++;
+        continue;
+    }
+
+	if ( !strcmp ( attribute_names[i], "NbSL" ))
+    {
+        gsb_data_import_rule_set_csv_spec_nbre_lines (import_rule_number, utils_str_atoi (attribute_values[i]));
         i++;
         continue;
     }
@@ -2835,6 +2813,91 @@ static  void gsb_file_load_import_rule ( const gchar **attribute_names,
     i++;
     }
     while ( attribute_names[i] );
+}
+
+/**
+ * load the import rules structure in the grisbi file
+ *
+ * \param attribute_names
+ * \param attribute_values
+ *
+ **/
+static  void gsb_file_load_import_rule_spec_line (const gchar **attribute_names,
+												  const gchar **attribute_values)
+{
+	GSList *list = NULL;
+    gint i=0;
+	gint index =0;
+    gint import_rule_number = 0;
+	SpecConfData *spec_conf_data;
+devel_debug (NULL);
+	if ( !attribute_names[i])
+		return;
+
+	spec_conf_data = g_malloc0 (sizeof (SpecConfData));
+    do
+    {
+		/* we test at the beginning if the attribute_value is NULL, if yes, */
+		/* go to the next */
+		if (!strcmp (attribute_values[i], "(null)"))
+		{
+			i++;
+			continue;
+		}
+
+		if (!strcmp ( attribute_names[i], "Nb"))
+		{
+			index = utils_str_atoi (attribute_values[i]);
+			i++;
+			continue;
+		}
+
+		if (!strcmp ( attribute_names[i], "NuR"))
+		{
+			import_rule_number = utils_str_atoi (attribute_values[i]);
+			i++;
+			continue;
+		}
+
+		if (!strcmp( attribute_names[i], "SpA"))
+		{
+			spec_conf_data->csv_spec_conf_action = utils_str_atoi (attribute_values[i]);
+			i++;
+			continue;
+		}
+
+		if (!strcmp( attribute_names[i], "SpAD"))
+		{
+			spec_conf_data->csv_spec_conf_action_data = utils_str_atoi (attribute_values[i]);
+			i++;
+			continue;
+		}
+
+		if (!strcmp( attribute_names[i], "SpUD"))
+		{
+			spec_conf_data->csv_spec_conf_used_data = utils_str_atoi (attribute_values[i]);
+			i++;
+			continue;
+		}
+
+		if ( !strcmp ( attribute_names[i], "SpUT" ))
+		{
+			spec_conf_data->csv_spec_conf_used_text = g_strdup (attribute_values[i]);
+			i++;
+			continue;
+		}
+
+		/* normally, shouldn't come here */
+		i++;
+    }
+    while (attribute_names[i]);
+
+	if (index)
+	{
+		list = gsb_data_import_rule_get_csv_spec_lines_list	(import_rule_number);
+		list = g_slist_append (list, spec_conf_data);
+		gsb_data_import_rule_set_csv_spec_lines_list (import_rule_number, list);
+	}
 }
 
 /**
@@ -3683,6 +3746,11 @@ static void gsb_file_load_start_element ( GMarkupParseContext *context,
             {
                 gsb_file_load_sub_budgetary ( attribute_names,
                         attribute_values );
+            }
+
+            else if ( !strcmp ( element_name, "Special_line" ))
+            {
+                gsb_file_load_import_rule_spec_line (attribute_names, attribute_values);
             }
 
             else

@@ -320,6 +320,7 @@
                               <object class="GtkLabel" id="label203">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="halign">start</property>
                                 <property name="label" translatable="yes">Import account Id:</property>
                               </object>
                             </child>
@@ -517,15 +518,13 @@
               </packing>
             </child>
             <child>
-              <object class="GtkBox" id="hbox_paddinggrid400">
+              <object class="GtkBox" id="hbox_paddingbox400">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="orientation">vertical</property>
                 <child>
-                  <object class="GtkBox" id="vbox_paddinggrid400">
+                  <object class="GtkBox" id="vbox_paddingbox400">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_left">5</property>
                     <property name="orientation">vertical</property>
                     <property name="spacing">5</property>
                     <child>
@@ -533,7 +532,6 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="halign">start</property>
-                        <property name="margin_left">5</property>
                         <property name="label" translatable="yes">Specific configuration</property>
                         <attributes>
                           <attribute name="weight" value="bold"/>
@@ -546,11 +544,9 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkGrid" id="grid_csv_spec">
+                      <object class="GtkBox" id="box400">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="row_spacing">5</property>
-                        <property name="column_spacing">5</property>
                         <child>
                           <object class="GtkLabel" id="label400">
                             <property name="visible">True</property>
@@ -558,123 +554,40 @@
                             <property name="label" translatable="yes">    </property>
                           </object>
                           <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">0</property>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="padding">2</property>
+                            <property name="position">0</property>
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkCheckButton" id="checkbutton_csv_spec">
+                          <object class="GtkNotebook" id="notebook_csv_spec">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
-                            <property name="halign">start</property>
-                            <property name="draw_indicator">True</property>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child type="tab">
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child type="tab">
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child type="tab">
+                              <placeholder/>
+                            </child>
                           </object>
                           <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">1</property>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">1</property>
                           </packing>
-                        </child>
-                        <child>
-                          <object class="GtkLabel" id="label401">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="tooltip_text" translatable="yes">Select the action</property>
-                            <property name="label" translatable="yes">Action</property>
-                          </object>
-                          <packing>
-                            <property name="left_attach">4</property>
-                            <property name="top_attach">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkLabel" id="label402">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="tooltip_text" translatable="yes">Select the column of the data to be used</property>
-                            <property name="label" translatable="yes">Data to be used</property>
-                          </object>
-                          <packing>
-                            <property name="left_attach">2</property>
-                            <property name="top_attach">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkLabel" id="label403">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">Value</property>
-                          </object>
-                          <packing>
-                            <property name="left_attach">3</property>
-                            <property name="top_attach">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkEntry" id="entry_csv_spec_text">
-                            <property name="name">entry_csv_spec_conf_value1</property>
-                            <property name="visible">True</property>
-                            <property name="sensitive">False</property>
-                            <property name="can_focus">True</property>
-                            <property name="placeholder_text" translatable="yes">Data</property>
-                            <signal name="delete-text" handler="csv_template_rule_spec_conf_entry_deleted" swapped="no"/>
-                            <signal name="insert-text" handler="csv_template_rule_spec_conf_entry_inserted" object="CsvTemplateRule" swapped="no"/>
-                          </object>
-                          <packing>
-                            <property name="left_attach">3</property>
-                            <property name="top_attach">1</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkComboBoxText" id="combobox_csv_spec_action">
-                            <property name="visible">True</property>
-                            <property name="sensitive">False</property>
-                            <property name="can_focus">False</property>
-                          </object>
-                          <packing>
-                            <property name="left_attach">4</property>
-                            <property name="top_attach">1</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkComboBoxText" id="combobox_csv_spec_col_data">
-                            <property name="visible">True</property>
-                            <property name="sensitive">False</property>
-                            <property name="can_focus">False</property>
-                          </object>
-                          <packing>
-                            <property name="left_attach">2</property>
-                            <property name="top_attach">1</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkComboBoxText" id="combobox_csv_spec_col_montant">
-                            <property name="visible">True</property>
-                            <property name="sensitive">False</property>
-                            <property name="can_focus">False</property>
-                          </object>
-                          <packing>
-                            <property name="left_attach">5</property>
-                            <property name="top_attach">1</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkLabel" id="label404">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="tooltip_text" translatable="yes">Select the data column of the action</property>
-                            <property name="label" translatable="yes">Data of action</property>
-                          </object>
-                          <packing>
-                            <property name="left_attach">5</property>
-                            <property name="top_attach">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
                         </child>
                       </object>
                       <packing>
@@ -695,7 +608,6 @@
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
-                <property name="padding">5</property>
                 <property name="position">3</property>
               </packing>
             </child>
@@ -711,7 +623,7 @@
     <action-widgets>
       <action-widget response="-6">button_remove</action-widget>
       <action-widget response="-10">button_add</action-widget>
-      <action-widget response="-5">button_modifier</action-widget>
+      <action-widget response="5">button_modifier</action-widget>
     </action-widgets>
   </template>
   <object class="GtkBox" id="hbox_black">

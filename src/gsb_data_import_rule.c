@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     copyright (c)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*     2004-2008 Benjamin Drieu (bdrieu@april.org)                            */
-/*                      2008-2017 Pierre Biava (grisbi@pierre.biava.name)     */
+/*                      2008-2018 Pierre Biava (grisbi@pierre.biava.name)     */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -39,41 +39,6 @@
 #include "structures.h"
 #include "utils_str.h"
 /*END_INCLUDE*/
-
-/** \struct
- * describe a rule
- * */
-typedef struct _ImportRule ImportRule;
-
-struct _ImportRule
-{
-    gint 	import_rule_number;
-
-	/* general part */
-    gchar *		charmap;					/* charmap du fichier importé   */
-    gchar *		last_file_name;				/* last file imported with a rule */
-    gchar *		rule_name;
-	gchar *		type;						/* type de compte CSV QIF OFX */
-    gint 		account_number;
-    gint 		action;						/* action of the rule : IMPORT_ADD_TRANSACTIONS, IMPORT_MARK_TRANSACTIONS */
-    gint 		currency_number;			/* currency used to import the transactions */
-    gboolean 	invert_transaction_amount;	/* if TRUE, all the transactions imported will have their amount inverted */
-
-	/* CSV part */
-	gint		csv_account_id_col;			/* numéro de colonne contenant Id compte */
-	gint 		csv_account_id_row;			/* numéro de ligne contenant Id compte */
-	gchar *		csv_fields_str;				/* liste des libellés grisbi des colonnes du fichier CSV */
-	gint		csv_first_line_data;		/* première ligne de données actives */
-	gboolean	csv_headers_present;		/* TRUE si les libellés des colonnes existent */
-	gchar *		csv_separator;
-	gchar *		csv_skipped_lines_str;		/* représente la liste des lignes à sauter dans le fichier csv */
-	gint		csv_spec_action;
-	gint		csv_spec_amount_col;		/* numéro de colonne contenant le montant de l'opération */
-	gint		csv_spec_text_col;			/* numéro de colonne contenant le texte à rechercher */
-	gchar *		csv_spec_text_str;			/* texte à rechercher */
-	gchar *		csv_spec_cols_name;			/* nom des colonnes du fichier importé pour combo action et montant */
-};
-
 
 /*START_STATIC*/
 /*END_STATIC*/
@@ -115,10 +80,12 @@ static void _gsb_data_import_rule_free (ImportRule* import_rule)
 			g_free (import_rule->csv_fields_str);
 		if (import_rule->csv_separator)
 			g_free (import_rule->csv_separator);
-		if (import_rule->csv_skipped_lines_str)
-			g_free (import_rule->csv_skipped_lines_str);
 		if (import_rule->csv_spec_text_str)
 			g_free (import_rule->csv_spec_text_str);
+		if (import_rule->csv_spec_cols_name)
+			g_free (import_rule->csv_spec_cols_name);
+		if (import_rule->csv_spec_lines_list)
+			gsb_data_import_rule_free_csv_spec_lines_list (import_rule->import_rule_number);
 	}
 
     if (import_rule->type)
@@ -217,6 +184,7 @@ gboolean gsb_data_import_rule_init_variables (void)
 		while (tmp_list)
 		{
 			ImportRule *import_rule;
+
 			import_rule = tmp_list->data;
 			tmp_list = tmp_list->next;
 			_gsb_data_import_rule_free (import_rule);
@@ -277,15 +245,17 @@ gint gsb_data_import_rule_new (const gchar *name)
     import_rule = g_malloc0 (sizeof (ImportRule));
     if (!import_rule)
     {
-	dialogue_error_memory ();
-	return 0;
+		dialogue_error_memory ();
+		return 0;
     }
     import_rule->import_rule_number = gsb_data_import_rule_max_number () + 1;
 
     if (name)
-	import_rule->rule_name = my_strdup (name);
+		import_rule->rule_name = my_strdup (name);
     else
-	import_rule->rule_name = NULL;
+		import_rule->rule_name = NULL;
+
+	import_rule->csv_spec_lines_list = NULL;
 
     import_rule_list = g_slist_append (import_rule_list, import_rule);
     import_rule_buffer = import_rule;
@@ -689,214 +659,6 @@ gboolean gsb_data_import_rule_set_csv_separator (gint import_rule_number,
     return TRUE;
 }
 /**
- *
- *
- * \param
- *
- * \return
- **/
-const gchar *gsb_data_import_rule_get_csv_skipped_lines_str (gint import_rule_number)
-{
-    ImportRule *import_rule;
-
-    import_rule = gsb_data_import_rule_get_structure (import_rule_number);
-
-    if (!import_rule)
-		return NULL;
-
-    return import_rule->csv_skipped_lines_str;
-}
-
-/**
- *
- *
- * \param
- *
- * \return
- **/
-gboolean gsb_data_import_rule_set_csv_skipped_lines_str	(gint import_rule_number,
-														 const gchar *csv_skipped_lines_str)
-{
-    ImportRule *import_rule;
-
-    import_rule = gsb_data_import_rule_get_structure (import_rule_number);
-
-    if (!import_rule)
-		return FALSE;
-
-    import_rule->csv_skipped_lines_str = g_strdup (csv_skipped_lines_str);
-
-    return TRUE;
-}
-
-/**
- *
- *
- * \param
- *
- * \return
- **/
-gint gsb_data_import_rule_get_csv_spec_action (gint import_rule_number)
-{
-    ImportRule *import_rule;
-
-    import_rule = gsb_data_import_rule_get_structure (import_rule_number);
-
-    if (!import_rule)
-		return 0;
-
-    return import_rule->csv_spec_action;
-}
-
-/**
- *
- *
- * \param
- * \param
- *
- * \return
- **/
-gboolean gsb_data_import_rule_set_csv_spec_action (gint import_rule_number,
-												   gint csv_spec_action)
-{
-    ImportRule *import_rule;
-
-    import_rule = gsb_data_import_rule_get_structure (import_rule_number);
-
-    if (!import_rule)
-		return FALSE;
-
-    import_rule->csv_spec_action = csv_spec_action;
-
-    return TRUE;
-}
-
-/**
- *
- *
- * \param
- *
- * \return
- **/
-gint gsb_data_import_rule_get_csv_spec_amount_col (gint import_rule_number)
-{
-    ImportRule *import_rule;
-
-    import_rule = gsb_data_import_rule_get_structure (import_rule_number);
-
-    if (!import_rule)
-		return 0;
-
-    return import_rule->csv_spec_amount_col;
-}
-
-/**
- *
- *
- * \param
- *
- * \return
- **/
-gboolean gsb_data_import_rule_set_csv_spec_amount_col (gint import_rule_number,
-													   gint csv_spec_amount_col)
-{
-    ImportRule *import_rule;
-
-    import_rule = gsb_data_import_rule_get_structure (import_rule_number);
-
-    if (!import_rule)
-		return FALSE;
-
-    import_rule->csv_spec_amount_col = csv_spec_amount_col;
-
-    return TRUE;
-}
-
-/**
- *
- *
- * \param
- *
- * \return
- **/
-gint gsb_data_import_rule_get_csv_spec_text_col (gint import_rule_number)
-{
-    ImportRule *import_rule;
-
-    import_rule = gsb_data_import_rule_get_structure (import_rule_number);
-
-    if (!import_rule)
-		return 0;
-
-    return import_rule->csv_spec_text_col;
-}
-
-/**
- *
- *
- * \param
- * \param
- *
- * \return
- **/
-gboolean gsb_data_import_rule_set_csv_spec_text_col (gint import_rule_number,
-												   gint csv_spec_text_col)
-{
-    ImportRule *import_rule;
-
-    import_rule = gsb_data_import_rule_get_structure (import_rule_number);
-
-    if (!import_rule)
-		return FALSE;
-
-    import_rule->csv_spec_text_col = csv_spec_text_col;
-
-    return TRUE;
-}
-
-/**
- *
- *
- * \param
- *
- * \return
- **/
-const gchar *gsb_data_import_rule_get_csv_spec_text_str (gint import_rule_number)
-{
-    ImportRule *import_rule;
-
-    import_rule = gsb_data_import_rule_get_structure (import_rule_number);
-
-    if (!import_rule)
-		return NULL;
-
-    return import_rule->csv_spec_text_str;
-}
-
-/**
- *
- *
- * \param
- * \param
- *
- * \return
- **/
-gboolean gsb_data_import_rule_set_csv_spec_text_str (gint import_rule_number,
-													  const gchar *csv_spec_text_str)
-{
-    ImportRule *import_rule;
-
-    import_rule = gsb_data_import_rule_get_structure (import_rule_number);
-
-    if (!import_rule)
-		return FALSE;
-
-    import_rule->csv_spec_text_str = g_strdup (csv_spec_text_str);
-
-    return TRUE;
-}
-
-/**
  * return the currency number of the import_rule
  *
  * \param import_rule_number the number of the import_rule
@@ -1283,7 +1045,7 @@ gint gsb_data_import_rule_account_has_rule_name (gint account_number,
  *
  * \return
  **/
-const gchar *gsb_data_import_rule_get_csv_spec_cols_name		(gint import_rule_number)
+const gchar *gsb_data_import_rule_get_csv_spec_cols_name (gint import_rule_number)
 {
     ImportRule *import_rule;
 
@@ -1310,7 +1072,7 @@ gboolean gsb_data_import_rule_set_csv_spec_cols_name (gint import_rule_number,
     import_rule = gsb_data_import_rule_get_structure (import_rule_number);
 
     if (!import_rule)
-	return FALSE;
+		return FALSE;
 
     /* we free the last csv_spec_cols_name string */
     if (import_rule->csv_spec_cols_name)
@@ -1320,6 +1082,147 @@ gboolean gsb_data_import_rule_set_csv_spec_cols_name (gint import_rule_number,
     import_rule->csv_spec_cols_name = my_strdup (csv_spec_cols_name);
 
     return TRUE;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+GSList *gsb_data_import_rule_get_csv_spec_lines_list (gint import_rule_number)
+{
+    ImportRule *import_rule;
+
+    import_rule = gsb_data_import_rule_get_structure (import_rule_number);
+
+    if (!import_rule)
+		return NULL;
+
+    return import_rule->csv_spec_lines_list;
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+gboolean gsb_data_import_rule_set_csv_spec_lines_list (gint import_rule_number,
+													   GSList *csv_spec_lines_list)
+{
+    ImportRule *import_rule;
+
+    import_rule = gsb_data_import_rule_get_structure (import_rule_number);
+
+    if (!import_rule)
+		return FALSE;
+
+	import_rule->csv_spec_lines_list = csv_spec_lines_list;
+
+    return TRUE;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+gint gsb_data_import_rule_get_csv_spec_nbre_lines (gint import_rule_number)
+{
+    ImportRule *import_rule;
+
+    import_rule = gsb_data_import_rule_get_structure (import_rule_number);
+
+    if (!import_rule)
+		return 0;
+
+    return import_rule->csv_spec_nbre_lines;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+gboolean gsb_data_import_rule_set_csv_spec_nbre_lines (gint import_rule_number,
+													   gint csv_spec_nbre_lines)
+{
+    ImportRule *import_rule;
+
+    import_rule = gsb_data_import_rule_get_structure (import_rule_number);
+
+    if (!import_rule)
+		return FALSE;
+
+	import_rule->csv_spec_nbre_lines = csv_spec_nbre_lines;
+
+    return TRUE;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void gsb_data_import_rule_free_csv_spec_lines_list (gint import_rule_number)
+{
+    ImportRule *import_rule;
+    GSList *tmp_list;
+
+    import_rule = gsb_data_import_rule_get_structure (import_rule_number);
+
+    if (!import_rule)
+		return;
+
+	tmp_list = import_rule->csv_spec_lines_list;
+    while (tmp_list)
+    {
+		SpecConfData *spec_conf_data;
+
+		spec_conf_data = (SpecConfData *) tmp_list->data;
+		if (spec_conf_data->csv_spec_conf_used_text)
+			g_free (spec_conf_data->csv_spec_conf_used_text);
+		g_free (spec_conf_data);
+
+		tmp_list = tmp_list->next;
+    }
+	g_slist_free (tmp_list);
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void gsb_data_import_rule_free_list (void)
+{
+    if (import_rule_list)
+    {
+		GSList* tmp_list;
+
+		tmp_list = import_rule_list;
+		while (tmp_list)
+		{
+			ImportRule *import_rule;
+
+			import_rule = tmp_list->data;
+			tmp_list = tmp_list->next;
+			_gsb_data_import_rule_free (import_rule);
+		}
+		g_slist_free (import_rule_list);
+    }
 }
 
 /**

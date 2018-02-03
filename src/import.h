@@ -57,11 +57,8 @@ struct ImportAccount
 	gchar *		csv_fields_str;				/* liste des libellés grisbi des colonnes du fichier CSV */
 	gint		csv_first_line_data;		/* première ligne de données actives */
 	gboolean	csv_headers_present;		/* TRUE si les libellés des colonnes existent */
-	gint		csv_spec_action;
-	gint		csv_spec_amount_col;		/* numéro de colonne contenant le montant de l'opération */
-	gint		csv_spec_text_col;			/* numéro de colonne contenant le texte à rechercher */
-	gchar *		csv_spec_text_str;			/* texte à rechercher */
-	gchar *		csv_spec_cols_name;			/* nom des colonnes du fichier importé pour combo action et montant */
+	gchar *		csv_spec_cols_name;			/* nom des colonnes du fichier importé pour les combo action data et used data */
+	GSList * 	csv_spec_lines_list;		/* liste de structures contenant les éléments de la ligne spéciale action */
 };
 
 /* possible actions to the import */
