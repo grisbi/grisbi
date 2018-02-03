@@ -2768,7 +2768,6 @@ to add at the selection</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="shadow_type">in</property>
-                <property name="propagate_natural_height">True</property>
                 <child>
                   <object class="GtkTreeView" id="treeview_mode_paiement">
                     <property name="visible">True</property>
@@ -2888,7 +2887,6 @@ to add at the selection</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="shadow_type">in</property>
-            <property name="propagate_natural_height">True</property>
             <child>
               <object class="GtkViewport" id="viewport2">
                 <property name="visible">True</property>
@@ -3259,7 +3257,6 @@ to add at the selection</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="shadow_type">in</property>
-            <property name="propagate_natural_height">True</property>
             <child>
               <object class="GtkViewport" id="viewport1">
                 <property name="visible">True</property>
@@ -4005,7 +4002,6 @@ to add at the selection</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="shadow_type">in</property>
-                    <property name="propagate_natural_height">True</property>
                     <child>
                       <object class="GtkTreeView" id="treeview_data_grouping">
                         <property name="visible">True</property>
