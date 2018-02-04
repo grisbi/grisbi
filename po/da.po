@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-03 15:07+0100\n"
+"POT-Creation-Date: 2018-02-04 15:21+0100\n"
 "PO-Revision-Date: 2006-03-25 13:23+0100\n"
 "Last-Translator: Dmitri Popov <dmpop@openoffice.org>\n"
 "Language-Team: \n"
@@ -1578,7 +1578,7 @@ msgid "Grisbi category files (*.cgsb)"
 msgstr ""
 
 #: ../src/categories_onglet.c:474 ../src/etats_onglet.c:414
-#: ../src/file_obfuscate_qif.c:109 ../src/gsb_file.c:557 ../src/import.c:1248
+#: ../src/file_obfuscate_qif.c:109 ../src/gsb_file.c:558 ../src/import.c:1248
 #: ../src/imputation_budgetaire.c:508
 msgid "All files"
 msgstr ""
@@ -2745,7 +2745,7 @@ msgid "Exporting report..."
 msgstr "Eksportér QIF-fil"
 
 #: ../src/etats_onglet.c:369 ../src/gsb_debug.c:248 ../src/gsb_file.c:362
-#: ../src/gsb_file.c:487 ../src/gsb_file.c:798
+#: ../src/gsb_file.c:488 ../src/gsb_file.c:799
 #, fuzzy
 msgid "Done"
 msgstr "Ingen"
@@ -3975,7 +3975,7 @@ msgid "Associations for import"
 msgstr ""
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:274 ../src/prefs/prefs_page_files.c:109
+#: ../src/grisbi_prefs.c:274 ../src/prefs/prefs_page_files.c:112
 msgid "Files"
 msgstr "Filer"
 
@@ -4027,7 +4027,7 @@ msgstr ""
 msgid "Messages before deleting"
 msgstr "Beskeder og advarsler"
 
-#: ../src/grisbi_prefs.c:360 ../src/gsb_assistant_first.c:314
+#: ../src/grisbi_prefs.c:360 ../src/gsb_assistant_first.c:329
 #: ../src/gsb_reconcile_config.c:130
 msgid "Reconciliation"
 msgstr ""
@@ -4693,7 +4693,7 @@ msgstr ""
 msgid "Name of accounting entity: "
 msgstr "Bankkonto:"
 
-#: ../src/gsb_assistant_file.c:301 ../src/gsb_assistant_file.c:574
+#: ../src/gsb_assistant_file.c:301 ../src/gsb_assistant_file.c:591
 #: ../src/navigation.c:1158
 #, fuzzy
 msgid "My accounts"
@@ -4705,28 +4705,34 @@ msgstr "Vis konti"
 msgid "Filename: "
 msgstr "Indehaver:"
 
+#: ../src/gsb_assistant_file.c:331 ../src/gsb_assistant_first.c:251
+#: ../src/ui/prefs_page_files.ui.h:6
+#, fuzzy
+msgid "Encrypt Grisbi file"
+msgstr "Postscript-fil"
+
 #. Address
-#: ../src/gsb_assistant_file.c:335
+#: ../src/gsb_assistant_file.c:352
 #, fuzzy
 msgid "Your address"
 msgstr "Inderhaverens adresse"
 
-#: ../src/gsb_assistant_file.c:370
+#: ../src/gsb_assistant_file.c:387
 #, fuzzy
 msgid "Select base currency"
 msgstr "Tilføj valuta"
 
-#: ../src/gsb_assistant_file.c:408
+#: ../src/gsb_assistant_file.c:425
 msgid "Select the list of categories you will use"
 msgstr ""
 
-#: ../src/gsb_assistant_file.c:469
+#: ../src/gsb_assistant_file.c:486
 #, fuzzy
 msgid "Configuration finished!"
 msgstr "Lukkede planlagte transaktioner"
 
 #. set up the menu
-#: ../src/gsb_assistant_file.c:476
+#: ../src/gsb_assistant_file.c:493
 msgid ""
 "Default values are now configured for your account file. Next assistant will "
 "help you creating a new account.\n"
@@ -4736,16 +4742,16 @@ msgid ""
 "Select a way to populate your account file and press the 'Close' button."
 msgstr ""
 
-#: ../src/gsb_assistant_file.c:487
+#: ../src/gsb_assistant_file.c:504
 #, fuzzy
 msgid "Create a new account from scratch"
 msgstr "Giv den nye kategori et navn"
 
-#: ../src/gsb_assistant_file.c:493
+#: ../src/gsb_assistant_file.c:510
 msgid "Import data from online bank services or from accounting software"
 msgstr ""
 
-#: ../src/gsb_assistant_file.c:601
+#: ../src/gsb_assistant_file.c:618
 #, fuzzy
 msgid "Create filename"
 msgstr "LaTeX-fil"
@@ -4812,35 +4818,34 @@ msgstr ""
 msgid "Automatically save on exit"
 msgstr ""
 
-#. Automatic backup ?
-#: ../src/gsb_assistant_first.c:249 ../src/ui/prefs_page_files.ui.h:12
+#: ../src/gsb_assistant_first.c:264 ../src/ui/prefs_page_files.ui.h:13
 msgid "Make a backup copy before saving files"
 msgstr ""
 
-#: ../src/gsb_assistant_first.c:257 ../src/ui/prefs_page_files.ui.h:13
+#: ../src/gsb_assistant_first.c:272 ../src/ui/prefs_page_files.ui.h:14
 msgid "Make a backup copy every "
 msgstr ""
 
-#: ../src/gsb_assistant_first.c:267 ../src/ui/prefs_page_files.ui.h:15
+#: ../src/gsb_assistant_first.c:282 ../src/ui/prefs_page_files.ui.h:16
 #, fuzzy
 msgid " minutes"
 msgstr "Noter"
 
-#: ../src/gsb_assistant_first.c:275 ../src/ui/prefs_page_files.ui.h:16
+#: ../src/gsb_assistant_first.c:290 ../src/ui/prefs_page_files.ui.h:17
 #, fuzzy
 msgid "Backup directory: "
 msgstr "Backup-fil:"
 
-#: ../src/gsb_assistant_first.c:279
+#: ../src/gsb_assistant_first.c:294
 msgid "Select/Create backup directory"
 msgstr ""
 
-#: ../src/gsb_assistant_first.c:318
+#: ../src/gsb_assistant_first.c:333
 #, fuzzy
 msgid "Error getting reconciliations"
 msgstr "Vis afstemte transaktioner"
 
-#: ../src/gsb_assistant_first.c:326
+#: ../src/gsb_assistant_first.c:341
 msgid ""
 "When importing the file from the previous version, Grisbi has found "
 "inconsistencies\n"
@@ -7210,7 +7215,7 @@ msgstr ""
 msgid "File does not exist"
 msgstr ""
 
-#: ../src/gsb_file.c:103 ../src/gsb_file.c:117 ../src/gsb_file.c:740
+#: ../src/gsb_file.c:103 ../src/gsb_file.c:117 ../src/gsb_file.c:741
 #, c-format
 msgid "Error loading file '%s'"
 msgstr ""
@@ -7294,36 +7299,36 @@ msgstr ""
 msgid "Saving file"
 msgstr "Gem fil"
 
-#: ../src/gsb_file.c:540
+#: ../src/gsb_file.c:541
 msgid "Open an accounts file"
 msgstr ""
 
-#: ../src/gsb_file.c:551
+#: ../src/gsb_file.c:552
 msgid "Grisbi files (*.gsb)"
 msgstr ""
 
-#: ../src/gsb_file.c:699
+#: ../src/gsb_file.c:700
 #, fuzzy
 msgid "Loading accounts"
 msgstr "Bankkonto"
 
-#: ../src/gsb_file.c:729
+#: ../src/gsb_file.c:730
 msgid ""
 "The version of your file is less than 0.6. This file can not be imported by "
 "Grisbi."
 msgstr ""
 
-#: ../src/gsb_file.c:731
+#: ../src/gsb_file.c:732
 msgid "Version of Grisbi file too old :"
 msgstr ""
 
 #. Loading failed.
-#: ../src/gsb_file.c:738
+#: ../src/gsb_file.c:739
 #, fuzzy
 msgid "Failed to load accounts"
 msgstr "Slet konto"
 
-#: ../src/gsb_file.c:744
+#: ../src/gsb_file.c:745
 #, c-format
 msgid ""
 "Grisbi was unable to load file. You should find the last backups in '%s', "
@@ -7333,7 +7338,7 @@ msgid ""
 "happened to you current file."
 msgstr ""
 
-#: ../src/gsb_file.c:755
+#: ../src/gsb_file.c:756
 #, c-format
 msgid ""
 "Grisbi was unable to load file and the backups seem not to be activated... "
@@ -7344,7 +7349,7 @@ msgid ""
 "happened to you current file."
 msgstr ""
 
-#: ../src/gsb_file.c:762
+#: ../src/gsb_file.c:763
 msgid ""
 "Grisbi was unable to load file and the backups seem not to be activated... "
 "This is a bad thing.\n"
@@ -7353,38 +7358,33 @@ msgid ""
 msgstr ""
 
 #. ok, here the file or backup is loaded
-#: ../src/gsb_file.c:778
+#: ../src/gsb_file.c:779
 msgid "Checking schedulers"
 msgstr ""
 
 #. check the amounts of all the accounts
-#: ../src/gsb_file.c:788
+#: ../src/gsb_file.c:789
 msgid "Checking amounts"
 msgstr ""
 
-#: ../src/gsb_file_load.c:3573
+#: ../src/gsb_file_load.c:3576
 #, fuzzy
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Denne fil er ikke en Grisbi-rapport"
 
-#: ../src/gsb_file_load.c:3871 ../src/gsb_file_load.c:3889
+#: ../src/gsb_file_load.c:3873 ../src/gsb_file_save.c:401
 #, c-format
 msgid ""
-"Grisbi no longer supports file encryption due to the existence of reliable "
-"external solutions."
+"This build of Grisbi does not support encryption.\n"
+"Please recompile Grisbi with OpenSSL encryption enabled."
 msgstr ""
 
-#: ../src/gsb_file_load.c:3874
-#, c-format
-msgid "Your file '%s' will be saved unencrypted"
-msgstr ""
-
-#: ../src/gsb_file_load.c:3892
+#: ../src/gsb_file_load.c:3876 ../src/gsb_file_save.c:403
 #, fuzzy, c-format
-msgid "Unable to use file encryption"
-msgstr "Passiver"
+msgid "Cannot open encrypted file '%s'"
+msgstr "Kan ikke importerer fil."
 
-#: ../src/gsb_file_load.c:3955
+#: ../src/gsb_file_load.c:3939
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -7392,11 +7392,11 @@ msgid ""
 "transactions or important information."
 msgstr ""
 
-#: ../src/gsb_file_load.c:3959
+#: ../src/gsb_file_load.c:3943
 msgid "Grisbi archive opened"
 msgstr ""
 
-#: ../src/gsb_file_load.c:3969
+#: ../src/gsb_file_load.c:3953
 #, c-format
 msgid ""
 "You import a file from version %s of Grisbi. After updating your file will "
@@ -7406,12 +7406,12 @@ msgid ""
 "abandon the encryption of your account file."
 msgstr ""
 
-#: ../src/gsb_file_load.c:3976
+#: ../src/gsb_file_load.c:3960
 #, c-format
 msgid "Importing a file whose version is for an earlier version of Grisbi"
 msgstr ""
 
-#: ../src/gsb_file_load.c:4396
+#: ../src/gsb_file_load.c:4380
 #, c-format
 msgid ""
 "An error occurred while parsing the file :\n"
@@ -7424,8 +7424,8 @@ msgid "There is no category to record. Back."
 msgstr ""
 
 #: ../src/gsb_file_others.c:159 ../src/gsb_file_others.c:250
-#: ../src/gsb_file_others.c:341 ../src/gsb_file_save.c:400
-#: ../src/gsb_file_save.c:419
+#: ../src/gsb_file_others.c:341 ../src/gsb_file_save.c:425
+#: ../src/gsb_file_save.c:444
 #, c-format
 msgid "Cannot save file '%s': %s"
 msgstr ""
@@ -10008,57 +10008,67 @@ msgid "Repeating payment/standing order"
 msgstr ""
 
 #. it seems that it was not the correct password
-#: ../src/plugins/openssl/openssl.c:257
+#: ../src/plugins/openssl/openssl.c:266
 msgid ""
 "<span weight=\"bold\" foreground=\"red\">Password is incorrect!</span>\n"
 "\n"
 msgstr ""
 
-#: ../src/plugins/openssl/openssl.c:286
+#: ../src/plugins/openssl/openssl.c:295
 #, fuzzy
 msgid "Grisbi password"
 msgstr "Grisbi logo"
 
-#: ../src/plugins/openssl/openssl.c:290
+#: ../src/plugins/openssl/openssl.c:299
 #, fuzzy
 msgid "Crypt file"
 msgstr "Postscript-fil"
 
-#: ../src/plugins/openssl/openssl.c:290
+#: ../src/plugins/openssl/openssl.c:299
 #, fuzzy
 msgid "Decrypt file"
 msgstr "Postscript-fil"
 
-#: ../src/plugins/openssl/openssl.c:317
+#: ../src/plugins/openssl/openssl.c:326
 #, c-format
 msgid ""
 "%sPlease enter password to encrypt file\n"
 "<span foreground=\"blue\">%s</span>"
 msgstr ""
 
-#: ../src/plugins/openssl/openssl.c:323
+#: ../src/plugins/openssl/openssl.c:332
 #, c-format
 msgid ""
 "%sPlease enter password to decrypt file\n"
 "<span foreground=\"blue\">%s</span>"
 msgstr ""
 
-#: ../src/plugins/openssl/openssl.c:331
+#: ../src/plugins/openssl/openssl.c:340
 #, fuzzy
 msgid "Password: "
 msgstr "Grisbi logo:"
 
-#: ../src/plugins/openssl/openssl.c:339
+#: ../src/plugins/openssl/openssl.c:350 ../src/plugins/openssl/openssl.c:415
+#, fuzzy
+msgid "View password"
+msgstr "Grisbi logo"
+
+#: ../src/plugins/openssl/openssl.c:359
 msgid "Don't ask password again for this session."
 msgstr ""
 
-#: ../src/plugins/openssl/openssl.c:363
+#: ../src/plugins/openssl/openssl.c:384
 msgid "The password must contain at least 7 characters"
 msgstr ""
 
-#: ../src/plugins/openssl/openssl.c:364
+#: ../src/plugins/openssl/openssl.c:385
 msgid "Password too short"
 msgstr ""
+
+#: ../src/plugins/openssl/openssl.c:417
+#, fuzzy
+msgid "Hide password"
+msgstr "Grisbi logo"
 
 #: ../src/print_report.c:444 ../src/print_report.c:551
 #: ../src/print_transactions_list.c:262 ../src/print_tree_view_list.c:1014
@@ -11477,7 +11487,7 @@ msgstr "Vis afstemte transaktioner"
 #: ../src/ui/prefs_page_display_adr.ui.h:1
 #: ../src/ui/prefs_page_display_fonts.ui.h:9
 #: ../src/ui/prefs_page_display_gui.ui.h:14 ../src/ui/prefs_page_divers.ui.h:18
-#: ../src/ui/prefs_page_files.ui.h:20 ../src/ui/prefs_page_import_asso.ui.h:8
+#: ../src/ui/prefs_page_files.ui.h:21 ../src/ui/prefs_page_import_asso.ui.h:8
 #: ../src/ui/prefs_page_import_files.ui.h:13
 msgid "label"
 msgstr ""
@@ -11486,7 +11496,7 @@ msgstr ""
 #: ../src/ui/prefs_page_display_adr.ui.h:2
 #: ../src/ui/prefs_page_display_fonts.ui.h:10
 #: ../src/ui/prefs_page_display_gui.ui.h:15 ../src/ui/prefs_page_divers.ui.h:19
-#: ../src/ui/prefs_page_files.ui.h:21 ../src/ui/prefs_page_import_asso.ui.h:9
+#: ../src/ui/prefs_page_files.ui.h:22 ../src/ui/prefs_page_import_asso.ui.h:9
 #: ../src/ui/prefs_page_import_files.ui.h:14
 #, fuzzy
 msgid "Title"
@@ -12297,7 +12307,7 @@ msgstr ""
 msgid "Number of days before the warning or the execution: "
 msgstr "Lukkede planlagte transaktioner"
 
-#: ../src/ui/prefs_page_divers.ui.h:3 ../src/ui/prefs_page_files.ui.h:14
+#: ../src/ui/prefs_page_divers.ui.h:3 ../src/ui/prefs_page_files.ui.h:15
 msgid "0"
 msgstr ""
 
@@ -12343,39 +12353,39 @@ msgstr "Eksportér kategorier"
 msgid "Choose the language"
 msgstr "Vælg konto"
 
-#: ../src/ui/prefs_page_files.ui.h:6
+#: ../src/ui/prefs_page_files.ui.h:7
 msgid "Compress Grisbi file"
 msgstr ""
 
-#: ../src/ui/prefs_page_files.ui.h:7
+#: ../src/ui/prefs_page_files.ui.h:8
 msgid "Memorise last opened files: "
 msgstr ""
 
-#: ../src/ui/prefs_page_files.ui.h:8
+#: ../src/ui/prefs_page_files.ui.h:9
 msgid "Backups"
 msgstr "Backup"
 
-#: ../src/ui/prefs_page_files.ui.h:9
+#: ../src/ui/prefs_page_files.ui.h:10
 msgid "Make a single backup file"
 msgstr ""
 
-#: ../src/ui/prefs_page_files.ui.h:10
+#: ../src/ui/prefs_page_files.ui.h:11
 msgid "Compress Grisbi backup"
 msgstr ""
 
-#: ../src/ui/prefs_page_files.ui.h:11
+#: ../src/ui/prefs_page_files.ui.h:12
 msgid "Make a backup copy after opening files"
 msgstr ""
 
-#: ../src/ui/prefs_page_files.ui.h:17
+#: ../src/ui/prefs_page_files.ui.h:18
 msgid "Sélectionner un répertoire"
 msgstr ""
 
-#: ../src/ui/prefs_page_files.ui.h:18
+#: ../src/ui/prefs_page_files.ui.h:19
 msgid "Directory for import"
 msgstr ""
 
-#: ../src/ui/prefs_page_files.ui.h:19
+#: ../src/ui/prefs_page_files.ui.h:20
 msgid "Use a fixed directory for importing files: "
 msgstr ""
 
@@ -12461,6 +12471,10 @@ msgid "finance"
 msgstr "Annulér"
 
 #, fuzzy
+#~ msgid "Unable to use file encryption"
+#~ msgstr "Passiver"
+
+#, fuzzy
 #~ msgid "Select the action"
 #~ msgstr "Vælg ny animation:"
 
@@ -12518,18 +12532,6 @@ msgstr "Annulér"
 #, fuzzy
 #~ msgid "Preferences sort"
 #~ msgstr "Indstillinger"
-
-#, fuzzy
-#~ msgid "View password"
-#~ msgstr "Grisbi logo"
-
-#, fuzzy
-#~ msgid "Hide password"
-#~ msgstr "Grisbi logo"
-
-#, fuzzy
-#~ msgid "Cannot open encrypted file '%s'"
-#~ msgstr "Kan ikke importerer fil."
 
 #, fuzzy
 #~ msgid "Archive transactions..."
