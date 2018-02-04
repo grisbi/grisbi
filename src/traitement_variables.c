@@ -130,7 +130,10 @@ void init_variables ( void )
 
     devel_debug (NULL);
 
-    /* init the format date */
+    /* init the new crypted file */
+    run.new_crypted_file = FALSE;
+
+	/* init the format date */
     initialise_format_date ( );
 
     /* initialise l'ordre des pages du panneau de gauche */

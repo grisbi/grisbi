@@ -99,6 +99,7 @@ struct _GrisbiWinEtat
 	gchar *		adr_secondary;
 
 	/* files and backup part */
+	gint crypt_file;                /* TRUE if we want to crypt the file */
     gint fichier_deja_ouvert;       /* à un si lors de l'ouverture, le fichier semblait déjà ouvert */
 
     /* devises pour les catégories, imputations budgétaires et les tiers */
@@ -299,6 +300,7 @@ struct _GrisbiWinRun
     gboolean old_version;           /* TRUE if file version < 0.6 */
 
     /* initialisation variables */
+    gboolean new_crypted_file;      /* 0 à l'exécution de init_variables () 1 si new crypted file*/
 
     /* file stuff */
     time_t file_modification;

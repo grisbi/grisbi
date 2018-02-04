@@ -325,6 +325,23 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
 
 	gtk_grid_attach (GTK_GRID (table), button, 2, 1, 1, 1);
 
+    /* will we crypt the file ? */
+#ifdef HAVE_SSL
+    {
+        button = gsb_automem_checkbutton_new ( _("Encrypt Grisbi file"),
+                                               &(etat.crypt_file), G_CALLBACK (gsb_gui_encryption_toggled), NULL);
+        gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
+                             FALSE, FALSE, 0 );
+
+        if ( etat.crypt_file )
+            run.new_crypted_file = TRUE;
+    }
+#else
+    {
+        run.new_crypted_file = FALSE;
+    }
+#endif
+
     /* date format */
     paddingbox = gsb_config_date_format_chosen ( vbox, GTK_ORIENTATION_HORIZONTAL );
 

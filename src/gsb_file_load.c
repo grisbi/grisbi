@@ -256,6 +256,9 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
                 else if ( !strcmp ( attribute_names[i], "Combofix_force_category" ))
                     etat.combofix_force_category = utils_str_atoi( attribute_values[i]);
 
+                else if ( !strcmp ( attribute_names[i], "Crypt_file" ))
+                    etat.crypt_file = utils_str_atoi (attribute_values[i]);
+
                 else if ( !strcmp ( attribute_names[i], "CSV_force_date_valeur_with_date" ))
                     etat.csv_force_date_valeur_with_date = utils_str_atoi( attribute_values[i]);
 
@@ -3861,35 +3864,16 @@ gboolean gsb_file_load_open_file (const gchar *filename )
                 g_free (file_content);
                 return FALSE;
             }
-            else
-            {
-                gchar *text;
-                gchar *hint;
-                gchar *tmp_str;
-
-                tmp_str = g_filename_display_basename (filename);
-                text = g_strdup_printf (_("Grisbi no longer supports file encryption "
-                                          "due to the existence of reliable external solutions."));
-
-                hint = g_strdup_printf (_("Your file '%s' will be saved unencrypted"), tmp_str );
-
-                dialogue_hint (text, hint);
-
-                g_free (tmp_str);
-                g_free (hint);
-                g_free (text);
-            }
-
 #else
             {
                 gchar *text;
                 gchar *hint;
 
                 g_free (file_content);
-                text = g_strdup_printf (_("Grisbi no longer supports file encryption "
-                                          "due to the existence of reliable external solutions."));
+                text = g_strdup_printf (_("This build of Grisbi does not support encryption.\n"
+										  "Please recompile Grisbi with OpenSSL encryption enabled."));
 
-                hint = g_strdup_printf (_("Unable to use file encryption"));
+                hint = g_strdup_printf (_("Cannot open encrypted file '%s'"), filename);
 
                 dialogue_error_hint ( text, hint );
                 g_free ( hint );

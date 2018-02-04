@@ -5,7 +5,7 @@
 /*                                                                               */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)               */
 /*                      2003-2008 Benjamin Drieu (bdrieu@april.org)              */
-/*          2008-2017 Pierre Biava (grisbi@pierre.biava.name)                    */
+/*          2008-2018 Pierre Biava (grisbi@pierre.biava.name)                    */
 /*          http://www.grisbi.org                                                */
 /*                                                                               */
 /*     This program is free software; you can redistribute it and/or modify      */
@@ -41,6 +41,7 @@
 #include "grisbi_app.h"
 #include "gsb_account.h"
 #include "gsb_file.h"
+#include "parametres.h"
 #include "structures.h"
 #include "utils_prefs.h"
 #include "erreur.h"
@@ -64,6 +65,8 @@ struct _PrefsPageFilesPrivate
 	GtkWidget *			eventbox_force_enregistrement;
     GtkWidget *         checkbutton_compress_file;
 	GtkWidget *			eventbox_compress_file;
+    GtkWidget *         checkbutton_crypt_file;
+	GtkWidget *			eventbox_crypt_file;
     GtkWidget *         spinbutton_nb_max_derniers_fichiers;
 
     GtkWidget *         checkbutton_make_bakup_single_file;
@@ -119,6 +122,8 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
 								  conf.force_enregistrement);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_compress_file),
 								  conf.compress_file);
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_crypt_file),
+								  etat.crypt_file);
 
     /* set the max number of files */
     gtk_spin_button_set_value (GTK_SPIN_BUTTON (priv->spinbutton_nb_max_derniers_fichiers),
@@ -165,12 +170,28 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
                       &conf.compress_file);
 
+	g_signal_connect (priv->eventbox_crypt_file,
+                      "button-press-event",
+					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
+                      priv->checkbutton_crypt_file);
+
+    g_signal_connect (priv->checkbutton_crypt_file,
+                      "toggled",
+					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
+                      &etat.crypt_file);
+
+	g_signal_connect_after (priv->checkbutton_crypt_file,
+							"toggled",
+							G_CALLBACK (gsb_gui_encryption_toggled),
+							NULL);
+
     /* callback for spinbutton_nb_max_derniers_fichiers_ouverts */
     g_signal_connect (priv->spinbutton_nb_max_derniers_fichiers,
                         "value-changed",
                         G_CALLBACK (utils_prefs_spinbutton_changed),
                         &conf.nb_max_derniers_fichiers_ouverts);
-    g_signal_connect_after (priv->spinbutton_nb_max_derniers_fichiers,
+
+	g_signal_connect_after (priv->spinbutton_nb_max_derniers_fichiers,
                         "value-changed",
                         G_CALLBACK (grisbi_app_update_recent_files_menu),
                         NULL);
@@ -325,6 +346,8 @@ static void prefs_page_files_class_init (PrefsPageFilesClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, eventbox_force_enregistrement);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, checkbutton_compress_file);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, eventbox_compress_file);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, checkbutton_crypt_file);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, eventbox_crypt_file);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, spinbutton_nb_max_derniers_fichiers);
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, checkbutton_make_bakup_single_file);
@@ -343,7 +366,6 @@ static void prefs_page_files_class_init (PrefsPageFilesClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, checkbutton_force_import_directory);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, eventbox_force_import_directory);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, filechooserbutton_force_import_directory);
-
 }
 
 /******************************************************************************/

@@ -1185,6 +1185,25 @@ gboolean gsb_config_onglet_metatree_action_changed ( GtkWidget *checkbutton,
     return FALSE;
 }
 
+/**
+ * Warns that there is no coming back if password is forgotten when
+ * encryption is activated.
+ *
+ * \param checkbox  Checkbox that triggered event.
+ * \param data      Unused.
+ *
+ * \return          FALSE
+ */
+gboolean gsb_gui_encryption_toggled ( GtkWidget * checkbox, gpointer data )
+{
+    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON (checkbox)))
+    {
+        dialog_message ( "encryption-is-irreversible" );
+        run.new_crypted_file = TRUE;
+    }
+
+    return FALSE;
+}
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

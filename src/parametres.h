@@ -20,7 +20,8 @@ GtkWidget *	onglet_accueil 								(void);
 GtkWidget * onglet_delete_messages 						(void);
 GtkWidget *	onglet_messages_and_warnings 				(void);
 GtkWidget * onglet_metatree 							(void);
-
+gboolean 	gsb_gui_encryption_toggled 					(GtkWidget *checkbox,
+														 gpointer data);
 /*END_DECLARATION*/
 
 #endif
