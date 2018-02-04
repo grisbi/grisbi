@@ -2696,7 +2696,8 @@ static void gsb_import_ope_import_toggled (GtkWidget *button,
  * \return
  **/
 static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAccount *imported_account,
-															   gint account_number)
+															   gint account_number,
+															   GtkWindow *parent)
 {
     GSList *tmp_list;
     GtkWidget *dialog;
@@ -2714,15 +2715,23 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
 
     /* pbiava the 03/17/2009 modifications pour la fusion des opérations */
     if (etat.fusion_import_transactions)
+	{
         tmp_str = g_strdup_printf (
                         _("Confirmation of transactions to be merged in: %s"),
                         gsb_data_account_get_name (account_number));
+	}
     else
+	{
         tmp_str = g_strdup_printf (
                         _("Confirmation of importation of transactions in: %s"),
                         gsb_data_account_get_name (account_number));
+	}
+
+	if (parent == NULL)
+		parent = GTK_WINDOW (grisbi_app_get_active_window (NULL));
+
     dialog = gtk_dialog_new_with_buttons (tmp_str,
-                        GTK_WINDOW (grisbi_app_get_active_window (NULL)),
+                        GTK_WINDOW (parent),
                         GTK_DIALOG_MODAL,
                         "gtk-select-all", -12,
                         _("Unselect all"), -13,
@@ -3151,7 +3160,8 @@ static gboolean gsb_import_set_id_compte (gint account_nb,
  * \return
  **/
 static void gsb_import_add_imported_transactions (struct ImportAccount *imported_account,
-												  gint account_number)
+												  gint account_number,
+												  GtkWindow *parent)
 {
     GSList *tmp_list;
     GDate *first_date_import = NULL;
@@ -3188,7 +3198,7 @@ static void gsb_import_add_imported_transactions (struct ImportAccount *imported
 
     /* if we are not sure about some transactions, ask now */
     if (demande_confirmation)
-        gsb_import_confirmation_enregistrement_ope_import (imported_account, account_number);
+        gsb_import_confirmation_enregistrement_ope_import (imported_account, account_number, parent);
 
     /* ok, now we know what to do for each transactions, can import to the account */
     mother_transaction_number = 0;
@@ -4120,7 +4130,7 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
  *
  * \return
  * */
-static void traitement_operations_importees (void)
+static void traitement_operations_importees (GtkWindow *parent)
 {
     GSList *tmp_list;
     gint new_file;
@@ -4187,7 +4197,7 @@ static void traitement_operations_importees (void)
 
         case IMPORT_ADD_TRANSACTIONS:
         account_number = gsb_account_get_combo_account_number (compte->bouton_compte_add);
-        gsb_import_add_imported_transactions (compte,account_number);
+        gsb_import_add_imported_transactions (compte,account_number, parent);
 
         break;
 
@@ -4387,8 +4397,9 @@ void gsb_import_assistant_importer_fichier (void)
 
     if (gsb_assistant_run (assistant) == GTK_RESPONSE_APPLY)
     {
-        grisbi_win_status_bar_wait (TRUE);
-        traitement_operations_importees ();
+
+		grisbi_win_status_bar_wait (TRUE);
+        traitement_operations_importees (GTK_WINDOW (assistant));
         gtk_widget_destroy (assistant);
         grisbi_win_status_bar_stop_wait (TRUE);
     }
@@ -4845,7 +4856,7 @@ gboolean gsb_import_by_rule (gint rule)
             switch (gsb_data_import_rule_get_action (rule))
             {
                 case IMPORT_ADD_TRANSACTIONS:
-                gsb_import_add_imported_transactions (account, account_number);
+                gsb_import_add_imported_transactions (account, account_number, NULL);
 
                 break;
 
