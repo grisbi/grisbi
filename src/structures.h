@@ -322,8 +322,13 @@ struct _GrisbiWinRun
     gboolean mise_a_jour_liste_echeances_auto_accueil;
     gboolean mise_a_jour_soldes_minimaux;
     gboolean mise_a_jour_fin_comptes_passifs;
+
+	/* prefs */
+	gboolean prefs_expand_tree;		/* memorise le choix du bouton expand collapse du treeview des preferences */
+	gchar *prefs_selected_row;		/* memorise l'onglet selectionné du treeview des preferences */
 };
 
+/* structure contenant les variables utilisées par un fichier de compte */
 /* définition du titre de grisbi */
 enum _GsbTitleType
 {

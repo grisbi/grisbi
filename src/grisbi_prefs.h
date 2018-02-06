@@ -22,10 +22,10 @@ typedef struct _GrisbiPrefsClass 	GrisbiPrefsClass;
 /* START_DECLARATION */
 GType grisbi_prefs_get_type (void) G_GNUC_CONST;
 
-GrisbiPrefs *	grisbi_prefs_new				(GrisbiWin *win);
-void			grisbi_prefs_set_page_by_name 	(gchar *page_name);
-void 			grisbi_prefs_dialog_response  	(GtkDialog *prefs,
-				                                 gint result_id);
+GrisbiPrefs *	grisbi_prefs_new									(GrisbiWin *win);
+void 			grisbi_prefs_dialog_response  						(GtkDialog *prefs,
+																	 gint result_id);
+void			grisbi_prefs_set_page_by_name 						(gchar *page_name);
 /* END_DECLARATION */
 
 G_END_DECLS

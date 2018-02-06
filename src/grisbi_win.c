@@ -685,6 +685,9 @@ static void grisbi_win_free_w_run (GrisbiWinRun *w_run)
 
     devel_debug (NULL);
 
+	if (w_run->prefs_selected_row)
+		g_free (w_run->prefs_selected_row);
+
     g_free (w_run);
 }
 
@@ -713,8 +716,10 @@ static void grisbi_win_init (GrisbiWin *win)
     priv->notebook_general = NULL;
 	priv->vbox_transactions_list = NULL;
 
-    /* creation de la structure w_run */
+    /* creation et initialisation de la structure w_run */
     priv->w_run = g_malloc0 (sizeof (GrisbiWinRun));
+	(priv->w_run)->prefs_expand_tree = TRUE;
+	(priv->w_run)->prefs_selected_row = NULL;
 
     /* initialisation de la variable w_etat */
     priv->w_etat = g_malloc0 ( sizeof (GrisbiWinEtat));

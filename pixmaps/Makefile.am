@@ -31,6 +31,7 @@ grisbi_pixmaps_DATA = \
 	gsb-convert-16.png \
 	gsb-currencies-32.png \
 	gsb-display-gui-32.png \
+	gsb-down-16.png \
 	gsb-export-16.png \
 	gsb-export-24.png \
 	gsb-export-archive-16.png \
@@ -83,6 +84,7 @@ grisbi_pixmaps_DATA = \
 	gsb-transaction-list-32.png \
 	gsb-transdisplay-32.png \
 	gsb-transfer-32.png \
+	gsb-up-16.png \
 	gsb-warnings-32.png \
 	gsb-web-browser-16.png \
 	gtk-about-16.png \
