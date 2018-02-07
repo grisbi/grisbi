@@ -1000,13 +1000,12 @@ static void etats_config_onglet_categ_budget_init_treeview ( const gchar *treevi
 
     etats_config_onglet_categ_budget_tree_model_check_uncheck_all ( model, FALSE );
 
-    if ( !gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( model ), &parent_iter ) )
-        return;
-
     while ( tmp_list )
     {
         CategBudgetSel *categ_budget_struct = tmp_list -> data;
 
+		if ( !gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( model ), &parent_iter ) )
+			return;
         do
         {
             gint div_number;
