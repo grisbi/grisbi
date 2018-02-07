@@ -3960,6 +3960,8 @@ gboolean gsb_file_load_open_file (const gchar *filename )
         hint = g_strdup_printf (_("Importing a file whose version is for an earlier version of Grisbi"));
 
         dialogue_hint (text, hint);
+		/* force update file */
+		gsb_file_set_modified (TRUE);
 
         g_free (hint);
         g_free (text);
