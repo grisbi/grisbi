@@ -4105,7 +4105,9 @@ void gsb_file_load_budgetary ( const gchar **attribute_names,
                         const gchar **attribute_values )
 {
     gint i=0;
-    gint budget_number = 0;
+
+	g_free (buffer_new_div_sous_div);
+    buffer_new_div_sous_div = g_malloc0 (sizeof (struct new_div_sous_div_struct));
 
     if ( !attribute_names[i] )
     return;
@@ -4115,36 +4117,29 @@ void gsb_file_load_budgetary ( const gchar **attribute_names,
     /*     we test at the beginning if the attribute_value is NULL, if yes, */
     /*        go to the next */
 
-    if ( !strcmp (attribute_values[i],
-              "(null)"))
+    if ( !strcmp (attribute_values[i], "(null)"))
     {
         i++;
         continue;
     }
 
-    if ( !strcmp ( attribute_names[i],
-               "Nb" ))
+    if ( !strcmp (attribute_names[i], "Nb"))
     {
-        budget_number = gsb_data_budget_new_with_number ( utils_str_atoi (attribute_values[i]));
-
+        buffer_new_div_sous_div->no_div = utils_str_atoi (attribute_values[i]);
         i++;
         continue;
     }
 
-    if ( !strcmp ( attribute_names[i],
-               "Na" ))
+    if ( !strcmp (attribute_names[i], "Na"))
     {
-        gsb_data_budget_set_name ( budget_number,
-                             attribute_values[i]);
+        buffer_new_div_sous_div->name = g_strdup (attribute_values[i]);
         i++;
         continue;
     }
 
-    if ( !strcmp ( attribute_names[i],
-                                   "Kd" ))
+    if ( !strcmp (attribute_names[i], "Kd"))
     {
-        gsb_data_budget_set_type ( budget_number,
-                                                                                         utils_str_atoi (attribute_values[i]));
+        buffer_new_div_sous_div->type = utils_str_atoi (attribute_values[i]);
         i++;
         continue;
     }
@@ -4153,6 +4148,13 @@ void gsb_file_load_budgetary ( const gchar **attribute_names,
     i++;
     }
     while ( attribute_names[i] );
+
+	buffer_new_div_sous_div->new_no_div = gsb_data_budget_test_create_budget (buffer_new_div_sous_div->no_div,
+																			  buffer_new_div_sous_div->name,
+																			  buffer_new_div_sous_div->type);
+
+    if (buffer_new_div_sous_div->name)
+        g_free (buffer_new_div_sous_div->name);
 }
 
 
@@ -4168,7 +4170,6 @@ void gsb_file_load_sub_budgetary ( const gchar **attribute_names,
 {
     gint i=0;
     gint budget_number = 0;
-    gint sub_budget_number = 0;
 
     if ( !attribute_names[i] )
     return;
@@ -4184,30 +4185,25 @@ void gsb_file_load_sub_budgetary ( const gchar **attribute_names,
 		return;
     }
 
-    if ( !strcmp ( attribute_names[i], "Nbb" )
-     ||
-     !strcmp ( attribute_names[i], "Nbc" )  )
+    if (!strcmp (attribute_names[i], "Nbb") || !strcmp (attribute_names[i], "Nbc"))
     {
         budget_number = utils_str_atoi (attribute_values[i]);
         i++;
         continue;
     }
 
-    if ( !strcmp ( attribute_names[i],
-                                   "Nb" ))
+    if ( !strcmp (attribute_names[i], "Nb"))
     {
-        sub_budget_number = gsb_data_budget_new_sub_budget_with_number ( utils_str_atoi (attribute_values[i]),
-                                                                 budget_number );
+        if (budget_number == buffer_new_div_sous_div->no_div)
+            buffer_new_div_sous_div->no_sub_div = utils_str_atoi (attribute_values[i]);
         i++;
         continue;
     }
 
-    if ( !strcmp ( attribute_names[i],
-                                   "Na" ))
+    if (!strcmp ( attribute_names[i], "Na"))
     {
-        gsb_data_budget_set_sub_budget_name ( budget_number,
-                          sub_budget_number,
-                          attribute_values[i] );
+        if ( budget_number == buffer_new_div_sous_div->no_div)
+            buffer_new_div_sous_div->name = g_strdup (attribute_values[i]);
         i++;
         continue;
     }
@@ -4216,6 +4212,21 @@ void gsb_file_load_sub_budgetary ( const gchar **attribute_names,
     i++;
     }
     while ( attribute_names[i] );
+
+	if (!gsb_data_budget_test_create_sub_budget (buffer_new_div_sous_div->new_no_div,
+												 buffer_new_div_sous_div->no_sub_div,
+												 buffer_new_div_sous_div->name))
+    {
+        gchar *tmpstr = g_strdup_printf ("no_category = %d no_sub_category = %d nom = %s\n",
+										 buffer_new_div_sous_div->new_no_div,
+										 buffer_new_div_sous_div->no_sub_div,
+										 buffer_new_div_sous_div->name);
+
+        devel_debug ( tmpstr );
+    }
+
+    if (buffer_new_div_sous_div->name)
+        g_free (buffer_new_div_sous_div->name);
 }
 
 /**
