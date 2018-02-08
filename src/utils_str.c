@@ -1070,7 +1070,7 @@ gchar *utils_str_break_filename (const gchar *string,
     gchar *end = NULL;
     gchar *ptr = NULL;
     gchar *separator;
-    gint i = 1;
+    gint i = 0;
     ssize_t n = 0;
     ssize_t size1;
     ssize_t size2;
@@ -1104,6 +1104,7 @@ gchar *utils_str_break_filename (const gchar *string,
         g_free (tmp_dir);
         tmp_dir = tmp_str2;
         size3 = g_utf8_strlen (tmp_dir, -1);
+		i++;
         do
         {
             end = g_utf8_offset_to_pointer (dirname, size3);
@@ -1125,10 +1126,11 @@ gchar *utils_str_break_filename (const gchar *string,
                 tmp_str2 = g_strconcat (tmp_dir, "\n", end, NULL);
                 g_free (tmp_dir);
                 tmp_dir = tmp_str2;
+				break;
             }
             ptr = NULL;
             i++;
-        } while (i <= n);
+        } while (i < n);
     }
     else if (dirname && size2 <= trunc)
         tmp_dir = g_strdup (dirname);
