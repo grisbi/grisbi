@@ -1307,6 +1307,9 @@ void grisbi_app_update_recent_files_menu (void)
 	/* on vide le sous menu recent_files */
 	g_menu_remove_all (priv->item_recent_files);
 
+	if (conf.nb_derniers_fichiers_ouverts > conf.nb_max_derniers_fichiers_ouverts)
+		conf.nb_derniers_fichiers_ouverts = conf.nb_max_derniers_fichiers_ouverts;
+
 	for (i = 0 ; i < conf.nb_derniers_fichiers_ouverts ; i++)
 	{
 		gchar *menu_name;
@@ -1316,6 +1319,7 @@ void grisbi_app_update_recent_files_menu (void)
 		menu_item = g_menu_item_new (menu_name, detailled_action);
 		g_menu_append_item (priv->item_recent_files, menu_item);
 		index++;
+
 		g_free (menu_name);
 		g_free (detailled_action);
 		g_object_unref (menu_item);

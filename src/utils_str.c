@@ -39,7 +39,9 @@
 #include "gsb_data_currency.h"
 #include "gsb_locale.h"
 #include "gsb_real.h"
+#include "structures.h"
 #include "utils_real.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -1071,6 +1073,7 @@ gchar *utils_str_break_filename (const gchar *string,
     gchar *ptr = NULL;
     gchar *separator;
     gint i = 0;
+	gint dirname_nbre_lignes = 0;
     ssize_t n = 0;
     ssize_t size1;
     ssize_t size2;
@@ -1126,14 +1129,19 @@ gchar *utils_str_break_filename (const gchar *string,
                 tmp_str2 = g_strconcat (tmp_dir, "\n", end, NULL);
                 g_free (tmp_dir);
                 tmp_dir = tmp_str2;
+				i++;
 				break;
             }
             ptr = NULL;
             i++;
         } while (i < n);
+		dirname_nbre_lignes = i;
     }
     else if (dirname && size2 <= trunc)
+	{
         tmp_dir = g_strdup (dirname);
+		dirname_nbre_lignes = 1;
+	}
 
     /* on traite basename */
     /* si base name est < trunc on ajoute une ligne avec basename */
@@ -1144,14 +1152,18 @@ gchar *utils_str_break_filename (const gchar *string,
     }
     else
     {
-        i = 1;
-        n = size1 / trunc;
-        if (n > 3)
-        {
-            n = 3;
-            basename[3*trunc+1] = '\0';
-            size1 = g_utf8_strlen (basename, -1);
-        }
+        n = GSB_NBRE_LIGNES_BOUTON - dirname_nbre_lignes;
+
+		if (strcmp (tmp_dir, ".") == 0)
+		{
+			/* maxi GSB_NBRE_LIGNES_BOUTON (6) lignes */
+			n = GSB_NBRE_LIGNES_BOUTON;
+			if (size1 > n*trunc+1)
+			{
+				basename[n*trunc+1] = '\0';
+				size1 = g_utf8_strlen (basename, -1);
+			}
+		}
         tmp_base = g_malloc0 (size1 + n);
         tmp_base = g_utf8_strncpy (tmp_base, basename, trunc);
 
@@ -1160,6 +1172,7 @@ gchar *utils_str_break_filename (const gchar *string,
         g_free (tmp_base);
         tmp_base = tmp_str2;
         size3 = g_utf8_strlen (tmp_base, -1);
+		i = 1;
         do
         {
             end = g_utf8_offset_to_pointer (basename, size3);
@@ -1184,11 +1197,12 @@ gchar *utils_str_break_filename (const gchar *string,
                 tmp_str2 = g_strconcat (tmp_base, "\n", end, NULL);
                 g_free (tmp_base);
                 tmp_base = tmp_str2;
+				break;
             }
 
             ptr = NULL;
             i++;
-        } while (i <= n);
+        } while (i < n);
 
         if (strcmp (tmp_dir, "."))
             tmp_str2 = g_strconcat (tmp_dir, G_DIR_SEPARATOR_S, "\n", tmp_base, NULL);

@@ -593,7 +593,6 @@ void grisbi_cmd_file_close (GSimpleAction *action,
 	{
 		win = grisbi_app_get_active_window (GRISBI_APP (app));
 		grisbi_win_no_file_page_update (win);
-		grisbi_win_stack_box_show (win, "accueil_page");
 		grisbi_win_status_bar_message (_("Start an action!"));
 	}
 }

@@ -59,9 +59,6 @@
 /*START_STATIC*/
 /*END_STATIC*/
 
-#define GSB_NBRE_CHAR 15
-#define GSB_NAMEFILE_TOO_LONG 75				/* 5 lignes dans le bouton */
-
 /*START_EXTERN*/
 /*END_EXTERN*/
 
@@ -585,11 +582,11 @@ static void grisbi_win_no_file_page_new (GrisbiWin *win)
 				gchar *basename;
 
 				basename = g_path_get_basename (recent_files_array[i]);
-				tmp_str = utils_str_break_filename (basename, GSB_NBRE_CHAR);
+				tmp_str = utils_str_break_filename (basename, GSB_NBRE_CHAR_TRUNC);
 				g_free (basename);
 			}
 			else
-				tmp_str = utils_str_break_filename (recent_files_array[i], GSB_NBRE_CHAR);
+				tmp_str = utils_str_break_filename (recent_files_array[i], GSB_NBRE_CHAR_TRUNC);
 
 			bouton = utils_buttons_button_new_from_stock ("gtk-open", tmp_str);
 			gtk_widget_set_tooltip_text (bouton, recent_files_array[i]);
@@ -1282,6 +1279,7 @@ void grisbi_win_stack_box_show (GrisbiWin *win,
 {
 	GrisbiWinPrivate *priv;
 
+	devel_debug (page_name);
 	if (win == NULL)
 		win = grisbi_app_get_active_window (NULL);
 
@@ -1451,8 +1449,7 @@ void grisbi_win_no_file_page_update (GrisbiWin *win)
 
 	if ((priv->w_run)->is_loading == TRUE)
 	{
-		gtk_stack_add_named (GTK_STACK (priv->stack_box), priv->no_file_page, "accueil_page");
-		(priv->w_run)->is_loading = FALSE;
+		grisbi_win_stack_box_show (win, "accueil_page");
 	}
 
 	recent_files_array = grisbi_app_get_recent_files_array ();
@@ -1487,11 +1484,11 @@ void grisbi_win_no_file_page_update (GrisbiWin *win)
 			gchar *basename;
 
 			basename = g_path_get_basename (recent_files_array[i]);
-			tmp_str = utils_str_break_filename (basename, GSB_NBRE_CHAR);
+			tmp_str = utils_str_break_filename (basename, GSB_NBRE_CHAR_TRUNC);
 			g_free (basename);
 		}
 		else
-			tmp_str = utils_str_break_filename (recent_files_array[i], GSB_NBRE_CHAR);
+			tmp_str = utils_str_break_filename (recent_files_array[i], GSB_NBRE_CHAR_TRUNC);
 
 		gtk_button_set_label (GTK_BUTTON (bouton), tmp_str);
 
