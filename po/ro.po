@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ro\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-08 19:18+0100\n"
+"POT-Creation-Date: 2018-02-10 08:00+0100\n"
 "PO-Revision-Date: 2005-12-19 11:24+0100\n"
 "Last-Translator: Mircea Aronovici <bucuresti@free.fr>\n"
 "Language-Team: <bucuresti@free.fr>\n"
@@ -795,7 +795,7 @@ msgstr "Încărcarea fişierului:"
 #: ../src/gsb_assistant_reconcile_config.c:590 ../src/gsb_form.c:1251
 #: ../src/gsb_form_widget.c:463 ../src/gsb_reconcile.c:165
 #: ../src/gsb_scheduler_list.c:603 ../src/gsb_transactions_list.c:167
-#: ../src/import.c:1802 ../src/import.c:3774 ../src/import_csv.c:69
+#: ../src/import.c:1802 ../src/import.c:3782 ../src/import_csv.c:69
 #: ../src/ui/etats_prefs.ui.h:9
 msgid "Date"
 msgstr "Data"
@@ -997,7 +997,7 @@ msgstr "Alegerea modului de plată"
 #: ../src/fenetre_principale.c:140 ../src/gsb_assistant_reconcile_config.c:590
 #: ../src/gsb_form.c:1272 ../src/gsb_form_widget.c:483
 #: ../src/gsb_scheduler_list.c:603 ../src/gsb_transactions_list.c:169
-#: ../src/import.c:3781 ../src/import_csv.c:71 ../src/meta_payee.c:78
+#: ../src/import.c:3789 ../src/import_csv.c:71 ../src/meta_payee.c:78
 #: ../src/ui/etats_prefs.ui.h:50
 #, fuzzy
 msgid "Payee"
@@ -1401,7 +1401,7 @@ msgstr "Selecţionaţi totul"
 #: ../src/etats_affiche.c:2515 ../src/etats_prefs.c:2124
 #: ../src/export_csv.c:807 ../src/gsb_assistant_reconcile_config.c:590
 #: ../src/gsb_scheduler_list.c:604 ../src/gsb_transactions_list.c:174
-#: ../src/import.c:3788 ../src/import_csv.c:78
+#: ../src/import.c:3796 ../src/import_csv.c:78
 #: ../src/imputation_budgetaire.c:202 ../src/tiers_onglet.c:254
 msgid "Amount"
 msgstr "Sumă totală"
@@ -9410,60 +9410,63 @@ msgstr "Operaţiune găsită : %02d/%02d/%04d ; %s ; %4.2f"
 
 #. l'id du compte choisi et l'id du compte importé sont différents
 #. on propose encore d'arrêter...
-#: ../src/import.c:3137
+#: ../src/import.c:3139
 #, fuzzy
 msgid ""
-"Perhaps you choose a wrong account?  If you choose to continue, the id of "
-"the account will be changed. Do you want to continue?"
+"Perhaps you choose a wrong account?\n"
+"If you choose to continue, the id of the account will be changed.\n"
+"If not, the account will be ignored.\n"
+"\n"
+"Do you want to continue?"
 msgstr ""
 "A-ţi ales un cont care nu este bun ? Dacă alegeţi de a continua "
 "identifiantul contului va fi schimbat. Vreţi să continuaţi ?"
 
-#: ../src/import.c:3139
+#: ../src/import.c:3143
 msgid "The id of the imported and chosen accounts are different"
 msgstr "Identificaţii contului ales importat sunt diferenţi"
 
-#: ../src/import.c:3684
+#: ../src/import.c:3692
 #, fuzzy, c-format
 msgid "Orphaned transactions for: %s"
 msgstr "Operaţiuni orfane"
 
-#: ../src/import.c:3702
+#: ../src/import.c:3710
 #, fuzzy
 msgid "Mark transactions you want to add to the list and click the OK button"
 msgstr ""
 "Marcaţi operaţiunile pe care vreţi să le adăugaţi la listā clicănd pe "
 "butonul adăuga"
 
-#: ../src/import.c:3767
+#: ../src/import.c:3775
 msgid "Mark"
 msgstr "Marcat"
 
-#: ../src/import.c:4172
+#: ../src/import.c:4180
 #, c-format
 msgid ""
 "An error occurred while creating the new account %s,\n"
 "We try to continue to import but bad things can happen..."
 msgstr ""
 
-#: ../src/import.c:4232
+#: ../src/import.c:4240
 #, c-format
 msgid ""
 "You want to create an import rule for the account %s but didn't give a name "
 "to that rule. Please set a name or let it empty to cancel the rule creation."
 msgstr ""
 
-#: ../src/import.c:4236
+#: ../src/import.c:4244
 #, fuzzy
 msgid "No name for the import rule"
 msgstr "Creaţia unui nume de fişier de conturi"
 
-#: ../src/import.c:4237 ../src/ui/csv_template_rule.ui.h:3
+#: ../src/import.c:4245 ../src/ui/csv_template_rule.ui.h:3
 #, fuzzy
 msgid "Name of the rule: "
 msgstr "Creaţia unui nume de fişier de conturi:"
 
-#: ../src/import.c:4274
+#: ../src/import.c:4282
 msgid ""
 "No account in memory now, this is bad...\n"
 "Better to leave the import before a crash.\n"
@@ -9471,18 +9474,18 @@ msgid ""
 "Please contact the Grisbi team to find the problem."
 msgstr ""
 
-#: ../src/import.c:4284
+#: ../src/import.c:4292
 msgid "Please wait"
 msgstr "Aşteptaţi un moment.."
 
-#: ../src/import.c:4310
+#: ../src/import.c:4318
 msgid ""
 "You have just imported reconciled transactions but they not associated with "
 "any reconcile number yet.  You may associate them with a reconcilation later "
 "via the preferences windows."
 msgstr ""
 
-#: ../src/import.c:4347
+#: ../src/import.c:4355
 msgid ""
 "This assistant will help you import one or several files into Grisbi.\n"
 "\n"
@@ -9492,66 +9495,66 @@ msgid ""
 "\n"
 msgstr ""
 
-#: ../src/import.c:4355
+#: ../src/import.c:4363
 #, fuzzy
 msgid "Importing transactions into Grisbi"
 msgstr "Clasament a operaţiunilor prin"
 
-#: ../src/import.c:4565
+#: ../src/import.c:4573
 #, fuzzy, c-format
 msgid "%s #%d"
 msgstr "%s %d"
 
-#: ../src/import.c:4655
+#: ../src/import.c:4663
 msgid "Import a file with a rule"
 msgstr ""
 
 #. text for paddingbox
-#: ../src/import.c:4666
+#: ../src/import.c:4674
 #, fuzzy, c-format
 msgid "Properties of the rule: %s\n"
 msgstr "Rezultat pentru %s"
 
-#: ../src/import.c:4685
+#: ../src/import.c:4693
 #, fuzzy, c-format
 msgid "Imported transactions will be added to the account %s.\n"
 msgstr "Toate operaţiunile vor fi convertite în deviza contului respectiv."
 
-#: ../src/import.c:4688
+#: ../src/import.c:4696
 #, fuzzy, c-format
 msgid "Imported transactions will mark transactions in the account %s.\n"
 msgstr "O ventilaţie este un virament spre acest cont.\n"
 
 #. textstring 2
-#: ../src/import.c:4693
+#: ../src/import.c:4701
 #, fuzzy, c-format
 msgid "Currency to import is %s.\n"
 msgstr "Proprietăţi a devizei"
 
-#: ../src/import.c:4702
+#: ../src/import.c:4710
 #, fuzzy, c-format
 msgid "Amounts of the transactions will be inverted.\n"
 msgstr "Înscrierea inventarului automatic de tranzacţiuni "
 
 #. label filename
-#: ../src/import.c:4714
+#: ../src/import.c:4722
 #, fuzzy
 msgid "Name of the file to import: "
 msgstr "Creaţia unui nume de fişier de conturi:"
 
-#: ../src/import.c:4731
+#: ../src/import.c:4739
 #, fuzzy
 msgid "Select a new file"
 msgstr "Selectarea uni nou logo"
 
-#: ../src/import.c:4789
+#: ../src/import.c:4797
 #, c-format
 msgid ""
 "%s is neither an OFX file, neither a QIF file. Nothing will be done for that "
 "file."
 msgstr ""
 
-#: ../src/import.c:4833
+#: ../src/import.c:4841
 #, c-format
 msgid ""
 "%s was not imported successfully. An error occurred while getting the "

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-08 19:18+0100\n"
+"POT-Creation-Date: 2018-02-10 08:00+0100\n"
 "PO-Revision-Date: 2011-02-19 01:39+0100\n"
 "Last-Translator: Markus7cz <markus7cz@gmail.com>\n"
 "Language-Team: \n"
@@ -725,7 +725,7 @@ msgstr "Částka půjčky: "
 #: ../src/gsb_assistant_reconcile_config.c:590 ../src/gsb_form.c:1251
 #: ../src/gsb_form_widget.c:463 ../src/gsb_reconcile.c:165
 #: ../src/gsb_scheduler_list.c:603 ../src/gsb_transactions_list.c:167
-#: ../src/import.c:1802 ../src/import.c:3774 ../src/import_csv.c:69
+#: ../src/import.c:1802 ../src/import.c:3782 ../src/import_csv.c:69
 #: ../src/ui/etats_prefs.ui.h:9
 msgid "Date"
 msgstr "Datum"
@@ -919,7 +919,7 @@ msgstr "Zvolte metodu platby"
 #: ../src/fenetre_principale.c:140 ../src/gsb_assistant_reconcile_config.c:590
 #: ../src/gsb_form.c:1272 ../src/gsb_form_widget.c:483
 #: ../src/gsb_scheduler_list.c:603 ../src/gsb_transactions_list.c:169
-#: ../src/import.c:3781 ../src/import_csv.c:71 ../src/meta_payee.c:78
+#: ../src/import.c:3789 ../src/import_csv.c:71 ../src/meta_payee.c:78
 #: ../src/ui/etats_prefs.ui.h:50
 msgid "Payee"
 msgstr "Plátce/příjemce"
@@ -1315,7 +1315,7 @@ msgstr "Vybrat"
 #: ../src/etats_affiche.c:2515 ../src/etats_prefs.c:2124
 #: ../src/export_csv.c:807 ../src/gsb_assistant_reconcile_config.c:590
 #: ../src/gsb_scheduler_list.c:604 ../src/gsb_transactions_list.c:174
-#: ../src/import.c:3788 ../src/import_csv.c:78
+#: ../src/import.c:3796 ../src/import_csv.c:78
 #: ../src/imputation_budgetaire.c:202 ../src/tiers_onglet.c:254
 msgid "Amount"
 msgstr "Částka"
@@ -9325,34 +9325,37 @@ msgstr "Nalazena transakce: %s ; %s ; %s"
 
 #. l'id du compte choisi et l'id du compte importé sont différents
 #. on propose encore d'arrêter...
-#: ../src/import.c:3137
+#: ../src/import.c:3139
 #, fuzzy
 msgid ""
-"Perhaps you choose a wrong account?  If you choose to continue, the id of "
-"the account will be changed. Do you want to continue?"
+"Perhaps you choose a wrong account?\n"
+"If you choose to continue, the id of the account will be changed.\n"
+"If not, the account will be ignored.\n"
+"\n"
+"Do you want to continue?"
 msgstr ""
 "Zřejmě byl vybrán chybný účet. Pokud zvolíte pokračovat, id účtu bude "
 "změněno. Chcete pokračovat?"
 
-#: ../src/import.c:3139
+#: ../src/import.c:3143
 msgid "The id of the imported and chosen accounts are different"
 msgstr "Id importovaného a vybraného účtu jsou různá"
 
-#: ../src/import.c:3684
+#: ../src/import.c:3692
 #, fuzzy, c-format
 msgid "Orphaned transactions for: %s"
 msgstr "Osiřelé transakce"
 
-#: ../src/import.c:3702
+#: ../src/import.c:3710
 msgid "Mark transactions you want to add to the list and click the OK button"
 msgstr ""
 "Označte transakce které chcete přidat do seznamu a klikněte na tlačítko OK"
 
-#: ../src/import.c:3767
+#: ../src/import.c:3775
 msgid "Mark"
 msgstr "Označit"
 
-#: ../src/import.c:4172
+#: ../src/import.c:4180
 #, fuzzy, c-format
 msgid ""
 "An error occurred while creating the new account %s,\n"
@@ -9361,7 +9364,7 @@ msgstr ""
 "Při vytváření nového účtu %s došlo k chybě.\n"
 "Zkusíme pokračovat v importu, nicméně se mohou vyskytnout další chyby..."
 
-#: ../src/import.c:4232
+#: ../src/import.c:4240
 #, c-format
 msgid ""
 "You want to create an import rule for the account %s but didn't give a name "
@@ -9371,15 +9374,15 @@ msgstr ""
 "tohoto pravidla. Prosím nastavte název nebo jej nechte prázdný pro zrušení "
 "vytváření pravidla."
 
-#: ../src/import.c:4236
+#: ../src/import.c:4244
 msgid "No name for the import rule"
 msgstr "Pojmenujte soubor pravidel importu"
 
-#: ../src/import.c:4237 ../src/ui/csv_template_rule.ui.h:3
+#: ../src/import.c:4245 ../src/ui/csv_template_rule.ui.h:3
 msgid "Name of the rule: "
 msgstr "Název pravidla: "
 
-#: ../src/import.c:4274
+#: ../src/import.c:4282
 #, fuzzy
 msgid ""
 "No account in memory now, this is bad...\n"
@@ -9392,11 +9395,11 @@ msgstr ""
 "\n"
 "Prosím kontaktujte vývojový tým Grisbi pro nalezení problému."
 
-#: ../src/import.c:4284
+#: ../src/import.c:4292
 msgid "Please wait"
 msgstr "Prosím čekejte"
 
-#: ../src/import.c:4310
+#: ../src/import.c:4318
 msgid ""
 "You have just imported reconciled transactions but they not associated with "
 "any reconcile number yet.  You may associate them with a reconcilation later "
@@ -9406,7 +9409,7 @@ msgstr ""
 "propojené s žádným číslem odsouhlasení. Můžete je k odsouhlasení připojit "
 "později v okně Možnosti."
 
-#: ../src/import.c:4347
+#: ../src/import.c:4355
 msgid ""
 "This assistant will help you import one or several files into Grisbi.\n"
 "\n"
@@ -9422,57 +9425,57 @@ msgstr ""
 "následující formáty:\n"
 "\n"
 
-#: ../src/import.c:4355
+#: ../src/import.c:4363
 msgid "Importing transactions into Grisbi"
 msgstr "Importuji transakce do Grisbi"
 
-#: ../src/import.c:4565
+#: ../src/import.c:4573
 #, c-format
 msgid "%s #%d"
 msgstr "%s #%d"
 
-#: ../src/import.c:4655
+#: ../src/import.c:4663
 msgid "Import a file with a rule"
 msgstr "Importovat soubor s pravidlem"
 
 #. text for paddingbox
-#: ../src/import.c:4666
+#: ../src/import.c:4674
 #, c-format
 msgid "Properties of the rule: %s\n"
 msgstr "Vlastnosti pravidla: %s\n"
 
-#: ../src/import.c:4685
+#: ../src/import.c:4693
 #, c-format
 msgid "Imported transactions will be added to the account %s.\n"
 msgstr "Importované transakce budou přidány na účet %s.\n"
 
-#: ../src/import.c:4688
+#: ../src/import.c:4696
 #, c-format
 msgid "Imported transactions will mark transactions in the account %s.\n"
 msgstr "Importované transakce budou označeny s transakcemi na účtu %s.\n"
 
 #. textstring 2
-#: ../src/import.c:4693
+#: ../src/import.c:4701
 #, c-format
 msgid "Currency to import is %s.\n"
 msgstr "Měna pro import je %s.\n"
 
-#: ../src/import.c:4702
+#: ../src/import.c:4710
 #, c-format
 msgid "Amounts of the transactions will be inverted.\n"
 msgstr "Částky transakcí budou otočeny.\n"
 
 #. label filename
-#: ../src/import.c:4714
+#: ../src/import.c:4722
 msgid "Name of the file to import: "
 msgstr "Jméno importovaného souboru: "
 
-#: ../src/import.c:4731
+#: ../src/import.c:4739
 #, fuzzy
 msgid "Select a new file"
 msgstr "Vyberte nové logo"
 
-#: ../src/import.c:4789
+#: ../src/import.c:4797
 #, c-format
 msgid ""
 "%s is neither an OFX file, neither a QIF file. Nothing will be done for that "
@@ -9480,7 +9483,7 @@ msgid ""
 msgstr ""
 "%s není ani OFX soubor, ani QIF soubor. Tento soubor nemůže být zpracován."
 
-#: ../src/import.c:4833
+#: ../src/import.c:4841
 #, fuzzy, c-format
 msgid ""
 "%s was not imported successfully. An error occurred while getting the "
