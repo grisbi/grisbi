@@ -748,7 +748,7 @@ static void csv_template_dialog_response  (GtkDialog *dialog,
 			rule_number = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (dialog), "rule_number"));
 			if (rule_number)
 			{
-				GSList * new_csv_spec_lines_list;
+				GSList * new_csv_spec_lines_list = NULL;
 				const gchar *tmp_str;
 
 				tmp_str = gtk_entry_get_text (GTK_ENTRY (priv->entry_csv_rule_name));
