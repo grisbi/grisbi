@@ -104,6 +104,42 @@ G_DEFINE_TYPE_WITH_PRIVATE (GrisbiPrefs, grisbi_prefs, GTK_TYPE_DIALOG)
 /* Private functions                                                          */
 /******************************************************************************/
 /**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ */
+static gboolean grisbi_prefs_left_panel_tree_view_selection_changed (GtkTreeSelection *selection,
+																	GtkWidget *notebook)
+{
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+	GtkTreePath *path;
+    gint selected;
+	GrisbiWinRun *w_run;
+
+    if (! gtk_tree_selection_get_selected (selection, &model, &iter))
+	{
+        return (FALSE);
+	}
+
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+	path = gtk_tree_model_get_path (model, &iter);
+	if (w_run->prefs_selected_row)
+		g_free (w_run->prefs_selected_row);
+
+	w_run->prefs_selected_row = gtk_tree_path_to_string (path);
+    gtk_tree_model_get (model, &iter, 1, &selected, -1);
+    gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), selected);
+	gtk_tree_path_free (path);
+
+    /* return */
+    return FALSE;
+}
+
+/**
  *  expand or collapse the tree_view and select thee path when the widget is realized
  *
  * \param		tree_view
@@ -637,7 +673,7 @@ static GtkWidget *grisbi_prefs_left_tree_view_setup (GrisbiPrefs *prefs)
     /* Handle select */
     g_signal_connect (selection,
 					  "changed",
-					  G_CALLBACK (utils_prefs_left_panel_tree_view_selection_changed),
+					  G_CALLBACK (grisbi_prefs_left_panel_tree_view_selection_changed),
 					  priv->notebook_prefs);
 
     /* Put the tree in the scroll */
