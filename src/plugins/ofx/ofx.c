@@ -40,10 +40,10 @@
 /*END_EXTERN*/
 
 /*START_STATIC*/
-static int ofx_proc_account_cb(struct OfxAccountData data, void * account_data);;
-static int ofx_proc_statement_cb(struct OfxStatementData data, void * statement_data);;
-static int ofx_proc_status_cb(struct OfxStatusData data, void * status_data);;
-static int ofx_proc_transaction_cb(struct OfxTransactionData data, void * security_data);;
+static int ofx_proc_account_cb(struct OfxAccountData data, void * account_data);
+static int ofx_proc_statement_cb(struct OfxStatementData data, void * statement_data);
+static int ofx_proc_status_cb(struct OfxStatusData data, void * status_data);
+static int ofx_proc_transaction_cb(struct OfxTransactionData data, void * security_data);
 /*END_STATIC*/
 
 /* on doit mettre le compte en cours d'importation en global pour que
