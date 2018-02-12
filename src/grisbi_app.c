@@ -80,7 +80,7 @@ struct _GrisbiAppPrivate
     GAction *			prefs_action;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE (GrisbiApp, grisbi_app, GTK_TYPE_APPLICATION);
+G_DEFINE_TYPE_WITH_PRIVATE (GrisbiApp, grisbi_app, GTK_TYPE_APPLICATION)
 
 /* global variable, see structures.h */
 struct GrisbiAppConf    conf;                   /* conf structure Provisoire */

@@ -77,7 +77,7 @@ struct _GrisbiSettingsPrivate
     GSettings *settings_scheduled;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE (GrisbiSettings, grisbi_settings, G_TYPE_OBJECT);
+G_DEFINE_TYPE_WITH_PRIVATE (GrisbiSettings, grisbi_settings, G_TYPE_OBJECT)
 
 /* singleton object - all consumers of GrisbiSettings get the same object (refcounted) */
 static GrisbiSettings *singleton = NULL;

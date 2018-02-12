@@ -142,7 +142,7 @@ struct _GrisbiWinPrivate
 	GtkWidget *			prefs_dialog;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE(GrisbiWin, grisbi_win, GTK_TYPE_APPLICATION_WINDOW);
+G_DEFINE_TYPE_WITH_PRIVATE(GrisbiWin, grisbi_win, GTK_TYPE_APPLICATION_WINDOW)
 
 /* variables initialisées lors de l'exécution de grisbi PROVISOIRE */
 struct _GrisbiWinRun run;

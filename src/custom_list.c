@@ -86,7 +86,7 @@ extern GdkRGBA text_color[2];
 
 G_DEFINE_TYPE_EXTENDED (
     CustomList, custom_list, G_TYPE_OBJECT, 0,
-    G_IMPLEMENT_INTERFACE (GTK_TYPE_TREE_MODEL, custom_list_tree_model_init));
+    G_IMPLEMENT_INTERFACE (GTK_TYPE_TREE_MODEL, custom_list_tree_model_init))
 
 
 /**

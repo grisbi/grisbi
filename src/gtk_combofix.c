@@ -39,7 +39,7 @@
 
 #define COMBOFIX_MIN_WIDTH		250
 
-G_DEFINE_TYPE ( GtkComboFix, gtk_combofix, GTK_TYPE_BOX );
+G_DEFINE_TYPE ( GtkComboFix, gtk_combofix, GTK_TYPE_BOX )
 
 #define GTK_COMBOFIX_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), GTK_TYPE_COMBOFIX, GtkComboFixPrivate))
 
