@@ -289,7 +289,7 @@ gchar *gsb_file_util_ask_for_crypt_key ( const gchar * file_name, gchar * additi
                         gboolean encrypt )
 {
     gchar *key = NULL;
-    GtkWidget *dialog, *button, *label, *entry, *hbox, *hbox2, *vbox, *icon;
+    GtkWidget *dialog, *button = NULL, *label, *entry, *hbox, *hbox2, *vbox, *icon;
     gint result;
 
     dialog = gtk_dialog_new_with_buttons ( _("Grisbi password"),
@@ -389,7 +389,7 @@ return_bad_password:
         }
 #endif /* __APPLE__ */
 
-        if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( button )))
+        if ( button && gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( button )))
             saved_crypt_key = key;
         else
             saved_crypt_key = NULL;
