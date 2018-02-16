@@ -3133,22 +3133,30 @@ static gboolean gsb_import_set_id_compte (gint account_nb,
 	    if (g_ascii_strcasecmp (account_id, imported_id))
 	    {
 			gchar *tmp_str;
+			gchar *tmp_str2;
 
 		/* l'id du compte choisi et l'id du compte importé sont différents */
 		/* on propose encore d'arrêter... */
-            if (question_yes_no (_("Perhaps you choose a wrong account?\n"
-								   "If you choose to continue, the id of the account will be changed.\n"
-								   "If not, the account will be ignored.\n\n"
-									"Do you want to continue?"),
-                                  _("The id of the imported and chosen accounts are different"),
-                                  GTK_RESPONSE_NO))
+			tmp_str2 = my_strdup (imported_id);
+			tmp_str = g_strdup_printf (_("Perhaps you choose a wrong account?\n"
+										 "If you choose to continue, the id of the account will be changed\n"
+										 " for: %s\n"
+										 "If not, the account will be ignored.\n\n"
+										 "Do you want to continue?"), tmp_str2);
+            if (question_yes_no (tmp_str,
+								 _("The id of the imported and chosen accounts are different"),
+								 GTK_RESPONSE_NO))
 			{
-				tmp_str = my_strdup (imported_id);
-                gsb_data_account_set_id (account_nb, tmp_str);
+                gsb_data_account_set_id (account_nb, tmp_str2);
 				g_free (tmp_str);
+				g_free (tmp_str2);
 			}
             else
+			{
+				g_free (tmp_str);
+				g_free (tmp_str2);
                 return FALSE;
+			}
 	    }
 	}
 	else
