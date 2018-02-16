@@ -77,6 +77,7 @@ static gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
 					    gpointer null );
 static void gsb_reconcile_sensitive ( gboolean sensitive );
 static gchar *gsb_reconcile_build_label ( int reconcile_number );
+static const GDate *gsb_reconcile_get_pointed_transactions_max_date ( gint account_number );
 /*END_STATIC*/
 
 /*START_EXTERN*/
