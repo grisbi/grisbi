@@ -958,6 +958,9 @@ gboolean gsb_scheduler_list_fill_list ( GtkWidget *tree_view )
 
     devel_debug (NULL);
 
+	if ( !tree_model_scheduler_list )
+		return FALSE;
+
     /* get the last date we want to see the transactions */
     end_date = gsb_scheduler_list_get_end_date_scheduled_showed ( );
 
