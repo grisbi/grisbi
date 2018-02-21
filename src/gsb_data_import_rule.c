@@ -56,6 +56,32 @@ static ImportRule *import_rule_buffer;
 /* Private functions                                                          */
 /******************************************************************************/
 /**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+static void _gsb_data_import_rule_free_csv_spec_lines_list (GSList *csv_spec_lines_list)
+{
+    GSList *tmp_list;
+
+	tmp_list = csv_spec_lines_list;
+    while (tmp_list)
+    {
+		SpecConfData *spec_conf_data;
+
+		spec_conf_data = (SpecConfData *) tmp_list->data;
+		tmp_list = tmp_list->next;
+
+		if (spec_conf_data->csv_spec_conf_used_text)
+			g_free (spec_conf_data->csv_spec_conf_used_text);
+		g_free (spec_conf_data);
+    }
+	g_slist_free (csv_spec_lines_list);
+}
+
+/**
  * This internal function is called to free the memory used by an ImportRule structure
  *
  * \param
@@ -85,7 +111,7 @@ static void _gsb_data_import_rule_free (ImportRule* import_rule)
 		if (import_rule->csv_spec_cols_name)
 			g_free (import_rule->csv_spec_cols_name);
 		if (import_rule->csv_spec_lines_list)
-			gsb_data_import_rule_free_csv_spec_lines_list (import_rule->import_rule_number);
+			_gsb_data_import_rule_free_csv_spec_lines_list (import_rule->csv_spec_lines_list);
 	}
 
     if (import_rule->type)
