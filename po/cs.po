@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-17 09:00+0100\n"
+"POT-Creation-Date: 2018-02-24 07:46+0100\n"
 "PO-Revision-Date: 2011-02-19 01:39+0100\n"
 "Last-Translator: Markus7cz <markus7cz@gmail.com>\n"
 "Language-Team: \n"
@@ -723,7 +723,7 @@ msgstr "Částka půjčky: "
 #: ../src/bet_finance_ui.c:1178 ../src/bet_future.c:744 ../src/bet_tab.c:850
 #: ../src/etats_affiche.c:2432 ../src/export_csv.c:783
 #: ../src/gsb_assistant_reconcile_config.c:590 ../src/gsb_form.c:1251
-#: ../src/gsb_form_widget.c:463 ../src/gsb_reconcile.c:165
+#: ../src/gsb_form_widget.c:463 ../src/gsb_reconcile.c:203
 #: ../src/gsb_scheduler_list.c:603 ../src/gsb_transactions_list.c:167
 #: ../src/import.c:1802 ../src/import.c:3790 ../src/import_csv.c:69
 #: ../src/ui/etats_prefs.ui.h:9
@@ -1404,7 +1404,7 @@ msgstr "Zaškrtněte pro automatickou změnu počátečního data"
 msgid "Description"
 msgstr "Popis"
 
-#: ../src/bet_tab.c:920 ../src/export_csv.c:810 ../src/gsb_reconcile.c:168
+#: ../src/bet_tab.c:920 ../src/export_csv.c:810 ../src/gsb_reconcile.c:206
 #: ../src/gsb_transactions_list.c:173 ../src/gsb_transactions_list.c:3378
 msgid "Balance"
 msgstr "Zůstatek"
@@ -4243,7 +4243,7 @@ msgstr "Zůstatky"
 
 #. set the initial balance
 #: ../src/gsb_account_property.c:511
-#: ../src/gsb_assistant_reconcile_config.c:431 ../src/gsb_reconcile.c:214
+#: ../src/gsb_assistant_reconcile_config.c:431 ../src/gsb_reconcile.c:252
 #: ../src/gsb_reconcile_config.c:265
 msgid "Initial balance: "
 msgstr "Počáteční zůstatek: "
@@ -5105,13 +5105,13 @@ msgid "Fill the fields and click the button \"Create the new reconciliation\""
 msgstr "Vyplňte pole a klikněte na tlačítko \"Vytvořit nové odsouhlasení\""
 
 #. set the name
-#: ../src/gsb_assistant_reconcile_config.c:394 ../src/gsb_reconcile.c:137
+#: ../src/gsb_assistant_reconcile_config.c:394 ../src/gsb_reconcile.c:175
 #: ../src/gsb_reconcile_config.c:220
 msgid "Reconciliation reference: "
 msgstr "Reference odsouhlasení: "
 
 #. set the final balance
-#: ../src/gsb_assistant_reconcile_config.c:440 ../src/gsb_reconcile.c:224
+#: ../src/gsb_assistant_reconcile_config.c:440 ../src/gsb_reconcile.c:262
 #: ../src/gsb_reconcile_config.c:277
 msgid "Final balance: "
 msgstr "Konečný zůstatek: "
@@ -5238,7 +5238,7 @@ msgstr "Reference odsouhlasení"
 msgid "No selection found, the transactions are not modified."
 msgstr "Nic nebylo vybráno, žádné transakce nebyly změněny."
 
-#: ../src/gsb_bank.c:331 ../src/gsb_reconcile.c:458
+#: ../src/gsb_bank.c:331 ../src/gsb_reconcile.c:496
 msgid "None"
 msgstr "Žádný"
 
@@ -5331,7 +5331,7 @@ msgstr "Opravdu chcete odstranit banku \"%s\"?\n"
 
 #. cancel button
 #: ../src/gsb_calendar_entry.c:494 ../src/gsb_form.c:357
-#: ../src/gsb_reconcile.c:272
+#: ../src/gsb_reconcile.c:310
 msgid "Cancel"
 msgstr "Storno"
 
@@ -7730,7 +7730,7 @@ msgid "Recover the children"
 msgstr "Obnovit nepřiřazené položky"
 
 #. create the valid/cancel buttons
-#: ../src/gsb_form.c:351 ../src/gsb_reconcile.c:278
+#: ../src/gsb_form.c:351 ../src/gsb_reconcile.c:316
 #, fuzzy
 msgid "Validate"
 msgstr "Datum pohybu"
@@ -8207,7 +8207,7 @@ msgstr ""
 msgid "Associate transactions with: "
 msgstr "Přiřadit transakce k: "
 
-#: ../src/gsb_reconcile.c:142
+#: ../src/gsb_reconcile.c:180
 msgid ""
 "If reconciliation reference ends in a digit, it is automatically incremented "
 "at each reconciliation.\n"
@@ -8217,25 +8217,25 @@ msgstr ""
 "číslo automaticky zvýšeno.\n"
 "Nechcete-li odsouhlasení podrobně sledovat, můžete nechat číslo prázdné."
 
-#: ../src/gsb_reconcile.c:233
+#: ../src/gsb_reconcile.c:271
 msgid "Checking: "
 msgstr "Označeno: "
 
-#: ../src/gsb_reconcile.c:245
+#: ../src/gsb_reconcile.c:283
 msgid "Variance: "
 msgstr "Rozdíl: "
 
-#: ../src/gsb_reconcile.c:261
+#: ../src/gsb_reconcile.c:299
 msgid "Sort by method of payment"
 msgstr "Řadit dle metody platby"
 
 #. set the title
-#: ../src/gsb_reconcile.c:484
+#: ../src/gsb_reconcile.c:522
 #, c-format
 msgid " <b>%s reconciliation</b> "
 msgstr " <b>%s odsouhlasení</b> "
 
-#: ../src/gsb_reconcile.c:558
+#: ../src/gsb_reconcile.c:597
 msgid ""
 "There is a variance in balances, check that both final balance and initial "
 "balance minus marked transactions are equal."
@@ -8243,13 +8243,13 @@ msgstr ""
 "V zůstatcích je rozdíl. Zkontrolujte, že se počáteční zůstatek rovná "
 "koncovému zůstatku mínus suma označených transakcí."
 
-#: ../src/gsb_reconcile.c:559 ../src/gsb_reconcile.c:571
-#: ../src/gsb_reconcile.c:583 ../src/gsb_reconcile.c:596
-#: ../src/gsb_reconcile.c:612
+#: ../src/gsb_reconcile.c:598 ../src/gsb_reconcile.c:610
+#: ../src/gsb_reconcile.c:622 ../src/gsb_reconcile.c:649
+#: ../src/gsb_reconcile.c:665
 msgid "Reconciliation can't be completed."
 msgstr "Odsouhlasení nemůže být dokončeno"
 
-#: ../src/gsb_reconcile.c:567
+#: ../src/gsb_reconcile.c:606
 #, fuzzy
 msgid ""
 "There is already a reconciliation with that name, you must use another name "
@@ -8262,16 +8262,30 @@ msgstr ""
 "Pokud název odsouhlasení končí číslem,\n"
 "bude automaticky zvýšeno."
 
-#: ../src/gsb_reconcile.c:580 ../src/gsb_reconcile.c:595
+#: ../src/gsb_reconcile.c:619 ../src/gsb_reconcile.c:648
 #, c-format
 msgid "Invalid date: '%s'"
 msgstr "Neplatné datum: '%s'"
 
-#: ../src/gsb_reconcile.c:604
+#: ../src/gsb_reconcile.c:631
+msgid ""
+"There are pointed transactions that occur later than the reconciliation end "
+"date.\n"
+"If you continue these transactions will be ignored.\n"
+"\n"
+"Do you want to continue?"
+msgstr ""
+
+#: ../src/gsb_reconcile.c:635
+#, fuzzy
+msgid "Warning: the reconciliation may be incomplete!"
+msgstr "Odsouhlasení nemůže být dokončeno"
+
+#: ../src/gsb_reconcile.c:657
 msgid "You can set the initial date of the reconciliation in the preferences."
 msgstr ""
 
-#: ../src/gsb_reconcile.c:611
+#: ../src/gsb_reconcile.c:664
 msgid ""
 "You need to set a name to the reconciliation ; at least, set a number,\n"
 "it will be automatically incremented later"
@@ -8279,7 +8293,7 @@ msgstr ""
 "Je potřeba zadat název odsouhlasení, nebo alespoň nastavte číslo,\n"
 "příště bude automaticky zvýšeno"
 
-#: ../src/gsb_reconcile.c:624
+#: ../src/gsb_reconcile.c:677
 #, c-format
 msgid "Last statement: %s"
 msgstr "Poslední výpis: %s"
