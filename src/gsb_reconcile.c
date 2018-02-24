@@ -108,6 +108,44 @@ static gint reconcile_save_account_display;
 /* backup the number of the last transaction converted into planned transaction during the reconciliation */
 static gint reconcile_save_last_scheduled_convert = 0;
 
+/**
+ * return the date max of transactions ready to reconcile
+ *
+ * \param account_number the number of the current account
+ *
+ * \return the date max of the  transactions
+ **/
+static const GDate *gsb_reconcile_get_pointed_transactions_max_date (gint account_number)
+{
+    GSList *list_tmp;
+    const GDate *max_date = NULL;
+
+    list_tmp = gsb_data_transaction_get_transactions_list ();
+
+    while (list_tmp)
+    {
+        gint transaction_number;
+        const GDate *transaction_date;
+
+        transaction_number = gsb_data_transaction_get_transaction_number (list_tmp -> data);
+        if (gsb_data_transaction_get_account_number (transaction_number) == account_number
+			&&
+			(gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_POINTEE
+			 ||
+			 gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_TELERAPPROCHEE))
+		{
+            transaction_date = gsb_data_transaction_get_date (transaction_number);
+            //~ printf("transaction_date: %s\n", gsb_format_gdate (transaction_date));
+            if (max_date == NULL || g_date_compare (transaction_date, max_date) > 0)
+			{
+                max_date = transaction_date;
+                //~ printf("max_date: %s\n", gsb_format_gdate (max_date));
+            }
+        }
+        list_tmp = list_tmp -> next;
+    }
+    return max_date;
+}
 
 /**
  * Create a vbox that contains all controls used to display
@@ -544,6 +582,7 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
     GSList *list_tmp_transactions;
     GDate *date;
     const GDate *initial_date;
+	const GDate *transactions_max_date;
     gint account_number;
     gint reconcile_number;
     gsb_real real;
@@ -585,7 +624,21 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
 	return FALSE;
     }
 
-    /* teste la validité de la date de fin */
+    /* teste si la date de fin inclue toutes les transactions pointées */
+    transactions_max_date = gsb_reconcile_get_pointed_transactions_max_date (account_number);
+    if (g_date_compare (transactions_max_date, date) > 0)
+    {
+		if (!question_yes_no (_("There are pointed transactions that occur later than "
+								"the reconciliation end date.\n"
+							    "If you continue these transactions will be ignored.\n\n"
+								"Do you want to continue?"),
+							  _("Warning: the reconciliation may be incomplete!"),
+							  GTK_RESPONSE_NO))
+
+        return FALSE;
+    }
+
+/* teste la validité de la date de fin */
     reconcile_number = gsb_data_reconcile_get_account_last_number ( account_number );
     if ( reconcile_number )
     {
