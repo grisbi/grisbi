@@ -188,6 +188,17 @@ static GtkTargetEntry row_targets[] =
 	{ "GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_WIDGET, 0 }
 };
 
+gulong navigation_set_tree_view_selection_changed_signal (void)
+{
+	gulong handler_ID;
+
+	handler_ID = g_signal_connect_after (gtk_tree_view_get_selection (GTK_TREE_VIEW (navigation_tree_view)),
+										 "changed",
+										 G_CALLBACK (gsb_gui_navigation_select_line),
+										 navigation_model);
+
+	return handler_ID;
+}
 
 /**
  * Create the navigation pane on the left of the GUI.  It contains
@@ -290,11 +301,6 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
         g_signal_handlers_block_by_func ( gsb_gui_navigation_get_tree_view ( ),
                         G_CALLBACK ( gsb_gui_navigation_check_scroll ),
                         NULL );
-
-    g_signal_connect_after ( gtk_tree_view_get_selection ( GTK_TREE_VIEW ( navigation_tree_view ) ),
-                        "changed",
-                        G_CALLBACK ( gsb_gui_navigation_select_line ),
-                        navigation_model );
 
     /* Create column */
     column = gtk_tree_view_column_new ( );

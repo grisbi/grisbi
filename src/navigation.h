@@ -54,6 +54,7 @@ gboolean navigation_drag_data_received ( GtkTreeDragDest *drag_dest,
 gboolean navigation_row_drop_possible ( GtkTreeDragDest *drag_dest,
                         GtkTreePath *dest_path,
                         GtkSelectionData *selection_data );
+gulong navigation_set_tree_view_selection_changed_signal (void);
 /* END_DECLARATION */
 
 #endif

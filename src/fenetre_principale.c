@@ -159,8 +159,12 @@ gboolean gsb_gui_fill_general_notebook ( GtkWidget *notebook )
                         etats_onglet_create_reports_tab (),
                         gtk_label_new ( _("Reports") ) );
 
-    /* update toolbars */
+	/* Set the signal for the navigation treeview selection when the notebook is filled */
+	navigation_set_tree_view_selection_changed_signal ();
+
+	/* update toolbars */
     gsb_gui_update_all_toolbars ( );
+
 
     return FALSE;
 }
