@@ -1326,11 +1326,18 @@ gboolean gsb_transactions_list_set_row_align ( gfloat row_align )
     /* we need to use scroll_to_cell function because at this stade,
      * the tree view is not refreshed so all value with alignment don't work
      * but scroll_to_cell will place us on the good position despite that */
-    gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()),
-				   path, NULL,
-				   TRUE, row_align, 0.0 );
-    gtk_tree_path_free (path);
-    return FALSE;
+	if (path)
+	{
+		gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()),
+									  path,
+									  NULL,
+									  FALSE,
+									  row_align,
+									  0.0 );
+		gtk_tree_path_free (path);
+	}
+
+	return FALSE;
 }
 
 
