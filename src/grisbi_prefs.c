@@ -153,12 +153,20 @@ static void grisbi_prefs_left_tree_view_select_path_realize (GtkWidget *tree_vie
     GtkTreePath *path;
 	GtkTreeSelection *selection;
 	gchar *str_path;
+	gboolean first_path = TRUE;				/* cas où l'onglet fichiers est sélectionné vrai au démarrage */
 
 	/* set the path */
-	if (w_run->prefs_selected_row == NULL)
-		str_path = "0:0";
+	str_path = w_run->prefs_selected_row;
+
+	if (strcmp (str_path, "0:0") == 0)
+	{
+		first_path = TRUE;
+	}
 	else
-		str_path = w_run->prefs_selected_row;
+	{
+		first_path = FALSE;
+	}
+
     path = gtk_tree_path_new_from_string (str_path);
 
 	/* expand or collapse all */
@@ -172,11 +180,23 @@ static void grisbi_prefs_left_tree_view_select_path_realize (GtkWidget *tree_vie
 		gtk_tree_view_expand_to_path (GTK_TREE_VIEW (tree_view), path);
 	}
 
-    /* selection de l'item selectable item sélectionnable */
+    /* selection de l'item sélectionnable */
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
-    gtk_tree_selection_select_path (GTK_TREE_SELECTION (selection), path);
-	gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (tree_view), path, NULL, FALSE, 0.0, 0.0 );
-    gtk_tree_path_free (path);
+	if (first_path)
+	{
+		GtkTreePath *tmp_path;
+
+		tmp_path = gtk_tree_path_new_from_string ("0");
+		gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (tree_view), tmp_path, NULL, TRUE, 0.0, 0.0 );
+		gtk_tree_path_free (tmp_path);
+	}
+	else
+	{
+		gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (tree_view), path, NULL, FALSE, 0.0, 0.0 );
+	}
+
+	gtk_tree_selection_select_path (GTK_TREE_SELECTION (selection), path);
+	gtk_tree_path_free (path);
 }
 
 /**

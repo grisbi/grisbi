@@ -800,7 +800,7 @@ static void grisbi_win_init (GrisbiWin *win)
     /* creation et initialisation de la structure w_run */
     priv->w_run = g_malloc0 (sizeof (GrisbiWinRun));
 	(priv->w_run)->prefs_expand_tree = TRUE;
-	(priv->w_run)->prefs_selected_row = NULL;
+	(priv->w_run)->prefs_selected_row = g_strdup ("0:0");
 
     /* initialisation de la variable w_etat */
     priv->w_etat = g_malloc0 (sizeof (GrisbiWinEtat));
