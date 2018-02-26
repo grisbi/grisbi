@@ -39,7 +39,6 @@
 
 /*START_INCLUDE*/
 #include "tiers_onglet.h"
-#include "fenetre_principale.h"
 #include "grisbi_app.h"
 #include "gsb_assistant.h"
 #include "gsb_automem.h"

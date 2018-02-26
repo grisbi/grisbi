@@ -37,7 +37,6 @@
 #include "categories_onglet.h"
 #include "dialog.h"
 #include "etats_onglet.h"
-#include "fenetre_principale.h"
 #include "grisbi_win.h"
 #include "gsb_account.h"
 #include "gsb_account_property.h"
@@ -1132,6 +1131,7 @@ void gsb_gui_navigation_remove_account ( gint account_number )
 gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
                         GtkTreeModel *model )
 {
+	GtkWidget *account_page;
     gint account_number, page_number;
     gint report_number;
     gchar *title = NULL;
@@ -1140,7 +1140,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
     devel_debug (NULL);
     page_number = gsb_gui_navigation_get_current_page ();
 
-    gtk_notebook_set_current_page ( GTK_NOTEBOOK ( gsb_gui_get_general_notebook ( ) ), page_number );
+    gtk_notebook_set_current_page ( GTK_NOTEBOOK ( grisbi_win_get_notebook_general ( ) ), page_number );
 
     if ( page_number != GSB_ACCOUNT_PAGE )
     {
@@ -1194,10 +1194,11 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 			gsb_menu_update_view_menu ( account_number );
 
 			/* set the form */
-			gsb_gui_on_account_switch_page ( GTK_NOTEBOOK ( gsb_gui_get_account_page () ),
-							NULL,
-							gtk_notebook_get_current_page ( GTK_NOTEBOOK ( gsb_gui_get_account_page () ) ),
-							NULL );
+			account_page = grisbi_win_get_account_page ();
+			grisbi_win_on_account_switch_page (GTK_NOTEBOOK (account_page),
+											   NULL,
+											   gtk_notebook_get_current_page (GTK_NOTEBOOK (account_page)),
+											   NULL );
 			gsb_form_show (TRUE);
 
 			buffer_last_account = account_number;

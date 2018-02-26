@@ -44,7 +44,6 @@
 #include "transaction_list.h"
 #include "transaction_list_select.h"
 #include "structures.h"
-#include "fenetre_principale.h"
 #include "etats_config.h"
 #include "etats_affiche.h"
 #include "erreur.h"

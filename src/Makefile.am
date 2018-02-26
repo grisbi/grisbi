@@ -62,7 +62,6 @@ libgrisbi_la_SOURCES = \
 	etats_support.c		\
 	export.c		\
 	export_csv.c		\
-	fenetre_principale.c	\
 	file_obfuscate.c	\
 	file_obfuscate_qif.c	\
 	go-charmap-sel.c	\
@@ -206,7 +205,6 @@ libgrisbi_la_SOURCES = \
 	etats_support.h		\
 	export.h                \
 	export_csv.h            \
-	fenetre_principale.h	\
 	file_obfuscate.h	\
 	file_obfuscate_qif.h	\
 	go-charmap-sel.h        \

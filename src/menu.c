@@ -33,7 +33,6 @@
 #include "menu.h"
 #include "custom_list.h"
 #include "export.h"
-#include "fenetre_principale.h"
 #include "file_obfuscate_qif.h"
 #include "file_obfuscate.h"
 #include "grisbi_app.h"

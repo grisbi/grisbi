@@ -39,14 +39,24 @@
 #include "grisbi_app.h"
 #include "accueil.h"
 #include "affichage_liste.h"
+#include "bet_data.h"
+#include "bet_data_finance.h"
+#include "bet_finance_ui.h"
+#include "bet_hist.h"
+#include "bet_tab.h"
+#include "categories_onglet.h"
+#include "etats_onglet.h"
 #include "dialog.h"
-#include "fenetre_principale.h"
+#include "gsb_account_property.h"
 #include "gsb_data_account.h"
 #include "gsb_dirs.h"
 #include "gsb_form.h"
+#include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
+#include "imputation_budgetaire.h"
 #include "menu.h"
 #include "navigation.h"
+#include "tiers_onglet.h"
 #include "structures.h"
 #include "transaction_list.h"
 #include "utils.h"
@@ -95,6 +105,7 @@ struct _GrisbiWinPrivate
     GtkWidget *         hpaned_general;
 	GtkWidget *			navigation_sw;
     GtkWidget *         notebook_general;
+	GtkWidget *			account_page;
 	GtkWidget *			scheduler_calendar;
     GtkWidget *         vbox_general;
 
@@ -420,6 +431,101 @@ static gboolean grisbi_win_notebook_size_allocate (GtkWidget *notebook_general,
 }
 
 /**
+ * fill the notebook given in param
+ *
+ * \param notebook a notebook (usually the main_notebook...)
+ *
+ * \return FALSE
+ * */
+static gboolean grisbi_win_fill_general_notebook (GrisbiWin *win)
+{
+	GrisbiWinPrivate *priv;
+
+    devel_debug (NULL);
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+
+	/* append the main page */
+    gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_general),
+                        creation_onglet_accueil(),
+                        gtk_label_new (_("Main page")));
+
+    /* append the account page : a notebook with the account configuration
+     * the bet pages and transactions page */
+    priv->account_page = gtk_notebook_new ();
+    gtk_notebook_set_show_border (GTK_NOTEBOOK(priv->account_page), TRUE);
+    gtk_widget_show (priv->account_page);
+
+    gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_general),
+                        priv->account_page,
+                        gtk_label_new (_("Accounts")));
+
+    gtk_notebook_append_page (GTK_NOTEBOOK (priv->account_page),
+                        creation_fenetre_operations (),
+                        gtk_label_new (_("Transactions")));
+
+    /* append the balance estimate pages */
+    gtk_notebook_append_page (GTK_NOTEBOOK (priv->account_page),
+                        bet_array_create_page (),
+                        gtk_label_new (_("Forecast")));
+
+    gtk_notebook_append_page (GTK_NOTEBOOK (priv->account_page),
+                        bet_historical_create_page (),
+                        gtk_label_new (_("Historical data")));
+
+    /* append the amortization page */
+    gtk_notebook_append_page (GTK_NOTEBOOK (priv->account_page),
+                        bet_finance_create_account_page (),
+                        gtk_label_new (_("Amortization array")));
+
+    gtk_notebook_append_page (GTK_NOTEBOOK (priv->account_page),
+                        gsb_account_property_create_page (),
+                        gtk_label_new (_("Properties")));
+
+    g_signal_connect (G_OBJECT (priv->account_page),
+                        "switch-page",
+                        G_CALLBACK (grisbi_win_on_account_switch_page),
+                        NULL);
+
+    /* append the scheduled transactions page */
+    gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_general),
+                        gsb_scheduler_list_create_list (),
+                        gtk_label_new (_("Scheduler")));
+
+    /* append the payee page */
+    gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_general),
+                        payees_create_list (),
+                        gtk_label_new (_("Payee")));
+
+    /* append the financial page */
+    gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_general),
+                        bet_finance_create_page (),
+                        gtk_label_new (_("Credits simulator")));
+
+    /* append the categories page */
+    gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_general),
+                        categories_create_list (),
+                        gtk_label_new (_("Categories")));
+
+    /* append the budget page */
+    gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_general),
+                        budgetary_lines_create_list (),
+                        gtk_label_new (_("Budgetary lines")));
+
+    /* append the reports page */
+    gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_general),
+                        etats_onglet_create_reports_tab (),
+                        gtk_label_new (_("Reports")));
+
+	/* Set the signal for the navigation treeview selection when the notebook_general is filled */
+	navigation_set_tree_view_selection_changed_signal ();
+
+	/* update toolbars */
+    grisbi_win_update_all_toolbars ();
+
+    return FALSE;
+}
+
+/**
  * Init the main notebook :
  * a notebook which contains the pages : main page, accounts, scheduler... and
  * the form on the bottom, the form will be showed only for accounts page and
@@ -697,7 +803,7 @@ static void grisbi_win_init (GrisbiWin *win)
 	(priv->w_run)->prefs_selected_row = NULL;
 
     /* initialisation de la variable w_etat */
-    priv->w_etat = g_malloc0 ( sizeof (GrisbiWinEtat));
+    priv->w_etat = g_malloc0 (sizeof (GrisbiWinEtat));
 
     /* init widgets in grisbi_win.ui */
 	gtk_widget_init_template (GTK_WIDGET (win));
@@ -903,18 +1009,39 @@ gpointer grisbi_win_get_w_run (void)
 
 /* GET WIDGET */
 /**
+ * retourne account_page
+ *
+ * \param GrisbiWin *win
+ *
+ * \return account_page
+ **/
+GtkWidget *grisbi_win_get_account_page (void)
+{
+    GrisbiWin *win;
+    GrisbiWinPrivate *priv;
+
+    win = grisbi_app_get_active_window (NULL);
+    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+
+    return priv->account_page;
+}
+
+/**
  * retourne notebook_general
  *
  * \param GrisbiWin *win
  *
  * \return notebook_general
  **/
-GtkWidget *grisbi_win_get_notebook_general (GrisbiWin *win)
+GtkWidget *grisbi_win_get_notebook_general (void)
 {
-	GrisbiWinPrivate *priv;
+    GrisbiWin *win;
+    GrisbiWinPrivate *priv;
 
-	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
-    return priv->notebook_general;
+    win = grisbi_app_get_active_window (NULL);
+    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+
+	return priv->notebook_general;
 }
 
 /**
@@ -1587,6 +1714,24 @@ void grisbi_win_free_general_vbox (void)
 
 /* NOTEBOOK_GENERAL */
 /**
+ * Set the main notebook page.
+ *
+ * \param page		Page to set.
+ *
+ * \return
+ **/
+void grisbi_win_general_notebook_set_page (gint page)
+{
+    GrisbiWin *win;
+    GrisbiWinPrivate *priv;
+
+    win = grisbi_app_get_active_window (NULL);
+    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+
+    gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook_general), page);
+}
+
+/**
  * free notebook_general
  *
  * \param
@@ -1608,6 +1753,65 @@ void grisbi_win_free_general_notebook (void)
         priv->notebook_general = NULL;
 }
 
+/* ACCOUNT_PAGE */
+/**
+ * called when the account notebook changed page between
+ * transactions list and account description
+ *
+ * \param notebook	Widget that triggered event.
+ * \param page		Not used.
+ * \param page_number	Page set.
+ * \param null		Not used.
+ *
+ * \return		FALSE
+ */
+gboolean grisbi_win_on_account_switch_page (GtkNotebook *notebook,
+											gpointer page,
+											guint page_number,
+											gpointer null)
+{
+    gint account_number;
+
+    grisbi_win_menu_move_to_acc_update  (FALSE);
+    if (page_number != GSB_TRANSACTIONS_PAGE)
+    {
+        gsb_menu_set_menus_view_account_sensitive (FALSE);
+        gsb_menu_gui_sensitive_win_menu_item ("new-ope", FALSE);
+    }
+
+    switch (page_number)
+    {
+    case GSB_TRANSACTIONS_PAGE:
+        gsb_form_set_expander_visible (TRUE, TRUE);
+        gsb_menu_set_menus_view_account_sensitive (TRUE);
+        gsb_menu_gui_sensitive_win_menu_item ("new-ope", TRUE);
+        break;
+    case GSB_ESTIMATE_PAGE:
+        gsb_form_set_expander_visible (FALSE, FALSE);
+        account_number = gsb_gui_navigation_get_current_account ();
+        if (gsb_data_account_get_bet_maj (account_number))
+            bet_data_update_bet_module (account_number, GSB_ESTIMATE_PAGE);
+        break;
+    case GSB_HISTORICAL_PAGE:
+        gsb_form_set_expander_visible (FALSE, FALSE);
+        account_number = gsb_gui_navigation_get_current_account ();
+        if (gsb_data_account_get_bet_maj (account_number))
+            bet_data_update_bet_module (account_number, GSB_HISTORICAL_PAGE);
+        bet_historical_set_page_title (account_number);
+        break;
+    case GSB_FINANCE_PAGE:
+        gsb_form_set_expander_visible (FALSE, FALSE);
+        account_number = gsb_gui_navigation_get_current_account ();
+        bet_finance_ui_update_amortization_tab (account_number);
+		/* FALLTHRU */
+    case GSB_PROPERTIES_PAGE:
+        gsb_form_set_expander_visible (FALSE, FALSE);
+        break;
+    }
+
+    return (FALSE);
+}
+
 /* FILE_GUI */
 /**
  * Initialize user interface part when a new accounts file is created.
@@ -1620,10 +1824,11 @@ void grisbi_win_new_file_gui (void)
 {
     GrisbiWin *win;
     GtkWidget *tree_view_widget;
-    GtkWidget *notebook_general;
 	GtkWidget *vbox_transactions_list;
+	GrisbiWinPrivate *priv;
 
     win = grisbi_app_get_active_window (NULL);
+    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
     /* dégrise les menus nécessaire */
     gsb_menu_set_menus_with_file_sensitive (TRUE);
@@ -1639,8 +1844,7 @@ void grisbi_win_new_file_gui (void)
 	grisbi_win_stack_box_show (win, "file_page");
 
     /* fill the general notebook */
-    notebook_general = grisbi_win_get_notebook_general (win);
-    gsb_gui_fill_general_notebook (notebook_general);
+    grisbi_win_fill_general_notebook (GRISBI_WIN (win));
 
     /* create the model */
     if (!transaction_list_create ())
@@ -1660,9 +1864,9 @@ void grisbi_win_new_file_gui (void)
 	grisbi_win_menu_move_to_acc_delete ();
 	grisbi_win_menu_move_to_acc_new ();
 
-    gtk_notebook_set_current_page (GTK_NOTEBOOK(notebook_general), GSB_HOME_PAGE);
+    gtk_notebook_set_current_page (GTK_NOTEBOOK(priv->notebook_general), GSB_HOME_PAGE);
 
-    gtk_widget_show (notebook_general);
+    gtk_widget_show (priv->notebook_general);
 }
 
 /* HEADINGS */
@@ -1877,6 +2081,7 @@ void grisbi_win_status_bar_stop_wait (gboolean force_update)
     if (force_update)
         update_gui ();
 }
+/* TOOLBARS */
 /**
  *
  *
@@ -1884,6 +2089,37 @@ void grisbi_win_status_bar_stop_wait (gboolean force_update)
  *
  * \return
  **/
+void grisbi_win_update_all_toolbars (void)
+{
+    gint toolbar_style = 0;
+
+    switch (conf.display_toolbar)
+    {
+        case GSB_BUTTON_TEXT:
+            toolbar_style = GTK_TOOLBAR_TEXT;
+            break;
+        case GSB_BUTTON_ICON:
+            toolbar_style = GTK_TOOLBAR_ICONS;
+            break;
+        case GSB_BUTTON_BOTH:
+            toolbar_style = GTK_TOOLBAR_BOTH;
+            break;
+        case GSB_BUTTON_BOTH_HORIZ:
+            toolbar_style = GTK_TOOLBAR_BOTH_HORIZ;
+            break;
+    }
+
+    gsb_gui_transaction_toolbar_set_style (toolbar_style);
+    gsb_gui_scheduler_toolbar_set_style (toolbar_style);
+    gsb_gui_payees_toolbar_set_style (toolbar_style);
+    gsb_gui_categories_toolbar_set_style (toolbar_style);
+    gsb_gui_budgetary_lines_toolbar_set_style (toolbar_style);
+    etats_onglet_reports_toolbar_set_style (toolbar_style);
+    bet_array_update_toolbar (toolbar_style);
+    bet_historical_update_toolbar (toolbar_style);
+    bet_finance_update_all_finance_toolbars (toolbar_style);
+}
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

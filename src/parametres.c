@@ -42,7 +42,6 @@
 #include "bet_finance_ui.h"
 #include "categories_onglet.h"
 #include "dialog.h"
-#include "fenetre_principale.h"
 #include "grisbi_app.h"
 #include "grisbi_settings.h"
 #include "gsb_automem.h"
@@ -1126,7 +1125,7 @@ void gsb_localisation_update_affichage ( gint type_maj )
         KindAccount kind;
 
         account_number = gsb_gui_navigation_get_current_account ( );
-        account_current_page = gtk_notebook_get_current_page ( GTK_NOTEBOOK ( gsb_gui_get_account_page () ) );
+        account_current_page = gtk_notebook_get_current_page ( GTK_NOTEBOOK ( grisbi_win_get_account_page () ) );
 
         kind = gsb_data_account_get_kind ( account_number );
         switch ( kind )

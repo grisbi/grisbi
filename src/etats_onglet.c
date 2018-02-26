@@ -38,7 +38,6 @@
 #include "dialog.h"
 #include "etats_calculs.h"
 #include "etats_config.h"
-#include "fenetre_principale.h"
 #include "grisbi_app.h"
 #include "gsb_automem.h"
 #include "gsb_data_report_amout_comparison.h"
@@ -179,7 +178,7 @@ static void etats_onglet_dupliquer_etat (void)
 
     current_report_number = gsb_gui_navigation_get_current_report ();
 
-    notebook_general = gsb_gui_get_general_notebook ();
+    notebook_general = grisbi_win_get_notebook_general ();
     if (gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook_general)) != GSB_REPORTS_PAGE)
         gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook_general), GSB_REPORTS_PAGE);
 
@@ -204,7 +203,7 @@ static void etats_onglet_export_etat_courant_vers_csv (gchar *filename)
 {
     GtkWidget *notebook_general;
 
-    notebook_general = gsb_gui_get_general_notebook ();
+    notebook_general = grisbi_win_get_notebook_general ();
     if (gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook_general)) != GSB_REPORTS_PAGE)
         gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook_general), GSB_REPORTS_PAGE);
 
@@ -223,7 +222,7 @@ static void etats_onglet_export_etat_courant_vers_html (gchar *filename)
 {
     GtkWidget *notebook_general;
 
-    notebook_general = gsb_gui_get_general_notebook ();
+    notebook_general = grisbi_win_get_notebook_general ();
     if (gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook_general)) != GSB_REPORTS_PAGE)
         gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook_general), GSB_REPORTS_PAGE);
 
@@ -298,7 +297,7 @@ static void etats_onglet_exporter_etat (void)
     GtkWidget *notebook_general;
     gchar *tmp_last_directory;
 
-    notebook_general = gsb_gui_get_general_notebook ();
+    notebook_general = grisbi_win_get_notebook_general ();
     if (gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook_general)) != GSB_REPORTS_PAGE)
         gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook_general), GSB_REPORTS_PAGE);
 
@@ -390,7 +389,7 @@ static void etats_onglet_importer_etat (void)
     GtkFileFilter *filter;
     gchar *tmp_last_directory;
 
-    notebook_general = gsb_gui_get_general_notebook ();
+    notebook_general = grisbi_win_get_notebook_general ();
     if (gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook_general)) != GSB_REPORTS_PAGE)
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook_general), GSB_REPORTS_PAGE);
 
@@ -724,7 +723,7 @@ gboolean etats_onglet_ajoute_etat (void)
     GtkWidget *scrolled_window;
     GtkWidget *notebook_general;
 
-    notebook_general = gsb_gui_get_general_notebook ();
+    notebook_general = grisbi_win_get_notebook_general ();
     if (gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook_general)) != GSB_REPORTS_PAGE)
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook_general), GSB_REPORTS_PAGE);
 
@@ -1410,7 +1409,7 @@ void etats_onglet_efface_etat (void)
     if (!current_report_number)
 	return;
 
-    notebook_general = gsb_gui_get_general_notebook ();
+    notebook_general = grisbi_win_get_notebook_general ();
     if (gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook_general)) != GSB_REPORTS_PAGE)
         gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook_general), GSB_REPORTS_PAGE);
 

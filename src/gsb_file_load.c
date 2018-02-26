@@ -39,7 +39,6 @@
 #include "bet_graph.h"
 #include "custom_list.h"
 #include "dialog.h"
-#include "fenetre_principale.h"
 #include "grisbi_win.h"
 #include "gsb_assistant_archive.h"
 #include "gsb_assistant_first.h"

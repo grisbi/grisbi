@@ -32,7 +32,6 @@
 #include "metatree.h"
 #include "categories_onglet.h"
 #include "dialog.h"
-#include "fenetre_principale.h"
 #include "grisbi_win.h"
 #include "gsb_account_property.h"
 #include "gsb_automem.h"
@@ -1203,7 +1202,7 @@ gboolean division_activated ( GtkTreeView * treeview, GtkTreePath * path,
 
 	    navigation_change_account ( account_number );
 	    gsb_account_property_fill_page ();
-	    gsb_gui_notebook_change_page ( GSB_ACCOUNT_PAGE );
+	    grisbi_win_general_notebook_set_page ( GSB_ACCOUNT_PAGE );
 	    gsb_gui_navigation_set_selection ( GSB_ACCOUNT_PAGE,
 					       gsb_data_transaction_get_account_number (transaction_number),
 					       0);

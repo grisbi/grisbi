@@ -31,7 +31,6 @@
 #include "gsb_account.h"
 #include "categories_onglet.h"
 #include "dialog.h"
-#include "fenetre_principale.h"
 #include "grisbi_win.h"
 #include "gsb_account_property.h"
 #include "gsb_category.h"
@@ -134,7 +133,7 @@ gboolean gsb_account_new ( KindAccount account_type,
 
     /* do the next part only if the widgets are created
      * (can come here at the end of the new file assistant...) */
-    notebook_general = gsb_gui_get_general_notebook ( );
+    notebook_general = grisbi_win_get_notebook_general ( );
     if (notebook_general)
     {
         /* Add an entry in navigation pane. */
@@ -142,7 +141,7 @@ gboolean gsb_account_new ( KindAccount account_type,
 
         /* Go to accounts properties */
         gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general ), GSB_ACCOUNT_PAGE );
-        gtk_notebook_set_current_page ( GTK_NOTEBOOK ( gsb_gui_get_account_page () ),
+        gtk_notebook_set_current_page ( GTK_NOTEBOOK ( grisbi_win_get_account_page () ),
                         GSB_PROPERTIES_PAGE );
 
         gsb_account_property_fill_page ();
@@ -276,7 +275,7 @@ gboolean gsb_account_delete ( void )
         gint first_account;
 
         /* sélection du premier compte de la liste */
-        notebook_general = gsb_gui_get_general_notebook ();
+        notebook_general = grisbi_win_get_notebook_general ();
         page_number = gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general ) );
         first_account = gsb_data_account_first_no_closed_account ();
 

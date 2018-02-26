@@ -31,7 +31,6 @@
 /*START_INCLUDE*/
 #include "affichage_liste.h"
 #include "custom_list.h"
-#include "fenetre_principale.h"
 #include "grisbi_app.h"
 #include "grisbi_settings.h"
 #include "gsb_automem.h"

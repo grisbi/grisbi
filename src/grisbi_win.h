@@ -19,8 +19,10 @@ GType grisbi_win_get_type (void) G_GNUC_CONST;
 
 GtkWidget *     grisbi_win_create_general_widgets           (GrisbiWin *win);
 
+void 			grisbi_win_general_notebook_set_page 		(gint page);
+GtkWidget *     grisbi_win_get_account_page					(void);
 const gchar *   grisbi_win_get_filename                     (GrisbiWin *win);
-GtkWidget *     grisbi_win_get_notebook_general             (GrisbiWin *win);
+GtkWidget *     grisbi_win_get_notebook_general             (void);
 GtkWidget *		grisbi_win_get_prefs_dialog 				(GrisbiWin *win);
 GtkWidget *     grisbi_win_get_stack_box                    (GrisbiWin *win);
 GtkWidget *		grisbi_win_get_vbox_transactions_list 		(GrisbiWin *win);
@@ -45,6 +47,11 @@ void            grisbi_win_menu_move_to_acc_update          (gboolean active);
 void            grisbi_win_new_file_gui						(void);
 void 			grisbi_win_no_file_page_update 				(GrisbiWin *win);
 
+gboolean 		grisbi_win_on_account_switch_page			(GtkNotebook *notebook,
+															 gpointer page,
+															 guint page_number,
+															 gpointer null);
+
 void            grisbi_win_set_filename                     (GrisbiWin *win,
                                                              const gchar *filename);
 void 			grisbi_win_set_prefs_dialog 				(GrisbiWin *win,
@@ -61,6 +68,7 @@ void            grisbi_win_status_bar_message               (gchar *message);
 void            grisbi_win_status_bar_stop_wait             (gboolean force_update);
 void            grisbi_win_status_bar_wait                  (gboolean force_update);
 
+void 			grisbi_win_update_all_toolbars 				(void);
 G_END_DECLS
 
 #endif  /* __GRISBI_APP_H__ */

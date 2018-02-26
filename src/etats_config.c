@@ -37,7 +37,6 @@
 #include "etats_config.h"
 #include "etats_prefs.h"
 #include "etats_onglet.h"
-#include "fenetre_principale.h"
 #include "grisbi_app.h"
 #include "gsb_calendar_entry.h"
 #include "gsb_currency.h"
@@ -3848,7 +3847,7 @@ void etats_config_personnalisation_etat ( void )
     if ( !( current_report_number = gsb_gui_navigation_get_current_report ( ) ) )
         return;
 
-    notebook_general = gsb_gui_get_general_notebook ( );
+    notebook_general = grisbi_win_get_notebook_general ( );
     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != GSB_REPORTS_PAGE )
         gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general), GSB_REPORTS_PAGE );
 

@@ -45,11 +45,6 @@
 #include "gsb_file.h"
 #include "structures.h"
 #include "utils_buttons.h"
-/*
-#include "fenetre_principale.h"
-#include "menu.h"
-#include "utils_files.h"
-*/
 #include "utils_str.h"
 #include "erreur.h"
 

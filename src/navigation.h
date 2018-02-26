@@ -3,14 +3,39 @@
 
 #include <gtk/gtk.h>
 
+typedef enum 	_GsbAccountNotebookPages	GsbAccountNotebookPages;
+typedef enum 	_GsbGeneralNotebookPages	GsbGeneralNotebookPages;
+typedef struct	_struct_page				struct_page;
+enum _GsbGeneralNotebookPages
+{
+    GSB_HOME_PAGE,
+    GSB_ACCOUNT_PAGE,
+    GSB_SCHEDULER_PAGE,
+    GSB_PAYEES_PAGE,
+    GSB_SIMULATOR_PAGE,
+    GSB_CATEGORIES_PAGE,
+    GSB_BUDGETARY_LINES_PAGE,
+    GSB_REPORTS_PAGE,
+    /** FIXME (later) : define an api so that plugin register here itself.  */
+    GSB_AQBANKING_PAGE,
+};
+
+enum _GsbAccountNotebookPages
+{
+    GSB_TRANSACTIONS_PAGE,
+    GSB_ESTIMATE_PAGE,
+    GSB_HISTORICAL_PAGE,
+    GSB_FINANCE_PAGE,
+    GSB_PROPERTIES_PAGE,
+};
+
 /** \struct describe a page
  * */
-typedef struct
+struct _struct_page
 {
     gint ordre;
     gint type_page;     /* GSB_GENERAL_NOTEBOOK_PAGES */
-} struct_page;
-
+};
 
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */

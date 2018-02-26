@@ -40,7 +40,6 @@
 #include "accueil.h"
 #include "bet_data.h"
 #include "dialog.h"
-#include "fenetre_principale.h"
 #include "grisbi_app.h"
 #include "grisbi_prefs.h"
 #include "gsb_calendar.h"

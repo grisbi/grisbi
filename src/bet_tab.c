@@ -37,7 +37,6 @@
 #include "bet_hist.h"
 #include "dialog.h"
 #include "export_csv.h"
-#include "fenetre_principale.h"
 #include "grisbi_app.h"
 #include "gsb_automem.h"
 #include "gsb_calendar_entry.h"
@@ -569,7 +568,7 @@ void bet_array_refresh_estimate_tab ( gint account_number )
     gint currency_number;
 
     devel_debug (NULL);
-    account_page = gsb_gui_get_account_page ();
+    account_page = grisbi_win_get_account_page ();
 
     tmp_range = struct_initialise_bet_range ( );
 
@@ -718,7 +717,7 @@ GtkWidget *bet_array_create_page ( void )
     page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_widget_set_name ( page, "forecast_page" );
 
-    account_page = gsb_gui_get_account_page ();
+    account_page = grisbi_win_get_account_page ();
 
     /* frame pour la barre d'outils */
     frame = gtk_frame_new ( NULL );
@@ -794,7 +793,7 @@ GtkWidget *bet_array_create_tree_view ( GtkWidget *container )
 
     /* create the estimate treeview */
     tree_view = gtk_tree_view_new ( );
-    g_object_set_data ( G_OBJECT ( gsb_gui_get_account_page () ), "bet_estimate_treeview", tree_view );
+    g_object_set_data ( G_OBJECT ( grisbi_win_get_account_page () ), "bet_estimate_treeview", tree_view );
     g_object_set_data ( G_OBJECT ( tree_view ), "origin_data_model",
                         GINT_TO_POINTER ( SPP_ESTIMATE_TREE_ORIGIN_DATA ) );
     g_object_set_data ( G_OBJECT ( tree_view ), "color_data_model",
@@ -1756,7 +1755,7 @@ void bet_array_list_change_menu ( GtkWidget *menu_item,
 
     if ( origine == SPP_ORIGIN_TRANSACTION )
     {
-        gtk_notebook_set_current_page ( GTK_NOTEBOOK ( gsb_gui_get_account_page () ), 0 );
+        gtk_notebook_set_current_page ( GTK_NOTEBOOK ( grisbi_win_get_account_page () ), 0 );
         transaction_list_select ( number );
         gsb_transactions_list_edit_transaction ( number );
     }
@@ -2318,7 +2317,7 @@ gboolean bet_array_initializes_account_settings ( gint account_number )
     gint months;
 
     /* devel_debug_int ( account_number ); */
-    account_page = gsb_gui_get_account_page ();
+    account_page = grisbi_win_get_account_page ();
     button = g_object_get_data ( G_OBJECT ( account_page ), "bet_account_spin_button" );
 
     param = gsb_data_account_get_bet_spin_range ( account_number );

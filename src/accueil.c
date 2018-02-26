@@ -32,7 +32,6 @@
 #include "accueil.h"
 #include "classement_echeances.h"
 #include "dialog.h"
-#include "fenetre_principale.h"
 #include "grisbi_app.h"
 #include "gsb_automem.h"
 #include "gsb_data_account.h"

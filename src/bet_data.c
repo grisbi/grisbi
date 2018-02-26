@@ -34,7 +34,7 @@
 #include "bet_hist.h"
 #include "bet_tab.h"
 #include "dialog.h"
-#include "fenetre_principale.h"
+#include "grisbi_win.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
@@ -112,7 +112,7 @@ void bet_data_select_bet_pages ( gint account_number )
 
     devel_debug_int ( account_number );
     bet_show_onglets = gsb_data_account_get_bet_show_onglets ( account_number );
-    account_page = gsb_gui_get_account_page ();
+    account_page = grisbi_win_get_account_page ();
     current_page = gtk_notebook_get_current_page ( GTK_NOTEBOOK ( account_page ) );
 
     switch ( bet_show_onglets )
@@ -189,7 +189,7 @@ void bet_data_update_bet_module ( gint account_number, gint page )
         return;
 
     if ( page == -1 && gsb_gui_navigation_get_current_page () == GSB_ACCOUNT_PAGE )
-        page = gtk_notebook_get_current_page ( GTK_NOTEBOOK ( gsb_gui_get_account_page () ) );
+        page = gtk_notebook_get_current_page ( GTK_NOTEBOOK ( grisbi_win_get_account_page () ) );
 
     switch ( page )
     {

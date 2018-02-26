@@ -38,7 +38,6 @@
 
 /*START_INCLUDE*/
 #include "prefs_page_display_gui.h"
-#include "fenetre_principale.h"
 #include "grisbi_settings.h"
 #include "grisbi_win.h"
 #include "navigation.h"
@@ -183,7 +182,7 @@ static gboolean prefs_page_display_gui_change_toolbar_display_mode (GtkRadioButt
 
 
     /* update toolbars */
-    gsb_gui_update_all_toolbars ();
+    grisbi_win_update_all_toolbars ();
 
     return FALSE;
 }

@@ -40,7 +40,6 @@
 /*START_INCLUDE*/
 #include "gsb_scheduler_list.h"
 #include "dialog.h"
-#include "fenetre_principale.h"
 #include "grisbi_app.h"
 #include "gsb_automem.h"
 #include "gsb_calendar.h"

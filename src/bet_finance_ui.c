@@ -33,7 +33,6 @@
 #include "bet_data_finance.h"
 #include "dialog.h"
 #include "export_csv.h"
-#include "fenetre_principale.h"
 #include "grisbi_app.h"
 #include "gsb_automem.h"
 #include "gsb_combo_box.h"
@@ -1504,7 +1503,7 @@ GtkWidget *bet_finance_create_account_page ( void )
     devel_debug (NULL);
 
     page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
-    account_page = gsb_gui_get_account_page ();
+    account_page = grisbi_win_get_account_page ();
 
     /* frame pour la barre d'outils */
     frame = gtk_frame_new ( NULL );
@@ -1607,7 +1606,7 @@ void bet_finance_ui_update_amortization_tab ( gint account_number )
     if ( gsb_gui_navigation_get_current_account ( ) != account_number )
         return;
 
-    account_page = gsb_gui_get_account_page ();
+    account_page = grisbi_win_get_account_page ();
 
     s_amortissement = g_malloc0 ( sizeof ( AmortissementStruct ) );
     s_amortissement -> origin = SPP_ORIGIN_FINANCE;

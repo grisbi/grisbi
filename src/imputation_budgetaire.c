@@ -33,7 +33,6 @@
 /*START_INCLUDE*/
 #include "imputation_budgetaire.h"
 #include "dialog.h"
-#include "fenetre_principale.h"
 #include "grisbi_app.h"
 #include "grisbi_win.h"
 #include "gsb_autofunc.h"

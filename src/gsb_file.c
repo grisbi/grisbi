@@ -42,7 +42,6 @@
 #include "accueil.h"
 #include "affichage_liste.h"
 #include "dialog.h"
-#include "fenetre_principale.h"
 #include "grisbi_app.h"
 #include "grisbi_settings.h"
 #include "gsb_account_property.h"
