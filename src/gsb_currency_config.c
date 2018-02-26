@@ -333,7 +333,7 @@ GtkWidget *gsb_currency_config_create_page ( void )
     GtkTreeView *currency_list_view;
     GtkTreeModel *currency_tree_model;
 
-    vbox_pref = new_vbox_with_title_and_icon ( _("Currencies"), "currencies-32.png" );
+    vbox_pref = new_vbox_with_title_and_icon ( _("Currencies"), "gsb-currencies-32.png" );
     paddinggrid = utils_prefs_paddinggrid_new_with_title (vbox_pref, _("Known currencies"));
 
     /* Currency list */
