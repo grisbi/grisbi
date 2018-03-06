@@ -42,6 +42,9 @@ if WIN32
 			$(install_sh_PROGRAM) $$i $(prefix)/bin; \
 			echo "  * $$i"; \
 		done;
+	echo "install other dependencies" ;
+	$(install_sh_PROGRAM) C:/msys64/mingw64/bin/libcroco-0.6-3.dll $(prefix)/bin; \
+	$(install_sh_PROGRAM) C:/msys64/mingw64/bin/librsvg-2-2.dll $(prefix)/bin;
 	echo "Strip $(prefix)/bin/grisbi.exe";
 	strip $(prefix)/bin/grisbi.exe;
 	echo "Copying glib-2.0 schemas";
@@ -159,5 +162,7 @@ if WIN32
 	/mingw$$bits/share/locale/zh_CN/LC_MESSAGES/gtk30-properties.mo \
 	/mingw$$bits/share/locale/zh_CN/LC_MESSAGES/glib20.mo \
 	$(prefix)/share/locale/zh_CN/LC_MESSAGES/; \
+	echo "Copying gdk-pixbuf loaders ($$gdk_pixbuf_ver)"; \
+	cp -rf `pkg-config.exe gdk-pixbuf-2.0 --variable=gdk_pixbuf_moduledir` $(prefix)/lib/gdk-pixbuf-2.0/$$gdk_pixbuf_ver; \
 	echo "Use makensis[w].exe from NSIS (http://nsis.sourceforget.net/) on $(bindir)/share/grisbi.nsi";
 endif
