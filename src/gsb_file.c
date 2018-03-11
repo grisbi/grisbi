@@ -705,15 +705,10 @@ gboolean gsb_file_open_file (const gchar *filename)
 
     if (gsb_file_load_open_file (filename))
     {
-		GrisbiWinRun *w_run;
 
         /* the file has been opened succesfully */
         /* on met à jour le nom du fichier */
         grisbi_win_set_filename (NULL, filename);
-
-		/* on marque qu'un fichier est chargé */
-		w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
-		w_run->is_loading = TRUE;
 
 		/* mark the file as opened */
         gsb_file_util_modify_lock (filename, TRUE);

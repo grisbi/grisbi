@@ -61,6 +61,8 @@ void gsb_gui_navigation_init_pages_list ( void );
 void gsb_gui_navigation_init_tree_view ( void );
 void gsb_gui_navigation_remove_account ( gint account_number );
 void gsb_gui_navigation_remove_report ( gint report_number );
+gboolean gsb_gui_navigation_select_line (GtkTreeSelection *selection,
+										 GtkTreeModel *model );
 gboolean gsb_gui_navigation_select_next ( void );
 gboolean gsb_gui_navigation_select_prev ( void );
 gboolean gsb_gui_navigation_set_page_list_order ( const gchar *order_list );

@@ -100,8 +100,6 @@ static gboolean gsb_gui_navigation_remove_report_iterator ( GtkTreeModel *model,
                         GtkTreePath *path,
                         GtkTreeIter *iter,
                         gpointer data );
-static gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
-                        GtkTreeModel *model );
 static void gsb_gui_navigation_set_selection_branch ( GtkTreeSelection *selection,
 					    GtkTreeIter * iter, gint page,
 					    gint account_number, gint report_number );

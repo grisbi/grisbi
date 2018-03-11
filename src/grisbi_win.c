@@ -1399,10 +1399,6 @@ void grisbi_win_stack_box_show (GrisbiWin *win,
 	{
 		(priv->w_run)->is_loading = FALSE;
 	}
-	else
-	{
-		(priv->w_run)->is_loading = TRUE;
-	}
 }
 
 /**
