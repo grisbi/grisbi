@@ -8,8 +8,8 @@
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
-gboolean recuperation_donnees_gnucash ( GtkWidget * assistant,
-					struct ImportFile * imported );
+gboolean	recuperation_donnees_gnucash 	(GtkWidget *assistant,
+											 struct ImportFile *imported);
 /* END_DECLARATION */
 
 #endif

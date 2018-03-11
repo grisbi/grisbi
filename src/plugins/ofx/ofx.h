@@ -8,7 +8,8 @@
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
-gboolean recuperation_donnees_ofx ( GtkWidget * assistant, struct ImportFile * imported );
+gboolean 	recuperation_donnees_ofx 		(GtkWidget *assistant,
+											 struct ImportFile *imported);
 /* END_DECLARATION */
 
 #endif /* GSB_OFX_H */
