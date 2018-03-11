@@ -821,7 +821,6 @@ static void grisbi_win_init (GrisbiWin *win)
 	{
 		grisbi_win_init_general_widgets (win);
 		gtk_stack_add_named (GTK_STACK (priv->stack_box), priv->vbox_general, "file_page");
-		(priv->w_run)->is_loading = TRUE;
 	}
 	else
 	{

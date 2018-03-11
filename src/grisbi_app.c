@@ -837,6 +837,7 @@ static void grisbi_app_trappe_signaux (void)
  **/
 static gboolean grisbi_app_load_file_if_necessary (GrisbiApp *app)
 {
+	GrisbiWinRun *w_run;
     GrisbiAppPrivate *priv;
 
     priv = grisbi_app_get_instance_private (GRISBI_APP (app));
@@ -855,6 +856,8 @@ static gboolean grisbi_app_load_file_if_necessary (GrisbiApp *app)
         if (gsb_file_open_file (tmp_str))
         {
 			utils_files_append_name_to_recent_array (tmp_str);
+			w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+			w_run->is_loading = TRUE;
             return TRUE;
         }
         else
@@ -873,7 +876,11 @@ static gboolean grisbi_app_load_file_if_necessary (GrisbiApp *app)
                 return FALSE;
             }
             else
+			{
+				w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+				w_run->is_loading = TRUE;
                 return TRUE;
+			}
         }
     }
 

@@ -37,6 +37,7 @@
 /*START_INCLUDE*/
 #include "gsb_assistant_archive.h"
 #include "etats_support.h"
+#include "grisbi_win.h"
 #include "gsb_assistant.h"
 #include "gsb_calendar_entry.h"
 #include "gsb_data_archive.h"
@@ -646,6 +647,8 @@ static gboolean gsb_assistant_archive_switch_to_success ( GtkWidget *assistant,
     GtkTextBuffer * buffer;
     GtkTextIter     iter;
     gint account_nb;
+	guint archived_transaction_count;
+	GrisbiWinRun *w_run;
 
     /* This would typically happen if user selected a time period
      * with no transactions related. */
@@ -712,13 +715,17 @@ static gboolean gsb_assistant_archive_switch_to_success ( GtkWidget *assistant,
         tmp_list = tmp_list -> next;
     }
 
-    /* create again the list of archives by account */
-    gsb_data_archive_store_init_variables ();
-    gsb_data_archive_store_create_list ( );
-    gsb_transactions_list_fill_archive_store ( );
+    /* create the list of archives by account when file is loaded */
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+	if (w_run->is_loading)
+	{
+		gsb_data_archive_store_init_variables ();
+		gsb_data_archive_store_create_list ( );
+		gsb_transactions_list_fill_archive_store ( );
+	}
 
     /* set the message */
-    guint archived_transaction_count = g_slist_length (list_transaction_to_archive);
+    archived_transaction_count = g_slist_length (list_transaction_to_archive);
     string = g_strdup_printf ( _("Archive '%s' was successfully created and %d transactions "
                                  "out of %d were archived.\n\n"),
                         gsb_data_archive_get_name (archive_number),
