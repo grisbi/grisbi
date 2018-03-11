@@ -504,7 +504,7 @@ static gboolean print_config_show_config_apply (GtkPrintOperation *operation,
     font_button_transactions = g_object_get_data (G_OBJECT(operation), "font_transaction_button");
     font_button_title = g_object_get_data (G_OBJECT(operation), "font_title_button");
 
-	tmp_str1 = gtk_font_button_get_font_name (font_button_transactions);
+	tmp_str1 = gtk_font_chooser_get_font (GTK_FONT_CHOOSER (font_button_transactions));
 	tmp_str2 = pango_font_description_to_string (gsb_data_print_config_get_report_font_transactions ());
 	if (strcmp (tmp_str1, tmp_str2))
 	{
@@ -513,7 +513,7 @@ static gboolean print_config_show_config_apply (GtkPrintOperation *operation,
 	}
 	g_free (tmp_str2);
 
-	tmp_str1 = gtk_font_button_get_font_name (font_button_title);
+	tmp_str1 = gtk_font_chooser_get_font (GTK_FONT_CHOOSER (font_button_title));
 	tmp_str2 = pango_font_description_to_string (gsb_data_print_config_get_report_font_title ());
 	if (strcmp (tmp_str1, tmp_str2))
 	{

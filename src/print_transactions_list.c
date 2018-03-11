@@ -348,9 +348,9 @@ gboolean print_transactions_list_apply ( GtkPrintOperation * operation,
     font_button_title = g_object_get_data ( G_OBJECT( operation ), "font_title_button" );
 
     gsb_data_print_config_set_font_transaction ( pango_font_description_from_string (
-                        gtk_font_button_get_font_name ( font_button_transactions ) ) );
+                        gtk_font_chooser_get_font (GTK_FONT_CHOOSER (font_button_transactions))));
     gsb_data_print_config_set_font_title ( pango_font_description_from_string (
-                        gtk_font_button_get_font_name ( font_button_title ) ) );
+                        gtk_font_chooser_get_font (GTK_FONT_CHOOSER (font_button_title))));
 
 
     if ( gsb_data_print_config_get_draw_interval_dates () )
