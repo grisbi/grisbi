@@ -11,7 +11,8 @@ share/icons/Adwaita/scalable/actions/pan-end-symbolic-rtl.svg
 share/icons/Adwaita/scalable/actions/pan-end-symbolic.svg
 share/icons/Adwaita/scalable/actions/pan-start-symbolic-rtl.svg
 share/icons/Adwaita/scalable/actions/pan-start-symbolic.svg
-share/icons/Adwaita/scalable/actions/pan-up-symbolic.svg"
+share/icons/Adwaita/scalable/actions/pan-up-symbolic.svg
+lib/goffice/"
 
 if [ -z "$PREFIX" ]
 then
@@ -23,5 +24,5 @@ for file in $EXTRA_FILES
 do
 	echo $file
 	mkdir -p $DEST/$(dirname $file)
-	cp $PREFIX/$file $DEST/$file
+	cp -a $PREFIX/$file $DEST/$file
 done
