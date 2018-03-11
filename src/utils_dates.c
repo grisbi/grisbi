@@ -39,6 +39,7 @@
 #include "gsb_calendar_entry.h"
 #include "gsb_form_widget.h"
 #include "gsb_regex.h"
+#include "navigation.h"
 #include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -323,6 +324,7 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
     gchar **date_tokens = NULL;
     gchar **tab_date = NULL;
     gboolean year_auto = TRUE;
+	gint page;
     int num_tokens, num_fields;
     int i, j;
 
@@ -420,9 +422,10 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
     if ( ! g_date_valid ( date ) )
         goto invalid;
 
-    /* if date > today, then we go back one year before
+	/* if page != GSB_SCHEDULER_PAGE && date > today, then we go back one year before
      * usefull when entering operations just after the new year */
-    if ( year_auto )
+	page = gsb_gui_navigation_get_current_page ();
+    if (page != GSB_SCHEDULER_PAGE && year_auto)
     {
         GDate *today = gdate_today ( );
         if ( g_date_compare ( today, date ) < 0 )
