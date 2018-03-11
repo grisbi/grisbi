@@ -5,7 +5,7 @@
 
 typedef enum 	_GsbAccountNotebookPages	GsbAccountNotebookPages;
 typedef enum 	_GsbGeneralNotebookPages	GsbGeneralNotebookPages;
-typedef struct	_struct_page				struct_page;
+typedef struct	_GsbGuiNavigationPage		GsbGuiNavigationPage;
 enum _GsbGeneralNotebookPages
 {
     GSB_HOME_PAGE,
@@ -31,7 +31,7 @@ enum _GsbAccountNotebookPages
 
 /** \struct describe a page
  * */
-struct _struct_page
+struct _GsbGuiNavigationPage
 {
     gint ordre;
     gint type_page;     /* GSB_GENERAL_NOTEBOOK_PAGES */

@@ -167,7 +167,7 @@ GtkWidget *reconcile_panel;
  * at the end of the switch, contains the current account number */
 static gint buffer_last_account = -1;
 
-/* contains a g_queue of struct_page */
+/* contains a g_queue of GsbGuiNavigationPage */
 static GQueue *pages_list = NULL;
 
 /* nombre de pages du panneau de gauche */
@@ -332,7 +332,7 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
 
     for ( i = 0 ; i < (gint) tmp_queue->length ; i++ )
     {
-        struct_page *page;
+        GsbGuiNavigationPage *page;
 
         page = g_queue_peek_nth ( tmp_queue, i );
         gsb_gui_navigation_set_navigation_pages ( navigation_model, page -> type_page, i );
@@ -1814,7 +1814,7 @@ gboolean gsb_gui_navigation_move_ordre ( gint src_ordre,
     GQueue *tmp_queue;
     GList *dst_list;
     gint i;
-    struct_page *page = NULL;
+    GsbGuiNavigationPage *page = NULL;
 
     tmp_queue = pages_list;
     for ( i = 0 ; i < (gint) tmp_queue->length ; i++ )
@@ -1900,9 +1900,9 @@ gboolean gsb_gui_navigation_set_page_list_order ( const gchar *order_list )
 
     for ( i = 0 ; i < nbre_pages ; i++ )
     {
-        struct_page *page;
+        GsbGuiNavigationPage *page;
 
-        page = g_malloc0 ( sizeof ( struct_page ) );
+        page = g_malloc0 ( sizeof ( GsbGuiNavigationPage ) );
         page -> ordre = i;
         page -> type_page = utils_str_atoi ( pointeur_char[i] );
 

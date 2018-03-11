@@ -658,7 +658,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
 
     for ( i = 0 ; i < (gint) tmp_queue->length ; i++ )
     {
-        struct_page *page;
+        GsbGuiNavigationPage *page;
 
         page = g_queue_peek_nth ( tmp_queue, i );
 
