@@ -80,7 +80,7 @@ static gboolean gsb_assistant_archive_update_labels ( GtkWidget *assistant );
 /*START_EXTERN*/
 /*END_EXTERN*/
 
-enum archive_assistant_page
+enum ArchiveAssistantPage
 {
     ARCHIVE_ASSISTANT_INTRO= 0,
     ARCHIVE_ASSISTANT_MENU,
