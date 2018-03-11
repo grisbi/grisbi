@@ -808,7 +808,7 @@ static void print_transactions_list_draw_background ( CustomRecord *record,
     {
         GdkRGBA *color;
 
-        color = gsb_rgba_get_couleur ( "archive_background_color" );
+        color = gsb_rgba_get_couleur ( "background_archive" );
         cairo_rectangle ( cr, 0, line_position, page_width, size_row + 2*gsb_data_print_config_get_draw_lines ( ) );
         cairo_set_source_rgb ( cr,
                         (gdouble) color -> red/65535,

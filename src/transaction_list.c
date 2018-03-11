@@ -349,7 +349,7 @@ void transaction_list_append_archive ( gint archive_store_number )
     newrecord -> transaction_pointer = gsb_data_archive_store_get_structure (
                         archive_store_number);
     newrecord -> what_is_line = IS_ARCHIVE;
-    newrecord -> row_bg = gsb_rgba_get_couleur ( "archive_background_color" );
+    newrecord -> row_bg = gsb_rgba_get_couleur ("background_archive");
 
     /* save the newrecord pointer */
     custom_list->rows[pos] = newrecord;
