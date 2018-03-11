@@ -8,7 +8,7 @@
 
 
 /** Unit test based upon the Grisbi file  */
-struct gsb_debug_test {
+struct GsbDebugTest {
     gchar * name;		/** Name of the test.  */
     gchar * description;	/** Short description.  */
     gchar * instructions;	/** Instructions to do if test matches. */

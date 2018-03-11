@@ -49,7 +49,7 @@
 
 /*START_STATIC*/
 static void gsb_debug_add_report_page ( GtkWidget * assistant, gint page,
-				 struct gsb_debug_test * test, gchar * summary );
+				 struct GsbDebugTest * test, gchar * summary );
 static gchar *gsb_debug_budget_test  ( void );
 static gboolean gsb_debug_budget_test_fix ( void );
 static gchar *gsb_debug_category_test  ( void );
@@ -68,7 +68,7 @@ static gboolean gsb_debug_try_fix ( gboolean (* fix) (void) );
 
 
 /** Tests  */
-struct gsb_debug_test debug_tests [8] = {
+struct GsbDebugTest debug_tests [8] = {
     /* Check for reconciliation inconcistency.  */
     { N_("Incorrect reconciliation totals"),
       N_("This test will look at accounts where the reconciled total which does not match with reconciled transactions."),
@@ -267,7 +267,7 @@ gboolean gsb_debug_enter_test_page ( GtkWidget * assistant )
  *
  */
 void gsb_debug_add_report_page ( GtkWidget * assistant, gint page,
-				 struct gsb_debug_test * test, gchar * summary )
+				 struct GsbDebugTest * test, gchar * summary )
 {
     GtkWidget * vbox, * label, * button;
     GtkWidget *scrolled_window;
