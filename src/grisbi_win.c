@@ -517,7 +517,7 @@ static gboolean grisbi_win_fill_general_notebook (GrisbiWin *win)
                         gtk_label_new (_("Reports")));
 
 	/* Set the signal for the navigation treeview selection when the notebook_general is filled */
-	navigation_set_tree_view_selection_changed_signal ();
+	gsb_gui_navigation_tree_view_selection_changed ();
 
 	/* update toolbars */
     grisbi_win_update_all_toolbars ();

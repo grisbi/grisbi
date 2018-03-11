@@ -1200,7 +1200,7 @@ gboolean division_activated ( GtkTreeView * treeview, GtkTreePath * path,
             mise_a_jour_affichage_r ( TRUE );
 	    }
 
-	    navigation_change_account ( account_number );
+	    gsb_gui_navigation_change_account ( account_number );
 	    gsb_account_property_fill_page ();
 	    grisbi_win_general_notebook_set_page ( GSB_ACCOUNT_PAGE );
 	    gsb_gui_navigation_set_selection ( GSB_ACCOUNT_PAGE,
@@ -1242,7 +1242,7 @@ gboolean division_row_drop_possible ( GtkTreeDragDest *drag_dest,
 
 	if ( model == GTK_TREE_MODEL( gsb_gui_navigation_get_model ( ) ) )
 	{
-	    return navigation_row_drop_possible ( drag_dest, dest_path, selection_data );
+	    return gsb_gui_navigation_row_drop_possible ( drag_dest, dest_path, selection_data );
 	}
 
 	orig_type = metatree_get_row_type ( model, orig_path );
@@ -1321,7 +1321,7 @@ gboolean division_drag_data_received ( GtkTreeDragDest *drag_dest,
 	/* if we are on the navigation list, work with it */
 	if ( model == GTK_TREE_MODEL( gsb_gui_navigation_get_model ( ) ) )
 	{
-	    return navigation_drag_data_received ( drag_dest, dest_path, selection_data );
+	    return gsb_gui_navigation_drag_data_received ( drag_dest, dest_path, selection_data );
 	}
 
 	/* get metatree interface */

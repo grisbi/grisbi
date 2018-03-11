@@ -569,7 +569,7 @@ gboolean gsb_reconcile_config_delete ( GtkWidget *button,
 		gsb_transactions_list_update_tree_view (account_number, TRUE);
 
 		/* update the last statement for that account */
-		gsb_navigation_update_statement_label (account_number);
+		gsb_gui_navigation_update_statement_label (account_number);
 	    }
             gsb_file_set_modified ( TRUE );
 	}

@@ -721,7 +721,7 @@ gboolean gsb_account_property_changed ( GtkWidget *widget,
     switch (origin)
     {
     case PROPERTY_NAME:
-        gsb_navigation_update_account_label (account_number);
+        gsb_gui_navigation_update_account_label (account_number);
         gsb_gui_navigation_update_account ( account_number );
         break;
     case PROPERTY_CLOSED_ACCOUNT:

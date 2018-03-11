@@ -2658,7 +2658,7 @@ gboolean gsb_form_finish_edition ( void )
         update_transaction_in_trees ( transaction_number );
         if ( gsb_data_transaction_get_marked_transaction ( transaction_number ) == OPERATION_POINTEE )
         {
-            gsb_navigation_update_statement_label ( account_number );
+            gsb_gui_navigation_update_statement_label ( account_number );
             run.mise_a_jour_liste_comptes_accueil = TRUE;
         }
     }

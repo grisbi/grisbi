@@ -1896,7 +1896,7 @@ gboolean gsb_transactions_list_switch_mark ( gint transaction_number )
 	gsb_reconcile_update_amounts (NULL, NULL);
     }
     /* need to update the marked amount on the home page */
-    gsb_navigation_update_statement_label ( account_number );
+    gsb_gui_navigation_update_statement_label ( account_number );
     run.mise_a_jour_liste_comptes_accueil = TRUE;
 
     gsb_file_set_modified ( TRUE );

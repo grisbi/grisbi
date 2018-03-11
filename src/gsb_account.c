@@ -281,7 +281,7 @@ gboolean gsb_account_delete ( void )
 
 		gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general ), page_number );
         gsb_gui_navigation_set_selection (GSB_ACCOUNT_PAGE, first_account, 0);
-        navigation_change_account ( first_account );
+        gsb_gui_navigation_change_account ( first_account );
     }
 
     /* Update navigation pane. */

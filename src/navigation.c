@@ -185,7 +185,7 @@ static GtkTargetEntry row_targets[] =
 	{ "GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_WIDGET, 0 }
 };
 
-gulong navigation_set_tree_view_selection_changed_signal (void)
+gulong gsb_gui_navigation_tree_view_selection_changed (void)
 {
 	gulong handler_ID;
 
@@ -268,8 +268,8 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
     navigation_dst_iface = GTK_TREE_DRAG_DEST_GET_IFACE ( navigation_model );
     if ( navigation_dst_iface )
     {
-        navigation_dst_iface -> drag_data_received = &navigation_drag_data_received;
-        navigation_dst_iface -> row_drop_possible = &navigation_row_drop_possible;
+        navigation_dst_iface -> drag_data_received = &gsb_gui_navigation_drag_data_received;
+        navigation_dst_iface -> row_drop_possible = &gsb_gui_navigation_row_drop_possible;
     }
 
     navigation_src_iface = GTK_TREE_DRAG_SOURCE_GET_IFACE (navigation_model);
@@ -958,10 +958,10 @@ void gsb_gui_navigation_add_account ( gint account_number,
  *
  * \return FALSE
  * */
-gboolean navigation_change_account ( gint new_account )
+gboolean gsb_gui_navigation_change_account ( gint new_account )
 {
     gint current_account;
-    //~ printf ("navigation_change_account : new_account = %d\n", new_account);
+    //~ printf ("gsb_gui_navigation_change_account : new_account = %d\n", new_account);
 
     devel_debug_int (new_account);
     if ( new_account < 0 )
@@ -986,7 +986,7 @@ gboolean navigation_change_account ( gint new_account )
     gsb_transactions_list_set_row_align ( gsb_data_account_get_row_align ( new_account ) );
 
     /* mise en place de la date du dernier relevé */
-    gsb_navigation_update_statement_label ( new_account );
+    gsb_gui_navigation_update_statement_label ( new_account );
 
     /* show or hide the rules button in toolbar */
     if ( gsb_data_import_rule_account_has_rule ( new_account ) )
@@ -1032,7 +1032,7 @@ gboolean navigation_change_account ( gint new_account )
  *
  * \return
  * */
-void gsb_navigation_update_statement_label ( gint account_number )
+void gsb_gui_navigation_update_statement_label ( gint account_number )
 {
     gint reconcile_number;
     gchar* tmp_str;
@@ -1080,7 +1080,7 @@ void gsb_navigation_update_statement_label ( gint account_number )
  *
  * \return
  */
-void gsb_navigation_update_account_label ( gint account_number )
+void gsb_gui_navigation_update_account_label ( gint account_number )
 {
     gchar * title = NULL;
 
@@ -1175,12 +1175,12 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 			account_number = gsb_gui_navigation_get_current_account ();
 
 			/* update title now -- different from others */
-			gsb_navigation_update_account_label (account_number);
+			gsb_gui_navigation_update_account_label (account_number);
 
 			/* what to be done if switch to that page */
 			if (account_number >= 0 )
 			{
-				navigation_change_account ( account_number );
+				gsb_gui_navigation_change_account ( account_number );
 				gsb_account_property_fill_page ();
 				clear_suffix = FALSE;
 				if ( gsb_data_archive_store_account_have_transactions_visibles ( account_number ) )
@@ -1657,7 +1657,7 @@ gboolean navigation_tree_drag_data_get ( GtkTreeDragSource *drag_source,
  *
  *
  */
-gboolean navigation_drag_data_received ( GtkTreeDragDest *drag_dest,
+gboolean gsb_gui_navigation_drag_data_received ( GtkTreeDragDest *drag_dest,
                         GtkTreePath *dest_path,
                         GtkSelectionData *selection_data )
 {
@@ -1726,7 +1726,7 @@ gboolean navigation_drag_data_received ( GtkTreeDragDest *drag_dest,
  *
  *
  */
-gboolean navigation_row_drop_possible ( GtkTreeDragDest *drag_dest,
+gboolean gsb_gui_navigation_row_drop_possible ( GtkTreeDragDest *drag_dest,
                         GtkTreePath *dest_path,
                         GtkSelectionData *selection_data )
 {
