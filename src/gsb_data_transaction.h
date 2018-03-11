@@ -8,7 +8,7 @@
 
 
 /** Etat de rapprochement d'une opération */
-enum operation_etat_rapprochement
+enum OperationEtatRapprochement
 {
   OPERATION_NORMALE = 0,
   OPERATION_POINTEE,

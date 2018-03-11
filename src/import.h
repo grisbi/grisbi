@@ -91,7 +91,7 @@ struct ImportTransaction
 
     gsb_real montant;
 
-    enum operation_etat_rapprochement p_r;
+    enum OperationEtatRapprochement p_r;
 
     gint type_de_transaction;   /* Utilisé pour les fichiers OFX étendu à certains fichiers QIF (Champs N du fichier QIF) */
 
