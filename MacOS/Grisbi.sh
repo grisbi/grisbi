@@ -4,8 +4,8 @@ if test "x$GTK_DEBUG_LAUNCHER" != x; then
     set -x
 fi
 
-if test "x$GTK_DEBUG_GDB" != x; then
-    EXEC="gdb --args"
+if test "x$GTK_DEBUG_LLDB" != x; then
+    EXEC="lldb"
 else
     EXEC=exec
 fi
