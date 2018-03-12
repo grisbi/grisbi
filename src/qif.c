@@ -80,8 +80,7 @@ enum
     ORDER_YY_DD_MM,
     ORDER_DD_YY_MM,
     ORDER_MM_YY_DD,
-
-    ORDER_MAX,
+    ORDER_MAX
 };
 
 

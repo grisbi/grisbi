@@ -81,12 +81,13 @@ static gboolean gsb_currency_select_double_amount ( GtkWidget *entry_1,
  * used to be set in the combobox */
 static GtkListStore *combobox_currency_store;
 
-enum CurrencyListColumns {
+enum CurrencyListColumns
+{
     CURRENCY_COL_CODE = 0,
     CURRENCY_COL_NAME,
     CURRENCY_COL_NUMBER,
     CURRENCY_COL_FLAG,
-    CURRENCY_NUM_COL,		/** Number of columns */
+    CURRENCY_NUM_COL		 /** Number of columns */
 };
 
 /** Exchange rates cache, used by

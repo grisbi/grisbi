@@ -81,7 +81,7 @@ extern struct EtatAffichage html_affichage;
 /** Different formats supported.  */
 enum report_export_formats {
     REPORT_EGSB, REPORT_HTML, REPORT_CSV,
-    REPORT_MAX_FORMATS,
+    REPORT_MAX_FORMATS
 };
 
 /******************************************************************************/

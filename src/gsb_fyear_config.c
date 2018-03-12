@@ -63,7 +63,7 @@ enum fyear_list_column {
     FYEAR_END_DATE_COLUMN,
     FYEAR_INVALID_COLUMN,
     FYEAR_NUMBER_COLUMN,
-    NUM_FYEARS_COLUMNS,
+    NUM_FYEARS_COLUMNS
 };
 
 static GtkWidget *fyear_config_treeview = NULL;

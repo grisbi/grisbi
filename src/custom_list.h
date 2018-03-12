@@ -36,7 +36,7 @@ enum
     CUSTOM_MODEL_CHECKBOX_VISIBLE_RECONCILE,   	/*< whether the checkbox is visible or not during reconciliation */
     CUSTOM_MODEL_CHECKBOX_ACTIVE,   		/*< whether the checkbox is active or not */
 
-    CUSTOM_MODEL_N_COLUMNS,
+    CUSTOM_MODEL_N_COLUMNS
 };
 
 /* number of visible columns */

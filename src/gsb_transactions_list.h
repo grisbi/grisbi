@@ -23,7 +23,7 @@ enum
     ELEMENT_NOTES,
     ELEMENT_BANK,
     ELEMENT_NO,
-    ELEMENT_CHQ,
+    ELEMENT_CHQ
 };
 
 /* START_INCLUDE_H */

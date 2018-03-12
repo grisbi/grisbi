@@ -21,7 +21,7 @@ enum
     SCHEDULER_COL_NB_VIRTUAL_TRANSACTION,	/*< to 1 if it's a calculated scheduled transaction (for longer view), so, cannot edit */
     SCHEDULER_COL_NB_TEXT_COLOR,            /*< color of the text */
 
-    SCHEDULER_COL_NB_TOTAL,
+    SCHEDULER_COL_NB_TOTAL
 };
 
 
@@ -42,7 +42,7 @@ enum SchedulerPeriodicity
     SCHEDULER_PERIODICITY_TRIMESTER_VIEW,
     SCHEDULER_PERIODICITY_YEAR_VIEW,
     SCHEDULER_PERIODICITY_CUSTOM_VIEW,
-    SCHEDULER_PERIODICITY_NB_CHOICES,
+    SCHEDULER_PERIODICITY_NB_CHOICES
 };
 
 
@@ -51,7 +51,7 @@ enum PeriodicityUnits
     PERIODICITY_DAYS,
     PERIODICITY_WEEKS,
     PERIODICITY_MONTHS,
-    PERIODICITY_YEARS,
+    PERIODICITY_YEARS
 };
 
 

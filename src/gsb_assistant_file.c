@@ -77,7 +77,7 @@ enum file_assistant_page
     FILE_ASSISTANT_PAGE_3,
     FILE_ASSISTANT_PAGE_4,
     FILE_ASSISTANT_PAGE_5,
-    FILE_ASSISTANT_PAGE_FINISH,
+    FILE_ASSISTANT_PAGE_FINISH
 };
 
 /* the box containing the currencies list

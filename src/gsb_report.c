@@ -54,7 +54,7 @@ static GtkTreeModel *report_model_filter;
 enum report_list_columns {
     REPORT_COL_NAME = 0,
     REPORT_COL_NUMBER,
-    REPORT_COL_VIEW,
+    REPORT_COL_VIEW
 };
 
 /* contain the current report showed, 0 if non showed or to update the report

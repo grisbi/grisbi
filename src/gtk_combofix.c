@@ -157,14 +157,14 @@ enum combofix_columns {
     COMBOFIX_COL_VISIBLE,               /* boolean : if that line has to be showed */
     COMBOFIX_COL_LIST_NUMBER,           /* int : the number of the list 0, 1 ou 2 (CREDIT DEBIT SPECIAL) */
     COMBOFIX_COL_SEPARATOR,             /* TRUE : if this is a separator */
-    COMBOFIX_N_COLUMNS,
+    COMBOFIX_N_COLUMNS
 };
 
 enum combofix_key_direction {
     COMBOFIX_UP = 0,
     COMBOFIX_PAGE_UP,
     COMBOFIX_DOWN,
-    COMBOFIX_PAGE_DOWN,
+    COMBOFIX_PAGE_DOWN
 };
 
 

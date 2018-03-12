@@ -6,7 +6,7 @@
 enum fyear_list_columns {
     FYEAR_COL_NAME = 0,
     FYEAR_COL_NUMBER,
-    FYEAR_COL_VIEW,
+    FYEAR_COL_VIEW
 };
 
 

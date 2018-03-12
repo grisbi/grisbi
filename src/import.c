@@ -148,7 +148,7 @@ enum ImportFileselColumns
     IMPORT_FILESEL_TYPE,
     IMPORT_FILESEL_CODING,
 	IMPORT_FILESEL_DATE,
-    IMPORT_FILESEL_NUM_COLS,
+    IMPORT_FILESEL_NUM_COLS
 };
 
 /** Page numbering for the import wizard. */
@@ -158,7 +158,7 @@ enum ImportPages
     IMPORT_FILESEL_PAGE,
     IMPORT_CSV_PAGE,
     IMPORT_RESUME_PAGE,
-    IMPORT_FIRST_ACCOUNT_PAGE,
+    IMPORT_FIRST_ACCOUNT_PAGE
 };
 
 /******************************************************************************/

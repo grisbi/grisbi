@@ -28,7 +28,7 @@ enum transaction_form_widget {
     TRANSACTION_FORM_OP_NB,
     TRANSACTION_FORM_MODE,
     TRANSACTION_FORM_WIDGET_NB,     /* 20 */
-    TRANSACTION_FORM_MAX_WIDGETS,
+    TRANSACTION_FORM_MAX_WIDGETS
 };
 
 /* the maximum values for the size of the form */

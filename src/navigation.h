@@ -17,7 +17,7 @@ enum _GsbGeneralNotebookPages
     GSB_BUDGETARY_LINES_PAGE,
     GSB_REPORTS_PAGE,
     /** FIXME (later) : define an api so that plugin register here itself.  */
-    GSB_AQBANKING_PAGE,
+    GSB_AQBANKING_PAGE
 };
 
 enum _GsbAccountNotebookPages
@@ -26,7 +26,7 @@ enum _GsbAccountNotebookPages
     GSB_ESTIMATE_PAGE,
     GSB_HISTORICAL_PAGE,
     GSB_FINANCE_PAGE,
-    GSB_PROPERTIES_PAGE,
+    GSB_PROPERTIES_PAGE
 };
 
 /** \struct describe a page

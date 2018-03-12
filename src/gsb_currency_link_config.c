@@ -84,7 +84,7 @@ enum LinkListColumns {
     LINK_DATE_COLUMN,
     LINK_INVALID_COLUMN,
     LINK_NUMBER_COLUMN,
-    NUM_LINKS_COLUMNS,
+    NUM_LINKS_COLUMNS
 };
 
 /******************************************************************************/

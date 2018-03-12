@@ -147,7 +147,7 @@ enum navigation_cols {
     NAVIGATION_REPORT,
     NAVIGATION_SENSITIVE,
     NAVIGATION_ORDRE,        /* ordre des pages dans le modèle */
-    NAVIGATION_TOTAL,
+    NAVIGATION_TOTAL
 };
 
 /** Navigation tree view. */

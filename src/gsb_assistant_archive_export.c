@@ -68,7 +68,7 @@ enum archives_export_columns {
     ARCHIVES_EXPORT_FYEAR_NAME,
     ARCHIVES_EXPORT_REPORT_TITLE,
     ARCHIVES_EXPORT_NUMBER,
-    NUM_ARCHIVES_EXPORT_COLUMNS,
+    NUM_ARCHIVES_EXPORT_COLUMNS
 };
 
 static GtkWidget *archive_export_treeview = NULL;
