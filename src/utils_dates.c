@@ -41,6 +41,7 @@
 #include "gsb_calendar_entry.h"
 #include "gsb_form_widget.h"
 #include "gsb_regex.h"
+#include "navigation.h"
 #include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -324,6 +325,8 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
     GRegex *date_regex;
     gchar **date_tokens = NULL;
     gchar **tab_date = NULL;
+    gboolean year_auto = TRUE;
+	gint page;
     int num_tokens, num_fields;
     int i, j;
 
@@ -419,6 +422,17 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
      * write for example only 31, and the current month has only 30 days... */
     if ( ! g_date_valid ( date ) )
         goto invalid;
+
+	/* if page != GSB_SCHEDULER_PAGE && date > today, then we go back one year before
+     * usefull when entering operations just after the new year */
+	page = gsb_gui_navigation_get_current_page ();
+    if (page != GSB_SCHEDULER_PAGE && year_auto)
+    {
+        GDate *today = gdate_today ( );
+        if ( g_date_compare ( today, date ) < 0 )
+            g_date_set_year ( date, g_date_get_year ( today ) - 1 );
+        g_date_free ( today );
+    }
 
     g_strfreev ( tab_date );
     g_strfreev ( date_tokens );
