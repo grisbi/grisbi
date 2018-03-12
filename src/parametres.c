@@ -201,8 +201,9 @@ static GtkWidget *onglet_accueil ( void )
     static GtkTargetEntry row_targets[] = {
     { "GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_WIDGET, 0 }
     };
+	const gchar *langue;
 
-    vbox_pref = new_vbox_with_title_and_icon ( _("Configuration of the main page"),
+	vbox_pref = new_vbox_with_title_and_icon ( _("Configuration of the main page"),
                         "title.png" );
 
     vbox = gtk_vbox_new ( FALSE, 12 );
@@ -210,7 +211,8 @@ static GtkWidget *onglet_accueil ( void )
     gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 12 );
 
     /* pour les francophones ;-) */
-    if ( g_strstr_len ( ( g_ascii_strup ( gdk_set_locale ( ), -1 ) ), -1, "FR" ) )
+	langue = g_getenv ( "LANG");
+    if (g_strstr_len ((g_ascii_strup (langue, -1)), -1, "FR"))
     {
         paddingbox = new_paddingbox_with_title (vbox, FALSE, "Pluriel de final" );
 
