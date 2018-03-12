@@ -38,6 +38,7 @@
 /*START_INCLUDE*/
 #include "utils_dates.h"
 #include "dialog.h"
+#include "fenetre_principale.h"
 #include "gsb_calendar_entry.h"
 #include "gsb_form_widget.h"
 #include "gsb_regex.h"
