@@ -78,7 +78,7 @@ static gboolean gsb_assistant_reconcile_config_update_manu_asso ( GtkWidget *ass
 /*START_EXTERN*/
 /*END_EXTERN*/
 
-enum reconcile_assistant_page
+enum ReconcileAssistantPage
 {
     RECONCILE_ASSISTANT_INTRO= 0,
     RECONCILE_ASSISTANT_MENU,
