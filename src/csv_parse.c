@@ -513,7 +513,7 @@ gboolean csv_import_parse_p_r (struct ImportTransaction *ope,
     }
     else if (! strcmp (string, "T"))
     {
-	ope->p_r = OPERATION_TELERAPPROCHEE;
+	ope->p_r = OPERATION_TELEPOINTEE;
 	return TRUE;
     }
     else if (! strcmp (string, "R"))

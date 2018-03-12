@@ -1142,7 +1142,7 @@ gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
 		return ( my_strdup (_("P")));
 	    else
 	    {
-		if ( gsb_data_transaction_get_marked_transaction ( transaction_number)== OPERATION_TELERAPPROCHEE )
+		if ( gsb_data_transaction_get_marked_transaction ( transaction_number)== OPERATION_TELEPOINTEE )
 		    return ( my_strdup (_("T")));
 		else
 		{
@@ -2577,7 +2577,7 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
 	 ||
 	 gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_RAPPROCHEE
 	 ||
-	 gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_TELERAPPROCHEE )
+	 gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_TELEPOINTEE )
 	gtk_widget_set_sensitive ( menu_item, FALSE );
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
@@ -2615,7 +2615,7 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
 	 ||
 	 gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_RAPPROCHEE
 	 ||
-	 gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_TELERAPPROCHEE )
+	 gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_TELEPOINTEE )
 	gtk_widget_set_sensitive ( menu_item, FALSE );
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 

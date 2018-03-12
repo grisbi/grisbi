@@ -70,7 +70,7 @@ typedef struct
     gsb_real transaction_amount;
     gint party_number;                  /* payee in transaction */
     gchar *notes;
-    gint marked_transaction;            /**<  OPERATION_NORMALE=nothing, OPERATION_POINTEE=P, OPERATION_TELERAPPROCHEE=T, OPERATION_RAPPROCHEE=R */
+    gint marked_transaction;            /**<  OPERATION_NORMALE=nothing, OPERATION_POINTEE=P, OPERATION_TELEPOINTEE=T, OPERATION_RAPPROCHEE=R */
     gint archive_number;                /**< if it's an archived transaction, contains the number of the archive */
     gshort automatic_transaction;       /**< 0=manual, 1=automatic (scheduled transaction) */
     gint reconcile_number;              /**< the number of reconciliation, carreful : can be filled without marked_transaction=OPERATION_RAPPROCHEE sometimes,
@@ -1450,7 +1450,7 @@ gboolean gsb_data_transaction_set_method_of_payment_content ( gint transaction_n
  *
  * \param transaction_number the number of the transaction
  *
- * \return the marked_transaction : OPERATION_NORMALE, OPERATION_POINTEE, OPERATION_TELERAPPROCHEE, OPERATION_RAPPROCHEE
+ * \return the marked_transaction : OPERATION_NORMALE, OPERATION_POINTEE, OPERATION_TELEPOINTEE, OPERATION_RAPPROCHEE
  * */
 gint gsb_data_transaction_get_marked_transaction ( gint transaction_number )
 {
@@ -1470,7 +1470,7 @@ gint gsb_data_transaction_get_marked_transaction ( gint transaction_number )
  * if the transaction has some children, they change too
  *
  * \param transaction_number
- * \param marked_transaction : OPERATION_NORMALE, OPERATION_POINTEE, OPERATION_TELERAPPROCHEE, OPERATION_RAPPROCHEE
+ * \param marked_transaction : OPERATION_NORMALE, OPERATION_POINTEE, OPERATION_TELEPOINTEE, OPERATION_RAPPROCHEE
  *
  * \return TRUE if ok
  * */

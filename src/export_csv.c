@@ -490,7 +490,7 @@ static gboolean gsb_csv_export_transaction ( gint transaction_number,
 	    case OPERATION_POINTEE:
             csv_field_pointage = my_strdup ("P");
 		break;
-	    case OPERATION_TELERAPPROCHEE:
+	    case OPERATION_TELEPOINTEE:
             csv_field_pointage = my_strdup ("T");
 		break;
 	    case OPERATION_RAPPROCHEE:

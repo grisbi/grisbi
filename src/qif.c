@@ -949,7 +949,7 @@ gboolean qif_export ( const gchar *filename,
 				/* met le pointage */
 				if ( gsb_data_transaction_get_marked_transaction ( transaction_number_tmp)== OPERATION_POINTEE
 					 ||
-					 gsb_data_transaction_get_marked_transaction ( transaction_number_tmp)== OPERATION_TELERAPPROCHEE )
+					 gsb_data_transaction_get_marked_transaction ( transaction_number_tmp)== OPERATION_TELEPOINTEE )
 				{
 					fprintf ( fichier_qif, "C*\n" );
 				}

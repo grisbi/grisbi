@@ -131,7 +131,7 @@ static const GDate *gsb_reconcile_get_pointed_transactions_max_date (gint accoun
 			&&
 			(gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_POINTEE
 			 ||
-			 gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_TELERAPPROCHEE))
+			 gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_TELEPOINTEE))
 		{
             transaction_date = gsb_data_transaction_get_date (transaction_number);
             //~ printf("transaction_date: %s\n", gsb_format_gdate (transaction_date));
@@ -712,7 +712,7 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
 	     &&
 	     ( gsb_data_transaction_get_marked_transaction (transaction_number_tmp) == OPERATION_POINTEE
 	       ||
-	       gsb_data_transaction_get_marked_transaction (transaction_number_tmp) == OPERATION_TELERAPPROCHEE ))
+	       gsb_data_transaction_get_marked_transaction (transaction_number_tmp) == OPERATION_TELEPOINTEE ))
 	{
 	    gsb_data_transaction_set_marked_transaction ( transaction_number_tmp,
 							  OPERATION_RAPPROCHEE );

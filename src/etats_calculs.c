@@ -488,7 +488,7 @@ GSList *recupere_opes_etat ( gint report_number )
 
                     if ( gsb_data_report_get_show_t (report_number) == 0
                      &&
-                     gsb_data_transaction_get_marked_transaction ( transaction_number_tmp) == OPERATION_TELERAPPROCHEE )
+                     gsb_data_transaction_get_marked_transaction ( transaction_number_tmp) == OPERATION_TELEPOINTEE )
                         goto operation_refusee;
                 }
 		    }

@@ -1205,7 +1205,7 @@ gsb_real gsb_data_account_calculate_waiting_marked_balance ( gint account_number
 	     &&
 	     ( gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_POINTEE
 	       ||
-	       gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_TELERAPPROCHEE))
+	       gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_TELEPOINTEE))
 	    marked_balance = gsb_real_add ( marked_balance,
 					    gsb_data_transaction_get_adjusted_amount (transaction_number, floating_point));
 	tmp_list = tmp_list -> next;
