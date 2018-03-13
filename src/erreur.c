@@ -174,16 +174,16 @@ void debug_traitement_sigsegv ( gint signal_nb )
     /* soit on était en train de sauver un fichier, et là on peut rien faire */
     /* sinon on essaie de sauver le fichier sous le nom entouré de # */
 
-    if ( run.is_loading || run.is_saving || !gsb_file_get_modified ())
+    if ( run.file_is_loading || run.file_is_saving || !gsb_file_get_modified ())
     {
-		if ( run.is_loading )
+		if ( run.file_is_loading )
 		{
 			old_errmsg = errmsg;
 			errmsg = g_strconcat ( errmsg, _("File is corrupted."), NULL );
 			g_free ( old_errmsg );
 		}
 
-		if ( run.is_saving )
+		if ( run.file_is_saving )
 		{
 			old_errmsg = errmsg;
 			errmsg = g_strconcat ( errmsg, _("Error occurred saving file."), NULL );

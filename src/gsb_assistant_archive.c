@@ -717,7 +717,7 @@ static gboolean gsb_assistant_archive_switch_to_success ( GtkWidget *assistant,
 
     /* create the list of archives by account when file is loaded */
 	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
-	if (w_run->is_loading)
+	if (w_run->file_is_loading)
 	{
 		gsb_data_archive_store_init_variables ();
 		gsb_data_archive_store_create_list ( );

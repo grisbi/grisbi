@@ -825,7 +825,7 @@ static void grisbi_win_init (GrisbiWin *win)
 	else
 	{
 		gtk_stack_add_named (GTK_STACK (priv->stack_box), priv->no_file_page, "accueil_page");
-		(priv->w_run)->is_loading = FALSE;
+		(priv->w_run)->file_is_loading = FALSE;
 	}
 
 	/* initialisation de la barre d'état */
@@ -938,7 +938,7 @@ gboolean grisbi_win_file_is_loading (void)
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 	w_run = priv->w_run;
 
-	return w_run->is_loading;
+	return w_run->file_is_loading;
 }
 
 /**
@@ -1396,7 +1396,7 @@ void grisbi_win_stack_box_show (GrisbiWin *win,
 	}
 	if (strcmp (page_name, "accueil_page") == 0)
 	{
-		(priv->w_run)->is_loading = FALSE;
+		(priv->w_run)->file_is_loading = FALSE;
 	}
 }
 
@@ -1546,7 +1546,7 @@ void grisbi_win_no_file_page_update (GrisbiWin *win)
     devel_debug (NULL);
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
-	if ((priv->w_run)->is_loading == TRUE)
+	if ((priv->w_run)->file_is_loading == TRUE)
 	{
 		grisbi_win_stack_box_show (win, "accueil_page");
 	}

@@ -361,10 +361,10 @@ void grisbi_cmd_file_open_menu (GSimpleAction *action,
 
 		w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
 		utils_files_append_name_to_recent_array (grisbi_win_get_filename (NULL));
-		if (!w_run->is_loading)
+		if (!w_run->file_is_loading)
 		{
 			gsb_gui_navigation_select_line (NULL, NULL);
-			w_run->is_loading = TRUE;
+			w_run->file_is_loading = TRUE;
 		}
 	}
 }
@@ -406,10 +406,10 @@ void grisbi_cmd_file_open_direct_menu (GSimpleAction *action,
 			GrisbiWinRun *w_run;
 
 			w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
-			if (!w_run->is_loading)
+			if (!w_run->file_is_loading)
 			{
 				gsb_gui_navigation_select_line (NULL, NULL);
-				w_run->is_loading = TRUE;
+				w_run->file_is_loading = TRUE;
 			}
 			utils_files_append_name_to_recent_array (tmp_str);
 		}

@@ -309,8 +309,8 @@ struct _GrisbiWinRun
 
     /* file stuff */
     time_t file_modification;
-    gboolean is_saving;
-    gboolean is_loading;
+    gboolean file_is_saving;
+    gboolean file_is_loading;
 
     /* reconciliation */
     gint equilibrage;
