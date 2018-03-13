@@ -53,6 +53,7 @@
 #include "traitement_variables.h"
 #include "utils.h"
 #include "utils_dates.h"
+#include "utils_prefs.h"
 #include "utils_real.h"
 #include "utils_str.h"
 #include "erreur.h"
@@ -370,7 +371,7 @@ GtkWidget *bet_config_account_get_select_account ( gchar *title )
 	}
 	else
 	{
-		combo = gsb_account_create_combo_list (NULL, NULL, FALSE);
+		combo = utils_prefs_create_combo_list_indisponible ();
 	}
     gtk_box_pack_start ( GTK_BOX ( hbox ), combo, FALSE, FALSE, 0 );
 

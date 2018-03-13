@@ -312,67 +312,50 @@ gboolean gsb_account_delete ( void )
  * \return a new GtkCombobox containing the list of the accounts
  * */
 GtkWidget *gsb_account_create_combo_list ( GCallback func,
-					   gpointer data,
-					   gboolean include_closed )
+										  gpointer data,
+										  gboolean include_closed)
 {
     GSList *list_tmp;
     GtkListStore *store;
     GtkCellRenderer *renderer;
     GtkWidget *combobox;
-	gboolean is_loading;
 
     combobox = gtk_combo_box_new ();
 
     store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_INT);
-	is_loading = grisbi_win_file_is_loading ();
 
-	if (is_loading)
+	list_tmp = gsb_data_account_get_list_accounts ();
+
+	while ( list_tmp )
 	{
-    list_tmp = gsb_data_account_get_list_accounts ();
-
-    while ( list_tmp )
-    {
-	gint account_number;
-	GtkTreeIter iter;
-
-	account_number = gsb_data_account_get_no_account ( list_tmp -> data );
-
-	if ( account_number >= 0 && ( !gsb_data_account_get_closed_account (account_number)
-				      || include_closed ) )
-	{
-	    gtk_list_store_append ( GTK_LIST_STORE (store),
-				    &iter );
-	    gtk_list_store_set ( store,
-				 &iter,
-				 0, gsb_data_account_get_name (account_number),
-				 1, account_number,
-				 -1 );
-	}
-	list_tmp = list_tmp -> next;
-    }
-	}
-	else
-	{
+		gint account_number;
 		GtkTreeIter iter;
-	    gtk_list_store_append (GTK_LIST_STORE (store), &iter);
-	    gtk_list_store_set (store, &iter,
-				 0, _("Not available"),
-				 1, -1,
-				 -1 );
+
+		account_number = gsb_data_account_get_no_account ( list_tmp -> data );
+
+		if ( account_number >= 0 && ( !gsb_data_account_get_closed_account (account_number)
+						  || include_closed ) )
+		{
+			gtk_list_store_append ( GTK_LIST_STORE (store), &iter );
+			gtk_list_store_set ( store,
+					 &iter,
+					 0, gsb_data_account_get_name (account_number),
+					 1, account_number,
+					 -1 );
+		}
+		list_tmp = list_tmp -> next;
 	}
 
-    gtk_combo_box_set_model ( GTK_COMBO_BOX (combobox),
-			      GTK_TREE_MODEL (store));
+    gtk_combo_box_set_model (GTK_COMBO_BOX (combobox), GTK_TREE_MODEL (store));
 
     /* by default, this is blank, so set the first */
-    gtk_combo_box_set_active ( GTK_COMBO_BOX (combobox),
-			       0 );
+    gtk_combo_box_set_active ( GTK_COMBO_BOX (combobox), 0 );
 
-    if (is_loading && func )
-	g_signal_connect ( G_OBJECT (combobox),
-			   "changed",
-			   G_CALLBACK(func),
-			   data );
+    if (func)
+		g_signal_connect ( G_OBJECT (combobox),
+						  "changed",
+						  G_CALLBACK(func),
+						  data );
 
     renderer = gtk_cell_renderer_text_new ();
     gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combobox), renderer, TRUE);

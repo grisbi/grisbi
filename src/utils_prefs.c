@@ -862,8 +862,37 @@ GtkWidget *utils_prefs_fonts_create_button (gchar **fontname,
  *
  * \param
  *
+ * \return		new combobox
+ **/
+GtkWidget *utils_prefs_create_combo_list_indisponible (void)
+{
+	GtkTreeIter iter;
+    GtkListStore *store;
+    GtkCellRenderer *renderer;
+    GtkWidget *combobox;
+
+    combobox = gtk_combo_box_new ();
+    store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_INT);
+	gtk_list_store_append (GTK_LIST_STORE (store), &iter);
+	gtk_list_store_set (store, &iter, 0, _("Not available"), 1, -1, -1);
+
+    gtk_combo_box_set_model (GTK_COMBO_BOX (combobox), GTK_TREE_MODEL (store));
+    gtk_combo_box_set_active (GTK_COMBO_BOX (combobox), 0);
+
+    renderer = gtk_cell_renderer_text_new ();
+    gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combobox), renderer, TRUE);
+    gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combobox), renderer, "text", 0, NULL);
+
+    return combobox;
+}
+
+/**
+ *
+ *
+ * \param
+ *
  * \return
- * */
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

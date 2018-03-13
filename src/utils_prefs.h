@@ -13,6 +13,7 @@ GtkWidget *		utils_prefs_automem_radiobutton_blue_new 				(const gchar *choice1,
 																		 gboolean *value,
 																		 GCallback hook,
 																		 gpointer data);
+GtkWidget *		utils_prefs_create_combo_list_indisponible 				(void);
 GtkWidget *		utils_prefs_fonts_create_button 						(gchar **fontname,
 																		 GCallback hook,
 																		 gpointer data);

@@ -410,7 +410,11 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page)
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_scheduler_set_default_account),
 								  etat.scheduler_set_default_account);
 
-    combo = gsb_account_create_combo_list (G_CALLBACK (prefs_page_divers_scheduler_change_account), NULL, FALSE);
+	if (grisbi_win_file_is_loading ())
+		combo = gsb_account_create_combo_list (G_CALLBACK (prefs_page_divers_scheduler_change_account), NULL, FALSE);
+	else
+		combo = utils_prefs_create_combo_list_indisponible ();
+
 	gtk_box_pack_start (GTK_BOX (priv->hbox_divers_scheduler_set_default_account), combo, FALSE, FALSE, 0);
 	g_object_set_data (G_OBJECT (priv->checkbutton_scheduler_set_default_account),
                        "widget", combo);
