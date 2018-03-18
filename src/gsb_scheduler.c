@@ -139,9 +139,9 @@ gboolean gsb_scheduler_increase_scheduled ( gint scheduled_number )
 GDate *gsb_scheduler_get_next_date ( gint scheduled_number,
 				     const GDate *date )
 {
+	GDate *tmp_date;
     GDate *return_date;
 	gint fixed_date;
-	gboolean last_day;
 
     if ( !scheduled_number
 	 ||
@@ -156,111 +156,122 @@ GDate *gsb_scheduler_get_next_date ( gint scheduled_number,
     return_date = gsb_date_copy (date);
 
 	/* initialise les données pour fixed date */
-	last_day = g_date_is_last_of_month (date);
 	fixed_date = gsb_data_scheduled_get_fixed_date (scheduled_number);
 
     switch (gsb_data_scheduled_get_frequency (scheduled_number))
     {
-	case SCHEDULER_PERIODICITY_ONCE_VIEW:
-	    return NULL;
-	    break;
+		case SCHEDULER_PERIODICITY_ONCE_VIEW:
+			return NULL;
+			break;
 
-	case SCHEDULER_PERIODICITY_WEEK_VIEW:
-	    g_date_add_days ( return_date, 7 );
-	    /* FIXME : there were a bug in gtk and we had to add 0 month to have the good date,
-	     * it seems fixed but we should wait the stable debian is upgraded to
-	     * remove that [26/10/2008] */
-	    g_date_add_months ( return_date, 0 );
-	    break;
+		case SCHEDULER_PERIODICITY_WEEK_VIEW:
+			g_date_add_days ( return_date, 7 );
+			/* FIXME : there were a bug in gtk and we had to add 0 month to have the good date,
+			 * it seems fixed but we should wait the stable debian is upgraded to
+			 * remove that [26/10/2008] */
+			g_date_add_months ( return_date, 0 );
+			break;
 
-	case SCHEDULER_PERIODICITY_MONTH_VIEW:
-	    g_date_add_months ( return_date, 1 );
-		/* set the correct date if necessary */
-		if (last_day && fixed_date)
-		{
-			if (!g_date_is_last_of_month (return_date))
-			{
-				GDate *tmp_date;
-
-				tmp_date = return_date;
-				return_date = gsb_date_copy (gsb_date_get_last_day_of_month (tmp_date));
-				g_date_free (tmp_date);
-			}
-		}
-	    break;
-
-	case SCHEDULER_PERIODICITY_TWO_MONTHS_VIEW:
-	    g_date_add_months ( return_date, 2 );
-		/* set the correct date if necessary */
-		if (last_day && fixed_date)
-		{
-			if (!g_date_is_last_of_month (return_date))
-			{
-				GDate *tmp_date;
-
-				tmp_date = return_date;
-				return_date = gsb_date_copy (gsb_date_get_last_day_of_month (tmp_date));
-				g_date_free (tmp_date);
-			}
-		}
-	    break;
-
-	case SCHEDULER_PERIODICITY_TRIMESTER_VIEW:
-	    g_date_add_months ( return_date, 3 );
-	    break;
-
-	case SCHEDULER_PERIODICITY_YEAR_VIEW:
-	    g_date_add_years ( return_date, 1 );
-	    break;
-
-	case SCHEDULER_PERIODICITY_CUSTOM_VIEW:
-	    if ( gsb_data_scheduled_get_user_entry (scheduled_number) <= 0 )
-	    {
-		g_date_free (return_date);
-		return NULL;
-	    }
-
-	    switch (gsb_data_scheduled_get_user_interval (scheduled_number))
-	    {
-		case PERIODICITY_DAYS:
-		    g_date_add_days ( return_date,
-				      gsb_data_scheduled_get_user_entry (scheduled_number));
-		    /* FIXME : there were a bug in gtk and we had to add 0 month to have the good date,
-		     * it seems fixed but we should wait the stable debian is upgraded to
-		     * remove that [26/10/2008] */
-		    g_date_add_months ( return_date, 0 );
-		    break;
-
-		case PERIODICITY_WEEKS:
-		    g_date_add_days ( return_date,
-				      gsb_data_scheduled_get_user_entry (scheduled_number) * 7 );
-		    g_date_add_months ( return_date, 0 );
-		    break;
-
-		case PERIODICITY_MONTHS:
-		    g_date_add_months ( return_date,
-					gsb_data_scheduled_get_user_entry (scheduled_number));
+		case SCHEDULER_PERIODICITY_MONTH_VIEW:
+			g_date_add_months ( return_date, 1 );
 			/* set the correct date if necessary */
-			if (last_day && fixed_date)
+			if (fixed_date)
 			{
-				if (!g_date_is_last_of_month (return_date))
+				tmp_date = gsb_date_copy (return_date);
+				g_date_set_day (return_date, fixed_date);
+				if (!g_date_valid (return_date))
 				{
-					GDate *tmp_date;
-
-					tmp_date = return_date;
-					return_date = gsb_date_copy (gsb_date_get_last_day_of_month (tmp_date));
-					g_date_free (tmp_date);
+					g_date_free (return_date);
+					return_date = gsb_date_get_last_day_of_month (tmp_date);
 				}
+				g_date_free (tmp_date);
 			}
-		    break;
+			break;
 
-		case PERIODICITY_YEARS:
-		    g_date_add_years ( return_date,
-				       gsb_data_scheduled_get_user_entry (scheduled_number));
-		    g_date_add_months ( return_date, 0 );
-		    break;
-	    }
-	    break;
+		case SCHEDULER_PERIODICITY_TWO_MONTHS_VIEW:
+			g_date_add_months ( return_date, 2 );
+			/* set the correct date if necessary */
+			if (fixed_date)
+			{
+				tmp_date = gsb_date_copy (return_date);
+				g_date_set_day (return_date, fixed_date);
+				if (!g_date_valid (return_date))
+				{
+					g_date_free (return_date);
+					return_date = gsb_date_get_last_day_of_month (tmp_date);
+				}
+				g_date_free (tmp_date);
+			}
+			break;
+
+		case SCHEDULER_PERIODICITY_TRIMESTER_VIEW:
+			g_date_add_months ( return_date, 3 );
+			/* set the correct date if necessary */
+			if (fixed_date)
+			{
+				tmp_date = gsb_date_copy (return_date);
+				g_date_set_day (return_date, fixed_date);
+				if (!g_date_valid (return_date))
+				{
+					g_date_free (return_date);
+					return_date = gsb_date_get_last_day_of_month (tmp_date);
+				}
+				g_date_free (tmp_date);
+			}
+			break;
+
+		case SCHEDULER_PERIODICITY_YEAR_VIEW:
+			g_date_add_years ( return_date, 1 );
+			break;
+
+		case SCHEDULER_PERIODICITY_CUSTOM_VIEW:
+			if ( gsb_data_scheduled_get_user_entry (scheduled_number) <= 0 )
+			{
+				g_date_free (return_date);
+				return NULL;
+			}
+
+			switch (gsb_data_scheduled_get_user_interval (scheduled_number))
+			{
+				case PERIODICITY_DAYS:
+					g_date_add_days ( return_date,
+							  gsb_data_scheduled_get_user_entry (scheduled_number));
+					/* FIXME : there were a bug in gtk and we had to add 0 month to have the good date,
+					 * it seems fixed but we should wait the stable debian is upgraded to
+					 * remove that [26/10/2008] */
+					g_date_add_months ( return_date, 0 );
+					break;
+
+				case PERIODICITY_WEEKS:
+					g_date_add_days ( return_date,
+							  gsb_data_scheduled_get_user_entry (scheduled_number) * 7 );
+					g_date_add_months ( return_date, 0 );
+					break;
+
+				case PERIODICITY_MONTHS:
+					g_date_add_months ( return_date,
+							gsb_data_scheduled_get_user_entry (scheduled_number));
+			/* set the correct date if necessary */
+			if (fixed_date)
+			{
+				tmp_date = gsb_date_copy (return_date);
+				g_date_set_day (return_date, fixed_date);
+				if (!g_date_valid (return_date))
+				{
+					g_date_free (return_date);
+					return_date = gsb_date_get_last_day_of_month (tmp_date);
+				}
+				g_date_free (tmp_date);
+			}
+					break;
+
+				case PERIODICITY_YEARS:
+					g_date_add_years ( return_date,
+							   gsb_data_scheduled_get_user_entry (scheduled_number));
+					g_date_add_months ( return_date, 0 );
+					break;
+			}
+			break;
     }
 
     if ( gsb_data_scheduled_get_limit_date (scheduled_number)
@@ -291,29 +302,18 @@ gint gsb_scheduler_create_transaction_from_scheduled_transaction ( gint schedule
 								   gint transaction_mother )
 {
 	GDate *date;
-	GDate *tmp_date;
     gint transaction_number, payment_number;
     gint account_number;
-	gint fixed_date;
-	gboolean last_day;
 
     account_number = gsb_data_scheduled_get_account_number (scheduled_number);
 
     transaction_number = gsb_data_transaction_new_transaction (account_number);
 
 	/* initialise les données pour fixed date */
-	tmp_date = gsb_data_scheduled_get_date (scheduled_number);
-	last_day = g_date_is_last_of_month (tmp_date);
-	fixed_date = gsb_data_scheduled_get_fixed_date (scheduled_number);
+	date = gsb_data_scheduled_get_date (scheduled_number);
 
 	/* begin to fill the new transaction */
-	/* Set the correct date if necessary */
-	if (last_day && fixed_date == 2)
-		date = gsb_date_copy (gsb_date_get_last_banking_day_of_month (tmp_date));
-	else
-		date = gsb_date_copy (tmp_date);
     gsb_data_transaction_set_date (transaction_number, date);
-	g_date_free (date);
 
 	gsb_data_transaction_set_party_number ( transaction_number,
 					    gsb_data_scheduled_get_party_number (scheduled_number));

@@ -104,27 +104,6 @@ static gint last_account_number = 0;
 /******************************************************************************/
 /* Private Methods                                                            */
 /******************************************************************************/
-/**
- *
- *
- * \param
- *
- * \return
- **/
-static void gsb_form_scheduler_fixed_date_checkbox_toggled (GtkToggleButton *togglebutton,
-															gpointer user_data)
-{
-	gboolean value;
-
-	value = gtk_toggle_button_get_active (togglebutton);
-	etat.scheduler_set_fixed_date = value;
-
-	if (value)
-		etat.scheduler_default_fixed_date = GPOINTER_TO_INT (user_data);
-	else
-		etat.scheduler_default_fixed_date = 0;
-}
-
 /******************************************************************************/
 /* Public Methods                                                             */
 /******************************************************************************/
@@ -1267,46 +1246,38 @@ gint gsb_form_scheduler_get_last_day_of_month_dialog (gint scheduled_number,
 													  GDate *date)
 {
 	GtkWidget *dialog = NULL;
-	GtkWidget *checkbox;
-	GtkWidget *vbox;
 	gchar *msg;
+	gchar *tmp_str;
+	GDateDay day;
 	gint fixed_date = 0;
 	gint result;
 
-	fixed_date = gsb_data_scheduled_get_fixed_date (scheduled_number);
-	msg = g_strdup_printf (_("Choose the option to use for the last day of the month\n\n"
-							 "Do nothing\n"
-							 "Keep the last day of the month\n"
-							 "Use the last banking day"));
+	day = g_date_get_day (date);
+	tmp_str = g_strdup_printf (_("Keep the %d"), day);
+	msg = g_strdup_printf (_("Do you want to keep the \"%d\" as the date or put the last day of the month?\n\n"), day);
+
 	dialog = dialogue_special_no_run (GTK_MESSAGE_QUESTION,
-									   GTK_BUTTONS_NONE,
-									   msg,
-									   _("What to do for the last day of the month?"));
+									  GTK_BUTTONS_NONE,
+									  msg,
+									  _("This is the last day of the month"));
 
 	gtk_dialog_add_buttons (GTK_DIALOG(dialog),
-							"gtk-cancel", GTK_RESPONSE_CANCEL,
-							_("Nothing to do"), 0,
-							_("Last day of the month"), 1,
-							_("Last bankind day"), 2,
+							tmp_str, GTK_RESPONSE_NO,
+							_("Last day of the months"), GTK_RESPONSE_YES,
 							NULL);
-
-	vbox = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
-
-	checkbox = gtk_check_button_new_with_label (_("Keep this choice permanently?"));
-	if (etat.scheduler_set_fixed_date)
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbox), TRUE);
-	gtk_box_pack_start (GTK_BOX (vbox), checkbox, TRUE, TRUE, MARGIN_BOX);
-	gtk_widget_show_all (checkbox);
 
 	result = gtk_dialog_run (GTK_DIALOG (dialog));
 
-	if (result >= 0)
+	if (result == GTK_RESPONSE_YES)
 	{
-		gsb_form_scheduler_fixed_date_checkbox_toggled (GTK_TOGGLE_BUTTON (checkbox),
-														GINT_TO_POINTER (result));
-		fixed_date = result;
+		fixed_date = 31;
+	}
+	else
+	{
+		fixed_date = day;
 	}
 
+	g_free (tmp_str);
 	g_free (msg);
 	gtk_widget_destroy (dialog);
 

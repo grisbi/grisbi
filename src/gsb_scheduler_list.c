@@ -1092,13 +1092,19 @@ gboolean gsb_scheduler_list_append_new_scheduled ( gint scheduled_number,
 
 	/* set the good date */
 	tmp_date = gsb_data_scheduled_get_date (scheduled_number);
+	pGDateCurrent = gsb_date_copy (tmp_date);
 	fixed_date = gsb_data_scheduled_get_fixed_date (scheduled_number);
 	if (fixed_date)
-			pGDateCurrent = gsb_date_copy (gsb_date_get_last_day_of_month (tmp_date));
-	else
-			pGDateCurrent = gsb_date_copy (tmp_date);
+	{
+		g_date_set_day (pGDateCurrent, fixed_date);
+		if (!g_date_valid (pGDateCurrent))
+		{
+			g_date_free (pGDateCurrent);
+			pGDateCurrent = gsb_date_get_last_day_of_month (tmp_date);
+		}
+	}
 
-    /* fill the text line */
+	  /* fill the text line */
     gsb_scheduler_list_fill_transaction_text ( scheduled_number, line );
 
     do
