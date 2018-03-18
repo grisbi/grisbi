@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ro\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-18 06:58+0100\n"
+"POT-Creation-Date: 2018-03-18 09:54+0100\n"
 "PO-Revision-Date: 2005-12-19 11:24+0100\n"
 "Last-Translator: Mircea Aronovici <bucuresti@free.fr>\n"
 "Language-Team: <bucuresti@free.fr>\n"
@@ -8032,7 +8032,7 @@ msgstr ""
 #: ../src/gsb_form_scheduler.c:1257
 #, fuzzy, c-format
 msgid ""
-"Do you want to keep the \"%d\" as the date or put the last day of the "
+"Do you want to keep the \"%d\" as the date or to force the last day of the "
 "month?\n"
 "\n"
 msgstr "Ultimele 3 luni"
@@ -8044,7 +8044,7 @@ msgstr "Ultimele 3 luni"
 
 #: ../src/gsb_form_scheduler.c:1266
 #, fuzzy
-msgid "Last day of the months"
+msgid "Force the last day of the month"
 msgstr "Ultimele 3 luni"
 
 #: ../src/gsb_form_widget.c:326
@@ -12871,6 +12871,10 @@ msgstr ""
 #, fuzzy
 msgid "finance"
 msgstr "exerciţiu"
+
+#, fuzzy
+#~ msgid "Last day of the months"
+#~ msgstr "Ultimele 3 luni"
 
 #, fuzzy
 #~ msgid "Last bankind day"

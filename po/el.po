@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Grisbi 0.5.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-18 06:58+0100\n"
+"POT-Creation-Date: 2018-03-18 09:54+0100\n"
 "PO-Revision-Date: 2009-04-13 14:53+0200\n"
 "Last-Translator: \n"
 "Language-Team: KASKAS <ttnfy17@yahoo.gr>\n"
@@ -8267,7 +8267,7 @@ msgstr ""
 #: ../src/gsb_form_scheduler.c:1257
 #, fuzzy, c-format
 msgid ""
-"Do you want to keep the \"%d\" as the date or put the last day of the "
+"Do you want to keep the \"%d\" as the date or to force the last day of the "
 "month?\n"
 "\n"
 msgstr "Τελευταίες 30 ημέρες"
@@ -8279,7 +8279,7 @@ msgstr "Τελευταίες 30 ημέρες"
 
 #: ../src/gsb_form_scheduler.c:1266
 #, fuzzy
-msgid "Last day of the months"
+msgid "Force the last day of the month"
 msgstr "Τελευταίες 30 ημέρες"
 
 #: ../src/gsb_form_widget.c:326
@@ -13177,6 +13177,10 @@ msgstr "Προσωπικός διευθυντής χρηματοδότησης �
 #, fuzzy
 msgid "finance"
 msgstr "οικονομικό έτος"
+
+#, fuzzy
+#~ msgid "Last day of the months"
+#~ msgstr "Τελευταίες 30 ημέρες"
 
 #, fuzzy
 #~ msgid "Last bankind day"

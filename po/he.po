@@ -283,7 +283,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: he\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-18 06:58+0100\n"
+"POT-Creation-Date: 2018-03-18 09:54+0100\n"
 "PO-Revision-Date: 2006-02-11 16:08+0200\n"
 "Last-Translator: dotan\n"
 "Language-Team: <en@li.org>\n"
@@ -8254,7 +8254,7 @@ msgstr ""
 #: ../src/gsb_form_scheduler.c:1257
 #, fuzzy, c-format
 msgid ""
-"Do you want to keep the \"%d\" as the date or put the last day of the "
+"Do you want to keep the \"%d\" as the date or to force the last day of the "
 "month?\n"
 "\n"
 msgstr "3 החודשים האחרונים"
@@ -8266,7 +8266,7 @@ msgstr "3 החודשים האחרונים"
 
 #: ../src/gsb_form_scheduler.c:1266
 #, fuzzy
-msgid "Last day of the months"
+msgid "Force the last day of the month"
 msgstr "3 החודשים האחרונים"
 
 #: ../src/gsb_form_widget.c:326
@@ -13069,6 +13069,10 @@ msgstr ""
 #, fuzzy
 msgid "finance"
 msgstr "שנת כספים"
+
+#, fuzzy
+#~ msgid "Last day of the months"
+#~ msgstr "3 החודשים האחרונים"
 
 #, fuzzy
 #~ msgid "Last bankind day"

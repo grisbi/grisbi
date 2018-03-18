@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-18 06:58+0100\n"
+"POT-Creation-Date: 2018-03-18 09:54+0100\n"
 "PO-Revision-Date: 2007-04-05 00:03+0000\n"
 "Last-Translator: Fabio Erculiani <fabio.erculiani@gmail.com>\n"
 "Language-Team: Italian <LL@li.org>\n"
@@ -7975,7 +7975,7 @@ msgstr ""
 #: ../src/gsb_form_scheduler.c:1257
 #, fuzzy, c-format
 msgid ""
-"Do you want to keep the \"%d\" as the date or put the last day of the "
+"Do you want to keep the \"%d\" as the date or to force the last day of the "
 "month?\n"
 "\n"
 msgstr "Ultimi 3 mesi"
@@ -7987,7 +7987,7 @@ msgstr "Ultimi 3 mesi"
 
 #: ../src/gsb_form_scheduler.c:1266
 #, fuzzy
-msgid "Last day of the months"
+msgid "Force the last day of the month"
 msgstr "Ultimi 3 mesi"
 
 #: ../src/gsb_form_widget.c:326
@@ -12805,6 +12805,10 @@ msgstr ""
 #, fuzzy
 msgid "finance"
 msgstr "anno finanziario"
+
+#, fuzzy
+#~ msgid "Last day of the months"
+#~ msgstr "Ultimi 3 mesi"
 
 #, fuzzy
 #~ msgid "Last bankind day"

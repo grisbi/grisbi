@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-18 06:58+0100\n"
+"POT-Creation-Date: 2018-03-18 09:54+0100\n"
 "PO-Revision-Date: 2018-02-08 19:20+0100\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: français <>\n"
@@ -7980,8 +7980,8 @@ msgid "This is the last day of the month"
 msgstr "C'est le dernier jour du mois"
 
 #: ../src/gsb_form_scheduler.c:1266
-msgid "Last day of the months"
-msgstr "Dernier jour des mois"
+msgid "Force the last day of the month"
+msgstr "Forcer le dernier jour du mois"
 
 #: ../src/gsb_form_widget.c:326
 msgid "Choose currency"
@@ -12630,7 +12630,8 @@ msgstr "Jour de lancement des opérations planifiées exécutées mensuellement 
 #: ../src/ui/prefs_page_divers.ui.h:11
 msgid ""
 "Fix the date for the scheduled transactions on 28, 29, 30 and 31 of the month"
-msgstr "Fixer la date pour les transactions planifiées les 28, 29, 30 et 31 du mois"
+msgstr ""
+"Fixer la date pour les transactions planifiées les 28, 29, 30 et 31 du mois"
 
 #: ../src/ui/prefs_page_divers.ui.h:12
 msgid "Use a default account for sheduler form: "
@@ -12760,6 +12761,9 @@ msgstr "Gestionnaire de finances personnelles"
 #: ../share/grisbi.desktop.in.h:3
 msgid "finance"
 msgstr "finance"
+
+#~ msgid "Last day of the months"
+#~ msgstr "Dernier jour des mois"
 
 #~ msgid ""
 #~ "Choose the option to use for the last day of the month\n"

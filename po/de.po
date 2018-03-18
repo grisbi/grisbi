@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-18 06:58+0100\n"
+"POT-Creation-Date: 2018-03-18 09:54+0100\n"
 "PO-Revision-Date: 2014-02-04 20:21+0100\n"
 "Last-Translator: Martin Stromberger <ma.stromberger@gmx.at>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -8001,7 +8001,7 @@ msgstr ""
 #: ../src/gsb_form_scheduler.c:1257
 #, fuzzy, c-format
 msgid ""
-"Do you want to keep the \"%d\" as the date or put the last day of the "
+"Do you want to keep the \"%d\" as the date or to force the last day of the "
 "month?\n"
 "\n"
 msgstr "erster Tag vom Monat"
@@ -8013,7 +8013,7 @@ msgstr "erster Tag vom Monat"
 
 #: ../src/gsb_form_scheduler.c:1266
 #, fuzzy
-msgid "Last day of the months"
+msgid "Force the last day of the month"
 msgstr "erster Tag vom Monat"
 
 #: ../src/gsb_form_widget.c:326
@@ -12903,6 +12903,10 @@ msgstr "Finanzprogramm für Privatpersonen"
 #, fuzzy
 msgid "finance"
 msgstr "Geschäftsjahr"
+
+#, fuzzy
+#~ msgid "Last day of the months"
+#~ msgstr "erster Tag vom Monat"
 
 #, fuzzy
 #~ msgid "Last bankind day"
