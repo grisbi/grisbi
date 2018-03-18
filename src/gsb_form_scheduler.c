@@ -1254,7 +1254,7 @@ gint gsb_form_scheduler_get_last_day_of_month_dialog (gint scheduled_number,
 
 	day = g_date_get_day (date);
 	tmp_str = g_strdup_printf (_("Keep the %d"), day);
-	msg = g_strdup_printf (_("Do you want to keep the \"%d\" as the date or put the last day of the month?\n\n"), day);
+	msg = g_strdup_printf (_("Do you want to keep the \"%d\" as the date or to force the last day of the month?\n\n"), day);
 
 	dialog = dialogue_special_no_run (GTK_MESSAGE_QUESTION,
 									  GTK_BUTTONS_NONE,
@@ -1263,7 +1263,7 @@ gint gsb_form_scheduler_get_last_day_of_month_dialog (gint scheduled_number,
 
 	gtk_dialog_add_buttons (GTK_DIALOG(dialog),
 							tmp_str, GTK_RESPONSE_NO,
-							_("Last day of the months"), GTK_RESPONSE_YES,
+							_("Force the last day of the month"), GTK_RESPONSE_YES,
 							NULL);
 
 	result = gtk_dialog_run (GTK_DIALOG (dialog));
