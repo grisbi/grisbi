@@ -483,7 +483,7 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
                     etat.scheduler_set_fixed_date = utils_str_atoi ( attribute_values[i]);
 
 				else if ( !strcmp ( attribute_names[i], "Scheduler_default_fixed_date" ))
-                    etat.scheduler_default_fixed_date = utils_str_atoi ( attribute_values[i]);
+                    etat.scheduler_set_fixed_date_day = utils_str_atoi ( attribute_values[i]);
 
                 else
                     unknown = 1;
