@@ -2870,7 +2870,7 @@ gboolean metatree_find_destination_blob ( MetatreeInterface *iface,
                         gettext ( iface -> meta_name_minus ) );
     }
 
-    dialog = dialogue_special_no_run ( GTK_MESSAGE_OTHER,
+    dialog = dialogue_special_no_run ( GTK_MESSAGE_INFO,
                         GTK_BUTTONS_OK_CANCEL,
                         text, hint );
 
@@ -3748,7 +3748,7 @@ static gboolean metatree_select_transactions_destination ( MetatreeInterface *if
                         gettext ( iface -> meta_name_minus ),
                         gettext ( iface -> meta_sub_name ) );
 
-    dialog = dialogue_special_no_run ( GTK_MESSAGE_OTHER,
+    dialog = dialogue_special_no_run ( GTK_MESSAGE_INFO,
                         GTK_BUTTONS_OK_CANCEL,
                         text, hint );
 

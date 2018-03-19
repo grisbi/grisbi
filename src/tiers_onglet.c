@@ -1250,19 +1250,19 @@ static GtkWidget *gsb_assistant_payees_page_3 ( GtkWidget *assistant )
     gtk_box_pack_start ( GTK_BOX (page), table, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Total number of payees: ") );
-    utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0 );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0.5 );
     gtk_grid_attach (GTK_GRID (table), label, 0, 0, 1, 1);
     label = gtk_label_new ( "   0" );
-    utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 1 );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0.5 );
     gtk_grid_attach (GTK_GRID (table), label, 1, 0, 1, 1);
     g_object_set_data ( G_OBJECT (assistant), "nbre_tiers_total", label );
 
     /* ajoute le nombre de tiers sélectionnés */
     label = gtk_label_new ( _("Number of selected payees: ") );
-    utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0 );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0.5 );
     gtk_grid_attach (GTK_GRID (table), label, 2, 0, 1, 1);
     label = gtk_label_new ( "   0" );
-    utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 1 );
+    utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0.5 );
     gtk_grid_attach (GTK_GRID (table), label, 3, 0, 1, 1);
     g_object_set_data ( G_OBJECT (assistant), "nbre_tiers_select", label );
 
@@ -1272,7 +1272,6 @@ static GtkWidget *gsb_assistant_payees_page_3 ( GtkWidget *assistant )
                         "clicked",
                         G_CALLBACK (gsb_assistant_payees_clicked),
                         assistant );
-	gtk_widget_set_size_request ( button, 60, -1 );
     gtk_grid_attach (GTK_GRID (table), button, 4, 0, 1, 1);
     g_object_set_data ( G_OBJECT (assistant), "button", button );
 
