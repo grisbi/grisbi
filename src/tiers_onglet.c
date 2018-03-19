@@ -119,6 +119,9 @@ static gboolean sortie_edit_payee = FALSE;
 /* structure pour la sauvegarde de la position */
 static struct metatree_hold_position *payee_hold_position;
 
+/* structure pour la sauvegarde de la valeur default_answer */
+static struct ConditionalMessage overwrite_payee;
+
 /*START_EXTERN*/
 /*END_EXTERN*/
 
@@ -979,6 +982,14 @@ void payees_manage_payees ( void )
 
 		if ( nb_removed > 1 )
         {
+			if (save_notes)
+			{
+				overwrite_payee.name = g_strdup ( "crush-existing-note" );
+				overwrite_payee.hint = g_strdup ( _("Warning you will crush the existing note.") );
+				overwrite_payee.hidden = FALSE;
+				overwrite_payee.default_answer = FALSE;
+			}
+
             tmp_list = gsb_data_transaction_get_complete_transactions_list ( );
             while ( tmp_list )
             {
@@ -1027,6 +1038,11 @@ void payees_manage_payees ( void )
             }
             dialogue (tmpstr);
             g_free (tmpstr);
+			if (save_notes)
+			{
+				g_free (overwrite_payee.name);
+				g_free (overwrite_payee.hint);
+			}
         }
         else
         {
@@ -1680,47 +1696,45 @@ void gsb_assistant_payees_modifie_operations ( GSList *sup_payees,
     gchar *tmpstr;
     gint payee_number;
     gchar *nombre;
-    gboolean question = TRUE;
-    struct ConditionalMessage overwrite_payee;
-
+	gboolean question = TRUE;
 
     payee_number = gsb_data_mix_get_party_number ( transaction_number, is_transaction );
     if ( g_slist_find ( sup_payees, GINT_TO_POINTER ( payee_number ) ) )
     {
-        gsb_data_mix_set_party_number ( transaction_number,
-                new_payee_number, is_transaction );
+        gsb_data_mix_set_party_number ( transaction_number, new_payee_number, is_transaction );
         if ( save_notes )
         {
-            tmpstr = g_strdup ( gsb_data_mix_get_notes (
-                        transaction_number, is_transaction ) );
+            tmpstr = g_strdup (gsb_data_mix_get_notes (transaction_number, is_transaction));
             if ( tmpstr && strlen ( tmpstr ) )
             {
+                overwrite_payee.message = g_strdup_printf (_("Do you want overwrite the existing note.\n\n"
+															 "If you answer YES, the existing note will be replaced by %s."),
+														   gsb_data_payee_get_name (payee_number, TRUE));
 
-                overwrite_payee.name = g_strdup ( "crush-existing-note" );
-                overwrite_payee.hint = g_strdup ( _("Warning you will crush the existing note.") );
-                overwrite_payee.hidden = FALSE;
-                overwrite_payee.default_answer = FALSE;
-                overwrite_payee.message = g_strdup_printf (
-                    _("Do you want overwrite the existing note.\n\n"
-                    "If you answer YES, the existing note will be replaced by %s."),
-                    gsb_data_payee_get_name ( payee_number, TRUE ) );
+                if (question_conditional_yes_no_with_struct (&overwrite_payee) == FALSE)
+				{
+                    overwrite_payee.default_answer = FALSE;
+					question = FALSE;
+				}
+				else
+				{
+					overwrite_payee.default_answer = TRUE;
+					question = TRUE;
+				}
 
-                if ( question_conditional_yes_no_with_struct (
-                 &overwrite_payee ) == FALSE )
-                    question = FALSE;
-                g_free ( (gchar*) overwrite_payee.name );
-                g_free ( (gchar*) overwrite_payee.hint );
                 g_free ( (gchar*) overwrite_payee.message );
                 g_free ( tmpstr );
             }
             else
                 question = TRUE;
-            if ( question && my_strcmp ( (gchar *) gsb_data_payee_get_name (
-                payee_number, TRUE ),
-                (gchar *) gsb_data_payee_get_name (
-                new_payee_number, TRUE ) ) != 0 )
-            gsb_data_mix_set_notes ( transaction_number,
-                gsb_data_payee_get_name ( payee_number, TRUE ), is_transaction );
+
+			if (question
+			    &&
+				my_strcmp ((gchar *) gsb_data_payee_get_name (payee_number, TRUE),
+						   (gchar *) gsb_data_payee_get_name (new_payee_number, TRUE)) != 0)
+			{
+				gsb_data_mix_set_notes (transaction_number, gsb_data_payee_get_name (payee_number, TRUE), is_transaction);
+			}
         }
         if ( extract_num )
         {
