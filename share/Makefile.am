@@ -46,8 +46,8 @@ if WIN32
 			echo "  * $$i"; \
 		done;
 	echo "install other dependencies"; \
-	$(install_sh_PROGRAM) $(pacman -Ql mingw-$i_pkg_postfix-libcroco | grep '.dll$' | cut -f2 -d' ') $(prefix)/bin; \
-	$(install_sh_PROGRAM) $(pacman -Ql mingw-$i_pkg_postfix-librsvg | grep 'rsvg\-.*\.dll$' | cut -f2 -d' ') $(prefix)/bin;
+	$(install_sh_PROGRAM) $$(pacman -Ql mingw-$i_pkg_postfix-libcroco | grep '.dll$' | cut -f2 -d' ') $(prefix)/bin; \
+	$(install_sh_PROGRAM) $$(pacman -Ql mingw-$i_pkg_postfix-librsvg | grep 'rsvg\-.*\.dll$' | cut -f2 -d' ') $(prefix)/bin;
 	echo "Strip $(prefix)/bin/grisbi.exe";
 	strip $(prefix)/bin/grisbi.exe;
 	echo "Copying glib-2.0 schemas";
