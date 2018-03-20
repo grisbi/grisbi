@@ -9,7 +9,6 @@ else
 	i_pkg_postfix="w64-i686"
 fi
 
-pacman -S --noconfirm mingw-glib2-devel
 pacman -S --noconfirm mingw-$i_pkg_postfix-cairo
 pacman -S --noconfirm mingw-$i_pkg_postfix-gtk3
 pacman -S --noconfirm mingw-$i_pkg_postfix-freetype
