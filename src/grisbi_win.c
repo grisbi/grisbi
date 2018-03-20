@@ -641,6 +641,7 @@ static void grisbi_win_no_file_page_new (GrisbiWin *win)
 	/* set the button "import" */
 	priv->bouton_importer = utils_buttons_button_new_from_stock ("gtk-convert", _("Import"));
 	gtk_button_set_image_position (GTK_BUTTON (priv->bouton_importer), GTK_POS_TOP);
+	gtk_widget_set_tooltip_text (priv->bouton_importer, _("Import a CSV, QIF, OFX file ..."));
 	gtk_widget_set_size_request (priv->bouton_importer, 150, 150);
 	gtk_widget_set_halign (priv->bouton_importer, GTK_ALIGN_CENTER);
 	gtk_widget_set_valign (priv->bouton_importer, GTK_ALIGN_CENTER);
@@ -1590,6 +1591,7 @@ void grisbi_win_no_file_page_update (GrisbiWin *win)
 			tmp_str = utils_str_break_filename (recent_files_array[i], GSB_NBRE_CHAR_TRUNC);
 
 		gtk_button_set_label (GTK_BUTTON (bouton), tmp_str);
+		gtk_widget_set_tooltip_text (bouton, recent_files_array[i]);
 
 		col++;
 		if ((col % 3) == 0)
