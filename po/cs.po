@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-18 09:54+0100\n"
+"POT-Creation-Date: 2018-03-20 09:16+0100\n"
 "PO-Revision-Date: 2011-02-19 01:39+0100\n"
 "Last-Translator: Markus7cz <markus7cz@gmail.com>\n"
 "Language-Team: \n"
@@ -1073,7 +1073,7 @@ msgstr ""
 #: ../src/bet_future.c:3007 ../src/categories_onglet.c:752
 #: ../src/gsb_assistant_archive_export.c:153 ../src/gsb_fyear_config.c:275
 #: ../src/gsb_transactions_list.c:2140 ../src/imputation_budgetaire.c:789
-#: ../src/parametres.c:311 ../src/tiers_onglet.c:732
+#: ../src/parametres.c:311 ../src/tiers_onglet.c:735
 #: ../src/prefs/prefs_page_archives.c:460
 msgid "Name"
 msgstr "Název"
@@ -1253,7 +1253,7 @@ msgstr "Archivy"
 msgid "Show grid"
 msgstr "Zobrazit _odsouhlasené"
 
-#: ../src/bet_graph.c:1361 ../src/tiers_onglet.c:1116
+#: ../src/bet_graph.c:1361 ../src/tiers_onglet.c:1132
 msgid "Options"
 msgstr "Volby"
 
@@ -1302,7 +1302,7 @@ msgstr ""
 msgid "Incomes"
 msgstr "Příjmy"
 
-#: ../src/bet_hist.c:553 ../src/tiers_onglet.c:1202 ../src/utils_buttons.c:299
+#: ../src/bet_hist.c:553 ../src/tiers_onglet.c:1218 ../src/utils_buttons.c:299
 #: ../src/utils_buttons.c:301
 msgid "Select"
 msgstr "Vybrat"
@@ -1314,7 +1314,7 @@ msgstr "Vybrat"
 #: ../src/export_csv.c:807 ../src/gsb_assistant_reconcile_config.c:590
 #: ../src/gsb_scheduler_list.c:603 ../src/gsb_transactions_list.c:173
 #: ../src/import.c:3804 ../src/import_csv.c:78
-#: ../src/imputation_budgetaire.c:201 ../src/tiers_onglet.c:253
+#: ../src/imputation_budgetaire.c:201 ../src/tiers_onglet.c:256
 msgid "Amount"
 msgstr "Částka"
 
@@ -1398,7 +1398,7 @@ msgid "Check the box to automatically change start date"
 msgstr "Zaškrtněte pro automatickou změnu počátečního data"
 
 #. Description entry
-#: ../src/bet_tab.c:866 ../src/etats_onglet.c:747 ../src/tiers_onglet.c:744
+#: ../src/bet_tab.c:866 ../src/etats_onglet.c:747 ../src/tiers_onglet.c:747
 msgid "Description"
 msgstr "Popis"
 
@@ -1513,7 +1513,7 @@ msgstr "prognoza.csv"
 #: ../src/gsb_assistant_reconcile_config.c:590
 #: ../src/gsb_payment_method_config.c:163 ../src/gsb_reconcile_config.c:123
 #: ../src/gsb_scheduler_list.c:602 ../src/imputation_budgetaire.c:191
-#: ../src/navigation.c:1087 ../src/tiers_onglet.c:243
+#: ../src/navigation.c:1087 ../src/tiers_onglet.c:246
 msgid "Account"
 msgstr "Účet"
 
@@ -1618,7 +1618,7 @@ msgstr "Exportovat soubor kategorií Grisbi (.cgsb)"
 #. delete button
 #: ../src/categories_onglet.c:595 ../src/etats_onglet.c:516
 #: ../src/gsb_scheduler_list.c:406 ../src/gsb_transactions_list.c:370
-#: ../src/imputation_budgetaire.c:634 ../src/tiers_onglet.c:342
+#: ../src/imputation_budgetaire.c:634 ../src/tiers_onglet.c:345
 msgid "Delete"
 msgstr "Odstranit"
 
@@ -1633,7 +1633,7 @@ msgstr "Odstranit vybranou kategorii"
 #. edit button
 #: ../src/categories_onglet.c:607 ../src/gsb_scheduler_list.c:417
 #: ../src/gsb_transactions_list.c:379 ../src/imputation_budgetaire.c:646
-#: ../src/parametres.c:245 ../src/tiers_onglet.c:354
+#: ../src/parametres.c:245 ../src/tiers_onglet.c:357
 #: ../src/ui/grisbi_menu.ui.h:47
 msgid "Edit"
 msgstr "Upravit"
@@ -1649,11 +1649,11 @@ msgstr "Upravit vybranou kategorii"
 #. Change view mode button
 #: ../src/categories_onglet.c:619 ../src/gsb_scheduler_list.c:449
 #: ../src/gsb_transactions_list.c:406 ../src/imputation_budgetaire.c:658
-#: ../src/tiers_onglet.c:366 ../src/ui/grisbi_menu.ui.h:29
+#: ../src/tiers_onglet.c:369 ../src/ui/grisbi_menu.ui.h:29
 msgid "View"
 msgstr "Pohled"
 
-#: ../src/categories_onglet.c:620 ../src/tiers_onglet.c:367
+#: ../src/categories_onglet.c:620 ../src/tiers_onglet.c:370
 msgid "Change view mode"
 msgstr "Změnit pohled"
 
@@ -1667,13 +1667,13 @@ msgid "Subcategory view"
 msgstr "Pohled dle podkategorií"
 
 #: ../src/categories_onglet.c:671 ../src/gsb_transactions_list.c:603
-#: ../src/imputation_budgetaire.c:710 ../src/tiers_onglet.c:490
+#: ../src/imputation_budgetaire.c:710 ../src/tiers_onglet.c:493
 msgid "Complete view"
 msgstr "Úplný pohled"
 
 #: ../src/categories_onglet.c:720 ../src/categories_onglet.c:724
 #: ../src/imputation_budgetaire.c:756 ../src/imputation_budgetaire.c:761
-#: ../src/tiers_onglet.c:707
+#: ../src/tiers_onglet.c:710
 #, c-format
 msgid "Properties for %s"
 msgstr "Vlastnosti pro %s"
@@ -2978,20 +2978,20 @@ msgid "Account selection"
 msgstr "Výběr účtu"
 
 #. on fixe le titre et le suffixe de la barre d'information
-#: ../src/etats_prefs.c:1720 ../src/navigation.c:2001 ../src/tiers_onglet.c:233
-#: ../src/tiers_onglet.c:637
+#: ../src/etats_prefs.c:1720 ../src/navigation.c:2001 ../src/tiers_onglet.c:236
+#: ../src/tiers_onglet.c:640
 msgid "Payees"
 msgstr "Plátci/příjemci"
 
 #. ajoute le bouton (dé)sélectionne tout
 #: ../src/etats_prefs.c:1828 ../src/export.c:210 ../src/import.c:2737
-#: ../src/tiers_onglet.c:1254 ../src/tiers_onglet.c:1469
+#: ../src/tiers_onglet.c:1270 ../src/tiers_onglet.c:1484
 #: ../src/utils_buttons.c:268
 msgid "Unselect all"
 msgstr "Odznačit vše"
 
 #: ../src/etats_prefs.c:1830 ../src/export.c:215 ../src/gsb_assistant.c:127
-#: ../src/tiers_onglet.c:1467 ../src/tiers_onglet.c:1487
+#: ../src/tiers_onglet.c:1482 ../src/tiers_onglet.c:1502
 #: ../src/utils_buttons.c:273 ../src/ui/etats_prefs.ui.h:67
 msgid "Select all"
 msgstr "Označit vše"
@@ -4116,35 +4116,40 @@ msgstr "Tabulka amortizace"
 msgid "Scheduler"
 msgstr "Plánovač"
 
-#: ../src/grisbi_win.c:1287
+#: ../src/grisbi_win.c:644
+#, fuzzy
+msgid "Import a CSV, QIF, OFX file ..."
+msgstr "_Importovat soubor..."
+
+#: ../src/grisbi_win.c:1288
 msgid "Unnamed account"
 msgstr "Nepojmenovaný účet"
 
-#: ../src/grisbi_win.c:1309 ../src/gsb_transactions_list.c:2611
+#: ../src/grisbi_win.c:1310 ../src/gsb_transactions_list.c:2611
 msgid "Move transaction to another account"
 msgstr "Přesunout transakci na jiný účet"
 
-#: ../src/grisbi_win.c:1419 ../src/grisbi_win.c:1466
+#: ../src/grisbi_win.c:1420 ../src/grisbi_win.c:1467
 #: ../share/grisbi.desktop.in.h:1
 msgid "Grisbi"
 msgstr "Grisbi"
 
-#: ../src/grisbi_win.c:1473 ../src/gsb_file.c:222 ../src/gsb_file.c:241
+#: ../src/grisbi_win.c:1474 ../src/gsb_file.c:222 ../src/gsb_file.c:241
 #: ../src/gsb_file.c:272
 msgid "unnamed"
 msgstr "nepojmenovaný"
 
-#: ../src/grisbi_win.c:1564 ../src/ui/grisbi_menu.ui.h:7
+#: ../src/grisbi_win.c:1565 ../src/ui/grisbi_menu.ui.h:7
 #, fuzzy
 msgid "Open"
 msgstr "_Otevřít..."
 
 #. Create main widget.
-#: ../src/grisbi_win.c:1835
+#: ../src/grisbi_win.c:1837
 msgid "Creating main window"
 msgstr "Vytváření hlavního okna"
 
-#: ../src/grisbi_win.c:1847
+#: ../src/grisbi_win.c:1849
 msgid ""
 "The model of the list couldn't be created... Bad things will happen very "
 "soon..."
@@ -9787,7 +9792,7 @@ msgstr "Žádný pod-plátce/příjemce"
 
 #. * Find a unique name for payee
 #. New payee button
-#: ../src/meta_payee.c:326 ../src/navigation.c:2183 ../src/tiers_onglet.c:333
+#: ../src/meta_payee.c:326 ../src/navigation.c:2183 ../src/tiers_onglet.c:336
 msgid "New payee"
 msgstr "Nový plátce/příjemce"
 
@@ -10004,21 +10009,21 @@ msgstr "_Nový účet"
 msgid "Remove this account"
 msgstr "_Odstranit aktuální účet"
 
-#: ../src/navigation.c:2190 ../src/tiers_onglet.c:346
+#: ../src/navigation.c:2190 ../src/tiers_onglet.c:349
 msgid "Delete selected payee"
 msgstr "Odstranit vybraného plátce/příjemce"
 
-#: ../src/navigation.c:2203 ../src/tiers_onglet.c:358
+#: ../src/navigation.c:2203 ../src/tiers_onglet.c:361
 msgid "Edit selected payee"
 msgstr "Upravit vybraného plátce/příjemce"
 
 #. Manage payees button
-#: ../src/navigation.c:2219 ../src/tiers_onglet.c:375
+#: ../src/navigation.c:2219 ../src/tiers_onglet.c:378
 msgid "Manage payees"
 msgstr "Spravovat plátce/příjemce"
 
 #. Remove unused payees button
-#: ../src/navigation.c:2226 ../src/tiers_onglet.c:384
+#: ../src/navigation.c:2226 ../src/tiers_onglet.c:387
 msgid "Remove unused payees"
 msgstr "Odstranit nepoužité plátce/příjemce"
 
@@ -10518,19 +10523,19 @@ msgstr "ccard)"
 msgid " [Transaction imported without date]"
 msgstr " [Transakce byla naimportována bez datumu]"
 
-#: ../src/tiers_onglet.c:334
+#: ../src/tiers_onglet.c:337
 msgid "Create a new payee"
 msgstr "Vytvořit nového plátce/příjemce"
 
-#: ../src/tiers_onglet.c:376 ../src/tiers_onglet.c:910
+#: ../src/tiers_onglet.c:379 ../src/tiers_onglet.c:913
 msgid "Manage the payees"
 msgstr "Spravovat plátce/příjemce"
 
-#: ../src/tiers_onglet.c:385 ../src/tiers_onglet.c:426
+#: ../src/tiers_onglet.c:388 ../src/tiers_onglet.c:429
 msgid "Remove orphan payees"
 msgstr "Odstranit osiřelé plátce/příjemce"
 
-#: ../src/tiers_onglet.c:423
+#: ../src/tiers_onglet.c:426
 #, fuzzy
 msgid ""
 "This will remove all the payees which are not used in any transactions.  "
@@ -10545,26 +10550,26 @@ msgstr ""
 "\n"
 "Jste si jist(a) že chcete pokračovat?"
 
-#: ../src/tiers_onglet.c:438
+#: ../src/tiers_onglet.c:441
 #, c-format
 msgid "Removed %d payees."
 msgstr "Odstraněno %d plátců/příjemců."
 
-#: ../src/tiers_onglet.c:443
+#: ../src/tiers_onglet.c:446
 msgid "There is no payee to remove."
 msgstr "Žádný plátce / příjemce k odstranění."
 
 #. Edit transaction
-#: ../src/tiers_onglet.c:484
+#: ../src/tiers_onglet.c:487
 msgid "Payee view"
 msgstr "Pohled za plátce/příjemce"
 
-#: ../src/tiers_onglet.c:502 ../src/tiers_onglet.c:511
+#: ../src/tiers_onglet.c:505 ../src/tiers_onglet.c:514
 #, fuzzy
 msgid "Display unused payees"
 msgstr "Odstranit nepoužité plátce/příjemce"
 
-#: ../src/tiers_onglet.c:785
+#: ../src/tiers_onglet.c:788
 #, c-format
 msgid ""
 "You tried to rename current payee to '%s' but this payee already exists.  "
@@ -10573,11 +10578,11 @@ msgstr ""
 "Zkoušíte přejmenovat aktuálního plátce/příjemce na '%s' ale tento plátce/"
 "příjemce již existuje. Prosím zvolte jiné jméno."
 
-#: ../src/tiers_onglet.c:789
+#: ../src/tiers_onglet.c:792
 msgid "Payee already exists"
 msgstr "Plátce/příjemce již existuje"
 
-#: ../src/tiers_onglet.c:911
+#: ../src/tiers_onglet.c:914
 msgid ""
 "This wizard will help you to simplify the list of payees.\n"
 "\n"
@@ -10591,21 +10596,25 @@ msgstr ""
 "\n"
 "Doporučujeme nyní zazálohovat soubor účtů, pokud jste to ještě neudělal(a). "
 
-#: ../src/tiers_onglet.c:1021
+#: ../src/tiers_onglet.c:988
+msgid "Warning you will crush the existing note."
+msgstr "Pozor, toto smaže existující poznámku."
+
+#: ../src/tiers_onglet.c:1032
 #, c-format
 msgid "One payee was replaced with a new one."
 msgstr "Jeden plátce/příjemce byl nahrazen novým."
 
-#: ../src/tiers_onglet.c:1025
+#: ../src/tiers_onglet.c:1036
 #, c-format
 msgid "%d payees were replaced with a new one."
 msgstr "%d plátců/příjemců bylo nahrazeno novým."
 
-#: ../src/tiers_onglet.c:1078
+#: ../src/tiers_onglet.c:1094
 msgid "Choose a payee"
 msgstr "Zvolte plátce/příjemce"
 
-#: ../src/tiers_onglet.c:1080
+#: ../src/tiers_onglet.c:1096
 msgid ""
 "Select one payee in the list that you modify to serve as the basis for your "
 "research.\n"
@@ -10619,54 +10628,54 @@ msgstr ""
 "   %řetězec, řetězec%\n"
 "   %řetězec%, řetězec_1%řetězec_2"
 
-#: ../src/tiers_onglet.c:1099
+#: ../src/tiers_onglet.c:1115
 msgid "Enter the new payee"
 msgstr "Zadejte nového plátce/příjemce"
 
-#: ../src/tiers_onglet.c:1101
+#: ../src/tiers_onglet.c:1117
 msgid "Enter the name of the new payee"
 msgstr "Zadejte jméno nového plátce/příjemce"
 
-#: ../src/tiers_onglet.c:1118 ../src/ui/prefs_page_import_files.ui.h:6
+#: ../src/tiers_onglet.c:1134 ../src/ui/prefs_page_import_files.ui.h:6
 msgid "Extracting a number and save it in the field No Cheque/Virement"
 msgstr "Rozpoznané číslo uložit do pole Číslo šeku/platby"
 
-#: ../src/tiers_onglet.c:1124
+#: ../src/tiers_onglet.c:1140
 msgid "Save the payees in the notes"
 msgstr "Uložit plátce/příjemce do poznámek"
 
-#: ../src/tiers_onglet.c:1157
+#: ../src/tiers_onglet.c:1173
 msgid "List of payees who will be modified"
 msgstr "Seznam plátců/příjemců, kteří budou upraveni"
 
-#: ../src/tiers_onglet.c:1210
+#: ../src/tiers_onglet.c:1226
 msgid "Payee number"
 msgstr "Číslo plátce/příjemce"
 
-#: ../src/tiers_onglet.c:1220 ../src/prefs/prefs_page_import_asso.c:463
+#: ../src/tiers_onglet.c:1236 ../src/prefs/prefs_page_import_asso.c:463
 msgid "Payee name"
 msgstr "Jméno plátce/příjemce"
 
-#: ../src/tiers_onglet.c:1236
+#: ../src/tiers_onglet.c:1252
 msgid "Total number of payees: "
 msgstr "Celkový počet plátců/příjemců: "
 
 #. ajoute le nombre de tiers sélectionnés
-#: ../src/tiers_onglet.c:1245
+#: ../src/tiers_onglet.c:1261
 msgid "Number of selected payees: "
 msgstr "Počet vybraných plátců/příjemců: "
 
-#: ../src/tiers_onglet.c:1337
+#: ../src/tiers_onglet.c:1352
 #, fuzzy, c-format
 msgid "Payee sought: %s"
 msgstr "Hledaný plátce/příjemce: %s"
 
-#: ../src/tiers_onglet.c:1345
+#: ../src/tiers_onglet.c:1360
 #, fuzzy, c-format
 msgid "New payee: %s"
 msgstr "Nový plátce/příjemce: %s"
 
-#: ../src/tiers_onglet.c:1424
+#: ../src/tiers_onglet.c:1439
 #, c-format
 msgid ""
 "You are about to replace one payee which name contain %s by %s\n"
@@ -10677,7 +10686,7 @@ msgstr ""
 "\n"
 "Opravdu pokračovat?"
 
-#: ../src/tiers_onglet.c:1432
+#: ../src/tiers_onglet.c:1447
 #, c-format
 msgid ""
 "You are about to replace %d payees whose names contain %s by %s\n"
@@ -10689,19 +10698,15 @@ msgstr ""
 "\n"
 "Opravdu pokračovat?"
 
-#: ../src/tiers_onglet.c:1595
+#: ../src/tiers_onglet.c:1610
 msgid "You must choose a payee for searching."
 msgstr "Pro vyhledávání musíte vybrat plátce/příjemce."
 
-#: ../src/tiers_onglet.c:1599
+#: ../src/tiers_onglet.c:1614
 msgid "Beware you don't use one of models for the research."
 msgstr "Pozor ať nepoužijete jeden z modelů pro výzkum."
 
-#: ../src/tiers_onglet.c:1700
-msgid "Warning you will crush the existing note."
-msgstr "Pozor, toto smaže existující poznámku."
-
-#: ../src/tiers_onglet.c:1704
+#: ../src/tiers_onglet.c:1709
 #, c-format
 msgid ""
 "Do you want overwrite the existing note.\n"
@@ -12529,6 +12534,16 @@ msgstr "Možnosti Grisbi"
 #, fuzzy
 msgid "Grisbi Application"
 msgstr "Znepřehledění souboru Grisbi"
+
+#: ../src/ui/grisbi_win.ui.h:2
+#, fuzzy
+msgid "Create a new account file"
+msgstr "Vytvořit nový účet"
+
+#: ../src/ui/grisbi_win.ui.h:3
+#, fuzzy
+msgid "Open a .gsb account file"
+msgstr "Otevřít soubor účtů"
 
 #: ../src/ui/prefs_page_archives.ui.h:1
 msgid "Known archives"

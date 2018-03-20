@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Grisbi 0.5.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-18 09:54+0100\n"
+"POT-Creation-Date: 2018-03-20 09:16+0100\n"
 "PO-Revision-Date: 2009-04-13 14:53+0200\n"
 "Last-Translator: \n"
 "Language-Team: KASKAS <ttnfy17@yahoo.gr>\n"
@@ -1131,7 +1131,7 @@ msgstr ""
 #: ../src/bet_future.c:3007 ../src/categories_onglet.c:752
 #: ../src/gsb_assistant_archive_export.c:153 ../src/gsb_fyear_config.c:275
 #: ../src/gsb_transactions_list.c:2140 ../src/imputation_budgetaire.c:789
-#: ../src/parametres.c:311 ../src/tiers_onglet.c:732
+#: ../src/parametres.c:311 ../src/tiers_onglet.c:735
 #: ../src/prefs/prefs_page_archives.c:460
 msgid "Name"
 msgstr "Όνομα"
@@ -1313,7 +1313,7 @@ msgstr "Αρχεία"
 msgid "Show grid"
 msgstr "Παρουσιάστε _συμφωνίες"
 
-#: ../src/bet_graph.c:1361 ../src/tiers_onglet.c:1116
+#: ../src/bet_graph.c:1361 ../src/tiers_onglet.c:1132
 msgid "Options"
 msgstr "Επιλογές"
 
@@ -1362,7 +1362,7 @@ msgstr ""
 msgid "Incomes"
 msgstr "Εισοδήματα"
 
-#: ../src/bet_hist.c:553 ../src/tiers_onglet.c:1202 ../src/utils_buttons.c:299
+#: ../src/bet_hist.c:553 ../src/tiers_onglet.c:1218 ../src/utils_buttons.c:299
 #: ../src/utils_buttons.c:301
 msgid "Select"
 msgstr "Επιλέξτε"
@@ -1374,7 +1374,7 @@ msgstr "Επιλέξτε"
 #: ../src/export_csv.c:807 ../src/gsb_assistant_reconcile_config.c:590
 #: ../src/gsb_scheduler_list.c:603 ../src/gsb_transactions_list.c:173
 #: ../src/import.c:3804 ../src/import_csv.c:78
-#: ../src/imputation_budgetaire.c:201 ../src/tiers_onglet.c:253
+#: ../src/imputation_budgetaire.c:201 ../src/tiers_onglet.c:256
 msgid "Amount"
 msgstr "Ποσό"
 
@@ -1462,7 +1462,7 @@ msgid "Check the box to automatically change start date"
 msgstr ""
 
 #. Description entry
-#: ../src/bet_tab.c:866 ../src/etats_onglet.c:747 ../src/tiers_onglet.c:744
+#: ../src/bet_tab.c:866 ../src/etats_onglet.c:747 ../src/tiers_onglet.c:747
 msgid "Description"
 msgstr "Περιγραφή"
 
@@ -1584,7 +1584,7 @@ msgstr ""
 #: ../src/gsb_assistant_reconcile_config.c:590
 #: ../src/gsb_payment_method_config.c:163 ../src/gsb_reconcile_config.c:123
 #: ../src/gsb_scheduler_list.c:602 ../src/imputation_budgetaire.c:191
-#: ../src/navigation.c:1087 ../src/tiers_onglet.c:243
+#: ../src/navigation.c:1087 ../src/tiers_onglet.c:246
 msgid "Account"
 msgstr "Λογαριασμός"
 
@@ -1690,7 +1690,7 @@ msgstr "Εξάγετε ένα αρχείο κατηγορίας Grisbi (.cgsb)"
 #. delete button
 #: ../src/categories_onglet.c:595 ../src/etats_onglet.c:516
 #: ../src/gsb_scheduler_list.c:406 ../src/gsb_transactions_list.c:370
-#: ../src/imputation_budgetaire.c:634 ../src/tiers_onglet.c:342
+#: ../src/imputation_budgetaire.c:634 ../src/tiers_onglet.c:345
 msgid "Delete"
 msgstr "Διαγράψτε"
 
@@ -1705,7 +1705,7 @@ msgstr "Διαγράψτε την επιλεγμένη κατηγορία"
 #. edit button
 #: ../src/categories_onglet.c:607 ../src/gsb_scheduler_list.c:417
 #: ../src/gsb_transactions_list.c:379 ../src/imputation_budgetaire.c:646
-#: ../src/parametres.c:245 ../src/tiers_onglet.c:354
+#: ../src/parametres.c:245 ../src/tiers_onglet.c:357
 #: ../src/ui/grisbi_menu.ui.h:47
 msgid "Edit"
 msgstr "Επεξεργασία"
@@ -1721,11 +1721,11 @@ msgstr "Επεξεργαστείτε την επιλεγμένη κατηγορ�
 #. Change view mode button
 #: ../src/categories_onglet.c:619 ../src/gsb_scheduler_list.c:449
 #: ../src/gsb_transactions_list.c:406 ../src/imputation_budgetaire.c:658
-#: ../src/tiers_onglet.c:366 ../src/ui/grisbi_menu.ui.h:29
+#: ../src/tiers_onglet.c:369 ../src/ui/grisbi_menu.ui.h:29
 msgid "View"
 msgstr "Προβολή"
 
-#: ../src/categories_onglet.c:620 ../src/tiers_onglet.c:367
+#: ../src/categories_onglet.c:620 ../src/tiers_onglet.c:370
 msgid "Change view mode"
 msgstr "Αλλαγή τρόπου προβολής"
 
@@ -1739,13 +1739,13 @@ msgid "Subcategory view"
 msgstr "Άποψη υποκατηγορίας"
 
 #: ../src/categories_onglet.c:671 ../src/gsb_transactions_list.c:603
-#: ../src/imputation_budgetaire.c:710 ../src/tiers_onglet.c:490
+#: ../src/imputation_budgetaire.c:710 ../src/tiers_onglet.c:493
 msgid "Complete view"
 msgstr "Πλήρης άποψη"
 
 #: ../src/categories_onglet.c:720 ../src/categories_onglet.c:724
 #: ../src/imputation_budgetaire.c:756 ../src/imputation_budgetaire.c:761
-#: ../src/tiers_onglet.c:707
+#: ../src/tiers_onglet.c:710
 #, c-format
 msgid "Properties for %s"
 msgstr "Ιδιότητες για %s"
@@ -3091,20 +3091,20 @@ msgid "Account selection"
 msgstr "Επιλογή λογαριασμού"
 
 #. on fixe le titre et le suffixe de la barre d'information
-#: ../src/etats_prefs.c:1720 ../src/navigation.c:2001 ../src/tiers_onglet.c:233
-#: ../src/tiers_onglet.c:637
+#: ../src/etats_prefs.c:1720 ../src/navigation.c:2001 ../src/tiers_onglet.c:236
+#: ../src/tiers_onglet.c:640
 msgid "Payees"
 msgstr "Δικαιούχοι πληρωμής"
 
 #. ajoute le bouton (dé)sélectionne tout
 #: ../src/etats_prefs.c:1828 ../src/export.c:210 ../src/import.c:2737
-#: ../src/tiers_onglet.c:1254 ../src/tiers_onglet.c:1469
+#: ../src/tiers_onglet.c:1270 ../src/tiers_onglet.c:1484
 #: ../src/utils_buttons.c:268
 msgid "Unselect all"
 msgstr "Αποεπιλογή όλων"
 
 #: ../src/etats_prefs.c:1830 ../src/export.c:215 ../src/gsb_assistant.c:127
-#: ../src/tiers_onglet.c:1467 ../src/tiers_onglet.c:1487
+#: ../src/tiers_onglet.c:1482 ../src/tiers_onglet.c:1502
 #: ../src/utils_buttons.c:273 ../src/ui/etats_prefs.ui.h:67
 msgid "Select all"
 msgstr "Επιλογή όλων"
@@ -4236,35 +4236,40 @@ msgstr "Σειρά εκτίμησης"
 msgid "Scheduler"
 msgstr "Χρονοπρογραμματιστής"
 
-#: ../src/grisbi_win.c:1287
+#: ../src/grisbi_win.c:644
+#, fuzzy
+msgid "Import a CSV, QIF, OFX file ..."
+msgstr "_Εισαγωγή αρχείου..."
+
+#: ../src/grisbi_win.c:1288
 msgid "Unnamed account"
 msgstr "Απροσδιόριστος λογαριασμός"
 
-#: ../src/grisbi_win.c:1309 ../src/gsb_transactions_list.c:2611
+#: ../src/grisbi_win.c:1310 ../src/gsb_transactions_list.c:2611
 msgid "Move transaction to another account"
 msgstr "Μετακίνηση συναλλαγής σε άλλο λογαριασμό."
 
-#: ../src/grisbi_win.c:1419 ../src/grisbi_win.c:1466
+#: ../src/grisbi_win.c:1420 ../src/grisbi_win.c:1467
 #: ../share/grisbi.desktop.in.h:1
 msgid "Grisbi"
 msgstr "Grisbi"
 
-#: ../src/grisbi_win.c:1473 ../src/gsb_file.c:222 ../src/gsb_file.c:241
+#: ../src/grisbi_win.c:1474 ../src/gsb_file.c:222 ../src/gsb_file.c:241
 #: ../src/gsb_file.c:272
 msgid "unnamed"
 msgstr "απροσδιόριστος"
 
-#: ../src/grisbi_win.c:1564 ../src/ui/grisbi_menu.ui.h:7
+#: ../src/grisbi_win.c:1565 ../src/ui/grisbi_menu.ui.h:7
 #, fuzzy
 msgid "Open"
 msgstr "_Άνοιγμα"
 
 #. Create main widget.
-#: ../src/grisbi_win.c:1835
+#: ../src/grisbi_win.c:1837
 msgid "Creating main window"
 msgstr "Δημιουργία του κύριου παραθύρου"
 
-#: ../src/grisbi_win.c:1847
+#: ../src/grisbi_win.c:1849
 msgid ""
 "The model of the list couldn't be created... Bad things will happen very "
 "soon..."
@@ -10140,7 +10145,7 @@ msgstr "Κανένας υπο--δικαιούχος πληρωμής"
 
 #. * Find a unique name for payee
 #. New payee button
-#: ../src/meta_payee.c:326 ../src/navigation.c:2183 ../src/tiers_onglet.c:333
+#: ../src/meta_payee.c:326 ../src/navigation.c:2183 ../src/tiers_onglet.c:336
 msgid "New payee"
 msgstr "Νέος δικαιούχος πληρωμής"
 
@@ -10354,21 +10359,21 @@ msgstr "_Νέος λογαριασμός"
 msgid "Remove this account"
 msgstr "_Απομακρύνετε το τρέχον λογαριασμό"
 
-#: ../src/navigation.c:2190 ../src/tiers_onglet.c:346
+#: ../src/navigation.c:2190 ../src/tiers_onglet.c:349
 msgid "Delete selected payee"
 msgstr "Διαγράψτε τον επιλεγμένο δικαιούχο πληρωμής"
 
-#: ../src/navigation.c:2203 ../src/tiers_onglet.c:358
+#: ../src/navigation.c:2203 ../src/tiers_onglet.c:361
 msgid "Edit selected payee"
 msgstr "Επεξεργαστείτε τον επιλεγμένο δικαιούχο πληρωμής"
 
 #. Manage payees button
-#: ../src/navigation.c:2219 ../src/tiers_onglet.c:375
+#: ../src/navigation.c:2219 ../src/tiers_onglet.c:378
 msgid "Manage payees"
 msgstr "Διαχειριστείτε τους δικαιούχους πληρωμής"
 
 #. Remove unused payees button
-#: ../src/navigation.c:2226 ../src/tiers_onglet.c:384
+#: ../src/navigation.c:2226 ../src/tiers_onglet.c:387
 msgid "Remove unused payees"
 msgstr "Απομακρύνετε τους αχρησιμοποίητους δικαιούχους πληρωμής"
 
@@ -10895,19 +10900,19 @@ msgstr "ccard)"
 msgid " [Transaction imported without date]"
 msgstr " [Συναλλαγή που εισάγεται χωρίς ημερομηνία]"
 
-#: ../src/tiers_onglet.c:334
+#: ../src/tiers_onglet.c:337
 msgid "Create a new payee"
 msgstr "Δημιουργήστε έναν νέο δικαιούχο πληρωμής"
 
-#: ../src/tiers_onglet.c:376 ../src/tiers_onglet.c:910
+#: ../src/tiers_onglet.c:379 ../src/tiers_onglet.c:913
 msgid "Manage the payees"
 msgstr "Διαχειριστείτε τους δικαιούχους πληρωμής"
 
-#: ../src/tiers_onglet.c:385 ../src/tiers_onglet.c:426
+#: ../src/tiers_onglet.c:388 ../src/tiers_onglet.c:429
 msgid "Remove orphan payees"
 msgstr "Απομακρύνετε τους ορφανούς δικαιούχους πληρωμής"
 
-#: ../src/tiers_onglet.c:423
+#: ../src/tiers_onglet.c:426
 #, fuzzy
 msgid ""
 "This will remove all the payees which are not used in any transactions.  "
@@ -10923,26 +10928,26 @@ msgstr ""
 "\n"
 "Είστε βέβαιοι ότι  θέλετε να το  κάνετε;"
 
-#: ../src/tiers_onglet.c:438
+#: ../src/tiers_onglet.c:441
 #, c-format
 msgid "Removed %d payees."
 msgstr "Απομακρύνετε %d δικαιούχοι πληρωμής."
 
-#: ../src/tiers_onglet.c:443
+#: ../src/tiers_onglet.c:446
 msgid "There is no payee to remove."
 msgstr ""
 
 #. Edit transaction
-#: ../src/tiers_onglet.c:484
+#: ../src/tiers_onglet.c:487
 msgid "Payee view"
 msgstr "Άποψη δικαιούχων πληρωμής"
 
-#: ../src/tiers_onglet.c:502 ../src/tiers_onglet.c:511
+#: ../src/tiers_onglet.c:505 ../src/tiers_onglet.c:514
 #, fuzzy
 msgid "Display unused payees"
 msgstr "Απομακρύνετε τους αχρησιμοποίητους δικαιούχους πληρωμής"
 
-#: ../src/tiers_onglet.c:785
+#: ../src/tiers_onglet.c:788
 #, c-format
 msgid ""
 "You tried to rename current payee to '%s' but this payee already exists.  "
@@ -10951,11 +10956,11 @@ msgstr ""
 "Προσπαθήσατε να μετονομάσετε τον τρέχοντα δικαιούχο πληρωμής '%s' αλλά αυτός "
 "ο δικαιούχος πληρωμής υπάρχει ήδη. Παρακαλώ επιλέξτε ένα άλλο όνομα."
 
-#: ../src/tiers_onglet.c:789
+#: ../src/tiers_onglet.c:792
 msgid "Payee already exists"
 msgstr "Ο δικαιούχος πληρωμής υπάρχει ήδη"
 
-#: ../src/tiers_onglet.c:911
+#: ../src/tiers_onglet.c:914
 msgid ""
 "This wizard will help you to simplify the list of payees.\n"
 "\n"
@@ -10970,21 +10975,25 @@ msgstr ""
 "\n"
 "Είναι καλύτερο να γίνει ένα αντίγραφο του Grisbi  αν δεν υπάρχει ήδη."
 
-#: ../src/tiers_onglet.c:1021
+#: ../src/tiers_onglet.c:988
+msgid "Warning you will crush the existing note."
+msgstr ""
+
+#: ../src/tiers_onglet.c:1032
 #, c-format
 msgid "One payee was replaced with a new one."
 msgstr ""
 
-#: ../src/tiers_onglet.c:1025
+#: ../src/tiers_onglet.c:1036
 #, c-format
 msgid "%d payees were replaced with a new one."
 msgstr ""
 
-#: ../src/tiers_onglet.c:1078
+#: ../src/tiers_onglet.c:1094
 msgid "Choose a payee"
 msgstr "Επιλέξτε έναν δικαιούχο πληρωμής"
 
-#: ../src/tiers_onglet.c:1080
+#: ../src/tiers_onglet.c:1096
 #, fuzzy
 msgid ""
 "Select one payee in the list that you modify to serve as the basis for your "
@@ -11001,56 +11010,56 @@ msgstr ""
 "%string%\n"
 "string_1%string_2"
 
-#: ../src/tiers_onglet.c:1099
+#: ../src/tiers_onglet.c:1115
 msgid "Enter the new payee"
 msgstr "Εισάγετε το νέο δικαιούχο πληρωμής"
 
-#: ../src/tiers_onglet.c:1101
+#: ../src/tiers_onglet.c:1117
 msgid "Enter the name of the new payee"
 msgstr "Εισάγετε το όνομα του νέου δικαιούχου πληρωμής"
 
-#: ../src/tiers_onglet.c:1118 ../src/ui/prefs_page_import_files.ui.h:6
+#: ../src/tiers_onglet.c:1134 ../src/ui/prefs_page_import_files.ui.h:6
 msgid "Extracting a number and save it in the field No Cheque/Virement"
 msgstr "Εξάγετε έναν αριθμό και αποθηκεύστε τον στο πεδίο καμία συναλλαγή."
 
-#: ../src/tiers_onglet.c:1124
+#: ../src/tiers_onglet.c:1140
 msgid "Save the payees in the notes"
 msgstr "Εκτός από τους δικαιούχους πληρωμής στις σημειώσεις"
 
-#: ../src/tiers_onglet.c:1157
+#: ../src/tiers_onglet.c:1173
 msgid "List of payees who will be modified"
 msgstr "Κατάλογος δικαιούχων πληρωμής που θα τροποποιηθούν"
 
-#: ../src/tiers_onglet.c:1210
+#: ../src/tiers_onglet.c:1226
 msgid "Payee number"
 msgstr "Αριθμός δικαιούχων πληρωμής"
 
-#: ../src/tiers_onglet.c:1220 ../src/prefs/prefs_page_import_asso.c:463
+#: ../src/tiers_onglet.c:1236 ../src/prefs/prefs_page_import_asso.c:463
 msgid "Payee name"
 msgstr "Όνομα δικαιούχων πληρωμής"
 
-#: ../src/tiers_onglet.c:1236
+#: ../src/tiers_onglet.c:1252
 #, fuzzy
 msgid "Total number of payees: "
 msgstr "Συνολικός αριθμός των δικαιούχων πληρωμής:"
 
 #. ajoute le nombre de tiers sélectionnés
-#: ../src/tiers_onglet.c:1245
+#: ../src/tiers_onglet.c:1261
 #, fuzzy
 msgid "Number of selected payees: "
 msgstr "Αριθμός επιλεγμένων δικαιούχων πληρωμής:"
 
-#: ../src/tiers_onglet.c:1337
+#: ../src/tiers_onglet.c:1352
 #, fuzzy, c-format
 msgid "Payee sought: %s"
 msgstr "Ο δικαιούχος πληρωμής επιδίωξε: %s\n"
 
-#: ../src/tiers_onglet.c:1345
+#: ../src/tiers_onglet.c:1360
 #, fuzzy, c-format
 msgid "New payee: %s"
 msgstr "Νέος δικαιούχος πληρωμής: %s"
 
-#: ../src/tiers_onglet.c:1424
+#: ../src/tiers_onglet.c:1439
 #, fuzzy, c-format
 msgid ""
 "You are about to replace one payee which name contain %s by %s\n"
@@ -11063,7 +11072,7 @@ msgstr ""
 "\n"
 "<span weight=\"bold\">Είστε βέβαιοι;</span>"
 
-#: ../src/tiers_onglet.c:1432
+#: ../src/tiers_onglet.c:1447
 #, fuzzy, c-format
 msgid ""
 "You are about to replace %d payees whose names contain %s by %s\n"
@@ -11076,19 +11085,15 @@ msgstr ""
 "\n"
 "<span weight=\"bold\">Είστε βέβαιοι;</span>"
 
-#: ../src/tiers_onglet.c:1595
+#: ../src/tiers_onglet.c:1610
 msgid "You must choose a payee for searching."
 msgstr "Πρέπει να επιλέξετε έναν δικαιούχο πληρωμής για την έρευνα."
 
-#: ../src/tiers_onglet.c:1599
+#: ../src/tiers_onglet.c:1614
 msgid "Beware you don't use one of models for the research."
 msgstr "Προσοχή δεν χρησιμοποιείτε ένα απο τα πρότυπα για την έρευνα."
 
-#: ../src/tiers_onglet.c:1700
-msgid "Warning you will crush the existing note."
-msgstr ""
-
-#: ../src/tiers_onglet.c:1704
+#: ../src/tiers_onglet.c:1709
 #, c-format
 msgid ""
 "Do you want overwrite the existing note.\n"
@@ -12865,6 +12870,16 @@ msgstr "Προτιμήσεις Grisbi"
 #, fuzzy
 msgid "Grisbi Application"
 msgstr "Συσκότιση αρχείων Grisbi"
+
+#: ../src/ui/grisbi_win.ui.h:2
+#, fuzzy
+msgid "Create a new account file"
+msgstr "Δημιουργία νέου λογαριασμού"
+
+#: ../src/ui/grisbi_win.ui.h:3
+#, fuzzy
+msgid "Open a .gsb account file"
+msgstr "Άνοιγμα αρχείου λογαριασμού"
 
 #: ../src/ui/prefs_page_archives.ui.h:1
 msgid "Known archives"

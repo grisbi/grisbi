@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-18 09:54+0100\n"
+"POT-Creation-Date: 2018-03-20 09:16+0100\n"
 "PO-Revision-Date: 2014-02-04 20:21+0100\n"
 "Last-Translator: Martin Stromberger <ma.stromberger@gmx.at>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -1065,7 +1065,7 @@ msgstr "Es wurden keine oder fehlerhafte Daten eingegeben."
 #: ../src/bet_future.c:3007 ../src/categories_onglet.c:752
 #: ../src/gsb_assistant_archive_export.c:153 ../src/gsb_fyear_config.c:275
 #: ../src/gsb_transactions_list.c:2140 ../src/imputation_budgetaire.c:789
-#: ../src/parametres.c:311 ../src/tiers_onglet.c:732
+#: ../src/parametres.c:311 ../src/tiers_onglet.c:735
 #: ../src/prefs/prefs_page_archives.c:460
 msgid "Name"
 msgstr "Name"
@@ -1232,7 +1232,7 @@ msgstr "Gitter verbergen"
 msgid "Show grid"
 msgstr "Gitter anzeigen"
 
-#: ../src/bet_graph.c:1361 ../src/tiers_onglet.c:1116
+#: ../src/bet_graph.c:1361 ../src/tiers_onglet.c:1132
 msgid "Options"
 msgstr "Einstellungen"
 
@@ -1281,7 +1281,7 @@ msgstr "Ausgaben"
 msgid "Incomes"
 msgstr "Einnahmen"
 
-#: ../src/bet_hist.c:553 ../src/tiers_onglet.c:1202 ../src/utils_buttons.c:299
+#: ../src/bet_hist.c:553 ../src/tiers_onglet.c:1218 ../src/utils_buttons.c:299
 #: ../src/utils_buttons.c:301
 msgid "Select"
 msgstr "Auswählen"
@@ -1293,7 +1293,7 @@ msgstr "Auswählen"
 #: ../src/export_csv.c:807 ../src/gsb_assistant_reconcile_config.c:590
 #: ../src/gsb_scheduler_list.c:603 ../src/gsb_transactions_list.c:173
 #: ../src/import.c:3804 ../src/import_csv.c:78
-#: ../src/imputation_budgetaire.c:201 ../src/tiers_onglet.c:253
+#: ../src/imputation_budgetaire.c:201 ../src/tiers_onglet.c:256
 msgid "Amount"
 msgstr "Betrag"
 
@@ -1378,7 +1378,7 @@ msgstr ""
 "Für eine automatische Änderung vom Beginndatum die 'Checkbox' auswählen"
 
 #. Description entry
-#: ../src/bet_tab.c:866 ../src/etats_onglet.c:747 ../src/tiers_onglet.c:744
+#: ../src/bet_tab.c:866 ../src/etats_onglet.c:747 ../src/tiers_onglet.c:747
 msgid "Description"
 msgstr "Beschreibung"
 
@@ -1489,7 +1489,7 @@ msgstr "Prognose.csv"
 #: ../src/gsb_assistant_reconcile_config.c:590
 #: ../src/gsb_payment_method_config.c:163 ../src/gsb_reconcile_config.c:123
 #: ../src/gsb_scheduler_list.c:602 ../src/imputation_budgetaire.c:191
-#: ../src/navigation.c:1087 ../src/tiers_onglet.c:243
+#: ../src/navigation.c:1087 ../src/tiers_onglet.c:246
 msgid "Account"
 msgstr "Konto"
 
@@ -1596,7 +1596,7 @@ msgstr "Kategorien (*.cgsb) exportieren"
 #. delete button
 #: ../src/categories_onglet.c:595 ../src/etats_onglet.c:516
 #: ../src/gsb_scheduler_list.c:406 ../src/gsb_transactions_list.c:370
-#: ../src/imputation_budgetaire.c:634 ../src/tiers_onglet.c:342
+#: ../src/imputation_budgetaire.c:634 ../src/tiers_onglet.c:345
 msgid "Delete"
 msgstr "Löschen"
 
@@ -1611,7 +1611,7 @@ msgstr "Die ausgewählte Kategorie löschen"
 #. edit button
 #: ../src/categories_onglet.c:607 ../src/gsb_scheduler_list.c:417
 #: ../src/gsb_transactions_list.c:379 ../src/imputation_budgetaire.c:646
-#: ../src/parametres.c:245 ../src/tiers_onglet.c:354
+#: ../src/parametres.c:245 ../src/tiers_onglet.c:357
 #: ../src/ui/grisbi_menu.ui.h:47
 msgid "Edit"
 msgstr "Bearbeiten"
@@ -1627,11 +1627,11 @@ msgstr "Die ausgewählte Kategorie bearbeiten"
 #. Change view mode button
 #: ../src/categories_onglet.c:619 ../src/gsb_scheduler_list.c:449
 #: ../src/gsb_transactions_list.c:406 ../src/imputation_budgetaire.c:658
-#: ../src/tiers_onglet.c:366 ../src/ui/grisbi_menu.ui.h:29
+#: ../src/tiers_onglet.c:369 ../src/ui/grisbi_menu.ui.h:29
 msgid "View"
 msgstr "Ansicht"
 
-#: ../src/categories_onglet.c:620 ../src/tiers_onglet.c:367
+#: ../src/categories_onglet.c:620 ../src/tiers_onglet.c:370
 msgid "Change view mode"
 msgstr "Die Darstellung ändern"
 
@@ -1645,13 +1645,13 @@ msgid "Subcategory view"
 msgstr "Unterkategorien"
 
 #: ../src/categories_onglet.c:671 ../src/gsb_transactions_list.c:603
-#: ../src/imputation_budgetaire.c:710 ../src/tiers_onglet.c:490
+#: ../src/imputation_budgetaire.c:710 ../src/tiers_onglet.c:493
 msgid "Complete view"
 msgstr "Vollständig"
 
 #: ../src/categories_onglet.c:720 ../src/categories_onglet.c:724
 #: ../src/imputation_budgetaire.c:756 ../src/imputation_budgetaire.c:761
-#: ../src/tiers_onglet.c:707
+#: ../src/tiers_onglet.c:710
 #, c-format
 msgid "Properties for %s"
 msgstr "Eigenschaften von %s"
@@ -2961,20 +2961,20 @@ msgid "Account selection"
 msgstr "Konten Auswahl"
 
 #. on fixe le titre et le suffixe de la barre d'information
-#: ../src/etats_prefs.c:1720 ../src/navigation.c:2001 ../src/tiers_onglet.c:233
-#: ../src/tiers_onglet.c:637
+#: ../src/etats_prefs.c:1720 ../src/navigation.c:2001 ../src/tiers_onglet.c:236
+#: ../src/tiers_onglet.c:640
 msgid "Payees"
 msgstr "Empfänger"
 
 #. ajoute le bouton (dé)sélectionne tout
 #: ../src/etats_prefs.c:1828 ../src/export.c:210 ../src/import.c:2737
-#: ../src/tiers_onglet.c:1254 ../src/tiers_onglet.c:1469
+#: ../src/tiers_onglet.c:1270 ../src/tiers_onglet.c:1484
 #: ../src/utils_buttons.c:268
 msgid "Unselect all"
 msgstr "Alle abwählen"
 
 #: ../src/etats_prefs.c:1830 ../src/export.c:215 ../src/gsb_assistant.c:127
-#: ../src/tiers_onglet.c:1467 ../src/tiers_onglet.c:1487
+#: ../src/tiers_onglet.c:1482 ../src/tiers_onglet.c:1502
 #: ../src/utils_buttons.c:273 ../src/ui/etats_prefs.ui.h:67
 msgid "Select all"
 msgstr "Alle auswählen"
@@ -4102,35 +4102,40 @@ msgstr "Tilgungsplan"
 msgid "Scheduler"
 msgstr "Planer"
 
-#: ../src/grisbi_win.c:1287
+#: ../src/grisbi_win.c:644
+#, fuzzy
+msgid "Import a CSV, QIF, OFX file ..."
+msgstr "Datei _importieren ..."
+
+#: ../src/grisbi_win.c:1288
 msgid "Unnamed account"
 msgstr "Konto ohne Namen"
 
-#: ../src/grisbi_win.c:1309 ../src/gsb_transactions_list.c:2611
+#: ../src/grisbi_win.c:1310 ../src/gsb_transactions_list.c:2611
 msgid "Move transaction to another account"
 msgstr "Buchung verschieben nach"
 
-#: ../src/grisbi_win.c:1419 ../src/grisbi_win.c:1466
+#: ../src/grisbi_win.c:1420 ../src/grisbi_win.c:1467
 #: ../share/grisbi.desktop.in.h:1
 msgid "Grisbi"
 msgstr "Grisbi"
 
-#: ../src/grisbi_win.c:1473 ../src/gsb_file.c:222 ../src/gsb_file.c:241
+#: ../src/grisbi_win.c:1474 ../src/gsb_file.c:222 ../src/gsb_file.c:241
 #: ../src/gsb_file.c:272
 msgid "unnamed"
 msgstr "Unbenannt"
 
-#: ../src/grisbi_win.c:1564 ../src/ui/grisbi_menu.ui.h:7
+#: ../src/grisbi_win.c:1565 ../src/ui/grisbi_menu.ui.h:7
 #, fuzzy
 msgid "Open"
 msgstr "_Öffnen ..."
 
 #. Create main widget.
-#: ../src/grisbi_win.c:1835
+#: ../src/grisbi_win.c:1837
 msgid "Creating main window"
 msgstr "Hauptfenster erstellen"
 
-#: ../src/grisbi_win.c:1847
+#: ../src/grisbi_win.c:1849
 msgid ""
 "The model of the list couldn't be created... Bad things will happen very "
 "soon..."
@@ -9830,7 +9835,7 @@ msgstr "Kein Teil-Empfänger"
 
 #. * Find a unique name for payee
 #. New payee button
-#: ../src/meta_payee.c:326 ../src/navigation.c:2183 ../src/tiers_onglet.c:333
+#: ../src/meta_payee.c:326 ../src/navigation.c:2183 ../src/tiers_onglet.c:336
 msgid "New payee"
 msgstr "Empfänger erstellen"
 
@@ -10048,21 +10053,21 @@ msgstr "Konto erstellen"
 msgid "Remove this account"
 msgstr "Konto löschen"
 
-#: ../src/navigation.c:2190 ../src/tiers_onglet.c:346
+#: ../src/navigation.c:2190 ../src/tiers_onglet.c:349
 msgid "Delete selected payee"
 msgstr "Den ausgewählten Empfänger löschen"
 
-#: ../src/navigation.c:2203 ../src/tiers_onglet.c:358
+#: ../src/navigation.c:2203 ../src/tiers_onglet.c:361
 msgid "Edit selected payee"
 msgstr "Den ausgewählten Empfänger bearbeiten"
 
 #. Manage payees button
-#: ../src/navigation.c:2219 ../src/tiers_onglet.c:375
+#: ../src/navigation.c:2219 ../src/tiers_onglet.c:378
 msgid "Manage payees"
 msgstr "Empfänger verwalten"
 
 #. Remove unused payees button
-#: ../src/navigation.c:2226 ../src/tiers_onglet.c:384
+#: ../src/navigation.c:2226 ../src/tiers_onglet.c:387
 msgid "Remove unused payees"
 msgstr "Verwaiste löschen"
 
@@ -10563,19 +10568,19 @@ msgstr "Kreditkarte"
 msgid " [Transaction imported without date]"
 msgstr " [Importierte Buchungen ohne Datum]"
 
-#: ../src/tiers_onglet.c:334
+#: ../src/tiers_onglet.c:337
 msgid "Create a new payee"
 msgstr "Einen neuen Empfänger erstellen"
 
-#: ../src/tiers_onglet.c:376 ../src/tiers_onglet.c:910
+#: ../src/tiers_onglet.c:379 ../src/tiers_onglet.c:913
 msgid "Manage the payees"
 msgstr "Empfänger verwalten"
 
-#: ../src/tiers_onglet.c:385 ../src/tiers_onglet.c:426
+#: ../src/tiers_onglet.c:388 ../src/tiers_onglet.c:429
 msgid "Remove orphan payees"
 msgstr "Verwaiste Empfänger löschen"
 
-#: ../src/tiers_onglet.c:423
+#: ../src/tiers_onglet.c:426
 #, fuzzy
 msgid ""
 "This will remove all the payees which are not used in any transactions.  "
@@ -10589,25 +10594,25 @@ msgstr ""
 "\n"
 "Sollen diese Empfänger gelöscht werden?"
 
-#: ../src/tiers_onglet.c:438
+#: ../src/tiers_onglet.c:441
 #, c-format
 msgid "Removed %d payees."
 msgstr "Es wurden %d Empfänger gelöscht."
 
-#: ../src/tiers_onglet.c:443
+#: ../src/tiers_onglet.c:446
 msgid "There is no payee to remove."
 msgstr "Es sind keine Empfänger für eine Löschung vorhanden."
 
 #. Edit transaction
-#: ../src/tiers_onglet.c:484
+#: ../src/tiers_onglet.c:487
 msgid "Payee view"
 msgstr "Einfach"
 
-#: ../src/tiers_onglet.c:502 ../src/tiers_onglet.c:511
+#: ../src/tiers_onglet.c:505 ../src/tiers_onglet.c:514
 msgid "Display unused payees"
 msgstr "Verwaiste löschen"
 
-#: ../src/tiers_onglet.c:785
+#: ../src/tiers_onglet.c:788
 #, c-format
 msgid ""
 "You tried to rename current payee to '%s' but this payee already exists.  "
@@ -10617,11 +10622,11 @@ msgstr ""
 "ein Empfänger mit diesem Namen vorhanden. Bitte wählen Sie einen anderen "
 "Namen aus."
 
-#: ../src/tiers_onglet.c:789
+#: ../src/tiers_onglet.c:792
 msgid "Payee already exists"
 msgstr "Der Empfänger ist bereits vorhanden"
 
-#: ../src/tiers_onglet.c:911
+#: ../src/tiers_onglet.c:914
 msgid ""
 "This wizard will help you to simplify the list of payees.\n"
 "\n"
@@ -10638,21 +10643,25 @@ msgstr ""
 "jetzt beenden, eine Sicherungskopie erstellen und den Assistenten erneut "
 "aufzurufen."
 
-#: ../src/tiers_onglet.c:1021
+#: ../src/tiers_onglet.c:988
+msgid "Warning you will crush the existing note."
+msgstr "Warnung : Die vorhandene Notiz wird gelöscht."
+
+#: ../src/tiers_onglet.c:1032
 #, c-format
 msgid "One payee was replaced with a new one."
 msgstr "Es wurde ein Empfänger durch einen neuen Empfänger ersetzt."
 
-#: ../src/tiers_onglet.c:1025
+#: ../src/tiers_onglet.c:1036
 #, c-format
 msgid "%d payees were replaced with a new one."
 msgstr "Es wurden %d Empfänger durch einen neuen Empfänger ersetzt."
 
-#: ../src/tiers_onglet.c:1078
+#: ../src/tiers_onglet.c:1094
 msgid "Choose a payee"
 msgstr "Empfänger auswählen"
 
-#: ../src/tiers_onglet.c:1080
+#: ../src/tiers_onglet.c:1096
 msgid ""
 "Select one payee in the list that you modify to serve as the basis for your "
 "research.\n"
@@ -10666,54 +10675,54 @@ msgstr ""
 "   %am Anfang, am Ende%\n"
 "   %am Anfang und Ende%, in der%Mitte"
 
-#: ../src/tiers_onglet.c:1099
+#: ../src/tiers_onglet.c:1115
 msgid "Enter the new payee"
 msgstr "Empfänger eingeben"
 
-#: ../src/tiers_onglet.c:1101
+#: ../src/tiers_onglet.c:1117
 msgid "Enter the name of the new payee"
 msgstr "Den Namen vom neuen Empfänger eingeben"
 
-#: ../src/tiers_onglet.c:1118 ../src/ui/prefs_page_import_files.ui.h:6
+#: ../src/tiers_onglet.c:1134 ../src/ui/prefs_page_import_files.ui.h:6
 msgid "Extracting a number and save it in the field No Cheque/Virement"
 msgstr "Eine Nummer extrahieren und in das Feld für Schecknummer einfügen"
 
-#: ../src/tiers_onglet.c:1124
+#: ../src/tiers_onglet.c:1140
 msgid "Save the payees in the notes"
 msgstr "Den Namen vom Empfänger in das Feld Notizen eintragen"
 
-#: ../src/tiers_onglet.c:1157
+#: ../src/tiers_onglet.c:1173
 msgid "List of payees who will be modified"
 msgstr "Auflistung der Änderungen"
 
-#: ../src/tiers_onglet.c:1210
+#: ../src/tiers_onglet.c:1226
 msgid "Payee number"
 msgstr "Empfänger Nummer"
 
-#: ../src/tiers_onglet.c:1220 ../src/prefs/prefs_page_import_asso.c:463
+#: ../src/tiers_onglet.c:1236 ../src/prefs/prefs_page_import_asso.c:463
 msgid "Payee name"
 msgstr "Empfänger Name"
 
-#: ../src/tiers_onglet.c:1236
+#: ../src/tiers_onglet.c:1252
 msgid "Total number of payees: "
 msgstr "Gesamtanzahl der Empfänger: "
 
 #. ajoute le nombre de tiers sélectionnés
-#: ../src/tiers_onglet.c:1245
+#: ../src/tiers_onglet.c:1261
 msgid "Number of selected payees: "
 msgstr "Anzahl der ausgewählten Empfänger: "
 
-#: ../src/tiers_onglet.c:1337
+#: ../src/tiers_onglet.c:1352
 #, c-format
 msgid "Payee sought: %s"
 msgstr "Empfänger Suchkriterium : %s"
 
-#: ../src/tiers_onglet.c:1345
+#: ../src/tiers_onglet.c:1360
 #, c-format
 msgid "New payee: %s"
 msgstr "Neuer Empfänger : %s"
 
-#: ../src/tiers_onglet.c:1424
+#: ../src/tiers_onglet.c:1439
 #, c-format
 msgid ""
 "You are about to replace one payee which name contain %s by %s\n"
@@ -10724,7 +10733,7 @@ msgstr ""
 "\n"
 "Soll die Ersetzung durchgeführt werden?"
 
-#: ../src/tiers_onglet.c:1432
+#: ../src/tiers_onglet.c:1447
 #, c-format
 msgid ""
 "You are about to replace %d payees whose names contain %s by %s\n"
@@ -10735,20 +10744,16 @@ msgstr ""
 "\n"
 "Soll die Ersetzung durchgeführt werden?"
 
-#: ../src/tiers_onglet.c:1595
+#: ../src/tiers_onglet.c:1610
 msgid "You must choose a payee for searching."
 msgstr "Es muss der Name von einem Empfänger für die Suche eingegeben werden."
 
-#: ../src/tiers_onglet.c:1599
+#: ../src/tiers_onglet.c:1614
 msgid "Beware you don't use one of models for the research."
 msgstr ""
 "Einen Empfänger auswählen oder bei der Eingabe das '%' Zeichen verwenden."
 
-#: ../src/tiers_onglet.c:1700
-msgid "Warning you will crush the existing note."
-msgstr "Warnung : Die vorhandene Notiz wird gelöscht."
-
-#: ../src/tiers_onglet.c:1704
+#: ../src/tiers_onglet.c:1709
 #, c-format
 msgid ""
 "Do you want overwrite the existing note.\n"
@@ -12607,6 +12612,16 @@ msgstr "Einstellungen - Grisbi"
 #, fuzzy
 msgid "Grisbi Application"
 msgstr "Grisbi-Datei anonymisieren"
+
+#: ../src/ui/grisbi_win.ui.h:2
+#, fuzzy
+msgid "Create a new account file"
+msgstr "Ein neues Konto erstellen"
+
+#: ../src/ui/grisbi_win.ui.h:3
+#, fuzzy
+msgid "Open a .gsb account file"
+msgstr "Datei auswählen - Grisbi"
 
 #: ../src/ui/prefs_page_archives.ui.h:1
 msgid "Known archives"
