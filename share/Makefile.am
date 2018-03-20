@@ -35,23 +35,23 @@ auto_dependencies=`ntldd -R $(prefix)/bin/grisbi.exe | grep "mingw64\|mingw32" |
 
 install-exec-hook:
 if WIN32
-	@echo "Windows run"
-
+	@echo "Windows run"; \
+	bits=64; \
+	i_pkg_postfix="w64-x86_64"; \
+	export bits i_pkg_postfix; \
+	if test "$$MSYSTEM"x == "MINGW32"x; then bits=32; i_pkg_postfix="w64-i686"; fi; \
 	echo "Adding dependencies: ";
 		for i in $(auto_dependencies); do \
 			$(install_sh_PROGRAM) $$i $(prefix)/bin; \
 			echo "  * $$i"; \
 		done;
-	echo "install other dependencies" ;
-	$(install_sh_PROGRAM) C:/msys64/mingw64/bin/libcroco-0.6-3.dll $(prefix)/bin; \
-	$(install_sh_PROGRAM) C:/msys64/mingw64/bin/librsvg-2-2.dll $(prefix)/bin;
+	echo "install other dependencies"; \
+	$(install_sh_PROGRAM) `pacman -Ql mingw-$i_pkg_postfix-libcroco | grep '.dll$' | cut -f2 -d' '` $(prefix)/bin; \
+	$(install_sh_PROGRAM) `pacman -Ql mingw-$i_pkg_postfix-librsvg | grep 'rsvg\-.*\.dll$' | cut -f2 -d' '` $(prefix)/bin;
 	echo "Strip $(prefix)/bin/grisbi.exe";
 	strip $(prefix)/bin/grisbi.exe;
 	echo "Copying glib-2.0 schemas";
 	if test ! -d $(prefix)/share/glib-2.0/schemas/; then mkdir -p $(prefix)/share/glib-2.0/schemas/; fi;
-	bits=64; \
-	export bits; \
-	if test "$$MSYSTEM"x == "MINGW32"x; then bits=32; fi; \
 	cp -v /mingw$$bits/share/glib-2.0/schemas/gschema.dtd \
 	/mingw$$bits/share/glib-2.0/schemas/org.gtk.Settings.FileChooser.gschema.xml \
 	/mingw$$bits/share/glib-2.0/schemas/org.gtk.Settings.ColorChooser.gschema.xml \
