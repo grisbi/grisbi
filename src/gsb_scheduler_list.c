@@ -1806,6 +1806,14 @@ GDate *gsb_scheduler_list_get_end_date_scheduled_showed ( void )
 
 		case PERIODICITY_MONTHS:
 		    g_date_add_months ( end_date, etat.affichage_echeances_perso_nb_libre );
+			if (conf.execute_scheduled_of_month)	/* dans ce cas on affiche toutes les transactions du mois */
+			{
+				GDate *tmp_date;
+
+				tmp_date = end_date;
+				end_date = gsb_date_get_last_day_of_month (tmp_date);
+				g_date_free (tmp_date);
+			}
 		    break;
 
 		case PERIODICITY_YEARS:
