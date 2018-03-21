@@ -1145,7 +1145,7 @@ gboolean gsb_scheduler_list_append_new_scheduled ( gint scheduled_number,
     }
     while ( pGDateCurrent &&
 	    end_date &&
-	    g_date_compare ( end_date, pGDateCurrent ) > 0 &&
+	    g_date_compare ( end_date, pGDateCurrent ) >= 0 &&
 	    !mother_iter );
 
     if ( mother_iter )
