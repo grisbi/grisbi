@@ -17,7 +17,7 @@ fi
 
 # Detects architecture
 ipkgpostfix="w64-x86_64"
-if test "$$MSYSTEM"x == "MINGW32"x; then
+if test "$MSYSTEM"x == "MINGW32"x; then
 	ipkgpostfix="w64-i686";
 fi
 
@@ -25,5 +25,5 @@ libcroco=`pacman -Ql mingw-$ipkgpostfix-libcroco | grep ".dll$" | cut -f2 -d' '`
 librsvg=`pacman -Ql mingw-$ipkgpostfix-librsvg | grep "rsvg\-.*\.dll$" | cut -f2 -d' '`
 
 for i in $libcroco $librsvg; do
-	cp -v $i $1
+	cp -v $i $1 || exit 1
 done
