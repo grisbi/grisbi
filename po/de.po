@@ -424,11 +424,11 @@ msgstr "Prognose anzeigen"
 #. partie mensuelle
 #: ../src/bet_config.c:450
 msgid "Duration estimation:"
-msgstr "Daten Zusammenstellung:"
+msgstr "Daten Zusammenstellung: "
 
 #: ../src/bet_config.c:616
 msgid "Labels for transactions:"
-msgstr "Bezeichnungen für Buchungen:"
+msgstr "Bezeichnungen für Buchungen: "
 
 #: ../src/bet_config.c:621 ../src/bet_config.c:640 ../src/bet_config.c:658
 msgid "By default"
@@ -454,11 +454,11 @@ msgstr "Gruppen"
 
 #: ../src/bet_config.c:635
 msgid "Labels for scheduled transactions:"
-msgstr "Bezeichnungen für geplante Buchungen:"
+msgstr "Bezeichnungen für geplante Buchungen: "
 
 #: ../src/bet_config.c:653
 msgid "Labels for futur data:"
-msgstr "Bezeichnungen für zukünftige Daten:"
+msgstr "Bezeichnungen für zukünftige Daten: "
 
 #: ../src/bet_config.c:667
 msgid ""
@@ -1106,7 +1106,7 @@ msgstr "Feb"
 
 #: ../src/bet_graph.c:153
 msgid "Mar"
-msgstr "Mär"
+msgstr "Mar"
 
 #: ../src/bet_graph.c:153
 msgid "Apr"
@@ -1134,7 +1134,7 @@ msgstr "Sep"
 
 #: ../src/bet_graph.c:155
 msgid "Oct"
-msgstr "Okt"
+msgstr "Oct"
 
 #: ../src/bet_graph.c:155
 msgid "Nov"
@@ -1142,7 +1142,7 @@ msgstr "Nov"
 
 #: ../src/bet_graph.c:155
 msgid "Dec"
-msgstr "Dez"
+msgstr "Dec"
 
 #: ../src/bet_graph.c:160
 msgid "January"
@@ -7774,7 +7774,7 @@ msgstr "automatisch"
 #: ../src/gsb_form.c:979 ../src/gsb_form_scheduler.c:142
 #: ../src/gsb_scheduler_list.c:1413 ../src/ui/grisbi_menu.ui.h:40
 msgid "Manual"
-msgstr "manuell"
+msgstr "Handbuch"
 
 #: ../src/gsb_form.c:1341 ../src/gsb_form_widget.c:507
 msgid "Cheque/Transfer number"
@@ -11856,7 +11856,7 @@ msgstr "oben Anzeigen"
 
 #: ../src/ui/bet_graph.ui.h:12
 msgid "Intersection point of X Y axes"
-msgstr "Schnittpunkt X und Y Achse"
+msgstr "Intercept point X and Y achses"
 
 #: ../src/ui/bet_graph.ui.h:13
 msgid "<b>Additional line</b>"
@@ -11888,7 +11888,7 @@ msgstr "<b>Einstellungen für Spalten</b>"
 
 #: ../src/ui/bet_graph.ui.h:20
 msgid "Gap:"
-msgstr "Abstand:"
+msgstr "Abstand: "
 
 #: ../src/ui/bet_graph.ui.h:23
 msgid "Display the grids above the plot"
