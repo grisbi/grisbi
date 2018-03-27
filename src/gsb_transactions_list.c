@@ -402,14 +402,12 @@ void gsb_transactions_list_update_tree_view (gint account_number,
         return;
 
     if (keep_selected_transaction)
-        selected_transaction = transaction_list_select_get ();
-    transaction_list_filter (account_number);
-    transaction_list_set_balances ();
+        selected_transaction = transaction_list_select_get ( );
+    transaction_list_filter ( account_number );
+    transaction_list_set_balances ( );
     transaction_list_sort ();
     transaction_list_colorize ();
-    if (conf.show_transaction_gives_balance)
-		transaction_list_set_color_jour (account_number);
-	if (keep_selected_transaction)
+	if ( keep_selected_transaction )
 	{
         transaction_list_select (selected_transaction);
 	}

@@ -1129,46 +1129,6 @@ gchar *utils_str_break_filename (const gchar *string,
 }
 
 /**
- * protect the new line char to save text
- *
- * \param	text to protect or to unprotect
- * \param	TRUE protect FALSE unprotect
- *
- * \return a newly string which should be freed with g_free().
- **/
-gchar *utils_str_protect_unprotect_multilines_text (const gchar *text,
-													 gboolean protect)
-{
-	gchar *tmp_str;
-	gchar **tmp_tab;
-
-	tmp_str = g_strdup (text);
-	if (protect)
-	{
-		if (tmp_str && g_strstr_len (tmp_str, -1, NEW_LINE))
-		{
-			tmp_tab = g_strsplit (tmp_str, NEW_LINE, 0);
-			g_free (tmp_str);
-			tmp_str = g_strjoinv ("\\n", tmp_tab);
-
-			g_strfreev (tmp_tab);
-		}
-	}
-	else
-	{
-		if (g_strstr_len (tmp_str, -1, "\\n" ) )
-		{
-			tmp_tab = g_strsplit (tmp_str, "\\n", 0);
-			tmp_str = g_strjoinv (NEW_LINE, tmp_tab);
-
-			g_strfreev (tmp_tab);
-		}
-	}
-
-	return tmp_str;
-}
-
-/**
  *
  *
  * \param

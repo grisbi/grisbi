@@ -8,9 +8,9 @@
 /* contient presque toutes les structures et enum du prog */
 
 
-/* the VERSION_FICHIER is in fact the lowest version which can be used to open the */
-/* file, so each time we make an incompatibility issue, VERSION_FICHIER must be set */
-/* to VERSION_GRISBI */
+/* the VERSION_FICHIER is in fact the lowest version which can be used to open the
+ * file, so each time we make an incompatibility issue, VERSION_FICHIER must be set
+ * to VERSION_GRISBI */
 #define VERSION_FICHIER         "1.2.1"
 #define OLD_VERSION_FICHIER		"0.6.0"
 

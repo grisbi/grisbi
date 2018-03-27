@@ -8,7 +8,6 @@ DEST=MacOS/dist/Grisbi.app/Contents/Resources
 
 EXTRA_FILES="
 lib/goffice/
-share/libofx/dtd/
 share/icons/Adwaita/scalable/actions/list-add-symbolic.svg
 share/icons/Adwaita/scalable/actions/list-remove-all-symbolic.svg
 share/icons/Adwaita/scalable/actions/list-remove-symbolic.svg
