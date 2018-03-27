@@ -660,11 +660,17 @@ static void grisbi_win_no_file_page_new (GrisbiWin *win)
 			GtkWidget *bouton;
 			gchar *tmp_str;
 			gchar *target_value;
-			gchar *basename;
 
-			basename = g_path_get_basename (recent_files_array[i]);
-			tmp_str = utils_str_break_filename (basename, GSB_NBRE_CHAR_TRUNC);
-			g_free (basename);
+			if (g_utf8_strlen (recent_files_array[i], -1) > GSB_NAMEFILE_TOO_LONG)
+			{
+				gchar *basename;
+
+				basename = g_path_get_basename (recent_files_array[i]);
+				tmp_str = utils_str_break_filename (basename, GSB_NBRE_CHAR_TRUNC);
+				g_free (basename);
+			}
+			else
+				tmp_str = utils_str_break_filename (recent_files_array[i], GSB_NBRE_CHAR_TRUNC);
 
 			bouton = utils_buttons_button_new_from_stock ("gtk-open", tmp_str);
 			gtk_widget_set_tooltip_text (bouton, recent_files_array[i]);
@@ -1552,7 +1558,6 @@ void grisbi_win_no_file_page_update (GrisbiWin *win)
 		GtkWidget *bouton;
         gchar *tmp_str;
 		gchar *target_value;
-		gchar *basename;
 
 		bouton = gtk_grid_get_child_at (GTK_GRID (priv->no_file_grid), col, row);
 		if (bouton == NULL)
@@ -1574,9 +1579,16 @@ void grisbi_win_no_file_page_update (GrisbiWin *win)
 			g_free (target_value);
 		}
 
-		basename = g_path_get_basename (recent_files_array[i]);
-		tmp_str = utils_str_break_filename (basename, GSB_NBRE_CHAR_TRUNC);
-		g_free (basename);
+		if (g_utf8_strlen (recent_files_array[i], -1) > GSB_NAMEFILE_TOO_LONG)
+		{
+			gchar *basename;
+
+			basename = g_path_get_basename (recent_files_array[i]);
+			tmp_str = utils_str_break_filename (basename, GSB_NBRE_CHAR_TRUNC);
+			g_free (basename);
+		}
+		else
+			tmp_str = utils_str_break_filename (recent_files_array[i], GSB_NBRE_CHAR_TRUNC);
 
 		gtk_button_set_label (GTK_BUTTON (bouton), tmp_str);
 		gtk_widget_set_tooltip_text (bouton, recent_files_array[i]);

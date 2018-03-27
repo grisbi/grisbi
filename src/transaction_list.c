@@ -647,6 +647,7 @@ void transaction_list_filter ( gint account_number )
         gboolean shown;
         gboolean previous_shown;
         gint last_pos_filtered_list;
+        GtkTreePath *tmp_path = gtk_tree_path_copy ( path );
 
         /* get the current record to check */
         record = custom_list -> rows[current_pos_general_list];
@@ -732,7 +733,7 @@ void transaction_list_filter ( gint account_number )
                 /* the row itself didn't change but perhaps it got or losed some children
                  * in that case, the children were moved before, so we just have to
                  * tell to the tree view that children changed */
-                gtk_tree_model_row_has_child_toggled (GTK_TREE_MODEL (custom_list), path, &iter);
+                gtk_tree_model_row_has_child_toggled (GTK_TREE_MODEL (custom_list), tmp_path, &iter);
                 gtk_tree_path_next (path);
                 continue;
             }
@@ -746,12 +747,12 @@ void transaction_list_filter ( gint account_number )
         if (current_pos_filtered_list > previous_visible_rows)
         {
             /* we reached the end of list, need to add a row */
-            gtk_tree_model_row_inserted ( GTK_TREE_MODEL (custom_list), path, &iter);
+            gtk_tree_model_row_inserted ( GTK_TREE_MODEL (custom_list), tmp_path, &iter);
         }
         else
         {
             /* ok, the end of list is not reached, we can just change the row */
-            gtk_tree_model_row_changed ( GTK_TREE_MODEL (custom_list), path, &iter );
+            gtk_tree_model_row_changed ( GTK_TREE_MODEL (custom_list), tmp_path, &iter );
         }
 
         /* the new row can have some children, or the last row (if we just changed the row)
@@ -761,19 +762,16 @@ void transaction_list_filter ( gint account_number )
         {
             gtk_tree_model_row_has_child_toggled (GTK_TREE_MODEL (custom_list), path, &iter);
         }
+        if ( tmp_path )
+            gtk_tree_path_free ( tmp_path );
 
         gtk_tree_path_next (path);
     }
 
     /* if the previous list was bigger than now, we need to delete some rows */
     if (previous_visible_rows > current_pos_filtered_list)
-	{
-		gtk_tree_path_prev (path);
         for (i=0 ; i < (previous_visible_rows - current_pos_filtered_list) ; i++)
-		{
             gtk_tree_model_row_deleted ( GTK_TREE_MODEL (custom_list), path );
-		}
-	}
 
     gtk_tree_path_free(path);
 
