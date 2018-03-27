@@ -442,7 +442,7 @@ static gboolean gsb_file_save_file (gint origine)
 		}
 		else if (result == GTK_RESPONSE_REJECT)
 		{
-			gsb_file_set_modified (FALSE);
+			//~ gsb_file_set_modified (FALSE);
             return (FALSE);
 		}
     }
