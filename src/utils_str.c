@@ -1051,81 +1051,161 @@ gchar *utils_str_incremente_number_from_str (const gchar *str_number,
 gchar *utils_str_break_filename (const gchar *string,
 	                             gint trunc)
 {
+    gchar *dirname = NULL;
     gchar *tmp_dir = NULL;
     gchar *basename = NULL;
     gchar *tmp_base = NULL;
-    gchar *tmp_str1 = NULL;
-    gchar *tmp_str2;
+    gchar *tmp_str2 = NULL;
+    gchar *tmp_str3;
     gchar *end = NULL;
     gchar *ptr = NULL;
     gchar *separator;
     gint i = 0;
+	gint dirname_nbre_lignes = 0;
     ssize_t n = 0;
     ssize_t size1;
     ssize_t size2;
+    ssize_t size3;
 
     if ((gint) g_utf8_strlen (string, -1) <= trunc)
         return g_strdup (string);
 
     basename = g_path_get_basename (string);
     size1 = g_utf8_strlen (basename, -1);
+    dirname = g_path_get_dirname (string);
+    size2 = g_utf8_strlen (dirname, -1);
 
-	/* maxi GSB_NBRE_LIGNES_BOUTON (6) lignes */
-	n = GSB_NBRE_LIGNES_BOUTON;
-	if (size1 > n*trunc+1)
+	/* si chaque partie est < trunc on renvoie la chaîne sur deux lignes */
+    if (size1 <= trunc && size2 <= trunc)
+    {
+        tmp_str2 = g_strconcat (dirname, G_DIR_SEPARATOR_S, "\n", basename, NULL);
+        g_free (basename);
+        g_free (dirname);
+
+        return tmp_str2;
+    }
+
+    /* on traite en premier dirname */
+    if (dirname && size2 > trunc)
+    {
+        n = ceil((0.0 + size2) / trunc);
+        tmp_dir = g_malloc (size2 + n);
+        tmp_dir = g_utf8_strncpy (tmp_dir, dirname, trunc);
+        tmp_str2 = utils_string_get_ligne_longueur_fixe (tmp_dir, G_DIR_SEPARATOR_S, trunc);
+        g_free (tmp_dir);
+        tmp_dir = tmp_str2;
+        size3 = g_utf8_strlen (tmp_dir, -1);
+		i++;
+        do
+        {
+            end = g_utf8_offset_to_pointer (dirname, size3);
+            if (size3 + trunc <= size2)
+                ptr = g_utf8_offset_to_pointer (dirname, (size3 + trunc));
+            if (ptr)
+            {
+                tmp_str2 = g_strndup (end, (ptr - end));
+                tmp_str3 = utils_string_get_ligne_longueur_fixe (tmp_str2, G_DIR_SEPARATOR_S, trunc);
+                size3 += g_utf8_strlen (tmp_str3, -1);
+                g_free (tmp_str2);
+                tmp_str2 = g_strconcat (tmp_dir, "\n", tmp_str3, NULL);
+                g_free (tmp_dir);
+                g_free (tmp_str3);
+                tmp_dir = tmp_str2;
+            }
+            else
+            {
+                tmp_str2 = g_strconcat (tmp_dir, "\n", end, NULL);
+                g_free (tmp_dir);
+                tmp_dir = tmp_str2;
+				i++;
+				break;
+            }
+            ptr = NULL;
+            i++;
+        } while (i < n);
+		dirname_nbre_lignes = i;
+    }
+    else if (dirname && size2 <= trunc)
 	{
-		tmp_str1 = g_malloc0 (n*trunc+1);
-		tmp_str1 = g_utf8_strncpy (tmp_str1, basename, n*trunc);
-		size1 = g_utf8_strlen (tmp_str1, -1);
-		g_free (basename);
-		basename = tmp_str1;
+        tmp_dir = g_strdup (dirname);
+		dirname_nbre_lignes = 1;
 	}
 
-	tmp_base = g_malloc0 (size1 + n);
-	tmp_base = g_utf8_strncpy (tmp_base, basename, trunc);
+    /* on traite basename */
+    /* si base name est < trunc on ajoute une ligne avec basename */
+    if (size1 <= trunc)
+    {
+        tmp_str2 = g_strconcat (tmp_dir, G_DIR_SEPARATOR_S, "\n", basename, NULL);
+        g_free (tmp_dir);
+    }
+    else
+    {
+        n = GSB_NBRE_LIGNES_BOUTON - dirname_nbre_lignes;
 
-	separator = utils_string_get_separator (tmp_base);
-	tmp_str1 = utils_string_get_ligne_longueur_fixe (tmp_base, separator, trunc);
-	g_free (tmp_base);
-	tmp_base = tmp_str1;
-	size2 = g_utf8_strlen (tmp_base, -1);
-	i = 1;
-	do
-	{
-		end = g_utf8_offset_to_pointer (basename, size2);
-
-		if (size2 + trunc <= size1)
-			ptr = g_utf8_offset_to_pointer (basename, (size2 + trunc));
-
-		if (ptr)
+		if (strcmp (tmp_dir, ".") == 0)
 		{
-			tmp_str1 = g_strndup (end, (ptr - end));
-			separator = utils_string_get_separator (tmp_str1);
-			tmp_str2 = utils_string_get_ligne_longueur_fixe (tmp_str1, separator, trunc);
-			size2 += g_utf8_strlen (tmp_str2, -1);
-			g_free (tmp_str1);
-			tmp_str1 = g_strconcat (tmp_base, "\n", tmp_str2, NULL);
-			g_free (tmp_base);
-			g_free (tmp_str2);
-			tmp_base = tmp_str1;
+			/* maxi GSB_NBRE_LIGNES_BOUTON (6) lignes */
+			n = GSB_NBRE_LIGNES_BOUTON;
+			if (size1 > n*trunc+1)
+			{
+				basename[n*trunc+1] = '\0';
+				size1 = g_utf8_strlen (basename, -1);
+			}
 		}
+        tmp_base = g_malloc0 (size1 + n);
+        tmp_base = g_utf8_strncpy (tmp_base, basename, trunc);
+
+        separator = utils_string_get_separator (tmp_base);
+        tmp_str2 = utils_string_get_ligne_longueur_fixe (tmp_base, separator, trunc);
+        g_free (tmp_base);
+        tmp_base = tmp_str2;
+        size3 = g_utf8_strlen (tmp_base, -1);
+		i = 1;
+        do
+        {
+            end = g_utf8_offset_to_pointer (basename, size3);
+
+            if (size3 + trunc <= size1)
+                ptr = g_utf8_offset_to_pointer (basename, (size3 + trunc));
+
+            if (ptr)
+            {
+                tmp_str2 = g_strndup (end, (ptr - end));
+                separator = utils_string_get_separator (tmp_str2);
+                tmp_str3 = utils_string_get_ligne_longueur_fixe (tmp_str2, separator, trunc);
+                size3 += g_utf8_strlen (tmp_str3, -1);
+                g_free (tmp_str2);
+                tmp_str2 = g_strconcat (tmp_base, "\n", tmp_str3, NULL);
+                g_free (tmp_base);
+                g_free (tmp_str3);
+                tmp_base = tmp_str2;
+            }
+            else
+            {
+                tmp_str2 = g_strconcat (tmp_base, "\n", end, NULL);
+                g_free (tmp_base);
+                tmp_base = tmp_str2;
+				break;
+            }
+
+            ptr = NULL;
+            i++;
+        } while (i < n);
+
+        if (strcmp (tmp_dir, "."))
+            tmp_str2 = g_strconcat (tmp_dir, G_DIR_SEPARATOR_S, "\n", tmp_base, NULL);
 		else
-		{
-			tmp_str1 = g_strconcat (tmp_base, "\n", end, NULL);
-			g_free (tmp_base);
-			tmp_base = tmp_str1;
-			break;
-		}
+			tmp_str2 = g_strdup (tmp_base);
 
-		ptr = NULL;
-		i++;
-	} while (i < n);
+        g_free (tmp_dir);
+		g_free (tmp_base);
+    }
 
-    g_free (tmp_dir);
 	g_free (basename);
+	g_free (dirname);
 
     /* return */
-    return tmp_base;
+    return tmp_str2;
 }
 
 /**

@@ -73,6 +73,7 @@
 
  /* définitions pour les noms de fichier dans les boutons de la vue accueil */
 #define GSB_NBRE_CHAR_TRUNC		15
+#define GSB_NAMEFILE_TOO_LONG 	75				/* 5 +1 lignes dans le bouton */
 #define GSB_NBRE_LIGNES_BOUTON	 6
 
 /* variables initialisées lors de l'ouverture de grisbi par gsettings */

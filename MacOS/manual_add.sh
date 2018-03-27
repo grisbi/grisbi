@@ -18,7 +18,7 @@ share/icons/Adwaita/scalable/actions/pan-end-symbolic.svg
 share/icons/Adwaita/scalable/actions/pan-start-symbolic-rtl.svg
 share/icons/Adwaita/scalable/actions/pan-start-symbolic.svg
 share/icons/Adwaita/scalable/actions/pan-up-symbolic.svg
-"
+lib/goffice/"
 
 if [ -z "$PREFIX" ]
 then
