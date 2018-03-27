@@ -424,11 +424,11 @@ msgstr "Prognose anzeigen"
 #. partie mensuelle
 #: ../src/bet_config.c:450
 msgid "Duration estimation:"
-msgstr "Daten Zusammenstellung: "
+msgstr "Daten Zusammenstellung:"
 
 #: ../src/bet_config.c:616
 msgid "Labels for transactions:"
-msgstr "Bezeichnungen für Buchungen: "
+msgstr "Bezeichnungen für Buchungen:"
 
 #: ../src/bet_config.c:621 ../src/bet_config.c:640 ../src/bet_config.c:658
 msgid "By default"
@@ -454,11 +454,11 @@ msgstr "Gruppen"
 
 #: ../src/bet_config.c:635
 msgid "Labels for scheduled transactions:"
-msgstr "Bezeichnungen für geplante Buchungen: "
+msgstr "Bezeichnungen für geplante Buchungen:"
 
 #: ../src/bet_config.c:653
 msgid "Labels for futur data:"
-msgstr "Bezeichnungen für zukünftige Daten: "
+msgstr "Bezeichnungen für zukünftige Daten:"
 
 #: ../src/bet_config.c:667
 msgid ""
@@ -1106,7 +1106,7 @@ msgstr "Feb"
 
 #: ../src/bet_graph.c:153
 msgid "Mar"
-msgstr "Mar"
+msgstr "Mär"
 
 #: ../src/bet_graph.c:153
 msgid "Apr"
@@ -1134,7 +1134,7 @@ msgstr "Sep"
 
 #: ../src/bet_graph.c:155
 msgid "Oct"
-msgstr "Oct"
+msgstr "Okt"
 
 #: ../src/bet_graph.c:155
 msgid "Nov"
@@ -1142,7 +1142,7 @@ msgstr "Nov"
 
 #: ../src/bet_graph.c:155
 msgid "Dec"
-msgstr "Dec"
+msgstr "Dez"
 
 #: ../src/bet_graph.c:160
 msgid "January"
@@ -7774,7 +7774,7 @@ msgstr "automatisch"
 #: ../src/gsb_form.c:979 ../src/gsb_form_scheduler.c:142
 #: ../src/gsb_scheduler_list.c:1413 ../src/ui/grisbi_menu.ui.h:40
 msgid "Manual"
-msgstr "Handbuch"
+msgstr "manuell"
 
 #: ../src/gsb_form.c:1341 ../src/gsb_form_widget.c:507
 msgid "Cheque/Transfer number"
@@ -11856,7 +11856,7 @@ msgstr "oben Anzeigen"
 
 #: ../src/ui/bet_graph.ui.h:12
 msgid "Intersection point of X Y axes"
-msgstr "Intercept point X and Y achses"
+msgstr "Schnittpunkt X und Y Achse"
 
 #: ../src/ui/bet_graph.ui.h:13
 msgid "<b>Additional line</b>"
@@ -11888,7 +11888,7 @@ msgstr "<b>Einstellungen für Spalten</b>"
 
 #: ../src/ui/bet_graph.ui.h:20
 msgid "Gap:"
-msgstr "Abstand: "
+msgstr "Abstand:"
 
 #: ../src/ui/bet_graph.ui.h:23
 msgid "Display the grids above the plot"
@@ -12898,7 +12898,7 @@ msgstr "Datei _importieren ..."
 
 #: ../src/ui/prefs_page_import_files.ui.h:9
 msgid "Forces the value date if not present with the date of the transaction"
-msgstr "Das Buchungsdatum verwenden wenn es kein Valutadatum gibt"
+msgstr ""
 
 #: ../src/ui/prefs_page_import_files.ui.h:10
 #, fuzzy
@@ -12921,4 +12921,363 @@ msgstr "Finanzprogramm für Privatpersonen"
 #: ../share/grisbi.desktop.in.h:3
 #, fuzzy
 msgid "finance"
-msgstr "Finanzen"
+msgstr "Geschäftsjahr"
+
+#, fuzzy
+#~ msgid "Last day of the months"
+#~ msgstr "erster Tag vom Monat"
+
+#, fuzzy
+#~ msgid "Last bankind day"
+#~ msgstr "erster Tag vom Monat"
+
+#, fuzzy
+#~ msgid "Set fixed date of all scheduled transactions: "
+#~ msgstr "Bezeichnungen für geplante Buchungen:"
+
+#, fuzzy
+#~ msgid "With the last banking day"
+#~ msgstr "erster Tag vom Monat"
+
+#, fuzzy
+#~ msgid "Unable to use file encryption"
+#~ msgstr "Die Datei kann nicht gelesen werden: %s\n"
+
+#, fuzzy
+#~ msgid "Select the action"
+#~ msgstr "Auswahl für Neuzuordnung: "
+
+#, fuzzy
+#~ msgid "Select the column of the data to be used"
+#~ msgstr "Basiswährung für den Teilsaldo auswählen: "
+
+#, fuzzy
+#~ msgid "Select the data column of the action"
+#~ msgstr "Basiswährung für den Teilsaldo auswählen: "
+
+#~ msgid "Background of invalid date entry"
+#~ msgstr "Hintergrund ungültiger Datumswert"
+
+#~ msgid "Unable to create tmp file: %s\n"
+#~ msgstr "Die temporäre Datei kann nicht erstellt werden: %s\n"
+
+#~ msgid "Save locked files?"
+#~ msgstr "Gesperrte Datei speichern?"
+
+#~ msgid ""
+#~ "The document '%s' is locked but modified. If you want to save it, you "
+#~ "must cancel and save it with another name or activate the \"%s\" option "
+#~ "in setup."
+#~ msgstr ""
+#~ "Die Datei '%s' ist gesperrt, wurde aber verändert. Wenn Sie die "
+#~ "Änderungen speichern wollen, müssen Sie den Vorgang abbrechen und die "
+#~ "Datei unter einem anderen Namen speichern oder die Option \"%s\" in den "
+#~ "Einstellungen setzen."
+
+#~ msgid "Both"
+#~ msgstr "Text und Symbole"
+
+#~ msgid "Report name: "
+#~ msgstr "Bericht Name: "
+
+#, fuzzy
+#~ msgid "Column of data"
+#~ msgstr "Allgemeine Daten"
+
+#, fuzzy
+#~ msgid "Select the data column"
+#~ msgstr "Auswahl für Neuzuordnung: "
+
+#~ msgid "Choosing color"
+#~ msgstr "Farbe auswählen - Grisbi"
+
+#~ msgid "Credit (amount)"
+#~ msgstr "Einnahme"
+
+#, fuzzy
+#~ msgid "Graphs"
+#~ msgstr "Diagramm"
+
+#, fuzzy
+#~ msgid "gtk-close"
+#~ msgstr "Geschlossen"
+
+#~ msgid "Main"
+#~ msgstr "Allgemein"
+
+#~ msgid "Scheduler warnings at Grisbi's opening"
+#~ msgstr "Planer Meldungen"
+
+#~ msgid "Date format"
+#~ msgstr "Datumsformat"
+
+#, fuzzy
+#~ msgid "CSV Import settings"
+#~ msgstr "Import Einstellungen"
+
+#, fuzzy
+#~ msgid "QIF Import settings"
+#~ msgstr "Import Einstellungen"
+
+#, fuzzy
+#~ msgid "Preferences sort"
+#~ msgstr "_Einstellungen"
+
+#~ msgid "Delete file copy from a previous version of Grisbi"
+#~ msgstr "Die Kopie einer älteren Grisbi-Datei löschen"
+
+#~ msgid ""
+#~ "Caution, you are about to delete a file copy\n"
+#~ "from a previous version of Grisbi.\n"
+#~ "\n"
+#~ "<b>Do you want to delete this file:\n"
+#~ "%s ?</b>"
+#~ msgstr ""
+#~ "Achtung, es wird die Kopie von einer Grisbi-Datei\n"
+#~ "welche mit einer älteren Version von Grisbi erstellt wurde gelöscht.\n"
+#~ "\n"
+#~ "<b>>Soll diese Datei gelöscht werden:\n"
+#~ "%s ?</b>"
+
+#, fuzzy
+#~ msgid ""
+#~ "Grisbi was unable to execute a web browser to browse url <tt>%s</tt>.\n"
+#~ "The error was: %s."
+#~ msgstr ""
+#~ "Grisbi konnte den Browser für das Schreiben von <tt>%s</tt> nicht "
+#~ "ausführen.\n"
+#~ "Der Fehler war: %s."
+
+#~ msgid "Print to file"
+#~ msgstr "In Datei drucken"
+
+#~ msgid "Cannot save configuration file '%s': %s"
+#~ msgstr "Die Konfiguration kann nicht gespeichert werden '%s': %s"
+
+#~ msgid ""
+#~ "Grisbi version %s is needed to open this file.\n"
+#~ "You are using version %s."
+#~ msgstr ""
+#~ "Grisbi mit Version %s ist zum Öffnen der Datei notwendig.\n"
+#~ "Sie verwenden Version %s."
+
+#~ msgid "Archive transactions..."
+#~ msgstr "Buchungen archivieren ..."
+
+#~ msgid "_Edit"
+#~ msgstr "B_earbeiten"
+
+#~ msgid "_Edit transaction"
+#~ msgstr "Buchung b_earbeiten"
+
+#~ msgid "_New transaction"
+#~ msgstr "_Buchung erstellen"
+
+#~ msgid "_Clone transaction"
+#~ msgstr "Buchung _klonen"
+
+#~ msgid "_Move transaction to another account"
+#~ msgstr "Buchung _verschieben nach"
+
+#~ msgid "_New account"
+#~ msgstr "_Konto erstellen"
+
+#~ msgid "_Manual"
+#~ msgstr "_Handbuch"
+
+#~ msgid "_About Grisbi..."
+#~ msgstr "_Über Grisbi ..."
+
+#~ msgid "_Tip of the day"
+#~ msgstr "_Tipp des Tages"
+
+#~ msgid "Show _lines archives"
+#~ msgstr "Erstellte _Archive anzeigen"
+
+#~ msgid "Config file"
+#~ msgstr "Konfigurationsdatei"
+
+#~ msgid "Use the config file of version stable as model"
+#~ msgstr ""
+#~ "Die Konfigurationsdatei von einer älteren Grisbi-Version als Vorlage "
+#~ "verwenden"
+
+#~ msgid ""
+#~ "Try grisbi --help for details\n"
+#~ "\n"
+#~ msgstr ""
+#~ "grisbi --help für Details\n"
+#~ "\n"
+
+#~ msgid "Usage: grisbi [--version | -v] | [--help | -?]\n"
+#~ msgstr "Aufruf: grisbi [--version | -v] | [--help | -?]\n"
+
+#~ msgid ""
+#~ "grisbi [options] [file]\n"
+#~ "  --help                    Show this help message and exit\n"
+#~ "  -v, --version             Show version number and exit\n"
+#~ msgstr ""
+#~ "grisbi [options] [file]\n"
+#~ "  --help                    diese Hilfe anzeigen und beenden\n"
+#~ "  -v, --version           die Versionsnummer anzeigen und beenden\n"
+
+#~ msgid "Grisbi version %s"
+#~ msgstr "Grisbi Version %s"
+
+#~ msgid ""
+#~ "Missing parameter for option %s\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Fehlender Parameter für die Option %s\n"
+#~ "\n"
+
+#~ msgid ""
+#~ "Syntax error (%s)\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Syntaktischer Fehler (%s)\n"
+#~ "\n"
+
+#~ msgid ""
+#~ "Unknown option (%s)\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Unbekannte Option (%s)\n"
+#~ "\n"
+
+#~ msgid ""
+#~ "Too many parameters (%s)\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Zu viele Parameter (%s)\n"
+#~ "\n"
+
+#~ msgid ""
+#~ "Tab is is out of range (%s)\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Tabulator ist außerhalb des Bereiches (%s)\n"
+#~ "\n"
+
+#~ msgid ""
+#~ "Something strange happend (%s)\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Etwas seltsames ist passiert (%s)\n"
+#~ "\n"
+
+#~ msgid ""
+#~ "Syntax error!\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Syntaktischer Fehler!\n"
+#~ "\n"
+
+#~ msgid "Select the chart type"
+#~ msgstr "Den Chart-Typ auswählen"
+
+#~ msgid "Misc."
+#~ msgstr "Verschiedenes"
+
+#~ msgid "Empty category"
+#~ msgstr "Keine Kategorie"
+
+#~ msgid "Empty sub-category"
+#~ msgstr "Keine Unterkategorie"
+
+#~ msgid "Empty budget"
+#~ msgstr "Keine Gruppe"
+
+#~ msgid "Empty sub-budget"
+#~ msgstr "Keine Untergruppe"
+
+#~ msgid "Select unreconciled transactions"
+#~ msgstr "unabgestimmte Buchungen"
+
+#~ msgid "Select the transactions by method of payment"
+#~ msgstr "Buchungen nach Zahlungsweisen auswählen"
+
+#~ msgid "Indicator Size"
+#~ msgstr "Indikator Größe"
+
+#~ msgid "Size of dropdown indicator"
+#~ msgstr "Listen-Indikator Größe"
+
+#~ msgid "Indicator Spacing"
+#~ msgstr "Indikator Leerzeichen"
+
+#~ msgid "Spacing around indicator"
+#~ msgstr "Indikator Umrandung"
+
+#~ msgid ""
+#~ "The transaction %d has a budget n%d and sub-budget n%d but they don't "
+#~ "exist."
+#~ msgstr ""
+#~ "Die Buchung %d hat als Gruppe n%d und als Untergruppe n%d, jedoch sind "
+#~ "diese Gruppen nicht vorhanden."
+
+#~ msgid ""
+#~ "The transaction %d has a category n%d and sub-category n%d but they don't "
+#~ "exist."
+#~ msgstr ""
+#~ "Die Buchung %d hat als Kategorie n%d und als Unterkategorie n%d, jedoch "
+#~ "sind diese Kategorien nicht vorhanden."
+
+#~ msgid "The transaction %d has a payee n%d but it doesn't exist."
+#~ msgstr ""
+#~ "Die Buchung %d hat als Empfänger n%d, jedoch ist dieser Empfänger nicht "
+#~ "vorhanden."
+
+#~ msgid ""
+#~ "gsb_form_scheduler_create is called with a bad table,\n"
+#~ "the number of rows or columns is not good.\n"
+#~ "The function will resize the table to the correct values but should check "
+#~ "that warning."
+#~ msgstr ""
+#~ "Der \"Grisbi Formular Scheduler\" wurde mit einer ungültigen "
+#~ "Tabellenanzahl aufgerufen,\n"
+#~ "die Anzahl der Spalten oder Zeilen stimmt nicht.\n"
+#~ "Diese Funktion wird die Tabelle automatisch anpassen, jedoch sollten Sie "
+#~ "weitere Warnungen beachten."
+
+#~ msgid "_Translation"
+#~ msgstr "_Übersetzung"
+
+#~ msgid "Apply"
+#~ msgstr "Anwenden"
+
+#~ msgid "Insurance"
+#~ msgstr "Gebühren"
+
+#~ msgid "Effective date: "
+#~ msgstr "Buchungsdatum: "
+
+#~ msgid ""
+#~ "Grisbi was unable to load required plugin to handle that file.\n"
+#~ "\n"
+#~ "Please make sure if is installed (i.e. check that 'open-ssl' package is "
+#~ "installed) and try again."
+#~ msgstr ""
+#~ "Grisbi konnte das erforderliche Modul nicht laden, um diese Datei zu "
+#~ "verschlüsseln.\n"
+#~ "\n"
+#~ "Bitte prüfen, ob das Modul installiert ist und danach erneut versuchen."
+
+#~ msgid "Encryption plugin not found."
+#~ msgstr "Das Modul für die Verschlüsselung kann nicht gefunden werden."
+
+#~ msgid "with plugins"
+#~ msgstr "mit den Modulen"
+
+#~ msgid "Accounts file title"
+#~ msgstr "Bezeichnung"
+
+#~ msgid "Accounts file title: "
+#~ msgstr "Bezeichnung: "
+
+#~ msgid "display the data graph"
+#~ msgstr "Diagramm anzeigen"
+
+#, fuzzy
+#~ msgid "Place under the accounts of the partial balance if possible"
+#~ msgstr "Basiswährung für den Teilsaldo auswählen: "
