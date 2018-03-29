@@ -1195,12 +1195,32 @@ gboolean gsb_config_onglet_metatree_action_changed ( GtkWidget *checkbutton,
  */
 gboolean gsb_gui_encryption_toggled ( GtkWidget * checkbox, gpointer data )
 {
+#ifdef HAVE_SSL
     if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON (checkbox)))
     {
         dialog_message ( "encryption-is-irreversible" );
         run.new_crypted_file = TRUE;
     }
+	else
+		run.new_crypted_file = FALSE;
+#else
+	gchar *text = _("This build of Grisbi does not support encryption.\n"
+					"Please recompile Grisbi with OpenSSL encryption enabled.");
+	gchar *hint;
 
+	hint = g_strdup_printf ( _("Could not encrypt file"));
+	dialogue_error_hint ( text, hint );
+	g_signal_handlers_block_by_func (G_OBJECT (checkbox),
+									 G_CALLBACK (gsb_gui_encryption_toggled),
+									 data);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbox), FALSE);
+
+	g_free ( hint );
+	g_signal_handlers_unblock_by_func (G_OBJECT (checkbox),
+									   G_CALLBACK (gsb_gui_encryption_toggled),
+									   data);
+
+#endif
     return FALSE;
 }
 
