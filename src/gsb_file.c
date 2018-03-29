@@ -722,8 +722,10 @@ gboolean gsb_file_open_file (const gchar *filename)
     }
     else
     {
+#ifdef HAVE_SSL
 		gchar *tmp_str1;
 		gchar *tmp_str2;
+#endif
 
 		/* Loading failed. */
 		grisbi_win_status_bar_message (_("Failed to load accounts"));
