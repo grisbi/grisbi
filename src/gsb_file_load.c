@@ -3905,10 +3905,13 @@ gboolean gsb_file_load_open_file (const gchar *filename )
                         NULL );
         download_tmp_values.download_ok = FALSE;
 
-        g_markup_parse_context_parse ( context,
+        if (! g_markup_parse_context_parse ( context,
                         file_content,
                         strlen (file_content),
-                        NULL );
+                        NULL ))
+		{
+			download_tmp_values.download_ok = FALSE;
+		}
 
         g_markup_parse_context_free (context);
         g_free (markup_parser);
