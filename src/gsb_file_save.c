@@ -397,13 +397,15 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
         }
 #else
         {
-            g_free ( file_content);
-            gchar *text = _("This build of Grisbi does not support encryption.\n"
-                    "Please recompile Grisbi with OpenSSL encryption enabled.");
-            gchar *hint = g_strdup_printf ( _("Cannot open encrypted file '%s'"), filename );
+			gchar *text = _("This build of Grisbi does not support encryption.\n"
+							"Please recompile Grisbi with OpenSSL encryption enabled.");
+			gchar *hint;
+
+			g_free ( file_content);
+            hint = g_strdup_printf (_("Cannot save encrypted file '%s'"), filename);
             dialogue_error_hint ( text, hint );
             g_free ( hint );
-            return FALSE;
+			return FALSE;
         }
 #endif
     }

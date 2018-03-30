@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ro\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-20 09:16+0100\n"
+"POT-Creation-Date: 2018-03-29 07:44+0200\n"
 "PO-Revision-Date: 2005-12-19 11:24+0100\n"
 "Last-Translator: Mircea Aronovici <bucuresti@free.fr>\n"
 "Language-Team: <bucuresti@free.fr>\n"
@@ -840,7 +840,7 @@ msgstr "Început:"
 #. création du bouton print
 #. print button
 #: ../src/bet_finance_ui.c:1811 ../src/bet_hist.c:1943 ../src/bet_tab.c:2925
-#: ../src/etats_onglet.c:507 ../src/gsb_transactions_list.c:397
+#: ../src/etats_onglet.c:507 ../src/gsb_transactions_list.c:389
 msgid "Print"
 msgstr "Imprimaţi"
 
@@ -962,7 +962,7 @@ msgstr "Dată limită"
 
 #: ../src/bet_future.c:380 ../src/gsb_assistant_archive_export.c:153
 #: ../src/gsb_assistant_reconcile_config.c:1224
-#: ../src/gsb_reconcile_config.c:123 ../src/gsb_transactions_list.c:2140
+#: ../src/gsb_reconcile_config.c:123 ../src/gsb_transactions_list.c:2132
 #: ../src/prefs/prefs_page_archives.c:460
 msgid "Final date"
 msgstr ".Dată finală"
@@ -1155,7 +1155,7 @@ msgstr ""
 #. Name entry
 #: ../src/bet_future.c:3007 ../src/categories_onglet.c:752
 #: ../src/gsb_assistant_archive_export.c:153 ../src/gsb_fyear_config.c:275
-#: ../src/gsb_transactions_list.c:2140 ../src/imputation_budgetaire.c:789
+#: ../src/gsb_transactions_list.c:2132 ../src/imputation_budgetaire.c:789
 #: ../src/parametres.c:311 ../src/tiers_onglet.c:735
 #: ../src/prefs/prefs_page_archives.c:460
 msgid "Name"
@@ -1496,7 +1496,7 @@ msgid "Description"
 msgstr "Descripţiune"
 
 #: ../src/bet_tab.c:919 ../src/export_csv.c:810 ../src/gsb_reconcile.c:205
-#: ../src/gsb_transactions_list.c:172 ../src/gsb_transactions_list.c:3384
+#: ../src/gsb_transactions_list.c:172 ../src/gsb_transactions_list.c:3376
 msgid "Balance"
 msgstr "Sold"
 
@@ -1719,7 +1719,7 @@ msgstr "Exportaţi categoriile."
 #. Delete button
 #. delete button
 #: ../src/categories_onglet.c:595 ../src/etats_onglet.c:516
-#: ../src/gsb_scheduler_list.c:406 ../src/gsb_transactions_list.c:370
+#: ../src/gsb_scheduler_list.c:406 ../src/gsb_transactions_list.c:362
 #: ../src/imputation_budgetaire.c:634 ../src/tiers_onglet.c:345
 #, fuzzy
 msgid "Delete"
@@ -1736,7 +1736,7 @@ msgstr "Vă rugăm intraţi o categorie"
 #. Button "Edit"
 #. edit button
 #: ../src/categories_onglet.c:607 ../src/gsb_scheduler_list.c:417
-#: ../src/gsb_transactions_list.c:379 ../src/imputation_budgetaire.c:646
+#: ../src/gsb_transactions_list.c:371 ../src/imputation_budgetaire.c:646
 #: ../src/parametres.c:245 ../src/tiers_onglet.c:357
 #: ../src/ui/grisbi_menu.ui.h:47
 msgid "Edit"
@@ -1753,7 +1753,7 @@ msgstr "categoria"
 #. View button
 #. Change view mode button
 #: ../src/categories_onglet.c:619 ../src/gsb_scheduler_list.c:449
-#: ../src/gsb_transactions_list.c:406 ../src/imputation_budgetaire.c:658
+#: ../src/gsb_transactions_list.c:398 ../src/imputation_budgetaire.c:658
 #: ../src/tiers_onglet.c:369 ../src/ui/grisbi_menu.ui.h:29
 msgid "View"
 msgstr ""
@@ -1774,7 +1774,7 @@ msgstr "Categorii"
 msgid "Subcategory view"
 msgstr "Sub-categorie"
 
-#: ../src/categories_onglet.c:671 ../src/gsb_transactions_list.c:603
+#: ../src/categories_onglet.c:671 ../src/gsb_transactions_list.c:595
 #: ../src/imputation_budgetaire.c:710 ../src/tiers_onglet.c:493
 #, fuzzy
 msgid "Complete view"
@@ -2013,7 +2013,7 @@ msgid ""
 "Make a copy now."
 msgstr ""
 
-#: ../src/dialog.c:359 ../src/gsb_scheduler_list.c:2165
+#: ../src/dialog.c:359 ../src/gsb_scheduler_list.c:2173
 msgid "Keep this choice permanently?"
 msgstr ""
 
@@ -2346,13 +2346,13 @@ msgid "Result without financial year: "
 msgstr "Rezultat fără exerciţiu:"
 
 #: ../src/etats_affiche.c:1428 ../src/gsb_scheduler_list.c:1351
-#: ../src/gsb_transactions_list.c:3914
+#: ../src/gsb_transactions_list.c:3906
 #, c-format
 msgid "Transfer to %s"
 msgstr "Virament spre %s"
 
 #: ../src/etats_affiche.c:1430 ../src/gsb_scheduler_list.c:1355
-#: ../src/gsb_transactions_list.c:3917
+#: ../src/gsb_transactions_list.c:3909
 #, c-format
 msgid "Transfer from %s"
 msgstr "Virament dela %s"
@@ -2405,7 +2405,7 @@ msgstr "Total general:"
 #: ../src/etats_affiche.c:1880 ../src/export_csv.c:594
 #: ../src/gsb_data_category.c:1056 ../src/gsb_form.c:775 ../src/gsb_form.c:1733
 #: ../src/gsb_form.c:2937 ../src/gsb_form.c:3346
-#: ../src/gsb_form_scheduler.c:309 ../src/gsb_transactions_list.c:3892
+#: ../src/gsb_form_scheduler.c:309 ../src/gsb_transactions_list.c:3884
 msgid "Split of transaction"
 msgstr "Tranzacţie ventilată"
 
@@ -4248,36 +4248,36 @@ msgstr "Scadenţă"
 msgid "Import a CSV, QIF, OFX file ..."
 msgstr "Exporta fişiere"
 
-#: ../src/grisbi_win.c:1288
+#: ../src/grisbi_win.c:1282
 #, fuzzy
 msgid "Unnamed account"
 msgstr "Cont importat"
 
-#: ../src/grisbi_win.c:1310 ../src/gsb_transactions_list.c:2611
+#: ../src/grisbi_win.c:1304 ../src/gsb_transactions_list.c:2603
 msgid "Move transaction to another account"
 msgstr "Deplasaţi operaţiunea spre un alt cont"
 
-#: ../src/grisbi_win.c:1420 ../src/grisbi_win.c:1467
+#: ../src/grisbi_win.c:1414 ../src/grisbi_win.c:1461
 #: ../share/grisbi.desktop.in.h:1
 msgid "Grisbi"
 msgstr "Grisbi"
 
-#: ../src/grisbi_win.c:1474 ../src/gsb_file.c:222 ../src/gsb_file.c:241
+#: ../src/grisbi_win.c:1468 ../src/gsb_file.c:222 ../src/gsb_file.c:241
 #: ../src/gsb_file.c:272
 msgid "unnamed"
 msgstr "făra nume"
 
-#: ../src/grisbi_win.c:1565 ../src/ui/grisbi_menu.ui.h:7
+#: ../src/grisbi_win.c:1560 ../src/ui/grisbi_menu.ui.h:7
 #, fuzzy
 msgid "Open"
 msgstr "Deschide"
 
 #. Create main widget.
-#: ../src/grisbi_win.c:1837
+#: ../src/grisbi_win.c:1825
 msgid "Creating main window"
 msgstr ""
 
-#: ../src/grisbi_win.c:1849
+#: ../src/grisbi_win.c:1837
 msgid ""
 "The model of the list couldn't be created... Bad things will happen very "
 "soon..."
@@ -5249,7 +5249,7 @@ msgstr "Selecţionaţi operaţiile prin raport ale textului"
 #. ok, all the transactions belong to the same account, we can
 #. * show a dialog to select the reconcile
 #: ../src/gsb_assistant_reconcile_config.c:1178
-#: ../src/gsb_transactions_list.c:2091
+#: ../src/gsb_transactions_list.c:2083
 #, fuzzy
 msgid "Selection of a reconciliation"
 msgstr "Confirmare a unui (un)apropiere manuală"
@@ -7612,7 +7612,8 @@ msgstr "Pontare"
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Acest fişier nu este o stare Grisbi"
 
-#: ../src/gsb_file_load.c:3872 ../src/gsb_file_save.c:401
+#: ../src/gsb_file_load.c:3872 ../src/gsb_file_save.c:400
+#: ../src/parametres.c:1207
 #, fuzzy, c-format
 msgid ""
 "This build of Grisbi does not support encryption.\n"
@@ -7621,7 +7622,7 @@ msgstr ""
 "Această construcţie de Grisbi nu suportă formatul OFX. Vă rugăm recompilaţi "
 "Grisbi activând gestiunea formatului OFX"
 
-#: ../src/gsb_file_load.c:3875 ../src/gsb_file_save.c:403
+#: ../src/gsb_file_load.c:3875
 #, fuzzy, c-format
 msgid "Cannot open encrypted file '%s'"
 msgstr "Imposibil de a deschide fişierul '%s': %s"
@@ -7666,8 +7667,8 @@ msgid "There is no category to record. Back."
 msgstr ""
 
 #: ../src/gsb_file_others.c:159 ../src/gsb_file_others.c:250
-#: ../src/gsb_file_others.c:341 ../src/gsb_file_save.c:425
-#: ../src/gsb_file_save.c:444
+#: ../src/gsb_file_others.c:341 ../src/gsb_file_save.c:427
+#: ../src/gsb_file_save.c:446
 #, c-format
 msgid "Cannot save file '%s': %s"
 msgstr "Imposibil de a salva fişierul '%s': %s"
@@ -7724,6 +7725,11 @@ msgstr ""
 #: ../src/gsb_file_others.c:689
 msgid "This is not a report file, loading canceled..."
 msgstr ""
+
+#: ../src/gsb_file_save.c:405
+#, fuzzy, c-format
+msgid "Cannot save encrypted file '%s'"
+msgstr "Imposibil de a deschide fişierul '%s': %s"
 
 #: ../src/gsb_file_util.c:71
 #, fuzzy
@@ -8356,7 +8362,7 @@ msgstr ""
 msgid "Last statement: %s"
 msgstr "Ultima situaţie bancară"
 
-#: ../src/gsb_reconcile_config.c:123 ../src/gsb_transactions_list.c:2140
+#: ../src/gsb_reconcile_config.c:123 ../src/gsb_transactions_list.c:2132
 #, fuzzy
 msgid "Init date"
 msgstr "Dată iniţială"
@@ -8656,7 +8662,7 @@ msgstr "%d lună"
 msgid "%d years"
 msgstr "%d ani"
 
-#: ../src/gsb_scheduler_list.c:2076
+#: ../src/gsb_scheduler_list.c:2084
 #, fuzzy, c-format
 msgid ""
 "Do you really want to delete the child of the scheduled transaction with "
@@ -8665,7 +8671,7 @@ msgstr ""
 "Vreţi să ştergeţi pur şi simplu această împrejurare s'au operatia "
 "planificată ?"
 
-#: ../src/gsb_scheduler_list.c:2095
+#: ../src/gsb_scheduler_list.c:2103
 #, fuzzy, c-format
 msgid ""
 "Do you really want to delete the scheduled transaction with party '%s' ?"
@@ -8673,7 +8679,7 @@ msgstr ""
 "Vreţi să ştergeţi pur şi simplu această împrejurare s'au operatia "
 "planificată ?"
 
-#: ../src/gsb_scheduler_list.c:2144
+#: ../src/gsb_scheduler_list.c:2152
 #, fuzzy, c-format
 msgid ""
 "Do you want to delete just this occurrence or the whole scheduled "
@@ -8684,82 +8690,82 @@ msgstr ""
 "Vreţi să ştergeţi pur şi simplu această împrejurare s'au operatia "
 "planificată ?"
 
-#: ../src/gsb_scheduler_list.c:2155
+#: ../src/gsb_scheduler_list.c:2163
 #, fuzzy
 msgid "Delete this scheduled transaction?"
 msgstr "Şterge o operaţie planificată"
 
-#: ../src/gsb_scheduler_list.c:2159
+#: ../src/gsb_scheduler_list.c:2167
 #, fuzzy
 msgid "All the occurrences"
 msgstr "Toate împrejurările"
 
-#: ../src/gsb_scheduler_list.c:2160
+#: ../src/gsb_scheduler_list.c:2168
 msgid "Only this one"
 msgstr "Numai aceasta"
 
-#: ../src/gsb_scheduler_list.c:2221
+#: ../src/gsb_scheduler_list.c:2229
 #, fuzzy
 msgid "Show scheduled transactions"
 msgstr "Închidera inventarului automatic"
 
-#: ../src/gsb_scheduler_list.c:2234
+#: ../src/gsb_scheduler_list.c:2242
 #, fuzzy
 msgid "Scheduler frequency"
 msgstr "Alarmă a scadenţei"
 
-#: ../src/gsb_scheduler_list.c:2241
+#: ../src/gsb_scheduler_list.c:2249
 #, fuzzy
 msgid "Show transactions for the next: "
 msgstr "Selecţionaţi operaţiile prin raport ale textului:"
 
 #. Edit transaction
-#: ../src/gsb_scheduler_list.c:2384 ../src/gsb_transactions_list.c:2556
+#: ../src/gsb_scheduler_list.c:2392 ../src/gsb_transactions_list.c:2548
 #: ../src/ui/grisbi_menu.ui.h:21
 msgid "Edit transaction"
 msgstr "Edtarea operaţiunii"
 
 #. Clone transaction
-#: ../src/gsb_scheduler_list.c:2395 ../src/gsb_transactions_list.c:2593
+#: ../src/gsb_scheduler_list.c:2403 ../src/gsb_transactions_list.c:2585
 #: ../src/ui/grisbi_menu.ui.h:25
 msgid "Clone transaction"
 msgstr "Clonaţi operaţiunea"
 
 #. New transaction
 #. new transaction button
-#: ../src/gsb_scheduler_list.c:2409 ../src/gsb_transactions_list.c:361
-#: ../src/gsb_transactions_list.c:2569 ../src/ui/grisbi_menu.ui.h:22
+#: ../src/gsb_scheduler_list.c:2417 ../src/gsb_transactions_list.c:353
+#: ../src/gsb_transactions_list.c:2561 ../src/ui/grisbi_menu.ui.h:22
 msgid "New transaction"
 msgstr "O nouă operaţiune"
 
 #. Delete transaction
-#: ../src/gsb_scheduler_list.c:2417 ../src/gsb_transactions_list.c:2574
+#: ../src/gsb_scheduler_list.c:2425 ../src/gsb_transactions_list.c:2566
 msgid "Delete transaction"
 msgstr "Suprima operaţiunea"
 
-#: ../src/gsb_scheduler_list.c:2433
+#: ../src/gsb_scheduler_list.c:2441
 #, fuzzy
 msgid "Displays notes"
 msgstr "Afişare/Masca formularului"
 
-#: ../src/gsb_scheduler_list.c:2435
+#: ../src/gsb_scheduler_list.c:2443
 #, fuzzy
 msgid "Displays Frequency/Mode"
 msgstr "Frecvenţă"
 
 #. Execute transaction
-#: ../src/gsb_scheduler_list.c:2447
+#: ../src/gsb_scheduler_list.c:2455
 #, fuzzy
 msgid "Execute transaction"
 msgstr "Suprima operaţiunea"
 
-#: ../src/gsb_scheduler_list.c:2826 ../src/transaction_list.c:164
-#: ../src/transaction_list.c:1058 ../src/transaction_list.c:1968
+#: ../src/gsb_scheduler_list.c:2834 ../src/transaction_list.c:164
+#: ../src/transaction_list.c:1060 ../src/transaction_list.c:1970
 #, fuzzy, c-format
 msgid "Total: %s (variance : %s)"
 msgstr "Total %s : %s (%d operaţiuni)"
 
-#: ../src/gsb_scheduler_list.c:2933
+#: ../src/gsb_scheduler_list.c:2941
 #, c-format
 msgid ""
 "Some scheduled children didn't find their mother in the list, this shouldn't "
@@ -8771,7 +8777,7 @@ msgid ""
 "Do you want to delete it"
 msgstr ""
 
-#: ../src/gsb_scheduler_list.c:2939 ../src/gsb_transactions_list.c:4636
+#: ../src/gsb_scheduler_list.c:2947 ../src/gsb_transactions_list.c:4628
 #, fuzzy
 msgid "Remove orphan children"
 msgstr "Creaţia unui nume de fişier de conturi"
@@ -8827,134 +8833,134 @@ msgstr "Şterge o operaţie planificată"
 msgid "Delete a rule file import."
 msgstr "Stergeţi starea"
 
-#: ../src/gsb_transactions_list.c:362
+#: ../src/gsb_transactions_list.c:354
 #, fuzzy
 msgid "Blank the form to create a new transaction"
 msgstr "Total categorie (%s operaţie)"
 
-#: ../src/gsb_transactions_list.c:371
+#: ../src/gsb_transactions_list.c:363
 #, fuzzy
 msgid "Delete selected transaction"
 msgstr "Şterge o operaţie planificată"
 
-#: ../src/gsb_transactions_list.c:380
+#: ../src/gsb_transactions_list.c:372
 #, fuzzy
 msgid "Edit current transaction"
 msgstr "Edtarea operaţiunii"
 
 #. reconcile button
-#: ../src/gsb_transactions_list.c:388
+#: ../src/gsb_transactions_list.c:380
 msgid "Reconcile"
 msgstr "Apropiaţi"
 
-#: ../src/gsb_transactions_list.c:389
+#: ../src/gsb_transactions_list.c:381
 #, fuzzy
 msgid "Start account reconciliation"
 msgstr "Ultima şansă de a abandona apropierea"
 
-#: ../src/gsb_transactions_list.c:398
+#: ../src/gsb_transactions_list.c:390
 #, fuzzy
 msgid "Print the transactions list"
 msgstr "A tria lista de tranzacţiuni"
 
-#: ../src/gsb_transactions_list.c:407
+#: ../src/gsb_transactions_list.c:399
 msgid "Change display mode of the list"
 msgstr ""
 
 #. select the rule
-#: ../src/gsb_transactions_list.c:415
+#: ../src/gsb_transactions_list.c:407
 #, fuzzy
 msgid "Import rules"
 msgstr "Exportaţi categoriile."
 
-#: ../src/gsb_transactions_list.c:416
+#: ../src/gsb_transactions_list.c:408
 msgid "Quick file import by rules"
 msgstr ""
 
 #. archive button
-#: ../src/gsb_transactions_list.c:431
+#: ../src/gsb_transactions_list.c:423
 #, fuzzy
 msgid "Recreates archive"
 msgstr "Suprimarea unui terţ"
 
-#: ../src/gsb_transactions_list.c:433
+#: ../src/gsb_transactions_list.c:425
 #, fuzzy
 msgid "Recreates the line of the archive and hiding the transactions"
 msgstr "Şterge o operaţie planificată"
 
-#: ../src/gsb_transactions_list.c:507
+#: ../src/gsb_transactions_list.c:499
 #, fuzzy
 msgid "Edit the rule"
 msgstr "Sold iniţial"
 
-#: ../src/gsb_transactions_list.c:515
+#: ../src/gsb_transactions_list.c:507
 #, fuzzy
 msgid "Remove the rule"
 msgstr "Creaţia unui nume de fişier de conturi"
 
-#: ../src/gsb_transactions_list.c:585
+#: ../src/gsb_transactions_list.c:577
 msgid "Simple view"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:591
+#: ../src/gsb_transactions_list.c:583
 #, fuzzy
 msgid "Two lines view"
 msgstr "Mod <două linii>"
 
-#: ../src/gsb_transactions_list.c:597
+#: ../src/gsb_transactions_list.c:589
 #, fuzzy
 msgid "Three lines view"
 msgstr "Mod <trei linii>"
 
-#: ../src/gsb_transactions_list.c:631
+#: ../src/gsb_transactions_list.c:623
 #, fuzzy
 msgid "Show reconciled transactions"
 msgstr "Operaţii apropiate"
 
-#: ../src/gsb_transactions_list.c:645 ../src/ui/grisbi_menu.ui.h:32
+#: ../src/gsb_transactions_list.c:637 ../src/ui/grisbi_menu.ui.h:32
 #, fuzzy
 msgid "Show lines archives"
 msgstr "Devize cunoscute"
 
-#: ../src/gsb_transactions_list.c:1142
+#: ../src/gsb_transactions_list.c:1134
 msgid "P"
 msgstr "P"
 
-#: ../src/gsb_transactions_list.c:1146
+#: ../src/gsb_transactions_list.c:1138
 msgid "T"
 msgstr "T"
 
 #. set the R on the transaction
-#: ../src/gsb_transactions_list.c:1150 ../src/gsb_transactions_list.c:2011
+#: ../src/gsb_transactions_list.c:1142 ../src/gsb_transactions_list.c:2003
 msgid "R"
 msgstr "R"
 
-#: ../src/gsb_transactions_list.c:1538
+#: ../src/gsb_transactions_list.c:1530
 #, fuzzy, c-format
 msgid "Do you want to add the transactions of the archive %s into the list?"
 msgstr "Vreţi să recuperaţi de asemenea operaţiunile ultimei ventilaţii ?"
 
-#: ../src/gsb_transactions_list.c:1551
+#: ../src/gsb_transactions_list.c:1543
 msgid ""
 "An archive was clicked but Grisbi is unable to get the name. It seems like a "
 "bug.\n"
 "Please try to reproduce and contact the Grisbi team."
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:1555
+#: ../src/gsb_transactions_list.c:1547
 msgid ""
 "An archive was clicked but it seems to have the number 0, which should not "
 "happen.\n"
 "Please try to reproduce and contact the Grisbi team."
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:1942
+#: ../src/gsb_transactions_list.c:1934
 msgid ""
 "You cannot switch a transaction between R and non R while reconciling.\n"
 "Please finish or cancel the reconciliation first."
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:1954
+#: ../src/gsb_transactions_list.c:1946
 #, fuzzy, c-format
 msgid ""
 "You are trying to reconcile or unreconcile a transaction manually, which is "
@@ -8971,7 +8977,7 @@ msgstr ""
 
 #. we warn the user the transaction disappear
 #. * don't laugh ! there were several bugs reports about a transaction which disappear :-)
-#: ../src/gsb_transactions_list.c:2023
+#: ../src/gsb_transactions_list.c:2015
 msgid ""
 "The transaction has disappear from the list...\n"
 "Don't worry, it's because you marked it as R, and you choosed not to show "
@@ -8979,26 +8985,26 @@ msgid ""
 "did."
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:2024
+#: ../src/gsb_transactions_list.c:2016
 #, fuzzy
 msgid "Marking a transaction as R"
 msgstr "Marcaţi operaţiunile"
 
-#: ../src/gsb_transactions_list.c:2103
+#: ../src/gsb_transactions_list.c:2095
 #, fuzzy
 msgid "Select the reconciliation to associate to the selected transaction: "
 msgstr "Operaţiile apropiate:"
 
-#: ../src/gsb_transactions_list.c:2255
+#: ../src/gsb_transactions_list.c:2247
 msgid "Grisbi couldn't get the selection, operation canceled..."
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:2300
+#: ../src/gsb_transactions_list.c:2292
 #, fuzzy
 msgid "Impossible to delete an archived transaction."
 msgstr "Imposibil de a suprima o operaţiune listată."
 
-#: ../src/gsb_transactions_list.c:2309
+#: ../src/gsb_transactions_list.c:2301
 msgid ""
 "Impossible to delete a reconciled transaction.\n"
 "The transaction, the contra-transaction or the children if it is a split are "
@@ -9006,75 +9012,75 @@ msgid ""
 "necessary."
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:2324
+#: ../src/gsb_transactions_list.c:2316
 #, c-format
 msgid ""
 "Do you really want to delete the child of the transaction with party '%s' ?"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:2336
+#: ../src/gsb_transactions_list.c:2328
 #, c-format
 msgid "Do you really want to delete transaction with party '%s' ?"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:2543
+#: ../src/gsb_transactions_list.c:2535
 #, fuzzy
 msgid "Displays the contra-transaction"
 msgstr "Afişarea tranzacţiilor"
 
-#: ../src/gsb_transactions_list.c:2586 ../src/ui/grisbi_menu.ui.h:24
+#: ../src/gsb_transactions_list.c:2578 ../src/ui/grisbi_menu.ui.h:24
 msgid "Use selected transaction as a template"
 msgstr "Utiliza operaţiunea selecţionată ca model"
 
-#: ../src/gsb_transactions_list.c:2604
+#: ../src/gsb_transactions_list.c:2596
 msgid "Convert transaction to scheduled transaction"
 msgstr "Convertirea operaţiunii în operaţiune planificată"
 
 #. Change cell content.
-#: ../src/gsb_transactions_list.c:2631
+#: ../src/gsb_transactions_list.c:2623
 msgid "Change cell content"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:2693
+#: ../src/gsb_transactions_list.c:2685
 #, fuzzy
 msgid "Clear cell"
 msgstr "Anulare"
 
-#: ../src/gsb_transactions_list.c:3086
+#: ../src/gsb_transactions_list.c:3078
 msgid "Cannot move a transfer on his contra-account"
 msgstr "Imposibil de a deplasa un virament spre contul său de destinaţie"
 
 #. sort by line
-#: ../src/gsb_transactions_list.c:3390
+#: ../src/gsb_transactions_list.c:3382
 #, fuzzy
 msgid "Sort list by: "
 msgstr "Tri pe dată:"
 
-#: ../src/gsb_transactions_list.c:3437
+#: ../src/gsb_transactions_list.c:3429
 msgid "alignment: "
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:3445
+#: ../src/gsb_transactions_list.c:3437
 msgid "LEFT"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:3459
+#: ../src/gsb_transactions_list.c:3451
 msgid "CENTER"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:3473
+#: ../src/gsb_transactions_list.c:3465
 msgid "RIGHT"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:3901
+#: ../src/gsb_transactions_list.c:3893
 msgid "Transfer to a deleted account"
 msgstr "Virament spre un cont suprimat"
 
-#: ../src/gsb_transactions_list.c:3903
+#: ../src/gsb_transactions_list.c:3895
 msgid "Transfer from a deleted account"
 msgstr "Virament de un cont suprimat"
 
-#: ../src/gsb_transactions_list.c:4031 ../src/gsb_transactions_list.c:4147
+#: ../src/gsb_transactions_list.c:4023 ../src/gsb_transactions_list.c:4139
 msgid ""
 "Some children didn't find their mother in the list, this shouldn't happen "
 "and there is probably a bug behind that. Please contact the Grisbi team.\n"
@@ -9082,7 +9088,7 @@ msgid ""
 "The concerned children number are:\n"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:4063 ../src/gsb_transactions_list.c:4173
+#: ../src/gsb_transactions_list.c:4055 ../src/gsb_transactions_list.c:4165
 msgid ""
 "You have just recovered an archive, if you don't see any new transaction, "
 "remember that the R transactions are not showed so the archived transactions "
@@ -9091,14 +9097,14 @@ msgid ""
 "Show the R transactions to make them visible."
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:4570
+#: ../src/gsb_transactions_list.c:4562
 #, fuzzy
 msgid "Do you really want to delete this file import rule?"
 msgstr ""
 "Vreţi să ştergeţi pur şi simplu această împrejurare s'au operatia "
 "planificată ?"
 
-#: ../src/gsb_transactions_list.c:4630
+#: ../src/gsb_transactions_list.c:4622
 #, c-format
 msgid ""
 "Some children didn't find their mother in the list, this shouldn't happen "
@@ -10277,6 +10283,11 @@ msgstr ""
 msgid "Decimal and thousands separator"
 msgstr ""
 
+#: ../src/parametres.c:1211
+#, fuzzy, c-format
+msgid "Could not encrypt file"
+msgstr "Fişier Postscript"
+
 #: ../src/plugins/gnucash/gnucash.c:134
 msgid "Invalid Gnucash account, please check gnucash file is not compressed."
 msgstr ""
@@ -10971,13 +10982,13 @@ msgstr "Afişarea tranzacţiilor"
 
 #. this value should not be changed here, check later if i'm right,
 #. * for now just show a message
-#: ../src/transaction_list.c:1599
+#: ../src/transaction_list.c:1601
 msgid ""
 "Try to change a visible line by transaction_list_set. It shouldn't append! "
 "Check that."
 msgstr ""
 
-#: ../src/transaction_list.c:1794
+#: ../src/transaction_list.c:1796
 #, c-format
 msgid ""
 "Trying to append the child number %d to the mother %d in the model, but no "

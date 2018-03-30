@@ -175,11 +175,12 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
 					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
                       priv->checkbutton_crypt_file);
 
+#ifdef HAVE_SSL
     g_signal_connect (priv->checkbutton_crypt_file,
                       "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
                       &etat.crypt_file);
-
+#endif
 	g_signal_connect_after (priv->checkbutton_crypt_file,
 							"toggled",
 							G_CALLBACK (gsb_gui_encryption_toggled),
