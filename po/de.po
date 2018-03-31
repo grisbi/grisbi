@@ -7,21 +7,19 @@
 # Martin Stromberger <ma.stromberger@gmx.at>, 2008, 2009, 2010, 2011.
 # Martin Stromberger <ma.stromberger@gmx.at>, 2012, 2013, 2018.
 # Martin Stromberger <mstromberger@aon.at>, 2018.
-# Pierre Biava <pierre@pierre.biava.name>, 2018.
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-29 07:44+0200\n"
-"PO-Revision-Date: 2018-03-29 07:43+0200\n"
-"Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
-"Language-Team: français <>\n"
+"POT-Creation-Date: 2018-03-29 22:13+0200\n"
+"PO-Revision-Date: 2018-03-29 22:04+0100\n"
+"Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
+"Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Gtranslator 2.91.7\n"
+"X-Generator: Lokalize 2.0\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../src/accueil.c:127
@@ -196,11 +194,11 @@ msgstr "Dreizeilig - Zeilen: "
 
 #: ../src/affichage_liste.c:159
 msgid "Sort by value date (if fail, try with the date)"
-msgstr "nach Buchungsdatum (falls nicht möglich dann nach Datum)"
+msgstr "wenn möglich nach Abrechnungstag, sonst nach Datum"
 
 #: ../src/affichage_liste.c:160
 msgid "Sort by value date and then by date"
-msgstr "zuerst nach Buchungsdatum, danach nach Datum"
+msgstr "zuerst nach Abrechnungstag, danach nach Datum"
 
 #: ../src/affichage_liste.c:163
 msgid "Sort by transaction number"
@@ -208,11 +206,11 @@ msgstr "nach Buchungsnummer"
 
 #: ../src/affichage_liste.c:164
 msgid "Sort by type of amount (credit debit)"
-msgstr "nach Art (Einnahme oder Ausgabe)"
+msgstr "nach Art, Einnahmen oder Ausgaben"
 
 #: ../src/affichage_liste.c:165
 msgid "Sort by payee name (if fail, by transaction number)"
-msgstr "nach Empfänger (falls nicht möglich dann nach Buchungsnummer)"
+msgstr "wenn möglich nach Empfänger, sonst nach Buchungsnummer"
 
 #: ../src/affichage_liste.c:166
 msgid "Sort by date and then by transaction number"
@@ -229,7 +227,7 @@ msgstr "Anzeigeoptionen"
 
 #: ../src/affichage_liste.c:235
 msgid "Use simple click to select transactions"
-msgstr "Buchungen mit Einfachklick bearbeiten"
+msgstr "Buchungen mit Einfachklick selektieren"
 
 #: ../src/affichage_liste.c:242
 msgid "Highlights the transaction that gives the balance today"
@@ -265,11 +263,11 @@ msgstr "setzt den Fokus in das nächste Feld"
 
 #: ../src/affichage_liste.c:575
 msgid "terminates transaction"
-msgstr "schließt Buchung ab"
+msgstr "schließt die Buchung ab"
 
 #: ../src/affichage_liste.c:580
 msgid "Automatic financial year is set"
-msgstr "Geschäftsjahr automatische Zuordnung"
+msgstr "Geschäftsjahr Zuordnung"
 
 #: ../src/affichage_liste.c:581
 msgid "according to transaction date"
@@ -277,7 +275,7 @@ msgstr "entsprechend Datum der Buchung"
 
 #: ../src/affichage_liste.c:582
 msgid "according to transaction value date"
-msgstr "entsprechend Datum der Durchführung"
+msgstr "entsprechend Abrechnungstag"
 
 #: ../src/affichage_liste.c:588
 msgid "Sorting descending in the button of the exercises"
@@ -301,7 +299,7 @@ msgstr "Automatisch die letzte Buchung vom ausgewählten Empfänger übernehmen"
 
 #: ../src/affichage_liste.c:638
 msgid "Erase the credit and debit fields"
-msgstr "Die Werte für Einnahmen oder Ausgaben zurücksetzen"
+msgstr "Die Werte für Einnahmen und Ausgaben zurücksetzen"
 
 #: ../src/affichage_liste.c:650
 msgid "Automatically recover the children of the associated transaction"
@@ -309,12 +307,11 @@ msgstr "Teilbuchungen von Splittbuchungen automatisch erstellen"
 
 #: ../src/affichage_liste.c:662
 msgid "Limit the filling with payees belonging to the current account"
-msgstr ""
-"Die Vervollständigung aus Empfängern auf das aktuelle Konto beschränken"
+msgstr "Die Vervollständigung für Empfänger auf das aktuelle Konto beschränken"
 
 #: ../src/affichage_liste.c:670
 msgid "Mix credit/debit categories"
-msgstr "Einnahmen und Ausgabenkategorien nicht getrennt auflisten"
+msgstr "Kategorien für Einnahmen/Ausgaben nicht getrennt auflisten"
 
 #: ../src/affichage_liste.c:676
 msgid "Case sensitive completion"
@@ -330,7 +327,7 @@ msgstr "Neue Kategorien/Gruppen dürfen nicht erstellt werden"
 
 #: ../src/affichage_liste.c:697
 msgid "Maximum items showed in drop down lists (0 for no limit): "
-msgstr "Maximale Einträge in der Auswahlliste [0 für kein Limit]: "
+msgstr "Maximale Einträge in der Auswahlliste (0 für kein Limit): "
 
 #. à la base, on met une vbox
 #: ../src/affichage_liste.c:864 ../src/grisbi_prefs.c:522
@@ -363,7 +360,7 @@ msgstr "Allgemeine Einstellungen"
 #. Calculation of period
 #: ../src/bet_config.c:124
 msgid "Common data"
-msgstr "Allgemeine Daten"
+msgstr "Gemeinsame Einstellungen"
 
 #. option pour les comptes de caisse
 #: ../src/bet_config.c:131
@@ -389,8 +386,8 @@ msgstr "aktuelles Datum"
 #: ../src/bet_config.c:205
 msgid "Note: This option is used if no starting date for forecasts."
 msgstr ""
-"Bemerkung: Diese Einstellung wird herangezogen wenn kein Beginndatum für die "
-"Prognose vorhanden ist."
+"Anmerkung: Diese Einstellung wird bei einem fehlenden Datum für die Prognose "
+"herangezogen."
 
 #: ../src/bet_config.c:263 ../src/grisbi_prefs.c:614
 msgid "Accounts data"
@@ -428,11 +425,11 @@ msgstr "Prognose anzeigen"
 #. partie mensuelle
 #: ../src/bet_config.c:450
 msgid "Duration estimation:"
-msgstr "Daten Zusammenstellung: "
+msgstr "Daten Zusammenstellung:"
 
 #: ../src/bet_config.c:616
 msgid "Labels for transactions:"
-msgstr "Bezeichnungen für Buchungen: "
+msgstr "Bezeichnungen für Buchungen:"
 
 #: ../src/bet_config.c:621 ../src/bet_config.c:640 ../src/bet_config.c:658
 msgid "By default"
@@ -458,11 +455,11 @@ msgstr "Gruppen"
 
 #: ../src/bet_config.c:635
 msgid "Labels for scheduled transactions:"
-msgstr "Bezeichnungen für geplante Buchungen: "
+msgstr "Bezeichnungen für geplante Buchungen:"
 
 #: ../src/bet_config.c:653
 msgid "Labels for futur data:"
-msgstr "Bezeichnungen für zukünftige Daten: "
+msgstr "Bezeichnungen für zukünftige Daten:"
 
 #: ../src/bet_config.c:667
 msgid ""
@@ -809,7 +806,9 @@ msgstr "Monate"
 msgid ""
 "Error: the frequency defined by the user or the amount is not specified or "
 "the date is invalid."
-msgstr "Fehler: Die Frequenz ist nicht festgelegt oder das Datum ist ungültig."
+msgstr ""
+"Fehler: Die Frequenz oder der Betrag sind nicht festgelegt oder das Datum "
+"ist ungültig."
 
 #: ../src/bet_future.c:253 ../src/bet_future.c:1991 ../src/bet_future.c:2961
 #: ../src/bet_future.c:3239 ../src/gsb_currency.c:732
@@ -996,7 +995,7 @@ msgstr "Teilsaldo"
 #. Create the dialog
 #: ../src/bet_future.c:2223
 msgid "Configuring a deferred debit account"
-msgstr "Saldo von Ausgabenkonto übernehmen"
+msgstr "Ausgabenkonto mit verzögerten Buchungen konfigurieren"
 
 #. list of accounts
 #: ../src/bet_future.c:2239
@@ -1053,7 +1052,7 @@ msgstr ""
 
 #: ../src/bet_future.c:2951 ../src/bet_future.c:3229
 msgid "Error: You must select an account."
-msgstr "Es muss mindestens ein Konto ausgewählt werden."
+msgstr "Fehler: Es muss mindestens ein Konto ausgewählt werden."
 
 #: ../src/bet_future.c:2952 ../src/bet_future.c:3230
 msgid "Missing data"
@@ -1061,7 +1060,7 @@ msgstr "Fehlende Daten"
 
 #: ../src/bet_future.c:2960 ../src/bet_future.c:3238
 msgid "Error: a date is not present or a field is in error."
-msgstr "Es wurden keine oder fehlerhafte Daten eingegeben."
+msgstr "Fehler: Es wurden keine oder fehlerhafte Daten eingegeben."
 
 #. Name entry
 #: ../src/bet_future.c:3007 ../src/categories_onglet.c:752
@@ -1083,8 +1082,8 @@ msgid ""
 "Error: is missing one or more links between currencies.\n"
 "You need to fix it and start over."
 msgstr ""
-"Achtung: Es fehlen eine oder mehrere Verknüpfungen zwischen den Währungen.\n"
-"Bitte die Verknüpfungen wiederherstellen und Grisbi neu starten."
+"Fehler: Es fehlen eine oder mehrere Verknüpfungen zwischen den Währungen.\n"
+"Die Verknüpfungen wiederherstellen und Grisbi neu starten."
 
 #: ../src/bet_future.c:3193
 msgid ""
@@ -1108,7 +1107,7 @@ msgstr "Feb"
 
 #: ../src/bet_graph.c:153
 msgid "Mar"
-msgstr "Mar"
+msgstr "Mär"
 
 #: ../src/bet_graph.c:153
 msgid "Apr"
@@ -1136,7 +1135,7 @@ msgstr "Sep"
 
 #: ../src/bet_graph.c:155
 msgid "Oct"
-msgstr "Oct"
+msgstr "Okt"
 
 #: ../src/bet_graph.c:155
 msgid "Nov"
@@ -1144,7 +1143,7 @@ msgstr "Nov"
 
 #: ../src/bet_graph.c:155
 msgid "Dec"
-msgstr "Dec"
+msgstr "Dez"
 
 #: ../src/bet_graph.c:160
 msgid "January"
@@ -1228,11 +1227,11 @@ msgstr "Datum %s : Betrag %s"
 #. la grille est visible
 #: ../src/bet_graph.c:1021 ../src/bet_graph.c:1055
 msgid "Hide grid"
-msgstr "Gitter verbergen"
+msgstr "Linien verbergen"
 
 #: ../src/bet_graph.c:1023 ../src/bet_graph.c:1057 ../src/ui/bet_graph.ui.h:2
 msgid "Show grid"
-msgstr "Gitter anzeigen"
+msgstr "Linien anzeigen"
 
 #: ../src/bet_graph.c:1361 ../src/tiers_onglet.c:1132
 msgid "Options"
@@ -1240,9 +1239,7 @@ msgstr "Einstellungen"
 
 #: ../src/bet_graph.c:1554
 msgid "You can not exceed one year of visualization"
-msgstr ""
-"Die maximale Zeitspanne für die Datenanzeige von einem Jahr wurde "
-"überschritten"
+msgstr "Die maximale Zeitspanne für die Datenanzeige ist ein Jahr"
 
 #: ../src/bet_graph.c:1554
 msgid "Overflow"
@@ -1267,14 +1264,12 @@ msgstr "Linie"
 #: ../src/bet_graph.c:2203
 #, c-format
 msgid "Amounts %s - %s for the account: '%s'"
-msgstr ""
-"Auflistung nach %s in der Zeitspanne vom  Geschäftsjahr %s für das Konto: "
-"«%s»"
+msgstr "Beträge %s - %s für das Konto: '%s'"
 
 #: ../src/bet_graph.c:2216
 #, c-format
 msgid "Monthly amounts since %s for the account: '%s'"
-msgstr "Auflistung nach monatlichen Beträgen seit %s für das Konto: «%s»"
+msgstr "Auflistung nach monatlichen Beträgen seit %s für das Konto: '%s'"
 
 #: ../src/bet_graph.c:2356
 msgid "Expenses"
@@ -1310,7 +1305,7 @@ msgstr "aktuelles Geschäftsjahr"
 
 #: ../src/bet_hist.c:641
 msgid "Amount retained"
-msgstr "manuelle Eingabe"
+msgstr "Verbleibender Betrag"
 
 #. devel_debug (NULL);
 #. the fyear list store, contains 3 columns :
@@ -1333,15 +1328,12 @@ msgstr "Den durchschnittlichen Betrag kopieren"
 #: ../src/bet_hist.c:1801
 #, c-format
 msgid "Amounts by %s on 12 months rolling for the account: '%s'"
-msgstr ""
-"Auflistung nach %s in der Zeitspanne von 12 Monaten für das Konto: «%s»"
+msgstr "Beträge nach %s in der Zeitspanne von 12 Monaten für das Konto: '%s'"
 
 #: ../src/bet_hist.c:1806
 #, c-format
 msgid "Amounts by %s in %s for the account: «%s»"
-msgstr ""
-"Auflistung nach %s in der Zeitspanne vom  Geschäftsjahr %s für das Konto: "
-"«%s»"
+msgstr "Beträge nach %s in der Zeitspanne %s für das Konto: '%s'"
 
 #. sectors button
 #: ../src/bet_hist.c:1962
@@ -1359,7 +1351,7 @@ msgstr "Auflistung exportieren"
 #: ../src/bet_tab.c:615
 #, c-format
 msgid "Balance estimate of the account \"%s\" from %s to %s"
-msgstr "Voraussichtlicher Saldo für das Konto «%s» vom %s bis %s"
+msgstr "Voraussichtlicher Saldo für das Konto '%s' vom %s bis %s"
 
 #: ../src/bet_tab.c:632
 msgid "balance beginning of period"
@@ -1377,8 +1369,7 @@ msgstr "automatisch"
 
 #: ../src/bet_tab.c:759
 msgid "Check the box to automatically change start date"
-msgstr ""
-"Für eine automatische Änderung vom Beginndatum die 'Checkbox' auswählen"
+msgstr "Für eine automatische Änderung vom Beginndatum auswählen"
 
 #. Description entry
 #: ../src/bet_tab.c:866 ../src/etats_onglet.c:747 ../src/tiers_onglet.c:747
@@ -1430,7 +1421,7 @@ msgstr "Buchung regelmäßig ausführen"
 
 #: ../src/bet_tab.c:1650
 msgid "Insert the balance of a deferred debit account"
-msgstr "Saldo von Ausgabenkonto übernehmen"
+msgstr "Saldo von Ausgabenkonto mit verzögerten Buchungen übernehmen"
 
 #. redo item
 #: ../src/bet_tab.c:1672
@@ -1828,15 +1819,15 @@ msgstr ""
 
 #: ../src/dialog.c:92
 msgid "Recover split?"
-msgstr "Splittbuchung wiederherstellen"
+msgstr "Splittbuchung erstellen"
 
 #: ../src/dialog.c:93
 msgid ""
 "This is a split of transaction, associated transactions can be recovered as "
 "in last transaction with this payee.  Do you want to recover them?"
 msgstr ""
-"Bei dieser Splittbuchung können die dazugehörigen Teilbuchungen "
-"wiederhergestellt werden. Sollen die Teilbuchungen wiederhergestellt werden?"
+"Bei dieser Splittbuchung können die dazugehörigen Teilbuchungen erstellt "
+"werden. Sollen die Teilbuchungen erstellt werden?"
 
 #: ../src/dialog.c:97
 msgid "No inconsistency found."
@@ -1888,13 +1879,13 @@ msgid ""
 "Never use your original file Grisbi: you could make it unusable.\n"
 "Make a copy now."
 msgstr ""
-"Achtung, bitte beachten Sie das es sich um eine Entwicklungsversion handelt. "
+"Warnung: bitte beachten Sie das es sich um eine Entwicklungsversion handelt. "
 "Verwenden Sie auf keinen Fall die Produktivdatei von Grisbi.\n"
 "Bitte erstellen Sie jetzt eine Kopie von der Produktivdatei."
 
 #: ../src/dialog.c:359 ../src/gsb_scheduler_list.c:2173
 msgid "Keep this choice permanently?"
-msgstr "Diese Auswahl beibehalten?"
+msgstr "Diese Meldung nicht mehr anzeigen?"
 
 #: ../src/dialog.c:544
 msgid "Do not show this message again"
@@ -1969,22 +1960,20 @@ msgstr "Grisbi %s Debug"
 #: ../src/erreur.c:303
 #, c-format
 msgid "Debug enabled, level is '%s'"
-msgstr "Debugging wurde mit dem Level '%s' aktiviert"
+msgstr "Debugging aktiviert, Level ist '%s'"
 
 #: ../src/erreur.c:320
 msgid "Wrong debug level, please check DEBUG_GRISBI environnement variable"
-msgstr ""
-"Falscher \"Debug-Level\", bitte \"DEBUG_GRISBI\" in der Umgebungsvariable "
-"prüfen"
+msgstr "Falscher Debug Level, bitte die Umgebungsvariable DEBUG_GRISBI prüfen"
 
 #: ../src/erreur.c:334
 msgid "Default debug level: Debug"
-msgstr "Standard Debug-Level: Debug"
+msgstr "Standard Debug Level: Debug"
 
 #: ../src/erreur.c:373
 #, c-format
 msgid "Debug updated by cmd line, level is '%s'"
-msgstr "Debugging wurde mit dem Level '%s' aktiviert"
+msgstr "Debug Level wurde aktualisiert, neuer Debug Level ist '%s'"
 
 #: ../src/erreur.c:414 ../src/erreur.c:670
 #, c-format
@@ -2309,7 +2298,7 @@ msgstr "Ausgaben"
 #: ../src/gsb_transactions_list.c:167 ../src/import_csv.c:70
 #: ../src/ui/etats_prefs.ui.h:17
 msgid "Value date"
-msgstr "Buchungsdatum"
+msgstr "Abrechnungstag"
 
 #: ../src/etats_affiche.c:2446 ../src/export_csv.c:792
 #: ../src/gsb_assistant_archive_export.c:153 ../src/gsb_form_widget.c:479
@@ -2500,7 +2489,7 @@ msgstr "Ungültiges Enddatum '%s'"
 #: ../src/etats_config.c:729 ../src/etats_config.c:964
 #: ../src/etats_config.c:969 ../src/etats_config.c:2590
 msgid "Performance issue."
-msgstr "Performance Problem"
+msgstr "Performance Problem."
 
 #: ../src/etats_config.c:334
 msgid ""
@@ -2654,16 +2643,16 @@ msgid ""
 "This report displays annual budget. You just need to select the account(s). "
 "By default all accounts are selected."
 msgstr ""
-"Dieser Bericht zeigt die Einnahmen und Ausgaben des aktuellen Jahres an. Die "
-"Sortierung erfolgt nach Kategorien und Unterkategorien. Es müssen nur die "
-"Konten ausgewählt werden, in der Vorlage sind alle Konten ausgewählt."
+"Dieser Bericht zeigt die Einnahmen und Ausgaben des aktuellen Jahres an. Es "
+"müssen nur die Konten ausgewählt werden, in der Vorlage sind alle Konten "
+"ausgewählt."
 
 #. Blank report
 #: ../src/etats_onglet.c:133
 msgid "This report is an empty one. You need to customize it entirely."
 msgstr ""
-"Dieser Bericht ist nicht vorbefüllt. Sie können diesen Bericht nach Ihren "
-"Bedürfnissen anpassen."
+"Dieser Bericht ist nicht vorbefüllt. Sie können diesen Bericht individuell "
+"anpassen."
 
 #. Cheques deposit
 #: ../src/etats_onglet.c:139
@@ -2713,7 +2702,7 @@ msgstr "Grisbi Bericht (egsb Datei)"
 
 #: ../src/etats_onglet.c:325
 msgid "HTML file"
-msgstr "Html Datei"
+msgstr "HTML Datei"
 
 #: ../src/etats_onglet.c:326
 msgid "CSV file"
@@ -2724,7 +2713,7 @@ msgid "Exporting report..."
 msgstr "Bericht exportieren ..."
 
 #: ../src/etats_onglet.c:368 ../src/gsb_debug.c:248 ../src/gsb_file.c:361
-#: ../src/gsb_file.c:487 ../src/gsb_file.c:799
+#: ../src/gsb_file.c:487 ../src/gsb_file.c:800
 msgid "Done"
 msgstr "Fertig"
 
@@ -2863,8 +2852,7 @@ msgstr "Bericht '%s' löschen?"
 #: ../src/etats_onglet.c:1418
 msgid "This will irreversibly remove this report.  There is no undo for this."
 msgstr ""
-"Der ausgewählte Bericht wird gelöscht.\n"
-"Die Löschung kann nicht rückgängig gemacht werden."
+"Der ausgewählte Bericht wird gelöscht. Es gibt keine Wiederherstellung."
 
 #. append group page
 #: ../src/etats_prefs.c:652
@@ -3071,7 +3059,7 @@ msgstr "Datum"
 
 #: ../src/etats_prefs_private.h:56 ../src/ui/etats_prefs.ui.h:27
 msgid "value date"
-msgstr "Buchungsdatum"
+msgstr "Abrechnungstag"
 
 #: ../src/etats_prefs_private.h:57 ../src/ui/etats_prefs.ui.h:25
 msgid "transaction number"
@@ -3171,20 +3159,20 @@ msgstr "Die Einstellungen für den Export auswählen"
 #: ../src/export.c:364 ../src/export.c:515
 #: ../src/gsb_assistant_archive_export.c:306
 msgid "QIF format"
-msgstr "QIF Format (*.qif)"
+msgstr "QIF Format"
 
 #: ../src/export.c:365 ../src/export.c:516
 #: ../src/gsb_assistant_archive_export.c:307
 msgid "CSV format"
-msgstr "CSV Format (*.csv)"
+msgstr "CSV Format"
 
 #: ../src/export.c:381
 msgid "Force US dates"
-msgstr "Datum im amerikanischen Format erzwingen"
+msgstr "Amerikanisches Datumsformat verwenden"
 
 #: ../src/export.c:386
 msgid "Force US numbers"
-msgstr "Zahlen im amerikanischen Format erzwingen"
+msgstr "Amerikanisches Zahlenformat verwenden"
 
 #. Adding treat all files button
 #: ../src/export.c:396
@@ -3376,7 +3364,7 @@ msgstr "Namen von Kategorien"
 
 #: ../src/file_obfuscate.c:488
 msgid "Hide budgets names"
-msgstr "Namen von Gruppen anzeigen"
+msgstr "Namen von Gruppen"
 
 #: ../src/file_obfuscate.c:492
 msgid "Hide notes"
@@ -3887,7 +3875,7 @@ msgstr "Konvertieren nach"
 
 #: ../src/go-charmap-sel.c:486
 msgid "This value determines which iconv test to perform."
-msgstr "Dieser Wert wird von \"iconv\" für die Prüfung herangezogen."
+msgstr "Dieser Wert wird von iconv für die Prüfung herangezogen."
 
 #: ../src/go-optionmenu.c:440
 msgid "Menu"
@@ -3911,7 +3899,7 @@ msgstr "Debug-Modus: Level 1-5"
 
 #: ../src/grisbi_app.c:652
 msgid "DEBUG"
-msgstr "Debug"
+msgstr "DEBUG"
 
 #: ../src/grisbi_app.c:665
 msgid "[FILE...]"
@@ -3925,7 +3913,7 @@ msgstr "Fehler bei der Sigaktion. SIGSEGV wird nicht eingeschlossen\n"
 #: ../src/grisbi_app.c:824
 #, c-format
 msgid "Error on sigaction: SIGTERM won't be trapped\n"
-msgstr "Fehler bei der Sigaktion. SIGSEGV wird nicht eingeschlossen\n"
+msgstr "Fehler bei der Sigaktion. SIGTERM wird nicht eingeschlossen\n"
 
 #: ../src/grisbi_app.c:827
 #, c-format
@@ -3956,7 +3944,7 @@ msgstr "Archive"
 
 #: ../src/grisbi_prefs.c:465
 msgid "Various settings"
-msgstr "Sonstiges"
+msgstr "Allgemeines"
 
 #: ../src/grisbi_prefs.c:471 ../src/grisbi_win.c:450
 msgid "Main page"
@@ -3982,7 +3970,7 @@ msgstr "Adressen & Bezeichnungen"
 
 #: ../src/grisbi_prefs.c:499 ../src/parametres.c:623
 msgid "Payees, categories and budgetaries"
-msgstr "Währungen & Sortierung"
+msgstr "Währungen & Einstellungen"
 
 #. On récupère le nom de la page
 #: ../src/grisbi_prefs.c:505 ../src/prefs/prefs_page_display_gui.c:233
@@ -4080,7 +4068,7 @@ msgstr "Planer"
 
 #: ../src/grisbi_win.c:644
 msgid "Import a CSV, QIF, OFX file ..."
-msgstr "Daten importieren"
+msgstr "Daten importieren ..."
 
 #: ../src/grisbi_win.c:1282
 msgid "Unnamed account"
@@ -4676,7 +4664,7 @@ msgstr "%s (%d von %d)"
 #: ../src/gsb_assistant_file.c:117 ../src/gsb_assistant_first.c:88
 #: ../src/gsb_assistant_first.c:143
 msgid "Welcome to Grisbi!"
-msgstr "Willkommen zu Grisbi!"
+msgstr "Willkommen zu Grisbi"
 
 #: ../src/gsb_assistant_file.c:118
 msgid ""
@@ -4907,7 +4895,7 @@ msgstr "Die letzte Datei automatisch öffnen"
 #. automatically save file at closing
 #: ../src/gsb_assistant_first.c:243 ../src/ui/prefs_page_files.ui.h:4
 msgid "Automatically save on exit"
-msgstr "Beim Beenden automatisch speichern"
+msgstr "Automatisch speichern"
 
 #: ../src/gsb_assistant_first.c:264 ../src/ui/prefs_page_files.ui.h:13
 msgid "Make a backup copy before saving files"
@@ -4954,7 +4942,7 @@ msgstr ""
 
 #: ../src/gsb_assistant_reconcile_config.c:170
 msgid "No marked transactions without reconciliation found!"
-msgstr "Es wurden keine Buchungen ohne Abstimmungsnummer gefunden !"
+msgstr "Es wurden keine Buchungen ohne Abstimmungsnummer gefunden!"
 
 #. come here if we have some orphan transactions
 #. * this can happen by 2 ways :
@@ -5172,7 +5160,7 @@ msgid ""
 msgstr ""
 "Es können %d Buchungen einer Abstimmung zugeordnet werden.\n"
 "Die Zuordnung kann mit einem Klick auf den Button 'Automatische Zuordnung "
-"ausführen' vorgenommen werden"
+"ausführen' vorgenommen werden."
 
 #: ../src/gsb_assistant_reconcile_config.c:948
 #: ../src/gsb_assistant_reconcile_config.c:1009
@@ -6757,8 +6745,7 @@ msgstr "Zeichen"
 #, c-format
 msgid "Currency '%s' is used in current file.  Grisbi can't delete it."
 msgstr ""
-"Die Währung %s wird von der aktuellen Datei benötigt.\n"
-"Diese Währung kann nicht gelöscht werden."
+"Die Währung '%s' ist in Verwendung und kann daher nicht gelöscht werden."
 
 #: ../src/gsb_currency_config.c:650 ../src/gsb_currency_config.c:674
 #, c-format
@@ -6880,7 +6867,7 @@ msgstr "Ungültig"
 
 #: ../src/gsb_currency_link_config.c:646
 msgid "You must create at least another currency to continue."
-msgstr "Es muss zumindest eine weitere Währung vorhanden sein"
+msgstr "Es muss zumindest eine weitere Währung vorhanden sein."
 
 #: ../src/gsb_currency_link_config.c:647
 msgid "The number of currencies is insufficient"
@@ -6973,7 +6960,7 @@ msgstr ""
 
 #: ../src/gsb_data_partial_balance.c:1325
 msgid "Attention missing link between currencies"
-msgstr "Achtung - fehlende Verknüpfung zwischen den Währungen"
+msgstr "Warnung: fehlende Verknüpfung zwischen den Währungen"
 
 #: ../src/gsb_data_partial_balance.c:1692
 msgid "Add a partial balance"
@@ -7351,7 +7338,7 @@ msgstr "Die Datei kann nicht geöffnet werden '%s': %s"
 msgid "File does not exist"
 msgstr "Die Datei ist nicht vorhanden"
 
-#: ../src/gsb_file.c:102 ../src/gsb_file.c:116 ../src/gsb_file.c:741
+#: ../src/gsb_file.c:102 ../src/gsb_file.c:116 ../src/gsb_file.c:742
 #, c-format
 msgid "Error loading file '%s'"
 msgstr "Fehler beim Öffnen der Datei '%s'"
@@ -7452,24 +7439,23 @@ msgstr "Grisbi Datei (*.gsb)"
 msgid "Loading accounts"
 msgstr "Konten laden"
 
-#: ../src/gsb_file.c:730
+#. Loading failed.
+#: ../src/gsb_file.c:729
+msgid "Failed to load accounts"
+msgstr "Fehler beim Laden der Konten"
+
+#: ../src/gsb_file.c:734
 msgid ""
 "The version of your file is less than 0.6. This file can not be imported by "
 "Grisbi."
 msgstr ""
-"Die Dateiversion ist kleiner als 0.6, Grisbi kann diese Datei nicht "
-"importieren."
+"Die Dateiversion ist kleiner als 0.6. Grisbi kann diese Datei nicht öffnen."
 
-#: ../src/gsb_file.c:732
+#: ../src/gsb_file.c:736
 msgid "Version of Grisbi file too old :"
-msgstr "Die Version von Grisbi ist zu alt: "
+msgstr "Die Version von Grisbi ist zu alt :"
 
-#. Loading failed.
-#: ../src/gsb_file.c:739
-msgid "Failed to load accounts"
-msgstr "Fehler beim Laden der Konten"
-
-#: ../src/gsb_file.c:745
+#: ../src/gsb_file.c:746
 #, c-format
 msgid ""
 "Grisbi was unable to load file. You should find the last backups in '%s', "
@@ -7485,7 +7471,7 @@ msgstr ""
 "Bitte kontaktieren Sie das Grisbi-Team (devel@listes.grisbi.org) um die "
 "Ursache für den Fehler zu finden."
 
-#: ../src/gsb_file.c:756
+#: ../src/gsb_file.c:757
 #, c-format
 msgid ""
 "Grisbi was unable to load file and the backups seem not to be activated... "
@@ -7502,7 +7488,7 @@ msgstr ""
 "Bitte kontaktieren Sie das Grisbi-Team (devel@listes.grisbi.org) um die "
 "Ursache für den Fehler zu finden."
 
-#: ../src/gsb_file.c:763
+#: ../src/gsb_file.c:764
 msgid ""
 "Grisbi was unable to load file and the backups seem not to be activated... "
 "This is a bad thing.\n"
@@ -7515,18 +7501,18 @@ msgstr ""
 "Ursache für den Fehler zu finden."
 
 #. ok, here the file or backup is loaded
-#: ../src/gsb_file.c:779
+#: ../src/gsb_file.c:780
 msgid "Checking schedulers"
 msgstr "Geplante Buchungen prüfen"
 
 #. check the amounts of all the accounts
-#: ../src/gsb_file.c:789
+#: ../src/gsb_file.c:790
 msgid "Checking amounts"
 msgstr "Beträge prüfen"
 
 #: ../src/gsb_file_load.c:3575
 msgid "This is not a Grisbi file... Loading aborted."
-msgstr "Diese Datei ist kein Grisbi Datei...der Ladevorgang wird abgebrochen."
+msgstr "Diese Datei ist kein Grisbi Datei... der Ladevorgang wird abgebrochen."
 
 #: ../src/gsb_file_load.c:3872 ../src/gsb_file_save.c:400
 #: ../src/parametres.c:1207
@@ -7567,16 +7553,17 @@ msgid ""
 "You will have to re-customize the icons and colors and you will have to "
 "abandon the encryption of your account file."
 msgstr ""
-"Beim Import aus einer Grisbi Datei mit Version %s ist die neue Datei nicht "
-"mehr kompatibel mit der Grisbi Version %s.\n"
+"Es wird eine Datei geöffnet, welche mit der Version %s von Grisbi erstellt "
+"wurde. Wenn diese Datei gespeichert wird ist die Datei nicht mehr kompatibel "
+"für Grisbi mit Version %s.\n"
 "\n"
-"Die Symbole und Farben müssen nach dem Import neu angepasst werden, die "
-"Verschlüsselung kann nicht weiterverwendet werden."
+"Die Symbole und Farben müssen neu angepasst werden, die Verschlüsselung kann "
+"nicht weiterverwendet werden."
 
 #: ../src/gsb_file_load.c:3959
 #, c-format
 msgid "Importing a file whose version is for an earlier version of Grisbi"
-msgstr "Daten aus einer vorherigen Grisbi-Version importieren"
+msgstr "Grisbi Datei aus einer Vorversion öffnen"
 
 #: ../src/gsb_file_load.c:4392
 #, c-format
@@ -7637,39 +7624,31 @@ msgstr "Einen Bericht importieren"
 
 #: ../src/gsb_file_others.c:629 ../src/gsb_file_others.c:636
 msgid "This is not a Grisbi file, loading canceled..."
-msgstr ""
-"Diese Datei ist keine Grisbi Datei,\n"
-"die Verarbeitung wird beendet..."
+msgstr "Diese Datei ist keine Grisbi Datei - die Verarbeitung wird beendet..."
 
 #: ../src/gsb_file_others.c:653 ../src/gsb_file_others.c:664
 #: ../src/gsb_file_others.c:681 ../src/gsb_file_others.c:704
 msgid "The file version is below 0.6.0, Grisbi cannot import it."
 msgstr ""
-"Die Dateiversion ist kleiner als 0.6, Grisbi kann diese Datei nicht "
-"importieren."
+"Die Dateiversion ist kleiner als 0.6 - Grisbi kann diese Datei nicht öffnen."
 
 #: ../src/gsb_file_others.c:656 ../src/gsb_file_others.c:707
 msgid "This is not a category file, loading canceled..."
 msgstr ""
-"Diese Datei ist keine Kategorien-Datei,\n"
-"die Verarbeitung wird beendet..."
+"Diese Datei ist keine Kategorien-Datei - die Verarbeitung wird beendet..."
 
 #: ../src/gsb_file_others.c:672
 msgid "This is not a budget file, loading canceled..."
-msgstr ""
-"Diese Datei ist keine Budget-Datei,\n"
-"die Verarbeitung wird beendet..."
+msgstr "Diese Datei ist keine Budget-Datei - die Verarbeitung wird beendet..."
 
 #: ../src/gsb_file_others.c:689
 msgid "This is not a report file, loading canceled..."
-msgstr ""
-"Diese Datei ist keine Bericht-Datei,\n"
-"die Verarbeitung wird beendet..."
+msgstr "Diese Datei ist keine Bericht-Datei - die Verarbeitung wird beendet..."
 
 #: ../src/gsb_file_save.c:405
 #, c-format
 msgid "Cannot save encrypted file '%s'"
-msgstr "Die verschlüsselte Datei konnte nicht gespeichert werden '%s'"
+msgstr "Die verschlüsselte Datei kann nicht gespeichert werden '%s'"
 
 #: ../src/gsb_file_util.c:71
 msgid "No name to the file !"
@@ -7720,7 +7699,7 @@ msgstr "Buchungsformular"
 #. create the check button to recover the children of splits
 #: ../src/gsb_form.c:366
 msgid "Recover the children"
-msgstr "Unterelemente anzeigen"
+msgstr "Unterelemente erstellen"
 
 #. create the valid/cancel buttons
 #: ../src/gsb_form.c:370 ../src/gsb_reconcile.c:315
@@ -7738,12 +7717,12 @@ msgstr "Umbuchung : "
 
 #: ../src/gsb_form.c:976
 msgid "Auto"
-msgstr "Auto"
+msgstr "automatisch"
 
 #: ../src/gsb_form.c:979 ../src/gsb_form_scheduler.c:142
 #: ../src/gsb_scheduler_list.c:1412 ../src/ui/grisbi_menu.ui.h:40
 msgid "Manual"
-msgstr "Handbuch"
+msgstr "manuell"
 
 #: ../src/gsb_form.c:1341 ../src/gsb_form_widget.c:507
 msgid "Cheque/Transfer number"
@@ -7780,7 +7759,7 @@ msgstr "Ungültiges Datum %s"
 #: ../src/gsb_form.c:2805
 #, c-format
 msgid "Invalid value date %s"
-msgstr "Ungültiges Betragsdatum %s"
+msgstr "Ungültiger Abrechnungstag %s"
 
 #: ../src/gsb_form.c:2831
 #, c-format
@@ -7855,14 +7834,13 @@ msgid ""
 "Warning: this cheque number is already used.\n"
 "Continue anyway?"
 msgstr ""
-"Achtung: Diese Schecknummer wird bereits benützt.\n"
+"Warnung: Diese Schecknummer wird bereits benützt.\n"
 "Soll der Vorgang fortgesetzt werden?"
 
 #: ../src/gsb_form.c:3058
 msgid "A transaction with a multiple payee must be a new one."
 msgstr ""
-"Ein Bericht darf nur bei der Neuerfassung von Buchungen als Empfänger "
-"eingetragen werden"
+"Ein Bericht darf nur bei neuen Buchungen als Empfänger eingetragen werden."
 
 #: ../src/gsb_form.c:3063
 msgid "A transaction with a multiple payee cannot be a split child."
@@ -7874,7 +7852,7 @@ msgstr "Das Wort 'Bericht' ist reserviert, bitte ein anderes Wort verwenden."
 
 #: ../src/gsb_form.c:3081
 msgid "Invalid multiple payee."
-msgstr "Der ausgewählte Bericht ist als Empfänger nicht zulässig"
+msgstr "Der ausgewählte Bericht ist als Empfänger nicht zulässig."
 
 #: ../src/gsb_form.c:3369
 msgid ""
@@ -7992,7 +7970,7 @@ msgstr "Letzter Buchungstag im Monat"
 
 #: ../src/gsb_form_scheduler.c:1266
 msgid "Force the last day of the month"
-msgstr "Letzter Buchungstag im Monat"
+msgstr "Letzten Buchungstag im Monat verwenden"
 
 #: ../src/gsb_form_widget.c:326
 msgid "Choose currency"
@@ -8038,7 +8016,7 @@ msgstr "Erfasste Geschäftsjahre"
 #. Create button for sort variable
 #: ../src/gsb_fyear_config.c:150
 msgid "Sort the exercises by descending name "
-msgstr "Nach Name absteigend sortieren"
+msgstr "nach Name absteigend sortieren"
 
 #. Associate operations : under the list
 #: ../src/gsb_fyear_config.c:192
@@ -8103,7 +8081,7 @@ msgstr ""
 
 #: ../src/gsb_fyear_config.c:757
 msgid "Automatic association of financial years?"
-msgstr "Buchungen einem Geschäftsjahr zuordnen"
+msgstr "Buchungen einem Geschäftsjahr automatisch zuordnen?"
 
 #: ../src/gsb_fyear_config.c:786
 #, c-format
@@ -8330,7 +8308,7 @@ msgstr "Erfasste Abstimmungen"
 #. Set the reconcile_sort
 #: ../src/gsb_reconcile_config.c:205
 msgid "Sort by descending date the reconciliations"
-msgstr "nach Abstimmungsdatum absteigend"
+msgstr "nach Datum absteigend sortieren"
 
 #. set the modifying part under the list
 #: ../src/gsb_reconcile_config.c:213
@@ -8357,7 +8335,7 @@ msgid ""
 "P.\n"
 "Are you sure you want to continue?"
 msgstr ""
-"Achtung, Sie sind dabei eine Abstimmung zu löschen.\n"
+"Warnung, Sie sind dabei eine Abstimmung zu löschen.\n"
 "Wenn Sie den Vorgang fortsetzen wird die Abstimmung %s gelöscht, alle "
 "Buchungen zu dieser Abstimmung werden als verrechnet markiert.\n"
 "Soll der Vorgang fortgesetzt werden?"
@@ -8368,7 +8346,7 @@ msgstr "Abstimmung löschen"
 
 #: ../src/gsb_reconcile_sort_config.c:97
 msgid "Reconciliation: sort transactions"
-msgstr "Beim Abstimmen Buchungen sortieren"
+msgstr "Abstimmung: Buchungen sortieren"
 
 #: ../src/gsb_reconcile_sort_config.c:128
 msgid "Payment method"
@@ -8393,7 +8371,7 @@ msgstr "Hinunter"
 #: ../src/gsb_regex.c:97
 #, c-format
 msgid "Unable to compile regex: %s\n"
-msgstr "Der reguläre Ausdruck kann nicht kompiliert werden: %s\n"
+msgstr "Der reguläre Ausdruck kann nicht ausgewertet werden: %s\n"
 
 #: ../src/gsb_rgba.c:341
 msgid "Transaction list background 1"
@@ -8545,8 +8523,8 @@ msgstr ""
 "Im \"gsb_scheduler_list_remove_transaction_from_list\" wurde der die "
 "Löschung der Buchung %d aufgerufen, \n"
 "die Buchung konnte jedoch nicht gefunden werden...\n"
-"Es ist \"normal\" wenn eine neue zeitlich geplante Buchung erfasst wird, "
-"aber sonst \"anormal\"..."
+"Dieses Verhalten kann auftreten wenn eine neue geplante Buchung erfasst "
+"wird..."
 
 #: ../src/gsb_scheduler_list.c:1377
 #, c-format
@@ -8768,7 +8746,7 @@ msgstr "Import basierend auf Regeln"
 #. archive button
 #: ../src/gsb_transactions_list.c:423
 msgid "Recreates archive"
-msgstr "Archiv ausblenden"
+msgstr "Archiv anzeigen"
 
 #: ../src/gsb_transactions_list.c:425
 msgid "Recreates the line of the archive and hiding the transactions"
@@ -8796,7 +8774,7 @@ msgstr "Dreizeilig"
 
 #: ../src/gsb_transactions_list.c:623
 msgid "Show reconciled transactions"
-msgstr "Abgestimmte Buchungen"
+msgstr "Abgestimmte Buchungen anzeigen"
 
 #: ../src/gsb_transactions_list.c:637 ../src/ui/grisbi_menu.ui.h:32
 msgid "Show lines archives"
@@ -8820,7 +8798,7 @@ msgstr "A"
 msgid "Do you want to add the transactions of the archive %s into the list?"
 msgstr ""
 "Sollen die Buchungen aus dem Archiv %s in die Buchungsübersicht geladen "
-"werden ?"
+"werden?"
 
 #: ../src/gsb_transactions_list.c:1543
 msgid ""
@@ -9005,8 +8983,8 @@ msgid ""
 msgstr ""
 "Sie haben Daten aus einem Archiv wiederhergestellt. Falls keine Buchungen "
 "aufgelistet werden beachten Sie bitte, das abgestimmte Buchungen in der "
-"Buchungsliste nicht angezeigt werden, wenn die Option \"Abgestimmte Buchungen"
-"\" anzeigen nicht gesetzt ist."
+"Buchungsliste nicht angezeigt werden, wenn die Option \"Abgestimmte "
+"Buchungen anzeigen\" nicht gesetzt ist."
 
 #: ../src/gsb_transactions_list.c:4562
 msgid "Do you really want to delete this file import rule?"
@@ -9035,9 +9013,7 @@ msgstr ""
 #: ../src/gsb_transactions_list_sort.c:362
 #, c-format
 msgid "ask for the sort number %d which doesn't exist... return by date"
-msgstr ""
-"Es ist ein Problem in der Liste für Transaktionen aufgetreten: die Nummer %d "
-"für die Sortierung existiert nicht ... es wird nach Datum sortiert"
+msgstr "die Nummer %d ist nicht vorhanden... es wird nach Datum sortiert"
 
 #: ../src/gtk_combofix.c:1271
 msgid ""
@@ -9288,7 +9264,7 @@ msgid ""
 "Warning : the cheque number %s is already used.\n"
 "We skip it"
 msgstr ""
-"Achtung: Diese Schecknummer %s wird bereits benützt.\n"
+"Warnung: Diese Schecknummer %s wird bereits benützt.\n"
 "Die Auswahl wird verworfen"
 
 #: ../src/import.c:2720
@@ -9304,8 +9280,8 @@ msgstr "Bestätigung für das Importieren von Buchungen in: %s"
 #: ../src/import.c:2751
 msgid "Please select the transactions to be merged"
 msgstr ""
-"Die aufgelisteten Buchungen sind bereits vorhanden - bitte treffen Sie eine "
-"Auswahl welche Buchungen zusammengeführt werden sollen."
+"Bitte treffen Sie eine Auswahl welche Buchungen zusammengeführt werden "
+"sollen."
 
 #: ../src/import.c:2757
 msgid ""
@@ -9345,15 +9321,15 @@ msgid ""
 "\n"
 "Do you want to continue?"
 msgstr ""
-"Haben Sie versehentlich das falsche Konto ausgewählt ? Wenn Sie sich "
-"entscheiden den Vorgang fortzusetzen wird die ID des Kontos geändert. Soll "
-"der Vorgang fortgesetzt werden?"
+"Haben Sie versehentlich das falsche Konto ausgewählt?\n"
+"Wenn die Auswahl beibehalten wird erfolgt eine Änderung der ID für das "
+"Konto: %s\n"
+"Bei einer anderen Auswahl wird das Konto ignoriert.\n"
+"Soll der Vorgang fortgesetzt werden?"
 
 #: ../src/import.c:3147
 msgid "The id of the imported and chosen accounts are different"
-msgstr ""
-"Die ID vom importieren Konto stimmt nicht mit der ID vom ausgewählten Konto "
-"überein"
+msgstr "Die ID's vom importierten und ausgewählten Konto stimmen nicht überein"
 
 #: ../src/import.c:3700
 #, c-format
@@ -9501,7 +9477,7 @@ msgid ""
 "%s is neither an OFX file, neither a QIF file. Nothing will be done for that "
 "file."
 msgstr ""
-"%s ist keine Ofx oder QIF Datei, es werden keine Daten aus dieser Datei "
+"%s ist keine OFX oder QIF Datei, es werden keine Daten aus dieser Datei "
 "importiert."
 
 #: ../src/import.c:4849
@@ -9870,17 +9846,17 @@ msgstr "Buchungen von %s neu zuordnen"
 #: ../src/metatree.c:1867
 #, c-format
 msgid "Just remove this payee."
-msgstr "Empfänger ohne Neuzuordnung löschen"
+msgstr "Empfänger ohne Neuzuordnung löschen."
 
 #: ../src/metatree.c:1869
 #, c-format
 msgid "Just remove this %s."
-msgstr "%s ohne Neuzuordnung löschen"
+msgstr "%s ohne Neuzuordnung löschen."
 
 #: ../src/metatree.c:1871
 #, c-format
 msgid "Just remove this sub-%s."
-msgstr "%s ohne Neuzuordnung löschen"
+msgstr "%s ohne Neuzuordnung löschen."
 
 #: ../src/metatree.c:1912
 #, c-format
@@ -9903,13 +9879,13 @@ msgid ""
 "%s."
 msgstr ""
 "Alle Buchungen von %s\n"
-"neu zuordnen"
+"neu zuordnen."
 
 #. create the box to move change the division and sub-div of the transactions
 #: ../src/metatree.c:2855
 #, c-format
 msgid "Choose action for \"%s\"."
-msgstr "Neuzuordnung für \"%s\" vornehmen"
+msgstr "Neuzuordnung für \"%s\" vornehmen."
 
 #: ../src/metatree.c:2861
 #, c-format
@@ -9958,7 +9934,7 @@ msgstr "Warnung: es dürfen keine Empfänger %s erstellt werden."
 #: ../src/metatree.c:3740
 #, c-format
 msgid "Select transactions in \"%s\"."
-msgstr "Neuzuordnung für \"%s\" vornehmen"
+msgstr "Neuzuordnung für \"%s\" vornehmen."
 
 #: ../src/metatree.c:3746
 #, c-format
@@ -10126,7 +10102,7 @@ msgstr "Berechnung der Salden"
 
 #: ../src/parametres.c:633
 msgid "Add transactions archived in the totals"
-msgstr "Währungen von archivierten Buchungen berücksichtigen"
+msgstr "Archivierte Buchungen berücksichtigen"
 
 #: ../src/parametres.c:641
 msgid "Sort option for transactions"
@@ -10188,8 +10164,8 @@ msgstr "Die Datei konnte nicht verschlüsselt werden"
 #: ../src/plugins/gnucash/gnucash.c:134
 msgid "Invalid Gnucash account, please check gnucash file is not compressed."
 msgstr ""
-"Ungültiges Gnucash Konto, bitte prüfen Sie ob die Gnucash-Datei nicht "
-"komprimiert ist."
+"Ungültiges Gnucash Konto, bitte prüfen Sie ob die Gnucash-Datei komprimiert "
+"ist."
 
 #: ../src/plugins/gnucash/gnucash.c:572
 #, c-format
@@ -10199,7 +10175,7 @@ msgstr "Die Datei \"%s\" ist nicht vorhanden oder keine gültige Datei."
 #: ../src/plugins/gnucash/gnucash.c:574
 #, c-format
 msgid "Error opening file '%s'."
-msgstr "Fehler beim Öffnen der Datei '%s'"
+msgstr "Fehler beim Öffnen der Datei '%s'."
 
 #: ../src/plugins/gnucash/gnucash.c:585
 msgid ""
@@ -10215,7 +10191,7 @@ msgstr ""
 #: ../src/plugins/gnucash/gnucash.c:588
 #, c-format
 msgid "Error opening temporary file '%s'."
-msgstr "Fehler beim Öffnen der temporären Datei '%s'"
+msgstr "Fehler beim Öffnen der temporären Datei '%s'."
 
 #: ../src/plugins/ofx/ofx.c:102
 msgid "Invalid OFX file"
@@ -10392,7 +10368,7 @@ msgstr "Einen Datumsbereich auswählen: "
 
 #: ../src/print_transactions_list.c:211
 msgid "Use value date"
-msgstr "Buchungsdatum verwenden"
+msgstr "Abrechnungstag verwenden"
 
 #. set up all the checkbuttons
 #: ../src/print_transactions_list.c:223 ../src/print_tree_view_list.c:993
@@ -10490,7 +10466,7 @@ msgid ""
 "Warning the date has three fields of two numbers. In these circumstances the "
 "date might be wrong."
 msgstr ""
-"Achtung: Das Datumsformat besteht aus 3 zweistelligen Zahlen. Es kann unter "
+"Warnung: Das Datumsformat besteht aus 3 zweistelligen Zahlen. Es kann unter "
 "Umständen zu einer fehlerhaften Darstellung vom Datum kommen."
 
 #: ../src/qif.c:777
@@ -10604,11 +10580,11 @@ msgid ""
 msgstr ""
 "Dieser Assistent wird Sie bei der Verwaltung von Empfängern unterstützen.\n"
 "\n"
-"Achtung: Die vom Assistenten durchgeführten Änderungen sind nicht "
+"Warnung: Die vom Assistenten durchgeführten Änderungen sind nicht "
 "reversibel.\n"
 "Wenn Sie keine Sicherungskopie haben ist die empfohlene Vorgehensweise den "
 "Assistenten\n"
-"jetzt beenden, eine Sicherungskopie erstellen und den Assistenten erneut "
+"jetzt zu Beenden, eine Sicherungskopie erstellen und den Assistenten erneut "
 "aufzurufen."
 
 #: ../src/tiers_onglet.c:988
@@ -10718,8 +10694,7 @@ msgstr "Es muss der Name von einem Empfänger für die Suche eingegeben werden."
 
 #: ../src/tiers_onglet.c:1614
 msgid "Beware you don't use one of models for the research."
-msgstr ""
-"Einen Empfänger auswählen oder bei der Eingabe das '%' Zeichen verwenden."
+msgstr "Bitte beachten dass kein Empfänger für die Suche verwendet wird."
 
 #: ../src/tiers_onglet.c:1709
 #, c-format
@@ -10811,8 +10786,8 @@ msgstr ""
 "Aktivieren der Verschlüsselung festgelegt.\n"
 "\n"
 "Beachten Sie bitte dass die Verschlüsselung nicht rückgängig gemacht werden "
-"werden kann - wenn Sie das Passwort vergessen ist kein Zugriff auf die Daten "
-"in der Grisbi Datei möglich."
+"werden kann. Wenn Sie das Passwort vergessen ist der Zugriff auf die Daten "
+"in der Grisbi Datei nicht mehr möglich."
 
 #: ../src/tip.c:63
 msgid ""
@@ -10909,7 +10884,7 @@ msgstr ""
 "... es in den Datumsfeldern Tastenkombinationen für eine schnellere "
 "Datumseingabe gibt?\n"
 "\n"
-"Mit den Tasten <b>+</b> und <b>-</b> erhöhen bzw... reduzieren das Datum um "
+"Mit den Tasten <b>+</b> und <b>-</b> erhöhen bzw. reduzieren das Datum um "
 "einen Tag. <i>Bild auf</i> und <i>Bild ab</i> erhöhen bzw. reduzieren das "
 "Datum um ein Monat. Weitere Tastenkombinationen sind im Benutzerhandbuch "
 "beschrieben."
@@ -10922,8 +10897,8 @@ msgid ""
 msgstr ""
 "... eine Archivierung von Buchungen nach Geschäftsjahren möglich ist?\n"
 "\n"
-"Seit Version 0.6 können Buchungen archiviert werden. Ein Auswahlkriterium "
-"für die Archivierung sind Geschäftsjahre."
+"Seit Version 0.6 können Buchungen archiviert werden. Geschäftsjahre sind ein "
+"mögliches Auswahlkriterium für die Archivierung."
 
 #: ../src/tip.c:93
 msgid ""
@@ -10951,7 +10926,7 @@ msgstr ""
 #: ../src/tip.c:99
 msgid "You can reorder accounts in the navigation list using drag &amp; drop."
 msgstr ""
-"... das im Navigationsbereich Konten und Berichte mit 'Drag &amp; Drop' "
+"... das im Navigationsbereich Konten und Berichte mit Drag &amp; Drop "
 "angeordnet werden können?"
 
 #: ../src/tip.c:100
@@ -11112,8 +11087,7 @@ msgstr "Ergebnis"
 #: ../src/utils_files.c:767
 msgid "If no proposals above are correct you can choose a different charset."
 msgstr ""
-"Wenn kein Vorschlag zutrifft bitte einen anderen Zeichensatz manuell "
-"auswählen"
+"Wenn kein Vorschlag zutrifft bitte einen anderen Zeichensatz auswählen."
 
 #: ../src/prefs/prefs_page_archives.c:141
 #, c-format
@@ -11126,7 +11100,7 @@ msgid ""
 "\n"
 "Do you want to continue?"
 msgstr ""
-"Achtung, Sie sind dabei das Archiv \"%s\" zu löschen.\n"
+"Warnung, Sie sind dabei das Archiv \"%s\" zu löschen.\n"
 "\n"
 "Wenn Sie die Löschung ausführen werden die bereits archivierten Buchungen "
 "den Status nicht archiviert erhalten.\n"
@@ -11151,7 +11125,7 @@ msgid ""
 "\n"
 "Are you sure you want to continue ?"
 msgstr ""
-"Achtung, Sie sind dabei das Archiv \"%s\" und die zum Archiv zugeordneten "
+"Warnung, Sie sind dabei das Archiv \"%s\" und die zum Archiv zugeordneten "
 "Buchungen zu löschen.\n"
 "\n"
 "Wenn Sie die Löschung ausführen werden das Archiv und alle dem Archiv "
@@ -11188,8 +11162,7 @@ msgstr "Buchung (Un)Abstimmen\t-> <Primary>r\n"
 
 #: ../src/prefs/prefs_page_divers.c:188
 msgid "You will have to restart Grisbi for the new language to take effect."
-msgstr ""
-"Damit die Änderung der Sprache wirksam wird muss Grisbi neu gestartet werden."
+msgstr "Damit die Änderung wirksam wird muss Grisbi neu gestartet werden."
 
 #: ../src/prefs/prefs_page_divers.c:189
 #, c-format
@@ -11203,7 +11176,7 @@ msgstr "System Sprache"
 #. On récupère le nom de la page
 #: ../src/prefs/prefs_page_divers.c:292
 msgid "Divers"
-msgstr "Sonstiges"
+msgstr "Allgemeines"
 
 #. set the scheduled variables
 #: ../src/prefs/prefs_page_divers.c:301
@@ -11236,7 +11209,7 @@ msgstr "entsprechend Datum der Buchung"
 
 #: ../src/prefs/prefs_page_import_files.c:132
 msgid "According to the value date (if fail, try with the date)"
-msgstr "entsprechend Datum der Durchführung"
+msgstr "entsprechend Abrechnungstag (sonst nach Datum)"
 
 #. *
 #. *
@@ -11255,8 +11228,8 @@ msgstr "Erste Verwendung von Grisbi"
 #: ../src/org.gtk.grisbi.gschema.xml.h:2
 msgid "If TRUE, a wizard starts to configure Grisbi at its first use."
 msgstr ""
-"Ein Assistent unterstützt die Konfiguration von Grisbi beim erstmaligen "
-"Aufruf"
+"Beim erstmaligen Aufruf von Grisbi einen Assistent für die Konfiguration "
+"verwenden."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:3
 msgid "Force used classic menu"
@@ -11267,9 +11240,8 @@ msgid ""
 "If TRUE the classic menu is displayed otherwise the menu type is determined "
 "by the window manager. This option requires restarting Grisbi."
 msgstr ""
-"Bei einer Auswahl wird das klassische Menü verwendet, ansonsten wird das "
-"Menü vom Betriebssystem verwendet. Nach einer Auswahl muss Grisbi neu "
-"gestartet werden."
+"Das klassische Menü oder das Menü vom Betriebssystem verwenden.Nach der "
+"Auswahl muss Grisbi neu gestartet werden."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:5
 msgid "Backup directory"
@@ -11285,23 +11257,23 @@ msgstr "Sicherung komprimieren"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:8
 msgid "TRUE if you want to compress the backup file."
-msgstr "Sicherung komprimieren"
+msgstr "Sicherung komprimieren."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:9
 msgid "Backup before using file"
-msgstr "Vor dem Speichern eine Sicherung erstellen"
+msgstr "Sicherung vor dem Öffnen erstellen"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:10
 msgid "If TRUE, backup the account file before use."
-msgstr "Sicherung vor dem Öffnen erstellen"
+msgstr "Sicherung vor dem Öffnen erstellen."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:11
 msgid "Create a backup when save file"
-msgstr "Beim Speichern eine Sicherung erstellen"
+msgstr "Sicherung vor dem Speichern erstellen"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:12
 msgid "If TRUE, create a backup when save file."
-msgstr "Sicherung vor dem Speichern erstellen"
+msgstr "Sicherung vor dem Speichern erstellen."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:13
 msgid "Make backup every x mn"
@@ -11309,7 +11281,7 @@ msgstr "Eine Sicherung alle "
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:14
 msgid "If TRUE, make backup every x mn."
-msgstr "Sicherung alle n Minuten erstellen"
+msgstr "Sicherung alle n Minuten erstellen."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:15
 msgid "Number of minutes to make a backup"
@@ -11317,7 +11289,7 @@ msgstr "Intervall in Minuten für Sicherung"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:16
 msgid "The number of minutes we want to make a backup."
-msgstr "Die Anzahl in Minuten für die Erstellung von einer Sicherung"
+msgstr "Die Anzahl in Minuten für die Erstellung von einer Sicherung."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:17
 msgid "Make single backup file"
@@ -11328,7 +11300,7 @@ msgid ""
 "If TRUE, make a single backup file. Warning: this is dangerous if this file "
 "is'nt saving regularly."
 msgstr ""
-"Sicherung in einer Datei erstellen. Achtung: diese Einstellung kann zu "
+"Für Sicherungen nur eine Datei anlegen.Warnung: diese Einstellung kann zu "
 "Datenverlust führen wenn die Sicherung nicht regelmäßig gespeichert wird."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:19
@@ -11340,7 +11312,7 @@ msgid ""
 "Select the name of the main window of Grisbi : 0 = Name of the accounting "
 "entity 1 = Holder name of the account 2 = Filename."
 msgstr ""
-"Auswahl für Fenstertitel: 0 = Bezeichnung 1 = Kontoinhaber 2 = Dateiname"
+"Auswahl für Fenstertitel: 0 = Bezeichnung 1 = Kontoinhaber 2 = Dateiname."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:21
 msgid "Show buttons on toolbars as"
@@ -11348,7 +11320,7 @@ msgstr "Buttons in Werkzeugleisten anzeigen als"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:22
 msgid "Select the labels of buttons: Text, Icon or Text+Icon."
-msgstr "Bezeichnungen für Buttons: Text, Symbole, Text und Symbole"
+msgstr "Bezeichnungen für Buttons: Text, Symbole, Text und Symbole."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:23
 msgid "Form always displayed"
@@ -11356,7 +11328,7 @@ msgstr "Buchungsformular immer anzeigen"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:24
 msgid "If TRUE, form is always displayed."
-msgstr "Buchungsformular anzeigen"
+msgstr "Buchungsformular immer anzeigen."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:25 ../src/ui/grisbi_menu.ui.h:33
 msgid "Show closed accounts"
@@ -11364,7 +11336,7 @@ msgstr "Geschlossene Konten anzeigen"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:26
 msgid "If TRUE, the closed accounts are displayed."
-msgstr "Geschlossene Konten anzeigen"
+msgstr "Geschlossene Konten anzeigen."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:27
 msgid "Show heading bar"
@@ -11372,7 +11344,7 @@ msgstr "Kopfzeile anzeigen"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:28
 msgid "If TRUE, heading bar is displayed."
-msgstr "Titelleiste anzeigen"
+msgstr "Kopfzeile anzeigen."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:29
 msgid "Automatically open the last file"
@@ -11380,7 +11352,7 @@ msgstr "Die letzte Datei automatisch öffnen"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:30
 msgid "If TRUE, the last account file is open automatically."
-msgstr "Die letzte Datei automatisch öffnen"
+msgstr "Die letzte Datei automatisch öffnen."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:31
 msgid "Automatic backup before closing the account file"
@@ -11388,7 +11360,7 @@ msgstr "Automatische Sicherung bevor die Datei geschlossen wird"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:32
 msgid "If TRUE, automatic backup before closing the account file."
-msgstr "Automatische Sicherung bevor die Datei geschlossen wird"
+msgstr "Automatische Sicherung bevor die Datei geschlossen wird."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:33
 msgid "Force recording of locked files"
@@ -11399,7 +11371,8 @@ msgid ""
 "TRUE if you want to save the account file, even if it is already open in "
 "another window."
 msgstr ""
-"Die Datei speichern auch wenn die Datei in einem anderen Fenster geöffnet ist"
+"Die Datei speichern auch wenn die Datei in einem anderen Fenster geöffnet "
+"ist."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:35
 msgid "Force the import directory"
@@ -11407,7 +11380,7 @@ msgstr "Import Verzeichnis"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:36
 msgid "TRUE if you want to force the directory of imported files."
-msgstr "Verzeichnis für Import"
+msgstr "Verzeichnis für Import."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:37
 msgid "Compress the account file"
@@ -11415,7 +11388,7 @@ msgstr "Datei komprimieren"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:38
 msgid "TRUE if you want to compress the account file."
-msgstr "Datei komprimieren"
+msgstr "Datei komprimieren."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:39
 msgid "Import directory"
@@ -11431,7 +11404,7 @@ msgstr "Letzte geöffnete Dateien"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:42
 msgid "A list of the last files opened by Grisbi."
-msgstr "Auflistung letzte geöffnete Dateien"
+msgstr "Auflistung der letzten geöffneten Dateien."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:43
 msgid "Maximum of files in list of recently files"
@@ -11443,13 +11416,15 @@ msgstr "Dateihistorie Anzahl."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:45
 msgid "Selecting the date that determines the fiscal year"
-msgstr "Datum für Finanzjahr festlegen"
+msgstr "Datum für das Finanzjahr auswählen"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:46
 msgid ""
 "If TRUE, the value date determines the financial year, otherwise this is the "
 "date of transaction."
-msgstr "Auswahl für Finanzjahr oder Buchungsdatum."
+msgstr ""
+"Den Abrechnungstag oder das Buchungsdatum für die Ermittlung vom "
+"Geschäftsjahr verwenden."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:47
 msgid "Allow automatic completion of payees"
@@ -11467,21 +11442,17 @@ msgstr "Die Werte für Einnahmen oder Ausgaben zurücksetzen"
 msgid ""
 "If TRUE, the fields Credit and Debit are not initialized during the "
 "completion of payee."
-msgstr ""
-"Auswahl ob Felder für Einnahmen und Ausgaben bei automatischer "
-"Vervollständigung von Empfängern befüllt werden"
+msgstr "Die Werte für Einnahmen oder Ausgaben zurücksetzen."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:51
 msgid "Recover splits in payee completion"
-msgstr "Aufteilung bei Vervollständigung von Empfängern wiederherstellen"
+msgstr "Splittbuchungen bei der Vervollständigung von Empfängern erstellen"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:52
 msgid ""
 "If TRUE, splits transactions are recovered along with the parent during the "
 "completion of payee."
-msgstr ""
-"Auswahl ob Splitt Buchungen bei automatischer Vervollständigung von "
-"Empfängern wiederhergestellt werden"
+msgstr "Splittbuchungen bei der Vervollständigung von Empfängern erstellen."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:53
 msgid "Last width of the expander label"
@@ -11497,7 +11468,7 @@ msgstr "Mit \"Enter-Taste\" die Buchung abschließen"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:56
 msgid "If TRUE, the \"Enter\" key finishes the transaction."
-msgstr "Auswahl ob bei \"Enter-Taste\" Buchung abgeschlossen wird."
+msgstr "Mit \"Enter-Taste\" Buchung abschließen."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:57
 msgid "Sort order for the fyear combobox"
@@ -11519,19 +11490,15 @@ msgstr "Vervollständigung auf aktuelles Konto beschränken"
 msgid ""
 "If TRUE, limit the payee completion to the current account, otherwise do a "
 "full search."
-msgstr ""
-"Auswahl ob die automatische Vervollständigung von Empfängern auf das "
-"aktuelle Konto beschränkt sein soll"
+msgstr "Vervollständigung auf aktuelles Konto beschränken."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:61
 msgid "Use custom fonts for lists"
-msgstr "Benutzerdefinierte Schrift für Buchungen verwenden"
+msgstr "Benutzerdefinierte Schrift für Listen verwenden"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:62
 msgid "If TRUE, Grisbi uses custom fonts for lists."
-msgstr ""
-"Auswahl ob benutzerdefinierte Schriften im Buchungsformular verwendet werden "
-"sollen."
+msgstr "Benutzerdefinierte Schrift für Listen verwenden."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:63
 msgid "Font name"
@@ -11539,7 +11506,7 @@ msgstr "Schrift Name"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:64
 msgid "If utilise-fonte-listes = TRUE, this is the name of the custom font."
-msgstr "Bei Auswahl von benutzerdefinierten Schriften der Name von der Schrift"
+msgstr "Schrift Name."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:65
 msgid "Browser command"
@@ -11547,7 +11514,7 @@ msgstr "Webbrowser Befehl"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:66
 msgid "Browser command."
-msgstr "Browser command."
+msgstr "Webbrowser Befehl."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:67
 msgid "Language for interface"
@@ -11555,7 +11522,7 @@ msgstr "Sprache für Benutzeroberfläche"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:68
 msgid "Choose the language of interface."
-msgstr "Datumsformat für Benutzeroberfläche"
+msgstr "Sprache für Benutzeroberfläche."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:69
 msgid "Last path used by Grisbi"
@@ -11573,7 +11540,7 @@ msgstr "Plural Form"
 msgid ""
 "Specific in french : Fixe l'orthographe de pluriel : FALSE = finals, TRUE = "
 "finaux."
-msgstr "Plural Form"
+msgstr "Plural Form."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:73
 msgid "Action of the right mouse button in Categories"
@@ -11583,7 +11550,7 @@ msgstr "Aktion für Kategorien bei Rechtsklick mit Maus"
 msgid ""
 "Action double click of the mouse in Categories: gtk default, Edit Category, "
 "manage division if possible."
-msgstr "Aktion für Kategorien bei Doppelklick mit Maus"
+msgstr "Aktion für Kategorien bei Doppelklick mit Maus."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:75
 msgid ""
@@ -11597,7 +11564,9 @@ msgstr ""
 msgid ""
 "Sort by value date, if fail, try with the date, Sort by value date and then "
 "by date."
-msgstr "nach Buchungsdatum (falls nicht möglich dann nach Datum)"
+msgstr ""
+"nach Abrechnungstag - falls nicht möglich dann nach Datum,ansonsten zuerst "
+"nach Abrechnungstag und dann nach Datum."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:81
 msgid ""
@@ -11607,7 +11576,7 @@ msgid ""
 msgstr ""
 "Sortierung nach Buchungsnummer, Sortierung nach Buchungsart: Ausgabe, "
 "Eingabe. Sortierung nach Empfänger Name, wenn nicht möglich nach "
-"Buchungsnummer, Sortierung nach Buchungsdatum und danach nach Buchungsnummer"
+"Buchungsnummer, Sortierung nach Buchungsdatum und danach nach Buchungsnummer."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:82
 msgid "Main window maximized state"
@@ -11615,7 +11584,7 @@ msgstr "Hauptfenster maximiert anzeigen"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:83
 msgid "Whether the main window should start maximized."
-msgstr "Auswahl ob das Hauptfenster maximiert angezeigt werden soll."
+msgstr "Hauptfenster maximiert anzeigen."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:84
 msgid "Main window fullscreen state"
@@ -11623,7 +11592,7 @@ msgstr "Hauptfenster im Vollbild Modus anzeigen"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:85
 msgid "Whether the main window should start in fullscreen."
-msgstr "Auswahl ob das Hauptfenster im Vollbild Modus angezeigt werden soll."
+msgstr "Hauptfenster im Vollbild Modus anzeigen."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:86
 msgid "Width of the main window"
@@ -11643,7 +11612,7 @@ msgstr "Höhe von Hauptfenster."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:90
 msgid "X position of main window"
-msgstr "X-Position von Hauptfenster"
+msgstr "X Position von Hauptfenster"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:91
 msgid "The X position of the main window."
@@ -11651,7 +11620,7 @@ msgstr "Die X Position vom Hauptfenster."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:92
 msgid "Y position of main window"
-msgstr "Y-Position von Hauptfenster"
+msgstr "Y Position von Hauptfenster"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:93
 msgid "The Y position of the main window."
@@ -11671,16 +11640,15 @@ msgstr "Tipps anzeigen"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:97
 msgid "True if we show the tips."
-msgstr "Auswahl ob Tipps angezeigt werden sollen."
+msgstr "Tipps anzeigen."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:98
 msgid "Active mouse scrolling in the left_panel."
-msgstr "Im Navigationsbereich mit dem Mausrad scrollen"
+msgstr "Im Navigationsbereich mit dem Mausrad scrollen."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:99
 msgid "If TRUE, the scrolling with the mouse is actived in the left panel."
-msgstr ""
-"Auswahl ob im Navigationsbereich ein Scrollen mit dem Mausrad erlaubt ist."
+msgstr "Im Navigationsbereich mit der Maus scrollen."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:100
 msgid "Width of the navigation panel"
@@ -11749,8 +11717,8 @@ msgid ""
 "lancement."
 msgstr ""
 "Wenn diese Option aktiviert ist, werden alle geplanten Buchungen zu Beginn "
-"des Monats ausgeführtsonst zum Buchungsdatum. Das Gültigkeitsdatum hängt von "
-"der Anzahl der Tage davor ab."
+"des Monats ausgeführt sonst zum Buchungsdatum. Das Gültigkeitsdatum hängt "
+"von der Anzahl der Tage davor ab."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:114
 msgid "Number of days before scheduled operations start"
@@ -11766,22 +11734,22 @@ msgstr ""
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:116
 msgid "Fixed day to initiate scheduled transactions on a monthly basis"
-msgstr "Tag für die Ausführung"
+msgstr "Festgelegter Tag für die Ausführung"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:117
 msgid ""
 "Utiliser un jour fixe pour lancer mensuellement les opérations planifiées."
 msgstr ""
-"Verwenden Sie einen festen Tag, um geplante Buchungen auf monatlicher Basis "
-"auszuführen."
+"Verwenden Sie einen festgelegten Tag, um geplante Buchungen auf monatlicher "
+"Basis auszuführen."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:118
 msgid "fixed day for sheduled transactions"
-msgstr "Bezeichnungen für geplante Buchungen"
+msgstr "Festgelegter Tag für geplante Buchungen"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:119
 msgid "Jour fixe du lancement mensuel des opérations planifiées."
-msgstr "Fixer Tag für die Ausführung von monatlich geplanten Buchungen."
+msgstr "Festgelegter Tag für geplante Buchungen."
 
 #: ../src/ui/bet_graph.ui.h:1
 msgid "Diagram"
@@ -11825,7 +11793,7 @@ msgstr "oben Anzeigen"
 
 #: ../src/ui/bet_graph.ui.h:12
 msgid "Intersection point of X Y axes"
-msgstr "Intercept point X and Y achses"
+msgstr "Schnittpunkt X und Y Achse"
 
 #: ../src/ui/bet_graph.ui.h:13
 msgid "<b>Additional line</b>"
@@ -11841,15 +11809,15 @@ msgstr "<b>Einstellungen für Y-Achse</b>"
 
 #: ../src/ui/bet_graph.ui.h:16
 msgid "<b>Grid</b>"
-msgstr "<b>Gitter</b>"
+msgstr "<b>Linien</b>"
 
 #: ../src/ui/bet_graph.ui.h:17
 msgid "Major grid"
-msgstr "Hauptgitter"
+msgstr "Hauptlinien"
 
 #: ../src/ui/bet_graph.ui.h:18
 msgid "Minor grid"
-msgstr "Hilfsgitter"
+msgstr "Hilfslinien"
 
 #: ../src/ui/bet_graph.ui.h:19
 msgid "<b>Options for the columns</b>"
@@ -11857,11 +11825,11 @@ msgstr "<b>Einstellungen für Spalten</b>"
 
 #: ../src/ui/bet_graph.ui.h:20
 msgid "Gap:"
-msgstr "Abstand: "
+msgstr "Abstand:"
 
 #: ../src/ui/bet_graph.ui.h:23
 msgid "Display the grids above the plot"
-msgstr "Das Gitter anzeigen"
+msgstr "Linien im Diagramm anzeigen"
 
 #: ../src/ui/csv_template_rule.ui.h:2 ../src/ui/prefs_page_archives.ui.h:2
 #: ../src/ui/prefs_page_display_adr.ui.h:3
@@ -11886,7 +11854,7 @@ msgstr "Zeile"
 
 #: ../src/ui/csv_template_rule.ui.h:8
 msgid "Import account Id:"
-msgstr "Importiertes Konto Id: "
+msgstr "Importiertes Konto Id:"
 
 #: ../src/ui/csv_template_rule.ui.h:9
 msgid "First line data"
@@ -11964,23 +11932,23 @@ msgstr "Zusätzliche Daten: "
 
 #: ../src/ui/etats_prefs.ui.h:10
 msgid "Date and hour"
-msgstr "Datum und Stunde"
+msgstr "Datum und Zeit"
 
 #: ../src/ui/etats_prefs.ui.h:11
 msgid "Start"
-msgstr "Anfang"
+msgstr "am Anfang"
 
 #: ../src/ui/etats_prefs.ui.h:12
 msgid "End"
-msgstr "Ende"
+msgstr "am Ende"
 
 #: ../src/ui/etats_prefs.ui.h:13
 msgid "Below"
-msgstr "Unterhalb"
+msgstr "unterhalb"
 
 #: ../src/ui/etats_prefs.ui.h:14
 msgid "of title"
-msgstr "von Titel"
+msgstr "vom Titel"
 
 #: ../src/ui/etats_prefs.ui.h:15
 msgid "Others options"
@@ -11988,7 +11956,7 @@ msgstr "Weitere Einstellungen"
 
 #: ../src/ui/etats_prefs.ui.h:16
 msgid "Selection of transactions by:"
-msgstr "Buchungen auswählen nach: "
+msgstr "Buchungen auswählen nach:"
 
 #: ../src/ui/etats_prefs.ui.h:18
 msgid "Ignore the archived transactions"
@@ -12124,7 +12092,7 @@ msgstr "Kategorien Ausgaben"
 
 #: ../src/ui/etats_prefs.ui.h:72
 msgid "Select transactions only for given accounts"
-msgstr "Buchungen nach Konten auswählen"
+msgstr "Buchungen nach Zahlungsweisen auswählen"
 
 #: ../src/ui/etats_prefs.ui.h:73
 msgid "Select the accounts included in the report: "
@@ -12151,8 +12119,8 @@ msgid ""
 "<Ctrl> + left click of mouse\n"
 "to add at the selection"
 msgstr ""
-"<Ctrl> + Links Klick mit Maus\n"
-"zum Hinzufügen"
+"<STRG> + Links Klick\n"
+"für Detailauswahl"
 
 #: ../src/ui/etats_prefs.ui.h:80
 msgid "Selecting Transactions"
@@ -12168,7 +12136,7 @@ msgstr "Nicht abgestimmte Buchungen"
 
 #: ../src/ui/etats_prefs.ui.h:83
 msgid "Marked transactions"
-msgstr "Gekennzeichnete Buchungen"
+msgstr "Ausgewählte Buchungen"
 
 #: ../src/ui/etats_prefs.ui.h:84
 msgid "Pointing transactions"
@@ -12256,11 +12224,11 @@ msgstr "Empfänger für den Bericht auswählen: "
 
 #: ../src/ui/etats_prefs.ui.h:107
 msgid "<Ctrl> + left click of mouse to add to the selection"
-msgstr "<Ctrl> + Links Klick mit Maus zum Hinzufügen"
+msgstr "<STRG> + Links Klick für Detailauswahl"
 
 #: ../src/ui/etats_prefs.ui.h:109
 msgid "Navigation"
-msgstr "Navigationsbereich"
+msgstr "Anordnung"
 
 #: ../src/ui/etats_prefs.ui.h:110
 msgid "First item"
@@ -12268,15 +12236,15 @@ msgstr "Erstes Element"
 
 #: ../src/ui/etats_prefs.ui.h:111
 msgid "Prévious"
-msgstr "letztes Jahr"
+msgstr "Vorheriges Element"
 
 #: ../src/ui/etats_prefs.ui.h:112
 msgid "Following"
-msgstr "Folgender"
+msgstr "Nachfolgendes Element"
 
 #: ../src/ui/etats_prefs.ui.h:113
 msgid "Last item"
-msgstr "Letzte Abstimmung"
+msgstr "Letztes Element"
 
 #: ../src/ui/etats_prefs.ui.h:114
 msgid "Do not include transfers"
@@ -12288,7 +12256,7 @@ msgstr "Umbuchungen von-/nach Anlage-/Kreditkonten berücksichtigen"
 
 #: ../src/ui/etats_prefs.ui.h:116
 msgid "Include transfers from or to accounts not in this report"
-msgstr "Umbuchungen von-/nach diesen Konten nicht berücksichtigen"
+msgstr "Umbuchungen von-/nach Konten nicht berücksichtigen"
 
 #: ../src/ui/etats_prefs.ui.h:117
 msgid "Include transfers from or to these accounts"
@@ -12520,7 +12488,7 @@ msgstr "Erstellte Archive"
 
 #: ../src/ui/prefs_page_archives.ui.h:3
 msgid "Sort the archives by descending date"
-msgstr "Archivierte Buchungen nach Datum absteigend sortieren"
+msgstr "nach Datum absteigend sortieren"
 
 #: ../src/ui/prefs_page_archives.ui.h:4
 msgid "Archive modification"
@@ -12540,7 +12508,7 @@ msgstr "Automatisch prüfen"
 
 #: ../src/ui/prefs_page_archives.ui.h:9
 msgid "Check at opening if creating archive is needed."
-msgstr "Beim Öffnen prüfen ob ein Archiv erstellt werden soll"
+msgstr "Beim Öffnen prüfen ob ein Archiv erstellt werden soll."
 
 #: ../src/ui/prefs_page_archives.ui.h:10
 msgid "Warn if more than "
@@ -12548,7 +12516,7 @@ msgstr "Warnung wenn mehr als "
 
 #: ../src/ui/prefs_page_archives.ui.h:11
 msgid " transactions are not archived."
-msgstr " Buchungen nicht archiviert sind"
+msgstr " Buchungen nicht archiviert sind."
 
 #: ../src/ui/prefs_page_display_adr.ui.h:4
 msgid "Window title of Grisbi"
@@ -12678,7 +12646,7 @@ msgstr "Buchungsformular für geplante Buchungen von diesem Konto verwenden: "
 
 #: ../src/ui/prefs_page_divers.ui.h:13
 msgid "Localization"
-msgstr "Datum & Beträge"
+msgstr "Internationalisierung"
 
 #: ../src/ui/prefs_page_divers.ui.h:14
 msgid "Choose the language"
@@ -12718,7 +12686,7 @@ msgstr "Verzeichnis für Import"
 
 #: ../src/ui/prefs_page_files.ui.h:20
 msgid "Use a fixed directory for importing files: "
-msgstr "Fixes Verzeichnis für Import verwenden: "
+msgstr "Definiertes Verzeichnis für Import verwenden: "
 
 #: ../src/ui/prefs_page_import_asso.ui.h:1
 msgid "Import associations"
@@ -12761,7 +12729,7 @@ msgstr "Importierte Buchungen mit vorhandenen Buchungen zusammenführen"
 
 #: ../src/ui/prefs_page_import_files.ui.h:5
 msgid "Automatically associate the category of the payee if it is possible"
-msgstr "Empfänger automatisch eintragen"
+msgstr "Empfänger automatisch zuordnen"
 
 #: ../src/ui/prefs_page_import_files.ui.h:7
 msgid "Coping the original payee in the notes"
@@ -12773,7 +12741,7 @@ msgstr "Import CSV Dateien"
 
 #: ../src/ui/prefs_page_import_files.ui.h:9
 msgid "Forces the value date if not present with the date of the transaction"
-msgstr "Das Buchungsdatum verwenden wenn es kein Valutadatum gibt"
+msgstr "Das Buchungsdatum verwenden wenn es keinen Abrechnungstag gibt"
 
 #: ../src/ui/prefs_page_import_files.ui.h:10
 msgid "Import QIF files"
