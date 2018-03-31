@@ -59,8 +59,7 @@ static int gsb_date_get_month_from_string ( const gchar * );
  */
 #define DATE_STRING_REGEX       "^(\\d{1,2}|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)(?:[-/.:]?(\\d{1,2}|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)(?:[-/.:]?(\\d{2}(?:\\d{2})?))?)?$"
 #define DATE_STRING_KEY         "date_string"
-
-
+#define DATE_ISO8601_REGEX		"^(2\\d{3})-?(\\d{1,2})?-?(\\d{1,2})?$"
 
 /* months */
 static const gchar *months[] = {
@@ -321,30 +320,42 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
 {
     GDate *date = NULL;
     GRegex *date_regex;
-    gchar **date_tokens = NULL;
+	gchar **date_tokens = NULL;
     gchar **tab_date = NULL;
+	gchar *regex_str;
     gboolean year_auto = TRUE;
 	gint page;
     int num_tokens, num_fields;
     int i, j;
 
-    if ( !date_string || !strlen ( date_string ) )
+	//~ devel_debug (date_string);
+	if ( !date_string || !strlen ( date_string ) )
+	{
         return NULL;
+	}
+
+	/* set the local pattern */
+	regex_str = DATE_STRING_REGEX;
 
     /* récupère le format des champs date */
     if (  g_strrstr_len ( format, 4, "/%" ) )
         date_tokens = g_strsplit ( format + 1, "/%", 3 );
     if (  g_strrstr_len ( format, 4, ".%" ) )
         date_tokens = g_strsplit ( format + 1, ".%", 3 );
+    if (  g_strrstr_len ( format, 4, "-%" ) )
+	{
+        date_tokens = g_strsplit ( format + 1, "-%", 3 );
+		/* set the ISO-8601 pattern */
+		regex_str = DATE_ISO8601_REGEX;
+	}
 
-    /* get the regex from the store */
-    date_regex = gsb_regex_lookup ( DATE_STRING_KEY );
+	/* get the regex from the store */
+	date_regex = gsb_regex_lookup ( DATE_STRING_KEY );
     if ( ! date_regex )
     {
         /* only for the first call */
-        devel_debug ( DATE_STRING_KEY );
         date_regex = gsb_regex_insert ( DATE_STRING_KEY,
-                                        DATE_STRING_REGEX,
+                                        regex_str,
                                         G_REGEX_CASELESS,
                                         0 );
         if ( ! date_regex )
@@ -359,7 +370,7 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
         goto invalid;
 
     tab_date = g_regex_split ( date_regex, date_string, 0 );
-
+//~ printf ("tab_date[0] = %s tab_date[1] = %s tab_date[2] = %s tab_date[3] = %s\n", tab_date[0], tab_date[1],tab_date[2],tab_date[3]);
     /* Initialize date */
     date = gdate_today ();
 
@@ -435,6 +446,7 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
 
     g_strfreev ( tab_date );
     g_strfreev ( date_tokens );
+
     return date;
 
 invalid:
@@ -644,11 +656,12 @@ void gsb_date_set_format_date ( const gchar *format_date )
     g_free ( format );
     format = NULL;
 
-    if ( format_date
-     &&
-        ( strcmp ( format_date, "%d/%m/%Y" ) == 0
-         || strcmp ( format_date, "%m/%d/%Y" ) == 0
-         || strcmp ( format_date, "%d.%m.%Y" ) == 0 ) )
+    if (format_date
+		&&
+		(strcmp (format_date, "%d/%m/%Y") == 0
+         || strcmp (format_date, "%m/%d/%Y") == 0
+         || strcmp (format_date, "%d.%m.%Y") == 0
+		 || strcmp (format_date, "%Y-%m-%d") == 0))
     {
         format = g_strdup ( format_date );
     }

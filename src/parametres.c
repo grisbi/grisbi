@@ -59,6 +59,7 @@
 #include "gsb_real.h"
 #include "gsb_reconcile_config.h"
 #include "gsb_reconcile_sort_config.h"
+#include "gsb_regex.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
 #include "import.h"
@@ -772,7 +773,7 @@ gboolean gsb_config_metatree_re_sort_divisions ( GtkWidget *checkbutton,
 GtkWidget *gsb_config_date_format_chosen ( GtkWidget *parent, gint sens )
 {
     GtkWidget *hbox, *paddingbox;
-    GtkWidget *button_1, *button_2, *button_3;
+    GtkWidget *button_1, *button_2, *button_3, *button_4;
     gchar *format_date;
 
     button_1 = gtk_radio_button_new_with_label ( NULL, "dd/mm/yyyy" );
@@ -800,12 +801,22 @@ GtkWidget *gsb_config_date_format_chosen ( GtkWidget *parent, gint sens )
                         format_date,
                         g_free );
 
+	button_4 = gtk_radio_button_new_with_label ( gtk_radio_button_get_group (
+                        GTK_RADIO_BUTTON ( button_1 ) ),
+                        "yyyy-mm-dd." );
+    format_date = g_strdup ( "%Y-%m-%d" );
+    g_object_set_data_full ( G_OBJECT ( button_4 ),
+                        "pointer",
+                        format_date,
+                        g_free );
+
     if ( sens == GTK_ORIENTATION_VERTICAL )
     {
         paddingbox = new_paddingbox_with_title ( parent, FALSE, _("Choose the date format") );
         gtk_box_pack_start ( GTK_BOX ( paddingbox ), button_1, FALSE, FALSE, 0 );
         gtk_box_pack_start ( GTK_BOX ( paddingbox ), button_2, FALSE, FALSE, 0 );
         gtk_box_pack_start ( GTK_BOX ( paddingbox ), button_3, FALSE, FALSE, 0 );
+        gtk_box_pack_start ( GTK_BOX ( paddingbox ), button_4, FALSE, FALSE, 0 );
     }
     else
     {
@@ -815,6 +826,7 @@ GtkWidget *gsb_config_date_format_chosen ( GtkWidget *parent, gint sens )
         gtk_box_pack_start ( GTK_BOX ( hbox ), button_1, FALSE, FALSE, 0 );
         gtk_box_pack_start ( GTK_BOX ( hbox ), button_2, FALSE, FALSE, 0 );
         gtk_box_pack_start ( GTK_BOX ( hbox ), button_3, FALSE, FALSE, 0 );
+        gtk_box_pack_start ( GTK_BOX ( hbox ), button_4, FALSE, FALSE, 0);
     }
 
     format_date = gsb_date_get_format_date ( );
@@ -824,6 +836,8 @@ GtkWidget *gsb_config_date_format_chosen ( GtkWidget *parent, gint sens )
             gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button_2 ), TRUE );
         else if ( strcmp ( format_date, "%d.%m.%Y" ) == 0 )
             gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button_3 ), TRUE );
+        else if ( strcmp ( format_date, "%Y-%m-%d" ) == 0 )
+            gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button_4 ), TRUE );
 
         g_free ( format_date );
     }
@@ -836,8 +850,11 @@ GtkWidget *gsb_config_date_format_chosen ( GtkWidget *parent, gint sens )
                         "button-release-event",
                         G_CALLBACK ( gsb_localisation_format_date_toggle ),
                         GINT_TO_POINTER ( sens ) );
-
     g_signal_connect ( G_OBJECT ( button_3 ),
+                        "button-release-event",
+                        G_CALLBACK ( gsb_localisation_format_date_toggle ),
+                        GINT_TO_POINTER ( sens ) );
+    g_signal_connect ( G_OBJECT ( button_4 ),
                         "button-release-event",
                         G_CALLBACK ( gsb_localisation_format_date_toggle ),
                         GINT_TO_POINTER ( sens ) );
@@ -859,9 +876,7 @@ gboolean gsb_localisation_format_date_toggle ( GtkToggleButton *togglebutton,
 
     format_date = g_object_get_data ( G_OBJECT ( togglebutton ), "pointer" );
     gsb_date_set_format_date ( format_date );
-
-    if ( GPOINTER_TO_INT ( user_data ) == GTK_ORIENTATION_HORIZONTAL )
-        return FALSE;
+	gsb_regex_init_variables ();
 
     gsb_localisation_update_affichage ( 0 );
 
