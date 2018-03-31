@@ -218,6 +218,11 @@ static gboolean bet_array_list_replace_line_by_transfert ( GtkTreeModel *tab_mod
             date = gsb_parse_date_string ( str_date );
             g_free ( str_date );
 
+            if (!date)
+            {
+                continue;
+            }
+
             if ( g_date_compare ( date, date_debut_comparaison ) < 0 )
             {
                 g_date_free ( date );
