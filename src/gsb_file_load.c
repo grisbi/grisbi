@@ -4391,6 +4391,11 @@ void gsb_file_load_error ( GMarkupParseContext *context,
                         GError *error,
                         gpointer user_data )
 {
+#if GLIB_CHECK_VERSION (2,52,0)
+/* g_utf8_make_valid() has been introduced in glib 2.52 */
+#define HAVE_G_UTF8_MAKE_VALID
+#endif
+
 #ifdef HAVE_G_UTF8_MAKE_VALID
 	gchar * valid_utf8 = g_utf8_make_valid(error -> message, -1);
 #endif
@@ -4406,7 +4411,7 @@ void gsb_file_load_error ( GMarkupParseContext *context,
                          );
     dialogue_error ( tmpstr );
     g_free ( tmpstr );
-#ifdef HAVE_G_UTF8_MAKE_VALId
+#ifdef HAVE_G_UTF8_MAKE_VALID
 	g_free(valid_utf8);
 #endif
 }

@@ -22,9 +22,6 @@
 /* Define if libxml2 support is enabled */
 #define HAVE_XML2 1
 
-/* Define to 1 if you have the `g_utf8_make_valid' function. */
-#define HAVE_G_UTF8_MAKE_VALID 1
-
 /* Defined if Grisbi is a developmeent version */
 #define IS_DEVELOPMENT_VERSION 1
 
