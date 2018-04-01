@@ -92,6 +92,12 @@ fi
 # $LIBM courtesy of LT_LIB_M
 GRISBI_LIBS="$LIBM $GRISBI_LIBS"
 
+saved_LIBS="$LIBS"
+LIBS="$GLIB_LIBS"
+AC_CHECK_FUNCS(g_utf8_make_valid)
+LIBS="$saved_LIBS"
+
+
 dnl ================================================================
 dnl Defined if Grisbi is a development version
 dnl ================================================================
