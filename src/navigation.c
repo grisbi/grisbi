@@ -1038,19 +1038,26 @@ void gsb_gui_navigation_update_statement_label ( gint account_number )
     gchar* tmp_str;
     gchar* tmp_str1;
     gchar* tmp_str2;
+	gchar *balance_str;
+	gboolean has_pointed;
     gsb_real amount;
 
     reconcile_number = gsb_data_reconcile_get_account_last_number ( account_number );
     amount = gsb_data_account_get_marked_balance ( account_number );
-    if ( reconcile_number )
+	has_pointed = gsb_data_account_get_has_pointed (account_number);
+	if (has_pointed)
+		balance_str = g_strdup (_("Pointed balance: "));
+	else
+		balance_str = g_strdup (_("Reconciled balance: "));
+
+	if ( reconcile_number )
     {
         tmp_str1 = gsb_format_gdate ( gsb_data_reconcile_get_final_date (
                                             reconcile_number ) );
         tmp_str2 = utils_real_get_string_with_currency ( amount,
                         gsb_data_account_get_currency ( account_number ), TRUE );
 
-        tmp_str = g_strconcat ( _("Last statement: "), tmp_str1, " - ",
-                               _("Reconciled balance: "), tmp_str2, NULL );
+        tmp_str = g_strconcat (_("Last statement: "), tmp_str1, " - ", balance_str, tmp_str2, NULL);
         gtk_label_set_text ( GTK_LABEL ( label_last_statement ), tmp_str);
         g_free ( tmp_str );
         g_free ( tmp_str1 );
@@ -1061,15 +1068,17 @@ void gsb_gui_navigation_update_statement_label ( gint account_number )
         tmp_str2 = utils_real_get_string_with_currency (amount,
                         gsb_data_account_get_currency ( account_number ), TRUE );
 
-        tmp_str = g_strconcat ( _("Last statement: none"), " - ",
-                               _("Reconciled balance: "), tmp_str2, NULL );
+        tmp_str = g_strconcat (_("Last statement: none"), " - ", balance_str, tmp_str2, NULL);
         gtk_label_set_text ( GTK_LABEL ( label_last_statement ), tmp_str);
         g_free ( tmp_str );
         g_free ( tmp_str2 );
     }
     else
+	{
         gtk_label_set_text ( GTK_LABEL ( label_last_statement ),
                                             _("Last statement: none") );
+	}
+	g_free (balance_str);
 }
 
 
