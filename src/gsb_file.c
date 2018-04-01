@@ -722,9 +722,15 @@ gboolean gsb_file_open_file (const gchar *filename)
     }
     else
     {
+#ifdef HAVE_SSL
 		gchar *tmp_str1;
 		gchar *tmp_str2;
+#endif
 
+		/* Loading failed. */
+		grisbi_win_status_bar_message (_("Failed to load accounts"));
+
+#ifdef HAVE_SSL
         if (run.old_version)
         {
             dialogue_error_hint (_("The version of your file is less than 0.6. "
@@ -734,9 +740,6 @@ gboolean gsb_file_open_file (const gchar *filename)
 
             return FALSE;
         }
-
-        /* Loading failed. */
-        grisbi_win_status_bar_message (_("Failed to load accounts"));
 
 		tmp_str1 = g_strdup_printf (_("Error loading file '%s'"), filename);
 
@@ -769,7 +772,7 @@ gboolean gsb_file_open_file (const gchar *filename)
 		dialogue_error_hint (tmp_str2, tmp_str1);
 		g_free (tmp_str1);
 		g_free (tmp_str2);
-
+#endif
 		grisbi_win_status_bar_stop_wait (TRUE);
 		grisbi_win_stack_box_show (NULL, "accueil_page");
 		return FALSE;

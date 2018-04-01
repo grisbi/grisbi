@@ -3876,6 +3876,7 @@ gboolean gsb_file_load_open_file (const gchar *filename )
 
                 dialogue_error_hint ( text, hint );
                 g_free ( hint );
+                g_free (text);
                 return FALSE;
             }
 #endif
