@@ -291,7 +291,7 @@ if test "$platform_win" = "yes"; then
 		NSIS_DEFAULTINSTDIR="Program Files (x86)"
 	fi
 	NSIS_SRCDIR=$({ cd ${srcdir} && pwd -W; } | sed 's|/|\\|g')
-	NSIS_INSTDIR=$(echo $prefix | perl -p -e 's|^/(.)/|$1:\\|' | perl -p -e 's|/|\\|g')
+	NSIS_INSTDIR=$({ cd ${prefix} && pwd -W; } | sed 's|/|\\|g')
 	
 	AC_SUBST(NSIS_BITS)
 	AC_SUBST(NSIS_DEFAULTINSTDIR)
