@@ -47,7 +47,7 @@
 	<Sub_category Nbc="9" Nb="1" Na="Divers" />
 	<Sub_category Nbc="9" Nb="2" Na="Frais bancaires" />
 	<Sub_category Nbc="9" Nb="3" Na="Emprunt" />
-	<Sub_category Nbc="9" Nb="4" Na="Charges d&apos;emprunts" />
+	<Sub_category Nbc="9" Nb="4" Na="Charges d'emprunts" />
 	<Sub_category Nbc="9" Nb="5" Na="Remboursement" />
 	<Category Nb="10" Na="Frais professionnels" Kd="1" />
 	<Sub_category Nbc="10" Nb="1" Na="Non remboursables" />
@@ -81,7 +81,7 @@
 	<Sub_category Nbc="13" Nb="5" Na="Informatique" />
 	<Sub_category Nbc="13" Nb="6" Na="Jeux" />
 	<Sub_category Nbc="13" Nb="7" Na="Lecture" />
-	<Sub_category Nbc="13" Nb="8" Na="Parc d&apos;attraction" />
+	<Sub_category Nbc="13" Nb="8" Na="Parc d'attraction" />
 	<Sub_category Nbc="13" Nb="9" Na="Spectacle" />
 	<Sub_category Nbc="13" Nb="10" Na="Sport" />
 	<Sub_category Nbc="13" Nb="11" Na="Vidéo" />
@@ -117,7 +117,7 @@
 	<Category Nb="19" Na="Autres revenus" Kd="0" />
 	<Sub_category Nbc="19" Nb="1" Na="Allocation chômage" />
 	<Sub_category Nbc="19" Nb="2" Na="Allocation familiales" />
-	<Sub_category Nbc="19" Nb="3" Na="Crédit d&apos;impôt" />
+	<Sub_category Nbc="19" Nb="3" Na="Crédit d'impôt" />
 	<Sub_category Nbc="19" Nb="4" Na="Jeu" />
 	<Sub_category Nbc="19" Nb="5" Na="Mutuelle santé" />
 	<Sub_category Nbc="19" Nb="6" Na="Sécurité sociale" />
