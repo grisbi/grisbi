@@ -1,6 +1,6 @@
 # Gnucash plugin
 
-AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/src $(GRISBI_CFLAGS) $(XML2_CFLAGS)
+AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/src $(GLIB_CFLAGS) $(GTK_CFLAGS) $(XML2_CFLAGS)
 
 if HAVE_XML2
 

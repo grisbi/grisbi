@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 
-AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/src $(GRISBI_CFLAGS) $(LIBPREFSPAGES_CFLAGS)
+AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/src $(GLIB_CFLAGS) $(GTK_CFLAGS) $(LIBPREFSPAGES_CFLAGS)
 
 noinst_LTLIBRARIES = libprefspages.la
 
