@@ -95,7 +95,7 @@ static void etats_support_set_export_pdf_name (gint report_number,
 		gchar **tmp_tab;
 		gchar *export_name;
 
-		tmp_tab = g_strsplit (tab[0], "/", 3);
+		tmp_tab = g_strsplit_set (tab[0], "/.-", 3);
 		export_name = g_strconcat (tmp_tab[2], ".",tmp_tab[1], ".",tmp_tab[0], "-",tab[1], " ", tmp_str, ".pdf", NULL);
 		gsb_data_report_set_export_pdf_name (report_number, export_name);
 		g_strfreev (tmp_tab);
