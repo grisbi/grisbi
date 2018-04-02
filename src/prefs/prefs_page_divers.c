@@ -324,12 +324,13 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page)
 	/* Init checkbutton set fixed date */
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_scheduler_set_fixed_date),
 								  etat.scheduler_set_fixed_date);
+	gtk_widget_set_sensitive (priv->checkbutton_scheduler_set_fixed_date, is_loading);
 
 	/* Adding and init widgets select defaut compte */
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_scheduler_set_default_account),
 								  etat.scheduler_set_default_account);
 
-	if (grisbi_win_file_is_loading ())
+	if (is_loading)
 		combo = gsb_account_create_combo_list (G_CALLBACK (prefs_page_divers_scheduler_change_account), NULL, FALSE);
 	else
 		combo = utils_prefs_create_combo_list_indisponible ();
@@ -389,10 +390,10 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page)
 					  &conf.scheduler_fixed_day);
 
     /* callback for checkbutton_scheduler_set_fixed_date */
-    g_signal_connect (priv->checkbutton_scheduler_set_fixed_date,
-					  "toggled",
-					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
-					  &etat.scheduler_set_fixed_date);
+		g_signal_connect (priv->checkbutton_scheduler_set_fixed_date,
+						  "toggled",
+						  G_CALLBACK (utils_prefs_page_checkbutton_changed),
+						  &etat.scheduler_set_fixed_date);
 
     /* callback for checkbutton_scheduler_set_default_account */
     g_signal_connect (priv->checkbutton_scheduler_set_default_account,
