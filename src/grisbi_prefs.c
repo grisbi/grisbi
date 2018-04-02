@@ -54,6 +54,7 @@
 #include "utils_buttons.h"
 #include "utils_gtkbuilder.h"
 #include "utils_prefs.h"
+#include "prefs/prefs_page_accueil.h"
 #include "prefs/prefs_page_archives.h"
 #include "prefs/prefs_page_display_adr.h"
 #include "prefs/prefs_page_display_fonts.h"
@@ -466,8 +467,7 @@ static void grisbi_prefs_left_panel_populate_tree_model (GrisbiPrefs *prefs)
     page++;
 
 	/* append page Accueil */
-	widget = GTK_WIDGET (onglet_accueil ());
-	utils_widget_set_padding (widget, MARGIN_BOX, 0);
+	widget = GTK_WIDGET (prefs_page_accueil_new (prefs));
 	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Main page"), page);
 	page++;
 
