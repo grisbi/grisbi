@@ -52,15 +52,41 @@ void gsb_locale_init_lconv_struct (void)
 	locale = localeconv ();
 	_locale = g_malloc (sizeof (*_locale));
 
-	if (locale->mon_thousands_sep && strlen (locale->mon_thousands_sep) > 0)
-		_locale->mon_thousands_sep = g_strdup (locale->mon_thousands_sep);
+	/* thousands_sep */
+	if (locale->thousands_sep && strlen (locale->thousands_sep) > 0)
+	{
+		if (g_utf8_validate (locale->thousands_sep, -1, NULL))
+			_locale->thousands_sep = g_strdup (locale->thousands_sep);
+		else
+			_locale->thousands_sep = g_locale_to_utf8 (locale->thousands_sep, -1, NULL, NULL, NULL);
+	}
 	else
+	{
+		_locale->thousands_sep = NULL;
+	}
+
+	/* mon_thousands_sep */
+	if (locale->mon_thousands_sep && strlen (locale->mon_thousands_sep) > 0)
+	{
+		if (g_utf8_validate (locale->mon_thousands_sep, -1, NULL))
+			_locale->mon_thousands_sep = g_strdup (locale->mon_thousands_sep);
+		else
+			_locale->mon_thousands_sep = g_locale_to_utf8 (locale->mon_thousands_sep, -1, NULL, NULL, NULL);
+	}
+	else
+	{
 		_locale->mon_thousands_sep = NULL;
-    _locale->decimal_point     = g_strdup (locale->decimal_point);
-    _locale->thousands_sep     = g_strdup (locale->thousands_sep);
+	}
+
+	/* currency_symbol */
+	if (g_utf8_validate (locale->currency_symbol, -1, NULL))
+		_locale->currency_symbol = g_strdup (locale->currency_symbol);
+	else
+		_locale->currency_symbol = g_locale_to_utf8 (locale->currency_symbol, -1, NULL, NULL, NULL);
+
+	_locale->decimal_point     = g_strdup (locale->decimal_point);
     _locale->grouping          = g_strdup (locale->grouping);
     _locale->int_curr_symbol   = g_strdup (locale->int_curr_symbol);
-    _locale->currency_symbol   = g_strdup (locale->currency_symbol);
     _locale->mon_decimal_point = g_strdup (locale->mon_decimal_point);
     _locale->mon_grouping      = g_strdup (locale->mon_grouping);
     _locale->positive_sign     = g_strdup (locale->positive_sign);
@@ -180,12 +206,8 @@ gchar *gsb_locale_get_print_locale_var (void)
     gchar *currency_symbol;
 
     /* test local pour les nombres */
-	if (g_utf8_validate (_locale->currency_symbol, -1, NULL))
-		currency_symbol = g_strdup (_locale->currency_symbol);
-	else
-		currency_symbol = g_locale_to_utf8 (_locale->currency_symbol, -1, NULL, NULL, NULL);
-	if (_locale->mon_thousands_sep)
-		mon_thousands_sep = g_locale_to_utf8 (_locale->mon_thousands_sep, -1, NULL, NULL, NULL);
+	currency_symbol = g_strdup (_locale->currency_symbol);
+	mon_thousands_sep = g_strdup (_locale->mon_thousands_sep);
     mon_decimal_point = g_locale_to_utf8 (_locale->mon_decimal_point, -1, NULL, NULL, NULL);
     positive_sign = g_locale_to_utf8 (_locale->positive_sign, -1, NULL, NULL, NULL);
     negative_sign = g_locale_to_utf8 (_locale->negative_sign, -1, NULL, NULL, NULL);

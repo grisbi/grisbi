@@ -257,15 +257,22 @@ gboolean gsb_calendar_entry_key_press ( GtkWidget *entry,
 
 	case GDK_KEY_KP_Subtract:
 	case GDK_KEY_minus:
+		{
+			const gchar *date_format;
 
-	    /* decrease the date of 1 day/week, or the check of 1 */
-	    if ( ( ev -> state & GDK_CONTROL_MASK ) != GDK_CONTROL_MASK ||
-		 ev -> keyval != GDK_KEY_KP_Subtract  )
-		gsb_calendar_entry_step_date ( entry, -ONE_DAY );
-	    else
-		gsb_calendar_entry_step_date ( entry, -ONE_WEEK );
-	    return TRUE;
-	    break;
+			date_format = gsb_date_get_format_date ();
+			if (g_strcmp0 (date_format, "%Y-%m-%d"))
+			{
+				/* decrease the date of 1 day/week, or the check of 1 */
+				if ( ( ev -> state & GDK_CONTROL_MASK ) != GDK_CONTROL_MASK ||
+				 ev -> keyval != GDK_KEY_KP_Subtract  )
+					gsb_calendar_entry_step_date ( entry, -ONE_DAY );
+				else
+					gsb_calendar_entry_step_date ( entry, -ONE_WEEK );
+				return TRUE;
+			}
+			break;
+		}
 
 	case GDK_KEY_Page_Up :
 	case GDK_KEY_KP_Page_Up :

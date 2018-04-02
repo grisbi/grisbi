@@ -31,6 +31,7 @@
 
  /*START_INCLUDE*/
 #include "gsb_regex.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -84,6 +85,7 @@ GRegex *gsb_regex_insert ( const gchar *key,
     GRegex *regex;
     GError *error = NULL;
 
+    devel_debug (pattern);
     if ( ! regex_store )
         return NULL;
 

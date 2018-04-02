@@ -69,6 +69,7 @@ struct _AccountStruct {
     gchar 	*comment;
     gchar 	*holder_name;
     gchar 	*holder_address;
+	gboolean	has_pointed;			/* TRUE if one transaction is pointed */
 
     /** @name account_icon */
     gchar   *name_icon;                 /* path for not standard icon */
@@ -1050,6 +1051,7 @@ gsb_real gsb_data_account_calculate_current_and_marked_balances ( gint account_n
     gsb_real marked_balance;
 	gsb_real marked_balance_later = null_real;
     gint floating_point;
+	gboolean has_pointed;
 
     /* devel_debug_int ( account_number ); */
     account = gsb_data_account_get_structure ( account_number );
@@ -1090,21 +1092,30 @@ gsb_real gsb_data_account_calculate_current_and_marked_balances ( gint account_n
 	     !gsb_data_transaction_get_mother_transaction_number (transaction_number)
          && res >= 0 )
 	{
-        gsb_real adjusted_amout = gsb_data_transaction_get_adjusted_amount (transaction_number, floating_point);
+		gint marked_transaction;
+		gsb_real adjusted_amout;
+		gsb_real tmp_balance;
 
-        gsb_real tmp_balance = gsb_real_add ( current_balance, adjusted_amout );
+		adjusted_amout = gsb_data_transaction_get_adjusted_amount (transaction_number, floating_point);
+		tmp_balance = gsb_real_add ( current_balance, adjusted_amout );
 	    if( tmp_balance.mantissa != error_real.mantissa )
+		{
 	        current_balance = tmp_balance;
+		}
 	    else
-		current_balance_later = gsb_real_add ( current_balance_later, adjusted_amout);
-
-	    if ( gsb_data_transaction_get_marked_transaction (transaction_number))
+		{
+			current_balance_later = gsb_real_add ( current_balance_later, adjusted_amout);
+		}
+		marked_transaction = gsb_data_transaction_get_marked_transaction (transaction_number);
+	    if (marked_transaction)
 	    {
             tmp_balance = gsb_real_add ( marked_balance, adjusted_amout );
     	    if( tmp_balance.mantissa != error_real.mantissa )
 	            marked_balance = tmp_balance;
             else
                 marked_balance_later = gsb_real_add ( marked_balance_later, adjusted_amout);
+			if (marked_transaction == OPERATION_POINTEE)
+				has_pointed = TRUE;
         }
 	}
 	tmp_list = tmp_list -> next;
@@ -1113,6 +1124,7 @@ gsb_real gsb_data_account_calculate_current_and_marked_balances ( gint account_n
     g_date_free ( date_jour );
     account -> current_balance = gsb_real_add ( current_balance, current_balance_later );
     account -> marked_balance = gsb_real_add ( marked_balance, marked_balance_later );
+	account->has_pointed = has_pointed;
 
     return account -> current_balance;
 }
@@ -3802,7 +3814,7 @@ gsb_real gsb_data_account_get_balance_at_date ( gint account_number,
  *
  * \return
  * */
-void			gsb_data_account_set_all_limits_of_balance (void)
+void gsb_data_account_set_all_limits_of_balance (void)
 {
     GSList *tmp_list;
 
@@ -3833,7 +3845,26 @@ void			gsb_data_account_set_all_limits_of_balance (void)
  * \param
  *
  * \return
- * */
+ **/
+gboolean gsb_data_account_get_has_pointed (gint account_number)
+{
+    AccountStruct *account;
+
+    account = gsb_data_account_get_structure (account_number);
+
+    if (!account)
+        return FALSE;
+
+    return account->has_pointed;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

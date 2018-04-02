@@ -4391,15 +4391,29 @@ void gsb_file_load_error ( GMarkupParseContext *context,
                         GError *error,
                         gpointer user_data )
 {
-	gchar *valid_utf8 = g_utf8_make_valid(error -> message, -1);
+#if GLIB_CHECK_VERSION (2,52,0)
+/* g_utf8_make_valid() has been introduced in glib 2.52 */
+#define HAVE_G_UTF8_MAKE_VALID
+#endif
+
+#ifdef HAVE_G_UTF8_MAKE_VALID
+	gchar * valid_utf8 = g_utf8_make_valid(error -> message, -1);
+#endif
     /* the first time we come here, we check if it's a Grisbi file */
     gchar* tmpstr = g_strdup_printf (
                         _("An error occurred while parsing the file :\nError number : %d\n%s"),
                         error -> code,
-                        valid_utf8 );
+#ifdef HAVE_G_UTF8_MAKE_VALID
+						valid_utf8
+#else
+						error -> message
+#endif
+                         );
     dialogue_error ( tmpstr );
     g_free ( tmpstr );
+#ifdef HAVE_G_UTF8_MAKE_VALID
 	g_free(valid_utf8);
+#endif
 }
 
 /**

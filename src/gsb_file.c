@@ -216,19 +216,6 @@ static gint gsb_file_dialog_save (const gchar *filename,
 									 " ");
 	switch (origine)
 	{
-		case -2:
-		{
-			hint = g_strdup_printf (_("Rename '%s' file?"),
-									(filename ? g_path_get_basename(filename) : _("unnamed")));
-
-			gtk_dialog_add_buttons (GTK_DIALOG(dialog),
-									"gtk-no", GTK_RESPONSE_NO,
-									"gtk-yes", GTK_RESPONSE_OK,
-									NULL);
-			message = g_strdup("");
-
-			break;
-		}
 		case -1:
 		{
 			gchar *time_elapsed;
@@ -401,7 +388,7 @@ static gboolean gsb_file_save_file (gint origine)
 
     devel_debug_int (origine);
 
-	/* on regarde si il y a quelque chose à sauvegarder sinon on sort */
+	/* on regarde si il y a quelque chose à sauvegarder sauf pour "sauvegarder sous" */
 	if ((!gsb_file_get_modified () && origine != -2)
         ||
         !gsb_data_account_get_accounts_amount ())
@@ -431,8 +418,8 @@ static gboolean gsb_file_save_file (gint origine)
         return (FALSE);
     }
 
-    /* on commence par demander si on sauvegarde ou pas */
-    if (!conf.sauvegarde_auto)
+    /* on commence par demander si on sauvegarde ou pas sauf pour "sauvegarder sous" */
+    if (!conf.sauvegarde_auto && origine != -2)
     {
         result = gsb_file_dialog_save (filename, origine);
         if (result == GTK_RESPONSE_NO)
