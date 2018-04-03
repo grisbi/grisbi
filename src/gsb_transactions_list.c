@@ -293,6 +293,8 @@ void gsb_transactions_list_update_tree_view ( gint account_number,
     transaction_list_set_balances ( );
     transaction_list_sort ();
     transaction_list_colorize ();
+    if ( conf.show_transaction_gives_balance )
+		transaction_list_set_color_jour ( account_number );
 	if ( keep_selected_transaction )
 	{
         transaction_list_select ( selected_transaction );
@@ -2268,7 +2270,6 @@ gboolean gsb_transactions_list_delete_transaction ( gint transaction_number,
     gchar *tmpstr;
     gint account_number;
     gint msg_no = 0;
-	gint tmp_transaction = 0;
 
     devel_debug_int (transaction_number);
 
@@ -2361,12 +2362,9 @@ gboolean gsb_transactions_list_delete_transaction ( gint transaction_number,
     /* update the tree view */
     transaction_list_colorize ();
     if ( conf.show_transaction_gives_balance )
-        tmp_transaction = transaction_list_set_color_jour ( account_number );
+        transaction_list_set_color_jour ( account_number );
     transaction_list_set_balances ();
-	if (tmp_transaction)
-		transaction_list_select (tmp_transaction);
-	else
-		transaction_list_select (gsb_data_account_get_current_transaction_number (account_number));
+	transaction_list_select (gsb_data_account_get_current_transaction_number (account_number));
 
     /* if we are reconciling, update the amounts */
     if ( run.equilibrage )
@@ -3635,16 +3633,8 @@ gboolean gsb_transactions_list_change_sort_column ( GtkTreeViewColumn *tree_view
     transaction_list_sort ();
     transaction_list_colorize ();
     if ( conf.show_transaction_gives_balance )
-	{
-		gint tmp_transaction;
-
-        tmp_transaction = transaction_list_set_color_jour ( account_number );
-		transaction_list_select (tmp_transaction);
-	}
-	else
-	{
+        transaction_list_set_color_jour ( account_number );
 		transaction_list_select (selected_transaction);
-	}
 
     gsb_file_set_modified ( TRUE );
     return FALSE;
@@ -3696,10 +3686,7 @@ void mise_a_jour_affichage_r ( gboolean show_r )
             list_tmp = list_tmp -> next;
         }
     }
-	if (conf.show_transaction_gives_balance)
-		gsb_transactions_list_update_tree_view (current_account, FALSE);
-	else
-		gsb_transactions_list_update_tree_view ( current_account, show_r );
+	gsb_transactions_list_update_tree_view ( current_account, show_r );
 
     gsb_file_set_modified ( TRUE );
 
