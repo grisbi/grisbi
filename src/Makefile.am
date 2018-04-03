@@ -17,7 +17,13 @@ AM_CPPFLAGS =	\
 bin_PROGRAMS = grisbi
 noinst_LTLIBRARIES = libgrisbi.la
 
-grisbi_LDADD = $(GRISBI_LIBS) $(GTK_MAC_LIBS) $(ZLIB_LIBS) $(GTK_LIBS) $(GLIB_LIBS) libgrisbi.la
+grisbi_LDADD = \
+	libgrisbi.la \
+	$(GRISBI_LIBS) \
+	$(GTK_MAC_LIBS) \
+	$(ZLIB_LIBS) \
+	$(GTK_LIBS) \
+	$(GLIB_LIBS)
 
 libgrisbi_la_LIBADD =
 
