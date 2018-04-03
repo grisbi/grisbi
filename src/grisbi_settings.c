@@ -666,9 +666,6 @@ void grisbi_settings_save_app_config (void)
     g_settings_set_boolean ( G_SETTINGS (priv->settings_display),
                         "formulaire-toujours-affiche",
                         conf.formulaire_toujours_affiche);
-    g_settings_set_boolean (priv->settings_display,
-                        "group-partial-balance-under-accounts",
-                        conf.group_partial_balance_under_accounts);
     g_settings_set_boolean (G_SETTINGS (priv->settings_display),
                         "show-closed-accounts",
                         conf.show_closed_accounts);
@@ -744,10 +741,6 @@ void grisbi_settings_save_app_config (void)
                         "browser-command",
                         conf.browser_command);
 
-    g_settings_set_boolean (G_SETTINGS (priv->settings_general),
-                        "pluriel-final",
-                        conf.pluriel_final);
-
     switch (conf.metatree_action_2button_press)
     {
         case 1:
@@ -820,9 +813,6 @@ void grisbi_settings_save_app_config (void)
     g_settings_set_boolean (priv->settings_scheduled,
                         "execute-scheduled-of-month",
                         conf.execute_scheduled_of_month);
-    g_settings_set_boolean (priv->settings_scheduled,
-                        "balances-with-scheduled",
-                        conf.balances_with_scheduled);
     g_settings_set_int (priv->settings_scheduled,
                         "nb-days-before-scheduled",
                         conf.nb_days_before_scheduled);

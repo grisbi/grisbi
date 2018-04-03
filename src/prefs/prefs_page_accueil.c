@@ -38,7 +38,11 @@
 
 /*START_INCLUDE*/
 #include "prefs_page_accueil.h"
-#include "gsb_file.h"
+#include "grisbi_settings.h"
+#include "gsb_automem.h"
+#include "gsb_locale.h"
+#include "gsb_data_partial_balance.h"
+#include "navigation.h"
 #include "structures.h"
 #include "utils_prefs.h"
 #include "erreur.h"
@@ -54,11 +58,17 @@ struct _PrefsPageAccueilPrivate
 {
 	GtkWidget *			vbox_accueil;
 
-    GtkWidget *			checkbutton_;
-	GtkWidget *			eventbox_;
-    GtkWidget *         spinbutton_n;
-    GtkWidget *         filechooserbutton_;
-
+	GtkWidget *			box_lang_fr;
+    GtkWidget *			checkbutton_balances_with_scheduled;
+	GtkWidget *			eventbox_balances_with_scheduled;
+    GtkWidget *			hbox_paddingbox_lang_fr;
+    GtkWidget *         hbox_paddingbox_partial_balance;
+	GtkWidget *			button_partial_balance_add;
+	GtkWidget *			button_partial_balance_edit;
+	GtkWidget *			button_partial_balance_remove;
+    GtkWidget *         treeview_partial_balance;
+    GtkWidget *			checkbutton_partial_balance;
+	GtkWidget *			eventbox_partial_balance;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageAccueil, prefs_page_accueil, GTK_TYPE_BOX)
@@ -67,60 +77,291 @@ G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageAccueil, prefs_page_accueil, GTK_TYPE_BOX)
 /* Private functions                                                          */
 /******************************************************************************/
 /**
- * Création de la page de gestion des accueil
+ * force le recalcul des soldes et la mise à jour de la page d'accueil
  *
- * \param prefs
+ * \param   none
+ *
+ * \return  FALSE
+ * */
+static gboolean prefs_page_accueil_checkbutton_balances_with_scheduled_toggle (GtkToggleButton *button,
+																			   gpointer null)
+{
+    GSList *list_tmp;
+	GSettings *settings;
+
+	settings = grisbi_settings_get_settings (SETTINGS_SCHEDULED);
+    g_settings_set_boolean (G_SETTINGS (settings),
+							"balances-with-scheduled",
+							conf.balances_with_scheduled);
+
+    list_tmp = gsb_data_account_get_list_accounts ();
+    while (list_tmp)
+    {
+        gint account_number;
+
+        account_number = gsb_data_account_get_no_account (list_tmp->data);
+        gsb_data_account_set_balances_are_dirty (account_number);
+
+        list_tmp = list_tmp->next;
+    }
+	gsb_gui_navigation_update_home_page ();
+	utils_prefs_gsb_file_set_modified ();
+
+    return FALSE;
+}
+
+/**
+ * callback function for conf.group_partial_balance_under_account variable
+ *
+ * \param button        object clicked
+ * \param user_data
+ *
+ * \return              FALSE
+ * */
+static gboolean prefs_page_accueil_checkbutton_partial_balance_toggle (GtkToggleButton *button,
+																	   gpointer null)
+{
+	GSettings *settings;
+
+	settings = grisbi_settings_get_settings (SETTINGS_DISPLAY);
+    g_settings_set_boolean (G_SETTINGS (settings),
+							"group-partial-balance-under-accounts",
+							conf.group_partial_balance_under_accounts);
+    gsb_gui_navigation_update_home_page ();
+	utils_prefs_gsb_file_set_modified ();
+
+    return FALSE;
+}
+
+/**
+ * callback function for conf.pluriel_final variable
+ *
+ * \param button        object clicked
+ * \param user_data
+ *
+ * \return              FALSE
+ * */
+static gboolean prefs_page_accueil_checkbutton_pluriel_final_toggle (GtkToggleButton *button,
+																	 gpointer null)
+{
+	GSettings *settings;
+
+	settings = grisbi_settings_get_settings (SETTINGS_GENERAL);
+    g_settings_set_boolean (G_SETTINGS (settings),
+							"pluriel-final",
+							conf.pluriel_final);
+    gsb_gui_navigation_update_home_page ();
+	utils_prefs_gsb_file_set_modified ();
+
+    return FALSE;
+}
+
+/**
+ * Fonction appellée quand on sélectionne un solde partiel
+ *
+ * \param
+ * \param
+ * \param
+ * \param
+ * \param page
+ *
+ * \return TRUE
+ **/
+static	gboolean prefs_page_accueil_partial_balance_select_func (GtkTreeSelection *selection,
+																 GtkTreeModel *model,
+																 GtkTreePath *path,
+																 gboolean path_currently_selected,
+																 PrefsPageAccueil *page)
+{
+	PrefsPageAccueilPrivate *priv;
+
+	priv = prefs_page_accueil_get_instance_private (page);
+
+    gtk_widget_set_sensitive (priv->button_partial_balance_edit, TRUE);
+    gtk_widget_set_sensitive (priv->button_partial_balance_remove, TRUE);
+
+    return TRUE;
+}
+
+/**
+ * initialisation de la page de gestion de l'onglet accueil
+ *
+ * \param page
  *
  * \return
- */
+ **/
 static void prefs_page_accueil_setup_accueil_page (PrefsPageAccueil *page)
 {
 	GtkWidget *head_page;
+	const gchar *langue;
+	gboolean is_loading;
 	PrefsPageAccueilPrivate *priv;
 
 	devel_debug (NULL);
 
 	priv = prefs_page_accueil_get_instance_private (page);
+	is_loading = grisbi_win_file_is_loading ();
 
 	/* On récupère le nom de la page */
 	head_page = utils_prefs_head_page_new_with_title_and_icon (_("Configuration of the main page"), "gsb-title-32.png");
 	gtk_box_pack_start (GTK_BOX (priv->vbox_accueil), head_page, FALSE, FALSE, 0);
 	gtk_box_reorder_child (GTK_BOX (priv->vbox_accueil), head_page, 0);
 
-    /* set the variables for account */
-    //~ gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_),
-								  //~ conf.);
-	/* set spinbutton value */
-	//~ gtk_spin_button_set_value (GTK_SPIN_BUTTON (priv->spinbutton_),
-							   //~ conf.);
+    /* set the box for french langage*/
+	langue = gsb_locale_get_language ();
+    if (langue && g_strstr_len ((g_ascii_strup (langue, -1)), -1, "FR"))
+    {
+		GtkWidget *vbox_button;
 
-    /* Connect signal */
-    //~ g_signal_connect (priv->eventbox_,
-					  //~ "button-press-event",
-					  //~ G_CALLBACK (utils_prefs_page_eventbox_clicked),
-					  //~ priv->checkbutton_);
+		vbox_button = utils_prefs_automem_radiobutton_blue_new ("Soldes finals",
+																"Soldes finaux",
+																&conf.pluriel_final,
+																G_CALLBACK (prefs_page_accueil_checkbutton_pluriel_final_toggle),
+																NULL);
+		gtk_box_pack_start (GTK_BOX (priv->box_lang_fr), vbox_button, FALSE, FALSE, 0);
+		gtk_box_pack_start (GTK_BOX (priv->vbox_accueil), priv->hbox_paddingbox_lang_fr, FALSE, FALSE, 0);
+		gtk_box_reorder_child (GTK_BOX (priv->vbox_accueil), priv->hbox_paddingbox_lang_fr, 1);
+    }
 
-    //~ g_signal_connect (priv->checkbutton_,
-					  //~ "toggled",
-					  //~ G_CALLBACK (utils_prefs_page_checkbutton_changed),
-					  //~ &conf.);
+	/* set conf.balances_with_scheduled */
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_balances_with_scheduled),
+								  conf.balances_with_scheduled);
 
-    /* callback for spinbutton_ */
-    //~ g_object_set_data (G_OBJECT (priv->spinbutton_),
-                       //~ "button", priv->checkbutton_);
-	//~ g_object_set_data (G_OBJECT (priv->checkbutton_),
-                       //~ "spinbutton", priv->spinbutton_);
+	/* set conf.group_partial_balance_under_accounts */
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_partial_balance),
+								  conf.group_partial_balance_under_accounts);
 
-    //~ g_signal_connect (priv->spinbutton_,
-					  //~ "value-changed",
-					  //~ G_CALLBACK (utils_prefs_spinbutton_changed),
-					  //~ &conf.);
+	/* set data for buttons */
+	g_object_set_data (G_OBJECT (priv->vbox_accueil), "add_button", priv->button_partial_balance_add);
+    g_object_set_data (G_OBJECT (priv->vbox_accueil), "edit_button", priv->button_partial_balance_edit);
+    g_object_set_data (G_OBJECT (priv->vbox_accueil), "remove_button", priv->button_partial_balance_remove);
 
-    /* connect the signal for filechooserbutton_backup */
-    //~ g_signal_connect (G_OBJECT (priv->filechooserbutton_backup),
-                      //~ "selection-changed",
-                      //~ G_CALLBACK (utils_prefs_page_dir_chosen),
-                      //~ "backup_path");
+	/* Connect signal checkbutton_balances_with_scheduled */
+    g_signal_connect (priv->eventbox_balances_with_scheduled,
+					  "button-press-event",
+					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
+					  priv->checkbutton_balances_with_scheduled);
+
+    g_signal_connect (priv->checkbutton_balances_with_scheduled,
+					  "toggled",
+					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
+					  &conf.balances_with_scheduled);
+
+	/* Connect signal checkbutton_partial_balance */
+    g_signal_connect (priv->eventbox_partial_balance,
+					  "button-press-event",
+					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
+					  priv->checkbutton_partial_balance);
+
+    g_signal_connect (priv->checkbutton_partial_balance,
+					  "toggled",
+					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
+					  &conf.group_partial_balance_under_accounts);
+
+	if (is_loading)
+	{
+		GtkWidget *treeview;
+	    GtkListStore *list_store;
+		GtkTreeViewColumn *column;
+		GtkCellRenderer *cell;
+		GtkTreeSelection *selection;
+		GtkTreeDragDestIface * dst_iface;
+		GtkTreeDragSourceIface * src_iface;
+		static GtkTargetEntry row_targets[] = {{"GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_WIDGET, 0}};
+
+		/* create the model */
+		list_store = gsb_partial_balance_create_model ();
+
+		/* populate the model if necessary */
+		if (g_slist_length (gsb_data_partial_balance_get_list ()) > 0)
+			gsb_partial_balance_fill_model (list_store);
+
+		/* init the treeview */
+		treeview = priv->treeview_partial_balance;
+		gtk_tree_view_set_model (GTK_TREE_VIEW (treeview), GTK_TREE_MODEL (list_store));
+		gtk_widget_set_name (treeview, "tree_view");
+		g_object_set_data (G_OBJECT (priv->vbox_accueil), "treeview", treeview);
+		g_object_unref (list_store);
+
+		/* Enable drag & drop */
+		gtk_tree_view_enable_model_drag_source (GTK_TREE_VIEW (treeview),
+							GDK_BUTTON1_MASK, row_targets, 1,
+							GDK_ACTION_MOVE);
+		gtk_tree_view_enable_model_drag_dest (GTK_TREE_VIEW (treeview), row_targets,
+							1, GDK_ACTION_MOVE);
+		gtk_tree_view_set_reorderable (GTK_TREE_VIEW (treeview), TRUE);
+
+		selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview));
+		gtk_tree_selection_set_select_function (selection,
+												(GtkTreeSelectionFunc) prefs_page_accueil_partial_balance_select_func,
+												page,
+												NULL);
+
+		/* Nom du solde partiel */
+		cell = gtk_cell_renderer_text_new ();
+		column = gtk_tree_view_column_new_with_attributes (_("Name"),
+							cell, "text", 0, NULL);
+		gtk_tree_view_column_set_alignment (column, 0.5);
+		gtk_tree_view_column_set_sort_column_id (column, 0);
+		gtk_tree_view_append_column (GTK_TREE_VIEW (treeview), column);
+
+		/* Liste des comptes */
+		cell = gtk_cell_renderer_text_new ();
+		column = gtk_tree_view_column_new_with_attributes (_("Accounts list"),
+							cell, "text", 1, NULL);
+		gtk_tree_view_column_set_alignment (column, 0.5);
+		gtk_tree_view_column_set_sort_column_id (column, 1);
+		gtk_tree_view_append_column (GTK_TREE_VIEW (treeview), column);
+
+		/* Colorize */
+		cell = gtk_cell_renderer_toggle_new ();
+		g_signal_connect (cell,
+							"toggled",
+							G_CALLBACK (gsb_partial_balance_colorise_toggled),
+							treeview);
+		gtk_cell_renderer_toggle_set_radio (GTK_CELL_RENDERER_TOGGLE(cell), FALSE);
+		g_object_set (cell, "xalign", 0.5, NULL);
+
+		column = gtk_tree_view_column_new_with_attributes (_("Colorize"),
+							cell,
+							"active", 5,
+							NULL);
+		gtk_tree_view_append_column (GTK_TREE_VIEW(treeview), column);
+
+		/* Type de compte */
+		cell = gtk_cell_renderer_text_new ();
+		column = gtk_tree_view_column_new_with_attributes (_("Account kind"),
+							cell, "text", 2, NULL);
+		gtk_tree_view_column_set_alignment (column, 0.5);
+		gtk_tree_view_column_set_sort_column_id (column, 2);
+		gtk_tree_view_append_column (GTK_TREE_VIEW (treeview), column);
+
+		/* Devise */
+		cell = gtk_cell_renderer_text_new ();
+		column = gtk_tree_view_column_new_with_attributes (_("Currency"),
+							cell, "text", 3, NULL);
+		gtk_tree_view_column_set_alignment (column, 0.5);
+		gtk_tree_view_column_set_sort_column_id (column, 3);
+		gtk_tree_view_append_column (GTK_TREE_VIEW (treeview), column);
+
+		dst_iface = GTK_TREE_DRAG_DEST_GET_IFACE (list_store);
+		if (dst_iface)
+			dst_iface -> drag_data_received = &gsb_data_partial_balance_drag_data_received;
+
+		src_iface = GTK_TREE_DRAG_SOURCE_GET_IFACE (list_store);
+		if (src_iface)
+		{
+			gtk_selection_add_target (treeview,
+						  GDK_SELECTION_PRIMARY,
+						  GDK_SELECTION_TYPE_ATOM,
+						  1);
+			src_iface -> drag_data_get = &gsb_data_partial_balance_drag_data_get;
+		}
+	}
+	else
+	{
+		gtk_widget_set_sensitive (priv->hbox_paddingbox_partial_balance, FALSE);
+	}
 }
 
 /******************************************************************************/
@@ -146,10 +387,25 @@ static void prefs_page_accueil_class_init (PrefsPageAccueilClass *klass)
 												 "/org/gtk/grisbi/ui/prefs_page_accueil.ui");
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageAccueil, vbox_accueil);
-	//~ gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageAccueil, checkbutton_);
-	//~ gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageAccueil, eventbox_);
-	//~ gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageAccueil, spinbutton_);
-	//~ gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageAccueil, filechooserbutton_);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageAccueil, box_lang_fr);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageAccueil, hbox_paddingbox_lang_fr);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageAccueil, checkbutton_balances_with_scheduled);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageAccueil, eventbox_balances_with_scheduled);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageAccueil, treeview_partial_balance);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageAccueil, button_partial_balance_add);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageAccueil, button_partial_balance_edit);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageAccueil, button_partial_balance_remove);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageAccueil, checkbutton_partial_balance);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageAccueil, eventbox_partial_balance);
+
+	/* set callback functions */
+	gtk_widget_class_bind_template_callback (GTK_WIDGET_CLASS (klass), gsb_partial_balance_add);
+	gtk_widget_class_bind_template_callback (GTK_WIDGET_CLASS (klass), gsb_partial_balance_edit);
+	gtk_widget_class_bind_template_callback (GTK_WIDGET_CLASS (klass), gsb_partial_balance_remove);
+	gtk_widget_class_bind_template_callback (GTK_WIDGET_CLASS (klass),
+											 prefs_page_accueil_checkbutton_partial_balance_toggle);
+	gtk_widget_class_bind_template_callback (GTK_WIDGET_CLASS (klass),
+											 prefs_page_accueil_checkbutton_balances_with_scheduled_toggle);
 }
 
 /******************************************************************************/
