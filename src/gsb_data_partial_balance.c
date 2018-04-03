@@ -446,7 +446,7 @@ dialog_return:
  * remove a partial_balance
  *
  * */
-void gsb_partial_balance_delete ( GtkWidget *button, GtkWidget *main_widget )
+void gsb_partial_balance_remove ( GtkWidget *button, GtkWidget *main_widget )
 {
     GtkTreeView *treeview;
     GtkTreeModel *model;
@@ -597,7 +597,7 @@ gboolean gsb_partial_balance_key_press ( GtkWidget *tree_view, GdkEventKey *ev )
         break;
     case GDK_KEY_Delete:    /*  del  */
         g_object_set_data ( G_OBJECT ( tree_view ), "treeview", tree_view );
-        gsb_partial_balance_delete ( NULL, tree_view );
+        gsb_partial_balance_remove ( NULL, tree_view );
         return TRUE;
         break;
     }
