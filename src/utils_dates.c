@@ -47,7 +47,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static int gsb_date_get_month_from_string ( const gchar * );
+static int gsb_date_get_month_from_string (const gchar *);
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -56,8 +56,8 @@ static int gsb_date_get_month_from_string ( const gchar * );
 
 /* date regex:
  * 1 or 2 digits +
- * optional ( optional separator + 2 digits +
- *            optional ( optional separator + 2 or 4 digits ) )
+ * optional (optional separator + 2 digits +
+ *            optional (optional separator + 2 or 4 digits))
  */
 #define DATE_STRING_REGEX       "^(\\d{1,2}|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)(?:[-/.:]?(\\d{1,2}|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)(?:[-/.:]?(\\d{2}(?:\\d{2})?))?)?$"
 #define DATE_ISO8601_REGEX		"^(2\\d{3})-?(\\d{1,2})?-?(\\d{1,2})?$"
@@ -99,9 +99,13 @@ struct struct_last_entry_date {
 
 static struct struct_last_entry_date *buffer_entry_date = NULL;
 
+/******************************************************************************/
+/* Private functions                                                          */
+/******************************************************************************/
 /**
  *
  *
+ * \param
  * \param
  *
  * \return
@@ -200,6 +204,9 @@ invalid:
 	return NULL;
 }
 
+/******************************************************************************/
+/* Public functions                                                           */
+/******************************************************************************/
 /**
  * return the last_date if defined, else the date of the day
  * set last_date if unset
@@ -207,23 +214,22 @@ invalid:
  * \param
  *
  * \return a string contains the date (DO NOT free this string)
- * */
-gchar *gsb_date_today ( void )
+ **/
+gchar *gsb_date_today (void)
 {
     if (!last_date)
     {
         GDate *date;
         gchar *date_string;
 
-        date = gdate_today ( );
-        date_string = gsb_format_gdate ( date );
-        gsb_date_set_last_date ( date_string );
-        g_free ( date_string );
-        g_date_free ( date );
+        date = gdate_today ();
+        date_string = gsb_format_gdate (date);
+        gsb_date_set_last_date (date_string);
+        g_free (date_string);
+        g_date_free (date);
     }
     return (last_date);
 }
-
 
 /**
  * set the last_date value
@@ -231,13 +237,12 @@ gchar *gsb_date_today ( void )
  *
  * \param a string which contains the last date to remain
  *
- * */
-void gsb_date_set_last_date ( const gchar *date )
+ **/
+void gsb_date_set_last_date (const gchar *date)
 {
-    g_free ( last_date );
+    g_free (last_date);
     last_date = my_strdup (date);
 }
-
 
 /**
  * set last date to null, so the next
@@ -246,13 +251,12 @@ void gsb_date_set_last_date ( const gchar *date )
  *
  * \param
  *
- * */
-void gsb_date_free_last_date ( void )
+ **/
+void gsb_date_free_last_date (void)
 {
-    g_free ( last_date );
+    g_free (last_date);
     last_date = NULL;
 }
-
 
 /**
  * return the day date in the gdate format
@@ -260,17 +264,15 @@ void gsb_date_free_last_date ( void )
  * \param
  *
  * \return a newly allocated GDate which represents the date of the day. Use g_date_free to free memory when no more used.
- * */
-GDate *gdate_today ( void )
+ **/
+GDate *gdate_today (void)
 {
     GDate *date;
 
     date = g_date_new ();
-    g_date_set_time_t (  date, time (NULL));
-    return ( date );
+    g_date_set_time_t ( date, time (NULL));
+    return (date);
 }
-
-
 
 /**
  * return the tomorrow date in the gdate format
@@ -278,17 +280,16 @@ GDate *gdate_today ( void )
  * \param
  *
  * \return a newly allocated GDate which represents the date of the day. Use g_date_free to free memory when no more used.
- * */
-GDate *gsb_date_tomorrow ( void )
+ **/
+GDate *gsb_date_tomorrow (void)
 {
     GDate *date;
 
-    date = gdate_today ( );
-    g_date_add_days ( date, 1);
+    date = gdate_today ();
+    g_date_add_days (date, 1);
 
-    return ( date );
+    return (date);
 }
-
 
 /**
  * adds one month to a date
@@ -298,21 +299,20 @@ GDate *gsb_date_tomorrow ( void )
  *
  * \return a newly allocated GDate which represents the date of the day.
  * Use g_date_free to free memory when no more used.
- * */
-GDate *gsb_date_add_one_month ( GDate *date, gboolean free )
+ **/
+GDate *gsb_date_add_one_month (GDate *date,
+							   gboolean free)
 {
     GDate *new_date;
 
-    new_date = gsb_date_copy ( date );
-    g_date_add_months ( new_date, 1);
+    new_date = gsb_date_copy (date);
+    g_date_add_months (new_date, 1);
 
-    if ( free )
-        g_date_free ( date );
+    if (free)
+        g_date_free (date);
 
-    return ( new_date );
+    return (new_date);
 }
-
-
 
 /**
  * copy the date given in param
@@ -320,25 +320,20 @@ GDate *gsb_date_add_one_month ( GDate *date, gboolean free )
  * \param date a GDate to copy
  *
  * \return a copy or NULL if no date. Use g_date_free to free memory when no more used.
- * */
-GDate *gsb_date_copy ( const GDate *date )
+ **/
+GDate *gsb_date_copy (const GDate *date)
 {
     GDate *new_date;
 
-    if ( !date
-    ||
-     !g_date_valid (date))
-    return NULL;
+	if (!date || !g_date_valid (date))
+		return NULL;
 
-    new_date = g_date_new_dmy ( g_date_get_day ( date ),
-                        g_date_get_month ( date ),
-                        g_date_get_year ( date ));
+	new_date = g_date_new_dmy (g_date_get_day (date),
+							   g_date_get_month (date),
+							   g_date_get_year (date));
 
-    return new_date;
+	return new_date;
 }
-
-
-
 
 /**
  * check the entry to find a date
@@ -350,9 +345,9 @@ GDate *gsb_date_copy ( const GDate *date )
  * \param set_today if TRUE and the entry is empty, will set into the today date
  *
  * \return FALSE if problem with the date, TRUE if ok or entry empty
- * */
-gboolean gsb_date_check_and_complete_entry ( GtkWidget *entry,
-                        gboolean set_today )
+ **/
+gboolean gsb_date_check_and_complete_entry (GtkWidget *entry,
+											gboolean set_today)
 {
     const gchar *string;
 
@@ -363,35 +358,34 @@ gboolean gsb_date_check_and_complete_entry ( GtkWidget *entry,
     if (gsb_form_widget_check_empty (entry))
         return (TRUE);
 
-    string = gtk_entry_get_text ( GTK_ENTRY (entry));
+    string = gtk_entry_get_text (GTK_ENTRY (entry));
     if (!string)
         return FALSE;
 
-    if ( strlen (string))
+    if (strlen (string))
     {
         GDate *date;
         gchar* tmpstr;
 
-        date = gsb_date_get_last_entry_date ( string );
+        date = gsb_date_get_last_entry_date (string);
         if (!date)
             return FALSE;
 
         tmpstr = gsb_format_gdate (date);
-        gtk_entry_set_text ( GTK_ENTRY ( entry ), tmpstr);
-        if ( buffer_entry_date == NULL )
-            buffer_entry_date = g_malloc0 ( sizeof (struct struct_last_entry_date) );
-        buffer_entry_date -> date_string = g_strdup ( tmpstr );
+        gtk_entry_set_text (GTK_ENTRY (entry), tmpstr);
+        if (buffer_entry_date == NULL)
+            buffer_entry_date = g_malloc0 (sizeof (struct struct_last_entry_date));
+        buffer_entry_date -> date_string = g_strdup (tmpstr);
         buffer_entry_date -> last_entry_date = date;
-        g_free ( tmpstr );
+        g_free (tmpstr);
     }
     else
     {
         if (set_today)
-            gtk_entry_set_text ( GTK_ENTRY (entry), gsb_date_today() );
+            gtk_entry_set_text (GTK_ENTRY (entry), gsb_date_today());
     }
-    return ( TRUE );
+    return (TRUE);
 }
-
 
 /**
  * check the date in entry and return TRUE or FALSE
@@ -399,33 +393,32 @@ gboolean gsb_date_check_and_complete_entry ( GtkWidget *entry,
  * \param entry an entry containing a date
  *
  * \return TRUE date is valid, FALSE date is invalid
- * */
-gboolean gsb_date_check_entry ( GtkWidget *entry )
+ **/
+gboolean gsb_date_check_entry (GtkWidget *entry)
 {
     const gchar *string;
     GDate *date;
 
-    if ( !entry )
+    if (!entry)
         return FALSE;
 
-    string = gtk_entry_get_text ( GTK_ENTRY ( entry ) );
-    if ( !string || strlen ( string ) == 0 )
+    string = gtk_entry_get_text (GTK_ENTRY (entry));
+    if (!string || strlen (string) == 0)
         return FALSE;
 
-    date = gsb_date_get_last_entry_date ( string );
-    if ( !date )
+    date = gsb_date_get_last_entry_date (string);
+    if (!date)
         return FALSE;
     else
     {
-        if ( buffer_entry_date == NULL )
-            buffer_entry_date = g_malloc0 ( sizeof ( struct struct_last_entry_date ) );
-        buffer_entry_date -> date_string = g_strdup ( string );
+        if (buffer_entry_date == NULL)
+            buffer_entry_date = g_malloc0 (sizeof (struct struct_last_entry_date));
+        buffer_entry_date -> date_string = g_strdup (string);
         buffer_entry_date -> last_entry_date = date;
     }
 
-    return ( TRUE );
+    return (TRUE);
 }
-
 
 /**
  * Create and try to return a GDate from a string representation of a date.
@@ -435,8 +428,8 @@ gboolean gsb_date_check_entry ( GtkWidget *entry )
  * \param a string which represent a date
  *
  * \return a newly allocated gdate or NULL if cannot set
- */
-GDate *gsb_parse_date_string ( const gchar *date_string )
+ **/
+GDate *gsb_parse_date_string (const gchar *date_string)
 {
     GDate *date = NULL;
     GRegex *date_regex;
@@ -445,45 +438,45 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
 	gchar *regex_str;
 
 	//~ devel_debug (date_string);
-	if ( !date_string || !strlen ( date_string ) )
+	if (!date_string || !strlen (date_string))
 		return NULL;
 
 	/* set the local pattern */
 	regex_str = DATE_STRING_REGEX;
 
     /* récupère le format des champs date */
-    if (  g_strrstr_len ( format, 4, "/%" ) )
-        date_tokens = g_strsplit ( format + 1, "/%", 3 );
-    if (  g_strrstr_len ( format, 4, ".%" ) )
-        date_tokens = g_strsplit ( format + 1, ".%", 3 );
-    if (  g_strrstr_len ( format, 4, "-%" ) )
+    if ( g_strrstr_len (format, 4, "/%"))
+        date_tokens = g_strsplit (format + 1, "/%", 3);
+    if ( g_strrstr_len (format, 4, ".%"))
+        date_tokens = g_strsplit (format + 1, ".%", 3);
+    if ( g_strrstr_len (format, 4, "-%"))
 	{
-        date_tokens = g_strsplit ( format + 1, "-%", 3 );
+        date_tokens = g_strsplit (format + 1, "-%", 3);
 		/* set the ISO-8601 pattern */
 		regex_str = DATE_ISO8601_REGEX;
 	}
 
 	/* get the regex from the store */
-	date_regex = gsb_regex_lookup ( DATE_STRING_KEY );
-    if ( ! date_regex )
+	date_regex = gsb_regex_lookup (DATE_STRING_KEY);
+    if (! date_regex)
     {
         /* only for the first call */
-        date_regex = gsb_regex_insert ( DATE_STRING_KEY,
+        date_regex = gsb_regex_insert (DATE_STRING_KEY,
                                         regex_str,
                                         G_REGEX_CASELESS,
-                                        0 );
-        if ( ! date_regex )
+                                        0);
+        if (! date_regex)
         {
             /* big problem */
-            alert_debug ( DATE_STRING_KEY );
+            alert_debug (DATE_STRING_KEY);
             goto invalid;
         }
     }
 
-    if ( ! g_regex_match ( date_regex, date_string, 0, NULL ) )
+    if (! g_regex_match (date_regex, date_string, 0, NULL))
         goto invalid;
 
-    tab_date = g_regex_split ( date_regex, date_string, 0 );
+    tab_date = g_regex_split (date_regex, date_string, 0);
 
 	date = gsb_parse_date_string_from_tokens_and_date (date_tokens, tab_date);
 
@@ -499,8 +492,6 @@ invalid:
 
 }
 
-
-
 /**
  * Create and return a GDate from a string locale independant
  * representation of a date.  It expects format %m/%d/%Y (american
@@ -510,26 +501,24 @@ invalid:
  *
  * \return return a newly allocated string or NULL if the format of the date_string
  * parameter is invalid.
- */
-GDate *gsb_parse_date_string_safe ( const gchar *date_string )
+ **/
+GDate *gsb_parse_date_string_safe (const gchar *date_string)
 {
     gchar **tab_date;
     GDate * date;
 
-    tab_date = g_strsplit ( date_string, "/", 3 );
-    if ( tab_date[0] && tab_date[1] && tab_date[2] )
+    tab_date = g_strsplit (date_string, "/", 3);
+    if (tab_date[0] && tab_date[1] && tab_date[2])
     {
-    date = g_date_new_dmy ( utils_str_atoi ( tab_date[1] ),
-                        utils_str_atoi ( tab_date[0] ),
-                        utils_str_atoi ( tab_date[2] ) );
-    g_strfreev ( tab_date );
-    return date;
+		date = g_date_new_dmy (utils_str_atoi (tab_date[1]),
+							   utils_str_atoi (tab_date[0]),
+							   utils_str_atoi (tab_date[2]));
+		g_strfreev (tab_date);
+		return date;
     }
 
     return NULL;
 }
-
-
 
 /**
  * Convenience function that return the string representation of a
@@ -540,20 +529,20 @@ GDate *gsb_parse_date_string_safe ( const gchar *date_string )
  * \param year		Year of the date to represent.
  *
  * \return		A newly allocated string representing date.
- */
-gchar *gsb_format_date ( gint day, gint month, gint year )
+ **/
+gchar *gsb_format_date (gint day,
+						gint month,
+						gint year)
 {
     GDate* date;
     gchar* result;
 
-    date = g_date_new_dmy ( day, month, year );
-    result = gsb_format_gdate ( date );
-    g_date_free ( date );
+    date = g_date_new_dmy (day, month, year);
+    result = gsb_format_gdate (date);
+    g_date_free (date);
 
     return result;
 }
-
-
 
 /**
  * Convenience function that return the string representation of a
@@ -562,25 +551,23 @@ gchar *gsb_format_date ( gint day, gint month, gint year )
  * \param date		A GDate structure containing the date to represent.
  *
  * \return		A newly allocated string representing date.
- */
-gchar *gsb_format_gdate ( const GDate *date )
+ **/
+gchar *gsb_format_gdate (const GDate *date)
 {
     gchar retour_str[SIZEOF_FORMATTED_STRING_DATE];
     gsize longueur = 0;
 
-    if ( !date || !g_date_valid ( date ) )
-        return my_strdup ( "" );
+    if (!date || !g_date_valid (date))
+        return my_strdup ("");
 
-    if ( format )
-        longueur = g_date_strftime ( retour_str, SIZEOF_FORMATTED_STRING_DATE, format, date );
+    if (format)
+        longueur = g_date_strftime (retour_str, SIZEOF_FORMATTED_STRING_DATE, format, date);
 
-    if ( longueur == 0 )
-        return my_strdup ( "" );
+    if (longueur == 0)
+        return my_strdup ("");
     else
-        return g_strndup ( retour_str, longueur );
+        return g_strndup (retour_str, longueur);
 }
-
-
 
 /**
  * Convenience function that return the string representation of a
@@ -589,100 +576,106 @@ gchar *gsb_format_gdate ( const GDate *date )
  * \param date		A GDate structure containing the date to represent.
  *
  * \return		A newly allocated string representing date.
- */
-gchar *gsb_format_gdate_safe ( const GDate *date )
+ **/
+gchar *gsb_format_gdate_safe (const GDate *date)
 {
     gchar retour_str[SIZEOF_FORMATTED_STRING_DATE];
     gsize longueur;
 
-    if ( !date || !g_date_valid ( date ) )
+    if (!date || !g_date_valid (date))
     {
-        return g_strdup ( "" );
+        return g_strdup ("");
     }
 
-    longueur = g_date_strftime ( retour_str, SIZEOF_FORMATTED_STRING_DATE, "%m/%d/%Y", date );
+    longueur = g_date_strftime (retour_str, SIZEOF_FORMATTED_STRING_DATE, "%m/%d/%Y", date);
 
-    if ( longueur == 0 )
+    if (longueur == 0)
         return NULL;
     else
-        return g_strndup ( retour_str, longueur );
+        return g_strndup (retour_str, longueur);
 }
-
 
 /**
  * retourne la date bufferisée si les deux chaines correspondent
  * sinon renvoie une date issue de la chaine passée en paramètre
  *
- * */
-GDate *gsb_date_get_last_entry_date ( const gchar *string )
+ * \param
+ *
+ * \return
+ **/
+GDate *gsb_date_get_last_entry_date (const gchar *string)
 {
-    if ( buffer_entry_date && g_strcmp0 ( string , buffer_entry_date -> date_string) == 0 )
-        return gsb_date_copy ( buffer_entry_date -> last_entry_date );
+    if (buffer_entry_date && g_strcmp0 (string , buffer_entry_date -> date_string) == 0)
+        return gsb_date_copy (buffer_entry_date -> last_entry_date);
     else
-        return gsb_parse_date_string ( string );
+        return gsb_parse_date_string (string);
 }
-
 
 /**
  * retourne la date de compilation conforme à la locale
  *
- * */
-gchar *gsb_date_get_compiled_time ( void )
+ * \param
+ *
+ * \return
+ **/
+gchar *gsb_date_get_compiled_time (void)
 {
     GDate *date;
     gchar **tab;
     gchar *str;
     gint mois = 0;
 
-    str = g_strdup ( __DATE__ );
-    if ( g_strstr_len ( str, -1, "  " ) )
+    str = g_strdup (__DATE__);
+    if (g_strstr_len (str, -1, "  "))
     {
-        tab = g_strsplit ( str, "  ", -1 );
+        tab = g_strsplit (str, "  ", -1);
         str = g_strjoinv  (" ", tab);
         g_strfreev (tab);
     }
-    tab = g_strsplit ( str, " ", -1 );
-    g_free ( str );
+    tab = g_strsplit (str, " ", -1);
+    g_free (str);
 
-    mois = gsb_date_get_month_from_string ( tab[0] );
+    mois = gsb_date_get_month_from_string (tab[0]);
 
-    date = g_date_new_dmy ( atoi ( tab[1] ), mois, atoi ( tab[2] ) );
+    date = g_date_new_dmy (atoi (tab[1]), mois, atoi (tab[2]));
     g_strfreev (tab);
-    str = gsb_format_gdate ( date );
-    g_date_free ( date );
+    str = gsb_format_gdate (date);
+    g_date_free (date);
 
     return str;
 }
 
-
 /**
  * returns a date with the last day of the month.
  *
- * */
-GDate *gsb_date_get_last_day_of_month ( const GDate *date )
+ * \param
+ *
+ * \return
+ **/
+GDate *gsb_date_get_last_day_of_month (const GDate *date)
 {
     GDate *tmp_date;
 
-    tmp_date = gsb_date_copy ( date );
-    g_date_set_day ( tmp_date, 1 );
-    g_date_add_months ( tmp_date, 1 );
-    g_date_subtract_days ( tmp_date, 1 );
+    tmp_date = gsb_date_copy (date);
+    g_date_set_day (tmp_date, 1);
+    g_date_add_months (tmp_date, 1);
+    g_date_subtract_days (tmp_date, 1);
 
     return tmp_date;
 }
-
 
 /**
  * returns the format of date.
  * The returned string should be freed with g_free() when no longer needed.
  *
+ * \param
+ *
  * \return %d/%m/%Y or %m/%d/%Y
- * */
-gchar *gsb_date_get_format_date ( void )
+ **/
+gchar *gsb_date_get_format_date (void)
 {
-    return g_strdup ( format );
+    return g_strdup (format);
 }
-
 
 /**
  * Set the format of date. If given format is not valid, the format
@@ -692,10 +685,10 @@ gchar *gsb_date_get_format_date ( void )
  * \param format_date the new format to apply
  *
  * \return
- */
-void gsb_date_set_format_date ( const gchar *format_date )
+ **/
+void gsb_date_set_format_date (const gchar *format_date)
 {
-    g_free ( format );
+    g_free (format);
     format = NULL;
 
     if (format_date
@@ -705,13 +698,12 @@ void gsb_date_set_format_date ( const gchar *format_date )
          || strcmp (format_date, "%d.%m.%Y") == 0
 		 || strcmp (format_date, "%Y-%m-%d") == 0))
     {
-        format = g_strdup ( format_date );
+        format = g_strdup (format_date);
     }
 
-    g_free ( last_date );
+    g_free (last_date);
     last_date = NULL;
 }
-
 
 /**
  * Returns the integer of the month, as in GDateMonth (ie 1 for January,
@@ -720,37 +712,36 @@ void gsb_date_set_format_date ( const gchar *format_date )
  * \param month A 3-length string representing the month
  *
  * \return The integet from 1 to 12, or 0 otherwise
- */
-int gsb_date_get_month_from_string ( const gchar *month )
+ **/
+int gsb_date_get_month_from_string (const gchar *month)
 {
     int i;
     gchar *tmp;
 
-    if ( !month )
+    if (!month)
         return 0;
 
     /* first put the case of it is expected:
      * Uppercase first letter, and lower case for the two remaining */
-    tmp = g_strndup ( month, 3 );
-    tmp[0] = toupper ( tmp[0] );
-    tmp[1] = tolower ( tmp[1] );
-    tmp[2] = tolower ( tmp[2] );
+    tmp = g_strndup (month, 3);
+    tmp[0] = toupper (tmp[0]);
+    tmp[1] = tolower (tmp[1]);
+    tmp[2] = tolower (tmp[2]);
 
     /* find the month */
     for (i = 0; i < 12; i ++)
     {
-        if ( !strcmp ( tmp, months[i] ) )
+        if (!strcmp (tmp, months[i]))
         {
-            g_free ( tmp );
+            g_free (tmp);
             /* return the real month number, so index array + 1 */
             return i + 1;
         }
     }
 
-    g_free ( tmp );
+    g_free (tmp);
     return 0;
 }
-
 
 /**
  * returns a the last banking day of the month.
@@ -759,22 +750,22 @@ int gsb_date_get_month_from_string ( const gchar *month )
  *
  * \return a GDate  last banking day of the month
  *
- * */
-GDate *gsb_date_get_last_banking_day_of_month ( const GDate *date )
+ **/
+GDate *gsb_date_get_last_banking_day_of_month (const GDate *date)
 {
     GDate *tmp_date;
     GDateWeekday week_day = G_DATE_BAD_WEEKDAY;
 
-    tmp_date = gsb_date_get_last_day_of_month ( date );
+    tmp_date = gsb_date_get_last_day_of_month (date);
 
-    week_day = g_date_get_weekday ( tmp_date );
-    switch ( week_day )
+    week_day = g_date_get_weekday (tmp_date);
+    switch (week_day)
     {
 		case G_DATE_SUNDAY :
-			g_date_subtract_days ( tmp_date, 2 );
+			g_date_subtract_days (tmp_date, 2);
 			break;
 		case G_DATE_SATURDAY :
-			g_date_subtract_days ( tmp_date, 1 );
+			g_date_subtract_days (tmp_date, 1);
 			break;
 		default :
 			break;
@@ -988,7 +979,7 @@ void gsb_date_set_import_format_date (const GArray *lines_tab,
  * \param a string which represent a date
  *
  * \return a newly allocated gdate or NULL if cannot set
- */
+ **/
 GDate *gsb_parse_import_date_string (const gchar *date_string)
 {
     GDate *date = NULL;
@@ -1052,21 +1043,14 @@ invalid:
 }
 
 /**
- * get a string representing a date in qif format and return
+ * get a string representing a date and return
  * a newly-allocated NULL-terminated array of strings.
  * * the order in the array is the same as in the string
- * 	known formats :
- * 		dd/mm/yyyy
- * 		dd/mm/yy
- * 		yyyy/mm/dd
- * 		dd/mm'yy
- * 		dd/mm'yyyy
- * 		dd-mm-yy
  *
- * \param date_string	a qif formatted (so randomed...) string
+ * \param date_string	a -formatted (so randomed...) string
  *
  * \return a newly-allocated NULL-terminated array of 3 strings. Use g_strfreev() to free it.
- * */
+ **/
 gchar **gsb_date_get_date_content (const gchar *date_string)
 {
     gchar **array;
