@@ -35,7 +35,7 @@ detect_arch() {
 }
 
 install_libs() {	
-	auto_dependencies=`ntldd -R $prefix/bin/grisbi.exe | grep "mingw64\|mingw32" | cut -f2 -d'>' | cut -f2 -d' '`
+	auto_dependencies=$(ntldd -R $prefix/bin/grisbi.exe | grep "mingw64\|mingw32" | cut -f2 -d'>' | cut -f2 -d' ')
 	for i in $auto_dependencies; do
 		cp $i $prefix/bin || exit 1
 		echo "  * $i"
@@ -44,8 +44,8 @@ install_libs() {
 
 install_extra_libs() {
 	echo "Copying extra (non-detected) libraries"
-	libcroco=`pacman -Ql mingw-$msys2_arch-libcroco | grep ".dll$" | cut -f2 -d' '`			 
-	librsvg=`pacman -Ql mingw-$msys2_arch-librsvg | grep "rsvg\-.*\.dll$" | cut -f2 -d' '`
+	libcroco=$(pacman -Ql mingw-$msys2_arch-libcroco | grep ".dll$" | cut -f2 -d' ')
+	librsvg=$(pacman -Ql mingw-$msys2_arch-librsvg | grep "rsvg\-.*\.dll$" | cut -f2 -d' ')
 
 	for i in $libcroco $librsvg; do
 		cp $i $prefix/bin || exit 1
@@ -62,10 +62,10 @@ install_data() {
 	/mingw$bits/share/glib-2.0/schemas/org.gtk.Settings.ColorChooser.gschema.xml \
 	$prefix/share/glib-2.0/schemas/; \
 	glib-compile-schemas $prefix/share/glib-2.0/schemas/; \
-	gdk_pixbuf_ver=`pkg-config.exe gdk-pixbuf-2.0 --variable=gdk_pixbuf_binary_version`; \
-	echo "Copying gdk-pixbuf cache file ($$gdk_pixbuf_ver)"; \
-	mkdir -p $prefix/lib/gdk-pixbuf-2.0/$$gdk_pixbuf_ver; \
-	cp `pkg-config.exe gdk-pixbuf-2.0 --variable=gdk_pixbuf_cache_file` $prefix/lib/gdk-pixbuf-2.0/$$gdk_pixbuf_ver; \
+	gdk_pixbuf_ver=$(pkg-config.exe gdk-pixbuf-2.0 --variable=gdk_pixbuf_binary_version); \
+	echo "Copying gdk-pixbuf cache file ($gdk_pixbuf_ver)"; \
+	mkdir -p $prefix/lib/gdk-pixbuf-2.0/$gdk_pixbuf_ver; \
+	cp $(pkg-config.exe gdk-pixbuf-2.0 --variable=gdk_pixbuf_cache_file) $prefix/lib/gdk-pixbuf-2.0/$gdk_pixbuf_ver; \
 	if test ! -d $prefix/share/icons/; then mkdir -p $prefix/share/icons; fi; \
 	echo "Copying hicolor icons"; \
 	cp -rf /mingw$bits/share/icons/hicolor $prefix/share/icons/; \
@@ -167,8 +167,8 @@ install_data() {
 	/mingw$bits/share/locale/zh_CN/LC_MESSAGES/gtk30-properties.mo \
 	/mingw$bits/share/locale/zh_CN/LC_MESSAGES/glib20.mo \
 	$prefix/share/locale/zh_CN/LC_MESSAGES/; \
-	echo "Copying gdk-pixbuf loaders ($$gdk_pixbuf_ver)"; \
-	cp -rf `pkg-config.exe gdk-pixbuf-2.0 --variable=gdk_pixbuf_moduledir` $prefix/lib/gdk-pixbuf-2.0/$$gdk_pixbuf_ver;
+	echo "Copying gdk-pixbuf loaders ($gdk_pixbuf_ver)"; \
+	cp -rf $(pkg-config.exe gdk-pixbuf-2.0 --variable=gdk_pixbuf_moduledir) $prefix/lib/gdk-pixbuf-2.0/$gdk_pixbuf_ver;
 }
 
 # *****************************************************************************
