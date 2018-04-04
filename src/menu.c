@@ -741,6 +741,7 @@ void grisbi_cmd_move_to_account_menu (GSimpleAction *action,
 
 		source_account = gsb_gui_navigation_get_current_account ();
 		move_selected_operation_to_account_nb (source_account, target_account);
+		g_free (tmp_str);
 	}
 }
 

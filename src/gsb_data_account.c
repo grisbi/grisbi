@@ -1051,7 +1051,7 @@ gsb_real gsb_data_account_calculate_current_and_marked_balances ( gint account_n
     gsb_real marked_balance;
 	gsb_real marked_balance_later = null_real;
     gint floating_point;
-	gboolean has_pointed;
+	gboolean has_pointed = FALSE;
 
     /* devel_debug_int ( account_number ); */
     account = gsb_data_account_get_structure ( account_number );
