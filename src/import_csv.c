@@ -1208,6 +1208,9 @@ static gboolean csv_import_update_preview (GtkWidget *assistant)
 		return FALSE;
 	}
 
+	/* set the model for dates */
+	gsb_date_set_import_format_date (lines_tab, 0);
+
 	assistant = g_object_get_data (G_OBJECT(tree_preview), "assistant");
     model = csv_import_create_model (tree_preview, lines_tab, separator);
     if (model)
@@ -1370,6 +1373,9 @@ gboolean csv_import_file_by_rule (gint rule,
 	else
 		index = gsb_data_import_rule_get_csv_first_line_data (rule)-1;
 
+	/* set the model for dates */
+	gsb_date_set_import_format_date (lines_tab, index);
+
 	/* on regarde si il y a un traitement spécial */
 	if (gsb_data_import_rule_get_csv_spec_nbre_lines (rule))
 	{
@@ -1479,8 +1485,9 @@ gboolean csv_import_csv_account (GtkWidget *assistant,
     struct ImportAccount *compte;
 	GArray *lines_tab;
     GSList *list;
-    int index = 0;
+    gint index = 0;
 
+	devel_debug (imported->name);
 	compte = g_malloc0 (sizeof (struct ImportAccount));
     compte->nom_de_compte = gsb_import_unique_imported_name (_("Imported CSV account"));
     compte->origine = my_strdup ("CSV");
@@ -1551,13 +1558,13 @@ gboolean csv_import_csv_account (GtkWidget *assistant,
 																 NULL);
 			}
 		}
-	}
 
-	/* détermination de la première transaction du fichier */
-	if (compte->csv_headers_present)
-		index = compte->csv_first_line_data;
-	else
-		index = compte->csv_first_line_data-1;
+		/* détermination de la première transaction du fichier */
+		if (compte->csv_headers_present)
+			index = compte->csv_first_line_data;
+		else
+			index = compte->csv_first_line_data-1;
+	}
 
     list = g_array_index (lines_tab, GSList *, index);
     do

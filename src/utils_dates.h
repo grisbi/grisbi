@@ -16,12 +16,15 @@ gboolean gsb_date_check_entry ( GtkWidget *entry );
 GDate *gsb_date_copy ( const GDate *date );
 void gsb_date_free_last_date ( void );
 gchar *gsb_date_get_compiled_time ( void );
+gchar **gsb_date_get_date_content (const gchar *date_string);
 gchar **gsb_date_get_date_time_now_local (void);
 gchar *gsb_date_get_format_date ( void );
 GDate *gsb_date_get_first_day_of_current_month (void);
 GDate *gsb_date_get_last_banking_day_of_month ( const GDate *date );
 GDate *gsb_date_get_last_day_of_month ( const GDate *date );
 GDate *gsb_date_get_last_entry_date ( const gchar *string );
+void gsb_date_set_import_format_date (const GArray *lines_tab,
+								   gint index);
 void gsb_date_set_format_date ( const gchar *format_date );
 void gsb_date_set_last_date ( const gchar *date );
 gchar *gsb_date_today ( void );
@@ -29,6 +32,7 @@ GDate *gsb_date_tomorrow ( void );
 gchar *gsb_format_date ( gint day, gint month, gint year );
 gchar *gsb_format_gdate ( const GDate *date );
 gchar *gsb_format_gdate_safe ( const GDate *date );
+GDate *gsb_parse_import_date_string (const gchar *date_string);
 GDate *gsb_parse_date_string ( const gchar *date_string );
 GDate *gsb_parse_date_string_safe ( const gchar *date_string );
 /* END_DECLARATION */
