@@ -437,11 +437,4 @@ enum FormatDateOrder
     ORDER_MAX
 };
 
-/** Contain pre-defined CSV separators */
-struct CsvSeparators
-{
-    gchar *name;		/** Visible name of CSV separator */
-    gchar *value; 		/** Real value */
-};
-
 #endif
