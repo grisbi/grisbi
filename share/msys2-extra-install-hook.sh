@@ -55,7 +55,6 @@ install_extra_libs() {
 
 install_data() {
 	echo "Copying glib-2.0 schemas"; \
-	sleep 5
 	if test ! -d $prefix/share/glib-2.0/schemas/; then mkdir -p $prefix/share/glib-2.0/schemas/; fi;
 	cp /mingw$bits/share/glib-2.0/schemas/gschema.dtd \
 	/mingw$bits/share/glib-2.0/schemas/org.gtk.Settings.FileChooser.gschema.xml \
