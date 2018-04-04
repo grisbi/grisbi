@@ -48,7 +48,7 @@ void 			gsb_partial_balance_colorise_toggled 				(GtkCellRendererToggle *cell,
 																	 gchar *path_str,
 																	 GtkWidget *tree_view);
 GtkListStore *	gsb_partial_balance_create_model 					(void);
-void 			gsb_partial_balance_delete 							(GtkWidget *button,
+void 			gsb_partial_balance_remove 							(GtkWidget *button,
 																	 GtkWidget *main_widget);
 void 			gsb_partial_balance_edit 							(GtkWidget *button,
 																	 GtkWidget *main_widget);

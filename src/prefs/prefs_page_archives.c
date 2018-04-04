@@ -429,18 +429,23 @@ static void prefs_page_archives_button_sort_order_clicked (GtkWidget *toggle_but
 {
 	GSettings *settings;
     GtkTreeModel *model;
+	gboolean is_loading;
 
 	settings = grisbi_settings_get_settings (SETTINGS_PREFS);
 	g_settings_set_int ( G_SETTINGS (settings),
                         "prefs-archives-sort-order",
                         conf.prefs_archives_sort_order);
 
-    model = gtk_tree_view_get_model (GTK_TREE_VIEW (treeview));
-    gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (model),
-                                          ARCHIVES_FYEAR_NAME,
-                                          conf.prefs_archives_sort_order);
-    gtk_tree_sortable_sort_column_changed (GTK_TREE_SORTABLE (model));
-    prefs_page_archives_fill_list (GTK_LIST_STORE (model));
+	is_loading = grisbi_win_file_is_loading ();
+	if (is_loading)
+	{
+		model = gtk_tree_view_get_model (GTK_TREE_VIEW (treeview));
+		gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (model),
+											  ARCHIVES_FYEAR_NAME,
+											  conf.prefs_archives_sort_order);
+		gtk_tree_sortable_sort_column_changed (GTK_TREE_SORTABLE (model));
+		prefs_page_archives_fill_list (GTK_LIST_STORE (model));
+	}
 }
 
 /**

@@ -89,6 +89,7 @@ gint 			gsb_data_account_get_default_debit 						(gint account_number);
 gint 			gsb_data_account_get_element_sort 						(gint account_number,
 																		 gint no_column);
 gpointer 		gsb_data_account_get_form_organization 					(gint account_number);
+gboolean		gsb_data_account_get_has_pointed						(gint account_number);
 gchar *			gsb_data_account_get_holder_address 					(gint account_number);
 gchar *			gsb_data_account_get_holder_name 						(gint account_number);
 gchar *			gsb_data_account_get_id 								(gint account_number);

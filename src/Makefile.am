@@ -1,7 +1,12 @@
 # Process this file with automake to produce Makefile.in
 
 AM_CPPFLAGS =	\
-							-I$(top_srcdir) $(GRISBI_CFLAGS) $(GTK_MAC_CFLAGS) $(GOFFICE_CFLAGS)	\
+							-I$(top_srcdir) \
+							$(GLIB_CFLAGS) \
+							$(GTK_CFLAGS) \
+							$(LIBGSF_CFLAGS) \
+							$(GTK_MAC_CFLAGS) \
+							$(GOFFICE_CFLAGS)	\
 							-DLOCALEDIR="\"$(localedir)\""	\
 							-DPIXMAPS_DIR="\"$(datadir)/pixmaps/@PACKAGE@\""	\
 							-DLOGO_PATH="\"$(datadir)/pixmaps/@PACKAGE@/grisbi-logo.png\""	\
@@ -12,7 +17,13 @@ AM_CPPFLAGS =	\
 bin_PROGRAMS = grisbi
 noinst_LTLIBRARIES = libgrisbi.la
 
-grisbi_LDADD = $(GRISBI_LIBS) $(GTK_MAC_LIBS) libgrisbi.la
+grisbi_LDADD = \
+	libgrisbi.la \
+	$(GRISBI_LIBS) \
+	$(GTK_MAC_LIBS) \
+	$(ZLIB_LIBS) \
+	$(GTK_LIBS) \
+	$(GLIB_LIBS)
 
 libgrisbi_la_LIBADD =
 

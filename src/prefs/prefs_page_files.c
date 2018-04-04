@@ -66,7 +66,6 @@ struct _PrefsPageFilesPrivate
     GtkWidget *         checkbutton_compress_file;
 	GtkWidget *			eventbox_compress_file;
     GtkWidget *         checkbutton_crypt_file;
-	GtkWidget *			eventbox_crypt_file;
     GtkWidget *         spinbutton_nb_max_derniers_fichiers;
 
     GtkWidget *         checkbutton_make_bakup_single_file;
@@ -102,11 +101,13 @@ G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageFiles, prefs_page_files, GTK_TYPE_BOX)
 static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
 {
 	GtkWidget *head_page;
+	gboolean is_loading;
 	PrefsPageFilesPrivate *priv;
 
 	devel_debug (NULL);
 
 	priv = prefs_page_files_get_instance_private (page);
+	is_loading = grisbi_win_file_is_loading ();
 
 	/* On récupère le nom de la page */
 	head_page = utils_prefs_head_page_new_with_title_and_icon (_("Files"), "gsb-files-32.png");
@@ -124,8 +125,9 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
 								  conf.compress_file);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_crypt_file),
 								  etat.crypt_file);
+	gtk_widget_set_sensitive (priv->checkbutton_crypt_file, is_loading);
 
-    /* set the max number of files */
+	/* set the max number of files */
     gtk_spin_button_set_value (GTK_SPIN_BUTTON (priv->spinbutton_nb_max_derniers_fichiers),
 							   conf.nb_max_derniers_fichiers_ouverts);
 
@@ -170,22 +172,18 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
                       &conf.compress_file);
 
-	g_signal_connect (priv->eventbox_crypt_file,
-                      "button-press-event",
-					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
-                      priv->checkbutton_crypt_file);
-
-    g_signal_connect (priv->checkbutton_crypt_file,
-                      "toggled",
+#ifdef HAVE_SSL
+	g_signal_connect (priv->checkbutton_crypt_file,
+					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
-                      &etat.crypt_file);
-
+					  &etat.crypt_file);
+#endif
 	g_signal_connect_after (priv->checkbutton_crypt_file,
 							"toggled",
 							G_CALLBACK (gsb_gui_encryption_toggled),
 							NULL);
 
-    /* callback for spinbutton_nb_max_derniers_fichiers_ouverts */
+	/* callback for spinbutton_nb_max_derniers_fichiers_ouverts */
     g_signal_connect (priv->spinbutton_nb_max_derniers_fichiers,
                         "value-changed",
                         G_CALLBACK (utils_prefs_spinbutton_changed),
@@ -347,7 +345,6 @@ static void prefs_page_files_class_init (PrefsPageFilesClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, checkbutton_compress_file);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, eventbox_compress_file);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, checkbutton_crypt_file);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, eventbox_crypt_file);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, spinbutton_nb_max_derniers_fichiers);
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, checkbutton_make_bakup_single_file);

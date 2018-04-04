@@ -3876,6 +3876,7 @@ gboolean gsb_file_load_open_file (const gchar *filename )
 
                 dialogue_error_hint ( text, hint );
                 g_free ( hint );
+                g_free (text);
                 return FALSE;
             }
 #endif
@@ -3904,10 +3905,13 @@ gboolean gsb_file_load_open_file (const gchar *filename )
                         NULL );
         download_tmp_values.download_ok = FALSE;
 
-        g_markup_parse_context_parse ( context,
+        if (! g_markup_parse_context_parse ( context,
                         file_content,
                         strlen (file_content),
-                        NULL );
+                        NULL ))
+		{
+			download_tmp_values.download_ok = FALSE;
+		}
 
         g_markup_parse_context_free (context);
         g_free (markup_parser);
@@ -4387,13 +4391,29 @@ void gsb_file_load_error ( GMarkupParseContext *context,
                         GError *error,
                         gpointer user_data )
 {
+#if GLIB_CHECK_VERSION (2,52,0)
+/* g_utf8_make_valid() has been introduced in glib 2.52 */
+#define HAVE_G_UTF8_MAKE_VALID
+#endif
+
+#ifdef HAVE_G_UTF8_MAKE_VALID
+	gchar * valid_utf8 = g_utf8_make_valid(error -> message, -1);
+#endif
     /* the first time we come here, we check if it's a Grisbi file */
     gchar* tmpstr = g_strdup_printf (
                         _("An error occurred while parsing the file :\nError number : %d\n%s"),
                         error -> code,
-                        error -> message );
+#ifdef HAVE_G_UTF8_MAKE_VALID
+						valid_utf8
+#else
+						error -> message
+#endif
+                         );
     dialogue_error ( tmpstr );
     g_free ( tmpstr );
+#ifdef HAVE_G_UTF8_MAKE_VALID
+	g_free(valid_utf8);
+#endif
 }
 
 /**

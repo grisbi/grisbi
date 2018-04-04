@@ -1,10 +1,11 @@
 # Process this file with automake to produce Makefile.in
 
-AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/src $(GRISBI_CFLAGS) $(LIBPREFSPAGES_CFLAGS)
+AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/src $(GLIB_CFLAGS) $(GTK_CFLAGS) $(LIBPREFSPAGES_CFLAGS)
 
 noinst_LTLIBRARIES = libprefspages.la
 
 libprefspages_la_SOURCES = \
+	prefs_page_accueil.c	\
 	prefs_page_archives.c	\
 	prefs_page_display_adr.c	\
 	prefs_page_display_fonts.c	\
@@ -13,6 +14,7 @@ libprefspages_la_SOURCES = \
 	prefs_page_files.c	\
 	prefs_page_import_asso.c	\
 	prefs_page_import_files.c	\
+	prefs_page_accueil.h	\
 	prefs_page_archives.h	\
 	prefs_page_display_adr.h	\
 	prefs_page_display_fonts.h	\

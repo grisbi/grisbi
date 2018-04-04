@@ -2,7 +2,7 @@ dnl Process this file with autoconf to produce a configure script.
 
 m4_define(grisbi_major_version, 1)
 m4_define(grisbi_minor_version, 1)
-m4_define(grisbi_micro_version, 91)
+m4_define(grisbi_micro_version, 92)
 m4_define(grisbi_version, grisbi_major_version.grisbi_minor_version.grisbi_micro_version)
 
 m4_pattern_allow([AM_PROG_AR])
@@ -80,12 +80,10 @@ AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE", [Gettext package.])
 dnl ================================================================
 dnl Main Grisbi libraries
 dnl ================================================================
-grisbi_modules="gtk+-3.0 >= $GTK_REQUIRED glib-2.0 >= $GLIB_REQUIRED libgsf-1 >= $LIBGSF_REQUIRED"
 PKG_CHECK_MODULES(ZLIB, [zlib], have_zlib_pc=yes, have_zlib_pc=no)
-if test "$have_zlib_pc" = "yes"; then
-	grisbi_modules="$grisbi_modules zlib"
-fi
-PKG_CHECK_MODULES(GRISBI, [$grisbi_modules])
+PKG_CHECK_MODULES(GTK, gtk+-3.0 >= $GTK_REQUIRED)
+PKG_CHECK_MODULES(GLIB, glib-2.0 >= $GLIB_REQUIRED)
+PKG_CHECK_MODULES(LIBGSF, libgsf-1 >= $LIBGSF_REQUIRED)
 if test "$have_zlib_pc" = "no"; then
 	AC_CHECK_LIB([z],[gzwrite])
 	AC_SUBST(GRISBI_LIBS)

@@ -216,19 +216,6 @@ static gint gsb_file_dialog_save (const gchar *filename,
 									 " ");
 	switch (origine)
 	{
-		case -2:
-		{
-			hint = g_strdup_printf (_("Rename '%s' file?"),
-									(filename ? g_path_get_basename(filename) : _("unnamed")));
-
-			gtk_dialog_add_buttons (GTK_DIALOG(dialog),
-									"gtk-no", GTK_RESPONSE_NO,
-									"gtk-yes", GTK_RESPONSE_OK,
-									NULL);
-			message = g_strdup("");
-
-			break;
-		}
 		case -1:
 		{
 			gchar *time_elapsed;
@@ -401,7 +388,7 @@ static gboolean gsb_file_save_file (gint origine)
 
     devel_debug_int (origine);
 
-	/* on regarde si il y a quelque chose à sauvegarder sinon on sort */
+	/* on regarde si il y a quelque chose à sauvegarder sauf pour "sauvegarder sous" */
 	if ((!gsb_file_get_modified () && origine != -2)
         ||
         !gsb_data_account_get_accounts_amount ())
@@ -431,8 +418,8 @@ static gboolean gsb_file_save_file (gint origine)
         return (FALSE);
     }
 
-    /* on commence par demander si on sauvegarde ou pas */
-    if (!conf.sauvegarde_auto)
+    /* on commence par demander si on sauvegarde ou pas sauf pour "sauvegarder sous" */
+    if (!conf.sauvegarde_auto && origine != -2)
     {
         result = gsb_file_dialog_save (filename, origine);
         if (result == GTK_RESPONSE_NO)
@@ -442,7 +429,7 @@ static gboolean gsb_file_save_file (gint origine)
 		}
 		else if (result == GTK_RESPONSE_REJECT)
 		{
-			gsb_file_set_modified (FALSE);
+			//~ gsb_file_set_modified (FALSE);
             return (FALSE);
 		}
     }
@@ -722,9 +709,15 @@ gboolean gsb_file_open_file (const gchar *filename)
     }
     else
     {
+#ifdef HAVE_SSL
 		gchar *tmp_str1;
 		gchar *tmp_str2;
+#endif
 
+		/* Loading failed. */
+		grisbi_win_status_bar_message (_("Failed to load accounts"));
+
+#ifdef HAVE_SSL
         if (run.old_version)
         {
             dialogue_error_hint (_("The version of your file is less than 0.6. "
@@ -734,9 +727,6 @@ gboolean gsb_file_open_file (const gchar *filename)
 
             return FALSE;
         }
-
-        /* Loading failed. */
-        grisbi_win_status_bar_message (_("Failed to load accounts"));
 
 		tmp_str1 = g_strdup_printf (_("Error loading file '%s'"), filename);
 
@@ -769,7 +759,7 @@ gboolean gsb_file_open_file (const gchar *filename)
 		dialogue_error_hint (tmp_str2, tmp_str1);
 		g_free (tmp_str1);
 		g_free (tmp_str2);
-
+#endif
 		grisbi_win_status_bar_stop_wait (TRUE);
 		grisbi_win_stack_box_show (NULL, "accueil_page");
 		return FALSE;

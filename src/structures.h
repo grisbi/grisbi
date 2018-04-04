@@ -11,7 +11,7 @@
 /* the VERSION_FICHIER is in fact the lowest version which can be used to open the
  * file, so each time we make an incompatibility issue, VERSION_FICHIER must be set
  * to VERSION_GRISBI */
-#define VERSION_FICHIER         "1.2.0"
+#define VERSION_FICHIER         "1.2.1"
 #define OLD_VERSION_FICHIER		"0.6.0"
 
 /* Define this when in Git development branch. */
@@ -66,7 +66,6 @@
 
  /* définitions pour les noms de fichier dans les boutons de la vue accueil */
 #define GSB_NBRE_CHAR_TRUNC		15
-#define GSB_NAMEFILE_TOO_LONG 	75				/* 5 +1 lignes dans le bouton */
 #define GSB_NBRE_LIGNES_BOUTON	 6
 
 /* variables initialisées lors de l'ouverture de grisbi par gsettings */
