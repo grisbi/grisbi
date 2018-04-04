@@ -72,26 +72,14 @@ extern GSList *liste_comptes_importes_error;
 static gchar *last_header = NULL;
 static gboolean mismatch_dates = TRUE;
 
-enum
-{
-    ORDER_DD_MM_YY = 0,
-    ORDER_MM_DD_YY,
-    ORDER_YY_MM_DD,
-    ORDER_YY_DD_MM,
-    ORDER_DD_YY_MM,
-    ORDER_MM_YY_DD,
-    ORDER_MAX
-};
-
-
 static gchar *order_names[] = {
     "day-month-year",
-    "day-year-month",
+    "month-day-year",
     "year-month-day",
     "year-day-month",
-    "month-day-year",
-    "month-year-day" };
-
+    "day-year-month",
+    "month-year-day"
+};
 
 /**
  * \brief Import QIF data.

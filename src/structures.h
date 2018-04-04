@@ -422,4 +422,15 @@ enum _SettingsSchema
     SETTINGS_SCHEDULED
 };
 
+enum FormatDateOrder
+{
+    ORDER_DD_MM_YY = 0,
+    ORDER_MM_DD_YY,
+    ORDER_YY_MM_DD,
+    ORDER_YY_DD_MM,
+    ORDER_DD_YY_MM,
+    ORDER_MM_YY_DD,
+    ORDER_MAX
+};
+
 #endif
