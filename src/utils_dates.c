@@ -75,12 +75,13 @@ static const gchar *months[] = {
 };
 
 /* format pour les dates */
+static gchar *format = NULL;
 static gchar *import_format = NULL;
 
 /* test des dates des fichiers csv */
 static gboolean mismatch_dates = TRUE;
 
-static const gchar *order_names[] = {
+static gchar *order_names[] = {
     "day-month-year",
     "month-day-year",
     "year-month-day",
@@ -193,6 +194,107 @@ invalid:
 /******************************************************************************/
 /* Public functions                                                           */
 /******************************************************************************/
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+static GDate *gsb_parse_date_string_from_tokens_and_date (gchar **date_tokens,
+														  gchar **tab_date)
+{
+    GDate *date = NULL;
+    gboolean year_auto = TRUE;
+	gint page;
+    gint num_tokens;
+    gint num_fields;
+    gint i;
+    gint j;
+
+	//~ devel_debug (NULL);
+	/* Initialize date */
+    date = gdate_today ();
+
+    num_tokens = g_strv_length (date_tokens);
+    num_fields = g_strv_length (tab_date) - 1;
+    for (i = 0, j = 1;
+          i < num_tokens && j < num_fields;
+          i ++, j ++)
+    {
+        /* the string can represent:
+         * EITHER   a number (1 for January)
+         * OR       a 3-length string (Jan for january)
+         * We assume this is an integer as default behaviour */
+        gint nvalue = atoi (tab_date[j]);
+
+        switch (date_tokens[i][0])
+        {
+            case 'm':
+                /* If month is NOT an integer, nvalue = 0, and we have
+                 * to convert month string into an integer. If string is
+                 * not valid, the function returns 0 which is not a valid
+                 * month -> goto invalid -> right behaviour!!! */
+                if (isalpha (tab_date[j][0]) != 0)
+                    nvalue = gsb_date_get_month_from_string (tab_date[j]);
+                if (! g_date_valid_month (nvalue))
+                    goto invalid;
+                g_date_set_month (date, nvalue);
+                break;
+
+            case 'd':
+                if (! g_date_valid_day (nvalue))
+                    goto invalid;
+                g_date_set_day (date, nvalue);
+                break;
+
+            case 'y':
+            case 'Y':
+                if (strlen (tab_date[j]) == 2
+                        || strlen (tab_date[j]) == 1)
+                {
+                    if (nvalue < 60)
+                        nvalue += 2000;
+                    else
+                        nvalue += 1900;
+                }
+                if (! g_date_valid_year (nvalue) && num_fields >= 3)
+                    goto invalid;
+                g_date_set_year (date, nvalue);
+                year_auto = FALSE;
+                break;
+
+            default:
+                g_printerr (">> Unknown format '%s'\n", date_tokens [i]);
+                goto invalid;
+        }
+    }
+
+    /* need here to check if the date is valid, else an error occurs when
+     * write for example only 31, and the current month has only 30 days... */
+    if (! g_date_valid (date))
+        goto invalid;
+
+	/* if page != GSB_SCHEDULER_PAGE && date > today, then we go back one year before
+     * usefull when entering operations just after the new year */
+	page = gsb_gui_navigation_get_current_page ();
+    if (page != GSB_SCHEDULER_PAGE && year_auto)
+    {
+        GDate *today = gdate_today ();
+        if (g_date_compare (today, date) < 0)
+            g_date_set_year (date, g_date_get_year (today) - 1);
+        g_date_free (today);
+    }
+
+    return date;
+
+invalid:
+	if (date)
+		g_date_free (date);
+
+	return NULL;
+}
+
 /**
  * return the last_date if defined, else the date of the day
  * set last_date if unset
@@ -421,16 +523,11 @@ GDate *gsb_parse_date_string (const gchar *date_string)
     GRegex *date_regex;
 	gchar **date_tokens = NULL;
     gchar **tab_date = NULL;
-	const gchar *regex_str;
-	gchar *format = NULL;
-	GrisbiWinEtat *w_etat;
+	gchar *regex_str;
 
 	//~ devel_debug (date_string);
-	if (!date_string || !strlen (date_string))
+	if ( !date_string || !strlen ( date_string ) )
 		return NULL;
-
-	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
-	format = w_etat->date_format;
 
 	/* set the local pattern */
 	regex_str = DATE_STRING_REGEX;
@@ -471,7 +568,7 @@ GDate *gsb_parse_date_string (const gchar *date_string)
     if (! g_regex_match (date_regex, date_string, 0, NULL))
         goto invalid;
 
-    tab_date = g_regex_split (date_regex, date_string, 0);
+    tab_date = g_regex_split ( date_regex, date_string, 0 );
 
 	date = gsb_parse_date_string_from_tokens_and_date (date_tokens, tab_date);
 
@@ -484,6 +581,9 @@ invalid:
     g_strfreev (tab_date);
     g_strfreev (date_tokens);
     return NULL;
+
+}
+
 
 }
 
@@ -857,7 +957,6 @@ void gsb_date_set_import_format_date (const GArray *lines_tab,
     gint order = 0;
     gchar *date_wrong[ORDER_MAX];
 	gint num_col_date = -1;
-	gint nbre_dates_OK = 0;
 
 	devel_debug_int (index);
 	mismatch_dates = TRUE;
@@ -925,9 +1024,6 @@ void gsb_date_set_import_format_date (const GArray *lines_tab,
 				{
 					/* the date is valid, go to the next date */
 					num_col_date = i;
-					if (day > 12)
-						nbre_dates_OK ++;
-					g_strfreev (array);
 					break;
 				}
 				else
@@ -939,8 +1035,6 @@ void gsb_date_set_import_format_date (const GArray *lines_tab,
 					if (order < ORDER_MAX)
 					{
 						/* we try again with the new order */
-						nbre_dates_OK = 0;
-						g_strfreev (array);
 						break;
 					}
 					else
@@ -969,17 +1063,13 @@ void gsb_date_set_import_format_date (const GArray *lines_tab,
 						return;
 					}
 				}
-			}
-			else
-			{
-				if (num_col_date >= 0)
-					num_col_date = -1;
+				g_strfreev (array);
 			}
 		}
 		index++;
 		list = g_array_index (lines_tab, GSList *, index);
 	}
-    while (list && nbre_dates_OK < 3);
+    while (list);
 
 	switch (order)
 	{
@@ -992,19 +1082,7 @@ void gsb_date_set_import_format_date (const GArray *lines_tab,
 			return;
 			break;
 		case 2:
-			import_format = g_strdup ("%Y/%m/%d");
-			return;
-			break;
-		case 3:
-			import_format = g_strdup ("%Y/%d/%m");
-			return;
-			break;
-		case 4:
-			import_format = g_strdup ("%d/%Y/%m");
-			return;
-			break;
-		case 5:
-			import_format = g_strdup ("%m/%Y/%d");
+			import_format = g_strdup ("%m/%d/%Y");
 			return;
 			break;
 	}
@@ -1019,20 +1097,17 @@ void gsb_date_set_import_format_date (const GArray *lines_tab,
  * \param a string which represent a date
  *
  * \return a newly allocated gdate or NULL if cannot set
- **/
+ */
 GDate *gsb_parse_import_date_string (const gchar *date_string)
 {
     GDate *date = NULL;
     GRegex *date_regex;
 	gchar **date_tokens = NULL;
     gchar **tab_date = NULL;
-	const gchar *regex_str;
+	gchar *regex_str;
 
 	//~ devel_debug (date_string);
 	if (!date_string || !strlen (date_string))
-		return NULL;
-
-	if (!import_format)
 		return NULL;
 
 	/* set the local pattern */
@@ -1049,9 +1124,6 @@ GDate *gsb_parse_import_date_string (const gchar *date_string)
 		/* set the ISO-8601 pattern */
 		regex_str = DATE_ISO8601_REGEX;
 	}
-
-	if (NULL == date_tokens)
-		return NULL;
 
 	/* get the regex from the store */
 	date_regex = gsb_regex_lookup (IMP_DATE_STRING_KEY);
@@ -1089,14 +1161,21 @@ invalid:
 }
 
 /**
- * get a string representing a date and return
+ * get a string representing a date in qif format and return
  * a newly-allocated NULL-terminated array of strings.
  * * the order in the array is the same as in the string
+ * 	known formats :
+ * 		dd/mm/yyyy
+ * 		dd/mm/yy
+ * 		yyyy/mm/dd
+ * 		dd/mm'yy
+ * 		dd/mm'yyyy
+ * 		dd-mm-yy
  *
- * \param date_string	a -formatted (so randomed...) string
+ * \param date_string	a qif formatted (so randomed...) string
  *
  * \return a newly-allocated NULL-terminated array of 3 strings. Use g_strfreev() to free it.
- **/
+ * */
 gchar **gsb_date_get_date_content (const gchar *date_string)
 {
     gchar **array;
@@ -1110,57 +1189,26 @@ gchar **gsb_date_get_date_content (const gchar *date_string)
     tmp_date_string = my_strdelimit (date_string, " ", "");
 
     array = g_strsplit_set (tmp_date_string, "/.-", 3);
+    if (mismatch_dates && strlen (array[0]) == 2 && strlen (array[1]) == 2 && strlen (array[2]) == 2)
+    {
+        gchar *tmp_str;
+
+        tmp_str = g_strdup (_("Warning the date has three fields of two numbers. "
+							   "In these circumstances the date might be wrong."));
+
+        dialogue_warning (tmp_str);
+        g_free (tmp_str);
+        mismatch_dates = FALSE;
+    }
+
+	g_free (tmp_date_string);
+
 	if (g_strv_length (array) == 3)
-	{
-		if (mismatch_dates && strlen (array[0]) == 2 && strlen (array[1]) == 2 && strlen (array[2]) == 2)
-		{
-			gchar *tmp_str;
-
-			tmp_str = g_strdup (_("Warning the date has three fields of two numbers. "
-								   "In these circumstances the date might be wrong."));
-
-			dialogue_warning (tmp_str);
-			g_free (tmp_str);
-			mismatch_dates = FALSE;
-		}
-		g_free (tmp_date_string);
-
 		return array;
-	}
 	else
-	{
-		g_free (tmp_date_string);
 		return NULL;
-	}
 }
 
-/**
- * initialise le format de la date
- *
- * \param
- *
- * \return the format date and must be freed
- **/
-gchar* gsb_date_initialise_format_date (void)
-{
-    const gchar *langue;
-
-    devel_debug (NULL);
-    langue = g_getenv ("LANG");
-	if (langue)
-	{
-		if (g_str_has_prefix (langue, "en_") || g_str_has_prefix (langue, "cs_"))
-			return g_strdup ("%m/%d/%Y");
-		else if (g_str_has_prefix (langue, "de_"))
-			return g_strdup ("%d.%m.%Y");
-		else
-			return g_strdup ("%d/%m/%Y");
-	}
-    else
-	{
-		return g_strdup ("%d/%m/%Y");
-	}
-}
 /**
  *
  *
