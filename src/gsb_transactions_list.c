@@ -401,21 +401,15 @@ void gsb_transactions_list_update_tree_view (gint account_number,
     if (account_number == -1)
         return;
 
-    if (!conf.show_transaction_gives_balance && keep_selected_transaction)
-        selected_transaction = transaction_list_select_get ( );
-    transaction_list_filter ( account_number );
-    transaction_list_set_balances ( );
+    if (keep_selected_transaction)
+        selected_transaction = transaction_list_select_get ();
+    transaction_list_filter (account_number);
+    transaction_list_set_balances ();
     transaction_list_sort ();
     transaction_list_colorize ();
-    if ( conf.show_transaction_gives_balance )
-	{
-		gint tmp_transaction;
-
-		tmp_transaction = transaction_list_set_color_jour ( account_number );
-		if (!keep_selected_transaction)
-			transaction_list_select (tmp_transaction);
-	}
-	else if ( keep_selected_transaction )
+    if (conf.show_transaction_gives_balance)
+		transaction_list_set_color_jour (account_number);
+	if (keep_selected_transaction)
 	{
         transaction_list_select (selected_transaction);
 	}
@@ -777,11 +771,6 @@ void gsb_transactions_list_create_tree_view_columns (void)
 						NULL);
 	    g_object_set_data (G_OBJECT (transactions_tree_view_columns[i]),
                         "radio_renderer", radio_renderer);
-	}
-
-	if (i == CUSTOM_MODEL_VISIBLE_COLUMNS -1)
-	{
-		gtk_cell_renderer_set_padding (GTK_CELL_RENDERER (cell_renderer), MARGIN_BOX, 0);
 	}
 
 	gtk_tree_view_column_set_alignment (transactions_tree_view_columns[i],
@@ -1947,9 +1936,6 @@ gboolean gsb_transactions_list_switch_R_mark (gint transaction_number)
     {
         msg_no = question_conditional_yes_no_get_no_struct (&messages[0],
                         "reconcile-transaction");
-        if (msg_no < 0)
-            return FALSE;
-
     	tmp_str = g_strdup_printf (
 				   _("You are trying to reconcile or unreconcile a transaction manually, "
 				     "which is not a recommended action.This is the wrong approach.\n\n"
@@ -2314,8 +2300,6 @@ gboolean gsb_transactions_list_delete_transaction (gint transaction_number,
         {
             msg_no = question_conditional_yes_no_get_no_struct (&delete_msg[0],
                         "delete-child-transaction");
-            if (msg_no < 0)
-                return FALSE;
             tmpstr = g_strdup_printf (
                         _("Do you really want to delete the child of the transaction "
                         "with party '%s' ?"),
@@ -2328,8 +2312,6 @@ gboolean gsb_transactions_list_delete_transaction (gint transaction_number,
         {
             msg_no = question_conditional_yes_no_get_no_struct (&delete_msg[0],
                         "delete-transaction");
-            if (msg_no < 0)
-                return FALSE;
             tmpstr = g_strdup_printf (
                          _("Do you really want to delete transaction with party '%s' ?"),
                          gsb_data_payee_get_name (
@@ -4532,8 +4514,6 @@ gboolean gsb_transactions_list_delete_import_rule (gint import_rule_number)
     gchar *tmp_str;
 
     msg_no = question_conditional_yes_no_get_no_struct (&delete_msg[0], "delete-rule");
-    if (msg_no < 0)
-        return FALSE;
     tmp_str = g_strdup (_("Do you really want to delete this file import rule?"));
     delete_msg[msg_no].message = tmp_str;
 
@@ -4613,18 +4593,6 @@ void gsb_transactions_list_process_orphan_list (GSList *orphan_list)
         g_free (string);
         g_array_free (garray, TRUE);
     }
-}
-
-/**
- *
- *
- * \param
- *
- * \return
- **/
-gint gsb_transactions_list_get_current_tree_view_width (void)
-{
-	return current_tree_view_width;
 }
 
 /**
