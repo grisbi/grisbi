@@ -101,6 +101,7 @@ struct _GrisbiWinEtat
     gchar *		accounting_entity;
 	gchar *		adr_common;
 	gchar *		adr_secondary;
+	gchar *		date_format;					/* format local d'affichage des dates */
 
 	/* files and backup part */
 	gint 		crypt_file;						/* TRUE if we want to crypt the file */

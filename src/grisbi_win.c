@@ -61,6 +61,7 @@
 #include "transaction_list.h"
 #include "utils.h"
 #include "utils_buttons.h"
+#include "utils_dates.h"
 #include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -744,6 +745,8 @@ static void grisbi_win_free_w_etat (GrisbiWinEtat *w_etat)
 		g_free (w_etat->adr_common);
 	if (w_etat->adr_secondary)
 		g_free (w_etat->adr_secondary);
+	if (w_etat->date_format)
+		g_free (w_etat->date_format);
 
     g_free (w_etat);
 }
@@ -824,6 +827,9 @@ static void grisbi_win_init (GrisbiWin *win)
 
 	/* initialisation de la barre d'état */
 	grisbi_win_init_statusbar (GRISBI_WIN (win));
+
+	/* initialisation du format de la date */
+	(priv->w_etat)->date_format = gsb_date_initialise_format_date ();
 }
 
 /**

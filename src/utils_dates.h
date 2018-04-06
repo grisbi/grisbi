@@ -24,6 +24,7 @@ GDate *		gsb_date_get_first_day_of_current_month		(void);
 GDate *		gsb_date_get_last_banking_day_of_month		(const GDate *date);
 GDate *		gsb_date_get_last_day_of_month				(const GDate *date);
 GDate *		gsb_date_get_last_entry_date				(const gchar *string);
+gchar *		gsb_date_initialise_format_date 			(void);
 void 		gsb_date_set_import_format_date				(const GArray *lines_tab,
 														 gint index);
 void 		gsb_date_set_format_date					(const gchar *format_date);
