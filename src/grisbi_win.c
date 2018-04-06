@@ -745,7 +745,6 @@ static void grisbi_win_free_w_etat (GrisbiWinEtat *w_etat)
 	if (w_etat->adr_secondary)
 		g_free (w_etat->adr_secondary);
 
-
     g_free (w_etat);
 }
 
@@ -898,6 +897,27 @@ static void grisbi_win_class_init (GrisbiWinClass *klass)
  *
  * \return
  **/
+gboolean grisbi_win_file_is_loading (void)
+{
+    GrisbiWin *win;
+	GrisbiWinPrivate *priv;
+	GrisbiWinRun *w_run;
+
+	win = grisbi_app_get_active_window (NULL);
+
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+	w_run = priv->w_run;
+
+	return w_run->file_is_loading;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 const gchar *grisbi_win_get_filename (GrisbiWin *win)
 {
 	GrisbiWinPrivate *priv;
@@ -913,27 +933,6 @@ const gchar *grisbi_win_get_filename (GrisbiWin *win)
 	}
 
 	return filename;
-}
-
-/**
- *
- *
- * \param
- *
- * \return
- **/
-gboolean grisbi_win_file_is_loading (void)
-{
-    GrisbiWin *win;
-	GrisbiWinPrivate *priv;
-	GrisbiWinRun *w_run;
-
-	win = grisbi_app_get_active_window (NULL);
-
-	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
-	w_run = priv->w_run;
-
-	return w_run->file_is_loading;
 }
 
 /**

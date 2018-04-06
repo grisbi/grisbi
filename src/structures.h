@@ -5,12 +5,12 @@
 #include <gtk/gtk.h>
 
 /* fichier d'en tête structures.h */
-/* contient presque toutes les structures du prog */
+/* contient presque toutes les structures et enum du prog */
 
 
-/* the VERSION_FICHIER is in fact the lowest version which can be used to open the
- * file, so each time we make an incompatibility issue, VERSION_FICHIER must be set
- * to VERSION_GRISBI */
+/* the VERSION_FICHIER is in fact the lowest version which can be used to open the */
+/* file, so each time we make an incompatibility issue, VERSION_FICHIER must be set */
+/* to VERSION_GRISBI */
 #define VERSION_FICHIER         "1.2.1"
 #define OLD_VERSION_FICHIER		"0.6.0"
 
@@ -25,7 +25,7 @@
 #define GSB_EPSILON             0.0000005           /* Sert à comparer des doubles */
 #define GSB_MAX_SPIN_BUTTON     100000000000000.0   /* Dimensionne la largeur naturelle maxi des spin_button */
 #ifdef __APPLE__
-#define ETAT_WWW_BROWSER        "open"          /* définit le browser par défaut */
+#define ETAT_WWW_BROWSER        "open"				/* définit le browser par défaut */
 #else
 #define ETAT_WWW_BROWSER        "xdg-open"          /* définit le browser par défaut */
 #endif
@@ -35,7 +35,7 @@
 #define SECONDARY_SORT          1
 
 /* margin for widgets */
-#define MARGIN_BOX				 5					/* spacing for gtk_box_new () */
+#define MARGIN_BOX				 5				/* spacing for gtk_box_new () */
 #define MARGIN_END              10
 #define MARGIN_START            10
 #define MARGIN_TOP              10
@@ -93,9 +93,9 @@ typedef struct _GrisbiWinRun			GrisbiWinRun;
  * */
 struct _GrisbiWinEtat
 {
-    gint is_archive;                /** TRUE if the file is an archive, FALSE else */
+    gint		is_archive;						/** TRUE if the file is an archive, FALSE else */
 
-    gboolean debug_mode;            /* TRUE in debug mode, FALSE for normale mode */
+    gboolean	debug_mode;						/* TRUE in debug mode, FALSE for normale mode */
 
 	/* variables generales */
     gchar *		accounting_entity;
@@ -103,89 +103,89 @@ struct _GrisbiWinEtat
 	gchar *		adr_secondary;
 
 	/* files and backup part */
-	gint crypt_file;                /* TRUE if we want to crypt the file */
-    gint fichier_deja_ouvert;       /* à un si lors de l'ouverture, le fichier semblait déjà ouvert */
+	gint 		crypt_file;						/* TRUE if we want to crypt the file */
+    gint 		fichier_deja_ouvert;			/* à un si lors de l'ouverture, le fichier semblait déjà ouvert */
 
     /* devises pour les catégories, imputations budgétaires et les tiers */
-    gint no_devise_totaux_categ;
-    gint no_devise_totaux_ib;
-    gint no_devise_totaux_tiers;
+    gint		no_devise_totaux_categ;
+    gint		no_devise_totaux_ib;
+    gint		no_devise_totaux_tiers;
 
     /* reconciliation */
-    gint reconcile_end_date;        /* Date initiale + 1 mois par défaut */
-    gboolean reconcile_sort;        /* TRUE = Sort by descending date the reconciliations */
+    gint		reconcile_end_date;				/* Date initiale + 1 mois par défaut */
+    gboolean	reconcile_sort;					/* TRUE = Sort by descending date the reconciliations */
 
     /* formulaire */
-    gint affiche_nb_ecritures_listes;
-    gint retient_affichage_par_compte;      /* à 1 si les caractéristiques de l'affichage (R, non R ...) diffèrent par compte */
+    gint		affiche_nb_ecritures_listes;
+    gint		retient_affichage_par_compte;	/* à 1 si les caractéristiques de l'affichage (R, non R ...) diffèrent par compte */
 
     /* Fonts & logo */
-    gint utilise_logo;
-    gchar *name_logo;
+    gint		utilise_logo;
+    gchar		*name_logo;
 
-    gboolean automatic_separator;   /* TRUE if do automatic separator */
+    gboolean	automatic_separator;   			/* TRUE if do automatic separator */
 
     /* import files */
-    gint extract_number_for_check;      	/* TRUE if Extracting a number and save it in the field No Cheque/Virement */
-    gint copy_payee_in_note;            	/* TRUE si recopie le tiers dans les notes FALSE par défaut */
-    gint fusion_import_transactions;    	/* TRUE if merge transactions imported with transactions found*/
-    gint associate_categorie_for_payee;		/* TRUE to automatically retrieve the category of the payee if it exists */
-    gint get_fyear_by_value_date;           /* TRUE to get the fyear by value date, FALSE by date */
-	gint import_files_nb_days;				/* Number of days for search transactions */
+    gint		extract_number_for_check;      	/* TRUE if Extracting a number and save it in the field No Cheque/Virement */
+    gint		copy_payee_in_note;            	/* TRUE si recopie le tiers dans les notes FALSE par défaut */
+    gint		fusion_import_transactions;    	/* TRUE if merge transactions imported with transactions found*/
+    gint		associate_categorie_for_payee;	/* TRUE to automatically retrieve the category of the payee if it exists */
+    gint		get_fyear_by_value_date;		/* TRUE to get the fyear by value date, FALSE by date */
+	gint		import_files_nb_days;			/* Number of days for search transactions */
 
-    gchar * csv_separator;                              /* CSV separator to use while parsing a CSV file. */
-    gboolean csv_skipped_lines [ CSV_MAX_TOP_LINES ];   /* Contains a pointer to skipped lines in CSV preview. */
-	gboolean csv_force_date_valeur_with_date;			/* force la date de valeur si non présente dans le fichier */
-    gint qif_use_field_extract_method_payment;      	/* use the field 'N' to define the method of payment */
+    gchar *		csv_separator;                              /* CSV separator to use while parsing a CSV file. */
+    gboolean	csv_skipped_lines [ CSV_MAX_TOP_LINES ];	/* Contains a pointer to skipped lines in CSV preview. */
+	gboolean	csv_force_date_valeur_with_date;			/* force la date de valeur si non présente dans le fichier */
+    gint		qif_use_field_extract_method_payment;      	/* use the field 'N' to define the method of payment */
 
     /* export files */
-    gint export_file_format;                /* EXPORT_QIF or EXPORT_CSV */
-    gboolean export_files_traitement;       /* 0 = traitement individuel, 1 = traitement automatique */
-	gboolean	export_force_US_dates;		/* 0 = format interne 1 = format US */
-	gboolean	export_force_US_numbers;	/* 0 = format interne 1 = format US */
+    gint		export_file_format;				/* EXPORT_QIF or EXPORT_CSV */
+    gboolean	export_files_traitement;		/* 0 = traitement individuel, 1 = traitement automatique */
+	gboolean	export_force_US_dates;			/* 0 = format interne 1 = format US */
+	gboolean	export_force_US_numbers;		/* 0 = format interne 1 = format US */
 
     /* combofix configuration */
-    gint combofix_mixed_sort;               /* TRUE for no separation between the categories */
-    gint combofix_max_item;                 /* maximum number of items we want before showing the popup */
-    gint combofix_case_sensitive;           /* TRUE if case sensitive */
-    gint combofix_enter_select_completion;  /* TRUE if enter close the popup and keep what is in the entry (else, select the current item in the list) */
-    gint combofix_force_payee;              /* TRUE if no new item can be appended in the payee combofix */
-    gint combofix_force_category;           /* TRUE if no new item can be appended in the category and budget combofix */
+    gint		combofix_mixed_sort;				/* TRUE for no separation between the categories */
+    gint		combofix_max_item;					/* maximum number of items we want before showing the popup */
+    gint		combofix_case_sensitive;			/* TRUE if case sensitive */
+    gint		combofix_enter_select_completion;	/* TRUE if enter close the popup and keep what is in the entry (else, select the current item in the list) */
+    gint		combofix_force_payee;				/* TRUE if no new item can be appended in the payee combofix */
+    gint	combofix_force_category;				/* TRUE if no new item can be appended in the category and budget combofix */
 
     /* width panned */
-    gint largeur_colonne_echeancier;
-    gint largeur_colonne_comptes_comptes;
-    gint largeur_colonne_etat;
+    gint		largeur_colonne_echeancier;
+    gint		largeur_colonne_comptes_comptes;
+    gint		largeur_colonne_etat;
 
     /* variables sur l'échéancier */
-    gint affichage_commentaire_echeancier;      /* à 1 si le commentaire est affiché */
-    gint affichage_echeances;                   /* affichage de la période affichée dans la vue échéancier */
-    gint affichage_echeances_perso_nb_libre;    /* nombre de périodicité des échéances personnalisées */
-    gint affichage_echeances_perso_j_m_a;       /* type de périodicité des échéances personnalisées */
-	gboolean scheduler_set_default_account;		/* set default account for the scheduled form */
-	gint scheduler_default_account_number;		/* default account number for the scheduled form */
-	gboolean scheduler_set_fixed_date;			/* set fixed date for the scheduled transaction */
-	gint scheduler_set_fixed_date_day;			/* day of fixed date for the scheduled transaction (28, 29, 30 or 31) */
+    gint		affichage_commentaire_echeancier;	/* à 1 si le commentaire est affiché */
+    gint		affichage_echeances;				/* affichage de la période affichée dans la vue échéancier */
+    gint		affichage_echeances_perso_nb_libre;	/* nombre de périodicité des échéances personnalisées */
+    gint		affichage_echeances_perso_j_m_a;	/* type de périodicité des échéances personnalisées */
+	gboolean	scheduler_set_default_account;		/* set default account for the scheduled form */
+	gint		scheduler_default_account_number;	/* default account number for the scheduled form */
+	gboolean	scheduler_set_fixed_date;			/* set fixed date for the scheduled transaction */
+	gint		scheduler_set_fixed_date_day;		/* day of fixed date for the scheduled transaction (28, 29, 30 or 31) */
 
     /* variables pour les metatree */
-    gint metatree_sort_transactions;        /* 1 = sorting by increasing date 2 = Sort by date descending */
-    gint add_archive_in_total_balance;      /* Add transactions archived in the totals */
+    gint		metatree_sort_transactions;			/* 1 = sorting by increasing date 2 = Sort by date descending */
+    gint		add_archive_in_total_balance;		/* Add transactions archived in the totals */
 
     /* variables for the module estimate balance */
-    gint bet_deb_period;
-    gint bet_deb_cash_account_option;       /* ajoute l'onglet prévision aux comptes de caisse */
+    gint		bet_deb_period;
+    gint		bet_deb_cash_account_option;		/* ajoute l'onglet prévision aux comptes de caisse */
 
     /* variables pour le simulateur de crédits */
-    gdouble bet_capital;
-    gint bet_currency;
-    gdouble bet_taux_annuel;
-    gint bet_index_duree;
-    gdouble bet_frais;
-    gint bet_type_taux;
+    gdouble		bet_capital;
+    gint		bet_currency;
+    gdouble		bet_taux_annuel;
+    gint		bet_index_duree;
+    gdouble		bet_frais;
+    gint		bet_type_taux;
 
     /* largeur des colonnes */
-    gchar *transaction_column_width;
-    gchar *scheduler_column_width;
+    gchar *		transaction_column_width;
+    gchar *		scheduler_column_width;
 };
 
 /** structure conf
