@@ -684,6 +684,8 @@ static void grisbi_win_free_w_etat (GrisbiWinEtat *w_etat)
 		g_free (w_etat->adr_common);
 	if (w_etat->adr_secondary)
 		g_free (w_etat->adr_secondary);
+	if (w_etat->date_format)
+		g_free (w_etat->date_format);
 
     g_free (w_etat);
 }

@@ -75,7 +75,6 @@ static const gchar *months[] = {
 };
 
 /* format pour les dates */
-static gchar *format = NULL;
 static gchar *import_format = NULL;
 
 /* test des dates des fichiers csv */
@@ -271,7 +270,7 @@ GDate *gdate_today (void)
     GDate *date;
 
     date = g_date_new ();
-    g_date_set_time_t ( date, time (NULL));
+    g_date_set_time_t (date, time (NULL));
     return (date);
 }
 
@@ -437,20 +436,25 @@ GDate *gsb_parse_date_string (const gchar *date_string)
 	gchar **date_tokens = NULL;
     gchar **tab_date = NULL;
 	gchar *regex_str;
+	gchar *format = NULL;
+	GrisbiWinEtat *w_etat;
 
 	//~ devel_debug (date_string);
 	if (!date_string || !strlen (date_string))
 		return NULL;
 
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
+	format = w_etat->date_format;
+
 	/* set the local pattern */
 	regex_str = DATE_STRING_REGEX;
 
     /* récupère le format des champs date */
-    if ( g_strrstr_len (format, 4, "/%"))
+    if (g_strrstr_len (format, 4, "/%"))
         date_tokens = g_strsplit (format + 1, "/%", 3);
-    if ( g_strrstr_len (format, 4, ".%"))
+    if (g_strrstr_len (format, 4, ".%"))
         date_tokens = g_strsplit (format + 1, ".%", 3);
-    if ( g_strrstr_len (format, 4, "-%"))
+    if (g_strrstr_len (format, 4, "-%"))
 	{
         date_tokens = g_strsplit (format + 1, "-%", 3);
 		/* set the ISO-8601 pattern */
@@ -564,11 +568,14 @@ gchar *gsb_format_gdate (const GDate *date)
     gsize longueur = 0;
 	GrisbiWinEtat *w_etat;
 
-    if (!date || !g_date_valid (date))
-        return my_strdup ("");
+	if (!date || !g_date_valid (date))
+		return my_strdup ("");
 
-    if (format)
-        longueur = g_date_strftime (retour_str, SIZEOF_FORMATTED_STRING_DATE, format, date);
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
+	format = w_etat->date_format;
+
+	if (format)
+		longueur = g_date_strftime (retour_str, SIZEOF_FORMATTED_STRING_DATE, format, date);
 
     if (longueur == 0)
         return my_strdup ("");
@@ -681,7 +688,13 @@ GDate *gsb_date_get_last_day_of_month (const GDate *date)
  **/
 gchar *gsb_date_get_format_date (void)
 {
-    return g_strdup (format);
+	GrisbiWinEtat *w_etat;
+
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
+	if (w_etat->date_format)
+		return g_strdup (w_etat->date_format);
+    else
+		return NULL;
 }
 
 /**
@@ -695,8 +708,15 @@ gchar *gsb_date_get_format_date (void)
  **/
 void gsb_date_set_format_date (const gchar *format_date)
 {
-    g_free (format);
-    format = NULL;
+	GrisbiWinEtat *w_etat;
+
+    devel_debug (NULL);
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
+	if (w_etat->date_format)
+	{
+		g_free (w_etat->date_format);
+		w_etat->date_format = NULL;
+	}
 
     if (format_date
 		&&
@@ -705,7 +725,7 @@ void gsb_date_set_format_date (const gchar *format_date)
          || strcmp (format_date, "%d.%m.%Y") == 0
 		 || strcmp (format_date, "%Y-%m-%d") == 0))
     {
-        format = g_strdup (format_date);
+        w_etat->date_format = g_strdup (format_date);
     }
 
     g_free (last_date);
@@ -1118,6 +1138,33 @@ gchar **gsb_date_get_date_content (const gchar *date_string)
 		return NULL;
 }
 
+/**
+ * initialise le format de la date
+ *
+ * \param
+ *
+ * \return the format date and must be freed
+ **/
+gchar* gsb_date_initialise_format_date (void)
+{
+    const gchar *langue;
+
+    devel_debug (NULL);
+    langue = g_getenv ("LANG");
+	if (langue)
+	{
+		if (g_str_has_prefix (langue, "en_") || g_str_has_prefix (langue, "cs_"))
+			return g_strdup ("%m/%d/%Y");
+		else if (g_str_has_prefix (langue, "de_"))
+			return g_strdup ("%d.%m.%Y");
+		else
+			return g_strdup ("%d/%m/%Y");
+	}
+    else
+	{
+		return g_strdup ("%d/%m/%Y");
+	}
+}
 /**
  *
  *

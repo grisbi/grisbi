@@ -378,24 +378,6 @@ void initialise_tab_affichage_ope ( void )
  *
  * \return
  **/
-void initialise_largeur_colonnes_prev_tab (void)
-{
-	gint i;
-
-    for (i = 0; i < BET_ARRAY_COLUMNS - 1; i++)
-    {
-        bet_array_col_width[i] = bet_array_col_width_init[i];
-    }
-
-}
-
-/**
- *
- *
- * \param
- *
- * \return
- **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
