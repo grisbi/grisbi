@@ -839,6 +839,7 @@ void gsb_date_set_import_format_date (const GArray *lines_tab,
     gint order = 0;
     gchar *date_wrong[ORDER_MAX];
 	gint num_col_date = -1;
+	gint nbre_dates_OK = 0;
 
 	devel_debug_int (index);
 	mismatch_dates = TRUE;
@@ -906,6 +907,9 @@ void gsb_date_set_import_format_date (const GArray *lines_tab,
 				{
 					/* the date is valid, go to the next date */
 					num_col_date = i;
+					if (day > 12)
+						nbre_dates_OK ++;
+					g_strfreev (array);
 					break;
 				}
 				else
@@ -917,6 +921,8 @@ void gsb_date_set_import_format_date (const GArray *lines_tab,
 					if (order < ORDER_MAX)
 					{
 						/* we try again with the new order */
+						nbre_dates_OK = 0;
+						g_strfreev (array);
 						break;
 					}
 					else
@@ -945,13 +951,17 @@ void gsb_date_set_import_format_date (const GArray *lines_tab,
 						return;
 					}
 				}
-				g_strfreev (array);
+			}
+			else
+			{
+				if (num_col_date >= 0)
+					num_col_date = -1;
 			}
 		}
 		index++;
 		list = g_array_index (lines_tab, GSList *, index);
 	}
-    while (list);
+    while (list && nbre_dates_OK < 3);
 
 	switch (order)
 	{
@@ -964,7 +974,19 @@ void gsb_date_set_import_format_date (const GArray *lines_tab,
 			return;
 			break;
 		case 2:
-			import_format = g_strdup ("%m/%d/%Y");
+			import_format = g_strdup ("%Y/%m/%d");
+			return;
+			break;
+		case 3:
+			import_format = g_strdup ("%Y/%d/%m");
+			return;
+			break;
+		case 4:
+			import_format = g_strdup ("%d/%Y/%m");
+			return;
+			break;
+		case 5:
+			import_format = g_strdup ("%m/%Y/%d");
 			return;
 			break;
 	}
