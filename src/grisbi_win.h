@@ -15,7 +15,7 @@ G_BEGIN_DECLS
 typedef struct _GrisbiWin       GrisbiWin;
 typedef struct _GrisbiWinClass  GrisbiWinClass;
 
-GType grisbi_win_get_type (void) G_GNUC_CONST;
+GType 			grisbi_win_get_type (void) G_GNUC_CONST;
 
 GtkWidget *     grisbi_win_create_general_widgets           (GrisbiWin *win);
 

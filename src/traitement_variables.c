@@ -88,7 +88,6 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void initialise_format_date ( void );
 static void initialise_tab_affichage_ope ( void );
 /*END_STATIC*/
 
@@ -131,9 +130,6 @@ void init_variables ( void )
 
     /* init the new crypted file */
     run.new_crypted_file = FALSE;
-
-	/* init the format date */
-    initialise_format_date ( );
 
     /* initialise l'ordre des pages du panneau de gauche */
     gsb_gui_navigation_init_pages_list ( );
@@ -366,33 +362,6 @@ void initialise_tab_affichage_ope ( void )
     display_one_line = 0;
     display_two_lines = 0;
     display_three_lines = 0;
-}
-
-
-/**
- * init the format of date.
- *
- * */
-void initialise_format_date ( void )
-{
-    const gchar *langue;
-
-    gsb_date_set_format_date ( NULL );
-
-    langue = g_getenv ("LANG");
-	if (langue)
-	{
-		if ( g_str_has_prefix ( langue, "en_" ) || g_str_has_prefix ( langue, "cs_" ) )
-			gsb_date_set_format_date ( "%m/%d/%Y" );
-		else if ( g_str_has_prefix ( langue, "de_" ) )
-			gsb_date_set_format_date ( "%d.%m.%Y" );
-		else
-			gsb_date_set_format_date ( "%d/%m/%Y" );
-	}
-    else
-	{
-		gsb_date_set_format_date ( "%d/%m/%Y" );
-	}
 }
 
 

@@ -1569,7 +1569,7 @@ static void gsb_import_select_file (GSList *filenames,
  **/
 static gboolean gsb_import_enter_force_dir_page (GtkWidget *assistant)
 {
-	GFileEnumerator *direnum = NULL;
+	GFileEnumerator *direnum;
 	GFile *dir;
     GSList *filenames = NULL;
 
