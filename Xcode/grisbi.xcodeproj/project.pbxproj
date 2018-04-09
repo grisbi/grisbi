@@ -1465,7 +1465,7 @@
 					"$(inherited)",
 					/usr/local/opt/openssl/lib,
 					/usr/local/Cellar/gettext/0.19.8.1/lib,
-					"/usr/local/Cellar/gtk-mac-integration/2.0.8_1/lib",
+					"/usr/local/opt/gtk-mac-integration/lib",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -1496,7 +1496,7 @@
 					"$(inherited)",
 					/usr/local/opt/openssl/lib,
 					/usr/local/Cellar/gettext/0.19.8.1/lib,
-					"/usr/local/Cellar/gtk-mac-integration/2.0.8_1/lib",
+					"/usr/local/opt/gtk-mac-integration/lib",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
