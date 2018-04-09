@@ -892,7 +892,7 @@ GtkWidget *bet_array_create_tree_view ( GtkWidget *container )
 
     gtk_tree_view_column_set_alignment ( bet_array_tree_view_columns[i], 1 );
     gtk_tree_view_append_column (GTK_TREE_VIEW ( tree_view ), bet_array_tree_view_columns[i] );
-    gtk_tree_view_column_set_sizing ( bet_array_tree_view_columns[i], GTK_TREE_VIEW_COLUMN_GROW_ONLY );
+    gtk_tree_view_column_set_sizing ( bet_array_tree_view_columns[i], GTK_TREE_VIEW_COLUMN_FIXED );
     gtk_tree_view_column_set_resizable ( bet_array_tree_view_columns[i], TRUE );
     g_object_set_data ( G_OBJECT ( bet_array_tree_view_columns[i] ), "num_col_model",
                         GINT_TO_POINTER ( SPP_ESTIMATE_TREE_DEBIT_COLUMN ) );
@@ -910,7 +910,7 @@ GtkWidget *bet_array_create_tree_view ( GtkWidget *container )
 
     gtk_tree_view_column_set_alignment ( bet_array_tree_view_columns[i], 1 );
     gtk_tree_view_append_column (GTK_TREE_VIEW ( tree_view ), bet_array_tree_view_columns[i] );
-    gtk_tree_view_column_set_sizing ( bet_array_tree_view_columns[i], GTK_TREE_VIEW_COLUMN_GROW_ONLY );
+    gtk_tree_view_column_set_sizing ( bet_array_tree_view_columns[i], GTK_TREE_VIEW_COLUMN_FIXED );
     gtk_tree_view_column_set_resizable ( bet_array_tree_view_columns[i], TRUE );
     g_object_set_data ( G_OBJECT ( bet_array_tree_view_columns[i] ), "num_col_model",
                         GINT_TO_POINTER ( SPP_ESTIMATE_TREE_CREDIT_COLUMN ) );
@@ -929,7 +929,7 @@ GtkWidget *bet_array_create_tree_view ( GtkWidget *container )
 
     gtk_tree_view_column_set_alignment ( bet_array_tree_view_columns[i], 1 );
     gtk_tree_view_append_column (GTK_TREE_VIEW ( tree_view ), bet_array_tree_view_columns[i] );
-    gtk_tree_view_column_set_sizing ( bet_array_tree_view_columns[i], GTK_TREE_VIEW_COLUMN_GROW_ONLY );
+    gtk_tree_view_column_set_sizing ( bet_array_tree_view_columns[i], GTK_TREE_VIEW_COLUMN_FIXED );
     gtk_tree_view_column_set_resizable ( bet_array_tree_view_columns[i], TRUE );
     g_object_set_data ( G_OBJECT ( bet_array_tree_view_columns[i] ), "num_col_model",
                         GINT_TO_POINTER ( SPP_ESTIMATE_TREE_BALANCE_COLUMN ) );
@@ -2873,29 +2873,31 @@ gboolean bet_array_list_size_allocate ( GtkWidget *tree_view,
 {
     gint i;
 
-    if ( allocation -> width == bet_array_current_tree_view_width )
-    {
-        /* size of the tree view didn't change, but we received an allocated signal
-         * it happens several times, and especially when we change the columns,
-         * so we update the colums */
+	//~ if ( allocation -> width == bet_array_current_tree_view_width )
+    //~ {
+        //~ /* size of the tree view didn't change, but we received an allocated signal
+         //~ * it happens several times, and especially when we change the columns,
+         //~ * so we update the colums */
+	//~ printf ("cas 1 : allocation -> width = %d\n", allocation -> width);
 
-        /* sometimes, when the list is not visible, he will set all the columns to 1%... we block that here */
-        if ( gtk_tree_view_column_get_width ( bet_array_tree_view_columns[0]) == 1 )
-            return FALSE;
+        //~ /* sometimes, when the list is not visible, he will set all the columns to 1%... we block that here */
+        //~ if ( gtk_tree_view_column_get_width ( bet_array_tree_view_columns[0]) == 1 )
+            //~ return FALSE;
 
-        for ( i = 0 ; i < BET_ARRAY_COLUMNS; i++ )
-        {
-            bet_array_col_width[i] = ( gtk_tree_view_column_get_width (
-                                            bet_array_tree_view_columns[i]) * 100 ) / allocation -> width + 1;
-        }
+        //~ for ( i = 0 ; i < BET_ARRAY_COLUMNS; i++ )
+        //~ {
+            //~ bet_array_col_width[i] = ( gtk_tree_view_column_get_width (
+                                            //~ bet_array_tree_view_columns[i]) * 100 ) / allocation -> width + 1;
+        //~ }
 
-        return FALSE;
-    }
+        //~ return FALSE;
+    //~ }
 
     /* the size of the tree view changed, we keep the ratio between the columns,
      * we don't set the size of the last column to avoid the calculate problems,
      * it will take the end of the width alone */
     bet_array_current_tree_view_width = allocation -> width;
+	//~ printf ("cas 2 : allocation -> width = %d\n", allocation -> width);
 
     for ( i = 0; i < BET_ARRAY_COLUMNS - 1; i++ )
     {
