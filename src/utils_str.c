@@ -753,11 +753,11 @@ gboolean gsb_string_is_trouve (const gchar *payee_name,
 
     if (is_prefix && is_suffix)
     {
-        tab_str = g_strsplit_set (needle, "%*", 0);
-        is_prefix = g_str_has_prefix (payee_name, tab_str[0]);
-        is_suffix = g_str_has_suffix (payee_name, tab_str[1]);
+        tab_str = g_strsplit_set ( needle, "%*", 0 );
+        is_prefix = g_str_has_prefix ( payee_name, tab_str[0] );
+        is_suffix = g_str_has_suffix ( payee_name, tab_str[1] );
 		g_strfreev (tab_str);
-        if (is_prefix && is_suffix)
+        if ( is_prefix && is_suffix )
             return TRUE;
         else
             return FALSE;
@@ -823,8 +823,8 @@ gchar * gsb_string_remplace_joker (const gchar *chaine,
  * \param chaine
  *
  * \return a string representing a number
- **/
-gchar *gsb_string_extract_int (const gchar *chaine)
+ */
+gchar *gsb_string_extract_int ( const gchar *chaine )
 {
     gchar *ptr;
     gchar *tmpstr;
@@ -832,9 +832,9 @@ gchar *gsb_string_extract_int (const gchar *chaine)
     gint i = 0;
     gint long_nbre = 64;
 
-    tmpstr = g_malloc0 (long_nbre * sizeof (gchar));
+    tmpstr = g_malloc0 ( long_nbre * sizeof (gchar) );
     ptr = (gchar*) chaine;
-    while (g_utf8_strlen (ptr, -1) > 0)
+    while ( g_utf8_strlen (ptr, -1) > 0 )
     {
         ch = g_utf8_get_char_validated (ptr, -1);
         if (g_unichar_isdefined (ch) && g_ascii_isdigit (ch))
