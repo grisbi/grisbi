@@ -1086,7 +1086,8 @@ void struct_free_bet_historical (BetHist *sh )
     if ( sh -> sbr )
         struct_free_bet_range ( sh -> sbr );
     if ( sh -> list_sub_div )
-        g_hash_table_remove_all ( sh -> list_sub_div );
+		g_hash_table_remove_all ( sh -> list_sub_div );
+	g_hash_table_unref (sh->list_sub_div);
 
     g_free ( sh );
 }
@@ -1125,7 +1126,8 @@ HistDiv *struct_initialise_hist_div ( void )
 void struct_free_hist_div ( HistDiv *shd )
 {
     if ( shd -> sub_div_list )
-        g_hash_table_remove_all ( shd -> sub_div_list );
+		g_hash_table_remove_all ( shd -> sub_div_list );
+	g_hash_table_unref (shd->sub_div_list);
 
     g_free ( shd );
 }
