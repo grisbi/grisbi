@@ -1477,6 +1477,7 @@ gboolean csv_import_file_by_rule (gint rule,
     }
 
 	csv_import_free_lines_tab (lines_tab);
+	g_free (csv_fields_config);
 
     return FALSE;
 }
@@ -1663,6 +1664,7 @@ gboolean csv_import_csv_account (GtkWidget *assistant,
     }
 
 	csv_import_free_lines_tab (lines_tab);
+	g_free (csv_fields_config);
 
 	return FALSE;
 }
