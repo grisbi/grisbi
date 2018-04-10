@@ -359,13 +359,13 @@ gint gsb_import_associations_list_append_assoc (gint payee_number,
     assoc->payee_number = payee_number;
     assoc->search_str = g_strdup (search_str);
 
-     if (!g_slist_find_custom (liste_associations_tiers,
-                        assoc,
-                        (GCompareFunc) gsb_import_associations_cmp_assoc))
+    if (!g_slist_find_custom (liste_associations_tiers,
+							   assoc,
+							  (GCompareFunc) gsb_import_associations_cmp_assoc))
         liste_associations_tiers = g_slist_insert_sorted (
                         liste_associations_tiers,
-                        assoc,
-                        (GCompareFunc) gsb_import_associations_cmp_assoc);
+														  assoc,
+														  (GCompareFunc) gsb_import_associations_cmp_assoc);
 
     return g_slist_length (liste_associations_tiers);
 }
@@ -385,6 +385,7 @@ void gsb_import_associations_free_liste (void)
 	}
 
 	g_slist_foreach (liste_associations_tiers, (GFunc) gsb_import_associations_free_assoc, NULL);
+	g_slist_free (liste_associations_tiers);
 }
 
 /******************************************************************************/
@@ -2215,6 +2216,10 @@ static gint gsb_import_create_transaction (struct ImportTransaction *imported_tr
                             transaction_number, tmp_str);
                     g_free (tmp_str);
                 }
+				else if (tmp_str && strlen (tmp_str) == 0)
+				{
+					g_free (tmp_str);
+				}
             }
         }
 
@@ -2263,6 +2268,10 @@ static gint gsb_import_create_transaction (struct ImportTransaction *imported_tr
                         transaction_number, tmp_str);
                 g_free (tmp_str);
             }
+			else if (tmp_str && strlen (tmp_str) == 0)
+			{
+				g_free (tmp_str);
+			}
         }
         gsb_data_transaction_set_party_number (transaction_number, payee_number);
     }
