@@ -1282,13 +1282,26 @@ static gboolean csv_import_change_separator (GtkEntry *entry,
 	devel_debug (NULL);
     combobox = g_object_get_data (G_OBJECT(entry), "combobox");
     separator = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
-    if (strlen (separator) > 0)
+
+	if (strlen (separator) > 0)
     {
+		gchar *contents;
+		GArray *lines_tab;
+
         g_object_set_data (G_OBJECT(assistant), "separator", separator);
-        csv_import_update_preview (assistant);
-		if (etat.csv_separator)
+		if (etat.csv_separator && strlen (etat.csv_separator) > 0)
 			g_free (etat.csv_separator);
-        etat.csv_separator = separator;
+		etat.csv_separator = separator;
+		contents = g_object_get_data (G_OBJECT(assistant), "contents");
+		lines_tab = g_object_get_data (G_OBJECT(assistant), "lines_tab");
+		if (lines_tab)
+			csv_import_free_lines_tab (lines_tab);
+		lines_tab = csv_import_init_lines_tab (&contents, etat.csv_separator);
+		g_object_set_data (G_OBJECT(assistant), "lines-tab", lines_tab);
+		g_free (csv_fields_config);
+		csv_fields_config = NULL;
+		first_line_with_cols = 0;
+        csv_import_update_preview (assistant);
     }
     else
     {
@@ -1756,7 +1769,6 @@ GtkWidget *import_create_csv_preview_page (GtkWidget *assistant)
 gboolean import_enter_csv_preview_page (GtkWidget *assistant)
 {
     GtkWidget *entry;
-	GArray *lines_tab;
     GSList *files;
     gchar *contents;
     gchar *filename = NULL;
@@ -1788,9 +1800,7 @@ gboolean import_enter_csv_preview_page (GtkWidget *assistant)
 		g_free (etat.csv_separator);
 	etat.csv_separator = csv_import_guess_separator (contents);
 
-	/* On initialise le tableau avec les lignes du fichier */
-	lines_tab = csv_import_init_lines_tab (&contents, etat.csv_separator);
-	g_object_set_data (G_OBJECT(assistant), "lines-tab", lines_tab);
+	/* on initialise first_line_with_cols */
 	first_line_with_cols = 0;
 
     entry = g_object_get_data (G_OBJECT(assistant), "entry");
