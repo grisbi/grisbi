@@ -29,6 +29,7 @@ export XDG_DATA_DIRS="$bundle_data"
 export GTK_DATA_PREFIX="$bundle_res"
 export GTK_EXE_PREFIX="$bundle_res"
 export GTK_PATH="$bundle_res"
+export OFX_DTD_PATH="$bundle_data/libofx/dtd"
 
 # PANGO_* is no longer needed for pango >= 1.38
 export PANGO_RC_FILE="$bundle_etc/pango/pangorc"
