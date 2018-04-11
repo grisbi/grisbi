@@ -1277,6 +1277,9 @@ gboolean division_row_drop_possible ( GtkTreeDragDest *drag_dest,
 		    return TRUE;
 		break;
 
+		case META_TREE_TRANS_S_S_DIV:
+		case META_TREE_INVALID:
+		case META_TREE_DIV:
 	    default:
 		break;
 	}
