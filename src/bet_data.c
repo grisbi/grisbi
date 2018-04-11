@@ -155,6 +155,8 @@ void bet_data_select_bet_pages ( gint account_number )
         if ( current_page == GSB_ESTIMATE_PAGE || current_page == GSB_HISTORICAL_PAGE )
             gtk_notebook_set_current_page ( GTK_NOTEBOOK ( account_page ), GSB_TRANSACTIONS_PAGE );
         break;
+	case BET_ONGLETS_SANS:
+	case BET_ONGLETS_ASSET:
     default:
         if ( current_page < GSB_PROPERTIES_PAGE )
             gtk_notebook_set_current_page ( GTK_NOTEBOOK ( account_page ), GSB_TRANSACTIONS_PAGE );
