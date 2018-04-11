@@ -1622,6 +1622,9 @@ gboolean gsb_gui_navigation_check_scroll ( GtkWidget *tree_view,
             gsb_gui_navigation_select_next ();
             break;
 
+		case GDK_SCROLL_LEFT:
+		case GDK_SCROLL_RIGHT:
+		case GDK_SCROLL_SMOOTH:
         default:
             break;
     }
