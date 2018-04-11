@@ -1370,6 +1370,9 @@ gboolean division_drag_data_received ( GtkTreeDragDest *drag_dest,
 					       no_orig_division, no_orig_sub_division );
 		break;
 
+		case META_TREE_DIV:
+		case META_TREE_TRANS_S_S_DIV:
+		case META_TREE_INVALID:
 	    default:
 		break;
 	}
