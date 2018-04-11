@@ -13,7 +13,6 @@ Makefile
 Makefile.in
 TODO*
 Xcode/DerivedData/
-Xcode/grisbi.xcodeproj/project.xcworkspace/xcuserdata
 Xcode/grisbi.xcodeproj/xcuserdata
 aclocal.m4
 ar-lib
