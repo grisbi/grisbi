@@ -228,6 +228,7 @@ void gsb_partial_balance_fill_model ( GtkListStore *list_store )
             kind_str = g_strdup ( _("Assets account") );
             break;
 
+		case GSB_TYPE_BANK:
         default:
             kind_str = g_strdup ( _("Bank account") );
         }
