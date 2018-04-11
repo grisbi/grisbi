@@ -790,7 +790,12 @@ GDate *gsb_date_get_last_banking_day_of_month (const GDate *date)
 		case G_DATE_SATURDAY :
 			g_date_subtract_days (tmp_date, 1);
 			break;
-		default :
+		case G_DATE_BAD_WEEKDAY:
+		case G_DATE_MONDAY:
+		case G_DATE_TUESDAY:
+		case G_DATE_WEDNESDAY:
+		case G_DATE_THURSDAY:
+		case G_DATE_FRIDAY:
 			break;
     }
 
