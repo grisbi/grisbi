@@ -1097,6 +1097,8 @@ gboolean bet_config_change_account ( GtkWidget *combo )
             bet_config_initialise_select_bank_card ( account_number );
             bet_config_initialise_finance_widget ( account_number, account_page );
             break;
+		case BET_ONGLETS_SANS:
+		case BET_ONGLETS_ASSET:
         default:
             gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook ), 0 );
             break;
