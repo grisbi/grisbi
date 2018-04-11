@@ -1052,6 +1052,9 @@ GDate *gsb_parse_import_date_string (const gchar *date_string)
 		regex_str = DATE_ISO8601_REGEX;
 	}
 
+	if (NULL == date_tokens)
+		return NULL;
+
 	/* get the regex from the store */
 	date_regex = gsb_regex_lookup (IMP_DATE_STRING_KEY);
 	if (! date_regex)
