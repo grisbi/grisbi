@@ -435,7 +435,7 @@ GDate *gsb_parse_date_string (const gchar *date_string)
     GRegex *date_regex;
 	gchar **date_tokens = NULL;
     gchar **tab_date = NULL;
-	gchar *regex_str;
+	const gchar *regex_str;
 	gchar *format = NULL;
 	GrisbiWinEtat *w_etat;
 
