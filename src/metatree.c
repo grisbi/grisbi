@@ -794,6 +794,8 @@ gboolean supprimer_division ( GtkTreeView * tree_view )
 	     * function for that. */
 	    supprimer_sub_division ( tree_view, model, iface, no_sub_division, no_division );
 	    return FALSE;
+	case META_TREE_TRANS_S_S_DIV:
+	case META_TREE_INVALID:
 	default:
 	    warning_debug ( "tried to remove an invalid entry" );
 	    return FALSE;
