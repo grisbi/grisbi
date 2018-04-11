@@ -1205,6 +1205,7 @@ gulong gsb_file_save_account_part ( gulong iterator,
             new_string = g_strconcat ( first_string_to_free, " />\n", NULL );
             g_free ( first_string_to_free );
             break;
+		case BET_ONGLETS_PREV:
         default:
             bet_str = g_markup_printf_escaped ( "\t\tBet_credit_card=\"%d\"\n"
                         "\t\tBet_start_date=\"%s\"\n"
