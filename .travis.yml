@@ -19,7 +19,7 @@ before_install:
 
     # macOS: install packages
     - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update ; fi
-    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install intltool goffice gtk+3 libgsf libofx ; fi
+    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install intltool goffice gtk+3 libgsf libofx ; true ; fi
 
 script:
     - echo "export TRAVIS_OS_NAME=$TRAVIS_OS_NAME" > travis-ci/env
