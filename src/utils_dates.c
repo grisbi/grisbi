@@ -1040,7 +1040,7 @@ GDate *gsb_parse_import_date_string (const gchar *date_string)
     GRegex *date_regex;
 	gchar **date_tokens = NULL;
     gchar **tab_date = NULL;
-	gchar *regex_str;
+	const gchar *regex_str;
 
 	//~ devel_debug (date_string);
 	if (!date_string || !strlen (date_string))
