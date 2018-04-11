@@ -1216,6 +1216,8 @@ void bet_config_sensitive_account_parameters ( gint account_number, gboolean sen
             widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_credit" );
             gtk_widget_show_all ( widget );
             break;
+		case BET_ONGLETS_SANS:
+		case BET_ONGLETS_ASSET:
         default:
             widget = g_object_get_data ( G_OBJECT ( account_page ), "bet_credit_card_hbox" );
             gtk_widget_hide ( widget );
