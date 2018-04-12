@@ -1993,8 +1993,7 @@ gint gsb_scheduler_list_get_current_scheduled_number ( void )
 			 SCHEDULER_COL_NB_VIRTUAL_TRANSACTION, &virtual_transaction,
 			 -1 );
 
-    g_list_foreach (list_tmp, (GFunc) gtk_tree_path_free, NULL);
-    g_list_free (list_tmp);
+    g_list_free_full (list_tmp, (GDestroyNotify) gtk_tree_path_free);
 
     if ( virtual_transaction )
 	return 0;
