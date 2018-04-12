@@ -92,7 +92,7 @@ static gint start_drag_column;
 static gint start_drag_row;
 
 /* buttons to config the form */
-static GtkWidget *form_config_buttons[TRANSACTION_FORM_WIDGET_NB-3];
+static GtkWidget *form_config_buttons[TRANSACTION_FORM_WIDGET_NB-2];
 
 /** the option menu which contains all the accounts, to configure the form */
 static GtkWidget *accounts_combobox;
