@@ -2080,6 +2080,9 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number
             /* ask all the time for a child */
             msg_no = question_conditional_yes_no_get_no_struct ( &delete_msg[0],
                         "delete-child-scheduled" );
+            if (msg_no < 0)
+                return FALSE;
+
             tmpstr = g_strdup_printf ( _("Do you really want to delete the child of the "
                         "scheduled transaction with party '%s' ?"),
                         gsb_data_payee_get_name (
