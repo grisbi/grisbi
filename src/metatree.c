@@ -2168,6 +2168,7 @@ void update_transaction_in_tree ( MetatreeInterface * iface,
     GtkTreePath *sub_div_path = NULL;
     gint div_id;
     gint sub_div_id;
+    GtkTreeIter child_iter;
 
     if ( !transaction_number || !metatree_model_is_displayed ( model ) )
         return;
@@ -2226,7 +2227,6 @@ void update_transaction_in_tree ( MetatreeInterface * iface,
      * subdivision row. */
     if ( ! transaction_iter )
     {
-	GtkTreeIter child_iter;
 	gchar *text;
 
 	if ( ! gtk_tree_model_iter_children ( model, &child_iter,
