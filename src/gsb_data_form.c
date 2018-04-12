@@ -334,9 +334,9 @@ gboolean gsb_data_form_set_value ( gint account_number,
 
     if ( !form
 	 ||
-	 column > MAX_WIDTH
+	 column >= MAX_WIDTH
 	 ||
-	 row > MAX_HEIGHT)
+	 row >= MAX_HEIGHT)
 	return FALSE;
 
     form -> form_table[row][column] = value;
