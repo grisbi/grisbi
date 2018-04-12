@@ -2143,6 +2143,9 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number
             msg_no = question_conditional_yes_no_get_no_struct ( &delete_msg[0],
                             "delete-scheduled-occurrences" );
 
+            if (msg_no < 0)
+                return FALSE;
+
             if ( delete_msg[msg_no].hidden )
                 result = delete_msg[msg_no].default_answer;
             else
