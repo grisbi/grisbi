@@ -303,9 +303,9 @@ gint gsb_data_form_get_value ( gint account_number,
 
     if ( !form
 	 ||
-	 column > MAX_WIDTH
+	 column >= MAX_WIDTH
 	 ||
-	 row > MAX_HEIGHT)
+	 row >= MAX_HEIGHT)
 	return -1;
 
     return form -> form_table[row][column];
