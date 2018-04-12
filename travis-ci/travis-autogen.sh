@@ -29,6 +29,8 @@ CFLAGS+=" -Wunused"
 #CFLAGS+=" -Wwrite-strings"
 
 # warnings disabled on purpose
+CFLAGS+=" -Wno-unused-function"
+CFLAGS+=" -Wno-deprecated-declarations"
 CFLAGS+=" -Wno-unused-parameter"
 
 export CFLAGS
