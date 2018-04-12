@@ -25,7 +25,7 @@ CFLAGS+=" -Wstrict-prototypes"
 CFLAGS+=" -Wswitch-enum"
 CFLAGS+=" -Wundef"
 CFLAGS+=" -Wuninitialized"
-#CFLAGS+=" -Wunused"
+CFLAGS+=" -Wunused"
 #CFLAGS+=" -Wwrite-strings"
 
 # warnings disabled on purpose
