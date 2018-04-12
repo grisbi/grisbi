@@ -591,6 +591,7 @@ xmlDocPtr parse_gnucash_file ( gchar * filename )
 
     g_free ( tmp_str );
     g_free ( tmp_str_2 );
+    fclose(filein);
 
       return NULL;
   }
