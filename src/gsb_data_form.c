@@ -361,7 +361,7 @@ gint gsb_data_form_get_width_column ( gint account_number,
 
     if ( !form
 	 ||
-	 column > MAX_WIDTH )
+	 column >= MAX_WIDTH )
 	return -1;
 
     return form -> width_columns_percent[column];
@@ -388,7 +388,7 @@ gboolean gsb_data_form_set_width_column ( gint account_number,
 
     if ( !form
 	 ||
-	 column > MAX_WIDTH)
+	 column >= MAX_WIDTH)
 	return FALSE;
 
     form -> width_columns_percent[column] = width;
