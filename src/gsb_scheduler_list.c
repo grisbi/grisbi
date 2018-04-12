@@ -2099,6 +2099,9 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number
              * have another dialog to delete the occurence or the transaction */
             msg_no = question_conditional_yes_no_get_no_struct ( &delete_msg[0],
                         "delete-scheduled" );
+            if (msg_no < 0)
+                return FALSE;
+
             tmpstr = g_strdup_printf ( _("Do you really want to delete the scheduled "
                         "transaction with party '%s' ?"),
                         gsb_data_payee_get_name (
