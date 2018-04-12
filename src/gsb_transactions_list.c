@@ -4521,6 +4521,8 @@ gboolean gsb_transactions_list_delete_import_rule (gint import_rule_number)
     gchar *tmp_str;
 
     msg_no = question_conditional_yes_no_get_no_struct (&delete_msg[0], "delete-rule");
+    if (msg_no < 0)
+        return FALSE;
     tmp_str = g_strdup (_("Do you really want to delete this file import rule?"));
     delete_msg[msg_no].message = tmp_str;
 
