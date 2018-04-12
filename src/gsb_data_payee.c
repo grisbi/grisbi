@@ -582,8 +582,7 @@ void gsb_data_payee_free_name_and_report_list ( GSList *liste )
         GSList *tmp_list;
 
         tmp_list = g_slist_nth_data ( liste, 1 );
-        g_slist_foreach ( tmp_list, (GFunc) g_free, NULL );
-        g_slist_free ( tmp_list );
+        g_slist_free_full ( tmp_list, (GDestroyNotify) g_free );
     }
     g_slist_free ( liste->data );
     g_slist_free ( liste );
