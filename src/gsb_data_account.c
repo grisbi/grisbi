@@ -1241,7 +1241,7 @@ gint gsb_data_account_get_element_sort ( gint account_number,
 
     if ( no_column < 0
 	 ||
-	 no_column > CUSTOM_MODEL_VISIBLE_COLUMNS )
+	 no_column >= CUSTOM_MODEL_VISIBLE_COLUMNS )
     {
         gchar* tmpstr;
 
