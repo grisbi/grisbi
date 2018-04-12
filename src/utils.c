@@ -689,8 +689,7 @@ gboolean utils_tree_view_all_rows_are_selected (GtkTreeView *tree_view)
         while (gtk_tree_model_iter_next (GTK_TREE_MODEL (model), &iter));
     }
 
-    g_list_foreach (rows_list, (GFunc) gtk_tree_path_free, NULL);
-    g_list_free (rows_list);
+    g_list_free_full (rows_list, (GDestroyNotify) gtk_tree_path_free);
 
     if (index == 0)
         return TRUE;
