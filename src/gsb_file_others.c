@@ -162,6 +162,8 @@ gboolean gsb_file_others_save_category ( gchar *filename )
         dialogue_error ( tmp_str );
         g_free ( tmp_str );
         g_free ( file_content );
+        if (file)
+            fclose(file);
         return ( FALSE );
     }
 
