@@ -907,6 +907,8 @@ void transaction_list_set_balances ( void )
 
     /* column and line of balance are user defined */
     column_balance = find_element_col (ELEMENT_BALANCE);
+    if (column_balance < 0)
+        return;
     line_balance = find_element_line (ELEMENT_BALANCE);
 
     /* check if the balance is visible */
