@@ -201,7 +201,7 @@ static gint gsb_import_associations_find_payee (gchar *imported_tiers)
  *
  * \return
  **/
-static void gsb_import_associations_free_assoc (struct ImportPayeeAsso *assoc)
+static void gsb_import_associations_free_assoc (struct ImportPayeeAsso *assoc, gpointer data)
 {
 	g_free (assoc->search_str);
 	g_free (assoc);
