@@ -1936,6 +1936,9 @@ gboolean gsb_transactions_list_switch_R_mark (gint transaction_number)
     {
         msg_no = question_conditional_yes_no_get_no_struct (&messages[0],
                         "reconcile-transaction");
+        if (msg_no < 0)
+            return FALSE;
+
     	tmp_str = g_strdup_printf (
 				   _("You are trying to reconcile or unreconcile a transaction manually, "
 				     "which is not a recommended action.This is the wrong approach.\n\n"
