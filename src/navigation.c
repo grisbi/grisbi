@@ -1966,8 +1966,7 @@ void gsb_gui_navigation_free_pages_list ( void )
     if ( ! pages_list )
         return;
 
-    g_queue_foreach ( pages_list, (GFunc) g_free, NULL );
-    g_queue_free ( pages_list );
+    g_queue_free_full ( pages_list, g_free );
     pages_list = NULL;
 }
 
