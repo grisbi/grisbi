@@ -2562,9 +2562,10 @@ static gboolean bet_transfert_take_data (  TransfertData *transfert,
     gint type;
 
     tree_view = g_object_get_data ( G_OBJECT ( dialog ), "tree_view" );
-    gtk_tree_selection_get_selected ( GTK_TREE_SELECTION (
+    if (! gtk_tree_selection_get_selected ( GTK_TREE_SELECTION (
                         gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) ) ),
-                        &model, &iter );
+                        &model, &iter ))
+        return FALSE;
     gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &iter,
                         2, &replace_account,
                         3, &type,
