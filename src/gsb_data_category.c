@@ -405,6 +405,8 @@ gint gsb_data_category_max_sub_category_number ( gint category_number )
     gint number_tmp = 0;
 
     category = gsb_data_category_get_structure ( category_number );
+    if (!category)
+	return 0;
 
     tmp = category -> sub_category_list;
 
