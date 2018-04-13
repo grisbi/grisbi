@@ -1382,7 +1382,7 @@ static gchar *gtk_combofix_update_visible_rows ( GtkComboFix *combofix,
     gint path_ok;
     gsize length;
     gboolean separator = FALSE;
-    GtkComboFixPrivate *priv = combofix -> priv;
+    GtkComboFixPrivate *priv;
 
     if (!combofix
 	||
@@ -1392,6 +1392,8 @@ static gchar *gtk_combofix_update_visible_rows ( GtkComboFix *combofix,
     length = strlen (string);
     if (!length)
 	return NULL;
+
+    priv = combofix -> priv;
 
     priv -> visible_items = 0;
     model = GTK_TREE_MODEL ( priv -> store );
