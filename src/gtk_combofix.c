@@ -1249,7 +1249,7 @@ static gboolean gtk_combofix_entry_changed ( GtkComboFix *combofix, gboolean ins
 
     entry_string = gtk_entry_get_text ( GTK_ENTRY ( combofix -> entry ) );
 
-    if ( strlen ( entry_string ) )
+    if ( entry_string && strlen ( entry_string ) )
     {
         completed_string = gtk_combofix_update_visible_rows ( combofix,
                         entry_string);
