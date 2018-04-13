@@ -188,7 +188,7 @@ gboolean gsb_account_delete ( void )
     if ( gsb_data_account_get_accounts_amount () == 1 )
     {
         gsb_file_set_modified ( FALSE );
-        gsb_file_close ();
+        (void)gsb_file_close ();
         return FALSE;
     }
 
