@@ -2104,12 +2104,14 @@ static gboolean gtk_combofix_select_item ( GtkComboFix *combofix,
     gchar *ptr;
     gchar *tmp_item = NULL;
     gint result = 0;
-    GtkComboFixPrivate *priv = combofix -> priv;
+    GtkComboFixPrivate *priv;
 
     if ( !combofix )
 	    return FALSE;
     if ( !item || strlen ( item ) == 0 )
         return FALSE;
+
+    priv = combofix -> priv;
 
     if ( ( ptr = g_utf8_strchr ( item, -1, ':' ) ) )
         tmp_item = g_strndup ( item, ( ptr - item ) -1 );
