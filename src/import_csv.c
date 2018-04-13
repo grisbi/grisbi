@@ -1010,7 +1010,7 @@ static GtkTreeModel *csv_import_create_model (GtkTreeView *tree_preview,
         list = list->next;
     }
 
-    types = g_malloc0 ((size + 2) * sizeof (GType *));
+    types = g_malloc0 ((size + 2) * sizeof (GType));
 
     types[0] = G_TYPE_BOOLEAN;
     cell = gtk_cell_renderer_toggle_new ();
