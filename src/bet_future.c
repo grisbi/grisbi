@@ -2678,12 +2678,13 @@ static void bet_transfert_select_account_in_treeview ( TransfertData *transfert 
     GtkWidget *tree_view;
     GtkTreeModel *model;
     GtkTreeIter iter;
+    gboolean valid;
 
     tree_view = g_object_get_data ( G_OBJECT ( bet_transfert_dialog ), "tree_view" );
     model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
 
-    gtk_tree_model_get_iter_first ( model, &iter );
-    do
+    valid = gtk_tree_model_get_iter_first ( model, &iter );
+    while( valid)
     {
         gint tmp_number;
         gint type_de_compte;
@@ -2696,8 +2697,8 @@ static void bet_transfert_select_account_in_treeview ( TransfertData *transfert 
                         gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) ) ), &iter );
             break;
         }
+        valid = gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &iter );
     }
-    while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &iter ) );
 }
 
 
