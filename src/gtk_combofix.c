@@ -228,8 +228,8 @@ static gboolean gtk_combofix_search_for_report ( GtkTreeModel *model )
 
         if ( separator )
         {
-            gtk_tree_model_iter_next ( GTK_TREE_MODEL( model ), &iter );
-			report_parent_iter = iter;
+            if (gtk_tree_model_iter_next ( GTK_TREE_MODEL( model ), &iter ))
+				report_parent_iter = iter;
 
             return FALSE;
         }
