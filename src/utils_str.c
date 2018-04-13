@@ -385,6 +385,8 @@ gint my_strcmp ( gchar *string_1, gchar *string_2 )
 	    return 1;
     if (string_1 && !string_2)
 	    return -1;
+    if (!string_1 && !string_2)
+	    return 0;
 
 
 	if ( g_utf8_validate ( string_1, -1, NULL )
