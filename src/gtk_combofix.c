@@ -185,9 +185,10 @@ static void gtk_combofix_remove_for_report ( GtkTreeModel *model,
 {
     GtkTreeIter iter;
     gboolean separator;
+    gboolean valid;
 
-    gtk_tree_model_get_iter_first (  GTK_TREE_MODEL( model ), &iter );
-    do
+    valid = gtk_tree_model_get_iter_first (  GTK_TREE_MODEL( model ), &iter );
+    while (valid)
     {
         gtk_tree_model_get ( GTK_TREE_MODEL( model ), &iter,
                         COMBOFIX_COL_SEPARATOR, &separator,
@@ -196,8 +197,8 @@ static void gtk_combofix_remove_for_report ( GtkTreeModel *model,
         {
             break;
         }
+        valid = gtk_tree_model_iter_next ( GTK_TREE_MODEL( model ), &iter );
     }
-    while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL( model ), &iter ) );
 
     gtk_tree_store_remove ( GTK_TREE_STORE ( model ), iter_parent );
     gtk_tree_store_remove ( GTK_TREE_STORE ( model ), &iter );
@@ -216,9 +217,10 @@ static gboolean gtk_combofix_search_for_report ( GtkTreeModel *model )
     GtkTreeIter iter;
     gchar *tmp_str;
     gboolean separator;
+    gboolean valid;
 
-    gtk_tree_model_get_iter_first (  GTK_TREE_MODEL( model ), &iter );
-    do
+    valid = gtk_tree_model_get_iter_first (  GTK_TREE_MODEL( model ), &iter );
+    while (valid)
     {
         gtk_tree_model_get ( GTK_TREE_MODEL( model ), &iter,
                         COMBOFIX_COL_SEPARATOR, &separator,
@@ -231,8 +233,8 @@ static gboolean gtk_combofix_search_for_report ( GtkTreeModel *model )
 
             return FALSE;
         }
+        valid = gtk_tree_model_iter_next ( GTK_TREE_MODEL( model ), &iter );
     }
-    while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL( model ), &iter ) );
 
     gtk_tree_store_append ( GTK_TREE_STORE ( model ), &iter, NULL );
     gtk_tree_store_set ( GTK_TREE_STORE ( model ),
