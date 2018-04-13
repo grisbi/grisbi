@@ -1028,8 +1028,7 @@ static void gsb_import_preview_maybe_sensitive_next (GtkWidget *assistant,
 	/* Don't allow going to next page if no file is selected yet. */
     gtk_widget_set_sensitive (g_object_get_data (G_OBJECT (assistant), "button_next"), FALSE);
 
-    gtk_tree_model_get_iter_first (model, &iter);
-    if (!gtk_tree_store_iter_is_valid (GTK_TREE_STORE (model), &iter))
+    if (!gtk_tree_model_get_iter_first (model, &iter))
     {
 		return;
     }
