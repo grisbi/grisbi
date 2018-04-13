@@ -4483,13 +4483,13 @@ GSList *gsb_import_import_selected_files (GtkWidget *assistant)
     GSList *list = NULL;
     GtkTreeModel *model;
     GtkTreeIter iter;
+    gboolean valid;
 
     model = g_object_get_data (G_OBJECT (assistant), "model");
     g_return_val_if_fail (model, NULL);
 
-    gtk_tree_model_get_iter_first (model, &iter);
-
-    do
+    valid = gtk_tree_model_get_iter_first (model, &iter);
+    while (valid)
     {
         struct ImportFile *imported;
         gboolean selected;
@@ -4506,8 +4506,8 @@ GSList *gsb_import_import_selected_files (GtkWidget *assistant)
         {
             list = g_slist_append (list, imported);
         }
+        valid = gtk_tree_model_iter_next (model, &iter);
     }
-    while (gtk_tree_model_iter_next (model, &iter));
 
     return list;
 }
