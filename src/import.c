@@ -1099,7 +1099,7 @@ static gboolean gsb_import_active_toggled (GtkCellRendererToggle *cell,
 							IMPORT_FILESEL_REALNAME, &nom_fichier,
 							IMPORT_FILESEL_CODING, &charmap,
 							-1);
-		g_file_get_contents (nom_fichier, &tmp_contents, NULL, NULL);
+		(void)g_file_get_contents (nom_fichier, &tmp_contents, NULL, NULL);
 		contents = g_convert (tmp_contents, -1, "UTF-8", charmap, NULL, NULL, NULL);
 
 		if (contents == NULL)
