@@ -1649,6 +1649,9 @@ gboolean gsb_data_budget_test_create_sub_budget ( gint no_budget,
     struct_sub_budget *sub_budget;
 
     budget = gsb_data_budget_get_structure ( no_budget );
+    if (NULL == budget)
+        return FALSE;
+
     list_tmp = g_slist_find_custom ( budget->sub_budget_list,
                         name,
                         (GCompareFunc) gsb_data_budget_get_pointer_from_sub_name_in_glist );
