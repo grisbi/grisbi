@@ -896,11 +896,13 @@ static gboolean etats_prefs_onglet_periode_update_style_left_panel ( GtkWidget *
     tmp_str = utils_str_itoa ( iter_page_number );
     path_string = g_strconcat ("0:", tmp_str, NULL );
 
-    gtk_tree_model_get_iter_from_string ( GTK_TREE_MODEL ( model ), &iter, path_string );
-    gtk_tree_store_set ( GTK_TREE_STORE ( model ),
+    if (gtk_tree_model_get_iter_from_string ( GTK_TREE_MODEL ( model ), &iter, path_string ))
+    {
+        gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                         &iter,
                         LEFT_PANEL_TREE_ITALIC_COLUMN, index,
                         -1 );
+    }
 
     g_free ( tmp_str );
     g_free ( path_string );
