@@ -1364,8 +1364,8 @@ gboolean gsb_gui_navigation_set_selection ( gint page,
         gtk_tree_path_free (path);
     }
 
-    gtk_tree_model_get_iter_first ( GTK_TREE_MODEL(navigation_model), &iter );
-    gsb_gui_navigation_set_selection_branch (selection, &iter, page, account_number, report_number);
+    if (gtk_tree_model_get_iter_first ( GTK_TREE_MODEL(navigation_model), &iter ))
+        gsb_gui_navigation_set_selection_branch (selection, &iter, page, account_number, report_number);
 
     return TRUE;
 }
