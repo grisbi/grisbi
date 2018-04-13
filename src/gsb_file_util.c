@@ -354,7 +354,7 @@ void gsb_file_util_change_permissions (void)
 		const gchar *filename;
 
 		filename = grisbi_win_get_filename (NULL);
-        chmod (filename, S_IRUSR | S_IWUSR);
+        (void)chmod (filename, S_IRUSR | S_IWUSR);
     }
 
 #endif /* G_OS_WIN32 */
