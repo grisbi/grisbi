@@ -1483,7 +1483,7 @@ GPtrArray *gsb_data_partial_balance_calculate_balances_at_date ( gint partial_ba
 
     partial_balance = gsb_data_partial_balance_get_structure ( partial_balance_number );
 
-    if ( !partial_balance_number )
+    if ( !partial_balance )
         return NULL;
 
     tab = g_strsplit ( partial_balance->liste_cptes, ";", 0 );
