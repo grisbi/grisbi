@@ -459,7 +459,7 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
     {
         /* it's a new file or stat couldn't find the permissions,
          * so set only user can see the file by default */
-        chmod ( filename, S_IRUSR | S_IWUSR );
+        (void)chmod ( filename, S_IRUSR | S_IWUSR );
 	}
     else
     {
@@ -475,7 +475,7 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
         if (chmod (filename, buf.st_mode) == -1)
         {
             /* we couldn't set the chmod, set the default permission */
-            chmod ( filename, S_IRUSR | S_IWUSR );
+            (void)chmod ( filename, S_IRUSR | S_IWUSR );
         }
         /* restores uid and gid */
 /*        chown ( filename, buf.st_uid, buf.st_gid );
