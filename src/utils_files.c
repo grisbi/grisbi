@@ -188,14 +188,15 @@ static gboolean utils_files_charmap_active_toggled (GtkCellRendererToggle *cell,
     GtkTreeIter iter;
     gchar *enc;
     gboolean toggle_item;
+    gboolean valid;
 
     /* on commence par initialiser les données */
     dialog = g_object_get_data (G_OBJECT (model), "dialog");
 
     gtk_dialog_set_response_sensitive   (GTK_DIALOG (dialog), GTK_RESPONSE_OK, FALSE);
     tmp_path = gtk_tree_path_new_first ();
-    gtk_tree_model_get_iter_first (GTK_TREE_MODEL (model), &iter);
-    do
+    valid = gtk_tree_model_get_iter_first (GTK_TREE_MODEL (model), &iter);
+    while (valid)
     {
         gtk_tree_model_get (GTK_TREE_MODEL (model), &iter,
                         IMPORT_CHARMAP_SELECTED, &toggle_item,
@@ -220,8 +221,8 @@ static gboolean utils_files_charmap_active_toggled (GtkCellRendererToggle *cell,
         else
             gtk_list_store_set (GTK_LIST_STORE (model), &iter,
                         IMPORT_CHARMAP_SELECTED, FALSE, -1);
+        valid = gtk_tree_model_iter_next (GTK_TREE_MODEL (model), &iter);
     }
-    while (gtk_tree_model_iter_next (GTK_TREE_MODEL (model), &iter));
 
     return FALSE;
 }
