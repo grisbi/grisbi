@@ -1058,7 +1058,8 @@ gboolean division_column_expanded  ( GtkTreeView * treeview, GtkTreeIter * iter,
     /* Get model and metatree interface */
     model = gtk_tree_view_get_model(treeview);
 
-    gtk_tree_model_iter_children( model, &child_iter, iter );
+    if (! gtk_tree_model_iter_children( model, &child_iter, iter ))
+		return FALSE;
     gtk_tree_model_get ( model, &child_iter, META_TREE_TEXT_COLUMN, &name, -1 );
 
     iface = g_object_get_data ( G_OBJECT(model), "metatree-interface" );
