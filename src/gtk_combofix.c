@@ -1256,7 +1256,7 @@ static gboolean gtk_combofix_entry_changed ( GtkComboFix *combofix, gboolean ins
         if ( completed_string == NULL )
             gtk_combofix_hide_popup ( combofix );
     }
-    else if ( insert_text == 0 && strlen ( entry_string ) == 0 )
+    else if ( insert_text == 0 )
         gtk_combofix_hide_popup ( combofix );
 
     /* if force is set and there is no completed_string, we deleted 1 character by one
