@@ -2003,10 +2003,12 @@ static gboolean gtk_combofix_move_selection ( GtkComboFix *combofix,
 {
     GtkTreeIter sorted_iter;
     gint result = 0;
-    GtkComboFixPrivate *priv = combofix -> priv;
+    GtkComboFixPrivate *priv;
 
     if ( !combofix )
 	    return FALSE;
+
+    priv = combofix -> priv;
 
     if ( gtk_tree_selection_get_selected ( priv -> selection, NULL, &sorted_iter ) )
     {
