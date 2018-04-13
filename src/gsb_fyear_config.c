@@ -664,9 +664,10 @@ gboolean gsb_fyear_config_remove_fyear ( GtkWidget *tree_view )
     GSList *tmp_list;
 
     selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
-    gtk_tree_selection_get_selected ( GTK_TREE_SELECTION (selection),
+    if (! gtk_tree_selection_get_selected ( GTK_TREE_SELECTION (selection),
 				      &model,
-				      &iter );
+				      &iter ))
+        return FALSE;
     gtk_tree_model_get ( GTK_TREE_MODEL (model),
 			 &iter,
 			 FYEAR_NUMBER_COLUMN, &fyear_number,
