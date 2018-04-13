@@ -429,6 +429,9 @@ gint gsb_data_budget_max_sub_budget_number ( gint budget_number )
 
     budget = gsb_data_budget_get_structure ( budget_number );
 
+    if (NULL == budget)
+        return 0;
+
     tmp = budget -> sub_budget_list;
 
     while ( tmp )
