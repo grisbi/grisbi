@@ -1256,6 +1256,13 @@ static  void gsb_file_load_account_part ( const gchar **attribute_names,
                 {
                     account_number = gsb_data_account_set_account_number ( account_number,
                             utils_str_atoi ( attribute_values[i]));
+					if (account_number == 0)
+					{
+						GrisbiWinRun *w_run;
+
+						w_run = grisbi_win_get_w_run ();
+						w_run->account_number_is_0 = TRUE;
+					}
                 }
 
                 else if ( !strcmp ( attribute_names[i], "Neutrals_inside_method" ))
