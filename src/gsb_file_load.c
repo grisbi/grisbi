@@ -3850,6 +3850,9 @@ gboolean gsb_file_load_open_file (const gchar *filename )
     {
         GMarkupParser *markup_parser;
         GMarkupParseContext *context;
+		GrisbiWinRun *w_run;
+
+		w_run = grisbi_win_get_w_run ();
 
         /* first, we check if the file is crypted, if it is, we decrypt it */
         if ( !strncmp ( file_content, "Grisbi encrypted file ", 22 ) ||
@@ -3890,11 +3893,11 @@ gboolean gsb_file_load_open_file (const gchar *filename )
             /* fill the GMarkupParser for a new xml structure */
             markup_parser -> start_element = (void *) gsb_file_load_start_element;
             markup_parser -> error = (void *) gsb_file_load_error;
-            run.old_version = FALSE;
+            w_run->old_version = FALSE;
         }
         else
         {
-            run.old_version = TRUE;
+            w_run->old_version = TRUE;
 
             return FALSE;
         }

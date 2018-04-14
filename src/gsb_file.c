@@ -712,13 +712,15 @@ gboolean gsb_file_open_file (const gchar *filename)
 #ifdef HAVE_SSL
 		gchar *tmp_str1;
 		gchar *tmp_str2;
+		GrisbiWinRun *w_run;
 #endif
 
 		/* Loading failed. */
 		grisbi_win_status_bar_message (_("Failed to load accounts"));
 
 #ifdef HAVE_SSL
-        if (run.old_version)
+		w_run = grisbi_win_get_w_run ();
+        if (w_run->old_version)
         {
             dialogue_error_hint (_("The version of your file is less than 0.6. "
                                    "This file can not be imported by Grisbi."),
