@@ -766,6 +766,32 @@ gint gsb_data_reconcile_cmp_int (struct_reconcile *reconcile_1,
     else
         return result;
 }
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void gsb_data_reconcile_renum_account_number_0 (gint new_account_number)
+{
+	GList *tmp_list;
+
+	tmp_list = gsb_data_reconcile_get_reconcile_list ();
+	while (tmp_list)
+	{
+		struct_reconcile *reconcile;
+
+		reconcile = tmp_list->data;
+		if (reconcile->account_number == 0)
+		{
+			reconcile->account_number = new_account_number;
+		}
+		tmp_list = tmp_list->next;
+	}
+}
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

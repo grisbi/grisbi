@@ -3927,6 +3927,11 @@ gboolean gsb_file_load_open_file (const gchar *filename )
         g_free (markup_parser);
         g_free (file_content);
 
+		if (w_run->account_number_is_0)
+		{
+			gsb_data_account_renum_account_number_0 (filename);
+		}
+
         if ( !download_tmp_values.download_ok )
             return FALSE;
     }

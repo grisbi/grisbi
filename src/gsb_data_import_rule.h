@@ -70,6 +70,7 @@ const gchar *	gsb_data_import_rule_get_type					(gint import_rule_number);
 gboolean 		gsb_data_import_rule_init_variables 			(void);
 gint 			gsb_data_import_rule_new 						(const gchar *name);
 gboolean 		gsb_data_import_rule_remove 					(gint import_rule_number);
+void 			gsb_data_import_rule_renum_account_number_0 	(gint new_account_number);
 gboolean 		gsb_data_import_rule_set_account 				(gint import_rule_number,
 																 gint account_number);
 gboolean 		gsb_data_import_rule_set_action 				(gint import_rule_number,

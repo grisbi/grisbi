@@ -98,6 +98,65 @@ static gint future_number;
 static GHashTable *bet_transfert_list;
 static gint transfert_number;
 
+/******************************************************************************/
+/* Private functions                                                          */
+/******************************************************************************/
+/**
+ *
+ *
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void bet_data_hist_set_account_number (gpointer key,
+											  gpointer value,
+											  gpointer user_data)
+{
+	HistDiv *shd = (HistDiv *) value;
+
+	if (shd->account_nb == 0)
+		shd->account_nb = GPOINTER_TO_INT (user_data);
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void bet_data_future_set_account_number (gpointer key,
+												   gpointer value,
+												   gpointer user_data)
+{
+	FuturData *sfd = (FuturData *) value;
+
+	if (sfd->account_number == 0)
+		sfd->account_number = GPOINTER_TO_INT (user_data);
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void bet_data_transfert_set_account_number (gpointer key,
+												   gpointer value,
+												   gpointer user_data)
+{
+	TransfertData *transfert = (TransfertData *) value;
+
+	if (transfert->account_number == 0)
+		transfert->account_number = GPOINTER_TO_INT (user_data);
+}
 
 /**
  * Sélectionne les onglets du module gestion budgétaire en fonction du type de compte
@@ -2265,8 +2324,24 @@ void bet_data_hist_reset_all_amounts ( gint account_number )
  * \param
  *
  * \return
- * */
+ **/
+void bet_data_renum_account_number_0 (gint new_account_number)
+{
+	gpointer account_nb;
 
+	account_nb = GINT_TO_POINTER (new_account_number);
+	g_hash_table_foreach (bet_hist_div_list, bet_data_hist_set_account_number, account_nb);
+	g_hash_table_foreach (bet_future_list, bet_data_future_set_account_number, account_nb);
+	g_hash_table_foreach (bet_transfert_list, bet_data_transfert_set_account_number, account_nb);
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
