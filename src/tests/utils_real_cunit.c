@@ -107,7 +107,7 @@ static void utils_real_cunit__utils_real_get_from_string ( void )
             result = setlocale(LC_MONETARY, "en_GB");
         if (result != NULL)
         {
-            gsb_locale_init_locale_structure();
+            //gsb_locale_init_locale_structure();
 
             gsb_real val = utils_real_get_from_string("123.45");
             CU_ASSERT_EQUAL(12345, val.mantissa);
