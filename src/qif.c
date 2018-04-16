@@ -1343,7 +1343,7 @@ gint gsb_qif_recupere_operations_from_account ( FILE *qif_file,
     /* sometimes we have ^ and EOF, so we need in that case to take the transaction */
     if ( strlen ( string )
      &&
-     ( returned_value != EOF || ( string && string[0]=='^') )
+     ( returned_value != EOF || string[0]=='^' )
      &&
      string[0] != '!' )
     {

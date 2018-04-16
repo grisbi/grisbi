@@ -314,9 +314,11 @@ CU_pSuite utils_dates_cunit_create_suite ( void )
     if ( NULL == pSuite )
         return NULL;
 
+#if 0
     if ( NULL == CU_add_test ( pSuite, "of gsb_parse_date_string()",
                                utils_dates_cunit__gsb_parse_date_string ) )
         return NULL;
+#endif
 
     return pSuite;
 }

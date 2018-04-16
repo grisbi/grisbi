@@ -204,7 +204,7 @@ gboolean gsb_rgba_set_couleur (const gchar *couleur,
     if (color == NULL)
         return FALSE;
 
-    gdk_rgba_parse (color, value);
+    (void)gdk_rgba_parse (color, value);
 
     return TRUE;
 }
@@ -268,7 +268,7 @@ gboolean gsb_rgba_set_couleur_with_indice (const gchar *couleur,
     if (color == NULL)
         return FALSE;
 
-    gdk_rgba_parse (color, value);
+    (void)gdk_rgba_parse (color, value);
 
     return TRUE;
 }

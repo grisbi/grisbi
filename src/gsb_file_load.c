@@ -1256,6 +1256,13 @@ static  void gsb_file_load_account_part ( const gchar **attribute_names,
                 {
                     account_number = gsb_data_account_set_account_number ( account_number,
                             utils_str_atoi ( attribute_values[i]));
+					if (account_number == 0)
+					{
+						GrisbiWinRun *w_run;
+
+						w_run = grisbi_win_get_w_run ();
+						w_run->account_number_is_0 = TRUE;
+					}
                 }
 
                 else if ( !strcmp ( attribute_names[i], "Neutrals_inside_method" ))
@@ -3850,6 +3857,9 @@ gboolean gsb_file_load_open_file (const gchar *filename )
     {
         GMarkupParser *markup_parser;
         GMarkupParseContext *context;
+		GrisbiWinRun *w_run;
+
+		w_run = grisbi_win_get_w_run ();
 
         /* first, we check if the file is crypted, if it is, we decrypt it */
         if ( !strncmp ( file_content, "Grisbi encrypted file ", 22 ) ||
@@ -3890,11 +3900,11 @@ gboolean gsb_file_load_open_file (const gchar *filename )
             /* fill the GMarkupParser for a new xml structure */
             markup_parser -> start_element = (void *) gsb_file_load_start_element;
             markup_parser -> error = (void *) gsb_file_load_error;
-            run.old_version = FALSE;
+            w_run->old_version = FALSE;
         }
         else
         {
-            run.old_version = TRUE;
+            w_run->old_version = TRUE;
 
             return FALSE;
         }
@@ -3916,6 +3926,11 @@ gboolean gsb_file_load_open_file (const gchar *filename )
         g_markup_parse_context_free (context);
         g_free (markup_parser);
         g_free (file_content);
+
+		if (w_run->account_number_is_0)
+		{
+			gsb_data_account_renum_account_number_0 (filename);
+		}
 
         if ( !download_tmp_values.download_ok )
             return FALSE;

@@ -295,6 +295,8 @@ void free_variables (void)
     bet_data_free_variables ();
 	if (etat.csv_separator)
 		g_free (etat.csv_separator);
+    gsb_select_icon_init_logo_variables ();
+	gsb_data_bank_init_variables ();
 
 #ifdef HAVE_GOFFICE
     struct_free_bet_graph_prefs ();

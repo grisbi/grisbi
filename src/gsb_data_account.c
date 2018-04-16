@@ -36,11 +36,17 @@
 
 /*START_INCLUDE*/
 #include "gsb_data_account.h"
+#include "bet_data.h"
 #include "custom_list.h"
 #include "dialog.h"
 #include "grisbi_win.h"
 #include "gsb_data_currency.h"
 #include "gsb_data_form.h"
+#include "gsb_data_import_rule.h"
+#include "gsb_data_payment.h"
+#include "gsb_data_report.h"
+#include "gsb_data_reconcile.h"
+#include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
@@ -159,12 +165,46 @@ static gboolean gsb_data_form_dup_sort_values ( gint origin_account,
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 /*END_EXTERN*/
 
-
 /** contains a g_slist of struct_account in the good order */
 static GSList *list_accounts = NULL;
 
 /** a pointer to the last account used (to increase the speed) */
 static AccountStruct *account_buffer;
+
+/******************************************************************************/
+/* Private functions                                                          */
+/******************************************************************************/
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+static gint gsb_data_account_cmp_numbers (gconstpointer a,
+										  gconstpointer b)
+{
+	gint a_num;
+	gint b_num;
+
+	if (a == NULL)
+		return -1;
+	if (b == NULL)
+		return 1;
+
+	if (a == NULL && b == NULL)
+		return 0;
+
+	a_num = GPOINTER_TO_INT (a);
+	b_num = GPOINTER_TO_INT (b);
+
+	if (a_num < b_num)
+		return -1;
+	else if (a_num == b_num)
+		return 0;
+	else
+		return 1;
+}
 
 /**
  * This function close all opened accounts and free the memory
@@ -1241,7 +1281,7 @@ gint gsb_data_account_get_element_sort ( gint account_number,
 
     if ( no_column < 0
 	 ||
-	 no_column > CUSTOM_MODEL_VISIBLE_COLUMNS )
+	 no_column >= CUSTOM_MODEL_VISIBLE_COLUMNS )
     {
         gchar* tmpstr;
 
@@ -1282,7 +1322,7 @@ gboolean gsb_data_account_set_element_sort ( gint account_number,
 
     if ( no_column < 0
 	 ||
-	 no_column > CUSTOM_MODEL_VISIBLE_COLUMNS )
+	 no_column >= CUSTOM_MODEL_VISIBLE_COLUMNS )
     {
         gchar* tmpstr;
 
@@ -3856,6 +3896,142 @@ gboolean gsb_data_account_get_has_pointed (gint account_number)
         return FALSE;
 
     return account->has_pointed;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+gboolean gsb_data_account_renum_account_number_0 (const gchar *filename)
+{
+	gint account_number;
+	GSList *payment_list;
+    GSList *tmp_list;
+	GSList *number_list = NULL;
+	gchar* tmp_str;
+	gint i = 0;
+	gint result;
+
+	devel_debug (NULL);
+	tmp_list = list_accounts;
+
+	/* recherche le premier numéro de compte disponible */
+	while (tmp_list)
+	{
+		AccountStruct *account;
+
+		account = tmp_list->data;
+
+		if (!account)
+		{
+			account_number = 1;
+		}
+		account_number = account->account_number;
+		number_list = g_slist_append (number_list, GINT_TO_POINTER (account_number));
+
+		tmp_list = tmp_list->next;
+    }
+
+	number_list = g_slist_sort (number_list, (GCompareFunc) gsb_data_account_cmp_numbers);
+
+	tmp_list = number_list;
+
+    while (tmp_list)
+    {
+		account_number = GPOINTER_TO_INT (tmp_list->data);
+		if (account_number > i)
+		{
+			break;
+		}
+		i++;
+		tmp_list = tmp_list->next;
+	}
+
+	account_number = i;
+
+	g_slist_free (number_list);
+
+	/* Avertissement avant renommage du compte */
+	tmp_str = g_strdup_printf (_("The account \"%s\" has the number 0 which creates a bug in certain situations."
+								  " It will be renumbered and will have the number \"%d\"."),
+							   gsb_data_account_get_name (0),
+							   account_number);
+
+	result = question_yes_no (tmp_str, _("Rename account \"0\""), GTK_RESPONSE_YES );
+    g_free (tmp_str);
+	if (!result)
+	{
+		return FALSE;
+    }
+
+	/* on fait une sauvegarde du fichier */
+	gsb_file_copy_old_file (filename);
+
+	/* on traite les opérations */
+	tmp_list = gsb_data_transaction_get_complete_transactions_list ();
+
+	while (tmp_list)
+	{
+		gint transaction_number;
+
+		transaction_number = gsb_data_transaction_get_transaction_number (tmp_list->data);
+
+		if (gsb_data_transaction_get_account_number (transaction_number) == 0)
+		{
+			gsb_data_transaction_set_account_number (transaction_number, account_number);
+		}
+		tmp_list = tmp_list->next;
+	}
+
+	/* on traite les opérations planifiées*/
+	tmp_list = gsb_data_scheduled_get_scheduled_list ();
+
+	while (tmp_list)
+	{
+		gint scheduled_number;
+
+		scheduled_number = gsb_data_scheduled_get_scheduled_number (tmp_list->data);
+
+		if (gsb_data_scheduled_get_account_number (scheduled_number) == 0)
+		{
+			gsb_data_scheduled_set_account_number (scheduled_number, account_number);
+		}
+		tmp_list = tmp_list->next;
+	}
+
+	/* on traite les moyens de paiement */
+	payment_list = gsb_data_payment_get_list_for_account (0);
+	tmp_list = payment_list;
+	while (tmp_list)
+	{
+		gint payment_number;
+
+		payment_number = GPOINTER_TO_INT (tmp_list->data);
+		gsb_data_payment_set_account_number (payment_number, account_number);
+		tmp_list = tmp_list->next;
+	}
+	g_slist_free (payment_list);
+
+	/* on traite les rapprochements */
+	gsb_data_reconcile_renum_account_number_0 (account_number);
+
+	/* on traite les règles d'import des fichiers */
+	gsb_data_import_rule_renum_account_number_0 (account_number);
+
+	/* on traite les états */
+	gsb_data_report_renum_account_number_0 (account_number);
+
+	/* on traite les données budgetaires */
+	bet_data_renum_account_number_0 (account_number);
+
+	/* set new numero for account */
+	gsb_data_account_set_account_number (0, account_number);
+
+	gsb_file_set_modified (TRUE);
+	return TRUE;
 }
 
 /**

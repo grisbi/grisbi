@@ -1258,6 +1258,34 @@ void gsb_data_import_rule_free_list (void)
  *
  * \return
  **/
+void gsb_data_import_rule_renum_account_number_0 (gint new_account_number)
+{
+	GSList *rule_list;
+	GSList *tmp_list;
+
+	rule_list = gsb_data_import_rule_get_from_account (0);
+	tmp_list = rule_list;
+	while (tmp_list)
+	{
+		ImportRule *import_rule;
+
+		import_rule = tmp_list->data;
+		if (import_rule->account_number == 0)
+		{
+			import_rule->account_number = new_account_number;
+		}
+		tmp_list = tmp_list->next;
+	}
+	g_slist_free (rule_list);
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

@@ -810,7 +810,7 @@ gchar *gsb_real_safe_real_to_string ( gsb_real number, gint default_exponent )
     lldiv_t units;
 
     if ( (number.exponent < 0)
-    || (number.exponent > EXPONENT_MAX )
+    || (number.exponent >= EXPONENT_MAX )
     || (number.mantissa == error_real.mantissa) )
       return g_strdup ( ERROR_REAL_STRING );
 

@@ -49,11 +49,13 @@
 /* ************************************************************************* */
 /* Classement de deux échéances d'opérations par date                        */
 /* ************************************************************************* */
-gint classement_sliste_echeance_par_date ( gint scheduled_number_1,
-                        gint scheduled_number_2,
+gint classement_sliste_echeance_par_date ( gpointer data_1,
+                        gpointer data_2,
                         gpointer manual )
 {
     const GDate *date;
+    gint scheduled_number_1 = GPOINTER_TO_INT(data_1);
+    gint scheduled_number_2 = GPOINTER_TO_INT(data_2);
 
     if ( manual )
     {

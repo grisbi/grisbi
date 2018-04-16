@@ -300,6 +300,8 @@ gint gsb_data_report_text_comparison_dup ( gint last_text_comparison_number )
 
     text_comparison_number = gsb_data_report_text_comparison_new (0);
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
+    if (NULL == text_comparison)
+        return 0;
 
     text_comparison -> report_number = last_text_comparison -> report_number;
     text_comparison -> link_to_last_text_comparison = last_text_comparison -> link_to_last_text_comparison;

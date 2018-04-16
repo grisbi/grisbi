@@ -385,6 +385,8 @@ gint my_strcmp ( gchar *string_1, gchar *string_2 )
 	    return 1;
     if (string_1 && !string_2)
 	    return -1;
+    if (!string_1 && !string_2)
+	    return 0;
 
 
 	if ( g_utf8_validate ( string_1, -1, NULL )
@@ -780,6 +782,7 @@ gboolean gsb_string_is_trouve ( const gchar *payee_name, const gchar *needle )
         tab_str = g_strsplit_set ( needle, "%*", 0 );
         is_prefix = g_str_has_prefix ( payee_name, tab_str[0] );
         is_suffix = g_str_has_suffix ( payee_name, tab_str[1] );
+		g_strfreev (tab_str);
         if ( is_prefix && is_suffix )
             return TRUE;
         else
@@ -846,7 +849,7 @@ gchar * gsb_string_remplace_joker ( const gchar *chaine, gchar *new_str )
  *
  * \param chaine
  *
- * \return guint
+ * \return a string representing a number
  */
 gchar *gsb_string_extract_int ( const gchar *chaine )
 {
@@ -857,7 +860,7 @@ gchar *gsb_string_extract_int ( const gchar *chaine )
     gint long_nbre = 64;
 
     tmpstr = g_malloc0 ( long_nbre * sizeof (gchar) );
-    ptr = g_strdup ( chaine );
+    ptr = (gchar*) chaine;
     while ( g_utf8_strlen (ptr, -1) > 0 )
     {
         ch = g_utf8_get_char_validated (ptr, -1);
@@ -871,7 +874,7 @@ gchar *gsb_string_extract_int ( const gchar *chaine )
         ptr = g_utf8_next_char (ptr);
     }
 
-    return tmpstr;
+	return tmpstr;
 }
 
 

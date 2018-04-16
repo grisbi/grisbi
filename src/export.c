@@ -201,6 +201,7 @@ static void export_account_all_toggled (GtkToggleButton *button,
     GtkTreeModel *model;
     GtkTreeIter iter;
     gint toggle_value;
+    gboolean valid;
 
     model = gtk_tree_view_get_model (tree_view);
     assistant = g_object_get_data (G_OBJECT (model), "assistant");
@@ -217,8 +218,8 @@ static void export_account_all_toggled (GtkToggleButton *button,
     }
 
     /* get first iter */
-    gtk_tree_model_get_iter_first (GTK_TREE_MODEL (model), &iter);
-    do
+    valid = gtk_tree_model_get_iter_first (GTK_TREE_MODEL (model), &iter);
+    while (valid)
     {
         gboolean toggle_item;
         gint account_toggled;
@@ -239,8 +240,8 @@ static void export_account_all_toggled (GtkToggleButton *button,
             selected_accounts = g_slist_remove (selected_accounts, GINT_TO_POINTER (account_toggled));
             gtk_list_store_set (GTK_LIST_STORE(model), &iter, 0, !toggle_item, -1);
         }
+        valid = gtk_tree_model_iter_next (GTK_TREE_MODEL (model), &iter);
     }
-    while (gtk_tree_model_iter_next (GTK_TREE_MODEL (model), &iter));
 
     /* clean up */
     export_resume_maybe_sensitive_next (assistant);

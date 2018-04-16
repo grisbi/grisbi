@@ -1993,8 +1993,7 @@ gint gsb_scheduler_list_get_current_scheduled_number ( void )
 			 SCHEDULER_COL_NB_VIRTUAL_TRANSACTION, &virtual_transaction,
 			 -1 );
 
-    g_list_foreach (list_tmp, (GFunc) gtk_tree_path_free, NULL);
-    g_list_free (list_tmp);
+    g_list_free_full (list_tmp, (GDestroyNotify) gtk_tree_path_free);
 
     if ( virtual_transaction )
 	return 0;
@@ -2081,6 +2080,9 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number
             /* ask all the time for a child */
             msg_no = question_conditional_yes_no_get_no_struct ( &delete_msg[0],
                         "delete-child-scheduled" );
+            if (msg_no < 0)
+                return FALSE;
+
             tmpstr = g_strdup_printf ( _("Do you really want to delete the child of the "
                         "scheduled transaction with party '%s' ?"),
                         gsb_data_payee_get_name (
@@ -2100,6 +2102,9 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number
              * have another dialog to delete the occurence or the transaction */
             msg_no = question_conditional_yes_no_get_no_struct ( &delete_msg[0],
                         "delete-scheduled" );
+            if (msg_no < 0)
+                return FALSE;
+
             tmpstr = g_strdup_printf ( _("Do you really want to delete the scheduled "
                         "transaction with party '%s' ?"),
                         gsb_data_payee_get_name (
@@ -2143,6 +2148,9 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number
 
             msg_no = question_conditional_yes_no_get_no_struct ( &delete_msg[0],
                             "delete-scheduled-occurrences" );
+
+            if (msg_no < 0)
+                return FALSE;
 
             if ( delete_msg[msg_no].hidden )
                 result = delete_msg[msg_no].default_answer;

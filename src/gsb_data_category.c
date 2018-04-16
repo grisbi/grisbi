@@ -405,6 +405,8 @@ gint gsb_data_category_max_sub_category_number ( gint category_number )
     gint number_tmp = 0;
 
     category = gsb_data_category_get_structure ( category_number );
+    if (!category)
+	return 0;
 
     tmp = category -> sub_category_list;
 
@@ -1710,6 +1712,9 @@ gboolean gsb_data_category_test_create_sub_category ( gint no_category,
     struct_sub_category *sub_category;
 
     category = gsb_data_category_get_structure ( no_category );
+    if ( !category )
+        return FALSE;
+
     list_tmp = g_slist_find_custom ( category -> sub_category_list,
                         name,
                         (GCompareFunc) gsb_data_category_get_pointer_from_sub_name_in_glist );

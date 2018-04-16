@@ -185,9 +185,10 @@ static void gtk_combofix_remove_for_report ( GtkTreeModel *model,
 {
     GtkTreeIter iter;
     gboolean separator;
+    gboolean valid;
 
-    gtk_tree_model_get_iter_first (  GTK_TREE_MODEL( model ), &iter );
-    do
+    valid = gtk_tree_model_get_iter_first (  GTK_TREE_MODEL( model ), &iter );
+    while (valid)
     {
         gtk_tree_model_get ( GTK_TREE_MODEL( model ), &iter,
                         COMBOFIX_COL_SEPARATOR, &separator,
@@ -196,8 +197,8 @@ static void gtk_combofix_remove_for_report ( GtkTreeModel *model,
         {
             break;
         }
+        valid = gtk_tree_model_iter_next ( GTK_TREE_MODEL( model ), &iter );
     }
-    while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL( model ), &iter ) );
 
     gtk_tree_store_remove ( GTK_TREE_STORE ( model ), iter_parent );
     gtk_tree_store_remove ( GTK_TREE_STORE ( model ), &iter );
@@ -216,9 +217,10 @@ static gboolean gtk_combofix_search_for_report ( GtkTreeModel *model )
     GtkTreeIter iter;
     gchar *tmp_str;
     gboolean separator;
+    gboolean valid;
 
-    gtk_tree_model_get_iter_first (  GTK_TREE_MODEL( model ), &iter );
-    do
+    valid = gtk_tree_model_get_iter_first (  GTK_TREE_MODEL( model ), &iter );
+    while (valid)
     {
         gtk_tree_model_get ( GTK_TREE_MODEL( model ), &iter,
                         COMBOFIX_COL_SEPARATOR, &separator,
@@ -226,13 +228,13 @@ static gboolean gtk_combofix_search_for_report ( GtkTreeModel *model )
 
         if ( separator )
         {
-            gtk_tree_model_iter_next ( GTK_TREE_MODEL( model ), &iter );
-			report_parent_iter = iter;
+            if (gtk_tree_model_iter_next ( GTK_TREE_MODEL( model ), &iter ))
+				report_parent_iter = iter;
 
             return FALSE;
         }
+        valid = gtk_tree_model_iter_next ( GTK_TREE_MODEL( model ), &iter );
     }
-    while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL( model ), &iter ) );
 
     gtk_tree_store_append ( GTK_TREE_STORE ( model ), &iter, NULL );
     gtk_tree_store_set ( GTK_TREE_STORE ( model ),
@@ -1247,14 +1249,14 @@ static gboolean gtk_combofix_entry_changed ( GtkComboFix *combofix, gboolean ins
 
     entry_string = gtk_entry_get_text ( GTK_ENTRY ( combofix -> entry ) );
 
-    if ( strlen ( entry_string ) )
+    if ( entry_string && strlen ( entry_string ) )
     {
         completed_string = gtk_combofix_update_visible_rows ( combofix,
                         entry_string);
         if ( completed_string == NULL )
             gtk_combofix_hide_popup ( combofix );
     }
-    else if ( insert_text == 0 && strlen ( entry_string ) == 0 )
+    else if ( insert_text == 0 )
         gtk_combofix_hide_popup ( combofix );
 
     /* if force is set and there is no completed_string, we deleted 1 character by one
@@ -1380,7 +1382,7 @@ static gchar *gtk_combofix_update_visible_rows ( GtkComboFix *combofix,
     gint path_ok;
     gsize length;
     gboolean separator = FALSE;
-    GtkComboFixPrivate *priv = combofix -> priv;
+    GtkComboFixPrivate *priv;
 
     if (!combofix
 	||
@@ -1390,6 +1392,8 @@ static gchar *gtk_combofix_update_visible_rows ( GtkComboFix *combofix,
     length = strlen (string);
     if (!length)
 	return NULL;
+
+    priv = combofix -> priv;
 
     priv -> visible_items = 0;
     model = GTK_TREE_MODEL ( priv -> store );
@@ -1999,10 +2003,12 @@ static gboolean gtk_combofix_move_selection ( GtkComboFix *combofix,
 {
     GtkTreeIter sorted_iter;
     gint result = 0;
-    GtkComboFixPrivate *priv = combofix -> priv;
+    GtkComboFixPrivate *priv;
 
     if ( !combofix )
 	    return FALSE;
+
+    priv = combofix -> priv;
 
     if ( gtk_tree_selection_get_selected ( priv -> selection, NULL, &sorted_iter ) )
     {
@@ -2102,12 +2108,14 @@ static gboolean gtk_combofix_select_item ( GtkComboFix *combofix,
     gchar *ptr;
     gchar *tmp_item = NULL;
     gint result = 0;
-    GtkComboFixPrivate *priv = combofix -> priv;
+    GtkComboFixPrivate *priv;
 
     if ( !combofix )
 	    return FALSE;
     if ( !item || strlen ( item ) == 0 )
         return FALSE;
+
+    priv = combofix -> priv;
 
     if ( ( ptr = g_utf8_strchr ( item, -1, ':' ) ) )
         tmp_item = g_strndup ( item, ( ptr - item ) -1 );

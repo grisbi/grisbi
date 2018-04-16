@@ -1032,6 +1032,8 @@ static void update_liste_comptes_accueil (gboolean force)
                     soldes_mixtes++;
 					break;
 
+				case GSB_TYPE_BANK:
+				case GSB_TYPE_CASH:
                 default:
                     new_comptes_bancaires++;
             }

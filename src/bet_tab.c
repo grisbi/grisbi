@@ -2889,6 +2889,7 @@ gboolean bet_array_list_size_allocate ( GtkWidget *tree_view,
                                             bet_array_tree_view_columns[i]) * 100 ) / allocation -> width + 1;
         }
 
+		gsb_file_set_modified (TRUE);
         return FALSE;
     }
 

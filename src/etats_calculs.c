@@ -80,11 +80,6 @@ static gint dernier_no_rappr;     /* quand on a choisi le plus grand, contient l
 struct EtatAffichage * etat_affichage_output;
 
 
-/* Uh, what?! See etats_affiche.c as well... */
-static gint ancien_tiers_etat;
-extern gint ancien_tiers_etat;
-
-
 /*START_EXTERN*/
 extern struct EtatAffichage gtktable_affichage;
 extern gint ligne_debut_partie;
@@ -98,6 +93,7 @@ gint ancienne_sous_ib_etat;
 gint ancienne_categ_etat;
 gint ancienne_categ_speciale_etat;
 gint ancienne_sous_categ_etat;
+gint ancien_tiers_etat;
 gint ancien_compte_etat;
 gsb_real montant_categ_etat;
 gsb_real montant_sous_categ_etat;

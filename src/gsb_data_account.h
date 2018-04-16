@@ -119,6 +119,7 @@ gboolean 		gsb_data_account_init_variables (void);
 gboolean 		gsb_data_account_move_account 							(gint account_number,
 																		 gint dest_account_number);
 gint 			gsb_data_account_new 									(KindAccount account_kind);
+gboolean		gsb_data_account_renum_account_number_0					(const gchar *filename);
 gboolean 		gsb_data_account_reorder 								(GSList *new_order);
 gboolean 		gsb_data_account_set_account_icon_pixbuf 				(gint account_number,
 																		 GdkPixbuf *pixbuf);

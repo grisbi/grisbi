@@ -57,10 +57,6 @@ gchar * ofx_filename;
 
 
 LibofxContextPtr ofx_context;
-int ofx_proc_status_cb(struct OfxStatusData data, void * status_data);
-int ofx_proc_account_cb(struct OfxAccountData data, void * account_data);
-int ofx_proc_transaction_cb(struct OfxTransactionData data, void * security_data);
-int ofx_proc_statement_cb(struct OfxStatementData data, void * statement_data);
 
 
 /**

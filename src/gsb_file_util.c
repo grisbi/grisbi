@@ -354,7 +354,7 @@ void gsb_file_util_change_permissions (void)
 		const gchar *filename;
 
 		filename = grisbi_win_get_filename (NULL);
-        chmod (filename, S_IRUSR | S_IWUSR);
+        (void)chmod (filename, S_IRUSR | S_IWUSR);
     }
 
 #endif /* G_OS_WIN32 */
@@ -375,6 +375,8 @@ void gsb_file_util_display_warning_permissions (void)
     devel_debug (NULL);
 
     msg_no = question_conditional_yes_no_get_no_struct (&messages[0], "account-file-readable");
+    if (msg_no < 0)
+        return;
 
     dialogue_conditional_hint (_(messages[msg_no].hint), _(messages[msg_no].message), "account-file-readable");
 }

@@ -18,19 +18,17 @@ CFLAGS+=" -Wmissing-include-dirs"
 CFLAGS+=" -Wmissing-prototypes"
 CFLAGS+=" -Wnested-externs"
 CFLAGS+=" -Wold-style-definition"
-#CFLAGS+=" -Wpointer-arith"
-#CFLAGS+=" -Wredundant-decls"  # not fixed yet
+CFLAGS+=" -Wpointer-arith"
+CFLAGS+=" -Wredundant-decls"
 #CFLAGS+=" -Wshadow"
 CFLAGS+=" -Wstrict-prototypes"
-#CFLAGS+=" -Wswitch-enum"
+CFLAGS+=" -Wswitch-enum"
 CFLAGS+=" -Wundef"
 CFLAGS+=" -Wuninitialized"
-#CFLAGS+=" -Wunused"
+CFLAGS+=" -Wunused"
 #CFLAGS+=" -Wwrite-strings"
 
 # warnings disabled on purpose
-#CFLAGS+=" -Wno-unused-function"
-CFLAGS+=" -Wno-deprecated-declarations"
 CFLAGS+=" -Wno-unused-parameter"
 
 export CFLAGS

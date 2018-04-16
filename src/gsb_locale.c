@@ -262,11 +262,12 @@ const gchar *gsb_locale_get_language (void)
  *
  * \return
  **/
-void gsb_locale_init_language (const gchar *language)
+void gsb_locale_init_language (const gchar *new_language)
 {
-	gchar * tmp_str;
+	gchar *tmp_str;
+	gchar *language = FALSE;
 
-	if (!language)
+	if (!new_language)
 	{
 		const gchar *tmp_language = NULL;
 
@@ -289,6 +290,7 @@ void gsb_locale_init_language (const gchar *language)
 			g_setenv ("LANG", tmp_str, TRUE);
 			langue = g_strdup (language);
 			setlocale (LC_ALL, "");
+			g_free (language);
 			g_free (tmp_str);
 			return;
 		}
@@ -317,11 +319,14 @@ void gsb_locale_init_language (const gchar *language)
 				g_setenv ("LANGUAGE", language, TRUE);
 				langue = g_strdup (language);
 				setlocale (LC_ALL, "");
+				g_free (language);
 				return;
 			}
 		}
 #endif
 	}
+	else
+		language = g_strdup (new_language);
 
 	if (!language)
 		return;
@@ -333,6 +338,7 @@ void gsb_locale_init_language (const gchar *language)
 	g_setenv ("LANG", tmp_str, TRUE);
 	g_free (tmp_str);
 	langue = g_strdup (language);
+	g_free (language);
 	setlocale (LC_ALL, "");
 }
 
