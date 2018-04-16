@@ -61,6 +61,10 @@ struct _ReconcileStruct
 
 
 /*START_STATIC*/
+static void _gsb_data_reconcile_free ( ReconcileStruct *reconcile );
+static gint gsb_data_reconcile_cmp_int (ReconcileStruct *reconcile_1,
+                        ReconcileStruct *reconcile_2);
+static gpointer gsb_data_reconcile_get_structure ( gint reconcile_number );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -72,6 +76,7 @@ static GList *reconcile_list;
 
 /** a pointer to the last reconcile used (to increase the speed) */
 static ReconcileStruct *reconcile_buffer;
+
 
 /******************************************************************************/
 /* Private functions                                                          */
@@ -85,17 +90,21 @@ static ReconcileStruct *reconcile_buffer;
  **/
 static void _gsb_data_reconcile_free (ReconcileStruct *reconcile)
 {
-	if (!reconcile)
-		return;
-	g_free (reconcile->reconcile_name);
-	if (reconcile->reconcile_init_date)
-		g_date_free (reconcile->reconcile_init_date);
-	if (reconcile->reconcile_final_date)
-		g_date_free (reconcile->reconcile_final_date);
-
-	g_free (reconcile);
-	if (reconcile_buffer == reconcile)
-		reconcile_buffer = NULL;
+    if ( reconcile_list )
+    {
+        GList* tmp_list = reconcile_list;
+        while ( tmp_list )
+        {
+	    ReconcileStruct *reconcile;
+	    reconcile = tmp_list -> data;
+	    tmp_list = tmp_list -> next;
+	    _gsb_data_reconcile_free ( reconcile );
+        }
+	g_list_free ( reconcile_list );
+    }
+    reconcile_list = NULL;
+    reconcile_buffer = NULL;
+    return FALSE;
 }
 
 /**
@@ -147,7 +156,7 @@ static gpointer gsb_data_reconcile_get_structure (gint reconcile_number)
 	tmp = reconcile_list;
 	while (tmp)
     {
-		ReconcileStruct *reconcile;
+	ReconcileStruct *reconcile;
 
 		reconcile = tmp->data;
 
@@ -240,7 +249,7 @@ gint gsb_data_reconcile_max_number (void)
 
     while (tmp)
     {
-		ReconcileStruct *reconcile;
+	ReconcileStruct *reconcile;
 
 		reconcile = tmp->data;
 
@@ -264,7 +273,7 @@ gint gsb_data_reconcile_new (const gchar *name)
 {
     ReconcileStruct *reconcile;
 
-    reconcile = g_malloc0 (sizeof (ReconcileStruct));
+    reconcile = g_malloc0 ( sizeof ( ReconcileStruct ));
     if (!reconcile)
     {
         dialogue_error_memory ();
@@ -275,7 +284,24 @@ gint gsb_data_reconcile_new (const gchar *name)
     reconcile->reconcile_name = my_strdup (name);
     reconcile_list = g_list_append (reconcile_list, reconcile);
 
-    return reconcile->reconcile_number;
+    return reconcile -> reconcile_number;
+}
+
+/**
+ * This function is called to free the memory used by a ReconcileStruct structure
+ */
+static void _gsb_data_reconcile_free ( ReconcileStruct *reconcile )
+{
+    if ( ! reconcile )
+        return;
+    g_free ( reconcile -> reconcile_name );
+    if ( reconcile -> reconcile_init_date)
+        g_date_free ( reconcile -> reconcile_init_date );
+    if ( reconcile -> reconcile_final_date)
+        g_date_free ( reconcile -> reconcile_final_date );
+    g_free ( reconcile );
+    if ( reconcile_buffer == reconcile )
+	reconcile_buffer = NULL;
 }
 
 /**
@@ -693,17 +719,19 @@ gint gsb_data_reconcile_get_number_by_date (const GDate *date,
     tmp_list = reconcile_list;
     while (tmp_list)
     {
-		ReconcileStruct *reconcile;
+	ReconcileStruct *reconcile;
 
-		reconcile = tmp_list->data;
+	reconcile = tmp_list -> data;
 
-		if (reconcile->account_number == account_number
-			&& g_date_compare (reconcile->reconcile_init_date, date) <= 0
-			&& g_date_compare (date, reconcile->reconcile_final_date) <= 0)
-		{
-			return reconcile->reconcile_number;
-		}
-		tmp_list = tmp_list->next;
+	if (reconcile -> account_number == account_number
+	    &&
+	    g_date_compare ( reconcile -> reconcile_init_date,
+			     date ) <= 0
+	    &&
+	    g_date_compare ( date,
+			     reconcile -> reconcile_final_date ) <= 0 )
+	    return reconcile -> reconcile_number;
+	tmp_list = tmp_list -> next;
     }
     return 0;
 }
@@ -752,11 +780,10 @@ GList *gsb_data_reconcile_get_sort_reconcile_list (gint account_number)
 /**
  *
  *
- * \param
- *
- * \return
- **/
-void gsb_data_reconcile_renum_account_number_0 (gint new_account_number)
+ * \return 0 -1 1 comme strcmp
+ * */
+gint gsb_data_reconcile_cmp_int (ReconcileStruct *reconcile_1,
+                        ReconcileStruct *reconcile_2)
 {
 	GList *tmp_list;
 
@@ -788,7 +815,7 @@ void gsb_data_reconcile_renum_account_number_0 (gint new_account_number)
 	tmp_list = gsb_data_reconcile_get_reconcile_list ();
 	while (tmp_list)
 	{
-		struct_reconcile *reconcile;
+		ReconcileStruct *reconcile;
 
 		reconcile = tmp_list->data;
 		if (reconcile->account_number == 0)
