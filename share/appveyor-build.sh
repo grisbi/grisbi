@@ -8,6 +8,7 @@ cd /c/projects/grisbi-src
 ./configure --prefix /c/projects/grisbi-inst/
 
 v=$(grep PACKAGE_VERSION config.h | cut -f2 -d '"')
+v="$v-$(date +'%Y-%m-%d')"
 powershell.exe -command "Update-AppveyorBuild -Version \"$v\""
 # -B%APPVEYOR_BUILD_NUMBER%\""
 
