@@ -183,7 +183,7 @@ static void grisbi_app_setup_accelerators (GApplication *application,
 		{ "win.new-ope", { "<Primary>t", NULL } },
 		{ "win.new-acc", { "<Primary><Shift>n", NULL } },
 		{ "win.show-reconciled", { "<Alt>r", NULL } },
-		{ "win.show-arch", { "<Alt>l", NULL } },
+		{ "win.show-archived", { "<Alt>l", NULL } },
 		{ "win.manual", { "F1", NULL } },
 		{ "win.fullscreen", {"F11", NULL} }
 	};
@@ -199,7 +199,7 @@ static void grisbi_app_setup_accelerators (GApplication *application,
 		{ "win.new-ope", { "<Primary>t", NULL } },
 		{ "win.new-acc", { "<Primary><Shift>n", NULL } },
 		{ "win.show-reconciled", { "<Alt>r", NULL } },
-		{ "win.show-arch", { "<Alt>l", NULL } },
+		{ "win.show-archived", { "<Alt>l", NULL } },
 		{ "win.manual", { "F1", NULL } },
 		{ "win.fullscreen", {"F11", NULL} }
 	};

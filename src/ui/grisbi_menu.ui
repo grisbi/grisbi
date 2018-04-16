@@ -183,7 +183,7 @@
         </item>
         <item>
           <attribute name="label" translatable="yes">Show lines archives</attribute>
-          <attribute name="action">win.show-arch</attribute>
+          <attribute name="action">win.show-archived</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Show closed accounts</attribute>
