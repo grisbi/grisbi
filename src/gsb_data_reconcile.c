@@ -43,10 +43,10 @@
 #include "utils_str.h"
 /*END_INCLUDE*/
 
-/** \struct
- * describe an reconciliation operation
- * */
-typedef struct
+/** \struct describe an reconciliation operation */
+typedef struct _ReconcileStruct		ReconcileStruct;
+
+struct _ReconcileStruct
 {
     gint reconcile_number;
     gchar *reconcile_name;
@@ -57,14 +57,13 @@ typedef struct
 
     gsb_real reconcile_init_balance;
     gsb_real reconcile_final_balance;
-
-} struct_reconcile;
+};
 
 
 /*START_STATIC*/
-static void _gsb_data_reconcile_free ( struct_reconcile *reconcile );
-static gint gsb_data_reconcile_cmp_int (struct_reconcile *reconcile_1,
-                        struct_reconcile *reconcile_2);
+static void _gsb_data_reconcile_free ( ReconcileStruct *reconcile );
+static gint gsb_data_reconcile_cmp_int (ReconcileStruct *reconcile_1,
+                        ReconcileStruct *reconcile_2);
 static gpointer gsb_data_reconcile_get_structure ( gint reconcile_number );
 /*END_STATIC*/
 
@@ -72,11 +71,11 @@ static gpointer gsb_data_reconcile_get_structure ( gint reconcile_number );
 /*END_EXTERN*/
 
 
-/** contains a g_list of struct_reconcile */
+/** contains a g_list of ReconcileStruct */
 static GList *reconcile_list;
 
 /** a pointer to the last reconcile used (to increase the speed) */
-static struct_reconcile *reconcile_buffer;
+static ReconcileStruct *reconcile_buffer;
 
 
 /**
@@ -93,7 +92,7 @@ gboolean gsb_data_reconcile_init_variables ( void )
         GList* tmp_list = reconcile_list;
         while ( tmp_list )
         {
-	    struct_reconcile *reconcile;
+	    ReconcileStruct *reconcile;
 	    reconcile = tmp_list -> data;
 	    tmp_list = tmp_list -> next;
 	    _gsb_data_reconcile_free ( reconcile );
@@ -130,7 +129,7 @@ gpointer gsb_data_reconcile_get_structure ( gint reconcile_number )
 
     while ( tmp )
     {
-	struct_reconcile *reconcile;
+	ReconcileStruct *reconcile;
 
 	reconcile = tmp -> data;
 
@@ -153,7 +152,7 @@ gpointer gsb_data_reconcile_get_structure ( gint reconcile_number )
  * */
 gint gsb_data_reconcile_get_no_reconcile ( gpointer reconcile_ptr )
 {
-    struct_reconcile *reconcile;
+    ReconcileStruct *reconcile;
 
     if ( !reconcile_ptr )
 	return 0;
@@ -194,7 +193,7 @@ gint gsb_data_reconcile_max_number ( void )
 
     while ( tmp )
     {
-	struct_reconcile *reconcile;
+	ReconcileStruct *reconcile;
 
 	reconcile = tmp -> data;
 
@@ -217,9 +216,9 @@ gint gsb_data_reconcile_max_number ( void )
  * */
 gint gsb_data_reconcile_new ( const gchar *name )
 {
-    struct_reconcile *reconcile;
+    ReconcileStruct *reconcile;
 
-    reconcile = g_malloc0 ( sizeof ( struct_reconcile ));
+    reconcile = g_malloc0 ( sizeof ( ReconcileStruct ));
     if (!reconcile)
     {
         dialogue_error_memory ();
@@ -234,9 +233,9 @@ gint gsb_data_reconcile_new ( const gchar *name )
 }
 
 /**
- * This function is called to free the memory used by a struct_reconcile structure
+ * This function is called to free the memory used by a ReconcileStruct structure
  */
-static void _gsb_data_reconcile_free ( struct_reconcile *reconcile )
+static void _gsb_data_reconcile_free ( ReconcileStruct *reconcile )
 {
     if ( ! reconcile )
         return;
@@ -261,7 +260,7 @@ static void _gsb_data_reconcile_free ( struct_reconcile *reconcile )
  * */
 gboolean gsb_data_reconcile_remove ( gint reconcile_number )
 {
-    struct_reconcile *reconcile;
+    ReconcileStruct *reconcile;
     GSList *list_tmp;
 
     reconcile = gsb_data_reconcile_get_structure ( reconcile_number );
@@ -306,7 +305,7 @@ gboolean gsb_data_reconcile_remove ( gint reconcile_number )
 gint gsb_data_reconcile_set_new_number ( gint reconcile_number,
                         gint new_no_reconcile )
 {
-    struct_reconcile *reconcile;
+    ReconcileStruct *reconcile;
 
     reconcile = gsb_data_reconcile_get_structure (reconcile_number);
 
@@ -327,7 +326,7 @@ gint gsb_data_reconcile_set_new_number ( gint reconcile_number,
  * */
 const gchar *gsb_data_reconcile_get_name ( gint reconcile_number )
 {
-    struct_reconcile *reconcile;
+    ReconcileStruct *reconcile;
 
     reconcile = gsb_data_reconcile_get_structure ( reconcile_number );
 
@@ -350,7 +349,7 @@ const gchar *gsb_data_reconcile_get_name ( gint reconcile_number )
 gboolean gsb_data_reconcile_set_name ( gint reconcile_number,
                         const gchar *name )
 {
-    struct_reconcile *reconcile;
+    ReconcileStruct *reconcile;
 
     reconcile = gsb_data_reconcile_get_structure ( reconcile_number );
 
@@ -388,7 +387,7 @@ gint gsb_data_reconcile_get_number_by_name ( const gchar *name )
 
     while (list_tmp)
     {
-        struct_reconcile *reconcile;
+        ReconcileStruct *reconcile;
 
         reconcile = list_tmp -> data;
         if ( reconcile -> reconcile_name
@@ -412,7 +411,7 @@ gint gsb_data_reconcile_get_number_by_name ( const gchar *name )
  * */
 gint gsb_data_reconcile_get_account ( gint reconcile_number )
 {
-    struct_reconcile *reconcile;
+    ReconcileStruct *reconcile;
 
     reconcile = gsb_data_reconcile_get_structure ( reconcile_number );
 
@@ -434,7 +433,7 @@ gint gsb_data_reconcile_get_account ( gint reconcile_number )
 gboolean gsb_data_reconcile_set_account ( gint reconcile_number,
                         gint account_number )
 {
-    struct_reconcile *reconcile;
+    ReconcileStruct *reconcile;
 
     reconcile = gsb_data_reconcile_get_structure ( reconcile_number );
 
@@ -457,7 +456,7 @@ gboolean gsb_data_reconcile_set_account ( gint reconcile_number,
  * */
 const GDate *gsb_data_reconcile_get_init_date ( gint reconcile_number )
 {
-    struct_reconcile *reconcile;
+    ReconcileStruct *reconcile;
 
     reconcile = gsb_data_reconcile_get_structure ( reconcile_number );
 
@@ -480,7 +479,7 @@ const GDate *gsb_data_reconcile_get_init_date ( gint reconcile_number )
 gboolean gsb_data_reconcile_set_init_date ( gint reconcile_number,
 					    const GDate *date )
 {
-    struct_reconcile *reconcile;
+    ReconcileStruct *reconcile;
 
     reconcile = gsb_data_reconcile_get_structure ( reconcile_number );
 
@@ -507,7 +506,7 @@ gboolean gsb_data_reconcile_set_init_date ( gint reconcile_number,
  * */
 const GDate *gsb_data_reconcile_get_final_date ( gint reconcile_number )
 {
-    struct_reconcile *reconcile;
+    ReconcileStruct *reconcile;
 
     reconcile = gsb_data_reconcile_get_structure ( reconcile_number );
 
@@ -530,7 +529,7 @@ const GDate *gsb_data_reconcile_get_final_date ( gint reconcile_number )
 gboolean gsb_data_reconcile_set_final_date ( gint reconcile_number,
                         const GDate *date )
 {
-    struct_reconcile *reconcile;
+    ReconcileStruct *reconcile;
 
     reconcile = gsb_data_reconcile_get_structure ( reconcile_number );
 
@@ -560,7 +559,7 @@ gboolean gsb_data_reconcile_set_final_date ( gint reconcile_number,
  * */
 gsb_real gsb_data_reconcile_get_init_balance ( gint reconcile_number )
 {
-    struct_reconcile *reconcile;
+    ReconcileStruct *reconcile;
 
     reconcile = gsb_data_reconcile_get_structure ( reconcile_number );
 
@@ -582,7 +581,7 @@ gsb_real gsb_data_reconcile_get_init_balance ( gint reconcile_number )
 gboolean gsb_data_reconcile_set_init_balance ( gint reconcile_number,
 					       gsb_real amount )
 {
-    struct_reconcile *reconcile;
+    ReconcileStruct *reconcile;
 
     reconcile = gsb_data_reconcile_get_structure ( reconcile_number );
 
@@ -604,7 +603,7 @@ gboolean gsb_data_reconcile_set_init_balance ( gint reconcile_number,
  * */
 gsb_real gsb_data_reconcile_get_final_balance ( gint reconcile_number )
 {
-    struct_reconcile *reconcile;
+    ReconcileStruct *reconcile;
 
     reconcile = gsb_data_reconcile_get_structure ( reconcile_number );
 
@@ -626,7 +625,7 @@ gsb_real gsb_data_reconcile_get_final_balance ( gint reconcile_number )
 gboolean gsb_data_reconcile_set_final_balance ( gint reconcile_number,
 						gsb_real amount )
 {
-    struct_reconcile *reconcile;
+    ReconcileStruct *reconcile;
 
     reconcile = gsb_data_reconcile_get_structure ( reconcile_number );
 
@@ -682,7 +681,7 @@ gint gsb_data_reconcile_get_number_by_date ( const GDate *date,
     tmp_list = reconcile_list;
     while (tmp_list)
     {
-	struct_reconcile *reconcile;
+	ReconcileStruct *reconcile;
 
 	reconcile = tmp_list -> data;
 
@@ -712,7 +711,7 @@ GList *gsb_data_reconcile_get_sort_reconcile_list ( gint account_number )
     GList *tmp_list;
     GList *rec_list = NULL;
     GList *new_list = NULL;
-    struct_reconcile *reconcile;
+    ReconcileStruct *reconcile;
 
     /* first we localize the GList struct of that reconcile */
     tmp_list = reconcile_list;
@@ -749,8 +748,8 @@ GList *gsb_data_reconcile_get_sort_reconcile_list ( gint account_number )
  *
  * \return 0 -1 1 comme strcmp
  * */
-gint gsb_data_reconcile_cmp_int (struct_reconcile *reconcile_1,
-                        struct_reconcile *reconcile_2)
+gint gsb_data_reconcile_cmp_int (ReconcileStruct *reconcile_1,
+                        ReconcileStruct *reconcile_2)
 {
     gint result;
 
@@ -781,7 +780,7 @@ void gsb_data_reconcile_renum_account_number_0 (gint new_account_number)
 	tmp_list = gsb_data_reconcile_get_reconcile_list ();
 	while (tmp_list)
 	{
-		struct_reconcile *reconcile;
+		ReconcileStruct *reconcile;
 
 		reconcile = tmp_list->data;
 		if (reconcile->account_number == 0)
