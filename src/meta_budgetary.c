@@ -56,6 +56,29 @@ static gint budgetary_lint_get_number_by_name ( const gchar *name, gboolean crea
 /*START_EXTERN*/
 /*END_EXTERN*/
 
+/******************************************************************************/
+/* Private functions                                                          */
+/******************************************************************************/
+/**
+ * return budgetary number
+ *
+ * \param	transaction_number
+ *
+ * \return -1 if split or contra transfert transaction other budgetary number
+ **/
+static gint budgetary_line_transaction_div_id (gint transaction_number)
+{
+	if (transaction_number)
+	{
+		if ( gsb_data_transaction_get_contra_transaction_number (transaction_number) > 0
+			 ||
+			 gsb_data_transaction_get_split_of_transaction (transaction_number))
+			return -1;
+		else
+			return gsb_data_transaction_get_budgetary_number (transaction_number);
+	}
+	return 0;
+}
 
 static MetatreeInterface _budgetary_interface = {
     2,
@@ -81,7 +104,7 @@ static MetatreeInterface _budgetary_interface = {
     gsb_data_budget_get_sub_budget_list,
     gsb_data_budget_get_type,
 
-    gsb_data_transaction_get_budgetary_number,
+    budgetary_line_transaction_div_id,
     gsb_data_transaction_get_sub_budgetary_number,
     gsb_data_transaction_set_budgetary_number,
     gsb_data_transaction_set_sub_budgetary_number,
@@ -104,7 +127,9 @@ static MetatreeInterface _budgetary_interface = {
 
 static MetatreeInterface *budgetary_interface = &_budgetary_interface;
 
-
+/******************************************************************************/
+/* Public functions                                                           */
+/******************************************************************************/
 /**
  *
  *

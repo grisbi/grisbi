@@ -1268,7 +1268,15 @@ void gsb_data_budget_add_transaction_to_budget ( gint transaction_number,
     struct_budget *budget;
     struct_sub_budget *sub_budget;
 
-    budget = gsb_data_budget_get_structure (  budget_id );
+    /* if the transaction is a transfer or a split transaction, don't take it */
+    if (gsb_data_transaction_get_split_of_transaction (transaction_number)
+		||
+		gsb_data_transaction_get_contra_transaction_number (transaction_number) > 0)
+	{
+		return;
+	}
+
+	budget = gsb_data_budget_get_structure (  budget_id );
     sub_budget = gsb_data_budget_get_sub_budget_structure ( budget_id ,
 							    sub_budget_id );
 
@@ -1291,8 +1299,7 @@ void gsb_data_budget_add_transaction_to_budget ( gint transaction_number,
     if ( budget )
     {
 	budget -> budget_nb_transactions ++;
-    if ( ! gsb_data_transaction_get_split_of_transaction ( transaction_number ) )
-        budget -> budget_balance = gsb_real_add ( budget -> budget_balance,
+    budget -> budget_balance = gsb_real_add ( budget -> budget_balance,
                         gsb_data_transaction_get_adjusted_amount_for_currency (
                         transaction_number, budgetary_line_tree_currency (), -1));
     }
@@ -1304,18 +1311,14 @@ void gsb_data_budget_add_transaction_to_budget ( gint transaction_number,
     if ( sub_budget )
     {
 	sub_budget -> sub_budget_nb_transactions ++;
-    if ( ! gsb_data_transaction_get_split_of_transaction ( transaction_number ) )
-        sub_budget -> sub_budget_balance = gsb_real_add (
-                        sub_budget -> sub_budget_balance,
+    sub_budget -> sub_budget_balance = gsb_real_add (sub_budget -> sub_budget_balance,
                         gsb_data_transaction_get_adjusted_amount_for_currency (
                         transaction_number, budgetary_line_tree_currency (), -1));
     }
     else
     {
 	budget -> budget_nb_direct_transactions ++;
-    if ( ! gsb_data_transaction_get_split_of_transaction ( transaction_number ) )
-        budget -> budget_direct_balance = gsb_real_add (
-                            budget -> budget_direct_balance,
+    budget -> budget_direct_balance = gsb_real_add (budget -> budget_direct_balance,
                             gsb_data_transaction_get_adjusted_amount_for_currency (
                             transaction_number, budgetary_line_tree_currency (), -1));
     }
