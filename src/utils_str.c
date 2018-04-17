@@ -3,7 +3,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cedric Auger (cedric@grisbi.org)            */
 /*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
-/*          2008-2010 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          2008-2018 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -59,11 +59,16 @@
  * \param hard_trunc	Cut in the middle of a word if needed.
  *
  * \return A newly-created string.
- */
-static gchar * gsb_string_truncate_n ( gchar * string, int n, gboolean hard_trunc )
+ **/
+static gchar *gsb_string_truncate_n (gchar *string,
+									 gint n,
+									 gboolean hard_trunc)
 {
 	gchar* result;
-    gchar * tmp = string, * trunc;
+    gchar *tmp;
+    gchar *trunc;
+
+	tmp = string;;
 
     if ( ! string )
 	return NULL;
@@ -96,7 +101,7 @@ static gchar * gsb_string_truncate_n ( gchar * string, int n, gboolean hard_trun
  * \param chaine
  *
  * \return chaine sans joker
- */
+ **/
 static gchar *gsb_string_supprime_joker ( const gchar *chaine )
 {
     gchar **tab_str;
@@ -246,12 +251,14 @@ gchar *utils_str_itoa ( gint integer )
 /**
  * locates the decimal dot
  *
+ * \param
  *
- *
+ * \return
  * */
 gchar *utils_str_localise_decimal_point_from_string ( const gchar *string )
 {
-    gchar *ptr_1, *ptr_2;
+    gchar *ptr_1;
+    gchar *ptr_2;
     gchar *new_str;
     gchar *mon_decimal_point;
     gchar *mon_separateur;
@@ -260,8 +267,7 @@ gchar *utils_str_localise_decimal_point_from_string ( const gchar *string )
     mon_decimal_point = gsb_locale_get_mon_decimal_point ( );
     mon_separateur = gsb_locale_get_mon_thousands_sep ( );
 
-    if ( ( ptr_1 = g_strstr_len ( string, -1, "," ) )
-     &&
+    if ((ptr_1 = g_strstr_len (string, -1, ",")) &&
      ( ptr_2 = g_strrstr ( string, "." ) ) )
     {
         if ( ( ptr_2 - string ) > ( ptr_1 - string ) )
@@ -300,7 +306,6 @@ gchar *utils_str_localise_decimal_point_from_string ( const gchar *string )
     return new_str;
 }
 
-
 /**
  * @brief Secured version of atoi
  *
@@ -324,18 +329,17 @@ gint utils_str_atoi ( const gchar *chaine )
     }
 }
 
-
 /**
  *
  *
+ * \param
  *
- *
+ * \return
  * */
 gchar * latin2utf8 ( const gchar * inchar)
 {
     return g_locale_from_utf8 ( inchar, -1, NULL, NULL, NULL );
 }
-
 
 /**
  * do the same as g_strdelimit but new_delimiters can containes several characters or none
@@ -355,31 +359,28 @@ gchar *my_strdelimit ( const gchar *string,
     gchar **tab_str;
     gchar *retour;
 
-    if ( !( string
-	    &&
-	    delimiters
-	    &&
-	    new_delimiters ))
+    if (!(string && delimiters && new_delimiters))
+	{
 	return my_strdup (string);
+	}
 
-    tab_str = g_strsplit_set ( string,
-			       delimiters,
-			       0 );
-    retour = g_strjoinv ( new_delimiters,
-			  tab_str );
+    tab_str = g_strsplit_set (string, delimiters, 0);
+    retour = g_strjoinv (new_delimiters, tab_str);
     g_strfreev ( tab_str );
 
     return ( retour );
 }
 
-
 /**
  * compare 2 chaines sensitive que ce soit utf8 ou ascii
  *
+ * \param
+ * \param
  *
- *
+ * \return
  * */
-gint my_strcmp ( gchar *string_1, gchar *string_2 )
+gint my_strcmp (gchar *string_1,
+				gchar *string_2)
 {
     if (!string_1 && string_2)
 	    return 1;
@@ -389,12 +390,12 @@ gint my_strcmp ( gchar *string_1, gchar *string_2 )
 	    return 0;
 
 
-	if ( g_utf8_validate ( string_1, -1, NULL )
-	     &&
+	if (g_utf8_validate (string_1, -1, NULL) &&
 	     g_utf8_validate ( string_2, -1, NULL ))
 	{
 	    gint retour;
- 	    gchar *new_1, *new_2;
+ 	    gchar *new_1;
+ 	    gchar *new_2;
 
 	    new_1 = g_utf8_collate_key ( string_1, -1 );
 	    new_2 = g_utf8_collate_key ( string_2, -1 );
@@ -418,7 +419,9 @@ gint my_strcmp ( gchar *string_1, gchar *string_2 )
  * \param string_1
  * \param string_2
  *
- * \return -1 string_1 before string_2 (or string_2 NULL) ; 0 if same or NULL everyone ; +1 if string_1 after string_2 (or string_1 NULL)
+ * \return 		-1 string_1 before string_2 (or string_2 NULL) ;
+ * 				 0 if same or NULL everyone ;
+ * 				+1 if string_1 after string_2 (or string_1 NULL)
  * */
 gint my_strcasecmp ( const gchar *string_1,
                         const gchar *string_2 )
@@ -430,12 +433,12 @@ gint my_strcasecmp ( const gchar *string_1,
 
     if ( string_1  && string_2 )
     {
-        if ( g_utf8_validate ( string_1, -1, NULL )
-             &&
+        if (g_utf8_validate (string_1, -1, NULL) &&
              g_utf8_validate ( string_2, -1, NULL ))
         {
             gint retour;
-            gchar *new_1, *new_2;
+			gchar *new_1;
+			gchar *new_2;
 
             new_1 = g_utf8_casefold ( string_1, -1 );
             new_2 = g_utf8_casefold (  string_2, -1 );
@@ -452,12 +455,14 @@ gint my_strcasecmp ( const gchar *string_1,
     return 0;
 }
 
-
 /**
  * compare 2 chaines case-insensitive que ce soit utf8 ou ascii
  *
+ * \param
+ * \param
+ * \param
  *
- *
+ * \return
  * */
 gint my_strncasecmp ( gchar *string_1,
                         gchar *string_2,
@@ -470,12 +475,12 @@ gint my_strncasecmp ( gchar *string_1,
 
     if ( string_1 && string_2 )
     {
-        if ( g_utf8_validate ( string_1, -1, NULL )
-             &&
+        if (g_utf8_validate (string_1, -1, NULL) &&
              g_utf8_validate ( string_2, -1, NULL ))
         {
             gint retour;
-            gchar *new_1, *new_2;
+			gchar *new_1;
+			gchar *new_2;
 
             new_1 = g_utf8_casefold ( string_1,longueur );
             new_2 = g_utf8_casefold (  string_2,longueur );
@@ -491,7 +496,6 @@ gint my_strncasecmp ( gchar *string_1,
 
     return 0;
 }
-
 
 /**
  * Protect the my_strdup function if the string is NULL
@@ -512,7 +516,6 @@ gchar *my_strdup ( const gchar *string )
     else
 	return NULL;
 }
-
 
 /**
  * check if the string is maximum to the length
@@ -569,25 +572,16 @@ GSList *gsb_string_get_int_list_from_string ( const gchar *string,
     gchar **tab;
     gint i=0;
 
-    if ( !string
-	 ||
-	 !delimiter
-	 ||
-	 !strlen (string)
-	 ||
-	 !strlen (delimiter))
+    if (!string || !delimiter || !strlen (string) || !strlen (delimiter))
 	return NULL;
 
-    tab = g_strsplit ( string,
-		       delimiter,
-		       0 );
+    tab = g_strsplit (string, delimiter, 0);
 
     list_tmp = NULL;
 
     while ( tab[i] )
     {
-	list_tmp = g_slist_append ( list_tmp,
-				    GINT_TO_POINTER ( atoi (tab[i])));
+		list_tmp = g_slist_append (list_tmp, GINT_TO_POINTER (atoi (tab[i])));
 	i++;
     }
 
@@ -595,7 +589,6 @@ GSList *gsb_string_get_int_list_from_string ( const gchar *string,
 
     return list_tmp;
 }
-
 
 /**
  * return a gslist of strings from a string which the elements are separated
@@ -614,25 +607,16 @@ GSList *gsb_string_get_string_list_from_string ( const gchar *string,
     gchar **tab;
     gint i=0;
 
-    if ( !string
-	 ||
-	 !delimiter
-	 ||
-	 !strlen (string)
-	 ||
-	 !strlen (delimiter))
+    if (!string || !delimiter || !strlen (string) || !strlen (delimiter))
 	return NULL;
 
-    tab = g_strsplit ( string,
-		       delimiter,
-		       0 );
+    tab = g_strsplit (string, delimiter, 0);
 
     list_tmp = NULL;
 
     while ( tab[i] )
     {
-	list_tmp = g_slist_append ( list_tmp,
-				    my_strdup  (tab[i]));
+		list_tmp = g_slist_append (list_tmp, my_strdup  (tab[i]));
 	i++;
     }
 
@@ -640,7 +624,6 @@ GSList *gsb_string_get_string_list_from_string ( const gchar *string,
 
     return list_tmp;
 }
-
 
 /**
  * return a gslist of CategBudgetSel
@@ -657,14 +640,10 @@ GSList *gsb_string_get_categ_budget_struct_list_from_string ( const gchar *strin
     gchar **tab;
     gint i=0;
 
-    if ( !string
-	 ||
-	 !strlen (string))
+    if (!string || !strlen (string))
 	return NULL;
 
-    tab = g_strsplit ( string,
-		       "-",
-		       0 );
+    tab = g_strsplit (string, "-", 0);
 
     while ( tab[i] )
     {
@@ -698,7 +677,6 @@ GSList *gsb_string_get_categ_budget_struct_list_from_string ( const gchar *strin
     return list_tmp;
 }
 
-
 /**
  * Return a newly created strings, truncating original.  It should be
  * truncated at the end of the word containing the 20th letter.
@@ -716,7 +694,12 @@ gchar * gsb_string_truncate ( gchar * string )
 /**
  * remplace la chaine old_str par new_str dans str
  *
- */
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ **/
 gchar *gsb_string_remplace_string ( const gchar *str,
                         gchar *old_str,
                         gchar *new_str )
@@ -745,7 +728,6 @@ gchar *gsb_string_remplace_string ( const gchar *str,
     return ret;
 }
 
-
 /**
  * recherche des mots séparés par des jokers "%*" dans une chaine
  *
@@ -753,8 +735,9 @@ gchar *gsb_string_remplace_string ( const gchar *str,
  * \param needle
  *
  * \return TRUE si trouvé FALSE autrement
- */
-gboolean gsb_string_is_trouve ( const gchar *payee_name, const gchar *needle )
+ **/
+gboolean gsb_string_is_trouve (const gchar *payee_name,
+							   const gchar *needle)
 {
     gchar **tab_str;
     gchar *tmpstr;
@@ -822,7 +805,6 @@ gboolean gsb_string_is_trouve ( const gchar *payee_name, const gchar *needle )
     return FALSE;
 }
 
-
 /**
  * remplace les jokers "%*" par une chaine
  *
@@ -830,8 +812,9 @@ gboolean gsb_string_is_trouve ( const gchar *payee_name, const gchar *needle )
  * \param new_str
  *
  * \return chaine avec chaine de remplacement
- */
-gchar * gsb_string_remplace_joker ( const gchar *chaine, gchar *new_str )
+ **/
+gchar * gsb_string_remplace_joker (const gchar *chaine,
+								   gchar *new_str)
 {
     gchar **tab_str;
     gchar *result;
@@ -843,14 +826,13 @@ gchar * gsb_string_remplace_joker ( const gchar *chaine, gchar *new_str )
     return result;
 }
 
-
 /*
  * extrait un nombre d'une chaine
  *
  * \param chaine
  *
  * \return a string representing a number
- */
+ **/
 gchar *gsb_string_extract_int ( const gchar *chaine )
 {
     gchar *ptr;
@@ -877,15 +859,15 @@ gchar *gsb_string_extract_int ( const gchar *chaine )
 	return tmpstr;
 }
 
-
 /**
  * uniformisation des CR+LF dans les fichiers importés
  *
  * \param chaine
  *
  * \return chaine au format unix
- */
-gchar *gsb_string_uniform_new_line ( const gchar *chaine, gssize nbre_char )
+ **/
+gchar *gsb_string_uniform_new_line (const gchar *chaine,
+									gssize nbre_char)
 {
     gchar **tab_str = NULL;
     gchar *result = NULL;
@@ -898,8 +880,7 @@ gchar *gsb_string_uniform_new_line ( const gchar *chaine, gssize nbre_char )
         tab_str = g_strsplit_set ( chaine, "\r", 0 );
         result = g_strjoinv ( "", tab_str );
     }
-    else if ( g_strstr_len ( chaine, nbre_char, "\r" )
-     &&
+    else if (g_strstr_len (chaine, nbre_char, "\r") &&
      !g_strstr_len ( chaine, nbre_char, "\n" ) )
     {
         tab_str = g_strsplit_set ( chaine, "\r", 0 );
@@ -912,14 +893,18 @@ gchar *gsb_string_uniform_new_line ( const gchar *chaine, gssize nbre_char )
     return result;
 }
 
-
-/**
+/*
  *
  *
+ * \param
+ * \param
+ * \param
  *
- *
+ * \return
  * */
-gchar *utils_str_dtostr ( gdouble number, gint nbre_decimal, gboolean canonical )
+gchar *utils_str_dtostr (gdouble number,
+						 gint nbre_decimal,
+						 gboolean canonical)
 {
     gchar buffer[G_ASCII_DTOSTR_BUF_SIZE];
     gchar *str_number;
@@ -951,14 +936,17 @@ gchar *utils_str_dtostr ( gdouble number, gint nbre_decimal, gboolean canonical 
         return str_number;
 }
 
-
 /**
  * fonction de conversion de char à double pour chaine avec un . comme séparateur décimal
  * et pas de séparateur de milliers
  *
+ * \param
+ * \param
  *
+ * \return
  * */
-gdouble utils_str_safe_strtod ( const gchar *str_number, gchar **endptr )
+gdouble utils_str_safe_strtod (const gchar *str_number,
+							   gchar **endptr)
 {
     gdouble number;
 
@@ -970,15 +958,17 @@ gdouble utils_str_safe_strtod ( const gchar *str_number, gchar **endptr )
     return number;
 }
 
-
 /**
  * fonction de conversion de char à double pour chaine en tenant compte du séparateur décimal
  * et du séparateur de milliers configurés dans les préférences.
  *
+ * \param
+ * \param
  *
- *
+ * \return
  * */
-gdouble utils_str_strtod ( const gchar *str_number, gchar **endptr )
+gdouble utils_str_strtod (const gchar *str_number,
+						  gchar **endptr)
 {
     gdouble number;
     gsb_real real;
@@ -993,14 +983,16 @@ gdouble utils_str_strtod ( const gchar *str_number, gchar **endptr )
     return number;
 }
 
-
 /**
  *
  *
+ * \param
+ * \param
  *
- *
+ * \return
  * */
-gint utils_str_get_nbre_motifs ( const gchar *chaine, const gchar *motif )
+gint utils_str_get_nbre_motifs (const gchar *chaine,
+								const gchar *motif)
 {
     gchar **tab_str;
     gint nbre_motifs = 0;
@@ -1015,14 +1007,16 @@ gint utils_str_get_nbre_motifs ( const gchar *chaine, const gchar *motif )
     return nbre_motifs;
 }
 
-
 /**
  * adapte l'utilisation de : en fonction de la langue de l'utilisateur
  *
+ * \param
+ * \param
  *
- *
+ * \return
  * */
-gchar *utils_str_incremente_number_from_str ( const gchar *str_number, gint increment )
+gchar *utils_str_incremente_number_from_str (const gchar *str_number,
+											 gint increment)
 {
     gchar *new_str_number;
     gchar *prefix = NULL;
@@ -1142,6 +1136,14 @@ gchar *utils_str_break_filename (const gchar *string,
     /* return */
     return tmp_base;
 }
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
