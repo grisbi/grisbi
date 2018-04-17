@@ -1284,6 +1284,14 @@ void gsb_data_budget_add_transaction_to_budget ( gint transaction_number,
 		return;
 	}
 
+    /* if the transaction is a transfer or a split transaction, don't take it */
+    if (gsb_data_transaction_get_split_of_transaction (transaction_number)
+		||
+		gsb_data_transaction_get_contra_transaction_number (transaction_number) > 0)
+	{
+		return;
+	}
+
 	budget = gsb_data_budget_get_structure (  budget_id );
     sub_budget = gsb_data_budget_get_sub_budget_structure ( budget_id ,
 							    sub_budget_id );
