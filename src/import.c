@@ -1558,7 +1558,7 @@ static void gsb_import_select_file (GSList *filenames,
 				else
 					g_free (contents);
 			}
-		}
+		}			
 
 		tmp_str = g_path_get_basename (iterator->data);
 		nom_fichier = my_strdup (iterator->data);
