@@ -20,7 +20,7 @@ RequestExecutionLevel admin
 
 Name "Grisbi @NSIS_BITS@"
 Icon "${SRCDIR}\win32\grisbi.ico"
-OutFile "Grisbi-@NSIS_BITS@-${VERSION}-setup.exe"
+OutFile "Grisbi-@NSIS_BITS@-${VERSION}-2018.04.18-setup.exe"
 !define COMPANYNAME "Grisbi"
 
 Caption "Grisbi @NSIS_BITS@ ${VERSION} Setup"
