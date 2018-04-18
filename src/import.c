@@ -1519,18 +1519,25 @@ static void gsb_import_select_file (GSList *filenames,
 		}
 
  		/* Test Convert to UTF8 */
-		if (charmap && !conf.force_import_directory)
+		if (g_utf8_validate (tmp_contents, -1, NULL))
 		{
-			contents = g_convert (tmp_contents, -1, "UTF-8", charmap, NULL, NULL, NULL);
-
-			if (contents == NULL)
-				charmap = utils_files_create_sel_charset (assistant,
-														  tmp_contents,
-														  charmap,
-														  g_path_get_basename (iterator->data));
-			else
-				g_free (contents);
+			charmap = "UTF-8";
 		}
+		else
+		{
+			if (charmap && !conf.force_import_directory)
+			{
+				contents = g_convert (tmp_contents, -1, "UTF-8", charmap, NULL, NULL, NULL);
+
+				if (contents == NULL)
+					charmap = utils_files_create_sel_charset (assistant,
+															  tmp_contents,
+															  charmap,
+															  g_path_get_basename (iterator->data));
+				else
+					g_free (contents);
+			}
+		}			
 
 		tmp_str = g_path_get_basename (iterator->data);
 		nom_fichier = my_strdup (iterator->data);
