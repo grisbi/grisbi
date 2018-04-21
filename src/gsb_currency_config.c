@@ -95,6 +95,7 @@ struct Iso4217Currency iso_4217_currencies[] = {
     { N_("Africa"), N_("Burundi Franc"), N_("Burundi"), "BIF", NULL, TRUE, "BIF.png", 2, 1 },
     { N_("Africa"), N_("CFA Franc BCEAO"), N_("Niger"), "XOF", NULL, TRUE, "NIG.png", 2, 1 },
     { N_("Africa"), N_("CFA Franc BCEAO"), N_("Senegal"), "XOF", NULL, TRUE, "SEN.png", 2, 1 },
+	{ N_("Africa"), N_("CFA Franc BCEAO"), N_("Togo"), "XOF", NULL, TRUE, "TOG.png", 2, 1 },
     { N_("Africa"), N_("CFA Franc BEAC"), N_("Cameroon"), "XAF", NULL, TRUE, "CAM.png", 2, 1 },
     { N_("Africa"), N_("CFA Franc BEAC"), N_("Chad"), "XAF", NULL, TRUE, "CHA.png", 2, 1 },
     { N_("Africa"), N_("CFA Franc BEAC"), N_("Congo"), "XAF", NULL, TRUE, "CO_.png", 2, 1 },
