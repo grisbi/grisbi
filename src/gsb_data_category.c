@@ -501,6 +501,11 @@ gboolean gsb_data_category_remove ( gint no_category )
 
     _gsb_data_category_free (category);
 
+	GtkWidget *combofix;
+	combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_PARTY );
+	if ( combofix )
+		gsb_category_update_combofix ( TRUE );
+
     return TRUE;
 }
 
@@ -575,6 +580,11 @@ gboolean gsb_data_category_sub_category_remove ( gint no_category,
 						     sub_category );
 
     _gsb_data_sub_category_free (sub_category);
+
+	GtkWidget *combofix;
+	combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_PARTY );
+	if ( combofix )
+		gsb_category_update_combofix ( TRUE );
 
     return TRUE;
 }
