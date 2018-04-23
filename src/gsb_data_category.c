@@ -490,6 +490,7 @@ gint gsb_data_category_new_with_number ( gint number )
 gboolean gsb_data_category_remove ( gint no_category )
 {
     struct_category *category;
+	GtkWidget *combofix;
 
     category = gsb_data_category_get_structure ( no_category );
 
@@ -501,8 +502,7 @@ gboolean gsb_data_category_remove ( gint no_category )
 
     _gsb_data_category_free (category);
 
-	GtkWidget *combofix;
-	combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_PARTY );
+	combofix = gsb_form_widget_get_widget (TRANSACTION_FORM_CATEGORY);
 	if ( combofix )
 		gsb_category_update_combofix ( TRUE );
 
@@ -566,6 +566,7 @@ gboolean gsb_data_category_sub_category_remove ( gint no_category,
 {
     struct_category *category;
     struct_sub_category *sub_category;
+	GtkWidget *combofix;
 
     category = gsb_data_category_get_structure ( no_category );
     sub_category = gsb_data_category_get_sub_category_structure ( no_category,
@@ -581,8 +582,7 @@ gboolean gsb_data_category_sub_category_remove ( gint no_category,
 
     _gsb_data_sub_category_free (sub_category);
 
-	GtkWidget *combofix;
-	combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_PARTY );
+	combofix = gsb_form_widget_get_widget (TRANSACTION_FORM_CATEGORY);
 	if ( combofix )
 		gsb_category_update_combofix ( TRUE );
 
@@ -917,7 +917,7 @@ gboolean gsb_data_category_set_name ( gint no_category,
         GtkWidget *combofix;
 
         category -> category_name = my_strdup ( name );
-        combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_PARTY );
+        combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_CATEGORY);
         if ( combofix )
             gsb_category_update_combofix ( TRUE );
     }
@@ -986,7 +986,7 @@ gboolean gsb_data_category_set_sub_category_name ( gint no_category,
         GtkWidget *combofix;
 
         sub_category -> sub_category_name = my_strdup ( name );
-        combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_PARTY );
+        combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_CATEGORY);
         if ( combofix )
             gsb_category_update_combofix ( TRUE );
     }

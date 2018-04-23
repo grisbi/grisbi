@@ -516,6 +516,7 @@ gint gsb_data_budget_new_with_number ( gint number )
 gboolean gsb_data_budget_remove ( gint no_budget )
 {
     struct_budget *budget;
+	GtkWidget *combofix;
 
     budget = gsb_data_budget_get_structure ( no_budget );
 
@@ -526,6 +527,10 @@ gboolean gsb_data_budget_remove ( gint no_budget )
 				   budget );
 
     _gsb_data_budget_free (budget);
+
+	combofix = gsb_form_widget_get_widget (TRANSACTION_FORM_BUDGET);
+	if (combofix)
+		gsb_budget_update_combofix (TRUE);
 
     return TRUE;
 }
@@ -545,6 +550,7 @@ gboolean gsb_data_budget_sub_budget_remove ( gint no_budget,
 {
     struct_budget *budget;
     struct_sub_budget *sub_budget;
+	GtkWidget *combofix;
 
     budget = gsb_data_budget_get_structure ( no_budget );
     sub_budget = gsb_data_budget_get_sub_budget_structure ( no_budget,
@@ -560,7 +566,11 @@ gboolean gsb_data_budget_sub_budget_remove ( gint no_budget,
 
     _gsb_data_sub_budget_free (sub_budget);
 
-    return TRUE;
+	combofix = gsb_form_widget_get_widget (TRANSACTION_FORM_BUDGET);
+	if (combofix)
+		gsb_budget_update_combofix (TRUE);
+
+	return TRUE;
 }
 
 
