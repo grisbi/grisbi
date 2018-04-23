@@ -115,9 +115,10 @@ static void csv_import_free_line (GSList *list,
 
 	for (i = 0; i < nbre_cols ; i++)
 	{
-		if (strlen (list->data))
+		if (list->data && strlen (list->data))
+		{
 			g_free (list->data);
-
+		}
 		list = list->next;
 	}
 	g_slist_free (list);
@@ -1087,18 +1088,17 @@ static gint csv_import_try_separator (gchar *contents,
     GSList *list;
     int cols, i = 0;
 
-    csv_skip_lines (&contents, 3, separator);
+	csv_skip_lines (&contents, 3, separator);
 
     list = csv_get_next_line (&contents, separator);
     cols = g_slist_length (list);
 	csv_import_free_line (list, cols);
 
     //~ g_print ("> I believe first line is %d cols\n", cols);
+	list = csv_get_next_line (&contents, separator);
 
     do
     {
-		list = csv_get_next_line (&contents, separator);
-
 		if (list && (cols != (gint) g_slist_length (list) || cols == 1))
 		{
 			//~ g_print ("> %d != %d, not %s\n", cols, g_slist_length (list), separator);
@@ -1108,6 +1108,7 @@ static gint csv_import_try_separator (gchar *contents,
 		}
 		csv_import_free_line (list, cols);
 		i++;
+		list = csv_get_next_line (&contents, separator);
     }
     while (list && i < CSV_MAX_TOP_LINES);
 
