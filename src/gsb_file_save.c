@@ -761,6 +761,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
 					   "\t\tImport_fusion_transactions=\"%d\"\n"
                        "\t\tImport_categorie_for_payee=\"%d\"\n"
 					   "\t\tImport_fyear_by_value_date=\"%d\"\n"
+                       "\t\tImport_qif_no_import_categories=\"%d\"\n"
                        "\t\tImport_qif_use_field_extract_method_payment=\"%d\"\n"
 					   "\t\tExport_file_format=\"%d\"\n"
                        "\t\tExport_files_traitement=\"%d\"\n"
@@ -822,6 +823,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	etat.fusion_import_transactions,
 	etat.associate_categorie_for_payee,
 	etat.get_fyear_by_value_date,
+	etat.qif_no_import_categories,
     etat.qif_use_field_extract_method_payment,
     etat.export_file_format,
     etat.export_files_traitement,

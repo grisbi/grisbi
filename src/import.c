@@ -1069,12 +1069,14 @@ static gboolean gsb_import_active_toggled (GtkCellRendererToggle *cell,
 										   gpointer model)
 {
     GtkWidget *assistant;
+	GtkWidget *qif_button;
     GtkTreePath *path;
     GtkTreeIter iter;
 	gchar *type;
     gboolean toggle_item;
 
-    assistant = g_object_get_data (G_OBJECT (model), "assistant");
+	assistant = g_object_get_data (G_OBJECT (model), "assistant");
+	qif_button = g_object_get_data (G_OBJECT (assistant), "qif_button");
 
 	path = gtk_tree_path_new_from_string (path_str);
     gtk_tree_model_get_iter (GTK_TREE_MODEL (model), &iter, path);
@@ -1139,6 +1141,15 @@ static gboolean gsb_import_active_toggled (GtkCellRendererToggle *cell,
 				add_csv_page = FALSE;
 			}
 		}
+	}
+
+	if (strcmp (type, "QIF") == 0)
+	{
+		gtk_widget_set_sensitive (qif_button, !toggle_item);
+	}
+	else
+	{
+		gtk_widget_set_sensitive (qif_button, FALSE);
 	}
 
 	gtk_tree_path_free (path);
@@ -1428,6 +1439,7 @@ static gboolean gsb_import_switch_type (GtkCellRendererText *cell,
 static void gsb_import_select_file (GSList *filenames,
 									GtkWidget *assistant)
 {
+	GtkWidget *qif_button;
     GSList *iterator;
     GtkTreeModel *model;
 	gboolean selected;
@@ -1499,14 +1511,23 @@ static void gsb_import_select_file (GSList *filenames,
 		}
 
 		type = gsb_import_autodetect_file_type (iterator->data, tmp_contents);
+		qif_button = g_object_get_data (G_OBJECT (assistant), "qif_button");
 
 		/* passe par un fichier temporaire pour bipasser le bug libofx */
 		if (strcmp (type, "OFX") == 0)
 		{
+			gtk_widget_set_sensitive (qif_button, FALSE);
 			charmap = utils_files_get_ofx_charset (tmp_contents);
+		}
+		else if (strcmp (type, "QIF") == 0)
+		{
+
+			gtk_widget_set_sensitive (qif_button, selected);
+			charmap = charmap_imported;
 		}
 		else
 		{
+			gtk_widget_set_sensitive (qif_button, FALSE);
 			charmap = charmap_imported;
 		}
 
@@ -1537,7 +1558,7 @@ static void gsb_import_select_file (GSList *filenames,
 				else
 					g_free (contents);
 			}
-		}			
+		}
 
 		tmp_str = g_path_get_basename (iterator->data);
 		nom_fichier = my_strdup (iterator->data);
@@ -1695,6 +1716,7 @@ static gboolean gsb_import_select_file_from_chooser (GtkWidget *button,
 static GtkWidget *gsb_import_create_file_selection_page (GtkWidget *assistant)
 {
     GtkWidget *vbox, *paddingbox, *tree_view, *sw;
+	GtkWidget *qif_button;
     GtkTreeViewColumn *column;
     GtkCellRenderer *renderer;
     GtkTreeModel *model, *list_acc;
@@ -1816,6 +1838,15 @@ static GtkWidget *gsb_import_create_file_selection_page (GtkWidget *assistant)
     g_object_set_data (G_OBJECT(assistant), "model", model);
     g_object_set_data (G_OBJECT(model), "assistant", assistant);
 
+	/* adding option for import of categories for qif files */
+    paddingbox = new_paddingbox_with_title (vbox, TRUE, _("Select options to import"));
+	qif_button = gsb_automem_checkbutton_new (_("Don't imported the categories"),
+										  &etat.qif_no_import_categories,
+										  NULL,
+										  NULL);
+	g_object_set_data (G_OBJECT (assistant), "qif_button", qif_button);
+	gtk_widget_set_sensitive (qif_button, FALSE);
+    gtk_box_pack_start (GTK_BOX (paddingbox), qif_button, FALSE, FALSE, MARGIN_BOX);
     return vbox;
 }
 

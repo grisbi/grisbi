@@ -5,7 +5,7 @@
 /*                                                                               */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)               */
 /*                      2003-2008 Benjamin Drieu (bdrieu@april.org)              */
-/*          2008-2017 Pierre Biava (grisbi@pierre.biava.name)                    */
+/*          2008-2018 Pierre Biava (grisbi@pierre.biava.name)                    */
 /*          http://www.grisbi.org                                                */
 /*                                                                               */
 /*     This program is free software; you can redistribute it and/or modify      */
@@ -67,6 +67,7 @@ struct _PrefsPageImportFilesPrivate
     GtkWidget *			checkbutton_csv_force_date_valeur_with_date;
 	GtkWidget *			eventbox_csv_force_date_valeur_with_date;
     GtkWidget *			checkbutton_qif_use_field_extract_method_payment;
+	GtkWidget *			checkbutton_qif_no_import_categories;
 	GtkWidget *			eventbox_qif_use_field_extract_method_payment;
 };
 
@@ -122,6 +123,8 @@ static void prefs_page_import_files_setup_import_files_page (PrefsPageImportFile
 								  etat.extract_number_for_check);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_csv_force_date_valeur_with_date),
 								  etat.csv_force_date_valeur_with_date);
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_qif_no_import_categories),
+								  etat.qif_no_import_categories);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_qif_use_field_extract_method_payment),
 								  etat.qif_use_field_extract_method_payment);
 
@@ -205,7 +208,16 @@ static void prefs_page_import_files_setup_import_files_page (PrefsPageImportFile
 							G_CALLBACK (utils_prefs_gsb_file_set_modified),
 							NULL);
 
-    g_signal_connect (priv->eventbox_qif_use_field_extract_method_payment,
+    g_signal_connect (priv->checkbutton_qif_no_import_categories,
+					  "toggled",
+					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
+					  &etat.qif_no_import_categories);
+    g_signal_connect_after (priv->checkbutton_qif_no_import_categories,
+							"toggled",
+							G_CALLBACK (utils_prefs_gsb_file_set_modified),
+							NULL);
+
+	g_signal_connect (priv->eventbox_qif_use_field_extract_method_payment,
 					  "button-press-event",
 					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
 					  priv->checkbutton_qif_use_field_extract_method_payment);
@@ -213,7 +225,7 @@ static void prefs_page_import_files_setup_import_files_page (PrefsPageImportFile
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
 					  &etat.qif_use_field_extract_method_payment);
-    g_signal_connect_after (priv->checkbutton_csv_force_date_valeur_with_date,
+    g_signal_connect_after (priv->checkbutton_qif_use_field_extract_method_payment,
 							"toggled",
 							G_CALLBACK (utils_prefs_gsb_file_set_modified),
 							NULL);
@@ -253,6 +265,7 @@ static void prefs_page_import_files_class_init (PrefsPageImportFilesClass *klass
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageImportFiles, eventbox_copy_payee_in_note);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageImportFiles, checkbutton_csv_force_date_valeur_with_date);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageImportFiles, eventbox_csv_force_date_valeur_with_date);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageImportFiles, checkbutton_qif_no_import_categories);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageImportFiles, checkbutton_qif_use_field_extract_method_payment);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageImportFiles, eventbox_qif_use_field_extract_method_payment);
 }

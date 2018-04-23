@@ -1447,7 +1447,7 @@ gint gsb_qif_recupere_categories ( FILE *qif_file, const gchar *coding_system )
             {
                 tab_str[0] = g_strstrip ( tab_str[0] );
                 category_number = gsb_data_category_get_number_by_name ( tab_str[0],
-                                    TRUE,
+                                    etat.qif_no_import_categories,
                                     type_category );
 
                 if (tab_str[1])
@@ -1457,7 +1457,7 @@ gint gsb_qif_recupere_categories ( FILE *qif_file, const gchar *coding_system )
                     gsb_data_category_get_sub_category_number_by_name (
                                 category_number,
                                 tab_str[1],
-                                TRUE );
+                                etat.qif_no_import_categories);
                 }
             }
 
