@@ -174,7 +174,7 @@ gchar *sanitize_field (gchar *begin,
         *iter++ = *begin++;
     }
     /* Strip out remaining white spaces. */
-    while (*(iter-1) == ' ' || *(iter-1) == '\r' || *(iter-1) == '\n')
+    while (*(iter) && (*(iter-1) == ' ' || *(iter-1) == '\r' || *(iter-1) == '\n'))
         iter--;
 
     *iter = '\0';
