@@ -686,7 +686,7 @@ gboolean gsb_data_category_fill_transaction_by_string ( gint transaction_number,
     if (tab_char[0])
     {
         category_number = gsb_data_category_get_number_by_name ( tab_char[0],
-                            TRUE,
+                            !etat.combofix_force_category,
                             gsb_data_mix_get_amount (
                             transaction_number, is_transaction).mantissa <0 );
 	    gsb_data_mix_set_category_number ( transaction_number,
@@ -697,8 +697,9 @@ gboolean gsb_data_category_fill_transaction_by_string ( gint transaction_number,
     if ( tab_char[1] && category_number )
     {
         gsb_data_mix_set_sub_category_number ( transaction_number,
-					        gsb_data_category_get_sub_category_number_by_name (
-                            category_number, tab_char[1], TRUE ),
+					        gsb_data_category_get_sub_category_number_by_name ( category_number,
+																			   tab_char[1],
+																			   !etat.combofix_force_category ),
 					        is_transaction );
     }
     else

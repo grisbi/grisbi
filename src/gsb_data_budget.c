@@ -1535,7 +1535,7 @@ void gsb_data_budget_set_budget_from_string ( gint transaction_number,
 
         /* we don't mind if tab_char exists and others, all the checks will be done in ...get_number_by_name */
         budget_number = gsb_data_budget_get_number_by_name ( g_strstrip ( tab_char[0] ),
-                                TRUE,
+                                !etat.combofix_force_category,
                                 gsb_data_transaction_get_amount ( transaction_number ).mantissa < 0 );
         gsb_data_transaction_set_budgetary_number ( transaction_number, budget_number );
 
@@ -1543,7 +1543,7 @@ void gsb_data_budget_set_budget_from_string ( gint transaction_number,
             gsb_data_transaction_set_sub_budgetary_number ( transaction_number,
                                 gsb_data_budget_get_sub_budget_number_by_name ( budget_number,
                                                         g_strstrip (tab_char[1]),
-                                                        TRUE ));
+                                                        !etat.combofix_force_category));
     }
     else
     {
@@ -1560,7 +1560,7 @@ void gsb_data_budget_set_budget_from_string ( gint transaction_number,
 
         /* we don't mind if tab_char exists and others, all the checks will be done in ...get_number_by_name */
         budget_number = gsb_data_budget_get_number_by_name ( tab_char[0],
-                                     TRUE,
+                                     !etat.combofix_force_category,
                                      gsb_data_scheduled_get_amount (transaction_number).mantissa <0 );
         gsb_data_scheduled_set_budgetary_number ( transaction_number,
                                 budget_number );
@@ -1568,7 +1568,7 @@ void gsb_data_budget_set_budget_from_string ( gint transaction_number,
             gsb_data_scheduled_set_sub_budgetary_number ( transaction_number,
                                   gsb_data_budget_get_sub_budget_number_by_name ( budget_number,
                                                           tab_char[1],
-                                                          TRUE ));
+                                                          !etat.combofix_force_category));
     }
     g_strfreev (tab_char);
 }
