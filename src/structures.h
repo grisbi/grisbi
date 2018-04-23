@@ -138,6 +138,7 @@ struct _GrisbiWinEtat
     gchar *		csv_separator;                              /* CSV separator to use while parsing a CSV file. */
     gboolean	csv_skipped_lines [ CSV_MAX_TOP_LINES ];	/* Contains a pointer to skipped lines in CSV preview. */
 	gboolean	csv_force_date_valeur_with_date;			/* force la date de valeur si non présente dans le fichier */
+    gboolean	qif_no_import_categories;					/* TRUE if no new item can be appended in the categories divisions */
     gint		qif_use_field_extract_method_payment;      	/* use the field 'N' to define the method of payment */
 
     /* export files */
@@ -152,7 +153,7 @@ struct _GrisbiWinEtat
     gint		combofix_case_sensitive;					/* TRUE if case sensitive */
     gint		combofix_enter_select_completion;			/* TRUE if enter close the popup and keep what is in the entry (else, select the current item in the list) */
     gint		combofix_force_payee;						/* TRUE if no new item can be appended in the payee combofix */
-    gint	combofix_force_category;						/* TRUE if no new item can be appended in the category and budget combofix */
+    gint		combofix_force_category;					/* TRUE if no new item can be appended in the category and budget combofix */
 
     /* width panned */
     gint		largeur_colonne_echeancier;
