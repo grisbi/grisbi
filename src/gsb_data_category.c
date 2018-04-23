@@ -487,7 +487,7 @@ gint gsb_data_category_new_with_number ( gint number )
  * */
 gboolean gsb_data_category_remove ( gint no_category )
 {
-    CategoryStruct *category;
+    struct_category *category;
 	GtkWidget *combofix;
 
     category = gsb_data_category_get_structure ( no_category );
@@ -500,8 +500,7 @@ gboolean gsb_data_category_remove ( gint no_category )
 
     _gsb_data_category_free (category);
 
-	GtkWidget *combofix;
-	combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_PARTY );
+	combofix = gsb_form_widget_get_widget (TRANSACTION_FORM_CATEGORY);
 	if ( combofix )
 		gsb_category_update_combofix ( TRUE );
 
@@ -563,8 +562,8 @@ void _gsb_data_sub_category_free ( SubCategoryStruct *sub_category )
 gboolean gsb_data_category_sub_category_remove ( gint no_category,
                         gint no_sub_category )
 {
-    CategoryStruct *category;
-    SubCategoryStruct *sub_category;
+    struct_category *category;
+    struct_sub_category *sub_category;
 	GtkWidget *combofix;
 
     category = gsb_data_category_get_structure ( no_category );
@@ -581,8 +580,7 @@ gboolean gsb_data_category_sub_category_remove ( gint no_category,
 
     _gsb_data_sub_category_free (sub_category);
 
-	GtkWidget *combofix;
-	combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_PARTY );
+	combofix = gsb_form_widget_get_widget (TRANSACTION_FORM_CATEGORY);
 	if ( combofix )
 		gsb_category_update_combofix ( TRUE );
 

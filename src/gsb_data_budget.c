@@ -513,7 +513,7 @@ gint gsb_data_budget_new_with_number ( gint number )
  * */
 gboolean gsb_data_budget_remove ( gint no_budget )
 {
-    BudgetStruct *budget;
+    struct_budget *budget;
 	GtkWidget *combofix;
 
     budget = gsb_data_budget_get_structure ( no_budget );
@@ -546,8 +546,8 @@ gboolean gsb_data_budget_remove ( gint no_budget )
 gboolean gsb_data_budget_sub_budget_remove ( gint no_budget,
                         gint no_sub_budget )
 {
-    BudgetStruct *budget;
-    SubBudgetStruct *sub_budget;
+    struct_budget *budget;
+    struct_sub_budget *sub_budget;
 	GtkWidget *combofix;
 
     budget = gsb_data_budget_get_structure ( no_budget );
