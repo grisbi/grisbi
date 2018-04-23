@@ -147,13 +147,13 @@ GtkWidget *onglet_affichage_operations ( void )
     _("In three lines visibles, show the lines: "),
     };
     gchar *line_1 [] = {
-    "1", "2", "3", "4",
+    "1",
     NULL };
     gchar *line_2 [] = {
-    "1-2", "1-3", "1-4", "2-3", "2-4", "3-4",
+    "1-2", "1-3", "1-4",
     NULL };
     gchar *line_3 [] = {
-    "1-2-3", "1-2-4", "1-3-4", "2-3-4",
+    "1-2-3", "1-2-4", "1-3-4",
     NULL };
     gchar *options_tri_primaire[] = {
     _("Sort by value date (if fail, try with the date)"),
@@ -222,6 +222,8 @@ GtkWidget *onglet_affichage_operations ( void )
         j++;
     }
     gtk_combo_box_set_active ( GTK_COMBO_BOX (button), position);
+		if (i == 0)
+			gtk_widget_set_sensitive (button, FALSE);
     }
 
     /* pack vboxes in hbox */
