@@ -114,9 +114,6 @@ struct _GrisbiWinPrivate
 
 	/* allocations widgets */
 	gint 				form_expander_label_width;
-	GtkAllocation		navigation_sw_allocation;
-	GtkAllocation		notebook_general_allocation;
-	GtkAllocation		scheduler_calendar_allocation;
 
     /* nom du fichier associé à la fenêtre */
     gchar *             filename;
@@ -370,67 +367,7 @@ static gboolean grisbi_win_expander_label_set_initial_width (GtkWidget *form_gen
     return FALSE;
 }
 /* NAVIGATION PANE */
-/**
- * utile pour gérer la dimmension de navigation_sw
- *
- * \param GtkWidget			navigation_sw
- * \param GtkAllocation 	allocation
- * \param gpointer			NULL
- *
- * \return FALSE
- */
-static gboolean grisbi_win_navigation_sw_size_allocate (GtkWidget *navigation_sw,
-                                          GtkAllocation *allocation,
-                                          gpointer data)
-{
-	GrisbiWinPrivate *priv = (GrisbiWinPrivate *) data;
-
-	priv->navigation_sw_allocation.width = allocation->width;
-	priv->navigation_sw_allocation.height = allocation->height;
-    return FALSE;
-}
-
-/**
- * utile pour gérer la dimmension du scheduler_calendar
- *
- * \param GtkWidget			scheduler_calendar
- * \param GtkAllocation 	allocation
- * \param gpointer			NULL
- *
- * \return FALSE
- */
-static gboolean grisbi_win_scheduler_calendar_size_allocate (GtkWidget *scheduler_calendar,
-                                          GtkAllocation *allocation,
-                                          gpointer data)
-{
-	GrisbiWinPrivate *priv = (GrisbiWinPrivate *) data;
-
-	priv->scheduler_calendar_allocation.width = allocation->width;
-	priv->scheduler_calendar_allocation.height = allocation->height;
-    return FALSE;
-}
-
 /* NOTEBOOK_GENERAL */
-/**
- * utile pour gérer la dimmension du notebook general
- *
- * \param GtkWidget			notebook
- * \param GtkAllocation 	allocation
- * \param gpointer			NULL
- *
- * \return FALSE
- */
-static gboolean grisbi_win_notebook_size_allocate (GtkWidget *notebook_general,
-                                          GtkAllocation *allocation,
-                                          gpointer data)
-{
-	GrisbiWinPrivate *priv = (GrisbiWinPrivate *) data;
-
-	priv->notebook_general_allocation.width = allocation->width;
-	priv->notebook_general_allocation.height = allocation->height;
-    return FALSE;
-}
-
 /**
  * fill the notebook given in param
  *
@@ -563,10 +500,6 @@ static GtkWidget *grisbi_win_create_general_notebook (GrisbiWin *win)
 	gtk_container_add (GTK_CONTAINER(sw), priv->notebook_general);
 
     gtk_widget_show (priv->notebook_general);
-    g_signal_connect (G_OBJECT (priv->notebook_general),
-                      "size_allocate",
-                      G_CALLBACK (grisbi_win_notebook_size_allocate),
-                      priv);
 
     /* append the form */
     priv->form_general = gsb_form_new ();
@@ -1639,15 +1572,6 @@ GtkWidget *grisbi_win_create_general_widgets (GrisbiWin *win)
 	/* recuperation des enfants pour gestion dimmension */
 	navigation_pane = gsb_gui_navigation_create_navigation_pane ();
 	priv->navigation_sw = gtk_grid_get_child_at (GTK_GRID (navigation_pane), 0, 0);
-    g_signal_connect (G_OBJECT (priv->navigation_sw),
-                      "size_allocate",
-                      G_CALLBACK (grisbi_win_navigation_sw_size_allocate),
-                      priv);
-	priv->scheduler_calendar = gtk_grid_get_child_at (GTK_GRID (navigation_pane), 0, 1);
-    g_signal_connect (G_OBJECT (priv->scheduler_calendar),
-                      "size_allocate",
-                      G_CALLBACK (grisbi_win_scheduler_calendar_size_allocate),
-                      priv);
 
     /* fill the main hpaned. */
 	gtk_paned_pack1 (GTK_PANED (priv->hpaned_general),
