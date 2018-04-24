@@ -36,6 +36,7 @@ void 		bet_array_list_add_new_hist_line 				(GtkTreeModel *tab_model,
 															 GDate *date_max);
 gboolean 	bet_array_list_select_path 						(GtkWidget *tree_view,
 															 GtkTreePath *path);
+gboolean 	bet_array_list_set_largeur_col 					(void);
 void 		bet_array_update_estimate_tab 					(gint account_number,
 															 gint type_maj);
 void 		bet_array_update_toolbar 						(gint toolbar_style);

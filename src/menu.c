@@ -31,6 +31,7 @@
 
 /*START_INCLUDE*/
 #include "menu.h"
+#include "bet_tab.h"
 #include "custom_list.h"
 #include "export.h"
 #include "file_obfuscate_qif.h"
@@ -159,9 +160,22 @@ static gboolean gsb_menu_reinit_largeur_col_menu (void)
 
     if (current_page == GSB_ACCOUNT_PAGE)
     {
-        initialise_largeur_colonnes_tab_affichage_ope (GSB_ACCOUNT_PAGE, NULL);
+		gint account_number;
+		BetTypeOnglets bet_show_onglets;
 
-        gsb_transactions_list_set_largeur_col ();
+		account_number = gsb_gui_navigation_get_current_account ();
+		bet_show_onglets = gsb_data_account_get_bet_show_onglets (account_number);
+
+		if (bet_show_onglets == BET_ONGLETS_PREV)
+		{
+			initialise_largeur_colonnes_prev_tab ();
+			bet_array_list_set_largeur_col ();
+		}
+		else
+		{
+			initialise_largeur_colonnes_tab_affichage_ope (GSB_ACCOUNT_PAGE, NULL);
+			gsb_transactions_list_set_largeur_col ();
+		}
     }
     else if (current_page == GSB_SCHEDULER_PAGE)
     {
@@ -1179,7 +1193,6 @@ void gsb_menu_set_menus_with_file_sensitive (gboolean sensitive)
  * */
 void gsb_menu_set_menus_view_account_sensitive (gboolean sensitive)
 {
-    static gboolean flag_sensitive = FALSE;
     gchar * items[] = {
         "remove-acc",
         "show-form",
@@ -1192,16 +1205,11 @@ void gsb_menu_set_menus_view_account_sensitive (gboolean sensitive)
     gchar **tmp = items;
 
     devel_debug_int (sensitive);
-
-    if (flag_sensitive == sensitive)
-        return;
-
     while (*tmp)
     {
         gsb_menu_gui_sensitive_win_menu_item (*tmp, sensitive);
         tmp++;
     }
-    flag_sensitive = sensitive;
 }
 
 /**

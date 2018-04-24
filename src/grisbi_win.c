@@ -1782,6 +1782,7 @@ gboolean grisbi_win_on_account_switch_page (GtkNotebook *notebook,
         account_number = gsb_gui_navigation_get_current_account ();
         if (gsb_data_account_get_bet_maj (account_number))
             bet_data_update_bet_module (account_number, GSB_ESTIMATE_PAGE);
+		gsb_menu_gui_sensitive_win_menu_item ("reset-width-col", TRUE);
         break;
     case GSB_HISTORICAL_PAGE:
         gsb_form_set_expander_visible (FALSE, FALSE);

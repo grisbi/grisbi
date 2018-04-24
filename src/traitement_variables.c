@@ -111,6 +111,7 @@ extern gint transaction_col_width[CUSTOM_MODEL_VISIBLE_COLUMNS];
 /* the total of % of scheduled columns can be > 100 because all the columns are not showed at the same time */
 static const gchar *scheduler_col_width_init = "10-12-36-12-12-12-12";
 static const gchar *transaction_col_width_init = "10-12-30-12-12-12-12";
+static gint bet_array_col_width_init[BET_ARRAY_COLUMNS] = {15, 45, 12, 12, 14};
 
 /**
  * initialisation of all the variables of grisbi
@@ -122,7 +123,6 @@ static const gchar *transaction_col_width_init = "10-12-30-12-12-12-12";
  * */
 void init_variables ( void )
 {
-    gint bet_array_col_width_init[BET_ARRAY_COLUMNS] = {15, 40, 15, 15, 15 };
     gint transaction_col_align_init[CUSTOM_MODEL_VISIBLE_COLUMNS] = { 1, 1, 0, 1, 2, 2, 2 };
     gint i;
 
@@ -373,7 +373,25 @@ void initialise_tab_affichage_ope ( void )
  * \param
  *
  * \return
- * */
+ **/
+void initialise_largeur_colonnes_prev_tab (void)
+{
+	gint i;
+
+    for (i = 0; i < BET_ARRAY_COLUMNS - 1; i++)
+    {
+        bet_array_col_width[i] = bet_array_col_width_init[i];
+    }
+
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
