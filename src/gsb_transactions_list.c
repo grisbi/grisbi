@@ -773,6 +773,11 @@ void gsb_transactions_list_create_tree_view_columns (void)
                         "radio_renderer", radio_renderer);
 	}
 
+	if (i == CUSTOM_MODEL_VISIBLE_COLUMNS -1)
+	{
+		gtk_cell_renderer_set_padding (GTK_CELL_RENDERER (cell_renderer), MARGIN_BOX, 0);
+	}
+
 	gtk_tree_view_column_set_alignment (transactions_tree_view_columns[i],
 					     (gfloat)transaction_col_align[i]/2);
 
