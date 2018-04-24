@@ -144,7 +144,7 @@ static void export_account_toggled (GtkCellRendererToggle *cell,
  * \return FALSE
  **/
 static gboolean export_account_change_format (GtkWidget *combo,
-											  struct exported_account *account)
+											  struct ExportedAccount *account)
 {
     const gchar *title;
 	gchar *tmp_str;
@@ -488,7 +488,7 @@ static GtkWidget *export_create_final_page (GtkWidget *assistant)
  *
  * \return
  **/
-static GtkWidget *create_export_account_resume_page (struct exported_account *account)
+static GtkWidget *create_export_account_resume_page (struct ExportedAccount *account)
 {
     GtkWidget *vbox, *hbox, *label, *combo;
     gchar *tmpstr;
@@ -579,7 +579,7 @@ static gboolean export_enter_resume_page (GtkWidget *assistant)
 		list = selected_accounts;
 		while (list)
 		{
-			struct exported_account *account;
+			struct ExportedAccount *account;
 			gint i = GPOINTER_TO_INT (list->data);
 
 			gtk_text_buffer_insert_with_tags_by_name (buffer,
@@ -592,7 +592,7 @@ static gboolean export_enter_resume_page (GtkWidget *assistant)
 													  "indented",
 													  NULL);
 
-			account = g_malloc0 (sizeof (struct exported_account));
+			account = g_malloc0 (sizeof (struct ExportedAccount));
 			account->account_nb = i;
 			if (etat.export_file_format)
 				account->extension = g_strdup ("csv");
@@ -637,7 +637,7 @@ static gboolean export_enter_resume_page (GtkWidget *assistant)
  *
  * \return
  **/
-static void expert_account_free_account_structure (struct exported_account *account)
+static void expert_account_free_account_structure (struct ExportedAccount *account)
 {
 	if (account->extension)
 		g_free (account->extension);
@@ -697,9 +697,9 @@ void export_accounts (void)
 		list = exported_accounts;
 		while (list)
         {
-            struct exported_account *account;
+            struct ExportedAccount *account;
 
-            account = (struct exported_account *) list->data;
+            account = (struct ExportedAccount *) list->data;
 
             if (etat.export_files_traitement && g_slist_length (selected_accounts) > 1)
             {
