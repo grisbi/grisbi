@@ -4611,6 +4611,18 @@ void gsb_transactions_list_process_orphan_list (GSList *orphan_list)
  *
  * \return
  **/
+gint gsb_transactions_list_get_current_tree_view_width (void)
+{
+	return current_tree_view_width;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
