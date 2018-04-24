@@ -718,6 +718,7 @@ void gsb_scheduler_list_create_list_columns ( GtkWidget *tree_view )
                                             "foreground", SCHEDULER_COL_NB_AMOUNT_COLOR,
                                             "font-desc", SCHEDULER_COL_NB_FONT,
                                             NULL );
+				gtk_cell_renderer_set_padding (GTK_CELL_RENDERER (cell_renderer), MARGIN_BOX, 0);
                 break;
         }
 
