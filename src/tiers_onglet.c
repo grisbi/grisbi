@@ -253,7 +253,8 @@ GtkWidget *payees_create_list ( void )
 
     /* Make amount column */
     cell = gtk_cell_renderer_text_new ();
-    column = gtk_tree_view_column_new_with_attributes (_("Amount"), cell,
+	gtk_cell_renderer_set_padding (GTK_CELL_RENDERER (cell), MARGIN_BOX, 0);
+	column = gtk_tree_view_column_new_with_attributes (_("Amount"), cell,
 						       "text", META_TREE_BALANCE_COLUMN,
 						       "weight", META_TREE_FONT_COLUMN,
 						       "xalign", META_TREE_XALIGN_COLUMN,
