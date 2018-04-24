@@ -637,6 +637,7 @@ GtkWidget *bet_historical_get_data_tree_view ( GtkWidget *container )
     /* amount retained column */
     cell = gtk_cell_renderer_text_new ( );
     g_object_set_data ( G_OBJECT ( account_page ), "edited_cell", cell );
+	gtk_cell_renderer_set_padding (GTK_CELL_RENDERER (cell), MARGIN_BOX, 0);
     column = gtk_tree_view_column_new_with_attributes (
                         _("Amount retained"), cell,
                         "text", SPP_HISTORICAL_RETAINED_COLUMN,

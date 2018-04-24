@@ -919,6 +919,7 @@ GtkWidget *bet_array_create_tree_view ( GtkWidget *container )
     /* Balance column */
     cell = gtk_cell_renderer_text_new ();
     g_object_set ( G_OBJECT ( GTK_CELL_RENDERER ( cell ) ), "xalign", 1.0, NULL );
+	gtk_cell_renderer_set_padding (GTK_CELL_RENDERER (cell), MARGIN_BOX, 0);
 
     bet_array_tree_view_columns[i] = gtk_tree_view_column_new_with_attributes (
 					    _("Balance"), cell,
