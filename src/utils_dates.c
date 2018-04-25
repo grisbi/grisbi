@@ -1032,6 +1032,9 @@ GDate *gsb_parse_import_date_string (const gchar *date_string)
 	if (!date_string || !strlen (date_string))
 		return NULL;
 
+	if (!import_format)
+		return NULL;
+
 	/* set the local pattern */
 	regex_str = DATE_STRING_REGEX;
 
