@@ -39,6 +39,7 @@
 #include "bet_graph.h"
 #include "custom_list.h"
 #include "dialog.h"
+#include "export_csv.h"
 #include "grisbi_win.h"
 #include "gsb_assistant_archive.h"
 #include "gsb_assistant_first.h"
@@ -265,6 +266,7 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
                 {
                     g_free ( etat.csv_separator );
                     etat.csv_separator = my_strdup ( attribute_values[i] );
+					gsb_csv_export_set_csv_separator (etat.csv_separator);
                 }
 
                 else if ( !strcmp ( attribute_names[i], "CSV_skipped_lines" ))

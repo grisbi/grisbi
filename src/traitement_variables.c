@@ -41,6 +41,7 @@
 #include "bet_graph.h"
 #include "categories_onglet.h"
 #include "custom_list.h"
+#include "export_csv.h"
 #include "grisbi_win.h"
 #include "gsb_calendar.h"
 #include "gsb_currency.h"
@@ -295,6 +296,7 @@ void free_variables (void)
     bet_data_free_variables ();
 	if (etat.csv_separator)
 		g_free (etat.csv_separator);
+	gsb_csv_export_set_csv_separator (NULL);
     gsb_select_icon_init_logo_variables ();
 	gsb_data_bank_init_variables ();
 

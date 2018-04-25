@@ -23,6 +23,8 @@ struct ExportedAccount
 
 /* START_DECLARATION */
 void 	export_accounts 	(void);
+gchar *	export_get_csv_separator (void);
+void 	export_set_csv_separator (gchar *separator);
 /* END_DECLARATION */
 
 #endif

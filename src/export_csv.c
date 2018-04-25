@@ -50,9 +50,11 @@
 #include "gsb_data_transaction.h"
 #include "gsb_file_util.h"
 #include "gsb_real.h"
+#include "structures.h"
+#include "utils_dates.h"
+#include "utils_files.h"
 #include "utils_real.h"
 #include "utils_str.h"
-#include "utils_files.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -106,7 +108,7 @@ static void gsb_csv_export_tree_view_list_export_title_line ( FILE *csv_file, Gt
  * \param   a   string field to add.
  *
  */
-#define CSV_STR_FIELD(f,a)  if (a) { fprintf(f,"\"%s\"%c",g_locale_from_utf8(a,-1,NULL,NULL,NULL),g_csv_field_separator); } else { fprintf(f,"\"\"%c",g_csv_field_separator); }
+#define CSV_STR_FIELD(f,a)  if (a) { fprintf(f,"\"%s\"%s",g_locale_from_utf8(a,-1,NULL,NULL,NULL),g_csv_field_separator); } else { fprintf(f,"\"\"%s",g_csv_field_separator); }
 
 
 
@@ -120,7 +122,7 @@ static void gsb_csv_export_tree_view_list_export_title_line ( FILE *csv_file, Gt
  * \param   f   valid file stream to write
  * \param   a   numerical field to add.
  */
-#define CSV_NUM_FIELD(f,a)  if (a) { fprintf(f,"%s%c",g_locale_from_utf8(a,-1,NULL,NULL,NULL),g_csv_field_separator); } else { fprintf(f,"0%c",g_csv_field_separator); }
+#define CSV_NUM_FIELD(f,a)  if (a) { fprintf(f,"%s%s",g_locale_from_utf8(a,-1,NULL,NULL,NULL),g_csv_field_separator); } else { fprintf(f,"0%s",g_csv_field_separator); }
 
 
 
@@ -132,7 +134,7 @@ static void gsb_csv_export_tree_view_list_export_title_line ( FILE *csv_file, Gt
 #define CSV_END_RECORD(f)  fprintf(f,"\n")
 
 static gboolean g_csv_with_title_line = TRUE; /*!< CSV configuration - does the file result contains a title line ?  */
-static gchar    g_csv_field_separator = ';';  /*!< CSV configuration - separator charater used between fields of a record */
+static gchar *	g_csv_field_separator;		  /*!< CSV configuration - separator charater used between fields of a record */
 
 static gsb_real current_balance;
 
@@ -160,6 +162,31 @@ gchar*  csv_field_info_bank  = NULL; /*!< bank references (string) */
 
 
 
+/******************************************************************************/
+/* Private functions                                                          */
+/******************************************************************************/
+/**
+ * retourne une string avec la bon format numérique
+ *
+ * \param
+ *
+ * \return
+ **/
+static gchar *export_csv_real_get_string (gsb_real number)
+{
+	gchar *tmp_str;
+
+	if (etat.export_force_US_numbers)
+	{
+		tmp_str = utils_real_get_string_intl (number);
+	}
+	else
+	{
+		tmp_str = utils_real_get_string (number);
+	}
+
+	return tmp_str;
+}
 /**
  * \brief clear temporary variable used to store field to display.
  *
@@ -315,16 +342,16 @@ gboolean gsb_csv_export_account ( const gchar *filename, gint account_number )
 
     /* ok the balance is now good, can write it */
     CSV_CLEAR_FIELD ( csv_field_solde );
-    csv_field_solde = utils_real_get_string ( current_balance );
+    csv_field_solde = export_csv_real_get_string ( current_balance );
     if ( current_balance.mantissa >= 0 )
     {
         CSV_CLEAR_FIELD ( csv_field_credit );
-        csv_field_credit = utils_real_get_string ( current_balance );
+        csv_field_credit = export_csv_real_get_string ( current_balance );
     }
     else
     {
         CSV_CLEAR_FIELD ( csv_field_debit );
-        csv_field_debit = utils_real_get_string ( gsb_real_abs ( current_balance ) );
+        csv_field_debit = export_csv_real_get_string ( gsb_real_abs ( current_balance ) );
     }
 
     csv_add_record ( csv_file, TRUE, TRUE );
@@ -464,20 +491,34 @@ static gboolean gsb_csv_export_transaction ( gint transaction_number,
 	if ( date )
 	{
 	    CSV_CLEAR_FIELD (csv_field_date);
-	    csv_field_date = g_strdup_printf ("%d/%d/%d",
-					      g_date_get_day ( date ),
-					      g_date_get_month ( date ),
-					      g_date_get_year ( date ) );
+		if (etat.export_force_US_dates)
+		{
+			csv_field_date = gsb_format_gdate_safe (date);
+		}
+		else
+		{
+			csv_field_date = g_strdup_printf ("%.2d/%.2d/%d\n",
+											  g_date_get_day (date),
+											  g_date_get_month (date),
+											  g_date_get_year ( date ));
+		}
 	}
 
 	value_date = gsb_data_transaction_get_value_date ( transaction_number );
 	if ( value_date )
 	{
 	    CSV_CLEAR_FIELD (csv_field_date_val);
-	    csv_field_date_val = g_strdup_printf ("%d/%d/%d",
-						  g_date_get_day ( value_date ),
-						  g_date_get_month ( value_date ),
-						  g_date_get_year ( value_date ) );
+		if (etat.export_force_US_dates)
+		{
+			csv_field_date_val = gsb_format_gdate_safe (date);
+		}
+		else
+		{
+			csv_field_date_val = g_strdup_printf ("%.2d/%.2d/%d\n",
+												  g_date_get_day (date),
+												  g_date_get_month (date),
+												  g_date_get_year ( date ));
+		}
 	}
 
 	/* met le pointage */
@@ -524,13 +565,13 @@ static gboolean gsb_csv_export_transaction ( gint transaction_number,
 	}
 
 	/* met le montant, transforme la devise si necessaire */
-	amount = gsb_data_transaction_get_adjusted_amount ( transaction_number,
-							    return_exponent);
+	amount = gsb_data_transaction_get_adjusted_amount ( transaction_number, return_exponent);
+
 	CSV_CLEAR_FIELD (csv_field_credit);
 	if (amount.mantissa >= 0 )
-	    csv_field_credit = utils_real_get_string (amount);
+	    csv_field_credit = export_csv_real_get_string (amount);
 	else
-	    csv_field_debit  = utils_real_get_string (gsb_real_abs (amount));
+	    csv_field_debit  = export_csv_real_get_string (gsb_real_abs (amount));
 
 	/* met le cheque si c'est un type à numerotation automatique */
 	payment_method = gsb_data_transaction_get_method_of_payment_number ( transaction_number );
@@ -562,7 +603,7 @@ static gboolean gsb_csv_export_transaction ( gint transaction_number,
 	    current_balance = gsb_real_add ( current_balance,
 					     amount );
 	    CSV_CLEAR_FIELD (csv_field_solde);
-	    csv_field_solde = utils_real_get_string (current_balance);
+	    csv_field_solde = export_csv_real_get_string (current_balance);
 	}
 
 	/* Number */
@@ -657,7 +698,7 @@ static gboolean gsb_csv_export_transaction ( gint transaction_number,
 		    /* met le montant de la ventilation */
 		    amount = gsb_data_transaction_get_adjusted_amount ( pSplitTransaction, return_exponent );
 		    CSV_CLEAR_FIELD (csv_field_montant);
-		    csv_field_montant = utils_real_get_string (amount);
+		    csv_field_montant = export_csv_real_get_string (amount);
 
 		    /* met le rapprochement */
 		    if ( gsb_data_transaction_get_reconcile_number ( pSplitTransaction ) )
@@ -1008,7 +1049,43 @@ gint gsb_csv_export_sort_by_value_date_or_date ( gpointer transaction_pointer_1,
         return -1;
 }
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+gchar *gsb_csv_export_get_csv_separator (void)
+{
+	return g_csv_field_separator;
+}
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void gsb_csv_export_set_csv_separator (const gchar *separator)
+{
+	if (g_csv_field_separator)
+		g_free (g_csv_field_separator);
+
+	if (separator)
+		g_csv_field_separator = g_strdup (separator);
+	else
+		g_csv_field_separator = NULL;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

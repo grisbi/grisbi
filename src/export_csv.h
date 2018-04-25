@@ -8,12 +8,14 @@
 
 
 /*START_DECLARATION*/
-gboolean 	gsb_csv_export_account 			(const gchar *filename,
-											 gint account_number);
-gboolean 	gsb_csv_export_archive 			(const gchar *filename,
-											 gint archive_number);
-gboolean 	gsb_csv_export_tree_view_list 	(const gchar *filename,
-											 GtkTreeView *tree_view);
+gboolean 	gsb_csv_export_account				(const gchar *filename,
+												 gint account_number);
+gboolean 	gsb_csv_export_archive				(const gchar *filename,
+												 gint archive_number);
+gchar *		gsb_csv_export_get_csv_separator	(void);
+void		gsb_csv_export_set_csv_separator	(const gchar *separator);
+gboolean 	gsb_csv_export_tree_view_list		(const gchar *filename,
+												 GtkTreeView *tree_view);
 /*END_DECLARATION*/
 
 #endif
