@@ -67,10 +67,9 @@ static void export_account_file_chooser_dir_changed (GtkFileChooser *chooser,
 {
 	gchar *dirname;
 
-	dirname = gtk_file_chooser_get_current_folder (chooser);
-	gsb_file_update_last_path (dirname);
-}
-
+/******************************************************************************/
+/* Private functions                                                          */
+/******************************************************************************/
 /**
  * Set a boolean integer to the value of a checkbutton.  Normally called
  * via a GTK "toggled" signal handler.

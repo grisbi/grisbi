@@ -92,18 +92,9 @@ if (a) \
  * \param   a   string field to add.
  *
  */
-#define CSV_STR_FIELD(f,a) \
-if (a) \
-{ \
-	gchar *tmp_str; \
-	tmp_str = g_locale_from_utf8 (a,-1,NULL,NULL,NULL); \
-	fprintf(f,"\"%s\"%s",tmp_str,g_csv_field_separator); \
-	g_free (tmp_str); \
-} \
-else \
-{ \
-	fprintf(f,"\"\"%s",g_csv_field_separator); \
-} \
+#define CSV_STR_FIELD(f,a)  if (a) { fprintf(f,"\"%s\"%s",g_locale_from_utf8(a,-1,NULL,NULL,NULL),g_csv_field_separator); } else { fprintf(f,"\"\"%s",g_csv_field_separator); }
+
+
 
 /**
  * \brief Write a numerical field.
@@ -115,18 +106,9 @@ else \
  * \param   f   valid file stream to write
  * \param   a   numerical field to add.
  */
-#define CSV_NUM_FIELD(f,a) \
-if (a) \
-{ \
-	gchar *tmp_str; \
-	tmp_str = g_locale_from_utf8 (a,-1,NULL,NULL,NULL); \
-	fprintf(f,"%s%s",tmp_str,g_csv_field_separator); \
-	g_free (tmp_str); \
-} \
-else \
-{ \
-	fprintf(f,"0%s",g_csv_field_separator); \
-} \
+#define CSV_NUM_FIELD(f,a)  if (a) { fprintf(f,"%s%s",g_locale_from_utf8(a,-1,NULL,NULL,NULL),g_csv_field_separator); } else { fprintf(f,"0%s",g_csv_field_separator); }
+
+
 
 /**
  * \brief Write the end of record character
@@ -135,8 +117,10 @@ else \
  */
 #define CSV_END_RECORD(f)  fprintf(f,"\n")
 
-#define EMPTY_STR_FIELD fprintf(csv_file,"\"\""); /*!< empty string field value */
-#define EMPTY_NUM_FIELD fprintf(csv_file,"0");    /*!< empty numerical field value */
+static gboolean g_csv_with_title_line = TRUE; /*!< CSV configuration - does the file result contains a title line ?  */
+static gchar *	g_csv_field_separator;		  /*!< CSV configuration - separator charater used between fields of a record */
+
+static gsb_real current_balance;
 
 /*START_GLOBAL*/
 gchar*  csv_field_operation  = NULL; /*!< operation number (numerical) */
@@ -217,6 +201,31 @@ static FILE *gsb_csv_export_open_file (const gchar *filename)
     return csv_file;
 }
 
+/******************************************************************************/
+/* Private functions                                                          */
+/******************************************************************************/
+/**
+ * retourne une string avec la bon format numérique
+ *
+ * \param
+ *
+ * \return
+ **/
+static gchar *export_csv_real_get_string (gsb_real number)
+{
+	gchar *tmp_str;
+
+	if (etat.export_force_US_numbers)
+	{
+		tmp_str = utils_real_get_string_intl (number);
+	}
+	else
+	{
+		tmp_str = utils_real_get_string (number);
+	}
+
+	return tmp_str;
+}
 /**
  * \brief clear temporary variable used to store field to display.
  *
@@ -329,8 +338,19 @@ static gboolean gsb_csv_export_title_line (FILE *csv_file,
     CSV_CLEAR_FIELD (csv_field_date );
     csv_field_date       = my_strdup (_("Date"));
 
-    CSV_CLEAR_FIELD (csv_field_date_val);
-    csv_field_date_val   = my_strdup (_("Value date"));
+    /* ok the balance is now good, can write it */
+    CSV_CLEAR_FIELD ( csv_field_solde );
+    csv_field_solde = export_csv_real_get_string ( current_balance );
+    if ( current_balance.mantissa >= 0 )
+    {
+        CSV_CLEAR_FIELD ( csv_field_credit );
+        csv_field_credit = export_csv_real_get_string ( current_balance );
+    }
+    else
+    {
+        CSV_CLEAR_FIELD ( csv_field_debit );
+        csv_field_debit = export_csv_real_get_string ( gsb_real_abs ( current_balance ) );
+    }
 
     CSV_CLEAR_FIELD (csv_field_cheque);
     csv_field_cheque     = my_strdup (_("Cheques"));
@@ -465,7 +485,7 @@ static gboolean gsb_csv_export_transaction (gint transaction_number,
 			csv_field_date = g_strdup_printf ("%.2d/%.2d/%d\n",
 											  g_date_get_day (date),
 											  g_date_get_month (date),
-											  g_date_get_year (date));
+											  g_date_get_year ( date ));
 		}
 	}
 
@@ -482,7 +502,7 @@ static gboolean gsb_csv_export_transaction (gint transaction_number,
 			csv_field_date_val = g_strdup_printf ("%.2d/%.2d/%d\n",
 												  g_date_get_day (date),
 												  g_date_get_month (date),
-												  g_date_get_year (date));
+												  g_date_get_year ( date ));
 		}
 	}
 
@@ -531,13 +551,13 @@ static gboolean gsb_csv_export_transaction (gint transaction_number,
 	}
 
 	/* met le montant, transforme la devise si necessaire */
-	amount = gsb_data_transaction_get_adjusted_amount (transaction_number, return_exponent);
+	amount = gsb_data_transaction_get_adjusted_amount ( transaction_number, return_exponent);
+
 	CSV_CLEAR_FIELD (csv_field_credit);
-	CSV_CLEAR_FIELD (csv_field_debit);
-	if (amount.mantissa >= 0)
-	    csv_field_credit = csv_real_get_string_from_us_option (amount);
+	if (amount.mantissa >= 0 )
+	    csv_field_credit = export_csv_real_get_string (amount);
 	else
-	    csv_field_debit  = csv_real_get_string_from_us_option (gsb_real_abs (amount));
+	    csv_field_debit  = export_csv_real_get_string (gsb_real_abs (amount));
 
 	/* met le cheque si c'est un type à numerotation automatique */
 	payment_method = gsb_data_transaction_get_method_of_payment_number (transaction_number);
@@ -573,7 +593,7 @@ static gboolean gsb_csv_export_transaction (gint transaction_number,
 	{
 	    current_balance = gsb_real_add (current_balance, amount);
 	    CSV_CLEAR_FIELD (csv_field_solde);
-	    csv_field_solde = csv_real_get_string_from_us_option (current_balance);
+	    csv_field_solde = export_csv_real_get_string (current_balance);
 	}
 
 	/* Number */
@@ -615,8 +635,42 @@ static gboolean gsb_csv_export_transaction (gint transaction_number,
 
 			pSplitTransaction = gsb_data_transaction_get_transaction_number (pSplitTransactionList->data);
 
-			if (gsb_data_transaction_get_account_number (pSplitTransaction) == account_number
-				&& gsb_data_transaction_get_mother_transaction_number (pSplitTransaction) == transaction_number)
+		    }
+
+		    /* met les notes de la ventilation */
+		    if ( gsb_data_transaction_get_notes ( pSplitTransaction ) )
+		    {
+			CSV_CLEAR_FIELD (csv_field_notes);
+			csv_field_notes = my_strdup (gsb_data_transaction_get_notes ( pSplitTransaction ));
+		    }
+
+		    /* met le montant de la ventilation */
+		    amount = gsb_data_transaction_get_adjusted_amount ( pSplitTransaction, return_exponent );
+		    CSV_CLEAR_FIELD (csv_field_montant);
+		    csv_field_montant = export_csv_real_get_string (amount);
+
+		    /* met le rapprochement */
+		    if ( gsb_data_transaction_get_reconcile_number ( pSplitTransaction ) )
+		    {
+			CSV_CLEAR_FIELD (csv_field_rappro);
+			csv_field_rappro = my_strdup ( gsb_data_reconcile_get_name ( gsb_data_transaction_get_reconcile_number ( pSplitTransaction ) ) );
+		    }
+
+		    /* met le chèque si c'est un type à numéotation automatique */
+		    payment_method = gsb_data_transaction_get_method_of_payment_number ( pSplitTransaction );
+		    if (gsb_data_payment_get_automatic_numbering (payment_method))
+		    {
+			CSV_CLEAR_FIELD (csv_field_cheque);
+			csv_field_cheque = my_strdup ( gsb_data_transaction_get_method_of_payment_content ( pSplitTransaction ) );
+		    }
+
+		    /* Budgetary lines */
+		    if ( gsb_data_transaction_get_budgetary_number ( pSplitTransaction ) != -1 )
+		    {
+			CSV_CLEAR_FIELD (csv_field_imput);
+			csv_field_imput = my_strdup ( gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number ( pSplitTransaction ), 0, "" ) );
+
+			if ( gsb_data_transaction_get_sub_budgetary_number ( pSplitTransaction ) != -1 )
 			{
 				gint financial_year_number;
 				gint payment_method;
@@ -1062,6 +1116,36 @@ gboolean gsb_csv_export_tree_view_list (const gchar *filename, GtkTreeView *tree
     fclose (csv_file);
 
     return TRUE;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+gchar *gsb_csv_export_get_csv_separator (void)
+{
+	return g_csv_field_separator;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void gsb_csv_export_set_csv_separator (const gchar *separator)
+{
+	if (g_csv_field_separator)
+		g_free (g_csv_field_separator);
+
+	if (separator)
+		g_csv_field_separator = g_strdup (separator);
+	else
+		g_csv_field_separator = NULL;
 }
 
 /**
