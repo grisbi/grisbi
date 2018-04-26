@@ -3975,8 +3975,7 @@ gboolean gsb_file_load_open_file (const gchar *filename )
 
         text = g_strdup_printf (_("You import a file from version %s of Grisbi. After updating "
                                   "your file will not be compatible with grisbi version %s.\n\n"
-                                  "You will have to re-customize the icons and colors and you "
-								  "will have to abandon the encryption of your account file."),
+                                  "You will have to re-customize the icons and colors."),
                                 download_tmp_values.file_version,
                                 download_tmp_values.grisbi_version);
 
