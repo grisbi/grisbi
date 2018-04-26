@@ -2909,7 +2909,7 @@ gboolean bet_array_list_size_allocate ( GtkWidget *tree_view,
 {
     gint i;
 
-    if ( allocation -> width == bet_array_current_tree_view_width )
+	if ( allocation -> width == bet_array_current_tree_view_width )
     {
         /* size of the tree view didn't change, but we received an allocated signal
          * it happens several times, and especially when we change the columns,
@@ -2925,7 +2925,6 @@ gboolean bet_array_list_size_allocate ( GtkWidget *tree_view,
                                             bet_array_tree_view_columns[i]) * 100 ) / allocation -> width + 1;
         }
 
-		gsb_file_set_modified (TRUE);
         return FALSE;
     }
 
@@ -3348,7 +3347,7 @@ gboolean bet_array_list_set_largeur_col (void)
 	gint current_tree_view_width;
 
 	current_tree_view_width = gsb_transactions_list_get_current_tree_view_width ();
-    for (i = 0; i < BET_ARRAY_COLUMNS; i++)
+    for (i = 0; i < BET_ARRAY_COLUMNS - 1; i++)
     {
         width = (bet_array_col_width[i] * (current_tree_view_width)) / 100;
         if (width > 0)
