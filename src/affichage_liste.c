@@ -498,6 +498,28 @@ gboolean display_mode_check_line ( gint line_in_transaction,
     return FALSE;
 }
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void free_noms_colonnes_et_tips (void)
+{
+    gint j;
+
+    for ( j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
+    {
+		if (titres_colonnes_liste_operations[j])
+			g_free (titres_colonnes_liste_operations[j]);
+        titres_colonnes_liste_operations[j] = NULL;
+
+		if (tips_col_liste_operations[j])
+			g_free (titres_colonnes_liste_operations[j]);
+        tips_col_liste_operations[j] = NULL;
+    }
+}
 
 /**
  * fill the titres_colonnes_liste_operations variable and the associated tips
@@ -507,19 +529,14 @@ gboolean display_mode_check_line ( gint line_in_transaction,
  * \param
  *
  * \return
- * */
+ **/
 void recuperation_noms_colonnes_et_tips ( void )
 {
     gint i, j;
     gchar *row[CUSTOM_MODEL_VISIBLE_COLUMNS];
 
     /* unset the titles and tips */
-    for ( j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
-    {
-        titres_colonnes_liste_operations[j] = NULL;
-        tips_col_liste_operations[j] = NULL;
-    }
-
+	free_noms_colonnes_et_tips ();
 
     for ( i=0 ; i<TRANSACTION_LIST_ROWS_NB ; i++ )
 	for ( j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )

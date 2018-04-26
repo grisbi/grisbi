@@ -35,6 +35,7 @@
 
 /*START_INCLUDE*/
 #include "traitement_variables.h"
+#include "affichage_liste.h"
 #include "bet_data.h"
 #include "bet_data_finance.h"
 #include "bet_future.h"
@@ -293,6 +294,7 @@ void free_variables (void)
 	gsb_gui_navigation_free_pages_list ();
 	gsb_import_associations_free_liste ();
     gsb_regex_destroy ();
+	free_noms_colonnes_et_tips ();
     bet_data_free_variables ();
 	if (etat.csv_separator)
 		g_free (etat.csv_separator);
