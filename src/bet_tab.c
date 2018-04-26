@@ -2050,8 +2050,7 @@ void bet_array_adjust_hist_amount ( gint div_number,
                         {
                             if ( number.mantissa < 0 )
                             {
-                                str_amount = gsb_real_safe_real_to_string ( number,
-                                            gsb_data_currency_get_floating_point ( currency_number ) );
+                                str_amount = utils_real_get_string (number);
                                 str_debit = utils_real_get_string_with_currency (
                                             gsb_real_abs ( number ),
                                             currency_number,
@@ -2072,8 +2071,7 @@ void bet_array_adjust_hist_amount ( gint div_number,
                         {
                             if ( number.mantissa > 0 )
                             {
-                                str_amount = gsb_real_safe_real_to_string ( number,
-                                            gsb_data_currency_get_floating_point ( currency_number ) );
+                                str_amount = utils_real_get_string (number);
                                 str_credit = utils_real_get_string_with_currency (
                                             gsb_real_abs ( number ),
                                             currency_number,
