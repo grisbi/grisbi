@@ -148,7 +148,6 @@ gchar*  csv_field_pointage   = NULL; /*!< pointed/reconcialiation status (string
 gchar*  csv_field_tiers      = NULL; /*!< Payee (string) */
 gchar*  csv_field_credit     = NULL; /*!< credit (numerical) */
 gchar*  csv_field_debit      = NULL; /*!< debit (numerical) */
-gchar*  csv_field_montant    = NULL; /*!< amount (numerical) only used for split */
 gchar*  csv_field_solde      = NULL; /*!< balance (numerical) */
 gchar*  csv_field_categ      = NULL; /*!< category (string) */
 gchar*  csv_field_sous_categ = NULL; /*!< sub category (string) */
@@ -249,7 +248,6 @@ static void csv_clear_fields(gboolean clear_all)
   CSV_CLEAR_FIELD(csv_field_notes);
   CSV_CLEAR_FIELD(csv_field_debit);
   CSV_CLEAR_FIELD(csv_field_credit);
-  CSV_CLEAR_FIELD(csv_field_montant);
   CSV_CLEAR_FIELD(csv_field_ventil);
   CSV_CLEAR_FIELD(csv_field_categ);
   CSV_CLEAR_FIELD(csv_field_sous_categ);
@@ -292,7 +290,6 @@ static void csv_add_record(FILE* file,
   CSV_STR_FIELD(file,csv_field_tiers);
   CSV_NUM_FIELD(file,csv_field_credit);
   CSV_NUM_FIELD(file,csv_field_debit);
-  CSV_NUM_FIELD(file,csv_field_montant);
   if (print_balance)
   {
       CSV_NUM_FIELD(file,csv_field_solde);
@@ -352,9 +349,6 @@ static gboolean gsb_csv_export_title_line (FILE *csv_file,
 
     CSV_CLEAR_FIELD (csv_field_debit);
     csv_field_debit      = my_strdup (_("Debit"));
-
-    CSV_CLEAR_FIELD (csv_field_montant);
-    csv_field_montant    = my_strdup (_("Amount"));
 
     CSV_CLEAR_FIELD (csv_field_solde);
     csv_field_solde      = my_strdup (_("Balance"));
@@ -548,7 +542,7 @@ static gboolean gsb_csv_export_transaction (gint transaction_number,
 	/* met le cheque si c'est un type à numerotation automatique */
 	payment_method = gsb_data_transaction_get_method_of_payment_number (transaction_number);
 	CSV_CLEAR_FIELD (csv_field_cheque);
-	if (gsb_data_payment_get_automatic_numbering (payment_method))
+	if (gsb_data_payment_get_automatic_numbering (payment_method) > 0)
 	    csv_field_cheque = my_strdup (gsb_data_transaction_get_method_of_payment_content (transaction_number));
 
 	/* met l'imputation et la sous imputation budgétaire */
@@ -624,7 +618,6 @@ static gboolean gsb_csv_export_transaction (gint transaction_number,
 			if (gsb_data_transaction_get_account_number (pSplitTransaction) == account_number
 				&& gsb_data_transaction_get_mother_transaction_number (pSplitTransaction) == transaction_number)
 			{
-				gint budgetary_number;
 				gint financial_year_number;
 				gint payment_method;
 				gint reconcile_number;
@@ -755,17 +748,17 @@ static gboolean gsb_csv_export_transaction (gint transaction_number,
 
 				if (category_number != -1)
 				{
-					gint sub_budgetary_number;
+					gint sub_category_number;
 
 					CSV_CLEAR_FIELD (csv_field_categ);
 					csv_field_categ = my_strdup (gsb_data_category_get_name (category_number, 0, ""));
 
-					sub_budgetary_number = gsb_data_transaction_get_sub_category_number (transaction_number);
-					if (sub_budgetary_number != -1)
+					sub_category_number = gsb_data_transaction_get_sub_category_number (transaction_number);
+					if (sub_category_number != -1)
 					{
 						CSV_CLEAR_FIELD (csv_field_sous_categ);
-						csv_field_sous_categ = my_strdup (gsb_data_category_get_sub_category_name (budgetary_number,
-																								   sub_budgetary_number,
+						csv_field_sous_categ = my_strdup (gsb_data_category_get_sub_category_name (category_number,
+																								   sub_category_number,
 																								   NULL));
 					}
 				}
