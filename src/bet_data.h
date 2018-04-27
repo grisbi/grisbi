@@ -223,6 +223,8 @@ FuturData *					struct_initialise_bet_future 				(void);
 BetRange *					struct_initialise_bet_range 				(void);
 TransfertData *				struct_initialise_bet_transfert 			(void);
 HistDiv *					struct_initialise_hist_div 					(void);
+void						struct_free_bet_range						(BetRange *sbr);
+
 void 						struct_free_bet_transaction_current_fyear 	(TransactionCurrentFyear *self);
 TransactionCurrentFyear *	struct_initialise_transaction_current_fyear (void);
 /* END_DECLARATION */

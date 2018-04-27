@@ -69,7 +69,6 @@ static gboolean bet_data_update_div ( BetHist *sh,
                         gint type_de_transaction,
                         gsb_real amount );
 static void struct_free_bet_future ( FuturData *scheduled );
-static void struct_free_bet_range ( BetRange *sbr );
 static void struct_free_bet_transfert ( TransfertData *transfert );
 static void struct_free_hist_div ( HistDiv *shd );
 static BetHist *struct_initialise_bet_historical ( void );
@@ -588,7 +587,7 @@ gchar *bet_data_get_div_name ( gint div_num,
                         gint sub_div,
                         const gchar *return_value_error )
 {
-    return g_strdup ( ptr_div_name ( div_num, sub_div, NULL ) );
+    return ptr_div_name ( div_num, sub_div, NULL );
 }
 
 
@@ -1127,7 +1126,7 @@ BetHist *struct_initialise_bet_historical ( void )
     sh -> sbr = struct_initialise_bet_range ( );
     sh -> list_sub_div = g_hash_table_new_full ( g_str_hash,
                         g_str_equal,
-                        NULL,
+                        (GDestroyNotify) g_free,
                         (GDestroyNotify) struct_free_bet_historical );
 	return sh;
 }
