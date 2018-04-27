@@ -51,10 +51,26 @@ static GSList *exported_accounts = NULL;
 
 /*START_EXTERN*/
 /*END_EXTERN*/
-
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
+/**
+ *	update the last path when changing of directory
+ *
+ * \param		chooser
+ * \param		NULL
+ *
+ * \return
+ **/
+static void export_account_file_chooser_dir_changed (GtkFileChooser *chooser,
+													 gpointer user_data)
+{
+	gchar *dirname;
+
+	dirname = gtk_file_chooser_get_current_folder (chooser);
+	gsb_file_update_last_path (dirname);
+}
+
 /**
  * Set a boolean integer to the value of a checkbutton.  Normally called
  * via a GTK "toggled" signal handler.
@@ -592,11 +608,11 @@ static GtkWidget *create_export_account_resume_page (struct ExportedAccount *acc
     GtkWidget *vbox, *hbox, *label, *combo;
     gchar *tmpstr;
 
-    vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
+	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
     gtk_container_set_border_width (GTK_CONTAINER(vbox), BOX_BORDER_WIDTH);
 
     tmpstr = make_pango_attribut ("size=\"x-large\"",
-                        g_strdup_printf ("Export of : %s",
+                        g_strdup_printf ("Export of: %s",
                         gsb_data_account_get_name (account->account_nb)));
 
     label = gtk_label_new (NULL);
@@ -623,6 +639,10 @@ static GtkWidget *create_export_account_resume_page (struct ExportedAccount *acc
     account->chooser = gtk_file_chooser_widget_new (GTK_FILE_CHOOSER_ACTION_SAVE);
     gtk_file_chooser_set_extra_widget (GTK_FILE_CHOOSER(account->chooser), hbox);
     gtk_box_pack_start (GTK_BOX (vbox), account->chooser, TRUE, TRUE, 0);
+	g_signal_connect (account->chooser,
+					  "current-folder-changed",
+					  G_CALLBACK (export_account_file_chooser_dir_changed),
+					  NULL);
 
     gtk_combo_box_set_active (GTK_COMBO_BOX(combo), etat.export_file_format);
 
