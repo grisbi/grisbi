@@ -773,9 +773,14 @@ void transaction_list_filter ( gint account_number )
 
     /* if the previous list was bigger than now, we need to delete some rows */
     if (previous_visible_rows > current_pos_filtered_list)
-	for (i=0 ; i < (previous_visible_rows - current_pos_filtered_list) ; i++)
-	    gtk_tree_model_row_deleted ( GTK_TREE_MODEL (custom_list),
-					 path );
+	{
+		gtk_tree_path_prev (path);
+        for (i=0 ; i < (previous_visible_rows - current_pos_filtered_list) ; i++)
+		{
+            gtk_tree_model_row_deleted ( GTK_TREE_MODEL (custom_list), path );
+		}
+	}
+
     gtk_tree_path_free(path);
 
     /* initial sort of the list */
