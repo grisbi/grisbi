@@ -63,7 +63,7 @@ struct _MetatreeInterface {
 
 
 /* structure permettant de mémoriser la dernière sélection dans un metatree */
-struct metatree_hold_position
+struct MetatreeHoldPosition
 {
     GtkTreePath *path;
     gboolean expand;

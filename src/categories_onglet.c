@@ -79,7 +79,7 @@ static GtkWidget *arbre_categ = NULL;
 static gboolean sortie_edit_category = FALSE;
 
 /* structure pour la sauvegarde de la position */
-struct metatree_hold_position *category_hold_position;
+struct MetatreeHoldPosition *category_hold_position;
 
 
 /*START_EXTERN*/
@@ -254,7 +254,7 @@ GtkWidget *categories_create_list ( void )
                         categ_tree_model );
 
     /* création de la structure de sauvegarde de la position */
-    category_hold_position = g_malloc0 ( sizeof ( struct metatree_hold_position ) );
+    category_hold_position = g_malloc0 ( sizeof ( struct MetatreeHoldPosition ) );
 
     gtk_widget_show_all ( vbox );
 

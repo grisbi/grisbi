@@ -117,7 +117,7 @@ static gboolean display_unused_payees;
 static gboolean sortie_edit_payee = FALSE;
 
 /* structure pour la sauvegarde de la position */
-static struct metatree_hold_position *payee_hold_position;
+static struct MetatreeHoldPosition *payee_hold_position;
 
 /* structure pour la sauvegarde de la valeur default_answer */
 static struct ConditionalMessage overwrite_payee;
@@ -310,7 +310,7 @@ GtkWidget *payees_create_list ( void )
                         payee_tree_model );
 
     /* création de la structure de sauvegarde de la position */
-    payee_hold_position = g_malloc0 ( sizeof ( struct metatree_hold_position ) );
+    payee_hold_position = g_malloc0 ( sizeof ( struct MetatreeHoldPosition ) );
 
     gtk_widget_show_all ( frame );
 

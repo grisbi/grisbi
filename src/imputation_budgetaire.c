@@ -79,7 +79,7 @@ static GtkTreeStore *budgetary_line_tree_model = NULL;
 static gboolean sortie_edit_budgetary_line = FALSE;
 
 /* structure pour la sauvegarde de la position */
-static struct metatree_hold_position *budgetary_hold_position;
+static struct MetatreeHoldPosition *budgetary_hold_position;
 
 /*START_EXTERN*/
 /*END_EXTERN*/
@@ -255,7 +255,7 @@ GtkWidget *budgetary_lines_create_list ( void )
 		       budgetary_line_tree_model );
 
     /* création de la structure de sauvegarde de la position */
-    budgetary_hold_position = g_malloc0 ( sizeof ( struct metatree_hold_position ) );
+    budgetary_hold_position = g_malloc0 ( sizeof ( struct MetatreeHoldPosition ) );
 
     gtk_widget_show_all ( vbox );
 
