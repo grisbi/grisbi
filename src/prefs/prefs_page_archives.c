@@ -53,6 +53,7 @@
 #include "navigation.h"
 #include "structures.h"
 #include "transaction_list.h"
+#include "utils.h"
 #include "utils_dates.h"
 #include "utils_prefs.h"
 #include "erreur.h"
@@ -93,6 +94,7 @@ enum archives_columns {
     ARCHIVES_FYEAR_NAME,
     ARCHIVES_REPORT_TITLE,
     ARCHIVES_NUMBER,
+	ARCHIVES_BACKGROUND_COLOR,
     NUM_ARCHIVES_COLUMNS
 };
 
@@ -474,12 +476,13 @@ static void prefs_page_archives_setup_treeview_archives (PrefsPageArchives *page
 
 	/* Create tree model */
     archives_model = gtk_list_store_new (NUM_ARCHIVES_COLUMNS,
-                                        G_TYPE_STRING,
-                                        G_TYPE_STRING,
-                                        G_TYPE_STRING,
-                                        G_TYPE_STRING,
-                                        G_TYPE_STRING,
-                                        G_TYPE_INT);
+										 G_TYPE_STRING,
+										 G_TYPE_STRING,
+										 G_TYPE_STRING,
+                                         G_TYPE_STRING,
+										 G_TYPE_STRING,
+                                         G_TYPE_INT,
+										 GDK_TYPE_RGBA);
 	gtk_tree_view_set_model (GTK_TREE_VIEW (priv->treeview_archives), GTK_TREE_MODEL (archives_model));
     g_object_unref (G_OBJECT(archives_model));
 
@@ -498,7 +501,11 @@ static void prefs_page_archives_setup_treeview_archives (PrefsPageArchives *page
 
         gtk_tree_view_column_pack_start (column, cell, TRUE);
         gtk_tree_view_column_set_title (column, titles[i]);
-        gtk_tree_view_column_set_attributes (column, cell, "text", i, NULL);
+        gtk_tree_view_column_set_attributes (column,
+											 cell,
+											 "text", i,
+											 "cell-background-rgba", ARCHIVES_BACKGROUND_COLOR,
+											 NULL);
         gtk_tree_view_column_set_expand (column, TRUE);
         gtk_tree_view_column_set_resizable (column, TRUE);
         gtk_tree_view_append_column (GTK_TREE_VIEW (priv->treeview_archives), column);
@@ -511,6 +518,8 @@ static void prefs_page_archives_setup_treeview_archives (PrefsPageArchives *page
 
 	/* fill the list */
     prefs_page_archives_fill_list (archives_model);
+
+    utils_set_list_store_background_color (priv->treeview_archives, ARCHIVES_BACKGROUND_COLOR);
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->treeview_archives));
 	g_signal_connect (selection,
