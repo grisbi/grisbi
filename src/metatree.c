@@ -1112,7 +1112,7 @@ gboolean division_column_expanded  ( GtkTreeView * treeview, GtkTreeIter * iter,
     }
 
     /* on colorise les lignes du tree_view */
-    utils_set_tree_view_background_color ( GTK_WIDGET ( treeview ), META_TREE_BACKGROUND_COLOR );
+    utils_set_tree_store_background_color ( GTK_WIDGET ( treeview ), META_TREE_BACKGROUND_COLOR );
 
     return FALSE;
 }
@@ -1135,7 +1135,7 @@ gboolean division_column_collapsed  ( GtkTreeView *treeview,
                         gpointer user_data )
 {
     /* on colorise les lignes du tree_view */
-    utils_set_tree_view_background_color ( GTK_WIDGET ( treeview ), META_TREE_BACKGROUND_COLOR );
+    utils_set_tree_store_background_color ( GTK_WIDGET ( treeview ), META_TREE_BACKGROUND_COLOR );
 
     return FALSE;
 }
@@ -1390,7 +1390,7 @@ gboolean division_drag_data_received ( GtkTreeDragDest *drag_dest,
                 tree_view = budgetary_lines_get_tree_view ( );
             break;
         }
-        utils_set_tree_view_background_color ( tree_view, META_TREE_BACKGROUND_COLOR );
+        utils_set_tree_store_background_color ( tree_view, META_TREE_BACKGROUND_COLOR );
 
     }
 
@@ -1719,7 +1719,7 @@ void expand_arbre_division ( GtkWidget *bouton, gint depth )
         gtk_tree_model_foreach ( model, division_node_maybe_expand, GINT_TO_POINTER ( depth ) );
 
         /* on colorise les lignes du tree_view */
-        utils_set_tree_view_background_color ( GTK_WIDGET ( tree_view ), META_TREE_BACKGROUND_COLOR );
+        utils_set_tree_store_background_color ( GTK_WIDGET ( tree_view ), META_TREE_BACKGROUND_COLOR );
     }
 }
 

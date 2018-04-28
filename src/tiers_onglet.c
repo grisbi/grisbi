@@ -625,7 +625,7 @@ void payees_fill_list ( void )
         }
 
         /* on colorise les lignes du tree_view */
-        utils_set_tree_view_background_color ( payee_tree, META_TREE_BACKGROUND_COLOR );
+        utils_set_tree_store_background_color ( payee_tree, META_TREE_BACKGROUND_COLOR );
         gtk_tree_selection_select_path ( selection, payee_hold_position -> path );
         gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW ( payee_tree ),
                         payee_hold_position -> path,
@@ -636,7 +636,7 @@ void payees_fill_list ( void )
         gchar *title;
 
         /* on colorise les lignes du tree_view */
-        utils_set_tree_view_background_color ( payee_tree, META_TREE_BACKGROUND_COLOR );
+        utils_set_tree_store_background_color ( payee_tree, META_TREE_BACKGROUND_COLOR );
         /* on fixe le titre et le suffixe de la barre d'information */
 	    title = g_strdup(_("Payees"));
         grisbi_win_headings_update_title ( title );

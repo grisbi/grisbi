@@ -492,7 +492,7 @@ void lance_mailer (const gchar *uri)
  *
  * \return FALSE
  * */
-gboolean utils_set_tree_view_background_color (GtkWidget *tree_view,
+gboolean utils_set_tree_store_background_color (GtkWidget *tree_view,
 											   gint color_column)
 {
     GtkTreeModel *model;

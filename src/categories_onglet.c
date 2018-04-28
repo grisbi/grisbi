@@ -353,7 +353,7 @@ void categories_fill_list ( void )
             gtk_tree_path_free (ancestor );
         }
         /* on colorise les lignes du tree_view */
-        utils_set_tree_view_background_color ( arbre_categ, META_TREE_BACKGROUND_COLOR );
+        utils_set_tree_store_background_color ( arbre_categ, META_TREE_BACKGROUND_COLOR );
         selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( arbre_categ ) );
         gtk_tree_selection_select_path ( selection, category_hold_position -> path );
         gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW ( arbre_categ ),
@@ -365,7 +365,7 @@ void categories_fill_list ( void )
         gchar *title;
 
         /* on colorise les lignes du tree_view */
-        utils_set_tree_view_background_color ( arbre_categ, META_TREE_BACKGROUND_COLOR );
+        utils_set_tree_store_background_color ( arbre_categ, META_TREE_BACKGROUND_COLOR );
 	    title = g_strdup(_("Categories"));
         grisbi_win_headings_update_title ( title );
         g_free ( title );

@@ -356,7 +356,7 @@ void budgetary_lines_fill_list ( void )
             gtk_tree_path_free (ancestor );
         }
         /* on colorise les lignes du tree_view */
-        utils_set_tree_view_background_color ( budgetary_line_tree, META_TREE_BACKGROUND_COLOR );
+        utils_set_tree_store_background_color ( budgetary_line_tree, META_TREE_BACKGROUND_COLOR );
         selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( budgetary_line_tree ) );
         gtk_tree_selection_select_path ( selection, budgetary_hold_position -> path );
         gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW ( budgetary_line_tree ),
@@ -368,7 +368,7 @@ void budgetary_lines_fill_list ( void )
         gchar *title;
 
         /* on colorise les lignes du tree_view */
-        utils_set_tree_view_background_color ( budgetary_line_tree, META_TREE_BACKGROUND_COLOR );
+        utils_set_tree_store_background_color ( budgetary_line_tree, META_TREE_BACKGROUND_COLOR );
 	    title = g_strdup(_("Budgetary lines"));
         grisbi_win_headings_update_title ( title );
         g_free ( title );

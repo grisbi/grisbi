@@ -759,7 +759,7 @@ void bet_finance_calculer_clicked ( GtkButton *button, GtkWidget *widget )
         }
     }
 
-    utils_set_tree_view_background_color ( tree_view, BET_FINANCE_BACKGROUND_COLOR );
+    utils_set_tree_store_background_color ( tree_view, BET_FINANCE_BACKGROUND_COLOR );
     path = gtk_tree_path_new_first ( );
     gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW ( tree_view ), path, NULL, TRUE, 0.0, 0.0 );
     gtk_tree_selection_select_path ( gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) ), path );
@@ -1415,7 +1415,7 @@ void bet_finance_fill_amortization_array ( GtkWidget *menu_item,
         s_amortissement -> capital_du -= s_amortissement -> principal;
     }
 
-    utils_set_tree_view_background_color ( tree_view, BET_AMORTIZATION_BACKGROUND_COLOR );
+    utils_set_tree_store_background_color ( tree_view, BET_AMORTIZATION_BACKGROUND_COLOR );
     path = gtk_tree_path_new_first ( );
     gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW ( tree_view ), path, NULL, TRUE, 0.0, 0.0 );
     gtk_tree_selection_select_path ( gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) ), path );
@@ -1715,7 +1715,7 @@ void bet_finance_ui_update_amortization_tab ( gint account_number )
     g_date_free ( date );
     g_date_free ( last_paid_date );
 
-    utils_set_tree_view_background_color ( tree_view, BET_AMORTIZATION_BACKGROUND_COLOR );
+    utils_set_tree_store_background_color ( tree_view, BET_AMORTIZATION_BACKGROUND_COLOR );
     path = gtk_tree_path_new_first ( );
     gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW ( tree_view ), path, NULL, TRUE, 0.0, 0.0 );
     gtk_tree_selection_select_path ( gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) ), path );
