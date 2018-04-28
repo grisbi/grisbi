@@ -125,7 +125,7 @@ static struct ConditionalMessage overwrite_payee;
 /*START_EXTERN*/
 /*END_EXTERN*/
 
-enum payees_assistant_page
+enum PayeesAssistantPage
 {
     PAYEES_ASSISTANT_INTRO= 0,
     PAYEES_ASSISTANT_PAGE_2,
