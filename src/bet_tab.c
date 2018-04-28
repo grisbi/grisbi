@@ -948,7 +948,10 @@ GtkWidget *bet_array_create_tree_view ( GtkWidget *container )
 		                G_CALLBACK ( bet_array_list_size_allocate ),
 		                NULL );
 
-    gtk_widget_show_all ( scrolled_window );
+	/* set bet_array_current_tree_view_width = 0 for new file */
+	bet_array_current_tree_view_width = 0;
+
+	gtk_widget_show_all ( scrolled_window );
 
     return tree_view;
 }
