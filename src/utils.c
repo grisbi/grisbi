@@ -492,6 +492,44 @@ void lance_mailer (const gchar *uri)
  *
  * \return FALSE
  * */
+gboolean utils_set_list_store_background_color (GtkWidget *tree_view,
+											   gint color_column)
+{
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+
+    if (!tree_view)
+        return FALSE;
+
+    model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
+
+    if (gtk_tree_model_get_iter_first (GTK_TREE_MODEL (model), &iter))
+    {
+        gint current_color = 0;
+
+        do
+        {
+            gtk_list_store_set (GTK_LIST_STORE (model),
+								&iter,
+								color_column, gsb_rgba_get_couleur_with_indice ("couleur_fond", current_color),
+								-1);
+
+            current_color = !current_color;
+        }
+        while (gtk_tree_model_iter_next (GTK_TREE_MODEL (model), &iter));
+    }
+
+    return FALSE;
+}
+
+/**
+ * set the background colors of a tree store
+ *
+ * \param tree_view
+ * \param n° de colonne
+ *
+ * \return FALSE
+ * */
 gboolean utils_set_tree_store_background_color (GtkWidget *tree_view,
 											   gint color_column)
 {
