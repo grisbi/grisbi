@@ -1,4 +1,14 @@
 New in version 1.0.2
+- Fixes display bug of bet_tab when load a new account file
+- fixes bug in forecasts when decimal_point is comma "," and thousands_separator is dot "."
+- fixes bug 1837 : display split transactions in budgetary lines view
+- partial correction of bug "creating duplicate transactions when categories are not used"
+- fixes warning when date is NULL in bet_tab.c
+- fixes a warning when displaying reconciled transactions
+- Added all scheduled transactions of the month if conf.execute_scheduled_of_month = TRUE
+- fixes display bug of the last scheduled transaction of the period
+
+New in version 1.0.2
 - adding Cuban Convertible Peso currency
 - fixes bug when creating and removing a report in gtk_combofix.c
 - fixes bug of test date for a transaction in bet_transfert
