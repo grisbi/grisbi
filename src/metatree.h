@@ -70,7 +70,7 @@ struct MetatreeHoldPosition
 };
 
 
-enum meta_tree_columns {
+enum MetaTreeColumns {
     META_TREE_TEXT_COLUMN,
     META_TREE_ACCOUNT_COLUMN,
     META_TREE_BALANCE_COLUMN,
