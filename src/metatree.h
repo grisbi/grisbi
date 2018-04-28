@@ -9,7 +9,9 @@
 
 
 /** Interface between various tree data and metatree */
-typedef struct metatree_interface {
+typedef struct _MetatreeInterface 		MetatreeInterface;
+
+struct _MetatreeInterface {
     gint depth;
     gint content;	/* content of the metatree : 0 : payee, 1 : category, 2 : budget */
     gint (* tree_currency) (void);
@@ -57,8 +59,7 @@ typedef struct metatree_interface {
     /* sauvegarde dernière sélection */
     gboolean (* hold_position_set_path) ( GtkTreePath *);
     gboolean (* hold_position_set_expand) ( gboolean );
-
-} MetatreeInterface;
+};
 
 
 /* structure permettant de mémoriser la dernière sélection dans un metatree */
