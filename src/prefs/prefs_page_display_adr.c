@@ -38,6 +38,7 @@
 
 /*START_INCLUDE*/
 #include "prefs_page_display_adr.h"
+#include "gsb_autofunc.h"
 #include "grisbi_win.h"
 #include "navigation.h"
 #include "structures.h"
@@ -60,6 +61,8 @@ struct _PrefsPageDisplayAdrPrivate
     GtkWidget *			radiobutton_accounting_entity;
     GtkWidget *			radiobutton_filename;
     GtkWidget *			radiobutton_holder;
+    GtkWidget *         sw_adr_common;
+    GtkWidget *         sw_adr_secondary;
     GtkWidget *         textview_adr_common;
     GtkWidget *         textview_adr_secondary;
 
@@ -76,7 +79,7 @@ static gboolean prefs_page_display_adr_text_adr_changed (GtkTextBuffer *buffer,
 {
     GtkTextIter start, end;
 
-    if (!buffer)
+	if (!buffer)
 		return FALSE;
 
     gtk_text_buffer_get_iter_at_offset ( buffer, &start, 0 );
@@ -182,7 +185,6 @@ static void prefs_page_display_adr_setup_display_adr_page (PrefsPageDisplayAdr *
 	PrefsPageDisplayAdrPrivate *priv;
 
 	devel_debug (NULL);
-
 	priv = prefs_page_display_adr_get_instance_private (page);
 	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
 	is_loading = grisbi_win_file_is_loading ();
@@ -230,6 +232,32 @@ static void prefs_page_display_adr_setup_display_adr_page (PrefsPageDisplayAdr *
 
 	gtk_entry_set_text (GTK_ENTRY(priv->entry_accounting_entity), w_etat->accounting_entity);
 
+	/* variables for addresses */
+	priv->textview_adr_common = gsb_autofunc_textview_new (NULL,
+														   G_CALLBACK (prefs_page_display_adr_text_adr_changed),
+														   &w_etat->adr_common,
+														   NULL,
+														   0);
+	gtk_container_add (GTK_CONTAINER (priv->sw_adr_common), priv->textview_adr_common);
+	gtk_widget_set_hexpand (priv->textview_adr_common, TRUE);
+	gtk_widget_set_vexpand (priv->textview_adr_common, TRUE);
+	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->textview_adr_common));
+	if (w_etat->adr_common && strlen (w_etat->adr_common))
+		gtk_text_buffer_set_text (GTK_TEXT_BUFFER (buffer), w_etat->adr_common, -1);
+
+	priv->textview_adr_secondary = gsb_autofunc_textview_new (NULL,
+															  G_CALLBACK (prefs_page_display_adr_text_adr_changed),
+															  &w_etat->adr_secondary,
+															  NULL,
+															  0);
+	gtk_container_add (GTK_CONTAINER (priv->sw_adr_secondary), priv->textview_adr_secondary);
+	gtk_widget_set_hexpand (priv->textview_adr_secondary, TRUE);
+	gtk_widget_set_vexpand (priv->textview_adr_secondary, TRUE);
+
+	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->textview_adr_secondary));
+	if (w_etat->adr_secondary && strlen (w_etat->adr_secondary))
+		gtk_text_buffer_set_text (GTK_TEXT_BUFFER (buffer), w_etat->adr_secondary, -1);
+
 	/* Connect signal */
 	g_signal_connect (G_OBJECT (priv->radiobutton_accounting_entity),
 					  "toggled",
@@ -250,25 +278,6 @@ static void prefs_page_display_adr_setup_display_adr_page (PrefsPageDisplayAdr *
 					  "changed",
 					  G_CALLBACK (prefs_page_display_adr_accounting_entity_changed),
 					  NULL);
-
-	/* variables for addresses */
-	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->textview_adr_common));
-	if (w_etat->adr_common && strlen (w_etat->adr_common))
-		gtk_text_buffer_set_text (GTK_TEXT_BUFFER (buffer), w_etat->adr_common, -1);
-
-	g_signal_connect (G_OBJECT (buffer),
-					  "changed",
-					  G_CALLBACK (prefs_page_display_adr_text_adr_changed),
-					  &w_etat->adr_common);
-
-	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->textview_adr_secondary));
-	if (w_etat->adr_secondary && strlen (w_etat->adr_secondary))
-		gtk_text_buffer_set_text (GTK_TEXT_BUFFER (buffer), w_etat->adr_secondary, -1);
-
-	g_signal_connect (G_OBJECT (buffer),
-					  "changed",
-					  G_CALLBACK (prefs_page_display_adr_text_adr_changed),
-					  &w_etat->adr_secondary);
 }
 
 /******************************************************************************/
@@ -299,8 +308,10 @@ static void prefs_page_display_adr_class_init (PrefsPageDisplayAdrClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayAdr, radiobutton_filename);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayAdr, radiobutton_holder);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayAdr, radiobutton_accounting_entity);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayAdr, textview_adr_common);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayAdr, textview_adr_secondary);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayAdr, sw_adr_common);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayAdr, sw_adr_secondary);
+	//~ gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayAdr, textview_adr_common);
+	//~ gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayAdr, textview_adr_secondary);
 }
 
 /******************************************************************************/
