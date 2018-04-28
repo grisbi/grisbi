@@ -567,9 +567,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
 {
     GQueue *tmp_queue;
 	gchar *adr_common_str = NULL;
-	gchar **adr_common_tab;
 	gchar *adr_secondary_str = NULL;
-	gchar **adr_secondary_tab;
     gchar *first_string_to_free;
     gchar *second_string_to_free;
 	gchar *third_string_to_free;
@@ -711,26 +709,10 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	is_archive = TRUE;
 
     /* protect adr_common */
-    adr_common_str = g_strdup (w_etat->adr_common);
-    if (adr_common_str && g_strstr_len (adr_common_str, -1, NEW_LINE))
-    {
-        adr_common_tab = g_strsplit (adr_common_str, NEW_LINE, 0);
-        g_free (adr_common_str);
-        adr_common_str = g_strjoinv ("\\n", adr_common_tab);
-
-        g_strfreev (adr_common_tab);
-    }
+    adr_common_str = utils_str_protect_unprotect_multilines_text (w_etat->adr_common, TRUE);
 
     /* protect adr_secondary */
-    adr_secondary_str = g_strdup (w_etat->adr_secondary);
-    if (adr_secondary_str && g_strstr_len (adr_secondary_str, -1, NEW_LINE))
-    {
-        adr_secondary_tab = g_strsplit (adr_secondary_str, NEW_LINE, 0);
-        g_free (adr_secondary_str);
-        adr_secondary_str = g_strjoinv ("\\n", adr_secondary_tab);
-
-        g_strfreev (adr_secondary_tab);
-    }
+    adr_secondary_str = utils_str_protect_unprotect_multilines_text (w_etat->adr_secondary, TRUE);
 
     /* save the general information */
     new_string = g_markup_printf_escaped ( "\t<General\n"
@@ -974,9 +956,9 @@ gulong gsb_file_save_account_part ( gulong iterator,
 	gchar *init_balance;
 	gchar *mini_wanted;
 	gchar *mini_auto;
-    gchar **owner_tab;
     gchar *owner_str;
     gchar *bet_str;
+	gchar *tmp_str;
     KindAccount kind;
 
 	account_number = gsb_data_account_get_no_account ( list_tmp -> data );
@@ -1073,19 +1055,11 @@ gulong gsb_file_save_account_part ( gulong iterator,
                         gsb_data_account_get_mini_balance_authorized ( account_number ),
                         floating_point );
 
-    /* protect the owner adress */
-    owner_str = g_strdup ( my_safe_null_str (
-                        gsb_data_account_get_holder_address ( account_number ) ) );
-    if ( g_strstr_len ( owner_str, -1, NEW_LINE ) )
-    {
-        owner_tab = g_strsplit ( owner_str, NEW_LINE, 0 );
-        g_free ( owner_str );
-        owner_str = g_strjoinv ( "\\n", owner_tab );
+    /* protect the owner adress and comment */
+		owner_str = utils_str_protect_unprotect_multilines_text (gsb_data_account_get_holder_address (account_number), TRUE);
+		tmp_str = utils_str_protect_unprotect_multilines_text (gsb_data_account_get_comment (account_number), TRUE);
 
-        g_strfreev ( owner_tab );
-    }
-
-    kind = gsb_data_account_get_kind ( account_number );
+		kind = gsb_data_account_get_kind ( account_number );
 
     /* now we can fill the file content */
 	first_string_to_free = g_markup_printf_escaped ( "\t<Account\n"
@@ -1142,8 +1116,8 @@ gulong gsb_file_save_account_part ( gulong iterator,
 	    gsb_data_account_get_r (account_number),
 	    gsb_data_account_get_l ( account_number ),
 	    gsb_data_account_get_nb_rows (account_number),
-	    my_safe_null_str(gsb_data_account_get_comment (account_number)),
-        owner_str,
+	    my_safe_null_str(tmp_str),
+        my_safe_null_str (owner_str),
 	    gsb_data_account_get_default_debit (account_number),
 	    gsb_data_account_get_default_credit (account_number),
 	    gsb_data_account_get_reconcile_sort_type (account_number),
@@ -1256,6 +1230,7 @@ gulong gsb_file_save_account_part ( gulong iterator,
 	g_free (mini_auto);
 	g_free (mini_wanted);
     g_free (owner_str);
+	g_free (tmp_str);
 
 	/* append the new string to the file content
 	 * and take the new iterator */
@@ -1860,9 +1835,14 @@ gulong gsb_file_save_bank_part ( gulong iterator,
     {
 	gint bank_number;
 	gchar *new_string;
+	gchar *adr_str;
+	gchar *rem_str;
 
 	bank_number = gsb_data_bank_get_no_bank (list_tmp -> data);
 
+		/* protect adr_common and rem */
+		adr_str = utils_str_protect_unprotect_multilines_text (gsb_data_bank_get_bank_address (bank_number), TRUE);
+		rem_str = utils_str_protect_unprotect_multilines_text (gsb_data_bank_get_bank_note (bank_number), TRUE);
 	/* now we can fill the file content */
 	new_string = g_markup_printf_escaped ( "\t<Bank Nb=\"%d\" Na=\"%s\" Co=\"%s\" BIC=\"%s\" "
                         "Adr=\"%s\" Tel=\"%s\" Mail=\"%s\" Web=\"%s\" Nac=\"%s\" Faxc=\"%s\" "
@@ -1871,7 +1851,7 @@ gulong gsb_file_save_bank_part ( gulong iterator,
                         my_safe_null_str(gsb_data_bank_get_name (bank_number)),
                         my_safe_null_str(gsb_data_bank_get_code (bank_number)),
                         my_safe_null_str(gsb_data_bank_get_bic (bank_number)),
-                        my_safe_null_str(gsb_data_bank_get_bank_address (bank_number)),
+                        my_safe_null_str(adr_str),
                         my_safe_null_str(gsb_data_bank_get_bank_tel (bank_number)),
                         my_safe_null_str(gsb_data_bank_get_bank_mail (bank_number)),
                         my_safe_null_str(gsb_data_bank_get_bank_web (bank_number)),
@@ -1879,7 +1859,10 @@ gulong gsb_file_save_bank_part ( gulong iterator,
                         my_safe_null_str(gsb_data_bank_get_correspondent_fax (bank_number)),
                         my_safe_null_str(gsb_data_bank_get_correspondent_tel (bank_number)),
                         my_safe_null_str(gsb_data_bank_get_correspondent_mail (bank_number)),
-                        my_safe_null_str(gsb_data_bank_get_bank_note (bank_number)));
+                        my_safe_null_str(rem_str));
+
+		g_free (adr_str);
+		g_free (rem_str);
 
 	/* append the new string to the file content
 	 * and take the new iterator */
@@ -2959,7 +2942,6 @@ gulong gsb_file_save_bet_graph_part ( gulong iterator,
     return iterator;
 }
 #endif /* HAVE_GOFFICE */
-
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

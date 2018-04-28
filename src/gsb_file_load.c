@@ -342,17 +342,7 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
 
                 else if ( !strcmp ( attribute_names[i], "General_address" ))
                 {
-					if (g_strstr_len (attribute_values[i], -1, "\\n" ) )
-                    {
-                        gchar **adr_common_tab;
-
-                        adr_common_tab = g_strsplit ( attribute_values[i], "\\n", 0 );
-                        w_etat->adr_common = g_strjoinv ( NEW_LINE, adr_common_tab );
-
-                        g_strfreev (adr_common_tab);
-                    }
-                    else
-						w_etat->adr_common = my_strdup (attribute_values[i]);
+					w_etat->adr_common =  utils_str_protect_unprotect_multilines_text (attribute_values[i], FALSE);
                 }
 
                 else
@@ -447,17 +437,7 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
             case 'S':
                 if ( !strcmp ( attribute_names[i], "Second_general_address" ))
                 {
-					if (g_strstr_len (attribute_values[i], -1, "\\n" ) )
-                    {
-                        gchar **adr_secondary_tab;
-
-                        adr_secondary_tab = g_strsplit ( attribute_values[i], "\\n", 0 );
-                        w_etat->adr_secondary = g_strjoinv ( NEW_LINE, adr_secondary_tab );
-
-                        g_strfreev (adr_secondary_tab);
-                    }
-                    else
-						w_etat->adr_secondary = my_strdup (attribute_values[i]);
+					w_etat->adr_secondary = utils_str_protect_unprotect_multilines_text (attribute_values[i], FALSE);
                 }
 
                 else if ( !strcmp ( attribute_names[i], "Scheduler_column_width" ) )
@@ -1102,8 +1082,11 @@ static  void gsb_file_load_account_part ( const gchar **attribute_names,
 
                 else if ( !strcmp ( attribute_names[i], "Comment" ))
                 {
-                    gsb_data_account_set_comment ( account_number,
-                            attribute_values[i]);
+					gchar *tmp_str;
+
+					tmp_str = utils_str_protect_unprotect_multilines_text (attribute_values[i], FALSE);
+                    gsb_data_account_set_comment ( account_number, tmp_str);
+					g_free (tmp_str);
                 }
 
                 else if ( !strcmp ( attribute_names[i], "Column_sort" ))
@@ -1289,21 +1272,11 @@ static  void gsb_file_load_account_part ( const gchar **attribute_names,
 
                 else if ( !strcmp ( attribute_names[i], "Owner_address" ))
                 {
-                    if ( g_strstr_len ( attribute_values[i], -1, "\\n" ) )
-                    {
-                        gchar **owner_tab;
-                        gchar *owner_str;
+					gchar *owner_str;
 
-                        owner_tab = g_strsplit ( attribute_values[i], "\\n", 0 );
-                        owner_str = g_strjoinv ( NEW_LINE, owner_tab );
-                        gsb_data_account_set_holder_address ( account_number, owner_str );
-
-                        g_free ( owner_str );
-                        g_strfreev ( owner_tab );
-                    }
-                    else
-                        gsb_data_account_set_holder_address ( account_number,
-                                attribute_values[i]);
+					owner_str = utils_str_protect_unprotect_multilines_text (attribute_values[i], FALSE);
+                    gsb_data_account_set_holder_address (account_number, owner_str);
+					g_free (owner_str);
                 }
 
                 else
@@ -2282,8 +2255,11 @@ static  void gsb_file_load_bank ( const gchar **attribute_names,
     if ( !strcmp ( attribute_names[i],
                                    "Adr" ))
     {
-        gsb_data_bank_set_bank_address ( bank_number,
-                                             attribute_values[i] );
+		gchar *adr_str;
+
+		adr_str = utils_str_protect_unprotect_multilines_text (attribute_values[i], FALSE);
+        gsb_data_bank_set_bank_address ( bank_number,adr_str);
+		g_free (adr_str);
         i++;
         continue;
     }
@@ -2351,11 +2327,13 @@ static  void gsb_file_load_bank ( const gchar **attribute_names,
         continue;
     }
 
-    if ( !strcmp ( attribute_names[i],
-               "Rem" ))
+    if ( !strcmp ( attribute_names[i], "Rem" ))
     {
-        gsb_data_bank_set_bank_note ( bank_number,
-                      attribute_values[i] );
+		gchar *rem_str;
+
+		rem_str = utils_str_protect_unprotect_multilines_text (attribute_values[i], FALSE);
+        gsb_data_bank_set_bank_note (bank_number, rem_str);
+		g_free (rem_str);
         i++;
         continue;
     }
