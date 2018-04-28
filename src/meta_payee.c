@@ -65,11 +65,11 @@ static gint payee_sub_div_nb_transactions ( gint div, gint sub_div );
 static gboolean payee_transaction_set_sub_div_id ( gint transaction_number,
 					    int no_sub_div );
 static gint payee_transaction_sub_div_id ( gint transaction_number );
+static gint payee_transaction_div_id (gint transaction_number);
 /*END_STATIC*/
 
 /*START_EXTERN*/
 /*END_EXTERN*/
-
 
 static MetatreeInterface _payee_interface = {
     1,
@@ -95,7 +95,7 @@ static MetatreeInterface _payee_interface = {
     payee_div_sub_div_list,
     payee_div_type,
 
-    gsb_data_transaction_get_party_number,
+    payee_transaction_div_id,
     payee_transaction_sub_div_id,
     gsb_data_transaction_set_party_number,
     payee_transaction_set_sub_div_id,
@@ -118,7 +118,37 @@ static MetatreeInterface _payee_interface = {
 
 static MetatreeInterface *payee_interface = &_payee_interface;
 
+/******************************************************************************/
+/* Private functions                                                          */
+/******************************************************************************/
+/**
+ * Get category number for transaction.
+ *
+ * @param transaction	Transaction to get category number from.
+ *
+ * @return	Transaction category number.  0 if no transaction is
+ *		demanded.  -1 if transaction is a transfert or a
+ *		split of transaction to avoid transaction being
+ *		considered as a "No category" transaction.
+ */
+static gint payee_transaction_div_id (gint transaction_number)
+{
+    if (transaction_number)
+    {
+		if ( gsb_data_transaction_get_contra_transaction_number (transaction_number) > 0
+			 ||
+			 gsb_data_transaction_get_split_of_transaction (transaction_number))
+			return -1;
+		else
+			return gsb_data_transaction_get_party_number (transaction_number);
+	}
 
+    return 0;
+}
+
+/******************************************************************************/
+/* Public functions                                                           */
+/******************************************************************************/
 /**
  *
  *
