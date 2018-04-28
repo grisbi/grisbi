@@ -157,6 +157,7 @@ src/prefs/prefs_page_import_files.c
 [type: gettext/glade]src/ui/grisbi_menu.ui
 [type: gettext/glade]src/ui/grisbi_prefs.ui
 [type: gettext/glade]src/ui/grisbi_win.ui
+[type: gettext/glade]src/ui/prefs_page_accueil.ui
 [type: gettext/glade]src/ui/prefs_page_archives.ui
 [type: gettext/glade]src/ui/prefs_page_display_adr.ui
 [type: gettext/glade]src/ui/prefs_page_display_fonts.ui
