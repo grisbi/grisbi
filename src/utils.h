@@ -47,8 +47,6 @@ void            utils_labels_set_alignement                             (GtkLabe
                                                                          gfloat yalign);
 gboolean        utils_set_image_with_etat                               (GtkWidget *widget,
                                                                          gint etat);
-gboolean		utils_set_list_store_background_color 					(GtkWidget *tree_view,
-																		 gint color_column);
 gboolean        utils_set_tree_store_background_color                    (GtkWidget *tree_view,
                                                                          gint color_column);
 gboolean        utils_tree_view_all_rows_are_selected                   (GtkTreeView *tree_view);
