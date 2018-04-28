@@ -232,6 +232,7 @@ struct gsb_run_t
 
     /* initialisation variables */
     gboolean new_crypted_file;      /* 0 à l'exécution de init_variables () 1 si new crypted file*/
+	gboolean account_number_is_0;   /* TRUE si an account has 0 for number */
 
     /* file stuff */
     time_t file_modification;

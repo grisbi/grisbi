@@ -355,6 +355,8 @@ gint gsb_scheduler_create_transaction_from_scheduled_transaction ( gint schedule
 gboolean gsb_scheduler_get_category_for_transaction_from_transaction ( gint transaction_number,
 								       gint scheduled_number )
 {
+	gint contra_account_number;
+
     /* if category is set, it's a normal category */
 
     if ( gsb_data_scheduled_get_category_number (scheduled_number))
@@ -383,8 +385,15 @@ gboolean gsb_scheduler_get_category_for_transaction_from_transaction ( gint tran
 	 * except if the target account is -1 then it's a
 	 * transaction with no category */
 
-	if ( gsb_data_scheduled_get_account_number_transfer (scheduled_number) != -1 )
-	{
+	contra_account_number = gsb_data_scheduled_get_account_number_transfer (scheduled_number);
+    if (contra_account_number == 0)
+    {
+      if (run.account_number_is_0 == FALSE)
+        return FALSE;
+    }
+
+    if (contra_account_number != -1)
+    {
 	    gint contra_transaction_number;
 
 	    contra_transaction_number = gsb_form_transaction_validate_transfer ( transaction_number,
