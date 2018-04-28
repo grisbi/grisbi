@@ -2448,13 +2448,13 @@ gulong gsb_file_save_report_part ( gulong iterator,
 
 	while ( tmp_list )
 	{
-	    CategBudgetSel *struct_budget = tmp_list -> data;
+	    CategBudgetSel *BudgetStruct = tmp_list -> data;
 	    gchar *last_budget;
 	    gchar *new_budget;
 	    GSList *sub_budget_list;
 
 	    /* first, save the budget */
-	    new_budget = utils_str_itoa (struct_budget -> div_number);
+	    new_budget = utils_str_itoa (BudgetStruct -> div_number);
 	    if ( budget_selected )
 	    {
 		last_budget = budget_selected;
@@ -2470,7 +2470,7 @@ gulong gsb_file_save_report_part ( gulong iterator,
 		budget_selected = new_budget;
 
 	    /* if there are sub-budgets, it's here */
-	    sub_budget_list = struct_budget -> sub_div_numbers;
+	    sub_budget_list = BudgetStruct -> sub_div_numbers;
 	    while (sub_budget_list)
 	    {
 		new_budget = utils_str_itoa (GPOINTER_TO_INT (sub_budget_list -> data));

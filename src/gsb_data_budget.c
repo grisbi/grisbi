@@ -49,11 +49,10 @@
 /*END_INCLUDE*/
 
 
-/**
- * \struct
- * Describe a budget
- */
-typedef struct
+/* struct Describe a budget */
+typedef struct _BudgetStruct		BudgetStruct;
+
+struct _BudgetStruct
 {
     /** @name budget content */
     gint budget_number;
@@ -67,14 +66,13 @@ typedef struct
     gint budget_nb_direct_transactions;
     gsb_real budget_balance;
     gsb_real budget_direct_balance;
-} struct_budget;
+};
 
 
-/**
- * \struct
- * Describe a sub-budget
- */
-typedef struct
+/* struct Describe a sub-budget */
+typedef struct _SubBudgetStruct		SubBudgetStruct;
+
+struct _SubBudgetStruct
 {
     /** @name sub-budget content */
     gint sub_budget_number;
@@ -85,17 +83,17 @@ typedef struct
     /** @name gui sub-budget list content (not saved)*/
     gint sub_budget_nb_transactions;
     gsb_real sub_budget_balance;
-} struct_sub_budget;
+};
 
 
 /*START_STATIC*/
-static void _gsb_data_budget_free ( struct_budget* budget );
-static void _gsb_data_sub_budget_free ( struct_sub_budget* sub_budget );
+static void _gsb_data_budget_free ( BudgetStruct* budget );
+static void _gsb_data_sub_budget_free ( SubBudgetStruct* sub_budget );
 static GSList *gsb_data_budget_append_sub_budget_to_list ( GSList *budget_list,
                         GSList *sub_budget_list );
-static gint gsb_data_budget_get_pointer_from_name_in_glist ( struct_budget *budget,
+static gint gsb_data_budget_get_pointer_from_name_in_glist ( BudgetStruct *budget,
                         const gchar *name );
-static gint gsb_data_budget_get_pointer_from_sub_name_in_glist ( struct_sub_budget *sub_budget,
+static gint gsb_data_budget_get_pointer_from_sub_name_in_glist ( SubBudgetStruct *sub_budget,
                         const gchar *name );
 static gpointer gsb_data_budget_get_structure_in_list ( gint no_budget,
                         GSList *list );
@@ -105,22 +103,22 @@ static gint gsb_data_budget_new ( const gchar *name );
 static gint gsb_data_budget_new_sub_budget ( gint budget_number,
                         const gchar *name );
 static void gsb_data_budget_reset_counters ( void );
-static gint gsb_data_sub_budget_compare ( struct_sub_budget * a, struct_sub_budget * b );
+static gint gsb_data_sub_budget_compare ( SubBudgetStruct * a, SubBudgetStruct * b );
 /*END_STATIC*/
 
 /*START_EXTERN*/
 /*END_EXTERN*/
 
-/** contains the g_slist of struct_budget */
+/** contains the g_slist of BudgetStruct */
 static GSList *budget_list = NULL;
 
 /** a pointer to the last budget used (to increase the speed) */
-static struct_budget *budget_buffer;
-static struct_sub_budget *sub_budget_buffer;
+static BudgetStruct *budget_buffer;
+static SubBudgetStruct *sub_budget_buffer;
 
 /** a empty budget for the list of budgets
  * the number of the empty budget is 0 */
-static struct_budget *empty_budget = NULL;
+static BudgetStruct *empty_budget = NULL;
 
 
 /**
@@ -140,7 +138,7 @@ gboolean gsb_data_budget_init_variables ( void )
 
     /* recreate the empty budget */
     _gsb_data_budget_free ( empty_budget );
-    empty_budget = g_malloc0 ( sizeof ( struct_budget ));
+    empty_budget = g_malloc0 ( sizeof ( BudgetStruct ));
     empty_budget -> budget_name = g_strdup(_("No budget line"));
 
     budget_buffer = NULL;
@@ -152,9 +150,9 @@ gboolean gsb_data_budget_init_variables ( void )
 
 
 /**
- * This internal function is used to free the memory used by a struct_budget structure
+ * This internal function is used to free the memory used by a BudgetStruct structure
  */
-static void _gsb_data_budget_free ( struct_budget* budget )
+static void _gsb_data_budget_free ( BudgetStruct* budget )
 {
     if ( ! budget )
         return;
@@ -170,9 +168,9 @@ static void _gsb_data_budget_free ( struct_budget* budget )
 }
 
 /**
- * This internal function is used to free the memory used by a struct_sub_budget structure
+ * This internal function is used to free the memory used by a SubBudgetStruct structure
  */
-static void _gsb_data_sub_budget_free ( struct_sub_budget* sub_budget )
+static void _gsb_data_sub_budget_free ( SubBudgetStruct* sub_budget )
 {
     if ( ! sub_budget )
         return;
@@ -242,7 +240,7 @@ gpointer gsb_data_budget_get_structure_in_list ( gint no_budget,
 
     while ( tmp )
     {
-	struct_budget *budget;
+	BudgetStruct *budget;
 
 	budget = tmp -> data;
 
@@ -270,7 +268,7 @@ gpointer gsb_data_budget_get_sub_budget_structure ( gint no_budget,
                         gint no_sub_budget )
 {
     GSList *tmp;
-    struct_budget *budget;
+    BudgetStruct *budget;
 
     if (!no_budget
 	||
@@ -296,7 +294,7 @@ gpointer gsb_data_budget_get_sub_budget_structure ( gint no_budget,
 
     while ( tmp )
     {
-	struct_sub_budget *sub_budget;
+	SubBudgetStruct *sub_budget;
 
 	sub_budget = tmp -> data;
 
@@ -334,7 +332,7 @@ GSList *gsb_data_budget_get_budgets_list ( void )
  * */
 GSList *gsb_data_budget_get_sub_budget_list ( gint no_budget )
 {
-    struct_budget *budget;
+    BudgetStruct *budget;
 
     budget = gsb_data_budget_get_structure ( no_budget );
 
@@ -355,7 +353,7 @@ GSList *gsb_data_budget_get_sub_budget_list ( gint no_budget )
  * */
 gint gsb_data_budget_get_no_budget ( gpointer budget_ptr )
 {
-    struct_budget *budget;
+    BudgetStruct *budget;
 
     if ( !budget_ptr )
 	return 0;
@@ -375,7 +373,7 @@ gint gsb_data_budget_get_no_budget ( gpointer budget_ptr )
  * */
 gint gsb_data_budget_get_no_sub_budget ( gpointer sub_budget_ptr )
 {
-    struct_sub_budget *sub_budget;
+    SubBudgetStruct *sub_budget;
 
     if ( !sub_budget_ptr )
 	return 0;
@@ -401,7 +399,7 @@ gint gsb_data_budget_max_number ( void )
 
     while ( tmp )
     {
-	struct_budget *budget;
+	BudgetStruct *budget;
 
 	budget = tmp -> data;
 
@@ -423,7 +421,7 @@ gint gsb_data_budget_max_number ( void )
  * */
 gint gsb_data_budget_max_sub_budget_number ( gint budget_number )
 {
-    struct_budget *budget;
+    BudgetStruct *budget;
     GSList *tmp;
     gint number_tmp = 0;
 
@@ -436,7 +434,7 @@ gint gsb_data_budget_max_sub_budget_number ( gint budget_number )
 
     while ( tmp )
     {
-	struct_sub_budget *sub_budget;
+	SubBudgetStruct *sub_budget;
 
 	sub_budget = tmp -> data;
 
@@ -489,9 +487,9 @@ gint gsb_data_budget_new ( const gchar *name )
  * */
 gint gsb_data_budget_new_with_number ( gint number )
 {
-    struct_budget *budget;
+    BudgetStruct *budget;
 
-    budget = g_malloc0 ( sizeof ( struct_budget ));
+    budget = g_malloc0 ( sizeof ( BudgetStruct ));
     budget -> budget_number = number;
 
     budget_list = g_slist_append ( budget_list,
@@ -515,7 +513,7 @@ gint gsb_data_budget_new_with_number ( gint number )
  * */
 gboolean gsb_data_budget_remove ( gint no_budget )
 {
-    struct_budget *budget;
+    BudgetStruct *budget;
 	GtkWidget *combofix;
 
     budget = gsb_data_budget_get_structure ( no_budget );
@@ -548,8 +546,8 @@ gboolean gsb_data_budget_remove ( gint no_budget )
 gboolean gsb_data_budget_sub_budget_remove ( gint no_budget,
                         gint no_sub_budget )
 {
-    struct_budget *budget;
-    struct_sub_budget *sub_budget;
+    BudgetStruct *budget;
+    SubBudgetStruct *sub_budget;
 	GtkWidget *combofix;
 
     budget = gsb_data_budget_get_structure ( no_budget );
@@ -614,15 +612,15 @@ gint gsb_data_budget_new_sub_budget ( gint budget_number,
 gint gsb_data_budget_new_sub_budget_with_number ( gint number,
                         gint budget_number)
 {
-    struct_budget *budget;
-    struct_sub_budget *sub_budget;
+    BudgetStruct *budget;
+    SubBudgetStruct *sub_budget;
 
     budget = gsb_data_budget_get_structure ( budget_number );
 
     if (!budget)
 	return 0;
 
-    sub_budget = g_malloc0 ( sizeof (struct_sub_budget));
+    sub_budget = g_malloc0 ( sizeof (SubBudgetStruct));
     sub_budget -> sub_budget_number = number;
     sub_budget -> mother_budget_number = budget_number;
 
@@ -665,7 +663,7 @@ gint gsb_data_budget_get_number_by_name ( const gchar *name,
 
     if ( list_tmp )
     {
-	struct_budget *budget;
+	BudgetStruct *budget;
 
 	budget = list_tmp -> data;
 	budget_number = budget -> budget_number;
@@ -699,7 +697,7 @@ gint gsb_data_budget_get_sub_budget_number_by_name ( gint budget_number,
                         gboolean create )
 {
     GSList *list_tmp;
-    struct_budget *budget;
+    BudgetStruct *budget;
     gint sub_budget_number = 0;
 
     if (!name || !strlen (name))
@@ -716,7 +714,7 @@ gint gsb_data_budget_get_sub_budget_number_by_name ( gint budget_number,
 
     if ( list_tmp )
     {
-        struct_sub_budget *sub_budget;
+        SubBudgetStruct *sub_budget;
 
         sub_budget = list_tmp -> data;
         sub_budget_number = sub_budget -> sub_budget_number;
@@ -744,7 +742,7 @@ gint gsb_data_budget_get_sub_budget_number_by_name ( gint budget_number,
  *
  * \return 0 if it's the same name
  * */
-gint gsb_data_budget_get_pointer_from_name_in_glist ( struct_budget *budget,
+gint gsb_data_budget_get_pointer_from_name_in_glist ( BudgetStruct *budget,
                         const gchar *name )
 {
     return ( my_strcasecmp ( budget -> budget_name, name ) );
@@ -760,7 +758,7 @@ gint gsb_data_budget_get_pointer_from_name_in_glist ( struct_budget *budget,
  *
  * \return 0 if it's the same name
  * */
-gint gsb_data_budget_get_pointer_from_sub_name_in_glist ( struct_sub_budget *sub_budget,
+gint gsb_data_budget_get_pointer_from_sub_name_in_glist ( SubBudgetStruct *sub_budget,
                         const gchar *name )
 {
     return ( my_strcasecmp ( sub_budget -> sub_budget_name, name ));
@@ -782,7 +780,7 @@ gchar *gsb_data_budget_get_name ( gint no_budget,
                     gint no_sub_budget,
                     const gchar *return_value_error )
 {
-    struct_budget *budget;
+    BudgetStruct *budget;
     gchar *return_value;
 
     budget = gsb_data_budget_get_structure ( no_budget );
@@ -794,7 +792,7 @@ gchar *gsb_data_budget_get_name ( gint no_budget,
 
     if ( no_sub_budget )
     {
-	struct_sub_budget *sub_budget;
+	SubBudgetStruct *sub_budget;
 
 	sub_budget = gsb_data_budget_get_sub_budget_structure ( no_budget,
 								no_sub_budget );
@@ -824,7 +822,7 @@ gchar *gsb_data_budget_get_name ( gint no_budget,
 gboolean gsb_data_budget_set_name ( gint no_budget,
                     const gchar *name )
 {
-    struct_budget *budget;
+    BudgetStruct *budget;
 
     budget = gsb_data_budget_get_structure ( no_budget );
 
@@ -866,7 +864,7 @@ gchar *gsb_data_budget_get_sub_budget_name ( gint no_budget,
                         gint no_sub_budget,
                         const gchar *return_value_error )
 {
-    struct_sub_budget *sub_budget;
+    SubBudgetStruct *sub_budget;
 
     sub_budget = gsb_data_budget_get_sub_budget_structure ( no_budget,
 							    no_sub_budget );
@@ -892,7 +890,7 @@ gboolean gsb_data_budget_set_sub_budget_name ( gint no_budget,
                         gint no_sub_budget,
                         const gchar *name )
 {
-    struct_sub_budget *sub_budget;
+    SubBudgetStruct *sub_budget;
 
     sub_budget = gsb_data_budget_get_sub_budget_structure ( no_budget,
 							    no_sub_budget );
@@ -937,7 +935,7 @@ GSList *gsb_data_budget_get_name_list ( gboolean set_debit,
 
     while (tmp_list)
     {
-		struct_budget *budget;
+		BudgetStruct *budget;
 
 		budget = tmp_list->data;
 
@@ -993,7 +991,7 @@ GSList *gsb_data_budget_append_sub_budget_to_list ( GSList *budget_list,
 
     while (tmp_list)
     {
-	struct_sub_budget *sub_budget;
+	SubBudgetStruct *sub_budget;
 
 	sub_budget = tmp_list -> data;
 
@@ -1020,7 +1018,7 @@ GSList *gsb_data_budget_append_sub_budget_to_list ( GSList *budget_list,
  * */
 gint gsb_data_budget_get_type ( gint no_budget )
 {
-    struct_budget *budget;
+    BudgetStruct *budget;
 
     budget = gsb_data_budget_get_structure ( no_budget );
 
@@ -1043,7 +1041,7 @@ gint gsb_data_budget_get_type ( gint no_budget )
 gboolean gsb_data_budget_set_type ( gint no_budget,
                         gint budget_type )
 {
-    struct_budget *budget;
+    BudgetStruct *budget;
 
     budget = gsb_data_budget_get_structure ( no_budget );
 
@@ -1064,7 +1062,7 @@ gboolean gsb_data_budget_set_type ( gint no_budget,
  * */
 gint gsb_data_budget_get_nb_transactions ( gint no_budget )
 {
-    struct_budget *budget;
+    BudgetStruct *budget;
 
     budget = gsb_data_budget_get_structure ( no_budget );
 
@@ -1087,7 +1085,7 @@ gint gsb_data_budget_get_nb_transactions ( gint no_budget )
 gint gsb_data_budget_get_sub_budget_nb_transactions ( gint no_budget,
                         gint no_sub_budget )
 {
-    struct_sub_budget *sub_budget;
+    SubBudgetStruct *sub_budget;
 
     sub_budget = gsb_data_budget_get_sub_budget_structure ( no_budget,
 							    no_sub_budget );
@@ -1109,7 +1107,7 @@ gint gsb_data_budget_get_sub_budget_nb_transactions ( gint no_budget,
  * */
 gint gsb_data_budget_get_nb_direct_transactions ( gint no_budget )
 {
-    struct_budget *budget;
+    BudgetStruct *budget;
 
     budget = gsb_data_budget_get_structure ( no_budget );
 
@@ -1131,7 +1129,7 @@ gint gsb_data_budget_get_nb_direct_transactions ( gint no_budget )
  * */
 gsb_real gsb_data_budget_get_balance ( gint no_budget )
 {
-    struct_budget *budget;
+    BudgetStruct *budget;
 
     budget = gsb_data_budget_get_structure ( no_budget );
 
@@ -1153,7 +1151,7 @@ gsb_real gsb_data_budget_get_balance ( gint no_budget )
 gsb_real gsb_data_budget_get_sub_budget_balance ( gint no_budget,
                         gint no_sub_budget )
 {
-    struct_sub_budget *sub_budget;
+    SubBudgetStruct *sub_budget;
 
     sub_budget = gsb_data_budget_get_sub_budget_structure ( no_budget,
 							    no_sub_budget );
@@ -1173,7 +1171,7 @@ gsb_real gsb_data_budget_get_sub_budget_balance ( gint no_budget,
  * */
 gsb_real gsb_data_budget_get_direct_balance ( gint no_budget )
 {
-    struct_budget *budget;
+    BudgetStruct *budget;
 
     budget = gsb_data_budget_get_structure ( no_budget );
 
@@ -1200,7 +1198,7 @@ void gsb_data_budget_reset_counters ( void )
 
     while ( list_tmp )
     {
-	struct_budget *budget;
+	BudgetStruct *budget;
 	GSList *sub_list_tmp;
 
 	budget = list_tmp -> data;
@@ -1213,7 +1211,7 @@ void gsb_data_budget_reset_counters ( void )
 
 	while ( sub_list_tmp )
 	{
-	    struct_sub_budget *sub_budget;
+	    SubBudgetStruct *sub_budget;
 
 	    sub_budget = sub_list_tmp -> data;
 
@@ -1275,8 +1273,8 @@ void gsb_data_budget_add_transaction_to_budget ( gint transaction_number,
                         gint budget_id,
                         gint sub_budget_id )
 {
-    struct_budget *budget;
-    struct_sub_budget *sub_budget;
+    BudgetStruct *budget;
+    SubBudgetStruct *sub_budget;
 
     /* if the transaction is a transfer or a split transaction, don't take it */
     if (gsb_data_transaction_get_split_of_transaction (transaction_number)
@@ -1344,8 +1342,8 @@ void gsb_data_budget_add_transaction_to_budget ( gint transaction_number,
  * */
 void gsb_data_budget_remove_transaction_from_budget ( gint transaction_number )
 {
-    struct_budget *budget;
-    struct_sub_budget *sub_budget;
+    BudgetStruct *budget;
+    SubBudgetStruct *sub_budget;
 
     budget = gsb_data_budget_get_structure ( gsb_data_transaction_get_budgetary_number (transaction_number));
     sub_budget = gsb_data_budget_get_sub_budget_structure ( gsb_data_transaction_get_budgetary_number (transaction_number),
@@ -1393,7 +1391,7 @@ void gsb_data_budget_remove_transaction_from_budget ( gint transaction_number )
  *
  * \return		Same as a <=> b.
  */
-gint gsb_data_sub_budget_compare ( struct_sub_budget * a, struct_sub_budget * b )
+gint gsb_data_sub_budget_compare ( SubBudgetStruct * a, SubBudgetStruct * b )
 {
     if ( a != b && a -> sub_budget_number == b -> sub_budget_number )
     {
@@ -1423,7 +1421,7 @@ gchar * gsb_debug_duplicate_budget_check (void)
     tmp = budget_list;
     while ( tmp )
     {
-	struct_budget * budget = tmp -> data;
+	BudgetStruct * budget = tmp -> data;
 	GSList * tmp_sous_budget = budget -> sub_budget_list;
 
 	while ( tmp_sous_budget )
@@ -1439,8 +1437,8 @@ gchar * gsb_debug_duplicate_budget_check (void)
 		gchar* tmpstr2 = g_strdup_printf (
 		                        _("In <i>%s</i>, <i>%s</i> is a duplicate of <i>%s</i>.\n"),
 					budget -> budget_name,
-					((struct_sub_budget *) tmp_sous_budget -> data) -> sub_budget_name,
-					((struct_sub_budget *) duplicate -> data) -> sub_budget_name );
+					((SubBudgetStruct *) tmp_sous_budget -> data) -> sub_budget_name,
+					((SubBudgetStruct *) duplicate -> data) -> sub_budget_name );
 		output = g_strconcat ( tmpstr1,
 				       tmpstr2,
 				       NULL );
@@ -1477,7 +1475,7 @@ gboolean gsb_debug_duplicate_budget_fix (void)
     tmp = budget_list;
     while ( tmp )
     {
-	struct_budget * budget = tmp -> data;
+	BudgetStruct * budget = tmp -> data;
 	GSList * tmp_sous_budget = budget -> sub_budget_list;
 
 	while ( tmp_sous_budget )
@@ -1488,7 +1486,7 @@ gboolean gsb_debug_duplicate_budget_fix (void)
 					      (GCompareFunc) gsb_data_sub_budget_compare );
 	    if ( duplicate )
 	    {
-		struct_sub_budget * duplicate_budget = duplicate -> data;
+		SubBudgetStruct * duplicate_budget = duplicate -> data;
 
 		duplicate_budget -> sub_budget_number = gsb_data_budget_max_sub_budget_number ( budget -> budget_number ) + 1;
 	    }
@@ -1583,7 +1581,7 @@ void gsb_data_budget_set_budget_from_string ( gint transaction_number,
  * */
 gint gsb_data_budget_get_sub_budget_list_length ( gint budget_number )
 {
-    struct_budget *budget;
+    BudgetStruct *budget;
 
     budget = gsb_data_budget_get_structure ( budget_number );
 
@@ -1611,7 +1609,7 @@ gint gsb_data_budget_test_create_budget ( gint no_budget,
 {
     GSList *list_tmp;
     gint budget_number = 0;
-    struct_budget *budget;
+    BudgetStruct *budget;
 
     list_tmp = g_slist_find_custom ( budget_list,
                         name,
@@ -1658,8 +1656,8 @@ gboolean gsb_data_budget_test_create_sub_budget ( gint no_budget,
                         const gchar *name )
 {
     GSList *list_tmp;
-    struct_budget *budget;
-    struct_sub_budget *sub_budget;
+    BudgetStruct *budget;
+    SubBudgetStruct *sub_budget;
 
     budget = gsb_data_budget_get_structure ( no_budget );
     if (NULL == budget)
