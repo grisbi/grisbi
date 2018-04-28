@@ -1766,7 +1766,7 @@ gboolean payee_list_button_press ( GtkWidget *tree_view,
         GtkTreeModel *model;
         GtkTreeIter iter;
         GtkTreePath *path = NULL;
-        enum meta_tree_row_type type_division;
+        enum MetaTreeRowType type_division;
 
         type_division = metatree_get_row_type_from_tree_view ( tree_view );
         if ( type_division == META_TREE_TRANSACTION )

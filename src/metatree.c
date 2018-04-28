@@ -105,13 +105,13 @@ static gboolean metatree_find_destination_blob ( MetatreeInterface *iface,
                         gint sub_division,
                         gint *no_div,
                         gint *no_sub_div,
-                        enum meta_tree_row_type type_division );
+                        enum MetaTreeRowType type_division );
 static gboolean metatree_get ( GtkTreeModel * model, GtkTreePath * path,
                         gint column, gint *data );
 static GtkWidget *metatree_get_combofix ( MetatreeInterface *iface,
                         gint division,
                         gint sub_division,
-                        enum meta_tree_row_type type_division );
+                        enum MetaTreeRowType type_division );
 static GSList *metatree_get_combofix_list ( MetatreeInterface *iface,
                         gint division,
                         gint sub_division,
@@ -119,7 +119,7 @@ static GSList *metatree_get_combofix_list ( MetatreeInterface *iface,
 static gboolean metatree_get_row_properties ( GtkTreeModel * tree_model, GtkTreePath * path,
                         gchar ** text, gint * no_div, gint * no_sub_div,
                         gint * no_transaction, gint * data );
-static enum meta_tree_row_type metatree_get_row_type ( GtkTreeModel * tree_model,
+static enum MetaTreeRowType metatree_get_row_type ( GtkTreeModel * tree_model,
                         GtkTreePath * path );
 static gboolean metatree_model_is_displayed ( GtkTreeModel * model );
 static void metatree_move_scheduled_with_div_sub_div ( MetatreeInterface *iface,
@@ -271,7 +271,7 @@ gboolean metatree_get_row_properties ( GtkTreeModel * tree_model, GtkTreePath * 
  *
  * \return		Type of entry.
  */
-enum meta_tree_row_type metatree_get_row_type ( GtkTreeModel * tree_model,
+enum MetaTreeRowType metatree_get_row_type ( GtkTreeModel * tree_model,
                         GtkTreePath * path )
 {
     gint no_div, no_sub_div, no_transaction;
@@ -336,7 +336,7 @@ void fill_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
     gchar *string_tmp;
     GtkTreeIter dumb_iter;
     GtkTreePath * path;
-    enum meta_tree_row_type type;
+    enum MetaTreeRowType type;
     gint number_transactions;
 
     if ( ! metatree_model_is_displayed ( model ) )
@@ -409,7 +409,7 @@ void fill_sub_division_row ( GtkTreeModel *model,
     gchar *string_tmp;
     GtkTreeIter dumb_iter;
     GtkTreePath * path;
-    enum meta_tree_row_type type;
+    enum MetaTreeRowType type;
     gint number_transactions = 0;
 
     if ( ! metatree_model_is_displayed ( model ) )
@@ -479,7 +479,7 @@ void fill_transaction_row ( GtkTreeModel *model,
     gchar * notes = NULL;
     const gchar *string;
     GtkTreePath * path;
-    enum meta_tree_row_type type;
+    enum MetaTreeRowType type;
 
     if ( ! metatree_model_is_displayed ( model ) )
 	return;
@@ -1235,7 +1235,7 @@ gboolean division_row_drop_possible ( GtkTreeDragDest *drag_dest,
 {
     if ( dest_path && selection_data )
     {
-	enum meta_tree_row_type orig_type, dest_type;
+	enum MetaTreeRowType orig_type, dest_type;
 	GtkTreePath * orig_path;
 	GtkTreeModel * model;
 	gint orig_no_div, no_div;
@@ -1317,7 +1317,7 @@ gboolean division_drag_data_received ( GtkTreeDragDest *drag_dest,
         GtkTreePath *orig_path;
         gchar *name;
         gint no_dest_division, no_dest_sub_division, no_orig_division, no_orig_sub_division;
-        enum meta_tree_row_type orig_type;
+        enum MetaTreeRowType orig_type;
         MetatreeInterface * iface;
         gint transaction_number;
 
@@ -2836,7 +2836,7 @@ gboolean metatree_find_destination_blob ( MetatreeInterface *iface,
                         gint sub_division,
                         gint *no_div,
                         gint *no_sub_div,
-                        enum meta_tree_row_type type_division )
+                        enum MetaTreeRowType type_division )
 {
     GtkWidget *dialog;
     GtkWidget *hbox;
@@ -3054,7 +3054,7 @@ void metatree_manage_sub_divisions ( GtkWidget *tree_view )
     gint new_sub_division;
     gint profondeur;
     MetatreeInterface *iface;
-    enum meta_tree_row_type type_division;
+    enum MetaTreeRowType type_division;
 
     devel_debug (NULL);
 
@@ -3157,12 +3157,12 @@ void metatree_manage_sub_divisions ( GtkWidget *tree_view )
  * \param
  *
  */
-enum meta_tree_row_type metatree_get_row_type_from_tree_view ( GtkWidget *tree_view )
+enum MetaTreeRowType metatree_get_row_type_from_tree_view ( GtkWidget *tree_view )
 {
     GtkTreeSelection *selection;
     GtkTreeModel *model;
     GtkTreeIter iter;
-    enum meta_tree_row_type type_division;
+    enum MetaTreeRowType type_division;
 
     selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
     if ( selection && gtk_tree_selection_get_selected ( selection, &model, &iter ) )
@@ -3399,7 +3399,7 @@ gint metatree_get_nbre_transactions_sans_sub_div ( GtkWidget *tree_view )
 GtkWidget *metatree_get_combofix ( MetatreeInterface *iface,
                         gint division,
                         gint sub_division,
-                        enum meta_tree_row_type type_division )
+                        enum MetaTreeRowType type_division )
 {
     GtkWidget *combofix;
     GSList *liste_combofix;
