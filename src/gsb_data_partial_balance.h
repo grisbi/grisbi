@@ -7,6 +7,8 @@
 #include "gsb_data_account.h"
 /* END_INCLUDE_H */
 
+#define PARTIAL_BACKGROUND_COLOR 6
+
 /* START_DECLARATION */
 GPtrArray *		gsb_data_partial_balance_calculate_balances_at_date	(gint partial_balance_number,
 																	 GDate *date);

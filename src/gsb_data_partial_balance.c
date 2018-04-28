@@ -181,12 +181,11 @@ gint gsb_partial_balance_new_at_position ( const gchar *name, gint pos )
 GtkListStore *gsb_partial_balance_create_model ( void )
 {
 
-    model_accueil = gtk_list_store_new ( 6, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING,
-                        G_TYPE_STRING, G_TYPE_INT, G_TYPE_BOOLEAN );
+    model_accueil = gtk_list_store_new (7, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING,
+										G_TYPE_STRING, G_TYPE_INT, G_TYPE_BOOLEAN, GDK_TYPE_RGBA);
 
     return model_accueil;
 }
-
 
 /**
  *
