@@ -87,7 +87,8 @@ struct _PrefsPageArchivesPrivate
 G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageArchives, prefs_page_archives, GTK_TYPE_BOX)
 
 /** Columns for archives tree */
-enum archives_columns {
+enum ArchivesColumns
+{
     ARCHIVES_NAME_COLUMN = 0,
     ARCHIVES_INIT_DATE,
     ARCHIVES_FINAL_DATE,
