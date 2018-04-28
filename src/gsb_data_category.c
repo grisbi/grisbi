@@ -487,7 +487,7 @@ gint gsb_data_category_new_with_number ( gint number )
  * */
 gboolean gsb_data_category_remove ( gint no_category )
 {
-    struct_category *category;
+    CategoryStruct *category;
 	GtkWidget *combofix;
 
     category = gsb_data_category_get_structure ( no_category );
@@ -562,8 +562,8 @@ void _gsb_data_sub_category_free ( SubCategoryStruct *sub_category )
 gboolean gsb_data_category_sub_category_remove ( gint no_category,
                         gint no_sub_category )
 {
-    struct_category *category;
-    struct_sub_category *sub_category;
+    CategoryStruct *category;
+    SubCategoryStruct *sub_category;
 	GtkWidget *combofix;
 
     category = gsb_data_category_get_structure ( no_category );
