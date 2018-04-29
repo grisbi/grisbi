@@ -331,19 +331,20 @@ GtkWidget *gsb_currency_config_create_page ( void )
     GtkWidget *scrolled_window;
     GtkWidget *button;
     GtkWidget *entry;
-    GtkTreeView *currency_list_view;
+    GtkWidget *currency_list_view;
     GtkTreeModel *currency_tree_model;
+devel_debug (NULL);
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Currencies"), "gsb-currencies-32.png" );
     paddinggrid = utils_prefs_paddinggrid_new_with_title (vbox_pref, _("Known currencies"));
 
     /* Currency list */
-    scrolled_window = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, SW_MIN_HEIGHT);
+    scrolled_window = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, 200);
     gtk_grid_attach (GTK_GRID (paddinggrid), scrolled_window, 0, 0, 2, 3);
 
     /* Create it. */
-    currency_list_view = GTK_TREE_VIEW ( gsb_currency_config_create_list () );
-    currency_tree_model = gtk_tree_view_get_model ( currency_list_view );
+    currency_list_view = gsb_currency_config_create_list ();
+    currency_tree_model = gtk_tree_view_get_model (GTK_TREE_VIEW (currency_list_view));
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ), GTK_WIDGET(currency_list_view) );
     g_signal_connect ( gtk_tree_view_get_selection (GTK_TREE_VIEW ( currency_list_view ) ),
 		       "changed", G_CALLBACK ( gsb_currency_config_select_currency ),
@@ -367,7 +368,7 @@ GtkWidget *gsb_currency_config_create_page ( void )
     g_signal_connect ( G_OBJECT ( button ),
 		       "clicked",
 		       G_CALLBACK  ( gsb_currency_config_add_currency ),
-		       currency_tree_model );
+		       currency_list_view);
     gtk_grid_attach (GTK_GRID (paddinggrid), button, 0, 3, 1, 1);
 
     /* Button "Remove" */
@@ -423,6 +424,8 @@ GtkWidget *gsb_currency_config_create_page ( void )
     gtk_grid_attach (GTK_GRID (paddinggrid), entry, 1, 3, 1, 1);
     g_object_set_data ( G_OBJECT(currency_tree_model), "entry_floating_point", entry );
 
+	utils_set_list_store_background_color (currency_list_view, CURRENCY_BACKGROUND_COLOR);
+
     /* for now we want nothing in the entry of floating point */
     gsb_autofunc_int_erase_entry ( entry );
     return ( vbox_pref );
@@ -456,12 +459,19 @@ GtkWidget *gsb_currency_config_create_list ( void )
        CURRENCY_FLOATING_COLUMN,
        CURRENCY_NUMBER_COLUMN,
        CURRENCY_MAIN_CURRENCY_COLUMN,
+	   CURRENCY_BACKGROUND_COLOR,
     */
     model = gtk_list_store_new (NUM_CURRENCIES_COLUMNS,
-				GDK_TYPE_PIXBUF, G_TYPE_BOOLEAN,
-				G_TYPE_STRING, G_TYPE_STRING,
-				G_TYPE_STRING, G_TYPE_STRING,
-				G_TYPE_INT, G_TYPE_INT, G_TYPE_INT );
+								GDK_TYPE_PIXBUF,
+								G_TYPE_BOOLEAN,
+								G_TYPE_STRING,
+								G_TYPE_STRING,
+								G_TYPE_STRING,
+								G_TYPE_STRING,
+								G_TYPE_INT,
+								G_TYPE_INT,
+								G_TYPE_INT,
+								GDK_TYPE_RGBA);
 
     /* Create tree tree_view */
     treeview = gtk_tree_view_new_with_model (GTK_TREE_MODEL(model));
@@ -474,22 +484,25 @@ GtkWidget *gsb_currency_config_create_list ( void )
 
     /* Flag */
     cell = gtk_cell_renderer_pixbuf_new ();
-    col_offset =
-	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (treeview),
-						     -1, _("Country name"),
-						     cell, "pixbuf",
-						     CURRENCY_FLAG_COLUMN,
-						     NULL);
+    col_offset = gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (treeview),
+															  -1,
+															  _("Country name"),
+															  cell,
+															  "pixbuf", CURRENCY_FLAG_COLUMN,
+															  "visible", CURRENCY_HAS_FLAG,
+															  "cell-background-rgba", CURRENCY_BACKGROUND_COLOR,
+															  NULL);
     column = gtk_tree_view_get_column (GTK_TREE_VIEW (treeview), col_offset - 1);
-    gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(column), cell,
-				       "visible", CURRENCY_HAS_FLAG);
     gtk_tree_view_column_set_clickable (GTK_TREE_VIEW_COLUMN (column), TRUE);
 
     /* Country name */
     cell = gtk_cell_renderer_text_new ();
     gtk_tree_view_column_pack_start(GTK_TREE_VIEW_COLUMN(column), cell, TRUE);
-    gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(column), cell,
-				       "text", COUNTRY_NAME_COLUMN);
+    gtk_tree_view_column_set_attributes (GTK_TREE_VIEW_COLUMN(column),
+										 cell,
+										 "text", COUNTRY_NAME_COLUMN,
+										 "cell-background-rgba", CURRENCY_BACKGROUND_COLOR,
+										 NULL);
 
     /* Currency name */
     column = gtk_tree_view_get_column (GTK_TREE_VIEW (treeview), col_offset - 1);
@@ -497,35 +510,40 @@ GtkWidget *gsb_currency_config_create_list ( void )
     gtk_tree_view_column_set_expand ( column, TRUE );
 
     cell = gtk_cell_renderer_text_new ();
-    col_offset =
-	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (treeview),
-						     -1, _("Currency name"),
-						     cell, "text",
-						     CURRENCY_NAME_COLUMN,
-						     NULL);
+    col_offset = gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (treeview),
+															  -1,
+															  _("Currency name"),
+															  cell,
+															  "text", CURRENCY_NAME_COLUMN,
+															  "cell-background-rgba", CURRENCY_BACKGROUND_COLOR,
+															  NULL);
     column = gtk_tree_view_get_column (GTK_TREE_VIEW (treeview), col_offset - 1);
     gtk_tree_view_column_set_expand ( column, TRUE );
     gtk_tree_view_column_set_clickable (GTK_TREE_VIEW_COLUMN (column), TRUE);
 
+	/* ISO Code */
     cell = gtk_cell_renderer_text_new ();
-    col_offset =
-	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (treeview),
-						     -1, _("ISO Code"),
-						     cell, "text",
-						     CURRENCY_ISO_CODE_COLUMN,
-						     NULL);
+    col_offset = gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (treeview),
+															  -1,
+															  _("ISO Code"),
+															  cell,
+															  "text", CURRENCY_ISO_CODE_COLUMN,
+															  "cell-background-rgba", CURRENCY_BACKGROUND_COLOR,
+															  NULL);
     column = gtk_tree_view_get_column (GTK_TREE_VIEW (treeview), col_offset - 1);
     gtk_tree_view_column_set_expand ( column, TRUE );
     gtk_tree_view_column_set_alignment ( column, 0.5 );
     gtk_tree_view_column_set_clickable (GTK_TREE_VIEW_COLUMN (column), TRUE);
 
+	/* Sign */
     cell = gtk_cell_renderer_text_new ();
-    col_offset =
-	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (treeview),
-						     -1, _("Sign"),
-						     cell, "text",
-						     CURRENCY_NICKNAME_COLUMN,
-						     NULL);
+    col_offset = gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (treeview),
+															  -1,
+															  _("Sign"),
+															  cell,
+															  "text", CURRENCY_NICKNAME_COLUMN,
+															  "cell-background-rgba", CURRENCY_BACKGROUND_COLOR,
+															  NULL);
     column = gtk_tree_view_get_column (GTK_TREE_VIEW (treeview), col_offset - 1);
     gtk_tree_view_column_set_expand ( column, TRUE );
     gtk_tree_view_column_set_clickable (GTK_TREE_VIEW_COLUMN (column), TRUE);
@@ -949,15 +967,16 @@ gboolean gsb_currency_config_set_int_from_combobox ( GtkWidget *combobox, gint *
  * \return TRUE if currency has been created.
  */
 gboolean gsb_currency_config_add_currency ( GtkWidget *button,
-                        GtkTreeModel *currency_tree_model )
+                        GtkWidget *tree_view )
 {
     GtkWidget *dialog, *label, *table, *list, *paddingbox, * main_vbox, * vbox;
     GtkWidget *entry_name, *entry_code, *entry_isocode, *entry_floating_point;
     const gchar *currency_name, *currency_code, *currency_isocode;
     gint floating_point, currency_number, result;
     GtkTreeModel *model;
+	GtkTreeModel *currency_tree_model;
 
-    dialog = gtk_dialog_new_with_buttons ( _("Add a currency"),
+	dialog = gtk_dialog_new_with_buttons ( _("Add a currency"),
 					   GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
 					   GTK_DIALOG_MODAL,
 					   "gtk-close", 1,
@@ -966,11 +985,11 @@ gboolean gsb_currency_config_add_currency ( GtkWidget *button,
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
     gtk_window_set_resizable ( GTK_WINDOW ( dialog ), TRUE );
 
-    main_vbox = new_vbox_with_title_and_icon ( _("Select base currency for your account"),
+    main_vbox = new_vbox_with_title_and_icon (_("Select base currency for your account"),
 					       "currencies-32.png" );
     gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), main_vbox, TRUE, TRUE, 0 );
 
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
+	vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( main_vbox ), vbox, TRUE, TRUE, 0 );
     gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), BOX_BORDER_WIDTH );
 
@@ -1062,12 +1081,15 @@ dialog_return:
             /* update the currencies list in account properties */
             gsb_currency_update_combobox_currency_list ();
 
+			currency_tree_model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
             if ( currency_tree_model && currency_number > 0 )
             {
                 gsb_currency_append_currency_to_list ( GTK_LIST_STORE ( currency_tree_model ),
                                    currency_number );
                 gtk_widget_destroy ( GTK_WIDGET ( dialog ));
                 gsb_file_set_modified ( TRUE );
+				utils_set_list_store_background_color (tree_view, CURRENCY_BACKGROUND_COLOR);
+
                 return TRUE;
             }
         }
@@ -1210,6 +1232,9 @@ GtkWidget *gsb_currency_config_create_box_popup ( GCallback select_callback )
     g_object_set_data ( G_OBJECT(vbox), "model", model );
     g_object_set_data ( G_OBJECT(vbox), "treeview", treeview );
 
+	utils_set_list_store_background_color (treeview, CURRENCY_BACKGROUND_COLOR);
+    gtk_widget_show_all ( GTK_WIDGET (vbox) );
+
     return vbox;
 }
 
@@ -1297,6 +1322,9 @@ gboolean gsb_currency_config_update_list ( GtkWidget * checkbox,
     gtk_tree_model_foreach ( GTK_TREE_MODEL(model),
 			     (GtkTreeModelForeachFunc) gsb_currency_config_select_default,
 			     tree_view );
+
+	utils_set_list_store_background_color (GTK_WIDGET (tree_view), CURRENCY_BACKGROUND_COLOR);
+
     return FALSE;
 }
 
