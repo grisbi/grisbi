@@ -84,6 +84,7 @@ enum LinkListColumns {
     LINK_DATE_COLUMN,
     LINK_INVALID_COLUMN,
     LINK_NUMBER_COLUMN,
+	LINK_BACKGROUND_COLOR,
     NUM_LINKS_COLUMNS
 };
 
@@ -251,7 +252,10 @@ GtkWidget *gsb_currency_link_config_create_page ( void )
     g_object_set_data ( G_OBJECT (tree_model), "warning_label", label );
     gtk_grid_attach (GTK_GRID (paddinggrid), label, 0, 2, 1, 1);
 
-    return ( vbox_pref );
+	/* set alternate color of treeview */
+	utils_set_list_store_background_color (GTK_WIDGET (tree_view), LINK_BACKGROUND_COLOR);
+
+	return ( vbox_pref );
 }
 
 
@@ -287,16 +291,18 @@ GtkWidget *gsb_currency_link_config_create_list ( void )
 	   LINK_EXCHANGE_COLUMN,
 	   LINK_CURRENCY2_COLUMN,
        LINK_DATE_COLUMN,
-	   LINK_NUMBER_COLUMN */
-    model = gtk_list_store_new ( NUM_LINKS_COLUMNS,
-				 G_TYPE_STRING,
-				 G_TYPE_STRING,
-				 G_TYPE_STRING,
-				 G_TYPE_STRING,
-				 G_TYPE_STRING,
-				 G_TYPE_STRING,
-				 G_TYPE_STRING,
-				 G_TYPE_INT );
+	   LINK_NUMBER_COLUMN
+	   LINK_BACKGROUND_COLOR */
+    model = gtk_list_store_new (NUM_LINKS_COLUMNS,
+								G_TYPE_STRING,
+								G_TYPE_STRING,
+								G_TYPE_STRING,
+								G_TYPE_STRING,
+								G_TYPE_STRING,
+								G_TYPE_STRING,
+								G_TYPE_STRING,
+								G_TYPE_INT,
+								GDK_TYPE_RGBA);
 
     /* Create tree tree_view */
     treeview = gtk_tree_view_new_with_model (GTK_TREE_MODEL(model));
@@ -317,26 +323,27 @@ GtkWidget *gsb_currency_link_config_create_list ( void )
      * the last value of the model mustn't be to text...
      * so LINK_NUMBER_COLUMN must be the first column after the last column showed */
 
-    for (i=0 ; i< LINK_NUMBER_COLUMN; i++ )
+    for (i=0 ; i< LINK_NUMBER_COLUMN - 1; i++ )
     {
 	GtkTreeViewColumn *column = NULL;
 
 	if ( i == LINK_INVALID_COLUMN )
 	{
-	    column = gtk_tree_view_column_new_with_attributes ( title[i],
-								gtk_cell_renderer_pixbuf_new (),
-								"stock-id", i,
-								NULL );
+	    column = gtk_tree_view_column_new_with_attributes (title[i],
+														   gtk_cell_renderer_pixbuf_new (),
+														   "stock-id", i,
+														   "cell-background-rgba", LINK_BACKGROUND_COLOR,
+														   NULL);
 	}
 	else
 	{
-	    column = gtk_tree_view_column_new_with_attributes ( title[i],
-								cell_renderer,
-								"text", i,
-								NULL );
+	    column = gtk_tree_view_column_new_with_attributes (title[i],
+														   cell_renderer,
+														   "text", i,
+														   "cell-background-rgba", LINK_BACKGROUND_COLOR,
+														   NULL);
 	    gtk_tree_view_column_set_sizing ( column,
 					      GTK_TREE_VIEW_COLUMN_AUTOSIZE );
-	    gtk_tree_view_column_set_expand ( column, TRUE );
 	}
 	gtk_tree_view_column_set_expand ( column, TRUE );
 	gtk_tree_view_append_column ( GTK_TREE_VIEW(treeview),
@@ -665,8 +672,10 @@ gboolean gsb_currency_link_config_add_link ( GtkWidget *tree_view )
 					   &iter );
 
     gtk_tree_selection_select_iter ( gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view)), &iter );
+	utils_set_list_store_background_color (GTK_WIDGET (tree_view), LINK_BACKGROUND_COLOR);
     gsb_file_set_modified ( TRUE );
-    return FALSE;
+
+	return FALSE;
 }
 
 
