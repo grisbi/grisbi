@@ -82,6 +82,66 @@ static GtkWidget *delete_reconcile_button;
 /******************************************************************************/
 /* Private Methods                                                            */
 /******************************************************************************/
+ /**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void gsb_reconcile_button_collapse_row_clicked (GtkButton *button,
+													   GtkTreeSelection *selection)
+{
+	GtkTreeView *tree_view;
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+	GtkTreePath *path;
+
+	if ( !gtk_tree_selection_get_selected (selection, &model, &iter))
+        return;
+	path = gtk_tree_model_get_path (model, &iter);
+	tree_view = gtk_tree_selection_get_tree_view (selection);
+	gtk_tree_view_collapse_row (tree_view, path);
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void gsb_reconcile_treeview_row_collapsed (GtkTreeView *treeview,
+												 GtkTreeIter *iter,
+												 GtkTreePath *path,
+												 GtkWidget *button)
+{
+	gtk_widget_set_sensitive (button, FALSE);
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void gsb_reconcile_treeview_row_expanded (GtkTreeView *treeview,
+												 GtkTreeIter *iter,
+												 GtkTreePath *path,
+												 GtkWidget *button)
+{
+	utils_set_tree_store_background_color (GTK_WIDGET (treeview), RECONCILIATION_BACKGROUND_COLOR);
+	gtk_widget_set_sensitive (button, TRUE);
+}
+
 /**
  *
  *
@@ -141,10 +201,11 @@ GtkWidget *gsb_reconcile_config_create ( void )
                         GTK_ORIENTATION_HORIZONTAL );
 
     paddinggrid = utils_prefs_paddinggrid_new_with_title (vbox_pref, _("List of reconciliations"));
+	gtk_widget_set_vexpand (paddinggrid, TRUE);
 
     /* set the list */
-    scrolled_window = utils_prefs_scrolled_window_new ( NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, SW_MIN_HEIGHT );
-    gtk_grid_attach (GTK_GRID (paddinggrid), scrolled_window, 0, 0, 1, 3);
+    scrolled_window = utils_prefs_scrolled_window_new ( NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, 200);
+    gtk_grid_attach (GTK_GRID (paddinggrid), scrolled_window, 0, 0, 3, 3);
 
     /* need to create first the table to set it in the arg of the changed signal of selection */
     table_selection = gtk_grid_new ();
@@ -160,8 +221,10 @@ GtkWidget *gsb_reconcile_config_create ( void )
 					   G_TYPE_STRING,    /* final balance  */
 					   G_TYPE_INT,       /* Account number */
 					   G_TYPE_INT,       /* Bold or regular text */
-					   G_TYPE_INT );     /* reconciliation number */
-    reconcile_treeview = gtk_tree_view_new_with_model ( GTK_TREE_MODEL (reconcile_model) );
+					   G_TYPE_INT,		 /* reconciliation number */
+					   GDK_TYPE_RGBA);
+
+	reconcile_treeview = gtk_tree_view_new_with_model ( GTK_TREE_MODEL (reconcile_model) );
 	gtk_widget_set_name (reconcile_treeview, "tree_view");
     g_object_unref (G_OBJECT(reconcile_model));
     gtk_tree_selection_set_mode ( gtk_tree_view_get_selection (GTK_TREE_VIEW (reconcile_treeview)),
@@ -191,6 +254,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
 	gtk_tree_view_column_set_attributes (column, cell,
 					     "text", i,
 					     "weight", RECONCILIATION_WEIGHT_COLUMN,
+						 "cell-background-rgba", RECONCILIATION_BACKGROUND_COLOR,
 					     NULL);
 	gtk_tree_view_column_set_expand ( column, TRUE );
 	gtk_tree_view_column_set_resizable ( column,
@@ -208,6 +272,25 @@ GtkWidget *gsb_reconcile_config_create ( void )
                                           NULL);
     gtk_widget_set_margin_top (button, MARGIN_TOP);
     gtk_grid_attach (GTK_GRID (paddinggrid), button, 0, 3, 1, 1);
+
+	button = gtk_button_new_with_label (_("Collapse row"));
+	gtk_widget_set_sensitive (button, FALSE);
+	g_signal_connect (G_OBJECT (button),
+					  "clicked",
+					  G_CALLBACK (gsb_reconcile_button_collapse_row_clicked),
+					  reconcile_selection);
+	gtk_grid_attach (GTK_GRID (paddinggrid), button, 1, 3, 1, 1);
+
+	/* set signal here because data is button */
+    g_signal_connect (reconcile_treeview,
+                      "row-expanded",
+                      G_CALLBACK (gsb_reconcile_treeview_row_expanded),
+                      button);
+
+    g_signal_connect (reconcile_treeview,
+                      "row-collapsed",
+                      G_CALLBACK (gsb_reconcile_treeview_row_collapsed),
+                      button);
 
     /* set the modifying part under the list */
     paddinggrid = utils_prefs_paddinggrid_new_with_title (vbox_pref,_("Selected reconcile") );
@@ -254,8 +337,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
 
     /* set the delete button */
 	delete_reconcile_button = gtk_button_new_with_label (_("Delete the reconcile"));
-    gtk_button_set_relief ( GTK_BUTTON (delete_reconcile_button),
-			GTK_RELIEF_NONE );
+    gtk_button_set_relief ( GTK_BUTTON (delete_reconcile_button), GTK_RELIEF_NORMAL);
 	g_signal_connect ( G_OBJECT (delete_reconcile_button), "clicked",
 			G_CALLBACK (gsb_reconcile_config_delete),
 			reconcile_treeview );
@@ -291,7 +373,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
     /* set the button to find non-associated transactions */
 	button = gtk_button_new_with_label (
                         _("Find all marked transactions not associated with a reconciliation"));
-	gtk_button_set_relief ( GTK_BUTTON (button), GTK_RELIEF_NONE );
+	gtk_button_set_relief ( GTK_BUTTON (button), GTK_RELIEF_NORMAL );
     utils_widget_set_padding (button, 0, MARGIN_TOP);
 	g_signal_connect ( G_OBJECT (button),
                       "clicked",
@@ -300,8 +382,9 @@ GtkWidget *gsb_reconcile_config_create ( void )
     gtk_grid_attach (GTK_GRID (paddinggrid), button, 0, 1, 1, 1);
 
     gtk_widget_show_all (vbox_pref);
+	utils_set_tree_store_background_color (reconcile_treeview, RECONCILIATION_BACKGROUND_COLOR);
 
-    if ( !gsb_data_account_get_accounts_amount () )
+	if ( !gsb_data_account_get_accounts_amount () )
     {
 	gtk_widget_set_sensitive ( vbox_pref, FALSE );
     }
