@@ -60,9 +60,16 @@
 #define COLUMN_CENTER 0.5
 #define COLUMN_RIGHT 1.0
 
+/* used for labels alignment */
+#define GSB_LEFT 				0
+#define GSB_CENTER 				0.5
+#define GSB_RIGHT 				1
+#define GSB_TOP 				0
+#define GSB_BOTTOM 				1
+
 /* valeurs pour le logo de grisbi */
-#define LOGO_WIDTH 48
-#define LOGO_HEIGHT 48
+#define LOGO_WIDTH 				48
+#define LOGO_HEIGHT 			48
 
  /* définitions pour les noms de fichier dans les boutons de la vue accueil */
 #define GSB_NBRE_CHAR_TRUNC		15
