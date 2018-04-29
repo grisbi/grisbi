@@ -48,13 +48,14 @@ enum CurrencyConfigListColumns {
     CURRENCY_FLOATING_COLUMN,
     CURRENCY_NUMBER_COLUMN,
     CURRENCY_MAIN_CURRENCY_COLUMN,
+	CURRENCY_BACKGROUND_COLOR,
     NUM_CURRENCIES_COLUMNS
 };
 
 
 /* START_DECLARATION */
 gboolean 	gsb_currency_config_add_currency 						(GtkWidget *button,
-																	 GtkTreeModel *currency_tree_model);
+																	 GtkWidget *tree_view);
 gboolean 	gsb_currency_config_add_currency_set_combobox 			(GtkWidget *button,
 																	 GtkWidget *combobox);
 GtkWidget *	gsb_currency_config_create_box_popup 					(GCallback select_callback);
