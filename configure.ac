@@ -289,9 +289,10 @@ if test "$platform_win" = "yes"; then
 		NSIS_DEFAULTINSTDIR="Program Files (x86)"
 	fi
 	NSIS_SRCDIR=$({ cd ${srcdir} && pwd -W; } | sed 's|/|\\|g')	
-	NSIS_INSTDIR=$({ mkdir -p ${prefix}; cd ${prefix} && pwd -W; }| sed 's|/|\\|g')	
+	NSIS_INSTDIR=$({ mkdir -p ${prefix}; cd ${prefix} && pwd -W; }| sed 's|/|\\|g')
 	echo "a=$NSIS_SRCDIR"
 	echo "b=$NSIS_INSTDIR"
+
 	AC_SUBST(NSIS_BITS)
 	AC_SUBST(NSIS_DEFAULTINSTDIR)
 	AC_SUBST(NSIS_SRCDIR)
