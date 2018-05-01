@@ -15,18 +15,21 @@ RequestExecutionLevel admin
   !define VERSION '@VERSION@'
 !endif
 
+
+
 !define PACKAGERDIR "@NSIS_INSTDIR@"
 !define SRCDIR "@NSIS_SRCDIR@"
+!define DATE "@NSIS_DATE@"
 
 Name "Grisbi @NSIS_BITS@"
 Icon "${SRCDIR}\win32\grisbi.ico"
-OutFile "Grisbi-@NSIS_BITS@-${VERSION}-2018.04.18-setup.exe"
+OutFile "Grisbi-@NSIS_BITS@-${VERSION}${DATE}-setup.exe"
 !define COMPANYNAME "Grisbi"
 
 Caption "Grisbi @NSIS_BITS@ ${VERSION} Setup"
 
 # $PROGRAMFILES
-InstallDir "C:\@NSIS_DEFAULTINSTDIR@\Grisbi-${VERSION}"
+InstallDir "C:\@NSIS_DEFAULTINSTDIR@\Grisbi-${VERSION}${DATE}"
 
 
 InstType "full"
@@ -88,8 +91,8 @@ Section "" SecBin
   WriteUninstaller "$INSTDIR\Uninstall.exe"
   
   createDirectory "$SMPROGRAMS\${COMPANYNAME}"
-  createShortCut "$SMPROGRAMS\${COMPANYNAME}\Gribi @NSIS_BITS@ @VERSION@.lnk" "$INSTDIR\bin\Grisbi.exe" "" "$INSTDIR\bin\grisbi.ico"
-  createShortCut "$SMPROGRAMS\${COMPANYNAME}\Uninstall Gribi @NSIS_BITS@ @VERSION@.lnk" "$INSTDIR\Uninstall.exe"
+  createShortCut "$SMPROGRAMS\${COMPANYNAME}\Gribi @NSIS_BITS@-@VERSION@@NSIS_DATE@.lnk" "$INSTDIR\bin\Grisbi.exe" "" "$INSTDIR\bin\grisbi.ico"
+  createShortCut "$SMPROGRAMS\${COMPANYNAME}\Uninstall Gribi @NSIS_BITS@-@VERSION@@NSIS_DATE@.lnk" "$INSTDIR\Uninstall.exe"
   
   # Registry information for add/remove programs
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}" "DisplayName" "Grisbi @NSIS_BITS@"
