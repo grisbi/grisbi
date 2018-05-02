@@ -61,6 +61,7 @@
 #include "transaction_list.h"
 #include "utils.h"
 #include "utils_buttons.h"
+#include "utils_dates.h"
 #include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -113,9 +114,6 @@ struct _GrisbiWinPrivate
 
 	/* allocations widgets */
 	gint 				form_expander_label_width;
-	GtkAllocation		navigation_sw_allocation;
-	GtkAllocation		notebook_general_allocation;
-	GtkAllocation		scheduler_calendar_allocation;
 
     /* nom du fichier associé à la fenêtre */
     gchar *             filename;
@@ -369,67 +367,7 @@ static gboolean grisbi_win_expander_label_set_initial_width (GtkWidget *form_gen
     return FALSE;
 }
 /* NAVIGATION PANE */
-/**
- * utile pour gérer la dimmension de navigation_sw
- *
- * \param GtkWidget			navigation_sw
- * \param GtkAllocation 	allocation
- * \param gpointer			NULL
- *
- * \return FALSE
- */
-static gboolean grisbi_win_navigation_sw_size_allocate (GtkWidget *navigation_sw,
-                                          GtkAllocation *allocation,
-                                          gpointer data)
-{
-	GrisbiWinPrivate *priv = (GrisbiWinPrivate *) data;
-
-	priv->navigation_sw_allocation.width = allocation->width;
-	priv->navigation_sw_allocation.height = allocation->height;
-    return FALSE;
-}
-
-/**
- * utile pour gérer la dimmension du scheduler_calendar
- *
- * \param GtkWidget			scheduler_calendar
- * \param GtkAllocation 	allocation
- * \param gpointer			NULL
- *
- * \return FALSE
- */
-static gboolean grisbi_win_scheduler_calendar_size_allocate (GtkWidget *scheduler_calendar,
-                                          GtkAllocation *allocation,
-                                          gpointer data)
-{
-	GrisbiWinPrivate *priv = (GrisbiWinPrivate *) data;
-
-	priv->scheduler_calendar_allocation.width = allocation->width;
-	priv->scheduler_calendar_allocation.height = allocation->height;
-    return FALSE;
-}
-
 /* NOTEBOOK_GENERAL */
-/**
- * utile pour gérer la dimmension du notebook general
- *
- * \param GtkWidget			notebook
- * \param GtkAllocation 	allocation
- * \param gpointer			NULL
- *
- * \return FALSE
- */
-static gboolean grisbi_win_notebook_size_allocate (GtkWidget *notebook_general,
-                                          GtkAllocation *allocation,
-                                          gpointer data)
-{
-	GrisbiWinPrivate *priv = (GrisbiWinPrivate *) data;
-
-	priv->notebook_general_allocation.width = allocation->width;
-	priv->notebook_general_allocation.height = allocation->height;
-    return FALSE;
-}
-
 /**
  * fill the notebook given in param
  *
@@ -562,10 +500,6 @@ static GtkWidget *grisbi_win_create_general_notebook (GrisbiWin *win)
 	gtk_container_add (GTK_CONTAINER(sw), priv->notebook_general);
 
     gtk_widget_show (priv->notebook_general);
-    g_signal_connect (G_OBJECT (priv->notebook_general),
-                      "size_allocate",
-                      G_CALLBACK (grisbi_win_notebook_size_allocate),
-                      priv);
 
     /* append the form */
     priv->form_general = gsb_form_new ();
@@ -744,7 +678,8 @@ static void grisbi_win_free_w_etat (GrisbiWinEtat *w_etat)
 		g_free (w_etat->adr_common);
 	if (w_etat->adr_secondary)
 		g_free (w_etat->adr_secondary);
-
+	if (w_etat->date_format)
+		g_free (w_etat->date_format);
 
     g_free (w_etat);
 }
@@ -794,6 +729,7 @@ static void grisbi_win_init (GrisbiWin *win)
 
     /* creation et initialisation de la structure w_run */
     priv->w_run = g_malloc0 (sizeof (GrisbiWinRun));
+	(priv->w_run)->account_number_is_0 = FALSE;
 	(priv->w_run)->prefs_expand_tree = TRUE;
 	(priv->w_run)->prefs_selected_row = g_strdup ("0:0");
 
@@ -825,6 +761,9 @@ static void grisbi_win_init (GrisbiWin *win)
 
 	/* initialisation de la barre d'état */
 	grisbi_win_init_statusbar (GRISBI_WIN (win));
+
+	/* initialisation du format de la date */
+	(priv->w_etat)->date_format = gsb_date_initialise_format_date ();
 }
 
 /**
@@ -898,6 +837,27 @@ static void grisbi_win_class_init (GrisbiWinClass *klass)
  *
  * \return
  **/
+gboolean grisbi_win_file_is_loading (void)
+{
+    GrisbiWin *win;
+	GrisbiWinPrivate *priv;
+	GrisbiWinRun *w_run;
+
+	win = grisbi_app_get_active_window (NULL);
+
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+	w_run = priv->w_run;
+
+	return w_run->file_is_loading;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 const gchar *grisbi_win_get_filename (GrisbiWin *win)
 {
 	GrisbiWinPrivate *priv;
@@ -913,27 +873,6 @@ const gchar *grisbi_win_get_filename (GrisbiWin *win)
 	}
 
 	return filename;
-}
-
-/**
- *
- *
- * \param
- *
- * \return
- **/
-gboolean grisbi_win_file_is_loading (void)
-{
-    GrisbiWin *win;
-	GrisbiWinPrivate *priv;
-	GrisbiWinRun *w_run;
-
-	win = grisbi_app_get_active_window (NULL);
-
-	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
-	w_run = priv->w_run;
-
-	return w_run->file_is_loading;
 }
 
 /**
@@ -1633,15 +1572,6 @@ GtkWidget *grisbi_win_create_general_widgets (GrisbiWin *win)
 	/* recuperation des enfants pour gestion dimmension */
 	navigation_pane = gsb_gui_navigation_create_navigation_pane ();
 	priv->navigation_sw = gtk_grid_get_child_at (GTK_GRID (navigation_pane), 0, 0);
-    g_signal_connect (G_OBJECT (priv->navigation_sw),
-                      "size_allocate",
-                      G_CALLBACK (grisbi_win_navigation_sw_size_allocate),
-                      priv);
-	priv->scheduler_calendar = gtk_grid_get_child_at (GTK_GRID (navigation_pane), 0, 1);
-    g_signal_connect (G_OBJECT (priv->scheduler_calendar),
-                      "size_allocate",
-                      G_CALLBACK (grisbi_win_scheduler_calendar_size_allocate),
-                      priv);
 
     /* fill the main hpaned. */
 	gtk_paned_pack1 (GTK_PANED (priv->hpaned_general),
@@ -1776,6 +1706,7 @@ gboolean grisbi_win_on_account_switch_page (GtkNotebook *notebook,
         account_number = gsb_gui_navigation_get_current_account ();
         if (gsb_data_account_get_bet_maj (account_number))
             bet_data_update_bet_module (account_number, GSB_ESTIMATE_PAGE);
+		gsb_menu_gui_sensitive_win_menu_item ("reset-width-col", TRUE);
         break;
     case GSB_HISTORICAL_PAGE:
         gsb_form_set_expander_visible (FALSE, FALSE);

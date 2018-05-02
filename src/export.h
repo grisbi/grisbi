@@ -8,10 +8,10 @@
 
 
 /** Structure used to hold exported account information.  */
-struct exported_account
+struct ExportedAccount
 {
     gint 		account_nb;        	/** Account number, to use with gsb_data_account_get...() functions */
-    enum 		exported_format		/** Export format. */
+    enum 		ExportedFormat		/** Export format. */
     {
         EXPORT_QIF,
         EXPORT_CSV,
@@ -23,6 +23,8 @@ struct exported_account
 
 /* START_DECLARATION */
 void 	export_accounts 	(void);
+gchar *	export_get_csv_separator (void);
+void 	export_set_csv_separator (gchar *separator);
 /* END_DECLARATION */
 
 #endif

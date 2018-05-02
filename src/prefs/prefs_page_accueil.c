@@ -44,6 +44,7 @@
 #include "gsb_data_partial_balance.h"
 #include "navigation.h"
 #include "structures.h"
+#include "utils.h"
 #include "utils_prefs.h"
 #include "erreur.h"
 
@@ -300,7 +301,10 @@ static void prefs_page_accueil_setup_accueil_page (PrefsPageAccueil *page)
 		/* Nom du solde partiel */
 		cell = gtk_cell_renderer_text_new ();
 		column = gtk_tree_view_column_new_with_attributes (_("Name"),
-							cell, "text", 0, NULL);
+														   cell,
+														   "text", 0,
+														   "cell-background-rgba", PARTIAL_BACKGROUND_COLOR,
+														   NULL);
 		gtk_tree_view_column_set_alignment (column, 0.5);
 		gtk_tree_view_column_set_sort_column_id (column, 0);
 		gtk_tree_view_append_column (GTK_TREE_VIEW (treeview), column);
@@ -308,7 +312,10 @@ static void prefs_page_accueil_setup_accueil_page (PrefsPageAccueil *page)
 		/* Liste des comptes */
 		cell = gtk_cell_renderer_text_new ();
 		column = gtk_tree_view_column_new_with_attributes (_("Accounts list"),
-							cell, "text", 1, NULL);
+														   cell,
+														   "text", 1,
+														   "cell-background-rgba", PARTIAL_BACKGROUND_COLOR,
+														   NULL);
 		gtk_tree_view_column_set_alignment (column, 0.5);
 		gtk_tree_view_column_set_sort_column_id (column, 1);
 		gtk_tree_view_append_column (GTK_TREE_VIEW (treeview), column);
@@ -323,15 +330,19 @@ static void prefs_page_accueil_setup_accueil_page (PrefsPageAccueil *page)
 		g_object_set (cell, "xalign", 0.5, NULL);
 
 		column = gtk_tree_view_column_new_with_attributes (_("Colorize"),
-							cell,
-							"active", 5,
-							NULL);
+														   cell,
+														   "active", 5,
+														   "cell-background-rgba", PARTIAL_BACKGROUND_COLOR,
+														   NULL);
 		gtk_tree_view_append_column (GTK_TREE_VIEW(treeview), column);
 
 		/* Type de compte */
 		cell = gtk_cell_renderer_text_new ();
 		column = gtk_tree_view_column_new_with_attributes (_("Account kind"),
-							cell, "text", 2, NULL);
+														   cell,
+														   "text", 2,
+														   "cell-background-rgba", PARTIAL_BACKGROUND_COLOR,
+														   NULL);
 		gtk_tree_view_column_set_alignment (column, 0.5);
 		gtk_tree_view_column_set_sort_column_id (column, 2);
 		gtk_tree_view_append_column (GTK_TREE_VIEW (treeview), column);
@@ -339,7 +350,10 @@ static void prefs_page_accueil_setup_accueil_page (PrefsPageAccueil *page)
 		/* Devise */
 		cell = gtk_cell_renderer_text_new ();
 		column = gtk_tree_view_column_new_with_attributes (_("Currency"),
-							cell, "text", 3, NULL);
+														   cell,
+														   "text", 3,
+														   "cell-background-rgba", PARTIAL_BACKGROUND_COLOR,
+														   NULL);
 		gtk_tree_view_column_set_alignment (column, 0.5);
 		gtk_tree_view_column_set_sort_column_id (column, 3);
 		gtk_tree_view_append_column (GTK_TREE_VIEW (treeview), column);
@@ -357,6 +371,8 @@ static void prefs_page_accueil_setup_accueil_page (PrefsPageAccueil *page)
 						  1);
 			src_iface -> drag_data_get = &gsb_data_partial_balance_drag_data_get;
 		}
+
+		 utils_set_list_store_background_color (treeview, PARTIAL_BACKGROUND_COLOR);
 	}
 	else
 	{

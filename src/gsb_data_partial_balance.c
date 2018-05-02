@@ -181,12 +181,11 @@ gint gsb_partial_balance_new_at_position ( const gchar *name, gint pos )
 GtkListStore *gsb_partial_balance_create_model ( void )
 {
 
-    model_accueil = gtk_list_store_new ( 6, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING,
-                        G_TYPE_STRING, G_TYPE_INT, G_TYPE_BOOLEAN );
+    model_accueil = gtk_list_store_new (7, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING,
+										G_TYPE_STRING, G_TYPE_INT, G_TYPE_BOOLEAN, GDK_TYPE_RGBA);
 
     return model_accueil;
 }
-
 
 /**
  *
@@ -228,6 +227,7 @@ void gsb_partial_balance_fill_model ( GtkListStore *list_store )
             kind_str = g_strdup ( _("Assets account") );
             break;
 
+		case GSB_TYPE_BANK:
         default:
             kind_str = g_strdup ( _("Bank account") );
         }
@@ -1264,8 +1264,7 @@ gboolean gsb_partial_balance_select_account ( GtkTreeSelection *selection,
         }
     }
 
-    g_list_foreach ( list, ( GFunc ) gtk_tree_path_free, NULL );
-    g_list_free ( list );
+    g_list_free_full ( list, ( GDestroyNotify ) gtk_tree_path_free );
 
     return TRUE;
 }
@@ -1483,7 +1482,7 @@ GPtrArray *gsb_data_partial_balance_calculate_balances_at_date ( gint partial_ba
 
     partial_balance = gsb_data_partial_balance_get_structure ( partial_balance_number );
 
-    if ( !partial_balance_number )
+    if ( !partial_balance )
         return NULL;
 
     tab = g_strsplit ( partial_balance->liste_cptes, ";", 0 );

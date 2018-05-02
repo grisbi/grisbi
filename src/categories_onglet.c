@@ -79,7 +79,7 @@ static GtkWidget *arbre_categ = NULL;
 static gboolean sortie_edit_category = FALSE;
 
 /* structure pour la sauvegarde de la position */
-struct metatree_hold_position *category_hold_position;
+struct MetatreeHoldPosition *category_hold_position;
 
 
 /*START_EXTERN*/
@@ -196,6 +196,7 @@ GtkWidget *categories_create_list ( void )
 
     /* Make amount column */
     cell = gtk_cell_renderer_text_new ();
+	gtk_cell_renderer_set_padding (GTK_CELL_RENDERER (cell), MARGIN_BOX, 0);
     column = gtk_tree_view_column_new_with_attributes (_("Amount"), cell,
 						       "text", META_TREE_BALANCE_COLUMN,
 						       "weight", META_TREE_FONT_COLUMN,
@@ -253,7 +254,7 @@ GtkWidget *categories_create_list ( void )
                         categ_tree_model );
 
     /* création de la structure de sauvegarde de la position */
-    category_hold_position = g_malloc0 ( sizeof ( struct metatree_hold_position ) );
+    category_hold_position = g_malloc0 ( sizeof ( struct MetatreeHoldPosition ) );
 
     gtk_widget_show_all ( vbox );
 
@@ -352,7 +353,7 @@ void categories_fill_list ( void )
             gtk_tree_path_free (ancestor );
         }
         /* on colorise les lignes du tree_view */
-        utils_set_tree_view_background_color ( arbre_categ, META_TREE_BACKGROUND_COLOR );
+        utils_set_tree_store_background_color ( arbre_categ, META_TREE_BACKGROUND_COLOR );
         selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( arbre_categ ) );
         gtk_tree_selection_select_path ( selection, category_hold_position -> path );
         gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW ( arbre_categ ),
@@ -364,7 +365,7 @@ void categories_fill_list ( void )
         gchar *title;
 
         /* on colorise les lignes du tree_view */
-        utils_set_tree_view_background_color ( arbre_categ, META_TREE_BACKGROUND_COLOR );
+        utils_set_tree_store_background_color ( arbre_categ, META_TREE_BACKGROUND_COLOR );
 	    title = g_strdup(_("Categories"));
         grisbi_win_headings_update_title ( title );
         g_free ( title );
@@ -1017,7 +1018,7 @@ gboolean category_list_button_press ( GtkWidget *tree_view,
         GtkTreeModel *model = NULL;
         GtkTreeIter iter;
         GtkTreePath *path = NULL;
-        enum meta_tree_row_type type_division;
+        enum MetaTreeRowType type_division;
 
         type_division = metatree_get_row_type_from_tree_view ( tree_view );
         if ( type_division == META_TREE_TRANSACTION )
@@ -1077,7 +1078,7 @@ void category_list_popup_context_menu ( void )
     GtkWidget *menu;
     GtkWidget *menu_item;
     gchar *title;
-    enum meta_tree_row_type type_division;
+    enum MetaTreeRowType type_division;
 
     type_division = metatree_get_row_type_from_tree_view ( arbre_categ );
 

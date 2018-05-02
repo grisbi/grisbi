@@ -35,12 +35,14 @@
 
 /*START_INCLUDE*/
 #include "traitement_variables.h"
+#include "affichage_liste.h"
 #include "bet_data.h"
 #include "bet_data_finance.h"
 #include "bet_future.h"
 #include "bet_graph.h"
 #include "categories_onglet.h"
 #include "custom_list.h"
+#include "export_csv.h"
 #include "grisbi_win.h"
 #include "gsb_calendar.h"
 #include "gsb_currency.h"
@@ -88,7 +90,6 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void initialise_format_date ( void );
 static void initialise_tab_affichage_ope ( void );
 /*END_STATIC*/
 
@@ -112,6 +113,7 @@ extern gint transaction_col_width[CUSTOM_MODEL_VISIBLE_COLUMNS];
 /* the total of % of scheduled columns can be > 100 because all the columns are not showed at the same time */
 static const gchar *scheduler_col_width_init = "10-12-36-12-12-12-12";
 static const gchar *transaction_col_width_init = "10-12-30-12-12-12-12";
+static gint bet_array_col_width_init[BET_ARRAY_COLUMNS] = {15, 45, 12, 12, 14};
 
 /**
  * initialisation of all the variables of grisbi
@@ -123,7 +125,6 @@ static const gchar *transaction_col_width_init = "10-12-30-12-12-12-12";
  * */
 void init_variables ( void )
 {
-    gint bet_array_col_width_init[BET_ARRAY_COLUMNS] = {15, 40, 15, 15, 15 };
     gint transaction_col_align_init[CUSTOM_MODEL_VISIBLE_COLUMNS] = { 1, 1, 0, 1, 2, 2, 2 };
     gint i;
 
@@ -131,9 +132,6 @@ void init_variables ( void )
 
     /* init the new crypted file */
     run.new_crypted_file = FALSE;
-
-	/* init the format date */
-    initialise_format_date ( );
 
     /* initialise l'ordre des pages du panneau de gauche */
     gsb_gui_navigation_init_pages_list ( );
@@ -296,9 +294,13 @@ void free_variables (void)
 	gsb_gui_navigation_free_pages_list ();
 	gsb_import_associations_free_liste ();
     gsb_regex_destroy ();
+	free_noms_colonnes_et_tips ();
     bet_data_free_variables ();
 	if (etat.csv_separator)
 		g_free (etat.csv_separator);
+	gsb_csv_export_set_csv_separator (NULL);
+    gsb_select_icon_init_logo_variables ();
+	gsb_data_bank_init_variables ();
 
 #ifdef HAVE_GOFFICE
     struct_free_bet_graph_prefs ();
@@ -370,31 +372,22 @@ void initialise_tab_affichage_ope ( void )
 
 
 /**
- * init the format of date.
  *
- * */
-void initialise_format_date ( void )
+ *
+ * \param
+ *
+ * \return
+ **/
+void initialise_largeur_colonnes_prev_tab (void)
 {
-    const gchar *langue;
+	gint i;
 
-    gsb_date_set_format_date ( NULL );
+    for (i = 0; i < BET_ARRAY_COLUMNS - 1; i++)
+    {
+        bet_array_col_width[i] = bet_array_col_width_init[i];
+    }
 
-    langue = g_getenv ("LANG");
-	if (langue)
-	{
-		if ( g_str_has_prefix ( langue, "en_" ) || g_str_has_prefix ( langue, "cs_" ) )
-			gsb_date_set_format_date ( "%m/%d/%Y" );
-		else if ( g_str_has_prefix ( langue, "de_" ) )
-			gsb_date_set_format_date ( "%d.%m.%Y" );
-		else
-			gsb_date_set_format_date ( "%d/%m/%Y" );
-	}
-    else
-	{
-		gsb_date_set_format_date ( "%d/%m/%Y" );
-	}
 }
-
 
 /**
  *
@@ -402,7 +395,7 @@ void initialise_format_date ( void )
  * \param
  *
  * \return
- * */
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

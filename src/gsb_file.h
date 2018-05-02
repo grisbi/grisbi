@@ -13,6 +13,7 @@ gboolean        gsb_file_automatic_backup_change_time   (GtkWidget *spinbutton,
 gboolean        gsb_file_automatic_backup_start         (GtkWidget *checkbutton,
                                                          gpointer null);
 gboolean        gsb_file_close                          (void);
+void 			gsb_file_copy_old_file 					(const gchar *filename);
 void            gsb_file_free_last_path                 (void);
 void            gsb_file_free_backup_path               (void);
 const gchar *   gsb_file_get_backup_path                (void);

@@ -39,6 +39,7 @@
 #include "bet_graph.h"
 #include "custom_list.h"
 #include "dialog.h"
+#include "export_csv.h"
 #include "grisbi_win.h"
 #include "gsb_assistant_archive.h"
 #include "gsb_assistant_first.h"
@@ -265,6 +266,7 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
                 {
                     g_free ( etat.csv_separator );
                     etat.csv_separator = my_strdup ( attribute_values[i] );
+					gsb_csv_export_set_csv_separator (etat.csv_separator);
                 }
 
                 else if ( !strcmp ( attribute_names[i], "CSV_skipped_lines" ))
@@ -340,17 +342,7 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
 
                 else if ( !strcmp ( attribute_names[i], "General_address" ))
                 {
-					if (g_strstr_len (attribute_values[i], -1, "\\n" ) )
-                    {
-                        gchar **adr_common_tab;
-
-                        adr_common_tab = g_strsplit ( attribute_values[i], "\\n", 0 );
-                        w_etat->adr_common = g_strjoinv ( NEW_LINE, adr_common_tab );
-
-                        g_strfreev (adr_common_tab);
-                    }
-                    else
-						w_etat->adr_common = my_strdup (attribute_values[i]);
+					w_etat->adr_common =  utils_str_protect_unprotect_multilines_text (attribute_values[i], FALSE);
                 }
 
                 else
@@ -375,6 +367,9 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
 
                 else if ( !strcmp ( attribute_names[i], "Import_fyear_by_value_date" ))
                     etat.get_fyear_by_value_date = utils_str_atoi ( attribute_values[i]);
+
+                else if ( !strcmp ( attribute_names[i], "Import_qif_no_import_categories" ))
+                    etat.qif_no_import_categories = utils_str_atoi ( attribute_values[i]);
 
                 else if ( !strcmp ( attribute_names[i], "Import_qif_use_field_extract_method_payment" ))
                     etat.qif_use_field_extract_method_payment = utils_str_atoi ( attribute_values[i]);
@@ -442,17 +437,7 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
             case 'S':
                 if ( !strcmp ( attribute_names[i], "Second_general_address" ))
                 {
-					if (g_strstr_len (attribute_values[i], -1, "\\n" ) )
-                    {
-                        gchar **adr_secondary_tab;
-
-                        adr_secondary_tab = g_strsplit ( attribute_values[i], "\\n", 0 );
-                        w_etat->adr_secondary = g_strjoinv ( NEW_LINE, adr_secondary_tab );
-
-                        g_strfreev (adr_secondary_tab);
-                    }
-                    else
-						w_etat->adr_secondary = my_strdup (attribute_values[i]);
+					w_etat->adr_secondary = utils_str_protect_unprotect_multilines_text (attribute_values[i], FALSE);
                 }
 
                 else if ( !strcmp ( attribute_names[i], "Scheduler_column_width" ) )
@@ -1097,8 +1082,11 @@ static  void gsb_file_load_account_part ( const gchar **attribute_names,
 
                 else if ( !strcmp ( attribute_names[i], "Comment" ))
                 {
-                    gsb_data_account_set_comment ( account_number,
-                            attribute_values[i]);
+					gchar *tmp_str;
+
+					tmp_str = utils_str_protect_unprotect_multilines_text (attribute_values[i], FALSE);
+                    gsb_data_account_set_comment ( account_number, tmp_str);
+					g_free (tmp_str);
                 }
 
                 else if ( !strcmp ( attribute_names[i], "Column_sort" ))
@@ -1256,6 +1244,13 @@ static  void gsb_file_load_account_part ( const gchar **attribute_names,
                 {
                     account_number = gsb_data_account_set_account_number ( account_number,
                             utils_str_atoi ( attribute_values[i]));
+					if (account_number == 0)
+					{
+						GrisbiWinRun *w_run;
+
+						w_run = grisbi_win_get_w_run ();
+						w_run->account_number_is_0 = TRUE;
+					}
                 }
 
                 else if ( !strcmp ( attribute_names[i], "Neutrals_inside_method" ))
@@ -1277,21 +1272,11 @@ static  void gsb_file_load_account_part ( const gchar **attribute_names,
 
                 else if ( !strcmp ( attribute_names[i], "Owner_address" ))
                 {
-                    if ( g_strstr_len ( attribute_values[i], -1, "\\n" ) )
-                    {
-                        gchar **owner_tab;
-                        gchar *owner_str;
+					gchar *owner_str;
 
-                        owner_tab = g_strsplit ( attribute_values[i], "\\n", 0 );
-                        owner_str = g_strjoinv ( NEW_LINE, owner_tab );
-                        gsb_data_account_set_holder_address ( account_number, owner_str );
-
-                        g_free ( owner_str );
-                        g_strfreev ( owner_tab );
-                    }
-                    else
-                        gsb_data_account_set_holder_address ( account_number,
-                                attribute_values[i]);
+					owner_str = utils_str_protect_unprotect_multilines_text (attribute_values[i], FALSE);
+                    gsb_data_account_set_holder_address (account_number, owner_str);
+					g_free (owner_str);
                 }
 
                 else
@@ -2270,8 +2255,11 @@ static  void gsb_file_load_bank ( const gchar **attribute_names,
     if ( !strcmp ( attribute_names[i],
                                    "Adr" ))
     {
-        gsb_data_bank_set_bank_address ( bank_number,
-                                             attribute_values[i] );
+		gchar *adr_str;
+
+		adr_str = utils_str_protect_unprotect_multilines_text (attribute_values[i], FALSE);
+        gsb_data_bank_set_bank_address ( bank_number,adr_str);
+		g_free (adr_str);
         i++;
         continue;
     }
@@ -2339,11 +2327,13 @@ static  void gsb_file_load_bank ( const gchar **attribute_names,
         continue;
     }
 
-    if ( !strcmp ( attribute_names[i],
-               "Rem" ))
+    if ( !strcmp ( attribute_names[i], "Rem" ))
     {
-        gsb_data_bank_set_bank_note ( bank_number,
-                      attribute_values[i] );
+		gchar *rem_str;
+
+		rem_str = utils_str_protect_unprotect_multilines_text (attribute_values[i], FALSE);
+        gsb_data_bank_set_bank_note (bank_number, rem_str);
+		g_free (rem_str);
         i++;
         continue;
     }
@@ -3850,6 +3840,9 @@ gboolean gsb_file_load_open_file (const gchar *filename )
     {
         GMarkupParser *markup_parser;
         GMarkupParseContext *context;
+		GrisbiWinRun *w_run;
+
+		w_run = grisbi_win_get_w_run ();
 
         /* first, we check if the file is crypted, if it is, we decrypt it */
         if ( !strncmp ( file_content, "Grisbi encrypted file ", 22 ) ||
@@ -3890,11 +3883,11 @@ gboolean gsb_file_load_open_file (const gchar *filename )
             /* fill the GMarkupParser for a new xml structure */
             markup_parser -> start_element = (void *) gsb_file_load_start_element;
             markup_parser -> error = (void *) gsb_file_load_error;
-            run.old_version = FALSE;
+            w_run->old_version = FALSE;
         }
         else
         {
-            run.old_version = TRUE;
+            w_run->old_version = TRUE;
 
             return FALSE;
         }
@@ -3916,6 +3909,11 @@ gboolean gsb_file_load_open_file (const gchar *filename )
         g_markup_parse_context_free (context);
         g_free (markup_parser);
         g_free (file_content);
+
+		if (w_run->account_number_is_0)
+		{
+			gsb_data_account_renum_account_number_0 (filename);
+		}
 
         if ( !download_tmp_values.download_ok )
             return FALSE;
@@ -3955,8 +3953,7 @@ gboolean gsb_file_load_open_file (const gchar *filename )
 
         text = g_strdup_printf (_("You import a file from version %s of Grisbi. After updating "
                                   "your file will not be compatible with grisbi version %s.\n\n"
-                                  "You will have to re-customize the icons and colors and you "
-								  "will have to abandon the encryption of your account file."),
+                                  "You will have to re-customize the icons and colors."),
                                 download_tmp_values.file_version,
                                 download_tmp_values.grisbi_version);
 

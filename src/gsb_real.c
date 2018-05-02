@@ -183,6 +183,7 @@ gsb_real gsb_real_raw_get_from_string ( const gchar *string,
     gint8 dot_position = -1;
     const gchar *p = string;
     gboolean success = FALSE;
+	gboolean error = FALSE;
 
     if ( !string)
         return error_real;
@@ -254,7 +255,11 @@ gsb_real gsb_real_raw_get_from_string ( const gchar *string,
         }
         else /* unknown char ==> error */
         {
-            break;
+			/* si une première erreur on passe au caractère suivant sinon on sort à la deuxième */
+			if (error)
+				break;
+			p = g_utf8_find_next_char (p, NULL);
+			error = TRUE;
         }
     }
     /* Free memory */
@@ -267,7 +272,7 @@ gsb_real gsb_real_raw_get_from_string ( const gchar *string,
         result.mantissa = sign * mantissa;
         result.exponent = ( dot_position >= 0 ) ? nb_digits - dot_position : 0;
 
-        return result;
+		return result;
     }
     else
     {
@@ -810,7 +815,7 @@ gchar *gsb_real_safe_real_to_string ( gsb_real number, gint default_exponent )
     lldiv_t units;
 
     if ( (number.exponent < 0)
-    || (number.exponent > EXPONENT_MAX )
+    || (number.exponent >= EXPONENT_MAX )
     || (number.mantissa == error_real.mantissa) )
       return g_strdup ( ERROR_REAL_STRING );
 

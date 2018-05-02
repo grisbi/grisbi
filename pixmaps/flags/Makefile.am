@@ -21,9 +21,9 @@ PGK.png PHP.png PKR.png PLN.png PTE.png PYG.png QAR.png ROL.png		\
 RUR.png RWF.png SAN.png SAR.png SBD.png SCR.png SDD.png SEK.png		\
 SEN.png SGD.png SHP.png SIT.png SKK.png SLC.png SLL.png SOS.png		\
 SRD.png STD.png SVC.png SYP.png SZL.png THB.png TJS.png TMM.png		\
-TND.png TOP.png TPE.png TRL.png TTD.png TUV.png TWD.png TZS.png		\
-UAH.png UGX.png USD.png UYU.png UZS.png VAT.png VEB.png VND.png		\
-VUV.png WST.png XPF.png YER.png YUM.png YUV.png ZAR.png ZMK.png		\
-ZWD.png
+TND.png TOG.png TOP.png TPE.png TRL.png TTD.png TUV.png TWD.png		\
+TZS.png UAH.png UGX.png USD.png UYU.png UZS.png VAT.png VEB.png		\
+VND.png VUV.png WST.png XPF.png YER.png YUM.png YUV.png ZAR.png		\
+ZMK.png ZWD.png
 
 EXTRA_DIST = $(grisbi_pixmaps_flags_DATA) 

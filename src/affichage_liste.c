@@ -147,13 +147,13 @@ GtkWidget *onglet_affichage_operations ( void )
     _("In three lines visibles, show the lines: "),
     };
     gchar *line_1 [] = {
-    "1", "2", "3", "4",
+    "1",
     NULL };
     gchar *line_2 [] = {
-    "1-2", "1-3", "1-4", "2-3", "2-4", "3-4",
+    "1-2", "1-3", "1-4",
     NULL };
     gchar *line_3 [] = {
-    "1-2-3", "1-2-4", "1-3-4", "2-3-4",
+    "1-2-3", "1-2-4", "1-3-4",
     NULL };
     gchar *options_tri_primaire[] = {
     _("Sort by value date (if fail, try with the date)"),
@@ -222,6 +222,8 @@ GtkWidget *onglet_affichage_operations ( void )
         j++;
     }
     gtk_combo_box_set_active ( GTK_COMBO_BOX (button), position);
+		if (i == 0)
+			gtk_widget_set_sensitive (button, FALSE);
     }
 
     /* pack vboxes in hbox */
@@ -496,6 +498,28 @@ gboolean display_mode_check_line ( gint line_in_transaction,
     return FALSE;
 }
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void free_noms_colonnes_et_tips (void)
+{
+    gint j;
+
+    for ( j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
+    {
+		if (titres_colonnes_liste_operations[j])
+			g_free (titres_colonnes_liste_operations[j]);
+        titres_colonnes_liste_operations[j] = NULL;
+
+		if (tips_col_liste_operations[j])
+			g_free (titres_colonnes_liste_operations[j]);
+        tips_col_liste_operations[j] = NULL;
+    }
+}
 
 /**
  * fill the titres_colonnes_liste_operations variable and the associated tips
@@ -505,19 +529,14 @@ gboolean display_mode_check_line ( gint line_in_transaction,
  * \param
  *
  * \return
- * */
+ **/
 void recuperation_noms_colonnes_et_tips ( void )
 {
     gint i, j;
     gchar *row[CUSTOM_MODEL_VISIBLE_COLUMNS];
 
     /* unset the titles and tips */
-    for ( j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
-    {
-        titres_colonnes_liste_operations[j] = NULL;
-        tips_col_liste_operations[j] = NULL;
-    }
-
+	free_noms_colonnes_et_tips ();
 
     for ( i=0 ; i<TRANSACTION_LIST_ROWS_NB ; i++ )
 	for ( j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )

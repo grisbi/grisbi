@@ -192,6 +192,7 @@ gboolean 					bet_data_remove_all_bet_data 				(gint account_number);
 gboolean 					bet_data_remove_div_hist 					(gint account_number,
 																		 gint div_number,
 																		 gint sub_div_nb);
+void						bet_data_renum_account_number_0				(gint new_account_number);
 gboolean 					bet_data_search_div_hist 					(gint account_number,
 																		 gint div_number,
 																		 gint sub_div_nb);
@@ -222,6 +223,8 @@ FuturData *					struct_initialise_bet_future 				(void);
 BetRange *					struct_initialise_bet_range 				(void);
 TransfertData *				struct_initialise_bet_transfert 			(void);
 HistDiv *					struct_initialise_hist_div 					(void);
+void						struct_free_bet_range						(BetRange *sbr);
+
 void 						struct_free_bet_transaction_current_fyear 	(TransactionCurrentFyear *self);
 TransactionCurrentFyear *	struct_initialise_transaction_current_fyear (void);
 /* END_DECLARATION */

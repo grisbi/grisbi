@@ -72,26 +72,14 @@ extern GSList *liste_comptes_importes_error;
 static gchar *last_header = NULL;
 static gboolean mismatch_dates = TRUE;
 
-enum
-{
-    ORDER_DD_MM_YY = 0,
-    ORDER_MM_DD_YY,
-    ORDER_YY_MM_DD,
-    ORDER_YY_DD_MM,
-    ORDER_DD_YY_MM,
-    ORDER_MM_YY_DD,
-    ORDER_MAX
-};
-
-
 static gchar *order_names[] = {
     "day-month-year",
-    "day-year-month",
+    "month-day-year",
     "year-month-day",
     "year-day-month",
-    "month-day-year",
-    "month-year-day" };
-
+    "day-year-month",
+    "month-year-day"
+};
 
 /**
  * \brief Import QIF data.
@@ -1355,7 +1343,7 @@ gint gsb_qif_recupere_operations_from_account ( FILE *qif_file,
     /* sometimes we have ^ and EOF, so we need in that case to take the transaction */
     if ( strlen ( string )
      &&
-     ( returned_value != EOF || ( string && string[0]=='^') )
+     ( returned_value != EOF || string[0]=='^' )
      &&
      string[0] != '!' )
     {
@@ -1459,7 +1447,7 @@ gint gsb_qif_recupere_categories ( FILE *qif_file, const gchar *coding_system )
             {
                 tab_str[0] = g_strstrip ( tab_str[0] );
                 category_number = gsb_data_category_get_number_by_name ( tab_str[0],
-                                    TRUE,
+                                    etat.qif_no_import_categories,
                                     type_category );
 
                 if (tab_str[1])
@@ -1469,7 +1457,7 @@ gint gsb_qif_recupere_categories ( FILE *qif_file, const gchar *coding_system )
                     gsb_data_category_get_sub_category_number_by_name (
                                 category_number,
                                 tab_str[1],
-                                TRUE );
+                                etat.qif_no_import_categories);
                 }
             }
 

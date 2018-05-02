@@ -241,6 +241,7 @@ static gboolean bet_array_list_replace_line_by_transfert ( GtkTreeModel *tab_mod
 
             if ( origine != origin_data )
             {
+                g_date_free (date);
                 continue;
             }
 
@@ -520,6 +521,7 @@ static gboolean bet_array_update_average_column ( GtkTreeModel *model,
     gtk_tree_model_get ( model, iter, SPP_ESTIMATE_TREE_AMOUNT_COLUMN, &tmp_str, -1 );
 
     amount = utils_real_get_from_string ( tmp_str );
+	g_free (tmp_str);
 
     tmp_range -> current_balance = gsb_real_add ( tmp_range -> current_balance, amount );
     str_balance = utils_real_get_string_with_currency ( tmp_range -> current_balance,
@@ -629,7 +631,11 @@ void bet_array_refresh_estimate_tab ( gint account_number )
     if ( gtk_tree_selection_get_selected (
                         gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) ),
                         &tree_model, &iter ) )
+	{
         path = gtk_tree_model_get_path ( tree_model, &iter );
+	}
+	else
+		path = gtk_tree_path_new_first ();
 
     /* clear the model */
     gtk_tree_store_clear ( GTK_TREE_STORE ( tree_model ) );
@@ -694,6 +700,7 @@ void bet_array_refresh_estimate_tab ( gint account_number )
     gtk_tree_model_foreach ( GTK_TREE_MODEL ( tree_model ),
                         bet_array_update_average_column, tmp_range );
 
+	struct_free_bet_range (tmp_range);
     bet_array_list_set_background_color ( tree_view );
     bet_array_list_select_path ( tree_view, path );
     gtk_tree_path_free ( path );
@@ -892,7 +899,7 @@ GtkWidget *bet_array_create_tree_view ( GtkWidget *container )
 
     gtk_tree_view_column_set_alignment ( bet_array_tree_view_columns[i], 1 );
     gtk_tree_view_append_column (GTK_TREE_VIEW ( tree_view ), bet_array_tree_view_columns[i] );
-    gtk_tree_view_column_set_sizing ( bet_array_tree_view_columns[i], GTK_TREE_VIEW_COLUMN_GROW_ONLY );
+    gtk_tree_view_column_set_sizing ( bet_array_tree_view_columns[i], GTK_TREE_VIEW_COLUMN_FIXED);
     gtk_tree_view_column_set_resizable ( bet_array_tree_view_columns[i], TRUE );
     g_object_set_data ( G_OBJECT ( bet_array_tree_view_columns[i] ), "num_col_model",
                         GINT_TO_POINTER ( SPP_ESTIMATE_TREE_DEBIT_COLUMN ) );
@@ -910,7 +917,7 @@ GtkWidget *bet_array_create_tree_view ( GtkWidget *container )
 
     gtk_tree_view_column_set_alignment ( bet_array_tree_view_columns[i], 1 );
     gtk_tree_view_append_column (GTK_TREE_VIEW ( tree_view ), bet_array_tree_view_columns[i] );
-    gtk_tree_view_column_set_sizing ( bet_array_tree_view_columns[i], GTK_TREE_VIEW_COLUMN_GROW_ONLY );
+    gtk_tree_view_column_set_sizing ( bet_array_tree_view_columns[i], GTK_TREE_VIEW_COLUMN_FIXED);
     gtk_tree_view_column_set_resizable ( bet_array_tree_view_columns[i], TRUE );
     g_object_set_data ( G_OBJECT ( bet_array_tree_view_columns[i] ), "num_col_model",
                         GINT_TO_POINTER ( SPP_ESTIMATE_TREE_CREDIT_COLUMN ) );
@@ -919,6 +926,7 @@ GtkWidget *bet_array_create_tree_view ( GtkWidget *container )
     /* Balance column */
     cell = gtk_cell_renderer_text_new ();
     g_object_set ( G_OBJECT ( GTK_CELL_RENDERER ( cell ) ), "xalign", 1.0, NULL );
+	gtk_cell_renderer_set_padding (GTK_CELL_RENDERER (cell), MARGIN_BOX, 0);
 
     bet_array_tree_view_columns[i] = gtk_tree_view_column_new_with_attributes (
 					    _("Balance"), cell,
@@ -929,7 +937,7 @@ GtkWidget *bet_array_create_tree_view ( GtkWidget *container )
 
     gtk_tree_view_column_set_alignment ( bet_array_tree_view_columns[i], 1 );
     gtk_tree_view_append_column (GTK_TREE_VIEW ( tree_view ), bet_array_tree_view_columns[i] );
-    gtk_tree_view_column_set_sizing ( bet_array_tree_view_columns[i], GTK_TREE_VIEW_COLUMN_GROW_ONLY );
+    gtk_tree_view_column_set_sizing ( bet_array_tree_view_columns[i], GTK_TREE_VIEW_COLUMN_FIXED);
     gtk_tree_view_column_set_resizable ( bet_array_tree_view_columns[i], TRUE );
     g_object_set_data ( G_OBJECT ( bet_array_tree_view_columns[i] ), "num_col_model",
                         GINT_TO_POINTER ( SPP_ESTIMATE_TREE_BALANCE_COLUMN ) );
@@ -944,6 +952,9 @@ GtkWidget *bet_array_create_tree_view ( GtkWidget *container )
 		                "size_allocate",
 		                G_CALLBACK ( bet_array_list_size_allocate ),
 		                NULL );
+
+	/* set bet_array_current_tree_view_width = 0 for new file */
+	bet_array_current_tree_view_width = 0;
 
     gtk_widget_show_all ( scrolled_window );
 
@@ -973,7 +984,7 @@ void bet_array_refresh_scheduled_data ( GtkTreeModel *tab_model,
         gchar *str_amount;
         gchar *str_debit = NULL;
         gchar *str_credit = NULL;
-        const gchar *str_description = NULL;
+        gchar *str_description = NULL;
         gchar *str_date;
         gint scheduled_number;
         gint account_number;
@@ -1067,19 +1078,30 @@ void bet_array_refresh_scheduled_data ( GtkTreeModel *tab_model,
 
         /* calculate each instance of the scheduled operation
          * in the range from date_min (today) to date_max */
-        date = gsb_data_scheduled_get_date ( scheduled_number );
+        date = gsb_date_copy (gsb_data_scheduled_get_date (scheduled_number));
 
         while ( date != NULL && g_date_valid ( date ) )
         {
+			GDate *tmp_date = NULL;
+
             if ( g_date_compare ( date, date_max ) > 0 )
+			{
+				g_date_free (date);
                 break;
+			}
             if ( g_date_compare ( date, date_min ) < 0 )
             {
-                date = gsb_scheduler_get_next_date ( scheduled_number, date );
+				tmp_date = date;
+                date = gsb_scheduler_get_next_date ( scheduled_number, tmp_date );
+				g_date_free (tmp_date);
                 continue;
             }
             if ( date == NULL || g_date_valid ( date ) == FALSE )
+			{
+				if (date)
+					g_date_free (date);
                 return;
+			}
 
             str_date = gsb_format_gdate ( date );
 
@@ -1104,12 +1126,14 @@ void bet_array_refresh_scheduled_data ( GtkTreeModel *tab_model,
 
             g_value_unset ( &date_value );
             g_free ( str_date );
-            date = gsb_scheduler_get_next_date ( scheduled_number, date );
+			tmp_date = date;
+			date = gsb_scheduler_get_next_date ( scheduled_number, tmp_date );
+			g_date_free (tmp_date);
         }
-
         g_free ( str_amount );
         g_free ( str_credit );
         g_free ( str_debit );
+		g_free (str_description);
     }
 }
 
@@ -1178,7 +1202,7 @@ void bet_array_refresh_transactions_data ( GtkTreeModel *tab_model,
         if ( gsb_data_transaction_get_split_of_transaction ( transaction_number ) == TRUE )
             continue;
 
-        /* Ignore transactions that are before date_com */
+        /* Ignore transactions that are before date_comp */
         if ( g_date_compare ( date, date_comp ) < 0 )
             continue;
 
@@ -1256,6 +1280,7 @@ void bet_array_refresh_transactions_data ( GtkTreeModel *tab_model,
         g_free ( str_debit );
         g_free ( str_credit );
     }
+	g_date_free (date_jour_1);
 }
 
 
@@ -1985,8 +2010,12 @@ void bet_array_adjust_hist_amount ( gint div_number,
                         -1 );
 
             if ( tmp_div_number == 0 || tmp_div_number != div_number )
+			{
+				g_free ( str_date );
+				g_free ( str_desc );
+				g_free ( str_amount );
                 continue;
-
+			}
             if ( tmp_sub_div_nb == 0 || tmp_sub_div_nb == sub_div_nb )
             {
                 div_name = bet_data_get_div_name ( tmp_div_number, tmp_sub_div_nb, FALSE );
@@ -2008,8 +2037,7 @@ void bet_array_adjust_hist_amount ( gint div_number,
                         {
                             if ( number.mantissa < 0 )
                             {
-                                str_amount = gsb_real_safe_real_to_string ( number,
-                                            gsb_data_currency_get_floating_point ( currency_number ) );
+                                str_amount = utils_real_get_string (number);
                                 str_debit = utils_real_get_string_with_currency (
                                             gsb_real_abs ( number ),
                                             currency_number,
@@ -2030,8 +2058,7 @@ void bet_array_adjust_hist_amount ( gint div_number,
                         {
                             if ( number.mantissa > 0 )
                             {
-                                str_amount = gsb_real_safe_real_to_string ( number,
-                                            gsb_data_currency_get_floating_point ( currency_number ) );
+                                str_amount = utils_real_get_string (number);
                                 str_credit = utils_real_get_string_with_currency (
                                             gsb_real_abs ( number ),
                                             currency_number,
@@ -2056,13 +2083,15 @@ void bet_array_adjust_hist_amount ( gint div_number,
                                             SPP_ESTIMATE_TREE_AMOUNT_COLUMN, str_amount,
                                             -1 );
 
-                            g_free ( str_desc );
-                            g_free ( str_credit );
-                            g_free ( str_debit );
-                            g_free ( str_amount );
+						g_free ( str_credit );
+						g_free ( str_debit );
                     }
+                    g_free ( str_desc );
                     g_free ( str_date );
                     g_free ( div_name );
+                    g_free ( str_amount );
+					g_date_free (date);
+					g_date_free (date_today);
                     break;
                 }
                 g_free ( div_name );
@@ -2185,10 +2214,6 @@ gboolean bet_array_list_select_path ( GtkWidget *tree_view, GtkTreePath *path )
     GtkTreeSelection *selection;
 
     selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
-
-    if ( path == NULL )
-        path = gtk_tree_path_new_from_string ( "0" );
-
     gtk_widget_grab_focus ( tree_view );
     gtk_tree_selection_select_path ( selection, path );
 
@@ -2219,6 +2244,7 @@ gboolean bet_array_list_set_background_color ( GtkWidget *tree_view )
         GtkTreeIter *prev = NULL;
         gint origine;
         gint current_color = 0;
+		gchar *color_str;
 
         do
         {
@@ -2229,43 +2255,51 @@ gboolean bet_array_list_set_background_color ( GtkWidget *tree_view )
 
             switch ( origine )
             {
-            case SPP_ORIGIN_TRANSACTION:
-            case SPP_ORIGIN_SCHEDULED:
+				case SPP_ORIGIN_TRANSACTION:
+				case SPP_ORIGIN_SCHEDULED:
 
-                gtk_tree_store_set ( GTK_TREE_STORE ( model ),
-                        &iter,
-                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR,
-                        gsb_rgba_get_couleur_with_indice ( "couleur_fond", current_color ),
-                        -1 );
-                current_color = !current_color;
-                break;
-            case SPP_ORIGIN_HISTORICAL:
-                gtk_tree_store_set ( GTK_TREE_STORE ( model ),
-                        &iter,
-                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, gsb_rgba_get_couleur ( "couleur_bet_division" ),
-                        SPP_ESTIMATE_TREE_COLOR_STRING, gsb_rgba_get_couleur_to_string ( "couleur_bet_division" ),
-                        -1 );
-                break;
-            case SPP_ORIGIN_FUTURE:
-                gtk_tree_store_set ( GTK_TREE_STORE ( model ),
-                        &iter,
-                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, gsb_rgba_get_couleur ( "couleur_bet_future" ),
-                        SPP_ESTIMATE_TREE_COLOR_STRING, gsb_rgba_get_couleur_to_string ( "couleur_bet_future" ),
-                        -1 );
-                break;
-            case SPP_ORIGIN_ACCOUNT:
-                gtk_tree_store_set ( GTK_TREE_STORE ( model ),
-                        &iter,
-                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, gsb_rgba_get_couleur ( "couleur_bet_transfert" ),
-                        SPP_ESTIMATE_TREE_COLOR_STRING, gsb_rgba_get_couleur_to_string ( "couleur_bet_transfert" ),
-                        -1 );
-                break;
-            case SPP_ORIGIN_SOLDE:
-                gtk_tree_store_set ( GTK_TREE_STORE ( model ),
-                        &iter,
-                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, gsb_rgba_get_couleur ( "couleur_bet_solde" ),
-                        SPP_ESTIMATE_TREE_COLOR_STRING, gsb_rgba_get_couleur_to_string ( "couleur_bet_solde" ),
-                        -1 );
+					gtk_tree_store_set ( GTK_TREE_STORE ( model ),
+							&iter,
+							SPP_ESTIMATE_TREE_BACKGROUND_COLOR,
+							gsb_rgba_get_couleur_with_indice ( "couleur_fond", current_color ),
+							-1 );
+					current_color = !current_color;
+					break;
+				case SPP_ORIGIN_HISTORICAL:
+					color_str = gsb_rgba_get_couleur_to_string ("couleur_bet_division");
+					gtk_tree_store_set ( GTK_TREE_STORE ( model ),
+							&iter,
+							SPP_ESTIMATE_TREE_BACKGROUND_COLOR, gsb_rgba_get_couleur ("couleur_bet_division"),
+							SPP_ESTIMATE_TREE_COLOR_STRING, color_str,
+							-1 );
+					g_free (color_str);
+					break;
+				case SPP_ORIGIN_FUTURE:
+					color_str = gsb_rgba_get_couleur_to_string ("couleur_bet_future");
+					gtk_tree_store_set ( GTK_TREE_STORE ( model ),
+							&iter,
+							SPP_ESTIMATE_TREE_BACKGROUND_COLOR, gsb_rgba_get_couleur ( "couleur_bet_future" ),
+							SPP_ESTIMATE_TREE_COLOR_STRING, color_str,
+							-1 );
+					g_free (color_str);
+					break;
+				case SPP_ORIGIN_ACCOUNT:
+					color_str = gsb_rgba_get_couleur_to_string ("couleur_bet_transfert");
+					gtk_tree_store_set ( GTK_TREE_STORE ( model ),
+							&iter,
+							SPP_ESTIMATE_TREE_BACKGROUND_COLOR, gsb_rgba_get_couleur ( "couleur_bet_transfert" ),
+							SPP_ESTIMATE_TREE_COLOR_STRING, color_str,
+							-1 );
+					g_free (color_str);
+					break;
+				case SPP_ORIGIN_SOLDE:
+					color_str = gsb_rgba_get_couleur_to_string ("couleur_bet_solde");
+					gtk_tree_store_set ( GTK_TREE_STORE ( model ),
+							&iter,
+							SPP_ESTIMATE_TREE_BACKGROUND_COLOR, gsb_rgba_get_couleur ( "couleur_bet_solde" ),
+							SPP_ESTIMATE_TREE_COLOR_STRING, color_str,
+							-1 );
+					g_free (color_str);
             }
 
             /* gestion de la date du jour */
@@ -2283,19 +2317,21 @@ gboolean bet_array_list_set_background_color ( GtkWidget *tree_view )
                 if ( g_date_compare ( date, date_jour ) > 0 )
                 {
                     absent = FALSE;
+					color_str = gsb_rgba_get_couleur_to_string ("couleur_jour");
                     gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                                     prev,
                                     SPP_ESTIMATE_TREE_BACKGROUND_COLOR, gsb_rgba_get_couleur ( "couleur_jour" ),
-                                    SPP_ESTIMATE_TREE_COLOR_STRING, gsb_rgba_get_couleur_to_string ( "couleur_jour" ),
+                                    SPP_ESTIMATE_TREE_COLOR_STRING, color_str,
                                     -1 );
+					g_free (color_str);
                 }
 
                 g_date_free ( date_jour );
                 g_value_unset ( &date_value );
                 if ( prev )
                     gtk_tree_iter_free ( prev );
-
-                prev = gtk_tree_iter_copy ( &iter );
+				if (absent)
+					prev = gtk_tree_iter_copy ( &iter );
             }
         }
         while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &iter ) );
@@ -2873,7 +2909,7 @@ gboolean bet_array_list_size_allocate ( GtkWidget *tree_view,
 {
     gint i;
 
-    if ( allocation -> width == bet_array_current_tree_view_width )
+	if ( allocation -> width == bet_array_current_tree_view_width )
     {
         /* size of the tree view didn't change, but we received an allocated signal
          * it happens several times, and especially when we change the columns,
@@ -3300,9 +3336,33 @@ void bet_array_create_transaction_from_transfert (TransfertData *transfert)
 /**
  *
  *
+ * \param
+ *
+ * \return
+ **/
+gboolean bet_array_list_set_largeur_col (void)
+{
+    gint i;
+    gint width;
+	gint current_tree_view_width;
+
+	current_tree_view_width = gsb_transactions_list_get_current_tree_view_width ();
+    for (i = 0; i < BET_ARRAY_COLUMNS - 1; i++)
+    {
+        width = (bet_array_col_width[i] * (current_tree_view_width)) / 100;
+        if (width > 0)
+            gtk_tree_view_column_set_fixed_width ( bet_array_tree_view_columns[i], width );
+    }
+
+    return FALSE;
+}
+
+/**
  *
  *
- * */
+ *
+ *
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

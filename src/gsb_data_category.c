@@ -48,11 +48,10 @@
 #include "structures.h"
 /*END_INCLUDE*/
 
-/**
- * \struct
- * Describe a category
- */
-typedef struct
+/* struct Describe a category */
+typedef struct _CategoryStruct		CategoryStruct;
+
+struct _CategoryStruct
 {
     /** @name category content */
     gint category_number;
@@ -66,14 +65,13 @@ typedef struct
     gint category_nb_direct_transactions;
     gsb_real category_balance;
     gsb_real category_direct_balance;
-} struct_category;
+};
 
 
-/**
- * \struct
- * Describe a sub-category
- */
-typedef struct
+/* struct Describe a sub-category */
+typedef struct _SubCategoryStruct		SubCategoryStruct;
+
+struct _SubCategoryStruct
 {
     /** @name sub-category content */
     gint sub_category_number;
@@ -84,18 +82,18 @@ typedef struct
     /** @name gui sub-category list content (not saved)*/
     gint sub_category_nb_transactions;
     gsb_real sub_category_balance;
-} struct_sub_category;
+};
 
 
 
 /*START_STATIC*/
-static void _gsb_data_category_free ( struct_category *category );
-static void _gsb_data_sub_category_free ( struct_sub_category *sub_category );
+static void _gsb_data_category_free ( CategoryStruct *category );
+static void _gsb_data_sub_category_free ( SubCategoryStruct *sub_category );
 static GSList *gsb_data_category_append_sub_category_to_list ( GSList *category_list,
 							GSList *sub_category_list );
-static gint gsb_data_category_get_pointer_from_name_in_glist ( struct_category *category,
+static gint gsb_data_category_get_pointer_from_name_in_glist ( CategoryStruct *category,
 							const gchar *name );
-static gint gsb_data_category_get_pointer_from_sub_name_in_glist ( struct_sub_category *sub_category,
+static gint gsb_data_category_get_pointer_from_sub_name_in_glist ( SubCategoryStruct *sub_category,
 							    const gchar *name );
 static gpointer gsb_data_category_get_structure_in_list ( gint no_category,
                         GSList *list );
@@ -105,23 +103,23 @@ static gint gsb_data_category_new ( const gchar *name );
 static gint gsb_data_category_new_sub_category ( gint category_number,
                         const gchar *name );
 static void gsb_data_category_reset_counters ( void );
-static gint gsb_data_sub_category_compare ( struct_sub_category * a, struct_sub_category * b );
+static gint gsb_data_sub_category_compare ( SubCategoryStruct * a, SubCategoryStruct * b );
 /*END_STATIC*/
 
 /*START_EXTERN*/
 /*END_EXTERN*/
 
 
-/** contains the g_slist of struct_category */
+/** contains the g_slist of CategoryStruct */
 static GSList *category_list = NULL;
 
 /** a pointer to the last category used (to increase the speed) */
-static struct_category *category_buffer;
-static struct_sub_category *sub_category_buffer;
+static CategoryStruct *category_buffer;
+static SubCategoryStruct *sub_category_buffer;
 
 /** a empty category for the list of categories
  * the number of the empty category is 0 */
-static struct_category *empty_category = NULL;
+static CategoryStruct *empty_category = NULL;
 
 
 
@@ -140,7 +138,7 @@ gboolean gsb_data_category_init_variables ( void )
 	    GSList* cat_tmp_list = category_list;
 	    while ( cat_tmp_list )
 	    {
-		struct_category *category;
+		CategoryStruct *category;
 		category = cat_tmp_list -> data;
 		cat_tmp_list = cat_tmp_list -> next;
 		_gsb_data_category_free ( category );
@@ -156,7 +154,7 @@ gboolean gsb_data_category_init_variables ( void )
     /* set an empty name for that empty categ, else every transaction
      * without category will have that name */
     _gsb_data_category_free ( empty_category );
-    empty_category = g_malloc0 ( sizeof ( struct_category ));
+    empty_category = g_malloc0 ( sizeof ( CategoryStruct ));
     empty_category -> category_name = g_strdup(_("No category"));
 
     return FALSE;
@@ -223,7 +221,7 @@ gpointer gsb_data_category_get_structure_in_list ( gint no_category,
 
     while ( tmp )
     {
-	struct_category *category;
+	CategoryStruct *category;
 
 	category = tmp -> data;
 
@@ -251,7 +249,7 @@ gpointer gsb_data_category_get_sub_category_structure ( gint no_category,
                         gint no_sub_category )
 {
     GSList *tmp;
-    struct_category *category;
+    CategoryStruct *category;
 
     /* check empty sub-categ */
     if (!no_sub_category)
@@ -273,7 +271,7 @@ gpointer gsb_data_category_get_sub_category_structure ( gint no_category,
 
     while ( tmp )
     {
-	struct_sub_category *sub_category;
+	SubCategoryStruct *sub_category;
 
 	sub_category = tmp -> data;
 
@@ -311,7 +309,7 @@ GSList *gsb_data_category_get_categories_list ( void )
  * */
 GSList *gsb_data_category_get_sub_category_list ( gint no_category )
 {
-    struct_category *category;
+    CategoryStruct *category;
 
     category = gsb_data_category_get_structure ( no_category );
 
@@ -332,7 +330,7 @@ GSList *gsb_data_category_get_sub_category_list ( gint no_category )
  * */
 gint gsb_data_category_get_no_category ( gpointer category_ptr )
 {
-    struct_category *category;
+    CategoryStruct *category;
 
     if ( !category_ptr )
 	return 0;
@@ -352,7 +350,7 @@ gint gsb_data_category_get_no_category ( gpointer category_ptr )
  * */
 gint gsb_data_category_get_no_sub_category ( gpointer sub_category_ptr )
 {
-    struct_sub_category *sub_category;
+    SubCategoryStruct *sub_category;
 
     /* if sub_category_ptr is NULL, we are on empty sub-category, the number is 0 */
     if ( !sub_category_ptr )
@@ -378,7 +376,7 @@ gint gsb_data_category_max_number ( void )
 
     while ( tmp )
     {
-	struct_category *category;
+	CategoryStruct *category;
 
 	category = tmp -> data;
 
@@ -400,17 +398,19 @@ gint gsb_data_category_max_number ( void )
  * */
 gint gsb_data_category_max_sub_category_number ( gint category_number )
 {
-    struct_category *category;
+    CategoryStruct *category;
     GSList *tmp;
     gint number_tmp = 0;
 
     category = gsb_data_category_get_structure ( category_number );
+    if (!category)
+	return 0;
 
     tmp = category -> sub_category_list;
 
     while ( tmp )
     {
-	struct_sub_category *sub_category;
+	SubCategoryStruct *sub_category;
 
 	sub_category = tmp -> data;
 
@@ -461,9 +461,9 @@ gint gsb_data_category_new ( const gchar *name )
  * */
 gint gsb_data_category_new_with_number ( gint number )
 {
-    struct_category *category;
+    CategoryStruct *category;
 
-    category = g_malloc0 ( sizeof ( struct_category ));
+    category = g_malloc0 ( sizeof ( CategoryStruct ));
     category -> category_number = number;
 
     category_list = g_slist_append ( category_list,
@@ -487,7 +487,8 @@ gint gsb_data_category_new_with_number ( gint number )
  * */
 gboolean gsb_data_category_remove ( gint no_category )
 {
-    struct_category *category;
+    CategoryStruct *category;
+	GtkWidget *combofix;
 
     category = gsb_data_category_get_structure ( no_category );
 
@@ -499,13 +500,17 @@ gboolean gsb_data_category_remove ( gint no_category )
 
     _gsb_data_category_free (category);
 
+	combofix = gsb_form_widget_get_widget (TRANSACTION_FORM_CATEGORY);
+	if ( combofix )
+		gsb_category_update_combofix ( TRUE );
+
     return TRUE;
 }
 
 /**
  * This function is called to free the memory used by a category structure
  */
-void _gsb_data_category_free ( struct_category *category )
+void _gsb_data_category_free ( CategoryStruct *category )
 {
     if ( ! category )
         return;
@@ -515,7 +520,7 @@ void _gsb_data_category_free ( struct_category *category )
         GSList* sub_tmp_list = category -> sub_category_list;
         while ( sub_tmp_list )
         {
-            struct_sub_category *sub_category;
+            SubCategoryStruct *sub_category;
             sub_category = sub_tmp_list -> data;
             sub_tmp_list = sub_tmp_list -> next;
             _gsb_data_sub_category_free ( sub_category );
@@ -533,7 +538,7 @@ void _gsb_data_category_free ( struct_category *category )
 /**
  * This function is called to free the memory used by a sub category structure
  */
-void _gsb_data_sub_category_free ( struct_sub_category *sub_category )
+void _gsb_data_sub_category_free ( SubCategoryStruct *sub_category )
 {
     if ( ! sub_category )
         return;
@@ -557,8 +562,9 @@ void _gsb_data_sub_category_free ( struct_sub_category *sub_category )
 gboolean gsb_data_category_sub_category_remove ( gint no_category,
                         gint no_sub_category )
 {
-    struct_category *category;
-    struct_sub_category *sub_category;
+    CategoryStruct *category;
+    SubCategoryStruct *sub_category;
+	GtkWidget *combofix;
 
     category = gsb_data_category_get_structure ( no_category );
     sub_category = gsb_data_category_get_sub_category_structure ( no_category,
@@ -573,6 +579,10 @@ gboolean gsb_data_category_sub_category_remove ( gint no_category,
 						     sub_category );
 
     _gsb_data_sub_category_free (sub_category);
+
+	combofix = gsb_form_widget_get_widget (TRANSACTION_FORM_CATEGORY);
+	if ( combofix )
+		gsb_category_update_combofix ( TRUE );
 
     return TRUE;
 }
@@ -617,15 +627,15 @@ gint gsb_data_category_new_sub_category ( gint category_number,
 gint gsb_data_category_new_sub_category_with_number ( gint number,
                         gint category_number)
 {
-    struct_category *category;
-    struct_sub_category *sub_category;
+    CategoryStruct *category;
+    SubCategoryStruct *sub_category;
 
     category = gsb_data_category_get_structure ( category_number );
 
     if (!category)
 	return 0;
 
-    sub_category = g_malloc0 ( sizeof (struct_sub_category));
+    sub_category = g_malloc0 ( sizeof (SubCategoryStruct));
     sub_category -> sub_category_number = number;
     sub_category -> mother_category_number = category_number;
 
@@ -674,7 +684,7 @@ gboolean gsb_data_category_fill_transaction_by_string ( gint transaction_number,
     if (tab_char[0])
     {
         category_number = gsb_data_category_get_number_by_name ( tab_char[0],
-                            TRUE,
+                            !etat.combofix_force_category,
                             gsb_data_mix_get_amount (
                             transaction_number, is_transaction).mantissa <0 );
 	    gsb_data_mix_set_category_number ( transaction_number,
@@ -685,8 +695,9 @@ gboolean gsb_data_category_fill_transaction_by_string ( gint transaction_number,
     if ( tab_char[1] && category_number )
     {
         gsb_data_mix_set_sub_category_number ( transaction_number,
-					        gsb_data_category_get_sub_category_number_by_name (
-                            category_number, tab_char[1], TRUE ),
+					        gsb_data_category_get_sub_category_number_by_name ( category_number,
+																			   tab_char[1],
+																			   !etat.combofix_force_category ),
 					        is_transaction );
     }
     else
@@ -720,7 +731,7 @@ gint gsb_data_category_get_number_by_name ( const gchar *name,
 
     if ( list_tmp )
     {
-	struct_category *category;
+	CategoryStruct *category;
 
 	category = list_tmp -> data;
 	category_number = category -> category_number;
@@ -754,7 +765,7 @@ gint gsb_data_category_get_sub_category_number_by_name ( gint category_number,
 							 gboolean create )
 {
     GSList *list_tmp;
-    struct_category *category;
+    CategoryStruct *category;
     gint sub_category_number = 0;
 
     category = gsb_data_category_get_structure ( category_number );
@@ -768,7 +779,7 @@ gint gsb_data_category_get_sub_category_number_by_name ( gint category_number,
 
     if ( list_tmp )
     {
-	struct_sub_category *sub_category;
+	SubCategoryStruct *sub_category;
 
 	sub_category = list_tmp -> data;
 	sub_category_number = sub_category -> sub_category_number;
@@ -797,7 +808,7 @@ gint gsb_data_category_get_sub_category_number_by_name ( gint category_number,
  *
  * \return 0 if it's the same name
  * */
-gint gsb_data_category_get_pointer_from_name_in_glist ( struct_category *category,
+gint gsb_data_category_get_pointer_from_name_in_glist ( CategoryStruct *category,
 							const gchar *name )
 {
     return ( my_strcasecmp ( category -> category_name, name ));
@@ -813,7 +824,7 @@ gint gsb_data_category_get_pointer_from_name_in_glist ( struct_category *categor
  *
  * \return 0 if it's the same name
  * */
-gint gsb_data_category_get_pointer_from_sub_name_in_glist ( struct_sub_category *sub_category,
+gint gsb_data_category_get_pointer_from_sub_name_in_glist ( SubCategoryStruct *sub_category,
 							    const gchar *name )
 {
     if ( !sub_category -> sub_category_name
@@ -839,7 +850,7 @@ gchar *gsb_data_category_get_name ( gint no_category,
 				    gint no_sub_category,
 				    const gchar *return_value_error )
 {
-    struct_category *category;
+    CategoryStruct *category;
     gchar *return_value;
 
     category = gsb_data_category_get_structure ( no_category );
@@ -856,7 +867,7 @@ gchar *gsb_data_category_get_name ( gint no_category,
 
     if ( no_sub_category )
     {
-        struct_sub_category *sub_category;
+        SubCategoryStruct *sub_category;
 
         sub_category = gsb_data_category_get_sub_category_structure ( no_category,
                                           no_sub_category );
@@ -887,7 +898,7 @@ gchar *gsb_data_category_get_name ( gint no_category,
 gboolean gsb_data_category_set_name ( gint no_category,
                         const gchar *name )
 {
-    struct_category *category;
+    CategoryStruct *category;
 
     category = gsb_data_category_get_structure ( no_category );
 
@@ -905,7 +916,7 @@ gboolean gsb_data_category_set_name ( gint no_category,
         GtkWidget *combofix;
 
         category -> category_name = my_strdup ( name );
-        combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_PARTY );
+        combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_CATEGORY);
         if ( combofix )
             gsb_category_update_combofix ( TRUE );
     }
@@ -929,7 +940,7 @@ gchar *gsb_data_category_get_sub_category_name ( gint no_category,
 						 gint no_sub_category,
 						 const gchar *return_value_error )
 {
-    struct_sub_category *sub_category;
+    SubCategoryStruct *sub_category;
 
     sub_category = gsb_data_category_get_sub_category_structure ( no_category,
 								  no_sub_category );
@@ -955,7 +966,7 @@ gboolean gsb_data_category_set_sub_category_name ( gint no_category,
 						   gint no_sub_category,
 						   const gchar *name )
 {
-    struct_sub_category *sub_category;
+    SubCategoryStruct *sub_category;
 
     sub_category = gsb_data_category_get_sub_category_structure ( no_category,
 								  no_sub_category );
@@ -974,7 +985,7 @@ gboolean gsb_data_category_set_sub_category_name ( gint no_category,
         GtkWidget *combofix;
 
         sub_category -> sub_category_name = my_strdup ( name );
-        combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_PARTY );
+        combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_CATEGORY);
         if ( combofix )
             gsb_category_update_combofix ( TRUE );
     }
@@ -1012,7 +1023,7 @@ GSList *gsb_data_category_get_name_list ( gboolean set_debit,
 
     while ( tmp_list )
     {
-	struct_category *category;
+	CategoryStruct *category;
 
 	category = tmp_list -> data;
 
@@ -1129,7 +1140,7 @@ GSList *gsb_data_category_append_sub_category_to_list ( GSList *category_list,
 
     while (tmp_list)
     {
-	struct_sub_category *sub_category;
+	SubCategoryStruct *sub_category;
 
 	sub_category = tmp_list -> data;
 
@@ -1156,7 +1167,7 @@ GSList *gsb_data_category_append_sub_category_to_list ( GSList *category_list,
  * */
 gint gsb_data_category_get_type ( gint no_category )
 {
-    struct_category *category;
+    CategoryStruct *category;
 
     category = gsb_data_category_get_structure ( no_category );
 
@@ -1179,7 +1190,7 @@ gint gsb_data_category_get_type ( gint no_category )
 gboolean gsb_data_category_set_type ( gint no_category,
 				      gint category_type )
 {
-    struct_category *category;
+    CategoryStruct *category;
 
     category = gsb_data_category_get_structure ( no_category );
 
@@ -1200,7 +1211,7 @@ gboolean gsb_data_category_set_type ( gint no_category,
  * */
 gint gsb_data_category_get_nb_transactions ( gint no_category )
 {
-    struct_category *category;
+    CategoryStruct *category;
 
     category = gsb_data_category_get_structure ( no_category );
 
@@ -1223,7 +1234,7 @@ gint gsb_data_category_get_nb_transactions ( gint no_category )
 gint gsb_data_category_get_sub_category_nb_transactions ( gint no_category,
 							  gint no_sub_category )
 {
-    struct_sub_category *sub_category;
+    SubCategoryStruct *sub_category;
 
     sub_category = gsb_data_category_get_sub_category_structure ( no_category,
 								  no_sub_category );
@@ -1245,7 +1256,7 @@ gint gsb_data_category_get_sub_category_nb_transactions ( gint no_category,
  * */
 gint gsb_data_category_get_nb_direct_transactions ( gint no_category )
 {
-    struct_category *category;
+    CategoryStruct *category;
 
     category = gsb_data_category_get_structure ( no_category );
 
@@ -1267,7 +1278,7 @@ gint gsb_data_category_get_nb_direct_transactions ( gint no_category )
  * */
 gsb_real gsb_data_category_get_balance ( gint no_category )
 {
-    struct_category *category;
+    CategoryStruct *category;
 
     category = gsb_data_category_get_structure ( no_category );
 
@@ -1289,7 +1300,7 @@ gsb_real gsb_data_category_get_balance ( gint no_category )
 gsb_real gsb_data_category_get_sub_category_balance ( gint no_category,
 						      gint no_sub_category )
 {
-    struct_sub_category *sub_category;
+    SubCategoryStruct *sub_category;
 
     sub_category = gsb_data_category_get_sub_category_structure ( no_category,
 								  no_sub_category );
@@ -1309,7 +1320,7 @@ gsb_real gsb_data_category_get_sub_category_balance ( gint no_category,
  * */
 gsb_real gsb_data_category_get_direct_balance ( gint no_category )
 {
-    struct_category *category;
+    CategoryStruct *category;
 
     category = gsb_data_category_get_structure ( no_category );
 
@@ -1336,7 +1347,7 @@ void gsb_data_category_reset_counters ( void )
 
     while ( list_tmp )
     {
-	struct_category *category;
+	CategoryStruct *category;
 	GSList *sub_list_tmp;
 
 	category = list_tmp -> data;
@@ -1349,7 +1360,7 @@ void gsb_data_category_reset_counters ( void )
 
 	while ( sub_list_tmp )
 	{
-	    struct_sub_category *sub_category;
+	    SubCategoryStruct *sub_category;
 
 	    sub_category = sub_list_tmp -> data;
 
@@ -1417,8 +1428,8 @@ void gsb_data_category_add_transaction_to_category ( gint transaction_number,
 						     gint category_id,
 						     gint sub_category_id )
 {
-    struct_category *category;
-    struct_sub_category *sub_category;
+    CategoryStruct *category;
+    SubCategoryStruct *sub_category;
 
     /* if the transaction is a transfer or a split transaction, don't take it */
     if (gsb_data_transaction_get_split_of_transaction (transaction_number)
@@ -1490,8 +1501,8 @@ void gsb_data_category_add_transaction_to_category ( gint transaction_number,
  * */
 void gsb_data_category_remove_transaction_from_category ( gint transaction_number )
 {
-    struct_category *category;
-    struct_sub_category *sub_category;
+    CategoryStruct *category;
+    SubCategoryStruct *sub_category;
 
     category = gsb_data_category_get_structure ( gsb_data_transaction_get_category_number (transaction_number));
     sub_category = gsb_data_category_get_sub_category_structure ( gsb_data_transaction_get_category_number (transaction_number),
@@ -1538,7 +1549,7 @@ void gsb_data_category_remove_transaction_from_category ( gint transaction_numbe
  *
  * \return		Same as a <=> b.
  */
-gint gsb_data_sub_category_compare ( struct_sub_category * a, struct_sub_category * b )
+gint gsb_data_sub_category_compare ( SubCategoryStruct * a, SubCategoryStruct * b )
 {
     if ( a != b && a -> sub_category_number == b -> sub_category_number )
     {
@@ -1568,7 +1579,7 @@ gchar * gsb_debug_duplicate_categ_check (void)
     tmp = category_list;
     while ( tmp )
     {
-	struct_category * categ = tmp -> data;
+	CategoryStruct * categ = tmp -> data;
 	GSList * tmp_sous_categ = categ -> sub_category_list;
 
 	while ( tmp_sous_categ )
@@ -1584,8 +1595,8 @@ gchar * gsb_debug_duplicate_categ_check (void)
 		gchar* tmpstr2 = g_strdup_printf (
 				_("In <i>%s</i>, <i>%s</i> is a duplicate of <i>%s</i>.\n"),
 				categ -> category_name,
-				((struct_sub_category *) tmp_sous_categ -> data) -> sub_category_name,
-				((struct_sub_category *) duplicate -> data) -> sub_category_name );
+				((SubCategoryStruct *) tmp_sous_categ -> data) -> sub_category_name,
+				((SubCategoryStruct *) duplicate -> data) -> sub_category_name );
 		output = g_strconcat ( tmpstr1,
 				       tmpstr2,
 				       NULL );
@@ -1622,7 +1633,7 @@ gboolean gsb_debug_duplicate_categ_fix (void)
     tmp = category_list;
     while ( tmp )
     {
-	struct_category * categ = tmp -> data;
+	CategoryStruct * categ = tmp -> data;
 	GSList * tmp_sous_categ = categ -> sub_category_list;
 
 	while ( tmp_sous_categ )
@@ -1633,7 +1644,7 @@ gboolean gsb_debug_duplicate_categ_fix (void)
 					      (GCompareFunc) gsb_data_sub_category_compare );
 	    if ( duplicate )
 	    {
-		struct_sub_category * duplicate_categ = duplicate -> data;
+		SubCategoryStruct * duplicate_categ = duplicate -> data;
 
 		duplicate_categ -> sub_category_number = gsb_data_category_max_sub_category_number ( categ -> category_number ) + 1;
 	    }
@@ -1662,7 +1673,7 @@ gint gsb_data_category_test_create_category ( gint no_category,
 {
     GSList *list_tmp;
     gint category_number = 0;
-    struct_category *category;
+    CategoryStruct *category;
 
     list_tmp = g_slist_find_custom ( category_list,
                         name,
@@ -1706,10 +1717,13 @@ gboolean gsb_data_category_test_create_sub_category ( gint no_category,
                         const gchar *name )
 {
     GSList *list_tmp;
-    struct_category *category;
-    struct_sub_category *sub_category;
+    CategoryStruct *category;
+    SubCategoryStruct *sub_category;
 
     category = gsb_data_category_get_structure ( no_category );
+    if ( !category )
+        return FALSE;
+
     list_tmp = g_slist_find_custom ( category -> sub_category_list,
                         name,
                         (GCompareFunc) gsb_data_category_get_pointer_from_sub_name_in_glist );
@@ -1745,7 +1759,7 @@ gboolean gsb_data_category_test_create_sub_category ( gint no_category,
  * */
 gint gsb_data_category_get_sub_category_list_length ( gint no_category )
 {
-    struct_category *category;
+    CategoryStruct *category;
 
     category = gsb_data_category_get_structure ( no_category );
 

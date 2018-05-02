@@ -69,7 +69,6 @@ static gboolean bet_data_update_div ( BetHist *sh,
                         gint type_de_transaction,
                         gsb_real amount );
 static void struct_free_bet_future ( FuturData *scheduled );
-static void struct_free_bet_range ( BetRange *sbr );
 static void struct_free_bet_transfert ( TransfertData *transfert );
 static void struct_free_hist_div ( HistDiv *shd );
 static BetHist *struct_initialise_bet_historical ( void );
@@ -98,6 +97,65 @@ static gint future_number;
 static GHashTable *bet_transfert_list;
 static gint transfert_number;
 
+/******************************************************************************/
+/* Private functions                                                          */
+/******************************************************************************/
+/**
+ *
+ *
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void bet_data_hist_set_account_number (gpointer key,
+											  gpointer value,
+											  gpointer user_data)
+{
+	HistDiv *shd = (HistDiv *) value;
+
+	if (shd->account_nb == 0)
+		shd->account_nb = GPOINTER_TO_INT (user_data);
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void bet_data_future_set_account_number (gpointer key,
+												   gpointer value,
+												   gpointer user_data)
+{
+	FuturData *sfd = (FuturData *) value;
+
+	if (sfd->account_number == 0)
+		sfd->account_number = GPOINTER_TO_INT (user_data);
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void bet_data_transfert_set_account_number (gpointer key,
+												   gpointer value,
+												   gpointer user_data)
+{
+	TransfertData *transfert = (TransfertData *) value;
+
+	if (transfert->account_number == 0)
+		transfert->account_number = GPOINTER_TO_INT (user_data);
+}
 
 /**
  * Sélectionne les onglets du module gestion budgétaire en fonction du type de compte
@@ -155,6 +213,8 @@ void bet_data_select_bet_pages ( gint account_number )
         if ( current_page == GSB_ESTIMATE_PAGE || current_page == GSB_HISTORICAL_PAGE )
             gtk_notebook_set_current_page ( GTK_NOTEBOOK ( account_page ), GSB_TRANSACTIONS_PAGE );
         break;
+	case BET_ONGLETS_SANS:
+	case BET_ONGLETS_ASSET:
     default:
         if ( current_page < GSB_PROPERTIES_PAGE )
             gtk_notebook_set_current_page ( GTK_NOTEBOOK ( account_page ), GSB_TRANSACTIONS_PAGE );
@@ -527,7 +587,7 @@ gchar *bet_data_get_div_name ( gint div_num,
                         gint sub_div,
                         const gchar *return_value_error )
 {
-    return g_strdup ( ptr_div_name ( div_num, sub_div, NULL ) );
+    return ptr_div_name ( div_num, sub_div, NULL );
 }
 
 
@@ -1066,7 +1126,7 @@ BetHist *struct_initialise_bet_historical ( void )
     sh -> sbr = struct_initialise_bet_range ( );
     sh -> list_sub_div = g_hash_table_new_full ( g_str_hash,
                         g_str_equal,
-                        NULL,
+                        (GDestroyNotify) g_free,
                         (GDestroyNotify) struct_free_bet_historical );
 	return sh;
 }
@@ -1084,7 +1144,8 @@ void struct_free_bet_historical (BetHist *sh )
     if ( sh -> sbr )
         struct_free_bet_range ( sh -> sbr );
     if ( sh -> list_sub_div )
-        g_hash_table_remove_all ( sh -> list_sub_div );
+		g_hash_table_remove_all ( sh -> list_sub_div );
+	g_hash_table_unref (sh->list_sub_div);
 
     g_free ( sh );
 }
@@ -1123,7 +1184,8 @@ HistDiv *struct_initialise_hist_div ( void )
 void struct_free_hist_div ( HistDiv *shd )
 {
     if ( shd -> sub_div_list )
-        g_hash_table_remove_all ( shd -> sub_div_list );
+		g_hash_table_remove_all ( shd -> sub_div_list );
+	g_hash_table_unref (shd->sub_div_list);
 
     g_free ( shd );
 }
@@ -2261,8 +2323,24 @@ void bet_data_hist_reset_all_amounts ( gint account_number )
  * \param
  *
  * \return
- * */
+ **/
+void bet_data_renum_account_number_0 (gint new_account_number)
+{
+	gpointer account_nb;
 
+	account_nb = GINT_TO_POINTER (new_account_number);
+	g_hash_table_foreach (bet_hist_div_list, bet_data_hist_set_account_number, account_nb);
+	g_hash_table_foreach (bet_future_list, bet_data_future_set_account_number, account_nb);
+	g_hash_table_foreach (bet_transfert_list, bet_data_transfert_set_account_number, account_nb);
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

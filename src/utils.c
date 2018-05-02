@@ -33,6 +33,7 @@
 #include "utils.h"
 #include "dialog.h"
 #include "grisbi_app.h"
+#include "gsb_automem.h"
 #include "gsb_data_account.h"
 #include "gsb_dirs.h"
 #include "gsb_rgba.h"
@@ -52,6 +53,49 @@
 extern GtkWidget *fenetre_preferences;
 /*END_EXTERN*/
 
+/*START_GLOBAL*/
+struct CsvSeparators csv_separators[] =			/* Contains all pre-defined CSV separators. */
+{
+    { N_("Comma"),		"," },
+    { N_("Semi-colon"),	";" },
+    { N_("Colon"),		":" },
+    { N_("Tabulation"),	"\t" },
+    { N_("Other"),		NULL },
+};
+/*END_GLOBAL*/
+
+/******************************************************************************/
+/* Private functions                                                          */
+/******************************************************************************/
+/**
+ * Callback triggered when user changed the pre-defined csv separators
+ * combobox.  Update the text entry and thus the preview.
+ *
+ * \param combo		GtkComboBox that triggered event.
+ * \param entry		Associated entry to change.
+ *
+ * \return			FALSE
+ **/
+static gboolean utils_widget_csv_separators_combo_changed (GtkComboBox *combo,
+														   GtkWidget *entry)
+{
+    gint active = gtk_combo_box_get_active (combo);
+
+    if (csv_separators [active].value)
+    {
+		gtk_entry_set_text (GTK_ENTRY (entry), csv_separators [active].value);
+    }
+    else
+    {
+		gtk_entry_set_text (GTK_ENTRY (entry), "");
+    }
+
+    return FALSE;
+}
+
+/******************************************************************************/
+/* Public functions                                                           */
+/******************************************************************************/
 /**
  * Bascule de l'état NORMAL à PRELIGHT et inversemment
  *
@@ -441,14 +485,52 @@ void lance_mailer (const gchar *uri)
 }
 
 /**
- * set the background colors of the list
+ * set the background colors of a list store
  *
  * \param tree_view
  * \param n° de colonne
  *
  * \return FALSE
  * */
-gboolean utils_set_tree_view_background_color (GtkWidget *tree_view,
+gboolean utils_set_list_store_background_color (GtkWidget *tree_view,
+											   gint color_column)
+{
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+
+    if (!tree_view)
+        return FALSE;
+
+    model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
+
+    if (gtk_tree_model_get_iter_first (GTK_TREE_MODEL (model), &iter))
+    {
+        gint current_color = 0;
+
+        do
+        {
+            gtk_list_store_set (GTK_LIST_STORE (model),
+								&iter,
+								color_column, gsb_rgba_get_couleur_with_indice ("couleur_fond", current_color),
+								-1);
+
+            current_color = !current_color;
+        }
+        while (gtk_tree_model_iter_next (GTK_TREE_MODEL (model), &iter));
+    }
+
+    return FALSE;
+}
+
+/**
+ * set the background colors of a tree store
+ *
+ * \param tree_view
+ * \param n° de colonne
+ *
+ * \return FALSE
+ * */
+gboolean utils_set_tree_store_background_color (GtkWidget *tree_view,
 											   gint color_column)
 {
     GtkTreeModel *model;
@@ -686,10 +768,10 @@ gboolean utils_tree_view_all_rows_are_selected (GtkTreeView *tree_view)
             if (index < 0)
                 break;
         }
-        while (gtk_tree_model_iter_next (GTK_TREE_MODEL (model), &iter));    }
+        while (gtk_tree_model_iter_next (GTK_TREE_MODEL (model), &iter));
+    }
 
-    g_list_foreach (rows_list, (GFunc) gtk_tree_path_free, NULL);
-    g_list_free (rows_list);
+    g_list_free_full (rows_list, (GDestroyNotify) gtk_tree_path_free);
 
     if (index == 0)
         return TRUE;
@@ -851,9 +933,126 @@ GtkWidget *utils_menu_item_new_from_image_label (const gchar *image_name,
  *
  *
  * \param
+ * \param
+ * \param
  *
  * \return
- * */
+ **/
+guint utils_widget_csv_separators_combo_block_unblock (gpointer instance,
+													   gpointer entry,
+													   gboolean block)
+{
+	guint hid;
+
+	if (block)
+		hid = g_signal_handlers_block_by_func (instance,
+											   utils_widget_csv_separators_combo_changed,
+											   entry);
+	else
+		hid = g_signal_handlers_unblock_by_func (instance,
+												 utils_widget_csv_separators_combo_changed,
+												 entry);
+
+	return hid;
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ **/
+GtkWidget *utils_widget_csv_separators_new (GtkSizeGroup *size_group,
+											GCallback hook_entry,
+											gpointer assistant)
+{
+	GtkWidget *hbox;
+	GtkWidget *combobox;
+	GtkWidget *entry;
+    gint i = 0;
+
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
+
+    combobox = gtk_combo_box_text_new ();
+    do
+    {
+		gchar *complete_name;
+
+		complete_name = g_strdup_printf ("%s : \"%s\"",
+										 _(csv_separators [i].name),
+										 (csv_separators [i].value ?
+										 csv_separators [i].value : ""));
+		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combobox), complete_name);
+		g_free (complete_name);
+
+    }
+    while (csv_separators [i ++].value);
+
+	entry = gsb_automem_entry_new (NULL,
+								   G_CALLBACK (hook_entry),
+								   assistant);
+    g_object_set_data (G_OBJECT(entry), "combobox", combobox);
+    g_object_set_data (G_OBJECT(entry), "assistant", assistant);
+	g_object_set_data (G_OBJECT(assistant), "entry", entry);
+
+	/* set size of widgets */
+	if (size_group)
+	{
+		gtk_size_group_add_widget (size_group, combobox);
+		gtk_size_group_add_widget (size_group, entry);
+		gtk_box_pack_start (GTK_BOX (hbox), combobox, FALSE, FALSE, MARGIN_BOX);
+		gtk_box_pack_start (GTK_BOX (hbox), entry, FALSE, FALSE, MARGIN_BOX);
+	}
+	else
+	{
+		gtk_box_pack_start (GTK_BOX (hbox), combobox, TRUE, TRUE, MARGIN_BOX);
+		gtk_box_pack_start (GTK_BOX (hbox), entry, TRUE, TRUE, MARGIN_BOX);
+	}
+
+	/* set signals */
+    g_signal_connect (G_OBJECT (combobox),
+					  "changed",
+					  G_CALLBACK (utils_widget_csv_separators_combo_changed),
+					  entry);
+
+	gtk_widget_show_all (hbox);
+
+	return hbox;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+gint utils_widget_csv_separators_combo_update (const gchar *separator)
+{
+	gint i = 0;
+
+    while (csv_separators [i].value)
+    {
+        if (strcmp (csv_separators [i].value, separator) == 0)
+        {
+            break;
+        }
+        i ++ ;
+    }
+
+	return i;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

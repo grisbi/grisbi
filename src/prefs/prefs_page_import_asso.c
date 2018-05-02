@@ -44,6 +44,7 @@
 #include "gtk_combofix.h"
 #include "import.h"
 #include "structures.h"
+#include "utils.h"
 #include "utils_prefs.h"
 #include "erreur.h"
 
@@ -69,6 +70,7 @@ G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageImportAsso, prefs_page_import_asso, GTK_TYP
 
 static GtkTreePath *path_selected;
 
+#define ASSO_BACKGROUND_COLOR 3
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
@@ -452,7 +454,7 @@ static void prefs_page_import_asso_setup_treeview_asso (PrefsPageImportAsso *pag
 	gtk_widget_set_name (priv->treeview_import_asso, "tree_view");
 
 	/* create the model */
-    list_store = gtk_list_store_new (3, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INT);
+    list_store = gtk_list_store_new (4, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INT, GDK_TYPE_RGBA);
 
     /* create the treeview */
 	gtk_tree_view_set_model (GTK_TREE_VIEW (priv->treeview_import_asso), GTK_TREE_MODEL (list_store));
@@ -460,7 +462,11 @@ static void prefs_page_import_asso_setup_treeview_asso (PrefsPageImportAsso *pag
 
 	/* set the payee name column */
     cell = gtk_cell_renderer_text_new ();
-    column = gtk_tree_view_column_new_with_attributes (_("Payee name"), cell, "text", 0, NULL);
+    column = gtk_tree_view_column_new_with_attributes (_("Payee name"),
+													   cell,
+													   "text", 0,
+													   "cell-background-rgba", ASSO_BACKGROUND_COLOR,
+													   NULL);
     gtk_tree_view_column_set_expand (column, TRUE);
     gtk_tree_view_column_set_alignment (column, 0.5);
     gtk_tree_view_column_set_sort_column_id (column, 0);
@@ -474,7 +480,11 @@ static void prefs_page_import_asso_setup_treeview_asso (PrefsPageImportAsso *pag
 					  G_CALLBACK (prefs_page_import_asso_cell_edited),
 					  page);
 
-    column = gtk_tree_view_column_new_with_attributes (_("Search string"), cell, "text", 1, NULL);
+    column = gtk_tree_view_column_new_with_attributes (_("Search string"),
+													   cell,
+													   "text", 1,
+													   "cell-background-rgba", ASSO_BACKGROUND_COLOR,
+													   NULL);
     gtk_tree_view_column_set_expand (column, TRUE);
     gtk_tree_view_column_set_alignment (column, 0.5);
     gtk_tree_view_column_set_sort_column_id (column, 1);
@@ -483,7 +493,9 @@ static void prefs_page_import_asso_setup_treeview_asso (PrefsPageImportAsso *pag
 	/* fill the list */
     prefs_page_import_asso_fill_model (list_store);
 
-    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->treeview_import_asso));
+    utils_set_list_store_background_color (priv->treeview_import_asso, ASSO_BACKGROUND_COLOR);
+
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->treeview_import_asso));
 	g_signal_connect (selection,
                       "changed",
 					  G_CALLBACK (prefs_page_import_asso_select_asso),

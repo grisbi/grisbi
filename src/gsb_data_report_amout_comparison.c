@@ -277,6 +277,9 @@ gint gsb_data_report_amount_comparison_dup ( gint last_amount_comparison_number 
     amount_comparison_number = gsb_data_report_amount_comparison_new (0);
     amount_comparison = gsb_data_report_amount_comparison_get_struct_by_no (amount_comparison_number);
 
+    if (NULL == amount_comparison)
+        return 0;
+
     amount_comparison -> report_number = last_amount_comparison -> report_number;
     amount_comparison -> link_to_last_amount_comparison = last_amount_comparison -> link_to_last_amount_comparison;
     amount_comparison -> first_comparison = last_amount_comparison -> first_comparison;

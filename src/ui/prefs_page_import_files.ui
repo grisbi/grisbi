@@ -476,6 +476,21 @@
                         <property name="orientation">vertical</property>
                         <property name="spacing">5</property>
                         <child>
+                          <object class="GtkCheckButton" id="checkbutton_qif_no_import_categories">
+                            <property name="label" translatable="yes">Don't imported the categories</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="halign">start</property>
+                            <property name="draw_indicator">True</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
                           <object class="GtkBox" id="hbox_black5">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
@@ -501,6 +516,7 @@
                                   <object class="GtkLabel" id="label13">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
+                                    <property name="halign">start</property>
                                     <property name="label" translatable="yes">If possible use the field « N » to define the methods of payment</property>
                                   </object>
                                 </child>
@@ -515,19 +531,20 @@
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">True</property>
-                            <property name="position">0</property>
+                            <property name="position">1</property>
                           </packing>
                         </child>
                         <child>
                           <object class="GtkLabel" id="label14">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
+                            <property name="halign">start</property>
                             <property name="label" translatable="yes">(Adding the import of QIF files of the « Société Générale » french bank)</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">True</property>
-                            <property name="position">1</property>
+                            <property name="position">2</property>
                           </packing>
                         </child>
                       </object>

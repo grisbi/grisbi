@@ -85,18 +85,8 @@ struct csv_field csv_fields[18] = {
 };
 
 
-/** Contain pre-defined CSV separators */
-struct csv_separators {
-    gchar *name;		/** Visible name of CSV separator */
-    gchar *value; 		/** Real value */
-} csv_separators[] =		/* Contains all pre-defined CSV separators. */
-{
-    { N_("Comma"),		"," },
-    { N_("Semi-colon"),	";" },
-    { N_("Colon"),		":" },
-    { N_("Tabulation"),	"\t" },
-    { N_("Other"),		NULL },
-};
+
+
 
 /******************************************************************************/
 /* Private functions                                                          */
@@ -115,9 +105,10 @@ static void csv_import_free_line (GSList *list,
 
 	for (i = 0; i < nbre_cols ; i++)
 	{
-		if (strlen (list->data))
+		if (list->data && strlen (list->data))
+		{
 			g_free (list->data);
-
+		}
 		list = list->next;
 	}
 	g_slist_free (list);
@@ -1010,7 +1001,7 @@ static GtkTreeModel *csv_import_create_model (GtkTreeView *tree_preview,
         list = list->next;
     }
 
-    types = g_malloc0 ((size + 2) * sizeof (GType *));
+    types = g_malloc0 ((size + 2) * sizeof (GType));
 
     types[0] = G_TYPE_BOOLEAN;
     cell = gtk_cell_renderer_toggle_new ();
@@ -1087,18 +1078,17 @@ static gint csv_import_try_separator (gchar *contents,
     GSList *list;
     int cols, i = 0;
 
-    csv_skip_lines (&contents, 3, separator);
+	csv_skip_lines (&contents, 3, separator);
 
     list = csv_get_next_line (&contents, separator);
     cols = g_slist_length (list);
 	csv_import_free_line (list, cols);
 
     //~ g_print ("> I believe first line is %d cols\n", cols);
+	list = csv_get_next_line (&contents, separator);
 
     do
     {
-		list = csv_get_next_line (&contents, separator);
-
 		if (list && (cols != (gint) g_slist_length (list) || cols == 1))
 		{
 			//~ g_print ("> %d != %d, not %s\n", cols, g_slist_length (list), separator);
@@ -1108,6 +1098,7 @@ static gint csv_import_try_separator (gchar *contents,
 		}
 		csv_import_free_line (list, cols);
 		i++;
+		list = csv_get_next_line (&contents, separator);
     }
     while (list && i < CSV_MAX_TOP_LINES);
 
@@ -1157,32 +1148,6 @@ static gchar *csv_import_guess_separator (gchar *contents)
 }
 
 /**
- * Callback triggered when user changed the pre-defined csv separators
- * combobox.  Update the text entry and thus the preview.
- *
- * \param combo		GtkComboBox that triggered event.
- * \param entry		Associated entry to change.
- *
- * \return			FALSE
- **/
-static gboolean csv_import_combo_changed (GtkComboBox *combo,
-										  GtkEntry *entry)
-{
-    gint active = gtk_combo_box_get_active (combo);
-
-    if (csv_separators [active].value)
-    {
-		gtk_entry_set_text (entry, csv_separators [active].value);
-    }
-    else
-    {
-		gtk_entry_set_text (entry, "");
-    }
-
-    return FALSE;
-}
-
-/**
  * Update tree view containing preview of CSV import.
  *
  * \param assistant	GsbAssistant containg all UI.
@@ -1207,6 +1172,9 @@ static gboolean csv_import_update_preview (GtkWidget *assistant)
 	{
 		return FALSE;
 	}
+
+	/* set the model for dates */
+	gsb_date_set_import_format_date (lines_tab, 0);
 
 	assistant = g_object_get_data (G_OBJECT(tree_preview), "assistant");
     model = csv_import_create_model (tree_preview, lines_tab, separator);
@@ -1274,18 +1242,31 @@ static gboolean csv_import_change_separator (GtkEntry *entry,
 {
     GtkWidget *combobox;
     gchar *separator;
-    int i = 0;
+    gint index = 0;
 
 	devel_debug (NULL);
     combobox = g_object_get_data (G_OBJECT(entry), "combobox");
     separator = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
-    if (strlen (separator) > 0)
+
+	if (strlen (separator) > 0)
     {
+		gchar *contents;
+		GArray *lines_tab;
+
         g_object_set_data (G_OBJECT(assistant), "separator", separator);
-        csv_import_update_preview (assistant);
-		if (etat.csv_separator)
+		if (etat.csv_separator && strlen (etat.csv_separator) > 0)
 			g_free (etat.csv_separator);
-        etat.csv_separator = separator;
+		etat.csv_separator = separator;
+		contents = g_object_get_data (G_OBJECT(assistant), "contents");
+		lines_tab = g_object_get_data (G_OBJECT(assistant), "lines_tab");
+		if (lines_tab)
+			csv_import_free_lines_tab (lines_tab);
+		lines_tab = csv_import_init_lines_tab (&contents, etat.csv_separator);
+		g_object_set_data (G_OBJECT(assistant), "lines-tab", lines_tab);
+		g_free (csv_fields_config);
+		csv_fields_config = NULL;
+		first_line_with_cols = 0;
+        csv_import_update_preview (assistant);
     }
     else
     {
@@ -1296,17 +1277,11 @@ static gboolean csv_import_change_separator (GtkEntry *entry,
     }
 
     /* Update combobox if we can. */
-    while (csv_separators [i].value)
-    {
-        if (strcmp (csv_separators [i].value, separator) == 0)
-        {
-            break;
-        }
-        i ++ ;
-    }
-    g_signal_handlers_block_by_func (combobox, csv_import_combo_changed, entry);
-    gtk_combo_box_set_active (GTK_COMBO_BOX(combobox), i);
-    g_signal_handlers_unblock_by_func (combobox, csv_import_combo_changed, entry);
+	index = utils_widget_csv_separators_combo_update (separator);
+
+    utils_widget_csv_separators_combo_block_unblock (combobox, entry, TRUE);
+    gtk_combo_box_set_active (GTK_COMBO_BOX(combobox), index);
+    utils_widget_csv_separators_combo_block_unblock (combobox, entry, FALSE);
 
 	return FALSE;
 }
@@ -1369,6 +1344,9 @@ gboolean csv_import_file_by_rule (gint rule,
 		index = gsb_data_import_rule_get_csv_first_line_data (rule);
 	else
 		index = gsb_data_import_rule_get_csv_first_line_data (rule)-1;
+
+	/* set the model for dates */
+	gsb_date_set_import_format_date (lines_tab, index);
 
 	/* on regarde si il y a un traitement spécial */
 	if (gsb_data_import_rule_get_csv_spec_nbre_lines (rule))
@@ -1458,6 +1436,7 @@ gboolean csv_import_file_by_rule (gint rule,
     }
 
 	csv_import_free_lines_tab (lines_tab);
+	g_free (csv_fields_config);
 
     return FALSE;
 }
@@ -1479,8 +1458,9 @@ gboolean csv_import_csv_account (GtkWidget *assistant,
     struct ImportAccount *compte;
 	GArray *lines_tab;
     GSList *list;
-    int index = 0;
+    gint index = 0;
 
+	devel_debug (imported->name);
 	compte = g_malloc0 (sizeof (struct ImportAccount));
     compte->nom_de_compte = gsb_import_unique_imported_name (_("Imported CSV account"));
     compte->origine = my_strdup ("CSV");
@@ -1551,13 +1531,13 @@ gboolean csv_import_csv_account (GtkWidget *assistant,
 																 NULL);
 			}
 		}
-	}
 
-	/* détermination de la première transaction du fichier */
-	if (compte->csv_headers_present)
-		index = compte->csv_first_line_data;
-	else
-		index = compte->csv_first_line_data-1;
+		/* détermination de la première transaction du fichier */
+		if (compte->csv_headers_present)
+			index = compte->csv_first_line_data;
+		else
+			index = compte->csv_first_line_data-1;
+	}
 
     list = g_array_index (lines_tab, GSList *, index);
     do
@@ -1643,6 +1623,7 @@ gboolean csv_import_csv_account (GtkWidget *assistant,
     }
 
 	csv_import_free_lines_tab (lines_tab);
+	g_free (csv_fields_config);
 
 	return FALSE;
 }
@@ -1656,49 +1637,21 @@ gboolean csv_import_csv_account (GtkWidget *assistant,
  **/
 GtkWidget *import_create_csv_preview_page (GtkWidget *assistant)
 {
-    GtkWidget *vbox, *paddingbox, *tree_preview, *entry, *sw, *validity_label;
-    GtkWidget *warn, *hbox, *combobox;
+    GtkWidget *vbox, *paddingbox, *tree_preview, *sw, *validity_label;
+    GtkWidget *warn, *hbox;
 	GtkWidget *button;
-    int i = 0;
 
     vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
     gtk_container_set_border_width (GTK_CONTAINER(vbox), BOX_BORDER_WIDTH);
 
+	/* set choose csv separators */
     paddingbox = new_paddingbox_with_title (vbox, FALSE, _("Choose CSV separator"));
-
-    hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
+	hbox = utils_widget_csv_separators_new (NULL,
+											G_CALLBACK (csv_import_change_separator),
+											assistant);
     gtk_box_pack_start (GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0);
 
-    combobox = gtk_combo_box_text_new ();
-    do
-    {
-		gchar *complete_name;
-
-		complete_name = g_strdup_printf ("%s : \"%s\"",
-										 _(csv_separators [i].name),
-										 (csv_separators [i].value ?
-										 csv_separators [i].value : ""));
-		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combobox), complete_name);
-		g_free (complete_name);
-
-    }
-    while (csv_separators [i ++].value);
-
-    gtk_box_pack_start (GTK_BOX(hbox), combobox, TRUE, TRUE, 0);
-
-    entry = gsb_automem_entry_new (NULL,
-								   G_CALLBACK (csv_import_change_separator),
-								   assistant);
-    g_object_set_data (G_OBJECT(entry), "assistant", assistant);
-    g_object_set_data (G_OBJECT(entry), "combobox", combobox);
-    g_object_set_data (G_OBJECT(assistant), "entry", entry);
-    gtk_box_pack_start (GTK_BOX(hbox), entry, FALSE, FALSE, 0);
-
-    g_signal_connect (G_OBJECT (combobox),
-					  "changed",
-					  G_CALLBACK (csv_import_combo_changed),
-					  entry);
-
+	/* set select csv fields */
     paddingbox = new_paddingbox_with_title (vbox, TRUE, _("Select CSV fields"));
 
     sw = gtk_scrolled_window_new (NULL, NULL);
@@ -1749,7 +1702,6 @@ GtkWidget *import_create_csv_preview_page (GtkWidget *assistant)
 gboolean import_enter_csv_preview_page (GtkWidget *assistant)
 {
     GtkWidget *entry;
-	GArray *lines_tab;
     GSList *files;
     gchar *contents;
     gchar *filename = NULL;
@@ -1781,9 +1733,7 @@ gboolean import_enter_csv_preview_page (GtkWidget *assistant)
 		g_free (etat.csv_separator);
 	etat.csv_separator = csv_import_guess_separator (contents);
 
-	/* On initialise le tableau avec les lignes du fichier */
-	lines_tab = csv_import_init_lines_tab (&contents, etat.csv_separator);
-	g_object_set_data (G_OBJECT(assistant), "lines-tab", lines_tab);
+	/* on initialise first_line_with_cols */
 	first_line_with_cols = 0;
 
     entry = g_object_get_data (G_OBJECT(assistant), "entry");

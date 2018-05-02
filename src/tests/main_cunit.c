@@ -70,7 +70,16 @@ gchar *gsb_main_get_print_dir_var(void) { return NULL; }
 
 int main(int argc, char** argv)
 {
-	return gsb_cunit_run_tests() ;
+	CU_initialize_registry();
+
+	utils_real_cunit_create_suite();
+	utils_dates_cunit_create_suite();
+	gsb_data_account_cunit_create_suite();
+	gsb_real_cunit_create_suite();
+
+	CU_basic_run_tests();
+
+	CU_cleanup_registry();
 }
 
 /* Local Variables: */

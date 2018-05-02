@@ -1223,7 +1223,7 @@ void csv_template_rule_csv_import_rule_struct_free	(CSVImportRule *csv_rule)
  *
  * \return
  **/
-void csv_template_rule_spec_conf_data_struct_copy (SpecConfData *spec_conf_data)
+void * csv_template_rule_spec_conf_data_struct_copy (SpecConfData *spec_conf_data, gpointer data)
 {
 	SpecConfData *new_struct;
 
@@ -1232,6 +1232,7 @@ void csv_template_rule_spec_conf_data_struct_copy (SpecConfData *spec_conf_data)
 	new_struct->csv_spec_conf_action_data = spec_conf_data->csv_spec_conf_action_data;
 	new_struct->csv_spec_conf_used_data = spec_conf_data->csv_spec_conf_used_data;
 	new_struct->csv_spec_conf_used_text = g_strdup (spec_conf_data->csv_spec_conf_used_text);
+	return NULL;
 }
 
 /**

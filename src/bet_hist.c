@@ -637,6 +637,7 @@ GtkWidget *bet_historical_get_data_tree_view ( GtkWidget *container )
     /* amount retained column */
     cell = gtk_cell_renderer_text_new ( );
     g_object_set_data ( G_OBJECT ( account_page ), "edited_cell", cell );
+	gtk_cell_renderer_set_padding (GTK_CELL_RENDERER (cell), MARGIN_BOX, 0);
     column = gtk_tree_view_column_new_with_attributes (
                         _("Amount retained"), cell,
                         "text", SPP_HISTORICAL_RETAINED_COLUMN,
@@ -694,6 +695,7 @@ void bet_historical_populate_data ( gint account_number )
 {
     GtkWidget *tree_view;
     GtkTreeModel *model;
+    GtkTreePath *path = NULL;
     gint fyear_number;
     GDate *date_jour;
     GDate *date_min;
@@ -793,13 +795,16 @@ void bet_historical_populate_data ( gint account_number )
     bet_historical_affiche_div ( list_div, tree_view );
 
     g_hash_table_remove_all ( list_div );
+	g_hash_table_unref (list_div);
     g_date_free ( date_jour );
     g_date_free ( date_min );
     g_date_free ( date_max );
     g_date_free ( start_current_fyear );
 
     bet_historical_set_background_color ( tree_view );
-    bet_array_list_select_path ( tree_view, NULL );
+	path = gtk_tree_path_new_first ();
+    bet_array_list_select_path (tree_view, path);
+    gtk_tree_path_free (path);
 }
 
 
@@ -1691,6 +1696,7 @@ gboolean bet_historical_set_background_color ( GtkWidget *tree_view )
 
     if ( gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( model ), &iter ) )
     {
+		GtkTreePath *path;
         gint current_color = 0;
 
         do
@@ -1702,10 +1708,10 @@ gboolean bet_historical_set_background_color ( GtkWidget *tree_view )
                         -1 );
             current_color = !current_color;
 
+			path = gtk_tree_model_get_path (GTK_TREE_MODEL (model), &iter);
             if ( gtk_tree_model_iter_children ( GTK_TREE_MODEL ( model ), &fils_iter, &iter )
              &&
-              gtk_tree_view_row_expanded ( GTK_TREE_VIEW ( tree_view ),
-              gtk_tree_model_get_path ( GTK_TREE_MODEL ( model ), &iter ) ) )
+              gtk_tree_view_row_expanded ( GTK_TREE_VIEW ( tree_view ), path))
             {
                 do
                 {
@@ -1718,6 +1724,7 @@ gboolean bet_historical_set_background_color ( GtkWidget *tree_view )
                 }
                 while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &fils_iter ) );
             }
+			gtk_tree_path_free (path);
         }
         while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &iter ) );
     }

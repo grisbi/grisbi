@@ -1156,8 +1156,7 @@ static gboolean gsb_assistant_reconcile_config_lauch_manu_asso ( GtkWidget *butt
 		{
 		    dialogue_error (_("All the selected transactions have to belong to the same account !"));
 		    /* erase the path_list */
-		    g_list_foreach (path_list, (GFunc) gtk_tree_path_free, NULL);
-		    g_list_free (path_list);
+		    g_list_free_full (path_list, (GDestroyNotify) gtk_tree_path_free);
 		    return FALSE;
 		}
 	    }
@@ -1168,8 +1167,7 @@ static gboolean gsb_assistant_reconcile_config_lauch_manu_asso ( GtkWidget *butt
     if (account_number == -1)
     {
 	/* erase the path_list */
-	g_list_foreach (path_list, (GFunc) gtk_tree_path_free, NULL);
-	g_list_free (path_list);
+	g_list_free_full (path_list, (GDestroyNotify) gtk_tree_path_free);
 	return FALSE;
     }
 
@@ -1332,8 +1330,7 @@ static gboolean gsb_assistant_reconcile_config_lauch_manu_asso ( GtkWidget *butt
     }
 
     /* erase the path_list */
-    g_list_foreach (path_list, (GFunc) gtk_tree_path_free, NULL);
-    g_list_free (path_list);
+    g_list_free_full (path_list, (GDestroyNotify) gtk_tree_path_free);
 
     /* now there is 2 way :
      * either transactions_to_link is 0, we go directly to the succes page

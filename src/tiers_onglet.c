@@ -117,7 +117,7 @@ static gboolean display_unused_payees;
 static gboolean sortie_edit_payee = FALSE;
 
 /* structure pour la sauvegarde de la position */
-static struct metatree_hold_position *payee_hold_position;
+static struct MetatreeHoldPosition *payee_hold_position;
 
 /* structure pour la sauvegarde de la valeur default_answer */
 static struct ConditionalMessage overwrite_payee;
@@ -125,7 +125,7 @@ static struct ConditionalMessage overwrite_payee;
 /*START_EXTERN*/
 /*END_EXTERN*/
 
-enum payees_assistant_page
+enum PayeesAssistantPage
 {
     PAYEES_ASSISTANT_INTRO= 0,
     PAYEES_ASSISTANT_PAGE_2,
@@ -253,7 +253,8 @@ GtkWidget *payees_create_list ( void )
 
     /* Make amount column */
     cell = gtk_cell_renderer_text_new ();
-    column = gtk_tree_view_column_new_with_attributes (_("Amount"), cell,
+	gtk_cell_renderer_set_padding (GTK_CELL_RENDERER (cell), MARGIN_BOX, 0);
+	column = gtk_tree_view_column_new_with_attributes (_("Amount"), cell,
 						       "text", META_TREE_BALANCE_COLUMN,
 						       "weight", META_TREE_FONT_COLUMN,
 						       "xalign", META_TREE_XALIGN_COLUMN,
@@ -309,7 +310,7 @@ GtkWidget *payees_create_list ( void )
                         payee_tree_model );
 
     /* création de la structure de sauvegarde de la position */
-    payee_hold_position = g_malloc0 ( sizeof ( struct metatree_hold_position ) );
+    payee_hold_position = g_malloc0 ( sizeof ( struct MetatreeHoldPosition ) );
 
     gtk_widget_show_all ( frame );
 
@@ -624,7 +625,7 @@ void payees_fill_list ( void )
         }
 
         /* on colorise les lignes du tree_view */
-        utils_set_tree_view_background_color ( payee_tree, META_TREE_BACKGROUND_COLOR );
+        utils_set_tree_store_background_color ( payee_tree, META_TREE_BACKGROUND_COLOR );
         gtk_tree_selection_select_path ( selection, payee_hold_position -> path );
         gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW ( payee_tree ),
                         payee_hold_position -> path,
@@ -635,7 +636,7 @@ void payees_fill_list ( void )
         gchar *title;
 
         /* on colorise les lignes du tree_view */
-        utils_set_tree_view_background_color ( payee_tree, META_TREE_BACKGROUND_COLOR );
+        utils_set_tree_store_background_color ( payee_tree, META_TREE_BACKGROUND_COLOR );
         /* on fixe le titre et le suffixe de la barre d'information */
 	    title = g_strdup(_("Payees"));
         grisbi_win_headings_update_title ( title );
@@ -1765,7 +1766,7 @@ gboolean payee_list_button_press ( GtkWidget *tree_view,
         GtkTreeModel *model;
         GtkTreeIter iter;
         GtkTreePath *path = NULL;
-        enum meta_tree_row_type type_division;
+        enum MetaTreeRowType type_division;
 
         type_division = metatree_get_row_type_from_tree_view ( tree_view );
         if ( type_division == META_TREE_TRANSACTION )

@@ -4957,6 +4957,55 @@ gboolean gsb_data_report_set_export_pdf_name (gint report_number,
  *
  * \return
  **/
+void gsb_data_report_renum_account_number_0 (gint new_account_number)
+{
+	GSList *tmp_list;
+	gpointer ptr_new_account_number;
+
+	ptr_new_account_number = GINT_TO_POINTER (new_account_number);
+	tmp_list = gsb_data_report_get_report_list ();
+	while (tmp_list)
+	{
+		GSList *account_list;
+		GSList *new_account_list = NULL;
+		ReportStruct *report;
+
+		report = tmp_list->data;
+
+		account_list = report->account_numbers;
+
+		while (account_list)
+		{
+			gint account_number;
+
+			account_number = GPOINTER_TO_INT (account_list->data);
+			if (account_number == 0)
+			{
+				new_account_list = g_slist_append (new_account_list, ptr_new_account_number);
+				g_free (account_list->data);
+			}
+			else
+			{
+				new_account_list = g_slist_append (new_account_list, account_list->data);
+			}
+
+			account_list = account_list->next;
+		}
+
+		g_slist_free (report->account_numbers);
+		report->account_numbers = new_account_list;
+
+		tmp_list = tmp_list->next;
+	}
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

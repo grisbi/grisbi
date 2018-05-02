@@ -2652,8 +2652,7 @@ GtkTreeModel *etats_config_onglet_mode_paiement_get_model ( void )
     }
 
     /* on libère la mémoire utilisée par liste_nom_types */
-    g_slist_foreach ( liste_nom_types, ( GFunc ) g_free, NULL );
-    g_slist_free ( liste_nom_types );
+    g_slist_free_full ( liste_nom_types, ( GDestroyNotify ) g_free );
 
     /* return */
     return GTK_TREE_MODEL ( list_store );

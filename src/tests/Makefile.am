@@ -2,7 +2,12 @@
 
 if HAVE_CUNIT
 
-AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/src $(GRISBI_CFLAGS) $(IGE_MAC_CFLAGS) $(CUNIT_CFLAGS)
+AM_CPPFLAGS = -I$(top_srcdir) \
+	-I$(top_srcdir)/src \
+	$(GLIB_CFLAGS) \
+	$(GTK_CFLAGS) \
+	$(IGE_MAC_CFLAGS) \
+	$(CUNIT_CFLAGS)
 
 check_PROGRAMS = cunit_tests
 TESTS = cunit_tests
@@ -19,8 +24,14 @@ cunit_tests_SOURCES = \
 	utils_dates_cunit.h	\
 	utils_real_cunit.h
 
-cunit_tests_LDADD = $(top_builddir)/src/libgrisbi.la $(GRISBI_LIBS) $(IGE_MAC_LIBS) $(CUNIT_LIBS)
-
+cunit_tests_LDADD = \
+	$(top_builddir)/src/libgrisbi.la \
+	$(GRISBI_LIBS) \
+	$(GLIB_LIBS) \
+	$(GTK_LIBS) \
+	$(ZLIB_LIBS) \
+	$(IGE_MAC_LIBS) \
+	$(CUNIT_LIBS)
 
 CLEANFILES = *~
 

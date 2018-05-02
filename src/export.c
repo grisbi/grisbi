@@ -44,23 +44,190 @@
 #include "erreur.h"
 /*END_INCLUDE*/
 
-
 /*START_STATIC*/
+static GSList *selected_accounts = NULL;
+static GSList *exported_accounts = NULL;
 /*END_STATIC*/
 
 /*START_EXTERN*/
 /*END_EXTERN*/
-
-static GSList *selected_accounts = NULL;
-static GSList *exported_accounts = NULL;
-
-/* bouton pour les options US de l'export QIF */
-static 	GtkWidget *box_US;
-
-
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
+/**
+ *	update the last path when changing of directory
+ *
+ * \param		chooser
+ * \param		NULL
+ *
+ * \return
+ **/
+static void export_account_file_chooser_dir_changed (GtkFileChooser *chooser,
+													 gpointer user_data)
+{
+	gchar *dirname;
+
+	dirname = gtk_file_chooser_get_current_folder (chooser);
+	gsb_file_update_last_path (dirname);
+}
+
+/**
+ * Set a boolean integer to the value of a checkbutton.  Normally called
+ * via a GTK "toggled" signal handler.
+ *
+ * \param checkbutton a pointer to a checkbutton widget.
+ * \param event
+ * \param pointeur vers la donnée à modifier
+ *
+ * \return	FALSE
+ **/
+static void export_account_radiobutton_format_changed (GtkWidget *checkbutton,
+													   gboolean *value)
+{
+    if (value)
+    {
+		GtkWidget *widget = NULL;
+
+        *value = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton));
+
+        widget = g_object_get_data (G_OBJECT (checkbutton), "widget");
+        if (widget && GTK_IS_WIDGET (widget))
+        {
+			if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton)))
+				gtk_widget_set_sensitive (GTK_WIDGET (widget), TRUE);
+            else
+                gtk_widget_set_sensitive (GTK_WIDGET (widget), FALSE);
+        }
+		gsb_file_set_modified (TRUE);
+    }
+}
+
+/**
+ * Callback triggered when separator is changed in the GtkEntry
+ * containing it.
+ *
+ * \param entry		Entry that triggered event.
+ * \param position	Position of the change (not used).
+ *
+ * \return			FALSE
+ **/
+static gboolean export_entry_csv_separators_changed (GtkEntry *entry,
+													 GtkWidget *assistant)
+{
+    GtkWidget *combobox;
+    gchar *separator;
+    gint index = 0;
+
+    combobox = g_object_get_data (G_OBJECT(entry), "combobox");
+    separator = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
+
+	if (strlen (separator) > 0)
+    {
+		gsb_csv_export_set_csv_separator (separator);
+	}
+    else
+    {
+		gsb_csv_export_set_csv_separator ( "");
+    }
+
+    /* Update combobox if we can. */
+	index = utils_widget_csv_separators_combo_update (separator);
+
+    utils_widget_csv_separators_combo_block_unblock (combobox, entry, TRUE);
+    gtk_combo_box_set_active (GTK_COMBO_BOX(combobox), index);
+    utils_widget_csv_separators_combo_block_unblock (combobox, entry, FALSE);
+	g_free (separator);
+
+	return FALSE;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+static GtkWidget *export_options_widget_new (GtkWidget *assistant)
+{
+	GtkWidget *vbox;
+	GtkWidget *hbox1;
+	GtkWidget *grid;
+	GtkWidget *button;
+	GtkWidget *button1;
+	GtkWidget *button2;
+	GtkWidget *csv_separators;
+	GtkWidget *separator;
+	GtkSizeGroup *size_group;
+
+	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
+	hbox1 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	grid = gtk_grid_new ();
+	size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
+
+	/* set radio buttons */
+	button1 = gtk_radio_button_new_with_label (NULL, _("QIF format"));
+	gtk_grid_attach (GTK_GRID (grid), button1, 0, 0, 1, 1);
+
+    button2 = gtk_radio_button_new_with_label (gtk_radio_button_get_group (GTK_RADIO_BUTTON (button1)),
+											   _("CSV format"));
+	gtk_grid_attach (GTK_GRID (grid), button2, 0, 1, 1, 1);
+
+	if (etat.export_file_format)
+	{
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button2), TRUE);
+	}
+	else
+	{
+	    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button1), TRUE);
+
+	}
+
+	/* Adding separators */
+	separator = gtk_separator_new (GTK_ORIENTATION_VERTICAL);
+	gtk_widget_set_margin_start (separator, 50);
+	gtk_grid_attach (GTK_GRID (grid), separator, 1, 0, 1, 1);
+	separator = gtk_separator_new (GTK_ORIENTATION_VERTICAL);
+	gtk_widget_set_margin_start (separator, 50);
+	gtk_grid_attach (GTK_GRID (grid), separator, 1, 1, 1, 1);
+
+	/* Adding options for export in US data */
+    button = gsb_automem_checkbutton_new (_("Force US dates"),
+										  &etat.export_force_US_dates,
+										  NULL,
+										  NULL);
+    gtk_box_pack_start (GTK_BOX (hbox1), button, FALSE, FALSE, MARGIN_BOX);
+	gtk_size_group_add_widget (size_group, button);
+
+    button = gsb_automem_checkbutton_new (_("Force US numbers"),
+										  &etat.export_force_US_numbers,
+										  NULL,
+										  NULL);
+    gtk_box_pack_start (GTK_BOX (hbox1), button, FALSE, FALSE, MARGIN_BOX);
+	gtk_size_group_add_widget (size_group, button);
+	gtk_grid_attach (GTK_GRID (grid), hbox1, 2, 0, 1, 1);
+
+	/* Adding csv_separators widget */
+	csv_separators = utils_widget_csv_separators_new (NULL,
+													  G_CALLBACK (export_entry_csv_separators_changed),
+													  assistant);
+    gtk_grid_attach (GTK_GRID (grid), csv_separators, 2, 1, 1, 1);
+	g_object_set_data (G_OBJECT(button2), "widget", csv_separators);
+	gtk_widget_set_sensitive (csv_separators, etat.export_file_format);
+
+	/* set signals */
+	g_signal_connect (G_OBJECT (button2),
+					  "toggled",
+					  G_CALLBACK (export_account_radiobutton_format_changed),
+					  &etat.export_file_format);
+
+	gtk_box_pack_start (GTK_BOX(vbox), grid, FALSE, FALSE, 0);
+
+	gtk_widget_show_all (vbox);
+
+	return vbox;
+ }
+
 /**
  *
  *
@@ -144,7 +311,7 @@ static void export_account_toggled (GtkCellRendererToggle *cell,
  * \return FALSE
  **/
 static gboolean export_account_change_format (GtkWidget *combo,
-											  struct exported_account *account)
+											  struct ExportedAccount *account)
 {
     const gchar *title;
 	gchar *tmp_str;
@@ -201,6 +368,7 @@ static void export_account_all_toggled (GtkToggleButton *button,
     GtkTreeModel *model;
     GtkTreeIter iter;
     gint toggle_value;
+    gboolean valid;
 
     model = gtk_tree_view_get_model (tree_view);
     assistant = g_object_get_data (G_OBJECT (model), "assistant");
@@ -217,8 +385,8 @@ static void export_account_all_toggled (GtkToggleButton *button,
     }
 
     /* get first iter */
-    gtk_tree_model_get_iter_first (GTK_TREE_MODEL (model), &iter);
-    do
+    valid = gtk_tree_model_get_iter_first (GTK_TREE_MODEL (model), &iter);
+    while (valid)
     {
         gboolean toggle_item;
         gint account_toggled;
@@ -239,39 +407,11 @@ static void export_account_all_toggled (GtkToggleButton *button,
             selected_accounts = g_slist_remove (selected_accounts, GINT_TO_POINTER (account_toggled));
             gtk_list_store_set (GTK_LIST_STORE(model), &iter, 0, !toggle_item, -1);
         }
+        valid = gtk_tree_model_iter_next (GTK_TREE_MODEL (model), &iter);
     }
-    while (gtk_tree_model_iter_next (GTK_TREE_MODEL (model), &iter));
 
     /* clean up */
     export_resume_maybe_sensitive_next (assistant);
-}
-
-/**
- * Set a boolean integer to the value of a checkbutton.  Normally called
- * via a GTK "toggled" signal handler.
- *
- * \param checkbutton a pointer to a checkbutton widget.
- * \param event
- * \param pointeur vers la donnée à modifier
- *
- * \return	FALSE
- **/
-static gboolean export_account_radiobutton_format_changed (GtkWidget *checkbutton,
-														   GdkEventButton *event,
-														   gint *pointeur)
-{
-    if (pointeur)
-    {
-        gint value = 0;
-
-        value = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (checkbutton), "pointer"));
-        *pointeur = value;
-
-		gtk_widget_set_sensitive (box_US, !value);
-        gsb_file_set_modified (TRUE);
-    }
-
-    return FALSE;
 }
 
 /**
@@ -284,10 +424,10 @@ static gboolean export_account_radiobutton_format_changed (GtkWidget *checkbutto
 static GtkWidget *export_create_selection_page (GtkWidget *assistant)
 {
     GtkWidget *view, *vbox, *padding_box, *sw;
-	GtkWidget *box;
+	GtkWidget *options_box;
     GtkWidget *button;
     GtkWidget *button_select;
-	GtkWidget *separator;
+	GtkWidget *entry;
     GtkTreeViewColumn *column;
     GtkCellRenderer *cell;
     GtkListStore *model;
@@ -359,38 +499,14 @@ static GtkWidget *export_create_selection_page (GtkWidget *assistant)
 					  G_CALLBACK (export_account_all_toggled),
 					  view);
 
-    padding_box = gsb_automem_radiobutton3_new_with_title (vbox,
-														   _("Select options to export"),
-														   _("QIF format"),
-														   _("CSV format"),
-														   NULL,
-														   &etat.export_file_format,
-														   G_CALLBACK (export_account_radiobutton_format_changed),
-														   &etat.export_file_format,
-														   GTK_ORIENTATION_HORIZONTAL);
+	/* set options for export */
+	padding_box = new_paddingbox_with_title (vbox, TRUE, _("Select options to export"));
+	options_box = export_options_widget_new (assistant);
+    gtk_box_pack_start (GTK_BOX(padding_box), options_box, TRUE, TRUE, 0);
 
-	/* Adding options for export in US data */
-	box = g_object_get_data (G_OBJECT (padding_box), "box");
+	entry = g_object_get_data (G_OBJECT(assistant), "entry");
+	gtk_entry_set_text (GTK_ENTRY (entry), etat.csv_separator);
 
-	separator = gtk_separator_new (GTK_ORIENTATION_VERTICAL);
-	gtk_widget_set_margin_start (separator, 50);
-	gtk_box_pack_start (GTK_BOX (box), separator, FALSE, FALSE, MARGIN_BOX);
-
-	box_US = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
-
-    button = gsb_automem_checkbutton_new (_("Force US dates"),
-										  &etat.export_force_US_dates,
-										  NULL,
-										  NULL);
-    gtk_box_pack_start (GTK_BOX (box_US), button, FALSE, FALSE, MARGIN_BOX);
-    button = gsb_automem_checkbutton_new (_("Force US numbers"),
-										  &etat.export_force_US_numbers,
-										  NULL,
-										  NULL);
-    gtk_box_pack_start (GTK_BOX (box_US), button, FALSE, FALSE, MARGIN_BOX);
-
-	gtk_widget_set_sensitive (box_US, !etat.export_file_format);
-    gtk_box_pack_start (GTK_BOX (box), box_US, FALSE, FALSE, MARGIN_BOX);
 
 	/* Adding treat all files button */
     button = gsb_automem_checkbutton_new (_("Treat all files as the first"),
@@ -487,16 +603,16 @@ static GtkWidget *export_create_final_page (GtkWidget *assistant)
  *
  * \return
  **/
-static GtkWidget *create_export_account_resume_page (struct exported_account *account)
+static GtkWidget *create_export_account_resume_page (struct ExportedAccount *account)
 {
     GtkWidget *vbox, *hbox, *label, *combo;
     gchar *tmpstr;
 
-    vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
+	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
     gtk_container_set_border_width (GTK_CONTAINER(vbox), BOX_BORDER_WIDTH);
 
     tmpstr = make_pango_attribut ("size=\"x-large\"",
-                        g_strdup_printf ("Export of : %s",
+                        g_strdup_printf ("Export of: %s",
                         gsb_data_account_get_name (account->account_nb)));
 
     label = gtk_label_new (NULL);
@@ -523,6 +639,10 @@ static GtkWidget *create_export_account_resume_page (struct exported_account *ac
     account->chooser = gtk_file_chooser_widget_new (GTK_FILE_CHOOSER_ACTION_SAVE);
     gtk_file_chooser_set_extra_widget (GTK_FILE_CHOOSER(account->chooser), hbox);
     gtk_box_pack_start (GTK_BOX (vbox), account->chooser, TRUE, TRUE, 0);
+	g_signal_connect (account->chooser,
+					  "current-folder-changed",
+					  G_CALLBACK (export_account_file_chooser_dir_changed),
+					  NULL);
 
     gtk_combo_box_set_active (GTK_COMBO_BOX(combo), etat.export_file_format);
 
@@ -578,7 +698,7 @@ static gboolean export_enter_resume_page (GtkWidget *assistant)
 		list = selected_accounts;
 		while (list)
 		{
-			struct exported_account *account;
+			struct ExportedAccount *account;
 			gint i = GPOINTER_TO_INT (list->data);
 
 			gtk_text_buffer_insert_with_tags_by_name (buffer,
@@ -591,7 +711,7 @@ static gboolean export_enter_resume_page (GtkWidget *assistant)
 													  "indented",
 													  NULL);
 
-			account = g_malloc0 (sizeof (struct exported_account));
+			account = g_malloc0 (sizeof (struct ExportedAccount));
 			account->account_nb = i;
 			if (etat.export_file_format)
 				account->extension = g_strdup ("csv");
@@ -636,7 +756,7 @@ static gboolean export_enter_resume_page (GtkWidget *assistant)
  *
  * \return
  **/
-static void expert_account_free_account_structure (struct exported_account *account)
+static void expert_account_free_account_structure (struct ExportedAccount *account)
 {
 	if (account->extension)
 		g_free (account->extension);
@@ -696,9 +816,9 @@ void export_accounts (void)
 		list = exported_accounts;
 		while (list)
         {
-            struct exported_account *account;
+            struct ExportedAccount *account;
 
-            account = (struct exported_account *) list->data;
+            account = (struct ExportedAccount *) list->data;
 
             if (etat.export_files_traitement && g_slist_length (selected_accounts) > 1)
             {

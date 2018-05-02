@@ -449,16 +449,34 @@ static void etats_onglet_importer_etat (void)
  **/
 static void etats_onglet_bouton_export_pdf_etat_clicked (void)
 {
-	gint report_number;
+	GtkWidget *dialog;
 	gchar *export_pdf_name;
 	gchar *filename;
+	gint report_number;
+	gint resultat;
 
 	devel_debug (NULL);
 	report_number = gsb_gui_navigation_get_current_report ();
 	export_pdf_name = gsb_data_report_get_export_pdf_name (report_number);
-	filename = g_build_filename (gsb_dirs_get_default_dir (), export_pdf_name, NULL);
+	dialog = gtk_file_chooser_dialog_new (_("Create a pdf file of the report"),
+										  GTK_WINDOW (grisbi_app_get_active_window (NULL)),
+										  GTK_FILE_CHOOSER_ACTION_SAVE,
+										  "gtk-cancel", GTK_RESPONSE_CANCEL,
+										  "gtk-ok", GTK_RESPONSE_OK,
+										  NULL);
+	gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (dialog), export_pdf_name);
+	gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( dialog ), gsb_dirs_get_default_dir ());
+	resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
+	if (resultat != GTK_RESPONSE_OK)
+	{
+		gtk_widget_destroy (dialog);
+		return;
+	}
+
+	filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
 	print_report_export_pdf (filename);
 	g_free (filename);
+	gtk_widget_destroy (GTK_WIDGET (dialog));
 }
 
 /**

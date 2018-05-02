@@ -10,6 +10,7 @@
 /* START_DECLARATION */
 gboolean 	display_mode_check_line 			(gint line_in_transaction,
 												 gint visibles_lines);
+void		free_noms_colonnes_et_tips			(void);
 GtkWidget *	onglet_affichage_liste 				(void);
 GtkWidget *	onglet_affichage_operations 		(void);
 GtkWidget *	onglet_diverse_form_and_lists 		(void);

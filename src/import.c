@@ -201,7 +201,7 @@ static gint gsb_import_associations_find_payee (gchar *imported_tiers)
  *
  * \return
  **/
-static void gsb_import_associations_free_assoc (struct ImportPayeeAsso *assoc)
+static void gsb_import_associations_free_assoc (struct ImportPayeeAsso *assoc, gpointer data)
 {
 	g_free (assoc->search_str);
 	g_free (assoc);
@@ -359,13 +359,13 @@ gint gsb_import_associations_list_append_assoc (gint payee_number,
     assoc->payee_number = payee_number;
     assoc->search_str = g_strdup (search_str);
 
-     if (!g_slist_find_custom (liste_associations_tiers,
-                        assoc,
-                        (GCompareFunc) gsb_import_associations_cmp_assoc))
+    if (!g_slist_find_custom (liste_associations_tiers,
+							   assoc,
+							  (GCompareFunc) gsb_import_associations_cmp_assoc))
         liste_associations_tiers = g_slist_insert_sorted (
                         liste_associations_tiers,
-                        assoc,
-                        (GCompareFunc) gsb_import_associations_cmp_assoc);
+														  assoc,
+														  (GCompareFunc) gsb_import_associations_cmp_assoc);
 
     return g_slist_length (liste_associations_tiers);
 }
@@ -385,6 +385,7 @@ void gsb_import_associations_free_liste (void)
 	}
 
 	g_slist_foreach (liste_associations_tiers, (GFunc) gsb_import_associations_free_assoc, NULL);
+	g_slist_free (liste_associations_tiers);
 }
 
 /******************************************************************************/
@@ -1027,8 +1028,7 @@ static void gsb_import_preview_maybe_sensitive_next (GtkWidget *assistant,
 	/* Don't allow going to next page if no file is selected yet. */
     gtk_widget_set_sensitive (g_object_get_data (G_OBJECT (assistant), "button_next"), FALSE);
 
-    gtk_tree_model_get_iter_first (model, &iter);
-    if (!gtk_tree_store_iter_is_valid (GTK_TREE_STORE (model), &iter))
+    if (!gtk_tree_model_get_iter_first (model, &iter))
     {
 		return;
     }
@@ -1069,12 +1069,14 @@ static gboolean gsb_import_active_toggled (GtkCellRendererToggle *cell,
 										   gpointer model)
 {
     GtkWidget *assistant;
+	GtkWidget *qif_button;
     GtkTreePath *path;
     GtkTreeIter iter;
 	gchar *type;
     gboolean toggle_item;
 
-    assistant = g_object_get_data (G_OBJECT (model), "assistant");
+	assistant = g_object_get_data (G_OBJECT (model), "assistant");
+	qif_button = g_object_get_data (G_OBJECT (assistant), "qif_button");
 
 	path = gtk_tree_path_new_from_string (path_str);
     gtk_tree_model_get_iter (GTK_TREE_MODEL (model), &iter, path);
@@ -1098,7 +1100,7 @@ static gboolean gsb_import_active_toggled (GtkCellRendererToggle *cell,
 							IMPORT_FILESEL_REALNAME, &nom_fichier,
 							IMPORT_FILESEL_CODING, &charmap,
 							-1);
-		g_file_get_contents (nom_fichier, &tmp_contents, NULL, NULL);
+		(void)g_file_get_contents (nom_fichier, &tmp_contents, NULL, NULL);
 		contents = g_convert (tmp_contents, -1, "UTF-8", charmap, NULL, NULL, NULL);
 
 		if (contents == NULL)
@@ -1139,6 +1141,15 @@ static gboolean gsb_import_active_toggled (GtkCellRendererToggle *cell,
 				add_csv_page = FALSE;
 			}
 		}
+	}
+
+	if (strcmp (type, "QIF") == 0)
+	{
+		gtk_widget_set_sensitive (qif_button, !toggle_item);
+	}
+	else
+	{
+		gtk_widget_set_sensitive (qif_button, FALSE);
 	}
 
 	gtk_tree_path_free (path);
@@ -1428,6 +1439,7 @@ static gboolean gsb_import_switch_type (GtkCellRendererText *cell,
 static void gsb_import_select_file (GSList *filenames,
 									GtkWidget *assistant)
 {
+	GtkWidget *qif_button;
     GSList *iterator;
     GtkTreeModel *model;
 	gboolean selected;
@@ -1499,14 +1511,23 @@ static void gsb_import_select_file (GSList *filenames,
 		}
 
 		type = gsb_import_autodetect_file_type (iterator->data, tmp_contents);
+		qif_button = g_object_get_data (G_OBJECT (assistant), "qif_button");
 
 		/* passe par un fichier temporaire pour bipasser le bug libofx */
 		if (strcmp (type, "OFX") == 0)
 		{
+			gtk_widget_set_sensitive (qif_button, FALSE);
 			charmap = utils_files_get_ofx_charset (tmp_contents);
+		}
+		else if (strcmp (type, "QIF") == 0)
+		{
+
+			gtk_widget_set_sensitive (qif_button, selected);
+			charmap = charmap_imported;
 		}
 		else
 		{
+			gtk_widget_set_sensitive (qif_button, FALSE);
 			charmap = charmap_imported;
 		}
 
@@ -1519,17 +1540,24 @@ static void gsb_import_select_file (GSList *filenames,
 		}
 
  		/* Test Convert to UTF8 */
-		if (charmap && !conf.force_import_directory)
+		if (g_utf8_validate (tmp_contents, -1, NULL))
 		{
-			contents = g_convert (tmp_contents, -1, "UTF-8", charmap, NULL, NULL, NULL);
+			charmap = "UTF-8";
+		}
+		else
+		{
+			if (charmap && !conf.force_import_directory)
+			{
+				contents = g_convert (tmp_contents, -1, "UTF-8", charmap, NULL, NULL, NULL);
 
-			if (contents == NULL)
-				charmap = utils_files_create_sel_charset (assistant,
-														  tmp_contents,
-														  charmap,
-														  g_path_get_basename (iterator->data));
-			else
-				g_free (contents);
+				if (contents == NULL)
+					charmap = utils_files_create_sel_charset (assistant,
+															  tmp_contents,
+															  charmap,
+															  g_path_get_basename (iterator->data));
+				else
+					g_free (contents);
+			}
 		}
 
 		tmp_str = g_path_get_basename (iterator->data);
@@ -1569,7 +1597,7 @@ static void gsb_import_select_file (GSList *filenames,
  **/
 static gboolean gsb_import_enter_force_dir_page (GtkWidget *assistant)
 {
-	GFileEnumerator *direnum = NULL;
+	GFileEnumerator *direnum;
 	GFile *dir;
     GSList *filenames = NULL;
 
@@ -1688,6 +1716,7 @@ static gboolean gsb_import_select_file_from_chooser (GtkWidget *button,
 static GtkWidget *gsb_import_create_file_selection_page (GtkWidget *assistant)
 {
     GtkWidget *vbox, *paddingbox, *tree_view, *sw;
+	GtkWidget *qif_button;
     GtkTreeViewColumn *column;
     GtkCellRenderer *renderer;
     GtkTreeModel *model, *list_acc;
@@ -1809,6 +1838,15 @@ static GtkWidget *gsb_import_create_file_selection_page (GtkWidget *assistant)
     g_object_set_data (G_OBJECT(assistant), "model", model);
     g_object_set_data (G_OBJECT(model), "assistant", assistant);
 
+	/* adding option for import of categories for qif files */
+    paddingbox = new_paddingbox_with_title (vbox, TRUE, _("Select options to import"));
+	qif_button = gsb_automem_checkbutton_new (_("Don't imported the categories"),
+										  &etat.qif_no_import_categories,
+										  NULL,
+										  NULL);
+	g_object_set_data (G_OBJECT (assistant), "qif_button", qif_button);
+	gtk_widget_set_sensitive (qif_button, FALSE);
+    gtk_box_pack_start (GTK_BOX (paddingbox), qif_button, FALSE, FALSE, MARGIN_BOX);
     return vbox;
 }
 
@@ -2215,6 +2253,10 @@ static gint gsb_import_create_transaction (struct ImportTransaction *imported_tr
                             transaction_number, tmp_str);
                     g_free (tmp_str);
                 }
+				else if (tmp_str && strlen (tmp_str) == 0)
+				{
+					g_free (tmp_str);
+				}
             }
         }
 
@@ -2263,6 +2305,10 @@ static gint gsb_import_create_transaction (struct ImportTransaction *imported_tr
                         transaction_number, tmp_str);
                 g_free (tmp_str);
             }
+			else if (tmp_str && strlen (tmp_str) == 0)
+			{
+				g_free (tmp_str);
+			}
         }
         gsb_data_transaction_set_party_number (transaction_number, payee_number);
     }
@@ -4475,13 +4521,13 @@ GSList *gsb_import_import_selected_files (GtkWidget *assistant)
     GSList *list = NULL;
     GtkTreeModel *model;
     GtkTreeIter iter;
+    gboolean valid;
 
     model = g_object_get_data (G_OBJECT (assistant), "model");
     g_return_val_if_fail (model, NULL);
 
-    gtk_tree_model_get_iter_first (model, &iter);
-
-    do
+    valid = gtk_tree_model_get_iter_first (model, &iter);
+    while (valid)
     {
         struct ImportFile *imported;
         gboolean selected;
@@ -4498,8 +4544,8 @@ GSList *gsb_import_import_selected_files (GtkWidget *assistant)
         {
             list = g_slist_append (list, imported);
         }
+        valid = gtk_tree_model_iter_next (model, &iter);
     }
-    while (gtk_tree_model_iter_next (model, &iter));
 
     return list;
 }

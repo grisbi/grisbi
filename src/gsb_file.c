@@ -712,13 +712,15 @@ gboolean gsb_file_open_file (const gchar *filename)
 #ifdef HAVE_SSL
 		gchar *tmp_str1;
 		gchar *tmp_str2;
+		GrisbiWinRun *w_run;
 #endif
 
 		/* Loading failed. */
 		grisbi_win_status_bar_message (_("Failed to load accounts"));
 
 #ifdef HAVE_SSL
-        if (run.old_version)
+		w_run = grisbi_win_get_w_run ();
+        if (w_run->old_version)
         {
             dialogue_error_hint (_("The version of your file is less than 0.6. "
                                    "This file can not be imported by Grisbi."),
@@ -1016,6 +1018,53 @@ void gsb_file_free_backup_path (void)
     }
 }
 
+/**
+ * copy an old grisbi file
+ *
+ * \param filename the name of the file
+ *
+ * \return
+ **/
+void gsb_file_copy_old_file (const gchar *filename)
+{
+    if (g_str_has_suffix (filename, ".gsb"))
+    {
+        GFile *file_ori;
+        GFile *file_copy;
+        GError *error = NULL;
+		gchar *copy_old_filename;
+		gchar *tmp_str;
+
+        copy_old_filename = g_path_get_basename (filename);
+		tmp_str = copy_old_filename;
+        copy_old_filename = gsb_string_remplace_string (copy_old_filename, ".gsb", "-old-version.gsb");
+		g_free (tmp_str);
+		tmp_str = copy_old_filename;
+        copy_old_filename = g_build_filename (gsb_dirs_get_user_data_dir (), copy_old_filename, NULL);
+		g_free (tmp_str);
+
+		file_ori = g_file_new_for_path (filename);
+        file_copy = g_file_new_for_path (copy_old_filename);
+
+		if (!g_file_copy (file_ori, file_copy, G_FILE_COPY_OVERWRITE, NULL, NULL, NULL, &error))
+        {
+            dialogue_error (error->message);
+            g_error_free (error);
+        }
+		else
+		{
+			tmp_str = g_strdup_printf (_("The original file was saved saved as:\n"
+										 "\"%s\"."),
+									   copy_old_filename);
+
+			dialogue_warning (tmp_str);
+			g_free (tmp_str);
+		}
+		g_free (copy_old_filename);
+		g_object_unref (file_ori);
+		g_object_unref (file_copy);
+    }
+}
 /**
  *
  *

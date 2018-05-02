@@ -9,7 +9,9 @@
 
 
 /** Interface between various tree data and metatree */
-typedef struct metatree_interface {
+typedef struct _MetatreeInterface 		MetatreeInterface;
+
+struct _MetatreeInterface {
     gint depth;
     gint content;	/* content of the metatree : 0 : payee, 1 : category, 2 : budget */
     gint (* tree_currency) (void);
@@ -57,19 +59,18 @@ typedef struct metatree_interface {
     /* sauvegarde dernière sélection */
     gboolean (* hold_position_set_path) ( GtkTreePath *);
     gboolean (* hold_position_set_expand) ( gboolean );
-
-} MetatreeInterface;
+};
 
 
 /* structure permettant de mémoriser la dernière sélection dans un metatree */
-struct metatree_hold_position
+struct MetatreeHoldPosition
 {
     GtkTreePath *path;
     gboolean expand;
 };
 
 
-enum meta_tree_columns {
+enum MetaTreeColumns {
     META_TREE_TEXT_COLUMN,
     META_TREE_ACCOUNT_COLUMN,
     META_TREE_BALANCE_COLUMN,
@@ -90,7 +91,7 @@ enum meta_tree_columns {
     META_TREE_NUM_COLUMNS
 };
 
-enum meta_tree_row_type {
+enum MetaTreeRowType {
     META_TREE_DIV,
     META_TREE_TRANS_S_S_DIV,
     META_TREE_SUB_DIV,
@@ -126,7 +127,7 @@ void fill_sub_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
                         gint sub_division );
 GtkTreeIter *get_iter_from_div ( GtkTreeModel * model, int div, int sub_div );
 gint metatree_get_nbre_transactions_sans_sub_div ( GtkWidget *tree_view );
-enum meta_tree_row_type metatree_get_row_type_from_tree_view ( GtkWidget *tree_view );
+enum MetaTreeRowType metatree_get_row_type_from_tree_view ( GtkWidget *tree_view );
 void metatree_manage_sub_divisions ( GtkWidget *tree_view );
 void metatree_new_division ( GtkTreeModel * model );
 void metatree_register_widget_as_linked ( GtkTreeModel * model,

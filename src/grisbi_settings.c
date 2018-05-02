@@ -275,9 +275,14 @@ static void grisbi_settings_init_settings_general (GSettings *settings)
     }
 
     tmp_str = g_settings_get_string (settings, "language-chosen");
-    if (tmp_str == NULL || strlen (tmp_str) == 0)
+    if (tmp_str == NULL)
     {
         conf.language_chosen = NULL;
+    }
+	else if (strlen (tmp_str) == 0)
+    {
+        conf.language_chosen = NULL;
+        g_free (tmp_str);
     }
     else
     {

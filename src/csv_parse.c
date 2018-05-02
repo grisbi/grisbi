@@ -174,7 +174,7 @@ gchar *sanitize_field (gchar *begin,
         *iter++ = *begin++;
     }
     /* Strip out remaining white spaces. */
-    while (*(iter-1) == ' ' || *(iter-1) == '\r' || *(iter-1) == '\n')
+    while (*(iter) && (*(iter-1) == ' ' || *(iter-1) == '\r' || *(iter-1) == '\n'))
         iter--;
 
     *iter = '\0';
@@ -205,7 +205,7 @@ gboolean csv_import_validate_date (gchar *string)
     GDate *date;
     g_return_val_if_fail (string, FALSE);
 
-    date = gsb_parse_date_string (string);
+    date = gsb_parse_import_date_string (string);
     if (date && g_date_valid (date) &&
 	 ! csv_import_validate_number (string))
     {
@@ -296,7 +296,7 @@ gboolean csv_import_parse_date (struct ImportTransaction *ope,
 
     if (ope->date)
         g_date_free (ope-> date);
-    ope->date = gsb_parse_date_string (string);
+    ope->date = gsb_parse_import_date_string (string);
 
     if (! ope->date)
     {
@@ -319,7 +319,7 @@ gboolean csv_import_parse_value_date (struct ImportTransaction *ope,
 
     if (ope->date_de_valeur)
         g_free (ope->date_de_valeur);
-    ope->date_de_valeur = gsb_parse_date_string (string);
+    ope->date_de_valeur = gsb_parse_import_date_string (string);
 
     return g_date_valid (ope->date_de_valeur);
 }

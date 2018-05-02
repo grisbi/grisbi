@@ -591,6 +591,7 @@ xmlDocPtr parse_gnucash_file ( gchar * filename )
 
     g_free ( tmp_str );
     g_free ( tmp_str_2 );
+    fclose(filein);
 
       return NULL;
   }
@@ -820,9 +821,11 @@ gboolean node_strcmp ( xmlNodePtr node, const gchar * name )
 
 xmlNodePtr get_child ( xmlNodePtr node, const gchar * child_name )
 {
-  xmlNodePtr iter_node = node -> children;
+  xmlNodePtr iter_node;
 
   if (!node) return NULL;
+
+  iter_node = node -> children;
 
   while ( iter_node )
     {

@@ -35,6 +35,7 @@
 /*START_INCLUDE*/
 #include "gsb_scheduler.h"
 #include "accueil.h"
+#include "grisbi_win.h"
 #include "gsb_currency.h"
 #include "gsb_data_fyear.h"
 #include "gsb_data_payment.h"
@@ -432,20 +433,32 @@ gboolean gsb_scheduler_get_category_for_transaction_from_transaction ( gint tran
     }
     else
     {
-	/* it's not a split of transaction and not a normal category so it's a transfer
-	 * except if the target account is -1 then it's a
-	 * transaction with no category */
+		gint contra_account_number;
 
-	if ( gsb_data_scheduled_get_account_number_transfer (scheduled_number) != -1 )
-	{
-	    gint contra_transaction_number;
+		/* it's not a split of transaction and not a normal category so it's a transfer
+		 * except if the target account is -1 then it's a
+		 * transaction with no category */
 
-	    contra_transaction_number = gsb_form_transaction_validate_transfer ( transaction_number,
-										 TRUE,
-										 gsb_data_scheduled_get_account_number_transfer (scheduled_number));
-	    gsb_data_transaction_set_method_of_payment_number ( contra_transaction_number,
-								gsb_data_scheduled_get_contra_method_of_payment_number (scheduled_number));
-	}
+		contra_account_number = gsb_data_scheduled_get_account_number_transfer (scheduled_number);
+		if (contra_account_number == 0)
+		{
+			GrisbiWinRun *w_run;
+
+			w_run = grisbi_win_get_w_run ();
+			if (w_run->account_number_is_0 == FALSE)
+				return FALSE;
+		}
+
+		if (contra_account_number != -1)
+		{
+			gint contra_transaction_number;
+
+			contra_transaction_number = gsb_form_transaction_validate_transfer ( transaction_number,
+											 TRUE,
+											 gsb_data_scheduled_get_account_number_transfer (scheduled_number));
+			gsb_data_transaction_set_method_of_payment_number ( contra_transaction_number,
+									gsb_data_scheduled_get_contra_method_of_payment_number (scheduled_number));
+		}
     }
     return TRUE;
 }

@@ -1097,6 +1097,8 @@ gboolean bet_config_change_account ( GtkWidget *combo )
             bet_config_initialise_select_bank_card ( account_number );
             bet_config_initialise_finance_widget ( account_number, account_page );
             break;
+		case BET_ONGLETS_SANS:
+		case BET_ONGLETS_ASSET:
         default:
             gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook ), 0 );
             break;
@@ -1214,6 +1216,8 @@ void bet_config_sensitive_account_parameters ( gint account_number, gboolean sen
             widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_credit" );
             gtk_widget_show_all ( widget );
             break;
+		case BET_ONGLETS_SANS:
+		case BET_ONGLETS_ASSET:
         default:
             widget = g_object_get_data ( G_OBJECT ( account_page ), "bet_credit_card_hbox" );
             gtk_widget_hide ( widget );

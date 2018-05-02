@@ -1364,8 +1364,8 @@ gboolean gsb_gui_navigation_set_selection ( gint page,
         gtk_tree_path_free (path);
     }
 
-    gtk_tree_model_get_iter_first ( GTK_TREE_MODEL(navigation_model), &iter );
-    gsb_gui_navigation_set_selection_branch (selection, &iter, page, account_number, report_number);
+    if (gtk_tree_model_get_iter_first ( GTK_TREE_MODEL(navigation_model), &iter ))
+        gsb_gui_navigation_set_selection_branch (selection, &iter, page, account_number, report_number);
 
     return TRUE;
 }
@@ -1622,6 +1622,9 @@ gboolean gsb_gui_navigation_check_scroll ( GtkWidget *tree_view,
             gsb_gui_navigation_select_next ();
             break;
 
+		case GDK_SCROLL_LEFT:
+		case GDK_SCROLL_RIGHT:
+		case GDK_SCROLL_SMOOTH:
         default:
             break;
     }
@@ -1963,8 +1966,7 @@ void gsb_gui_navigation_free_pages_list ( void )
     if ( ! pages_list )
         return;
 
-    g_queue_foreach ( pages_list, (GFunc) g_free, NULL );
-    g_queue_free ( pages_list );
+    g_queue_free_full ( pages_list, g_free );
     pages_list = NULL;
 }
 
