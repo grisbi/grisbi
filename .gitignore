@@ -7,6 +7,9 @@
 *.ok
 *.swp
 *~
+.anjuta/
+.anjuta*
+grisbi.anjuta
 Debug/
 MacOS/dist/
 Makefile
