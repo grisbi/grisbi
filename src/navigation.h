@@ -47,7 +47,8 @@ void 			gsb_gui_navigation_add_account 					(gint account_number,
 void 			gsb_gui_navigation_add_report 					(gint report_number);
 gboolean 		gsb_gui_navigation_change_account 				(gint new_account);
 gboolean 		gsb_gui_navigation_check_scroll 				(GtkWidget *tree_view,
-																 GdkEventScroll *ev);
+																 GdkEvent *ev,
+																 gpointer user_data);
 void 			gsb_gui_navigation_create_account_list 			(GtkTreeModel *model);
 GtkWidget *		gsb_gui_navigation_create_navigation_pane 		(void);
 gboolean 		gsb_gui_navigation_drag_data_received 			(GtkTreeDragDest *drag_dest,

@@ -228,6 +228,7 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
     navigation_tree_view = gtk_tree_view_new ();
 	gtk_widget_set_name (navigation_tree_view, "tree_view");
     gtk_tree_view_set_headers_visible ( GTK_TREE_VIEW(navigation_tree_view), FALSE );
+	gtk_widget_set_events (navigation_tree_view, GDK_SCROLL_MASK);
     gtk_container_add ( GTK_CONTAINER(sw), navigation_tree_view );
 
     navigation_model = GTK_TREE_MODEL ( gtk_tree_store_new ( NAVIGATION_TOTAL,
@@ -1609,26 +1610,27 @@ gboolean gsb_gui_navigation_check_key_press ( GtkWidget *tree_view,
  *
  * \return FALSE : the signal continue / TRUE : the signal is stopped here
  * */
-gboolean gsb_gui_navigation_check_scroll ( GtkWidget *tree_view,
-                                           GdkEventScroll *ev )
+gboolean gsb_gui_navigation_check_scroll (GtkWidget *tree_view,
+                                          GdkEvent *ev,
+										  gpointer user_data)
 {
-    switch ( ev -> direction )
-    {
-        case GDK_SCROLL_UP:
-            gsb_gui_navigation_select_prev ();
-            break;
+	gdouble delta_x;
+    gdouble delta_y;
+	gboolean etat;
 
-        case GDK_SCROLL_DOWN:
-            gsb_gui_navigation_select_next ();
-            break;
+	g_signal_handlers_block_by_func (G_OBJECT (tree_view),
+								   G_CALLBACK (gsb_gui_navigation_check_scroll),
+								   NULL);
+	etat = gdk_event_get_scroll_deltas (ev, &delta_x, &delta_y);
 
-		case GDK_SCROLL_LEFT:
-		case GDK_SCROLL_RIGHT:
-		case GDK_SCROLL_SMOOTH:
-        default:
-            break;
-    }
+	if (etat && (gint) delta_y == 1)
+		gsb_gui_navigation_select_next ();
+	else if (etat && (gint) delta_y == -1)
+		gsb_gui_navigation_select_prev ();
 
+	g_signal_handlers_unblock_by_func (G_OBJECT (tree_view),
+									 G_CALLBACK (gsb_gui_navigation_check_scroll),
+									 NULL);
     return FALSE;
 }
 
