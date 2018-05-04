@@ -80,7 +80,7 @@ static gchar *import_format = NULL;
 /* test des dates des fichiers csv */
 static gboolean mismatch_dates = TRUE;
 
-static const gchar *order_names[] = {
+static gchar *order_names[] = {
     "day-month-year",
     "month-day-year",
     "year-month-day",
@@ -421,7 +421,7 @@ GDate *gsb_parse_date_string (const gchar *date_string)
     GRegex *date_regex;
 	gchar **date_tokens = NULL;
     gchar **tab_date = NULL;
-	const gchar *regex_str;
+	gchar *regex_str;
 	gchar *format = NULL;
 	GrisbiWinEtat *w_etat;
 
@@ -445,10 +445,6 @@ GDate *gsb_parse_date_string (const gchar *date_string)
         date_tokens = g_strsplit (format + 1, "-%", 3);
 		/* set the ISO-8601 pattern */
 		regex_str = DATE_ISO8601_REGEX;
-	}
-    if (NULL == date_tokens)
-	{
-        return NULL;
 	}
 
 	/* get the regex from the store */
@@ -780,12 +776,7 @@ GDate *gsb_date_get_last_banking_day_of_month (const GDate *date)
 		case G_DATE_SATURDAY :
 			g_date_subtract_days (tmp_date, 1);
 			break;
-		case G_DATE_BAD_WEEKDAY:
-		case G_DATE_MONDAY:
-		case G_DATE_TUESDAY:
-		case G_DATE_WEDNESDAY:
-		case G_DATE_THURSDAY:
-		case G_DATE_FRIDAY:
+		default :
 			break;
     }
 
@@ -1026,7 +1017,7 @@ GDate *gsb_parse_import_date_string (const gchar *date_string)
     GRegex *date_regex;
 	gchar **date_tokens = NULL;
     gchar **tab_date = NULL;
-	const gchar *regex_str;
+	gchar *regex_str;
 
 	//~ devel_debug (date_string);
 	if (!date_string || !strlen (date_string))
@@ -1049,9 +1040,6 @@ GDate *gsb_parse_import_date_string (const gchar *date_string)
 		/* set the ISO-8601 pattern */
 		regex_str = DATE_ISO8601_REGEX;
 	}
-
-	if (NULL == date_tokens)
-		return NULL;
 
 	/* get the regex from the store */
 	date_regex = gsb_regex_lookup (IMP_DATE_STRING_KEY);
