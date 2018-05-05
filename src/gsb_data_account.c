@@ -192,9 +192,6 @@ static gint gsb_data_account_cmp_numbers (gconstpointer a,
 	if (b == NULL)
 		return 1;
 
-	if (a == NULL && b == NULL)
-		return 0;
-
 	a_num = GPOINTER_TO_INT (a);
 	b_num = GPOINTER_TO_INT (b);
 
