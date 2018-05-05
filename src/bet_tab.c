@@ -1358,8 +1358,6 @@ void bet_array_list_add_new_hist_line ( GtkTreeModel *tab_model,
         str_date = gsb_format_gdate ( date );
 
         g_value_init ( &date_value, G_TYPE_DATE );
-        if ( date == NULL )
-            return;
         g_value_set_boxed ( &date_value, date );
 
         /* add a line in the estimate array */
