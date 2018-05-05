@@ -3929,7 +3929,10 @@ gboolean gsb_data_account_renum_account_number_0 (const gchar *filename)
 		{
 			account_number = 1;
 		}
-		account_number = account->account_number;
+		else
+		{
+			account_number = account->account_number;
+		}
 		number_list = g_slist_append (number_list, GINT_TO_POINTER (account_number));
 
 		tmp_list = tmp_list->next;
