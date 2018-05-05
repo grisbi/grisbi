@@ -3924,7 +3924,7 @@ gboolean gsb_data_account_renum_account_number_0 (const gchar *filename)
 
 		if (!account)
 		{
-			account_number = 1;
+			return FALSE;
 		}
 		else
 		{
