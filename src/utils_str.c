@@ -524,7 +524,7 @@ gchar *my_strdup (const gchar *string)
  * \param string the string to check
  * \param length the limit length we want
  *
- * \return a dupplicate version of the string with max length character (must to be freed)
+ * \return a duplicate version of the string with max length character (must to be freed)
  **/
 gchar *limit_string (gchar *string,
 					 gint length)
@@ -538,7 +538,7 @@ gchar *limit_string (gchar *string,
     if (g_utf8_strlen (string, -1) <= length)
 		return my_strdup (string);
 
-	tmp_str = g_malloc0 (length * sizeof (char*));
+	tmp_str = g_malloc0 (length * 4);
     tmp_str = g_utf8_strncpy (tmp_str, string, length-3);
 
     string_return = g_strconcat (tmp_str, "...", NULL);
