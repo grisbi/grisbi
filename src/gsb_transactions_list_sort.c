@@ -665,7 +665,7 @@ gint gsb_transactions_list_sort_by_budget ( gint transaction_number_1,
         /* g_utf8_collate is said not very fast, must try with big big account to check
          * if it's enough, for me it's ok (cedric), eventually, change with gsb_strcasecmp */
         return_value = g_utf8_collate ( g_utf8_casefold ( temp_1, -1 ),
-                        g_utf8_casefold ( temp_2 ? temp_2 : "", -1 ) );
+                        g_utf8_casefold ( temp_2, -1 ) );
     }
 
     if ( return_value )
