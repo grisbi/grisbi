@@ -3149,14 +3149,16 @@ static  void gsb_file_load_bet_historical ( const gchar **attribute_names,
 
     if ( !strcmp ( attribute_names[i], "SEdit" ) )
     {
-        sub_shd -> div_edited = utils_str_atoi ( attribute_values[i] );
+		if (sub_shd)
+			sub_shd -> div_edited = utils_str_atoi ( attribute_values[i] );
         i++;
         continue;
     }
 
     if ( !strcmp ( attribute_names[i], "SDamount" ) )
     {
-        sub_shd -> amount = gsb_real_safe_real_from_string ( attribute_values[i] );
+		if (sub_shd)
+			sub_shd -> amount = gsb_real_safe_real_from_string ( attribute_values[i] );
         i++;
         continue;
     }
