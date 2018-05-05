@@ -516,7 +516,7 @@ void free_noms_colonnes_et_tips (void)
         titres_colonnes_liste_operations[j] = NULL;
 
 		if (tips_col_liste_operations[j])
-			g_free (titres_colonnes_liste_operations[j]);
+			g_free (tips_col_liste_operations[j]);
         tips_col_liste_operations[j] = NULL;
     }
 }
