@@ -6762,30 +6762,6 @@ msgid "Currency '%s' is used in current file. Grisbi can't delete it."
 msgstr ""
 "Die Währung '%s' ist in Verwendung und kann daher nicht gelöscht werden."
 
-#: ../src/gsb_currency_config.c:910
-msgid "Known currencies"
-msgstr "Erfasste Währungen"
-
-#. Input form for currencies
-#: ../src/gsb_currency_config.c:957
-msgid "Currency properties"
-msgstr "Währung Details"
-
-#. Create Sign entry
-#: ../src/gsb_currency_config.c:972
-msgid "Sign: "
-msgstr "Zeichen: "
-
-#. Create ISO code entry
-#: ../src/gsb_currency_config.c:984
-msgid "ISO code: "
-msgstr "ISO Code: "
-
-#. Create floating point entry
-#: ../src/gsb_currency_config.c:996 ../src/gsb_currency_config.c:1194
-msgid "Floating point: "
-msgstr "Kommastellen: "
-
 #: ../src/gsb_currency_config.c:1031
 msgid "Currency for payees tree: "
 msgstr "Währung von den Empfängern: "
