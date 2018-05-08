@@ -3189,20 +3189,6 @@ msgstr "Kontoname"
 msgid "Select options to export"
 msgstr "Die Einstellungen für den Export auswählen"
 
-#: ../src/export.c:438
-msgid "Select accounts to export"
-msgstr "Die Konten für den Export auswählen"
-
-#: ../src/export.c:473 ../src/export_csv.c:324
-#: ../src/gsb_data_partial_balance.c:1666
-msgid "Account name"
-msgstr "Kontoname"
-
-#. set options for export
-#: ../src/export.c:503
-msgid "Select options to export"
-msgstr "Die Einstellungen für den Export auswählen"
-
 #. Adding treat all files button
 #: ../src/export.c:512
 msgid "Treat all files as the first"
@@ -7510,11 +7496,6 @@ msgstr ""
 #: ../src/gsb_file.c:727
 msgid "Version of Grisbi file too old :"
 msgstr ""
-
-#. Loading failed.
-#: ../src/gsb_file.c:739
-msgid "Failed to load accounts"
-msgstr "Fehler beim Laden der Konten"
 
 #: ../src/gsb_file.c:737
 #, c-format

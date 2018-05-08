@@ -164,28 +164,6 @@ gchar*  csv_field_info_bank  = NULL; /*!< bank references (string) */
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
-/**
- * retourne une string avec la bon format numérique pour les montants
- *
- * \param a number
- *
- * \return a string should be freed with g_free()
- **/
-static gchar *csv_real_get_string_from_us_option (gsb_real number)
-{
-	gchar *tmp_str;
-
-	if (etat.export_force_US_numbers)
-	{
-		tmp_str = utils_real_get_string_intl (number);
-	}
-	else
-	{
-		tmp_str = utils_real_get_string (number);
-	}
-
-	return tmp_str;
-}
 
 /**
  * try to open the csv file in w mode
@@ -240,35 +218,6 @@ static gchar *csv_real_get_string_from_us_option (gsb_real number)
 	}
 
 	return tmp_str;
-}
-
-/**
- * try to open the csv file in w mode
- *
- * \param filename
- *
- * \return a FILE pointer or NULL if problem
- * */
-static FILE *gsb_csv_export_open_file (const gchar *filename)
-{
-    FILE *csv_file;
-
-    /* Création du fichier, si pb, on marque l'erreur et passe au fichier suivant */
-    csv_file = utils_files_utf8_fopen (filename, "w");
-    if (! csv_file)
-    {
-        gchar *sMessage = NULL;
-
-        sMessage = g_strdup_printf (_("Unable to create file \"%s\" :\n%s"),
-                         filename, g_strerror (errno));
-        dialogue (sMessage);
-
-        g_free (sMessage);
-
-        return NULL;
-    }
-
-    return csv_file;
 }
 
 /**
