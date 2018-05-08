@@ -192,9 +192,6 @@ static gint gsb_data_account_cmp_numbers (gconstpointer a,
 	if (b == NULL)
 		return 1;
 
-	if (a == NULL && b == NULL)
-		return 0;
-
 	a_num = GPOINTER_TO_INT (a);
 	b_num = GPOINTER_TO_INT (b);
 
@@ -3927,9 +3924,12 @@ gboolean gsb_data_account_renum_account_number_0 (const gchar *filename)
 
 		if (!account)
 		{
-			account_number = 1;
+			return FALSE;
 		}
-		account_number = account->account_number;
+		else
+		{
+			account_number = account->account_number;
+		}
 		number_list = g_slist_append (number_list, GINT_TO_POINTER (account_number));
 
 		tmp_list = tmp_list->next;

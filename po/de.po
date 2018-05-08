@@ -2869,7 +2869,7 @@ msgstr ""
 #. append group page
 #: ../src/etats_prefs.c:652
 msgid "Data selection"
-msgstr "Datenauswahl"
+msgstr "Daten Auswahl"
 
 #: ../src/etats_prefs.c:656
 msgid "Dates"
@@ -6796,7 +6796,7 @@ msgid "Currency '%s' is used in current file. Grisbi can't delete it."
 msgstr ""
 "Die Währung '%s' ist in Verwendung und kann daher nicht gelöscht werden."
 
-#: ../src/gsb_currency_config.c:849
+#: ../src/gsb_currency_config.c:1031
 msgid "Currency for payees tree: "
 msgstr "Währung von den Empfängern: "
 
@@ -8371,6 +8371,10 @@ msgstr "Erfasste Abstimmungen"
 #, fuzzy
 msgid "Sort by descending date the reconciliations"
 msgstr "Enddatum für Abstimmungen: "
+
+#: ../src/gsb_reconcile_config.c:276
+msgid "Collapse row"
+msgstr "Zeile zusammenklappen"
 
 #. set the modifying part under the list
 #: ../src/gsb_reconcile_config.c:213
@@ -12616,30 +12620,25 @@ msgid "Open a .gsb account file"
 msgstr "Datei auswählen - Grisbi"
 
 #: ../src/ui/prefs_page_accueil.ui.h:1
-#, fuzzy
 msgid "Calculation of balances"
 msgstr "Berechnung der Salden"
 
 #: ../src/ui/prefs_page_accueil.ui.h:3
 msgid ""
 "Take into account the scheduled operations in the calculation of balances"
-msgstr ""
+msgstr "Geplante Buchungen in die Berechnung miteinbeziehen"
 
 #: ../src/ui/prefs_page_accueil.ui.h:4
-#, fuzzy
 msgid "Balances partials of the list of accounts"
-msgstr "Position in der Kontoliste: "
+msgstr "Teilsalden"
 
 #: ../src/ui/prefs_page_accueil.ui.h:5
-#, fuzzy
 msgid "Place the partial balance  under its accounts if it's possible"
-msgstr ""
-"Der Name vom Teilsaldo und die Liste der Konten müssen vollständig "
-"eingegeben werden."
+msgstr "Wenn möglich den Teilsaldo unter den Konten anzeigen"
 
 #: ../src/ui/prefs_page_accueil.ui.h:8
 msgid "Pluriel de final"
-msgstr ""
+msgstr "Mehrere Werte"
 
 #: ../src/ui/prefs_page_archives.ui.h:1
 msgid "Known archives"
@@ -12870,7 +12869,7 @@ msgid ""
 "specific payee representing your landlord."
 msgstr ""
 "Empfänger aus einer Importdatei können mit der Festlegung von einem "
-"Suchkriterium und einem Empfänger dem ausgewählten Empfänger zugeordnet "
+"Suchkriterium und einem Empfänger durch den ausgewählten Empfänger ersetzt "
 "werden."
 
 #: ../src/ui/prefs_page_import_asso.ui.h:5
