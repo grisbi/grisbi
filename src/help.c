@@ -140,7 +140,8 @@ _("Packaging"),
 "Sylvain Glaize <mokona@puupuu.org>",
 "Thierry Thomas <thierry@pompo.net>",
 "Vincent Marqueton <vincent@marqueton.com>",
-"William Ollivier <guneeyoufix@gmail.com>"
+"William Ollivier <guneeyoufix@gmail.com>",
+"Frederic Trouche <fred@linxutribe.org>",
 "\n",
 
 _("Other"),
