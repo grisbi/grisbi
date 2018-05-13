@@ -132,7 +132,7 @@ AC_ARG_WITH(openssl,
 	[build_openssl=$withval],
 	[build_openssl=auto])
 
-PKG_CHECK_MODULES(OPENSSL, [libcrypto >= LIBSSL_REQUIRED], have_openssl=yes, have_openssl=no)
+PKG_CHECK_MODULES(OPENSSL, [libcrypto >= $LIBSSL_REQUIRED], have_openssl=yes, have_openssl=no)
 if test "$build_openssl" = yes -a "$have_openssl" = no; then
 	AC_MSG_ERROR([OpenSSL support was requested but libssl could not be found.])
 fi
@@ -204,7 +204,7 @@ AC_ARG_WITH(goffice,
 	[build_goffice=$withval],
 	[build_goffice=auto])
 
-PKG_CHECK_MODULES(GOFFICE, [libgoffice-0.10 >= LIBGOFFICE_REQUIRED], have_goffice=yes, have_goffice=no)
+PKG_CHECK_MODULES(GOFFICE, [libgoffice-0.10 >= $LIBGOFFICE_REQUIRED], have_goffice=yes, have_goffice=no)
 if test "$build_goffice" = yes -a "$have_goffice" = no; then
 	AC_MSG_ERROR([GOffice support was requested but goffice could not be found.])
 fi
