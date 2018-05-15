@@ -301,10 +301,10 @@ if test "$platform_win" = "yes"; then
 	else
 		NSIS_DATE=""
 	fi
-	echo "d=$NSIS_DATE"
 	AC_SUBST(NSIS_DATE)
 fi
-
+TOP_SRCDIR_WINBS=$({ cd ${srcdir} && pwd -W; } | sed 's|\\|\\\\|g')
+AC_SUBST(TOP_SRCDIR_WINBS)
 
 AM_CONDITIONAL(WIN32, test "$platform_win" = "yes")
 
@@ -382,7 +382,6 @@ pixmaps/flags/Makefile
 po/Makefile.in
 share/Makefile
 share/grisbi.nsi
-share/win-main.rc
 share/categories/Makefile
 share/categories/C/Makefile
 share/categories/fr/Makefile
@@ -392,6 +391,7 @@ share/categories/de_AT/Makefile
 share/categories/it/Makefile
 share/categories/ru/Makefile
 src/Makefile
+src/win-main.rc
 src/tests/Makefile
 src/plugins/gnucash/Makefile
 src/plugins/ofx/Makefile
