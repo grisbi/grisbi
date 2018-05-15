@@ -277,7 +277,7 @@ case $host_os in
   ;;
   *)
     platform_win=no
-    AC_MSG_RESULT([$platform_win])    
+    AC_MSG_RESULT([$platform_win])
     ;;
 esac
 
@@ -288,16 +288,14 @@ if test "$platform_win" = "yes"; then
 		NSIS_BITS=32bit;
 		NSIS_DEFAULTINSTDIR="Program Files (x86)"
 	fi
-	NSIS_SRCDIR=$({ cd ${srcdir} && pwd -W; } | sed 's|/|\\|g')	
+	NSIS_SRCDIR=$({ cd ${srcdir} && pwd -W; } | sed 's|/|\\|g')
 	NSIS_INSTDIR=$({ mkdir -p ${prefix}; cd ${prefix} && pwd -W; }| sed 's|/|\\|g')
-	echo "a=$NSIS_SRCDIR"
-	echo "b=$NSIS_INSTDIR"
 
 	AC_SUBST(NSIS_BITS)
 	AC_SUBST(NSIS_DEFAULTINSTDIR)
 	AC_SUBST(NSIS_SRCDIR)
 	AC_SUBST(NSIS_INSTDIR)
-	
+
 	if expr ${GRISBI_MINOR_VERSION} % 2 > /dev/null; then
 		NSIS_DATE=$( date +-%Y.%m.%d )
 	else
@@ -384,6 +382,7 @@ pixmaps/flags/Makefile
 po/Makefile.in
 share/Makefile
 share/grisbi.nsi
+share/win-main.rc
 share/categories/Makefile
 share/categories/C/Makefile
 share/categories/fr/Makefile
