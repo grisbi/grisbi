@@ -16,6 +16,11 @@ RequestExecutionLevel admin
 !endif
 
 
+!define MUI_ICON "@NSIS_SRCDIR@/pixmaps/grisbi-32.ico"
+/* !define MUI_HEADERIMAGE
+!define MUI_HEADERIMAGE_BITMAP "path\to\InstallerLogo.bmp"
+*/
+
 
 !define PACKAGERDIR "@NSIS_INSTDIR@"
 !define SRCDIR "@NSIS_SRCDIR@"
@@ -43,7 +48,7 @@ InstType "full"
 !insertmacro MUI_PAGE_DIRECTORY
 !insertmacro MUI_PAGE_INSTFILES
 !define MUI_FINISHPAGE_RUN "$INSTDIR\bin\Grisbi.exe"
-; !define MUI_FINISHPAGE_RUN_TEXT "$(launchAtEnd)" 
+; !define MUI_FINISHPAGE_RUN_TEXT "$(launchAtEnd)"
 
 Function finishInstallDesktopShortcut
 	CreateShortCut "$DESKTOP\Grisbi-1.2.lnk" "$INSTDIR\bin\Grisbi.exe" "" "$INSTDIR\bin\grisbi.ico"
@@ -74,54 +79,54 @@ FunctionEnd
 !insertmacro MUI_LANGUAGE "Portuguese"
 !insertmacro MUI_LANGUAGE "Romanian"
 !insertmacro MUI_LANGUAGE "Russian"
-/* !insertmacro MUI_LANGUAGE "Chinese" */ 
+/* !insertmacro MUI_LANGUAGE "Chinese" */
 
 LangString desktopShortcut ${LANG_English} "Create shortcut on Desktop"
 LangString desktopShortcut ${LANG_French} "Créer une icône sur le bureau"
 
-Section "" SecBin  
-  SetOutPath "$INSTDIR\bin"   
+Section "" SecBin
+  SetOutPath "$INSTDIR\bin"
   File /a /r "${PACKAGERDIR}\bin\"
   File /a "${SRCDIR}\win32\grisbi.ico"
-  
-  SetOutPath "$INSTDIR\lib"   
+
+  SetOutPath "$INSTDIR\lib"
   File /a /r "${PACKAGERDIR}\lib\"
-  
+
   ;Create uninstaller
   WriteUninstaller "$INSTDIR\Uninstall.exe"
-  
+
   createDirectory "$SMPROGRAMS\${COMPANYNAME}"
   createShortCut "$SMPROGRAMS\${COMPANYNAME}\Gribi @NSIS_BITS@-@VERSION@@NSIS_DATE@.lnk" "$INSTDIR\bin\Grisbi.exe" "" "$INSTDIR\bin\grisbi.ico"
   createShortCut "$SMPROGRAMS\${COMPANYNAME}\Uninstall Gribi @NSIS_BITS@-@VERSION@@NSIS_DATE@.lnk" "$INSTDIR\Uninstall.exe"
-  
+
   # Registry information for add/remove programs
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}" "DisplayName" "Grisbi @NSIS_BITS@"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}" "Publisher" "Open Source"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}" "UninstallString" "$\"$INSTDIR\Uninstall.exe$\""
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}" "QuietUninstallString" "$\"$INSTDIR\Uninstall.exe$\" /S"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}" "InstallLocation" "$\"$INSTDIR$\""
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}" "DisplayIcon" "$\"$INSTDIR\bin\grisbi.ico$\""    
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}" "DisplayIcon" "$\"$INSTDIR\bin\grisbi.ico$\""
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}" "URLInfoAbout" "$\"http://en.grisbi.org/$\""
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}" "DisplayVersion" "@VERSION@"
-  
+
   # There is no option for modifying or repairing the install
   WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}" "NoModify" 1
   WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}" "NoRepair" 1
-  
+
   # Set the INSTALLSIZE constant (!defined at the top of this script) so Add/Remove Programs can accurately report the size
   WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}" "EstimatedSize" 121000
-  
-  # Registry for language  
-  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}" "Language" $language 
-  
-  !define MUI_LANGDLL_REGISTRY_ROOT "HKLM" 
-  !define MUI_LANGDLL_REGISTRY_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}" 
+
+  # Registry for language
+  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}" "Language" $language
+
+  !define MUI_LANGDLL_REGISTRY_ROOT "HKLM"
+  !define MUI_LANGDLL_REGISTRY_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}"
   !define MUI_LANGDLL_REGISTRY_VALUENAME "Language"
 
 SectionEnd
 
 Section "" SecShare
-  SetOutPath "$INSTDIR\share"   
+  SetOutPath "$INSTDIR\share"
   File /a /r "${PACKAGERDIR}\share\"
 SectionEnd
 
@@ -142,8 +147,8 @@ Function .onInit
 FunctionEnd
 
 /* Uninstaller functions */
-Function un.onInit  
+Function un.onInit
   !insertmacro MUI_UNGETLANGUAGE
   ; ReadRegDWORD $language HKLM Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}" "Language"
-  ; !insertmacro MUI_UNGETLANGUAGE  
+  ; !insertmacro MUI_UNGETLANGUAGE
 FunctionEnd
