@@ -341,9 +341,11 @@ grisbi_SOURCES = 		\
 
 BUILT_SOURCES = grisbi_resources.c
 
+.rc.res:
+		windres $< -O coff -o $@
+
 if WIN32
-compile-windres:
-		windres $(bindir)/share/win-main.rc -O coff -o win-main.res
+grisbi_LDADD += win-main.res
 endif
 
 grisbi_resources.c: grisbi.gresource.xml $(shell $(GLIB_COMPILE_RESOURCES) --sourcedir=$(srcdir)/ui --generate-dependencies $(srcdir)/grisbi.gresource.xml)
@@ -355,7 +357,7 @@ gsettings_SCHEMAS = org.gtk.grisbi.gschema.xml
 @INTLTOOL_XML_NOMERGE_RULE@
 
 if WIN32
-grisbi_LDFLAGS = -mwindows $(bindir)/share/win-main.rc
+grisbi_LDFLAGS = -mwindows
 endif
 
 SUBDIRS = ui prefs plugins/gnucash plugins/ofx plugins/openssl

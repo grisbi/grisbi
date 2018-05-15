@@ -1,1 +1,1 @@
-id ICON "@NSIS_SRCDIR@/pixmaps/grisbi-32.ico"
+grisbi_icon_id ICON "@TOP_SRCDIR_WINBS@/pixmaps/grisbi-32.ico"
