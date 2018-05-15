@@ -1,1 +1,21 @@
 grisbi_icon_id ICON "@TOP_SRCDIR_WINBS@/pixmaps/grisbi-32.ico"
+
+1 VERSIONINFO
+PRODUCTVERSION  @GRISBI_MAJOR_VERSION@,@GRISBI_MINOR_VERSION@,@GRISBI_MICRO_VERSION@,0
+BEGIN
+  BLOCK "StringFileInfo"
+  BEGIN
+    BLOCK "080904E4"
+    BEGIN
+      VALUE "FileDescription", "Grisbi, @NSIS_BITS@ version"
+      VALUE "LegalCopyright", "Distributed under GPL license"
+      VALUE "ProductName", "Grisbi"
+      VALUE "ProductVersion", "@GRISBI_MAJOR_VERSION@.@GRISBI_MINOR_VERSION@.@GRISBI_MICRO_VERSION@"
+    END
+  END
+
+  BLOCK "VarFileInfo"
+  BEGIN
+    VALUE "Translation", 0x809, 1252 
+  END
+END
