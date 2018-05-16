@@ -21,6 +21,8 @@ make install
 cd /nsis-3.03
 ./makensis.exe /c/projects/grisbi-src/share/grisbi.nsi
 
+cd /c/projects/grisbi-src
+
 if [ $MSYSTEM = "MINGW32" ]; then
   powershell.exe -command "Push-AppveyorArtifact \"share/Grisbi-32bit-$v-setup.exe\" -DeploymentName \"grisbi-compil\""
 else
