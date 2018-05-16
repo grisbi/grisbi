@@ -297,7 +297,7 @@ if test "$platform_win" = "yes"; then
 	AC_SUBST(NSIS_INSTDIR)
 
 	if expr ${GRISBI_MINOR_VERSION} % 2 > /dev/null; then
-		NSIS_DATE=$( date +-%Y.%m.%d )
+		NSIS_DATE=$( date +'-%Y.%m.%d-%H' )
 	else
 		NSIS_DATE=""
 	fi
