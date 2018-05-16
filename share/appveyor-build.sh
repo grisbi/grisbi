@@ -8,9 +8,17 @@ cd /c/projects/grisbi-src
 ./configure --prefix /c/projects/grisbi-inst/
 
 v=$(grep PACKAGE_VERSION config.h | cut -f2 -d '"')
-v="$v-$(date +'%Y.%m.%d')"
+v="$v-$(date +'%Y.%m.%d-%H.%M')"
 powershell.exe -command "Update-AppveyorBuild -Version \"$v\""
 # -B%APPVEYOR_BUILD_NUMBER%\""
+
+echo "$v"
+
+if [ MSYSTEM = "MINGW32" ]; then
+  powershell.exe -command "Push-AppveyorArtifact \"share\Grisbi-32bit-$v-setup.exe\" -DeploymentName \"grisbi-compil\""
+else
+  powershell.exe -command "Push-AppveyorArtifact \"share\Grisbi-64bit-$v-setup.exe\" -DeploymentName \"grisbi-compil\""
+fi
 
 make -j 2
 
