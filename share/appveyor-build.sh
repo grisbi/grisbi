@@ -26,4 +26,4 @@ if [ MSYSTEM = "MINGW32" ]; then
 else
   powershell.exe -command "Push-AppveyorArtifact \"share\Grisbi-64bit-$v-setup.exe\" -DeploymentName \"grisbi-compil\""
 fi
-
+exit
