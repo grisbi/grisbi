@@ -15,7 +15,7 @@ powershell.exe -command "Update-AppveyorBuild -Version \"$v\""
 echo "$v"
 
 if [ MSYSTEM = "MINGW32" ]; then
-  powershell.exe -command "Push-AppveyorArtifact \"share\Grisbi-32bit-$v-setup.exe\" -DeploymentName \"grisbi-compil\""
+  powershell.exe -command "Push-AppveyorArtifact -FileName \"share\Grisbi-32bit-$v-setup.exe\" -DeploymentName \"grisbi-compil\""
 else
   powershell.exe -command "Push-AppveyorArtifact \"share\Grisbi-64bit-$v-setup.exe\" -DeploymentName \"grisbi-compil\""
 fi
