@@ -1,6 +1,9 @@
 version: 1.0.{build}
 image: Visual Studio 2017
 clone_folder: c:\projects\grisbi-src
+
+skip_tags: true
+
 init:
 - cmd: >-
     c:\msys64\usr\bin\bash -lc "echo MSYSTEM=%MSYSTEM% > /appveyor.environment"
