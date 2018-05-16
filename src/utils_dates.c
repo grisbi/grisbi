@@ -326,7 +326,7 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
     GRegex *date_regex;
     gchar **date_tokens = NULL;
     gchar **tab_date = NULL;
-    gboolean year_auto = TRUE;
+    gboolean year_auto = FALSE;
 	gint page;
     int num_tokens, num_fields;
     int i, j;
