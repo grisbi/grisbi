@@ -607,6 +607,12 @@ GtkWidget *onglet_form_completion ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 20 );
 
     gtk_box_pack_start ( GTK_BOX (vbox_pref),
+                        gsb_automem_checkbutton_new (_("Automatically adjust operation year"),
+                        &conf.automatic_year_adjustment,
+                        NULL, NULL),
+                        FALSE, FALSE, 0 );
+
+    gtk_box_pack_start ( GTK_BOX (vbox_pref),
                         gsb_automem_checkbutton_new (_("Mix credit/debit categories"),
                         &etat.combofix_mixed_sort,
                         G_CALLBACK ( gsb_transactions_list_display_update_combofix), NULL),

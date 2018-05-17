@@ -434,38 +434,42 @@ msgid "Limit the filling with payees belonging to the current account"
 msgstr "Limiter le remplissage avec des tiers appartenant au compte courant"
 
 #: ../src/affichage_liste.c:610
+msgid "Automatically adjust operation year"
+msgstr "Ajuster automatiquement l'année de l'opération"
+
+#: ../src/affichage_liste.c:616
 msgid "Mix credit/debit categories"
 msgstr "Mélanger les catégories de débit/crédit"
 
-#: ../src/affichage_liste.c:616
+#: ../src/affichage_liste.c:622
 msgid "Case sensitive completion"
 msgstr "Remplissage sensible à la casse"
 
-#: ../src/affichage_liste.c:622
+#: ../src/affichage_liste.c:628
 msgid "Don't allow new payee creation"
 msgstr "Ne pas permettre la création de nouveaux tiers"
 
-#: ../src/affichage_liste.c:628
+#: ../src/affichage_liste.c:634
 msgid "Don't allow new category/budget creation"
 msgstr "Ne pas autoriser la création de nouvelles catégories/Imputations B."
 
-#: ../src/affichage_liste.c:637
+#: ../src/affichage_liste.c:643
 msgid "Maximum items showed in drop down lists (0 for no limit): "
 msgstr ""
 "Nombre maximal de lignes dans les menus déroulants (0 pas de limite) : "
 
 #. à la base, on met une vbox
-#: ../src/affichage_liste.c:803 ../src/parametres.c:729
+#: ../src/affichage_liste.c:809 ../src/parametres.c:729
 msgid "Transactions list cells"
 msgstr "Cellules de la liste des opérations"
 
 #. partie 1 visualisation de l'arrangement des données
-#: ../src/affichage_liste.c:806
+#: ../src/affichage_liste.c:812
 msgid "Transactions list preview"
 msgstr "Prévisualisation de la liste des opérations"
 
 #. partie 2 Source des données
-#: ../src/affichage_liste.c:839
+#: ../src/affichage_liste.c:845
 msgid "Transactions list contents"
 msgstr "Contenu de la liste des opérations"
 

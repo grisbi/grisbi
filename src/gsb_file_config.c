@@ -102,6 +102,7 @@ static void gsb_file_config_clean_config ( void )
     conf.limit_completion_to_current_account = 0;   /* By default, do full search */
     conf.automatic_recover_splits = 1;
     conf.automatic_erase_credit_debit = 0;
+    conf.automatic_year_adjustment = 1;
 
     conf.display_grisbi_title = GSB_ACCOUNTS_TITLE; /* show Accounts file title par défaut */
     conf.display_toolbar = GSB_BUTTON_BOTH;         /* How to display toolbar icons. */
@@ -729,6 +730,15 @@ gboolean gsb_file_config_load_config ( void )
                         "Automatic_erase_credit_debit",
                         NULL );
 
+    int_ret = g_key_file_get_integer ( config,
+                        "Display",
+                        "Automatic year adjustment",
+                        NULL );
+    if ( err == NULL )
+        conf.automatic_year_adjustment = int_ret;
+    else
+        err = NULL;
+
     conf.display_toolbar = g_key_file_get_integer ( config,
                         "Display",
                         "Display toolbar",
@@ -1077,6 +1087,11 @@ gboolean gsb_file_config_save_config ( void )
                         "Display",
                         "Automatic_erase_credit_debit",
                         conf.automatic_erase_credit_debit );
+
+    g_key_file_set_integer ( config,
+                        "Display",
+                        "Automatic year adjustment",
+                        conf.automatic_year_adjustment );
 
     g_key_file_set_integer ( config,
                         "Display",

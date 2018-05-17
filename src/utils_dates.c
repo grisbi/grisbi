@@ -45,6 +45,7 @@
 #include "navigation.h"
 #include "utils_str.h"
 #include "erreur.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -326,7 +327,7 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
     GRegex *date_regex;
     gchar **date_tokens = NULL;
     gchar **tab_date = NULL;
-    gboolean year_auto = TRUE;
+    gint year_auto = conf.automatic_year_adjustment;
 	gint page;
     int num_tokens, num_fields;
     int i, j;
