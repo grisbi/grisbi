@@ -185,6 +185,7 @@ struct gsb_conf_t
     gboolean automatic_erase_credit_debit;          /* 1 pour effacer les champs crédit et débit */
     gboolean formulaire_toujours_affiche;           /* TRUE formulaire toujours affiché */
     gint affichage_exercice_automatique;            /* automatic fyear :0 to set according to the date, 1 according to value date */
+    gint automatic_year_adjustment;                  /* 1 to automatically select previous year if future date is entered */
 
 #if IS_DEVELOPMENT_VERSION == 1
     /* config file */
