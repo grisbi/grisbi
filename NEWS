@@ -1,4 +1,4 @@
-New in version 1.0.2
+New in version 1.0.3
 - Fixes display bug of bet_tab when load a new account file
 - fixes bug in forecasts when decimal_point is comma "," and thousands_separator is dot "."
 - fixes bug 1837 : display split transactions in budgetary lines view
