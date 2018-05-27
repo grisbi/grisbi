@@ -3,9 +3,19 @@
 source /appveyor.environment
 export MSYSTEM
 
+libofx_version="0.9.13"
+
+wget -O /libofx.zip "https://github.com/xfred81/libofx/releases/download/0.9.13/libofx_$MSYSTEM.zip"
+cd /
+unzip libofx.zip
+
+PATH=$PATH:/inst/bin
+export PATH
+
 cd /c/projects/grisbi-src
 ./autogen.sh
-./configure --prefix /c/projects/grisbi-inst/
+
+./configure --prefix /c/projects/grisbi-inst/ --with-ofx PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/inst/lib/pkgconfig
 
 v=$(grep PACKAGE_VERSION config.h | cut -f2 -d '"')
 v="$v-$(date +'%Y.%m.%d')"
