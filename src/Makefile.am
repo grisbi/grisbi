@@ -341,6 +341,13 @@ grisbi_SOURCES = 		\
 
 BUILT_SOURCES = grisbi_resources.c
 
+.rc.res:
+		windres $< -O coff -o $@
+
+if WIN32
+grisbi_LDADD += win-main.res
+endif
+
 grisbi_resources.c: grisbi.gresource.xml $(shell $(GLIB_COMPILE_RESOURCES) --sourcedir=$(srcdir)/ui --generate-dependencies $(srcdir)/grisbi.gresource.xml)
 	$(AM_V_GEN) $(GLIB_COMPILE_RESOURCES) --target=$@ --sourcedir=$(srcdir)/ui --generate-source $(srcdir)/grisbi.gresource.xml
 

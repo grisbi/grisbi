@@ -277,7 +277,7 @@ case $host_os in
   ;;
   *)
     platform_win=no
-    AC_MSG_RESULT([$platform_win])    
+    AC_MSG_RESULT([$platform_win])
     ;;
 esac
 
@@ -288,25 +288,23 @@ if test "$platform_win" = "yes"; then
 		NSIS_BITS=32bit;
 		NSIS_DEFAULTINSTDIR="Program Files (x86)"
 	fi
-	NSIS_SRCDIR=$({ cd ${srcdir} && pwd -W; } | sed 's|/|\\|g')	
+	NSIS_SRCDIR=$({ cd ${srcdir} && pwd -W; } | sed 's|/|\\|g')
 	NSIS_INSTDIR=$({ mkdir -p ${prefix}; cd ${prefix} && pwd -W; }| sed 's|/|\\|g')
-	echo "a=$NSIS_SRCDIR"
-	echo "b=$NSIS_INSTDIR"
 
 	AC_SUBST(NSIS_BITS)
 	AC_SUBST(NSIS_DEFAULTINSTDIR)
 	AC_SUBST(NSIS_SRCDIR)
 	AC_SUBST(NSIS_INSTDIR)
-	
+
 	if expr ${GRISBI_MINOR_VERSION} % 2 > /dev/null; then
 		NSIS_DATE=$( date +-%Y.%m.%d )
 	else
 		NSIS_DATE=""
 	fi
-	echo "d=$NSIS_DATE"
 	AC_SUBST(NSIS_DATE)
 fi
-
+TOP_SRCDIR_WINBS=$({ cd ${srcdir} && pwd -W; } | sed 's|\\|\\\\|g')
+AC_SUBST(TOP_SRCDIR_WINBS)
 
 AM_CONDITIONAL(WIN32, test "$platform_win" = "yes")
 
@@ -393,6 +391,7 @@ share/categories/de_AT/Makefile
 share/categories/it/Makefile
 share/categories/ru/Makefile
 src/Makefile
+src/win-main.rc
 src/tests/Makefile
 src/plugins/gnucash/Makefile
 src/plugins/ofx/Makefile
