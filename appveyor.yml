@@ -29,7 +29,7 @@ deploy:
 - provider: GitHub
   release: v$(appveyor_build_version)
   auth_token:
-    secure: pA+9wc/rBKc0DNBfVvyxXrJ9+OU++uwZkCzsEtUaTHUDSw5hfpJlIulqq0LcDv3n
+    secure: sZu+i3QuPeW93JlxEBOJ7E1WYsAZQtIsOHVjzftLxkBvBKX/9Akt4GRYUdQWK3/Z
   artifact: grisbi-compil
   draft: false
   prerelease: true
