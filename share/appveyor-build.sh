@@ -3,11 +3,16 @@
 source /appveyor.environment
 export MSYSTEM
 
+git_src="https://github.com/xfred81"
 libofx_version="0.9.13"
+libgoffice_version="2018.05.28-16"
 
-wget -O /libofx.zip "https://github.com/xfred81/libofx/releases/download/0.9.13/libofx_$MSYSTEM.zip"
 cd /
+wget -m --no-verbose -O /libofx.zip "$git_src/libofx/releases/download/0.9.13/libofx_$MSYSTEM.zip"
 unzip libofx.zip
+
+wget -m --no-verbose -O /goffice.zip "$git_src/goffice/releases/download/v-2018.05.28-16/goffice-$MSYSTEM-$libgoffice_version-archive.zip"
+unzip /goffice.zip
 
 PATH=$PATH:/inst/bin
 export PATH
@@ -15,7 +20,7 @@ export PATH
 cd /c/projects/grisbi-src
 ./autogen.sh
 
-./configure --prefix /c/projects/grisbi-inst/ --with-ofx PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/inst/lib/pkgconfig
+./configure --prefix /c/projects/grisbi-inst/ --with-ofx --with-goffice PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/inst/lib/pkgconfig
 
 v=$(grep PACKAGE_VERSION config.h | cut -f2 -d '"')
 v="$v-$(date +'%Y.%m.%d-%H')"
