@@ -170,7 +170,9 @@ install_data() {
 	cp -rf $(pkg-config.exe gdk-pixbuf-2.0 --variable=gdk_pixbuf_moduledir) $prefix/lib/gdk-pixbuf-2.0/$gdk_pixbuf_ver; \
 	echo "Copying data files for libofx";  \
 	mkdir -p $prefix/share/libofx/dtd; \
-	cp -rf /inst/share/libofx/dtd/* $prefix/share/libofx/dtd
+	cp -rf /inst/share/libofx/dtd/* $prefix/share/libofx/dtd; \
+	echo "Copying data files & plugins for libgoffice";  \	
+	cp -rf /inst/lib/goffice $prefix/lib
 }
 
 # *****************************************************************************
