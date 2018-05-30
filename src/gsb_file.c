@@ -955,16 +955,16 @@ void gsb_file_set_modified (gboolean modified)
 /*     devel_debug_int (modified);  */
 
     /* If no file is loaded, do not change menu items. */
-    if (!gsb_data_account_get_accounts_amount ())
-        return;
+	if (!gsb_data_account_get_accounts_amount ())
+		return;
 
-    if (modified)
+	if (modified)
     {
         if (!run.file_modification)
         {
             run.file_modification = time (NULL);
-            gsb_menu_gui_sensitive_win_menu_item ("save", TRUE);
         }
+        gsb_menu_gui_sensitive_win_menu_item ("save", TRUE);
     }
     else
     {

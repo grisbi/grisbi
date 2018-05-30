@@ -19,6 +19,7 @@ gint 			gsb_data_currency_get_no_currency 				(gpointer currency_ptr);
 gint 			gsb_data_currency_get_number_by_code_iso4217 	(const gchar *code);
 gint 			gsb_data_currency_get_number_by_name 			(const gchar *name);
 gboolean 		gsb_data_currency_init_variables 				(void);
+gint 			gsb_data_currency_load_currency 				(gint new_no_currency);
 gint 			gsb_data_currency_max_number 					(void);
 gint 			gsb_data_currency_new 							(const gchar *name);
 gboolean 		gsb_data_currency_remove 						(gint currency_number);
@@ -30,7 +31,5 @@ gboolean 		gsb_data_currency_set_floating_point 			(gint currency_number,
 																 gint floating_point);
 gboolean 		gsb_data_currency_set_name 						(gint currency_number,
 																 const gchar *name);
-gint 			gsb_data_currency_set_new_number 				(gint currency_number,
-																 gint new_no_currency);
 /* END_DECLARATION */
 #endif

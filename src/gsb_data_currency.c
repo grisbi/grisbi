@@ -35,6 +35,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_data_currency.h"
+#include "structures.h"
 #include "utils_str.h"
 /*END_INCLUDE*/
 
@@ -285,17 +286,35 @@ gboolean gsb_data_currency_remove ( gint currency_number )
  *
  * \return the new number or 0 if the currency doen't exist
  * */
-gint gsb_data_currency_set_new_number ( gint currency_number,
-					gint new_no_currency )
+gint gsb_data_currency_load_currency (gint new_no_currency)
 {
+	GSList *tmp_list;
     struct_currency *currency;
 
-    currency = gsb_data_currency_get_structure ( currency_number );
+	/* test existence de la devise */
+    tmp_list = currency_list;
 
-    if (!currency)
-	return 0;
+    while (tmp_list)
+    {
+		struct_currency *tmp_currency;
 
-    currency -> currency_number = new_no_currency;
+		tmp_currency = tmp_list->data;
+		if (tmp_currency->currency_number == new_no_currency)
+		{
+			run.file_modification = TRUE;
+
+			return 0;
+		}
+
+		tmp_list = tmp_list->next;
+    }
+
+    currency = g_malloc0 (sizeof (struct_currency));
+    currency->currency_number = new_no_currency;
+	currency->currency_name = NULL;
+	currency->currency_floating_point = 2;
+    currency_list = g_slist_append (currency_list, currency);
+
     return new_no_currency;
 }
 

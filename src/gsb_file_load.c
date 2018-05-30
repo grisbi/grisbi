@@ -788,11 +788,6 @@ static  void gsb_file_load_currency ( const gchar **attribute_names,
     if ( !attribute_names[i] )
     return;
 
-    currency_number = gsb_data_currency_new (NULL);
-
-    /* Default */
-    gsb_data_currency_set_floating_point ( currency_number, 2 );
-
     do
     {
     /*     we test at the beginning if the attribute_value is NULL, if yes, */
@@ -804,11 +799,12 @@ static  void gsb_file_load_currency ( const gchar **attribute_names,
         continue;
     }
 
-    if ( !strcmp ( attribute_names[i],
-                                   "Nb" ))
+    if (!strcmp (attribute_names[i], "Nb"))
     {
-        currency_number = gsb_data_currency_set_new_number ( currency_number,
-                                                         utils_str_atoi (attribute_values[i]));
+        currency_number = gsb_data_currency_load_currency (utils_str_atoi (attribute_values[i]));
+
+		if (currency_number == 0)
+			return;
         i++;
         continue;
     }
