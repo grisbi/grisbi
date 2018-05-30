@@ -43,6 +43,7 @@
 #include "gsb_form_widget.h"
 #include "gsb_regex.h"
 #include "navigation.h"
+#include "structures.h"
 #include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -326,7 +327,7 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
     GRegex *date_regex;
     gchar **date_tokens = NULL;
     gchar **tab_date = NULL;
-    gboolean year_auto = FALSE;
+    gboolean year_auto = etat.form_date_force_prev_year;
 	gint page;
     int num_tokens, num_fields;
     int i, j;

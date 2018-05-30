@@ -751,6 +751,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
                        "\t\tImport_qif_use_field_extract_method_payment=\"%d\"\n"
 					   "\t\tExport_file_format=\"%d\"\n"
                        "\t\tExport_files_traitement=\"%d\"\n"
+                       "\t\tForm_date_force_prev_year=\"%d\"\n"
 					   "\t\tReconcile_end_date=\"%d\"\n"
                        "\t\tReconcile_sort=\"%d\"\n"
 					   "\t\tUse_logo=\"%d\"\n"
@@ -807,6 +808,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
     etat.get_qif_use_field_extract_method_payment,
     etat.export_file_format,
     etat.export_files_traitement,
+	etat.form_date_force_prev_year,
     etat.reconcile_end_date,
     etat.reconcile_sort,
 	etat.utilise_logo,

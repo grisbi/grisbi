@@ -14,7 +14,7 @@
 #define VERSION_FICHIER "0.6.0"
 
 /* Define this when in Git development branch. */
-#define IS_DEVELOPMENT_VERSION 0
+#define IS_DEVELOPMENT_VERSION 1
 
 #define VERSION_FICHIER_ETAT "0.6.0"
 #define VERSION_FICHIER_CATEG "0.6.0"
@@ -46,10 +46,11 @@ struct gsb_etat_t
     gint no_devise_totaux_tiers;
 
     /* reconciliation */
-    gint reconcile_end_date;        /* Date initiale + 1 mois par défaut */
-    gboolean reconcile_sort;        /* TRUE = Sort by descending date the reconciliations */
+    gint reconcile_end_date;        	/* Date initiale + 1 mois par défaut */
+    gboolean reconcile_sort;        	/* TRUE = Sort by descending date the reconciliations */
+	gboolean form_date_force_prev_year;	/* FALSE = default année en cours TRUE = forcer l'année précédente pour les dates futures */
 
-    /* formulaire */
+	/* formulaire */
     gint affiche_nb_ecritures_listes;
     gint retient_affichage_par_compte;      /* à 1 si les caractéristiques de l'affichage (R, non R ...) diffèrent par compte */
 

@@ -310,7 +310,7 @@ static gboolean gsb_transactions_list_display_sort_changed ( GtkComboBox *widget
 	case GSB_ACCOUNT_PAGE:
         account_nb = gsb_gui_navigation_get_current_account ();
         if (account_nb != -1)
-            gsb_transactions_list_update_tree_view (account_nb, TRUE);
+			gsb_transactions_list_update_tree_view (account_nb, TRUE);
 	    break;
     }
 
@@ -511,9 +511,12 @@ void recuperation_noms_colonnes_et_tips ( void )
 /* ************************************************************************************************************** */
 GtkWidget *onglet_diverse_form_and_lists ( void )
 {
-    GtkWidget *vbox_pref, *paddingbox;
+	GtkWidget *vbox_pref;
+    GtkWidget *button;
+    GtkWidget *label;
+    GtkWidget *paddingbox;
 
-    vbox_pref = new_vbox_with_title_and_icon ( _("Form behavior"),
+	vbox_pref = new_vbox_with_title_and_icon ( _("Form behavior"),
 					       "form.png" );
 
     /* What to do if RETURN is pressed into transaction form */
@@ -523,7 +526,21 @@ GtkWidget *onglet_diverse_form_and_lists ( void )
 							 _("terminates transaction"),
 							 &conf.entree, NULL, NULL);
 
-    /* How to display financial year */
+    /* Interpretation of future dates */
+    paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("Interpretation of future dates"));
+
+    button = gsb_automem_checkbutton_new (_("Replace the year of future dates by the previous year"),
+                                          &etat.form_date_force_prev_year,
+                                          NULL,
+                                          NULL);
+    gtk_box_pack_start (GTK_BOX (paddingbox), button, FALSE, FALSE, 0);
+
+    label = gtk_label_new (_("This option replaces in the transactions form, the year of future dates\n"
+							 "by the previous calendar year"));
+    gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+    gtk_box_pack_start (GTK_BOX (paddingbox), label, FALSE, FALSE, 0);
+
+	/* How to display financial year */
     gsb_automem_radiobutton_new_with_title (vbox_pref,
 							 _("Automatic financial year is set"),
 							 _("according to transaction date"),

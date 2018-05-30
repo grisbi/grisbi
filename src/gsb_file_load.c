@@ -887,7 +887,10 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
                 else if ( !strcmp ( attribute_names[i], "File_title" ) && strlen (attribute_values[i]))
                     titre_fichier = my_strdup (attribute_values[i]);
 
-                else
+                else if (!strcmp (attribute_names[i], "Form_date_force_prev_year"))
+                    etat.form_date_force_prev_year = utils_str_atoi ( attribute_values[i]);
+
+				else
                     unknown = 1;
                 break;
 
