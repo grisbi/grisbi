@@ -43,8 +43,11 @@
 #include "erreur.h"
 /*END_INCLUDE*/
 
-
 /*START_STATIC*/
+#ifdef OS_OSX
+static gchar *label_search_help = N_("Command-click\nto add to the selection");
+#endif /* OS_OSX */
+
 /*END_STATIC*/
 
 
@@ -1160,7 +1163,7 @@ static GtkWidget *etats_prefs_onglet_comptes_create_page ( gint page )
     GtkWidget *button;
     GtkWidget *tree_view;
 
-    vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etats_prefs_builder, "onglet_etat_comptes" ) );
+	vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etats_prefs_builder, "onglet_etat_comptes" ) );
 
     vbox = new_vbox_with_title_and_icon ( _("Account selection"), "gsb-ac-bank-32.png" );
 
@@ -1168,6 +1171,15 @@ static GtkWidget *etats_prefs_onglet_comptes_create_page ( gint page )
     gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
 
     etats_prefs_widget_set_sensitive ( "vbox_generale_comptes_etat", FALSE );
+
+	/* on adapte le label pour Mac_OSX */
+#ifdef OS_OSX
+	GtkLabel *label;
+
+	label = GTK_LABEL (gtk_builder_get_object (etats_prefs_builder, "label_comptes_search_help"));
+	gtk_label_set_text (label, _(label_search_help));
+	gtk_label_set_justify (label, GTK_JUSTIFY_CENTER);
+#endif /* OS_OSX */
 
     /* on crée la liste des comptes */
     etats_prefs_tree_view_init ( "treeview_comptes",
@@ -1179,7 +1191,7 @@ static GtkWidget *etats_prefs_onglet_comptes_create_page ( gint page )
 
     button = GTK_WIDGET ( gtk_builder_get_object ( etats_prefs_builder, "bouton_detaille_comptes_etat" ) );
 
-    /* on met la connection pour changer le style de la ligne du panneau de gauche */
+	/* on met la connection pour changer le style de la ligne du panneau de gauche */
     g_signal_connect ( G_OBJECT ( button ),
                         "toggled",
                         G_CALLBACK ( etats_prefs_left_panel_tree_view_update_style ),
@@ -1281,6 +1293,15 @@ static GtkWidget *etats_prefs_onglet_virements_create_page ( gint page )
 
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
     gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
+
+	/* on adapte le label pour Mac_OSX */
+#ifdef OS_OSX
+	GtkLabel *label;
+
+	label = GTK_LABEL (gtk_builder_get_object (etats_prefs_builder, "label_transfers_search_help"));
+	gtk_label_set_text (label, _(label_search_help));
+	gtk_label_set_justify (label, GTK_JUSTIFY_CENTER);
+#endif /* OS_OSX */
 
     /* on crée la liste des comptes */
     etats_prefs_tree_view_init ( "treeview_virements",
@@ -1726,7 +1747,16 @@ static GtkWidget *etats_prefs_onglet_tiers_create_page ( gint page )
 
     etats_prefs_widget_set_sensitive ( "vbox_detaille_tiers_etat", FALSE );
 
-    /* on crée la liste des tiers */
+	/* on adapte le label pour Mac_OSX */
+#ifdef OS_OSX
+	GtkLabel *label;
+
+	label = GTK_LABEL (gtk_builder_get_object (etats_prefs_builder, "label_tiers_search_help"));
+	gtk_label_set_text (label, _(label_search_help));
+	gtk_label_set_justify (label, GTK_JUSTIFY_CENTER);
+#endif /* OS_OSX */
+
+	/* on crée la liste des tiers */
     etats_prefs_tree_view_init ( "treeview_tiers",
                         etats_config_onglet_get_liste_tiers,
                         GTK_SELECTION_MULTIPLE,
@@ -2265,6 +2295,15 @@ static GtkWidget *etats_prefs_onglet_mode_paiement_create_page ( gint page )
     gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
 
     etats_prefs_widget_set_sensitive ( "vbox_mode_paiement_etat", FALSE );
+
+	/* on adapte le label pour Mac_OSX */
+#ifdef OS_OSX
+	GtkLabel *label;
+
+	label = GTK_LABEL (gtk_builder_get_object (etats_prefs_builder, "label_modes_search_help"));
+	gtk_label_set_text (label, _(label_search_help));
+	gtk_label_set_justify (label, GTK_JUSTIFY_CENTER);
+#endif /* OS_OSX */
 
     /* on crée la liste des moyens de paiement */
     etats_prefs_tree_view_init ( "treeview_mode_paiement",
