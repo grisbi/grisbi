@@ -329,7 +329,10 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
                     w_etat->accounting_entity = my_strdup (attribute_values[i]);
 				}
 
-                else
+                else if (!strcmp (attribute_names[i], "Form_date_force_prev_year"))
+                    w_etat->form_date_force_prev_year = utils_str_atoi ( attribute_values[i]);
+
+				else
                     unknown = 1;
                 break;
 

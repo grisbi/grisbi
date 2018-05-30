@@ -126,6 +126,7 @@ struct _GrisbiWinEtat
     /* formulaire */
     gint		affiche_nb_ecritures_listes;
     gint		retient_affichage_par_compte;				/* à 1 si les caractéristiques de l'affichage (R, non R ...) diffèrent par compte */
+	gboolean	form_date_force_prev_year;					/* FALSE = default année en cours TRUE = forcer l'année précédente pour les dates futures */
 
     /* Fonts & logo */
     gint		utilise_logo;

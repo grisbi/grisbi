@@ -116,10 +116,16 @@ static GDate *gsb_parse_date_string_from_tokens_and_date (gchar **date_tokens,
     GDate *date = NULL;
     gint num_tokens;
     gint num_fields;
-    gint i;
+	gboolean year_auto;
+    gint page;
+	gint i;
     gint j;
+	GrisbiWinEtat *w_etat;
 
 	//~ devel_debug (NULL);
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
+	year_auto = w_etat->form_date_force_prev_year;
+
 	/* Initialize date */
     date = gdate_today ();
 
@@ -180,6 +186,17 @@ static GDate *gsb_parse_date_string_from_tokens_and_date (gchar **date_tokens,
      * write for example only 31, and the current month has only 30 days... */
     if (! g_date_valid (date))
         goto invalid;
+
+	/* if page != GSB_SCHEDULER_PAGE && date > today, then we go back one year before
+     * usefull when entering operations just after the new year */
+	page = gsb_gui_navigation_get_current_page ();
+    if (page != GSB_SCHEDULER_PAGE && year_auto)
+    {
+        GDate *today = gdate_today ( );
+        if ( g_date_compare ( today, date ) < 0 )
+            g_date_set_year ( date, g_date_get_year ( today ) - 1 );
+        g_date_free ( today );
+    }
 
     return date;
 

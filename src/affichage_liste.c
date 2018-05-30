@@ -582,7 +582,13 @@ void recuperation_noms_colonnes_et_tips ( void )
 /* ************************************************************************************************************** */
 GtkWidget *onglet_diverse_form_and_lists ( void )
 {
-    GtkWidget *vbox_pref, *paddingbox;
+    GtkWidget *vbox_pref;
+	GtkWidget *button;
+	GtkWidget *label;
+	GtkWidget *paddingbox;
+	GrisbiWinEtat *w_etat;
+
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Form behavior"),
 					       "gsb-form-32.png" );
@@ -593,6 +599,20 @@ GtkWidget *onglet_diverse_form_and_lists ( void )
 							 _("selects next field"),
 							 _("terminates transaction"),
 							 &conf.entree, NULL, NULL);
+
+	/* Interpretation of future dates */
+    paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("Interpretation of future dates"));
+
+	button = gsb_automem_checkbutton_new (_("Replace the year of future dates with the previous year"),
+										  &w_etat->form_date_force_prev_year,
+										  NULL,
+										  NULL);
+	gtk_box_pack_start (GTK_BOX (paddingbox), button, FALSE, FALSE, 0);
+
+	label = gtk_label_new (_("This option allows all future dates to be considered as dates "
+							 "from the previous calendar year"));
+	gtk_label_set_xalign (GTK_LABEL (label), GSB_LEFT);
+	gtk_box_pack_start (GTK_BOX (paddingbox), label, FALSE, FALSE, 0);
 
     /* How to display financial year */
     gsb_automem_radiobutton_new_with_title (vbox_pref,
