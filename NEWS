@@ -1,3 +1,8 @@
+New in version 1.0.4
+- fixes a bug when the scheduled transaction is executed automatically once
+- fixes bugsreports link
+- Adding a new option for futures dates which fixes bug 1852
+
 New in version 1.0.3
 - Fixes display bug of bet_tab when load a new account file
 - fixes bug in forecasts when decimal_point is comma "," and thousands_separator is dot "."
