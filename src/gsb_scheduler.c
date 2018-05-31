@@ -118,8 +118,8 @@ gboolean gsb_scheduler_increase_scheduled ( gint scheduled_number )
 	gsb_main_page_update_finished_scheduled_transactions (scheduled_number);
 
 	/* remove the scheduled transaction */
-	/* !! important to remove first from the list... */
-	gsb_scheduler_list_remove_transaction_from_list ( scheduled_number );
+	/* A ce stade la liste n'est pas initialisée  */
+	//~ gsb_scheduler_list_remove_transaction_from_list ( scheduled_number );
 	gsb_data_scheduled_remove_scheduled (scheduled_number);
 	return FALSE;
     }
@@ -593,14 +593,16 @@ void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
 				 * executed more than one time (the easiest way is to check
 				 * all again, i don't think it will have thousand of scheduled transactions,
 				 * so no much waste of time...) */
+
+				/* On protège tmp_list si gsb_scheduler_increase_scheduled () return FALSE */
+				tmp_list = tmp_list->next;
+
 				if (gsb_scheduler_increase_scheduled (scheduled_number))
 				{
 					scheduled_transactions_to_take = NULL;
 					tmp_list = gsb_data_scheduled_get_scheduled_list ();
+
 				}
-				else
-					/* the scheduled is finish, so we needn't to check it again ... */
-					tmp_list = tmp_list -> next;
 			}
 			else
 			{
