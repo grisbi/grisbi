@@ -2281,10 +2281,9 @@ static gint gsb_import_create_transaction (struct ImportTransaction *imported_tr
         payee_number = gsb_import_associations_find_payee (imported_transaction->tiers);
         if (payee_number == 0)
         {
-            payee_number = gsb_data_payee_get_number_by_name (
-                        imported_transaction->tiers, TRUE);
+            payee_number = gsb_data_payee_get_number_by_name (imported_transaction->tiers, TRUE);
         }
-        else if (etat.copy_payee_in_note)
+        if (etat.copy_payee_in_note)
         {
             if (g_utf8_collate (gsb_data_payee_get_name (
                         payee_number, FALSE),
