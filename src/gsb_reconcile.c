@@ -187,7 +187,8 @@ GtkWidget *gsb_reconcile_create_box ( void )
 
     /* under the reconcile number, we have a table */
     table = gtk_grid_new ();
-    gtk_grid_set_row_spacing (GTK_GRID (table), 5);
+    gtk_grid_set_column_spacing (GTK_GRID (table), 5);
+	gtk_grid_set_row_spacing (GTK_GRID (table), 5);
     gtk_box_pack_start ( GTK_BOX ( vbox ), table, FALSE, FALSE, 0);
 
     separator = gtk_separator_new ( GTK_ORIENTATION_HORIZONTAL );
@@ -466,10 +467,10 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
             gchar *string ;
 
             string = gsb_format_gdate ( date );
-            gtk_label_set_text ( GTK_LABEL ( reconcile_last_date_label ),
-                    string);
-            gtk_widget_set_sensitive ( GTK_WIDGET ( reconcile_last_date_label ),
-                    FALSE );
+            gtk_label_set_text ( GTK_LABEL ( reconcile_last_date_label ), string);
+            gtk_widget_set_sensitive ( GTK_WIDGET ( reconcile_last_date_label ), FALSE );
+			gtk_widget_set_name (reconcile_last_date_label, "reconcile_old_entry_insensitive");
+
             g_free (string);
             g_date_add_months ( date, 1 );
 

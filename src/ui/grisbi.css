@@ -4,6 +4,7 @@
 @define-color couleur_bleue blue;
 @define-color couleur_jaune yellow;
 @define-color couleur_grey_box rgba(192,192,192,1.0);
+@define-color couleur_insensitive_text rgb (80,80,80);
 
 /* colors of the amounts in the first page */
 @define-color couleur_nom_compte_normal rgb(0,0,0);
@@ -213,5 +214,5 @@ GtkTreeView row:nth-child(odd) {
 #reconcile_old_entry_insensitive {
   background-color: transparent;
   background-image: none;
-  color: @text_color_1;
+  color: @couleur_insensitive_text;
 }
