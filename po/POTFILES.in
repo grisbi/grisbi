@@ -142,6 +142,7 @@ src/utils_gtkbuilder.c
 src/utils_operations.c
 src/utils_prefs.c
 src/utils_str.c
+src/prefs/prefs_page_accueil.c
 src/prefs/prefs_page_archives.c
 src/prefs/prefs_page_display_adr.c
 src/prefs/prefs_page_display_fonts.c
