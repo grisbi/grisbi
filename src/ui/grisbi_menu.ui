@@ -224,7 +224,7 @@
       <attribute name="label" translatable="yes">_Help</attribute>
 		  <section>
         <item>
-          <attribute name="label" translatable="yes">Manual</attribute>
+          <attribute name="label" translatable="yes">User's Manual</attribute>
           <attribute name="action">win.manual</attribute>
           <attribute name="icon">gsb-help-16</attribute>
         </item>
@@ -465,7 +465,7 @@
       <attribute name="label" translatable="yes">_Help</attribute>
 		  <section>
         <item>
-          <attribute name="label" translatable="yes">Manual</attribute>
+          <attribute name="label" translatable="yes">User's Manual</attribute>
           <attribute name="action">win.manual</attribute>
           <attribute name="icon">gsb-help-16</attribute>
         </item>
