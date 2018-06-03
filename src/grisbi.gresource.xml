@@ -7,6 +7,7 @@
     <file preprocess="xml-stripblanks">grisbi_win.ui</file>
 		<file preprocess="xml-stripblanks">prefs_page_accueil.ui</file>
 		<file preprocess="xml-stripblanks">prefs_page_archives.ui</file>
+		<file preprocess="xml-stripblanks">prefs_page_bet_account.ui</file>
 		<file preprocess="xml-stripblanks">prefs_page_display_adr.ui</file>
 		<file preprocess="xml-stripblanks">prefs_page_display_fonts.ui</file>
 		<file preprocess="xml-stripblanks">prefs_page_display_gui.ui</file>
