@@ -18,4 +18,27 @@ BEGIN
   BEGIN
     VALUE "Translation", 0x809, 1252 
   END
+  
+  BEGIN
+   "<assembly manifestVersion=""1.0"" xmlns=""urn:schemas-microsoft-com:asm.v1"">"   
+   "<assemblyIdentity version="" @GRISBI_MAJOR_VERSION@.@GRISBI_MINOR_VERSION@.@GRISBI_MICRO_VERSION@.0"" name=""Grisbi"" />"
+  "<trustInfo xmlns=""urn:schemas-microsoft-com:asm.v1"">"
+    "<security>"
+      "<requestedPrivileges xmlns=""urn:schemas-microsoft-com:asm.v3"">"
+         "<requestedExecutionLevel  level=""asInvoker"" uiAccess=""false"" />"
+      "</requestedPrivileges>"
+    "</security>"
+  "</trustInfo>"
+  "<compatibility xmlns=""urn:schemas-microsoft-com:compatibility.v1"">"
+    "<application>"
+      "<!-- Windows 10 -->"
+      "<supportedOS Id=""{8e0f7a12-bfb3-4fe8-b9a5-48fd50a15a9a}"" />"
+      "<!-- Windows 7 -->"
+       "<supportedOS Id=""{35138b9a-5d96-4fbd-8e2d-a2440225f93a}""/>"
+       "<!-- Windows Vista & Server 2008 -->"
+       "<supportedOS Id=""{e2011457-1546-43c5-a5fe-008deee3d3f0} ""/>"
+    "</application>"
+  "</compatibility>"
+ "</assembly>"
+ END
 END
