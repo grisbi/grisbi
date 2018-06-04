@@ -568,12 +568,31 @@ static void grisbi_win_no_file_page_new (GrisbiWin *win)
 
 	gtk_container_add (GTK_CONTAINER (priv->no_file_sw), priv->no_file_grid);
 
-	/* set action of fixed buttons */
+	/* set bouton nouveau */
+	priv->bouton_nouveau = utils_buttons_button_new_from_image ("gsb-new-file-16.png");
+	gtk_button_set_label (GTK_BUTTON (priv->bouton_nouveau), _("New"));
+	gtk_button_set_image_position (GTK_BUTTON (priv->bouton_nouveau), GTK_POS_TOP);
+	gtk_widget_set_size_request (priv->bouton_nouveau, 150, 150);
+	gtk_widget_set_halign (priv->bouton_nouveau, GTK_ALIGN_CENTER);
+	gtk_widget_set_valign (priv->bouton_nouveau, GTK_ALIGN_CENTER);
 	gtk_actionable_set_action_name (GTK_ACTIONABLE (priv->bouton_nouveau), "win.new-acc-file");
+	gtk_grid_attach (GTK_GRID (priv->no_file_grid), priv->bouton_nouveau, 0,0,1,1);
+	gtk_widget_show (priv->bouton_nouveau);
+
+	/* set bouton ouvrir */
+	priv->bouton_ouvrir = utils_buttons_button_new_from_image ("gtk-open-16.png");
+	gtk_button_set_label (GTK_BUTTON (priv->bouton_ouvrir), _("Open"));
+	gtk_button_set_image_position (GTK_BUTTON (priv->bouton_ouvrir), GTK_POS_TOP);
+	gtk_widget_set_size_request (priv->bouton_ouvrir, 150, 150);
+	gtk_widget_set_halign (priv->bouton_ouvrir, GTK_ALIGN_CENTER);
+	gtk_widget_set_valign (priv->bouton_ouvrir, GTK_ALIGN_CENTER);
 	gtk_actionable_set_action_name (GTK_ACTIONABLE (priv->bouton_ouvrir), "win.open-file");
+	gtk_grid_attach (GTK_GRID (priv->no_file_grid), priv->bouton_ouvrir, 1,0,1,1);
+	gtk_widget_show (priv->bouton_ouvrir);
 
 	/* set the button "import" */
-	priv->bouton_importer = utils_buttons_button_new_from_stock ("gtk-convert", _("Import"));
+	priv->bouton_importer = utils_buttons_button_new_from_image ("gsb-convert-16.png");
+	gtk_button_set_label (GTK_BUTTON (priv->bouton_importer), _("Import"));
 	gtk_button_set_image_position (GTK_BUTTON (priv->bouton_importer), GTK_POS_TOP);
 	gtk_widget_set_tooltip_text (priv->bouton_importer, _("Import a CSV, QIF, OFX file ..."));
 	gtk_widget_set_size_request (priv->bouton_importer, 150, 150);
@@ -600,7 +619,8 @@ static void grisbi_win_no_file_page_new (GrisbiWin *win)
 			tmp_str = utils_str_break_filename (basename, GSB_NBRE_CHAR_TRUNC);
 			g_free (basename);
 
-			bouton = utils_buttons_button_new_from_stock ("gtk-open", tmp_str);
+			bouton = utils_buttons_button_new_from_image ("gtk-open-16.png");
+			gtk_button_set_label (GTK_BUTTON (bouton), tmp_str);
 			gtk_widget_set_tooltip_text (bouton, recent_files_array[i]);
 			gtk_button_set_image_position (GTK_BUTTON (bouton), GTK_POS_TOP);
 			gtk_widget_set_size_request (bouton, 150, 150);
@@ -820,8 +840,6 @@ static void grisbi_win_class_init (GrisbiWinClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, no_file_page);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, no_file_sw);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, no_file_grid);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, bouton_nouveau);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, bouton_ouvrir);
 
     /* signaux */
     gtk_widget_class_bind_template_callback (GTK_WIDGET_CLASS (klass), grisbi_win_change_state_window);

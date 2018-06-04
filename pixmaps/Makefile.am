@@ -34,6 +34,7 @@ grisbi_pixmaps_DATA = \
 	gsb-down-16.png \
 	gsb-export-16.png \
 	gsb-export-24.png \
+	gsb-export-32.png \
 	gsb-export-archive-16.png \
 	gsb-export-archive-32.png \
 	gsb-files-32.png \

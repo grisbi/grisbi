@@ -4129,7 +4129,7 @@ msgstr "sans nom"
 
 #: ../src/grisbi_win.c:1499 ../src/ui/grisbi_menu.ui.h:7
 msgid "Open"
-msgstr "_Ouvrir..."
+msgstr "Ouvrir"
 
 #. Create main widget.
 #: ../src/grisbi_win.c:1756
