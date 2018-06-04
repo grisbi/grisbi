@@ -130,9 +130,9 @@ struct _AccountStruct {
     gpointer 	form_organization;
 
     /** @name bet data */
-    gint bet_use_budget;                /* 1 = use the budget module */
+    gint bet_use_budget;                /* -1 = pas de module possible 0 = non utilisé 1 = utilisé */
     gint bet_credit_card;               /* 1 = compte type CB à débit différé */
-    BetTypeOnglets bet_show_onglets;  /* enum des onglets à afficher pour le module budgetaire */
+    BetTypeOnglets bet_show_onglets;  	/* enum des onglets à afficher pour le module budgetaire */
     GDate *bet_start_date;              /* date de début */
     gint bet_months;                    /* nombre de mois ou d'années */
     gint bet_spin_range;                /* echelle de la période 0 = mois 1 = années */

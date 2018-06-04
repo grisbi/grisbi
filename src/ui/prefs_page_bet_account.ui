@@ -515,6 +515,7 @@
               <object class="GtkLabel" id="Title300">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="halign">start</property>
                 <property name="label" translatable="yes">Sources of historical data</property>
                 <attributes>
                   <attribute name="weight" value="bold"/>
