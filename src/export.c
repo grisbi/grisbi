@@ -612,7 +612,7 @@ static GtkWidget *create_export_account_resume_page (struct ExportedAccount *acc
     gtk_container_set_border_width (GTK_CONTAINER(vbox), BOX_BORDER_WIDTH);
 
     tmpstr = make_pango_attribut ("size=\"x-large\"",
-                        g_strdup_printf ("Export of: %s",
+                        g_strdup_printf (_("Export of: %s"),
                         gsb_data_account_get_name (account->account_nb)));
 
     label = gtk_label_new (NULL);
