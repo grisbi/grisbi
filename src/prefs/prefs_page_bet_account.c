@@ -135,6 +135,8 @@ static void prefs_page_bet_account_show_hide_parameters (gint account_number,
 				gtk_widget_hide (priv->hbox_historical_data);
 				gtk_widget_show (priv->vbox_liabilities_account);
 				break;
+			case BET_ONGLETS_SANS:
+			case BET_ONGLETS_ASSET:
 			default:
 				gtk_widget_hide (priv->hbox_bet_credit_card);
 				gtk_widget_hide (priv->hbox_forecast_data);
@@ -248,6 +250,8 @@ static gboolean prefs_page_bet_account_changed (GtkWidget *combo,
 				bet_config_initialise_finance_widget (account_number, account_page);
 			}
 			break;
+		case GSB_TYPE_BALANCE:
+		case GSB_TYPE_ASSET:
         default:
             gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook_bet_account), 0);
             break;
