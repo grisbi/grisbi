@@ -137,12 +137,13 @@ static void prefs_page_import_files_setup_import_files_page (PrefsPageImportFile
 											NULL,
 											NULL);
 
-    /* Connect signal */
+    /* Connect signal spinbutton_import_files_nb_days */
     g_signal_connect ( G_OBJECT (priv->spinbutton_import_files_nb_days),
 					  "value-changed",
 					  G_CALLBACK (prefs_page_import_files_spinbutton_import_files_nb_days_changed),
 					  NULL );
 
+    /* Connect signal checkbutton_fusion_import_transactions */
     g_signal_connect (priv->eventbox_fusion_import_transactions,
 					  "button-press-event",
 					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
@@ -156,6 +157,7 @@ static void prefs_page_import_files_setup_import_files_page (PrefsPageImportFile
 							G_CALLBACK (utils_prefs_gsb_file_set_modified),
 							NULL);
 
+    /* Connect signal checkbutton_associate_categorie_for_payee */
     g_signal_connect (priv->eventbox_associate_categorie_for_payee,
 					  "button-press-event",
 					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
@@ -169,6 +171,7 @@ static void prefs_page_import_files_setup_import_files_page (PrefsPageImportFile
 							G_CALLBACK (utils_prefs_gsb_file_set_modified),
 							NULL);
 
+    /* Connect signal checkbutton_extract_number_for_check */
     g_signal_connect (priv->eventbox_extract_number_for_check,
 					  "button-press-event",
 					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
@@ -182,6 +185,7 @@ static void prefs_page_import_files_setup_import_files_page (PrefsPageImportFile
 							G_CALLBACK (utils_prefs_gsb_file_set_modified),
 							NULL);
 
+    /* Connect signal checkbutton_copy_payee_in_note */
     g_signal_connect (priv->eventbox_copy_payee_in_note,
 					  "button-press-event",
 					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
@@ -195,6 +199,7 @@ static void prefs_page_import_files_setup_import_files_page (PrefsPageImportFile
 							G_CALLBACK (utils_prefs_gsb_file_set_modified),
 							NULL);
 
+    /* Connect signal checkbutton_csv_force_date_valeur_with_date */
     g_signal_connect (priv->eventbox_csv_force_date_valeur_with_date,
 					  "button-press-event",
 					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
@@ -208,6 +213,7 @@ static void prefs_page_import_files_setup_import_files_page (PrefsPageImportFile
 							G_CALLBACK (utils_prefs_gsb_file_set_modified),
 							NULL);
 
+    /* Connect signal checkbutton_qif_no_import_categories */
     g_signal_connect (priv->checkbutton_qif_no_import_categories,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
@@ -217,6 +223,7 @@ static void prefs_page_import_files_setup_import_files_page (PrefsPageImportFile
 							G_CALLBACK (utils_prefs_gsb_file_set_modified),
 							NULL);
 
+    /* Connect signal checkbutton_qif_use_field_extract_method_payment */
 	g_signal_connect (priv->eventbox_qif_use_field_extract_method_payment,
 					  "button-press-event",
 					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
