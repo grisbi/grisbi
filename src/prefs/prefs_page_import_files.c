@@ -120,7 +120,7 @@ static void prefs_page_import_files_setup_import_files_page (PrefsPageImportFile
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_extract_number_for_check),
 								  etat.extract_number_for_check);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_copy_payee_in_note),
-								  etat.extract_number_for_check);
+								  etat.copy_payee_in_note);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_csv_force_date_valeur_with_date),
 								  etat.csv_force_date_valeur_with_date);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_qif_no_import_categories),
