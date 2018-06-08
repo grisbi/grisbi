@@ -786,7 +786,7 @@ static  void gsb_file_load_currency ( const gchar **attribute_names,
                         const gchar **attribute_values )
 {
     gint i=0;
-    gint currency_number;
+    gint currency_number = -1;
 
     if ( !attribute_names[i] )
     return;
