@@ -308,11 +308,6 @@ GtkWidget *new_paddingbox_with_title (GtkWidget *parent,
 	/* set label as object for futur usage */
 	g_object_set_data (G_OBJECT (paddingbox), "paddingbox_label", label);
 
-	/* Put a label at the end to feed a new line */
-    /*   label = gtk_label_new ("    "); */
-    /*   gtk_box_pack_end (GTK_BOX (paddingbox), label, */
-    /* 		     FALSE, FALSE, 0); */
-
     if (GTK_IS_BOX(parent))
     {
 	gtk_box_set_spacing (GTK_BOX(parent), 18);
