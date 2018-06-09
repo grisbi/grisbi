@@ -1173,6 +1173,7 @@ static GSList *gsb_import_create_file_chooser (const char *enc,
 											   GtkWidget *parent)
 {
     GtkWidget *dialog, *hbox, *go_charmap_sel;
+	GtkWidget *label;
     GtkFileFilter *filter, *default_filter;
     gchar *files;
     GSList *tmp_list;
@@ -1277,12 +1278,24 @@ static GSList *gsb_import_create_file_chooser (const char *enc,
     /* save charmap */
     charmap_imported = g_strdup (go_charmap_sel_get_encoding ((GOCharmapSel *)go_charmap_sel));
 
+	tmp_last_directory = utils_files_selection_get_last_directory (GTK_FILE_CHOOSER (dialog), TRUE);
 	if (!conf.force_import_directory)
-	{
-		tmp_last_directory = utils_files_selection_get_last_directory (GTK_FILE_CHOOSER (dialog), TRUE);
 		gsb_file_update_last_path (tmp_last_directory);
-		g_free (tmp_last_directory);
+
+	/* set label of paddingbox file_selection_page */
+	label = g_object_get_data (G_OBJECT (parent), "paddingbox_label");
+	if (label)
+	{
+		gchar *tmp_str2;
+
+		tmp_str = g_strdup_printf (_("Choose file to import in %s"), tmp_last_directory);
+		tmp_str2 = g_markup_printf_escaped ("<span weight=\"bold\">%s</span>", tmp_str);
+		gtk_label_set_markup (GTK_LABEL (label), tmp_str2);
+		g_free(tmp_str);
+		g_free (tmp_str2);
 	}
+
+	g_free (tmp_last_directory);
 
     gtk_widget_destroy (dialog);
     return filenames;
@@ -1715,8 +1728,13 @@ static gboolean gsb_import_select_file_from_chooser (GtkWidget *button,
  **/
 static GtkWidget *gsb_import_create_file_selection_page (GtkWidget *assistant)
 {
-    GtkWidget *vbox, *paddingbox, *tree_view, *sw;
+	GtkWidget *chooser;
+	GtkWidget *label;
+    GtkWidget *paddingbox;
 	GtkWidget *qif_button;
+    GtkWidget *sw;
+    GtkWidget *tree_view;
+    GtkWidget *vbox;
     GtkTreeViewColumn *column;
     GtkCellRenderer *renderer;
     GtkTreeModel *model, *list_acc;
@@ -1726,22 +1744,29 @@ static GtkWidget *gsb_import_create_file_selection_page (GtkWidget *assistant)
     vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
     gtk_container_set_border_width (GTK_CONTAINER(vbox), BOX_BORDER_WIDTH);
 
-    paddingbox = new_paddingbox_with_title (vbox, TRUE, _("Choose file to import"));
-
-	if (!conf.force_import_directory)
+	if (conf.force_import_directory)
 	{
-		GtkWidget *chooser;
-
-		chooser = gtk_button_new_with_label (_("Add file to import..."));
-		tmp_str = g_build_filename (gsb_dirs_get_pixmaps_dir (), "gsb-import-32.png", NULL);
-		gtk_button_set_image (GTK_BUTTON(chooser), gtk_image_new_from_file (tmp_str));
+		tmp_str = g_strdup_printf (_("Choose file to import from the directory: %s"), conf.import_directory);
+		paddingbox = new_paddingbox_with_title (vbox, TRUE, tmp_str);
 		g_free (tmp_str);
-		gtk_box_pack_start (GTK_BOX(paddingbox), chooser, FALSE, FALSE, 6);
-		g_signal_connect (G_OBJECT (chooser),
-						  "clicked",
-						  G_CALLBACK (gsb_import_select_file_from_chooser),
-							assistant);
 	}
+	else
+		paddingbox = new_paddingbox_with_title (vbox, TRUE, _("Choose file to import"));
+
+	/* save padddingbox label */
+	label = g_object_get_data (G_OBJECT (paddingbox), "paddingbox_label");
+	g_object_set_data (G_OBJECT (assistant), "paddingbox_label", label);
+
+	/* Add select file button */
+	chooser = gtk_button_new_with_label (_("Add file to import..."));
+	tmp_str = g_build_filename (gsb_dirs_get_pixmaps_dir (), "gsb-import-32.png", NULL);
+	gtk_button_set_image (GTK_BUTTON(chooser), gtk_image_new_from_file (tmp_str));
+	g_free (tmp_str);
+	gtk_box_pack_start (GTK_BOX(paddingbox), chooser, FALSE, FALSE, 6);
+	g_signal_connect (G_OBJECT (chooser),
+					  "clicked",
+					  G_CALLBACK (gsb_import_select_file_from_chooser),
+					  assistant);
 
     /* Scroll for tree view. */
     sw = gtk_scrolled_window_new (NULL, NULL);
