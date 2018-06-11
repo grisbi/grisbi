@@ -195,13 +195,13 @@ static gboolean prefs_page_bet_account_changed (GtkWidget *combo,
             gtk_widget_set_sensitive (priv->checkbutton_use_bet_module, FALSE);
             gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_use_bet_module), FALSE);
             prefs_page_bet_account_show_hide_parameters (account_number, FALSE, page);
-            return FALSE;
+            goto retour;
             break;
         case 0:
             gtk_widget_set_sensitive (priv->checkbutton_use_bet_module, TRUE);
             gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_use_bet_module), FALSE);
             prefs_page_bet_account_show_hide_parameters (account_number, FALSE, page);
-            return FALSE;
+            goto retour;
             break;
         default:
             gtk_widget_set_sensitive (priv->checkbutton_use_bet_module, TRUE);
@@ -257,6 +257,7 @@ static gboolean prefs_page_bet_account_changed (GtkWidget *combo,
             break;
     }
 
+retour:
     /* on débloque les callbacks */
 	g_signal_handlers_unblock_by_func (G_OBJECT (combo),
 									   G_CALLBACK (prefs_page_bet_account_changed),
