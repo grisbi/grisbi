@@ -64,6 +64,7 @@ struct _PrefsPageAccueilPrivate
 	GtkWidget *			eventbox_balances_with_scheduled;
     GtkWidget *			hbox_paddingbox_lang_fr;
     GtkWidget *         hbox_paddingbox_partial_balance;
+	GtkWidget *			vbox_loading_partial_balance;
 	GtkWidget *			button_partial_balance_add;
 	GtkWidget *			button_partial_balance_edit;
 	GtkWidget *			button_partial_balance_remove;
@@ -376,7 +377,7 @@ static void prefs_page_accueil_setup_accueil_page (PrefsPageAccueil *page)
 	}
 	else
 	{
-		gtk_widget_set_sensitive (priv->hbox_paddingbox_partial_balance, FALSE);
+		gtk_widget_set_sensitive (priv->vbox_loading_partial_balance, FALSE);
 	}
 }
 
@@ -407,7 +408,9 @@ static void prefs_page_accueil_class_init (PrefsPageAccueilClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageAccueil, hbox_paddingbox_lang_fr);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageAccueil, checkbutton_balances_with_scheduled);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageAccueil, eventbox_balances_with_scheduled);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageAccueil, hbox_paddingbox_partial_balance);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageAccueil, treeview_partial_balance);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageAccueil, vbox_loading_partial_balance);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageAccueil, button_partial_balance_add);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageAccueil, button_partial_balance_edit);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageAccueil, button_partial_balance_remove);
