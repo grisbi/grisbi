@@ -354,17 +354,28 @@ static void prefs_page_bet_account_setup_account_page (PrefsPageBetAccount *page
 	GtkWidget *widget;
     gint account_number;
 	gint bet_use_budget;
+	gboolean is_loading;
 	PrefsPageBetAccountPrivate *priv;
 
 	devel_debug (NULL);
 	priv = prefs_page_bet_account_get_instance_private (page);
-    account_page = grisbi_win_get_account_page ();
+	is_loading = grisbi_win_file_is_loading ();
 
 	/* On récupère le nom de la page */
 	head_page = utils_prefs_head_page_new_with_title_and_icon (_("Accounts data"), "gsb-balance_estimate-32.png");
 	gtk_box_pack_start (GTK_BOX (priv->vbox_bet_account), head_page, FALSE, FALSE, 0);
 	gtk_box_reorder_child (GTK_BOX (priv->vbox_bet_account), head_page, 0);
 
+	if (is_loading == FALSE)
+	{
+		combo = utils_prefs_create_combo_list_indisponible ();
+		gtk_box_pack_start (GTK_BOX (priv->hbox_bet_select_account), combo, FALSE, FALSE, 0);
+		gtk_box_reorder_child (GTK_BOX (priv->hbox_bet_select_account), combo, 1);
+		gtk_widget_set_sensitive (priv->vbox_bet_account, FALSE);
+		return;
+	}
+
+	account_page = grisbi_win_get_account_page ();
     /* set the choice of account */
 	combo = gsb_account_create_combo_list (NULL, NULL, FALSE);
     g_object_set_data (G_OBJECT (account_page), "account_combo", combo);
