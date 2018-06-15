@@ -570,6 +570,7 @@ static void grisbi_win_no_file_page_new (GrisbiWin *win)
 
 	/* set bouton nouveau */
 	priv->bouton_nouveau = utils_buttons_button_new_from_image ("gsb-new-file-16.png");
+	priv->bouton_nouveau = utils_buttons_button_new_from_image ("gsb-new-file-24.png");
 	gtk_button_set_label (GTK_BUTTON (priv->bouton_nouveau), _("New"));
 	gtk_button_set_image_position (GTK_BUTTON (priv->bouton_nouveau), GTK_POS_TOP);
 	gtk_widget_set_size_request (priv->bouton_nouveau, 150, 150);
@@ -581,6 +582,7 @@ static void grisbi_win_no_file_page_new (GrisbiWin *win)
 
 	/* set bouton ouvrir */
 	priv->bouton_ouvrir = utils_buttons_button_new_from_image ("gtk-open-16.png");
+	priv->bouton_ouvrir = utils_buttons_button_new_from_image ("gtk-open-24.png");
 	gtk_button_set_label (GTK_BUTTON (priv->bouton_ouvrir), _("Open"));
 	gtk_button_set_image_position (GTK_BUTTON (priv->bouton_ouvrir), GTK_POS_TOP);
 	gtk_widget_set_size_request (priv->bouton_ouvrir, 150, 150);
@@ -592,6 +594,7 @@ static void grisbi_win_no_file_page_new (GrisbiWin *win)
 
 	/* set the button "import" */
 	priv->bouton_importer = utils_buttons_button_new_from_image ("gsb-convert-16.png");
+	priv->bouton_importer = utils_buttons_button_new_from_image ("gsb-convert-24.png");
 	gtk_button_set_label (GTK_BUTTON (priv->bouton_importer), _("Import"));
 	gtk_button_set_image_position (GTK_BUTTON (priv->bouton_importer), GTK_POS_TOP);
 	gtk_widget_set_tooltip_text (priv->bouton_importer, _("Import a CSV, QIF, OFX file ..."));

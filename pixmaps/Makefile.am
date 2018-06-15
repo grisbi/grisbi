@@ -29,6 +29,7 @@ grisbi_pixmaps_DATA = \
 	gsb-comments-16.png \
 	gsb-comments-24.png \
 	gsb-convert-16.png \
+	gsb-convert-24.png \
 	gsb-currencies-32.png \
 	gsb-display-gui-32.png \
 	gsb-down-16.png \
@@ -101,6 +102,7 @@ grisbi_pixmaps_DATA = \
 	gtk-execute-16.png \
 	gtk-execute-24.png \
 	gtk-open-16.png \
+	gtk-open-24.png \
 	gtk-print-16.png \
 	gtk-print-24.png \
 	gtk-properties-16.png \
