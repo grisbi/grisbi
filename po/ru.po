@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-09 20:22+0200\n"
+"POT-Creation-Date: 2018-06-15 19:15+0200\n"
 "PO-Revision-Date: 2010-02-11 19:06+0300\n"
 "Last-Translator: Alexandre Prokoudine <alexandre.prokoudine@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -1075,7 +1075,7 @@ msgstr ""
 #: ../src/bet_future.c:3009 ../src/categories_onglet.c:753
 #: ../src/gsb_assistant_archive_export.c:153 ../src/gsb_fyear_config.c:275
 #: ../src/gsb_transactions_list.c:2131 ../src/imputation_budgetaire.c:790
-#: ../src/tiers_onglet.c:736 ../src/prefs/prefs_page_accueil.c:303
+#: ../src/tiers_onglet.c:736 ../src/prefs/prefs_page_accueil.c:304
 #: ../src/prefs/prefs_page_archives.c:468
 msgid "Name"
 msgstr "Имя"
@@ -1598,7 +1598,7 @@ msgstr "Создать новую подкатегорию"
 #. On récupère le nom de la page
 #. Import button
 #: ../src/categories_onglet.c:578 ../src/etats_onglet.c:506
-#: ../src/grisbi_prefs.c:391 ../src/grisbi_prefs.c:462 ../src/grisbi_win.c:595
+#: ../src/grisbi_prefs.c:391 ../src/grisbi_prefs.c:462 ../src/grisbi_win.c:597
 #: ../src/import.c:1808 ../src/imputation_budgetaire.c:614
 #: ../src/utils_files.c:748
 msgid "Import"
@@ -4008,7 +4008,8 @@ msgstr "Оценка баланса"
 #. ~ utils_widget_set_padding (widget, MARGIN_BOX, 0);
 #. ~ if (is_loading == FALSE)
 #. ~ gtk_widget_set_sensitive (widget, FALSE);
-#: ../src/grisbi_prefs.c:616
+#. On récupère le nom de la page
+#: ../src/grisbi_prefs.c:616 ../src/prefs/prefs_page_bet_account.c:366
 #, fuzzy
 msgid "Accounts data"
 msgstr "Подробнее о счёте"
@@ -4052,40 +4053,50 @@ msgstr "Расписание"
 msgid "New"
 msgstr ""
 
-#: ../src/grisbi_win.c:584 ../src/grisbi_win.c:1517
+#: ../src/grisbi_win.c:575
+#, fuzzy
+msgid "Create a new account file"
+msgstr "Создание нового счёта"
+
+#: ../src/grisbi_win.c:585 ../src/grisbi_win.c:1519
 #: ../src/ui/grisbi_menu.ui.h:7
 #, fuzzy
 msgid "Open"
 msgstr "_Открыть"
 
-#: ../src/grisbi_win.c:597
+#: ../src/grisbi_win.c:587
+#, fuzzy
+msgid "Open an existing account file"
+msgstr "Открыть файл со счетами"
+
+#: ../src/grisbi_win.c:599
 #, fuzzy
 msgid "Import a CSV, QIF, OFX file ..."
 msgstr "_Импортировать файл..."
 
-#: ../src/grisbi_win.c:1239
+#: ../src/grisbi_win.c:1241
 msgid "Unnamed account"
 msgstr "Безымянный счёт"
 
-#: ../src/grisbi_win.c:1261 ../src/gsb_transactions_list.c:2601
+#: ../src/grisbi_win.c:1263 ../src/gsb_transactions_list.c:2601
 msgid "Move transaction to another account"
 msgstr "_Перенести транзакцию на другой счёт"
 
-#: ../src/grisbi_win.c:1371 ../src/grisbi_win.c:1418
+#: ../src/grisbi_win.c:1373 ../src/grisbi_win.c:1420
 #: ../share/grisbi.desktop.in.h:1
 msgid "Grisbi"
 msgstr "Grisbi"
 
-#: ../src/grisbi_win.c:1425 ../src/gsb_file.c:228 ../src/gsb_file.c:259
+#: ../src/grisbi_win.c:1427 ../src/gsb_file.c:228 ../src/gsb_file.c:259
 msgid "unnamed"
 msgstr ""
 
 #. Create main widget.
-#: ../src/grisbi_win.c:1774
+#: ../src/grisbi_win.c:1776
 msgid "Creating main window"
 msgstr "Создается главное окно программы"
 
-#: ../src/grisbi_win.c:1786
+#: ../src/grisbi_win.c:1788
 msgid ""
 "The model of the list couldn't be created... Bad things will happen very "
 "soon..."
@@ -4996,6 +5007,7 @@ msgstr "Номер выверки счетов:"
 
 #. set the choice of account
 #: ../src/gsb_assistant_reconcile_config.c:403
+#: ../src/ui/prefs_page_bet_account.ui.h:3
 #, fuzzy
 msgid "Account: "
 msgstr "Счёт:"
@@ -7836,7 +7848,7 @@ msgstr "Способ оплаты"
 
 #. 0
 #: ../src/gsb_form_widget.c:511 ../src/import_csv.c:68
-#: ../src/prefs/prefs_page_accueil.c:352
+#: ../src/prefs/prefs_page_accueil.c:353
 msgid "Currency"
 msgstr "Валюта"
 
@@ -9188,61 +9200,61 @@ msgstr ""
 msgid "Importing transactions into Grisbi"
 msgstr "Импорт транзакций в Grisbi"
 
-#: ../src/import.c:4646
+#: ../src/import.c:4644
 #, c-format
 msgid "%s #%d"
 msgstr "%s #%d"
 
-#: ../src/import.c:4736
+#: ../src/import.c:4734
 msgid "Import a file with a rule"
 msgstr "Импортировать файл с правилом"
 
 #. text for paddingbox
-#: ../src/import.c:4747
+#: ../src/import.c:4745
 #, fuzzy, c-format
 msgid "Properties of the rule: %s\n"
 msgstr "Свойства правила: %s\n"
 
-#: ../src/import.c:4766
+#: ../src/import.c:4764
 #, fuzzy, c-format
 msgid "Imported transactions will be added to the account %s.\n"
 msgstr "_Перенести транзакцию на другой счёт"
 
-#: ../src/import.c:4769
+#: ../src/import.c:4767
 #, fuzzy, c-format
 msgid "Imported transactions will mark transactions in the account %s.\n"
 msgstr "_Перенести транзакцию на другой счёт"
 
 #. textstring 2
-#: ../src/import.c:4774
+#: ../src/import.c:4772
 #, c-format
 msgid "Currency to import is %s.\n"
 msgstr "Импортируемая валюта — %s.\n"
 
-#: ../src/import.c:4783
+#: ../src/import.c:4781
 #, c-format
 msgid "Amounts of the transactions will be inverted.\n"
 msgstr ""
 
 #. label filename
-#: ../src/import.c:4795
+#: ../src/import.c:4793
 #, fuzzy
 msgid "Name of the file to import: "
 msgstr "Имя импортируемого файла:"
 
-#: ../src/import.c:4812
+#: ../src/import.c:4810
 #, fuzzy
 msgid "Select a new file"
 msgstr "Выберите новый логотип"
 
-#: ../src/import.c:4870
+#: ../src/import.c:4868
 #, c-format
 msgid ""
 "%s is neither an OFX file, neither a QIF file. Nothing will be done for that "
 "file."
 msgstr ""
 
-#: ../src/import.c:4914
+#: ../src/import.c:4912
 #, c-format
 msgid ""
 "%s was not imported successfully. An error occurred while getting the "
@@ -10619,14 +10631,14 @@ msgid ""
 "Please adjust your settings to a valid executable."
 msgstr ""
 
-#: ../src/utils.c:482
+#: ../src/utils.c:477
 #, c-format
 msgid ""
 "Grisbi was unable to execute a mailer to write at <tt>%s</tt>.\n"
 "The error was: %s."
 msgstr ""
 
-#: ../src/utils.c:486
+#: ../src/utils.c:481
 #, fuzzy
 msgid "Cannot execute mailer"
 msgstr "Невозможно сохранить файл"
@@ -10682,20 +10694,20 @@ msgid "If no proposals above are correct you can choose a different charset."
 msgstr ""
 
 #. On récupère le nom de la page
-#: ../src/prefs/prefs_page_accueil.c:207
+#: ../src/prefs/prefs_page_accueil.c:208
 msgid "Configuration of the main page"
 msgstr "Настройка главной страницы"
 
-#: ../src/prefs/prefs_page_accueil.c:314
+#: ../src/prefs/prefs_page_accueil.c:315
 msgid "Accounts list"
 msgstr "Список счетов"
 
-#: ../src/prefs/prefs_page_accueil.c:332
+#: ../src/prefs/prefs_page_accueil.c:333
 #, fuzzy
 msgid "Colorize"
 msgstr "Цвета"
 
-#: ../src/prefs/prefs_page_accueil.c:341
+#: ../src/prefs/prefs_page_accueil.c:342
 msgid "Account kind"
 msgstr "Тип счёта"
 
@@ -10732,6 +10744,17 @@ msgstr ""
 #: ../src/prefs/prefs_page_archives.c:220
 msgid "Deleting an archive and its transactions"
 msgstr "Удаляется архив и его проводки"
+
+#: ../src/prefs/prefs_page_bet_account.c:442
+#: ../src/ui/prefs_page_bet_account.ui.h:10
+#, fuzzy
+msgid "Credit Data"
+msgstr "Кредитная карта"
+
+#: ../src/prefs/prefs_page_bet_account.c:444
+#, fuzzy
+msgid "Initial loan"
+msgstr "Исходный баланс"
 
 #: ../src/prefs/prefs_page_display_fonts.c:389
 msgid "Select a new logo"
@@ -11448,7 +11471,8 @@ msgid "Display the grids above the plot"
 msgstr "Показывать совет дня"
 
 #: ../src/ui/csv_template_rule.ui.h:2 ../src/ui/prefs_page_accueil.ui.h:2
-#: ../src/ui/prefs_page_archives.ui.h:2 ../src/ui/prefs_page_display_adr.ui.h:2
+#: ../src/ui/prefs_page_archives.ui.h:2 ../src/ui/prefs_page_bet_account.ui.h:2
+#: ../src/ui/prefs_page_display_adr.ui.h:2
 #: ../src/ui/prefs_page_display_fonts.ui.h:2
 #: ../src/ui/prefs_page_display_gui.ui.h:2 ../src/ui/prefs_page_divers.ui.h:1
 #: ../src/ui/prefs_page_files.ui.h:2 ../src/ui/prefs_page_import_asso.ui.h:2
@@ -11508,6 +11532,7 @@ msgstr "Общие параметры"
 
 #: ../src/ui/csv_template_rule.ui.h:16 ../src/ui/prefs_page_accueil.ui.h:6
 #: ../src/ui/prefs_page_archives.ui.h:12
+#: ../src/ui/prefs_page_bet_account.ui.h:6
 #: ../src/ui/prefs_page_display_adr.ui.h:10
 #: ../src/ui/prefs_page_display_fonts.ui.h:9
 #: ../src/ui/prefs_page_display_gui.ui.h:14 ../src/ui/prefs_page_divers.ui.h:15
@@ -11518,6 +11543,7 @@ msgstr ""
 
 #: ../src/ui/csv_template_rule.ui.h:17 ../src/ui/prefs_page_accueil.ui.h:7
 #: ../src/ui/prefs_page_archives.ui.h:13
+#: ../src/ui/prefs_page_bet_account.ui.h:7
 #: ../src/ui/prefs_page_display_adr.ui.h:11
 #: ../src/ui/prefs_page_display_fonts.ui.h:10
 #: ../src/ui/prefs_page_display_gui.ui.h:15 ../src/ui/prefs_page_divers.ui.h:16
@@ -12221,6 +12247,31 @@ msgstr "Предупреждать, если более чем "
 msgid " transactions are not archived."
 msgstr " транзакций не заархивировано"
 
+#: ../src/ui/prefs_page_bet_account.ui.h:1
+#, fuzzy
+msgid "Select an account"
+msgstr "Выделить банковские счета"
+
+#: ../src/ui/prefs_page_bet_account.ui.h:4
+#, fuzzy
+msgid "Use the budget module"
+msgstr "Использовать логотип"
+
+#: ../src/ui/prefs_page_bet_account.ui.h:5
+#, fuzzy
+msgid "Account with deferred debit card"
+msgstr "Кредитная карта"
+
+#: ../src/ui/prefs_page_bet_account.ui.h:8
+#, fuzzy
+msgid "Data for the forecast"
+msgstr "Имя файла со счетами"
+
+#: ../src/ui/prefs_page_bet_account.ui.h:9
+#, fuzzy
+msgid "Sources of historical data"
+msgstr "Дата начала"
+
 #: ../src/ui/prefs_page_display_adr.ui.h:1
 #, fuzzy
 msgid "Window title of Grisbi"
@@ -12488,30 +12539,6 @@ msgstr "Общедоступное управление личными фина�
 #, fuzzy
 msgid "finance"
 msgstr "финансовый год"
-
-#, fuzzy
-#~ msgid "Select an account"
-#~ msgstr "Выделить банковские счета"
-
-#, fuzzy
-#~ msgid "Data for the forecast"
-#~ msgstr "Имя файла со счетами"
-
-#, fuzzy
-#~ msgid "Sources of historical data"
-#~ msgstr "Дата начала"
-
-#, fuzzy
-#~ msgid "Credit Data"
-#~ msgstr "Кредитная карта"
-
-#, fuzzy
-#~ msgid "Use the budget module"
-#~ msgstr "Использовать логотип"
-
-#, fuzzy
-#~ msgid "Create a new account file"
-#~ msgstr "Создание нового счёта"
 
 #, fuzzy
 #~ msgid "Open a .gsb account file"

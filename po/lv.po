@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-09 20:22+0200\n"
+"POT-Creation-Date: 2018-06-15 19:15+0200\n"
 "PO-Revision-Date: 2012-10-01 18:49+0300\n"
 "Last-Translator: Valdis Vītoliņš <valdis.vitolins@odo.lv>\n"
 "Language-Team: LATVIAN <info@odo.lv>\n"
@@ -1054,7 +1054,7 @@ msgstr ""
 #: ../src/bet_future.c:3009 ../src/categories_onglet.c:753
 #: ../src/gsb_assistant_archive_export.c:153 ../src/gsb_fyear_config.c:275
 #: ../src/gsb_transactions_list.c:2131 ../src/imputation_budgetaire.c:790
-#: ../src/tiers_onglet.c:736 ../src/prefs/prefs_page_accueil.c:303
+#: ../src/tiers_onglet.c:736 ../src/prefs/prefs_page_accueil.c:304
 #: ../src/prefs/prefs_page_archives.c:468
 msgid "Name"
 msgstr "Nosaukums"
@@ -1578,7 +1578,7 @@ msgstr "Izveidot jaunu apakškategoriju"
 #. On récupère le nom de la page
 #. Import button
 #: ../src/categories_onglet.c:578 ../src/etats_onglet.c:506
-#: ../src/grisbi_prefs.c:391 ../src/grisbi_prefs.c:462 ../src/grisbi_win.c:595
+#: ../src/grisbi_prefs.c:391 ../src/grisbi_prefs.c:462 ../src/grisbi_win.c:597
 #: ../src/import.c:1808 ../src/imputation_budgetaire.c:614
 #: ../src/utils_files.c:748
 msgid "Import"
@@ -4064,7 +4064,8 @@ msgstr "Bilances aprēķins"
 #. ~ utils_widget_set_padding (widget, MARGIN_BOX, 0);
 #. ~ if (is_loading == FALSE)
 #. ~ gtk_widget_set_sensitive (widget, FALSE);
-#: ../src/grisbi_prefs.c:616
+#. On récupère le nom de la page
+#: ../src/grisbi_prefs.c:616 ../src/prefs/prefs_page_bet_account.c:366
 msgid "Accounts data"
 msgstr "Kontu dati"
 
@@ -4106,40 +4107,50 @@ msgstr "Plānotājs"
 msgid "New"
 msgstr ""
 
-#: ../src/grisbi_win.c:584 ../src/grisbi_win.c:1517
+#: ../src/grisbi_win.c:575
+#, fuzzy
+msgid "Create a new account file"
+msgstr "Izveidot jaunu kontu"
+
+#: ../src/grisbi_win.c:585 ../src/grisbi_win.c:1519
 #: ../src/ui/grisbi_menu.ui.h:7
 #, fuzzy
 msgid "Open"
 msgstr "_Atvērt..."
 
-#: ../src/grisbi_win.c:597
+#: ../src/grisbi_win.c:587
+#, fuzzy
+msgid "Open an existing account file"
+msgstr "Atvērt kontu failu"
+
+#: ../src/grisbi_win.c:599
 #, fuzzy
 msgid "Import a CSV, QIF, OFX file ..."
 msgstr "_Importēt failu..."
 
-#: ../src/grisbi_win.c:1239
+#: ../src/grisbi_win.c:1241
 msgid "Unnamed account"
 msgstr "Nezināms konts"
 
-#: ../src/grisbi_win.c:1261 ../src/gsb_transactions_list.c:2601
+#: ../src/grisbi_win.c:1263 ../src/gsb_transactions_list.c:2601
 msgid "Move transaction to another account"
 msgstr "Pārvietot darījumu uz citu kontu"
 
-#: ../src/grisbi_win.c:1371 ../src/grisbi_win.c:1418
+#: ../src/grisbi_win.c:1373 ../src/grisbi_win.c:1420
 #: ../share/grisbi.desktop.in.h:1
 msgid "Grisbi"
 msgstr "Grisbi"
 
-#: ../src/grisbi_win.c:1425 ../src/gsb_file.c:228 ../src/gsb_file.c:259
+#: ../src/grisbi_win.c:1427 ../src/gsb_file.c:228 ../src/gsb_file.c:259
 msgid "unnamed"
 msgstr "nenosaukts"
 
 #. Create main widget.
-#: ../src/grisbi_win.c:1774
+#: ../src/grisbi_win.c:1776
 msgid "Creating main window"
 msgstr "Rādīt galvenajā logā"
 
-#: ../src/grisbi_win.c:1786
+#: ../src/grisbi_win.c:1788
 msgid ""
 "The model of the list couldn't be created... Bad things will happen very "
 "soon..."
@@ -5093,6 +5104,7 @@ msgstr "Saskaņošanas atsauce:"
 
 #. set the choice of account
 #: ../src/gsb_assistant_reconcile_config.c:403
+#: ../src/ui/prefs_page_bet_account.ui.h:3
 msgid "Account: "
 msgstr "Konts:"
 
@@ -8016,7 +8028,7 @@ msgstr "Maksājuma veids"
 
 #. 0
 #: ../src/gsb_form_widget.c:511 ../src/import_csv.c:68
-#: ../src/prefs/prefs_page_accueil.c:352
+#: ../src/prefs/prefs_page_accueil.c:353
 msgid "Currency"
 msgstr "Valūta"
 
@@ -9453,60 +9465,60 @@ msgstr ""
 msgid "Importing transactions into Grisbi"
 msgstr "Darījumu imports"
 
-#: ../src/import.c:4646
+#: ../src/import.c:4644
 #, c-format
 msgid "%s #%d"
 msgstr "%s #%d"
 
-#: ../src/import.c:4736
+#: ../src/import.c:4734
 msgid "Import a file with a rule"
 msgstr "Importēt failu ar likumiem"
 
 #. text for paddingbox
-#: ../src/import.c:4747
+#: ../src/import.c:4745
 #, c-format
 msgid "Properties of the rule: %s\n"
 msgstr "Likuma īpašības: %s\n"
 
-#: ../src/import.c:4766
+#: ../src/import.c:4764
 #, c-format
 msgid "Imported transactions will be added to the account %s.\n"
 msgstr "Importētie darījumi tiks pievienots kontam %s.\n"
 
-#: ../src/import.c:4769
+#: ../src/import.c:4767
 #, c-format
 msgid "Imported transactions will mark transactions in the account %s.\n"
 msgstr "Importētie darījumi tiks iezīmēti darījumu kontā %s.\n"
 
 #. textstring 2
-#: ../src/import.c:4774
+#: ../src/import.c:4772
 #, c-format
 msgid "Currency to import is %s.\n"
 msgstr "Valūtas imports ir %s.\n"
 
-#: ../src/import.c:4783
+#: ../src/import.c:4781
 #, c-format
 msgid "Amounts of the transactions will be inverted.\n"
 msgstr "Darījumu summas tiks invertētas.\n"
 
 #. label filename
-#: ../src/import.c:4795
+#: ../src/import.c:4793
 msgid "Name of the file to import: "
 msgstr "Importējamā faila nosaukums:"
 
-#: ../src/import.c:4812
+#: ../src/import.c:4810
 #, fuzzy
 msgid "Select a new file"
 msgstr "Izvēlēties jaunu logo"
 
-#: ../src/import.c:4870
+#: ../src/import.c:4868
 #, c-format
 msgid ""
 "%s is neither an OFX file, neither a QIF file. Nothing will be done for that "
 "file."
 msgstr "%s nav ne OFX fails, ne QIF fails. Nekas netiks darīts ar šo failu."
 
-#: ../src/import.c:4914
+#: ../src/import.c:4912
 #, fuzzy, c-format
 msgid ""
 "%s was not imported successfully. An error occurred while getting the "
@@ -10988,7 +11000,7 @@ msgstr ""
 "Komanda bija: %s.\n"
 "Lūdzu pielāgojiet datora iestatījumus"
 
-#: ../src/utils.c:482
+#: ../src/utils.c:477
 #, fuzzy, c-format
 msgid ""
 "Grisbi was unable to execute a mailer to write at <tt>%s</tt>.\n"
@@ -10997,7 +11009,7 @@ msgstr ""
 "Grisbi neizdevās izpildīt e-pasta komandu: <t>%s</t>.\n"
 "Atgrieztā kļūda: %s."
 
-#: ../src/utils.c:486
+#: ../src/utils.c:481
 msgid "Cannot execute mailer"
 msgstr "Neizdevās izpildīt sūtītāju"
 
@@ -11056,19 +11068,19 @@ msgstr ""
 "Ja nav priekšlikumu, iepriekš ir pareizi, var izvēlēties citu rakstzīmju kopu"
 
 #. On récupère le nom de la page
-#: ../src/prefs/prefs_page_accueil.c:207
+#: ../src/prefs/prefs_page_accueil.c:208
 msgid "Configuration of the main page"
 msgstr "Iestatījumu galvenā lapa"
 
-#: ../src/prefs/prefs_page_accueil.c:314
+#: ../src/prefs/prefs_page_accueil.c:315
 msgid "Accounts list"
 msgstr "Kontu saraksts"
 
-#: ../src/prefs/prefs_page_accueil.c:332
+#: ../src/prefs/prefs_page_accueil.c:333
 msgid "Colorize"
 msgstr "Krāsas"
 
-#: ../src/prefs/prefs_page_accueil.c:341
+#: ../src/prefs/prefs_page_accueil.c:342
 msgid "Account kind"
 msgstr "Konta veids"
 
@@ -11121,6 +11133,16 @@ msgstr ""
 #: ../src/prefs/prefs_page_archives.c:220
 msgid "Deleting an archive and its transactions"
 msgstr "Arhīva un tā darījumu dzēšana"
+
+#: ../src/prefs/prefs_page_bet_account.c:442
+#: ../src/ui/prefs_page_bet_account.ui.h:10
+msgid "Credit Data"
+msgstr "Kredīta dati"
+
+#: ../src/prefs/prefs_page_bet_account.c:444
+#, fuzzy
+msgid "Initial loan"
+msgstr "sākuma bilance"
 
 #: ../src/prefs/prefs_page_display_fonts.c:389
 msgid "Select a new logo"
@@ -11837,7 +11859,8 @@ msgid "Display the grids above the plot"
 msgstr "Parādīt dienas padomus"
 
 #: ../src/ui/csv_template_rule.ui.h:2 ../src/ui/prefs_page_accueil.ui.h:2
-#: ../src/ui/prefs_page_archives.ui.h:2 ../src/ui/prefs_page_display_adr.ui.h:2
+#: ../src/ui/prefs_page_archives.ui.h:2 ../src/ui/prefs_page_bet_account.ui.h:2
+#: ../src/ui/prefs_page_display_adr.ui.h:2
 #: ../src/ui/prefs_page_display_fonts.ui.h:2
 #: ../src/ui/prefs_page_display_gui.ui.h:2 ../src/ui/prefs_page_divers.ui.h:1
 #: ../src/ui/prefs_page_files.ui.h:2 ../src/ui/prefs_page_import_asso.ui.h:2
@@ -11898,6 +11921,7 @@ msgstr "Vispārīgie iestatījumi"
 
 #: ../src/ui/csv_template_rule.ui.h:16 ../src/ui/prefs_page_accueil.ui.h:6
 #: ../src/ui/prefs_page_archives.ui.h:12
+#: ../src/ui/prefs_page_bet_account.ui.h:6
 #: ../src/ui/prefs_page_display_adr.ui.h:10
 #: ../src/ui/prefs_page_display_fonts.ui.h:9
 #: ../src/ui/prefs_page_display_gui.ui.h:14 ../src/ui/prefs_page_divers.ui.h:15
@@ -11908,6 +11932,7 @@ msgstr ""
 
 #: ../src/ui/csv_template_rule.ui.h:17 ../src/ui/prefs_page_accueil.ui.h:7
 #: ../src/ui/prefs_page_archives.ui.h:13
+#: ../src/ui/prefs_page_bet_account.ui.h:7
 #: ../src/ui/prefs_page_display_adr.ui.h:11
 #: ../src/ui/prefs_page_display_fonts.ui.h:10
 #: ../src/ui/prefs_page_display_gui.ui.h:15 ../src/ui/prefs_page_divers.ui.h:16
@@ -12595,6 +12620,27 @@ msgstr "Brīdināt, ja ir vairāk nekā"
 msgid " transactions are not archived."
 msgstr "darījumi netika arhivēti"
 
+#: ../src/ui/prefs_page_bet_account.ui.h:1
+msgid "Select an account"
+msgstr "Izvēlēties kontu"
+
+#: ../src/ui/prefs_page_bet_account.ui.h:4
+msgid "Use the budget module"
+msgstr "Izmantot budžeta moduli"
+
+#: ../src/ui/prefs_page_bet_account.ui.h:5
+#, fuzzy
+msgid "Account with deferred debit card"
+msgstr "Kredītkarte"
+
+#: ../src/ui/prefs_page_bet_account.ui.h:8
+msgid "Data for the forecast"
+msgstr "Prognozējamie dati"
+
+#: ../src/ui/prefs_page_bet_account.ui.h:9
+msgid "Sources of historical data"
+msgstr "Datu vēstures avoti"
+
 #: ../src/ui/prefs_page_display_adr.ui.h:1
 #, fuzzy
 msgid "Window title of Grisbi"
@@ -12855,29 +12901,6 @@ msgstr "Personīgais finanšu pārvaldnieks"
 #, fuzzy
 msgid "finance"
 msgstr "finanšu gads"
-
-#~ msgid "Select an account"
-#~ msgstr "Izvēlēties kontu"
-
-#~ msgid "Data for the forecast"
-#~ msgstr "Prognozējamie dati"
-
-#~ msgid "Sources of historical data"
-#~ msgstr "Datu vēstures avoti"
-
-#~ msgid "Credit Data"
-#~ msgstr "Kredīta dati"
-
-#~ msgid "Use the budget module"
-#~ msgstr "Izmantot budžeta moduli"
-
-#, fuzzy
-#~ msgid "Account with deferred debit card"
-#~ msgstr "Kredītkarte"
-
-#, fuzzy
-#~ msgid "Create a new account file"
-#~ msgstr "Izveidot jaunu kontu"
 
 #, fuzzy
 #~ msgid "Open a .gsb account file"

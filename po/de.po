@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-09 20:22+0200\n"
+"POT-Creation-Date: 2018-06-15 19:15+0200\n"
 "PO-Revision-Date: 2018-06-01 14:10+0100\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -1046,7 +1046,7 @@ msgstr "Fehler: Es wurden keine oder fehlerhafte Daten eingegeben."
 #: ../src/bet_future.c:3009 ../src/categories_onglet.c:753
 #: ../src/gsb_assistant_archive_export.c:153 ../src/gsb_fyear_config.c:275
 #: ../src/gsb_transactions_list.c:2131 ../src/imputation_budgetaire.c:790
-#: ../src/tiers_onglet.c:736 ../src/prefs/prefs_page_accueil.c:303
+#: ../src/tiers_onglet.c:736 ../src/prefs/prefs_page_accueil.c:304
 #: ../src/prefs/prefs_page_archives.c:468
 msgid "Name"
 msgstr "Name"
@@ -1548,7 +1548,7 @@ msgstr "Eine neue Unterkategorie erstellen"
 #. On récupère le nom de la page
 #. Import button
 #: ../src/categories_onglet.c:578 ../src/etats_onglet.c:506
-#: ../src/grisbi_prefs.c:391 ../src/grisbi_prefs.c:462 ../src/grisbi_win.c:595
+#: ../src/grisbi_prefs.c:391 ../src/grisbi_prefs.c:462 ../src/grisbi_win.c:597
 #: ../src/import.c:1808 ../src/imputation_budgetaire.c:614
 #: ../src/utils_files.c:748
 msgid "Import"
@@ -4029,7 +4029,8 @@ msgstr "Prognosen"
 #. ~ utils_widget_set_padding (widget, MARGIN_BOX, 0);
 #. ~ if (is_loading == FALSE)
 #. ~ gtk_widget_set_sensitive (widget, FALSE);
-#: ../src/grisbi_prefs.c:616
+#. On récupère le nom de la page
+#: ../src/grisbi_prefs.c:616 ../src/prefs/prefs_page_bet_account.c:366
 msgid "Accounts data"
 msgstr "Konten Einstellungen"
 
@@ -4070,38 +4071,47 @@ msgstr "Planer"
 msgid "New"
 msgstr ""
 
-#: ../src/grisbi_win.c:584 ../src/grisbi_win.c:1517
+#: ../src/grisbi_win.c:575
+msgid "Create a new account file"
+msgstr "Eine neue Datei erstellen"
+
+#: ../src/grisbi_win.c:585 ../src/grisbi_win.c:1519
 #: ../src/ui/grisbi_menu.ui.h:7
 msgid "Open"
 msgstr "Öffnen ..."
 
-#: ../src/grisbi_win.c:597
+#: ../src/grisbi_win.c:587
+#, fuzzy
+msgid "Open an existing account file"
+msgstr "Datei auswählen - Grisbi"
+
+#: ../src/grisbi_win.c:599
 msgid "Import a CSV, QIF, OFX file ..."
 msgstr "Daten importieren ..."
 
-#: ../src/grisbi_win.c:1239
+#: ../src/grisbi_win.c:1241
 msgid "Unnamed account"
 msgstr "Konto ohne Namen"
 
-#: ../src/grisbi_win.c:1261 ../src/gsb_transactions_list.c:2601
+#: ../src/grisbi_win.c:1263 ../src/gsb_transactions_list.c:2601
 msgid "Move transaction to another account"
 msgstr "Buchung verschieben nach"
 
-#: ../src/grisbi_win.c:1371 ../src/grisbi_win.c:1418
+#: ../src/grisbi_win.c:1373 ../src/grisbi_win.c:1420
 #: ../share/grisbi.desktop.in.h:1
 msgid "Grisbi"
 msgstr "Grisbi"
 
-#: ../src/grisbi_win.c:1425 ../src/gsb_file.c:228 ../src/gsb_file.c:259
+#: ../src/grisbi_win.c:1427 ../src/gsb_file.c:228 ../src/gsb_file.c:259
 msgid "unnamed"
 msgstr "Unbenannt"
 
 #. Create main widget.
-#: ../src/grisbi_win.c:1774
+#: ../src/grisbi_win.c:1776
 msgid "Creating main window"
 msgstr "Hauptfenster erstellen"
 
-#: ../src/grisbi_win.c:1786
+#: ../src/grisbi_win.c:1788
 msgid ""
 "The model of the list couldn't be created... Bad things will happen very "
 "soon..."
@@ -5074,6 +5084,7 @@ msgstr "Abstimmung Nr.: "
 
 #. set the choice of account
 #: ../src/gsb_assistant_reconcile_config.c:403
+#: ../src/ui/prefs_page_bet_account.ui.h:3
 msgid "Account: "
 msgstr "Konto: "
 
@@ -8030,7 +8041,7 @@ msgstr "Zahlungsweise"
 
 #. 0
 #: ../src/gsb_form_widget.c:511 ../src/import_csv.c:68
-#: ../src/prefs/prefs_page_accueil.c:352
+#: ../src/prefs/prefs_page_accueil.c:353
 msgid "Currency"
 msgstr "Währung"
 
@@ -9482,53 +9493,53 @@ msgstr ""
 msgid "Importing transactions into Grisbi"
 msgstr "Daten importieren"
 
-#: ../src/import.c:4646
+#: ../src/import.c:4644
 #, c-format
 msgid "%s #%d"
 msgstr "%s #%d"
 
-#: ../src/import.c:4736
+#: ../src/import.c:4734
 msgid "Import a file with a rule"
 msgstr "Regelbasierter Import - Grisbi"
 
 #. text for paddingbox
-#: ../src/import.c:4747
+#: ../src/import.c:4745
 #, c-format
 msgid "Properties of the rule: %s\n"
 msgstr "Eigenschaften der Importregel: %s\n"
 
-#: ../src/import.c:4766
+#: ../src/import.c:4764
 #, c-format
 msgid "Imported transactions will be added to the account %s.\n"
 msgstr "Die importierten Buchungen werden dem Konto %s zugeordnet.\n"
 
-#: ../src/import.c:4769
+#: ../src/import.c:4767
 #, c-format
 msgid "Imported transactions will mark transactions in the account %s.\n"
 msgstr ""
 "Die importierten Buchungen werden im Konto %s als verrechnet gekennzeichnet\n"
 
 #. textstring 2
-#: ../src/import.c:4774
+#: ../src/import.c:4772
 #, c-format
 msgid "Currency to import is %s.\n"
 msgstr "Die Währung für den Import ist %s.\n"
 
-#: ../src/import.c:4783
+#: ../src/import.c:4781
 #, c-format
 msgid "Amounts of the transactions will be inverted.\n"
 msgstr "Die Beträge der Buchungen werden invertiert.\n"
 
 #. label filename
-#: ../src/import.c:4795
+#: ../src/import.c:4793
 msgid "Name of the file to import: "
 msgstr "Importdatei: "
 
-#: ../src/import.c:4812
+#: ../src/import.c:4810
 msgid "Select a new file"
 msgstr "Eine neue Datei auswählen"
 
-#: ../src/import.c:4870
+#: ../src/import.c:4868
 #, c-format
 msgid ""
 "%s is neither an OFX file, neither a QIF file. Nothing will be done for that "
@@ -9537,7 +9548,7 @@ msgstr ""
 "%s ist keine OFX oder QIF Datei, es werden keine Daten aus dieser Datei "
 "importiert."
 
-#: ../src/import.c:4914
+#: ../src/import.c:4912
 #, c-format
 msgid ""
 "%s was not imported successfully. An error occurred while getting the "
@@ -11049,7 +11060,7 @@ msgstr ""
 "Es wurde folgender Befehl ausgeführt: %s.\n"
 "Bitte prüfen Sie die Einstellungen für den Browser."
 
-#: ../src/utils.c:482
+#: ../src/utils.c:477
 #, c-format
 msgid ""
 "Grisbi was unable to execute a mailer to write at <tt>%s</tt>.\n"
@@ -11059,7 +11070,7 @@ msgstr ""
 "ausführen.\n"
 "Der Fehler war: %s."
 
-#: ../src/utils.c:486
+#: ../src/utils.c:481
 msgid "Cannot execute mailer"
 msgstr "Browser kann nicht gestartet werden"
 
@@ -11118,19 +11129,19 @@ msgstr ""
 "Wenn kein Vorschlag zutrifft bitte einen anderen Zeichensatz auswählen."
 
 #. On récupère le nom de la page
-#: ../src/prefs/prefs_page_accueil.c:207
+#: ../src/prefs/prefs_page_accueil.c:208
 msgid "Configuration of the main page"
 msgstr "Konfiguration Startseite"
 
-#: ../src/prefs/prefs_page_accueil.c:314
+#: ../src/prefs/prefs_page_accueil.c:315
 msgid "Accounts list"
 msgstr "Konten"
 
-#: ../src/prefs/prefs_page_accueil.c:332
+#: ../src/prefs/prefs_page_accueil.c:333
 msgid "Colorize"
 msgstr "Farbig"
 
-#: ../src/prefs/prefs_page_accueil.c:341
+#: ../src/prefs/prefs_page_accueil.c:342
 msgid "Account kind"
 msgstr "Kontoart"
 
@@ -11183,6 +11194,16 @@ msgstr ""
 #: ../src/prefs/prefs_page_archives.c:220
 msgid "Deleting an archive and its transactions"
 msgstr "Ein Archiv und die zugeordneten Buchungen löschen"
+
+#: ../src/prefs/prefs_page_bet_account.c:442
+#: ../src/ui/prefs_page_bet_account.ui.h:10
+msgid "Credit Data"
+msgstr "Kredit Daten"
+
+#: ../src/prefs/prefs_page_bet_account.c:444
+#, fuzzy
+msgid "Initial loan"
+msgstr "Saldo Anfang"
 
 #: ../src/prefs/prefs_page_display_fonts.c:389
 msgid "Select a new logo"
@@ -11877,7 +11898,8 @@ msgid "Display the grids above the plot"
 msgstr "Linien im Diagramm anzeigen"
 
 #: ../src/ui/csv_template_rule.ui.h:2 ../src/ui/prefs_page_accueil.ui.h:2
-#: ../src/ui/prefs_page_archives.ui.h:2 ../src/ui/prefs_page_display_adr.ui.h:2
+#: ../src/ui/prefs_page_archives.ui.h:2 ../src/ui/prefs_page_bet_account.ui.h:2
+#: ../src/ui/prefs_page_display_adr.ui.h:2
 #: ../src/ui/prefs_page_display_fonts.ui.h:2
 #: ../src/ui/prefs_page_display_gui.ui.h:2 ../src/ui/prefs_page_divers.ui.h:1
 #: ../src/ui/prefs_page_files.ui.h:2 ../src/ui/prefs_page_import_asso.ui.h:2
@@ -11931,6 +11953,7 @@ msgstr "Allgemeine Konfiguration"
 
 #: ../src/ui/csv_template_rule.ui.h:16 ../src/ui/prefs_page_accueil.ui.h:6
 #: ../src/ui/prefs_page_archives.ui.h:12
+#: ../src/ui/prefs_page_bet_account.ui.h:6
 #: ../src/ui/prefs_page_display_adr.ui.h:10
 #: ../src/ui/prefs_page_display_fonts.ui.h:9
 #: ../src/ui/prefs_page_display_gui.ui.h:14 ../src/ui/prefs_page_divers.ui.h:15
@@ -11941,6 +11964,7 @@ msgstr "Bezeichnung"
 
 #: ../src/ui/csv_template_rule.ui.h:17 ../src/ui/prefs_page_accueil.ui.h:7
 #: ../src/ui/prefs_page_archives.ui.h:13
+#: ../src/ui/prefs_page_bet_account.ui.h:7
 #: ../src/ui/prefs_page_display_adr.ui.h:11
 #: ../src/ui/prefs_page_display_fonts.ui.h:10
 #: ../src/ui/prefs_page_display_gui.ui.h:15 ../src/ui/prefs_page_divers.ui.h:16
@@ -12583,6 +12607,26 @@ msgstr "Warnung wenn mehr als "
 msgid " transactions are not archived."
 msgstr " Buchungen nicht archiviert sind."
 
+#: ../src/ui/prefs_page_bet_account.ui.h:1
+msgid "Select an account"
+msgstr "Konto auswählen"
+
+#: ../src/ui/prefs_page_bet_account.ui.h:4
+msgid "Use the budget module"
+msgstr "Prognose anzeigen"
+
+#: ../src/ui/prefs_page_bet_account.ui.h:5
+msgid "Account with deferred debit card"
+msgstr "Ausgabenkonto mit verzögerten Buchungen"
+
+#: ../src/ui/prefs_page_bet_account.ui.h:8
+msgid "Data for the forecast"
+msgstr "Daten für die Prognose"
+
+#: ../src/ui/prefs_page_bet_account.ui.h:9
+msgid "Sources of historical data"
+msgstr "Buchungen auswählen nach"
+
 #: ../src/ui/prefs_page_display_adr.ui.h:1
 msgid "Window title of Grisbi"
 msgstr "Fenster Titel"
@@ -12830,29 +12874,8 @@ msgstr "Finanzprogramm für Privatpersonen"
 msgid "finance"
 msgstr "Finanzen"
 
-#~ msgid "Select an account"
-#~ msgstr "Konto auswählen"
-
-#~ msgid "Data for the forecast"
-#~ msgstr "Daten für die Prognose"
-
-#~ msgid "Sources of historical data"
-#~ msgstr "Buchungen auswählen nach"
-
-#~ msgid "Credit Data"
-#~ msgstr "Kredit Daten"
-
-#~ msgid "Use the budget module"
-#~ msgstr "Prognose anzeigen"
-
-#~ msgid "Account with deferred debit card"
-#~ msgstr "Ausgabenkonto mit verzögerten Buchungen"
-
 #~ msgid "Guide"
 #~ msgstr "Handbuch"
-
-#~ msgid "Create a new account file"
-#~ msgstr "Eine neue Datei erstellen"
 
 #~ msgid "Open a .gsb account file"
 #~ msgstr "Eine vorhandene Datei öffnen"
