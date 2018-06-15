@@ -900,17 +900,25 @@ GrisbiPrefs *grisbi_prefs_new (GrisbiWin *win)
 void grisbi_prefs_set_page_by_name (gchar *page_name)
 {
 	GrisbiPrefs *prefs;
+	GrisbiWin *win;
 	GrisbiPrefsPrivate *priv;
+	gint result;
 
 	devel_debug (page_name);
-
-	prefs = grisbi_prefs_new (grisbi_app_get_active_window (NULL));
+	win = grisbi_app_get_active_window (NULL);
+	prefs = grisbi_prefs_new (win);
 	priv = grisbi_prefs_get_instance_private (prefs);
+	grisbi_win_set_prefs_dialog (win, GTK_WIDGET (prefs));
+
+	gtk_window_present (GTK_WINDOW (prefs));
+	gtk_widget_show_all (GTK_WIDGET (prefs));
 
 	if (strcmp (page_name, "form_num_page") == 0)
 	{
 		utils_prefs_left_panel_tree_view_select_page (priv->left_treeview, priv->notebook_prefs, priv->form_num_page);
 	}
+	result = gtk_dialog_run (GTK_DIALOG (prefs));
+	grisbi_prefs_dialog_response (GTK_DIALOG (prefs), result);
 }
 
 /**
