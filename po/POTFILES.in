@@ -144,6 +144,7 @@ src/utils_prefs.c
 src/utils_str.c
 src/prefs/prefs_page_accueil.c
 src/prefs/prefs_page_archives.c
+src/prefs/prefs_page_bet_account.c
 src/prefs/prefs_page_display_adr.c
 src/prefs/prefs_page_display_fonts.c
 src/prefs/prefs_page_display_gui.c
@@ -160,6 +161,7 @@ src/prefs/prefs_page_import_files.c
 [type: gettext/glade]src/ui/grisbi_win.ui
 [type: gettext/glade]src/ui/prefs_page_accueil.ui
 [type: gettext/glade]src/ui/prefs_page_archives.ui
+[type: gettext/glade]src/ui/prefs_page_bet_account.ui
 [type: gettext/glade]src/ui/prefs_page_display_adr.ui
 [type: gettext/glade]src/ui/prefs_page_display_fonts.ui
 [type: gettext/glade]src/ui/prefs_page_display_gui.ui
