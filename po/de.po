@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-06-15 19:15+0200\n"
-"PO-Revision-Date: 2018-06-01 14:10+0100\n"
+"PO-Revision-Date: 2018-06-17 10:17+0100\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -1235,7 +1235,7 @@ msgstr "Diagramm anzeigen"
 
 #: ../src/bet_graph.c:1929 ../src/ui/csv_template_rule.ui.h:7
 msgid "Column"
-msgstr "Balken"
+msgstr "Spalte"
 
 #: ../src/bet_graph.c:1956
 msgid "Line"
@@ -1681,7 +1681,7 @@ msgstr "Alle Buchungen einer anderen Unterkategorie zuordnen"
 
 #: ../src/csv_template_rule.c:512
 msgid "Data to be used"
-msgstr "Datum"
+msgstr "Daten Auswahl"
 
 #: ../src/csv_template_rule.c:514
 msgid "Value"
@@ -1693,7 +1693,7 @@ msgstr "Aktion"
 
 #: ../src/csv_template_rule.c:518
 msgid "Data of action"
-msgstr "Datum von Aktion"
+msgstr "Daten Aktion"
 
 #. window title
 #: ../src/csv_template_rule.c:835
@@ -2540,7 +2540,7 @@ msgstr "um"
 #: ../src/gsb_form_config.c:340 ../src/gsb_form_config.c:386
 #: ../src/gsb_fyear_config.c:171 ../src/gsb_payment_method_config.c:205
 msgid "Add"
-msgstr "hinzufügen"
+msgstr "Hinzufügen"
 
 #. Remove button
 #. Button "Remove"
@@ -2550,7 +2550,7 @@ msgstr "hinzufügen"
 #: ../src/gsb_form_config.c:318 ../src/gsb_form_config.c:364
 #: ../src/gsb_fyear_config.c:181 ../src/gsb_payment_method_config.c:215
 msgid "Remove"
-msgstr "entfernen"
+msgstr "Entfernen"
 
 #: ../src/etats_config.c:2117
 msgid "Transactions with an amount of"
@@ -2738,11 +2738,11 @@ msgstr "Den ausgewählten Bericht bearbeiten"
 #. clone button
 #: ../src/etats_onglet.c:554
 msgid "Clone"
-msgstr "Klonen"
+msgstr "Du­pli­zie­ren"
 
 #: ../src/etats_onglet.c:556
 msgid "Clone selected report"
-msgstr "Den ausgewählten Bericht klonen"
+msgstr "Den ausgewählten Bericht du­pli­zie­ren"
 
 #. archive button
 #: ../src/etats_onglet.c:564
@@ -2751,7 +2751,7 @@ msgstr "PDF Datei erstellen"
 
 #: ../src/etats_onglet.c:565
 msgid "Creates a pdf file of the report in user directory"
-msgstr "Erstellt eine PDF Datei vom Bericht im Benutzerverzeichnis"
+msgstr "Eine PDF Datei vom Bericht erstellen"
 
 #: ../src/etats_onglet.c:668 ../src/gsb_assistant_archive_export.c:153
 #: ../src/prefs/prefs_page_archives.c:468 ../src/ui/etats_prefs.ui.h:6
@@ -3149,7 +3149,7 @@ msgstr "Amerikanisches Zahlenformat verwenden"
 
 #: ../src/export.c:438
 msgid "Select accounts to export"
-msgstr "Die Konten für den Export auswählen"
+msgstr "Konten für den Export auswählen"
 
 #: ../src/export.c:473 ../src/export_csv.c:324
 #: ../src/gsb_data_partial_balance.c:1665
@@ -3159,12 +3159,12 @@ msgstr "Kontoname"
 #. set options for export
 #: ../src/export.c:503
 msgid "Select options to export"
-msgstr "Die Einstellungen für den Export auswählen"
+msgstr "Einstellungen für den Export"
 
 #. Adding treat all files button
 #: ../src/export.c:512
 msgid "Treat all files as the first"
-msgstr "Die Einstellungen vom ersten Konto bei den weiteren Konten anwenden"
+msgstr "Einstellungen vom ersten Konto bei den weiteren Konten anwenden"
 
 #: ../src/export.c:588
 msgid "Export settings completed successfully"
@@ -3175,9 +3175,9 @@ msgid "Press the 'Close' button to finish the export."
 msgstr "Bitte 'Schließen' auswählen um die Daten zu exportieren."
 
 #: ../src/export.c:615
-#, fuzzy, c-format
+#, c-format
 msgid "Export of: %s"
-msgstr "Export Format: "
+msgstr "Export von: %s"
 
 #: ../src/export.c:627 ../src/gsb_assistant_archive_export.c:300
 msgid "Export format: "
@@ -4069,7 +4069,7 @@ msgstr "Planer"
 
 #: ../src/grisbi_win.c:573
 msgid "New"
-msgstr ""
+msgstr "Neu"
 
 #: ../src/grisbi_win.c:575
 msgid "Create a new account file"
@@ -4078,16 +4078,15 @@ msgstr "Eine neue Datei erstellen"
 #: ../src/grisbi_win.c:585 ../src/grisbi_win.c:1519
 #: ../src/ui/grisbi_menu.ui.h:7
 msgid "Open"
-msgstr "Öffnen ..."
+msgstr "Öffnen"
 
 #: ../src/grisbi_win.c:587
-#, fuzzy
 msgid "Open an existing account file"
-msgstr "Datei auswählen - Grisbi"
+msgstr "Eine vorhandene Datei öffnen"
 
 #: ../src/grisbi_win.c:599
 msgid "Import a CSV, QIF, OFX file ..."
-msgstr "Daten importieren ..."
+msgstr "Daten importieren"
 
 #: ../src/grisbi_win.c:1241
 msgid "Unnamed account"
@@ -4433,7 +4432,7 @@ msgstr ""
 #. create the assistant
 #: ../src/gsb_assistant_archive.c:153 ../src/ui/grisbi_menu.ui.h:13
 msgid "Archive transactions"
-msgstr "Buchungen archivieren"
+msgstr "Archiv erstellen"
 
 #. set up the menu
 #: ../src/gsb_assistant_archive.c:210
@@ -7747,7 +7746,7 @@ msgstr "Unterelemente erstellen"
 #. create the valid/cancel buttons
 #: ../src/gsb_form.c:370 ../src/gsb_reconcile.c:316
 msgid "Validate"
-msgstr "Validieren"
+msgstr "OK"
 
 #: ../src/gsb_form.c:788
 msgid "Transfer : Deleted account"
@@ -8654,7 +8653,7 @@ msgstr "Buchung bearbeiten"
 #: ../src/gsb_scheduler_list.c:2412 ../src/gsb_transactions_list.c:2583
 #: ../src/ui/grisbi_menu.ui.h:25
 msgid "Clone transaction"
-msgstr "Buchung klonen"
+msgstr "Buchung du­pli­zie­ren"
 
 #. New transaction
 #. new transaction button
@@ -9252,9 +9251,9 @@ msgid "Encoding: "
 msgstr "Zeichensatz: "
 
 #: ../src/import.c:1291
-#, fuzzy, c-format
+#, c-format
 msgid "Choose file to import in %s"
-msgstr "Dateien für den Import auswählen"
+msgstr "Ausgewähltes Verzeichnis: %s"
 
 #: ../src/import.c:1325
 #, c-format
@@ -9273,9 +9272,9 @@ msgid "Unable to read file: %s\n"
 msgstr "Die Datei kann nicht gelesen werden: %s\n"
 
 #: ../src/import.c:1749
-#, fuzzy, c-format
+#, c-format
 msgid "Choose file to import from the directory: %s"
-msgstr "Dateien für den Import auswählen"
+msgstr "Verzeichnis mit Dateien für Import: %s"
 
 #: ../src/import.c:1754
 msgid "Choose file to import"
@@ -9284,7 +9283,7 @@ msgstr "Dateien für den Import auswählen"
 #. Add select file button
 #: ../src/import.c:1761
 msgid "Add file to import..."
-msgstr "Dateien für den Import hinzufügen..."
+msgstr "Dateien für den Import hinzufügen"
 
 #: ../src/import.c:1849
 msgid "File name"
@@ -9293,11 +9292,11 @@ msgstr "Dateiname"
 #. adding option for import of categories for qif files
 #: ../src/import.c:1867
 msgid "Select options to import"
-msgstr "Die Einstellungen für den Import auswählen"
+msgstr "Einstellungen für den Import"
 
 #: ../src/import.c:1868 ../src/ui/prefs_page_import_files.ui.h:11
 msgid "Don't imported the categories"
-msgstr "Die Kategorien wurden nicht importiert"
+msgstr "Kategorien nicht importieren"
 
 #: ../src/import.c:1991
 msgid ""
@@ -9629,7 +9628,7 @@ msgstr "CSV Felder auswählen"
 
 #: ../src/import_csv.c:1682
 msgid "Create a rule for this import."
-msgstr "Eine Regel für diesen Import erstellen."
+msgstr "Eine Regel für diesen Import erstellen"
 
 #: ../src/imputation_budgetaire.c:434
 msgid "Export the budgetary lines"
@@ -11201,9 +11200,8 @@ msgid "Credit Data"
 msgstr "Kredit Daten"
 
 #: ../src/prefs/prefs_page_bet_account.c:444
-#, fuzzy
 msgid "Initial loan"
-msgstr "Saldo Anfang"
+msgstr "Kredit Basisdaten"
 
 #: ../src/prefs/prefs_page_display_fonts.c:389
 msgid "Select a new logo"
@@ -11220,11 +11218,11 @@ msgstr "<b>Aktionen für Buchungsliste :</b>"
 
 #: ../src/prefs/prefs_page_display_gui.c:109
 msgid "(Un)Pointing a transaction\t-> <Primary>p, <Primary>F12\n"
-msgstr "Buchung (De)Referenzieren\t-> <Primary>p, <Primary>F12\n"
+msgstr "Buchung verrechnen\t-> Strg + P, F12\n"
 
 #: ../src/prefs/prefs_page_display_gui.c:110
 msgid "(Un)Reconcile a transaction\t-> <Primary>r\n"
-msgstr "Buchung (Un)Abstimmen\t-> <Primary>r\n"
+msgstr "Buchung abstimmen\t-> Strg + R\n"
 
 #: ../src/prefs/prefs_page_divers.c:188
 msgid "You will have to restart Grisbi for the new language to take effect."
@@ -11941,11 +11939,11 @@ msgstr "1"
 
 #: ../src/ui/csv_template_rule.ui.h:13
 msgid "Indicates whether the column headers are the first row of the file"
-msgstr "Kennzeichnet ob die Spalten Header die erste Zeile in der Datei sind"
+msgstr "Kennzeichnung ob die Zeile die Spaltenbeschriftung enthält"
 
 #: ../src/ui/csv_template_rule.ui.h:14
 msgid "headers of columns present"
-msgstr "Spalten Header kennzeichnen"
+msgstr "Spaltenbeschriftung vorhanden"
 
 #: ../src/ui/csv_template_rule.ui.h:15
 msgid "Specific configuration"
@@ -12411,7 +12409,7 @@ msgstr "Datei"
 
 #: ../src/ui/grisbi_menu.ui.h:6
 msgid "New account file"
-msgstr "Neue Datei"
+msgstr "Neu"
 
 #: ../src/ui/grisbi_menu.ui.h:8
 msgid "Recently opened files"
@@ -12506,9 +12504,8 @@ msgid "_Help"
 msgstr "Hilfe"
 
 #: ../src/ui/grisbi_menu.ui.h:40
-#, fuzzy
 msgid "User's Manual"
-msgstr "manuell"
+msgstr "Handbuch"
 
 #: ../src/ui/grisbi_menu.ui.h:41
 msgid "Quick start"
@@ -12874,8 +12871,4 @@ msgstr "Finanzprogramm für Privatpersonen"
 msgid "finance"
 msgstr "Finanzen"
 
-#~ msgid "Guide"
-#~ msgstr "Handbuch"
 
-#~ msgid "Open a .gsb account file"
-#~ msgstr "Eine vorhandene Datei öffnen"
