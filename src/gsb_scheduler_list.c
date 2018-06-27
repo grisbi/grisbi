@@ -1142,7 +1142,7 @@ gboolean gsb_scheduler_list_append_new_scheduled ( gint scheduled_number,
         {
             gtk_tree_store_set ( GTK_TREE_STORE ( tree_model_scheduler_list ),
                         &iter,
-                        SCHEDULER_COL_NB_BACKGROUND, gsb_rgba_get_couleur ( "split_background" ),
+                        SCHEDULER_COL_NB_BACKGROUND, gsb_rgba_get_couleur ( "background_split" ),
                         -1 );
         }
         else

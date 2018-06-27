@@ -154,7 +154,7 @@ void transaction_list_append_transaction ( gint transaction_number )
 	white_record = g_malloc0 (sizeof (CustomRecord));
 	white_record -> transaction_pointer = gsb_data_transaction_get_pointer_of_transaction (white_line_number);
 	white_record -> what_is_line = IS_TRANSACTION;
-	white_record -> row_bg = gsb_rgba_get_couleur ( "split_background" );
+	white_record -> row_bg = gsb_rgba_get_couleur ( "background_split" );
 
 	/* as we append just now the white line, there are no child split, so the total is 0 */
 	amount_string = utils_real_get_string_with_currency (null_real,
@@ -1056,7 +1056,7 @@ gboolean transaction_list_update_transaction ( gint transaction_number )
         white_record -> transaction_pointer = gsb_data_transaction_get_pointer_of_transaction (
                             white_line_number);
         white_record -> what_is_line = IS_TRANSACTION;
-        white_record -> row_bg = gsb_rgba_get_couleur ( "split_background" );
+        white_record -> row_bg = gsb_rgba_get_couleur ( "background_split" );
 
         /* as we append just now the white line, there are no child split, so the total is 0 */
         amount_string = utils_real_get_string_with_currency (null_real,
@@ -1828,7 +1828,7 @@ static void transaction_list_append_child ( gint transaction_number )
     white_record -> filtered_pos = pos;
 
     /* set the color */
-    newrecord -> row_bg = gsb_rgba_get_couleur ( "split_background" );
+    newrecord -> row_bg = gsb_rgba_get_couleur ( "background_split" );
 
     /* we can now save the new number of children and the new children rows into their mothers */
     for (i=0 ; i < TRANSACTION_LIST_ROWS_NB ; i++)
