@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-29 06:24+0200\n"
+"POT-Creation-Date: 2018-06-29 21:19+0200\n"
 "PO-Revision-Date: 2012-10-01 18:49+0300\n"
 "Last-Translator: Valdis Vītoliņš <valdis.vitolins@odo.lv>\n"
 "Language-Team: LATVIAN <info@odo.lv>\n"
@@ -3916,47 +3916,145 @@ msgstr "Izvēlne"
 msgid "The menu of options"
 msgstr "Iestatījumu izvēlne"
 
-#: ../src/grisbi_app.c:640
+#: ../src/grisbi_app.c:98 ../src/grisbi_app.c:115
+msgid "New_window"
+msgstr ""
+
+#: ../src/grisbi_app.c:99 ../src/grisbi_app.c:116
+#, fuzzy
+msgid "Preferences"
+msgstr "_Iestatījumi"
+
+#: ../src/grisbi_app.c:100 ../src/grisbi_app.c:117
+#, fuzzy
+msgid "Quit"
+msgstr "_Iziet"
+
+#: ../src/grisbi_app.c:101 ../src/grisbi_app.c:118 ../src/ui/grisbi_menu.ui.h:6
+#, fuzzy
+msgid "New account file"
+msgstr "_Jauns konta fails..."
+
+#: ../src/grisbi_app.c:102 ../src/grisbi_app.c:119 ../src/grisbi_win.c:585
+#: ../src/grisbi_win.c:1519 ../src/ui/grisbi_menu.ui.h:7
+#, fuzzy
+msgid "Open"
+msgstr "_Atvērt..."
+
+#: ../src/grisbi_app.c:103 ../src/grisbi_app.c:120 ../src/ui/grisbi_menu.ui.h:9
+#, fuzzy
+msgid "Save"
+msgstr "_Saglabāt"
+
+#: ../src/grisbi_app.c:104 ../src/grisbi_app.c:121
+#: ../src/ui/grisbi_menu.ui.h:45
+#, fuzzy
+msgid "Import file"
+msgstr "_Importēt failu..."
+
+#: ../src/grisbi_app.c:105 ../src/grisbi_app.c:122
+#: ../src/ui/grisbi_menu.ui.h:12
+#, fuzzy
+msgid "Export as QIF/CSV file"
+msgstr "_Eksportēt kontu kā QIF/CSV failu..."
+
+#: ../src/grisbi_app.c:106 ../src/grisbi_app.c:123
+#: ../src/ui/grisbi_menu.ui.h:19
+#, fuzzy
+msgid "Close"
+msgstr "_Aizvērt"
+
+#. New transaction
+#. new transaction button
+#: ../src/grisbi_app.c:107 ../src/grisbi_app.c:124
+#: ../src/gsb_scheduler_list.c:2426 ../src/gsb_transactions_list.c:258
+#: ../src/gsb_transactions_list.c:2559 ../src/ui/grisbi_menu.ui.h:22
+msgid "New transaction"
+msgstr "Jauns darījums"
+
+#: ../src/grisbi_app.c:108 ../src/grisbi_app.c:125 ../src/navigation.c:2181
+#: ../src/ui/grisbi_menu.ui.h:27
+#, fuzzy
+msgid "New account"
+msgstr "_Jauns konts"
+
+#: ../src/grisbi_app.c:109 ../src/grisbi_app.c:126
+#: ../src/ui/grisbi_menu.ui.h:31
+#, fuzzy
+msgid "Show reconciled"
+msgstr "Rādīt _saskaņojumus"
+
+#: ../src/grisbi_app.c:110 ../src/grisbi_app.c:127
+#: ../src/gsb_transactions_list.c:651 ../src/ui/grisbi_menu.ui.h:32
+msgid "Show lines archives"
+msgstr "Rādīt arhīva rindas"
+
+#: ../src/grisbi_app.c:111 ../src/grisbi_app.c:128
+#: ../src/ui/grisbi_menu.ui.h:40
+#, fuzzy
+msgid "User's Manual"
+msgstr "Manuāli"
+
+#: ../src/grisbi_app.c:112 ../src/grisbi_app.c:129
+msgid "Full screen"
+msgstr ""
+
+#: ../src/grisbi_app.c:643
 #, fuzzy
 msgid "Show the application's version"
 msgstr "Rādīt katru darījumu _trījās rindās"
 
-#: ../src/grisbi_app.c:646
+#: ../src/grisbi_app.c:649
 msgid "Create a new top-level window in an existing instance of grisbi"
 msgstr ""
 
-#: ../src/grisbi_app.c:653
+#: ../src/grisbi_app.c:656
 #, fuzzy
 msgid "Debug mode: level 0-5"
 msgstr "Atkļūdošanas režīms"
 
-#: ../src/grisbi_app.c:654
+#: ../src/grisbi_app.c:657
 msgid "DEBUG"
 msgstr ""
 
-#: ../src/grisbi_app.c:667
+#: ../src/grisbi_app.c:670
 msgid "[FILE...]"
 msgstr ""
 
-#: ../src/grisbi_app.c:823
+#: ../src/grisbi_app.c:826
 #, fuzzy, c-format
 msgid "Error on sigaction: SIGINT won't be trapped\n"
 msgstr "Kļūda: neizdevās noķert SIGSEGV\n"
 
-#: ../src/grisbi_app.c:826
+#: ../src/grisbi_app.c:829
 #, fuzzy, c-format
 msgid "Error on sigaction: SIGTERM won't be trapped\n"
 msgstr "Kļūda: neizdevās noķert SIGSEGV\n"
 
-#: ../src/grisbi_app.c:829
+#: ../src/grisbi_app.c:832
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Kļūda: neizdevās noķert SIGSEGV\n"
 
-#: ../src/grisbi_app.c:1003 ../src/menu.c:629
+#: ../src/grisbi_app.c:1006 ../src/menu.c:629
 #, fuzzy
 msgid "Start an action!"
 msgstr "Kārtot darījumus ar"
+
+#: ../src/grisbi_app.c:1199
+#, fuzzy
+msgid "<b>Actions in transaction list :</b>"
+msgstr "Izvēlēties visus darījumus"
+
+#: ../src/grisbi_app.c:1201
+#, fuzzy
+msgid "(Un)Pointing a transaction\t\t-> <Primary>p, <Primary>F12\n"
+msgstr "Saskaņotie darījumi"
+
+#: ../src/grisbi_app.c:1202
+#, fuzzy
+msgid "(Un)Reconcile a transaction\t\t-> <Primary>r\n"
+msgstr "Saskaņotie darījumi"
 
 #: ../src/grisbi_prefs.c:405
 #, fuzzy
@@ -4010,7 +4108,7 @@ msgid "Payees, categories and budgetaries"
 msgstr "Partneri, kategorijas un budžeti"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:506 ../src/prefs/prefs_page_display_gui.c:233
+#: ../src/grisbi_prefs.c:506 ../src/prefs/prefs_page_display_gui.c:198
 msgid "Elements of interface"
 msgstr ""
 
@@ -4121,12 +4219,6 @@ msgstr ""
 #, fuzzy
 msgid "Create a new account file"
 msgstr "Izveidot jaunu kontu"
-
-#: ../src/grisbi_win.c:585 ../src/grisbi_win.c:1519
-#: ../src/ui/grisbi_menu.ui.h:7
-#, fuzzy
-msgid "Open"
-msgstr "_Atvērt..."
 
 #: ../src/grisbi_win.c:587
 #, fuzzy
@@ -8649,13 +8741,6 @@ msgstr "Rediģēt darījumu"
 msgid "Clone transaction"
 msgstr "Klonēt darījumu"
 
-#. New transaction
-#. new transaction button
-#: ../src/gsb_scheduler_list.c:2426 ../src/gsb_transactions_list.c:258
-#: ../src/gsb_transactions_list.c:2559 ../src/ui/grisbi_menu.ui.h:22
-msgid "New transaction"
-msgstr "Jauns darījums"
-
 #. Delete transaction
 #: ../src/gsb_scheduler_list.c:2434 ../src/gsb_transactions_list.c:2564
 msgid "Delete transaction"
@@ -8820,10 +8905,6 @@ msgstr "Trīs rindu skats"
 #: ../src/gsb_transactions_list.c:637
 msgid "Show reconciled transactions"
 msgstr "Rādīt saskaņotos darījumus"
-
-#: ../src/gsb_transactions_list.c:651 ../src/ui/grisbi_menu.ui.h:32
-msgid "Show lines archives"
-msgstr "Rādīt arhīva rindas"
 
 #: ../src/gsb_transactions_list.c:1143
 msgid "P"
@@ -10022,11 +10103,6 @@ msgstr "Pēdējais paziņojums: nav"
 msgid "closed"
 msgstr "aizvērts"
 
-#: ../src/navigation.c:2181 ../src/ui/grisbi_menu.ui.h:27
-#, fuzzy
-msgid "New account"
-msgstr "_Jauns konts"
-
 #: ../src/navigation.c:2193
 #, fuzzy
 msgid "Remove this account"
@@ -11162,20 +11238,6 @@ msgstr "Izvēlēties jaunu logo"
 #: ../src/prefs/prefs_page_display_fonts.c:509
 msgid "Fonts & logo"
 msgstr "Fonti un logo"
-
-#: ../src/prefs/prefs_page_display_gui.c:107
-#, fuzzy
-msgid "<b>Actions in transaction list :</b>"
-msgstr "Izvēlēties visus darījumus"
-
-#: ../src/prefs/prefs_page_display_gui.c:109
-msgid "(Un)Pointing a transaction\t-> <Primary>p, <Primary>F12\n"
-msgstr ""
-
-#: ../src/prefs/prefs_page_display_gui.c:110
-#, fuzzy
-msgid "(Un)Reconcile a transaction\t-> <Primary>r\n"
-msgstr "Saskaņotie darījumi"
 
 #: ../src/prefs/prefs_page_divers.c:188
 msgid "You will have to restart Grisbi for the new language to take effect."
@@ -12403,20 +12465,10 @@ msgstr "_Iziet"
 msgid "_File"
 msgstr "_Fails"
 
-#: ../src/ui/grisbi_menu.ui.h:6
-#, fuzzy
-msgid "New account file"
-msgstr "_Jauns konta fails..."
-
 #: ../src/ui/grisbi_menu.ui.h:8
 #, fuzzy
 msgid "Recently opened files"
 msgstr "_Nesen atvērtie faili"
-
-#: ../src/ui/grisbi_menu.ui.h:9
-#, fuzzy
-msgid "Save"
-msgstr "_Saglabāt"
 
 #: ../src/ui/grisbi_menu.ui.h:10
 #, fuzzy
@@ -12427,11 +12479,6 @@ msgstr "_Saglabāt kā..."
 #, fuzzy
 msgid "_Import file"
 msgstr "_Importēt failu..."
-
-#: ../src/ui/grisbi_menu.ui.h:12
-#, fuzzy
-msgid "Export as QIF/CSV file"
-msgstr "_Eksportēt kontu kā QIF/CSV failu..."
 
 #: ../src/ui/grisbi_menu.ui.h:14
 #, fuzzy
@@ -12457,11 +12504,6 @@ msgstr "Nerādīt QIF failus..."
 msgid "Debug mode"
 msgstr "Atkļūdošanas režīms"
 
-#: ../src/ui/grisbi_menu.ui.h:19
-#, fuzzy
-msgid "Close"
-msgstr "_Aizvērt"
-
 #: ../src/ui/grisbi_menu.ui.h:20
 msgid "E_dit"
 msgstr ""
@@ -12485,11 +12527,6 @@ msgstr "_Dzēst pašreizējo kontu"
 #, fuzzy
 msgid "Show transaction form"
 msgstr "Rādīt darījuma _veidlapu"
-
-#: ../src/ui/grisbi_menu.ui.h:31
-#, fuzzy
-msgid "Show reconciled"
-msgstr "Rādīt _saskaņojumus"
 
 #: ../src/ui/grisbi_menu.ui.h:34
 #, fuzzy
@@ -12519,11 +12556,6 @@ msgstr "Atstatīt kolonnas platumu"
 msgid "_Help"
 msgstr "_Palīdzība"
 
-#: ../src/ui/grisbi_menu.ui.h:40
-#, fuzzy
-msgid "User's Manual"
-msgstr "Manuāli"
-
 #: ../src/ui/grisbi_menu.ui.h:41
 #, fuzzy
 msgid "Quick start"
@@ -12538,11 +12570,6 @@ msgstr "_Grisbi tīmekļa vietne"
 #, fuzzy
 msgid "Report a bug"
 msgstr "_Ziņot par kļūdu"
-
-#: ../src/ui/grisbi_menu.ui.h:45
-#, fuzzy
-msgid "Import file"
-msgstr "_Importēt failu..."
 
 #: ../src/ui/grisbi_menu.ui.h:46
 #, fuzzy

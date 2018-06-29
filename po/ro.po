@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ro\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-29 06:24+0200\n"
+"POT-Creation-Date: 2018-06-29 21:19+0200\n"
 "PO-Revision-Date: 2005-12-19 11:24+0100\n"
 "Last-Translator: Mircea Aronovici <bucuresti@free.fr>\n"
 "Language-Team: <bucuresti@free.fr>\n"
@@ -4038,47 +4038,145 @@ msgstr "Manual"
 msgid "The menu of options"
 msgstr ""
 
-#: ../src/grisbi_app.c:640
+#: ../src/grisbi_app.c:98 ../src/grisbi_app.c:115
+msgid "New_window"
+msgstr ""
+
+#: ../src/grisbi_app.c:99 ../src/grisbi_app.c:116
+#, fuzzy
+msgid "Preferences"
+msgstr "Preferinţe"
+
+#: ../src/grisbi_app.c:100 ../src/grisbi_app.c:117
+msgid "Quit"
+msgstr ""
+
+#: ../src/grisbi_app.c:101 ../src/grisbi_app.c:118 ../src/ui/grisbi_menu.ui.h:6
+#, fuzzy
+msgid "New account file"
+msgstr "Nou fişier de cont"
+
+#: ../src/grisbi_app.c:102 ../src/grisbi_app.c:119 ../src/grisbi_win.c:585
+#: ../src/grisbi_win.c:1519 ../src/ui/grisbi_menu.ui.h:7
+#, fuzzy
+msgid "Open"
+msgstr "Deschide"
+
+#: ../src/grisbi_app.c:103 ../src/grisbi_app.c:120 ../src/ui/grisbi_menu.ui.h:9
+#, fuzzy
+msgid "Save"
+msgstr "Înregistraţi"
+
+#: ../src/grisbi_app.c:104 ../src/grisbi_app.c:121
+#: ../src/ui/grisbi_menu.ui.h:45
+#, fuzzy
+msgid "Import file"
+msgstr "Exporta fişiere"
+
+#: ../src/grisbi_app.c:105 ../src/grisbi_app.c:122
+#: ../src/ui/grisbi_menu.ui.h:12
+#, fuzzy
+msgid "Export as QIF/CSV file"
+msgstr "Exportarea unui fişier QIF"
+
+#: ../src/grisbi_app.c:106 ../src/grisbi_app.c:123
+#: ../src/ui/grisbi_menu.ui.h:19
+#, fuzzy
+msgid "Close"
+msgstr "Închide"
+
+#. New transaction
+#. new transaction button
+#: ../src/grisbi_app.c:107 ../src/grisbi_app.c:124
+#: ../src/gsb_scheduler_list.c:2426 ../src/gsb_transactions_list.c:258
+#: ../src/gsb_transactions_list.c:2559 ../src/ui/grisbi_menu.ui.h:22
+msgid "New transaction"
+msgstr "O nouă operaţiune"
+
+#: ../src/grisbi_app.c:108 ../src/grisbi_app.c:125 ../src/navigation.c:2181
+#: ../src/ui/grisbi_menu.ui.h:27
+#, fuzzy
+msgid "New account"
+msgstr "Cont nou"
+
+#: ../src/grisbi_app.c:109 ../src/grisbi_app.c:126
+#: ../src/ui/grisbi_menu.ui.h:31
+#, fuzzy
+msgid "Show reconciled"
+msgstr "Apropiaţi"
+
+#: ../src/grisbi_app.c:110 ../src/grisbi_app.c:127
+#: ../src/gsb_transactions_list.c:651 ../src/ui/grisbi_menu.ui.h:32
+#, fuzzy
+msgid "Show lines archives"
+msgstr "Devize cunoscute"
+
+#: ../src/grisbi_app.c:111 ../src/grisbi_app.c:128
+#: ../src/ui/grisbi_menu.ui.h:40
+#, fuzzy
+msgid "User's Manual"
+msgstr "Manualul lui Grisbi"
+
+#: ../src/grisbi_app.c:112 ../src/grisbi_app.c:129
+msgid "Full screen"
+msgstr ""
+
+#: ../src/grisbi_app.c:643
 #, fuzzy
 msgid "Show the application's version"
 msgstr "Trei linii pe tranzacţie"
 
-#: ../src/grisbi_app.c:646
+#: ../src/grisbi_app.c:649
 msgid "Create a new top-level window in an existing instance of grisbi"
 msgstr ""
 
-#: ../src/grisbi_app.c:653
+#: ../src/grisbi_app.c:656
 #, fuzzy
 msgid "Debug mode: level 0-5"
 msgstr "Debogaţi fişierul"
 
-#: ../src/grisbi_app.c:654
+#: ../src/grisbi_app.c:657
 msgid "DEBUG"
 msgstr ""
 
-#: ../src/grisbi_app.c:667
+#: ../src/grisbi_app.c:670
 msgid "[FILE...]"
 msgstr ""
 
-#: ../src/grisbi_app.c:823
+#: ../src/grisbi_app.c:826
 #, fuzzy, c-format
 msgid "Error on sigaction: SIGINT won't be trapped\n"
 msgstr "Eroare pe sigaction, semnalul SIGSEGV nu va fi deturnat\n"
 
-#: ../src/grisbi_app.c:826
+#: ../src/grisbi_app.c:829
 #, fuzzy, c-format
 msgid "Error on sigaction: SIGTERM won't be trapped\n"
 msgstr "Eroare pe sigaction, semnalul SIGSEGV nu va fi deturnat\n"
 
-#: ../src/grisbi_app.c:829
+#: ../src/grisbi_app.c:832
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Eroare pe sigaction, semnalul SIGSEGV nu va fi deturnat\n"
 
-#: ../src/grisbi_app.c:1003 ../src/menu.c:629
+#: ../src/grisbi_app.c:1006 ../src/menu.c:629
 #, fuzzy
 msgid "Start an action!"
 msgstr "Clasament a operaţiunilor prin"
+
+#: ../src/grisbi_app.c:1199
+#, fuzzy
+msgid "<b>Actions in transaction list :</b>"
+msgstr "Suprima operaţiunea"
+
+#: ../src/grisbi_app.c:1201
+#, fuzzy
+msgid "(Un)Pointing a transaction\t\t-> <Primary>p, <Primary>F12\n"
+msgstr "Operaţii apropiate"
+
+#: ../src/grisbi_app.c:1202
+#, fuzzy
+msgid "(Un)Reconcile a transaction\t\t-> <Primary>r\n"
+msgstr "Operaţii apropiate"
 
 #: ../src/grisbi_prefs.c:405
 #, fuzzy
@@ -4135,7 +4233,7 @@ msgid "Payees, categories and budgetaries"
 msgstr "Vă rugăm intraţi o imputaţie"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:506 ../src/prefs/prefs_page_display_gui.c:233
+#: ../src/grisbi_prefs.c:506 ../src/prefs/prefs_page_display_gui.c:198
 msgid "Elements of interface"
 msgstr ""
 
@@ -4254,12 +4352,6 @@ msgstr ""
 #, fuzzy
 msgid "Create a new account file"
 msgstr "Creaţi un nou cont"
-
-#: ../src/grisbi_win.c:585 ../src/grisbi_win.c:1519
-#: ../src/ui/grisbi_menu.ui.h:7
-#, fuzzy
-msgid "Open"
-msgstr "Deschide"
 
 #: ../src/grisbi_win.c:587
 #, fuzzy
@@ -8780,13 +8872,6 @@ msgstr "Edtarea operaţiunii"
 msgid "Clone transaction"
 msgstr "Clonaţi operaţiunea"
 
-#. New transaction
-#. new transaction button
-#: ../src/gsb_scheduler_list.c:2426 ../src/gsb_transactions_list.c:258
-#: ../src/gsb_transactions_list.c:2559 ../src/ui/grisbi_menu.ui.h:22
-msgid "New transaction"
-msgstr "O nouă operaţiune"
-
 #. Delete transaction
 #: ../src/gsb_scheduler_list.c:2434 ../src/gsb_transactions_list.c:2564
 msgid "Delete transaction"
@@ -8965,11 +9050,6 @@ msgstr "Mod <trei linii>"
 #, fuzzy
 msgid "Show reconciled transactions"
 msgstr "Operaţii apropiate"
-
-#: ../src/gsb_transactions_list.c:651 ../src/ui/grisbi_menu.ui.h:32
-#, fuzzy
-msgid "Show lines archives"
-msgstr "Devize cunoscute"
 
 #: ../src/gsb_transactions_list.c:1143
 msgid "P"
@@ -10143,11 +10223,6 @@ msgstr "Ultima situaţie bancară : Nici una"
 msgid "closed"
 msgstr "Închide"
 
-#: ../src/navigation.c:2181 ../src/ui/grisbi_menu.ui.h:27
-#, fuzzy
-msgid "New account"
-msgstr "Cont nou"
-
 #: ../src/navigation.c:2193
 #, fuzzy
 msgid "Remove this account"
@@ -11209,20 +11284,6 @@ msgstr "Selectarea uni nou logo"
 #: ../src/prefs/prefs_page_display_fonts.c:509
 msgid "Fonts & logo"
 msgstr "Poliţă & logo"
-
-#: ../src/prefs/prefs_page_display_gui.c:107
-#, fuzzy
-msgid "<b>Actions in transaction list :</b>"
-msgstr "Suprima operaţiunea"
-
-#: ../src/prefs/prefs_page_display_gui.c:109
-msgid "(Un)Pointing a transaction\t-> <Primary>p, <Primary>F12\n"
-msgstr ""
-
-#: ../src/prefs/prefs_page_display_gui.c:110
-#, fuzzy
-msgid "(Un)Reconcile a transaction\t-> <Primary>r\n"
-msgstr "Operaţii apropiate"
 
 #: ../src/prefs/prefs_page_divers.c:188
 msgid "You will have to restart Grisbi for the new language to take effect."
@@ -12474,20 +12535,10 @@ msgstr ""
 msgid "_File"
 msgstr "Fişier"
 
-#: ../src/ui/grisbi_menu.ui.h:6
-#, fuzzy
-msgid "New account file"
-msgstr "Nou fişier de cont"
-
 #: ../src/ui/grisbi_menu.ui.h:8
 #, fuzzy
 msgid "Recently opened files"
 msgstr "Ultimile fişiere"
-
-#: ../src/ui/grisbi_menu.ui.h:9
-#, fuzzy
-msgid "Save"
-msgstr "Înregistraţi"
 
 #: ../src/ui/grisbi_menu.ui.h:10
 #, fuzzy
@@ -12498,11 +12549,6 @@ msgstr "Înregistraţi sub"
 #, fuzzy
 msgid "_Import file"
 msgstr "Exporta fişiere"
-
-#: ../src/ui/grisbi_menu.ui.h:12
-#, fuzzy
-msgid "Export as QIF/CSV file"
-msgstr "Exportarea unui fişier QIF"
 
 #: ../src/ui/grisbi_menu.ui.h:14
 #, fuzzy
@@ -12529,11 +12575,6 @@ msgstr "Nou fişier de cont"
 msgid "Debug mode"
 msgstr "Debogaţi fişierul"
 
-#: ../src/ui/grisbi_menu.ui.h:19
-#, fuzzy
-msgid "Close"
-msgstr "Închide"
-
 #: ../src/ui/grisbi_menu.ui.h:20
 msgid "E_dit"
 msgstr ""
@@ -12557,11 +12598,6 @@ msgstr "Suprimarea unui cont"
 #, fuzzy
 msgid "Show transaction form"
 msgstr "Formular de tranzacţie"
-
-#: ../src/ui/grisbi_menu.ui.h:31
-#, fuzzy
-msgid "Show reconciled"
-msgstr "Apropiaţi"
 
 #: ../src/ui/grisbi_menu.ui.h:34
 #, fuzzy
@@ -12593,11 +12629,6 @@ msgstr "Alegerea contului afectat"
 msgid "_Help"
 msgstr "Ajutor"
 
-#: ../src/ui/grisbi_menu.ui.h:40
-#, fuzzy
-msgid "User's Manual"
-msgstr "Manualul lui Grisbi"
-
 #: ../src/ui/grisbi_menu.ui.h:41
 #, fuzzy
 msgid "Quick start"
@@ -12612,11 +12643,6 @@ msgstr "Situl web Grisbi"
 #, fuzzy
 msgid "Report a bug"
 msgstr "Semnalarea unui bog"
-
-#: ../src/ui/grisbi_menu.ui.h:45
-#, fuzzy
-msgid "Import file"
-msgstr "Exporta fişiere"
 
 #: ../src/ui/grisbi_menu.ui.h:46
 #, fuzzy

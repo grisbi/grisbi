@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-29 06:24+0200\n"
+"POT-Creation-Date: 2018-06-29 21:19+0200\n"
 "PO-Revision-Date: 2005-12-19 09:07-0200\n"
 "Last-Translator: \n"
 "Language-Team: <pt@li.org>\n"
@@ -4014,47 +4014,145 @@ msgstr "Manual"
 msgid "The menu of options"
 msgstr ""
 
-#: ../src/grisbi_app.c:640
+#: ../src/grisbi_app.c:98 ../src/grisbi_app.c:115
+msgid "New_window"
+msgstr ""
+
+#: ../src/grisbi_app.c:99 ../src/grisbi_app.c:116
+#, fuzzy
+msgid "Preferences"
+msgstr "Preferências"
+
+#: ../src/grisbi_app.c:100 ../src/grisbi_app.c:117
+msgid "Quit"
+msgstr ""
+
+#: ../src/grisbi_app.c:101 ../src/grisbi_app.c:118 ../src/ui/grisbi_menu.ui.h:6
+#, fuzzy
+msgid "New account file"
+msgstr "Novo arquivo de conta"
+
+#: ../src/grisbi_app.c:102 ../src/grisbi_app.c:119 ../src/grisbi_win.c:585
+#: ../src/grisbi_win.c:1519 ../src/ui/grisbi_menu.ui.h:7
+#, fuzzy
+msgid "Open"
+msgstr "_Abrir"
+
+#: ../src/grisbi_app.c:103 ../src/grisbi_app.c:120 ../src/ui/grisbi_menu.ui.h:9
+#, fuzzy
+msgid "Save"
+msgstr "Salvar"
+
+#: ../src/grisbi_app.c:104 ../src/grisbi_app.c:121
+#: ../src/ui/grisbi_menu.ui.h:45
+#, fuzzy
+msgid "Import file"
+msgstr "Exportar para arquivos QIF"
+
+#: ../src/grisbi_app.c:105 ../src/grisbi_app.c:122
+#: ../src/ui/grisbi_menu.ui.h:12
+#, fuzzy
+msgid "Export as QIF/CSV file"
+msgstr "Contas para arquivo QIF..."
+
+#: ../src/grisbi_app.c:106 ../src/grisbi_app.c:123
+#: ../src/ui/grisbi_menu.ui.h:19
+#, fuzzy
+msgid "Close"
+msgstr "Fechar"
+
+#. New transaction
+#. new transaction button
+#: ../src/grisbi_app.c:107 ../src/grisbi_app.c:124
+#: ../src/gsb_scheduler_list.c:2426 ../src/gsb_transactions_list.c:258
+#: ../src/gsb_transactions_list.c:2559 ../src/ui/grisbi_menu.ui.h:22
+msgid "New transaction"
+msgstr "Novo lançamento"
+
+#: ../src/grisbi_app.c:108 ../src/grisbi_app.c:125 ../src/navigation.c:2181
+#: ../src/ui/grisbi_menu.ui.h:27
+#, fuzzy
+msgid "New account"
+msgstr "Nova conta"
+
+#: ../src/grisbi_app.c:109 ../src/grisbi_app.c:126
+#: ../src/ui/grisbi_menu.ui.h:31
+#, fuzzy
+msgid "Show reconciled"
+msgstr "Lançamentos não reconciliadas"
+
+#: ../src/grisbi_app.c:110 ../src/grisbi_app.c:127
+#: ../src/gsb_transactions_list.c:651 ../src/ui/grisbi_menu.ui.h:32
+#, fuzzy
+msgid "Show lines archives"
+msgstr "Moedas atuais"
+
+#: ../src/grisbi_app.c:111 ../src/grisbi_app.c:128
+#: ../src/ui/grisbi_menu.ui.h:40
+#, fuzzy
+msgid "User's Manual"
+msgstr "Manual"
+
+#: ../src/grisbi_app.c:112 ../src/grisbi_app.c:129
+msgid "Full screen"
+msgstr ""
+
+#: ../src/grisbi_app.c:643
 #, fuzzy
 msgid "Show the application's version"
 msgstr "Três linhas por lançamento"
 
-#: ../src/grisbi_app.c:646
+#: ../src/grisbi_app.c:649
 msgid "Create a new top-level window in an existing instance of grisbi"
 msgstr ""
 
-#: ../src/grisbi_app.c:653
+#: ../src/grisbi_app.c:656
 #, fuzzy
 msgid "Debug mode: level 0-5"
 msgstr "Depurar arquivo"
 
-#: ../src/grisbi_app.c:654
+#: ../src/grisbi_app.c:657
 msgid "DEBUG"
 msgstr ""
 
-#: ../src/grisbi_app.c:667
+#: ../src/grisbi_app.c:670
 msgid "[FILE...]"
 msgstr ""
 
-#: ../src/grisbi_app.c:823
+#: ../src/grisbi_app.c:826
 #, fuzzy, c-format
 msgid "Error on sigaction: SIGINT won't be trapped\n"
 msgstr "Erro em sigaction: SIGSEGV não será prendido\n"
 
-#: ../src/grisbi_app.c:826
+#: ../src/grisbi_app.c:829
 #, fuzzy, c-format
 msgid "Error on sigaction: SIGTERM won't be trapped\n"
 msgstr "Erro em sigaction: SIGSEGV não será prendido\n"
 
-#: ../src/grisbi_app.c:829
+#: ../src/grisbi_app.c:832
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Erro em sigaction: SIGSEGV não será prendido\n"
 
-#: ../src/grisbi_app.c:1003 ../src/menu.c:629
+#: ../src/grisbi_app.c:1006 ../src/menu.c:629
 #, fuzzy
 msgid "Start an action!"
 msgstr "Organizar os lançamentos por"
+
+#: ../src/grisbi_app.c:1199
+#, fuzzy
+msgid "<b>Actions in transaction list :</b>"
+msgstr "Apagar lançamento"
+
+#: ../src/grisbi_app.c:1201
+#, fuzzy
+msgid "(Un)Pointing a transaction\t\t-> <Primary>p, <Primary>F12\n"
+msgstr "Lançamentos reconciliados"
+
+#: ../src/grisbi_app.c:1202
+#, fuzzy
+msgid "(Un)Reconcile a transaction\t\t-> <Primary>r\n"
+msgstr "Lançamentos reconciliados"
 
 #: ../src/grisbi_prefs.c:405
 #, fuzzy
@@ -4110,7 +4208,7 @@ msgid "Payees, categories and budgetaries"
 msgstr "Por favor, informe um orçamento!"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:506 ../src/prefs/prefs_page_display_gui.c:233
+#: ../src/grisbi_prefs.c:506 ../src/prefs/prefs_page_display_gui.c:198
 msgid "Elements of interface"
 msgstr ""
 
@@ -4229,12 +4327,6 @@ msgstr ""
 #, fuzzy
 msgid "Create a new account file"
 msgstr "Criar uma nova conta"
-
-#: ../src/grisbi_win.c:585 ../src/grisbi_win.c:1519
-#: ../src/ui/grisbi_menu.ui.h:7
-#, fuzzy
-msgid "Open"
-msgstr "_Abrir"
 
 #: ../src/grisbi_win.c:587
 #, fuzzy
@@ -8749,13 +8841,6 @@ msgstr "Editar lançamento"
 msgid "Clone transaction"
 msgstr "Clonar lançamento"
 
-#. New transaction
-#. new transaction button
-#: ../src/gsb_scheduler_list.c:2426 ../src/gsb_transactions_list.c:258
-#: ../src/gsb_transactions_list.c:2559 ../src/ui/grisbi_menu.ui.h:22
-msgid "New transaction"
-msgstr "Novo lançamento"
-
 #. Delete transaction
 #: ../src/gsb_scheduler_list.c:2434 ../src/gsb_transactions_list.c:2564
 msgid "Delete transaction"
@@ -8936,11 +9021,6 @@ msgstr "Modo três linhas"
 #, fuzzy
 msgid "Show reconciled transactions"
 msgstr "Lançamentos reconciliados"
-
-#: ../src/gsb_transactions_list.c:651 ../src/ui/grisbi_menu.ui.h:32
-#, fuzzy
-msgid "Show lines archives"
-msgstr "Moedas atuais"
 
 #: ../src/gsb_transactions_list.c:1143
 msgid "P"
@@ -10111,11 +10191,6 @@ msgstr "Última atualização: nenhuma"
 msgid "closed"
 msgstr "Fechar"
 
-#: ../src/navigation.c:2181 ../src/ui/grisbi_menu.ui.h:27
-#, fuzzy
-msgid "New account"
-msgstr "Nova conta"
-
 #: ../src/navigation.c:2193
 #, fuzzy
 msgid "Remove this account"
@@ -11175,20 +11250,6 @@ msgstr "Selecione um novo logotipo"
 #: ../src/prefs/prefs_page_display_fonts.c:509
 msgid "Fonts & logo"
 msgstr "Fontes & Logotipo"
-
-#: ../src/prefs/prefs_page_display_gui.c:107
-#, fuzzy
-msgid "<b>Actions in transaction list :</b>"
-msgstr "Apagar lançamento"
-
-#: ../src/prefs/prefs_page_display_gui.c:109
-msgid "(Un)Pointing a transaction\t-> <Primary>p, <Primary>F12\n"
-msgstr ""
-
-#: ../src/prefs/prefs_page_display_gui.c:110
-#, fuzzy
-msgid "(Un)Reconcile a transaction\t-> <Primary>r\n"
-msgstr "Lançamentos reconciliados"
 
 #: ../src/prefs/prefs_page_divers.c:188
 msgid "You will have to restart Grisbi for the new language to take effect."
@@ -12439,20 +12500,10 @@ msgstr ""
 msgid "_File"
 msgstr "Arquivo"
 
-#: ../src/ui/grisbi_menu.ui.h:6
-#, fuzzy
-msgid "New account file"
-msgstr "Novo arquivo de conta"
-
 #: ../src/ui/grisbi_menu.ui.h:8
 #, fuzzy
 msgid "Recently opened files"
 msgstr "Arquivos abertos recentemente"
-
-#: ../src/ui/grisbi_menu.ui.h:9
-#, fuzzy
-msgid "Save"
-msgstr "Salvar"
 
 #: ../src/ui/grisbi_menu.ui.h:10
 #, fuzzy
@@ -12463,11 +12514,6 @@ msgstr "Salvar como"
 #, fuzzy
 msgid "_Import file"
 msgstr "Exportar para arquivos QIF"
-
-#: ../src/ui/grisbi_menu.ui.h:12
-#, fuzzy
-msgid "Export as QIF/CSV file"
-msgstr "Contas para arquivo QIF..."
 
 #: ../src/ui/grisbi_menu.ui.h:14
 #, fuzzy
@@ -12494,11 +12540,6 @@ msgstr "Novo arquivo de conta"
 msgid "Debug mode"
 msgstr "Depurar arquivo"
 
-#: ../src/ui/grisbi_menu.ui.h:19
-#, fuzzy
-msgid "Close"
-msgstr "Fechar"
-
 #: ../src/ui/grisbi_menu.ui.h:20
 msgid "E_dit"
 msgstr ""
@@ -12522,11 +12563,6 @@ msgstr "Apagar uma conta"
 #, fuzzy
 msgid "Show transaction form"
 msgstr "Formulário de lançamentos"
-
-#: ../src/ui/grisbi_menu.ui.h:31
-#, fuzzy
-msgid "Show reconciled"
-msgstr "Lançamentos não reconciliadas"
 
 #: ../src/ui/grisbi_menu.ui.h:34
 #, fuzzy
@@ -12558,11 +12594,6 @@ msgstr "Alterar a conta"
 msgid "_Help"
 msgstr "Ajuda"
 
-#: ../src/ui/grisbi_menu.ui.h:40
-#, fuzzy
-msgid "User's Manual"
-msgstr "Manual"
-
 #: ../src/ui/grisbi_menu.ui.h:41
 #, fuzzy
 msgid "Quick start"
@@ -12577,11 +12608,6 @@ msgstr "Grisbi website"
 #, fuzzy
 msgid "Report a bug"
 msgstr "informar um bug"
-
-#: ../src/ui/grisbi_menu.ui.h:45
-#, fuzzy
-msgid "Import file"
-msgstr "Exportar para arquivos QIF"
 
 #: ../src/ui/grisbi_menu.ui.h:46
 #, fuzzy

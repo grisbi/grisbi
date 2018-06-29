@@ -283,7 +283,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: he\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-29 06:24+0200\n"
+"POT-Creation-Date: 2018-06-29 21:19+0200\n"
 "PO-Revision-Date: 2006-02-11 16:08+0200\n"
 "Last-Translator: dotan\n"
 "Language-Team: <en@li.org>\n"
@@ -4279,47 +4279,145 @@ msgstr "ידני"
 msgid "The menu of options"
 msgstr ""
 
-#: ../src/grisbi_app.c:640
+#: ../src/grisbi_app.c:98 ../src/grisbi_app.c:115
+msgid "New_window"
+msgstr ""
+
+#: ../src/grisbi_app.c:99 ../src/grisbi_app.c:116
+#, fuzzy
+msgid "Preferences"
+msgstr "העדפות"
+
+#: ../src/grisbi_app.c:100 ../src/grisbi_app.c:117
+msgid "Quit"
+msgstr ""
+
+#: ../src/grisbi_app.c:101 ../src/grisbi_app.c:118 ../src/ui/grisbi_menu.ui.h:6
+#, fuzzy
+msgid "New account file"
+msgstr "קובץ חשבונות חדש"
+
+#: ../src/grisbi_app.c:102 ../src/grisbi_app.c:119 ../src/grisbi_win.c:585
+#: ../src/grisbi_win.c:1519 ../src/ui/grisbi_menu.ui.h:7
+#, fuzzy
+msgid "Open"
+msgstr "_פתיחה"
+
+#: ../src/grisbi_app.c:103 ../src/grisbi_app.c:120 ../src/ui/grisbi_menu.ui.h:9
+#, fuzzy
+msgid "Save"
+msgstr "שמירה"
+
+#: ../src/grisbi_app.c:104 ../src/grisbi_app.c:121
+#: ../src/ui/grisbi_menu.ui.h:45
+#, fuzzy
+msgid "Import file"
+msgstr "ייצוא קבצים"
+
+#: ../src/grisbi_app.c:105 ../src/grisbi_app.c:122
+#: ../src/ui/grisbi_menu.ui.h:12
+#, fuzzy
+msgid "Export as QIF/CSV file"
+msgstr "ייצוא קבצי QIF"
+
+#: ../src/grisbi_app.c:106 ../src/grisbi_app.c:123
+#: ../src/ui/grisbi_menu.ui.h:19
+#, fuzzy
+msgid "Close"
+msgstr "סגירת חלון החשבונות"
+
+#. New transaction
+#. new transaction button
+#: ../src/grisbi_app.c:107 ../src/grisbi_app.c:124
+#: ../src/gsb_scheduler_list.c:2426 ../src/gsb_transactions_list.c:258
+#: ../src/gsb_transactions_list.c:2559 ../src/ui/grisbi_menu.ui.h:22
+msgid "New transaction"
+msgstr "עיסקה חדשה"
+
+#: ../src/grisbi_app.c:108 ../src/grisbi_app.c:125 ../src/navigation.c:2181
+#: ../src/ui/grisbi_menu.ui.h:27
+#, fuzzy
+msgid "New account"
+msgstr "חשבון חדש"
+
+#: ../src/grisbi_app.c:109 ../src/grisbi_app.c:126
+#: ../src/ui/grisbi_menu.ui.h:31
+#, fuzzy
+msgid "Show reconciled"
+msgstr "התאמה"
+
+#: ../src/grisbi_app.c:110 ../src/grisbi_app.c:127
+#: ../src/gsb_transactions_list.c:651 ../src/ui/grisbi_menu.ui.h:32
+#, fuzzy
+msgid "Show lines archives"
+msgstr "מטבעות ידועים"
+
+#: ../src/grisbi_app.c:111 ../src/grisbi_app.c:128
+#: ../src/ui/grisbi_menu.ui.h:40
+#, fuzzy
+msgid "User's Manual"
+msgstr "מדריך גריסבי"
+
+#: ../src/grisbi_app.c:112 ../src/grisbi_app.c:129
+msgid "Full screen"
+msgstr ""
+
+#: ../src/grisbi_app.c:643
 #, fuzzy
 msgid "Show the application's version"
 msgstr "3 שורות לכל עיסקה"
 
-#: ../src/grisbi_app.c:646
+#: ../src/grisbi_app.c:649
 msgid "Create a new top-level window in an existing instance of grisbi"
 msgstr ""
 
-#: ../src/grisbi_app.c:653
+#: ../src/grisbi_app.c:656
 #, fuzzy
 msgid "Debug mode: level 0-5"
 msgstr "Debug file"
 
-#: ../src/grisbi_app.c:654
+#: ../src/grisbi_app.c:657
 msgid "DEBUG"
 msgstr ""
 
-#: ../src/grisbi_app.c:667
+#: ../src/grisbi_app.c:670
 msgid "[FILE...]"
 msgstr ""
 
-#: ../src/grisbi_app.c:823
+#: ../src/grisbi_app.c:826
 #, fuzzy, c-format
 msgid "Error on sigaction: SIGINT won't be trapped\n"
 msgstr "Error on sigaction: SIGSEGV won't be trapped\n"
 
-#: ../src/grisbi_app.c:826
+#: ../src/grisbi_app.c:829
 #, fuzzy, c-format
 msgid "Error on sigaction: SIGTERM won't be trapped\n"
 msgstr "Error on sigaction: SIGSEGV won't be trapped\n"
 
-#: ../src/grisbi_app.c:829
+#: ../src/grisbi_app.c:832
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Error on sigaction: SIGSEGV won't be trapped\n"
 
-#: ../src/grisbi_app.c:1003 ../src/menu.c:629
+#: ../src/grisbi_app.c:1006 ../src/menu.c:629
 #, fuzzy
 msgid "Start an action!"
 msgstr "מיון העיסקאות על פי"
+
+#: ../src/grisbi_app.c:1199
+#, fuzzy
+msgid "<b>Actions in transaction list :</b>"
+msgstr "מחיקת עיסקה"
+
+#: ../src/grisbi_app.c:1201
+#, fuzzy
+msgid "(Un)Pointing a transaction\t\t-> <Primary>p, <Primary>F12\n"
+msgstr "עיסקאות מתואמות"
+
+#: ../src/grisbi_app.c:1202
+#, fuzzy
+msgid "(Un)Reconcile a transaction\t\t-> <Primary>r\n"
+msgstr "עיסקאות מתואמות"
 
 #: ../src/grisbi_prefs.c:405
 #, fuzzy
@@ -4376,7 +4474,7 @@ msgid "Payees, categories and budgetaries"
 msgstr "נא להזין קו תקציב!"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:506 ../src/prefs/prefs_page_display_gui.c:233
+#: ../src/grisbi_prefs.c:506 ../src/prefs/prefs_page_display_gui.c:198
 msgid "Elements of interface"
 msgstr ""
 
@@ -4495,12 +4593,6 @@ msgstr ""
 #, fuzzy
 msgid "Create a new account file"
 msgstr "יצירת חשבון חדש"
-
-#: ../src/grisbi_win.c:585 ../src/grisbi_win.c:1519
-#: ../src/ui/grisbi_menu.ui.h:7
-#, fuzzy
-msgid "Open"
-msgstr "_פתיחה"
 
 #: ../src/grisbi_win.c:587
 #, fuzzy
@@ -8990,13 +9082,6 @@ msgstr "עריכת עיסקה"
 msgid "Clone transaction"
 msgstr "שכפול עיסקה"
 
-#. New transaction
-#. new transaction button
-#: ../src/gsb_scheduler_list.c:2426 ../src/gsb_transactions_list.c:258
-#: ../src/gsb_transactions_list.c:2559 ../src/ui/grisbi_menu.ui.h:22
-msgid "New transaction"
-msgstr "עיסקה חדשה"
-
 #. Delete transaction
 #: ../src/gsb_scheduler_list.c:2434 ../src/gsb_transactions_list.c:2564
 msgid "Delete transaction"
@@ -9175,11 +9260,6 @@ msgstr "מצב של 3 שורות"
 #, fuzzy
 msgid "Show reconciled transactions"
 msgstr "עיסקאות מתואמות"
-
-#: ../src/gsb_transactions_list.c:651 ../src/ui/grisbi_menu.ui.h:32
-#, fuzzy
-msgid "Show lines archives"
-msgstr "מטבעות ידועים"
 
 #: ../src/gsb_transactions_list.c:1143
 msgid "P"
@@ -10346,11 +10426,6 @@ msgstr "הצהרה אחרונה: אין"
 msgid "closed"
 msgstr "סגירת חלון החשבונות"
 
-#: ../src/navigation.c:2181 ../src/ui/grisbi_menu.ui.h:27
-#, fuzzy
-msgid "New account"
-msgstr "חשבון חדש"
-
 #: ../src/navigation.c:2193
 #, fuzzy
 msgid "Remove this account"
@@ -11410,20 +11485,6 @@ msgstr "בחירת לוגו חדש"
 #: ../src/prefs/prefs_page_display_fonts.c:509
 msgid "Fonts & logo"
 msgstr "גופנים ולוגו"
-
-#: ../src/prefs/prefs_page_display_gui.c:107
-#, fuzzy
-msgid "<b>Actions in transaction list :</b>"
-msgstr "מחיקת עיסקה"
-
-#: ../src/prefs/prefs_page_display_gui.c:109
-msgid "(Un)Pointing a transaction\t-> <Primary>p, <Primary>F12\n"
-msgstr ""
-
-#: ../src/prefs/prefs_page_display_gui.c:110
-#, fuzzy
-msgid "(Un)Reconcile a transaction\t-> <Primary>r\n"
-msgstr "עיסקאות מתואמות"
 
 #: ../src/prefs/prefs_page_divers.c:188
 msgid "You will have to restart Grisbi for the new language to take effect."
@@ -12673,20 +12734,10 @@ msgstr ""
 msgid "_File"
 msgstr "קובץ"
 
-#: ../src/ui/grisbi_menu.ui.h:6
-#, fuzzy
-msgid "New account file"
-msgstr "קובץ חשבונות חדש"
-
 #: ../src/ui/grisbi_menu.ui.h:8
 #, fuzzy
 msgid "Recently opened files"
 msgstr "קבצים שנפתחו לאחרונה"
-
-#: ../src/ui/grisbi_menu.ui.h:9
-#, fuzzy
-msgid "Save"
-msgstr "שמירה"
 
 #: ../src/ui/grisbi_menu.ui.h:10
 #, fuzzy
@@ -12697,11 +12748,6 @@ msgstr "שמירה בשם"
 #, fuzzy
 msgid "_Import file"
 msgstr "ייצוא קבצים"
-
-#: ../src/ui/grisbi_menu.ui.h:12
-#, fuzzy
-msgid "Export as QIF/CSV file"
-msgstr "ייצוא קבצי QIF"
 
 #: ../src/ui/grisbi_menu.ui.h:14
 #, fuzzy
@@ -12728,11 +12774,6 @@ msgstr "קובץ חשבונות חדש"
 msgid "Debug mode"
 msgstr "Debug file"
 
-#: ../src/ui/grisbi_menu.ui.h:19
-#, fuzzy
-msgid "Close"
-msgstr "סגירת חלון החשבונות"
-
 #: ../src/ui/grisbi_menu.ui.h:20
 msgid "E_dit"
 msgstr ""
@@ -12756,11 +12797,6 @@ msgstr "הסרת חשבון"
 #, fuzzy
 msgid "Show transaction form"
 msgstr "טופס העברה"
-
-#: ../src/ui/grisbi_menu.ui.h:31
-#, fuzzy
-msgid "Show reconciled"
-msgstr "התאמה"
 
 #: ../src/ui/grisbi_menu.ui.h:34
 #, fuzzy
@@ -12792,11 +12828,6 @@ msgstr "בחירת החשבון"
 msgid "_Help"
 msgstr "עזרה"
 
-#: ../src/ui/grisbi_menu.ui.h:40
-#, fuzzy
-msgid "User's Manual"
-msgstr "מדריך גריסבי"
-
 #: ../src/ui/grisbi_menu.ui.h:41
 #, fuzzy
 msgid "Quick start"
@@ -12811,11 +12842,6 @@ msgstr "האתר של גריסבי"
 #, fuzzy
 msgid "Report a bug"
 msgstr "דיווח באגים"
-
-#: ../src/ui/grisbi_menu.ui.h:45
-#, fuzzy
-msgid "Import file"
-msgstr "ייצוא קבצים"
 
 #: ../src/ui/grisbi_menu.ui.h:46
 #, fuzzy

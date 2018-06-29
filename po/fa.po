@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: girisbi VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-29 06:24+0200\n"
+"POT-Creation-Date: 2018-06-29 21:19+0200\n"
 "PO-Revision-Date: 2008-10-02 10:07+0330\n"
 "Last-Translator: hadi <hadi60@gmail.com>\n"
 "Language-Team: farsi <en@li.org>\n"
@@ -3830,44 +3830,139 @@ msgstr "دستی"
 msgid "The menu of options"
 msgstr ""
 
-#: ../src/grisbi_app.c:640
+#: ../src/grisbi_app.c:98 ../src/grisbi_app.c:115
+msgid "New_window"
+msgstr ""
+
+#: ../src/grisbi_app.c:99 ../src/grisbi_app.c:116
+msgid "Preferences"
+msgstr ""
+
+#: ../src/grisbi_app.c:100 ../src/grisbi_app.c:117
+#, fuzzy
+msgid "Quit"
+msgstr "خروج"
+
+#: ../src/grisbi_app.c:101 ../src/grisbi_app.c:118 ../src/ui/grisbi_menu.ui.h:6
+#, fuzzy
+msgid "New account file"
+msgstr "حساب بسته شده"
+
+#: ../src/grisbi_app.c:102 ../src/grisbi_app.c:119 ../src/grisbi_win.c:585
+#: ../src/grisbi_win.c:1519 ../src/ui/grisbi_menu.ui.h:7
+msgid "Open"
+msgstr ""
+
+#: ../src/grisbi_app.c:103 ../src/grisbi_app.c:120 ../src/ui/grisbi_menu.ui.h:9
+#, fuzzy
+msgid "Save"
+msgstr "ذخیره"
+
+#: ../src/grisbi_app.c:104 ../src/grisbi_app.c:121
+#: ../src/ui/grisbi_menu.ui.h:45
+msgid "Import file"
+msgstr ""
+
+#: ../src/grisbi_app.c:105 ../src/grisbi_app.c:122
+#: ../src/ui/grisbi_menu.ui.h:12
+msgid "Export as QIF/CSV file"
+msgstr ""
+
+#: ../src/grisbi_app.c:106 ../src/grisbi_app.c:123
+#: ../src/ui/grisbi_menu.ui.h:19
+#, fuzzy
+msgid "Close"
+msgstr "بستن"
+
+#. New transaction
+#. new transaction button
+#: ../src/grisbi_app.c:107 ../src/grisbi_app.c:124
+#: ../src/gsb_scheduler_list.c:2426 ../src/gsb_transactions_list.c:258
+#: ../src/gsb_transactions_list.c:2559 ../src/ui/grisbi_menu.ui.h:22
+msgid "New transaction"
+msgstr ""
+
+#: ../src/grisbi_app.c:108 ../src/grisbi_app.c:125 ../src/navigation.c:2181
+#: ../src/ui/grisbi_menu.ui.h:27
+#, fuzzy
+msgid "New account"
+msgstr "حساب بسته شده"
+
+#: ../src/grisbi_app.c:109 ../src/grisbi_app.c:126
+#: ../src/ui/grisbi_menu.ui.h:31
+#, fuzzy
+msgid "Show reconciled"
+msgstr "جستجوی تراکنش"
+
+#: ../src/grisbi_app.c:110 ../src/grisbi_app.c:127
+#: ../src/gsb_transactions_list.c:651 ../src/ui/grisbi_menu.ui.h:32
+#, fuzzy
+msgid "Show lines archives"
+msgstr "نمایش نام حساب"
+
+#: ../src/grisbi_app.c:111 ../src/grisbi_app.c:128
+#: ../src/ui/grisbi_menu.ui.h:40
+#, fuzzy
+msgid "User's Manual"
+msgstr "دستی"
+
+#: ../src/grisbi_app.c:112 ../src/grisbi_app.c:129
+msgid "Full screen"
+msgstr ""
+
+#: ../src/grisbi_app.c:643
 msgid "Show the application's version"
 msgstr ""
 
-#: ../src/grisbi_app.c:646
+#: ../src/grisbi_app.c:649
 msgid "Create a new top-level window in an existing instance of grisbi"
 msgstr ""
 
-#: ../src/grisbi_app.c:653
+#: ../src/grisbi_app.c:656
 msgid "Debug mode: level 0-5"
 msgstr ""
 
-#: ../src/grisbi_app.c:654
+#: ../src/grisbi_app.c:657
 msgid "DEBUG"
 msgstr ""
 
-#: ../src/grisbi_app.c:667
+#: ../src/grisbi_app.c:670
 msgid "[FILE...]"
-msgstr ""
-
-#: ../src/grisbi_app.c:823
-#, c-format
-msgid "Error on sigaction: SIGINT won't be trapped\n"
 msgstr ""
 
 #: ../src/grisbi_app.c:826
 #, c-format
-msgid "Error on sigaction: SIGTERM won't be trapped\n"
+msgid "Error on sigaction: SIGINT won't be trapped\n"
 msgstr ""
 
 #: ../src/grisbi_app.c:829
 #, c-format
+msgid "Error on sigaction: SIGTERM won't be trapped\n"
+msgstr ""
+
+#: ../src/grisbi_app.c:832
+#, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr ""
 
-#: ../src/grisbi_app.c:1003 ../src/menu.c:629
+#: ../src/grisbi_app.c:1006 ../src/menu.c:629
 #, fuzzy
 msgid "Start an action!"
+msgstr "جستجوی تراکنش"
+
+#: ../src/grisbi_app.c:1199
+#, fuzzy
+msgid "<b>Actions in transaction list :</b>"
+msgstr "جستجوی تراکنش"
+
+#: ../src/grisbi_app.c:1201
+#, fuzzy
+msgid "(Un)Pointing a transaction\t\t-> <Primary>p, <Primary>F12\n"
+msgstr "جستجوی تراکنش"
+
+#: ../src/grisbi_app.c:1202
+#, fuzzy
+msgid "(Un)Reconcile a transaction\t\t-> <Primary>r\n"
 msgstr "جستجوی تراکنش"
 
 #: ../src/grisbi_prefs.c:405
@@ -3924,7 +4019,7 @@ msgid "Payees, categories and budgetaries"
 msgstr "بخش های درآمد"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:506 ../src/prefs/prefs_page_display_gui.c:233
+#: ../src/grisbi_prefs.c:506 ../src/prefs/prefs_page_display_gui.c:198
 msgid "Elements of interface"
 msgstr ""
 
@@ -4038,11 +4133,6 @@ msgstr ""
 #, fuzzy
 msgid "Create a new account file"
 msgstr "حساب بسته شده"
-
-#: ../src/grisbi_win.c:585 ../src/grisbi_win.c:1519
-#: ../src/ui/grisbi_menu.ui.h:7
-msgid "Open"
-msgstr ""
 
 #: ../src/grisbi_win.c:587
 #, fuzzy
@@ -8383,13 +8473,6 @@ msgstr ""
 msgid "Clone transaction"
 msgstr ""
 
-#. New transaction
-#. new transaction button
-#: ../src/gsb_scheduler_list.c:2426 ../src/gsb_transactions_list.c:258
-#: ../src/gsb_transactions_list.c:2559 ../src/ui/grisbi_menu.ui.h:22
-msgid "New transaction"
-msgstr ""
-
 #. Delete transaction
 #: ../src/gsb_scheduler_list.c:2434 ../src/gsb_transactions_list.c:2564
 msgid "Delete transaction"
@@ -8560,11 +8643,6 @@ msgstr ""
 #, fuzzy
 msgid "Show reconciled transactions"
 msgstr "جستجوی تراکنش"
-
-#: ../src/gsb_transactions_list.c:651 ../src/ui/grisbi_menu.ui.h:32
-#, fuzzy
-msgid "Show lines archives"
-msgstr "نمایش نام حساب"
 
 #: ../src/gsb_transactions_list.c:1143
 msgid "P"
@@ -9668,11 +9746,6 @@ msgstr ""
 msgid "closed"
 msgstr "بسته شده"
 
-#: ../src/navigation.c:2181 ../src/ui/grisbi_menu.ui.h:27
-#, fuzzy
-msgid "New account"
-msgstr "حساب بسته شده"
-
 #: ../src/navigation.c:2193
 #, fuzzy
 msgid "Remove this account"
@@ -10680,20 +10753,6 @@ msgstr ""
 #: ../src/prefs/prefs_page_display_fonts.c:509
 msgid "Fonts & logo"
 msgstr ""
-
-#: ../src/prefs/prefs_page_display_gui.c:107
-#, fuzzy
-msgid "<b>Actions in transaction list :</b>"
-msgstr "جستجوی تراکنش"
-
-#: ../src/prefs/prefs_page_display_gui.c:109
-msgid "(Un)Pointing a transaction\t-> <Primary>p, <Primary>F12\n"
-msgstr ""
-
-#: ../src/prefs/prefs_page_display_gui.c:110
-#, fuzzy
-msgid "(Un)Reconcile a transaction\t-> <Primary>r\n"
-msgstr "جستجوی تراکنش"
 
 #: ../src/prefs/prefs_page_divers.c:188
 msgid "You will have to restart Grisbi for the new language to take effect."
@@ -11907,19 +11966,9 @@ msgstr "خروج"
 msgid "_File"
 msgstr "فایل"
 
-#: ../src/ui/grisbi_menu.ui.h:6
-#, fuzzy
-msgid "New account file"
-msgstr "حساب بسته شده"
-
 #: ../src/ui/grisbi_menu.ui.h:8
 msgid "Recently opened files"
 msgstr ""
-
-#: ../src/ui/grisbi_menu.ui.h:9
-#, fuzzy
-msgid "Save"
-msgstr "ذخیره"
 
 #: ../src/ui/grisbi_menu.ui.h:10
 #, fuzzy
@@ -11928,10 +11977,6 @@ msgstr "ذخیره"
 
 #: ../src/ui/grisbi_menu.ui.h:11
 msgid "_Import file"
-msgstr ""
-
-#: ../src/ui/grisbi_menu.ui.h:12
-msgid "Export as QIF/CSV file"
 msgstr ""
 
 #: ../src/ui/grisbi_menu.ui.h:14
@@ -11954,11 +11999,6 @@ msgstr ""
 #: ../src/ui/grisbi_menu.ui.h:18
 msgid "Debug mode"
 msgstr ""
-
-#: ../src/ui/grisbi_menu.ui.h:19
-#, fuzzy
-msgid "Close"
-msgstr "بستن"
 
 #: ../src/ui/grisbi_menu.ui.h:20
 msgid "E_dit"
@@ -11983,11 +12023,6 @@ msgstr "حذف حساب جاری"
 #, fuzzy
 msgid "Show transaction form"
 msgstr "تراکنش:"
-
-#: ../src/ui/grisbi_menu.ui.h:31
-#, fuzzy
-msgid "Show reconciled"
-msgstr "جستجوی تراکنش"
 
 #: ../src/ui/grisbi_menu.ui.h:34
 #, fuzzy
@@ -12017,11 +12052,6 @@ msgstr ""
 msgid "_Help"
 msgstr ""
 
-#: ../src/ui/grisbi_menu.ui.h:40
-#, fuzzy
-msgid "User's Manual"
-msgstr "دستی"
-
 #: ../src/ui/grisbi_menu.ui.h:41
 msgid "Quick start"
 msgstr ""
@@ -12034,10 +12064,6 @@ msgstr ""
 #, fuzzy
 msgid "Report a bug"
 msgstr "گزارش"
-
-#: ../src/ui/grisbi_menu.ui.h:45
-msgid "Import file"
-msgstr ""
 
 #: ../src/ui/grisbi_menu.ui.h:46
 msgid "Export accounts as QIF/CSV file"

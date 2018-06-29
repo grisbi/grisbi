@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-29 06:24+0200\n"
+"POT-Creation-Date: 2018-06-29 21:19+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3690,43 +3690,127 @@ msgstr ""
 msgid "The menu of options"
 msgstr ""
 
-#: ../src/grisbi_app.c:640
+#: ../src/grisbi_app.c:98 ../src/grisbi_app.c:115
+msgid "New_window"
+msgstr ""
+
+#: ../src/grisbi_app.c:99 ../src/grisbi_app.c:116
+msgid "Preferences"
+msgstr ""
+
+#: ../src/grisbi_app.c:100 ../src/grisbi_app.c:117
+msgid "Quit"
+msgstr ""
+
+#: ../src/grisbi_app.c:101 ../src/grisbi_app.c:118 ../src/ui/grisbi_menu.ui.h:6
+msgid "New account file"
+msgstr ""
+
+#: ../src/grisbi_app.c:102 ../src/grisbi_app.c:119 ../src/grisbi_win.c:585
+#: ../src/grisbi_win.c:1519 ../src/ui/grisbi_menu.ui.h:7
+msgid "Open"
+msgstr ""
+
+#: ../src/grisbi_app.c:103 ../src/grisbi_app.c:120 ../src/ui/grisbi_menu.ui.h:9
+msgid "Save"
+msgstr ""
+
+#: ../src/grisbi_app.c:104 ../src/grisbi_app.c:121
+#: ../src/ui/grisbi_menu.ui.h:45
+msgid "Import file"
+msgstr ""
+
+#: ../src/grisbi_app.c:105 ../src/grisbi_app.c:122
+#: ../src/ui/grisbi_menu.ui.h:12
+msgid "Export as QIF/CSV file"
+msgstr ""
+
+#: ../src/grisbi_app.c:106 ../src/grisbi_app.c:123
+#: ../src/ui/grisbi_menu.ui.h:19
+msgid "Close"
+msgstr ""
+
+#. New transaction
+#. new transaction button
+#: ../src/grisbi_app.c:107 ../src/grisbi_app.c:124
+#: ../src/gsb_scheduler_list.c:2426 ../src/gsb_transactions_list.c:258
+#: ../src/gsb_transactions_list.c:2559 ../src/ui/grisbi_menu.ui.h:22
+msgid "New transaction"
+msgstr ""
+
+#: ../src/grisbi_app.c:108 ../src/grisbi_app.c:125 ../src/navigation.c:2181
+#: ../src/ui/grisbi_menu.ui.h:27
+msgid "New account"
+msgstr ""
+
+#: ../src/grisbi_app.c:109 ../src/grisbi_app.c:126
+#: ../src/ui/grisbi_menu.ui.h:31
+msgid "Show reconciled"
+msgstr ""
+
+#: ../src/grisbi_app.c:110 ../src/grisbi_app.c:127
+#: ../src/gsb_transactions_list.c:651 ../src/ui/grisbi_menu.ui.h:32
+msgid "Show lines archives"
+msgstr ""
+
+#: ../src/grisbi_app.c:111 ../src/grisbi_app.c:128
+#: ../src/ui/grisbi_menu.ui.h:40
+msgid "User's Manual"
+msgstr ""
+
+#: ../src/grisbi_app.c:112 ../src/grisbi_app.c:129
+msgid "Full screen"
+msgstr ""
+
+#: ../src/grisbi_app.c:643
 msgid "Show the application's version"
 msgstr ""
 
-#: ../src/grisbi_app.c:646
+#: ../src/grisbi_app.c:649
 msgid "Create a new top-level window in an existing instance of grisbi"
 msgstr ""
 
-#: ../src/grisbi_app.c:653
+#: ../src/grisbi_app.c:656
 msgid "Debug mode: level 0-5"
 msgstr ""
 
-#: ../src/grisbi_app.c:654
+#: ../src/grisbi_app.c:657
 msgid "DEBUG"
 msgstr ""
 
-#: ../src/grisbi_app.c:667
+#: ../src/grisbi_app.c:670
 msgid "[FILE...]"
-msgstr ""
-
-#: ../src/grisbi_app.c:823
-#, c-format
-msgid "Error on sigaction: SIGINT won't be trapped\n"
 msgstr ""
 
 #: ../src/grisbi_app.c:826
 #, c-format
-msgid "Error on sigaction: SIGTERM won't be trapped\n"
+msgid "Error on sigaction: SIGINT won't be trapped\n"
 msgstr ""
 
 #: ../src/grisbi_app.c:829
 #, c-format
+msgid "Error on sigaction: SIGTERM won't be trapped\n"
+msgstr ""
+
+#: ../src/grisbi_app.c:832
+#, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr ""
 
-#: ../src/grisbi_app.c:1003 ../src/menu.c:629
+#: ../src/grisbi_app.c:1006 ../src/menu.c:629
 msgid "Start an action!"
+msgstr ""
+
+#: ../src/grisbi_app.c:1199
+msgid "<b>Actions in transaction list :</b>"
+msgstr ""
+
+#: ../src/grisbi_app.c:1201
+msgid "(Un)Pointing a transaction\t\t-> <Primary>p, <Primary>F12\n"
+msgstr ""
+
+#: ../src/grisbi_app.c:1202
+msgid "(Un)Reconcile a transaction\t\t-> <Primary>r\n"
 msgstr ""
 
 #: ../src/grisbi_prefs.c:405
@@ -3778,7 +3862,7 @@ msgid "Payees, categories and budgetaries"
 msgstr ""
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:506 ../src/prefs/prefs_page_display_gui.c:233
+#: ../src/grisbi_prefs.c:506 ../src/prefs/prefs_page_display_gui.c:198
 msgid "Elements of interface"
 msgstr ""
 
@@ -3886,11 +3970,6 @@ msgstr ""
 
 #: ../src/grisbi_win.c:575
 msgid "Create a new account file"
-msgstr ""
-
-#: ../src/grisbi_win.c:585 ../src/grisbi_win.c:1519
-#: ../src/ui/grisbi_menu.ui.h:7
-msgid "Open"
 msgstr ""
 
 #: ../src/grisbi_win.c:587
@@ -8078,13 +8157,6 @@ msgstr ""
 msgid "Clone transaction"
 msgstr ""
 
-#. New transaction
-#. new transaction button
-#: ../src/gsb_scheduler_list.c:2426 ../src/gsb_transactions_list.c:258
-#: ../src/gsb_transactions_list.c:2559 ../src/ui/grisbi_menu.ui.h:22
-msgid "New transaction"
-msgstr ""
-
 #. Delete transaction
 #: ../src/gsb_scheduler_list.c:2434 ../src/gsb_transactions_list.c:2564
 msgid "Delete transaction"
@@ -8236,10 +8308,6 @@ msgstr ""
 
 #: ../src/gsb_transactions_list.c:637
 msgid "Show reconciled transactions"
-msgstr ""
-
-#: ../src/gsb_transactions_list.c:651 ../src/ui/grisbi_menu.ui.h:32
-msgid "Show lines archives"
 msgstr ""
 
 #: ../src/gsb_transactions_list.c:1143
@@ -9313,10 +9381,6 @@ msgstr ""
 msgid "closed"
 msgstr ""
 
-#: ../src/navigation.c:2181 ../src/ui/grisbi_menu.ui.h:27
-msgid "New account"
-msgstr ""
-
 #: ../src/navigation.c:2193
 msgid "Remove this account"
 msgstr ""
@@ -10278,18 +10342,6 @@ msgstr ""
 #. On récupère le nom de la page
 #: ../src/prefs/prefs_page_display_fonts.c:509
 msgid "Fonts & logo"
-msgstr ""
-
-#: ../src/prefs/prefs_page_display_gui.c:107
-msgid "<b>Actions in transaction list :</b>"
-msgstr ""
-
-#: ../src/prefs/prefs_page_display_gui.c:109
-msgid "(Un)Pointing a transaction\t-> <Primary>p, <Primary>F12\n"
-msgstr ""
-
-#: ../src/prefs/prefs_page_display_gui.c:110
-msgid "(Un)Reconcile a transaction\t-> <Primary>r\n"
 msgstr ""
 
 #: ../src/prefs/prefs_page_divers.c:188
@@ -11437,16 +11489,8 @@ msgstr ""
 msgid "_File"
 msgstr ""
 
-#: ../src/ui/grisbi_menu.ui.h:6
-msgid "New account file"
-msgstr ""
-
 #: ../src/ui/grisbi_menu.ui.h:8
 msgid "Recently opened files"
-msgstr ""
-
-#: ../src/ui/grisbi_menu.ui.h:9
-msgid "Save"
 msgstr ""
 
 #: ../src/ui/grisbi_menu.ui.h:10
@@ -11455,10 +11499,6 @@ msgstr ""
 
 #: ../src/ui/grisbi_menu.ui.h:11
 msgid "_Import file"
-msgstr ""
-
-#: ../src/ui/grisbi_menu.ui.h:12
-msgid "Export as QIF/CSV file"
 msgstr ""
 
 #: ../src/ui/grisbi_menu.ui.h:14
@@ -11481,10 +11521,6 @@ msgstr ""
 msgid "Debug mode"
 msgstr ""
 
-#: ../src/ui/grisbi_menu.ui.h:19
-msgid "Close"
-msgstr ""
-
 #: ../src/ui/grisbi_menu.ui.h:20
 msgid "E_dit"
 msgstr ""
@@ -11503,10 +11539,6 @@ msgstr ""
 
 #: ../src/ui/grisbi_menu.ui.h:30
 msgid "Show transaction form"
-msgstr ""
-
-#: ../src/ui/grisbi_menu.ui.h:31
-msgid "Show reconciled"
 msgstr ""
 
 #: ../src/ui/grisbi_menu.ui.h:34
@@ -11533,10 +11565,6 @@ msgstr ""
 msgid "_Help"
 msgstr ""
 
-#: ../src/ui/grisbi_menu.ui.h:40
-msgid "User's Manual"
-msgstr ""
-
 #: ../src/ui/grisbi_menu.ui.h:41
 msgid "Quick start"
 msgstr ""
@@ -11547,10 +11575,6 @@ msgstr ""
 
 #: ../src/ui/grisbi_menu.ui.h:43
 msgid "Report a bug"
-msgstr ""
-
-#: ../src/ui/grisbi_menu.ui.h:45
-msgid "Import file"
 msgstr ""
 
 #: ../src/ui/grisbi_menu.ui.h:46
