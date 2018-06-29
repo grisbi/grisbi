@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eo\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-15 19:15+0200\n"
+"POT-Creation-Date: 2018-06-29 06:24+0200\n"
 "PO-Revision-Date: 2009-06-28 20:04+0200\n"
 "Last-Translator: Cyril Castelbou <cyril.castelbou@free.fr>\n"
 "Language-Team: esperanto <eo@li.org>\n"
@@ -1619,6 +1619,23 @@ msgstr ""
 msgid "Transfer all transactions in another sub-category"
 msgstr ""
 
+#. set the tab_label
+#: ../src/csv_template_rule.c:155 ../src/csv_template_rule.c:658
+#: ../src/csv_template_rule.c:870 ../src/csv_template_rule.c:1030
+#: ../src/csv_template_rule.c:1078
+#, c-format
+msgid "Condition %d"
+msgstr ""
+
+#: ../src/csv_template_rule.c:326
+msgid "Skip lines"
+msgstr ""
+
+#: ../src/csv_template_rule.c:327
+#, fuzzy
+msgid "Invert the amount"
+msgstr "Clôture des comptes de passifs"
+
 #: ../src/csv_template_rule.c:512
 msgid "Data to be used"
 msgstr ""
@@ -1639,13 +1656,6 @@ msgstr "Clôture des comptes de passifs"
 #. window title
 #: ../src/csv_template_rule.c:835
 msgid "Create an import rule for CSV file"
-msgstr ""
-
-#. set the tab_label
-#: ../src/csv_template_rule.c:870 ../src/csv_template_rule.c:1030
-#: ../src/csv_template_rule.c:1078
-#, c-format
-msgid "Condition %d"
 msgstr ""
 
 #. window title

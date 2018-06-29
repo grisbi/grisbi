@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: girisbi VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-15 19:15+0200\n"
+"POT-Creation-Date: 2018-06-29 06:24+0200\n"
 "PO-Revision-Date: 2008-10-02 10:07+0330\n"
 "Last-Translator: hadi <hadi60@gmail.com>\n"
 "Language-Team: farsi <en@li.org>\n"
@@ -1710,6 +1710,24 @@ msgstr "بخش های درآمد"
 msgid "Transfer all transactions in another sub-category"
 msgstr "جستجوی تراکنش"
 
+#. set the tab_label
+#: ../src/csv_template_rule.c:155 ../src/csv_template_rule.c:658
+#: ../src/csv_template_rule.c:870 ../src/csv_template_rule.c:1030
+#: ../src/csv_template_rule.c:1078
+#, c-format
+msgid "Condition %d"
+msgstr ""
+
+#: ../src/csv_template_rule.c:326
+#, fuzzy
+msgid "Skip lines"
+msgstr "خط سوم"
+
+#: ../src/csv_template_rule.c:327
+#, fuzzy
+msgid "Invert the amount"
+msgstr "حساب بانک:"
+
 #: ../src/csv_template_rule.c:512
 msgid "Data to be used"
 msgstr ""
@@ -1730,13 +1748,6 @@ msgstr "جستجوی تراکنش"
 #. window title
 #: ../src/csv_template_rule.c:835
 msgid "Create an import rule for CSV file"
-msgstr ""
-
-#. set the tab_label
-#: ../src/csv_template_rule.c:870 ../src/csv_template_rule.c:1030
-#: ../src/csv_template_rule.c:1078
-#, c-format
-msgid "Condition %d"
 msgstr ""
 
 #. window title
@@ -12664,9 +12675,6 @@ msgstr "انصراف"
 
 #~ msgid "second line"
 #~ msgstr "خط دوم"
-
-#~ msgid "third line"
-#~ msgstr "خط سوم"
 
 #~ msgid ""
 #~ "Assets account\n"

@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-15 19:15+0200\n"
+"POT-Creation-Date: 2018-06-29 06:24+0200\n"
 "PO-Revision-Date: 2018-06-09 20:28+0200\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: français <>\n"
@@ -1686,6 +1686,22 @@ msgstr "Gérer les sous-catégories"
 msgid "Transfer all transactions in another sub-category"
 msgstr "Transférer les opérations dans une autre sous-catégorie"
 
+#. set the tab_label
+#: ../src/csv_template_rule.c:155 ../src/csv_template_rule.c:658
+#: ../src/csv_template_rule.c:870 ../src/csv_template_rule.c:1030
+#: ../src/csv_template_rule.c:1078
+#, c-format
+msgid "Condition %d"
+msgstr "Condition %d"
+
+#: ../src/csv_template_rule.c:326
+msgid "Skip lines"
+msgstr "Ignorer les lignes"
+
+#: ../src/csv_template_rule.c:327
+msgid "Invert the amount"
+msgstr "Inverser le montant"
+
 #: ../src/csv_template_rule.c:512
 msgid "Data to be used"
 msgstr "Données à utiliser"
@@ -1706,13 +1722,6 @@ msgstr "Données de l'action"
 #: ../src/csv_template_rule.c:835
 msgid "Create an import rule for CSV file"
 msgstr "Créer une règle pour fichier CSV."
-
-#. set the tab_label
-#: ../src/csv_template_rule.c:870 ../src/csv_template_rule.c:1030
-#: ../src/csv_template_rule.c:1078
-#, c-format
-msgid "Condition %d"
-msgstr "Condition %d"
 
 #. window title
 #: ../src/csv_template_rule.c:940

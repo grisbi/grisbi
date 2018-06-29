@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-15 19:15+0200\n"
+"POT-Creation-Date: 2018-06-29 06:24+0200\n"
 "PO-Revision-Date: 2006-05-15 12:44+0200\n"
 "Last-Translator: Ryszard Jeziorski <r.jeziorski@dart.kielce.pl>\n"
 "Language-Team: Polish\n"
@@ -1777,6 +1777,24 @@ msgstr "Pokaż podkategorie"
 msgid "Transfer all transactions in another sub-category"
 msgstr "Przenieś transakcje do"
 
+#. set the tab_label
+#: ../src/csv_template_rule.c:155 ../src/csv_template_rule.c:658
+#: ../src/csv_template_rule.c:870 ../src/csv_template_rule.c:1030
+#: ../src/csv_template_rule.c:1078
+#, c-format
+msgid "Condition %d"
+msgstr ""
+
+#: ../src/csv_template_rule.c:326
+#, fuzzy
+msgid "Skip lines"
+msgstr "trzeci wiersz"
+
+#: ../src/csv_template_rule.c:327
+#, fuzzy
+msgid "Invert the amount"
+msgstr "Wybierz konto"
+
 #: ../src/csv_template_rule.c:512
 msgid "Data to be used"
 msgstr ""
@@ -1800,13 +1818,6 @@ msgstr "Wybór danych"
 #, fuzzy
 msgid "Create an import rule for CSV file"
 msgstr "Usuń raport"
-
-#. set the tab_label
-#: ../src/csv_template_rule.c:870 ../src/csv_template_rule.c:1030
-#: ../src/csv_template_rule.c:1078
-#, c-format
-msgid "Condition %d"
-msgstr ""
 
 #. window title
 #: ../src/csv_template_rule.c:940
@@ -13574,9 +13585,6 @@ msgstr "rok finansowy"
 
 #~ msgid "second line"
 #~ msgstr "drugi wiersz"
-
-#~ msgid "third line"
-#~ msgstr "trzeci wiersz"
 
 #~ msgid "fourth line"
 #~ msgstr "czwarty wiersz"

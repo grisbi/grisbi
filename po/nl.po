@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-15 19:15+0200\n"
+"POT-Creation-Date: 2018-06-29 06:24+0200\n"
 "PO-Revision-Date: 2007-02-11 22:04+0100\n"
 "Last-Translator: E.Huijsing <lighthous@users.sourceforge.net>\n"
 "Language-Team: Dutch <en@li.org>\n"
@@ -1794,6 +1794,24 @@ msgstr "Toon sub-categorieën"
 msgid "Transfer all transactions in another sub-category"
 msgstr "Transacties overschrijven naar "
 
+#. set the tab_label
+#: ../src/csv_template_rule.c:155 ../src/csv_template_rule.c:658
+#: ../src/csv_template_rule.c:870 ../src/csv_template_rule.c:1030
+#: ../src/csv_template_rule.c:1078
+#, c-format
+msgid "Condition %d"
+msgstr ""
+
+#: ../src/csv_template_rule.c:326
+#, fuzzy
+msgid "Skip lines"
+msgstr "derde regel"
+
+#: ../src/csv_template_rule.c:327
+#, fuzzy
+msgid "Invert the amount"
+msgstr "Kies een rekening"
+
 #: ../src/csv_template_rule.c:512
 msgid "Data to be used"
 msgstr ""
@@ -1818,13 +1836,6 @@ msgstr "Selecteer data"
 #, fuzzy
 msgid "Create an import rule for CSV file"
 msgstr "Verwijder rapport"
-
-#. set the tab_label
-#: ../src/csv_template_rule.c:870 ../src/csv_template_rule.c:1030
-#: ../src/csv_template_rule.c:1078
-#, c-format
-msgid "Condition %d"
-msgstr ""
 
 #. window title
 #: ../src/csv_template_rule.c:940
@@ -13720,9 +13731,6 @@ msgstr "financieel jaar"
 
 #~ msgid "second line"
 #~ msgstr "tweede regel"
-
-#~ msgid "third line"
-#~ msgstr "derde regel"
 
 #~ msgid "fourth line"
 #~ msgstr "vierde regel"

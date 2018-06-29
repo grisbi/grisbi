@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zh_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-15 19:15+0200\n"
+"POT-Creation-Date: 2018-06-29 06:24+0200\n"
 "PO-Revision-Date: 2005-12-19 11:25+0100\n"
 "Last-Translator: Jianyu Tang <jianyunet@gmail.com>\n"
 "Language-Team: zh_CN <LL@li.org>\n"
@@ -1776,6 +1776,24 @@ msgstr "显示子类别"
 msgid "Transfer all transactions in another sub-category"
 msgstr "转移这些交易到"
 
+#. set the tab_label
+#: ../src/csv_template_rule.c:155 ../src/csv_template_rule.c:658
+#: ../src/csv_template_rule.c:870 ../src/csv_template_rule.c:1030
+#: ../src/csv_template_rule.c:1078
+#, c-format
+msgid "Condition %d"
+msgstr ""
+
+#: ../src/csv_template_rule.c:326
+#, fuzzy
+msgid "Skip lines"
+msgstr "第三行"
+
+#: ../src/csv_template_rule.c:327
+#, fuzzy
+msgid "Invert the amount"
+msgstr "选择账户"
+
 #: ../src/csv_template_rule.c:512
 msgid "Data to be used"
 msgstr ""
@@ -1799,13 +1817,6 @@ msgstr "数据选择"
 #, fuzzy
 msgid "Create an import rule for CSV file"
 msgstr "删除报表"
-
-#. set the tab_label
-#: ../src/csv_template_rule.c:870 ../src/csv_template_rule.c:1030
-#: ../src/csv_template_rule.c:1078
-#, c-format
-msgid "Condition %d"
-msgstr ""
 
 #. window title
 #: ../src/csv_template_rule.c:940
@@ -13543,9 +13554,6 @@ msgstr "财年"
 
 #~ msgid "second line"
 #~ msgstr "第二行"
-
-#~ msgid "third line"
-#~ msgstr "第三行"
 
 #~ msgid "fourth line"
 #~ msgstr "第四行"
