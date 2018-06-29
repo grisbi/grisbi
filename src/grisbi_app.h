@@ -18,6 +18,8 @@ struct _GrisbiAppClass
     GtkApplicationClass parent_class;
 };
 
+void		grisbi_app_display_gui_dump_accels		(GtkApplication *application,
+													 GtkWidget *text_view);
 GrisbiWin *	grisbi_app_get_active_window        	(GrisbiApp *app);
 gboolean	grisbi_app_get_has_app_menu         	(GrisbiApp *app);
 GMenu *		grisbi_app_get_menu_edit            	(void);
