@@ -1,73 +1,213 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
+<!DOCTYPE html>
+<html lang="de">
 <head>
-<title>Grisbi - Erste Schritte</title>
-<meta content="text/html; charset=utf-8" http-equiv="content-type">
-<meta content="Martin Stromberger" name="author">
+<meta charset="UTF-8">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 1.5.6.2">
+<meta name="author" content="Martin Stromberger">
+<title>Grisbi Schnelleinstieg</title>
+<link rel="stylesheet" href="./grisbi-manuel.css">
 </head>
-<body style="background-color: rgb(255, 255, 153)">
-
-<h1 align="center">Grisbi - Erste Schritte</h1>
-<h3 align="center">Copyright © 2004 Alain <font color="navy">Portal</font></h3>
-<h3 align="center">Copyright © 2004-2007 Martin <font color="navy">Stromberger</font></h3>
-<h3 align="center">Letzte Aktualisierung: November 2007</h3><br>
-
-<h1>Kapitel&nbsp;1&nbsp;&nbsp;Konten erstellen</h1>
-<p>Für die Verwaltung von Buchungen müssen in der Grisbi-Datei Konten vorhanden sein, Konten können erstellt oder importiert werden.</p>
-
-<h2>1.1&nbsp;Konten importieren</h2>
-<p>Es besteht die Möglichkeit, Konten aus anderen Programmen zu importieren. Grisbi unterstützt derzeit den Import
-von QIF, OFX und GnuCash Dateien - der Import wird folgend ausgeführt:</p>
-<ol>
-<li>exportieren Sie die Konten aus Ihrer derzeitigen Finanzsoftware</li>
-<li>rufen Sie in Grisbi den Menüpunkt <i><font color="maroon">Datei - Datei importieren...</font></i> auf</li>
-<li>es wird ein Assistent für dein Import angezeigt, folgen Sie nun den Anweisungen des Assistenten</li>
-</ol>
-
-<h2>1.2&nbsp;Konten anlegen</h2>
-<p>Wenn Sie keine Dateien importieren oder das erste mal ein Finanzprogramm verwenden,<br>können Sie mit
-<i><font color="maroon">Datei - Neue Datei </font></i> eine Grisbi-Datei und die Konten anlegen.</p>
-
-<h1>Kapitel&nbsp;2&nbsp;&nbsp;Bereiche</h1>
-<p>Das Hauptfenster von Grisbi besteht aus zwei Teilen:<br>links werden die einzelnen Bereiche aufgelistet, rechts
-werden Details von einem selektierten Bereich angezeigt.</p>
-
-<h2>2.1&nbsp;Startseite</h2>
-<p>Die Startseite wird nach dem Programmstart oder bei der Selektion vom Bereich <em>Konten</em> angezeigt.<br>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>Grisbi Schnelleinstieg</h1>
+<div class="details">
+<span id="author" class="author">Martin Stromberger</span><br>
+<span id="revnumber">version 1.0.2,</span>
+<span id="revdate">Mai 2018</span>
+<br><span id="revremark">Deutsche Übersetzung</span>
+</div>
+<div id="toc" class="toc2">
+<div id="toctitle">Inhaltsverzeichnis</div>
+<ul class="sectlevel1">
+<li><a href="#_konten_erstellen">1. Konten erstellen</a>
+<ul class="sectlevel2">
+<li><a href="#_beispieldatei">1.1. Beispieldatei</a></li>
+<li><a href="#_konten_importieren">1.2. Konten importieren</a></li>
+<li><a href="#_konten_anlegen">1.3. Konten anlegen</a></li>
+</ul>
+</li>
+<li><a href="#_benutzeroberfläche">2. Benutzeroberfläche</a>
+<ul class="sectlevel2">
+<li><a href="#_startseite">2.1. Startseite</a></li>
+<li><a href="#_buchungsübersicht">2.2. Buchungsübersicht</a></li>
+<li><a href="#_planer">2.3. Planer</a></li>
+<li><a href="#_empfänger">2.4. Empfänger</a></li>
+<li><a href="#_kategorien">2.5. Kategorien</a></li>
+<li><a href="#_gruppen">2.6. Gruppen</a></li>
+<li><a href="#_kreditrechner">2.7. Kreditrechner</a></li>
+<li><a href="#_berichte">2.8. Berichte</a></li>
+</ul>
+</li>
+<li><a href="#_menü">3. Menü</a></li>
+<li><a href="#_weitere_informationen">4. Weitere Informationen</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_konten_erstellen"><a class="link" href="#_konten_erstellen">1. Konten erstellen</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Für die Verwaltung von Buchungen müssen in der Grisbi Datei Konten vorhanden sein, Konten können importiert oder manuell erstellt werden.</p>
+</div>
+<div class="sect2">
+<h3 id="_beispieldatei"><a class="link" href="#_beispieldatei">1.1. Beispieldatei</a></h3>
+<div class="paragraph">
+<p>Wenn Sie Grisbi ausprobieren wollen können Sie dazu eine <a href="https://github.com/grisbi/grisbi-examples"><strong>Beispieldatei</strong></a> verwenden.<br>
+Die Datei mit 'Clone or download - Download zip' herunterladen und entpacken.<br>
+In Grisbi den Menüeintrag <span class="navy"><em>Datei - Öffnen</em></span> aufrufen und die Datei Example_1.0.gsb auswählen.</p>
+</div>
+<div class="paragraph">
+<p><strong><em>Anmerkung:</em></strong> Die Beispieldatei enthält derzeit französischen Texte - eine Beispieldatei mit deutschen Texten ist geplant.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_konten_importieren"><a class="link" href="#_konten_importieren">1.2. Konten importieren</a></h3>
+<div class="paragraph">
+<p>Es besteht die Möglichkeit Konten aus anderen Programmen zu importieren, Grisbi unterstützt derzeit den Import von QIF, OFX, CSV und GnuCash Dateien.</p>
+</div>
+<div class="ulist">
+<div class="title">Import durchführen</div>
+<ul>
+<li>
+<p>exportieren Sie die Konten aus Ihrer derzeitigen Finanzsoftware</p>
+</li>
+<li>
+<p>rufen Sie in Grisbi den Menüeintrag <span class="navy"><em>Datei - Daten importieren</em></span> auf</p>
+</li>
+<li>
+<p>es wird ein Assistent für dein Import angezeigt, folgen Sie nun den Anweisungen des Assistenten</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_konten_anlegen"><a class="link" href="#_konten_anlegen">1.3. Konten anlegen</a></h3>
+<div class="paragraph">
+<p>Wenn Sie keine Konten importieren, oder das erste mal ein Finanzprogramm verwenden,
+können Sie mit dem Menüeintrag <span class="navy"><em>Datei - Neue Datei</em></span> eine Grisbi Datei und die Konten anlegen.
+Es wird ein Assistenten gestartet, folgen Sie den Anweisungen des Assistenten.</p>
+</div>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_benutzeroberfläche"><a class="link" href="#_benutzeroberfläche">2. Benutzeroberfläche</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Die Benutzeroberfläche von Grisbi besteht aus folgenden Bereichen</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Menüleiste</p>
+</li>
+<li>
+<p>Informationsleiste unter Menüleiste</p>
+</li>
+<li>
+<p>Navigationsmenü auf der linken Seite</p>
+</li>
+<li>
+<p>Detaildialoge und Übersichten auf der rechten Seite</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Mit der Funktionstaste F11 kann in die Vollbild oder normale Anzeige gewechselt werden.</p>
+</div>
+<div class="sect2">
+<h3 id="_startseite"><a class="link" href="#_startseite">2.1. Startseite</a></h3>
+<div class="paragraph">
+<p>Die Startseite wird nach dem Programmstart oder nach der Auswahl von Konten im Navigationsmenü angezeigt.
 Mit der Startseite erhalten Sie einen Gesamtüberblick über alle Konten und geplante Buchungen.</p>
-
-<h2>2.2&nbsp;Buchungsübersicht</h2>
-<p>Die Buchungsübersicht wird bei der Selektion von einem <em>Konto</em> im rechten Bereich vom Hauptfenster angezeigt,
-in dieser Übersicht können Buchungen erstellt/bearbeitet/gelöscht werden.<br>
-Wenn Sie in der Buchungsübersicht eine Leere Zeile am Listenende selektieren wird mit der Eingabetaste oder dem Doppelklick eine neue Buchung angelegt.
-Mit der Eingabetaste oder mit einem Doppelklick auf eine Buchungen können Buchungen bearbeit werden.
-Mit der Taste Entf kann eine Buchung gelöscht werden. Um ein versehentliches Löschen zu verhindern wird eine Messagebox mit einer Löschrückfrage angezeigt.<br>
-Buchungen können 1-4 zeilig dargestellt werden, desweiteren ist es konfigurierbar ob abgestimmte Buchungen angezeigt werden sollen.
-Die Datenanzeige kann in der <em>Buttonbar</em> oberhalb der Buchungsliste eingestellt werden.</p>
-
-<h2>2.3&nbsp;Planer</h2>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_buchungsübersicht"><a class="link" href="#_buchungsübersicht">2.2. Buchungsübersicht</a></h3>
+<div class="paragraph">
+<p>Die Buchungsübersicht wird nach der Auswahl von einem Konto in Navigationsmenü angezeigt, in dieser Übersicht können Buchungen
+mit dem Buchungsformular erstellt oder bearbeitet werden. Für die Erstellung von Buchungen kann das Buchungsformular
+mit einem Doppelklick auf die leere Zeile am Ende der Buchungsliste aufgerufen werden.</p>
+</div>
+<div class="paragraph">
+<p>Mit der Taste Entf können Buchungen gelöscht werden.
+Um ein versehentliches Löschen zu verhindern wird eine Meldung mit einer Löschrückfrage angezeigt.
+Buchungen können 1-4 zeilig dargestellt werden, des weiteren ist es konfigurierbar ob abgestimmte Buchungen angezeigt werden sollen.
+Die Datenanzeige kann im Menü oberhalb der Buchungsliste eingestellt werden.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_planer"><a class="link" href="#_planer">2.3. Planer</a></h3>
+<div class="paragraph">
 <p>In diesem Bereich können wiederkehrende Buchungen geplant und verwaltet werden, geplante Buchungen werden auf der Startseite aufgelistet.</p>
-
-<h2>2.4&nbsp;Empfänger</h2>
-<p>In diesem Bereich können Empfänger erfasst und bearbeitet werden. Wenn es zu einem Empfänger Buchungen gibt werden diese
-beim Empfänger angezeigt - mit einem <em>Doppelklick</em> auf eine Buchung gelangt man in die Buchungsübersicht.</p>
-
-<h2>2.5&nbsp;Kategorien</h2>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_empfänger"><a class="link" href="#_empfänger">2.4. Empfänger</a></h3>
+<div class="paragraph">
+<p>In diesem Bereich können Empfänger erstellt und bearbeitet werden. Wenn es zu einem Empfänger Buchungen gibt werden
+diese beim Empfänger angezeigt - mit einem Doppelklick auf eine Buchung gelangt man in die Buchungsübersicht.</p>
+</div>
+<div style="page-break-after: always;"></div>
+</div>
+<div class="sect2">
+<h3 id="_kategorien"><a class="link" href="#_kategorien">2.5. Kategorien</a></h3>
+<div class="paragraph">
 <p>In diesem Bereich können Kategorien verwaltet werden. Es gibt Haupt und Unterkategorien, Hauptkategorien können
-Unterkategorien zugeordnet werden - analog zu <em>Empfänger</em> werden zugeordnete Buchungen bei den Kategorien aufgelistet.</p>
-
-<h2>2.6&nbsp;Budgeteinträge</h2>
-<p>Budgeteinträge sind <em>eine zweite Ebene</em> von Kategorien. In diesem Bereich können Budgeteinträge erfasst und
-bearbeitet werden - analog zu <em>Empfänger</em> werden zugeordnete Buchungen bei den Budgeteinträgen aufgelistet.</p>
-
-<h2>2.7&nbsp;Berichte</h2>
-<p>Mit Berichten können Auswertungen von Konten und Buchungen erstellt werden. In diesem Bereich können Berichte erstellt und bearbeit werden.
-Grisbi bietet vordefinierte Bereicht an, welche als Basis für benutzerdefinierte Berichte verwendet werden können.</p>
-
-<h1>Kapitel&nbsp;3&nbsp;&nbsp;Menü</h1>
-<p>Die Menüpunkte <i><font color="maroon">Datei </font></i>und <i><font color="maroon">Bearbeiten</font></i> sind sehr intuitiv aufgebaut.
-Unter <i><font color="maroon">Bearbeiten - Einstellungen</font></i> können Sie das Grisbi nach Ihren Bedürfnissen konfigurieren.<br>
-Mit den Menüeinträgen unter <i><font color="maroon">Ansicht</font></i> können Sie die Datenanzeige in der Buchungsübersicht festlegen.</p>
-
+Unterkategorien zugeordnet werden - analog zu Empfänger werden zugeordnete Buchungen bei den Kategorien aufgelistet.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_gruppen"><a class="link" href="#_gruppen">2.6. Gruppen</a></h3>
+<div class="paragraph">
+<p>Gruppen sind eine zweite Ebene von Kategorien. In diesem Bereich können Gruppen erstellt und bearbeitet werden,
+die restliche Funktionalität von Gruppen ist gleich wie bei Kategorien.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_kreditrechner"><a class="link" href="#_kreditrechner">2.7. Kreditrechner</a></h3>
+<div class="paragraph">
+<p>Mit dem Kreditrechner können Berechnungen für Kredite ausgeführt werden.
+Der Kreditrechner erstellt einen Tilgungsplan welcher ausgedruckt oder exportiert werden kann.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_berichte"><a class="link" href="#_berichte">2.8. Berichte</a></h3>
+<div class="paragraph">
+<p>Mit Berichten können Auswertungen von Konten und Buchungen erstellt werden. In diesem Bereich können Berichte erstellt und bearbeitet werden.
+Grisbi bietet vordefinierte Berichte an, welche als Basis für benutzerdefinierte Berichte verwendet werden können.</p>
+</div>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_menü"><a class="link" href="#_menü">3. Menü</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Die Menüeinträge unter <span class="navy"><em>Datei</em></span> und <span class="navy"><em>Bearbeiten</em></span> sind intuitiv aufgebaut,
+mit <span class="navy"><em>Bearbeiten - Einstellungen</em></span> kann Grisbi konfiguriert werden. Mit den Menüeinträgen unter <span class="navy"><em>Ansicht</em></span> können Sie die Datenanzeige in
+der Buchungsübersicht festlegen. Im Menü Hilfe gibt es den Menüeintrag <span class="navy"><em>Tipp des Tages</em></span>, beim Aufruf werden verschiedene Tipps für die Verwendung von Grisbi angezeigt.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_weitere_informationen"><a class="link" href="#_weitere_informationen">4. Weitere Informationen</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Im Benutzerhandbuch finden Sie weitere Informationen über die Funktionalitäten und Verwendung von Grisbi.</p>
+</div>
+</div>
+</div>
+</div>
 </body>
 </html>
