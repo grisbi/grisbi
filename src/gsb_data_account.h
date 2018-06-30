@@ -70,6 +70,7 @@ gdouble 		gsb_data_account_get_bet_finance_taux_annuel 			(gint account_number);
 gint 			gsb_data_account_get_bet_finance_type_taux 				(gint account_number);
 gint 			gsb_data_account_get_bet_hist_data 						(gint account_number);
 gint 			gsb_data_account_get_bet_hist_fyear 					(gint account_number);
+gboolean		gsb_data_account_get_bet_init_sch_with_loan				(gint account_number);
 gint 			gsb_data_account_get_bet_maj 							(gint account_number);
 gint 			gsb_data_account_get_bet_months 						(gint account_number);
 gint 			gsb_data_account_get_bet_select_label 					(gint account_number,
@@ -153,6 +154,8 @@ gboolean 		gsb_data_account_set_bet_hist_data 						(gint account_number,
 																		 gint hist_data);
 gboolean 		gsb_data_account_set_bet_hist_fyear 					(gint account_number,
 																		 gint hist_fyear);
+gboolean		gsb_data_account_set_bet_init_sch_with_loan				(gint account_number,
+																		 gboolean init_sch_with_loan);
 gboolean 		gsb_data_account_set_bet_maj 							(gint account_number,
 																		 gint type_maj);
 gboolean 		gsb_data_account_set_bet_months 						(gint account_number,

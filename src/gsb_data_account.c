@@ -147,6 +147,7 @@ struct _AccountStruct {
     gdouble bet_taux_annuel;            /* taux d'interet annuel */
     gdouble bet_frais;                  /* frais par echeance */
     gint bet_type_taux;                 /* type de taux : actuariel ou proportionnel */
+	gboolean bet_init_sch_with_loan;	/* Initialise l'opération planifiée avec le tableau d'amortissement */
 };
 
 
@@ -3481,6 +3482,47 @@ gboolean gsb_data_account_set_bet_finance_taux_annuel ( gint account_number, gdo
         return FALSE;
 
     account -> bet_taux_annuel = taux_annuel;
+
+    return TRUE;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+gboolean gsb_data_account_get_bet_init_sch_with_loan (gint account_number)
+{
+    AccountStruct *account;
+
+    account = gsb_data_account_get_structure (account_number);
+
+    if (!account)
+        return 0;
+
+    return account->bet_init_sch_with_loan;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+gboolean gsb_data_account_set_bet_init_sch_with_loan (gint account_number,
+													  gboolean init_sch_with_loan)
+{
+    AccountStruct *account;
+
+    account = gsb_data_account_get_structure (account_number);
+
+    if (!account)
+        return FALSE;
+
+    account->bet_init_sch_with_loan = init_sch_with_loan;
 
     return TRUE;
 }

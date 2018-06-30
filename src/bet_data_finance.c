@@ -29,6 +29,7 @@
 /*START_INCLUDE*/
 #include "bet_data_finance.h"
 #include "bet_finance_ui.h"
+#include "gsb_data_account.h"
 #include "gsb_data_currency.h"
 #include "gsb_file_save.h"
 #include "structures.h"
@@ -40,6 +41,7 @@
 
 /*START_STATIC*/
 /*END_STATIC*/
+static GSList *bet_loan_list = NULL;
 
 /*START_EXTERN*/
 /*END_EXTERN*/
@@ -344,6 +346,221 @@ gdouble bet_data_finance_get_bet_taux_step (gint nbre_digits)
     const gdouble bet_taux_step[] = { 0, 0.1, 0.01, 0.001, 0.0001 };
 
     return bet_taux_step[BET_TAUX_DIGITS];
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void bet_data_loan_add_item (LoanStruct *s_loan)
+{
+	if (s_loan)
+	{
+		printf("add item numero = %d account_number = %d version = %d\n", s_loan->number, s_loan->account_number, s_loan->version_number);
+		bet_loan_list = g_slist_append (bet_loan_list,s_loan);
+		gsb_data_account_set_bet_init_sch_with_loan (s_loan->account_number, s_loan->init_sch_with_loan);
+	}
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+GSList *bet_data_loan_get_loan_list (void)
+{
+	return bet_loan_list;
+}
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+GSList *bet_data_loan_get_loan_list_by_account (gint account_number)
+{
+	GSList *tmp_list;
+	GSList *returned_list = NULL;
+
+	if (bet_loan_list == NULL)
+		return NULL;
+
+	tmp_list = bet_loan_list;
+
+	while (tmp_list)
+	{
+		LoanStruct *s_loan;
+
+		s_loan = tmp_list->data;
+		if (s_loan->account_number == account_number)
+			returned_list = g_slist_append (returned_list, s_loan);
+
+		tmp_list = tmp_list->next;
+    }
+    return returned_list;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+gboolean bet_data_loan_remove_item (LoanStruct *s_loan)
+{
+	if (s_loan)
+	{
+		bet_loan_list = g_slist_remove (bet_loan_list, (gconstpointer) s_loan);
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+LoanStruct *bet_data_loan_struct_loan_init (void)
+{
+	LoanStruct *s_loan;
+
+	s_loan = g_malloc0 (sizeof (LoanStruct));
+	s_loan->first_date = NULL;
+
+	return s_loan;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void bet_data_loan_struct_loan_free (LoanStruct *s_loan)
+{
+	if (s_loan->first_date)
+		g_date_free (s_loan->first_date);
+	g_free (s_loan);
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+LoanStruct *bet_data_loan_get_last_loan_struct_by_account (gint account_number)
+{
+	GSList *list;
+	gint index = 0;
+
+	list = bet_data_loan_get_loan_list_by_account (account_number);
+	if (list)
+	{
+		GSList *tmp_list;
+
+		tmp_list = list;
+		while (tmp_list)
+		{
+			LoanStruct *s_loan;
+
+			s_loan = list->data;
+			if (s_loan->version_number > index)
+				index = s_loan->version_number;
+
+			tmp_list = tmp_list->next;
+		}
+		return (LoanStruct *) g_slist_nth_data (list, index);
+	}
+	else
+		return NULL;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void bet_data_loan_struct_loan_free_by_account (gint account_number)
+{
+	GSList *list;
+
+	devel_debug (NULL);
+	list = bet_data_loan_get_loan_list_by_account (account_number);
+	while (list)
+	{
+		LoanStruct *s_loan;
+
+		s_loan = (LoanStruct *) list->data;
+		list = list->next;
+		bet_data_loan_remove_item (s_loan);
+		bet_data_loan_struct_loan_free (s_loan);
+	}
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void bet_data_loan_delete_all_loans (void)
+{
+    if (bet_loan_list)
+    {
+        g_slist_free_full (bet_loan_list, (GDestroyNotify) bet_data_loan_struct_loan_free);
+        bet_loan_list = NULL;
+    }
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+gboolean bet_data_loan_get_loan_first_is_different (gint account_number)
+{
+	LoanStruct *s_loan;
+
+	s_loan = bet_data_loan_get_last_loan_struct_by_account (account_number);
+
+	return s_loan->first_is_different;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+gdouble bet_data_loan_get_other_echeance_amount (gint account_number)
+{
+	LoanStruct *s_loan;
+devel_debug_int (account_number);
+	s_loan = bet_data_loan_get_last_loan_struct_by_account (account_number);
+	 if (s_loan)
+		return s_loan->other_echeance_amount;
+	else
+		return 0.0;
 }
 
 /**
