@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-30 20:40+0200\n"
+"POT-Creation-Date: 2018-06-30 21:09+0200\n"
 "PO-Revision-Date: 2018-06-17 10:17+0100\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -11413,8 +11413,8 @@ msgstr "Eine geplante Buchung löschen"
 
 #: ../src/prefs/prefs_widget_loan.c:1578 ../src/prefs/prefs_widget_loan.c:1761
 #, fuzzy
-msgid "Modify scheduled transaction"
-msgstr "Geschlossene geplante Buchungen"
+msgid "Delete scheduled transaction"
+msgstr "Eine geplante Buchung löschen"
 
 #. *
 #. *
@@ -13032,5 +13032,5 @@ msgid "finance"
 msgstr "Finanzen"
 
 #, fuzzy
-#~ msgid "Delete scheduled transaction"
-#~ msgstr "Eine geplante Buchung löschen"
+#~ msgid "Modify scheduled transaction"
+#~ msgstr "Geschlossene geplante Buchungen"

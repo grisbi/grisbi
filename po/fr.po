@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-30 20:40+0200\n"
+"POT-Creation-Date: 2018-06-30 21:09+0200\n"
 "PO-Revision-Date: 2018-06-30 20:47+0200\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: français <>\n"
@@ -11394,8 +11394,8 @@ msgid "Create new scheduled transaction"
 msgstr "Créer une nouvelle opération planifiée"
 
 #: ../src/prefs/prefs_widget_loan.c:1578 ../src/prefs/prefs_widget_loan.c:1761
-msgid "Modify scheduled transaction"
-msgstr "Modifier l'opération planifiée"
+msgid "Delete scheduled transaction"
+msgstr "Supprimer l'opération planifiée"
 
 #. *
 #. *
@@ -13031,3 +13031,6 @@ msgstr "Gestionnaire de finances personnelles"
 #: ../share/grisbi.desktop.in.h:3
 msgid "finance"
 msgstr "finance"
+
+#~ msgid "Modify scheduled transaction"
+#~ msgstr "Modifier l'opération planifiée"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-30 20:40+0200\n"
+"POT-Creation-Date: 2018-06-30 21:09+0200\n"
 "PO-Revision-Date: 2006-05-15 12:44+0200\n"
 "Last-Translator: Ryszard Jeziorski <r.jeziorski@dart.kielce.pl>\n"
 "Language-Team: Polish\n"
@@ -11354,8 +11354,8 @@ msgstr "Kasowanie zaplanowanej transakcji"
 
 #: ../src/prefs/prefs_widget_loan.c:1578 ../src/prefs/prefs_widget_loan.c:1761
 #, fuzzy
-msgid "Modify scheduled transaction"
-msgstr "Zamknięte zaplanowane transakcje"
+msgid "Delete scheduled transaction"
+msgstr "Kasowanie zaplanowanej transakcji"
 
 #. *
 #. *
@@ -13110,8 +13110,8 @@ msgid "finance"
 msgstr "rok finansowy"
 
 #, fuzzy
-#~ msgid "Delete scheduled transaction"
-#~ msgstr "Kasowanie zaplanowanej transakcji"
+#~ msgid "Modify scheduled transaction"
+#~ msgstr "Zamknięte zaplanowane transakcje"
 
 #, fuzzy
 #~ msgid "Open a .gsb account file"

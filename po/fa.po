@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: girisbi VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-30 20:40+0200\n"
+"POT-Creation-Date: 2018-06-30 21:09+0200\n"
 "PO-Revision-Date: 2008-10-02 10:07+0330\n"
 "Last-Translator: hadi <hadi60@gmail.com>\n"
 "Language-Team: farsi <en@li.org>\n"
@@ -10877,7 +10877,7 @@ msgstr "جستجوی تراکنش"
 
 #: ../src/prefs/prefs_widget_loan.c:1578 ../src/prefs/prefs_widget_loan.c:1761
 #, fuzzy
-msgid "Modify scheduled transaction"
+msgid "Delete scheduled transaction"
 msgstr "جستجوی تراکنش"
 
 #. *
@@ -12566,7 +12566,7 @@ msgid "finance"
 msgstr "انصراف"
 
 #, fuzzy
-#~ msgid "Delete scheduled transaction"
+#~ msgid "Modify scheduled transaction"
 #~ msgstr "جستجوی تراکنش"
 
 #, fuzzy

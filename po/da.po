@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-30 20:40+0200\n"
+"POT-Creation-Date: 2018-06-30 21:09+0200\n"
 "PO-Revision-Date: 2006-03-25 13:23+0100\n"
 "Last-Translator: Dmitri Popov <dmpop@openoffice.org>\n"
 "Language-Team: \n"
@@ -11040,8 +11040,8 @@ msgstr "Opret en planlagt transaktion"
 
 #: ../src/prefs/prefs_widget_loan.c:1578 ../src/prefs/prefs_widget_loan.c:1761
 #, fuzzy
-msgid "Modify scheduled transaction"
-msgstr "Lukkede planlagte transaktioner"
+msgid "Delete scheduled transaction"
+msgstr "Opret en planlagt transaktion"
 
 #. *
 #. *
@@ -12758,8 +12758,8 @@ msgid "finance"
 msgstr "Annulér"
 
 #, fuzzy
-#~ msgid "Delete scheduled transaction"
-#~ msgstr "Opret en planlagt transaktion"
+#~ msgid "Modify scheduled transaction"
+#~ msgstr "Lukkede planlagte transaktioner"
 
 #, fuzzy
 #~ msgid "Last day of the months"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-30 20:40+0200\n"
+"POT-Creation-Date: 2018-06-30 21:09+0200\n"
 "PO-Revision-Date: 2010-02-11 19:06+0300\n"
 "Last-Translator: Alexandre Prokoudine <alexandre.prokoudine@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -10977,8 +10977,8 @@ msgstr "Удаление запланированной проводки"
 
 #: ../src/prefs/prefs_widget_loan.c:1578 ../src/prefs/prefs_widget_loan.c:1761
 #, fuzzy
-msgid "Modify scheduled transaction"
-msgstr "Показать запланированные транзакции"
+msgid "Delete scheduled transaction"
+msgstr "Удаление запланированной проводки"
 
 #. *
 #. *
@@ -12700,8 +12700,8 @@ msgid "finance"
 msgstr "финансовый год"
 
 #, fuzzy
-#~ msgid "Delete scheduled transaction"
-#~ msgstr "Удаление запланированной проводки"
+#~ msgid "Modify scheduled transaction"
+#~ msgstr "Показать запланированные транзакции"
 
 #, fuzzy
 #~ msgid "Open a .gsb account file"

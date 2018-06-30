@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zh_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-30 20:40+0200\n"
+"POT-Creation-Date: 2018-06-30 21:09+0200\n"
 "PO-Revision-Date: 2005-12-19 11:25+0100\n"
 "Last-Translator: Jianyu Tang <jianyunet@gmail.com>\n"
 "Language-Team: zh_CN <LL@li.org>\n"
@@ -11299,8 +11299,8 @@ msgstr "删除一条定期交易"
 
 #: ../src/prefs/prefs_widget_loan.c:1578 ../src/prefs/prefs_widget_loan.c:1761
 #, fuzzy
-msgid "Modify scheduled transaction"
-msgstr "已结清预定交易"
+msgid "Delete scheduled transaction"
+msgstr "删除一条定期交易"
 
 #. *
 #. *
@@ -13049,8 +13049,8 @@ msgid "finance"
 msgstr "财年"
 
 #, fuzzy
-#~ msgid "Delete scheduled transaction"
-#~ msgstr "删除一条定期交易"
+#~ msgid "Modify scheduled transaction"
+#~ msgstr "已结清预定交易"
 
 #, fuzzy
 #~ msgid "Open a .gsb account file"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Grisbi 0.5.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-30 20:40+0200\n"
+"POT-Creation-Date: 2018-06-30 21:09+0200\n"
 "PO-Revision-Date: 2009-04-13 14:53+0200\n"
 "Last-Translator: \n"
 "Language-Team: KASKAS <ttnfy17@yahoo.gr>\n"
@@ -11729,8 +11729,8 @@ msgstr "Διαγράψτε μια σχεδιασμένη συναλλαγή"
 
 #: ../src/prefs/prefs_widget_loan.c:1578 ../src/prefs/prefs_widget_loan.c:1761
 #, fuzzy
-msgid "Modify scheduled transaction"
-msgstr "Κλειστές προγραμματισμένες συναλλαγές"
+msgid "Delete scheduled transaction"
+msgstr "Διαγράψτε μια σχεδιασμένη συναλλαγή"
 
 #. *
 #. *
@@ -13473,8 +13473,8 @@ msgid "finance"
 msgstr "οικονομικό έτος"
 
 #, fuzzy
-#~ msgid "Delete scheduled transaction"
-#~ msgstr "Διαγράψτε μια σχεδιασμένη συναλλαγή"
+#~ msgid "Modify scheduled transaction"
+#~ msgstr "Κλειστές προγραμματισμένες συναλλαγές"
 
 #, fuzzy
 #~ msgid "Open a .gsb account file"

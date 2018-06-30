@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-30 20:40+0200\n"
+"POT-Creation-Date: 2018-06-30 21:09+0200\n"
 "PO-Revision-Date: 2007-04-05 00:03+0000\n"
 "Last-Translator: Fabio Erculiani <fabio.erculiani@gmail.com>\n"
 "Language-Team: Italian <LL@li.org>\n"
@@ -11346,8 +11346,8 @@ msgstr "Inserisci una transazione pianificata"
 
 #: ../src/prefs/prefs_widget_loan.c:1578 ../src/prefs/prefs_widget_loan.c:1761
 #, fuzzy
-msgid "Modify scheduled transaction"
-msgstr "Transazioni pianificate chiuse"
+msgid "Delete scheduled transaction"
+msgstr "Inserisci una transazione pianificata"
 
 #. *
 #. *
@@ -13097,8 +13097,8 @@ msgid "finance"
 msgstr "anno finanziario"
 
 #, fuzzy
-#~ msgid "Delete scheduled transaction"
-#~ msgstr "Inserisci una transazione pianificata"
+#~ msgid "Modify scheduled transaction"
+#~ msgstr "Transazioni pianificate chiuse"
 
 #, fuzzy
 #~ msgid "Open a .gsb account file"

@@ -283,7 +283,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: he\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-30 20:40+0200\n"
+"POT-Creation-Date: 2018-06-30 21:09+0200\n"
 "PO-Revision-Date: 2006-02-11 16:08+0200\n"
 "Last-Translator: dotan\n"
 "Language-Team: <en@li.org>\n"
@@ -11611,8 +11611,8 @@ msgstr "מחיקת עיסקה מתוכננת"
 
 #: ../src/prefs/prefs_widget_loan.c:1578 ../src/prefs/prefs_widget_loan.c:1761
 #, fuzzy
-msgid "Modify scheduled transaction"
-msgstr "העברות סגורות שנקבעו מראש"
+msgid "Delete scheduled transaction"
+msgstr "מחיקת עיסקה מתוכננת"
 
 #. *
 #. *
@@ -13361,8 +13361,8 @@ msgid "finance"
 msgstr "שנת כספים"
 
 #, fuzzy
-#~ msgid "Delete scheduled transaction"
-#~ msgstr "מחיקת עיסקה מתוכננת"
+#~ msgid "Modify scheduled transaction"
+#~ msgstr "העברות סגורות שנקבעו מראש"
 
 #, fuzzy
 #~ msgid "Open a .gsb account file"

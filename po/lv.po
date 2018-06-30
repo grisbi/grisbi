@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-30 20:40+0200\n"
+"POT-Creation-Date: 2018-06-30 21:09+0200\n"
 "PO-Revision-Date: 2012-10-01 18:49+0300\n"
 "Last-Translator: Valdis Vītoliņš <valdis.vitolins@odo.lv>\n"
 "Language-Team: LATVIAN <info@odo.lv>\n"
@@ -11361,8 +11361,8 @@ msgstr "Dzēst regulāru darījumu."
 
 #: ../src/prefs/prefs_widget_loan.c:1578 ../src/prefs/prefs_widget_loan.c:1761
 #, fuzzy
-msgid "Modify scheduled transaction"
-msgstr "Slēgtie plānotie darījumi"
+msgid "Delete scheduled transaction"
+msgstr "Dzēst regulāru darījumu."
 
 #. *
 #. *
@@ -13062,8 +13062,8 @@ msgid "finance"
 msgstr "finanšu gads"
 
 #, fuzzy
-#~ msgid "Delete scheduled transaction"
-#~ msgstr "Dzēst regulāru darījumu."
+#~ msgid "Modify scheduled transaction"
+#~ msgstr "Slēgtie plānotie darījumi"
 
 #, fuzzy
 #~ msgid "Open a .gsb account file"

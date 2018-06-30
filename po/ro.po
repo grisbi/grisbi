@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ro\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-30 20:40+0200\n"
+"POT-Creation-Date: 2018-06-30 21:09+0200\n"
 "PO-Revision-Date: 2005-12-19 11:24+0100\n"
 "Last-Translator: Mircea Aronovici <bucuresti@free.fr>\n"
 "Language-Team: <bucuresti@free.fr>\n"
@@ -11410,8 +11410,8 @@ msgstr "Şterge o operaţie planificată"
 
 #: ../src/prefs/prefs_widget_loan.c:1578 ../src/prefs/prefs_widget_loan.c:1761
 #, fuzzy
-msgid "Modify scheduled transaction"
-msgstr "Închidera inventarului automatic"
+msgid "Delete scheduled transaction"
+msgstr "Şterge o operaţie planificată"
 
 #. *
 #. *
@@ -13163,8 +13163,8 @@ msgid "finance"
 msgstr "exerciţiu"
 
 #, fuzzy
-#~ msgid "Delete scheduled transaction"
-#~ msgstr "Şterge o operaţie planificată"
+#~ msgid "Modify scheduled transaction"
+#~ msgstr "Închidera inventarului automatic"
 
 #, fuzzy
 #~ msgid "Open a .gsb account file"

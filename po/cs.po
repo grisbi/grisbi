@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-30 20:40+0200\n"
+"POT-Creation-Date: 2018-06-30 21:09+0200\n"
 "PO-Revision-Date: 2011-02-19 01:39+0100\n"
 "Last-Translator: Markus7cz <markus7cz@gmail.com>\n"
 "Language-Team: \n"
@@ -11423,8 +11423,8 @@ msgstr "Odstranit plánovanou transakci."
 
 #: ../src/prefs/prefs_widget_loan.c:1578 ../src/prefs/prefs_widget_loan.c:1761
 #, fuzzy
-msgid "Modify scheduled transaction"
-msgstr "Uzavřené plánované transakce"
+msgid "Delete scheduled transaction"
+msgstr "Odstranit plánovanou transakci."
 
 #. *
 #. *
@@ -13120,8 +13120,8 @@ msgid "finance"
 msgstr "fiskální rok"
 
 #, fuzzy
-#~ msgid "Delete scheduled transaction"
-#~ msgstr "Odstranit plánovanou transakci."
+#~ msgid "Modify scheduled transaction"
+#~ msgstr "Uzavřené plánované transakce"
 
 #, fuzzy
 #~ msgid "Open a .gsb account file"

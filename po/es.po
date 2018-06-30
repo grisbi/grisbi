@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-30 20:40+0200\n"
+"POT-Creation-Date: 2018-06-30 21:09+0200\n"
 "PO-Revision-Date: 2010-05-09 11:48+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <cmcamara@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -11599,8 +11599,8 @@ msgstr "Borrar una transacción programada."
 
 #: ../src/prefs/prefs_widget_loan.c:1578 ../src/prefs/prefs_widget_loan.c:1761
 #, fuzzy
-msgid "Modify scheduled transaction"
-msgstr "Transacciones programadas cerradas"
+msgid "Delete scheduled transaction"
+msgstr "Borrar una transacción programada."
 
 #. *
 #. *
@@ -13306,8 +13306,8 @@ msgid "finance"
 msgstr "años financiero"
 
 #, fuzzy
-#~ msgid "Delete scheduled transaction"
-#~ msgstr "Borrar una transacción programada."
+#~ msgid "Modify scheduled transaction"
+#~ msgstr "Transacciones programadas cerradas"
 
 #, fuzzy
 #~ msgid "Open a .gsb account file"
