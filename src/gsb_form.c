@@ -39,6 +39,7 @@
 #include "gsb_form.h"
 #include "accueil.h"
 #include "bet_data.h"
+#include "bet_finance_ui.h"
 #include "dialog.h"
 #include "grisbi_app.h"
 #include "grisbi_prefs.h"
@@ -2599,8 +2600,22 @@ gboolean gsb_form_finish_edition ( void )
 
         /* first, check if it's a scheduled split and execute the childrent */
         if ( gsb_data_scheduled_get_split_of_scheduled (saved_scheduled_number) )
+		{
+			gint transfer_account;
+
+			transfer_account = gsb_data_scheduled_get_account_number_transfer (saved_scheduled_number+1);
+			if (gsb_data_account_get_bet_init_sch_with_loan (transfer_account))
+			{
+				GDate *date;
+devel_debug ("exécute init_sch_with_loan");
+
+				date = gsb_date_copy (gsb_data_scheduled_get_date (saved_scheduled_number));
+				g_date_add_months (date, 1);
+				bet_finance_get_loan_amount_at_date (saved_scheduled_number, transfer_account, date, TRUE);
+			}
             gsb_scheduler_execute_children_of_scheduled_transaction ( saved_scheduled_number,
                         transaction_number );
+		}
 
         /* now we can increase the scheduled transaction */
         increase_result = gsb_scheduler_increase_scheduled ( saved_scheduled_number );

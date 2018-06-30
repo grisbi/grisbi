@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2003-2008 Benjamin Drieu (bdrieu@april.org)	                      */
-/*                      2008-2017 Pierre Biava (grisbi@pierre.biava.name)     */
+/*                      2008-2018 Pierre Biava (grisbi@pierre.biava.name)     */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -148,6 +148,7 @@ struct _AccountStruct {
     gdouble bet_frais;                  /* frais par echeance */
     gint bet_type_taux;                 /* type de taux : actuariel ou proportionnel */
 	gboolean bet_init_sch_with_loan;	/* Initialise l'opération planifiée avec le tableau d'amortissement */
+	gboolean bet_split_transaction;		/* crée une opération ventilée dans le compte principal */
 };
 
 
@@ -3527,6 +3528,47 @@ gboolean gsb_data_account_set_bet_init_sch_with_loan (gint account_number,
     return TRUE;
 }
 
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+gboolean gsb_data_account_get_bet_split_transaction (gint account_number)
+{
+    AccountStruct *account;
+
+    account = gsb_data_account_get_structure (account_number);
+
+    if (!account)
+        return 0;
+
+    return account->bet_split_transaction;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+gboolean gsb_data_account_set_bet_split_transaction (gint account_number,
+													 gboolean split_transaction)
+{
+    AccountStruct *account;
+
+    account = gsb_data_account_get_structure (account_number);
+
+    if (!account)
+        return FALSE;
+
+    account->bet_split_transaction = split_transaction;
+
+    return TRUE;
+}
 
 /**
  *

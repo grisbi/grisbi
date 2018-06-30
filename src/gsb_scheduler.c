@@ -35,8 +35,10 @@
 /*START_INCLUDE*/
 #include "gsb_scheduler.h"
 #include "accueil.h"
+#include "bet_finance_ui.h"
 #include "grisbi_win.h"
 #include "gsb_currency.h"
+#include "gsb_data_account.h"
 #include "gsb_data_fyear.h"
 #include "gsb_data_payment.h"
 #include "gsb_data_scheduled.h"
@@ -48,6 +50,7 @@
 #include "structures.h"
 #include "traitement_variables.h"
 #include "utils_dates.h"
+#include "utils_real.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -79,6 +82,7 @@ gboolean gsb_scheduler_increase_scheduled ( gint scheduled_number )
 
     g_return_val_if_fail ( g_date_valid (gsb_data_scheduled_get_date (scheduled_number)), TRUE );
 
+devel_debug (NULL);
     /* increase the date of the scheduled_transaction */
     new_date = gsb_scheduler_get_next_date ( scheduled_number,
 					     gsb_data_scheduled_get_date (scheduled_number));
@@ -92,6 +96,17 @@ gboolean gsb_scheduler_increase_scheduled ( gint scheduled_number )
 	if ( gsb_data_scheduled_get_split_of_scheduled ( scheduled_number ))
 	{
 	    GSList *children_numbers_list;
+		gint transfer_account;
+		gint init_sch_with_loan;
+		gsb_real amount;
+
+		transfer_account = gsb_data_scheduled_get_account_number_transfer (scheduled_number+1);
+		init_sch_with_loan = gsb_data_account_get_bet_init_sch_with_loan (transfer_account);
+		if (init_sch_with_loan)
+		{
+			amount = bet_finance_get_loan_amount_at_date (scheduled_number, transfer_account, new_date, FALSE);
+			gsb_data_scheduled_set_amount (scheduled_number, amount);
+		}
 
 	    /* if there is some children, set the new date too */
 	    children_numbers_list = gsb_data_scheduled_get_children ( scheduled_number, TRUE );
@@ -102,8 +117,13 @@ gboolean gsb_scheduler_increase_scheduled ( gint scheduled_number )
 
 		child_number = GPOINTER_TO_INT ( children_numbers_list -> data );
 
-		gsb_data_scheduled_set_date ( child_number,
-					      new_date );
+printf ("set new date and amount = %s\n", gsb_format_gdate(new_date));
+			gsb_data_scheduled_set_date (child_number, new_date);
+			if (init_sch_with_loan)
+			{
+				amount = bet_finance_get_loan_amount_at_date (child_number, transfer_account, new_date, FALSE);
+				gsb_data_scheduled_set_amount (child_number, amount);
+			}
 
 		children_numbers_list = children_numbers_list -> next;
 	    }
@@ -303,11 +323,15 @@ gint gsb_scheduler_create_transaction_from_scheduled_transaction ( gint schedule
 								   gint transaction_mother )
 {
 	GDate *date;
-    gint transaction_number, payment_number;
     gint account_number;
+    gint payment_number;
+	gint transfer_account;
+    gint transaction_number;
 
+	devel_debug_int (scheduled_number);
     account_number = gsb_data_scheduled_get_account_number (scheduled_number);
 
+	transfer_account = gsb_data_scheduled_get_account_number_transfer (scheduled_number+1);
     transaction_number = gsb_data_transaction_new_transaction (account_number);
 
 	/* initialise les données pour fixed date */
@@ -318,6 +342,30 @@ gint gsb_scheduler_create_transaction_from_scheduled_transaction ( gint schedule
 
 	gsb_data_transaction_set_party_number ( transaction_number,
 					    gsb_data_scheduled_get_party_number (scheduled_number));
+	if (gsb_data_scheduled_get_split_of_scheduled (scheduled_number)
+		&& gsb_data_account_get_bet_init_sch_with_loan (transfer_account))
+	{
+		gsb_real amount;
+
+		amount = bet_finance_get_loan_amount_at_date (scheduled_number, transfer_account, date, TRUE);
+		gsb_data_transaction_set_amount (transaction_number, amount);
+	}
+	else if (transaction_mother)
+	{
+		gint scheduled_mother;
+
+		scheduled_mother = gsb_data_scheduled_get_mother_scheduled_number (scheduled_number);
+		if (scheduled_mother == scheduled_number -1
+			|| scheduled_mother == scheduled_number -2
+			|| scheduled_mother == scheduled_number -3)
+		{
+			gsb_real amount;
+
+			amount = bet_finance_get_loan_amount_at_date (scheduled_number, transfer_account, date, FALSE);
+			gsb_data_transaction_set_amount (transaction_number, amount);
+		}
+	}
+	else
     gsb_data_transaction_set_amount ( transaction_number,
 				      gsb_data_scheduled_get_amount (scheduled_number));
     gsb_data_transaction_set_currency_number ( transaction_number,
@@ -480,6 +528,7 @@ gboolean gsb_scheduler_execute_children_of_scheduled_transaction ( gint schedule
 {
     GSList *children_numbers_list;
 
+devel_debug (NULL);
     children_numbers_list = gsb_data_scheduled_get_children ( scheduled_number, TRUE );
 
     while ( children_numbers_list )

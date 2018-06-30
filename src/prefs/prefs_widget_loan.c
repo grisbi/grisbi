@@ -1575,7 +1575,7 @@ dialog_return:
 		{
 			goto dialog_return;
 		}
-		gtk_button_set_label (GTK_BUTTON (priv->button_init_scheduled), _("Delete scheduled transaction"));
+		gtk_button_set_label (GTK_BUTTON (priv->button_init_scheduled), _("Modify scheduled transaction"));
 		g_signal_handlers_disconnect_by_func(priv->button_init_scheduled,
 											 G_CALLBACK (prefs_widget_loan_button_init_scheduled_clicked),
 											 w_loan);
@@ -1758,7 +1758,7 @@ static void prefs_widget_loan_setup_widget (PrefsWidgetLoan *w_loan,
 
 		/* set button_init_scheduled */
 		if (s_loan->init_sch_with_loan)
-			gtk_button_set_label (GTK_BUTTON (priv->button_init_scheduled), _("Delete scheduled transaction"));
+			gtk_button_set_label (GTK_BUTTON (priv->button_init_scheduled), _("Modify scheduled transaction"));
 		else
 			gtk_button_set_label (GTK_BUTTON (priv->button_init_scheduled), _("Create new scheduled transaction"));
 

@@ -57,6 +57,11 @@ struct _GtkComboFixClass
 GType gtk_combofix_get_type ( void ) G_GNUC_CONST;
 GtkWidget *gtk_combofix_new ( GSList *list );
 
+GtkWidget *gtk_combofix_new_with_properties (GSList *list,
+											 gboolean force_text,
+											 gboolean max_items,
+											 gboolean case_sensitive,
+											 gboolean mixed_sort);
 /* text */
 const gchar *gtk_combofix_get_text ( GtkComboFix *combofix );
 void gtk_combofix_set_text ( GtkComboFix *combofix, const gchar *text );

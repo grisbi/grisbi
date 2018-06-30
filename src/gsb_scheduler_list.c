@@ -3,7 +3,7 @@
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2004-2008 Benjamin Drieu (bdrieu@april.org)                       */
 /*      2009 Thomas Peel (thomas.peel@live.fr)                                */
-/*          2008-2013 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          2008-2018 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -39,6 +39,8 @@
 
 /*START_INCLUDE*/
 #include "gsb_scheduler_list.h"
+#include "bet_data_finance.h"
+#include "bet_finance_ui.h"
 #include "dialog.h"
 #include "grisbi_app.h"
 #include "gsb_automem.h"
@@ -167,7 +169,27 @@ static gboolean view_menu_block_cb = FALSE;
 
 static gchar *j_m_a_names[] = { N_("days"), N_("weeks"), N_("months"), N_("years"), NULL };
 
+/******************************************************************************/
+/* Private functions                                                          */
+/******************************************************************************/
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+static void gsb_scheduler_list_set_virtual_amount_with_loan (gint scheduled_number,
+															 const gchar *line[SCHEDULER_COL_VISIBLE_COLUMNS],
+															 gint account_number)
+{
+	gdouble amount;
 
+	amount = bet_data_loan_get_other_echeance_amount (account_number);
+	line[COL_NB_AMOUNT] = utils_real_get_string_with_currency (gsb_real_opposite (gsb_real_double_to_real (amount)),
+															   gsb_data_scheduled_get_currency_number (scheduled_number),
+															   TRUE);
+}
 /**
  * called from the toolbar to change the scheduler view
  *
@@ -1064,13 +1086,17 @@ gboolean gsb_scheduler_list_append_new_scheduled ( gint scheduled_number,
 {
 	GDate *tmp_date;
     GDate *pGDateCurrent;
-    gint virtual_transaction = 0;
     GtkTreeIter *mother_iter = NULL;
     const gchar *line[SCHEDULER_COL_VISIBLE_COLUMNS];
     gint mother_scheduled_number;
+	gint first_is_different;
 	gint fixed_date = 0;
+	gint split_transaction;
+	gint transfer_account = 0;
+    gint virtual_transaction = 0;
 
     /* devel_debug_int (scheduled_number); */
+    devel_debug_int (scheduled_number);
     if ( !tree_model_scheduler_list )
         return FALSE;
 
@@ -1106,6 +1132,49 @@ gboolean gsb_scheduler_list_append_new_scheduled ( gint scheduled_number,
 	}
 
 	  /* fill the text line */
+	split_transaction = gsb_data_scheduled_get_split_of_scheduled (scheduled_number);
+	if (split_transaction)
+	{
+		gint init_sch_with_loan;
+
+		transfer_account = gsb_data_scheduled_get_account_number_transfer (scheduled_number+1);
+		init_sch_with_loan = gsb_data_account_get_bet_init_sch_with_loan (transfer_account);
+		if (init_sch_with_loan) /* cette transaction concerne un prêt */
+		{
+			first_is_different = bet_data_loan_get_loan_first_is_different (transfer_account);
+			if (first_is_different) /* les autres échéances sont différentes */
+			{
+				GSList *children_numbers_list;
+				gsb_real amount;
+
+				amount = bet_finance_get_loan_amount_at_date (scheduled_number,
+															  transfer_account,
+															  pGDateCurrent,
+															  FALSE);
+				gsb_data_scheduled_set_amount (scheduled_number, amount);
+
+				/* on traite les opérations filles */
+				children_numbers_list = gsb_data_scheduled_get_children (scheduled_number, TRUE);
+				while (children_numbers_list)
+				{
+					gint child_number;
+
+					child_number = GPOINTER_TO_INT (children_numbers_list->data);
+					if (child_number)
+					{
+						amount = bet_finance_get_loan_amount_at_date (child_number,
+																	  transfer_account,
+																	  pGDateCurrent,
+																	  FALSE);
+						gsb_data_scheduled_set_amount (child_number, amount);
+					}
+
+					children_numbers_list = children_numbers_list->next;
+				}
+				g_slist_free (children_numbers_list);
+			}
+		}
+	}
     gsb_scheduler_list_fill_transaction_text ( scheduled_number, line );
 
     do
@@ -1125,7 +1194,7 @@ gboolean gsb_scheduler_list_append_new_scheduled ( gint scheduled_number,
                         -1 );
 
         /* if it's a split, we append a white line now */
-        if (gsb_data_scheduled_get_split_of_scheduled ( scheduled_number ) && !virtual_transaction )
+        if (split_transaction && !virtual_transaction )
         {
             gint white_line_number;
 
@@ -1152,6 +1221,8 @@ gboolean gsb_scheduler_list_append_new_scheduled ( gint scheduled_number,
             line[COL_NB_DATE] = gsb_format_gdate ( pGDateCurrent );
 
             /* now, it's not real transactions */
+			if (first_is_different && virtual_transaction == 0)
+				gsb_scheduler_list_set_virtual_amount_with_loan (scheduled_number, line, transfer_account);
             virtual_transaction ++;
         }
     }
@@ -1239,6 +1310,8 @@ gboolean gsb_scheduler_list_update_transaction_in_list ( gint scheduled_number )
     GtkTreeStore *store;
     GtkTreeIter iter;
     GDate *pGDateCurrent;
+	gint init_sch_with_loan;
+	gint transfer_account = 0;
 
     /* TODO dOm : each line of the array `line' contains a newly allocated string. When are they freed ? */
     const gchar *line[SCHEDULER_COL_VISIBLE_COLUMNS];
@@ -1271,11 +1344,18 @@ gboolean gsb_scheduler_list_update_transaction_in_list ( gint scheduled_number )
                                 -1 );
             if ( scheduled_number_tmp == scheduled_number )
             {
+				if (gsb_data_scheduled_get_split_of_scheduled (scheduled_number))
+				{
+
+					transfer_account = gsb_data_scheduled_get_account_number_transfer (scheduled_number+1);
+					init_sch_with_loan = gsb_data_account_get_bet_init_sch_with_loan (transfer_account);
+				}
                 gsb_scheduler_list_fill_transaction_row ( GTK_TREE_STORE ( store ), &iter, line );
 
                 /* go to the next date if ever there is several lines of that scheduled */
                 pGDateCurrent = gsb_scheduler_get_next_date ( scheduled_number, pGDateCurrent );
 
+printf ("date = %s\n", gsb_format_gdate (pGDateCurrent));
                 line[COL_NB_DATE] = gsb_format_gdate ( pGDateCurrent );
             }
 
@@ -1299,10 +1379,32 @@ gboolean gsb_scheduler_list_update_transaction_in_list ( gint scheduled_number )
                         mother_number = gsb_data_scheduled_get_mother_scheduled_number ( white_line_number );
                     }
 
-                    if (scheduled_number_tmp == scheduled_number)
-                        gsb_scheduler_list_fill_transaction_row ( GTK_TREE_STORE (store),
+						if (init_sch_with_loan && scheduled_number_tmp > 0) /* cette transaction concerne un prêt */
+						{
+							gsb_real amount;
+							gchar *tmp_str;
+							gchar *color_str = NULL;
+
+							amount = bet_finance_get_loan_amount_at_date (scheduled_number_tmp,
+																		  transfer_account,
+																		  pGDateCurrent,
+																		  FALSE);
+							tmp_str = utils_real_get_string_with_currency (amount,
+																		   gsb_data_scheduled_get_currency_number (scheduled_number_tmp),
+																		   TRUE);
+							if ( line[COL_NB_AMOUNT] && g_utf8_strchr ( line[COL_NB_AMOUNT], -1, '-' ) )
+								color_str = "red";
+							else
+							{
+								g_free ( color_str );
+								color_str = NULL;
+							}
+							gtk_tree_store_set ( store,
                                         &child_iter,
-                                        line );
+												COL_NB_AMOUNT, tmp_str,
+												SCHEDULER_COL_NB_AMOUNT_COLOR, color_str,
+												-1 );
+						}
                 }
                 while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( store ), &child_iter ) );
 
@@ -1312,6 +1414,7 @@ gboolean gsb_scheduler_list_update_transaction_in_list ( gint scheduled_number )
         while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( store ), &iter ) );
     }
 
+printf ("fin de fonction gsb_scheduler_list_update_transaction_in_list ()\n");
     return FALSE;
 }
 

@@ -1,6 +1,6 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C) 2010-2011 Pierre Biava (grisbi@pierre.biava.name)        */
+/*     Copyright (C) 2010-2018 Pierre Biava (grisbi@pierre.biava.name)        */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -30,7 +30,6 @@
 
 /*START_INCLUDE*/
 #include "bet_finance_ui.h"
-#include "bet_data_finance.h"
 #include "dialog.h"
 #include "export_csv.h"
 #include "grisbi_app.h"
@@ -38,6 +37,7 @@
 #include "gsb_combo_box.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
+#include "gsb_data_scheduled.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
 #include "gsb_form_widget.h"
@@ -66,15 +66,10 @@ static gboolean bet_finance_capital_entry_key_press_event ( GtkWidget *widget,
                         GdkEventKey *ev,
                         GtkWidget *page );
 static GtkWidget *bet_finance_create_amortization_page ( void );
-static GtkWidget *bet_finance_create_amortization_tree_view ( GtkWidget *container, gint origin );
 static GtkWidget *bet_finance_create_data_tree_view ( GtkWidget *container );
 static GtkWidget *bet_finance_create_duration_widget ( GtkWidget *parent );
 static GtkWidget *bet_finance_create_saisie_widget ( GtkWidget *parent );
 static GtkWidget *bet_finance_create_simulator_page ( void );
-static GtkWidget *bet_finance_create_simulator_toolbar ( GtkWidget *parent,
-                        GtkWidget *tree_view,
-                        gboolean simulator,
-                        gboolean amortization );
 static void bet_finance_currency_changed ( GtkComboBox *combo_box, GtkWidget *page );
 static gboolean bet_finance_data_list_button_press ( GtkWidget *tree_view,
                         GdkEventButton *ev,
@@ -143,6 +138,87 @@ enum bet_finance_amortization_columns
 };
 
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+static GtkTreeViewColumn *bet_finance_ui_get_column_by_name (GtkWidget *tree_view,
+															 const gchar *name)
+{
+	GList *list;
+
+	list = gtk_tree_view_get_columns (GTK_TREE_VIEW (tree_view));
+	while (list)
+	{
+		GtkTreeViewColumn *col;
+		gchar *tmp_str;
+
+		col = list->data;
+		tmp_str = g_object_get_data (G_OBJECT (col), "name");
+		if (g_strcmp0 (tmp_str, name) == 0)
+		{
+			g_list_free (list);
+
+			return col;
+		}
+
+		list = list->next;
+	}
+	g_list_free (list);
+
+	return NULL;
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static AmortissementStruct *bet_finance_get_echeance_at_date (LoanStruct *s_loan,
+															  GDate *date,
+															  gboolean maj_s_loan_capital_du)
+{
+	AmortissementStruct *s_amortissement = NULL;
+
+	devel_debug (gsb_format_gdate (date));
+	s_amortissement = bet_data_finance_structure_amortissement_init ();
+	if (g_date_compare (date, s_loan->first_date) == 0
+		&& s_loan->first_is_different)
+	{
+			s_amortissement->echeance = s_loan->first_capital;
+			s_amortissement->echeance += s_loan->fees + s_loan->first_interests;
+			s_amortissement->interets = s_loan->first_interests;
+			s_amortissement->frais = s_loan->fees;
+			s_amortissement->principal = s_loan->first_capital;
+	}
+	else
+	{
+		gdouble taux_periodique;
+printf ("s_loan->capital_du avant = %f\n", s_loan->capital_du);
+		taux_periodique = bet_data_finance_get_taux_periodique (s_loan->annual_rate, s_loan->type_taux);
+		s_amortissement->echeance = bet_data_finance_get_echeance (s_loan->capital, taux_periodique, s_loan->duree);
+		s_amortissement->echeance += s_loan->fees;
+		s_amortissement->interets = bet_data_finance_get_interets (s_loan->capital_du, taux_periodique);
+		s_amortissement->frais = s_loan->fees;
+		s_amortissement->principal = bet_data_finance_get_principal (s_amortissement->echeance,
+																	 s_amortissement->interets,
+																	 s_amortissement->frais);
+	}
+	s_amortissement->capital_du = s_loan->capital_du - s_amortissement->principal;
+	printf ("capital_du = %f principal = %f interêts = %f frais = %f\n",
+			s_amortissement->capital_du, s_amortissement->principal, s_amortissement->interets, s_amortissement->frais);
+
+	if (maj_s_loan_capital_du)
+		s_loan->capital_du -= s_amortissement->principal;
+printf ("s_loan->capital_du après = %f\n\n", s_loan->capital_du);
+	return s_amortissement;
+}
 /**
  * Create the finance page
  *
@@ -993,9 +1069,13 @@ void bet_finance_data_list_context_menu ( GtkWidget *tree_view, gint page_num )
                         G_CALLBACK ( bet_finance_switch_simulator_page ),
                         NULL );
         }
+		gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+
+		/* Separator */
+		gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
 
     }
-    else
+    else if (origin == SPP_ORIGIN_FINANCE)
     {
         gboolean amortization_initial_date;
 
@@ -1013,13 +1093,12 @@ void bet_finance_data_list_context_menu ( GtkWidget *tree_view, gint page_num )
                         "activate",
                         G_CALLBACK ( bet_finance_switch_amortization_initial_date ),
                         tree_view );
-    }
-
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
     /* Separator */
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
 
+    }
     /* Print list */
     menu_item = utils_menu_item_new_from_image_label ("gtk-print-16.png", _("Print the array"));
     g_signal_connect ( G_OBJECT ( menu_item ),
@@ -1153,6 +1232,7 @@ GtkWidget *bet_finance_create_amortization_tree_view ( GtkWidget *container, gin
     devel_debug ( NULL);
     tree_view = gtk_tree_view_new ( );
 	gtk_widget_set_name (tree_view, "tree_view");
+    g_object_set_data (G_OBJECT (tree_view), "amortization_initial_date", GINT_TO_POINTER (FALSE));
 
     /* Create the tree store */
     tree_model = gtk_tree_store_new ( BET_AMORTIZATION_NBRE_COLUMNS,
@@ -1172,37 +1252,43 @@ GtkWidget *bet_finance_create_amortization_tree_view ( GtkWidget *container, gin
     cell = gtk_cell_renderer_text_new ( );
     g_object_set ( G_OBJECT ( cell ), "xalign", 0.5, NULL );
 
-    if ( origin == SPP_ORIGIN_FINANCE )
-    {
-        title = g_strdup ( _("Date") );
+	title = g_strdup ( _("Number") );
 
         column = gtk_tree_view_column_new_with_attributes ( title,
                         cell,
-                        "text", BET_AMORTIZATION_DATE_COLUMN,
+					"text", BET_AMORTIZATION_NUMBER_COLUMN,
                         "cell-background-rgba", BET_AMORTIZATION_BACKGROUND_COLOR,
                         NULL);
         g_object_set_data ( G_OBJECT ( column ), "num_col_model",
-                        GINT_TO_POINTER ( BET_AMORTIZATION_DATE_COLUMN ) );
-    }
-    else
-    {
-        title = g_strdup ( _("Number") );
+					   GINT_TO_POINTER ( BET_AMORTIZATION_NUMBER_COLUMN ) );
+	g_object_set_data (G_OBJECT (column), "name", "NumEch");
+    g_free ( title );
 
-        column = gtk_tree_view_column_new_with_attributes ( title,
-                        cell,
-                        "text", BET_AMORTIZATION_NUMBER_COLUMN,
-                        "cell-background-rgba", BET_AMORTIZATION_BACKGROUND_COLOR,
-                        NULL);
-        g_object_set_data ( G_OBJECT ( column ), "num_col_model",
-                        GINT_TO_POINTER ( BET_AMORTIZATION_NUMBER_COLUMN ) );
-    }
-
-    gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
-                        GTK_TREE_VIEW_COLUMN ( column ) );
+    gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ), GTK_TREE_VIEW_COLUMN ( column ) );
     gtk_tree_view_column_set_expand ( GTK_TREE_VIEW_COLUMN ( column ), TRUE );
     gtk_tree_view_column_set_resizable ( column, TRUE );
     gtk_tree_view_column_set_alignment ( column, 0.5 );
-    g_free ( title );
+
+    /* date de l'échéance */
+    cell = gtk_cell_renderer_text_new ( );
+    g_object_set ( G_OBJECT ( cell ), "xalign", 0.5, NULL );
+
+	title = g_strdup ( _("Date") );
+
+        column = gtk_tree_view_column_new_with_attributes ( title,
+                        cell,
+					"text", BET_AMORTIZATION_DATE_COLUMN,
+                        "cell-background-rgba", BET_AMORTIZATION_BACKGROUND_COLOR,
+                        NULL);
+        g_object_set_data ( G_OBJECT ( column ), "num_col_model",
+					GINT_TO_POINTER ( BET_AMORTIZATION_DATE_COLUMN ) );
+	g_object_set_data (G_OBJECT (column), "name", "Date");
+	g_free ( title );
+
+	gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ), GTK_TREE_VIEW_COLUMN ( column ) );
+    gtk_tree_view_column_set_expand ( GTK_TREE_VIEW_COLUMN ( column ), TRUE );
+    gtk_tree_view_column_set_resizable ( column, TRUE );
+    gtk_tree_view_column_set_alignment ( column, 0.5 );
 
     /* Capital restant dû */
     title = g_strdup ( _("Capital remaining") );
@@ -1214,35 +1300,17 @@ GtkWidget *bet_finance_create_amortization_tree_view ( GtkWidget *container, gin
                         "text", BET_AMORTIZATION_CAPITAL_DU_COLUMN,
                         "cell-background-rgba", BET_AMORTIZATION_BACKGROUND_COLOR,
                         NULL);
-    gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
-                        GTK_TREE_VIEW_COLUMN ( column ) );
-    gtk_tree_view_column_set_expand ( GTK_TREE_VIEW_COLUMN ( column ), TRUE );
-    gtk_tree_view_column_set_resizable ( column, TRUE );
-    gtk_tree_view_column_set_alignment ( column, 0.5 );
     g_object_set_data ( G_OBJECT ( column ), "num_col_model",
                         GINT_TO_POINTER ( BET_AMORTIZATION_CAPITAL_DU_COLUMN ) );
+	g_object_set_data (G_OBJECT (column), "name", "CapitalDu");
     g_free ( title );
-
-    /* Interests */
-    title = g_strdup ( _("Interests") );
-    cell = gtk_cell_renderer_text_new ( );
-    g_object_set ( G_OBJECT ( cell ), "xalign", 0.5, NULL );
-
-    column = gtk_tree_view_column_new_with_attributes ( title,
-                        cell,
-                        "text", BET_AMORTIZATION_INTERETS_COLUMN,
-                        "cell-background-rgba", BET_AMORTIZATION_BACKGROUND_COLOR,
-                        NULL);
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
                         GTK_TREE_VIEW_COLUMN ( column ) );
     gtk_tree_view_column_set_expand ( GTK_TREE_VIEW_COLUMN ( column ), TRUE );
     gtk_tree_view_column_set_resizable ( column, TRUE );
     gtk_tree_view_column_set_alignment ( column, 0.5 );
-    g_object_set_data ( G_OBJECT ( column ), "num_col_model",
-                        GINT_TO_POINTER ( BET_AMORTIZATION_INTERETS_COLUMN ) );
-    g_free ( title );
 
-    /* Capital repaid */
+    /* Interests */
     title = g_strdup ( _("Capital repaid") );
     cell = gtk_cell_renderer_text_new ( );
     g_object_set ( G_OBJECT ( cell ), "xalign", 0.5, NULL );
@@ -1252,14 +1320,35 @@ GtkWidget *bet_finance_create_amortization_tree_view ( GtkWidget *container, gin
                         "text", BET_AMORTIZATION_PRINCIPAL_COLUMN,
                         "cell-background-rgba", BET_AMORTIZATION_BACKGROUND_COLOR,
                         NULL);
+    g_object_set_data ( G_OBJECT ( column ), "num_col_model",
+                        GINT_TO_POINTER ( BET_AMORTIZATION_PRINCIPAL_COLUMN ) );
+	g_object_set_data (G_OBJECT (column), "name", "Principal");
+    g_free ( title );
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
                         GTK_TREE_VIEW_COLUMN ( column ) );
     gtk_tree_view_column_set_expand ( GTK_TREE_VIEW_COLUMN ( column ), TRUE );
     gtk_tree_view_column_set_resizable ( column, TRUE );
     gtk_tree_view_column_set_alignment ( column, 0.5 );
+
+    /* Capital repaid */
+    title = g_strdup ( _("Interests") );
+    cell = gtk_cell_renderer_text_new ( );
+    g_object_set ( G_OBJECT ( cell ), "xalign", 0.5, NULL );
+
+    column = gtk_tree_view_column_new_with_attributes ( title,
+                        cell,
+                        "text", BET_AMORTIZATION_INTERETS_COLUMN,
+                        "cell-background-rgba", BET_AMORTIZATION_BACKGROUND_COLOR,
+                        NULL);
     g_object_set_data ( G_OBJECT ( column ), "num_col_model",
-                        GINT_TO_POINTER ( BET_AMORTIZATION_PRINCIPAL_COLUMN ) );
+                        GINT_TO_POINTER ( BET_AMORTIZATION_INTERETS_COLUMN ) );
+	g_object_set_data (G_OBJECT (column), "name", "Interests");
     g_free ( title );
+    gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
+                        GTK_TREE_VIEW_COLUMN ( column ) );
+    gtk_tree_view_column_set_expand ( GTK_TREE_VIEW_COLUMN ( column ), TRUE );
+    gtk_tree_view_column_set_resizable ( column, TRUE );
+    gtk_tree_view_column_set_alignment ( column, 0.5 );
 
     /* Fees*/
     title = g_strdup ( _("Fees") );
@@ -1273,13 +1362,14 @@ GtkWidget *bet_finance_create_amortization_tree_view ( GtkWidget *container, gin
                         NULL);
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
                         GTK_TREE_VIEW_COLUMN ( column ) );
-    gtk_tree_view_column_set_expand ( GTK_TREE_VIEW_COLUMN ( column ), TRUE );
-    gtk_tree_view_column_set_resizable ( column, TRUE );
-    gtk_tree_view_column_set_alignment ( column, 0.5 );
     g_object_set_data ( G_OBJECT ( column ), "num_col_model",
                         GINT_TO_POINTER ( BET_AMORTIZATION_FRAIS_COLUMN ) );
+	g_object_set_data (G_OBJECT (column), "name", "Fees");
     g_free ( title );
 
+	gtk_tree_view_column_set_expand ( GTK_TREE_VIEW_COLUMN ( column ), TRUE );
+    gtk_tree_view_column_set_resizable ( column, TRUE );
+    gtk_tree_view_column_set_alignment ( column, 0.5 );
     /* Monthly paid */
     title = g_strdup ( _("Monthly paid") );
     cell = gtk_cell_renderer_text_new ( );
@@ -1290,21 +1380,20 @@ GtkWidget *bet_finance_create_amortization_tree_view ( GtkWidget *container, gin
                         "text", BET_AMORTIZATION_ECHEANCE_COLUMN,
                         "cell-background-rgba", BET_AMORTIZATION_BACKGROUND_COLOR,
                         NULL);
+    g_object_set_data ( G_OBJECT ( column ), "num_col_model",
+                        GINT_TO_POINTER ( BET_AMORTIZATION_ECHEANCE_COLUMN ) );
+	g_object_set_data (G_OBJECT (column), "name", "Echeance");
+    g_free ( title );
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
                         GTK_TREE_VIEW_COLUMN ( column ) );
     gtk_tree_view_column_set_expand ( GTK_TREE_VIEW_COLUMN ( column ), TRUE );
     gtk_tree_view_column_set_resizable ( column, TRUE );
     gtk_tree_view_column_set_alignment ( column, 0.5 );
-    g_object_set_data ( G_OBJECT ( column ), "num_col_model",
-                        GINT_TO_POINTER ( BET_AMORTIZATION_ECHEANCE_COLUMN ) );
-    g_free ( title );
 
     g_signal_connect ( G_OBJECT ( tree_view ),
                         "button-press-event",
                         G_CALLBACK ( bet_finance_data_list_button_press ),
                         container );
-    g_object_set_data ( G_OBJECT ( tree_view ), "amortization_initial_date",
-                        GINT_TO_POINTER ( FALSE ) );
 
     /* create the scrolled window */
     scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
@@ -1457,6 +1546,7 @@ void bet_finance_fill_amortization_ligne ( GtkTreeModel *model,
     {
         gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                         &iter,
+						BET_AMORTIZATION_NUMBER_COLUMN, s_amortissement -> num_echeance,
                         BET_AMORTIZATION_DATE_COLUMN, s_amortissement -> str_date,
                         BET_AMORTIZATION_CAPITAL_DU_COLUMN, str_capital_du,
                         BET_AMORTIZATION_INTERETS_COLUMN, str_interets,
@@ -1494,67 +1584,19 @@ GtkWidget *bet_finance_create_account_page ( void )
 {
     GtkWidget *page;
     GtkWidget *frame;
-    GtkWidget *hbox;
     GtkWidget *label_title;
-    GtkWidget *label;
     GtkWidget *tree_view;
     GtkWidget *account_page;
 
     devel_debug (NULL);
 
-    page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     account_page = grisbi_win_get_account_page ();
 
     /* frame pour la barre d'outils */
-    frame = gtk_frame_new ( NULL );
-    gtk_box_pack_start ( GTK_BOX ( page ), frame, FALSE, FALSE, 0 );
+	page = bet_finance_create_amortization_heading (account_page);
 
     /* titre de la page */
-    label_title = gtk_label_new ( _("Amortization Table") );
-	gtk_widget_set_halign (label_title, GTK_ALIGN_CENTER);
-    gtk_box_pack_start ( GTK_BOX ( page ), label_title, FALSE, FALSE, 5);
-    g_object_set_data ( G_OBJECT ( account_page ),
-                        "bet_finance_amortization_title",
-                        label_title );
-
-    /* Choix des données sources */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
-	gtk_widget_set_halign (hbox, GTK_ALIGN_CENTER);
-    gtk_box_pack_start ( GTK_BOX ( page ), hbox, FALSE, FALSE, 5);
-
-    /* capital */
-    label = gtk_label_new ( _("Loan capital: ") );
-    utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0.5);
-    gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
-
-    label = gtk_label_new ( NULL );
-    g_object_set_data ( G_OBJECT ( account_page ), "bet_finance_capital", label );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
-
-    /* Annuel rate interest */
-    label = gtk_label_new ( _("Annuel rate interest: ") );
-    utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0.5);
-    gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
-
-    label = gtk_label_new ( NULL );
-    g_object_set_data ( G_OBJECT ( account_page ), "bet_finance_taux", label );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
-
-    label = gtk_label_new ( _("%") );
-    gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
-
-    /* Duration */
-    label = gtk_label_new ( _("Duration: ") );
-    utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0.5);
-    gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
-
-    label = gtk_label_new ( NULL );
-    g_object_set_data ( G_OBJECT ( account_page ), "bet_finance_duree", label );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
+	label_title = g_object_get_data (G_OBJECT (account_page), "label_title");
 
     /* création de la liste des données */
     tree_view = bet_finance_create_amortization_tree_view ( page, SPP_ORIGIN_FINANCE );
@@ -1567,6 +1609,7 @@ GtkWidget *bet_finance_create_account_page ( void )
 	gtk_widget_set_name (tree_view, "tree_view");
 
     /* on y ajoute la barre d'outils */
+	frame = g_object_get_data (G_OBJECT (account_page), "frame");
     account_toolbar = bet_finance_create_simulator_toolbar ( page, tree_view, FALSE, FALSE );
     gtk_container_add ( GTK_CONTAINER ( frame ), account_toolbar );
 
@@ -1584,143 +1627,20 @@ GtkWidget *bet_finance_create_account_page ( void )
  * */
 void bet_finance_ui_update_amortization_tab ( gint account_number )
 {
-    GtkWidget *label;
-    GtkWidget *tree_view;
     GtkWidget *account_page;
-    GtkTreeModel *store;
-    GtkTreePath *path;
-    gchar *tmp_str;
-    gchar *tmp_str_2;
-    gint index = 0;
-    gint nbre_ans;
-    gint nbre_echeances;
-    gint type_taux;
-    gdouble taux;
-    gdouble taux_periodique;
-    GDate *date;
-    GDate *last_paid_date = NULL;
-    AmortissementStruct *s_amortissement;
-    gboolean amortization_initial_date;
+	LoanStruct *s_loan = NULL;
 
 /*     devel_debug ( NULL );  */
-    if ( gsb_gui_navigation_get_current_account ( ) != account_number )
-        return;
+	if ( gsb_gui_navigation_get_current_account ( ) != account_number )
+		return;
 
-    account_page = grisbi_win_get_account_page ();
-
-    s_amortissement = g_malloc0 ( sizeof ( AmortissementStruct ) );
-    s_amortissement -> origin = SPP_ORIGIN_FINANCE;
+	s_loan = (LoanStruct *) bet_data_loan_get_last_loan_struct_by_account (account_number);
+	if (!s_loan)
+		return;
 
     /* récupère le tableau d'amortissement */
-    tree_view = g_object_get_data ( G_OBJECT ( account_page ), "bet_finance_tree_view" );
-    amortization_initial_date = GPOINTER_TO_INT ( g_object_get_data (
-                        G_OBJECT ( tree_view ), "amortization_initial_date" ) );
-
-    /* récupère les paramètres du compte */
-    s_amortissement -> devise = gsb_data_account_get_currency ( account_number );
-    nbre_echeances = gsb_data_account_get_bet_months ( account_number );
-    date = gsb_data_account_get_bet_start_date ( account_number );
-    s_amortissement -> str_date = gsb_format_gdate ( date );
-    if ( amortization_initial_date == FALSE )
-        last_paid_date = bet_data_finance_get_date_last_installment_paid ( date );
-    else
-        last_paid_date = gsb_date_copy ( date );
-
-    /* met à jour le titre du tableau */
-    label = g_object_get_data ( G_OBJECT ( account_page ), "bet_finance_amortization_title" );
-    tmp_str = g_strconcat ( _("Amortization Table"), _(" at "),
-                        gsb_format_gdate ( last_paid_date ), NULL );
-    gtk_label_set_label ( GTK_LABEL ( label ), tmp_str );
-    g_free ( tmp_str );
-
-    /* set capital */
-    s_amortissement -> capital_du = gsb_data_account_get_bet_finance_capital ( account_number );
-    label = g_object_get_data ( G_OBJECT ( account_page ), "bet_finance_capital" );
-    tmp_str = utils_real_get_string_with_currency (
-                        gsb_real_double_to_real ( s_amortissement -> capital_du ),
-                        s_amortissement -> devise, TRUE );
-    gtk_label_set_label ( GTK_LABEL ( label ), tmp_str );
-    g_free ( tmp_str );
-
-    /* set taux */
-    label = g_object_get_data ( G_OBJECT ( account_page ), "bet_finance_taux" );
-    taux = gsb_data_account_get_bet_finance_taux_annuel ( account_number );
-    type_taux = gsb_data_account_get_bet_finance_type_taux ( account_number );
-    taux_periodique = bet_data_finance_get_taux_periodique ( taux, type_taux );
-    tmp_str = utils_str_dtostr ( taux, BET_TAUX_DIGITS, FALSE );
-    gtk_label_set_label ( GTK_LABEL ( label ), tmp_str );
-    g_free ( tmp_str );
-
-    /* set duration */
-    label = g_object_get_data ( G_OBJECT ( account_page ), "bet_finance_duree" );
-    nbre_ans = gsb_data_account_get_bet_months ( account_number ) / 12;
-    if ( nbre_ans == 1 )
-        tmp_str_2 = g_strdup ( _(" year ") );
-    else
-        tmp_str_2 = g_strdup ( _(" years ") );
-    tmp_str = g_strconcat ( utils_str_itoa ( nbre_ans ), tmp_str_2, NULL );
-    gtk_label_set_label ( GTK_LABEL ( label ), tmp_str );
-    g_free ( tmp_str );
-    g_free ( tmp_str_2 );
-
-    /* set frais */
-    s_amortissement -> frais = gsb_data_account_get_bet_finance_frais ( account_number );
-    s_amortissement -> str_frais = utils_real_get_string_with_currency (
-                        gsb_real_double_to_real ( s_amortissement -> frais ),
-                        s_amortissement -> devise, TRUE );
-
-    /* remplit le tableau d'amortissement */
-    store = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
-    gtk_tree_store_clear ( GTK_TREE_STORE ( store ) );
-
-    /* set echeance */
-    s_amortissement -> echeance = bet_data_finance_get_echeance ( s_amortissement -> capital_du,
-                        taux_periodique, nbre_echeances );
-    s_amortissement -> echeance += s_amortissement -> frais;
-    s_amortissement -> str_echeance = utils_real_get_string_with_currency (
-                        gsb_real_double_to_real ( s_amortissement -> echeance ),
-                        s_amortissement -> devise, TRUE );
-
-    for ( index = 1; index <= nbre_echeances; index++ )
-    {
-        s_amortissement -> interets = bet_data_finance_get_interets ( s_amortissement -> capital_du,
-                        taux_periodique );
-
-        if ( index == nbre_echeances )
-        {
-            s_amortissement -> echeance = bet_data_finance_get_last_echeance (
-                        s_amortissement -> capital_du,
-                        s_amortissement -> interets,
-                        s_amortissement -> frais );
-            g_free ( s_amortissement -> str_echeance );
-            s_amortissement -> str_echeance = utils_real_get_string_with_currency (
-                        gsb_real_double_to_real ( s_amortissement -> echeance ),
-                        s_amortissement ->  devise, TRUE );
-            s_amortissement -> principal = s_amortissement -> capital_du;
-        }
-        else
-            s_amortissement -> principal = bet_data_finance_get_principal (
-                        s_amortissement -> echeance,
-                        s_amortissement -> interets,
-                        s_amortissement -> frais );
-
-        if ( g_date_compare ( date, last_paid_date ) >= 0 )
-            bet_finance_fill_amortization_ligne ( store, s_amortissement );
-        date = gsb_date_add_one_month ( date, TRUE );
-        s_amortissement -> str_date = gsb_format_gdate ( date );
-        s_amortissement -> capital_du -= s_amortissement -> principal;
-    }
-
-    bet_finance_ui_struct_amortization_free ( s_amortissement );
-    g_date_free ( date );
-    g_date_free ( last_paid_date );
-
-    utils_set_tree_store_background_color ( tree_view, BET_AMORTIZATION_BACKGROUND_COLOR );
-    path = gtk_tree_path_new_first ( );
-    gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW ( tree_view ), path, NULL, TRUE, 0.0, 0.0 );
-    gtk_tree_selection_select_path ( gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) ), path );
-
-    gtk_tree_path_free ( path );
+	account_page = grisbi_win_get_account_page ();
+	bet_finance_ui_update_amortization_tab_with_data (account_number, account_page, s_loan);
 }
 
 
@@ -1729,7 +1649,7 @@ void bet_finance_ui_update_amortization_tab ( gint account_number )
  *
  *
  *
- * */
+ **/
 void bet_finance_ui_struct_amortization_free ( AmortissementStruct *s_amortissement )
 {
     if ( s_amortissement -> str_date )
@@ -1754,7 +1674,7 @@ void bet_finance_ui_struct_amortization_free ( AmortissementStruct *s_amortissem
  *
  * \return
  * */
-static GtkWidget *bet_finance_create_simulator_toolbar ( GtkWidget *parent,
+GtkWidget *bet_finance_create_simulator_toolbar ( GtkWidget *parent,
                         GtkWidget *tree_view,
                         gboolean simulator,
                         gboolean amortization )
@@ -1907,6 +1827,7 @@ void bet_finance_switch_amortization_initial_date ( GtkWidget *widget, GtkWidget
     GtkWidget *tmp_button;
     gint account_number;
     gboolean amortization_initial_date;
+    devel_debug (NULL);
 
     amortization_initial_date = GPOINTER_TO_INT ( g_object_get_data (
                         G_OBJECT ( tree_view ), "amortization_initial_date" ) );
@@ -2132,12 +2053,114 @@ GtkWidget *bet_finance_get_capital_entry ( void )
     return entry;
 }
 
+/**
+ *
+ *
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ **/
+gsb_real bet_finance_get_loan_amount_at_date (gint scheduled_number,
+											  gint transfer_account,
+											  GDate *date,
+											  gboolean maj_s_loan_capital_du)
+{
+	gint transaction_mother = 0;
+	static gint mother_number = 0;
+	static AmortissementStruct *s_amortissement;
+	gsb_real amount = {0, 0};
+
+	devel_debug_int (scheduled_number);
+	if (gsb_data_scheduled_get_split_of_scheduled (scheduled_number))
+	{
+		LoanStruct *s_loan;
+
+		s_loan = bet_data_loan_get_last_loan_struct_by_account (transfer_account);
+		if (!s_loan)
+			return amount;
+
+		s_amortissement = bet_finance_get_echeance_at_date (s_loan, date, maj_s_loan_capital_du);
+		if (!s_amortissement)
+			return amount;
+
+		mother_number = scheduled_number;
+		amount = gsb_real_opposite (gsb_real_double_to_real (s_amortissement->echeance));
+	}
+	else
+	{
+		transaction_mother = gsb_data_scheduled_get_mother_scheduled_number (scheduled_number);
+		printf ("transaction_mother = %d mother_number = %d\n", transaction_mother, mother_number);
+		if (transaction_mother == mother_number)
+		{
+			if (scheduled_number == mother_number+1)
+				amount = gsb_real_opposite (gsb_real_double_to_real (s_amortissement->principal));
+			else if (scheduled_number == mother_number+2)
+				amount = gsb_real_opposite (gsb_real_double_to_real (s_amortissement->interets));
+			else if (scheduled_number == mother_number+3)
+				amount = gsb_real_opposite (gsb_real_double_to_real (s_amortissement->frais));
+printf ("amount = %s\n", utils_real_get_string (amount));
+		}
+	}
+
+	return amount;
+}
 
 /**
  *
  *
+ * \param
+ * \param
  *
- */
+ * \return
+ **/
+AmortissementStruct *bet_finance_get_echeance_first (LoanStruct *s_loan,
+													 GDate *first_date)
+{
+	gdouble taux_periodique;
+	AmortissementStruct *s_amortissement = NULL;
+
+	devel_debug (gsb_format_gdate (first_date));
+	taux_periodique = bet_data_finance_get_taux_periodique (s_loan->annual_rate, s_loan->type_taux);
+	s_amortissement = bet_data_finance_structure_amortissement_init ();
+	if (s_loan->first_is_different)
+	{
+		s_amortissement->echeance = s_loan->first_capital;
+		s_amortissement->echeance += s_loan->fees + s_loan->first_interests;
+		s_amortissement->interets = s_loan->first_interests;
+		s_amortissement->frais = s_loan->fees;
+		s_amortissement->principal = s_loan->first_capital;
+		s_loan->other_echeance_amount = bet_data_finance_get_echeance (s_loan->capital,
+																	   taux_periodique,
+																	   s_loan->duree);
+		s_loan->other_echeance_amount += s_loan->fees;
+	}
+	else
+	{
+		s_amortissement->echeance = bet_data_finance_get_echeance (s_loan->capital,
+																   taux_periodique,
+																   s_loan->duree);
+		s_amortissement->echeance += s_loan->fees;
+		s_amortissement->interets = bet_data_finance_get_interets (s_loan->capital_du,
+																   taux_periodique);
+		s_amortissement->frais = s_loan->fees;
+		s_amortissement->principal = bet_data_finance_get_principal (s_amortissement->echeance,
+																	 s_amortissement->interets,
+																	 s_amortissement->frais);
+		s_loan->other_echeance_amount = s_amortissement->echeance;
+	}
+
+	return s_amortissement;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 void bet_finance_update_all_finance_toolbars ( gint toolbar_style )
 {
     gtk_toolbar_set_style ( GTK_TOOLBAR ( account_toolbar ), toolbar_style );
@@ -2152,14 +2175,408 @@ void bet_finance_update_all_finance_toolbars ( gint toolbar_style )
  * \param
  *
  * \return
- * */
+ **/
+GtkWidget *bet_finance_create_amortization_heading (GtkWidget *parent)
+{
+    GtkWidget *heading;
+    GtkWidget *frame;
+    GtkWidget *hbox;
+    GtkWidget *label_title;
+    GtkWidget *label;
+
+    devel_debug (NULL);
+    heading = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
+
+    /* frame pour la barre d'outils */
+    frame = gtk_frame_new (NULL);
+    gtk_box_pack_start (GTK_BOX (heading), frame, FALSE, FALSE, 0);
+
+    /* titre de la heading */
+    label_title = gtk_label_new (_("Amortization Table"));
+	gtk_widget_set_halign (label_title, GTK_ALIGN_CENTER);
+    gtk_box_pack_start (GTK_BOX (heading), label_title, FALSE, FALSE, 5);
+    g_object_set_data (G_OBJECT (parent),
+					   "bet_finance_amortization_title",
+					   label_title );
+
+    /* Choix des données sources */
+    hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
+	gtk_widget_set_halign (hbox, GTK_ALIGN_CENTER);
+    gtk_box_pack_start (GTK_BOX (heading), hbox, FALSE, FALSE, 5);
+
+    /* capital */
+    label = gtk_label_new (_("Loan amount: "));
+    utils_labels_set_alignement (GTK_LABEL (label), 0, 0.5);
+    gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
+    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 5);
+
+    label = gtk_label_new (NULL);
+    g_object_set_data (G_OBJECT (parent), "bet_finance_capital", label);
+    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 5);
+
+    /* taux */
+    label = gtk_label_new (_("Annuel rate interest: "));
+    utils_labels_set_alignement (GTK_LABEL (label), 0, 0.5);
+    gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
+    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 5);
+
+    label = gtk_label_new (NULL);
+    g_object_set_data (G_OBJECT (parent), "bet_finance_taux", label);
+    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+
+    label = gtk_label_new (_("%"));
+    gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
+    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 5);
+
+    /* Duration */
+    label = gtk_label_new (_("Duration: "));
+    utils_labels_set_alignement (GTK_LABEL (label), 0, 0.5);
+    gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
+    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 5);
+
+    label = gtk_label_new (NULL);
+    g_object_set_data (G_OBJECT (parent), "bet_finance_duree", label);
+    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+
+	g_object_set_data (G_OBJECT (parent), "frame", frame);
+	g_object_set_data (G_OBJECT (parent), "label_title", label_title);
+
+	gtk_widget_show_all (heading);
+
+	return heading;
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ **/
+void bet_finance_ui_update_amortization_tab_with_data (gint account_number,
+															  GtkWidget *parent,
+															  LoanStruct *s_loan)
+{
+    GtkWidget *label;
+    GtkWidget *tree_view;
+    GtkTreeModel *store;
+    GtkTreeIter iter;
+    GtkTreePath *path;
+    GtkTreePath *sel_path;
+	gchar *str_capital_du = NULL;
+    gchar *tmp_str;
+    gint index = 0;
+    gint nbre_echeances;
+    gint type_taux;
+    gdouble taux;
+    gdouble taux_periodique;
+    GDate *date;
+    GDate *last_paid_date = NULL;
+	GDate *last_installment_paid = NULL;
+	gint index_last_installment_paid = 0;
+    gboolean amortization_initial_date;
+	gboolean first_echeance = FALSE;
+    AmortissementStruct *s_amortissement;
+
+    devel_debug (NULL);
+
+    s_amortissement = bet_data_finance_structure_amortissement_init ();
+    s_amortissement->origin = SPP_ORIGIN_FINANCE;
+
+    /* récupère le tableau d'amortissement */
+    tree_view = g_object_get_data (G_OBJECT (parent), "bet_finance_tree_view");
+	bet_finance_invers_cols_cap_ech (tree_view, s_loan->invers_cols_cap_ech);
+	amortization_initial_date = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (tree_view),
+																	"amortization_initial_date"));
+
+    /* remplit le tableau d'amortissement */
+    store = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
+    gtk_tree_store_clear (GTK_TREE_STORE (store));
+
+    s_amortissement->devise = gsb_data_account_get_currency (account_number);
+
+    /* récupère les paramètres du crédit */
+    nbre_echeances = s_loan->duree;
+
+	date = gsb_date_copy (s_loan->first_date);
+	if (!date || !g_date_valid (date))
+		return;
+
+	s_amortissement->str_date = gsb_format_gdate (date);
+	if (strlen (s_amortissement->str_date) == 0)
+		return;
+
+	if (amortization_initial_date == FALSE)
+	{
+		last_paid_date = bet_data_finance_get_date_last_installment_paid (date);
+	/* set first line si necessaire */
+		if (s_loan->invers_cols_cap_ech)
+		{
+			str_capital_du = utils_real_get_string_with_currency (gsb_real_double_to_real (s_loan->capital_du),
+																  s_amortissement->devise,
+																  TRUE);
+
+			gtk_tree_store_append (GTK_TREE_STORE (store), &iter, NULL);
+			gtk_tree_store_set (GTK_TREE_STORE (store),
+								&iter,
+								BET_AMORTIZATION_NUMBER_COLUMN, 0,
+								BET_AMORTIZATION_DATE_COLUMN, "",
+								BET_AMORTIZATION_CAPITAL_DU_COLUMN, str_capital_du,
+								BET_AMORTIZATION_INTERETS_COLUMN, "",
+								BET_AMORTIZATION_PRINCIPAL_COLUMN, "",
+								BET_AMORTIZATION_FRAIS_COLUMN, "",
+								BET_AMORTIZATION_ECHEANCE_COLUMN, "",
+								- 1 );
+			g_free (str_capital_du);
+		}
+	}
+	else
+	{
+		last_paid_date = gsb_date_copy (date);
+		last_installment_paid = bet_data_finance_get_date_last_installment_paid (date);
+		/* set first line si necessaire */
+		if (s_loan->invers_cols_cap_ech)
+		{
+			str_capital_du = utils_real_get_string_with_currency (gsb_real_double_to_real (s_loan->capital),
+																  s_amortissement->devise,
+																  TRUE);
+
+			gtk_tree_store_append (GTK_TREE_STORE (store), &iter, NULL);
+			gtk_tree_store_set (GTK_TREE_STORE (store),
+								&iter,
+								BET_AMORTIZATION_NUMBER_COLUMN, 0,
+								BET_AMORTIZATION_DATE_COLUMN, "",
+								BET_AMORTIZATION_CAPITAL_DU_COLUMN, str_capital_du,
+								BET_AMORTIZATION_INTERETS_COLUMN, "",
+								BET_AMORTIZATION_PRINCIPAL_COLUMN, "",
+								BET_AMORTIZATION_FRAIS_COLUMN, "",
+								BET_AMORTIZATION_ECHEANCE_COLUMN, "",
+								- 1 );
+			g_free (str_capital_du);
+		}
+	}
+
+    /* met à jour le titre du tableau */
+    label = g_object_get_data (G_OBJECT (parent), "bet_finance_amortization_title");
+    tmp_str = g_strconcat (_("Amortization Table"), _(" at "), gsb_format_gdate (last_paid_date), NULL);
+    gtk_label_set_label (GTK_LABEL (label), tmp_str);
+    g_free (tmp_str);
+
+    /* set capital */
+    s_amortissement->capital_du = s_loan->capital;
+    label = g_object_get_data (G_OBJECT (parent), "bet_finance_capital");
+    tmp_str = utils_real_get_string_with_currency (gsb_real_double_to_real (s_amortissement->capital_du),
+												   s_amortissement->devise, TRUE);
+    gtk_label_set_label (GTK_LABEL (label), tmp_str);
+    g_free (tmp_str);
+
+    /* set taux */
+    label = g_object_get_data (G_OBJECT (parent), "bet_finance_taux");
+    taux = s_loan->annual_rate;
+    type_taux = s_loan->type_taux;
+    taux_periodique = bet_data_finance_get_taux_periodique (taux, type_taux);
+    tmp_str = utils_str_dtostr (taux, BET_TAUX_DIGITS, FALSE);
+    gtk_label_set_label (GTK_LABEL (label), tmp_str);
+    g_free (tmp_str);
+
+    /* set duration */
+    label = g_object_get_data (G_OBJECT (parent), "bet_finance_duree");
+    tmp_str = g_strconcat (utils_str_itoa (s_loan->duree), _(" months "), NULL);
+    gtk_label_set_label (GTK_LABEL (label), tmp_str);
+    g_free (tmp_str);
+
+    /* set frais */
+    s_amortissement->frais = s_loan->fees;
+    s_amortissement->str_frais = utils_real_get_string_with_currency (
+                        gsb_real_double_to_real (s_amortissement->frais),
+                        s_amortissement->devise, TRUE);
+
+	/* set first echeance */
+	s_amortissement->num_echeance = 1;
+	if (s_loan->first_is_different)
+	{
+		s_amortissement->echeance = s_loan->first_capital;
+		s_amortissement->interets = s_loan->first_interests;
+		s_amortissement->echeance += s_amortissement->frais + s_amortissement->interets;
+		s_amortissement->str_echeance = utils_real_get_string_with_currency (gsb_real_double_to_real (s_amortissement->echeance),
+																			 s_amortissement->devise, TRUE);
+		s_amortissement->principal = bet_data_finance_get_principal (s_amortissement->echeance,
+																	 s_amortissement->interets,
+																	 s_amortissement->frais);
+
+		if (s_loan->invers_cols_cap_ech)
+		{
+			s_amortissement->capital_du -= s_amortissement->principal;
+			if (g_date_compare (date, last_paid_date) >= 0)
+				bet_finance_fill_amortization_ligne (store, s_amortissement);
+		}
+		else
+		{
+			if (g_date_compare (date, last_paid_date) >= 0)
+				bet_finance_fill_amortization_ligne (store, s_amortissement);
+			s_amortissement->capital_du -= s_amortissement->principal;
+		}
+
+		/* On recalcule la nouvelle échéance du crédit avec nouveau capital dû et nbre d'échéances -1 */
+		s_amortissement->echeance = bet_data_finance_get_echeance (s_amortissement->capital_du,
+																   taux_periodique, nbre_echeances-1);
+		s_amortissement->echeance += s_amortissement->frais;
+		s_amortissement->str_echeance = utils_real_get_string_with_currency (gsb_real_double_to_real (s_amortissement->echeance),
+																			 s_amortissement->devise, TRUE);
+	}
+	else
+	{
+		s_amortissement->echeance = bet_data_finance_get_echeance (s_amortissement->capital_du,
+																   taux_periodique, nbre_echeances);
+		s_amortissement->echeance += s_amortissement->frais;
+		s_amortissement->str_echeance = utils_real_get_string_with_currency (gsb_real_double_to_real (s_amortissement->echeance),
+																			 s_amortissement->devise, TRUE);
+		s_amortissement->interets = bet_data_finance_get_interets (s_amortissement->capital_du,
+																   taux_periodique);
+		s_amortissement->principal = bet_data_finance_get_principal (s_amortissement->echeance,
+																	 s_amortissement->interets,
+																	 s_amortissement->frais);
+		if (s_loan->invers_cols_cap_ech)
+		{
+			s_amortissement->capital_du -= s_amortissement->principal;
+			if (g_date_compare (date, last_paid_date) >= 0)
+				bet_finance_fill_amortization_ligne (store, s_amortissement);
+		}
+		else
+		{
+			if (g_date_compare (date, last_paid_date) >= 0)
+				bet_finance_fill_amortization_ligne (store, s_amortissement);
+			s_amortissement->capital_du -= s_amortissement->principal;
+		}
+	}
+
+	date = gsb_date_add_one_month (date, TRUE);
+	s_amortissement->str_date = gsb_format_gdate (date);
+
+    /* set the other echeances */
+	for (index = 2; index <= nbre_echeances; index++)
+    {
+		s_amortissement -> num_echeance = index;
+        s_amortissement->interets = bet_data_finance_get_interets (s_amortissement->capital_du,
+																   taux_periodique);
+
+        if (index == nbre_echeances)
+        {
+            s_amortissement->echeance = bet_data_finance_get_last_echeance (
+                        s_amortissement->capital_du,
+                        s_amortissement->interets,
+                        s_amortissement->frais);
+            g_free (s_amortissement->str_echeance);
+            s_amortissement->str_echeance = utils_real_get_string_with_currency (
+                        gsb_real_double_to_real (s_amortissement->echeance),
+                        s_amortissement-> devise, TRUE);
+            s_amortissement->principal = s_amortissement->capital_du;
+        }
+        else
+            s_amortissement->principal = bet_data_finance_get_principal (s_amortissement->echeance,
+																		 s_amortissement->interets,
+																		 s_amortissement->frais);
+
+		if (s_loan->invers_cols_cap_ech)
+		{
+			s_amortissement->capital_du -= s_amortissement->principal;
+			if (g_date_compare (date, last_paid_date) >= 0)
+				bet_finance_fill_amortization_ligne (store, s_amortissement);
+		}
+		else
+		{
+			if (g_date_compare (date, last_paid_date) >= 0)
+				bet_finance_fill_amortization_ligne (store, s_amortissement);
+			s_amortissement->capital_du -= s_amortissement->principal;
+		}
+		if (amortization_initial_date && !first_echeance)
+		{
+			if (g_date_compare (date, last_installment_paid) >= 0)
+			{
+				first_echeance = TRUE;
+				index_last_installment_paid = index;
+			}
+		}
+
+        date = gsb_date_add_one_month (date, TRUE);
+        s_amortissement->str_date = gsb_format_gdate (date);
+
+//~ if (index < 11)
+	//~ printf ("num_echeance = %d capital_du = %f, principal = %f interets = %f\n",
+			//~ s_amortissement->num_echeance, s_amortissement->capital_du, s_amortissement->principal, s_amortissement->interets);
+    }
+
+    bet_finance_ui_struct_amortization_free (s_amortissement);
+    g_date_free (date);
+    g_date_free (last_paid_date);
+
+    utils_set_tree_store_background_color (tree_view, BET_AMORTIZATION_BACKGROUND_COLOR);
+	path = gtk_tree_path_new_first ();
+	if (first_echeance)
+	{
+		tmp_str = g_strdup_printf ("%d", index_last_installment_paid-1);
+		sel_path = gtk_tree_path_new_from_string (tmp_str);
+		g_free (tmp_str);
+	}
+	else
+	{
+		sel_path = gtk_tree_path_new_first ();
+	}
+
+    gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (tree_view), path, NULL, TRUE, 0.0, 0.0);
+	gtk_tree_selection_select_path (gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view)), sel_path);
+
+    gtk_tree_path_free (path);
+}
+
 /**
  *
  *
  * \param
  *
  * \return
- * */
+ **/
+void bet_finance_invers_cols_cap_ech (GtkWidget *tree_view,
+									  gboolean invers_cols_cap_ech)
+{
+	GtkTreeViewColumn *capital_du_col;
+	GtkTreeViewColumn *date_col;
+	GtkTreeViewColumn *echeance_col;
+	GtkTreeViewColumn *frais_col;
+
+	date_col = gtk_tree_view_get_column (GTK_TREE_VIEW (tree_view), 1);
+	frais_col = gtk_tree_view_get_column (GTK_TREE_VIEW (tree_view), 5);
+	capital_du_col = bet_finance_ui_get_column_by_name (tree_view, "CapitalDu");
+	echeance_col = bet_finance_ui_get_column_by_name (tree_view, "Echeance");
+
+	if (invers_cols_cap_ech)
+	{
+		gtk_tree_view_move_column_after (GTK_TREE_VIEW (tree_view),
+										 echeance_col,
+										 date_col);
+		gtk_tree_view_move_column_after (GTK_TREE_VIEW (tree_view),
+										 capital_du_col,
+										 frais_col);
+	}
+	else
+	{
+		gtk_tree_view_move_column_after (GTK_TREE_VIEW (tree_view),
+										 capital_du_col,
+										 date_col);
+		gtk_tree_view_move_column_after (GTK_TREE_VIEW (tree_view),
+										 echeance_col,
+										 frais_col);
+	}
+}
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
