@@ -91,12 +91,14 @@ grisbi_pixmaps_DATA = \
 	gsb-web-browser-16.png \
 	gtk-about-16.png \
 	gtk-add-16.png \
+	gtk-apply-16.png \
 	gtk-close-16.png \
 	gtk-copy-16.png \
 	gtk-copy-24.png \
 	gtk-corbeille-32.png \
 	gtk-delete-16.png \
 	gtk-delete-24.png \
+	gtk-dialog-warning-16.png \
 	gtk-edit-16.png \
 	gtk-edit-24.png \
 	gtk-execute-16.png \
