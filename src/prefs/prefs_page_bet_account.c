@@ -45,7 +45,7 @@
 #include "gsb_calendar_entry.h"
 #include "gsb_file.h"
 #include "navigation.h"
-//~ #include "prefs_widget_loan.h"
+#include "prefs_widget_loan.h"
 #include "structures.h"
 #include "utils.h"
 #include "utils_prefs.h"
@@ -93,6 +93,80 @@ G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageBetAccount, prefs_page_bet_account, GTK_TYP
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
+/**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void prefs_page_bet_account_initialise_loan_data (gint account_number,
+														 PrefsPageBetAccount *page)
+{
+	GtkWidget *label;
+	GtkWidget *widget;
+	GSList *tmp_list;
+	gint nbre_pages = 0;
+	PrefsPageBetAccountPrivate *priv;
+
+	devel_debug (NULL);
+	priv = prefs_page_bet_account_get_instance_private (page);
+
+	/* on initialise le notebook si nécessaire */
+	nbre_pages = gtk_notebook_get_n_pages (GTK_NOTEBOOK (priv->notebook_credit_data));
+	if (nbre_pages > 0)
+	{
+		do
+		{
+			nbre_pages--;
+			gtk_notebook_remove_page (GTK_NOTEBOOK (priv->notebook_credit_data), nbre_pages);
+		}
+		while (nbre_pages > 0);
+	}
+
+	/* Si premier crédit on crée le premier onglet du prêt initial */
+	tmp_list = bet_data_loan_get_loan_list_by_account (account_number);
+	if (tmp_list == NULL)
+	{
+		LoanStruct *s_loan;
+
+		s_loan = bet_data_loan_struct_loan_init ();
+		s_loan->account_number = account_number;
+		s_loan->version_number = -1;
+		widget = GTK_WIDGET (prefs_widget_loan_new (s_loan));
+		label = gtk_label_new (_("Initial loan"));
+		utils_widget_set_padding (label, MARGIN_BOX, 0);
+		gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_credit_data), widget, label);
+
+		return;
+	}
+
+	/* Si le crédit existe on crée le ou les onglets du prêt initial et des renégotiations */
+	while (tmp_list)
+	{
+		gchar *tmp_str;
+		gint index = 0;
+		LoanStruct *s_loan;
+
+		s_loan = (LoanStruct *) tmp_list->data;
+		index = s_loan->version_number;
+		widget = GTK_WIDGET (prefs_widget_loan_new (s_loan));
+		if (!index)
+			label = gtk_label_new (_("Initial loan"));
+		else
+		{
+			tmp_str = g_strdup_printf (_("Renegotiation N° %d"), index);
+			label = gtk_label_new (tmp_str);
+			g_free (tmp_str);
+		}
+
+		utils_widget_set_padding (label, MARGIN_BOX, 0);
+		gtk_notebook_insert_page (GTK_NOTEBOOK (priv->notebook_credit_data), widget, label, index);
+
+		tmp_list = tmp_list->next;
+	}
+}
 /**
  * montre ou cache les paramètres en fonction du type d'onglet
  *
@@ -247,7 +321,7 @@ static gboolean prefs_page_bet_account_changed (GtkWidget *combo,
 			else
 			{
 				gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook_bet_account), 1);
-				bet_config_initialise_finance_widget (account_number, account_page);
+				prefs_page_bet_account_initialise_loan_data (account_number, page);
 			}
 			break;
 		case GSB_TYPE_BALANCE:
@@ -331,6 +405,7 @@ static void prefs_page_bet_account_use_budget_toggle (GtkToggleButton *button,
     {
         bet_data_remove_all_bet_data (account_number);
         gsb_data_account_set_bet_use_budget (account_number, 0);
+		gsb_data_account_set_bet_show_onglets (account_number);
         prefs_page_bet_account_show_hide_parameters (account_number, FALSE, page);
 		gtk_widget_hide (priv->vbox_bet_selected_account);
     }
@@ -439,7 +514,7 @@ static void prefs_page_bet_account_setup_account_page (PrefsPageBetAccount *page
 	/* Data for the credit */
 	gtk_notebook_set_scrollable (GTK_NOTEBOOK (priv->notebook_credit_data), TRUE);
 
-	priv->vbox_loan_data = bet_config_account_get_finance_data (_("Credit Data"));
+	priv->vbox_loan_data = GTK_WIDGET (prefs_widget_loan_new (NULL));
 	g_object_set_data (G_OBJECT (account_page), "Data_for_credit", priv->vbox_loan_data);
 	label = gtk_label_new (_("Initial loan"));
 	utils_widget_set_padding (label, MARGIN_BOX, 0);

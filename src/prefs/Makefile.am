@@ -15,6 +15,7 @@ libprefspages_la_SOURCES = \
 	prefs_page_files.c	\
 	prefs_page_import_asso.c	\
 	prefs_page_import_files.c	\
+	prefs_widget_loan.c \
 	prefs_page_accueil.h	\
 	prefs_page_archives.h	\
 	prefs_page_bet_account.h	\
@@ -24,7 +25,8 @@ libprefspages_la_SOURCES = \
 	prefs_page_divers.h \
 	prefs_page_files.h \
 	prefs_page_import_asso.h \
-	prefs_page_import_files.h
+	prefs_page_import_files.h \
+	prefs_widget_loan.h
 
 libprefspages_la_LIBADD= $(LIBPREFSPAGES_LIBS)
 

@@ -16,6 +16,7 @@ ui_DATA = bet_graph.ui \
     prefs_page_divers.ui \
     prefs_page_files.ui \
     prefs_page_import_asso.ui \
-    prefs_page_import_files.ui
+    prefs_page_import_files.ui \
+    prefs_widget_loan.ui
 
 EXTRA_DIST = $(ui_DATA)

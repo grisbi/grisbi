@@ -2131,6 +2131,7 @@ gboolean bet_data_remove_all_bet_data ( gint account_number )
             return TRUE;
     }
 
+	bet_data_loan_struct_loan_free_by_account (account_number);
     return TRUE;
 }
 
