@@ -93,7 +93,7 @@ AmortissementStruct *	bet_data_finance_structure_amortissement_init 		(void);
 gdouble 				bet_data_finance_troncate_number 					(gdouble number,
 																			 gint nbre_decimal);
 void	 				bet_data_loan_add_item 								(LoanStruct *s_loan);
-gboolean 				bet_data_loan_get_loan_first_is_different		(gint account_number);
+gboolean 				bet_data_loan_get_loan_first_is_different			(gint account_number);
 void 					bet_data_loan_delete_all_loans 						(void);
 LoanStruct *			bet_data_loan_get_last_loan_struct_by_account		(gint account_number);
 GSList *				bet_data_loan_get_loan_list 						(void);
