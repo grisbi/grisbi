@@ -1047,6 +1047,7 @@ static  void gsb_file_load_account_part ( const gchar **attribute_names,
                 {
  					s_loan = bet_data_loan_struct_loan_init ();
 					s_loan->capital = g_ascii_strtod (attribute_values[i], NULL);
+					s_loan->capital_du = s_loan->capital;
 					gsb_data_account_set_bet_finance_capital (account_number, s_loan->capital);
 					s_loan->account_number = account_number;
 					s_loan->version_number = 0;
@@ -1391,6 +1392,7 @@ static  void gsb_file_load_account_part ( const gchar **attribute_names,
 	if (is_loan)
 	{
 		bet_data_loan_add_item (s_loan);
+		gsb_file_set_modified (TRUE);
 	}
 }
 
