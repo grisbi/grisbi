@@ -302,9 +302,10 @@ if test "$platform_win" = "yes"; then
 		NSIS_DATE=""
 	fi
 	AC_SUBST(NSIS_DATE)
+
+	TOP_SRCDIR_WINBS=$({ cd ${srcdir} && pwd -W; } | sed 's|\\|\\\\|g')
+	AC_SUBST(TOP_SRCDIR_WINBS)
 fi
-TOP_SRCDIR_WINBS=$({ cd ${srcdir} && pwd -W; } | sed 's|\\|\\\\|g')
-AC_SUBST(TOP_SRCDIR_WINBS)
 
 AM_CONDITIONAL(WIN32, test "$platform_win" = "yes")
 
