@@ -3414,25 +3414,6 @@ gboolean gsb_data_account_set_bet_maj ( gint account_number, gint type_maj )
  *
  *
  * */
-gdouble gsb_data_account_get_bet_finance_capital ( gint account_number )
-{
-    AccountStruct *account;
-
-    account = gsb_data_account_get_structure ( account_number );
-
-    if ( !account )
-        return 0;
-
-    return account -> bet_capital;
-}
-
-
-/**
- *
- *
- *
- *
- * */
 gboolean gsb_data_account_set_bet_finance_capital ( gint account_number, gdouble capital )
 {
     AccountStruct *account;
@@ -3454,25 +3435,6 @@ gboolean gsb_data_account_set_bet_finance_capital ( gint account_number, gdouble
  *
  *
  * */
-gdouble gsb_data_account_get_bet_finance_taux_annuel ( gint account_number )
-{
-    AccountStruct *account;
-
-    account = gsb_data_account_get_structure ( account_number );
-
-    if ( !account )
-        return 0;
-
-    return account -> bet_taux_annuel;
-}
-
-
-/**
- *
- *
- *
- *
- * */
 gboolean gsb_data_account_set_bet_finance_taux_annuel ( gint account_number, gdouble taux_annuel )
 {
     AccountStruct *account;
@@ -3483,6 +3445,47 @@ gboolean gsb_data_account_set_bet_finance_taux_annuel ( gint account_number, gdo
         return FALSE;
 
     account -> bet_taux_annuel = taux_annuel;
+
+    return TRUE;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gboolean gsb_data_account_set_bet_finance_frais ( gint account_number, gdouble frais )
+{
+    AccountStruct *account;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if ( !account )
+        return FALSE;
+
+    account -> bet_frais = frais;
+
+    return TRUE;
+}
+
+
+/**
+ *
+ *
+ *
+ * */
+gboolean gsb_data_account_set_bet_finance_type_taux ( gint account_number, gint type_taux )
+{
+    AccountStruct *account;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if ( !account )
+        return FALSE;
+
+    account -> bet_type_taux = type_taux;
 
     return TRUE;
 }
@@ -3570,82 +3573,6 @@ gboolean gsb_data_account_set_bet_split_transaction (gint account_number,
     return TRUE;
 }
 
-/**
- *
- *
- *
- *
- * */
-gdouble gsb_data_account_get_bet_finance_frais ( gint account_number )
-{
-    AccountStruct *account;
-
-    account = gsb_data_account_get_structure ( account_number );
-
-    if ( !account )
-        return 0;
-
-    return account -> bet_frais;
-}
-
-
-/**
- *
- *
- *
- *
- * */
-gboolean gsb_data_account_set_bet_finance_frais ( gint account_number, gdouble frais )
-{
-    AccountStruct *account;
-
-    account = gsb_data_account_get_structure ( account_number );
-
-    if ( !account )
-        return FALSE;
-
-    account -> bet_frais = frais;
-
-    return TRUE;
-}
-
-
-/**
- *
- *
- *
- * */
-gint gsb_data_account_get_bet_finance_type_taux ( gint account_number )
-{
-    AccountStruct *account;
-
-    account = gsb_data_account_get_structure ( account_number );
-
-    if ( !account )
-        return 0;
-
-    return account -> bet_type_taux;
-}
-
-
-/**
- *
- *
- *
- * */
-gboolean gsb_data_account_set_bet_finance_type_taux ( gint account_number, gint type_taux )
-{
-    AccountStruct *account;
-
-    account = gsb_data_account_get_structure ( account_number );
-
-    if ( !account )
-        return FALSE;
-
-    account -> bet_type_taux = type_taux;
-
-    return TRUE;
-}
 
 
 /**
