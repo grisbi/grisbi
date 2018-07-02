@@ -1456,7 +1456,7 @@ dialog_return:
 		/* set currency */
 		gsb_data_scheduled_set_currency_number (scheduled_number, s_loan->currency_number);
 		/* set final_date */
-		tmp_date = g_date_copy (s_loan->first_date);
+		tmp_date = gsb_date_copy (s_loan->first_date);
 		g_date_add_months (tmp_date, s_loan->duree-1);
 		gsb_data_scheduled_set_limit_date (scheduled_number, tmp_date);
 		g_date_free (tmp_date);
