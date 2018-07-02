@@ -2268,7 +2268,7 @@ void bet_finance_update_amortization_tab_with_data (gint account_number,
 
     /* récupère le tableau d'amortissement */
     tree_view = g_object_get_data (G_OBJECT (parent), "bet_finance_tree_view");
-	bet_finance_invers_cols_cap_ech (tree_view, s_loan->invers_cols_cap_ech);
+	bet_finance_ui_invers_cols_cap_ech (tree_view, s_loan->invers_cols_cap_ech);
 	amortization_initial_date = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (tree_view),
 																	"amortization_initial_date"));
 
@@ -2520,7 +2520,7 @@ void bet_finance_update_amortization_tab_with_data (gint account_number,
  *
  * \return
  **/
-void bet_finance_invers_cols_cap_ech (GtkWidget *tree_view,
+void bet_finance_ui_invers_cols_cap_ech (GtkWidget *tree_view,
 									  gboolean invers_cols_cap_ech)
 {
 	GtkTreeViewColumn *capital_du_col;

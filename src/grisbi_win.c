@@ -412,7 +412,7 @@ static gboolean grisbi_win_fill_general_notebook (GrisbiWin *win)
 
     /* append the amortization page */
     gtk_notebook_append_page (GTK_NOTEBOOK (priv->account_page),
-                        bet_finance_create_account_page (),
+                        bet_finance_ui_create_account_amortization_page (),
                         gtk_label_new (_("Amortization array")));
 
     gtk_notebook_append_page (GTK_NOTEBOOK (priv->account_page),
@@ -436,8 +436,8 @@ static gboolean grisbi_win_fill_general_notebook (GrisbiWin *win)
 
     /* append the financial page */
     gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_general),
-                        bet_finance_create_page (),
-                        gtk_label_new (_("Credits simulator")));
+							  bet_finance_ui_create_loan_simulator (),
+							  gtk_label_new (_("Credits simulator")));
 
     /* append the categories page */
     gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_general),
@@ -1738,7 +1738,7 @@ gboolean grisbi_win_on_account_switch_page (GtkNotebook *notebook,
     case GSB_FINANCE_PAGE:
         gsb_form_set_expander_visible (FALSE, FALSE);
         account_number = gsb_gui_navigation_get_current_account ();
-        bet_finance_ui_update_amortization_tab (account_number);
+        bet_finance_update_amortization_tab (account_number);
 		/* FALLTHRU */
     case GSB_PROPERTIES_PAGE:
         gsb_form_set_expander_visible (FALSE, FALSE);
@@ -2053,7 +2053,7 @@ void grisbi_win_update_all_toolbars (void)
     etats_onglet_reports_toolbar_set_style (toolbar_style);
     bet_array_update_toolbar (toolbar_style);
     bet_historical_update_toolbar (toolbar_style);
-    bet_finance_update_all_finance_toolbars (toolbar_style);
+    bet_finance_ui_update_all_finance_toolbars (toolbar_style);
 }
 
 /* Local Variables: */

@@ -154,7 +154,7 @@ static void prefs_widget_loan_checkbutton_invers_cols_cap_ech (GtkToggleButton *
 
 		account_page = grisbi_win_get_account_page ();
 		if (gtk_notebook_get_current_page (GTK_NOTEBOOK (account_page)) == GSB_FINANCE_PAGE)
-			bet_finance_ui_update_amortization_tab_with_data (s_loan->account_number, account_page, s_loan);
+			bet_finance_update_amortization_tab_with_data (s_loan->account_number, account_page, s_loan);
 	}
 }
 
@@ -650,7 +650,7 @@ static void prefs_widget_loan_entry_focus_out (GtkWidget *widget,
 		GtkWidget *account_page;
 
 		account_page = grisbi_win_get_account_page ();
-		bet_finance_ui_update_amortization_tab_with_data (s_loan->account_number, account_page, s_loan);
+		bet_finance_update_amortization_tab_with_data (s_loan->account_number, account_page, s_loan);
 	}
 }
 
@@ -777,13 +777,13 @@ static void prefs_widget_loan_button_amortization_table_clicked (GtkButton *butt
 	gtk_widget_show (popup);
 
 	/* set data of loan */
-	page = bet_finance_create_amortization_heading (popup);
+	page = bet_finance_ui_create_amortization_heading (popup);
 	content_area = gtk_dialog_get_content_area (GTK_DIALOG (popup));
 	gtk_box_pack_start (GTK_BOX (content_area), page, TRUE, TRUE, 0);
 
 	/* création de la liste des données */
 	label_title = g_object_get_data (G_OBJECT (popup), "label_title");
-    tree_view = bet_finance_create_amortization_tree_view (page, SPP_ORIGIN_FINANCE);
+    tree_view = bet_finance_ui_create_amortization_tree_view (page, SPP_ORIGIN_FINANCE);
     g_object_set_data (G_OBJECT (tree_view), "origin", GINT_TO_POINTER (SPP_ORIGIN_CONFIG));
     g_object_set_data (G_OBJECT (popup), "bet_finance_tree_view", tree_view);
     g_object_set_data (G_OBJECT (tree_view), "label_title", label_title);
@@ -793,7 +793,7 @@ static void prefs_widget_loan_button_amortization_table_clicked (GtkButton *butt
 
 	/* set toolbar */
 	frame = g_object_get_data (G_OBJECT (popup), "frame");
-	account_toolbar = bet_finance_create_simulator_toolbar (page, tree_view, FALSE, FALSE);
+	account_toolbar = bet_finance_ui_create_simulator_toolbar (page, tree_view, FALSE, FALSE);
 	item = g_object_get_data (G_OBJECT (tree_view), "amortization_initial_date_button");
 	gtk_widget_set_sensitive (item, FALSE);
     gtk_container_add (GTK_CONTAINER (frame), account_toolbar);
@@ -803,7 +803,7 @@ static void prefs_widget_loan_button_amortization_table_clicked (GtkButton *butt
 	gtk_widget_show_all (page);
 
 	/* init the tab */
-	bet_finance_ui_update_amortization_tab_with_data (s_loan->account_number, popup, s_loan);
+	bet_finance_update_amortization_tab_with_data (s_loan->account_number, popup, s_loan);
 
 	gtk_dialog_run (GTK_DIALOG (popup));
 	gtk_widget_destroy (popup);
@@ -839,7 +839,7 @@ static void prefs_widget_loan_radiobutton_type_taux_toggled (GtkToggleButton *to
 
 		account_page = grisbi_win_get_account_page ();
 		if (gtk_notebook_get_current_page (GTK_NOTEBOOK (account_page)) == GSB_FINANCE_PAGE)
-			bet_finance_ui_update_amortization_tab_with_data (s_loan->account_number, account_page, s_loan);
+			bet_finance_update_amortization_tab_with_data (s_loan->account_number, account_page, s_loan);
 	}
 }
 
