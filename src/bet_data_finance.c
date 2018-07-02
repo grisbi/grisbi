@@ -40,8 +40,8 @@
 
 
 /*START_STATIC*/
-/*END_STATIC*/
 static GSList *bet_loan_list = NULL;
+/*END_STATIC*/
 
 /*START_EXTERN*/
 /*END_EXTERN*/
