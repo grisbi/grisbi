@@ -2731,6 +2731,7 @@ devel_debug ("exécute init_sch_with_loan");
         GtkTreeSelection *selection;
         GtkTreePath *path;
 
+		gsb_scheduler_list_edit_transaction (gsb_scheduler_list_get_current_scheduled_number ());
         selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( gsb_scheduler_list_get_tree_view ( ) ) );
         path = gtk_tree_path_new_from_string ( "0" );
         gtk_tree_selection_select_path ( selection, path );
