@@ -1057,7 +1057,7 @@ gboolean gsb_transaction_list_config_realized ( GtkWidget *tree_view,
  *
  * \return FALSE
  * */
-gboolean gsb_transaction_list_config_drag_begin ( GtkWidget *tree_view,
+gboolean gsb_transaction_list_config_drag_begin (GtkWidget *tree_view,
                         GdkDragContext *drag_context,
                         gpointer null )
 {
@@ -1066,9 +1066,6 @@ gboolean gsb_transaction_list_config_drag_begin ( GtkWidget *tree_view,
     GtkTreePath *path;
     GtkTreeViewColumn *tree_column;
     GdkRectangle rectangle;
-    GdkPixbuf *pixbuf_cursor;
-    cairo_surface_t *s;
-    cairo_t *cr;
 
     /* get the cell coord */
     device = gdk_drag_context_get_device (drag_context);
@@ -1099,22 +1096,8 @@ gboolean gsb_transaction_list_config_drag_begin ( GtkWidget *tree_view,
                         tree_column,
                         &rectangle );
 
-    s = cairo_image_surface_create ( CAIRO_FORMAT_A1, 3, 3 );
-    cr = cairo_create ( s );
-    cairo_rectangle ( cr, rectangle.x, rectangle.y, rectangle.width, rectangle.height );
-    cairo_fill ( cr );
-    cairo_destroy ( cr );
-
-    pixbuf_cursor = gdk_pixbuf_get_from_surface ( s, rectangle.x, rectangle.y, rectangle.width, rectangle.height );
-
-    cairo_surface_destroy (s);
-
-    gtk_drag_source_set_icon_pixbuf ( tree_view, pixbuf_cursor );
-
-    g_object_unref ( pixbuf_cursor );
-
-    if ( start_drag_row == 0 )
-        gtk_tree_view_column_set_title  ( tree_column, "" );
+	if ( start_drag_row == 0 )
+			gtk_tree_view_column_set_title  ( tree_column, "" );
 
     return FALSE;
 }

@@ -1128,11 +1128,6 @@ gboolean gsb_form_config_drag_begin ( GtkWidget *tree_view,
     gint x, y;
     GtkTreePath *path;
     GtkTreeViewColumn *tree_column;
-    //~ GdkWindow *drawable;
-    GdkRectangle rectangle;
-    GdkPixbuf *pixbuf_cursor;
-    cairo_surface_t *s;
-    cairo_t *cr;
 
     /* get the cell coord */
     device = gdk_drag_context_get_device (drag_context);
@@ -1157,26 +1152,6 @@ gboolean gsb_form_config_drag_begin ( GtkWidget *tree_view,
     start_drag_column = g_list_index ( gtk_tree_view_get_columns ( GTK_TREE_VIEW ( tree_view )),
 				       tree_column );
     start_drag_row = utils_str_atoi ( gtk_tree_path_to_string ( path ));
-
-    /* draw the new cursor */
-    //~ drawable = gtk_tree_view_get_bin_window (GTK_TREE_VIEW ( tree_view ));
-    gtk_tree_view_get_cell_area ( GTK_TREE_VIEW ( tree_view ),
-				  path,
-				  tree_column,
-				  &rectangle );
-
-    s = cairo_image_surface_create ( CAIRO_FORMAT_A1, 3, 3 );
-    cr = cairo_create ( s );
-    cairo_rectangle ( cr, rectangle.x, rectangle.y, rectangle.width, rectangle.height );
-    cairo_fill ( cr );
-    cairo_destroy ( cr );
-
-    pixbuf_cursor = gdk_pixbuf_get_from_surface ( s, rectangle.x, rectangle.y, rectangle.width, rectangle.height );
-
-    cairo_surface_destroy (s);
-
-    gtk_drag_source_set_icon_pixbuf ( tree_view, pixbuf_cursor );
-    g_object_unref (pixbuf_cursor);
 
     return FALSE;
 }
