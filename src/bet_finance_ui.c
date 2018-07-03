@@ -74,7 +74,20 @@ static GtkWidget *simulator_toolbar;
 #define DUREE_MOY_ANNEE		15		/* durée moyennedu prêt en années */
 #define DUREE_MAX_ANNEE		30		/* durée maxi du prêt en années */
 
-enum bet_finance_data_columns
+enum BetFinanceAmortizationColumns
+{
+    BET_AMORTIZATION_NUMBER_COLUMN,
+    BET_AMORTIZATION_DATE_COLUMN,
+    BET_AMORTIZATION_CAPITAL_DU_COLUMN,
+    BET_AMORTIZATION_INTERETS_COLUMN,
+    BET_AMORTIZATION_PRINCIPAL_COLUMN,
+    BET_AMORTIZATION_FRAIS_COLUMN,
+    BET_AMORTIZATION_ECHEANCE_COLUMN,
+    BET_AMORTIZATION_BACKGROUND_COLOR,
+    BET_AMORTIZATION_NBRE_COLUMNS
+};
+
+enum BetFinanceDataColumns
 {
     BET_FINANCE_DURATION_COLUMN,
     BET_FINANCE_NBRE_ECHEANCE_COLUMN,
@@ -94,21 +107,6 @@ enum bet_finance_data_columns
     BET_FINANCE_BACKGROUND_COLOR,
     BET_FINANCE_NBRE_COLUMNS
 };
-
-
-enum bet_finance_amortization_columns
-{
-    BET_AMORTIZATION_NUMBER_COLUMN,
-    BET_AMORTIZATION_DATE_COLUMN,
-    BET_AMORTIZATION_CAPITAL_DU_COLUMN,
-    BET_AMORTIZATION_INTERETS_COLUMN,
-    BET_AMORTIZATION_PRINCIPAL_COLUMN,
-    BET_AMORTIZATION_FRAIS_COLUMN,
-    BET_AMORTIZATION_ECHEANCE_COLUMN,
-    BET_AMORTIZATION_BACKGROUND_COLOR,
-    BET_AMORTIZATION_NBRE_COLUMNS
-};
-
 
 /******************************************************************************/
 /* Private functions                                                          */
