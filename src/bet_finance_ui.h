@@ -32,8 +32,6 @@ GtkWidget *				bet_finance_ui_create_simulator_toolbar 			(GtkWidget *parent,
 																			 gboolean simulator,
 																			 gboolean amortization);
 GtkWidget *				bet_finance_ui_get_capital_entry 					(void);
-void					bet_finance_ui_invers_cols_cap_ech					(GtkWidget *tree_view,
-																			 gboolean invers_cols_cap_ech);
 void 					bet_finance_ui_switch_simulator_page 				(void);
 void 					bet_finance_ui_update_all_finance_toolbars 			(gint toolbar_style);
 /* END_DECLARATION */
