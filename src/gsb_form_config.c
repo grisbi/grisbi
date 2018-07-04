@@ -719,7 +719,7 @@ gboolean gsb_form_config_toggle_element_button ( GtkWidget *toggle_button )
     gsb_form_config_update_from_account (
                         gsb_account_get_combo_account_number ( accounts_combobox ) );
     /* update the form */
-    gsb_form_config_fill_store (account_number);
+    //~ gsb_form_config_fill_store (account_number);
     gsb_form_create_widgets ();
 
     gsb_file_set_modified ( TRUE );
