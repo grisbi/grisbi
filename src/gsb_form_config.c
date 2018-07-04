@@ -551,28 +551,28 @@ gboolean gsb_form_config_toggle_element_button ( GtkWidget *toggle_button )
     /* set the second element number if necessary */
     switch ( element_number )
     {
-	case TRANSACTION_FORM_TYPE:
-	    /* 	    c'est le mode de paiement, on met le chq */
-	    no_second_element = TRANSACTION_FORM_CHEQUE;
-	    break;
+		case TRANSACTION_FORM_TYPE:
+			/* 	    c'est le mode de paiement, on met le chq */
+			no_second_element = TRANSACTION_FORM_CHEQUE;
+			break;
 
-	case TRANSACTION_FORM_CHEQUE:
-	    /* 	    c'est le chq, on met mode de paiement */
-	    no_second_element = TRANSACTION_FORM_TYPE;
-	    break;
+		case TRANSACTION_FORM_CHEQUE:
+			/* 	    c'est le chq, on met mode de paiement */
+			no_second_element = TRANSACTION_FORM_TYPE;
+			break;
 
-	case TRANSACTION_FORM_DEVISE:
-	    /* 	    c'est la devise, on met le button de change */
-	    no_second_element = TRANSACTION_FORM_CHANGE;
-	    break;
+		case TRANSACTION_FORM_DEVISE:
+			/* 	    c'est la devise, on met le button de change */
+			no_second_element = TRANSACTION_FORM_CHANGE;
+			break;
 
-	case TRANSACTION_FORM_CHANGE:
-	    /* 	    c'est le button de change, on met la devise */
-	    no_second_element = TRANSACTION_FORM_DEVISE;
-	    break;
+		case TRANSACTION_FORM_CHANGE:
+			/* 	    c'est le button de change, on met la devise */
+			no_second_element = TRANSACTION_FORM_DEVISE;
+			break;
 
-	default:
-	    no_second_element = -1;
+		default:
+			no_second_element = -1;
     }
 
     account_number = gsb_account_get_combo_account_number ( accounts_combobox );
@@ -580,135 +580,135 @@ gboolean gsb_form_config_toggle_element_button ( GtkWidget *toggle_button )
     /* update the table */
     if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( toggle_button )))
     {
-	/* button is on, append the element */
-	gint place_trouvee = 0;
-	gint ligne_premier_elt = -1;
-	gint colonne_premier_elt = -1;
+		/* button is on, append the element */
+		gint place_trouvee = 0;
+		gint ligne_premier_elt = -1;
+		gint colonne_premier_elt = -1;
 
-	for ( i=0 ; i < gsb_data_form_get_nb_rows (account_number) ; i++)
+		for ( i=0 ; i < gsb_data_form_get_nb_rows (account_number) ; i++)
 		{
-	    for ( j=0 ; j < gsb_data_form_get_nb_columns (account_number) ; j++ )
+			for ( j=0 ; j < gsb_data_form_get_nb_columns (account_number) ; j++ )
 			{
-		if ( !gsb_data_form_get_value ( account_number, j, i ) )
-		{
-		    /* if only 1 element, end here, else continue to look after the second one */
-		    if ( no_second_element == -1 )
-		    {
-			/* 			il n'y a qu'un elt */
+				if ( !gsb_data_form_get_value ( account_number, j, i ) )
+				{
+					/* if only 1 element, end here, else continue to look after the second one */
+					if ( no_second_element == -1 )
+					{
+						/* 			il n'y a qu'un elt */
 
-			gsb_data_form_set_value ( account_number,
-						  j,
-						  i,
-						  element_number );
-			place_trouvee = 1;
-			i = gsb_data_form_get_nb_rows (account_number);
-			j = gsb_data_form_get_nb_columns (account_number);
-		    }
-		    else
-		    {
-			/* there are 2 elements */
-			if ( ligne_premier_elt == -1 )
-			{
-			    /* found the place for the first element */
-			    ligne_premier_elt = i;
-			    colonne_premier_elt = j;
+						gsb_data_form_set_value ( account_number,
+									  j,
+									  i,
+									  element_number );
+						place_trouvee = 1;
+						i = gsb_data_form_get_nb_rows (account_number);
+						j = gsb_data_form_get_nb_columns (account_number);
+					}
+					else
+					{
+						/* there are 2 elements */
+						if ( ligne_premier_elt == -1 )
+						{
+							/* found the place for the first element */
+							ligne_premier_elt = i;
+							colonne_premier_elt = j;
+						}
+						else
+						{
+							/* found the place for the second element */
+							gsb_data_form_set_value ( account_number,
+										  colonne_premier_elt,
+										  ligne_premier_elt,
+										  element_number );
+							gsb_data_form_set_value ( account_number,
+										  j,
+										  i,
+										  no_second_element );
+							place_trouvee = 1;
+							i = gsb_data_form_get_nb_rows (account_number);
+							j = gsb_data_form_get_nb_columns (account_number);
+						}
+					}
+				}
 			}
+		}
+
+		if ( place_trouvee )
+		{
+			/* there is a place for the element, active if necessary an associated element */
+			if ( no_second_element != -1 )
+			{
+				g_signal_handlers_block_by_func ( G_OBJECT ( form_config_buttons[no_second_element-4] ),
+								  G_CALLBACK ( gsb_form_config_toggle_element_button ),
+								  NULL );
+				gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( form_config_buttons[no_second_element-4] ),
+								   TRUE );
+				g_signal_handlers_unblock_by_func ( G_OBJECT ( form_config_buttons[no_second_element-4] ),
+									G_CALLBACK ( gsb_form_config_toggle_element_button ),
+									NULL );
+			}
+		}
+		else
+		{
+			/* there is no place to add an element */
+			g_signal_handlers_block_by_func ( G_OBJECT ( toggle_button ),
+							  G_CALLBACK ( gsb_form_config_toggle_element_button ),
+							  NULL );
+			gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( toggle_button ),
+						   FALSE );
+			g_signal_handlers_unblock_by_func ( G_OBJECT ( toggle_button ),
+							G_CALLBACK ( gsb_form_config_toggle_element_button ),
+							NULL );
+
+			if ( no_second_element == -1 )
+				dialogue_hint ( _("There is no place enough to put the element. You need to increase "
+								  "the number of rows or columns to add an element."),
+								_("The table is full"));
 			else
-			{
-			    /* found the place for the second element */
-			    gsb_data_form_set_value ( account_number,
-						      colonne_premier_elt,
-						      ligne_premier_elt,
-						      element_number );
-			    gsb_data_form_set_value ( account_number,
-						      j,
-						      i,
-						      no_second_element );
-			    place_trouvee = 1;
-			    i = gsb_data_form_get_nb_rows (account_number);
-			    j = gsb_data_form_get_nb_columns (account_number);
-			}
-		    }
+				dialogue_hint ( _("There is no place enough to put the two elements (you have clicked on "
+								  "an element which contains two). You need to increase the number of rows "
+								  "or columns to add the elements."),
+								_("The table is full"));
+
+			return TRUE;
 		}
-			}
-		}
-
-	if ( place_trouvee )
-	{
-	    /* there is a place for the element, active if necessary an associated element */
-	    if ( no_second_element != -1 )
-	    {
-		g_signal_handlers_block_by_func ( G_OBJECT ( form_config_buttons[no_second_element-4] ),
-						  G_CALLBACK ( gsb_form_config_toggle_element_button ),
-						  NULL );
-		gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( form_config_buttons[no_second_element-4] ),
-					       TRUE );
-		g_signal_handlers_unblock_by_func ( G_OBJECT ( form_config_buttons[no_second_element-4] ),
-						    G_CALLBACK ( gsb_form_config_toggle_element_button ),
-						    NULL );
-	    }
-	}
-	else
-	{
-	    /* there is no place to add an element */
-	    g_signal_handlers_block_by_func ( G_OBJECT ( toggle_button ),
-					      G_CALLBACK ( gsb_form_config_toggle_element_button ),
-					      NULL );
-	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( toggle_button ),
-					   FALSE );
-	    g_signal_handlers_unblock_by_func ( G_OBJECT ( toggle_button ),
-						G_CALLBACK ( gsb_form_config_toggle_element_button ),
-						NULL );
-
-	    if ( no_second_element == -1 )
-		dialogue_hint ( _("There is no place enough to put the element. You need to increase "
-                          "the number of rows or columns to add an element."),
-                        _("The table is full"));
-	    else
-		dialogue_hint ( _("There is no place enough to put the two elements (you have clicked on "
-                          "an element which contains two). You need to increase the number of rows "
-                          "or columns to add the elements."),
-                        _("The table is full"));
-
-	    return TRUE;
-	}
     }
     else
     {
-	/* un-toggle the button */
-	if ( no_second_element != -1 )
-	{
-	    g_signal_handlers_block_by_func ( G_OBJECT ( form_config_buttons[no_second_element-4] ),
-					      G_CALLBACK ( gsb_form_config_toggle_element_button ),
-					      NULL );
-	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( form_config_buttons[no_second_element-4] ),
-					   FALSE );
-	    g_signal_handlers_unblock_by_func ( G_OBJECT ( form_config_buttons[no_second_element-4] ),
-						G_CALLBACK ( gsb_form_config_toggle_element_button ),
-						NULL );
-	}
+		/* un-toggle the button */
+		if ( no_second_element != -1 )
+		{
+			g_signal_handlers_block_by_func ( G_OBJECT ( form_config_buttons[no_second_element-4] ),
+							  G_CALLBACK ( gsb_form_config_toggle_element_button ),
+							  NULL );
+			gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( form_config_buttons[no_second_element-4] ),
+						   FALSE );
+			g_signal_handlers_unblock_by_func ( G_OBJECT ( form_config_buttons[no_second_element-4] ),
+							G_CALLBACK ( gsb_form_config_toggle_element_button ),
+							NULL );
+		}
 
-	for ( i=0 ; i < gsb_data_form_get_nb_rows (account_number) ; i++ )
+		for ( i=0 ; i < gsb_data_form_get_nb_rows (account_number) ; i++ )
 		{
-	    for ( j=0 ; j < gsb_data_form_get_nb_columns (account_number) ; j++ )
-		{
+			for ( j=0 ; j < gsb_data_form_get_nb_columns (account_number) ; j++ )
+			{
 				if ( gsb_data_form_get_value (account_number, j, i ) == element_number )
 				{
 					gsb_data_form_set_value ( account_number, j, i, 0 );
-		    if ( no_second_element == -1 )
-		    {
-			i = gsb_data_form_get_nb_rows (account_number);
-			j = gsb_data_form_get_nb_columns (account_number);
-		    }
-		    else
-		    {
-			element_number = no_second_element;
-			no_second_element = -1;
-			i = 0;
-			j = 0;
-		    }
-		}
-    }
+					if ( no_second_element == -1 )
+					{
+						i = gsb_data_form_get_nb_rows (account_number);
+						j = gsb_data_form_get_nb_columns (account_number);
+					}
+					else
+					{
+						element_number = no_second_element;
+						no_second_element = -1;
+						i = 0;
+						j = 0;
+					}
+				}
+			}
 		}
     }
 
@@ -1184,6 +1184,7 @@ gboolean gsb_form_config_drag_end ( GtkWidget *tree_view,
     /* fill the list */
     gsb_form_config_fill_store (account_number);
 	gsb_form_clean (account_number);
+    gsb_form_create_widgets ();
 
     gsb_file_set_modified ( TRUE );
     return (FALSE);
