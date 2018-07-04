@@ -586,7 +586,9 @@ gboolean gsb_form_config_toggle_element_button ( GtkWidget *toggle_button )
 	gint colonne_premier_elt = -1;
 
 	for ( i=0 ; i < gsb_data_form_get_nb_rows (account_number) ; i++)
+		{
 	    for ( j=0 ; j < gsb_data_form_get_nb_columns (account_number) ; j++ )
+			{
 		if ( !gsb_data_form_get_value ( account_number, j, i ) )
 		{
 		    /* if only 1 element, end here, else continue to look after the second one */
@@ -627,6 +629,8 @@ gboolean gsb_form_config_toggle_element_button ( GtkWidget *toggle_button )
 			    j = gsb_data_form_get_nb_columns (account_number);
 			}
 		    }
+		}
+			}
 		}
 
 	if ( place_trouvee )
@@ -685,15 +689,12 @@ gboolean gsb_form_config_toggle_element_button ( GtkWidget *toggle_button )
 	}
 
 	for ( i=0 ; i < gsb_data_form_get_nb_rows (account_number) ; i++ )
-	    for ( j=0 ; j < gsb_data_form_get_nb_columns (account_number) ; j++ )
-		if ( gsb_data_form_get_value (account_number,
-					      j,
-					      i ) == element_number )
 		{
-		    gsb_data_form_set_value ( account_number,
-					      j,
-					      i,
-					      0 );
+	    for ( j=0 ; j < gsb_data_form_get_nb_columns (account_number) ; j++ )
+		{
+				if ( gsb_data_form_get_value (account_number, j, i ) == element_number )
+				{
+					gsb_data_form_set_value ( account_number, j, i, 0 );
 		    if ( no_second_element == -1 )
 		    {
 			i = gsb_data_form_get_nb_rows (account_number);
@@ -706,6 +707,8 @@ gboolean gsb_form_config_toggle_element_button ( GtkWidget *toggle_button )
 			i = 0;
 			j = 0;
 		    }
+		}
+    }
 		}
     }
 
