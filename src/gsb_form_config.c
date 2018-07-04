@@ -57,9 +57,6 @@ static gboolean gsb_form_config_add_column ( void );
 static gboolean gsb_form_config_add_line ( void );
 static gboolean gsb_form_config_change_account_choice ( GtkWidget *combobox,
 						 gpointer null );
-//~ static gboolean gsb_form_config_change_column_size ( GtkWidget *tree_view,
-					      //~ GtkAllocation *allocation,
-					      //~ gpointer null );
 static gboolean gsb_form_config_check_for_removing ( gint account_number,
 					      gint removing_row );
 static GtkWidget *gsb_form_config_create_buttons_table ( void );
@@ -794,52 +791,6 @@ gboolean gsb_form_config_realized ( GtkWidget *tree_view,
     return FALSE;
 }
 
-
-
-/**
- * called when change the size of the columns,
- * save the percent and change the size of the form according the new size
- *
- * \param tree_view
- * \param allocation
- *
- * \return FALSE
- * */
-//~ gboolean gsb_form_config_change_column_size ( GtkWidget *tree_view,
-					      //~ GtkAllocation *allocation,
-					      //~ gpointer null )
-//~ {
-    //~ gint column;
-    //~ gint account_number;
-    //~ gint i;
-    //~ GtkAllocation tmp_allocation;
-
-    //~ if ( !gtk_widget_get_realized (tree_view))
-	//~ return FALSE;
-
-    //~ account_number = gsb_account_get_combo_account_number ( accounts_combobox );
-
-    //~ for (i=0 ; i<gsb_data_account_get_accounts_amount () ; i++)
-    //~ {
-	    //~ for ( column=0 ; column < gsb_data_form_get_nb_columns (i) ; column++ )
-	    //~ {
-		//~ gint size_column;
-
-		//~ size_column = gtk_tree_view_column_get_width ( gtk_tree_view_get_column ( GTK_TREE_VIEW ( tree_view ),
-											  //~ column ));
-		//~ gsb_data_form_set_width_column ( i,
-						 //~ column,
-						 //~ size_column * 100 / allocation -> width );
-	    //~ }
-    //~ }
-
-    //~ gsb_file_set_modified ( TRUE );
-
-    //~ /* update the form if needed */
-    //~ gsb_form_create_widgets ();
-
-    //~ return FALSE;
-//~ }
 
 
 /**
