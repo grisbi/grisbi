@@ -2,6 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
+/*          2008-2018 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -50,12 +51,13 @@
 /** \struct
  * describe the form organization
  * each account has its own form_organization
- * */
+ **/
 
 /* struct organisation_formulaire */
 typedef struct _FormOrganization	FormOrganization;
 
-struct _FormOrganization {
+struct _FormOrganization
+ {
     /* 1 to 6 columns */
     gint columns;
 
@@ -91,6 +93,9 @@ struct _FormOrganization {
 };
 
 
+/******************************************************************************/
+/* Public functions                                                           */
+/******************************************************************************/
 /**
  * create a new form organization
  * and append it to the account
@@ -99,21 +104,21 @@ struct _FormOrganization {
  * \param account_number
  *
  * \return FALSE
- * */
-gboolean gsb_data_form_new_organization ( gint account_number )
+ **/
+gboolean gsb_data_form_new_organization (gint account_number)
 {
     FormOrganization *new_form;
 
     new_form = g_malloc0 (sizeof (FormOrganization));
 
-    if ( !new_form )
+    if (!new_form)
     {
 	dialogue_error_memory ();
 	return FALSE;
     }
 
-    gsb_data_account_set_form_organization ( account_number,
-					     new_form );
+    gsb_data_account_set_form_organization (account_number,
+					     new_form);
     return FALSE;
 }
 
@@ -125,8 +130,8 @@ gboolean gsb_data_form_new_organization ( gint account_number )
  * \param account_number
  *
  * \return FALSE
- * */
-gboolean gsb_data_form_set_default_organization ( gint account_number )
+ **/
+gboolean gsb_data_form_set_default_organization (gint account_number)
 {
     FormOrganization *form;
     gint tab[MAX_HEIGHT][MAX_WIDTH] = {
@@ -138,21 +143,21 @@ gboolean gsb_data_form_set_default_organization ( gint account_number )
     gint width[MAX_WIDTH] = { 15, 50, 15, 15, 0, 0 };
     gint i, j;
 
-    form = gsb_data_account_get_form_organization ( account_number );
+    form = gsb_data_account_get_form_organization (account_number);
 
-    if ( !form )
+    if (!form)
 	return FALSE;
 
     /* by default, 4 columns and 3 rows */
-    form -> columns = 4;
-    form -> rows = 3;
+    form->columns = 4;
+    form->rows = 3;
 
-    for ( i = 0 ; i<MAX_HEIGHT ; i++ )
-	for ( j = 0 ; j<MAX_WIDTH ; j++ )
-	    form -> form_table[i][j] = tab[i][j];
+    for (i = 0 ; i<MAX_HEIGHT ; i++)
+	for (j = 0 ; j<MAX_WIDTH ; j++)
+	    form->form_table[i][j] = tab[i][j];
 
-    for ( i = 0 ; i<6 ; i++ )
-	form -> width_columns_percent[i] = width[i];
+    for (i = 0 ; i<6 ; i++)
+	form->width_columns_percent[i] = width[i];
 
     return FALSE;
 }
@@ -165,32 +170,32 @@ gboolean gsb_data_form_set_default_organization ( gint account_number )
  * \param target_account
  *
  * \return TRUE, FALSE if problem
- * */
-gboolean gsb_data_form_dup_organization ( gint origin_account,
-					  gint target_account )
+ **/
+gboolean gsb_data_form_dup_organization (gint origin_account,
+					  gint target_account)
 {
     FormOrganization *origin_form;
     FormOrganization *new_form;
 
     origin_form = gsb_data_account_get_form_organization (origin_account);
 
-    if ( !origin_form )
+    if (!origin_form)
 	return FALSE;
 
-    new_form = g_malloc0 ( sizeof (FormOrganization));
+    new_form = g_malloc0 (sizeof (FormOrganization));
 
-     if ( !new_form )
+     if (!new_form)
     {
 	dialogue_error_memory ();
 	return FALSE;
     }
 
-    memcpy ( new_form,
+    memcpy (new_form,
 	     origin_form,
 	     sizeof (FormOrganization));
 
-    gsb_data_account_set_form_organization ( target_account,
-					     new_form );
+    gsb_data_account_set_form_organization (target_account,
+					     new_form);
 
     return TRUE;
 }
@@ -202,17 +207,17 @@ gboolean gsb_data_form_dup_organization ( gint origin_account,
  * \param account_number
  *
  * \return the number of columns or 0 if problem
- * */
-gint gsb_data_form_get_nb_columns ( gint account_number )
+ **/
+gint gsb_data_form_get_nb_columns (gint account_number)
 {
     FormOrganization *form;
 
-    form = gsb_data_account_get_form_organization ( account_number );
+    form = gsb_data_account_get_form_organization (account_number);
 
-    if ( !form )
+    if (!form)
 	return FALSE;
 
-    return form -> columns;
+    return form->columns;
 }
 
 
@@ -225,18 +230,18 @@ gint gsb_data_form_get_nb_columns ( gint account_number )
  * \param columns
  *
  * \return FALSE if problem, TRUE if ok
- * */
-gboolean gsb_data_form_set_nb_columns ( gint account_number,
-					gint columns )
+ **/
+gboolean gsb_data_form_set_nb_columns (gint account_number,
+					gint columns)
 {
     FormOrganization *form;
 
-    form = gsb_data_account_get_form_organization ( account_number );
+    form = gsb_data_account_get_form_organization (account_number);
 
-    if ( !form )
+    if (!form)
 	return FALSE;
 
-    form -> columns = columns;
+    form->columns = columns;
     return TRUE;
 }
 
@@ -247,17 +252,17 @@ gboolean gsb_data_form_set_nb_columns ( gint account_number,
  * \param account_number
  *
  * \return the number of rows or 0 if problem
- * */
-gint gsb_data_form_get_nb_rows ( gint account_number )
+ **/
+gint gsb_data_form_get_nb_rows (gint account_number)
 {
     FormOrganization *form;
 
-    form = gsb_data_account_get_form_organization ( account_number );
+    form = gsb_data_account_get_form_organization (account_number);
 
-    if ( !form )
+    if (!form)
 	return FALSE;
 
-    return form -> rows;
+    return form->rows;
 }
 
 
@@ -268,18 +273,18 @@ gint gsb_data_form_get_nb_rows ( gint account_number )
  * \param rows
  *
  * \return FALSE if problem, TRUE if ok
- * */
-gboolean gsb_data_form_set_nb_rows ( gint account_number,
-				     gint rows )
+ **/
+gboolean gsb_data_form_set_nb_rows (gint account_number,
+				     gint rows)
 {
     FormOrganization *form;
 
-    form = gsb_data_account_get_form_organization ( account_number );
+    form = gsb_data_account_get_form_organization (account_number);
 
-    if ( !form )
+    if (!form)
 	return FALSE;
 
-    form -> rows = rows;
+    form->rows = rows;
     return TRUE;
 }
 
@@ -292,23 +297,23 @@ gboolean gsb_data_form_set_nb_rows ( gint account_number,
  * \param row
  *
  * \return the value, 0 if no value at this place or -1 if problem
- * */
-gint gsb_data_form_get_value ( gint account_number,
+ **/
+gint gsb_data_form_get_value (gint account_number,
 			       gint column,
-			       gint row )
+			       gint row)
 {
     FormOrganization *form;
 
-    form = gsb_data_account_get_form_organization ( account_number );
+    form = gsb_data_account_get_form_organization (account_number);
 
-    if ( !form
+    if (!form
 	 ||
 	 column >= MAX_WIDTH
 	 ||
 	 row >= MAX_HEIGHT)
 	return -1;
 
-    return form -> form_table[row][column];
+    return form->form_table[row][column];
 }
 
 
@@ -322,24 +327,24 @@ gint gsb_data_form_get_value ( gint account_number,
  * \param value
  *
  * \return TRUE if ok, FALSE if problem
- * */
-gboolean gsb_data_form_set_value ( gint account_number,
+ **/
+gboolean gsb_data_form_set_value (gint account_number,
 				   gint column,
 				   gint row,
-				   gint value )
+				   gint value)
 {
     FormOrganization *form;
 
-    form = gsb_data_account_get_form_organization ( account_number );
+    form = gsb_data_account_get_form_organization (account_number);
 
-    if ( !form
+    if (!form
 	 ||
 	 column >= MAX_WIDTH
 	 ||
 	 row >= MAX_HEIGHT)
 	return FALSE;
 
-    form -> form_table[row][column] = value;
+    form->form_table[row][column] = value;
     return TRUE;
 }
 
@@ -351,20 +356,20 @@ gboolean gsb_data_form_set_value ( gint account_number,
  * \param column
  *
  * \return the value or -1 if problem
- * */
-gint gsb_data_form_get_width_column ( gint account_number,
-				      gint column )
+ **/
+gint gsb_data_form_get_width_column (gint account_number,
+				      gint column)
 {
     FormOrganization *form;
 
-    form = gsb_data_account_get_form_organization ( account_number );
+    form = gsb_data_account_get_form_organization (account_number);
 
-    if ( !form
+    if (!form
 	 ||
-	 column >= MAX_WIDTH )
+	 column >= MAX_WIDTH)
 	return -1;
 
-    return form -> width_columns_percent[column];
+    return form->width_columns_percent[column];
 }
 
 
@@ -377,21 +382,21 @@ gint gsb_data_form_get_width_column ( gint account_number,
  * \param value
  *
  * \return TRUE if ok, FALSE if problem
- * */
-gboolean gsb_data_form_set_width_column ( gint account_number,
+ **/
+gboolean gsb_data_form_set_width_column (gint account_number,
 					  gint column,
-					  gint width )
+					  gint width)
 {
     FormOrganization *form;
 
-    form = gsb_data_account_get_form_organization ( account_number );
+    form = gsb_data_account_get_form_organization (account_number);
 
-    if ( !form
+    if (!form
 	 ||
 	 column >= MAX_WIDTH)
 	return FALSE;
 
-    form -> width_columns_percent[column] = width;
+    form->width_columns_percent[column] = width;
     return TRUE;
 }
 
@@ -407,27 +412,27 @@ gboolean gsb_data_form_set_width_column ( gint account_number,
  * \param *return_column a pointer to gint or NULL
  *
  * \return TRUE if value found, FALSE else
- * */
-gboolean gsb_data_form_look_for_value ( gint account_number,
+ **/
+gboolean gsb_data_form_look_for_value (gint account_number,
 					gint value,
 					gint *return_row,
-					gint *return_column )
+					gint *return_column)
 {
     FormOrganization *form;
     gint row, column;
 
-    form = gsb_data_account_get_form_organization ( account_number );
+    form = gsb_data_account_get_form_organization (account_number);
 
-    if ( !form )
+    if (!form)
 	return FALSE;
 
-    for ( row=0 ; row < form -> rows ; row++ )
-	for ( column=0 ; column < form -> columns ; column++ )
-	    if ( form -> form_table[row][column] == value )
+    for (row=0 ; row < form->rows ; row++)
+	for (column=0 ; column < form->columns ; column++)
+	    if (form->form_table[row][column] == value)
 	    {
-		if ( return_row )
+		if (return_row)
 		    *return_row = row;
-		if ( return_column )
+		if (return_column)
 		    *return_column = column;
 		return TRUE;
 	    }
@@ -440,12 +445,12 @@ gboolean gsb_data_form_look_for_value ( gint account_number,
  * \param value
  *
  * \return FALSE or TRUE
- * */
-gboolean gsb_data_form_check_for_value ( gint value )
+ **/
+gboolean gsb_data_form_check_for_value (gint value)
 {
-    return gsb_data_form_look_for_value ( gsb_form_get_account_number (),
+    return gsb_data_form_look_for_value (gsb_form_get_account_number (),
 					  value,
-					  NULL, NULL );
+					  NULL, NULL);
 }
 
 
@@ -455,21 +460,21 @@ gboolean gsb_data_form_check_for_value ( gint value )
  * \param account_number
  *
  * \return the number of values or -1 if problem
- * */
-gint gsb_data_form_get_values_total ( gint account_number )
+ **/
+gint gsb_data_form_get_values_total (gint account_number)
 {
     FormOrganization *form;
     gint row, column;
     gint values = 0;
 
-    form = gsb_data_account_get_form_organization ( account_number );
+    form = gsb_data_account_get_form_organization (account_number);
 
-    if ( !form )
+    if (!form)
 	return -1;
 
-    for ( row=0 ; row<MAX_HEIGHT ; row++ )
-	for ( column=0 ; column<MAX_WIDTH ; column++ )
-	    if ( form -> form_table[row][column] )
+    for (row=0 ; row<MAX_HEIGHT ; row++)
+	for (column=0 ; column<MAX_WIDTH ; column++)
+	    if (form->form_table[row][column])
 		values++;
 
     return values;
@@ -484,7 +489,7 @@ gint gsb_data_form_get_values_total ( gint account_number )
  * \param account_number	the account number model to fill the others
  *
  * \return TRUE : ok, FALSE : problem, nothing done
- * */
+ **/
 gboolean gsb_form_config_update_from_account (gint account_number)
 {
     FormOrganization *form;
@@ -493,30 +498,30 @@ gboolean gsb_form_config_update_from_account (gint account_number)
     if (account_number == -1)
 	return FALSE;
 
-    form = gsb_data_account_get_form_organization ( account_number );
-    if ( !form)
+    form = gsb_data_account_get_form_organization (account_number);
+    if (!form)
     return FALSE;
 
-    tmp_list = gsb_data_account_get_list_accounts ( );
+    tmp_list = gsb_data_account_get_list_accounts ();
 
-    while ( tmp_list )
+    while (tmp_list)
     {
         FormOrganization *tmp_form;
         gint col;
         gint no_account;
 
-        no_account = gsb_data_account_get_no_account ( tmp_list -> data );
+        no_account = gsb_data_account_get_no_account (tmp_list->data);
 
         if (no_account == account_number)
         {
-            tmp_list = tmp_list -> next;
+            tmp_list = tmp_list->next;
             continue;
         }
 
         tmp_form = gsb_data_account_get_form_organization (no_account);
-        if ( tmp_form == NULL )
+        if (tmp_form == NULL)
         {
-            tmp_list = tmp_list -> next;
+            tmp_list = tmp_list->next;
             continue;
         }
 
@@ -525,15 +530,25 @@ gboolean gsb_form_config_update_from_account (gint account_number)
             gint line;
 
             for (line=0 ; line <MAX_HEIGHT ; line++)
-            tmp_form -> form_table[line][col] = form -> form_table[line][col];
-            tmp_form -> width_columns_percent[col] = form -> width_columns_percent[col];
+            tmp_form->form_table[line][col] = form->form_table[line][col];
+            tmp_form->width_columns_percent[col] = form->width_columns_percent[col];
         }
 
-        tmp_form -> columns = form -> columns;
-        tmp_form -> rows = form -> rows;
+        tmp_form->columns = form->columns;
+        tmp_form->rows = form->rows;
 
-        tmp_list = tmp_list -> next;
+        tmp_list = tmp_list->next;
     }
 
     return TRUE;
 }
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

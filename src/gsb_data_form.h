@@ -7,7 +7,8 @@
 /* END_INCLUDE_H */
 
 
-enum transaction_form_widget {
+enum TransactionFormWidget
+{
     TRANSACTION_FORM_DATE = 1,
     TRANSACTION_FORM_DEBIT,
     TRANSACTION_FORM_CREDIT,
