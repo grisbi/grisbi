@@ -359,7 +359,7 @@ void bet_data_loan_add_item (LoanStruct *s_loan)
 {
 	if (s_loan)
 	{
-		printf("add item numero = %d account_number = %d version = %d\n", s_loan->number, s_loan->account_number, s_loan->version_number);
+		//~ printf("add item numero = %d account_number = %d version = %d\n", s_loan->number, s_loan->account_number, s_loan->version_number);
 		bet_loan_list = g_slist_append (bet_loan_list,s_loan);
 		gsb_data_account_set_bet_init_sch_with_loan (s_loan->account_number, s_loan->init_sch_with_loan);
 	}
