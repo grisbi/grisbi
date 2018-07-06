@@ -560,14 +560,11 @@ gint gsb_form_widget_next_element ( gint account_number,
     gint form_column_number;
     gint form_row_number;
 
-    if ( !gsb_data_form_look_for_value ( account_number,
-					 element_number,
-					 &row,
-					 &column ))
-	return -1;
+    if ( !gsb_data_form_look_for_value (element_number, &row, &column))
+		return -1;
 
-    form_column_number = gsb_data_form_get_nb_columns (account_number);
-    form_row_number = gsb_data_form_get_nb_rows (account_number);
+    form_column_number = gsb_data_form_get_nb_columns ();
+    form_row_number = gsb_data_form_get_nb_rows ();
 
     while ( !gsb_form_widget_can_focus (return_value_number))
     {
@@ -586,9 +583,7 @@ gint gsb_form_widget_next_element ( gint account_number,
 		    column = form_column_number - 1;
 		    row--;
 		}
-		return_value_number = gsb_data_form_get_value ( account_number,
-								column,
-								row );
+		return_value_number = gsb_data_form_get_value (column, row );
 		break;
 
 	    case GTK_DIR_RIGHT:
@@ -612,9 +607,7 @@ gint gsb_form_widget_next_element ( gint account_number,
 		    column = 0;
 		    row++;
 		}
-		return_value_number = gsb_data_form_get_value ( account_number,
-								column,
-								row );
+		return_value_number = gsb_data_form_get_value (column, row );
 		break;
 
 	    case GTK_DIR_UP:
@@ -625,9 +618,7 @@ gint gsb_form_widget_next_element ( gint account_number,
 		}
 
 		row--;
-		return_value_number = gsb_data_form_get_value ( account_number,
-								column,
-								row );
+		return_value_number = gsb_data_form_get_value (column, row );
 		break;
 
 	    case GTK_DIR_DOWN:
@@ -637,9 +628,7 @@ gint gsb_form_widget_next_element ( gint account_number,
 		    continue;
 		}
 		row++;
-		return_value_number = gsb_data_form_get_value ( account_number,
-								column,
-								row );
+		return_value_number = gsb_data_form_get_value (column, row );
 		break;
 
 	    default:

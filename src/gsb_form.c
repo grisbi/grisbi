@@ -3659,17 +3659,15 @@ gboolean gsb_form_initialise_transaction_form ( void )
 {
     gint row, column;
     gint rows_number, columns_number;
-    gint form_account_number;
     gint account_number;
 
     devel_debug (NULL);
 
     /* get the form of the first account */
-	form_account_number = gsb_data_account_first_number ();
-    account_number = gsb_data_account_first_number ( );
+    account_number = gsb_data_account_first_number ();
 
-    rows_number = gsb_data_form_get_nb_rows (form_account_number);
-    columns_number = gsb_data_form_get_nb_columns (form_account_number);
+    rows_number = gsb_data_form_get_nb_rows ();
+    columns_number = gsb_data_form_get_nb_columns ();
 
     for ( row=0 ; row < rows_number ; row++ )
 	for ( column=0 ; column < columns_number ; column++ )
@@ -3677,7 +3675,7 @@ gboolean gsb_form_initialise_transaction_form ( void )
 	    GtkWidget *widget;
 	    gint element;
 
-        element = gsb_data_form_get_value ( form_account_number, column, row );
+        element = gsb_data_form_get_value (column, row );
 		widget = gsb_form_widget_create ( element, account_number );
 
 	    if ( !widget )

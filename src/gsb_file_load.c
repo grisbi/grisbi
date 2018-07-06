@@ -331,7 +331,51 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
 				}
 
                 else if (!strcmp (attribute_names[i], "Form_date_force_prev_year"))
+				{
                     w_etat->form_date_force_prev_year = utils_str_atoi ( attribute_values[i]);
+				}
+
+				else if (!strcmp ( attribute_names[i], "Form_columns_number" ))
+				{
+					gsb_data_form_new_organization ();
+					gsb_data_form_set_nb_columns (utils_str_atoi ( attribute_values[i]));
+				}
+
+				else if ( !strcmp ( attribute_names[i], "Form_lines_number" ))
+				{
+					gsb_data_form_set_nb_rows (utils_str_atoi ( attribute_values[i]));
+				}
+
+                else if ( !strcmp ( attribute_names[i], "Form_organization" ))
+                {
+                    gchar **pointeur_char;
+                    gint k, j;
+
+                    pointeur_char = g_strsplit (attribute_values[i], "-", 0);
+
+                    for ( k=0 ; k<MAX_HEIGHT ; k++ )
+					{
+                        for ( j=0 ; j<MAX_WIDTH ; j++ )
+						{
+                            gsb_data_form_set_value (j, k, utils_str_atoi (pointeur_char[j + k*MAX_WIDTH]));
+						}
+					}
+
+                    g_strfreev ( pointeur_char );
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Form_columns_width" ))
+                {
+                    gchar **pointeur_char;
+                    gint j;
+
+                    pointeur_char = g_strsplit ( attribute_values[i], "-", 0 );
+
+                    for ( j=0 ; j<MAX_WIDTH ; j++ )
+                        gsb_data_form_set_width_column (j, utils_str_atoi (pointeur_char[j]));
+
+                    g_strfreev ( pointeur_char );
+                }
 
 				else
                     unknown = 1;
@@ -1127,34 +1171,29 @@ static  void gsb_file_load_account_part ( const gchar **attribute_names,
                     unknown = 1;
                 break;
 
-            case 'F':
-                if ( !strcmp ( attribute_names[i], "Form_columns_number" ))
-                {
-                    gsb_data_form_new_organization (account_number);
-                    gsb_data_form_set_nb_columns ( account_number,
-                            utils_str_atoi ( attribute_values[i]));
-                }
+			case 'F':
+				if (!strcmp ( attribute_names[i], "Form_columns_number" ))
+				{
+					gsb_data_form_new_organization ();
+					gsb_data_form_set_nb_columns (utils_str_atoi ( attribute_values[i]));
+					gsb_file_set_modified (TRUE);
+				}
 
-                else if ( !strcmp ( attribute_names[i], "Form_lines_number" ))
-                {
-                    gsb_data_form_set_nb_rows ( account_number,
-                            utils_str_atoi ( attribute_values[i]));
-                }
+				else if ( !strcmp ( attribute_names[i], "Form_lines_number" ))
+				{
+					gsb_data_form_set_nb_rows (utils_str_atoi ( attribute_values[i]));
+				}
 
                 else if ( !strcmp ( attribute_names[i], "Form_organization" ))
                 {
                     gchar **pointeur_char;
                     gint k, j;
 
-                    pointeur_char = g_strsplit ( attribute_values[i],
-                            "-",
-                            0 );
+                    pointeur_char = g_strsplit (attribute_values[i], "-", 0);
 
                     for ( k=0 ; k<MAX_HEIGHT ; k++ )
                         for ( j=0 ; j<MAX_WIDTH ; j++ )
-                            gsb_data_form_set_value ( account_number,
-                                    j, k,
-                                    utils_str_atoi ( pointeur_char[j + k*MAX_WIDTH]));
+                            gsb_data_form_set_value (j, k, utils_str_atoi (pointeur_char[j + k*MAX_WIDTH]));
 
                     g_strfreev ( pointeur_char );
                 }
@@ -1164,14 +1203,10 @@ static  void gsb_file_load_account_part ( const gchar **attribute_names,
                     gchar **pointeur_char;
                     gint j;
 
-                    pointeur_char = g_strsplit ( attribute_values[i],
-                            "-",
-                            0 );
+                    pointeur_char = g_strsplit ( attribute_values[i], "-", 0 );
 
                     for ( j=0 ; j<MAX_WIDTH ; j++ )
-                        gsb_data_form_set_width_column ( account_number,
-                                j,
-                                utils_str_atoi ( pointeur_char[j]));
+                        gsb_data_form_set_width_column (j, utils_str_atoi (pointeur_char[j]));
 
                     g_strfreev ( pointeur_char );
                 }

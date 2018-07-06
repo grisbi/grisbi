@@ -126,9 +126,6 @@ struct _AccountStruct {
     /** @name current graphic position in the list (the row_align used with gtk_tree_view_scroll_to_cell) */
     gfloat 	row_align;
 
-    /** @name struct of the form's organization */
-    gpointer 	form_organization;
-
     /** @name bet data */
     gint bet_use_budget;                /* -1 = pas de module possible 0 = non utilisé 1 = utilisé */
     gint bet_credit_card;               /* 1 = compte type CB à débit différé */
@@ -294,10 +291,6 @@ gint gsb_data_account_new ( KindAccount account_kind )
     {
 	account -> nb_rows_by_transaction = 3;
 
-	/* set the form organization by default */
-	gsb_data_form_new_organization (account -> account_number);
-	gsb_data_form_set_default_organization (account -> account_number);
-
 	/* sort the transactions by default */
 	gsb_data_account_set_default_sort_values (account -> account_number);
     }
@@ -305,14 +298,6 @@ gint gsb_data_account_new ( KindAccount account_kind )
     {
 	account -> show_r = gsb_data_account_get_r (last_number);
 	account -> nb_rows_by_transaction = gsb_data_account_get_nb_rows (last_number);
-
-	/* try to copy the form of the last account, else make a new form */
-	if ( !gsb_data_form_dup_organization ( last_number,
-					       account -> account_number ))
-	{
-	    gsb_data_form_new_organization (account -> account_number);
-	    gsb_data_form_set_default_organization (account -> account_number);
-	}
 
 	/* try to copy the sort values of the last account, else set default values */
 	if ( !gsb_data_form_dup_sort_values ( last_number,
@@ -342,7 +327,6 @@ static void _gsb_data_account_free ( AccountStruct* account )
     g_free ( account -> bank_account_iban );
     if ( account -> sort_list )
         g_slist_free( account -> sort_list ) ;
-    g_free ( account -> form_organization );
     if ( account -> bet_start_date )
         g_date_free ( account -> bet_start_date );
     if ( account -> pixbuf )
@@ -2317,52 +2301,6 @@ gboolean gsb_data_account_set_sort_column ( gint account_number,
     return TRUE;
 }
 
-
-
-/**
- * get the form_organization of the account
- *
- * \param account_number no of the account
- *
- * \return form_organization or NULL if the account doesn't exist
- * */
-gpointer gsb_data_account_get_form_organization ( gint account_number )
-{
-    AccountStruct *account;
-
-    account = gsb_data_account_get_structure ( account_number );
-
-    if ( !account )
-	return NULL;
-
-    return account -> form_organization;
-}
-
-
-/**
- * set the form_organization of the account
- *
- * \param account_number no of the account
- * \param form_organization form_organization to set
- *
- * \return TRUE, ok ; FALSE, problem
- * */
-gboolean gsb_data_account_set_form_organization ( gint account_number,
-                        gpointer form_organization )
-{
-    AccountStruct *account;
-
-    account = gsb_data_account_get_structure ( account_number );
-
-    if ( !account )
-	return FALSE;
-
-    g_free (account -> form_organization);
-
-    account -> form_organization = form_organization;
-
-    return TRUE;
-}
 
 
 /**

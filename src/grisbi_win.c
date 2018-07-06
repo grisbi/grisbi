@@ -48,6 +48,7 @@
 #include "etats_onglet.h"
 #include "dialog.h"
 #include "gsb_account_property.h"
+#include "gsb_data_form.h"
 #include "gsb_data_account.h"
 #include "gsb_dirs.h"
 #include "gsb_form.h"
@@ -139,6 +140,9 @@ struct _GrisbiWinPrivate
 
 	/* paned */
 	gint 				hpaned_general_width;
+
+	/* form organization */
+	gpointer 			form_organization;
 
     /* variables de configuration de la fenêtre */
 	GrisbiWinEtat		*w_etat;
@@ -511,6 +515,7 @@ static GtkWidget *grisbi_win_create_general_notebook (GrisbiWin *win)
                       G_CALLBACK (grisbi_win_form_size_allocate),
                       NULL);
 
+	/* show widgets */
 	gtk_widget_show (sw);
     gtk_widget_show (grid);
 
@@ -807,6 +812,8 @@ static void grisbi_win_finalize (GObject *object)
 
     g_free (priv->window_title);
     priv->window_title = NULL;
+
+	g_free (priv->form_organization);
 
     g_clear_object (&priv->builder);
     g_clear_object (&priv->menu);
@@ -1796,13 +1803,52 @@ void grisbi_win_new_file_gui (void)
     gtk_box_pack_start (GTK_BOX (vbox_transactions_list), tree_view_widget, TRUE, TRUE, 0);
     gtk_widget_show (tree_view_widget);
 
-    /* Display accounts in menus */
+	/* Display accounts in menus */
 	grisbi_win_menu_move_to_acc_delete ();
 	grisbi_win_menu_move_to_acc_new ();
 
     gtk_notebook_set_current_page (GTK_NOTEBOOK(priv->notebook_general), GSB_HOME_PAGE);
 
     gtk_widget_show (priv->notebook_general);
+}
+
+/* FORM */
+/**
+ * get the form_organization
+ *
+ * \param
+ *
+ * \return form_organization
+ **/
+gpointer grisbi_win_get_form_organization (void)
+{
+    GrisbiWin *win;
+    GrisbiWinPrivate *priv;
+
+    win = grisbi_app_get_active_window (NULL);
+    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+
+    return priv->form_organization;
+}
+
+/**
+ * set the form_organization
+ *
+ * \param form_organization form_organization to set
+ *
+ * \return TRUE
+ * */
+gboolean grisbi_win_set_form_organization (gpointer form_organization)
+{
+    GrisbiWin *win;
+    GrisbiWinPrivate *priv;
+
+    win = grisbi_app_get_active_window (NULL);
+    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+
+    priv->form_organization = form_organization;
+
+    return TRUE;
 }
 
 /* HEADINGS */
