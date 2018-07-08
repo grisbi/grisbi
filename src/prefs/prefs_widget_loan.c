@@ -1466,7 +1466,7 @@ dialog_return:
 		gsb_data_scheduled_set_amount (scheduled_number, amount);
 		/* set payee_number */
 		associated_payee = gsb_data_payee_get_number_by_name (gtk_combofix_get_text (GTK_COMBOFIX (s_sch_dialog->APayeeCombo)),
-															  TRUE),
+															  TRUE);
 		gsb_data_scheduled_set_party_number (scheduled_number, associated_payee);
 		/* set payment_number */
 		associated_payment = gsb_payment_method_get_selected_number (s_sch_dialog->APaymentCombo);
