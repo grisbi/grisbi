@@ -1089,7 +1089,7 @@ gboolean gsb_scheduler_list_append_new_scheduled ( gint scheduled_number,
     GtkTreeIter *mother_iter = NULL;
     const gchar *line[SCHEDULER_COL_VISIBLE_COLUMNS];
     gint mother_scheduled_number;
-	gint first_is_different;
+	gint first_is_different = -1;
 	gint fixed_date = 0;
 	gint split_transaction;
 	gint transfer_account = 0;
@@ -1310,7 +1310,7 @@ gboolean gsb_scheduler_list_update_transaction_in_list ( gint scheduled_number )
     GtkTreeStore *store;
     GtkTreeIter iter;
     GDate *pGDateCurrent;
-	gint init_sch_with_loan;
+	gint init_sch_with_loan = -1;
 	gint transfer_account = 0;
 
     /* TODO dOm : each line of the array `line' contains a newly allocated string. When are they freed ? */
