@@ -913,8 +913,8 @@ static  void gsb_file_load_account_part ( const gchar **attribute_names,
     gint account_number = 0;
 	gint bet_months = 0;
 	gboolean is_loan = FALSE;
-	GDate *date;
-	LoanStruct *s_loan;
+	GDate *date = NULL;
+	LoanStruct *s_loan = NULL;
 
     if ( !attribute_names[i] )
         return;
