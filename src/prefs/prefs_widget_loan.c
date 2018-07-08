@@ -392,7 +392,9 @@ static	void prefs_widget_loan_combo_account_list_changed (GtkComboBox *combo_box
 
 	s_loan = priv->s_loan;
 	gsb_data_account_set_bet_init_sch_with_loan (s_loan->associated_account, FALSE);
-	gtk_combo_box_get_active_iter (combo_box, &iter);
+	if (! gtk_combo_box_get_active_iter (combo_box, &iter))
+		return;
+
     model = gtk_combo_box_get_model (GTK_COMBO_BOX (combo_box));
 	if (gtk_list_store_iter_is_valid ((GtkListStore *) model, &iter))
 	{
