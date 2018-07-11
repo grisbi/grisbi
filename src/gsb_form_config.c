@@ -73,7 +73,7 @@ static gboolean gsb_form_config_realized ( GtkWidget *tree_view,
 static gboolean gsb_form_config_remove_column ( void );
 static gboolean gsb_form_config_remove_line ( void );
 static gboolean gsb_form_config_toggle_element_button ( GtkWidget *toggle_button );
-static gboolean gsb_form_config_update_form_config ();
+static gboolean gsb_form_config_update_form_config (void);
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -1035,7 +1035,6 @@ gboolean gsb_form_config_drag_end ( GtkWidget *tree_view,
     gint end_drag_row;
     gint end_drag_column;
     gint buffer;
-    gint account_number;
 
     /* get the cell position */
     device = gdk_drag_context_get_device (drag_context);
@@ -1076,7 +1075,7 @@ gboolean gsb_form_config_drag_end ( GtkWidget *tree_view,
 
     /* fill the list */
     gsb_form_config_fill_store ();
-	gsb_form_clean (account_number);
+	gsb_form_clean (gsb_form_get_account_number ());
     gsb_form_create_widgets ();
 
     gsb_file_set_modified ( TRUE );
