@@ -205,7 +205,7 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
     size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
 
     vbox = new_vbox_with_title_and_icon ( _("General configuration of Grisbi"),
-					  "generalities-32.png" );
+					  "gsb-generalities-32.png" );
     gtk_box_pack_start ( GTK_BOX (page), vbox, TRUE, TRUE, 0 );
 
     /* configure the browser */
@@ -326,7 +326,7 @@ static GtkWidget *gsb_assistant_first_page_3 ( GtkWidget *assistant )
     page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_container_set_border_width ( GTK_CONTAINER (page), BOX_BORDER_WIDTH );
 
-    vbox = new_vbox_with_title_and_icon ( _("Reconciliation"), "reconciliation-32.png" );
+    vbox = new_vbox_with_title_and_icon ( _("Reconciliation"), "gsb-reconciliation-32.png" );
     gtk_box_pack_start ( GTK_BOX (page), vbox, TRUE, TRUE, 0 );
 
     paddingbox = new_paddingbox_with_title (vbox, FALSE,

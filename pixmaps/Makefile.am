@@ -29,11 +29,13 @@ grisbi_pixmaps_DATA = \
 	gsb-comments-16.png \
 	gsb-comments-24.png \
 	gsb-convert-16.png \
+	gsb-convert-24.png \
 	gsb-currencies-32.png \
 	gsb-display-gui-32.png \
 	gsb-down-16.png \
 	gsb-export-16.png \
 	gsb-export-24.png \
+	gsb-export-32.png \
 	gsb-export-archive-16.png \
 	gsb-export-archive-32.png \
 	gsb-files-32.png \
@@ -89,17 +91,20 @@ grisbi_pixmaps_DATA = \
 	gsb-web-browser-16.png \
 	gtk-about-16.png \
 	gtk-add-16.png \
+	gtk-apply-16.png \
 	gtk-close-16.png \
 	gtk-copy-16.png \
 	gtk-copy-24.png \
 	gtk-corbeille-32.png \
 	gtk-delete-16.png \
 	gtk-delete-24.png \
+	gtk-dialog-warning-16.png \
 	gtk-edit-16.png \
 	gtk-edit-24.png \
 	gtk-execute-16.png \
 	gtk-execute-24.png \
 	gtk-open-16.png \
+	gtk-open-24.png \
 	gtk-print-16.png \
 	gtk-print-24.png \
 	gtk-properties-16.png \

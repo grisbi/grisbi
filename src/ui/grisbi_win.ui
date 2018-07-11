@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.20.0 -->
+<!-- Generated with glade 3.22.1 -->
 <interface>
   <requires lib="gtk+" version="3.16"/>
   <template class="GrisbiWin" parent="GtkApplicationWindow">
@@ -9,6 +9,9 @@
     <property name="default_width">1200</property>
     <property name="default_height">600</property>
     <signal name="window-state-event" handler="grisbi_win_change_state_window" swapped="no"/>
+    <child>
+      <placeholder/>
+    </child>
     <child>
       <object class="GtkBox" id="main_box">
         <property name="visible">True</property>
@@ -40,42 +43,10 @@
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <child>
-      <object class="GtkButton" id="bouton_nouveau">
-        <property name="label">gtk-new</property>
-        <property name="width_request">150</property>
-        <property name="height_request">150</property>
-        <property name="visible">True</property>
-        <property name="can_focus">True</property>
-        <property name="receives_default">True</property>
-        <property name="tooltip_text" translatable="yes">Create a new account file</property>
-        <property name="halign">center</property>
-        <property name="valign">center</property>
-        <property name="use_stock">True</property>
-        <property name="image_position">top</property>
-      </object>
-      <packing>
-        <property name="left_attach">0</property>
-        <property name="top_attach">0</property>
-      </packing>
+      <placeholder/>
     </child>
     <child>
-      <object class="GtkButton" id="bouton_ouvrir">
-        <property name="label">gtk-open</property>
-        <property name="width_request">150</property>
-        <property name="height_request">150</property>
-        <property name="visible">True</property>
-        <property name="can_focus">True</property>
-        <property name="receives_default">True</property>
-        <property name="tooltip_text" translatable="yes">Open a .gsb account file</property>
-        <property name="halign">center</property>
-        <property name="valign">center</property>
-        <property name="use_stock">True</property>
-        <property name="image_position">top</property>
-      </object>
-      <packing>
-        <property name="left_attach">1</property>
-        <property name="top_attach">0</property>
-      </packing>
+      <placeholder/>
     </child>
   </object>
   <object class="GtkFrame" id="no_file_page">

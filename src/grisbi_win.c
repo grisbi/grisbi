@@ -48,6 +48,7 @@
 #include "etats_onglet.h"
 #include "dialog.h"
 #include "gsb_account_property.h"
+#include "gsb_data_form.h"
 #include "gsb_data_account.h"
 #include "gsb_dirs.h"
 #include "gsb_form.h"
@@ -139,6 +140,9 @@ struct _GrisbiWinPrivate
 
 	/* paned */
 	gint 				hpaned_general_width;
+
+	/* form organization */
+	gpointer 			form_organization;
 
     /* variables de configuration de la fenêtre */
 	GrisbiWinEtat		*w_etat;
@@ -333,9 +337,16 @@ static gboolean grisbi_win_hpaned_size_allocate (GtkWidget *hpaned_general,
  */
 static gboolean grisbi_win_form_size_allocate (GtkWidget *form_general,
                                                GtkAllocation *allocation,
-                                               gpointer data)
+                                               GrisbiWin *win)
 {
 	GtkWidget *form_expander;
+
+	/* si on est dans les préférences on ne touche pas au label de l'expander */
+	/* fixe partiellement un bug de maj de la liste des opérations */
+	if (grisbi_win_get_prefs_dialog (NULL))
+	{
+		return FALSE;
+	}
 
 	form_expander = g_object_get_data (G_OBJECT (form_general), "form_expander");
 	if (form_expander)
@@ -412,7 +423,7 @@ static gboolean grisbi_win_fill_general_notebook (GrisbiWin *win)
 
     /* append the amortization page */
     gtk_notebook_append_page (GTK_NOTEBOOK (priv->account_page),
-                        bet_finance_create_account_page (),
+                        bet_finance_ui_create_account_amortization_page (),
                         gtk_label_new (_("Amortization array")));
 
     gtk_notebook_append_page (GTK_NOTEBOOK (priv->account_page),
@@ -436,8 +447,8 @@ static gboolean grisbi_win_fill_general_notebook (GrisbiWin *win)
 
     /* append the financial page */
     gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_general),
-                        bet_finance_create_page (),
-                        gtk_label_new (_("Credits simulator")));
+							  bet_finance_ui_create_loan_simulator (),
+							  gtk_label_new (_("Credits simulator")));
 
     /* append the categories page */
     gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_general),
@@ -509,8 +520,9 @@ static GtkWidget *grisbi_win_create_general_notebook (GrisbiWin *win)
     g_signal_connect (G_OBJECT (priv->form_general),
                       "size_allocate",
                       G_CALLBACK (grisbi_win_form_size_allocate),
-                      NULL);
+                      win);
 
+	/* show widgets */
 	gtk_widget_show (sw);
     gtk_widget_show (grid);
 
@@ -568,12 +580,33 @@ static void grisbi_win_no_file_page_new (GrisbiWin *win)
 
 	gtk_container_add (GTK_CONTAINER (priv->no_file_sw), priv->no_file_grid);
 
-	/* set action of fixed buttons */
+	/* set bouton nouveau */
+	priv->bouton_nouveau = utils_buttons_button_new_from_image ("gsb-new-file-24.png");
+	gtk_button_set_label (GTK_BUTTON (priv->bouton_nouveau), _("New"));
+	gtk_button_set_image_position (GTK_BUTTON (priv->bouton_nouveau), GTK_POS_TOP);
+	gtk_widget_set_tooltip_text (priv->bouton_nouveau, _("Create a new account file"));
+	gtk_widget_set_size_request (priv->bouton_nouveau, 150, 150);
+	gtk_widget_set_halign (priv->bouton_nouveau, GTK_ALIGN_CENTER);
+	gtk_widget_set_valign (priv->bouton_nouveau, GTK_ALIGN_CENTER);
 	gtk_actionable_set_action_name (GTK_ACTIONABLE (priv->bouton_nouveau), "win.new-acc-file");
+	gtk_grid_attach (GTK_GRID (priv->no_file_grid), priv->bouton_nouveau, 0,0,1,1);
+	gtk_widget_show (priv->bouton_nouveau);
+
+	/* set bouton ouvrir */
+	priv->bouton_ouvrir = utils_buttons_button_new_from_image ("gtk-open-24.png");
+	gtk_button_set_label (GTK_BUTTON (priv->bouton_ouvrir), _("Open"));
+	gtk_button_set_image_position (GTK_BUTTON (priv->bouton_ouvrir), GTK_POS_TOP);
+	gtk_widget_set_tooltip_text (priv->bouton_ouvrir, _("Open an existing account file"));
+	gtk_widget_set_size_request (priv->bouton_ouvrir, 150, 150);
+	gtk_widget_set_halign (priv->bouton_ouvrir, GTK_ALIGN_CENTER);
+	gtk_widget_set_valign (priv->bouton_ouvrir, GTK_ALIGN_CENTER);
 	gtk_actionable_set_action_name (GTK_ACTIONABLE (priv->bouton_ouvrir), "win.open-file");
+	gtk_grid_attach (GTK_GRID (priv->no_file_grid), priv->bouton_ouvrir, 1,0,1,1);
+	gtk_widget_show (priv->bouton_ouvrir);
 
 	/* set the button "import" */
-	priv->bouton_importer = utils_buttons_button_new_from_stock ("gtk-convert", _("Import"));
+	priv->bouton_importer = utils_buttons_button_new_from_image ("gsb-convert-24.png");
+	gtk_button_set_label (GTK_BUTTON (priv->bouton_importer), _("Import"));
 	gtk_button_set_image_position (GTK_BUTTON (priv->bouton_importer), GTK_POS_TOP);
 	gtk_widget_set_tooltip_text (priv->bouton_importer, _("Import a CSV, QIF, OFX file ..."));
 	gtk_widget_set_size_request (priv->bouton_importer, 150, 150);
@@ -600,7 +633,8 @@ static void grisbi_win_no_file_page_new (GrisbiWin *win)
 			tmp_str = utils_str_break_filename (basename, GSB_NBRE_CHAR_TRUNC);
 			g_free (basename);
 
-			bouton = utils_buttons_button_new_from_stock ("gtk-open", tmp_str);
+			bouton = utils_buttons_button_new_from_image ("gtk-open-24.png");
+			gtk_button_set_label (GTK_BUTTON (bouton), tmp_str);
 			gtk_widget_set_tooltip_text (bouton, recent_files_array[i]);
 			gtk_button_set_image_position (GTK_BUTTON (bouton), GTK_POS_TOP);
 			gtk_widget_set_size_request (bouton, 150, 150);
@@ -786,6 +820,8 @@ static void grisbi_win_finalize (GObject *object)
     g_free (priv->window_title);
     priv->window_title = NULL;
 
+	g_free (priv->form_organization);
+
     g_clear_object (&priv->builder);
     g_clear_object (&priv->menu);
 
@@ -820,8 +856,6 @@ static void grisbi_win_class_init (GrisbiWinClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, no_file_page);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, no_file_sw);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, no_file_grid);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, bouton_nouveau);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, bouton_ouvrir);
 
     /* signaux */
     gtk_widget_class_bind_template_callback (GTK_WIDGET_CLASS (klass), grisbi_win_change_state_window);
@@ -1718,7 +1752,7 @@ gboolean grisbi_win_on_account_switch_page (GtkNotebook *notebook,
     case GSB_FINANCE_PAGE:
         gsb_form_set_expander_visible (FALSE, FALSE);
         account_number = gsb_gui_navigation_get_current_account ();
-        bet_finance_ui_update_amortization_tab (account_number);
+        bet_finance_update_amortization_tab (account_number);
 		/* FALLTHRU */
     case GSB_PROPERTIES_PAGE:
         gsb_form_set_expander_visible (FALSE, FALSE);
@@ -1776,13 +1810,52 @@ void grisbi_win_new_file_gui (void)
     gtk_box_pack_start (GTK_BOX (vbox_transactions_list), tree_view_widget, TRUE, TRUE, 0);
     gtk_widget_show (tree_view_widget);
 
-    /* Display accounts in menus */
+	/* Display accounts in menus */
 	grisbi_win_menu_move_to_acc_delete ();
 	grisbi_win_menu_move_to_acc_new ();
 
     gtk_notebook_set_current_page (GTK_NOTEBOOK(priv->notebook_general), GSB_HOME_PAGE);
 
     gtk_widget_show (priv->notebook_general);
+}
+
+/* FORM_GENERAL */
+/**
+ * get the form_organization
+ *
+ * \param
+ *
+ * \return form_organization
+ **/
+gpointer grisbi_win_get_form_organization (void)
+{
+    GrisbiWin *win;
+    GrisbiWinPrivate *priv;
+
+    win = grisbi_app_get_active_window (NULL);
+    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+
+    return priv->form_organization;
+}
+
+/**
+ * set the form_organization
+ *
+ * \param form_organization form_organization to set
+ *
+ * \return TRUE
+ * */
+gboolean grisbi_win_set_form_organization (gpointer form_organization)
+{
+    GrisbiWin *win;
+    GrisbiWinPrivate *priv;
+
+    win = grisbi_app_get_active_window (NULL);
+    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+
+    priv->form_organization = form_organization;
+
+    return TRUE;
 }
 
 /* HEADINGS */
@@ -2033,7 +2106,7 @@ void grisbi_win_update_all_toolbars (void)
     etats_onglet_reports_toolbar_set_style (toolbar_style);
     bet_array_update_toolbar (toolbar_style);
     bet_historical_update_toolbar (toolbar_style);
-    bet_finance_update_all_finance_toolbars (toolbar_style);
+    bet_finance_ui_update_all_finance_toolbars (toolbar_style);
 }
 
 /* Local Variables: */

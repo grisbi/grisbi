@@ -36,6 +36,7 @@
 /*START_INCLUDE*/
 #include "gsb_file_load.h"
 #include "bet_data.h"
+#include "bet_data_finance.h"
 #include "bet_graph.h"
 #include "custom_list.h"
 #include "dialog.h"
@@ -330,7 +331,51 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
 				}
 
                 else if (!strcmp (attribute_names[i], "Form_date_force_prev_year"))
+				{
                     w_etat->form_date_force_prev_year = utils_str_atoi ( attribute_values[i]);
+				}
+
+				else if (!strcmp ( attribute_names[i], "Form_columns_number" ))
+				{
+					gsb_data_form_new_organization ();
+					gsb_data_form_set_nb_columns (utils_str_atoi ( attribute_values[i]));
+				}
+
+				else if ( !strcmp ( attribute_names[i], "Form_lines_number" ))
+				{
+					gsb_data_form_set_nb_rows (utils_str_atoi ( attribute_values[i]));
+				}
+
+                else if ( !strcmp ( attribute_names[i], "Form_organization" ))
+                {
+                    gchar **pointeur_char;
+                    gint k, j;
+
+                    pointeur_char = g_strsplit (attribute_values[i], "-", 0);
+
+                    for ( k=0 ; k<MAX_HEIGHT ; k++ )
+					{
+                        for ( j=0 ; j<MAX_WIDTH ; j++ )
+						{
+                            gsb_data_form_set_value (j, k, utils_str_atoi (pointeur_char[j + k*MAX_WIDTH]));
+						}
+					}
+
+                    g_strfreev ( pointeur_char );
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Form_columns_width" ))
+                {
+                    gchar **pointeur_char;
+                    gint j;
+
+                    pointeur_char = g_strsplit ( attribute_values[i], "-", 0 );
+
+                    for ( j=0 ; j<MAX_WIDTH ; j++ )
+                        gsb_data_form_set_width_column (j, utils_str_atoi (pointeur_char[j]));
+
+                    g_strfreev ( pointeur_char );
+                }
 
 				else
                     unknown = 1;
@@ -786,7 +831,7 @@ static  void gsb_file_load_currency ( const gchar **attribute_names,
                         const gchar **attribute_values )
 {
     gint i=0;
-    gint currency_number;
+    gint currency_number = -1;
 
     if ( !attribute_names[i] )
     return;
@@ -910,6 +955,10 @@ static  void gsb_file_load_account_part ( const gchar **attribute_names,
     gint unknown;
     gint i=0;
     gint account_number = 0;
+	gint bet_months = 0;
+	gboolean is_loan = FALSE;
+	GDate *date = NULL;
+	LoanStruct *s_loan = NULL;
 
     if ( !attribute_names[i] )
         return;
@@ -979,14 +1028,14 @@ static  void gsb_file_load_account_part ( const gchar **attribute_names,
 
                 else if ( !strcmp ( attribute_names[i], "Bet_start_date" ))
                 {
-                    gsb_data_account_set_bet_start_date ( account_number,
-                            gsb_parse_date_string_safe ( attribute_values[i] ) );
+					date = gsb_parse_date_string_safe (attribute_values[i]);
+                    gsb_data_account_set_bet_start_date ( account_number, date);
                 }
 
                 else if ( !strcmp ( attribute_names[i], "Bet_months" ))
                 {
-                    gsb_data_account_set_bet_months ( account_number,
-                            utils_str_atoi ( attribute_values[i] ) );
+					bet_months = utils_str_atoi (attribute_values[i]);
+                    gsb_data_account_set_bet_months ( account_number, bet_months);
                 }
 
                 else if ( !strcmp ( attribute_names[i], "Bet_UT" ))
@@ -1040,26 +1089,33 @@ static  void gsb_file_load_account_part ( const gchar **attribute_names,
 
                 else if ( !strcmp ( attribute_names[i], "Bet_capital" ))
                 {
-                    gsb_data_account_set_bet_finance_capital ( account_number,
-                            g_ascii_strtod ( attribute_values[i], NULL ) );
+ 					s_loan = bet_data_loan_struct_loan_init ();
+					s_loan->capital = g_ascii_strtod (attribute_values[i], NULL);
+					s_loan->capital_du = s_loan->capital;
+					gsb_data_account_set_bet_finance_capital (account_number, s_loan->capital);
+					s_loan->account_number = account_number;
+					s_loan->version_number = 0;
+					s_loan->duree = bet_months;
+					s_loan->first_date = date;
+					is_loan = TRUE;
                 }
 
                 else if ( !strcmp ( attribute_names[i], "Bet_taux_annuel" ))
                 {
-                    gsb_data_account_set_bet_finance_taux_annuel ( account_number,
-                            g_ascii_strtod ( attribute_values[i], NULL ) );
+					s_loan->annual_rate = g_ascii_strtod (attribute_values[i], NULL);
+                    gsb_data_account_set_bet_finance_taux_annuel (account_number, s_loan->annual_rate);
                 }
 
                 else if ( !strcmp ( attribute_names[i], "Bet_frais" ))
                 {
-                    gsb_data_account_set_bet_finance_frais ( account_number,
-                            g_ascii_strtod ( attribute_values[i], NULL ) );
+					s_loan->fees = g_ascii_strtod (attribute_values[i], NULL);
+                    gsb_data_account_set_bet_finance_frais (account_number, s_loan->fees);
                 }
 
                 else if ( !strcmp ( attribute_names[i], "Bet_type_taux" ))
                 {
-                    gsb_data_account_set_bet_finance_type_taux ( account_number,
-                            utils_str_atoi ( attribute_values[i] ) );
+					s_loan->type_taux = utils_str_atoi (attribute_values[i]);
+                    gsb_data_account_set_bet_finance_type_taux (account_number, s_loan->type_taux);
                 }
 
                 else
@@ -1115,34 +1171,29 @@ static  void gsb_file_load_account_part ( const gchar **attribute_names,
                     unknown = 1;
                 break;
 
-            case 'F':
-                if ( !strcmp ( attribute_names[i], "Form_columns_number" ))
-                {
-                    gsb_data_form_new_organization (account_number);
-                    gsb_data_form_set_nb_columns ( account_number,
-                            utils_str_atoi ( attribute_values[i]));
-                }
+			case 'F':
+				if (!strcmp ( attribute_names[i], "Form_columns_number" ))
+				{
+					gsb_data_form_new_organization ();
+					gsb_data_form_set_nb_columns (utils_str_atoi ( attribute_values[i]));
+					gsb_file_set_modified (TRUE);
+				}
 
-                else if ( !strcmp ( attribute_names[i], "Form_lines_number" ))
-                {
-                    gsb_data_form_set_nb_rows ( account_number,
-                            utils_str_atoi ( attribute_values[i]));
-                }
+				else if ( !strcmp ( attribute_names[i], "Form_lines_number" ))
+				{
+					gsb_data_form_set_nb_rows (utils_str_atoi ( attribute_values[i]));
+				}
 
                 else if ( !strcmp ( attribute_names[i], "Form_organization" ))
                 {
                     gchar **pointeur_char;
                     gint k, j;
 
-                    pointeur_char = g_strsplit ( attribute_values[i],
-                            "-",
-                            0 );
+                    pointeur_char = g_strsplit (attribute_values[i], "-", 0);
 
                     for ( k=0 ; k<MAX_HEIGHT ; k++ )
                         for ( j=0 ; j<MAX_WIDTH ; j++ )
-                            gsb_data_form_set_value ( account_number,
-                                    j, k,
-                                    utils_str_atoi ( pointeur_char[j + k*MAX_WIDTH]));
+                            gsb_data_form_set_value (j, k, utils_str_atoi (pointeur_char[j + k*MAX_WIDTH]));
 
                     g_strfreev ( pointeur_char );
                 }
@@ -1152,14 +1203,10 @@ static  void gsb_file_load_account_part ( const gchar **attribute_names,
                     gchar **pointeur_char;
                     gint j;
 
-                    pointeur_char = g_strsplit ( attribute_values[i],
-                            "-",
-                            0 );
+                    pointeur_char = g_strsplit ( attribute_values[i], "-", 0 );
 
                     for ( j=0 ; j<MAX_WIDTH ; j++ )
-                        gsb_data_form_set_width_column ( account_number,
-                                j,
-                                utils_str_atoi ( pointeur_char[j]));
+                        gsb_data_form_set_width_column (j, utils_str_atoi (pointeur_char[j]));
 
                     g_strfreev ( pointeur_char );
                 }
@@ -1377,6 +1424,11 @@ static  void gsb_file_load_account_part ( const gchar **attribute_names,
         i++;
     }
     while ( attribute_names[i] );
+	if (is_loan)
+	{
+		bet_data_loan_add_item (s_loan);
+		gsb_file_set_modified (TRUE);
+	}
 }
 
 /**
@@ -3537,6 +3589,176 @@ static void gsb_file_load_bet_transfert_part ( const gchar **attribute_names,
 }
 
 /**
+ * load the loan part in the grisbi file
+ *
+ * \param attribute_names
+ * \param attribute_values
+ *
+ * */
+static  void gsb_file_load_bet_loan_part (const gchar **attribute_names,
+										  const gchar **attribute_values)
+{
+    gint i=0;
+	LoanStruct *s_loan;
+
+	devel_debug (NULL);
+
+    if (!attribute_names[i])
+		return;
+
+	s_loan = bet_data_loan_struct_loan_init ();
+    do
+    {
+		/* we test at the beginning if the attribute_value is NULL, if yes, go to the next */
+		if (!strcmp ( attribute_values[i], "(null)"))
+		{
+			i++;
+			continue;
+		}
+
+		else if (!strcmp ( attribute_names[i], "Nb"))
+		{
+			s_loan->number = utils_str_atoi (attribute_values[i]);
+			i++;
+			continue;
+		}
+
+		else if (!strcmp ( attribute_names[i], "Ac"))
+		{
+			s_loan->account_number = utils_str_atoi (attribute_values[i]);
+			i++;
+			continue;
+		}
+
+		else if (!strcmp ( attribute_names[i], "Ver"))
+		{
+			s_loan->version_number = utils_str_atoi (attribute_values[i]);
+			i++;
+			continue;
+		}
+
+		else if (!strcmp ( attribute_names[i], "InCol"))
+		{
+			s_loan->invers_cols_cap_ech = utils_str_atoi (attribute_values[i]);
+			i++;
+			continue;
+		}
+
+		else if (!strcmp ( attribute_names[i], "Ca"))
+		{
+			s_loan->capital = g_ascii_strtod (attribute_values[i], NULL);
+			i++;
+			continue;
+		}
+
+		else if (!strcmp ( attribute_names[i], "Duree"))
+		{
+			s_loan->duree = utils_str_atoi (attribute_values[i]);
+			i++;
+			continue;
+		}
+
+		else if (!strcmp ( attribute_names[i], "FDate"))
+		{
+			s_loan->first_date = gsb_parse_date_string_safe (attribute_values[i]);
+			i++;
+			continue;
+		}
+
+		else if (!strcmp ( attribute_names[i], "Fees"))
+		{
+			s_loan->fees = g_ascii_strtod (attribute_values[i], NULL);
+			i++;
+			continue;
+		}
+
+		else if (!strcmp ( attribute_names[i], "Taux"))
+		{
+			s_loan->annual_rate = g_ascii_strtod (attribute_values[i], NULL);
+			i++;
+			continue;
+		}
+
+		else if (!strcmp ( attribute_names[i], "TyTaux"))
+		{
+			s_loan->type_taux = utils_str_atoi (attribute_values[i]);
+			i++;
+			continue;
+		}
+
+		else if (!strcmp ( attribute_names[i], "FEchDif"))
+		{
+			s_loan->first_is_different = utils_str_atoi (attribute_values[i]);
+			i++;
+			continue;
+		}
+
+		else if (!strcmp ( attribute_names[i], "FCa"))
+		{
+			s_loan->first_capital = g_ascii_strtod (attribute_values[i], NULL);
+			i++;
+			continue;
+		}
+
+		else if (!strcmp ( attribute_names[i], "FIn"))
+		{
+			s_loan->first_interests = g_ascii_strtod (attribute_values[i], NULL);
+			i++;
+			continue;
+		}
+
+		else if (!strcmp ( attribute_names[i], "OEch"))
+		{
+			s_loan->other_echeance_amount = g_ascii_strtod (attribute_values[i], NULL);
+			i++;
+			continue;
+		}
+
+		else if (!strcmp ( attribute_names[i], "ISchWL"))
+		{
+			s_loan->init_sch_with_loan = utils_str_atoi (attribute_values[i]);
+			i++;
+			continue;
+		}
+
+		else if (!strcmp ( attribute_names[i], "AAc"))
+		{
+			s_loan->associated_account = utils_str_atoi (attribute_values[i]);
+			i++;
+			continue;
+		}
+
+		else if (!strcmp ( attribute_names[i], "ASch"))
+		{
+			s_loan->associated_scheduled = utils_str_atoi (attribute_values[i]);
+			i++;
+			continue;
+		}
+
+		else if (!strcmp ( attribute_names[i], "AFr"))
+		{
+			s_loan->associated_frequency = utils_str_atoi (attribute_values[i]);
+			i++;
+			continue;
+		}
+
+		else if (!strcmp ( attribute_names[i], "CaDu"))
+		{
+			s_loan->capital_du = g_ascii_strtod (attribute_values[i], NULL);
+			i++;
+			continue;
+		}
+
+		/* normally, shouldn't come here */
+		i++;
+    }
+
+    while (attribute_names[i]);
+
+	bet_data_loan_add_item (s_loan);
+}
+
+/**
  * Fonction de traitement du fichier
  *
  * \param
@@ -3654,6 +3876,11 @@ static void gsb_file_load_start_element ( GMarkupParseContext *context,
             else if ( !strcmp ( element_name, "Bet_future" ) )
             {
                 gsb_file_load_bet_future_data ( attribute_names, attribute_values );
+            }
+
+            else if ( !strcmp ( element_name, "Bet_loan" ) )
+            {
+                gsb_file_load_bet_loan_part (attribute_names, attribute_values);
             }
 
             else if ( !strcmp ( element_name, "Bet_transfert" ) )

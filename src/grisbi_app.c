@@ -62,7 +62,8 @@ static GrisbiWin *grisbi_app_create_window (GrisbiApp *app,
 /*START_EXTERN*/
 /*END_EXTERN*/
 
-typedef struct  _GrisbiAppPrivate	GrisbiAppPrivate;
+typedef struct	_GrisbiAppPrivate	GrisbiAppPrivate;
+
 struct _GrisbiAppPrivate
 {
     /* command line parsing */
@@ -82,14 +83,51 @@ struct _GrisbiAppPrivate
 
 G_DEFINE_TYPE_WITH_PRIVATE (GrisbiApp, grisbi_app, GTK_TYPE_APPLICATION)
 
+struct AcceleratorStruct
+{
+	const gchar *action_and_target;
+	const gchar *accelerators[2];
+	const gchar *translate_string;
+};
+
 /* global variable, see structures.h */
 struct GrisbiAppConf    conf;                   /* conf structure Provisoire */
 GtkCssProvider *        css_provider = NULL;    /* css provider */
 
-struct accelerator {
-	const gchar *action_and_target;
-	const gchar *accelerators[2];
-};
+static struct AcceleratorStruct accels[] = {
+		{ "app.new-window", { "<Alt>n", NULL }, N_("New_window")},
+		{ "app.prefs", { "<Primary><Shift>p", NULL }, N_("Preferences")},
+		{ "app.quit", { "<Primary>q", NULL }, N_("Quit")},
+		{ "win.new-acc-file", { "<Primary>n", NULL }, N_("New account file")},
+		{ "win.open-file", { "<Primary>o", NULL }, N_("Open")},
+		{ "win.save", { "<Primary>s", NULL }, N_("Save")},
+		{ "win.import-file", { "<Primary>i", NULL }, N_("Import file")},
+		{ "win.export-accounts", { "<Primary>e", NULL }, N_("Export as QIF/CSV file")},
+		{ "win.file-close", { "<Primary>w", NULL }, N_("Close")},
+		{ "win.new-ope", { "<Primary>t", NULL }, N_("New transaction")},
+		{ "win.new-acc", { "<Primary><Shift>n", NULL }, N_("New account")},
+		{ "win.show-reconciled", { "<Alt>r", NULL }, N_("Show reconciled")},
+		{ "win.show-archived", { "<Alt>l", NULL }, N_("Show lines archives")},
+		{ "win.manual", { "F1", NULL }, N_("User's Manual")},
+		{ "win.fullscreen", {"F11", NULL}, N_("Full screen")}
+	};
+static struct AcceleratorStruct accels_classic[] = {
+		{ "win.new-window", { "<Alt>n", NULL }, N_("New_window")},
+		{ "win.prefs", { "<Primary><Shift>p", NULL }, N_("Preferences")},
+		{ "win.quit", { "<Primary>q", NULL }, N_("Quit")},
+		{ "win.new-acc-file", { "<Primary>n", NULL }, N_("New account file")},
+		{ "win.open-file", { "<Primary>o", NULL }, N_("Open")},
+		{ "win.save", { "<Primary>s", NULL }, N_("Save")},
+		{ "win.import-file", { "<Primary>i", NULL }, N_("Import file")},
+		{ "win.export-accounts", { "<Primary>e", NULL }, N_("Export as QIF/CSV file")},
+		{ "win.file-close", { "<Primary>w", NULL }, N_("Close")},
+		{ "win.new-ope", { "<Primary>t", NULL }, N_("New transaction")},
+		{ "win.new-acc", { "<Primary><Shift>n", NULL }, N_("New account")},
+		{ "win.show-reconciled", { "<Alt>r", NULL }, N_("Show reconciled")},
+		{ "win.show-archived", { "<Alt>l", NULL }, N_("Show lines archives")},
+		{ "win.manual", { "F1", NULL }, N_("User's Manual")},
+		{ "win.fullscreen", {"F11", NULL}, N_("Full screen")}
+	};
 
 /******************************************************************************/
 /* Private functions                                                          */
@@ -170,41 +208,6 @@ static void grisbi_app_setup_accelerators (GApplication *application,
 										   gboolean has_app_menu)
 {
 	guint i = 0;
-	struct accelerator accels[] = {
-		{ "app.new-window", { "<Alt>n", NULL } },
-		{ "app.prefs", { "<Primary><Shift>p", NULL } },
-		{ "app.quit", { "<Primary>q", NULL } },
-		{ "win.quit", { "<Primary>q", NULL } },
-		{ "win.new-acc-file", { "<Primary>n", NULL } },
-		{ "win.open-file", { "<Primary>o", NULL } },
-		{ "win.save", { "<Primary>s", NULL } },
-		{ "win.import-file", { "<Primary>i", NULL } },
-		{ "win.export-accounts", { "<Primary>e", NULL } },
-		{ "win.file-close", { "<Primary>w", NULL } },
-		{ "win.new-ope", { "<Primary>t", NULL } },
-		{ "win.new-acc", { "<Primary><Shift>n", NULL } },
-		{ "win.show-reconciled", { "<Alt>r", NULL } },
-		{ "win.show-archived", { "<Alt>l", NULL } },
-		{ "win.manual", { "F1", NULL } },
-		{ "win.fullscreen", {"F11", NULL} }
-	};
-	struct accelerator accels_classic[] = {
-		{ "win.new-window", { "<Alt>n", NULL } },
-		{ "win.prefs", { "<Primary><Shift>p", NULL } },
-		{ "win.quit", { "<Primary>q", NULL } },
-		{ "win.new-acc-file", { "<Primary>n", NULL } },
-		{ "win.open-file", { "<Primary>o", NULL } },
-		{ "win.save", { "<Primary>s", NULL } },
-		{ "win.import-file", { "<Primary>i", NULL } },
-		{ "win.export-accounts", { "<Primary>e", NULL } },
-		{ "win.file-close", { "<Primary>w", NULL } },
-		{ "win.new-ope", { "<Primary>t", NULL } },
-		{ "win.new-acc", { "<Primary><Shift>n", NULL } },
-		{ "win.show-reconciled", { "<Alt>r", NULL } },
-		{ "win.show-archived", { "<Alt>l", NULL } },
-		{ "win.manual", { "F1", NULL } },
-		{ "win.fullscreen", {"F11", NULL} }
-	};
 
 	if (has_app_menu)
 	{
@@ -1144,6 +1147,62 @@ static void grisbi_app_class_init (GrisbiAppClass *klass)
 /* Public functions                                                           */
 /******************************************************************************/
 /**
+ * Affiche les raccourcis claviers dans un text view
+ *
+ * \param text_view
+ *
+ * \return
+ **/
+void grisbi_app_display_gui_dump_accels (GtkApplication *application,
+										 GtkWidget *text_view)
+{
+	GtkTextBuffer *buffer;
+	GtkTextIter iter;
+	guint i;
+	GrisbiAppPrivate *priv;
+
+	priv = grisbi_app_get_instance_private (GRISBI_APP (application));
+	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view));
+	gtk_text_buffer_set_text (buffer, "", 0);
+	gtk_text_buffer_get_iter_at_offset (buffer, &iter, 0);
+
+	if (priv->has_app_menu)
+	{
+		for (i = 0; i < G_N_ELEMENTS (accels); i++)
+		{
+			gchar *str;
+			gchar *text;
+
+			str = g_strjoinv (",", (gchar **) accels[i].accelerators);
+			text = g_strdup_printf ("%s\t-> %s.\n", gettext (accels[i].translate_string), str);
+			gtk_text_buffer_insert (buffer, &iter, text, -1);
+			g_free (str);
+			g_free (text);
+		}
+	}
+	else
+	{
+		for (i = 0; i < G_N_ELEMENTS (accels_classic); i++)
+		{
+			gchar *str;
+			gchar *text;
+
+			str = g_strjoinv (",", (gchar **) accels[i].accelerators);
+			text = g_strdup_printf ("%s\t\t-> %s.\n", gettext (accels[i].translate_string), str);
+			gtk_text_buffer_insert (buffer, &iter, text, -1);
+			g_free (str);
+			g_free (text);
+		}
+	}
+
+	gtk_text_buffer_insert (buffer, &iter, "\n", -1);
+	gtk_text_buffer_insert_markup (buffer, &iter, _("<b>Actions in transaction list :</b>"), -1);
+	gtk_text_buffer_insert (buffer, &iter, "\n", -1);
+	gtk_text_buffer_insert (buffer, &iter, _("(Un)Pointing a transaction\t\t-> <Primary>p, <Primary>F12\n"), -1);
+	gtk_text_buffer_insert (buffer, &iter, _("(Un)Reconcile a transaction\t\t-> <Primary>r\n"), -1);
+}
+
+/**
  * get active window.
  *
  * \param app
@@ -1192,7 +1251,7 @@ GMenu *grisbi_app_get_menu_edit (void)
 	GApplication *app;
 	GrisbiAppPrivate *priv;
 
-    app = g_application_get_default ();
+	app = g_application_get_default ();
 	priv = grisbi_app_get_instance_private (GRISBI_APP (app));
 
 	return priv->item_edit;

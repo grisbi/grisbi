@@ -55,13 +55,7 @@
 /*START_STATIC*/
 static gboolean gsb_form_config_add_column ( void );
 static gboolean gsb_form_config_add_line ( void );
-static gboolean gsb_form_config_change_account_choice ( GtkWidget *combobox,
-						 gpointer null );
-//~ static gboolean gsb_form_config_change_column_size ( GtkWidget *tree_view,
-					      //~ GtkAllocation *allocation,
-					      //~ gpointer null );
-static gboolean gsb_form_config_check_for_removing ( gint account_number,
-					      gint removing_row );
+static gboolean gsb_form_config_check_for_removing (gint removing_row);
 static GtkWidget *gsb_form_config_create_buttons_table ( void );
 static GtkWidget *gsb_form_config_create_sizing_buttons_line ( void );
 static GtkListStore *gsb_form_config_create_store ( void );
@@ -72,14 +66,14 @@ static gboolean gsb_form_config_drag_begin ( GtkWidget *tree_view,
 static gboolean gsb_form_config_drag_end ( GtkWidget *tree_view,
 				    GdkDragContext *drag_context,
 				    gpointer null );
-static gboolean gsb_form_config_fill_store ( gint account_number );
+static gboolean gsb_form_config_fill_store (void);
 static void gsb_form_config_make_configuration_box ( GtkWidget *vbox_parent );
 static gboolean gsb_form_config_realized ( GtkWidget *tree_view,
 				    gpointer null );
 static gboolean gsb_form_config_remove_column ( void );
 static gboolean gsb_form_config_remove_line ( void );
 static gboolean gsb_form_config_toggle_element_button ( GtkWidget *toggle_button );
-static gboolean gsb_form_config_update_form_config ( gint account_number );
+static gboolean gsb_form_config_update_form_config ();
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -93,9 +87,6 @@ static gint start_drag_row;
 
 /* buttons to config the form */
 static GtkWidget *form_config_buttons[TRANSACTION_FORM_WIDGET_NB-2];
-
-/** the option menu which contains all the accounts, to configure the form */
-static GtkWidget *accounts_combobox;
 
 /** the tree view */
 static GtkWidget *form_config_tree_view;
@@ -146,15 +137,6 @@ void gsb_form_config_make_configuration_box ( GtkWidget *vbox_parent )
 
     /* create the paddingbox into the parent */
     paddinggrid = utils_prefs_paddinggrid_new_with_title (vbox_parent, _("Form structure preview"));
-
-    /* we can organize the form
-     * either the same for all the accounts
-     * either each account has its own configuration */
-
-    /* the accounts option_menu */
-    accounts_combobox = gsb_account_create_combo_list (G_CALLBACK (gsb_form_config_change_account_choice),
-                                                       NULL,
-                                                       FALSE);
 
     /*create the scolled window for tree_view */
     sw = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, 150);
@@ -471,20 +453,20 @@ GtkWidget *gsb_form_config_create_buttons_table ( void )
  *
  * \return FALSE
  * */
-gboolean gsb_form_config_update_form_config ( gint account_number )
+gboolean gsb_form_config_update_form_config (void)
 {
     gint row;
     gint column;
     gint current_element_number;
 
     /* fill the store */
-    gsb_form_config_fill_store (account_number);
+    gsb_form_config_fill_store ();
 
     /* show/hide the necessary columns in the tree view */
     for ( column=0 ; column<MAX_WIDTH ; column++ )
 	gtk_tree_view_column_set_visible ( gtk_tree_view_get_column ( GTK_TREE_VIEW ( form_config_tree_view ),
-								      column ),
-					   column<gsb_data_form_get_nb_columns (account_number ));
+																 column ),
+									  column<gsb_data_form_get_nb_columns ());
 
     /* active/unactive the buttons, begin on the fourth element number because the
      * date, debit and credit are obligatory */
@@ -500,35 +482,14 @@ gboolean gsb_form_config_update_form_config ( gint account_number )
 		g_signal_handlers_block_by_func ( G_OBJECT ( form_config_buttons[column + row*6] ),
 						  G_CALLBACK ( gsb_form_config_toggle_element_button ),
 						  NULL );
-		gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( form_config_buttons[column + row*6] ),
-					       gsb_data_form_look_for_value ( account_number,
-									      current_element_number,
-									      NULL, NULL ));
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON ( form_config_buttons[column + row*6] ),
+									  gsb_data_form_look_for_value (current_element_number, NULL, NULL));
 		g_signal_handlers_unblock_by_func ( G_OBJECT ( form_config_buttons[column + row*6] ),
 						    G_CALLBACK ( gsb_form_config_toggle_element_button ),
 						    NULL );
 	    }
 	    current_element_number++;
 	}
-    return FALSE;
-}
-
-
-/**
- * called if we change the account in the option menu of the accounts
- *
- * \param combobox the combobox of the list of accounts
- *
- * \return FALSE
- * */
-gboolean gsb_form_config_change_account_choice ( GtkWidget *combobox,
-						 gpointer null )
-{
-    gint account_number;
-
-    account_number = gsb_account_get_combo_account_number (combobox);
-    gsb_form_config_update_form_config ( account_number );
-
     return FALSE;
 }
 
@@ -546,7 +507,6 @@ gboolean gsb_form_config_toggle_element_button ( GtkWidget *toggle_button )
     gint element_number;
     gint no_second_element;
     gint i, j;
-    gint account_number;
 
     /* get the element number */
     element_number = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( toggle_button ),
@@ -554,172 +514,164 @@ gboolean gsb_form_config_toggle_element_button ( GtkWidget *toggle_button )
     /* set the second element number if necessary */
     switch ( element_number )
     {
-	case TRANSACTION_FORM_TYPE:
-	    /* 	    c'est le mode de paiement, on met le chq */
-	    no_second_element = TRANSACTION_FORM_CHEQUE;
-	    break;
+		case TRANSACTION_FORM_TYPE:
+			/* 	    c'est le mode de paiement, on met le chq */
+			no_second_element = TRANSACTION_FORM_CHEQUE;
+			break;
 
-	case TRANSACTION_FORM_CHEQUE:
-	    /* 	    c'est le chq, on met mode de paiement */
-	    no_second_element = TRANSACTION_FORM_TYPE;
-	    break;
+		case TRANSACTION_FORM_CHEQUE:
+			/* 	    c'est le chq, on met mode de paiement */
+			no_second_element = TRANSACTION_FORM_TYPE;
+			break;
 
-	case TRANSACTION_FORM_DEVISE:
-	    /* 	    c'est la devise, on met le button de change */
-	    no_second_element = TRANSACTION_FORM_CHANGE;
-	    break;
+		case TRANSACTION_FORM_DEVISE:
+			/* 	    c'est la devise, on met le button de change */
+			no_second_element = TRANSACTION_FORM_CHANGE;
+			break;
 
-	case TRANSACTION_FORM_CHANGE:
-	    /* 	    c'est le button de change, on met la devise */
-	    no_second_element = TRANSACTION_FORM_DEVISE;
-	    break;
+		case TRANSACTION_FORM_CHANGE:
+			/* 	    c'est le button de change, on met la devise */
+			no_second_element = TRANSACTION_FORM_DEVISE;
+			break;
 
-	default:
-	    no_second_element = -1;
+		default:
+			no_second_element = -1;
     }
-
-    account_number = gsb_account_get_combo_account_number ( accounts_combobox );
 
     /* update the table */
     if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( toggle_button )))
     {
-	/* button is on, append the element */
-	gint place_trouvee = 0;
-	gint ligne_premier_elt = -1;
-	gint colonne_premier_elt = -1;
+		/* button is on, append the element */
+		gint place_trouvee = 0;
+		gint ligne_premier_elt = -1;
+		gint colonne_premier_elt = -1;
 
-	for ( i=0 ; i < gsb_data_form_get_nb_rows (account_number) ; i++)
-	    for ( j=0 ; j < gsb_data_form_get_nb_columns (account_number) ; j++ )
-		if ( !gsb_data_form_get_value ( account_number, j, i ) )
+		for ( i=0 ; i < gsb_data_form_get_nb_rows () ; i++)
 		{
-		    /* if only 1 element, end here, else continue to look after the second one */
-		    if ( no_second_element == -1 )
-		    {
-			/* 			il n'y a qu'un elt */
+			for ( j=0 ; j < gsb_data_form_get_nb_columns () ; j++ )
+			{
+				if ( !gsb_data_form_get_value (j, i) )
+				{
+					/* if only 1 element, end here, else continue to look after the second one */
+					if ( no_second_element == -1 )
+					{
+						/* 			il n'y a qu'un elt */
 
-			gsb_data_form_set_value ( account_number,
-						  j,
-						  i,
-						  element_number );
-			place_trouvee = 1;
-			i = gsb_data_form_get_nb_rows (account_number);
-			j = gsb_data_form_get_nb_columns (account_number);
-		    }
-		    else
-		    {
-			/* there are 2 elements */
-			if ( ligne_premier_elt == -1 )
-			{
-			    /* found the place for the first element */
-			    ligne_premier_elt = i;
-			    colonne_premier_elt = j;
+						gsb_data_form_set_value (j,i,element_number);
+						place_trouvee = 1;
+						i = gsb_data_form_get_nb_rows ();
+						j = gsb_data_form_get_nb_columns ();
+					}
+					else
+					{
+						/* there are 2 elements */
+						if ( ligne_premier_elt == -1 )
+						{
+							/* found the place for the first element */
+							ligne_premier_elt = i;
+							colonne_premier_elt = j;
+						}
+						else
+						{
+							/* found the place for the second element */
+							gsb_data_form_set_value (colonne_premier_elt,
+													 ligne_premier_elt,
+													 element_number );
+							gsb_data_form_set_value (j, i, no_second_element);
+							place_trouvee = 1;
+							i = gsb_data_form_get_nb_rows ();
+							j = gsb_data_form_get_nb_columns ();
+						}
+					}
+				}
 			}
-			else
-			{
-			    /* found the place for the second element */
-			    gsb_data_form_set_value ( account_number,
-						      colonne_premier_elt,
-						      ligne_premier_elt,
-						      element_number );
-			    gsb_data_form_set_value ( account_number,
-						      j,
-						      i,
-						      no_second_element );
-			    place_trouvee = 1;
-			    i = gsb_data_form_get_nb_rows (account_number);
-			    j = gsb_data_form_get_nb_columns (account_number);
-			}
-		    }
 		}
 
-	if ( place_trouvee )
-	{
-	    /* there is a place for the element, active if necessary an associated element */
-	    if ( no_second_element != -1 )
-	    {
-		g_signal_handlers_block_by_func ( G_OBJECT ( form_config_buttons[no_second_element-4] ),
-						  G_CALLBACK ( gsb_form_config_toggle_element_button ),
-						  NULL );
-		gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( form_config_buttons[no_second_element-4] ),
-					       TRUE );
-		g_signal_handlers_unblock_by_func ( G_OBJECT ( form_config_buttons[no_second_element-4] ),
-						    G_CALLBACK ( gsb_form_config_toggle_element_button ),
-						    NULL );
-	    }
-	}
-	else
-	{
-	    /* there is no place to add an element */
-	    g_signal_handlers_block_by_func ( G_OBJECT ( toggle_button ),
-					      G_CALLBACK ( gsb_form_config_toggle_element_button ),
-					      NULL );
-	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( toggle_button ),
-					   FALSE );
-	    g_signal_handlers_unblock_by_func ( G_OBJECT ( toggle_button ),
-						G_CALLBACK ( gsb_form_config_toggle_element_button ),
-						NULL );
+		if ( place_trouvee )
+		{
+			/* there is a place for the element, active if necessary an associated element */
+			if ( no_second_element != -1 )
+			{
+				g_signal_handlers_block_by_func ( G_OBJECT ( form_config_buttons[no_second_element-4] ),
+								  G_CALLBACK ( gsb_form_config_toggle_element_button ),
+								  NULL );
+				gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( form_config_buttons[no_second_element-4] ),
+								   TRUE );
+				g_signal_handlers_unblock_by_func ( G_OBJECT ( form_config_buttons[no_second_element-4] ),
+									G_CALLBACK ( gsb_form_config_toggle_element_button ),
+									NULL );
+			}
+		}
+		else
+		{
+			/* there is no place to add an element */
+			g_signal_handlers_block_by_func ( G_OBJECT ( toggle_button ),
+							  G_CALLBACK ( gsb_form_config_toggle_element_button ),
+							  NULL );
+			gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( toggle_button ),
+						   FALSE );
+			g_signal_handlers_unblock_by_func ( G_OBJECT ( toggle_button ),
+							G_CALLBACK ( gsb_form_config_toggle_element_button ),
+							NULL );
 
-	    if ( no_second_element == -1 )
-		dialogue_hint ( _("There is no place enough to put the element. You need to increase "
-                          "the number of rows or columns to add an element."),
-                        _("The table is full"));
-	    else
-		dialogue_hint ( _("There is no place enough to put the two elements (you have clicked on "
-                          "an element which contains two). You need to increase the number of rows "
-                          "or columns to add the elements."),
-                        _("The table is full"));
+			if ( no_second_element == -1 )
+				dialogue_hint ( _("There is no place enough to put the element. You need to increase "
+								  "the number of rows or columns to add an element."),
+								_("The table is full"));
+			else
+				dialogue_hint ( _("There is no place enough to put the two elements (you have clicked on "
+								  "an element which contains two). You need to increase the number of rows "
+								  "or columns to add the elements."),
+								_("The table is full"));
 
-	    return TRUE;
-	}
+			return TRUE;
+		}
     }
     else
     {
-	/* un-toggle the button */
-	if ( no_second_element != -1 )
-	{
-	    g_signal_handlers_block_by_func ( G_OBJECT ( form_config_buttons[no_second_element-4] ),
-					      G_CALLBACK ( gsb_form_config_toggle_element_button ),
-					      NULL );
-	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( form_config_buttons[no_second_element-4] ),
-					   FALSE );
-	    g_signal_handlers_unblock_by_func ( G_OBJECT ( form_config_buttons[no_second_element-4] ),
-						G_CALLBACK ( gsb_form_config_toggle_element_button ),
-						NULL );
-	}
-
-	for ( i=0 ; i < gsb_data_form_get_nb_rows (account_number) ; i++ )
-	    for ( j=0 ; j < gsb_data_form_get_nb_columns (account_number) ; j++ )
-		if ( gsb_data_form_get_value (account_number,
-					      j,
-					      i ) == element_number )
+		/* un-toggle the button */
+		if ( no_second_element != -1 )
 		{
-		    gsb_data_form_set_value ( account_number,
-					      j,
-					      i,
-					      0 );
-		    if ( no_second_element == -1 )
-		    {
-			i = gsb_data_form_get_nb_rows (account_number);
-			j = gsb_data_form_get_nb_columns (account_number);
-		    }
-		    else
-		    {
-			element_number = no_second_element;
-			no_second_element = -1;
-			i = 0;
-			j = 0;
-		    }
+			g_signal_handlers_block_by_func ( G_OBJECT ( form_config_buttons[no_second_element-4] ),
+							  G_CALLBACK ( gsb_form_config_toggle_element_button ),
+							  NULL );
+			gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( form_config_buttons[no_second_element-4] ),
+						   FALSE );
+			g_signal_handlers_unblock_by_func ( G_OBJECT ( form_config_buttons[no_second_element-4] ),
+							G_CALLBACK ( gsb_form_config_toggle_element_button ),
+							NULL );
+		}
+
+		for ( i=0 ; i < gsb_data_form_get_nb_rows () ; i++ )
+		{
+			for ( j=0 ; j < gsb_data_form_get_nb_columns () ; j++ )
+			{
+				if ( gsb_data_form_get_value (j, i) == element_number )
+				{
+					gsb_data_form_set_value (j, i, 0);
+					if ( no_second_element == -1 )
+					{
+						i = gsb_data_form_get_nb_rows ();
+						j = gsb_data_form_get_nb_columns ();
+					}
+					else
+					{
+						element_number = no_second_element;
+						no_second_element = -1;
+						i = 0;
+						j = 0;
+					}
+				}
+			}
 		}
     }
 
     /* fill the list */
-    gsb_form_config_fill_store (account_number);
-	gsb_form_clean (account_number);
+    gsb_form_config_fill_store ();
+	gsb_form_clean (gsb_form_get_account_number());
 
-    gsb_form_config_update_from_account (
-                        gsb_account_get_combo_account_number ( accounts_combobox ) );
-    /* update the form */
-    gsb_form_config_fill_store (account_number);
+	/* update the form */
+    gsb_form_config_fill_store ();
     gsb_form_create_widgets ();
 
     gsb_file_set_modified ( TRUE );
@@ -734,30 +686,29 @@ gboolean gsb_form_config_toggle_element_button ( GtkWidget *toggle_button )
  *
  * \return FALSE
  * */
-gboolean gsb_form_config_fill_store ( gint account_number )
+gboolean gsb_form_config_fill_store (void)
 {
     gint row;
     GtkListStore *store;
-devel_debug (NULL);
-    store = GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( form_config_tree_view )));
+
+	store = GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( form_config_tree_view )));
 
     gtk_list_store_clear ( store );
 
-    for ( row=0 ; row < gsb_data_form_get_nb_rows (account_number) ; row++ )
+    for ( row=0 ; row < gsb_data_form_get_nb_rows () ; row++ )
     {
-	GtkTreeIter iter;
-	gint column;
+		GtkTreeIter iter;
+		gint column;
 
-	gtk_list_store_append ( GTK_LIST_STORE ( store ),
-				&iter );
+		gtk_list_store_append ( GTK_LIST_STORE ( store ), &iter );
 
-	for ( column = 0 ; column < gsb_data_form_get_nb_columns (account_number) ; column++ )
-	    gtk_list_store_set ( GTK_LIST_STORE ( store ),
-				 &iter,
-				 column, _(gsb_form_widget_get_name (gsb_data_form_get_value ( account_number,
-											     column,
-											     row ))),
-				 -1 );
+		for ( column = 0 ; column < gsb_data_form_get_nb_columns () ; column++ )
+		{
+			gtk_list_store_set ( GTK_LIST_STORE ( store ),
+								&iter,
+								column, _(gsb_form_widget_get_name (gsb_data_form_get_value (column, row ))),
+								-1 );
+		}
     }
     return FALSE;
 }
@@ -774,17 +725,14 @@ devel_debug (NULL);
 gboolean gsb_form_config_realized ( GtkWidget *tree_view,
 				    gpointer null )
 {
-    gint account_number;
     GdkCursor *cursor;
     GdkDisplay *display;
 
     if ( !assert_account_loaded())
       return FALSE;
 
-    account_number = gsb_account_get_combo_account_number ( accounts_combobox );
-
     /* fill and update the form list and buttons */
-    gsb_form_config_update_form_config (account_number);
+    gsb_form_config_update_form_config ();
 
     display = gdk_window_get_display (gtk_widget_get_window (
                                       GTK_WIDGET (grisbi_app_get_active_window (NULL))));
@@ -797,52 +745,6 @@ gboolean gsb_form_config_realized ( GtkWidget *tree_view,
 
 
 /**
- * called when change the size of the columns,
- * save the percent and change the size of the form according the new size
- *
- * \param tree_view
- * \param allocation
- *
- * \return FALSE
- * */
-//~ gboolean gsb_form_config_change_column_size ( GtkWidget *tree_view,
-					      //~ GtkAllocation *allocation,
-					      //~ gpointer null )
-//~ {
-    //~ gint column;
-    //~ gint account_number;
-    //~ gint i;
-    //~ GtkAllocation tmp_allocation;
-
-    //~ if ( !gtk_widget_get_realized (tree_view))
-	//~ return FALSE;
-
-    //~ account_number = gsb_account_get_combo_account_number ( accounts_combobox );
-
-    //~ for (i=0 ; i<gsb_data_account_get_accounts_amount () ; i++)
-    //~ {
-	    //~ for ( column=0 ; column < gsb_data_form_get_nb_columns (i) ; column++ )
-	    //~ {
-		//~ gint size_column;
-
-		//~ size_column = gtk_tree_view_column_get_width ( gtk_tree_view_get_column ( GTK_TREE_VIEW ( tree_view ),
-											  //~ column ));
-		//~ gsb_data_form_set_width_column ( i,
-						 //~ column,
-						 //~ size_column * 100 / allocation -> width );
-	    //~ }
-    //~ }
-
-    //~ gsb_file_set_modified ( TRUE );
-
-    //~ /* update the form if needed */
-    //~ gsb_form_create_widgets ();
-
-    //~ return FALSE;
-//~ }
-
-
-/**
  * called when the user click on "add line"
  *
  * \param
@@ -851,18 +753,15 @@ gboolean gsb_form_config_realized ( GtkWidget *tree_view,
  * */
 gboolean gsb_form_config_add_line ( void )
 {
-    gint account_number;
+	devel_debug (NULL);
 
-    account_number = gsb_account_get_combo_account_number ( accounts_combobox );
+    if ( gsb_data_form_get_nb_rows () == MAX_HEIGHT )
+		return FALSE;
 
-    if ( gsb_data_form_get_nb_rows (account_number) == MAX_HEIGHT )
-	return FALSE;
-
-    gsb_data_form_set_nb_rows ( account_number,
-				gsb_data_form_get_nb_rows (account_number) + 1 );
+    gsb_data_form_set_nb_rows (gsb_data_form_get_nb_rows () + 1);
 
     /* update the form */
-    gsb_form_config_fill_store (account_number);
+    gsb_form_config_fill_store ();
     gsb_form_create_widgets ();
 
     gsb_file_set_modified ( TRUE );
@@ -880,34 +779,28 @@ gboolean gsb_form_config_add_line ( void )
 gboolean gsb_form_config_remove_line ( void )
 {
     gint column;
-    gint account_number;
     gint nb_rows;
     gint nb_columns;
 
-    account_number = gsb_account_get_combo_account_number ( accounts_combobox );
-    nb_rows = gsb_data_form_get_nb_rows (account_number);
+    nb_rows = gsb_data_form_get_nb_rows ();
 
     if ( nb_rows == 1 )
 	return FALSE;
 
     /* check if it's possible */
-    if ( !gsb_form_config_check_for_removing ( account_number,
-					       1 ))
+    if ( !gsb_form_config_check_for_removing (1))
 	return FALSE;
 
-    nb_columns = gsb_data_form_get_nb_columns (account_number);
+    nb_columns = gsb_data_form_get_nb_columns ();
 
     /* remove the row */
     nb_rows--;
-    gsb_data_form_set_nb_rows ( account_number,
-				nb_rows );
+    gsb_data_form_set_nb_rows (nb_rows);
 
     /* move automatickly the values inside the new tinier form */
     for ( column=0 ; column< nb_columns ; column++ )
     {
-	if ( gsb_data_form_get_value ( account_number,
-				       column,
-				       nb_rows))
+	if ( gsb_data_form_get_value (column, nb_rows))
 	{
 	    /* there is something inside the part which will be removed, so look for the first
 	     * place possible to move it */
@@ -915,21 +808,13 @@ gboolean gsb_form_config_remove_line ( void )
 	    gint tmp_row, tmp_column;
 
 	    for ( tmp_row=0 ; tmp_row < nb_rows ; tmp_row++ )
-		for ( tmp_column=0 ; tmp_column < nb_columns ; tmp_column++ )
-		    if ( !gsb_data_form_get_value ( account_number,
-						    tmp_column,
-						    tmp_row ))
+		for ( tmp_column=0 ; tmp_column < nb_columns ; tmp_column++)
+		    if ( !gsb_data_form_get_value (tmp_column, tmp_row))
 		    {
-			gsb_data_form_set_value ( account_number,
-						  tmp_column,
-						  tmp_row,
-						  gsb_data_form_get_value ( account_number,
-									    column,
-									    nb_rows));
-			gsb_data_form_set_value ( account_number,
-						  column,
-						  nb_rows,
-						  0 );
+			gsb_data_form_set_value (tmp_column,
+									 tmp_row,
+									 gsb_data_form_get_value (column, nb_rows));
+			gsb_data_form_set_value (column, nb_rows, 0);
 			tmp_row = nb_rows;
 			tmp_column = nb_columns;
 		    }
@@ -937,7 +822,7 @@ gboolean gsb_form_config_remove_line ( void )
     }
 
     /* update the form */
-    gsb_form_config_fill_store (account_number);
+    gsb_form_config_fill_store ();
     gsb_form_create_widgets ();
 
     gsb_file_set_modified ( TRUE );
@@ -954,27 +839,19 @@ gboolean gsb_form_config_remove_line ( void )
  * */
 gboolean gsb_form_config_add_column ( void )
 {
-    gint account_number;
     gint nb_columns;
     gint new_size;
 
-    account_number = gsb_account_get_combo_account_number ( accounts_combobox );
-    nb_columns = gsb_data_form_get_nb_columns (account_number);
+    nb_columns = gsb_data_form_get_nb_columns ();
 
     if ( nb_columns == MAX_WIDTH )
 	return FALSE;
 
     /* split by 2 the size of the current last column to add the new column */
-    new_size = gsb_data_form_get_width_column ( account_number,
-						nb_columns - 1) / 2;
-    gsb_data_form_set_width_column ( account_number,
-				     nb_columns - 1,
-				     new_size );
-    gsb_data_form_set_width_column ( account_number,
-				     nb_columns,
-				     new_size );
-    gsb_data_form_set_nb_columns ( account_number,
-				   nb_columns + 1 );
+    new_size = gsb_data_form_get_width_column (nb_columns - 1) / 2;
+    gsb_data_form_set_width_column (nb_columns - 1, new_size);
+    gsb_data_form_set_width_column (nb_columns, new_size);
+    gsb_data_form_set_nb_columns (nb_columns + 1);
 
     /* show the result */
     gsb_form_config_realized ( form_config_tree_view, NULL );
@@ -993,72 +870,53 @@ gboolean gsb_form_config_add_column ( void )
 gboolean gsb_form_config_remove_column ( void )
 {
     gint row;
-    gint account_number;
     gint nb_columns;
 
-    account_number = gsb_account_get_combo_account_number ( accounts_combobox );
-    nb_columns = gsb_data_form_get_nb_columns (account_number);
+    nb_columns = gsb_data_form_get_nb_columns ();
 
     if ( nb_columns == 1 )
 	return FALSE;
 
     /* check if it's possible */
-    if ( !gsb_form_config_check_for_removing ( account_number,
-					       0 ))
-	return FALSE;
+    if ( !gsb_form_config_check_for_removing (0))
+		return FALSE;
 
     /* erase the last column */
     nb_columns--;
-    gsb_data_form_set_nb_columns ( account_number,
-				   nb_columns );
+    gsb_data_form_set_nb_columns (nb_columns);
 
     /* move the values in the last column to another place */
-    for ( row=0 ; row< gsb_data_form_get_nb_rows (account_number) ; row++ )
+    for ( row=0 ; row< gsb_data_form_get_nb_rows () ; row++ )
     {
-	if ( gsb_data_form_get_value (account_number,
-				      nb_columns,
-				      row ))
+	if ( gsb_data_form_get_value (nb_columns, row ))
 	{
 	    /* found something, look for the first place to set it */
 
 	    gint tmp_row, tmp_column;
 
-	    for ( tmp_row=0 ; tmp_row< gsb_data_form_get_nb_rows (account_number) ; tmp_row++ )
+	    for ( tmp_row=0 ; tmp_row< gsb_data_form_get_nb_rows () ; tmp_row++ )
 		for ( tmp_column=0 ; tmp_column<nb_columns ; tmp_column++ )
-		    if ( !gsb_data_form_get_value ( account_number,
-						    tmp_column,
-						    tmp_row ))
+		    if ( !gsb_data_form_get_value (tmp_column, tmp_row ))
 		    {
-			gsb_data_form_set_value ( account_number,
-						  tmp_column,
-						  tmp_row,
-						  gsb_data_form_get_value ( account_number,
-									    nb_columns,
-									    row ));
-			gsb_data_form_set_value ( account_number,
-						  nb_columns,
-						  row,
-						  0 );
-			tmp_row = gsb_data_form_get_nb_rows (account_number);
+			gsb_data_form_set_value (tmp_column,
+									 tmp_row,
+									 gsb_data_form_get_value (nb_columns, row ));
+			gsb_data_form_set_value (nb_columns, row, 0 );
+			tmp_row = gsb_data_form_get_nb_rows ();
 			tmp_column = nb_columns;
 		    }
 	}
     }
 
     /* change the size of the last column */
-    gsb_data_form_set_width_column ( account_number,
-				     nb_columns - 1,
-				     gsb_data_form_get_width_column ( account_number,
-								      nb_columns )
-				     +
-				     gsb_data_form_get_width_column ( account_number,
-								      nb_columns ));
-    gsb_data_form_set_width_column ( account_number,
-				     nb_columns,
-				     0 );
+    gsb_data_form_set_width_column (nb_columns - 1,
+									gsb_data_form_get_width_column (nb_columns)
+	+
+	gsb_data_form_get_width_column (nb_columns));
+    gsb_data_form_set_width_column (nb_columns, 0 );
 
     /* fill the list */
-    gsb_form_config_realized ( form_config_tree_view, NULL );
+    gsb_form_config_realized ( form_config_tree_view, NULL);
     gsb_file_set_modified ( TRUE );
     return FALSE;
 }
@@ -1076,15 +934,14 @@ gboolean gsb_form_config_remove_column ( void )
  *
  * \return TRUE ok we can remove it, FALSE else
  * */
-gboolean gsb_form_config_check_for_removing ( gint account_number,
-					      gint removing_row )
+gboolean gsb_form_config_check_for_removing (gint removing_row)
 {
     gint values;
     gint rows;
     gint columns;
 
-    rows = gsb_data_form_get_nb_rows (account_number);
-    columns = gsb_data_form_get_nb_columns (account_number);
+    rows = gsb_data_form_get_nb_rows ();
+    columns = gsb_data_form_get_nb_columns ();
 
     if ( !rows
 	 ||
@@ -1101,9 +958,9 @@ gboolean gsb_form_config_check_for_removing ( gint account_number,
     if ( rows * columns < 3 )
 	return FALSE;
 
-    values = gsb_data_form_get_values_total (account_number);
+    values = gsb_data_form_get_values_total ();
 
-     if ( values <= rows*columns )
+    if ( values <= rows*columns )
 	return TRUE;
     else
 	return FALSE;
@@ -1128,11 +985,6 @@ gboolean gsb_form_config_drag_begin ( GtkWidget *tree_view,
     gint x, y;
     GtkTreePath *path;
     GtkTreeViewColumn *tree_column;
-    //~ GdkWindow *drawable;
-    GdkRectangle rectangle;
-    GdkPixbuf *pixbuf_cursor;
-    cairo_surface_t *s;
-    cairo_t *cr;
 
     /* get the cell coord */
     device = gdk_drag_context_get_device (drag_context);
@@ -1157,26 +1009,6 @@ gboolean gsb_form_config_drag_begin ( GtkWidget *tree_view,
     start_drag_column = g_list_index ( gtk_tree_view_get_columns ( GTK_TREE_VIEW ( tree_view )),
 				       tree_column );
     start_drag_row = utils_str_atoi ( gtk_tree_path_to_string ( path ));
-
-    /* draw the new cursor */
-    //~ drawable = gtk_tree_view_get_bin_window (GTK_TREE_VIEW ( tree_view ));
-    gtk_tree_view_get_cell_area ( GTK_TREE_VIEW ( tree_view ),
-				  path,
-				  tree_column,
-				  &rectangle );
-
-    s = cairo_image_surface_create ( CAIRO_FORMAT_A1, 3, 3 );
-    cr = cairo_create ( s );
-    cairo_rectangle ( cr, rectangle.x, rectangle.y, rectangle.width, rectangle.height );
-    cairo_fill ( cr );
-    cairo_destroy ( cr );
-
-    pixbuf_cursor = gdk_pixbuf_get_from_surface ( s, rectangle.x, rectangle.y, rectangle.width, rectangle.height );
-
-    cairo_surface_destroy (s);
-
-    gtk_drag_source_set_icon_pixbuf ( tree_view, pixbuf_cursor );
-    g_object_unref (pixbuf_cursor);
 
     return FALSE;
 }
@@ -1236,25 +1068,16 @@ gboolean gsb_form_config_drag_end ( GtkWidget *tree_view,
 	return ( FALSE );
 
     /* swap the cells in the tab */
-    account_number = gsb_account_get_combo_account_number ( accounts_combobox );
-
-    buffer = gsb_data_form_get_value ( account_number,
-				       start_drag_column,
-				       start_drag_row );
-    gsb_data_form_set_value ( account_number,
-			      start_drag_column,
-			      start_drag_row,
-			      gsb_data_form_get_value ( account_number,
-							end_drag_column,
-							end_drag_row ));
-    gsb_data_form_set_value ( account_number,
-			      end_drag_column,
-			      end_drag_row,
-			      buffer );
+    buffer = gsb_data_form_get_value (start_drag_column, start_drag_row);
+    gsb_data_form_set_value (start_drag_column,
+							 start_drag_row,
+							 gsb_data_form_get_value (end_drag_column, end_drag_row));
+    gsb_data_form_set_value (end_drag_column, end_drag_row, buffer);
 
     /* fill the list */
-    gsb_form_config_fill_store (account_number);
+    gsb_form_config_fill_store ();
 	gsb_form_clean (account_number);
+    gsb_form_create_widgets ();
 
     gsb_file_set_modified ( TRUE );
     return (FALSE);

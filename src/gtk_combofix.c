@@ -329,6 +329,41 @@ GtkWidget *gtk_combofix_new ( GSList *list )
 
 
 /**
+ * create a new gtk_conbofix with properties
+ *
+ * \param
+ * \param
+ * \param
+ * \param
+ * \param
+ *
+ * \return a gtkcombofix
+ **/
+GtkWidget *gtk_combofix_new_with_properties (GSList *list,
+											 gboolean force_text,
+											 gboolean max_items,
+											 gboolean case_sensitive,
+											 gboolean mixed_sort)
+{
+    GtkComboFix *combofix;
+    GtkComboFixPrivate *priv;
+
+	combofix = g_object_new (GTK_TYPE_COMBOFIX, NULL);
+    gtk_combofix_set_list (combofix, list);
+
+	priv = combofix->priv;
+
+	gtk_widget_set_size_request (GTK_WIDGET (combofix), COMBOFIX_MIN_WIDTH, -1);
+
+	priv->force = force_text;
+    priv->max_items = max_items;
+    priv->case_sensitive = case_sensitive;
+    priv->mixed_sort = mixed_sort;
+
+	return (GTK_WIDGET (combofix));
+}
+
+/**
  * get the text in the combofix
  *
  * \param combofix

@@ -142,12 +142,12 @@
         <item>
           <attribute name="label" translatable="yes">Use selected transaction as a template</attribute>
           <attribute name="action">win.template-ope</attribute>
-          <attribute name="icon">gsb-copy-16</attribute>
+          <attribute name="icon">gtk-copy-16</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Clone transaction</attribute>
           <attribute name="action">win.clone-ope</attribute>
-          <attribute name="icon">gsb-copy-16</attribute>
+          <attribute name="icon">gtk-copy-16</attribute>
         </item>
       </section>
       <section>

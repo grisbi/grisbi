@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2003-2008 Benjamin Drieu (bdrieu@april.org)	                      */
-/*                      2008-2017 Pierre Biava (grisbi@pierre.biava.name)     */
+/*                      2008-2018 Pierre Biava (grisbi@pierre.biava.name)     */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -126,13 +126,10 @@ struct _AccountStruct {
     /** @name current graphic position in the list (the row_align used with gtk_tree_view_scroll_to_cell) */
     gfloat 	row_align;
 
-    /** @name struct of the form's organization */
-    gpointer 	form_organization;
-
     /** @name bet data */
-    gint bet_use_budget;                /* 1 = use the budget module */
+    gint bet_use_budget;                /* -1 = pas de module possible 0 = non utilisé 1 = utilisé */
     gint bet_credit_card;               /* 1 = compte type CB à débit différé */
-    BetTypeOnglets bet_show_onglets;  /* enum des onglets à afficher pour le module budgetaire */
+    BetTypeOnglets bet_show_onglets;  	/* enum des onglets à afficher pour le module budgetaire */
     GDate *bet_start_date;              /* date de début */
     gint bet_months;                    /* nombre de mois ou d'années */
     gint bet_spin_range;                /* echelle de la période 0 = mois 1 = années */
@@ -147,6 +144,8 @@ struct _AccountStruct {
     gdouble bet_taux_annuel;            /* taux d'interet annuel */
     gdouble bet_frais;                  /* frais par echeance */
     gint bet_type_taux;                 /* type de taux : actuariel ou proportionnel */
+	gboolean bet_init_sch_with_loan;	/* Initialise l'opération planifiée avec le tableau d'amortissement */
+	gboolean bet_split_transaction;		/* crée une opération ventilée dans le compte principal */
 };
 
 
@@ -292,10 +291,6 @@ gint gsb_data_account_new ( KindAccount account_kind )
     {
 	account -> nb_rows_by_transaction = 3;
 
-	/* set the form organization by default */
-	gsb_data_form_new_organization (account -> account_number);
-	gsb_data_form_set_default_organization (account -> account_number);
-
 	/* sort the transactions by default */
 	gsb_data_account_set_default_sort_values (account -> account_number);
     }
@@ -303,14 +298,6 @@ gint gsb_data_account_new ( KindAccount account_kind )
     {
 	account -> show_r = gsb_data_account_get_r (last_number);
 	account -> nb_rows_by_transaction = gsb_data_account_get_nb_rows (last_number);
-
-	/* try to copy the form of the last account, else make a new form */
-	if ( !gsb_data_form_dup_organization ( last_number,
-					       account -> account_number ))
-	{
-	    gsb_data_form_new_organization (account -> account_number);
-	    gsb_data_form_set_default_organization (account -> account_number);
-	}
 
 	/* try to copy the sort values of the last account, else set default values */
 	if ( !gsb_data_form_dup_sort_values ( last_number,
@@ -340,7 +327,6 @@ static void _gsb_data_account_free ( AccountStruct* account )
     g_free ( account -> bank_account_iban );
     if ( account -> sort_list )
         g_slist_free( account -> sort_list ) ;
-    g_free ( account -> form_organization );
     if ( account -> bet_start_date )
         g_date_free ( account -> bet_start_date );
     if ( account -> pixbuf )
@@ -2318,52 +2304,6 @@ gboolean gsb_data_account_set_sort_column ( gint account_number,
 
 
 /**
- * get the form_organization of the account
- *
- * \param account_number no of the account
- *
- * \return form_organization or NULL if the account doesn't exist
- * */
-gpointer gsb_data_account_get_form_organization ( gint account_number )
-{
-    AccountStruct *account;
-
-    account = gsb_data_account_get_structure ( account_number );
-
-    if ( !account )
-	return NULL;
-
-    return account -> form_organization;
-}
-
-
-/**
- * set the form_organization of the account
- *
- * \param account_number no of the account
- * \param form_organization form_organization to set
- *
- * \return TRUE, ok ; FALSE, problem
- * */
-gboolean gsb_data_account_set_form_organization ( gint account_number,
-                        gpointer form_organization )
-{
-    AccountStruct *account;
-
-    account = gsb_data_account_get_structure ( account_number );
-
-    if ( !account )
-	return FALSE;
-
-    g_free (account -> form_organization);
-
-    account -> form_organization = form_organization;
-
-    return TRUE;
-}
-
-
-/**
  * set a new order in the list of accounts
  * all the accounts which are not in the new order are appened at the end of the new list
  * should be used only when loading a file before the 0.6 version
@@ -3412,25 +3352,6 @@ gboolean gsb_data_account_set_bet_maj ( gint account_number, gint type_maj )
  *
  *
  * */
-gdouble gsb_data_account_get_bet_finance_capital ( gint account_number )
-{
-    AccountStruct *account;
-
-    account = gsb_data_account_get_structure ( account_number );
-
-    if ( !account )
-        return 0;
-
-    return account -> bet_capital;
-}
-
-
-/**
- *
- *
- *
- *
- * */
 gboolean gsb_data_account_set_bet_finance_capital ( gint account_number, gdouble capital )
 {
     AccountStruct *account;
@@ -3443,25 +3364,6 @@ gboolean gsb_data_account_set_bet_finance_capital ( gint account_number, gdouble
     account -> bet_capital = capital;
 
     return TRUE;
-}
-
-
-/**
- *
- *
- *
- *
- * */
-gdouble gsb_data_account_get_bet_finance_taux_annuel ( gint account_number )
-{
-    AccountStruct *account;
-
-    account = gsb_data_account_get_structure ( account_number );
-
-    if ( !account )
-        return 0;
-
-    return account -> bet_taux_annuel;
 }
 
 
@@ -3492,25 +3394,6 @@ gboolean gsb_data_account_set_bet_finance_taux_annuel ( gint account_number, gdo
  *
  *
  * */
-gdouble gsb_data_account_get_bet_finance_frais ( gint account_number )
-{
-    AccountStruct *account;
-
-    account = gsb_data_account_get_structure ( account_number );
-
-    if ( !account )
-        return 0;
-
-    return account -> bet_frais;
-}
-
-
-/**
- *
- *
- *
- *
- * */
 gboolean gsb_data_account_set_bet_finance_frais ( gint account_number, gdouble frais )
 {
     AccountStruct *account;
@@ -3523,24 +3406,6 @@ gboolean gsb_data_account_set_bet_finance_frais ( gint account_number, gdouble f
     account -> bet_frais = frais;
 
     return TRUE;
-}
-
-
-/**
- *
- *
- *
- * */
-gint gsb_data_account_get_bet_finance_type_taux ( gint account_number )
-{
-    AccountStruct *account;
-
-    account = gsb_data_account_get_structure ( account_number );
-
-    if ( !account )
-        return 0;
-
-    return account -> bet_type_taux;
 }
 
 
@@ -3562,6 +3427,90 @@ gboolean gsb_data_account_set_bet_finance_type_taux ( gint account_number, gint 
 
     return TRUE;
 }
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+gboolean gsb_data_account_get_bet_init_sch_with_loan (gint account_number)
+{
+    AccountStruct *account;
+
+    account = gsb_data_account_get_structure (account_number);
+
+    if (!account)
+        return 0;
+
+    return account->bet_init_sch_with_loan;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+gboolean gsb_data_account_set_bet_init_sch_with_loan (gint account_number,
+													  gboolean init_sch_with_loan)
+{
+    AccountStruct *account;
+
+    account = gsb_data_account_get_structure (account_number);
+
+    if (!account)
+        return FALSE;
+
+    account->bet_init_sch_with_loan = init_sch_with_loan;
+
+    return TRUE;
+}
+
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+gboolean gsb_data_account_get_bet_split_transaction (gint account_number)
+{
+    AccountStruct *account;
+
+    account = gsb_data_account_get_structure (account_number);
+
+    if (!account)
+        return 0;
+
+    return account->bet_split_transaction;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+gboolean gsb_data_account_set_bet_split_transaction (gint account_number,
+													 gboolean split_transaction)
+{
+    AccountStruct *account;
+
+    account = gsb_data_account_get_structure (account_number);
+
+    if (!account)
+        return FALSE;
+
+    account->bet_split_transaction = split_transaction;
+
+    return TRUE;
+}
+
 
 
 /**

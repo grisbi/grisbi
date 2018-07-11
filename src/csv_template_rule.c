@@ -152,7 +152,7 @@ static void csv_template_rule_notebook_tab_renumber_pages (GtkWidget *notebook,
 
 			/* update tab_label */
 			tab_label = gtk_notebook_get_tab_label (GTK_NOTEBOOK (priv->notebook_csv_spec), line_struct->grid);
-			tmp_str = g_strdup_printf("Condition %d", line_struct->index);
+			tmp_str = g_strdup_printf(_("Condition %d"), line_struct->index);
 			gtk_label_set_text (GTK_LABEL (tab_label), tmp_str);
 			g_free (tmp_str);
 		}
@@ -323,9 +323,9 @@ static void csv_template_rule_spec_conf_entry_inserted (GtkEditable *entry,
  **/
 static void csv_template_rule_spec_conf_set_actions (GtkComboBoxText *combobox)
 {
-	gtk_combo_box_text_append ((GtkComboBoxText *) combobox, NULL, "Skip lines");
-	gtk_combo_box_text_append ((GtkComboBoxText *) combobox, NULL, "Invert the amount");
-	//~ gtk_combo_box_text_append ((GtkComboBoxText *) combobox, NULL, "transfer to account");
+	gtk_combo_box_text_append ((GtkComboBoxText *) combobox, NULL, _("Skip lines"));
+	gtk_combo_box_text_append ((GtkComboBoxText *) combobox, NULL, _("Invert the amount"));
+	//~ gtk_combo_box_text_append ((GtkComboBoxText *) combobox, NULL, _("transfer to account"));
 
 	gtk_combo_box_set_active ((GtkComboBox *) combobox,0);
 }
@@ -655,7 +655,7 @@ static void csv_template_rule_button_add_line_clicked (GtkButton *button,
 	priv->list_spec_lines = g_slist_append (priv->list_spec_lines, line_struct);
 
 	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_csv_spec), line_struct->grid, NULL);
-	tmp_str = g_strdup_printf("Condition %d", index + 1);
+	tmp_str = g_strdup_printf(_("Condition %d"), index + 1);
 	tab_label = csv_template_rule_notebook_tab_label_new (tmp_str, index, template_rule);
 	gtk_notebook_set_tab_label (GTK_NOTEBOOK (priv->notebook_csv_spec), line_struct->grid, tab_label);
 	g_free (tmp_str);

@@ -270,6 +270,7 @@ GtkWidget *new_paddingbox_with_title (GtkWidget *parent,
 									  const gchar *title)
 {
     GtkWidget *vbox, *hbox, *paddingbox, *label;
+	GtkWidget *label2;
 	gchar* tmp_str;
 
     vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
@@ -295,8 +296,8 @@ GtkWidget *new_paddingbox_with_title (GtkWidget *parent,
 			 fill, fill, 0);
 
     /* Some padding.  ugly but the HiG advises it this way ;-) */
-    label = gtk_label_new ("    ");
-    gtk_box_pack_start (GTK_BOX (hbox), label,
+    label2 = gtk_label_new ("    ");
+    gtk_box_pack_start (GTK_BOX (hbox), label2,
 			 FALSE, FALSE, 0);
 
     /* Then make the vbox itself */
@@ -304,10 +305,8 @@ GtkWidget *new_paddingbox_with_title (GtkWidget *parent,
     gtk_box_pack_start (GTK_BOX (hbox), paddingbox,
 			 TRUE, TRUE, 0);
 
-    /* Put a label at the end to feed a new line */
-    /*   label = gtk_label_new ("    "); */
-    /*   gtk_box_pack_end (GTK_BOX (paddingbox), label, */
-    /* 		     FALSE, FALSE, 0); */
+	/* set label as object for futur usage */
+	g_object_set_data (G_OBJECT (paddingbox), "paddingbox_label", label);
 
     if (GTK_IS_BOX(parent))
     {

@@ -42,6 +42,7 @@
 #include "gsb_category.h"
 #include "gsb_currency_config.h"
 #include "gsb_currency.h"
+#include "gsb_data_form.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
 #include "gsb_select_icon.h"
@@ -196,7 +197,7 @@ GtkResponseType gsb_assistant_file_run ( gboolean first_opening,
 
     /* get the currency */
     if (gtk_tree_selection_get_selected ( gtk_tree_view_get_selection (GTK_TREE_VIEW (g_object_get_data (G_OBJECT (currency_list_box),
-													 "treeview"))),
+													 "tree_view"))),
 					  NULL,
 					  &iter ))
     {
@@ -246,7 +247,7 @@ GtkResponseType gsb_assistant_file_run ( gboolean first_opening,
 
 
 /**
- * create the page 3 of the first assistant
+ * create the page 2 of the first assistant
  * we create here the title of the file, name of the file and adress
  *
  * \param assistant the GtkWidget assistant
@@ -302,12 +303,16 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
 	filename_entry = gsb_automem_entry_new (&nom_fichier_comptes, NULL, NULL);
 
     entry = gtk_entry_new ();
-	gtk_entry_set_text (GTK_ENTRY(entry), w_etat->accounting_entity);
+	gtk_entry_set_text (GTK_ENTRY(entry), _("My accounts"));
+	w_etat->accounting_entity = my_strdup (_("My accounts"));
 	g_signal_connect (G_OBJECT(entry),
 					  "changed",
 					  G_CALLBACK (gsb_assistant_file_change_title),
 					  filename_entry);
-	g_object_set_data ( G_OBJECT (entry), "last_title", my_strdup (w_etat->accounting_entity));
+	g_object_set_data_full (G_OBJECT (entry),
+							"last_title",
+							my_strdup (w_etat->accounting_entity),
+							g_free);
 	gtk_grid_attach (GTK_GRID (table), entry, 1, 0, 2, 1);
 
 	/* filename */
@@ -364,12 +369,16 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
 			textview );
 
+	/* set the new form organization */
+    gsb_data_form_new_organization ();
+    gsb_data_form_set_default_organization ();
+
     gtk_widget_show_all (page);
     return page;
 }
 
 /**
- * create the page 4 of the first assistant
+ * create the page 3 of the first assistant
  * we create here the first currency for the software
  *
  * \param assistant the GtkWidget assistant
@@ -399,14 +408,14 @@ static GtkWidget *gsb_assistant_file_page_3 ( GtkWidget *assistant )
     /* Select default currency. */
     gtk_tree_model_foreach ( GTK_TREE_MODEL(g_object_get_data ( G_OBJECT(currency_list_box), "model" )),
 			     (GtkTreeModelForeachFunc) gsb_currency_config_select_default,
-			     g_object_get_data ( G_OBJECT(currency_list_box), "treeview" ) );
+			     g_object_get_data ( G_OBJECT(currency_list_box), "tree_view" ) );
 
     gtk_widget_show_all (page);
     return page;
 }
 
 /**
- * create the page 5 of the first assistant
+ * create the page 4 of the first assistant
  * selection of the list of categories
  *
  * \param assistant the GtkWidget assistant
@@ -438,7 +447,7 @@ static GtkWidget *gsb_assistant_file_page_4 ( GtkWidget *assistant )
 }
 
 /**
- * create the page 6 of the first assistant
+ * create the page 5 of the first assistant
  * Creation of the banks
  *
  * \param assistant the GtkWidget assistant

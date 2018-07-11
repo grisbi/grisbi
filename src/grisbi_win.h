@@ -22,6 +22,7 @@ GtkWidget *     grisbi_win_create_general_widgets           (GrisbiWin *win);
 void 			grisbi_win_general_notebook_set_page 		(gint page);
 GtkWidget *     grisbi_win_get_account_page					(void);
 const gchar *   grisbi_win_get_filename                     (GrisbiWin *win);
+gpointer 		grisbi_win_get_form_organization 			(void);
 GtkWidget *     grisbi_win_get_notebook_general             (void);
 GtkWidget *		grisbi_win_get_prefs_dialog 				(GrisbiWin *win);
 GtkWidget *     grisbi_win_get_stack_box                    (GrisbiWin *win);
@@ -54,6 +55,7 @@ gboolean 		grisbi_win_on_account_switch_page			(GtkNotebook *notebook,
 
 void            grisbi_win_set_filename                     (GrisbiWin *win,
                                                              const gchar *filename);
+gboolean 		grisbi_win_set_form_organization			(gpointer FormOrganization);
 void 			grisbi_win_set_prefs_dialog 				(GrisbiWin *win,
 															 GtkWidget *prefs_dialog);
 void            grisbi_win_set_size_and_position            (GtkWindow *win);

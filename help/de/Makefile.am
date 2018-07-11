@@ -2,16 +2,12 @@
 
 HTML_FILES =			\
 	grisbi-manuel.html \
-	quickstart.html \
-	translation.html
+	quickstart.html
 
 grisbi_helpdir = $(docdir)/de
 
 grisbi_help_DATA = \
-	topic.dat     \
-	contents_motif.gif \
-	next_motif.gif \
-	previous_motif.gif \
+	grisbi-manuel.css \
 	$(HTML_FILES)
 
 EXTRA_DIST =  $(grisbi_help_DATA)

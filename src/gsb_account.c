@@ -117,13 +117,6 @@ gboolean gsb_account_new ( KindAccount account_type,
 								 gsb_data_currency_get_floating_point (currency_number) ) );
     gsb_data_account_set_name (account_number, name);
 
-    /* update the combofix for categ */
-    gsb_category_update_combofix ( FALSE );
-
-    /* update the name of accounts in form */
-    gsb_account_update_combo_list ( gsb_form_scheduler_get_element_widget (SCHEDULED_FORM_ACCOUNT),
-				    FALSE );
-
     /* update the main page */
     run.mise_a_jour_liste_comptes_accueil = TRUE;
 
@@ -136,10 +129,17 @@ gboolean gsb_account_new ( KindAccount account_type,
     notebook_general = grisbi_win_get_notebook_general ( );
     if (notebook_general)
     {
-        /* Add an entry in navigation pane. */
+		/* update the combofix for categ */
+		gsb_category_update_combofix (FALSE);
+
+		/* update the name of accounts in form */
+		gsb_account_update_combo_list (gsb_form_scheduler_get_element_widget (SCHEDULED_FORM_ACCOUNT),
+									   FALSE);
+
+         /* Add an entry in navigation pane. */
         gsb_gui_navigation_add_account ( account_number, TRUE );
 
-        /* Go to accounts properties */
+		/* Go to accounts properties */
         gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general ), GSB_ACCOUNT_PAGE );
         gtk_notebook_set_current_page ( GTK_NOTEBOOK ( grisbi_win_get_account_page () ),
                         GSB_PROPERTIES_PAGE );

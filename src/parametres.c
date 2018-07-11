@@ -741,7 +741,7 @@ void gsb_localisation_decimal_point_changed ( GtkComboBoxText *widget, gpointer 
         return;
 
     /* reset capital */
-    entry = bet_finance_get_capital_entry ( );
+    entry = bet_finance_ui_get_capital_entry ( );
     str_capital = utils_real_get_string_with_currency ( gsb_real_double_to_real (
                     etat.bet_capital ),
                     etat.bet_currency,
@@ -802,7 +802,7 @@ void gsb_localisation_thousands_sep_changed ( GtkComboBoxText *widget, gpointer 
         return;
 
     /* reset capital */
-    entry = bet_finance_get_capital_entry ( );
+    entry = bet_finance_ui_get_capital_entry ( );
     str_capital = utils_real_get_string_with_currency ( gsb_real_double_to_real (
                     etat.bet_capital ),
                     etat.bet_currency,
@@ -876,7 +876,7 @@ void gsb_localisation_update_affichage ( gint type_maj )
                 break;
             case GSB_TYPE_LIABILITIES:
                 if ( account_current_page == 3 )
-                    bet_finance_ui_update_amortization_tab ( account_number );
+                    bet_finance_update_amortization_tab ( account_number );
                 break;
             case GSB_TYPE_ASSET:
                 break;
@@ -893,7 +893,7 @@ void gsb_localisation_update_affichage ( gint type_maj )
 
     /* update simulator page */
     if ( current_page == GSB_SIMULATOR_PAGE )
-        bet_finance_switch_simulator_page ( );
+        bet_finance_ui_switch_simulator_page ( );
 
 }
 

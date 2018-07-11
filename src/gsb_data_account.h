@@ -21,7 +21,7 @@ enum _KindAccount
     GSB_TYPE_BALANCE     = -1,
     GSB_TYPE_BANK        = 0,
     GSB_TYPE_CASH        = 1,
-    GSB_TYPE_LIABILITIES = 2,
+    GSB_TYPE_LIABILITIES = 2,		/* compte de passif */
     GSB_TYPE_ASSET       = 3
 };
 
@@ -64,18 +64,16 @@ gchar *			gsb_data_account_get_bank_account_number 				(gint account_number);
 gchar *			gsb_data_account_get_bank_branch_code 					(gint account_number);
 gboolean 		gsb_data_account_get_bet_auto_inc_month 				(gint account_number);
 gint 			gsb_data_account_get_bet_credit_card 					(gint account_number);
-gdouble 		gsb_data_account_get_bet_finance_capital 				(gint account_number);
-gdouble 		gsb_data_account_get_bet_finance_frais 					(gint account_number);
-gdouble 		gsb_data_account_get_bet_finance_taux_annuel 			(gint account_number);
-gint 			gsb_data_account_get_bet_finance_type_taux 				(gint account_number);
 gint 			gsb_data_account_get_bet_hist_data 						(gint account_number);
 gint 			gsb_data_account_get_bet_hist_fyear 					(gint account_number);
+gboolean		gsb_data_account_get_bet_init_sch_with_loan				(gint account_number);
 gint 			gsb_data_account_get_bet_maj 							(gint account_number);
 gint 			gsb_data_account_get_bet_months 						(gint account_number);
 gint 			gsb_data_account_get_bet_select_label 					(gint account_number,
 																		 gint origine);
 BetTypeOnglets 	gsb_data_account_get_bet_show_onglets 					(gint account_number);
 gint 			gsb_data_account_get_bet_spin_range 					(gint account_number);
+gboolean 		gsb_data_account_get_bet_split_transaction 				(gint account_number);
 GDate *			gsb_data_account_get_bet_start_date 					(gint account_number);
 gint 			gsb_data_account_get_bet_use_budget 					(gint account_number);
 gint 			gsb_data_account_get_closed_account 					(gint account_number);
@@ -88,7 +86,6 @@ gint 			gsb_data_account_get_default_credit 					(gint account_number);
 gint 			gsb_data_account_get_default_debit 						(gint account_number);
 gint 			gsb_data_account_get_element_sort 						(gint account_number,
 																		 gint no_column);
-gpointer 		gsb_data_account_get_form_organization 					(gint account_number);
 gboolean		gsb_data_account_get_has_pointed						(gint account_number);
 gchar *			gsb_data_account_get_holder_address 					(gint account_number);
 gchar *			gsb_data_account_get_holder_name 						(gint account_number);
@@ -153,6 +150,8 @@ gboolean 		gsb_data_account_set_bet_hist_data 						(gint account_number,
 																		 gint hist_data);
 gboolean 		gsb_data_account_set_bet_hist_fyear 					(gint account_number,
 																		 gint hist_fyear);
+gboolean		gsb_data_account_set_bet_init_sch_with_loan				(gint account_number,
+																		 gboolean init_sch_with_loan);
 gboolean 		gsb_data_account_set_bet_maj 							(gint account_number,
 																		 gint type_maj);
 gboolean 		gsb_data_account_set_bet_months 						(gint account_number,
@@ -166,6 +165,8 @@ gboolean 		gsb_data_account_set_bet_spin_range 					(gint account_number,
 																		 gint spin_range);
 gboolean 		gsb_data_account_set_bet_start_date 					(gint account_number,
 																		 const GDate *date);
+gboolean 		gsb_data_account_set_bet_split_transaction				(gint account_number,
+																		 gboolean split_transaction);
 gboolean 		gsb_data_account_set_bet_use_budget 					(gint account_number,
 																		 gint value);
 gboolean 		gsb_data_account_set_closed_account 					(gint account_number,
@@ -183,8 +184,6 @@ gboolean 		gsb_data_account_set_default_debit 						(gint account_number,
 gboolean 		gsb_data_account_set_element_sort 						(gint account_number,
 																		 gint no_column,
 																		 gint element_number);
-gboolean 		gsb_data_account_set_form_organization 					(gint account_number,
-																		 gpointer FormOrganization);
 gboolean 		gsb_data_account_set_holder_address 					(gint account_number,
 																		 const gchar *holder_address);
 gboolean 		gsb_data_account_set_holder_name 						(gint account_number,

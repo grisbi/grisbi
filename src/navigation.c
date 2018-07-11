@@ -1258,7 +1258,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 
 			/* what to be done if switch to that page */
 			gsb_form_set_expander_visible (FALSE, FALSE);
-			bet_finance_switch_simulator_page ( );
+			bet_finance_ui_switch_simulator_page ( );
 			gsb_form_hide ();
 			break;
 

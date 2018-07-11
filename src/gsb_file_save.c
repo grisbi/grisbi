@@ -571,7 +571,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
     gchar *first_string_to_free;
     gchar *second_string_to_free;
 	gchar *third_string_to_free;
-    gint i,j;
+    gint i,j,k;
     gchar *transactions_view;
     gchar *scheduler_column_width_write;
     gchar *transaction_column_width_write;
@@ -582,6 +582,8 @@ gulong gsb_file_save_general_part ( gulong iterator,
     gchar *mon_decimal_point;
     gchar *mon_thousands_sep;
     gchar *navigation_order_list = NULL;
+	gchar *form_organization;
+	gchar *form_columns_width;
     gboolean is_archive = FALSE;
 	GrisbiWinEtat *w_etat;
 
@@ -677,6 +679,39 @@ gulong gsb_file_save_general_part ( gulong iterator,
         }
     }
 
+	/* set the form organization */
+	form_organization = NULL;
+
+	for ( k=0 ; k<MAX_HEIGHT ; k++ )
+	    for ( j=0 ; j<MAX_WIDTH ; j++ )
+		if ( form_organization )
+		{
+		    form_organization = g_strconcat ( first_string_to_free = form_organization,
+						      "-",
+						      second_string_to_free = utils_str_itoa (gsb_data_form_get_value (j, k)),
+						      NULL );
+		    g_free (first_string_to_free);
+		    g_free (second_string_to_free);
+		}
+		else
+		    form_organization = utils_str_itoa (gsb_data_form_get_value (j, k));
+
+	/* set the form columns width */
+	form_columns_width = NULL;
+
+	for ( k=0 ; k<MAX_WIDTH ; k++ )
+	    if ( form_columns_width )
+	    {
+		form_columns_width = g_strconcat ( first_string_to_free = form_columns_width,
+						   "-",
+						   second_string_to_free = utils_str_itoa (gsb_data_form_get_width_column (k)),
+						   NULL );
+		g_free (first_string_to_free);
+		g_free (second_string_to_free);
+	    }
+	    else
+		form_columns_width = utils_str_itoa ( gsb_data_form_get_width_column (k));
+
 	/* prepare bet_array_column_width_write */
     bet_array_column_width_write = NULL;
 
@@ -750,6 +785,10 @@ gulong gsb_file_save_general_part ( gulong iterator,
                        "\t\tExport_force_US_dates=\"%d\"\n"
                        "\t\tExport_force_US_numbers=\"%d\"\n"
                        "\t\tForm_date_force_prev_year=\"%d\"\n"
+					   "\t\tForm_columns_number=\"%d\"\n"
+					   "\t\tForm_lines_number=\"%d\"\n"
+					   "\t\tForm_organization=\"%s\"\n"
+					   "\t\tForm_columns_width=\"%s\"\n"
 					   "\t\tReconcile_end_date=\"%d\"\n"
                        "\t\tReconcile_sort=\"%d\"\n"
 					   "\t\tUse_logo=\"%d\"\n"
@@ -813,6 +852,10 @@ gulong gsb_file_save_general_part ( gulong iterator,
     etat.export_force_US_dates,
     etat.export_force_US_numbers,
 	w_etat->form_date_force_prev_year,
+	gsb_data_form_get_nb_columns (),
+	gsb_data_form_get_nb_rows (),
+	my_safe_null_str(form_organization),
+	my_safe_null_str(form_columns_width),
     etat.reconcile_end_date,
     etat.reconcile_sort,
 	etat.utilise_logo,
@@ -859,7 +902,10 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	g_free (second_string_to_free);
 	g_free (third_string_to_free);
 
-    /* append the new string to the file content
+ 	g_free (form_organization);
+	g_free (form_columns_width);
+
+	/* append the new string to the file content
      * and return the new iterator */
 
     return gsb_file_save_append_part ( iterator,
@@ -936,9 +982,6 @@ gulong gsb_file_save_account_part ( gulong iterator,
                         gchar **file_content )
 {
     GSList *list_tmp;
-    gint first_account;
-
-    first_account = gsb_data_account_first_number ( );
 
     list_tmp = gsb_data_account_get_list_accounts ();
 
@@ -947,12 +990,10 @@ gulong gsb_file_save_account_part ( gulong iterator,
 	gchar *first_string_to_free;
 	gchar *second_string_to_free;
 	gint account_number;
-	gint j, k;
+	gint j;
     gint floating_point;
 	gchar *sort_list;
 	gchar *sort_kind_column;
-	gchar *form_organization;
-	gchar *form_columns_width;
 	GSList *list_tmp_2;
 	gchar *new_string;
 	gchar *init_balance;
@@ -1006,45 +1047,6 @@ gulong gsb_file_save_account_part ( gulong iterator,
 											j ));
 	}
 
-	/* set the form organization */
-	form_organization = NULL;
-
-	for ( k=0 ; k<MAX_HEIGHT ; k++ )
-	    for ( j=0 ; j<MAX_WIDTH ; j++ )
-		if ( form_organization )
-		{
-		    form_organization = g_strconcat ( first_string_to_free = form_organization,
-						      "-",
-						      second_string_to_free = utils_str_itoa ( gsb_data_form_get_value ( first_account,
-															 j,
-															 k )),
-						      NULL );
-		    g_free (first_string_to_free);
-		    g_free (second_string_to_free);
-		}
-		else
-		    form_organization = utils_str_itoa (gsb_data_form_get_value ( first_account,
-										  j,
-										  k ));
-
-	/* set the form columns width */
-	form_columns_width = NULL;
-
-	for ( k=0 ; k<MAX_WIDTH ; k++ )
-	    if ( form_columns_width )
-	    {
-		form_columns_width = g_strconcat ( first_string_to_free = form_columns_width,
-						   "-",
-						   second_string_to_free = utils_str_itoa ( gsb_data_form_get_width_column ( first_account,
-															     k )),
-						   NULL );
-		g_free (first_string_to_free);
-		g_free (second_string_to_free);
-	    }
-	    else
-		form_columns_width = utils_str_itoa ( gsb_data_form_get_width_column ( first_account,
-										       k ));
-
 	/* set the reals */
     floating_point = gsb_data_account_get_currency_floating_point ( account_number );
 	init_balance = gsb_real_safe_real_to_string (
@@ -1094,10 +1096,6 @@ gulong gsb_file_save_account_part ( gulong iterator,
 					       "\t\tAscending_sort=\"%d\"\n"
 					       "\t\tColumn_sort=\"%d\"\n"
 					       "\t\tSorting_kind_column=\"%s\"\n"
-					       "\t\tForm_columns_number=\"%d\"\n"
-					       "\t\tForm_lines_number=\"%d\"\n"
-					       "\t\tForm_organization=\"%s\"\n"
-					       "\t\tForm_columns_width=\"%s\"\n"
                            "\t\tBet_use_budget=\"%d\"",
 	    my_safe_null_str(gsb_data_account_get_name (account_number)),
 	    my_safe_null_str(gsb_data_account_get_id (account_number)),
@@ -1128,17 +1126,10 @@ gulong gsb_file_save_account_part ( gulong iterator,
 	    gsb_data_account_get_sort_type (account_number),
 	    gsb_data_account_get_sort_column (account_number),
 	    my_safe_null_str(sort_kind_column),
-	    gsb_data_form_get_nb_columns (account_number),
-	    gsb_data_form_get_nb_rows (account_number),
-	    my_safe_null_str(form_organization),
-	    my_safe_null_str(form_columns_width),
         gsb_data_account_get_bet_use_budget ( account_number ) );
 
     if ( gsb_data_account_get_bet_use_budget ( account_number ) > 0 )
     {
-		gchar *tmp_str_to_free1;
-		gchar *tmp_str_to_free2;
-		gchar *tmp_str_to_free3;
         BetTypeOnglets bet_show_onglets;
 
         bet_show_onglets = gsb_data_account_get_bet_show_onglets ( account_number );
@@ -1157,32 +1148,10 @@ gulong gsb_file_save_account_part ( gulong iterator,
             g_free ( first_string_to_free );
             break;
         case BET_ONGLETS_CAP:
-            bet_str = g_markup_printf_escaped ( "\t\tBet_credit_card=\"%d\"\n"
-                        "\t\tBet_start_date=\"%s\"\n"
-                        "\t\tBet_months=\"%d\"\n"
-                        "\t\tBet_capital=\"%s\"\n"
-                        "\t\tBet_taux_annuel=\"%s\"\n"
-                        "\t\tBet_frais=\"%s\"\n"
-                        "\t\tBet_type_taux=\"%d\" />\n",
-                gsb_data_account_get_bet_credit_card ( account_number ),
-                my_safe_null_str (gsb_format_gdate_safe (
-                        gsb_data_account_get_bet_start_date ( account_number ) ) ),
-                gsb_data_account_get_bet_months ( account_number ),
-                my_safe_null_str (tmp_str_to_free1 = utils_str_dtostr (
-                        gsb_data_account_get_bet_finance_capital ( account_number ),
-                        gsb_data_account_get_currency_floating_point ( account_number ), TRUE ) ),
-                my_safe_null_str ( tmp_str_to_free2 = utils_str_dtostr (
-                        gsb_data_account_get_bet_finance_taux_annuel ( account_number ), BET_TAUX_DIGITS, TRUE ) ),
-                my_safe_null_str (tmp_str_to_free3 = utils_str_dtostr (
-                        gsb_data_account_get_bet_finance_frais ( account_number ),
-                        gsb_data_account_get_currency_floating_point ( account_number ), TRUE ) ),
-                gsb_data_account_get_bet_finance_type_taux ( account_number ) );
+            bet_str = g_markup_printf_escaped ("\t\tBet_credit_card=\"%d\" />\n",
+											   gsb_data_account_get_bet_credit_card (account_number));
             new_string = g_strconcat ( first_string_to_free, "\n", bet_str, NULL );
-            g_free ( bet_str );
-            g_free ( first_string_to_free );
-			g_free (tmp_str_to_free1);
-			g_free (tmp_str_to_free2);
-			g_free (tmp_str_to_free3);
+            g_free (bet_str);
             break;
         case BET_ONGLETS_ASSET:
         case BET_ONGLETS_SANS:
@@ -1226,8 +1195,6 @@ gulong gsb_file_save_account_part ( gulong iterator,
 
 	g_free (sort_list);
 	g_free (sort_kind_column);
-	g_free (form_organization);
-	g_free (form_columns_width);
 	g_free (init_balance);
 	g_free (mini_auto);
 	g_free (mini_wanted);

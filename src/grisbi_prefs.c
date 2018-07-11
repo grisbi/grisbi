@@ -56,6 +56,7 @@
 #include "utils_prefs.h"
 #include "prefs/prefs_page_accueil.h"
 #include "prefs/prefs_page_archives.h"
+#include "prefs/prefs_page_bet_account.h"
 #include "prefs/prefs_page_display_adr.h"
 #include "prefs/prefs_page_display_fonts.h"
 #include "prefs/prefs_page_display_gui.h"
@@ -314,6 +315,7 @@ void grisbi_prefs_dialog_response  (GtkDialog *prefs,
                         conf.prefs_width);
 
 	gtk_widget_destroy (GTK_WIDGET (prefs));
+	grisbi_win_set_prefs_dialog (NULL, NULL);
 }
 
 /**
@@ -607,10 +609,11 @@ static void grisbi_prefs_left_panel_populate_tree_model (GrisbiPrefs *prefs)
 	page++;
 
 	/* append page Accounts data */
-	widget = GTK_WIDGET (bet_config_account_create_account_page ());
-	utils_widget_set_padding (widget, MARGIN_BOX, 0);
-	if (is_loading == FALSE)
-	gtk_widget_set_sensitive (widget, FALSE);
+	widget = GTK_WIDGET (prefs_page_bet_account_new (prefs));
+	//~ widget = GTK_WIDGET (bet_config_account_create_account_page ());
+	//~ utils_widget_set_padding (widget, MARGIN_BOX, 0);
+	//~ if (is_loading == FALSE)
+	//~ gtk_widget_set_sensitive (widget, FALSE);
 	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Accounts data"), page);
 	page++;
 }
@@ -898,17 +901,25 @@ GrisbiPrefs *grisbi_prefs_new (GrisbiWin *win)
 void grisbi_prefs_set_page_by_name (gchar *page_name)
 {
 	GrisbiPrefs *prefs;
+	GrisbiWin *win;
 	GrisbiPrefsPrivate *priv;
+	gint result;
 
 	devel_debug (page_name);
-
-	prefs = grisbi_prefs_new (grisbi_app_get_active_window (NULL));
+	win = grisbi_app_get_active_window (NULL);
+	prefs = grisbi_prefs_new (win);
 	priv = grisbi_prefs_get_instance_private (prefs);
+	grisbi_win_set_prefs_dialog (win, GTK_WIDGET (prefs));
+
+	gtk_window_present (GTK_WINDOW (prefs));
+	gtk_widget_show_all (GTK_WIDGET (prefs));
 
 	if (strcmp (page_name, "form_num_page") == 0)
 	{
 		utils_prefs_left_panel_tree_view_select_page (priv->left_treeview, priv->notebook_prefs, priv->form_num_page);
 	}
+	result = gtk_dialog_run (GTK_DIALOG (prefs));
+	grisbi_prefs_dialog_response (GTK_DIALOG (prefs), result);
 }
 
 /**

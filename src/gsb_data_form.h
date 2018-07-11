@@ -7,7 +7,8 @@
 /* END_INCLUDE_H */
 
 
-enum transaction_form_widget {
+enum TransactionFormWidget
+{
     TRANSACTION_FORM_DATE = 1,
     TRANSACTION_FORM_DEBIT,
     TRANSACTION_FORM_CREDIT,
@@ -37,33 +38,23 @@ enum transaction_form_widget {
 
 /* START_DECLARATION */
 gboolean 	gsb_data_form_check_for_value 			(gint value);
-gboolean 	gsb_data_form_dup_organization 			(gint origin_account,
-													 gint target_account);
-gint 		gsb_data_form_get_nb_columns 			(gint account_number);
-gint 		gsb_data_form_get_nb_rows 				(gint account_number);
-gint 		gsb_data_form_get_value 				(gint account_number,
-												     gint column,
+gint 		gsb_data_form_get_nb_columns 			(void);
+gint 		gsb_data_form_get_nb_rows 				(void);
+gint 		gsb_data_form_get_value 				(gint column,
 												     gint row);
-gint 		gsb_data_form_get_values_total 			(gint account_number);
-gint 		gsb_data_form_get_width_column 			(gint account_number,
-													 gint column);
-gboolean 	gsb_data_form_look_for_value 			(gint account_number,
-													 gint value,
+gint 		gsb_data_form_get_values_total 			(void);
+gint 		gsb_data_form_get_width_column 			(gint column);
+gboolean 	gsb_data_form_look_for_value 			(gint value,
 													 gint *return_row,
 													 gint *return_column);
-gboolean 	gsb_data_form_new_organization 			(gint account_number);
-gboolean 	gsb_data_form_set_default_organization 	(gint account_number);
-gboolean 	gsb_data_form_set_nb_columns 			(gint account_number,
-													 gint columns);
-gboolean 	gsb_data_form_set_nb_rows 				(gint account_number,
-													 gint rows);
-gboolean 	gsb_data_form_set_value 				(gint account_number,
-													 gint column,
+gboolean 	gsb_data_form_new_organization 			(void);
+gboolean 	gsb_data_form_set_default_organization 	(void);
+gboolean 	gsb_data_form_set_nb_columns 			(gint columns);
+gboolean 	gsb_data_form_set_nb_rows 				(gint rows);
+gboolean 	gsb_data_form_set_value 				(gint column,
 													 gint row,
 													 gint value);
-gboolean 	gsb_data_form_set_width_column 			(gint account_number,
-													 gint column,
+gboolean 	gsb_data_form_set_width_column 			(gint column,
 													 gint width);
-gboolean 	gsb_form_config_update_from_account 	(gint account_number);
 /* END_DECLARATION */
 #endif

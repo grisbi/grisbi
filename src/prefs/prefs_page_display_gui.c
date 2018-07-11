@@ -38,8 +38,8 @@
 
 /*START_INCLUDE*/
 #include "prefs_page_display_gui.h"
+#include "grisbi_app.h"
 #include "grisbi_settings.h"
-#include "grisbi_win.h"
 #include "navigation.h"
 #include "structures.h"
 #include "utils_buttons.h"
@@ -76,41 +76,6 @@ G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageDisplayGui, prefs_page_display_gui, GTK_TYP
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
-static void prefs_page_display_gui_dump_accels (GtkApplication *app,
-												GtkWidget *text_view)
-{
-	GtkTextBuffer *buffer;
-	GtkTextIter iter;
-	gchar **actions;
-	gint i;
-
-	actions = gtk_application_list_action_descriptions (app);
-	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view));
-	gtk_text_buffer_set_text (buffer, "", 0);
-	gtk_text_buffer_get_iter_at_offset (buffer, &iter, 0);
-
-	for (i = 0; actions[i]; i++)
-	{
-		gchar **accels;
-		gchar *str;
-		gchar *text;
-
-		accels = gtk_application_get_accels_for_action (app, actions[i]);
-		str = g_strjoinv (",", accels);
-		text = g_strdup_printf ("%s\t-> %s.\n", actions[i], str);
-		gtk_text_buffer_insert (buffer, &iter, text, -1);
-		g_strfreev (accels);
-		g_free (str);
-	}
-	g_strfreev (actions);
-	gtk_text_buffer_insert (buffer, &iter, "\n", -1);
-	gtk_text_buffer_insert_markup (buffer, &iter, _("<b>Actions in transaction list :</b>"), -1);
-	gtk_text_buffer_insert (buffer, &iter, "\n", -1);
-	gtk_text_buffer_insert (buffer, &iter, _("(Un)Pointing a transaction\t-> <Primary>p, <Primary>F12\n"), -1);
-	gtk_text_buffer_insert (buffer, &iter, _("(Un)Reconcile a transaction\t-> <Primary>r\n"), -1);
-
-}
-
 /**
  * called when switch the active mouse scrolling option
  * to set unset the scrolling
@@ -340,7 +305,8 @@ static void prefs_page_display_gui_setup_display_gui_page (PrefsPageDisplayGui *
 	pango_tab_array_free (tabs);
 
 	gtk_text_view_set_editable (GTK_TEXT_VIEW (priv->text_view_display_shorcuts), FALSE);
-	prefs_page_display_gui_dump_accels (GTK_APPLICATION (g_application_get_default ()), priv->text_view_display_shorcuts);
+	grisbi_app_display_gui_dump_accels (GTK_APPLICATION (g_application_get_default ()),
+										priv->text_view_display_shorcuts);
 
 }
 

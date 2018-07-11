@@ -30,6 +30,7 @@
 
 /*START_INCLUDE*/
 #include "bet_data.h"
+#include "bet_data_finance.h"
 #include "bet_future.h"
 #include "bet_hist.h"
 #include "bet_tab.h"
@@ -884,17 +885,19 @@ gboolean bet_data_update_div ( BetHist *sh,
 GPtrArray *bet_data_get_strings_to_save ( void )
 {
     GPtrArray *tab = NULL;
+	GSList *tmp_list;
     gchar *tmp_str = NULL;
     GHashTableIter iter;
     gpointer key, value;
     gint index = 0;
 
     if ( g_hash_table_size ( bet_hist_div_list ) == 0
-     &&
-        g_hash_table_size ( bet_future_list ) == 0
-     &&
-        g_hash_table_size ( bet_transfert_list ) == 0 )
+		&& g_hash_table_size ( bet_future_list ) == 0
+		&& g_hash_table_size (bet_transfert_list) == 0
+		&& g_slist_length (bet_data_loan_get_loan_list()) == 0)
+	{
         return NULL;
+	}
 
     tab = g_ptr_array_new ( );
 
@@ -1037,6 +1040,48 @@ GPtrArray *bet_data_get_strings_to_save ( void )
         g_free (date);
     }
 
+	tmp_list = bet_data_loan_get_loan_list ();
+	while (tmp_list)
+	{
+        gchar *date;
+		gint flotting_point;
+		LoanStruct *s_loan;
+
+		s_loan = tmp_list->data;
+
+		date = gsb_format_gdate_safe (s_loan->first_date);
+		flotting_point = gsb_data_account_get_currency_floating_point (s_loan->account_number);
+
+		tmp_str = g_markup_printf_escaped ("\t<Bet_loan\n"
+										   "\t\tNb=\"%d\" Ac=\"%d\" Ver=\"%d\" InCol=\"%d\"\n"
+										   "\t\tCa=\"%s\" Duree=\"%d\" FDate=\"%s\" Fees=\"%s\" Taux=\"%s\" TyTaux=\"%d\"\n"
+										   "\t\tFEchDif=\"%d\" FCa=\"%s\" FIn=\"%s\" OEch=\"%s\"\n"
+										   "\t\tISchWL=\"%d\" AAc=\"%d\" ASch=\"%d\" AFr=\"%d\" CaDu=\"%s\" />\n",
+										   s_loan->number,
+										   s_loan->account_number,
+										   s_loan->version_number,
+										   s_loan->invers_cols_cap_ech,
+										   my_safe_null_str (utils_str_dtostr (s_loan->capital, flotting_point, TRUE)),
+										   s_loan->duree,
+										   date,
+										   my_safe_null_str (utils_str_dtostr (s_loan->fees, flotting_point, TRUE)),
+										   my_safe_null_str (utils_str_dtostr (s_loan->annual_rate, flotting_point, TRUE)),
+										   s_loan->type_taux,
+										   s_loan->first_is_different,
+										   my_safe_null_str (utils_str_dtostr (s_loan->first_capital, flotting_point, TRUE)),
+										   my_safe_null_str (utils_str_dtostr (s_loan->first_interests, flotting_point, TRUE)),
+										   my_safe_null_str (utils_str_dtostr (s_loan->other_echeance_amount, flotting_point, TRUE)),
+										   s_loan->init_sch_with_loan,
+										   s_loan->associated_account,
+										   s_loan->associated_scheduled,
+										   s_loan->associated_frequency,
+										   my_safe_null_str (utils_str_dtostr (s_loan->capital_du, flotting_point, TRUE))
+										   );
+		g_ptr_array_add (tab, tmp_str);
+		g_free (date);
+
+		tmp_list = tmp_list->next;
+	}
     return tab;
 }
 
@@ -2086,6 +2131,7 @@ gboolean bet_data_remove_all_bet_data ( gint account_number )
             return TRUE;
     }
 
+	bet_data_loan_struct_loan_free_by_account (account_number);
     return TRUE;
 }
 

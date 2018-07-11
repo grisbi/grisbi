@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		00272EAD20CABC7A00E9913C /* prefs_page_bet_account.c in Sources */ = {isa = PBXBuildFile; fileRef = 00272EAB20CABC7A00E9913C /* prefs_page_bet_account.c */; };
 		0038541C20767D5300A0E867 /* prefs_page_accueil.c in Sources */ = {isa = PBXBuildFile; fileRef = 0038541A20767D5300A0E867 /* prefs_page_accueil.c */; };
 		003AC2141F49DDE9007DA275 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 003AC2131F49DDE9007DA275 /* libcrypto.a */; };
 		003AC2181F49DE25007DA275 /* libofx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 003AC2171F49DE25007DA275 /* libofx.a */; };
@@ -175,6 +176,7 @@
 		006E68DC1DB426EE0038B1F0 /* gnucash.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E68DA1DB426EE0038B1F0 /* gnucash.c */; };
 		006E68DE1DB427130038B1F0 /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 006E68DD1DB427130038B1F0 /* libxml2.tbd */; };
 		006E68E21DB4276C0038B1F0 /* ofx.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E68E01DB4276C0038B1F0 /* ofx.c */; };
+		00AFB95620F2462C00506F2F /* prefs_widget_loan.c in Sources */ = {isa = PBXBuildFile; fileRef = 00AFB95420F2462C00506F2F /* prefs_widget_loan.c */; };
 		00B77C441DB2A17600A5D233 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 00B77C431DB2A17600A5D233 /* main.c */; };
 		00BCBD381E0701C100579172 /* grisbi.css in CopyFiles */ = {isa = PBXBuildFile; fileRef = 00BCBD331E07018400579172 /* grisbi.css */; };
 		00EA60EC1F914DF200569C19 /* libgtkmacintegration-gtk3.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 00EA60EB1F914DF200569C19 /* libgtkmacintegration-gtk3.2.dylib */; };
@@ -196,6 +198,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		00272EAB20CABC7A00E9913C /* prefs_page_bet_account.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = prefs_page_bet_account.c; path = prefs/prefs_page_bet_account.c; sourceTree = "<group>"; };
+		00272EAC20CABC7A00E9913C /* prefs_page_bet_account.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = prefs_page_bet_account.h; path = prefs/prefs_page_bet_account.h; sourceTree = "<group>"; };
 		0038541A20767D5300A0E867 /* prefs_page_accueil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = prefs_page_accueil.c; path = prefs/prefs_page_accueil.c; sourceTree = "<group>"; };
 		0038541B20767D5300A0E867 /* prefs_page_accueil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = prefs_page_accueil.h; path = prefs/prefs_page_accueil.h; sourceTree = "<group>"; };
 		003AC2131F49DDE9007DA275 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../../../../../../usr/local/Cellar/openssl/1.0.2l/lib/libcrypto.a; sourceTree = "<group>"; };
@@ -532,6 +536,8 @@
 		006E68E01DB4276C0038B1F0 /* ofx.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ofx.c; sourceTree = "<group>"; };
 		006E68E11DB4276C0038B1F0 /* ofx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofx.h; sourceTree = "<group>"; };
 		006E68E31DB427DF0038B1F0 /* libofx.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libofx.a; path = ../../../usr_local/Cellar/libofx/0.9.10/lib/libofx.a; sourceTree = "<group>"; };
+		00AFB95420F2462C00506F2F /* prefs_widget_loan.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = prefs_widget_loan.c; path = prefs/prefs_widget_loan.c; sourceTree = "<group>"; };
+		00AFB95520F2462C00506F2F /* prefs_widget_loan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = prefs_widget_loan.h; path = prefs/prefs_widget_loan.h; sourceTree = "<group>"; };
 		00B77C381DB2A0EC00A5D233 /* grisbi */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = grisbi; sourceTree = BUILT_PRODUCTS_DIR; };
 		00B77C431DB2A17600A5D233 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		00BCBD2F1E07018400579172 /* bet_graph.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = bet_graph.ui; path = src/ui/bet_graph.ui; sourceTree = "<group>"; };
@@ -609,6 +615,8 @@
 				0038541B20767D5300A0E867 /* prefs_page_accueil.h */,
 				003AC22E1F49E06D007DA275 /* prefs_page_archives.c */,
 				003AC2281F49E06D007DA275 /* prefs_page_archives.h */,
+				00272EAB20CABC7A00E9913C /* prefs_page_bet_account.c */,
+				00272EAC20CABC7A00E9913C /* prefs_page_bet_account.h */,
 				005BC33F1F6C1943006DB25E /* prefs_page_display_adr.c */,
 				005BC33E1F6C1943006DB25E /* prefs_page_display_adr.h */,
 				003AC22F1F49E06D007DA275 /* prefs_page_display_fonts.c */,
@@ -623,6 +631,8 @@
 				003AC22C1F49E06D007DA275 /* prefs_page_import_asso.h */,
 				003AC2331F49E06D007DA275 /* prefs_page_import_files.c */,
 				003AC22D1F49E06D007DA275 /* prefs_page_import_files.h */,
+				00AFB95420F2462C00506F2F /* prefs_widget_loan.c */,
+				00AFB95520F2462C00506F2F /* prefs_widget_loan.h */,
 			);
 			name = prefs;
 			sourceTree = "<group>";
@@ -1180,6 +1190,8 @@
 				006E68DC1DB426EE0038B1F0 /* gnucash.c in Sources */,
 				006E68551DB3E7AD0038B1F0 /* gsb_assistant_account.c in Sources */,
 				006E68BD1DB3E7AD0038B1F0 /* utils.c in Sources */,
+				00272EAD20CABC7A00E9913C /* prefs_page_bet_account.c in Sources */,
+				00AFB95620F2462C00506F2F /* prefs_widget_loan.c in Sources */,
 				006E68571DB3E7AD0038B1F0 /* gsb_assistant_archive.c in Sources */,
 				006E68A21DB3E7AD0038B1F0 /* meta_categories.c in Sources */,
 				006E68AA1DB3E7AD0038B1F0 /* print_tree_view_list.c in Sources */,

@@ -65,8 +65,6 @@ struct _PrefsPageDisplayAdrPrivate
     GtkWidget *         sw_adr_secondary;
     GtkWidget *         textview_adr_common;
     GtkWidget *         textview_adr_secondary;
-
-	GrisbiWinEtat *		w_etat;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageDisplayAdr, prefs_page_display_adr, GTK_TYPE_BOX)
