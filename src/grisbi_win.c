@@ -337,9 +337,16 @@ static gboolean grisbi_win_hpaned_size_allocate (GtkWidget *hpaned_general,
  */
 static gboolean grisbi_win_form_size_allocate (GtkWidget *form_general,
                                                GtkAllocation *allocation,
-                                               gpointer data)
+                                               GrisbiWin *win)
 {
 	GtkWidget *form_expander;
+
+	/* si on est dans les préférences on ne touche pas au label de l'expander */
+	/* fixe partiellement un bug de maj de la liste des opérations */
+	if (grisbi_win_get_prefs_dialog (NULL))
+	{
+		return FALSE;
+	}
 
 	form_expander = g_object_get_data (G_OBJECT (form_general), "form_expander");
 	if (form_expander)
@@ -513,7 +520,7 @@ static GtkWidget *grisbi_win_create_general_notebook (GrisbiWin *win)
     g_signal_connect (G_OBJECT (priv->form_general),
                       "size_allocate",
                       G_CALLBACK (grisbi_win_form_size_allocate),
-                      NULL);
+                      win);
 
 	/* show widgets */
 	gtk_widget_show (sw);
@@ -1812,7 +1819,7 @@ void grisbi_win_new_file_gui (void)
     gtk_widget_show (priv->notebook_general);
 }
 
-/* FORM */
+/* FORM_GENERAL */
 /**
  * get the form_organization
  *

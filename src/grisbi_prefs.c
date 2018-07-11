@@ -315,6 +315,7 @@ void grisbi_prefs_dialog_response  (GtkDialog *prefs,
                         conf.prefs_width);
 
 	gtk_widget_destroy (GTK_WIDGET (prefs));
+	grisbi_win_set_prefs_dialog (NULL, NULL);
 }
 
 /**
