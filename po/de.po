@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-06-30 21:09+0200\n"
-"PO-Revision-Date: 2018-06-17 10:17+0100\n"
+"PO-Revision-Date: 2018-07-12 22:13+0100\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -792,7 +792,6 @@ msgid "months"
 msgstr "Monate"
 
 #: ../src/bet_finance_ui.c:2386
-#, fuzzy
 msgid " months "
 msgstr "Monate"
 
@@ -1845,7 +1844,7 @@ msgstr "Es wurden keine Inkonsistenzen in den geprüften Konten gefunden."
 
 #: ../src/dialog.c:101
 msgid "Confirmation of manual (un)reconciliation"
-msgstr "Die manuelle (Un)Abstimmung bestätigen"
+msgstr "Manuelle Abstimmung bestätigen"
 
 #: ../src/dialog.c:102
 msgid ""
@@ -1853,7 +1852,7 @@ msgid ""
 "not a recommended action.\n"
 "Are you really sure you know what you are doing?"
 msgstr ""
-"Sie sind dabei, eine Buchung manuell als abgestimmt/nicht abgestimmt zu "
+"Sie sind dabei, eine Buchung manuell als abgestimmt / nicht abgestimmt zu "
 "kennzeichnen. Dies ist grundsätzlich möglich, jedoch nicht die empfohlene "
 "Vorgehensweise. Soll der Vorgang fortgesetzt werden?"
 
@@ -1891,7 +1890,7 @@ msgstr ""
 
 #: ../src/dialog.c:359 ../src/gsb_scheduler_list.c:2285
 msgid "Keep this choice permanently?"
-msgstr "Diese Meldung nicht mehr anzeigen?"
+msgstr "Diese Meldung nicht mehr anzeigen"
 
 #: ../src/dialog.c:544
 msgid "Do not show this message again"
@@ -3909,17 +3908,14 @@ msgid "The menu of options"
 msgstr "Menü Einstellungen"
 
 #: ../src/grisbi_app.c:98 ../src/grisbi_app.c:115
-#, fuzzy
 msgid "New_window"
 msgstr "Neues Fenster"
 
 #: ../src/grisbi_app.c:99 ../src/grisbi_app.c:116
-#, fuzzy
 msgid "Preferences"
 msgstr "Einstellungen"
 
 #: ../src/grisbi_app.c:100 ../src/grisbi_app.c:117
-#, fuzzy
 msgid "Quit"
 msgstr "Beenden"
 
@@ -3944,7 +3940,7 @@ msgstr "Daten importieren"
 #: ../src/grisbi_app.c:105 ../src/grisbi_app.c:122
 #: ../src/ui/grisbi_menu.ui.h:12
 msgid "Export as QIF/CSV file"
-msgstr "Daten Exportieren"
+msgstr "Daten exportieren"
 
 #: ../src/grisbi_app.c:106 ../src/grisbi_app.c:123
 #: ../src/ui/grisbi_menu.ui.h:19
@@ -3981,7 +3977,7 @@ msgstr "Handbuch"
 
 #: ../src/grisbi_app.c:112 ../src/grisbi_app.c:129
 msgid "Full screen"
-msgstr ""
+msgstr "Vollbildmodus"
 
 #: ../src/grisbi_app.c:643
 msgid "Show the application's version"
@@ -4027,12 +4023,10 @@ msgid "<b>Actions in transaction list :</b>"
 msgstr "<b>Aktionen für Buchungsliste :</b>"
 
 #: ../src/grisbi_app.c:1201
-#, fuzzy
 msgid "(Un)Pointing a transaction\t\t-> <Primary>p, <Primary>F12\n"
 msgstr "Buchung verrechnen\t-> Strg + P, F12\n"
 
 #: ../src/grisbi_app.c:1202
-#, fuzzy
 msgid "(Un)Reconcile a transaction\t\t-> <Primary>r\n"
 msgstr "Buchung abstimmen\t-> Strg + R\n"
 
@@ -7541,7 +7535,8 @@ msgstr "%d Sekunden"
 msgid ""
 "If you close without saving, all of your changes since %s will be discarded."
 msgstr ""
-"Beim Schließen ohne Speichern werden alle Änderungen seit %s verworfen."
+"Beim Beenden ohne Speichern werden alle Änderungen seit\n"
+"%s verworfen."
 
 #: ../src/gsb_file.c:258
 #, c-format
@@ -8715,8 +8710,7 @@ msgstr "%d Jahre"
 msgid ""
 "Do you really want to delete the child of the scheduled transaction with "
 "party '%s' ?"
-msgstr ""
-"Soll die geplante Splittbuchung mit dem Empfänger '%s' gelöscht werden?"
+msgstr "Soll die geplante Teilbuchung mit dem Empfänger '%s' gelöscht werden?"
 
 #: ../src/gsb_scheduler_list.c:2212
 #, c-format
@@ -8732,17 +8726,17 @@ msgid ""
 "\n"
 "%s : %s [%s %s]"
 msgstr ""
-"Nur diese oder die gesamte geplante Buchung löschen?\n"
+"Nur diese Buchung oder die gesamte geplante Buchung löschen?\n"
 "\n"
 "%s : %s [%s %s]"
 
 #: ../src/gsb_scheduler_list.c:2275
 msgid "Delete this scheduled transaction?"
-msgstr "Diese geplante Buchung löschen?"
+msgstr "Geplante Buchung löschen"
 
 #: ../src/gsb_scheduler_list.c:2279
 msgid "All the occurrences"
-msgstr "Alle Vorkommen"
+msgstr "Gesamte Buchung"
 
 #: ../src/gsb_scheduler_list.c:2280
 msgid "Only this one"
@@ -8844,15 +8838,15 @@ msgstr "Eine Teilbuchung löschen"
 
 #: ../src/gsb_transactions_list.c:197
 msgid "Delete a transaction."
-msgstr "Eine Buchung löschen"
+msgstr "Buchung löschen"
 
 #: ../src/gsb_transactions_list.c:201
 msgid "Delete a child of scheduled transaction."
-msgstr "Eine Teilbuchung von einer geplanten Buchung löschen"
+msgstr "Teilbuchung von einer geplanten Buchung löschen"
 
 #: ../src/gsb_transactions_list.c:205
 msgid "Delete a scheduled transaction."
-msgstr "Eine geplante Buchung löschen"
+msgstr "Geplante Buchung löschen"
 
 #: ../src/gsb_transactions_list.c:209
 msgid "Delete one or all occurrences of scheduled transaction."
@@ -8981,7 +8975,7 @@ msgid ""
 "Please finish or cancel the reconciliation first."
 msgstr ""
 "Es ist nicht möglich, während einer Abstimmung eine Buchung manuell als "
-"abgestimmt/nicht abgestimmt zu markieren.\n"
+"abgestimmt / nicht abgestimmt zu markieren.\n"
 "Die Abstimmung muss beendet oder abgebrochen werden damit dies möglich ist."
 
 #: ../src/gsb_transactions_list.c:1948
@@ -8995,7 +8989,7 @@ msgid ""
 "\n"
 "Are you really sure to know what you do?"
 msgstr ""
-"Sie sind dabei, eine Buchung manuell als abgestimmt/nicht abgestimmt zu "
+"Sie sind dabei, eine Buchung manuell als abgestimmt / nicht abgestimmt zu "
 "kennzeichnen. Dies ist grundsätzlich möglich, jedoch nicht die empfohlene "
 "Vorgehensweise.\n"
 "\n"
@@ -10678,7 +10672,7 @@ msgstr "Einfach"
 
 #: ../src/tiers_onglet.c:506 ../src/tiers_onglet.c:515
 msgid "Display unused payees"
-msgstr "Verwaiste löschen"
+msgstr "Verwaiste anzeigen"
 
 #: ../src/tiers_onglet.c:789
 #, c-format
@@ -11305,7 +11299,7 @@ msgstr "Kredit Basisdaten"
 #: ../src/prefs/prefs_page_bet_account.c:159
 #, c-format
 msgid "Renegotiation N° %d"
-msgstr ""
+msgstr "Neuberechnung N° %d"
 
 #: ../src/prefs/prefs_page_display_fonts.c:389
 msgid "Select a new logo"
@@ -11369,52 +11363,43 @@ msgstr "entsprechend Valutadatum (sonst nach Datum)"
 
 #. Main account
 #: ../src/prefs/prefs_widget_loan.c:877
-#, fuzzy
 msgid "Associated account"
-msgstr "Anlagekonto"
+msgstr "Zugeordnetes Konto"
 
 #: ../src/prefs/prefs_widget_loan.c:883
-#, fuzzy
 msgid "Associated account: "
-msgstr "Anlagekonto"
+msgstr "Zugeordnetes Konto:"
 
 #. set frequency
 #: ../src/prefs/prefs_widget_loan.c:898
-#, fuzzy
 msgid "Frequency: "
-msgstr "Frequenz"
+msgstr "Frequenz:"
 
 #: ../src/prefs/prefs_widget_loan.c:917
-#, fuzzy
 msgid "Mother transaction:"
-msgstr "Buchung du­pli­zie­ren"
+msgstr "Hauptbuchung:"
 
 #: ../src/prefs/prefs_widget_loan.c:1006
-#, fuzzy
 msgid "First split transaction: Capital"
-msgstr "Splittbuchungen"
+msgstr "Erste Splittbuchung: Betrag"
 
 #: ../src/prefs/prefs_widget_loan.c:1098
-#, fuzzy
 msgid "Second split transaction: Interests"
-msgstr "Splittbuchungen"
+msgstr "Zweite Splittbuchung: Zinsanteil"
 
 #: ../src/prefs/prefs_widget_loan.c:1198
-#, fuzzy
 msgid "Third split transaction: Fees"
-msgstr "Teilbuchungen von Splittbuchungen"
+msgstr "Dritte Splittbuchung: Gebühren"
 
 #. change button_init_scheduled
 #: ../src/prefs/prefs_widget_loan.c:1370 ../src/prefs/prefs_widget_loan.c:1407
 #: ../src/prefs/prefs_widget_loan.c:1619 ../src/prefs/prefs_widget_loan.c:1763
-#, fuzzy
 msgid "Create new scheduled transaction"
-msgstr "Eine geplante Buchung löschen"
+msgstr "Geplante Buchung erstellen"
 
 #: ../src/prefs/prefs_widget_loan.c:1578 ../src/prefs/prefs_widget_loan.c:1761
-#, fuzzy
 msgid "Delete scheduled transaction"
-msgstr "Eine geplante Buchung löschen"
+msgstr "Geplante Buchung löschen"
 
 #. *
 #. *
@@ -12304,7 +12289,7 @@ msgstr "Kategorien Ausgaben"
 
 #: ../src/ui/etats_prefs.ui.h:72
 msgid "Select transactions only for given accounts"
-msgstr "Buchungen nach Zahlungsweisen auswählen"
+msgstr "Buchungen nach Konten auswählen"
 
 #: ../src/ui/etats_prefs.ui.h:73
 msgid "Select the accounts included in the report: "
@@ -12985,43 +12970,39 @@ msgstr "(Das Feld « N » wird nicht von allen Banken unterstützt)"
 
 #: ../src/ui/prefs_widget_loan.ui.h:3
 msgid "From 1 to 600 months or 50 years"
-msgstr ""
+msgstr "Von 1 bis 600 Monate oder 50 Jahre"
 
 #: ../src/ui/prefs_widget_loan.ui.h:4
-#, fuzzy
 msgid "12"
-msgstr "1"
+msgstr "12"
 
 #: ../src/ui/prefs_widget_loan.ui.h:6
 msgid "€"
-msgstr ""
+msgstr "€"
 
 #: ../src/ui/prefs_widget_loan.ui.h:16
-#, fuzzy
 msgid "Capital repaid: "
-msgstr "Tilgung"
+msgstr "Tilgung:"
 
 #: ../src/ui/prefs_widget_loan.ui.h:17
 msgid "The first repayment is different from the others"
-msgstr ""
+msgstr "Die erste Tilgung ist abweichend"
 
 #: ../src/ui/prefs_widget_loan.ui.h:18
-#, fuzzy
 msgid "Interests: "
-msgstr "Zinsanteil"
+msgstr "Zinsanteil:"
 
 #: ../src/ui/prefs_widget_loan.ui.h:19
 msgid "Use the depreciation schedule for planned operations"
-msgstr ""
+msgstr "Tilgung regelmäßig ausführen"
 
 #: ../src/ui/prefs_widget_loan.ui.h:20
-#, fuzzy
 msgid "Amortization table"
 msgstr "Tilgungsplan"
 
 #: ../src/ui/prefs_widget_loan.ui.h:21
 msgid "Invert the columns \"Remaining capital\" and \"Due date\""
-msgstr ""
+msgstr "Spalten Restschuld und Monatliche Tilgung vertauschen"
 
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
