@@ -19,10 +19,16 @@ GType 			grisbi_win_get_type (void) G_GNUC_CONST;
 
 GtkWidget *     grisbi_win_create_general_widgets           (GrisbiWin *win);
 
+void 			grisbi_win_form_expander_hide_frame			(void);
+gboolean 		grisbi_win_form_expander_is_visible 		(void);
+void 			grisbi_win_form_expander_show_frame			(void);
+
 void 			grisbi_win_general_notebook_set_page 		(gint page);
 GtkWidget *     grisbi_win_get_account_page					(void);
 const gchar *   grisbi_win_get_filename                     (GrisbiWin *win);
+GtkWidget *		grisbi_win_get_form_expander				(void);
 gpointer 		grisbi_win_get_form_organization 			(void);
+GtkWidget *		grisbi_win_get_label_last_statement 		(void);
 GtkWidget *     grisbi_win_get_notebook_general             (void);
 GtkWidget *		grisbi_win_get_prefs_dialog 				(GrisbiWin *win);
 GtkWidget *     grisbi_win_get_stack_box                    (GrisbiWin *win);
@@ -55,6 +61,8 @@ gboolean 		grisbi_win_on_account_switch_page			(GtkNotebook *notebook,
 
 void            grisbi_win_set_filename                     (GrisbiWin *win,
                                                              const gchar *filename);
+gboolean 		grisbi_win_set_form_expander_visible 		(gboolean visible,
+															 gboolean transactions_list);
 gboolean 		grisbi_win_set_form_organization			(gpointer FormOrganization);
 void 			grisbi_win_set_prefs_dialog 				(GrisbiWin *win,
 															 GtkWidget *prefs_dialog);
@@ -69,6 +77,7 @@ void            grisbi_win_status_bar_clear                 (void);
 void            grisbi_win_status_bar_message               (gchar *message);
 void            grisbi_win_status_bar_stop_wait             (gboolean force_update);
 void            grisbi_win_status_bar_wait                  (gboolean force_update);
+gboolean 		grisbi_win_switch_form_expander 			(void);
 
 void 			grisbi_win_update_all_toolbars 				(void);
 G_END_DECLS

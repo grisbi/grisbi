@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     copyright (c)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2004-2008 Benjamin Drieu (bdrieu@april.org)                       */
-/*                 2009-2016 Pierre Biava (grisbi@pierre.biava.name)          */
+/*                 2009-2018 Pierre Biava (grisbi@pierre.biava.name)          */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -91,8 +91,8 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gboolean gsb_form_activate_expander ( GtkWidget *expander,
-                        gpointer null );
+//~ static gboolean gsb_form_activate_expander ( GtkWidget *expander,
+                        //~ gpointer null );
 static gboolean gsb_form_button_press ( GtkWidget *vbox,
                         GdkEventButton *ev,
                         gpointer null );
@@ -112,15 +112,6 @@ static gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 
 /*START_EXTERN*/
 /*END_EXTERN*/
-
-/** label of the last statement */
-GtkWidget *label_last_statement = NULL;
-
-/** The frame */
-static GtkWidget *form_frame;
-
-/** the expander */
-static GtkWidget *form_expander = NULL;
 
 /** the 3 parts of the form :
  * for scheduled transactions
@@ -219,38 +210,6 @@ GtkWidget *gsb_form_get_form_widget ( void )
 }
 
 /**
- * Create an empty form in an GtkExpander.
- *
- * \return Expander that contains form.
- * */
-GtkWidget *gsb_form_new ( void )
-{
-	/* Create the form frame */
-	form_frame = gtk_frame_new ("");
-
-	/* Create the expander */
-    form_expander = gtk_expander_new ( "" );
-	utils_widget_set_padding (form_expander, MARGIN_BOX, MARGIN_BOX);
-
-    gtk_expander_set_expanded ( GTK_EXPANDER ( form_expander ),
-                               conf.formulaire_toujours_affiche );
-
-	gtk_container_add (GTK_CONTAINER (form_frame), form_expander);
-
-	g_object_set_data (G_OBJECT (form_frame), "form_expander", form_expander);
-    g_signal_connect_after (G_OBJECT(form_expander),
-			    "activate",
-			    G_CALLBACK (gsb_form_activate_expander),
-			    NULL );
-
-    gsb_form_create_widgets ();
-
-	gtk_widget_hide (form_frame);
-
-    return form_frame;
-}
-
-/**
  * return the address of the scheduler part widget
  *
  * \param
@@ -271,35 +230,20 @@ GtkWidget *gsb_form_get_scheduler_part ( void )
  */
 void gsb_form_create_widgets ( void )
 {
-    GtkWidget * hbox, * label, * separator, * hbox_buttons, * hbox_buttons_inner;
-    GtkWidget * child = gtk_bin_get_child ( GTK_BIN(form_expander) );
+    GtkWidget * separator, * hbox_buttons, * hbox_buttons_inner;
+    GtkWidget *child;
     GtkWidget *event_box;
-	gchar* tmpstr;
+	GtkWidget *form_expander;
 
     devel_debug (NULL);
 
+	form_expander = grisbi_win_get_form_expander ();
+	child = gtk_bin_get_child (GTK_BIN (form_expander));
     if ( child && GTK_IS_WIDGET(child) )
     {
         gsb_form_widget_free_list ();
 	    gtk_container_remove ( GTK_CONTAINER ( form_expander ), child );
     }
-
-    /* Expander has a composite label */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
-    gtk_widget_set_margin_end (hbox, MARGIN_END );
-    gtk_expander_set_label_widget ( GTK_EXPANDER(form_expander), hbox );
-    gtk_expander_set_label_fill ( GTK_EXPANDER(form_expander), TRUE );
-
-    /* set the label transaction form */
-    label = gtk_label_new ( NULL );
-    tmpstr = make_pango_attribut ( "weight=\"bold\"", _("Transaction/Scheduled _form") );
-    gtk_label_set_markup_with_mnemonic ( GTK_LABEL ( label ), tmpstr );
-    g_free ( tmpstr );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
-
-    /* set the last statement label */
-    label_last_statement = gtk_label_new ( NULL );
-    gtk_box_pack_end ( GTK_BOX ( hbox ), label_last_statement, FALSE, FALSE, 0 );
 
     /* Create form inside the expander :
      * the form is 3 parts :
@@ -380,7 +324,6 @@ void gsb_form_create_widgets ( void )
 		       G_CALLBACK (gsb_form_escape_form), NULL );
     gtk_box_pack_end ( GTK_BOX (hbox_buttons_inner), form_button_cancel, FALSE, FALSE, 0 );
 
-    gtk_widget_show_all ( hbox );
     gtk_widget_show_all ( transaction_form );
     gtk_widget_hide ( form_scheduled_part );
 
@@ -407,13 +350,13 @@ static gboolean gsb_form_size_allocate ( GtkWidget *widget,
                         GtkAllocation *allocation,
                         gpointer null )
 {
-    if (gsb_form_is_visible () && !block_size_allocate)
+    if (grisbi_win_form_expander_is_visible () && !block_size_allocate)
     {
-	block_size_allocate = TRUE;
-	gsb_transactions_list_set_row_align (-1.0);
+		block_size_allocate = TRUE;
+		gsb_transactions_list_set_row_align (-1.0);
     }
     else
-	block_size_allocate = FALSE;
+		block_size_allocate = FALSE;
     return FALSE;
 }
 
@@ -984,92 +927,27 @@ void gsb_form_fill_element ( gint element_number,
 
 
 /**
- * show or hide the expander
+ * Positionne le formulaire quand l'expandeur montre le widget enfant
  *
- * \param visible TRUE or FALSE
- * \param transactions_list TRUE if we are on transactions, FALSE if we are on scheduler
+ * \param expander.
  *
- * return FALSE
- * */
-gboolean gsb_form_set_expander_visible ( gboolean visible,
-                        gboolean transactions_list )
+ * \return
+ **/
+void gsb_form_expander_is_extanded (GtkWidget *expander)
 {
-    if ( visible )
-    {
-	gtk_widget_show (form_expander);
+	GtkWidget *date_entry;
 
-	if (transactions_list)
-	    gtk_widget_show (label_last_statement);
-	else
-	    gtk_widget_hide (label_last_statement);
-    }
-    else
-	gtk_widget_hide (form_expander);
-
-    return FALSE;
+	gsb_form_show (TRUE);
+	conf.formulaire_toujours_affiche = TRUE;
+	gsb_form_widget_set_focus (TRANSACTION_FORM_DATE);
+	date_entry = gsb_form_widget_get_widget (TRANSACTION_FORM_DATE);
+	gsb_form_widget_set_empty (date_entry, TRUE);
+	gsb_form_button_press_event (date_entry,
+								 NULL,
+								 GINT_TO_POINTER (TRANSACTION_FORM_DATE));
+	gtk_widget_grab_focus (GTK_WIDGET (date_entry));
+	gtk_editable_set_position (GTK_EDITABLE (date_entry), -1);
 }
-
-
-
-/**
- * show/hide the form according to the expander,
- * this will emit a signal as if the user changed it by himself
- *
- * \param
- *
- * \return FALSE
- * */
-gboolean gsb_form_switch_expander ( void )
-{
-	if ( !form_expander )
-		return FALSE;
-
-    gtk_expander_set_expanded ( GTK_EXPANDER (form_expander),
-				!gsb_form_is_visible ());
-
-    return FALSE;
-}
-
-
-
-/**
- * Called when the state of the expander changes
- *
- * \param expander	Expanded that triggered signal.
- * \param null		Not used.
- *
- * \return FALSE
- * */
-gboolean gsb_form_activate_expander ( GtkWidget *expander,
-                        gpointer null )
-{
-    devel_debug (NULL);
-
-    if ( gtk_expander_get_expanded (GTK_EXPANDER (expander)))
-    {
-        GtkWidget *date_entry;
-
-        gsb_form_show ( TRUE );
-        conf.formulaire_toujours_affiche = TRUE;
-        gsb_form_widget_set_focus ( TRANSACTION_FORM_DATE );
-        date_entry = gsb_form_widget_get_widget ( TRANSACTION_FORM_DATE );
-        gsb_form_widget_set_empty ( date_entry, TRUE );
-        gsb_form_button_press_event ( date_entry,
-                        NULL,
-                        GINT_TO_POINTER ( TRANSACTION_FORM_DATE ) );
-        gtk_widget_grab_focus ( GTK_WIDGET ( date_entry ) );
-        gtk_editable_set_position (GTK_EDITABLE ( date_entry ), -1 );
-    }
-    else
-    {
-		//~ gsb_form_show ( FALSE );
-		conf.formulaire_toujours_affiche = FALSE;
-    }
-    gsb_menu_gui_toggle_show_form ();
-
-    return FALSE;
-}
-
 
 /**
  * show the form, detect automaticly what we need to show, even for transactions,
@@ -1082,9 +960,11 @@ gboolean gsb_form_activate_expander ( GtkWidget *expander,
  * */
 gboolean gsb_form_show ( gboolean show )
 {
+	GtkWidget *form_expander;
     gint origin;
 
     devel_debug_int (show);
+	form_expander = grisbi_win_get_form_expander ();
 
     origin = gsb_form_get_origin ();
 
@@ -1107,42 +987,13 @@ gboolean gsb_form_show ( gboolean show )
 
     gsb_form_clean ( origin );
     gtk_widget_show (form_transaction_part);
-	gtk_widget_show (form_frame);
+	grisbi_win_form_expander_show_frame ();
 
-	if (!gsb_form_is_visible () && show)
+	if (!grisbi_win_form_expander_is_visible () && show)
 		gtk_expander_set_expanded (GTK_EXPANDER (form_expander), TRUE);
 
     return FALSE;
 }
-
-
-
-/**
- * Check if transactions form is visible.
- *
- * \return TRUE if transactions forms is expanded, FALSE otherwise.
- */
-gboolean gsb_form_is_visible ( void )
-{
-    return gtk_expander_get_expanded ( GTK_EXPANDER ( form_expander ) );
-}
-
-
-
-/**
- * hide the form
- *
- * \param
- *
- * \return FALSE
- * */
-gboolean gsb_form_hide (void)
-{
-	gtk_widget_hide (form_frame);
-
-    return FALSE;
-}
-
 
 /**
  * return the current account number according,
@@ -3566,6 +3417,9 @@ gboolean gsb_form_escape_form ( void )
     }
     else
     {
+		GtkWidget *form_expander;
+
+		form_expander = grisbi_win_get_form_expander ();
         gtk_expander_set_expanded ( GTK_EXPANDER ( form_expander ), FALSE );
     }
     return FALSE;

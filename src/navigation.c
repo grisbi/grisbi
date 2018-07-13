@@ -131,7 +131,6 @@ static gboolean navigation_tree_drag_data_get ( GtkTreeDragSource *drag_source,
 
 
 /*START_EXTERN*/
-extern GtkWidget *label_last_statement;
 extern GtkWidget *menu_import_rules;
 /*END_EXTERN*/
 
@@ -1035,6 +1034,7 @@ gboolean gsb_gui_navigation_change_account ( gint new_account )
  * */
 void gsb_gui_navigation_update_statement_label ( gint account_number )
 {
+	GtkWidget *label_last_statement;
     gint reconcile_number;
     gchar* tmp_str;
     gchar* tmp_str1;
@@ -1051,6 +1051,7 @@ void gsb_gui_navigation_update_statement_label ( gint account_number )
 	else
 		balance_str = g_strdup (_("Reconciled balance: "));
 
+	label_last_statement = grisbi_win_get_label_last_statement ();
 	if ( reconcile_number )
     {
         tmp_str1 = gsb_format_gdate ( gsb_data_reconcile_get_final_date (
@@ -1173,8 +1174,8 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 
 			/* what to be done if switch to that page */
 			mise_a_jour_accueil ( FALSE );
-			gsb_form_set_expander_visible ( FALSE, FALSE );
-			gsb_form_hide ();
+			grisbi_win_set_form_expander_visible ( FALSE, FALSE );
+			grisbi_win_form_expander_hide_frame ();
 			break;
 
 		case GSB_ACCOUNT_PAGE:
@@ -1226,7 +1227,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 			gsb_scheduler_list_select (gsb_scheduler_list_get_last_scheduled_number ());
 
 			/* set the form */
-			gsb_form_set_expander_visible (TRUE, FALSE );
+			grisbi_win_set_form_expander_visible (TRUE, FALSE );
 			gsb_form_scheduler_clean ();
 			gsb_form_show ( FALSE );
 
@@ -1245,10 +1246,10 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 			notice_debug ("Payee page selected");
 
 			/* what to be done if switch to that page */
-			gsb_form_set_expander_visible (FALSE, FALSE );
+			grisbi_win_set_form_expander_visible (FALSE, FALSE );
 			payees_fill_list ();
 			clear_suffix = FALSE;
-			gsb_form_hide ();
+			grisbi_win_form_expander_hide_frame ();
 			break;
 
 		case GSB_SIMULATOR_PAGE:
@@ -1257,29 +1258,29 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 			title = g_strdup(_("Credits simulator"));
 
 			/* what to be done if switch to that page */
-			gsb_form_set_expander_visible (FALSE, FALSE);
+			grisbi_win_set_form_expander_visible (FALSE, FALSE);
 			bet_finance_ui_switch_simulator_page ( );
-			gsb_form_hide ();
+			grisbi_win_form_expander_hide_frame ();
 			break;
 
 		case GSB_CATEGORIES_PAGE:
 			notice_debug ("Category page selected");
 
 			/* what to be done if switch to that page */
-			gsb_form_set_expander_visible (FALSE, FALSE );
+			grisbi_win_set_form_expander_visible (FALSE, FALSE );
 			categories_fill_list ();
 			clear_suffix = FALSE;
-			gsb_form_hide ();
+			grisbi_win_form_expander_hide_frame ();
 			break;
 
 		case GSB_BUDGETARY_LINES_PAGE:
 			notice_debug ("Budgetary page selected");
 
 			/* what to be done if switch to that page */
-			gsb_form_set_expander_visible (FALSE, FALSE );
+			grisbi_win_set_form_expander_visible (FALSE, FALSE );
 			budgetary_lines_fill_list ();
 			clear_suffix = FALSE;
-			gsb_form_hide ();
+			grisbi_win_form_expander_hide_frame ();
 			break;
 
 		case GSB_REPORTS_PAGE:
@@ -1293,7 +1294,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 			title = g_strdup(_("Reports"));
 
 			/* what to be done if switch to that page */
-			gsb_form_set_expander_visible ( FALSE, FALSE );
+			grisbi_win_set_form_expander_visible ( FALSE, FALSE );
 
 			if ( report_number > 0 )
 			{
@@ -1305,13 +1306,13 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 				gtk_notebook_set_current_page (GTK_NOTEBOOK (etats_onglet_get_notebook_etats ()), 1);
 				etats_onglet_unsensitive_reports_widgets ();
 			}
-			gsb_form_hide ();
+			grisbi_win_form_expander_hide_frame ();
 			break;
 
 		default:
 			notice_debug ("B0rk page selected");
 			title = g_strdup("B0rk");
-			gsb_form_hide ();
+			grisbi_win_form_expander_hide_frame ();
 			break;
     }
 

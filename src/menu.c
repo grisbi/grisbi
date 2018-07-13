@@ -807,7 +807,7 @@ void grisbi_cmd_show_form_toggle (GSimpleAction *action,
 {
     devel_debug (NULL);
 
-    gsb_form_switch_expander ();
+    grisbi_win_switch_form_expander ();
     conf.formulaire_toujours_affiche = !conf.formulaire_toujours_affiche;
 
     g_action_change_state (G_ACTION (action), g_variant_new_boolean (conf.formulaire_toujours_affiche));
