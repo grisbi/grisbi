@@ -1438,9 +1438,10 @@ gint gsb_qif_recupere_categories ( FILE *qif_file, const gchar *coding_system )
                     if ( strcmp ( string, "I" ) == 0 )
                         type_category = 0;
                     g_free ( string );
+                    string = NULL;
                 }
             }
-            while ( string[0] != '^' && returned_value != EOF && string[0] != '!' );
+            while ( string && string[0] != '^' && returned_value != EOF && string[0] != '!' );
 
             /* get the category and create it if doesn't exist */
             if (tab_str[0])
@@ -1464,16 +1465,16 @@ gint gsb_qif_recupere_categories ( FILE *qif_file, const gchar *coding_system )
             g_strfreev(tab_str);
         }
     }
-    while ( string[0] != '^' && returned_value != EOF && string[0] != '!' );
+    while ( string && string[0] != '^' && returned_value != EOF && string[0] != '!' );
 
-    if ( string[0] == '!' )
+    if ( string && string[0] == '!' )
     {
         if ( last_header && strlen ( last_header ) )
             g_free ( last_header );
         last_header = g_strdup ( string );
     }
 
-    if ( returned_value != EOF  && string[0] != '!' )
+    if ( returned_value != EOF  && string && string[0] != '!' )
         return 1;
     else if ( returned_value == EOF )
         return EOF;
