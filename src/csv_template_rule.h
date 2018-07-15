@@ -60,7 +60,8 @@ CsvTemplateRule * 	csv_template_rule_new							(GtkWidget *assistant);
 CsvTemplateRule * 	csv_template_rule_edit							(GtkWindow *parent,
 															 gint rule_number);
 void				csv_template_rule_csv_import_rule_struct_free	(CSVImportRule *csv_rule);
-void	*			csv_template_rule_spec_conf_data_struct_copy	(SpecConfData *spec_conf_data, gpointer data);
+SpecConfData *		csv_template_rule_spec_conf_data_struct_copy	(SpecConfData *spec_conf_data,
+																	 gpointer data);
 
 /* END_DECLARATION */
 
