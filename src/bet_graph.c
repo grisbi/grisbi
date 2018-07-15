@@ -1936,7 +1936,7 @@ GtkToolItem *bet_graph_button_menu_new ( GtkWidget *toolbar,
     self->prefs = prefs;
 
     /* si ce boutton est celui par défaut on l'affiche */
-    if ( prefs->type_graph == 0 )
+    if ( prefs && prefs->type_graph == 0 )
     {
         self->is_visible = TRUE;
         item = utils_buttons_tool_menu_new_from_image_label ( self->filename, self->name );
@@ -1963,7 +1963,7 @@ GtkToolItem *bet_graph_button_menu_new ( GtkWidget *toolbar,
     self->prefs = prefs;
 
     /* si ce boutton est celui par défaut on l'affiche */
-    if ( prefs->type_graph == 1 )
+    if ( prefs && prefs->type_graph == 1 )
     {
         self->is_visible = TRUE;
         item = utils_buttons_tool_menu_new_from_image_label ( self->filename, self->name );
