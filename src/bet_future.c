@@ -1203,7 +1203,6 @@ static GtkWidget *bet_form_widget_get_next_element ( gint element_number,
     gint return_value_number = 0;
     gint form_column_number = BET_FUTURE_FORM_WIDTH;
     gint form_row_number = 5;
-    gboolean trouve = FALSE;
 
     if ( form_type ) /* le widget initial est sur la partie scheduled du formulaire */
     {
@@ -1236,13 +1235,13 @@ static GtkWidget *bet_form_widget_get_next_element ( gint element_number,
                     }
                     return_value_number = bfo->form_table[row][column];
                 }
-                trouve = TRUE;
                 break;
             }
         }
     }
     else
     {
+        gboolean trouve = FALSE;
         for ( row=1 ; row < bfo->rows; row++ )
         {
             for ( column=0 ; column < bfo->columns ; column++ )
