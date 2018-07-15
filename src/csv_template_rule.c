@@ -1012,14 +1012,13 @@ static void csv_template_rule_edit_dialog (CsvTemplateRule *template_rule,
 	if (gsb_data_import_rule_get_csv_spec_nbre_lines (rule_number))
 	{
 		GSList *list;
-		SpecConfData *spec_conf_data;
 
 		list = gsb_data_import_rule_get_csv_spec_lines_list (rule_number);
-		spec_conf_data = (SpecConfData *) list->data;
 		while (list)
 		{
 			gchar *label_str;
 			SpecWidgetLine *line_struct;
+			SpecConfData *spec_conf_data;
 
 			spec_conf_data = (SpecConfData *) list->data;
 
