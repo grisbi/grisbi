@@ -17,8 +17,8 @@ BEGIN
 
   BLOCK "VarFileInfo"
   BEGIN
-    VALUE "Translation", 0x809, 1252 
+    VALUE "Translation", 0x809, 1252
   END
 END
 
-1 RT_MANIFEST "./src/win-main.manifest"
+1 RT_MANIFEST "win-main.manifest"
