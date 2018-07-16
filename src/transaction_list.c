@@ -326,7 +326,10 @@ void transaction_list_append_archive ( gint archive_store_number )
     {
         element_date = find_element_col_for_archive ( );
         if (element_date < 0)
+		{
+			g_free(newrecord);
             return;
+		}
     }
 
     newrecord -> visible_col[element_date] = gsb_format_gdate (

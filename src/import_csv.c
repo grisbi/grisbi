@@ -1351,12 +1351,11 @@ gboolean csv_import_file_by_rule (gint rule,
 	/* on regarde si il y a un traitement spécial */
 	if (gsb_data_import_rule_get_csv_spec_nbre_lines (rule))
 	{
-		SpecConfData *spec_conf_data;
-
 		list = gsb_data_import_rule_get_csv_spec_lines_list (rule);
-		spec_conf_data = (SpecConfData *) list->data;
 		while (list)
 		{
+			SpecConfData *spec_conf_data;
+
 			spec_conf_data = (SpecConfData *) list->data;
 			lines_tab = csv_import_button_rule_traite_spec_line (spec_conf_data, lines_tab, index);
 			list = list->next;

@@ -111,6 +111,11 @@ struct _GrisbiWinPrivate
 	GtkWidget *			scheduler_calendar;
     GtkWidget *         vbox_general;
 
+	GtkWidget *			form_frame;						/* frame of form */
+	GtkWidget *			form_expander;					/* expander of form */
+	GtkWidget *			form_hbox_label;				/* hbox pour le label de l'expander */
+	GtkWidget *			form_label_last_statement;			/* label de la partie variable de l'expander */
+
 	GtkWidget *			vbox_transactions_list;			/* vbox contenant le tree_view des opérations */
 
 	/* allocations widgets */
@@ -217,7 +222,7 @@ static gboolean grisbi_win_headings_simpleclick_event_run (GtkWidget *button,
                         GdkEvent *button_event,
                         GCallback callback)
 {
-    if (button_event -> type == GDK_BUTTON_PRESS)
+    if (button_event->type == GDK_BUTTON_PRESS)
     {
         callback ();
     }
@@ -327,7 +332,7 @@ static gboolean grisbi_win_hpaned_size_allocate (GtkWidget *hpaned_general,
 
 /* FORM_GENERAL */
 /**
- * utile pour gérer la dimmension du formulaire
+ * utile pour gérer la dimension du formulaire
  *
  * \param GtkWidget			form
  * \param GtkAllocation 	allocation
@@ -367,7 +372,6 @@ static gboolean grisbi_win_expander_label_set_initial_width (GtkWidget *form_gen
 	GtkWidget *form_expander;
 	GtkWidget *expander_label;
 
-
 	form_expander = g_object_get_data (G_OBJECT (form_general), "form_expander");
 	if (form_expander)
 	{
@@ -377,6 +381,89 @@ static gboolean grisbi_win_expander_label_set_initial_width (GtkWidget *form_gen
 
     return FALSE;
 }
+
+/**
+ * Called when the state of the expander changes
+ *
+ * \param expander	Expanded that triggered signal.
+ * \param null		Not used.
+ *
+ * \return FALSE
+ * */
+static gboolean grisbi_win_form_expander_activate (GtkWidget *expander,
+												   GrisbiWin *win)
+{
+    devel_debug (NULL);
+
+    if (gtk_expander_get_expanded (GTK_EXPANDER (expander)))
+		gsb_form_expander_is_extanded (expander);
+    else
+		conf.formulaire_toujours_affiche = FALSE;
+
+	gsb_menu_gui_toggle_show_form ();
+
+    return FALSE;
+}
+
+/**
+ * Create an empty form in an GtkExpander.
+ *
+ * \param
+ *
+ * \return Expander that contains form.
+ **/
+static GtkWidget *grisbi_win_form_new (GrisbiWin *win)
+{
+	GtkWidget *label;
+	gchar *tmp_str;
+	GrisbiWinPrivate *priv;
+
+    devel_debug (NULL);
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+
+	/* Create the form frame */
+	priv->form_frame = gtk_frame_new ("");
+
+	/* Create the expander */
+    priv->form_expander = gtk_expander_new ("");
+	utils_widget_set_padding (priv->form_expander, MARGIN_BOX, MARGIN_BOX);
+
+    gtk_expander_set_expanded (GTK_EXPANDER (priv->form_expander), conf.formulaire_toujours_affiche);
+	gtk_container_add (GTK_CONTAINER (priv->form_frame), priv->form_expander);
+
+	g_object_set_data (G_OBJECT (priv->form_frame), "form_expander", priv->form_expander);
+    g_signal_connect_after (G_OBJECT(priv->form_expander),
+							"activate",
+							G_CALLBACK (grisbi_win_form_expander_activate),
+							win);
+
+	/* create the label of expander */
+	/* Expander has a composite label */
+    priv->form_hbox_label = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+    gtk_widget_set_margin_end (priv->form_hbox_label, MARGIN_END);
+    gtk_expander_set_label_widget (GTK_EXPANDER(priv->form_expander), priv->form_hbox_label);
+    gtk_expander_set_label_fill (GTK_EXPANDER(priv->form_expander), TRUE);
+
+    /* set the label transaction form */
+    label = gtk_label_new (NULL);
+    tmp_str = make_pango_attribut ("weight=\"bold\"", _("Transaction/Scheduled _form"));
+    gtk_label_set_markup_with_mnemonic (GTK_LABEL (label), tmp_str);
+    g_free (tmp_str);
+    gtk_box_pack_start (GTK_BOX (priv->form_hbox_label), label, FALSE, FALSE, 0);
+
+    /* set the last statement label */
+    priv->form_label_last_statement = gtk_label_new (NULL);
+    gtk_box_pack_end (GTK_BOX (priv->form_hbox_label), priv->form_label_last_statement, FALSE, FALSE, 0);
+
+	gtk_widget_show_all (priv->form_hbox_label);
+
+    gsb_form_create_widgets ();
+
+	gtk_widget_hide (priv->form_frame);
+
+    return priv->form_frame;
+}
+
 /* NAVIGATION PANE */
 /* NOTEBOOK_GENERAL */
 /**
@@ -513,7 +600,7 @@ static GtkWidget *grisbi_win_create_general_notebook (GrisbiWin *win)
     gtk_widget_show (priv->notebook_general);
 
     /* append the form */
-    priv->form_general = gsb_form_new ();
+    priv->form_general = grisbi_win_form_new (win);
 	gtk_grid_attach (GTK_GRID (grid), priv->form_general, 0,1,1,1);
 	grisbi_win_expander_label_set_initial_width (priv->form_general);
     gtk_widget_hide (priv->form_general);
@@ -759,6 +846,7 @@ static void grisbi_win_init (GrisbiWin *win)
     /* initialisations des widgets liés à grisbi_win_new_file_gui */
     priv->vbox_general = NULL;
     priv->notebook_general = NULL;
+	priv->form_expander = NULL;
 	priv->vbox_transactions_list = NULL;
 
     /* creation et initialisation de la structure w_run */
@@ -978,7 +1066,7 @@ gpointer grisbi_win_get_w_run (void)
 /**
  * retourne account_page
  *
- * \param GrisbiWin *win
+ * \param
  *
  * \return account_page
  **/
@@ -991,6 +1079,42 @@ GtkWidget *grisbi_win_get_account_page (void)
     priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
     return priv->account_page;
+}
+
+/**
+ * retourne form_expander
+ *
+ * \param
+ *
+ * \return form_expander
+ **/
+GtkWidget *grisbi_win_get_form_expander (void)
+{
+    GrisbiWin *win;
+    GrisbiWinPrivate *priv;
+
+    win = grisbi_app_get_active_window (NULL);
+    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+
+	return priv->form_expander;
+}
+
+/**
+ * retourne label_last_statement
+ *
+ * \param
+ *
+ * \return form_label_last_statement
+ **/
+GtkWidget *grisbi_win_get_label_last_statement (void)
+{
+    GrisbiWin *win;
+    GrisbiWinPrivate *priv;
+
+    win = grisbi_app_get_active_window (NULL);
+    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+
+    return priv->form_label_last_statement;
 }
 
 /**
@@ -1192,7 +1316,7 @@ void grisbi_win_menu_move_to_acc_delete (void)
     {
         gint i;
 
-        i = gsb_data_account_get_no_account (tmp_list -> data);
+        i = gsb_data_account_get_no_account (tmp_list->data);
 
         if (!gsb_data_account_get_closed_account (i))
         {
@@ -1203,7 +1327,7 @@ void grisbi_win_menu_move_to_acc_delete (void)
 
             g_free (tmp_name);
         }
-        tmp_list = tmp_list -> next;
+        tmp_list = tmp_list->next;
     }
 
     menu = grisbi_app_get_menu_edit ();
@@ -1241,7 +1365,7 @@ void grisbi_win_menu_move_to_acc_new (void)
     {
         gint i;
 
-        i = gsb_data_account_get_no_account (tmp_list -> data);
+        i = gsb_data_account_get_no_account (tmp_list->data);
 
         if (!gsb_data_account_get_closed_account (i))
         {
@@ -1271,7 +1395,7 @@ void grisbi_win_menu_move_to_acc_new (void)
             g_free (action_name);
         }
 
-        tmp_list = tmp_list -> next;
+        tmp_list = tmp_list->next;
     }
 
     menu_item = g_menu_item_new_submenu (_("Move transaction to another account"), (GMenuModel*) submenu);
@@ -1309,7 +1433,7 @@ void grisbi_win_menu_move_to_acc_update (gboolean active)
     {
         gint i;
 
-        i = gsb_data_account_get_no_account (tmp_list -> data);
+        i = gsb_data_account_get_no_account (tmp_list->data);
 
         if (!gsb_data_account_get_closed_account (i))
         {
@@ -1321,7 +1445,7 @@ void grisbi_win_menu_move_to_acc_update (gboolean active)
             if (gsb_gui_navigation_get_current_account () == i)
             {
                 g_simple_action_set_enabled (G_SIMPLE_ACTION (action), FALSE);
-                tmp_list = tmp_list -> next;
+                tmp_list = tmp_list->next;
                 continue;
             }
             if (active)
@@ -1331,7 +1455,7 @@ void grisbi_win_menu_move_to_acc_update (gboolean active)
 
             g_free (tmp_name);
         }
-        tmp_list = tmp_list -> next;
+        tmp_list = tmp_list->next;
     }
     flag_active = active;
 }
@@ -1731,31 +1855,31 @@ gboolean grisbi_win_on_account_switch_page (GtkNotebook *notebook,
     switch (page_number)
     {
     case GSB_TRANSACTIONS_PAGE:
-        gsb_form_set_expander_visible (TRUE, TRUE);
+        grisbi_win_set_form_expander_visible (TRUE, TRUE);
         gsb_menu_set_menus_view_account_sensitive (TRUE);
         gsb_menu_gui_sensitive_win_menu_item ("new-ope", TRUE);
         break;
     case GSB_ESTIMATE_PAGE:
-        gsb_form_set_expander_visible (FALSE, FALSE);
+        grisbi_win_set_form_expander_visible (FALSE, FALSE);
         account_number = gsb_gui_navigation_get_current_account ();
         if (gsb_data_account_get_bet_maj (account_number))
             bet_data_update_bet_module (account_number, GSB_ESTIMATE_PAGE);
 		gsb_menu_gui_sensitive_win_menu_item ("reset-width-col", TRUE);
         break;
     case GSB_HISTORICAL_PAGE:
-        gsb_form_set_expander_visible (FALSE, FALSE);
+        grisbi_win_set_form_expander_visible (FALSE, FALSE);
         account_number = gsb_gui_navigation_get_current_account ();
         if (gsb_data_account_get_bet_maj (account_number))
             bet_data_update_bet_module (account_number, GSB_HISTORICAL_PAGE);
         bet_historical_set_page_title (account_number);
         break;
     case GSB_FINANCE_PAGE:
-        gsb_form_set_expander_visible (FALSE, FALSE);
+        grisbi_win_set_form_expander_visible (FALSE, FALSE);
         account_number = gsb_gui_navigation_get_current_account ();
         bet_finance_update_amortization_tab (account_number);
 		/* FALLTHRU */
     case GSB_PROPERTIES_PAGE:
-        gsb_form_set_expander_visible (FALSE, FALSE);
+        grisbi_win_set_form_expander_visible (FALSE, FALSE);
         break;
     }
 
@@ -1821,6 +1945,59 @@ void grisbi_win_new_file_gui (void)
 
 /* FORM_GENERAL */
 /**
+ * hide the frame
+ *
+ * \param
+ *
+ * \return
+ **/
+void grisbi_win_form_expander_hide_frame (void)
+{
+	GrisbiWin *win;
+    GrisbiWinPrivate *priv;
+
+    win = grisbi_app_get_active_window (NULL);
+    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+
+	gtk_widget_hide (priv->form_frame);
+}
+
+/**
+ * Check if transactions form is visible.
+ *
+ * \param
+ *
+ * \return TRUE if transactions forms is expanded, FALSE otherwise.
+ */
+gboolean grisbi_win_form_expander_is_visible (void)
+{
+	GrisbiWin *win;
+    GrisbiWinPrivate *priv;
+
+    win = grisbi_app_get_active_window (NULL);
+    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+
+    return gtk_expander_get_expanded (GTK_EXPANDER (priv->form_expander));
+}
+/**
+ * show the frame
+ *
+ * \param
+ *
+ * \return
+ **/
+void grisbi_win_form_expander_show_frame (void)
+{
+	GrisbiWin *win;
+    GrisbiWinPrivate *priv;
+
+    win = grisbi_app_get_active_window (NULL);
+    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+
+	gtk_widget_show (priv->form_frame);
+}
+
+/**
  * get the form_organization
  *
  * \param
@@ -1836,6 +2013,38 @@ gpointer grisbi_win_get_form_organization (void)
     priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
     return priv->form_organization;
+}
+
+/**
+ * show or hide the expander
+ *
+ * \param visible TRUE or FALSE
+ * \param transactions_list TRUE if we are on transactions, FALSE if we are on scheduler
+ *
+ * return FALSE
+ * */
+gboolean grisbi_win_set_form_expander_visible (gboolean visible,
+											   gboolean transactions_list)
+{
+    GrisbiWin *win;
+    GrisbiWinPrivate *priv;
+
+    win = grisbi_app_get_active_window (NULL);
+    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+
+    if (visible)
+    {
+		gtk_widget_show (priv->form_expander);
+
+		if (transactions_list)
+			gtk_widget_show (priv->form_label_last_statement);
+		else
+			gtk_widget_hide (priv->form_label_last_statement);
+    }
+    else
+		gtk_widget_hide (priv->form_expander);
+
+    return FALSE;
 }
 
 /**
@@ -1856,6 +2065,32 @@ gboolean grisbi_win_set_form_organization (gpointer form_organization)
     priv->form_organization = form_organization;
 
     return TRUE;
+}
+
+/**
+ * show/hide the form according to the expander,
+ * this will emit a signal as if the user changed it by himself
+ *
+ * \param
+ *
+ * \return FALSE
+ * */
+gboolean grisbi_win_switch_form_expander (void)
+{
+	gboolean is_visible;
+	GrisbiWin *win;
+    GrisbiWinPrivate *priv;
+
+    win = grisbi_app_get_active_window (NULL);
+    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+
+	if (!priv->form_expander)
+		return FALSE;
+
+	is_visible = gtk_expander_get_expanded (GTK_EXPANDER (priv->form_expander));
+    gtk_expander_set_expanded (GTK_EXPANDER (priv->form_expander), !is_visible);
+
+    return FALSE;
 }
 
 /* HEADINGS */
@@ -2109,6 +2344,13 @@ void grisbi_win_update_all_toolbars (void)
     bet_finance_ui_update_all_finance_toolbars (toolbar_style);
 }
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

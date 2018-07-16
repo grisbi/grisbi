@@ -1012,14 +1012,13 @@ static void csv_template_rule_edit_dialog (CsvTemplateRule *template_rule,
 	if (gsb_data_import_rule_get_csv_spec_nbre_lines (rule_number))
 	{
 		GSList *list;
-		SpecConfData *spec_conf_data;
 
 		list = gsb_data_import_rule_get_csv_spec_lines_list (rule_number);
-		spec_conf_data = (SpecConfData *) list->data;
 		while (list)
 		{
 			gchar *label_str;
 			SpecWidgetLine *line_struct;
+			SpecConfData *spec_conf_data;
 
 			spec_conf_data = (SpecConfData *) list->data;
 
@@ -1223,7 +1222,8 @@ void csv_template_rule_csv_import_rule_struct_free	(CSVImportRule *csv_rule)
  *
  * \return
  **/
-void * csv_template_rule_spec_conf_data_struct_copy (SpecConfData *spec_conf_data, gpointer data)
+SpecConfData * csv_template_rule_spec_conf_data_struct_copy (SpecConfData *spec_conf_data,
+															 gpointer data)
 {
 	SpecConfData *new_struct;
 
@@ -1232,7 +1232,8 @@ void * csv_template_rule_spec_conf_data_struct_copy (SpecConfData *spec_conf_dat
 	new_struct->csv_spec_conf_action_data = spec_conf_data->csv_spec_conf_action_data;
 	new_struct->csv_spec_conf_used_data = spec_conf_data->csv_spec_conf_used_data;
 	new_struct->csv_spec_conf_used_text = g_strdup (spec_conf_data->csv_spec_conf_used_text);
-	return NULL;
+
+	return new_struct;
 }
 
 /**

@@ -29,6 +29,7 @@ gboolean 	gsb_form_entry_lose_focus 				(GtkWidget *entry,
 													 GdkEventFocus *ev,
 													 gint *ptr_origin);
 gboolean 	gsb_form_escape_form 					(void);
+void	 	gsb_form_expander_is_extanded 			(GtkWidget *expander);
 gboolean 	gsb_form_fill_by_transaction 			(gint transaction_number,
 													 gint is_transaction,
 													 gboolean grab_focus);
@@ -45,17 +46,13 @@ GtkWidget *	gsb_form_get_form_transaction_part 		(void);
 GtkWidget *	gsb_form_get_form_widget 				(void);
 gint 		gsb_form_get_origin 					(void);
 GtkWidget *	gsb_form_get_scheduler_part 			(void);
-gboolean 	gsb_form_hide 							(void);
 gboolean 	gsb_form_is_visible 					(void);
 gboolean 	gsb_form_key_press_event 				(GtkWidget *widget,
 													 GdkEventKey *ev,
 													 gint *ptr_origin);
 GtkWidget *	gsb_form_new 							(void);
-gboolean 	gsb_form_set_expander_visible 			(gboolean visible,
-													 gboolean transactions_list);
 gboolean 	gsb_form_set_sensitive 					(gboolean split,
 													 gboolean split_child);
 gboolean 	gsb_form_show 							(gboolean show);
-gboolean 	gsb_form_switch_expander 				(void);
 /* END_DECLARATION */
 #endif

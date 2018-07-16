@@ -68,8 +68,6 @@ static gchar *gsb_string_truncate_n (gchar *string,
     gchar *tmp;
     gchar *trunc;
 
-	tmp = string;;
-
     if (!string)
 		return NULL;
 

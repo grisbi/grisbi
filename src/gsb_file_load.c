@@ -1102,20 +1102,29 @@ static  void gsb_file_load_account_part ( const gchar **attribute_names,
 
                 else if ( !strcmp ( attribute_names[i], "Bet_taux_annuel" ))
                 {
-					s_loan->annual_rate = g_ascii_strtod (attribute_values[i], NULL);
-                    gsb_data_account_set_bet_finance_taux_annuel (account_number, s_loan->annual_rate);
+					if (s_loan)
+					{
+						s_loan->annual_rate = g_ascii_strtod (attribute_values[i], NULL);
+						gsb_data_account_set_bet_finance_taux_annuel (account_number, s_loan->annual_rate);
+					}
                 }
 
                 else if ( !strcmp ( attribute_names[i], "Bet_frais" ))
                 {
-					s_loan->fees = g_ascii_strtod (attribute_values[i], NULL);
-                    gsb_data_account_set_bet_finance_frais (account_number, s_loan->fees);
+					if (s_loan)
+					{
+						s_loan->fees = g_ascii_strtod (attribute_values[i], NULL);
+						gsb_data_account_set_bet_finance_frais (account_number, s_loan->fees);
+					}
                 }
 
                 else if ( !strcmp ( attribute_names[i], "Bet_type_taux" ))
                 {
-					s_loan->type_taux = utils_str_atoi (attribute_values[i]);
-                    gsb_data_account_set_bet_finance_type_taux (account_number, s_loan->type_taux);
+					if (s_loan)
+					{
+						s_loan->type_taux = utils_str_atoi (attribute_values[i]);
+						gsb_data_account_set_bet_finance_type_taux (account_number, s_loan->type_taux);
+					}
                 }
 
                 else

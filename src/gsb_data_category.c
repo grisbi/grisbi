@@ -1600,7 +1600,6 @@ gchar * gsb_debug_duplicate_categ_check (void)
 		output = g_strconcat ( tmpstr1,
 				       tmpstr2,
 				       NULL );
-		g_free ( tmpstr1 );
 		g_free ( tmpstr2 );
 		num_duplicate ++;
 	    }

@@ -1752,7 +1752,7 @@ void gsb_transactions_list_selection_changed (gint new_selected_transaction)
 
     /* show the content of the transaction in the form,
      * only if the form is shown */
-    if (gsb_form_is_visible ())
+    if (grisbi_win_form_expander_is_visible ())
     {
         if (conf.show_transaction_selected_in_form)
             gsb_form_fill_by_transaction (new_selected_transaction, TRUE, FALSE);

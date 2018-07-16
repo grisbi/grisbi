@@ -156,7 +156,7 @@ static gchar *gsb_data_account_get_account_standard_pixbuf_filename ( KindAccoun
 static AccountStruct *gsb_data_account_get_structure ( gint no );
 static gint gsb_data_account_max_number ( void );
 static gboolean gsb_data_account_set_default_sort_values ( gint account_number );
-static gboolean gsb_data_form_dup_sort_values ( gint origin_account,
+static gboolean gsb_data_account_dup_sort_values ( gint origin_account,
                         gint target_account );
 /*END_STATIC*/
 
@@ -300,7 +300,7 @@ gint gsb_data_account_new ( KindAccount account_kind )
 	account -> nb_rows_by_transaction = gsb_data_account_get_nb_rows (last_number);
 
 	/* try to copy the sort values of the last account, else set default values */
-	if ( !gsb_data_form_dup_sort_values ( last_number,
+	if ( !gsb_data_account_dup_sort_values ( last_number,
 					      account -> account_number ))
 	    gsb_data_account_set_default_sort_values (account -> account_number);
     }
@@ -2480,7 +2480,7 @@ gboolean gsb_data_account_set_default_sort_values ( gint account_number )
  *
  * \return TRUE ok, FALSE problem
  * */
-gboolean gsb_data_form_dup_sort_values ( gint origin_account,
+gboolean gsb_data_account_dup_sort_values ( gint origin_account,
                         gint target_account )
 {
     gint j;

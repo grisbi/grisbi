@@ -538,6 +538,7 @@ gint utils_files_get_utf8_line_from_file (FILE *fichier,
                             _("If the result is not correct, try again by selecting the "
                             "correct character set in the window for selecting files."),
                             _("Convert to utf8 failed."));
+            g_free (pointeur_char);
             return 0;
         }
     }

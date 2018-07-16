@@ -555,7 +555,7 @@ gboolean bet_data_loan_get_loan_first_is_different (gint account_number)
 gdouble bet_data_loan_get_other_echeance_amount (gint account_number)
 {
 	LoanStruct *s_loan;
-devel_debug_int (account_number);
+
 	s_loan = bet_data_loan_get_last_loan_struct_by_account (account_number);
 	 if (s_loan)
 		return s_loan->other_echeance_amount;

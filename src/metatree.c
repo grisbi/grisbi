@@ -2315,8 +2315,8 @@ gboolean metatree_selection_changed ( GtkTreeSelection *selection, GtkTreeModel 
 
     if ( selection && gtk_tree_selection_get_selected ( selection, &model, &iter ) )
     {
-        gchar *text = "";
-        gchar *balance = "";
+        gchar *text = NULL;
+        gchar *balance = NULL;
 
         if ( !model)
             return FALSE;

@@ -79,7 +79,6 @@ static gchar *gsb_reconcile_build_label ( int reconcile_number );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget *label_last_statement;
 extern GtkWidget * reconcile_panel;
 /*END_EXTERN*/
 
@@ -579,6 +578,7 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
 gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
 					    gpointer null )
 {
+	GtkWidget *label_last_statement;
     GSList *list_tmp_transactions;
     GDate *date;
     const GDate *initial_date;
@@ -674,6 +674,7 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
 	gsb_reconcile_list_button_clicked (reconcile_sort_list_button, NULL);
     }
 
+	label_last_statement = grisbi_win_get_label_last_statement ();
     tmp_str = g_strdup_printf ( _("Last statement: %s"), gsb_format_gdate (date));
     gtk_label_set_text ( GTK_LABEL ( label_last_statement ),
 			 tmp_str);
