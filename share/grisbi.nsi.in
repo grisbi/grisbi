@@ -28,10 +28,25 @@ RequestExecutionLevel admin
 
 Name "Grisbi @NSIS_BITS@"
 Icon "${SRCDIR}\win32\grisbi.ico"
-OutFile "Grisbi-@NSIS_BITS@-${VERSION}${DATE}-setup.exe"
-!define COMPANYNAME "Grisbi"
+!define COMPANYNAME "Grisbi @NSIS_BITS@"
 
 Caption "Grisbi @NSIS_BITS@ ${VERSION} Setup"
+
+!ifdef INNER
+  !echo "Inner invocation"
+  OutFile "$%TEMP%\tempinstaller.exe"
+  SetCompress off
+!else
+  !echo "Outer invocation"
+ 
+  !makensis '/DINNER "${__FILE__}"' = 0
+  !system "$%TEMP%\tempinstaller.exe /S" = 2
+  !echo "Signing uninstaller!!!"
+  !system 'c:\msys64\usr\bin\bash.exe -l -c "cd ~/grisbi-cert && ./sign.sh ""$%TEMP%\uninstall.exe"""' = 0
+ 
+  OutFile "Grisbi-@NSIS_BITS@-${VERSION}${DATE}-setup.exe"
+  SetCompressor /SOLID lzma
+!endif
 
 # $PROGRAMFILES
 InstallDir "C:\@NSIS_DEFAULTINSTDIR@\Grisbi-${VERSION}${DATE}"
@@ -93,11 +108,14 @@ Section "" SecBin
   File /a /r "${PACKAGERDIR}\lib\"
 
   ;Create uninstaller
-  WriteUninstaller "$INSTDIR\Uninstall.exe"
+  !ifndef INNER
+    SetOutPath $INSTDIR
+    File $%TEMP%\uninstall.exe
+  !endif
 
   createDirectory "$SMPROGRAMS\${COMPANYNAME}"
   createShortCut "$SMPROGRAMS\${COMPANYNAME}\Gribi @NSIS_BITS@-@VERSION@@NSIS_DATE@.lnk" "$INSTDIR\bin\Grisbi.exe" "" "$INSTDIR\bin\grisbi.ico"
-  createShortCut "$SMPROGRAMS\${COMPANYNAME}\Uninstall Gribi @NSIS_BITS@-@VERSION@@NSIS_DATE@.lnk" "$INSTDIR\Uninstall.exe"
+  createShortCut "$SMPROGRAMS\${COMPANYNAME}\Uninstall Gribi @NSIS_BITS@-@VERSION@@NSIS_DATE@.lnk" "$INSTDIR\uninstall.exe"
 
   # Registry information for add/remove programs
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}" "DisplayName" "Grisbi @NSIS_BITS@"
@@ -131,7 +149,7 @@ Section "" SecShare
 SectionEnd
 
 Section "Uninstall"
-  Delete "$INSTDIR\Uninstall.exe"
+  Delete "$INSTDIR\uninstall.exe"
   Delete "$DESKTOP\Grisbi-1.2.lnk"
   Delete "$SMPROGRAMS\${COMPANYNAME}\Gribi @NSIS_BITS@-bit @VERSION@.lnk"
   DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}"
@@ -143,6 +161,10 @@ SectionEnd
 
 /* Installer functions */
 Function .onInit
+  !ifdef INNER
+    WriteUninstaller "$%TEMP%\uninstall.exe"
+    Quit  ; just bail out quickly when running the "inner" installer
+  !endif
   !insertmacro MUI_LANGDLL_DISPLAY
 FunctionEnd
 
