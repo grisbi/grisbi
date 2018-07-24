@@ -135,10 +135,20 @@ static gint payee_transaction_div_id (gint transaction_number)
 {
     if (transaction_number)
     {
-		if ( gsb_data_transaction_get_contra_transaction_number (transaction_number) > 0
-			 ||
-			 gsb_data_transaction_get_split_of_transaction (transaction_number))
+		gint contra_number;
+
+		if (gsb_data_transaction_get_mother_transaction_number (transaction_number))
 			return -1;
+		else if ((contra_number = gsb_data_transaction_get_contra_transaction_number (transaction_number)) > 0)
+		{
+			gint tmp_number;
+
+			tmp_number = gsb_data_transaction_get_contra_transaction_number (contra_number);
+			if (tmp_number > contra_number)
+				return -1;
+			else
+				return gsb_data_transaction_get_party_number (transaction_number);
+		}
 		else
 			return gsb_data_transaction_get_party_number (transaction_number);
 	}

@@ -737,15 +737,14 @@ void gsb_data_payee_add_transaction_to_payee (gint transaction_number)
 {
     struct_payee *payee;
 
-	/* if the transaction is a transfer or a split transaction, don't take it */
-	if (gsb_data_transaction_get_split_of_transaction (transaction_number)
-		|| gsb_data_transaction_get_contra_transaction_number (transaction_number) > 0)
+	/* if the transaction is a split transaction, don't take it */
+	if (gsb_data_transaction_get_mother_transaction_number (transaction_number))
 	{
 		return;
 	}
     payee = gsb_data_payee_get_structure (gsb_data_transaction_get_party_number (transaction_number));
 
-    /* if no payee in that transaction we work with empty_payee */
+    /* if no payee in that transaction and it's neither a split transaction, we work with empty_payee */
 
     /* should not happen, this is if the transaction has a payee which doesn't exists
      * we show a debug warning and get without payee */
