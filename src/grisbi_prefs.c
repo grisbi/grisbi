@@ -580,7 +580,7 @@ static void grisbi_prefs_left_panel_populate_tree_model (GrisbiPrefs *prefs)
 	page++;
 
 	/* append page Banks */
-	widget = GTK_WIDGET (gsb_bank_create_page (FALSE));
+	widget = GTK_WIDGET (gsb_bank_create_page (FALSE, 230));
 	utils_widget_set_padding (widget, MARGIN_BOX, 0);
 	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Banks"), page);
 	page++;

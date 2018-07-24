@@ -302,6 +302,7 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
 	nom_fichier_comptes = g_strconcat ( gsb_dirs_get_default_dir (),
 			G_DIR_SEPARATOR_S, _("My accounts"), ".gsb", NULL );
 	filename_entry = gsb_automem_entry_new (&nom_fichier_comptes, NULL, NULL);
+	gtk_widget_set_hexpand (filename_entry, TRUE);
 
     entry = gtk_entry_new ();
 	gtk_entry_set_text (GTK_ENTRY(entry), _("My accounts"));
@@ -464,7 +465,7 @@ static GtkWidget *gsb_assistant_file_page_5 ( GtkWidget *assistant )
     gtk_container_set_border_width ( GTK_CONTAINER (page), BOX_BORDER_WIDTH );
 
     /* the configuration page is very good, keep it */
-    bank_page = gsb_bank_create_page (TRUE);
+    bank_page = gsb_bank_create_page (TRUE, 130);
     gtk_box_pack_start ( GTK_BOX (page),
 			 bank_page,
 			 TRUE, TRUE, 0 );
