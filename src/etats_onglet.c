@@ -1406,8 +1406,6 @@ void etats_onglet_efface_etat (void)
 
     gsb_data_report_remove (current_report_number);
 
-    etats_onglet_unsensitive_reports_widgets ();
-
     gsb_file_set_modified (TRUE);
 	maj_reports_list = TRUE;
 }
