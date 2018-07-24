@@ -446,7 +446,8 @@ static gboolean gsb_bank_list_changed ( GtkWidget *combobox,
  * 	to let grisbi choose between sensitive or net, set default_sensitive to FALSE
  * \returns A newly allocated vbox
  */
-GtkWidget *gsb_bank_create_page ( gboolean default_sensitive )
+GtkWidget *gsb_bank_create_page (gboolean default_sensitive,
+								 gint bank_details_height)
 {
     GtkWidget *vbox_pref;
     GtkWidget *scrolled_window, *vbox2;
@@ -475,6 +476,7 @@ GtkWidget *gsb_bank_create_page ( gboolean default_sensitive )
     paddinggrid = utils_prefs_paddinggrid_new_with_title (paned1, _("Known banks"));
 
     scrolled_window = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, SW_MIN_HEIGHT);
+	gtk_widget_set_hexpand (scrolled_window, TRUE);
     gtk_grid_attach (GTK_GRID (paddinggrid), scrolled_window, 0, 0, 2, 3);
 
     /* set the store */
@@ -594,7 +596,8 @@ GtkWidget *gsb_bank_create_page ( gboolean default_sensitive )
 
 	paddinggrid = utils_prefs_paddinggrid_new_with_title (paned2, _("Bank details"));
 
-    paned2_sw = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_SW, 230);
+    paned2_sw = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_SW, bank_details_height);
+	gtk_widget_set_hexpand (paned2_sw, TRUE);
     gtk_grid_attach (GTK_GRID (paddinggrid), paned2_sw, 0, 0, 1, 1);
 
     vbox2 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
@@ -718,7 +721,7 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 
     /* Bank address */
     label = gtk_label_new ( _("Address: ") );
-    utils_labels_set_alignement ( GTK_LABEL (label), 0, 0.5);
+    utils_labels_set_alignement ( GTK_LABEL (label), 0, 0);
     gtk_grid_attach (GTK_GRID (paddinggrid), label, 0, 3, 1, 1);
 
     scrolled_window = gtk_scrolled_window_new ( FALSE, FALSE );
