@@ -187,10 +187,11 @@ GtkResponseType gsb_assistant_file_run ( gboolean first_opening,
 
     if (return_value == GTK_RESPONSE_CANCEL)
     {
-	/* the user stopped the assistant, we delete all the configured data */
-	init_variables ();
-	gtk_widget_destroy (assistant);
-	return return_value;
+		/* the user stopped the assistant, we delete all the configured data */
+		init_variables ();
+		gtk_widget_destroy (assistant);
+		grisbi_win_stack_box_show (NULL, "accueil_page");
+		return return_value;
     }
 
     /* the assistant is finished, we save the values not saved before */
