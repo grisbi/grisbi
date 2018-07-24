@@ -3878,6 +3878,18 @@ void etats_config_personnalisation_etat ( void )
             last_report = current_report_number;
             break;
 
+		case GTK_RESPONSE_CANCEL:
+			{
+				GrisbiWinRun *w_run;
+
+				w_run = grisbi_win_get_w_run ();
+				if (w_run->adding_report)
+				{
+					gsb_gui_navigation_remove_report (current_report_number);
+					gsb_data_report_remove (current_report_number);
+				}
+			}
+			break;
         default:
             break;
     }
