@@ -341,6 +341,9 @@ struct _GrisbiWinRun
 	/* prefs */
 	gboolean	prefs_expand_tree;							/* memorise le choix du bouton expand collapse du treeview des preferences */
 	gchar *		prefs_selected_row;							/* memorise l'onglet selectionné du treeview des preferences */
+
+	/* Reports */
+	gboolean 	adding_report;								/* TRUE quand on crée un nouveau rapport */
 };
 
 /* structure contenant les variables utilisées par un fichier de compte */

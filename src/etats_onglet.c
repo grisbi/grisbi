@@ -743,6 +743,10 @@ gboolean etats_onglet_ajoute_etat (void)
     GtkWidget *dialog, *frame, *combobox, *label_description;
     GtkWidget *scrolled_window;
     GtkWidget *notebook_general;
+	GrisbiWinRun *w_run;
+
+	w_run = grisbi_win_get_w_run ();
+	w_run->adding_report = TRUE;
 
     notebook_general = grisbi_win_get_notebook_general ();
     if (gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook_general)) != GSB_REPORTS_PAGE)
@@ -807,6 +811,7 @@ gboolean etats_onglet_ajoute_etat (void)
 
     if (resultat != GTK_RESPONSE_OK)
     {
+		w_run->adding_report = FALSE;
 	gtk_widget_destroy (dialog);
 	return FALSE;
     }
@@ -1310,6 +1315,7 @@ gboolean etats_onglet_ajoute_etat (void)
     etats_config_personnalisation_etat ();
     gsb_file_set_modified (TRUE);
 	maj_reports_list = TRUE;
+	w_run->adding_report = FALSE;
 
     return FALSE;
 }
@@ -1474,7 +1480,13 @@ void etats_onglet_update_gui_to_report (gint report_number)
 
     if (gsb_report_get_current () != report_number)
     {
-		rafraichissement_etat (report_number);
+		GrisbiWinRun *w_run;
+
+		w_run = grisbi_win_get_w_run ();
+		if (w_run->adding_report)
+			affichage_empty_report (report_number);
+		else
+			rafraichissement_etat (report_number);
 		gsb_report_set_current (report_number);
     }
     else
