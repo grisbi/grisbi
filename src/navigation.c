@@ -1332,8 +1332,15 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 			}
 			else
 			{
+				GrisbiWinRun *w_run;
+
+				w_run = grisbi_win_get_w_run ();
+				w_run->empty_report = TRUE;
+
 				gtk_notebook_set_current_page (GTK_NOTEBOOK (etats_onglet_get_notebook_etats ()), 1);
 				etats_onglet_unsensitive_reports_widgets ();
+				w_run->empty_report = FALSE;
+
 			}
 			grisbi_win_form_expander_hide_frame ();
 			break;
