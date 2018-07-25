@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cedric Auger (cedric@grisbi.org)            */
 /*          2002-2008 Benjamin Drieu (bdrieu@april.org)                       */
-/*          2008-2017 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          2008-2018 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -56,29 +56,30 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static GtkWidget *	bouton_export_pdf_etat = NULL;
+static GtkWidget *	bouton_effacer_etat = NULL;
+static GtkWidget *	bouton_personnaliser_etat = NULL;
+static GtkWidget *	bouton_imprimer_etat = NULL;
+static GtkWidget *	bouton_exporter_etat = NULL;
+static GtkWidget *	bouton_dupliquer_etat = NULL;
+static GtkWidget *	notebook_etats = NULL;
+static GtkWidget *	reports_toolbar = NULL;
+static gboolean 	maj_reports_list;
 /*END_STATIC*/
-
-static GtkWidget *bouton_export_pdf_etat = NULL;
-static GtkWidget *bouton_effacer_etat = NULL;
-static GtkWidget *bouton_personnaliser_etat = NULL;
-static GtkWidget *bouton_imprimer_etat = NULL;
-static GtkWidget *bouton_exporter_etat = NULL;
-static GtkWidget *bouton_dupliquer_etat = NULL;
-GtkWidget *scrolled_window_etat = NULL;          /* contient l'état en cours */
-gint nb_colonnes;
-gint nb_lignes;
-gint ligne_debut_partie;
-GtkWidget *notebook_etats = NULL;
-GtkWidget *notebook_config_etat = NULL;
-static GtkWidget *reports_toolbar = NULL;
-static gboolean maj_reports_list;
 
 /*START_EXTERN*/
 extern struct EtatAffichage csv_affichage;
 extern struct EtatAffichage html_affichage;
 /*END_EXTERN*/
 
-/** Different formats supported.  */
+/*START_GLOBAL*/
+GtkWidget *		scrolled_window_etat = NULL;          /* contient l'état en cours */
+gint 			nb_colonnes;
+gint 			nb_lignes;
+gint 			ligne_debut_partie;
+/*END_GLOBAL*/
+
+/* Different formats supported. */
 enum ReportExportFormats
 {
     REPORT_EGSB,
@@ -94,9 +95,9 @@ enum ReportExportFormats
  * Callback triggered when user change the menu of template reports in
  * the "new report" dialog,
  *
- * \param menu_item		Menu item that triggered signal.
- * \param label_description	A GtkLabel to fill with the long
- *				description of template report.
+ * \param menu_item				Menu item that triggered signal.
+ * \param label_description		A GtkLabel to fill with the long
+ *								description of template report.
  *
  * \return
  **/
@@ -164,7 +165,6 @@ static void etats_onglet_change_choix_nouvel_etat (GtkWidget *combobox,
     }
 
     gtk_label_set_text (GTK_LABEL (label_description), description);
-
 }
 
 /**
@@ -176,8 +176,9 @@ static void etats_onglet_change_choix_nouvel_etat (GtkWidget *combobox,
  **/
 static void etats_onglet_dupliquer_etat (void)
 {
-    gint report_number, current_report_number;
     GtkWidget *notebook_general;
+    gint current_report_number;
+    gint report_number;
 
     current_report_number = gsb_gui_navigation_get_current_report ();
 
@@ -249,12 +250,13 @@ static void etats_onglet_export_etat_courant_vers_html (gchar *filename)
 static gboolean etats_onglet_report_export_change_format (GtkWidget *combo,
 														  GtkWidget *selector)
 {
-    gchar *name;
     gchar *extension;
+    gchar *name;
     gchar *tmp_str;
 
-    g_object_set_data (G_OBJECT(selector), "format",
-			GINT_TO_POINTER (gtk_combo_box_get_active (GTK_COMBO_BOX(combo))));
+    g_object_set_data (G_OBJECT(selector),
+					   "format",
+					   GINT_TO_POINTER (gtk_combo_box_get_active (GTK_COMBO_BOX(combo))));
 
     name = utils_files_safe_file_name (g_object_get_data (G_OBJECT (selector), "basename"));
     switch (gtk_combo_box_get_active (GTK_COMBO_BOX(combo)))
@@ -294,33 +296,35 @@ static gboolean etats_onglet_report_export_change_format (GtkWidget *combo,
  **/
 static void etats_onglet_exporter_etat (void)
 {
-    GtkWidget *fenetre_nom, *hbox, *combo;
-    gint resultat;
-    gchar *nom_etat;
+    GtkWidget *combo;
+    GtkWidget *fenetre_nom;
+    GtkWidget *hbox;
     GtkWidget *notebook_general;
+    gchar *nom_etat;
     gchar *tmp_last_directory;
+    gint resultat;
 
     notebook_general = grisbi_win_get_notebook_general ();
     if (gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook_general)) != GSB_REPORTS_PAGE)
         gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook_general), GSB_REPORTS_PAGE);
 
     fenetre_nom = gtk_file_chooser_dialog_new (_("Export report"),
-					   GTK_WINDOW (grisbi_app_get_active_window (NULL)),
-					   GTK_FILE_CHOOSER_ACTION_SAVE,
-					   "gtk-cancel", GTK_RESPONSE_CANCEL,
-					   "gtk-save", GTK_RESPONSE_OK,
-					   NULL);
+											   GTK_WINDOW (grisbi_app_get_active_window (NULL)),
+											   GTK_FILE_CHOOSER_ACTION_SAVE,
+											   "gtk-cancel", GTK_RESPONSE_CANCEL,
+											   "gtk-save", GTK_RESPONSE_OK,
+											   NULL);
 
     gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (fenetre_nom), gsb_file_get_last_path ());
     gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER (fenetre_nom), TRUE);
     gtk_window_set_position (GTK_WINDOW (fenetre_nom), GTK_WIN_POS_CENTER_ON_PARENT);
 
-    g_object_set_data (G_OBJECT(fenetre_nom), "basename",
-			 gsb_data_report_get_report_name (gsb_gui_navigation_get_current_report ()));
+    g_object_set_data (G_OBJECT(fenetre_nom),
+					   "basename",
+					   gsb_data_report_get_report_name (gsb_gui_navigation_get_current_report ()));
 
     hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
-    gtk_box_pack_start (GTK_BOX(hbox), gtk_label_new (_("File format: ")),
-			 FALSE, FALSE, 0);
+    gtk_box_pack_start (GTK_BOX(hbox), gtk_label_new (_("File format: ")), FALSE, FALSE, 0);
 
     combo = gtk_combo_box_text_new ();
     gtk_box_pack_start (GTK_BOX(hbox), combo, TRUE, TRUE, 0);
@@ -332,9 +336,10 @@ static void etats_onglet_exporter_etat (void)
     gtk_combo_box_set_active (GTK_COMBO_BOX(combo), REPORT_HTML);
     etats_onglet_report_export_change_format (combo, fenetre_nom);
 
-    g_signal_connect (G_OBJECT(combo), "changed",
-		       G_CALLBACK (etats_onglet_report_export_change_format),
-		       fenetre_nom);
+    g_signal_connect (G_OBJECT(combo),
+					  "changed",
+					  G_CALLBACK (etats_onglet_report_export_change_format),
+					  fenetre_nom);
     gtk_widget_show_all (hbox);
     gtk_file_chooser_set_extra_widget (GTK_FILE_CHOOSER(fenetre_nom), hbox);
 
@@ -387,21 +392,21 @@ static void etats_onglet_importer_etat (void)
 {
     GtkWidget *fenetre_nom;
     GtkWidget *notebook_general;
-    gint resultat;
-    gchar *nom_etat;
     GtkFileFilter *filter;
+    gchar *nom_etat;
     gchar *tmp_last_directory;
+    gint resultat;
 
     notebook_general = grisbi_win_get_notebook_general ();
     if (gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook_general)) != GSB_REPORTS_PAGE)
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook_general), GSB_REPORTS_PAGE);
 
     fenetre_nom = gtk_file_chooser_dialog_new (_("Import a report"),
-					   GTK_WINDOW (grisbi_app_get_active_window (NULL)),
-					   GTK_FILE_CHOOSER_ACTION_OPEN,
-					   "gtk-cancel", GTK_RESPONSE_CANCEL,
-					   "gtk-open", GTK_RESPONSE_OK,
-					   NULL);
+											   GTK_WINDOW (grisbi_app_get_active_window (NULL)),
+											   GTK_FILE_CHOOSER_ACTION_OPEN,
+											   "gtk-cancel", GTK_RESPONSE_CANCEL,
+											   "gtk-open", GTK_RESPONSE_OK,
+											   NULL);
 
     gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (fenetre_nom), gsb_file_get_last_path ());
     gtk_window_set_position (GTK_WINDOW (fenetre_nom), GTK_WIN_POS_CENTER_ON_PARENT);
@@ -500,71 +505,70 @@ static GtkWidget *etats_onglet_create_reports_toolbar (void)
     item = utils_buttons_tool_button_new_from_image_label ("gsb-new-report-24.png", _("New report"));
     gtk_widget_set_tooltip_text (GTK_WIDGET (item), _("Create a new report"));
     g_signal_connect (G_OBJECT (item),
-                        "clicked",
-                        G_CALLBACK (etats_onglet_ajoute_etat),
-                        NULL);
+					  "clicked",
+					  G_CALLBACK (etats_onglet_ajoute_etat),
+					  NULL);
     gtk_toolbar_insert (GTK_TOOLBAR (toolbar), item, -1);
 
     /* Import button */
     item = utils_buttons_tool_button_new_from_image_label ("gsb-import-24.png", _("Import"));
     gtk_widget_set_tooltip_text (GTK_WIDGET (item), _("Import a Grisbi report file (.egsb)"));
     g_signal_connect (G_OBJECT (item),
-                        "clicked",
-                        G_CALLBACK (etats_onglet_importer_etat),
-                        NULL);
+					  "clicked",
+					  G_CALLBACK (etats_onglet_importer_etat),
+                      NULL);
     gtk_toolbar_insert (GTK_TOOLBAR (toolbar), item, -1);
 
     /* Export button */
     bouton_exporter_etat = GTK_WIDGET (utils_buttons_tool_button_new_from_image_label ("gsb-export-24.png", _("Export")));
     gtk_widget_set_tooltip_text (GTK_WIDGET (bouton_exporter_etat),
-                        _("Export selected report to egsb, HTML, Tex, CSV, PostScript"));
+								 _("Export selected report to egsb, HTML, CSV"));
     g_signal_connect (G_OBJECT (bouton_exporter_etat),
-                        "clicked",
-                        G_CALLBACK (etats_onglet_exporter_etat),
-                        NULL);
+                      "clicked",
+                      G_CALLBACK (etats_onglet_exporter_etat),
+                      NULL);
     gtk_toolbar_insert (GTK_TOOLBAR (toolbar), GTK_TOOL_ITEM (bouton_exporter_etat), -1);
 
     /* print button */
     bouton_imprimer_etat = GTK_WIDGET (utils_buttons_tool_button_new_from_image_label ("gtk-print-24.png", _("Print")));
     gtk_widget_set_tooltip_text (GTK_WIDGET (bouton_imprimer_etat), _("Print selected report"));
     g_signal_connect (G_OBJECT (bouton_imprimer_etat),
-                        "clicked",
-                        G_CALLBACK (print_report),
-                        NULL);
+                      "clicked",
+                      G_CALLBACK (print_report),
+                      NULL);
     gtk_toolbar_insert (GTK_TOOLBAR (toolbar), GTK_TOOL_ITEM (bouton_imprimer_etat), -1);
 
     /* delete button */
     bouton_effacer_etat = GTK_WIDGET (utils_buttons_tool_button_new_from_image_label ("gtk-delete-24.png", _("Delete")));
-    gtk_widget_set_tooltip_text (GTK_WIDGET (bouton_effacer_etat),
-                        _("Delete selected report"));
+    gtk_widget_set_tooltip_text (GTK_WIDGET (bouton_effacer_etat), _("Delete selected report"));
     g_signal_connect (G_OBJECT (bouton_effacer_etat),
-                        "clicked",
-                        G_CALLBACK (etats_onglet_efface_etat),
-                        NULL);
+                      "clicked",
+                      G_CALLBACK (etats_onglet_efface_etat),
+                      NULL);
     gtk_toolbar_insert (GTK_TOOLBAR (toolbar), GTK_TOOL_ITEM (bouton_effacer_etat), -1);
 
     /* edit button */
-    bouton_personnaliser_etat = GTK_WIDGET (utils_buttons_tool_button_new_from_image_label ("gtk-properties-24.png", _("Properties")));
-    gtk_widget_set_tooltip_text (GTK_WIDGET (bouton_personnaliser_etat),
-                        _("Edit selected report"));
+    bouton_personnaliser_etat = GTK_WIDGET (utils_buttons_tool_button_new_from_image_label
+											("gtk-properties-24.png", _("Properties")));
+    gtk_widget_set_tooltip_text (GTK_WIDGET (bouton_personnaliser_etat), _("Edit selected report"));
     g_signal_connect (G_OBJECT (bouton_personnaliser_etat),
-                        "clicked",
-                        G_CALLBACK (etats_config_personnalisation_etat),
-                        NULL);
+                      "clicked",
+                      G_CALLBACK (etats_config_personnalisation_etat),
+                      NULL);
     gtk_toolbar_insert (GTK_TOOLBAR (toolbar), GTK_TOOL_ITEM (bouton_personnaliser_etat), -1);
 
     /* clone button */
     bouton_dupliquer_etat = GTK_WIDGET (utils_buttons_tool_button_new_from_image_label ("gtk-copy-24.png", _("Clone")));
-    gtk_widget_set_tooltip_text (GTK_WIDGET (bouton_dupliquer_etat),
-                        _("Clone selected report"));
+    gtk_widget_set_tooltip_text (GTK_WIDGET (bouton_dupliquer_etat), _("Clone selected report"));
     g_signal_connect (G_OBJECT (bouton_dupliquer_etat),
-                        "clicked",
-                        G_CALLBACK (etats_onglet_dupliquer_etat),
-                        NULL);
+                      "clicked",
+                      G_CALLBACK (etats_onglet_dupliquer_etat),
+                      NULL);
     gtk_toolbar_insert (GTK_TOOLBAR (toolbar), GTK_TOOL_ITEM (bouton_dupliquer_etat), -1);
 
     /* archive button */
-    bouton_export_pdf_etat = GTK_WIDGET (utils_buttons_tool_button_new_from_image_label ("gsb-pdf-24.png", _("Create pdf file")));
+    bouton_export_pdf_etat = GTK_WIDGET (utils_buttons_tool_button_new_from_image_label
+										 ("gsb-pdf-24.png", _("Create pdf file")));
     gtk_widget_set_tooltip_text (bouton_export_pdf_etat, _("Creates a pdf file of the report in user directory"));
     g_signal_connect (G_OBJECT (bouton_export_pdf_etat),
 					  "clicked",
@@ -702,14 +706,10 @@ static void etats_onglet_notebook_switch_page (GtkNotebook *notebook,
 											   guint        page_num,
 											   gpointer     user_data)
 {
-	devel_debug_int (page_num);
 	if (page_num == 1)
 	{
 		GtkWidget *tree_view;
 
-		//~ g_signal_handlers_block_by_func (G_OBJECT (notebook),
-										 //~ G_CALLBACK (etats_onglet_notebook_switch_page),
-										 //~ NULL);
 		tree_view = g_object_get_data (G_OBJECT (page), "tree_view");
 		if (GTK_TREE_VIEW (tree_view) && maj_reports_list)
 		{
@@ -719,11 +719,52 @@ static void etats_onglet_notebook_switch_page (GtkNotebook *notebook,
 			etats_onglet_fill_reports_list_model (GTK_LIST_STORE (model));
 			maj_reports_list = FALSE;
 		}
-
-		//~ g_signal_handlers_unblock_by_func (G_OBJECT (notebook),
-										   //~ G_CALLBACK (etats_onglet_notebook_switch_page),
-										   //~ NULL);
 	}
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+static void etats_onglet_set_classement_base (gint report_number)
+{
+	gsb_data_report_set_sorting_type_list (report_number,
+										   g_slist_append (gsb_data_report_get_sorting_type_list (report_number),
+														   GINT_TO_POINTER (1)));
+	gsb_data_report_set_sorting_type_list (report_number,
+										   g_slist_append (gsb_data_report_get_sorting_type_list (report_number),
+														   GINT_TO_POINTER (2)));
+	gsb_data_report_set_sorting_type_list (report_number,
+										   g_slist_append (gsb_data_report_get_sorting_type_list (report_number),
+														   GINT_TO_POINTER (3)));
+	gsb_data_report_set_sorting_type_list (report_number,
+										   g_slist_append (gsb_data_report_get_sorting_type_list (report_number),
+														   GINT_TO_POINTER (4)));
+	gsb_data_report_set_sorting_type_list (report_number,
+										   g_slist_append (gsb_data_report_get_sorting_type_list (report_number),
+														   GINT_TO_POINTER (5)));
+	gsb_data_report_set_sorting_type_list (report_number,
+										   g_slist_append (gsb_data_report_get_sorting_type_list (report_number),
+														   GINT_TO_POINTER (6)));
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+static void etats_onglet_set_devises (gint report_number)
+{
+	gsb_data_report_set_currency_general (report_number, 1);
+	gsb_data_report_set_category_currency (report_number, 1);
+	gsb_data_report_set_budget_currency (report_number, 1);
+	gsb_data_report_set_payee_currency (report_number, 1);
+	gsb_data_report_set_amount_comparison_currency (report_number, 1);
 }
 
 /******************************************************************************/
@@ -739,10 +780,15 @@ static void etats_onglet_notebook_switch_page (GtkNotebook *notebook,
  **/
 gboolean etats_onglet_ajoute_etat (void)
 {
-    gint report_number, amount_comparison_number, resultat;
-    GtkWidget *dialog, *frame, *combobox, *label_description;
-    GtkWidget *scrolled_window;
+    GtkWidget *combobox;
+    GtkWidget *dialog;
+    GtkWidget *frame;
+    GtkWidget *label_description;
     GtkWidget *notebook_general;
+    GtkWidget *scrolled_window;
+    gint amount_comparison_number;
+    gint report_number;
+    gint resultat;
 	GrisbiWinRun *w_run;
 
 	w_run = grisbi_win_get_w_run ();
@@ -753,29 +799,28 @@ gboolean etats_onglet_ajoute_etat (void)
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook_general), GSB_REPORTS_PAGE);
 
     dialog = dialogue_special_no_run (GTK_MESSAGE_QUESTION,
-				       GTK_BUTTONS_OK_CANCEL,
-				       _("You are about to create a new report. For "
-					 "convenience, you can choose between the "
-					 "following templates.  Reports may be "
-					 "customized later."),
-				       _("Choose template for new report"));
+									  GTK_BUTTONS_OK_CANCEL,
+									  _("You are about to create a new report. For "
+										"convenience, you can choose between the "
+										"following templates.  Reports may be "
+										"customized later."),
+									  _("Choose template for new report"));
 
-    frame = new_paddingbox_with_title (dialog_get_content_area (dialog), FALSE,
-					_("Report type"));
+    frame = new_paddingbox_with_title (dialog_get_content_area (dialog), FALSE, _("Report type"));
 
     /* combobox for predefined reports */
     combobox = gtk_combo_box_text_new ();
     gtk_box_pack_start (GTK_BOX(frame), combobox, FALSE, FALSE, 0);
 
     /* on ajoute maintenant la frame */
-    frame = new_paddingbox_with_title (dialog_get_content_area (dialog), TRUE,
-					_("Description"));
+    frame = new_paddingbox_with_title (dialog_get_content_area (dialog), TRUE, _("Description"));
 
     /* on met le label dans une scrolled window */
     scrolled_window = gtk_scrolled_window_new (FALSE, FALSE);
     gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
-				     GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-    gtk_box_pack_start (GTK_BOX(frame), scrolled_window, TRUE, TRUE, 6);
+									GTK_POLICY_AUTOMATIC,
+									GTK_POLICY_AUTOMATIC);
+    gtk_box_pack_start (GTK_BOX(frame), scrolled_window, TRUE, TRUE, MARGIN_BOX);
 
     /* on ajoute maintenant le label */
     label_description = gtk_label_new (NULL);
@@ -800,10 +845,10 @@ gboolean etats_onglet_ajoute_etat (void)
 
 	/* update description based on selection */
 	g_signal_connect (G_OBJECT (combobox), "changed",
-			G_CALLBACK (etats_onglet_change_choix_nouvel_etat),
-			G_OBJECT (label_description));
+					  G_CALLBACK (etats_onglet_change_choix_nouvel_etat),
+					  G_OBJECT (label_description));
 
-    gtk_box_set_spacing (GTK_BOX(dialog_get_content_area (dialog)), 6);
+    gtk_box_set_spacing (GTK_BOX(dialog_get_content_area (dialog)), MARGIN_BOX);
     gtk_widget_show_all (dialog);
 
     /* on attend le choix de l'utilisateur */
@@ -812,8 +857,8 @@ gboolean etats_onglet_ajoute_etat (void)
     if (resultat != GTK_RESPONSE_OK)
     {
 		w_run->empty_report = FALSE;
-	gtk_widget_destroy (dialog);
-	return FALSE;
+		gtk_widget_destroy (dialog);
+		return FALSE;
     }
 
 	/* get the wanted report */
@@ -821,497 +866,220 @@ gboolean etats_onglet_ajoute_etat (void)
 	gtk_widget_destroy (GTK_WIDGET (dialog));
 
     /* create and fill the new report */
-
     switch (resultat)
     {
-	case 0:
-	    /*  Last month incomes and outgoings  */
+		case 0:
+			/*  Last month incomes and outgoings  */
+			report_number = gsb_data_report_new (_("Last month incomes and outgoings"));
 
-	    report_number = gsb_data_report_new (_("Last month incomes and outgoings"));
+			/* le classement de base est 1-2-3-4-5-6 (cf structure.h) */
+			etats_onglet_set_classement_base (report_number);
 
-	    gsb_data_report_set_split_credit_debit (report_number,
-						     1);
-	    gsb_data_report_set_date_type (report_number, 7);
+			/* les devises sont à 1 (euro) */
+			etats_onglet_set_devises (report_number);
 
-	    /*   le classement de base est 1-2-3-4-5-6 */
+			/* Others parameters */
+			gsb_data_report_set_split_credit_debit (report_number, 1);
+			gsb_data_report_set_date_type (report_number, 7);
+			gsb_data_report_set_transfer_choice (report_number, 2);
+			gsb_data_report_set_category_used (report_number, 1);
+			gsb_data_report_set_category_show_sub_category (report_number, 1);
+			gsb_data_report_set_category_show_category_amount (report_number, 1);
+			gsb_data_report_set_category_show_sub_category_amount (report_number, 1);
+			gsb_data_report_set_category_show_without_category (report_number, 1);
+			gsb_data_report_set_category_show_name (report_number, 1);
 
-	    gsb_data_report_set_sorting_type_list (report_number,
-					       g_slist_append (gsb_data_report_get_sorting_type_list (report_number),
-								GINT_TO_POINTER (1)));
-	    gsb_data_report_set_sorting_type_list (report_number,
-					       g_slist_append (gsb_data_report_get_sorting_type_list (report_number),
-								GINT_TO_POINTER (2)));
-	    gsb_data_report_set_sorting_type_list (report_number,
-					       g_slist_append (gsb_data_report_get_sorting_type_list (report_number),
-								GINT_TO_POINTER (3)));
-	    gsb_data_report_set_sorting_type_list (report_number,
-					       g_slist_append (gsb_data_report_get_sorting_type_list (report_number),
-								GINT_TO_POINTER (4)));
-	    gsb_data_report_set_sorting_type_list (report_number,
-					       g_slist_append (gsb_data_report_get_sorting_type_list (report_number),
-								GINT_TO_POINTER (5)));
-	    gsb_data_report_set_sorting_type_list (report_number,
-					       g_slist_append (gsb_data_report_get_sorting_type_list (report_number),
-								GINT_TO_POINTER (6)));
+			/* tout le reste est à NULL, ce qui est très bien */
+			break;
 
-	    gsb_data_report_set_transfer_choice (report_number,
-						  2);
-	    gsb_data_report_set_category_used (report_number,
-						1);
-	    gsb_data_report_set_category_show_sub_category (report_number,
-							     1);
-	    gsb_data_report_set_category_show_category_amount (report_number,
-								1);
-	    gsb_data_report_set_category_show_sub_category_amount (report_number,
-								    1);
-	    gsb_data_report_set_category_show_without_category (report_number,
-								 1);
-	    gsb_data_report_set_category_show_name (report_number,
-						     1);
+		case 1:
+			/*  Current month incomes and outgoings */
+			report_number = gsb_data_report_new (_("Current month incomes and outgoings"));
 
-	    /*   les devises sont à 1 (euro) */
+			/* le classement de base est 1-2-3-4-5-6 (cf structure.h) */
+			etats_onglet_set_classement_base (report_number);
 
-	    gsb_data_report_set_currency_general (report_number,
-						   1);
-	    gsb_data_report_set_category_currency (report_number,
-						    1);
-	    gsb_data_report_set_budget_currency (report_number,
-						  1);
-	    gsb_data_report_set_payee_currency (report_number,
-						 1);
-	    gsb_data_report_set_amount_comparison_currency (report_number,
-							     1);
+			/* les devises sont à 1 (euro) */
+			etats_onglet_set_devises (report_number);
 
-	    break;
+			/* Others parameters */
+			gsb_data_report_set_split_credit_debit (report_number, 1);
+			gsb_data_report_set_date_type (report_number, 3);
+			gsb_data_report_set_transfer_choice (report_number, 2);
+			gsb_data_report_set_category_used (report_number, 1);
+			gsb_data_report_set_category_show_sub_category (report_number, 1);
+			gsb_data_report_set_category_show_category_amount (report_number, 1);
+			gsb_data_report_set_category_show_sub_category_amount (report_number, 1);
+			gsb_data_report_set_category_show_without_category (report_number, 1);
+			gsb_data_report_set_category_show_name (report_number, 1);
 
-	case 1:
-	    /*  Current month incomes and outgoings */
+			/* tout le reste est à NULL, ce qui est très bien */
+			break;
 
-	    report_number = gsb_data_report_new (_("Current month incomes and outgoings"));
+		case 2:
 
-	    gsb_data_report_set_split_credit_debit (report_number,
-						     1);
-	    gsb_data_report_set_date_type (report_number,
-					    3);
+			/* Annual budget */
+			report_number = gsb_data_report_new (_("Annual budget"));
 
+			/* le classement de base est 1-2-3-4-5-6 (cf structure.h) */
+			etats_onglet_set_classement_base (report_number);
 
-	    /*   le classement de base est 1-2-3-4-5-6 (cf structure.h) */
+			/* les devises sont à 1 (euro) */
+			etats_onglet_set_devises (report_number);
 
-	    gsb_data_report_set_sorting_type_list (report_number,
-					       g_slist_append (gsb_data_report_get_sorting_type_list (report_number),
-								GINT_TO_POINTER (1)));
-	    gsb_data_report_set_sorting_type_list (report_number,
-					       g_slist_append (gsb_data_report_get_sorting_type_list (report_number),
-								GINT_TO_POINTER (2)));
-	    gsb_data_report_set_sorting_type_list (report_number,
-					       g_slist_append (gsb_data_report_get_sorting_type_list (report_number),
-								GINT_TO_POINTER (3)));
-	    gsb_data_report_set_sorting_type_list (report_number,
-					       g_slist_append (gsb_data_report_get_sorting_type_list (report_number),
-								GINT_TO_POINTER (4)));
-	    gsb_data_report_set_sorting_type_list (report_number,
-					       g_slist_append (gsb_data_report_get_sorting_type_list (report_number),
-								GINT_TO_POINTER (5)));
-	    gsb_data_report_set_sorting_type_list (report_number,
-					       g_slist_append (gsb_data_report_get_sorting_type_list (report_number),
-								GINT_TO_POINTER (6)));
+			/* Others parameters */
+			gsb_data_report_set_split_credit_debit (report_number, 1);
+			gsb_data_report_set_date_type (report_number, 4);
+			gsb_data_report_set_category_used (report_number, 1);
+			gsb_data_report_set_category_show_category_amount (report_number, 1);
+			gsb_data_report_set_category_show_sub_category (report_number, 1);
+			gsb_data_report_set_category_show_without_category (report_number, 1);
+			gsb_data_report_set_category_show_sub_category_amount (report_number, 1);
+			gsb_data_report_set_category_show_name (report_number, 1);
+			gsb_data_report_set_amount_comparison_only_report_non_null (report_number, 1);
 
+			/*   tout le reste est à NULL, ce qui est très bien */
+			break;
 
-	    gsb_data_report_set_transfer_choice (report_number,
-						  2);
-	    gsb_data_report_set_category_used (report_number,
-						1);
-	    gsb_data_report_set_category_show_sub_category (report_number,
-							     1);
-	    gsb_data_report_set_category_show_category_amount (report_number,
-								1);
-	    gsb_data_report_set_category_show_sub_category_amount (report_number,
-								    1);
-	    gsb_data_report_set_category_show_without_category (report_number,
-								 1);
-	    gsb_data_report_set_category_show_name (report_number,
-						     1);
-
-	    /*   les devises sont à 1 (euro) */
-
-	    gsb_data_report_set_currency_general (report_number,
-						   1);
-	    gsb_data_report_set_category_currency (report_number,
-						    1);
-	    gsb_data_report_set_budget_currency (report_number,
-						  1);
-	    gsb_data_report_set_payee_currency (report_number,
-						 1);
-	    gsb_data_report_set_amount_comparison_currency (report_number,
-							     1);
-
-	    break;
-
-
-	case 2:
-
-	    /* Annual budget */
-	    report_number = gsb_data_report_new (_("Annual budget"));
-
-	    /*   le classement de base est 1-2-3-4-5-6 (cf structure.h) */
-
-	    gsb_data_report_set_sorting_type_list (report_number,
-					       g_slist_append (gsb_data_report_get_sorting_type_list (report_number),
-								GINT_TO_POINTER (1)));
-	    gsb_data_report_set_sorting_type_list (report_number,
-					       g_slist_append (gsb_data_report_get_sorting_type_list (report_number),
-								GINT_TO_POINTER (2)));
-	    gsb_data_report_set_sorting_type_list (report_number,
-					       g_slist_append (gsb_data_report_get_sorting_type_list (report_number),
-								GINT_TO_POINTER (3)));
-	    gsb_data_report_set_sorting_type_list (report_number,
-					       g_slist_append (gsb_data_report_get_sorting_type_list (report_number),
-								GINT_TO_POINTER (4)));
-	    gsb_data_report_set_sorting_type_list (report_number,
-					       g_slist_append (gsb_data_report_get_sorting_type_list (report_number),
-								GINT_TO_POINTER (5)));
-	    gsb_data_report_set_sorting_type_list (report_number,
-					       g_slist_append (gsb_data_report_get_sorting_type_list (report_number),
-								GINT_TO_POINTER (6)));
-
-
-	    /*   les devises sont à 1 (euro) */
-
-	    gsb_data_report_set_currency_general (report_number,
-						   1);
-	    gsb_data_report_set_category_currency (report_number,
-						    1);
-	    gsb_data_report_set_budget_currency (report_number,
-						  1);
-	    gsb_data_report_set_payee_currency (report_number,
-						 1);
-	    gsb_data_report_set_amount_comparison_currency (report_number,
-							     1);
-
-	    gsb_data_report_set_split_credit_debit (report_number,
-						     1);
-	    gsb_data_report_set_date_type (report_number,
-					    4);
-	    gsb_data_report_set_category_used (report_number,
-						1);
-	    gsb_data_report_set_category_show_category_amount (report_number,
-								1);
-	    gsb_data_report_set_category_show_sub_category (report_number,
-							     1);
-	    gsb_data_report_set_category_show_without_category (report_number,
-								 1);
-	    gsb_data_report_set_category_show_sub_category_amount (report_number,
-								    1);
-	    gsb_data_report_set_category_show_name (report_number,
-						     1);
-	    gsb_data_report_set_amount_comparison_only_report_non_null (report_number,
-									 1);
-
-	    /*   tout le reste est à NULL, ce qui est très bien */
-
-	    break;
-
-
-
-	case 3:
+		case 3:
+			/* Blank report */
+			report_number = gsb_data_report_new (_("Blank report"));
 
 			/* set empty report */
 			w_run->empty_report = TRUE;
-	    /* Blank report */
-	    report_number = gsb_data_report_new (_("Blank report"));
 
-	    /*   le classement de base est 1-2-3-4-5-6  */
+			/* le classement de base est 1-2-3-4-5-6 (cf structure.h) */
+			etats_onglet_set_classement_base (report_number);
 
-	    gsb_data_report_set_sorting_type_list (report_number,
-					       g_slist_append (gsb_data_report_get_sorting_type_list (report_number),
-								GINT_TO_POINTER (1)));
-	    gsb_data_report_set_sorting_type_list (report_number,
-					       g_slist_append (gsb_data_report_get_sorting_type_list (report_number),
-								GINT_TO_POINTER (2)));
-	    gsb_data_report_set_sorting_type_list (report_number,
-					       g_slist_append (gsb_data_report_get_sorting_type_list (report_number),
-								GINT_TO_POINTER (3)));
-	    gsb_data_report_set_sorting_type_list (report_number,
-					       g_slist_append (gsb_data_report_get_sorting_type_list (report_number),
-								GINT_TO_POINTER (4)));
-	    gsb_data_report_set_sorting_type_list (report_number,
-					       g_slist_append (gsb_data_report_get_sorting_type_list (report_number),
-								GINT_TO_POINTER (5)));
-	    gsb_data_report_set_sorting_type_list (report_number,
-					       g_slist_append (gsb_data_report_get_sorting_type_list (report_number),
-								GINT_TO_POINTER (6)));
+			/* les devises sont à 1 (euro) */
+			etats_onglet_set_devises (report_number);
 
-	    /*   les devises sont à 1 (euro) */
+			/* Others parameters */
+			gsb_data_report_set_show_report_transactions (report_number, 1);
+			gsb_data_report_set_show_report_date (report_number, 1);
+			gsb_data_report_set_show_report_value_date (report_number, 1);
+			gsb_data_report_set_show_report_payee (report_number, 1);
+			gsb_data_report_set_show_report_category (report_number, 1);
+			gsb_data_report_set_split_credit_debit (report_number, 1);
+			gsb_data_report_set_transfer_choice (report_number, 2);
+			gsb_data_report_set_category_used (report_number, 1);
+			gsb_data_report_set_category_show_category_amount (report_number, 1);
+			gsb_data_report_set_category_show_sub_category (report_number, 1);
+			gsb_data_report_set_category_show_sub_category_amount (report_number, 1);
+			gsb_data_report_set_category_show_name (report_number, 1);
+			gsb_data_report_set_amount_comparison_only_report_non_null (report_number, 1);
 
-	    gsb_data_report_set_currency_general (report_number,
-						   1);
-	    gsb_data_report_set_category_currency (report_number,
-						    1);
-	    gsb_data_report_set_budget_currency (report_number,
-						  1);
-	    gsb_data_report_set_payee_currency (report_number,
-						 1);
+			/* tout le reste est à NULL, ce qui est très bien */
+			break;
 
-	    gsb_data_report_set_amount_comparison_currency (report_number,
-							     1);
-
-
- 	    gsb_data_report_set_show_report_transactions (report_number, 1);
- 	    gsb_data_report_set_show_report_date (report_number, 1);
- 	    //~ gsb_data_report_set_show_report_value_date (report_number, 1);
- 	    gsb_data_report_set_show_report_payee (report_number, 1);
- 	    gsb_data_report_set_show_report_category (report_number, 1);
- 	    gsb_data_report_set_split_credit_debit (report_number, 1);
- 	    gsb_data_report_set_transfer_choice (report_number, 2);
- 	    gsb_data_report_set_category_used (report_number, 1);
- 	    gsb_data_report_set_category_show_category_amount (report_number, 1);
- 	    gsb_data_report_set_category_show_sub_category (report_number, 1);
- 	    gsb_data_report_set_category_show_sub_category_amount (report_number, 1);
- 	    gsb_data_report_set_category_show_name (report_number, 1);
- 	    gsb_data_report_set_amount_comparison_only_report_non_null (report_number, 1);
-
-	    /*   tout le reste est à NULL, ce qui est très bien */
-
-	    break;
-
-	case 4:
+		case 4:
+			/* Cheques deposit */
+			report_number = gsb_data_report_new (_("Cheques deposit"));
 
 			/* set empty report */
 			w_run->empty_report = TRUE;
-	    /* Cheques deposit */
 
-	    report_number = gsb_data_report_new (_("Cheques deposit"));
+			/* le classement de base est 1-2-3-4-5-6 (cf structure.h) */
+			etats_onglet_set_classement_base (report_number);
 
-	    /*   le classement de base est 1-2-3-4-5-6 (cf structure.h) */
+			/* les devises sont à 1 (euro) */
+			etats_onglet_set_devises (report_number);
 
-	    gsb_data_report_set_sorting_type_list (report_number,
-					       g_slist_append (gsb_data_report_get_sorting_type_list (report_number),
-								GINT_TO_POINTER (1)));
-	    gsb_data_report_set_sorting_type_list (report_number,
-					       g_slist_append (gsb_data_report_get_sorting_type_list (report_number),
-								GINT_TO_POINTER (2)));
-	    gsb_data_report_set_sorting_type_list (report_number,
-					       g_slist_append (gsb_data_report_get_sorting_type_list (report_number),
-								GINT_TO_POINTER (3)));
-	    gsb_data_report_set_sorting_type_list (report_number,
-					       g_slist_append (gsb_data_report_get_sorting_type_list (report_number),
-								GINT_TO_POINTER (4)));
-	    gsb_data_report_set_sorting_type_list (report_number,
-					       g_slist_append (gsb_data_report_get_sorting_type_list (report_number),
-								GINT_TO_POINTER (5)));
-	    gsb_data_report_set_sorting_type_list (report_number,
-					       g_slist_append (gsb_data_report_get_sorting_type_list (report_number),
-								GINT_TO_POINTER (6)));
+			/* Others parameters */
+			gsb_data_report_set_show_report_transactions (report_number, 1);
+			gsb_data_report_set_show_report_transaction_amount (report_number, 1);
+			gsb_data_report_set_show_report_payee (report_number, 1);
+			gsb_data_report_set_show_report_bank_references (report_number, 1);
+			gsb_data_report_set_transfer_choice (report_number, 2);
+			gsb_data_report_set_amount_comparison_only_report_non_null (report_number, 1);
+			gsb_data_report_set_amount_comparison_used (report_number, 1);
 
-	    /*   les devises sont à 1 (euro) */
+			/* on doit créer une structure de montant qui dit que ça va être positif */
+			amount_comparison_number = gsb_data_report_amount_comparison_new (0);
+			gsb_data_report_amount_comparison_set_report_number (amount_comparison_number, report_number);
+			gsb_data_report_amount_comparison_set_link_to_last_amount_comparison (amount_comparison_number, -1);
+			gsb_data_report_amount_comparison_set_first_comparison (amount_comparison_number, 8);
+			gsb_data_report_amount_comparison_set_link_first_to_second_part (amount_comparison_number, 3);
 
-	    gsb_data_report_set_currency_general (report_number,
-						   1);
-	    gsb_data_report_set_category_currency (report_number,
-						    1);
-	    gsb_data_report_set_budget_currency (report_number,
-						  1);
-	    gsb_data_report_set_payee_currency (report_number,
-						 1);
-	    gsb_data_report_set_amount_comparison_currency (report_number,
-							     1);
+			gsb_data_report_set_amount_comparison_list (report_number,
+														g_slist_append (gsb_data_report_get_amount_comparison_list
+																		(report_number),
+																		GINT_TO_POINTER (amount_comparison_number)));
 
+			/*   tout le reste est à NULL, ce qui est très bien */
+			break;
 
-	    gsb_data_report_set_show_report_transactions (report_number,
-							   1);
-	    gsb_data_report_set_show_report_transaction_amount (report_number,
-								 1);
-	    gsb_data_report_set_show_report_payee (report_number,
-						    1);
-	    gsb_data_report_set_show_report_bank_references (report_number,
-							      1);
-	    gsb_data_report_set_transfer_choice (report_number,
-						  2);
-	    gsb_data_report_set_amount_comparison_only_report_non_null (report_number,
-									 1);
-	    gsb_data_report_set_amount_comparison_used (report_number,
-							 1);
-
-	    /* on doit créer une structure de montant qui dit que ça va être positif */
-
-	    amount_comparison_number = gsb_data_report_amount_comparison_new (0);
-	    gsb_data_report_amount_comparison_set_report_number (amount_comparison_number,
-								  report_number);
-	    gsb_data_report_amount_comparison_set_link_to_last_amount_comparison (amount_comparison_number,
-										   -1);
-	    gsb_data_report_amount_comparison_set_first_comparison (amount_comparison_number,
-								     8);
-	    gsb_data_report_amount_comparison_set_link_first_to_second_part (amount_comparison_number,
-									      3);
-
-	    gsb_data_report_set_amount_comparison_list (report_number,
-							 g_slist_append (gsb_data_report_get_amount_comparison_list (report_number),
-									  GINT_TO_POINTER (amount_comparison_number)));
-
-	    /*   tout le reste est à NULL, ce qui est très bien */
-
-	    break;
-
-	case 5:
+		case 5:
+			/* Monthly outgoings by payee */
+			report_number = gsb_data_report_new (_("Monthly outgoings by payee"));
 
 			/* set empty report */
 			w_run->empty_report = TRUE;
-	    /* Monthly outgoings by payee */
 
-	    report_number = gsb_data_report_new (_("Monthly outgoings by payee"));
+			/* le classement de base est 1-2-3-4-5-6 (cf structure.h) */
+			etats_onglet_set_classement_base (report_number);
 
-	    /*   le classement de base est 1-2-3-4-5-6  */
+			/* les devises sont à 1 (euro) */
+			etats_onglet_set_devises (report_number);
 
-	    gsb_data_report_set_sorting_type_list (report_number,
-					       g_slist_append (gsb_data_report_get_sorting_type_list (report_number),
-								GINT_TO_POINTER (6)));
-	    gsb_data_report_set_sorting_type_list (report_number,
-					       g_slist_append (gsb_data_report_get_sorting_type_list (report_number),
-								GINT_TO_POINTER (1)));
-	    gsb_data_report_set_sorting_type_list (report_number,
-					       g_slist_append (gsb_data_report_get_sorting_type_list (report_number),
-								GINT_TO_POINTER (2)));
-	    gsb_data_report_set_sorting_type_list (report_number,
-					       g_slist_append (gsb_data_report_get_sorting_type_list (report_number),
-								GINT_TO_POINTER (3)));
-	    gsb_data_report_set_sorting_type_list (report_number,
-					       g_slist_append (gsb_data_report_get_sorting_type_list (report_number),
-								GINT_TO_POINTER (4)));
-	    gsb_data_report_set_sorting_type_list (report_number,
-					       g_slist_append (gsb_data_report_get_sorting_type_list (report_number),
-								GINT_TO_POINTER (5)));
+			/* Others parameters */
+			gsb_data_report_set_show_report_transactions (report_number, 1);
+			gsb_data_report_set_show_report_transaction_amount (report_number, 1);
+			gsb_data_report_set_show_report_payee (report_number, 1);
+			gsb_data_report_set_sorting_report (report_number, 2);
+			gsb_data_report_set_column_title_show (report_number, 1);
+			gsb_data_report_set_date_type (report_number, 7);
+			gsb_data_report_set_category_used (report_number, 1);
+			gsb_data_report_set_category_show_category_amount (report_number, 1);
+			gsb_data_report_set_category_show_sub_category (report_number, 1);
+			gsb_data_report_set_category_show_name (report_number, 1);
+			gsb_data_report_set_show_report_date (report_number, 1);
+			gsb_data_report_set_show_report_value_date (report_number, 1);
+			gsb_data_report_set_show_report_category (report_number, 1);
+			gsb_data_report_set_split_credit_debit (report_number, 1);
+			gsb_data_report_set_transfer_choice (report_number, 2);
+			gsb_data_report_set_category_show_sub_category_amount (report_number, 1);
+			gsb_data_report_set_amount_comparison_only_report_non_null (report_number, 1);
+			gsb_data_report_set_payee_used (report_number, 1);
+			gsb_data_report_set_payee_show_payee_amount (report_number, 1);
+			gsb_data_report_set_payee_show_name (report_number, 1);
 
+			/*   tout le reste est à NULL, ce qui est très bien */
+			break;
 
-	    /*   les devises sont à 1 (euro) */
-
-	    gsb_data_report_set_currency_general (report_number,
-						   1);
-	    gsb_data_report_set_category_currency (report_number,
-						    1);
-	    gsb_data_report_set_budget_currency (report_number,
-						  1);
-	    gsb_data_report_set_payee_currency (report_number,
-						 1);
-	    gsb_data_report_set_amount_comparison_currency (report_number,
-							     1);
-
-
-	    gsb_data_report_set_show_report_transactions (report_number,
-							   1);
-	    gsb_data_report_set_show_report_transaction_amount (report_number,
-								 1);
-	    gsb_data_report_set_show_report_payee (report_number,
-						    1);
-	    gsb_data_report_set_sorting_report (report_number,
-						 2);
-	    gsb_data_report_set_column_title_show (report_number,
-						    1);
-	    gsb_data_report_set_date_type (report_number,
-					    7);
-	    gsb_data_report_set_category_used (report_number,
-						1);
-	    gsb_data_report_set_category_show_category_amount (report_number,
-								1);
-	    gsb_data_report_set_category_show_sub_category (report_number,
-							     1);
-	    gsb_data_report_set_category_show_name (report_number,
-						     1);
-
-	    gsb_data_report_set_show_report_date (report_number,
-						   1);
-	    gsb_data_report_set_show_report_value_date (report_number,
-							 1);
-	    gsb_data_report_set_show_report_category (report_number,
-						       1);
-	    gsb_data_report_set_split_credit_debit (report_number,
-						     1);
-	    gsb_data_report_set_transfer_choice (report_number,
-						  2);
-	    gsb_data_report_set_category_show_sub_category_amount (report_number,
-								    1);
-	    gsb_data_report_set_amount_comparison_only_report_non_null (report_number,
-									 1);
-	    gsb_data_report_set_payee_used (report_number,
-					     1);
-	    gsb_data_report_set_payee_show_payee_amount (report_number,
-							  1);
-	    gsb_data_report_set_payee_show_name (report_number,
-						  1);
-
-
-	    /*   tout le reste est à NULL, ce qui est très bien */
-
-	    break;
-
-	case 6:
+		case 6:
+			/* Search */
+			report_number = gsb_data_report_new (_("Search"));
 
 			/* set empty report */
 			w_run->empty_report = TRUE;
-	    /* Search */
 
-	    report_number = gsb_data_report_new (_("Search"));
+			/* le classement de base est 1-2-3-4-5-6 (cf structure.h) */
+			etats_onglet_set_classement_base (report_number);
 
-	    /*   le classement de base est 1-2-3-4-5-6  */
+			/* les devises sont à 1 (euro) */
+			etats_onglet_set_devises (report_number);
 
-	    gsb_data_report_set_sorting_type_list (report_number,
-					       g_slist_append (gsb_data_report_get_sorting_type_list (report_number),
-								GINT_TO_POINTER (1)));
-	    gsb_data_report_set_sorting_type_list (report_number,
-					       g_slist_append (gsb_data_report_get_sorting_type_list (report_number),
-								GINT_TO_POINTER (2)));
-	    gsb_data_report_set_sorting_type_list (report_number,
-					       g_slist_append (gsb_data_report_get_sorting_type_list (report_number),
-								GINT_TO_POINTER (3)));
-	    gsb_data_report_set_sorting_type_list (report_number,
-					       g_slist_append (gsb_data_report_get_sorting_type_list (report_number),
-								GINT_TO_POINTER (4)));
-	    gsb_data_report_set_sorting_type_list (report_number,
-					       g_slist_append (gsb_data_report_get_sorting_type_list (report_number),
-								GINT_TO_POINTER (5)));
-	    gsb_data_report_set_sorting_type_list (report_number,
-					       g_slist_append (gsb_data_report_get_sorting_type_list (report_number),
-								GINT_TO_POINTER (6)));
+			/* Others parameters */
+			gsb_data_report_set_show_report_transactions (report_number, 1);
+			gsb_data_report_set_show_report_date (report_number, 1);
+			gsb_data_report_set_show_report_value_date (report_number, 1);
+			gsb_data_report_set_show_report_payee (report_number, 1);
+			gsb_data_report_set_show_report_category (report_number, 1);
+			gsb_data_report_set_show_report_sub_category (report_number, 1);
+			gsb_data_report_set_show_report_note (report_number, 1);
+			gsb_data_report_set_show_report_financial_year (report_number, 1);
+			gsb_data_report_set_report_can_click (report_number, 1);
+			gsb_data_report_set_date_type (report_number, 4);
+			gsb_data_report_set_column_title_show (report_number, 1);
 
-	    /*   les devises sont à 1 (euro) */
-	    gsb_data_report_set_currency_general (report_number, 1);
-
-		gsb_data_report_set_category_currency (report_number, 1);
-	    gsb_data_report_set_budget_currency (report_number, 1);
-	    gsb_data_report_set_payee_currency (report_number, 1);
-	    gsb_data_report_set_amount_comparison_currency (report_number, 1);
- 	    gsb_data_report_set_show_report_transactions (report_number, 1);
- 	    gsb_data_report_set_show_report_date (report_number, 1);
-	    //~ gsb_data_report_set_show_report_value_date (report_number, 1);
-	    gsb_data_report_set_show_report_payee (report_number, 1);
- 	    gsb_data_report_set_show_report_category (report_number, 1);
- 	    gsb_data_report_set_show_report_sub_category (report_number, 1);
- 	    //~ gsb_data_report_set_show_report_method_of_payment (report_number, 1);
- 	    //~ gsb_data_report_set_show_report_budget (report_number, 1);
- 	    //~ gsb_data_report_set_show_report_sub_budget (report_number, 1);
- 	    //~ gsb_data_report_set_show_report_method_of_payment_content (report_number, 1);
- 	    gsb_data_report_set_show_report_note (report_number, 1);
- 	    //~ gsb_data_report_set_show_report_voucher (report_number, 1);
-		//~ gsb_data_report_set_show_report_marked (report_number, 1);
-		//~ gsb_data_report_set_show_report_bank_references (report_number, 1);
-		//~ gsb_data_report_set_show_report_financial_year (report_number, 1);
-
-		gsb_data_report_set_report_can_click (report_number, 1);
- 	    gsb_data_report_set_date_type (report_number, 4);
-	    //~ gsb_data_report_set_period_split (report_number, 1);
- 	    //~ gsb_data_report_set_period_split_type (report_number, 3);
- 	    //~ gsb_data_report_set_transfer_choice (report_number, 2);
-
-		/* coche l'affichage des titres de colonnes */
-		gsb_data_report_set_column_title_show (report_number, 1);
-
-		/*   tout le reste est à NULL, ce qui est très bien */
-
-	    break;
+			/*   tout le reste est à NULL, ce qui est très bien */
+			break;
 
 
-	default :
-	    dialogue_error (_("Unknown report type, creation cancelled"));
-	    return FALSE;
+		default :
+			dialogue_error (_("Unknown report type, creation cancelled"));
+			return FALSE;
     }
 
     /* Add an entry in navigation pane. */
@@ -1335,8 +1103,9 @@ gboolean etats_onglet_ajoute_etat (void)
  **/
 GtkWidget *etats_onglet_create_reports_tab (void)
 {
-    GtkWidget *tab, *vbox;
     GtkWidget *frame;
+    GtkWidget *tab;
+    GtkWidget *vbox;
 
     tab = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
 
@@ -1391,9 +1160,9 @@ GtkWidget *etats_onglet_create_reports_tab (void)
  **/
 void etats_onglet_efface_etat (void)
 {
-    gint current_report_number;
     GtkWidget *notebook_general;
     gchar *hint;
+    gint current_report_number;
     gboolean answer;
 
     current_report_number = gsb_gui_navigation_get_current_report ();
