@@ -3883,7 +3883,7 @@ void etats_config_personnalisation_etat ( void )
 				GrisbiWinRun *w_run;
 
 				w_run = grisbi_win_get_w_run ();
-				if (w_run->adding_report)
+				if (w_run->empty_report)
 				{
 					gsb_gui_navigation_remove_report (current_report_number);
 					gsb_data_report_remove (current_report_number);
