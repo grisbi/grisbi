@@ -746,7 +746,7 @@ gboolean etats_onglet_ajoute_etat (void)
 	GrisbiWinRun *w_run;
 
 	w_run = grisbi_win_get_w_run ();
-	w_run->empty_report = TRUE;
+	w_run->empty_report = FALSE;
 
     notebook_general = grisbi_win_get_notebook_general ();
     if (gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook_general)) != GSB_REPORTS_PAGE)
@@ -951,7 +951,6 @@ gboolean etats_onglet_ajoute_etat (void)
 	case 2:
 
 	    /* Annual budget */
-
 	    report_number = gsb_data_report_new (_("Annual budget"));
 
 	    /*   le classement de base est 1-2-3-4-5-6 (cf structure.h) */
@@ -1016,8 +1015,9 @@ gboolean etats_onglet_ajoute_etat (void)
 
 	case 3:
 
+			/* set empty report */
+			w_run->empty_report = TRUE;
 	    /* Blank report */
-
 	    report_number = gsb_data_report_new (_("Blank report"));
 
 	    /*   le classement de base est 1-2-3-4-5-6  */
@@ -1076,6 +1076,8 @@ gboolean etats_onglet_ajoute_etat (void)
 
 	case 4:
 
+			/* set empty report */
+			w_run->empty_report = TRUE;
 	    /* Cheques deposit */
 
 	    report_number = gsb_data_report_new (_("Cheques deposit"));
@@ -1152,6 +1154,8 @@ gboolean etats_onglet_ajoute_etat (void)
 
 	case 5:
 
+			/* set empty report */
+			w_run->empty_report = TRUE;
 	    /* Monthly outgoings by payee */
 
 	    report_number = gsb_data_report_new (_("Monthly outgoings by payee"));
@@ -1241,6 +1245,8 @@ gboolean etats_onglet_ajoute_etat (void)
 
 	case 6:
 
+			/* set empty report */
+			w_run->empty_report = TRUE;
 	    /* Search */
 
 	    report_number = gsb_data_report_new (_("Search"));
