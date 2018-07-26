@@ -56,6 +56,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static GtkWidget *	bouton_no_show_prefs;
 static GtkWidget *	bouton_export_pdf_etat = NULL;
 static GtkWidget *	bouton_effacer_etat = NULL;
 static GtkWidget *	bouton_personnaliser_etat = NULL;
@@ -64,7 +65,6 @@ static GtkWidget *	bouton_exporter_etat = NULL;
 static GtkWidget *	bouton_dupliquer_etat = NULL;
 static GtkWidget *	notebook_etats = NULL;
 static GtkWidget *	reports_toolbar = NULL;
-static gboolean 	maj_reports_list;
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -92,8 +92,24 @@ enum ReportExportFormats
 /* Private Functions                                                          */
 /******************************************************************************/
 /**
+ * Set a boolean integer to the value of a checkbutton.
+ *
+ * \param checkbutton a pointer to a checkbutton widget.
+ * \param value to change
+ *
+ * \return
+ */
+static void etats_onglet_checkbutton_toggled (GtkToggleButton *checkbutton,
+											  gboolean *value)
+{
+    if (value)
+        *value = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton));
+}
+
+/**
  * Callback triggered when user change the menu of template reports in
  * the "new report" dialog,
+ * init the checkbutton for no_show_prefs
  *
  * \param menu_item				Menu item that triggered signal.
  * \param label_description		A GtkLabel to fill with the long
@@ -105,66 +121,84 @@ static void etats_onglet_change_choix_nouvel_etat (GtkWidget *combobox,
 												   GtkWidget *label_description)
 {
     gchar *description;
+	GrisbiWinRun *w_run;
+
+	w_run = grisbi_win_get_w_run ();
+	g_signal_handlers_block_by_func (bouton_no_show_prefs,
+									 etats_onglet_checkbutton_toggled,
+									 &w_run->no_show_prefs);
 
     switch (gtk_combo_box_get_active (GTK_COMBO_BOX (combobox)))
     {
 		case 0:
 			/* Last month incomes and outgoings */
-
 			description = _("This report displays totals for last month's transactions sorted by "
 							"categories and sub-categories. You just need to select the account(s). "
 							"By default, all accounts are selected.");
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (bouton_no_show_prefs), w_run->no_show_prefs);
+			gtk_widget_set_sensitive (bouton_no_show_prefs, TRUE);
 			break;
 
 		case 1:
 			/* Current month incomes and outgoings */
-
 			description = _("This report displays totals of current month's transactions sorted by "
 							"categories and sub-categories. You just need to select the account(s). "
 							"By default, all accounts are selected.");
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (bouton_no_show_prefs), w_run->no_show_prefs);
+			gtk_widget_set_sensitive (bouton_no_show_prefs, TRUE);
 			break;
 
 		case 2:
 			/* Annual budget */
-
 			description = _("This report displays annual budget. You just need to select the account(s). "
 							"By default all accounts are selected.");
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (bouton_no_show_prefs), w_run->no_show_prefs);
+			gtk_widget_set_sensitive (bouton_no_show_prefs, TRUE);
 			break;
 
 		case 3:
 			/* Blank report */
-
 			description = _("This report is an empty one. You need to customize it entirely.");
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (bouton_no_show_prefs), FALSE);
+			gtk_widget_set_sensitive (bouton_no_show_prefs, FALSE);
 			break;
 
 		case 4:
 			/* Cheques deposit */
-
 			description = _("This report displays the cheques deposit. You just need to select the account(s). "
 							"By default all accounts are selected.");
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (bouton_no_show_prefs), FALSE);
+			gtk_widget_set_sensitive (bouton_no_show_prefs, FALSE);
 			break;
 
 		case 5:
 			/* Monthly outgoings by payee */
-
 			description = _("This report displays current month's outgoings sorted by payees. "
 							"You just need to select the account(s). By default all accounts are selected.");
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (bouton_no_show_prefs), w_run->no_show_prefs);
+			gtk_widget_set_sensitive (bouton_no_show_prefs, TRUE);
 			break;
 
 		case 6:
 			/* Search */
-
 			description = _("This report displays all the information for all transactions of all accounts "
 							"for the current year. You just have to add the amount, date, payees etc. criteria "
 							"that you want. By default the transactions are clickables.");
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (bouton_no_show_prefs), FALSE);
+			gtk_widget_set_sensitive (bouton_no_show_prefs, FALSE);
 			break;
 
 		default:
-
 			description = _("No description available");
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (bouton_no_show_prefs), FALSE);
+			gtk_widget_set_sensitive (bouton_no_show_prefs, FALSE);
     }
 
     gtk_label_set_text (GTK_LABEL (label_description), description);
+	g_signal_handlers_unblock_by_func (bouton_no_show_prefs,
+									   etats_onglet_checkbutton_toggled,
+									   &w_run->no_show_prefs);
+
 }
 
 /**
@@ -695,31 +729,23 @@ static GtkWidget *etats_onglet_create_reports_list (void)
  *
  *
  * \param
- * \param
- * \param
- * \param
  *
  * \return
  **/
-static void etats_onglet_notebook_switch_page (GtkNotebook *notebook,
-											   GtkWidget   *page,
-											   guint        page_num,
-											   gpointer     user_data)
+static void etats_onglet_force_fill_reports_list (GtkNotebook *notebook)
 {
-	if (page_num == 1)
-	{
-		GtkWidget *tree_view;
+	GtkWidget *page;
+	GtkWidget *tree_view;
+	GtkTreeSelection *selection;
+	GtkTreeModel *model;
 
-		tree_view = g_object_get_data (G_OBJECT (page), "tree_view");
-		if (GTK_TREE_VIEW (tree_view) && maj_reports_list)
-		{
-			GtkTreeModel *model;
-
-			model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
-			etats_onglet_fill_reports_list_model (GTK_LIST_STORE (model));
-			maj_reports_list = FALSE;
-		}
-	}
+	page = gtk_notebook_get_nth_page (notebook, 1);
+	tree_view = g_object_get_data (G_OBJECT (page), "tree_view");
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
+	g_signal_handlers_block_by_func (selection, etats_onglet_click_on_line_report, tree_view);
+	etats_onglet_fill_reports_list_model (GTK_LIST_STORE (model));
+	g_signal_handlers_unblock_by_func (selection, etats_onglet_click_on_line_report, tree_view);
 }
 
 /**
@@ -806,13 +832,19 @@ gboolean etats_onglet_ajoute_etat (void)
 										"customized later."),
 									  _("Choose template for new report"));
 
+	/* on ajoute la frame pour le type de rapport */
     frame = new_paddingbox_with_title (dialog_get_content_area (dialog), FALSE, _("Report type"));
 
     /* combobox for predefined reports */
     combobox = gtk_combo_box_text_new ();
     gtk_box_pack_start (GTK_BOX(frame), combobox, FALSE, FALSE, 0);
 
-    /* on ajoute maintenant la frame */
+	/* set option for displays preferences of report */
+	bouton_no_show_prefs = gtk_check_button_new_with_label (_("Do not show the report preferences"));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (bouton_no_show_prefs), w_run->no_show_prefs);
+    gtk_box_pack_start (GTK_BOX(frame), bouton_no_show_prefs, FALSE, FALSE, MARGIN_BOX);
+
+	/* on ajoute maintenant la frame pour la description */
     frame = new_paddingbox_with_title (dialog_get_content_area (dialog), TRUE, _("Description"));
 
     /* on met le label dans une scrolled window */
@@ -838,10 +870,15 @@ gboolean etats_onglet_ajoute_etat (void)
 	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combobox), _("Monthly outgoings by payee"));
 	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combobox), _("Search"));
 
-
 	/* set first entry and description */
 	gtk_combo_box_set_active (GTK_COMBO_BOX (combobox), 0);
 	etats_onglet_change_choix_nouvel_etat (combobox, label_description);
+
+	/* set signal for bouton_no_show_prefs */
+    g_signal_connect (bouton_no_show_prefs,
+					  "toggled",
+					  G_CALLBACK (etats_onglet_checkbutton_toggled),
+					  &w_run->no_show_prefs);
 
 	/* update description based on selection */
 	g_signal_connect (G_OBJECT (combobox), "changed",
@@ -1013,9 +1050,6 @@ gboolean etats_onglet_ajoute_etat (void)
 			/* Monthly outgoings by payee */
 			report_number = gsb_data_report_new (_("Monthly outgoings by payee"));
 
-			/* set empty report */
-			w_run->empty_report = TRUE;
-
 			/* le classement de base est 1-2-3-4-5-6 (cf structure.h) */
 			etats_onglet_set_classement_base (report_number);
 
@@ -1086,9 +1120,11 @@ gboolean etats_onglet_ajoute_etat (void)
     gsb_gui_navigation_add_report (report_number);
     etats_onglet_update_gui_to_report (report_number);
 
-    etats_config_personnalisation_etat ();
+	if (w_run->no_show_prefs == FALSE)
+		etats_config_personnalisation_etat ();
+
+	etats_onglet_force_fill_reports_list (GTK_NOTEBOOK (notebook_etats));
     gsb_file_set_modified (TRUE);
-	maj_reports_list = TRUE;
 	w_run->empty_report = FALSE;
 
     return FALSE;
@@ -1136,17 +1172,11 @@ GtkWidget *etats_onglet_create_reports_tab (void)
     gtk_notebook_append_page (GTK_NOTEBOOK (notebook_etats), vbox, NULL);
     gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook_etats), 1);
 
-	g_signal_connect (G_OBJECT (notebook_etats),
-					  "switch-page",
-					  G_CALLBACK (etats_onglet_notebook_switch_page),
-					  NULL);
-
     /* création de la barre d'outils */
     reports_toolbar = etats_onglet_create_reports_toolbar ();
     gtk_container_add (GTK_CONTAINER (frame), reports_toolbar);
 
     gtk_widget_show_all (tab);
-	maj_reports_list = FALSE;
 
     return (tab);
 }
@@ -1187,11 +1217,10 @@ void etats_onglet_efface_etat (void)
    /* remove the report */
     /* First update reports list in navigation. */
     gsb_gui_navigation_remove_report (current_report_number);
-
     gsb_data_report_remove (current_report_number);
+	etats_onglet_force_fill_reports_list (GTK_NOTEBOOK (notebook_etats));
 
-    gsb_file_set_modified (TRUE);
-	maj_reports_list = TRUE;
+	gsb_file_set_modified (TRUE);
 }
 
 /**

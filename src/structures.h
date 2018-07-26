@@ -343,7 +343,9 @@ struct _GrisbiWinRun
 	gchar *		prefs_selected_row;							/* memorise l'onglet selectionné du treeview des preferences */
 
 	/* Reports */
-	gboolean 	empty_report;								/* TRUE quand on crée un nouveau rapport */
+	gboolean	no_show_prefs;								/* si VRAI = ne pas montrer les préférences de l'état */
+	gboolean	empty_report;								/* Si VRAI remplace la mise à jour de l'état sélectionné par un état vide */
+															/* permet de gagner du temps exemple état vide et état recherche */
 };
 
 /* structure contenant les variables utilisées par un fichier de compte */
