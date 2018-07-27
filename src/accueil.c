@@ -345,7 +345,7 @@ static void gsb_main_page_affiche_ligne_du_compte (GtkWidget *pTable,
     GtkWidget *pEventBox;
     GtkWidget *pLabel;
     GtkStyleContext* context;
-    GSList *list = NULL;
+    //~ GSList *list = NULL;
 	gchar *tmp_str;
 
     /* Première colonne : elle contient le nom du compte */
@@ -361,7 +361,7 @@ static void gsb_main_page_affiche_ligne_du_compte (GtkWidget *pTable,
     context = gtk_widget_get_style_context  (pEventBox);
     gtk_style_context_set_state (context, GTK_STATE_FLAG_ACTIVE);
 
-    list = g_slist_append (list, pEventBox);
+    //~ list = g_slist_append (list, pEventBox);
     g_signal_connect (G_OBJECT (pEventBox),
                  "enter-notify-event",
                  G_CALLBACK (utils_event_box_change_state),
@@ -412,7 +412,7 @@ static void gsb_main_page_affiche_ligne_du_compte (GtkWidget *pTable,
     context = gtk_widget_get_style_context  (pEventBox);
     gtk_style_context_set_state (context, GTK_STATE_FLAG_ACTIVE);
 
-    list = g_slist_append (list, pEventBox);
+    //~ list = g_slist_append (list, pEventBox);
     g_signal_connect (G_OBJECT (pEventBox),
                  "enter-notify-event",
                  G_CALLBACK (utils_event_box_change_state),
@@ -463,7 +463,7 @@ static void gsb_main_page_affiche_ligne_du_compte (GtkWidget *pTable,
     context = gtk_widget_get_style_context  (pEventBox);
     gtk_style_context_set_state (context, GTK_STATE_FLAG_ACTIVE);
 
-    list = g_slist_append (list, pEventBox);
+    //~ list = g_slist_append (list, pEventBox);
     g_signal_connect (G_OBJECT (pEventBox),
                  "enter-notify-event",
                  G_CALLBACK (utils_event_box_change_state),
@@ -1187,7 +1187,7 @@ static void update_liste_comptes_accueil (gboolean force)
         list_tmp = gsb_data_partial_balance_get_list ();
 
         if (list_tmp)
-            i += affiche_soldes_additionnels (pTable, i, list_tmp);
+            affiche_soldes_additionnels (pTable, i, list_tmp);
     }
 
     gtk_widget_show_all (vbox);

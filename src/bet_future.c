@@ -1545,7 +1545,7 @@ static gboolean bet_future_get_category_data ( GtkWidget *widget,
         else
         {
             category_number = 0;
-            category_number = 0;
+            sub_category_number = 0;
         }
 
         sd -> category_number = category_number;
@@ -1572,7 +1572,7 @@ static gboolean bet_future_get_category_data ( GtkWidget *widget,
         else
         {
             category_number = 0;
-            category_number = 0;
+            sub_category_number = 0;
         }
 
         sd->main_category_number = category_number;
@@ -1600,7 +1600,7 @@ static gboolean bet_future_get_category_data ( GtkWidget *widget,
         else
         {
             category_number = 0;
-            category_number = 0;
+            sub_category_number = 0;
         }
 
         sd->card_category_number = category_number;

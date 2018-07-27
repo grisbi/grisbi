@@ -2187,7 +2187,7 @@ static gboolean gtk_combofix_select_item ( GtkComboFix *combofix,
     g_free ( tmp_item );
 
     if ( result == 0 )
-        result = gtk_tree_model_get_iter_first ( model, &iter );
+        gtk_tree_model_get_iter_first ( model, &iter );
 
     gtk_tree_selection_select_iter ( priv -> selection, &iter );
     path = gtk_tree_model_get_path ( model, &iter );

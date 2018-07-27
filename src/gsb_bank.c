@@ -428,7 +428,7 @@ static gboolean gsb_bank_list_changed ( GtkWidget *combobox,
     }
 
     /* asked to add a new bank */
-    bank_number = gsb_bank_edit_bank ( bank_number, combobox );
+    gsb_bank_edit_bank ( bank_number, combobox );
 
     return FALSE;
 }

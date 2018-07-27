@@ -1753,8 +1753,6 @@ void bet_historical_g_signal_block_tree_view ( void )
 
     cell = g_object_get_data ( G_OBJECT ( account_page ), "toggle_cell" );
     g_signal_handlers_block_by_func ( cell, bet_historical_div_toggle_clicked, tree_model );
-
-    cell = g_object_get_data ( G_OBJECT ( account_page ), "edited_cell" );
     g_signal_handlers_block_by_func ( tree_view, bet_historical_button_press, NULL );
 }
 
@@ -1782,8 +1780,6 @@ void bet_historical_g_signal_unblock_tree_view ( void )
     cell = g_object_get_data ( G_OBJECT ( account_page ), "toggle_cell" );
 
     g_signal_handlers_unblock_by_func ( cell, bet_historical_div_toggle_clicked, tree_model );
-
-    cell = g_object_get_data ( G_OBJECT ( account_page ), "edited_cell" );
     g_signal_handlers_unblock_by_func ( tree_view, bet_historical_button_press, NULL );
 }
 

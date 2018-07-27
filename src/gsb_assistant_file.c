@@ -354,10 +354,10 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
 #endif
 
     /* date format */
-    paddingbox = gsb_config_date_format_chosen ( vbox, GTK_ORIENTATION_HORIZONTAL );
+    gsb_config_date_format_chosen ( vbox, GTK_ORIENTATION_HORIZONTAL );
 
     /* decimal and thousands separator */
-    paddingbox = gsb_config_number_format_chosen ( vbox, GTK_ORIENTATION_HORIZONTAL );
+    gsb_config_number_format_chosen ( vbox, GTK_ORIENTATION_HORIZONTAL );
 
     /* Address */
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Your address") );

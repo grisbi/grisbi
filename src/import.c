@@ -860,7 +860,7 @@ static GtkWidget *gsb_import_cree_ligne_recapitulatif (struct ImportAccount *com
             gsb_currency_set_combobox_history (compte->bouton_devise,
                         currency_number);
         else
-            currency_number = gsb_import_add_currency (compte);
+            gsb_import_add_currency (compte);
     }
 
     gtk_box_pack_start (GTK_BOX (hbox), compte->bouton_devise, FALSE, FALSE, 0);
@@ -3523,9 +3523,6 @@ static gboolean gsb_import_click_dialog_ope_orphelines (GtkWidget *dialog,
     {
         case GTK_RESPONSE_ACCEPT:
         /* on coche toutes les cases des opérations */
-        liste_opes_import_celibataires = g_object_get_data (
-                        G_OBJECT (liste_ope_celibataires),
-                        "liste_ope");
 	    model = gtk_tree_view_get_model (GTK_TREE_VIEW (liste_ope_celibataires));
 	    if (gtk_tree_model_get_iter_first (GTK_TREE_MODEL (model), &iter))
         {

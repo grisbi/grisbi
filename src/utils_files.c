@@ -183,7 +183,7 @@ static gboolean utils_files_charmap_active_toggled (GtkCellRendererToggle *cell,
 													gpointer model)
 {
     GtkWidget *dialog;
-    GtkTreePath *path = gtk_tree_path_new_from_string (path_str);
+    GtkTreePath *path;
     GtkTreePath *tmp_path;
     GtkTreeIter iter;
     gchar *enc;
@@ -194,7 +194,7 @@ static gboolean utils_files_charmap_active_toggled (GtkCellRendererToggle *cell,
     dialog = g_object_get_data (G_OBJECT (model), "dialog");
 
     gtk_dialog_set_response_sensitive   (GTK_DIALOG (dialog), GTK_RESPONSE_OK, FALSE);
-    tmp_path = gtk_tree_path_new_first ();
+	path = gtk_tree_path_new_from_string (path_str);
     valid = gtk_tree_model_get_iter_first (GTK_TREE_MODEL (model), &iter);
     while (valid)
     {

@@ -2143,7 +2143,7 @@ void bet_graph_line_graph_new ( GtkWidget *button,
     gtk_widget_show_all ( dialog );
     gtk_notebook_set_current_page ( self->notebook, 0 );
 
-    result = gtk_dialog_run ( GTK_DIALOG ( dialog ) );
+    gtk_dialog_run ( GTK_DIALOG ( dialog ) );
 
     /* free the data */
     struct_free_bet_graph_data ( self );
@@ -2277,7 +2277,7 @@ void bet_graph_montly_graph_new ( GtkWidget *button,
     gtk_widget_show_all ( dialog );
     gtk_notebook_set_current_page ( self->notebook, 0 );
 
-    result = gtk_dialog_run ( GTK_DIALOG ( dialog ) );
+    gtk_dialog_run ( GTK_DIALOG ( dialog ) );
 
     /* free the data */
     g_object_unref ( G_OBJECT ( bet_graph_builder ) );

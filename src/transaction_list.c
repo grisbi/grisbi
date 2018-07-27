@@ -2124,8 +2124,6 @@ gint transaction_list_set_color_jour ( gint account_number )
                         if ( i >= 0 )
                             record = custom_list -> visibles_rows[i];
                     }
-                    /* on se positionne sur la première ligne */
-                    record = custom_list -> visibles_rows[0];
 					g_date_free (date_jour);
 
 					return transaction_number;

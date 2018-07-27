@@ -607,7 +607,6 @@ static gboolean popup_transaction_view_mode_menu (GtkWidget *button,
     gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item_3);
 
     menu_item = gtk_radio_menu_item_new_with_label (group, _("Complete view"));
-    group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (menu_item));
     if (nb_rows_by_transaction == 4)
         gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (menu_item), TRUE);
     gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
@@ -3587,7 +3586,6 @@ gboolean gsb_transactions_list_change_sort_column (GtkTreeViewColumn *tree_view_
         if (new_element != element_number)
         {
             gsb_data_account_set_element_sort (account_number, new_column, new_element);
-            element_number = new_element;
         }
         /* we sort by another column, so sort type by default is descending */
         sort_type = GTK_SORT_ASCENDING;
