@@ -374,6 +374,7 @@ static void prefs_page_import_asso_del_assoc (GtkWidget *button,
 		gtk_combofix_set_text (GTK_COMBOFIX (priv->combo_import_asso_payee), "");
 		gtk_entry_set_text (GTK_ENTRY (priv->entry_import_asso_search_string), "");
 		prefs_page_import_asso_fill_model (GTK_LIST_STORE (model));
+		utils_set_list_store_background_color (priv->treeview_import_asso, ASSO_BACKGROUND_COLOR);
 		utils_prefs_gsb_file_set_modified ();
     }
 }
@@ -428,6 +429,7 @@ static void prefs_page_import_asso_add_assoc (GtkWidget *button,
 		gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (priv->treeview_import_asso), path_selected, NULL, FALSE, 0,0);
 		gtk_tree_path_free (path_selected);
 		path_selected = NULL;
+		utils_set_list_store_background_color (priv->treeview_import_asso, ASSO_BACKGROUND_COLOR);
 
 		utils_prefs_gsb_file_set_modified ();
 	}
