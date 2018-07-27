@@ -93,11 +93,9 @@ typedef struct _GrisbiWinRun			GrisbiWinRun;
 
 /** structure etat
  * variables contenant juste 0 ou 1
- * FIXME : scinder cette structure en 3 parties :
- * la partie configurée par le fichier
- * la partie configurée par la conf
- * la partie configurée pendant le fonctionnement de grisbi
- * */
+ * configurées par le fichier
+ *
+ **/
 struct _GrisbiWinEtat
 {
     gint		is_archive;									/** TRUE if the file is an archive, FALSE else */
@@ -200,7 +198,7 @@ struct _GrisbiWinEtat
 
 /** structure conf
  * variables containing just 0 or 1
- * configured by the file grisbi.conf
+ * configured by gsettings
  *
  */
 struct GrisbiAppConf
@@ -304,7 +302,6 @@ struct GrisbiAppConf
  * générées pendant l'exécution du programme
  *
  */
-
 struct _GrisbiWinRun
 {
     /* main window of grisbi */
