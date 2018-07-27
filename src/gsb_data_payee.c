@@ -59,6 +59,8 @@ typedef struct
     gchar *payee_name;
     gchar *payee_description;
     gchar *payee_search_string;
+	gint ignore_case;
+	gint use_regex;
 
     gint payee_nb_transactions;
     gsb_real payee_balance;
@@ -1022,6 +1024,87 @@ gint gsb_data_payee_get_unused_payees (void)
     return nb_unused;
 }
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+gint gsb_data_payee_get_ignore_case (gint no_payee)
+{
+    struct_payee *payee;
+
+    payee = gsb_data_payee_get_structure (no_payee);
+
+    if (!payee)
+		return 0;
+
+    return payee->ignore_case;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+gboolean gsb_data_payee_set_ignore_case (gint no_payee,
+										 gint ignore_case)
+{
+    struct_payee *payee;
+
+    payee = gsb_data_payee_get_structure (no_payee);
+
+    if (!payee)
+		return FALSE;
+
+    payee->ignore_case = ignore_case;
+
+	return TRUE;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+gint gsb_data_payee_get_use_regex (gint no_payee)
+{
+    struct_payee *payee;
+
+    payee = gsb_data_payee_get_structure (no_payee);
+
+    if (!payee)
+		return 0;
+
+    return payee->use_regex;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+gboolean gsb_data_payee_set_use_regex (gint no_payee,
+									   gint use_regex)
+{
+    struct_payee *payee;
+
+    payee = gsb_data_payee_get_structure (no_payee);
+
+    if (!payee)
+		return FALSE;
+
+    payee->use_regex = use_regex;
+
+	return TRUE;
+}
 
 /**
  *

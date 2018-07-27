@@ -338,6 +338,11 @@ struct _GrisbiWinRun
     gboolean	mise_a_jour_soldes_minimaux;
     gboolean	mise_a_jour_fin_comptes_passifs;
 
+	/* payees: variables pour les associations de tiers */
+	gboolean 	import_asso_case_insensitive;				/* TRUE = ne tient pas compte de la casse */
+	gboolean	import_asso_use_regex;						/* TRUE = la chaine de recherche est une expression régulière */
+	gboolean	import_asso_replace_rule;					/* TRUE = remplacela règle existante */
+
 	/* prefs */
 	gboolean	prefs_expand_tree;							/* memorise le choix du bouton expand collapse du treeview des preferences */
 	gchar *		prefs_selected_row;							/* memorise l'onglet selectionné du treeview des preferences */

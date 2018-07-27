@@ -1499,11 +1499,13 @@ gulong gsb_file_save_party_part ( gulong iterator,
         }
 
         new_string = g_markup_printf_escaped (
-                            "\t<Party Nb=\"%d\" Na=\"%s\" Txt=\"%s\" Search=\"%s\" />\n",
+                            "\t<Party Nb=\"%d\" Na=\"%s\" Txt=\"%s\" Search=\"%s\" IgnCase=\"%d\" UseRegex=\"%d\" />\n",
                             payee_number,
                             my_safe_null_str(gsb_data_payee_get_name (payee_number, TRUE )),
                             my_safe_null_str(gsb_data_payee_get_description (payee_number)),
-                            my_safe_null_str(gsb_data_payee_get_search_string (payee_number) ));
+                            my_safe_null_str(gsb_data_payee_get_search_string (payee_number)),
+							gsb_data_payee_get_ignore_case (payee_number),
+							gsb_data_payee_get_use_regex (payee_number));
 
         /* append the new string to the file content
          * and take the new iterator */

@@ -64,6 +64,8 @@ struct _PrefsPageImportAssoPrivate
 	GtkWidget *			entry_import_asso_search_string;
     GtkWidget *         button_import_asso_add;
     GtkWidget *         button_import_asso_remove;
+	GtkWidget *			checkbutton_import_asso_case_insensitive;
+	GtkWidget *			checkbutton_import_asso_use_regex;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageImportAsso, prefs_page_import_asso, GTK_TYPE_BOX)
@@ -393,6 +395,8 @@ static void prefs_page_import_asso_add_assoc (GtkWidget *button,
     gchar *payee = NULL;
     gchar *search_str = NULL;
     gint payee_number;
+	gint ignore_case = 0;
+	gint use_regex = 0;
 	gboolean result = FALSE;
 	static gboolean etat = FALSE;
 	PrefsPageImportAssoPrivate *priv;
@@ -415,7 +419,7 @@ static void prefs_page_import_asso_add_assoc (GtkWidget *button,
     payee_number = gsb_data_payee_get_number_by_name  (payee, TRUE);
 	g_free(payee);
 
-	result = gsb_import_associations_add_assoc (payee_number, search_str);
+	result = gsb_import_associations_add_assoc (payee_number, search_str, ignore_case, use_regex);
 	if (result)
 	{
 		GtkTreeModel *model;
@@ -520,11 +524,13 @@ static void prefs_page_import_asso_setup_treeview_asso (PrefsPageImportAsso *pag
 static void prefs_page_import_asso_setup_import_asso_page (PrefsPageImportAsso *page)
 {
 	GSList *tmp_list;
+	GrisbiWinRun *w_run;
 	PrefsPageImportAssoPrivate *priv;
 
 	devel_debug (NULL);
 
 	priv = prefs_page_import_asso_get_instance_private (page);
+	w_run = grisbi_win_get_w_run ();
 
     /* set signal button "Add" */
     g_signal_connect (G_OBJECT (priv->button_import_asso_add),
@@ -547,7 +553,8 @@ static void prefs_page_import_asso_setup_import_asso_page (PrefsPageImportAsso *
 
     gtk_combofix_set_force_text (GTK_COMBOFIX (priv->combo_import_asso_payee),FALSE);
     gtk_combofix_set_max_items (GTK_COMBOFIX (priv->combo_import_asso_payee), etat.combofix_max_item);
-    gtk_combofix_set_case_sensitive (GTK_COMBOFIX (priv->combo_import_asso_payee), etat.combofix_case_sensitive);
+    gtk_combofix_set_case_sensitive (GTK_COMBOFIX (priv->combo_import_asso_payee),
+									 !w_run->import_asso_case_insensitive);
     gtk_grid_attach (GTK_GRID (priv->grid_import_asso_details), priv->combo_import_asso_payee, 1, 0, 1, 1);
     g_signal_connect (G_OBJECT (GTK_COMBOFIX (priv->combo_import_asso_payee)->entry),
                         "changed",
@@ -562,6 +569,22 @@ static void prefs_page_import_asso_setup_import_asso_page (PrefsPageImportAsso *
 							  "changed",
 							  G_CALLBACK (prefs_page_import_asso_check_add_button),
 							  page);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_import_asso_case_insensitive),
+								  w_run->import_asso_case_insensitive);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_import_asso_use_regex),
+								  w_run->import_asso_use_regex);
+
+	/* Connect signal checkbutton_import_asso_case_insensitive */
+    g_signal_connect (priv->checkbutton_import_asso_case_insensitive,
+					  "toggled",
+					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
+					  &w_run->import_asso_case_insensitive);
+
+	/* Connect signal checkbutton_import_asso_case_insensitive */
+    g_signal_connect (priv->checkbutton_import_asso_use_regex,
+					  "toggled",
+					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
+					  &w_run->import_asso_use_regex);
 
 	/* setup treeview_associations */
 	prefs_page_import_asso_setup_treeview_asso (page);
@@ -620,6 +643,8 @@ static void prefs_page_import_asso_class_init (PrefsPageImportAssoClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageImportAsso, entry_import_asso_search_string);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageImportAsso, button_import_asso_add);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageImportAsso, button_import_asso_remove);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageImportAsso, checkbutton_import_asso_case_insensitive);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageImportAsso, checkbutton_import_asso_use_regex);
 }
 
 /******************************************************************************/

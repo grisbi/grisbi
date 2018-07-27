@@ -184,7 +184,7 @@ static gint gsb_import_associations_find_payee (gchar *imported_tiers)
         struct ImportPayeeAsso *assoc;
 
         assoc = tmp_list->data;
-        if (gsb_string_is_trouve (imported_tiers, assoc->search_str))
+        if (gsb_string_is_trouve (imported_tiers, assoc->search_str, assoc->ignore_case, assoc->use_regex))
         {
            return assoc->payee_number;
         }
@@ -248,7 +248,9 @@ void gsb_import_associations_init_variables (void)
  * \return
  **/
 gboolean gsb_import_associations_add_assoc (gint payee_number,
-											const gchar *search_str)
+											const gchar *search_str,
+											gint ignore_case,
+											gint use_regex)
 {
 	struct ImportPayeeAsso *assoc;
 	gboolean result = FALSE;
@@ -262,12 +264,16 @@ gboolean gsb_import_associations_add_assoc (gint payee_number,
 	assoc = g_malloc (sizeof (struct ImportPayeeAsso));
 	assoc->payee_number = payee_number;
 	assoc->search_str = g_strdup (search_str);
+	assoc->ignore_case = ignore_case;
+	assoc->use_regex = use_regex;
 
     /* add association in liste_associations_tiers */
     if (g_slist_length (liste_associations_tiers) == 0)
     {
         liste_associations_tiers = g_slist_append (liste_associations_tiers, assoc);
         gsb_data_payee_set_search_string (assoc->payee_number, assoc->search_str);
+		gsb_data_payee_set_ignore_case (assoc->payee_number,assoc->ignore_case);
+		gsb_data_payee_set_use_regex (assoc->payee_number,assoc->use_regex);
 
 		result = TRUE;
     }
@@ -281,6 +287,8 @@ gboolean gsb_import_associations_add_assoc (gint payee_number,
 															  assoc,
 															  (GCompareFunc) gsb_import_associations_cmp_assoc);
             gsb_data_payee_set_search_string (assoc->payee_number, assoc->search_str);
+			gsb_data_payee_set_ignore_case (assoc->payee_number,assoc->ignore_case);
+			gsb_data_payee_set_use_regex (assoc->payee_number,assoc->use_regex);
 
 			result = TRUE;
         }
@@ -351,19 +359,12 @@ void gsb_import_associations_remove_assoc (gint payee_number)
  * \return
  **/
 gint gsb_import_associations_list_append_assoc (gint payee_number,
-												const gchar *search_str)
+												struct ImportPayeeAsso *assoc)
 {
-    struct ImportPayeeAsso *assoc;
-
-    assoc = g_malloc (sizeof (struct ImportPayeeAsso));
-    assoc->payee_number = payee_number;
-    assoc->search_str = g_strdup (search_str);
-
-    if (!g_slist_find_custom (liste_associations_tiers,
+     if (!g_slist_find_custom (liste_associations_tiers,
 							   assoc,
 							  (GCompareFunc) gsb_import_associations_cmp_assoc))
-        liste_associations_tiers = g_slist_insert_sorted (
-                        liste_associations_tiers,
+        liste_associations_tiers = g_slist_insert_sorted (liste_associations_tiers,
 														  assoc,
 														  (GCompareFunc) gsb_import_associations_cmp_assoc);
 
