@@ -1124,7 +1124,6 @@ static GtkWidget *gsb_assistant_payees_page_2 ( GtkWidget *assistant )
     GtkWidget *entry;
     GtkWidget *paddingbox;
     GtkWidget *check_option;
-
     gchar *texte;
 	GrisbiWinRun *w_run;
 

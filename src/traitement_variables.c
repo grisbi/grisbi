@@ -130,9 +130,6 @@ void init_variables ( void )
 
     devel_debug (NULL);
 
-    /* init the new crypted file */
-    run.new_crypted_file = FALSE;
-
     /* initialise l'ordre des pages du panneau de gauche */
     gsb_gui_navigation_init_pages_list ( );
 

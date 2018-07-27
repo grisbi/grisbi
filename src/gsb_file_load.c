@@ -258,7 +258,7 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
                     etat.combofix_force_category = utils_str_atoi( attribute_values[i]);
 
                 else if ( !strcmp ( attribute_names[i], "Crypt_file" ))
-                    etat.crypt_file = utils_str_atoi (attribute_values[i]);
+                    w_etat->crypt_file = utils_str_atoi (attribute_values[i]);
 
                 else if ( !strcmp ( attribute_names[i], "CSV_force_date_valeur_with_date" ))
                     etat.csv_force_date_valeur_with_date = utils_str_atoi( attribute_values[i]);

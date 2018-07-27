@@ -103,12 +103,14 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
 {
 	GtkWidget *head_page;
 	gboolean is_loading;
+	GrisbiWinEtat *w_etat;
 	PrefsPageFilesPrivate *priv;
 
 	devel_debug (NULL);
 
 	priv = prefs_page_files_get_instance_private (page);
 	is_loading = grisbi_win_file_is_loading ();
+	w_etat = grisbi_win_get_w_etat ();
 
 	/* On récupère le nom de la page */
 	head_page = utils_prefs_head_page_new_with_title_and_icon (_("Files"), "gsb-files-32.png");
@@ -125,7 +127,7 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_compress_file),
 								  conf.compress_file);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_crypt_file),
-								  etat.crypt_file);
+								  w_etat->crypt_file);
 	gtk_widget_set_sensitive (priv->checkbutton_crypt_file, is_loading);
 
 	/* set the max number of files */
@@ -177,7 +179,7 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
 	g_signal_connect (priv->checkbutton_crypt_file,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
-					  &etat.crypt_file);
+					  &w_etat->crypt_file);
 
 	g_signal_connect (priv->eventbox_crypt_file,
                       "button-press-event",

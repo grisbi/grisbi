@@ -268,8 +268,10 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
     GtkWidget *table;
     GtkWidget *filename_entry;
 	GrisbiWinEtat *w_etat;
+	GrisbiWinRun *w_run;
 
-	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
+	w_etat = grisbi_win_get_w_etat ();
+	w_run = grisbi_win_get_w_run ();
 
     page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 15 );
     gtk_container_set_border_width ( GTK_CONTAINER (page), BOX_BORDER_WIDTH );
@@ -335,17 +337,19 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
     /* will we crypt the file ? */
 #ifdef HAVE_SSL
     {
-        button = gsb_automem_checkbutton_new ( _("Encrypt Grisbi file"),
-                                               &(etat.crypt_file), G_CALLBACK (gsb_gui_encryption_toggled), NULL);
+        button = gsb_automem_checkbutton_new (_("Encrypt Grisbi file"),
+											  &w_etat->crypt_file,
+											  G_CALLBACK (gsb_gui_encryption_toggled),
+											  NULL);
         gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
                              FALSE, FALSE, 0 );
 
-        if ( etat.crypt_file )
-            run.new_crypted_file = TRUE;
+        if (w_etat->crypt_file )
+            w_run->new_crypted_file = TRUE;
     }
 #else
     {
-        run.new_crypted_file = FALSE;
+        w_run->new_crypted_file = FALSE;
     }
 #endif
 

@@ -198,7 +198,11 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
     gchar *text;
     GtkWidget *hbox;
     GtkWidget *dialog;
+	GrisbiWinEtat *w_etat;
+	GrisbiWinRun *w_run;
 
+	w_etat = grisbi_win_get_w_etat ();
+	w_run = grisbi_win_get_w_run ();
     page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
     gtk_container_set_border_width ( GTK_CONTAINER (page), BOX_BORDER_WIDTH );
 
@@ -248,17 +252,19 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
     /* Automatic backup ? */
 #ifdef HAVE_SSL
     {
-        button = gsb_automem_checkbutton_new ( _("Encrypt Grisbi file"),
-                                               &(etat.crypt_file), G_CALLBACK (gsb_gui_encryption_toggled), NULL);
+        button = gsb_automem_checkbutton_new (_("Encrypt Grisbi file"),
+											  &w_etat->crypt_file,
+											  G_CALLBACK (gsb_gui_encryption_toggled),
+											  NULL);
         gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
                              FALSE, FALSE, 0 );
 
-        if ( etat.crypt_file )
-            run.new_crypted_file = TRUE;
+        if ( w_etat->crypt_file )
+            w_run->new_crypted_file = TRUE;
     }
 #else
     {
-        run.new_crypted_file = FALSE;
+        w_run->new_crypted_file = FALSE;
     }
 #endif
     button = gsb_automem_checkbutton_new (_("Make a backup copy before saving files"),
