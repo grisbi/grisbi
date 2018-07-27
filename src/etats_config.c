@@ -1766,6 +1766,20 @@ static void etats_config_onglet_texte_sensitive_hbox_fonction_bouton_txt ( gint 
 }
 
 /**
+ * fixes error [-Werror=cast-function-type]
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void etats_config_onglet_texte_montant_gtk_callback (GtkWidget *widget,
+													gpointer null)
+{
+	gtk_widget_destroy (widget);
+}
+
+/**
  * remplit la liste des comparaisons de texte
  *
  * \param report_number
@@ -1781,7 +1795,7 @@ static void etats_config_onglet_texte_remplit_liste_comparaisons ( gint report_n
 
     /* on commence par effacer les anciennes lignes */
     lignes = etats_prefs_widget_get_widget_by_name ( "liste_textes_etat", NULL );
-    gtk_container_foreach ( GTK_CONTAINER ( lignes ), ( GtkCallback ) gtk_widget_destroy, NULL );
+    gtk_container_foreach (GTK_CONTAINER (lignes), (GtkCallback) etats_config_onglet_texte_montant_gtk_callback, NULL);
 
     tmp_list = gsb_data_report_get_text_comparison_list ( report_number );
     /*   s'il n'y a rien dans la liste, on met juste une row vide */
@@ -2262,7 +2276,7 @@ static void etats_config_onglet_montants_remplit_liste_comparaisons ( gint repor
 
     /* on commence par effacer les anciennes lignes */
     lignes = etats_prefs_widget_get_widget_by_name ( "liste_montants_etat", NULL );
-    gtk_container_foreach ( GTK_CONTAINER ( lignes ), ( GtkCallback ) gtk_widget_destroy, NULL );
+    gtk_container_foreach (GTK_CONTAINER (lignes), (GtkCallback) etats_config_onglet_texte_montant_gtk_callback, NULL);
 
     list_tmp = gsb_data_report_get_amount_comparison_list ( report_number );
     /*   s'il n'y a rien dans la liste, on met juste une row vide */
