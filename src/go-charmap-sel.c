@@ -371,7 +371,7 @@ cs_emphasize_label (GtkLabel *label)
 }
 
 static void
-cs_init (GOCharmapSel *cs)
+cs_init (GOCharmapSel *cs, void *ptr)
 {
 	cs->test = GO_CHARMAP_SEL_TO_UTF8;
 
