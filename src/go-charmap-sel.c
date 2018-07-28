@@ -459,7 +459,7 @@ cs_build_menu (GOCharmapSel *cs)
 }
 
 static void
-cs_class_init (GtkWidgetClass *widget_klass)
+cs_class_init (GtkWidgetClass *widget_klass, void *ptr)
 {
 	CharsetInfo *ci;
 	size_t i;
