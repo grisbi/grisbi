@@ -1741,6 +1741,14 @@ gboolean import_enter_csv_preview_page (GtkWidget *assistant)
     return FALSE;
 }
 
+/*
+ * use an extra parameter to be of type GCopyFunc ()
+ */
+static gpointer my_strdup_null(gconstpointer src, gpointer data)
+{
+	return g_strdup(src);
+}
+
 /**
  *
  *
@@ -1756,7 +1764,7 @@ GSList *csv_import_get_columns_list	(GtkWidget *assistant)
 
 	lines_tab = g_object_get_data (G_OBJECT(assistant), "lines-tab");
 	tmp_list = g_array_index (lines_tab, GSList *, first_line_with_cols);
-	list = g_slist_copy_deep (tmp_list, (GCopyFunc) g_strdup, NULL);
+	list = g_slist_copy_deep (tmp_list, my_strdup_null, NULL);
 
 	return list;
 }
