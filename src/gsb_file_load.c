@@ -2150,7 +2150,6 @@ static  void gsb_file_load_party ( const gchar **attribute_names,
 			assoc = g_malloc (sizeof (struct ImportPayeeAsso));
 			assoc->payee_number = payee_number;
 			assoc->search_str = g_strdup (attribute_values[i]);
-			printf ("assoc->search_str = %s\n", assoc->search_str);
         }
         i++;
         continue;
