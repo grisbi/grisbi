@@ -444,7 +444,7 @@ go_option_menu_class_init (GOOptionMenuClass *class, gpointer class_data)
 }
 
 static void
-go_option_menu_init (GOOptionMenu *option_menu)
+go_option_menu_init (GOOptionMenu *option_menu, gpointer g_class)
 {
 	GtkBox *box;
 	GtkWidget *arrow, *sep;
