@@ -1984,6 +1984,14 @@ void gsb_gui_navigation_init_pages_list ( void )
 }
 
 
+/*
+ * use an extra parameter to be of type GFunc ()
+ */
+static void my_g_free_null (gpointer data, gpointer user_data)
+{
+	g_free(data);
+}
+
 /**
  *
  *
@@ -1991,7 +1999,7 @@ void gsb_gui_navigation_init_pages_list ( void )
  */
 void gsb_gui_navigation_clear_pages_list ( void )
 {
-    g_queue_foreach ( pages_list, (GFunc) g_free, NULL );
+    g_queue_foreach ( pages_list, my_g_free_null, NULL );
     g_queue_clear ( pages_list );
 }
 
