@@ -1312,9 +1312,21 @@ gboolean bet_data_future_add_lines ( FuturData *scheduled )
             key = bet_data_get_key ( scheduled -> account_number, future_number );
 
             if ( mother_row == future_number )
+			{
+				if (new_sch)
+					struct_free_bet_future (new_sch);
                 new_sch = scheduled;
+			}
             else
-                new_sch -> mother_row = mother_row;
+			{
+				if (new_sch)
+					new_sch -> mother_row = mother_row;
+				else
+				{
+					g_date_free (date_max);
+					return FALSE;
+				}
+			}
 
             new_sch -> number = future_number;
             g_hash_table_insert ( bet_future_list, key, new_sch );
@@ -1324,8 +1336,10 @@ gboolean bet_data_future_add_lines ( FuturData *scheduled )
                 break;
             future_number ++;
             new_sch = bet_data_future_copy_struct ( scheduled );
-            new_sch -> date = date;
+			new_sch -> date = date;
         }
+		if (new_sch)
+			struct_free_bet_future (new_sch);
         g_date_free ( date_max );
     }
 

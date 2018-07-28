@@ -2163,11 +2163,11 @@ gsb_real bet_finance_get_loan_amount_at_date (gint scheduled_number,
 //~ printf ("transaction_mother = %d mother_number = %d\n", transaction_mother, mother_number);
 		if (transaction_mother == mother_number)
 		{
-			if (scheduled_number == mother_number+1)
+			if (scheduled_number == mother_number+1 && (s_amortissement && s_amortissement->principal))
 				amount = gsb_real_opposite (gsb_real_double_to_real (s_amortissement->principal));
-			else if (scheduled_number == mother_number+2)
+			else if (scheduled_number == mother_number+2  && (s_amortissement && s_amortissement->interets))
 				amount = gsb_real_opposite (gsb_real_double_to_real (s_amortissement->interets));
-			else if (scheduled_number == mother_number+3)
+			else if (scheduled_number == mother_number+3  && (s_amortissement && s_amortissement->frais))
 				amount = gsb_real_opposite (gsb_real_double_to_real (s_amortissement->frais));
 //~ printf ("amount = %s\n", utils_real_get_string (amount));
 		}

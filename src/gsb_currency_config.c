@@ -1429,13 +1429,13 @@ gboolean gsb_currency_config_select_default (GtkTreeModel *tree_model,
 		{
 			good = TRUE;
 		}
-		g_free (symbol);
     }
     else
     {
 		symbol = country;
 		if (!strcmp (symbol, _("United States")))
 		{
+			symbol = g_strdup ("USD");
 			good = TRUE;
 		}
     }
@@ -1444,9 +1444,10 @@ gboolean gsb_currency_config_select_default (GtkTreeModel *tree_model,
     {
 		gchar*tmp_str;
 
-		tmp_str = g_strdup_printf ("found '%s'", locale->int_curr_symbol);
+		tmp_str = g_strdup_printf ("found '%s'", symbol);
 		devel_debug (tmp_str);
 		g_free (tmp_str);
+		g_free (symbol);
 		gtk_tree_selection_select_path (gtk_tree_view_get_selection (tree_view), path);
 		gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (tree_view), path, NULL, TRUE, GSB_CENTER, 0);
 
