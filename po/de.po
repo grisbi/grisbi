@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-07-27 20:02+0200\n"
-"PO-Revision-Date: 2018-07-12 22:13+0100\n"
+"PO-Revision-Date: 2018-07-29 23:19+0100\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -2012,13 +2012,13 @@ msgstr "Die Logdatei konnte nicht erstellt werden..."
 #: ../src/etats_affiche.c:660 ../src/etats_affiche.c:768
 #, c-format
 msgid "Total %s (%d transaction)"
-msgstr "Gesamt %s (%d Buchung)"
+msgstr "%s gesamt (%d Buchung)"
 
 #: ../src/etats_affiche.c:202 ../src/etats_affiche.c:437
 #: ../src/etats_affiche.c:662 ../src/etats_affiche.c:770
 #, c-format
 msgid "Total %s (%d transactions)"
-msgstr "Gesamt %s (%d Buchungen)"
+msgstr "%s gesamt (%d Buchungen)"
 
 #: ../src/etats_affiche.c:206 ../src/etats_affiche.c:441
 #: ../src/etats_affiche.c:666
@@ -2028,16 +2028,16 @@ msgstr "Gesamt "
 #: ../src/etats_affiche.c:214
 #, c-format
 msgid "Category total (%d transaction): "
-msgstr "Kategorien gesamt (%d Buchung): "
+msgstr "Kategorien gesamt (%d Buchung) "
 
 #: ../src/etats_affiche.c:216
 #, c-format
 msgid "Category total (%d transactions): "
-msgstr "Kategorien gesamt (%d Buchungen): "
+msgstr "Kategorien gesamt (%d Buchungen) "
 
 #: ../src/etats_affiche.c:220
 msgid "Category total: "
-msgstr "Kategorien gesamt: "
+msgstr "Kategorien gesamt "
 
 #: ../src/etats_affiche.c:244 ../src/etats_affiche.c:364
 #: ../src/etats_affiche.c:477 ../src/etats_affiche.c:593
@@ -2057,154 +2057,154 @@ msgstr "%s (%d Buchungen)"
 #: ../src/etats_affiche.c:322 ../src/etats_affiche.c:548
 #, c-format
 msgid "Total %s: %s (%d transaction): "
-msgstr "Gesamt %s: %s (%d Buchung): "
+msgstr "%s gesamt %s (%d Buchung) "
 
 #: ../src/etats_affiche.c:324 ../src/etats_affiche.c:550
 #, c-format
 msgid "Total %s: %s (%d transactions): "
-msgstr "Gesamt %s: %s (%d Buchungen): "
+msgstr "%s gesamt %s (%d Buchungen) "
 
 #: ../src/etats_affiche.c:329 ../src/etats_affiche.c:555
 #, c-format
 msgid "Total %s: %s"
-msgstr "Gesamt %s: %s"
+msgstr "%s gesamt %s"
 
 #: ../src/etats_affiche.c:337
 #, c-format
 msgid "Sub-categories total (%d transaction): "
-msgstr "Unterkategorien gesamt (%d Buchung): "
+msgstr "Unterkategorien gesamt (%d Buchung) "
 
 #: ../src/etats_affiche.c:339
 #, c-format
 msgid "Sub-categories total (%d transactions): "
-msgstr "Unterkategorien gesamt (%d Buchungen): "
+msgstr "Unterkategorien gesamt (%d Buchungen) "
 
 #: ../src/etats_affiche.c:343
 msgid "Sub-categories total: "
-msgstr "Unterkategorien gesamt: "
+msgstr "Unterkategorien gesamt "
 
 #: ../src/etats_affiche.c:449
 #, c-format
 msgid "Budgetary lines total: (%d transaction): "
-msgstr "Gruppen gesamt: (%d Buchung): "
+msgstr "Gruppen gesamt (%d Buchung) "
 
 #: ../src/etats_affiche.c:451
 #, c-format
 msgid "Budgetary lines total: (%d transactions): "
-msgstr "Gruppen gesamt: (%d Buchungen): "
+msgstr "Gruppen gesamt (%d Buchungen) "
 
 #: ../src/etats_affiche.c:455
 msgid "Budgetary lines total: "
-msgstr "Gruppen gesamt: "
+msgstr "Gruppen gesamt "
 
 #: ../src/etats_affiche.c:563
 #, c-format
 msgid "Sub-budgetary lines total: (%d transaction): "
-msgstr "Untergruppen gesamt: (%d Buchung): "
+msgstr "Untergruppen gesamt (%d Buchung) "
 
 #: ../src/etats_affiche.c:565
 #, c-format
 msgid "Sub-budgetary lines total: (%d transactions): "
-msgstr "Untergruppen gesamt: (%d Buchungen): "
+msgstr "Untergruppen gesamt (%d Buchungen) "
 
 #: ../src/etats_affiche.c:569
 msgid "Sub-budgetary lines total: "
-msgstr "Untergruppen gesamt: "
+msgstr "Untergruppen gesamt "
 
 #: ../src/etats_affiche.c:674
 #, c-format
 msgid "Account total: (%d transaction): "
-msgstr "Konto gesamt: (%d Buchung): "
+msgstr "Konto gesamt (%d Buchung) "
 
 #: ../src/etats_affiche.c:676
 #, c-format
 msgid "Account total: (%d transactions): "
-msgstr "Konto gesamt: (%d Buchungen): "
+msgstr "Konto gesamt (%d Buchungen) "
 
 #: ../src/etats_affiche.c:680
 msgid "Account total: "
-msgstr "Konto gesamt: "
+msgstr "Konto gesamt "
 
 #: ../src/etats_affiche.c:774
 #, c-format
 msgid "Total %s"
-msgstr "Gesamt %s"
+msgstr "%s gesamt"
 
 #: ../src/etats_affiche.c:782
 #, c-format
 msgid "Payee total: (%d transaction): "
-msgstr "Empfänger gesamt: (%d Buchungen): "
+msgstr "Empfänger gesamt (%d Buchung) "
 
 #: ../src/etats_affiche.c:784
 #, c-format
 msgid "Payee total: (%d transactions): "
-msgstr "Empfänger gesamt: (%d Buchungen): "
+msgstr "Empfänger gesamt (%d Buchungen) "
 
 #: ../src/etats_affiche.c:788
 msgid "Payee total: "
-msgstr "Empfänger gesamt: "
+msgstr "Empfänger gesamt "
 
 #: ../src/etats_affiche.c:950 ../src/etats_affiche.c:1049
 #: ../src/etats_affiche.c:1213
 #, c-format
 msgid "Result of %s (%d transaction): "
-msgstr "Ergebnis von %s (%d Buchung): "
+msgstr "Ergebnis von %s (%d Buchung) "
 
 #: ../src/etats_affiche.c:952 ../src/etats_affiche.c:1051
 #: ../src/etats_affiche.c:1215
 #, c-format
 msgid "Result of %s (%d transactions): "
-msgstr "Ergebnis von %s (%d Buchungen): "
+msgstr "Ergebnis von %s (%d Buchungen) "
 
 #: ../src/etats_affiche.c:956 ../src/etats_affiche.c:1055
 #: ../src/etats_affiche.c:1221
 #, c-format
 msgid "Result of %s: "
-msgstr "Ergebnis von %s: "
+msgstr "Ergebnis von %s "
 
 #: ../src/etats_affiche.c:1010
 #, c-format
 msgid "Result from %s to %s (%d transaction): "
-msgstr "Ergebnis von %s bis %s (%d Buchung): "
+msgstr "Ergebnis von %s bis %s (%d Buchung) "
 
 #: ../src/etats_affiche.c:1012
 #, c-format
 msgid "Result from %s to %s (%d transactions): "
-msgstr "Ergebnis von %s bis %s (%d Buchungen): "
+msgstr "Ergebnis von %s bis %s (%d Buchungen) "
 
 #: ../src/etats_affiche.c:1023
 #, c-format
 msgid "Result from %s to %s: "
-msgstr "Ergebnis von %s bis %s: "
+msgstr "Ergebnis von %s bis %s "
 
 #: ../src/etats_affiche.c:1078
 #, c-format
 msgid "Result for %s (%d transaction): "
-msgstr "Ergebnis für %s (%d Buchung): "
+msgstr "Ergebnis für %s (%d Buchung) "
 
 #: ../src/etats_affiche.c:1080
 #, c-format
 msgid "Result for %s (%d transactions): "
-msgstr "Ergebnis für %s (%d Buchungen): "
+msgstr "Ergebnis für %s (%d Buchungen) "
 
 #: ../src/etats_affiche.c:1084
 #, c-format
 msgid "Result for %s: "
-msgstr "Ergebnis für %s: "
+msgstr "Ergebnis für %s "
 
 #: ../src/etats_affiche.c:1231
 #, c-format
 msgid "Result without financial year (%d transaction): "
-msgstr "Ergebnis ohne Geschäftsjahr (%d Buchung): "
+msgstr "Ergebnis ohne Geschäftsjahr (%d Buchung) "
 
 #: ../src/etats_affiche.c:1233
 #, c-format
 msgid "Result without financial year (%d transactions): "
-msgstr "Ergebnis ohne Geschäftsjahr (%d Buchungen): "
+msgstr "Ergebnis ohne Geschäftsjahr (%d Buchungen) "
 
 #: ../src/etats_affiche.c:1237
 msgid "Result without financial year: "
-msgstr "Ergebnis ohne Geschäftsjahr: "
+msgstr "Ergebnis ohne Geschäftsjahr "
 
 #: ../src/etats_affiche.c:1424 ../src/gsb_scheduler_list.c:1455
 #: ../src/gsb_transactions_list.c:3876
@@ -2221,44 +2221,44 @@ msgstr "Umbuchen von %s"
 #: ../src/etats_affiche.c:1697
 #, c-format
 msgid "Total expenses (%d transaction): "
-msgstr "Gesamtausgaben (%d Buchung): "
+msgstr "Gesamtausgaben (%d Buchung) "
 
 #: ../src/etats_affiche.c:1699
 #, c-format
 msgid "Total expenses (%d transactions): "
-msgstr "Gesamtausgaben (%d Buchungen): "
+msgstr "Gesamtausgaben (%d Buchungen) "
 
 #: ../src/etats_affiche.c:1703
 msgid "Total expenses: "
-msgstr "Gesamtausgaben: "
+msgstr "Gesamtausgaben "
 
 #: ../src/etats_affiche.c:1711
 #, c-format
 msgid "Total income (%d transaction): "
-msgstr "Gesamteinnahmen (%d Buchung): "
+msgstr "Gesamteinnahmen (%d Buchung) "
 
 #: ../src/etats_affiche.c:1713
 #, c-format
 msgid "Total income (%d transactions): "
-msgstr "Gesamteinnahmen (%d Buchungen): "
+msgstr "Gesamteinnahmen (%d Buchungen) "
 
 #: ../src/etats_affiche.c:1717
 msgid "Total income: "
-msgstr "Gesamteinnahmen: "
+msgstr "Gesamteinnahmen "
 
 #: ../src/etats_affiche.c:1766
 #, c-format
 msgid "General total (%d transaction): "
-msgstr "Gesamtsumme (%d Buchung): "
+msgstr "Gesamtsumme (%d Buchung) "
 
 #: ../src/etats_affiche.c:1768
 #, c-format
 msgid "General total (%d transactions): "
-msgstr "Gesamtsumme (%d Buchungen): "
+msgstr "Gesamtsumme (%d Buchungen) "
 
 #: ../src/etats_affiche.c:1772
 msgid "General total: "
-msgstr "Gesamtsumme: "
+msgstr "Gesamtsumme "
 
 #. select Split of transaction in list
 #: ../src/etats_affiche.c:1876 ../src/export_csv.c:606
@@ -2733,9 +2733,8 @@ msgid "Import a Grisbi report file (.egsb)"
 msgstr "Bericht (*.egsb) importieren"
 
 #: ../src/etats_onglet.c:559
-#, fuzzy
 msgid "Export selected report to egsb, HTML, CSV"
-msgstr "Bericht (*.egsb) exportieren"
+msgstr "Bericht im HTML / CSV / egsb Format exportieren"
 
 #: ../src/etats_onglet.c:568
 msgid "Print selected report"
@@ -2795,7 +2794,7 @@ msgstr "Vorlage"
 #. set option for displays preferences of report
 #: ../src/etats_onglet.c:843
 msgid "Do not show the report preferences"
-msgstr ""
+msgstr "Dialog Bericht bearbeiten nicht anzeigen"
 
 #. fill combobox
 #. Last month incomes and outgoings
@@ -10671,9 +10670,8 @@ msgstr "Verwaiste anzeigen"
 
 #. Description entry
 #: ../src/tiers_onglet.c:751
-#, fuzzy
 msgid "Description: "
-msgstr "Beschreibung"
+msgstr "Beschreibung:"
 
 #. search string
 #: ../src/tiers_onglet.c:765 ../src/ui/prefs_page_import_asso.ui.h:7
@@ -10684,12 +10682,12 @@ msgstr "Suchkriterium: "
 #: ../src/tiers_onglet.c:775 ../src/tiers_onglet.c:1187
 #: ../src/ui/prefs_page_import_asso.ui.h:8
 msgid "Ignoring case sensitive"
-msgstr ""
+msgstr "Groß und Kleinschreibung ignorieren"
 
 #: ../src/tiers_onglet.c:778 ../src/tiers_onglet.c:1192
 #: ../src/ui/prefs_page_import_asso.ui.h:9
 msgid "Use the regular expressions"
-msgstr ""
+msgstr "Reguläre Ausdrücke verwenden"
 
 #: ../src/tiers_onglet.c:810
 #, c-format
@@ -10741,7 +10739,6 @@ msgid "Choose a payee"
 msgstr "Empfänger auswählen"
 
 #: ../src/tiers_onglet.c:1139
-#, fuzzy
 msgid ""
 "Select one payee in the list that you modify to serve as the basis for your "
 "research.\n"
@@ -10750,11 +10747,12 @@ msgid ""
 "\n"
 "You can concatenate several rules: rule1||rule2..."
 msgstr ""
-"Einen oder mehrere Empfänger auswählen. Eine Mehrfachauswahl ist mit dem '%' "
+"Einen oder mehrere Empfänger auswählen - die Mehrfachauswahl ist mit dem '%' "
 "Zeichen als \"Joker\" möglich.\n"
 "Das '%' Zeichen kann folgend verwendet werden:\n"
 "   %Anfang, Ende%\n"
-"   %Anfang Mit%te und Ende%"
+"   %Anfang Mit%te und Ende%\n\n"
+"Mehrere Suchbegriffe können mit || verknüpft werden: Such1%||Such2%"
 
 #: ../src/tiers_onglet.c:1158
 msgid "Enter the new payee"
@@ -10773,9 +10771,8 @@ msgid "Save the payees in the notes"
 msgstr "Den Namen vom Empfänger in das Feld Notizen eintragen"
 
 #: ../src/tiers_onglet.c:1198
-#, fuzzy
 msgid "Replaces the exist rule"
-msgstr "Bestehende ersetzen"
+msgstr "Bestehende Regel ersetzen"
 
 #: ../src/tiers_onglet.c:1231
 msgid "List of payees who will be modified"
