@@ -84,13 +84,19 @@ void gsb_locale_init_lconv_struct (void)
 	else
 		_locale->currency_symbol = g_locale_to_utf8 (locale->currency_symbol, -1, NULL, NULL, NULL);
 
+	/* negative sign */
+	if (locale->negative_sign && strlen (locale->negative_sign) > 0)
+		_locale->negative_sign     = g_strdup (locale->negative_sign);
+	else
+		_locale->negative_sign     = g_strdup ("-");
+
+	/* others data */
 	_locale->decimal_point     = g_strdup (locale->decimal_point);
     _locale->grouping          = g_strdup (locale->grouping);
     _locale->int_curr_symbol   = g_strdup (locale->int_curr_symbol);
     _locale->mon_decimal_point = g_strdup (locale->mon_decimal_point);
     _locale->mon_grouping      = g_strdup (locale->mon_grouping);
     _locale->positive_sign     = g_strdup (locale->positive_sign);
-    _locale->negative_sign     = g_strdup (locale->negative_sign);
     _locale->int_frac_digits   = locale->int_frac_digits;
     _locale->frac_digits       = locale->frac_digits;
     _locale->p_sign_posn       = locale->p_sign_posn;
