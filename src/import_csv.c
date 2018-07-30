@@ -298,7 +298,7 @@ static GArray *csv_import_button_rule_traite_spec_line (SpecConfData *spec_conf_
 				montant = gsb_real_opposite (utils_real_get_from_string (str_montant));
 				str_montant = utils_real_get_string (montant);
 				list = g_slist_delete_link (list, link);
-				(void) g_slist_insert (list, g_strdup (str_montant), spec_conf_data->csv_spec_conf_action_data);
+				list = g_slist_insert (list, g_strdup (str_montant), spec_conf_data->csv_spec_conf_action_data);
 			}
 		}
 
