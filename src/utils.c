@@ -328,8 +328,8 @@ GtkWidget *new_paddingbox_with_title (GtkWidget *parent,
  * \returns A pointer to a vbox widget that will contain all created
  * widgets and user defined widgets
  */
-GtkWidget *new_vbox_with_title_and_icon (gchar *title,
-										 gchar *image_filename)
+GtkWidget *new_vbox_with_title_and_icon (const gchar *title,
+										 const gchar *image_filename)
 {
     GtkWidget *vbox_pref, *hbox, *label, *image, *eb;
 	gchar* tmpstr1;

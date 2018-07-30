@@ -32,8 +32,8 @@ gboolean 		utils_prefs_left_panel_tree_view_selectable_func  		(GtkTreeSelection
 																		 gpointer data);
 gboolean 		utils_prefs_left_panel_tree_view_selection_changed		(GtkTreeSelection *selection,
 																		 GtkWidget *notebook);
-GtkWidget *		utils_prefs_head_page_new_with_title_and_icon			(gchar *title,
-																		 gchar *image_filename);
+GtkWidget *		utils_prefs_head_page_new_with_title_and_icon			(const gchar *title,
+																		 const gchar *image_filename);
 GtkWidget *		utils_prefs_paddinggrid_new_with_title                  (GtkWidget *parent,
                                                                          const gchar *title);
 void 			utils_prefs_page_checkbutton_changed 					(GtkToggleButton *checkbutton,

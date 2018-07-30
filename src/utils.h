@@ -22,8 +22,8 @@ gboolean        lance_navigateur_web                                    (const g
 GtkWidget *     new_paddingbox_with_title                               (GtkWidget *parent,
                                                                          gboolean fill,
                                                                          const gchar *title);
-GtkWidget *     new_vbox_with_title_and_icon                            (gchar *title,
-                                                                         gchar *image_filename);
+GtkWidget *     new_vbox_with_title_and_icon                            (const gchar *title,
+                                                                         const gchar *image_filename);
 gboolean        radio_set_active_linked_widgets                         (GtkWidget *widget);
 void            register_button_as_linked                               (GtkWidget *widget,
                                                                          GtkWidget *linked);

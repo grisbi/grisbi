@@ -117,7 +117,7 @@ static gboolean prefs_page_display_gui_active_scrolling_left_pane (GtkWidget *to
 static gboolean prefs_page_display_gui_change_toolbar_display_mode (GtkRadioButton *button)
 {
     GSettings *settings;
-    gchar *tmp_str;
+    const gchar *tmp_str;
 
     /* Do not execute this callback twice,
      * as it is triggered for both unselected button and newly selected one.

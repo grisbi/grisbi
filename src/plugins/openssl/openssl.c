@@ -210,7 +210,7 @@ decrypt_v1(gchar *password, gchar **file_content, gulong length)
 gulong gsb_file_util_crypt_file ( const gchar * file_name, gchar **file_content,
                         gboolean crypt, gulong length )
 {
-    gchar * key, * message = "";
+    gchar * key, * message = NULL;
 	GrisbiWinRun *w_run;
 
 	w_run = grisbi_win_get_w_run ();
@@ -292,6 +292,7 @@ gchar *gsb_file_util_ask_for_crypt_key ( const gchar * file_name, gchar * additi
 {
     gchar *key = NULL;
     GtkWidget *dialog, *button = NULL, *label, *entry, *hbox, *hbox2, *vbox, *icon;
+	gchar *tmp_msg;
     gint result;
 	GrisbiWinRun *w_run;
 
@@ -326,18 +327,33 @@ gchar *gsb_file_util_ask_for_crypt_key ( const gchar * file_name, gchar * additi
     gtk_label_set_line_wrap ( GTK_LABEL(label), TRUE );
 
     if ( encrypt )
-        gtk_label_set_markup ( GTK_LABEL (label),
-                        g_strdup_printf (
-                        _( "%sPlease enter password to encrypt file\n<span "
-                        "foreground=\"blue\">%s</span>" ),
-                        additional_message, file_name ) );
+	{
+		if (additional_message && strlen (additional_message))
+			tmp_msg = g_strdup_printf (_("%sPlease enter password to encrypt file\n<span "
+										   "foreground=\"blue\">%s</span>"),
+									   additional_message,
+									   file_name);
+		else
+			tmp_msg = g_strdup_printf (_("Please enter password to encrypt file\n<span "
+										   "foreground=\"blue\">%s</span>"),
+									   file_name);
+	}
     else
-        gtk_label_set_markup ( GTK_LABEL (label),
-                        g_strdup_printf (
-                        _( "%sPlease enter password to decrypt file\n<span "
-                        "foreground=\"blue\">%s</span>" ),
-                        additional_message, file_name ) );
+	{
+		if (additional_message && strlen (additional_message))
+			tmp_msg = g_strdup_printf (_("%sPlease enter password to decrypt file\n<span "
+										 "foreground=\"blue\">%s</span>"),
+									   additional_message,
+									   file_name);
+		else
+			tmp_msg = g_strdup_printf (_("Please enter password to decrypt file\n<span "
+										 "foreground=\"blue\">%s</span>"),
+									   file_name);
+	}
+
+	gtk_label_set_markup ( GTK_LABEL (label), tmp_msg);
     gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 6 );
+	g_free (tmp_msg);
 
     hbox2 = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox2, FALSE, FALSE, 6 );

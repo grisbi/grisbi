@@ -160,21 +160,24 @@ static void utils_prefs_fonts_update_labels (GtkWidget *button,
 		GtkCssProvider *css_provider = NULL;
 		GtkStyleContext *context;
 		gchar *data;
-		gchar *tmp;
+		gchar *tmp_name;
+		gchar *tmp_font;
 
 		font_name = my_strdup (fontname);
-		tmp = font_name + strlen(font_name) - 1;
-		while (g_ascii_isdigit(*tmp) ||
-			   (*tmp) == '.')
-			tmp --;
-		font_size = tmp+1;
+		tmp_name = font_name + strlen(font_name) - 1;
+		while (g_ascii_isdigit(*tmp_name) ||
+			   (*tmp_name) == '.')
+			tmp_name --;
+		tmp_font = tmp_name+1;
 
-		while (*tmp == ' ' ||
-			   *tmp == ',')
+		while (*tmp_name == ' ' ||
+			   *tmp_name == ',')
 		{
-			*tmp=0;
-			tmp--;
+			*tmp_name=0;
+			tmp_name--;
 		}
+
+		font_size = g_strdup (tmp_font);
 
 		/* set the font for label */
 		css_provider = g_object_get_data (G_OBJECT (button), "css_provider");
@@ -189,11 +192,11 @@ static void utils_prefs_fonts_update_labels (GtkWidget *button,
 		context = gtk_widget_get_style_context (font_name_label);
 		gtk_style_context_add_provider (context, GTK_STYLE_PROVIDER (css_provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
 		g_free (data);
-     }
+    }
     else
     {
 		font_name = my_strdup ("Monospace");
-		font_size = "10";
+		font_size = g_strdup ("10");
 		conf.custom_fonte_listes = FALSE;
     }
     gtk_label_set_text (GTK_LABEL(font_name_label), font_name);
@@ -201,6 +204,8 @@ static void utils_prefs_fonts_update_labels (GtkWidget *button,
 
     if (font_name)
 		g_free (font_name);
+	if (font_size)
+		g_free (font_size);
 }
 
 /**
@@ -361,8 +366,8 @@ GtkWidget *utils_prefs_automem_radiobutton_blue_new (const gchar *choice1,
  * \returns 				A pointer to a hbox widget that will contain the created
  * 							widgets
  */
-GtkWidget *utils_prefs_head_page_new_with_title_and_icon (gchar *title,
-														  gchar *image_filename)
+GtkWidget *utils_prefs_head_page_new_with_title_and_icon (const gchar *title,
+														  const gchar *image_filename)
 {
     GtkWidget *hbox;
 	GtkWidget*label;

@@ -491,7 +491,7 @@ static gboolean bet_array_update_average_column ( GtkTreeModel *model,
 {
     gchar *str_balance = NULL;
     gchar *tmp_str;
-    gchar *color_str = NULL;
+    const gchar *color_str = NULL;
     gint selected_account;
     gboolean select = FALSE;
     BetRange *tmp_range = (BetRange*) data;
@@ -558,7 +558,7 @@ void bet_array_refresh_estimate_tab ( gint account_number )
     GtkTreeIter iter;
     GtkTreeModel *tree_model;
     GtkTreePath *path = NULL;
-    gchar *color_str = NULL;
+    const gchar *color_str = NULL;
     gchar *str_date_min;
     gchar *str_date_max;
     gchar *str_current_balance;
@@ -613,7 +613,6 @@ void bet_array_refresh_estimate_tab ( gint account_number )
         color_str = "red";
     else
     {
-        g_free ( color_str );
         color_str = NULL;
     }
 

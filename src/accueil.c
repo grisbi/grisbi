@@ -76,7 +76,7 @@ static GtkWidget *main_page_finished_scheduled_transactions_part = NULL;
 static GtkWidget *frame_etat_soldes_minimaux_autorises = NULL;
 static GtkWidget *frame_etat_soldes_minimaux_voulus = NULL;
 static GtkSizeGroup *size_group_accueil;
-static gchar *chaine_espace = "                         ";
+static const gchar *chaine_espace = "                         ";
 static gint LIGNE_SOMME_SIZE = 100;
 
 #define show_paddingbox(child) gtk_widget_show_all (gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(GTK_WIDGET(child)))))

@@ -2464,7 +2464,7 @@ void metatree_register_widget_as_linked ( GtkTreeModel * model,
  */
 void metatree_set_linked_widgets_sensitive ( GtkTreeModel * model,
                         gboolean sensitive,
-                        gchar * link_type )
+                        const gchar * link_type )
 {
     GSList * links = g_object_get_data ( G_OBJECT(model), link_type );
 

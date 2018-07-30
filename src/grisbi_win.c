@@ -2153,7 +2153,7 @@ void grisbi_win_headings_update_title (gchar *title)
  * \param suffix	String to display as a suffix in headings bar.
  *
  */
-void grisbi_win_headings_update_suffix (gchar *suffix)
+void grisbi_win_headings_update_suffix (const gchar *suffix)
 {
 	GrisbiWinPrivate *priv;
 

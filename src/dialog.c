@@ -700,7 +700,7 @@ void dialogue_error_memory ( void )
  *
  *
  */
-void dialog_message ( gchar *label, ... )
+void dialog_message (const gchar *label, ... )
 {
     va_list ap;
     int i = 0;

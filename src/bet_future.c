@@ -1770,16 +1770,16 @@ gboolean bet_future_set_form_data_from_line ( gint account_number,
     }
     else if ( scheduled -> is_transfert )
     {
-        gchar *tmp_str;
+        gchar *tmp_str_2;
 
         widget = bet_form_widget_get_widget ( TRANSACTION_FORM_CATEGORY );
         gsb_form_widget_set_empty ( GTK_COMBOFIX ( widget ) -> entry, FALSE );
-        tmp_str = g_strconcat ( _("Transfer"), " : ",
+        tmp_str_2 = g_strconcat ( _("Transfer"), " : ",
                         gsb_data_account_get_name ( scheduled -> account_transfert ),
                         NULL );
 
-        gtk_combofix_set_text ( GTK_COMBOFIX ( widget ), tmp_str );
-        g_free ( tmp_str );
+        gtk_combofix_set_text ( GTK_COMBOFIX ( widget ), tmp_str_2 );
+        g_free ( tmp_str_2 );
     }
 
     if ( scheduled -> budgetary_number > 0 )

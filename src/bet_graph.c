@@ -805,7 +805,7 @@ static gboolean bet_graph_affiche_XY_line ( struct_bet_graph_data *self )
     GogObject *axis;
     GogObject *axis_line = NULL;
     GError *error = NULL;
-    gchar *position;
+    const gchar *position;
     struct_bet_graph_prefs *prefs;
 
     prefs = self->prefs;
@@ -2004,7 +2004,7 @@ GtkToolItem *bet_graph_button_menu_new ( GtkWidget *toolbar,
 gchar *bet_graph_get_configuration_string ( gint origin_tab )
 {
     gchar *new_str = NULL;
-    gchar *tmp_str = NULL;
+    const gchar *tmp_str = NULL;
     struct_bet_graph_prefs *prefs = NULL;
 
     if ( origin_tab == BET_ONGLETS_PREV )
