@@ -616,6 +616,11 @@ gsb_real gsb_real_sub ( gsb_real number_1,
  * */
 gsb_real gsb_real_opposite ( gsb_real number )
 {
+    if (number.mantissa == error_real.mantissa)
+    {
+        return error_real;
+    }
+
     number.mantissa = -number.mantissa;
     return number;
 }

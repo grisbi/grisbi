@@ -296,6 +296,21 @@ static GArray *csv_import_button_rule_traite_spec_line (SpecConfData *spec_conf_
 				link = g_slist_nth (list, spec_conf_data->csv_spec_conf_action_data);
 				str_montant = (gchar*) link->data;
 				montant = gsb_real_opposite (utils_real_get_from_string (str_montant));
+				if (montant.mantissa == error_real.mantissa)
+				{
+					const gchar *action_name;
+					gchar *tmp_str;
+
+					if (action == 1)
+						action_name = "Invert the amount";
+					tmp_str = g_strdup_printf (_("The data associated with action \"%s\" are invalid.\n"
+												 "This rule will not be applied and you will have to modify it"),
+											   _(action_name));
+					dialogue_hint (tmp_str, _("Warning: Invalid data"));
+					g_free (tmp_str);
+
+					return lines_tab;
+				}
 				str_montant = utils_real_get_string (montant);
 				list = g_slist_delete_link (list, link);
 				list = g_slist_insert (list, g_strdup (str_montant), spec_conf_data->csv_spec_conf_action_data);
