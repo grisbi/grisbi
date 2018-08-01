@@ -49,7 +49,7 @@
 /*START_EXTERN*/
 /*END_EXTERN*/
 
-static CSVImportRule *csv_rule;
+//~ static CSVImportRule *csv_rule;
 
 typedef struct _CsvTemplateRulePrivate	CsvTemplateRulePrivate;
 typedef struct _SpecWidgetLine			SpecWidgetLine;
@@ -684,6 +684,7 @@ static void csv_template_dialog_response  (GtkDialog *dialog,
 {
 	GSList *list;
 	gint rule_number;
+	CSVImportRule *csv_rule;
 	CsvTemplateRulePrivate *priv;
 
 	devel_debug_int (result_id);
@@ -1193,13 +1194,13 @@ CsvTemplateRule *csv_template_rule_edit (GtkWindow *parent,
  *
  * \return
  **/
-void csv_template_rule_csv_import_rule_struct_free	(CSVImportRule *csv_rule)
+void csv_template_rule_csv_import_rule_struct_free	(CSVImportRule *rule)
 {
 	GSList *list;
 
-	g_free (csv_rule->csv_rule_name);
-	g_free (csv_rule->csv_cols_name);
-	list = csv_rule->csv_spec_lines_list;
+	g_free (rule->csv_rule_name);
+	g_free (rule->csv_cols_name);
+	list = rule->csv_spec_lines_list;
 	while (list)
 	{
 		SpecConfData *spec_conf_data;
@@ -1211,8 +1212,8 @@ void csv_template_rule_csv_import_rule_struct_free	(CSVImportRule *csv_rule)
 		}
 		list = list->next;
 	}
-	g_slist_free (csv_rule->csv_spec_lines_list);
-	g_free (csv_rule);
+	g_slist_free (rule->csv_spec_lines_list);
+	g_free (rule);
 }
 
 /**

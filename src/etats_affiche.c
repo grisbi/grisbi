@@ -1018,8 +1018,8 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 	    }
 	    else
 	    {
-	        gchar* dtstr1 = gsb_format_gdate ( date_debut_periode );
-	        gchar* dtstr2 = gsb_format_gdate ( date_tmp );
+	        dtstr1 = gsb_format_gdate ( date_debut_periode );
+	        dtstr2 = gsb_format_gdate ( date_tmp );
 		text = g_strdup_printf ( _("Result from %s to %s: "), dtstr1, dtstr2);
 	        g_free ( dtstr1 );
 	        g_free ( dtstr2 );

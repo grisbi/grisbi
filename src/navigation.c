@@ -1648,18 +1648,18 @@ gboolean gsb_gui_navigation_check_scroll (GtkWidget *tree_view,
 	gdouble delta_x;
     gdouble delta_y;
 	GdkScrollDirection direction;
-	gboolean etat = 0;
+	gboolean etat1 = 0;
 	gboolean etat2 = 0;
 
 	g_signal_handlers_block_by_func (G_OBJECT (tree_view),
 								   G_CALLBACK (gsb_gui_navigation_check_scroll),
 								   NULL);
-	etat = gdk_event_get_scroll_deltas (ev, &delta_x, &delta_y);
+	etat1 = gdk_event_get_scroll_deltas (ev, &delta_x, &delta_y);
 	etat2 = gdk_event_get_scroll_direction (ev, &direction);
 
-	if (etat && (gint) delta_y == 1)
+	if (etat1 && (gint) delta_y == 1)
 		gsb_gui_navigation_select_next ();
-	else if (etat && (gint) delta_y == -1)
+	else if (etat1 && (gint) delta_y == -1)
 		gsb_gui_navigation_select_prev ();
 	else if (etat2 && direction == GDK_SCROLL_UP)
 		gsb_gui_navigation_select_prev ();

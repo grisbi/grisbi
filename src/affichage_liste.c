@@ -1388,10 +1388,10 @@ void gsb_transaction_list_config_toggle_element_button ( GtkWidget *toggle_butto
         {
             for ( column = 6 ; column >= 0 ; column-- )
             {
-                gint element;
+                gint tmp_element;
 
-                element = tab_affichage_ope[row][column];
-                if ( element == 0 )
+                tmp_element = tab_affichage_ope[row][column];
+                if (tmp_element == 0 )
                 {
                     place_trouvee = TRUE;
                     break;

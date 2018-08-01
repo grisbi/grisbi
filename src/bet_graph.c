@@ -1749,53 +1749,53 @@ static gboolean bet_graph_populate_lines_by_historical_line ( struct_bet_graph_d
     g_hash_table_iter_init ( &hash_iter, list_transactions );
     while ( g_hash_table_iter_next ( &hash_iter, &key, &value ) )
     {
-        TransactionCurrentFyear *self = ( TransactionCurrentFyear* ) value;
+        TransactionCurrentFyear *tcf = ( TransactionCurrentFyear* ) value;
 
-        if ( self->div_nb == div_number )
+        if ( tcf->div_nb == div_number )
         {
-            date_month = g_date_get_month ( self->date );
+            date_month = g_date_get_month ( tcf->date );
             if ( sub_div_nb > 0 )
             {
-                if ( self->sub_div_nb == sub_div_nb )
+                if ( tcf->sub_div_nb == sub_div_nb )
                 {
-                    switch ( self->type_de_transaction )
+                    switch ( tcf->type_de_transaction )
                     {
                         case 0:
                             if ( fyear_number > 0 )
-                                tab[date_month-1] = gsb_real_add ( tab[date_month-1], self->amount );
+                                tab[date_month-1] = gsb_real_add ( tab[date_month-1], tcf->amount );
                             break;
                         case 1:
                             if ( fyear_number > 0 )
-                                tab2[date_month-1] = gsb_real_add ( tab2[date_month-1], self->amount );
+                                tab2[date_month-1] = gsb_real_add ( tab2[date_month-1], tcf->amount );
                             else
-                                tab[date_month-1] = gsb_real_add ( tab[date_month-1], self->amount );
+                                tab[date_month-1] = gsb_real_add ( tab[date_month-1], tcf->amount );
                             break;
                         case 2:
-                            tab[date_month-1] = gsb_real_add ( tab[date_month-1], self->amount );
+                            tab[date_month-1] = gsb_real_add ( tab[date_month-1], tcf->amount );
                             if ( fyear_number > 0 )
-                                tab2[date_month-1] = gsb_real_add ( tab2[date_month-1], self->amount );
+                                tab2[date_month-1] = gsb_real_add ( tab2[date_month-1], tcf->amount );
                             break;
                     }
                 }
             }
             else
             {
-                switch ( self->type_de_transaction )
+                switch ( tcf->type_de_transaction )
                 {
                     case 0:
                         if ( fyear_number > 0 )
-                            tab[date_month-1] = gsb_real_add ( tab[date_month-1], self->amount );
+                            tab[date_month-1] = gsb_real_add ( tab[date_month-1], tcf->amount );
                         break;
                     case 1:
                         if ( fyear_number > 0 )
-                            tab2[date_month-1] = gsb_real_add ( tab2[date_month-1], self->amount );
+                            tab2[date_month-1] = gsb_real_add ( tab2[date_month-1], tcf->amount );
                         else
-                            tab[date_month-1] = gsb_real_add ( tab[date_month-1], self->amount );
+                            tab[date_month-1] = gsb_real_add ( tab[date_month-1], tcf->amount );
                         break;
                     case 2:
-                        tab[date_month-1] = gsb_real_add ( tab[date_month-1], self->amount );
+                        tab[date_month-1] = gsb_real_add ( tab[date_month-1], tcf->amount );
                         if ( fyear_number > 0 )
-                            tab2[date_month-1] = gsb_real_add ( tab2[date_month-1], self->amount );
+                            tab2[date_month-1] = gsb_real_add ( tab2[date_month-1], tcf->amount );
                         break;
                 }
             }

@@ -432,6 +432,7 @@ static gboolean gsb_csv_export_transaction (gint transaction_number,
     gsb_real amount;
     gint return_exponent;
     gint account_number;
+	const gchar *bank_str;
 	gchar* tmp_str;
 	const GDate *value_date, *date;
 	gint budgetary_number;
@@ -524,10 +525,10 @@ static gboolean gsb_csv_export_transaction (gint transaction_number,
 	/* Met les informations bancaires de l'opération. Elles n'existent
 	   qu'au niveau de l'opération mère */
 	CSV_CLEAR_FIELD(csv_field_info_bank);
-	tmp_str = (gchar*) gsb_data_transaction_get_bank_references (transaction_number);
-	if (tmp_str)
+	bank_str = gsb_data_transaction_get_bank_references (transaction_number);
+	if (bank_str)
 	{
-	    csv_field_info_bank = my_strdup (tmp_str);
+	    csv_field_info_bank = my_strdup (bank_str);
 	}
 
 	/* met le montant, transforme la devise si necessaire */
@@ -618,10 +619,6 @@ static gboolean gsb_csv_export_transaction (gint transaction_number,
 			if (gsb_data_transaction_get_account_number (pSplitTransaction) == account_number
 				&& gsb_data_transaction_get_mother_transaction_number (pSplitTransaction) == transaction_number)
 			{
-				gint financial_year_number;
-				gint payment_method;
-				gint reconcile_number;
-
 				/* on commence par mettre la catég et sous categ de l'opé et de l'opé de ventilation */
 				CSV_CLEAR_FIELD (csv_field_ventil);
 				csv_field_ventil = my_strdup (_("B")); /*->mark */
@@ -736,7 +733,6 @@ static gboolean gsb_csv_export_transaction (gint transaction_number,
 	}
 	else
 	{
-	    gchar *tmp_str;
 		gint contra_transaction_account;
 
 		contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (transaction_number);

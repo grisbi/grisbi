@@ -1492,7 +1492,7 @@ gboolean csv_import_csv_account (GtkWidget *assistant,
 	compte->create_rule = csv_create_rule;
 	if (csv_create_rule)
 	{
-		GSList *list;
+		GSList *lines_list;
 		gchar *first_string_to_free;
 		gchar *second_string_to_free;
 		gchar *csv_fields_str;
@@ -1534,13 +1534,13 @@ gboolean csv_import_csv_account (GtkWidget *assistant,
 		compte->csv_spec_cols_name = csv_import_rule->csv_cols_name;
 
 		/* saves the line of special configuration */
-		list = csv_import_rule->csv_spec_lines_list;
-		if (list)
+		lines_list = csv_import_rule->csv_spec_lines_list;
+		if (lines_list)
 		{
-			spec_conf_data = (SpecConfData *) list->data;
+			spec_conf_data = (SpecConfData *) lines_list->data;
 			if (spec_conf_data->csv_spec_conf_used_text)
 			{
-				compte->csv_spec_lines_list = g_slist_copy_deep (list,
+				compte->csv_spec_lines_list = g_slist_copy_deep (lines_list,
 																 (GCopyFunc) csv_template_rule_spec_conf_data_struct_copy,
 																 NULL);
 			}
