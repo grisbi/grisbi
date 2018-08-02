@@ -945,12 +945,13 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 
 	    if ( gsb_data_report_get_show_report_transaction_amount (current_report_number))
 	    {
-	        gchar* fmtstr;
-		if ( nb_ope_periode_etat <= 1 )
+	        const gchar *fmtstr;
+
+			if ( nb_ope_periode_etat <= 1 )
 		    fmtstr = _("Result of %s (%d transaction): ");
-		else
-		    fmtstr = _("Result of %s (%d transactions): ");
-		text = g_strdup_printf ( fmtstr, buffer, nb_ope_periode_etat );
+			else
+				fmtstr = _("Result of %s (%d transactions): ");
+			text = g_strdup_printf ( fmtstr, buffer, nb_ope_periode_etat );
 	    }
 	    else
 		text = g_strdup_printf ( _("Result of %s: "), buffer );
