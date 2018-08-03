@@ -45,7 +45,7 @@
 
 /*START_STATIC*/
 #ifdef OS_OSX
-static gchar *label_search_help = N_("Command-click\nto add to the selection");
+static const gchar *label_search_help = N_("Command-click\nto add to the selection");
 #endif /* OS_OSX */
 
 /*END_STATIC*/
