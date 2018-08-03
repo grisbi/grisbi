@@ -1087,7 +1087,7 @@ void gsb_menu_gui_sensitive_win_menu_item (const gchar *item_name,
 void gsb_menu_set_menus_select_transaction_sensitive (gboolean sensitive)
 {
     static gboolean flag_sensitive = FALSE;
-    gchar * items[] = {
+    const gchar * items[] = {
         "edit-ope",
         "new-ope",
         "remove-ope",
@@ -1097,7 +1097,7 @@ void gsb_menu_set_menus_select_transaction_sensitive (gboolean sensitive)
         "remove-acc",
         NULL
     };
-    gchar **tmp = items;
+    const gchar **tmp = items;
 
     devel_debug_int (sensitive);
 
@@ -1124,13 +1124,13 @@ void gsb_menu_set_menus_select_transaction_sensitive (gboolean sensitive)
 void gsb_menu_set_menus_select_scheduled_sensitive (gboolean sensitive)
 {
     static gboolean flag_sensitive = FALSE;
-    gchar * items[] = {
+    const gchar * items[] = {
         "edit-ope",
         "remove-ope",
         "clone-ope",
         NULL
     };
-    gchar **tmp = items;
+    const gchar **tmp = items;
 
     devel_debug_int (sensitive);
 
@@ -1155,7 +1155,7 @@ void gsb_menu_set_menus_select_scheduled_sensitive (gboolean sensitive)
  * */
 void gsb_menu_set_menus_with_file_sensitive (gboolean sensitive)
 {
-    gchar * items[] = {
+    const gchar * items[] = {
         "save-as",
         "export-accounts",
         "create-archive",
@@ -1168,7 +1168,7 @@ void gsb_menu_set_menus_with_file_sensitive (gboolean sensitive)
         "show-closed-acc",
         NULL
     };
-    gchar **tmp = items;
+    const gchar **tmp = items;
 
     devel_debug_int (sensitive);
 
@@ -1193,7 +1193,7 @@ void gsb_menu_set_menus_with_file_sensitive (gboolean sensitive)
  * */
 void gsb_menu_set_menus_view_account_sensitive (gboolean sensitive)
 {
-    gchar * items[] = {
+    const gchar * items[] = {
         "remove-acc",
         "show-form",
         "show-reconciled",
@@ -1202,7 +1202,7 @@ void gsb_menu_set_menus_view_account_sensitive (gboolean sensitive)
         "reset-width-col",
         NULL
     };
-    gchar **tmp = items;
+    const gchar **tmp = items;
 
     devel_debug_int (sensitive);
     while (*tmp)
