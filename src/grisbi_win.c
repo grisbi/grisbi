@@ -1242,7 +1242,7 @@ void grisbi_win_init_menubar (GrisbiWin *win,
 							  gpointer app)
 {
 	GAction *action;
-    gchar * items[] = {
+    const gchar * items[] = {
         "save",
         "save-as",
         "export-accounts",
@@ -1268,7 +1268,7 @@ void grisbi_win_init_menubar (GrisbiWin *win,
         "reset-width-col",
         NULL
     };
-    gchar **tmp = items;
+    const gchar **tmp = items;
     gboolean has_app_menu;
 
 	/* initialisations sub menus */
