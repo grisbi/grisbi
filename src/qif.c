@@ -72,7 +72,7 @@ extern GSList *liste_comptes_importes_error;
 static gchar *last_header = NULL;
 static gboolean mismatch_dates = TRUE;
 
-static gchar *order_names[] = {
+static const gchar *order_names[] = {
     "day-month-year",
     "month-day-year",
     "year-month-day",
