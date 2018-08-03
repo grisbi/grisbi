@@ -1063,7 +1063,7 @@ gboolean gsb_menu_update_view_menu (gint account_number)
  *
  * \return
  */
-void gsb_menu_gui_sensitive_win_menu_item (gchar *item_name,
+void gsb_menu_gui_sensitive_win_menu_item (const gchar *item_name,
 										   gboolean state)
 {
     GrisbiWin *win;

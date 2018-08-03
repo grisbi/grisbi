@@ -140,7 +140,7 @@ void        grisbi_cmd_reset_width_col          (GSimpleAction *action,
 
 
 
-void        gsb_menu_gui_sensitive_win_menu_item            (gchar *item_name,
+void        gsb_menu_gui_sensitive_win_menu_item            (const gchar *item_name,
                                                              gboolean state);
 gboolean    gsb_menu_gui_toggle_show_archived               (void);
 gboolean    gsb_menu_gui_toggle_show_form                   (void);
