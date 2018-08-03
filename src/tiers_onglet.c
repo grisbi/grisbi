@@ -1081,8 +1081,8 @@ void payees_manage_payees ( void )
             g_free (tmpstr);
 			if (save_notes)
 			{
-				g_free (overwrite_payee.name);
-				g_free (overwrite_payee.hint);
+				g_free ((gpointer)overwrite_payee.name);
+				g_free ((gpointer)overwrite_payee.hint);
 			}
         }
         else
