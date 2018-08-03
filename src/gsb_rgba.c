@@ -333,7 +333,7 @@ GtkWidget *gsb_rgba_create_color_combobox (void)
     GtkCellRenderer *renderer;
 
     struct config_color {
-    gchar *name;
+    const gchar *name;
     GdkRGBA *color;
     GdkRGBA *default_color;
 
