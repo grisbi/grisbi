@@ -13,7 +13,7 @@ gboolean        utils_event_box_change_state                            (GtkWidg
                                                                          GtkStyleContext *context);
 
 gboolean        assert_account_loaded                                   (void);
-GtkWidget *     utils_combo_box_make_from_string_array                  (gchar **array);
+GtkWidget *     utils_combo_box_make_from_string_array                  (const gchar **array);
 gboolean        desensitive_widget                                      (gpointer object,
                                                                          GtkWidget *widget);
 gchar *         get_gtk_run_version                                     (void);
@@ -41,7 +41,7 @@ GtkWidget *     utils_get_image_with_etat                               (GtkMess
                                                                          const gchar *tooltip_1);
 void            utils_gtk_combo_box_set_text_renderer                   (GtkComboBox *combo,
                                                                          gint num_col);
-GtkListStore *  utils_list_store_create_from_string_array               (gchar **array);
+GtkListStore *  utils_list_store_create_from_string_array               (const gchar **array);
 void            utils_labels_set_alignement                             (GtkLabel *label,
                                                                          gfloat xalign,
                                                                          gfloat yalign);

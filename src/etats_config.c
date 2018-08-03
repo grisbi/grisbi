@@ -91,7 +91,7 @@ enum
     GSB_ETAT_CATEG_BUDGET_LIST_NB
 };
 
-static gchar *champs_type_recherche_texte[] =
+static const gchar *champs_type_recherche_texte[] =
 {
     N_("payee"),
     N_("payee information"),
@@ -107,7 +107,7 @@ static gchar *champs_type_recherche_texte[] =
     NULL
 };
 
-static gchar *champs_operateur_recherche_texte[] =
+static const gchar *champs_operateur_recherche_texte[] =
 {
     N_("contains"),
     N_("doesn't contain"),
@@ -118,7 +118,7 @@ static gchar *champs_operateur_recherche_texte[] =
     NULL
 };
 
-static gchar *champs_lien_lignes_comparaison[] =
+static const gchar *champs_lien_lignes_comparaison[] =
 {
     N_("and"),
     N_("or"),
@@ -126,7 +126,7 @@ static gchar *champs_lien_lignes_comparaison[] =
     NULL
 };
 
-static gchar *champs_comparateur_nombre[] =
+static const gchar *champs_comparateur_nombre[] =
 {
     N_("equal"),
     N_("less than"),
@@ -138,7 +138,7 @@ static gchar *champs_comparateur_nombre[] =
     NULL
 };
 
-static gchar *champs_lien_nombre_2[] =
+static const gchar *champs_lien_nombre_2[] =
 {
     N_("and"),
     N_("or"),
@@ -147,7 +147,7 @@ static gchar *champs_lien_nombre_2[] =
     NULL
 };
 
-static gchar *champs_comparateur_montant[] =
+static const gchar *champs_comparateur_montant[] =
 {
     N_("equal"),
     N_("less than"),

@@ -785,7 +785,7 @@ gboolean utils_tree_view_all_rows_are_selected (GtkTreeView *tree_view)
  *
  * \return un GtkListStore.
  */
-GtkListStore *utils_list_store_create_from_string_array (gchar **array)
+GtkListStore *utils_list_store_create_from_string_array (const gchar **array)
 {
     GtkListStore *store = NULL;
     gint i = 0;
@@ -833,7 +833,7 @@ void utils_gtk_combo_box_set_text_renderer (GtkComboBox *combo,
  *
  * \return un GtkComboBox.
  */
-GtkWidget *utils_combo_box_make_from_string_array (gchar **array)
+GtkWidget *utils_combo_box_make_from_string_array (const gchar **array)
 {
     GtkWidget *combo;
     GtkTreeModel *model;
