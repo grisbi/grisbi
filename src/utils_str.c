@@ -137,7 +137,7 @@ static gchar *utils_string_get_ligne_longueur_fixe (const gchar *string,
  *
  * \return une nouvelle chaîne contenant le sépaarateur.
  **/
-static gchar *utils_string_get_separator (const gchar *string)
+static const gchar *utils_string_get_separator (const gchar *string)
 {
     gchar *ptr_1 = NULL;
     gchar *ptr_2 = NULL;
@@ -1116,7 +1116,7 @@ gchar *utils_str_break_filename (const gchar *string,
     gchar *tmp_str2;
     gchar *end = NULL;
     gchar *ptr = NULL;
-    gchar *separator;
+    const gchar *separator;
     gint i = 0;
     ssize_t n = 0;
     ssize_t size1;
