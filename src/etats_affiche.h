@@ -24,23 +24,23 @@ struct EtatAffichage
 gint 	etat_affiche_affichage_ligne_ope 			(gint transaction_number,
 													 gint ligne);
 gint 	etat_affiche_affiche_categ_etat 			(gint transaction_number,
-												     gchar *decalage_categ,
+												     const gchar *decalage_categ,
 												     gint ligne);
 gint 	etat_affiche_affiche_compte_etat 			(gint transaction_number,
-													 gchar *decalage_compte,
+													 const gchar *decalage_compte,
 												     gint ligne);
 gint 	etat_affiche_affiche_ib_etat 				(gint transaction_number,
-													 gchar *decalage_ib,
+													 const gchar *decalage_ib,
 												     gint ligne);
 gint 	etat_affiche_affiche_separateur 			(gint ligne);
 gint 	etat_affiche_affiche_sous_categ_etat 		(gint transaction_number,
-													 gchar *decalage_sous_categ,
+													 const gchar *decalage_sous_categ,
 												     gint ligne);
 gint 	etat_affiche_affiche_sous_ib_etat 			(gint transaction_number,
-													 gchar *decalage_sous_ib,
+													 const gchar *decalage_sous_ib,
 												     gint ligne);
 gint 	etat_affiche_affiche_tiers_etat 			(gint transaction_number,
-													 gchar *decalage_tiers,
+													 const gchar *decalage_tiers,
 												     gint ligne);
 gint 	etat_affiche_affiche_titre 					(gint ligne);
 gint 	etat_affiche_affiche_titre_depenses_etat 	(gint ligne);

@@ -2014,8 +2014,8 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 				   gchar * filename )
 {
     GSList *liste_ope_revenus, *liste_ope_depenses, *pointeur_tmp, *pointeur_glist;
-    gchar *decalage_base, *decalage_categ, *decalage_sous_categ, *decalage_ib;
-    gchar *decalage_sous_ib, *decalage_compte, *decalage_tiers;
+    const gchar *decalage_base, *decalage_categ, *decalage_sous_categ, *decalage_ib;
+    const gchar *decalage_sous_ib, *decalage_compte, *decalage_tiers;
     gint i, ligne, current_report_number;
     gsb_real total_partie, total_general;
 
