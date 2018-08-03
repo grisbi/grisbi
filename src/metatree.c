@@ -2436,7 +2436,7 @@ gboolean metatree_selection_changed ( GtkTreeSelection *selection, GtkTreeModel 
  */
 void metatree_register_widget_as_linked ( GtkTreeModel * model,
                         GtkWidget * widget,
-                        gchar * link_type )
+                        const gchar * link_type )
 {
     GSList * links;
 

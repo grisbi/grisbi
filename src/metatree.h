@@ -132,7 +132,7 @@ void metatree_manage_sub_divisions ( GtkWidget *tree_view );
 void metatree_new_division ( GtkTreeModel * model );
 void metatree_register_widget_as_linked ( GtkTreeModel * model,
                         GtkWidget * widget,
-                        gchar * link_type );
+                        const gchar * link_type );
 void metatree_remove_transaction ( GtkTreeView * tree_view,
                         MetatreeInterface * iface,
                         gint transaction,
