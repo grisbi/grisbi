@@ -39,12 +39,12 @@
 /*START_STATIC*/
 static void dialogue_special ( GtkMessageType param, const gchar *text,
                                const gchar *hint);
-static void dialogue_conditional ( gchar *text, gchar *var );
-static GtkDialog *dialogue_conditional_new ( gchar *text,
-                        gchar *var,
+static void dialogue_conditional ( const gchar *text, const gchar *var );
+static GtkDialog *dialogue_conditional_new ( const gchar *text,
+                        const gchar *var,
                         GtkMessageType type,
                         GtkButtonsType buttons );
-static void dialogue_conditional_special ( gchar *text, gchar *var, GtkMessageType type );
+static void dialogue_conditional_special ( const gchar *text, const gchar *var, GtkMessageType type );
 static gboolean dialogue_update_var ( GtkWidget *checkbox, gint message );
 static gchar *make_hint ( const gchar *hint, const gchar *text );
 /*END_STATIC*/
@@ -133,7 +133,7 @@ struct ConditionalMessage messages[] =
  * \param text Text to display in window
  * \param hint Hint to display
  */
-void dialogue_hint ( gchar *text, gchar *hint )
+void dialogue_hint ( const gchar *text, const gchar *hint )
 {
     dialogue_special ( GTK_MESSAGE_INFO, text, hint );
 }
@@ -144,7 +144,7 @@ void dialogue_hint ( gchar *text, gchar *hint )
  *
  * \param text Text to display in window
  */
-void dialogue ( gchar *texte_dialogue )
+void dialogue ( const gchar *texte_dialogue )
 {
     dialogue_special ( GTK_MESSAGE_INFO, texte_dialogue, NULL );
 }
@@ -155,7 +155,7 @@ void dialogue ( gchar *texte_dialogue )
  *
  * \param text Text to display in window
  */
-void dialogue_error ( gchar *text )
+void dialogue_error ( const gchar *text )
 {
     dialogue_special ( GTK_MESSAGE_ERROR, text, NULL );
 }
@@ -167,7 +167,7 @@ void dialogue_error ( gchar *text )
  * \param text Text to display in window
  * \param hint Text to display in window as hint (bold, larger)
  */
-void dialogue_error_hint ( const gchar *text, gchar *hint )
+void dialogue_error_hint ( const gchar *text, const gchar *hint )
 {
     dialogue_special ( GTK_MESSAGE_ERROR, text, hint );
 }
@@ -178,7 +178,7 @@ void dialogue_error_hint ( const gchar *text, gchar *hint )
  *
  * \param text Text to display in window
  */
-void dialogue_warning ( gchar *text )
+void dialogue_warning ( const gchar *text )
 {
     dialogue_special ( GTK_MESSAGE_WARNING, text, NULL );
 }
@@ -190,7 +190,7 @@ void dialogue_warning ( gchar *text )
  * \param text Text to display in window
  * \param hint Text to display in window as hint (bold, larger)
  */
-void dialogue_warning_hint ( gchar *text, gchar *hint )
+void dialogue_warning_hint ( const gchar *text, const gchar *hint )
 {
     dialogue_special ( GTK_MESSAGE_WARNING, text, hint );
 }
@@ -324,8 +324,8 @@ gboolean dialogue_update_var ( GtkWidget *checkbox, gint message )
  *
  * \return  A newly-created GtkDialog.
  */
-GtkDialog *dialogue_conditional_new ( gchar *text,
-                        gchar *var,
+GtkDialog *dialogue_conditional_new ( const gchar *text,
+                        const gchar *var,
                         GtkMessageType type,
                         GtkButtonsType buttons )
 {
@@ -380,7 +380,7 @@ GtkDialog *dialogue_conditional_new ( gchar *text,
  * appear or not and that indicates which variable could be modified
  * so that this message won't appear again.
  */
-void dialogue_conditional_hint ( gchar *hint, gchar *text, gchar *var )
+void dialogue_conditional_hint ( const gchar *hint, const gchar *text, const gchar *var )
 {
     dialogue_conditional ( make_hint(hint, text), var );
 }
@@ -396,7 +396,7 @@ void dialogue_conditional_hint ( gchar *hint, gchar *text, gchar *var )
  * appear or not and that indicates which variable could be modified
  * so that this message won't appear again.
  */
-void dialogue_conditional ( gchar *text, gchar *var )
+void dialogue_conditional ( const gchar *text, const gchar *var )
 {
     dialogue_conditional_special ( text, var, GTK_MESSAGE_WARNING );
 }
@@ -412,7 +412,7 @@ void dialogue_conditional ( gchar *text, gchar *var )
  *      appear or not and that indicates which variable could
  *      be modified so that this message won't appear again.
  */
-void dialogue_conditional_special ( gchar *text, gchar *var, GtkMessageType type )
+void dialogue_conditional_special ( const gchar *text, const gchar *var, GtkMessageType type )
 {
     GtkDialog *dialog;
 
@@ -477,7 +477,7 @@ gboolean question_yes_no ( const gchar *text, const gchar *hint, gint default_an
  *
  * \return TRUE if user pressed 'YES'.  FALSE otherwise.
  */
-gboolean question_conditional_yes_no ( gchar *var )
+gboolean question_conditional_yes_no ( const gchar *var )
 {
     gint response, i;
     GtkDialog *dialog;
@@ -570,7 +570,7 @@ gboolean question_conditional_yes_no_with_struct ( struct ConditionalMessage *me
  * \return message number or -1 is not present.
  */
 gint question_conditional_yes_no_get_no_struct ( struct ConditionalMessage *msg,
-                        gchar *name )
+                        const gchar *name )
 {
     gint i;
 
@@ -638,7 +638,7 @@ gchar *make_red ( const gchar *text )
  * \return a pango formated string It returns a newly allocated string which must
  *         be freed when no more used.
  */
-gchar *make_pango_attribut ( gchar *attribut, const gchar *text )
+gchar *make_pango_attribut ( const gchar *attribut, const gchar *text )
 {
     gchar *tmpstr, *span_format;
 
@@ -738,7 +738,7 @@ void dialog_message (const gchar *label, ... )
  * \param hint 			Hint to display
  * \param entry_description 	label to set in front of the entry
  */
-gchar *dialogue_hint_with_entry ( gchar *text, gchar *hint, gchar *entry_description )
+gchar *dialogue_hint_with_entry ( const gchar *text, const gchar *hint, const gchar *entry_description )
 {
     GtkWidget *dialog;
     const gchar *primary_text = hint ? hint : text;
