@@ -28,7 +28,7 @@ RequestExecutionLevel admin
 
 Name "Grisbi @NSIS_BITS@"
 Icon "${SRCDIR}\win32\grisbi.ico"
-!define COMPANYNAME "Grisbi @NSIS_BITS@"
+!define COMPANYNAME "Grisbi"
 
 Caption "Grisbi @NSIS_BITS@ ${VERSION} Setup"
 
@@ -40,9 +40,9 @@ Caption "Grisbi @NSIS_BITS@ ${VERSION} Setup"
   !echo "Outer invocation"
  
   !makensis '/DINNER "${__FILE__}"' = 0
-  !system "$%TEMP%\tempinstaller.exe /S" = 2
+  !system "$%TEMP%\tempinstaller.exe" = 2
   !echo "Signing uninstaller!!!"
-  !system 'c:\msys64\usr\bin\bash.exe -l -c "cd ~/grisbi-cert && ./sign.sh ""$%TEMP%\uninstall.exe"""' = 0
+  !system 'c:\msys64\usr\bin\bash.exe -l -c "cd ~/grisbi-cert && ./sign.sh ""$%TEMP%\uninstaller.exe"""' = 0
  
   OutFile "Grisbi-@NSIS_BITS@-${VERSION}${DATE}-setup.exe"
   SetCompressor /SOLID lzma
@@ -110,7 +110,7 @@ Section "" SecBin
   ;Create uninstaller
   !ifndef INNER
     SetOutPath $INSTDIR
-    File $%TEMP%\uninstall.exe
+    File $%TEMP%\uninstaller.exe
   !endif
 
   createDirectory "$SMPROGRAMS\${COMPANYNAME}"
@@ -148,6 +148,7 @@ Section "" SecShare
   File /a /r "${PACKAGERDIR}\share\"
 SectionEnd
 
+!ifdef INNER
 Section "Uninstall"
   Delete "$INSTDIR\uninstall.exe"
   Delete "$DESKTOP\Grisbi-1.2.lnk"
@@ -157,20 +158,23 @@ Section "Uninstall"
   RMDir /r "$INSTDIR"
   RMDir /r "$SMPROGRAMS\${COMPANYNAME}"
 SectionEnd
+!endif
 
 
 /* Installer functions */
 Function .onInit
   !ifdef INNER
-    WriteUninstaller "$%TEMP%\uninstall.exe"
+    WriteUninstaller "$%TEMP%\uninstaller.exe"
     Quit  ; just bail out quickly when running the "inner" installer
   !endif
   !insertmacro MUI_LANGDLL_DISPLAY
 FunctionEnd
 
+!ifdef INNER
 /* Uninstaller functions */
 Function un.onInit
   !insertmacro MUI_UNGETLANGUAGE
   ; ReadRegDWORD $language HKLM Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}" "Language"
   ; !insertmacro MUI_UNGETLANGUAGE
 FunctionEnd
+!endif
