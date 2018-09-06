@@ -26,14 +26,11 @@
 
 #define GTK_TYPE_COMBOFIX           ( gtk_combofix_get_type ( ) )
 #define GTK_COMBOFIX(obj)           ( G_TYPE_CHECK_INSTANCE_CAST ( (obj), GTK_TYPE_COMBOFIX, GtkComboFix ) )
-#define GTK_COMBOFIX_CLASS(klass)   ( G_TYPE_CHECK_CLASS_CAST ( (klass),  GTK_TYPE_COMBOFIX, GtkComboFixClass ) )
 #define GTK_IS_COMBOFIX(obj)        ( G_TYPE_CHECK_INSTANCE_TYPE ( (obj), GTK_TYPE_COMBOFIX ) )
 
 
 typedef struct _GtkComboFix         GtkComboFix;
 typedef struct _GtkComboFixClass    GtkComboFixClass;
-typedef struct _GtkComboFixPrivate  GtkComboFixPrivate;
-
 
 /* structure of the ComboFix */
 struct _GtkComboFix
@@ -42,9 +39,6 @@ struct _GtkComboFix
 
     /* entry of the combofix */
     GtkWidget *entry;
-
-    /* *** private entries *** */
-    GtkComboFixPrivate *priv;
 };
 
 struct _GtkComboFixClass

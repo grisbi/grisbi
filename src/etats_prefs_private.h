@@ -80,13 +80,6 @@ static gint last_page;
 static GtkBuilder *etats_prefs_builder = NULL;
 /*END_GLOBAL_VARIABLES*/
 
-
-struct _EtatsPrefsPrivate
-{
-    GtkWidget           *hpaned;
-};
-
-
 /*START_PRIVATE_FUNCTIONS*/
 static GtkWidget *	etats_prefs_onglet_budgets_create_page 					(gint page);
 static GtkWidget *	etats_prefs_onglet_categories_create_page 				(gint page);
