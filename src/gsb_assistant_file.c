@@ -574,7 +574,6 @@ static void gsb_assistant_file_change_title ( GtkWidget *title_entry,
 				  ".gsb",
 				  NULL );
     /* set the new -last title- */
-    g_free (last_title);
     g_object_set_data ( G_OBJECT (title_entry),
 			"last_title", g_strdup (gtk_entry_get_text (GTK_ENTRY (title_entry))));
 
