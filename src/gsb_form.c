@@ -2779,6 +2779,7 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
             previous_debit = utils_real_get_from_string (save_entry);
             balance = gsb_real_add ( balance, previous_debit);
             g_free (save_entry);
+            save_entry = NULL;
 
             if (balance.mantissa < 0)
             {
