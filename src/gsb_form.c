@@ -2744,14 +2744,14 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
     if ( widget )
     {
         if ( gsb_form_widget_check_empty ( widget ) == FALSE )
-            number = gsb_real_opposite ( utils_real_get_from_string ( gtk_entry_get_text ( GTK_ENTRY ( widget ) ) ) );
+            number = gsb_real_opposite ( utils_real_get_calculate_entry ( widget ) );
 
 	if ( gsb_form_widget_check_empty ( widget ) == TRUE
          ||
          number.mantissa == 0 )
         {
             widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_CREDIT );
-            number = utils_real_get_from_string ( gtk_entry_get_text ( GTK_ENTRY ( widget ) ) );
+            number = utils_real_get_calculate_entry ( widget );
 
             if ( ( gsb_form_widget_check_empty ( widget ) == TRUE
              ||
