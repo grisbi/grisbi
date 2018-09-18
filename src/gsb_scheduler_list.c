@@ -84,9 +84,9 @@ static gint gsb_scheduler_list_default_sort_function ( GtkTreeModel *model,
 static gboolean gsb_scheduler_list_edit_transaction_by_pointer ( gint *scheduled_number );
 static gboolean gsb_scheduler_list_fill_transaction_row ( GtkTreeStore *store,
                         GtkTreeIter *iter,
-                        const gchar *line[SCHEDULER_COL_VISIBLE_COLUMNS] );
+                        gchar *line[SCHEDULER_COL_VISIBLE_COLUMNS] );
 static gboolean gsb_scheduler_list_fill_transaction_text ( gint scheduled_number,
-						    const gchar *line[SCHEDULER_COL_VISIBLE_COLUMNS]  );
+						    gchar *line[SCHEDULER_COL_VISIBLE_COLUMNS]  );
 static GtkTreeIter *gsb_scheduler_list_get_iter_from_scheduled_number ( gint scheduled_number );
 static GSList *gsb_scheduler_list_get_iter_list_from_scheduled_number ( gint scheduled_number );
 static GtkTreeModel *gsb_scheduler_list_get_model ( void );
@@ -180,7 +180,7 @@ static gchar *j_m_a_names[] = { N_("days"), N_("weeks"), N_("months"), N_("years
  * \return
  **/
 static void gsb_scheduler_list_set_virtual_amount_with_loan (gint scheduled_number,
-															 const gchar *line[SCHEDULER_COL_VISIBLE_COLUMNS],
+															 gchar *line[SCHEDULER_COL_VISIBLE_COLUMNS],
 															 gint account_number)
 {
 	gdouble amount;
@@ -1087,7 +1087,7 @@ gboolean gsb_scheduler_list_append_new_scheduled ( gint scheduled_number,
 	GDate *tmp_date;
     GDate *pGDateCurrent;
     GtkTreeIter *mother_iter = NULL;
-    const gchar *line[SCHEDULER_COL_VISIBLE_COLUMNS];
+    gchar *line[SCHEDULER_COL_VISIBLE_COLUMNS] = {NULL,NULL,NULL,NULL,NULL,NULL,NULL};
     gint mother_scheduled_number;
 	gint first_is_different = -1;
 	gint fixed_date = 0;
@@ -1183,7 +1183,8 @@ gboolean gsb_scheduler_list_append_new_scheduled ( gint scheduled_number,
 
         gtk_tree_store_append ( GTK_TREE_STORE ( tree_model_scheduler_list ), &iter, mother_iter );
 
-        gsb_scheduler_list_fill_transaction_row ( GTK_TREE_STORE ( tree_model_scheduler_list ), &iter, line );
+		if (scheduled_number > 0)
+			gsb_scheduler_list_fill_transaction_row ( GTK_TREE_STORE ( tree_model_scheduler_list ), &iter, line );
 
         /* set the number of scheduled transaction to 0 if it's not the first one
          * (when more than one showed ) */
@@ -1314,7 +1315,7 @@ gboolean gsb_scheduler_list_update_transaction_in_list ( gint scheduled_number )
 	gint transfer_account = 0;
 
     /* TODO dOm : each line of the array `line' contains a newly allocated string. When are they freed ? */
-    const gchar *line[SCHEDULER_COL_VISIBLE_COLUMNS];
+    gchar *line[SCHEDULER_COL_VISIBLE_COLUMNS] = {NULL,NULL,NULL,NULL,NULL,NULL,NULL};;
 
     devel_debug_int (scheduled_number);
 
@@ -1379,32 +1380,32 @@ printf ("date = %s\n", gsb_format_gdate (pGDateCurrent));
                         mother_number = gsb_data_scheduled_get_mother_scheduled_number ( white_line_number );
                     }
 
-						if (init_sch_with_loan && scheduled_number_tmp > 0) /* cette transaction concerne un prêt */
-						{
-							gsb_real amount;
-							gchar *tmp_str;
-							gchar *color_str = NULL;
+					if (init_sch_with_loan && scheduled_number_tmp > 0) /* cette transaction concerne un prêt */
+					{
+						gsb_real amount;
+						gchar *tmp_str;
+						gchar *color_str = NULL;
 
-							amount = bet_finance_get_loan_amount_at_date (scheduled_number_tmp,
-																		  transfer_account,
-																		  pGDateCurrent,
-																		  FALSE);
-							tmp_str = utils_real_get_string_with_currency (amount,
-																		   gsb_data_scheduled_get_currency_number (scheduled_number_tmp),
-																		   TRUE);
-							if ( line[COL_NB_AMOUNT] && g_utf8_strchr ( line[COL_NB_AMOUNT], -1, '-' ) )
-								color_str = "red";
-							else
-							{
-								g_free ( color_str );
-								color_str = NULL;
-							}
-							gtk_tree_store_set ( store,
-                                        &child_iter,
-												COL_NB_AMOUNT, tmp_str,
-												SCHEDULER_COL_NB_AMOUNT_COLOR, color_str,
-												-1 );
+						amount = bet_finance_get_loan_amount_at_date (scheduled_number_tmp,
+																	  transfer_account,
+																	  pGDateCurrent,
+																	  FALSE);
+						tmp_str = utils_real_get_string_with_currency (amount,
+																	   gsb_data_scheduled_get_currency_number (scheduled_number_tmp),
+																	   TRUE);
+						if ( line[COL_NB_AMOUNT] && g_utf8_strchr ( line[COL_NB_AMOUNT], -1, '-' ) )
+							color_str = "red";
+						else
+						{
+							g_free ( color_str );
+							color_str = NULL;
 						}
+						gtk_tree_store_set ( store,
+											&child_iter,
+											COL_NB_AMOUNT, tmp_str,
+											SCHEDULER_COL_NB_AMOUNT_COLOR, color_str,
+											-1 );
+					}
                 }
                 while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( store ), &child_iter ) );
 
@@ -1427,97 +1428,99 @@ printf ("fin de fonction gsb_scheduler_list_update_transaction_in_list ()\n");
  *
  * \return FALSE
  * */
-gboolean gsb_scheduler_list_fill_transaction_text ( gint scheduled_number,
-						    const gchar *line[SCHEDULER_COL_VISIBLE_COLUMNS]  )
+gboolean gsb_scheduler_list_fill_transaction_text (gint scheduled_number,
+												   gchar *line[SCHEDULER_COL_VISIBLE_COLUMNS])
 {
     if ( gsb_data_scheduled_get_mother_scheduled_number (scheduled_number))
     {
-	/* for child split we set all to NULL except the party, we show the category instead */
-	line[COL_NB_DATE] = NULL;
-	line[COL_NB_FREQUENCY] = NULL;
-	line[COL_NB_ACCOUNT] = NULL;
-	line[COL_NB_MODE] = NULL;
+		/* for child split we set all to NULL except the party, we show the category instead */
+		line[COL_NB_DATE] = NULL;
+		line[COL_NB_FREQUENCY] = NULL;
+		line[COL_NB_ACCOUNT] = NULL;
+		line[COL_NB_MODE] = NULL;
 
-	if ( gsb_data_scheduled_get_category_number ( scheduled_number ) )
-	    line[COL_NB_PARTY] = gsb_data_category_get_name (
-                        gsb_data_scheduled_get_category_number ( scheduled_number ),
-                        gsb_data_scheduled_get_sub_category_number ( scheduled_number ),
-                        NULL );
-	else
-	{
-	    /* there is no category, it can be a transfer */
-	    if ( gsb_data_scheduled_get_account_number_transfer ( scheduled_number ) >= 0
-		 &&
-		 scheduled_number > 0 )
-	    {
-            /* it's a transfer */
-            if (gsb_data_scheduled_get_amount (scheduled_number).mantissa < 0)
-                line[COL_NB_PARTY] = g_strdup_printf ( _("Transfer to %s"),
-                        gsb_data_account_get_name (
-                        gsb_data_scheduled_get_account_number_transfer ( scheduled_number ) ) );
-            else
-                line[COL_NB_PARTY] = g_strdup_printf ( _("Transfer from %s"),
-                        gsb_data_account_get_name (
-                        gsb_data_scheduled_get_account_number_transfer ( scheduled_number ) ) );
-	    }
-	    else
-            /* it's not a transfer, so no category */
-            line[COL_NB_PARTY] = NULL;
-	}
+		if ( gsb_data_scheduled_get_category_number ( scheduled_number ) )
+			line[COL_NB_PARTY] = gsb_data_category_get_name (
+							gsb_data_scheduled_get_category_number ( scheduled_number ),
+							gsb_data_scheduled_get_sub_category_number ( scheduled_number ),
+							NULL );
+		else
+		{
+			/* there is no category, it can be a transfer */
+			if ( gsb_data_scheduled_get_account_number_transfer ( scheduled_number ) >= 0
+			 &&
+			 scheduled_number > 0 )
+			{
+				/* it's a transfer */
+				if (gsb_data_scheduled_get_amount (scheduled_number).mantissa < 0)
+					line[COL_NB_PARTY] = g_strdup_printf ( _("Transfer to %s"),
+							gsb_data_account_get_name (
+							gsb_data_scheduled_get_account_number_transfer ( scheduled_number ) ) );
+				else
+					line[COL_NB_PARTY] = g_strdup_printf ( _("Transfer from %s"),
+							gsb_data_account_get_name (
+							gsb_data_scheduled_get_account_number_transfer ( scheduled_number ) ) );
+			}
+			else
+				/* it's not a transfer, so no category */
+				line[COL_NB_PARTY] = NULL;
+		}
     }
     else
     {
-	/* fill her for normal scheduled transaction (not children) */
-	gint frequency;
+		/* fill her for normal scheduled transaction (not children) */
+		gint frequency;
 
-	line[COL_NB_DATE] = gsb_format_gdate (gsb_data_scheduled_get_date (scheduled_number));
+		line[COL_NB_DATE] = gsb_format_gdate (gsb_data_scheduled_get_date (scheduled_number));
 	frequency = gsb_data_scheduled_get_frequency (scheduled_number);
 
-	if ( frequency == SCHEDULER_PERIODICITY_CUSTOM_VIEW )
-	{
-	    switch (gsb_data_scheduled_get_user_interval (scheduled_number))
-	    {
-		case PERIODICITY_DAYS:
-		    line[COL_NB_FREQUENCY] = g_strdup_printf ( _("%d days"),
-								gsb_data_scheduled_get_user_entry (scheduled_number));
-		    break;
+		if ( frequency == SCHEDULER_PERIODICITY_CUSTOM_VIEW )
+		{
+			switch (gsb_data_scheduled_get_user_interval (scheduled_number))
+			{
+			case PERIODICITY_DAYS:
+				line[COL_NB_FREQUENCY] = g_strdup_printf ( _("%d days"),
+									gsb_data_scheduled_get_user_entry (scheduled_number));
+				break;
 
-		case PERIODICITY_WEEKS:
-		    line[COL_NB_FREQUENCY] = g_strdup_printf ( _("%d weeks"),
-								gsb_data_scheduled_get_user_entry (scheduled_number));
-		    break;
+			case PERIODICITY_WEEKS:
+				line[COL_NB_FREQUENCY] = g_strdup_printf ( _("%d weeks"),
+									gsb_data_scheduled_get_user_entry (scheduled_number));
+				break;
 
-		case PERIODICITY_MONTHS:
-		    line[COL_NB_FREQUENCY] = g_strdup_printf ( _("%d months"),
-								gsb_data_scheduled_get_user_entry (scheduled_number));
-		    break;
+			case PERIODICITY_MONTHS:
+				line[COL_NB_FREQUENCY] = g_strdup_printf ( _("%d months"),
+									gsb_data_scheduled_get_user_entry (scheduled_number));
+				break;
 
-		case PERIODICITY_YEARS:
-		    line[COL_NB_FREQUENCY] = g_strdup_printf ( _("%d years"),
-								gsb_data_scheduled_get_user_entry (scheduled_number));
-	    }
-	}
-	else
-	    if ( frequency < SCHEDULER_PERIODICITY_NB_CHOICES
-		 &&
-		 frequency >= 0 )
-	    {
-		gchar * names[] = { _("Once"), _("Weekly"), _("Monthly"),
-		    _("Bimonthly"), _("Quarterly"), _("Yearly") };
-		line[COL_NB_FREQUENCY] = names [frequency];
-	    }
+			case PERIODICITY_YEARS:
+				line[COL_NB_FREQUENCY] = g_strdup_printf ( _("%d years"),
+									gsb_data_scheduled_get_user_entry (scheduled_number));
+			}
+		}
+		else
+		{
+			if ( frequency < SCHEDULER_PERIODICITY_NB_CHOICES
+			 &&
+			 frequency >= 0 )
+			{
+				gchar * names[] = { _("Once"), _("Weekly"), _("Monthly"),
+					_("Bimonthly"), _("Quarterly"), _("Yearly") };
 
-	line[COL_NB_ACCOUNT] = gsb_data_account_get_name (gsb_data_scheduled_get_account_number (scheduled_number));
-	line[COL_NB_PARTY] = gsb_data_payee_get_name (gsb_data_scheduled_get_party_number (scheduled_number),
-						       TRUE );
-	if ( gsb_data_scheduled_get_automatic_scheduled (scheduled_number))
-	    line[COL_NB_MODE]=_("Automatic");
-	else
-	    line[COL_NB_MODE] = _("Manual");
+				line[COL_NB_FREQUENCY] = g_strdup (names [frequency]);
+			}
+		}
+		line[COL_NB_ACCOUNT] = g_strdup (gsb_data_account_get_name (gsb_data_scheduled_get_account_number (scheduled_number)));
+		line[COL_NB_PARTY] = g_strdup (gsb_data_payee_get_name (gsb_data_scheduled_get_party_number (scheduled_number), TRUE));
+
+		if ( gsb_data_scheduled_get_automatic_scheduled (scheduled_number))
+			line[COL_NB_MODE]= g_strdup (_("Automatic"));
+		else
+			line[COL_NB_MODE] = g_strdup (_("Manual"));
     }
 
     /* that can be filled for mother and children of split */
-    line[COL_NB_NOTES] = gsb_data_scheduled_get_notes ( scheduled_number );
+    line[COL_NB_NOTES] = g_strdup (gsb_data_scheduled_get_notes ( scheduled_number ));
 
     /* if it's a white line don't fill the amount
      * (in fact fill nothing, but normally all before was set to NULL,
@@ -1546,23 +1549,21 @@ gboolean gsb_scheduler_list_fill_transaction_text ( gint scheduled_number,
  * \return FALSE
  * */
 gboolean gsb_scheduler_list_fill_transaction_row ( GtkTreeStore *store,
-                        GtkTreeIter *iter,
-                        const gchar *line[SCHEDULER_COL_VISIBLE_COLUMNS] )
+												  GtkTreeIter *iter,
+												  gchar *line[SCHEDULER_COL_VISIBLE_COLUMNS] )
 {
     gchar *color_str = NULL;
     gint i;
 
     if ( line[COL_NB_AMOUNT] && g_utf8_strchr ( line[COL_NB_AMOUNT], -1, '-' ) )
         color_str = "red";
-    else
-    {
-        g_free ( color_str );
-        color_str = NULL;
-    }
 
     for ( i=0 ; i<SCHEDULER_COL_VISIBLE_COLUMNS ; i++ )
     {
-        if ( i == 6 )
+		if (!line[i])
+			continue;
+
+		if ( i == 6 )
             gtk_tree_store_set ( store, iter, i, line[i], SCHEDULER_COL_NB_AMOUNT_COLOR, color_str, -1 );
         else
             gtk_tree_store_set ( store, iter, i, line[i], -1 );

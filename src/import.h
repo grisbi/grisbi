@@ -130,20 +130,24 @@ struct ImportPayeeAsso
 {
     gint    payee_number;
     gchar   *search_str;
+	gboolean	ignore_case;
+	gboolean	use_regex;
 };
 
 /* START_DECLARATION */
 void 		gsb_import_assistant_importer_fichier 			(void);
 
 gboolean 	gsb_import_associations_add_assoc 				(gint payee_number,
-															 const gchar *search_str);
+															 const gchar *search_str,
+															 gint ignore_case,
+															 gint use_regex);
 gint 		gsb_import_associations_cmp_assoc 				(struct ImportPayeeAsso *assoc_1,
 															 struct ImportPayeeAsso *assoc_2);
 GSList *	gsb_import_associations_get_liste_associations	(void);
 void 		gsb_import_associations_free_liste				(void);
 void 		gsb_import_associations_init_variables 			(void);
 gint 		gsb_import_associations_list_append_assoc 		(gint payee_number,
-															 const gchar *search_str);
+															 struct ImportPayeeAsso *assoc);
 void 		gsb_import_associations_remove_assoc 			(gint payee_number);
 
 gboolean 	gsb_import_by_rule 								(gint rule);

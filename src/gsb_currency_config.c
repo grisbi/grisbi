@@ -786,9 +786,9 @@ static gboolean gsb_currency_config_select_currency_popup (GtkTreeSelection *sel
     GtkWidget *entry_iso_code;
     GtkWidget *entry_name;
     GtkTreeIter iter;
-    gchar *currency_iso_code;
-    gchar *currency_name;
-    gchar *currency_nickname;
+    const gchar *currency_iso_code;
+    const gchar *currency_name;
+    const gchar *currency_nickname;
 	gchar *tmp_str;
     gint currency_floating;
 
@@ -1308,7 +1308,7 @@ gint gsb_currency_config_create_currency (const gchar *currency_name,
  *
  * \return the number of the new currency or FALSE if not found
  **/
-gint gsb_currency_config_create_currency_from_iso4217list (gchar *currency_name)
+gint gsb_currency_config_create_currency_from_iso4217list (const gchar *currency_name)
 {
     struct Iso4217Currency *currency = iso_4217_currencies;
     gchar *tmp = g_strdup (currency_name);
@@ -1429,13 +1429,13 @@ gboolean gsb_currency_config_select_default (GtkTreeModel *tree_model,
 		{
 			good = TRUE;
 		}
-		g_free (symbol);
     }
     else
     {
 		symbol = country;
 		if (!strcmp (symbol, _("United States")))
 		{
+			symbol = g_strdup ("USD");
 			good = TRUE;
 		}
     }
@@ -1444,9 +1444,10 @@ gboolean gsb_currency_config_select_default (GtkTreeModel *tree_model,
     {
 		gchar*tmp_str;
 
-		tmp_str = g_strdup_printf ("found '%s'", locale->int_curr_symbol);
+		tmp_str = g_strdup_printf ("found '%s'", symbol);
 		devel_debug (tmp_str);
 		g_free (tmp_str);
+		g_free (symbol);
 		gtk_tree_selection_select_path (gtk_tree_view_get_selection (tree_view), path);
 		gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (tree_view), path, NULL, TRUE, GSB_CENTER, 0);
 

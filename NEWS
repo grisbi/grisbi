@@ -1,3 +1,27 @@
+New in version 1.2.0
+- portage sous gtk3
+- Nouvelle page d'accueil
+- Nouvelle version Windows
+- Ajout de règles pour l'importation de fichiers CSV
+- Ajout de nouvelles règles pour la gestion des tiers
+- Ajout de la création automatique d'opérations ventillées pour les échéances de crédit
+
+
+New in version 1.0.4
+- fixes a bug when the scheduled transaction is executed automatically once
+- fixes bugsreports link
+- Adding a new option for futures dates which fixes bug 1852
+
+New in version 1.0.3
+- Fixes display bug of bet_tab when load a new account file
+- fixes bug in forecasts when decimal_point is comma "," and thousands_separator is dot "."
+- fixes bug 1837 : display split transactions in budgetary lines view
+- partial correction of bug "creating duplicate transactions when categories are not used"
+- fixes warning when date is NULL in bet_tab.c
+- fixes a warning when displaying reconciled transactions
+- Added all scheduled transactions of the month if conf.execute_scheduled_of_month = TRUE
+- fixes display bug of the last scheduled transaction of the period
+
 New in version 1.0.2
 - adding Cuban Convertible Peso currency
 - fixes bug when creating and removing a report in gtk_combofix.c

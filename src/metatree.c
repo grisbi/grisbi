@@ -2436,7 +2436,7 @@ gboolean metatree_selection_changed ( GtkTreeSelection *selection, GtkTreeModel 
  */
 void metatree_register_widget_as_linked ( GtkTreeModel * model,
                         GtkWidget * widget,
-                        gchar * link_type )
+                        const gchar * link_type )
 {
     GSList * links;
 
@@ -2464,7 +2464,7 @@ void metatree_register_widget_as_linked ( GtkTreeModel * model,
  */
 void metatree_set_linked_widgets_sensitive ( GtkTreeModel * model,
                         gboolean sensitive,
-                        gchar * link_type )
+                        const gchar * link_type )
 {
     GSList * links = g_object_get_data ( G_OBJECT(model), link_type );
 
@@ -3740,8 +3740,8 @@ static gboolean metatree_select_transactions_destination ( MetatreeInterface *if
     gchar *text;
     gchar *tmp_str_1;
     gchar *tmp_str_2;
-    gint nouveau_no_division;
-    gint nouveau_no_sub_division;
+    gint nouveau_no_division = 0;
+    gint nouveau_no_sub_division = 0;
     gint resultat;
     gint number;
 
@@ -3818,9 +3818,6 @@ static gboolean metatree_select_transactions_destination ( MetatreeInterface *if
 
         return FALSE;
     }
-
-    nouveau_no_division = 0;
-    nouveau_no_sub_division = 0;
 
     if ( metatree_find_payee == 0 && metatree_find_notes == 0 )
     {

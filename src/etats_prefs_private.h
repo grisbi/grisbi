@@ -10,7 +10,7 @@ G_BEGIN_DECLS
 
 /*START_GLOBAL_VARIABLES*/
 /* liste des plages de date possibles */
-static gchar *etats_config_liste_plages_dates[] =
+static const gchar *etats_config_liste_plages_dates[] =
 {
     N_("All"),
     N_("Custom"),
@@ -28,7 +28,7 @@ static gchar *etats_config_liste_plages_dates[] =
     NULL,
 };
 
-static gchar *jours_semaine[] =
+static const gchar *jours_semaine[] =
 {
     N_("Monday"),
     N_("Tuesday"),
@@ -40,7 +40,7 @@ static gchar *jours_semaine[] =
     NULL,
 };
 
-static gchar *data_separation_periodes[] =
+static const gchar *data_separation_periodes[] =
 {
     N_("Day"),
     N_("Week"),
@@ -50,7 +50,7 @@ static gchar *data_separation_periodes[] =
 };
 
 /* données de classement des opérations */
-static gchar *etats_prefs_classement_operations[] =
+static const gchar *etats_prefs_classement_operations[] =
 {
     N_("date"),
     N_("value date"),
@@ -79,13 +79,6 @@ static gint last_page;
 /* builder */
 static GtkBuilder *etats_prefs_builder = NULL;
 /*END_GLOBAL_VARIABLES*/
-
-
-struct _EtatsPrefsPrivate
-{
-    GtkWidget           *hpaned;
-};
-
 
 /*START_PRIVATE_FUNCTIONS*/
 static GtkWidget *	etats_prefs_onglet_budgets_create_page 					(gint page);

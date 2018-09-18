@@ -371,7 +371,7 @@ cs_emphasize_label (GtkLabel *label)
 }
 
 static void
-cs_init (GOCharmapSel *cs)
+cs_init (GOCharmapSel *cs, void *ptr)
 {
 	cs->test = GO_CHARMAP_SEL_TO_UTF8;
 
@@ -459,7 +459,7 @@ cs_build_menu (GOCharmapSel *cs)
 }
 
 static void
-cs_class_init (GtkWidgetClass *widget_klass)
+cs_class_init (GtkWidgetClass *widget_klass, void *ptr)
 {
 	CharsetInfo *ci;
 	size_t i;

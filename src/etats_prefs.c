@@ -45,16 +45,20 @@
 
 /*START_STATIC*/
 #ifdef OS_OSX
-static gchar *label_search_help = N_("Command-click\nto add to the selection");
+static const gchar *label_search_help = N_("Command-click\nto add to the selection");
 #endif /* OS_OSX */
 
 /*END_STATIC*/
 
+/* Private structure type */
+typedef struct _EtatsPrefsPrivate EtatsPrefsPrivate;
 
-#define ETATS_PREFS_GET_PRIVATE(object)(G_TYPE_INSTANCE_GET_PRIVATE ((object), ETATS_TYPE_PREFS, EtatsPrefsPrivate))
+struct _EtatsPrefsPrivate
+{
+    GtkWidget           *hpaned;
+};
 
-
-G_DEFINE_TYPE(EtatsPrefs, etats_prefs, GTK_TYPE_DIALOG)
+G_DEFINE_TYPE_WITH_PRIVATE (EtatsPrefs, etats_prefs, GTK_TYPE_DIALOG)
 
 /**
  *  called when destroy EtatsPrefs
@@ -102,8 +106,6 @@ static void etats_prefs_class_init ( EtatsPrefsClass *klass )
 
     object_class->dispose = etats_prefs_dispose;
     object_class->finalize = etats_prefs_finalize;
-
-    g_type_class_add_private ( object_class, sizeof( EtatsPrefsPrivate ) );
 }
 
 
@@ -117,18 +119,20 @@ static void etats_prefs_class_init ( EtatsPrefsClass *klass )
  * */
 static gboolean etats_prefs_initialise_builder ( EtatsPrefs *prefs )
 {
-    /* Creation d'un nouveau GtkBuilder */
+	EtatsPrefsPrivate *priv;
+
+	/* Creation d'un nouveau GtkBuilder */
     etats_prefs_builder = gtk_builder_new ( );
 
-    if ( etats_prefs_builder == NULL )
-        return FALSE;
+	if ( etats_prefs_builder == NULL )
+		return FALSE;
 
-    /* Chargement du XML dans etats_prefs_builder */
-    if ( !utils_gtkbuilder_merge_ui_data_in_builder ( etats_prefs_builder, "etats_prefs.ui" ) )
-        return FALSE;
+	/* Chargement du XML dans etats_prefs_builder */
+	if ( !utils_gtkbuilder_merge_ui_data_in_builder ( etats_prefs_builder, "etats_prefs.ui" ) )
+		return FALSE;
 
-    prefs->priv->hpaned = GTK_WIDGET ( gtk_builder_get_object ( etats_prefs_builder, "dialog_hpaned" ) );
-
+	priv = etats_prefs_get_instance_private (prefs);
+	priv->hpaned = GTK_WIDGET ( gtk_builder_get_object ( etats_prefs_builder, "dialog_hpaned" ) );
 
     return TRUE;
 }
@@ -3096,14 +3100,13 @@ static GtkWidget *etats_prefs_onglet_affichage_devises_create_page ( gint page )
  */
 static void etats_prefs_init ( EtatsPrefs *prefs )
 {
-    prefs->priv = ETATS_PREFS_GET_PRIVATE ( prefs );
+	EtatsPrefsPrivate *priv;
 
-    devel_debug (NULL);
+	if ( !etats_prefs_initialise_builder ( prefs ) )
+		exit ( 1 );
 
-    if ( !etats_prefs_initialise_builder ( prefs ) )
-        exit ( 1 );
-
-    gtk_dialog_add_buttons ( GTK_DIALOG ( prefs ),
+	priv = etats_prefs_get_instance_private (prefs);
+	gtk_dialog_add_buttons ( GTK_DIALOG ( prefs ),
                         "gtk-cancel",
                         GTK_RESPONSE_CANCEL,
                         "gtk-ok",
@@ -3120,9 +3123,9 @@ static void etats_prefs_init ( EtatsPrefs *prefs )
     etats_prefs_left_panel_create_tree_view ();
 
     gtk_box_pack_start ( GTK_BOX ( gtk_dialog_get_content_area ( GTK_DIALOG ( prefs ) ) ),
-                        prefs->priv->hpaned, TRUE, TRUE, 0 );
+                        priv->hpaned, TRUE, TRUE, 0 );
 
-    gtk_widget_show_all ( prefs->priv->hpaned );
+    gtk_widget_show_all ( priv->hpaned );
 }
 
 

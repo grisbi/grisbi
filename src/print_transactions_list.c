@@ -581,7 +581,7 @@ gboolean print_transactions_list_draw_page ( GtkPrintOperation *operation,
 
 	/* we are on the last record of the transaction or archive,
 	 * decrease the number of transactions to draw */
-	if (record -> what_is_line == IS_TRANSACTION)
+	if (record && record -> what_is_line == IS_TRANSACTION)
 	{
 	    transactions_to_draw--;
 	    total_transactions_printed++;

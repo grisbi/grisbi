@@ -78,7 +78,7 @@ extern GtkTreeModel *bet_fyear_model;
 extern GtkTreeModel *bet_fyear_model_filter;
 /*END_EXTERN*/
 
-static gchar* bet_duration_array[] = {
+static const gchar* bet_duration_array[] = {
     N_("Month"),
     N_("Year"),
     NULL

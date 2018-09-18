@@ -121,7 +121,7 @@ gboolean transaction_model_get_transaction_iter ( GtkTreeIter *iter,
     /* search the mother */
     for (i=0 ; i<custom_list -> num_rows ; i++)
     {
-	record = custom_list -> rows[i];
+		record = custom_list -> rows[i];
 
 	/* if we are on the good transaction, check the line, or if child can only be that line */
 	if (record -> what_is_line == IS_TRANSACTION
@@ -145,7 +145,10 @@ gboolean transaction_model_get_transaction_iter ( GtkTreeIter *iter,
 
     /* come here only if it's a child, else, iter not found */
     if (!is_child)
-	return FALSE;
+		return FALSE;
+
+    if (!record || !record->number_of_children)
+		return FALSE;
 
     /* for now, record is the mother, we search the child */
     for (i=0 ; i < record -> number_of_children ; i++)

@@ -131,20 +131,32 @@ const gchar *nom_compte_en_cours;
 const gchar *nom_tiers_en_cours;
 
 
-/*****************************************************************************************************/
-void affichage_etat ( gint report_number, struct EtatAffichage * affichage,
-		      gchar * filename )
+/******************************************************************************/
+/* Public functions                                                           */
+/******************************************************************************/
+/**
+ * Affichage d'un état
+ *
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ **/
+void affichage_etat ( gint report_number,
+					 struct EtatAffichage * affichage,
+					 gchar * filename )
 {
     GSList *liste_opes_selectionnees;
 
-    grisbi_win_status_bar_wait ( FALSE );
-
     if ( !report_number )
     {
-	report_number = gsb_gui_navigation_get_current_report ();
-	if ( !report_number )
-	    return;
+		report_number = gsb_gui_navigation_get_current_report ();
+		if ( !report_number )
+			return;
     }
+
+    grisbi_win_status_bar_wait ( FALSE );
 
     if ( !affichage )
 	affichage = &gtktable_affichage;
@@ -163,7 +175,29 @@ void affichage_etat ( gint report_number, struct EtatAffichage * affichage,
     etape_finale_affichage_etat ( liste_opes_selectionnees, affichage, filename );
     grisbi_win_status_bar_stop_wait ( FALSE );
 }
-/*****************************************************************************************************/
+
+/**
+ * Affiche un rapport vide pour accélerer l'accès aux préférences du nouvel état'
+ *
+ * \param report_number		numéro du rapport
+ *
+ * \return
+ **/
+void affichage_empty_report (gint report_number)
+{
+	struct EtatAffichage *affichage;
+
+	if (!report_number)
+	    return;
+
+	grisbi_win_status_bar_wait (TRUE);
+	affichage = &gtktable_affichage;
+
+    /* on classe la liste et l'affiche en fonction du choix du type de classement */
+    etat_affichage_output = affichage;
+    etape_finale_affichage_etat (NULL, affichage,NULL);
+    grisbi_win_status_bar_stop_wait (FALSE);
+}
 
 
 
@@ -1980,8 +2014,8 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 				   gchar * filename )
 {
     GSList *liste_ope_revenus, *liste_ope_depenses, *pointeur_tmp, *pointeur_glist;
-    gchar *decalage_base, *decalage_categ, *decalage_sous_categ, *decalage_ib;
-    gchar *decalage_sous_ib, *decalage_compte, *decalage_tiers;
+    const gchar *decalage_base, *decalage_categ, *decalage_sous_categ, *decalage_ib;
+    const gchar *decalage_sous_ib, *decalage_compte, *decalage_tiers;
     gint i, ligne, current_report_number;
     gsb_real total_partie, total_general;
 

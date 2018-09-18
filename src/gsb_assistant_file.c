@@ -187,10 +187,11 @@ GtkResponseType gsb_assistant_file_run ( gboolean first_opening,
 
     if (return_value == GTK_RESPONSE_CANCEL)
     {
-	/* the user stopped the assistant, we delete all the configured data */
-	init_variables ();
-	gtk_widget_destroy (assistant);
-	return return_value;
+		/* the user stopped the assistant, we delete all the configured data */
+		init_variables ();
+		gtk_widget_destroy (assistant);
+		grisbi_win_stack_box_show (NULL, "accueil_page");
+		return return_value;
     }
 
     /* the assistant is finished, we save the values not saved before */
@@ -267,8 +268,10 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
     GtkWidget *table;
     GtkWidget *filename_entry;
 	GrisbiWinEtat *w_etat;
+	GrisbiWinRun *w_run;
 
-	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
+	w_etat = grisbi_win_get_w_etat ();
+	w_run = grisbi_win_get_w_run ();
 
     page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 15 );
     gtk_container_set_border_width ( GTK_CONTAINER (page), BOX_BORDER_WIDTH );
@@ -301,6 +304,7 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
 	nom_fichier_comptes = g_strconcat ( gsb_dirs_get_default_dir (),
 			G_DIR_SEPARATOR_S, _("My accounts"), ".gsb", NULL );
 	filename_entry = gsb_automem_entry_new (&nom_fichier_comptes, NULL, NULL);
+	gtk_widget_set_hexpand (filename_entry, TRUE);
 
     entry = gtk_entry_new ();
 	gtk_entry_set_text (GTK_ENTRY(entry), _("My accounts"));
@@ -333,25 +337,27 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
     /* will we crypt the file ? */
 #ifdef HAVE_SSL
     {
-        button = gsb_automem_checkbutton_new ( _("Encrypt Grisbi file"),
-                                               &(etat.crypt_file), G_CALLBACK (gsb_gui_encryption_toggled), NULL);
+        button = gsb_automem_checkbutton_new (_("Encrypt Grisbi file"),
+											  &w_etat->crypt_file,
+											  G_CALLBACK (gsb_gui_encryption_toggled),
+											  NULL);
         gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
                              FALSE, FALSE, 0 );
 
-        if ( etat.crypt_file )
-            run.new_crypted_file = TRUE;
+        if (w_etat->crypt_file )
+            w_run->new_crypted_file = TRUE;
     }
 #else
     {
-        run.new_crypted_file = FALSE;
+        w_run->new_crypted_file = FALSE;
     }
 #endif
 
     /* date format */
-    paddingbox = gsb_config_date_format_chosen ( vbox, GTK_ORIENTATION_HORIZONTAL );
+    gsb_config_date_format_chosen ( vbox, GTK_ORIENTATION_HORIZONTAL );
 
     /* decimal and thousands separator */
-    paddingbox = gsb_config_number_format_chosen ( vbox, GTK_ORIENTATION_HORIZONTAL );
+    gsb_config_number_format_chosen ( vbox, GTK_ORIENTATION_HORIZONTAL );
 
     /* Address */
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Your address") );
@@ -463,7 +469,7 @@ static GtkWidget *gsb_assistant_file_page_5 ( GtkWidget *assistant )
     gtk_container_set_border_width ( GTK_CONTAINER (page), BOX_BORDER_WIDTH );
 
     /* the configuration page is very good, keep it */
-    bank_page = gsb_bank_create_page (TRUE);
+    bank_page = gsb_bank_create_page (TRUE, 130);
     gtk_box_pack_start ( GTK_BOX (page),
 			 bank_page,
 			 TRUE, TRUE, 0 );
@@ -568,7 +574,6 @@ static void gsb_assistant_file_change_title ( GtkWidget *title_entry,
 				  ".gsb",
 				  NULL );
     /* set the new -last title- */
-    g_free (last_title);
     g_object_set_data ( G_OBJECT (title_entry),
 			"last_title", g_strdup (gtk_entry_get_text (GTK_ENTRY (title_entry))));
 

@@ -9,7 +9,8 @@
 
 /* START_DECLARATION */
 GtkWidget *	gsb_bank_create_combobox 		(gint index);
-GtkWidget *	gsb_bank_create_page 			(gboolean default_sensitive);
+GtkWidget *	gsb_bank_create_page 			(gboolean default_sensitive,
+											 gint bank_details_height);
 gboolean 	gsb_bank_edit_from_button 		(GtkWidget *button,
 											 GtkWidget *combobox);
 gint 		gsb_bank_list_get_bank_number 	(GtkWidget *combobox);

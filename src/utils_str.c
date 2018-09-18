@@ -35,6 +35,7 @@
 
 /*START_INCLUDE*/
 #include "utils_str.h"
+#include "dialog.h"
 #include "gsb_data_report.h"
 #include "gsb_data_currency.h"
 #include "gsb_locale.h"
@@ -94,25 +95,6 @@ static gchar *gsb_string_truncate_n (gchar *string,
 }
 
 /**
- *supprime les jokers "%*" dans une chaine
- *
- * \param chaine
- *
- * \return chaine sans joker
- **/
-static gchar *gsb_string_supprime_joker (const gchar *chaine)
-{
-    gchar **tab_str;
-    gchar *result;
-
-    tab_str = g_strsplit_set (chaine, "%*", 0);
-    result = g_strjoinv ("", tab_str);
-    g_strfreev (tab_str);
-
-    return result;
-}
-
-/**
  * renvoie une ligne de longueur maxi trunc en s'arrêtant sur un séparateur;
  *
  * \param nom du fichier
@@ -155,7 +137,7 @@ static gchar *utils_string_get_ligne_longueur_fixe (const gchar *string,
  *
  * \return une nouvelle chaîne contenant le sépaarateur.
  **/
-static gchar *utils_string_get_separator (const gchar *string)
+static const gchar *utils_string_get_separator (const gchar *string)
 {
     gchar *ptr_1 = NULL;
     gchar *ptr_2 = NULL;
@@ -196,6 +178,88 @@ static gchar *utils_string_get_separator (const gchar *string)
     return NULL;
 }
 
+/**
+ * retourne le séparateur s'il est parmi les connus
+ *
+ * \param
+ *
+ * \return une nouvelle chaîne contenant le sépaarateur.
+ **/
+static gboolean utils_str_payee_name_is_trouve (const gchar *name,
+												gchar **tab_str,
+												gint is_prefix,
+												gint is_suffix,
+												gint ignore_case)
+{
+	guint nbre_items = 0;
+	guint nbre_items_actifs = 0;
+	guint trouve = 0;
+	guint i;
+	//~ GrisbiWinRun *w_run;
+
+    devel_debug (NULL);
+	//~ w_run = grisbi_win_get_w_run ();
+
+	nbre_items = g_strv_length (tab_str);
+	//~ printf ("payee_name = %s is_prefix = %d is_suffix = %d w_run->import_asso_case_insensitive = %d nbre_items = %d\n",
+			//~ name, is_prefix, is_suffix, w_run->import_asso_case_insensitive, nbre_items);
+    for (i = 0; i < nbre_items; i++)
+	{
+		if (!tab_str[i] || strlen (tab_str[i]) == 0)
+        {
+			continue;
+		}
+		nbre_items_actifs++;
+		if (ignore_case)
+		{
+			gchar *tmp_name;
+			gchar *tmp_str;
+
+			if (g_utf8_validate (name, -1, NULL))
+				tmp_name = g_utf8_strup (name, -1);
+			else
+				return FALSE;
+			if (g_utf8_validate (tab_str[i], -1, NULL))
+				tmp_str = g_utf8_strup (tab_str[i], -1);
+			else
+				return FALSE;
+
+			if (i == 0 && is_prefix && g_str_has_prefix (tmp_name, tmp_str))
+				trouve++;
+			else if (i == nbre_items -1 && is_suffix && g_str_has_suffix (tmp_name, tmp_str))
+				trouve++;
+			else if (tmp_str && strlen (tmp_str) > 0)
+			{
+				if (g_strstr_len (tmp_name, -1, tmp_str))
+				{
+					//~ printf ("tmp_name = %s tmp_str = %s\n", tmp_name, tmp_str);
+					trouve++;
+				}
+			}
+			g_free (tmp_name);
+			g_free (tmp_str);
+		}
+		else
+		{
+			if (i == 0 && is_prefix && g_str_has_prefix (name, tab_str[i]))
+				trouve++;
+			else if (i == nbre_items -1 && is_suffix && g_str_has_suffix (name, tab_str[i]))
+				trouve++;
+			else if (tab_str[i] && strlen (tab_str[i]) > 0)
+			{
+				if (g_strstr_len (name, -1, tab_str[i]))
+				{
+					trouve++;
+				}
+			}
+		}
+	}
+
+	if (trouve == nbre_items_actifs)
+		return TRUE;
+	else
+		return FALSE;
+}
 /******************************************************************************/
 /* Public functions                                                           */
 /******************************************************************************/
@@ -726,70 +790,66 @@ gchar *gsb_string_remplace_string (const gchar *str,
  * \return TRUE si trouvé FALSE autrement
  **/
 gboolean gsb_string_is_trouve (const gchar *payee_name,
-							   const gchar *needle)
+							   const gchar *needle,
+							   gint ignore_case,
+							   gint use_regex)
+{
+	if (use_regex)
+	{
+		dialogue_warning ("Function not available");
+	}
+	else
 {
     gchar **tab_str;
-    gchar *tmpstr;
-    gint i;
-    gboolean is_prefix = FALSE, is_suffix = FALSE;
+		gboolean is_prefix = FALSE;
+		gboolean is_suffix = FALSE;
+		gboolean trouve = FALSE;
 
-    if (g_strstr_len (needle, -1, "%") == NULL &&
-                        g_strstr_len (needle, -1, "*") == NULL)
+		if (g_strstr_len (needle, -1, "%") == NULL && g_strstr_len (needle, -1, "*") == NULL)
     {
         if (my_strcasecmp (payee_name, needle) == 0)
             return TRUE;
         else
             return FALSE;
     }
-    if (g_str_has_prefix (needle, "%") == FALSE &&
-                        g_str_has_prefix (needle, "*") == FALSE)
+		if (g_strstr_len (needle, -1, "||"))
+		{
+			gchar **tab_rules;
+			guint nbre_items = 0;
+			guint i;
+
+			tab_rules = g_strsplit (needle, "||", 0);
+			nbre_items = g_strv_length (tab_rules);
+			for (i = 0; i < nbre_items; i++)
+			{
+				/* is_prefix = TRUE si needle ne commence pas par % */
+				if (g_str_has_prefix (tab_rules[i], "%") == FALSE && g_str_has_prefix (tab_rules[i], "*") == FALSE)
         is_prefix = TRUE;
 
-    if (g_str_has_suffix (needle, "%") == FALSE &&
-                        g_str_has_suffix (needle, "*") == FALSE)
+				if (g_str_has_suffix (tab_rules[i], "%") == FALSE && g_str_has_suffix (tab_rules[i], "*") == FALSE)
         is_suffix = TRUE;
 
-    if (is_prefix && is_suffix)
-    {
-        tab_str = g_strsplit_set (needle, "%*", 0);
-        is_prefix = g_str_has_prefix (payee_name, tab_str[0]);
-        is_suffix = g_str_has_suffix (payee_name, tab_str[1]);
+				tab_str = g_strsplit_set (tab_rules[i], "%*", 0);	/* modèle = %chaine% */
+				trouve = utils_str_payee_name_is_trouve (payee_name, tab_str, is_prefix, is_suffix, ignore_case);
 		g_strfreev (tab_str);
-        if (is_prefix && is_suffix)
-            return TRUE;
-        else
-            return FALSE;
+				if (trouve)
+					break;
     }
-    else if (is_prefix && !is_suffix)
-    {
-        tmpstr = gsb_string_supprime_joker (needle);
-        is_prefix = g_str_has_prefix (payee_name, tmpstr);
-        g_free (tmpstr);
-        return is_prefix;
+			return trouve;
     }
-    else if (is_suffix && !is_prefix)
-    {
-        tmpstr = gsb_string_supprime_joker (needle);
-        is_suffix = g_str_has_suffix (payee_name, tmpstr);
-        g_free (tmpstr);
-        return is_suffix;
-    }
+		if (g_str_has_prefix (needle, "%") == FALSE && g_str_has_prefix (needle, "*") == FALSE)
+			is_prefix = TRUE;
+
+		/* is_suffix = TRUE si needle ne commence pas par % */
+		if (g_str_has_suffix (needle, "%") == FALSE && g_str_has_suffix (needle, "*") == FALSE)
+			is_suffix = TRUE;
 
     tab_str = g_strsplit_set (needle, "%*", 0);
+		trouve = utils_str_payee_name_is_trouve (payee_name, tab_str, is_prefix, is_suffix, ignore_case);
+		g_strfreev (tab_str);
 
-    for (i = 0; tab_str[i] != NULL; i++)
-	{
-        if (tab_str[i] && strlen (tab_str[i]) > 0)
-        {
-            if (g_strstr_len (payee_name, -1, tab_str[i]))
-            {
-                g_strfreev (tab_str);
-                return TRUE;
+		return trouve;
             }
-        }
-    }
-
-    g_strfreev (tab_str);
 
     return FALSE;
 }
@@ -1056,7 +1116,7 @@ gchar *utils_str_break_filename (const gchar *string,
     gchar *tmp_str2;
     gchar *end = NULL;
     gchar *ptr = NULL;
-    gchar *separator;
+    const gchar *separator;
     gint i = 0;
     ssize_t n = 0;
     ssize_t size1;

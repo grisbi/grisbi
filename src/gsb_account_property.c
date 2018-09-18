@@ -110,8 +110,8 @@ static void gsb_account_property_iban_switch_bank_data ( gboolean sensitive );
 
 struct Iso13616Iban
 {
-    gchar *locale;
-    gchar *iban;
+    const gchar *locale;
+    const gchar *iban;
     gint nbre_char;
 };
 

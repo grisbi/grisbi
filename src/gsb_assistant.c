@@ -429,7 +429,7 @@ void gsb_assistant_next_page ( GtkWidget *assistant )
  *
  *
  */
-void gsb_assistant_change_button_next ( GtkWidget * assistant, gchar * title,
+void gsb_assistant_change_button_next ( GtkWidget * assistant, const gchar * title,
 					GtkResponseType response )
 {
     GtkWidget * button_next;

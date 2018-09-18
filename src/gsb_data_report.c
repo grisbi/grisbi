@@ -87,7 +87,7 @@ struct _ReportStruct {
     /** @name stuff showed in the report */
     gint sorting_report;                            /**< 0=date, 1=tr number, 2=payee, 3=categ, 4=budget, 5=notes, 6=method payment, 7=method paym content, 8=voucher, 9=bank ref, 10=marked number */
 
-    gint not_detail_split;
+    gint not_detail_split;							/* TRUE = ne pas détailler les opérations ventilées (onglet divers) */
     gint split_credit_debit;
 
     gint currency_general;
@@ -132,8 +132,8 @@ struct _ReportStruct {
     gint transfer_reports_only;
 
     /** @name category part of the report */
-    gint category_used;
-    gint category_detail_used;
+    gint category_used;								/* TRUE = Regrouper les opérations par catégorie */
+    gint category_detail_used;						/* TRUE = Détailler les catégories utilisées (onglet Catégories) */
     GSList *categ_select_struct;                    /* list of CategBudgetSel containing the selected categories and sub-categories */
     gint category_show_sub_category;
     gint category_show_category_amount;

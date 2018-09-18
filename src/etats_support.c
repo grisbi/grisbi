@@ -212,17 +212,17 @@ gchar *etats_titre ( gint report_number)
 
 		while ( tmp_list )
 		{
-		    gint fyear_number;
+		    gint tmp_fyear_number;
 
-		    fyear_number = GPOINTER_TO_INT (tmp_list -> data);
+		    tmp_fyear_number = GPOINTER_TO_INT (tmp_list -> data);
 
 		    if ( tmp_list == g_slist_last (gsb_data_report_get_financial_year_list (report_number)))
 			titre = g_strconcat ( titre,
-					      gsb_data_fyear_get_name (fyear_number),
+					      gsb_data_fyear_get_name (tmp_fyear_number),
 					      NULL );
 		    else
 			titre = g_strconcat ( titre,
-					      gsb_data_fyear_get_name (fyear_number),
+					      gsb_data_fyear_get_name (tmp_fyear_number),
 					      ", ",
 					      NULL );
 		    tmp_list = tmp_list -> next;

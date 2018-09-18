@@ -141,25 +141,19 @@ GtkWidget *onglet_affichage_operations ( void )
     GtkWidget * vbox_pref, *label, *paddingbox;
     GtkWidget *hbox, *vbox_label, *vbox_buttons;
     GtkWidget *button;
-    gchar *display_mode_lines_text [] = {
+    const gchar *display_mode_lines_text [] = {
     _("In one line visible, show the line: "),
     _("In two lines visibles, show the lines: "),
     _("In three lines visibles, show the lines: "),
     };
-    gchar *line_1 [] = {
-    "1",
-    NULL };
-    gchar *line_2 [] = {
-    "1-2", "1-3", "1-4",
-    NULL };
-    gchar *line_3 [] = {
-    "1-2-3", "1-2-4", "1-3-4",
-    NULL };
-    gchar *options_tri_primaire[] = {
+    const gchar *line_1 [] = {"1", NULL};
+    const gchar *line_2 [] = {"1-2", "1-3", "1-4", NULL};
+    const gchar *line_3 [] = {"1-2-3", "1-2-4", "1-3-4", NULL};
+    const gchar *options_tri_primaire[] = {
     _("Sort by value date (if fail, try with the date)"),
     _("Sort by value date and then by date"),
     };
-    gchar *options_tri_secondaire[] = {
+    const gchar *options_tri_secondaire[] = {
     _("Sort by transaction number"),
     _("Sort by type of amount (credit debit)"),
     _("Sort by payee name (if fail, by transaction number)"),
@@ -184,7 +178,7 @@ GtkWidget *onglet_affichage_operations ( void )
     for (i=0 ; i<3 ; i++)
     {
     gint j;
-    gchar **text_line = NULL;
+    const gchar **text_line = NULL;
     gint position = 0;
 
     /* set the line title */
@@ -1394,10 +1388,10 @@ void gsb_transaction_list_config_toggle_element_button ( GtkWidget *toggle_butto
         {
             for ( column = 6 ; column >= 0 ; column-- )
             {
-                gint element;
+                gint tmp_element;
 
-                element = tab_affichage_ope[row][column];
-                if ( element == 0 )
+                tmp_element = tab_affichage_ope[row][column];
+                if (tmp_element == 0 )
                 {
                     place_trouvee = TRUE;
                     break;

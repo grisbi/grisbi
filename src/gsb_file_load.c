@@ -258,7 +258,7 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
                     etat.combofix_force_category = utils_str_atoi( attribute_values[i]);
 
                 else if ( !strcmp ( attribute_names[i], "Crypt_file" ))
-                    etat.crypt_file = utils_str_atoi (attribute_values[i]);
+                    w_etat->crypt_file = utils_str_atoi (attribute_values[i]);
 
                 else if ( !strcmp ( attribute_names[i], "CSV_force_date_valeur_with_date" ))
                     etat.csv_force_date_valeur_with_date = utils_str_atoi( attribute_values[i]);
@@ -2096,6 +2096,7 @@ static  void gsb_file_load_party ( const gchar **attribute_names,
 {
     gint i=0;
     gint payee_number;
+	struct ImportPayeeAsso *assoc = NULL;
 
     if ( !attribute_names[i] )
     return;
@@ -2141,15 +2142,36 @@ static  void gsb_file_load_party ( const gchar **attribute_names,
         continue;
     }
 
-    if ( !strcmp ( attribute_names[i],
-                                   "Search" ))
+    if ( !strcmp ( attribute_names[i], "Search" ))
     {
         if ( attribute_values[i] && strlen (attribute_values[i]) > 0 )
         {
-            gsb_data_payee_set_search_string ( payee_number,
-                                           attribute_values[i]);
-            gsb_import_associations_list_append_assoc ( payee_number,
-                    attribute_values[i] );
+            gsb_data_payee_set_search_string ( payee_number, attribute_values[i]);
+			assoc = g_malloc (sizeof (struct ImportPayeeAsso));
+			assoc->payee_number = payee_number;
+			assoc->search_str = g_strdup (attribute_values[i]);
+        }
+        i++;
+        continue;
+    }
+
+    if (!strcmp (attribute_names[i], "IgnCase"))
+    {
+		if (assoc)
+		{
+			assoc->ignore_case = utils_str_atoi (attribute_values[i]);
+			gsb_data_payee_set_ignore_case (payee_number, assoc->ignore_case);
+		}
+        i++;
+        continue;
+    }
+
+    if (!strcmp (attribute_names[i], "UseRegex"))
+    {
+		if (assoc)
+		{
+			assoc->use_regex = utils_str_atoi (attribute_values[i]);
+			gsb_data_payee_set_use_regex (payee_number, assoc->use_regex);
         }
         i++;
         continue;
@@ -2159,6 +2181,8 @@ static  void gsb_file_load_party ( const gchar **attribute_names,
     i++;
     }
     while ( attribute_names[i] );
+	if (assoc)
+		gsb_import_associations_list_append_assoc (payee_number, assoc);
 }
 
 /**

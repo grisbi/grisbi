@@ -132,8 +132,6 @@ gint gsb_reconcile_list_sort_func (CustomRecord **a,
 	return return_value;
     }
 
-    account_number = gsb_gui_navigation_get_current_account ();
-
     /* get the transaction numbers */
     transaction_number_1 = gsb_data_transaction_get_transaction_number (record_1 -> transaction_pointer);
     transaction_number_2 = gsb_data_transaction_get_transaction_number (record_2 -> transaction_pointer);

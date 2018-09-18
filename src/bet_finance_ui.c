@@ -141,7 +141,7 @@ static AmortissementStruct *bet_finance_get_echeance_at_date (LoanStruct *s_loan
 	else
 	{
 		gdouble taux_periodique;
-printf ("s_loan->capital_du avant = %f\n", s_loan->capital_du);
+//~ printf ("s_loan->capital_du avant = %f\n", s_loan->capital_du);
 		taux_periodique = bet_data_finance_get_taux_periodique (s_loan->annual_rate, s_loan->type_taux);
 		s_amortissement->echeance = bet_data_finance_get_echeance (s_loan->capital, taux_periodique, s_loan->duree);
 		s_amortissement->echeance += s_loan->fees;
@@ -152,12 +152,12 @@ printf ("s_loan->capital_du avant = %f\n", s_loan->capital_du);
 																	 s_amortissement->frais);
 	}
 	s_amortissement->capital_du = s_loan->capital_du - s_amortissement->principal;
-printf ("capital_du = %f principal = %f interêts = %f frais = %f\n",
-		s_amortissement->capital_du, s_amortissement->principal, s_amortissement->interets, s_amortissement->frais);
+//~ printf ("capital_du = %f principal = %f interêts = %f frais = %f\n",
+		//~ s_amortissement->capital_du, s_amortissement->principal, s_amortissement->interets, s_amortissement->frais);
 
 	if (maj_s_loan_capital_du)
 		s_loan->capital_du -= s_amortissement->principal;
-printf ("s_loan->capital_du après = %f\n\n", s_loan->capital_du);
+//~ printf ("s_loan->capital_du après = %f\n\n", s_loan->capital_du);
 	return s_amortissement;
 }
 
@@ -2160,16 +2160,16 @@ gsb_real bet_finance_get_loan_amount_at_date (gint scheduled_number,
 	else
 	{
 		transaction_mother = gsb_data_scheduled_get_mother_scheduled_number (scheduled_number);
-		printf ("transaction_mother = %d mother_number = %d\n", transaction_mother, mother_number);
+//~ printf ("transaction_mother = %d mother_number = %d\n", transaction_mother, mother_number);
 		if (transaction_mother == mother_number)
 		{
-			if (scheduled_number == mother_number+1)
+			if (scheduled_number == mother_number+1 && (s_amortissement && s_amortissement->principal))
 				amount = gsb_real_opposite (gsb_real_double_to_real (s_amortissement->principal));
-			else if (scheduled_number == mother_number+2)
+			else if (scheduled_number == mother_number+2  && (s_amortissement && s_amortissement->interets))
 				amount = gsb_real_opposite (gsb_real_double_to_real (s_amortissement->interets));
-			else if (scheduled_number == mother_number+3)
+			else if (scheduled_number == mother_number+3  && (s_amortissement && s_amortissement->frais))
 				amount = gsb_real_opposite (gsb_real_double_to_real (s_amortissement->frais));
-printf ("amount = %s\n", utils_real_get_string (amount));
+//~ printf ("amount = %s\n", utils_real_get_string (amount));
 		}
 	}
 

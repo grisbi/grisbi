@@ -617,7 +617,7 @@ void grisbi_settings_save_app_config (void)
 {
     GrisbiSettingsPrivate *priv;
 	gchar **recent_array;
-    gchar *tmp_str;
+    const gchar *tmp_str;
     gint i;
 
     devel_debug (NULL);

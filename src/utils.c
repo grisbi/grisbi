@@ -328,8 +328,8 @@ GtkWidget *new_paddingbox_with_title (GtkWidget *parent,
  * \returns A pointer to a vbox widget that will contain all created
  * widgets and user defined widgets
  */
-GtkWidget *new_vbox_with_title_and_icon (gchar *title,
-										 gchar *image_filename)
+GtkWidget *new_vbox_with_title_and_icon (const gchar *title,
+										 const gchar *image_filename)
 {
     GtkWidget *vbox_pref, *hbox, *label, *image, *eb;
 	gchar* tmpstr1;
@@ -785,7 +785,7 @@ gboolean utils_tree_view_all_rows_are_selected (GtkTreeView *tree_view)
  *
  * \return un GtkListStore.
  */
-GtkListStore *utils_list_store_create_from_string_array (gchar **array)
+GtkListStore *utils_list_store_create_from_string_array (const gchar **array)
 {
     GtkListStore *store = NULL;
     gint i = 0;
@@ -833,7 +833,7 @@ void utils_gtk_combo_box_set_text_renderer (GtkComboBox *combo,
  *
  * \return un GtkComboBox.
  */
-GtkWidget *utils_combo_box_make_from_string_array (gchar **array)
+GtkWidget *utils_combo_box_make_from_string_array (const gchar **array)
 {
     GtkWidget *combo;
     GtkTreeModel *model;

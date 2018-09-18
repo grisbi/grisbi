@@ -945,12 +945,13 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 
 	    if ( gsb_data_report_get_show_report_transaction_amount (current_report_number))
 	    {
-	        gchar* fmtstr;
-		if ( nb_ope_periode_etat <= 1 )
+	        const gchar *fmtstr;
+
+			if ( nb_ope_periode_etat <= 1 )
 		    fmtstr = _("Result of %s (%d transaction): ");
-		else
-		    fmtstr = _("Result of %s (%d transactions): ");
-		text = g_strdup_printf ( fmtstr, buffer, nb_ope_periode_etat );
+			else
+				fmtstr = _("Result of %s (%d transactions): ");
+			text = g_strdup_printf ( fmtstr, buffer, nb_ope_periode_etat );
 	    }
 	    else
 		text = g_strdup_printf ( _("Result of %s: "), buffer );
@@ -1018,8 +1019,8 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 	    }
 	    else
 	    {
-	        gchar* dtstr1 = gsb_format_gdate ( date_debut_periode );
-	        gchar* dtstr2 = gsb_format_gdate ( date_tmp );
+	        dtstr1 = gsb_format_gdate ( date_debut_periode );
+	        dtstr2 = gsb_format_gdate ( date_tmp );
 		text = g_strdup_printf ( _("Result from %s to %s: "), dtstr1, dtstr2);
 	        g_free ( dtstr1 );
 	        g_free ( dtstr2 );
@@ -1793,7 +1794,7 @@ gint etat_affiche_affiche_total_general ( gsb_real total_general,
 
 /*****************************************************************************************************/
 gint etat_affiche_affiche_categ_etat ( gint transaction_number,
-				       gchar *decalage_categ,
+				       const gchar *decalage_categ,
 				       gint ligne )
 {
     gchar *pointeur_char;
@@ -1910,7 +1911,7 @@ gint etat_affiche_affiche_categ_etat ( gint transaction_number,
 
 /*****************************************************************************************************/
 gint etat_affiche_affiche_sous_categ_etat ( gint transaction_number,
-					    gchar *decalage_sous_categ,
+					    const gchar *decalage_sous_categ,
 					    gint ligne )
 {
     gchar *pointeur_char;
@@ -1996,7 +1997,7 @@ gint etat_affiche_affiche_sous_categ_etat ( gint transaction_number,
 
 /*****************************************************************************************************/
 gint etat_affiche_affiche_ib_etat ( gint transaction_number,
-				    gchar *decalage_ib,
+				    const gchar *decalage_ib,
 				    gint ligne )
 {
     gchar *pointeur_char;
@@ -2077,7 +2078,7 @@ gint etat_affiche_affiche_ib_etat ( gint transaction_number,
 
 /*****************************************************************************************************/
 gint etat_affiche_affiche_sous_ib_etat ( gint transaction_number,
-					 gchar *decalage_sous_ib,
+					 const gchar *decalage_sous_ib,
 					 gint ligne )
 {
     gchar *pointeur_char;
@@ -2165,7 +2166,7 @@ gint etat_affiche_affiche_sous_ib_etat ( gint transaction_number,
 
 /*****************************************************************************************************/
 gint etat_affiche_affiche_compte_etat ( gint transaction_number,
-					gchar *decalage_compte,
+					const gchar *decalage_compte,
 					gint ligne )
 {
     gchar *pointeur_char;
@@ -2235,7 +2236,7 @@ gint etat_affiche_affiche_compte_etat ( gint transaction_number,
 
 /*****************************************************************************************************/
 gint etat_affiche_affiche_tiers_etat ( gint transaction_number,
-				       gchar *decalage_tiers,
+				       const gchar *decalage_tiers,
 				       gint ligne )
 {
     gchar *pointeur_char;

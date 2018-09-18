@@ -93,11 +93,9 @@ typedef struct _GrisbiWinRun			GrisbiWinRun;
 
 /** structure etat
  * variables contenant juste 0 ou 1
- * FIXME : scinder cette structure en 3 parties :
- * la partie configurée par le fichier
- * la partie configurée par la conf
- * la partie configurée pendant le fonctionnement de grisbi
- * */
+ * configurées par le fichier
+ *
+ **/
 struct _GrisbiWinEtat
 {
     gint		is_archive;									/** TRUE if the file is an archive, FALSE else */
@@ -200,7 +198,7 @@ struct _GrisbiWinEtat
 
 /** structure conf
  * variables containing just 0 or 1
- * configured by the file grisbi.conf
+ * configured by gsettings
  *
  */
 struct GrisbiAppConf
@@ -304,7 +302,6 @@ struct GrisbiAppConf
  * générées pendant l'exécution du programme
  *
  */
-
 struct _GrisbiWinRun
 {
     /* main window of grisbi */
@@ -338,9 +335,19 @@ struct _GrisbiWinRun
     gboolean	mise_a_jour_soldes_minimaux;
     gboolean	mise_a_jour_fin_comptes_passifs;
 
+	/* payees: variables pour les associations de tiers */
+	gboolean 	import_asso_case_insensitive;				/* TRUE = ne tient pas compte de la casse */
+	gboolean	import_asso_use_regex;						/* TRUE = la chaine de recherche est une expression régulière */
+	gboolean	import_asso_replace_rule;					/* TRUE = remplacela règle existante */
+
 	/* prefs */
 	gboolean	prefs_expand_tree;							/* memorise le choix du bouton expand collapse du treeview des preferences */
 	gchar *		prefs_selected_row;							/* memorise l'onglet selectionné du treeview des preferences */
+
+	/* Reports */
+	gboolean	no_show_prefs;								/* si VRAI = ne pas montrer les préférences de l'état */
+	gboolean	empty_report;								/* Si VRAI remplace la mise à jour de l'état sélectionné par un état vide */
+															/* permet de gagner du temps exemple état vide et état recherche */
 };
 
 /* structure contenant les variables utilisées par un fichier de compte */
@@ -447,8 +454,8 @@ enum FormatDateOrder
 /** Contain pre-defined CSV separators */
 struct CsvSeparators
 {
-    gchar *name;		/** Visible name of CSV separator */
-    gchar *value; 		/** Real value */
+    const gchar *name;		/** Visible name of CSV separator */
+    const gchar *value; 		/** Real value */
 };
 
 #endif

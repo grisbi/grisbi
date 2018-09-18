@@ -9,9 +9,9 @@
 
 /** Unit test based upon the Grisbi file  */
 struct GsbDebugTest {
-    gchar * name;		/** Name of the test.  */
-    gchar * description;	/** Short description.  */
-    gchar * instructions;	/** Instructions to do if test matches. */
+    const gchar * name;		/** Name of the test.  */
+    const gchar * description;	/** Short description.  */
+    const gchar * instructions;	/** Instructions to do if test matches. */
     gchar * (* test) (void);	/** Pointer to function doing the job.  */
     gboolean (* fix) (void);	/** Pointer to function fixing the problem. */
 };

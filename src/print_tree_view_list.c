@@ -275,7 +275,7 @@ gboolean print_tree_view_list_begin ( GtkPrintOperation *operation,
         line_position = print_tree_view_list_draw_columns_title ( context, line_position, tree_view );
 
     /* draw the lines */
-    line_position = print_tree_view_list_draw_rows_data ( context, line_position, tree_view, page );
+    print_tree_view_list_draw_rows_data ( context, line_position, tree_view, page );
 
     return FALSE;
 }
@@ -335,7 +335,7 @@ static gint print_tree_view_list_draw_row ( GtkPrintContext *context,
             if ( !text )
             {
                 /* draw first the column */
-                column_position = print_tree_view_list_draw_column ( column_position, line_position );
+                print_tree_view_list_draw_column ( column_position, line_position );
 
                 list_tmp  = list_tmp -> next;
                 column++;

@@ -72,7 +72,7 @@ extern GSList *liste_comptes_importes_error;
 static gchar *last_header = NULL;
 static gboolean mismatch_dates = TRUE;
 
-static gchar *order_names[] = {
+static const gchar *order_names[] = {
     "day-month-year",
     "month-day-year",
     "year-month-day",
@@ -263,47 +263,50 @@ gboolean recuperation_donnees_qif ( GtkWidget *assistant, struct ImportFile *imp
         /* first, we need to check if the first transaction is an opening balance
          * or a normal transaction
          * update : money sometimes translate Opening balance... */
-        if ( g_slist_length ( imported_account -> operations_importees) > 0 )
-        {
-            imported_transaction = imported_account -> operations_importees -> data;
-            if ( imported_transaction -> tiers
-             &&
-             (!g_ascii_strncasecmp ( imported_transaction -> tiers, "Opening Balance", 15 )
-             ||
-             !g_ascii_strcasecmp ( imported_transaction -> tiers, _("Opening Balance") ) ) )
-            {
-                /* ok, we are on an opening balance, we transfer the first transaction
-                 * to the initial datas of the account */
+		if (imported_account -> operations_importees)
+		{
+			if ( g_slist_length ( imported_account -> operations_importees) > 0 )
+			{
+				imported_transaction = imported_account -> operations_importees -> data;
+				if ( imported_transaction -> tiers
+				 &&
+				 (!g_ascii_strncasecmp ( imported_transaction -> tiers, "Opening Balance", 15 )
+				 ||
+				 !g_ascii_strcasecmp ( imported_transaction -> tiers, _("Opening Balance") ) ) )
+				{
+					/* ok, we are on an opening balance, we transfer the first transaction
+					 * to the initial datas of the account */
 
-                /* get the initial amount */
-                imported_account -> solde = imported_transaction -> montant;
+					/* get the initial amount */
+					imported_account -> solde = imported_transaction -> montant;
 
-                /* get the name of account */
-                tmp_str = my_strdelimit (imported_transaction -> categ, "[]", "");
-                if ( imported_account -> nom_de_compte )
-                    g_free ( imported_account -> nom_de_compte );
-                imported_account -> nom_de_compte = gsb_import_unique_imported_name ( tmp_str );
-                g_free (tmp_str);
+					/* get the name of account */
+					tmp_str = my_strdelimit (imported_transaction -> categ, "[]", "");
+					if ( imported_account -> nom_de_compte )
+						g_free ( imported_account -> nom_de_compte );
+					imported_account -> nom_de_compte = gsb_import_unique_imported_name ( tmp_str );
+					g_free (tmp_str);
 
-                /* get the date of the file */
-                imported_account -> date_solde_qif = my_strdup ( imported_transaction -> date_tmp );
+					/* get the date of the file */
+					imported_account -> date_solde_qif = my_strdup ( imported_transaction -> date_tmp );
 
-                /* now, we can remove the first imported transaction */
-                imported_account -> operations_importees = g_slist_remove ( imported_account -> operations_importees,
-                                            imported_transaction );
-                g_free (imported_transaction);
-            }
-            /* now we need to transform the dates of transaction into gdate */
+					/* now, we can remove the first imported transaction */
+					imported_account -> operations_importees = g_slist_remove ( imported_account -> operations_importees,
+												imported_transaction );
+					g_free (imported_transaction);
+				}
+				/* now we need to transform the dates of transaction into gdate */
 
-            /* try to understand the order */
-            order = gsb_qif_get_date_order ( imported_account -> operations_importees );
-            if (order == -1)
-                dialogue_error ( _("Grisbi couldn't determine the format of the date into the qif file.\n"
-                                        "Please contact the Grisbi team (devel@listes.grisbi.org) to find "
-                                        "the problem.\nFor now, all the dates will be imported as 01.01.1970") );
-        }
+				/* try to understand the order */
+				order = gsb_qif_get_date_order ( imported_account -> operations_importees );
+				if (order == -1)
+					dialogue_error ( _("Grisbi couldn't determine the format of the date into the qif file.\n"
+											"Please contact the Grisbi team (devel@listes.grisbi.org) to find "
+											"the problem.\nFor now, all the dates will be imported as 01.01.1970") );
+			}
+		}
 
-        tmp_list = imported_account -> operations_importees;
+		tmp_list = imported_account -> operations_importees;
         while (tmp_list)
         {
             imported_transaction = tmp_list -> data;

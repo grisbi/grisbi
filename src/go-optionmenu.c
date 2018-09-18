@@ -412,7 +412,7 @@ go_option_menu_destroy (GtkWidget *widget)
 }
 
 static void
-go_option_menu_class_init (GOOptionMenuClass *class)
+go_option_menu_class_init (GOOptionMenuClass *class, gpointer class_data)
 {
 	GObjectClass *gobject_class = (GObjectClass*) class;
 	GtkWidgetClass *widget_class = (GtkWidgetClass*) class;
@@ -444,7 +444,7 @@ go_option_menu_class_init (GOOptionMenuClass *class)
 }
 
 static void
-go_option_menu_init (GOOptionMenu *option_menu)
+go_option_menu_init (GOOptionMenu *option_menu, gpointer g_class)
 {
 	GtkBox *box;
 	GtkWidget *arrow, *sep;

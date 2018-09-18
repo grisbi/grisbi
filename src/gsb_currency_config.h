@@ -63,7 +63,7 @@ gint 		gsb_currency_config_create_currency 					(const gchar *currency_name,
 																	 const gchar *currency_code,
 																	 const gchar *currency_isocode,
 																	 gint floating_point);
-gint 		gsb_currency_config_create_currency_from_iso4217list	(gchar *currency_name);
+gint 		gsb_currency_config_create_currency_from_iso4217list	(const gchar *currency_name);
 GtkWidget *	gsb_currency_config_create_page 						(void);
 GtkWidget *	gsb_currency_config_create_totals_page 					(void);
 GtkWidget * gsb_currency_config_new_combobox						(gint *value,

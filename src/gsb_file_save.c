@@ -230,8 +230,10 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
     gint bet_graph_part = 100;
     gint rgba_part = 1000;
     struct stat buf;
+	GrisbiWinEtat *w_etat;
 
     devel_debug (filename);
+	w_etat = grisbi_win_get_w_etat ();
 
     if ( g_file_test ( filename, G_FILE_TEST_EXISTS ) )
     {
@@ -384,7 +386,7 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
 					   my_strdup ("</Grisbi>"));
 
     /* crypt the file if asked */
-    if ( etat.crypt_file )
+    if ( w_etat->crypt_file )
     {
 #ifdef HAVE_SSL
         {
@@ -820,7 +822,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
                        "\t\tBet_type_taux=\"%d\" />\n",
 	my_safe_null_str(VERSION_FICHIER),
 	my_safe_null_str(VERSION),
-	etat.crypt_file,
+	w_etat->crypt_file,
 	is_archive,
 	my_safe_null_str (w_etat->accounting_entity),
 	my_safe_null_str(adr_common_str),
@@ -1499,11 +1501,13 @@ gulong gsb_file_save_party_part ( gulong iterator,
         }
 
         new_string = g_markup_printf_escaped (
-                            "\t<Party Nb=\"%d\" Na=\"%s\" Txt=\"%s\" Search=\"%s\" />\n",
+                            "\t<Party Nb=\"%d\" Na=\"%s\" Txt=\"%s\" Search=\"%s\" IgnCase=\"%d\" UseRegex=\"%d\" />\n",
                             payee_number,
                             my_safe_null_str(gsb_data_payee_get_name (payee_number, TRUE )),
                             my_safe_null_str(gsb_data_payee_get_description (payee_number)),
-                            my_safe_null_str(gsb_data_payee_get_search_string (payee_number) ));
+                            my_safe_null_str(gsb_data_payee_get_search_string (payee_number)),
+							gsb_data_payee_get_ignore_case (payee_number),
+							gsb_data_payee_get_use_regex (payee_number));
 
         /* append the new string to the file content
          * and take the new iterator */

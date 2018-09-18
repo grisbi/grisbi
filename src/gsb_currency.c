@@ -357,6 +357,7 @@ gboolean gsb_currency_update_combobox_currency_list ( void )
     {
         handler_id = GPOINTER_TO_UINT (g_object_get_data ( G_OBJECT
                             (detail_devise_compte), "changed-hook" ));
+        if ( handler_id > 0 )
         {
             gtk_combo_box_set_active ( GTK_COMBO_BOX (detail_devise_compte),
                             old_currency_number );

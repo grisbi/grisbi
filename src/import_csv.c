@@ -296,6 +296,21 @@ static GArray *csv_import_button_rule_traite_spec_line (SpecConfData *spec_conf_
 				link = g_slist_nth (list, spec_conf_data->csv_spec_conf_action_data);
 				str_montant = (gchar*) link->data;
 				montant = gsb_real_opposite (utils_real_get_from_string (str_montant));
+				if (montant.mantissa == error_real.mantissa)
+				{
+					const gchar *action_name;
+					gchar *tmp_str;
+
+					if (action == 1)
+						action_name = "Invert the amount";
+					tmp_str = g_strdup_printf (_("The data associated with action \"%s\" are invalid.\n"
+												 "This rule will not be applied and you will have to modify it"),
+											   _(action_name));
+					dialogue_hint (tmp_str, _("Warning: Invalid data"));
+					g_free (tmp_str);
+
+					return lines_tab;
+				}
 				str_montant = utils_real_get_string (montant);
 				list = g_slist_delete_link (list, link);
 				list = g_slist_insert (list, g_strdup (str_montant), spec_conf_data->csv_spec_conf_action_data);
@@ -1477,7 +1492,7 @@ gboolean csv_import_csv_account (GtkWidget *assistant,
 	compte->create_rule = csv_create_rule;
 	if (csv_create_rule)
 	{
-		GSList *list;
+		GSList *lines_list;
 		gchar *first_string_to_free;
 		gchar *second_string_to_free;
 		gchar *csv_fields_str;
@@ -1519,13 +1534,13 @@ gboolean csv_import_csv_account (GtkWidget *assistant,
 		compte->csv_spec_cols_name = csv_import_rule->csv_cols_name;
 
 		/* saves the line of special configuration */
-		list = csv_import_rule->csv_spec_lines_list;
-		if (list)
+		lines_list = csv_import_rule->csv_spec_lines_list;
+		if (lines_list)
 		{
-			spec_conf_data = (SpecConfData *) list->data;
+			spec_conf_data = (SpecConfData *) lines_list->data;
 			if (spec_conf_data->csv_spec_conf_used_text)
 			{
-				compte->csv_spec_lines_list = g_slist_copy_deep (list,
+				compte->csv_spec_lines_list = g_slist_copy_deep (lines_list,
 																 (GCopyFunc) csv_template_rule_spec_conf_data_struct_copy,
 																 NULL);
 			}
@@ -1741,6 +1756,14 @@ gboolean import_enter_csv_preview_page (GtkWidget *assistant)
     return FALSE;
 }
 
+/*
+ * use an extra parameter to be of type GCopyFunc ()
+ */
+static gpointer my_strdup_null(gconstpointer src, gpointer data)
+{
+	return g_strdup(src);
+}
+
 /**
  *
  *
@@ -1756,7 +1779,7 @@ GSList *csv_import_get_columns_list	(GtkWidget *assistant)
 
 	lines_tab = g_object_get_data (G_OBJECT(assistant), "lines-tab");
 	tmp_list = g_array_index (lines_tab, GSList *, first_line_with_cols);
-	list = g_slist_copy_deep (tmp_list, (GCopyFunc) g_strdup, NULL);
+	list = g_slist_copy_deep (tmp_list, my_strdup_null, NULL);
 
 	return list;
 }

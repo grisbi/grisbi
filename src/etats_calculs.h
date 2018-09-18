@@ -16,5 +16,7 @@ gint 		cherche_string_equivalente_dans_slist 	(gchar *string_list,
 void 		denote_struct_sous_jaccentes 			(gint origine);
 void 		rafraichissement_etat 					(gint report_number);
 GSList *	recupere_opes_etat 						(gint report_number);
+void 		affichage_empty_report 					(gint report_number);
+
 /* END_DECLARATION */
 #endif

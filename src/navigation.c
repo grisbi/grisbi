@@ -184,6 +184,34 @@ static GtkTargetEntry row_targets[] =
 	{ "GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_WIDGET, 0 }
 };
 
+/******************************************************************************/
+/* Private functions                                                            */
+/******************************************************************************/
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+static void gsb_gui_navigation_select_report (GtkTreeSelection *selection,
+											  GtkTreeModel *model )
+{
+    GtkTreeIter iter;
+	GtkTreePath *path;
+
+	gtk_tree_selection_get_selected (selection, NULL, &iter);
+	path = gtk_tree_model_get_path (model, &iter);
+	if (path)
+	{
+		gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (navigation_tree_view), path, NULL, FALSE, 0.0, 0.0 );
+		gtk_tree_path_free (path);
+	}
+}
+
+/******************************************************************************/
+/* Public functions                                                             */
+/******************************************************************************/
 gulong gsb_gui_navigation_tree_view_selection_changed (void)
 {
 	gulong handler_ID;
@@ -1299,6 +1327,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 			if ( report_number > 0 )
 			{
 				gtk_notebook_set_current_page (GTK_NOTEBOOK (etats_onglet_get_notebook_etats ()), 0);
+				gsb_gui_navigation_select_report (selection, model);
 				etats_onglet_update_gui_to_report ( report_number );
 			}
 			else
@@ -1423,6 +1452,7 @@ void gsb_gui_navigation_set_selection_branch ( GtkTreeSelection *selection,
 		}
     }
     while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL(navigation_model), iter ) );
+
 
     return;
 }
@@ -1618,18 +1648,18 @@ gboolean gsb_gui_navigation_check_scroll (GtkWidget *tree_view,
 	gdouble delta_x;
     gdouble delta_y;
 	GdkScrollDirection direction;
-	gboolean etat = 0;
+	gboolean etat1 = 0;
 	gboolean etat2 = 0;
 
 	g_signal_handlers_block_by_func (G_OBJECT (tree_view),
 								   G_CALLBACK (gsb_gui_navigation_check_scroll),
 								   NULL);
-	etat = gdk_event_get_scroll_deltas (ev, &delta_x, &delta_y);
+	etat1 = gdk_event_get_scroll_deltas (ev, &delta_x, &delta_y);
 	etat2 = gdk_event_get_scroll_direction (ev, &direction);
 
-	if (etat && (gint) delta_y == 1)
+	if (etat1 && (gint) delta_y == 1)
 		gsb_gui_navigation_select_next ();
-	else if (etat && (gint) delta_y == -1)
+	else if (etat1 && (gint) delta_y == -1)
 		gsb_gui_navigation_select_prev ();
 	else if (etat2 && direction == GDK_SCROLL_UP)
 		gsb_gui_navigation_select_prev ();
@@ -1954,6 +1984,14 @@ void gsb_gui_navigation_init_pages_list ( void )
 }
 
 
+/*
+ * use an extra parameter to be of type GFunc ()
+ */
+static void my_g_free_null (gpointer data, gpointer user_data)
+{
+	g_free(data);
+}
+
 /**
  *
  *
@@ -1961,7 +1999,7 @@ void gsb_gui_navigation_init_pages_list ( void )
  */
 void gsb_gui_navigation_clear_pages_list ( void )
 {
-    g_queue_foreach ( pages_list, (GFunc) g_free, NULL );
+    g_queue_foreach ( pages_list, my_g_free_null, NULL );
     g_queue_clear ( pages_list );
 }
 

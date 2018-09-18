@@ -39,9 +39,7 @@
 
 #define COMBOFIX_MIN_WIDTH		250
 
-G_DEFINE_TYPE ( GtkComboFix, gtk_combofix, GTK_TYPE_BOX )
-
-#define GTK_COMBOFIX_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), GTK_TYPE_COMBOFIX, GtkComboFixPrivate))
+typedef struct _GtkComboFixPrivate  GtkComboFixPrivate;
 
 struct _GtkComboFixPrivate
 {
@@ -69,6 +67,7 @@ struct _GtkComboFixPrivate
     gchar *old_entry;
 };
 
+G_DEFINE_TYPE_WITH_PRIVATE (GtkComboFix, gtk_combofix, GTK_TYPE_BOX)
 
 /* Liste des fonctions statiques */
 
@@ -351,7 +350,7 @@ GtkWidget *gtk_combofix_new_with_properties (GSList *list,
 	combofix = g_object_new (GTK_TYPE_COMBOFIX, NULL);
     gtk_combofix_set_list (combofix, list);
 
-	priv = combofix->priv;
+    priv = gtk_combofix_get_instance_private ( combofix );
 
 	gtk_widget_set_size_request (GTK_WIDGET (combofix), COMBOFIX_MIN_WIDTH, -1);
 
@@ -428,11 +427,12 @@ void gtk_combofix_set_text ( GtkComboFix *combofix, const gchar *text )
  * */
 void gtk_combofix_set_force_text ( GtkComboFix *combofix, gboolean value )
 {
-    GtkComboFixPrivate *priv = combofix -> priv;
+    GtkComboFixPrivate *priv;
 
     g_return_if_fail (combofix );
     g_return_if_fail (GTK_IS_COMBOFIX (combofix));
 
+    priv = gtk_combofix_get_instance_private ( combofix );
     priv->force = value;
 }
 
@@ -447,11 +447,12 @@ void gtk_combofix_set_force_text ( GtkComboFix *combofix, gboolean value )
  * */
 void gtk_combofix_set_case_sensitive ( GtkComboFix *combofix, gboolean case_sensitive )
 {
-    GtkComboFixPrivate *priv = combofix -> priv;
+    GtkComboFixPrivate *priv;
 
     g_return_if_fail (combofix );
     g_return_if_fail (GTK_IS_COMBOFIX (combofix));
 
+    priv = gtk_combofix_get_instance_private ( combofix );
     priv -> case_sensitive = case_sensitive;
 }
 
@@ -465,11 +466,12 @@ void gtk_combofix_set_case_sensitive ( GtkComboFix *combofix, gboolean case_sens
  * */
 gboolean gtk_combofix_hide_popup ( GtkComboFix *combofix )
 {
-    GtkComboFixPrivate *priv = combofix -> priv;
+    GtkComboFixPrivate *priv;
 
     g_return_val_if_fail ( combofix != NULL, FALSE );
     g_return_val_if_fail ( GTK_IS_COMBOFIX ( combofix ), FALSE );
 
+    priv = gtk_combofix_get_instance_private ( combofix );
     if ( gtk_widget_get_visible ( priv -> popup ))
     {
         gtk_grab_remove ( priv -> popup );
@@ -488,8 +490,9 @@ gboolean gtk_combofix_hide_popup ( GtkComboFix *combofix )
  * */
 gboolean gtk_combofix_show_popup ( GtkComboFix *combofix )
 {
-    GtkComboFixPrivate *priv = combofix -> priv;
+    GtkComboFixPrivate *priv;
 
+    priv = gtk_combofix_get_instance_private ( combofix );
     if ( gtk_widget_get_visible ( priv -> popup ) )
         return FALSE;
 
@@ -530,11 +533,12 @@ gboolean gtk_combofix_show_popup ( GtkComboFix *combofix )
  * */
 void gtk_combofix_set_max_items ( GtkComboFix *combofix, gint max_items )
 {
-    GtkComboFixPrivate *priv = combofix -> priv;
+    GtkComboFixPrivate *priv;
 
     g_return_if_fail (combofix );
     g_return_if_fail (GTK_IS_COMBOFIX (combofix));
 
+	priv = gtk_combofix_get_instance_private ( combofix );
     priv -> max_items = max_items;
 }
 
@@ -550,11 +554,12 @@ void gtk_combofix_set_max_items ( GtkComboFix *combofix, gint max_items )
  * */
 void gtk_combofix_set_mixed_sort ( GtkComboFix *combofix, gboolean mixed_sort )
 {
-    GtkComboFixPrivate *priv = combofix -> priv;
+    GtkComboFixPrivate *priv;
 
     g_return_if_fail (combofix );
     g_return_if_fail (GTK_IS_COMBOFIX (combofix));
 
+    priv = gtk_combofix_get_instance_private ( combofix );
     priv -> mixed_sort = mixed_sort;
 }
 
@@ -569,7 +574,7 @@ void gtk_combofix_set_mixed_sort ( GtkComboFix *combofix, gboolean mixed_sort )
  * */
 gboolean gtk_combofix_set_list ( GtkComboFix *combofix, GSList *list )
 {
-    GtkComboFixPrivate *priv = combofix -> priv;
+    GtkComboFixPrivate *priv;
 
     GSList *tmp_list;
     gint list_number = 0;
@@ -580,6 +585,7 @@ gboolean gtk_combofix_set_list ( GtkComboFix *combofix, GSList *list )
     g_return_val_if_fail (GTK_IS_COMBOFIX (combofix), FALSE);
     g_return_val_if_fail (list, FALSE);
 
+    priv = gtk_combofix_get_instance_private ( combofix );
     gtk_tree_store_clear ( priv -> store );
 
     tmp_list = list;
@@ -626,7 +632,7 @@ void gtk_combofix_append_text ( GtkComboFix *combofix, const gchar *text )
     g_return_if_fail ( GTK_IS_COMBOFIX ( combofix ) );
 
     /* g_print ("gtk_combofix_append_text = %s\n", text ); */
-    priv = combofix -> priv;
+    priv = gtk_combofix_get_instance_private ( combofix );
     pointeurs[2] = GINT_TO_POINTER ( priv -> case_sensitive );
 
     empty = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( combofix -> entry ), "empty" ) );
@@ -689,7 +695,7 @@ void gtk_combofix_append_report ( GtkComboFix *combofix,
     if ( !report_name || strlen ( report_name ) == 0 )
         return;
 
-    priv = combofix->priv;
+    priv = gtk_combofix_get_instance_private ( combofix );
 
 	/* initialisation iter à invalid probablement inutile */
 	report_parent_iter.stamp = 0;
@@ -724,11 +730,14 @@ void gtk_combofix_append_report ( GtkComboFix *combofix,
 * */
 void gtk_combofix_remove_text ( GtkComboFix *combofix, const gchar *text )
 {
-    GtkComboFixPrivate *priv = combofix -> priv;
     GtkTreeIter iter;
-    gboolean case_sensitive = priv -> case_sensitive;
+    gboolean case_sensitive;
     gboolean valid;
+    GtkComboFixPrivate *priv;
 
+    priv = gtk_combofix_get_instance_private ( combofix );
+
+	case_sensitive = priv -> case_sensitive;
     valid = gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( priv -> store ), &iter);
 
     while ( valid )
@@ -790,7 +799,7 @@ void gtk_combofix_remove_report ( GtkComboFix *combofix,
     tmp_str2 = g_strconcat ( tmp_str, " : ", report_name, NULL );
     g_free ( tmp_str );
 
-    priv = combofix->priv;
+    priv = gtk_combofix_get_instance_private ( combofix );
     valid = gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( priv->store ), &iter);
 
     while ( valid )
@@ -865,7 +874,9 @@ void gtk_combofix_set_selection_callback ( GtkComboFix *combofix,
                         GCallback func,
                         gpointer data )
 {
-    GtkComboFixPrivate *priv = combofix -> priv;
+    GtkComboFixPrivate *priv;
+
+    priv = gtk_combofix_get_instance_private ( combofix );
 
     if ( func )
 	    g_signal_connect ( G_OBJECT ( priv -> selection ),
@@ -891,8 +902,6 @@ static void gtk_combofix_class_init ( GtkComboFixClass *klass )
     object_class = G_OBJECT_CLASS (klass);
     object_class -> dispose = gtk_combofix_dispose;
     object_class -> finalize = gtk_combofix_finalize;
-
-    g_type_class_add_private ( klass, sizeof ( GtkComboFixPrivate ) );
 }
 
 
@@ -913,8 +922,7 @@ static void gtk_combofix_init ( GtkComboFix *combofix )
     GtkWidget *scrolled_window;
     GtkComboFixPrivate *priv;
 
-    combofix -> priv = GTK_COMBOFIX_GET_PRIVATE ( combofix );
-    priv = combofix -> priv;
+    priv = gtk_combofix_get_instance_private ( combofix );
 
     /* set the fields of the combofix */
     priv -> force = FALSE;
@@ -1085,7 +1093,9 @@ static void gtk_combofix_dispose ( GObject *combofix )
 * */
 static void gtk_combofix_finalize ( GObject *combofix )
 {
-    GtkComboFixPrivate *priv = GTK_COMBOFIX_GET_PRIVATE ( combofix );
+    GtkComboFixPrivate *priv;
+
+    priv = gtk_combofix_get_instance_private (GTK_COMBOFIX (combofix));
 
     if ( priv -> old_entry && strlen ( priv -> old_entry ) )
         g_free ( priv -> old_entry );
@@ -1123,8 +1133,9 @@ static gboolean gtk_combofix_fill_store ( GtkComboFix *combofix,
     GSList *tmp_list;
     GtkTreeIter iter_parent;
     gchar *last_parent = NULL;
-    GtkComboFixPrivate *priv = combofix -> priv;
+    GtkComboFixPrivate *priv;
 
+    priv = gtk_combofix_get_instance_private ( combofix );
     if ( !list )
 	    return FALSE;
 
@@ -1280,7 +1291,9 @@ static gboolean gtk_combofix_entry_changed ( GtkComboFix *combofix, gboolean ins
 {
     gchar *completed_string = NULL;
     const gchar *entry_string;
-    GtkComboFixPrivate *priv = combofix -> priv;
+    GtkComboFixPrivate *priv;
+
+    priv = gtk_combofix_get_instance_private ( combofix );
 
     entry_string = gtk_entry_get_text ( GTK_ENTRY ( combofix -> entry ) );
 
@@ -1428,8 +1441,7 @@ static gchar *gtk_combofix_update_visible_rows ( GtkComboFix *combofix,
     if (!length)
 	return NULL;
 
-    priv = combofix -> priv;
-
+    priv = gtk_combofix_get_instance_private ( combofix );
     priv -> visible_items = 0;
     model = GTK_TREE_MODEL ( priv -> store );
     path = gtk_tree_path_new_first ( );
@@ -1549,9 +1561,10 @@ static gboolean gtk_combofix_set_all_visible_rows ( GtkComboFix *combofix )
     gint path_ok;
     GtkComboFixPrivate *priv;
 
-    if ( !combofix )
-        return FALSE;
-    priv = combofix -> priv;
+	if (!combofix)
+		return FALSE;
+
+	priv = gtk_combofix_get_instance_private ( combofix );
     priv -> visible_items = 0;
     model = GTK_TREE_MODEL ( priv -> store);
     path = gtk_tree_path_new_first ( );
@@ -1662,7 +1675,7 @@ static gboolean gtk_combofix_set_popup_position ( GtkComboFix *combofix )
     if ( !combofix )
         return FALSE;
 
-    priv = combofix -> priv;
+    priv = gtk_combofix_get_instance_private ( combofix );
 
     /* get the position of the combofix */
     /* en fait il semble qu'on récupère toujours la position de "form_transaction_part" */
@@ -1804,7 +1817,9 @@ static gboolean gtk_combofix_focus_in ( GtkWidget *entry,
                         GtkComboFix *combofix )
 {
     const gchar *text;
-    GtkComboFixPrivate *priv = GTK_COMBOFIX_GET_PRIVATE ( combofix );
+    GtkComboFixPrivate *priv;
+
+    priv = gtk_combofix_get_instance_private ( combofix );
 
     text = gtk_entry_get_text ( GTK_ENTRY ( combofix -> entry ) );
 
@@ -1857,7 +1872,9 @@ static gboolean gtk_combofix_key_press_event ( GtkWidget *entry,
                         GdkEventKey *ev,
                         GtkComboFix *combofix )
 {
-    GtkComboFixPrivate *priv = combofix -> priv;
+    GtkComboFixPrivate *priv;
+
+    priv = gtk_combofix_get_instance_private ( combofix );
 
     switch ( ev -> keyval )
     {
@@ -2004,7 +2021,9 @@ static gboolean gtk_combofix_choose_selection ( GtkComboFix *combofix )
 {
     GtkTreeIter iter;
     gchar *string;
-    GtkComboFixPrivate *priv = combofix -> priv;
+    GtkComboFixPrivate *priv;
+
+    priv = gtk_combofix_get_instance_private ( combofix );
 
     /* if there is no selection, go away */
     if (!gtk_tree_selection_get_selected ( priv -> selection, NULL, &iter ) )
@@ -2043,7 +2062,7 @@ static gboolean gtk_combofix_move_selection ( GtkComboFix *combofix,
     if ( !combofix )
 	    return FALSE;
 
-    priv = combofix -> priv;
+    priv = gtk_combofix_get_instance_private ( combofix );
 
     if ( gtk_tree_selection_get_selected ( priv -> selection, NULL, &sorted_iter ) )
     {
@@ -2150,8 +2169,7 @@ static gboolean gtk_combofix_select_item ( GtkComboFix *combofix,
     if ( !item || strlen ( item ) == 0 )
         return FALSE;
 
-    priv = combofix -> priv;
-
+    priv = gtk_combofix_get_instance_private ( combofix );
     if ( ( ptr = g_utf8_strchr ( item, -1, ':' ) ) )
         tmp_item = g_strndup ( item, ( ptr - item ) -1 );
     else
@@ -2187,7 +2205,7 @@ static gboolean gtk_combofix_select_item ( GtkComboFix *combofix,
     g_free ( tmp_item );
 
     if ( result == 0 )
-        result = gtk_tree_model_get_iter_first ( model, &iter );
+        gtk_tree_model_get_iter_first ( model, &iter );
 
     gtk_tree_selection_select_iter ( priv -> selection, &iter );
     path = gtk_tree_model_get_path ( model, &iter );
@@ -2221,8 +2239,8 @@ static gint gtk_combofix_get_rows_number_by_page ( GtkComboFix *combofix )
 
     if (!combofix)
         return 0;
-    priv = combofix -> priv;
 
+    priv = gtk_combofix_get_instance_private ( combofix );
     adjustment = gtk_scrollable_get_vadjustment ( GTK_SCROLLABLE ( priv -> tree_view ) );
     return_value = priv -> visible_items
                         *
@@ -2254,8 +2272,9 @@ static gboolean gtk_combofix_move_selection_one_step ( GtkComboFix *combofix,
     GtkTreePath *saved_path;
     GtkTreeModel *model;
     gint separator;
-    GtkComboFixPrivate *priv = combofix -> priv;
+    GtkComboFixPrivate *priv;
 
+    priv = gtk_combofix_get_instance_private ( combofix );
     model = priv -> model_sort;
     path = gtk_tree_model_get_path ( model, iter );
     saved_path = gtk_tree_path_copy (path);
@@ -2377,7 +2396,6 @@ static gint gtk_combofix_default_sort_func ( GtkTreeModel *model_sort,
                         GtkTreeIter *iter_2,
                         GtkComboFix *combofix )
 {
-    GtkComboFixPrivate *priv = combofix -> priv;
     gint list_number_1;
     gint list_number_2;
     gchar *string_1;
@@ -2387,7 +2405,9 @@ static gint gtk_combofix_default_sort_func ( GtkTreeModel *model_sort,
     gint return_value = 0;
     gboolean separator_1;
     gboolean separator_2;
+    GtkComboFixPrivate *priv;
 
+    priv = gtk_combofix_get_instance_private ( combofix );
     if ( iter_1 )
         gtk_tree_model_get ( GTK_TREE_MODEL (model_sort),
                         iter_1,

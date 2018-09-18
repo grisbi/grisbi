@@ -98,7 +98,7 @@ gboolean recuperation_donnees_ofx ( GtkWidget * assistant, struct ImportFile * i
         account -> nom_de_compte = gsb_import_unique_imported_name ( _("Invalid OFX file") );
         account -> filename = g_strdup ( ofx_filename );
         account -> real_filename = g_strdup (ofx_filename);
-        account -> origine = "OFX";
+        account -> origine = g_strdup ("OFX");
         gsb_import_register_account_error ( account );
         devel_print_str ( account -> nom_de_compte );
 
@@ -218,7 +218,7 @@ int ofx_proc_account_cb(struct OfxAccountData data, void * account_data)
     }
 
 	compte_ofx_importation_en_cours -> real_filename = g_strdup (ofx_filename);
-	compte_ofx_importation_en_cours -> origine = "OFX";
+	compte_ofx_importation_en_cours -> origine = g_strdup ("OFX");
 
     if ( data.account_type_valid )
 	compte_ofx_importation_en_cours -> type_de_compte = data.account_type;

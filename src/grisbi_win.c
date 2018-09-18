@@ -1242,7 +1242,7 @@ void grisbi_win_init_menubar (GrisbiWin *win,
 							  gpointer app)
 {
 	GAction *action;
-    gchar * items[] = {
+    const gchar * items[] = {
         "save",
         "save-as",
         "export-accounts",
@@ -1268,7 +1268,7 @@ void grisbi_win_init_menubar (GrisbiWin *win,
         "reset-width-col",
         NULL
     };
-    gchar **tmp = items;
+    const gchar **tmp = items;
     gboolean has_app_menu;
 
 	/* initialisations sub menus */
@@ -2153,7 +2153,7 @@ void grisbi_win_headings_update_title (gchar *title)
  * \param suffix	String to display as a suffix in headings bar.
  *
  */
-void grisbi_win_headings_update_suffix (gchar *suffix)
+void grisbi_win_headings_update_suffix (const gchar *suffix)
 {
 	GrisbiWinPrivate *priv;
 

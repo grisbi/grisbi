@@ -91,7 +91,7 @@ enum
     GSB_ETAT_CATEG_BUDGET_LIST_NB
 };
 
-static gchar *champs_type_recherche_texte[] =
+static const gchar *champs_type_recherche_texte[] =
 {
     N_("payee"),
     N_("payee information"),
@@ -107,7 +107,7 @@ static gchar *champs_type_recherche_texte[] =
     NULL
 };
 
-static gchar *champs_operateur_recherche_texte[] =
+static const gchar *champs_operateur_recherche_texte[] =
 {
     N_("contains"),
     N_("doesn't contain"),
@@ -118,7 +118,7 @@ static gchar *champs_operateur_recherche_texte[] =
     NULL
 };
 
-static gchar *champs_lien_lignes_comparaison[] =
+static const gchar *champs_lien_lignes_comparaison[] =
 {
     N_("and"),
     N_("or"),
@@ -126,7 +126,7 @@ static gchar *champs_lien_lignes_comparaison[] =
     NULL
 };
 
-static gchar *champs_comparateur_nombre[] =
+static const gchar *champs_comparateur_nombre[] =
 {
     N_("equal"),
     N_("less than"),
@@ -138,7 +138,7 @@ static gchar *champs_comparateur_nombre[] =
     NULL
 };
 
-static gchar *champs_lien_nombre_2[] =
+static const gchar *champs_lien_nombre_2[] =
 {
     N_("and"),
     N_("or"),
@@ -147,7 +147,7 @@ static gchar *champs_lien_nombre_2[] =
     NULL
 };
 
-static gchar *champs_comparateur_montant[] =
+static const gchar *champs_comparateur_montant[] =
 {
     N_("equal"),
     N_("less than"),
@@ -1766,6 +1766,20 @@ static void etats_config_onglet_texte_sensitive_hbox_fonction_bouton_txt ( gint 
 }
 
 /**
+ * fixes error [-Werror=cast-function-type]
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void etats_config_onglet_texte_montant_gtk_callback (GtkWidget *widget,
+													gpointer null)
+{
+	gtk_widget_destroy (widget);
+}
+
+/**
  * remplit la liste des comparaisons de texte
  *
  * \param report_number
@@ -1781,7 +1795,7 @@ static void etats_config_onglet_texte_remplit_liste_comparaisons ( gint report_n
 
     /* on commence par effacer les anciennes lignes */
     lignes = etats_prefs_widget_get_widget_by_name ( "liste_textes_etat", NULL );
-    gtk_container_foreach ( GTK_CONTAINER ( lignes ), ( GtkCallback ) gtk_widget_destroy, NULL );
+    gtk_container_foreach (GTK_CONTAINER (lignes), (GtkCallback) etats_config_onglet_texte_montant_gtk_callback, NULL);
 
     tmp_list = gsb_data_report_get_text_comparison_list ( report_number );
     /*   s'il n'y a rien dans la liste, on met juste une row vide */
@@ -2262,7 +2276,7 @@ static void etats_config_onglet_montants_remplit_liste_comparaisons ( gint repor
 
     /* on commence par effacer les anciennes lignes */
     lignes = etats_prefs_widget_get_widget_by_name ( "liste_montants_etat", NULL );
-    gtk_container_foreach ( GTK_CONTAINER ( lignes ), ( GtkCallback ) gtk_widget_destroy, NULL );
+    gtk_container_foreach (GTK_CONTAINER (lignes), (GtkCallback) etats_config_onglet_texte_montant_gtk_callback, NULL);
 
     list_tmp = gsb_data_report_get_amount_comparison_list ( report_number );
     /*   s'il n'y a rien dans la liste, on met juste une row vide */
@@ -3878,6 +3892,18 @@ void etats_config_personnalisation_etat ( void )
             last_report = current_report_number;
             break;
 
+		case GTK_RESPONSE_CANCEL:
+			{
+				GrisbiWinRun *w_run;
+
+				w_run = grisbi_win_get_w_run ();
+				if (w_run->empty_report)
+				{
+					gsb_gui_navigation_remove_report (current_report_number);
+					gsb_data_report_remove (current_report_number);
+				}
+			}
+			break;
         default:
             break;
     }

@@ -18,7 +18,9 @@ GSList *	gsb_string_get_int_list_from_string 					(const gchar *string,
 GSList *	gsb_string_get_string_list_from_string 					(const gchar *string,
 						                                             gchar *delimiter);
 gboolean 	gsb_string_is_trouve 									(const gchar *payee_name,
-									                                 const gchar *needle);
+									                                 const gchar *needle,
+																	 gint ignore_case,
+																	 gint use_regex);
 gchar * 	gsb_string_remplace_joker 								(const gchar *chaine,
 								                                     gchar *new_str);
 gchar *		gsb_string_remplace_string 								(const gchar *str,
