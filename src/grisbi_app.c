@@ -939,7 +939,7 @@ static void grisbi_app_startup (GApplication *application)
         has_app_menu = FALSE;
 
     /* load the CSS properties */
-    css_provider = gtk_css_provider_get_default ();
+    css_provider = gtk_css_provider_new ();
     tmp_dir = g_strconcat (gsb_dirs_get_ui_dir (), "/grisbi.css", NULL);
     file = g_file_new_for_path (tmp_dir);
     if (!gtk_css_provider_load_from_file (css_provider, file, NULL))
