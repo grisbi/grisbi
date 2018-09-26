@@ -104,13 +104,18 @@ static gchar *nom_fichier_comptes;
 GtkResponseType gsb_assistant_file_run ( gboolean first_opening,
 					 gboolean import )
 {
-    GtkResponseType return_value;
     GtkWidget *assistant;
-    gchar *currency_name, *currency_iso_code, *currency_nickname;
-    gint currency_floating;
     GtkTreeIter iter;
+	GtkTreeSelection *selection;
+	GtkTreeView *tree_view;
+    GtkResponseType return_value;
+    gchar *currency_iso_code;
+    gchar *currency_name;
+    gchar *currency_nickname;
+    const gchar *text_1;
+    const gchar *text_2;
+    gint currency_floating;
     gboolean launch_account_assistant;
-    const gchar *text_1, *text_2;
 
     /* create the assistant */
     if (first_opening)
@@ -197,25 +202,31 @@ GtkResponseType gsb_assistant_file_run ( gboolean first_opening,
     /* the assistant is finished, we save the values not saved before */
 
     /* get the currency */
-    if (gtk_tree_selection_get_selected ( gtk_tree_view_get_selection (GTK_TREE_VIEW (g_object_get_data (G_OBJECT (currency_list_box),
-													 "tree_view"))),
-					  NULL,
-					  &iter ))
+	tree_view = GTK_TREE_VIEW (g_object_get_data (G_OBJECT (currency_list_box), "tree_view"));
+	selection = gtk_tree_view_get_selection (tree_view);
+    if (gtk_tree_selection_get_selected (selection, NULL, &iter))
     {
-	/* there is a selection, normaly, always the case */
-	gtk_tree_model_get ( GTK_TREE_MODEL (g_object_get_data(G_OBJECT (currency_list_box),
-							       "model")),
-			     &iter,
-			     CURRENCY_NAME_COLUMN, &currency_name,
-			     CURRENCY_ISO_CODE_COLUMN, &currency_iso_code,
-			     CURRENCY_NICKNAME_COLUMN, &currency_nickname,
-			     CURRENCY_FLOATING_COLUMN, &currency_floating,
-			     -1 );
-	gsb_currency_config_create_currency ( currency_name, currency_nickname,
-					      currency_iso_code, currency_floating);
+		GtkTreeModel *model;
 
-	/* update the currency list for combobox */
-	gsb_currency_update_combobox_currency_list ();
+		model = gtk_tree_view_get_model (tree_view);
+	/* there is a selection, normaly, always the case */
+		gtk_tree_model_get (model,
+							&iter,
+							CURRENCY_NAME_COLUMN, &currency_name,
+							CURRENCY_ISO_CODE_COLUMN, &currency_iso_code,
+							CURRENCY_NICKNAME_COLUMN, &currency_nickname,
+							CURRENCY_FLOATING_COLUMN, &currency_floating,
+							-1);
+		gsb_currency_config_create_currency (currency_name,
+											 currency_nickname,
+											 currency_iso_code,
+											 currency_floating);
+
+		/* update the currency list for combobox */
+		gsb_currency_update_combobox_currency_list ();
+		g_free (currency_name);
+		g_free (currency_nickname);
+		g_free (currency_iso_code);
     }
 
     /* create the list of categories
