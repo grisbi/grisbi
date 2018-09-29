@@ -647,6 +647,45 @@ GtkWidget *onglet_diverse_form_and_lists ( void )
 /* ************************************************************************************************************** */
 /* renvoie le widget contenu dans l'onglet divers du gsb_form_get_form_widget ()/liste des paramètres */
 /* ************************************************************************************************************** */
+/**
+ * called when we change a parameter of the combofix configuration
+ * update the combofix in the form if they exists
+ * as we don't know what was changed, update all the parameter (not a problem
+ * because very fast)
+ * at this level, the etat.___ variable has already been changed
+ *
+ * \param
+ * \param
+ *
+ * \return FALSE
+ **/
+static gboolean onglet_form_completion_update_combofix_completion (GtkWidget *checkbutton,
+																   gpointer data)
+{
+	GSettings *settings;
+	gint type;
+
+	settings = grisbi_settings_get_settings (SETTINGS_FORM);
+	type = GPOINTER_TO_INT (data);
+	if (type)
+	{
+		g_settings_set_boolean (G_SETTINGS (settings),
+								"combofix-categ-ib-use-gtk-completion",
+								conf.combofix_categ_ib_use_gtk_completion);
+	}
+	else
+	{
+		g_settings_set_boolean (G_SETTINGS (settings),
+								"combofix-payee-use-gtk-completion",
+								conf.combofix_payee_use_gtk_completion);
+    }
+
+	gsb_form_create_widgets ();
+	utils_prefs_gsb_file_set_modified ();
+
+	return FALSE;
+}
+
 GtkWidget *onglet_form_completion ( void )
 {
     GtkWidget *vbox_pref;
@@ -723,6 +762,21 @@ GtkWidget *onglet_form_completion ( void )
                         G_CALLBACK ( gsb_transactions_list_display_update_combofix), NULL),
                         FALSE, FALSE, 0 );
 
+    /* new options for completion */
+	button = utils_prefs_automem_checkbutton_blue_new (_("Use gtk completion for payees"),
+													   &conf.combofix_payee_use_gtk_completion,
+													   G_CALLBACK (onglet_form_completion_update_combofix_completion),
+													   GINT_TO_POINTER (0));
+	gtk_box_pack_start (GTK_BOX (vbox_pref),button, FALSE, FALSE, 0);
+
+    button = utils_prefs_automem_checkbutton_blue_new (_("Use gtk completion for categories/budget"),
+													   &conf.combofix_categ_ib_use_gtk_completion,
+													   G_CALLBACK (onglet_form_completion_update_combofix_completion),
+													   GINT_TO_POINTER (1));
+	gtk_box_pack_start (GTK_BOX (vbox_pref),button, FALSE, FALSE, 0);
+	gtk_widget_set_sensitive (button, FALSE);
+
+	/* max items for listes */
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX (vbox_pref), hbox, FALSE, FALSE, 0 );
 

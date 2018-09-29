@@ -209,6 +209,21 @@
 	        during the completion of payee.
         </description>
 	  </key>
+	  <key name="combofix-categ-ib-use-gtk-completion" type="b">
+        <default>false</default>
+	    <summary>Use Gtk completion for categories and IB</summary>
+	    <description>
+	        If TRUE, the entry of category's combofix or budgetary's combofix
+	        uses the completion functionality for GtkEntry.
+        </description>
+	  </key>
+	  <key name="combofix-payee-use-gtk-completion" type="b">
+        <default>false</default>
+	    <summary>Use Gtk completion for payees</summary>
+	    <description>
+	        If TRUE, the entry of payee's combofix uses the completion functionality for GtkEntry.
+        </description>
+	  </key>
 	  <key name="form-expander-label-width" type="i">
 	    <default>600</default>
 	    <summary>Last width of the expander label</summary>

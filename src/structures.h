@@ -247,6 +247,8 @@ struct GrisbiAppConf
 	gint 		form_expander_label_width;					/* largeur du label de l'expander du formulaire */
     gint        fyear_combobox_sort_order;                  /* fyear combobox type sort, GTK_SORT_ASCENDING by default */
     gboolean    limit_completion_to_current_account;        /* Limit payee completion to current account or do a full search. */
+	gboolean	combofix_payee_use_gtk_completion;
+	gboolean	combofix_categ_ib_use_gtk_completion;
 
 /* general part */
     gchar *     browser_command;
