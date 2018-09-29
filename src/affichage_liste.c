@@ -657,17 +657,17 @@ GtkWidget *onglet_form_completion ( void )
     vbox_pref = new_vbox_with_title_and_icon ( _("Form completion"), "gsb-form-32.png" );
 
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
-                        gsb_automem_checkbutton_new (
+                        utils_prefs_automem_checkbutton_blue_new (
                         _("Automatic filling transactions from payee"),
                         &conf.automatic_completion_payee,
                         G_CALLBACK ( gsb_transactions_list_display_update_auto_checkbutton ),
-                        vbox_pref ),
+                        vbox_pref),
                         FALSE, FALSE, 0 );
 
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ), hbox, FALSE, FALSE, 0 );
 
-    button = gsb_automem_checkbutton_new (
+    button = utils_prefs_automem_checkbutton_blue_new (
                         _("Erase the credit and debit fields"),
                         &conf.automatic_erase_credit_debit,
                         NULL,
@@ -679,7 +679,7 @@ GtkWidget *onglet_form_completion ( void )
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ), hbox, FALSE, FALSE, 0 );
 
-    button = gsb_automem_checkbutton_new (
+    button = utils_prefs_automem_checkbutton_blue_new (
                         _("Automatically recover the children of the associated transaction"),
                         &conf.automatic_recover_splits,
                         NULL,
@@ -691,7 +691,7 @@ GtkWidget *onglet_form_completion ( void )
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ), hbox, FALSE, FALSE, 0 );
 
-    button = gsb_automem_checkbutton_new (
+    button = utils_prefs_automem_checkbutton_blue_new (
                         _("Limit the filling with payees belonging to the current account"),
                         &conf.limit_completion_to_current_account,
                         NULL, NULL);
