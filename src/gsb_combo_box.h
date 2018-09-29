@@ -18,7 +18,7 @@ GtkWidget *		gsb_combo_box_new_with_index_from_list 		(GSList *list,
 															 gpointer data);
 gint 			gsb_combo_box_set_index 					(GtkWidget *combo_box,
 															 gint index);
-	void 		gsb_combo_box_set_text_renderer 			(GtkComboBox *combo,
+void 			gsb_combo_box_set_text_renderer 			(GtkComboBox *combo,
 															 gint num_col);
 /* END_DECLARATION */
 #endif
