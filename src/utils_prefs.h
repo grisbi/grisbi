@@ -8,6 +8,10 @@
 
 
 /* START_DECLARATION */
+GtkWidget *		utils_prefs_automem_checkbutton_blue_new 				(const gchar *label,
+																		 gboolean *value,
+																		 GCallback hook,
+																		 gpointer data);
 GtkWidget *		utils_prefs_automem_radiobutton_blue_new 				(const gchar *choice1,
 																		 const gchar *choice2,
 																		 gboolean *value,

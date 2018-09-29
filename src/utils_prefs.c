@@ -286,6 +286,58 @@ static gboolean utils_prefs_scrolled_window_allocate_size (GtkWidget *widget,
 /* Public functions                                                           */
 /******************************************************************************/
 /**
+ * Create a GtkCheckButton with a callback associated.  Initial value
+ * of this checkbutton is set to the value of *value.  This checkbutton calls
+ * gsb_automem_checkbutton_changed upon toggle, which in turn modifies *data.  If a hook
+ * is possibly executed as well.
+ *
+ * \param label The label for this checkbutton
+ * \param value A pointer to a boolean integer
+ * \param hook A GCallBack to execute if not null (hook must be : func ( GtkWidget *toggle_button, gpointer data) )
+ * \param data An optional pointer to pass to hook
+ *
+ * \return A newly allocated GtkCheckButton
+ */
+GtkWidget *utils_prefs_automem_checkbutton_blue_new (const gchar *label,
+													 gboolean *value,
+													 GCallback hook,
+													 gpointer data )
+{
+    GtkWidget *checkbutton;
+    GtkWidget *label_widget;
+	gchar *label_str;
+
+    checkbutton = gtk_check_button_new ();
+	label_str = make_blue (label);
+	label_widget = gtk_label_new (label_str);
+	gtk_label_set_use_markup (GTK_LABEL(label_widget), TRUE);
+	gtk_widget_show (label_widget);
+    gtk_container_add (GTK_CONTAINER (checkbutton), label_widget);
+	g_free (label_str);
+
+    if (value)
+		gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (checkbutton), *value);
+
+    g_object_set_data ( G_OBJECT (checkbutton), "pointer", value);
+
+    g_object_set_data (G_OBJECT (checkbutton),
+					   "changed",
+					   GUINT_TO_POINTER (g_signal_connect (checkbutton,
+														   "toggled",
+														   G_CALLBACK (utils_prefs_automem_checkbutton_changed),
+														   NULL)));
+
+    if (hook)
+		g_object_set_data (G_OBJECT (checkbutton),
+						   "changed-hook",
+						   GUINT_TO_POINTER (g_signal_connect (checkbutton,
+															   "toggled",
+															   G_CALLBACK (hook),
+															   data)));
+    return checkbutton;
+}
+
+/**
  * Creates a new radio buttons group with two choices.  Toggling will
  * change the content of an integer passed as an argument.
  * the color of label is blue.
