@@ -77,6 +77,14 @@ row:selected:focus {
 column-header .button {
 }
 
+/**************
+ * ComboBoxes *
+ **************/
+
+combobox arrow {
+    -gtk-icon-source: -gtk-icontheme("pan-down-symbolic");
+}
+
 /*********
  * entry *
  *********/
