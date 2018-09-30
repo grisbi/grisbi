@@ -1356,7 +1356,6 @@ gboolean gsb_scheduler_list_update_transaction_in_list ( gint scheduled_number )
                 /* go to the next date if ever there is several lines of that scheduled */
                 pGDateCurrent = gsb_scheduler_get_next_date ( scheduled_number, pGDateCurrent );
 
-printf ("date = %s\n", gsb_format_gdate (pGDateCurrent));
                 line[COL_NB_DATE] = gsb_format_gdate ( pGDateCurrent );
             }
 
@@ -1415,7 +1414,6 @@ printf ("date = %s\n", gsb_format_gdate (pGDateCurrent));
         while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( store ), &iter ) );
     }
 
-printf ("fin de fonction gsb_scheduler_list_update_transaction_in_list ()\n");
     return FALSE;
 }
 

@@ -84,6 +84,7 @@ extern struct GrisbiAppConf conf;
 extern struct _GrisbiWinRun run;
 extern struct _GrisbiWinEtat etat;
 
+typedef enum 	_ComboColumns			ComboColumns;
 typedef enum 	_GsbOfxTransactionType	GsbOfxTransactionType;
 typedef enum 	_GsbTitleType	 		GsbTitleType;
 typedef enum 	_SettingsSchema 		SettingsSchema;
@@ -458,6 +459,16 @@ struct CsvSeparators
 {
     const gchar *name;		/** Visible name of CSV separator */
     const gchar *value; 		/** Real value */
+};
+
+enum _ComboColumns
+{
+    COMBO_COL_VISIBLE_STRING = 0,    /* string : what we see in the combofix */
+    COMBO_COL_REAL_STRING,           /* string : what we set in the entry when selecting something */
+    COMBO_COL_VISIBLE,               /* boolean : if that line has to be showed */
+    COMBO_COL_LIST_NUMBER,           /* int : the number of the list 0, 1 ou 2 (CREDIT DEBIT SPECIAL) */
+    COMBO_COL_SEPARATOR,             /* TRUE : if this is a separator */
+    COMBO_N_COLUMNS
 };
 
 #endif

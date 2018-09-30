@@ -822,7 +822,7 @@ gboolean gsb_transactions_list_display_update_combofix ( void )
     GtkWidget *combofix;
 
     combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_PARTY );
-    if (combofix)
+    if (combofix && GTK_IS_COMBOFIX (combofix))
     {
 	gtk_combofix_set_force_text ( GTK_COMBOFIX (combofix),
 				      etat.combofix_force_payee );
@@ -833,7 +833,7 @@ gboolean gsb_transactions_list_display_update_combofix ( void )
     }
 
     combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_CATEGORY );
-    if (combofix)
+    if (combofix && GTK_IS_COMBOFIX (combofix))
     {
 	gtk_combofix_set_force_text ( GTK_COMBOFIX (combofix),
 				      etat.combofix_force_category );
@@ -846,7 +846,7 @@ gboolean gsb_transactions_list_display_update_combofix ( void )
     }
 
     combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_BUDGET );
-    if (combofix)
+    if (combofix && GTK_IS_COMBOFIX (combofix))
     {
 	gtk_combofix_set_force_text ( GTK_COMBOFIX (combofix),
 				      etat.combofix_force_category );

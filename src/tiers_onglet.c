@@ -42,6 +42,7 @@
 #include "grisbi_app.h"
 #include "gsb_assistant.h"
 #include "gsb_automem.h"
+#include "gsb_combo_box.h"
 #include "gsb_data_form.h"
 #include "gsb_data_mix.h"
 #include "gsb_data_payee.h"
@@ -139,6 +140,35 @@ enum {
   COLUMN_STRING,
   N_COLUMNS
 };
+
+/******************************************************************************/
+/* Private functions                                                          */
+/******************************************************************************/
+/**
+ * update the form's combofix for the payees
+ *
+ * \param
+ *
+ * \return FALSE
+ * */
+static gboolean payees_update_combofix (gboolean force)
+{
+    if (gsb_data_form_check_for_value (TRANSACTION_FORM_PARTY) || force)
+	{
+    	GtkWidget *widget;
+		GSList *tmp_list;
+
+		widget = gsb_form_widget_get_widget (TRANSACTION_FORM_PARTY);
+		tmp_list = gsb_data_payee_get_name_and_report_list ();
+		if (GTK_IS_COMBOFIX (widget))
+			gtk_combofix_set_list (GTK_COMBOFIX (widget), tmp_list);
+		else
+			gsb_combo_form_box_set_list (GTK_COMBO_BOX (widget), tmp_list);
+		gsb_data_payee_free_name_and_report_list (tmp_list);
+	}
+
+    return FALSE;
+}
 
 /**
  * réinitialisation des variables globales
@@ -440,7 +470,8 @@ void payees_remove_unused_payees ( void )
         {
             payees_fill_list ();
             tmpstr = g_strdup_printf ( _("Removed %d payees."), nb_removed);
-            gsb_file_set_modified ( TRUE );
+            gsb_file_set_modified (TRUE);
+			payees_update_combofix (TRUE);
         }
         else
         {
@@ -1926,7 +1957,6 @@ void payees_edit_payee ( void )
 {
     edit_payee ( GTK_TREE_VIEW ( payee_tree ) );
 }
-
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

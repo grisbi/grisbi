@@ -45,6 +45,7 @@
 #include "grisbi_prefs.h"
 #include "gsb_calendar.h"
 #include "gsb_calendar_entry.h"
+#include "gsb_combo_box.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
@@ -671,11 +672,14 @@ void gsb_form_fill_element ( gint element_number,
 	    break;
 
 	case TRANSACTION_FORM_PARTY:
-	    if ( gsb_data_mix_get_party_number (transaction_number, is_transaction))
+		number = gsb_data_mix_get_party_number (transaction_number, is_transaction);
+	    if (number)
 	    {
-		gsb_form_entry_get_focus (widget);
-		gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
-					gsb_data_payee_get_name ( gsb_data_mix_get_party_number (transaction_number, is_transaction), TRUE ));
+			const gchar *tmp_name;
+
+			tmp_name = gsb_data_payee_get_name (number, TRUE);
+			gsb_form_entry_get_focus (widget);
+			gsb_form_widget_combo_entry_set_text (widget, tmp_name);
 	    }
 	    break;
 
@@ -1139,8 +1143,10 @@ gboolean gsb_form_clean ( gint account_number )
 		    break;
 
 		case TRANSACTION_FORM_PARTY:
-		    gsb_form_widget_set_empty ( GTK_COMBOFIX ( element -> element_widget ) -> entry, TRUE );
-		    gtk_combofix_set_text ( GTK_COMBOFIX ( element -> element_widget ), _("Payee") );
+				gsb_combo_form_box_block_unblock_by_func (element->element_widget, TRUE);
+				gsb_form_widget_set_empty (element->element_widget, TRUE);
+				gsb_form_widget_combo_entry_set_text (element->element_widget, _("Payee"));
+				gsb_combo_form_box_block_unblock_by_func (element->element_widget, FALSE);
 		    break;
 
 		case TRANSACTION_FORM_DEBIT:
@@ -1277,24 +1283,26 @@ gint gsb_form_get_element_expandable ( gint element_number )
  * */
 gboolean gsb_form_entry_get_focus ( GtkWidget *entry )
 {
-    /* the entry can be a combofix or a real entry */
-    if (GTK_IS_COMBOFIX ( entry ))
-    {
-        if ( gsb_form_widget_check_empty (GTK_COMBOFIX ( entry ) -> entry ) )
-        {
-            gtk_combofix_set_text ( GTK_COMBOFIX ( entry ), "" );
-            gsb_form_widget_set_empty ( GTK_COMBOFIX ( entry) -> entry, FALSE );
-        }
-    }
-    else
-    {
+	devel_debug (NULL);
+    /* the entry can be a combofix or a combo_box or a real entry */
+	if (GTK_IS_ENTRY (entry))
+	{
         if ( gsb_form_widget_check_empty ( entry ) )
         {
             gtk_entry_set_text ( GTK_ENTRY ( entry ), "" );
             gsb_form_widget_set_empty ( entry, FALSE );
         }
-    }
-    /* sensitive the valid and cancel buttons */
+	}
+	else
+	{
+			if ( gsb_form_widget_check_empty (entry))
+			{
+				gsb_form_widget_combo_entry_set_text (entry, "");
+				gsb_form_widget_set_empty (entry, FALSE);
+			}
+	}
+
+	/* sensitive the valid and cancel buttons */
     gtk_widget_set_sensitive ( GTK_WIDGET ( form_button_valid ), TRUE );
     gtk_widget_set_sensitive ( GTK_WIDGET ( form_button_cancel ), TRUE );
 
@@ -1323,14 +1331,14 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
     gint transaction_number;
     gint payment_number;
 
-    /* still not found, if change the content of the form, something come in entry
+	/* still not found, if change the content of the form, something come in entry
      * which is nothing, so protect here */
     if ( !GTK_IS_WIDGET (entry)
      ||
      !GTK_IS_ENTRY (entry))
     return FALSE;
 
-    /* remove the selection */
+	/* remove the selection */
     gtk_editable_select_region ( GTK_EDITABLE ( entry ), 0, 0 );
     element_number = GPOINTER_TO_INT (ptr_origin);
     account_number = gsb_form_get_account_number ();
@@ -1338,7 +1346,7 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
                         G_OBJECT ( gsb_form_get_form_widget ( ) ),
                         "transaction_number_in_form" ) );
 
-    /* sometimes the combofix popus stays showed, so remove here */
+	/* sometimes the combofix popus stays showed, so remove here */
     if ( element_number == TRANSACTION_FORM_PARTY
      ||
      element_number == TRANSACTION_FORM_CATEGORY
@@ -1346,7 +1354,8 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
      element_number == TRANSACTION_FORM_BUDGET )
     {
         widget = gsb_form_widget_get_widget (element_number);
-        gtk_combofix_hide_popup ( GTK_COMBOFIX ( widget ) );
+		if (GTK_IS_COMBOFIX (widget))
+        	gtk_combofix_hide_popup (GTK_COMBOFIX (widget));
     }
 
     /* string will be filled only if the field is empty */
@@ -1608,23 +1617,24 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
     /* if string is not NULL, the entry is empty so set the empty field to TRUE */
     if ( string )
     {
-	switch ( element_number)
-	{
-	    case TRANSACTION_FORM_PARTY :
-	    case TRANSACTION_FORM_CATEGORY :
-	    case TRANSACTION_FORM_BUDGET :
-		/* need to work with the combofix to avoid some signals if we work
-		 * directly on the entry */
-		gtk_combofix_set_text ( GTK_COMBOFIX ( gsb_form_widget_get_widget (element_number) ),
-					_(string) );
-		break;
+		switch ( element_number)
+		{
+			case TRANSACTION_FORM_PARTY :
+			case TRANSACTION_FORM_CATEGORY :
+			case TRANSACTION_FORM_BUDGET :
+				/* need to work with the combofix to avoid some signals if we work
+				 * directly on the entry */
+				widget = gsb_form_widget_get_widget (element_number);
+				gsb_form_widget_combo_entry_set_text (widget, _(string));
+				break;
 
-	    default:
-		gtk_entry_set_text ( GTK_ENTRY ( entry ), string );
-		break;
-	}
-	gsb_form_widget_set_empty ( entry, TRUE );
+			default:
+				gtk_entry_set_text ( GTK_ENTRY ( entry ), string );
+			break;
+		}
+		gsb_form_widget_set_empty ( entry, TRUE );
     }
+
     return FALSE;
 }
 
@@ -1647,7 +1657,7 @@ void gsb_form_check_auto_separator ( GtkWidget *entry )
     gunichar decimal_point;
     gsize i;
 
-    if (!etat.automatic_separator
+	if (!etat.automatic_separator
 	||
 	!entry )
 	return;
@@ -1762,7 +1772,7 @@ gboolean gsb_form_button_press_event ( GtkWidget *entry,
 {
     GtkWidget *widget;
 
-    /* we do the first part only if we click on the form directly, without double click or
+	/* we do the first part only if we click on the form directly, without double click or
      * entry in the transaction list,
      * in that case, transaction_number_in_form is 0 and set to -1, as a white line */
     if (!g_object_get_data (G_OBJECT (transaction_form), "transaction_number_in_form"))
@@ -1824,8 +1834,8 @@ gboolean gsb_form_button_press_event ( GtkWidget *entry,
 
     /* if ev is NULL, go away here
      * (means come from a function as gsb_form_finish_edition...) */
-    if ( !ev )
-	return FALSE;
+    //~ if ( !ev )
+	//~ return FALSE;
 
     return FALSE;
 }
@@ -1873,7 +1883,7 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
     gint element_suivant;
     GtkWidget *widget_prov;
 
-    element_number = GPOINTER_TO_INT (ptr_origin);
+	element_number = GPOINTER_TO_INT (ptr_origin);
     account_number = gsb_form_get_account_number ();
 
     /* if conf.entree = 1, entry finish the transaction, else does as tab */
@@ -2003,7 +2013,8 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
             gsb_form_finish_edition();
 	    else
             gsb_form_widget_set_focus ( element_suivant );
-	    return TRUE;
+
+		return TRUE;
 	    break;
 
 	case GDK_KEY_KP_Enter :
@@ -2041,9 +2052,8 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 
             widget_prov = gsb_form_widget_get_widget ( TRANSACTION_FORM_PARTY );
 
-            if ( GTK_IS_COMBOFIX ( widget_prov ) )
-                gsb_form_transaction_complete_form_by_payee ( gtk_combofix_get_text (
-                        GTK_COMBOFIX ( widget_prov ) ) );
+            if (GTK_IS_COMBOFIX (widget_prov) || GTK_IS_COMBO_BOX (widget_prov))
+                gsb_form_transaction_complete_form_by_payee (gsb_form_widget_combo_entry_get_text (widget_prov));
 
             gsb_form_finish_edition ();
             return TRUE;
@@ -2249,10 +2259,10 @@ gboolean gsb_form_finish_edition ( void )
                 if ( nbre_passage == 0 )
                 {
                     widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_PARTY );
-                    gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
-                                gsb_data_payee_get_name ( GPOINTER_TO_INT (
-                                list_tmp -> data ), TRUE ) );
-                    gsb_form_widget_set_empty ( GTK_WIDGET ( GTK_COMBOFIX ( widget ) -> entry ), FALSE );
+                    gsb_form_widget_combo_entry_set_text (widget,
+													gsb_data_payee_get_name (GPOINTER_TO_INT (list_tmp -> data),
+																			 TRUE ));
+                    gsb_form_widget_set_empty (widget, FALSE);
                 }
                 else
                 {
@@ -2458,7 +2468,6 @@ gboolean gsb_form_finish_edition ( void )
 			if (gsb_data_account_get_bet_init_sch_with_loan (transfer_account))
 			{
 				GDate *date;
-devel_debug ("exécute init_sch_with_loan");
 
 				date = gsb_date_copy (gsb_data_scheduled_get_date (saved_scheduled_number));
 				g_date_add_months (date, 1);
@@ -2914,44 +2923,45 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 
     if (widget)
     {
-	if (!strncmp ( gtk_combofix_get_text (GTK_COMBOFIX (widget)),
-		       _("Report"),
-		       strlen (_("Report"))))
-	{
-	    gchar **tab_char;
+		const gchar *payee_name = NULL;
 
-	    /* check if it's a new transaction */
-	    if (transaction_number > 0)
-	    {
-		dialogue_error ( _("A transaction with a multiple payee must be a new one.") );
-		return (FALSE);
-	    }
-	    if ( mother_number > 0 )
-	    {
-		dialogue_error ( _("A transaction with a multiple payee cannot be a split child.") );
-		return (FALSE);
-	    }
 
-	    /* check if the report exists */
-	    tab_char = g_strsplit ( gtk_combofix_get_text (GTK_COMBOFIX (widget)),
-				    " : ",
-				    2 );
+		payee_name = gsb_form_widget_combo_entry_get_text (widget);
 
-	    if (!tab_char[1])
-	    {
-		dialogue_error  ( _("The word \"Report\" is reserved. Please use another one."));
-		g_strfreev (tab_char);
-		return FALSE;
-	    }
+		if (payee_name && !strncmp (payee_name, _("Report"), strlen (_("Report"))))
+		{
+			gchar **tab_char;
 
-	    if (!gsb_data_report_get_report_by_name (tab_char[1]))
-	    {
-		dialogue_error ( _("Invalid multiple payee.") );
-		g_strfreev (tab_char);
-		return (FALSE);
-	    }
-	    g_strfreev (tab_char);
-	}
+			/* check if it's a new transaction */
+			if (transaction_number > 0)
+			{
+			dialogue_error ( _("A transaction with a multiple payee must be a new one.") );
+			return (FALSE);
+			}
+			if ( mother_number > 0 )
+			{
+			dialogue_error ( _("A transaction with a multiple payee cannot be a split child.") );
+			return (FALSE);
+			}
+
+			/* check if the report exists */
+			tab_char = g_strsplit (payee_name, " : ", 2);
+
+			if (!tab_char[1])
+			{
+			dialogue_error  ( _("The word \"Report\" is reserved. Please use another one."));
+			g_strfreev (tab_char);
+			return FALSE;
+			}
+
+			if (!gsb_data_report_get_report_by_name (tab_char[1]))
+			{
+			dialogue_error ( _("Invalid multiple payee.") );
+			g_strfreev (tab_char);
+			return (FALSE);
+			}
+			g_strfreev (tab_char);
+		}
     }
     return ( TRUE );
 }
@@ -3036,14 +3046,26 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
 		break;
 
 	    case TRANSACTION_FORM_PARTY:
-		if (gsb_form_widget_check_empty (element -> element_widget))
+		if (gsb_form_widget_check_empty (element->element_widget))
 		    gsb_data_mix_set_party_number ( transaction_number, 0, is_transaction );
 		else
 		{
-		    gsb_data_mix_set_party_number ( transaction_number,
-                        gsb_data_payee_get_number_by_name (
-                        gtk_combofix_get_text ( GTK_COMBOFIX ( element -> element_widget ) ),
-                        TRUE ), is_transaction );
+			const gchar *tmp_name;
+
+			if (conf.combofix_payee_use_gtk_completion)
+			{
+				GtkWidget *entry;
+
+				entry = gsb_combo_form_box_get_entry (GTK_COMBO_BOX (element->element_widget));
+				tmp_name = gtk_entry_get_text (GTK_ENTRY (entry));
+			}
+			else
+			{
+				tmp_name = gtk_combofix_get_text (GTK_COMBOFIX (element -> element_widget));
+			}
+			gsb_data_mix_set_party_number (transaction_number,
+										   gsb_data_payee_get_number_by_name (tmp_name, TRUE),
+										   is_transaction );
 		}
 		break;
 
@@ -3390,25 +3412,6 @@ gboolean gsb_form_escape_form ( void )
 {
     devel_debug (NULL);
 
-    switch ( gsb_form_get_origin ())
-    {
-	case ORIGIN_VALUE_OTHER:
-	    notice_debug ("Should not come here... (gsb_form_escape_form)");
-	    gtk_widget_grab_focus ( gsb_gui_navigation_get_tree_view ( ) );
-	    break;
-
-	case ORIGIN_VALUE_HOME:
-	    gtk_widget_grab_focus (GTK_WIDGET (grisbi_app_get_active_window (NULL)));
-	    break;
-
-	case ORIGIN_VALUE_SCHEDULED:
-	    gtk_widget_grab_focus (gsb_scheduler_list_get_tree_view ());
-	    break;
-
-	default:
-	    gtk_widget_grab_focus (gsb_transactions_list_get_tree_view());
-    }
-
     /* in all case clean the scheduler part of the form */
     gsb_form_scheduler_clean ();
 
@@ -3423,6 +3426,26 @@ gboolean gsb_form_escape_form ( void )
 		form_expander = grisbi_win_get_form_expander ();
         gtk_expander_set_expanded ( GTK_EXPANDER ( form_expander ), FALSE );
     }
+
+    switch (gsb_form_get_origin ())
+    {
+		case ORIGIN_VALUE_OTHER:
+			notice_debug ("Should not come here... (gsb_form_escape_form)");
+			gtk_widget_grab_focus ( gsb_gui_navigation_get_tree_view ( ) );
+			break;
+
+		case ORIGIN_VALUE_HOME:
+			gtk_widget_grab_focus (GTK_WIDGET (grisbi_app_get_active_window (NULL)));
+			break;
+
+		case ORIGIN_VALUE_SCHEDULED:
+			gtk_widget_grab_focus (gsb_scheduler_list_get_tree_view ());
+			break;
+
+		default:
+			gtk_widget_grab_focus (gsb_transactions_list_get_tree_view());
+    }
+
     return FALSE;
 }
 

@@ -18,7 +18,18 @@ GtkWidget *		gsb_combo_box_new_with_index_from_list 		(GSList *list,
 															 gpointer data);
 gint 			gsb_combo_box_set_index 					(GtkWidget *combo_box,
 															 gint index);
-void 			gsb_combo_box_set_text_renderer 			(GtkComboBox *combo,
-															 gint num_col);
+/* COMBO_BOX WITH COMPLETION */
+void			gsb_combo_form_box_append_text 				(GtkComboBox *combo,
+															 const gchar *text);
+void			gsb_combo_form_box_block_unblock_by_func	(GtkWidget *combo_box,
+															 gboolean block);
+GtkWidget *		gsb_combo_form_box_get_entry				(GtkComboBox *combo_box);
+GtkWidget *		gsb_combo_form_box_new 						(GSList *list,
+															 GCallback func,
+															 gpointer data);
+void			gsb_combo_form_box_remove_text				(GtkComboBox *combo,
+															 const gchar *text);
+gboolean 		gsb_combo_form_box_set_list 				(GtkComboBox *combo_box,
+															 GSList *list);
 /* END_DECLARATION */
 #endif

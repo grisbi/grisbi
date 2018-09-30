@@ -37,6 +37,7 @@
 /*START_INCLUDE*/
 #include "gsb_form_widget.h"
 #include "gsb_calendar_entry.h"
+#include "gsb_combo_box.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
@@ -99,7 +100,8 @@ GSList *gsb_form_widget_get_list ( void )
  * */
 gboolean gsb_form_widget_free_list ( void )
 {
-    GSList *tmp_list;
+	GtkWidget *entry;
+	GSList *tmp_list;
     GtkWidget *widget_signals;
 
     devel_debug (NULL);
@@ -141,15 +143,20 @@ gboolean gsb_form_widget_free_list ( void )
 						g_signal_handlers_block_by_func (element -> element_widget,
 														 gsb_payment_method_changed_callback,
 														 NULL);
-					}
-					/* Ajout du 24/07/2017 : pour une raison encore indéterminée, les éléments de type GtkComboBox */
-					/* provoquent un warning de la part de gtk (version 3.22.11) lorsque le widget est détruit :                                 */
-					/* (grisbi:10426): Gtk-CRITICAL **: gtk_widget_is_drawable: assertion 'GTK_IS_WIDGET (widget)' failed */
+						/* Ajout du 24/07/2017 : pour une raison encore indéterminée, les éléments de type GtkComboBox */
+						/* provoquent un warning de la part de gtk (version 3.22.11) lorsque le widget est détruit :                                 */
+						/* (grisbi:10426): Gtk-CRITICAL **: gtk_widget_is_drawable: assertion 'GTK_IS_WIDGET (widget)' failed */
 
-					element -> element_widget = NULL;
-					g_free (element);
-					tmp_list = tmp_list -> next;
-					continue;
+						element -> element_widget = NULL;
+						g_free (element);
+						tmp_list = tmp_list -> next;
+						continue;
+					}
+					else if (element->element_number == TRANSACTION_FORM_PARTY)
+					{
+						entry = gsb_combo_form_box_get_entry (GTK_COMBO_BOX (element->element_widget));
+						widget_signals = entry;
+					}
 				}
 
                 if ( widget_signals )
@@ -166,9 +173,10 @@ gboolean gsb_form_widget_free_list ( void )
                     g_signal_handlers_disconnect_by_func ( G_OBJECT ( widget_signals ),
                         G_CALLBACK ( gsb_form_key_press_event ),
                         GINT_TO_POINTER ( element -> element_number ));
-                    g_signal_handlers_disconnect_by_func ( G_OBJECT ( widget_signals ),
-                        G_CALLBACK ( gsb_form_combo_selection_changed ),
-                        GINT_TO_POINTER ( element -> element_number ));
+					if (GTK_IS_COMBOFIX (widget_signals))
+                    	g_signal_handlers_disconnect_by_func (G_OBJECT (widget_signals),
+															  G_CALLBACK (gsb_form_combo_selection_changed),
+                        									  GINT_TO_POINTER (element -> element_number));
                 }
 
 				/* if there is something in the combofix we destroy, the popup will
@@ -194,7 +202,7 @@ gboolean gsb_form_widget_free_list ( void )
     g_slist_free (form_list_widgets);
     form_list_widgets = NULL;
 
-    return FALSE;
+	return FALSE;
 }
 
 
@@ -213,7 +221,7 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
     GtkWidget *widget;
     GSList *tmp_list;
 
-    if (!element_number)
+	if (!element_number)
 	return NULL;
 
     widget = NULL;
@@ -258,20 +266,20 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 	    break;
 
 	case TRANSACTION_FORM_PARTY:
-        tmp_list = gsb_data_payee_get_name_and_report_list ( );
-	    widget = gtk_combofix_new ( tmp_list );
+        tmp_list = gsb_data_payee_get_name_and_report_list ();
+		if (conf.combofix_payee_use_gtk_completion)
+		{
+			widget = gsb_combo_form_box_new (tmp_list, NULL, NULL);
+		}
+		else
+		{
+	    	widget = gtk_combofix_new_with_properties (tmp_list,
+													   etat.combofix_force_payee,
+													   etat.combofix_max_item,
+													   etat.combofix_case_sensitive,
+													   FALSE);
+		}
         gsb_data_payee_free_name_and_report_list ( tmp_list );
-
-	    gtk_combofix_set_force_text ( GTK_COMBOFIX (widget),
-					  etat.combofix_force_payee );
-	    gtk_combofix_set_max_items ( GTK_COMBOFIX (widget),
-					 etat.combofix_max_item );
-	    gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (widget),
-					      etat.combofix_case_sensitive );
-	    /* we never mix the payee because the only case of the complex combofix is
-	     * for the report and there is non sense to mix report with the payee */
-	    gtk_combofix_set_mixed_sort ( GTK_COMBOFIX (widget),
-					  FALSE );
 	    break;
 
 	case TRANSACTION_FORM_CATEGORY:
@@ -359,67 +367,75 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 
     if ( widget )
     {
-	/* first, append the widget to the list */
-	struct_element *element;
+		/* first, append the widget to the list */
+		struct_element *element;
 
-	element = g_malloc0 (sizeof (struct_element));
-	element -> element_number = element_number;
-	element -> element_widget = widget;
-	form_list_widgets = g_slist_append ( form_list_widgets, element );
+		element = g_malloc0 (sizeof (struct_element));
+		element -> element_number = element_number;
+		element -> element_widget = widget;
+		form_list_widgets = g_slist_append ( form_list_widgets, element );
 
-	/* set the signals */
-	if ( GTK_IS_ENTRY ( widget ) )
-	{
-	    g_signal_connect ( G_OBJECT ( widget ),
-			       "focus-in-event",
-			       G_CALLBACK ( gsb_form_widget_entry_get_focus ),
-			       GINT_TO_POINTER ( element_number ));
-	    g_signal_connect ( G_OBJECT ( widget ),
-			       "focus-out-event",
-			       G_CALLBACK ( gsb_form_entry_lose_focus ),
-			       GINT_TO_POINTER ( element_number ));
-	    g_signal_connect ( G_OBJECT ( widget ),
-			       "button-press-event",
-			       G_CALLBACK ( gsb_form_button_press_event ),
-			       GINT_TO_POINTER ( element_number ));
-	    g_signal_connect ( G_OBJECT ( widget ),
-			       "key-press-event",
-			       G_CALLBACK ( gsb_form_key_press_event ),
-			       GINT_TO_POINTER ( element_number ));
-	}
-	else
-	{
-	    if ( GTK_IS_COMBOFIX ( widget ) )
-	    {
-		    g_signal_connect ( G_OBJECT ( GTK_COMBOFIX ( widget ) -> entry ),
-                       "focus-in-event",
-                       G_CALLBACK ( gsb_form_entry_get_focus ),
-                       GINT_TO_POINTER ( element_number ));
-		    g_signal_connect ( G_OBJECT ( GTK_COMBOFIX (widget ) -> entry ),
-                       "focus-out-event",
-                       G_CALLBACK ( gsb_form_entry_lose_focus ),
-                       GINT_TO_POINTER ( element_number ));
-		    g_signal_connect ( G_OBJECT ( GTK_COMBOFIX (widget ) -> entry ),
-                       "button-press-event",
-                       G_CALLBACK ( gsb_form_button_press_event ),
-                       GINT_TO_POINTER ( element_number ));
-            g_signal_connect ( G_OBJECT ( GTK_COMBOFIX ( widget ) -> entry ),
-                       "key-press-event",
-                       G_CALLBACK ( gsb_form_key_press_event ),
-                       GINT_TO_POINTER ( element_number ));
-            gtk_combofix_set_selection_callback ( GTK_COMBOFIX ( widget ),
-						G_CALLBACK ( gsb_form_combo_selection_changed ),
-					    GINT_TO_POINTER ( element_number ) );
-	    }
-	    else
-		/* neither an entry, neither a combofix */
-		g_signal_connect ( G_OBJECT ( widget ),
-				   "key-press-event",
-				   G_CALLBACK ( gsb_form_key_press_event ),
-				   GINT_TO_POINTER ( element_number ));
-	}
+		/* set the signals */
+		if ( GTK_IS_ENTRY ( widget ) )
+		{
+			g_signal_connect ( G_OBJECT ( widget ),
+					   "focus-in-event",
+					   G_CALLBACK ( gsb_form_widget_entry_get_focus ),
+					   GINT_TO_POINTER ( element_number ));
+			g_signal_connect ( G_OBJECT ( widget ),
+					   "focus-out-event",
+					   G_CALLBACK ( gsb_form_entry_lose_focus ),
+					   GINT_TO_POINTER ( element_number ));
+			g_signal_connect ( G_OBJECT ( widget ),
+					   "button-press-event",
+					   G_CALLBACK ( gsb_form_button_press_event ),
+					   GINT_TO_POINTER ( element_number ));
+			g_signal_connect ( G_OBJECT ( widget ),
+					   "key-press-event",
+					   G_CALLBACK ( gsb_form_key_press_event ),
+					   GINT_TO_POINTER ( element_number ));
+		}
+		else
+		{
+			GtkWidget *entry = NULL;
+
+			entry = gsb_form_widget_combo_get_entry (widget);
+			if (GTK_IS_COMBOFIX (widget))
+			{
+				gtk_combofix_set_selection_callback (GTK_COMBOFIX (widget),
+													 G_CALLBACK (gsb_form_combo_selection_changed),
+													 GINT_TO_POINTER (element_number));
+			}
+
+			if (GTK_IS_ENTRY (entry))
+			{
+				g_signal_connect (G_OBJECT (entry),
+								  "focus-in-event",
+								  G_CALLBACK (gsb_form_entry_get_focus),
+								  GINT_TO_POINTER (element_number));
+				g_signal_connect (G_OBJECT (entry),
+								  "focus-out-event",
+								  G_CALLBACK (gsb_form_entry_lose_focus),
+								  GINT_TO_POINTER (element_number));
+				g_signal_connect (G_OBJECT (entry),
+								  "button-press-event",
+								  G_CALLBACK (gsb_form_button_press_event),
+								  GINT_TO_POINTER (element_number));
+				g_signal_connect (G_OBJECT (entry),
+								  "key-press-event",
+								  G_CALLBACK (gsb_form_key_press_event),
+								  GINT_TO_POINTER (element_number));
+			}
+			else
+				/* neither an entry, neither a combofix or combo_box*/
+				g_signal_connect (G_OBJECT (widget),
+								  "key-press-event",
+								  G_CALLBACK (gsb_form_key_press_event),
+								  GINT_TO_POINTER (element_number));
+		}
     }
-    else {
+    else
+	{
     	alert_debug ( "Widget should not be NULL" );
     }
 
@@ -694,15 +710,23 @@ void gsb_form_widget_set_focus ( gint element_number )
 
     widget = gsb_form_widget_get_widget (element_number);
 
-    if ( !widget )
+	if ( !widget )
+		return;
+
+	if (GTK_IS_COMBO_BOX (widget) || GTK_IS_COMBOFIX (widget))
+	{
+		GtkWidget *entry;
+
+		entry = gsb_form_widget_combo_get_entry (widget);
+		if (entry)
+			gtk_widget_grab_focus (entry);
+		else
+			gtk_widget_grab_focus (widget);
+	}
+	else
+		gtk_widget_grab_focus (widget);
+
 	return;
-
-    if ( GTK_IS_COMBOFIX ( widget ))
-	gtk_widget_grab_focus ( GTK_COMBOFIX ( widget ) -> entry );
-    else
-	gtk_widget_grab_focus ( widget );
-
-    return;
 }
 
 
@@ -715,17 +739,17 @@ void gsb_form_widget_set_focus ( gint element_number )
  * */
 gboolean gsb_form_widget_check_empty ( GtkWidget *entry )
 {
-    if (!entry
-	||
-	(!GTK_IS_ENTRY (entry)
-	 &&
-	 !GTK_IS_COMBOFIX (entry)))
+    if (!entry)
+		return FALSE;
+
+	if (GTK_IS_ENTRY (entry))
+		return GPOINTER_TO_INT (g_object_get_data (G_OBJECT(entry), "empty" ));
+
+	entry = gsb_form_widget_combo_get_entry (entry);
+	if (GTK_IS_ENTRY (entry))
+		return GPOINTER_TO_INT (g_object_get_data (G_OBJECT(entry), "empty" ));
+
 	return FALSE;
-
-    if (GTK_IS_COMBOFIX (entry))
-	entry = GTK_COMBOFIX (entry) -> entry;
-
-    return GPOINTER_TO_INT( g_object_get_data ( G_OBJECT(entry), "empty" ) );
 }
 
 
@@ -742,10 +766,16 @@ void gsb_form_widget_set_empty (GtkWidget *entry,
 {
     GtkStyleContext* context;
 
-    if (!entry || !GTK_IS_ENTRY (entry))
+	if (!entry)
+		return;
+
+	if (!GTK_IS_ENTRY (entry))
+		entry = gsb_form_widget_combo_get_entry (entry);
+
+    if (!entry)
         return;
 
-    context = gtk_widget_get_style_context  (entry);
+    context = gtk_widget_get_style_context (entry);
 
     if (!empty)
     {
@@ -1283,7 +1313,147 @@ gboolean gsb_form_widget_update_payee_combofix ( gint report_number,
     return FALSE;
 }
 
+/* INTERFACE FUNCTIONS BETWEEN GTK_COMBOFIX AND GTK_COMBO_BOX */
+/**
+ * retourne le widget entry en fonction du type de combo : combobox ou combofix
+ *
+ * \param combo
+ *
+ * \return an entry widget ou NULL si pas
+ **/
+GtkWidget *gsb_form_widget_combo_get_entry (GtkWidget *combo)
+{
+	GtkWidget *entry = NULL;
 
+	if (GTK_IS_COMBOFIX (combo))
+	{
+		entry = gtk_combofix_get_entry (GTK_COMBOFIX (combo));
+	}
+	else if (GTK_IS_COMBO_BOX (combo))
+	{
+		entry = gsb_combo_form_box_get_entry (GTK_COMBO_BOX (combo));
+	}
+
+	return entry;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+const gchar *gsb_form_widget_combo_entry_get_text (GtkWidget *combo)
+{
+	const gchar *text = NULL;
+
+	if (GTK_IS_COMBOFIX (combo))
+	{
+		text = gtk_combofix_get_text (GTK_COMBOFIX (combo));
+	}
+	else if (GTK_IS_COMBO_BOX (combo))
+	{
+		GtkWidget *entry;
+
+		entry = gsb_combo_form_box_get_entry (GTK_COMBO_BOX (combo));
+		text = gtk_entry_get_text (GTK_ENTRY (entry));
+	}
+
+	return text;
+}
+
+/**
+ * set text of combofix or combo_box for payees or categ or IB
+ *
+ * \param
+ * \param
+ *
+ * \return TRUE is OK or FALSE
+ **/
+gboolean gsb_form_widget_combo_entry_set_text (GtkWidget *combo,
+											   const gchar *text)
+{
+	if (GTK_IS_COMBOFIX (combo))
+	{
+		gtk_combofix_set_text (GTK_COMBOFIX (combo), text);
+		return TRUE;
+	}
+	else
+	{
+		if (GTK_IS_COMBO_BOX (combo))
+		{
+			GtkWidget *entry = NULL;
+
+			entry = gsb_combo_form_box_get_entry (GTK_COMBO_BOX (combo));
+			if (!entry)
+				return FALSE;
+
+			gtk_entry_set_text (GTK_ENTRY (entry), text);
+			return TRUE;
+		}
+	}
+
+	return FALSE;
+}
+
+/**
+ * append text of combofix or combo_box for payees or categ or IB
+ *
+ * \param
+ * \param
+ *
+ * \return TRUE is OK or FALSE
+ **/
+gboolean gsb_form_widget_combo_popup_append_text (GtkWidget *combo,
+												  const gchar *text)
+{
+	if (GTK_IS_COMBOFIX (combo))
+	{
+		gtk_combofix_append_text (GTK_COMBOFIX (combo), text);
+		return TRUE;
+	}
+	else if (GTK_IS_COMBO_BOX (combo))
+	{
+		gsb_combo_form_box_append_text (GTK_COMBO_BOX (combo), text);
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+/**
+ * remove text of combofix or combo_box for payees or categ or IB
+ *
+ * \param
+ * \param
+ *
+ * \return TRUE is OK or FALSE
+ **/
+gboolean gsb_form_widget_combo_popup_remove_text (GtkWidget *combo,
+												  const gchar *text)
+{
+	if (GTK_IS_COMBOFIX (combo))
+	{
+		gtk_combofix_remove_text (GTK_COMBOFIX (combo), text);
+		return TRUE;
+	}
+	else if (GTK_IS_COMBO_BOX (combo))
+	{
+			gsb_combo_form_box_remove_text(GTK_COMBO_BOX (combo),text);
+			return TRUE;
+	}
+
+	return FALSE;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

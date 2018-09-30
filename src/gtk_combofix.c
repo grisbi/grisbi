@@ -35,6 +35,7 @@
 #include "gtk_combofix.h"
 #include "gsb_form.h"
 #include "utils_buttons.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

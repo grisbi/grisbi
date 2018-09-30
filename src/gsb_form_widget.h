@@ -23,6 +23,14 @@ gboolean		gsb_form_widget_amount_entry_changed			(GtkWidget *entry,
                         										 gpointer null);
 gboolean		gsb_form_widget_amount_entry_validate			(gint element_number);
 gboolean		gsb_form_widget_check_empty						(GtkWidget *entry);
+const gchar *	gsb_form_widget_combo_entry_get_text			(GtkWidget *combo);
+gboolean		gsb_form_widget_combo_entry_set_text			(GtkWidget *combo,
+																 const gchar *text);
+GtkWidget *		gsb_form_widget_combo_get_entry					(GtkWidget *combo);
+gboolean		gsb_form_widget_combo_popup_append_text			(GtkWidget *combo,
+																 const gchar *text);
+gboolean		gsb_form_widget_combo_popup_remove_text			(GtkWidget *combo,
+																 const gchar *text);
 GtkWidget *		gsb_form_widget_create							(gint element_number,
                         										 gint account_number);
 gboolean		gsb_form_widget_entry_get_focus					(GtkWidget *entry,

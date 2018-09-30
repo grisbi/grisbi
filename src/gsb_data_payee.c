@@ -35,6 +35,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_data_payee.h"
+#include "gsb_combo_box.h"
 #include "gsb_data_form.h"
 #include "gsb_data_report.h"
 #include "gsb_data_scheduled.h"
@@ -340,13 +341,15 @@ gint gsb_data_payee_new (const gchar *name)
 
     if (name)
     {
-        GtkWidget *combofix;
+        GtkWidget *combo;
 
         payee->payee_name = my_strdup (name);
-        combofix = gsb_form_widget_get_widget (TRANSACTION_FORM_PARTY);
+        combo = gsb_form_widget_get_widget (TRANSACTION_FORM_PARTY);
 
-        if (combofix && name)
-            gtk_combofix_append_text (GTK_COMBOFIX (combofix), name);
+        if (combo && name)
+		{
+			gsb_form_widget_combo_popup_append_text (combo, name);
+		}
     }
     else
         payee->payee_name = NULL;
@@ -368,16 +371,16 @@ gint gsb_data_payee_new (const gchar *name)
 gboolean gsb_data_payee_remove (gint no_payee)
 {
     struct_payee *payee;
-    GtkWidget *combofix;
+    GtkWidget *combo;
 
     payee = gsb_data_payee_get_structure (no_payee);
 
     if (!payee)
         return FALSE;
 
-    combofix = gsb_form_widget_get_widget (TRANSACTION_FORM_PARTY);
-    if (combofix)
-        gtk_combofix_remove_text (GTK_COMBOFIX (combofix), payee->payee_name);
+    combo = gsb_form_widget_get_widget (TRANSACTION_FORM_PARTY);
+    if (combo)
+        gsb_form_widget_combo_popup_remove_text (combo, payee->payee_name);
 
     payee_list = g_slist_remove (payee_list, payee);
     _gsb_data_payee_free (payee);
@@ -483,28 +486,32 @@ gboolean gsb_data_payee_set_name (gint no_payee,
 								  const gchar *name)
 {
     struct_payee *payee;
-    GtkWidget *combofix;
+    GtkWidget *combo;
 
     payee = gsb_data_payee_get_structure (no_payee);
 
     if (!payee)
         return FALSE;
 
-    combofix = gsb_form_widget_get_widget (TRANSACTION_FORM_PARTY);
+    combo = gsb_form_widget_get_widget (TRANSACTION_FORM_PARTY);
 
     /* we free the last name */
     if (payee->payee_name)
     {
-		if (combofix)
-			gtk_combofix_remove_text (GTK_COMBOFIX (combofix), payee->payee_name);
+		if (combo)
+		{
+			gsb_form_widget_combo_popup_remove_text (combo, payee->payee_name);
+		}
 		g_free (payee->payee_name);
     }
 
     /* and copy the new one or set NULL */
     payee->payee_name = my_strdup (name);
 
-    if (combofix && name && strlen (name))
-        gtk_combofix_append_text (GTK_COMBOFIX (combofix), name);
+    if (combo && name && strlen (name))
+	{
+		gsb_form_widget_combo_popup_append_text (combo, payee->payee_name);
+	}
 
     return TRUE;
 }
@@ -821,7 +828,7 @@ gint gsb_data_payee_remove_unused (void)
     GSList *used = NULL;
     gint nb_removed = 0;
 
-    /* first we create a list of used categories */
+	/* first we create a list of used categories */
     tmp_list = gsb_data_transaction_get_complete_transactions_list ();
     while (tmp_list)
     {
@@ -868,7 +875,8 @@ gint gsb_data_payee_remove_unused (void)
             nb_removed++;
         }
     }
-    return nb_removed;
+
+	return nb_removed;
 }
 
 /**
