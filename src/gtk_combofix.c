@@ -1929,6 +1929,21 @@ GtkWidget *gtk_combofix_new_with_properties (GSList *list,
 }
 
 /**
+ * get the entry in the combofix
+ *
+ * \param combofix
+ *
+ * \return a widget
+ **/
+GtkWidget *gtk_combofix_get_entry (GtkComboFix *combofix)
+{
+    g_return_val_if_fail (combofix, NULL);
+    g_return_val_if_fail (GTK_IS_COMBOFIX (combofix), NULL);
+
+	return combofix->entry;
+}
+
+/**
  * get the text in the combofix
  *
  * \param combofix
