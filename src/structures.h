@@ -250,6 +250,7 @@ struct GrisbiAppConf
     gboolean    limit_completion_to_current_account;        /* Limit payee completion to current account or do a full search. */
 	gboolean	combofix_payee_use_gtk_completion;
 	gboolean	combofix_categ_ib_use_gtk_completion;
+	gboolean	completion_ignore_accents;
 
 /* general part */
     gchar *     browser_command;

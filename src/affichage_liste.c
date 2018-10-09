@@ -645,8 +645,29 @@ GtkWidget *onglet_diverse_form_and_lists ( void )
 
 
 /* ************************************************************************************************************** */
-/* renvoie le widget contenu dans l'onglet divers du gsb_form_get_form_widget ()/liste des paramètres */
+/* Onglet form completion                                                                                         */
 /* ************************************************************************************************************** */
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+static void onglet_form_completion_case_sensitive_toggle  (GtkWidget *button_ignore_accents,
+														   GtkWidget *checkbutton)
+{
+	if (etat.combofix_case_sensitive)
+	{
+		if (conf.combofix_categ_ib_use_gtk_completion || conf.combofix_payee_use_gtk_completion)
+			gtk_widget_set_sensitive (button_ignore_accents, TRUE);
+		else
+			gtk_widget_set_sensitive (button_ignore_accents, FALSE);
+	}
+	else
+		gtk_widget_set_sensitive (button_ignore_accents, FALSE);
+}
+
 /**
  * called when we change a parameter of the combofix configuration
  * update the combofix in the form if they exists
@@ -659,31 +680,49 @@ GtkWidget *onglet_diverse_form_and_lists ( void )
  *
  * \return FALSE
  **/
-static gboolean onglet_form_completion_update_combofix_completion (GtkWidget *checkbutton,
-																   gpointer data)
+static void onglet_form_completion_update_combo_completion (GtkWidget *checkbutton,
+															gpointer data)
 {
+	GtkWidget *accents_button = NULL;
 	GSettings *settings;
 	gint type;
 
 	settings = grisbi_settings_get_settings (SETTINGS_FORM);
 	type = GPOINTER_TO_INT (data);
-	if (type)
+	devel_debug_int (type);
+	switch (type)
 	{
-		g_settings_set_boolean (G_SETTINGS (settings),
-								"combofix-categ-ib-use-gtk-completion",
-								conf.combofix_categ_ib_use_gtk_completion);
+		case 0:
+			g_settings_set_boolean (G_SETTINGS (settings),
+									"combofix-payee-use-gtk-completion",
+									conf.combofix_payee_use_gtk_completion);
+			accents_button = g_object_get_data (G_OBJECT (checkbutton), "accents_button");
+			break;
+		case 1:
+			g_settings_set_boolean (G_SETTINGS (settings),
+									"combofix-categ-ib-use-gtk-completion",
+									conf.combofix_categ_ib_use_gtk_completion);
+			accents_button = g_object_get_data (G_OBJECT (checkbutton), "accents_button");
+			break;
+		case 2:
+			g_settings_set_boolean (G_SETTINGS (settings),
+									"completion-ignore-accents",
+									conf.completion_ignore_accents);
+			break;
+		default:
+			return;
 	}
-	else
+
+	if (etat.combofix_case_sensitive && accents_button)
 	{
-		g_settings_set_boolean (G_SETTINGS (settings),
-								"combofix-payee-use-gtk-completion",
-								conf.combofix_payee_use_gtk_completion);
-    }
+		if (conf.combofix_categ_ib_use_gtk_completion || conf.combofix_payee_use_gtk_completion)
+			gtk_widget_set_sensitive (accents_button, TRUE);
+		else
+			gtk_widget_set_sensitive (accents_button, FALSE);
+	}
 
 	gsb_form_create_widgets ();
-	utils_prefs_gsb_file_set_modified ();
 
-	return FALSE;
 }
 
 GtkWidget *onglet_form_completion ( void )
@@ -691,6 +730,9 @@ GtkWidget *onglet_form_completion ( void )
     GtkWidget *vbox_pref;
     GtkWidget *hbox, *label, *entry;
     GtkWidget *button;
+    GtkWidget *button_1;
+    GtkWidget *button_2;
+	GtkWidget *button_case_sensitive;
 	gchar* tmpstr;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Form completion"), "gsb-form-32.png" );
@@ -744,11 +786,11 @@ GtkWidget *onglet_form_completion ( void )
                         G_CALLBACK ( gsb_transactions_list_display_update_combofix), NULL),
                         FALSE, FALSE, 0 );
 
-    gtk_box_pack_start ( GTK_BOX (vbox_pref),
-                        gsb_automem_checkbutton_new (_("Case sensitive completion"),
-                        &etat.combofix_case_sensitive,
-                        G_CALLBACK ( gsb_transactions_list_display_update_combofix), NULL),
-                        FALSE, FALSE, 0 );
+	button_case_sensitive = gsb_automem_checkbutton_new (_("Case sensitive completion"),
+														 &etat.combofix_case_sensitive,
+														 G_CALLBACK (gsb_transactions_list_display_update_combofix),
+														 NULL);
+    gtk_box_pack_start (GTK_BOX (vbox_pref), button_case_sensitive, FALSE, FALSE, 0);
 
     gtk_box_pack_start ( GTK_BOX (vbox_pref),
                         gsb_automem_checkbutton_new (_("Don't allow new payee creation"),
@@ -761,20 +803,6 @@ GtkWidget *onglet_form_completion ( void )
                         &etat.combofix_force_category,
                         G_CALLBACK ( gsb_transactions_list_display_update_combofix), NULL),
                         FALSE, FALSE, 0 );
-
-    /* new options for completion */
-	button = utils_prefs_automem_checkbutton_blue_new (_("Use gtk completion for payees"),
-													   &conf.combofix_payee_use_gtk_completion,
-													   G_CALLBACK (onglet_form_completion_update_combofix_completion),
-													   GINT_TO_POINTER (0));
-	gtk_box_pack_start (GTK_BOX (vbox_pref),button, FALSE, FALSE, 0);
-
-    button = utils_prefs_automem_checkbutton_blue_new (_("Use gtk completion for categories/budget"),
-													   &conf.combofix_categ_ib_use_gtk_completion,
-													   G_CALLBACK (onglet_form_completion_update_combofix_completion),
-													   GINT_TO_POINTER (1));
-	gtk_box_pack_start (GTK_BOX (vbox_pref),button, FALSE, FALSE, 0);
-	gtk_widget_set_sensitive (button, FALSE);
 
 	/* max items for listes */
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
@@ -795,6 +823,59 @@ GtkWidget *onglet_form_completion ( void )
                         NULL );
     gtk_box_pack_start ( GTK_BOX (hbox), entry, FALSE, FALSE, 0 );
 
+    /* new options for completion */
+	label = gtk_label_new (_("Using the completion of gtk"));
+	gtk_widget_set_halign (label, GTK_ALIGN_START);
+	gtk_box_pack_start (GTK_BOX (vbox_pref), label, FALSE, FALSE, 0);
+
+    hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
+    gtk_box_pack_start (GTK_BOX (vbox_pref), hbox, FALSE, FALSE, 0);
+
+	button_1 = utils_prefs_automem_checkbutton_blue_new (_("Use gtk completion for payees"),
+														 &conf.combofix_payee_use_gtk_completion,
+														 G_CALLBACK (onglet_form_completion_update_combo_completion),
+													   	 GINT_TO_POINTER (0));
+    gtk_box_pack_start (GTK_BOX (hbox), button_1, FALSE, FALSE, 20);
+
+    hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
+    gtk_box_pack_start (GTK_BOX (vbox_pref), hbox, FALSE, FALSE, 0);
+
+	button_2 = utils_prefs_automem_checkbutton_blue_new (_("Use gtk completion for categories/budget"),
+														 &conf.combofix_categ_ib_use_gtk_completion,
+													 	 G_CALLBACK (onglet_form_completion_update_combo_completion),
+														 GINT_TO_POINTER (1));
+    gtk_box_pack_start (GTK_BOX (hbox), button_2, FALSE, FALSE, 20);
+	gtk_widget_set_sensitive (button_2, FALSE);
+
+    hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
+    gtk_box_pack_start (GTK_BOX (vbox_pref), hbox, FALSE, FALSE, 0);
+
+	button = utils_prefs_automem_checkbutton_blue_new (_("Ignore accents and diacritics"),
+													   &conf.completion_ignore_accents,
+													   G_CALLBACK (onglet_form_completion_update_combo_completion),
+													   GINT_TO_POINTER (2));
+
+	g_object_set_data (G_OBJECT (button_1), "accents_button", button);
+	g_object_set_data (G_OBJECT (button_2), "accents_button", button);
+
+	/* set signal for ignoring accents */
+	g_signal_connect_swapped (G_OBJECT (button_case_sensitive),
+							  "toggled",
+							  G_CALLBACK (onglet_form_completion_case_sensitive_toggle),
+							  button);
+    gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 20);
+
+	if (etat.combofix_case_sensitive
+		&& (conf.combofix_categ_ib_use_gtk_completion || conf.combofix_payee_use_gtk_completion))
+	{
+		gtk_widget_set_sensitive (button, TRUE);
+	}
+	else
+	{
+		gtk_widget_set_sensitive (button, FALSE);
+	}
+
+	/* set visibility */
     if ( !gsb_data_account_get_accounts_amount () )
     {
         gtk_widget_set_sensitive ( vbox_pref, FALSE );
@@ -803,8 +884,6 @@ GtkWidget *onglet_form_completion ( void )
     return vbox_pref;
 
 }
-
-
 
 /**
  * called when we change a parameter of the combofix configuration
@@ -1545,6 +1624,13 @@ gboolean gsb_transaction_list_config_button_set_active_from_string ( GtkWidget *
     return FALSE;
 }
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

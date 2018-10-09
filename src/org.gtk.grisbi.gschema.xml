@@ -217,6 +217,13 @@
 	        uses the completion functionality for GtkEntry.
         </description>
 	  </key>
+	  <key name="completion-ignore-accents" type="b">
+        <default>false</default>
+	    <summary>Ignore accents and diacritics</summary>
+	    <description>
+	        If TRUE, ignore accents and diacritic marks when searching for combo_box items.
+        </description>
+	  </key>
 	  <key name="combofix-payee-use-gtk-completion" type="b">
         <default>false</default>
 	    <summary>Use Gtk completion for payees</summary>

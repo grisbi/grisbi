@@ -236,6 +236,7 @@ static void grisbi_settings_init_settings_form (GSettings *settings)
     conf.automatic_recover_splits = g_settings_get_boolean (settings, "automatic-recover-splits");
 	conf.combofix_categ_ib_use_gtk_completion = g_settings_get_boolean (settings, "combofix-categ-ib-use-gtk-completion");
 	conf.combofix_payee_use_gtk_completion = g_settings_get_boolean (settings, "combofix-payee-use-gtk-completion");
+	conf.completion_ignore_accents = g_settings_get_boolean (settings, "completion-ignore-accents");
     conf.entree = g_settings_get_boolean (settings, "form-enter-key");
     conf.form_expander_label_width = g_settings_get_int (settings, "form-expander-label-width");
 	conf.fyear_combobox_sort_order = g_settings_get_int (settings, "fyear-combobox-sort-order");

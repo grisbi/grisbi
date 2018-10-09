@@ -57,6 +57,7 @@ gchar *		utils_str_incremente_number_from_str 					(const gchar *str_number,
 gchar *		utils_str_localise_decimal_point_from_string 			(const gchar *string);
 gchar *		utils_str_protect_unprotect_multilines_text 			(const gchar *text,
 																	 gboolean protect);
+gchar *		utils_str_remove_accents			 					(const gchar *text);
 gdouble 	utils_str_safe_strtod 									(const gchar *str_number,
 																	 gchar **endptr);
 gdouble 	utils_str_strtod 										(const gchar *str_number,

@@ -1227,6 +1227,45 @@ gchar *utils_str_protect_unprotect_multilines_text (const gchar *text,
 }
 
 /**
+ * supprime les accents dans une phrase.
+ *
+ * \param 	text à corriger
+ *
+ * \return a new string
+ **/
+gchar *utils_str_remove_accents (const gchar *text)
+{
+	gchar *new_text;
+    gchar *ptr;
+    gchar *tmp_str;
+    gunichar ch;
+    gint i = 0;
+    gint nbre_bytes;
+	gint nbre_chars;
+
+	new_text = g_utf8_normalize (text, -1, G_NORMALIZE_ALL);
+	nbre_bytes = strlen (new_text);
+	nbre_chars = g_utf8_strlen (new_text, -1);
+
+    tmp_str = g_malloc0 (nbre_bytes * sizeof (gchar));
+    ptr = (gchar*) new_text;
+    while (g_utf8_strlen (ptr, -1) > 0)
+    {
+		ch = g_utf8_get_char_validated (ptr, -1);
+		if (g_unichar_isdefined (ch) && g_ascii_isalpha (ch))
+        {
+			if (i == nbre_chars)
+				break;
+			tmp_str[i] = ptr[0];
+			i++;
+		}
+        ptr = g_utf8_next_char (ptr);
+    }
+
+	return tmp_str;
+}
+
+/**
  *
  *
  * \param

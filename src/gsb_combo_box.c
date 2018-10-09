@@ -42,6 +42,7 @@
 #include "gsb_form.h"
 #include "gsb_form_widget.h"
 #include "structures.h"
+#include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -336,32 +337,41 @@ static gboolean  gsb_combo_form_box_completion_match_func (GtkEntryCompletion *c
 														   gpointer user_data)
 {
 	GtkTreeModel *model;
+	gchar *new_text;
+	const gchar *search;
 	gchar *text;
-	gssize length;
+	gssize nbre_bytes;
+	gssize nbre_chars;
 
 	model = gtk_entry_completion_get_model (completion);
 	gtk_tree_model_get (model, iter, 0, &text, -1);
 
-	if (etat.combofix_case_sensitive)
+	search = gtk_entry_get_text (GTK_ENTRY (gtk_entry_completion_get_entry (completion)));
+	nbre_bytes = strlen (search);
+	nbre_chars = g_utf8_strlen (search, -1);
+	if (conf.completion_ignore_accents)
 	{
-		const gchar *search;
+		gchar *new_key;
 
-		search = gtk_entry_get_text (GTK_ENTRY (gtk_entry_completion_get_entry(completion)));
-		length = strlen (search);
-		if (g_strrstr_len (text, length, search))
+		new_key = utils_str_remove_accents (search);
+		new_text = utils_str_remove_accents (text);
+		if (g_strstr_len (new_text, nbre_chars, search))
 		{
+			g_free (new_key);
+			g_free (new_text);
 			return TRUE;
 		}
 		else
+		{
+			g_free (new_key);
+			g_free (new_text);
 			return FALSE;
+		}
 	}
 	else
 	{
-		gchar *new_text;
-
-		length = strlen (key);
-		new_text = g_utf8_strdown (text, length);
-		if (g_strrstr_len (new_text, length, key))
+		new_text = g_strndup (text, nbre_bytes);
+		if (g_strcmp0 (new_text, search) == 0)
 		{
 			g_free (new_text);
 			return TRUE;
@@ -372,6 +382,7 @@ static gboolean  gsb_combo_form_box_completion_match_func (GtkEntryCompletion *c
 			return FALSE;
 		}
 	}
+
 	return FALSE;
 }
 
@@ -804,10 +815,11 @@ GtkWidget *gsb_combo_form_box_new (GSList *list,
 	/* set completion */
 	completion = gtk_entry_completion_new ();
 	gtk_entry_completion_set_inline_selection (completion, TRUE);
-	gtk_entry_completion_set_match_func (completion,
-										 (GtkEntryCompletionMatchFunc) gsb_combo_form_box_completion_match_func,
-										 NULL,
-                                     	 NULL);
+	if (etat.combofix_case_sensitive)
+		gtk_entry_completion_set_match_func (completion,
+											 (GtkEntryCompletionMatchFunc) gsb_combo_form_box_completion_match_func,
+											 NULL,
+											 NULL);
 
 	entry = gtk_bin_get_child (GTK_BIN (combo));
 	gtk_entry_set_completion (GTK_ENTRY (entry), completion);
