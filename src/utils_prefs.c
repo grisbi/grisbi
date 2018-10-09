@@ -67,8 +67,8 @@ static GtkTreeIter *page_parent_iter;
  * \param checkbutton a pointer to a checkbutton widget.
  * \param null not used
  */
-static gboolean utils_prefs_automem_checkbutton_changed (GtkWidget *checkbutton,
-                                                         gpointer null)
+static void utils_prefs_automem_checkbutton_toggle (GtkWidget *checkbutton,
+                                                    gpointer null)
 {
     gboolean *value;
 
@@ -78,8 +78,6 @@ static gboolean utils_prefs_automem_checkbutton_changed (GtkWidget *checkbutton,
 		*value = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(checkbutton));
         gsb_file_set_modified (TRUE);
     }
-
-    return FALSE;
 }
 
 
@@ -324,7 +322,7 @@ GtkWidget *utils_prefs_automem_checkbutton_blue_new (const gchar *label,
 					   "changed",
 					   GUINT_TO_POINTER (g_signal_connect (checkbutton,
 														   "toggled",
-														   G_CALLBACK (utils_prefs_automem_checkbutton_changed),
+														   G_CALLBACK (utils_prefs_automem_checkbutton_toggle),
 														   NULL)));
 
     if (hook)
@@ -394,7 +392,7 @@ GtkWidget *utils_prefs_automem_radiobutton_blue_new (const gchar *choice1,
     g_object_set_data (G_OBJECT (button2), "pointer", value);
     g_signal_connect (G_OBJECT (button2),
 					  "toggled",
-					  G_CALLBACK (utils_prefs_automem_checkbutton_changed),
+					  G_CALLBACK (utils_prefs_automem_checkbutton_toggle),
 					  NULL);
 
     if (hook)
