@@ -3052,7 +3052,7 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
 		{
 			const gchar *tmp_name;
 
-			if (conf.combofix_payee_use_gtk_completion)
+			if (conf.combo_payee_use_gtk_completion)
 			{
 				GtkWidget *entry;
 

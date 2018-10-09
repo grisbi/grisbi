@@ -659,7 +659,7 @@ static void onglet_form_completion_case_sensitive_toggle  (GtkWidget *button_ign
 {
 	if (etat.combofix_case_sensitive)
 	{
-		if (conf.combofix_categ_ib_use_gtk_completion || conf.combofix_payee_use_gtk_completion)
+		if (conf.combo_categ_ib_use_gtk_completion || conf.combo_payee_use_gtk_completion)
 			gtk_widget_set_sensitive (button_ignore_accents, TRUE);
 		else
 			gtk_widget_set_sensitive (button_ignore_accents, FALSE);
@@ -695,13 +695,13 @@ static void onglet_form_completion_update_combo_completion (GtkWidget *checkbutt
 		case 0:
 			g_settings_set_boolean (G_SETTINGS (settings),
 									"combofix-payee-use-gtk-completion",
-									conf.combofix_payee_use_gtk_completion);
+									conf.combo_payee_use_gtk_completion);
 			accents_button = g_object_get_data (G_OBJECT (checkbutton), "accents_button");
 			break;
 		case 1:
 			g_settings_set_boolean (G_SETTINGS (settings),
 									"combofix-categ-ib-use-gtk-completion",
-									conf.combofix_categ_ib_use_gtk_completion);
+									conf.combo_categ_ib_use_gtk_completion);
 			accents_button = g_object_get_data (G_OBJECT (checkbutton), "accents_button");
 			break;
 		case 2:
@@ -715,7 +715,7 @@ static void onglet_form_completion_update_combo_completion (GtkWidget *checkbutt
 
 	if (etat.combofix_case_sensitive && accents_button)
 	{
-		if (conf.combofix_categ_ib_use_gtk_completion || conf.combofix_payee_use_gtk_completion)
+		if (conf.combo_categ_ib_use_gtk_completion || conf.combo_payee_use_gtk_completion)
 			gtk_widget_set_sensitive (accents_button, TRUE);
 		else
 			gtk_widget_set_sensitive (accents_button, FALSE);
@@ -832,7 +832,7 @@ GtkWidget *onglet_form_completion ( void )
     gtk_box_pack_start (GTK_BOX (vbox_pref), hbox, FALSE, FALSE, 0);
 
 	button_1 = utils_prefs_automem_checkbutton_blue_new (_("Use gtk completion for payees"),
-														 &conf.combofix_payee_use_gtk_completion,
+														 &conf.combo_payee_use_gtk_completion,
 														 G_CALLBACK (onglet_form_completion_update_combo_completion),
 													   	 GINT_TO_POINTER (0));
     gtk_box_pack_start (GTK_BOX (hbox), button_1, FALSE, FALSE, 20);
@@ -841,7 +841,7 @@ GtkWidget *onglet_form_completion ( void )
     gtk_box_pack_start (GTK_BOX (vbox_pref), hbox, FALSE, FALSE, 0);
 
 	button_2 = utils_prefs_automem_checkbutton_blue_new (_("Use gtk completion for categories/budget"),
-														 &conf.combofix_categ_ib_use_gtk_completion,
+														 &conf.combo_categ_ib_use_gtk_completion,
 													 	 G_CALLBACK (onglet_form_completion_update_combo_completion),
 														 GINT_TO_POINTER (1));
     gtk_box_pack_start (GTK_BOX (hbox), button_2, FALSE, FALSE, 20);
@@ -866,7 +866,7 @@ GtkWidget *onglet_form_completion ( void )
     gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 20);
 
 	if (etat.combofix_case_sensitive
-		&& (conf.combofix_categ_ib_use_gtk_completion || conf.combofix_payee_use_gtk_completion))
+		&& (conf.combo_categ_ib_use_gtk_completion || conf.combo_payee_use_gtk_completion))
 	{
 		gtk_widget_set_sensitive (button, TRUE);
 	}

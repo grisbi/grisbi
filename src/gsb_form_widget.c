@@ -267,7 +267,7 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 
 	case TRANSACTION_FORM_PARTY:
         tmp_list = gsb_data_payee_get_name_and_report_list ();
-		if (conf.combofix_payee_use_gtk_completion)
+		if (conf.combo_payee_use_gtk_completion)
 		{
 			widget = gsb_combo_form_box_new (tmp_list, NULL, NULL);
 		}
