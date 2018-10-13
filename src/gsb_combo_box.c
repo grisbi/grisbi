@@ -346,7 +346,13 @@ static gboolean  gsb_combo_form_box_completion_match_func (GtkEntryCompletion *c
 	model = gtk_entry_completion_get_model (completion);
 	gtk_tree_model_get (model, iter, 0, &text, -1);
 
+	if (!text)
+		return FALSE;
+
 	search = gtk_entry_get_text (GTK_ENTRY (gtk_entry_completion_get_entry (completion)));
+	if (!search)
+		return FALSE;
+
 	nbre_bytes = strlen (search);
 	nbre_chars = g_utf8_strlen (search, -1);
 	if (conf.completion_ignore_accents)

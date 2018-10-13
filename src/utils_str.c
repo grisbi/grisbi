@@ -1243,6 +1243,9 @@ gchar *utils_str_remove_accents (const gchar *text)
     gint nbre_bytes;
 	gint nbre_chars;
 
+	if (!text)
+		return NULL;
+
 	new_text = g_utf8_normalize (text, -1, G_NORMALIZE_ALL);
 	nbre_bytes = strlen (new_text);
 	nbre_chars = g_utf8_strlen (new_text, -1);
