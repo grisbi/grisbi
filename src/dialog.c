@@ -64,7 +64,7 @@ struct ConditionalMessage messages[] =
 
     { "encryption-is-irreversible", N_("Encryption is irreversible."),
       N_("Grisbi encrypts files in a very secure way that does not allow recovery without "
-      "original password. It means that if you forget your password, you will loose all "
+      "original password. It means that if you forget your password, you will lose all "
       "your data. Use with caution.\n\nI repeat: if you ever forget your password, there "
       "is no coming back, we cannot help you."),
       FALSE, FALSE, },
