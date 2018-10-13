@@ -1240,8 +1240,8 @@ gchar *utils_str_remove_accents (const gchar *text)
     gchar *tmp_str;
     gunichar ch;
     gint i = 0;
-    gint nbre_bytes;
-	gint nbre_chars;
+    size_t nbre_bytes;
+    size_t nbre_chars;
 
 	if (!text)
 		return NULL;
