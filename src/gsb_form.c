@@ -1283,7 +1283,6 @@ gint gsb_form_get_element_expandable ( gint element_number )
  * */
 gboolean gsb_form_entry_get_focus ( GtkWidget *entry )
 {
-	devel_debug (NULL);
     /* the entry can be a combofix or a combo_box or a real entry */
 	if (GTK_IS_ENTRY (entry))
 	{
