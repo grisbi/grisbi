@@ -791,13 +791,12 @@ GtkWidget *onglet_form_completion ( void )
     GtkWidget *button_1;
     GtkWidget *button_2;
 	GtkWidget *button_case_sensitive;
-	gchar* tmpstr;
+	gchar* tmp_str;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Form completion"), "gsb-form-32.png" );
 
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
-                        utils_prefs_automem_checkbutton_blue_new (
-                        _("Automatic filling transactions from payee"),
+                        utils_prefs_automem_checkbutton_blue_new (_("Automatic filling transactions from payee"),
                         &conf.automatic_completion_payee,
                         G_CALLBACK ( gsb_transactions_list_display_update_auto_checkbutton ),
                         vbox_pref),
@@ -806,8 +805,7 @@ GtkWidget *onglet_form_completion ( void )
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ), hbox, FALSE, FALSE, 0 );
 
-    button = utils_prefs_automem_checkbutton_blue_new (
-                        _("Erase the credit and debit fields"),
+    button = utils_prefs_automem_checkbutton_blue_new (_("Erase the credit and debit fields"),
                         &conf.automatic_erase_credit_debit,
                         NULL,
                         NULL );
@@ -818,8 +816,7 @@ GtkWidget *onglet_form_completion ( void )
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ), hbox, FALSE, FALSE, 0 );
 
-    button = utils_prefs_automem_checkbutton_blue_new (
-                        _("Automatically recover the children of the associated transaction"),
+    button = utils_prefs_automem_checkbutton_blue_new (_("Automatically recover the children of the associated transaction"),
                         &conf.automatic_recover_splits,
                         NULL,
                         NULL );
@@ -830,8 +827,7 @@ GtkWidget *onglet_form_completion ( void )
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ), hbox, FALSE, FALSE, 0 );
 
-    button = utils_prefs_automem_checkbutton_blue_new (
-                        _("Limit the filling with payees belonging to the current account"),
+    button = utils_prefs_automem_checkbutton_blue_new (_("Limit the filling with payees belonging to the current account"),
                         &conf.limit_completion_to_current_account,
                         NULL, NULL);
     g_object_set_data ( G_OBJECT ( vbox_pref ), "button_2", button );
@@ -871,9 +867,9 @@ GtkWidget *onglet_form_completion ( void )
 
     entry_max_items = gtk_entry_new ();
     gtk_widget_set_size_request ( entry_max_items, 30, -1 );
-    tmpstr = utils_str_itoa (etat.combofix_max_item);
-    gtk_entry_set_text ( GTK_ENTRY (entry_max_items), tmpstr);
-    g_free ( tmpstr );
+    tmp_str = utils_str_itoa (etat.combofix_max_item);
+    gtk_entry_set_text ( GTK_ENTRY (entry_max_items), tmp_str);
+    g_free ( tmp_str );
     g_signal_connect ( G_OBJECT (entry_max_items),
                         "changed",
                         G_CALLBACK (gsb_transactions_list_display_change_max_items),
@@ -949,15 +945,15 @@ GtkWidget *onglet_form_completion ( void )
     gtk_widget_set_size_request (entry, 30, -1);
 	if (conf.combo_minimum_key_length)
 	{
-    	tmpstr = utils_str_itoa (conf.combo_minimum_key_length);
-		gtk_entry_set_text (GTK_ENTRY (entry), tmpstr);
+    	tmp_str = utils_str_itoa (conf.combo_minimum_key_length);
+		gtk_entry_set_text (GTK_ENTRY (entry), tmp_str);
 	}
 	else
 	{
-		tmpstr = g_strdup (_("Default"));
-    	gtk_entry_set_placeholder_text (GTK_ENTRY (entry), tmpstr);
+		tmp_str = g_strdup (_("Default"));
+    	gtk_entry_set_placeholder_text (GTK_ENTRY (entry), tmp_str);
 	}
-    g_free (tmpstr);
+    g_free (tmp_str);
     g_signal_connect (G_OBJECT (entry),
                       "changed",
                       G_CALLBACK (gsb_transactions_list_display_change_key_length),
