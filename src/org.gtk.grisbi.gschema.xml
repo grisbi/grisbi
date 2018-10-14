@@ -209,7 +209,7 @@
 	        during the completion of payee.
         </description>
 	  </key>
-	  <key name="combofix-categ-ib-use-gtk-completion" type="b">
+	  <key name="combo-categ-ib-use-gtk-completion" type="b">
         <default>false</default>
 	    <summary>Use Gtk completion for categories and IB</summary>
 	    <description>
@@ -217,18 +217,23 @@
 	        uses the completion functionality for GtkEntry.
         </description>
 	  </key>
+	  <key name="combo-minimum-key-length" type="i">
+	    <default>0</default>
+	    <summary>Minimum length of the search key in characters</summary>
+	    <description>Minimum length of the search key in characters.</description>
+	  </key>
+	  <key name="combo-payee-use-gtk-completion" type="b">
+        <default>false</default>
+	    <summary>Use Gtk completion for payees</summary>
+	    <description>
+	        If TRUE, the entry of payee's combofix uses the completion functionality for GtkEntry.
+        </description>
+	  </key>
 	  <key name="completion-ignore-accents" type="b">
         <default>false</default>
 	    <summary>Ignore accents and diacritics</summary>
 	    <description>
 	        If TRUE, ignore accents and diacritic marks when searching for combo_box items.
-        </description>
-	  </key>
-	  <key name="combofix-payee-use-gtk-completion" type="b">
-        <default>false</default>
-	    <summary>Use Gtk completion for payees</summary>
-	    <description>
-	        If TRUE, the entry of payee's combofix uses the completion functionality for GtkEntry.
         </description>
 	  </key>
 	  <key name="form-expander-label-width" type="i">

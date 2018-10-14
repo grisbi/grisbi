@@ -648,6 +648,54 @@ GtkWidget *onglet_diverse_form_and_lists ( void )
 /* Onglet form completion                                                                                         */
 /* ************************************************************************************************************** */
 /**
+ * called when change the length of key of combobox
+ * change the variable and update the combobox
+ *
+ * \param entry
+ * \param null
+ *
+ * \return FALSE
+ * */
+static gboolean gsb_transactions_list_display_change_key_length (GtkWidget *entry,
+																 gpointer null)
+{
+	GSettings *settings;
+	const gchar *text;
+
+	settings = grisbi_settings_get_settings (SETTINGS_FORM);
+
+	text = gtk_entry_get_text (GTK_ENTRY (entry));
+	if (text)
+	{
+		gint tmp_int;
+
+		tmp_int = utils_str_atoi (gtk_entry_get_text (GTK_ENTRY (entry)));
+		if (tmp_int < 2)
+		{
+			gtk_entry_set_text (GTK_ENTRY (entry), "");
+			gtk_entry_set_placeholder_text (GTK_ENTRY (entry), _("Default"));
+			conf.combo_minimum_key_length = 0;
+		}
+		else
+		{
+			conf.combo_minimum_key_length = tmp_int;
+		}
+	}
+	else
+	{
+		gtk_entry_set_placeholder_text (GTK_ENTRY (entry), _("Default"));
+		conf.combo_minimum_key_length = 0;
+	}
+
+	g_settings_set_int (G_SETTINGS (settings),
+						"combo-minimum-key-length",
+						conf.combo_minimum_key_length);
+	gsb_form_create_widgets ();
+
+	return FALSE;
+}
+
+/**
  *
  *
  * \param
@@ -684,6 +732,7 @@ static void onglet_form_completion_update_combo_completion (GtkWidget *checkbutt
 															gpointer data)
 {
 	GtkWidget *accents_button = NULL;
+	GtkWidget *entry_max_items = NULL;
 	GSettings *settings;
 	gint type;
 
@@ -697,29 +746,37 @@ static void onglet_form_completion_update_combo_completion (GtkWidget *checkbutt
 									"combofix-payee-use-gtk-completion",
 									conf.combo_payee_use_gtk_completion);
 			accents_button = g_object_get_data (G_OBJECT (checkbutton), "accents_button");
+			entry_max_items = g_object_get_data (G_OBJECT (checkbutton), "entry_max_items");
 			break;
 		case 1:
 			g_settings_set_boolean (G_SETTINGS (settings),
 									"combofix-categ-ib-use-gtk-completion",
 									conf.combo_categ_ib_use_gtk_completion);
 			accents_button = g_object_get_data (G_OBJECT (checkbutton), "accents_button");
+			entry_max_items = g_object_get_data (G_OBJECT (checkbutton), "entry_max_items");
 			break;
 		case 2:
 			g_settings_set_boolean (G_SETTINGS (settings),
 									"completion-ignore-accents",
 									conf.completion_ignore_accents);
-			break;
+			gsb_form_create_widgets ();
+
 		default:
 			return;
 	}
 
-	if (etat.combofix_case_sensitive && accents_button)
+	if (etat.combofix_case_sensitive)
 	{
 		if (conf.combo_categ_ib_use_gtk_completion || conf.combo_payee_use_gtk_completion)
 			gtk_widget_set_sensitive (accents_button, TRUE);
 		else
 			gtk_widget_set_sensitive (accents_button, FALSE);
 	}
+	if (conf.combo_categ_ib_use_gtk_completion || conf.combo_payee_use_gtk_completion)
+		gtk_widget_set_sensitive (entry_max_items, FALSE);
+	else
+		gtk_widget_set_sensitive (entry_max_items, TRUE);
+
 
 	gsb_form_create_widgets ();
 
@@ -729,6 +786,7 @@ GtkWidget *onglet_form_completion ( void )
 {
     GtkWidget *vbox_pref;
     GtkWidget *hbox, *label, *entry;
+    GtkWidget *entry_max_items;
     GtkWidget *button;
     GtkWidget *button_1;
     GtkWidget *button_2;
@@ -808,20 +866,22 @@ GtkWidget *onglet_form_completion ( void )
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX (vbox_pref), hbox, FALSE, FALSE, 0 );
 
-    label = gtk_label_new (
-                        _("Maximum items showed in drop down lists (0 for no limit): ") );
+    label = gtk_label_new (_("Maximum items showed in drop down lists (0 for no limit): ") );
     gtk_box_pack_start ( GTK_BOX (hbox), label, FALSE, FALSE, 0 );
 
-    entry = gtk_entry_new ();
-    gtk_widget_set_size_request ( entry, 30, -1 );
+    entry_max_items = gtk_entry_new ();
+    gtk_widget_set_size_request ( entry_max_items, 30, -1 );
     tmpstr = utils_str_itoa (etat.combofix_max_item);
-    gtk_entry_set_text ( GTK_ENTRY (entry), tmpstr);
+    gtk_entry_set_text ( GTK_ENTRY (entry_max_items), tmpstr);
     g_free ( tmpstr );
-    g_signal_connect ( G_OBJECT (entry),
+    g_signal_connect ( G_OBJECT (entry_max_items),
                         "changed",
                         G_CALLBACK (gsb_transactions_list_display_change_max_items),
                         NULL );
-    gtk_box_pack_start ( GTK_BOX (hbox), entry, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX (hbox), entry_max_items, FALSE, FALSE, 0 );
+
+	if (conf.combo_categ_ib_use_gtk_completion || conf.combo_payee_use_gtk_completion)
+		gtk_widget_set_sensitive (entry_max_items, FALSE);
 
     /* new options for completion */
 	label = gtk_label_new (_("Using the completion of gtk"));
@@ -857,6 +917,9 @@ GtkWidget *onglet_form_completion ( void )
 
 	g_object_set_data (G_OBJECT (button_1), "accents_button", button);
 	g_object_set_data (G_OBJECT (button_2), "accents_button", button);
+	g_object_set_data (G_OBJECT (button_1), "entry_max_items", entry_max_items);
+	g_object_set_data (G_OBJECT (button_2), "entry_max_items", entry_max_items);
+
 
 	/* set signal for ignoring accents */
 	g_signal_connect_swapped (G_OBJECT (button_case_sensitive),
@@ -874,6 +937,32 @@ GtkWidget *onglet_form_completion ( void )
 	{
 		gtk_widget_set_sensitive (button, FALSE);
 	}
+
+	/* set_minimum_key_length  */
+    hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
+    gtk_box_pack_start (GTK_BOX (vbox_pref), hbox, FALSE, FALSE, 0);
+
+    label = gtk_label_new (_("Minimum length of the search key in characters (first by default): "));
+    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 20);
+
+    entry = gtk_entry_new ();
+    gtk_widget_set_size_request (entry, 30, -1);
+	if (conf.combo_minimum_key_length)
+	{
+    	tmpstr = utils_str_itoa (conf.combo_minimum_key_length);
+		gtk_entry_set_text (GTK_ENTRY (entry), tmpstr);
+	}
+	else
+	{
+		tmpstr = g_strdup (_("Default"));
+    	gtk_entry_set_placeholder_text (GTK_ENTRY (entry), tmpstr);
+	}
+    g_free (tmpstr);
+    g_signal_connect (G_OBJECT (entry),
+                      "changed",
+                      G_CALLBACK (gsb_transactions_list_display_change_key_length),
+                      GINT_TO_POINTER (1));
+    gtk_box_pack_start (GTK_BOX (hbox), entry, FALSE, FALSE, 0);
 
 	/* set visibility */
     if ( !gsb_data_account_get_accounts_amount () )

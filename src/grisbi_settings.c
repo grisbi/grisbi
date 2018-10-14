@@ -234,8 +234,9 @@ static void grisbi_settings_init_settings_form (GSettings *settings)
     conf.automatic_completion_payee = g_settings_get_boolean (settings, "automatic-completion-payee");
     conf.automatic_erase_credit_debit = g_settings_get_boolean (settings, "automatic-erase-credit-debit");
     conf.automatic_recover_splits = g_settings_get_boolean (settings, "automatic-recover-splits");
-	conf.combo_categ_ib_use_gtk_completion = g_settings_get_boolean (settings, "combofix-categ-ib-use-gtk-completion");
-	conf.combo_payee_use_gtk_completion = g_settings_get_boolean (settings, "combofix-payee-use-gtk-completion");
+	conf.combo_categ_ib_use_gtk_completion = g_settings_get_boolean (settings, "combo-categ-ib-use-gtk-completion");
+	conf.combo_minimum_key_length = g_settings_get_int (settings, "combo-minimum-key-length");
+	conf.combo_payee_use_gtk_completion = g_settings_get_boolean (settings, "combo-payee-use-gtk-completion");
 	conf.completion_ignore_accents = g_settings_get_boolean (settings, "completion-ignore-accents");
     conf.entree = g_settings_get_boolean (settings, "form-enter-key");
     conf.form_expander_label_width = g_settings_get_int (settings, "form-expander-label-width");
