@@ -321,7 +321,7 @@ msgstr "Remplissage automatique des opérations à partir du tiers"
 
 #: ../src/affichage_liste.c:677
 msgid "Erase the credit and debit fields"
-msgstr "Efface le champ Crédit ou Débit"
+msgstr "Effacer le champ Crédit ou Débit"
 
 #: ../src/affichage_liste.c:689
 msgid "Automatically recover the children of the associated transaction"
@@ -345,7 +345,7 @@ msgstr "Ne pas permettre la création de nouveaux tiers"
 
 #: ../src/affichage_liste.c:727
 msgid "Don't allow new category/budget creation"
-msgstr "Ne pas autoriser la création de nouvelles catégories/Imputations B."
+msgstr "Ne pas permettre la création de nouvelles catégories/Imputations B."
 
 #: ../src/affichage_liste.c:736
 msgid "Maximum items showed in drop down lists (0 for no limit): "
