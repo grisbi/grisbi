@@ -696,14 +696,15 @@ static gboolean gsb_transactions_list_display_change_key_length (GtkWidget *entr
 }
 
 /**
+ * cette fonction sert à positionner le bouton ignore accents en fonction de combofix_case_sensitive
  *
- *
+ * \param
  * \param
  *
  * \return
  **/
-static void onglet_form_completion_case_sensitive_toggle  (GtkWidget *button_ignore_accents,
-														   GtkWidget *checkbutton)
+static void onglet_form_completion_case_sensitive_toggle  (GtkWidget *checkbutton,
+														   GtkWidget *button_ignore_accents)
 {
 	if (etat.combofix_case_sensitive)
 	{
@@ -713,7 +714,18 @@ static void onglet_form_completion_case_sensitive_toggle  (GtkWidget *button_ign
 			gtk_widget_set_sensitive (button_ignore_accents, FALSE);
 	}
 	else
+	{
+		GSettings *settings;
+
+		settings = grisbi_settings_get_settings (SETTINGS_FORM);
+		conf.completion_ignore_accents = FALSE;
+		g_settings_set_boolean (G_SETTINGS (settings),
+								"completion-ignore-accents",
+								conf.completion_ignore_accents);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button_ignore_accents), FALSE);
+
 		gtk_widget_set_sensitive (button_ignore_accents, FALSE);
+	}
 }
 
 /**
@@ -917,11 +929,11 @@ GtkWidget *onglet_form_completion ( void )
 	g_object_set_data (G_OBJECT (button_2), "entry_max_items", entry_max_items);
 
 
-	/* set signal for ignoring accents */
-	g_signal_connect_swapped (G_OBJECT (button_case_sensitive),
-							  "toggled",
-							  G_CALLBACK (onglet_form_completion_case_sensitive_toggle),
-							  button);
+	/* set signals for ignoring accents */
+	g_signal_connect_after (G_OBJECT (button_case_sensitive),
+							"toggled",
+							 G_CALLBACK (onglet_form_completion_case_sensitive_toggle),
+							 button);
     gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 20);
 
 	if (etat.combofix_case_sensitive
