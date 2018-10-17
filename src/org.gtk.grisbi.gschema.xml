@@ -218,7 +218,7 @@
         </description>
 	  </key>
 	  <key name="combo-minimum-key-length" type="i">
-	    <default>0</default>
+	    <default>1</default>
 	    <summary>Minimum length of the search key in characters</summary>
 	    <description>Minimum length of the search key in characters.</description>
 	  </key>

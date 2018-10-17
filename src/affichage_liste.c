@@ -674,7 +674,7 @@ static gboolean gsb_transactions_list_display_change_key_length (GtkWidget *entr
 		{
 			gtk_entry_set_text (GTK_ENTRY (entry), "");
 			gtk_entry_set_placeholder_text (GTK_ENTRY (entry), _("Default"));
-			conf.combo_minimum_key_length = 0;
+			conf.combo_minimum_key_length = 1;
 		}
 		else
 		{
@@ -684,7 +684,7 @@ static gboolean gsb_transactions_list_display_change_key_length (GtkWidget *entr
 	else
 	{
 		gtk_entry_set_placeholder_text (GTK_ENTRY (entry), _("Default"));
-		conf.combo_minimum_key_length = 0;
+		conf.combo_minimum_key_length = 1;
 	}
 
 	g_settings_set_int (G_SETTINGS (settings),
@@ -955,7 +955,7 @@ GtkWidget *onglet_form_completion ( void )
 
     entry = gtk_entry_new ();
     gtk_widget_set_size_request (entry, 30, -1);
-	if (conf.combo_minimum_key_length)
+	if (conf.combo_minimum_key_length > 1)
 	{
     	tmp_str = utils_str_itoa (conf.combo_minimum_key_length);
 		gtk_entry_set_text (GTK_ENTRY (entry), tmp_str);
