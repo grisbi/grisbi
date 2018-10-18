@@ -1239,9 +1239,9 @@ gchar *utils_str_remove_accents (const gchar *text)
     gchar *ptr;
     gchar *tmp_str;
     gunichar ch;
-    glong i = 0;
+    gulong i = 0;
     size_t nbre_bytes;
-    glong nbre_chars;
+    gulong nbre_chars;
 
 	if (!text)
 		return NULL;
@@ -1250,13 +1250,16 @@ gchar *utils_str_remove_accents (const gchar *text)
 	nbre_bytes = strlen (new_text);
 	nbre_chars = g_utf8_strlen (new_text, -1);
 
+	if (nbre_bytes == nbre_chars)
+		return g_strdup (text);
+
     tmp_str = g_malloc0 (nbre_bytes * sizeof (gchar));
     ptr = (gchar*) new_text;
     while (g_utf8_strlen (ptr, -1) > 0)
     {
 		ch = g_utf8_get_char_validated (ptr, -1);
 		if (g_unichar_isdefined (ch) && g_ascii_isalpha (ch))
-        {
+		{
 			if (i == nbre_chars)
 				break;
 			tmp_str[i] = ptr[0];
