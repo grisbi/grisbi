@@ -95,7 +95,7 @@
 
 /*START_EXTERN*/
 extern gint bet_array_col_width[BET_ARRAY_COLUMNS];
-extern gint display_one_line;
+//~ extern gint display_one_line;	/* fixes bug 1875 */
 extern gint display_three_lines;
 extern gint display_two_lines;
 extern struct Iso4217Currency iso_4217_currencies[];
@@ -455,12 +455,12 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
                     unknown = 1;
                 break;
 
-            case 'O':
-                if ( !strcmp ( attribute_names[i], "One_line_showed" ))
-                    display_one_line = utils_str_atoi ( attribute_values[i]);
-                else
-                    unknown = 1;
-                break;
+            //~ case 'O':	/* fixes bug 1875 */
+                //~ if ( !strcmp ( attribute_names[i], "One_line_showed" ))
+                    //~ display_one_line = utils_str_atoi ( attribute_values[i]);
+                //~ else
+                    //~ unknown = 1;
+                //~ break;
 
             case 'P':
                 if ( !strcmp ( attribute_names[i], "Party_list_currency_number" ))

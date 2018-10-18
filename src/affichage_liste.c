@@ -85,7 +85,7 @@ static gboolean gsb_transactions_list_display_update_combofix ( void );
 gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 
 /* line displayed when the list show 1 line */
-gint display_one_line;
+gint display_one_line = 0;		/* fixes bug 1875 */
 
 /* lines displayed when the list show 2 lines
  * this is a number 0-5 according the order of the combo-box in the configuration */

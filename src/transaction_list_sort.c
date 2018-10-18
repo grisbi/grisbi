@@ -92,14 +92,18 @@ void transaction_list_sort (void)
                         custom_list);
     else if ( transaction_list_sort_get_initial_sort ( ) && custom_list -> sort_order == GTK_SORT_ASCENDING )
         return;
-    else
-        g_qsort_with_data(custom_list->visibles_rows,
+	else
+		g_qsort_with_data(custom_list->visibles_rows,
                         custom_list->num_visibles_rows,
                         sizeof(CustomRecord*),
                         (GCompareDataFunc) gsb_transactions_list_sort,
                         custom_list);
 
-    /* let other objects know about the new order */
+	/* fixes bug 1875 */
+	if (custom_list->num_visibles_rows == 0)
+		return;
+
+	/* let other objects know about the new order */
     neworder = g_new0(gint, custom_list->num_visibles_rows);
 
     for (i = 0; i < custom_list->num_visibles_rows; ++i)

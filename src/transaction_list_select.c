@@ -69,8 +69,11 @@ gboolean transaction_list_select ( gint transaction_number )
     CustomList *custom_list;
 
     custom_list = transaction_model_get_model ();
-
     g_return_val_if_fail ( custom_list != NULL, FALSE );
+
+	/* fixes bug 1875 */
+	if (custom_list->num_visibles_rows == 0)
+		return FALSE;
 
     /* if the selection didn't change, do nothing */
     if ( gsb_data_transaction_get_transaction_number (custom_list -> selected_row) ==
