@@ -337,11 +337,11 @@ static gboolean  gsb_combo_form_box_completion_match_func (GtkEntryCompletion *c
 														   gpointer user_data)
 {
 	GtkTreeModel *model;
+	gchar *new_key;
 	gchar *new_text;
 	const gchar *search;
 	gchar *text;
 	gssize nbre_bytes;
-	gssize nbre_chars;
 
 	model = gtk_entry_completion_get_model (completion);
 	gtk_tree_model_get (model, iter, 0, &text, -1);
@@ -353,40 +353,34 @@ static gboolean  gsb_combo_form_box_completion_match_func (GtkEntryCompletion *c
 	if (!search)
 		return FALSE;
 
-	nbre_bytes = strlen (search);
-	nbre_chars = g_utf8_strlen (search, -1);
 	if (conf.completion_ignore_accents)
 	{
-		gchar *new_key;
+		gchar *tmp_text;
 
 		new_key = utils_str_remove_accents (search);
-		new_text = utils_str_remove_accents (text);
-		if (g_strstr_len (new_text, nbre_chars, search))
-		{
-			g_free (new_key);
-			g_free (new_text);
-			return TRUE;
-		}
-		else
-		{
-			g_free (new_key);
-			g_free (new_text);
-			return FALSE;
-		}
+		tmp_text = utils_str_remove_accents (text);
+		nbre_bytes = strlen (new_key);
+		new_text = g_strndup (tmp_text, nbre_bytes);
+		g_free (tmp_text);
 	}
 	else
 	{
+		nbre_bytes = strlen (search);
+		new_key = g_strndup (search, nbre_bytes);
 		new_text = g_strndup (text, nbre_bytes);
-		if (g_strcmp0 (new_text, search) == 0)
-		{
-			g_free (new_text);
-			return TRUE;
-		}
-		else
-		{
-			g_free (new_text);
-			return FALSE;
-		}
+	}
+
+	if (g_strcmp0 (new_text, new_key) == 0)
+	{
+		g_free (new_key);
+		g_free (new_text);
+		return TRUE;
+	}
+	else
+	{
+		g_free (new_key);
+		g_free (new_text);
+		return FALSE;
 	}
 
 	return FALSE;
