@@ -333,6 +333,8 @@ static void grisbi_settings_init_settings_general (GSettings *settings)
     tmp_str = g_settings_get_string (settings, "transactions-list-primary-sorting");
     if (g_strcmp0 (tmp_str, "Sort by value date") == 0)
         conf.transactions_list_primary_sorting = 0;
+    else if (g_strcmp0 (tmp_str, "Forced sort by date") == 0)
+        conf.transactions_list_primary_sorting = 2;
     else
         conf.transactions_list_primary_sorting = 1;
     g_free (tmp_str);

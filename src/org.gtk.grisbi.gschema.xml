@@ -335,12 +335,14 @@
         <choices>
             <choice value="Sort by value date"/>
             <choice value="Sort by value date and then by date"/>
+            <choice value="Forced sort by date"/>
         </choices>
       <default>"Sort by value date"</default>
       <summary>Primary sorting option</summary>
       <description>
         Sort by value date, if fail, try with the date,
         Sort by value date and then by date.
+		Forced sort by transaction date.
       </description>
     </key>
     <key name="transactions-list-secondary-sorting" type="s">

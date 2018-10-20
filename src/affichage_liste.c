@@ -152,6 +152,7 @@ GtkWidget *onglet_affichage_operations ( void )
     const gchar *options_tri_primaire[] = {
     _("Sort by value date (if fail, try with the date)"),
     _("Sort by value date and then by date"),
+		_("Forced sort by transaction date")
     };
     const gchar *options_tri_secondaire[] = {
     _("Sort by transaction number"),
@@ -253,7 +254,7 @@ GtkWidget *onglet_affichage_operations ( void )
                         G_CALLBACK ( gsb_transactions_list_display_sort_changed ),
                         GINT_TO_POINTER ( PRIMARY_SORT ));
 
-    for ( i = 0 ; i < 2 ; i++ )
+    for ( i = 0 ; i < 3 ; i++ )
     {
         gtk_combo_box_text_append_text ( GTK_COMBO_BOX_TEXT ( button ), options_tri_primaire[i] );
     }
@@ -323,12 +324,21 @@ static gboolean gsb_transactions_list_display_sort_changed ( GtkComboBox *widget
     {
         case PRIMARY_SORT:
             conf.transactions_list_primary_sorting = value;
-            if ( value )
-                g_settings_set_string ( G_SETTINGS ( settings ), "transactions-list-primary-sorting",
-                                       "Sort by value date and then by date" );
-            else
-                g_settings_reset ( G_SETTINGS ( settings ), "transactions-list-primary-sorting" );
-
+            switch ( value )
+            {
+                case 0:
+                    g_settings_reset (G_SETTINGS (settings), "transactions-list-primary-sorting");
+                    break;
+                case 1:
+                    g_settings_set_string (G_SETTINGS (settings),
+										   "transactions-list-primary-sorting",
+                                           "Sort by value date and then by date" );
+                    break;
+                case 2:
+                    g_settings_set_string ( G_SETTINGS ( settings ),
+										   "transactions-list-primary-sorting",
+                                           "Forced sort by date");
+			}
             break;
         case SECONDARY_SORT:
             conf.transactions_list_secondary_sorting = value;

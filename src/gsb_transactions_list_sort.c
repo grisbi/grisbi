@@ -540,6 +540,9 @@ gint gsb_transactions_list_sort_by_value_date ( gint transaction_number_1,
     const GDate *value_date_1 = NULL;
     const GDate *value_date_2 = NULL;
 
+	if (conf.transactions_list_primary_sorting == 2)
+		return gsb_transactions_list_sort_by_date (transaction_number_1, transaction_number_2);
+
    /* need to work a little more here because value date is not obligatory filled,
      * if we compare 2 transactions and 1 has no value date, set the value date before */
     value_date_1 = gsb_data_transaction_get_value_date ( transaction_number_1 );
