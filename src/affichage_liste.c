@@ -755,16 +755,16 @@ static void onglet_form_completion_update_combo_completion (GtkWidget *checkbutt
 	{
 		case 0:
 			g_settings_set_boolean (G_SETTINGS (settings),
-									"combofix-payee-use-gtk-completion",
+									"combo-payee-use-gtk-completion",
 									conf.combo_payee_use_gtk_completion);
-			accents_button = g_object_get_data (G_OBJECT (checkbutton), "accents_button");
+			accents_button = g_object_get_data (G_OBJECT (checkbutton), "button_ignore_accents");
 			entry_max_items = g_object_get_data (G_OBJECT (checkbutton), "entry_max_items");
 			break;
 		case 1:
 			g_settings_set_boolean (G_SETTINGS (settings),
-									"combofix-categ-ib-use-gtk-completion",
+									"combo-categ-ib-use-gtk-completion",
 									conf.combo_categ_ib_use_gtk_completion);
-			accents_button = g_object_get_data (G_OBJECT (checkbutton), "accents_button");
+			accents_button = g_object_get_data (G_OBJECT (checkbutton), "button_ignore_accents");
 			entry_max_items = g_object_get_data (G_OBJECT (checkbutton), "entry_max_items");
 			break;
 		case 2:
@@ -780,9 +780,14 @@ static void onglet_form_completion_update_combo_completion (GtkWidget *checkbutt
 	if (etat.combofix_case_sensitive)
 	{
 		if (conf.combo_categ_ib_use_gtk_completion || conf.combo_payee_use_gtk_completion)
+		{
 			gtk_widget_set_sensitive (accents_button, TRUE);
+		}
 		else
+		{
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (accents_button), FALSE);
 			gtk_widget_set_sensitive (accents_button, FALSE);
+		}
 	}
 	if (conf.combo_categ_ib_use_gtk_completion || conf.combo_payee_use_gtk_completion)
 		gtk_widget_set_sensitive (entry_max_items, FALSE);
@@ -801,8 +806,9 @@ GtkWidget *onglet_form_completion ( void )
     GtkWidget *entry_max_items;
     GtkWidget *button;
     GtkWidget *button_1;
-    GtkWidget *button_2;
+    //~ GtkWidget *button_2;
 	GtkWidget *button_case_sensitive;
+	GtkWidget *button_ignore_accents;
 	gchar* tmp_str;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Form completion"), "gsb-form-32.png" );
@@ -852,13 +858,31 @@ GtkWidget *onglet_form_completion ( void )
                         G_CALLBACK ( gsb_transactions_list_display_update_combofix), NULL),
                         FALSE, FALSE, 0 );
 
+	/* set button case sensitive */
 	button_case_sensitive = gsb_automem_checkbutton_new (_("Case sensitive completion"),
 														 &etat.combofix_case_sensitive,
 														 G_CALLBACK (gsb_transactions_list_display_update_combofix),
 														 NULL);
     gtk_box_pack_start (GTK_BOX (vbox_pref), button_case_sensitive, FALSE, FALSE, 0);
 
-    gtk_box_pack_start ( GTK_BOX (vbox_pref),
+	/* set button ignoring accents */
+    hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
+    gtk_box_pack_start (GTK_BOX (vbox_pref), hbox, FALSE, FALSE, 0);
+
+	button_ignore_accents = utils_prefs_automem_checkbutton_blue_new (_("Ignore accents and diacritics"),
+																	  &conf.completion_ignore_accents,
+																	  G_CALLBACK (onglet_form_completion_update_combo_completion),
+													   				  GINT_TO_POINTER (2));
+
+	/* set signals for ignoring accents */
+	g_signal_connect_after (G_OBJECT (button_case_sensitive),
+							"toggled",
+							 G_CALLBACK (onglet_form_completion_case_sensitive_toggle),
+							 button_ignore_accents);
+    gtk_box_pack_start (GTK_BOX (hbox), button_ignore_accents, FALSE, FALSE, 20);
+
+
+	gtk_box_pack_start ( GTK_BOX (vbox_pref),
                         gsb_automem_checkbutton_new (_("Don't allow new payee creation"),
                         &etat.combofix_force_payee,
                         G_CALLBACK ( gsb_transactions_list_display_update_combofix), NULL),
@@ -905,45 +929,29 @@ GtkWidget *onglet_form_completion ( void )
 													   	 GINT_TO_POINTER (0));
     gtk_box_pack_start (GTK_BOX (hbox), button_1, FALSE, FALSE, 20);
 
-    hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
-    gtk_box_pack_start (GTK_BOX (vbox_pref), hbox, FALSE, FALSE, 0);
+    //~ hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
+    //~ gtk_box_pack_start (GTK_BOX (vbox_pref), hbox, FALSE, FALSE, 0);
 
-	button_2 = utils_prefs_automem_checkbutton_blue_new (_("Use gtk completion for categories/budget"),
-														 &conf.combo_categ_ib_use_gtk_completion,
-													 	 G_CALLBACK (onglet_form_completion_update_combo_completion),
-														 GINT_TO_POINTER (1));
-    gtk_box_pack_start (GTK_BOX (hbox), button_2, FALSE, FALSE, 20);
-	gtk_widget_set_sensitive (button_2, FALSE);
+	//~ button_2 = utils_prefs_automem_checkbutton_blue_new (_("Use gtk completion for categories/budget"),
+														 //~ &conf.combo_categ_ib_use_gtk_completion,
+													 	 //~ G_CALLBACK (onglet_form_completion_update_combo_completion),
+														 //~ GINT_TO_POINTER (1));
+    //~ gtk_box_pack_start (GTK_BOX (hbox), button_2, FALSE, FALSE, 20);
+	//~ gtk_widget_set_sensitive (button_2, FALSE);
 
-    hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
-    gtk_box_pack_start (GTK_BOX (vbox_pref), hbox, FALSE, FALSE, 0);
-
-	button = utils_prefs_automem_checkbutton_blue_new (_("Ignore accents and diacritics"),
-													   &conf.completion_ignore_accents,
-													   G_CALLBACK (onglet_form_completion_update_combo_completion),
-													   GINT_TO_POINTER (2));
-
-	g_object_set_data (G_OBJECT (button_1), "accents_button", button);
-	g_object_set_data (G_OBJECT (button_2), "accents_button", button);
+	g_object_set_data (G_OBJECT (button_1), "button_ignore_accents", button_ignore_accents);
+	//~ g_object_set_data (G_OBJECT (button_2), "button_ignore_accents", button_ignore_accents);
 	g_object_set_data (G_OBJECT (button_1), "entry_max_items", entry_max_items);
-	g_object_set_data (G_OBJECT (button_2), "entry_max_items", entry_max_items);
-
-
-	/* set signals for ignoring accents */
-	g_signal_connect_after (G_OBJECT (button_case_sensitive),
-							"toggled",
-							 G_CALLBACK (onglet_form_completion_case_sensitive_toggle),
-							 button);
-    gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 20);
+	//~ g_object_set_data (G_OBJECT (button_2), "entry_max_items", entry_max_items);
 
 	if (etat.combofix_case_sensitive
 		&& (conf.combo_categ_ib_use_gtk_completion || conf.combo_payee_use_gtk_completion))
 	{
-		gtk_widget_set_sensitive (button, TRUE);
+		gtk_widget_set_sensitive (button_ignore_accents, TRUE);
 	}
 	else
 	{
-		gtk_widget_set_sensitive (button, FALSE);
+		gtk_widget_set_sensitive (button_ignore_accents, FALSE);
 	}
 
 	/* set_minimum_key_length  */

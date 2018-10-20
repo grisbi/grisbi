@@ -213,7 +213,7 @@
         <default>false</default>
 	    <summary>Use Gtk completion for categories and IB</summary>
 	    <description>
-	        If TRUE, the entry of category's combofix or budgetary's combofix
+	        If TRUE, the entry of category's combo_box or budgetary's combo_box
 	        uses the completion functionality for GtkEntry.
         </description>
 	  </key>
@@ -226,7 +226,7 @@
         <default>false</default>
 	    <summary>Use Gtk completion for payees</summary>
 	    <description>
-	        If TRUE, the entry of payee's combofix uses the completion functionality for GtkEntry.
+	        If TRUE, the entry of payee's combo_box uses the completion functionality for GtkEntry.
         </description>
 	  </key>
 	  <key name="completion-ignore-accents" type="b">
