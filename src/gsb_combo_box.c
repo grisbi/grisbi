@@ -937,7 +937,7 @@ void gsb_combo_form_box_append_text (GtkComboBox *combo_box,
 	GtkTreeIter new_iter;
 	gchar **tab_char;
 
-	devel_debug (text);
+	//~ devel_debug (text);
 	if (!combo_box || !GTK_IS_COMBO_BOX (combo_box))
 		return;
 

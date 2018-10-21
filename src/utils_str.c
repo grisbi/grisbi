@@ -197,7 +197,7 @@ static gboolean utils_str_payee_name_is_trouve (const gchar *name,
 	guint i;
 	//~ GrisbiWinRun *w_run;
 
-    devel_debug (NULL);
+    //~ devel_debug (NULL);
 	//~ w_run = grisbi_win_get_w_run ();
 
 	nbre_items = g_strv_length (tab_str);
@@ -503,7 +503,7 @@ gint my_strcasecmp (const gchar *string_1,
 			gchar *new_2;
 
             new_1 = g_utf8_casefold (string_1, -1);
-            new_2 = g_utf8_casefold ( string_2, -1);
+            new_2 = g_utf8_casefold (string_2, -1);
             retour = g_utf8_collate (new_1, new_2);
 
             g_free (new_1);
