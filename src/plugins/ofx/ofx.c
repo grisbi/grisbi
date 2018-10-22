@@ -32,6 +32,7 @@
 #include "ofx.h"
 #include "dialog.h"
 #include "gsb_real.h"
+#include "structures.h"
 #include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -412,7 +413,28 @@ int ofx_proc_transaction_cb(struct OfxTransactionData data, void * security_data
 	    case OFX_DEBIT:
 	    case OFX_CREDIT:
 	    case OFX_OTHER:
-		break;
+			if (etat.extract_number_for_check)
+			{
+				gchar *str_to_free = NULL;
+
+				str_to_free = utils_str_my_case_strstr (ope_import->tiers, _("Check"));
+				if (str_to_free)
+				{
+					gchar *tmp_str;
+					tmp_str = gsb_string_extract_int (ope_import->tiers);
+					if (tmp_str && strlen (tmp_str) > 0)
+					{
+						ope_import->cheque = tmp_str;
+						ope_import->type_de_transaction = GSB_CHECK;
+					}
+					else if (tmp_str && strlen (tmp_str) == 0)
+					{
+						g_free (tmp_str);
+					}
+					g_free (str_to_free);
+				}
+			}
+			break;
 	}
     }
     /*     on ajoute l'opé à son compte */
