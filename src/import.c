@@ -2240,84 +2240,64 @@ static gint gsb_import_create_transaction (struct ImportTransaction *imported_tr
     if (fyear > 0)
         gsb_data_transaction_set_financial_year_number (transaction_number, fyear);
 
-    /* on sort de la fonction si on a fusionné des opérations */
-    if (etat.fusion_import_transactions
-     &&
-     imported_transaction->ope_correspondante > 0)
-    {
-        if (imported_transaction->tiers && strlen (imported_transaction->tiers))
-        {
-            /* Before leaving, we retrieve the data from payee */
-            if (etat.copy_payee_in_note)
-            {
-                if (gsb_data_transaction_get_notes (transaction_number) == NULL)
-                    gsb_data_transaction_set_notes (transaction_number,
-													imported_transaction->tiers);
-            }
-            if (etat.extract_number_for_check)
-            {
-                tmp_str = gsb_string_extract_int (imported_transaction->tiers);
-                if (tmp_str && strlen (tmp_str) > 0)
-                {
-                    payment_number = gsb_data_payment_get_number_by_name (_("Check"),
-																		  account_number);
-                    gsb_data_transaction_set_method_of_payment_number (transaction_number,
-																	   payment_number);
-                    gsb_data_transaction_set_method_of_payment_content (transaction_number,
-																		tmp_str);
-                    g_free (tmp_str);
-                }
+    /* Recovery of payee.
+     * we routinely backup imported payee. May be replaced later if
+     * notes exist to transactions imported */
+	if (imported_transaction->tiers && strlen (imported_transaction->tiers))
+	{
+		/* Before leaving, we retrieve the data from payee */
+		if (etat.copy_payee_in_note)
+		{
+			if (gsb_data_transaction_get_notes (transaction_number) == NULL)
+				gsb_data_transaction_set_notes (transaction_number, imported_transaction->tiers);
+		}
+		if (!imported_transaction->cheque && etat.extract_number_for_check)
+		{
+			gchar *str_to_free = NULL;
+
+			str_to_free = utils_str_my_case_strstr (imported_transaction->tiers, _("Check"));
+			if (str_to_free)
+			{
+				tmp_str = gsb_string_extract_int (imported_transaction->tiers);
+				if (tmp_str && strlen (tmp_str) > 0)
+				{
+					imported_transaction->cheque = tmp_str;
+				}
 				else if (tmp_str && strlen (tmp_str) == 0)
 				{
 					g_free (tmp_str);
 				}
-            }
-        }
+				g_free (str_to_free);
+			}
+		}
 
-        return transaction_number;
-    }
+    	/* on sort de la fonction si on a fusionné des opérations */
+		if (etat.fusion_import_transactions && imported_transaction->ope_correspondante > 0)
+		{
+			if (imported_transaction->cheque)
+			{
+				payment_number = gsb_data_payment_get_number_by_name (_("Check"), account_number);
+				gsb_data_transaction_set_method_of_payment_number (transaction_number, payment_number);
+				gsb_data_transaction_set_method_of_payment_content (transaction_number, imported_transaction->cheque);
+			}
+			return transaction_number;
+		}
+		else
+		{
+			payee_number = gsb_import_associations_find_payee (imported_transaction->tiers);
+			if (payee_number == 0)
+			{
+				payee_number = gsb_data_payee_get_number_by_name (imported_transaction->tiers, TRUE);
+			}
+        	gsb_data_transaction_set_party_number (transaction_number, payee_number);
+		}
+	}
 
     /* récupération du montant */
     gsb_data_transaction_set_amount (transaction_number, imported_transaction->montant);
 
     /* récupération de la devise */
     gsb_data_transaction_set_currency_number (transaction_number, imported_transaction->devise);
-
-    /* Recovery of payee.
-     * we routinely backup imported payee. May be replaced later if
-     * notes exist to transactions imported */
-    if (imported_transaction->tiers && strlen (imported_transaction->tiers))
-    {
-        payee_number = gsb_import_associations_find_payee (imported_transaction->tiers);
-        if (payee_number == 0)
-        {
-            payee_number = gsb_data_payee_get_number_by_name (imported_transaction->tiers, TRUE);
-        }
-        if (etat.copy_payee_in_note)
-        {
-            if (g_utf8_collate (gsb_data_payee_get_name (payee_number, FALSE), imported_transaction->tiers) != 0)
-                gsb_data_transaction_set_notes (transaction_number, imported_transaction->tiers);
-        }
-        if (etat.extract_number_for_check)
-        {
-            tmp_str = gsb_string_extract_int (imported_transaction->tiers);
-            if (tmp_str && strlen (tmp_str) > 0)
-            {
-                payment_number = gsb_data_payment_get_number_by_name (_("Check"),
-																	  account_number);
-                gsb_data_transaction_set_method_of_payment_number (transaction_number,
-																   payment_number);
-                gsb_data_transaction_set_method_of_payment_content (transaction_number,
-																	tmp_str);
-                g_free (tmp_str);
-            }
-			else if (tmp_str && strlen (tmp_str) == 0)
-			{
-				g_free (tmp_str);
-			}
-        }
-        gsb_data_transaction_set_party_number (transaction_number, payee_number);
-    }
 
     /* checking if split, otherwise recovery categories */
     if (imported_transaction->operation_ventilee)
@@ -2414,7 +2394,7 @@ static gint gsb_import_create_transaction (struct ImportTransaction *imported_tr
         gsb_data_transaction_set_notes (transaction_number, imported_transaction->notes);
     }
 
-    /* traitement d'un fichier OFX */
+    /* définition des moyens de payement des fichiers OFX et QIF*/
     if (origine
 		&& (g_ascii_strcasecmp (origine, "OFX") == 0 || g_ascii_strcasecmp (origine, "QIF") == 0))
     {
@@ -2498,14 +2478,30 @@ static gint gsb_import_create_transaction (struct ImportTransaction *imported_tr
 				break;
             /* case GSB_REPEATPMT:
             break; */
-
             case GSB_DEBIT:
+				gsb_data_transaction_set_method_of_payment_number (transaction_number,
+																   gsb_data_account_get_default_debit
+																   (account_number));
+				break;
             case GSB_CREDIT:
+                gsb_data_transaction_set_method_of_payment_number (transaction_number,
+																   gsb_data_account_get_default_credit
+																   (account_number));
+				break;
             case GSB_OTHER:
-            break;
+             /* on met sur le type par défaut en fonction du signe du montant*/
+            if (gsb_data_transaction_get_amount (transaction_number).mantissa < 0)
+                gsb_data_transaction_set_method_of_payment_number (transaction_number,
+																   gsb_data_account_get_default_debit
+																   (account_number));
+            else
+                gsb_data_transaction_set_method_of_payment_number (transaction_number,
+																   gsb_data_account_get_default_credit
+																   (account_number));
+           break;
         }
     }
-    else
+    else	/* définition des moyens de payement des autres fichiers CSV ... */
     {
         /* récupération du chèque et mise en forme du type d'opération */
         if (imported_transaction->cheque)
