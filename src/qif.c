@@ -647,7 +647,7 @@ static gboolean qif_traite_champs_n ( struct ImportTransaction *imported_transac
             {
                 gchar *tmp_str;
 
-                imported_transaction->type_de_transaction = GSB_OFX_DIRECTDEP;
+                imported_transaction->type_de_transaction = GSB_DIRECTDEP;
                 tmp_str = gsb_string_extract_int ( imported_transaction->tiers );
                 if ( tmp_str && strlen ( tmp_str ) > 0 )
                 {
@@ -662,19 +662,19 @@ static gboolean qif_traite_champs_n ( struct ImportTransaction *imported_transac
     /* traitement des valeurs normalisées du champs N */
     if ( strcmp ( imported_transaction->cheque, "Deposit" ) == 0 )
     {
-        imported_transaction->type_de_transaction = GSB_OFX_DEP;
+        imported_transaction->type_de_transaction = GSB_DEP;
     }
     else if ( strcmp ( imported_transaction->cheque, "Transfer" ) == 0 )
     {
-        imported_transaction->type_de_transaction = GSB_OFX_XFER;
+        imported_transaction->type_de_transaction = GSB_XFER;
     }
     else if ( strcmp ( imported_transaction->cheque, "ATM" ) == 0 )
     {
-        imported_transaction->type_de_transaction = GSB_OFX_ATM;
+        imported_transaction->type_de_transaction = GSB_ATM;
     }
     else if ( strcmp ( imported_transaction->cheque, "EFT" ) == 0 )
     {
-        imported_transaction->type_de_transaction = GSB_OFX_XFER;
+        imported_transaction->type_de_transaction = GSB_XFER;
     }
 
     /* Ici on traie le fichuier type SG voir si généralisable */
@@ -682,17 +682,17 @@ static gboolean qif_traite_champs_n ( struct ImportTransaction *imported_transac
     {
         if ( strcmp ( imported_transaction->cheque, "Prélvmt" ) == 0 )
         {
-            imported_transaction->type_de_transaction = GSB_OFX_DIRECTDEBIT;
+            imported_transaction->type_de_transaction = GSB_DIRECTDEBIT;
         }
         else if ( strcmp ( imported_transaction->cheque, "Carte" ) == 0 )
         {
-            imported_transaction->type_de_transaction = GSB_OFX_POS;
+            imported_transaction->type_de_transaction = GSB_POS;
         }
         else if ( strcmp ( imported_transaction->cheque, "Chèque" ) == 0 )
         {
             gchar *tmp_str;
 
-            imported_transaction->type_de_transaction = GSB_OFX_CHECK;
+            imported_transaction->type_de_transaction = GSB_CHECK;
             tmp_str = gsb_string_extract_int ( imported_transaction->tiers );
             if ( tmp_str && strlen ( tmp_str ) > 0 )
             {
@@ -702,7 +702,7 @@ static gboolean qif_traite_champs_n ( struct ImportTransaction *imported_transac
         }
         else if ( strcmp ( imported_transaction->cheque, "Virement" ) == 0 )
         {
-            imported_transaction->type_de_transaction = GSB_OFX_XFER;
+            imported_transaction->type_de_transaction = GSB_XFER;
         }
     }
 

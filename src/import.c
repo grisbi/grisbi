@@ -2447,7 +2447,7 @@ static gint gsb_import_create_transaction (struct ImportTransaction *imported_tr
     {
         switch (imported_transaction->type_de_transaction)
         {
-            case GSB_OFX_CHECK:
+            case GSB_CHECK:
             /* Check = Chèque */
             payment_number = gsb_data_payment_get_number_by_name (_("Check"),
                             account_number);
@@ -2458,51 +2458,51 @@ static gint gsb_import_create_transaction (struct ImportTransaction *imported_tr
                     transaction_number, imported_transaction->cheque);
 
             break;
-            /* case GSB_OFX_INT:
+            /* case GSB_INT:
             break;
-            case GSB_OFX_DIV:
+            case GSB_DIV:
             break;
-            case GSB_OFX_SRVCHG:
+            case GSB_SRVCHG:
             break;
-            case GSB_OFX_FEE:
+            case GSB_FEE:
             break; */
-            case GSB_OFX_DEP:
+            case GSB_DEP:
             /* Deposit = Dépôt */
             payment_number = gsb_data_payment_get_number_by_name (_("Deposit"),
                             account_number);
             gsb_data_transaction_set_method_of_payment_number (transaction_number, payment_number);
             break;
-            case GSB_OFX_ATM:
+            case GSB_ATM:
             /* Retrait dans un distributeur de billets replacé par carte de crédit */
             payment_number = gsb_data_payment_get_number_by_name (_("Credit card"),
                             account_number);
             gsb_data_transaction_set_method_of_payment_number (transaction_number, payment_number);
             break;
-            case GSB_OFX_POS:
+            case GSB_POS:
             /* Point of sale = Point de vente remplacé par carte de crédit */
             payment_number = gsb_data_payment_get_number_by_name (_("Credit card"),
                             account_number);
             gsb_data_transaction_set_method_of_payment_number (transaction_number, payment_number);
             break;
-            case GSB_OFX_XFER:
+            case GSB_XFER:
             /* Transfer = Virement */
             payment_number = gsb_data_payment_get_number_by_name (_("Transfer"),
                             account_number);
             gsb_data_transaction_set_method_of_payment_number (transaction_number, payment_number);
             break;
-            case GSB_OFX_PAYMENT:
+            case GSB_PAYMENT:
             /* Electronic payment remplacé par Direct debit = Prélèvement */
             payment_number = gsb_data_payment_get_number_by_name (_("Direct debit"),
                             account_number);
             gsb_data_transaction_set_method_of_payment_number (transaction_number, payment_number);
             break;
-            case GSB_OFX_CASH:
+            case GSB_CASH:
             /* Cash withdrawal = retrait en liquide */
             payment_number = gsb_data_payment_get_number_by_name (_("Cash withdrawal"),
                             account_number);
             gsb_data_transaction_set_method_of_payment_number (transaction_number, payment_number);
             break;
-            case GSB_OFX_DIRECTDEP:
+            case GSB_DIRECTDEP:
             /* Direct deposit remplacé par Transfert = Virement */
             payment_number = gsb_data_payment_get_number_by_name (_("Transfer"),
                             account_number);
@@ -2512,19 +2512,19 @@ static gint gsb_import_create_transaction (struct ImportTransaction *imported_tr
                     transaction_number, imported_transaction->cheque);
 
             break;
-            case GSB_OFX_DIRECTDEBIT:
+            case GSB_DIRECTDEBIT:
             /* Merchant initiated debit remplacé par Direct debit = Prélèvement */
             payment_number = gsb_data_payment_get_number_by_name (_("Direct debit"),
                             account_number);
             gsb_data_transaction_set_method_of_payment_number (transaction_number, payment_number);
 
             break;
-            /* case GSB_OFX_REPEATPMT:
+            /* case GSB_REPEATPMT:
             break; */
 
-            case GSB_OFX_DEBIT:
-            case GSB_OFX_CREDIT:
-            case GSB_OFX_OTHER:
+            case GSB_DEBIT:
+            case GSB_CREDIT:
+            case GSB_OTHER:
             break;
         }
     }

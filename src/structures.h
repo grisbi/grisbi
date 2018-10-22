@@ -85,7 +85,7 @@ extern struct _GrisbiWinRun run;
 extern struct _GrisbiWinEtat etat;
 
 typedef enum 	_ComboColumns			ComboColumns;
-typedef enum 	_GsbOfxTransactionType	GsbOfxTransactionType;
+typedef enum 	_GsbTransactionType		GsbTransactionType;
 typedef enum 	_GsbTitleType	 		GsbTitleType;
 typedef enum 	_SettingsSchema 		SettingsSchema;
 
@@ -406,25 +406,25 @@ enum BetTypeMaj
 
 
 /* recopie des types de transaction de la libofx en attendant une version propre */
-enum _GsbOfxTransactionType
+enum _GsbTransactionType
 {
-    GSB_OFX_CREDIT,     /**< Generic credit */
-    GSB_OFX_DEBIT,      /**< Generic debit */
-    GSB_OFX_INT,        /**< Interest earned or paid (Note: Depends on signage of amount) */
-    GSB_OFX_DIV,        /**< Dividend */
-    GSB_OFX_FEE,        /**< FI fee */
-    GSB_OFX_SRVCHG,     /**< Service charge */
-    GSB_OFX_DEP,        /**< Deposit */
-    GSB_OFX_ATM,        /**< ATM debit or credit (Note: Depends on signage of amount) */
-    GSB_OFX_POS,        /**< Point of sale debit or credit (Note: Depends on signage of amount) */
-    GSB_OFX_XFER,       /**< Transfer */
-    GSB_OFX_CHECK,      /**< Check */
-    GSB_OFX_PAYMENT,    /**< Electronic payment */
-    GSB_OFX_CASH,       /**< Cash withdrawal */
-    GSB_OFX_DIRECTDEP,  /**< Direct deposit */
-    GSB_OFX_DIRECTDEBIT,/**< Merchant initiated debit */
-    GSB_OFX_REPEATPMT,  /**< Repeating payment/standing order */
-    GSB_OFX_OTHER       /**< Somer other type of transaction */
+    GSB_CREDIT,     /**< Generic credit */
+    GSB_DEBIT,      /**< Generic debit */
+    GSB_INT,        /**< Interest earned or paid (Note: Depends on signage of amount) */
+    GSB_DIV,        /**< Dividend */
+    GSB_FEE,        /**< FI fee */
+    GSB_SRVCHG,     /**< Service charge */
+    GSB_DEP,        /**< Deposit */
+    GSB_ATM,        /**< ATM debit or credit (Note: Depends on signage of amount) */
+    GSB_POS,        /**< Point of sale debit or credit (Note: Depends on signage of amount) */
+    GSB_XFER,       /**< Transfer */
+    GSB_CHECK,      /**< Check */
+    GSB_PAYMENT,    /**< Electronic payment */
+    GSB_CASH,       /**< Cash withdrawal */
+    GSB_DIRECTDEP,  /**< Direct deposit */
+    GSB_DIRECTDEBIT,/**< Merchant initiated debit */
+    GSB_REPEATPMT,  /**< Repeating payment/standing order */
+    GSB_OTHER       /**< Somer other type of transaction */
   };
 
 
