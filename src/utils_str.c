@@ -1272,6 +1272,39 @@ gchar *utils_str_remove_accents (const gchar *text)
 }
 
 /**
+ *	recherche needle après suppression des accents et mise en majuscule
+ *
+ * \param 	chaine pour la recherche
+ * \param	chaine recherchée
+ *
+ * \return un ptr vers la première occurence
+ **/
+gchar *utils_str_my_case_strstr (const gchar *haystack,
+								 const gchar *needle)
+{
+	gchar *new_haystack;
+	gchar *new_needle;
+	gchar *str_to_free;
+	gchar *ptr;
+
+	/* uniformise needle */
+	str_to_free = utils_str_remove_accents (needle);
+	new_needle = g_ascii_strup (str_to_free, -1);
+	g_free (str_to_free);
+
+	/* uniformise needle */
+	str_to_free = utils_str_remove_accents (haystack);
+	new_haystack = g_ascii_strup (str_to_free, -1);
+	g_free (str_to_free);
+
+	ptr = g_strdup (g_strstr_len (new_haystack, -1, new_needle));
+	g_free (new_haystack);
+	g_free (new_needle);
+
+	return ptr;
+}
+
+/**
  *
  *
  * \param
