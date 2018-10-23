@@ -41,6 +41,7 @@
 #include "dialog.h"
 #include "gsb_data_payee.h"
 #include "gsb_file.h"
+#include "gsb_form_widget.h"
 #include "gtk_combofix.h"
 #include "import.h"
 #include "structures.h"
@@ -286,6 +287,7 @@ static gboolean prefs_page_import_asso_select_asso (GtkTreeSelection *selection,
 
     if (good)
     {
+		GtkWidget *entry;
 		GtkTreeModel *model;
 		gchar *payee_str;
 		gchar *search_str;
@@ -293,11 +295,12 @@ static gboolean prefs_page_import_asso_select_asso (GtkTreeSelection *selection,
 		model = gtk_tree_view_get_model (GTK_TREE_VIEW (priv->treeview_import_asso));
 		gtk_tree_model_get (model, &iter, 0, &payee_str, 1, &search_str, -1);
 
-		g_signal_handlers_block_by_func (G_OBJECT (GTK_COMBOFIX (priv->combo_import_asso_payee)->entry),
+		entry = gsb_form_widget_combo_get_entry (priv->combo_import_asso_payee);
+		g_signal_handlers_block_by_func (G_OBJECT (entry),
 										 G_CALLBACK (prefs_page_import_asso_combo_changed),
 										 page);
-		gtk_combofix_set_text (GTK_COMBOFIX (priv->combo_import_asso_payee), payee_str);
-		g_signal_handlers_unblock_by_func (G_OBJECT (GTK_COMBOFIX (priv->combo_import_asso_payee)->entry),
+		gsb_form_widget_combo_entry_set_text (priv->combo_import_asso_payee, payee_str);
+		g_signal_handlers_unblock_by_func (G_OBJECT (priv->combo_import_asso_payee),
 										   G_CALLBACK (prefs_page_import_asso_combo_changed),
 										   page);
 		gtk_entry_set_text (GTK_ENTRY (priv->entry_import_asso_search_string), search_str);
@@ -523,6 +526,7 @@ static void prefs_page_import_asso_setup_treeview_asso (PrefsPageImportAsso *pag
  */
 static void prefs_page_import_asso_setup_import_asso_page (PrefsPageImportAsso *page)
 {
+	GtkWidget *entry;
 	GSList *tmp_list;
 	GrisbiWinRun *w_run;
 	PrefsPageImportAssoPrivate *priv;
@@ -556,10 +560,11 @@ static void prefs_page_import_asso_setup_import_asso_page (PrefsPageImportAsso *
     gtk_combofix_set_case_sensitive (GTK_COMBOFIX (priv->combo_import_asso_payee),
 									 !w_run->import_asso_case_insensitive);
     gtk_grid_attach (GTK_GRID (priv->grid_import_asso_details), priv->combo_import_asso_payee, 1, 0, 1, 1);
-    g_signal_connect (G_OBJECT (GTK_COMBOFIX (priv->combo_import_asso_payee)->entry),
-                        "changed",
-                        G_CALLBACK (prefs_page_import_asso_combo_changed),
-                        page);
+	entry = gsb_form_widget_combo_get_entry (priv->combo_import_asso_payee);
+    g_signal_connect (G_OBJECT (entry),
+					  "changed",
+					  G_CALLBACK (prefs_page_import_asso_combo_changed),
+					  page);
 
 	g_slist_free_full (tmp_list, (GDestroyNotify) g_slist_free);
 

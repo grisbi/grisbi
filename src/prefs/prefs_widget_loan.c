@@ -199,17 +199,17 @@ static gboolean prefs_widget_loan_scheduled_dialog_validate (DialogScheduled *s_
 	gboolean valide_second_line = FALSE;
 	gboolean valide_third_line = FALSE;
 
-	if (!gsb_form_widget_check_empty (GTK_COMBOFIX (s_sch_dialog->APayeeCombo)->entry))
+	if (!gsb_form_widget_check_empty (s_sch_dialog->APayeeCombo))
 	{
 		valide_payee = TRUE;
 	}
-	if (!gsb_form_widget_check_empty (GTK_COMBOFIX (s_sch_dialog->SCategCombo)->entry)
-		|| !!gsb_form_widget_check_empty (GTK_COMBOFIX (s_sch_dialog->SBudgetCombo)->entry))
+	if (!gsb_form_widget_check_empty (s_sch_dialog->SCategCombo)
+		|| !gsb_form_widget_check_empty (s_sch_dialog->SBudgetCombo))
 	{
 		valide_second_line = TRUE;
 	}
-	if (!gsb_form_widget_check_empty (GTK_COMBOFIX (s_sch_dialog->TCategCombo)->entry)
-		|| !!gsb_form_widget_check_empty (GTK_COMBOFIX (s_sch_dialog->TBudgetCombo)->entry))
+	if (!gsb_form_widget_check_empty (s_sch_dialog->TCategCombo)
+		|| !gsb_form_widget_check_empty (s_sch_dialog->TBudgetCombo))
 	{
 		valide_third_line = TRUE;
 	}
@@ -280,7 +280,6 @@ static gboolean prefs_widget_loan_combofix_lose_focus (GtkWidget *entry,
 													   GdkEventFocus *ev,
 													   GtkComboFix *combo)
 {
-	GtkWidget *linked_entry;
     gchar *string;
     gint element_number;
 	gpointer ptr_origin;
@@ -325,8 +324,7 @@ static gboolean prefs_widget_loan_combofix_lose_focus (GtkWidget *entry,
 			if (!strlen (gtk_entry_get_text (GTK_ENTRY (entry))))
 			{
 				string = gsb_form_widget_get_name (TRANSACTION_FORM_CATEGORY);
-				linked_entry = g_object_get_data (G_OBJECT (combo), "linked_entry");
-				if (gsb_form_widget_check_empty (linked_entry))
+				if (gsb_form_widget_check_empty (GTK_WIDGET (combo)))
 				{
 					utils_set_image_with_etat (GTK_WIDGET (combo), FALSE);
 				}
@@ -341,8 +339,7 @@ static gboolean prefs_widget_loan_combofix_lose_focus (GtkWidget *entry,
 			if (!strlen (gtk_entry_get_text (GTK_ENTRY (entry))))
 			{
 				string = gsb_form_widget_get_name (TRANSACTION_FORM_BUDGET);
-				linked_entry = g_object_get_data (G_OBJECT (combo), "linked_entry");
-				if (gsb_form_widget_check_empty (linked_entry))
+				if (gsb_form_widget_check_empty (GTK_WIDGET (combo)))
 				{
 					utils_set_image_with_etat (GTK_WIDGET (combo), FALSE);
 				}
@@ -363,7 +360,7 @@ static gboolean prefs_widget_loan_combofix_lose_focus (GtkWidget *entry,
     if (string)
     {
         gtk_combofix_set_text (GTK_COMBOFIX (combo), _(string));
-        gsb_form_widget_set_empty (entry, TRUE);
+        gsb_form_widget_set_empty (GTK_WIDGET (combo), TRUE);
     }
 
     return FALSE;
@@ -853,8 +850,9 @@ static void prefs_widget_loan_radiobutton_type_taux_toggled (GtkToggleButton *to
  * \return
  **/
 static DialogScheduled *prefs_widget_loan_dialog_scheduled_init (GtkWidget *page,
-																		PrefsWidgetLoan *w_loan)
+																 PrefsWidgetLoan *w_loan)
 {
+	GtkWidget *entry;
 	GtkWidget *label;
 	GtkWidget *paddingbox;
 	GtkWidget *hbox;
@@ -946,7 +944,7 @@ static DialogScheduled *prefs_widget_loan_dialog_scheduled_init (GtkWidget *page
 	}
 	else
 	{
-		gsb_form_widget_set_empty (GTK_COMBOFIX (s_sch_dialog->APayeeCombo)->entry, TRUE);
+		gsb_form_widget_set_empty (s_sch_dialog->APayeeCombo, TRUE);
 		gtk_combofix_set_text (GTK_COMBOFIX (s_sch_dialog->APayeeCombo), _("Payee"));
 	}
 
@@ -966,7 +964,8 @@ static DialogScheduled *prefs_widget_loan_dialog_scheduled_init (GtkWidget *page
 	gsb_data_categorie_free_name_list (tmp_list);
     gtk_box_pack_start (GTK_BOX (hbox), s_sch_dialog->ACategCombo, TRUE, TRUE, 0);
 
-	gsb_form_widget_set_empty (GTK_COMBOFIX (s_sch_dialog->ACategCombo)->entry, FALSE);
+	gsb_form_widget_set_empty (s_sch_dialog->ACategCombo, FALSE);
+
 	/* select Split of transaction in list */
 	tmp_str = g_strdup (_("Split of transaction"));
     gtk_combofix_set_text (GTK_COMBOFIX (s_sch_dialog->ACategCombo), tmp_str);
@@ -1030,7 +1029,7 @@ static DialogScheduled *prefs_widget_loan_dialog_scheduled_init (GtkWidget *page
 
 	if (scheduled_number)
 	{
-		gsb_form_widget_set_empty (GTK_COMBOFIX (s_sch_dialog->FCategCombo)->entry, FALSE);
+		gsb_form_widget_set_empty (s_sch_dialog->FCategCombo, FALSE);
 		/* select the transfer in list */
 		tmp_number = gsb_data_scheduled_get_account_number_transfer (scheduled_number+1);
 
@@ -1061,9 +1060,6 @@ static DialogScheduled *prefs_widget_loan_dialog_scheduled_init (GtkWidget *page
 	g_object_set_data (G_OBJECT (s_sch_dialog->FBudgetCombo),
 					   "element",
 					   GINT_TO_POINTER (TRANSACTION_FORM_BUDGET));
-	g_object_set_data (G_OBJECT (s_sch_dialog->FBudgetCombo),
-					   "linked_entry",
-					   GTK_COMBOFIX (s_sch_dialog->FCategCombo)->entry);
 
 	if (scheduled_number)
 	{
@@ -1077,13 +1073,13 @@ static DialogScheduled *prefs_widget_loan_dialog_scheduled_init (GtkWidget *page
 		}
 		else
 		{
-			gsb_form_widget_set_empty (GTK_COMBOFIX (s_sch_dialog->FBudgetCombo)->entry, TRUE);
+			gsb_form_widget_set_empty (s_sch_dialog->FBudgetCombo, TRUE);
 			gtk_combofix_set_text (GTK_COMBOFIX (s_sch_dialog->FBudgetCombo), _("Budgetary line"));
 		}
 	}
 	else
 	{
-		gsb_form_widget_set_empty (GTK_COMBOFIX (s_sch_dialog->FBudgetCombo)->entry, TRUE);
+		gsb_form_widget_set_empty (s_sch_dialog->FBudgetCombo, TRUE);
 		gtk_combofix_set_text (GTK_COMBOFIX (s_sch_dialog->FBudgetCombo), _("Budgetary line"));
 	}
 
@@ -1115,7 +1111,6 @@ static DialogScheduled *prefs_widget_loan_dialog_scheduled_init (GtkWidget *page
 											  etat.combofix_mixed_sort);
 	gsb_data_categorie_free_name_list (tmp_list);
     gtk_box_pack_start (GTK_BOX (hbox), s_sch_dialog->SCategCombo, FALSE, FALSE, 0);
-    g_object_set_data (G_OBJECT (GTK_COMBOFIX (s_sch_dialog->SCategCombo)->entry), "combo", s_sch_dialog->SCategCombo);
     g_object_set_data (G_OBJECT (s_sch_dialog->SCategCombo), "icon", icon);
 	g_object_set_data (G_OBJECT (s_sch_dialog->SCategCombo),
 					   "element",
@@ -1133,13 +1128,13 @@ static DialogScheduled *prefs_widget_loan_dialog_scheduled_init (GtkWidget *page
 		}
 		else
 		{
-			gsb_form_widget_set_empty (GTK_COMBOFIX (s_sch_dialog->SCategCombo)->entry, TRUE);
+			gsb_form_widget_set_empty (s_sch_dialog->SCategCombo, TRUE);
 			gtk_combofix_set_text (GTK_COMBOFIX (s_sch_dialog->SCategCombo), _("Categories : Sub-categories"));
 		}
 	}
 	else
 	{
-		gsb_form_widget_set_empty (GTK_COMBOFIX (s_sch_dialog->SCategCombo)->entry, TRUE);
+		gsb_form_widget_set_empty (s_sch_dialog->SCategCombo, TRUE);
 		gtk_combofix_set_text (GTK_COMBOFIX (s_sch_dialog->SCategCombo), _("Categories : Sub-categories"));
 	}
 
@@ -1169,23 +1164,15 @@ static DialogScheduled *prefs_widget_loan_dialog_scheduled_init (GtkWidget *page
 		}
 		else
 		{
-			gsb_form_widget_set_empty (GTK_COMBOFIX (s_sch_dialog->SBudgetCombo)->entry, TRUE);
+			gsb_form_widget_set_empty (s_sch_dialog->SBudgetCombo, TRUE);
 			gtk_combofix_set_text (GTK_COMBOFIX (s_sch_dialog->SBudgetCombo), _("Budgetary line"));
 		}
 	}
 	else
 	{
-		gsb_form_widget_set_empty (GTK_COMBOFIX (s_sch_dialog->SBudgetCombo)->entry, TRUE);
+		gsb_form_widget_set_empty (s_sch_dialog->SBudgetCombo, TRUE);
 		gtk_combofix_set_text (GTK_COMBOFIX (s_sch_dialog->SBudgetCombo), _("Budgetary line"));
 	}
-
-	/* Set links for icon state */
-	g_object_set_data (G_OBJECT (s_sch_dialog->SCategCombo),
-					   "linked_entry",
-					   GTK_COMBOFIX (s_sch_dialog->SBudgetCombo)->entry);
-	g_object_set_data (G_OBJECT (s_sch_dialog->SBudgetCombo),
-					   "linked_entry",
-					   GTK_COMBOFIX (s_sch_dialog->SCategCombo)->entry);
 
 	/* add separator */
 	separator = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
@@ -1231,13 +1218,13 @@ static DialogScheduled *prefs_widget_loan_dialog_scheduled_init (GtkWidget *page
 		}
 		else
 		{
-			gsb_form_widget_set_empty (GTK_COMBOFIX (s_sch_dialog->TCategCombo)->entry, TRUE);
+			gsb_form_widget_set_empty (s_sch_dialog->TCategCombo, TRUE);
 			gtk_combofix_set_text (GTK_COMBOFIX (s_sch_dialog->TCategCombo), _("Categories : Sub-categories"));
 		}
 	}
 	else
 	{
-		gsb_form_widget_set_empty (GTK_COMBOFIX (s_sch_dialog->TCategCombo)->entry, TRUE);
+		gsb_form_widget_set_empty (s_sch_dialog->TCategCombo, TRUE);
 		gtk_combofix_set_text (GTK_COMBOFIX (s_sch_dialog->TCategCombo), _("Categories : Sub-categories"));
 	}
 
@@ -1267,24 +1254,15 @@ static DialogScheduled *prefs_widget_loan_dialog_scheduled_init (GtkWidget *page
 		}
 		else
 		{
-			gsb_form_widget_set_empty (GTK_COMBOFIX (s_sch_dialog->TBudgetCombo)->entry, TRUE);
+			gsb_form_widget_set_empty (s_sch_dialog->TBudgetCombo, TRUE);
 			gtk_combofix_set_text (GTK_COMBOFIX (s_sch_dialog->TBudgetCombo), _("Budgetary line"));
 		}
 	}
 	else
 	{
-		gsb_form_widget_set_empty (GTK_COMBOFIX (s_sch_dialog->TBudgetCombo)->entry, TRUE);
+		gsb_form_widget_set_empty (s_sch_dialog->TBudgetCombo, TRUE);
 		gtk_combofix_set_text (GTK_COMBOFIX (s_sch_dialog->TBudgetCombo), _("Budgetary line"));
 	}
-
-	/* Set links for icon state */
-	g_object_set_data (G_OBJECT (s_sch_dialog->TCategCombo),
-					   "linked_entry",
-					   GTK_COMBOFIX (s_sch_dialog->TBudgetCombo)->entry);
-	g_object_set_data (G_OBJECT (s_sch_dialog->TBudgetCombo),
-					   "linked_entry",
-					   GTK_COMBOFIX (s_sch_dialog->TCategCombo)->entry);
-
 
 	/* set others signals */
 	/* callback for combo_account */
@@ -1294,61 +1272,67 @@ static DialogScheduled *prefs_widget_loan_dialog_scheduled_init (GtkWidget *page
 					  w_loan);
 
 	/* callback for first combo data budget */
-	g_signal_connect (G_OBJECT (GTK_COMBOFIX (s_sch_dialog->FBudgetCombo)->entry),
+	entry = gtk_combofix_get_entry (GTK_COMBOFIX (s_sch_dialog->FBudgetCombo));
+	g_signal_connect (G_OBJECT (entry),
 					  "focus-in-event",
 					  G_CALLBACK (prefs_widget_loan_combofix_enter_focus),
 					  NULL);
-    g_signal_connect (G_OBJECT (GTK_COMBOFIX (s_sch_dialog->FBudgetCombo)->entry),
+    g_signal_connect (G_OBJECT (entry),
 					  "focus-out-event",
 					  G_CALLBACK (prefs_widget_loan_combofix_lose_focus),
 					  s_sch_dialog->FBudgetCombo);
 
 	/* callback for second combo data budget */
-	g_signal_connect (G_OBJECT (GTK_COMBOFIX (s_sch_dialog->SBudgetCombo)->entry),
+	entry = gtk_combofix_get_entry (GTK_COMBOFIX (s_sch_dialog->SBudgetCombo));
+	g_signal_connect (G_OBJECT (entry),
 					  "focus-in-event",
 					  G_CALLBACK (prefs_widget_loan_combofix_enter_focus),
 					  NULL);
-    g_signal_connect (G_OBJECT (GTK_COMBOFIX (s_sch_dialog->SBudgetCombo)->entry),
+    g_signal_connect (G_OBJECT (entry),
 					  "focus-out-event",
 					  G_CALLBACK (prefs_widget_loan_combofix_lose_focus),
 					  s_sch_dialog->SBudgetCombo);
 
 	/* callback for third combo data budget */
-	g_signal_connect (G_OBJECT (GTK_COMBOFIX (s_sch_dialog->TBudgetCombo)->entry),
+	entry = gtk_combofix_get_entry (GTK_COMBOFIX (s_sch_dialog->TBudgetCombo));
+	g_signal_connect (G_OBJECT (entry),
 					  "focus-in-event",
 					  G_CALLBACK (prefs_widget_loan_combofix_enter_focus),
 					  NULL);
-    g_signal_connect (G_OBJECT (GTK_COMBOFIX (s_sch_dialog->TBudgetCombo)->entry),
+    g_signal_connect (G_OBJECT (entry),
 					  "focus-out-event",
 					  G_CALLBACK (prefs_widget_loan_combofix_lose_focus),
 					  s_sch_dialog->TBudgetCombo);
 
 	/* callback for second combo data catégories */
-	g_signal_connect (G_OBJECT (GTK_COMBOFIX (s_sch_dialog->SCategCombo)->entry),
+	entry = gtk_combofix_get_entry (GTK_COMBOFIX (s_sch_dialog->SCategCombo));
+	g_signal_connect (G_OBJECT (entry),
 					  "focus-in-event",
 					  G_CALLBACK (prefs_widget_loan_combofix_enter_focus),
 					  NULL);
-    g_signal_connect (G_OBJECT (GTK_COMBOFIX (s_sch_dialog->SCategCombo)->entry),
+    g_signal_connect (G_OBJECT (entry),
 					  "focus-out-event",
 					  G_CALLBACK (prefs_widget_loan_combofix_lose_focus),
 					  s_sch_dialog->SCategCombo);
 
 	/* callback for third combo data catégories */
-	g_signal_connect (G_OBJECT (GTK_COMBOFIX (s_sch_dialog->TCategCombo)->entry),
+	entry = gtk_combofix_get_entry (GTK_COMBOFIX (s_sch_dialog->TCategCombo));
+	g_signal_connect (G_OBJECT (entry),
 					  "focus-in-event",
 					  G_CALLBACK (prefs_widget_loan_combofix_enter_focus),
 					  NULL);
-    g_signal_connect (G_OBJECT (GTK_COMBOFIX (s_sch_dialog->TCategCombo)->entry),
+    g_signal_connect (G_OBJECT (entry),
 					  "focus-out-event",
 					  G_CALLBACK (prefs_widget_loan_combofix_lose_focus),
 					  s_sch_dialog->TCategCombo);
 
 	/* callback for combo data payees */
-	g_signal_connect (G_OBJECT (GTK_COMBOFIX (s_sch_dialog->APayeeCombo)->entry),
+	entry = gtk_combofix_get_entry (GTK_COMBOFIX (s_sch_dialog->APayeeCombo));
+	g_signal_connect (G_OBJECT (entry),
 					  "focus-in-event",
 					  G_CALLBACK (prefs_widget_loan_combofix_enter_focus),
 					  NULL);
-    g_signal_connect (G_OBJECT (GTK_COMBOFIX (s_sch_dialog->APayeeCombo)->entry),
+    g_signal_connect (G_OBJECT (entry),
 					  "focus-out-event",
 					  G_CALLBACK (prefs_widget_loan_combofix_lose_focus),
 					  s_sch_dialog->APayeeCombo);
@@ -1499,7 +1483,7 @@ dialog_return:
 		/* set payment_number */
 		gsb_data_scheduled_set_method_of_payment_number (scheduled_number, associated_payment);
 		/* set budgetary_number */
-		if (!gsb_form_widget_check_empty (GTK_COMBOFIX (s_sch_dialog->FBudgetCombo)->entry))
+		if (!gsb_form_widget_check_empty (s_sch_dialog->FBudgetCombo))
 			gsb_data_budget_set_budget_from_string (scheduled_number,
 													gtk_combofix_get_text (GTK_COMBOFIX (s_sch_dialog->FBudgetCombo)),
 													FALSE);
@@ -1530,12 +1514,12 @@ dialog_return:
 		/* set payment_number */
 		gsb_data_scheduled_set_method_of_payment_number (scheduled_number, associated_payment);
 		/* set budgetary_number */
-		if (!gsb_form_widget_check_empty (GTK_COMBOFIX (s_sch_dialog->SBudgetCombo)->entry))
+		if (!gsb_form_widget_check_empty (s_sch_dialog->SBudgetCombo))
 			gsb_data_budget_set_budget_from_string (scheduled_number,
 													gtk_combofix_get_text (GTK_COMBOFIX (s_sch_dialog->SBudgetCombo)),
 													FALSE);
 		/* set category_number */
-		if (!gsb_form_widget_check_empty (GTK_COMBOFIX (s_sch_dialog->SCategCombo)->entry))
+		if (!gsb_form_widget_check_empty (s_sch_dialog->SCategCombo))
 			gsb_data_category_fill_transaction_by_string (scheduled_number,
 														  gtk_combofix_get_text (GTK_COMBOFIX (s_sch_dialog->SCategCombo)),
 														  FALSE);
@@ -1563,12 +1547,12 @@ dialog_return:
 		/* set payment_number */
 		gsb_data_scheduled_set_method_of_payment_number (scheduled_number, associated_payment);
 		/* set budgetary_number */
-		if (!gsb_form_widget_check_empty (GTK_COMBOFIX (s_sch_dialog->TBudgetCombo)->entry))
+		if (!gsb_form_widget_check_empty (s_sch_dialog->TBudgetCombo))
 			gsb_data_budget_set_budget_from_string (scheduled_number,
 													gtk_combofix_get_text (GTK_COMBOFIX (s_sch_dialog->TBudgetCombo)),
 													FALSE);
 		/* set category_number */
-		if (!gsb_form_widget_check_empty (GTK_COMBOFIX (s_sch_dialog->TCategCombo)->entry))
+		if (!gsb_form_widget_check_empty (s_sch_dialog->TCategCombo))
 			gsb_data_category_fill_transaction_by_string (scheduled_number,
 														  gtk_combofix_get_text (GTK_COMBOFIX (s_sch_dialog->TCategCombo)),
 														  FALSE);
