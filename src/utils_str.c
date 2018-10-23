@@ -799,19 +799,19 @@ gboolean gsb_string_is_trouve (const gchar *payee_name,
 		dialogue_warning ("Function not available");
 	}
 	else
-{
-    gchar **tab_str;
+	{
+    	gchar **tab_str;
 		gboolean is_prefix = FALSE;
 		gboolean is_suffix = FALSE;
 		gboolean trouve = FALSE;
 
 		if (g_strstr_len (needle, -1, "%") == NULL && g_strstr_len (needle, -1, "*") == NULL)
-    {
-        if (my_strcasecmp (payee_name, needle) == 0)
-            return TRUE;
-        else
-            return FALSE;
-    }
+    	{
+			if (my_strcasecmp (payee_name, needle) == 0)
+				return TRUE;
+			else
+				return FALSE;
+    	}
 		if (g_strstr_len (needle, -1, "||"))
 		{
 			gchar **tab_rules;
@@ -824,19 +824,19 @@ gboolean gsb_string_is_trouve (const gchar *payee_name,
 			{
 				/* is_prefix = TRUE si needle ne commence pas par % */
 				if (g_str_has_prefix (tab_rules[i], "%") == FALSE && g_str_has_prefix (tab_rules[i], "*") == FALSE)
-        is_prefix = TRUE;
+        			is_prefix = TRUE;
 
 				if (g_str_has_suffix (tab_rules[i], "%") == FALSE && g_str_has_suffix (tab_rules[i], "*") == FALSE)
-        is_suffix = TRUE;
+        			is_suffix = TRUE;
 
 				tab_str = g_strsplit_set (tab_rules[i], "%*", 0);	/* modèle = %chaine% */
 				trouve = utils_str_payee_name_is_trouve (payee_name, tab_str, is_prefix, is_suffix, ignore_case);
-		g_strfreev (tab_str);
+				g_strfreev (tab_str);
 				if (trouve)
 					break;
-    }
+    		}
 			return trouve;
-    }
+    	}
 		if (g_str_has_prefix (needle, "%") == FALSE && g_str_has_prefix (needle, "*") == FALSE)
 			is_prefix = TRUE;
 
@@ -844,12 +844,12 @@ gboolean gsb_string_is_trouve (const gchar *payee_name,
 		if (g_str_has_suffix (needle, "%") == FALSE && g_str_has_suffix (needle, "*") == FALSE)
 			is_suffix = TRUE;
 
-    tab_str = g_strsplit_set (needle, "%*", 0);
+    	tab_str = g_strsplit_set (needle, "%*", 0);
 		trouve = utils_str_payee_name_is_trouve (payee_name, tab_str, is_prefix, is_suffix, ignore_case);
 		g_strfreev (tab_str);
 
 		return trouve;
-            }
+ 	}
 
     return FALSE;
 }
