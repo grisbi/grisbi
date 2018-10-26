@@ -398,7 +398,6 @@ static void gsb_combo_form_box_changed (GtkComboBox *widget,
 {
 	if (gsb_form_widget_check_empty (entry))
 	{
-		gtk_widget_grab_focus (entry);
 		gsb_form_button_press_event (entry, NULL, NULL);
 		gtk_editable_set_position (GTK_EDITABLE (entry), -1);
 		gsb_form_widget_set_empty (entry, FALSE);
