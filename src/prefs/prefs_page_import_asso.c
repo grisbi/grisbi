@@ -39,6 +39,7 @@
 /*START_INCLUDE*/
 #include "prefs_page_import_asso.h"
 #include "dialog.h"
+#include "gsb_combo_box.h"
 #include "gsb_data_payee.h"
 #include "gsb_file.h"
 #include "gsb_form_widget.h"
@@ -199,7 +200,7 @@ static gboolean prefs_page_import_asso_check_add_button (PrefsPageImportAsso *pa
     {
         const gchar *content;
 
-        content = gtk_combofix_get_text (GTK_COMBOFIX (priv->combo_import_asso_payee));
+        content = gsb_form_widget_combo_entry_get_text (priv->combo_import_asso_payee);
         if (!content || ! strlen (content))
             sensitive = FALSE;
     }
@@ -376,7 +377,7 @@ static void prefs_page_import_asso_del_assoc (GtkWidget *button,
     if (payee_number > 0)
     {
 		gsb_import_associations_remove_assoc (payee_number);
-		gtk_combofix_set_text (GTK_COMBOFIX (priv->combo_import_asso_payee), "");
+		gsb_form_widget_combo_entry_set_text (priv->combo_import_asso_payee, "");
 		gtk_entry_set_text (GTK_ENTRY (priv->entry_import_asso_search_string), "");
 		prefs_page_import_asso_fill_model (GTK_LIST_STORE (model));
 		utils_set_list_store_background_color (priv->treeview_import_asso, ASSO_BACKGROUND_COLOR);
@@ -406,11 +407,11 @@ static void prefs_page_import_asso_add_assoc (GtkWidget *button,
 
 	priv = prefs_page_import_asso_get_instance_private (page);
 
-	payee = g_strstrip (g_strdup (gtk_combofix_get_text (GTK_COMBOFIX (priv->combo_import_asso_payee))));
+	payee = g_strstrip (g_strdup (gsb_form_widget_combo_entry_get_text (priv->combo_import_asso_payee)));
     search_str = g_strstrip (g_strdup (gtk_entry_get_text (GTK_ENTRY (priv->entry_import_asso_search_string))));
     if (!etat && (strlen (payee) > 0 || strlen (search_str) > 0))
 	{
-		gtk_combofix_set_text (GTK_COMBOFIX (priv->combo_import_asso_payee), "");
+		gsb_form_widget_combo_entry_set_text (priv->combo_import_asso_payee, "");
 		gtk_entry_set_text (GTK_ENTRY (priv->entry_import_asso_search_string), "");
 		etat = TRUE;
 
@@ -551,22 +552,18 @@ static void prefs_page_import_asso_setup_import_asso_page (PrefsPageImportAsso *
 
 	/* Create entry liste des tiers */
 	tmp_list = gsb_data_payee_get_name_and_report_list();
-    priv->combo_import_asso_payee = gtk_combofix_new (tmp_list);
-    gtk_combofix_set_text (GTK_COMBOFIX (priv->combo_import_asso_payee), "");
+    priv->combo_import_asso_payee = gsb_combo_form_box_new (tmp_list, NULL, NULL);
+	gsb_data_payee_free_name_and_report_list (tmp_list);
+    gsb_form_widget_combo_entry_set_text (priv->combo_import_asso_payee, "");
     gtk_widget_set_hexpand (priv->combo_import_asso_payee, TRUE);
-
-    gtk_combofix_set_force_text (GTK_COMBOFIX (priv->combo_import_asso_payee),FALSE);
-    gtk_combofix_set_max_items (GTK_COMBOFIX (priv->combo_import_asso_payee), etat.combofix_max_item);
-    gtk_combofix_set_case_sensitive (GTK_COMBOFIX (priv->combo_import_asso_payee),
-									 !w_run->import_asso_case_insensitive);
     gtk_grid_attach (GTK_GRID (priv->grid_import_asso_details), priv->combo_import_asso_payee, 1, 0, 1, 1);
+
+	/* Connect signal combo_import_asso_payee entry */
 	entry = gsb_form_widget_combo_get_entry (priv->combo_import_asso_payee);
     g_signal_connect (G_OBJECT (entry),
 					  "changed",
 					  G_CALLBACK (prefs_page_import_asso_combo_changed),
 					  page);
-
-	g_slist_free_full (tmp_list, (GDestroyNotify) g_slist_free);
 
     /* init entry search string */
     gtk_entry_set_text (GTK_ENTRY (priv->entry_import_asso_search_string), "");
@@ -585,7 +582,7 @@ static void prefs_page_import_asso_setup_import_asso_page (PrefsPageImportAsso *
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
 					  &w_run->import_asso_case_insensitive);
 
-	/* Connect signal checkbutton_import_asso_case_insensitive */
+	/* Connect signal checkbutton_import_asso_use_regex */
     g_signal_connect (priv->checkbutton_import_asso_use_regex,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
