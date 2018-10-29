@@ -848,7 +848,7 @@ gboolean edit_payee ( GtkTreeView * view )
     gsb_data_payee_set_description ( payee_number,
                         gsb_editable_text_view_get_content ( entry_description ));
 
-	/* get search options */
+	/* set search options */
 	gsb_data_payee_set_search_string (payee_number, gtk_entry_get_text (GTK_ENTRY (search_entry)));
 	gsb_data_payee_set_ignore_case (payee_number,
 									gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check_option_1)));
@@ -1038,8 +1038,12 @@ void payees_manage_payees ( void )
 
 		ignore_case = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (g_object_get_data (G_OBJECT (assistant),
 																						  "check_option_3")));
+		gsb_data_payee_set_ignore_case (new_payee_number, ignore_case);
+
 		use_regex = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (g_object_get_data (G_OBJECT (assistant),
 																						  "check_option_4")));
+		gsb_data_payee_set_ignore_case (new_payee_number, use_regex);
+
 		replace_rule= gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (g_object_get_data (G_OBJECT (assistant),
 																						  "check_option_5")));
 		/* on remplace éventuellement la chaine de recherche si le nouveau tiers en a une */
