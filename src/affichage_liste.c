@@ -666,44 +666,44 @@ GtkWidget *onglet_diverse_form_and_lists ( void )
  *
  * \return FALSE
  * */
-static gboolean gsb_transactions_list_display_change_key_length (GtkWidget *entry,
-																 gpointer null)
-{
-	GSettings *settings;
-	const gchar *text;
+//~ static gboolean gsb_transactions_list_display_change_key_length (GtkWidget *entry,
+																 //~ gpointer null)
+//~ {
+	//~ GSettings *settings;
+	//~ const gchar *text;
 
-	settings = grisbi_settings_get_settings (SETTINGS_FORM);
+	//~ settings = grisbi_settings_get_settings (SETTINGS_FORM);
 
-	text = gtk_entry_get_text (GTK_ENTRY (entry));
-	if (text)
-	{
-		gint tmp_int;
+	//~ text = gtk_entry_get_text (GTK_ENTRY (entry));
+	//~ if (text)
+	//~ {
+		//~ gint tmp_int;
 
-		tmp_int = utils_str_atoi (gtk_entry_get_text (GTK_ENTRY (entry)));
-		if (tmp_int < 2)
-		{
-			gtk_entry_set_text (GTK_ENTRY (entry), "");
-			gtk_entry_set_placeholder_text (GTK_ENTRY (entry), _("Default"));
-			conf.combo_minimum_key_length = 1;
-		}
-		else
-		{
-			conf.combo_minimum_key_length = tmp_int;
-		}
-	}
-	else
-	{
-		gtk_entry_set_placeholder_text (GTK_ENTRY (entry), _("Default"));
-		conf.combo_minimum_key_length = 1;
-	}
+		//~ tmp_int = utils_str_atoi (gtk_entry_get_text (GTK_ENTRY (entry)));
+		//~ if (tmp_int < 2)
+		//~ {
+			//~ gtk_entry_set_text (GTK_ENTRY (entry), "");
+			//~ gtk_entry_set_placeholder_text (GTK_ENTRY (entry), _("Default"));
+			//~ conf.combo_minimum_key_length = 1;
+		//~ }
+		//~ else
+		//~ {
+			//~ conf.combo_minimum_key_length = tmp_int;
+		//~ }
+	//~ }
+	//~ else
+	//~ {
+		//~ gtk_entry_set_placeholder_text (GTK_ENTRY (entry), _("Default"));
+		//~ conf.combo_minimum_key_length = 1;
+	//~ }
 
-	g_settings_set_int (G_SETTINGS (settings),
-						"combo-minimum-key-length",
-						conf.combo_minimum_key_length);
-	gsb_form_create_widgets ();
+	//~ g_settings_set_int (G_SETTINGS (settings),
+						//~ "combo-minimum-key-length",
+						//~ conf.combo_minimum_key_length);
+	//~ gsb_form_create_widgets ();
 
-	return FALSE;
-}
+	//~ return FALSE;
+//~ }
 
 /**
  * cette fonction sert à positionner le bouton ignore accents en fonction de combofix_case_sensitive
@@ -812,10 +812,12 @@ static void onglet_form_completion_update_combo_completion (GtkWidget *checkbutt
 GtkWidget *onglet_form_completion ( void )
 {
     GtkWidget *vbox_pref;
-    GtkWidget *hbox, *label, *entry;
+    //~ GtkWidget *entry;
+    GtkWidget *hbox;
+    GtkWidget *label;
     GtkWidget *entry_max_items;
     GtkWidget *button;
-    GtkWidget *button_1;
+    //~ GtkWidget *button_1;
     //~ GtkWidget *button_2;
 	GtkWidget *button_case_sensitive;
 	GtkWidget *button_ignore_accents;
@@ -926,18 +928,18 @@ GtkWidget *onglet_form_completion ( void )
 		gtk_widget_set_sensitive (entry_max_items, FALSE);
 
     /* new options for completion */
-	label = gtk_label_new (_("Using the completion of gtk"));
-	gtk_widget_set_halign (label, GTK_ALIGN_START);
-	gtk_box_pack_start (GTK_BOX (vbox_pref), label, FALSE, FALSE, 0);
+	//~ label = gtk_label_new (_("Using the completion of gtk"));
+	//~ gtk_widget_set_halign (label, GTK_ALIGN_START);
+	//~ gtk_box_pack_start (GTK_BOX (vbox_pref), label, FALSE, FALSE, 0);
 
-    hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
-    gtk_box_pack_start (GTK_BOX (vbox_pref), hbox, FALSE, FALSE, 0);
+    //~ hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
+    //~ gtk_box_pack_start (GTK_BOX (vbox_pref), hbox, FALSE, FALSE, 0);
 
-	button_1 = utils_prefs_automem_checkbutton_blue_new (_("Use gtk completion for payees"),
-														 &conf.combo_payee_use_gtk_completion,
-														 G_CALLBACK (onglet_form_completion_update_combo_completion),
-													   	 GINT_TO_POINTER (0));
-    gtk_box_pack_start (GTK_BOX (hbox), button_1, FALSE, FALSE, 20);
+	//~ button_1 = utils_prefs_automem_checkbutton_blue_new (_("Use gtk completion for payees"),
+														 //~ &conf.combo_payee_use_gtk_completion,
+														 //~ G_CALLBACK (onglet_form_completion_update_combo_completion),
+													   	 //~ GINT_TO_POINTER (0));
+    //~ gtk_box_pack_start (GTK_BOX (hbox), button_1, FALSE, FALSE, 20);
 
     //~ hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
     //~ gtk_box_pack_start (GTK_BOX (vbox_pref), hbox, FALSE, FALSE, 0);
@@ -949,9 +951,9 @@ GtkWidget *onglet_form_completion ( void )
     //~ gtk_box_pack_start (GTK_BOX (hbox), button_2, FALSE, FALSE, 20);
 	//~ gtk_widget_set_sensitive (button_2, FALSE);
 
-	g_object_set_data (G_OBJECT (button_1), "button_ignore_accents", button_ignore_accents);
+	//~ g_object_set_data (G_OBJECT (button_1), "button_ignore_accents", button_ignore_accents);
 	//~ g_object_set_data (G_OBJECT (button_2), "button_ignore_accents", button_ignore_accents);
-	g_object_set_data (G_OBJECT (button_1), "entry_max_items", entry_max_items);
+	//~ g_object_set_data (G_OBJECT (button_1), "entry_max_items", entry_max_items);
 	//~ g_object_set_data (G_OBJECT (button_2), "entry_max_items", entry_max_items);
 
 	if (etat.combofix_case_sensitive
@@ -965,30 +967,30 @@ GtkWidget *onglet_form_completion ( void )
 	}
 
 	/* set_minimum_key_length  */
-    hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
-    gtk_box_pack_start (GTK_BOX (vbox_pref), hbox, FALSE, FALSE, 0);
+    //~ hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
+    //~ gtk_box_pack_start (GTK_BOX (vbox_pref), hbox, FALSE, FALSE, 0);
 
-    label = gtk_label_new (_("Minimum length of the search key in characters (first by default): "));
-    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 20);
+    //~ label = gtk_label_new (_("Minimum length of the search key in characters (first by default): "));
+    //~ gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 20);
 
-    entry = gtk_entry_new ();
-    gtk_widget_set_size_request (entry, 30, -1);
-	if (conf.combo_minimum_key_length > 1)
-	{
-    	tmp_str = utils_str_itoa (conf.combo_minimum_key_length);
-		gtk_entry_set_text (GTK_ENTRY (entry), tmp_str);
-	}
-	else
-	{
-		tmp_str = g_strdup (_("Default"));
-    	gtk_entry_set_placeholder_text (GTK_ENTRY (entry), tmp_str);
-	}
-    g_free (tmp_str);
-    g_signal_connect (G_OBJECT (entry),
-                      "changed",
-                      G_CALLBACK (gsb_transactions_list_display_change_key_length),
-                      GINT_TO_POINTER (1));
-    gtk_box_pack_start (GTK_BOX (hbox), entry, FALSE, FALSE, 0);
+    //~ entry = gtk_entry_new ();
+    //~ gtk_widget_set_size_request (entry, 30, -1);
+	//~ if (conf.combo_minimum_key_length > 1)
+	//~ {
+    	//~ tmp_str = utils_str_itoa (conf.combo_minimum_key_length);
+		//~ gtk_entry_set_text (GTK_ENTRY (entry), tmp_str);
+	//~ }
+	//~ else
+	//~ {
+		//~ tmp_str = g_strdup (_("Default"));
+    	//~ gtk_entry_set_placeholder_text (GTK_ENTRY (entry), tmp_str);
+	//~ }
+    //~ g_free (tmp_str);
+    //~ g_signal_connect (G_OBJECT (entry),
+                      //~ "changed",
+                      //~ G_CALLBACK (gsb_transactions_list_display_change_key_length),
+                      //~ GINT_TO_POINTER (1));
+    //~ gtk_box_pack_start (GTK_BOX (hbox), entry, FALSE, FALSE, 0);
 
 	/* set visibility */
     if ( !gsb_data_account_get_accounts_amount () )

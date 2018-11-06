@@ -3051,17 +3051,17 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
 		{
 			const gchar *tmp_name;
 
-			if (conf.combo_payee_use_gtk_completion)
-			{
-				GtkWidget *entry;
+			//~ if (conf.combo_payee_use_gtk_completion)
+			//~ {
+				//~ GtkWidget *entry;
 
-				entry = gsb_combo_form_box_get_entry (GTK_COMBO_BOX (element->element_widget));
-				tmp_name = gtk_entry_get_text (GTK_ENTRY (entry));
-			}
-			else
-			{
+				//~ entry = gsb_combo_form_box_get_entry (GTK_COMBO_BOX (element->element_widget));
+				//~ tmp_name = gtk_entry_get_text (GTK_ENTRY (entry));
+			//~ }
+			//~ else
+			//~ {
 				tmp_name = gtk_combofix_get_text (GTK_COMBOFIX (element -> element_widget));
-			}
+			//~ }
 			gsb_data_mix_set_party_number (transaction_number,
 										   gsb_data_payee_get_number_by_name (tmp_name, TRUE),
 										   is_transaction );
