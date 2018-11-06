@@ -34,6 +34,7 @@
 /*START_INCLUDE*/
 #include "gtk_combofix.h"
 #include "gsb_form.h"
+#include "structures.h"
 #include "utils_buttons.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -1998,6 +1999,39 @@ void gtk_combofix_set_text (GtkComboFix *combofix,
                         combofix);
 }
 
+
+/**
+ * set the properties of combofix
+ *
+ * \param 				combofix
+ * \param				type of the combofix : 0 : payee, 1 : category, 2 : budget
+ *
+ * \return
+ **/
+void gtk_combofix_set_properties (GtkWidget *combofix,
+								  gint type)
+{
+    GtkComboFixPrivate *priv;
+
+    g_return_if_fail (combofix);
+    g_return_if_fail (GTK_IS_COMBOFIX (combofix));
+
+    priv = gtk_combofix_get_instance_private (GTK_COMBOFIX (combofix));
+
+	if (type)
+	{
+		priv->force = etat.combofix_force_category;
+		priv->mixed_sort = etat.combofix_mixed_sort;
+	}
+	else
+	{
+		priv->force = etat.combofix_force_payee;
+		priv->mixed_sort = FALSE;
+	}
+    priv->max_items = etat.combofix_max_item;
+    priv->case_sensitive = etat.combofix_case_sensitive;
+
+}
 
 /**
  * set the flag to force/unforce the text in the entry

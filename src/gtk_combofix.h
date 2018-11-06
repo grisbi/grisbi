@@ -53,6 +53,8 @@ GtkWidget *		gtk_combofix_new_with_properties 		(GSList *list,
 							                             gboolean case_sensitive,
 							                             gboolean mixed_sort);
 GtkWidget *		gtk_combofix_get_entry					(GtkComboFix *combofix);
+void			gtk_combofix_set_properties				(GtkWidget *combofix,
+														 gint type);
 
 /* text */
 const gchar *	gtk_combofix_get_text					(GtkComboFix *combofix);
