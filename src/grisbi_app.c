@@ -983,10 +983,9 @@ static void grisbi_app_activate (GApplication *application)
 
     /* set the CSS properties */
     if (css_provider)
-        gtk_style_context_add_provider_for_screen (gdk_display_get_default_screen (
-                                                    gdk_display_get_default ()),
-                                                    GTK_STYLE_PROVIDER (css_provider),
-                                                    GTK_STYLE_PROVIDER_PRIORITY_USER);
+        gtk_style_context_add_provider_for_screen (gdk_screen_get_default (),
+                                                   GTK_STYLE_PROVIDER (css_provider),
+                                                   GTK_STYLE_PROVIDER_PRIORITY_USER);
 
     /* lance un assistant si première utilisation */
     if (conf.first_use)
