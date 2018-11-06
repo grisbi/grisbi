@@ -82,7 +82,7 @@ static gint budgetary_line_transaction_div_id (gint transaction_number)
 
 static MetatreeInterface _budgetary_interface = {
     2,
-    2,
+    METATREE_BUDGET,
     budgetary_line_tree_currency,
     N_("Budgetary line"),
     N_("budgetary line"),

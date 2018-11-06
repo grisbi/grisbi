@@ -73,7 +73,7 @@ static gint payee_transaction_div_id (gint transaction_number);
 
 static MetatreeInterface _payee_interface = {
     1,
-    0,
+    METATREE_PAYEE,
     payee_tree_currency,
     N_("Payee"),
     N_("payee"),

@@ -87,6 +87,7 @@ extern struct _GrisbiWinEtat etat;
 typedef enum 	_ComboColumns			ComboColumns;
 typedef enum 	_GsbTransactionType		GsbTransactionType;
 typedef enum 	_GsbTitleType	 		GsbTitleType;
+typedef enum 	_MetatreeContent		MetatreeContent;
 typedef enum 	_SettingsSchema 		SettingsSchema;
 
 typedef struct _GrisbiWinEtat			GrisbiWinEtat;
@@ -473,4 +474,10 @@ enum _ComboColumns
     COMBO_N_COLUMNS
 };
 
+enum _MetatreeContent				/* content of the metatree : 0 : payee, 1 : category, 2 : budget */
+{
+	METATREE_PAYEE,
+	METATREE_CATEGORY,
+	METATREE_BUDGET
+};
 #endif

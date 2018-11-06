@@ -61,7 +61,7 @@ static gint category_transaction_div_id ( gint transaction_number );
 
 static MetatreeInterface _category_interface = {
     2,
-    1,
+    METATREE_CATEGORY,
     category_tree_currency,
     N_("Category"),
     N_("category"),

@@ -1772,7 +1772,7 @@ gboolean find_destination_blob ( MetatreeInterface * iface,
     gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), hbox,
 			 FALSE, FALSE, 0 );
 
-    if ( iface -> content == 0 )
+    if ( iface -> content == METATREE_PAYEE)
         tmpstr = g_strdup_printf ( _("Transfer transactions to payee") );
     else
         tmpstr = g_strdup_printf (_("Transfer transactions to %s"), _(iface -> meta_name));
@@ -1872,7 +1872,7 @@ gboolean find_destination_blob ( MetatreeInterface * iface,
     gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), hbox,
 			 FALSE, FALSE, 0 );
 
-    if ( iface -> content == 0 )
+    if ( iface -> content == METATREE_PAYEE)
         tmpstr = g_strdup_printf( _("Just remove this payee.") );
     else if ( !sub_division )
 	    tmpstr = g_strdup_printf(_("Just remove this %s."), _(iface -> meta_name) );
