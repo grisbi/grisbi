@@ -38,6 +38,7 @@
 #include "gsb_autofunc.h"
 #include "gsb_automem.h"
 #include "gsb_data_budget.h"
+#include "gsb_data_category.h"
 #include "gsb_data_form.h"
 #include "gsb_data_transaction.h"
 #include "gsb_file.h"
@@ -412,9 +413,15 @@ gboolean budgetary_line_drag_data_get ( GtkTreeDragSource * drag_source, GtkTree
 gboolean gsb_budget_update_combofix ( gboolean force )
 {
     if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_BUDGET ) || force )
-        gtk_combofix_set_list ( GTK_COMBOFIX ( gsb_form_widget_get_widget (
-                        TRANSACTION_FORM_BUDGET ) ),
-                        gsb_data_budget_get_name_list ( TRUE, TRUE ) );
+    {
+		GtkWidget *widget;
+    	GSList *tmp_list;
+
+		widget = gsb_form_widget_get_widget (TRANSACTION_FORM_BUDGET);
+		tmp_list = gsb_data_budget_get_name_list (TRUE, TRUE);
+        gtk_combofix_set_list (GTK_COMBOFIX (widget), tmp_list);
+		gsb_data_categorie_free_name_list (tmp_list);
+	}
 
     return FALSE;
 }

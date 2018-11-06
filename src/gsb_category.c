@@ -281,9 +281,13 @@ gboolean gsb_category_update_combofix ( gboolean force )
 {
     if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_CATEGORY ) || force )
     {
-        gtk_combofix_set_list ( GTK_COMBOFIX ( gsb_form_widget_get_widget (
-                        TRANSACTION_FORM_CATEGORY ) ),
-                        gsb_data_category_get_name_list ( TRUE, TRUE, TRUE, TRUE ) );
+		GtkWidget *widget;
+    	GSList *tmp_list;
+
+		widget = gsb_form_widget_get_widget (TRANSACTION_FORM_CATEGORY);
+		tmp_list = gsb_data_category_get_name_list (TRUE, TRUE, TRUE, TRUE);
+        gtk_combofix_set_list (GTK_COMBOFIX (widget), tmp_list);
+		gsb_data_categorie_free_name_list (tmp_list);
     }
 
     return FALSE;
