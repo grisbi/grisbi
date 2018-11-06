@@ -1017,43 +1017,19 @@ gboolean gsb_transactions_list_display_update_combofix ( void )
 {
     GtkWidget *combofix;
 
-    combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_PARTY );
-    if (combofix && GTK_IS_COMBOFIX (combofix))
-    {
-	gtk_combofix_set_force_text ( GTK_COMBOFIX (combofix),
-				      etat.combofix_force_payee );
-	gtk_combofix_set_max_items ( GTK_COMBOFIX (combofix),
-				     etat.combofix_max_item );
-	gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (combofix),
-					  etat.combofix_case_sensitive );
-    }
+	combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_PARTY );
+	if (combofix && GTK_IS_COMBOFIX (combofix))
+		gtk_combofix_set_properties (combofix, METATREE_PAYEE);
 
     combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_CATEGORY );
-    if (combofix && GTK_IS_COMBOFIX (combofix))
-    {
-	gtk_combofix_set_force_text ( GTK_COMBOFIX (combofix),
-				      etat.combofix_force_category );
-	gtk_combofix_set_max_items ( GTK_COMBOFIX (combofix),
-				     etat.combofix_max_item );
-	gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (combofix),
-					  etat.combofix_case_sensitive );
-	gtk_combofix_set_mixed_sort ( GTK_COMBOFIX (combofix),
-				      etat.combofix_mixed_sort );
-    }
+	if (combofix && GTK_IS_COMBOFIX (combofix))
+		gtk_combofix_set_properties (combofix, METATREE_CATEGORY);
 
     combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_BUDGET );
-    if (combofix && GTK_IS_COMBOFIX (combofix))
-    {
-	gtk_combofix_set_force_text ( GTK_COMBOFIX (combofix),
-				      etat.combofix_force_category );
-	gtk_combofix_set_max_items ( GTK_COMBOFIX (combofix),
-				     etat.combofix_max_item );
-	gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (combofix),
-					  etat.combofix_case_sensitive );
-	gtk_combofix_set_mixed_sort ( GTK_COMBOFIX (combofix),
-				      etat.combofix_mixed_sort );
-    }
-    return FALSE;
+	if (combofix && GTK_IS_COMBOFIX (combofix))
+		gtk_combofix_set_properties (combofix, METATREE_BUDGET);
+
+	return FALSE;
 }
 
 /**

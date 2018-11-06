@@ -473,15 +473,13 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
     column ++;
 
     element_number = TRANSACTION_FORM_PARTY;
-    widget = gtk_combofix_new (
-                        gsb_data_payee_get_name_and_report_list ( ) );
-    gtk_combofix_set_force_text ( GTK_COMBOFIX (widget), TRUE ); /* on ne peut pas créer d'item */
-    gtk_combofix_set_max_items ( GTK_COMBOFIX (widget),
-					 etat.combofix_max_item );
-    gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (widget),
-					      etat.combofix_case_sensitive );
-    gtk_combofix_set_mixed_sort ( GTK_COMBOFIX (widget),
-					  FALSE );
+	tmp_list = gsb_data_payee_get_name_and_report_list ();
+	widget = gtk_combofix_new_with_properties (tmp_list,
+											   TRUE,							/* on ne peut pas créer d'item */
+											   etat.combofix_max_item,
+											   etat.combofix_case_sensitive,
+											   FALSE);
+	gsb_data_payee_free_name_and_report_list (tmp_list);
     gtk_widget_show ( widget );
     gtk_grid_attach (GTK_GRID (table), widget, column, row, 1, 1);
     element = g_malloc0 ( sizeof ( struct_element ) );
@@ -537,15 +535,12 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
 
     element_number = TRANSACTION_FORM_CATEGORY;
 	tmp_list = gsb_data_category_get_name_list (TRUE, TRUE, TRUE, TRUE);
-	widget = gtk_combofix_new (tmp_list);
+	widget = gtk_combofix_new_with_properties (tmp_list,
+											   TRUE,							/* on ne peut pas créer d'item */
+											   etat.combofix_max_item,
+											   etat.combofix_case_sensitive,
+											   etat.combofix_mixed_sort);
 	gsb_data_categorie_free_name_list (tmp_list);
-    gtk_combofix_set_force_text ( GTK_COMBOFIX (widget), TRUE ); /* on ne peut pas créer d'item */
-    gtk_combofix_set_max_items ( GTK_COMBOFIX (widget),
-					 etat.combofix_max_item );
-    gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (widget),
-					      etat.combofix_case_sensitive );
-    gtk_combofix_set_mixed_sort ( GTK_COMBOFIX (widget),
-					  etat.combofix_mixed_sort );
     gtk_widget_show ( widget );
     gtk_grid_attach (GTK_GRID (table), widget, column, row, 1, 1);
     element = g_malloc0 ( sizeof ( struct_element ) );
@@ -573,15 +568,13 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
     row ++;
 
     element_number = TRANSACTION_FORM_BUDGET;
-    widget = gtk_combofix_new (
-                        gsb_data_budget_get_name_list (TRUE, TRUE));
-    gtk_combofix_set_force_text ( GTK_COMBOFIX (widget), TRUE ); /* on ne peut pas créer d'item */
-    gtk_combofix_set_max_items ( GTK_COMBOFIX (widget),
-					 etat.combofix_max_item );
-    gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (widget),
-					      etat.combofix_case_sensitive );
-    gtk_combofix_set_mixed_sort ( GTK_COMBOFIX (widget),
-					  etat.combofix_mixed_sort );
+	tmp_list = gsb_data_budget_get_name_list (TRUE, TRUE);
+	widget = gtk_combofix_new_with_properties (tmp_list,
+											   TRUE,							/* on ne peut pas créer d'item */
+											   etat.combofix_max_item,
+											   etat.combofix_case_sensitive,
+											   etat.combofix_mixed_sort);
+	gsb_data_categorie_free_name_list (tmp_list);
     gtk_widget_show ( widget );
     gtk_grid_attach (GTK_GRID (table), widget, column, row, 1, 1);
     element = g_malloc0 ( sizeof ( struct_element ) );
@@ -608,7 +601,7 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
 
         element_list = tmp_list -> data;
 
-        widget = element_list->element_widget;
+		widget = element_list->element_widget;
         if ( GTK_IS_ENTRY ( widget ))
         {
             g_signal_connect ( G_OBJECT ( widget ),
@@ -630,21 +623,25 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
         }
         else
         {
-            if ( GTK_IS_COMBOFIX ( widget ))
+			GtkWidget *entry = NULL;
+
+			entry = gsb_form_widget_combo_get_entry (widget);
+
+            if (GTK_IS_ENTRY (entry))
             {
-                g_signal_connect ( G_OBJECT ( GTK_COMBOFIX ( widget ) -> entry ),
+                g_signal_connect (G_OBJECT (entry),
                            "focus-in-event",
                            G_CALLBACK ( bet_form_entry_get_focus ),
                            dialog );
-                g_signal_connect ( G_OBJECT ( GTK_COMBOFIX (widget ) -> entry ),
+                g_signal_connect (G_OBJECT (entry),
                            "focus-out-event",
                            G_CALLBACK ( bet_form_entry_lose_focus ),
                            GINT_TO_POINTER ( element_list->element_number ) );
-                g_signal_connect ( G_OBJECT ( GTK_COMBOFIX (widget ) -> entry ),
+                g_signal_connect (G_OBJECT (entry),
                            "button-press-event",
                            G_CALLBACK ( bet_form_button_press_event ),
                            GINT_TO_POINTER ( element_list->element_number ) );
-                g_signal_connect ( G_OBJECT ( GTK_COMBOFIX (widget ) -> entry ),
+                g_signal_connect (G_OBJECT (entry),
                            "key-press-event",
                            G_CALLBACK ( bet_form_key_press_event ),
                            GINT_TO_POINTER ( element_list->element_number ) );
@@ -755,10 +752,8 @@ gboolean bet_form_clean ( gint account_number )
                 break;
 
             case TRANSACTION_FORM_PARTY:
-                gsb_form_widget_set_empty ( GTK_COMBOFIX ( element -> element_widget ) -> entry,
-                            TRUE );
-                gtk_combofix_set_text ( GTK_COMBOFIX ( element -> element_widget ),
-                            _("Payee") );
+                gsb_form_widget_set_empty (element -> element_widget, TRUE);
+                gtk_combofix_set_text ( GTK_COMBOFIX (element -> element_widget), ("Payee"));
                 break;
 
             case TRANSACTION_FORM_DEBIT:
@@ -776,16 +771,14 @@ gboolean bet_form_clean ( gint account_number )
                 break;
 
             case TRANSACTION_FORM_CATEGORY:
-                gsb_form_widget_set_empty ( GTK_COMBOFIX ( element -> element_widget ) -> entry,
-                            TRUE );
+               gsb_form_widget_set_empty (element -> element_widget, TRUE);
                 gtk_combofix_set_text ( GTK_COMBOFIX ( element -> element_widget ),
                             _("Categories : Sub-categories") );
                 break;
 
             case TRANSACTION_FORM_BUDGET:
-                gsb_form_widget_set_empty ( GTK_COMBOFIX ( element -> element_widget ) -> entry,
-                            TRUE );
-                gtk_combofix_set_text ( GTK_COMBOFIX ( element -> element_widget ),
+					gsb_form_widget_set_empty (element -> element_widget, TRUE);
+					gtk_combofix_set_text ( GTK_COMBOFIX ( element -> element_widget ),
                             _("Budgetary line") );
                 break;
 
@@ -876,10 +869,10 @@ gboolean bet_form_entry_get_focus ( GtkWidget *entry,
     /* the entry can be a combofix or a real entry */
     if (GTK_IS_COMBOFIX ( entry ))
     {
-        if ( gsb_form_widget_check_empty (GTK_COMBOFIX (entry) -> entry))
+        if (gsb_form_widget_check_empty (entry))
         {
             gtk_combofix_set_text ( GTK_COMBOFIX (entry), "" );
-            gsb_form_widget_set_empty ( GTK_COMBOFIX (entry) -> entry, FALSE );
+            gsb_form_widget_set_empty (entry, FALSE);
         }
     }
     else
@@ -1399,7 +1392,15 @@ gboolean bet_form_key_press_event ( GtkWidget *widget,
         if ( widget_suivant )
         {
             if ( GTK_IS_COMBOFIX ( widget_suivant ) )
-                gtk_widget_grab_focus ( GTK_COMBOFIX ( widget_suivant ) -> entry );
+			{
+				GtkWidget *entry;
+
+				entry = gtk_combofix_get_entry (GTK_COMBOFIX ( widget_suivant ));
+				if (entry)
+					gtk_widget_grab_focus (entry);
+				else
+					gtk_widget_grab_focus (widget_suivant);
+			}
             else
                 gtk_widget_grab_focus ( widget_suivant );
 
@@ -1739,9 +1740,9 @@ gboolean bet_future_set_form_data_from_line ( gint account_number,
     tmp_str = gsb_data_payee_get_name ( scheduled -> party_number, TRUE );
     if ( tmp_str && strlen ( tmp_str ) )
     {
-        gsb_form_widget_set_empty ( GTK_COMBOFIX ( widget ) -> entry, FALSE );
+        gsb_form_widget_set_empty (widget, FALSE);
         gtk_combofix_set_text ( GTK_COMBOFIX ( widget ), tmp_str );
-        gtk_editable_set_position ( GTK_EDITABLE ( GTK_COMBOFIX ( widget ) -> entry ), 0 );
+        gtk_editable_set_position (GTK_EDITABLE (gtk_combofix_get_entry (GTK_COMBOFIX (widget))), 0);
     }
 
     if ( scheduled -> amount.mantissa < 0 )
@@ -1763,7 +1764,7 @@ gboolean bet_future_set_form_data_from_line ( gint account_number,
     if ( scheduled -> category_number > 0 )
     {
         widget = bet_form_widget_get_widget ( TRANSACTION_FORM_CATEGORY );
-        gsb_form_widget_set_empty ( GTK_COMBOFIX ( widget ) -> entry, FALSE );
+        gsb_form_widget_set_empty (widget, FALSE);
         gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
                         gsb_data_category_get_name ( scheduled -> category_number,
                         scheduled -> sub_category_number, NULL) );
@@ -1773,7 +1774,7 @@ gboolean bet_future_set_form_data_from_line ( gint account_number,
         gchar *tmp_str_2;
 
         widget = bet_form_widget_get_widget ( TRANSACTION_FORM_CATEGORY );
-        gsb_form_widget_set_empty ( GTK_COMBOFIX ( widget ) -> entry, FALSE );
+        gsb_form_widget_set_empty (widget, FALSE);
         tmp_str_2 = g_strconcat ( _("Transfer"), " : ",
                         gsb_data_account_get_name ( scheduled -> account_transfert ),
                         NULL );
@@ -1785,7 +1786,7 @@ gboolean bet_future_set_form_data_from_line ( gint account_number,
     if ( scheduled -> budgetary_number > 0 )
     {
         widget = bet_form_widget_get_widget ( TRANSACTION_FORM_BUDGET );
-        gsb_form_widget_set_empty ( GTK_COMBOFIX ( widget ) -> entry, FALSE );
+        gsb_form_widget_set_empty (widget, FALSE);
         gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
                         gsb_data_budget_get_name (  scheduled -> budgetary_number,
                         scheduled -> sub_budgetary_number, NULL ) );
@@ -2216,6 +2217,7 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
     GtkWidget *tree_view;
     GtkWidget *label;
     GtkWidget *icon;
+	GtkWidget *entry;
     GSList *tmp_list;
 
     /* Create the dialog */
@@ -2280,29 +2282,28 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
     icon = utils_get_image_with_etat ( GTK_MESSAGE_ERROR, FALSE, _("This field is required"), NULL );
     gtk_box_pack_start ( GTK_BOX ( hbox ), icon, FALSE, FALSE, 0 );
 
-    combo = gtk_combofix_new ( gsb_data_payee_get_name_and_report_list () );
-    gtk_combofix_set_force_text ( GTK_COMBOFIX ( combo ),
-                        etat.combofix_force_category );
-    gtk_combofix_set_max_items ( GTK_COMBOFIX ( combo ),
-                        etat.combofix_max_item );
-    gtk_combofix_set_case_sensitive ( GTK_COMBOFIX ( combo ),
-                        etat.combofix_case_sensitive );
-    gtk_combofix_set_mixed_sort ( GTK_COMBOFIX ( combo ),
-                        etat.combofix_mixed_sort );
+	tmp_list = gsb_data_payee_get_name_and_report_list ();
+	combo = gtk_combofix_new_with_properties (tmp_list,
+											   etat.combofix_force_payee,
+											   etat.combofix_max_item,
+											   etat.combofix_case_sensitive,
+											   FALSE);
+	gsb_data_payee_free_name_and_report_list (tmp_list);
 
     gtk_box_pack_start ( GTK_BOX ( hbox ), combo, TRUE, TRUE, 0 );
-    gsb_form_widget_set_empty ( GTK_COMBOFIX ( combo ) -> entry, TRUE );
+    gsb_form_widget_set_empty (combo, TRUE);
     gtk_combofix_set_text ( GTK_COMBOFIX ( combo ), _("Payee") );
 
-    g_object_set_data ( G_OBJECT ( GTK_COMBOFIX ( combo ) -> entry ), "combo", combo );
+	entry = gtk_combofix_get_entry (GTK_COMBOFIX (combo));
+    g_object_set_data ( G_OBJECT ( entry), "combo", combo );
     g_object_set_data ( G_OBJECT ( combo ), "icon", icon );
     g_object_set_data ( G_OBJECT ( dialog ), "bet_transfert_card_payee_combo", combo );
 
-    g_signal_connect ( G_OBJECT ( GTK_COMBOFIX ( combo ) -> entry ),
+    g_signal_connect ( G_OBJECT (entry ),
                         "focus-in-event",
                         G_CALLBACK ( bet_form_entry_get_focus ),
                         NULL );
-    g_signal_connect ( G_OBJECT ( GTK_COMBOFIX ( combo ) -> entry ),
+    g_signal_connect ( G_OBJECT (entry ),
                         "focus-out-event",
                         G_CALLBACK ( bet_transfert_entry_lose_focus ),
                         GINT_TO_POINTER ( TRANSACTION_FORM_PARTY ) );
@@ -2315,57 +2316,57 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
 
     gtk_box_pack_start ( GTK_BOX ( hbox ), icon, FALSE, FALSE, 0 );
 
+	/* set categories */
 	tmp_list = gsb_data_category_get_name_list (TRUE, TRUE, TRUE, TRUE);
-	combo = gtk_combofix_new (tmp_list);
+	combo = gtk_combofix_new_with_properties (tmp_list,
+											   etat.combofix_force_category,
+											   etat.combofix_max_item,
+											   etat.combofix_case_sensitive,
+											   etat.combofix_mixed_sort);
 	gsb_data_categorie_free_name_list (tmp_list);
-    gtk_combofix_set_force_text ( GTK_COMBOFIX ( combo ),
-                        etat.combofix_force_category );
-    gtk_combofix_set_max_items ( GTK_COMBOFIX ( combo ),
-                        etat.combofix_max_item );
-    gtk_combofix_set_case_sensitive ( GTK_COMBOFIX ( combo ),
-                        etat.combofix_case_sensitive );
-    gtk_combofix_set_mixed_sort ( GTK_COMBOFIX ( combo ),
-                        etat.combofix_mixed_sort );
+
     gtk_box_pack_start ( GTK_BOX ( hbox ), combo, FALSE, FALSE, 0 );
 
-    gsb_form_widget_set_empty ( GTK_COMBOFIX ( combo ) -> entry, TRUE );
+    gsb_form_widget_set_empty (combo, TRUE);
     gtk_combofix_set_text ( GTK_COMBOFIX ( combo ), _("Categories : Sub-categories") );
-    g_object_set_data ( G_OBJECT ( GTK_COMBOFIX ( combo ) -> entry ), "combo", combo );
+
+	entry = gtk_combofix_get_entry (GTK_COMBOFIX (combo));
+    g_object_set_data ( G_OBJECT ( entry), "combo", combo );
     g_object_set_data ( G_OBJECT ( combo ), "icon", icon );
     g_object_set_data ( G_OBJECT ( dialog ), "bet_transfert_card_category_combo", combo );
 
-    g_signal_connect ( G_OBJECT ( GTK_COMBOFIX ( combo ) -> entry ),
+    g_signal_connect ( G_OBJECT (entry ),
                         "focus-in-event",
                         G_CALLBACK ( bet_form_entry_get_focus ),
                         NULL );
-    g_signal_connect ( G_OBJECT ( GTK_COMBOFIX ( combo ) -> entry ),
+    g_signal_connect ( G_OBJECT (entry ),
                         "focus-out-event",
                         G_CALLBACK ( bet_transfert_entry_lose_focus ),
                         GINT_TO_POINTER ( TRANSACTION_FORM_CATEGORY ) );
 
-    combo = gtk_combofix_new (
-                        gsb_data_budget_get_name_list ( TRUE, TRUE ) );
-    gtk_combofix_set_force_text ( GTK_COMBOFIX ( combo ),
-                        etat.combofix_force_category );
-    gtk_combofix_set_max_items ( GTK_COMBOFIX ( combo ),
-                        etat.combofix_max_item );
-    gtk_combofix_set_case_sensitive ( GTK_COMBOFIX ( combo ),
-                        etat.combofix_case_sensitive );
-    gtk_combofix_set_mixed_sort ( GTK_COMBOFIX ( combo ),
-                        etat.combofix_mixed_sort );
+	/* set budget */
+	tmp_list = gsb_data_budget_get_name_list (TRUE, TRUE);
+	combo = gtk_combofix_new_with_properties (tmp_list,
+											   etat.combofix_force_category,
+											   etat.combofix_max_item,
+											   etat.combofix_case_sensitive,
+                        					   etat.combofix_mixed_sort );
+	gsb_data_categorie_free_name_list (tmp_list);
     gtk_box_pack_start ( GTK_BOX ( hbox ), combo, FALSE, FALSE, 0 );
 
-    gsb_form_widget_set_empty ( GTK_COMBOFIX ( combo ) -> entry, TRUE );
+    gsb_form_widget_set_empty (combo, TRUE);
     gtk_combofix_set_text ( GTK_COMBOFIX ( combo ), _("Budgetary line") );
-    g_object_set_data ( G_OBJECT ( GTK_COMBOFIX ( combo ) -> entry ), "combo", combo );
+
+	entry = gtk_combofix_get_entry (GTK_COMBOFIX (combo));
+    g_object_set_data ( G_OBJECT ( entry), "combo", combo );
     g_object_set_data ( G_OBJECT ( combo ), "icon", icon );
     g_object_set_data ( G_OBJECT ( dialog ), "bet_transfert_card_budget_combo", combo );
 
-    g_signal_connect ( G_OBJECT ( GTK_COMBOFIX ( combo ) -> entry ),
+    g_signal_connect ( G_OBJECT (entry ),
                         "focus-in-event",
                         G_CALLBACK ( bet_form_entry_get_focus ),
                         NULL );
-    g_signal_connect ( G_OBJECT ( GTK_COMBOFIX ( combo ) -> entry ),
+    g_signal_connect ( G_OBJECT (entry ),
                         "focus-out-event",
                         G_CALLBACK ( bet_transfert_entry_lose_focus ),
                         GINT_TO_POINTER ( TRANSACTION_FORM_BUDGET ) );
@@ -2394,7 +2395,6 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
                         "toggled",
                         G_CALLBACK ( bet_transfert_last_banking_day_toggle ),
                         date_entry );
-
 
     /* boite verticale pour rendre actif ou non les champs ci-dessous */
     vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
@@ -2433,28 +2433,27 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
     icon = utils_get_image_with_etat ( GTK_MESSAGE_ERROR, FALSE, _("This field is required"), NULL );
     gtk_box_pack_start ( GTK_BOX ( hbox ), icon, FALSE, FALSE, 0 );
 
-    combo = gtk_combofix_new ( gsb_data_payee_get_name_and_report_list () );
-    gtk_combofix_set_force_text ( GTK_COMBOFIX ( combo ),
-                        etat.combofix_force_category );
-    gtk_combofix_set_max_items ( GTK_COMBOFIX ( combo ),
-                        etat.combofix_max_item );
-    gtk_combofix_set_case_sensitive ( GTK_COMBOFIX ( combo ),
-                        etat.combofix_case_sensitive );
-    gtk_combofix_set_mixed_sort ( GTK_COMBOFIX ( combo ),
-                        etat.combofix_mixed_sort );
-
+	tmp_list = gsb_data_payee_get_name_and_report_list ();
+	combo = gtk_combofix_new_with_properties (tmp_list,
+											  etat.combofix_force_payee,
+											  etat.combofix_max_item,
+											  etat.combofix_case_sensitive,
+											  FALSE);
+	gsb_data_payee_free_name_and_report_list (tmp_list);
     gtk_box_pack_start ( GTK_BOX ( hbox ), combo, TRUE, TRUE, 0 );
-    gsb_form_widget_set_empty ( GTK_COMBOFIX ( combo ) -> entry, TRUE );
+    gsb_form_widget_set_empty (combo, TRUE);
     gtk_combofix_set_text ( GTK_COMBOFIX ( combo ), _("Payee") );
-    g_object_set_data ( G_OBJECT ( GTK_COMBOFIX ( combo ) -> entry ), "combo", combo );
+
+	entry = gtk_combofix_get_entry (GTK_COMBOFIX (combo));
+    g_object_set_data ( G_OBJECT ( entry), "combo", combo );
     g_object_set_data ( G_OBJECT ( combo ), "icon", icon );
     g_object_set_data ( G_OBJECT ( dialog ), "bet_transfert_main_payee_combo", combo );
 
-    g_signal_connect ( G_OBJECT ( GTK_COMBOFIX ( combo ) -> entry ),
+    g_signal_connect ( G_OBJECT (entry ),
                         "focus-in-event",
                         G_CALLBACK ( bet_form_entry_get_focus ),
                         NULL );
-    g_signal_connect ( G_OBJECT ( GTK_COMBOFIX ( combo ) -> entry ),
+    g_signal_connect ( G_OBJECT (entry ),
                         "focus-out-event",
                         G_CALLBACK ( bet_transfert_entry_lose_focus ),
                         GINT_TO_POINTER ( TRANSACTION_FORM_PARTY ) );
@@ -2479,55 +2478,54 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
     icon = utils_get_image_with_etat ( GTK_MESSAGE_ERROR, FALSE, _("One of the two fields is required"), NULL );
     gtk_box_pack_start ( GTK_BOX ( hbox ), icon, FALSE, FALSE, 0 );
 
+	/* set categories */
 	tmp_list = gsb_data_category_get_name_list (TRUE, TRUE, TRUE, TRUE);
-	combo = gtk_combofix_new (tmp_list);
+	combo = gtk_combofix_new_with_properties (tmp_list,
+											   etat.combofix_force_category,
+											   etat.combofix_max_item,
+											   etat.combofix_case_sensitive,
+											   etat.combofix_mixed_sort);
 	gsb_data_categorie_free_name_list (tmp_list);
-    gtk_combofix_set_force_text ( GTK_COMBOFIX ( combo ),
-                        etat.combofix_force_category );
-    gtk_combofix_set_max_items ( GTK_COMBOFIX ( combo ),
-                        etat.combofix_max_item );
-    gtk_combofix_set_case_sensitive ( GTK_COMBOFIX ( combo ),
-                        etat.combofix_case_sensitive );
-    gtk_combofix_set_mixed_sort ( GTK_COMBOFIX ( combo ),
-                        etat.combofix_mixed_sort );
     gtk_box_pack_start ( GTK_BOX ( hbox ), combo, FALSE, FALSE, 0 );
-    gsb_form_widget_set_empty ( GTK_COMBOFIX ( combo ) -> entry, TRUE );
+    gsb_form_widget_set_empty (combo, TRUE);
     gtk_combofix_set_text ( GTK_COMBOFIX ( combo ), _("Categories : Sub-categories") );
-    g_object_set_data ( G_OBJECT ( GTK_COMBOFIX ( combo ) -> entry ), "combo", combo );
+
+	entry = gsb_form_widget_combo_get_entry (combo);
+    g_object_set_data ( G_OBJECT ( entry ), "combo", combo );
     g_object_set_data ( G_OBJECT ( combo ), "icon", icon );
     g_object_set_data ( G_OBJECT ( dialog ), "bet_transfert_main_category_combo", combo );
 
-    g_signal_connect ( G_OBJECT ( GTK_COMBOFIX ( combo ) -> entry ),
+    g_signal_connect ( G_OBJECT (entry ),
                         "focus-in-event",
                         G_CALLBACK ( bet_form_entry_get_focus ),
                         NULL );
-    g_signal_connect ( G_OBJECT ( GTK_COMBOFIX ( combo ) -> entry ),
+    g_signal_connect ( G_OBJECT (entry ),
                         "focus-out-event",
                         G_CALLBACK ( bet_transfert_entry_lose_focus ),
                         GINT_TO_POINTER ( TRANSACTION_FORM_CATEGORY ) );
 
-    combo = gtk_combofix_new (
-                        gsb_data_budget_get_name_list ( TRUE, TRUE ) );
-    gtk_combofix_set_force_text ( GTK_COMBOFIX ( combo ),
-                        etat.combofix_force_category );
-    gtk_combofix_set_max_items ( GTK_COMBOFIX ( combo ),
-                        etat.combofix_max_item );
-    gtk_combofix_set_case_sensitive ( GTK_COMBOFIX ( combo ),
-                        etat.combofix_case_sensitive );
-    gtk_combofix_set_mixed_sort ( GTK_COMBOFIX ( combo ),
+	/* set budget */
+	tmp_list = gsb_data_budget_get_name_list (TRUE, TRUE);
+	combo = gtk_combofix_new_with_properties (tmp_list,
+											   etat.combofix_force_category,
+											   etat.combofix_max_item,
+											   etat.combofix_case_sensitive,
                         etat.combofix_mixed_sort );
     gtk_box_pack_start ( GTK_BOX ( hbox ), combo, FALSE, FALSE, 0 );
-    gsb_form_widget_set_empty ( GTK_COMBOFIX ( combo ) -> entry, TRUE );
+    gsb_data_categorie_free_name_list (tmp_list);
+    gsb_form_widget_set_empty (combo, TRUE);
     gtk_combofix_set_text ( GTK_COMBOFIX ( combo ), _("Budgetary line") );
-    g_object_set_data ( G_OBJECT ( GTK_COMBOFIX ( combo ) -> entry ), "combo", combo );
+
+	entry = gsb_form_widget_combo_get_entry (combo);
+	g_object_set_data ( G_OBJECT ( entry ), "combo", combo );
     g_object_set_data ( G_OBJECT ( combo ), "icon", icon );
     g_object_set_data ( G_OBJECT ( dialog ), "bet_transfert_main_budget_combo", combo );
 
-    g_signal_connect ( G_OBJECT ( GTK_COMBOFIX ( combo ) -> entry ),
+    g_signal_connect ( G_OBJECT (entry ),
                         "focus-in-event",
                         G_CALLBACK ( bet_form_entry_get_focus ),
                         NULL );
-    g_signal_connect ( G_OBJECT ( GTK_COMBOFIX ( combo ) -> entry ),
+    g_signal_connect ( G_OBJECT (entry ),
                         "focus-out-event",
                         G_CALLBACK ( bet_transfert_entry_lose_focus ),
                         GINT_TO_POINTER ( TRANSACTION_FORM_BUDGET ) );
@@ -2748,8 +2746,8 @@ static gboolean bet_transfert_set_form_data_from_line ( gint account_number,
         gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
                         gsb_data_payee_get_name ( transfert->card_payee_number, FALSE ) );
 
-        gsb_form_widget_set_empty ( GTK_COMBOFIX ( widget ) -> entry, FALSE );
-        gtk_editable_set_position ( GTK_EDITABLE ( GTK_COMBOFIX ( widget ) -> entry), 0 );
+        gsb_form_widget_set_empty (widget, FALSE);
+        gtk_editable_set_position (GTK_EDITABLE (gtk_combofix_get_entry (GTK_COMBOFIX (widget))), 0);
 
         /* on actualise l'état de l'icone associée */
         utils_set_image_with_etat ( widget, TRUE );
@@ -2757,7 +2755,7 @@ static gboolean bet_transfert_set_form_data_from_line ( gint account_number,
     else
     {
         gtk_combofix_set_text ( GTK_COMBOFIX ( widget ), _("Payee") );
-        gsb_form_widget_set_empty ( GTK_COMBOFIX ( widget ) -> entry, TRUE );
+        gsb_form_widget_set_empty (widget, TRUE);
 
         /* on actualise l'état de l'icone associée */
         utils_set_image_with_etat ( widget, FALSE );
@@ -2770,13 +2768,13 @@ static gboolean bet_transfert_set_form_data_from_line ( gint account_number,
                         gsb_data_category_get_name ( transfert->card_category_number,
                         transfert->card_sub_category_number,
                         NULL ) );
-        gsb_form_widget_set_empty ( GTK_COMBOFIX ( widget ) -> entry, FALSE );
-        gtk_editable_set_position ( GTK_EDITABLE ( GTK_COMBOFIX ( widget ) -> entry), 0 );
+        gsb_form_widget_set_empty (widget, FALSE);
+        gtk_editable_set_position (GTK_EDITABLE (gtk_combofix_get_entry (GTK_COMBOFIX (widget))), 0);
     }
     else
     {
         gtk_combofix_set_text ( GTK_COMBOFIX ( widget ), _("Categories : Sub-categories") );
-        gsb_form_widget_set_empty ( GTK_COMBOFIX ( widget ) -> entry, TRUE );
+        gsb_form_widget_set_empty (widget, TRUE);
     }
 
     widget = g_object_get_data ( G_OBJECT ( bet_transfert_dialog ), "bet_transfert_card_budget_combo" );
@@ -2786,12 +2784,12 @@ static gboolean bet_transfert_set_form_data_from_line ( gint account_number,
                         gsb_data_budget_get_name ( transfert->card_budgetary_number,
                         transfert->card_sub_budgetary_number,
                         NULL ) );
-        gsb_form_widget_set_empty ( GTK_COMBOFIX ( widget ) -> entry, FALSE );
+        gsb_form_widget_set_empty (widget, FALSE);
     }
     else
     {
         gtk_combofix_set_text ( GTK_COMBOFIX ( widget ), _("Budgetary line") );
-        gsb_form_widget_set_empty ( GTK_COMBOFIX ( widget ) -> entry, TRUE );
+        gsb_form_widget_set_empty (widget, TRUE);
     }
 
     if ( transfert->card_category_number > 0 || transfert->card_budgetary_number > 0 )
@@ -2818,8 +2816,8 @@ static gboolean bet_transfert_set_form_data_from_line ( gint account_number,
         gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
                         gsb_data_payee_get_name ( transfert->main_payee_number, FALSE ) );
 
-        gsb_form_widget_set_empty ( GTK_COMBOFIX ( widget ) -> entry, FALSE );
-        gtk_editable_set_position ( GTK_EDITABLE ( GTK_COMBOFIX ( widget ) -> entry), 0 );
+        gsb_form_widget_set_empty (widget, FALSE );
+        gtk_editable_set_position (GTK_EDITABLE (gtk_combofix_get_entry (GTK_COMBOFIX (widget))), 0);
 
          /* on actualise l'état de l'icone associée */
         utils_set_image_with_etat ( widget, TRUE );
@@ -2827,7 +2825,7 @@ static gboolean bet_transfert_set_form_data_from_line ( gint account_number,
     else
     {
         gtk_combofix_set_text ( GTK_COMBOFIX ( widget ), _("Payee") );
-        gsb_form_widget_set_empty ( GTK_COMBOFIX ( widget ) -> entry, TRUE );
+        gsb_form_widget_set_empty (widget, TRUE );
     }
 
     widget = g_object_get_data ( G_OBJECT ( bet_transfert_dialog ), "bet_transfert_main_payment_combo" );
@@ -2840,13 +2838,13 @@ static gboolean bet_transfert_set_form_data_from_line ( gint account_number,
                         gsb_data_category_get_name ( transfert->main_category_number,
                         transfert->main_sub_category_number,
                         NULL ) );
-        gsb_form_widget_set_empty ( GTK_COMBOFIX ( widget ) -> entry, FALSE );
-        gtk_editable_set_position ( GTK_EDITABLE ( GTK_COMBOFIX ( widget ) -> entry), 0 );
+        gsb_form_widget_set_empty (widget, FALSE );
+        gtk_editable_set_position (GTK_EDITABLE (gtk_combofix_get_entry (GTK_COMBOFIX (widget))), 0);
     }
     else
     {
         gtk_combofix_set_text ( GTK_COMBOFIX ( widget ), _("Categories : Sub-categories") );
-        gsb_form_widget_set_empty ( GTK_COMBOFIX ( widget ) -> entry, TRUE );
+        gsb_form_widget_set_empty (widget, TRUE );
 
         /* on actualise l'état de l'icone associée */
         utils_set_image_with_etat ( widget, FALSE );
@@ -2859,7 +2857,7 @@ static gboolean bet_transfert_set_form_data_from_line ( gint account_number,
                         gsb_data_budget_get_name ( transfert->main_budgetary_number,
                         transfert->main_sub_budgetary_number,
                         NULL ) );
-        gsb_form_widget_set_empty ( GTK_COMBOFIX ( widget ) -> entry, FALSE );
+        gsb_form_widget_set_empty (widget, FALSE );
     }
     else
     {
