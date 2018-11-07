@@ -744,7 +744,7 @@ void gsb_form_widget_set_focus (gint element_number)
 	if (!widget)
 		return;
 
-	if (GTK_IS_COMBO_BOX (widget) || GTK_IS_COMBOFIX (widget))
+	if (GTK_IS_COMBOFIX (widget))
 	{
 		GtkWidget *entry;
 

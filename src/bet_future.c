@@ -623,12 +623,11 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
         }
         else
         {
-			GtkWidget *entry = NULL;
-
-			entry = gsb_form_widget_combo_get_entry (widget);
-
-            if (GTK_IS_ENTRY (entry))
+            if ( GTK_IS_COMBOFIX ( widget ))
             {
+				GtkWidget *entry;
+
+				entry = gtk_combofix_get_entry (GTK_COMBOFIX (widget));
                 g_signal_connect (G_OBJECT (entry),
                            "focus-in-event",
                            G_CALLBACK ( bet_form_entry_get_focus ),
@@ -1392,15 +1391,7 @@ gboolean bet_form_key_press_event ( GtkWidget *widget,
         if ( widget_suivant )
         {
             if ( GTK_IS_COMBOFIX ( widget_suivant ) )
-			{
-				GtkWidget *entry;
-
-				entry = gtk_combofix_get_entry (GTK_COMBOFIX ( widget_suivant ));
-				if (entry)
-					gtk_widget_grab_focus (entry);
-				else
-					gtk_widget_grab_focus (widget_suivant);
-			}
+                gtk_widget_grab_focus (gtk_combofix_get_entry (GTK_COMBOFIX (widget_suivant)));
             else
                 gtk_widget_grab_focus ( widget_suivant );
 

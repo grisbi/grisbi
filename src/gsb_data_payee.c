@@ -341,15 +341,13 @@ gint gsb_data_payee_new (const gchar *name)
 
     if (name)
     {
-        GtkWidget *combo;
+        GtkWidget *combofix;
 
         payee->payee_name = my_strdup (name);
-        combo = gsb_form_widget_get_widget (TRANSACTION_FORM_PARTY);
+        combofix = gsb_form_widget_get_widget (TRANSACTION_FORM_PARTY);
 
-        if (combo && name)
-		{
-			gsb_form_widget_combo_popup_append_text (combo, name);
-		}
+        if (combofix && name)
+            gtk_combofix_append_text (GTK_COMBOFIX (combofix), name);
     }
     else
         payee->payee_name = NULL;
@@ -371,16 +369,16 @@ gint gsb_data_payee_new (const gchar *name)
 gboolean gsb_data_payee_remove (gint no_payee)
 {
     struct_payee *payee;
-    GtkWidget *combo;
+    GtkWidget *combofix;
 
     payee = gsb_data_payee_get_structure (no_payee);
 
     if (!payee)
         return FALSE;
 
-    combo = gsb_form_widget_get_widget (TRANSACTION_FORM_PARTY);
-    if (combo)
-        gsb_form_widget_combo_popup_remove_text (combo, payee->payee_name);
+    combofix = gsb_form_widget_get_widget (TRANSACTION_FORM_PARTY);
+    if (combofix)
+        gtk_combofix_remove_text (GTK_COMBOFIX (combofix), payee->payee_name);
 
     payee_list = g_slist_remove (payee_list, payee);
     _gsb_data_payee_free (payee);
@@ -486,32 +484,28 @@ gboolean gsb_data_payee_set_name (gint no_payee,
 								  const gchar *name)
 {
     struct_payee *payee;
-    GtkWidget *combo;
+    GtkWidget *combofix;
 
     payee = gsb_data_payee_get_structure (no_payee);
 
     if (!payee)
         return FALSE;
 
-    combo = gsb_form_widget_get_widget (TRANSACTION_FORM_PARTY);
+    combofix = gsb_form_widget_get_widget (TRANSACTION_FORM_PARTY);
 
     /* we free the last name */
     if (payee->payee_name)
     {
-		if (combo)
-		{
-			gsb_form_widget_combo_popup_remove_text (combo, payee->payee_name);
-		}
+		if (combofix)
+			gtk_combofix_remove_text (GTK_COMBOFIX (combofix), payee->payee_name);
 		g_free (payee->payee_name);
     }
 
     /* and copy the new one or set NULL */
     payee->payee_name = my_strdup (name);
 
-    if (combo && name && strlen (name))
-	{
-		gsb_form_widget_combo_popup_append_text (combo, payee->payee_name);
-	}
+    if (combofix && name && strlen (name))
+        gtk_combofix_append_text (GTK_COMBOFIX (combofix), name);
 
     return TRUE;
 }

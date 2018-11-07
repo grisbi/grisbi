@@ -679,7 +679,7 @@ void gsb_form_fill_element ( gint element_number,
 
 			tmp_name = gsb_data_payee_get_name (number, TRUE);
 			gsb_form_entry_get_focus (widget);
-			gsb_form_widget_combo_entry_set_text (widget, tmp_name);
+			gtk_combofix_set_text ( GTK_COMBOFIX ( widget ), tmp_name);
 	    }
 	    break;
 
@@ -755,7 +755,7 @@ void gsb_form_fill_element ( gint element_number,
 									gsb_data_account_get_name (gsb_data_mix_get_account_number_transfer (transaction_number,
 																										 is_transaction)),
 									NULL );
-			gsb_form_widget_combo_entry_set_text (widget, char_tmp);
+			gtk_combofix_set_text ( GTK_COMBOFIX (widget), char_tmp);
 			g_free (char_tmp);
 		}
 	    }
@@ -1145,10 +1145,8 @@ gboolean gsb_form_clean ( gint account_number )
 		    break;
 
 		case TRANSACTION_FORM_PARTY:
-				gsb_combo_form_box_block_unblock_by_func (element->element_widget, TRUE);
 				gsb_form_widget_set_empty (element->element_widget, TRUE);
-				gsb_form_widget_combo_entry_set_text (element->element_widget, _("Payee"));
-				gsb_combo_form_box_block_unblock_by_func (element->element_widget, FALSE);
+				gtk_combofix_set_text (GTK_COMBOFIX (element->element_widget), _("Payee"));
 		    break;
 
 		case TRANSACTION_FORM_DEBIT:
@@ -1626,7 +1624,7 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
 				/* need to work with the combofix to avoid some signals if we work
 				 * directly on the entry */
 				widget = gsb_form_widget_get_widget (element_number);
-				gsb_form_widget_combo_entry_set_text (widget, _(string));
+				gtk_combofix_set_text (GTK_COMBOFIX (widget), _(string));
 				break;
 
 			default:
@@ -2053,8 +2051,8 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 
             widget_prov = gsb_form_widget_get_widget ( TRANSACTION_FORM_PARTY );
 
-            if (GTK_IS_COMBOFIX (widget_prov) || GTK_IS_COMBO_BOX (widget_prov))
-                gsb_form_transaction_complete_form_by_payee (gsb_form_widget_combo_entry_get_text (widget_prov));
+            if (GTK_IS_COMBOFIX (widget_prov))
+                gsb_form_transaction_complete_form_by_payee (gtk_combofix_get_text (GTK_COMBOFIX (widget_prov)));
 
             gsb_form_finish_edition ();
             return TRUE;
@@ -2260,7 +2258,7 @@ gboolean gsb_form_finish_edition ( void )
                 if ( nbre_passage == 0 )
                 {
                     widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_PARTY );
-                    gsb_form_widget_combo_entry_set_text (widget,
+                    gtk_combofix_set_text (GTK_COMBOFIX (widget),
 													gsb_data_payee_get_name (GPOINTER_TO_INT (list_tmp -> data),
 																			 TRUE ));
                     gsb_form_widget_set_empty (widget, FALSE);
@@ -2927,7 +2925,7 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 		const gchar *payee_name = NULL;
 
 
-		payee_name = gsb_form_widget_combo_entry_get_text (widget);
+		payee_name = gtk_combofix_get_text (GTK_COMBOFIX (widget));
 
 		if (payee_name && !strncmp (payee_name, _("Report"), strlen (_("Report"))))
 		{
