@@ -111,8 +111,7 @@ gboolean gsb_form_transaction_complete_form_by_payee ( const gchar *payee_name )
                ||
                (GTK_IS_COMBOFIX (element -> element_widget)
                 &&
-                !gsb_form_widget_check_empty ( GTK_COMBOFIX (
-                element -> element_widget ) -> entry ) ) ) )
+                !gsb_form_widget_check_empty (element->element_widget) ) ) )
             return TRUE;
 
         tmp_list = tmp_list -> next;

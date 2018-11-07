@@ -2841,6 +2841,7 @@ gboolean metatree_find_destination_blob ( MetatreeInterface *iface,
     GtkWidget *dialog;
     GtkWidget *hbox;
     GtkWidget *button;
+	GtkWidget *entry;
     GtkWidget *label;
     GtkWidget *combofix;
     gint nouveau_no_division;
@@ -2851,7 +2852,7 @@ gboolean metatree_find_destination_blob ( MetatreeInterface *iface,
     gchar* hint;
     gchar* text;
 
-    if ( type_division == META_TREE_TRANS_S_S_DIV )
+	if ( type_division == META_TREE_TRANS_S_S_DIV )
     {
         hint = g_strdup_printf ( _("Transfer all transactions in a \n%s."),
                         gettext ( iface -> meta_sub_name ) );
@@ -2954,8 +2955,9 @@ gboolean metatree_find_destination_blob ( MetatreeInterface *iface,
     }
 
     gtk_widget_show_all ( dialog );
-    gtk_widget_grab_focus ( GTK_WIDGET ( ( GTK_COMBOFIX ( combofix ) ) -> entry ) );
-    gtk_editable_set_position ( GTK_EDITABLE ( ( GTK_COMBOFIX ( combofix ) ) -> entry ), 0 );
+	entry = gtk_combofix_get_entry (GTK_COMBOFIX (combofix));
+    gtk_widget_grab_focus (entry);
+    gtk_editable_set_position ( GTK_EDITABLE (entry), 0 );
 
     resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ) );
 
@@ -3215,6 +3217,7 @@ void metatree_button_action_sub_div_clicked ( GtkWidget *togglebutton,
         GtkWidget *parent = NULL;
         GtkWidget *label = NULL;
         GtkWidget *combofix = NULL;
+		GtkWidget *entry;
         GSList *list;
         gint value = 0;
 
@@ -3231,6 +3234,7 @@ void metatree_button_action_sub_div_clicked ( GtkWidget *togglebutton,
         if ( ! combofix )
             return;
 
+		entry = gtk_combofix_get_entry (GTK_COMBOFIX (combofix));
         switch ( value )
         {
             case 0:
@@ -3238,16 +3242,16 @@ void metatree_button_action_sub_div_clicked ( GtkWidget *togglebutton,
                 gtk_widget_set_sensitive ( combofix, TRUE );
                 list = g_object_get_data ( G_OBJECT ( combofix ), "list_1" );
                 gtk_combofix_set_list ( GTK_COMBOFIX ( combofix ), list );
-                gtk_widget_grab_focus ( GTK_WIDGET ( ( GTK_COMBOFIX ( combofix ) ) -> entry ) );
-                gtk_editable_set_position ( GTK_EDITABLE ( ( GTK_COMBOFIX ( combofix ) ) -> entry ), 0 );
+                gtk_widget_grab_focus (entry);
+                gtk_editable_set_position (GTK_EDITABLE (entry), 0);
             break;
             case 1:
                 gtk_widget_set_sensitive ( label, TRUE );
                 gtk_widget_set_sensitive ( combofix, TRUE );
                 list = g_object_get_data ( G_OBJECT ( combofix ), "list_2" );
                 gtk_combofix_set_list ( GTK_COMBOFIX ( combofix ), list );
-                gtk_widget_grab_focus ( GTK_WIDGET ( ( GTK_COMBOFIX ( combofix ) ) -> entry ) );
-                gtk_editable_set_position ( GTK_EDITABLE ( ( GTK_COMBOFIX ( combofix ) ) -> entry ), 0 );
+                gtk_widget_grab_focus (entry);
+                gtk_editable_set_position (GTK_EDITABLE (entry), 0);
             break;
             case 2:
                 gtk_widget_set_sensitive ( label, FALSE );
@@ -3733,6 +3737,7 @@ static gboolean metatree_select_transactions_destination ( MetatreeInterface *if
     GtkWidget *hbox;
     GtkWidget *button_1;
     GtkWidget *button_2;
+	GtkWidget *entry;
     GtkWidget *label;
     GtkWidget *combofix;
     gchar **split_division;
@@ -3807,8 +3812,9 @@ static gboolean metatree_select_transactions_destination ( MetatreeInterface *if
     gtk_box_pack_start ( GTK_BOX ( vbox ), combofix, TRUE, TRUE, 0 );
 
     gtk_widget_show_all ( dialog );
-    gtk_widget_grab_focus ( GTK_WIDGET ( ( GTK_COMBOFIX ( combofix ) ) -> entry ) );
-    gtk_editable_set_position ( GTK_EDITABLE ( ( GTK_COMBOFIX ( combofix ) ) -> entry ), 0 );
+	entry = gtk_combofix_get_entry (GTK_COMBOFIX (combofix));
+	gtk_widget_grab_focus (entry);
+	gtk_editable_set_position (GTK_EDITABLE (entry), 0);
 
     resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ) );
 

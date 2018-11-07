@@ -53,6 +53,7 @@ typedef struct _GtkComboFixPrivate  GtkComboFixPrivate;
 
 struct _GtkComboFixPrivate
 {
+	GtkWidget *			entry;
     GtkWidget *			button;
     GtkWidget *			popup;
     GtkWidget *			tree_view;
@@ -702,7 +703,7 @@ static gboolean gtk_combofix_set_popup_position (GtkComboFix *combofix)
 
     /* get the position of the combofix */
     /* en fait il semble qu'on récupère toujours la position de "form_transaction_part" */
-    gdk_window_get_origin (gtk_widget_get_window (combofix->entry), &x, &y);
+    gdk_window_get_origin (gtk_widget_get_window (priv->entry), &x, &y);
 
     /* get the allocation of combofix */
     gtk_widget_get_allocation (GTK_WIDGET (combofix), &allocation);
@@ -784,7 +785,7 @@ static gboolean gtk_combofix_entry_changed (GtkComboFix *combofix,
 
     priv = gtk_combofix_get_instance_private (combofix);
 
-    entry_string = gtk_entry_get_text (GTK_ENTRY (combofix->entry));
+    entry_string = gtk_entry_get_text (GTK_ENTRY (priv->entry));
 
     if (entry_string && strlen (entry_string))
     {
@@ -847,9 +848,9 @@ static gboolean gtk_combofix_entry_changed (GtkComboFix *combofix,
         /* there is a completed_string, we set it in the entry only when inserting some text */
         gint position;
 
-        position = gtk_editable_get_position (GTK_EDITABLE (combofix->entry));
+        position = gtk_editable_get_position (GTK_EDITABLE (priv->entry));
         gtk_combofix_set_text (combofix, completed_string);
-        gtk_editable_set_position (GTK_EDITABLE (combofix->entry), position);
+        gtk_editable_set_position (GTK_EDITABLE (priv->entry), position);
 
         /* set the selection here doesn't work, so we will do it at the expose event */
         block_expose_event = 0;
@@ -858,7 +859,7 @@ static gboolean gtk_combofix_entry_changed (GtkComboFix *combofix,
     /* show the popup */
     if (priv->visible_items
      &&
-     gtk_entry_get_text_length (GTK_ENTRY (combofix->entry))
+     gtk_entry_get_text_length (GTK_ENTRY (priv->entry))
      &&
      completed_string
      &&
@@ -910,13 +911,17 @@ static gboolean gtk_combofix_entry_delete (GtkComboFix *combofix)
  **/
 static gboolean gtk_combofix_expose_entry (GtkComboFix *combofix)
 {
-    if (block_expose_event)
+    GtkComboFixPrivate *priv;
+
+    priv = gtk_combofix_get_instance_private (combofix);
+
+	if (block_expose_event)
 	    return FALSE;
 
     block_expose_event = 1;
 
-    gtk_editable_select_region (GTK_EDITABLE (combofix->entry),
-				 gtk_editable_get_position (GTK_EDITABLE (combofix->entry)),
+    gtk_editable_select_region (GTK_EDITABLE (priv->entry),
+				 gtk_editable_get_position (GTK_EDITABLE (priv->entry)),
 				 -1);
     return FALSE;
 }
@@ -995,7 +1000,7 @@ static gboolean gtk_combofix_focus_in (GtkWidget *entry,
 
     priv = gtk_combofix_get_instance_private (combofix);
 
-    text = gtk_entry_get_text (GTK_ENTRY (combofix->entry));
+    text = gtk_entry_get_text (GTK_ENTRY (priv->entry));
 
     if (priv->old_entry && strlen (priv->old_entry))
         g_free (priv->old_entry);
@@ -1023,8 +1028,11 @@ static gboolean gtk_combofix_popup_key_press_event (GtkWidget *popup,
 													GtkComboFix *combofix)
 {
     gboolean return_val;
+    GtkComboFixPrivate *priv;
 
-    g_signal_emit_by_name (combofix->entry,
+    priv = gtk_combofix_get_instance_private (combofix);
+
+    g_signal_emit_by_name (priv->entry,
 			   "key-press-event",
 			   ev,
 			   &return_val);
@@ -1341,14 +1349,14 @@ static gboolean gtk_combofix_key_press_event (GtkWidget *entry,
         /* we get the current selection */
         if (gtk_widget_get_visible (priv->popup)
          &&
-         strlen (gtk_entry_get_text (GTK_ENTRY (combofix->entry))) == 0)
+         strlen (gtk_entry_get_text (GTK_ENTRY (priv->entry))) == 0)
         {
            if (!gtk_combofix_choose_selection (combofix))
             {
                 /* here we did entry key, but no selection... so
                  * keep the current completion */
                 gtk_combofix_hide_popup (combofix);
-                gtk_editable_select_region (GTK_EDITABLE (combofix->entry), 0, 0);
+                gtk_editable_select_region (GTK_EDITABLE (priv->entry), 0, 0);
             }
         }
         /* le traitement de ENTER est fait dans le formulaire */
@@ -1360,7 +1368,7 @@ static gboolean gtk_combofix_key_press_event (GtkWidget *entry,
         {
             gtk_combofix_hide_popup (combofix);
             gtk_combofix_set_text (combofix, priv->old_entry);
-            gtk_editable_select_region (GTK_EDITABLE (combofix->entry), 0, 0);
+            gtk_editable_select_region (GTK_EDITABLE (priv->entry), 0, 0);
             return TRUE;
         }
         break;
@@ -1456,8 +1464,11 @@ static gboolean gtk_combofix_button_release_event (GtkWidget *popup,
 												   GtkComboFix *combofix)
 {
     gboolean return_val;
+    GtkComboFixPrivate *priv;
 
-    g_signal_emit_by_name (combofix->entry,
+    priv = gtk_combofix_get_instance_private (combofix);
+
+    g_signal_emit_by_name (priv->entry,
 			   "button-release-event",
 			   ev,
 			   &return_val);
@@ -1684,37 +1695,37 @@ static void gtk_combofix_init (GtkComboFix *combofix)
     gtk_widget_show (hbox);
 
     /* set the entry */
-    combofix->entry = gtk_entry_new ();
-    g_signal_connect (G_OBJECT (combofix->entry),
+    priv->entry = gtk_entry_new ();
+    g_signal_connect (G_OBJECT (priv->entry),
                         "key-press-event",
                         G_CALLBACK (gtk_combofix_key_press_event),
                         combofix);
-    g_signal_connect_object (G_OBJECT (combofix->entry),
+    g_signal_connect_object (G_OBJECT (priv->entry),
                         "insert-text",
                         G_CALLBACK (gtk_combofix_entry_insert),
                         combofix,
                         G_CONNECT_AFTER | G_CONNECT_SWAPPED);
-    g_signal_connect_object (G_OBJECT (combofix->entry),
+    g_signal_connect_object (G_OBJECT (priv->entry),
                         "delete-text",
                         G_CALLBACK (gtk_combofix_entry_delete),
                         combofix,
                         G_CONNECT_AFTER | G_CONNECT_SWAPPED);
-    g_signal_connect_swapped (G_OBJECT (combofix->entry),
+    g_signal_connect_swapped (G_OBJECT (priv->entry),
                         "draw",
                         G_CALLBACK (gtk_combofix_expose_entry),
                         combofix);
-    g_signal_connect_after (G_OBJECT (combofix->entry),
+    g_signal_connect_after (G_OBJECT (priv->entry),
                         "focus-in-event",
                         G_CALLBACK (gtk_combofix_focus_in),
                         combofix);
 
-    g_signal_connect_after (G_OBJECT (combofix->entry),
+    g_signal_connect_after (G_OBJECT (priv->entry),
                         "focus-out-event",
                         G_CALLBACK (gtk_combofix_focus_out),
                         combofix);
-    gtk_box_pack_start (GTK_BOX (hbox), combofix->entry, TRUE, TRUE, 0);
-    gtk_widget_set_hexpand (combofix->entry, TRUE);
-    gtk_widget_show (combofix->entry);
+    gtk_box_pack_start (GTK_BOX (hbox), priv->entry, TRUE, TRUE, 0);
+    gtk_widget_set_hexpand (priv->entry, TRUE);
+    gtk_widget_show (priv->entry);
 
     /* set the button */
     priv->button = utils_buttons_button_new_from_image ("gsb-arrow-down-16.png");
@@ -1939,10 +1950,14 @@ GtkWidget *gtk_combofix_new_with_properties (GSList *list,
  **/
 GtkWidget *gtk_combofix_get_entry (GtkComboFix *combofix)
 {
+    GtkComboFixPrivate *priv;
+
+    priv = gtk_combofix_get_instance_private (combofix);
+
     g_return_val_if_fail (combofix, NULL);
     g_return_val_if_fail (GTK_IS_COMBOFIX (combofix), NULL);
 
-	return combofix->entry;
+	return priv->entry;
 }
 
 /**
@@ -1954,10 +1969,14 @@ GtkWidget *gtk_combofix_get_entry (GtkComboFix *combofix)
  **/
 const gchar *gtk_combofix_get_text (GtkComboFix *combofix)
 {
+    GtkComboFixPrivate *priv;
+
+    priv = gtk_combofix_get_instance_private (combofix);
+
     g_return_val_if_fail (combofix , NULL);
     g_return_val_if_fail (GTK_IS_COMBOFIX (combofix), NULL);
 
-    return (gtk_entry_get_text (GTK_ENTRY (combofix->entry)));
+    return (gtk_entry_get_text (GTK_ENTRY (priv->entry)));
 }
 
 
@@ -1973,28 +1992,32 @@ const gchar *gtk_combofix_get_text (GtkComboFix *combofix)
 void gtk_combofix_set_text (GtkComboFix *combofix,
 							const gchar *text)
 {
+    GtkComboFixPrivate *priv;
+
+    priv = gtk_combofix_get_instance_private (combofix);
+
 	/* bloque l'appel à gtk_combofix_expose_entry () pendant cette fonction */
 	block_expose_event = 1;
 
     g_return_if_fail (combofix);
     g_return_if_fail (GTK_IS_COMBOFIX (combofix));
 
-    g_signal_handlers_block_by_func (G_OBJECT (combofix->entry),
+    g_signal_handlers_block_by_func (G_OBJECT (priv->entry),
                         G_CALLBACK (gtk_combofix_entry_insert),
                         combofix);
-    g_signal_handlers_block_by_func (G_OBJECT (combofix->entry),
+    g_signal_handlers_block_by_func (G_OBJECT (priv->entry),
                         G_CALLBACK (gtk_combofix_entry_delete),
                         combofix);
 
     if (text && strlen (text) > 0)
-        gtk_entry_set_text (GTK_ENTRY (combofix->entry), text);
+        gtk_entry_set_text (GTK_ENTRY (priv->entry), text);
     else
-        gtk_entry_set_text (GTK_ENTRY (combofix->entry), "");
+        gtk_entry_set_text (GTK_ENTRY (priv->entry), "");
 
-    g_signal_handlers_unblock_by_func (G_OBJECT (combofix->entry),
+    g_signal_handlers_unblock_by_func (G_OBJECT (priv->entry),
                         G_CALLBACK (gtk_combofix_entry_insert),
                         combofix);
-    g_signal_handlers_unblock_by_func (G_OBJECT (combofix->entry),
+    g_signal_handlers_unblock_by_func (G_OBJECT (priv->entry),
                         G_CALLBACK (gtk_combofix_entry_delete),
                         combofix);
 }
@@ -2115,10 +2138,10 @@ gboolean gtk_combofix_show_popup (GtkComboFix *combofix)
     if (gtk_widget_get_visible (priv->popup))
         return FALSE;
 
-    g_signal_handlers_block_by_func (G_OBJECT (combofix->entry),
+    g_signal_handlers_block_by_func (G_OBJECT (priv->entry),
                         G_CALLBACK (gtk_combofix_entry_insert),
                         combofix);
-    g_signal_handlers_block_by_func (G_OBJECT (combofix->entry),
+    g_signal_handlers_block_by_func (G_OBJECT (priv->entry),
                         G_CALLBACK (gtk_combofix_entry_delete),
                         combofix);
 
@@ -2126,13 +2149,13 @@ gboolean gtk_combofix_show_popup (GtkComboFix *combofix)
     gtk_combofix_set_popup_position (combofix);
     gtk_widget_show (priv->popup);
     gtk_combofix_select_item (combofix, gtk_combofix_get_text (combofix));
-    gtk_widget_grab_focus (GTK_WIDGET (combofix->entry));
+    gtk_widget_grab_focus (GTK_WIDGET (priv->entry));
     gtk_window_set_modal (GTK_WINDOW (priv->popup), TRUE);
 
-    g_signal_handlers_unblock_by_func (G_OBJECT (combofix->entry),
+    g_signal_handlers_unblock_by_func (G_OBJECT (priv->entry),
                         G_CALLBACK (gtk_combofix_entry_insert),
                         combofix);
-    g_signal_handlers_unblock_by_func (G_OBJECT (combofix->entry),
+    g_signal_handlers_unblock_by_func (G_OBJECT (priv->entry),
                         G_CALLBACK (gtk_combofix_entry_delete),
                         combofix);
 
@@ -2299,7 +2322,7 @@ void gtk_combofix_append_text (GtkComboFix *combofix,
     priv = gtk_combofix_get_instance_private (combofix);
     pointeurs[2] = GINT_TO_POINTER (priv->case_sensitive);
 
-    empty = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (combofix->entry), "empty"));
+    empty = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (priv->entry), "empty"));
     if (empty || priv->force)
         return;
 

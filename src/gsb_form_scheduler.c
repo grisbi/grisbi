@@ -301,7 +301,7 @@ gboolean gsb_form_scheduler_change_account ( GtkWidget *button,
     if ( category_entry )
     {
         tmp_str = gtk_combofix_get_text ( GTK_COMBOFIX ( category_entry) );
-        if ( gsb_form_widget_check_empty (GTK_COMBOFIX (category_entry) -> entry)
+        if ( gsb_form_widget_check_empty (category_entry)
          &&
          tmp_str
          && strlen ( tmp_str ) > 0

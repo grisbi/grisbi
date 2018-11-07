@@ -34,9 +34,6 @@ typedef struct _GtkComboFixClass    GtkComboFixClass;
 struct _GtkComboFix
 {
     GtkBox			parent;
-
-    /* entry of the combofix */
-    GtkWidget *		entry;
 };
 
 struct _GtkComboFixClass

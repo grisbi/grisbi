@@ -751,16 +751,18 @@ void gsb_form_fill_element ( gint element_number,
 		    default:
 			/* transfer */
 			gsb_form_entry_get_focus (widget);
-			gtk_combofix_set_text ( GTK_COMBOFIX (widget),
-						char_tmp = g_strconcat ( _("Transfer : "),
-									 gsb_data_account_get_name (gsb_data_mix_get_account_number_transfer (transaction_number, is_transaction)), NULL ));
+			char_tmp = g_strconcat ( _("Transfer : "),
+									gsb_data_account_get_name (gsb_data_mix_get_account_number_transfer (transaction_number,
+																										 is_transaction)),
+									NULL );
+			gsb_form_widget_combo_entry_set_text (widget, char_tmp);
 			g_free (char_tmp);
 		}
 	    }
 	    break;
 
 	case TRANSACTION_FORM_BUDGET:
-	    char_tmp = gsb_data_budget_get_name ( gsb_data_mix_get_budgetary_number (transaction_number, is_transaction),
+	    char_tmp = gsb_data_budget_get_name (gsb_data_mix_get_budgetary_number (transaction_number, is_transaction),
 						  gsb_data_mix_get_sub_budgetary_number (transaction_number, is_transaction),
 						  NULL );
 	    if (char_tmp)
@@ -1160,7 +1162,7 @@ gboolean gsb_form_clean ( gint account_number )
 		    break;
 
 		case TRANSACTION_FORM_CATEGORY:
-		    gsb_form_widget_set_empty ( GTK_COMBOFIX ( element -> element_widget ) -> entry, TRUE );
+		    gsb_form_widget_set_empty (element -> element_widget, TRUE);
 		    gtk_combofix_set_text ( GTK_COMBOFIX ( element -> element_widget ),
 					    _("Categories : Sub-categories") );
 		    break;
@@ -1169,7 +1171,7 @@ gboolean gsb_form_clean ( gint account_number )
 		    break;
 
 		case TRANSACTION_FORM_BUDGET:
-		    gsb_form_widget_set_empty ( GTK_COMBOFIX ( element -> element_widget ) -> entry, TRUE );
+		    gsb_form_widget_set_empty (element -> element_widget, TRUE);
 		    gtk_combofix_set_text ( GTK_COMBOFIX ( element -> element_widget ), _("Budgetary line") );
 		    break;
 
@@ -2805,7 +2807,7 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
     /* check if it's a daughter split that the category is not a split of transaction */
     if ( widget
 	 &&
-	 !gsb_form_widget_check_empty (GTK_COMBOFIX (widget) -> entry)
+	 !gsb_form_widget_check_empty (widget)
 	 &&
 	 mother_number
 	 &&
@@ -2821,7 +2823,7 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
      * !!! widget is already set to the category, don't change it before */
     if ( widget
 	 &&
-	 !gsb_form_widget_check_empty (GTK_COMBOFIX (widget) -> entry))
+	 !gsb_form_widget_check_empty (widget))
     {
 	gint account_transfer;
 

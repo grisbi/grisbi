@@ -2862,7 +2862,7 @@ static gboolean bet_transfert_set_form_data_from_line ( gint account_number,
     else
     {
         gtk_combofix_set_text ( GTK_COMBOFIX ( widget ), _("Budgetary line") );
-        gsb_form_widget_set_empty ( GTK_COMBOFIX ( widget ) -> entry, TRUE );
+        gsb_form_widget_set_empty (widget, TRUE);
     }
 
     if ( transfert->main_category_number > 0 || transfert->main_budgetary_number > 0 )

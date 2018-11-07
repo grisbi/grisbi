@@ -224,7 +224,13 @@ gboolean gsb_form_widget_free_list (void)
                 }
                 else if (GTK_IS_COMBOFIX (element->element_widget))
                 {
-                    widget_signals = GTK_COMBOFIX (element->element_widget)->entry;
+                    widget_signals = gtk_combofix_get_entry (GTK_COMBOFIX (element->element_widget));
+					/* if there is something in the combofix we destroy, the popup will
+					 * be showed because destroying the gtk_entry will erase it directly,
+					 * so the simpliest way to avoid that is to erase now the entry, but with
+					 * gtk_combofix_set_text [cedric] (didn't succeed with another thing...) */
+					gtk_combofix_set_text (GTK_COMBOFIX (element->element_widget), "");
+                    gsb_form_widget_set_empty (GTK_WIDGET (element->element_widget), TRUE);
                 }
 				else if (GTK_IS_COMBO_BOX (element->element_widget))
 				{
@@ -268,15 +274,6 @@ gboolean gsb_form_widget_free_list (void)
                         									  GINT_TO_POINTER (element->element_number));
                 }
 
-				/* if there is something in the combofix we destroy, the popup will
-                 * be showed because destroying the gtk_entry will erase it directly,
-                 * so the simpliest way to avoid that is to erase now the entry, but with
-                 * gtk_combofix_set_text [cedric] (didn't succeed with another thing...) */
-                if (GTK_IS_COMBOFIX (element->element_widget))
-                {
-					gtk_combofix_set_text (GTK_COMBOFIX (element->element_widget), "");
-                    gsb_form_widget_set_empty (GTK_WIDGET (element->element_widget), TRUE);
-                }
 				gtk_widget_destroy (element->element_widget);
                 element->element_widget = NULL;
             }
@@ -371,7 +368,7 @@ GtkWidget *gsb_form_widget_create (gint element_number,
 		case TRANSACTION_FORM_CATEGORY:
         	tmp_list = gsb_data_category_get_name_list (TRUE, TRUE, TRUE, TRUE);
 			widget = gtk_combofix_new_with_properties (tmp_list,
-													   etat.combofix_force_payee,
+													   etat.combofix_force_category,
 													   etat.combofix_max_item,
 													   etat.combofix_case_sensitive,
 													   etat.combofix_mixed_sort);
@@ -385,7 +382,7 @@ GtkWidget *gsb_form_widget_create (gint element_number,
 		case TRANSACTION_FORM_BUDGET:
 			tmp_list = gsb_data_budget_get_name_list (TRUE, TRUE);
 			widget = gtk_combofix_new_with_properties (tmp_list,
-													   etat.combofix_force_payee,
+													   etat.combofix_force_category,
 													   etat.combofix_max_item,
 													   etat.combofix_case_sensitive,
 													   etat.combofix_mixed_sort);
