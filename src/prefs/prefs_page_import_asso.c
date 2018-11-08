@@ -556,7 +556,8 @@ static void prefs_page_import_asso_setup_import_asso_page (PrefsPageImportAsso *
 														   etat.combofix_force_payee,
 														   etat.combofix_max_item,
 														   !w_run->import_asso_case_insensitive,
-														   FALSE);
+														   FALSE,
+														   METATREE_PAYEE);
 	gsb_data_payee_free_name_and_report_list (tmp_list);
     gsb_form_widget_combo_entry_set_text (priv->combo_import_asso_payee, "");
     gtk_widget_set_hexpand (priv->combo_import_asso_payee, TRUE);

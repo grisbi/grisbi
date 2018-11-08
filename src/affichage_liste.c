@@ -1019,15 +1019,15 @@ gboolean gsb_transactions_list_display_update_combofix ( void )
 
 	combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_PARTY );
 	if (combofix && GTK_IS_COMBOFIX (combofix))
-		gtk_combofix_set_properties (combofix, METATREE_PAYEE);
+		gtk_combofix_set_properties (combofix);
 
     combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_CATEGORY );
 	if (combofix && GTK_IS_COMBOFIX (combofix))
-		gtk_combofix_set_properties (combofix, METATREE_CATEGORY);
+		gtk_combofix_set_properties (combofix);
 
     combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_BUDGET );
 	if (combofix && GTK_IS_COMBOFIX (combofix))
-		gtk_combofix_set_properties (combofix, METATREE_BUDGET);
+		gtk_combofix_set_properties (combofix);
 
 	return FALSE;
 }

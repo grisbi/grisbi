@@ -929,7 +929,8 @@ static DialogScheduled *prefs_widget_loan_dialog_scheduled_init (GtkWidget *page
 											  etat.combofix_force_payee,
 											  etat.combofix_max_item,
 											  etat.combofix_case_sensitive,
-											  FALSE);
+											  FALSE,
+											  METATREE_PAYEE);
 	gsb_data_payee_free_name_and_report_list (tmp_list);
     gtk_box_pack_start (GTK_BOX (hbox), s_sch_dialog->APayeeCombo, TRUE, TRUE, 0);
     g_object_set_data (G_OBJECT (s_sch_dialog->APayeeCombo), "icon", icon);
@@ -960,7 +961,8 @@ static DialogScheduled *prefs_widget_loan_dialog_scheduled_init (GtkWidget *page
 											  etat.combofix_force_category,
 											  etat.combofix_max_item,
 											  etat.combofix_case_sensitive,
-											  etat.combofix_mixed_sort);
+											  etat.combofix_mixed_sort,
+											  METATREE_CATEGORY);
 	gsb_data_categorie_free_name_list (tmp_list);
     gtk_box_pack_start (GTK_BOX (hbox), s_sch_dialog->ACategCombo, TRUE, TRUE, 0);
 
@@ -1019,7 +1021,8 @@ static DialogScheduled *prefs_widget_loan_dialog_scheduled_init (GtkWidget *page
 											  etat.combofix_force_category,
 											  etat.combofix_max_item,
 											  etat.combofix_case_sensitive,
-											  etat.combofix_mixed_sort);
+											  etat.combofix_mixed_sort,
+											  METATREE_CATEGORY);
 	gsb_data_categorie_free_name_list (tmp_list);
     gtk_box_pack_start (GTK_BOX (hbox), s_sch_dialog->FCategCombo, FALSE, FALSE, 0);
     g_object_set_data (G_OBJECT (s_sch_dialog->AccountListCombo), "combo", s_sch_dialog->FCategCombo);
@@ -1053,7 +1056,8 @@ static DialogScheduled *prefs_widget_loan_dialog_scheduled_init (GtkWidget *page
 											  etat.combofix_force_category,
 											  etat.combofix_max_item,
 											  etat.combofix_case_sensitive,
-											  etat.combofix_mixed_sort);
+											  etat.combofix_mixed_sort,
+											  METATREE_BUDGET);
 	gsb_data_categorie_free_name_list (tmp_list);
     gtk_box_pack_start (GTK_BOX (hbox), s_sch_dialog->FBudgetCombo, FALSE, FALSE, 0);
     g_object_set_data (G_OBJECT (s_sch_dialog->FBudgetCombo), "icon", icon);
@@ -1108,7 +1112,8 @@ static DialogScheduled *prefs_widget_loan_dialog_scheduled_init (GtkWidget *page
 											  etat.combofix_force_category,
 											  etat.combofix_max_item,
 											  etat.combofix_case_sensitive,
-											  etat.combofix_mixed_sort);
+											  etat.combofix_mixed_sort,
+											  METATREE_CATEGORY);
 	gsb_data_categorie_free_name_list (tmp_list);
     gtk_box_pack_start (GTK_BOX (hbox), s_sch_dialog->SCategCombo, FALSE, FALSE, 0);
     g_object_set_data (G_OBJECT (s_sch_dialog->SCategCombo), "icon", icon);
@@ -1144,7 +1149,8 @@ static DialogScheduled *prefs_widget_loan_dialog_scheduled_init (GtkWidget *page
 											  etat.combofix_force_category,
 											  etat.combofix_max_item,
 											  etat.combofix_case_sensitive,
-											  etat.combofix_mixed_sort);
+											  etat.combofix_mixed_sort,
+											  METATREE_BUDGET);
 	gsb_data_categorie_free_name_list (tmp_list);
     gtk_box_pack_start (GTK_BOX (hbox), s_sch_dialog->SBudgetCombo, FALSE, FALSE, 0);
     g_object_set_data (G_OBJECT (s_sch_dialog->SBudgetCombo), "icon", icon);
@@ -1199,7 +1205,8 @@ static DialogScheduled *prefs_widget_loan_dialog_scheduled_init (GtkWidget *page
 											  etat.combofix_force_category,
 											  etat.combofix_max_item,
 											  etat.combofix_case_sensitive,
-											  etat.combofix_mixed_sort);
+											  etat.combofix_mixed_sort,
+											  METATREE_CATEGORY);
 	gsb_data_categorie_free_name_list (tmp_list);
     gtk_box_pack_start (GTK_BOX (hbox), s_sch_dialog->TCategCombo, FALSE, FALSE, 0);
     g_object_set_data (G_OBJECT (s_sch_dialog->TCategCombo), "icon", icon);
@@ -1234,7 +1241,8 @@ static DialogScheduled *prefs_widget_loan_dialog_scheduled_init (GtkWidget *page
 											  etat.combofix_force_category,
 											  etat.combofix_max_item,
 											  etat.combofix_case_sensitive,
-											  etat.combofix_mixed_sort);
+											  etat.combofix_mixed_sort,
+											  METATREE_BUDGET);
 	gsb_data_categorie_free_name_list (tmp_list);
     gtk_box_pack_start (GTK_BOX (hbox), s_sch_dialog->TBudgetCombo, FALSE, FALSE, 0);
     g_object_set_data (G_OBJECT (s_sch_dialog->TBudgetCombo), "icon", icon);

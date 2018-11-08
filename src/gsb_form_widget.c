@@ -360,7 +360,8 @@ GtkWidget *gsb_form_widget_create (gint element_number,
 														   etat.combofix_force_payee,
 														   etat.combofix_max_item,
 														   etat.combofix_case_sensitive,
-														   FALSE);
+														   FALSE,
+														   METATREE_PAYEE);
 			//~ }
 			gsb_data_payee_free_name_and_report_list (tmp_list);
 			break;
@@ -371,7 +372,8 @@ GtkWidget *gsb_form_widget_create (gint element_number,
 													   etat.combofix_force_category,
 													   etat.combofix_max_item,
 													   etat.combofix_case_sensitive,
-													   etat.combofix_mixed_sort);
+													   etat.combofix_mixed_sort,
+													   METATREE_CATEGORY);
 			gsb_data_categorie_free_name_list (tmp_list);
 	    	break;
 
@@ -385,7 +387,8 @@ GtkWidget *gsb_form_widget_create (gint element_number,
 													   etat.combofix_force_category,
 													   etat.combofix_max_item,
 													   etat.combofix_case_sensitive,
-													   etat.combofix_mixed_sort);
+													   etat.combofix_mixed_sort,
+													   METATREE_BUDGET);
 			gsb_data_categorie_free_name_list (tmp_list);
 			break;
 

@@ -478,7 +478,8 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
 											   TRUE,							/* on ne peut pas créer d'item */
 											   etat.combofix_max_item,
 											   etat.combofix_case_sensitive,
-											   FALSE);
+											   FALSE,
+											   METATREE_PAYEE);
 	gsb_data_payee_free_name_and_report_list (tmp_list);
     gtk_widget_show ( widget );
     gtk_grid_attach (GTK_GRID (table), widget, column, row, 1, 1);
@@ -539,7 +540,8 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
 											   TRUE,							/* on ne peut pas créer d'item */
 											   etat.combofix_max_item,
 											   etat.combofix_case_sensitive,
-											   etat.combofix_mixed_sort);
+											   etat.combofix_mixed_sort,
+											   METATREE_CATEGORY);
 	gsb_data_categorie_free_name_list (tmp_list);
     gtk_widget_show ( widget );
     gtk_grid_attach (GTK_GRID (table), widget, column, row, 1, 1);
@@ -573,7 +575,8 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
 											   TRUE,							/* on ne peut pas créer d'item */
 											   etat.combofix_max_item,
 											   etat.combofix_case_sensitive,
-											   etat.combofix_mixed_sort);
+											   etat.combofix_mixed_sort,
+											   METATREE_BUDGET);
 	gsb_data_categorie_free_name_list (tmp_list);
     gtk_widget_show ( widget );
     gtk_grid_attach (GTK_GRID (table), widget, column, row, 1, 1);
@@ -2278,7 +2281,8 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
 											   etat.combofix_force_payee,
 											   etat.combofix_max_item,
 											   etat.combofix_case_sensitive,
-											   FALSE);
+											   FALSE,
+											   METATREE_PAYEE);
 	gsb_data_payee_free_name_and_report_list (tmp_list);
 
     gtk_box_pack_start ( GTK_BOX ( hbox ), combo, TRUE, TRUE, 0 );
@@ -2313,7 +2317,8 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
 											   etat.combofix_force_category,
 											   etat.combofix_max_item,
 											   etat.combofix_case_sensitive,
-											   etat.combofix_mixed_sort);
+											   etat.combofix_mixed_sort,
+											   METATREE_CATEGORY);
 	gsb_data_categorie_free_name_list (tmp_list);
 
     gtk_box_pack_start ( GTK_BOX ( hbox ), combo, FALSE, FALSE, 0 );
@@ -2341,7 +2346,8 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
 											   etat.combofix_force_category,
 											   etat.combofix_max_item,
 											   etat.combofix_case_sensitive,
-                        					   etat.combofix_mixed_sort );
+                        					   etat.combofix_mixed_sort,
+											   METATREE_BUDGET);
 	gsb_data_categorie_free_name_list (tmp_list);
     gtk_box_pack_start ( GTK_BOX ( hbox ), combo, FALSE, FALSE, 0 );
 
@@ -2429,7 +2435,8 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
 											  etat.combofix_force_payee,
 											  etat.combofix_max_item,
 											  etat.combofix_case_sensitive,
-											  FALSE);
+											  FALSE,
+											  METATREE_PAYEE);
 	gsb_data_payee_free_name_and_report_list (tmp_list);
     gtk_box_pack_start ( GTK_BOX ( hbox ), combo, TRUE, TRUE, 0 );
     gsb_form_widget_set_empty (combo, TRUE);
@@ -2475,7 +2482,8 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
 											   etat.combofix_force_category,
 											   etat.combofix_max_item,
 											   etat.combofix_case_sensitive,
-											   etat.combofix_mixed_sort);
+											   etat.combofix_mixed_sort,
+											   METATREE_CATEGORY);
 	gsb_data_categorie_free_name_list (tmp_list);
     gtk_box_pack_start ( GTK_BOX ( hbox ), combo, FALSE, FALSE, 0 );
     gsb_form_widget_set_empty (combo, TRUE);
@@ -2501,7 +2509,8 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
 											   etat.combofix_force_category,
 											   etat.combofix_max_item,
 											   etat.combofix_case_sensitive,
-                        etat.combofix_mixed_sort );
+                        					   etat.combofix_mixed_sort,
+											   METATREE_BUDGET);
     gtk_box_pack_start ( GTK_BOX ( hbox ), combo, FALSE, FALSE, 0 );
     gsb_data_categorie_free_name_list (tmp_list);
     gsb_form_widget_set_empty (combo, TRUE);

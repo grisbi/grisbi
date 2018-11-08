@@ -74,6 +74,7 @@ struct _GtkComboFixPrivate
     /* number of items */
     gint				visible_items;
 
+	gint				type;					/* type : 0 : payee, 1 : category, 2 : budget */
     /* old entry */
     gchar *				old_entry;
 };
@@ -1893,11 +1894,13 @@ static void gtk_combofix_class_init (GtkComboFixClass *klass)
  *
  * \return the new widget
  **/
-GtkWidget *gtk_combofix_new (GSList *list)
+GtkWidget *gtk_combofix_new (GSList *list,
+							 gint type)
 {
     GtkComboFix *combofix;
 
 	combofix = g_object_new (GTK_TYPE_COMBOFIX, NULL);
+
     gtk_combofix_set_list (combofix, list);
 
 	gtk_widget_set_size_request (GTK_WIDGET (combofix), COMBOFIX_MIN_WIDTH, -1);
@@ -1921,7 +1924,8 @@ GtkWidget *gtk_combofix_new_with_properties (GSList *list,
 											 gboolean force_text,
 											 gboolean max_items,
 											 gboolean case_sensitive,
-											 gboolean mixed_sort)
+											 gboolean mixed_sort,
+											 gint type)
 {
     GtkComboFix *combofix;
     GtkComboFixPrivate *priv;
@@ -2031,8 +2035,7 @@ void gtk_combofix_set_text (GtkComboFix *combofix,
  *
  * \return
  **/
-void gtk_combofix_set_properties (GtkWidget *combofix,
-								  gint type)
+void gtk_combofix_set_properties (GtkWidget *combofix)
 {
     GtkComboFixPrivate *priv;
 
@@ -2041,7 +2044,7 @@ void gtk_combofix_set_properties (GtkWidget *combofix,
 
     priv = gtk_combofix_get_instance_private (GTK_COMBOFIX (combofix));
 
-	if (type)
+	if (priv->type)
 	{
 		priv->force = etat.combofix_force_category;
 		priv->mixed_sort = etat.combofix_mixed_sort;

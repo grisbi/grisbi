@@ -43,15 +43,16 @@ struct _GtkComboFixClass
 
 /* construction */
 GType 			gtk_combofix_get_type 					(void) G_GNUC_CONST;
-GtkWidget *		gtk_combofix_new 						(GSList *list);
+GtkWidget *		gtk_combofix_new 						(GSList *list,
+														 gint type);
 GtkWidget *		gtk_combofix_new_with_properties 		(GSList *list,
 											 			 gboolean force_text,
 							                             gboolean max_items,
 							                             gboolean case_sensitive,
-							                             gboolean mixed_sort);
-GtkWidget *		gtk_combofix_get_entry					(GtkComboFix *combofix);
-void			gtk_combofix_set_properties				(GtkWidget *combofix,
+							                             gboolean mixed_sort,
 														 gint type);
+GtkWidget *		gtk_combofix_get_entry					(GtkComboFix *combofix);
+void			gtk_combofix_set_properties				(GtkWidget *combofix);
 
 /* text */
 const gchar *	gtk_combofix_get_text					(GtkComboFix *combofix);
@@ -81,6 +82,8 @@ void 			gtk_combofix_set_max_items				(GtkComboFix *combofix,
 							                             gint max_items);
 void 			gtk_combofix_set_mixed_sort				(GtkComboFix *combofix,
 							                             gboolean mixed_sort);
+void			gtk_combofix_set_type					(GtkComboFix *combofix,
+							                             gint type);
 
 /* set callback */
 void 			gtk_combofix_set_selection_callback		(GtkComboFix *combofix,

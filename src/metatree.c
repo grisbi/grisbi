@@ -1863,7 +1863,7 @@ gboolean find_destination_blob ( MetatreeInterface * iface,
     liste_combofix = g_slist_append ( liste_combofix, liste_division_debit );
     liste_combofix = g_slist_append ( liste_combofix, liste_division_credit );
 
-    combofix = gtk_combofix_new ( liste_combofix );
+    combofix = gtk_combofix_new ( liste_combofix, iface->content);
     gtk_combofix_set_force_text ( GTK_COMBOFIX (combofix), TRUE );
     gtk_box_pack_start ( GTK_BOX ( hbox ), combofix, TRUE, TRUE, 0 );
 
@@ -3410,7 +3410,7 @@ GtkWidget *metatree_get_combofix ( MetatreeInterface *iface,
 
     liste_combofix = metatree_get_combofix_list ( iface, division, sub_division, TRUE );
 
-    combofix = gtk_combofix_new ( liste_combofix );
+    combofix = gtk_combofix_new ( liste_combofix, iface->content );
     g_object_set_data ( G_OBJECT ( combofix ), "list_1", liste_combofix );
 
     liste_combofix = metatree_get_combofix_list ( iface, division, 0, FALSE );
