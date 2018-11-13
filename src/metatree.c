@@ -1752,18 +1752,32 @@ gboolean find_destination_blob ( MetatreeInterface * iface,
     GtkWidget *dialog, *hbox, *button_delete, *combofix, *button_move;
     GSList *liste_combofix, *division_list, *liste_division_credit, *liste_division_debit;
     gint resultat, nouveau_no_division, nouveau_no_sub_division;
+	gchar* hint;
     gchar **split_division;
+	gchar* text;
     gchar *tmpstr;
 
     /* create the box to move change the division and sub-div of the transactions */
-    gchar* hint = g_strdup_printf ( _("'%s' still contains transactions or archived transactions."),
-				       ( !sub_division ?
-					 iface -> div_name ( division ) :
-					 iface -> sub_div_name ( division, sub_division ) ) );
-    gchar* text = g_strdup_printf ( _("If you want to remove it but want to keep transactions, you can transfer them to another (sub-)%s.  Otherwise, transactions can be simply deleted along with their division."),
-				       _( iface -> meta_name ) );
-    dialog = dialogue_special_no_run ( GTK_MESSAGE_WARNING, GTK_BUTTONS_OK_CANCEL,
-				       text , hint );
+	if (sub_division)
+		hint = g_strdup_printf (_("'%s : %s' still contains transactions or archived transactions."),
+								iface -> div_name (division),
+								iface -> sub_div_name (division, sub_division));
+	else
+		hint = g_strdup_printf (_("'%s' still contains transactions or archived transactions."),
+								iface -> div_name ( division ));
+
+	if (iface -> content == METATREE_PAYEE)
+		text = g_strdup_printf (_("If you want to remove it but want to keep transactions, "
+								   "you can transfer them to another %s.  Otherwise, "
+								   "transactions can be simply deleted along with their division."),
+								_( iface -> meta_name ) );
+	else
+		text = g_strdup_printf (_("If you want to remove it but want to keep transactions, "
+								   "you can transfer them to another (sub-)%s.  Otherwise, "
+								   "transactions can be simply deleted along with their division."),
+								_( iface -> meta_name ) );
+
+    dialog = dialogue_special_no_run ( GTK_MESSAGE_WARNING, GTK_BUTTONS_OK_CANCEL, text , hint );
 
     g_free ( hint );
     g_free ( text );
