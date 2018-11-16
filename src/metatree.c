@@ -3361,15 +3361,15 @@ void metatree_update_tree_view ( MetatreeInterface *iface )
 	/* update value in the tree view */
 	switch ( iface -> content )
 	{
-	    case 0:
+	    case METATREE_PAYEE:
 		transaction_list_update_element ( ELEMENT_PARTY );
         gsb_data_payee_update_counters ( );
 		break;
-	    case 1:
+	    case METATREE_CATEGORY:
 		transaction_list_update_element ( ELEMENT_CATEGORY );
         categories_fill_list ( );
 		break;
-	    case 2:
+	    case METATREE_BUDGET:
 		transaction_list_update_element ( ELEMENT_BUDGET );
         gsb_data_budget_update_counters ( );
 		break;
