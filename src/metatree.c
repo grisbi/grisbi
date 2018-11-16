@@ -62,7 +62,8 @@
 
 
 /*START_STATIC*/
-static void button_delete_div_sub_div_clicked ( GtkWidget *togglebutton, GdkEventButton *event, GtkWidget *button );
+static void button_delete_div_sub_div_clicked (GtkWidget *togglebutton,
+											   gpointer value);
 static gboolean division_node_maybe_expand ( GtkTreeModel *model, GtkTreePath *path,
                         GtkTreeIter *iter, gpointer data );
 static void fill_division_zero ( GtkTreeModel * model,
@@ -1904,14 +1905,14 @@ gboolean find_destination_blob ( MetatreeInterface * iface,
 
     /* set the signals */
     g_signal_connect ( G_OBJECT ( button_move ),
-                        "button-release-event",
+                        "toggled",
                         G_CALLBACK ( button_delete_div_sub_div_clicked ),
-                        NULL );
+                        GINT_TO_POINTER (0));
 
     g_signal_connect ( G_OBJECT ( button_delete ),
-                        "button-release-event",
+                        "toggled",
                         G_CALLBACK ( button_delete_div_sub_div_clicked ),
-                        NULL );
+                        GINT_TO_POINTER (1));
 
     gtk_widget_show_all ( dialog );
 
@@ -2819,11 +2820,10 @@ void move_transactions_to_division_payee (GtkTreeModel * model,
  *
  *
  * */
-static void button_delete_div_sub_div_clicked ( GtkWidget *togglebutton, GdkEventButton *event, GtkWidget *button )
+static void button_delete_div_sub_div_clicked (GtkWidget *togglebutton,
+											   gpointer value)
 {
-    button_move_selected = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( togglebutton ) );
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( togglebutton ),
-                        button_move_selected );
+	button_move_selected = GPOINTER_TO_INT (value);
 }
 
 
