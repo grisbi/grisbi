@@ -1892,7 +1892,7 @@ gboolean find_destination_blob ( MetatreeInterface * iface,
     else if ( !sub_division )
 	    tmpstr = g_strdup_printf(_("Just remove this %s."), _(iface -> meta_name) );
     else
-	tmpstr = g_strdup_printf(_("Just remove this sub-%s."), _(iface -> meta_name) );
+		tmpstr = g_strdup_printf(_("Just remove this sub-%s."), _(iface -> meta_name) );
 
     button_delete = gtk_radio_button_new_with_label (
                         gtk_radio_button_get_group ( GTK_RADIO_BUTTON ( button_move ) ),
@@ -3102,7 +3102,18 @@ void metatree_manage_sub_divisions ( GtkWidget *tree_view )
         metatree_move_transactions_to_sub_div ( iface, model,
                         no_division, no_sub_division, new_division, new_sub_division );
 
-        /* fait le tour des échéances pour mettre le nouveau numéro de division et sub_division  */
+		/* update the model  */
+		switch (iface->content )
+		{
+			case METATREE_CATEGORY:
+				categories_fill_list ();
+			break;
+			case METATREE_BUDGET:
+				payees_fill_list ();
+			break;
+		}
+
+		/* fait le tour des échéances pour mettre le nouveau numéro de division et sub_division  */
         metatree_move_scheduled_with_div_sub_div ( iface, model,
                             no_division, no_sub_division,
                             new_division, new_sub_division );
@@ -3116,7 +3127,18 @@ void metatree_manage_sub_divisions ( GtkWidget *tree_view )
         new_sub_division = metatree_move_sub_division_to_division ( iface,
                         no_division, no_sub_division, new_division );
 
-        /* fait le tour des échéances pour mettre le nouveau numéro de division et sub_division  */
+		/* update the model  */
+		switch (iface->content )
+		{
+			case METATREE_CATEGORY:
+				categories_fill_list ();
+			break;
+			case METATREE_BUDGET:
+				payees_fill_list ();
+			break;
+		}
+
+		/* fait le tour des échéances pour mettre le nouveau numéro de division et sub_division  */
         metatree_move_scheduled_with_div_sub_div ( iface, model,
                             no_division, no_sub_division,
                             new_division, new_sub_division );
@@ -3128,6 +3150,17 @@ void metatree_manage_sub_divisions ( GtkWidget *tree_view )
     if ( button_action_selected == 2 && new_division == 0 && new_sub_division == 0 )
     {
         new_division = metatree_create_division_from_sub_division ( iface, no_division, no_sub_division );
+
+		/* update the model  */
+		switch (iface->content )
+		{
+			case METATREE_CATEGORY:
+				categories_fill_list ();
+			break;
+			case METATREE_BUDGET:
+				payees_fill_list ();
+			break;
+		}
 
         /* fait le tour des échéances pour mettre le nouveau numéro de division et sub_division  */
         metatree_move_scheduled_with_div_sub_div ( iface, model,
@@ -3367,7 +3400,7 @@ void metatree_update_tree_view ( MetatreeInterface *iface )
 		break;
 	    case METATREE_CATEGORY:
 		transaction_list_update_element ( ELEMENT_CATEGORY );
-        categories_fill_list ( );
+        gsb_data_category_update_counters ();
 		break;
 	    case METATREE_BUDGET:
 		transaction_list_update_element ( ELEMENT_BUDGET );
