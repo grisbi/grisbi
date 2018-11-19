@@ -476,7 +476,6 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
 	tmp_list = gsb_data_payee_get_name_and_report_list ();
 	widget = gtk_combofix_new_with_properties (tmp_list,
 											   TRUE,							/* on ne peut pas créer d'item */
-											   etat.combofix_max_item,
 											   etat.combofix_case_sensitive,
 											   FALSE,
 											   METATREE_PAYEE);
@@ -538,7 +537,6 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
 	tmp_list = gsb_data_category_get_name_list (TRUE, TRUE, TRUE, TRUE);
 	widget = gtk_combofix_new_with_properties (tmp_list,
 											   TRUE,							/* on ne peut pas créer d'item */
-											   etat.combofix_max_item,
 											   etat.combofix_case_sensitive,
 											   etat.combofix_mixed_sort,
 											   METATREE_CATEGORY);
@@ -573,7 +571,6 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
 	tmp_list = gsb_data_budget_get_name_list (TRUE, TRUE);
 	widget = gtk_combofix_new_with_properties (tmp_list,
 											   TRUE,							/* on ne peut pas créer d'item */
-											   etat.combofix_max_item,
 											   etat.combofix_case_sensitive,
 											   etat.combofix_mixed_sort,
 											   METATREE_BUDGET);
@@ -2279,7 +2276,6 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
 	tmp_list = gsb_data_payee_get_name_and_report_list ();
 	combo = gtk_combofix_new_with_properties (tmp_list,
 											   etat.combofix_force_payee,
-											   etat.combofix_max_item,
 											   etat.combofix_case_sensitive,
 											   FALSE,
 											   METATREE_PAYEE);
@@ -2315,7 +2311,6 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
 	tmp_list = gsb_data_category_get_name_list (TRUE, TRUE, TRUE, TRUE);
 	combo = gtk_combofix_new_with_properties (tmp_list,
 											   etat.combofix_force_category,
-											   etat.combofix_max_item,
 											   etat.combofix_case_sensitive,
 											   etat.combofix_mixed_sort,
 											   METATREE_CATEGORY);
@@ -2344,7 +2339,6 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
 	tmp_list = gsb_data_budget_get_name_list (TRUE, TRUE);
 	combo = gtk_combofix_new_with_properties (tmp_list,
 											   etat.combofix_force_category,
-											   etat.combofix_max_item,
 											   etat.combofix_case_sensitive,
                         					   etat.combofix_mixed_sort,
 											   METATREE_BUDGET);
@@ -2433,7 +2427,6 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
 	tmp_list = gsb_data_payee_get_name_and_report_list ();
 	combo = gtk_combofix_new_with_properties (tmp_list,
 											  etat.combofix_force_payee,
-											  etat.combofix_max_item,
 											  etat.combofix_case_sensitive,
 											  FALSE,
 											  METATREE_PAYEE);
@@ -2480,7 +2473,6 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
 	tmp_list = gsb_data_category_get_name_list (TRUE, TRUE, TRUE, TRUE);
 	combo = gtk_combofix_new_with_properties (tmp_list,
 											   etat.combofix_force_category,
-											   etat.combofix_max_item,
 											   etat.combofix_case_sensitive,
 											   etat.combofix_mixed_sort,
 											   METATREE_CATEGORY);
@@ -2507,7 +2499,6 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
 	tmp_list = gsb_data_budget_get_name_list (TRUE, TRUE);
 	combo = gtk_combofix_new_with_properties (tmp_list,
 											   etat.combofix_force_category,
-											   etat.combofix_max_item,
 											   etat.combofix_case_sensitive,
                         					   etat.combofix_mixed_sort,
 											   METATREE_BUDGET);

@@ -68,8 +68,9 @@ struct _GtkComboFixPrivate
     gboolean			case_sensitive;			/* TRUE for case sensitive (in that case, the first entry give the case) */
     gboolean			force;					/* TRUE if the entry content must belong to the list  */
     gboolean			mixed_sort;				/* TRUE mix the different list, FALSE separate them */
-    gint				max_items;				/* 0 to show all the items */
     gint				visible_items;			/* number of items */
+	gint				minimum_key_length;		/* minimum_key_length of completion */
+	gboolean			ignore_accents;			/* if case_sensitive is TRUE ignore accents in the completion */
 
 	gint				type;					/* type : 0 : payee, 1 : category, 2 : budget */
 
@@ -1804,9 +1805,10 @@ static void gtk_combofix_init (GtkComboFix *combofix)
 
     /* set the fields of the combofix */
     priv->force = FALSE;
-    priv->max_items = 0;
     priv->case_sensitive = FALSE;
     priv->visible_items = 0;
+	priv->ignore_accents = TRUE;		/* reproduit le fonctionnement de la completion de gtk */
+	priv->minimum_key_length = 1;		/* la recherche commence au premier caractère */
 
     /* the combofix is a vbox */
     vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
@@ -1933,7 +1935,6 @@ GtkWidget *gtk_combofix_new (GSList *list,
  **/
 GtkWidget *gtk_combofix_new_with_properties (GSList *list,
 											 gboolean force_text,
-											 gboolean max_items,
 											 gboolean case_sensitive,
 											 gboolean mixed_sort,
 											 gint type)
@@ -1945,7 +1946,6 @@ GtkWidget *gtk_combofix_new_with_properties (GSList *list,
     priv = gtk_combofix_get_instance_private (combofix);
 
 	priv->force = force_text;
-    priv->max_items = max_items;
     priv->case_sensitive = case_sensitive;
     priv->mixed_sort = mixed_sort;
 	priv->type = type;
@@ -2063,7 +2063,6 @@ void gtk_combofix_set_properties (GtkWidget *combofix)
 		priv->force = etat.combofix_force_payee;
 		priv->mixed_sort = FALSE;
 	}
-    priv->max_items = etat.combofix_max_item;
     priv->case_sensitive = etat.combofix_case_sensitive;
 
 }
@@ -2171,27 +2170,6 @@ gboolean gtk_combofix_show_popup (GtkComboFix *combofix)
     return FALSE;
 }
 
-/**
- * set the maximum items viewable in the popup,
- * if there is more items corresponding to the entry than that number,
- * the popup is not showed
- *
- * \param combofix
- * \param max_items
- *
- * \return
- **/
-void gtk_combofix_set_max_items (GtkComboFix *combofix,
-								 gint max_items)
-{
-    GtkComboFixPrivate *priv;
-
-    g_return_if_fail (combofix);
-    g_return_if_fail (GTK_IS_COMBOFIX (combofix));
-
-	priv = gtk_combofix_get_instance_private (combofix);
-    priv->max_items = max_items;
-}
 
 /**
  * set for the complex combofix if the different list have to

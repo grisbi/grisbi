@@ -554,7 +554,6 @@ static void prefs_page_import_asso_setup_import_asso_page (PrefsPageImportAsso *
 	tmp_list = gsb_data_payee_get_name_and_report_list();
 	priv->combo_import_asso_payee = gtk_combofix_new_with_properties (tmp_list,
 														   etat.combofix_force_payee,
-														   etat.combofix_max_item,
 														   !w_run->import_asso_case_insensitive,
 														   FALSE,
 														   METATREE_PAYEE);

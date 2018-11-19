@@ -245,9 +245,6 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
                 else if ( !strcmp ( attribute_names[i], "Combofix_mixed_sort" ))
                     etat.combofix_mixed_sort = utils_str_atoi( attribute_values[i]);
 
-                else if ( !strcmp ( attribute_names[i], "Combofix_max_item" ))
-                    etat.combofix_max_item = utils_str_atoi( attribute_values[i]);
-
                 else if ( !strcmp ( attribute_names[i], "Combofix_case_sensitive" ))
                     etat.combofix_case_sensitive = utils_str_atoi( attribute_values[i]);
 

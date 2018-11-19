@@ -156,7 +156,6 @@ struct _GrisbiWinEtat
 
     /* combofix configuration */
     gint		combofix_mixed_sort;						/* TRUE for no separation between the categories */
-    gint		combofix_max_item;							/* maximum number of items we want before showing the popup */
     gint		combofix_case_sensitive;					/* TRUE if case sensitive */
     gint		combofix_enter_select_completion;			/* TRUE if enter close the popup and keep what is in the entry (else, select the current item in the list) */
     gint		combofix_force_payee;						/* TRUE if no new item can be appended in the payee combofix */

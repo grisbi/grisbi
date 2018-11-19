@@ -804,7 +804,6 @@ gulong gsb_file_save_general_part ( gulong iterator,
 					   "\t\tTransaction_column_align=\"%s\"\n"
 					   "\t\tScheduler_column_width=\"%s\"\n"
 					   "\t\tCombofix_mixed_sort=\"%d\"\n"
-					   "\t\tCombofix_max_item=\"%d\"\n"
 					   "\t\tCombofix_case_sensitive=\"%d\"\n"
 					   "\t\tCombofix_force_payee=\"%d\"\n"
 					   "\t\tCombofix_force_category=\"%d\"\n"
@@ -871,7 +870,6 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	my_safe_null_str ( transaction_column_align_write ),
 	my_safe_null_str(scheduler_column_width_write),
 	etat.combofix_mixed_sort,
-	etat.combofix_max_item,
 	etat.combofix_case_sensitive,
 	etat.combofix_force_payee,
 	etat.combofix_force_category,

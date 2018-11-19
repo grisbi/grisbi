@@ -47,7 +47,6 @@ GtkWidget *		gtk_combofix_new 						(GSList *list,
 														 gint type);
 GtkWidget *		gtk_combofix_new_with_properties 		(GSList *list,
 											 			 gboolean force_text,
-							                             gboolean max_items,
 							                             gboolean case_sensitive,
 							                             gboolean mixed_sort,
 														 gint type);

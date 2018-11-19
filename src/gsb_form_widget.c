@@ -352,7 +352,6 @@ GtkWidget *gsb_form_widget_create (gint element_number,
 			tmp_list = gsb_data_payee_get_name_and_report_list ();
 			widget = gtk_combofix_new_with_properties (tmp_list,
 													   etat.combofix_force_payee,
-													   etat.combofix_max_item,
 													   etat.combofix_case_sensitive,
 													   FALSE,
 													   METATREE_PAYEE);
@@ -363,7 +362,6 @@ GtkWidget *gsb_form_widget_create (gint element_number,
         	tmp_list = gsb_data_category_get_name_list (TRUE, TRUE, TRUE, TRUE);
 			widget = gtk_combofix_new_with_properties (tmp_list,
 													   etat.combofix_force_category,
-													   etat.combofix_max_item,
 													   etat.combofix_case_sensitive,
 													   etat.combofix_mixed_sort,
 													   METATREE_CATEGORY);
@@ -378,7 +376,6 @@ GtkWidget *gsb_form_widget_create (gint element_number,
 			tmp_list = gsb_data_budget_get_name_list (TRUE, TRUE);
 			widget = gtk_combofix_new_with_properties (tmp_list,
 													   etat.combofix_force_category,
-													   etat.combofix_max_item,
 													   etat.combofix_case_sensitive,
 													   etat.combofix_mixed_sort,
 													   METATREE_BUDGET);
