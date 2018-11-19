@@ -820,7 +820,7 @@ GtkWidget *gsb_combo_form_box_new (GSList *list,
 											 NULL,
 											 NULL);
 
-	gtk_entry_completion_set_minimum_key_length (completion, conf.combo_minimum_key_length);
+	gtk_entry_completion_set_minimum_key_length (completion, conf.completion_minimum_key_length);
 
 	entry = gtk_bin_get_child (GTK_BIN (combo));
 	gtk_entry_set_completion (GTK_ENTRY (entry), completion);
