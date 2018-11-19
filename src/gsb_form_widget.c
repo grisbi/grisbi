@@ -350,19 +350,12 @@ GtkWidget *gsb_form_widget_create (gint element_number,
 
 		case TRANSACTION_FORM_PARTY:
 			tmp_list = gsb_data_payee_get_name_and_report_list ();
-			//~ if (conf.combo_payee_use_gtk_completion)
-			//~ {
-				//~ widget = gsb_combo_form_box_new (tmp_list, NULL, NULL);
-			//~ }
-			//~ else
-			//~ {
-				widget = gtk_combofix_new_with_properties (tmp_list,
-														   etat.combofix_force_payee,
-														   etat.combofix_max_item,
-														   etat.combofix_case_sensitive,
-														   FALSE,
-														   METATREE_PAYEE);
-			//~ }
+			widget = gtk_combofix_new_with_properties (tmp_list,
+													   etat.combofix_force_payee,
+													   etat.combofix_max_item,
+													   etat.combofix_case_sensitive,
+													   FALSE,
+													   METATREE_PAYEE);
 			gsb_data_payee_free_name_and_report_list (tmp_list);
 			break;
 
