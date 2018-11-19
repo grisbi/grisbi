@@ -71,8 +71,6 @@ static gboolean gsb_transaction_list_config_realized ( GtkWidget *tree_view,
 static void gsb_transaction_list_config_toggle_element_button ( GtkWidget *toggle_button,
                         GtkWidget *tree_view );
 static gboolean gsb_transaction_list_config_update_list_config ( GtkWidget *tree_view );
-static gboolean gsb_transactions_list_display_change_max_items ( GtkWidget *entry,
-                        gpointer null );
 static void gsb_transactions_list_display_show_gives_balance ( void );
 static gboolean gsb_transactions_list_display_sort_changed ( GtkComboBox *widget,
                         gint *pointeur );
@@ -666,161 +664,53 @@ GtkWidget *onglet_diverse_form_and_lists ( void )
  *
  * \return FALSE
  * */
-//~ static gboolean gsb_transactions_list_display_change_key_length (GtkWidget *entry,
-																 //~ gpointer null)
-//~ {
-	//~ GSettings *settings;
-	//~ const gchar *text;
-
-	//~ settings = grisbi_settings_get_settings (SETTINGS_FORM);
-
-	//~ text = gtk_entry_get_text (GTK_ENTRY (entry));
-	//~ if (text)
-	//~ {
-		//~ gint tmp_int;
-
-		//~ tmp_int = utils_str_atoi (gtk_entry_get_text (GTK_ENTRY (entry)));
-		//~ if (tmp_int < 2)
-		//~ {
-			//~ gtk_entry_set_text (GTK_ENTRY (entry), "");
-			//~ gtk_entry_set_placeholder_text (GTK_ENTRY (entry), _("Default"));
-			//~ conf.combo_minimum_key_length = 1;
-		//~ }
-		//~ else
-		//~ {
-			//~ conf.combo_minimum_key_length = tmp_int;
-		//~ }
-	//~ }
-	//~ else
-	//~ {
-		//~ gtk_entry_set_placeholder_text (GTK_ENTRY (entry), _("Default"));
-		//~ conf.combo_minimum_key_length = 1;
-	//~ }
-
-	//~ g_settings_set_int (G_SETTINGS (settings),
-						//~ "combo-minimum-key-length",
-						//~ conf.combo_minimum_key_length);
-	//~ gsb_form_create_widgets ();
-
-	//~ return FALSE;
-//~ }
-
-/**
- * cette fonction sert à positionner le bouton ignore accents en fonction de combofix_case_sensitive
- *
- * \param
- * \param
- *
- * \return
- **/
-static void onglet_form_completion_case_sensitive_toggle  (GtkWidget *checkbutton,
-														   GtkWidget *button_ignore_accents)
+static gboolean gsb_transactions_list_display_change_key_length (GtkWidget *entry,
+																 gpointer null)
 {
-	if (etat.combofix_case_sensitive)
-	{
-		if (conf.combo_categ_ib_use_gtk_completion || conf.combo_payee_use_gtk_completion)
-			gtk_widget_set_sensitive (button_ignore_accents, TRUE);
-		else
-			gtk_widget_set_sensitive (button_ignore_accents, FALSE);
-	}
-	else
-	{
-		GSettings *settings;
-
-		settings = grisbi_settings_get_settings (SETTINGS_FORM);
-		conf.completion_ignore_accents = FALSE;
-		g_settings_set_boolean (G_SETTINGS (settings),
-								"completion-ignore-accents",
-								conf.completion_ignore_accents);
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button_ignore_accents), FALSE);
-
-		gtk_widget_set_sensitive (button_ignore_accents, FALSE);
-	}
-}
-
-/**
- * called when we change a parameter of the combofix configuration
- * update the combofix in the form if they exists
- * as we don't know what was changed, update all the parameter (not a problem
- * because very fast)
- * at this level, the etat.___ variable has already been changed
- *
- * \param
- * \param
- *
- * \return FALSE
- **/
-static void onglet_form_completion_update_combo_completion (GtkWidget *checkbutton,
-															gpointer data)
-{
-	GtkWidget *accents_button = NULL;
-	GtkWidget *entry_max_items = NULL;
 	GSettings *settings;
-	gint type;
+	const gchar *text;
 
 	settings = grisbi_settings_get_settings (SETTINGS_FORM);
-	type = GPOINTER_TO_INT (data);
-	devel_debug_int (type);
-	switch (type)
-	{
-		case 0:
-			g_settings_set_boolean (G_SETTINGS (settings),
-									"combo-payee-use-gtk-completion",
-									conf.combo_payee_use_gtk_completion);
-			accents_button = g_object_get_data (G_OBJECT (checkbutton), "button_ignore_accents");
-			entry_max_items = g_object_get_data (G_OBJECT (checkbutton), "entry_max_items");
-			break;
-		case 1:
-			g_settings_set_boolean (G_SETTINGS (settings),
-									"combo-categ-ib-use-gtk-completion",
-									conf.combo_categ_ib_use_gtk_completion);
-			accents_button = g_object_get_data (G_OBJECT (checkbutton), "button_ignore_accents");
-			entry_max_items = g_object_get_data (G_OBJECT (checkbutton), "entry_max_items");
-			break;
-		case 2:
-			g_settings_set_boolean (G_SETTINGS (settings),
-									"completion-ignore-accents",
-									conf.completion_ignore_accents);
-			gsb_form_create_widgets ();
 
-		default:
-			return;
-	}
-
-	if (etat.combofix_case_sensitive)
+	text = gtk_entry_get_text (GTK_ENTRY (entry));
+	if (text)
 	{
-		if (conf.combo_categ_ib_use_gtk_completion || conf.combo_payee_use_gtk_completion)
+		gint tmp_int;
+
+		tmp_int = utils_str_atoi (gtk_entry_get_text (GTK_ENTRY (entry)));
+		if (tmp_int < 2)
 		{
-			gtk_widget_set_sensitive (accents_button, TRUE);
+			gtk_entry_set_text (GTK_ENTRY (entry), "");
+			gtk_entry_set_placeholder_text (GTK_ENTRY (entry), _("Default"));
+			conf.completion_minimum_key_length = 1;
 		}
 		else
 		{
-			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (accents_button), FALSE);
-			gtk_widget_set_sensitive (accents_button, FALSE);
+			conf.completion_minimum_key_length = tmp_int;
 		}
 	}
-	if (conf.combo_categ_ib_use_gtk_completion || conf.combo_payee_use_gtk_completion)
-		gtk_widget_set_sensitive (entry_max_items, FALSE);
 	else
-		gtk_widget_set_sensitive (entry_max_items, TRUE);
+	{
+		gtk_entry_set_placeholder_text (GTK_ENTRY (entry), _("Default"));
+		conf.completion_minimum_key_length = 1;
+	}
 
-
+	g_settings_set_int (G_SETTINGS (settings),
+						"completion-minimum-key-length",
+						conf.completion_minimum_key_length);
 	gsb_form_create_widgets ();
 
+	return FALSE;
 }
 
 GtkWidget *onglet_form_completion ( void )
 {
     GtkWidget *vbox_pref;
-    //~ GtkWidget *entry;
+    GtkWidget *entry;
     GtkWidget *hbox;
     GtkWidget *label;
-    GtkWidget *entry_max_items;
     GtkWidget *button;
-    //~ GtkWidget *button_1;
-    //~ GtkWidget *button_2;
 	GtkWidget *button_case_sensitive;
-	GtkWidget *button_ignore_accents;
 	gchar* tmp_str;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Form completion"), "gsb-form-32.png" );
@@ -877,23 +767,7 @@ GtkWidget *onglet_form_completion ( void )
 														 NULL);
     gtk_box_pack_start (GTK_BOX (vbox_pref), button_case_sensitive, FALSE, FALSE, 0);
 
-	/* set button ignoring accents */
-    hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
-    gtk_box_pack_start (GTK_BOX (vbox_pref), hbox, FALSE, FALSE, 0);
-
-	button_ignore_accents = utils_prefs_automem_checkbutton_blue_new (_("Ignore accents and diacritics"),
-																	  &conf.completion_ignore_accents,
-																	  G_CALLBACK (onglet_form_completion_update_combo_completion),
-													   				  GINT_TO_POINTER (2));
-
-	/* set signals for ignoring accents */
-	g_signal_connect_after (G_OBJECT (button_case_sensitive),
-							"toggled",
-							 G_CALLBACK (onglet_form_completion_case_sensitive_toggle),
-							 button_ignore_accents);
-    gtk_box_pack_start (GTK_BOX (hbox), button_ignore_accents, FALSE, FALSE, 20);
-
-
+	/* Don't allow creation for payees and catergories and IB" */
 	gtk_box_pack_start ( GTK_BOX (vbox_pref),
                         gsb_automem_checkbutton_new (_("Don't allow new payee creation"),
                         &etat.combofix_force_payee,
@@ -906,91 +780,31 @@ GtkWidget *onglet_form_completion ( void )
                         G_CALLBACK ( gsb_transactions_list_display_update_combofix), NULL),
                         FALSE, FALSE, 0 );
 
-	/* max items for listes */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
-    gtk_box_pack_start ( GTK_BOX (vbox_pref), hbox, FALSE, FALSE, 0 );
+	/* set_minimum_key_length  */
+    hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
+    gtk_box_pack_start (GTK_BOX (vbox_pref), hbox, FALSE, FALSE, 0);
 
-    label = gtk_label_new (_("Maximum items showed in drop down lists (0 for no limit): ") );
-    gtk_box_pack_start ( GTK_BOX (hbox), label, FALSE, FALSE, 0 );
+    label = gtk_label_new (_("Minimum length of the search key in characters (one by default): "));
+    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 20);
 
-    entry_max_items = gtk_entry_new ();
-    gtk_widget_set_size_request ( entry_max_items, 30, -1 );
-    tmp_str = utils_str_itoa (etat.combofix_max_item);
-    gtk_entry_set_text ( GTK_ENTRY (entry_max_items), tmp_str);
-    g_free ( tmp_str );
-    g_signal_connect ( G_OBJECT (entry_max_items),
-                        "changed",
-                        G_CALLBACK (gsb_transactions_list_display_change_max_items),
-                        NULL );
-    gtk_box_pack_start ( GTK_BOX (hbox), entry_max_items, FALSE, FALSE, 0 );
-
-	if (conf.combo_categ_ib_use_gtk_completion || conf.combo_payee_use_gtk_completion)
-		gtk_widget_set_sensitive (entry_max_items, FALSE);
-
-    /* new options for completion */
-	//~ label = gtk_label_new (_("Using the completion of gtk"));
-	//~ gtk_widget_set_halign (label, GTK_ALIGN_START);
-	//~ gtk_box_pack_start (GTK_BOX (vbox_pref), label, FALSE, FALSE, 0);
-
-    //~ hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
-    //~ gtk_box_pack_start (GTK_BOX (vbox_pref), hbox, FALSE, FALSE, 0);
-
-	//~ button_1 = utils_prefs_automem_checkbutton_blue_new (_("Use gtk completion for payees"),
-														 //~ &conf.combo_payee_use_gtk_completion,
-														 //~ G_CALLBACK (onglet_form_completion_update_combo_completion),
-													   	 //~ GINT_TO_POINTER (0));
-    //~ gtk_box_pack_start (GTK_BOX (hbox), button_1, FALSE, FALSE, 20);
-
-    //~ hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
-    //~ gtk_box_pack_start (GTK_BOX (vbox_pref), hbox, FALSE, FALSE, 0);
-
-	//~ button_2 = utils_prefs_automem_checkbutton_blue_new (_("Use gtk completion for categories/budget"),
-														 //~ &conf.combo_categ_ib_use_gtk_completion,
-													 	 //~ G_CALLBACK (onglet_form_completion_update_combo_completion),
-														 //~ GINT_TO_POINTER (1));
-    //~ gtk_box_pack_start (GTK_BOX (hbox), button_2, FALSE, FALSE, 20);
-	//~ gtk_widget_set_sensitive (button_2, FALSE);
-
-	//~ g_object_set_data (G_OBJECT (button_1), "button_ignore_accents", button_ignore_accents);
-	//~ g_object_set_data (G_OBJECT (button_2), "button_ignore_accents", button_ignore_accents);
-	//~ g_object_set_data (G_OBJECT (button_1), "entry_max_items", entry_max_items);
-	//~ g_object_set_data (G_OBJECT (button_2), "entry_max_items", entry_max_items);
-
-	if (etat.combofix_case_sensitive
-		&& (conf.combo_categ_ib_use_gtk_completion || conf.combo_payee_use_gtk_completion))
+    entry = gtk_entry_new ();
+    gtk_widget_set_size_request (entry, 30, -1);
+	if (conf.completion_minimum_key_length > 1)
 	{
-		gtk_widget_set_sensitive (button_ignore_accents, TRUE);
+    	tmp_str = utils_str_itoa (conf.completion_minimum_key_length);
+		gtk_entry_set_text (GTK_ENTRY (entry), tmp_str);
 	}
 	else
 	{
-		gtk_widget_set_sensitive (button_ignore_accents, FALSE);
+		tmp_str = g_strdup (_("Default"));
+    	gtk_entry_set_placeholder_text (GTK_ENTRY (entry), tmp_str);
 	}
-
-	/* set_minimum_key_length  */
-    //~ hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
-    //~ gtk_box_pack_start (GTK_BOX (vbox_pref), hbox, FALSE, FALSE, 0);
-
-    //~ label = gtk_label_new (_("Minimum length of the search key in characters (first by default): "));
-    //~ gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 20);
-
-    //~ entry = gtk_entry_new ();
-    //~ gtk_widget_set_size_request (entry, 30, -1);
-	//~ if (conf.combo_minimum_key_length > 1)
-	//~ {
-    	//~ tmp_str = utils_str_itoa (conf.combo_minimum_key_length);
-		//~ gtk_entry_set_text (GTK_ENTRY (entry), tmp_str);
-	//~ }
-	//~ else
-	//~ {
-		//~ tmp_str = g_strdup (_("Default"));
-    	//~ gtk_entry_set_placeholder_text (GTK_ENTRY (entry), tmp_str);
-	//~ }
-    //~ g_free (tmp_str);
-    //~ g_signal_connect (G_OBJECT (entry),
-                      //~ "changed",
-                      //~ G_CALLBACK (gsb_transactions_list_display_change_key_length),
-                      //~ GINT_TO_POINTER (1));
-    //~ gtk_box_pack_start (GTK_BOX (hbox), entry, FALSE, FALSE, 0);
+    g_free (tmp_str);
+    g_signal_connect (G_OBJECT (entry),
+                      "changed",
+                      G_CALLBACK (gsb_transactions_list_display_change_key_length),
+                      GINT_TO_POINTER (1));
+    gtk_box_pack_start (GTK_BOX (hbox), entry, FALSE, FALSE, 0);
 
 	/* set visibility */
     if ( !gsb_data_account_get_accounts_amount () )
@@ -1029,27 +843,10 @@ gboolean gsb_transactions_list_display_update_combofix ( void )
 	if (combofix && GTK_IS_COMBOFIX (combofix))
 		gtk_combofix_set_properties (combofix);
 
+	gsb_form_create_widgets ();
+
 	return FALSE;
 }
-
-/**
- * called when change in the max items field
- * change the variable and update the combofix
- *
- * \param entry
- * \param null
- *
- * \return FALSE
- * */
-gboolean gsb_transactions_list_display_change_max_items ( GtkWidget *entry,
-                        gpointer null )
-{
-    etat.combofix_max_item = utils_str_atoi ( gtk_entry_get_text (GTK_ENTRY (entry)));
-    gsb_transactions_list_display_update_combofix ();
-
-    return FALSE;
-}
-
 
 /**
  * Appellée lorsqu'on coche la case afficher le solde à aujourd'hui

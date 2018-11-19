@@ -341,6 +341,7 @@ static gboolean  gsb_combo_form_box_completion_match_func (GtkEntryCompletion *c
 	gchar *new_text;
 	const gchar *search;
 	gchar *text;
+	gchar *tmp_text;
 	gssize nbre_bytes;
 
 	model = gtk_entry_completion_get_model (completion);
@@ -353,22 +354,11 @@ static gboolean  gsb_combo_form_box_completion_match_func (GtkEntryCompletion *c
 	if (!search)
 		return FALSE;
 
-	if (conf.completion_ignore_accents)
-	{
-		gchar *tmp_text;
-
-		new_key = utils_str_remove_accents (search);
-		tmp_text = utils_str_remove_accents (text);
-		nbre_bytes = strlen (new_key);
-		new_text = g_strndup (tmp_text, nbre_bytes);
-		g_free (tmp_text);
-	}
-	else
-	{
-		nbre_bytes = strlen (search);
-		new_key = g_strndup (search, nbre_bytes);
-		new_text = g_strndup (text, nbre_bytes);
-	}
+	new_key = utils_str_remove_accents (search);
+	tmp_text = utils_str_remove_accents (text);
+	nbre_bytes = strlen (new_key);
+	new_text = g_strndup (tmp_text, nbre_bytes);
+	g_free (tmp_text);
 
 	if (g_strcmp0 (new_text, new_key) == 0)
 	{

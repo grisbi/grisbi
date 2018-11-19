@@ -209,15 +209,6 @@
 	        during the completion of payee.
         </description>
 	  </key>
-	  <key name="completion-ignore-accents" type="b">
-        <default>true</default>
-	    <summary>Ignore accents and diacritics</summary>
-	    <description>
-	        If case sensitive is checked and if TRUE, ignore accents
-			and diacritical marks when searching in combofix widgets.
-			It's like the completion of Gtk.
-        </description>
-	  </key>
 	  <key name="completion-minimum-key-length" type="i">
 	    <default>1</default>
 	    <summary>Minimum length of the search key in characters</summary>
