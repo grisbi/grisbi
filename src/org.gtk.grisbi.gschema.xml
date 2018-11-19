@@ -209,32 +209,19 @@
 	        during the completion of payee.
         </description>
 	  </key>
-	  <key name="combo-categ-ib-use-gtk-completion" type="b">
-        <default>false</default>
-	    <summary>Use Gtk completion for categories and IB</summary>
-	    <description>
-	        If TRUE, the entry of category's combo_box or budgetary's combo_box
-	        uses the completion functionality for GtkEntry.
-        </description>
-	  </key>
-	  <key name="combo-minimum-key-length" type="i">
-	    <default>1</default>
-	    <summary>Minimum length of the search key in characters</summary>
-	    <description>Minimum length of the search key in characters.</description>
-	  </key>
-	  <key name="combo-payee-use-gtk-completion" type="b">
-        <default>false</default>
-	    <summary>Use Gtk completion for payees</summary>
-	    <description>
-	        If TRUE, the entry of payee's combo_box uses the completion functionality for GtkEntry.
-        </description>
-	  </key>
 	  <key name="completion-ignore-accents" type="b">
-        <default>false</default>
+        <default>true</default>
 	    <summary>Ignore accents and diacritics</summary>
 	    <description>
-	        If TRUE, ignore accents and diacritic marks when searching for combo_box items.
+	        If case sensitive is checked and if TRUE, ignore accents
+			and diacritical marks when searching in combofix widgets.
+			It's like the completion of Gtk.
         </description>
+	  </key>
+	  <key name="completion-minimum-key-length" type="i">
+	    <default>1</default>
+	    <summary>Minimum length of the search key in characters</summary>
+	    <description>Minimum length of the search key in characters for completion.</description>
 	  </key>
 	  <key name="form-expander-label-width" type="i">
 	    <default>600</default>
