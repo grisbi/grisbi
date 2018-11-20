@@ -558,7 +558,7 @@ static void prefs_page_import_asso_setup_import_asso_page (PrefsPageImportAsso *
 														   FALSE,
 														   METATREE_PAYEE);
 	gsb_data_payee_free_name_and_report_list (tmp_list);
-    gsb_form_widget_combo_entry_set_text (priv->combo_import_asso_payee, "");
+    gtk_combofix_set_text (GTK_COMBOFIX (priv->combo_import_asso_payee), "");
     gtk_widget_set_hexpand (priv->combo_import_asso_payee, TRUE);
     gtk_grid_attach (GTK_GRID (priv->grid_import_asso_details), priv->combo_import_asso_payee, 1, 0, 1, 1);
 

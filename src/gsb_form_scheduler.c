@@ -434,10 +434,13 @@ GSList *gsb_form_scheduler_get_content_list ( void )
 		case TRANSACTION_FORM_BUDGET:
 		    if (!gsb_form_widget_check_empty (element -> element_widget))
 		    {
-			element_save = g_malloc0 (sizeof (content_element));
-			element_save -> element_number = element -> element_number;
-			element_save -> element_string = my_strdup (gsb_form_widget_combo_entry_get_text (element->element_widget));
-			content_list = g_slist_append ( content_list, element_save );
+				const gchar *tmp_str;
+
+				tmp_str = gtk_combofix_get_text (GTK_COMBOFIX (element->element_widget));
+				element_save = g_malloc0 (sizeof (content_element));
+				element_save->element_number = element->element_number;
+				element_save->element_string = my_strdup (tmp_str);
+				content_list = g_slist_append ( content_list, element_save );
 		    }
 		    break;
 	    }
@@ -542,8 +545,7 @@ void gsb_form_scheduler_set_content_list ( GSList *content_list )
 		case TRANSACTION_FORM_BUDGET:
 		    gsb_form_entry_get_focus (form_element -> element_widget);
             if ( element -> element_string )
-                gsb_form_widget_combo_entry_set_text (form_element->element_widget,
-													  element->element_string);
+                gtk_combofix_set_text (GTK_COMBOFIX (form_element->element_widget), element->element_string);
 		    break;
 	    }
 	    form_list = form_list -> next;

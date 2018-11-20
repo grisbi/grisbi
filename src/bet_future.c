@@ -2481,7 +2481,7 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
     gsb_form_widget_set_empty (combo, TRUE);
     gtk_combofix_set_text ( GTK_COMBOFIX ( combo ), _("Categories : Sub-categories") );
 
-	entry = gsb_form_widget_combo_get_entry (combo);
+	entry = gtk_combofix_get_entry (GTK_COMBOFIX (combo));
     g_object_set_data ( G_OBJECT ( entry ), "combo", combo );
     g_object_set_data ( G_OBJECT ( combo ), "icon", icon );
     g_object_set_data ( G_OBJECT ( dialog ), "bet_transfert_main_category_combo", combo );
@@ -2507,7 +2507,7 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
     gsb_form_widget_set_empty (combo, TRUE);
     gtk_combofix_set_text ( GTK_COMBOFIX ( combo ), _("Budgetary line") );
 
-	entry = gsb_form_widget_combo_get_entry (combo);
+	entry = gtk_combofix_get_entry (GTK_COMBOFIX (combo));
 	g_object_set_data ( G_OBJECT ( entry ), "combo", combo );
     g_object_set_data ( G_OBJECT ( combo ), "icon", icon );
     g_object_set_data ( G_OBJECT ( dialog ), "bet_transfert_main_budget_combo", combo );

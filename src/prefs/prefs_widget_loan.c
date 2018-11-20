@@ -944,7 +944,7 @@ static DialogScheduled *prefs_widget_loan_dialog_scheduled_init (GtkWidget *page
 	}
 	else
 	{
-		gsb_form_widget_combo_entry_set_text (s_sch_dialog->APayeeCombo, _("Payee"));
+		gtk_combofix_set_text (GTK_COMBOFIX (s_sch_dialog->APayeeCombo), _("Payee"));
 		gsb_form_widget_set_empty (s_sch_dialog->APayeeCombo, TRUE);
 	}
 
@@ -1073,13 +1073,13 @@ static DialogScheduled *prefs_widget_loan_dialog_scheduled_init (GtkWidget *page
 		}
 		else
 		{
-			gsb_form_widget_combo_entry_set_text (s_sch_dialog->FBudgetCombo, _("Budgetary line"));
+			gtk_combofix_set_text (GTK_COMBOFIX (s_sch_dialog->FBudgetCombo), _("Budgetary line"));
 			gsb_form_widget_set_empty (s_sch_dialog->FBudgetCombo, TRUE);
 		}
 	}
 	else
 	{
-		gsb_form_widget_combo_entry_set_text (s_sch_dialog->FBudgetCombo, _("Budgetary line"));
+		gtk_combofix_set_text (GTK_COMBOFIX (s_sch_dialog->FBudgetCombo), _("Budgetary line"));
 		gsb_form_widget_set_empty (s_sch_dialog->FBudgetCombo, TRUE);
 	}
 
@@ -1128,13 +1128,13 @@ static DialogScheduled *prefs_widget_loan_dialog_scheduled_init (GtkWidget *page
 		}
 		else
 		{
-			gsb_form_widget_combo_entry_set_text (s_sch_dialog->SCategCombo, _("Categories : Sub-categories"));
+			gtk_combofix_set_text (GTK_COMBOFIX (s_sch_dialog->SCategCombo), _("Categories : Sub-categories"));
 			gsb_form_widget_set_empty (s_sch_dialog->SCategCombo, TRUE);
 		}
 	}
 	else
 	{
-		gsb_form_widget_combo_entry_set_text (s_sch_dialog->SCategCombo, _("Categories : Sub-categories"));
+		gtk_combofix_set_text (GTK_COMBOFIX (s_sch_dialog->SCategCombo), _("Categories : Sub-categories"));
 		gsb_form_widget_set_empty (s_sch_dialog->SCategCombo, TRUE);
 	}
 
@@ -1164,13 +1164,13 @@ static DialogScheduled *prefs_widget_loan_dialog_scheduled_init (GtkWidget *page
 		}
 		else
 		{
-			gsb_form_widget_combo_entry_set_text (s_sch_dialog->SBudgetCombo, _("Budgetary line"));
+			gtk_combofix_set_text (GTK_COMBOFIX (s_sch_dialog->SBudgetCombo), _("Budgetary line"));
 			gsb_form_widget_set_empty (s_sch_dialog->SBudgetCombo, TRUE);
 		}
 	}
 	else
 	{
-		gsb_form_widget_combo_entry_set_text (s_sch_dialog->SBudgetCombo, _("Budgetary line"));
+		gtk_combofix_set_text (GTK_COMBOFIX (s_sch_dialog->SBudgetCombo), _("Budgetary line"));
 		gsb_form_widget_set_empty (s_sch_dialog->SBudgetCombo, TRUE);
 	}
 
@@ -1218,13 +1218,13 @@ static DialogScheduled *prefs_widget_loan_dialog_scheduled_init (GtkWidget *page
 		}
 		else
 		{
-			gsb_form_widget_combo_entry_set_text (s_sch_dialog->TCategCombo, _("Categories : Sub-categories"));
+			gtk_combofix_set_text (GTK_COMBOFIX (s_sch_dialog->TCategCombo), _("Categories : Sub-categories"));
 			gsb_form_widget_set_empty (s_sch_dialog->TCategCombo, TRUE);
 		}
 	}
 	else
 	{
-		gsb_form_widget_combo_entry_set_text (s_sch_dialog->TCategCombo, _("Categories : Sub-categories"));
+		gtk_combofix_set_text (GTK_COMBOFIX (s_sch_dialog->TCategCombo), _("Categories : Sub-categories"));
 		gsb_form_widget_set_empty (s_sch_dialog->TCategCombo, TRUE);
 	}
 
@@ -1254,13 +1254,13 @@ static DialogScheduled *prefs_widget_loan_dialog_scheduled_init (GtkWidget *page
 		}
 		else
 		{
-			gsb_form_widget_combo_entry_set_text (s_sch_dialog->TBudgetCombo, _("Budgetary line"));
+			gtk_combofix_set_text (GTK_COMBOFIX (s_sch_dialog->TBudgetCombo), _("Budgetary line"));
 			gsb_form_widget_set_empty (s_sch_dialog->TBudgetCombo, TRUE);
 		}
 	}
 	else
 	{
-		gsb_form_widget_combo_entry_set_text (s_sch_dialog->TBudgetCombo, _("Budgetary line"));
+		gtk_combofix_set_text (GTK_COMBOFIX (s_sch_dialog->TBudgetCombo), _("Budgetary line"));
 		gsb_form_widget_set_empty (s_sch_dialog->TBudgetCombo, TRUE);
 	}
 

@@ -604,7 +604,7 @@ static gboolean payees_update_combofix (gboolean force)
 
 		widget = gsb_form_widget_get_widget (TRANSACTION_FORM_PARTY);
 		tmp_list = gsb_data_payee_get_name_and_report_list ();
-		gsb_combo_form_box_set_list (GTK_COMBO_BOX (widget), tmp_list);
+		gtk_combofix_set_list (GTK_COMBOFIX (widget), tmp_list);
 		gsb_data_payee_free_name_and_report_list (tmp_list);
 	}
 
@@ -1126,7 +1126,7 @@ static void gsb_assistant_payees_entry_changed (GtkEditable *editable,
     const gchar *str_cherche;
 
     combo = g_object_get_data (G_OBJECT (assistant), "payee");
-    str_cherche = gsb_form_widget_combo_entry_get_text (combo);
+    str_cherche = gtk_combofix_get_text (GTK_COMBOFIX (combo));
     switch (gsb_assistant_payees_valide_model_recherche (str_cherche))
 	{
         case 0:
@@ -1145,7 +1145,7 @@ static void gsb_assistant_payees_entry_changed (GtkEditable *editable,
 									 G_CALLBACK (gsb_assistant_payees_entry_changed),
 									 assistant);
     gtk_editable_delete_text (editable, 0, -1);
-	entry = gsb_form_widget_combo_get_entry (combo);
+	entry = gtk_combofix_get_entry (GTK_COMBOFIX (combo));
     gtk_widget_grab_focus (entry);
     g_signal_handlers_unblock_by_func (G_OBJECT (editable),
 									   G_CALLBACK (gsb_assistant_payees_entry_changed),
@@ -1190,7 +1190,11 @@ static GtkWidget *gsb_assistant_payees_page_2 (GtkWidget *assistant)
 	gtk_box_pack_start (GTK_BOX(paddingbox), label, FALSE, FALSE, MARGIN_BOX);
 
 	tmp_list = gsb_data_payee_get_name_and_report_list();
-	entry = gsb_combo_form_box_new (tmp_list, NULL, NULL);
+	entry = gtk_combofix_new_with_properties (tmp_list,
+											  FALSE,
+											  !w_run->import_asso_case_insensitive,
+											  FALSE,
+											  METATREE_PAYEE);
 	gsb_data_payee_free_name_and_report_list (tmp_list);
     gtk_box_pack_start (GTK_BOX(paddingbox), entry, FALSE, FALSE, MARGIN_BOX);
     g_object_set_data (G_OBJECT (assistant), "payee", entry);
@@ -1584,7 +1588,7 @@ static gboolean gsb_assistant_payees_enter_page_3 (GtkWidget *assistant)
 
     devel_debug ("Enter page 3");
 
-    str_cherche = gsb_form_widget_combo_entry_get_text (g_object_get_data (G_OBJECT (assistant), "payee"));
+    str_cherche = gtk_combofix_get_text (GTK_COMBOFIX (g_object_get_data (G_OBJECT (assistant), "payee")));
 
     str = g_strdup_printf (_("Payee sought: %s"), str_cherche);
     payee_search_label = g_object_get_data (G_OBJECT (assistant), "payee_search_label");
@@ -1669,7 +1673,7 @@ static gboolean gsb_assistant_payees_enter_page_finish (GtkWidget *assistant)
     devel_debug ("Enter page finish");
     sup_payees = g_object_get_data (G_OBJECT (assistant), "sup_payees");
     combo = g_object_get_data (G_OBJECT (assistant), "payee");
-    str_cherche = gsb_form_widget_combo_entry_get_text (combo);
+    str_cherche = gtk_combofix_get_text (GTK_COMBOFIX (combo));
     entry = g_object_get_data (G_OBJECT (assistant), "new_payee");
     str_replace_wildcard = gsb_string_remplace_joker (str_cherche, "...");
 
@@ -1844,7 +1848,7 @@ void payees_manage_payees (void)
 
         /* on sauvegarde la chaine de recherche */
         combo = g_object_get_data (G_OBJECT (assistant), "payee");
-        str_cherche = gsb_form_widget_combo_entry_get_text (combo);
+        str_cherche = gtk_combofix_get_text (GTK_COMBOFIX (combo));
         extract_num = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (
                         g_object_get_data (G_OBJECT (assistant),
                         "check_option_1")));

@@ -1296,7 +1296,7 @@ gboolean gsb_form_entry_get_focus ( GtkWidget *entry )
 	{
 			if ( gsb_form_widget_check_empty (entry))
 			{
-				gsb_form_widget_combo_entry_set_text (entry, "");
+				gtk_combofix_set_text (GTK_COMBOFIX (entry), "");
 				gsb_form_widget_set_empty (entry, FALSE);
 			}
 	}
