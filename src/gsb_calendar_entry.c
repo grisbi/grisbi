@@ -185,7 +185,10 @@ gboolean gsb_calendar_entry_set_color ( GtkWidget *entry,
 
     if (normal_color)
     {
-        gtk_widget_set_name (entry, "form_entry");
+		if (gsb_form_widget_check_empty (entry))
+			gtk_widget_set_name (entry, "form_entry_empty");
+		else
+        	gtk_widget_set_name (entry, "form_entry");
     }
     else
     {
