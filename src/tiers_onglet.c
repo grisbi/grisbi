@@ -1428,7 +1428,7 @@ static GtkWidget *gsb_assistant_payees_page_3 (GtkWidget *assistant)
     gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw), GTK_SHADOW_ETCHED_IN);
     gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
 									GTK_POLICY_NEVER,
-									GTK_POLICY_ALWAYS);
+									GTK_POLICY_AUTOMATIC);
 
     /* create the model */
     list_store = gtk_list_store_new (N_COLUMNS, G_TYPE_BOOLEAN, G_TYPE_UINT, G_TYPE_STRING);
