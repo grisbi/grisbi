@@ -36,6 +36,7 @@
 #include "gsb_form.h"
 #include "structures.h"
 #include "utils_buttons.h"
+#include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -101,6 +102,58 @@ enum CombofixKeyDirection
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+static gboolean  gtk_combofix_completion_match_func (GtkEntryCompletion *completion,
+													 const gchar *key,
+													 GtkTreeIter *iter,
+													 gpointer user_data)
+{
+	GtkTreeModel *model;
+	gchar *new_key;
+	gchar *new_text;
+	const gchar *search;
+	gchar *text;
+	gchar *tmp_text;
+	gssize nbre_bytes;
+
+	model = gtk_entry_completion_get_model (completion);
+	gtk_tree_model_get (model, iter, 0, &text, -1);
+
+	if (!text)
+		return FALSE;
+
+	search = gtk_entry_get_text (GTK_ENTRY (gtk_entry_completion_get_entry (completion)));
+	if (!search)
+		return FALSE;
+
+	new_key = utils_str_remove_accents (search);
+	tmp_text = utils_str_remove_accents (text);
+	nbre_bytes = strlen (new_key);
+	new_text = g_strndup (tmp_text, nbre_bytes);
+	g_free (tmp_text);
+
+	if (g_strcmp0 (new_text, new_key) == 0)
+	{
+		g_free (new_key);
+		g_free (new_text);
+		return TRUE;
+	}
+	else
+	{
+		g_free (new_key);
+		g_free (new_text);
+		return FALSE;
+	}
+
+	return FALSE;
+}
+
 /**
  * supprime le séparateur pour les états comme tiers
  *
@@ -305,6 +358,8 @@ static gboolean gtk_combofix_fill_store (GtkComboFix *combofix,
 										 gint list_number)
 {
     GSList *tmp_list;
+	GtkEntryCompletion *completion;
+	GtkTreeModel *completion_store;
     GtkTreeIter iter_parent;
     gchar *last_parent = NULL;
     GtkComboFixPrivate *priv;
@@ -324,6 +379,9 @@ static gboolean gtk_combofix_fill_store (GtkComboFix *combofix,
         g_return_val_if_fail (FAILED, FALSE);
     }
 
+	completion = gtk_entry_get_completion (GTK_ENTRY (priv->entry));
+	completion_store = gtk_entry_completion_get_model (completion);
+
     tmp_list = list;
 
     while (tmp_list)
@@ -336,18 +394,38 @@ static gboolean gtk_combofix_fill_store (GtkComboFix *combofix,
         /* create the new iter where it's necessary and iter will focus on it */
         if (string)
         {
+			GtkTreeIter new_iter;
+
             if (string[0] == '\t')
             {
                 /* it's a child */
                 tmp_str = g_strconcat (last_parent, " : ", string + 1, NULL);
                 gtk_combofix_fill_iter_child (priv->store, &iter_parent, string + 1, tmp_str, list_number);
 
+				/* append a row in the completion */
+				gtk_list_store_append (GTK_LIST_STORE (completion_store), &new_iter);
+				gtk_list_store_set (GTK_LIST_STORE (completion_store), &new_iter, 0, tmp_str, -1);
                 g_free (tmp_str);
             }
             else
             {
                 /* it's a parent */
                 gtk_combofix_fill_iter_parent (priv->store, &iter_parent, string, list_number);
+				/* append a row in the completion ignore reports for payees */
+				if (priv->type == METATREE_PAYEE)
+				{
+					if (g_utf8_collate (g_utf8_casefold (_("Report"), -1), g_utf8_casefold (string, -1)))
+					{
+						gtk_list_store_append (GTK_LIST_STORE (completion_store), &new_iter);
+						gtk_list_store_set (GTK_LIST_STORE (completion_store), &new_iter, 0, string, -1);
+					}
+				}
+				else
+				{
+					gtk_list_store_append (GTK_LIST_STORE (completion_store), &new_iter);
+					gtk_list_store_set (GTK_LIST_STORE (completion_store), &new_iter, 0, string, -1);
+				}
+
                 last_parent = string;
             }
         }
@@ -358,183 +436,6 @@ static gboolean gtk_combofix_fill_store (GtkComboFix *combofix,
     priv->visible_items += g_slist_length (list);
 
     return TRUE;
-}
-
-/**
- * returns the first occurrence of gtkcombofix
- *
- * \param sort_model
- * \param iter
- *
- * \return
- */
-static gchar *gtk_combofix_get_first_string_from_sort_model (GtkTreeModel *sort_model,
-															 const gchar *string)
-{
-    GtkTreeIter iter;
-    GtkTreeIter child_iter;
-    gsize length;
-    gboolean separator = FALSE;
-    gchar *model_string;
-    gsize model_string_length;
-
-    length = strlen (string);
-
-    if (gtk_tree_model_get_iter_first (sort_model, &iter))
-    {
-        gtk_tree_model_get (sort_model,
-							&iter,
-							COMBOFIX_COL_REAL_STRING, &model_string,
-							-1);
-
-        model_string_length = strlen (model_string);
-
-        if (model_string_length >= length)
-            return model_string;
-        else if (gtk_tree_model_iter_children (sort_model, &child_iter, &iter))
-        {
-            gtk_tree_model_get (sort_model,
-								&child_iter,
-								COMBOFIX_COL_REAL_STRING, &model_string,
-								COMBOFIX_COL_SEPARATOR, &separator,
-								-1);
-            return model_string;
-        }
-    }
-
-    return g_strdup (string);
-}
-
-/**
- * set what is needed to be showed in the model according to the string given in param
- * return 	either the exact completion,
- * 		either the first completed string found according to the string parameter
- * the visible_items variable is set
- *
- * \param combofix
- * \param string the string which will be completed
- *
- * \return the first completed string found
- **/
-static gchar *gtk_combofix_update_visible_rows (GtkComboFix *combofix,
-												const gchar *string)
-{
-    GtkTreeModel *model;
-    gchar *complete_string = NULL;
-    GtkTreePath *path;
-    GtkTreeIter iter;
-    gint path_ok;
-    gsize length;
-    gboolean separator = FALSE;
-    GtkComboFixPrivate *priv;
-
-    if (!combofix
-	||
-	!string)
-	return NULL;
-
-    length = strlen (string);
-    if (!length)
-	return NULL;
-
-    priv = gtk_combofix_get_instance_private (combofix);
-    priv->visible_items = 0;
-    model = GTK_TREE_MODEL (priv->store);
-    path = gtk_tree_path_new_first ();
-    path_ok = gtk_tree_model_get_iter (model, &iter, path);
-
-    while (path_ok)
-    {
-        gchar *model_string;
-        gint showed;
-        gint show_row = 0;
-        gsize model_string_length;
-
-        gtk_tree_model_get (model,
-							&iter,
-							COMBOFIX_COL_REAL_STRING, &model_string,
-							COMBOFIX_COL_SEPARATOR, &separator,
-							COMBOFIX_COL_VISIBLE, &showed,
-							-1);
-
-        /* The separators are never showed */
-        if (separator)
-            show_row = 0;
-        else
-        {
-            model_string_length = strlen (model_string);
-
-            if (priv->case_sensitive)
-            {
-                show_row = !strncmp (model_string,
-									 string,
-									 MIN (length, model_string_length));
-            }
-            else
-			{
-				gchar *tmp_str1;
-				gchar *tmp_str2;
-				gsize len;
-
-				len = MIN (length, model_string_length);
-				tmp_str1 = g_utf8_casefold (model_string, len);
-				tmp_str2 = g_utf8_casefold (string, len);
-                show_row = !g_utf8_collate (tmp_str1,tmp_str2);
-
-				g_free (tmp_str1);
-				g_free (tmp_str2);
-			}
-
-            if (show_row)
-            {
-                /* if the current checked string is exactly the same as the wanted string,
-                 * we keep it for completion, else we keep only the first approximation */
-                if (model_string_length == length)
-                    complete_string = model_string;
-                if (!complete_string && model_string_length > length)
-                    complete_string = model_string;
-
-                priv->visible_items ++;
-            }
-        }
-        gtk_tree_store_set (GTK_TREE_STORE (model),
-							&iter,
-							COMBOFIX_COL_VISIBLE, show_row,
-							-1);
-        if (show_row != showed)
-            gtk_tree_store_set (GTK_TREE_STORE (model),
-								&iter,
-								COMBOFIX_COL_VISIBLE, show_row,
-								-1);
-
-
-        /* increment the path :
-         * 	go to see the children only if the mother is showed */
-
-        if (gtk_tree_model_iter_has_child (model, &iter) && show_row)
-            gtk_tree_path_down (path);
-        else
-            gtk_tree_path_next (path);
-
-        path_ok = gtk_tree_model_get_iter (model, &iter, path);
-
-        /* if path_ok is FALSE, perhaps we are on the end of the children list... */
-        if (!path_ok && gtk_tree_path_get_depth (path) > 1)
-        {
-            gtk_tree_path_up (path);
-            gtk_tree_path_next (path);
-            path_ok = gtk_tree_model_get_iter (model, &iter, path);
-        }
-    }
-
-    gtk_tree_path_free (path);
-
-    gtk_tree_view_expand_all (GTK_TREE_VIEW (priv->tree_view));
-    gtk_tree_selection_unselect_all (priv->selection);
-
-    complete_string = gtk_combofix_get_first_string_from_sort_model (priv->model_sort, string);
-
-    return complete_string;
 }
 
 /**
@@ -609,38 +510,6 @@ static gboolean gtk_combofix_set_all_visible_rows (GtkComboFix *combofix)
     gtk_tree_view_expand_all (GTK_TREE_VIEW (priv->tree_view));
 
     return FALSE;
-}
-
-/**
- *
- *
- * \param
- * \param
- *
- * \return
- **/
-static void gtk_combofix_dialog (gchar *text,
-                                 gchar *hint)
-{
-    GtkWidget *dialog;
-    gchar *tmp_str;
-
-    tmp_str = g_strconcat (g_markup_printf_escaped ("<span size=\"larger\" weight=\"bold\">%s</span>\n\n",
-                                                    hint),
-                           text,
-                           NULL);
-
-    dialog = gtk_message_dialog_new (NULL,
-                                     GTK_DIALOG_DESTROY_WITH_PARENT,
-                                     GTK_MESSAGE_WARNING,
-                                     GTK_BUTTONS_CLOSE,
-                                     NULL);
-    gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG (dialog), tmp_str);
-    g_free (tmp_str);
-
-    gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
-    gtk_dialog_run (GTK_DIALOG (dialog));
-    gtk_widget_destroy (dialog);
 }
 
 /**
@@ -759,136 +628,6 @@ static gboolean gtk_combofix_set_popup_position (GtkComboFix *combofix)
     gtk_window_resize (GTK_WINDOW (priv->popup), allocation.width, height);
 
     return FALSE;
-}
-
-/**
- * called by the insert or delete function
- * update the popup according to the entry
- * set the completion only for insert
- *
- * \param combofix
-  * \param insert_text TRUE when comes from an insert-text signal, FALSE for delete-text
- *
- * \return TRUE to stop the signal, FALSE to continue
- **/
-static gboolean gtk_combofix_entry_changed (GtkComboFix *combofix,
-											gboolean insert_text)
-{
-    gchar *completed_string = NULL;
-    const gchar *entry_string;
-    GtkComboFixPrivate *priv;
-
-    priv = gtk_combofix_get_instance_private (combofix);
-
-    entry_string = gtk_entry_get_text (GTK_ENTRY (priv->entry));
-
-    if (entry_string && strlen (entry_string))
-    {
-        completed_string = gtk_combofix_update_visible_rows (combofix, entry_string);
-        if (completed_string == NULL)
-            gtk_combofix_hide_popup (combofix);
-    }
-    else if (insert_text == 0)
-        gtk_combofix_hide_popup (combofix);
-
-    /* if force is set and there is no completed_string, we deleted 1 character by one
-     * from the end to have again a completed string */
-    if (priv->force
-     &&
-     !completed_string)
-    {
-        gchar *new_string = NULL;
-
-        if (entry_string && strlen (entry_string))
-        {
-            new_string = g_strdup (entry_string);
-            gtk_combofix_dialog (_("You cannot create new payee or category "
-                                   "and sub-category without changing the options "
-                                   "in preferences"),
-                                 _("Warning you cannot create payee or category"));
-        }
-
-        while (!completed_string
-               &&
-               new_string
-               &&
-               strlen (new_string))
-        {
-            new_string[strlen (new_string) -1] = 0;
-            if (strlen (new_string) > 0)
-                completed_string = gtk_combofix_update_visible_rows (combofix, new_string);
-        }
-
-        if (completed_string)
-        {
-            gtk_combofix_set_text (combofix, new_string);
-            g_free (new_string);
-        }
-        else
-        {
-            /* completed_string still NULL here means that even the first letter cannot
-             * be set, so show all the list and erase the entry */
-            gtk_combofix_set_text (combofix, "");
-            gtk_combofix_set_all_visible_rows (combofix);
-
-            return FALSE;
-        }
-    }
-
-    if (insert_text
-     &&
-     completed_string)
-    {
-        /* there is a completed_string, we set it in the entry only when inserting some text */
-        gint position;
-
-        position = gtk_editable_get_position (GTK_EDITABLE (priv->entry));
-        gtk_combofix_set_text (combofix, completed_string);
-        gtk_editable_set_position (GTK_EDITABLE (priv->entry), position);
-
-        /* set the selection here doesn't work, so we will do it at the expose event */
-        block_expose_event = 0;
-    }
-
-    /* show the popup */
-    if (priv->visible_items
-		&& gtk_entry_get_text_length (GTK_ENTRY (priv->entry))
-		&& completed_string
-		&& (!priv->max_items
-			|| priv->visible_items < priv->max_items))
-    {
-        gtk_combofix_set_popup_position (combofix);
-        gtk_widget_show (priv->popup);
-        gtk_window_set_modal (GTK_WINDOW (priv->popup), TRUE);
-    }
-
-    return TRUE;
-}
-
-/**
- * called when insert in the entry of the combofix
- * look for a completion and show the according popup
- *
- * \param combofix
- *
- * \return TRUE to stop the signal, FALSE to continue
- **/
-static gboolean gtk_combofix_entry_insert (GtkComboFix *combofix)
-{
-    return gtk_combofix_entry_changed (combofix, TRUE);
-}
-
-/**
- * called when insert in the entry of the combofix
- * look  show the according popup to the entry but don't complete the entry
- *
- * \param combofix
- *
- * \return TRUE to stop the signal, FALSE to continue
- **/
-static gboolean gtk_combofix_entry_delete (GtkComboFix *combofix)
-{
-    return gtk_combofix_entry_changed (combofix, FALSE);
 }
 
 /**
@@ -1650,26 +1389,40 @@ static void gtk_combofix_create_button (GtkComboFix *combofix)
  **/
 static void gtk_combofix_create_entry (GtkComboFix *combofix)
 {
+	GtkEntryCompletion *completion;
+	GtkListStore *completion_store;
     GtkComboFixPrivate *priv;
 
     priv = gtk_combofix_get_instance_private (combofix);
 
-    /* set the entry */
+	/* create entry */
     priv->entry = gtk_entry_new ();
+
+	/* set completion */
+	completion = gtk_entry_completion_new ();
+	gtk_entry_completion_set_inline_selection (completion, TRUE);
+	if (etat.combofix_case_sensitive)
+		gtk_entry_completion_set_match_func (completion,
+											 (GtkEntryCompletionMatchFunc) gtk_combofix_completion_match_func,
+											 NULL,
+											 NULL);
+	gtk_entry_completion_set_minimum_key_length (completion, conf.completion_minimum_key_length);
+	gtk_entry_completion_set_text_column (completion, 0);
+
+	/* set store */
+	completion_store = gtk_list_store_new (1, G_TYPE_STRING);
+	gtk_entry_completion_set_model (completion, GTK_TREE_MODEL (completion_store));
+	g_object_unref (completion_store);
+
+	/* set entry completion */
+	gtk_entry_set_completion (GTK_ENTRY (priv->entry), completion);
+	g_object_unref (completion);
+
+	/* set entry signals */
     g_signal_connect (G_OBJECT (priv->entry),
                       "key-press-event",
                       G_CALLBACK (gtk_combofix_key_press_event),
                       combofix);
-    g_signal_connect_object (G_OBJECT (priv->entry),
-							 "insert-text",
-                        	 G_CALLBACK (gtk_combofix_entry_insert),
-                        	 combofix,
-                        	 G_CONNECT_AFTER | G_CONNECT_SWAPPED);
-    g_signal_connect_object (G_OBJECT (priv->entry),
-                        	 "delete-text",
-                        	 G_CALLBACK (gtk_combofix_entry_delete),
-                        	 combofix,
-                        	 G_CONNECT_AFTER | G_CONNECT_SWAPPED);
     g_signal_connect_swapped (G_OBJECT (priv->entry),
                         	  "draw",
                         	  G_CALLBACK (gtk_combofix_expose_entry),
@@ -2016,24 +1769,11 @@ void gtk_combofix_set_text (GtkComboFix *combofix,
     g_return_if_fail (combofix);
     g_return_if_fail (GTK_IS_COMBOFIX (combofix));
 
-    g_signal_handlers_block_by_func (G_OBJECT (priv->entry),
-									 G_CALLBACK (gtk_combofix_entry_insert),
-									 combofix);
-    g_signal_handlers_block_by_func (G_OBJECT (priv->entry),
-									 G_CALLBACK (gtk_combofix_entry_delete),
-									 combofix);
-
     if (text && strlen (text) > 0)
         gtk_entry_set_text (GTK_ENTRY (priv->entry), text);
     else
         gtk_entry_set_text (GTK_ENTRY (priv->entry), "");
 
-    g_signal_handlers_unblock_by_func (G_OBJECT (priv->entry),
-									   G_CALLBACK (gtk_combofix_entry_insert),
-									   combofix);
-    g_signal_handlers_unblock_by_func (G_OBJECT (priv->entry),
-									   G_CALLBACK (gtk_combofix_entry_delete),
-									   combofix);
 }
 
 /**
@@ -2146,30 +1886,14 @@ gboolean gtk_combofix_show_popup (GtkComboFix *combofix)
     if (gtk_widget_get_visible (priv->popup))
         return FALSE;
 
-    g_signal_handlers_block_by_func (G_OBJECT (priv->entry),
-									 G_CALLBACK (gtk_combofix_entry_insert),
-									 combofix);
-    g_signal_handlers_block_by_func (G_OBJECT (priv->entry),
-									 G_CALLBACK (gtk_combofix_entry_delete),
-									 combofix);
-
     gtk_combofix_set_all_visible_rows (combofix);
     gtk_combofix_set_popup_position (combofix);
     gtk_widget_show (priv->popup);
     gtk_combofix_select_item (combofix, gtk_combofix_get_text (combofix));
     gtk_widget_grab_focus (GTK_WIDGET (priv->entry));
     gtk_window_set_modal (GTK_WINDOW (priv->popup), TRUE);
-
-    g_signal_handlers_unblock_by_func (G_OBJECT (priv->entry),
-									   G_CALLBACK (gtk_combofix_entry_insert),
-									   combofix);
-    g_signal_handlers_unblock_by_func (G_OBJECT (priv->entry),
-									   G_CALLBACK (gtk_combofix_entry_delete),
-									   combofix);
-
     return FALSE;
 }
-
 
 /**
  * set for the complex combofix if the different list have to
@@ -2208,6 +1932,8 @@ gboolean gtk_combofix_set_list (GtkComboFix *combofix,
     GSList *tmp_list;
     gint list_number = 0;
     gint length;
+	GtkEntryCompletion *completion;
+	GtkTreeModel *completion_store;
     GtkTreeIter iter;
 
     g_return_val_if_fail (combofix, FALSE);
@@ -2216,6 +1942,11 @@ gboolean gtk_combofix_set_list (GtkComboFix *combofix,
 
     priv = gtk_combofix_get_instance_private (combofix);
     gtk_tree_store_clear (priv->store);
+
+	completion = gtk_entry_get_completion (GTK_ENTRY (priv->entry));
+	completion_store = gtk_entry_completion_get_model (completion);
+	if (GTK_IS_TREE_STORE (completion_store))
+		gtk_tree_store_clear (GTK_TREE_STORE (completion_store));
 
     tmp_list = list;
     length = g_slist_length (list);
@@ -2354,6 +2085,9 @@ void gtk_combofix_append_text (GtkComboFix *combofix,
 void gtk_combofix_append_report (GtkComboFix *combofix,
 								 const gchar *report_name)
 {
+	GtkEntryCompletion *completion;
+	GtkTreeModel *completion_model;
+	GtkTreeIter new_iter;
     gchar *tmp_str;
     gchar *tmp_str2;
     GtkComboFixPrivate *priv;
@@ -2384,8 +2118,13 @@ void gtk_combofix_append_report (GtkComboFix *combofix,
     tmp_str2 = g_strconcat (tmp_str, " : ", report_name, NULL);
     gtk_combofix_fill_iter_child (priv->store, &report_parent_iter, report_name, tmp_str2, 1);
     priv->visible_items++;
+	g_free (tmp_str);
 
-    g_free (tmp_str);
+	/* update completion */
+	completion = gtk_entry_get_completion (GTK_ENTRY (priv->entry));
+	completion_model = gtk_entry_completion_get_model (completion);
+	gtk_list_store_append (GTK_LIST_STORE (completion_model), &new_iter);
+	gtk_list_store_set (GTK_LIST_STORE (completion_model), &new_iter, 0, tmp_str2, -1);
     g_free (tmp_str2);
 }
 
@@ -2399,6 +2138,8 @@ void gtk_combofix_append_report (GtkComboFix *combofix,
 void gtk_combofix_remove_text (GtkComboFix *combofix,
 							   const gchar *text)
 {
+	GtkEntryCompletion *completion;
+	GtkTreeModel *completion_model;
     GtkTreeIter iter;
     gboolean case_sensitive;
     gboolean valid;
@@ -2441,9 +2182,40 @@ void gtk_combofix_remove_text (GtkComboFix *combofix,
         valid = gtk_tree_model_iter_next (GTK_TREE_MODEL (priv->store), &iter);
     }
 
-    if (valid)
-        gtk_tree_store_remove (priv->store, &iter);
+	if (valid)
+		gtk_tree_store_remove (priv->store, &iter);
+
+	/* update completion */
+	completion = gtk_entry_get_completion (GTK_ENTRY (priv->entry));
+	completion_model = gtk_entry_completion_get_model (completion);
+    valid = gtk_tree_model_get_iter_first (completion_model, &iter);
+
+    while (valid)
+    {
+        gchar *tmp_str;
+
+        gtk_tree_model_get (completion_model, &iter, 0, &tmp_str, -1);
+
+        if (case_sensitive && !strcmp (text, tmp_str))
+        {
+            g_free (tmp_str);
+            break;
 }
+        else if (!g_utf8_collate (g_utf8_casefold (text, -1), g_utf8_casefold (tmp_str, -1)))
+        {
+            g_free (tmp_str);
+            break;
+        }
+
+        g_free (tmp_str);
+
+        valid = gtk_tree_model_iter_next (completion_model, &iter);
+    }
+
+    if (valid)
+        gtk_list_store_remove (GTK_LIST_STORE (completion_model), &iter);
+}
+
 
 /**
  * remove a report in a payee combofix
@@ -2456,6 +2228,8 @@ void gtk_combofix_remove_text (GtkComboFix *combofix,
 void gtk_combofix_remove_report (GtkComboFix *combofix,
 								 const gchar *report_name)
 {
+	GtkEntryCompletion *completion;
+	GtkTreeModel *completion_model;
     GtkTreeIter iter;
     gchar *tmp_str;
     gchar *tmp_str2;
@@ -2524,6 +2298,36 @@ void gtk_combofix_remove_report (GtkComboFix *combofix,
         else
             gtk_combofix_remove_for_report (GTK_TREE_MODEL (priv->store), &iter);
     }
+
+	/* update completion */
+	completion = gtk_entry_get_completion (GTK_ENTRY (priv->entry));
+	completion_model = gtk_entry_completion_get_model (completion);
+    valid = gtk_tree_model_get_iter_first (completion_model, &iter);
+
+    while (valid)
+    {
+        gchar *tmp_str;
+
+        gtk_tree_model_get (completion_model, &iter, 0, &tmp_str, -1);
+
+        if (etat.combofix_case_sensitive && !strcmp (tmp_str2, tmp_str))
+        {
+            g_free (tmp_str);
+            break;
+        }
+        else if (!g_utf8_collate (g_utf8_casefold (tmp_str2, -1), g_utf8_casefold (tmp_str, -1)))
+        {
+            g_free (tmp_str);
+            break;
+        }
+
+        g_free (tmp_str);
+
+        valid = gtk_tree_model_iter_next (completion_model, &iter);
+    }
+
+    if (valid)
+        gtk_list_store_remove (GTK_LIST_STORE (completion_model), &iter);
     g_free (tmp_str2);
 }
 
