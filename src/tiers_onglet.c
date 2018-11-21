@@ -1162,8 +1162,10 @@ static void gsb_assistant_payees_entry_changed (GtkEditable *editable,
 static GtkWidget *gsb_assistant_payees_page_2 (GtkWidget *assistant)
 {
     GtkWidget *page;
-    GtkWidget *label;
+	GtkWidget *combo;
     GtkWidget *entry;
+	GtkWidget *hbox;
+    GtkWidget *label;
     GtkWidget *paddingbox;
     GtkWidget *check_option;
 	GSList *tmp_list;
@@ -1174,8 +1176,9 @@ static GtkWidget *gsb_assistant_payees_page_2 (GtkWidget *assistant)
 	w_run = grisbi_win_get_w_run ();
 
     page = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
-    gtk_container_set_border_width (GTK_CONTAINER(page), BOX_BORDER_WIDTH);
+    gtk_container_set_border_width (GTK_CONTAINER (page), BOX_BORDER_WIDTH);
 
+	/* get rule */
     paddingbox = new_paddingbox_with_title (page, TRUE, _("Choose a payee"));
 
     texte = g_strdup (_("Select one payee in the list that you modify to "
@@ -1187,34 +1190,45 @@ static GtkWidget *gsb_assistant_payees_page_2 (GtkWidget *assistant)
 	utils_labels_set_alignement (GTK_LABEL (label), 0, 0);
 	gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
 	g_free (texte);
-	gtk_box_pack_start (GTK_BOX(paddingbox), label, FALSE, FALSE, MARGIN_BOX);
+	gtk_box_pack_start (GTK_BOX (paddingbox), label, FALSE, FALSE, MARGIN_BOX);
 
 	tmp_list = gsb_data_payee_get_name_and_report_list();
-	entry = gtk_combofix_new_with_properties (tmp_list,
+	combo = gtk_combofix_new_with_properties (tmp_list,
 											  FALSE,
 											  !w_run->import_asso_case_insensitive,
 											  FALSE,
 											  METATREE_PAYEE);
-	gsb_data_payee_free_name_and_report_list (tmp_list);
-    gtk_box_pack_start (GTK_BOX(paddingbox), entry, FALSE, FALSE, MARGIN_BOX);
-    g_object_set_data (G_OBJECT (assistant), "payee", entry);
-    paddingbox = new_paddingbox_with_title (page, TRUE, _("Enter the new payee"));
+    gtk_box_pack_start (GTK_BOX (paddingbox), combo, FALSE, FALSE, MARGIN_BOX);
+    g_object_set_data (G_OBJECT (assistant), "payee", combo);
+
+	/* get new payee */
+	paddingbox = new_paddingbox_with_title (page, TRUE, _("Enter the new payee"));
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
+    gtk_box_pack_start (GTK_BOX (paddingbox), hbox, FALSE, FALSE, 0);
 
     texte = g_strdup (_("Enter the name of the new payee"));
     label = gtk_label_new (texte);
 	utils_labels_set_alignement (GTK_LABEL (label), 0, 0);
 	gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
     g_free (texte);
-    gtk_box_pack_start (GTK_BOX(paddingbox), label, FALSE, FALSE, MARGIN_BOX);
+    gtk_box_pack_start (GTK_BOX(hbox), label, FALSE, FALSE, MARGIN_BOX);
 
-    entry = gtk_entry_new ();
+    combo = gtk_combofix_new_with_properties (tmp_list,
+											  TRUE,
+											  etat.combofix_case_sensitive,
+											  FALSE,
+											  METATREE_PAYEE);
+	gsb_data_payee_free_name_and_report_list (tmp_list);
+
+	entry = gtk_combofix_get_entry (GTK_COMBOFIX (combo));
     g_signal_connect (entry,
                       "changed",
                       G_CALLBACK (gsb_assistant_payees_entry_changed),
                       assistant);
-    gtk_box_pack_start (GTK_BOX(paddingbox), entry, FALSE, FALSE, MARGIN_BOX);
-    g_object_set_data (G_OBJECT (assistant), "new_payee", entry);
+    gtk_box_pack_start (GTK_BOX(hbox), combo, TRUE, TRUE, MARGIN_BOX);
+    g_object_set_data (G_OBJECT (assistant), "new_payee", combo);
 
+	/* set options */
     paddingbox = new_paddingbox_with_title (page, TRUE, _("Options"));
     check_option = gtk_check_button_new_with_label (_("Extracting a number and save it "
 													  "in the field No Cheque/Virement"));
@@ -1237,11 +1251,6 @@ static GtkWidget *gsb_assistant_payees_page_2 (GtkWidget *assistant)
     gtk_box_pack_start (GTK_BOX (paddingbox), check_option, FALSE, FALSE, 0);
     g_object_set_data (G_OBJECT (assistant), "check_option_4", check_option);
 	gtk_widget_set_sensitive (check_option, FALSE);
-
-    check_option = gtk_check_button_new_with_label (_("Replaces the exist rule"));
-    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check_option), w_run->import_asso_replace_rule);
-    gtk_box_pack_start (GTK_BOX(paddingbox), check_option, FALSE, FALSE, 0);
-    g_object_set_data (G_OBJECT (assistant), "check_option_5", check_option);
 
     gtk_widget_show_all (page);
 
@@ -1395,6 +1404,8 @@ static void gsb_assistant_payees_clicked (GtkButton *button,
 static GtkWidget *gsb_assistant_payees_page_3 (GtkWidget *assistant)
 {
     GtkWidget *page;
+	GtkWidget *hbox;
+	GtkWidget *image;
     GtkWidget *label;
     GtkWidget *paddingbox;
     GtkWidget *sw;
@@ -1404,8 +1415,10 @@ static GtkWidget *gsb_assistant_payees_page_3 (GtkWidget *assistant)
     GtkListStore *list_store;
     GtkTreeViewColumn *column;
     GtkCellRenderer *cell;
+	GrisbiWinRun *w_run;
 
     devel_debug ("PAGE 3");
+	w_run = grisbi_win_get_w_run ();
 
     page = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
     gtk_container_set_border_width (GTK_CONTAINER(page), BOX_BORDER_WIDTH);
@@ -1421,10 +1434,31 @@ static GtkWidget *gsb_assistant_payees_page_3 (GtkWidget *assistant)
     label = gtk_label_new ("");
 	utils_labels_set_alignement (GTK_LABEL (label), 0, 0);
 	gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
-    gtk_box_pack_start (GTK_BOX (paddingbox), label, FALSE, FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (paddingbox), label, FALSE, FALSE, MARGIN_BOX);
     g_object_set_data (G_OBJECT (assistant), "new_payee_label", label);
 
-    sw = gtk_scrolled_window_new (NULL, NULL);
+	/* set rule if necessary */
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
+	gtk_widget_set_no_show_all (hbox, TRUE);
+    gtk_box_pack_start (GTK_BOX (paddingbox), hbox, FALSE, FALSE, 0);
+	g_object_set_data (G_OBJECT (assistant), "old_rule_hbox", hbox);
+
+	image = gtk_image_new_from_icon_name ("gtk-dialog-warning", GTK_ICON_SIZE_BUTTON);
+    gtk_box_pack_start (GTK_BOX (hbox), image, FALSE, FALSE, 0);
+
+    label = gtk_label_new ("");
+	utils_labels_set_alignement (GTK_LABEL (label), 0, 0);
+	gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
+    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, MARGIN_BOX);
+    g_object_set_data (G_OBJECT (assistant), "old_rule_label", label);
+
+    button = gtk_check_button_new_with_label (_("do you want replace the current rule?"));
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), w_run->import_asso_replace_rule);
+    gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, MARGIN_BOX);
+    g_object_set_data (G_OBJECT (assistant), "check_option_5", button);
+
+	/* set scrolled window */
+	sw = gtk_scrolled_window_new (NULL, NULL);
     gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw), GTK_SHADOW_ETCHED_IN);
     gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
 									GTK_POLICY_NEVER,
@@ -1438,9 +1472,9 @@ static GtkWidget *gsb_assistant_payees_page_3 (GtkWidget *assistant)
 	gtk_widget_set_name (treeview, "tree_view");
     g_object_unref (list_store);
 
-    gtk_widget_set_size_request (treeview, -1, 230);
+    gtk_widget_set_size_request (treeview, -1, 300);
     gtk_container_add (GTK_CONTAINER (sw), treeview);
-    gtk_box_pack_start (GTK_BOX (paddingbox), sw, FALSE, FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (paddingbox), sw, TRUE, TRUE, MARGIN_BOX);
     g_object_set_data (G_OBJECT (assistant), "treeview", treeview);
 
     /* select payee */
@@ -1549,12 +1583,12 @@ static GtkWidget *gsb_assistant_payees_page_finish (GtkWidget *assistant)
  **/
 static gboolean gsb_assistant_payees_enter_page_2 (GtkWidget *assistant)
 {
-    GtkWidget *entry;
+    GtkWidget *combo;
 
     devel_debug ("Enter page 2");
 
-    entry = g_object_get_data (G_OBJECT (assistant), "new_payee");
-    gtk_entry_set_text (GTK_ENTRY (entry), "");
+    combo = g_object_get_data (G_OBJECT (assistant), "new_payee");
+    gtk_combofix_set_text (GTK_COMBOFIX (combo), "");
 
     gsb_assistant_change_button_next (assistant, "gtk-go-forward", GTK_RESPONSE_YES);
     gsb_assistant_sensitive_button_next (assistant,FALSE);
@@ -1582,9 +1616,10 @@ static gboolean gsb_assistant_payees_enter_page_3 (GtkWidget *assistant)
     gchar *str;
     const gchar *str_cherche;
     const gchar *new_tiers;
-	gint ignore_case = 0;
-	gint use_regex = 0;
     gint i = 0;
+	gint ignore_case = 0;
+	gint payee_number;
+	gint use_regex = 0;
 
     devel_debug ("Enter page 3");
 
@@ -1595,11 +1630,35 @@ static gboolean gsb_assistant_payees_enter_page_3 (GtkWidget *assistant)
     gtk_label_set_text (GTK_LABEL (payee_search_label), str);
     g_free (str);
 
-    new_tiers = gtk_entry_get_text(g_object_get_data (G_OBJECT (assistant), "new_payee"));
+    new_tiers = gtk_combofix_get_text (GTK_COMBOFIX (g_object_get_data (G_OBJECT (assistant), "new_payee")));
     str = g_strdup_printf (_("New payee: %s"), new_tiers);
     new_payee_label = g_object_get_data (G_OBJECT (assistant), "new_payee_label");
     gtk_label_set_text (GTK_LABEL (new_payee_label), str);
     g_free (str);
+
+	/* test if rule */
+	payee_number = gsb_data_payee_get_number_by_name (new_tiers, FALSE);
+	if (payee_number)
+	{
+		const gchar *old_search;
+
+		old_search = gsb_data_payee_get_search_string (payee_number);
+		if (old_search && strlen (old_search))
+		{
+	    	GtkWidget *check_option;
+			GtkWidget *hbox;
+
+			check_option = g_object_get_data (G_OBJECT (assistant), "check_option_5");
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check_option), TRUE);
+			hbox = g_object_get_data (G_OBJECT (assistant), "old_rule_hbox");
+			gtk_widget_set_no_show_all (hbox, FALSE);
+			label = g_object_get_data (G_OBJECT (assistant), "old_rule_label");
+			str = g_strdup_printf (_("Current rule: %s"), gsb_data_payee_get_search_string (payee_number));
+			gtk_label_set_text (GTK_LABEL (label), str);
+			gtk_widget_show_all (hbox);
+    		g_free (str);
+		}
+	}
 
 	ignore_case = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (g_object_get_data (G_OBJECT (assistant),
 																					  "check_option_3")));
@@ -1664,7 +1723,6 @@ static gboolean gsb_assistant_payees_enter_page_finish (GtkWidget *assistant)
 {
     GtkLabel *label;
     GtkWidget *combo;
-    GtkEntry *entry;
     GSList *sup_payees;
     gchar *tmpstr;
     const gchar *str_cherche;
@@ -1674,7 +1732,7 @@ static gboolean gsb_assistant_payees_enter_page_finish (GtkWidget *assistant)
     sup_payees = g_object_get_data (G_OBJECT (assistant), "sup_payees");
     combo = g_object_get_data (G_OBJECT (assistant), "payee");
     str_cherche = gtk_combofix_get_text (GTK_COMBOFIX (combo));
-    entry = g_object_get_data (G_OBJECT (assistant), "new_payee");
+    combo = g_object_get_data (G_OBJECT (assistant), "new_payee");
     str_replace_wildcard = gsb_string_remplace_joker (str_cherche, "...");
 
     if (g_slist_length (sup_payees) == 1)
@@ -1682,7 +1740,7 @@ static gboolean gsb_assistant_payees_enter_page_finish (GtkWidget *assistant)
 		tmpstr = g_strdup_printf (_("You are about to replace one payee which name contain %s by %s\n\n"
 									"Are you sure?"),
 								  str_replace_wildcard,
-								  gtk_entry_get_text (entry));
+								  gtk_combofix_get_text (GTK_COMBOFIX (combo)));
     }
     else
     {
@@ -1690,7 +1748,7 @@ static gboolean gsb_assistant_payees_enter_page_finish (GtkWidget *assistant)
 										"Are you sure?"),
 									  g_slist_length (sup_payees),
 									  str_replace_wildcard,
-									  gtk_entry_get_text (entry));
+									  gtk_combofix_get_text (GTK_COMBOFIX (combo)));
     }
     label = g_object_get_data (G_OBJECT (assistant), "finish_label");
     gtk_label_set_markup (label, tmpstr);
@@ -1840,11 +1898,17 @@ void payees_manage_payees (void)
 
         sup_payees = g_object_get_data (G_OBJECT (assistant), "sup_payees");
         if ((nb_removed = g_slist_length (sup_payees)) == 1)
+		{
             new_payee_number = GPOINTER_TO_INT (sup_payees->data);
+		}
         else
-            new_payee_number = gsb_data_payee_get_number_by_name (
-                        gtk_entry_get_text (g_object_get_data (
-                        G_OBJECT (assistant), "new_payee")), TRUE);
+		{
+			const gchar *text;
+
+			combo = g_object_get_data (G_OBJECT (assistant), "new_payee");
+			text = gtk_combofix_get_text (GTK_COMBOFIX (combo));
+            new_payee_number = gsb_data_payee_get_number_by_name (text, TRUE);
+		}
 
         /* on sauvegarde la chaine de recherche */
         combo = g_object_get_data (G_OBJECT (assistant), "payee");
