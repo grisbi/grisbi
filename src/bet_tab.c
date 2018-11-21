@@ -330,6 +330,44 @@ static gboolean bet_array_list_replace_line_by_transfert ( GtkTreeModel *tab_mod
     return FALSE;
 }
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+static void bet_array_list_execute_balance_deferred_debit_account (GtkWidget *menu_item,
+																   gpointer null)
+{
+    GtkWidget *account_page;
+    GHashTable *transfert_list;
+    GHashTableIter iter;
+    gpointer key, value;
+    gint account_number;
+
+    devel_debug (NULL);
+
+    account_number = gsb_gui_navigation_get_current_account ();
+    transfert_list = bet_data_transfert_get_list ();
+
+    g_hash_table_iter_init (&iter, transfert_list);
+    while (g_hash_table_iter_next (&iter, &key, &value))
+    {
+        TransfertData *transfert = (TransfertData *) value;
+
+        if (account_number != transfert->account_number)
+            continue;
+
+		if (transfert->date_bascule)
+			g_date_free (transfert->date_bascule);
+		transfert->date_bascule = gdate_today ();
+	}
+    account_page = grisbi_win_get_account_page ();
+	gtk_notebook_set_current_page (GTK_NOTEBOOK (account_page), BET_ONGLETS_SANS);
+	bet_array_update_estimate_tab (account_number, BET_MAJ_ALL);
+	gtk_notebook_set_current_page (GTK_NOTEBOOK (account_page), BET_ONGLETS_PREV);
+}
 
 /**
  * remplace l'opération planifiée de même date et de même catégorie ou IB
@@ -2953,6 +2991,7 @@ GtkWidget *bet_array_list_create_toolbar ( GtkWidget *parent,
                         GtkWidget *tree_view )
 {
     GtkWidget *toolbar;
+	GtkWidget *image;
     GtkToolItem *item;
 
     toolbar = gtk_toolbar_new ( );
@@ -2977,6 +3016,15 @@ GtkWidget *bet_array_list_create_toolbar ( GtkWidget *parent,
                         tree_view );
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
+	/* Execute the balance of a deferred debit account */
+	image = gtk_image_new_from_icon_name ("gtk-execute", GTK_ICON_SIZE_LARGE_TOOLBAR);
+	item = gtk_tool_button_new (image, _("Execute"));
+    gtk_widget_set_tooltip_text (GTK_WIDGET (item), _("Execute the balance of a deferred debit account") );
+    g_signal_connect (G_OBJECT (item),
+					  "clicked",
+					  G_CALLBACK (bet_array_list_execute_balance_deferred_debit_account),
+					  tree_view);
+    gtk_toolbar_insert (GTK_TOOLBAR (toolbar), item, -1);
 #ifdef HAVE_GOFFICE
     /* graph button */
     item = bet_graph_button_menu_new ( toolbar,
