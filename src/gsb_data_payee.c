@@ -120,7 +120,7 @@ static GSList *gsb_data_payee_get_name_list (void)
     GSList *return_list;
     GSList *tmp_list;
 
-    return_list = NULL;
+	return_list = NULL;
     tmp_list= payee_list;
     while (tmp_list)
     {
@@ -133,6 +133,8 @@ static GSList *gsb_data_payee_get_name_list (void)
 
         tmp_list = tmp_list->next;
     }
+	return_list = g_slist_sort (return_list, (GCompareFunc) my_strcasecmp);
+
     return return_list;
 }
 
