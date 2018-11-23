@@ -8,7 +8,8 @@
 
 
 /* START_DECLARATION */
-gchar * extra_support ( void );
-void a_propos ( GtkWidget *bouton, gint data );
+gchar *	extra_support	(void);
+void	a_propos		(GtkWidget *bouton,
+						 gint data);
 /* END_DECLARATION */
 #endif

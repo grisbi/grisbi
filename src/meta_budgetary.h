@@ -9,7 +9,7 @@
 
 
 /* START_DECLARATION */
-MetatreeInterface *budgetary_line_get_metatree_interface ( void );
-gint budgetary_line_tree_currency ( void );
+MetatreeInterface *	budgetary_line_get_metatree_interface	(void);
+gint				budgetary_line_tree_currency			(void);
 /* END_DECLARATION */
 #endif

@@ -22,7 +22,7 @@ enum ReconciliationColumns
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
-GtkWidget *gsb_reconcile_config_create ( void );
-void gsb_reconcile_config_fill ( void );
+GtkWidget *	gsb_reconcile_config_create		(void);
+void		gsb_reconcile_config_fill		(void);
 /* END_DECLARATION */
 #endif

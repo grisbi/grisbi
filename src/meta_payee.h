@@ -9,7 +9,7 @@
 
 
 /* START_DECLARATION */
-MetatreeInterface *payee_get_metatree_interface ( void );
-gint payee_tree_currency ( void );
+MetatreeInterface *	payee_get_metatree_interface	(void);
+gint				payee_tree_currency				(void);
 /* END_DECLARATION */
 #endif

@@ -18,7 +18,7 @@ struct csv_field {
 /* START_DECLARATION */
 gboolean 		csv_import_csv_account 				(GtkWidget *assistant,
 													 struct ImportFile *imported);
-gboolean		csv_import_file_by_rule					(gint rule,
+gboolean		csv_import_file_by_rule				(gint rule,
 													 struct ImportFile *imported);
 GSList *		csv_import_get_columns_list			(GtkWidget *assistant);
 GtkWidget * 	import_create_csv_preview_page 		(GtkWidget *assistant);

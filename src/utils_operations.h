@@ -8,7 +8,7 @@
 
 
 /* START_DECLARATION */
-void delete_transaction_in_trees ( gint transaction_number );
-void update_transaction_in_trees ( gint transaction_number );
+void	delete_transaction_in_trees		(gint transaction_number);
+void	update_transaction_in_trees		(gint transaction_number);
 /* END_DECLARATION */
 #endif

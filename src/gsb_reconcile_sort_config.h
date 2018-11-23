@@ -19,7 +19,7 @@ enum reconciliation_sort_columns {
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
-GtkWidget *gsb_reconcile_sort_config_create ( void );
-void gsb_reconcile_sort_config_fill ( void );
+GtkWidget *	gsb_reconcile_sort_config_create	(void);
+void		gsb_reconcile_sort_config_fill		(void);
 /* END_DECLARATION */
 #endif

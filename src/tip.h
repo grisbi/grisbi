@@ -8,7 +8,7 @@
 
 
 /* START_DECLARATION */
-void display_tip ( gboolean force );
-void force_display_tip ( void );
+void	display_tip			(gboolean force);
+void	force_display_tip	(void);
 /* END_DECLARATION */
 #endif

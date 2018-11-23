@@ -6,14 +6,14 @@
 
 
 /* START_DECLARATION */
-gint gsb_transactions_list_sort (CustomRecord **a,
-                        CustomRecord **b,
-                        CustomList *custom_list);
-gint gsb_transactions_list_sort_check_archive (  CustomRecord *record_1,
-                        CustomRecord *record_2 );
-gint gsb_transactions_list_sort_general_test ( CustomRecord *record_1,
-                        CustomRecord *record_2 );
-gint gsb_transactions_list_sort_initial (CustomRecord **a,
+gint	gsb_transactions_list_sort					(CustomRecord **a,
+                        							 CustomRecord **b,
+                        							 CustomList *custom_list);
+gint	gsb_transactions_list_sort_check_archive	(CustomRecord *record_1,
+													 CustomRecord *record_2);
+gint	gsb_transactions_list_sort_general_test		(CustomRecord *record_1,
+													 CustomRecord *record_2);
+gint	gsb_transactions_list_sort_initial			(CustomRecord **a,
                         CustomRecord **b,
                         CustomList *custom_list);
 /* END_DECLARATION */

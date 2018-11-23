@@ -8,10 +8,11 @@
 
 
 /*START_DECLARATION*/
-void free_variables ( void );
-void init_variables ( void );
-void initialise_largeur_colonnes_prev_tab (void);
-void initialise_largeur_colonnes_tab_affichage_ope ( gint type_operation, const gchar *description );
+void	free_variables									(void);
+void	init_variables									(void);
+void	initialise_largeur_colonnes_prev_tab			(void);
+void	initialise_largeur_colonnes_tab_affichage_ope	(gint type_operation,
+														 const gchar *description);
 /*END_DECLARATION*/
 
 

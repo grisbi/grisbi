@@ -21,6 +21,6 @@ enum payment_methods_columns {
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
-GtkWidget *gsb_payment_method_config_create ( void );
+GtkWidget *	gsb_payment_method_config_create	(void);
 /* END_DECLARATION */
 #endif
