@@ -1035,7 +1035,7 @@ gboolean gsb_gui_navigation_change_account ( gint new_account )
     /* check if balance is < 0 and account_kind == GSB_TYPE_CASH */
     if ( gsb_data_account_get_kind ( new_account ) == GSB_TYPE_CASH )
     {
-        gsb_real balance;
+        GsbReal balance;
 
         balance = gsb_data_account_get_current_balance ( new_account );
 
@@ -1069,7 +1069,7 @@ void gsb_gui_navigation_update_statement_label ( gint account_number )
     gchar* tmp_str2;
 	gchar *balance_str;
 	gboolean has_pointed;
-    gsb_real amount;
+    GsbReal amount;
 
     reconcile_number = gsb_data_reconcile_get_account_last_number ( account_number );
     amount = gsb_data_account_get_marked_balance ( account_number );

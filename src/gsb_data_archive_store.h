@@ -22,7 +22,7 @@ typedef struct
     gint account_number;
 
     /* balance of all the transactions of the archive for that account */
-    gsb_real balance;
+    GsbReal balance;
 
     /* number of transactions in the archive for that account */
     gint nb_transactions;
@@ -38,10 +38,10 @@ gboolean 	gsb_data_archive_store_account_have_transactions_visibles 	(gint accou
 void 		gsb_data_archive_store_create_list 							(void);
 gint 		gsb_data_archive_store_get_account_number 					(gint archive_store_number);
 gint 		gsb_data_archive_store_get_archive_number 					(gint archive_store_number);
-gsb_real 	gsb_data_archive_store_get_archives_balance 				(gint account_number);
+GsbReal 	gsb_data_archive_store_get_archives_balance 				(gint account_number);
 GSList *	gsb_data_archive_store_get_archives_list 					(void);
-gsb_real 	gsb_data_archive_store_get_balance 							(gint archive_store_number);
-gint 		gsb_data_archive_store_get_number 								(gpointer archive_ptr);
+GsbReal 	gsb_data_archive_store_get_balance 							(gint archive_store_number);
+gint 		gsb_data_archive_store_get_number 							(gpointer archive_ptr);
 gpointer 	gsb_data_archive_store_get_structure 						(gint archive_store_number);
 gint 		gsb_data_archive_store_get_transactions_number 				(gint archive_store_number);
 gboolean 	gsb_data_archive_store_get_transactions_visibles 			(gint archive_number,

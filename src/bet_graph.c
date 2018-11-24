@@ -1716,8 +1716,8 @@ static gboolean bet_graph_populate_lines_by_historical_line ( struct_bet_graph_d
     gint sub_div_nb;
     gint fyear_number;
     gint i;
-    gsb_real tab[12];
-    gsb_real tab2[12];
+    GsbReal tab[12];
+    GsbReal tab2[12];
 
     selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( self -> tree_view ) );
 

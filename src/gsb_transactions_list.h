@@ -88,7 +88,7 @@ void		move_selected_operation_to_account_nb						(gint source_account,
 gboolean	new_transaction												(void);
 void		remove_transaction											(void);
 void		schedule_selected_transaction								(void);
-gsb_real	solde_debut_affichage										(gint account_number,
+GsbReal		solde_debut_affichage										(gint account_number,
 																		 gint floating_point);
 void		update_titres_tree_view										(void);
 

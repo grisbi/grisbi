@@ -1418,10 +1418,10 @@ gint find_element_col_split (gint element_number)
  *
  * \return
  **/
-gsb_real solde_debut_affichage (gint account_number,
+GsbReal solde_debut_affichage (gint account_number,
 								gint floating_point)
 {
-    gsb_real solde;
+    GsbReal solde;
     GSList *list_tmp_transactions;
 
     solde = gsb_data_account_get_init_balance (account_number, floating_point);
@@ -1826,7 +1826,7 @@ gboolean gsb_transactions_list_edit_current_transaction (void)
 gboolean gsb_transactions_list_switch_mark (gint transaction_number)
 {
     gint col;
-    //~ gsb_real amount;
+    //~ GsbReal amount;
     gint account_number;
 
     devel_debug_int (transaction_number);

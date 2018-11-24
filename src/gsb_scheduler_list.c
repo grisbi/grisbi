@@ -1145,7 +1145,7 @@ gboolean gsb_scheduler_list_append_new_scheduled ( gint scheduled_number,
 			if (first_is_different) /* les autres échéances sont différentes */
 			{
 				GSList *children_numbers_list;
-				gsb_real amount;
+				GsbReal amount;
 
 				amount = bet_finance_get_loan_amount_at_date (scheduled_number,
 															  transfer_account,
@@ -1381,7 +1381,7 @@ gboolean gsb_scheduler_list_update_transaction_in_list ( gint scheduled_number )
 
 					if (init_sch_with_loan && scheduled_number_tmp > 0) /* cette transaction concerne un prêt */
 					{
-						gsb_real amount;
+						GsbReal amount;
 						gchar *tmp_str;
 						gchar *color_str = NULL;
 
@@ -2902,8 +2902,8 @@ gboolean gsb_scheduler_list_update_white_child ( gint white_line_number,
 {
     GtkTreeIter *iter = NULL;
     GSList *tmp_list;
-    gsb_real total_split = null_real;
-    gsb_real variance;
+    GsbReal total_split = null_real;
+    GsbReal variance;
     gchar *tmp_str;
 
     if ( !tree_model_scheduler_list )

@@ -64,7 +64,7 @@ typedef struct
 	gint use_regex;
 
     gint payee_nb_transactions;
-    gsb_real payee_balance;
+    GsbReal payee_balance;
 } struct_payee;
 
 /*START_STATIC*/
@@ -689,7 +689,7 @@ gint gsb_data_payee_get_nb_transactions (gint no_payee)
  *
  * \return balance of the payee or 0 if problem
  **/
-gsb_real gsb_data_payee_get_balance (gint no_payee)
+GsbReal gsb_data_payee_get_balance (gint no_payee)
 {
     struct_payee *payee;
 

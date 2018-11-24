@@ -61,7 +61,7 @@
 /*START_STATIC*/
 static gboolean g_csv_with_title_line = TRUE; /*!< CSV configuration - does the file result contains a title line ?  */
 static gchar *	g_csv_field_separator;		  /*!< CSV configuration - separator charater used between fields of a record */
-static gsb_real current_balance;
+static GsbReal	current_balance;
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -172,7 +172,7 @@ gchar*  csv_field_info_bank  = NULL; /*!< bank references (string) */
  *
  * \return a string should be freed with g_free()
  **/
-static gchar *csv_real_get_string_from_us_option (gsb_real number)
+static gchar *csv_real_get_string_from_us_option (GsbReal number)
 {
 	gchar *tmp_str;
 
@@ -429,7 +429,7 @@ static gboolean gsb_csv_export_transaction (gint transaction_number,
 											FILE *csv_file,
 											gboolean print_balance)
 {
-    gsb_real amount;
+    GsbReal amount;
     gint return_exponent;
     gint account_number;
 	const gchar *bank_str;

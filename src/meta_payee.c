@@ -58,7 +58,7 @@ static gboolean payee_scheduled_set_div_id ( gint scheduled_number,
 static gboolean payee_scheduled_set_sub_div_id ( gint scheduled_number,
 					  int no_sub_div );
 static gint payee_scheduled_sub_div_id ( gint scheduled_number );
-static gsb_real payee_sub_div_balance ( gint div, gint sub_div );
+static GsbReal payee_sub_div_balance ( gint div, gint sub_div );
 static gint payee_sub_div_id ( gpointer sub_payee );
 static gchar * payee_sub_div_name ( gint div, gint sub_div );
 static gint payee_sub_div_nb_transactions ( gint div, gint sub_div );
@@ -233,7 +233,7 @@ gchar * payee_sub_div_name ( gint div, gint sub_div )
  *
  *
  */
-gsb_real payee_sub_div_balance ( gint div, gint sub_div )
+GsbReal payee_sub_div_balance ( gint div, gint sub_div )
 {
     return null_real;
 }

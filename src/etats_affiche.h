@@ -51,10 +51,10 @@ gint 	etat_affiche_affiche_total_compte 			(gint ligne);
 gint 	etat_affiche_affiche_total_exercice 		(gint transaction_number,
 												     gint ligne,
 												     gint force);
-gint 	etat_affiche_affiche_total_general 			(gsb_real total_general,
+gint 	etat_affiche_affiche_total_general 			(GsbReal total_general,
 													 gint ligne);
 gint 	etat_affiche_affiche_total_ib 				(gint ligne);
-gint 	etat_affiche_affiche_total_partiel 			(gsb_real total_partie,
+gint 	etat_affiche_affiche_total_partiel 			(GsbReal total_partie,
 												     gint ligne,
 												     gint type);
 gint 	etat_affiche_affiche_total_periode 			(gint transaction_number,

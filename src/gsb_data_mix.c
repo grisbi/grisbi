@@ -128,7 +128,7 @@ gboolean gsb_data_mix_set_value_date ( gint transaction_number,
     return FALSE;
 }
 
-gsb_real gsb_data_mix_get_amount ( gint transaction_number,
+GsbReal gsb_data_mix_get_amount ( gint transaction_number,
                         gboolean is_transaction )
 {
     if ( is_transaction )
@@ -138,7 +138,7 @@ gsb_real gsb_data_mix_get_amount ( gint transaction_number,
 }
 
 gboolean gsb_data_mix_set_amount ( gint transaction_number,
-                        gsb_real amount,
+                        GsbReal amount,
                         gboolean is_transaction )
 {
     if ( is_transaction )

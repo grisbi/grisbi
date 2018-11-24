@@ -27,12 +27,12 @@ gboolean 		gsb_data_transaction_copy_transaction 							(gint source_transaction
 gint 			gsb_data_transaction_find_by_id 								(gchar *id,
 																				 gint account_number);
 gint 			gsb_data_transaction_get_account_number 						(gint transaction_number);
-gsb_real 		gsb_data_transaction_get_adjusted_amount 						(gint transaction_number,
+GsbReal 		gsb_data_transaction_get_adjusted_amount 						(gint transaction_number,
 																				 gint return_exponent);
-gsb_real 		gsb_data_transaction_get_adjusted_amount_for_currency 			(gint transaction_number,
+GsbReal 		gsb_data_transaction_get_adjusted_amount_for_currency 			(gint transaction_number,
 																				 gint return_currency_number,
 																				 gint return_exponent);
-gsb_real 		gsb_data_transaction_get_amount 								(gint transaction_number);
+GsbReal 		gsb_data_transaction_get_amount 								(gint transaction_number);
 gint 			gsb_data_transaction_get_archive_number 						(gint transaction_number);
 gint 			gsb_data_transaction_get_automatic_transaction 					(gint transaction_number);
 const gchar *	gsb_data_transaction_get_bank_references 						(gint transaction_number);
@@ -47,12 +47,12 @@ gint 			gsb_data_transaction_get_contra_transaction_number 				(gint transaction
 gint 			gsb_data_transaction_get_currency_number 						(gint transaction_number);
 gint 			gsb_data_transaction_get_currency_floating_point 				(gint transaction_number);
 const GDate *	gsb_data_transaction_get_date 									(gint transaction_number);
-gsb_real 		gsb_data_transaction_get_exchange_fees 							(gint transaction_number);
-gsb_real 		gsb_data_transaction_get_exchange_rate 							(gint transaction_number);
+GsbReal 		gsb_data_transaction_get_exchange_fees 							(gint transaction_number);
+GsbReal 		gsb_data_transaction_get_exchange_rate 							(gint transaction_number);
 gint 			gsb_data_transaction_get_financial_year_number 					(gint transaction_number);
 const gchar *	gsb_data_transaction_get_id 									(gint transaction_number);
 gint 			gsb_data_transaction_get_last_number 							(void);
-gsb_real 		gsb_data_transaction_get_last_transaction_with_div_sub_div 		(gint account_number,
+GsbReal 		gsb_data_transaction_get_last_transaction_with_div_sub_div 		(gint account_number,
 																				 gint div_number,
 																				 gint sub_div_nb,
 																				 gint type_div);
@@ -80,7 +80,7 @@ gint 			gsb_data_transaction_get_white_line 							(gint transaction_number);
 gboolean 		gsb_data_transaction_init_variables 							(void);
 gint 			gsb_data_transaction_new_transaction 							(gint no_account);
 gint 			gsb_data_transaction_new_transaction_with_number 				(gint no_account,
-                        gint transaction_number);
+                        														 gint transaction_number);
 gint 			gsb_data_transaction_new_white_line (gint mother_transaction_number);
 gboolean 		gsb_data_transaction_remove_transaction (gint transaction_number);
 gboolean 		gsb_data_transaction_remove_transaction_in_transaction_list 	(gint transaction_number);
@@ -88,7 +88,7 @@ gboolean 		gsb_data_transaction_remove_transaction_without_check 			(gint transa
 gboolean 		gsb_data_transaction_set_account_number 						(gint transaction_number,
 																				 gint no_account);
 gboolean 		gsb_data_transaction_set_amount 								(gint transaction_number,
-																				 gsb_real amount);
+																				 GsbReal amount);
 gboolean 		gsb_data_transaction_set_archive_number 						(gint transaction_number,
 																				 gint archive_number);
 gboolean 		gsb_data_transaction_set_automatic_transaction 					(gint transaction_number,
@@ -108,9 +108,9 @@ gboolean 		gsb_data_transaction_set_currency_number						(gint transaction_numbe
 gboolean 		gsb_data_transaction_set_date 									(gint transaction_number,
                         														 const GDate *date);
 gboolean 		gsb_data_transaction_set_exchange_fees 							(gint transaction_number,
-                        														 gsb_real rate);
+                        														 GsbReal rate);
 gboolean 		gsb_data_transaction_set_exchange_rate 							(gint transaction_number,
-                        														 gsb_real rate);
+                        														 GsbReal rate);
 gboolean 		gsb_data_transaction_set_financial_year_number 					(gint transaction_number,
                         														 gint financial_year_number);
 gboolean 		gsb_data_transaction_set_marked_transaction 					(gint transaction_number,

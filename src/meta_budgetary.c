@@ -47,7 +47,7 @@ static gboolean budgetary_line_add_transaction_to_div ( gint transaction_number,
 						 int div_id );
 static gchar *budgetary_line_div_name ( gint div );
 static gint budgetary_line_get_without_div_pointer ( void );
-static gsb_real budgetary_line_sub_div_balance ( gint div, gint sub_div );
+static GsbReal budgetary_line_sub_div_balance ( gint div, gint sub_div );
 static gchar *budgetary_line_sub_div_name ( gint div, gint sub_div );
 static gint budgetary_line_sub_div_nb_transactions ( gint div, gint sub_div );
 static gint budgetary_lint_get_number_by_name ( const gchar *name, gboolean create );
@@ -213,7 +213,7 @@ gchar * budgetary_line_sub_div_name ( gint div, gint sub_div )
  *
  *
  */
-gsb_real budgetary_line_sub_div_balance ( gint div, gint sub_div )
+GsbReal budgetary_line_sub_div_balance ( gint div, gint sub_div )
 {
     if ( sub_div )
     {

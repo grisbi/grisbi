@@ -395,7 +395,7 @@ gchar * gsb_debug_reconcile_test ( void )
         if (reconcile_number)
         {
         GSList *pTransactionList;
-        gsb_real reconcilied_amount = null_real;
+        GsbReal reconcilied_amount = null_real;
 
         /* On va recalculer le montant rapproché du compte (c-à-d le solde initial
 	     * plus le montant des opérations rapprochées) et le comparer à la valeur

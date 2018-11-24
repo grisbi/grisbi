@@ -20,7 +20,7 @@ gboolean 	bet_transfert_modify_line 		(gint account_number,
 											 gint number);
 gboolean 	bet_transfert_new_line_dialog 	(GtkTreeModel *tab_model,
 											 gchar *str_date);
-gsb_real 	gsb_transfert_get_str_amount 	(gsb_real amount,
+GsbReal 	gsb_transfert_get_str_amount 	(GsbReal amount,
 											 gint account_currency,
 											 gint replace_currency,
 											 gint floating_point);

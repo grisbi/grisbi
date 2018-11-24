@@ -47,13 +47,13 @@ static gchar * child_content ( xmlNodePtr node, const gchar * child_name );
 static struct ImportAccount * find_imported_account_by_name ( gchar * name );
 static struct ImportAccount * find_imported_account_by_uid ( gchar * guid );
 static struct gnucash_category * find_imported_categ_by_uid ( gchar * guid );
-static struct gnucash_split * find_split ( GSList * split_list, gsb_real amount,
+static struct gnucash_split * find_split ( GSList * split_list, GsbReal amount,
 				    struct ImportAccount * account,
 				    struct gnucash_category * categ );
 static xmlNodePtr get_child ( xmlNodePtr node, const gchar * child_name );
 static gchar * get_currency ( xmlNodePtr currency_node );
-static gsb_real gnucash_value ( gchar * value );
-static struct gnucash_split * new_split ( gsb_real amount, gchar * account, gchar * categ );
+static GsbReal gnucash_value ( gchar * value );
+static struct gnucash_split * new_split ( GsbReal amount, gchar * account, gchar * categ );
 static struct ImportTransaction * new_transaction_from_split ( struct gnucash_split * split,
 							     gchar * tiers, GDate * date );
 static gboolean node_strcmp ( xmlNodePtr node, const gchar * name );
@@ -62,7 +62,7 @@ static void recuperation_donnees_gnucash_book ( xmlNodePtr book_node );
 static void recuperation_donnees_gnucash_categorie ( xmlNodePtr categ_node );
 static void recuperation_donnees_gnucash_compte ( xmlNodePtr compte_node );
 static void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node );
-static void update_split ( struct gnucash_split * split, gsb_real amount,
+static void update_split ( struct gnucash_split * split, GsbReal amount,
 		    gchar * account, gchar * categ );
 /*END_STATIC*/
 
@@ -83,7 +83,7 @@ struct gnucash_category {
 };
 
 struct gnucash_split {
-  gsb_real amount;
+  GsbReal amount;
   gchar * category;
   gchar * account;
   gchar * contra_account;
@@ -303,7 +303,7 @@ void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node )
   GDate * date;
   xmlNodePtr splits, split_node, date_node;
   GSList * split_list = NULL;
-  gsb_real total = { 0 , 0 };
+  GsbReal total = { 0 , 0 };
 
   /* Transaction amount, category, account, etc.. */
   splits = get_child ( transaction_node, "splits" );
@@ -314,7 +314,7 @@ void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node )
       struct ImportAccount * split_account = NULL;
       struct gnucash_category * categ = NULL;
       enum OperationEtatRapprochement p_r = OPERATION_NORMALE;
-      gsb_real amount;
+      GsbReal amount;
 
       /**
        * Gnucash transactions are in fact "splits", much like grisbi's
@@ -537,7 +537,7 @@ struct gnucash_category * find_imported_categ_by_uid ( gchar * guid )
  *
  * \return		Numeric value of argument 'value'.
  */
-gsb_real gnucash_value ( gchar * value )
+GsbReal gnucash_value ( gchar * value )
 {
   gchar **tab_value;
   gdouble number, mantisse;
@@ -660,7 +660,7 @@ xmlDocPtr parse_gnucash_file ( gchar * filename )
  *
  * \return		A gnucash_split upon success.  NULL otherwise.
  */
-struct gnucash_split * find_split ( GSList * split_list, gsb_real amount,
+struct gnucash_split * find_split ( GSList * split_list, GsbReal amount,
 				    struct ImportAccount * account,
 				    struct gnucash_category * categ )
 {
@@ -700,7 +700,7 @@ struct gnucash_split * find_split ( GSList * split_list, gsb_real amount,
  * \param account	Account to set if not NULL.
  * \param categ		Category to set if not NULL.
  */
-void update_split ( struct gnucash_split * split, gsb_real amount,
+void update_split ( struct gnucash_split * split, GsbReal amount,
 		    gchar * account, gchar * categ )
 {
   if ( categ )
@@ -733,7 +733,7 @@ void update_split ( struct gnucash_split * split, gsb_real amount,
  *
  * \return		A newly created gnucash_split.
  */
-struct gnucash_split * new_split ( gsb_real amount, gchar * account, gchar * categ )
+struct gnucash_split * new_split ( GsbReal amount, gchar * account, gchar * categ )
 {
   struct gnucash_split * split;
 

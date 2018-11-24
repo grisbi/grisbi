@@ -50,7 +50,7 @@
  * \return		A newly allocated string of the number (this
  *			function will never return NULL)
 */
-gchar *utils_real_get_string ( gsb_real number )
+gchar *utils_real_get_string ( GsbReal number )
 {
     struct lconv *locale = gsb_locale_get_locale ();
 
@@ -74,7 +74,7 @@ gchar *utils_real_get_string ( gsb_real number )
  * \return		A newly allocated string of the number (this
  *			function will never return NULL)
  */
-gchar *utils_real_get_string_intl ( gsb_real number )
+gchar *utils_real_get_string_intl ( GsbReal number )
 {
 	struct lconv locale = *gsb_locale_get_locale ();
 	locale.mon_decimal_point = ".";
@@ -96,7 +96,7 @@ gchar *utils_real_get_string_intl ( gsb_real number )
  * \return		A newly allocated string of the number (this
  *			function will never return NULL)
  */
-gchar *utils_real_get_string_with_currency ( gsb_real number,
+gchar *utils_real_get_string_with_currency ( GsbReal number,
                         gint currency_number,
                         gboolean show_symbol )
 {
@@ -139,16 +139,16 @@ gchar *utils_real_get_string_with_currency ( gsb_real number,
  * - spaces are ignored
  * - another character makes a 0 return
  *
- *   there is no ask for any exponent, so the gsb_real will be exactly the
+ *   there is no ask for any exponent, so the GsbReal will be exactly the
  *   same as the string
  *
  * \param string
  *
  * \return the number in the string transformed to gsb_real
  * */
-gsb_real utils_real_get_from_string ( const gchar *string )
+GsbReal utils_real_get_from_string ( const gchar *string )
 {
-    gsb_real result;
+    GsbReal result;
     gchar *thousands_sep = gsb_locale_get_mon_thousands_sep ( );
     gchar *decimal_point = gsb_locale_get_mon_decimal_point ( );
 
@@ -173,7 +173,7 @@ gsb_real utils_real_get_from_string ( const gchar *string )
 gchar *utils_real_get_string_with_currency_from_double ( gdouble number,
                         gint currency_number )
 {
-    gsb_real real;
+    GsbReal real;
 
     real = gsb_real_double_to_real ( number );
 
@@ -187,13 +187,13 @@ gchar *utils_real_get_string_with_currency_from_double ( gdouble number,
  *
  * \param entry         entrée d'un montant
  *
- * \return gsb_real     total de ce qui est dans l'entrée
+ * \return GsbReal     total de ce qui est dans l'entrée
  */
-gsb_real utils_real_get_calculate_entry ( GtkWidget *entry )
+GsbReal utils_real_get_calculate_entry ( GtkWidget *entry )
 {
     gchar *string;
     gchar *pointeur;
-    gsb_real total = null_real;
+    GsbReal total = null_real;
 
     string = my_strdup ( gtk_entry_get_text ( GTK_ENTRY ( entry ) ) );
 

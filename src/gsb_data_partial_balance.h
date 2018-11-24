@@ -18,11 +18,11 @@ gboolean 		gsb_data_partial_balance_drag_data_get 				(GtkTreeDragSource *drag_s
 gboolean 		gsb_data_partial_balance_drag_data_received 		(GtkTreeDragDest *drag_dest,
 																	 GtkTreePath * path,
 																	 GtkSelectionData *selection_data);
-gsb_real 		gsb_data_partial_balance_get_balance_at_date 		(gint partial_balance_number,
+GsbReal 		gsb_data_partial_balance_get_balance_at_date 		(gint partial_balance_number,
 																	 GDate *date);
 gboolean 		gsb_data_partial_balance_get_colorise 				(gint partial_balance_number);
 gint 			gsb_data_partial_balance_get_currency 				(gint partial_balance_number);
-gsb_real 		gsb_data_partial_balance_get_current_amount 		(gint partial_balance_number);
+GsbReal 		gsb_data_partial_balance_get_current_amount 		(gint partial_balance_number);
 gchar *			gsb_data_partial_balance_get_current_balance 		(gint partial_balance_number);
 KindAccount 	gsb_data_partial_balance_get_kind 					(gint partial_balance_number);
 GSList *		gsb_data_partial_balance_get_list 					(void);

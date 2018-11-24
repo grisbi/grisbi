@@ -291,7 +291,7 @@ static GArray *csv_import_button_rule_traite_spec_line (SpecConfData *spec_conf_
 			{
 				GSList *link;
 				gchar *str_montant;
-				gsb_real montant;
+				GsbReal montant;
 
 				link = g_slist_nth (list, spec_conf_data->csv_spec_conf_action_data);
 				str_montant = (gchar*) link->data;

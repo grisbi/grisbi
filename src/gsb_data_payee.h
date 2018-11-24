@@ -11,7 +11,7 @@
 /* START_DECLARATION */
 void 			gsb_data_payee_add_transaction_to_payee 		(gint transaction_number);
 void 			gsb_data_payee_free_name_and_report_list 		(GSList *liste);
-gsb_real 		gsb_data_payee_get_balance 						(gint no_payee);
+GsbReal			gsb_data_payee_get_balance 						(gint no_payee);
 const gchar *	gsb_data_payee_get_description 					(gint no_payee);
 gpointer 		gsb_data_payee_get_empty_payee 					(void);
 gint			gsb_data_payee_get_ignore_case 					(gint no_payee);

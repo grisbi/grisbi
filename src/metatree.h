@@ -29,8 +29,8 @@ struct _MetatreeInterface {
 														 gint);
     gchar *			(* div_name)						(gint);
     gchar *			(* sub_div_name)					(gint, gint);
-    gsb_real		(* div_balance)						(gint);
-    gsb_real		(* sub_div_balance)					(gint, gint);
+    GsbReal			(* div_balance)						(gint);
+    GsbReal 		(* sub_div_balance)					(gint, gint);
     gint			(* div_id)							(gpointer);
     gint			(* sub_div_id)						(gpointer);
     GSList *		(* div_list)						(void);

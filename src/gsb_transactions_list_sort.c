@@ -418,8 +418,8 @@ gint gsb_transactions_list_sort_by_date_and_amount ( gint transaction_number_1,
                         gint transaction_number_2 )
 {
     gint return_value;
-    gsb_real amount_1;
-    gsb_real amount_2;
+    GsbReal amount_1;
+    GsbReal amount_2;
 
     if ( !gsb_data_transaction_get_date (transaction_number_1) )
     {

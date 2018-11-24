@@ -27,7 +27,7 @@ struct ImportAccount
 
     GSList *operations_importees;          /* liste des struct des opés importées */
 
-    gsb_real solde;
+    GsbReal solde;
     gchar *date_solde_qif;            /* utilisé temporairement pour un fichier qif */
 
     GtkWidget *bouton_devise;             /* adr du bouton de la devise dans le récapitulatif */
@@ -89,7 +89,7 @@ struct ImportTransaction
     gchar *categ;
 	gchar *budget;
 
-    gsb_real montant;
+    GsbReal montant;
 
     enum OperationEtatRapprochement p_r;
 

@@ -7,51 +7,50 @@
 #define EXPONENT_MAX 10
 #define ERROR_REAL_STRING "###ERR###"
 
-/** \struct
- *  Describe a real number.
- * */
-typedef struct
+/* structure describe a real number. */
+typedef struct _GsbReal		GsbReal;
+struct _GsbReal
 {
     gint64 mantissa;
     gint exponent;
-} gsb_real;
+};
 
-static const gsb_real null_real = { 0 , 0 };
-static const gsb_real error_real = { G_MININT64, 0 };
+static const GsbReal null_real = { 0 , 0 };
+static const GsbReal error_real = { G_MININT64, 0 };
 
 
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
-gsb_real	gsb_real_abs					(gsb_real number);
-gsb_real	gsb_real_add					(gsb_real number_1,
-                        					 gsb_real number_2);
-gsb_real	gsb_real_adjust_exponent		(gsb_real number,
+GsbReal		gsb_real_abs					(GsbReal number);
+GsbReal		gsb_real_add					(GsbReal number_1,
+                        					 GsbReal number_2);
+GsbReal		gsb_real_adjust_exponent		(GsbReal number,
                         					 gint return_exponent);
-gint		gsb_real_cmp					(gsb_real number_1,
-                        					 gsb_real number_2);
-gsb_real	gsb_real_div					(gsb_real number_1,
-                        					 gsb_real number_2);
-gsb_real	gsb_real_double_to_real			(gdouble number);
-gsb_real	gsb_real_mul					(gsb_real number_1,
-                        					 gsb_real number_2);
-gsb_real	gsb_real_new					(gint64 mantissa,
+gint		gsb_real_cmp					(GsbReal number_1,
+                        					 GsbReal number_2);
+GsbReal		gsb_real_div					(GsbReal number_1,
+                        					 GsbReal number_2);
+GsbReal		gsb_real_double_to_real			(gdouble number);
+GsbReal		gsb_real_mul					(GsbReal number_1,
+                        					 GsbReal number_2);
+GsbReal		gsb_real_new					(gint64 mantissa,
 											 gint exponent);
-gboolean	gsb_real_normalize				(gsb_real *number_1,
-											 gsb_real *number_2);
-gsb_real	gsb_real_opposite				(gsb_real number);
-gchar *		gsb_real_raw_format_string		(gsb_real number,
+gboolean	gsb_real_normalize				(GsbReal *number_1,
+											 GsbReal *number_2);
+GsbReal		gsb_real_opposite				(GsbReal number);
+gchar *		gsb_real_raw_format_string		(GsbReal number,
                         					 struct lconv *locale,
                         					 const gchar *currency_symbol);
-gsb_real	gsb_real_raw_get_from_string	(const gchar *string,
+GsbReal		gsb_real_raw_get_from_string	(const gchar *string,
                                         	 const gchar *mon_thousands_sep,
                                         	 const gchar *mon_decimal_point);
-gdouble		gsb_real_real_to_double			(gsb_real number);
-gsb_real	gsb_real_safe_real_from_string	(const gchar *string);
-gchar *		gsb_real_safe_real_to_string 	(gsb_real number,
+gdouble		gsb_real_real_to_double			(GsbReal number);
+GsbReal		gsb_real_safe_real_from_string	(const gchar *string);
+gchar *		gsb_real_safe_real_to_string 	(GsbReal number,
 											 gint default_exponent);
-gsb_real	gsb_real_sub					(gsb_real number_1,
-                        					 gsb_real number_2);
+GsbReal		gsb_real_sub					(GsbReal number_1,
+                        					 GsbReal number_2);
 /* END_DECLARATION */
 #endif

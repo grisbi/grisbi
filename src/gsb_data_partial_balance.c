@@ -1038,7 +1038,7 @@ gboolean gsb_data_partial_balance_set_colorise ( gint partial_balance_number,
 gchar *gsb_data_partial_balance_get_marked_balance ( gint partial_balance_number )
 {
     struct_partial_balance *partial_balance;
-    gsb_real solde = null_real;
+    GsbReal solde = null_real;
     gchar **tab;
     gchar *string;
     gint i;
@@ -1055,7 +1055,7 @@ gchar *gsb_data_partial_balance_get_marked_balance ( gint partial_balance_number
     tab = g_strsplit ( partial_balance -> liste_cptes, ";", 0 );
     for ( i = 0; tab[i]; i++ )
     {
-        gsb_real tmp_real;
+        GsbReal tmp_real;
         gint account_nb;
         gint account_currency;
         gint link_number;
@@ -1110,10 +1110,10 @@ gchar *gsb_data_partial_balance_get_marked_balance ( gint partial_balance_number
  *
  *
  * */
-gsb_real gsb_data_partial_balance_get_current_amount ( gint partial_balance_number )
+GsbReal gsb_data_partial_balance_get_current_amount ( gint partial_balance_number )
 {
     struct_partial_balance *partial_balance;
-    gsb_real solde = null_real;
+    GsbReal solde = null_real;
     gchar **tab;
     gint i;
 
@@ -1129,7 +1129,7 @@ gsb_real gsb_data_partial_balance_get_current_amount ( gint partial_balance_numb
     tab = g_strsplit ( partial_balance -> liste_cptes, ";", 0 );
     for ( i = 0; tab[i]; i++ )
     {
-        gsb_real tmp_real;
+        GsbReal tmp_real;
         gint account_nb;
         gint account_currency;
         gint link_number;
@@ -1167,7 +1167,7 @@ gsb_real gsb_data_partial_balance_get_current_amount ( gint partial_balance_numb
 gchar *gsb_data_partial_balance_get_current_balance ( gint partial_balance_number )
 {
     struct_partial_balance *partial_balance;
-    gsb_real solde = null_real;
+    GsbReal solde = null_real;
     gchar *string;
 
     partial_balance = gsb_data_partial_balance_get_structure ( partial_balance_number );
@@ -1502,8 +1502,8 @@ GPtrArray *gsb_data_partial_balance_calculate_balances_at_date ( gint partial_ba
     {
         gint account_number;
         gint floating_point;
-        gsb_real *balance;
-        gsb_real tmp_balance;
+        GsbReal *balance;
+        GsbReal tmp_balance;
 
         /* on remplit le tableau des numeros des comptes */
         account_number = utils_str_atoi ( tab[i] );
@@ -1514,14 +1514,14 @@ GPtrArray *gsb_data_partial_balance_calculate_balances_at_date ( gint partial_ba
         g_array_append_val ( floating_points, floating_point );
 
         /* on initialise le tableau des soldes de chaque compte */
-        balance = g_malloc0 ( sizeof ( gsb_real ) );
+        balance = g_malloc0 ( sizeof ( GsbReal ) );
         tmp_balance = gsb_data_account_get_init_balance ( account_number, floating_point );
         balance->mantissa = tmp_balance.mantissa;
         balance->exponent = tmp_balance.exponent;
         g_ptr_array_add ( current_balances, balance );
 
         /* on initialise le tableau des soldes en erreur de chaque compte */
-        balance = g_malloc0 ( sizeof ( gsb_real ) );
+        balance = g_malloc0 ( sizeof ( GsbReal ) );
         balance->mantissa = null_real.mantissa;
         balance->exponent = null_real.exponent;
         g_ptr_array_add ( current_balances_later, balance );
@@ -1556,13 +1556,13 @@ GPtrArray *gsb_data_partial_balance_calculate_balances_at_date ( gint partial_ba
             if ( trouve )
             {
                 gint floating_point;
-                gsb_real adjusted_amout;
-                gsb_real tmp_balance;
-                gsb_real *balance;
-                gsb_real current_balance;
+                GsbReal adjusted_amout;
+                GsbReal tmp_balance;
+                GsbReal *balance;
+                GsbReal current_balance;
 
                 floating_point = g_array_index ( floating_points, gint, i );
-                balance = (gsb_real *) g_ptr_array_index ( current_balances, i );
+                balance = (GsbReal *) g_ptr_array_index ( current_balances, i );
                 current_balance.mantissa = balance->mantissa;
                 current_balance.exponent = balance->exponent;
 
@@ -1576,9 +1576,9 @@ GPtrArray *gsb_data_partial_balance_calculate_balances_at_date ( gint partial_ba
                 }
                 else
                 {
-                    gsb_real *balance_later;
+                    GsbReal *balance_later;
 
-                    balance_later = (gsb_real *) g_ptr_array_index ( current_balances_later, i );
+                    balance_later = (GsbReal *) g_ptr_array_index ( current_balances_later, i );
                     balance_later->mantissa = G_MININT64;
                     balance_later->exponent = 0;
                 }
@@ -1809,13 +1809,13 @@ gint gsb_partial_balance_request_currency ( GtkWidget *parent )
  * \param partial_balance_number    numéro du solde partiel concerné
  * \param date                      date de calcul du solde
  *
- * \return gsb_real         le solde du solde partiel
+ * \return GsbReal         le solde du solde partiel
  * */
-gsb_real gsb_data_partial_balance_get_balance_at_date ( gint partial_balance_number,
+GsbReal gsb_data_partial_balance_get_balance_at_date ( gint partial_balance_number,
                         GDate *date )
 {
     struct_partial_balance *partial_balance;
-    gsb_real solde = null_real;
+    GsbReal solde = null_real;
     gchar **tab;
     gint i;
 
@@ -1831,7 +1831,7 @@ gsb_real gsb_data_partial_balance_get_balance_at_date ( gint partial_balance_num
     tab = g_strsplit ( partial_balance -> liste_cptes, ";", 0 );
     for ( i = 0; tab[i]; i++ )
     {
-        gsb_real tmp_real;
+        GsbReal tmp_real;
         gint account_number;
         gint account_currency;
         gint link_number;

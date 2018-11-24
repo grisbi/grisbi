@@ -246,7 +246,7 @@ static gboolean gsb_autofunc_int_changed (GtkWidget *entry,
  */
 static gboolean gsb_autofunc_real_changed (GtkWidget *entry,
 										   gboolean default_func (gint,
-																  gsb_real))
+																  GsbReal))
 {
     gint number_for_func;
 
@@ -1043,15 +1043,15 @@ GtkWidget *gsb_autofunc_radiobutton_new (const gchar *choice1,
 
 /* REAL */
 /*
- * creates a new GtkEntry to contain a gsb_real which will modify the value according to the entry
+ * creates a new GtkEntry to contain a GsbReal which will modify the value according to the entry
  * but made for values in grisbi structure :
  * for each change, will call the corresponding given function : gsb_data_... (number, gsb_real)
  * ie the target function must be :
  * 	(default_func) (gint number_for_func,
- * 			 gsb_real real)
+ * 			 GsbReal real)
  * ex : gsb_data_account_set_init_balance (account, real)
  *
- * \param real a gsb_real to fill the entry or NULL
+ * \param real a GsbReal to fill the entry or NULL
  * \param hook an optional function to execute as a handler if the
  * 	entry's contents are modified.
  * 	hook should be :
@@ -1065,7 +1065,7 @@ GtkWidget *gsb_autofunc_radiobutton_new (const gchar *choice1,
  *
  * \return a new GtkEntry
  * */
-GtkWidget *gsb_autofunc_real_new (gsb_real real,
+GtkWidget *gsb_autofunc_real_new (GsbReal real,
 								  GCallback hook,
 								  gpointer data,
 								  GCallback default_func,
@@ -1103,7 +1103,7 @@ GtkWidget *gsb_autofunc_real_new (gsb_real real,
 }
 
 /**
- * set the gsb_real in a gsb_editable_date
+ * set the GsbReal in a gsb_editable_date
  * a value is in 2 parts :
  * 	a date, which be showed in the entry
  * 	a number, which is used when there is a change in that entry (see gsb_autofunc_date_new)
@@ -1115,7 +1115,7 @@ GtkWidget *gsb_autofunc_real_new (gsb_real real,
  * \return
  */
 void gsb_autofunc_real_set (GtkWidget *entry,
-							gsb_real real,
+							GsbReal real,
 							gint number_for_func)
 {
     gchar *string;

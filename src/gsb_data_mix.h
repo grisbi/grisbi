@@ -14,7 +14,7 @@ gint 			gsb_data_mix_get_account_number 				(gint transaction_number,
 																 gboolean is_transaction);
 gint 			gsb_data_mix_get_account_number_transfer 		(gint transaction_number,
 																 gboolean is_transaction);
-gsb_real 		gsb_data_mix_get_amount 						(gint transaction_number,
+GsbReal 		gsb_data_mix_get_amount 						(gint transaction_number,
 																 gboolean is_transaction);
 gint 			gsb_data_mix_get_automatic_transaction 			(gint transaction_number,
 																 gboolean is_transaction);
@@ -57,7 +57,7 @@ gint 			gsb_data_mix_new_transaction 					(gint account_number,
 																 gboolean is_transaction);
 void 			gsb_data_mix_new_transaction_by_menu 			(void);
 gboolean 		gsb_data_mix_set_amount 						(gint transaction_number,
-																 gsb_real amount,
+																 GsbReal amount,
 																 gboolean is_transaction);
 gboolean 		gsb_data_mix_set_bank_references 				(gint transaction_number,
 																 const gchar *bank_references,

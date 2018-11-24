@@ -314,7 +314,7 @@ gint gsb_data_archive_store_get_account_number ( gint archive_store_number )
  *
  * \return the  of the archive or 0 if fail
  * */
-gsb_real gsb_data_archive_store_get_balance ( gint archive_store_number )
+GsbReal gsb_data_archive_store_get_balance ( gint archive_store_number )
 {
     struct_store_archive *archive;
 
@@ -477,10 +477,10 @@ static gint gsb_data_archive_store_new ( void )
  *
  *
  */
-gsb_real gsb_data_archive_store_get_archives_balance ( gint account_number )
+GsbReal gsb_data_archive_store_get_archives_balance ( gint account_number )
 {
     GSList *tmp_list;
-    gsb_real balance = null_real;
+    GsbReal balance = null_real;
 
     tmp_list = gsb_data_archive_store_get_archives_list ( );
 

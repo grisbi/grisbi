@@ -890,7 +890,7 @@ void transaction_list_colorize (void)
 void transaction_list_set_balances ( void )
 {
     gint account_number;
-    gsb_real current_total;
+    GsbReal current_total;
     gint column_balance;
     gint line_balance;
     gint nb_rows;
@@ -937,7 +937,7 @@ void transaction_list_set_balances ( void )
     for (i=0 ; i < custom_list -> num_visibles_rows ; i++)
     {
         CustomRecord *record;
-        gsb_real amount = null_real;
+        GsbReal amount = null_real;
 
         record = custom_list -> visibles_rows[i];
 
@@ -1936,8 +1936,8 @@ static CustomRecord *transaction_list_create_record ( gint transaction_number,
  * */
 static gboolean transaction_list_update_white_child ( CustomRecord *white_record )
 {
-    gsb_real total_split = null_real;
-    gsb_real variance;
+    GsbReal total_split = null_real;
+    GsbReal variance;
     gchar *amount_string;
     gchar *variance_string;
     CustomRecord *mother_record;
@@ -2147,8 +2147,8 @@ gboolean transaction_list_get_variance ( gint transaction_number )
 {
     CustomRecord *white_record = NULL;
     CustomList *custom_list;
-    gsb_real total_split = null_real;
-    gsb_real variance;
+    GsbReal total_split = null_real;
+    GsbReal variance;
     CustomRecord *mother_record;
     gint i;
 

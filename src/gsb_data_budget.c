@@ -64,8 +64,8 @@ struct _BudgetStruct
     /** @name gui budget list content (not saved) */
     gint budget_nb_transactions;
     gint budget_nb_direct_transactions;
-    gsb_real budget_balance;
-    gsb_real budget_direct_balance;
+    GsbReal budget_balance;
+    GsbReal budget_direct_balance;
 };
 
 
@@ -82,7 +82,7 @@ struct _SubBudgetStruct
 
     /** @name gui sub-budget list content (not saved)*/
     gint sub_budget_nb_transactions;
-    gsb_real sub_budget_balance;
+    GsbReal sub_budget_balance;
 };
 
 
@@ -1127,7 +1127,7 @@ gint gsb_data_budget_get_nb_direct_transactions ( gint no_budget )
  *
  * \return balance of the budget or 0 if problem
  * */
-gsb_real gsb_data_budget_get_balance ( gint no_budget )
+GsbReal gsb_data_budget_get_balance ( gint no_budget )
 {
     BudgetStruct *budget;
 
@@ -1148,7 +1148,7 @@ gsb_real gsb_data_budget_get_balance ( gint no_budget )
  *
  * \return balance of the sub-budget or 0 if problem
  * */
-gsb_real gsb_data_budget_get_sub_budget_balance ( gint no_budget,
+GsbReal gsb_data_budget_get_sub_budget_balance ( gint no_budget,
                         gint no_sub_budget )
 {
     SubBudgetStruct *sub_budget;
@@ -1169,7 +1169,7 @@ gsb_real gsb_data_budget_get_sub_budget_balance ( gint no_budget,
  *
  * \return balance of the budget or 0 if problem
  * */
-gsb_real gsb_data_budget_get_direct_balance ( gint no_budget )
+GsbReal gsb_data_budget_get_direct_balance ( gint no_budget )
 {
     BudgetStruct *budget;
 

@@ -53,7 +53,7 @@ struct _ScheduledStruct
     /** @name general stuff */
     gint 		scheduled_number;
     gint 		account_number;
-    gsb_real 	scheduled_amount;
+    GsbReal 	scheduled_amount;
     gint 		party_number;
     gchar *		notes;
     gshort 		automatic_scheduled;			/* < 0=manual, 1=automatic (scheduled scheduled) */
@@ -492,7 +492,7 @@ gboolean gsb_data_scheduled_set_date (gint scheduled_number,
  *
  * \return the amount of the scheduled
  **/
-gsb_real gsb_data_scheduled_get_amount (gint scheduled_number)
+GsbReal gsb_data_scheduled_get_amount (gint scheduled_number)
 {
     ScheduledStruct *scheduled;
 
@@ -513,7 +513,7 @@ gsb_real gsb_data_scheduled_get_amount (gint scheduled_number)
  * \return TRUE if ok
  **/
 gboolean gsb_data_scheduled_set_amount (gint scheduled_number,
-										gsb_real amount)
+										GsbReal amount)
 {
     ScheduledStruct *scheduled;
 
@@ -1696,12 +1696,12 @@ gint gsb_data_scheduled_get_currency_floating_point (gint scheduled_number)
  *
  * \return the amount of the transaction
  **/
-gsb_real gsb_data_scheduled_get_adjusted_amount_for_currency (gint scheduled_number,
-															  gint return_currency_number,
-															  gint return_exponent)
+GsbReal gsb_data_scheduled_get_adjusted_amount_for_currency (gint scheduled_number,
+															 gint return_currency_number,
+															 gint return_exponent)
 {
     ScheduledStruct *scheduled;
-    gsb_real amount = null_real;
+    GsbReal amount = null_real;
     gint link_number;
 
     if (return_exponent == -1)
@@ -1795,8 +1795,8 @@ gboolean gsb_data_scheduled_copy_scheduled (gint source_scheduled_number,
 gboolean gsb_data_scheduled_get_variance (gint mother_scheduled_number)
 {
     GSList *tmp_list;
-    gsb_real total_split = null_real;
-    gsb_real variance;
+    GsbReal total_split = null_real;
+    GsbReal variance;
 
     tmp_list = scheduled_list;
     while (tmp_list)

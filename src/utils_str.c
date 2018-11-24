@@ -1020,7 +1020,7 @@ gdouble utils_str_strtod (const gchar *str_number,
 						  gchar **endptr)
 {
     gdouble number;
-    gsb_real real;
+    GsbReal real;
 
     if (str_number == NULL)
         return 0.0;

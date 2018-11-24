@@ -67,13 +67,13 @@ GtkWidget *	gsb_autofunc_radiobutton_new 				(const gchar *choice1,
 														 gpointer data,
 														 GCallback default_func,
 														 gint number_for_func);
-GtkWidget *	gsb_autofunc_real_new 						(gsb_real real,
+GtkWidget *	gsb_autofunc_real_new 						(GsbReal real,
 													     GCallback hook,
 													     gpointer data,
 													     GCallback default_func,
 													     gint number_for_func);
 void 		gsb_autofunc_real_set 						(GtkWidget *entry,
-														 gsb_real real,
+														 GsbReal real,
 														 gint number_for_func);
 GtkWidget *	gsb_autofunc_spin_new 						(gint value,
 														 GCallback hook,

@@ -528,7 +528,7 @@ static void prefs_widget_loan_entry_focus_out (GtkWidget *widget,
 			else
 			{
 				gchar *real_str;
-				gsb_real real;
+				GsbReal real;
 
 				gtk_entry_set_icon_from_pixbuf (GTK_ENTRY (widget), GTK_ENTRY_ICON_PRIMARY, pixbuf_OK);
 				gtk_entry_set_icon_from_pixbuf (GTK_ENTRY (priv->entry_fees_per_month),
@@ -1422,7 +1422,7 @@ dialog_return:
 		gint scheduled_number;
 		gint tmp_number = 0;
 		AmortissementStruct *s_amortissement;
-		gsb_real amount;
+		GsbReal amount;
 
 		/* set mother scheduled transaction */
 		/* set data for scheduled transaction */
@@ -1635,7 +1635,7 @@ static void prefs_widget_loan_setup_widget (PrefsWidgetLoan *w_loan,
 	gchar *tmp_str = NULL;
 	gchar *code_devise;
 	gint devise;
-	gsb_real real;
+	GsbReal real;
 	PrefsWidgetLoanPrivate *priv;
 
 	devel_debug (NULL);

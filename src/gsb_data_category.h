@@ -22,9 +22,9 @@ gboolean 	gsb_data_category_fill_transaction_by_string 		(gint transaction_numbe
 																 const gchar *string,
 																 gboolean is_transaction);
 void 		gsb_data_categorie_free_name_list 					(GSList *liste);
-gsb_real 	gsb_data_category_get_balance 						(gint no_category);
+GsbReal 	gsb_data_category_get_balance 						(gint no_category);
 GSList *	gsb_data_category_get_categories_list			 	(void);
-gsb_real 	gsb_data_category_get_direct_balance 				(gint no_category);
+GsbReal 	gsb_data_category_get_direct_balance 				(gint no_category);
 gpointer 	gsb_data_category_get_empty_category 				(void);
 gchar *		gsb_data_category_get_name 							(gint no_category,
 																 gint no_sub_category,
@@ -41,7 +41,7 @@ gint 		gsb_data_category_get_number_by_name 				(const gchar *name,
 																 gboolean create,
 																 gint category_type);
 gpointer 	gsb_data_category_get_structure 					(gint no_category);
-gsb_real 	gsb_data_category_get_sub_category_balance 			(gint no_category,
+GsbReal 	gsb_data_category_get_sub_category_balance 			(gint no_category,
 																 gint no_sub_category);
 gint 		gsb_data_category_get_sub_category_list_length 		(gint no_category);
 GSList *	gsb_data_category_get_sub_category_list 			(gint no_category);

@@ -162,7 +162,7 @@ static void gsb_real_raw_minimize_exponent (gint64 *mantissa,
  *
  * \return
  **/
-static void gsb_real_minimize_exponent (gsb_real *num)
+static void gsb_real_minimize_exponent (GsbReal *num)
 {
     gint64 mantissa = num->mantissa;
 
@@ -178,12 +178,12 @@ static void gsb_real_minimize_exponent (gsb_real *num)
  *
  * \return
  **/
-static gsb_real gsb_real_double_to_real_add_exponent (gdouble number,
-													  gint exp_add)
+static GsbReal gsb_real_double_to_real_add_exponent (gdouble number,
+													 gint exp_add)
 {
     gdouble tmp_double, decimal;
     gdouble maxlong;
-	gsb_real real_number = {0, exp_add};
+	GsbReal real_number = {0, exp_add};
 
     maxlong = (gdouble) G_MAXINT64 / 10;
 /*     printf ("number initial = %f exp_add = %d\n",number, exp_add);  */
@@ -229,7 +229,7 @@ static gsb_real gsb_real_double_to_real_add_exponent (gdouble number,
  *
  * \return
  **/
-static gboolean gsb_real_grow_exponent (gsb_real *num,
+static gboolean gsb_real_grow_exponent (GsbReal *num,
 										gint target_exponent)
 {
     gint64 mantissa = num->mantissa;
@@ -318,7 +318,7 @@ static gboolean gsb_real_raw_truncate_number (gint64 *mantissa,
  * \return		A newly allocated string of the number (this
  *			function will never return NULL)
  **/
-gchar *gsb_real_raw_format_string (gsb_real number,
+gchar *gsb_real_raw_format_string (GsbReal number,
 								   struct lconv *locale,
 								   const gchar *currency_symbol)
 {
@@ -375,12 +375,12 @@ gchar *gsb_real_raw_format_string (gsb_real number,
  * \param mantissa
  * \param exponent -1 for no limit
  *
- * \return a gsb_real from the integer
+ * \return a GsbReal from the integer
  **/
-gsb_real gsb_real_new (gint64 mantissa,
-					   gint exponent)
+GsbReal gsb_real_new (gint64 mantissa,
+					  gint exponent)
 {
-    gsb_real number = null_real;
+    GsbReal number = null_real;
 
     number.mantissa = mantissa;
     number.exponent = exponent;
@@ -389,7 +389,7 @@ gsb_real gsb_real_new (gint64 mantissa,
 }
 
 /**
- * get a gsb_real number from a string
+ * get a GsbReal number from a string
  * the string can be formatted :
  * - spaces and the given utf8-encoded thousands separators are ignored
  * - handle ",", "." and the given utf8-encoded decimal separator
@@ -399,11 +399,11 @@ gsb_real gsb_real_new (gint64 mantissa,
  * \param mon_thousands_sep, can be NULL or empty, but only one utf8 sequence
  * \param mon_decimal_point, can be NULL or empty, but only one utf8 sequence
  *
- * \return the number in the string transformed to gsb_real
+ * \return the number in the string transformed to GsbReal
  **/
-gsb_real gsb_real_raw_get_from_string (const gchar *string,
-									   const gchar *mon_thousands_sep,
-                                       const gchar *mon_decimal_point)
+GsbReal gsb_real_raw_get_from_string (const gchar *string,
+									  const gchar *mon_thousands_sep,
+                                      const gchar *mon_decimal_point)
 {
     static gchar *space_chars;
     static gchar *decimal_chars;
@@ -504,7 +504,7 @@ gsb_real gsb_real_raw_get_from_string (const gchar *string,
     g_free (space_chars);
     if (success == TRUE)
     {
-        gsb_real result;
+        GsbReal result;
 
         result.mantissa = sign * mantissa;
         result.exponent = (dot_position >= 0) ? nb_digits - dot_position : 0;
@@ -518,7 +518,7 @@ gsb_real gsb_real_raw_get_from_string (const gchar *string,
 }
 
 /**
- * get a gsb_real number from a string, during file load
+ * get a GsbReal number from a string, during file load
  * the string can be formatted :
  * - spaces and the given utf8-encoded thousands separators are ignored
  * - handle only "." as a decimal separator
@@ -528,9 +528,9 @@ gsb_real gsb_real_raw_get_from_string (const gchar *string,
  * \param mon_thousands_sep, can be NULL or empty, but only one utf8 sequence
  * \param mon_decimal_point, can be NULL or empty, but only one utf8 sequence
  *
- * \return the number in the string transformed to gsb_real
+ * \return the number in the string transformed to GsbReal
  **/
-gsb_real gsb_real_safe_real_from_string (const gchar *string)
+GsbReal gsb_real_safe_real_from_string (const gchar *string)
 {
     unsigned nb_digits = 0;
     gint64 mantissa = 0;
@@ -558,7 +558,7 @@ gsb_real gsb_real_safe_real_from_string (const gchar *string)
         }
         else if (*p == 0) /* terminal zero */
         {
-			gsb_real result;
+			GsbReal result;
 			result.mantissa = sign * mantissa;
             if (mantissa == 0)
                 result.exponent = 0;
@@ -589,15 +589,15 @@ gsb_real gsb_real_safe_real_from_string (const gchar *string)
 }
 
 /**
- * compare 2 gsb_real and return the result (-1, 0, 1)
+ * compare 2 GsbReal and return the result (-1, 0, 1)
  *
  * \param number_1
  * \param number_2
  *
  * \return -1 if number_1 < number_2 ; 0 if number_1 = number_2 ; 1 if number_1 > number_2
  **/
-gint gsb_real_cmp (gsb_real number_1,
-				   gsb_real number_2)
+gint gsb_real_cmp (GsbReal number_1,
+				   GsbReal number_2)
 {
     gsb_real_normalize (&number_1,
 			 &number_2);
@@ -614,14 +614,14 @@ gint gsb_real_cmp (gsb_real number_1,
  * for that transform the 2 numbers to have the same exponent
  * and after that we can work on the mantissa
  *
- * \param number_1 a pointer to gsb_real which contains the number_1 to transform
- * \param number_2 a pointer to gsb_real which contains the number_2 to transform
+ * \param number_1 a pointer to GsbReal which contains the number_1 to transform
+ * \param number_2 a pointer to GsbReal which contains the number_2 to transform
  *
  * \return TRUE if normalization occurred without loss of precision
  * 		   FALSE if exponents can't be the same without loss of precision
  **/
-gboolean gsb_real_normalize (gsb_real *number_1,
-							 gsb_real *number_2)
+gboolean gsb_real_normalize (GsbReal *number_1,
+							 GsbReal *number_2)
 {
     gboolean safe_precision = TRUE;
 
@@ -663,9 +663,9 @@ gboolean gsb_real_normalize (gsb_real *number_1,
  *
  * \param number
  *
- * \return a gsb_real, the absolute value of the given number
+ * \return a GsbReal, the absolute value of the given number
  **/
-gsb_real gsb_real_abs (gsb_real number)
+GsbReal gsb_real_abs (GsbReal number)
 {
     number.mantissa = llabs (number.mantissa);
     return number;
@@ -680,8 +680,8 @@ gsb_real gsb_real_abs (gsb_real number)
  *
  * \return the transformed number
  **/
-gsb_real gsb_real_adjust_exponent (gsb_real number,
-								   gint return_exponent)
+GsbReal gsb_real_adjust_exponent (GsbReal number,
+								  gint return_exponent)
 {
     gint exponent;
 
@@ -727,16 +727,16 @@ gsb_real gsb_real_adjust_exponent (gsb_real number,
 }
 
 /**
- * add 2 gsb_real
+ * add 2 GsbReal
  * when an overflow occurs, error_real is returned
  *
  * \param number_1
  * \param number_2
  *
- * \return a gsb_real = number_1 + number_2, or error_real when an error occurred
+ * \return a GsbReal = number_1 + number_2, or error_real when an error occurred
  **/
-gsb_real gsb_real_add (gsb_real number_1,
-                       gsb_real number_2)
+GsbReal gsb_real_add (GsbReal number_1,
+                      GsbReal number_2)
 {
     gint64 mantissa;
 
@@ -757,15 +757,15 @@ gsb_real gsb_real_add (gsb_real number_1,
 }
 
 /**
- * substract between 2 gsb_real : number_1 - number_2
+ * substract between 2 GsbReal : number_1 - number_2
  *
  * \param number_1
  * \param number_2
  *
- * \return a gsb_real = number_1 - number_2
+ * \return a GsbReal = number_1 - number_2
  **/
-gsb_real gsb_real_sub (gsb_real number_1,
-                        gsb_real number_2)
+GsbReal gsb_real_sub (GsbReal number_1,
+                      GsbReal number_2)
 {
     number_2.mantissa = -number_2.mantissa;
     return gsb_real_add (number_1, number_2);
@@ -773,13 +773,13 @@ gsb_real gsb_real_sub (gsb_real number_1,
 
 /**
  * return the opposite of the number
- * ie 5 returns -5 in gsb_real number
+ * ie 5 returns -5 in GsbReal number
  *
  * \param number
  *
  * \return its opposite
  **/
-gsb_real gsb_real_opposite (gsb_real number)
+GsbReal gsb_real_opposite (GsbReal number)
 {
     if (number.mantissa == error_real.mantissa)
     {
@@ -791,15 +791,15 @@ gsb_real gsb_real_opposite (gsb_real number)
 }
 
 /**
- * multiply 2 gsb_reals. no overflow possible
+ * multiply 2 GsbReals. no overflow possible
  *
  * \param number_1
  * \param number_2
  *
  * \return the multiplication between the 2
  **/
-gsb_real gsb_real_mul (gsb_real number_1,
-                       gsb_real number_2)
+GsbReal gsb_real_mul (GsbReal number_1,
+                      GsbReal number_2)
 {
     gint64 mantissa;
 
@@ -825,17 +825,17 @@ gsb_real gsb_real_mul (gsb_real number_1,
 }
 
 /**
- * divide 2 gsb_reals
+ * divide 2 GsbReals
  *
  * \param number_1
  * \param number_2
  *
  * \return the div between the 2
  **/
-gsb_real gsb_real_div (gsb_real number_1,
-                       gsb_real number_2)
+GsbReal gsb_real_div (GsbReal number_1,
+                      GsbReal number_2)
 {
-    gsb_real number;
+    GsbReal number;
 	gint64 reste;
 
 	if (number_1.mantissa == error_real.mantissa ||
@@ -864,15 +864,15 @@ gsb_real gsb_real_div (gsb_real number_1,
 }
 
 /**
- * convert a double to a gsb_real
+ * convert a double to a GsbReal
  *
  * \param number a gdouble number
  *
- * \return the number in gsb_real format
+ * \return the number in GsbReal format
  *
  * \return
  **/
-gsb_real gsb_real_double_to_real (gdouble number)
+GsbReal gsb_real_double_to_real (gdouble number)
 {
 	return gsb_real_double_to_real_add_exponent(number, 0);
 }
@@ -885,7 +885,7 @@ gsb_real gsb_real_double_to_real (gdouble number)
  *
  * \return
  **/
-gchar *gsb_real_safe_real_to_string (gsb_real number,
+gchar *gsb_real_safe_real_to_string (GsbReal number,
 									 gint default_exponent)
 {
     gchar buffer[G_ASCII_DTOSTR_BUF_SIZE];
@@ -935,7 +935,7 @@ gchar *gsb_real_safe_real_to_string (gsb_real number,
  *
  * \return
  **/
-gdouble gsb_real_real_to_double (gsb_real number)
+gdouble gsb_real_real_to_double (GsbReal number)
 {
     gdouble result;
 

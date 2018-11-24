@@ -82,14 +82,14 @@ extern gint devise_tiers_etat;
 extern struct EtatAffichage * etat_affichage_output;
 extern gint exo_en_cours_etat;
 extern gint ligne_debut_partie;
-extern gsb_real montant_categ_etat;
-extern gsb_real montant_compte_etat;
-extern gsb_real montant_exo_etat;
-extern gsb_real montant_ib_etat;
-extern gsb_real montant_periode_etat;
-extern gsb_real montant_sous_categ_etat;
-extern gsb_real montant_sous_ib_etat;
-extern gsb_real montant_tiers_etat;
+extern GsbReal montant_categ_etat;
+extern GsbReal montant_compte_etat;
+extern GsbReal montant_exo_etat;
+extern GsbReal montant_ib_etat;
+extern GsbReal montant_periode_etat;
+extern GsbReal montant_sous_categ_etat;
+extern GsbReal montant_sous_ib_etat;
+extern GsbReal montant_tiers_etat;
 extern gint nb_colonnes;
 extern gint nb_ope_categ_etat;
 extern gint nb_ope_compte_etat;
@@ -1673,7 +1673,7 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 
 
 /*****************************************************************************************************/
-gint etat_affiche_affiche_total_partiel ( gsb_real total_partie,
+gint etat_affiche_affiche_total_partiel ( GsbReal total_partie,
 					  gint ligne,
 					  gint type )
 {
@@ -1745,7 +1745,7 @@ gint etat_affiche_affiche_total_partiel ( gsb_real total_partie,
 /*****************************************************************************************************/
 
 /*****************************************************************************************************/
-gint etat_affiche_affiche_total_general ( gsb_real total_general,
+gint etat_affiche_affiche_total_general ( GsbReal total_general,
 					  gint ligne )
 {
     gchar * text;

@@ -63,8 +63,8 @@ struct _CategoryStruct
     /** @name gui category list content (not saved) */
     gint category_nb_transactions;
     gint category_nb_direct_transactions;
-    gsb_real category_balance;
-    gsb_real category_direct_balance;
+    GsbReal category_balance;
+    GsbReal category_direct_balance;
 };
 
 
@@ -81,7 +81,7 @@ struct _SubCategoryStruct
 
     /** @name gui sub-category list content (not saved)*/
     gint sub_category_nb_transactions;
-    gsb_real sub_category_balance;
+    GsbReal sub_category_balance;
 };
 
 
@@ -1276,7 +1276,7 @@ gint gsb_data_category_get_nb_direct_transactions ( gint no_category )
  *
  * \return balance of the category or 0 if problem
  * */
-gsb_real gsb_data_category_get_balance ( gint no_category )
+GsbReal gsb_data_category_get_balance ( gint no_category )
 {
     CategoryStruct *category;
 
@@ -1297,7 +1297,7 @@ gsb_real gsb_data_category_get_balance ( gint no_category )
  *
  * \return balance of the sub-category or 0 if problem
  * */
-gsb_real gsb_data_category_get_sub_category_balance ( gint no_category,
+GsbReal gsb_data_category_get_sub_category_balance ( gint no_category,
 						      gint no_sub_category )
 {
     SubCategoryStruct *sub_category;
@@ -1318,7 +1318,7 @@ gsb_real gsb_data_category_get_sub_category_balance ( gint no_category,
  *
  * \return balance of the category or 0 if problem
  * */
-gsb_real gsb_data_category_get_direct_balance ( gint no_category )
+GsbReal gsb_data_category_get_direct_balance ( gint no_category )
 {
     CategoryStruct *category;
 

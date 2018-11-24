@@ -2628,7 +2628,7 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
     gchar* tmpstr;
     gint mother_number;
     gint account_number;
-    gsb_real number = null_real;
+    GsbReal number = null_real;
 
     devel_debug_int ( transaction_number );
 
@@ -2776,13 +2776,13 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
     /* check if balance is < 0 and account_kind == GSB_TYPE_CASH */
     if ( gsb_data_account_get_kind ( account_number ) == GSB_TYPE_CASH )
     {
-        gsb_real balance;
+        GsbReal balance;
 
         balance = gsb_real_add ( number,
                         gsb_data_account_get_current_balance ( account_number ) );
         if ( balance.mantissa < 0 )
         {
-            gsb_real previous_debit;
+            GsbReal previous_debit;
 
             previous_debit = utils_real_get_from_string (save_entry);
             balance = gsb_real_add ( balance, previous_debit);

@@ -54,10 +54,10 @@ struct _AmountComparaison {
     /** @name saved values of the structure */
     gint link_to_last_amount_comparison;	/* -1=first comparison, 0=and, 1=or, 2=except */
     gint first_comparison;			/* 0= =, 1= <, 2= <=, 3= >, 4= >=, 5= !=, 6= =0, 7= !=0, 8= >0, 9= <0 */
-    gsb_real first_amount;
+    GsbReal first_amount;
     gint link_first_to_second_part;		/* 0=and, 1=or, 2=except, 3=none */
     gint second_comparison;			/* 0= =, 1= <, 2= <=, 3= >, 4= >=, 5= != */
-    gsb_real second_amount;
+    GsbReal second_amount;
 
     /** @name dynamic values used for the gui */
     gpointer hbox_line;
@@ -408,7 +408,7 @@ gboolean gsb_data_report_amount_comparison_set_first_comparison ( gint amount_co
  *
  * \return the  of the amount_comparison, -1 if problem
  * */
-gsb_real gsb_data_report_amount_comparison_get_first_amount ( gint amount_comparison_number )
+GsbReal gsb_data_report_amount_comparison_get_first_amount ( gint amount_comparison_number )
 {
     AmountComparaison *amount_comparison;
 
@@ -429,7 +429,7 @@ gsb_real gsb_data_report_amount_comparison_get_first_amount ( gint amount_compar
  * \return TRUE if ok
  * */
 gboolean gsb_data_report_amount_comparison_set_first_amount ( gint amount_comparison_number,
-							      gsb_real first_amount)
+							      GsbReal first_amount)
 {
     AmountComparaison *amount_comparison;
 
@@ -537,7 +537,7 @@ gboolean gsb_data_report_amount_comparison_set_second_comparison ( gint amount_c
  *
  * \return the  of the amount_comparison, -1 if problem
  * */
-gsb_real gsb_data_report_amount_comparison_get_second_amount ( gint amount_comparison_number )
+GsbReal gsb_data_report_amount_comparison_get_second_amount ( gint amount_comparison_number )
 {
     AmountComparaison *amount_comparison;
 
@@ -558,7 +558,7 @@ gsb_real gsb_data_report_amount_comparison_get_second_amount ( gint amount_compa
  * \return TRUE if ok
  * */
 gboolean gsb_data_report_amount_comparison_set_second_amount ( gint amount_comparison_number,
-							       gsb_real second_amount)
+							       GsbReal second_amount)
 {
     AmountComparaison *amount_comparison;
 

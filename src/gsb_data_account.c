@@ -91,12 +91,12 @@ struct _AccountStruct {
     gint    show_l;                     /** 1 archived lines are showed */
 
     /** @name remaining of the balances */
-    gsb_real 	init_balance;
-    gsb_real 	mini_balance_wanted;
-    gsb_real 	mini_balance_authorized;
+    GsbReal 	init_balance;
+    GsbReal 	mini_balance_wanted;
+    GsbReal 	mini_balance_authorized;
     gboolean    balances_are_dirty;
-    gsb_real 	current_balance;
-    gsb_real 	marked_balance;
+    GsbReal 	current_balance;
+    GsbReal 	marked_balance;
 
     /** @name remaining of the minimun balance message */
     gint 	mini_balance_wanted_message;
@@ -902,7 +902,7 @@ gint gsb_data_account_get_no_account_by_name ( const gchar *account_name )
  *
  * \return balance or NULL if the account doesn't exist
  * */
-gsb_real gsb_data_account_get_init_balance ( gint account_number,
+GsbReal gsb_data_account_get_init_balance ( gint account_number,
                         gint floating_point )
 {
     AccountStruct *account;
@@ -926,7 +926,7 @@ gsb_real gsb_data_account_get_init_balance ( gint account_number,
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_init_balance ( gint account_number,
-                        gsb_real balance )
+                        GsbReal balance )
 {
     AccountStruct *account;
 
@@ -950,7 +950,7 @@ gboolean gsb_data_account_set_init_balance ( gint account_number,
  *
  * \return balance or NULL if the account doesn't exist
  * */
-gsb_real gsb_data_account_get_mini_balance_wanted ( gint account_number )
+GsbReal gsb_data_account_get_mini_balance_wanted ( gint account_number )
 {
     AccountStruct *account;
 
@@ -972,7 +972,7 @@ gsb_real gsb_data_account_get_mini_balance_wanted ( gint account_number )
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_mini_balance_wanted ( gint account_number,
-                        gsb_real balance )
+                        GsbReal balance )
 {
     AccountStruct *account;
 
@@ -993,7 +993,7 @@ gboolean gsb_data_account_set_mini_balance_wanted ( gint account_number,
  *
  * \return balance or 0 if the account doesn't exist
  * */
-gsb_real gsb_data_account_get_mini_balance_authorized ( gint account_number )
+GsbReal gsb_data_account_get_mini_balance_authorized ( gint account_number )
 {
     AccountStruct *account;
 
@@ -1015,7 +1015,7 @@ gsb_real gsb_data_account_get_mini_balance_authorized ( gint account_number )
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_mini_balance_authorized ( gint account_number,
-                        gsb_real balance )
+                        GsbReal balance )
 {
     AccountStruct *account;
 
@@ -1064,15 +1064,15 @@ gboolean gsb_data_account_set_balances_are_dirty ( gint account_number )
  *
  * \return the current balance
  * */
-gsb_real gsb_data_account_calculate_current_and_marked_balances ( gint account_number )
+GsbReal gsb_data_account_calculate_current_and_marked_balances ( gint account_number )
 {
     AccountStruct *account;
     GDate *date_jour;
     GSList *tmp_list;
-    gsb_real current_balance;
-	gsb_real current_balance_later = null_real;
-    gsb_real marked_balance;
-	gsb_real marked_balance_later = null_real;
+    GsbReal current_balance;
+	GsbReal current_balance_later = null_real;
+    GsbReal marked_balance;
+	GsbReal marked_balance_later = null_real;
     gint floating_point;
 	gboolean has_pointed = FALSE;
 
@@ -1116,8 +1116,8 @@ gsb_real gsb_data_account_calculate_current_and_marked_balances ( gint account_n
          && res >= 0 )
 	{
 		gint marked_transaction;
-		gsb_real adjusted_amout;
-		gsb_real tmp_balance;
+		GsbReal adjusted_amout;
+		GsbReal tmp_balance;
 
 		adjusted_amout = gsb_data_transaction_get_adjusted_amount (transaction_number, floating_point);
 		tmp_balance = gsb_real_add ( current_balance, adjusted_amout );
@@ -1160,7 +1160,7 @@ gsb_real gsb_data_account_calculate_current_and_marked_balances ( gint account_n
  *
  * \return balance or 0 if the account doesn't exist
  * */
-gsb_real gsb_data_account_get_current_balance ( gint account_number )
+GsbReal gsb_data_account_get_current_balance ( gint account_number )
 {
     AccountStruct *account;
 
@@ -1186,7 +1186,7 @@ gsb_real gsb_data_account_get_current_balance ( gint account_number )
  *
  * \return balance or 0 if the account doesn't exist
  * */
-gsb_real gsb_data_account_get_marked_balance ( gint account_number )
+GsbReal gsb_data_account_get_marked_balance ( gint account_number )
 {
     AccountStruct *account;
 
@@ -1212,11 +1212,11 @@ gsb_real gsb_data_account_get_marked_balance ( gint account_number )
  *
  * \return the amount
  * */
-gsb_real gsb_data_account_calculate_waiting_marked_balance ( gint account_number )
+GsbReal gsb_data_account_calculate_waiting_marked_balance ( gint account_number )
 {
     AccountStruct *account;
     GSList *tmp_list;
-    gsb_real marked_balance = null_real;
+    GsbReal marked_balance = null_real;
     gint floating_point;
 
     account = gsb_data_account_get_structure ( account_number );
@@ -2833,14 +2833,14 @@ void gsb_data_account_colorize_current_balance ( gint account_number )
  *
  *
  * */
-gsb_real gsb_data_account_calculate_current_day_balance ( gint account_number,
+GsbReal gsb_data_account_calculate_current_day_balance ( gint account_number,
                         GDate *day )
 {
     AccountStruct *account;
     GDate *date_jour;
     GSList *tmp_list;
-    gsb_real current_balance;
-	gsb_real current_balance_later = null_real;
+    GsbReal current_balance;
+	GsbReal current_balance_later = null_real;
     gint floating_point;
 
     account = gsb_data_account_get_structure ( account_number );
@@ -2864,8 +2864,8 @@ gsb_real gsb_data_account_calculate_current_day_balance ( gint account_number,
     {
         gint transaction_number;
         gint res = 0;
-        gsb_real adjusted_amout;
-        gsb_real tmp_balance;
+        GsbReal adjusted_amout;
+        GsbReal tmp_balance;
 
         transaction_number = gsb_data_transaction_get_transaction_number ( tmp_list->data );
 
@@ -3734,14 +3734,14 @@ gboolean gsb_data_account_exists ( gint account_number )
  * \param account_number    numéro du compte concerné
  * \param date              date de calcul du solde
  *
- * \return gsb_real         le solde du compte
+ * \return GsbReal         le solde du compte
  * */
-gsb_real gsb_data_account_get_balance_at_date ( gint account_number,
+GsbReal gsb_data_account_get_balance_at_date ( gint account_number,
                         GDate *date )
 {
     AccountStruct *account;
     GSList *tmp_list;
-    gsb_real current_balance;
+    GsbReal current_balance;
     gint floating_point;
 
     account = gsb_data_account_get_structure ( account_number );
@@ -3776,8 +3776,8 @@ gsb_real gsb_data_account_get_balance_at_date ( gint account_number,
 
         if ( gsb_data_transaction_get_mother_transaction_number ( transaction_number ) == 0 )
         {
-            gsb_real adjusted_amout;
-            gsb_real tmp_balance;
+            GsbReal adjusted_amout;
+            GsbReal tmp_balance;
 
             adjusted_amout = gsb_data_transaction_get_adjusted_amount ( transaction_number, floating_point );
             tmp_balance = gsb_real_add ( current_balance, adjusted_amout );

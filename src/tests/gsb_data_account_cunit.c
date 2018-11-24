@@ -82,10 +82,10 @@ void gsb_data_account_cunit__gsb_data_account_calculate_current_and_marked_balan
 
     gint tr_number_1 = gsb_data_transaction_new_transaction(account_number);
     CU_ASSERT_EQUAL(1, tr_number_1);
-    gsb_real amount = { 2100000021, 2 };
+    GsbReal amount = { 2100000021, 2 };
     CU_ASSERT_EQUAL(TRUE, gsb_data_transaction_set_amount(tr_number_1, amount));
     CU_ASSERT_EQUAL(TRUE, gsb_data_transaction_set_date(tr_number_1, date));
-    gsb_real balance = gsb_data_account_calculate_current_and_marked_balances(account_number);
+    GsbReal balance = gsb_data_account_calculate_current_and_marked_balances(account_number);
     CU_ASSERT_EQUAL(2100000021, balance.mantissa);
     CU_ASSERT_EQUAL(2, balance.exponent);
 

@@ -3132,12 +3132,12 @@ gboolean bet_transfert_entry_lose_focus ( GtkWidget *entry,
  *
  *
  * */
-gsb_real gsb_transfert_get_str_amount ( gsb_real amount,
+GsbReal gsb_transfert_get_str_amount ( GsbReal amount,
                         gint account_currency,
                         gint replace_currency,
                         gint floating_point )
 {
-    gsb_real tmp_real = null_real;
+    GsbReal tmp_real = null_real;
     gint link_number;
 
     if ( ( link_number = gsb_data_currency_link_search ( account_currency, replace_currency ) ) )

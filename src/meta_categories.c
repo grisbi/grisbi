@@ -50,7 +50,7 @@ static gint category_get_div_pointer_from_name ( const gchar * name, gboolean cr
 static gint category_get_without_div_pointer ( void );
 static gboolean category_scheduled_set_div_id ( gint scheduled_number,
 					 int no_div );
-static gsb_real category_sub_div_balance ( gint div, gint sub_div );
+static GsbReal category_sub_div_balance ( gint div, gint sub_div );
 static gchar *category_sub_div_name ( gint div, gint sub_div );
 static gint category_sub_div_nb_transactions ( gint div, gint sub_div );
 static gint category_transaction_div_id ( gint transaction_number );
@@ -199,7 +199,7 @@ gchar *category_sub_div_name ( gint div, gint sub_div )
  *
  *
  */
-gsb_real category_sub_div_balance ( gint div, gint sub_div )
+GsbReal category_sub_div_balance ( gint div, gint sub_div )
 {
     if ( sub_div )
     {

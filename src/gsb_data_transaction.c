@@ -67,7 +67,7 @@ typedef struct
     gint transaction_number;
     gchar *transaction_id;              /**< filled by ofx */
     gint account_number;
-    gsb_real transaction_amount;
+    GsbReal transaction_amount;
     gint party_number;                  /* payee in transaction */
     gchar *notes;
     gint marked_transaction;            /**<  OPERATION_NORMALE=nothing, OPERATION_POINTEE=P, OPERATION_TELEPOINTEE=T, OPERATION_RAPPROCHEE=R */
@@ -88,8 +88,8 @@ typedef struct
     /** @name currency stuff */
     gint currency_number;
     gint change_between_account_and_transaction;    /**< if 1 : 1 account_currency = (exchange_rate * amount) transaction_currency */
-    gsb_real exchange_rate;
-    gsb_real exchange_fees;
+    GsbReal exchange_rate;
+    GsbReal exchange_fees;
 
     /** @name category stuff */
     gint category_number;
@@ -679,7 +679,7 @@ const GDate *gsb_data_transaction_get_value_date_or_date ( gint transaction_numb
  *
  * \return the amount of the transaction
  * */
-gsb_real gsb_data_transaction_get_amount ( gint transaction_number )
+GsbReal gsb_data_transaction_get_amount ( gint transaction_number )
 {
     struct_transaction *transaction;
 
@@ -700,7 +700,7 @@ gsb_real gsb_data_transaction_get_amount ( gint transaction_number )
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_amount ( gint transaction_number,
-                        gsb_real amount )
+                        GsbReal amount )
 {
     struct_transaction *transaction;
 
@@ -731,7 +731,7 @@ gboolean gsb_data_transaction_set_amount ( gint transaction_number,
  *
  * \return the amount of the transaction
  * */
-gsb_real gsb_data_transaction_get_adjusted_amount ( gint transaction_number,
+GsbReal gsb_data_transaction_get_adjusted_amount ( gint transaction_number,
                         gint return_exponent )
 {
     struct_transaction *transaction;
@@ -759,12 +759,12 @@ gsb_real gsb_data_transaction_get_adjusted_amount ( gint transaction_number,
  *
  * \return the amount of the transaction
  * */
-gsb_real gsb_data_transaction_get_adjusted_amount_for_currency ( gint transaction_number,
+GsbReal gsb_data_transaction_get_adjusted_amount_for_currency ( gint transaction_number,
                         gint return_currency_number,
                         gint return_exponent )
 {
     struct_transaction *transaction;
-    gsb_real amount = null_real;
+    GsbReal amount = null_real;
     gint link_number;
 
     if (return_exponent == -1)
@@ -812,8 +812,8 @@ gsb_real gsb_data_transaction_get_adjusted_amount_for_currency ( gint transactio
     }
     else if ( return_currency_number > 0 && transaction -> currency_number > 0 )
     {
-        gsb_real current_exchange;
-        gsb_real current_exchange_fees;
+        GsbReal current_exchange;
+        GsbReal current_exchange_fees;
 
         gsb_currency_exchange_dialog ( return_currency_number,
                         transaction -> currency_number,
@@ -983,7 +983,7 @@ gboolean gsb_data_transaction_set_change_between ( gint transaction_number,
  *
  * \return the exchange_rate of the transaction
  * */
-gsb_real gsb_data_transaction_get_exchange_rate ( gint transaction_number )
+GsbReal gsb_data_transaction_get_exchange_rate ( gint transaction_number )
 {
     struct_transaction *transaction;
 
@@ -1006,7 +1006,7 @@ gsb_real gsb_data_transaction_get_exchange_rate ( gint transaction_number )
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_exchange_rate ( gint transaction_number,
-                        gsb_real rate )
+                        GsbReal rate )
 {
     struct_transaction *transaction;
 
@@ -1046,7 +1046,7 @@ gboolean gsb_data_transaction_set_exchange_rate ( gint transaction_number,
  *
  * \return the exchange_fees of the transaction
  * */
-gsb_real gsb_data_transaction_get_exchange_fees ( gint transaction_number )
+GsbReal gsb_data_transaction_get_exchange_fees ( gint transaction_number )
 {
     struct_transaction *transaction;
 
@@ -1069,7 +1069,7 @@ gsb_real gsb_data_transaction_get_exchange_fees ( gint transaction_number )
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_exchange_fees ( gint transaction_number,
-                        gsb_real rate )
+                        GsbReal rate )
 {
     struct_transaction *transaction;
 
@@ -2611,7 +2611,7 @@ const gchar *gsb_data_transaction_get_id ( gint transaction_number )
  *
  *
  * */
-gsb_real gsb_data_transaction_get_last_transaction_with_div_sub_div (
+GsbReal gsb_data_transaction_get_last_transaction_with_div_sub_div (
                         gint account_number,
                         gint div_number,
                         gint sub_div_nb,

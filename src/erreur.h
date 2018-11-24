@@ -35,7 +35,7 @@ void 		debug_message_real 				(const gchar *prefixe,
 											 const gchar *file,
 											 gint line,
 											 const char *function,
-											 gsb_real message,
+											 GsbReal message,
 											 gint level,
 											 gboolean force_debug_display);
 void 		debug_message_string 			(const gchar *prefixe,

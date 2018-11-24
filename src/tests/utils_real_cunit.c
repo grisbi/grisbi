@@ -65,7 +65,7 @@ static void utils_real_cunit__utils_real_get_from_string ( void )
         {
             gsb_locale_init_lconv_struct ();
 
-            gsb_real val = utils_real_get_from_string("123.45");
+            GsbReal val = utils_real_get_from_string("123.45");
             CU_ASSERT_EQUAL(12345, val.mantissa);
             CU_ASSERT_EQUAL(2, val.exponent);
 
@@ -86,7 +86,7 @@ static void utils_real_cunit__utils_real_get_from_string ( void )
         {
             gsb_locale_init_lconv_struct ();
 
-            gsb_real val = utils_real_get_from_string("123,45");
+            GsbReal val = utils_real_get_from_string("123,45");
             CU_ASSERT_EQUAL(12345, val.mantissa);
             CU_ASSERT_EQUAL(2, val.exponent);
 
@@ -109,7 +109,7 @@ static void utils_real_cunit__utils_real_get_from_string ( void )
         {
             //gsb_locale_init_locale_structure();
 
-            gsb_real val = utils_real_get_from_string("123.45");
+            GsbReal val = utils_real_get_from_string("123.45");
             CU_ASSERT_EQUAL(12345, val.mantissa);
             CU_ASSERT_EQUAL(2, val.exponent);
 
@@ -130,7 +130,7 @@ static void utils_real_cunit__utils_real_get_from_string ( void )
 static void utils_real_cunit__utils_real_get_string_with_currency ( void )
 {
     gchar *s;
-    gsb_real n;
+    GsbReal n;
     gint currency_number = 1;
 
     n.mantissa = 0;

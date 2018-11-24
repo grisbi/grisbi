@@ -55,8 +55,8 @@ struct _ReconcileStruct
     GDate *reconcile_init_date;
     GDate *reconcile_final_date;
 
-    gsb_real reconcile_init_balance;
-    gsb_real reconcile_final_balance;
+    GsbReal reconcile_init_balance;
+    GsbReal reconcile_final_balance;
 };
 
 
@@ -576,7 +576,7 @@ gboolean gsb_data_reconcile_set_final_date (gint reconcile_number,
  *
  * \return the init_amount of the reconcile or null_real if problem
  **/
-gsb_real gsb_data_reconcile_get_init_balance (gint reconcile_number)
+GsbReal gsb_data_reconcile_get_init_balance (gint reconcile_number)
 {
     ReconcileStruct *reconcile;
 
@@ -597,7 +597,7 @@ gsb_real gsb_data_reconcile_get_init_balance (gint reconcile_number)
  * \return TRUE if ok or FALSE if problem
  **/
 gboolean gsb_data_reconcile_set_init_balance (gint reconcile_number,
-											  gsb_real amount)
+											  GsbReal amount)
 {
     ReconcileStruct *reconcile;
 
@@ -618,7 +618,7 @@ gboolean gsb_data_reconcile_set_init_balance (gint reconcile_number,
  *
  * \return the final balance of the reconcile or null_real if problem
  **/
-gsb_real gsb_data_reconcile_get_final_balance (gint reconcile_number)
+GsbReal gsb_data_reconcile_get_final_balance (gint reconcile_number)
 {
     ReconcileStruct *reconcile;
 
@@ -639,7 +639,7 @@ gsb_real gsb_data_reconcile_get_final_balance (gint reconcile_number)
  * \return TRUE if ok or FALSE if problem
  **/
 gboolean gsb_data_reconcile_set_final_balance (gint reconcile_number,
-											   gsb_real amount)
+											   GsbReal amount)
 {
     ReconcileStruct *reconcile;
 

@@ -87,7 +87,7 @@ static void bet_historical_export_tab ( GtkWidget *menu_item,
                         GtkTreeView *tree_view );
 static gboolean bet_historical_fyear_create_combobox_store ( void );
 static void bet_historical_fyear_hide_present_futures_fyears ( void );
-static gsb_real bet_historical_get_children_amount ( GtkTreeModel *model, GtkTreeIter *parent );
+static GsbReal bet_historical_get_children_amount ( GtkTreeModel *model, GtkTreeIter *parent );
 static GtkWidget *bet_historical_get_data_tree_view ( GtkWidget *container );
 static gboolean bet_historical_get_full_div ( GtkTreeModel *model, GtkTreeIter *parent );
 static gint bet_historical_get_type_transaction ( const GDate *date,
@@ -327,7 +327,7 @@ gboolean bet_historical_div_toggle_clicked ( GtkCellRendererToggle *renderer,
         else
         {
             GtkTreeIter parent;
-            gsb_real amount;
+            GsbReal amount;
 
             if ( gtk_tree_model_iter_parent ( GTK_TREE_MODEL ( model ), &parent, &iter ) )
             {
@@ -416,7 +416,7 @@ void bet_historical_div_cell_edited (GtkCellRendererText *cell,
         gchar *tmp_str;
         gchar *str_amount;
         gboolean is_parent = FALSE;
-        gsb_real number;
+        GsbReal number;
 
         gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &iter,
                         SPP_HISTORICAL_SELECT_COLUMN, &valeur,
@@ -853,10 +853,10 @@ void bet_historical_populate_div_model ( gpointer key,
     gint nbre_sub_div = 0;
     gboolean sub_div_visible = FALSE;
     gboolean edited = TRUE;
-    gsb_real period = { 12, 0 };
-    gsb_real average;
-    gsb_real retained;
-    gsb_real amount;
+    GsbReal period = { 12, 0 };
+    GsbReal average;
+    GsbReal retained;
+    GsbReal amount;
     KindAccount kind;
 
     div_number = sh -> div;
@@ -1243,7 +1243,7 @@ gboolean bet_historical_set_full_sub_div ( GtkTreeModel *model, GtkTreeIter *par
         gint account_nb;
         gint div_number;
         gint sub_div_nb;
-        gsb_real retained;
+        GsbReal retained;
 
         do
         {
@@ -1333,11 +1333,11 @@ gboolean bet_historical_set_empty_sub_div ( GtkTreeModel *model, GtkTreeIter *pa
  *
  *
  * */
-gsb_real bet_historical_get_children_amount ( GtkTreeModel *model, GtkTreeIter *parent )
+GsbReal bet_historical_get_children_amount ( GtkTreeModel *model, GtkTreeIter *parent )
 {
     GtkTreeIter fils_iter;
     gchar *str_amount;
-    gsb_real amount = null_real;
+    GsbReal amount = null_real;
 
     if ( gtk_tree_model_iter_children ( GTK_TREE_MODEL ( model ), &fils_iter, parent ) )
     {
@@ -1541,7 +1541,7 @@ void bet_historical_add_last_amount ( GtkWidget *menu_item,
     gint currency_number;
     gchar *tmp_str;
     gchar *str_amount;
-    gsb_real amount;
+    GsbReal amount;
 
     if ( !gtk_tree_selection_get_selected ( GTK_TREE_SELECTION ( tree_selection ),
      &model, &iter ) )

@@ -3325,7 +3325,7 @@ static gboolean gsb_import_check_transaction_link (gint transaction_number,
 {
     gchar *contra_account_name;
     gint contra_account_number;
-    gsb_real amount_1, amount_2;
+    GsbReal amount_1, amount_2;
 
     /* we check first the easy and quick things, and if all ok, comes after the check
      * which need some time */

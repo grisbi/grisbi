@@ -58,8 +58,8 @@ static gint classement_ope_perso_etat ( gpointer transaction_1, gpointer transac
 static gint compare_cheques_etat ( gint chq_ope,
 			    gint chq_test,
 			    gint comparateur );
-static gint compare_montants_etat ( gsb_real montant_ope,
-			     gsb_real montant_test,
+static gint compare_montants_etat ( GsbReal montant_ope,
+			     GsbReal montant_test,
 			     gint comparateur );
 static void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 				   struct EtatAffichage *affichage,
@@ -95,14 +95,14 @@ gint ancienne_categ_speciale_etat;
 gint ancienne_sous_categ_etat;
 gint ancien_tiers_etat;
 gint ancien_compte_etat;
-gsb_real montant_categ_etat;
-gsb_real montant_sous_categ_etat;
-gsb_real montant_ib_etat;
-gsb_real montant_sous_ib_etat;
-gsb_real montant_compte_etat;
-gsb_real montant_tiers_etat;
-gsb_real montant_periode_etat;
-gsb_real montant_exo_etat;
+GsbReal montant_categ_etat;
+GsbReal montant_sous_categ_etat;
+GsbReal montant_ib_etat;
+GsbReal montant_sous_ib_etat;
+GsbReal montant_compte_etat;
+GsbReal montant_tiers_etat;
+GsbReal montant_periode_etat;
+GsbReal montant_exo_etat;
 gint nb_ope_categ_etat;
 gint nb_ope_sous_categ_etat;
 gint nb_ope_ib_etat;
@@ -544,7 +544,7 @@ GSList *recupere_opes_etat ( gint report_number )
 
 			while ( comparison_list )
 			{
-			    gsb_real montant;
+			    GsbReal montant;
 			    gint ope_dans_premier_test;
 			    gint ope_dans_second_test;
 			    gint ope_dans_test;
@@ -1358,8 +1358,8 @@ gint compare_cheques_etat ( gint chq_ope,
 /* renvoie 1 si l'opé passe le test, 0 sinon */
 /*****************************************************************************************************/
 
-gint compare_montants_etat ( gsb_real montant_ope,
-			     gsb_real montant_test,
+gint compare_montants_etat ( GsbReal montant_ope,
+			     GsbReal montant_test,
 			     gint comparateur )
 {
     gint return_value = 0;
@@ -2017,7 +2017,7 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
     const gchar *decalage_base, *decalage_categ, *decalage_sous_categ, *decalage_ib;
     const gchar *decalage_sous_ib, *decalage_compte, *decalage_tiers;
     gint i, ligne, current_report_number;
-    gsb_real total_partie, total_general;
+    GsbReal total_partie, total_general;
 
     current_report_number = gsb_gui_navigation_get_current_report ();
 
@@ -2394,7 +2394,7 @@ pas_decalage:
 	while ( pointeur_tmp )
 	{
 	    gint transaction_number;
-	    gsb_real montant;
+	    GsbReal montant;
 
 	    transaction_number = gsb_data_transaction_get_transaction_number (pointeur_tmp -> data);
 

@@ -62,7 +62,7 @@ static gboolean gsb_currency_checkbutton_link_changed ( GtkWidget *checkbutton,
 						  gboolean *value );
 static void gsb_currency_config_set_cached_exchange ( gint currency1_number,
                         gint currency2_number,
-                        gsb_real change, gsb_real fees );
+                        GsbReal change, GsbReal fees );
 static gboolean gsb_currency_create_combobox_store ( void );
 static GtkWidget *gsb_currency_make_combobox_exchange_dialog ( gint transaction_currency_number,
                         gint account_currency_number,
@@ -103,8 +103,8 @@ static GSList * cached_exchange_rates = NULL;
  * gsb_currency_get_current_exchange
  * gsb_currency_get_current_exchange_fees
  * */
-static gsb_real current_exchange;
-static gsb_real current_exchange_fees;
+static GsbReal current_exchange;
+static GsbReal current_exchange_fees;
 
 
 /*START_EXTERN*/
@@ -497,8 +497,8 @@ void gsb_currency_check_for_change ( gint transaction_number )
 void gsb_currency_exchange_dialog ( gint account_currency_number,
                         gint transaction_currency_number ,
                         gboolean link_currency,
-                        gsb_real exchange_rate,
-                        gsb_real exchange_fees,
+                        GsbReal exchange_rate,
+                        GsbReal exchange_fees,
                         gboolean force )
 {
     GtkWidget *dialog, *label, *hbox, *paddingbox, *table, *widget;
@@ -818,7 +818,7 @@ struct CachedExchangeRate *gsb_currency_config_get_cached_exchange ( gint curren
  */
 void gsb_currency_config_set_cached_exchange ( gint currency1_number,
                         gint currency2_number,
-                        gsb_real change, gsb_real fees )
+                        GsbReal change, GsbReal fees )
 {
     struct CachedExchangeRate * tmp;
 
@@ -958,7 +958,7 @@ gboolean gsb_currency_select_double_amount ( GtkWidget *entry_1,
                         GtkWidget *entry_2 )
 {
     GtkWidget *entry, *entry_3, *entry_4;
-    gsb_real amount_1, amount_2, taux;
+    GsbReal amount_1, amount_2, taux;
     gboolean link_currency;
     gboolean valide;
 
@@ -1102,7 +1102,7 @@ GtkWidget *gsb_currency_make_combobox_exchange_dialog ( gint transaction_currenc
  *
  *
 **/
-gsb_real gsb_currency_get_current_exchange ( void )
+GsbReal gsb_currency_get_current_exchange ( void )
 {
     return current_exchange;
 }
@@ -1112,7 +1112,7 @@ gsb_real gsb_currency_get_current_exchange ( void )
  *
  *
 **/
-gboolean gsb_currency_set_current_exchange ( gsb_real exchange )
+gboolean gsb_currency_set_current_exchange ( GsbReal exchange )
 {
     current_exchange.mantissa = exchange.mantissa;
     current_exchange.exponent = exchange.exponent;
@@ -1125,7 +1125,7 @@ gboolean gsb_currency_set_current_exchange ( gsb_real exchange )
  *
  *
 **/
-gsb_real gsb_currency_get_current_exchange_fees ( void )
+GsbReal gsb_currency_get_current_exchange_fees ( void )
 {
     return current_exchange_fees;
 }
@@ -1135,7 +1135,7 @@ gsb_real gsb_currency_get_current_exchange_fees ( void )
  *
  *
 **/
-gboolean gsb_currency_set_current_exchange_fees ( gsb_real fees )
+gboolean gsb_currency_set_current_exchange_fees ( GsbReal fees )
 {
     current_exchange_fees.mantissa = fees.mantissa;
     current_exchange_fees.exponent = fees.exponent;

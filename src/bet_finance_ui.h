@@ -10,7 +10,7 @@
 
 
 /* START_DECLARATION */
-gsb_real				bet_finance_get_loan_amount_at_date					(gint scheduled_number,
+GsbReal					bet_finance_get_loan_amount_at_date					(gint scheduled_number,
 																			 gint transfer_account,
 																			 GDate *date,
 																			 gboolean maj_s_loan_capital_du);

@@ -568,8 +568,8 @@ static void affiche_solde_des_comptes (GtkWidget *table,
 									   gint i,
 									   gint nb_comptes,
 									   gint currency_number,
-									   gsb_real solde_global_courant,
-									   gsb_real solde_global_pointe)
+									   GsbReal solde_global_courant,
+									   GsbReal solde_global_pointe)
 {
     GtkWidget *label;
     gchar *tmp_str;
@@ -629,8 +629,8 @@ static void gsb_main_page_diplays_accounts (GtkWidget *pTable,
 											gint type_compte)
 {
     GSList *list_tmp;
-    gsb_real solde_global_courant;
-    gsb_real solde_global_pointe;
+    GsbReal solde_global_courant;
+    GsbReal solde_global_pointe;
     gint i = 0;
     gint j = 0;
 
@@ -2086,7 +2086,7 @@ gboolean gsb_main_page_update_finished_scheduled_transactions (gint scheduled_nu
     GtkWidget *hbox;
     gint account_number;
     gint currency_number;
-    gsb_real amount;
+    GsbReal amount;
 	gchar *tmp_str, *tmp_str2, *way;
 
     account_number = gsb_data_scheduled_get_account_number (scheduled_number);

@@ -585,7 +585,7 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
 	const GDate *transactions_max_date;
     gint account_number;
     gint reconcile_number;
-    gsb_real real;
+    GsbReal real;
 	gchar *tmp_str;
 
     account_number = gsb_gui_navigation_get_current_account ();
@@ -835,7 +835,7 @@ gboolean gsb_reconcile_cancel ( GtkWidget *button,
 gboolean gsb_reconcile_update_amounts ( GtkWidget *entry,
 					    gpointer null )
 {
-    gsb_real amount;
+    GsbReal amount;
     gint account_number;
     gint currency_number;
     const gchar *initial_balance;

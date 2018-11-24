@@ -18,7 +18,7 @@ gint 		gsb_account_get_combo_account_number 	(GtkWidget *combo_box);
 gboolean 	gsb_account_new 						(KindAccount account_type,
 												     gint currency_number,
 												     gint bank_number,
-												     gsb_real init_amount,
+												     GsbReal init_amount,
 												     const gchar *name,
 												     gchar *name_icon);
 gboolean 	gsb_account_set_combo_account_number	(GtkWidget *combo_box,

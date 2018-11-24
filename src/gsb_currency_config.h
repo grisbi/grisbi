@@ -12,10 +12,8 @@
 struct CachedExchangeRate {
     gint currency1_number;	/** First currency */
     gint currency2_number;	/** Second currency */
-    gsb_real rate;				/** Exchange rate betweend
-						  currency1 and currency 2 */
-    gsb_real fees;				/** Fees associated with
-						  exchange rate */
+    GsbReal rate;			/** Exchange rate between currency1 and currency 2 */
+    GsbReal fees;			/** Fees associated with exchange rate */
 };
 
 /** ISO 4217 currency.  Not specific to Grisbi. */

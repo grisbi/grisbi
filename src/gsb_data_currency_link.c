@@ -52,7 +52,7 @@ typedef struct
     gint first_currency;
     gint second_currency;
     gint fixed_link;  /* si = 1 le lien entre devises est fixe */
-    gsb_real change_rate;
+    GsbReal change_rate;
     GDate *modified_date;
 
     /* a link is invalid when :
@@ -403,7 +403,7 @@ gboolean gsb_data_currency_link_set_second_currency ( gint currency_link_number,
  *
  * \return the change_rate of the currency_link or 0 if problem
  * */
-gsb_real gsb_data_currency_link_get_change_rate ( gint currency_link_number )
+GsbReal gsb_data_currency_link_get_change_rate ( gint currency_link_number )
 {
     struct_currency_link *currency_link;
 
@@ -425,7 +425,7 @@ gsb_real gsb_data_currency_link_get_change_rate ( gint currency_link_number )
  * \return TRUE if ok or FALSE if problem
  * */
 gboolean gsb_data_currency_link_set_change_rate ( gint currency_link_number,
-                        gsb_real change_rate )
+                        GsbReal change_rate )
 {
     struct_currency_link *currency_link;
 

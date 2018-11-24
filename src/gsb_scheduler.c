@@ -98,7 +98,7 @@ devel_debug (NULL);
 	    GSList *children_numbers_list;
 		gint transfer_account;
 		gint init_sch_with_loan;
-		gsb_real amount;
+		GsbReal amount;
 
 		transfer_account = gsb_data_scheduled_get_account_number_transfer (scheduled_number+1);
 		init_sch_with_loan = gsb_data_account_get_bet_init_sch_with_loan (transfer_account);
@@ -345,7 +345,7 @@ gint gsb_scheduler_create_transaction_from_scheduled_transaction ( gint schedule
 	if (gsb_data_scheduled_get_split_of_scheduled (scheduled_number)
 		&& gsb_data_account_get_bet_init_sch_with_loan (transfer_account))
 	{
-		gsb_real amount;
+		GsbReal amount;
 
 		amount = bet_finance_get_loan_amount_at_date (scheduled_number, transfer_account, date, TRUE);
 		gsb_data_transaction_set_amount (transaction_number, amount);
@@ -359,7 +359,7 @@ gint gsb_scheduler_create_transaction_from_scheduled_transaction ( gint schedule
 			|| scheduled_mother == scheduled_number -2
 			|| scheduled_mother == scheduled_number -3)
 		{
-			gsb_real amount;
+			GsbReal amount;
 
 			amount = bet_finance_get_loan_amount_at_date (scheduled_number, transfer_account, date, FALSE);
 			gsb_data_transaction_set_amount (transaction_number, amount);

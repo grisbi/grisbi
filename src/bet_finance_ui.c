@@ -2131,15 +2131,15 @@ void bet_finance_ui_update_all_finance_toolbars (gint toolbar_style)
  *
  * \return
  **/
-gsb_real bet_finance_get_loan_amount_at_date (gint scheduled_number,
-											  gint transfer_account,
-											  GDate *date,
-											  gboolean maj_s_loan_capital_du)
+GsbReal bet_finance_get_loan_amount_at_date (gint scheduled_number,
+											 gint transfer_account,
+											 GDate *date,
+											 gboolean maj_s_loan_capital_du)
 {
 	gint transaction_mother = 0;
 	static gint mother_number = 0;
 	static AmortissementStruct *s_amortissement;
-	gsb_real amount = {0, 0};
+	GsbReal amount = {0, 0};
 
 	devel_debug_int (scheduled_number);
 	if (gsb_data_scheduled_get_split_of_scheduled (scheduled_number))

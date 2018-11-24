@@ -73,7 +73,7 @@
 /*START_STATIC*/
 static void bet_array_adjust_hist_amount ( gint div_number,
                         gint sub_div_nb,
-                        gsb_real amount,
+                        GsbReal amount,
                         GtkTreeModel *model );
 static void bet_array_auto_inc_month_toggle ( GtkToggleButton *togglebutton, gpointer  data );
 static GtkWidget *bet_array_create_tree_view ( GtkWidget *container );
@@ -473,8 +473,8 @@ static gint bet_array_date_sort_function ( GtkTreeModel *model,
         gint origine;
         gchar *str_amount_a;
         gchar *str_amount_b;
-        gsb_real amount_a = null_real;
-        gsb_real amount_b = null_real;
+        GsbReal amount_a = null_real;
+        GsbReal amount_b = null_real;
 
         gtk_tree_model_get ( GTK_TREE_MODEL ( model ), itera,
                         SPP_ESTIMATE_TREE_ORIGIN_DATA, &origine,
@@ -533,7 +533,7 @@ static gboolean bet_array_update_average_column ( GtkTreeModel *model,
     gint selected_account;
     gboolean select = FALSE;
     BetRange *tmp_range = (BetRange*) data;
-    gsb_real amount;
+    GsbReal amount;
 
     if ( tmp_range -> first_pass )
     {
@@ -607,7 +607,7 @@ void bet_array_refresh_estimate_tab ( gint account_number )
     GDate *date_init;
     GDate *date_min;
     GDate *date_max;
-    gsb_real current_balance;
+    GsbReal current_balance;
     BetRange *tmp_range;
     GValue date_value = G_VALUE_INIT;
     gint currency_number;
@@ -1031,7 +1031,7 @@ void bet_array_refresh_scheduled_data ( GtkTreeModel *tab_model,
         gint currency_number;
         GDate *date;
         GValue date_value = G_VALUE_INIT;
-        gsb_real amount;
+        GsbReal amount;
 
         scheduled_number = gsb_data_scheduled_get_scheduled_number ( tmp_list->data );
 
@@ -1220,7 +1220,7 @@ void bet_array_refresh_transactions_data ( GtkTreeModel *tab_model,
         gint currency_number;
         const GDate *date;
         GValue date_value = G_VALUE_INIT;
-        gsb_real amount;
+        GsbReal amount;
 
         transaction_number = gsb_data_transaction_get_transaction_number ( tmp_list->data );
         tmp_list = tmp_list -> next;
@@ -1345,7 +1345,7 @@ void bet_array_list_add_new_hist_line ( GtkTreeModel *tab_model,
     gchar *str_amount;
     gint div_number;
     gint sub_div_nb;
-    gsb_real amount;
+    GsbReal amount;
 
     /* devel_debug (NULL); */
     date_jour = gdate_today ( );
@@ -1465,7 +1465,7 @@ gboolean bet_array_refresh_futur_data ( GtkTreeModel *tab_model,
         gchar *str_description;
         gchar *str_amount;
         GDate *date_tomorrow;
-        gsb_real amount;
+        GsbReal amount;
         gboolean inverse_amount = FALSE;
         gint currency_number;
 
@@ -2012,7 +2012,7 @@ void bet_array_list_redo_menu ( GtkWidget *menu_item,
  * */
 void bet_array_adjust_hist_amount ( gint div_number,
                         gint sub_div_nb,
-                        gsb_real amount,
+                        GsbReal amount,
                         GtkTreeModel *model )
 {
     GtkTreeIter iter;
@@ -2027,7 +2027,7 @@ void bet_array_adjust_hist_amount ( gint div_number,
         gchar *div_name;
         GDate *date;
         GDate *date_today;
-        gsb_real number;
+        GsbReal number;
         gint sign = 1;
         gint tmp_div_number;
         gint tmp_sub_div_nb;
@@ -2153,7 +2153,7 @@ void bet_array_list_update_balance ( GtkTreeModel *model )
     if ( gtk_tree_model_get_iter_first ( model, &iter) )
     {
         gchar *str_current_balance;
-        gsb_real current_balance;
+        GsbReal current_balance;
         BetRange *tmp_range;
 
         gtk_tree_model_get ( model, &iter,
@@ -2858,7 +2858,7 @@ gboolean bet_array_refresh_transfert_data ( GtkTreeModel *tab_model,
         gint replace_currency;
         gchar *str_description;
         gchar *str_amount;
-        gsb_real amount;
+        GsbReal amount;
 
         if ( account_number != transfert -> account_number )
             continue;
@@ -3211,7 +3211,7 @@ void bet_array_create_transaction_from_transfert (TransfertData *transfert)
             gint sub_div_number = 0;
             gint account_number;
             const GDate *date;
-            gsb_real amount;
+            GsbReal amount;
 
             transaction_number = gsb_data_transaction_get_transaction_number ( tmp_list->data );
             tmp_list = tmp_list->next;

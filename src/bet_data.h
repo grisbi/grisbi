@@ -20,8 +20,8 @@ typedef struct _TransactionCurrentFyear     TransactionCurrentFyear;
 struct _BetRange
 {
     gboolean 		first_pass;
-    gsb_real 		current_fyear;
-    gsb_real 		current_balance;
+    GsbReal 		current_fyear;
+    GsbReal 		current_balance;
 };
 
 /* utilisée pour gérer la liste des données historiques dans la vue historique */
@@ -41,7 +41,7 @@ struct _HistDiv
     gint 			origin;
     gboolean 		div_edited;
     GHashTable *	sub_div_list;
-    gsb_real 		amount;
+    GsbReal 		amount;
 };
 
 
@@ -50,7 +50,7 @@ struct _FutureData
     gint 			number;
     gint 			account_number;
     GDate *			date;
-    gsb_real 		amount;
+    GsbReal 		amount;
     guint 			fyear_number;
     gint 			payment_number;
     gint 			party_number;
@@ -102,7 +102,7 @@ struct _TransactionCurrentFyear
     gint 		div_nb;
     gint 		sub_div_nb;
     GDate *		date;
-    gsb_real 	amount;
+    GsbReal 	amount;
 };
 
 
@@ -166,7 +166,7 @@ gchar *						bet_data_get_div_name 						(gint div_num,
 gint 						bet_data_get_div_number 					(gint transaction_number, gboolean is_transaction);
 gint 						bet_data_get_div_type 						(gint div_number);
 gint 						bet_data_get_selected_currency 				(void);
-gchar *						bet_data_get_str_amount_in_account_currency	(gsb_real amount,
+gchar *						bet_data_get_str_amount_in_account_currency	(GsbReal amount,
 																		 gint account_number,
 																		 gint line_number,
 																		 gint origin);
@@ -176,7 +176,7 @@ gint 						bet_data_get_sub_div_nb 					(gint transaction_number,
 gboolean 					bet_data_hist_add_div 						(gint account_number,
 																		 gint div_number,
 																		 gint sub_div_nb);
-gsb_real 					bet_data_hist_get_div_amount 				(gint account_nb,
+GsbReal 					bet_data_hist_get_div_amount 				(gint account_nb,
 																		 gint div_number,
 																		 gint sub_div_nb);
 void 						bet_data_hist_reset_all_amounts 			(gint account_number);
@@ -200,7 +200,7 @@ void 						bet_data_select_bet_pages 					(gint account_number);
 gboolean 					bet_data_set_div_amount 					(gint account_nb,
 																		 gint div_number,
 																		 gint sub_div_nb,
-																		 gsb_real amount);
+																		 GsbReal amount);
 gboolean 					bet_data_set_div_edited 					(gint account_nb,
 																		 gint div_number,
 																		 gint sub_div_nb,

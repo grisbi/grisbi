@@ -74,7 +74,7 @@ int gsb_real_cunit_clean_suite ( void )
 
 void gsb_real_cunit__gsb_real_raw_get_from_string( void )
 {
-    gsb_real val;
+    GsbReal val;
     /*  NULL ==> error */
     val = gsb_real_raw_get_from_string ( NULL, NULL, NULL );
     CU_ASSERT_EQUAL ( G_MININT64, val.mantissa );
@@ -285,7 +285,7 @@ void gsb_real_cunit__gsb_real_raw_get_from_string( void )
 
 void gsb_real_cunit__gsb_real_raw_get_from_string__locale( void )
 {
-    gsb_real val;
+    GsbReal val;
 /*     // locale's thousands separator override comma  */
     val = gsb_real_raw_get_from_string ( "1,000.00", ",", "." );
     CU_ASSERT_EQUAL ( 100000, val.mantissa );
@@ -306,7 +306,7 @@ void gsb_real_cunit__gsb_real_raw_get_from_string__locale( void )
 void gsb_real_cunit__gsb_real_raw_format_string ( void )
 {
     gchar *s;
-    gsb_real n;
+    GsbReal n;
     struct lconv conv;
     memset(&conv, 0, sizeof(conv));
     conv.positive_sign = "<+>";
@@ -399,8 +399,8 @@ void gsb_real_cunit__gsb_real_raw_format_string ( void )
 
 void gsb_real_cunit__gsb_real_normalize( void )
 {
-    gsb_real a;
-    gsb_real b;
+    GsbReal a;
+    GsbReal b;
     a.mantissa = 1;
     a.exponent = 0;
     b.mantissa = 31415;
@@ -444,9 +444,9 @@ void gsb_real_cunit__gsb_real_normalize( void )
 
 void gsb_real_cunit__gsb_real_add ( void )
 {
-    gsb_real a = {1, 0};
-    gsb_real b = {31415, 4};
-    gsb_real r = gsb_real_add(a, b);
+    GsbReal a = {1, 0};
+    GsbReal b = {31415, 4};
+    GsbReal r = gsb_real_add(a, b);
     CU_ASSERT_EQUAL(41415, r.mantissa);
     CU_ASSERT_EQUAL(4, r.exponent);
 
@@ -493,9 +493,9 @@ void gsb_real_cunit__gsb_real_add ( void )
 
 void gsb_real_cunit__gsb_real_sub( void )
 {
-    gsb_real a = { -1, 0 };
-    gsb_real b = { 31415, 4 };
-    gsb_real r = gsb_real_sub ( a, b );
+    GsbReal a = { -1, 0 };
+    GsbReal b = { 31415, 4 };
+    GsbReal r = gsb_real_sub ( a, b );
     CU_ASSERT_EQUAL ( -41415, r.mantissa );
     CU_ASSERT_EQUAL ( 4, r.exponent );
 
@@ -527,9 +527,9 @@ void gsb_real_cunit__gsb_real_sub( void )
 
 void gsb_real_cunit__gsb_real_mul( void )
 {
-    gsb_real a = { 12, 1 };
-    gsb_real b = { 31415, 4 };
-    gsb_real r = gsb_real_mul ( a, b );
+    GsbReal a = { 12, 1 };
+    GsbReal b = { 31415, 4 };
+    GsbReal r = gsb_real_mul ( a, b );
     CU_ASSERT_EQUAL ( 37698, r.mantissa );
     CU_ASSERT_EQUAL ( 4, r.exponent );
 
@@ -585,9 +585,9 @@ void gsb_real_cunit__gsb_real_mul( void )
 
 void gsb_real_cunit__gsb_real_adjust_exponent ( void )
 {
-    gsb_real a = {1, 0};
+    GsbReal a = {1, 0};
     gint b = 4;
-    gsb_real r = gsb_real_adjust_exponent ( a, b );
+    GsbReal r = gsb_real_adjust_exponent ( a, b );
     CU_ASSERT_EQUAL(10000, r.mantissa);
     CU_ASSERT_EQUAL(4, r.exponent);
 

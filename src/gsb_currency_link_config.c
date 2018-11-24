@@ -556,7 +556,7 @@ gboolean gsb_currency_link_config_modify_link ( GtkWidget *tree_view )
     GtkWidget *label;
 	gchar* tmpstr;
     gchar *strdate;
-    gsb_real number;
+    GsbReal number;
 
     if ( !gtk_tree_selection_get_selected ( gtk_tree_view_get_selection (
                         GTK_TREE_VIEW ( tree_view ) ),

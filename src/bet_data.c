@@ -68,7 +68,7 @@ static gboolean bet_data_update_div ( BetHist *sh,
                         gint transaction_number,
                         gint sub_div,
                         gint type_de_transaction,
-                        gsb_real amount );
+                        GsbReal amount );
 static void struct_free_bet_future ( FuturData *scheduled );
 static void struct_free_bet_transfert ( TransfertData *transfert );
 static void struct_free_hist_div ( HistDiv *shd );
@@ -679,11 +679,11 @@ gboolean bet_data_set_div_edited ( gint account_nb,
  *
  *
  * */
-gsb_real bet_data_hist_get_div_amount ( gint account_nb, gint div_number, gint sub_div_nb )
+GsbReal bet_data_hist_get_div_amount ( gint account_nb, gint div_number, gint sub_div_nb )
 {
     gchar *key;
     HistDiv *shd;
-    gsb_real amount;
+    GsbReal amount;
 
     key = bet_data_get_key ( account_nb, div_number );
 
@@ -721,7 +721,7 @@ gsb_real bet_data_hist_get_div_amount ( gint account_nb, gint div_number, gint s
 gboolean bet_data_set_div_amount ( gint account_nb,
                         gint div_number,
                         gint sub_div_nb,
-                        gsb_real amount )
+                        GsbReal amount )
 {
     gchar *key;
     HistDiv *shd;
@@ -787,7 +787,7 @@ gboolean bet_data_populate_div ( gint transaction_number,
     gint sub_div = 0;
     gchar *key;
     BetHist *sh = NULL;
-    gsb_real amount;
+    GsbReal amount;
 
     div = ptr_div ( transaction_number, is_transaction );
     if ( div > 0 )
@@ -834,7 +834,7 @@ gboolean bet_data_update_div ( BetHist *sh,
                         gint transaction_number,
                         gint sub_div,
                         gint type_de_transaction,
-                        gsb_real amount )
+                        GsbReal amount )
 {
     BetRange *sbr = ( BetRange*) sh -> sbr;
     gchar *key;
@@ -1867,7 +1867,7 @@ static void bet_data_transfert_create_reset_credit_card ( TransfertData *transfe
 {
     gint transaction_number;
     GDate *date;
-    gsb_real amount;
+    GsbReal amount;
 
     date = gsb_date_copy ( transfert->date_bascule );
     /* on enlève 1 jour pour la date de l'opération de remise à 0 du compte */
@@ -1931,10 +1931,10 @@ static void bet_data_transfert_create_reset_credit_card ( TransfertData *transfe
         for ( i = 0; tab[i]; i++ )
         {
             gint account_number;
-            gsb_real *balance;
+            GsbReal *balance;
 
             account_number = utils_str_atoi ( tab[i] );
-            balance = (gsb_real *) g_ptr_array_index ( balances, i );
+            balance = (GsbReal *) g_ptr_array_index ( balances, i );
             amount.mantissa = balance->mantissa;
             amount.exponent = balance->exponent;
 
@@ -2185,7 +2185,7 @@ gchar *bet_data_get_key ( gint account_number, gint div_number )
  *
  *
  * */
-gchar *bet_data_get_str_amount_in_account_currency ( gsb_real amount,
+gchar *bet_data_get_str_amount_in_account_currency ( GsbReal amount,
                         gint account_number,
                         gint line_number,
                         gint origin )
@@ -2193,7 +2193,7 @@ gchar *bet_data_get_str_amount_in_account_currency ( gsb_real amount,
     gchar *str_amount = NULL;
     gint account_currency;
     gint floating_point;
-	gsb_real new_amount = {0, 0};
+	GsbReal new_amount = {0, 0};
 
     account_currency = gsb_data_account_get_currency ( account_number );
     floating_point = gsb_data_account_get_currency_floating_point ( account_number );
@@ -2244,7 +2244,7 @@ void bet_data_transfert_create_new_transaction ( TransfertData *transfert )
 {
     gint transaction_number;
     GDate *date;
-    gsb_real amount;
+    GsbReal amount;
 
     date = gsb_date_copy ( transfert->date_bascule );
     /* on enlève 1 jour pour la date de l'opération de remise à 0 du compte */
