@@ -54,29 +54,31 @@
  * \struct
  * Describe a payee
  */
-typedef struct
-{
-    gint payee_number;
-    gchar *payee_name;
-    gchar *payee_description;
-    gchar *payee_search_string;
-	gint ignore_case;
-	gint use_regex;
+typedef struct _PayeeStruct	PayeeStruct;
 
-    gint payee_nb_transactions;
-    GsbReal payee_balance;
-} struct_payee;
+struct _PayeeStruct
+{
+    gint 		payee_number;
+    gchar *		payee_name;
+    gchar *		payee_description;
+    gchar *		payee_search_string;
+	gint		ignore_case;
+	gint		use_regex;
+
+    gint		payee_nb_transactions;
+    GsbReal		payee_balance;
+};
 
 /*START_STATIC*/
-/** contains the g_slist of struct_payee */
+/** contains the g_slist of PayeeStruct */
 static GSList *payee_list = NULL;
 
 /** a pointer to the last payee used (to increase the speed) */
-static struct_payee *payee_buffer = NULL;
+static PayeeStruct *payee_buffer = NULL;
 
 /** a pointer to a "blank" payee structure, used in the list of payee
  * to group the transactions without payee */
-static struct_payee *empty_payee = NULL;
+static PayeeStruct *empty_payee = NULL;
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -86,13 +88,13 @@ static struct_payee *empty_payee = NULL;
 /* Private functions                                                          */
 /******************************************************************************/
 /**
- * This internal function is called to free the memory used by a struct_payee structure
+ * This internal function is called to free the memory used by a PayeeStruct structure
  *
  * \param
  *
  * \return
  **/
-static void _gsb_data_payee_free (struct_payee* payee)
+static void _gsb_data_payee_free (PayeeStruct* payee)
 {
     if (! payee)
         return;
@@ -147,7 +149,7 @@ static GSList *gsb_data_payee_get_name_list (void)
  *
  * \return 0 if it's the same name
  **/
-static gint gsb_data_payee_get_pointer_from_name_in_glist (struct_payee *payee,
+static gint gsb_data_payee_get_pointer_from_name_in_glist (PayeeStruct *payee,
 														   const gchar *name)
 {
     return (my_strcasecmp (payee->payee_name, name));
@@ -167,7 +169,7 @@ static gint gsb_data_payee_max_number (void)
     tmp = payee_list;
     while (tmp)
     {
-		struct_payee *payee;
+		PayeeStruct *payee;
 
 		payee = tmp->data;
 
@@ -193,7 +195,7 @@ static void gsb_data_payee_reset_counters (void)
     list_tmp = payee_list;
     while (list_tmp)
     {
-		struct_payee *payee;
+		PayeeStruct *payee;
 
 		payee = list_tmp->data;
 		payee->payee_balance = null_real;
@@ -226,7 +228,7 @@ gboolean gsb_data_payee_init_variables (void)
 	tmp_list = payee_list;
     while (tmp_list)
     {
-		struct_payee *payee;
+		PayeeStruct *payee;
 		payee = tmp_list->data;
 		tmp_list = tmp_list->next;
 		_gsb_data_payee_free (payee);
@@ -241,7 +243,7 @@ gboolean gsb_data_payee_init_variables (void)
         g_free (empty_payee->payee_name);
 		g_free (empty_payee);
     }
-    empty_payee = g_malloc0 (sizeof (struct_payee));
+    empty_payee = g_malloc0 (sizeof (PayeeStruct));
     empty_payee->payee_name = g_strdup(_("No payee"));
     return FALSE;
 }
@@ -267,7 +269,7 @@ gpointer gsb_data_payee_get_structure (gint no_payee)
     tmp = payee_list;
     while (tmp)
     {
-		struct_payee *payee;
+		PayeeStruct *payee;
 
 		payee = tmp->data;
 		if (payee->payee_number == no_payee)
@@ -314,7 +316,7 @@ GSList *gsb_data_payee_get_payees_list (void)
  **/
 gint gsb_data_payee_get_no_payee (gpointer payee_ptr)
 {
-    struct_payee *payee;
+    PayeeStruct *payee;
 
     if (!payee_ptr)
 		return 0;
@@ -336,9 +338,9 @@ gint gsb_data_payee_get_no_payee (gpointer payee_ptr)
  **/
 gint gsb_data_payee_new (const gchar *name)
 {
-    struct_payee *payee;
+    PayeeStruct *payee;
 
-    payee = g_malloc0 (sizeof (struct_payee));
+    payee = g_malloc0 (sizeof (PayeeStruct));
     payee->payee_number = gsb_data_payee_max_number () + 1;
 
     if (name)
@@ -370,7 +372,7 @@ gint gsb_data_payee_new (const gchar *name)
  **/
 gboolean gsb_data_payee_remove (gint no_payee)
 {
-    struct_payee *payee;
+    PayeeStruct *payee;
     GtkWidget *combofix;
 
     payee = gsb_data_payee_get_structure (no_payee);
@@ -401,7 +403,7 @@ gboolean gsb_data_payee_remove (gint no_payee)
 gint gsb_data_payee_set_new_number (gint no_payee,
 									gint new_no_payee)
 {
-    struct_payee *payee;
+    PayeeStruct *payee;
 
     payee = gsb_data_payee_get_structure (no_payee);
 
@@ -432,7 +434,7 @@ gint gsb_data_payee_get_number_by_name (const gchar *name,
 									(GCompareFunc) gsb_data_payee_get_pointer_from_name_in_glist);
     if (list_tmp)
     {
-        struct_payee *payee;
+        PayeeStruct *payee;
 
         payee = list_tmp->data;
         payee_number = payee->payee_number;
@@ -458,7 +460,7 @@ gint gsb_data_payee_get_number_by_name (const gchar *name,
 const gchar *gsb_data_payee_get_name (gint no_payee,
 									  gboolean can_return_null)
 {
-    struct_payee *payee;
+    PayeeStruct *payee;
 
     payee = gsb_data_payee_get_structure (no_payee);
 
@@ -485,7 +487,7 @@ const gchar *gsb_data_payee_get_name (gint no_payee,
 gboolean gsb_data_payee_set_name (gint no_payee,
 								  const gchar *name)
 {
-    struct_payee *payee;
+    PayeeStruct *payee;
     GtkWidget *combofix;
 
     payee = gsb_data_payee_get_structure (no_payee);
@@ -523,8 +525,8 @@ gboolean gsb_data_payee_set_name (gint no_payee,
 gboolean gsb_data_payee_compare_payees_by_name (gpointer payee_ptr_a,
                                                 gpointer payee_ptr_b)
 {
-    struct_payee *payee_a;
-    struct_payee *payee_b;
+    PayeeStruct *payee_a;
+    PayeeStruct *payee_b;
     gchar *name_a;
     gchar *name_b;
 
@@ -621,7 +623,7 @@ void gsb_data_payee_free_name_and_report_list (GSList *liste)
  **/
 const gchar *gsb_data_payee_get_description (gint no_payee)
 {
-    struct_payee *payee;
+    PayeeStruct *payee;
 
     payee = gsb_data_payee_get_structure (no_payee);
 
@@ -643,7 +645,7 @@ const gchar *gsb_data_payee_get_description (gint no_payee)
 gboolean gsb_data_payee_set_description (gint no_payee,
 										 const gchar *description)
 {
-    struct_payee *payee;
+    PayeeStruct *payee;
 
     payee = gsb_data_payee_get_structure (no_payee);
 
@@ -672,7 +674,7 @@ gboolean gsb_data_payee_set_description (gint no_payee,
  **/
 gint gsb_data_payee_get_nb_transactions (gint no_payee)
 {
-    struct_payee *payee;
+    PayeeStruct *payee;
 
     payee = gsb_data_payee_get_structure (no_payee);
 
@@ -691,7 +693,7 @@ gint gsb_data_payee_get_nb_transactions (gint no_payee)
  **/
 GsbReal gsb_data_payee_get_balance (gint no_payee)
 {
-    struct_payee *payee;
+    PayeeStruct *payee;
 
     payee = gsb_data_payee_get_structure (no_payee);
 
@@ -740,7 +742,7 @@ void gsb_data_payee_update_counters (void)
  **/
 void gsb_data_payee_add_transaction_to_payee (gint transaction_number)
 {
-    struct_payee *payee;
+    PayeeStruct *payee;
 
 	/* if the transaction is a split transaction, don't take it */
 	if (gsb_data_transaction_get_mother_transaction_number (transaction_number))
@@ -783,7 +785,7 @@ void gsb_data_payee_add_transaction_to_payee (gint transaction_number)
  **/
 void gsb_data_payee_remove_transaction_from_payee (gint transaction_number)
 {
-    struct_payee *payee;
+    PayeeStruct *payee;
 
     payee = gsb_data_payee_get_structure (gsb_data_transaction_get_party_number (transaction_number));
 
@@ -860,7 +862,7 @@ gint gsb_data_payee_remove_unused (void)
     tmp_list = gsb_data_payee_get_payees_list ();
     while (tmp_list)
     {
-        struct_payee *payee = tmp_list->data;
+        PayeeStruct *payee = tmp_list->data;
 
         tmp_list = tmp_list->next;
         if (!used || !g_slist_find (used, GINT_TO_POINTER (payee->payee_number)))
@@ -884,7 +886,7 @@ gint gsb_data_payee_remove_unused (void)
  **/
 const gchar *gsb_data_payee_get_search_string (gint no_payee)
 {
-    struct_payee *payee;
+    PayeeStruct *payee;
 
     payee = gsb_data_payee_get_structure (no_payee);
 
@@ -906,7 +908,7 @@ const gchar *gsb_data_payee_get_search_string (gint no_payee)
  **/
 gboolean gsb_data_payee_set_search_string (gint no_payee, const gchar *search_string)
 {
-    struct_payee *payee;
+    PayeeStruct *payee;
 
     payee = gsb_data_payee_get_structure (no_payee);
 
@@ -962,7 +964,7 @@ gint gsb_data_payee_get_unused_payees (void)
         tmp_list = gsb_data_payee_get_payees_list ();
         while (tmp_list)
         {
-            struct_payee *payee = tmp_list->data;
+            PayeeStruct *payee = tmp_list->data;
 
             tmp_list = tmp_list->next;
 
@@ -1016,7 +1018,7 @@ gint gsb_data_payee_get_unused_payees (void)
     tmp_list = gsb_data_payee_get_payees_list ();
     while (tmp_list)
     {
-        struct_payee *payee = tmp_list->data;
+        PayeeStruct *payee = tmp_list->data;
 
         tmp_list = tmp_list->next;
         if (!used || !g_slist_find (used, GINT_TO_POINTER (payee->payee_number)))
@@ -1037,7 +1039,7 @@ gint gsb_data_payee_get_unused_payees (void)
  **/
 gint gsb_data_payee_get_ignore_case (gint no_payee)
 {
-    struct_payee *payee;
+    PayeeStruct *payee;
 
     payee = gsb_data_payee_get_structure (no_payee);
 
@@ -1057,7 +1059,7 @@ gint gsb_data_payee_get_ignore_case (gint no_payee)
 gboolean gsb_data_payee_set_ignore_case (gint no_payee,
 										 gint ignore_case)
 {
-    struct_payee *payee;
+    PayeeStruct *payee;
 
     payee = gsb_data_payee_get_structure (no_payee);
 
@@ -1078,7 +1080,7 @@ gboolean gsb_data_payee_set_ignore_case (gint no_payee,
  **/
 gint gsb_data_payee_get_use_regex (gint no_payee)
 {
-    struct_payee *payee;
+    PayeeStruct *payee;
 
     payee = gsb_data_payee_get_structure (no_payee);
 
@@ -1098,7 +1100,7 @@ gint gsb_data_payee_get_use_regex (gint no_payee)
 gboolean gsb_data_payee_set_use_regex (gint no_payee,
 									   gint use_regex)
 {
-    struct_payee *payee;
+    PayeeStruct *payee;
 
     payee = gsb_data_payee_get_structure (no_payee);
 
