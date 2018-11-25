@@ -8,17 +8,17 @@
 
 
 /** Unit test based upon the Grisbi file  */
-struct GsbDebugTest {
-    const gchar * name;		/** Name of the test.  */
-    const gchar * description;	/** Short description.  */
-    const gchar * instructions;	/** Instructions to do if test matches. */
-    gchar * (* test) (void);	/** Pointer to function doing the job.  */
-    gboolean (* fix) (void);	/** Pointer to function fixing the problem. */
+struct GsbDebugTest
+{
+    const gchar * 	name;				/** Name of the test.  */
+    const gchar * 	description;		/** Short description.  */
+    const gchar * 	instructions;		/** Instructions to do if test matches. */
+    gchar * 		(* test) (void);	/** Pointer to function doing the job.  */
+    gboolean		(* fix) (void);		/** Pointer to function fixing the problem. */
 };
 
-
 /* START_DECLARATION */
-gboolean gsb_debug ( void );
+gboolean	gsb_debug	(void);
 /* END_DECLARATION */
 
 #endif
