@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-11-21 20:29+0100\n"
-"PO-Revision-Date: 2018-07-29 23:19+0100\n"
+"PO-Revision-Date: 2018-11-25 11:12+0100\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -201,7 +201,6 @@ msgid "Sort by value date and then by date"
 msgstr "zuerst nach Valutadatum, danach nach Datum"
 
 #: ../src/affichage_liste.c:153
-#, fuzzy
 msgid "Forced sort by transaction date"
 msgstr "entsprechend Datum der Buchung"
 
@@ -355,7 +354,7 @@ msgstr "Neue Kategorien/Gruppen dürfen nicht erstellt werden"
 
 #: ../src/affichage_liste.c:787
 msgid "Minimum length of the search key in characters (one by default): "
-msgstr ""
+msgstr "Zeichenanzahl für automatische Vervollständigung"
 
 #. à la base, on met une vbox
 #: ../src/affichage_liste.c:920 ../src/grisbi_prefs.c:524
@@ -1474,7 +1473,6 @@ msgid "Execute"
 msgstr "Ausführen"
 
 #: ../src/bet_tab.c:3022
-#, fuzzy
 msgid "Execute the balance of a deferred debit account"
 msgstr "Saldo von Ausgabenkonto mit verzögerten Buchungen übernehmen"
 
@@ -1766,7 +1764,6 @@ msgid "Encryption is irreversible."
 msgstr "Die Verschlüsselung ist nicht reversibel"
 
 #: ../src/dialog.c:66
-#, fuzzy
 msgid ""
 "Grisbi encrypts files in a very secure way that does not allow recovery "
 "without original password. It means that if you forget your password, you "
@@ -9697,11 +9694,12 @@ msgid ""
 "The data associated with action \"%s\" are invalid.\n"
 "This rule will not be applied and you will have to modify it"
 msgstr ""
+"Die zugeordneten Daten für die Aktion \"%s\" sind ungültig.\n"
+"Die Regel wird nicht ausgeführt und sollte überarbeitet werden"
 
 #: ../src/import_csv.c:309
-#, fuzzy
 msgid "Warning: Invalid data"
-msgstr "Warnung: Ungültiges Datum."
+msgstr "Warnung: Ungültige Daten"
 
 #: ../src/import_csv.c:806 ../src/import_csv.c:810
 msgid "transaction amount"
@@ -9978,9 +9976,9 @@ msgid "The account no longer exists"
 msgstr "Das Konto ist nicht mehr vorhanden"
 
 #: ../src/metatree.c:1763
-#, fuzzy, c-format
+#, c-format
 msgid "'%s : %s' still contains transactions or archived transactions."
-msgstr "'%s' sind Buchungen oder archivierte Buchungen zugeordnet."
+msgstr "'%s : %s' sind Buchungen oder archivierte Buchungen zugeordnet."
 
 #: ../src/metatree.c:1767
 #, c-format
@@ -9988,7 +9986,7 @@ msgid "'%s' still contains transactions or archived transactions."
 msgstr "'%s' sind Buchungen oder archivierte Buchungen zugeordnet."
 
 #: ../src/metatree.c:1771
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "If you want to remove it but want to keep transactions, you can transfer "
 "them to another %s.  Otherwise, transactions can be simply deleted along "
@@ -10434,12 +10432,12 @@ msgstr ""
 "'<span foreground=\"blue\">%s</span>' eingeben"
 
 #: ../src/plugins/openssl/openssl.c:337
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Please enter password to encrypt file\n"
 "<span foreground=\"blue\">%s</span>"
 msgstr ""
-"%s Bitte das Passwort zum Verschlüsseln der Datei\n"
+"Bitte das Passwort zum Verschlüsseln der Datei\n"
 "'<span foreground=\"blue\">%s</span>' eingeben"
 
 #: ../src/plugins/openssl/openssl.c:344
@@ -10452,12 +10450,12 @@ msgstr ""
 "'<span foreground=\"blue\">%s</span>' eingeben"
 
 #: ../src/plugins/openssl/openssl.c:349
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Please enter password to decrypt file\n"
 "<span foreground=\"blue\">%s</span>"
 msgstr ""
-"%s Bitte das Passwort zum Entschlüsseln der Datei\n"
+"Bitte das Passwort zum Entschlüsseln der Datei\n"
 "'<span foreground=\"blue\">%s</span>' eingeben"
 
 #: ../src/plugins/openssl/openssl.c:361
@@ -10802,9 +10800,8 @@ msgid "List of payees who will be modified"
 msgstr "Auflistung der Änderungen"
 
 #: ../src/tiers_onglet.c:1455
-#, fuzzy
 msgid "do you want replace the current rule?"
-msgstr "Soll die Importregel gelöscht werden?"
+msgstr "Soll die Importregel ersetzt werden?"
 
 #: ../src/tiers_onglet.c:1497
 msgid "Payee number"
@@ -10834,9 +10831,9 @@ msgid "New payee: %s"
 msgstr "Neuer Empfänger : %s"
 
 #: ../src/tiers_onglet.c:1656
-#, fuzzy, c-format
+#, c-format
 msgid "Current rule: %s"
-msgstr "aktueller Saldo"
+msgstr "Aktuelle Regel: %s"
 
 #: ../src/tiers_onglet.c:1740
 #, c-format
@@ -11723,11 +11720,11 @@ msgstr "Splittbuchungen bei der Vervollständigung von Empfängern erstellen."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:53
 msgid "Minimum length of the search key in characters"
-msgstr ""
+msgstr "Zeichenanzahl für automatische Vervollständigung"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:54
 msgid "Minimum length of the search key in characters for completion."
-msgstr ""
+msgstr "Zeichenanzahl für automatische Vervollständigung"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:55
 msgid "Last width of the expander label"
@@ -11836,7 +11833,6 @@ msgstr ""
 "\n"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:81
-#, fuzzy
 msgid ""
 "Sort by value date, if fail, try with the date, Sort by value date and then "
 "by date. Forced sort by transaction date."
