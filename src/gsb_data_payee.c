@@ -123,12 +123,13 @@ static GSList *gsb_data_payee_get_name_list (void)
     GSList *tmp_list;
 
 	return_list = NULL;
-    tmp_list= payee_list;
-    while (tmp_list)
-    {
-        struct_payee *payee;
 
-        payee = tmp_list->data;
+	tmp_list= payee_list;
+	while (tmp_list)
+	{
+		PayeeStruct *payee;
+
+		payee = tmp_list->data;
 
         if (payee->payee_name)
 			return_list = g_slist_append (return_list, payee->payee_name);
