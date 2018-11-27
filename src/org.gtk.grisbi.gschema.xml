@@ -289,12 +289,12 @@
             <choice value="Manage division"/>
         </choices>
 	    <default>"gtk default"</default>
-	    <summary>Action of the right mouse button in Categories</summary>
+	    <summary>Action of the right mouse button in Sub Categories</summary>
 	    <description>
-	      Action double click of the mouse in Categories: gtk default,
+	      Action double click of the mouse in Sub Categories: gtk default,
 	      Edit Category, manage division if possible.
 	    </description>
-	  </key>
+	</key>
     <key name="show-transaction-gives-balance" type="b">
       <default>false</default>
       <summary></summary>
