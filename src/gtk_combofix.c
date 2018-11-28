@@ -42,6 +42,7 @@
 
 /*START_STATIC*/
 static gint block_expose_event;
+static gboolean completion_no_matches;
 static GtkTreeIter report_parent_iter;
 /*END_STATIC*/
 
@@ -102,6 +103,16 @@ enum CombofixKeyDirection
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
+
+static void gtk_combofix_completion_no_matches (GtkEntryCompletion *completion,
+												gpointer null)
+{
+	if (etat.metatree_unarchived_payees)
+	{
+		completion_no_matches = TRUE;
+	}
+}
+
 /**
  *
  *
@@ -702,6 +713,15 @@ static gboolean gtk_combofix_focus_out (GtkWidget *entry,
 
     /* hide the selection */
     gtk_editable_select_region (GTK_EDITABLE (entry), 0, 0);
+
+	if (etat.metatree_unarchived_payees)
+	{
+		const gchar *text;
+
+		completion_no_matches = FALSE;
+		text = gtk_entry_get_text (GTK_ENTRY (entry));
+		gtk_combofix_append_text (combofix, text);
+	}
 
     return (FALSE);
 }
@@ -1413,6 +1433,12 @@ static void gtk_combofix_create_entry (GtkComboFix *combofix)
 	completion_store = gtk_list_store_new (1, G_TYPE_STRING);
 	gtk_entry_completion_set_model (completion, GTK_TREE_MODEL (completion_store));
 	g_object_unref (completion_store);
+
+	/* set signal completion */
+	g_signal_connect (G_OBJECT (completion),
+                      "no-matches",
+                      G_CALLBACK (gtk_combofix_completion_no_matches),
+                      NULL);
 
 	/* set entry completion */
 	gtk_entry_set_completion (GTK_ENTRY (priv->entry), completion);

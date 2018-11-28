@@ -110,6 +110,20 @@ static void _gsb_data_payee_free (PayeeStruct* payee)
 }
 
 /**
+ * compare deux structures payees par le numéro de tiers
+ *
+ * \param	structure 1
+ * \param	structure 1
+ *
+ * \return -1, 0 ou 1 en fonction du résultat de la comparaison.
+ **/
+static gint gsb_data_payee_get_pointer_in_gslist (PayeeStruct *payee1,
+												  PayeeStruct *payee2)
+{
+    return (payee1->payee_number - payee2->payee_number);
+}
+
+/**
  * return a g_slist of names of all the payees
  * it's not a copy of the gchar...
  *
@@ -123,22 +137,28 @@ static GSList *gsb_data_payee_get_name_list (void)
     GSList *tmp_list;
 
 	return_list = NULL;
-
-	tmp_list= payee_list;
+	if (etat.metatree_unarchived_payees)
+	{
+		tmp_list = gsb_data_payee_get_unarchived_payees_list ();
+	}
+	else
+	{
+		tmp_list= payee_list;
+	}
 	while (tmp_list)
 	{
 		PayeeStruct *payee;
 
 		payee = tmp_list->data;
 
-        if (payee->payee_name)
+		if (payee->payee_name)
 			return_list = g_slist_append (return_list, payee->payee_name);
 
-        tmp_list = tmp_list->next;
-    }
+		tmp_list = tmp_list->next;
+	}
 	return_list = g_slist_sort (return_list, (GCompareFunc) my_strcasecmp);
 
-    return return_list;
+	return return_list;
 }
 
 /**
@@ -1111,6 +1131,47 @@ gboolean gsb_data_payee_set_use_regex (gint no_payee,
     payee->use_regex = use_regex;
 
 	return TRUE;
+}
+
+/**
+ * retourne la liste des tiers utilisés par les transactions.
+ * Limite le nombre de tiers dans les gtkcombofix pour accelérer
+ * l'affichage.
+ *
+ * \param
+ *
+ * \return
+ **/
+GSList *gsb_data_payee_get_unarchived_payees_list (void)
+{
+	GSList *tmp_list;
+	GSList *payees_list = NULL;
+	GSList *transactions_list;
+
+	transactions_list = gsb_data_transaction_get_transactions_list ();
+	while (transactions_list)
+	{
+		gint transaction_number;
+		gint payee_number;
+		PayeeStruct *payee;
+
+		transaction_number = gsb_data_transaction_get_transaction_number (transactions_list->data);
+		payee_number = gsb_data_transaction_get_party_number (transaction_number);
+		payee = gsb_data_payee_get_structure (payee_number);
+
+		if (payee)
+		{
+			tmp_list = g_slist_find_custom (payees_list,
+											payee,
+											(GCompareFunc) gsb_data_payee_get_pointer_in_gslist);
+			if (!tmp_list)
+			{
+				payees_list = g_slist_append (payees_list, payee);
+			}
+		}
+		transactions_list = transactions_list->next;
+	}
+	return payees_list;
 }
 
 /**

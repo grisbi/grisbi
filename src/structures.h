@@ -179,6 +179,7 @@ struct _GrisbiWinEtat
     /* variables pour les metatree */
     gint		metatree_sort_transactions;					/* 1 = sorting by increasing date 2 = Sort by date descending */
     gint		add_archive_in_total_balance;				/* Add transactions archived in the totals */
+	gboolean	metatree_unarchived_payees;					/* TRUE = limit the list of payees for combofix */
 
     /* variables for the module estimate balance */
     gint		bet_deb_period;
@@ -263,7 +264,7 @@ struct GrisbiAppConf
     /* variables for the list of categories */
     gint        metatree_action_2button_press;              /* 0 default gtk, 1 edit_function, 2 manage division if possible */
 
-    /* variables for the list of transactions */
+	/* variables for the list of transactions */
     gboolean    show_transaction_gives_balance;             /* TRUE si on visualise l'opération qui donne le solde du jour */
     gboolean    show_transaction_selected_in_form;          /* TRUE will show the selected transaction in the form */
     gboolean    transactions_list_primary_sorting;          /* Primary sorting option for the transactions */

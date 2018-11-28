@@ -50,8 +50,10 @@
 #include "gsb_currency_link_config.h"
 #include "gsb_data_account.h"
 #include "gsb_data_partial_balance.h"
+#include "gsb_data_payee.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
+#include "gsb_form.h"
 #include "gsb_form_config.h"
 #include "gsb_fyear_config.h"
 #include "gsb_locale.h"
@@ -106,6 +108,91 @@ GtkWidget *fenetre_preferences = NULL;
 extern struct ConditionalMessage delete_msg[];
 extern struct ConditionalMessage messages[];
 /*END_EXTERN*/
+
+/******************************************************************************/
+/* Private functions                                                          */
+/******************************************************************************/
+static void gsb_config_metatree_unarchived_payees (GtkWidget *checkbutton,
+												gpointer null)
+{
+	GSettings *settings;
+	gboolean toggle;
+
+	settings = grisbi_settings_get_settings (SETTINGS_GENERAL);
+	if (etat.combofix_force_payee)
+	{
+		g_signal_handlers_block_by_func (checkbutton, gsb_config_metatree_unarchived_payees, NULL);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton), FALSE);
+		g_signal_handlers_unblock_by_func (checkbutton, gsb_config_metatree_unarchived_payees, NULL);
+		g_settings_reset (G_SETTINGS (settings),"metatree-archive-payees");
+
+		dialogue_warning (_("Cette option n'est pas compatible avec l'option : "
+							"\"Don't allow new payee creation\""));
+		return;
+	}
+
+	toggle = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton));
+	if (toggle)
+	{
+		GSList *payees_list;
+		GSList *tmp_list;
+		gchar *hint;
+		gchar *text;
+		gint nbre_payees;
+		gint nbre_unarchived;
+		gint test;
+		gint reponse_id;
+
+		payees_list = gsb_data_payee_get_payees_list ();
+		nbre_payees = g_slist_length (payees_list);
+		tmp_list = gsb_data_payee_get_unarchived_payees_list ();
+		nbre_unarchived = g_slist_length (tmp_list);
+		nbre_payees = nbre_payees - nbre_unarchived;
+
+		/* on compare le nombre de tiers des opérations archivées avec le nombre */
+		/* de tiers des opérations non archivées. si >= 2 on conseille de le faire */
+		test = nbre_payees / nbre_unarchived;
+		if (test >= 2)
+		{
+			text = g_strdup_printf (_("Le rapport entre le nombre de tiers des opérations archivées (%d) et "
+									  "le nombre de tiers des opérations non archivées (%d) "
+									  "est supérieur ou égal à deux.\n"
+									  "Il est conseillé d'utiliser cette fonctionnalité."),
+									nbre_payees,
+									nbre_unarchived);
+			hint = g_strdup (_("Cette fonctionnalité peut être utile"));
+			reponse_id = GTK_RESPONSE_YES;
+		}
+		else
+		{
+			text = g_strdup_printf (_("Le rapport entre le nombre de tiers des opérations archivées (%d) et "
+									  "le nombre de tiers des opérations non archivées (%d) "
+									  "est inférieur à deux.\n"
+									  "Il est conseillé d'utiliser cette fonctionnalité."),
+									nbre_payees,
+									nbre_unarchived);
+			hint = g_strdup (_("Cette fonctionnalité est inutile"));
+			reponse_id = GTK_RESPONSE_NO;
+		}
+
+		if (question_yes_no (text, hint, reponse_id))
+		{
+			gsb_form_create_widgets ();
+		}
+		else
+		{
+			g_signal_handlers_block_by_func (checkbutton, gsb_config_metatree_unarchived_payees, NULL);
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton), FALSE);
+			g_signal_handlers_unblock_by_func (checkbutton, gsb_config_metatree_unarchived_payees, NULL);
+			g_settings_reset (G_SETTINGS (settings),"metatree-archive-payees");
+		}
+	}
+	else
+	{
+		g_settings_reset (G_SETTINGS (settings),"metatree-archive-payees");
+		gsb_form_create_widgets ();
+	}
+}
 
 /* ************************************************************************************************************** */
 /* callback appelé quand on sélectionne un membre de la liste */
@@ -338,6 +425,7 @@ GtkWidget *onglet_metatree ( void )
 {
     GtkWidget *vbox_pref, *paddingbox, *total_currencies;
     GtkWidget *check_button;
+	GtkWidget *label;
 
     vbox_pref = new_vbox_with_title_and_icon (
                         _("Payees, categories and budgetaries"),
@@ -376,6 +464,22 @@ GtkWidget *onglet_metatree ( void )
                         G_CALLBACK ( gsb_config_onglet_metatree_action_changed ),
                         &conf.metatree_action_2button_press,
                         GTK_ORIENTATION_VERTICAL );
+
+	/* "Archivage" des tiers des opérations archivées */
+    paddingbox = new_paddingbox_with_title (vbox_pref,
+											FALSE,
+											_("Display a short list of entries in the payees selection "
+											  "box (in testing)"));
+
+	check_button = gsb_automem_checkbutton_new (_("Limits the payees for the payee entry form"),
+												&etat.metatree_unarchived_payees,
+												G_CALLBACK (gsb_config_metatree_unarchived_payees),
+												NULL);
+    gtk_box_pack_start (GTK_BOX (paddingbox), check_button, FALSE, FALSE, 0);
+
+	label = gtk_label_new (_("This option limits the list to payees used by the no archived transactions"));
+	gtk_widget_set_halign (label, GTK_ALIGN_START);
+    gtk_box_pack_start (GTK_BOX (paddingbox), label, FALSE, FALSE, 0 );
 
     return vbox_pref;
 }
