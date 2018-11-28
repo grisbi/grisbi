@@ -2024,6 +2024,9 @@ static gboolean gtk_combofix_search_for_text (GtkTreeModel *model,
 void gtk_combofix_append_text (GtkComboFix *combofix,
 							   const gchar *text)
 {
+	GtkEntryCompletion *completion;
+	GtkTreeModel *completion_model;
+	GtkTreeIter new_iter;
     gchar **tab_char;
     gint empty;
     gpointer pointeurs[3] = { (gpointer) text, NULL, NULL };
@@ -2072,6 +2075,12 @@ void gtk_combofix_append_text (GtkComboFix *combofix,
     if (priv->old_entry && strlen (priv->old_entry))
         g_free (priv->old_entry);
     priv->old_entry = g_strdup (text);
+
+	/* update completion */
+	completion = gtk_entry_get_completion (GTK_ENTRY (priv->entry));
+	completion_model = gtk_entry_completion_get_model (completion);
+	gtk_list_store_append (GTK_LIST_STORE (completion_model), &new_iter);
+	gtk_list_store_set (GTK_LIST_STORE (completion_model), &new_iter, 0, text, -1);
 }
 
 /**
