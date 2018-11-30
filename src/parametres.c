@@ -126,7 +126,7 @@ static void gsb_config_metatree_unarchived_payees (GtkWidget *checkbutton,
 		g_signal_handlers_unblock_by_func (checkbutton, gsb_config_metatree_unarchived_payees, NULL);
 		g_settings_reset (G_SETTINGS (settings),"metatree-archive-payees");
 
-		dialogue_warning (_("Cette option n'est pas compatible avec l'option : "
+		dialogue_warning (_("This option is not compatible with the option: "
 							"\"Don't allow new payee creation\""));
 		return;
 	}
@@ -154,24 +154,24 @@ static void gsb_config_metatree_unarchived_payees (GtkWidget *checkbutton,
 		test = nbre_payees / nbre_unarchived;
 		if (test >= 2)
 		{
-			text = g_strdup_printf (_("Le rapport entre le nombre de tiers des opérations archivées (%d) et "
-									  "le nombre de tiers des opérations non archivées (%d) "
-									  "est supérieur ou égal à deux.\n"
-									  "Il est conseillé d'utiliser cette fonctionnalité."),
+			text = g_strdup_printf (_("The ratio of the number of payees of the archived transactions "
+									  "(%d) to the number of payees of non-archived transactions (% d) "
+									  "is greater than or equal to two.\n"
+									  "It is advisable to use this feature."),
 									nbre_payees,
 									nbre_unarchived);
-			hint = g_strdup (_("Cette fonctionnalité peut être utile"));
+			hint = g_strdup (_("This feature can be useful"));
 			reponse_id = GTK_RESPONSE_YES;
 		}
 		else
 		{
-			text = g_strdup_printf (_("Le rapport entre le nombre de tiers des opérations archivées (%d) et "
-									  "le nombre de tiers des opérations non archivées (%d) "
-									  "est inférieur à deux.\n"
-									  "Il est conseillé d'utiliser cette fonctionnalité."),
+			text = g_strdup_printf (_("The ratio of the number of payees of the archived transactions "
+									  "(%d) to the number of payees of non-archived transactions (% d) "
+									  "is less than two.\n"
+									  "It is not recommended to use this feature."),
 									nbre_payees,
 									nbre_unarchived);
-			hint = g_strdup (_("Cette fonctionnalité est inutile"));
+			hint = g_strdup (_("This feature is useless"));
 			reponse_id = GTK_RESPONSE_NO;
 		}
 
