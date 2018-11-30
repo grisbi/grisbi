@@ -167,6 +167,7 @@ static GtkWidget *label_code_bic = NULL;
 static GtkWidget *label_guichet = NULL;
 static GtkWidget *label_no_compte = NULL;
 static GtkWidget *label_cle_compte = NULL;
+static GtkWidget *paddingbox_detail_compte;
 
 
 enum origin
@@ -226,11 +227,11 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ), vbox );
 
     /* création de la ligne des détails du compte */
-    paddingbox = new_paddingbox_with_title (vbox, FALSE, _("Account details"));
+    paddingbox_detail_compte = new_paddingbox_with_title (vbox, FALSE, _("Account details"));
 
    /* création de la ligne du nom du compte */
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
-    gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX (paddingbox_detail_compte), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Account name: ") );
     utils_labels_set_alignement ( GTK_LABEL(label), MISC_LEFT, MISC_VERT_CENTER );
@@ -251,7 +252,7 @@ GtkWidget *gsb_account_property_create_page ( void )
 
     /* create the box of kind of account */
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX (paddingbox_detail_compte), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Account type: ") );
     utils_labels_set_alignement ( GTK_LABEL(label), MISC_LEFT, MISC_VERT_CENTER );
@@ -269,7 +270,7 @@ GtkWidget *gsb_account_property_create_page ( void )
 
     /* create the currency line */
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
-    gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX (paddingbox_detail_compte), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Account currency: ") );
     utils_labels_set_alignement ( GTK_LABEL(label), MISC_LEFT, MISC_VERT_CENTER );
@@ -291,7 +292,7 @@ GtkWidget *gsb_account_property_create_page ( void )
                         GINT_TO_POINTER (PROPERTY_CLOSED_ACCOUNT),
                         G_CALLBACK (gsb_data_account_set_closed_account),
                         0 );
-    gtk_box_pack_start ( GTK_BOX(paddingbox), detail_compte_cloture, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX (paddingbox_detail_compte), detail_compte_cloture, FALSE, FALSE, 0 );
 
     /* set the callback for the button_icon */
     gtk_button_set_relief ( GTK_BUTTON ( bouton_icon ), GTK_RELIEF_NONE );
@@ -582,6 +583,7 @@ GtkWidget *gsb_account_property_create_page ( void )
  * */
 void gsb_account_property_fill_page ( void )
 {
+	GtkWidget *label;
     gint bank_number;
     gint current_account;
     GtkWidget *image;
@@ -589,6 +591,23 @@ void gsb_account_property_fill_page ( void )
     devel_debug (NULL);
 
     current_account = gsb_gui_navigation_get_current_account ();
+
+	/* set label of paddingbox file_selection_page */
+	label = g_object_get_data (G_OBJECT (paddingbox_detail_compte), "paddingbox_label");
+	if (label)
+	{
+		gchar *str_to_free;
+		gchar *tmp_str1;
+		gchar *tmp_str2;
+
+		str_to_free = g_strdup_printf (" N° %d", current_account);
+		tmp_str1 = g_strconcat (_("Account details"), str_to_free, NULL);
+		tmp_str2 = g_markup_printf_escaped ("<span weight=\"bold\">%s</span>", tmp_str1);
+		gtk_label_set_markup (GTK_LABEL (label), tmp_str2);
+		g_free (str_to_free);
+		g_free(tmp_str1);
+		g_free (tmp_str2);
+	}
 
     gsb_autofunc_entry_set_value (detail_nom_compte,
                         gsb_data_account_get_name (current_account), current_account);
