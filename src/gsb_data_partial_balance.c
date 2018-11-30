@@ -1671,6 +1671,12 @@ GtkWidget *gsb_partial_balance_create_list_accounts ( GtkWidget *entry )
     gtk_tree_view_column_set_sort_column_id ( column, 0 );
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( treeview ), column );
 
+     /* account number */
+    cell = gtk_cell_renderer_text_new ();
+    column = gtk_tree_view_column_new_with_attributes (_("Account number"), cell, "text", 1, NULL);
+    gtk_tree_view_column_set_expand (column, TRUE);
+    gtk_tree_view_append_column (GTK_TREE_VIEW (treeview ), column);
+
     return vbox;
 }
 
