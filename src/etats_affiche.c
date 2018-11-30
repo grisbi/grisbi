@@ -860,7 +860,10 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 	const GDate *date;
     gint jour_debut_semaine;
 
-	date = gsb_data_transaction_get_date (transaction_number);
+		if (gsb_data_report_get_date_select_value (current_report_number))
+			date = gsb_data_transaction_get_value_date_or_date (transaction_number);
+		else
+			date = gsb_data_transaction_get_date (transaction_number);
 
     /* on récupère ici le premier jour de la semaine */
     jour_debut_semaine = gsb_data_report_get_period_split_day ( current_report_number ) + 1;

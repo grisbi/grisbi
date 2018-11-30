@@ -221,13 +221,14 @@ static void etats_config_initialise_onglet_periode ( gint report_number )
         etats_prefs_tree_view_select_single_row ( "treeview_dates",
                         gsb_data_report_get_date_type ( report_number ) );
 
-        if ( gsb_data_report_get_date_type ( report_number ) != 1 )
-            etats_prefs_onglet_periode_date_interval_sensitive ( FALSE );
-        else
+		/* on active le choix du type de date */
+		etats_prefs_onglet_periode_date_interval_sensitive (TRUE);
+
+        if (gsb_data_report_get_date_type (report_number) == 1)
         {
             GDate *date;
 
-            etats_prefs_onglet_periode_date_interval_sensitive ( TRUE );
+            etats_prefs_onglet_periode_date_interval_sensitive (TRUE);
 
             /* on remplit les dates perso si elles existent */
             if ( ( date = gsb_data_report_get_personal_date_start ( report_number ) ) )

@@ -766,8 +766,15 @@ GSList *recupere_opes_etat ( gint report_number )
 
 			GDate *date_jour;
 			GDate *date_tmp;
+			const GDate *date_transaction;
 
 			date_jour = gdate_today ( );
+
+			/* on récupère la date ou la date de valeur */
+			if (gsb_data_report_get_date_select_value (report_number))
+				date_transaction = gsb_data_transaction_get_value_date_or_date (transaction_number_tmp);
+			else
+				date_transaction = gsb_data_transaction_get_date (transaction_number_tmp);
 
 			switch ( gsb_data_report_get_date_type (report_number))
 			{
@@ -783,11 +790,9 @@ GSList *recupere_opes_etat ( gint report_number )
 				     ||
 				     !gsb_data_report_get_personal_date_end (report_number)
 				     ||
-				     g_date_compare ( gsb_data_report_get_personal_date_start (report_number),
-						      gsb_data_transaction_get_date (transaction_number_tmp)) > 0
+				     g_date_compare (gsb_data_report_get_personal_date_start (report_number), date_transaction) > 0
 				     ||
-				     g_date_compare ( gsb_data_report_get_personal_date_end (report_number),
-						      gsb_data_transaction_get_date (transaction_number_tmp)) < 0 )
+				     g_date_compare ( gsb_data_report_get_personal_date_end (report_number), date_transaction) < 0)
 				    goto operation_refusee;
 				break;
 
@@ -802,38 +807,36 @@ GSList *recupere_opes_etat ( gint report_number )
 			    case 3:
 				/* mois en cours */
 
-				if ( g_date_get_month ( date_jour ) != g_date_get_month ( gsb_data_transaction_get_date (transaction_number_tmp))
+				if ( g_date_get_month ( date_jour ) != g_date_get_month (date_transaction)
 				     ||
-				     g_date_get_year ( date_jour ) != g_date_get_year ( gsb_data_transaction_get_date (transaction_number_tmp)))
+				     g_date_get_year ( date_jour ) != g_date_get_year (date_transaction))
 				    goto operation_refusee;
 				break;
 
 			    case 4:
 				/* année en cours */
 
-				if ( g_date_get_year ( date_jour ) != g_date_get_year ( gsb_data_transaction_get_date (transaction_number_tmp)))
+				if ( g_date_get_year ( date_jour ) != g_date_get_year (date_transaction))
 				    goto operation_refusee;
 				break;
 
 			    case 5:
 				/* cumul mensuel */
 
-				if ( g_date_get_month ( date_jour ) != g_date_get_month ( gsb_data_transaction_get_date (transaction_number_tmp))
+				if ( g_date_get_month ( date_jour ) != g_date_get_month (date_transaction)
 				     ||
-				     g_date_get_year ( date_jour ) != g_date_get_year ( gsb_data_transaction_get_date (transaction_number_tmp))
+				     g_date_get_year ( date_jour ) != g_date_get_year (date_transaction)
 				     ||
-				     g_date_compare ( date_jour,
-						      gsb_data_transaction_get_date (transaction_number_tmp)) < 0 )
+				     g_date_compare ( date_jour, date_transaction) < 0 )
 				    goto operation_refusee;
 				break;
 
 			    case 6:
 				/* cumul annuel */
 
-				if ( g_date_get_year ( date_jour ) != g_date_get_year ( gsb_data_transaction_get_date (transaction_number_tmp))
+				if ( g_date_get_year ( date_jour ) != g_date_get_year (date_transaction)
 				     ||
-				     g_date_compare ( date_jour,
-						      gsb_data_transaction_get_date (transaction_number_tmp)) < 0 )
+				     g_date_compare ( date_jour, date_transaction) < 0 )
 				    goto operation_refusee;
 				break;
 
@@ -843,9 +846,9 @@ GSList *recupere_opes_etat ( gint report_number )
 				g_date_subtract_months ( date_jour,
 							 1 );
 
-				if ( g_date_get_month ( date_jour ) != g_date_get_month ( gsb_data_transaction_get_date (transaction_number_tmp))
+				if ( g_date_get_month ( date_jour ) != g_date_get_month (date_transaction)
 				     ||
-				     g_date_get_year ( date_jour ) != g_date_get_year ( gsb_data_transaction_get_date (transaction_number_tmp)))
+				     g_date_get_year ( date_jour ) != g_date_get_year (date_transaction))
 				    goto operation_refusee;
 				break;
 
@@ -855,7 +858,7 @@ GSList *recupere_opes_etat ( gint report_number )
 				g_date_subtract_years ( date_jour,
 							1 );
 
-				if ( g_date_get_year ( date_jour ) != g_date_get_year ( gsb_data_transaction_get_date (transaction_number_tmp)))
+				if ( g_date_get_year ( date_jour ) != g_date_get_year (date_transaction))
 				    goto operation_refusee;
 				break;
 
@@ -867,11 +870,9 @@ GSList *recupere_opes_etat ( gint report_number )
 							    g_date_get_year ( date_jour ) );
 				g_date_subtract_days ( date_tmp,
 						       30 );
-				if ( g_date_compare ( date_tmp,
-						      gsb_data_transaction_get_date (transaction_number_tmp)) > 0
+				if ( g_date_compare ( date_tmp, date_transaction) > 0
 				     ||
-				     g_date_compare ( date_jour,
-						      gsb_data_transaction_get_date (transaction_number_tmp)) < 0 )
+				     g_date_compare ( date_jour, date_transaction) < 0 )
 				    goto operation_refusee;
 				break;
 
@@ -883,11 +884,9 @@ GSList *recupere_opes_etat ( gint report_number )
 							    g_date_get_year ( date_jour ) );
 				g_date_subtract_months ( date_tmp,
 							 3 );
-				if ( g_date_compare ( date_tmp,
-						      gsb_data_transaction_get_date (transaction_number_tmp)) > 0
+				if ( g_date_compare ( date_tmp, date_transaction) > 0
 				     ||
-				     g_date_compare ( date_jour,
-						      gsb_data_transaction_get_date (transaction_number_tmp)) < 0 )
+				     g_date_compare ( date_jour, date_transaction) < 0 )
 				    goto operation_refusee;
 				break;
 
@@ -899,11 +898,9 @@ GSList *recupere_opes_etat ( gint report_number )
 							    g_date_get_year ( date_jour ) );
 				g_date_subtract_months ( date_tmp,
 							 6 );
-				if ( g_date_compare ( date_tmp,
-						      gsb_data_transaction_get_date (transaction_number_tmp)) > 0
+				if ( g_date_compare ( date_tmp, date_transaction) > 0
 				     ||
-				     g_date_compare ( date_jour,
-						      gsb_data_transaction_get_date (transaction_number_tmp)) < 0 )
+				     g_date_compare ( date_jour, date_transaction) < 0 )
 				    goto operation_refusee;
 				break;
 
@@ -915,11 +912,8 @@ GSList *recupere_opes_etat ( gint report_number )
 							    g_date_get_year ( date_jour ) );
 				g_date_subtract_months ( date_tmp,
 							 12 );
-				if ( g_date_compare ( date_tmp,
-						      gsb_data_transaction_get_date (transaction_number_tmp)) > 0
-				     ||
-				     g_date_compare ( date_jour,
-						      gsb_data_transaction_get_date (transaction_number_tmp)) < 0 )
+				if (g_date_compare ( date_tmp, date_transaction) > 0
+					|| g_date_compare ( date_jour, date_transaction) < 0 )
 				    goto operation_refusee;
 				break;
 			}
