@@ -289,9 +289,9 @@
             <choice value="Manage division"/>
         </choices>
 	    <default>"gtk default"</default>
-	    <summary>Action of the right mouse button in Sub Categories</summary>
+	    <summary>Right-click action on a sub-category</summary>
 	    <description>
-	      Action double click of the mouse in Sub Categories: gtk default,
+	      Right-click action on a sub-category: gtk default,
 	      Edit Category, manage division if possible.
 	    </description>
 	</key>
