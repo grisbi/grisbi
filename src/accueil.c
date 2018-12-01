@@ -1,8 +1,8 @@
-/* ************************************************************************** */
+/* ***************************************************************************/
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*            2003-2008 Benjamin Drieu (bdrieu@april.org)                     */
-/*            2008-2017 Pierre Biava (grisbi@pierre.biava.name)               */
+/*            2008-2018 Pierre Biava (grisbi@pierre.biava.name)               */
 /*             http://www.grisbi.org                                          */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -19,7 +19,7 @@
 /*  along with this program; if not, write to the Free Software               */
 /*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 /*                                                                            */
-/* ************************************************************************** */
+/* ***************************************************************************/
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -58,6 +58,23 @@
 
 /*START_STATIC*/
 static void update_liste_echeances_manuelles_accueil (gboolean force);
+
+static GtkWidget *frame_etat_comptes_accueil = NULL;
+static GtkWidget *frame_etat_echeances_auto_accueil = NULL;
+static GtkWidget *frame_etat_echeances_manuelles_accueil = NULL;
+static GtkWidget *frame_etat_fin_compte_passif = NULL;
+static GtkWidget *frame_etat_soldes_minimaux_autorises = NULL;
+static GtkWidget *frame_etat_soldes_minimaux_voulus = NULL;
+static GtkWidget *hbox_title = NULL;
+static GtkWidget *label_accounting_entity = NULL;
+static GtkWidget *logo_accueil = NULL;
+static GtkWidget *main_page_finished_scheduled_transactions_part = NULL;
+
+static GtkSizeGroup *size_group_accueil;
+
+static const gchar *chaine_espace = "                         ";
+
+static gint LIGNE_SOMME_SIZE = 100;
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -65,39 +82,24 @@ extern GSList *scheduled_transactions_taken;
 extern GSList *scheduled_transactions_to_take;
 /*END_EXTERN*/
 
-GtkWidget *logo_accueil = NULL;
-GtkWidget *hbox_title = NULL;
-static GtkWidget *label_accounting_entity = NULL;
-static GtkWidget *frame_etat_comptes_accueil = NULL;
-static GtkWidget *frame_etat_fin_compte_passif = NULL;
-static GtkWidget *frame_etat_echeances_manuelles_accueil = NULL;
-static GtkWidget *frame_etat_echeances_auto_accueil = NULL;
-static GtkWidget *main_page_finished_scheduled_transactions_part = NULL;
-static GtkWidget *frame_etat_soldes_minimaux_autorises = NULL;
-static GtkWidget *frame_etat_soldes_minimaux_voulus = NULL;
-static GtkSizeGroup *size_group_accueil;
-static const gchar *chaine_espace = "                         ";
-static gint LIGNE_SOMME_SIZE = 100;
-
 #define show_paddingbox(child) gtk_widget_show_all (gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(GTK_WIDGET(child)))))
 #define hide_paddingbox(child) gtk_widget_hide (gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(GTK_WIDGET(child)))))
-
 
 /* structure définissant une association entre un compte et un solde partiel */
 typedef struct _StructAccountPartial StructAccountPartial;
 
 struct _StructAccountPartial
 {
-    gint account_number;
-    gint partial_number;
-    gboolean displayed;
+    gint		account_number;
+    gint		partial_number;
+    gboolean	displayed;
 };
 
 /* structure buffer qui conserve un pointer sur le dernier compte possédant un solde partiel */
 static StructAccountPartial *partial_buffer = NULL;
 
 /******************************************************************************/
-/* Private Methods                                                            */
+/* Private functions                                                            */
 /******************************************************************************/
 /**
  * affiche une ligne de solde partiel
@@ -108,7 +110,7 @@ static StructAccountPartial *partial_buffer = NULL;
  * \param currency_number
  *
  * \return
- * */
+ **/
 static void gsb_main_page_affiche_ligne_solde_partiel (GtkWidget *table,
 													   gint i,
 													   gint partial_number,
@@ -171,7 +173,7 @@ static void gsb_main_page_affiche_ligne_solde_partiel (GtkWidget *table,
  * \param i				row number
  *
  * \return
- * */
+ **/
 static void gsb_main_page_affiche_ligne_vide (GtkWidget *table,
 											  gint i)
 {
@@ -191,7 +193,7 @@ static void gsb_main_page_affiche_ligne_vide (GtkWidget *table,
  * \param list_partial      liste des structures concernées
  *
  * \return                  partial->displayed
- * */
+ **/
 static gint gsb_main_page_account_get_account_displayed (gint account_number,
 														 GSList *list_partial)
 {
@@ -226,7 +228,7 @@ static gint gsb_main_page_account_get_account_displayed (gint account_number,
  * \param i         indice de placement dans la table
  *
  * \return
- * */
+ **/
 static void gsb_main_page_account_get_ligne_somme (GtkWidget *table,
 												   gint i)
 {
@@ -254,7 +256,7 @@ static void gsb_main_page_account_get_ligne_somme (GtkWidget *table,
  * \param currency_number
  *
  * \return
- * */
+ **/
 static void gsb_main_page_affiche_solde_partiel_groupe_account (GtkWidget *table,
 																gint i,
 																gint partial_number,
@@ -277,7 +279,7 @@ static void gsb_main_page_affiche_solde_partiel_groupe_account (GtkWidget *table
  * \param list_partial      liste des structures concernées
  *
  * \return TRUE si compte appartient à un solde partiel FALSE autrement
- * */
+ **/
 static gint gsb_main_page_account_have_partial_balance (gint account_number,
 														GSList *list_partial)
 {
@@ -319,14 +321,13 @@ static gint gsb_main_page_account_have_partial_balance (gint account_number,
  * \param account_number a pointer which is the number of account we want to switch
  *
  * \return FALSE
- * */
+ **/
 static gboolean gsb_main_page_click_on_account (gint *account_number)
 {
     devel_debug_int (GPOINTER_TO_INT (account_number));
-    gsb_gui_navigation_set_selection (GSB_ACCOUNT_PAGE,
-				       GPOINTER_TO_INT (account_number),
-				       0);
-    return FALSE;
+    gsb_gui_navigation_set_selection (GSB_ACCOUNT_PAGE, GPOINTER_TO_INT (account_number), 0);
+
+	return FALSE;
 }
 
 /**
@@ -337,7 +338,7 @@ static gboolean gsb_main_page_click_on_account (gint *account_number)
  * \param ligne dans la table
  *
  * \return FALSE
- * */
+ **/
 static void gsb_main_page_affiche_ligne_du_compte (GtkWidget *pTable,
 												   gint account_number,
 												   gint i)
@@ -345,7 +346,6 @@ static void gsb_main_page_affiche_ligne_du_compte (GtkWidget *pTable,
     GtkWidget *pEventBox;
     GtkWidget *pLabel;
     GtkStyleContext* context;
-    //~ GSList *list = NULL;
 	gchar *tmp_str;
 
     /* Première colonne : elle contient le nom du compte */
@@ -361,28 +361,27 @@ static void gsb_main_page_affiche_ligne_du_compte (GtkWidget *pTable,
     context = gtk_widget_get_style_context  (pEventBox);
     gtk_style_context_set_state (context, GTK_STATE_FLAG_ACTIVE);
 
-    //~ list = g_slist_append (list, pEventBox);
     g_signal_connect (G_OBJECT (pEventBox),
-                 "enter-notify-event",
-                 G_CALLBACK (utils_event_box_change_state),
-                 context);
+					  "enter-notify-event",
+					  G_CALLBACK (utils_event_box_change_state),
+					  context);
     g_signal_connect (G_OBJECT (pEventBox),
-                 "leave-notify-event",
-                 G_CALLBACK (utils_event_box_change_state),
-                 context);
+                 	  "leave-notify-event",
+                 	  G_CALLBACK (utils_event_box_change_state),
+                 	  context);
     g_signal_connect_swapped (G_OBJECT (pEventBox),
-                    "button-press-event",
-                    G_CALLBACK (gsb_main_page_click_on_account),
-                    GINT_TO_POINTER (account_number));
+							  "button-press-event",
+							  G_CALLBACK (gsb_main_page_click_on_account),
+							  GINT_TO_POINTER (account_number));
     gtk_grid_attach (GTK_GRID (pTable), pEventBox, 0, i, 1, 1);
     gtk_widget_show (pEventBox);
     gtk_container_add (GTK_CONTAINER (pEventBox), pLabel);
     gtk_widget_show (pLabel);
 
     /* Deuxième colonne : elle contient le solde pointé du compte */
-    tmp_str = utils_real_get_string_with_currency (
-            gsb_data_account_get_marked_balance (account_number),
-            gsb_data_account_get_currency (account_number), TRUE);
+    tmp_str = utils_real_get_string_with_currency (gsb_data_account_get_marked_balance (account_number),
+												   gsb_data_account_get_currency (account_number),
+												   TRUE);
     pLabel = gtk_label_new (tmp_str);
     g_free (tmp_str);
     utils_labels_set_alignment (GTK_LABEL (pLabel), MISC_RIGHT, MISC_VERT_CENTER);
@@ -392,14 +391,14 @@ static void gsb_main_page_affiche_ligne_du_compte (GtkWidget *pTable,
 
     /* Mise en place du style du label en fonction du solde courant */
     if (gsb_real_cmp (gsb_data_account_get_marked_balance (account_number),
-                gsb_data_account_get_mini_balance_wanted (account_number)) != -1)
+					  gsb_data_account_get_mini_balance_wanted (account_number)) != -1)
     {
         gtk_widget_set_name (pEventBox, "accueil_solde_alarme_verte");
     }
     else
     {
         if (gsb_real_cmp (gsb_data_account_get_marked_balance (account_number),
-                gsb_data_account_get_mini_balance_authorized (account_number)) != -1)
+						  gsb_data_account_get_mini_balance_authorized (account_number)) != -1)
         {
             gtk_widget_set_name (pEventBox, "accueil_solde_alarme_orange");
         }
@@ -412,28 +411,27 @@ static void gsb_main_page_affiche_ligne_du_compte (GtkWidget *pTable,
     context = gtk_widget_get_style_context  (pEventBox);
     gtk_style_context_set_state (context, GTK_STATE_FLAG_ACTIVE);
 
-    //~ list = g_slist_append (list, pEventBox);
     g_signal_connect (G_OBJECT (pEventBox),
-                 "enter-notify-event",
-                 G_CALLBACK (utils_event_box_change_state),
-                 context);
+					  "enter-notify-event",
+                 	  G_CALLBACK (utils_event_box_change_state),
+                 	  context);
     g_signal_connect (G_OBJECT (pEventBox),
-                 "leave-notify-event",
-                 G_CALLBACK (utils_event_box_change_state),
-                 context);
+                	   "leave-notify-event",
+                 	  G_CALLBACK (utils_event_box_change_state),
+                 	  context);
     g_signal_connect_swapped (G_OBJECT (pEventBox),
-                    "button-press-event",
-                    G_CALLBACK (gsb_main_page_click_on_account),
-                    GINT_TO_POINTER (account_number));
+							  "button-press-event",
+                    		  G_CALLBACK (gsb_main_page_click_on_account),
+                    		  GINT_TO_POINTER (account_number));
     gtk_grid_attach (GTK_GRID (pTable), pEventBox, 1, i, 1, 1);
     gtk_widget_show (pEventBox);
     gtk_container_add (GTK_CONTAINER (pEventBox), pLabel);
     gtk_widget_show (pLabel);
 
     /* Troisième colonne : elle contient le solde courant du compte */
-    tmp_str = utils_real_get_string_with_currency (
-            gsb_data_account_get_current_balance (account_number),
-            gsb_data_account_get_currency (account_number), TRUE);
+    tmp_str = utils_real_get_string_with_currency (gsb_data_account_get_current_balance (account_number),
+												   gsb_data_account_get_currency (account_number),
+												   TRUE);
     pLabel = gtk_label_new (tmp_str);
     g_free (tmp_str);
     utils_labels_set_alignment (GTK_LABEL (pLabel), MISC_RIGHT, MISC_VERT_CENTER);
@@ -443,14 +441,14 @@ static void gsb_main_page_affiche_ligne_du_compte (GtkWidget *pTable,
 
     /* Mise en place du style du label en fonction du solde courant */
     if (gsb_real_cmp (gsb_data_account_get_current_balance (account_number),
-                gsb_data_account_get_mini_balance_wanted (account_number)) != -1)
+					  gsb_data_account_get_mini_balance_wanted (account_number)) != -1)
     {
         gtk_widget_set_name (pEventBox, "accueil_solde_alarme_verte");
     }
     else
     {
         if (gsb_real_cmp (gsb_data_account_get_current_balance (account_number),
-                gsb_data_account_get_mini_balance_authorized (account_number)) != -1)
+						  gsb_data_account_get_mini_balance_authorized (account_number)) != -1)
         {
             gtk_widget_set_name (pEventBox, "accueil_solde_alarme_orange");
         }
@@ -463,19 +461,18 @@ static void gsb_main_page_affiche_ligne_du_compte (GtkWidget *pTable,
     context = gtk_widget_get_style_context  (pEventBox);
     gtk_style_context_set_state (context, GTK_STATE_FLAG_ACTIVE);
 
-    //~ list = g_slist_append (list, pEventBox);
     g_signal_connect (G_OBJECT (pEventBox),
-                 "enter-notify-event",
-                 G_CALLBACK (utils_event_box_change_state),
-                 context);
+					  "enter-notify-event",
+                	  G_CALLBACK (utils_event_box_change_state),
+                	  context);
     g_signal_connect (G_OBJECT (pEventBox),
-                 "leave-notify-event",
-                 G_CALLBACK (utils_event_box_change_state),
-                 context);
+                	  "leave-notify-event",
+                 	  G_CALLBACK (utils_event_box_change_state),
+                 	  context);
     g_signal_connect_swapped (G_OBJECT (pEventBox),
-                    "button-press-event",
-                    G_CALLBACK (gsb_main_page_click_on_account),
-                    GINT_TO_POINTER (account_number));
+                    		  "button-press-event",
+                    		  G_CALLBACK (gsb_main_page_click_on_account),
+                    		  GINT_TO_POINTER (account_number));
     gtk_grid_attach (GTK_GRID (pTable), pEventBox, 2, i, 1, 1);
     gtk_widget_show (pEventBox);
     gtk_container_add (GTK_CONTAINER (pEventBox), pLabel);
@@ -483,9 +480,17 @@ static void gsb_main_page_affiche_ligne_du_compte (GtkWidget *pTable,
 }
 
 /**
- * Création de ou des lignes de solde partiels
+ * Création d'une ou des lignes de solde partiels
  *
- * */
+ * \param
+ * \param
+ * \param
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ **/
 static gint affiche_soldes_partiels (GtkWidget *table,
 									 gint i,
 									 gint nb_comptes,
@@ -511,12 +516,8 @@ static gint affiche_soldes_partiels (GtkWidget *table,
             liste = liste -> next;
             continue;
         }
-        else if (
-            (kind == type_compte
-            ||
-            (kind < GSB_TYPE_LIABILITIES && type_compte < GSB_TYPE_LIABILITIES))
-         &&
-         gsb_data_partial_balance_get_currency (partial_number) == currency_number)
+        else if ((kind == type_compte || (kind < GSB_TYPE_LIABILITIES && type_compte < GSB_TYPE_LIABILITIES))
+				 && gsb_data_partial_balance_get_currency (partial_number) == currency_number)
         {
             if (concerne == FALSE)
             {
@@ -563,7 +564,15 @@ static gint affiche_soldes_partiels (GtkWidget *table,
 /**
  * Création de la ligne de solde des comptes
  *
- * */
+ * \param
+ * \param
+ * \param
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ **/
 static void affiche_solde_des_comptes (GtkWidget *table,
 									   gint i,
 									   gint nb_comptes,
@@ -621,7 +630,7 @@ static void affiche_solde_des_comptes (GtkWidget *table,
  * \param type_compte       type de compte à afficher
  *
  * \return
- * */
+ **/
 static void gsb_main_page_diplays_accounts (GtkWidget *pTable,
 											gint currency_number,
 											gint nb_comptes,
@@ -655,8 +664,7 @@ static void gsb_main_page_diplays_accounts (GtkWidget *pTable,
 
             kind = gsb_data_partial_balance_get_kind (tmp_number);
             if (kind == type_compte
-             ||
-             (kind >= 0 && kind < GSB_TYPE_LIABILITIES && type_compte < GSB_TYPE_LIABILITIES))
+				|| (kind >= 0 && kind < GSB_TYPE_LIABILITIES && type_compte < GSB_TYPE_LIABILITIES))
             {
                 gchar **tab;
                 const gchar *liste_cptes;
@@ -689,8 +697,7 @@ static void gsb_main_page_diplays_accounts (GtkWidget *pTable,
             account_number = gsb_data_account_get_no_account (list_tmp -> data);
 
             if (gsb_data_account_get_closed_account (account_number)
-             ||
-             gsb_data_account_get_currency (account_number) != currency_number)
+				|| gsb_data_account_get_currency (account_number) != currency_number)
             {
                 list_tmp = list_tmp -> next;
                 continue;
@@ -742,9 +749,9 @@ static void gsb_main_page_diplays_accounts (GtkWidget *pTable,
 							}
                             gsb_main_page_affiche_ligne_du_compte (pTable, tmp_number, i);
                             solde_global_courant = gsb_real_add (solde_global_courant,
-                                                        gsb_data_account_get_current_balance (tmp_number));
+																 gsb_data_account_get_current_balance (tmp_number));
                             solde_global_pointe = gsb_real_add (solde_global_pointe,
-                                                        gsb_data_account_get_marked_balance (tmp_number));
+																gsb_data_account_get_marked_balance (tmp_number));
 
                             partial_buffer->displayed = TRUE;
                             i++;
@@ -764,9 +771,9 @@ static void gsb_main_page_diplays_accounts (GtkWidget *pTable,
                     /* on affiche la ligne du compte avec les soldes pointé et courant */
                     gsb_main_page_affiche_ligne_du_compte (pTable, account_number, i);
                     solde_global_courant = gsb_real_add (solde_global_courant,
-                                                gsb_data_account_get_current_balance (account_number));
+														 gsb_data_account_get_current_balance (account_number));
                     solde_global_pointe = gsb_real_add (solde_global_pointe,
-                                                gsb_data_account_get_marked_balance (account_number));
+														gsb_data_account_get_marked_balance (account_number));
 					i++;
 					compte_simple = TRUE;
                 }
@@ -795,8 +802,7 @@ static void gsb_main_page_diplays_accounts (GtkWidget *pTable,
             account_number = gsb_data_account_get_no_account (list_tmp -> data);
 
             if (gsb_data_account_get_closed_account (account_number)
-             ||
-             gsb_data_account_get_currency (account_number) != currency_number)
+				|| gsb_data_account_get_currency (account_number) != currency_number)
             {
                 list_tmp = list_tmp -> next;
                 continue;
@@ -804,8 +810,7 @@ static void gsb_main_page_diplays_accounts (GtkWidget *pTable,
 
             kind = gsb_data_account_get_kind (account_number);
             if (kind == type_compte
-             ||
-             (kind < GSB_TYPE_LIABILITIES && type_compte < GSB_TYPE_LIABILITIES))
+				|| (kind < GSB_TYPE_LIABILITIES && type_compte < GSB_TYPE_LIABILITIES))
             {
                 /* on affiche la ligne du compte avec les soldes pointé et courant */
                 gsb_main_page_affiche_ligne_du_compte (pTable, account_number, i);
@@ -813,9 +818,9 @@ static void gsb_main_page_diplays_accounts (GtkWidget *pTable,
                 /* ATTENTION : les sommes effectuées ici présupposent que
                    TOUS les comptes sont dans la MÊME DEVISE !!!!!        */
                 solde_global_courant = gsb_real_add (solde_global_courant,
-                                            gsb_data_account_get_current_balance (account_number));
+													 gsb_data_account_get_current_balance (account_number));
                 solde_global_pointe = gsb_real_add (solde_global_pointe,
-                                            gsb_data_account_get_marked_balance (account_number));
+													gsb_data_account_get_marked_balance (account_number));
 				i++;
 			}
 
@@ -826,24 +831,23 @@ static void gsb_main_page_diplays_accounts (GtkWidget *pTable,
         {
             list_tmp = gsb_data_partial_balance_get_list ();
             if (list_tmp)
-                i += affiche_soldes_partiels (pTable, i, new_comptes, list_tmp,
-                                currency_number, type_compte);
+                i += affiche_soldes_partiels (pTable, i, new_comptes, list_tmp, currency_number, type_compte);
         }
     }
 
     /* Création et remplissage de la (nb_comptes + 3)ième ligne du tableau :
        elle contient la somme des soldes de chaque compte */
-    affiche_solde_des_comptes (pTable, i, nb_comptes, currency_number,
-                        solde_global_courant, solde_global_pointe);
+    affiche_solde_des_comptes (pTable, i, nb_comptes, currency_number, solde_global_courant, solde_global_pointe);
 }
 
 /**
  * teste si au moins 1 compte utilise la devise passée en paramètre.
  *
  * \param currency_number
+ * \param
  *
  * \return TRUE si un compte utilise la devise FALSE sinon;
- * */
+ **/
 static gboolean gsb_main_page_get_devise_is_used (gint currency_number,
 												  gint type_compte)
 {
@@ -858,10 +862,8 @@ static gboolean gsb_main_page_get_devise_is_used (gint currency_number,
         i = gsb_data_account_get_no_account (list_tmp -> data);
 
         if (gsb_data_account_get_currency (i) == currency_number
-         &&
-         !gsb_data_account_get_closed_account (i)
-         &&
-         gsb_data_account_get_kind (i) == type_compte)
+			&& !gsb_data_account_get_closed_account (i)
+			&& gsb_data_account_get_kind (i) == type_compte)
 
             return TRUE;
 
@@ -874,8 +876,10 @@ static gboolean gsb_main_page_get_devise_is_used (gint currency_number,
 /**
  * Crée la table et sa première ligne
  *
+ * \param
+ *
  * \return table
- * */
+ **/
 static GtkWidget *gsb_main_page_get_table_for_accounts (void)
 {
     GtkWidget *table, *label;
@@ -910,7 +914,12 @@ static GtkWidget *gsb_main_page_get_table_for_accounts (void)
 /**
  * Création de ou des lignes de solde additionnel
  *
- * */
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ **/
 static gint affiche_soldes_additionnels (GtkWidget *table,
 										 gint i,
 										 GSList *liste)
@@ -951,7 +960,7 @@ static gint affiche_soldes_additionnels (GtkWidget *table,
  * \param force     TRUE if we want to update all
  *
  * \return
- * */
+ **/
 static void update_liste_comptes_accueil (gboolean force)
 {
     GtkWidget *pTable, *vbox, *paddingbox;
@@ -964,11 +973,8 @@ static void update_liste_comptes_accueil (gboolean force)
     gint soldes_mixtes = 0;
 
     if (!force
-    &&
-    !(run.mise_a_jour_liste_comptes_accueil
-       &&
-       gsb_data_account_get_accounts_amount ()
-    ))
+		&& !(run.mise_a_jour_liste_comptes_accueil
+			 && gsb_data_account_get_accounts_amount ()))
         return;
 
     run.mise_a_jour_liste_comptes_accueil = FALSE;
@@ -1049,8 +1055,7 @@ static void update_liste_comptes_accueil (gboolean force)
             currency_number = gsb_data_currency_get_no_currency (devise -> data);
 
             if (!gsb_main_page_get_devise_is_used (currency_number, GSB_TYPE_BANK)
-                &&
-                !gsb_main_page_get_devise_is_used (currency_number, GSB_TYPE_CASH))
+                && !gsb_main_page_get_devise_is_used (currency_number, GSB_TYPE_CASH))
                 continue;
 
 
@@ -1071,10 +1076,10 @@ static void update_liste_comptes_accueil (gboolean force)
 
             /* Affichage des comptes et de leur solde */
             gsb_main_page_diplays_accounts (pTable,
-                        currency_number,
-                        nb_comptes_bancaires,
-                        new_comptes_bancaires,
-                        GSB_TYPE_BANK | GSB_TYPE_CASH);
+											currency_number,
+                        					nb_comptes_bancaires,
+                        					new_comptes_bancaires,
+                        					GSB_TYPE_BANK | GSB_TYPE_CASH);
 
             gtk_widget_show_all (paddingbox);
             gtk_widget_show_all (pTable);
@@ -1096,11 +1101,11 @@ static void update_liste_comptes_accueil (gboolean force)
             /* Creating the table which will store accounts with their balances   */
             if (conf.balances_with_scheduled == FALSE)
                 tmp_str = g_strdup_printf (_("Liabilities accounts balance in %s at %s"),
-                                gsb_data_currency_get_name (currency_number),
-                                gsb_date_today ());
+										   gsb_data_currency_get_name (currency_number),
+										   gsb_date_today ());
             else
                 tmp_str = g_strdup_printf (_("Liabilities accounts balance in %s"),
-                                 gsb_data_currency_get_name (currency_number));
+										   gsb_data_currency_get_name (currency_number));
 
             paddingbox = new_paddingbox_with_title (vbox, FALSE, tmp_str);
             g_free (tmp_str);
@@ -1110,10 +1115,10 @@ static void update_liste_comptes_accueil (gboolean force)
 
             /* Affichage des comptes et de leur solde */
             gsb_main_page_diplays_accounts (pTable,
-                        currency_number,
-                        nb_comptes_passif,
-                        new_comptes_passif,
-                        GSB_TYPE_LIABILITIES);
+                        					currency_number,
+                        					nb_comptes_passif,
+                        					new_comptes_passif,
+                        					GSB_TYPE_LIABILITIES);
 
             gtk_widget_show_all (paddingbox);
             gtk_widget_show_all (pTable);
@@ -1135,11 +1140,11 @@ static void update_liste_comptes_accueil (gboolean force)
             /* Creating the table which will store accounts with their balances    */
             if (conf.balances_with_scheduled == FALSE)
                 tmp_str = g_strdup_printf (_("Assets accounts balance in %s at %s"),
-                            gsb_data_currency_get_name (currency_number),
-                            gsb_date_today ());
+										   gsb_data_currency_get_name (currency_number),
+										   gsb_date_today ());
             else
                 tmp_str = g_strdup_printf (_("Assets accounts balance in %s"),
-                                gsb_data_currency_get_name (currency_number));
+										   gsb_data_currency_get_name (currency_number));
 
             paddingbox = new_paddingbox_with_title (vbox, FALSE, tmp_str);
             g_free (tmp_str);
@@ -1149,10 +1154,10 @@ static void update_liste_comptes_accueil (gboolean force)
 
             /* Affichage des comptes et de leur solde */
             gsb_main_page_diplays_accounts (pTable,
-                        currency_number,
-                        nb_comptes_actif,
-                        new_comptes_actif,
-                        GSB_TYPE_ASSET);
+											currency_number,
+											nb_comptes_actif,
+											new_comptes_actif,
+											GSB_TYPE_ASSET);
 
             gtk_widget_show_all (paddingbox);
             gtk_widget_show_all (pTable);
@@ -1199,7 +1204,7 @@ static void update_liste_comptes_accueil (gboolean force)
  * \param scheduled_number  scheduled transaction numnber
  *
  * \return
- * */
+ **/
 static gboolean saisie_echeance_accueil (GtkWidget *event_box,
 										 GdkEventButton *event,
 										 gint scheduled_number)
@@ -1214,11 +1219,11 @@ static gboolean saisie_echeance_accueil (GtkWidget *event_box,
 
     /* Create the dialog */
     dialog = gtk_dialog_new_with_buttons (_("Enter a scheduled transaction"),
-					   GTK_WINDOW (grisbi_app_get_active_window (NULL)),
-					   GTK_DIALOG_MODAL,
-					   "gtk-cancel", GTK_RESPONSE_CANCEL,
-					   "gtk-ok", GTK_RESPONSE_OK,
-					   NULL);
+										  GTK_WINDOW (grisbi_app_get_active_window (NULL)),
+										  GTK_DIALOG_MODAL,
+										  "gtk-cancel", GTK_RESPONSE_CANCEL,
+										  "gtk-ok", GTK_RESPONSE_OK,
+										  NULL);
 
     gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_CENTER_ON_PARENT);
     gtk_widget_set_size_request (dialog, 700, -1);
@@ -1229,6 +1234,7 @@ static gboolean saisie_echeance_accueil (GtkWidget *event_box,
 	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_box_pack_start (GTK_BOX (dialog_get_content_area (dialog)), hbox, TRUE, TRUE, 0);
 	gtk_container_set_border_width (GTK_CONTAINER(hbox), BOX_BORDER_WIDTH);
+
 	/* gtk_widget_reparent is broken according to upstream gtk+ devs, so use
 	 * gtk_container_add/remove instead to prevent segfaults. */
 	g_object_ref (form_transaction_part);
@@ -1240,16 +1246,16 @@ static gboolean saisie_echeance_accueil (GtkWidget *event_box,
      * don't use gsb_form_show because we are neither on transactions list, neither scheduled list */
     button = gsb_form_scheduler_get_element_widget(SCHEDULED_FORM_ACCOUNT);
     g_signal_handlers_block_by_func (G_OBJECT (button),
-                        G_CALLBACK (gsb_form_scheduler_change_account),
-                        NULL);
+									 G_CALLBACK (gsb_form_scheduler_change_account),
+									 NULL);
     gsb_form_clean (gsb_data_scheduled_get_account_number (scheduled_number));
 
     /* fill the form with the scheduled transaction */
     gsb_scheduler_list_execute_transaction(scheduled_number);
 
     g_signal_handlers_unblock_by_func (G_OBJECT (button),
-                        G_CALLBACK (gsb_form_scheduler_change_account),
-                        NULL);
+									   G_CALLBACK (gsb_form_scheduler_change_account),
+									   NULL);
 
 	result = gtk_dialog_run (GTK_DIALOG (dialog));
 
@@ -1272,7 +1278,7 @@ static gboolean saisie_echeance_accueil (GtkWidget *event_box,
  *
  *
  *
- * */
+ **/
 static void update_liste_echeances_manuelles_accueil (gboolean force)
 {
     devel_debug_int (force);
@@ -1280,136 +1286,133 @@ static void update_liste_echeances_manuelles_accueil (gboolean force)
     /* need to set that in first because can change mise_a_jour_liste_echeances_manuelles_accueil */
     gsb_scheduler_check_scheduled_transactions_time_limit ();
 
-    if (!force
-	 &&
-	 !run.mise_a_jour_liste_echeances_manuelles_accueil)
-	return;
-
+    if (!force && !run.mise_a_jour_liste_echeances_manuelles_accueil)
+		return;
 
     run.mise_a_jour_liste_echeances_manuelles_accueil = FALSE;
 
     if (scheduled_transactions_to_take)
     {
-	GtkWidget *vbox;
-	GtkWidget *label;
-	GSList *pointeur_liste;
-	GtkWidget *event_box;
-	GtkWidget *hbox;
-    gint manual = 1;
+		GtkWidget *vbox;
+		GtkWidget *label;
+		GSList *pointeur_liste;
+		GtkWidget *event_box;
+		GtkWidget *hbox;
+		gint manual = 1;
 
-	/* s'il y avait déjà un fils dans la frame, le détruit */
-    utils_container_remove_children (frame_etat_echeances_manuelles_accueil);
+		/* s'il y avait déjà un fils dans la frame, le détruit */
+		utils_container_remove_children (frame_etat_echeances_manuelles_accueil);
 
-	/* on affiche la seconde frame dans laquelle on place les
-	   échéances à saisir */
-	show_paddingbox (frame_etat_echeances_manuelles_accueil);
+		/* on affiche la seconde frame dans laquelle on place les
+		   échéances à saisir */
+		show_paddingbox (frame_etat_echeances_manuelles_accueil);
 
-	/* on y place la liste des échéances */
-	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
-	gtk_container_add (GTK_CONTAINER(frame_etat_echeances_manuelles_accueil), vbox);
-	gtk_widget_show (vbox);
+		/* on y place la liste des échéances */
+		vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
+		gtk_container_add (GTK_CONTAINER(frame_etat_echeances_manuelles_accueil), vbox);
+		gtk_widget_show (vbox);
 
-	/* on met une ligne vide pour faire joli */
-	label = gtk_label_new (NULL);
+		/* on met une ligne vide pour faire joli */
+		label = gtk_label_new (NULL);
 
-	/* création du style normal -> bleu */
-	/* pointeur dessus -> jaune-rouge */
+		/* création du style normal -> bleu */
+		/* pointeur dessus -> jaune-rouge */
 
-	gtk_widget_destroy (label);
+		gtk_widget_destroy (label);
 
-	pointeur_liste = g_slist_sort_with_data (scheduled_transactions_to_take,
-				        (GCompareDataFunc) classement_sliste_echeance_par_date,
-                        GINT_TO_POINTER (manual));
+		pointeur_liste = g_slist_sort_with_data (scheduled_transactions_to_take,
+												 (GCompareDataFunc) classement_sliste_echeance_par_date,
+												 GINT_TO_POINTER (manual));
 
-	while (pointeur_liste)
-	{
-	    gint scheduled_number;
-	    gint account_number;
-	    gint currency_number;
-		gchar* tmpstr;
-		gchar* tmpstr2;
-        GtkStyleContext* context;
+		while (pointeur_liste)
+		{
+			gint scheduled_number;
+			gint account_number;
+			gint currency_number;
+			gchar* tmp_str;
+			gchar* tmp_str2;
+			GtkStyleContext* context;
 
-	    scheduled_number = GPOINTER_TO_INT (pointeur_liste -> data);
-	    account_number = gsb_data_scheduled_get_account_number (scheduled_number);
-	    currency_number = gsb_data_scheduled_get_currency_number (scheduled_number);
+			scheduled_number = GPOINTER_TO_INT (pointeur_liste -> data);
+			account_number = gsb_data_scheduled_get_account_number (scheduled_number);
+			currency_number = gsb_data_scheduled_get_currency_number (scheduled_number);
 
-        hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
-        gtk_box_set_homogeneous (GTK_BOX (hbox), TRUE);
-	    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
-	    gtk_widget_show ( hbox);
+			hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
+			gtk_box_set_homogeneous (GTK_BOX (hbox), TRUE);
+			gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
+			gtk_widget_show (hbox);
 
-	    /* bouton à gauche */
-	    event_box = gtk_event_box_new ();
-        gtk_widget_set_name (event_box, "accueil_nom_compte");
-        context = gtk_widget_get_style_context  (event_box);
-        gtk_style_context_set_state (context, GTK_STATE_FLAG_ACTIVE);
+			/* bouton à gauche */
+			event_box = gtk_event_box_new ();
+			gtk_widget_set_name (event_box, "accueil_nom_compte");
+			context = gtk_widget_get_style_context  (event_box);
+			gtk_style_context_set_state (context, GTK_STATE_FLAG_ACTIVE);
 
-	    g_signal_connect (G_OBJECT (event_box),
-				 "enter-notify-event",
-                 G_CALLBACK (utils_event_box_change_state),
-                 context);
-	    g_signal_connect (G_OBJECT (event_box),
-				 "leave-notify-event",
-                 G_CALLBACK (utils_event_box_change_state),
-                 context);
-	    g_signal_connect (G_OBJECT (event_box),
-				 "button-press-event",
-				 G_CALLBACK (saisie_echeance_accueil),
-				 GINT_TO_POINTER (scheduled_number));
-	    gtk_box_pack_start (GTK_BOX (hbox), event_box, TRUE, TRUE, 5);
-	    gtk_widget_show (event_box );
+			g_signal_connect (G_OBJECT (event_box),
+							  "enter-notify-event",
+							  G_CALLBACK (utils_event_box_change_state),
+					 		  context);
+			g_signal_connect (G_OBJECT (event_box),
+					 		  "leave-notify-event",
+					 		  G_CALLBACK (utils_event_box_change_state),
+					 		  context);
+			g_signal_connect (G_OBJECT (event_box),
+					 		  "button-press-event",
+					 		  G_CALLBACK (saisie_echeance_accueil),
+					 		  GINT_TO_POINTER (scheduled_number));
+			gtk_box_pack_start (GTK_BOX (hbox), event_box, TRUE, TRUE, 5);
+			gtk_widget_show (event_box);
 
-        tmpstr = g_strconcat (gsb_format_gdate (gsb_data_scheduled_get_date (scheduled_number)),
-							  " : ",
-							  gsb_data_payee_get_name (gsb_data_scheduled_get_party_number (scheduled_number),
-													   FALSE),
-							  NULL);
-	    label = gtk_label_new (tmpstr);
-	    g_free (tmpstr);
+			tmp_str = g_strconcat (gsb_format_gdate (gsb_data_scheduled_get_date (scheduled_number)),
+								   " : ",
+								   gsb_data_payee_get_name (gsb_data_scheduled_get_party_number (scheduled_number),
+														    FALSE),
+								  NULL);
+			label = gtk_label_new (tmp_str);
+			g_free (tmp_str);
 
-	    utils_labels_set_alignment (GTK_LABEL (label), MISC_LEFT, MISC_VERT_CENTER);
-	    gtk_container_add (GTK_CONTAINER (event_box), label);
-	    gtk_widget_show (label );
+			utils_labels_set_alignment (GTK_LABEL (label), MISC_LEFT, MISC_VERT_CENTER);
+			gtk_container_add (GTK_CONTAINER (event_box), label);
+			gtk_widget_show (label);
 
-	    /* label à droite */
-	    if (gsb_data_scheduled_get_amount (scheduled_number).mantissa >= 0)
-	    {
+			/* label à droite */
+			if (gsb_data_scheduled_get_amount (scheduled_number).mantissa >= 0)
+			{
 
-			tmpstr2 = utils_real_get_string_with_currency (gsb_data_scheduled_get_amount (scheduled_number),
-														   currency_number,
-														   TRUE);
-			tmpstr = g_strdup_printf (_("%s credited on %s"),
-									  tmpstr2,
-									  gsb_data_account_get_name (account_number));
-			g_free (tmpstr2);
-			label = gtk_label_new (tmpstr);
-			g_free (tmpstr);
-	    }
-	    else
-	    {
-			tmpstr2 = utils_real_get_string_with_currency (gsb_real_abs (gsb_data_scheduled_get_amount
-																		 (scheduled_number)),
-														   currency_number,
-														   TRUE);
-			tmpstr = g_strdup_printf (_("%s debited on %s"),
-									  tmpstr2,
-									  gsb_data_account_get_name (account_number));
-			g_free (tmpstr2);
-			label = gtk_label_new (tmpstr);
-			g_free (tmpstr);
-	    }
+				tmp_str2 = utils_real_get_string_with_currency (gsb_data_scheduled_get_amount (scheduled_number),
+															    currency_number,
+															    TRUE);
+				tmp_str = g_strdup_printf (_("%s credited on %s"),
+										   tmp_str2,
+										   gsb_data_account_get_name (account_number));
+				g_free (tmp_str2);
+				label = gtk_label_new (tmp_str);
+				g_free (tmp_str);
+			}
+			else
+			{
+				tmp_str2 = utils_real_get_string_with_currency (gsb_real_abs (gsb_data_scheduled_get_amount
+																			  (scheduled_number)),
+															    currency_number,
+															    TRUE);
+				tmp_str = g_strdup_printf (_("%s debited on %s"),
+										   tmp_str2,
+										   gsb_data_account_get_name (account_number));
+				g_free (tmp_str2);
+				label = gtk_label_new (tmp_str);
+				g_free (tmp_str);
+			}
 
-	    utils_labels_set_alignment (GTK_LABEL (label), MISC_RIGHT, MISC_VERT_CENTER);
-	    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 0);
-	    gtk_widget_show ( label);
+			utils_labels_set_alignment (GTK_LABEL (label), MISC_RIGHT, MISC_VERT_CENTER);
+			gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 0);
+			gtk_widget_show (label);
 
-	    pointeur_liste = pointeur_liste -> next;
-	}
+			pointeur_liste = pointeur_liste -> next;
+		}
     }
     else
     {
-	hide_paddingbox (frame_etat_echeances_manuelles_accueil);
+		hide_paddingbox (frame_etat_echeances_manuelles_accueil);
     }
 }
 
@@ -1419,13 +1422,11 @@ static void update_liste_echeances_manuelles_accueil (gboolean force)
  * \param
  *
  * \return
- * */
+ **/
 static void update_liste_echeances_auto_accueil (gboolean force)
 {
-    if (!force
-	 &&
-	 !run.mise_a_jour_liste_echeances_auto_accueil)
-	return;
+    if (!force && !run.mise_a_jour_liste_echeances_auto_accueil)
+		return;
 
     devel_debug_int (force);
 
@@ -1433,113 +1434,114 @@ static void update_liste_echeances_auto_accueil (gboolean force)
 
     if (scheduled_transactions_taken)
     {
-	GtkWidget *vbox, *label, *event_box, *hbox;
-	GSList *pointeur_liste;
-    gint manual = 0;
+		GtkWidget *vbox, *label, *event_box, *hbox;
+		GSList *pointeur_liste;
+		gint manual = 0;
 
-	/* s'il y avait déjà un fils dans la frame, le détruit */
-    utils_container_remove_children (frame_etat_echeances_auto_accueil);
+		/* s'il y avait déjà un fils dans la frame, le détruit */
+		utils_container_remove_children (frame_etat_echeances_auto_accueil);
 
-	/* on affiche la seconde frame dans laquelle on place les échéances à saisir */
-	show_paddingbox (frame_etat_echeances_auto_accueil);
+		/* on affiche la seconde frame dans laquelle on place les échéances à saisir */
+		show_paddingbox (frame_etat_echeances_auto_accueil);
 
-	/* on y place la liste des échéances */
-	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
-	gtk_container_add (GTK_CONTAINER (frame_etat_echeances_auto_accueil), vbox);
-	gtk_widget_show (vbox);
+		/* on y place la liste des échéances */
+		vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
+		gtk_container_add (GTK_CONTAINER (frame_etat_echeances_auto_accueil), vbox);
+		gtk_widget_show (vbox);
 
-	pointeur_liste = g_slist_sort_with_data (scheduled_transactions_taken,
-				      (GCompareDataFunc) classement_sliste_echeance_par_date,
-                       GINT_TO_POINTER (manual));
+		pointeur_liste = g_slist_sort_with_data (scheduled_transactions_taken,
+												 (GCompareDataFunc) classement_sliste_echeance_par_date,
+												 GINT_TO_POINTER (manual));
 
-	while (pointeur_liste)
-	{
-	    gint transaction_number;
-	    gint account_number;
-	    gint currency_number;
-		gchar* tmpstr;
-		gchar* tmpstr2;
-        GtkStyleContext* context;
+		while (pointeur_liste)
+		{
+			gint transaction_number;
+			gint account_number;
+			gint currency_number;
+			gchar* tmp_str;
+			gchar* tmp_str2;
+			GtkStyleContext* context;
 
-	    transaction_number = GPOINTER_TO_INT (pointeur_liste -> data);
-	    account_number = gsb_data_transaction_get_account_number (transaction_number);
-	    currency_number = gsb_data_transaction_get_currency_number (transaction_number);
+			transaction_number = GPOINTER_TO_INT (pointeur_liste -> data);
+			account_number = gsb_data_transaction_get_account_number (transaction_number);
+			currency_number = gsb_data_transaction_get_currency_number (transaction_number);
 
 
-        hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
-        gtk_box_set_homogeneous (GTK_BOX (hbox), TRUE);
-	    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
-	    gtk_widget_show ( hbox);
+			hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
+			gtk_box_set_homogeneous (GTK_BOX (hbox), TRUE);
+			gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
+			gtk_widget_show (hbox);
 
-	    event_box = gtk_event_box_new ();
-        gtk_widget_set_name (event_box, "accueil_nom_compte");
-        context = gtk_widget_get_style_context  (event_box);
-        gtk_style_context_set_state (context, GTK_STATE_FLAG_ACTIVE);
+			event_box = gtk_event_box_new ();
+			gtk_widget_set_name (event_box, "accueil_nom_compte");
+			context = gtk_widget_get_style_context  (event_box);
+			gtk_style_context_set_state (context, GTK_STATE_FLAG_ACTIVE);
 
-	    g_signal_connect (G_OBJECT (event_box),
-				 "enter-notify-event",
-                 G_CALLBACK (utils_event_box_change_state),
-                 context);
-	    g_signal_connect (G_OBJECT (event_box),
-				 "leave-notify-event",
-                 G_CALLBACK (utils_event_box_change_state),
-                 context);
-	    g_signal_connect_swapped (G_OBJECT (event_box),
-				       "button-press-event",
-				       G_CALLBACK (gsb_transactions_list_edit_transaction_by_pointer),
-				       GINT_TO_POINTER (transaction_number));
-	    gtk_widget_show (event_box);
+			g_signal_connect (G_OBJECT (event_box),
+							  "enter-notify-event",
+							  G_CALLBACK (utils_event_box_change_state),
+							  context);
+			g_signal_connect (G_OBJECT (event_box),
+							  "leave-notify-event",
+							  G_CALLBACK (utils_event_box_change_state),
+							  context);
+			g_signal_connect_swapped (G_OBJECT (event_box),
+									  "button-press-event",
+									  G_CALLBACK (gsb_transactions_list_edit_transaction_by_pointer),
+									  GINT_TO_POINTER (transaction_number));
+			gtk_widget_show (event_box);
 
-	    /* label à gauche */
-        tmpstr = g_strconcat (gsb_format_gdate (gsb_data_transaction_get_date (transaction_number)),
-					  " : ",
-					  gsb_data_payee_get_name (gsb_data_transaction_get_party_number (transaction_number), FALSE),
-					  NULL);
-	    label = gtk_label_new (tmpstr);
-	    g_free (tmpstr);
+			/* label à gauche */
+			tmp_str = g_strconcat (gsb_format_gdate (gsb_data_transaction_get_date (transaction_number)),
+								   " : ",
+								   gsb_data_payee_get_name (gsb_data_transaction_get_party_number (transaction_number),
+														    FALSE),
+								  NULL);
+			label = gtk_label_new (tmp_str);
+			g_free (tmp_str);
 
-	    utils_labels_set_alignment (GTK_LABEL (label), MISC_LEFT, MISC_VERT_CENTER);
-	    gtk_box_pack_start (GTK_BOX (hbox), event_box, TRUE, TRUE, 5);
-	    gtk_container_add (GTK_CONTAINER (event_box), label);
-	    gtk_widget_show (label );
+			utils_labels_set_alignment (GTK_LABEL (label), MISC_LEFT, MISC_VERT_CENTER);
+			gtk_box_pack_start (GTK_BOX (hbox), event_box, TRUE, TRUE, 5);
+			gtk_container_add (GTK_CONTAINER (event_box), label);
+			gtk_widget_show (label);
 
-	    /* label à droite */
-	    if (gsb_data_transaction_get_amount (transaction_number).mantissa >= 0)
-	    {
-			tmpstr2 = utils_real_get_string_with_currency (gsb_data_transaction_get_amount (transaction_number),
-														   currency_number,
-														   TRUE);
-			tmpstr = g_strdup_printf (_("%s credited on %s"),
-									  tmpstr2,
-									  gsb_data_account_get_name (account_number));
-			g_free (tmpstr2);
-			label = gtk_label_new (tmpstr);
-			g_free (tmpstr);
-	    }
-	    else
-	    {
-			tmpstr2 = utils_real_get_string_with_currency (gsb_real_abs (gsb_data_transaction_get_amount
-																		 (transaction_number)),
-														   currency_number,
-														   TRUE);
-			tmpstr = g_strdup_printf (_("%s debited on %s"),
-									  tmpstr2,
-									  gsb_data_account_get_name (account_number));
-			g_free (tmpstr2);
-			label = gtk_label_new (tmpstr);
-			g_free (tmpstr);
-	    }
+			/* label à droite */
+			if (gsb_data_transaction_get_amount (transaction_number).mantissa >= 0)
+			{
+				tmp_str2 = utils_real_get_string_with_currency (gsb_data_transaction_get_amount (transaction_number),
+															    currency_number,
+															    TRUE);
+				tmp_str = g_strdup_printf (_("%s credited on %s"),
+										   tmp_str2,
+										   gsb_data_account_get_name (account_number));
+				g_free (tmp_str2);
+				label = gtk_label_new (tmp_str);
+				g_free (tmp_str);
+			}
+			else
+			{
+				tmp_str2 = utils_real_get_string_with_currency (gsb_real_abs (gsb_data_transaction_get_amount
+																			  (transaction_number)),
+															    currency_number,
+															    TRUE);
+				tmp_str = g_strdup_printf (_("%s debited on %s"),
+										   tmp_str2,
+										   gsb_data_account_get_name (account_number));
+				g_free (tmp_str2);
+				label = gtk_label_new (tmp_str);
+				g_free (tmp_str);
+			}
 
-	    utils_labels_set_alignment (GTK_LABEL (label), MISC_RIGHT, MISC_VERT_CENTER);
-	    gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 5);
-	    gtk_widget_show (label);
+			utils_labels_set_alignment (GTK_LABEL (label), MISC_RIGHT, MISC_VERT_CENTER);
+			gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 5);
+			gtk_widget_show (label);
 
-	    pointeur_liste = pointeur_liste -> next;
-	}
+			pointeur_liste = pointeur_liste -> next;
+		}
     }
     else
     {
-	hide_paddingbox (frame_etat_echeances_auto_accueil);
+		hide_paddingbox (frame_etat_echeances_auto_accueil);
     }
 }
 
@@ -1547,36 +1549,28 @@ static void update_liste_echeances_auto_accueil (gboolean force)
  * Fonction update_soldes_minimaux
  * vérifie les soldes de tous les comptes, affiche un message d'alerte si nécessaire
  *
+ * \param
  *
- *
- *
- * */
+ * \return
+ **/
 static void update_soldes_minimaux (gboolean force)
 {
     GtkWidget *vbox_1;
     GtkWidget *vbox_2;
     GtkWidget *label;
-    //~ GSList *liste_autorise;
-    //~ GSList *liste_voulu;
-    //~ GSList *liste_autorise_et_voulu;
     GSList *list_tmp;
 
 
     if (!force
 	 &&
-	 !run.mise_a_jour_soldes_minimaux )
+	 !run.mise_a_jour_soldes_minimaux)
 	return;
 
     devel_debug ("update_soldes_minimaux");
 
     run.mise_a_jour_soldes_minimaux = FALSE;
 
-    //~ liste_autorise = NULL;
-    //~ liste_voulu = NULL;
-    //~ liste_autorise_et_voulu = NULL;
-
     /* s'il y avait déjà un fils dans la frame, le détruit */
-
     utils_container_remove_children (frame_etat_soldes_minimaux_autorises);
     utils_container_remove_children (frame_etat_soldes_minimaux_voulus);
 
@@ -1587,7 +1581,6 @@ static void update_soldes_minimaux (gboolean force)
     vbox_2 = NULL;
 
     list_tmp = gsb_data_account_get_list_accounts ();
-
     while (list_tmp)
     {
         gint i;
@@ -1601,17 +1594,16 @@ static void update_soldes_minimaux (gboolean force)
         }
 
         if (gsb_real_cmp (gsb_data_account_get_current_balance (i),
-                    gsb_data_account_get_mini_balance_authorized (i)) == -1
-             &&
-             gsb_data_account_get_kind (i) != GSB_TYPE_LIABILITIES)
+						  gsb_data_account_get_mini_balance_authorized (i)) == -1
+			&& gsb_data_account_get_kind (i) != GSB_TYPE_LIABILITIES)
         {
             if (!vbox_1)
             {
-            vbox_1 = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
-            gtk_box_set_homogeneous (GTK_BOX (vbox_1), TRUE);
-            gtk_container_add (GTK_CONTAINER (frame_etat_soldes_minimaux_autorises), vbox_1);
-            gtk_widget_show (vbox_1);
-            show_paddingbox (frame_etat_soldes_minimaux_autorises);
+				vbox_1 = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
+				gtk_box_set_homogeneous (GTK_BOX (vbox_1), TRUE);
+				gtk_container_add (GTK_CONTAINER (frame_etat_soldes_minimaux_autorises), vbox_1);
+				gtk_widget_show (vbox_1);
+				show_paddingbox (frame_etat_soldes_minimaux_autorises);
             }
             label = gtk_label_new (gsb_data_account_get_name (i));
             gtk_box_pack_start (GTK_BOX (vbox_1), label, FALSE, FALSE, 0);
@@ -1622,22 +1614,19 @@ static void update_soldes_minimaux (gboolean force)
         }
 
         if (gsb_real_cmp (gsb_data_account_get_current_balance (i),
-                    gsb_data_account_get_mini_balance_wanted (i)) == -1
-             &&
-             gsb_data_account_get_kind (i) != GSB_TYPE_LIABILITIES
-             &&
-             gsb_real_cmp (gsb_data_account_get_current_balance (i),
-                    gsb_data_account_get_mini_balance_authorized (i)) == -1
-             &&
-             gsb_data_account_get_kind (i) != GSB_TYPE_LIABILITIES)
+						  gsb_data_account_get_mini_balance_wanted (i)) == -1
+			&& gsb_data_account_get_kind (i) != GSB_TYPE_LIABILITIES
+            && gsb_real_cmp (gsb_data_account_get_current_balance (i),
+							 gsb_data_account_get_mini_balance_authorized (i)) == -1
+            && gsb_data_account_get_kind (i) != GSB_TYPE_LIABILITIES)
         {
             if (!vbox_2)
             {
-            vbox_2 = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
-            gtk_box_set_homogeneous (GTK_BOX (vbox_2), TRUE);
-            gtk_container_add (GTK_CONTAINER (frame_etat_soldes_minimaux_voulus), vbox_2);
-            gtk_widget_show (vbox_2);
-            show_paddingbox (frame_etat_soldes_minimaux_voulus);
+				vbox_2 = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
+				gtk_box_set_homogeneous (GTK_BOX (vbox_2), TRUE);
+				gtk_container_add (GTK_CONTAINER (frame_etat_soldes_minimaux_voulus), vbox_2);
+				gtk_widget_show (vbox_2);
+				show_paddingbox (frame_etat_soldes_minimaux_voulus);
             }
 
             label = gtk_label_new (gsb_data_account_get_name (i));
@@ -1651,9 +1640,7 @@ static void update_soldes_minimaux (gboolean force)
 	    list_tmp = list_tmp -> next;
     }
 
-
-    /*     on affiche une boite d'avertissement si nécessaire */
-
+    /* on affiche une boite d'avertissement si nécessaire */
     affiche_dialogue_soldes_minimaux ();
     run.mise_a_jour_liste_comptes_accueil = TRUE;
 }
@@ -1664,7 +1651,7 @@ static void update_soldes_minimaux (gboolean force)
  * \param
  *
  * \return
- * */
+ **/
 static void update_fin_comptes_passifs (gboolean force)
 {
     GtkWidget *vbox;
@@ -1693,42 +1680,40 @@ static void update_fin_comptes_passifs (gboolean force)
 
     while (list_tmp)
     {
-	gint i;
+		gint i;
 
-	i = gsb_data_account_get_no_account (list_tmp -> data);
+		i = gsb_data_account_get_no_account (list_tmp -> data);
 
-	if (gsb_data_account_get_kind (i) == GSB_TYPE_LIABILITIES
-	     &&
-	     gsb_data_account_get_current_balance (i).mantissa >= 0)
-	    liste_tmp = g_slist_append (liste_tmp, gsb_data_account_get_name (i));
+		if (gsb_data_account_get_kind (i) == GSB_TYPE_LIABILITIES
+			 && gsb_data_account_get_current_balance (i).mantissa >= 0)
+			liste_tmp = g_slist_append (liste_tmp, gsb_data_account_get_name (i));
 
-	list_tmp = list_tmp -> next;
+		list_tmp = list_tmp -> next;
     }
 
     if (g_slist_length (liste_tmp))
     {
-	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-	gtk_container_add (GTK_CONTAINER (frame_etat_fin_compte_passif), vbox);
-	gtk_widget_show (vbox);
+		vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+		gtk_container_add (GTK_CONTAINER (frame_etat_fin_compte_passif), vbox);
+		gtk_widget_show (vbox);
 
-	pointeur = liste_tmp;
+		pointeur = liste_tmp;
+		while (pointeur)
+		{
+			label = gtk_label_new (pointeur -> data);
+			gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
+			utils_labels_set_alignment (GTK_LABEL (label), MISC_LEFT, MISC_VERT_CENTER);
+			gtk_widget_show (label);
 
-	while (pointeur)
-	{
-	    label = gtk_label_new (pointeur -> data);
-	    gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
-	    utils_labels_set_alignment (GTK_LABEL (label), MISC_LEFT, MISC_VERT_CENTER);
-	    gtk_widget_show (label);
+			pointeur = pointeur -> next;
+		}
 
-	    pointeur = pointeur -> next;
-	}
-
-	show_paddingbox (frame_etat_fin_compte_passif);
+		show_paddingbox (frame_etat_fin_compte_passif);
     }
 }
 
 /******************************************************************************/
-/* Public Methods                                                             */
+/* Public functions                                                             */
 /******************************************************************************/
 /**
  * Create the home page of Grisbi
@@ -1736,7 +1721,7 @@ static void update_fin_comptes_passifs (gboolean force)
  * \param   none
  *
  * \return
- * */
+ **/
 GtkWidget *creation_onglet_accueil (void)
 {
     GtkWidget *vbox;
@@ -1778,10 +1763,10 @@ GtkWidget *creation_onglet_accueil (void)
        scroller verticalement */
     base_scroll = gtk_scrolled_window_new (NULL, NULL);
     gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (base_scroll),
-                        GTK_POLICY_NEVER,
-                        GTK_POLICY_AUTOMATIC);
+									GTK_POLICY_NEVER,
+									GTK_POLICY_AUTOMATIC);
     gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (base_scroll),
-                        GTK_SHADOW_IN);
+										 GTK_SHADOW_IN);
 	gtk_widget_set_vexpand (base_scroll, TRUE);
 
     base = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
@@ -1865,7 +1850,7 @@ GtkWidget *creation_onglet_accueil (void)
  * \param force TRUE if we want to update all
  *
  * \return
- * */
+ **/
 void mise_a_jour_accueil (gboolean force)
 {
     update_liste_comptes_accueil (force);
@@ -1882,7 +1867,7 @@ void mise_a_jour_accueil (gboolean force)
  * \param   none
  *
  * \return
- * */
+ **/
 void affiche_dialogue_soldes_minimaux (void)
 {
     GSList *liste_autorise;
@@ -1892,7 +1877,7 @@ void affiche_dialogue_soldes_minimaux (void)
     GSList *list_tmp;
     gchar *texte_affiche;
 
-    if (!run.mise_a_jour_soldes_minimaux )
+    if (!run.mise_a_jour_soldes_minimaux)
         return;
 
     liste_autorise = NULL;
@@ -1908,54 +1893,41 @@ void affiche_dialogue_soldes_minimaux (void)
 		i = gsb_data_account_get_no_account (list_tmp -> data);
 
 		if (gsb_real_cmp (gsb_data_account_get_current_balance (i),
-					gsb_data_account_get_mini_balance_authorized (i)) == -1
-			 &&
-			 gsb_data_account_get_kind (i) != GSB_TYPE_LIABILITIES
-			 &&
-			 !gsb_data_account_get_mini_balance_authorized_message (i))
+						  gsb_data_account_get_mini_balance_authorized (i)) == -1
+			&& gsb_data_account_get_kind (i) != GSB_TYPE_LIABILITIES
+			&& !gsb_data_account_get_mini_balance_authorized_message (i))
 		{
 			if (gsb_real_cmp (gsb_data_account_get_current_balance (i),
-					gsb_data_account_get_mini_balance_wanted (i)) == -1)
+							  gsb_data_account_get_mini_balance_wanted (i)) == -1)
 			{
-			liste_autorise_et_voulu = g_slist_append (liste_autorise_et_voulu,
-								   gsb_data_account_get_name (i));
-			gsb_data_account_set_mini_balance_wanted_message (i,
-									   1);
+				liste_autorise_et_voulu = g_slist_append (liste_autorise_et_voulu, gsb_data_account_get_name (i));
+				gsb_data_account_set_mini_balance_wanted_message (i, 1);
 			}
 			else
 			{
-			liste_autorise = g_slist_append (liste_autorise,
-							  gsb_data_account_get_name (i));
+				liste_autorise = g_slist_append (liste_autorise, gsb_data_account_get_name (i));
 			}
-			gsb_data_account_set_mini_balance_authorized_message (i,
-									   1);
+			gsb_data_account_set_mini_balance_authorized_message (i, 1);
 		}
 
 		if (gsb_real_cmp (gsb_data_account_get_current_balance (i),
-					gsb_data_account_get_mini_balance_wanted (i)) == -1
-			 &&
-			 gsb_real_cmp (gsb_data_account_get_current_balance (i),
-					gsb_data_account_get_mini_balance_authorized (i)) == 1
-			 &&
-			 gsb_data_account_get_kind (i) != GSB_TYPE_LIABILITIES
-			 &&
-			 !gsb_data_account_get_mini_balance_wanted_message (i))
+						  gsb_data_account_get_mini_balance_wanted (i)) == -1
+			&& gsb_real_cmp (gsb_data_account_get_current_balance (i),
+							 gsb_data_account_get_mini_balance_authorized (i)) == 1
+			&& gsb_data_account_get_kind (i) != GSB_TYPE_LIABILITIES
+			&& !gsb_data_account_get_mini_balance_wanted_message (i))
 		{
-			liste_voulu = g_slist_append (liste_voulu,
-						   gsb_data_account_get_name (i));
-			gsb_data_account_set_mini_balance_wanted_message (i,
-									   1);
+			liste_voulu = g_slist_append (liste_voulu, gsb_data_account_get_name (i));
+			gsb_data_account_set_mini_balance_wanted_message (i, 1);
 		}
 
 		/* 	si on repasse au dessus des seuils, c'est comme si on n'avait rien affiché */
 		if (gsb_real_cmp (gsb_data_account_get_current_balance (i),
-					gsb_data_account_get_mini_balance_authorized (i)) == 1)
-			gsb_data_account_set_mini_balance_authorized_message (i,
-									   0);
+						  gsb_data_account_get_mini_balance_authorized (i)) == 1)
+			gsb_data_account_set_mini_balance_authorized_message (i, 0);
 		if (gsb_real_cmp (gsb_data_account_get_current_balance (i),
-					gsb_data_account_get_mini_balance_wanted (i)) == 1)
-			gsb_data_account_set_mini_balance_wanted_message (i,
-									   0);
+						  gsb_data_account_get_mini_balance_wanted (i)) == 1)
+			gsb_data_account_set_mini_balance_wanted_message (i, 0);
 
 		list_tmp = list_tmp -> next;
     }
@@ -1974,11 +1946,11 @@ void affiche_dialogue_soldes_minimaux (void)
 			liste_tmp = liste_autorise_et_voulu;
 			while (liste_tmp)
 			{
-				gchar* oldstr;
+				gchar* old_str;
 
-				oldstr = texte_affiche;
-				texte_affiche = g_strconcat (oldstr, liste_tmp -> data, "\n", NULL);
-				g_free (oldstr);
+				old_str = texte_affiche;
+				texte_affiche = g_strconcat (old_str, liste_tmp -> data, "\n", NULL);
+				g_free (old_str);
 
 				liste_tmp = liste_tmp -> next;
 			}
@@ -1987,39 +1959,39 @@ void affiche_dialogue_soldes_minimaux (void)
 
     if (liste_autorise)
     {
-		gchar* oldstr;
+		gchar* old_str;
 
 		if (strlen (texte_affiche))
 		{
-			oldstr = texte_affiche;
-			texte_affiche = g_strconcat (oldstr, "\n\n", NULL);
-			g_free (oldstr);
+			old_str = texte_affiche;
+			texte_affiche = g_strconcat (old_str, "\n\n", NULL);
+			g_free (old_str);
 		}
 
 		if (g_slist_length (liste_autorise) == 1)
 		{
-			gchar* tmpstr;
+			gchar* tmp_str;
 
-			oldstr = texte_affiche;
-			tmpstr = g_strdup_printf (_("balance of account %s is under authorised minimum!"),
-									  (gchar *) liste_autorise -> data);
-			texte_affiche = g_strconcat (oldstr, tmpstr , NULL);
-			g_free (oldstr);
-			g_free (tmpstr);
+			old_str = texte_affiche;
+			tmp_str = g_strdup_printf (_("balance of account %s is under authorised minimum!"),
+									   (gchar *) liste_autorise -> data);
+			texte_affiche = g_strconcat (old_str, tmp_str , NULL);
+			g_free (old_str);
+			g_free (tmp_str);
 		}
 		else
 		{
-			oldstr = texte_affiche;
-			texte_affiche = g_strconcat (oldstr,
-						  _("accounts with the balance under authorised minimal:\n\n"),
-						  NULL);
-			g_free (oldstr);
+			old_str = texte_affiche;
+			texte_affiche = g_strconcat (old_str,
+										 _("accounts with the balance under authorised minimal:\n\n"),
+										 NULL);
+			g_free (old_str);
 			liste_tmp = liste_autorise;
 			while (liste_tmp)
 			{
-				oldstr = texte_affiche;
-				texte_affiche = g_strconcat (oldstr, liste_tmp -> data, "\n", NULL);
-				g_free (oldstr);
+				old_str = texte_affiche;
+				texte_affiche = g_strconcat (old_str, liste_tmp -> data, "\n", NULL);
+				g_free (old_str);
 
 				liste_tmp = liste_tmp -> next;
 			}
@@ -2028,39 +2000,39 @@ void affiche_dialogue_soldes_minimaux (void)
 
     if (liste_voulu)
     {
-		gchar* oldstr;
+		gchar* old_str;
 
 		if (strlen (texte_affiche))
 		{
-			oldstr = texte_affiche;
-			texte_affiche = g_strconcat (oldstr, "\n\n", NULL);
-			g_free (oldstr);
+			old_str = texte_affiche;
+			texte_affiche = g_strconcat (old_str, "\n\n", NULL);
+			g_free (old_str);
 		}
 
 		if (g_slist_length (liste_voulu) == 1)
 		{
-			gchar* tmpstr;
+			gchar* tmp_str;
 
-			oldstr = texte_affiche;
-			tmpstr = g_strdup_printf (_("balance of account %s is under desired minimum!"),
-									  (gchar *) liste_voulu -> data);
-			texte_affiche = g_strconcat (texte_affiche, tmpstr , NULL);
-			g_free (tmpstr);
-			g_free (oldstr);
+			old_str = texte_affiche;
+			tmp_str = g_strdup_printf (_("balance of account %s is under desired minimum!"),
+									   (gchar *) liste_voulu -> data);
+			texte_affiche = g_strconcat (texte_affiche, tmp_str , NULL);
+			g_free (tmp_str);
+			g_free (old_str);
 		}
 		else
 		{
-			oldstr = texte_affiche;
-			texte_affiche = g_strconcat (oldstr,
+			old_str = texte_affiche;
+			texte_affiche = g_strconcat (old_str,
 										 _("accounts with the balance under desired minimal:\n\n"),
 										 NULL);
-			g_free (oldstr);
+			g_free (old_str);
 			liste_tmp = liste_voulu;
 			while (liste_tmp)
 			{
-				oldstr = texte_affiche;
-				texte_affiche = g_strconcat (oldstr, liste_tmp -> data, "\n", NULL);
-				g_free (oldstr);
+				old_str = texte_affiche;
+				texte_affiche = g_strconcat (old_str, liste_tmp -> data, "\n", NULL);
+				g_free (old_str);
 
 				liste_tmp = liste_tmp -> next;
 			}
@@ -2079,7 +2051,7 @@ void affiche_dialogue_soldes_minimaux (void)
  * \param scheduled_number
  *
  * \return FALSE
- * */
+ **/
 gboolean gsb_main_page_update_finished_scheduled_transactions (gint scheduled_number)
 {
     GtkWidget *label;
@@ -2095,22 +2067,21 @@ gboolean gsb_main_page_update_finished_scheduled_transactions (gint scheduled_nu
     /* append in the page the finished scheduled transaction */
     hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
     gtk_box_set_homogeneous (GTK_BOX (hbox), TRUE);
-    gtk_widget_show ( hbox);
+    gtk_widget_show (hbox);
 
     /* label à gauche */
     tmp_str = g_strconcat (gsb_format_gdate (gsb_data_scheduled_get_date (scheduled_number)),
-                        " : ",
-                        gsb_data_payee_get_name (
-                        gsb_data_scheduled_get_party_number (scheduled_number),
-                        FALSE),
-                        NULL);
+						   " : ",
+						   gsb_data_payee_get_name (gsb_data_scheduled_get_party_number (scheduled_number),
+													FALSE),
+						   NULL);
     label = gtk_label_new (tmp_str);
 
     g_free (tmp_str);
 
     utils_labels_set_alignment (GTK_LABEL (label), MISC_LEFT, MISC_VERT_CENTER);
     gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
-    gtk_widget_show (label );
+    gtk_widget_show (label);
 
     /* label à droite */
     amount = gsb_data_scheduled_get_amount (scheduled_number);
@@ -2134,16 +2105,12 @@ gboolean gsb_main_page_update_finished_scheduled_transactions (gint scheduled_nu
 
     utils_labels_set_alignment (GTK_LABEL (label), MISC_RIGHT, MISC_VERT_CENTER);
     gtk_box_pack_end (GTK_BOX (hbox), label, FALSE, TRUE, 0);
-    gtk_widget_show ( label);
+    gtk_widget_show (label);
 
-		gtk_box_pack_start (GTK_BOX (main_page_finished_scheduled_transactions_part),
-				hbox,
-				FALSE,
-				TRUE,
-				0);
-		gtk_widget_show ( label);
+	gtk_box_pack_start (GTK_BOX (main_page_finished_scheduled_transactions_part), hbox, FALSE, TRUE, 0);
+	gtk_widget_show (label);
 
-		show_paddingbox (main_page_finished_scheduled_transactions_part);
+	show_paddingbox (main_page_finished_scheduled_transactions_part);
 
     return FALSE;
 }
@@ -2154,7 +2121,7 @@ gboolean gsb_main_page_update_finished_scheduled_transactions (gint scheduled_nu
  * \param title
  *
  * \return
- * */
+ **/
 void gsb_main_page_update_homepage_title (const gchar *title)
 {
     gchar * tmp_str;
@@ -2176,7 +2143,7 @@ void gsb_main_page_update_homepage_title (const gchar *title)
  * \param
  *
  * \return
- * */
+ **/
 GtkWidget *gsb_main_page_get_logo_accueil (void)
 {
 	return logo_accueil;
@@ -2188,7 +2155,7 @@ GtkWidget *gsb_main_page_get_logo_accueil (void)
  * \param
  *
  * \return
- * */
+ **/
 gboolean gsb_main_page_set_logo_accueil (GtkWidget *logo)
 {
 	if (logo)
@@ -2202,7 +2169,7 @@ gboolean gsb_main_page_set_logo_accueil (GtkWidget *logo)
     {
         gtk_widget_destroy (logo_accueil);
 		logo_accueil = NULL;
-        gtk_widget_set_size_request ( hbox_title, -1, -1 );
+        gtk_widget_set_size_request (hbox_title, -1, -1);
         if (etat.name_logo && strlen (etat.name_logo))
             g_free (etat.name_logo);
         etat.name_logo = NULL;
@@ -2217,7 +2184,7 @@ gboolean gsb_main_page_set_logo_accueil (GtkWidget *logo)
  * \param
  *
  * \return
- * */
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
