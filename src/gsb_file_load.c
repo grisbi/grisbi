@@ -99,7 +99,6 @@ extern gint bet_array_col_width[BET_ARRAY_COLUMNS];
 extern gint display_three_lines;
 extern gint display_two_lines;
 extern struct Iso4217Currency iso_4217_currencies[];
-extern GtkWidget *logo_accueil;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern gint transaction_col_align[CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern gint transaction_col_width[CUSTOM_MODEL_VISIBLE_COLUMNS];
