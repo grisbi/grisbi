@@ -20,8 +20,8 @@ struct ConditionalMessage
 /* START_DECLARATION */
 void 		dialog_message 								(const gchar *label, ...);
 void 		dialogue 									(const gchar *texte_dialogue);
-void 		dialogue_conditional_hint 					(const gchar *hint,
-														 const gchar *text,
+void 		dialogue_conditional_hint 					(const gchar *text,
+														 const gchar *hint,
 														 const gchar *var);
 void 		dialogue_error 								(const gchar *text);
 void 		dialogue_error_brain_damage 				(void);

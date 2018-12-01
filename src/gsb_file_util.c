@@ -378,7 +378,7 @@ void gsb_file_util_display_warning_permissions (void)
     if (msg_no < 0)
         return;
 
-    dialogue_conditional_hint (_(messages[msg_no].hint), _(messages[msg_no].message), "account-file-readable");
+    dialogue_conditional_hint (_(messages[msg_no].message), _(messages[msg_no].hint), "account-file-readable");
 }
 
 /**
