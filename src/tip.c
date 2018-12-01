@@ -88,7 +88,7 @@ static const gchar* tips[] =
     "day, <i>Page Up</i> and <i>Page Down</i> increment and decrement date of "
     "one month ... and there are more, check out the manual."),
     N_("You can archive previous financial years to speed up Grisbi and "
-    "possibily put old transactions into separate files for archival.  Use "
+    "possibly put old transactions into separate files for archival.  Use "
     "'File/Archive transaction' menu to achieve this."),
     N_("If unused payees have accumulated in the course of time due to bank "
     "imports, you can remove all of them in one click! Just go to the "
