@@ -85,7 +85,7 @@ static GtkWidget *gsb_gui_create_cell_contents_menu (int x, int y);
 static gboolean gsb_transactions_list_button_press (GtkWidget *tree_view,
                         GdkEventButton *ev,
                         gpointer null);
-static gboolean gsb_transactions_list_change_alignement (GtkWidget *menu_item,
+static gboolean gsb_transactions_list_change_alignment (GtkWidget *menu_item,
                         gint *no_column);
 static gboolean gsb_transactions_list_change_sort_column (GtkTreeViewColumn *tree_view_column,
                         gint *column_ptr);
@@ -3405,14 +3405,14 @@ gboolean gsb_transactions_list_title_column_button_press (GtkWidget *button,
 
         if (menu)
         {
-            gfloat alignement;
+            gfloat alignment;
 
             menu_item = gtk_separator_menu_item_new ();
             gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
             gtk_widget_show (menu_item);
 
             /* alignement */
-            alignement = gtk_tree_view_column_get_alignment (
+            alignment = gtk_tree_view_column_get_alignment (
                         gtk_tree_view_get_column (GTK_TREE_VIEW (transactions_tree_view),
                         column_number));
             menu_item = gtk_menu_item_new_with_label (_("alignment: "));
@@ -3425,42 +3425,42 @@ gboolean gsb_transactions_list_title_column_button_press (GtkWidget *button,
 
             menu_item = gtk_radio_menu_item_new_with_label (NULL, _("LEFT"));
             gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
-            if (alignement == COLUMN_LEFT)
+            if (alignment == COLUMN_LEFT)
                 gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (menu_item), TRUE);
             g_object_set_data (G_OBJECT (menu_item),
-                        "alignement",
+                        "alignment",
                         GINT_TO_POINTER (GTK_JUSTIFY_LEFT));
             g_signal_connect (G_OBJECT(menu_item),
                         "activate",
-                        G_CALLBACK (gsb_transactions_list_change_alignement),
+                        G_CALLBACK (gsb_transactions_list_change_alignment),
                         no_column);
             gtk_widget_show (menu_item);
 
             menu_item = gtk_radio_menu_item_new_with_label_from_widget (GTK_RADIO_MENU_ITEM (
                         menu_item),_("CENTER"));
             gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
-            if (alignement == COLUMN_CENTER)
+            if (alignment == COLUMN_CENTER)
                 gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (menu_item), TRUE);
             g_object_set_data (G_OBJECT (menu_item),
-                        "alignement",
+                        "alignment",
                         GINT_TO_POINTER (GTK_JUSTIFY_CENTER));
             g_signal_connect (G_OBJECT(menu_item),
                         "activate",
-                        G_CALLBACK (gsb_transactions_list_change_alignement),
+                        G_CALLBACK (gsb_transactions_list_change_alignment),
                         no_column);
             gtk_widget_show (menu_item);
 
             menu_item = gtk_radio_menu_item_new_with_label_from_widget (GTK_RADIO_MENU_ITEM (
                         menu_item),_("RIGHT"));
             gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
-            if (alignement == COLUMN_RIGHT)
+            if (alignment == COLUMN_RIGHT)
                 gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (menu_item), TRUE);
             g_object_set_data (G_OBJECT (menu_item),
-                        "alignement",
+                        "alignment",
                         GINT_TO_POINTER (GTK_JUSTIFY_RIGHT));
             g_signal_connect (G_OBJECT(menu_item),
                         "activate",
-                        G_CALLBACK (gsb_transactions_list_change_alignement),
+                        G_CALLBACK (gsb_transactions_list_change_alignment),
                         no_column);
             gtk_widget_show (menu_item);
             gtk_widget_show (menu);
@@ -4248,13 +4248,13 @@ void gsb_transactions_list_display_contra_transaction (gint *element_ptr)
  *
  * \return
  **/
-gboolean gsb_transactions_list_change_alignement (GtkWidget *menu_item,
+gboolean gsb_transactions_list_change_alignment (GtkWidget *menu_item,
 												  gint *no_column)
 {
     GtkTreeViewColumn *column;
     GtkCellRenderer *cell_renderer;
     gint column_number;
-    gint alignement;
+    gint alignment;
     gfloat xalign = 0.0;
 
     if (!gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM (menu_item)))
@@ -4264,10 +4264,10 @@ gboolean gsb_transactions_list_change_alignement (GtkWidget *menu_item,
     column = gtk_tree_view_get_column (GTK_TREE_VIEW (
                         transactions_tree_view),
                         column_number);
-    alignement = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (menu_item), "alignement"));
+    alignment = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (menu_item), "alignement"));
     cell_renderer = g_object_get_data (G_OBJECT (column), "cell_renderer");
 
-    switch (alignement)
+    switch (alignment)
     {
         case GTK_JUSTIFY_LEFT:
             xalign = 0.0;
@@ -4282,7 +4282,7 @@ gboolean gsb_transactions_list_change_alignement (GtkWidget *menu_item,
 			break;
     }
 
-    transaction_col_align[column_number] = alignement;
+    transaction_col_align[column_number] = alignment;
     gtk_tree_view_column_set_alignment  (column, xalign);
     g_object_set (G_OBJECT (cell_renderer),
 		                "xalign", xalign,
