@@ -282,7 +282,7 @@ GtkWidget *new_paddingbox_with_title (GtkWidget *parent,
 
     /* Creating label */
     label = gtk_label_new (NULL);
-    utils_labels_set_alignement (GTK_LABEL (label), 0, 1);
+    utils_labels_set_alignment (GTK_LABEL (label), 0, 1);
     tmp_str = g_markup_printf_escaped ("<span weight=\"bold\">%s</span>", title);
     gtk_label_set_markup (GTK_LABEL (label), tmp_str);
     g_free(tmp_str);
@@ -857,7 +857,7 @@ GtkWidget *utils_combo_box_make_from_string_array (const gchar **array)
  *
  * \return
  * */
-void utils_labels_set_alignement (GtkLabel *label, gfloat xalign,
+void utils_labels_set_alignment (GtkLabel *label, gfloat xalign,
 								  gfloat yalign)
 {
     gtk_label_set_xalign (label, xalign);

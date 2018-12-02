@@ -270,7 +270,7 @@ GtkWidget * print_transactions_list_layout_config ( GtkPrintOperation * operatio
 
     label = gtk_label_new (_("Transactions font"));
     gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
-    utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0.5);
+    utils_labels_set_alignment ( GTK_LABEL ( label ), 0, 0.5);
     gtk_size_group_add_widget ( size_group, label );
     gtk_box_pack_start (GTK_BOX (hbox),
 			label,
@@ -293,7 +293,7 @@ GtkWidget * print_transactions_list_layout_config ( GtkPrintOperation * operatio
 
     label = gtk_label_new (_("Title font"));
     gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
-    utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0.5);
+    utils_labels_set_alignment ( GTK_LABEL ( label ), 0, 0.5);
     gtk_size_group_add_widget ( size_group, label );
     gtk_box_pack_start (GTK_BOX (hbox),
 			label,

@@ -203,7 +203,7 @@ GtkWidget *gsb_fyear_config_create_page ( void )
 
     /* Financial year name */
     label = gtk_label_new ( _("Name: ") );
-	utils_labels_set_alignement ( GTK_LABEL (label), 0, 0.5);
+	utils_labels_set_alignment ( GTK_LABEL (label), 0, 0.5);
     gtk_grid_attach (GTK_GRID (paddinggrid), label, 0, 0, 1, 1);
 
     entry = gsb_autofunc_entry_new ( NULL,
@@ -215,7 +215,7 @@ GtkWidget *gsb_fyear_config_create_page ( void )
 
     /* Start */
     label = gtk_label_new ( _("Start: ") );
-    utils_labels_set_alignement ( GTK_LABEL (label), 0, 0.5);
+    utils_labels_set_alignment ( GTK_LABEL (label), 0, 0.5);
     gtk_grid_attach (GTK_GRID (paddinggrid), label, 0, 1, 1, 1);
 
     entry = gsb_autofunc_date_new ( NULL,
@@ -227,7 +227,7 @@ GtkWidget *gsb_fyear_config_create_page ( void )
 
     /* End */
     label = gtk_label_new ( _("End: ") );
-    utils_labels_set_alignement ( GTK_LABEL (label), 0, 0.5);
+    utils_labels_set_alignment ( GTK_LABEL (label), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_grid_attach (GTK_GRID (paddinggrid), label, 0, 2, 1, 1);
 

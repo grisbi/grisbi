@@ -296,11 +296,11 @@ static void grisbi_win_create_headings_eb (GrisbiWin *win)
     /* Define labels. */
     priv->headings_title = gtk_label_new (NULL);
     gtk_label_set_justify (GTK_LABEL(priv->headings_title), GTK_JUSTIFY_LEFT);
-    utils_labels_set_alignement (GTK_LABEL (priv->headings_title), 0.0, 0.5);
+    utils_labels_set_alignment (GTK_LABEL (priv->headings_title), 0.0, 0.5);
 	gtk_grid_attach (GTK_GRID (grid), priv->headings_title, 2,0,1,1);
 
     priv->headings_suffix = gtk_label_new (NULL);
-	utils_labels_set_alignement (GTK_LABEL (priv->headings_suffix), 0.0, 0.5);
+	utils_labels_set_alignment (GTK_LABEL (priv->headings_suffix), 0.0, 0.5);
 	gtk_widget_set_hexpand (priv->headings_suffix, TRUE);
 	gtk_widget_set_halign (priv->headings_suffix, GTK_ALIGN_END);
     gtk_grid_attach (GTK_GRID (grid), priv->headings_suffix, 3,0,1,1);

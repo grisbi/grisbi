@@ -725,7 +725,7 @@ GtkWidget *gsb_config_number_format_chosen ( GtkWidget *parent, gint sens )
 
     dec_hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
     label = gtk_label_new ( _("Decimal point: ") );
-    utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_LEFT, MISC_VERT_CENTER );
+    utils_labels_set_alignment ( GTK_LABEL ( label ), MISC_LEFT, MISC_VERT_CENTER );
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), label );
     gtk_box_pack_start ( GTK_BOX ( dec_hbox ), label, FALSE, FALSE, 0 );
 
@@ -738,7 +738,7 @@ GtkWidget *gsb_config_number_format_chosen ( GtkWidget *parent, gint sens )
 
     thou_hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
     label = gtk_label_new (_("Thousands separator: ") );
-    utils_labels_set_alignement ( GTK_LABEL ( label ), MISC_LEFT, MISC_VERT_CENTER );
+    utils_labels_set_alignment ( GTK_LABEL ( label ), MISC_LEFT, MISC_VERT_CENTER );
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), label );
     gtk_box_pack_start ( GTK_BOX ( thou_hbox ), label, FALSE, FALSE, 0 );
 

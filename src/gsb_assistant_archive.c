@@ -208,7 +208,7 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
 
     /* set up the menu */
     label = gtk_label_new (_("Please select a way to select transactions for this archive"));
-    utils_labels_set_alignement ( GTK_LABEL (label), 0, 0.5 );
+    utils_labels_set_alignment ( GTK_LABEL (label), 0, 0.5 );
     gtk_box_pack_start ( GTK_BOX (vbox), label,  FALSE, FALSE, 0 );
 
     /* archive by date */
@@ -222,7 +222,7 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
 
     label = gtk_label_new ( _("Grisbi will archive all transactions between initial and "
                         "final dates.") );
-    utils_labels_set_alignement ( GTK_LABEL (label), 0, 0.5 );
+    utils_labels_set_alignment ( GTK_LABEL (label), 0, 0.5 );
     utils_widget_set_padding (GTK_WIDGET (label), 24, 0);
     gtk_box_pack_start ( GTK_BOX (vbox), label, FALSE, FALSE, 0 );
 
@@ -271,7 +271,7 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
     label = gtk_label_new ( _("Grisbi will archive all transactions belonging to a "
                         "financial year." ) );
     utils_widget_set_padding (GTK_WIDGET (label), 24, 0);
-    utils_labels_set_alignement ( GTK_LABEL (label), 0, 0.5 );
+    utils_labels_set_alignment ( GTK_LABEL (label), 0, 0.5 );
     gtk_box_pack_start ( GTK_BOX (vbox), label, FALSE, FALSE, 0 );
 
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
@@ -307,7 +307,7 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
 
     label = gtk_label_new (_("Grisbi will archive transactions selected by a report." ));
     utils_widget_set_padding (GTK_WIDGET (label), 24, 0);
-    utils_labels_set_alignement ( GTK_LABEL (label), 0, 0.5 );
+    utils_labels_set_alignment ( GTK_LABEL (label), 0, 0.5 );
     gtk_box_pack_start ( GTK_BOX (vbox), label, FALSE, FALSE, 0 );
 
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
@@ -330,7 +330,7 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
     gtk_widget_set_sensitive ( hbox, FALSE );
 
     label_archived = gtk_label_new (NULL);
-    utils_labels_set_alignement ( GTK_LABEL (label_archived), 0, 0 );
+    utils_labels_set_alignment ( GTK_LABEL (label_archived), 0, 0 );
     gtk_box_pack_start ( GTK_BOX (vbox), label_archived, FALSE, FALSE, 0 );
 
     gsb_assistant_sensitive_button_next ( assistant, FALSE );
@@ -364,7 +364,7 @@ static GtkWidget *gsb_assistant_archive_page_archive_name ( GtkWidget *assistant
 
     /* set up the menu */
     label = gtk_label_new ( _("Please choose a name for archive: ") );
-    utils_labels_set_alignement ( GTK_LABEL (label),
+    utils_labels_set_alignment ( GTK_LABEL (label),
 			     0, 0.5 );
     gtk_box_pack_start ( GTK_BOX (vbox),
 			 label,

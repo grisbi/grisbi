@@ -120,7 +120,7 @@ static void gsb_debug_add_report_page (GtkWidget *assistant,
     gtk_label_set_markup (GTK_LABEL(label), tmp_str);
     gtk_label_set_line_wrap (GTK_LABEL(label), TRUE);
     gtk_label_set_justify (GTK_LABEL(label), GTK_JUSTIFY_LEFT);
-    utils_labels_set_alignement (GTK_LABEL (label), GSB_LEFT, GSB_BOTTOM);
+    utils_labels_set_alignment (GTK_LABEL (label), GSB_LEFT, GSB_BOTTOM);
     g_free (tmp_str);
 
     gtk_box_pack_start (GTK_BOX(vbox), label, FALSE, FALSE, 0);

@@ -163,7 +163,7 @@ GtkWidget *gsb_reconcile_create_box ( void )
     /* the title of the frame */
     label = gtk_label_new ( NULL );
     gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
-    utils_labels_set_alignement ( GTK_LABEL (label), 0.0, 0.0 );
+    utils_labels_set_alignment ( GTK_LABEL (label), 0.0, 0.0 );
     gtk_frame_set_label_widget ( GTK_FRAME(frame), label);
 
     /* number of reconcile */
@@ -249,30 +249,30 @@ GtkWidget *gsb_reconcile_create_box ( void )
     gtk_box_pack_start ( GTK_BOX ( vbox ), table, FALSE, FALSE, 0);
 
     label = gtk_label_new ( _("Initial balance: ") );
-    utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0.5 );
+    utils_labels_set_alignment ( GTK_LABEL ( label ), 0, 0.5 );
     gtk_grid_attach (GTK_GRID (table), label, 0, 0, 1, 1);
 
     reconcile_initial_balance_label = gtk_label_new ( NULL );
-    utils_labels_set_alignement ( GTK_LABEL ( reconcile_initial_balance_label ), 1, 0.5 );
+    utils_labels_set_alignment ( GTK_LABEL ( reconcile_initial_balance_label ), 1, 0.5 );
     gtk_widget_set_hexpand (reconcile_initial_balance_label, TRUE);
     gtk_widget_set_halign (reconcile_initial_balance_label, GTK_ALIGN_END);
     gtk_grid_attach (GTK_GRID (table), reconcile_initial_balance_label, 1, 0, 1, 1);
 
     label = gtk_label_new ( _("Final balance: ") );
-    utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0.5 );
+    utils_labels_set_alignment ( GTK_LABEL ( label ), 0, 0.5 );
     gtk_grid_attach (GTK_GRID (table), label, 0, 1, 1, 1);
 
     reconcile_final_balance_label = gtk_label_new ( NULL );
-    utils_labels_set_alignement ( GTK_LABEL ( reconcile_final_balance_label ), 1, 0.5 );
+    utils_labels_set_alignment ( GTK_LABEL ( reconcile_final_balance_label ), 1, 0.5 );
     gtk_widget_set_halign (reconcile_final_balance_label, GTK_ALIGN_END);
     gtk_grid_attach (GTK_GRID (table), reconcile_final_balance_label, 1, 1, 1, 1);
 
     label = gtk_label_new ( _("Checking: ") );
-    utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0.5 );
+    utils_labels_set_alignment ( GTK_LABEL ( label ), 0, 0.5 );
     gtk_grid_attach (GTK_GRID (table), label, 0, 2, 1, 1);
 
     reconcile_marked_balance_label = gtk_label_new ( NULL );
-    utils_labels_set_alignement ( GTK_LABEL ( reconcile_marked_balance_label ), 1, 0.5 );
+    utils_labels_set_alignment ( GTK_LABEL ( reconcile_marked_balance_label ), 1, 0.5 );
     gtk_widget_set_halign (reconcile_marked_balance_label, GTK_ALIGN_END);
     gtk_grid_attach (GTK_GRID (table), reconcile_marked_balance_label, 1, 2, 1, 1);
 
@@ -280,11 +280,11 @@ GtkWidget *gsb_reconcile_create_box ( void )
     gtk_grid_attach (GTK_GRID (table), separator, 0, 3, 2, 1);
 
     label = gtk_label_new ( _("Variance: ") );
-    utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0.5 );
+    utils_labels_set_alignment ( GTK_LABEL ( label ), 0, 0.5 );
     gtk_grid_attach (GTK_GRID (table), label, 0, 4, 1, 1);
 
     reconcile_variation_balance_label = gtk_label_new ( NULL );
-    utils_labels_set_alignement ( GTK_LABEL ( reconcile_variation_balance_label ), 1, 0.5 );
+    utils_labels_set_alignment ( GTK_LABEL ( reconcile_variation_balance_label ), 1, 0.5 );
     gtk_grid_attach (GTK_GRID (table), reconcile_variation_balance_label, 1, 4, 1, 1);
 
     /* set the button to sort with the method of paymen */

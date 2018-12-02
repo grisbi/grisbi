@@ -301,7 +301,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
 
     /* set the name */
 	label = gtk_label_new ( _("Reconciliation reference: ") );
-	utils_labels_set_alignement ( GTK_LABEL (label), 0, 0.5);
+	utils_labels_set_alignment ( GTK_LABEL (label), 0, 0.5);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
 	gtk_grid_attach (GTK_GRID (table_selection), label, 0, 0, 1, 1);
 
@@ -313,7 +313,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
 
 	/* set the initial date */
 	label = gtk_label_new ( _("Initial date: ") );
-	utils_labels_set_alignement ( GTK_LABEL (label), 0, 0.5);
+	utils_labels_set_alignment ( GTK_LABEL (label), 0, 0.5);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
 	gtk_grid_attach (GTK_GRID (table_selection), label, 0, 1, 1, 1);
 
@@ -325,7 +325,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
 
     /* set the final date */
 	label = gtk_label_new ( _("Final date: ") );
-	utils_labels_set_alignement ( GTK_LABEL (label), 0, 0.5);
+	utils_labels_set_alignment ( GTK_LABEL (label), 0, 0.5);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
 	gtk_grid_attach (GTK_GRID (table_selection), label, 0, 2, 1, 1);
 
@@ -345,7 +345,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
 
 	/* set the initial balance */
 	label = gtk_label_new ( _("Initial balance: ") );
-	utils_labels_set_alignement ( GTK_LABEL (label), 0, 0.5);
+	utils_labels_set_alignment ( GTK_LABEL (label), 0, 0.5);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
 	gtk_grid_attach (GTK_GRID (table_selection), label, 2, 1, 1, 1);
 
@@ -357,7 +357,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
 
     /* set the final balance */
 	label = gtk_label_new ( _("Final balance: ") );
-	utils_labels_set_alignement ( GTK_LABEL (label), 0, 0.5);
+	utils_labels_set_alignment ( GTK_LABEL (label), 0, 0.5);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
 	gtk_grid_attach (GTK_GRID (table_selection), label, 2, 2, 1, 1);
 

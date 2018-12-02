@@ -290,7 +290,7 @@ static GtkWidget *gsb_assistant_archive_export_page_name ( GtkWidget *assistant 
     gtk_container_set_border_width ( GTK_CONTAINER(vbox), BOX_BORDER_WIDTH );
 
     archive_export_label = gtk_label_new ( NULL );
-    utils_labels_set_alignement ( GTK_LABEL ( archive_export_label ), 0, 0.5);
+    utils_labels_set_alignment ( GTK_LABEL ( archive_export_label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( archive_export_label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( vbox ), archive_export_label, FALSE, FALSE, 0 );
 
@@ -333,7 +333,7 @@ static GtkWidget *gsb_assistant_archive_export_page_succes ( GtkWidget *assistan
     gtk_container_set_border_width ( GTK_CONTAINER(vbox), BOX_BORDER_WIDTH );
 
     archive_export_label_success = gtk_label_new ( NULL );
-    utils_labels_set_alignement ( GTK_LABEL (archive_export_label_success), 0, 0.5);
+    utils_labels_set_alignment ( GTK_LABEL (archive_export_label_success), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL (archive_export_label_success), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( vbox ), archive_export_label_success, FALSE, FALSE, 0 );
 

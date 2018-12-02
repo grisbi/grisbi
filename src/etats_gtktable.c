@@ -112,13 +112,13 @@ void gtktable_attach_label ( gchar * text, gdouble properties, int x, int x2, in
     switch (align)
     {
 		case GTK_JUSTIFY_LEFT:
-			utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.0 );
+			utils_labels_set_alignment ( GTK_LABEL ( label ), 0.0, 0.0 );
 			break;
 		case GTK_JUSTIFY_CENTER:
-			utils_labels_set_alignement ( GTK_LABEL ( label ), 0.5, 0.0 );
+			utils_labels_set_alignment ( GTK_LABEL ( label ), 0.5, 0.0 );
 			break;
 		case GTK_JUSTIFY_RIGHT:
-			utils_labels_set_alignement ( GTK_LABEL ( label ), 1.0, 0.0 );
+			utils_labels_set_alignment ( GTK_LABEL ( label ), 1.0, 0.0 );
 			break;
 		case GTK_JUSTIFY_FILL:
 			break;

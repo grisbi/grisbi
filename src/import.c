@@ -722,7 +722,7 @@ static GtkWidget *gsb_import_cree_ligne_recapitulatif (struct ImportAccount *com
     }
 
     label = gtk_label_new (NULL);
-    utils_labels_set_alignement (GTK_LABEL (label), 0, 0.5);
+    utils_labels_set_alignment (GTK_LABEL (label), 0, 0.5);
     gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
     tmp_str = g_markup_printf_escaped (_("<span size=\"x-large\">%s</span>\n\n"
                         "What do you want to do with contents from <span "
@@ -2798,7 +2798,7 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
                         "Please select the transactions to import."));
     }
     label = gtk_label_new (tmp_str);
-    utils_labels_set_alignement (GTK_LABEL (label), 0.0, 0.0);
+    utils_labels_set_alignment (GTK_LABEL (label), 0.0, 0.0);
     gtk_box_pack_start (GTK_BOX (dialog_get_content_area (dialog)),
 			 label,
 			 FALSE,
@@ -3747,7 +3747,7 @@ static void gsb_import_show_orphan_transactions (GSList *orphan_list,
 
 	label = gtk_label_new (_("Mark transactions you want to add to the list and click the "
                               "OK button"));
-    utils_labels_set_alignement (GTK_LABEL (label), 0.0, 0.0);
+    utils_labels_set_alignment (GTK_LABEL (label), 0.0, 0.0);
 	gtk_box_pack_start (GTK_BOX (dialog_get_content_area (dialog)),
                         label,
                         FALSE,
@@ -4755,13 +4755,13 @@ static gchar **gsb_import_by_rule_ask_filename (gint rule)
     }
 
     label = gtk_label_new (tmp_str);
-    utils_labels_set_alignement (GTK_LABEL (label), 0.0, 0.0);
+    utils_labels_set_alignment (GTK_LABEL (label), 0.0, 0.0);
     gtk_grid_attach (GTK_GRID (table), label, 0, 0, 3, 1);
     g_free (tmp_str);
 
     /* label filename */
     label = gtk_label_new (_("Name of the file to import: "));
-    utils_labels_set_alignement (GTK_LABEL (label), 0.0, 0.0);
+    utils_labels_set_alignment (GTK_LABEL (label), 0.0, 0.0);
     gtk_grid_attach (GTK_GRID (table), label, 0, 1, 1, 1);
 
     /* i tried to use gtk_file_chooser_button, but the name of the file is showed only sometimes

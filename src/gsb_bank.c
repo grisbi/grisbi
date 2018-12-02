@@ -673,7 +673,7 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 
     /* Bank name item */
     label = gtk_label_new ( _("Name: ") );
-    utils_labels_set_alignement ( GTK_LABEL (label), 0, 0.5);
+    utils_labels_set_alignment ( GTK_LABEL (label), 0, 0.5);
     gtk_grid_attach (GTK_GRID (paddinggrid), label, 0, 0, 1, 1);
 
     if ( combobox )
@@ -689,7 +689,7 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 
     /* Bank Sort code item */
     label = gtk_label_new ( _("Sort code: ") );
-    utils_labels_set_alignement ( GTK_LABEL (label), 0, 0.5);
+    utils_labels_set_alignment ( GTK_LABEL (label), 0, 0.5);
     gtk_grid_attach (GTK_GRID (paddinggrid), label, 0, 1, 1, 1);
 
     if ( combobox )
@@ -705,7 +705,7 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 
     /* Bank BIC code item */
     label = gtk_label_new ( _("BIC code: ") );
-    utils_labels_set_alignement ( GTK_LABEL (label), 0, 0.5);
+    utils_labels_set_alignment ( GTK_LABEL (label), 0, 0.5);
     gtk_grid_attach (GTK_GRID (paddinggrid), label, 0, 2, 1, 1);
 
     if ( combobox )
@@ -721,7 +721,7 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 
     /* Bank address */
     label = gtk_label_new ( _("Address: ") );
-    utils_labels_set_alignement ( GTK_LABEL (label), 0, 0);
+    utils_labels_set_alignment ( GTK_LABEL (label), 0, 0);
     gtk_grid_attach (GTK_GRID (paddinggrid), label, 0, 3, 1, 1);
 
     scrolled_window = gtk_scrolled_window_new ( FALSE, FALSE );
@@ -749,7 +749,7 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 
     /* Phone number */
     label = gtk_label_new ( _("Phone: ") );
-    utils_labels_set_alignement ( GTK_LABEL (label), 0, 0.5);
+    utils_labels_set_alignment ( GTK_LABEL (label), 0, 0.5);
     gtk_grid_attach (GTK_GRID (paddinggrid), label, 0, 4, 1, 1);
 
     if ( combobox )
@@ -765,7 +765,7 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 
     /* E-mail */
     label = gtk_label_new ( _("E-Mail: ") );
-    utils_labels_set_alignement ( GTK_LABEL (label), 0, 0.5);
+    utils_labels_set_alignment ( GTK_LABEL (label), 0, 0.5);
     gtk_grid_attach (GTK_GRID (paddinggrid), label, 0, 5, 1, 1);
 
     if ( combobox )
@@ -781,7 +781,7 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 
     /* Website */
     label = gtk_label_new ( _("Website: ") );
-    utils_labels_set_alignement ( GTK_LABEL (label), 0, 0.5);
+    utils_labels_set_alignment ( GTK_LABEL (label), 0, 0.5);
     gtk_grid_attach (GTK_GRID (paddinggrid), label, 0, 6, 1, 1);
     if ( combobox )
         bank_web = gsb_autofunc_entry_new ( NULL, NULL, NULL, NULL, 0 );
@@ -804,7 +804,7 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 
     /* Name */
     label = gtk_label_new ( _("Name: ") );
-    utils_labels_set_alignement ( GTK_LABEL (label), 0, 0.5);
+    utils_labels_set_alignment ( GTK_LABEL (label), 0, 0.5);
     gtk_grid_attach (GTK_GRID (paddinggrid), label, 0, 0, 1, 1);
 
     if ( combobox )
@@ -822,7 +822,7 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 
     /* Phone number */
     label = gtk_label_new ( _("Phone: ") );
-    utils_labels_set_alignement ( GTK_LABEL (label), 0, 0.5);
+    utils_labels_set_alignment ( GTK_LABEL (label), 0, 0.5);
     gtk_grid_attach (GTK_GRID (paddinggrid), label, 0, 1, 1, 1);
 
     if ( combobox )
@@ -838,7 +838,7 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 
     /* E-Mail */
     label = gtk_label_new ( _("E-Mail: ") );
-    utils_labels_set_alignement ( GTK_LABEL (label), 0, 0.5);
+    utils_labels_set_alignment ( GTK_LABEL (label), 0, 0.5);
     gtk_grid_attach (GTK_GRID (paddinggrid), label, 0, 2, 1, 1);
 
     if ( combobox )
@@ -854,7 +854,7 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 
     /* Fax */
     label = gtk_label_new ( _("Fax: ") );
-    utils_labels_set_alignement ( GTK_LABEL (label), 0, 0.5);
+    utils_labels_set_alignment ( GTK_LABEL (label), 0, 0.5);
     gtk_grid_attach (GTK_GRID (paddinggrid), label, 0, 3, 1, 1);
 
     if ( combobox )

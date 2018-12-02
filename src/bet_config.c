@@ -148,7 +148,7 @@ GtkWidget *bet_config_general_get_period_widget ( GtkWidget *container )
     gtk_box_pack_start ( GTK_BOX ( container ), vbox, FALSE, FALSE, 5);
 
     label = gtk_label_new ( _("Beginning of period") );
-    utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0.5);
+    utils_labels_set_alignment ( GTK_LABEL ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 5) ;
 
@@ -186,7 +186,7 @@ GtkWidget *bet_config_general_get_period_widget ( GtkWidget *container )
     label = gtk_label_new ( text );
 	gtk_label_set_line_wrap (GTK_LABEL(label), TRUE);
     gtk_label_set_use_markup ( GTK_LABEL(label), TRUE );
-    utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0.5);
+    utils_labels_set_alignment ( GTK_LABEL ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 5) ;
     g_free ( text );
@@ -256,7 +256,7 @@ GtkWidget *bet_config_get_duration_widget ( gint origin )
 
     /* partie mensuelle */
     label = gtk_label_new ( _("Duration estimation:") );
-    utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0.5);
+    utils_labels_set_alignment ( GTK_LABEL ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( box ), label, FALSE, FALSE, 5 ) ;
 
@@ -422,7 +422,7 @@ GtkWidget *bet_config_get_select_labels_widget ( GtkWidget *container )
     select = gsb_data_account_get_bet_select_label ( bet_config_get_account_from_combo ( ),
                         origine );
     label = gtk_label_new ( _("Labels for transactions:") );
-    utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0.5);
+    utils_labels_set_alignment ( GTK_LABEL ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 5 );
 
@@ -441,7 +441,7 @@ GtkWidget *bet_config_get_select_labels_widget ( GtkWidget *container )
     select = gsb_data_account_get_bet_select_label ( bet_config_get_account_from_combo ( ),
                         origine );
     label = gtk_label_new ( _("Labels for scheduled transactions:") );
-    utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0.5);
+    utils_labels_set_alignment ( GTK_LABEL ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 5 );
 
@@ -459,7 +459,7 @@ GtkWidget *bet_config_get_select_labels_widget ( GtkWidget *container )
     select = gsb_data_account_get_bet_select_label ( bet_config_get_account_from_combo ( ),
                         origine );
     label = gtk_label_new ( _("Labels for futur data:") );
-    utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0.5);
+    utils_labels_set_alignment ( GTK_LABEL ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 5 );
 
@@ -476,7 +476,7 @@ GtkWidget *bet_config_get_select_labels_widget ( GtkWidget *container )
                         "\tnotes, payee, category and budgetary line.") );
     label = gtk_label_new ( text );
     gtk_label_set_use_markup ( GTK_LABEL(label), TRUE );
-    utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0.5);
+    utils_labels_set_alignment ( GTK_LABEL ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 5 ) ;
     g_free ( text );
@@ -978,7 +978,7 @@ GtkWidget *bet_config_get_finance_widget ( GtkWidget *parent )
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 5);
 
     label = gtk_label_new ( _("Loan Capital: ") );
-    utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0.5);
+    utils_labels_set_alignment ( GTK_LABEL ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
 
@@ -994,7 +994,7 @@ GtkWidget *bet_config_get_finance_widget ( GtkWidget *parent )
 
     /* Duration */
     label = gtk_label_new ( _("Duration: ") );
-    utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0.5);
+    utils_labels_set_alignment ( GTK_LABEL ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
 
@@ -1012,7 +1012,7 @@ GtkWidget *bet_config_get_finance_widget ( GtkWidget *parent )
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 5);
 
     label = gtk_label_new ( _("Date of first repayment: ") );
-    utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0.5);
+    utils_labels_set_alignment ( GTK_LABEL ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
 
@@ -1025,7 +1025,7 @@ GtkWidget *bet_config_get_finance_widget ( GtkWidget *parent )
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 5);
 
     label = gtk_label_new ( _("Annuel rate interest: ") );
-    utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0.5);
+    utils_labels_set_alignment ( GTK_LABEL ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
 
@@ -1043,7 +1043,7 @@ GtkWidget *bet_config_get_finance_widget ( GtkWidget *parent )
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 5);
 
     label = gtk_label_new ( _("Fees per month: ") );
-    utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0.5);
+    utils_labels_set_alignment ( GTK_LABEL ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
 
@@ -1062,7 +1062,7 @@ GtkWidget *bet_config_get_finance_widget ( GtkWidget *parent )
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 5);
 
     label = gtk_label_new ( _("Rate Type: ") );
-    utils_labels_set_alignement ( GTK_LABEL ( label ), 0, 0.5);
+    utils_labels_set_alignment ( GTK_LABEL ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
     button_1 = gtk_radio_button_new_with_label ( NULL, _("CAGR") );

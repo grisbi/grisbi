@@ -554,7 +554,7 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
 
     /* echange line label */
     label = gtk_label_new ( _("Currencies") );
-    utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.0 );
+    utils_labels_set_alignment ( GTK_LABEL ( label ), 0.0, 0.0 );
     gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
 
     /* echange line currency 1 */
@@ -566,7 +566,7 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
 
     /* echange line label */
     label = gtk_label_new ( _("Exchange rate") );
-    utils_labels_set_alignement ( GTK_LABEL ( label ), 0.5, 0.0 );
+    utils_labels_set_alignment ( GTK_LABEL ( label ), 0.5, 0.0 );
     gtk_grid_attach (GTK_GRID (table), label, 2, row, 1, 1);
 
     /* echange line currency 2 */
@@ -587,7 +587,7 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
 
     /* amount line */
     label = gtk_label_new ( _("Amounts: ") );
-    utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.0 );
+    utils_labels_set_alignment ( GTK_LABEL ( label ), 0.0, 0.0 );
     gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
 
     amount_1_entry = gtk_entry_new ();
@@ -656,7 +656,7 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
 
     /* exchange fees line label */
     label = gtk_label_new ( _("Exchange fees: ") );
-    utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.0 );
+    utils_labels_set_alignment ( GTK_LABEL ( label ), 0.0, 0.0 );
     gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
 
     /* exchange fees line input field */
@@ -666,7 +666,7 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
 
     /* exchange fees currency for fees */
     label = gtk_label_new (gsb_data_currency_get_name ( account_currency_number ) );
-    utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.0 );
+    utils_labels_set_alignment ( GTK_LABEL ( label ), 0.0, 0.0 );
     gtk_grid_attach (GTK_GRID (table), label, 2, row, 1, 1);
 
     if ( link_number )

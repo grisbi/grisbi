@@ -660,7 +660,7 @@ GtkWidget *utils_prefs_paddinggrid_new_with_title (GtkWidget *parent,
 
     /* Creating label */
     label = gtk_label_new (NULL);
-    utils_labels_set_alignement (GTK_LABEL (label), 0, 1);
+    utils_labels_set_alignment (GTK_LABEL (label), 0, 1);
     gtk_widget_show (label);
 
     tmp_str = g_markup_printf_escaped ("<span weight=\"bold\">%s</span>", title);

@@ -795,7 +795,7 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
 
     /* Name entry */
     label = gtk_label_new ( _("Name"));
-    utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.5 );
+    utils_labels_set_alignment ( GTK_LABEL ( label ), 0.0, 0.5 );
     gtk_grid_attach (GTK_GRID (table), label, 0, 0, 1, 1);
 
     entry = gtk_entry_new ( );
@@ -819,7 +819,7 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
     {
 	/* Description entry */
 	label = gtk_label_new ( _("Type"));
-	utils_labels_set_alignement ( GTK_LABEL ( label ), 0.0, 0.5 );
+	utils_labels_set_alignment ( GTK_LABEL ( label ), 0.0, 0.5 );
 	gtk_grid_attach (GTK_GRID (table), label, 0, 1, 1, 1);
 
 	radiogroup = gsb_autofunc_radiobutton_new ( _("Credit"), _("Debit"),
