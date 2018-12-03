@@ -1,6 +1,6 @@
 #include "winuser.h"
 
-CREATEPROCESS_MANIFEST_RESOURCE_ID RT_MANIFEST "win-manifest.xml"
+CREATEPROCESS_MANIFEST_RESOURCE_ID RT_MANIFEST "win-main.manifest.xml"
 
 grisbi_icon_id ICON "@TOP_SRCDIR_WINBS@/pixmaps/grisbi-32.ico"
 #define RT_MANIFEST 1
