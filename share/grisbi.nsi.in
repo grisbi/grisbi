@@ -42,7 +42,7 @@ Caption "Grisbi @NSIS_BITS@ ${VERSION} Setup"
   !makensis '/DINNER "${__FILE__}"' = 0
   !system "$%TEMP%\tempinstaller.exe" = 2
   !echo "Signing uninstaller!!!"
-  !system 'c:\msys64\usr\bin\bash.exe -l -c "cd /c/projects/grisbi-cert && ./sign.sh ""$%TEMP%\uninstaller.exe"""' = 0
+  # !system 'c:\msys64\usr\bin\bash.exe -l -c "cd /c/projects/grisbi-cert && ./sign.sh ""$%TEMP%\uninstaller.exe"""' = 0
  
   OutFile "Grisbi-@NSIS_BITS@-${VERSION}${DATE}-setup.exe"
   SetCompressor /SOLID lzma
