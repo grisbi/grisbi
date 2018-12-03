@@ -358,7 +358,7 @@ static const GActionEntry win_always_enabled_entries[] =
 	{ "quick-start", grisbi_cmd_quick_start, NULL, NULL, NULL },
 	{ "web-site", grisbi_cmd_web_site, NULL, NULL, NULL },
 	{ "report-bug", grisbi_cmd_report_bug, NULL, NULL, NULL },
-	{ "day_tip", grisbi_cmd_day_tip, NULL, NULL, NULL },
+	{ "day-tip", grisbi_cmd_day_tip, NULL, NULL, NULL },
     { "fullscreen", NULL, NULL, "false", grisbi_app_change_fullscreen_state }
 };
 
