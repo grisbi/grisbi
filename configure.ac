@@ -393,7 +393,7 @@ share/categories/it/Makefile
 share/categories/ru/Makefile
 src/Makefile
 src/win-main.rc
-src/win-main.manifest
+src/win-main.manifest.xml
 src/tests/Makefile
 src/plugins/gnucash/Makefile
 src/plugins/ofx/Makefile
