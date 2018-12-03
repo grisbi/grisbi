@@ -7,6 +7,8 @@ git_src="https://github.com/xfred81"
 libofx_version="0.9.13"
 libgoffice_version="2018.05.28-16"
 
+cd /c/projects
+git clone "$git_src/grisbi-cert.git"
 cd /
 wget -m --no-verbose -O /libofx.zip "$git_src/libofx/releases/download/0.9.13/libofx_$MSYSTEM.zip"
 unzip libofx.zip
