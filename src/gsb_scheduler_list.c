@@ -1089,11 +1089,11 @@ gboolean gsb_scheduler_list_append_new_scheduled ( gint scheduled_number,
     GtkTreeIter *mother_iter = NULL;
     gchar *line[SCHEDULER_COL_VISIBLE_COLUMNS] = {NULL,NULL,NULL,NULL,NULL,NULL,NULL};
     gint mother_scheduled_number;
-	gint first_is_different = -1;
 	gint fixed_date = 0;
 	gint split_transaction;
 	gint transfer_account = 0;
     gint virtual_transaction = 0;
+	gboolean first_is_different = FALSE;
 
     /* devel_debug_int (scheduled_number); */
     devel_debug_int (scheduled_number);
@@ -1224,7 +1224,8 @@ gboolean gsb_scheduler_list_append_new_scheduled ( gint scheduled_number,
             /* now, it's not real transactions */
 			if (first_is_different && virtual_transaction == 0)
 				gsb_scheduler_list_set_virtual_amount_with_loan (scheduled_number, line, transfer_account);
-            virtual_transaction ++;
+
+			virtual_transaction ++;
         }
     }
     while ( pGDateCurrent &&
