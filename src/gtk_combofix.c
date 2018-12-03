@@ -1666,7 +1666,9 @@ static void gtk_combofix_class_init (GtkComboFixClass *klass)
     object_class->dispose = gtk_combofix_dispose;
     object_class->finalize = gtk_combofix_finalize;
 
+#if GTK_CHECK_VERSION (3,20,0)
 	gtk_widget_class_set_css_name (GTK_WIDGET_CLASS (klass), "combofix");
+#endif
 }
 
 /******************************************************************************/
