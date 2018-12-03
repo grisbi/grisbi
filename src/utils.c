@@ -857,8 +857,9 @@ GtkWidget *utils_combo_box_make_from_string_array (const gchar **array)
  *
  * \return
  * */
-void utils_labels_set_alignment (GtkLabel *label, gfloat xalign,
-								  gfloat yalign)
+void utils_labels_set_alignment (GtkLabel *label,
+								 gfloat xalign,
+								 gfloat yalign)
 {
     gtk_label_set_xalign (label, xalign);
     gtk_label_set_yalign (label, yalign);

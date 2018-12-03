@@ -42,7 +42,7 @@ GtkWidget *     utils_get_image_with_etat                               (GtkMess
 void            utils_gtk_combo_box_set_text_renderer                   (GtkComboBox *combo,
                                                                          gint num_col);
 GtkListStore *  utils_list_store_create_from_string_array               (const gchar **array);
-void            utils_labels_set_alignment                             (GtkLabel *label,
+void            utils_labels_set_alignment                             	(GtkLabel *label,
                                                                          gfloat xalign,
                                                                          gfloat yalign);
 gboolean        utils_set_image_with_etat                               (GtkWidget *widget,
