@@ -16,7 +16,6 @@ typedef struct _CategBudgetSel	CategBudgetSel;
 struct _CategBudgetSel {
     gint div_number;
     GSList *sub_div_numbers;	/* list of number of sub-categories/budgets selected for the category/budget */
-
 };
 
 
