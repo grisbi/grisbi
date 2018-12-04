@@ -215,12 +215,12 @@ hdiutil convert "${DMG_TEMP_NAME}" -format UDZO -imagekey zlib-level=9 -o "${DMG
 rm -f "${DMG_TEMP_NAME}"
 
 # adding EULA resources
-if [ ! -z "${EULA_RSRC}" -a "${EULA_RSRC}" != "-null-" ]; then
+if [ ! -z "${EULA_RSRC}" ] && [ "${EULA_RSRC}" != "-null-" ]; then
         echo "adding EULA resources"
         "${AUX_PATH}/dmg-license.py" "${DMG_DIR}/${DMG_NAME}" "${EULA_RSRC}"
 fi
 
-if [ ! -z "${NOINTERNET}" -a "${NOINTERNET}" == 1 ]; then
+if [ ! -z "${NOINTERNET}" ] && [ "${NOINTERNET}" == 1 ]; then
         echo "not setting 'internet-enable' on the dmg"
 else
         hdiutil internet-enable -yes "${DMG_DIR}/${DMG_NAME}"
