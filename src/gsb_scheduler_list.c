@@ -295,23 +295,37 @@ static gboolean gsb_scheduler_list_show_notes (GtkWidget *item)
  *
  * \return
  **/
-static void gsb_scheduler_list_popup_scheduled_context_menu (void)
+static void gsb_scheduler_list_popup_scheduled_context_menu (GtkWidget *tree_view,
+															 GtkTreePath *path)
 {
     GtkWidget *menu;
     GtkWidget *menu_item;
+    GtkTreeModel *model;
+    GtkTreeIter iter;
     gint scheduled_number;
+	gint virtual_transaction;
 
-    menu = gtk_menu_new ();
+	menu = gtk_menu_new ();
+
+	/* Récupération des données de la ligne sélectionnée */
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
+    gtk_tree_model_get_iter (model, &iter, path);
+    gtk_tree_model_get (model,
+						&iter,
+						SCHEDULER_COL_NB_VIRTUAL_TRANSACTION, &virtual_transaction,
+						SCHEDULER_COL_NB_TRANSACTION_NUMBER, &scheduled_number,
+						-1);
+
+	if (virtual_transaction)
+		scheduled_number = 0;
 
     /* Edit transaction */
-    scheduled_number = gsb_scheduler_list_get_current_scheduled_number ();
-
-    menu_item = GTK_WIDGET (utils_menu_item_new_from_image_label ("gtk-edit-16.png", _("Edit transaction")));
+	menu_item = GTK_WIDGET (utils_menu_item_new_from_image_label ("gtk-edit-16.png", _("Edit transaction")));
     g_signal_connect_swapped (G_OBJECT (menu_item),
 							  "activate",
                         	  G_CALLBACK (gsb_scheduler_list_edit_transaction_by_pointer),
                         	  GINT_TO_POINTER (scheduled_number));
-    if (scheduled_number < 0)
+    if (scheduled_number <= 0)
         gtk_widget_set_sensitive (menu_item, FALSE);
 
     gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
@@ -322,7 +336,7 @@ static void gsb_scheduler_list_popup_scheduled_context_menu (void)
                        "activate",
                        G_CALLBACK (gsb_scheduler_list_clone_selected_scheduled),
                        GINT_TO_POINTER (scheduled_number));
-    if (scheduled_number < 0)
+    if (scheduled_number <= 0)
         gtk_widget_set_sensitive (menu_item, FALSE);
 
     gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
@@ -346,7 +360,7 @@ static void gsb_scheduler_list_popup_scheduled_context_menu (void)
                        G_CALLBACK (gsb_scheduler_list_delete_scheduled_transaction_by_menu),
                        NULL);
 
-    if (scheduled_number < 0)
+    if (scheduled_number <= 0)
         gtk_widget_set_sensitive (menu_item, FALSE);
 
     gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
@@ -376,7 +390,7 @@ static void gsb_scheduler_list_popup_scheduled_context_menu (void)
                         	  "activate",
                         	  G_CALLBACK (gsb_scheduler_list_execute_transaction),
                         	  NULL);
-    if (scheduled_number < 0)
+    if (scheduled_number <= 0)
         gtk_widget_set_sensitive (menu_item, FALSE);
 
     gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
@@ -404,7 +418,18 @@ static gboolean gsb_scheduler_list_button_press (GtkWidget *tree_view,
 {
 	/* show the popup */
 	if (ev->button == RIGHT_BUTTON)
-        gsb_scheduler_list_popup_scheduled_context_menu ();
+	{
+        GtkTreePath *path = NULL;
+
+        if (gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW (tree_view ), ev->x, ev->y, &path, NULL, NULL, NULL))
+        {
+            gsb_scheduler_list_popup_scheduled_context_menu (tree_view, path);
+            gtk_tree_path_free (path);
+
+            return FALSE;
+        }
+	}
+
     else if (ev->type == GDK_2BUTTON_PRESS)
     {
          /* if double-click => edit the scheduled transaction */
