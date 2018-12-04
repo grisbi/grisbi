@@ -73,6 +73,7 @@ gboolean 	gsb_scheduler_list_delete_scheduled_transaction_by_menu		(GtkWidget *b
 gboolean 	gsb_scheduler_list_edit_transaction 						(gint scheduled_number);
 gboolean 	gsb_scheduler_list_execute_transaction 						(gint scheduled_number);
 gboolean 	gsb_scheduler_list_fill_list 								(GtkWidget *tree_view);
+void 		gsb_scheduler_list_free_variables 							(void);
 gint 		gsb_scheduler_list_get_current_scheduled_number 			(void);
 GDate *		gsb_scheduler_list_get_end_date_scheduled_showed 			(void);
 gint 		gsb_scheduler_list_get_last_scheduled_number 				(void);
