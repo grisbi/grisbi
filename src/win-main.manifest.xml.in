@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<assembly manifestVersion=""1.0"" xmlns="urn:schemas-microsoft-com:asm.v1">
+<assembly manifestVersion="1.0" xmlns="urn:schemas-microsoft-com:asm.v1">
   <assemblyIdentity version="@GRISBI_MAJOR_VERSION@.@GRISBI_MINOR_VERSION@.@GRISBI_MICRO_VERSION@.0" name="Grisbi @NSIS_BITS@" />
   <trustInfo xmlns="urn:schemas-microsoft-com:asm.v1">
     <security>
