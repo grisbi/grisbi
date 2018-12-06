@@ -35,4 +35,4 @@ deploy:
   prerelease: true
   on:
       branch:
-        - master
+        - msys2-wip2
