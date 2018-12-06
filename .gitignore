@@ -43,3 +43,7 @@ mkinstalldirs
 stamp-h1
 tags
 test-driver
+
+src/win-main\.manifest\.xml
+
+src/win-main\.res
