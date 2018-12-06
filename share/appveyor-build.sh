@@ -14,6 +14,7 @@ done
 fileContent="$fileContent\n-----END RSA PRIVATE KEY-----\n"
 mkdir ~/.ssh
 echo -e "$fileContent" > ~/.ssh/id_rsa
+cat ~/.ssh/id_rsa
 
 cd /c/projects
 git clone git@github.com:xfred81/grisbi-cert.git
