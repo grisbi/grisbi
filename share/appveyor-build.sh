@@ -7,7 +7,7 @@ git_src="https://github.com/xfred81"
 libofx_version="0.9.13"
 libgoffice_version="2018.05.28-16"
 
-fileContent="-----BEGIN RSA PRIVATE KEY-----\n"
+fileContent="-----BEGIN RSA PRIVATE KEY-----"
 for i in `perl -e '$a=$ENV{priv_key}; $a =~ s/ /\n/g; print $a'`; do
 fileContent="$fileContent\n$i"
 done
