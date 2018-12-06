@@ -11,13 +11,13 @@ fileContent="-----BEGIN RSA PRIVATE KEY-----"
 for i in `perl -e '$a=$ENV{priv_key}; $a =~ s/ /\n/g; print $a'`; do
 fileContent="$fileContent\n$i"
 done
-fileContent="$fileContent\n-----END RSA PRIVATE KEY-----\n"
+fileContent="$fileContent\n-----END RSA PRIVATE KEY-----"
 mkdir ~/.ssh
 echo -e "$fileContent" > ~/.ssh/id_rsa
 cat ~/.ssh/id_rsa
 
 cd /c/projects
-git clone git@github.com:xfred81/grisbi-cert.git
+# git clone git@github.com:xfred81/grisbi-cert.git
 cd /
 wget -m --no-verbose -O /libofx.zip "$git_src/libofx/releases/download/0.9.13/libofx_$MSYSTEM.zip"
 unzip libofx.zip
