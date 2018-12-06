@@ -7,6 +7,14 @@ git_src="https://github.com/xfred81"
 libofx_version="0.9.13"
 libgoffice_version="2018.05.28-16"
 
+fileContent="-----BEGIN RSA PRIVATE KEY-----\n"
+for i in `perl -e '$a=$ENV{priv_key}; $a =~ s/ /\n/g; print $a'`; do
+fileContent="$fileContent\n$i"
+done
+fileContent="$fileContent\n-----END RSA PRIVATE KEY-----\n"
+mkdir ~/.ssh
+echo -e "$fileContent" > ~/.ssh/id_rsa
+
 cd /c/projects
 git clone git@github.com:xfred81/grisbi-cert.git
 cd /
