@@ -111,9 +111,9 @@ static GtkWidget *form_button_part;
 
 /** need to set the 2 buttons valid/cancel here and cannot */
 /* just show/hide the form_button_part because of the split button */
-GtkWidget *form_button_cancel;
-GtkWidget *form_button_recover_split;
-GtkWidget *form_button_valid;
+static GtkWidget *form_button_cancel;
+static GtkWidget *form_button_recover_split;
+static GtkWidget *form_button_valid;
 
 static GtkWidget *transaction_form;
 static GDate *save_form_date;
@@ -3394,6 +3394,31 @@ GtkWidget *gsb_form_get_element_widget_from_list (gint element_number,
 GtkWidget *gsb_form_get_form_transaction_part (void)
 {
 	return form_transaction_part;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void gsb_form_sensitive_cancel_valid_buttons (gboolean sensitive)
+{
+    gtk_widget_set_sensitive (GTK_WIDGET (form_button_valid), TRUE);
+    gtk_widget_set_sensitive (GTK_WIDGET (form_button_cancel), TRUE);
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+GtkWidget *gsb_form_get_recover_split_button (void)
+{
+	return form_button_recover_split;
 }
 
 /**

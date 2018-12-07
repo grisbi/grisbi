@@ -61,7 +61,6 @@
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget *form_button_recover_split;
 /*END_EXTERN*/
 
 
@@ -172,7 +171,10 @@ gboolean gsb_form_transaction_complete_form_by_payee ( const gchar *payee_name )
         &&
         gsb_data_transaction_get_split_of_transaction (transaction_number))
         {
-            gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON ( form_button_recover_split ),
+			GtkWidget *form_button_recover_split;
+
+			form_button_recover_split = gsb_form_get_recover_split_button ();
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON ( form_button_recover_split ),
                         conf.automatic_recover_splits );
             gtk_widget_show ( form_button_recover_split );
         }

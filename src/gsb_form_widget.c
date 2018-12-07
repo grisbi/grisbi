@@ -67,8 +67,6 @@ static gchar *		old_debit_payment_content = NULL;
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget *	form_button_cancel;
-extern GtkWidget *	form_button_valid;
 /*END_EXTERN*/
 
 
@@ -949,10 +947,9 @@ gboolean gsb_form_widget_entry_get_focus (GtkWidget *entry,
     }
 
     /* sensitive the valid and cancel buttons */
-    gtk_widget_set_sensitive (GTK_WIDGET (form_button_valid), TRUE);
-    gtk_widget_set_sensitive (GTK_WIDGET (form_button_cancel), TRUE);
+	gsb_form_sensitive_cancel_valid_buttons (TRUE);
 
-    return FALSE;
+	return FALSE;
 }
 
 /**

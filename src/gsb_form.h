@@ -42,6 +42,7 @@ gint 		gsb_form_get_account_number 			(void);
 gint 		gsb_form_get_element_expandable 		(gint element_number);
 GtkWidget *	gsb_form_get_element_widget_from_list 	(gint element_number,
 													 GSList *list);
+GtkWidget *	gsb_form_get_recover_split_button		(void);
 GtkWidget *	gsb_form_get_form_transaction_part 		(void);
 GtkWidget *	gsb_form_get_form_widget 				(void);
 gint 		gsb_form_get_origin 					(void);
@@ -49,6 +50,7 @@ GtkWidget *	gsb_form_get_scheduler_part 			(void);
 gboolean 	gsb_form_key_press_event 				(GtkWidget *widget,
 													 GdkEventKey *ev,
 													 gint *ptr_origin);
+void		gsb_form_sensitive_cancel_valid_buttons	(gboolean sensitive);
 gboolean 	gsb_form_set_sensitive 					(gboolean split,
 													 gboolean split_child);
 gboolean 	gsb_form_show 							(gboolean show);
