@@ -811,9 +811,11 @@ static gboolean gsb_form_validate_form_transaction (gint transaction_number,
         if (gsb_form_widget_check_empty (widget) == FALSE)
             number = gsb_real_opposite (utils_real_get_calculate_entry (widget));
 
-	if (gsb_form_widget_check_empty (widget) == TRUE || number.mantissa == 0)
+		if (gsb_form_widget_check_empty (widget) == TRUE || number.mantissa == 0)
         {
-            widget = gsb_form_widget_get_widget (TRANSACTION_FORM_CREDIT);
+			gint payment_number;
+
+			widget = gsb_form_widget_get_widget (TRANSACTION_FORM_CREDIT);
             number = utils_real_get_calculate_entry (widget);
 
             if ((gsb_form_widget_check_empty (widget) == TRUE || number.mantissa == 0)
@@ -822,6 +824,54 @@ static gboolean gsb_form_validate_form_transaction (gint transaction_number,
                 dialogue_error (_("You must enter an amount."));
                 return (FALSE);
             }
+			/* on remet le bon moyen de payement */
+			widget = gsb_form_widget_get_widget (TRANSACTION_FORM_TYPE);
+			if (widget && gtk_widget_get_sensitive (widget))
+			{
+				/* change the signe of the method of payment and the contra */
+				if (gsb_payment_method_get_combo_sign (widget) == GSB_PAYMENT_DEBIT)
+				{
+					gsb_payment_method_create_combo_list (widget,
+														  GSB_PAYMENT_CREDIT,
+														  account_number,
+														  0,
+														  FALSE);
+					payment_number = gsb_data_account_get_default_credit (account_number);
+					gsb_payment_method_set_payment_position (widget, payment_number);
+
+					widget = gsb_form_widget_get_widget (TRANSACTION_FORM_CHEQUE);
+					if (gsb_data_payment_get_show_entry (payment_number))
+					{
+						if (widget && gtk_widget_get_visible (widget))
+						{
+							if (gsb_form_widget_get_old_credit_payment_content ())
+							{
+								gtk_entry_set_text (GTK_ENTRY (widget),
+													gsb_form_widget_get_old_credit_payment_content ());
+								gsb_form_widget_set_empty (widget, FALSE);
+							}
+							else
+							{
+								gtk_entry_set_text (GTK_ENTRY (widget), "");
+								gsb_form_widget_set_empty (widget, TRUE);
+							}
+						}
+					}
+					else
+					{
+						gsb_form_widget_set_empty (widget, TRUE);
+						gtk_widget_hide (widget);
+					}
+
+					widget = gsb_form_widget_get_widget (TRANSACTION_FORM_CONTRA);
+					if (widget && gtk_widget_get_visible (widget))
+						gsb_payment_method_create_combo_list (widget,
+															  GSB_PAYMENT_DEBIT,
+															  account_number,
+															  0,
+															  TRUE);
+				}
+			}
         }
     }
 
@@ -1978,23 +2028,37 @@ gboolean gsb_form_clean (gint account_number)
 					break;
 
 				case TRANSACTION_FORM_TYPE:
-				{
-					gint payment_number;
+					{
+						gint payment_number;
 
-					payment_number = gsb_data_account_get_default_debit (account_number);
-					gsb_payment_method_set_combobox_history (element->element_widget, payment_number, TRUE);
-					gtk_widget_set_sensitive (GTK_WIDGET (element->element_widget), FALSE);
-					gsb_payment_method_show_cheque_entry_if_necessary (payment_number);
-					break;
-				}
+						payment_number = gsb_data_account_get_default_debit (account_number);
+						gsb_payment_method_create_combo_list (element->element_widget,
+															  GSB_PAYMENT_DEBIT,
+															  account_number,
+															  0,
+															  FALSE);
+						gsb_payment_method_set_payment_position (element->element_widget, payment_number);
+						gtk_widget_set_sensitive (GTK_WIDGET (element->element_widget), FALSE);
+						gsb_payment_method_show_cheque_entry_if_necessary (payment_number);
+						break;
+					}
+
 				case TRANSACTION_FORM_CONTRA:
 					gtk_widget_hide (element->element_widget);
 					break;
 
 				case TRANSACTION_FORM_CHEQUE:
-					gsb_form_widget_set_empty (element->element_widget, TRUE);
-					gtk_entry_set_text (GTK_ENTRY (element->element_widget), _("Cheque/Transfer number"));
-					break;
+					{
+						gint payment_number;
+
+						payment_number = gsb_data_account_get_default_debit (account_number);
+						if (!gsb_data_payment_get_automatic_numbering (payment_number))
+						{
+							gtk_entry_set_text (GTK_ENTRY (element->element_widget), _("Cheque/Transfer number"));
+							gsb_form_widget_set_empty (element->element_widget, TRUE);
+						}
+						break;
+					}
 
 				case TRANSACTION_FORM_DEVISE:
 					g_signal_handlers_block_by_func (G_OBJECT (element->element_widget),
@@ -2121,6 +2185,7 @@ gboolean gsb_form_entry_lose_focus (GtkWidget *entry,
     gint account_number;
     gint transaction_number;
     gint payment_number;
+    devel_debug (NULL);
 
 	/* still not found, if change the content of the form, something come in entry
      * which is nothing, so protect here */
@@ -2157,6 +2222,7 @@ gboolean gsb_form_entry_lose_focus (GtkWidget *entry,
 		case TRANSACTION_FORM_DEBIT :
 			if (gsb_form_widget_amount_entry_validate (element_number) == FALSE)
 				return TRUE;
+
 			/* we change the payment method to adapt it for the debit */
 			if (strlen (gtk_entry_get_text (GTK_ENTRY (entry))))
 			{

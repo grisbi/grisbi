@@ -496,16 +496,26 @@ gboolean gsb_payment_method_show_cheque_entry_if_necessary ( gint payment_number
 {
     GtkWidget *cheque_entry;
 
-    cheque_entry = gsb_form_widget_get_widget ( TRANSACTION_FORM_CHEQUE );
+	cheque_entry = gsb_form_widget_get_widget ( TRANSACTION_FORM_CHEQUE );
     if ( !cheque_entry )
         return FALSE;
 
     if ( gsb_data_payment_get_show_entry ( payment_number ) == TRUE )
-        gtk_widget_show ( cheque_entry );
+	{
+		if (gsb_data_payment_get_automatic_numbering (payment_number))
+		{
+			gsb_form_widget_set_empty (cheque_entry, FALSE);
+			gtk_entry_set_text (GTK_ENTRY (cheque_entry),
+								gsb_data_payment_get_last_number (payment_number));
+			gtk_widget_set_sensitive (cheque_entry, TRUE);
+		}
+        gtk_widget_show (cheque_entry);
+		return TRUE;
+	}
     else
         gtk_widget_hide ( cheque_entry );
 
-    return TRUE;
+    return FALSE;
 }
 
 
