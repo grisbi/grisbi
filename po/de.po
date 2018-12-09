@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-11-30 12:54+0100\n"
-"PO-Revision-Date: 2018-11-25 11:12+0100\n"
+"PO-Revision-Date: 2018-12-08 23:22+0100\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -7128,9 +7128,8 @@ msgid "Attention missing link between currencies"
 msgstr "Warnung: fehlende Verknüpfung zwischen den Währungen"
 
 #: ../src/gsb_data_partial_balance.c:1676
-#, fuzzy
 msgid "Account number"
-msgstr "Kontoname"
+msgstr "Kontonummer"
 
 #: ../src/gsb_data_partial_balance.c:1697
 msgid "Add a partial balance"
@@ -10213,6 +10212,8 @@ msgid ""
 "This option is not compatible with the option: \"Don't allow new payee "
 "creation\""
 msgstr ""
+"Diese Einstellung ist inkompatibel mit der Einstellung: \"Neue Empfänger"
+" dürfen nicht erstellt werden\""
 
 #: ../src/parametres.c:157
 #, c-format
@@ -10222,10 +10223,13 @@ msgid ""
 "to two.\n"
 "It is advisable to use this feature."
 msgstr ""
+"Das Verhältnis für die Anzahl von Empfängern in archivierte Buchungen (%d) zu "
+"Anzahl von Empfängern in Buchungen (%d) ist größer oder gleich als zwei.\n"
+"Es wird empfohlen diese Funktionalität zu verwenden."
 
 #: ../src/parametres.c:163
 msgid "This feature can be useful"
-msgstr ""
+msgstr "Es wird empfohlen diese Funktionalität zu verwenden"
 
 #: ../src/parametres.c:168
 #, c-format
@@ -10234,10 +10238,13 @@ msgid ""
 "number of payees of non-archived transactions (% d) is less than two.\n"
 "It is not recommended to use this feature."
 msgstr ""
+"Das Verhältnis für die Anzahl von Empfängern in archivierte Buchungen (%d) zu "
+"Anzahl von Empfängern in Buchungen (%d) ist kleiner als zwei.\n"
+"Es wird nicht empfohlen diese Funktionalität zu verwenden."
 
 #: ../src/parametres.c:174
 msgid "This feature is useless"
-msgstr ""
+msgstr "Es wird nicht empfohlen diese Funktionalität zu verwenden"
 
 #. Tip of the day
 #: ../src/parametres.c:221 ../src/ui/grisbi_menu.ui.h:44
@@ -10306,16 +10313,16 @@ msgstr "Zeile verwalten"
 #: ../src/parametres.c:471
 msgid ""
 "Display a short list of entries in the payees selection box (in testing)"
-msgstr ""
+msgstr "Auswahlliste für Empfänger"
 
 #: ../src/parametres.c:474
 msgid "Limits the payees for the payee entry form"
-msgstr ""
+msgstr "Reduzierte Auswahlliste für Empfänger"
 
 #: ../src/parametres.c:480
 msgid ""
 "This option limits the list to payees used by the no archived transactions"
-msgstr ""
+msgstr "Empfänger von archivierten Buchungen werden nicht angezeigt"
 
 #: ../src/parametres.c:638 ../src/parametres.c:646
 msgid "Choose the date format"
@@ -11858,14 +11865,13 @@ msgstr "Plural Form."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:75
 msgid "Right-click action on a sub-category"
-msgstr ""
+msgstr "Aktion für Unterkategorien bei Rechtsklick mit Maus."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:76
-#, fuzzy
 msgid ""
 "Right-click action on a sub-category: gtk default, Edit Category, manage "
 "division if possible."
-msgstr "Aktion für Kategorien bei Doppelklick mit Maus."
+msgstr "Aktion für Unterkategorien bei Rechtsklick mit Maus."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:77
 msgid ""
