@@ -154,11 +154,18 @@ static const GDate *gsb_reconcile_get_pointed_transactions_max_date (gint accoun
 GtkWidget *gsb_reconcile_create_box ( void )
 {
     GtkWidget *frame, *label, *table, *vbox, *hbox, *button, *separator;
+	GtkWidget *sw;
 
     frame = gtk_frame_new ( NULL );
+	sw = gtk_scrolled_window_new (NULL, NULL);
+    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
+									GTK_POLICY_AUTOMATIC,
+									GTK_POLICY_NEVER);
+	gtk_container_add (GTK_CONTAINER (frame), sw);
+
     vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 3 );
-    gtk_container_add ( GTK_CONTAINER ( frame ), vbox );
+    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), MARGIN_BOX);
+    gtk_container_add (GTK_CONTAINER (sw), vbox);
 
     /* the title of the frame */
     label = gtk_label_new ( NULL );
@@ -174,11 +181,13 @@ GtkWidget *gsb_reconcile_create_box ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0);
 
     reconcile_number_entry = gtk_entry_new ();
+	gtk_entry_set_width_chars (GTK_ENTRY (reconcile_number_entry), 12);
+	gtk_widget_set_hexpand (reconcile_number_entry, TRUE);
     gtk_widget_set_tooltip_text ( GTK_WIDGET (reconcile_number_entry),
-                            _("If reconciliation reference ends in a digit, it is "
-                            "automatically incremented at each reconciliation.\n"
-                            "You can let it empty if you don't want to keep a trace of "
-                            "the reconciliation.") );
+								 _("If reconciliation reference ends in a digit, it is "
+								   "automatically incremented at each reconciliation.\n"
+								   "You can let it empty if you don't want to keep a trace of "
+								   "the reconciliation.") );
     gtk_box_pack_start ( GTK_BOX ( hbox ), reconcile_number_entry, FALSE, FALSE, 0);
 
     separator = gtk_separator_new ( GTK_ORIENTATION_HORIZONTAL );
@@ -186,8 +195,8 @@ GtkWidget *gsb_reconcile_create_box ( void )
 
     /* under the reconcile number, we have a table */
     table = gtk_grid_new ();
-    gtk_grid_set_column_spacing (GTK_GRID (table), 5);
-	gtk_grid_set_row_spacing (GTK_GRID (table), 5);
+    gtk_grid_set_column_spacing (GTK_GRID (table), MARGIN_BOX);
+	gtk_grid_set_row_spacing (GTK_GRID (table), MARGIN_BOX);
     gtk_box_pack_start ( GTK_BOX ( vbox ), table, FALSE, FALSE, 0);
 
     separator = gtk_separator_new ( GTK_ORIENTATION_HORIZONTAL );
@@ -197,6 +206,8 @@ GtkWidget *gsb_reconcile_create_box ( void )
     gtk_grid_attach (GTK_GRID (table), separator, 0, 3, 3, 1 );
 
     separator = gtk_separator_new ( GTK_ORIENTATION_VERTICAL );
+	gtk_widget_set_margin_start (separator, MARGIN_BOX);
+	gtk_widget_set_margin_end (separator, MARGIN_BOX);
     gtk_grid_attach (GTK_GRID (table), separator, 1, 0, 1, 5 );
 
     label = gtk_label_new ( _("Date") );
@@ -208,10 +219,10 @@ GtkWidget *gsb_reconcile_create_box ( void )
     reconcile_last_date_label = gtk_label_new ( NULL );
     gtk_grid_attach (GTK_GRID (table), reconcile_last_date_label, 0, 2, 1, 1 );
 
-    /* set the old balance,
-     * an entry the first time, will be unsensitive after */
+    /* set the old balance, an entry the first time, will be unsensitive after */
     reconcile_initial_balance_entry = gtk_entry_new ( );
-    gtk_widget_set_size_request ( reconcile_initial_balance_entry, 50, -1 );
+	gtk_entry_set_width_chars (GTK_ENTRY (reconcile_initial_balance_entry), 13);
+	gtk_widget_set_hexpand (reconcile_initial_balance_entry, TRUE);
     g_signal_connect ( G_OBJECT ( reconcile_initial_balance_entry ),
                         "changed",
 		                G_CALLBACK (gsb_reconcile_update_amounts),
@@ -224,12 +235,14 @@ GtkWidget *gsb_reconcile_create_box ( void )
 
     /* make the new date entry */
     reconcile_new_date_entry = gsb_calendar_entry_new (TRUE);
-    gtk_widget_set_size_request ( reconcile_new_date_entry, 50, -1 );
+    gtk_entry_set_width_chars (GTK_ENTRY (reconcile_new_date_entry), 13);
+	gtk_widget_set_hexpand (reconcile_new_date_entry, TRUE);
     gtk_grid_attach (GTK_GRID (table), reconcile_new_date_entry, 0, 4, 1, 1 );
 
     /* set the new balance */
     reconcile_final_balance_entry = gtk_entry_new ();
-    gtk_widget_set_size_request ( reconcile_final_balance_entry, 50, -1 );
+	gtk_entry_set_width_chars (GTK_ENTRY (reconcile_final_balance_entry), 13);
+	gtk_widget_set_hexpand (reconcile_final_balance_entry, TRUE);
     g_signal_connect ( G_OBJECT ( reconcile_final_balance_entry ),
                         "changed",
 		                G_CALLBACK (gsb_reconcile_update_amounts),
@@ -240,12 +253,10 @@ GtkWidget *gsb_reconcile_create_box ( void )
                         NULL );
     gtk_grid_attach (GTK_GRID (table), reconcile_final_balance_entry, 2, 4, 1, 1 );
 
-    separator = gtk_separator_new ( GTK_ORIENTATION_HORIZONTAL );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), separator, FALSE, FALSE, 0);
-
     /* 2nd table under that, with the balances labels */
     table = gtk_grid_new ();
     gtk_grid_set_row_spacing (GTK_GRID (table), 5);
+	gtk_grid_set_column_homogeneous (GTK_GRID (table),TRUE);
     gtk_box_pack_start ( GTK_BOX ( vbox ), table, FALSE, FALSE, 0);
 
     label = gtk_label_new ( _("Initial balance: ") );
