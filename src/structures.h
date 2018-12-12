@@ -178,7 +178,7 @@ struct _GrisbiWinEtat
 
     /* variables pour les metatree */
     gint		metatree_sort_transactions;					/* 1 = sorting by increasing date 2 = Sort by date descending */
-    gint		add_archive_in_total_balance;				/* Add transactions archived in the totals */
+    gint		metatree_add_archive_in_totals;				/* Add transactions archived in the totals */
 	gboolean	metatree_unarchived_payees;					/* TRUE = limit the list of payees for combofix */
 
     /* variables for the module estimate balance */

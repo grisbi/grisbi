@@ -191,7 +191,7 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
                     etat.is_archive = utils_str_atoi (attribute_values[i]);
 
                 else if ( !strcmp ( attribute_names[i], "Add_archive_in_total_balance" ))
-                    etat.add_archive_in_total_balance = utils_str_atoi( attribute_values[i]);
+                    w_etat->metatree_add_archive_in_totals = utils_str_atoi( attribute_values[i]);
 
                 else
                     unknown = 1;

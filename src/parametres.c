@@ -439,7 +439,7 @@ GtkWidget *onglet_metatree ( void )
     paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE, _("Calculation of totals") );
     check_button = gsb_automem_checkbutton_new (
                         _("Add transactions archived in the totals"),
-                        &etat.add_archive_in_total_balance,
+                        &etat.metatree_add_archive_in_totals,
                         G_CALLBACK ( gsb_config_metatree_re_sort_divisions ),
                         NULL);
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), check_button, FALSE, FALSE, 0 );

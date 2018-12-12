@@ -39,6 +39,7 @@
 #include "bet_data.h"
 #include "classement_echeances.h"
 #include "dialog.h"
+#include "grisbi_win.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
@@ -2561,8 +2562,11 @@ gint gsb_data_transaction_check_content_payment ( gint payment_number,
 GSList *gsb_data_transaction_get_metatree_transactions_list ( void )
 {
     GSList *list_tmp;
+	GrisbiWinEtat *w_etat;
 
-    if ( etat.add_archive_in_total_balance )
+	w_etat = grisbi_win_get_w_etat ();
+
+    if ( w_etat->metatree_add_archive_in_totals )
         list_tmp = g_slist_copy ( complete_transactions_list );
     else
         list_tmp = g_slist_copy ( transactions_list );

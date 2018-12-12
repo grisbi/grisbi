@@ -36,6 +36,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_data_budget.h"
+#include "grisbi_win.h"
 #include "meta_budgetary.h"
 #include "imputation_budgetaire.h"
 #include "gsb_data_form.h"
@@ -1240,10 +1241,13 @@ void gsb_data_budget_reset_counters ( void )
 void gsb_data_budget_update_counters ( void )
 {
     GSList *list_tmp_transactions;
+	GrisbiWinEtat *w_etat;
+
+	w_etat = grisbi_win_get_w_etat ();
 
     gsb_data_budget_reset_counters ();
 
-    if ( etat.add_archive_in_total_balance )
+    if ( w_etat->metatree_add_archive_in_totals )
         list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
     else
         list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
