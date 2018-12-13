@@ -10,9 +10,6 @@
 /*START_DECLARATION*/
 GtkWidget * gsb_config_date_format_chosen               (GtkWidget *parent,
                                                          gint sens);
-gboolean    gsb_config_metatree_re_sort_divisions       (GtkWidget *checkbutton,
-                                                         GdkEventButton *event,
-                                                         gpointer data);
 GtkWidget * gsb_config_number_format_chosen             (GtkWidget *parent,
                                                          gint sens);
 /* PROVISOIRE */
