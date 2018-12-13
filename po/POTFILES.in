@@ -170,5 +170,6 @@ src/prefs/prefs_widget_loan.c
 [type: gettext/glade]src/ui/prefs_page_files.ui
 [type: gettext/glade]src/ui/prefs_page_import_asso.ui
 [type: gettext/glade]src/ui/prefs_page_import_files.ui
+[type: gettext/glade]src/ui/prefs_page_metatree.ui
 [type: gettext/glade]src/ui/prefs_widget_loan.ui
 share/grisbi.desktop.in
