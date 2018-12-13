@@ -33,6 +33,7 @@
 
 /*START_INCLUDE*/
 #include "gtk_combofix.h"
+#include "grisbi_win.h"
 #include "gsb_form.h"
 #include "structures.h"
 #include "utils_buttons.h"
@@ -107,7 +108,10 @@ enum CombofixKeyDirection
 static void gtk_combofix_completion_no_matches (GtkEntryCompletion *completion,
 												gpointer null)
 {
-	if (etat.metatree_unarchived_payees)
+	GrisbiWinEtat *w_etat;
+
+	w_etat = grisbi_win_get_w_etat ();
+	if (w_etat->metatree_unarchived_payees)
 	{
 		completion_no_matches = TRUE;
 	}
@@ -709,12 +713,15 @@ static gboolean gtk_combofix_focus_out (GtkWidget *entry,
 										GdkEvent *ev,
 										GtkComboFix *combofix)
 {
-    gtk_combofix_hide_popup (combofix);
+ 	GrisbiWinEtat *w_etat;
+
+	w_etat = grisbi_win_get_w_etat ();
+	gtk_combofix_hide_popup (combofix);
 
     /* hide the selection */
     gtk_editable_select_region (GTK_EDITABLE (entry), 0, 0);
 
-	if (etat.metatree_unarchived_payees)
+	if (w_etat->metatree_unarchived_payees)
 	{
 		const gchar *text;
 

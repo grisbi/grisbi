@@ -93,22 +93,16 @@ typedef enum 	_SettingsSchema 		SettingsSchema;
 typedef struct _GrisbiWinEtat			GrisbiWinEtat;
 typedef struct _GrisbiWinRun			GrisbiWinRun;
 
-/** structure etat
- * variables contenant juste 0 ou 1
- * configurées par le fichier
- *
- **/
+/* structure etat variables configurées par le fichier de comptes */
 struct _GrisbiWinEtat
 {
-    gint		is_archive;									/** TRUE if the file is an archive, FALSE else */
-
-    gboolean	debug_mode;									/* TRUE in debug mode, FALSE for normale mode */
-
 	/* variables generales */
     gchar *		accounting_entity;
 	gchar *		adr_common;
 	gchar *		adr_secondary;
 	gchar *		date_format;								/* format local d'affichage des dates */
+    gboolean	debug_mode;									/* TRUE in debug mode, FALSE for normale mode */
+    gint		is_archive;									/** TRUE if the file is an archive, FALSE else */
 
 	/* files and backup part */
 	gint 		crypt_file;									/* TRUE if we want to crypt the file */
@@ -177,8 +171,9 @@ struct _GrisbiWinEtat
 	gint		scheduler_set_fixed_date_day;				/* day of fixed date for the scheduled transaction (28, 29, 30 or 31) */
 
     /* variables pour les metatree */
-    gint		metatree_sort_transactions;					/* 1 = sorting by increasing date 2 = Sort by date descending */
     gint		metatree_add_archive_in_totals;				/* Add transactions archived in the totals */
+	gboolean	metatree_assoc_mode;						/* Remplace Revenus/Dépenses par Produits/Charges */
+    gint		metatree_sort_transactions;					/* 1 = sorting by increasing date 2 = Sort by date descending */
 	gboolean	metatree_unarchived_payees;					/* TRUE = limit the list of payees for combofix */
 
     /* variables for the module estimate balance */
@@ -198,11 +193,7 @@ struct _GrisbiWinEtat
     gchar *		scheduler_column_width;
 };
 
-/** structure conf
- * variables containing just 0 or 1
- * configured by gsettings
- *
- */
+/** structure conf variables configured by gsettings */
 struct GrisbiAppConf
 {
 /* root part*/

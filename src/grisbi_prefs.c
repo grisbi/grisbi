@@ -64,6 +64,7 @@
 #include "prefs/prefs_page_files.h"
 #include "prefs/prefs_page_import_asso.h"
 #include "prefs/prefs_page_import_files.h"
+#include "prefs/prefs_page_metatree.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -97,6 +98,7 @@ struct _GrisbiPrefsPrivate
 
 	/* pages num */
 	gint 				form_num_page;
+	gint				metatree_num_page;
  };
 
 
@@ -494,11 +496,9 @@ static void grisbi_prefs_left_panel_populate_tree_model (GrisbiPrefs *prefs)
 	page++;
 
 	/* append page Payees, categories and budgetaries */
-	widget = GTK_WIDGET (onglet_metatree ());
-	utils_widget_set_padding (widget, MARGIN_BOX, 0);
-	if (is_loading == FALSE)
-		gtk_widget_set_sensitive (widget, FALSE);
+	widget = GTK_WIDGET (prefs_page_metatree_new (prefs));
 	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Payees, categories and budgetaries"), page);
+	priv->metatree_num_page = page;
 	page++;
 
 	/* append page Elements of interface */
@@ -889,6 +889,33 @@ static void grisbi_prefs_class_init (GrisbiPrefsClass *klass)
 GrisbiPrefs *grisbi_prefs_new (GrisbiWin *win)
 {
 	return g_object_new (GRISBI_PREFS_TYPE, "transient-for", win, NULL);
+}
+
+/**
+ * retourne le widget enfant de la page passée en paramètre
+ *
+ * \param page_name
+ *
+ * \return the child of notebook page
+ **/
+GtkWidget *grisbi_prefs_get_child_by_page_name (const gchar *page_name)
+{
+	GtkWidget *widget = NULL;
+	GrisbiPrefs *prefs;
+	GrisbiWin *win;
+	GrisbiPrefsPrivate *priv;
+
+	devel_debug (page_name);
+	win = grisbi_app_get_active_window (NULL);
+	prefs = GRISBI_PREFS (grisbi_win_get_prefs_dialog (win));
+	priv = grisbi_prefs_get_instance_private (prefs);
+
+	if (strcmp (page_name, "metatree_num_page") == 0)
+	{
+		widget = gtk_notebook_get_nth_page (GTK_NOTEBOOK (priv->notebook_prefs), priv->metatree_num_page);
+	}
+
+	return widget;
 }
 
 /**

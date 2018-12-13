@@ -42,6 +42,7 @@
 #include "gsb_transactions_list.h"
 #include "gtk_combofix.h"
 #include "navigation.h"
+#include "prefs/prefs_page_metatree.h"
 #include "structures.h"
 #include "traitement_variables.h"
 #include "transaction_list.h"
@@ -833,7 +834,10 @@ gboolean gsb_transactions_list_display_update_combofix ( void )
 
 	combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_PARTY );
 	if (combofix && GTK_IS_COMBOFIX (combofix))
+	{
+		prefs_page_metatree_sensitive_widget ("metatree_unarchived_payees", etat.combofix_force_payee);
 		gtk_combofix_set_properties (combofix);
+	}
 
     combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_CATEGORY );
 	if (combofix && GTK_IS_COMBOFIX (combofix))

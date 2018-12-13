@@ -427,7 +427,7 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
                     etat.metatree_sort_transactions = utils_str_atoi( attribute_values[i]);
 
 				else if (!strcmp (attribute_names[i], "Metatree_unarchived_payees"))
-					etat.metatree_unarchived_payees = utils_str_atoi( attribute_values[i]);
+					w_etat->metatree_unarchived_payees = utils_str_atoi( attribute_values[i]);
 
 				else
                     unknown = 1;

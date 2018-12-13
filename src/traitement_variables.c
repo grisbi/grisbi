@@ -251,7 +251,6 @@ void init_variables ( void )
     gsb_rgba_set_colors_to_default ();
 
     /* divers */
-    etat.add_archive_in_total_balance = TRUE;   /* add the archived transactions by default */
     etat.get_fyear_by_value_date = 0;           /* By default use transaction-date */
 
     /* remove the timeout if necessary */

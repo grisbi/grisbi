@@ -35,6 +35,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_data_payee.h"
+#include "grisbi_win.h"
 #include "gsb_combo_box.h"
 #include "gsb_data_form.h"
 #include "gsb_data_report.h"
@@ -135,9 +136,12 @@ static GSList *gsb_data_payee_get_name_list (void)
 {
     GSList *return_list;
     GSList *tmp_list;
+	GrisbiWinEtat *w_etat;
+
+	w_etat = grisbi_win_get_w_etat ();
 
 	return_list = NULL;
-	if (etat.metatree_unarchived_payees)
+	if (w_etat->metatree_unarchived_payees)
 	{
 		tmp_list = gsb_data_payee_get_unarchived_payees_list ();
 	}
@@ -734,10 +738,12 @@ GsbReal gsb_data_payee_get_balance (gint no_payee)
 void gsb_data_payee_update_counters (void)
 {
     GSList *list_tmp_transactions;
+	GrisbiWinEtat *w_etat;
 
-    gsb_data_payee_reset_counters ();
+	w_etat = grisbi_win_get_w_etat ();
+	gsb_data_payee_reset_counters ();
 
-    if (etat.add_archive_in_total_balance)
+    if (w_etat->metatree_add_archive_in_totals)
         list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
     else
         list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
@@ -961,9 +967,12 @@ gint gsb_data_payee_get_unused_payees (void)
     GSList *tmp_list;
     GSList *used = NULL;
     gint nb_unused = 0;
+	GrisbiWinEtat *w_etat;
+
+	w_etat = grisbi_win_get_w_etat ();
 
     /* on tient compte de toutes les opérations : méthode courte*/
-    if (etat.add_archive_in_total_balance)
+    if (w_etat->metatree_add_archive_in_totals)
     {
         /* it scans the list of sheduled transactions. fix bug 538 */
         tmp_list = gsb_data_scheduled_get_scheduled_list ();
