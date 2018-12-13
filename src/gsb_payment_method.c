@@ -463,7 +463,7 @@ gboolean gsb_payment_method_show_cheque_entry_if_necessary (gint payment_number)
 		{
 			gsb_form_widget_set_empty (cheque_entry, FALSE);
 			gtk_entry_set_text (GTK_ENTRY (cheque_entry),
-								gsb_data_payment_get_last_number (payment_number));
+								gsb_data_payment_incremente_last_number (payment_number, 1));
 			gtk_widget_set_sensitive (cheque_entry, TRUE);
 		}
         gtk_widget_show (cheque_entry);
