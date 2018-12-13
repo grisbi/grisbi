@@ -37,6 +37,8 @@
 #include "gsb_category.h"
 #include "etats_calculs.h"
 #include "dialog.h"
+#include "grisbi_win.h"
+#include "gsb_automem.h"
 #include "gsb_data_category.h"
 #include "gsb_data_form.h"
 #include "gsb_dirs.h"
@@ -189,10 +191,13 @@ gboolean gsb_category_display_foreign_toggled ( GtkWidget * button )
 GtkWidget *gsb_category_assistant_create_choice_page ( GtkWidget *assistant )
 {
     GtkWidget * page, * sw, * radiobutton;
+	GtkWidget *checkbutton;
     GtkTreeModel * builtin_category_model;
     GtkTreeView * builtin_category_view;
     GtkCellRenderer *cell;
+	GrisbiWinEtat *w_etat;
 
+	w_etat = grisbi_win_get_w_etat ();
     page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
     gtk_container_set_border_width ( GTK_CONTAINER(page), BOX_BORDER_WIDTH );
 
@@ -228,6 +233,14 @@ GtkWidget *gsb_category_assistant_create_choice_page ( GtkWidget *assistant )
     g_object_set_data ( G_OBJECT(radiobutton), "model", builtin_category_model );
     g_object_set_data ( G_OBJECT(radiobutton), "view", builtin_category_view );
     g_signal_connect ( radiobutton, "toggled", G_CALLBACK(gsb_category_display_foreign_toggled), NULL );
+
+	checkbutton = gsb_automem_checkbutton_new (_("Replace Incomes/Expenses in Revenues/Expenses"),
+											   &w_etat->metatree_assoc_mode,
+											   NULL,
+											   NULL);
+    gtk_box_pack_start (GTK_BOX (page), checkbutton, FALSE, FALSE, 0);
+    g_object_set_data (G_OBJECT (checkbutton), "model", builtin_category_model);
+    g_object_set_data (G_OBJECT (checkbutton), "view", builtin_category_view );
 
     gtk_widget_show_all (page);
     return page;
