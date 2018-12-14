@@ -299,9 +299,6 @@ struct GrisbiAppConf
  */
 struct _GrisbiWinRun
 {
-    /* main window of grisbi */
-    GtkWidget *	window;
-
     /* old version of file */
     gboolean	old_version;								/* TRUE if file version < 0.6 */
 	gboolean	account_number_is_0;						/* TRUE si an account has 0 for number */
