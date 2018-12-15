@@ -11,15 +11,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-13 10:16+0100\n"
-"PO-Revision-Date: 2018-12-08 23:22+0100\n"
+"POT-Creation-Date: 2018-12-15 10:53+0100\n"
+"PO-Revision-Date: 2018-12-15 10:52+0100\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Lokalize 18.12.0\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../src/accueil.c:129
@@ -5444,7 +5444,7 @@ msgstr "Fremdkategorien anzeigen"
 
 #: ../src/gsb_category.c:237 ../src/ui/prefs_page_metatree.ui.h:10
 msgid "Replace Incomes/Expenses in Revenues/Expenses"
-msgstr ""
+msgstr "Einnahmen und Ausgaben ersetzen"
 
 #: ../src/gsb_category.c:384
 msgid "Cannot open the category file."
@@ -7869,7 +7869,6 @@ msgid "Transfer : "
 msgstr "Umbuchung : "
 
 #: ../src/gsb_form.c:270
-#, fuzzy
 msgid ""
 "You are trying to change a split of transaction to another kind of "
 "transaction.\n"
@@ -7877,8 +7876,10 @@ msgid ""
 "will  be deleted.\n"
 "Are you sure?"
 msgstr ""
-"Wenn eine Splittbuchung mit Teilbuchungen in eine andere Art geändert wird "
-"werden die Teilbuchungen gelöscht.\n"
+"Sie sind dabei die Art von einer Splittbuchung mit Teilbuchungen zu zu "
+"ändern.\n"
+"Wenn bei einer Splittbuchung mit Teilbuchungen die Art geändert wird werden "
+"die Teilbuchungen gelöscht.\n"
 "Soll der Vorgang fortgesetzt werden?"
 
 #: ../src/gsb_form.c:274
@@ -11033,7 +11034,6 @@ msgstr ""
 "beschrieben."
 
 #: ../src/tip.c:90
-#, fuzzy
 msgid ""
 "You can archive previous financial years to speed up Grisbi and possibly put "
 "old transactions into separate files for archival.  Use 'File/Archive "
@@ -11041,8 +11041,8 @@ msgid ""
 msgstr ""
 "... eine Archivierung von Buchungen nach Geschäftsjahren möglich ist?\n"
 "\n"
-"Seit Version 0.6 können Buchungen archiviert werden. Geschäftsjahre sind ein "
-"mögliches Auswahlkriterium für die Archivierung."
+"Grisbi kann ältere Buchungen archivieren, Geschäftsjahre sind ein mögliches "
+"Auswahlkriterium für die Archivierung."
 
 #: ../src/tip.c:93
 msgid ""
@@ -13008,14 +13008,12 @@ msgid "Add transactions archived in the totals"
 msgstr "Archivierte Buchungen berücksichtigen"
 
 #: ../src/ui/prefs_page_metatree.ui.h:8
-#, fuzzy
 msgid "Action associated with a double click on a subdivision"
-msgstr "Aktion bei Doppelklick: "
+msgstr "Aktion bei Doppelklick"
 
 #: ../src/ui/prefs_page_metatree.ui.h:9
-#, fuzzy
 msgid "Option for French associations"
-msgstr "Einstellungen für Bargeldkonten"
+msgstr "Einstellungen für französische Zuordnungen"
 
 #: ../src/ui/prefs_page_metatree.ui.h:11
 msgid "Sort option for transactions"
