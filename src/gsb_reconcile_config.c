@@ -36,6 +36,7 @@
 /*START_INCLUDE*/
 #include "gsb_reconcile_config.h"
 #include "dialog.h"
+#include "grisbi_win.h"
 #include "gsb_assistant_reconcile_config.h"
 #include "gsb_autofunc.h"
 #include "gsb_automem.h"
@@ -186,7 +187,9 @@ GtkWidget *gsb_reconcile_config_create ( void )
     GtkWidget *table_selection;
     GtkWidget *button;
     gint width_entry = 80;
+	GrisbiWinEtat *w_etat;
 
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
     vbox_pref = new_vbox_with_title_and_icon ( _("Reconciliation"),
 					       "gsb-reconciliation-32.png" );
 
@@ -195,7 +198,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
                         _("Start Date + one month"),
                         _("Today's date"),
                         NULL,
-                        &etat.reconcile_end_date,
+                        &w_etat->reconcile_end_date,
                         G_CALLBACK ( gsb_reconcile_config_end_date_changed ),
                         NULL,
                         GTK_ORIENTATION_HORIZONTAL );
@@ -684,7 +687,10 @@ gboolean gsb_reconcile_config_end_date_changed ( GtkWidget *checkbutton,
                         GdkEventButton *event,
                         gpointer data )
 {
-    etat.reconcile_end_date = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( checkbutton ), "pointer" ) );
+	GrisbiWinEtat *w_etat;
+
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
+    w_etat->reconcile_end_date = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( checkbutton ), "pointer" ) );
 
     gsb_file_set_modified ( TRUE );
 

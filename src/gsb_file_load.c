@@ -471,7 +471,7 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
 
             case 'R':
                 if ( !strcmp ( attribute_names[i], "Reconcile_end_date" ) )
-                    etat.reconcile_end_date = utils_str_atoi ( attribute_values[i] );
+                    w_etat->reconcile_end_date = utils_str_atoi ( attribute_values[i] );
 
                 else if ( !strcmp ( attribute_names[i], "Reconcile_sort" ) )
                     etat.reconcile_sort = utils_str_atoi ( attribute_values[i] );

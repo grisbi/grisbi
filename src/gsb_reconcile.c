@@ -475,7 +475,9 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
         {
             GDate *today;
             gchar *string ;
+			GrisbiWinEtat *w_etat;
 
+			w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
             string = gsb_format_gdate ( date );
             gtk_label_set_text ( GTK_LABEL ( reconcile_last_date_label ), string);
             gtk_widget_set_sensitive ( GTK_WIDGET ( reconcile_last_date_label ), FALSE );
@@ -484,9 +486,9 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
             g_free (string);
             g_date_add_months ( date, 1 );
 
-            /* if etat.reconcile_end_date or the new date is after today, set today */
+            /* if w_etat->reconcile_end_date or the new date is after today, set today */
             today = gdate_today();
-            if ( etat.reconcile_end_date || g_date_compare ( date, today) > 0 )
+            if ( w_etat->reconcile_end_date || g_date_compare ( date, today) > 0 )
             {
                 g_date_free (date);
                 date = gdate_today();
