@@ -740,9 +740,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
         mon_thousands_sep = g_strdup ( "empty" );
 
     /* if we save an archive, we save it here */
-    if (archive_number
-	||
-	etat.is_archive )
+    if (archive_number || w_etat->is_archive)
 	is_archive = TRUE;
 
     /* protect adr_common */

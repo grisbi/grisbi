@@ -188,7 +188,7 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
                     etat.automatic_separator = utils_str_atoi( attribute_values[i]);
 
                 else if ( !strcmp ( attribute_names[i], "Archive_file" ))
-                    etat.is_archive = utils_str_atoi (attribute_values[i]);
+                    w_etat->is_archive = utils_str_atoi (attribute_values[i]);
 
                 else if ( !strcmp ( attribute_names[i], "Add_archive_in_total_balance" ))
                     w_etat->metatree_add_archive_in_totals = utils_str_atoi( attribute_values[i]);
@@ -4083,8 +4083,10 @@ gboolean gsb_file_load_open_file (const gchar *filename )
 {
     gchar *file_content;
     gulong length;
+	GrisbiWinEtat *w_etat;
 
-    devel_debug ( filename );
+    devel_debug (filename);
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
 
 #ifndef G_OS_WIN32      /* check the access to the file and display a message */
     gint return_value;
@@ -4197,7 +4199,7 @@ gboolean gsb_file_load_open_file (const gchar *filename )
         gsb_assistant_archive_run ( TRUE );
 
     /* if we opened an archive, we say it here */
-    if ( etat.is_archive )
+    if ( w_etat->is_archive )
         dialogue_hint ( _("You have opened an archive.\nThere is no limit in Grisbi, "
                         "you can do whatever you want and save it later (new reports...) "
                         "but remember it's an archive before modifying some transactions "
