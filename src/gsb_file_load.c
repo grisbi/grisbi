@@ -239,7 +239,7 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
 
             case 'C':
                 if ( !strcmp ( attribute_names[i], "Category_list_currency_number" ))
-                    etat.no_devise_totaux_categ = utils_str_atoi ( attribute_values[i] );
+                    w_etat->no_devise_totaux_categ = utils_str_atoi ( attribute_values[i] );
 
                 else if ( !strcmp ( attribute_names[i], "Combofix_mixed_sort" ))
                     etat.combofix_mixed_sort = utils_str_atoi( attribute_values[i]);
@@ -832,10 +832,12 @@ static  void gsb_file_load_currency ( const gchar **attribute_names,
 {
     gint i=0;
     gint currency_number = -1;
+	GrisbiWinEtat *w_etat;
 
     if ( !attribute_names[i] )
-    return;
+		return;
 
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
     do
     {
     /*     we test at the beginning if the attribute_value is NULL, if yes, */
@@ -922,13 +924,13 @@ static  void gsb_file_load_currency ( const gchar **attribute_names,
             etat.no_devise_totaux_tiers = gsb_data_currency_get_no_currency (
                 g_slist_nth_data ( tmp_list, 0 ) );
     }
-    if ( etat.no_devise_totaux_categ == 0 )
+    if ( w_etat->no_devise_totaux_categ == 0 )
     {
         GSList *tmp_list;
 
         tmp_list = gsb_data_currency_get_currency_list ( );
         if ( g_slist_length ( tmp_list ) > 0 )
-            etat.no_devise_totaux_categ = gsb_data_currency_get_no_currency (
+            w_etat->no_devise_totaux_categ = gsb_data_currency_get_no_currency (
                         g_slist_nth_data ( tmp_list, 0 ) );
     }
     if ( etat.no_devise_totaux_ib == 0 )

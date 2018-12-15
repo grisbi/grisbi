@@ -306,7 +306,7 @@ static void prefs_page_metatree_setup_metatree_page (PrefsPageMetatree *page)
 																		payees_fill_list);
     gtk_grid_attach (GTK_GRID (priv->grid_metatree_currencies), priv->combo_devise_totaux_tiers, 1, 0, 1, 1);
 
-    priv->combo_devise_totaux_categ = gsb_currency_config_new_combobox (&etat.no_devise_totaux_categ,
+    priv->combo_devise_totaux_categ = gsb_currency_config_new_combobox (&w_etat->no_devise_totaux_categ,
 																		categories_fill_list);
     gtk_grid_attach (GTK_GRID (priv->grid_metatree_currencies), priv->combo_devise_totaux_categ, 1, 1, 1, 1);
 

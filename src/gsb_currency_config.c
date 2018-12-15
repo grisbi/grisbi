@@ -1023,7 +1023,9 @@ GtkWidget *gsb_currency_config_create_page (void)
 GtkWidget *gsb_currency_config_create_totals_page (void)
 {
     GtkWidget *table, *label;
+	GrisbiWinEtat *w_etat;
 
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
     table = gtk_grid_new ();
     gtk_grid_set_column_spacing (GTK_GRID (table), 5);
     gtk_grid_set_row_spacing (GTK_GRID (table), 5);
@@ -1040,7 +1042,7 @@ GtkWidget *gsb_currency_config_create_totals_page (void)
     utils_labels_set_alignment (GTK_LABEL (label), GSB_LEFT, GSB_BOTTOM);
     gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
     gtk_grid_attach (GTK_GRID (table), label, 0, 1, 1,1);
-    combo_devise_totaux_categ = gsb_currency_config_new_combobox (&etat.no_devise_totaux_categ,
+    combo_devise_totaux_categ = gsb_currency_config_new_combobox (&w_etat->no_devise_totaux_categ,
 																  categories_fill_list);
     gtk_grid_attach (GTK_GRID (table), combo_devise_totaux_categ, 1, 1, 1, 1);
 

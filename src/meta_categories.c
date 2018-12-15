@@ -30,6 +30,7 @@
 /*START_INCLUDE*/
 #include "meta_categories.h"
 #include "categories_onglet.h"
+#include "grisbi_win.h"
 #include "gsb_category.h"
 #include "gsb_data_category.h"
 #include "gsb_data_scheduled.h"
@@ -115,7 +116,11 @@ static MetatreeInterface *category_interface = &_category_interface;
  */
 gint category_tree_currency ( void )
 {
-    return etat.no_devise_totaux_categ;
+	GrisbiWinEtat *w_etat;
+
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
+
+    return w_etat->no_devise_totaux_categ;
 }
 
 

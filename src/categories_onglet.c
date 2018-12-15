@@ -32,7 +32,6 @@
 #include "categories_onglet.h"
 #include "dialog.h"
 #include "grisbi_app.h"
-#include "grisbi_win.h"
 #include "gsb_autofunc.h"
 #include "gsb_automem.h"
 #include "gsb_data_category.h"
@@ -95,12 +94,13 @@ struct MetatreeHoldPosition *category_hold_position;
  * */
 void categories_init_variables_list ( void )
 {
-    categ_tree_model = NULL;
+	GrisbiWinEtat *w_etat;
 
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
+    categ_tree_model = NULL;
     category_toolbar = NULL;
     arbre_categ = NULL;
-    etat.no_devise_totaux_categ = 1;
-
+    w_etat->no_devise_totaux_categ = 1;
     sortie_edit_category = FALSE;
 }
 
