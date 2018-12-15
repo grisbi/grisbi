@@ -950,9 +950,6 @@ static void grisbi_app_startup (GApplication *application)
     /* initialise les couleurs */
     gsb_rgba_initialise_couleurs_par_defaut ();
 
-	/* initialise les variables d'état */
-    init_variables ();
-
 	/* enregistre les formats d'importation */
     gsb_import_register_import_formats ();
 

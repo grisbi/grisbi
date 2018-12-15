@@ -685,7 +685,10 @@ gboolean gsb_file_open_file (const gchar *filename)
     grisbi_win_status_bar_wait (TRUE);
     grisbi_win_status_bar_message (_("Loading accounts"));
 
-    /* try to load the file */
+	/* initialise les variables d'état */
+    init_variables ();
+
+	/* try to load the file */
     /* FIXME:BUG under Windows: for unknwon reason yet filename is cleared
      * when returning from gsb_file_load_open_file!
      * making application crashes!*/
