@@ -601,7 +601,6 @@ void grisbi_cmd_debug_mode_toggle (GSimpleAction *action,
 			val = g_variant_new_boolean (TRUE);
 			g_action_change_state (G_ACTION (action), val);
 			g_simple_action_set_enabled (action, FALSE);
-			g_variant_unref (val);
 			debug_start_log ();
 		}
 	}
