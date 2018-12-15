@@ -101,7 +101,6 @@ struct _GrisbiWinEtat
 	gchar *		adr_common;
 	gchar *		adr_secondary;
 	gchar *		date_format;								/* format local d'affichage des dates */
-    gboolean	debug_mode;									/* TRUE in debug mode, FALSE for normale mode */
     gint		is_archive;									/** TRUE if the file is an archive, FALSE else */
 
 	/* files and backup part */
@@ -196,6 +195,9 @@ struct _GrisbiWinEtat
 /** structure conf variables configured by gsettings */
 struct GrisbiAppConf
 {
+/* NO SAVE IN GSETTINGS */
+    gboolean	debug_mode;									/* TRUE in debug mode, FALSE for normale mode */
+
 /* root part*/
     gint        first_use;                                  /* première utilisation ou réinitialisation de grisbi */
     gboolean    force_classic_menu;                         /* TRUE force classic menu */
@@ -299,7 +301,7 @@ struct GrisbiAppConf
  */
 struct _GrisbiWinRun
 {
-    /* old version of file */
+	/* old version of file */
     gboolean	old_version;								/* TRUE if file version < 0.6 */
 	gboolean	account_number_is_0;						/* TRUE si an account has 0 for number */
 

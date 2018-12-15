@@ -1074,9 +1074,9 @@ static void grisbi_app_shutdown (GApplication *application)
 	devel_debug (NULL);
 
     /* clean finish of the debug file */
-    if (etat.debug_mode)
+    if (conf.debug_mode)
 	{
-		etat.debug_mode = FALSE;
+		conf.debug_mode = FALSE;
         debug_finish_log ();
 	}
 

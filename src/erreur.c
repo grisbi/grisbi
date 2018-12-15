@@ -406,7 +406,7 @@ void debug_message_string ( const gchar *prefixe,
 {
 
 	/* il faut bien entendu que le mode debug soit actif ou que l'on force l'affichage */
-    if (debugging_grisbi || force_debug_display || etat.debug_mode)
+    if (debugging_grisbi || force_debug_display || conf.debug_mode)
     {
         gchar* tmp_str;
 
@@ -420,7 +420,7 @@ void debug_message_string ( const gchar *prefixe,
                         debug_get_debug_time (), (clock() + 0.0)/ CLOCKS_PER_SEC, prefixe,
                         file, line, function);
 
-        if ( etat.debug_mode )
+        if ( conf.debug_mode )
         {
             fwrite ( tmp_str, sizeof (gchar), strlen ( tmp_str ), debug_file );
             fflush ( debug_file );
@@ -456,7 +456,7 @@ void debug_message_int ( const gchar *prefixe,
                         gboolean force_debug_display )
 {
 	/* il faut bien entendu que le mode debug soit actif ou que l'on force l'affichage */
-    if ( ( debugging_grisbi && level <= debugging_grisbi) || force_debug_display || etat.debug_mode )
+    if ( ( debugging_grisbi && level <= debugging_grisbi) || force_debug_display || conf.debug_mode )
     {
         gchar* tmp_str;
 
@@ -465,7 +465,7 @@ void debug_message_int ( const gchar *prefixe,
                         debug_get_debug_time (), (clock() + 0.0)/ CLOCKS_PER_SEC, prefixe,
                         file, line, function, message);
 
-        if (etat.debug_mode)
+        if (conf.debug_mode)
         {
             fwrite ( tmp_str, sizeof (gchar), strlen ( tmp_str ), debug_file );
             fflush ( debug_file );
@@ -502,7 +502,7 @@ void debug_message_real ( const gchar *prefixe,
                         gboolean force_debug_display )
 {
 	/* il faut bien entendu que le mode debug soit actif ou que l'on force l'affichage */
-    if ( ( debugging_grisbi && level <= debugging_grisbi) || force_debug_display || etat.debug_mode )
+    if ( ( debugging_grisbi && level <= debugging_grisbi) || force_debug_display || conf.debug_mode )
     {
         gchar* tmp_str;
 
@@ -511,7 +511,7 @@ void debug_message_real ( const gchar *prefixe,
                         debug_get_debug_time (), (clock() + 0.0)/ CLOCKS_PER_SEC, prefixe,
                         file, line, function, message.mantissa, message.exponent );
 
-        if ( etat.debug_mode )
+        if ( conf.debug_mode )
         {
             fwrite ( tmp_str, sizeof (gchar), strlen ( tmp_str ), debug_file );
             fflush ( debug_file );
@@ -577,7 +577,7 @@ gboolean debug_start_log ( void )
     {
         gchar *tmp_str_2;
 
-		etat.debug_mode = TRUE;
+		conf.debug_mode = TRUE;
         /* début du mode de débogage */
         tmp_str = g_strdup_printf(_("%s, %2f : Debug - %s:%d:%s\n\n"),
                         debug_get_debug_time ( ),
