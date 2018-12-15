@@ -1075,7 +1075,10 @@ static void grisbi_app_shutdown (GApplication *application)
 
     /* clean finish of the debug file */
     if (etat.debug_mode)
+	{
+		etat.debug_mode = FALSE;
         debug_finish_log ();
+	}
 
     /* on libère la mémoire utilisée par etat */
     free_variables ();
