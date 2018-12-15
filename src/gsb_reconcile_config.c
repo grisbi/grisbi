@@ -270,7 +270,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
 
     /* Set the reconcile_sort */
     button = gsb_automem_checkbutton_new (_("Sort by descending date the reconciliations"),
-                                          &etat.reconcile_sort,
+                                          &w_etat->reconcile_sort,
                                           G_CALLBACK (gsb_reconcile_config_sort_reconcile),
                                           NULL);
     gtk_widget_set_margin_top (button, MARGIN_TOP);
@@ -408,12 +408,13 @@ void gsb_reconcile_config_fill ( void )
 {
     GtkTreeModel *model;
     GSList *tmp_list;
+	GrisbiWinEtat *w_etat;
 
     if (!reconcile_treeview)
-	return;
+		return;
 
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
     model = gtk_tree_view_get_model ( GTK_TREE_VIEW (reconcile_treeview));
-
     gtk_tree_store_clear (GTK_TREE_STORE(model));
 
     /* we make a tree_model containing the accounts,
@@ -439,7 +440,7 @@ void gsb_reconcile_config_fill ( void )
 
 	/* for each account, get the concerned reconciles */
 	reconcile_list = gsb_data_reconcile_get_sort_reconcile_list (account_number);
-    if (etat.reconcile_sort)
+    if (w_etat->reconcile_sort)
 		reconcile_list = g_list_reverse (reconcile_list);
 
 	while (reconcile_list)
