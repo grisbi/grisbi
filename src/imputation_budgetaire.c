@@ -34,7 +34,6 @@
 #include "imputation_budgetaire.h"
 #include "dialog.h"
 #include "grisbi_app.h"
-#include "grisbi_win.h"
 #include "gsb_autofunc.h"
 #include "gsb_automem.h"
 #include "gsb_data_budget.h"
@@ -95,13 +94,14 @@ static struct MetatreeHoldPosition *budgetary_hold_position;
  * */
 void budgetary_lines_init_variables_list ( void )
 {
-    budgetary_line_tree_model = NULL;
+	GrisbiWinEtat *w_etat;
 
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
+    budgetary_line_tree_model = NULL;
     budgetary_toolbar = NULL;
     budgetary_line_tree = NULL;
-    etat.no_devise_totaux_ib = 1;
-
-    sortie_edit_budgetary_line = FALSE;
+    w_etat->no_devise_totaux_ib = 1;
+	sortie_edit_budgetary_line = FALSE;
 }
 
 

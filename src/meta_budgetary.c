@@ -30,11 +30,12 @@
 
 /*START_INCLUDE*/
 #include "meta_budgetary.h"
-#include "imputation_budgetaire.h"
+#include "grisbi_win.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "gsb_real.h"
+#include "imputation_budgetaire.h"
 #include "structures.h"
 #include "utils_str.h"
 /*END_INCLUDE*/
@@ -136,7 +137,11 @@ static MetatreeInterface *budgetary_interface = &_budgetary_interface;
  */
 gint budgetary_line_tree_currency ( void )
 {
-    return etat.no_devise_totaux_ib;
+	GrisbiWinEtat *w_etat;
+
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
+
+	return w_etat->no_devise_totaux_ib;
 }
 
 

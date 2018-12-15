@@ -29,6 +29,7 @@
 
 /*START_INCLUDE*/
 #include "meta_payee.h"
+#include "grisbi_win.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_transaction.h"
 #include "gsb_real.h"
@@ -165,7 +166,11 @@ static gint payee_transaction_div_id (gint transaction_number)
  */
 gint payee_tree_currency ( void )
 {
-    return etat.no_devise_totaux_tiers;
+	GrisbiWinEtat *w_etat;
+
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
+
+    return w_etat->no_devise_totaux_tiers;
 }
 
 

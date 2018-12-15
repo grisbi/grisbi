@@ -217,7 +217,7 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
                     etat.bet_type_taux = utils_str_atoi ( attribute_values[i] );
 
                 else if ( !strcmp ( attribute_names[i], "Budget_list_currency_number" ))
-                    etat.no_devise_totaux_ib = utils_str_atoi ( attribute_values[i]);
+                    w_etat->no_devise_totaux_ib = utils_str_atoi ( attribute_values[i]);
 
                 else if ( !strcmp ( attribute_names[i], "Bet_array_column_width" ))
                 {
@@ -464,7 +464,7 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
 
             case 'P':
                 if ( !strcmp ( attribute_names[i], "Party_list_currency_number" ))
-                    etat.no_devise_totaux_tiers = utils_str_atoi ( attribute_values[i]);
+                    w_etat->no_devise_totaux_tiers = utils_str_atoi ( attribute_values[i]);
                 else
                     unknown = 1;
                 break;
@@ -915,13 +915,13 @@ static  void gsb_file_load_currency ( const gchar **attribute_names,
 
     /* initialization of the currency for the payees, categories and
      * budgetary lines in case of need */
-    if ( etat.no_devise_totaux_tiers == 0 )
+    if ( w_etat->no_devise_totaux_tiers == 0 )
     {
         GSList *tmp_list;
 
         tmp_list = gsb_data_currency_get_currency_list ( );
         if ( g_slist_length ( tmp_list ) > 0 )
-            etat.no_devise_totaux_tiers = gsb_data_currency_get_no_currency (
+            w_etat->no_devise_totaux_tiers = gsb_data_currency_get_no_currency (
                 g_slist_nth_data ( tmp_list, 0 ) );
     }
     if ( w_etat->no_devise_totaux_categ == 0 )
@@ -933,13 +933,13 @@ static  void gsb_file_load_currency ( const gchar **attribute_names,
             w_etat->no_devise_totaux_categ = gsb_data_currency_get_no_currency (
                         g_slist_nth_data ( tmp_list, 0 ) );
     }
-    if ( etat.no_devise_totaux_ib == 0 )
+    if ( w_etat->no_devise_totaux_ib == 0 )
     {
         GSList *tmp_list;
 
         tmp_list = gsb_data_currency_get_currency_list ( );
         if ( g_slist_length ( tmp_list ) > 0 )
-            etat.no_devise_totaux_ib = gsb_data_currency_get_no_currency (
+            w_etat->no_devise_totaux_ib = gsb_data_currency_get_no_currency (
                 g_slist_nth_data ( tmp_list, 0 ) );
     }
 }

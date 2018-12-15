@@ -1034,7 +1034,7 @@ GtkWidget *gsb_currency_config_create_totals_page (void)
     utils_labels_set_alignment (GTK_LABEL (label), GSB_LEFT, GSB_BOTTOM);
     gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
     gtk_grid_attach (GTK_GRID (table), label, 0, 0, 1, 1);
-    combo_devise_totaux_tiers = gsb_currency_config_new_combobox (&etat.no_devise_totaux_tiers,
+    combo_devise_totaux_tiers = gsb_currency_config_new_combobox (&w_etat->no_devise_totaux_tiers,
 																  payees_fill_list);
     gtk_grid_attach (GTK_GRID (table), combo_devise_totaux_tiers, 1, 0, 1, 1);
 
@@ -1050,7 +1050,7 @@ GtkWidget *gsb_currency_config_create_totals_page (void)
     utils_labels_set_alignment (GTK_LABEL (label), GSB_LEFT, GSB_BOTTOM);
     gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
     gtk_grid_attach (GTK_GRID (table), label, 0, 2, 1, 1);
-    combo_devise_totaux_ib = gsb_currency_config_new_combobox (&etat.no_devise_totaux_ib,
+    combo_devise_totaux_ib = gsb_currency_config_new_combobox (&w_etat->no_devise_totaux_ib,
 															   budgetary_lines_fill_list);
     gtk_grid_attach (GTK_GRID (table), combo_devise_totaux_ib, 1, 2, 1, 1);
 

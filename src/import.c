@@ -547,9 +547,9 @@ static gint gsb_import_add_currency (struct ImportAccount *compte)
 			GrisbiWinEtat *w_etat;
 
 			w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
-            etat.no_devise_totaux_tiers = currency_number;
+            w_etat->no_devise_totaux_tiers = currency_number;
             w_etat->no_devise_totaux_categ = currency_number;
-            etat.no_devise_totaux_ib = currency_number;
+            w_etat->no_devise_totaux_ib = currency_number;
         }
     }
     gtk_widget_destroy (dialog);

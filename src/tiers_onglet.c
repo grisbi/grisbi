@@ -620,12 +620,13 @@ static gboolean payees_update_combofix (gboolean force)
  **/
 void payees_init_variables_list (void)
 {
-    payee_tree_model = NULL;
+	GrisbiWinEtat *w_etat;
 
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
+    payee_tree_model = NULL;
     payee_toolbar = NULL;
     payee_tree = NULL;
-    etat.no_devise_totaux_tiers = 1;
-
+    w_etat->no_devise_totaux_tiers = 1;
     display_unused_payees = FALSE;
     sortie_edit_payee = FALSE;
 }

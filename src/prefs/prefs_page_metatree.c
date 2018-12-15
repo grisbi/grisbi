@@ -40,6 +40,7 @@
 #include "prefs_page_metatree.h"
 #include "categories_onglet.h"
 #include "dialog.h"
+#include "grisbi_win.h"
 #include "gsb_automem.h"
 #include "gsb_currency_config.h"
 #include "gsb_data_payee.h"
@@ -302,7 +303,7 @@ static void prefs_page_metatree_setup_metatree_page (PrefsPageMetatree *page)
 	gtk_box_reorder_child (GTK_BOX (priv->vbox_metatree), head_page, 0);
 
     /* set the variables for totals currencies */
-    priv->combo_devise_totaux_tiers = gsb_currency_config_new_combobox (&etat.no_devise_totaux_tiers,
+    priv->combo_devise_totaux_tiers = gsb_currency_config_new_combobox (&w_etat->no_devise_totaux_tiers,
 																		payees_fill_list);
     gtk_grid_attach (GTK_GRID (priv->grid_metatree_currencies), priv->combo_devise_totaux_tiers, 1, 0, 1, 1);
 
@@ -310,7 +311,7 @@ static void prefs_page_metatree_setup_metatree_page (PrefsPageMetatree *page)
 																		categories_fill_list);
     gtk_grid_attach (GTK_GRID (priv->grid_metatree_currencies), priv->combo_devise_totaux_categ, 1, 1, 1, 1);
 
-    priv->combo_devise_totaux_ib = gsb_currency_config_new_combobox (&etat.no_devise_totaux_ib,
+    priv->combo_devise_totaux_ib = gsb_currency_config_new_combobox (&w_etat->no_devise_totaux_ib,
 																	 budgetary_lines_fill_list);
     gtk_grid_attach (GTK_GRID (priv->grid_metatree_currencies), priv->combo_devise_totaux_ib, 1, 2, 1, 1);
 
