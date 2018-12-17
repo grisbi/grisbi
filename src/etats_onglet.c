@@ -121,8 +121,10 @@ static void etats_onglet_change_choix_nouvel_etat (GtkWidget *combobox,
 												   GtkWidget *label_description)
 {
     gchar *description;
+	GrisbiWinEtat *w_etat;
 	GrisbiWinRun *w_run;
 
+	w_etat = grisbi_win_get_w_etat ();
 	w_run = grisbi_win_get_w_run ();
 	g_signal_handlers_block_by_func (bouton_no_show_prefs,
 									 etats_onglet_checkbutton_toggled,
@@ -173,8 +175,13 @@ static void etats_onglet_change_choix_nouvel_etat (GtkWidget *combobox,
 
 		case 5:
 			/* Monthly outgoings by payee */
-			description = _("This report displays current month's outgoings sorted by payees. "
-							"You just need to select the account(s). By default all accounts are selected.");
+			if (w_etat->metatree_assoc_mode)
+				description = "Cet état affiche les dépenses du mois classées par tiers. "
+				"Vous aurez juste à choisir le ou les comptes et de valider. Par défaut, "
+				"tous les comptes sont utilisés).";
+			else
+				description = _("This report displays current month's outgoings sorted by payees. "
+								"You just need to select the account(s). By default all accounts are selected.");
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (bouton_no_show_prefs), w_run->no_show_prefs);
 			gtk_widget_set_sensitive (bouton_no_show_prefs, TRUE);
 			break;
@@ -815,8 +822,10 @@ gboolean etats_onglet_ajoute_etat (void)
     gint amount_comparison_number;
     gint report_number;
     gint resultat;
+	GrisbiWinEtat *w_etat;
 	GrisbiWinRun *w_run;
 
+	w_etat = grisbi_win_get_w_etat ();
 	w_run = grisbi_win_get_w_run ();
 	w_run->empty_report = FALSE;
 
@@ -862,12 +871,21 @@ gboolean etats_onglet_ajoute_etat (void)
     gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled_window), GTK_SHADOW_NONE);
 
 	/* fill combobox */
-	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combobox), _("Last month incomes and outgoings"));
-	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combobox), _("Current month incomes and outgoings"));
+	if (w_etat->metatree_assoc_mode)
+		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combobox), "Produits et Charges du dernier mois");
+	else
+		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combobox), _("Last month incomes and outgoings"));
+	if (w_etat->metatree_assoc_mode)
+		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combobox), "Produits et Charges du mois en cours");
+	else
+		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combobox), _("Current month incomes and outgoings"));
 	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combobox), _("Annual budget"));
 	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combobox), _("Blank report"));
 	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combobox), _("Cheques deposit"));
-	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combobox), _("Monthly outgoings by payee"));
+	if (w_etat->metatree_assoc_mode)
+		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combobox), "Charges mensuelles par Tiers");
+	else
+		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combobox), _("Monthly outgoings by payee"));
 	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combobox), _("Search"));
 
 	/* set first entry and description */
@@ -906,8 +924,16 @@ gboolean etats_onglet_ajoute_etat (void)
     switch (resultat)
     {
 		case 0:
+		{
+			GrisbiWinEtat *w_etat;
+
+			w_etat = grisbi_win_get_w_etat ();
+
 			/*  Last month incomes and outgoings  */
-			report_number = gsb_data_report_new (_("Last month incomes and outgoings"));
+			if (w_etat->metatree_assoc_mode)
+				report_number = gsb_data_report_new ("Produits et Charges du dernier mois");
+			else
+				report_number = gsb_data_report_new (_("Last month incomes and outgoings"));
 
 			/* le classement de base est 1-2-3-4-5-6 (cf structure.h) */
 			etats_onglet_set_classement_base (report_number);
@@ -928,10 +954,19 @@ gboolean etats_onglet_ajoute_etat (void)
 
 			/* tout le reste est à NULL, ce qui est très bien */
 			break;
+		}
 
 		case 1:
+		{
+			GrisbiWinEtat *w_etat;
+
+			w_etat = grisbi_win_get_w_etat ();
+
 			/*  Current month incomes and outgoings */
-			report_number = gsb_data_report_new (_("Current month incomes and outgoings"));
+			if (w_etat->metatree_assoc_mode)
+				report_number = gsb_data_report_new ("Produits et Charges du mois en cours");
+			else
+				report_number = gsb_data_report_new (_("Current month incomes and outgoings"));
 
 			/* le classement de base est 1-2-3-4-5-6 (cf structure.h) */
 			etats_onglet_set_classement_base (report_number);
@@ -952,6 +987,7 @@ gboolean etats_onglet_ajoute_etat (void)
 
 			/* tout le reste est à NULL, ce qui est très bien */
 			break;
+		}
 
 		case 2:
 
@@ -1047,8 +1083,16 @@ gboolean etats_onglet_ajoute_etat (void)
 			break;
 
 		case 5:
+		{
+			GrisbiWinEtat *w_etat;
+
+			w_etat = grisbi_win_get_w_etat ();
+
 			/* Monthly outgoings by payee */
-			report_number = gsb_data_report_new (_("Monthly outgoings by payee"));
+			if (w_etat->metatree_assoc_mode)
+				report_number = gsb_data_report_new ("Charges mensuelles par Tiers");
+			else
+				report_number = gsb_data_report_new (_("Monthly outgoings by payee"));
 
 			/* le classement de base est 1-2-3-4-5-6 (cf structure.h) */
 			etats_onglet_set_classement_base (report_number);
@@ -1080,6 +1124,7 @@ gboolean etats_onglet_ajoute_etat (void)
 
 			/*   tout le reste est à NULL, ce qui est très bien */
 			break;
+		}
 
 		case 6:
 			/* Search */

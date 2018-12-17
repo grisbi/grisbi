@@ -2309,8 +2309,10 @@ void bet_graph_sectors_graph_new ( GtkWidget *button,
     gint currency_number;
     struct_bet_graph_data *self_credit;
     struct_bet_graph_data *self_debit;
+	GrisbiWinEtat *w_etat;
 
     devel_debug (NULL);
+	w_etat = grisbi_win_get_w_etat ();
 
     /* Initialisation d'un nouveau GtkBuilder */
     if ( !bet_graph_initialise_builder ( ) )
@@ -2353,7 +2355,10 @@ void bet_graph_sectors_graph_new ( GtkWidget *button,
     self_debit->account_number = account_number;
     self_debit->currency_number = currency_number;
     self_debit->type_infos = 1;
-    self_debit->title = g_strdup ( _("Expenses") );
+	if (w_etat->metatree_assoc_mode)
+		self_debit->title = g_strdup ("Charges");
+	else
+		self_debit->title = g_strdup ( _("Expenses") );
     self_debit->service_id = g_strdup ( "GogPiePlot" );
     self_debit->is_legend = TRUE;
 
@@ -2374,7 +2379,11 @@ void bet_graph_sectors_graph_new ( GtkWidget *button,
     self_credit->account_number = account_number;
     self_credit->currency_number = currency_number;
     self_credit->type_infos = 0;
-    self_credit->title = g_strdup ( _("Incomes") );
+	if (w_etat->metatree_assoc_mode)
+		self_credit->title = g_strdup ("Produits");
+	else
+		self_credit->title = g_strdup ( _("Incomes") );
+
     self_credit->service_id = g_strdup ( "GogPiePlot" );
     self_credit->is_legend = TRUE;
 

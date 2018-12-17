@@ -34,6 +34,7 @@
 #include "etats_affiche.h"
 #include "etats_calculs.h"
 #include "etats_support.h"
+#include "grisbi_win.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
@@ -1682,9 +1683,11 @@ gint etat_affiche_affiche_total_partiel ( GsbReal total_partie,
 {
     gchar * text;
     gint current_report_number;
+	GrisbiWinEtat *w_etat;
+
+	w_etat = grisbi_win_get_w_etat ();
 
     current_report_number = gsb_gui_navigation_get_current_report ();
-
 
     etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, GTK_JUSTIFY_CENTER, 0 );
     ligne++;
@@ -1694,31 +1697,63 @@ gint etat_affiche_affiche_total_partiel ( GsbReal total_partie,
 
     if ( type )
     {
-	if ( gsb_data_report_get_show_report_transaction_amount (current_report_number))
-	{
-	    gchar* fmtstr;
-	    if ( nb_ope_partie_etat <= 1 )
-		fmtstr = _("Total expenses (%d transaction): ");
-	    else
-		fmtstr = _("Total expenses (%d transactions): ");
-	    text = g_strdup_printf ( fmtstr, nb_ope_partie_etat );
-	}
-	else
-	    text = g_strdup( _("Total expenses: ") );
+		if ( gsb_data_report_get_show_report_transaction_amount (current_report_number))
+		{
+			gchar* fmtstr;
+
+			if ( nb_ope_partie_etat <= 1 )
+			{
+				if (w_etat->metatree_assoc_mode)
+					fmtstr = "Charge totale (%d opération) : ";
+				else
+					fmtstr = _("Total expense (%d transaction): ");
+			}
+			else
+			{
+				if (w_etat->metatree_assoc_mode)
+					fmtstr = "Total charges (%d opérations) : ";
+				else
+					fmtstr = _("Total expenses (%d transactions): ");
+			}
+			text = g_strdup_printf ( fmtstr, nb_ope_partie_etat );
+		}
+		else
+		{
+			if (w_etat->metatree_assoc_mode)
+				text = g_strdup ("Total charges : ");
+			else
+				text = g_strdup ( _("Total expenses: ") );
+		}
     }
     else
     {
-	if ( gsb_data_report_get_show_report_transaction_amount (current_report_number))
-	{
-	    gchar* fmtstr;
-	    if ( nb_ope_partie_etat <= 1 )
-		fmtstr = _("Total income (%d transaction): ");
-	    else
-		fmtstr = _("Total income (%d transactions): ");
-	    text = g_strdup_printf ( fmtstr, nb_ope_partie_etat );
-	}
-	else
-	    text = g_strdup( _("Total income: ") );
+		if ( gsb_data_report_get_show_report_transaction_amount (current_report_number))
+		{
+			gchar* fmtstr;
+
+			if ( nb_ope_partie_etat <= 1 )
+			{
+				if (w_etat->metatree_assoc_mode)
+					fmtstr = "Total Produit (%d opération) : ";
+				else
+					fmtstr = _("Total income (%d transaction): ");
+			}
+			else
+			{
+				if (w_etat->metatree_assoc_mode)
+					fmtstr = _("Total Produits (%d opérations) : ");
+				else
+					fmtstr = _("Total income (%d transactions): ");
+			}
+			text = g_strdup_printf ( fmtstr, nb_ope_partie_etat );
+		}
+		else
+		{
+			if (w_etat->metatree_assoc_mode)
+				text = g_strdup ("Total Produits : ");
+			else
+				text = g_strdup ( _("Total income: ") );
+		}
     }
 
     etat_affiche_attach_label ( text, TEXT_NORMAL, 0, nb_colonnes - 1, ligne, ligne + 1, GTK_JUSTIFY_LEFT, 0 );
@@ -2315,12 +2350,19 @@ gint etat_affiche_affiche_tiers_etat ( gint transaction_number,
 /*****************************************************************************************************/
 gint etat_affiche_affiche_titre_revenus_etat ( gint ligne )
 {
+	GrisbiWinEtat *w_etat;
+
+	w_etat = grisbi_win_get_w_etat ();
     etat_affiche_attach_label ( NULL, TEXT_NORMAL, 0, nb_colonnes,
 				ligne, ligne + 1, GTK_JUSTIFY_CENTER, 0 );
     ligne++;
 
-    etat_affiche_attach_label ( _("Incomes"), TEXT_LARGE, 0, nb_colonnes,
-				ligne, ligne + 1, GTK_JUSTIFY_CENTER, 0 );
+	if (w_etat->metatree_assoc_mode)
+		etat_affiche_attach_label ("Produits", TEXT_LARGE, 0, nb_colonnes, ligne, ligne + 1, GTK_JUSTIFY_CENTER, 0);
+	else
+		etat_affiche_attach_label ( _("Incomes"), TEXT_LARGE, 0, nb_colonnes,
+					ligne, ligne + 1, GTK_JUSTIFY_CENTER, 0 );
+
     ligne++;
 
     etat_affiche_attach_label ( NULL, TEXT_NORMAL, 0, nb_colonnes,
@@ -2335,12 +2377,18 @@ gint etat_affiche_affiche_titre_revenus_etat ( gint ligne )
 /*****************************************************************************************************/
 gint etat_affiche_affiche_titre_depenses_etat ( gint ligne )
 {
+	GrisbiWinEtat *w_etat;
+
+	w_etat = grisbi_win_get_w_etat ();
     etat_affiche_attach_label ( NULL, TEXT_NORMAL, 0, nb_colonnes,
 				ligne, ligne + 1, GTK_JUSTIFY_CENTER, 0 );
     ligne++;
 
-    etat_affiche_attach_label ( _("Outgoings"), TEXT_LARGE, 0, nb_colonnes,
-				ligne, ligne + 1, GTK_JUSTIFY_CENTER, 0 );
+	if (w_etat->metatree_assoc_mode)
+		etat_affiche_attach_label ("Charges", TEXT_LARGE, 0, nb_colonnes, ligne, ligne + 1, GTK_JUSTIFY_CENTER, 0);
+	else
+		etat_affiche_attach_label ( _("Outgoings"), TEXT_LARGE, 0, nb_colonnes,
+								   ligne, ligne + 1, GTK_JUSTIFY_CENTER, 0 );
     ligne++;
 
     etat_affiche_attach_label ( NULL, TEXT_NORMAL, 0, nb_colonnes,
