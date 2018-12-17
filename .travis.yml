@@ -11,14 +11,16 @@ env:
   - CONF: werror
   - CONF: goffice
 
+addons:
+  homebrew:
+    update: true
+    brewfile: true
+
 before_install:
     # Linux: create Docker image
     - export DIST_NAME=debian DIST_VERS=testing TAG=grisbi
     - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then docker pull ${DIST_NAME}:${DIST_VERS} ; fi
     - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then docker build --rm=true --file=travis-ci/Dockerfile.${DIST_NAME}-${DIST_VERS} --tag=${DIST_NAME}-${DIST_VERS}:${TAG} travis-ci ; fi
-
-    # macOS: install packages
-    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update && brew bundle && brew bundle cleanup --force ; fi
 
 script:
     - echo "export TRAVIS_OS_NAME=$TRAVIS_OS_NAME" > travis-ci/env
