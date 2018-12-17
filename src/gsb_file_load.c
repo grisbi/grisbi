@@ -458,13 +458,6 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
                     unknown = 1;
                 break;
 
-            //~ case 'O':	/* fixes bug 1875 */
-                //~ if ( !strcmp ( attribute_names[i], "One_line_showed" ))
-                    //~ display_one_line = utils_str_atoi ( attribute_values[i]);
-                //~ else
-                    //~ unknown = 1;
-                //~ break;
-
             case 'P':
                 if ( !strcmp ( attribute_names[i], "Party_list_currency_number" ))
                     w_etat->no_devise_totaux_tiers = utils_str_atoi ( attribute_values[i]);

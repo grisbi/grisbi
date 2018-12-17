@@ -195,14 +195,8 @@ static gboolean utils_str_payee_name_is_trouve (const gchar *name,
 	guint nbre_items_actifs = 0;
 	guint trouve = 0;
 	guint i;
-	//~ GrisbiWinRun *w_run;
-
-    //~ devel_debug (NULL);
-	//~ w_run = grisbi_win_get_w_run ();
 
 	nbre_items = g_strv_length (tab_str);
-	//~ printf ("payee_name = %s is_prefix = %d is_suffix = %d w_run->import_asso_case_insensitive = %d nbre_items = %d\n",
-			//~ name, is_prefix, is_suffix, w_run->import_asso_case_insensitive, nbre_items);
     for (i = 0; i < nbre_items; i++)
 	{
 		if (!tab_str[i] || strlen (tab_str[i]) == 0)
@@ -232,7 +226,6 @@ static gboolean utils_str_payee_name_is_trouve (const gchar *name,
 			{
 				if (g_strstr_len (tmp_name, -1, tmp_str))
 				{
-					//~ printf ("tmp_name = %s tmp_str = %s\n", tmp_name, tmp_str);
 					trouve++;
 				}
 			}

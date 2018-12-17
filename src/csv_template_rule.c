@@ -49,8 +49,6 @@
 /*START_EXTERN*/
 /*END_EXTERN*/
 
-//~ static CSVImportRule *csv_rule;
-
 typedef struct _CsvTemplateRulePrivate	CsvTemplateRulePrivate;
 typedef struct _SpecWidgetLine			SpecWidgetLine;
 
@@ -325,7 +323,6 @@ static void csv_template_rule_spec_conf_set_actions (GtkComboBoxText *combobox)
 {
 	gtk_combo_box_text_append ((GtkComboBoxText *) combobox, NULL, _("Skip lines"));
 	gtk_combo_box_text_append ((GtkComboBoxText *) combobox, NULL, _("Invert the amount"));
-	//~ gtk_combo_box_text_append ((GtkComboBoxText *) combobox, NULL, _("transfer to account"));
 
 	gtk_combo_box_set_active ((GtkComboBox *) combobox,0);
 }

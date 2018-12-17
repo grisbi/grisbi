@@ -2070,21 +2070,6 @@ GtkWidget *bet_finance_ui_create_simulator_toolbar (GtkWidget *parent,
 					  tree_view);
     gtk_toolbar_insert (GTK_TOOLBAR (toolbar), item, -1);
 
-	/* suppression en attente de retour sur l'utilité de ce bouton */
-	//~ if (simulator)
-    //~ {
-        //~ /* création du bouton calculer */
-        //~ item = utils_buttons_tool_button_new_from_image_label ("gtk-execute-24.png", _("Calculate"));
-        //~ gtk_widget_set_tooltip_text (GTK_WIDGET (item), _("Calculate"));
-        //~ g_signal_connect (G_OBJECT (item),
-                        //~ "clicked",
-                        //~ G_CALLBACK (bet_finance_ui_calculer_clicked),
-                        //~ parent);
-        //~ g_object_set_data (G_OBJECT (parent), "calculate_button", item);
-        //~ gtk_toolbar_insert (GTK_TOOLBAR (toolbar), item, -1);
-
-    //~ }
-
     /* return value */
     return toolbar;
 }

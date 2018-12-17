@@ -187,22 +187,6 @@ static struct_bet_graph_button *struct_initialise_bet_graph_button ( void )
  *
  * \return TRUE
  * */
-//~ static void struct_free_bet_graph_button ( struct_bet_graph_button *self )
-//~ {
-    //~ g_free ( self->name );
-    //~ g_free ( self->filename );
-    //~ g_free ( self->service_id );
-
-    //~ g_free ( self );
-//~ }
-
-/**
- *
- *
- * \param
- *
- * \return TRUE
- * */
 static struct_bet_graph_data *struct_initialise_bet_graph_data ( void )
 {
     struct_bet_graph_data *self;
@@ -318,10 +302,7 @@ static gboolean bet_graph_populate_sectors_by_sub_divisions ( struct_bet_graph_d
     {
         gint account_number;
         gchar *libelle_division = self -> tab_libelle[0];
-        //~ gchar **tab_libelle_division;
         gdouble *tab_montant_division = self -> tab_Y;
-
-        //~ tab_libelle_division = &libelle_division;
 
         /* test du numero de compte */
         gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &iter,

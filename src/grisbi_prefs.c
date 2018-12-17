@@ -610,10 +610,6 @@ static void grisbi_prefs_left_panel_populate_tree_model (GrisbiPrefs *prefs)
 
 	/* append page Accounts data */
 	widget = GTK_WIDGET (prefs_page_bet_account_new (prefs));
-	//~ widget = GTK_WIDGET (bet_config_account_create_account_page ());
-	//~ utils_widget_set_padding (widget, MARGIN_BOX, 0);
-	//~ if (is_loading == FALSE)
-	//~ gtk_widget_set_sensitive (widget, FALSE);
 	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Accounts data"), page);
 	page++;
 }

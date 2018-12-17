@@ -1826,7 +1826,6 @@ gboolean gsb_transactions_list_edit_current_transaction (void)
 gboolean gsb_transactions_list_switch_mark (gint transaction_number)
 {
     gint col;
-    //~ GsbReal amount;
     gint account_number;
 
     devel_debug_int (transaction_number);
@@ -1845,7 +1844,6 @@ gboolean gsb_transactions_list_switch_mark (gint transaction_number)
 	return FALSE;
 
     account_number = gsb_gui_navigation_get_current_account ();
-    //~ amount = gsb_data_transaction_get_adjusted_amount (transaction_number, -1);
 
     if (gsb_data_transaction_get_marked_transaction (transaction_number))
     {

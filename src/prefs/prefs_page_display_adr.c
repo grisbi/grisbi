@@ -308,8 +308,6 @@ static void prefs_page_display_adr_class_init (PrefsPageDisplayAdrClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayAdr, radiobutton_accounting_entity);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayAdr, sw_adr_common);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayAdr, sw_adr_secondary);
-	//~ gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayAdr, textview_adr_common);
-	//~ gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayAdr, textview_adr_secondary);
 }
 
 /******************************************************************************/
