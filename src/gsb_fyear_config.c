@@ -63,6 +63,7 @@ enum fyear_list_column {
     FYEAR_END_DATE_COLUMN,
     FYEAR_INVALID_COLUMN,
     FYEAR_NUMBER_COLUMN,
+	FYEAR_ROW_COLOR,
     NUM_FYEARS_COLUMNS
 };
 
@@ -163,9 +164,13 @@ GtkWidget *gsb_fyear_config_create_page ( void )
 
     /* Do not activate unless an account is opened */
     if ( gsb_data_account_get_accounts_amount () )
-	gsb_fyear_config_fill_list (tree_model);
+	{
+		gsb_fyear_config_fill_list (tree_model);
+		/* set column color */
+		utils_set_list_store_background_color (fyear_config_treeview, FYEAR_ROW_COLOR);
+	}
     else
-	gtk_widget_set_sensitive ( vbox_pref, FALSE );
+		gtk_widget_set_sensitive ( vbox_pref, FALSE );
 
     /* Add button */
     button = utils_buttons_button_new_from_stock ("gtk-add", _("Add"));
@@ -285,7 +290,8 @@ GtkWidget *gsb_fyear_config_create_list ( void )
 				 G_TYPE_STRING,
 				 G_TYPE_STRING,
 				 G_TYPE_STRING,
-				 G_TYPE_INT );
+				 G_TYPE_INT,
+				 GDK_TYPE_RGBA);
 
     /* Create tree tree_view */
     treeview = gtk_tree_view_new_with_model (GTK_TREE_MODEL(model));
@@ -302,7 +308,7 @@ GtkWidget *gsb_fyear_config_create_list ( void )
      * the last value of the model mustn't be to text...
      * so FYEAR_NUMBER_COLUMN must be the first column after the last column showed */
 
-    for (i=0 ; i<FYEAR_NUMBER_COLUMN ; i++ )
+    for (i=0 ; i<FYEAR_NUMBER_COLUMN - 1; i++ )
     {
 		GtkTreeViewColumn *column;
 
@@ -311,6 +317,7 @@ GtkWidget *gsb_fyear_config_create_list ( void )
 			column = gtk_tree_view_column_new_with_attributes ( title[i],
 									gtk_cell_renderer_pixbuf_new (),
 									"stock-id", i,
+									"cell-background-rgba", FYEAR_ROW_COLOR,
 									NULL );
 		}
 		else
@@ -318,6 +325,7 @@ GtkWidget *gsb_fyear_config_create_list ( void )
 			column = gtk_tree_view_column_new_with_attributes ( title[i],
 									cell_renderer,
 									"text", i,
+									"cell-background-rgba", FYEAR_ROW_COLOR,
 									NULL );
 			gtk_tree_view_column_set_sizing ( column,
 							  GTK_TREE_VIEW_COLUMN_AUTOSIZE );

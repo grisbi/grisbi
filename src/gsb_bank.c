@@ -89,6 +89,7 @@ enum bank_list_col
    BANK_VIEW_NAME_COL = 0,
    BANK_TALKER_COL,
    BANK_NUMBER,
+   BANK_ROW_COLOR,
    BANK_LIST_COL_NB
 };
 
@@ -483,7 +484,8 @@ GtkWidget *gsb_bank_create_page (gboolean default_sensitive,
     store = gtk_list_store_new ( BANK_LIST_COL_NB,
 				 G_TYPE_STRING,
 				 G_TYPE_STRING,
-				 G_TYPE_INT );
+				 G_TYPE_INT,
+				 GDK_TYPE_RGBA);
     bank_list_tree_view = gtk_tree_view_new_with_model (GTK_TREE_MODEL (store));
 	gtk_widget_set_name (bank_list_tree_view, "tree_view");
     g_object_unref (G_OBJECT(store));
@@ -515,9 +517,11 @@ GtkWidget *gsb_bank_create_page (gboolean default_sensitive,
 
 	gtk_tree_view_column_pack_start ( column, cell, TRUE );
 	gtk_tree_view_column_set_title ( column, titles[i] );
-	gtk_tree_view_column_set_attributes (column, cell,
-					     "text", i,
-					     NULL);
+	gtk_tree_view_column_set_attributes (column,
+										 cell,
+										 "text", i,
+										 "cell-background-rgba", BANK_NUMBER + 1,
+										 NULL);
 	gtk_tree_view_column_set_expand ( column, TRUE );
 	gtk_tree_view_column_set_resizable ( column,
 					     TRUE );
@@ -569,6 +573,9 @@ GtkWidget *gsb_bank_create_page (gboolean default_sensitive,
     }
 
     g_object_set_data (G_OBJECT (scrolled_window), "height", GINT_TO_POINTER (sw_height));
+
+	/* set column color */
+	utils_set_list_store_background_color (bank_list_tree_view, BANK_NUMBER + 1);
 
     /* Add button */
     button = utils_buttons_button_new_from_stock ("gtk-add", _("Add"));

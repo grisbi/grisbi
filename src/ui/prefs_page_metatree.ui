@@ -41,6 +41,7 @@
                   <object class="GtkBox" id="box100">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="margin_bottom">5</property>
                     <property name="spacing">5</property>
                     <child>
                       <object class="GtkLabel" id="label101">
@@ -156,6 +157,7 @@
                   <object class="GtkBox" id="box200">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="margin_bottom">5</property>
                     <child>
                       <object class="GtkLabel" id="label200">
                         <property name="visible">True</property>
@@ -278,6 +280,7 @@
                   <object class="GtkBox" id="box300">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="margin_bottom">5</property>
                     <child>
                       <object class="GtkLabel" id="label300">
                         <property name="visible">True</property>
@@ -341,7 +344,7 @@
                 <property name="orientation">vertical</property>
                 <property name="spacing">5</property>
                 <child>
-                  <object class="GtkLabel" id="Title4">
+                  <object class="GtkLabel" id="Title400">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="halign">start</property>
@@ -360,6 +363,7 @@
                   <object class="GtkBox" id="box400">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="margin_bottom">5</property>
                     <child>
                       <object class="GtkLabel" id="label400">
                         <property name="visible">True</property>
@@ -483,6 +487,7 @@
                   <object class="GtkBox" id="box500">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="margin_bottom">5</property>
                     <child>
                       <object class="GtkLabel" id="label500">
                         <property name="visible">True</property>
@@ -565,6 +570,7 @@
                   <object class="GtkBox" id="box600">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="margin_bottom">5</property>
                     <child>
                       <object class="GtkLabel" id="label600">
                         <property name="visible">True</property>
