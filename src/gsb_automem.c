@@ -38,6 +38,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_automem.h"
+#include "dialog.h"
 #include "gsb_file.h"
 #include "structures.h"
 #include "traitement_variables.h"
@@ -577,6 +578,108 @@ GtkWidget *gsb_automem_radiobutton3_new ( const gchar *choice1,
     return box;
 }
 
+/**
+ * Creates a new radio buttons group with 3 choices.
+ * the color of label is blue.
+ *
+ * \param choice1		First choice label
+ * \param choice2		Second choice label
+ * \param choice3		Second choice label
+ * \param value			A pointer to an integer that will be set to 0, 1 or 2
+ *						according to buttons toggles.
+ * \param callback		A callback function to run at each toggle
+ * \param data			optional data to send to callback
+ *
+ * \return a hbox containing the radiobuttons
+ */
+
+GtkWidget *gsb_automem_radiobutton3_blue_new (const gchar *choice1,
+											  const gchar *choice2,
+					    					  const gchar *choice3,
+					    					  gint *value,
+					    					  GCallback callback,
+					    					  gpointer data,
+                        					  gint orientation)
+{
+    GtkWidget *box;
+    GtkWidget *button1;
+    GtkWidget *button2;
+    GtkWidget *button3 = NULL;
+    GtkWidget *label;
+	gchar *label_str;
+
+    box = gtk_box_new (orientation, MARGIN_BOX);
+
+	/* button 1 */
+    button1 = gtk_radio_button_new (NULL);
+	label_str = make_blue (choice1);
+	label = gtk_label_new (label_str);
+	g_free (label_str);
+	gtk_label_set_use_markup (GTK_LABEL(label), TRUE);
+	gtk_widget_show (label);
+    gtk_container_add (GTK_CONTAINER (button1), label);
+    gtk_box_pack_start (GTK_BOX (box), button1, FALSE, FALSE, 0);
+
+	/* button 2 */
+    button2 = gtk_radio_button_new (gtk_radio_button_get_group (GTK_RADIO_BUTTON (button1)));
+	label_str = make_blue (choice2);
+	label = gtk_label_new (label_str);
+	g_free (label_str);
+	gtk_label_set_use_markup (GTK_LABEL(label), TRUE);
+	gtk_widget_show (label);
+    gtk_container_add (GTK_CONTAINER (button2), label);
+    gtk_box_pack_start (GTK_BOX (box), button2, FALSE, FALSE, 0);
+
+	/* button 3 */
+    if (choice3 && strlen (choice3))
+    {
+        button3 = gtk_radio_button_new (gtk_radio_button_get_group (GTK_RADIO_BUTTON (button1)));
+		label_str = make_blue (choice3);
+		label = gtk_label_new (label_str);
+		g_free (label_str);
+		gtk_label_set_use_markup (GTK_LABEL(label), TRUE);
+		gtk_widget_show (label);
+		gtk_container_add (GTK_CONTAINER (button3), label);
+        gtk_box_pack_start (GTK_BOX (box), button3, FALSE, FALSE, 0);
+    }
+
+    if (value)
+    {
+        switch ( *value )
+        {
+            case 0:
+                gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button1 ), TRUE );
+                break;
+            case 1:
+                gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button2 ), TRUE );
+                break;
+            case 2:
+                if ( button3 )
+                    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button3 ), TRUE );
+                else
+                    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button2 ), TRUE );
+                break;
+        }
+    }
+    else
+        gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button1 ), TRUE );
+
+    /* we associate the value for the buttons */
+    g_object_set_data ( G_OBJECT ( button1 ), "pointer", GINT_TO_POINTER ( 0 ) );
+    g_object_set_data ( G_OBJECT ( button2 ), "pointer", GINT_TO_POINTER ( 1 ) );
+    if ( button3 )
+        g_object_set_data ( G_OBJECT ( button3 ), "pointer", GINT_TO_POINTER ( 2 ) );
+
+    if ( callback )
+    {
+	    g_signal_connect ( G_OBJECT ( button1 ), "button-release-event", G_CALLBACK ( callback ), data );
+        g_signal_connect ( G_OBJECT ( button2 ), "button-release-event", G_CALLBACK ( callback ), data );
+        if ( button3 )
+            g_signal_connect ( G_OBJECT ( button3 ), "button-release-event", G_CALLBACK ( callback ), data );
+    }
+
+    return box;
+}
 
 /**
  * Creates a new GtkSpinButton with a pointer to a string that will be

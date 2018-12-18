@@ -15,6 +15,13 @@ GtkWidget *gsb_automem_checkbutton_new 					(const gchar *label,
 GtkWidget *	gsb_automem_entry_new 						(gchar **value,
 														 GCallback hook,
 														 gpointer data);
+GtkWidget *	gsb_automem_radiobutton3_blue_new 			(const gchar *choice1,
+														 const gchar *choice2,
+														 const gchar *choice3,
+														 gint *value,
+														 GCallback callback,
+														 gpointer data,
+														 gint orientation);
 GtkWidget *	gsb_automem_radiobutton3_new 				(const gchar *choice1,
 														 const gchar *choice2,
 														 const gchar *choice3,
