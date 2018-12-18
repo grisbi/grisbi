@@ -2571,7 +2571,7 @@ GSList *gsb_data_transaction_get_metatree_transactions_list ( void )
     else
         list_tmp = g_slist_copy ( transactions_list );
 
-    switch ( etat.metatree_sort_transactions )
+    switch ( w_etat->metatree_sort_transactions )
     {
         case 1 :
         list_tmp = g_slist_sort (list_tmp,

@@ -323,9 +323,9 @@ static void prefs_page_metatree_setup_metatree_page (PrefsPageMetatree *page)
 	vbox_button = gsb_automem_radiobutton3_new (_("by number"),
 												_("by increasing date"),
 												_("by date descending"),
-                        						&etat.metatree_sort_transactions,
+                        						&w_etat->metatree_sort_transactions,
 												G_CALLBACK (prefs_page_metatree_sort_transactions_changed),
-                        						&etat.metatree_sort_transactions,
+                        						&w_etat->metatree_sort_transactions,
 												GTK_ORIENTATION_HORIZONTAL);
 	gtk_box_pack_start (GTK_BOX (priv->box_metatree_sort_transactions), vbox_button, FALSE, FALSE, 0);
 
