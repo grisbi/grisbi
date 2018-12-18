@@ -584,15 +584,16 @@ GtkWidget *onglet_diverse_form_and_lists ( void )
 
 	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
 
-    vbox_pref = new_vbox_with_title_and_icon ( _("Form behavior"),
-					       "gsb-form-32.png" );
+    vbox_pref = new_vbox_with_title_and_icon ( _("Form behavior"), "gsb-form-32.png" );
 
     /* What to do if RETURN is pressed into transaction form */
-    gsb_automem_radiobutton_new_with_title (vbox_pref,
-							 _("Pressing RETURN in transaction form"),
-							 _("selects next field"),
-							 _("terminates transaction"),
-							 &conf.entree, NULL, NULL);
+	paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("Pressing RETURN in transaction form"));
+	button = gsb_automem_radiobutton_blue_new (_("selects next field"),
+											   _("terminates transaction"),
+											   &conf.form_enter_key,
+											   NULL,
+											   NULL);
+	gtk_box_pack_start (GTK_BOX (paddingbox), button, FALSE, FALSE, 0);
 
 	/* Interpretation of future dates */
     paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("Interpretation of future dates"));
@@ -609,20 +610,21 @@ GtkWidget *onglet_diverse_form_and_lists ( void )
 	gtk_box_pack_start (GTK_BOX (paddingbox), label, FALSE, FALSE, 0);
 
     /* How to display financial year */
-    gsb_automem_radiobutton_new_with_title (vbox_pref,
-							 _("Automatic financial year is set"),
-							 _("according to transaction date"),
-							 _("according to transaction value date"),
-							 &conf.affichage_exercice_automatique,
-							 NULL, NULL);
+	paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("Automatic financial year is set"));
+    button = gsb_automem_radiobutton_blue_new (_("according to transaction date"),
+											   _("according to transaction value date"),
+											   &conf.affichage_exercice_automatique,
+											   NULL,
+											   NULL);
+	gtk_box_pack_start (GTK_BOX (paddingbox), button, FALSE, FALSE, 0);
 
-	gtk_box_pack_start (GTK_BOX (vbox_pref),
-						gsb_automem_checkbutton_new (
-													 _("Sorting descending in the button of the exercises"),
-													 &conf.fyear_combobox_sort_order,
-													 G_CALLBACK (fyear_combobox_sort_order_changed),
-													 "fyear-combobox-sort-order"),
-						FALSE, FALSE, 0);
+    /* How to sort the financial year */
+	paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("Sorting the exercises in the button of the form"));
+	button = gsb_automem_checkbutton_blue_new (_("Sorting descending of the exercises"),
+											   &conf.fyear_combobox_sort_order,
+											   G_CALLBACK (fyear_combobox_sort_order_changed),
+											   "fyear-combobox-sort-order"),
+	gtk_box_pack_start (GTK_BOX (paddingbox), button, FALSE, FALSE, 0);
 
     /* automatic amount separatior fields */
     paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,

@@ -139,7 +139,6 @@ GtkWidget *bet_config_general_get_period_widget ( GtkWidget *container )
     GtkWidget *button_1, *button_2;
     GtkWidget *hbox;
     GtkSizeGroup *size_group;
-    gchar *text;
 
     /* devel_debug (NULL); */
     size_group = gtk_size_group_new ( GTK_SIZE_GROUP_HORIZONTAL );
@@ -182,14 +181,11 @@ GtkWidget *bet_config_general_get_period_widget ( GtkWidget *container )
                         G_CALLBACK ( bet_config_period_clicked ),
                         NULL );
 
-    text = make_blue ( _("Note: This option is used if no starting date for forecasts.") );
-    label = gtk_label_new ( text );
+    label = gtk_label_new (_("Note: This option is used if no starting date for forecasts."));
 	gtk_label_set_line_wrap (GTK_LABEL(label), TRUE);
-    gtk_label_set_use_markup ( GTK_LABEL(label), TRUE );
     utils_labels_set_alignment ( GTK_LABEL ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 5) ;
-    g_free ( text );
 
     gtk_widget_show_all ( vbox );
 
@@ -410,7 +406,6 @@ GtkWidget *bet_config_get_select_labels_widget ( GtkWidget *container )
     GtkWidget *vbox;
     GtkWidget *label;
     GtkWidget *button;
-    gchar *text;
     gint origine;
     gint select;
 
@@ -472,14 +467,12 @@ GtkWidget *bet_config_get_select_labels_widget ( GtkWidget *container )
                         GTK_ORIENTATION_HORIZONTAL );
     gtk_box_pack_start ( GTK_BOX ( vbox ), button, FALSE, FALSE, 0 );
 
-    text = make_blue ( _("Order by default if the data are not zero:\n"
-                        "\tnotes, payee, category and budgetary line.") );
-    label = gtk_label_new ( text );
+    label = gtk_label_new (_("Order by default if the data are not zero:\n"
+							 "\tnotes, payee, category and budgetary line."));
     gtk_label_set_use_markup ( GTK_LABEL(label), TRUE );
     utils_labels_set_alignment ( GTK_LABEL ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 5 ) ;
-    g_free ( text );
 
     gtk_widget_show_all ( vbox );
 

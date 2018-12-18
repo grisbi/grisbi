@@ -186,7 +186,6 @@ static void utils_prefs_fonts_update_labels (GtkWidget *button,
 
 	if (font_size && strlen (font_size))
 	{
-		printf ("font_size = %s\n", font_size);
 		label_str = make_blue (font_size);
 		gtk_label_set_text (GTK_LABEL(font_size_label), label_str);
 		gtk_label_set_use_markup (GTK_LABEL(font_size_label), TRUE);

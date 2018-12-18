@@ -133,9 +133,7 @@ GtkWidget *onglet_messages_and_warnings ( void )
     paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("Tip of the day"));
 
     /* Display or not tips */
-    tip_checkbox = gsb_automem_checkbutton_new ( _("Display tip of the day"),
-                        &(conf.show_tip),
-                        NULL, NULL );
+    tip_checkbox = gsb_automem_checkbutton_blue_new ( _("Display tip of the day"), &(conf.show_tip), NULL, NULL );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), tip_checkbox, FALSE, FALSE, 0 );
 
     /* Warnings */
@@ -146,7 +144,7 @@ GtkWidget *onglet_messages_and_warnings ( void )
     gtk_grid_attach (GTK_GRID (paddinggrid), sw, 0, 0, 1, 1);
 
     /* create the model */
-    model = GTK_TREE_MODEL(gtk_tree_store_new ( 3, G_TYPE_INT, G_TYPE_STRING, G_TYPE_INT ) );
+    model = GTK_TREE_MODEL(gtk_tree_store_new (5, G_TYPE_INT, G_TYPE_STRING, G_TYPE_INT, G_TYPE_STRING, GDK_TYPE_RGBA));
 
     /* create the treeview */
     tree_view = gtk_tree_view_new();
@@ -156,12 +154,17 @@ GtkWidget *onglet_messages_and_warnings ( void )
     gtk_container_add (GTK_CONTAINER (sw), tree_view);
 
     cell = gtk_cell_renderer_toggle_new ();
-    column = gtk_tree_view_column_new_with_attributes ("", cell, "active", 0, NULL);
+    column = gtk_tree_view_column_new_with_attributes ("", cell, "active", 0, "cell-background-rgba", 4, NULL);
     gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), GTK_TREE_VIEW_COLUMN (column));
     g_signal_connect (cell, "toggled", G_CALLBACK (gsb_gui_messages_toggled), model);
 
     cell = gtk_cell_renderer_text_new ();
-    column = gtk_tree_view_column_new_with_attributes (_("Message"), cell, "text", 1, NULL);
+    column = gtk_tree_view_column_new_with_attributes (_("Message"),
+													   cell,
+													   "text", 1,
+													   "foreground", 3,
+													   "cell-background-rgba", 4,
+													   NULL);
     gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), GTK_TREE_VIEW_COLUMN (column));
 
 	if (is_loading)
@@ -183,14 +186,18 @@ GtkWidget *onglet_messages_and_warnings ( void )
 				tmpstr = g_strdup ( _(messages[i] . hint) );
 
 			gtk_tree_store_append (GTK_TREE_STORE (model), &iter, NULL);
-			gtk_tree_store_set (GTK_TREE_STORE (model), &iter,
-							0, !messages[i] . hidden,
-							1, tmpstr,
-							2, i,
-							-1);
+			gtk_tree_store_set (GTK_TREE_STORE (model),
+								&iter,
+								0, !messages[i] . hidden,
+								1, tmpstr,
+								2, i,
+								3, "#00000000ffff",
+								-1);
 
 			g_free ( tmpstr );
 		}
+		/* set column color */
+		utils_set_tree_store_background_color (tree_view, 4);
 	}
     /* Show everything */
     gtk_widget_show_all ( vbox_pref );
@@ -228,7 +235,7 @@ GtkWidget *onglet_delete_messages ( void )
 	gtk_widget_set_vexpand (paddinggrid, TRUE);
     gtk_grid_attach (GTK_GRID (paddinggrid), sw, 0, 0, 1, 1);
 
-    model = GTK_TREE_MODEL(gtk_tree_store_new ( 3, G_TYPE_INT, G_TYPE_STRING, G_TYPE_INT ) );
+    model = GTK_TREE_MODEL(gtk_tree_store_new (5, G_TYPE_INT, G_TYPE_STRING, G_TYPE_INT, G_TYPE_STRING, GDK_TYPE_RGBA));
 
     tree_view = gtk_tree_view_new();
 	gtk_widget_set_name (tree_view, "tree_view");
@@ -237,7 +244,7 @@ GtkWidget *onglet_delete_messages ( void )
     gtk_container_add (GTK_CONTAINER (sw), tree_view);
 
     cell = gtk_cell_renderer_toggle_new ();
-    column = gtk_tree_view_column_new_with_attributes ("", cell, "active", 0, NULL);
+    column = gtk_tree_view_column_new_with_attributes ("", cell, "active", 0, "cell-background-rgba", 4, NULL);
     gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), GTK_TREE_VIEW_COLUMN (column));
     g_signal_connect (cell,
                         "toggled",
@@ -245,7 +252,12 @@ GtkWidget *onglet_delete_messages ( void )
                         model);
 
     cell = gtk_cell_renderer_text_new ();
-    column = gtk_tree_view_column_new_with_attributes (_("Message"), cell, "text", 1, NULL);
+    column = gtk_tree_view_column_new_with_attributes (_("Message"),
+													   cell,
+													   "text", 1,
+													   "foreground", 3,
+													   "cell-background-rgba", 4,
+													   NULL);
     gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), GTK_TREE_VIEW_COLUMN (column));
 
     for  ( i = 0; delete_msg[i].name; i++ )
@@ -255,14 +267,18 @@ GtkWidget *onglet_delete_messages ( void )
         tmpstr = g_strdup ( _(delete_msg[i] . hint) );
 
         gtk_tree_store_append (GTK_TREE_STORE (model), &iter, NULL);
-        gtk_tree_store_set (GTK_TREE_STORE (model), &iter,
-                        0, !delete_msg[i] . hidden,
-                        1, tmpstr,
-                        2, i,
-                        -1);
+        gtk_tree_store_set (GTK_TREE_STORE (model),
+							&iter,
+							0, !delete_msg[i] . hidden,
+							1, tmpstr,
+							2, i,
+							3, "#00000000ffff",
+							-1);
 
         g_free ( tmpstr );
     }
+	/* set column color */
+	utils_set_tree_store_background_color (tree_view, 4);
 
     /* Show everything */
     gtk_widget_show_all ( vbox_pref );
