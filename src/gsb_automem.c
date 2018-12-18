@@ -179,54 +179,6 @@ GtkWidget *gsb_automem_textview_new ( gchar **value,
     return text_view;
 }
 
-
-/**
- * set the value in an gsb_automem_textview
- *
- * \param entry the gsb_automem_enty
- * \param value a pointer to a string
- *
- * \return
- */
-/* TODO dOm : this function seems not to be used. Is it possible to remove it
-void gsb_automem_textview_set_value ( GtkWidget *text_view,
-				      gchar **value )
-{
-    GtkTextBuffer *buffer;
-
-    if (!text_view)
-	return;
-
-    buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view));
-
-    !* Block everything *!
-    if ( g_object_get_data (G_OBJECT(buffer), "changed") > 0 )
-	g_signal_handler_block ( G_OBJECT(buffer),
-				 (gulong) g_object_get_data ( G_OBJECT(buffer), "changed" ));
-    if ( g_object_get_data (G_OBJECT(buffer), "changed-hook") > 0 )
-	g_signal_handler_block ( G_OBJECT(buffer),
-				 (gulong) g_object_get_data ( G_OBJECT(buffer),
-							      "changed-hook" ));
-    !* Fill in value *!
-    if (value && *value)
-	gtk_text_buffer_set_text (buffer, *value, -1 );
-    else
-	gtk_text_buffer_set_text (buffer, "", -1 );
-
-    g_object_set_data ( G_OBJECT(buffer), "pointer", value );
-
-    !* Unblock everything *!
-    if ( g_object_get_data (G_OBJECT(buffer), "changed") > 0 )
-	g_signal_handler_unblock ( G_OBJECT(buffer),
-				   (gulong) g_object_get_data ( G_OBJECT(buffer), "changed" ));
-    if ( g_object_get_data (G_OBJECT(buffer), "changed-hook") > 0 )
-	g_signal_handler_unblock ( G_OBJECT(buffer),
-				   (gulong) g_object_get_data ( G_OBJECT(buffer),
-								"changed-hook" ));
-}
-*/
-
-
 /**
  * called by a "changed" signal
  * Set a string to the value of an GtkTextView
@@ -356,48 +308,6 @@ GtkWidget *gsb_automem_checkbutton_blue_new (const gchar *label,
 															   data)));
     return checkbutton;
 }
-
-/**
- * Update the widget's appearance accordingly.  If update is set, update
- * property as well.
- *
- * \param checkbutton The checkbutton to update
- * \param value A pointer to a boolean which contains the new value to
- * 	fill in checkbutton's properties.  This boolean will be modified by
- * 	checkbutton's handlers as well.
- */
-/*void gsb_automem_checkbutton_set_value ( GtkWidget *checkbutton,
-					 gboolean *value )
-{
-    // Block everything
-    if (g_object_get_data (G_OBJECT(checkbutton), "changed") > 0)
-	g_signal_handler_block ( checkbutton,
-				 (gulong) g_object_get_data (G_OBJECT(checkbutton),
-							     "changed" ));
-    if (g_object_get_data (G_OBJECT(checkbutton), "changed-hook") > 0)
-	g_signal_handler_block ( checkbutton,
-				 (gulong) g_object_get_data (G_OBJECT(checkbutton),
-							     "changed-hook" ));
-
-    if (value)
-	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( checkbutton ),
-				       *value );
-    g_object_set_data ( G_OBJECT (checkbutton),
-			"pointer", value);
-
-    // Unblock everything
-    if (g_object_get_data (G_OBJECT(checkbutton), "changed") > 0)
-	g_signal_handler_unblock ( checkbutton,
-				   (gulong) g_object_get_data (G_OBJECT(checkbutton),
-							       "changed" ));
-    if (g_object_get_data (G_OBJECT(checkbutton), "changed-hook") > 0)
-	g_signal_handler_unblock ( checkbutton,
-				   (gulong) g_object_get_data ( G_OBJECT(checkbutton),
-								"changed-hook" ));
-}*/
-
-
-
 
 /**
  * Set a boolean integer to the value of a checkbutton.  Normally called
@@ -892,61 +802,6 @@ GtkWidget *gsb_automem_spin_button_new_full ( gint *value,
 															   data)));
     return spin;
 }
-
-
-
-/**
- * set the value of a automem spin button
- *
- * \param spin the automem_spin_button
- * \param value a pointer to an integer which will change with the value of the spin button
- *
- * \return
- *
- */
-/* TODO dOm : this function seems not to be used. Is it possible to remove it
-void gsb_automem_spin_button_set_value ( GtkWidget *spin,
-					 gint *value )
-{
-    GtkAdjustment *adjustment;
-
-    if (!spin)
-	return;
-
-    adjustment = g_object_get_data ( G_OBJECT(spin), "adj" );
-    if (!adjustment)
-	return;
-
-    !* Block everything *!
-    if ( g_object_get_data (G_OBJECT (spin), "changed") > 0 )
-	g_signal_handler_block ( G_OBJECT(adjustment),
-				 (gulong) g_object_get_data ( G_OBJECT (spin),
-							      "changed"));
-    if ( g_object_get_data (G_OBJECT (spin), "changed-hook") > 0 )
-	g_signal_handler_block ( G_OBJECT(adjustment),
-				 (gulong) g_object_get_data ( G_OBJECT (spin),
-							      "changed-hook"));
-
-    if (value)
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON(spin), *value);
-    else
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON(spin), 0);
-
-    g_object_set_data ( G_OBJECT(spin),
-			"pointer", value);
-
-    !* Unblock everything *!
-    if ( g_object_get_data (G_OBJECT (spin), "changed") > 0 )
-	g_signal_handler_unblock ( G_OBJECT(adjustment),
-				   (gulong) g_object_get_data ( G_OBJECT (spin),
-								"changed"));
-    if ( g_object_get_data (G_OBJECT (spin), "changed-hook") > 0 )
-	g_signal_handler_unblock ( G_OBJECT(adjustment),
-				   (gulong) g_object_get_data ( G_OBJECT (spin),
-								"changed-hook"));
-}
-*/
-
 
 /**
  * Set an int to the value of a spin button.  Normally called via
