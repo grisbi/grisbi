@@ -330,13 +330,13 @@ static void prefs_page_metatree_setup_metatree_page (PrefsPageMetatree *page)
 	gtk_box_pack_start (GTK_BOX (priv->box_metatree_sort_transactions), vbox_button, FALSE, FALSE, 0);
 
 	/* gestion des divisions*/
-	vbox_button = gsb_automem_radiobutton3_new (_("Expand the line"),
-												_("Edit the line"),
-												_("Manage the line"),
-												&conf.metatree_action_2button_press,
-												G_CALLBACK (prefs_page_onglet_metatree_action_changed),
-												&conf.metatree_action_2button_press,
-												GTK_ORIENTATION_HORIZONTAL);
+	vbox_button = gsb_automem_radiobutton3_blue_new (_("Expand the line"),
+													 _("Edit the line"),
+													 _("Manage the line"),
+													 &conf.metatree_action_2button_press,
+													 G_CALLBACK (prefs_page_onglet_metatree_action_changed),
+													 &conf.metatree_action_2button_press,
+													 GTK_ORIENTATION_HORIZONTAL);
 	gtk_box_pack_start (GTK_BOX (priv->box_metatree_action_2button), vbox_button, FALSE, FALSE, 0);
 
     /* set option for french associations */
