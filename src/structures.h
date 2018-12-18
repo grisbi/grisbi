@@ -238,9 +238,9 @@ struct GrisbiAppConf
     gint        automatic_completion_payee;                 /* 1 pour autoriser la completion automatique des opérations */
     gboolean    automatic_erase_credit_debit;               /* 1 pour effacer les champs crédit et débit */
     gboolean    automatic_recover_splits;                   /* 1 pour recréer automatiquement les sous opérations */
-	gint		completion_minimum_key_length;					/* Minimum length of the search key in characters */
+	gint		completion_minimum_key_length;				/* Minimum length of the search key in characters */
 	gboolean	completion_ignore_accents;
-    gboolean    entree;                                     /* si conf.entree = 1, la touche entrée finit l'opération */
+    gboolean    form_enter_key;								/* si TRUE, la touche entrée finit l'opération */
 	gint 		form_expander_label_width;					/* largeur du label de l'expander du formulaire */
     gint        fyear_combobox_sort_order;                  /* fyear combobox type sort, GTK_SORT_ASCENDING by default */
     gboolean    limit_completion_to_current_account;        /* Limit payee completion to current account or do a full search. */

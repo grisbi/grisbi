@@ -1211,7 +1211,7 @@ static GtkWidget *bet_form_widget_get_next_element ( gint element_number,
                     {
                         /* we are on the bottom right, we finish the edition or
                          * go to the upper left */
-                        if ( !conf.entree )
+                        if ( !conf.form_enter_key )
                         {
                             return_value_number = -2;
                             continue;
@@ -1255,7 +1255,7 @@ static GtkWidget *bet_form_widget_get_next_element ( gint element_number,
             {
                 /* we are on the bottom right, we finish the edition or
                  * go to the upper left */
-                if ( !conf.entree )
+                if ( !conf.form_enter_key )
                 {
                     return_value_number = -2;
                     continue;
@@ -1309,8 +1309,8 @@ gboolean bet_form_key_press_event ( GtkWidget *widget,
 
     element_number = GPOINTER_TO_INT (ptr_origin);
 
-    /* if conf.entree = 1, entry finish the transaction, else does as tab */
-    if ( !conf.entree
+    /* if form_key_entree = 1, entry finish the transaction, else does as tab */
+    if ( !conf.form_enter_key
 	 &&
 	 ( ev -> keyval == GDK_KEY_Return
 	   ||

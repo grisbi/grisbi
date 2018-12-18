@@ -2681,8 +2681,8 @@ gboolean gsb_form_key_press_event (GtkWidget *widget,
 	element_number = GPOINTER_TO_INT (ptr_origin);
     account_number = gsb_form_get_account_number ();
 
-    /* if conf.entree = 1, entry finish the transaction, else does as tab */
-    if (!conf.entree && (ev->keyval == GDK_KEY_Return || ev->keyval == GDK_KEY_KP_Enter))
+    /* if conf.form_enter_key = 1, entry finish the transaction, else does as tab */
+    if (!conf.form_enter_key && (ev->keyval == GDK_KEY_Return || ev->keyval == GDK_KEY_KP_Enter))
 		ev->keyval = GDK_KEY_Tab ;
 
     if (!g_object_get_data (G_OBJECT (transaction_form), "transaction_number_in_form"))
