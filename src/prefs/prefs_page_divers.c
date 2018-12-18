@@ -216,7 +216,7 @@ static gint prefs_page_divers_choose_language_list_new (GtkWidget *combo)
 	if (!dir)
 		return 0;
 
-	store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_INT);
+	store = gtk_list_store_new (3, G_TYPE_STRING, G_TYPE_INT, G_TYPE_STRING);
 
 	while ((dirname = g_dir_read_name (dir)) != NULL)
     {
@@ -239,7 +239,8 @@ static gint prefs_page_divers_choose_language_list_new (GtkWidget *combo)
 	tmp_list = list;
 
 	gtk_list_store_append (store, &iter);
-	gtk_list_store_set (store, &iter, 0, _("System Language"), 1, i, -1);
+	gtk_list_store_set (store, &iter, 0, _("System Language"), 1, i, 2, "#00000000ffff", -1);
+
 	i++;
 
 	while (tmp_list)
@@ -247,7 +248,7 @@ static gint prefs_page_divers_choose_language_list_new (GtkWidget *combo)
 		if (g_strcmp0 (conf.language_chosen, tmp_list->data) == 0)
 			activ_index = i;
         gtk_list_store_append (store, &iter);
-        gtk_list_store_set (store, &iter, 0, (gchar *) tmp_list->data, 1, i, -1);
+        gtk_list_store_set (store, &iter, 0, (gchar *) tmp_list->data, 1, i, 2, "#00000000ffff", -1);
 
         i++;
 		tmp_list = tmp_list->next;
@@ -259,6 +260,7 @@ static gint prefs_page_divers_choose_language_list_new (GtkWidget *combo)
 	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo),
 									renderer,
 									"text", 0,
+									"foreground", 2,
 									NULL);
 
 	return activ_index;

@@ -129,10 +129,11 @@ static void utils_prefs_fonts_update_labels (GtkWidget *button,
     GtkWidget *font_size_label;
 	gchar *font_name;
     gchar *font_size;
+	gchar *label_str;
 
     font_name_label = g_object_get_data (G_OBJECT (button), "name_label");
     font_size_label = g_object_get_data (G_OBJECT (button), "size_label");
-    if (fontname)
+    if (fontname && strlen (fontname))
     {
 		GtkCssProvider *css_provider = NULL;
 		GtkStyleContext *context;
@@ -176,13 +177,22 @@ static void utils_prefs_fonts_update_labels (GtkWidget *button,
 		font_size = g_strdup ("10");
 		conf.custom_fonte_listes = FALSE;
     }
-    gtk_label_set_text (GTK_LABEL(font_name_label), font_name);
-    gtk_label_set_text (GTK_LABEL(font_size_label), font_size);
 
-    if (font_name)
-		g_free (font_name);
-	if (font_size)
+	label_str = make_blue (font_name);
+    gtk_label_set_text (GTK_LABEL(font_name_label), label_str);
+	gtk_label_set_use_markup (GTK_LABEL(font_name_label), TRUE);
+	g_free (label_str);
+	g_free (font_name);
+
+	if (font_size && strlen (font_size))
+	{
+		printf ("font_size = %s\n", font_size);
+		label_str = make_blue (font_size);
+		gtk_label_set_text (GTK_LABEL(font_size_label), label_str);
+		gtk_label_set_use_markup (GTK_LABEL(font_size_label), TRUE);
+		g_free (label_str);
 		g_free (font_size);
+	}
 }
 
 /**

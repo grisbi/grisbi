@@ -34,6 +34,7 @@
 #include "grisbi_app.h"
 #include "grisbi_settings.h"
 #include "gsb_automem.h"
+#include "gsb_combo_box.h"
 #include "gsb_data_account.h"
 #include "gsb_data_form.h"
 #include "gsb_file.h"
@@ -148,16 +149,18 @@ GtkWidget *onglet_affichage_operations ( void )
     const gchar *line_1 [] = {"1", NULL};
     const gchar *line_2 [] = {"1-2", "1-3", "1-4", NULL};
     const gchar *line_3 [] = {"1-2-3", "1-2-4", "1-3-4", NULL};
-    const gchar *options_tri_primaire[] = {
-    _("Sort by value date (if fail, try with the date)"),
-    _("Sort by value date and then by date"),
-		_("Forced sort by transaction date")
+    gchar *options_tri_primaire[] = {
+		_("Sort by value date (if fail, try with the date)"),
+		_("Sort by value date and then by date"),
+		_("Forced sort by transaction date"),
+		NULL
     };
-    const gchar *options_tri_secondaire[] = {
-    _("Sort by transaction number"),
-    _("Sort by type of amount (credit debit)"),
-    _("Sort by payee name (if fail, by transaction number)"),
-    _("Sort by date and then by transaction number"),
+    gchar *options_tri_secondaire[] = {
+		_("Sort by transaction number"),
+		_("Sort by type of amount (credit debit)"),
+		_("Sort by payee name (if fail, by transaction number)"),
+		_("Sort by date and then by transaction number"),
+		NULL
     };
     gint i;
 
@@ -227,14 +230,14 @@ GtkWidget *onglet_affichage_operations ( void )
     /* do we show the content of the selected transaction in the form for
      * each selection ? */
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
-                        gsb_automem_checkbutton_new (
+                        gsb_automem_checkbutton_blue_new (
                         _("Use simple click to select transactions"),
                         &conf.show_transaction_selected_in_form,
                         NULL, NULL ),
                         FALSE, FALSE, 0 );
 
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
-                        gsb_automem_checkbutton_new (
+                        gsb_automem_checkbutton_blue_new (
                         _("Highlights the transaction that gives the balance today"),
                         &conf.show_transaction_gives_balance,
                         G_CALLBACK ( gsb_transactions_list_display_show_gives_balance ), NULL ),
@@ -247,16 +250,10 @@ GtkWidget *onglet_affichage_operations ( void )
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
-    button = gtk_combo_box_text_new ();
-    g_signal_connect ( G_OBJECT ( button ),
-                        "changed",
-                        G_CALLBACK ( gsb_transactions_list_display_sort_changed ),
-                        GINT_TO_POINTER ( PRIMARY_SORT ));
-
-    for ( i = 0 ; i < 3 ; i++ )
-    {
-        gtk_combo_box_text_append_text ( GTK_COMBO_BOX_TEXT ( button ), options_tri_primaire[i] );
-    }
+	button = gsb_combo_box_blue_new_from_list (options_tri_primaire,
+											   NULL,
+											   G_CALLBACK (gsb_transactions_list_display_sort_changed),
+											   GINT_TO_POINTER (PRIMARY_SORT));
     gtk_combo_box_set_active ( GTK_COMBO_BOX ( button ), conf.transactions_list_primary_sorting );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
 
@@ -267,16 +264,10 @@ GtkWidget *onglet_affichage_operations ( void )
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
-    button = gtk_combo_box_text_new ();
-    g_signal_connect ( G_OBJECT ( button ),
-                        "changed",
-                        G_CALLBACK ( gsb_transactions_list_display_sort_changed ),
-                        GINT_TO_POINTER ( SECONDARY_SORT ) );
-
-    for ( i = 0 ; i < 4 ; i++ )
-    {
-        gtk_combo_box_text_append_text ( GTK_COMBO_BOX_TEXT ( button ), options_tri_secondaire[i] );
-    }
+	button = gsb_combo_box_blue_new_from_list (options_tri_secondaire,
+											   NULL,
+											   G_CALLBACK (gsb_transactions_list_display_sort_changed),
+											   GINT_TO_POINTER (SECONDARY_SORT));
     gtk_combo_box_set_active ( GTK_COMBO_BOX ( button ), conf.transactions_list_secondary_sorting );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
 
