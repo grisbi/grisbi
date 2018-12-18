@@ -1741,7 +1741,7 @@ gint etat_affiche_affiche_total_partiel ( GsbReal total_partie,
 			else
 			{
 				if (w_etat->metatree_assoc_mode)
-					fmtstr = _("Total Produits (%d opérations) : ");
+					fmtstr = "Total Produits (%d opérations) : ";
 				else
 					fmtstr = _("Total income (%d transactions): ");
 			}

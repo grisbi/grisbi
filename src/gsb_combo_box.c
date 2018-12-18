@@ -336,7 +336,7 @@ GtkWidget *gsb_combo_box_blue_new_from_list (gchar **string,
 	if (first_str && strlen (first_str))
 	{
 		gtk_list_store_append (store, &iter);
-		gtk_list_store_set (store, &iter, 0, _("first_str"), 1, i, 2, "#00000000ffff", -1);
+		gtk_list_store_set (store, &iter, 0, first_str, 1, i, 2, "#00000000ffff", -1);
 
 		i++;
 	}
