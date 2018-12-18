@@ -56,6 +56,36 @@
 /* Private functions                                                          */
 /******************************************************************************/
 /**
+ * Cette fonction retourne un GtkListStore à partir d'un tableau de chaine
+ *
+ * \param le tableau de chaines à mettre dans le modèle
+ *
+ * \return un GtkListStore.
+ **/
+static GtkListStore *gsb_combo_box_list_store_new_from_array (gchar **array)
+{
+    GtkListStore *store = NULL;
+    gint i = 0;
+
+    store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_INT);
+
+    while (array[i])
+    {
+        GtkTreeIter iter;
+        gchar *string;
+
+        string = gettext (array[i]);
+        gtk_list_store_append (store, &iter);
+        gtk_list_store_set (store, &iter, 0, string, 1, i, -1);
+
+        i++;
+    }
+
+    /* return */
+    return store;
+}
+
+/**
  * Cette fonction retourne un GtkListStore à partir d'une liste
  * TODO modifier le fonctionnement de cette liste
  *
@@ -121,36 +151,6 @@ static void gsb_combo_box_set_text_renderer (GtkComboBox *combo,
 /******************************************************************************/
 /* Public functions                                                           */
 /******************************************************************************/
-/**
- * Cette fonction retourne un GtkListStore à partir d'un tableau de chaine
- *
- * \param le tableau de chaines à mettre dans le modèle
- *
- * \return un GtkListStore.
- **/
-GtkListStore *gsb_combo_box_list_store_new_from_array (gchar **array)
-{
-    GtkListStore *store = NULL;
-    gint i = 0;
-
-    store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_INT);
-
-    while (array[i])
-    {
-        GtkTreeIter iter;
-        gchar *string;
-
-        string = gettext (array[i]);
-        gtk_list_store_append (store, &iter);
-        gtk_list_store_set (store, &iter, 0, string, 1, i, -1);
-
-        i++;
-    }
-
-    /* return */
-    return store;
-}
-
 /**
  * create a text only combo_box with an index
  * column 0 will contain the text
