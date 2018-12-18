@@ -717,7 +717,7 @@ GtkWidget *onglet_form_completion ( void )
     vbox_pref = new_vbox_with_title_and_icon ( _("Form completion"), "gsb-form-32.png" );
 
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
-                        utils_prefs_automem_checkbutton_blue_new (_("Automatic filling transactions from payee"),
+                        gsb_automem_checkbutton_blue_new (_("Automatic filling transactions from payee"),
                         &conf.automatic_completion_payee,
                         G_CALLBACK ( gsb_transactions_list_display_update_auto_checkbutton ),
                         vbox_pref),
@@ -726,7 +726,7 @@ GtkWidget *onglet_form_completion ( void )
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ), hbox, FALSE, FALSE, 0 );
 
-    button = utils_prefs_automem_checkbutton_blue_new (_("Erase the credit and debit fields"),
+    button = gsb_automem_checkbutton_blue_new (_("Erase the credit and debit fields"),
                         &conf.automatic_erase_credit_debit,
                         NULL,
                         NULL );
@@ -737,7 +737,7 @@ GtkWidget *onglet_form_completion ( void )
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ), hbox, FALSE, FALSE, 0 );
 
-    button = utils_prefs_automem_checkbutton_blue_new (_("Automatically recover the children of the associated transaction"),
+    button = gsb_automem_checkbutton_blue_new (_("Automatically recover the children of the associated transaction"),
                         &conf.automatic_recover_splits,
                         NULL,
                         NULL );
@@ -748,7 +748,7 @@ GtkWidget *onglet_form_completion ( void )
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ), hbox, FALSE, FALSE, 0 );
 
-    button = utils_prefs_automem_checkbutton_blue_new (_("Limit the filling with payees belonging to the current account"),
+    button = gsb_automem_checkbutton_blue_new (_("Limit the filling with payees belonging to the current account"),
                         &conf.limit_completion_to_current_account,
                         NULL, NULL);
     g_object_set_data ( G_OBJECT ( vbox_pref ), "button_2", button );

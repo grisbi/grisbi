@@ -298,11 +298,11 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page)
 	gtk_grid_attach (GTK_GRID (priv->grid_divers_programs), entry_divers_programs, 1, 0, 1, 1);
 
 	/* set the scheduled variables */
-	vbox_button = utils_prefs_automem_radiobutton_blue_new (_("Warn/Execute the scheduled transactions arriving at expiration date"),
-															_("Warn/Execute the scheduled transactions of the month"),
-															&conf.execute_scheduled_of_month,
-															(GCallback) prefs_page_divers_scheduler_warm_button_changed,
-															page);
+	vbox_button = gsb_automem_radiobutton_blue_new (_("Warn/Execute the scheduled transactions arriving at expiration date"),
+													_("Warn/Execute the scheduled transactions of the month"),
+													&conf.execute_scheduled_of_month,
+													(GCallback) prefs_page_divers_scheduler_warm_button_changed,
+													page);
 
 	gtk_box_pack_start (GTK_BOX (vbox_button), priv->hbox_divers_scheduler_nb_days_before_scheduled, FALSE, FALSE, 0);
 	gtk_box_reorder_child (GTK_BOX (vbox_button), priv->hbox_divers_scheduler_nb_days_before_scheduled, 1);
