@@ -182,6 +182,7 @@
 		00EA60EC1F914DF200569C19 /* libgtkmacintegration-gtk3.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 00EA60EB1F914DF200569C19 /* libgtkmacintegration-gtk3.2.dylib */; };
 		00EA61021F915CBA00569C19 /* grisbi_resources.c in Sources */ = {isa = PBXBuildFile; fileRef = 00EA61011F915CBA00569C19 /* grisbi_resources.c */; };
 		00EE9D061E01EAFB005BB1B0 /* openssl.c in Sources */ = {isa = PBXBuildFile; fileRef = 00EE9D041E01EAFB005BB1B0 /* openssl.c */; };
+		00FB5A4F21CA477F00A10B81 /* prefs_page_metatree.c in Sources */ = {isa = PBXBuildFile; fileRef = 00FB5A4E21CA477F00A10B81 /* prefs_page_metatree.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -579,6 +580,8 @@
 		00EE9D041E01EAFB005BB1B0 /* openssl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = openssl.c; path = openssl/openssl.c; sourceTree = "<group>"; };
 		00EE9D051E01EAFB005BB1B0 /* openssl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = openssl.h; path = openssl/openssl.h; sourceTree = "<group>"; };
 		00EE9D091E01EBB3005BB1B0 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../../../../../../usr/local/Cellar/openssl/1.0.2j/lib/libcrypto.a; sourceTree = "<group>"; };
+		00FB5A4D21CA477F00A10B81 /* prefs_page_metatree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = prefs_page_metatree.h; path = prefs/prefs_page_metatree.h; sourceTree = "<group>"; };
+		00FB5A4E21CA477F00A10B81 /* prefs_page_metatree.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = prefs_page_metatree.c; path = prefs/prefs_page_metatree.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -631,6 +634,8 @@
 				003AC22C1F49E06D007DA275 /* prefs_page_import_asso.h */,
 				003AC2331F49E06D007DA275 /* prefs_page_import_files.c */,
 				003AC22D1F49E06D007DA275 /* prefs_page_import_files.h */,
+				00FB5A4E21CA477F00A10B81 /* prefs_page_metatree.c */,
+				00FB5A4D21CA477F00A10B81 /* prefs_page_metatree.h */,
 				00AFB95420F2462C00506F2F /* prefs_widget_loan.c */,
 				00AFB95520F2462C00506F2F /* prefs_widget_loan.h */,
 			);
@@ -1284,6 +1289,7 @@
 				006E68391DB3E7AD0038B1F0 /* classement_echeances.c in Sources */,
 				006E684B1DB3E7AD0038B1F0 /* file_obfuscate.c in Sources */,
 				006E689F1DB3E7AD0038B1F0 /* imputation_budgetaire.c in Sources */,
+				00FB5A4F21CA477F00A10B81 /* prefs_page_metatree.c in Sources */,
 				006E68951DB3E7AD0038B1F0 /* gsb_rgba.c in Sources */,
 				006E68AC1DB3E7AD0038B1F0 /* tiers_onglet.c in Sources */,
 				006E682E1DB3E7AD0038B1F0 /* affichage_liste.c in Sources */,
