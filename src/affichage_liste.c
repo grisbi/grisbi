@@ -623,7 +623,7 @@ GtkWidget *onglet_diverse_form_and_lists ( void )
 	button = gsb_automem_checkbutton_blue_new (_("Sorting descending of the exercises"),
 											   &conf.fyear_combobox_sort_order,
 											   G_CALLBACK (fyear_combobox_sort_order_changed),
-											   "fyear-combobox-sort-order"),
+											   "fyear-combobox-sort-order");
 	gtk_box_pack_start (GTK_BOX (paddingbox), button, FALSE, FALSE, 0);
 
     /* automatic amount separatior fields */
