@@ -40,7 +40,7 @@ GtkWidget *	dialogue_special_no_run 					(GtkMessageType param,
 														 const gchar* hint);
 gboolean 	dialogue_update_struct_message 				(GtkWidget *checkbox,
 														 struct ConditionalMessage *message);
-void 		dialogue_warning (const gchar *text);
+void 		dialogue_warning 							(const gchar *text);
 void 		dialogue_warning_hint 						(const gchar *text,
 														 const gchar *hint);
 gchar *		make_blue 									(const gchar *text);

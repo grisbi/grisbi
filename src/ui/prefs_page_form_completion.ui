@@ -113,7 +113,7 @@
                           <object class="GtkBox" id="box102">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="spacing">20</property>
+                            <property name="spacing">5</property>
                             <child>
                               <object class="GtkLabel" id="label102">
                                 <property name="visible">True</property>
@@ -235,6 +235,7 @@
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="orientation">vertical</property>
+                            <property name="spacing">5</property>
                             <child>
                               <object class="GtkBox" id="hbox_blue210">
                                 <property name="visible">True</property>
@@ -313,7 +314,6 @@
                                       <object class="GtkBox" id="hbox_blue220">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="spacing">1</property>
                                         <child>
                                           <object class="GtkCheckButton" id="checkbutton_automatic_erase_credit_debit">
                                             <property name="name">checkbutton_automatic_erase_credit_debit</property>
@@ -569,7 +569,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="halign">start</property>
-                    <property name="label" translatable="yes">Option for categories/budgetaries</property>
+                    <property name="label" translatable="yes">Options for categories/budgetaries</property>
                     <attributes>
                       <attribute name="weight" value="bold"/>
                     </attributes>
