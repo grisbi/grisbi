@@ -462,7 +462,7 @@ GtkWidget *gsb_bank_create_page (gboolean default_sensitive,
     gint i;
     gint nbre_bank = 0;
     gint sw_height = 0;
-    gchar *titles[] = {("Bank"), _("Contact name")};
+    gchar *titles[] = {_("Bank"), _("Contact name")};
     gfloat alignment[] = {COLUMN_LEFT, COLUMN_LEFT};
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Banks"), "gsb-banks-32.png" );
