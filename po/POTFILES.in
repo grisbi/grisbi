@@ -153,6 +153,7 @@ src/prefs/prefs_page_divers.c
 src/prefs/prefs_page_files.c
 src/prefs/prefs_page_import_asso.c
 src/prefs/prefs_page_import_files.c
+src/prefs/prefs_page_metatree.c
 src/prefs/prefs_widget_loan.c
 [type: gettext/gsettings]src/org.gtk.grisbi.gschema.xml
 [type: gettext/glade]src/ui/bet_graph.ui
