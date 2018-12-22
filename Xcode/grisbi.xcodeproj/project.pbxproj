@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		00272EAD20CABC7A00E9913C /* prefs_page_bet_account.c in Sources */ = {isa = PBXBuildFile; fileRef = 00272EAB20CABC7A00E9913C /* prefs_page_bet_account.c */; };
+		002D172121CEE83900B461E8 /* prefs_page_form_completion.c in Sources */ = {isa = PBXBuildFile; fileRef = 002D172021CEE83900B461E8 /* prefs_page_form_completion.c */; };
 		0038541C20767D5300A0E867 /* prefs_page_accueil.c in Sources */ = {isa = PBXBuildFile; fileRef = 0038541A20767D5300A0E867 /* prefs_page_accueil.c */; };
 		003AC2141F49DDE9007DA275 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 003AC2131F49DDE9007DA275 /* libcrypto.a */; };
 		003AC2181F49DE25007DA275 /* libofx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 003AC2171F49DE25007DA275 /* libofx.a */; };
@@ -201,6 +202,8 @@
 /* Begin PBXFileReference section */
 		00272EAB20CABC7A00E9913C /* prefs_page_bet_account.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = prefs_page_bet_account.c; path = prefs/prefs_page_bet_account.c; sourceTree = "<group>"; };
 		00272EAC20CABC7A00E9913C /* prefs_page_bet_account.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = prefs_page_bet_account.h; path = prefs/prefs_page_bet_account.h; sourceTree = "<group>"; };
+		002D171F21CEE83900B461E8 /* prefs_page_form_completion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = prefs_page_form_completion.h; path = prefs/prefs_page_form_completion.h; sourceTree = "<group>"; };
+		002D172021CEE83900B461E8 /* prefs_page_form_completion.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = prefs_page_form_completion.c; path = prefs/prefs_page_form_completion.c; sourceTree = "<group>"; };
 		0038541A20767D5300A0E867 /* prefs_page_accueil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = prefs_page_accueil.c; path = prefs/prefs_page_accueil.c; sourceTree = "<group>"; };
 		0038541B20767D5300A0E867 /* prefs_page_accueil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = prefs_page_accueil.h; path = prefs/prefs_page_accueil.h; sourceTree = "<group>"; };
 		003AC2131F49DDE9007DA275 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../../../../../../usr/local/Cellar/openssl/1.0.2l/lib/libcrypto.a; sourceTree = "<group>"; };
@@ -630,6 +633,8 @@
 				003AC22A1F49E06D007DA275 /* prefs_page_divers.h */,
 				003AC2311F49E06D007DA275 /* prefs_page_files.c */,
 				003AC22B1F49E06D007DA275 /* prefs_page_files.h */,
+				002D172021CEE83900B461E8 /* prefs_page_form_completion.c */,
+				002D171F21CEE83900B461E8 /* prefs_page_form_completion.h */,
 				003AC2321F49E06D007DA275 /* prefs_page_import_asso.c */,
 				003AC22C1F49E06D007DA275 /* prefs_page_import_asso.h */,
 				003AC2331F49E06D007DA275 /* prefs_page_import_files.c */,
@@ -1263,6 +1268,7 @@
 				006E68B21DB3E7AD0038B1F0 /* transaction_model.c in Sources */,
 				006E68891DB3E7AD0038B1F0 /* gsb_fyear_config.c in Sources */,
 				006E686B1DB3E7AD0038B1F0 /* gsb_data_budget.c in Sources */,
+				002D172121CEE83900B461E8 /* prefs_page_form_completion.c in Sources */,
 				006E68701DB3E7AD0038B1F0 /* gsb_data_fyear.c in Sources */,
 				006E685F1DB3E7AD0038B1F0 /* gsb_calendar_entry.c in Sources */,
 				005BC3431F6C196D006DB25E /* prefs_page_display_gui.c in Sources */,
