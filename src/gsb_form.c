@@ -2213,6 +2213,20 @@ gboolean gsb_form_entry_lose_focus (GtkWidget *entry,
     string = NULL;
     switch (element_number)
     {
+		case TRANSACTION_FORM_DATE:
+		case TRANSACTION_FORM_VALUE_DATE:
+			if (!strlen (gtk_entry_get_text (GTK_ENTRY (entry))))
+			{
+				if (save_form_date)
+					string = gsb_format_gdate (save_form_date);
+				else
+					string = gsb_date_today ();
+				gtk_entry_set_text (GTK_ENTRY (entry), string);
+				g_free (string);
+				string = NULL;
+			}
+			break;
+
 		case TRANSACTION_FORM_PARTY :
 			/* we complete the transaction */
 			if (!gsb_form_transaction_complete_form_by_payee (gtk_entry_get_text (GTK_ENTRY (entry))))
