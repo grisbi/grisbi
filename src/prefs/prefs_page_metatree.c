@@ -234,15 +234,29 @@ static void prefs_page_metatree_unarchived_payees_toggled (GtkWidget *checkbutto
 		nbre_unarchived = g_slist_length (tmp_list);
 		nbre_payees = nbre_payees - nbre_unarchived;
 
+		if (nbre_payees == 0)
+		{
+			text = g_strdup (_("There are no archived transactions."));
+			hint = g_strdup (_("This feature is useless"));
+			dialogue_warning_hint (text, hint);
+			g_free (text);
+			g_free (hint);
+			g_signal_handlers_block_by_func (checkbutton, prefs_page_metatree_unarchived_payees_toggled, NULL);
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton), FALSE);
+			g_signal_handlers_unblock_by_func (checkbutton, prefs_page_metatree_unarchived_payees_toggled, NULL);
+
+			return;
+		}
+
 		/* on compare le nombre de tiers des opérations archivées avec le nombre */
 		/* de tiers des opérations non archivées. si >= 2 on conseille de le faire */
 		test = nbre_payees / nbre_unarchived;
 		if (test >= 2)
 		{
 			text = g_strdup_printf (_("The ratio of the number of payees of the archived transactions "
-									  "(%d) to the number of payees of non-archived transactions (% d) "
+									  "(%d) to the number of payees of non-archived transactions (%d) "
 									  "is greater than or equal to two.\n"
-									  "It is advisable to use this feature."),
+									  "It is advisable to use this feature: Answer YES"),
 									nbre_payees,
 									nbre_unarchived);
 			hint = g_strdup (_("This feature can be useful"));
@@ -251,9 +265,9 @@ static void prefs_page_metatree_unarchived_payees_toggled (GtkWidget *checkbutto
 		else
 		{
 			text = g_strdup_printf (_("The ratio of the number of payees of the archived transactions "
-									  "(%d) to the number of payees of non-archived transactions (% d) "
+									  "(%d) to the number of payees of non-archived transactions (%d) "
 									  "is less than two.\n"
-									  "It is not recommended to use this feature."),
+									  "It is not recommended to use this feature : Answer NO"),
 									nbre_payees,
 									nbre_unarchived);
 			hint = g_strdup (_("This feature is useless"));
