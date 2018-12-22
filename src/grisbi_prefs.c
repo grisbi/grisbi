@@ -57,6 +57,7 @@
 #include "prefs/prefs_page_accueil.h"
 #include "prefs/prefs_page_archives.h"
 #include "prefs/prefs_page_bet_account.h"
+#include "prefs/prefs_page_form_completion.h"
 #include "prefs/prefs_page_display_adr.h"
 #include "prefs/prefs_page_display_fonts.h"
 #include "prefs/prefs_page_display_gui.h"
@@ -503,7 +504,6 @@ static void grisbi_prefs_left_panel_populate_tree_model (GrisbiPrefs *prefs)
 
 	/* append page Elements of interface */
 	widget = GTK_WIDGET (prefs_page_display_gui_new (prefs));
-	utils_widget_set_padding (widget, MARGIN_BOX, 0);
 	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Elements of interface"), page);
 	page++;
 
@@ -559,8 +559,7 @@ static void grisbi_prefs_left_panel_populate_tree_model (GrisbiPrefs *prefs)
 	page++;
 
 	/* append page Completion */
-	widget = GTK_WIDGET (onglet_form_completion ());
-	utils_widget_set_padding (widget, MARGIN_BOX, 0);
+	widget = GTK_WIDGET (prefs_page_form_completion_new (prefs));
 	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Completion"), page);
 	page++;
 

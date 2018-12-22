@@ -211,7 +211,7 @@ static gboolean prefs_page_metatree_sort_transactions_changed (GtkWidget *checkb
  *
  * \return FALSE
  **/
-static void prefs_page_metatree_unarchived_payees (GtkWidget *checkbutton,
+static void prefs_page_metatree_unarchived_payees_toggled (GtkWidget *checkbutton,
 												   gpointer null)
 {
 	gboolean toggle;
@@ -266,9 +266,9 @@ static void prefs_page_metatree_unarchived_payees (GtkWidget *checkbutton,
 		}
 		else
 		{
-			g_signal_handlers_block_by_func (checkbutton, prefs_page_metatree_unarchived_payees, NULL);
+			g_signal_handlers_block_by_func (checkbutton, prefs_page_metatree_unarchived_payees_toggled, NULL);
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton), FALSE);
-			g_signal_handlers_unblock_by_func (checkbutton, prefs_page_metatree_unarchived_payees, NULL);
+			g_signal_handlers_unblock_by_func (checkbutton, prefs_page_metatree_unarchived_payees_toggled, NULL);
 		}
 	}
 	else
@@ -393,7 +393,7 @@ static void prefs_page_metatree_setup_metatree_page (PrefsPageMetatree *page)
 
 	g_signal_connect_after (priv->checkbutton_metatree_unarchived_payees,
 							"toggled",
-							G_CALLBACK (prefs_page_metatree_unarchived_payees),
+							G_CALLBACK (prefs_page_metatree_unarchived_payees_toggled),
 							NULL);
 }
 
@@ -451,6 +451,7 @@ void prefs_page_metatree_sensitive_widget (const gchar *widget_name,
 {
 	GtkWidget *page;
 
+	devel_debug (widget_name);
 	page = grisbi_prefs_get_child_by_page_name ("metatree_num_page");
 	if (page && PREFS_IS_PAGE_METATREE (page))
 	{
@@ -465,12 +466,12 @@ void prefs_page_metatree_sensitive_widget (const gchar *widget_name,
 			if (sensitive && w_etat->metatree_unarchived_payees)
 			{
 				g_signal_handlers_block_by_func (priv->checkbutton_metatree_unarchived_payees,
-												 prefs_page_metatree_unarchived_payees,
+												 prefs_page_metatree_unarchived_payees_toggled,
 												 NULL);
 				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_metatree_unarchived_payees),
 											  FALSE);
 				g_signal_handlers_unblock_by_func (priv->checkbutton_metatree_unarchived_payees,
-												   prefs_page_metatree_unarchived_payees,
+												   prefs_page_metatree_unarchived_payees_toggled,
 												   NULL);
 			}
 

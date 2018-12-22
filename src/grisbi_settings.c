@@ -726,22 +726,10 @@ void grisbi_settings_save_app_config (void)
                         "affichage-exercice-automatique",
                         conf.affichage_exercice_automatique);
     g_settings_set_boolean ( G_SETTINGS (priv->settings_form),
-                        "automatic-completion-payee",
-                        conf.automatic_completion_payee);
-    g_settings_set_boolean ( G_SETTINGS (priv->settings_form),
-                        "automatic-erase-credit-debit",
-                        conf.automatic_erase_credit_debit);
-    g_settings_set_boolean ( G_SETTINGS (priv->settings_form),
-                        "automatic-recover-splits",
-                        conf.automatic_recover_splits);
-    g_settings_set_boolean ( G_SETTINGS (priv->settings_form),
                             "form-enter-key", conf.form_enter_key);
     g_settings_set_int (G_SETTINGS (priv->settings_form),
                         "form-expander-label-width",
                         conf.form_expander_label_width);
-    g_settings_set_boolean ( G_SETTINGS (priv->settings_form),
-                        "limit-completion-current-account",
-                        conf.limit_completion_to_current_account);
 
     /* priv->settings_general */
     if (conf.browser_command)

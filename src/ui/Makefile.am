@@ -10,6 +10,7 @@ ui_DATA = bet_graph.ui \
     prefs_page_accueil.ui \
     prefs_page_archives.ui \
     prefs_page_bet_account.ui \
+    prefs_page_form_completion.ui \
     prefs_page_display_adr.ui \
     prefs_page_display_fonts.ui \
     prefs_page_display_gui.ui \
