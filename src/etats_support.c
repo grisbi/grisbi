@@ -87,9 +87,13 @@ static void etats_support_set_export_pdf_name (gint report_number,
 {
 	gchar *report_name;
 	gchar *tmp_str;
+	gchar *tmp_str_to_free;
 
 	report_name = gsb_data_report_get_report_name (report_number);
-	tmp_str = my_strdelimit (report_name, " ", "_");
+	tmp_str_to_free = my_strdelimit (report_name, " ", "_");
+	tmp_str = my_strdelimit (tmp_str_to_free, "/\\", ".");
+	g_free (tmp_str_to_free);
+
 	if (tmp_str)
 	{
 		gchar **tmp_tab;
@@ -100,6 +104,7 @@ static void etats_support_set_export_pdf_name (gint report_number,
 		gsb_data_report_set_export_pdf_name (report_number, export_name);
 		g_strfreev (tmp_tab);
 		g_free (export_name);
+		g_free (tmp_str);
 	}
 }
 
