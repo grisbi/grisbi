@@ -350,25 +350,31 @@ gint gsb_scheduler_create_transaction_from_scheduled_transaction ( gint schedule
 		amount = bet_finance_get_loan_amount_at_date (scheduled_number, transfer_account, date, TRUE);
 		gsb_data_transaction_set_amount (transaction_number, amount);
 	}
-	else if (transaction_mother)
+	else if (transaction_mother && transfer_account > 0)
 	{
 		gint scheduled_mother;
 
-		scheduled_mother = gsb_data_scheduled_get_mother_scheduled_number (scheduled_number);
-		if (scheduled_mother == scheduled_number -1
-			|| scheduled_mother == scheduled_number -2
-			|| scheduled_mother == scheduled_number -3)
+		if (bet_data_loan_get_last_loan_struct_by_account (transfer_account))
 		{
-			GsbReal amount;
+			scheduled_mother = gsb_data_scheduled_get_mother_scheduled_number (scheduled_number);
+			if (scheduled_mother == scheduled_number -1
+				|| scheduled_mother == scheduled_number -2
+				|| scheduled_mother == scheduled_number -3)
+			{
+				GsbReal amount;
 
-			amount = bet_finance_get_loan_amount_at_date (scheduled_number, transfer_account, date, FALSE);
-			gsb_data_transaction_set_amount (transaction_number, amount);
+				amount = bet_finance_get_loan_amount_at_date (scheduled_number, transfer_account, date, FALSE);
+				gsb_data_transaction_set_amount (transaction_number, amount);
+			}
 		}
+		else
+			gsb_data_transaction_set_amount ( transaction_number, gsb_data_scheduled_get_amount (scheduled_number));
+
 	}
 	else
-    gsb_data_transaction_set_amount ( transaction_number,
-				      gsb_data_scheduled_get_amount (scheduled_number));
-    gsb_data_transaction_set_currency_number ( transaction_number,
+		gsb_data_transaction_set_amount ( transaction_number, gsb_data_scheduled_get_amount (scheduled_number));
+
+	gsb_data_transaction_set_currency_number ( transaction_number,
 					       gsb_data_scheduled_get_currency_number (scheduled_number));
     gsb_data_transaction_set_account_number ( transaction_number,
 					      account_number );
