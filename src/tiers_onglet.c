@@ -595,7 +595,7 @@ static GtkWidget *creation_barre_outils_tiers (void)
  *
  * \return FALSE
  **/
-static gboolean payees_update_combofix (gboolean force)
+gboolean payees_update_combofix (gboolean force)
 {
     if (gsb_data_form_check_for_value (TRANSACTION_FORM_PARTY) || force)
 	{

@@ -45,7 +45,6 @@
 #include "gsb_currency_config.h"
 #include "gsb_data_payee.h"
 #include "gsb_file.h"
-#include "gsb_form.h"
 #include "imputation_budgetaire.h"
 #include "navigation.h"
 #include "parametres.h"
@@ -276,7 +275,7 @@ static void prefs_page_metatree_unarchived_payees_toggled (GtkWidget *checkbutto
 
 		if (question_yes_no (text, hint, reponse_id))
 		{
-			gsb_form_create_widgets ();
+			payees_update_combofix (FALSE);
 		}
 		else
 		{
@@ -287,7 +286,7 @@ static void prefs_page_metatree_unarchived_payees_toggled (GtkWidget *checkbutto
 	}
 	else
 	{
-		gsb_form_create_widgets ();
+		payees_update_combofix (FALSE);
 	}
 }
 

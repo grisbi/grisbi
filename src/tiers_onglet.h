@@ -21,5 +21,6 @@ void 			payees_init_variables_list 			(void);
 void 			payees_manage_payees 				(void);
 void 			payees_new_payee 					(void);
 void 			payees_remove_unused_payees 		(void);
+gboolean 		payees_update_combofix 				(gboolean force);
 /* END_DECLARATION */
 #endif
