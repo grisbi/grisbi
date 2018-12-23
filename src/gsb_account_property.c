@@ -44,6 +44,7 @@
 #include "gsb_account.h"
 #include "gsb_autofunc.h"
 #include "gsb_bank.h"
+#include "gsb_category.h"
 #include "utils_buttons.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
@@ -1537,11 +1538,15 @@ gboolean gsb_account_property_focus_out ( GtkWidget *widget,
         gsb_scheduler_list_fill_list (gsb_scheduler_list_get_tree_view ());
 
         /*update the view menu */
-        grisbi_win_menu_move_to_acc_update  ( FALSE );
+		grisbi_win_menu_move_to_acc_delete ();
+        grisbi_win_menu_move_to_acc_new ();
 
         /* update the name of accounts in form */
         gsb_account_update_combo_list ( gsb_form_scheduler_get_element_widget (
                         SCHEDULED_FORM_ACCOUNT), FALSE );
+
+		/* update categories combofix */
+		gsb_category_update_combofix (FALSE);
 
         /* Replace trees contents. */
         categories_fill_list ();
