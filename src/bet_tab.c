@@ -437,10 +437,10 @@ void bet_array_update_estimate_tab ( gint account_number, gint type_maj )
  * This function is called by the Tree Model to sort
  * two lines by date.
  */
-static gint bet_array_date_sort_function ( GtkTreeModel *model,
-                        GtkTreeIter *itera,
-                        GtkTreeIter *iterb,
-                        gpointer data )
+static gint bet_array_date_sort_function (GtkTreeModel *model,
+										  GtkTreeIter *itera,
+										  GtkTreeIter *iterb,
+										  gpointer data)
 {
     GValue date_value_a = G_VALUE_INIT;
     GValue date_value_b = G_VALUE_INIT;
@@ -448,67 +448,74 @@ static gint bet_array_date_sort_function ( GtkTreeModel *model,
     GDate* date_b;
     gint result;
 
-    if ( itera == NULL )
+    if (itera == NULL)
         return -1;
-    if ( iterb == NULL)
+    if (iterb == NULL)
         return -1;
 
     /* get first date to compare */
-    gtk_tree_model_get_value ( model, itera,
-                        SPP_ESTIMATE_TREE_SORT_DATE_COLUMN, &date_value_a );
-    date_a = g_value_get_boxed ( &date_value_a );
-    if ( date_a == NULL )
+    gtk_tree_model_get_value (model, itera, SPP_ESTIMATE_TREE_SORT_DATE_COLUMN, &date_value_a);
+    date_a = g_value_get_boxed (&date_value_a);
+    if (date_a == NULL)
         return -1;
 
     /* get second date to compare */
-    gtk_tree_model_get_value ( model, iterb, SPP_ESTIMATE_TREE_SORT_DATE_COLUMN, &date_value_b );
-    date_b = g_value_get_boxed ( &date_value_b );
-    if ( date_b == NULL )
+    gtk_tree_model_get_value (model, iterb, SPP_ESTIMATE_TREE_SORT_DATE_COLUMN, &date_value_b);
+    date_b = g_value_get_boxed (&date_value_b);
+    if (date_b == NULL)
         return -1;
 
     result = g_date_compare (date_b, date_a);
-
-    if ( result == 0 )
+    if (result == 0)
     {
-        gint origine;
+        gint origine_a;
+        gint origine_b;
         gchar *str_amount_a;
         gchar *str_amount_b;
-        GsbReal amount_a = null_real;
-        GsbReal amount_b = null_real;
+		gchar *str_description_a;
+ 		gchar *str_description_b;
 
-        gtk_tree_model_get ( GTK_TREE_MODEL ( model ), itera,
-                        SPP_ESTIMATE_TREE_ORIGIN_DATA, &origine,
-                        SPP_ESTIMATE_TREE_AMOUNT_COLUMN, &str_amount_a,
-                        -1 );
+        gtk_tree_model_get (GTK_TREE_MODEL (model),
+							itera,
+							SPP_ESTIMATE_TREE_ORIGIN_DATA, &origine_a,
+							SPP_ESTIMATE_TREE_AMOUNT_COLUMN, &str_amount_a,
+							SPP_ESTIMATE_TREE_DESC_COLUMN, &str_description_a,
+							-1);
 
-        if ( origine == SPP_ORIGIN_HISTORICAL )
-        {
-            gtk_tree_model_get ( GTK_TREE_MODEL ( model ), iterb,
-                        SPP_ESTIMATE_TREE_ORIGIN_DATA, &origine,
-                        SPP_ESTIMATE_TREE_AMOUNT_COLUMN, &str_amount_b,
-                        -1 );
-            if ( origine != SPP_ORIGIN_HISTORICAL )
-                result = -1;
-            else
-            {
-                amount_a = utils_real_get_from_string ( str_amount_a );
-                amount_b = utils_real_get_from_string ( str_amount_b );
-                result = - ( gsb_real_cmp ( amount_a, amount_b ) );
-            }
+		gtk_tree_model_get (GTK_TREE_MODEL (model),
+							iterb,
+							SPP_ESTIMATE_TREE_ORIGIN_DATA, &origine_b,
+							SPP_ESTIMATE_TREE_AMOUNT_COLUMN, &str_amount_b,
+							SPP_ESTIMATE_TREE_DESC_COLUMN, &str_description_b,
+							-1);
+		//~ printf ("date_a = %s amount_a = %s str_description_a = %s origine_a = %d\ndate_b = %s amount_b = %s str_description_b =%s origine_b = %d\n",
+				//~ gsb_format_gdate (date_a), str_amount_a, str_description_a,origine_a,
+				//~ gsb_format_gdate (date_b), str_amount_b, str_description_b, origine_b);
 
-            g_free ( str_amount_b );
-        }
-
-        if ( origine == SPP_ORIGIN_SOLDE )
+        if (origine_a == SPP_ORIGIN_SOLDE)
         {
             result = 1;
         }
+		else if (origine_a == origine_b)
+		{
+			GsbReal amount_a = null_real;
+			GsbReal amount_b = null_real;
 
-        g_free ( str_amount_a );
+			amount_a = utils_real_get_from_string (str_amount_a);
+			amount_b = utils_real_get_from_string (str_amount_b);
+			result = - (gsb_real_cmp (amount_a, amount_b));
+		}
+		else
+			result = (origine_b -origine_a);
+
+		g_free (str_amount_a);
+		g_free (str_amount_b);
+		g_free (str_description_a);
+		g_free (str_description_b);
     }
 
-    g_value_unset ( &date_value_b );
-    g_value_unset ( &date_value_a );
+    g_value_unset (&date_value_b);
+    g_value_unset (&date_value_a);
 
     return result;
 }
@@ -541,7 +548,7 @@ static gboolean bet_array_update_average_column ( GtkTreeModel *model,
         return FALSE;
     }
 
-    gtk_tree_model_get ( model, iter, SPP_ESTIMATE_TREE_SELECT_COLUMN, &select, -1 );
+	gtk_tree_model_get ( model, iter, SPP_ESTIMATE_TREE_SELECT_COLUMN, &select, -1 );
     if ( select )
     {
         gtk_tree_store_set ( GTK_TREE_STORE ( model ),
@@ -558,7 +565,7 @@ static gboolean bet_array_update_average_column ( GtkTreeModel *model,
 
     gtk_tree_model_get ( model, iter, SPP_ESTIMATE_TREE_AMOUNT_COLUMN, &tmp_str, -1 );
 
-    amount = utils_real_get_from_string ( tmp_str );
+	amount = utils_real_get_from_string ( tmp_str );
 	g_free (tmp_str);
 
     tmp_range -> current_balance = gsb_real_add ( tmp_range -> current_balance, amount );
