@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-12-22 18:30+0100\n"
-"PO-Revision-Date: 2018-12-15 10:52+0100\n"
+"PO-Revision-Date: 2018-12-23 11:34+0100\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -290,7 +290,7 @@ msgstr ""
 #. How to display financial year
 #: ../src/affichage_liste.c:610
 msgid "Automatic financial year is set"
-msgstr "Geschäftsjahr Zuordnung"
+msgstr "Geschäftsjahre Zuordnung"
 
 #: ../src/affichage_liste.c:611
 msgid "according to transaction date"
@@ -302,14 +302,12 @@ msgstr "entsprechend Valutadatum"
 
 #. How to sort the financial year
 #: ../src/affichage_liste.c:619
-#, fuzzy
 msgid "Sorting the exercises in the button of the form"
-msgstr "Absteigend sortieren"
+msgstr "Geschäftsjahre Anzeige in Auswahlliste"
 
 #: ../src/affichage_liste.c:620
-#, fuzzy
 msgid "Sorting descending of the exercises"
-msgstr "Absteigend sortieren"
+msgstr "nach Name absteigend sortieren"
 
 #: ../src/affichage_liste.c:628
 msgid "Automatic amount separator"
@@ -2194,7 +2192,7 @@ msgid "Transfer from %s"
 msgstr "Umbuchen von %s"
 
 #: ../src/etats_affiche.c:1709
-#, fuzzy, c-format
+#, c-format
 msgid "Total expense (%d transaction): "
 msgstr "Gesamtausgaben (%d Buchung) "
 
@@ -8132,7 +8130,6 @@ msgstr "Erfasste Geschäftsjahre"
 
 #. Create button for sort variable
 #: ../src/gsb_fyear_config.c:151
-#, fuzzy
 msgid "Sort the exercises by descending name"
 msgstr "nach Name absteigend sortieren"
 
@@ -11295,7 +11292,7 @@ msgstr "Logo auswählen - Grisbi"
 #. On récupère le nom de la page
 #: ../src/prefs/prefs_page_display_fonts.c:509
 msgid "Fonts & logo"
-msgstr "Schriften & Farben"
+msgstr "Schriften & Logo"
 
 #: ../src/prefs/prefs_page_divers.c:188
 msgid "You will have to restart Grisbi for the new language to take effect."
@@ -11338,7 +11335,7 @@ msgstr "Suchkriterium"
 
 #: ../src/prefs/prefs_page_import_files.c:133
 msgid "Set the financial year"
-msgstr "Geschäftsjahr Zuordnung"
+msgstr "Geschäftsjahre Zuordnung"
 
 #: ../src/prefs/prefs_page_import_files.c:134
 msgid "According to the date"
@@ -11349,9 +11346,8 @@ msgid "According to the value date (if fail, try with the date)"
 msgstr "entsprechend Valutadatum (sonst nach Datum)"
 
 #: ../src/prefs/prefs_page_metatree.c:239
-#, fuzzy
 msgid "There are no archived transactions."
-msgstr "Archivierte Buchungen nicht berücksichtigen"
+msgstr "Es sind keine archivierten Buchungen vorhanden."
 
 #: ../src/prefs/prefs_page_metatree.c:240
 #: ../src/prefs/prefs_page_metatree.c:273
@@ -11359,7 +11355,7 @@ msgid "This feature is useless"
 msgstr "Es wird nicht empfohlen diese Funktionalität zu verwenden"
 
 #: ../src/prefs/prefs_page_metatree.c:256
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The ratio of the number of payees of the archived transactions (%d) to the "
 "number of payees of non-archived transactions (%d) is greater than or equal "
@@ -11368,14 +11364,14 @@ msgid ""
 msgstr ""
 "Das Verhältnis für die Anzahl von Empfängern in archivierte Buchungen (%d) "
 "zu Anzahl von Empfängern in Buchungen (%d) ist größer oder gleich als zwei.\n"
-"Es wird empfohlen diese Funktionalität zu verwenden."
+"Es wird empfohlen diese Funktionalität zu verwenden, dazu Ja auswählen"
 
 #: ../src/prefs/prefs_page_metatree.c:262
 msgid "This feature can be useful"
 msgstr "Es wird empfohlen diese Funktionalität zu verwenden"
 
 #: ../src/prefs/prefs_page_metatree.c:267
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The ratio of the number of payees of the archived transactions (%d) to the "
 "number of payees of non-archived transactions (%d) is less than two.\n"
@@ -11383,7 +11379,7 @@ msgid ""
 msgstr ""
 "Das Verhältnis für die Anzahl von Empfängern in archivierte Buchungen (%d) "
 "zu Anzahl von Empfängern in Buchungen (%d) ist kleiner als zwei.\n"
-"Es wird nicht empfohlen diese Funktionalität zu verwenden."
+"Es wird nicht empfohlen diese Funktionalität zu verwenden, dazu Nein auswählen"
 
 #. tri des opérations
 #: ../src/prefs/prefs_page_metatree.c:337
@@ -12791,9 +12787,8 @@ msgid "Credit Data"
 msgstr "Kredit Daten"
 
 #: ../src/ui/prefs_page_form_completion.ui.h:1
-#, fuzzy
 msgid "Common options"
-msgstr "Vervollständigung"
+msgstr "Allgemeine Einstellungen"
 
 #: ../src/ui/prefs_page_form_completion.ui.h:3
 msgid "Case sensitive completion"
@@ -12801,17 +12796,15 @@ msgstr "Beim Vervollständigen Groß und Kleinschreibung berücksichtigen"
 
 #: ../src/ui/prefs_page_form_completion.ui.h:4
 msgid "Minimum number of characters before proposals in the input fields:"
-msgstr ""
+msgstr "Mindestanzahl von Zeichen für die Anzeige von Vorschlägen:"
 
 #: ../src/ui/prefs_page_form_completion.ui.h:5
-#, fuzzy
 msgid "one by default"
-msgstr "Keine Daten verfügbar"
+msgstr "Voreinstellung ist ein Zeichen"
 
 #: ../src/ui/prefs_page_form_completion.ui.h:6
-#, fuzzy
 msgid "Options for payees"
-msgstr "<b>Einstellungen für alle Achsen</b>"
+msgstr "Einstellungen für Empfänger"
 
 #: ../src/ui/prefs_page_form_completion.ui.h:7
 msgid "Automatic filling transactions from payee"
@@ -12834,9 +12827,8 @@ msgid "Don't allow new payee creation"
 msgstr "Neue Empfänger dürfen nicht erstellt werden"
 
 #: ../src/ui/prefs_page_form_completion.ui.h:12
-#, fuzzy
 msgid "Options for categories/budgetaries"
-msgstr "Währungen & Einstellungen"
+msgstr "Einstellungen für Kategorien und Gruppen"
 
 #: ../src/ui/prefs_page_form_completion.ui.h:13
 msgid "Mix credit/debit categories"
