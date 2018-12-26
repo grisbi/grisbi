@@ -505,6 +505,8 @@ GtkWidget *bet_historical_get_data_tree_view ( GtkWidget *container )
     account_page = grisbi_win_get_account_page ();
     tree_view = gtk_tree_view_new ( );
 	gtk_widget_set_name (tree_view, "tree_view");
+	gtk_widget_set_tooltip_text (tree_view, _("Amount retained: Enter a negative number for a debit\n"
+											  "a positive number for a credit"));
     g_object_set_data ( G_OBJECT ( account_page ), "hist_tree_view", tree_view );
 
     tree_model = gtk_tree_store_new ( SPP_HISTORICAL_NUM_COLUMNS,
