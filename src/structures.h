@@ -372,8 +372,8 @@ enum BetArrayOriginData
 {
     SPP_ORIGIN_TRANSACTION,             /* Ligne issue d'une opération */
     SPP_ORIGIN_SCHEDULED,               /* Ligne issue d'une opération plannifiée */
-    SPP_ORIGIN_HISTORICAL,              /* Ligne issue d'une donnée historique */
     SPP_ORIGIN_FUTURE,                  /* Ligne issue d'une opération future */
+    SPP_ORIGIN_HISTORICAL,              /* Ligne issue d'une donnée historique */
     SPP_ORIGIN_ACCOUNT,                 /* Ligne issue d'un compte */
     SPP_ORIGIN_ARRAY,                   /* Donnée provenant du tableau de prévision */
     SPP_ORIGIN_CONFIG,                  /* Donnée provenant de la page des préférences */
