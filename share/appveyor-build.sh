@@ -61,7 +61,7 @@ make -j 2
 make install
 
 if test -f /appveyor.environment; then
-	cd $compdir/nsis-3.03
+	cd /nsis-3.03
 	./makensis.exe $grisbisrcdir/share/grisbi.nsi
 
 	cd $grisbisrcdir
