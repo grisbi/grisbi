@@ -4,8 +4,13 @@ git_src="https://github.com/xfred81"
 libofx_version="0.9.13"
 libgoffice_version="2018.12.26"
 
-grisbisrcdir=`pwd`
 compdir="/tmp"
+
+if test -f /appveyor.environment; then
+	grisbisrcdir=/c/projects/grisbi-src
+else
+	grisbisrcdir=`pwd`
+fi
 
 if test -f /appveyor.environment; then
 	source /appveyor.environment
@@ -31,6 +36,7 @@ PATH=$PATH:$compdir/inst/bin
 export PATH
 
 cd $grisbisrcdir
+
 ./autogen.sh
 
 ./configure --prefix $compdir/grisbi-inst/ --with-ofx --with-goffice \
