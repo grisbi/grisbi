@@ -4,8 +4,8 @@ New in version 1.2.0
 - Nouvelle version Windows
 - Ajout de règles pour l'importation de fichiers CSV
 - Ajout de nouvelles règles pour la gestion des tiers
-- Ajout de la création automatique d'opérations ventillées pour les échéances de crédit
-
+- Ajout de la création automatique d'opérations ventillées pour les échéances de prêt
+- Diverses améliorations pour les préférences et les états
 
 New in version 1.0.4
 - fixes a bug when the scheduled transaction is executed automatically once
