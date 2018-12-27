@@ -1,7 +1,11 @@
 #!/bin/sh
 
-source /appveyor.environment
-export MSYSTEM
+# Source environment file and set up few variables if we
+# are using AppVeyor
+if test -f /appveyor.environment; then
+	source /appveyor.environment
+	export MSYSTEM
+fi
 
 if test "$MSYSTEM"x == "MINGW64"x; then
 	i_pkg_postfix="w64-x86_64"
