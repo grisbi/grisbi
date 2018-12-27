@@ -19,3 +19,4 @@ pacman -S --noconfirm mingw-$i_pkg_postfix-freetype
 pacman -S --noconfirm mingw-$i_pkg_postfix-libgsf 
 pacman -S --noconfirm mingw-$i_pkg_postfix-ntldd-git
 pacman -S --noconfirm mingw-$i_pkg_postfix-libxslt
+pacman -S --noconfirm mingw-$i_pkg_postfix-zstd
