@@ -99,7 +99,7 @@ static const gchar* tips[] =
     N_("You can reorder accounts in the navigation list using drag &amp; drop."),
     N_("You can have future scheduled transactions 'executed' before their date, "),
     N_("No more tip available!  Please send any tips you know to "
-    "grisbi-devel@lists.sourceforge.net so that we can include them in next "
+    "devel@listes.grisbi.org so that we can include them in next "
     "version for all users.")
 };
 
