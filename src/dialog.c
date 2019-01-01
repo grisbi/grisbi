@@ -577,7 +577,7 @@ gboolean question_conditional_yes_no_with_struct (struct ConditionalMessage *mes
     if (message->hidden)
         return message->default_answer;
 
-    text = make_hint (message->hint, message->message);
+    text = make_hint (gettext (message->hint), message->message);
     dialog = gtk_message_dialog_new (GTK_WINDOW (grisbi_app_get_active_window (NULL)),
 									 GTK_DIALOG_DESTROY_WITH_PARENT,
 									 GTK_MESSAGE_WARNING,
