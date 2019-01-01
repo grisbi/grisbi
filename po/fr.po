@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-26 19:19+0100\n"
+"POT-Creation-Date: 2019-01-01 10:09+0100\n"
 "PO-Revision-Date: 2018-11-21 21:39+0100\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: français <>\n"
@@ -2318,6 +2318,27 @@ msgstr "Infos banque/guichet"
 #: ../src/etats_affiche.c:2557
 msgid "Statement"
 msgstr "Relevé"
+
+#: ../src/etats_calculs.c:133
+#, c-format
+msgid ""
+"The number of transactions selected by the report is very important and > to "
+"%d.\n"
+"This can cause delays or a crash of Grisbi.\n"
+"At this point you can continue or return to setting"
+msgstr ""
+"Le nombre d'opérations sélectionnées par l'état est très important et > à "
+"%d.\n"
+"Cela peut entrainer des lenteurs ou un plantage de Grisbi.\n"
+"Vous pouvez à ce stade continuer ou revenir au paramétrage de l'état"
+
+#: ../src/etats_calculs.c:145
+msgid "Continue"
+msgstr "Continuer"
+
+#: ../src/etats_calculs.c:146
+msgid "Return to settings"
+msgstr "Retour au paramétrage"
 
 #: ../src/etats_config.c:96 ../src/etats_prefs_private.h:58
 #: ../src/meta_payee.c:80 ../src/ui/etats_prefs.ui.h:28
@@ -11039,14 +11060,14 @@ msgstr ""
 
 #: ../src/tip.c:101
 msgid ""
-"No more tip available!  Please send any tips you know to grisbi-devel@lists."
-"sourceforge.net so that we can include them in next version for all users."
+"No more tip available!  Please send any tips you know to devel@listes.grisbi."
+"org so that we can include them in next version for all users."
 msgstr ""
 "Plus d'astuce disponible !\n"
 "\n"
 "Si vous en avez, envoyez les astuces que vous connaissez à grisbi-"
-"devel@lists.sourceforge.net pour que nous puissions les inclure dans la "
-"prochaine version et en faire profiter tous les utilisateurs de Grisbi."
+"devel@listes.grisbi pour que nous puissions les inclure dans la prochaine "
+"version et en faire profiter tous les utilisateurs de Grisbi."
 
 #: ../src/tip.c:136
 msgid "Did you know that..."

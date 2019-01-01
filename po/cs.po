@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-26 19:19+0100\n"
+"POT-Creation-Date: 2019-01-01 10:09+0100\n"
 "PO-Revision-Date: 2011-02-19 01:39+0100\n"
 "Last-Translator: Markus7cz <markus7cz@gmail.com>\n"
 "Language-Team: \n"
@@ -2343,6 +2343,25 @@ msgstr "Bankovní reference"
 #: ../src/etats_affiche.c:2557
 msgid "Statement"
 msgstr "Výpis"
+
+#: ../src/etats_calculs.c:133
+#, c-format
+msgid ""
+"The number of transactions selected by the report is very important and > to "
+"%d.\n"
+"This can cause delays or a crash of Grisbi.\n"
+"At this point you can continue or return to setting"
+msgstr ""
+
+#: ../src/etats_calculs.c:145
+#, fuzzy
+msgid "Continue"
+msgstr "Obsah"
+
+#: ../src/etats_calculs.c:146
+#, fuzzy
+msgid "Return to settings"
+msgstr "Nastavení importu"
 
 #: ../src/etats_config.c:96 ../src/etats_prefs_private.h:58
 #: ../src/meta_payee.c:80 ../src/ui/etats_prefs.ui.h:28
@@ -11066,8 +11085,8 @@ msgstr ""
 #: ../src/tip.c:101
 #, fuzzy
 msgid ""
-"No more tip available!  Please send any tips you know to grisbi-devel@lists."
-"sourceforge.net so that we can include them in next version for all users."
+"No more tip available!  Please send any tips you know to devel@listes.grisbi."
+"org so that we can include them in next version for all users."
 msgstr ""
 "Další tipy nejsou k dispozici. Pokud máte další tipy, o které byste se rádi "
 "podělili s ostatními uživateli, pošlete je na adresu grisbi-devel@lists."
