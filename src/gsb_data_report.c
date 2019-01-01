@@ -3455,7 +3455,7 @@ gboolean gsb_data_report_set_financial_year_list ( gint report_number,
  *
  * \param report_number the number of the report
  *
- * \return the sorting_type  of the report, -1 if problem
+ * \return the sorting_type  of the report, NULL if problem
  * */
 GSList *gsb_data_report_get_sorting_type_list ( gint report_number )
 {
