@@ -30,6 +30,8 @@
 #define ETAT_WWW_BROWSER        "xdg-open"          /* définit le browser par défaut */
 #endif
 
+#define ETATS_MAX_OPES			3000				/* Nombre d'opérations sélectionnées avant avertissement */
+
 /* Sorting option for the transactions. Used in gsb_transactions_list_display_sort_changed () */
 #define PRIMARY_SORT            0
 #define SECONDARY_SORT          1

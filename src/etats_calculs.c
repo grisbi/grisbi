@@ -28,11 +28,13 @@
 
 #include "include.h"
 #include <string.h>
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "etats_calculs.h"
 #include "etats_affiche.h"
-#include "grisbi_win.h"
+#include "etats_config.h"
+#include "grisbi_app.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
@@ -114,6 +116,60 @@ const gchar *nom_tiers_en_cours;
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
+/**
+ * Fonction d'alerte si le rapport est trop gros et qu'il y a un risque de plantage
+ * 2 cas : Windows crash à partir de 3000 opérations, Linux et OSX à partir de ~13000
+ *
+ * \param guint		nbre maxi d'opérations pour alerte
+ *
+ * \return 			Continue ou retour vers paramètres (default)
+ **/
+static gint etats_dialog_warning_report_too_big (gint report_number,
+												 guint nbre_opes)
+{
+    GtkWidget *dialog;
+    gchar *message = NULL;
+    gint result;
+	gint show_report_transactions;
+	guint nbre_max_opes = 3000;
+
+	show_report_transactions = gsb_data_report_get_show_report_transactions (report_number);
+	if (show_report_transactions > 0)
+		nbre_max_opes = 3000;
+#ifndef G_OS_WIN32
+	else
+		nbre_max_opes = 12000;
+#endif /* G_OS_WIN32 */
+
+	message = g_strdup_printf (_("The number of transactions selected by the report is very important and > to %d.\n"
+									 "This can cause delays or a crash of Grisbi.\n"
+									 "At this point you can continue or return to setting"),
+							   nbre_max_opes);
+
+    dialog = gtk_message_dialog_new (GTK_WINDOW (grisbi_app_get_active_window (NULL)),
+									 GTK_DIALOG_DESTROY_WITH_PARENT,
+									 GTK_MESSAGE_WARNING,
+									 GTK_BUTTONS_NONE,
+									 NULL);
+
+	gtk_dialog_add_buttons (GTK_DIALOG(dialog),
+							_("Continue"), GTK_RESPONSE_OK,
+							_("Return to settings"), GTK_RESPONSE_REJECT,
+							NULL);
+
+	gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG (dialog), message);
+	gtk_dialog_set_default_response (GTK_DIALOG(dialog), GTK_RESPONSE_REJECT);
+
+	g_free (message);
+
+    gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+
+    result = gtk_dialog_run (GTK_DIALOG (dialog));
+    gtk_widget_destroy (dialog);
+
+    return result;
+}
+
 /**
  * cette fonction est appelée quand l'opé a été classé dans sa categ, ib, compte ou tiers
  * et qu'elle doit être affichée ; on classe en fonction de la demande de la conf (date, no, tiers ...)
@@ -1674,6 +1730,7 @@ void affichage_etat (gint report_number,
 					 gchar *filename)
 {
     GSList *liste_opes_selectionnees;
+	guint nbre_opes;
 
 	devel_debug (NULL);
     if (!report_number)
@@ -1691,6 +1748,18 @@ void affichage_etat (gint report_number,
     /*   selection des opérations */
     /* on va mettre l'adresse des opés sélectionnées dans une liste */
     liste_opes_selectionnees = recupere_opes_etat (report_number);
+	nbre_opes = g_slist_length (liste_opes_selectionnees);
+	if (nbre_opes > ETATS_MAX_OPES)
+	{
+		gint result;
+
+		result = etats_dialog_warning_report_too_big (report_number, nbre_opes);
+		if (result != GTK_RESPONSE_OK)
+		{
+			etats_config_personnalisation_etat ();
+			return;
+		}
+	}
 
 	/* à ce niveau, on a récupéré toutes les opés qui entreront dans */
     /* l'état ; reste plus qu'à les classer et les afficher */
