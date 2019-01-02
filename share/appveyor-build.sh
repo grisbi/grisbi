@@ -54,7 +54,10 @@ CFLAGS+=" -Wno-unused-parameter"
 export CFLAGS
 echo "CFLAGS: $CFLAGS"
 
-./configure --prefix /c/projects/grisbi-inst/ --with-ofx --with-goffice PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/inst/lib/pkgconfig
+PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/inst/lib/pkgconfig
+export PKG_CONFIG_PATH
+
+./configure --prefix /c/projects/grisbi-inst/ --with-ofx --with-goffice
 
 v=$(grep PACKAGE_VERSION config.h | cut -f2 -d '"')
 v="$v-$(git rev-parse --short HEAD)"
