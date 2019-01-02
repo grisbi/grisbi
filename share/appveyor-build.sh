@@ -57,7 +57,10 @@ echo "CFLAGS: $CFLAGS"
 PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/inst/lib/pkgconfig
 export PKG_CONFIG_PATH
 
-./configure --prefix /c/projects/grisbi-inst/ --with-ofx --with-goffice
+./configure \
+	--prefix /c/projects/grisbi-inst/ \
+	--with-ofx \
+	--with-goffice
 
 v=$(grep PACKAGE_VERSION config.h | cut -f2 -d '"')
 v="$v-$(date +'%Y.%m.%d-%H')"
