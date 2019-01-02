@@ -23,7 +23,7 @@ cd /c/projects/grisbi-src
 ./configure --prefix /c/projects/grisbi-inst/ --with-ofx --with-goffice PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/inst/lib/pkgconfig
 
 v=$(grep PACKAGE_VERSION config.h | cut -f2 -d '"')
-v="$v-$(date +'%Y.%m.%d-%H')"
+v="$v-$(git rev-parse --short HEAD)"
 powershell.exe -command "Update-AppveyorBuild -Version \"$v\""
 # -B%APPVEYOR_BUILD_NUMBER%\""
 echo "Version = $v"
