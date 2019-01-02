@@ -144,7 +144,7 @@ static gint etats_dialog_warning_report_too_big (gint report_number,
 	message = g_strdup_printf (_("The number of transactions selected by the report is very important and > to %d.\n"
 									 "This can cause delays or a crash of Grisbi.\n"
 									 "At this point you can continue or return to setting"),
-							   nbre_max_opes);
+								   nbre_max_opes);
 
     dialog = gtk_message_dialog_new (GTK_WINDOW (grisbi_app_get_active_window (NULL)),
 									 GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -419,9 +419,8 @@ classement_suivant:
     {
 		return (classement_ope_perso_etat (transaction_1, transaction_2));
     }
-printf ("type classement = %d transaction_number_1 = %d transaction_number_2 = %d\n",
-		GPOINTER_TO_INT (pointeur->data), transaction_number_1, transaction_number_2);
-    switch (GPOINTER_TO_INT (pointeur->data))
+
+	switch (GPOINTER_TO_INT (pointeur->data))
     {
 		/* classement des catégories */
 		case 1:
@@ -469,7 +468,6 @@ printf ("type classement = %d transaction_number_1 = %d transaction_number_2 = %
 
 						if (return_value)
 						{
-							printf ("retour Categ\n");
 							return return_value;
 						}
 						else
@@ -584,7 +582,6 @@ printf ("type classement = %d transaction_number_1 = %d transaction_number_2 = %
 
 				if (return_value)
 				{
-					printf ("retour Sous Categ\n");
 					return return_value;
 				}
 				else
@@ -622,7 +619,6 @@ printf ("type classement = %d transaction_number_1 = %d transaction_number_2 = %
 
 				if (return_value)
 				{
-					printf ("retour IB\n");
 					return return_value;
 				}
 				else
@@ -665,7 +661,6 @@ printf ("type classement = %d transaction_number_1 = %d transaction_number_2 = %
 
 				if (return_value)
 				{
-					printf ("retour Sous IB\n");
 					return return_value;
 				}
 				else
@@ -700,7 +695,6 @@ printf ("type classement = %d transaction_number_1 = %d transaction_number_2 = %
 
 				if (return_value)
 				{
-					printf ("retour Comptes\n");
 					return return_value;
 				}
 				else
@@ -734,7 +728,6 @@ printf ("type classement = %d transaction_number_1 = %d transaction_number_2 = %
 
 				if (return_value)
 				{
-					printf ("retour Tiers\n");
 					return return_value;
 				}
 				else
