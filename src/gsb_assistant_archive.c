@@ -294,7 +294,7 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
     gtk_box_pack_start ( GTK_BOX (hbox), financial_year_button, FALSE, FALSE, 0 );
     gtk_widget_set_sensitive ( hbox, FALSE );
 
-    /* archive by budget */
+    /* archive by report */
     button = gtk_radio_button_new_with_label ( gtk_radio_button_get_group (
                         GTK_RADIO_BUTTON ( button ) ),
                         _("Archive by report"));
