@@ -2472,6 +2472,30 @@ void gsb_gui_navigation_activate_expander ( GtkTreeView *tree_view,
  *
  * \return
  **/
+void gsb_gui_navigation_select_reports_page (void)
+{
+	GtkTreePath *path;
+    GtkTreeSelection *selection;
+
+	devel_debug (NULL);
+    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (navigation_tree_view));
+	if (!selection)
+		return;
+
+	path = gsb_gui_navigation_get_page_path (navigation_model,GSB_REPORTS_PAGE);
+
+    gtk_tree_view_collapse_row (GTK_TREE_VIEW (navigation_tree_view), path);
+	gtk_tree_selection_select_path (selection, path);
+    gtk_tree_path_free (path);
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

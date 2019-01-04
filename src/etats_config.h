@@ -38,7 +38,7 @@ GtkTreeModel *	etats_config_onglet_get_liste_tiers 							(void);
 GtkTreeModel *	etats_config_onglet_mode_paiement_get_model 					(void);
 void 			etats_config_onglet_select_partie_liste_comptes 				(GtkWidget *tree_view,
 																				 gint type_compte);
-void etats_config_personnalisation_etat (void);
+gint			etats_config_personnalisation_etat								(void);
 /* END_DECLARATION */
 
 

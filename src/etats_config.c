@@ -3857,16 +3857,17 @@ static gboolean etats_config_recupere_info_to_etat ( gint report_number )
  *
  * \return
  */
-void etats_config_personnalisation_etat ( void )
+gint etats_config_personnalisation_etat ( void )
 {
     GtkWidget *dialog;
     GtkWidget *notebook_general;
     gint current_report_number;
+	gint result = 0;
 
     devel_debug (NULL);
 
     if ( !( current_report_number = gsb_gui_navigation_get_current_report ( ) ) )
-        return;
+        return result;
 
     notebook_general = grisbi_win_get_notebook_general ( );
     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != GSB_REPORTS_PAGE )
@@ -3875,7 +3876,7 @@ void etats_config_personnalisation_etat ( void )
     /* Création de la fenetre de dialog */
     dialog = etats_prefs_new (GTK_WIDGET (grisbi_app_get_active_window (NULL)));
     if ( dialog == NULL )
-        return;
+        return result;
 
     /* initialisation des données de la fenetre de dialog */
     etats_config_initialise_dialog_from_etat ( current_report_number );
@@ -3883,10 +3884,11 @@ void etats_config_personnalisation_etat ( void )
     gtk_widget_show_all ( dialog );
 
     /* on se repositionne sur le dernier onglet si on a le même rapport */
-    if ( current_report_number == last_report )
-        etats_prefs_left_panel_tree_view_select_last_page ();
+	if ( current_report_number == last_report )
+		etats_prefs_left_panel_tree_view_select_last_page ();
 
-    switch ( gtk_dialog_run ( GTK_DIALOG ( dialog ) ) )
+	result = gtk_dialog_run (GTK_DIALOG (dialog));
+    switch (result)
     {
         case GTK_RESPONSE_OK:
             etats_config_recupere_info_to_etat ( current_report_number );
@@ -3912,6 +3914,8 @@ void etats_config_personnalisation_etat ( void )
     etats_prefs_free_all_var ();
 
     gtk_widget_destroy ( dialog );
+
+	return result;
 }
 
 
