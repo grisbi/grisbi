@@ -1592,6 +1592,58 @@ GPtrArray *gsb_data_partial_balance_calculate_balances_at_date ( gint partial_ba
     return current_balances;
 }
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void gsb_data_partial_balance_renum_account_number_0 (gint account_number)
+{
+    GSList *tmp_list;
+
+    tmp_list = partial_balance_list;
+    while (tmp_list)
+    {
+		gchar *liste_cptes;
+        struct_partial_balance *partial_balance;
+
+        partial_balance = tmp_list->data;
+		liste_cptes = partial_balance->liste_cptes;
+		printf ("liste_cptes = %s\n", liste_cptes);
+		if (g_strstr_len (liste_cptes, -1, "0"))
+		{
+			gchar **tab;
+			gint i;
+
+			tab = g_strsplit (liste_cptes, ";", 0);
+			for ( i = 0; tab[i]; i++ )
+			{
+				gint account_nb;
+
+				account_nb = utils_str_atoi (tab[i]);
+				if (account_nb == 0)
+				{
+					gchar *tmp_number_str;
+					gchar *str_to_free;
+					gchar *new_str;
+
+					tmp_number_str = utils_str_itoa (account_number);
+					str_to_free = tab[i];
+					tab[i] = tmp_number_str;
+					g_free (str_to_free);
+					new_str = g_strjoinv (";", tab);
+					g_free (partial_balance->liste_cptes);
+					partial_balance->liste_cptes = new_str;
+					g_strfreev (tab);
+					break;
+				}
+			}
+		}
+		tmp_list = tmp_list->next;
+	}
+}
 
 /*********************************************************************************************/
 /*              Interface                                                                    */

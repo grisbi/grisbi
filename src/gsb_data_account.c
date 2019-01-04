@@ -43,6 +43,7 @@
 #include "gsb_data_currency.h"
 #include "gsb_data_form.h"
 #include "gsb_data_import_rule.h"
+#include "gsb_data_partial_balance.h"
 #include "gsb_data_payment.h"
 #include "gsb_data_report.h"
 #include "gsb_data_reconcile.h"
@@ -3975,6 +3976,9 @@ gboolean gsb_data_account_renum_account_number_0 (const gchar *filename)
 
 	/* on traite les données budgetaires */
 	bet_data_renum_account_number_0 (account_number);
+
+	/* On traite les soldes partiels */
+	gsb_data_partial_balance_renum_account_number_0 (account_number);
 
 	/* set new numero for account */
 	gsb_data_account_set_account_number (0, account_number);

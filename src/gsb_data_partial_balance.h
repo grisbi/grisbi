@@ -31,6 +31,7 @@ gchar *			gsb_data_partial_balance_get_marked_balance 		(gint partial_balance_nu
 const gchar *	gsb_data_partial_balance_get_name 					(gint partial_balance_number);
 gint 			gsb_data_partial_balance_get_number 				(gpointer balance_ptr);
 gboolean 		gsb_data_partial_balance_init_variables 			(void);
+void			gsb_data_partial_balance_renum_account_number_0		(gint account_number);
 gboolean 		gsb_data_partial_balance_set_colorise 				(gint partial_balance_number,
 																	 gboolean colorise);
 gboolean 		gsb_data_partial_balance_set_currency 				(gint partial_balance_number,
