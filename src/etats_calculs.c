@@ -1738,15 +1738,16 @@ pas_decalage:
 /* Public functions                                                           */
 /******************************************************************************/
 /**
- * Affichage d'un état
+ * Affichage d'un état. Test du nombre d'opérations sélectionnées si trop grand
+ * en fonction des choix retour proposé vers préférences
  *
  * \param
  * \param
  * \param
  *
- * \return
+ * \return TRUE if OK FALSE si sortie préférences par annulation
  **/
-void affichage_etat (gint report_number,
+gboolean affichage_etat (gint report_number,
 					 struct EtatAffichage *affichage,
 					 gchar *filename)
 {
@@ -1758,7 +1759,7 @@ void affichage_etat (gint report_number,
     {
 		report_number = gsb_gui_navigation_get_current_report ();
 		if (!report_number)
-			return;
+			return FALSE;
     }
 
     grisbi_win_status_bar_wait (FALSE);
@@ -1783,10 +1784,10 @@ void affichage_etat (gint report_number,
 				gsb_gui_navigation_select_reports_page ();
 				g_slist_free (liste_opes_selectionnees);
 				grisbi_win_status_bar_stop_wait (FALSE);
-				return;
+				return FALSE;
 			}
 			else
-				return;
+				return FALSE;
 		}
 	}
 
@@ -1796,6 +1797,8 @@ void affichage_etat (gint report_number,
     etat_affichage_output = affichage;
     etape_finale_affichage_etat (liste_opes_selectionnees, affichage, filename);
     grisbi_win_status_bar_stop_wait (FALSE);
+
+	return TRUE;
 }
 
 /**
@@ -2482,16 +2485,19 @@ gint cherche_string_equivalente_dans_slist (gchar *string_list,
  *
  * \param report_number		numéro du rapport
  *
- * \return
+ * \return TRUE if OK FALSE si affichage_etat sort après annulation préférences
  **/
-void rafraichissement_etat (gint report_number)
+gboolean rafraichissement_etat (gint report_number)
 {
+	gboolean result;
     devel_debug_int (report_number);
 
     if (!report_number)
 		report_number = gsb_gui_navigation_get_current_report ();
 
-    affichage_etat (report_number, &gtktable_affichage, NULL);
+    result = affichage_etat (report_number, &gtktable_affichage, NULL);
+
+	return result;
 }
 
 /**

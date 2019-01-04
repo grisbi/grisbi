@@ -54,6 +54,7 @@
 #include "gsb_form_widget.h"
 #include "gsb_real.h"
 #include "gsb_reconcile.h"
+#include "gsb_report.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
 #include "imputation_budgetaire.h"
@@ -2466,7 +2467,8 @@ void gsb_gui_navigation_activate_expander ( GtkTreeView *tree_view,
 
 
 /**
- *
+ * Cette fonction est destinée à gérer la sortie des préférences par annulation après
+ * test d'un nombre d'opérations sélectionner trop important.
  *
  * \param
  *
@@ -2474,19 +2476,43 @@ void gsb_gui_navigation_activate_expander ( GtkTreeView *tree_view,
  **/
 void gsb_gui_navigation_select_reports_page (void)
 {
+	GtkWidget *child;
+	GtkWidget *notebook;
+	GtkWidget *tree_view;
+	GtkTreeIter iter;
 	GtkTreePath *path;
     GtkTreeSelection *selection;
+	gint current_page;
 
 	devel_debug (NULL);
     selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (navigation_tree_view));
 	if (!selection)
 		return;
 
-	path = gsb_gui_navigation_get_page_path (navigation_model,GSB_REPORTS_PAGE);
+	path = gsb_gui_navigation_get_page_path (navigation_model, GSB_REPORTS_PAGE);
 
     gtk_tree_view_collapse_row (GTK_TREE_VIEW (navigation_tree_view), path);
 	gtk_tree_selection_select_path (selection, path);
-    gtk_tree_path_free (path);
+
+	/* set report_number à -1 et déselectionne le rapport dans la liste */
+	gsb_report_set_current (0);
+	gtk_tree_model_get_iter (navigation_model, &iter, path);
+	gtk_tree_store_set(GTK_TREE_STORE (navigation_model),
+					   &iter,
+                       NAVIGATION_REPORT, -1,
+                       -1);
+
+	notebook = etats_onglet_get_notebook_etats ();
+	current_page = gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook));
+	if (current_page != 1)
+		gtk_notebook_set_current_page (GTK_NOTEBOOK (etats_onglet_get_notebook_etats ()), 1);
+
+	child = gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook), 1);
+	tree_view = g_object_get_data (G_OBJECT (child), "tree_view");
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
+	gtk_tree_selection_unselect_all (selection);
+
+	gtk_tree_path_free (path);
 }
 
 /**
