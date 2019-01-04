@@ -168,9 +168,7 @@ gint etat_affiche_affiche_total_categories ( gint ligne )
 
     current_report_number = gsb_gui_navigation_get_current_report ();
 
-    if ( gsb_data_report_get_category_used (current_report_number)
-	 &&
-	 gsb_data_report_get_category_show_category_amount (current_report_number))
+    if (gsb_data_report_get_category_show_category_amount (current_report_number))
     {
 	/* si rien n'est affiché en dessous de la catég, on */
 	/* met le résultat sur la ligne de la catég */
@@ -287,12 +285,7 @@ gint etat_affiche_affiche_total_sous_categ ( gint ligne )
 
     current_report_number = gsb_gui_navigation_get_current_report ();
 
-
-    if ( gsb_data_report_get_category_used (current_report_number)
-	 &&
-	 gsb_data_report_get_category_show_sub_category (current_report_number)
-	 &&
-	 gsb_data_report_get_category_show_sub_category_amount (current_report_number))
+    if (gsb_data_report_get_category_show_sub_category_amount (current_report_number))
     {
 	/* si rien n'est affiché en dessous de la sous_categ, on */
 	/* met le résultat sur la ligne de la ss categ */
@@ -405,9 +398,7 @@ gint etat_affiche_affiche_total_ib ( gint ligne )
     current_report_number = gsb_gui_navigation_get_current_report ();
 
 
-    if ( gsb_data_report_get_budget_used (current_report_number)
-	 &&
-	 gsb_data_report_get_budget_show_budget_amount (current_report_number))
+    if (gsb_data_report_get_budget_show_budget_amount (current_report_number))
     {
 	/* si rien n'est affiché en dessous de la ib, on */
 	/* met le résultat sur la ligne de l'ib */
@@ -515,11 +506,7 @@ gint etat_affiche_affiche_total_sous_ib ( gint ligne )
     current_report_number = gsb_gui_navigation_get_current_report ();
 
 
-    if ( gsb_data_report_get_budget_used (current_report_number)
-	 &&
-	 gsb_data_report_get_budget_show_sub_budget (current_report_number)
-	 &&
-	 gsb_data_report_get_budget_show_sub_budget_amount (current_report_number))
+    if (gsb_data_report_get_budget_show_sub_budget_amount (current_report_number))
     {
 	/* si rien n'est affiché en dessous de la sous ib, on */
 	/* met le résultat sur la ligne de la sous ib */
@@ -634,13 +621,11 @@ gint etat_affiche_affiche_total_compte ( gint ligne )
     current_report_number = gsb_gui_navigation_get_current_report ();
 
 
-    if ( gsb_data_report_get_account_group_reports (current_report_number)
-	 &&
-	 gsb_data_report_get_account_show_amount (current_report_number))
+    if (gsb_data_report_get_account_show_amount (current_report_number))
     {
 	/* si rien n'est affiché en dessous du compte, on */
 	/* met le résultat sur la ligne du compte */
-	/* sinon on fait une barre et on met le rÃ©sultat */
+	/* sinon on fait une barre et on met le résultat */
 
 	if ( gsb_data_report_get_payee_used (current_report_number)
 	     ||
@@ -743,9 +728,7 @@ gint etat_affiche_affiche_total_tiers ( gint ligne )
     current_report_number = gsb_gui_navigation_get_current_report ();
 
 
-    if ( gsb_data_report_get_payee_used (current_report_number)
-	 &&
-	 gsb_data_report_get_payee_show_payee_amount (current_report_number))
+    if (gsb_data_report_get_payee_show_payee_amount (current_report_number))
     {
 	/* si rien n'est affiché en dessous du tiers, on */
 	/* met le résultat sur la ligne du tiers */
@@ -1292,8 +1275,6 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 
     /* on met tous les labels dans un event_box pour aller directement sur l'opé si elle est clickée */
 
-    if ( gsb_data_report_get_show_report_transactions (current_report_number))
-    {
 	/* on affiche ce qui est demandé pour les opés */
 	/* si les titres ne sont pas affichés et qu'il faut le faire, c'est ici */
 
@@ -1670,8 +1651,8 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 	    ligne_debut_partie = ligne;
 
 	ligne++;
-    }
-    return ( ligne );
+
+	return ( ligne );
 }
 /*****************************************************************************************************/
 
@@ -1843,9 +1824,7 @@ gint etat_affiche_affiche_categ_etat ( gint transaction_number,
     /* vérifie qu'il y a un changement de catégorie */
     /* ça peut être aussi chgt pour virement, ventilation ou pas de categ */
 
-    if ( gsb_data_report_get_category_used (current_report_number)
-	 &&
-	 ( gsb_data_transaction_get_category_number ( transaction_number)!= ancienne_categ_etat
+    if (gsb_data_transaction_get_category_number ( transaction_number)!= ancienne_categ_etat
 	   ||
 	   ( ancienne_categ_speciale_etat == 1
 	     &&
@@ -1859,7 +1838,7 @@ gint etat_affiche_affiche_categ_etat ( gint transaction_number,
 	     &&
 	     ( gsb_data_transaction_get_split_of_transaction ( transaction_number)
 	       ||
-	       gsb_data_transaction_get_contra_transaction_number ( transaction_number) > 0))))
+	       gsb_data_transaction_get_contra_transaction_number ( transaction_number) > 0)))
     {
 
 	/* lorsqu'on est au début de l'affichage de l'état, on n'affiche pas de totaux */
@@ -1958,11 +1937,7 @@ gint etat_affiche_affiche_sous_categ_etat ( gint transaction_number,
     current_report_number = gsb_gui_navigation_get_current_report ();
 
 
-    if ( gsb_data_report_get_category_used (current_report_number)
-	 &&
-	 gsb_data_report_get_category_show_sub_category (current_report_number)
-	 &&
-	 gsb_data_transaction_get_category_number (transaction_number)
+    if (gsb_data_transaction_get_category_number (transaction_number)
 	 &&
 	 gsb_data_transaction_get_sub_category_number (transaction_number) != ancienne_sous_categ_etat )
     {
@@ -2047,9 +2022,7 @@ gint etat_affiche_affiche_ib_etat ( gint transaction_number,
     /* mise en place de l'ib */
 
 
-    if ( gsb_data_report_get_budget_used (current_report_number)
-	 &&
-	 gsb_data_transaction_get_budgetary_number (transaction_number) != ancienne_ib_etat )
+    if (gsb_data_transaction_get_budgetary_number (transaction_number) != ancienne_ib_etat)
     {
 	/* lorsqu'on est au début de l'affichage de l'état, on n'affiche pas de totaux */
 
@@ -2129,11 +2102,7 @@ gint etat_affiche_affiche_sous_ib_etat ( gint transaction_number,
     /* mise en place de la sous_ib */
 
 
-    if ( gsb_data_report_get_budget_used (current_report_number)
-	 &&
-	 gsb_data_report_get_budget_show_sub_budget (current_report_number)
-	 &&
-	 gsb_data_transaction_get_budgetary_number (transaction_number)
+    if (gsb_data_transaction_get_budgetary_number (transaction_number)
 	 &&
 	 gsb_data_transaction_get_sub_budgetary_number (transaction_number) != ancienne_sous_ib_etat )
     {
@@ -2215,9 +2184,7 @@ gint etat_affiche_affiche_compte_etat ( gint transaction_number,
 
     /* mise en place du compte */
 
-    if ( gsb_data_report_get_account_group_reports (current_report_number)
-	 &&
-	 gsb_data_transaction_get_account_number (transaction_number) != ancien_compte_etat )
+    if (gsb_data_transaction_get_account_number (transaction_number) != ancien_compte_etat )
     {
 	/* lorsqu'on est au début de l'affichage de l'état, on n'affiche pas de totaux */
 

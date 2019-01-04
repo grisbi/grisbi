@@ -138,13 +138,15 @@ static gint etats_dialog_warning_report_too_big (gint report_number,
 		nbre_max_opes = 3000;
 #ifndef G_OS_WIN32
 	else
-		nbre_max_opes = 12000;
+		nbre_max_opes = 10000;
 #endif /* G_OS_WIN32 */
 
-	message = g_strdup_printf (_("The number of transactions selected by the report is very important and > to %d.\n"
-									 "This can cause delays or a crash of Grisbi.\n"
-									 "At this point you can continue or return to setting"),
-								   nbre_max_opes);
+	message = g_strdup_printf (_("The number of transactions selected by the report is very "
+								 "important (%d) and > to %d.\n"
+								 "This can cause delays or a crash of Grisbi.\n"
+								 "At this point you can continue or return to setting"),
+							   nbre_opes,
+							   nbre_max_opes);
 
     dialog = gtk_message_dialog_new (GTK_WINDOW (grisbi_app_get_active_window (NULL)),
 									 GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -1188,8 +1190,8 @@ static void etape_finale_affichage_etat (GSList *ope_selectionnees,
 {
     GSList *liste_ope_revenus;
 	GSList *liste_ope_depenses;
-	GSList *pointeur_tmp;
-	GSList *pointeur_glist;
+	GSList *pointeur_opes;
+	GSList *pointeur_sort_list;
     const gchar *decalage_base;
 	const gchar *decalage_categ;
 	const gchar *decalage_sous_categ;
@@ -1200,29 +1202,43 @@ static void etape_finale_affichage_etat (GSList *ope_selectionnees,
     gint i;
     gint ligne;
     gint current_report_number;
+	gint categ_used = 0;
+	gint sous_categ_used = 0;
+	gint group_reports = 0;
+	gint ib_used = 0;
+	gint sous_ib_used = 0;
+	gint payee_used = 0;
     GsbReal total_general;
     GsbReal total_partie;
 
-    current_report_number = gsb_gui_navigation_get_current_report ();
+	current_report_number = gsb_gui_navigation_get_current_report ();
+
+	/* initialisations variables permanentes */
+	categ_used = gsb_data_report_get_category_used (current_report_number);
+	sous_categ_used = gsb_data_report_get_category_show_sub_category (current_report_number);
+	ib_used = gsb_data_report_get_budget_used (current_report_number);
+	sous_ib_used = gsb_data_report_get_budget_show_sub_budget (current_report_number);
+	group_reports = gsb_data_report_get_account_group_reports (current_report_number);
+	payee_used = gsb_data_report_get_payee_used (current_report_number);
 
     /* soit on sépare en revenus et dépenses, soit non */
     liste_ope_revenus = NULL;
     liste_ope_depenses = NULL;
-    pointeur_tmp = ope_selectionnees;
-    pointeur_glist = gsb_data_report_get_sorting_type_list (current_report_number);
+    pointeur_opes = ope_selectionnees;
+    pointeur_sort_list = gsb_data_report_get_sorting_type_list (current_report_number);
 
     if (gsb_data_report_get_split_credit_debit (current_report_number))
     {
 		/* on commence par séparer la liste revenus et de dépenses */
 		/* si le classement racine est la catégorie, on sépare par catégorie de revenu ou de dépense */
 		/* si c'est un autre, on sépare par montant positif ou négatif */
-		while (pointeur_tmp)
+		while (pointeur_opes)
 		{
 			gint transaction_number;
 
-			transaction_number = gsb_data_transaction_get_transaction_number (pointeur_tmp->data);
+			transaction_number = gsb_data_transaction_get_transaction_number (pointeur_opes->data);
 
-			if (GPOINTER_TO_INT (pointeur_glist->data) == 1)
+			if (GPOINTER_TO_INT (pointeur_sort_list->data) == 1)
 			{
 				/* le classement racine est la catégorie */
 				/* s'il n'y a pas de catég, c'est un virement ou une ventilation */
@@ -1264,21 +1280,21 @@ static void etape_finale_affichage_etat (GSList *ope_selectionnees,
 														gsb_data_transaction_get_pointer_of_transaction
 														(transaction_number));
 			}
-			pointeur_tmp = pointeur_tmp->next;
+			pointeur_opes = pointeur_opes->next;
 		}
     }
     else
 		/* on ne veut pas séparer en revenus et dépenses, on garde juste la liste d'opé telle quelle */
 		liste_ope_revenus = ope_selectionnees;
 
-    /* on va maintenant classer ces 2 listes dans l'ordre adéquat */
+	/* on va maintenant classer ces 2 listes dans l'ordre adéquat */
     liste_ope_depenses = g_slist_sort (liste_ope_depenses, (GCompareFunc) classement_liste_opes_etat);
     liste_ope_revenus = g_slist_sort (liste_ope_revenus, (GCompareFunc) classement_liste_opes_etat);
 
     /* calcul du décalage pour chaque classement */
     /* c'est une chaine vide qu'on ajoute devant le nom du classement (tiers, ib ...) */
     /* on met 2 espaces par décalage */
-    /* normalement, pointeur_glist est déjà positionné */
+    /* normalement, pointeur_sort_list est déjà positionné */
     decalage_base = "";
 
     /* pour éviter le warning lors de la compilation, on met */
@@ -1290,9 +1306,9 @@ static void etape_finale_affichage_etat (GSList *ope_selectionnees,
     decalage_compte = "";
     decalage_tiers = "";
 
-    while (pointeur_glist)
+    while (pointeur_sort_list)
     {
-		switch (GPOINTER_TO_INT (pointeur_glist->data))
+		switch (GPOINTER_TO_INT (pointeur_sort_list->data))
 		{
 			/* décalage de la catégorie */
 			case 1:
@@ -1367,7 +1383,7 @@ static void etape_finale_affichage_etat (GSList *ope_selectionnees,
 		decalage_base = g_strconcat (decalage_base, "    ", NULL);
 
 pas_decalage:
-		pointeur_glist = pointeur_glist->next;
+		pointeur_sort_list = pointeur_sort_list->next;
     }
 
     /* calcul du nb de colonnes : */
@@ -1476,7 +1492,7 @@ pas_decalage:
 			{
 				/* séparation */
 				ligne = etat_affiche_affiche_separateur (ligne);
-				pointeur_tmp = liste_ope_depenses;
+				pointeur_opes = liste_ope_depenses;
 
 				ligne = etat_affiche_affiche_titre_depenses_etat (ligne);
 			}
@@ -1493,7 +1509,7 @@ pas_decalage:
 				/* on sépare les revenus des débits */
 				if (liste_ope_revenus)
 				{
-					pointeur_tmp = liste_ope_revenus;
+					pointeur_opes = liste_ope_revenus;
 
 					ligne = etat_affiche_affiche_titre_revenus_etat (ligne);
 				}
@@ -1501,7 +1517,7 @@ pas_decalage:
 				{
 					/* il n'y a pas de revenus, on saute directement aux dépenses */
 					i++;
-					pointeur_tmp = liste_ope_depenses;
+					pointeur_opes = liste_ope_depenses;
 
 					/* s'il n'y a pas de dépenses non plus, on sort de la boucle */
 					if (!liste_ope_depenses)
@@ -1515,51 +1531,57 @@ pas_decalage:
 				/* on ne sépare pas les débits et les crédits, donc pas de titre, juste */
 				/* une vérification qu'il y a des opérations */
 				if (liste_ope_revenus)
-					pointeur_tmp = liste_ope_revenus;
+					pointeur_opes = liste_ope_revenus;
 				else
 					continue;
 			}
 		}
 
 		/* on commence la boucle qui fait le tour de chaque opé */
-		while (pointeur_tmp)
+		while (pointeur_opes)
 		{
 			gint transaction_number;
 			GsbReal montant;
 
-			transaction_number = gsb_data_transaction_get_transaction_number (pointeur_tmp->data);
+			transaction_number = gsb_data_transaction_get_transaction_number (pointeur_opes->data);
 
-			pointeur_glist = gsb_data_report_get_sorting_type_list (current_report_number);
+			pointeur_sort_list = gsb_data_report_get_sorting_type_list (current_report_number);
 
-			while (pointeur_glist)
+			while (pointeur_sort_list)
 			{
-				switch (GPOINTER_TO_INT (pointeur_glist->data))
+				switch (GPOINTER_TO_INT (pointeur_sort_list->data))
 				{
 					case 1:
-						ligne = etat_affiche_affiche_categ_etat (transaction_number, decalage_categ, ligne);
+						if (categ_used)
+							ligne = etat_affiche_affiche_categ_etat (transaction_number, decalage_categ, ligne);
 						break;
 
 					case 2:
-						ligne = etat_affiche_affiche_sous_categ_etat (transaction_number, decalage_sous_categ, ligne);
+						if (categ_used && sous_categ_used)
+							ligne = etat_affiche_affiche_sous_categ_etat (transaction_number, decalage_sous_categ, ligne);
 						break;
 
 					case 3:
-						ligne = etat_affiche_affiche_ib_etat (transaction_number, decalage_ib, ligne);
+						if (ib_used)
+							ligne = etat_affiche_affiche_ib_etat (transaction_number, decalage_ib, ligne);
 						break;
 
 					case 4:
-						ligne = etat_affiche_affiche_sous_ib_etat (transaction_number, decalage_sous_ib, ligne);
+						if (ib_used && sous_ib_used)
+							ligne = etat_affiche_affiche_sous_ib_etat (transaction_number, decalage_sous_ib, ligne);
 						break;
 
 					case 5:
-						ligne = etat_affiche_affiche_compte_etat (transaction_number, decalage_compte, ligne);
+						if (group_reports)
+							ligne = etat_affiche_affiche_compte_etat (transaction_number, decalage_compte, ligne);
 						break;
 
 					case 6:
-					ligne = etat_affiche_affiche_tiers_etat (transaction_number, decalage_tiers, ligne);
+						if (payee_used)
+							ligne = etat_affiche_affiche_tiers_etat (transaction_number, decalage_tiers, ligne);
 				}
 
-				pointeur_glist = pointeur_glist->next;
+				pointeur_sort_list = pointeur_sort_list->next;
 			}
 
 			/* on affiche si nécessaire le total de la période */
@@ -1569,11 +1591,12 @@ pas_decalage:
 			ligne = etat_affiche_affiche_total_exercice (transaction_number, ligne, 0);
 
 			/* on affiche la ligne de l'opération */
-			ligne = etat_affiche_affichage_ligne_ope (transaction_number, ligne);
+			if (gsb_data_report_get_show_report_transactions (current_report_number))
+				ligne = etat_affiche_affichage_ligne_ope (transaction_number, ligne);
 
 			/* on ajoute les montants que pour ceux affichés */
 			/* calcule le montant de la categ */
-			if (gsb_data_report_get_category_used (current_report_number))
+			if (categ_used)
 			{
 				montant = gsb_data_transaction_get_adjusted_amount_for_currency (transaction_number,
 																				 devise_categ_etat,
@@ -1585,7 +1608,7 @@ pas_decalage:
 			}
 
 			/* calcule le montant de l'ib */
-			if (gsb_data_report_get_budget_used (current_report_number))
+			if (ib_used)
 			{
 				montant = gsb_data_transaction_get_adjusted_amount_for_currency (transaction_number,
 																				 devise_ib_etat,
@@ -1597,7 +1620,7 @@ pas_decalage:
 			}
 
 			/* calcule le montant du tiers */
-			if (gsb_data_report_get_payee_used (current_report_number))
+			if (payee_used)
 			{
 				montant = gsb_data_transaction_get_adjusted_amount_for_currency (transaction_number,
 																				 devise_tiers_etat,
@@ -1650,7 +1673,7 @@ pas_decalage:
 			nb_ope_partie_etat++;
 			changement_de_groupe_etat = 0;
 
-			pointeur_tmp = pointeur_tmp->next;
+			pointeur_opes = pointeur_opes->next;
 		}
 
 		/* à la fin, on affiche les totaux des dernières lignes */
@@ -1668,27 +1691,33 @@ pas_decalage:
 		switch (GPOINTER_TO_INT (gsb_data_report_get_sorting_type_list (current_report_number)-> data))
 		{
 			case 1:
-				ligne = etat_affiche_affiche_total_categories (ligne);
+				if (categ_used)
+					ligne = etat_affiche_affiche_total_categories (ligne);
 				break;
 
 			case 2:
-				ligne = etat_affiche_affiche_total_sous_categ (ligne);
+				if (categ_used && sous_categ_used)
+					ligne = etat_affiche_affiche_total_sous_categ (ligne);
 				break;
 
 			case 3:
-				ligne = etat_affiche_affiche_total_ib (ligne);
+				if (ib_used)
+					ligne = etat_affiche_affiche_total_ib (ligne);
 				break;
 
 			case 4:
-				ligne = etat_affiche_affiche_total_sous_ib (ligne);
+				if (ib_used && sous_ib_used)
+					ligne = etat_affiche_affiche_total_sous_ib (ligne);
 				break;
 
 			case 5:
-				ligne = etat_affiche_affiche_total_compte (ligne);
+				if (group_reports)
+					ligne = etat_affiche_affiche_total_compte (ligne);
 				break;
 
 			case 6:
-				ligne = etat_affiche_affiche_total_tiers (ligne);
+				if (payee_used)
+					ligne = etat_affiche_affiche_total_tiers (ligne);
 				break;
 		}
 
@@ -1702,7 +1731,7 @@ pas_decalage:
     ligne = etat_affiche_affiche_total_general (total_general, ligne);
 	nb_lignes = ligne;
 
-    etat_affiche_finish ();
+	etat_affiche_finish ();
 }
 
 /******************************************************************************/
@@ -1746,10 +1775,18 @@ void affichage_etat (gint report_number,
 		gint result;
 
 		result = etats_dialog_warning_report_too_big (report_number, nbre_opes);
-		if (result != GTK_RESPONSE_OK)
+		if (result != GTK_RESPONSE_OK)		/*on continue */
 		{
-			etats_config_personnalisation_etat ();
-			return;
+			result = etats_config_personnalisation_etat ();
+			if (result == GTK_RESPONSE_CANCEL)
+			{
+				gsb_gui_navigation_select_reports_page ();
+				g_slist_free (liste_opes_selectionnees);
+				grisbi_win_status_bar_stop_wait (FALSE);
+				return;
+			}
+			else
+				return;
 		}
 	}
 
