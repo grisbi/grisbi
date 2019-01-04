@@ -188,7 +188,6 @@ static gint classement_ope_perso_etat (gpointer transaction_1,
     gint transaction_number_1;
     gint transaction_number_2;
 
-	devel_debug (NULL);
     transaction_number_1 = gsb_data_transaction_get_transaction_number (transaction_1);
     transaction_number_2 = gsb_data_transaction_get_transaction_number (transaction_2);
 
@@ -1805,11 +1804,7 @@ GSList *recupere_opes_etat (gint report_number)
     transactions_report_list = NULL;
 
     /* on récupère ignore_archives qui s'il vaut 1 ne retient que la liste courte des opérations */
-    ignore_archives = gsb_data_report_test_ignore_archives (report_number);
-
-    /* si ignore_archives est différent de la valeur initiale on la met à jour */
-    if (ignore_archives != gsb_data_report_get_ignore_archives (report_number))
-        gsb_data_report_set_ignore_archives (report_number, ignore_archives);
+    ignore_archives = gsb_data_report_get_ignore_archives (report_number);
 
     /* si on utilise l'exercice courant ou précédent, on cherche ici le numéro de l'exercice correspondant */
     no_exercice_recherche = 0;
