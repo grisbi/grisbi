@@ -457,6 +457,10 @@ static gboolean gsb_file_save_file (gint origine)
     {
 		grisbi_win_set_filename (NULL, nouveau_nom_enregistrement);
 
+		/* on ajoute un item au menu recent_file si origine = -2 */
+		if (origine == -2)
+			utils_files_append_name_to_recent_array (nouveau_nom_enregistrement);
+
 		/* saving was right, so unlock the last name */
         gsb_file_util_modify_lock (filename, FALSE);
 
