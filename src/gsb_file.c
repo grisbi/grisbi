@@ -495,6 +495,8 @@ static gboolean gsb_file_save_file (gint origine)
  **/
 gboolean gsb_file_new_finish (void)
 {
+	GrisbiWinRun *w_run;
+
     /* create the first account */
     if (!gsb_assistant_account_run ())
     {
@@ -507,6 +509,10 @@ gboolean gsb_file_new_finish (void)
 
     mise_a_jour_accueil (TRUE);
     gsb_gui_navigation_set_selection (GSB_HOME_PAGE, -1, 0);
+
+	/* sensibilise les préférences */
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+	w_run->file_is_loading = TRUE;
 
     gsb_file_set_modified (TRUE);
     return FALSE;
