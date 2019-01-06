@@ -6,13 +6,13 @@
 # Martin Stromberger <ma.stromberger@gmx.at>, 2007, 2008.
 # Martin Stromberger <ma.stromberger@gmx.at>, 2008, 2009, 2010, 2011.
 # Martin Stromberger <ma.stromberger@gmx.at>, 2012, 2013, 2018.
-# Martin Stromberger <mstromberger@aon.at>, 2018.
+# Martin Stromberger <mstromberger@aon.at>, 2018, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-01-01 10:09+0100\n"
-"PO-Revision-Date: 2018-12-23 11:34+0100\n"
+"PO-Revision-Date: 2019-01-06 12:55+0100\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -752,7 +752,7 @@ msgstr "Export"
 
 #: ../src/bet_finance_ui.c:2390
 msgid " months "
-msgstr "Monate"
+msgstr " Monate "
 
 #: ../src/bet_future.c:251 ../src/bet_future.c:1980
 msgid ""
@@ -1240,6 +1240,8 @@ msgid ""
 "Amount retained: Enter a negative number for a debit\n"
 "a positive number for a credit"
 msgstr ""
+"Betrag beibehalten: Für Ausgabe negative Zahl und\n"
+"für Einnahme positive Zahl eingeben"
 
 #: ../src/bet_hist.c:555 ../src/tiers_onglet.c:1493 ../src/utils_buttons.c:299
 #: ../src/utils_buttons.c:301
@@ -2313,16 +2315,20 @@ msgid ""
 "This can cause delays or a crash of Grisbi.\n"
 "At this point you can continue or return to setting"
 msgstr ""
+"Mit den aktuellen Einstellungen werden im Bericht mehr als %d Buchungen"
+" angezeigt.\n"
+"Eine hohe Anzahl von anzuzeigenden Buchungen kann zur Verzögerungen oder "
+"zum Absturz von Grisbi führen.\n"
+"Soll der Vorgang fortgesetzt oder sollen die Einstellungen für den Bericht"
+" angezeigt werden?"
 
 #: ../src/etats_calculs.c:145
-#, fuzzy
 msgid "Continue"
-msgstr "Darstellung"
+msgstr "Fortsetzen"
 
 #: ../src/etats_calculs.c:146
-#, fuzzy
 msgid "Return to settings"
-msgstr "Import Einstellungen"
+msgstr "Zurück zu den Einstellungen"
 
 #: ../src/etats_config.c:96 ../src/etats_prefs_private.h:58
 #: ../src/meta_payee.c:80 ../src/ui/etats_prefs.ui.h:28
@@ -10542,7 +10548,7 @@ msgstr ""
 
 #: ../src/qif.c:449
 msgid "The order cannot be determined,\n"
-msgstr "Die Sortierung kann nicht festgelegt werden,\n"
+msgstr "Die Zuordnung kann nicht ermittelt werden,\n"
 
 #: ../src/qif.c:454
 msgid "Date wrong for the order "
@@ -11062,17 +11068,14 @@ msgstr ""
 "geplanten Datum - manuell ausgeführt werden."
 
 #: ../src/tip.c:101
-#, fuzzy
 msgid ""
 "No more tip available!  Please send any tips you know to devel@listes.grisbi."
 "org so that we can include them in next version for all users."
 msgstr ""
 "Es sind keine weiteren Tipps verfügbar!\n"
 "\n"
-"Falls Sie auch Tipps kennen, senden Sie diese bitte an die Grisbi "
-"Entwicklerliste (grisbi-devel@lists.sourceforge.net). Ihre Tipps werden mit "
-"aufgenommen und stehen in den Folgeversionen allen Anwendern von Grisbi zur "
-"Verfügung."
+"Falls Sie Tipps kennen senden Sie diese bitte an devel@listes.grisbi.org "
+"damit die Tipps aufgenommen werden."
 
 #: ../src/tip.c:136
 msgid "Did you know that..."

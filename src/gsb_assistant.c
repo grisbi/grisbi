@@ -126,8 +126,6 @@ GtkWidget * gsb_assistant_new ( const gchar * title, const gchar * explanation,
 
     button_select = gtk_toggle_button_new_with_label ( _("Select all") );
     gtk_widget_set_size_request ( button_select, width, -1 );
-    gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( assistant ) ),
-                        button_select, FALSE, FALSE, 0 );
     g_object_set_data ( G_OBJECT(assistant), "button_select", button_select );
 
     button_cancel = gtk_dialog_add_button ( GTK_DIALOG(assistant),

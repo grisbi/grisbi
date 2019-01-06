@@ -969,13 +969,13 @@ void gsb_date_set_import_format_date (const GArray *lines_tab,
 						gint i;
 						gchar *string;
 
-						string = g_strdup ("The order cannot be determined,\n");
+						string = g_strdup (_("The order cannot be determined,\n"));
 
 						for (i = 0; i < ORDER_MAX; i++)
 						{
 							gchar *tmp_str;
 							tmp_str = g_strconcat (string,
-												   "Date wrong for the order ",
+												   _("Date wrong for the order "),
 												   order_names[i], " : ",
 												   date_wrong[i], "\n", NULL);
 							g_free (string);
