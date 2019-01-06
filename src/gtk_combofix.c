@@ -104,6 +104,56 @@ enum CombofixKeyDirection
 /* Private functions                                                          */
 /******************************************************************************/
 /**
+ * insert un item dans la completion
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void gtk_combofix_completion_insert_new_item (GtkComboFix *combofix,
+													 const gchar *text)
+{
+	GtkEntryCompletion *completion;
+	GtkTreeModel *store;
+	GtkTreeIter iter;
+	GtkTreeIter new_iter;
+    GtkComboFixPrivate *priv;
+
+	priv = gtk_combofix_get_instance_private (combofix);
+
+	completion = gtk_entry_get_completion (GTK_ENTRY (priv->entry));
+	store = gtk_entry_completion_get_model (completion);
+
+	if (gtk_tree_model_get_iter_first (store, &iter))
+	{
+
+		do
+		{
+			gchar *tmp_str;
+
+			gtk_tree_model_get (store, &iter, 0, &tmp_str, -1);
+			if (!tmp_str)
+				continue;
+
+			if (g_utf8_collate (g_utf8_casefold (text, -1), g_utf8_casefold (tmp_str, -1)) < 0)
+			{
+				gtk_list_store_insert_before (GTK_LIST_STORE (store), &new_iter, &iter);
+				gtk_list_store_set (GTK_LIST_STORE (store), &new_iter, 0, text, -1);
+
+				return;
+			}
+		}
+		while (gtk_tree_model_iter_next (store, &iter));
+	}
+	else
+	{
+		gtk_list_store_append (GTK_LIST_STORE (store), &new_iter);
+		gtk_list_store_set (GTK_LIST_STORE (store), &new_iter, 0, text, -1);
+	}
+}
+
+/**
  *
  *
  * \param
@@ -743,21 +793,10 @@ static gboolean gtk_combofix_focus_out (GtkWidget *entry,
 										GdkEvent *ev,
 										GtkComboFix *combofix)
 {
- 	GrisbiWinEtat *w_etat;
-
-	w_etat = grisbi_win_get_w_etat ();
 	gtk_combofix_hide_popup (combofix);
 
     /* hide the selection */
     gtk_editable_select_region (GTK_EDITABLE (entry), 0, 0);
-
-	if (w_etat->metatree_unarchived_payees)
-	{
-		const gchar *text;
-
-		text = gtk_entry_get_text (GTK_ENTRY (entry));
-		gtk_combofix_append_text (combofix, text);
-	}
 
     return (FALSE);
 }
@@ -2002,8 +2041,8 @@ gboolean gtk_combofix_set_list (GtkComboFix *combofix,
 
 	completion = gtk_entry_get_completion (GTK_ENTRY (priv->entry));
 	completion_store = gtk_entry_completion_get_model (completion);
-	if (GTK_IS_TREE_STORE (completion_store))
-		gtk_tree_store_clear (GTK_TREE_STORE (completion_store));
+	if (GTK_LIST_STORE (completion_store))
+		gtk_list_store_clear (GTK_LIST_STORE (completion_store));
 
     tmp_list = list;
     length = g_slist_length (list);
@@ -2040,63 +2079,44 @@ gboolean gtk_combofix_set_list (GtkComboFix *combofix,
 void gtk_combofix_append_text (GtkComboFix *combofix,
 							   const gchar *text)
 {
-	GtkEntryCompletion *completion;
-	GtkTreeModel *completion_model;
-	GtkTreeIter new_iter;
-    gchar **tab_char;
+	GtkTreeIter iter_parent;
     gint empty;
     gpointer pointeurs[3] = { (gpointer) text, NULL, NULL };
     GtkComboFixPrivate *priv;
 
-    g_return_if_fail (combofix);
-    g_return_if_fail (GTK_IS_COMBOFIX (combofix));
+	if (!combofix || !GTK_IS_COMBOFIX (combofix))
+		return;
 
-    /* g_print ("gtk_combofix_append_text = %s\n", text); */
     priv = gtk_combofix_get_instance_private (combofix);
-    pointeurs[2] = GINT_TO_POINTER (priv->case_sensitive);
+
+	/* On sort pour les catégories/IB car la mise à jour est globale */
+	if (priv-> type)
+		return;
+
+	pointeurs[2] = GINT_TO_POINTER (priv->case_sensitive);
 
     empty = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (priv->entry), "empty"));
-    if (empty || priv->force)
-        return;
+	if (empty || priv->force)
+		return;
 
-    if (priv->old_entry && strcmp (text, priv->old_entry) == 0)
+	if (priv->old_entry && strcmp (text, priv->old_entry) == 0)
         return;
 
     gtk_tree_model_foreach (GTK_TREE_MODEL (priv->store),
 							(GtkTreeModelForeachFunc) gtk_combofix_search_for_text,
 							pointeurs);
 
-    if (pointeurs[1] && GINT_TO_POINTER (pointeurs[1]))
-        return;
+	if (pointeurs[1] && GINT_TO_POINTER (pointeurs[1]))
+		return;
 
-    tab_char = g_strsplit (text, " : ", 2);
-    if (tab_char[0])
-    {
-        GtkTreeIter iter_parent;
-
-        gtk_combofix_fill_iter_parent (priv->store, &iter_parent, text, 0);
-
-        if (tab_char[1])
-        {
-            gchar* tmpstr;
-
-            tmpstr = g_strconcat ("\t", text, NULL);
-            gtk_combofix_fill_iter_child (priv->store, &iter_parent, tab_char[1], text, 0);
-
-            g_free (tmpstr);
-        }
-    }
-    g_strfreev (tab_char);
+	gtk_combofix_fill_iter_parent (priv->store, &iter_parent, text, 0);
 
     if (priv->old_entry && strlen (priv->old_entry))
         g_free (priv->old_entry);
     priv->old_entry = g_strdup (text);
 
 	/* update completion */
-	completion = gtk_entry_get_completion (GTK_ENTRY (priv->entry));
-	completion_model = gtk_entry_completion_get_model (completion);
-	gtk_list_store_append (GTK_LIST_STORE (completion_model), &new_iter);
-	gtk_list_store_set (GTK_LIST_STORE (completion_model), &new_iter, 0, text, -1);
+	gtk_combofix_completion_insert_new_item (combofix, text);
 }
 
 /**
