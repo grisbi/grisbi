@@ -392,9 +392,9 @@ static gboolean gtk_combofix_fill_iter_child (GtkTreeStore *store,
  * with the list given in param
  * carreful : the list is not cleared, so if needed, must do it before
  *
- * \param                combofix
- * \param list           a g_slist of strings
- * \param list_number 	the number of the list for a complex, 0 else
+ * \param				combofix
+ * \param list			a g_slist of strings
+ * \param list_number	the number of the list for a complex, 0 else
  *
  * \return TRUE ok, FALSE pb
  **/
@@ -1710,10 +1710,8 @@ static void gtk_combofix_class_init (GtkComboFixClass *klass)
  * by default, force is not set, no max items
  * and case unsensitive
  *
- * \param list a g_slist of name (\t at the beginning makes it as a child)
- * \param force TRUE and the text must be in the list
- * \param sort TRUE and the list will be sorted automatickly
- * \param max_items the minimum of characters to show the popup
+ * \param list 		a g_slist of name (\t at the beginning makes it as a child)
+ * \param type		0 : payee, 1 : category, 2 : budget
  *
  * \return the new widget
  **/
@@ -1741,7 +1739,7 @@ GtkWidget *gtk_combofix_new (GSList *list,
  * \param force 	TRUE and the text must be in the list
  * \param sort 		TRUE and the list will be sorted automatickly
  * \param max_items	the minimum of characters to show the popup
- * \param type 		type de combofix
+ * \param type 		0 : payee, 1 : category, 2 : budget
  *
  * \return a gtkcombofix
  **/
