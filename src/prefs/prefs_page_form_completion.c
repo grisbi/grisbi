@@ -318,24 +318,24 @@ static void prefs_page_form_completion_setup_form_completion_page (PrefsPageForm
 	/* set active widgets if is_loading = TRUE else set sensitive widget*/
 	if (is_loading)
 	{
+		/* set etat.combofix_mixed_sort */
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_combofix_mixed_sort),
+									  etat.combofix_mixed_sort);
 		/* set etat.combofix_case_sensitive */
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_combofix_case_sensitive),
 									  etat.combofix_case_sensitive);
 		/* set etat.combofix_force_payee */
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_combofix_force_payee),
 									  etat.combofix_force_payee);
-		/* set etat.combofix_force_payee */
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_combofix_mixed_sort),
-									  etat.combofix_force_payee);
-		/* set etat.combofix_force_payee */
+		/* set etat.combofix_force_category */
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_combofix_force_category),
-									  etat.combofix_force_payee);
+									  etat.combofix_force_category);
 	}
 	else
 	{
+		gtk_widget_set_sensitive (priv->hbox_combofix_mixed_sort, FALSE);
 		gtk_widget_set_sensitive (priv->hbox_combofix_case_sensitive, FALSE);
 		gtk_widget_set_sensitive (priv->hbox_combofix_force_payee, FALSE);
-		gtk_widget_set_sensitive (priv->hbox_combofix_mixed_sort, FALSE);
 		gtk_widget_set_sensitive (priv->hbox_combofix_force_category, FALSE);
 	}
 
