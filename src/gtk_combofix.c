@@ -285,6 +285,50 @@ static gboolean gtk_combofix_search_report (GtkTreeModel *model,
 }
 
 /**
+ * vérifie si la chaine text existe déjà
+ *
+ * \param
+ * \param
+ * \param
+ * \param
+ *
+ * \return TRUE si trouvé FALSE autrement
+ **/
+static gboolean gtk_combofix_search_for_text (GtkTreeModel *model,
+											  GtkTreePath *path,
+											  GtkTreeIter *iter,
+											  gpointer *data)
+{
+    gchar *tmp_str;
+    gboolean case_sensitive;
+    gboolean separator;
+    gint return_value;
+
+    gtk_tree_model_get (GTK_TREE_MODEL(model),
+						iter,
+			            COMBOFIX_COL_REAL_STRING, &tmp_str,
+                        COMBOFIX_COL_SEPARATOR, &separator,
+			            -1);
+
+    if (separator)
+    {
+        g_free (tmp_str);
+        return FALSE;
+    }
+
+    case_sensitive = GPOINTER_TO_INT (data[2]);
+    if (case_sensitive)
+        return_value = !strcmp ((gchar *) data[0], tmp_str);
+    else
+        return_value = !g_utf8_collate (g_utf8_casefold ((gchar *) data[0], -1),
+                                         g_utf8_casefold (tmp_str, -1));
+    if (return_value)
+        data[1] = GINT_TO_POINTER (1);
+
+    return return_value;
+}
+
+/**
  * fill a parent_iter of the model given in param
  * with the string given in param
  *
@@ -1419,6 +1463,7 @@ static void gtk_combofix_create_entry (GtkComboFix *combofix)
 											 NULL,
 											 NULL);
 	gtk_entry_completion_set_minimum_key_length (completion, conf.completion_minimum_key_length);
+	gtk_entry_completion_set_popup_single_match (completion, TRUE);
 	gtk_entry_completion_set_text_column (completion, 0);
 
 	/* set store */
@@ -1692,11 +1737,11 @@ GtkWidget *gtk_combofix_new (GSList *list,
 /**
  * create a new gtk_conbofix with properties
  *
- * \param
- * \param
- * \param
- * \param
- * \param
+ * \param list 		a g_slist of name (\t at the beginning makes it as a child)
+ * \param force 	TRUE and the text must be in the list
+ * \param sort 		TRUE and the list will be sorted automatickly
+ * \param max_items	the minimum of characters to show the popup
+ * \param type 		type de combofix
  *
  * \return a gtkcombofix
  **/
@@ -1985,47 +2030,6 @@ gboolean gtk_combofix_set_list (GtkComboFix *combofix,
     }
 
     return TRUE;
-}
-
-/**
- * vérifie si la chaine text existe déjà
- *
- * \param
- *
- * \return TRUE si trouvé FALSE autrement
- **/
-static gboolean gtk_combofix_search_for_text (GtkTreeModel *model,
-											  GtkTreePath *path,
-											  GtkTreeIter *iter,
-											  gpointer *data)
-{
-    gchar *tmp_str;
-    gboolean case_sensitive;
-    gboolean separator;
-    gint return_value;
-
-    gtk_tree_model_get (GTK_TREE_MODEL(model),
-						iter,
-			            COMBOFIX_COL_REAL_STRING, &tmp_str,
-                        COMBOFIX_COL_SEPARATOR, &separator,
-			            -1);
-
-    if (separator)
-    {
-        g_free (tmp_str);
-        return FALSE;
-    }
-
-    case_sensitive = GPOINTER_TO_INT (data[2]);
-    if (case_sensitive)
-        return_value = !strcmp ((gchar *) data[0], tmp_str);
-    else
-        return_value = !g_utf8_collate (g_utf8_casefold ((gchar *) data[0], -1),
-                                         g_utf8_casefold (tmp_str, -1));
-    if (return_value)
-        data[1] = GINT_TO_POINTER (1);
-
-    return return_value;
 }
 
 /**
