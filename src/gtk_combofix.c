@@ -116,7 +116,7 @@ static void gtk_combofix_completion_choose_first_item (GtkWidget *entry)
 	GtkEntryCompletion *completion;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
-	gchar *key;
+	const gchar *key;
 	gchar *string;
 
 	completion = gtk_entry_get_completion (GTK_ENTRY (entry));
