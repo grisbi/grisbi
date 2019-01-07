@@ -1828,7 +1828,7 @@ GtkWidget *gsb_partial_balance_create_dialog ( gint action, gint spin_value )
 gint gsb_partial_balance_request_currency ( GtkWidget *parent )
 {
     GtkWidget *dialog, *hbox, *label, *combo_devise;
-    gint currency_nb;
+    gint currency_nb = 1;	/* Initialisation avec la première devise : fixe bug 1881 */
 
     dialog = gtk_dialog_new_with_buttons ( _("Enter the currency of the balance part"),
                             GTK_WINDOW ( parent ),
@@ -1852,8 +1852,7 @@ gint gsb_partial_balance_request_currency ( GtkWidget *parent )
 
     gtk_widget_show_all ( GTK_WIDGET ( dialog ) );
 
-    //~ gsb_currency_set_combobox_history ( combo_devise, 2 );
-    gsb_currency_set_combobox_history ( combo_devise, 1 );
+    gsb_currency_set_combobox_history (combo_devise, currency_nb);
     gtk_dialog_run ( GTK_DIALOG ( dialog ) );
 
     gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
