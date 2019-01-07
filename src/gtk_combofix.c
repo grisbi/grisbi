@@ -104,6 +104,42 @@ enum CombofixKeyDirection
 /* Private functions                                                          */
 /******************************************************************************/
 /**
+ * get the first item of completion and fill the entry with it
+ * Works if the length of the text >= the length of the completion key
+ *
+ * \param entry
+ *
+ * \return
+ **/
+static void gtk_combofix_completion_choose_first_item (GtkWidget *entry)
+{
+	GtkEntryCompletion *completion;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	gchar *key;
+	gchar *string;
+
+	completion = gtk_entry_get_completion (GTK_ENTRY (entry));
+	model = gtk_entry_completion_get_model (completion);
+	key = gtk_entry_get_text (GTK_ENTRY (entry));
+
+	if (gtk_tree_model_get_iter_first (model, &iter))
+	{
+		do
+		{
+			gtk_tree_model_get (GTK_TREE_MODEL (model), &iter, 0, &string, -1);
+			if (string && g_str_has_prefix (string, key))
+			{
+				gtk_entry_set_text (GTK_ENTRY (entry), string);
+				g_free (string);
+				break;
+			}
+		}
+		while (gtk_tree_model_iter_next (model, &iter));
+	}
+}
+
+/**
  * insert un item dans la completion
  *
  * \param
@@ -1162,6 +1198,11 @@ static gboolean gtk_combofix_key_press_event (GtkWidget *entry,
 					gtk_combofix_hide_popup (combofix);
 					gtk_editable_select_region (GTK_EDITABLE (priv->entry), 0, 0);
 				}
+			}
+			else if ((gint) strlen (gtk_entry_get_text (GTK_ENTRY (priv->entry))) >=
+					 conf.completion_minimum_key_length)
+			{
+				gtk_combofix_completion_choose_first_item (entry);
 			}
 			/* le traitement de ENTER est fait dans le formulaire */
 			return FALSE;
