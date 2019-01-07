@@ -39,10 +39,12 @@
 /*START_INCLUDE*/
 #include "prefs_page_form_completion.h"
 #include "grisbi_settings.h"
+#include "gsb_category.h"
 #include "gsb_data_form.h"
 #include "gsb_file.h"
 #include "gsb_form.h"
 #include "gsb_form_widget.h"
+#include "imputation_budgetaire.h"
 #include "gtk_combofix.h"
 #include "prefs_page_metatree.h"
 #include "transaction_list.h"
@@ -130,14 +132,21 @@ static void prefs_page_form_completion_update_combofix (GtkWidget *checkbutton,
 			break;
 
 		case METATREE_CATEGORY:
-		case METATREE_BUDGET:
 			combofix = gsb_form_widget_get_widget (TRANSACTION_FORM_CATEGORY);
 			if (combofix && GTK_IS_COMBOFIX (combofix))
+			{
 				gtk_combofix_set_properties (combofix);
+				gsb_category_update_combofix (TRUE);
+			}
+			break;
 
+		case METATREE_BUDGET:
 			combofix = gsb_form_widget_get_widget (TRANSACTION_FORM_BUDGET);
 			if (combofix && GTK_IS_COMBOFIX (combofix))
+			{
 				gtk_combofix_set_properties (combofix);
+				gsb_budget_update_combofix (FALSE);
+			}
 			break;
 
 		default:
