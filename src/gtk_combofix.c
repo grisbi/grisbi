@@ -553,8 +553,12 @@ static gboolean gtk_combofix_fill_store (GtkComboFix *combofix,
 				}
 				else
 				{
-					gtk_list_store_append (GTK_LIST_STORE (completion_store), &new_iter);
-					gtk_list_store_set (GTK_LIST_STORE (completion_store), &new_iter, 0, string, -1);
+					/* on n'affiche pas la tête de categ/IB dans la completion si force Categ/IB est TRUE */
+					if (priv->type && !priv->force)
+					{
+						gtk_list_store_append (GTK_LIST_STORE (completion_store), &new_iter);
+						gtk_list_store_set (GTK_LIST_STORE (completion_store), &new_iter, 0, string, -1);
+					}
 				}
 
                 last_parent = string;
