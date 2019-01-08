@@ -1171,10 +1171,13 @@ static GtkWidget *gsb_assistant_payees_page_2 (GtkWidget *assistant)
     GtkWidget *check_option;
 	GSList *tmp_list;
     gchar *texte;
+	gboolean metatree_unarchived_payees = FALSE;
+	GrisbiWinEtat *w_etat;
 	GrisbiWinRun *w_run;
 
     devel_debug ("PAGE 2");
 	w_run = grisbi_win_get_w_run ();
+	w_etat = grisbi_win_get_w_etat ();
 
     page = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
     gtk_container_set_border_width (GTK_CONTAINER (page), BOX_BORDER_WIDTH);
@@ -1193,6 +1196,12 @@ static GtkWidget *gsb_assistant_payees_page_2 (GtkWidget *assistant)
 	g_free (texte);
 	gtk_box_pack_start (GTK_BOX (paddingbox), label, FALSE, FALSE, MARGIN_BOX);
 
+	/* On prend la liste totale des tiers */
+	if (w_etat->metatree_unarchived_payees)
+	{
+		w_etat->metatree_unarchived_payees = FALSE;
+		metatree_unarchived_payees = TRUE;
+	}
 	tmp_list = gsb_data_payee_get_name_and_report_list();
 	combo = gtk_combofix_new_with_properties (tmp_list,
 											  FALSE,
@@ -1220,6 +1229,11 @@ static GtkWidget *gsb_assistant_payees_page_2 (GtkWidget *assistant)
 											  FALSE,
 											  METATREE_PAYEE);
 	gsb_data_payee_free_name_and_report_list (tmp_list);
+	if (metatree_unarchived_payees)
+	{
+		w_etat->metatree_unarchived_payees = TRUE;
+		metatree_unarchived_payees = FALSE;
+	}
 
 	entry = gtk_combofix_get_entry (GTK_COMBOFIX (combo));
     g_signal_connect (entry,
