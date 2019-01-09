@@ -25,14 +25,3 @@ install:
     c:\msys64\usr\bin\bash -lc "ls /mingw*/share/glib-2.0/schemas/gschema.dtd"
 build_script:
 - cmd: c:\msys64\usr\bin\bash -lc "cd /c/projects/grisbi-src/share && ./appveyor-build.sh"
-deploy:
-- provider: GitHub
-  release: v$(appveyor_build_version)
-  auth_token:
-    secure: ch55IOKFM7FwqoXEPtn5npA0X5dCQJonr4sGWRanVfOiD4KfPBg5TDvYhR84mT/y
-  artifact: grisbi-compil
-  draft: false
-  prerelease: true
-  on:
-      branch:
-        - master
