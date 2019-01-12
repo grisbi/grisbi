@@ -1212,7 +1212,10 @@ gint gsb_qif_recupere_operations_from_account ( FILE *qif_file,
     struct ImportTransaction *imported_splitted = NULL;
     struct ImportTransaction *imported_transaction;
 
-    imported_transaction = g_malloc0 ( sizeof ( struct ImportTransaction ) );
+    imported_transaction = g_try_malloc0 ( sizeof ( struct ImportTransaction ) );
+	if (!imported_transaction)
+		return 0;
+
     do
     {
         returned_value = utils_files_get_utf8_line_from_file ( qif_file, &string, coding_system );
@@ -1242,7 +1245,7 @@ gint gsb_qif_recupere_operations_from_account ( FILE *qif_file,
             /* récupération de la note */
             if ( string[0] == 'M' )
             {
-                imported_transaction -> notes = g_strstrip ( g_strdelimit ( string + 1, ";", '/' ) );
+                imported_transaction -> notes = g_strdup (g_strstrip (g_strdelimit (string + 1, ";", '/')));
                 if ( imported_transaction -> notes && strlen ( imported_transaction -> notes ) == 0 )
                     imported_transaction -> notes = NULL;
             }
