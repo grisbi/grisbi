@@ -1384,6 +1384,7 @@ gint gsb_qif_recupere_operations_from_account ( FILE *qif_file,
         if ( last_header && strlen ( last_header ) )
             g_free ( last_header );
         last_header = g_strdup ( string );
+		g_free (imported_transaction);
     }
 
     if ( returned_value != EOF  && string[0] != '!' )

@@ -4149,6 +4149,7 @@ gboolean gsb_file_load_open_file (const gchar *filename )
         else
         {
             w_run->old_version = TRUE;
+			g_free (markup_parser);
 
             return FALSE;
         }
