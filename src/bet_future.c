@@ -752,7 +752,7 @@ gboolean bet_form_clean ( gint account_number )
 
             case TRANSACTION_FORM_PARTY:
                 gsb_form_widget_set_empty (element -> element_widget, TRUE);
-                gtk_combofix_set_text ( GTK_COMBOFIX (element -> element_widget), ("Payee"));
+                gtk_combofix_set_text ( GTK_COMBOFIX (element -> element_widget), _("Payee"));
                 break;
 
             case TRANSACTION_FORM_DEBIT:
