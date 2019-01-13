@@ -4079,7 +4079,11 @@ static void gsb_file_load_start_element ( GMarkupParseContext *context,
  * */
 gboolean gsb_file_load_open_file (const gchar *filename )
 {
+	GMarkupParser *markup_parser;
+	GMarkupParseContext *context;
+	GrisbiWinRun *w_run;
     gchar *file_content;
+    gchar *tmp_file_content;
     gulong length;
 	GrisbiWinEtat *w_etat;
 
@@ -4096,60 +4100,99 @@ gboolean gsb_file_load_open_file (const gchar *filename )
         gsb_file_util_display_warning_permissions ();
 #endif /* G_OS_WIN32 */
 
-    /* load the file */
-    if ( gsb_file_util_get_contents ( filename, &file_content, &length ) )
+	/* load the file */
+	gsb_file_util_get_contents (filename, &tmp_file_content, &length);
+
+	/* si le fichier n'est pas un fichier UTF8 valide on le corrige si possible */
+    if (!g_utf8_validate (tmp_file_content, length, NULL))
     {
-        GMarkupParser *markup_parser;
-        GMarkupParseContext *context;
-		GrisbiWinRun *w_run;
+        gchar *text;
+        gchar *hint;
 
-		w_run = grisbi_win_get_w_run ();
+		hint = g_strdup_printf (_("'%s' n'est pas un fichier UTF8 valide"), filename);
 
-        /* first, we check if the file is crypted, if it is, we decrypt it */
-        if ( !strncmp ( file_content, "Grisbi encrypted file ", 22 ) ||
-             !strncmp ( file_content, "Grisbi encryption v2: ", 22 ) )
-        {
-#ifdef HAVE_SSL
-            length = gsb_file_util_crypt_file ( filename, &file_content, FALSE, length );
+#if GLIB_CHECK_VERSION (2,52,0)
+		GtkWidget *dialog;
 
-            if ( ! length )
-            {
-                g_free (file_content);
-                return FALSE;
-            }
+		text = g_strdup_printf (_("Vous pouvez choisir de corriger le fichier avec le caractère "
+								  "de substitution ? ou revenir au choix du fichier.\n"));
+
+		dialog = dialogue_special_no_run (GTK_MESSAGE_ERROR, GTK_BUTTONS_NONE, text, hint);
+
+		gtk_dialog_add_buttons (GTK_DIALOG(dialog),
+								_("Load an other file"), GTK_RESPONSE_NO,
+								_("Correct the file"), GTK_RESPONSE_OK,
+									NULL);
+		if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK)
+		{
+			file_content = g_utf8_make_valid (tmp_file_content, length);
+			gtk_widget_destroy (dialog);
+		}
+		else
+		{
+			g_free (tmp_file_content);
+			gtk_widget_destroy (dialog);
+			return FALSE;
+		}
 #else
-            {
-                gchar *text;
-                gchar *hint;
+		text = g_strdup_printf (_("Vous allez revenir au choix du fichier.\n"));
 
-                g_free (file_content);
-                text = g_strdup_printf (_("This build of Grisbi does not support encryption.\n"
-										  "Please recompile Grisbi with OpenSSL encryption enabled."));
+		dialogue_error_hint (text, hint);
+		g_free (tmp_file_content);
 
-                hint = g_strdup_printf (_("Cannot open encrypted file '%s'"), filename);
-
-                dialogue_error_hint ( text, hint );
-                g_free ( hint );
-                g_free (text);
-                return FALSE;
-            }
+		return FALSE;
 #endif
-        }
+    }
+	else
+		file_content = tmp_file_content;
 
-		/* we begin to check if we are in a version under 0.6 or 0.6 and above,
-         * because the xml structure changes after 0.6 */
-        markup_parser = g_malloc0 (sizeof (GMarkupParser));
-        if ( gsb_file_load_check_new_structure (file_content))
-        {
-            /* fill the GMarkupParser for a new xml structure */
-            markup_parser -> start_element = (void *) gsb_file_load_start_element;
-            markup_parser -> error = (void *) gsb_file_load_error;
-            w_run->old_version = FALSE;
-        }
-        else
-        {
-            w_run->old_version = TRUE;
-			g_free (markup_parser);
+	w_run = grisbi_win_get_w_run ();
+
+	/* first, we check if the file is crypted, if it is, we decrypt it */
+	if ( !strncmp ( file_content, "Grisbi encrypted file ", 22 ) ||
+		 !strncmp ( file_content, "Grisbi encryption v2: ", 22 ) )
+	{
+#ifdef HAVE_SSL
+		length = gsb_file_util_crypt_file ( filename, &file_content, FALSE, length );
+
+		if ( ! length )
+		{
+			g_free (file_content);
+			return FALSE;
+		}
+#else
+		{
+			gchar *text;
+			gchar *hint;
+
+			g_free (file_content);
+			text = g_strdup_printf (_("This build of Grisbi does not support encryption.\n"
+									  "Please recompile Grisbi with OpenSSL encryption enabled."));
+
+			hint = g_strdup_printf (_("Cannot open encrypted file '%s'"), filename);
+
+			dialogue_error_hint ( text, hint );
+			g_free ( hint );
+			g_free (text);
+			return FALSE;
+		}
+#endif
+	}
+
+	/* we begin to check if we are in a version under 0.6 or 0.6 and above,
+	 * because the xml structure changes after 0.6 */
+	markup_parser = g_malloc0 (sizeof (GMarkupParser));
+	if ( gsb_file_load_check_new_structure (file_content))
+	{
+		/* fill the GMarkupParser for a new xml structure */
+		markup_parser -> start_element = (void *) gsb_file_load_start_element;
+		markup_parser -> error = (void *) gsb_file_load_error;
+		w_run->old_version = FALSE;
+	}
+	else
+	{
+		w_run->old_version = TRUE;
+		g_free (markup_parser);
 
             return FALSE;
         }
@@ -4157,33 +4200,28 @@ gboolean gsb_file_load_open_file (const gchar *filename )
         context = g_markup_parse_context_new ( markup_parser,
                         0,
                         NULL,
-                        NULL );
-        download_tmp_values.download_ok = FALSE;
+					NULL );
+	download_tmp_values.download_ok = FALSE;
 
-        if (! g_markup_parse_context_parse ( context,
-                        file_content,
-                        strlen (file_content),
-                        NULL ))
-		{
-			download_tmp_values.download_ok = FALSE;
-		}
+	if (! g_markup_parse_context_parse ( context,
+					file_content,
+					strlen (file_content),
+					NULL ))
+	{
+		download_tmp_values.download_ok = FALSE;
+	}
 
-        g_markup_parse_context_free (context);
-        g_free (markup_parser);
-        g_free (file_content);
+	g_markup_parse_context_free (context);
+	g_free (markup_parser);
+	g_free (file_content);
 
-		if (w_run->account_number_is_0)
-		{
-			gsb_data_account_renum_account_number_0 (filename);
-		}
+	if (w_run->account_number_is_0)
+	{
+		gsb_data_account_renum_account_number_0 (filename);
+	}
 
-        if ( !download_tmp_values.download_ok )
-            return FALSE;
-    }
-    else
-    {
-        return FALSE;
-    }
+	if ( !download_tmp_values.download_ok )
+		return FALSE;
 
     if ( conf.sauvegarde_demarrage )
         gsb_file_set_modified ( TRUE );
