@@ -322,9 +322,12 @@ gboolean bet_data_init_variables ( void )
  * */
 void bet_data_free_variables ( void )
 {
-    g_hash_table_destroy ( bet_hist_div_list );
-    g_hash_table_destroy ( bet_future_list );
-    g_hash_table_destroy ( bet_transfert_list );
+	if (bet_hist_div_list)
+		g_hash_table_destroy ( bet_hist_div_list );
+	if (bet_future_list)
+		g_hash_table_destroy ( bet_future_list );
+	if (bet_transfert_list)
+		g_hash_table_destroy ( bet_transfert_list );
 }
 
 
@@ -899,146 +902,157 @@ GPtrArray *bet_data_get_strings_to_save ( void )
         return NULL;
 	}
 
+	/* au moins 1 table a des éléments */
     tab = g_ptr_array_new ( );
 
-    g_hash_table_iter_init ( &iter, bet_hist_div_list );
-    while ( g_hash_table_iter_next ( &iter, &key, &value ) )
-    {
-        HistDiv *shd = ( HistDiv* ) value;
+	if (g_hash_table_size (bet_hist_div_list) > 0)
+	{
+		g_hash_table_iter_init ( &iter, bet_hist_div_list );
+		while ( g_hash_table_iter_next ( &iter, &key, &value ) )
+		{
+			HistDiv *shd = ( HistDiv* ) value;
 
-        if ( g_hash_table_size ( shd -> sub_div_list ) == 0 )
-        {
-            tmp_str = g_markup_printf_escaped ( "\t<Bet_historical Nb=\"%d\" Ac=\"%d\" "
-                        "Ori=\"%d\" Div=\"%d\" Edit=\"%d\" Damount=\"%s\" SDiv=\"%d\" "
-                        "SEdit=\"%d\" SDamount=\"%s\" />\n",
-                        tab -> len + 1,
-                        shd -> account_nb,
-                        shd -> origin,
-                        shd -> div_number,
-                        shd -> div_edited,
-                        gsb_real_safe_real_to_string ( shd -> amount,
-                        gsb_data_account_get_currency_floating_point ( shd -> account_nb ) ),
-                        0, 0, "0.00" );
+			if ( g_hash_table_size ( shd -> sub_div_list ) == 0 )
+			{
+				tmp_str = g_markup_printf_escaped ( "\t<Bet_historical Nb=\"%d\" Ac=\"%d\" "
+							"Ori=\"%d\" Div=\"%d\" Edit=\"%d\" Damount=\"%s\" SDiv=\"%d\" "
+							"SEdit=\"%d\" SDamount=\"%s\" />\n",
+							tab -> len + 1,
+							shd -> account_nb,
+							shd -> origin,
+							shd -> div_number,
+							shd -> div_edited,
+							gsb_real_safe_real_to_string ( shd -> amount,
+							gsb_data_account_get_currency_floating_point ( shd -> account_nb ) ),
+							0, 0, "0.00" );
 
-            g_ptr_array_add ( tab, tmp_str );
-        }
-        else
-        {
-            GHashTableIter new_iter;
+				g_ptr_array_add ( tab, tmp_str );
+			}
+			else
+			{
+				GHashTableIter new_iter;
 
-            g_hash_table_iter_init ( &new_iter, shd -> sub_div_list );
-            while ( g_hash_table_iter_next ( &new_iter, &key, &value ) )
-            {
-                HistDiv *sub_shd = ( HistDiv* ) value;
-                gint floating_point;
+				g_hash_table_iter_init ( &new_iter, shd -> sub_div_list );
+				while ( g_hash_table_iter_next ( &new_iter, &key, &value ) )
+				{
+					HistDiv *sub_shd = ( HistDiv* ) value;
+					gint floating_point;
 
-                floating_point = gsb_data_account_get_currency_floating_point ( shd -> account_nb );
-                tmp_str = g_markup_printf_escaped ( "\t<Bet_historical Nb=\"%d\" Ac=\"%d\" "
-                        "Ori=\"%d\" Div=\"%d\" Edit=\"%d\" Damount=\"%s\" SDiv=\"%d\" "
-                        "SEdit=\"%d\" SDamount=\"%s\" />\n",
-                        tab -> len + 1,
-                        shd -> account_nb,
-                        shd -> origin,
-                        shd -> div_number,
-                        shd -> div_edited,
-                        gsb_real_safe_real_to_string ( shd -> amount, floating_point ),
-                        sub_shd -> div_number,
-                        sub_shd -> div_edited,
-                        gsb_real_safe_real_to_string ( sub_shd -> amount, floating_point ) );
+					floating_point = gsb_data_account_get_currency_floating_point ( shd -> account_nb );
+					tmp_str = g_markup_printf_escaped ( "\t<Bet_historical Nb=\"%d\" Ac=\"%d\" "
+							"Ori=\"%d\" Div=\"%d\" Edit=\"%d\" Damount=\"%s\" SDiv=\"%d\" "
+							"SEdit=\"%d\" SDamount=\"%s\" />\n",
+							tab -> len + 1,
+							shd -> account_nb,
+							shd -> origin,
+							shd -> div_number,
+							shd -> div_edited,
+							gsb_real_safe_real_to_string ( shd -> amount, floating_point ),
+							sub_shd -> div_number,
+							sub_shd -> div_edited,
+							gsb_real_safe_real_to_string ( sub_shd -> amount, floating_point ) );
 
-                g_ptr_array_add ( tab, tmp_str );
-            }
-        }
-    }
+					g_ptr_array_add ( tab, tmp_str );
+				}
+			}
+		}
+	}
 
-    g_hash_table_iter_init ( &iter, bet_future_list );
-    while ( g_hash_table_iter_next ( &iter, &key, &value ) )
-    {
-        FuturData *scheduled = ( FuturData* ) value;
-        gchar *amount;
-        gchar *date;
-        gchar *limit_date;
 
-        /* set the real */
-        amount = gsb_real_safe_real_to_string ( scheduled -> amount,
-                        gsb_data_account_get_currency_floating_point ( scheduled -> account_number ) );
+	if (g_hash_table_size (bet_future_list) > 0)
+	{
+		g_hash_table_iter_init ( &iter, bet_future_list );
+		while ( g_hash_table_iter_next ( &iter, &key, &value ) )
+		{
+			FuturData *scheduled = ( FuturData* ) value;
+			gchar *amount;
+			gchar *date;
+			gchar *limit_date;
 
-        /* set the dates */
-        date = gsb_format_gdate_safe ( scheduled -> date );
-        limit_date = gsb_format_gdate_safe ( scheduled -> limit_date );
+			/* set the real */
+			amount = gsb_real_safe_real_to_string ( scheduled -> amount,
+							gsb_data_account_get_currency_floating_point ( scheduled -> account_number ) );
 
-        tmp_str = g_markup_printf_escaped ( "\t<Bet_future Nb=\"%d\" Dt=\"%s\" Ac=\"%d\" "
-                        "Am=\"%s\" Pa=\"%d\" IsT=\"%d\" Tra=\"%d\" Ca=\"%d\" Sca=\"%d\" "
-                        "Pn=\"%d\" Fi=\"%d\" Bu=\"%d\" Sbu=\"%d\" No=\"%s\" Au=\"0\" "
-                        "Pe=\"%d\" Pei=\"%d\" Pep=\"%d\" Dtl=\"%s\" Mo=\"%d\" />\n",
-                        scheduled -> number,
-                        my_safe_null_str ( date ),
-                        scheduled -> account_number,
-                        my_safe_null_str ( amount ),
-                        scheduled -> party_number,
-                        scheduled -> is_transfert,
-                        scheduled -> account_transfert,
-                        scheduled -> category_number,
-                        scheduled -> sub_category_number,
-                        scheduled -> payment_number,
-                        scheduled -> fyear_number,
-                        scheduled -> budgetary_number,
-                        scheduled -> sub_budgetary_number,
-                        my_safe_null_str ( scheduled -> notes ),
-                        scheduled -> frequency,
-                        scheduled -> user_interval,
-                        scheduled -> user_entry,
-                        my_safe_null_str ( limit_date ),
-                        scheduled -> mother_row );
+			/* set the dates */
+			date = gsb_format_gdate_safe ( scheduled -> date );
+			limit_date = gsb_format_gdate_safe ( scheduled -> limit_date );
 
-        g_ptr_array_add ( tab, tmp_str );
+			tmp_str = g_markup_printf_escaped ( "\t<Bet_future Nb=\"%d\" Dt=\"%s\" Ac=\"%d\" "
+							"Am=\"%s\" Pa=\"%d\" IsT=\"%d\" Tra=\"%d\" Ca=\"%d\" Sca=\"%d\" "
+							"Pn=\"%d\" Fi=\"%d\" Bu=\"%d\" Sbu=\"%d\" No=\"%s\" Au=\"0\" "
+							"Pe=\"%d\" Pei=\"%d\" Pep=\"%d\" Dtl=\"%s\" Mo=\"%d\" />\n",
+							scheduled -> number,
+							my_safe_null_str ( date ),
+							scheduled -> account_number,
+							my_safe_null_str ( amount ),
+							scheduled -> party_number,
+							scheduled -> is_transfert,
+							scheduled -> account_transfert,
+							scheduled -> category_number,
+							scheduled -> sub_category_number,
+							scheduled -> payment_number,
+							scheduled -> fyear_number,
+							scheduled -> budgetary_number,
+							scheduled -> sub_budgetary_number,
+							my_safe_null_str ( scheduled -> notes ),
+							scheduled -> frequency,
+							scheduled -> user_interval,
+							scheduled -> user_entry,
+							my_safe_null_str ( limit_date ),
+							scheduled -> mother_row );
 
-        g_free (amount);
-        g_free (date);
-        g_free (limit_date);
-    }
+			g_ptr_array_add ( tab, tmp_str );
 
-    g_hash_table_iter_init ( &iter, bet_transfert_list );
-    index = 0;
-    while ( g_hash_table_iter_next ( &iter, &key, &value ) )
-    {
-        TransfertData *transfert = ( TransfertData* ) value;
-        gchar *date;
-        gchar *date_bascule;
+			g_free (amount);
+			g_free (date);
+			g_free (limit_date);
+		}
+	}
 
-        /* set the dates */
-        date = gsb_format_gdate_safe ( transfert->date );
-        date_bascule = gsb_format_gdate_safe ( transfert->date_bascule );
+	if (g_hash_table_size (bet_transfert_list) > 0)
+	{
+		g_hash_table_iter_init ( &iter, bet_transfert_list );
+		index = 0;
+		while ( g_hash_table_iter_next ( &iter, &key, &value ) )
+		{
+			TransfertData *transfert = ( TransfertData* ) value;
+			gchar *date;
+			gchar *date_bascule;
 
-        tmp_str = g_markup_printf_escaped ( "\t<Bet_transfert Nb=\"%d\" Dt=\"%s\" Ac=\"%d\" "
-                        "Ty=\"%d\" Ra=\"%d\" Rt=\"%d\" Dd=\"%d\" Dtb=\"%s\" Mlbd=\"%d\" "
-                        "Pa=\"%d\" Pn=\"%d\" Ca=\"%d\" Sca=\"%d\" Bu=\"%d\" Sbu=\"%d\" "
-                        "CPa=\"%d\" CCa=\"%d\" CSca=\"%d\" CBu=\"%d\" CSbu=\"%d\" />\n",
-                        ++index,
-                        my_safe_null_str ( date ),
-                        transfert->account_number,
-                        transfert->type,
-                        transfert->replace_account,
-                        transfert->replace_transaction,
-                        transfert->direct_debit,
-                        my_safe_null_str ( date_bascule ),
-                        transfert->main_last_banking_date,
-                        transfert->main_payee_number,
-                        transfert->main_payment_number,
-                        transfert->main_category_number,
-                        transfert->main_sub_category_number,
-                        transfert->main_budgetary_number,
-                        transfert->main_sub_budgetary_number,
-                        transfert->card_payee_number,
-                        transfert->card_category_number,
-                        transfert->card_sub_category_number,
-                        transfert->card_budgetary_number,
-                        transfert->card_sub_budgetary_number );
+			/* set the dates */
+			date = gsb_format_gdate_safe ( transfert->date );
+			date_bascule = gsb_format_gdate_safe ( transfert->date_bascule );
 
-        g_ptr_array_add ( tab, tmp_str );
+			tmp_str = g_markup_printf_escaped ( "\t<Bet_transfert Nb=\"%d\" Dt=\"%s\" Ac=\"%d\" "
+							"Ty=\"%d\" Ra=\"%d\" Rt=\"%d\" Dd=\"%d\" Dtb=\"%s\" Mlbd=\"%d\" "
+							"Pa=\"%d\" Pn=\"%d\" Ca=\"%d\" Sca=\"%d\" Bu=\"%d\" Sbu=\"%d\" "
+							"CPa=\"%d\" CCa=\"%d\" CSca=\"%d\" CBu=\"%d\" CSbu=\"%d\" />\n",
+							++index,
+							my_safe_null_str ( date ),
+							transfert->account_number,
+							transfert->type,
+							transfert->replace_account,
+							transfert->replace_transaction,
+							transfert->direct_debit,
+							my_safe_null_str ( date_bascule ),
+							transfert->main_last_banking_date,
+							transfert->main_payee_number,
+							transfert->main_payment_number,
+							transfert->main_category_number,
+							transfert->main_sub_category_number,
+							transfert->main_budgetary_number,
+							transfert->main_sub_budgetary_number,
+							transfert->card_payee_number,
+							transfert->card_category_number,
+							transfert->card_sub_category_number,
+							transfert->card_budgetary_number,
+							transfert->card_sub_budgetary_number );
 
-        g_free (date);
-    }
+			g_ptr_array_add ( tab, tmp_str );
+
+			g_free (date);
+		}
+	}
 
 	tmp_list = bet_data_loan_get_loan_list ();
 	while (tmp_list)
@@ -1307,7 +1321,7 @@ gboolean bet_data_future_add_lines ( FuturData *scheduled )
 
         /* we don't change the initial date */
         date = gsb_date_copy ( scheduled -> date );
-        while ( date != NULL && g_date_valid ( date ) )
+        while (TRUE)
         {
             key = bet_data_get_key ( scheduled -> account_number, future_number );
 
@@ -1332,14 +1346,13 @@ gboolean bet_data_future_add_lines ( FuturData *scheduled )
             g_hash_table_insert ( bet_future_list, key, new_sch );
 
             date = bet_data_futur_get_next_date ( new_sch, date, date_max );
-            if ( date == NULL )
+            if (date == NULL || !g_date_valid (date))
                 break;
-            future_number ++;
+
+			future_number ++;
             new_sch = bet_data_future_copy_struct ( scheduled );
 			new_sch -> date = date;
         }
-		if (new_sch)
-			struct_free_bet_future (new_sch);
         g_date_free ( date_max );
     }
 
