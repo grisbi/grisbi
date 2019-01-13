@@ -1867,12 +1867,8 @@ gboolean bet_future_take_data_from_form (  FuturData *scheduled )
         return FALSE;
 
     widget = bet_form_widget_get_widget ( TRANSACTION_FORM_EXERCICE );
-    if ( gsb_form_widget_check_empty( widget ) == FALSE )
-        scheduled -> fyear_number = gsb_fyear_get_fyear_from_combobox ( widget,
-                        scheduled -> date );
-    else
-        scheduled -> fyear_number = 0;
-
+	scheduled -> fyear_number = gsb_fyear_get_fyear_from_combobox ( widget,
+					scheduled -> date );
     widget = bet_form_widget_get_widget ( TRANSACTION_FORM_PARTY );
     if ( gsb_form_widget_check_empty ( widget ) == FALSE )
         scheduled -> party_number = gsb_data_payee_get_number_by_name (
@@ -1899,11 +1895,7 @@ gboolean bet_future_take_data_from_form (  FuturData *scheduled )
     }
 
     widget = bet_form_widget_get_widget ( TRANSACTION_FORM_TYPE );
-    if ( gsb_form_widget_check_empty( widget ) == FALSE )
-        scheduled -> payment_number =
-                        gsb_payment_method_get_selected_number ( widget );
-    else
-        scheduled -> payment_number = 0;
+    scheduled -> payment_number = gsb_payment_method_get_selected_number ( widget );
 
     widget = bet_form_widget_get_widget ( TRANSACTION_FORM_CATEGORY );
     if ( gsb_form_widget_check_empty( widget ) == FALSE )
