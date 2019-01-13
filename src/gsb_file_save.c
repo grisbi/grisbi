@@ -795,7 +795,6 @@ gulong gsb_file_save_general_part ( gulong iterator,
                        "\t\tName_logo=\"%s\"\n"
 					   "\t\tRemind_display_per_account=\"%d\"\n"
 					   "\t\tTransactions_view=\"%s\"\n"
-					   "\t\tOne_line_showed=\"%d\"\n"
 					   "\t\tTwo_lines_showed=\"%d\"\n"
 					   "\t\tThree_lines_showed=\"%d\"\n"
 					   "\t\tTransaction_column_width=\"%s\"\n"
@@ -863,7 +862,6 @@ gulong gsb_file_save_general_part ( gulong iterator,
     my_safe_null_str( etat.name_logo ),
 	etat.retient_affichage_par_compte,
 	my_safe_null_str(transactions_view),
-	display_one_line,
 	display_two_lines,
 	display_three_lines,
 	my_safe_null_str(transaction_column_width_write),
