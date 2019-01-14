@@ -247,9 +247,11 @@ static gboolean edit_payee (GtkTreeView * view)
 	/* others options for search */
     check_option_1 = gtk_check_button_new_with_label (_("Ignoring case sensitive"));
 	gtk_grid_attach (GTK_GRID (table), check_option_1, 0, 3, 2, 1);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check_option_1), gsb_data_payee_get_ignore_case (payee_number));
 
 	check_option_2 = gtk_check_button_new_with_label (_("Use the regular expressions"));
 	gtk_grid_attach (GTK_GRID (table), check_option_2, 0, 4, 2, 1);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check_option_2), gsb_data_payee_get_use_regex (payee_number));
 	gtk_widget_set_sensitive (check_option_2, FALSE);
 
     gtk_widget_show_all (dialog);
