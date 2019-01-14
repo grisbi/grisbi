@@ -1196,7 +1196,7 @@ static GtkWidget *gsb_assistant_payees_page_2 (GtkWidget *assistant)
 	g_free (texte);
 	gtk_box_pack_start (GTK_BOX (paddingbox), label, FALSE, FALSE, MARGIN_BOX);
 
-	/* On prend la liste totale des tiers */
+	/* On sauvegarde w_etat->metatree_unarchived_payees le temps de prendre la liste totale des tiers */
 	if (w_etat->metatree_unarchived_payees)
 	{
 		w_etat->metatree_unarchived_payees = FALSE;
@@ -1232,7 +1232,6 @@ static GtkWidget *gsb_assistant_payees_page_2 (GtkWidget *assistant)
 	if (metatree_unarchived_payees)
 	{
 		w_etat->metatree_unarchived_payees = TRUE;
-		metatree_unarchived_payees = FALSE;
 	}
 
 	entry = gtk_combofix_get_entry (GTK_COMBOFIX (combo));
