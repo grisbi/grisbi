@@ -2020,9 +2020,11 @@ void payees_manage_payees (void)
         }
         else
         {
-            gsb_data_payee_set_name (new_payee_number,
-                        gtk_entry_get_text (g_object_get_data (
-                        G_OBJECT (assistant), "new_payee")));
+			const gchar *text;
+
+			combo = g_object_get_data (G_OBJECT (assistant), "new_payee");
+			text = gtk_combofix_get_text (GTK_COMBOFIX (combo));
+            gsb_data_payee_set_name (new_payee_number, text);
             payees_fill_list ();
         }
 
