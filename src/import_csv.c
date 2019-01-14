@@ -103,6 +103,9 @@ static void csv_import_free_line (GSList *list,
 {
 	gint i;
 
+	if (list == NULL)
+		return;
+
 	for (i = 0; i < nbre_cols ; i++)
 	{
 		if (list->data && strlen (list->data))
