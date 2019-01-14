@@ -2972,6 +2972,8 @@ devel_debug (NULL);
 		list = g_slist_append (list, spec_conf_data);
 		gsb_data_import_rule_set_csv_spec_lines_list (import_rule_number, list);
 	}
+	else if (spec_conf_data)
+		g_free (spec_conf_data);
 }
 
 /**
