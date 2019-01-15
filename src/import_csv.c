@@ -1344,7 +1344,15 @@ gboolean csv_import_file_by_rule (gint rule,
 	/* définitions des colonnes utiles pour Grisbi */
 	csv_fields_str = gsb_data_import_rule_get_csv_fields_str (rule);
 	if (!csv_fields_str)
+	{
+		g_free (compte->nom_de_compte);
+		g_free (compte->origine);
+		if (compte->real_filename)
+			g_free (compte->real_filename);
+		g_free (compte);
+
 		return FALSE;
+	}
 	pointeur_char = g_strsplit (csv_fields_str, "-", 0);
 	count = g_strv_length (pointeur_char);
 	csv_fields_config = (gint *) g_malloc ((count + 2) * sizeof (gint));
