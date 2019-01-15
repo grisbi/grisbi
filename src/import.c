@@ -4273,7 +4273,7 @@ static void traitement_operations_importees (GtkWindow *parent)
     {
         /* ok, we create the rule */
         gchar *name;
-        gint rule;
+        gint rule_number = 0;
 
         name = (gchar *) gtk_entry_get_text (GTK_ENTRY (compte->entry_name_rule));
         if (!strlen (name))
@@ -4295,25 +4295,25 @@ static void traitement_operations_importees (GtkWindow *parent)
 		else
 			name = g_strdup (name);
 
-        rule = gsb_data_import_rule_new (name);
+        rule_number = gsb_data_import_rule_new (name);
 		g_free (name);
-        gsb_data_import_rule_set_account (rule, account_number);
-        gsb_data_import_rule_set_currency (rule, gsb_currency_get_currency_from_combobox (compte->bouton_devise));
-        gsb_data_import_rule_set_invert (rule, compte->invert_transaction_amount);
-        gsb_data_import_rule_set_charmap (rule, charmap_imported);
-        gsb_data_import_rule_set_last_file_name (rule, compte->real_filename);
-        gsb_data_import_rule_set_action (rule, compte->action);
-		gsb_data_import_rule_set_type (rule, compte->origine);
+        gsb_data_import_rule_set_account (rule_number, account_number);
+        gsb_data_import_rule_set_currency (rule_number, gsb_currency_get_currency_from_combobox (compte->bouton_devise));
+        gsb_data_import_rule_set_invert (rule_number, compte->invert_transaction_amount);
+        gsb_data_import_rule_set_charmap (rule_number, charmap_imported);
+        gsb_data_import_rule_set_last_file_name (rule_number, compte->real_filename);
+        gsb_data_import_rule_set_action (rule_number, compte->action);
+		gsb_data_import_rule_set_type (rule_number, compte->origine);
 		if (!strcmp (compte->origine, "CSV"))
 		{
-			gsb_data_import_rule_set_csv_account_id_col (rule, compte->csv_account_id_col);
-			gsb_data_import_rule_set_csv_account_id_row (rule, compte->csv_account_id_row);
-			gsb_data_import_rule_set_csv_fields_str (rule, compte->csv_fields_str);
-			gsb_data_import_rule_set_csv_first_line_data (rule, compte->csv_first_line_data);
-			gsb_data_import_rule_set_csv_headers_present (rule, compte->csv_headers_present);
-			gsb_data_import_rule_set_csv_separator (rule, etat.csv_separator);
-			gsb_data_import_rule_set_csv_spec_lines_list (rule, compte->csv_spec_lines_list);
-			gsb_data_import_rule_set_csv_spec_cols_name (rule, compte->csv_spec_cols_name);
+			gsb_data_import_rule_set_csv_account_id_col (rule_number, compte->csv_account_id_col);
+			gsb_data_import_rule_set_csv_account_id_row (rule_number, compte->csv_account_id_row);
+			gsb_data_import_rule_set_csv_fields_str (rule_number, compte->csv_fields_str);
+			gsb_data_import_rule_set_csv_first_line_data (rule_number, compte->csv_first_line_data);
+			gsb_data_import_rule_set_csv_headers_present (rule_number, compte->csv_headers_present);
+			gsb_data_import_rule_set_csv_separator (rule_number, etat.csv_separator);
+			gsb_data_import_rule_set_csv_spec_lines_list (rule_number, compte->csv_spec_lines_list);
+			gsb_data_import_rule_set_csv_spec_cols_name (rule_number, compte->csv_spec_cols_name);
 		}
     }
     tmp_list = tmp_list->next;
