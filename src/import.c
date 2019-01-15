@@ -4274,6 +4274,7 @@ static void traitement_operations_importees (GtkWindow *parent)
         /* ok, we create the rule */
         gchar *name;
         gint rule_number = 0;
+		gint csv_spec_nbre_lines = 0;
 
         name = (gchar *) gtk_entry_get_text (GTK_ENTRY (compte->entry_name_rule));
         if (!strlen (name))
@@ -4313,6 +4314,9 @@ static void traitement_operations_importees (GtkWindow *parent)
 			gsb_data_import_rule_set_csv_headers_present (rule_number, compte->csv_headers_present);
 			gsb_data_import_rule_set_csv_separator (rule_number, etat.csv_separator);
 			gsb_data_import_rule_set_csv_spec_lines_list (rule_number, compte->csv_spec_lines_list);
+			csv_spec_nbre_lines = g_slist_length (compte->csv_spec_lines_list);
+			if (csv_spec_nbre_lines)
+				gsb_data_import_rule_set_csv_spec_nbre_lines (rule_number, csv_spec_nbre_lines);
 			gsb_data_import_rule_set_csv_spec_cols_name (rule_number, compte->csv_spec_cols_name);
 		}
     }
