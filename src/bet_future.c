@@ -1818,20 +1818,45 @@ gboolean bet_future_take_data_from_form (  FuturData *scheduled )
         case 3:
         case 4:
         case 5:
-            widget = bet_form_scheduler_get_element_widget ( SCHEDULED_FORM_LIMIT_DATE );
-            if ( gsb_form_widget_check_empty ( widget ) == FALSE )
-                scheduled -> limit_date = gsb_calendar_entry_get_date ( widget );
+		{
+			widget = bet_form_scheduler_get_element_widget ( SCHEDULED_FORM_LIMIT_DATE );
+            if (gsb_form_widget_check_empty (widget) == FALSE)
+			{
+				GrisbiWinEtat *w_etat;
+
+				w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
+				if (w_etat->form_date_force_prev_year)
+				{
+					w_etat->form_date_force_prev_year = FALSE;
+					scheduled -> limit_date = gsb_calendar_entry_get_date ( widget );
+					w_etat->form_date_force_prev_year = TRUE;
+				}
+				else
+					scheduled -> limit_date = gsb_calendar_entry_get_date ( widget );
+			}
             else
                 scheduled -> limit_date = NULL;
             break;
+		}
         case 6:
-            widget = bet_form_scheduler_get_element_widget ( SCHEDULED_FORM_LIMIT_DATE );
-            if ( gsb_form_widget_check_empty ( widget ) == FALSE )
-                scheduled -> limit_date = gsb_calendar_entry_get_date ( widget );
+            if (gsb_form_widget_check_empty (widget) == FALSE)
+			{
+				GrisbiWinEtat *w_etat;
+
+				w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
+				if (w_etat->form_date_force_prev_year)
+				{
+					w_etat->form_date_force_prev_year = FALSE;
+					scheduled -> limit_date = gsb_calendar_entry_get_date ( widget );
+					w_etat->form_date_force_prev_year = TRUE;
+				}
+				else
+					scheduled -> limit_date = gsb_calendar_entry_get_date ( widget );
+			}
             else
                 scheduled -> limit_date = NULL;
 
-            widget = bet_form_scheduler_get_element_widget (
+			widget = bet_form_scheduler_get_element_widget (
                         SCHEDULED_FORM_FREQUENCY_USER_ENTRY );
             if ( gsb_form_widget_check_empty ( widget ) == FALSE )
                 scheduled -> user_entry = utils_str_atoi (
