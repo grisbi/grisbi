@@ -514,10 +514,16 @@ static void bet_finance_ui_calculer_clicked (GtkButton *button,
         tmp_str = g_strdup (_("You must enter at least one value for the capital"));
         dialogue_error (tmp_str);
         g_free (tmp_str);
-        return;
+		g_free (s_echeance);
+
+		return;
     }
     else if (s_echeance->capital == G_MININT64)
-        return;
+	{
+ 		g_free (s_echeance);
+
+		return;
+	}
 
     /* rate */
     s_echeance->taux = bet_finance_get_number_from_string (widget, "taux");
