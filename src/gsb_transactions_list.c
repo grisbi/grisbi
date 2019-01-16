@@ -4191,7 +4191,7 @@ gboolean gsb_transactions_list_size_allocate (GtkWidget *tree_view,
  *
  * \param
  *
- * \return column number or an other element
+ * \return column number or another element
  **/
 gint find_element_col_for_archive (void)
 {

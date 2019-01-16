@@ -765,7 +765,7 @@ gchar *utils_files_create_sel_charset (GtkWidget *assistant,
                         NULL);
     gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), column);
 
-    /* select an other encoding */
+    /* select another encoding */
     label = gtk_label_new (_("If no proposals above are correct you can choose a "
                         "different charset."));
     utils_labels_set_alignment (GTK_LABEL (label), 0, 0.5);

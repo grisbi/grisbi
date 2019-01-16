@@ -4122,7 +4122,7 @@ gboolean gsb_file_load_open_file (const gchar *filename )
 		dialog = dialogue_special_no_run (GTK_MESSAGE_ERROR, GTK_BUTTONS_NONE, text, hint);
 
 		gtk_dialog_add_buttons (GTK_DIALOG(dialog),
-								_("Load an other file"), GTK_RESPONSE_NO,
+								_("Load another file"), GTK_RESPONSE_NO,
 								_("Correct the file"), GTK_RESPONSE_OK,
 									NULL);
 		if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK)
