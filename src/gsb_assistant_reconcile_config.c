@@ -397,7 +397,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile ( void )
 	gtk_grid_attach (GTK_GRID (table), label, 0, 0, 1, 1);
 
 	reconcile_name_entry = gtk_entry_new ();
-	gtk_grid_attach (GTK_GRID (table), reconcile_name_entry, 1, 0, 0, 1);
+	gtk_grid_attach (GTK_GRID (table), reconcile_name_entry, 1, 0, 1, 1);
 
 	/* set the choice of account */
 	label = gtk_label_new ( _("Account: ") );
@@ -443,7 +443,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile ( void )
 	gtk_grid_attach (GTK_GRID (table), label, 2, 2, 1, 1);
 
 	reconcile_final_balance_entry = gtk_entry_new ();
-	gtk_grid_attach (GTK_GRID (table), reconcile_final_balance_entry, 3, 2, 2, 1);
+	gtk_grid_attach (GTK_GRID (table), reconcile_final_balance_entry, 3, 2, 1, 1);
 
     /* create the button */
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );

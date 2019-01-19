@@ -39,10 +39,12 @@
 /*START_INCLUDE*/
 #include "prefs_page_form_completion.h"
 #include "grisbi_settings.h"
+#include "gsb_category.h"
 #include "gsb_data_form.h"
 #include "gsb_file.h"
 #include "gsb_form.h"
 #include "gsb_form_widget.h"
+#include "imputation_budgetaire.h"
 #include "gtk_combofix.h"
 #include "prefs_page_metatree.h"
 #include "transaction_list.h"
@@ -130,14 +132,21 @@ static void prefs_page_form_completion_update_combofix (GtkWidget *checkbutton,
 			break;
 
 		case METATREE_CATEGORY:
-		case METATREE_BUDGET:
 			combofix = gsb_form_widget_get_widget (TRANSACTION_FORM_CATEGORY);
 			if (combofix && GTK_IS_COMBOFIX (combofix))
+			{
 				gtk_combofix_set_properties (combofix);
+				gsb_category_update_combofix (TRUE);
+			}
+			break;
 
+		case METATREE_BUDGET:
 			combofix = gsb_form_widget_get_widget (TRANSACTION_FORM_BUDGET);
 			if (combofix && GTK_IS_COMBOFIX (combofix))
+			{
 				gtk_combofix_set_properties (combofix);
+				gsb_budget_update_combofix (FALSE);
+			}
 			break;
 
 		default:
@@ -318,24 +327,24 @@ static void prefs_page_form_completion_setup_form_completion_page (PrefsPageForm
 	/* set active widgets if is_loading = TRUE else set sensitive widget*/
 	if (is_loading)
 	{
+		/* set etat.combofix_mixed_sort */
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_combofix_mixed_sort),
+									  etat.combofix_mixed_sort);
 		/* set etat.combofix_case_sensitive */
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_combofix_case_sensitive),
 									  etat.combofix_case_sensitive);
 		/* set etat.combofix_force_payee */
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_combofix_force_payee),
 									  etat.combofix_force_payee);
-		/* set etat.combofix_force_payee */
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_combofix_mixed_sort),
-									  etat.combofix_force_payee);
-		/* set etat.combofix_force_payee */
+		/* set etat.combofix_force_category */
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_combofix_force_category),
-									  etat.combofix_force_payee);
+									  etat.combofix_force_category);
 	}
 	else
 	{
+		gtk_widget_set_sensitive (priv->hbox_combofix_mixed_sort, FALSE);
 		gtk_widget_set_sensitive (priv->hbox_combofix_case_sensitive, FALSE);
 		gtk_widget_set_sensitive (priv->hbox_combofix_force_payee, FALSE);
-		gtk_widget_set_sensitive (priv->hbox_combofix_mixed_sort, FALSE);
 		gtk_widget_set_sensitive (priv->hbox_combofix_force_category, FALSE);
 	}
 

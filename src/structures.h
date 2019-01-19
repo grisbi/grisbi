@@ -30,6 +30,8 @@
 #define ETAT_WWW_BROWSER        "xdg-open"          /* définit le browser par défaut */
 #endif
 
+#define ETATS_MAX_OPES			3000				/* Nombre d'opérations sélectionnées avant avertissement */
+
 /* Sorting option for the transactions. Used in gsb_transactions_list_display_sort_changed () */
 #define PRIMARY_SORT            0
 #define SECONDARY_SORT          1
@@ -150,7 +152,6 @@ struct _GrisbiWinEtat
     /* combofix configuration */
     gint		combofix_mixed_sort;						/* TRUE for no separation between the categories */
     gint		combofix_case_sensitive;					/* TRUE if case sensitive */
-    gint		combofix_enter_select_completion;			/* TRUE if enter close the popup and keep what is in the entry (else, select the current item in the list) */
     gint		combofix_force_payee;						/* TRUE if no new item can be appended in the payee combofix */
     gint		combofix_force_category;					/* TRUE if no new item can be appended in the category and budget combofix */
 

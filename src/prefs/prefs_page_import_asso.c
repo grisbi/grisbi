@@ -290,12 +290,13 @@ static gboolean prefs_page_import_asso_select_asso (GtkTreeSelection *selection,
     {
 		GtkWidget *entry;
 		GtkTreeModel *model;
+		gint payee_number;
 		gchar *payee_str;
 		gchar *search_str;
 
 		entry = gtk_combofix_get_entry (GTK_COMBOFIX (priv->combo_import_asso_payee));
 		model = gtk_tree_view_get_model (GTK_TREE_VIEW (priv->treeview_import_asso));
-		gtk_tree_model_get (model, &iter, 0, &payee_str, 1, &search_str, -1);
+		gtk_tree_model_get (model, &iter, 0, &payee_str, 1, &search_str, 2, &payee_number, -1);
 
 		g_signal_handlers_block_by_func (G_OBJECT (entry),
 										 G_CALLBACK (prefs_page_import_asso_combo_changed),
@@ -307,6 +308,11 @@ static gboolean prefs_page_import_asso_select_asso (GtkTreeSelection *selection,
 		gtk_entry_set_text (GTK_ENTRY (priv->entry_import_asso_search_string), search_str);
 		gtk_widget_set_sensitive (priv->entry_import_asso_search_string, FALSE);
 		gtk_widget_set_sensitive (priv->button_import_asso_remove, TRUE);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_import_asso_case_insensitive),
+									  gsb_data_payee_get_ignore_case (payee_number));
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_import_asso_use_regex),
+									  gsb_data_payee_get_use_regex (payee_number));
+
 	}
 
     return FALSE;

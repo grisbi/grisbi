@@ -457,6 +457,10 @@ static gboolean gsb_file_save_file (gint origine)
     {
 		grisbi_win_set_filename (NULL, nouveau_nom_enregistrement);
 
+		/* on ajoute un item au menu recent_file si origine = -2 */
+		if (origine == -2)
+			utils_files_append_name_to_recent_array (nouveau_nom_enregistrement);
+
 		/* saving was right, so unlock the last name */
         gsb_file_util_modify_lock (filename, FALSE);
 
@@ -491,6 +495,8 @@ static gboolean gsb_file_save_file (gint origine)
  **/
 gboolean gsb_file_new_finish (void)
 {
+	GrisbiWinRun *w_run;
+
     /* create the first account */
     if (!gsb_assistant_account_run ())
     {
@@ -503,6 +509,10 @@ gboolean gsb_file_new_finish (void)
 
     mise_a_jour_accueil (TRUE);
     gsb_gui_navigation_set_selection (GSB_HOME_PAGE, -1, 0);
+
+	/* sensibilise les préférences */
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+	w_run->file_is_loading = TRUE;
 
     gsb_file_set_modified (TRUE);
     return FALSE;

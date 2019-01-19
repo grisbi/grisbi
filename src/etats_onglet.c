@@ -1329,14 +1329,17 @@ void etats_onglet_update_gui_to_report (gint report_number)
 
     if (gsb_report_get_current () != report_number)
     {
+		gboolean result = TRUE;
 		GrisbiWinRun *w_run;
 
 		w_run = grisbi_win_get_w_run ();
 		if (w_run->empty_report)
 			affichage_empty_report (report_number);
 		else
-			rafraichissement_etat (report_number);
-		gsb_report_set_current (report_number);
+			result = rafraichissement_etat (report_number);
+
+		if (result)
+			gsb_report_set_current (report_number);
     }
     else
         gtk_widget_show (gtk_bin_get_child (GTK_BIN (scrolled_window_etat)));

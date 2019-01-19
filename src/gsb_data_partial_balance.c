@@ -1592,6 +1592,58 @@ GPtrArray *gsb_data_partial_balance_calculate_balances_at_date ( gint partial_ba
     return current_balances;
 }
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void gsb_data_partial_balance_renum_account_number_0 (gint account_number)
+{
+    GSList *tmp_list;
+
+    tmp_list = partial_balance_list;
+    while (tmp_list)
+    {
+		gchar *liste_cptes;
+        struct_partial_balance *partial_balance;
+
+        partial_balance = tmp_list->data;
+		liste_cptes = partial_balance->liste_cptes;
+		printf ("liste_cptes = %s\n", liste_cptes);
+		if (g_strstr_len (liste_cptes, -1, "0"))
+		{
+			gchar **tab;
+			gint i;
+
+			tab = g_strsplit (liste_cptes, ";", 0);
+			for ( i = 0; tab[i]; i++ )
+			{
+				gint account_nb;
+
+				account_nb = utils_str_atoi (tab[i]);
+				if (account_nb == 0)
+				{
+					gchar *tmp_number_str;
+					gchar *str_to_free;
+					gchar *new_str;
+
+					tmp_number_str = utils_str_itoa (account_number);
+					str_to_free = tab[i];
+					tab[i] = tmp_number_str;
+					g_free (str_to_free);
+					new_str = g_strjoinv (";", tab);
+					g_free (partial_balance->liste_cptes);
+					partial_balance->liste_cptes = new_str;
+					g_strfreev (tab);
+					break;
+				}
+			}
+		}
+		tmp_list = tmp_list->next;
+	}
+}
 
 /*********************************************************************************************/
 /*              Interface                                                                    */
@@ -1776,7 +1828,7 @@ GtkWidget *gsb_partial_balance_create_dialog ( gint action, gint spin_value )
 gint gsb_partial_balance_request_currency ( GtkWidget *parent )
 {
     GtkWidget *dialog, *hbox, *label, *combo_devise;
-    gint currency_nb;
+    gint currency_nb = 1;	/* Initialisation avec la première devise : fixe bug 1881 */
 
     dialog = gtk_dialog_new_with_buttons ( _("Enter the currency of the balance part"),
                             GTK_WINDOW ( parent ),
@@ -1800,8 +1852,7 @@ gint gsb_partial_balance_request_currency ( GtkWidget *parent )
 
     gtk_widget_show_all ( GTK_WIDGET ( dialog ) );
 
-    //~ gsb_currency_set_combobox_history ( combo_devise, 2 );
-    gsb_currency_set_combobox_history ( combo_devise, 1 );
+    gsb_currency_set_combobox_history (combo_devise, currency_nb);
     gtk_dialog_run ( GTK_DIALOG ( dialog ) );
 
     gtk_widget_destroy ( GTK_WIDGET ( dialog ) );

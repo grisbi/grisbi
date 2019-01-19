@@ -88,7 +88,7 @@ struct gnucash_split {
   gchar * account;
   gchar * contra_account;
   gchar * notes;
-  enum OperationEtatRapprochement p_r;
+  gint p_r;
 };
 
 /* Variables */
@@ -313,7 +313,7 @@ void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node )
     {
       struct ImportAccount * split_account = NULL;
       struct gnucash_category * categ = NULL;
-      enum OperationEtatRapprochement p_r = OPERATION_NORMALE;
+      gint p_r = OPERATION_NORMALE;
       GsbReal amount;
 
       /**

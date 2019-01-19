@@ -4191,7 +4191,7 @@ gboolean gsb_transactions_list_size_allocate (GtkWidget *tree_view,
  *
  * \param
  *
- * \return column number or an other element
+ * \return column number or another element
  **/
 gint find_element_col_for_archive (void)
 {
@@ -4262,7 +4262,7 @@ gboolean gsb_transactions_list_change_alignment (GtkWidget *menu_item,
     column = gtk_tree_view_get_column (GTK_TREE_VIEW (
                         transactions_tree_view),
                         column_number);
-    alignment = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (menu_item), "alignement"));
+    alignment = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (menu_item), "alignment"));
     cell_renderer = g_object_get_data (G_OBJECT (column), "cell_renderer");
 
     switch (alignment)

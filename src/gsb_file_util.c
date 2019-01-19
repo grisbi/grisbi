@@ -127,7 +127,11 @@ gboolean gsb_file_util_get_contents (const gchar *filename,
 
     file = gzopen (os_filename, "rb");
     if (!file)
+	{
+		g_free (os_filename);
+
 		return FALSE;
+	}
 
     /* use stat to get the size of the file, windows ? */
     if (stat (os_filename, &stat_buf))
@@ -136,6 +140,8 @@ gboolean gsb_file_util_get_contents (const gchar *filename,
 								   os_filename);
 		dialogue_error (tmp_str);
 		g_free (tmp_str);
+		g_free (os_filename);
+
 		return FALSE;
     }
 
@@ -154,10 +160,12 @@ gboolean gsb_file_util_get_contents (const gchar *filename,
 		 * after loading the file ...*/
 		alloc_size = 20 * orig_size;
 
-    content = g_malloc0 (alloc_size);
+    content = g_try_malloc0 (alloc_size);
     if (!content)
     {
 		dialogue_error_memory ();
+		g_free (os_filename);
+
 		return FALSE;
     }
 
@@ -177,6 +185,8 @@ gboolean gsb_file_util_get_contents (const gchar *filename,
 								   g_strerror (save_errno));
 		dialogue_error (tmp_str);
 		g_free (tmp_str);
+		g_free (os_filename);
+
 		return FALSE;
     }
 
@@ -200,11 +210,13 @@ gboolean gsb_file_util_get_contents (const gchar *filename,
 				devel_debug ("Realloc is needed, if this message comes often, "
 							 "please contact the Grisbi team to improve the software ;-)");
 				alloc_size = alloc_size + orig_size;
-				content = g_realloc (content, alloc_size);
+				content = g_try_realloc (content, alloc_size);
 
 				if (!content)
 				{
 					dialogue_error_memory ();
+					g_free (os_filename);
+
 					return FALSE;
 				}
 			}

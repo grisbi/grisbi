@@ -1228,11 +1228,15 @@ gboolean gsb_account_property_iban_set_bank_from_iban ( gchar *iban )
         pos_char_2 = g_utf8_pointer_to_offset ( model, ptr_2 );
 
         code = g_utf8_strncpy ( code, ptr_1, (pos_char_2 - pos_char_1) + 1 );
+		gtk_label_set_text ( GTK_LABEL (label_guichet), code );
+		gtk_widget_show ( label_guichet );
     }
     else
+	{
         code = g_strdup ( "" );
-    gtk_label_set_text ( GTK_LABEL (label_guichet), code );
-    gtk_widget_show ( label_guichet );
+		gtk_label_set_text ( GTK_LABEL (label_guichet), code );
+		gtk_widget_show ( label_guichet );
+	}
 
     /* set bank_account_number */
     c = 'C';

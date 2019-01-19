@@ -498,6 +498,7 @@ static GtkWidget *export_create_selection_page (GtkWidget *assistant)
 					  "toggled",
 					  G_CALLBACK (export_account_all_toggled),
 					  view);
+	gtk_box_pack_start (GTK_BOX (padding_box), button_select, FALSE, FALSE, 0);
 
 	/* set options for export */
 	padding_box = new_paddingbox_with_title (vbox, TRUE, _("Select options to export"));

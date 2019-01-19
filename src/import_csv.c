@@ -103,6 +103,9 @@ static void csv_import_free_line (GSList *list,
 {
 	gint i;
 
+	if (list == NULL)
+		return;
+
 	for (i = 0; i < nbre_cols ; i++)
 	{
 		if (list->data && strlen (list->data))
@@ -1326,14 +1329,14 @@ gboolean csv_import_file_by_rule (gint rule,
 	gint index = 0;
 
 	devel_debug (imported->name);
+	contents = gsb_file_test_and_load_csv_file (imported);
+	if (!contents)
+		return FALSE;
+
 	compte = g_malloc0 (sizeof (struct ImportAccount));
     compte->nom_de_compte = gsb_import_unique_imported_name (my_strdup (_("Imported CSV account")));
     compte->origine = my_strdup ("CSV");
     compte->real_filename = my_strdup (imported->name);
-
-	contents = gsb_file_test_and_load_csv_file (imported);
-	if (!contents)
-		return FALSE;
 
 	lines_tab = csv_import_init_lines_tab (&contents,
 										   (gchar *) gsb_data_import_rule_get_csv_separator (rule));
@@ -1341,7 +1344,15 @@ gboolean csv_import_file_by_rule (gint rule,
 	/* définitions des colonnes utiles pour Grisbi */
 	csv_fields_str = gsb_data_import_rule_get_csv_fields_str (rule);
 	if (!csv_fields_str)
+	{
+		g_free (compte->nom_de_compte);
+		g_free (compte->origine);
+		if (compte->real_filename)
+			g_free (compte->real_filename);
+		g_free (compte);
+
 		return FALSE;
+	}
 	pointeur_char = g_strsplit (csv_fields_str, "-", 0);
 	count = g_strv_length (pointeur_char);
 	csv_fields_config = (gint *) g_malloc ((count + 2) * sizeof (gint));

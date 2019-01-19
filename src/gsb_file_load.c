@@ -2972,6 +2972,8 @@ devel_debug (NULL);
 		list = g_slist_append (list, spec_conf_data);
 		gsb_data_import_rule_set_csv_spec_lines_list (import_rule_number, list);
 	}
+	else if (spec_conf_data)
+		g_free (spec_conf_data);
 }
 
 /**
@@ -4080,11 +4082,11 @@ static void gsb_file_load_start_element ( GMarkupParseContext *context,
 gboolean gsb_file_load_open_file (const gchar *filename )
 {
     gchar *file_content;
+    gchar *tmp_file_content;
     gulong length;
 	GrisbiWinEtat *w_etat;
 
     devel_debug (filename);
-	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
 
 #ifndef G_OS_WIN32      /* check the access to the file and display a message */
     gint return_value;
@@ -4096,98 +4098,148 @@ gboolean gsb_file_load_open_file (const gchar *filename )
         gsb_file_util_display_warning_permissions ();
 #endif /* G_OS_WIN32 */
 
-    /* load the file */
-    if ( gsb_file_util_get_contents ( filename, &file_content, &length ) )
+	/* load the file */
+    if (gsb_file_util_get_contents (filename, &tmp_file_content, &length))
     {
         GMarkupParser *markup_parser;
         GMarkupParseContext *context;
+		gboolean is_crypt = FALSE;
 		GrisbiWinRun *w_run;
+
+		/* first, we check if the file is crypted, if it is, we decrypt it */
+		if ( !strncmp ( tmp_file_content, "Grisbi encrypted file ", 22 ) ||
+			 !strncmp ( tmp_file_content, "Grisbi encryption v2: ", 22 ) )
+		{
+#ifdef HAVE_SSL
+			length = gsb_file_util_crypt_file ( filename, &tmp_file_content, FALSE, length );
+
+			if ( ! length )
+			{
+				g_free (tmp_file_content);
+				return FALSE;
+			}
+			else
+				is_crypt = TRUE;
+#else
+			{
+				gchar *text;
+				gchar *hint;
+
+				g_free (tmp_file_content);
+				text = g_strdup_printf (_("This build of Grisbi does not support encryption.\n"
+										  "Please recompile Grisbi with OpenSSL encryption enabled."));
+
+				hint = g_strdup_printf (_("Cannot open encrypted file '%s'"), filename);
+
+				dialogue_error_hint ( text, hint );
+				g_free ( hint );
+				g_free (text);
+				return FALSE;
+			}
+#endif
+		}
+
+		/* si le fichier n'a pas été chiffré et n'est pas un fichier UTF8 valide on le corrige si possible */
+		if (!is_crypt && !g_utf8_validate (tmp_file_content, length, NULL))
+		{
+			gchar *text;
+			gchar *hint;
+
+			hint = g_strdup_printf (_("'%s' is not a valid UTF8 file"), filename);
+
+#if GLIB_CHECK_VERSION (2,52,0)
+			GtkWidget *dialog;
+
+			text = g_strdup_printf (_("You can choose to fix the file with the substitution character? "
+									  "or return to the file choice.\n"));
+
+			dialog = dialogue_special_no_run (GTK_MESSAGE_ERROR, GTK_BUTTONS_NONE, text, hint);
+
+			gtk_dialog_add_buttons (GTK_DIALOG(dialog),
+									_("Load another file"), GTK_RESPONSE_NO,
+									_("Correct the file"), GTK_RESPONSE_OK,
+										NULL);
+			if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK)
+			{
+				file_content = g_utf8_make_valid (tmp_file_content, length);
+				gtk_widget_destroy (dialog);
+			}
+			else
+			{
+				g_free (tmp_file_content);
+				gtk_widget_destroy (dialog);
+				return FALSE;
+			}
+#else
+			text = g_strdup_printf (_("You will go back to the choice of the file.\n"));
+
+			dialogue_error_hint (text, hint);
+			g_free (tmp_file_content);
+
+			return FALSE;
+#endif
+		}
+		else
+			file_content = tmp_file_content;
 
 		w_run = grisbi_win_get_w_run ();
 
-        /* first, we check if the file is crypted, if it is, we decrypt it */
-        if ( !strncmp ( file_content, "Grisbi encrypted file ", 22 ) ||
-             !strncmp ( file_content, "Grisbi encryption v2: ", 22 ) )
-        {
-#ifdef HAVE_SSL
-            length = gsb_file_util_crypt_file ( filename, &file_content, FALSE, length );
-
-            if ( ! length )
-            {
-                g_free (file_content);
-                return FALSE;
-            }
-#else
-            {
-                gchar *text;
-                gchar *hint;
-
-                g_free (file_content);
-                text = g_strdup_printf (_("This build of Grisbi does not support encryption.\n"
-										  "Please recompile Grisbi with OpenSSL encryption enabled."));
-
-                hint = g_strdup_printf (_("Cannot open encrypted file '%s'"), filename);
-
-                dialogue_error_hint ( text, hint );
-                g_free ( hint );
-                g_free (text);
-                return FALSE;
-            }
-#endif
-        }
-
 		/* we begin to check if we are in a version under 0.6 or 0.6 and above,
-         * because the xml structure changes after 0.6 */
-        markup_parser = g_malloc0 (sizeof (GMarkupParser));
-        if ( gsb_file_load_check_new_structure (file_content))
-        {
-            /* fill the GMarkupParser for a new xml structure */
-            markup_parser -> start_element = (void *) gsb_file_load_start_element;
-            markup_parser -> error = (void *) gsb_file_load_error;
-            w_run->old_version = FALSE;
-        }
-        else
-        {
-            w_run->old_version = TRUE;
+		 * because the xml structure changes after 0.6 */
+		markup_parser = g_malloc0 (sizeof (GMarkupParser));
+		if ( gsb_file_load_check_new_structure (file_content))
+		{
+			/* fill the GMarkupParser for a new xml structure */
+			markup_parser -> start_element = (void *) gsb_file_load_start_element;
+			markup_parser -> error = (void *) gsb_file_load_error;
+			w_run->old_version = FALSE;
+		}
+		else
+		{
+			w_run->old_version = TRUE;
+			g_free (markup_parser);
 
-            return FALSE;
-        }
+			return FALSE;
+		}
 
-        context = g_markup_parse_context_new ( markup_parser,
-                        0,
-                        NULL,
-                        NULL );
-        download_tmp_values.download_ok = FALSE;
+		context = g_markup_parse_context_new ( markup_parser,
+							0,
+							NULL,
+						NULL );
+		download_tmp_values.download_ok = FALSE;
 
-        if (! g_markup_parse_context_parse ( context,
-                        file_content,
-                        strlen (file_content),
-                        NULL ))
+		if (! g_markup_parse_context_parse ( context,
+						file_content,
+						strlen (file_content),
+						NULL ))
 		{
 			download_tmp_values.download_ok = FALSE;
 		}
 
-        g_markup_parse_context_free (context);
-        g_free (markup_parser);
-        g_free (file_content);
+		g_markup_parse_context_free (context);
+		g_free (markup_parser);
+		g_free (file_content);
+
+		if ( !download_tmp_values.download_ok )
+			return FALSE;
 
 		if (w_run->account_number_is_0)
 		{
 			gsb_data_account_renum_account_number_0 (filename);
 		}
 
-        if ( !download_tmp_values.download_ok )
-            return FALSE;
+		if ( conf.sauvegarde_demarrage )
+			gsb_file_set_modified ( TRUE );
+
     }
     else
     {
         return FALSE;
     }
 
-    if ( conf.sauvegarde_demarrage )
-        gsb_file_set_modified ( TRUE );
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
 
-    /* check now if a lot of transactions,
+	/* check now if a lot of transactions,
      * if yes, we propose to file the transactions
      * by default take the 3000 transactions as limit */
     if ( conf.archives_check_auto

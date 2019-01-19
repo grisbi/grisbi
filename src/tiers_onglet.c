@@ -247,9 +247,11 @@ static gboolean edit_payee (GtkTreeView * view)
 	/* others options for search */
     check_option_1 = gtk_check_button_new_with_label (_("Ignoring case sensitive"));
 	gtk_grid_attach (GTK_GRID (table), check_option_1, 0, 3, 2, 1);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check_option_1), gsb_data_payee_get_ignore_case (payee_number));
 
 	check_option_2 = gtk_check_button_new_with_label (_("Use the regular expressions"));
 	gtk_grid_attach (GTK_GRID (table), check_option_2, 0, 4, 2, 1);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check_option_2), gsb_data_payee_get_use_regex (payee_number));
 	gtk_widget_set_sensitive (check_option_2, FALSE);
 
     gtk_widget_show_all (dialog);
@@ -1171,10 +1173,13 @@ static GtkWidget *gsb_assistant_payees_page_2 (GtkWidget *assistant)
     GtkWidget *check_option;
 	GSList *tmp_list;
     gchar *texte;
+	gboolean metatree_unarchived_payees = FALSE;
+	GrisbiWinEtat *w_etat;
 	GrisbiWinRun *w_run;
 
     devel_debug ("PAGE 2");
 	w_run = grisbi_win_get_w_run ();
+	w_etat = grisbi_win_get_w_etat ();
 
     page = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
     gtk_container_set_border_width (GTK_CONTAINER (page), BOX_BORDER_WIDTH);
@@ -1193,6 +1198,12 @@ static GtkWidget *gsb_assistant_payees_page_2 (GtkWidget *assistant)
 	g_free (texte);
 	gtk_box_pack_start (GTK_BOX (paddingbox), label, FALSE, FALSE, MARGIN_BOX);
 
+	/* On sauvegarde w_etat->metatree_unarchived_payees le temps de prendre la liste totale des tiers */
+	if (w_etat->metatree_unarchived_payees)
+	{
+		w_etat->metatree_unarchived_payees = FALSE;
+		metatree_unarchived_payees = TRUE;
+	}
 	tmp_list = gsb_data_payee_get_name_and_report_list();
 	combo = gtk_combofix_new_with_properties (tmp_list,
 											  FALSE,
@@ -1220,6 +1231,10 @@ static GtkWidget *gsb_assistant_payees_page_2 (GtkWidget *assistant)
 											  FALSE,
 											  METATREE_PAYEE);
 	gsb_data_payee_free_name_and_report_list (tmp_list);
+	if (metatree_unarchived_payees)
+	{
+		w_etat->metatree_unarchived_payees = TRUE;
+	}
 
 	entry = gtk_combofix_get_entry (GTK_COMBOFIX (combo));
     g_signal_connect (entry,
@@ -2007,9 +2022,11 @@ void payees_manage_payees (void)
         }
         else
         {
-            gsb_data_payee_set_name (new_payee_number,
-                        gtk_entry_get_text (g_object_get_data (
-                        G_OBJECT (assistant), "new_payee")));
+			const gchar *text;
+
+			combo = g_object_get_data (G_OBJECT (assistant), "new_payee");
+			text = gtk_combofix_get_text (GTK_COMBOFIX (combo));
+            gsb_data_payee_set_name (new_payee_number, text);
             payees_fill_list ();
         }
 

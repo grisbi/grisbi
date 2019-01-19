@@ -83,6 +83,8 @@ gboolean 		gsb_gui_navigation_row_drop_possible 			(GtkTreeDragDest *drag_dest,
 																 GtkTreePath *dest_path,
 																 GtkSelectionData *selection_data);
 gulong 			gsb_gui_navigation_tree_view_selection_changed 	(void);
+
+void 			gsb_gui_navigation_select_reports_page			(void);
 /* END_DECLARATION */
 
 #endif

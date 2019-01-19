@@ -752,7 +752,7 @@ gboolean bet_form_clean ( gint account_number )
 
             case TRANSACTION_FORM_PARTY:
                 gsb_form_widget_set_empty (element -> element_widget, TRUE);
-                gtk_combofix_set_text ( GTK_COMBOFIX (element -> element_widget), ("Payee"));
+                gtk_combofix_set_text ( GTK_COMBOFIX (element -> element_widget), _("Payee"));
                 break;
 
             case TRANSACTION_FORM_DEBIT:
@@ -1818,20 +1818,45 @@ gboolean bet_future_take_data_from_form (  FuturData *scheduled )
         case 3:
         case 4:
         case 5:
-            widget = bet_form_scheduler_get_element_widget ( SCHEDULED_FORM_LIMIT_DATE );
-            if ( gsb_form_widget_check_empty ( widget ) == FALSE )
-                scheduled -> limit_date = gsb_calendar_entry_get_date ( widget );
+		{
+			widget = bet_form_scheduler_get_element_widget ( SCHEDULED_FORM_LIMIT_DATE );
+            if (gsb_form_widget_check_empty (widget) == FALSE)
+			{
+				GrisbiWinEtat *w_etat;
+
+				w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
+				if (w_etat->form_date_force_prev_year)
+				{
+					w_etat->form_date_force_prev_year = FALSE;
+					scheduled -> limit_date = gsb_calendar_entry_get_date ( widget );
+					w_etat->form_date_force_prev_year = TRUE;
+				}
+				else
+					scheduled -> limit_date = gsb_calendar_entry_get_date ( widget );
+			}
             else
                 scheduled -> limit_date = NULL;
             break;
+		}
         case 6:
-            widget = bet_form_scheduler_get_element_widget ( SCHEDULED_FORM_LIMIT_DATE );
-            if ( gsb_form_widget_check_empty ( widget ) == FALSE )
-                scheduled -> limit_date = gsb_calendar_entry_get_date ( widget );
+            if (gsb_form_widget_check_empty (widget) == FALSE)
+			{
+				GrisbiWinEtat *w_etat;
+
+				w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
+				if (w_etat->form_date_force_prev_year)
+				{
+					w_etat->form_date_force_prev_year = FALSE;
+					scheduled -> limit_date = gsb_calendar_entry_get_date ( widget );
+					w_etat->form_date_force_prev_year = TRUE;
+				}
+				else
+					scheduled -> limit_date = gsb_calendar_entry_get_date ( widget );
+			}
             else
                 scheduled -> limit_date = NULL;
 
-            widget = bet_form_scheduler_get_element_widget (
+			widget = bet_form_scheduler_get_element_widget (
                         SCHEDULED_FORM_FREQUENCY_USER_ENTRY );
             if ( gsb_form_widget_check_empty ( widget ) == FALSE )
                 scheduled -> user_entry = utils_str_atoi (
@@ -1867,12 +1892,8 @@ gboolean bet_future_take_data_from_form (  FuturData *scheduled )
         return FALSE;
 
     widget = bet_form_widget_get_widget ( TRANSACTION_FORM_EXERCICE );
-    if ( gsb_form_widget_check_empty( widget ) == FALSE )
-        scheduled -> fyear_number = gsb_fyear_get_fyear_from_combobox ( widget,
-                        scheduled -> date );
-    else
-        scheduled -> fyear_number = 0;
-
+	scheduled -> fyear_number = gsb_fyear_get_fyear_from_combobox ( widget,
+					scheduled -> date );
     widget = bet_form_widget_get_widget ( TRANSACTION_FORM_PARTY );
     if ( gsb_form_widget_check_empty ( widget ) == FALSE )
         scheduled -> party_number = gsb_data_payee_get_number_by_name (
@@ -1899,11 +1920,7 @@ gboolean bet_future_take_data_from_form (  FuturData *scheduled )
     }
 
     widget = bet_form_widget_get_widget ( TRANSACTION_FORM_TYPE );
-    if ( gsb_form_widget_check_empty( widget ) == FALSE )
-        scheduled -> payment_number =
-                        gsb_payment_method_get_selected_number ( widget );
-    else
-        scheduled -> payment_number = 0;
+    scheduled -> payment_number = gsb_payment_method_get_selected_number ( widget );
 
     widget = bet_form_widget_get_widget ( TRANSACTION_FORM_CATEGORY );
     if ( gsb_form_widget_check_empty( widget ) == FALSE )

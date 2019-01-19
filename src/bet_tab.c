@@ -1459,6 +1459,8 @@ gboolean bet_array_refresh_futur_data ( GtkTreeModel *tab_model,
 
     account_number = gsb_gui_navigation_get_current_account ( );
     future_list = bet_data_future_get_list ( );
+	if (g_hash_table_size (future_list) == 0)
+		return FALSE;
 
     g_hash_table_iter_init ( &iter, future_list );
     while ( g_hash_table_iter_next ( &iter, &key, &value ) )
@@ -2847,12 +2849,14 @@ gboolean bet_array_refresh_transfert_data ( GtkTreeModel *tab_model,
     gpointer key, value;
     gint account_number;
 
-    devel_debug (NULL);
+    /* devel_debug (NULL); */
 
     account_number = gsb_gui_navigation_get_current_account ();
     transfert_list = bet_data_transfert_get_list ();
+	if (g_hash_table_size (transfert_list) == 0)
+		return FALSE;
 
-    g_hash_table_iter_init ( &iter, transfert_list );
+	g_hash_table_iter_init ( &iter, transfert_list );
     while ( g_hash_table_iter_next ( &iter, &key, &value ) )
     {
         TransfertData *transfert = ( TransfertData *) value;
