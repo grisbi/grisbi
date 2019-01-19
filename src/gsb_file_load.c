@@ -4145,13 +4145,13 @@ gboolean gsb_file_load_open_file (const gchar *filename )
 			gchar *text;
 			gchar *hint;
 
-			hint = g_strdup_printf (_("'%s' n'est pas un fichier UTF8 valide"), filename);
+			hint = g_strdup_printf (_("'%s' is not a valid UTF8 file"), filename);
 
 #if GLIB_CHECK_VERSION (2,52,0)
 			GtkWidget *dialog;
 
-			text = g_strdup_printf (_("Vous pouvez choisir de corriger le fichier avec le caractère "
-									  "de substitution ? ou revenir au choix du fichier.\n"));
+			text = g_strdup_printf (_("You can choose to fix the file with the substitution character? "
+									  "or return to the file choice.\n"));
 
 			dialog = dialogue_special_no_run (GTK_MESSAGE_ERROR, GTK_BUTTONS_NONE, text, hint);
 
@@ -4171,7 +4171,7 @@ gboolean gsb_file_load_open_file (const gchar *filename )
 				return FALSE;
 			}
 #else
-			text = g_strdup_printf (_("Vous allez revenir au choix du fichier.\n"));
+			text = g_strdup_printf (_("You will go back to the choice of the file.\n"));
 
 			dialogue_error_hint (text, hint);
 			g_free (tmp_file_content);
