@@ -38,6 +38,7 @@
 /*START_INCLUDE*/
 #include "export_csv.h"
 #include "dialog.h"
+#include "grisbi_win.h"
 #include "gsb_data_account.h"
 #include "gsb_data_archive_store.h"
 #include "gsb_data_budget.h"
@@ -126,6 +127,31 @@ if (a) \
 else \
 { \
 	fprintf(f,"0%s",g_csv_field_separator); \
+} \
+
+/**
+ * \brief write a date field without quotes.
+ * \internal
+ *
+ * The date field is converted from utf8 to locale charset.
+ * A end of field character id added after the field
+ * Also manage to add a empty string if field is empty
+ *
+ * \param   f   valid file stream to write
+ * \param   a   string field to add.
+ *
+ */
+#define CSV_DATE_FIELD(f,a) \
+if (a) \
+{ \
+	gchar *tmp_str; \
+	tmp_str = g_locale_from_utf8 (a,-1,NULL,NULL,NULL); \
+	fprintf(f,"%s%s",tmp_str,g_csv_field_separator); \
+	g_free (tmp_str); \
+} \
+else \
+{ \
+	fprintf(f,"%s",g_csv_field_separator); \
 } \
 
 /**
@@ -279,11 +305,23 @@ static void csv_add_record(FILE* file,
 			   gboolean clear_all,
 			   gboolean print_balance)
 { /* {{{ */
+	GrisbiWinEtat *w_etat;
+
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
+
   CSV_NUM_FIELD(file,csv_field_operation);
   CSV_STR_FIELD(file,csv_field_account);
   CSV_STR_FIELD(file,csv_field_ventil);
-  CSV_STR_FIELD(file,csv_field_date);
-  CSV_STR_FIELD(file,csv_field_date_val);
+  if (w_etat->export_quote_dates)
+  {
+	CSV_STR_FIELD(file,csv_field_date);
+	CSV_STR_FIELD(file,csv_field_date_val);
+  }
+  else
+  {
+    CSV_DATE_FIELD(file,csv_field_date);
+    CSV_DATE_FIELD(file,csv_field_date_val);
+  }
   CSV_STR_FIELD(file,csv_field_cheque);
   CSV_STR_FIELD(file,csv_field_exercice);
   CSV_STR_FIELD(file,csv_field_pointage);

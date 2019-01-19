@@ -148,6 +148,7 @@ struct _GrisbiWinEtat
     gboolean	export_files_traitement;					/* 0 = traitement individuel, 1 = traitement automatique */
 	gboolean	export_force_US_dates;						/* 0 = format interne 1 = format US */
 	gboolean	export_force_US_numbers;					/* 0 = format interne 1 = format US */
+	gboolean	export_quote_dates;							/* "cite les dates" TRUE par défaut */
 
     /* combofix configuration */
     gint		combofix_mixed_sort;						/* TRUE for no separation between the categories */

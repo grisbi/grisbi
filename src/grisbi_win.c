@@ -857,6 +857,7 @@ static void grisbi_win_init (GrisbiWin *win)
     /* initialisation de la variable w_etat */
     priv->w_etat = g_malloc0 (sizeof (GrisbiWinEtat));
 	(priv->w_etat)->metatree_add_archive_in_totals = TRUE;	/* add the archived transactions by default */
+	(priv->w_etat)->export_quote_dates = TRUE;				/* "cite les dates" TRUE par défaut */
 
     /* init widgets in grisbi_win.ui */
 	gtk_widget_init_template (GTK_WIDGET (win));
