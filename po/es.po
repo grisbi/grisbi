@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-19 08:57+0100\n"
+"POT-Creation-Date: 2019-01-19 20:29+0100\n"
 "PO-Revision-Date: 2010-05-09 11:48+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <cmcamara@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -410,7 +410,7 @@ msgstr "Categorías"
 #. 8
 #: ../src/bet_config.c:426 ../src/bet_config.c:445 ../src/bet_config.c:463
 #: ../src/bet_config.c:511 ../src/bet_hist.c:193 ../src/bet_hist.c:2094
-#: ../src/etats_prefs.c:688 ../src/etats_prefs.c:2067 ../src/export_csv.c:366
+#: ../src/etats_prefs.c:688 ../src/etats_prefs.c:2067 ../src/export_csv.c:404
 #: ../src/grisbi_win.c:547 ../src/import_csv.c:76
 #: ../src/imputation_budgetaire.c:373 ../src/navigation.c:2073
 #: ../src/ui/etats_prefs.ui.h:59
@@ -444,7 +444,7 @@ msgstr "Elija el año financiero o 12 meses naturales"
 #. 6
 #: ../src/bet_config.c:740 ../src/bet_hist.c:567 ../src/bet_hist.c:1651
 #: ../src/categories_onglet.c:179 ../src/etats_affiche.c:2475
-#: ../src/etats_config.c:2902 ../src/export_csv.c:357
+#: ../src/etats_config.c:2902 ../src/export_csv.c:395
 #: ../src/gsb_transactions_list.c:175 ../src/import_csv.c:74
 #: ../src/meta_categories.c:67
 msgid "Category"
@@ -720,7 +720,7 @@ msgstr "Número"
 
 #. 1
 #: ../src/bet_finance_ui.c:1844 ../src/bet_future.c:739 ../src/bet_tab.c:905
-#: ../src/etats_affiche.c:2447 ../src/export_csv.c:330
+#: ../src/etats_affiche.c:2447 ../src/export_csv.c:368
 #: ../src/gsb_assistant_reconcile_config.c:590 ../src/gsb_form.c:1979
 #: ../src/gsb_form_widget.c:544 ../src/gsb_reconcile.c:213
 #: ../src/gsb_transactions_list.c:164 ../src/import.c:1856 ../src/import.c:3823
@@ -765,7 +765,7 @@ msgstr "Imprimir"
 
 #. Export button
 #: ../src/bet_finance_ui.c:2071 ../src/bet_hist.c:1957 ../src/bet_tab.c:3022
-#: ../src/categories_onglet.c:587 ../src/etats_onglet.c:564 ../src/export.c:464
+#: ../src/categories_onglet.c:587 ../src/etats_onglet.c:564 ../src/export.c:503
 #: ../src/imputation_budgetaire.c:632
 msgid "Export"
 msgstr "Exportar"
@@ -888,7 +888,7 @@ msgstr "Elegir el método de pago"
 #: ../src/bet_future.c:755 ../src/bet_future.c:2303 ../src/bet_future.c:2453
 #: ../src/bet_future.c:2765 ../src/bet_future.c:2835
 #: ../src/etats_affiche.c:2468 ../src/etats_config.c:2914
-#: ../src/etats_prefs.c:678 ../src/export_csv.c:345 ../src/grisbi_win.c:532
+#: ../src/etats_prefs.c:678 ../src/export_csv.c:383 ../src/grisbi_win.c:532
 #: ../src/gsb_assistant_reconcile_config.c:590 ../src/gsb_form.c:1999
 #: ../src/gsb_form_widget.c:564 ../src/gsb_scheduler_list.c:854
 #: ../src/gsb_transactions_list.c:166 ../src/import.c:3830
@@ -898,7 +898,7 @@ msgid "Payee"
 msgstr "Tercero"
 
 #: ../src/bet_future.c:762 ../src/bet_tab.c:939 ../src/categories_onglet.c:781
-#: ../src/export_csv.c:351 ../src/gsb_form.c:2004 ../src/gsb_form_widget.c:548
+#: ../src/export_csv.c:389 ../src/gsb_form.c:2004 ../src/gsb_form_widget.c:548
 #: ../src/gsb_payment_method_config.c:107
 #: ../src/gsb_payment_method_config.c:332
 #: ../src/gsb_payment_method_config.c:1040 ../src/gsb_transactions_list.c:168
@@ -908,7 +908,7 @@ msgstr "Débito"
 
 #. 11
 #: ../src/bet_future.c:769 ../src/bet_tab.c:957 ../src/categories_onglet.c:781
-#: ../src/export_csv.c:348 ../src/gsb_form.c:2009 ../src/gsb_form_widget.c:552
+#: ../src/export_csv.c:386 ../src/gsb_form.c:2009 ../src/gsb_form_widget.c:552
 #: ../src/gsb_payment_method_config.c:108
 #: ../src/gsb_payment_method_config.c:345
 #: ../src/gsb_payment_method_config.c:1036 ../src/gsb_transactions_list.c:169
@@ -926,7 +926,7 @@ msgstr "Categorías: Subcategorías"
 
 #. Notes
 #. 4
-#: ../src/bet_future.c:788 ../src/etats_affiche.c:2489 ../src/export_csv.c:363
+#: ../src/bet_future.c:788 ../src/etats_affiche.c:2489 ../src/export_csv.c:401
 #: ../src/gsb_bank.c:879 ../src/gsb_form.c:2027 ../src/gsb_form_widget.c:580
 #: ../src/gsb_scheduler_list.c:268 ../src/gsb_scheduler_list.c:854
 #: ../src/gsb_scheduler_list.c:1122 ../src/gsb_transactions_list.c:178
@@ -939,8 +939,8 @@ msgstr "Anotaciones"
 #. Transfer = Virement
 #. Direct deposit remplacé par Transfert = Virement
 #: ../src/bet_future.c:1518 ../src/bet_future.c:1769
-#: ../src/etats_affiche.c:1885 ../src/export_csv.c:634 ../src/export_csv.c:765
-#: ../src/export_csv.c:777 ../src/gsb_data_category.c:1069
+#: ../src/etats_affiche.c:1885 ../src/export_csv.c:672 ../src/export_csv.c:803
+#: ../src/export_csv.c:815 ../src/gsb_data_category.c:1069
 #: ../src/gsb_data_payment.c:635 ../src/gsb_data_payment.c:719
 #: ../src/gsb_data_payment.c:758 ../src/gsb_form.c:2932 ../src/import.c:2447
 #: ../src/import.c:2468 ../src/plugins/ofx/ofx.c:379
@@ -1391,7 +1391,7 @@ msgstr "Marque la casilla para cambiar automáticamente la fecha de comienzo"
 msgid "Description"
 msgstr "Descripción"
 
-#: ../src/bet_tab.c:976 ../src/export_csv.c:354 ../src/gsb_reconcile.c:216
+#: ../src/bet_tab.c:976 ../src/export_csv.c:392 ../src/gsb_reconcile.c:216
 #: ../src/gsb_transactions_list.c:170 ../src/gsb_transactions_list.c:3366
 msgid "Balance"
 msgstr "Balance"
@@ -2322,7 +2322,7 @@ msgid "General total: "
 msgstr "Total general: "
 
 #. select Split of transaction in list
-#: ../src/etats_affiche.c:1894 ../src/export_csv.c:607
+#: ../src/etats_affiche.c:1894 ../src/export_csv.c:645
 #: ../src/gsb_data_category.c:1068 ../src/gsb_form.c:247 ../src/gsb_form.c:909
 #: ../src/gsb_form.c:1592 ../src/gsb_form.c:2460
 #: ../src/gsb_form_scheduler.c:309 ../src/gsb_transactions_list.c:3850
@@ -2349,14 +2349,14 @@ msgid "Outgoings"
 msgstr "Salidas"
 
 #. 2
-#: ../src/etats_affiche.c:2454 ../src/export_csv.c:333 ../src/gsb_form.c:1984
+#: ../src/etats_affiche.c:2454 ../src/export_csv.c:371 ../src/gsb_form.c:1984
 #: ../src/gsb_form.c:2774 ../src/gsb_form.c:2801 ../src/gsb_form_widget.c:556
 #: ../src/gsb_transactions_list.c:165 ../src/import_csv.c:70
 #: ../src/ui/etats_prefs.ui.h:17
 msgid "Value date"
 msgstr "Fecha Valor"
 
-#: ../src/etats_affiche.c:2461 ../src/export_csv.c:339
+#: ../src/etats_affiche.c:2461 ../src/export_csv.c:377
 #: ../src/gsb_assistant_archive_export.c:153 ../src/gsb_form_widget.c:560
 #: ../src/gsb_transactions_list.c:174 ../src/prefs/prefs_page_archives.c:468
 msgid "Financial year"
@@ -2373,12 +2373,12 @@ msgstr "Formas de pago"
 msgid "Cheque"
 msgstr "Cheque"
 
-#: ../src/etats_affiche.c:2510 ../src/export_csv.c:372 ../src/gsb_form.c:2086
+#: ../src/etats_affiche.c:2510 ../src/export_csv.c:410 ../src/gsb_form.c:2086
 #: ../src/gsb_form_widget.c:600 ../src/gsb_transactions_list.c:177
 msgid "Voucher"
 msgstr "Comprobante"
 
-#: ../src/etats_affiche.c:2517 ../src/export_csv.c:378 ../src/gsb_form.c:2081
+#: ../src/etats_affiche.c:2517 ../src/export_csv.c:416 ../src/gsb_form.c:2081
 #: ../src/gsb_form_widget.c:604 ../src/gsb_transactions_list.c:179
 msgid "Bank references"
 msgstr "Referencias bancarias"
@@ -2679,7 +2679,7 @@ msgstr ""
 msgid "Edited"
 msgstr "Editar"
 
-#: ../src/etats_csv.c:175 ../src/export_csv.c:208
+#: ../src/etats_csv.c:175 ../src/export_csv.c:234
 #, fuzzy, c-format
 msgid ""
 "Unable to create file \"%s\" :\n"
@@ -3010,7 +3010,7 @@ msgid "Titles"
 msgstr "Títulos"
 
 #. append group page "Transactions"
-#: ../src/etats_prefs.c:739 ../src/export_csv.c:321 ../src/grisbi_prefs.c:511
+#: ../src/etats_prefs.c:739 ../src/export_csv.c:359 ../src/grisbi_prefs.c:511
 #: ../src/grisbi_win.c:499
 msgid "Transactions"
 msgstr "Transacciones"
@@ -3036,13 +3036,13 @@ msgid "Payees"
 msgstr "Terceros"
 
 #. ajoute le bouton (dé)sélectionne tout
-#: ../src/etats_prefs.c:1864 ../src/export.c:378 ../src/import.c:2780
+#: ../src/etats_prefs.c:1864 ../src/export.c:417 ../src/import.c:2780
 #: ../src/tiers_onglet.c:1377 ../src/tiers_onglet.c:1558
 #: ../src/utils_buttons.c:268
 msgid "Unselect all"
 msgstr "Deseleccionar todo"
 
-#: ../src/etats_prefs.c:1866 ../src/export.c:383 ../src/gsb_assistant.c:127
+#: ../src/etats_prefs.c:1866 ../src/export.c:422 ../src/gsb_assistant.c:127
 #: ../src/tiers_onglet.c:1375 ../src/tiers_onglet.c:1393
 #: ../src/utils_buttons.c:273 ../src/ui/etats_prefs.ui.h:67
 msgid "Select all"
@@ -3238,74 +3238,87 @@ msgstr "desde %s %d"
 msgid "to %s %d"
 msgstr "hasta %s %d"
 
+#: ../src/export.c:69 ../src/export.c:250
+msgid "Uncheck to write a date field without quotes"
+msgstr ""
+
+#: ../src/export.c:71 ../src/export.c:252
+msgid "Check to write a date field with quotes"
+msgstr ""
+
 #. set radio buttons
-#: ../src/export.c:169 ../src/export.c:632
+#: ../src/export.c:197 ../src/export.c:671
 #: ../src/gsb_assistant_archive_export.c:306
 msgid "QIF format"
 msgstr "Formato QIF"
 
-#: ../src/export.c:173 ../src/export.c:633
+#: ../src/export.c:201 ../src/export.c:672
 #: ../src/gsb_assistant_archive_export.c:307
 msgid "CSV format"
 msgstr "Formato CSV"
 
 #. Adding options for export in US data
-#: ../src/export.c:195
+#: ../src/export.c:222
 #, fuzzy
 msgid "Force US dates"
 msgstr "Archivar por fecha"
 
-#: ../src/export.c:202
+#: ../src/export.c:229
 #, fuzzy
 msgid "Force US numbers"
 msgstr "Número de certificado"
 
-#: ../src/export.c:438
+#: ../src/export.c:245
+#, fuzzy
+msgid "Quote the dates"
+msgstr "Archivar por fecha"
+
+#: ../src/export.c:477
 msgid "Select accounts to export"
 msgstr "Seleccionar las cuentas para exportar"
 
-#: ../src/export.c:473 ../src/export_csv.c:324
+#: ../src/export.c:512 ../src/export_csv.c:362
 #: ../src/gsb_data_partial_balance.c:1717
 msgid "Account name"
 msgstr "Nombre de la cuenta"
 
 #. set options for export
-#: ../src/export.c:504
+#: ../src/export.c:543
 #, fuzzy
 msgid "Select options to export"
 msgstr "Seleccionar las cuentas para exportar"
 
 #. Adding treat all files button
-#: ../src/export.c:513
+#: ../src/export.c:552
 msgid "Treat all files as the first"
 msgstr ""
 
-#: ../src/export.c:589
+#: ../src/export.c:628
 msgid "Export settings completed successfully"
 msgstr ""
 
-#: ../src/export.c:593
+#: ../src/export.c:632
 #, fuzzy
 msgid "Press the 'Close' button to finish the export."
 msgstr ""
 "Ha configurado con éxito la exportación de datos en Grisbi.  Pulse el botón "
 "'Cerrar' para exportar los datos."
 
-#: ../src/export.c:616
+#: ../src/export.c:655
 #, fuzzy, c-format
 msgid "Export of: %s"
 msgstr "Exportar formato:"
 
-#: ../src/export.c:628 ../src/gsb_assistant_archive_export.c:300
+#: ../src/export.c:667 ../src/gsb_assistant_archive_export.c:300
 #, fuzzy
 msgid "Export format: "
 msgstr "Exportar formato:"
 
-#: ../src/export.c:680
+#: ../src/export.c:719
 msgid "Accounts to export"
 msgstr "Cuentas para exportar"
 
-#: ../src/export.c:688
+#: ../src/export.c:727
 msgid ""
 "The following accounts are to be exported. In the next screens, you will "
 "choose what to do with each of them."
@@ -3313,11 +3326,11 @@ msgstr ""
 "Las siguientes cuentas van a ser exportadas. En las próximas pantallas, "
 "usted elegirá que hacer con cada una de ellas."
 
-#: ../src/export.c:790
+#: ../src/export.c:829
 msgid "Exporting Grisbi accounts"
 msgstr "Exportando las cuentas de Grisbi"
 
-#: ../src/export.c:791
+#: ../src/export.c:830
 msgid ""
 "This assistant will guide you through the process of exporting Grisbi "
 "accounts into QIF or CSV files.\n"
@@ -3332,43 +3345,43 @@ msgstr ""
 "convertidas en las monedas de sus respectivas cuentas."
 
 #. 15
-#: ../src/export_csv.c:327 ../src/import_csv.c:83
+#: ../src/export_csv.c:365 ../src/import_csv.c:83
 msgid "Split"
 msgstr "Anotación"
 
-#: ../src/export_csv.c:336
+#: ../src/export_csv.c:374
 msgid "Cheques"
 msgstr "Cheques"
 
 #. 14
-#: ../src/export_csv.c:342 ../src/gsb_transactions_list.c:176
+#: ../src/export_csv.c:380 ../src/gsb_transactions_list.c:176
 #: ../src/import_csv.c:82
 msgid "C/R"
 msgstr "C/R"
 
 #. 7
-#: ../src/export_csv.c:360 ../src/import_csv.c:75
+#: ../src/export_csv.c:398 ../src/import_csv.c:75
 msgid "Sub-categories"
 msgstr "Subcategorías"
 
 #. 9
-#: ../src/export_csv.c:369 ../src/import_csv.c:77
+#: ../src/export_csv.c:407 ../src/import_csv.c:77
 msgid "Sub-budgetary lines"
 msgstr "Líneas subpresupuestarias"
 
-#: ../src/export_csv.c:375
+#: ../src/export_csv.c:413
 msgid "Reconciliation number"
 msgstr "Número reconciliación"
 
-#: ../src/export_csv.c:624
+#: ../src/export_csv.c:662
 msgid "B"
 msgstr "B"
 
-#: ../src/export_csv.c:767 ../src/gsb_form.c:200
+#: ../src/export_csv.c:805 ../src/gsb_form.c:200
 msgid "Deleted account"
 msgstr "Cuenta borrada"
 
-#: ../src/export_csv.c:935
+#: ../src/export_csv.c:973
 msgid "Initial balance"
 msgstr "Balance inicial"
 
@@ -4011,7 +4024,7 @@ msgid "New account file"
 msgstr "_Nuevo archivo de cuentas..."
 
 #: ../src/grisbi_app.c:102 ../src/grisbi_app.c:119 ../src/grisbi_win.c:683
-#: ../src/grisbi_win.c:1657 ../src/ui/grisbi_menu.ui.h:7
+#: ../src/grisbi_win.c:1658 ../src/ui/grisbi_menu.ui.h:7
 #, fuzzy
 msgid "Open"
 msgstr "_Abrir..."
@@ -4306,29 +4319,29 @@ msgstr "Abrir un fichero de cuentas"
 msgid "Import a CSV, QIF, OFX file ..."
 msgstr "_Importar archivo"
 
-#: ../src/grisbi_win.c:1379
+#: ../src/grisbi_win.c:1380
 msgid "Unnamed account"
 msgstr "Cuenta sin nombre"
 
-#: ../src/grisbi_win.c:1401 ../src/gsb_transactions_list.c:2598
+#: ../src/grisbi_win.c:1402 ../src/gsb_transactions_list.c:2598
 msgid "Move transaction to another account"
 msgstr "Mover la transacción a otra cuenta"
 
-#: ../src/grisbi_win.c:1511 ../src/grisbi_win.c:1558
+#: ../src/grisbi_win.c:1512 ../src/grisbi_win.c:1559
 #: ../share/grisbi.desktop.in.h:1
 msgid "Grisbi"
 msgstr "Grisbi"
 
-#: ../src/grisbi_win.c:1565 ../src/gsb_file.c:228 ../src/gsb_file.c:259
+#: ../src/grisbi_win.c:1566 ../src/gsb_file.c:228 ../src/gsb_file.c:259
 msgid "unnamed"
 msgstr "Sin nombre"
 
 #. Create main widget.
-#: ../src/grisbi_win.c:1914
+#: ../src/grisbi_win.c:1915
 msgid "Creating main window"
 msgstr "Creando la ventana principal"
 
-#: ../src/grisbi_win.c:1926
+#: ../src/grisbi_win.c:1927
 msgid ""
 "The model of the list couldn't be created... Bad things will happen very "
 "soon..."
@@ -7814,11 +7827,11 @@ msgid ""
 "\"%s\"."
 msgstr ""
 
-#: ../src/gsb_file_load.c:3821
+#: ../src/gsb_file_load.c:3824
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Este fichero no es de de Grisbi... Carga interrumpida."
 
-#: ../src/gsb_file_load.c:4129 ../src/gsb_file_save.c:402
+#: ../src/gsb_file_load.c:4132 ../src/gsb_file_save.c:402
 #: ../src/parametres.c:783
 #, c-format
 msgid ""
@@ -7828,39 +7841,39 @@ msgstr ""
 "Esta construcción de Grisbi no soporta encriptación \n"
 "Por favor recompile Grisbi con la encriptación OpenSSL activada."
 
-#: ../src/gsb_file_load.c:4132
+#: ../src/gsb_file_load.c:4135
 #, c-format
 msgid "Cannot open encrypted file '%s'"
 msgstr "No se puede abrir el archivo encriptado '%s'"
 
-#: ../src/gsb_file_load.c:4148
+#: ../src/gsb_file_load.c:4151
 #, c-format
 msgid "'%s' is not a valid UTF8 file"
 msgstr ""
 
-#: ../src/gsb_file_load.c:4153
+#: ../src/gsb_file_load.c:4156
 #, c-format
 msgid ""
 "You can choose to fix the file with the substitution character? or return to "
 "the file choice.\n"
 msgstr ""
 
-#: ../src/gsb_file_load.c:4159
+#: ../src/gsb_file_load.c:4162
 #, fuzzy
 msgid "Load another file"
 msgstr "Desencriptar archivo"
 
-#: ../src/gsb_file_load.c:4160
+#: ../src/gsb_file_load.c:4163
 #, fuzzy
 msgid "Correct the file"
 msgstr "Comprimir la copia de seguridad de Grisbi"
 
-#: ../src/gsb_file_load.c:4174
+#: ../src/gsb_file_load.c:4177
 #, c-format
 msgid "You will go back to the choice of the file.\n"
 msgstr ""
 
-#: ../src/gsb_file_load.c:4253
+#: ../src/gsb_file_load.c:4256
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -7872,11 +7885,11 @@ msgstr ""
 "más tarde (nuevos informes...) pero recuerde que es un archivo antes de "
 "modificar algunas transacciones o informaciones importantes."
 
-#: ../src/gsb_file_load.c:4257
+#: ../src/gsb_file_load.c:4260
 msgid "Grisbi archive opened"
 msgstr "Archivo de Grisbi abierto"
 
-#: ../src/gsb_file_load.c:4267
+#: ../src/gsb_file_load.c:4270
 #, c-format
 msgid ""
 "You import a file from version %s of Grisbi. After updating your file will "
@@ -7885,12 +7898,12 @@ msgid ""
 "You will have to re-customize the icons and colors."
 msgstr ""
 
-#: ../src/gsb_file_load.c:4273
+#: ../src/gsb_file_load.c:4276
 #, c-format
 msgid "Importing a file whose version is for an earlier version of Grisbi"
 msgstr ""
 
-#: ../src/gsb_file_load.c:4714
+#: ../src/gsb_file_load.c:4717
 #, fuzzy, c-format
 msgid ""
 "An error occurred while parsing the file :\n"
