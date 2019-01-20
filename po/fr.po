@@ -12919,7 +12919,7 @@ msgstr "Mélanger les catégories de débit/crédit"
 
 #: ../src/ui/prefs_page_form_completion.ui.h:14
 msgid "Don't allow new category/budget creation"
-msgstr "Ne pas permettre la création de nouvelles catégories/Imputations B"
+msgstr "Ne pas permettre la création de nouvelles catégories/imputations budgétaires"
 
 #: ../src/ui/prefs_page_display_adr.ui.h:1
 msgid "Window title of Grisbi"
