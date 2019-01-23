@@ -822,8 +822,9 @@ GtkWidget *bet_array_create_page ( void )
 
     tree_view = bet_array_create_tree_view ( page );
     g_object_set_data ( G_OBJECT ( tree_view ), "label_title", label_title );
+	g_object_set_data (G_OBJECT (account_page), "bet_array_tree_view", tree_view);
 
-    /* on y ajoute la barre d'outils */
+	/* on y ajoute la barre d'outils */
     bet_array_toolbar = bet_array_list_create_toolbar ( page, tree_view );
     gtk_container_add ( GTK_CONTAINER ( frame ), bet_array_toolbar );
 
@@ -2977,7 +2978,7 @@ gboolean bet_array_list_size_allocate ( GtkWidget *tree_view,
     /* the size of the tree view changed, we keep the ratio between the columns,
      * we don't set the size of the last column to avoid the calculate problems,
      * it will take the end of the width alone */
-    bet_array_current_tree_view_width = allocation -> width;
+	bet_array_current_tree_view_width = allocation -> width;
 
     for ( i = 0; i < BET_ARRAY_COLUMNS - 1; i++ )
     {
