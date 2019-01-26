@@ -1,11 +1,12 @@
 New in version 1.2.0
-- portage sous gtk3
-- Nouvelle page d'accueil
-- Nouvelle version Windows
-- Ajout de règles pour l'importation de fichiers CSV
-- Ajout de nouvelles règles pour la gestion des tiers
-- Ajout de la création automatique d'opérations ventillées pour les échéances de prêt
-- Diverses améliorations pour les préférences et les états
+- Porting under gtk3
+- New home page
+- New Windows versions 32 and 64 bits
+- Added rules for importing CSV files
+- Addition of new rules for payees management
+- Added automatic creation of vented transactions for loan maturities
+- Various improvements for preferences and reports
+- Bug fixes
 
 New in version 1.0.4
 - fixes a bug when the scheduled transaction is executed automatically once
