@@ -55,6 +55,25 @@ static GSList *exported_accounts = NULL;
 /* Private functions                                                          */
 /******************************************************************************/
 /**
+ * Change the tooltip of button
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void export_button_quote_dates_toggled (GtkWidget *checkbutton,
+											   gpointer null)
+{
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton)))
+		gtk_widget_set_tooltip_text (checkbutton, _("Uncheck to write a date field without quotes"));
+	else
+		gtk_widget_set_tooltip_text (checkbutton, _("Check to write a date field with quotes"));
+
+	gsb_file_set_modified (TRUE);
+}
+
+/**
  *	update the last path when changing of directory
  *
  * \param		chooser
@@ -86,18 +105,24 @@ static void export_account_radiobutton_format_changed (GtkWidget *checkbutton,
 {
     if (value)
     {
+		GtkWidget *button = NULL;
 		GtkWidget *widget = NULL;
 
         *value = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton));
 
         widget = g_object_get_data (G_OBJECT (checkbutton), "widget");
-        if (widget && GTK_IS_WIDGET (widget))
-        {
-			if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton)))
-				gtk_widget_set_sensitive (GTK_WIDGET (widget), TRUE);
-            else
-                gtk_widget_set_sensitive (GTK_WIDGET (widget), FALSE);
-        }
+		button = g_object_get_data (G_OBJECT (checkbutton), "button_quote_dates");
+		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton)))
+		{
+			gtk_widget_set_sensitive (GTK_WIDGET (button), TRUE);
+			gtk_widget_set_sensitive (GTK_WIDGET (widget), TRUE);
+		}
+		else
+		{
+			gtk_widget_set_sensitive (GTK_WIDGET (button), FALSE);
+			gtk_widget_set_sensitive (GTK_WIDGET (widget), FALSE);
+		}
+
 		gsb_file_set_modified (TRUE);
     }
 }
@@ -159,6 +184,9 @@ static GtkWidget *export_options_widget_new (GtkWidget *assistant)
 	GtkWidget *csv_separators;
 	GtkWidget *separator;
 	GtkSizeGroup *size_group;
+	GrisbiWinEtat *w_etat;
+
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
 
 	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
 	hbox1 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
@@ -180,7 +208,6 @@ static GtkWidget *export_options_widget_new (GtkWidget *assistant)
 	else
 	{
 	    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button1), TRUE);
-
 	}
 
 	/* Adding separators */
@@ -214,6 +241,18 @@ static GtkWidget *export_options_widget_new (GtkWidget *assistant)
     gtk_grid_attach (GTK_GRID (grid), csv_separators, 2, 1, 1, 1);
 	g_object_set_data (G_OBJECT(button2), "widget", csv_separators);
 	gtk_widget_set_sensitive (csv_separators, etat.export_file_format);
+
+	button = gsb_automem_checkbutton_new (_("Quote the dates"),
+										  &w_etat->export_quote_dates,
+										  G_CALLBACK (export_button_quote_dates_toggled),
+										  NULL);
+	if (w_etat->export_quote_dates)
+		gtk_widget_set_tooltip_text (button, _("Uncheck to write a date field without quotes"));
+	else
+		gtk_widget_set_tooltip_text (button, _("Check to write a date field with quotes"));
+    gtk_grid_attach (GTK_GRID (grid), button, 3, 1, 1, 1);
+	g_object_set_data (G_OBJECT(button2), "button_quote_dates", button);
+	gtk_widget_set_sensitive (button, etat.export_file_format);
 
 	/* set signals */
 	g_signal_connect (G_OBJECT (button2),

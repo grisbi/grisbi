@@ -1927,12 +1927,14 @@ void gtk_combofix_set_text (GtkComboFix *combofix,
  **/
 void gtk_combofix_set_properties (GtkWidget *combofix)
 {
+	gint old_case_sensitive = 0;
     GtkComboFixPrivate *priv;
 
     g_return_if_fail (combofix);
     g_return_if_fail (GTK_IS_COMBOFIX (combofix));
 
     priv = gtk_combofix_get_instance_private (GTK_COMBOFIX (combofix));
+	old_case_sensitive = priv->case_sensitive;
 
 	if (priv->type)
 	{
@@ -1945,7 +1947,23 @@ void gtk_combofix_set_properties (GtkWidget *combofix)
 		priv->mixed_sort = FALSE;
 	}
     priv->case_sensitive = etat.combofix_case_sensitive;
+	if (old_case_sensitive - etat.combofix_case_sensitive)
+	{
+		GtkEntryCompletion *completion;
 
+		completion = gtk_entry_get_completion (GTK_ENTRY (priv->entry));
+		if (old_case_sensitive)
+		{
+			gtk_entry_completion_set_match_func (completion, NULL, NULL, NULL);
+		}
+		else
+		{
+			gtk_entry_completion_set_match_func (completion,
+												 (GtkEntryCompletionMatchFunc) gtk_combofix_completion_match_func,
+												 NULL,
+												 NULL);
+		}
+	}
 }
 
 /**
@@ -1980,13 +1998,32 @@ void gtk_combofix_set_force_text (GtkComboFix *combofix,
 void gtk_combofix_set_case_sensitive (GtkComboFix *combofix,
 									  gboolean case_sensitive)
 {
+	gint old_case_sensitive = 0;
     GtkComboFixPrivate *priv;
 
     g_return_if_fail (combofix);
     g_return_if_fail (GTK_IS_COMBOFIX (combofix));
 
     priv = gtk_combofix_get_instance_private (combofix);
+	old_case_sensitive = priv->case_sensitive;
     priv->case_sensitive = case_sensitive;
+	if (old_case_sensitive - case_sensitive)
+	{
+		GtkEntryCompletion *completion;
+
+		completion = gtk_entry_get_completion (GTK_ENTRY (priv->entry));
+		if (old_case_sensitive)
+		{
+			gtk_entry_completion_set_match_func (completion, NULL, NULL, NULL);
+		}
+		else
+		{
+			gtk_entry_completion_set_match_func (completion,
+												 (GtkEntryCompletionMatchFunc) gtk_combofix_completion_match_func,
+												 NULL,
+												 NULL);
+		}
+	}
 }
 
 /**

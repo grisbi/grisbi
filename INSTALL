@@ -1,23 +1,32 @@
-How to install Grisbi : 
+How to install Grisbi :
 =======================
 
 Requirements:
 
- - GTK 2.24
- - libofx (optional)
- - goffice (optional)
+GLIB_REQUIRED=2.44
+GTK_REQUIRED=3.16
+LIBGSF_REQUIRED=1.14
+
+# Optional
+LIBGOFFICE_REQUIRED=0.10.0
+LIBOFX_REQUIRED=0.9
+LIBSSL_REQUIRED=1.0.0
+LIBXML_REQUIRED=2.5.0
+
+Documentation
+
+https://sourceforge.net/projects/grisbi/files/Documentation/CompilerGrisbiSous%20linux%20_GTK2_3.odt/download
 
 Installation steps:
 
  - ./configure --prefix=/path_to_install_grisbi
  - make
- - make install
+ - [sudo] make install
 
-Grisbi will now be installed.  Just run <prefix>/bin/grisbi and have
-fun !
+Grisbi will now be installed.  Just run <prefix>/bin/grisbi and have fun !
 
-OFX support is optional and can be disabled by using the --without-ofx
-parameter.
+OFX support is detected automatically and can be disabled by using the --without-ofx parameter.
 
+Goffice support is detected automatically and can be disabled by using the --without-goffice parameter.
 
  -- Grisbi development team <team@grisbi.org>

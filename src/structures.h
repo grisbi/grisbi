@@ -15,7 +15,7 @@
 #define OLD_VERSION_FICHIER		"0.6.0"
 
 /* Define this when in Git development branch. */
-#define IS_DEVELOPMENT_VERSION  1
+#define IS_DEVELOPMENT_VERSION  0
 
 #define VERSION_FICHIER_ETAT    "0.6.0"
 #define VERSION_FICHIER_CATEG   "0.6.0"
@@ -148,6 +148,7 @@ struct _GrisbiWinEtat
     gboolean	export_files_traitement;					/* 0 = traitement individuel, 1 = traitement automatique */
 	gboolean	export_force_US_dates;						/* 0 = format interne 1 = format US */
 	gboolean	export_force_US_numbers;					/* 0 = format interne 1 = format US */
+	gboolean	export_quote_dates;							/* "cite les dates" TRUE par défaut */
 
     /* combofix configuration */
     gint		combofix_mixed_sort;						/* TRUE for no separation between the categories */

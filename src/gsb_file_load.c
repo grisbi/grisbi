@@ -310,6 +310,9 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
                 else if ( !strcmp ( attribute_names[i], "Export_force_US_numbers" ) )
                     etat.export_force_US_numbers = utils_str_atoi ( attribute_values[i] );
 
+                else if (!strcmp (attribute_names[i], "Export_quote_dates"))
+                    w_etat->export_quote_dates = utils_str_atoi (attribute_values[i]);
+
                 else
                     unknown = 1;
                 break;

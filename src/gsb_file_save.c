@@ -784,6 +784,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
                        "\t\tExport_files_traitement=\"%d\"\n"
                        "\t\tExport_force_US_dates=\"%d\"\n"
                        "\t\tExport_force_US_numbers=\"%d\"\n"
+                       "\t\tExport_quote_dates=\"%d\"\n"
                        "\t\tForm_date_force_prev_year=\"%d\"\n"
 					   "\t\tForm_columns_number=\"%d\"\n"
 					   "\t\tForm_lines_number=\"%d\"\n"
@@ -851,6 +852,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
     etat.export_files_traitement,
     etat.export_force_US_dates,
     etat.export_force_US_numbers,
+    w_etat->export_quote_dates,
 	w_etat->form_date_force_prev_year,
 	gsb_data_form_get_nb_columns (),
 	gsb_data_form_get_nb_rows (),

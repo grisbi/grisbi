@@ -107,7 +107,7 @@ struct _GrisbiWinPrivate
     GtkWidget *         hpaned_general;
 	GtkWidget *			navigation_sw;
     GtkWidget *         notebook_general;
-	GtkWidget *			account_page;
+	GtkWidget *			account_page;			/* account_page est un notebook qui contient les onglets du compte */
 	GtkWidget *			scheduler_calendar;
     GtkWidget *         vbox_general;
 
@@ -345,12 +345,12 @@ static gboolean grisbi_win_form_size_allocate (GtkWidget *form_general,
 {
 	GtkWidget *form_expander;
 
-	/* si on est dans les préférences on ne touche pas au label de l'expander */
+	/* On sort immédiatement */
 	/* fixe partiellement un bug de maj de la liste des opérations */
-	if (grisbi_win_get_prefs_dialog (NULL))
-	{
+	//~ if (grisbi_win_get_prefs_dialog (NULL))
+	//~ {
 		return FALSE;
-	}
+	//~ }
 
 	form_expander = g_object_get_data (G_OBJECT (form_general), "form_expander");
 	if (form_expander)
@@ -754,6 +754,26 @@ static void grisbi_win_no_file_page_new (GrisbiWin *win)
 
 /* WIN CALLBACK */
 /**
+ * retourne account_page
+ *
+ * \param
+ *
+ * \return account_page
+ **/
+static GtkWidget *grisbi_win_get_account_bet_array_tree_view (GrisbiWin *win)
+{
+	GtkWidget *tree_view;
+    GrisbiWinPrivate *priv;
+
+    win = grisbi_app_get_active_window (NULL);
+    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+
+	tree_view = g_object_get_data (G_OBJECT (priv->account_page), "bet_array_tree_view");
+
+	return tree_view;
+}
+
+/**
  * check on any change on the main window
  * for now, only to check if we set/unset the full-screen
  *
@@ -764,18 +784,88 @@ static void grisbi_win_no_file_page_new (GrisbiWin *win)
  * \return FALSE
  * */
 static gboolean grisbi_win_change_state_window (GtkWidget *window,
-                        GdkEventWindowState *event,
-                        gpointer null)
+												GdkEventWindowState *event,
+												gpointer null)
 {
-    gboolean show;
+	static GtkAllocation allocation;
 
-    if (event->changed_mask & GDK_WINDOW_STATE_MAXIMIZED)
+	/* en premier on fixe conf.maximize_screen */
+	if (event->changed_mask & GDK_WINDOW_STATE_MAXIMIZED)
+	{
+		gboolean show;
+
+		show = !(event->new_window_state & GDK_WINDOW_STATE_MAXIMIZED);
+		conf.maximize_screen = !show;
+	}
+
+	/* on traite l'agrandissement ou le rétressissement de la fenêtre */
+	if (event->changed_mask & GDK_WINDOW_STATE_MAXIMIZED || event->changed_mask & GDK_WINDOW_STATE_FULLSCREEN)
     {
-        show = !(event->new_window_state & GDK_WINDOW_STATE_MAXIMIZED);
-        conf.maximize_screen = !show;
-    }
+		gint account_page;
+		gint current_account;
+		gint current_page = 0;
+		GrisbiWinPrivate *priv;
 
-    /* return value */
+		priv = grisbi_win_get_instance_private (GRISBI_WIN (window));
+		current_page = gsb_gui_navigation_get_current_page ();
+
+		if (conf.maximize_screen || conf.full_screen)
+		{
+			if (current_page == GSB_ACCOUNT_PAGE)
+			{
+				account_page = gtk_notebook_get_current_page (GTK_NOTEBOOK (priv->account_page));
+				if (account_page == 0)
+				{
+					gtk_widget_get_allocation (gsb_transactions_list_get_tree_view (), &allocation);
+				}
+				else
+				{
+					current_account = gsb_gui_navigation_get_current_account ();
+					account_page = gsb_data_account_get_bet_show_onglets (current_account);
+					if (account_page == BET_ONGLETS_PREV)
+						gtk_widget_get_allocation (grisbi_win_get_account_bet_array_tree_view (GRISBI_WIN(window)),
+												   &allocation);
+				}
+			}
+			else if (current_page == GSB_SCHEDULER_PAGE)
+			{
+				gtk_widget_get_allocation (gsb_scheduler_list_get_tree_view (), &allocation);
+			}
+		}
+		else if ((current_page == GSB_ACCOUNT_PAGE || current_page == GSB_SCHEDULER_PAGE) && allocation.width)
+		{
+			GtkWidget *tree_view;
+
+			if (current_page == GSB_ACCOUNT_PAGE)
+			{
+				account_page = gtk_notebook_get_current_page (GTK_NOTEBOOK (priv->account_page));
+				if (account_page == 0)
+				{
+					tree_view = gsb_transactions_list_get_tree_view ();
+					gtk_widget_size_allocate (tree_view, &allocation);
+					gtk_tree_view_columns_autosize (GTK_TREE_VIEW (tree_view));
+				}
+				else
+				{
+					current_account = gsb_gui_navigation_get_current_account();
+					account_page = gsb_data_account_get_bet_show_onglets (current_account);
+					if (account_page == BET_ONGLETS_PREV)
+					{
+						tree_view = grisbi_win_get_account_bet_array_tree_view (GRISBI_WIN(window));
+						gtk_widget_size_allocate (tree_view, &allocation);
+						gtk_tree_view_columns_autosize (GTK_TREE_VIEW (tree_view));
+					}
+				}
+			}
+			else
+			{
+				tree_view = gsb_scheduler_list_get_tree_view ();
+				gtk_widget_size_allocate (tree_view, &allocation);
+				gtk_tree_view_columns_autosize (GTK_TREE_VIEW (tree_view));
+			}
+		}
+	}
+
     return FALSE;
 }
 
@@ -857,6 +947,7 @@ static void grisbi_win_init (GrisbiWin *win)
     /* initialisation de la variable w_etat */
     priv->w_etat = g_malloc0 (sizeof (GrisbiWinEtat));
 	(priv->w_etat)->metatree_add_archive_in_totals = TRUE;	/* add the archived transactions by default */
+	(priv->w_etat)->export_quote_dates = TRUE;				/* "cite les dates" TRUE par défaut */
 
     /* init widgets in grisbi_win.ui */
 	gtk_widget_init_template (GTK_WIDGET (win));
