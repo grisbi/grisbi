@@ -127,10 +127,19 @@ void init_variables ( void )
 {
     gint transaction_col_align_init[CUSTOM_MODEL_VISIBLE_COLUMNS] = { 1, 1, 0, 1, 2, 2, 2 };
     gint i;
+	GrisbiWinRun *w_run;
 
     devel_debug (NULL);
 
-    /* initialise l'ordre des pages du panneau de gauche */
+	/* raz some variables of structure w_run */
+	w_run = grisbi_win_get_w_run ();
+	w_run->account_number_is_0 = FALSE;
+	w_run->prefs_expand_tree = TRUE;
+	if (w_run->prefs_selected_row)
+		g_free (w_run->prefs_selected_row);
+	w_run->prefs_selected_row = g_strdup ("0:0");
+
+	/* initialise l'ordre des pages du panneau de gauche */
     gsb_gui_navigation_init_pages_list ( );
 
     /* if ever there is still something from the previous list,
