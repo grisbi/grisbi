@@ -15,7 +15,7 @@
 #define OLD_VERSION_FICHIER		"0.6.0"
 
 /* Define this when in Git development branch. */
-#define IS_DEVELOPMENT_VERSION  0
+#define IS_DEVELOPMENT_VERSION  1
 
 #define VERSION_FICHIER_ETAT    "0.6.0"
 #define VERSION_FICHIER_CATEG   "0.6.0"
