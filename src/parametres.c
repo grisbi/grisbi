@@ -451,12 +451,16 @@ gboolean gsb_localisation_format_date_toggle ( GtkToggleButton *togglebutton,
                         gpointer user_data)
 {
     const gchar *format_date;
+	GrisbiWinRun *w_run;
+
+	w_run = grisbi_win_get_w_run ();
 
     format_date = g_object_get_data ( G_OBJECT ( togglebutton ), "pointer" );
     gsb_date_set_format_date ( format_date );
 	gsb_regex_init_variables ();
 
-    gsb_localisation_update_affichage ( 0 );
+	if (grisbi_win_file_is_loading () && !w_run->new_account_file)
+		gsb_localisation_update_affichage ( 0 );
 
     return FALSE;
 }
