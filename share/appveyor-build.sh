@@ -66,7 +66,13 @@ export PKG_CONFIG_PATH
 	--with-goffice
 
 v=$(grep PACKAGE_VERSION config.h | cut -f2 -d '"')
-v="$v-$(date +'%Y.%m.%d-%H')"
+minor=$(echo $v|cut -f3 -d.)
+unstable=$((minor % 2))
+if [ $unstable = "1" ]
+then
+	# append the date for unstable versions
+	v="$v-$(date +'%Y.%m.%d-%H')"
+fi
 powershell.exe -command "Update-AppveyorBuild -Version \"$v\""
 # -B%APPVEYOR_BUILD_NUMBER%\""
 echo "Version = $v"
