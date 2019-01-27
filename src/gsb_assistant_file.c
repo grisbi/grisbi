@@ -116,6 +116,7 @@ GtkResponseType gsb_assistant_file_run ( gboolean first_opening,
     const gchar *text_2;
     gint currency_floating;
     gboolean launch_account_assistant;
+	GrisbiWinRun *w_run;
 
     /* create the assistant */
     if (first_opening)
@@ -247,6 +248,10 @@ GtkResponseType gsb_assistant_file_run ( gboolean first_opening,
 	if (nom_fichier_comptes)
 		g_free (nom_fichier_comptes);
 
+	/* RAZ w_run->new_account_file */
+	w_run = grisbi_win_get_w_run ();
+	w_run->new_account_file = FALSE;
+
     /* and now, launch the next assistant */
     if (launch_account_assistant)
 	gsb_file_new_finish ();
@@ -284,6 +289,7 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
 	w_etat = grisbi_win_get_w_etat ();
 	w_run = grisbi_win_get_w_run ();
 
+	w_run->new_account_file = TRUE;
     page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 15 );
     gtk_container_set_border_width ( GTK_CONTAINER (page), BOX_BORDER_WIDTH );
 

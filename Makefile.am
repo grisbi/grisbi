@@ -17,5 +17,5 @@ bundle:
 	@if [ -f $(srcdir)/MacOS/Grisbi.dmg ]; then echo "*** DMG file already exist."; exit 1; fi
 	env GRIBSI_BUNDLE_PATH=$(srcdir) gtk-mac-bundler $(srcdir)/MacOS/Grisbi.bundle
 	$(srcdir)/MacOS/manual_add.sh
-	$(srcdir)/MacOS/create-dmg.sh --volname Grisbi --volicon $(srcdir)/MacOS/Grisbi.icns --window-size 640 400 --background $(srcdir)/MacOS/background.png --icon-size 96 --app-drop-link 500 250 --icon "Grisbi.app" 150 250  $(srcdir)/MacOS/Grisbi.dmg $(srcdir)/MacOS/dist
+	$(srcdir)/MacOS/create-dmg.sh --volname Grisbi --volicon $(srcdir)/MacOS/Grisbi.icns --window-size 640 400 --background $(srcdir)/MacOS/background.png --icon-size 96 --app-drop-link 500 250 --icon "Grisbi.app" 150 250  $(srcdir)/MacOS/Grisbi-$(GRISBI_MAJOR_VERSION).$(GRISBI_MINOR_VERSION).$(GRISBI_MICRO_VERSION).dmg $(srcdir)/MacOS/dist
 

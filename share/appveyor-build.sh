@@ -3,13 +3,16 @@
 source /appveyor.environment
 export MSYSTEM
 
-git_src="https://github.com/xfred81"
 libofx_version="0.9.13"
 libgoffice_version="2018.05.28-16"
+
+git_src="https://github.com/LudovicRousseau"
 
 cd /
 wget -m --no-verbose -O /libofx.zip "$git_src/libofx/releases/download/0.9.13/libofx_$MSYSTEM.zip"
 unzip libofx.zip
+
+git_src="https://github.com/xfred81"
 
 wget -m --no-verbose -O /goffice.zip "$git_src/goffice/releases/download/v-2018.05.28-16/goffice-$MSYSTEM-$libgoffice_version-archive.zip"
 unzip /goffice.zip
@@ -63,7 +66,13 @@ export PKG_CONFIG_PATH
 	--with-goffice
 
 v=$(grep PACKAGE_VERSION config.h | cut -f2 -d '"')
-v="$v-$(date +'%Y.%m.%d-%H')"
+minor=$(echo $v|cut -f3 -d.)
+unstable=$((minor % 2))
+if [ $unstable = "1" ]
+then
+	# append the date for unstable versions
+	v="$v-$(date +'%Y.%m.%d-%H')"
+fi
 powershell.exe -command "Update-AppveyorBuild -Version \"$v\""
 # -B%APPVEYOR_BUILD_NUMBER%\""
 echo "Version = $v"
