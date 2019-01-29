@@ -262,6 +262,7 @@ static void prefs_page_accueil_setup_accueil_page (PrefsPageAccueil *page)
 
 	if (is_loading)
 	{
+		GtkWidget *window;
 		GtkWidget *treeview;
 	    GtkListStore *list_store;
 		GtkTreeViewColumn *column;
@@ -270,6 +271,8 @@ static void prefs_page_accueil_setup_accueil_page (PrefsPageAccueil *page)
 		GtkTreeDragDestIface * dst_iface;
 		GtkTreeDragSourceIface * src_iface;
 		static GtkTargetEntry row_targets[] = {{"GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_WIDGET, 0}};
+
+		window = grisbi_win_get_prefs_dialog (NULL);
 
 		/* create the model */
 		list_store = gsb_partial_balance_create_model ();
@@ -366,7 +369,7 @@ static void prefs_page_accueil_setup_accueil_page (PrefsPageAccueil *page)
 		src_iface = GTK_TREE_DRAG_SOURCE_GET_IFACE (list_store);
 		if (src_iface)
 		{
-			gtk_selection_add_target (treeview,
+			gtk_selection_add_target (window,
 						  GDK_SELECTION_PRIMARY,
 						  GDK_SELECTION_TYPE_ATOM,
 						  1);

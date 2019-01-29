@@ -112,6 +112,7 @@ void categories_init_variables_list ( void )
  */
 GtkWidget *categories_create_list ( void )
 {
+	GtkWidget *window;
     GtkWidget *scroll_window, *vbox;
     GtkWidget *frame;
     GtkTreeViewColumn *column;
@@ -123,7 +124,9 @@ GtkWidget *categories_create_list ( void )
     };
     MetatreeInterface *category_interface;
 
-    /* We create the main vbox */
+	window = GTK_WIDGET (grisbi_app_get_active_window (NULL));
+
+	/* We create the main vbox */
     vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
 
     /* frame pour la barre d'outils */
@@ -241,7 +244,7 @@ GtkWidget *categories_create_list ( void )
     src_iface = GTK_TREE_DRAG_SOURCE_GET_IFACE (categ_tree_model);
     if ( src_iface )
     {
-	gtk_selection_add_target (arbre_categ,
+	gtk_selection_add_target (window,
 				  GDK_SELECTION_PRIMARY,
 				  GDK_SELECTION_TYPE_ATOM,
 				  1);

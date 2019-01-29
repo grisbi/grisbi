@@ -2319,8 +2319,9 @@ void grisbi_win_status_bar_wait (gboolean force_update)
 {
     GrisbiWin *win;
 	GrisbiWinPrivate *priv;
-    GdkDisplay *display;
+    GdkCursor *cursor;
     GdkDevice *device;
+    GdkDisplay *display;
     GdkWindow *current_window;
     GdkWindow *run_window;
 
@@ -2328,7 +2329,9 @@ void grisbi_win_status_bar_wait (gboolean force_update)
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
     run_window = gtk_widget_get_window (GTK_WIDGET (win));
-    display = gdk_window_get_display (run_window);
+	display = gdk_window_get_display (run_window);
+    cursor = gdk_cursor_new_for_display (display, GDK_HAND2);
+    gdk_window_set_cursor (run_window, cursor);
 
 #if GTK_CHECK_VERSION (3,20,0)
 	GdkSeat *default_seat;
@@ -2342,22 +2345,17 @@ void grisbi_win_status_bar_wait (gboolean force_update)
     device = gdk_device_manager_get_client_pointer (device_manager);
 #endif
 
-    gdk_window_set_cursor (run_window, gdk_cursor_new_for_display (display, GDK_WATCH));
-
     current_window = gdk_device_get_window_at_position (device, NULL, NULL);
-
     if (current_window && GDK_IS_WINDOW (current_window) && current_window != run_window)
     {
-        GdkWindow *parent = gdk_window_get_toplevel (current_window);
+        GdkWindow *parent;
 
-        if (parent && parent != current_window)
+		parent = gdk_window_get_toplevel (current_window);
+		if (parent && parent != current_window)
         {
             current_window = parent;
         }
-
-        gdk_window_set_cursor (current_window,
-                               gdk_cursor_new_for_display (gdk_display_get_default (),
-                                                           GDK_WATCH));
+        gdk_window_set_cursor (current_window, cursor);
 
         priv->tracked_window = current_window;
     }
@@ -2365,7 +2363,6 @@ void grisbi_win_status_bar_wait (gboolean force_update)
     if (force_update)
         update_gui ();
 }
-
 
 /**
  * Change current cursor to default cursor.

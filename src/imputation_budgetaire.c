@@ -113,6 +113,7 @@ void budgetary_lines_init_variables_list ( void )
  */
 GtkWidget *budgetary_lines_create_list ( void )
 {
+	GtkWidget *window;
     GtkWidget *scroll_window;
     GtkWidget *vbox;
     GtkWidget *frame;
@@ -123,6 +124,8 @@ GtkWidget *budgetary_lines_create_list ( void )
     static GtkTargetEntry row_targets[] = {
 	{ "GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_WIDGET, 0 }
     };
+
+	window = GTK_WIDGET (grisbi_app_get_active_window (NULL));
 
     /* We create the gtktreeview and model early so that they can be referenced. */
     budgetary_line_tree = gtk_tree_view_new();
@@ -244,7 +247,7 @@ GtkWidget *budgetary_lines_create_list ( void )
     src_iface = GTK_TREE_DRAG_SOURCE_GET_IFACE (budgetary_line_tree_model);
     if ( src_iface )
     {
-	gtk_selection_add_target (budgetary_line_tree,
+	gtk_selection_add_target (window,
 				  GDK_SELECTION_PRIMARY,
 				  GDK_SELECTION_TYPE_ATOM,
 				  1);
