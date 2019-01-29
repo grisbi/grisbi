@@ -37,7 +37,7 @@
 #include "categories_onglet.h"
 #include "dialog.h"
 #include "etats_onglet.h"
-#include "grisbi_win.h"
+#include "grisbi_app.h"
 #include "gsb_account.h"
 #include "gsb_account_property.h"
 #include "gsb_assistant_account.h"
@@ -233,6 +233,7 @@ gulong gsb_gui_navigation_tree_view_selection_changed (void)
  */
 GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
 {
+	GtkWidget *window;
     GtkWidget *grid;
     GtkWidget *sw;
     GQueue *tmp_queue;
@@ -244,6 +245,7 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
     gint xpad;
     gint ypad;
 
+	window = GTK_WIDGET (grisbi_app_get_active_window (NULL));
     grid = gtk_grid_new ();
 
     sw = gtk_scrolled_window_new (NULL, NULL);
@@ -304,10 +306,10 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
     navigation_src_iface = GTK_TREE_DRAG_SOURCE_GET_IFACE (navigation_model);
     if ( navigation_src_iface )
     {
-        gtk_selection_add_target (navigation_tree_view,
-                        GDK_SELECTION_PRIMARY,
-                        GDK_SELECTION_TYPE_ATOM,
-                        1);
+        gtk_selection_add_target (window,
+								  GDK_SELECTION_PRIMARY,
+								  GDK_SELECTION_TYPE_ATOM,
+								  1);
         navigation_src_iface -> drag_data_get = &navigation_tree_drag_data_get;
     }
 
