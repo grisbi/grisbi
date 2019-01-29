@@ -772,6 +772,7 @@ static GtkWidget *etats_prefs_left_panel_create_tree_view ( void )
 
     /* Create container + TreeView */
     tree_view = GTK_WIDGET ( gtk_builder_get_object ( etats_prefs_builder, "treeview_left_panel" ) );
+	gtk_tree_view_set_reorderable (GTK_TREE_VIEW (tree_view), FALSE);
     gtk_tree_view_set_model ( GTK_TREE_VIEW ( tree_view ), GTK_TREE_MODEL ( model ) );
     g_object_unref ( G_OBJECT ( model ) );
 
