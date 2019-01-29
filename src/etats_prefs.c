@@ -34,6 +34,7 @@
 #include "etats_prefs.h"
 #include "etats_prefs_private.h"
 #include "etats_config.h"
+#include "grisbi_app.h"
 #include "structures.h"
 #include "utils.h"
 #include "utils_buttons.h"
@@ -772,6 +773,7 @@ static GtkWidget *etats_prefs_left_panel_create_tree_view ( void )
 
     /* Create container + TreeView */
     tree_view = GTK_WIDGET ( gtk_builder_get_object ( etats_prefs_builder, "treeview_left_panel" ) );
+	gtk_tree_view_set_reorderable (GTK_TREE_VIEW (tree_view), FALSE);
     gtk_tree_view_set_model ( GTK_TREE_VIEW ( tree_view ), GTK_TREE_MODEL ( model ) );
     g_object_unref ( G_OBJECT ( model ) );
 
@@ -2607,6 +2609,7 @@ static void etats_prefs_onglet_data_grouping_selection_changed ( GtkTreeSelectio
  */
 static gboolean etats_prefs_onglet_data_grouping_init_tree_view ( void )
 {
+	GtkWidget *window;
     GtkWidget *tree_view;
     GtkListStore *store;
     GtkTreeSelection *selection;
@@ -2618,6 +2621,8 @@ static gboolean etats_prefs_onglet_data_grouping_init_tree_view ( void )
     {
         { "GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_WIDGET, 0 }
     };
+
+	window = GTK_WIDGET (grisbi_app_get_active_window (NULL));
 
     tree_view = GTK_WIDGET ( gtk_builder_get_object ( etats_prefs_builder, "treeview_data_grouping" ) );
     if ( !tree_view )
@@ -2669,7 +2674,7 @@ static gboolean etats_prefs_onglet_data_grouping_init_tree_view ( void )
     src_iface = GTK_TREE_DRAG_SOURCE_GET_IFACE ( store );
     if ( src_iface )
     {
-        gtk_selection_add_target ( tree_view,
+        gtk_selection_add_target (window,
                       GDK_SELECTION_PRIMARY,
                       GDK_SELECTION_TYPE_ATOM,
                       1 );

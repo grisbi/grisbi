@@ -643,6 +643,7 @@ void payees_init_variables_list (void)
 **/
 GtkWidget *payees_create_list (void)
 {
+	GtkWidget *window;
     GtkWidget *onglet, *scroll_window;
     GtkWidget *frame;
     GtkTreeViewColumn *column;
@@ -653,7 +654,9 @@ GtkWidget *payees_create_list (void)
     { "GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_WIDGET, 0 }
     };
 
-    /* création de la fenêtre qui sera renvoyée */
+	window = GTK_WIDGET (grisbi_app_get_active_window (NULL));
+
+	/* création de la fenêtre qui sera renvoyée */
     onglet = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
     gtk_widget_show (onglet);
 
@@ -774,7 +777,7 @@ GtkWidget *payees_create_list (void)
     src_iface = GTK_TREE_DRAG_SOURCE_GET_IFACE (payee_tree_model);
     if (src_iface)
     {
-		gtk_selection_add_target (payee_tree,
+		gtk_selection_add_target (window,
 								  GDK_SELECTION_PRIMARY,
 								  GDK_SELECTION_TYPE_ATOM,
 								  1);
