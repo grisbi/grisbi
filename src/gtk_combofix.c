@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2001-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
-/*          2009-2018 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          2009-2019 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -34,6 +34,8 @@
 /*START_INCLUDE*/
 #include "gtk_combofix.h"
 #include "grisbi_win.h"
+#include "gsb_data_budget.h"
+#include "gsb_data_category.h"
 #include "gsb_form.h"
 #include "structures.h"
 #include "utils_buttons.h"
@@ -554,7 +556,30 @@ static gboolean gtk_combofix_fill_store (GtkComboFix *combofix,
 				else
 				{
 					/* on n'affiche pas la tête de categ/IB dans la completion si force Categ/IB est TRUE */
-					if (priv->type && !priv->force)
+					/* et il existe des sous catégories. On traite les listes credit et débit */
+					if (priv->type && priv->force && list_number < 2)
+					{
+						gint div_number;
+						gint nbre_sub_division = 0;
+
+						if (priv->type == METATREE_CATEGORY)
+						{
+							div_number = gsb_data_category_get_number_by_name (string, priv->force, priv->type);
+							nbre_sub_division = gsb_data_category_get_sub_category_list_length (div_number);
+						}
+						else
+						{
+							div_number = gsb_data_budget_get_number_by_name (string, priv->force, priv->type);
+							nbre_sub_division = gsb_data_budget_get_sub_budget_list_length (div_number);
+						}
+
+						if (nbre_sub_division == 0)
+						{
+							gtk_list_store_append (GTK_LIST_STORE (completion_store), &new_iter);
+							gtk_list_store_set (GTK_LIST_STORE (completion_store), &new_iter, 0, string, -1);
+						}
+					}
+					else
 					{
 						gtk_list_store_append (GTK_LIST_STORE (completion_store), &new_iter);
 						gtk_list_store_set (GTK_LIST_STORE (completion_store), &new_iter, 0, string, -1);
