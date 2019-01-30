@@ -38,6 +38,7 @@
 
 /*START_INCLUDE*/
 #include "prefs_page_accueil.h"
+#include "grisbi_app.h"
 #include "grisbi_settings.h"
 #include "gsb_automem.h"
 #include "gsb_locale.h"
@@ -272,7 +273,7 @@ static void prefs_page_accueil_setup_accueil_page (PrefsPageAccueil *page)
 		GtkTreeDragSourceIface * src_iface;
 		static GtkTargetEntry row_targets[] = {{"GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_WIDGET, 0}};
 
-		window = grisbi_win_get_prefs_dialog (NULL);
+		window = GTK_WIDGET (grisbi_app_get_active_window (NULL));
 
 		/* create the model */
 		list_store = gsb_partial_balance_create_model ();
