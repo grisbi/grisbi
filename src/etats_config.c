@@ -3453,7 +3453,7 @@ static void etats_config_recupere_info_onglet_affichage_titres ( gint report_num
     gsb_data_report_set_category_show_sub_category ( report_number,
     				  etats_prefs_button_toggle_get_actif ( "bouton_afficher_sous_categ" ) );
     gsb_data_report_set_category_show_sub_category_amount ( report_number,
-    				  etats_prefs_button_toggle_get_actif ( "bouton_affiche_sous_total_categ" ) );
+    				  etats_prefs_button_toggle_get_actif ( "bouton_affiche_sous_total_sous_categ" ) );
     gsb_data_report_set_category_show_without_category ( report_number,
     				  etats_prefs_button_toggle_get_actif ( "bouton_afficher_pas_de_sous_categ" ) );
 
