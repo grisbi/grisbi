@@ -779,28 +779,60 @@ GsbReal gsb_data_transaction_get_adjusted_amount_for_currency ( gint transaction
     /* if the transaction currency is the same of the account's one,
      * we just return the transaction's amount */
     if ( transaction -> currency_number == return_currency_number )
-        return gsb_real_adjust_exponent  ( transaction -> transaction_amount,
-					   return_exponent );
-/* printf ("get_adjusted_amount transaction_number = %d transaction -> currency_number = %d return_currency_number = %d\n",
-    transaction_number, transaction -> currency_number, return_currency_number); */
-    /* now we can adjust the amount */
+	{
+        return gsb_real_adjust_exponent  ( transaction -> transaction_amount, return_exponent );
+	}
+
+	/* now we can adjust the amount */
 	/* the exchange is saved in the transaction itself */
-    if ( transaction -> exchange_rate.mantissa )
+	if (transaction->exchange_rate.mantissa)
     {
+		gint account_currency;
+
         if ( transaction -> change_between_account_and_transaction )
-            amount = gsb_real_div ( transaction -> transaction_amount,
-                        transaction -> exchange_rate );
+            amount = gsb_real_div (transaction -> transaction_amount, transaction -> exchange_rate);
         else
-            amount = gsb_real_mul ( transaction -> transaction_amount,
-                        transaction -> exchange_rate );
+            amount = gsb_real_mul (transaction -> transaction_amount, transaction -> exchange_rate );
 
         /* The costs are still deducted from the transaction. In case of internal transfer there is no charge. */
         amount = gsb_real_sub (amount, transaction -> exchange_fees);
+
+		account_currency = gsb_data_account_get_currency (transaction->account_number);
+		if (account_currency != return_currency_number)
+		{
+			if ((link_number = gsb_data_currency_link_search (account_currency, return_currency_number)))
+			{
+				/* there is a hard link between the account currency and the return currency */
+				if ( gsb_data_currency_link_get_first_currency (link_number) == account_currency)
+					amount = gsb_real_mul (amount, gsb_data_currency_link_get_change_rate (link_number));
+				else
+					amount = gsb_real_div (amount, gsb_data_currency_link_get_change_rate (link_number));
+			}
+			else
+			{
+				GsbReal current_exchange;
+				GsbReal current_exchange_fees;
+
+				gsb_currency_exchange_dialog (account_currency,
+											  return_currency_number,
+											  0,
+											  null_real,
+											  null_real,
+											  TRUE);
+
+				current_exchange = gsb_currency_get_current_exchange ();
+				current_exchange_fees = gsb_currency_get_current_exchange_fees ();
+
+				amount = gsb_real_div (amount, current_exchange);
+				if (current_exchange_fees.mantissa != 0)
+					amount = gsb_real_sub (amount, current_exchange_fees);
+			}
+		}
     }
     else if ( (link_number = gsb_data_currency_link_search ( transaction -> currency_number,
 							return_currency_number ) ) )
     {
-	/* there is a hard link between the transaction currency and the return currency */
+		/* there is a hard link between the transaction currency and the return currency */
         if ( gsb_data_currency_link_get_first_currency (link_number) == transaction -> currency_number)
             amount = gsb_real_mul ( transaction -> transaction_amount,
                         gsb_data_currency_link_get_change_rate (link_number));
