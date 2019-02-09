@@ -429,7 +429,12 @@ void gsb_currency_check_for_change ( gint transaction_number )
                         transaction_number );
 
 	if (transaction_currency_number == account_currency_number)
+	{
+		gsb_data_transaction_set_exchange_rate (transaction_number, null_real);
+		gsb_data_transaction_set_change_between (transaction_number, 0);
+		gsb_data_transaction_set_exchange_fees (transaction_number, null_real);
 		return;
+	}
 
     link_number = gsb_data_currency_link_search ( account_currency_number,
                         transaction_currency_number );

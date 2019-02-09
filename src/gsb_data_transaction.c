@@ -543,37 +543,37 @@ gboolean gsb_data_transaction_set_date ( gint transaction_number,
     /* if the transaction is a split, change all the children */
     if (transaction -> split_of_transaction)
     {
-	GSList *tmp_list;
-	GSList *save_tmp_list;
+		GSList *tmp_list;
+		GSList *save_tmp_list;
 
-	tmp_list = gsb_data_transaction_get_children (transaction -> transaction_number, FALSE);
-	save_tmp_list = tmp_list;
+		tmp_list = gsb_data_transaction_get_children (transaction -> transaction_number, FALSE);
+		save_tmp_list = tmp_list;
 
-	while (tmp_list)
-	{
-	    transaction = tmp_list -> data;
+		while (tmp_list)
+		{
+			transaction = tmp_list -> data;
 
-	    if (transaction -> date)
-            g_date_free (transaction -> date);
-	    transaction -> date = gsb_date_copy (date);
+			if (transaction -> date)
+				g_date_free (transaction -> date);
+			transaction -> date = gsb_date_copy (date);
 
-        /* si l'opération fille est un transfert on regarde si la contre opération est rapprochée
-         * si elle ne l'est pas on peut mettre à jour la date */
-        if ( transaction->transaction_number_transfer > 0 )
-        {
-            gint contra_marked_transaction = 0;
+			/* si l'opération fille est un transfert on regarde si la contre opération est rapprochée
+			 * si elle ne l'est pas on peut mettre à jour la date */
+			if ( transaction->transaction_number_transfer > 0 )
+			{
+				gint contra_marked_transaction = 0;
 
-            contra_marked_transaction = gsb_data_transaction_get_marked_transaction (
-                        transaction->transaction_number_transfer );
+				contra_marked_transaction = gsb_data_transaction_get_marked_transaction (
+							transaction->transaction_number_transfer );
 
-            if ( contra_marked_transaction != OPERATION_RAPPROCHEE )
-            {
-                gsb_data_transaction_set_date ( transaction->transaction_number_transfer, transaction -> date );
-                gsb_transactions_list_update_transaction ( transaction->transaction_number_transfer );
-            }
-        }
+				if ( contra_marked_transaction != OPERATION_RAPPROCHEE )
+				{
+					gsb_data_transaction_set_date ( transaction->transaction_number_transfer, date );
+					gsb_transactions_list_update_transaction ( transaction->transaction_number_transfer );
+				}
+			}
 
-	    tmp_list = tmp_list -> next;
+			tmp_list = tmp_list -> next;
 	}
 	g_slist_free (save_tmp_list);
     }
@@ -1020,7 +1020,7 @@ GsbReal gsb_data_transaction_get_exchange_rate ( gint transaction_number )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_data_transaction_get_transaction_by_no ( transaction_number);
+	transaction = gsb_data_transaction_get_transaction_by_no ( transaction_number);
 
     if ( !transaction )
 	return null_real;
@@ -2181,25 +2181,25 @@ gboolean gsb_data_transaction_copy_transaction ( gint source_transaction_number,
     target_transaction -> archive_number = 0;
 
     /* make a new copy of all the pointers */
-    if ( target_transaction -> notes)
-	target_transaction -> notes = my_strdup ( source_transaction -> notes );
+    if (source_transaction -> notes)
+		target_transaction -> notes = my_strdup ( source_transaction -> notes );
 
-    if ( target_transaction -> voucher)
-	target_transaction -> voucher = my_strdup ( source_transaction -> voucher );
+    if (source_transaction -> voucher)
+		target_transaction -> voucher = my_strdup ( source_transaction -> voucher );
 
-    if ( target_transaction -> bank_references)
-	target_transaction -> bank_references = my_strdup ( source_transaction -> bank_references );
+    if (source_transaction -> bank_references)
+		target_transaction -> bank_references = my_strdup ( source_transaction -> bank_references );
 
-    if ( target_transaction -> date)
-	target_transaction -> date = gsb_date_copy (source_transaction -> date);
+    if (source_transaction->date && g_date_valid (source_transaction->date))
+		target_transaction -> date = gsb_date_copy (source_transaction -> date);
 
-    if ( target_transaction -> value_date)
-	target_transaction -> value_date = gsb_date_copy (source_transaction -> value_date);
+    if (source_transaction -> value_date)
+		target_transaction -> value_date = gsb_date_copy (source_transaction -> value_date);
 
-    if ( target_transaction -> method_of_payment_content)
-	target_transaction -> method_of_payment_content = my_strdup (
-                        source_transaction -> method_of_payment_content );
-    return TRUE;
+    if (source_transaction -> method_of_payment_content)
+		target_transaction -> method_of_payment_content = my_strdup (source_transaction->method_of_payment_content);
+
+	return TRUE;
 }
 
 /**
