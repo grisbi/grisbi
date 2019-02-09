@@ -427,6 +427,10 @@ void gsb_currency_check_for_change ( gint transaction_number )
                         gsb_data_transaction_get_account_number ( transaction_number ) );
     transaction_currency_number = gsb_data_transaction_get_currency_number (
                         transaction_number );
+
+	if (transaction_currency_number == account_currency_number)
+		return;
+
     link_number = gsb_data_currency_link_search ( account_currency_number,
                         transaction_currency_number );
 
