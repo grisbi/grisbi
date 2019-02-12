@@ -165,22 +165,31 @@ static void gtk_combofix_completion_insert_new_item (GtkComboFix *combofix,
 
 	if (gtk_tree_model_get_iter_first (store, &iter))
 	{
-
 		do
 		{
 			gchar *tmp_str;
+			gchar *str_to_free1;
+			gchar *str_to_free2;
 
 			gtk_tree_model_get (store, &iter, 0, &tmp_str, -1);
 			if (!tmp_str)
 				continue;
 
-			if (g_utf8_collate (g_utf8_casefold (text, -1), g_utf8_casefold (tmp_str, -1)) < 0)
+			str_to_free1 = g_utf8_casefold (text, -1);
+			str_to_free2 = g_utf8_casefold (tmp_str, -1);
+			if (g_utf8_collate (str_to_free1, str_to_free2) < 0)
 			{
 				gtk_list_store_insert_before (GTK_LIST_STORE (store), &new_iter, &iter);
 				gtk_list_store_set (GTK_LIST_STORE (store), &new_iter, 0, text, -1);
+				g_free (str_to_free1);
+				g_free (str_to_free2);
+				g_free (tmp_str);
 
 				return;
 			}
+			g_free (str_to_free1);
+			g_free (str_to_free2);
+			g_free (tmp_str);
 		}
 		while (gtk_tree_model_iter_next (store, &iter));
 	}
