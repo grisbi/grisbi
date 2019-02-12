@@ -1281,8 +1281,6 @@ static gboolean csv_import_change_separator (GtkEntry *entry,
 			csv_import_free_lines_tab (lines_tab);
 		lines_tab = csv_import_init_lines_tab (&contents, etat.csv_separator);
 		g_object_set_data (G_OBJECT(assistant), "lines-tab", lines_tab);
-		g_free (csv_fields_config);
-		csv_fields_config = NULL;
 		first_line_with_cols = 0;
         csv_import_update_preview (assistant);
     }
@@ -1649,6 +1647,7 @@ gboolean csv_import_csv_account (GtkWidget *assistant,
 
 	csv_import_free_lines_tab (lines_tab);
 	g_free (csv_fields_config);
+	csv_fields_config = NULL;
 
 	return FALSE;
 }
