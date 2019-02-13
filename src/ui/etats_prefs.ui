@@ -1431,7 +1431,7 @@ Grisbi will automatically create transactions for all payees from the report</pr
                 <property name="spacing">5</property>
                 <child>
                   <object class="GtkCheckButton" id="bouton_afficher_noms_categ">
-                    <property name="label" translatable="yes">Display the (sub)category's name</property>
+                    <property name="label" translatable="yes">Display categories</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
