@@ -51,6 +51,7 @@
 #include "utils_str.h"
 #include "structures.h"
 #include "etats_config.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -2377,12 +2378,22 @@ gint etat_affiche_affiche_totaux_sous_jaccent ( gint origine,
 {
     GSList *pointeur_glist;
     gint current_report_number;
+	gint categ_used = 0;
+	gint sous_categ_used = 0;
+	gint group_reports = 0;
+	gint ib_used = 0;
+	gint sous_ib_used = 0;
+	gint payee_used = 0;
 
     current_report_number = gsb_gui_navigation_get_current_report ();
-
+	categ_used = gsb_data_report_get_category_used (current_report_number);
+	sous_categ_used = gsb_data_report_get_category_show_sub_category (current_report_number);
+	ib_used = gsb_data_report_get_budget_used (current_report_number);
+	sous_ib_used = gsb_data_report_get_budget_show_sub_budget (current_report_number);
+	group_reports = gsb_data_report_get_account_group_reports (current_report_number);
+	payee_used = gsb_data_report_get_payee_used (current_report_number);
 
     /* on doit partir du bout de la liste pour revenir vers la structure demandée */
-
     pointeur_glist = g_slist_reverse (g_slist_copy ( gsb_data_report_get_sorting_type_list (current_report_number)));
 
     while ( GPOINTER_TO_INT ( pointeur_glist -> data ) != origine )
@@ -2390,28 +2401,34 @@ gint etat_affiche_affiche_totaux_sous_jaccent ( gint origine,
 	switch ( GPOINTER_TO_INT ( pointeur_glist -> data ))
 	{
 	    case 1:
-		ligne = etat_affiche_affiche_total_categories ( ligne );
-		break;
+			if (categ_used)
+				ligne = etat_affiche_affiche_total_categories ( ligne );
+			break;
 
 	    case 2:
-		ligne = etat_affiche_affiche_total_sous_categ ( ligne );
-		break;
+			if (categ_used && sous_categ_used)
+				ligne = etat_affiche_affiche_total_sous_categ ( ligne );
+			break;
 
 	    case 3:
-		ligne = etat_affiche_affiche_total_ib ( ligne );
-		break;
+			if (ib_used)
+				ligne = etat_affiche_affiche_total_ib ( ligne );
+			break;
 
 	    case 4:
-		ligne = etat_affiche_affiche_total_sous_ib ( ligne );
-		break;
+			if (ib_used && sous_ib_used)
+				ligne = etat_affiche_affiche_total_sous_ib ( ligne );
+			break;
 
 	    case 5:
-		ligne = etat_affiche_affiche_total_compte ( ligne );
-		break;
+			if (group_reports)
+				ligne = etat_affiche_affiche_total_compte ( ligne );
+			break;
 
 	    case 6:
-		ligne = etat_affiche_affiche_total_tiers ( ligne );
-		break;
+			if (payee_used)
+				ligne = etat_affiche_affiche_total_tiers ( ligne );
+			break;
 	}
 	pointeur_glist = pointeur_glist -> next;
     }
