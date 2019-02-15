@@ -343,7 +343,9 @@ static gboolean grisbi_win_form_size_allocate (GtkWidget *form_general,
                                                GtkAllocation *allocation,
                                                GrisbiWin *win)
 {
+#if 0
 	GtkWidget *form_expander;
+#endif
 
 	/* On sort immédiatement */
 	/* fixe partiellement un bug de maj de la liste des opérations */
@@ -352,6 +354,7 @@ static gboolean grisbi_win_form_size_allocate (GtkWidget *form_general,
 		return FALSE;
 	//~ }
 
+#if 0
 	form_expander = g_object_get_data (G_OBJECT (form_general), "form_expander");
 	if (form_expander)
 	{
@@ -364,6 +367,7 @@ static gboolean grisbi_win_form_size_allocate (GtkWidget *form_general,
 	}
 
     return FALSE;
+#endif
 }
 
 static gboolean grisbi_win_expander_label_set_initial_width (GtkWidget *form_general)
