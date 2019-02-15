@@ -546,7 +546,10 @@ gboolean bet_data_loan_get_loan_first_is_different (gint account_number)
 
 	s_loan = bet_data_loan_get_last_loan_struct_by_account (account_number);
 
-	return s_loan->first_is_different;
+	if (s_loan)
+		return s_loan->first_is_different;
+	else
+		return FALSE;
 }
 
 /**
