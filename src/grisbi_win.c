@@ -331,58 +331,48 @@ static gboolean grisbi_win_hpaned_size_allocate (GtkWidget *hpaned_general,
 
 /* FORM_GENERAL */
 /**
- * utile pour gérer la dimension du formulaire
+ * Positionne le label des rapprochements à la fin du label de l'expander
+ * utile juste pour les comptes.
  *
  * \param GtkWidget			form
  * \param GtkAllocation 	allocation
  * \param gpointer			NULL
  *
  * \return FALSE
- */
-static gboolean grisbi_win_form_size_allocate (GtkWidget *form_general,
+ **/
+static gboolean grisbi_win_form_size_allocate (GtkWidget *form_expander,
                                                GtkAllocation *allocation,
                                                GrisbiWin *win)
 {
-#if 0
-	GtkWidget *form_expander;
-#endif
-
-	/* On sort immédiatement */
-	/* fixe partiellement un bug de maj de la liste des opérations */
-	//~ if (grisbi_win_get_prefs_dialog (NULL))
-	//~ {
-		return FALSE;
-	//~ }
-
-#if 0
-	form_expander = g_object_get_data (G_OBJECT (form_general), "form_expander");
-	if (form_expander)
+	if (gsb_gui_navigation_get_current_page () == GSB_ACCOUNT_PAGE)
 	{
 		GtkWidget *expander_label;
+		gint new_width;
 
-		conf.form_expander_label_width = 0.95*allocation->width;
+		new_width = 0.93*(conf.main_width - conf.panel_width);
+
+		conf.form_expander_label_width = new_width;
 
 		expander_label = gtk_expander_get_label_widget (GTK_EXPANDER(form_expander));
 		gtk_widget_set_size_request (expander_label, conf.form_expander_label_width, -1);
 	}
 
     return FALSE;
-#endif
 }
 
-static gboolean grisbi_win_expander_label_set_initial_width (GtkWidget *form_general)
+/**
+ * Init the width of expander
+ *
+ * \param expander	Expanded.
+ *
+ * \return
+ **/
+static void grisbi_win_expander_label_set_initial_width (GtkWidget *form_expander)
 {
-	GtkWidget *form_expander;
 	GtkWidget *expander_label;
 
-	form_expander = g_object_get_data (G_OBJECT (form_general), "form_expander");
-	if (form_expander)
-	{
-		expander_label = gtk_expander_get_label_widget (GTK_EXPANDER(form_expander));
-		gtk_widget_set_size_request (expander_label, conf.form_expander_label_width, -1);
-	}
-
-    return FALSE;
+	expander_label = gtk_expander_get_label_widget (GTK_EXPANDER(form_expander));
+	gtk_widget_set_size_request (expander_label, conf.form_expander_label_width, -1);
 }
 
 /**
@@ -576,6 +566,7 @@ static gboolean grisbi_win_fill_general_notebook (GrisbiWin *win)
  */
 static GtkWidget *grisbi_win_create_general_notebook (GrisbiWin *win)
 {
+	GtkWidget *sw_general;
 	GtkWidget *grid;
 	GtkWidget *sw;
 	GrisbiWinPrivate *priv;
@@ -583,8 +574,14 @@ static GtkWidget *grisbi_win_create_general_notebook (GrisbiWin *win)
     devel_debug ("create_main_notebook");
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
+    sw_general = gtk_scrolled_window_new (NULL, NULL);
+    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw_general),
+                                    GTK_POLICY_AUTOMATIC,
+                                    GTK_POLICY_AUTOMATIC);
+
     /* the main right page is a grid with a notebook on the top and the form on the bottom */
 	grid = gtk_grid_new ();
+	gtk_container_add (GTK_CONTAINER(sw_general), grid);
 
 	/* adding a scrolled window for low resolution */
     sw = gtk_scrolled_window_new (NULL, NULL);
@@ -605,18 +602,19 @@ static GtkWidget *grisbi_win_create_general_notebook (GrisbiWin *win)
     /* append the form */
     priv->form_general = grisbi_win_form_new (win);
 	gtk_grid_attach (GTK_GRID (grid), priv->form_general, 0,1,1,1);
-	grisbi_win_expander_label_set_initial_width (priv->form_general);
+	grisbi_win_expander_label_set_initial_width (priv->form_expander);
     gtk_widget_hide (priv->form_general);
-    g_signal_connect (G_OBJECT (priv->form_general),
+    g_signal_connect (G_OBJECT (priv->form_expander),
                       "size_allocate",
                       G_CALLBACK (grisbi_win_form_size_allocate),
                       win);
 
 	/* show widgets */
+	gtk_widget_show (sw_general);
 	gtk_widget_show (sw);
     gtk_widget_show (grid);
 
-    return grid;
+    return sw_general;
 }
 
 /* VBOX_GENERAL */
