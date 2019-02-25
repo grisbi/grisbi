@@ -5334,7 +5334,7 @@ msgstr ""
 #. cancel button
 #: ../src/gsb_calendar_entry.c:504 ../src/gsb_form.c:1234
 #: ../src/gsb_reconcile.c:320
-msgid "Cancel"
+msgid "_Cancel"
 msgstr "Annulér"
 
 #: ../src/gsb_category.c:220
@@ -7855,7 +7855,7 @@ msgstr ""
 #. create the valid/cancel buttons
 #: ../src/gsb_form.c:1228 ../src/gsb_reconcile.c:326
 #, fuzzy
-msgid "Validate"
+msgid "_Validate"
 msgstr "Valørdato"
 
 #: ../src/gsb_form.c:1604

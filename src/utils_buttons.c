@@ -440,7 +440,7 @@ GtkWidget *utils_buttons_button_new_from_stock (const gchar *icon_name,
     GtkWidget *image;
 
     image = gtk_image_new_from_icon_name (icon_name, GTK_ICON_SIZE_BUTTON);
-    button = gtk_button_new_with_label (label_name);
+    button = gtk_button_new_with_mnemonic (label_name);
     gtk_button_set_image (GTK_BUTTON (button), image);
 
     return button;
