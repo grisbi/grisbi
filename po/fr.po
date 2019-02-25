@@ -5425,8 +5425,8 @@ msgstr "Êtes-vous sûr de vouloir supprimer la banque « %s » ?\n"
 #. cancel button
 #: ../src/gsb_calendar_entry.c:504 ../src/gsb_form.c:1234
 #: ../src/gsb_reconcile.c:320
-msgid "Cancel"
-msgstr "Annuler"
+msgid "_Cancel"
+msgstr "_Annuler"
 
 #: ../src/gsb_category.c:220
 msgid "Category list"
@@ -8035,8 +8035,8 @@ msgstr "Restaurer les sous-opérations"
 
 #. create the valid/cancel buttons
 #: ../src/gsb_form.c:1228 ../src/gsb_reconcile.c:326
-msgid "Validate"
-msgstr "Valider"
+msgid "_Validate"
+msgstr "_Valider"
 
 #: ../src/gsb_form.c:1604
 msgid "Transfer : Deleted account"

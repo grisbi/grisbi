@@ -5425,7 +5425,7 @@ msgstr "Soll die ausgewählte Bank \"%s\" gelöscht werden?\n"
 #. cancel button
 #: ../src/gsb_calendar_entry.c:504 ../src/gsb_form.c:1234
 #: ../src/gsb_reconcile.c:320
-msgid "Cancel"
+msgid "_Cancel"
 msgstr "Abbrechen"
 
 #: ../src/gsb_category.c:220
@@ -8022,7 +8022,7 @@ msgstr "Unterelemente erstellen"
 
 #. create the valid/cancel buttons
 #: ../src/gsb_form.c:1228 ../src/gsb_reconcile.c:326
-msgid "Validate"
+msgid "_Validate"
 msgstr "OK"
 
 #: ../src/gsb_form.c:1604
