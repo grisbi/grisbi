@@ -2381,8 +2381,6 @@ gboolean gsb_scheduler_list_update_transaction_in_list (gint scheduled_number)
     GtkTreeIter iter;
     GDate *pGDateCurrent;
     gchar *line[SCHEDULER_COL_VISIBLE_COLUMNS] = {NULL,NULL,NULL,NULL,NULL,NULL,NULL};;
-	gint init_sch_with_loan = -1;
-	gint transfer_account = 0;
 
     devel_debug_int (scheduled_number);
 
@@ -2412,12 +2410,6 @@ gboolean gsb_scheduler_list_update_transaction_in_list (gint scheduled_number)
                                 -1);
             if (scheduled_number_tmp == scheduled_number)
             {
-				if (gsb_data_scheduled_get_split_of_scheduled (scheduled_number))
-				{
-
-					transfer_account = gsb_data_scheduled_get_account_number_transfer (scheduled_number+1);
-					init_sch_with_loan = gsb_data_account_get_bet_init_sch_with_loan (transfer_account);
-				}
                 gsb_scheduler_list_fill_transaction_row (GTK_TREE_STORE (store), &iter, line);
 
                 /* go to the next date if ever there is several lines of that scheduled */
@@ -2447,16 +2439,13 @@ gboolean gsb_scheduler_list_update_transaction_in_list (gint scheduled_number)
                         mother_number = gsb_data_scheduled_get_mother_scheduled_number (white_line_number);
                     }
 
-					if (init_sch_with_loan && scheduled_number_tmp > 0) /* cette transaction concerne un prêt */
+					if (scheduled_number_tmp > 0)
 					{
 						GsbReal amount;
 						gchar *tmp_str;
 						gchar *color_str = NULL;
 
-						amount = bet_finance_get_loan_amount_at_date (scheduled_number_tmp,
-																	  transfer_account,
-																	  pGDateCurrent,
-																	  FALSE);
+						amount = gsb_data_scheduled_get_amount (scheduled_number_tmp);
 						tmp_str = utils_real_get_string_with_currency (amount,
 																	   gsb_data_scheduled_get_currency_number
 																	   (scheduled_number_tmp),
