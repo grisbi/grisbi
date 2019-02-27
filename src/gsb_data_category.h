@@ -62,6 +62,9 @@ gint 		gsb_data_category_new_sub_category_with_number 		(gint number,
 gint 		gsb_data_category_new_with_number 					(gint number);
 gboolean 	gsb_data_category_remove 							(gint no_category);
 void 		gsb_data_category_remove_transaction_from_category 	(gint transaction_number);
+void		gsb_data_category_set_category_from_string 			(gint transaction_number,
+																 const gchar *string,
+																 gboolean is_transaction);
 gboolean 	gsb_data_category_set_name 							(gint no_category,
 																 const gchar *name);
 gboolean 	gsb_data_category_set_sub_category_name 			(gint no_category,
