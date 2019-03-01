@@ -34,9 +34,12 @@
 /*START_INCLUDE*/
 #include "gtk_combofix.h"
 #include "grisbi_win.h"
+#include "gsb_data_account.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
+#include "gsb_data_form.h"
 #include "gsb_form.h"
+#include "gsb_form_widget.h"
 #include "structures.h"
 #include "utils_buttons.h"
 #include "utils_str.h"
@@ -105,6 +108,65 @@ enum CombofixKeyDirection
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
+/**
+ * positionne le bouton "Change" du formulaire si le compte destinataire
+ * du transfert a une devise différente du compte de départ.
+ *
+ * \param
+ * \param
+ * \param
+ * \param
+ *
+ * \return FALSE
+ **/
+static gboolean gtk_combofix_completion_match_selected (GtkEntryCompletion *widget,
+														GtkTreeModel *model,
+														GtkTreeIter *iter,
+														GtkComboFix *combofix)
+{
+    GtkComboFixPrivate *priv;
+
+    priv = gtk_combofix_get_instance_private (combofix);
+	devel_debug (NULL);
+
+	if (priv->type == METATREE_CATEGORY)
+	{
+		gchar *tmp_str;
+
+		gtk_tree_model_get (GTK_TREE_MODEL (model), iter, 0, &tmp_str, -1);
+		if (g_str_has_prefix (tmp_str, _("Transfer : ")))
+		{
+			GtkWidget *widget;
+
+			widget = gsb_form_widget_get_widget (TRANSACTION_FORM_DEVISE);
+			if (widget != NULL && gtk_widget_get_visible (widget))
+			{
+				const gchar *entry_account_name;
+				gint entry_account_currency;
+				gint entry_account_number;
+				gint form_account_nb;
+				gint form_account_currency;
+
+				form_account_nb = gsb_form_get_account_number ();
+				form_account_currency = gsb_data_account_get_currency (form_account_nb);
+
+				/* data of selected account */
+				entry_account_name = memchr (tmp_str, ':', strlen (tmp_str));
+				entry_account_name = entry_account_name + 2;
+				entry_account_number = gsb_data_account_get_no_account_by_name (entry_account_name);
+				entry_account_currency = gsb_data_account_get_currency (entry_account_number);
+
+				if (entry_account_currency == form_account_currency)
+					gtk_widget_hide (gsb_form_widget_get_widget (TRANSACTION_FORM_CHANGE));
+				else
+					gtk_widget_show (gsb_form_widget_get_widget (TRANSACTION_FORM_CHANGE));
+			}
+		}
+		g_free (tmp_str);
+	}
+	return FALSE;
+}
+
 /**
  * get the first item of completion and fill the entry with it
  * Works if the length of the text >= the length of the completion key
@@ -1610,6 +1672,13 @@ static void gtk_combofix_create_entry (GtkComboFix *combofix)
                         	"focus-out-event",
                         	G_CALLBACK (gtk_combofix_focus_out),
                         	combofix);
+
+ 	/* set completion signal */
+   g_signal_connect (G_OBJECT (completion),
+                      "match-selected",
+                      G_CALLBACK (gtk_combofix_completion_match_selected),
+                      combofix);
+
     gtk_widget_set_hexpand (priv->entry, TRUE);
     gtk_widget_show (priv->entry);
 }
