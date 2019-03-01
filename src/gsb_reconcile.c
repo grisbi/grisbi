@@ -317,13 +317,13 @@ GtkWidget *gsb_reconcile_create_box ( void )
     gtk_box_set_homogeneous ( GTK_BOX ( hbox ), TRUE );
     gtk_box_pack_end ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0);
 
-    button = utils_buttons_button_new_from_stock ("gtk-cancel", _("Cancel"));
+    button = utils_buttons_button_new_from_stock ("gtk-cancel", _("_Cancel"));
     gtk_button_set_relief ( GTK_BUTTON ( button), GTK_RELIEF_NONE);
     g_signal_connect ( G_OBJECT (button), "clicked",
 		       G_CALLBACK (gsb_reconcile_cancel), NULL );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0);
 
-    reconcile_ok_button = utils_buttons_button_new_from_stock ("gtk-ok", _("Validate"));
+    reconcile_ok_button = utils_buttons_button_new_from_stock ("gtk-ok", _("_Validate"));
     gtk_button_set_relief ( GTK_BUTTON ( reconcile_ok_button), GTK_RELIEF_NONE);
     g_signal_connect ( G_OBJECT ( reconcile_ok_button ), "clicked",
 		       G_CALLBACK (gsb_reconcile_finish_reconciliation), NULL );
