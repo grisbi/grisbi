@@ -66,7 +66,7 @@ export PKG_CONFIG_PATH
 	--with-goffice
 
 v=$(grep PACKAGE_VERSION config.h | cut -f2 -d '"')
-minor=$(echo $v|cut -f3 -d.)
+minor=$(echo $v|cut -f2 -d.)
 unstable=$((minor % 2))
 if [ $unstable = "1" ]
 then
