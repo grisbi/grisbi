@@ -19,7 +19,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 18.12.0\n"
+"X-Generator: Lokalize 18.12.2\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../src/accueil.c:129
@@ -2309,17 +2309,18 @@ msgid "Statement"
 msgstr "Abstimmung"
 
 #: ../src/etats_calculs.c:144
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The number of transactions selected by the report is very important (%d) and "
 "> to %d.\n"
 "This can cause delays or a crash of Grisbi.\n"
 "At this point you can continue or return to setting"
 msgstr ""
-"Mit den aktuellen Einstellungen werden im Bericht mehr als %d Buchungen "
-"angezeigt.\n"
+"Mit den aktuellen Einstellungen werden mehr Buchungen (%d) als das "
+"empfohlene Limit von %d angezeigt.\n"
 "Eine hohe Anzahl von anzuzeigenden Buchungen kann zur Verzögerungen oder zum "
 "Absturz von Grisbi führen.\n"
+"\n"
 "Soll der Vorgang fortgesetzt oder sollen die Einstellungen für den Bericht "
 "angezeigt werden?"
 
@@ -2329,7 +2330,7 @@ msgstr "Fortsetzen"
 
 #: ../src/etats_calculs.c:159
 msgid "Return to settings"
-msgstr "Zurück zu den Einstellungen"
+msgstr "Einstellungen anzeigen"
 
 #: ../src/etats_config.c:96 ../src/etats_prefs_private.h:58
 #: ../src/meta_payee.c:80 ../src/ui/etats_prefs.ui.h:28
@@ -3151,11 +3152,11 @@ msgstr "nach %s %d"
 
 #: ../src/export.c:69 ../src/export.c:250
 msgid "Uncheck to write a date field without quotes"
-msgstr ""
+msgstr "Bei Auswahl wird das Datum mit Hochkomma geschrieben"
 
 #: ../src/export.c:71 ../src/export.c:252
 msgid "Check to write a date field with quotes"
-msgstr ""
+msgstr "Bei Auswahl wird das Datum mit Hochkomma geschrieben"
 
 #. set radio buttons
 #: ../src/export.c:197 ../src/export.c:671
@@ -3178,9 +3179,8 @@ msgid "Force US numbers"
 msgstr "Amerikanisches Zahlenformat verwenden"
 
 #: ../src/export.c:245
-#, fuzzy
 msgid "Quote the dates"
-msgstr "Amerikanisches Datumsformat verwenden"
+msgstr "Datum mit Hochkomma"
 
 #: ../src/export.c:477
 msgid "Select accounts to export"
@@ -4395,7 +4395,7 @@ msgid ""
 "Standard account with credit card and cheques."
 msgstr ""
 "Bankkonto\n"
-"Standardkonto bei einer Bank."
+"Standardkonto bei einer Bank"
 
 #: ../src/gsb_assistant_account.c:163
 msgid ""
@@ -4403,7 +4403,7 @@ msgid ""
 "Standard cash account, to use with a cashier."
 msgstr ""
 "Bargeldkonto\n"
-"Konto für die Verwaltung von Bargeld."
+"Konto für die Verwaltung von Bargeld"
 
 #: ../src/gsb_assistant_account.c:164
 msgid ""
@@ -4411,7 +4411,7 @@ msgid ""
 "Special account to represent a debt, like a long-term loan."
 msgstr ""
 "Kreditkonto\n"
-"Konto für Verbindlichkeiten."
+"Konto für Verbindlichkeiten"
 
 #: ../src/gsb_assistant_account.c:165
 msgid ""
@@ -4419,7 +4419,7 @@ msgid ""
 "Special account to represent an asset, like a car or special subscriptions."
 msgstr ""
 "Anlagekonto\n"
-"Konto für Vermögen."
+"Konto für Vermögen"
 
 #: ../src/gsb_assistant_account.c:171
 msgid "Account type selection"
@@ -5004,7 +5004,7 @@ msgstr "Internet"
 
 #: ../src/gsb_assistant_first.c:223 ../src/ui/prefs_page_divers.ui.h:5
 msgid "Web browser command: "
-msgstr "Webbrowser: "
+msgstr "Browser: "
 
 #: ../src/gsb_assistant_first.c:230 ../src/ui/prefs_page_divers.ui.h:7
 #, no-c-format
@@ -5318,7 +5318,7 @@ msgstr "Abstimmung auswählen - Grisbi"
 
 #: ../src/gsb_assistant_reconcile_config.c:1188
 msgid "Select the reconciliation to associate to the selected transactions: "
-msgstr "Abstimmung für die Zuordnung von Buchungen auswählen: "
+msgstr "Abstimmung für die Buchung auswählen: "
 
 #: ../src/gsb_assistant_reconcile_config.c:1222
 #: ../src/gsb_transactions_list.c:173
@@ -7694,7 +7694,7 @@ msgstr "Die verschlüsselte Datei kann nicht geöffnet werden '%s'"
 #: ../src/gsb_file_load.c:4151
 #, c-format
 msgid "'%s' is not a valid UTF8 file"
-msgstr ""
+msgstr "'%s' ist keine gültige UTF-8 Datei"
 
 #: ../src/gsb_file_load.c:4156
 #, c-format
@@ -7702,21 +7702,21 @@ msgid ""
 "You can choose to fix the file with the substitution character? or return to "
 "the file choice.\n"
 msgstr ""
+"Bitte Auswählen ob die Datei korrigiert oder ob eine andere Datei geöffnet "
+"werden soll.\n"
 
 #: ../src/gsb_file_load.c:4162
-#, fuzzy
 msgid "Load another file"
-msgstr "Die Datei konnte nicht verschlüsselt werden"
+msgstr "Andere Datei öffnen"
 
 #: ../src/gsb_file_load.c:4163
-#, fuzzy
 msgid "Correct the file"
-msgstr "Sicherung komprimieren"
+msgstr "Datei korrigieren"
 
 #: ../src/gsb_file_load.c:4177
 #, c-format
 msgid "You will go back to the choice of the file.\n"
-msgstr ""
+msgstr "Eine andere Datei auswählen.\n"
 
 #: ../src/gsb_file_load.c:4256
 msgid ""
@@ -8229,7 +8229,7 @@ msgstr "Ende: "
 #. Activate in transaction form?
 #: ../src/gsb_fyear_config.c:253
 msgid "Activate financial year in transaction form"
-msgstr "Geschäftsjahre im Buchungsformular aktivieren"
+msgstr "Geschäftsjahr in Auswahlliste anzeigen"
 
 #: ../src/gsb_fyear_config.c:281
 msgid "Begin date"
@@ -9594,7 +9594,7 @@ msgstr ""
 "Dieser Assistent wird Sie beim Import von Daten unterstützen.\n"
 "\n"
 "Grisbi wird versuchen das Format der Importdatei zu ermitteln, jedoch kann "
-"es notwendig sein das Sie das Format der Importdatei im nächsten Dialogen "
+"es notwendig sein das Sie das Format der Importdatei im nächsten Dialog "
 "eingeben müssen.  Aktuell werden folgende Formate für einen Import "
 "unterstützt:\n"
 "\n"
@@ -10445,7 +10445,7 @@ msgstr "Passwort anzeigen"
 
 #: ../src/plugins/openssl/openssl.c:380
 msgid "Don't ask password again for this session."
-msgstr "Solange das Programm geöffnet ist nicht mehr nach dem Passwort fragen."
+msgstr "Solange das Programm geöffnet ist nicht mehr nach dem Passwort fragen"
 
 #: ../src/plugins/openssl/openssl.c:405
 msgid "The password must contain at least 7 characters"
@@ -11187,7 +11187,7 @@ msgstr ""
 "Grisbi konnte den Browser für den Aufruf der URL:\n"
 "<span foreground=\"blue\">%s</span> nicht starten.\n"
 "\n"
-"Bitte korrigieren Sie die Einstellungen für den Browser."
+"Bitte überprüfen Sie die Einstellungen für den Browser."
 
 #: ../src/utils.c:206 ../src/utils.c:244
 msgid "Cannot execute web browser"
@@ -11269,8 +11269,7 @@ msgstr "Ergebnis"
 #. select another encoding
 #: ../src/utils_files.c:769
 msgid "If no proposals above are correct you can choose a different charset."
-msgstr ""
-"Wenn kein Vorschlag zutrifft bitte einen anderen Zeichensatz auswählen."
+msgstr "Wenn kein Vorschlag zutrifft bitte einen anderen Zeichensatz auswählen"
 
 #. On récupère le nom de la page
 #: ../src/prefs/prefs_page_accueil.c:209
@@ -11825,11 +11824,11 @@ msgstr "Schrift Name."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:67
 msgid "Browser command"
-msgstr "Webbrowser Befehl"
+msgstr "Browser Befehl"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:68
 msgid "Browser command."
-msgstr "Webbrowser Befehl."
+msgstr "Browser Befehl."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:69
 msgid "Language for interface"
@@ -12080,7 +12079,7 @@ msgstr "<b>Einstellungen für X-Achse</b>"
 
 #: ../src/ui/bet_graph.ui.h:5
 msgid "<b>Major ticks</b>"
-msgstr "<b>Intervallmarken</b>"
+msgstr "<b>Intervallmarkierungen</b>"
 
 #: ../src/ui/bet_graph.ui.h:6
 msgid "Outside"
@@ -12407,7 +12406,7 @@ msgstr "Buchungen nach Kategorien auswählen"
 
 #: ../src/ui/etats_prefs.ui.h:66
 msgid "Select categories to include: "
-msgstr "Kategorien für den Bericht auswählen: "
+msgstr "Kategorien für den Bericht auswählen"
 
 #: ../src/ui/etats_prefs.ui.h:68
 msgid "Income categories"
@@ -12423,7 +12422,7 @@ msgstr "Buchungen nach Konten auswählen"
 
 #: ../src/ui/etats_prefs.ui.h:73
 msgid "Select the accounts included in the report: "
-msgstr "Konten für den Bericht auswählen: "
+msgstr "Konten für den Bericht auswählen"
 
 #: ../src/ui/etats_prefs.ui.h:74
 msgid "Select bank accounts"
@@ -12491,7 +12490,7 @@ msgstr "Buchungen nach Gruppen auswählen"
 
 #: ../src/ui/etats_prefs.ui.h:90
 msgid "Select the budgetary lines to include in the report: "
-msgstr "Gruppen für den Bericht auswählen: "
+msgstr "Gruppen für den Bericht auswählen"
 
 #: ../src/ui/etats_prefs.ui.h:91
 msgid "Income budget lines"
@@ -12503,7 +12502,7 @@ msgstr "Gruppen Ausgaben"
 
 #: ../src/ui/etats_prefs.ui.h:93
 msgid "Select methods of payment to include: "
-msgstr "Zahlungsweisen für den Bericht auswählen: "
+msgstr "Zahlungsweisen für den Bericht auswählen"
 
 #: ../src/ui/etats_prefs.ui.h:94
 msgid "Select the transactions by amount"
@@ -12547,7 +12546,7 @@ msgstr "Buchungen nach Empfänger auswählen"
 
 #: ../src/ui/etats_prefs.ui.h:106
 msgid "Select payees to include in this report: "
-msgstr "Empfänger für den Bericht auswählen: "
+msgstr "Empfänger für den Bericht auswählen"
 
 #: ../src/ui/etats_prefs.ui.h:107
 msgid "<Ctrl> + left click of mouse to add to the selection"
@@ -12824,7 +12823,7 @@ msgstr "Automatisch prüfen"
 
 #: ../src/ui/prefs_page_archives.ui.h:9
 msgid "Check at opening if creating archive is needed."
-msgstr "Beim Öffnen prüfen ob ein Archiv erstellt werden soll."
+msgstr "Beim Öffnen prüfen ob ein Archiv erstellt werden soll"
 
 #: ../src/ui/prefs_page_archives.ui.h:10
 msgid "Warn if more than "
@@ -12832,7 +12831,7 @@ msgstr "Warnung wenn mehr als "
 
 #: ../src/ui/prefs_page_archives.ui.h:11
 msgid " transactions are not archived."
-msgstr " Buchungen nicht archiviert sind."
+msgstr " Buchungen nicht archiviert sind"
 
 #: ../src/ui/prefs_page_bet_account.ui.h:1
 msgid "Select an account"
