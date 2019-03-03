@@ -501,7 +501,7 @@ GtkWidget *gsb_calendar_entry_popup ( GtkWidget *entry )
     gtk_widget_show ( pCalendar );
 
     /* cancel button */
-    button = gtk_button_new_with_label ( _("Cancel") );
+    button = gtk_button_new_with_mnemonic ( _("_Cancel") );
     g_signal_connect_swapped ( G_OBJECT ( button ),
 			       "clicked",
 			       G_CALLBACK ( gtk_widget_destroy ),

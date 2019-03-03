@@ -68,6 +68,15 @@ int main (int argc, char **argv)
     GrisbiApp *app;
 	gint status;
 
+	/* On force l'utilisation de X11 en attendant que grisbi fonctionne correctement sous wayland */
+#ifdef GDK_WINDOWING_WAYLAND
+	#ifdef GDK_WINDOWING_X11
+		gdk_set_allowed_backends ("x11");
+	#else
+		return (1);
+	#endif
+#endif
+
 	/* On commence par initialiser les répertoires */
     gsb_dirs_init (argv[0]);
 

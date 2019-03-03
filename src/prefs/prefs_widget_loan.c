@@ -1525,7 +1525,7 @@ dialog_return:
 		if (!gsb_form_widget_check_empty (s_sch_dialog->SCategCombo))
 		{
 			text = gtk_combofix_get_text (GTK_COMBOFIX (s_sch_dialog->SCategCombo));
-			gsb_data_budget_set_budget_from_string (scheduled_number, text, FALSE);
+			gsb_data_category_set_category_from_string (scheduled_number, text, FALSE);
 		}
 		/* set third child : interests */
 		/* set data for third child */
@@ -1559,7 +1559,7 @@ dialog_return:
 		if (!gsb_form_widget_check_empty (s_sch_dialog->TCategCombo))
 		{
 			text = gtk_combofix_get_text (GTK_COMBOFIX (s_sch_dialog->TCategCombo));
-			gsb_data_budget_set_budget_from_string (scheduled_number, text, FALSE);
+			gsb_data_category_set_category_from_string (scheduled_number, text, FALSE);
 		}
 
 		if (!prefs_widget_loan_scheduled_dialog_validate (s_sch_dialog))

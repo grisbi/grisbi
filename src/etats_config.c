@@ -3547,41 +3547,91 @@ static void etats_config_initialise_onglet_affichage_operations ( gint report_nu
 static void etats_config_recupere_info_onglet_affichage_operations ( gint report_number )
 {
     GtkWidget *combo;
+	gboolean affich_opes = FALSE;
+	gboolean detail_ope;
+	gboolean is_actif = FALSE;
 
-    gsb_data_report_set_show_report_transactions ( report_number,
-                        etats_prefs_button_toggle_get_actif ( "bouton_afficher_opes" ) );
+	affich_opes = etats_prefs_button_toggle_get_actif ("bouton_afficher_opes");
+    gsb_data_report_set_show_report_transactions (report_number, affich_opes);
 
     /* données des opérations */
-    gsb_data_report_set_show_report_transaction_number ( report_number,
-                        etats_prefs_button_toggle_get_actif ( "bouton_afficher_no_ope" ) );
-    gsb_data_report_set_show_report_date ( report_number,
-                        etats_prefs_button_toggle_get_actif ( "bouton_afficher_date_opes" ) );
-    gsb_data_report_set_show_report_value_date ( report_number,
-                        etats_prefs_button_toggle_get_actif ( "bouton_afficher_value_date_opes" ) );
-    gsb_data_report_set_show_report_payee ( report_number,
-                        etats_prefs_button_toggle_get_actif ( "bouton_afficher_tiers_opes" ) );
-    gsb_data_report_set_show_report_category ( report_number,
-                        etats_prefs_button_toggle_get_actif ( "bouton_afficher_categ_opes" ) );
-    gsb_data_report_set_show_report_sub_category ( report_number,
-                        etats_prefs_button_toggle_get_actif ( "bouton_afficher_sous_categ_opes" ) );
-    gsb_data_report_set_show_report_budget ( report_number,
-                        etats_prefs_button_toggle_get_actif ( "bouton_afficher_ib_opes" ) );
-    gsb_data_report_set_show_report_sub_budget ( report_number,
-                        etats_prefs_button_toggle_get_actif ( "bouton_afficher_sous_ib_opes" ) );
-    gsb_data_report_set_show_report_note ( report_number,
-                        etats_prefs_button_toggle_get_actif ( "bouton_afficher_notes_opes" ) );
-    gsb_data_report_set_show_report_method_of_payment ( report_number,
-                        etats_prefs_button_toggle_get_actif ( "bouton_afficher_type_ope" ) );
-    gsb_data_report_set_show_report_method_of_payment_content ( report_number,
-                        etats_prefs_button_toggle_get_actif ( "bouton_afficher_no_cheque" ) );
-    gsb_data_report_set_show_report_voucher ( report_number,
-                        etats_prefs_button_toggle_get_actif ( "bouton_afficher_pc_opes" ) );
-    gsb_data_report_set_show_report_financial_year ( report_number,
-                        etats_prefs_button_toggle_get_actif ( "bouton_afficher_exo_opes" ) );
-    gsb_data_report_set_show_report_bank_references ( report_number,
-                        etats_prefs_button_toggle_get_actif ( "bouton_afficher_infobd_opes" ) );
-    gsb_data_report_set_show_report_marked ( report_number,
-                        etats_prefs_button_toggle_get_actif ( "bouton_afficher_no_rappr" ) );
+	detail_ope = etats_prefs_button_toggle_get_actif ("bouton_afficher_no_ope");
+	if (detail_ope && !is_actif)
+		is_actif = TRUE;
+    gsb_data_report_set_show_report_transaction_number (report_number, detail_ope);
+
+	detail_ope = etats_prefs_button_toggle_get_actif ("bouton_afficher_date_opes");
+	if (detail_ope && !is_actif)
+		is_actif = TRUE;
+    gsb_data_report_set_show_report_date (report_number, detail_ope);
+
+	if (detail_ope && !is_actif)
+		is_actif = TRUE;
+	detail_ope = etats_prefs_button_toggle_get_actif ("bouton_afficher_value_date_opes");
+    gsb_data_report_set_show_report_value_date (report_number, detail_ope);
+
+	detail_ope = etats_prefs_button_toggle_get_actif ("bouton_afficher_tiers_opes");
+	if (detail_ope && !is_actif)
+		is_actif = TRUE;
+    gsb_data_report_set_show_report_payee (report_number, detail_ope);
+
+	detail_ope = etats_prefs_button_toggle_get_actif ("bouton_afficher_categ_opes");
+	if (detail_ope && !is_actif)
+		is_actif = TRUE;
+    gsb_data_report_set_show_report_category (report_number, detail_ope);
+
+	detail_ope = etats_prefs_button_toggle_get_actif ("bouton_afficher_sous_categ_opes");
+	if (detail_ope && !is_actif)
+		is_actif = TRUE;
+    gsb_data_report_set_show_report_sub_category (report_number, detail_ope);
+
+	detail_ope = etats_prefs_button_toggle_get_actif ("bouton_afficher_ib_opes");
+	if (detail_ope && !is_actif)
+		is_actif = TRUE;
+    gsb_data_report_set_show_report_budget (report_number, detail_ope);
+
+	detail_ope = etats_prefs_button_toggle_get_actif ("bouton_afficher_sous_ib_opes");
+	if (detail_ope && !is_actif)
+		is_actif = TRUE;
+    gsb_data_report_set_show_report_sub_budget (report_number, detail_ope);
+
+	detail_ope = etats_prefs_button_toggle_get_actif ("bouton_afficher_notes_opes");
+	if (detail_ope && !is_actif)
+		is_actif = TRUE;
+    gsb_data_report_set_show_report_note (report_number, detail_ope);
+
+	detail_ope = etats_prefs_button_toggle_get_actif ("bouton_afficher_type_ope");
+	if (detail_ope && !is_actif)
+		is_actif = TRUE;
+    gsb_data_report_set_show_report_method_of_payment (report_number, detail_ope);
+
+	detail_ope = etats_prefs_button_toggle_get_actif ("bouton_afficher_no_cheque");
+	if (detail_ope && !is_actif)
+		is_actif = TRUE;
+    gsb_data_report_set_show_report_method_of_payment_content (report_number, detail_ope);
+
+	detail_ope = etats_prefs_button_toggle_get_actif ("bouton_afficher_pc_opes");
+	if (detail_ope && !is_actif)
+		is_actif = TRUE;
+    gsb_data_report_set_show_report_voucher (report_number, detail_ope);
+
+	detail_ope = etats_prefs_button_toggle_get_actif ("bouton_afficher_exo_opes");
+	if (detail_ope && !is_actif)
+		is_actif = TRUE;
+    gsb_data_report_set_show_report_financial_year (report_number, detail_ope);
+
+	detail_ope = etats_prefs_button_toggle_get_actif ("bouton_afficher_infobd_opes");
+	if (detail_ope && !is_actif)
+		is_actif = TRUE;
+    gsb_data_report_set_show_report_bank_references (report_number, detail_ope);
+
+	detail_ope = etats_prefs_button_toggle_get_actif ("bouton_afficher_no_rappr");
+	if (detail_ope && !is_actif)
+		is_actif = TRUE;
+    gsb_data_report_set_show_report_marked (report_number, detail_ope);
+
+	if (affich_opes && !is_actif)
+		gsb_data_report_set_show_report_transactions (report_number, FALSE);
 
     /* titres des colonnes */
     gsb_data_report_set_column_title_show ( report_number,

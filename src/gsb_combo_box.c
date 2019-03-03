@@ -320,6 +320,8 @@ gchar *gsb_combo_box_get_active_text (GtkComboBox *combo_box)
 
 GtkWidget *gsb_combo_box_blue_new_from_list (gchar **string,
 											 const gchar *first_str,
+											 gboolean set_activ,
+											 gint value,
 											 GCallback func,
 											 gpointer data)
 {
@@ -357,6 +359,10 @@ GtkWidget *gsb_combo_box_blue_new_from_list (gchar **string,
 									"text", 0,
 									"foreground", 2,
 									NULL);
+
+	if (set_activ)
+		gtk_combo_box_set_active (GTK_COMBO_BOX (combo), value);
+
 	if (func)
         g_signal_connect (G_OBJECT (combo),
 						  "changed",

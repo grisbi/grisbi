@@ -1948,7 +1948,7 @@ void payees_manage_payees (void)
 
 		use_regex = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (g_object_get_data (G_OBJECT (assistant),
 																						  "check_option_4")));
-		gsb_data_payee_set_ignore_case (new_payee_number, use_regex);
+		gsb_data_payee_set_use_regex (new_payee_number, use_regex);
 
 		replace_rule= gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (g_object_get_data (G_OBJECT (assistant),
 																						  "check_option_5")));

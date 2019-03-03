@@ -2324,7 +2324,7 @@ void bet_finance_update_amortization_tab_with_data (gint account_number,
 	/* set first line si necessaire */
 		if (s_loan->invers_cols_cap_ech)
 		{
-			str_capital_du = utils_real_get_string_with_currency (gsb_real_double_to_real (s_loan->capital_du),
+			str_capital_du = utils_real_get_string_with_currency (gsb_real_double_to_real (s_loan->capital),
 																  s_amortissement->devise,
 																  TRUE);
 

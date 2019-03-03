@@ -161,11 +161,12 @@ GtkWidget *gsb_reconcile_create_box ( void )
     gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
 									GTK_POLICY_AUTOMATIC,
 									GTK_POLICY_NEVER);
-	gtk_container_add (GTK_CONTAINER (frame), sw);
+	gtk_container_add (GTK_CONTAINER (sw), frame);
+	g_object_set_data (G_OBJECT (sw), "reconcile_frame", frame);
 
     vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
     gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), MARGIN_BOX);
-    gtk_container_add (GTK_CONTAINER (sw), vbox);
+    gtk_container_add (GTK_CONTAINER (frame), vbox);
 
     /* the title of the frame */
     label = gtk_label_new ( NULL );
@@ -317,13 +318,13 @@ GtkWidget *gsb_reconcile_create_box ( void )
     gtk_box_set_homogeneous ( GTK_BOX ( hbox ), TRUE );
     gtk_box_pack_end ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0);
 
-    button = utils_buttons_button_new_from_stock ("gtk-cancel", _("Cancel"));
+    button = utils_buttons_button_new_from_stock ("gtk-cancel", _("_Cancel"));
     gtk_button_set_relief ( GTK_BUTTON ( button), GTK_RELIEF_NONE);
     g_signal_connect ( G_OBJECT (button), "clicked",
 		       G_CALLBACK (gsb_reconcile_cancel), NULL );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0);
 
-    reconcile_ok_button = utils_buttons_button_new_from_stock ("gtk-ok", _("Validate"));
+    reconcile_ok_button = utils_buttons_button_new_from_stock ("gtk-ok", _("_Validate"));
     gtk_button_set_relief ( GTK_BUTTON ( reconcile_ok_button), GTK_RELIEF_NONE);
     g_signal_connect ( G_OBJECT ( reconcile_ok_button ), "clicked",
 		       G_CALLBACK (gsb_reconcile_finish_reconciliation), NULL );
@@ -332,9 +333,9 @@ GtkWidget *gsb_reconcile_create_box ( void )
     separator = gtk_separator_new ( GTK_ORIENTATION_HORIZONTAL );
     gtk_box_pack_end ( GTK_BOX ( vbox ), separator, FALSE, FALSE, 0);
 
-    gtk_widget_show_all ( frame );
+    gtk_widget_show_all ( sw );
 
-    return ( frame );
+    return ( sw );
 }
 
 
@@ -437,6 +438,7 @@ gchar *gsb_reconcile_build_label ( int reconcile_number )
 gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
                         gpointer null )
 {
+	GtkWidget *reconcile_frame;
     GDate *date;
     gint account_number;
     gint reconcile_number;
@@ -531,10 +533,10 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
     g_free(run.reconcile_final_balance);
 
     /* set the title */
+	reconcile_frame = g_object_get_data (G_OBJECT (reconcile_panel), "reconcile_frame");
     tmpstr = g_markup_printf_escaped ( _(" <b>%s reconciliation</b> "),
 					     gsb_data_account_get_name (account_number));
-    gtk_label_set_markup ( GTK_LABEL (gtk_frame_get_label_widget (GTK_FRAME (reconcile_panel))),
-			   tmpstr );
+    gtk_label_set_markup ( GTK_LABEL (gtk_frame_get_label_widget (GTK_FRAME (reconcile_frame))), tmpstr );
     g_free ( tmpstr );
 
     /* we go to the reconciliation mode */

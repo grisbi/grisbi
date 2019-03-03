@@ -249,9 +249,10 @@ GtkWidget *onglet_affichage_operations ( void )
 
 	button = gsb_combo_box_blue_new_from_list (options_tri_primaire,
 											   NULL,
+											   TRUE,
+											   conf.transactions_list_primary_sorting,
 											   G_CALLBACK (gsb_transactions_list_display_sort_changed),
 											   GINT_TO_POINTER (PRIMARY_SORT));
-    gtk_combo_box_set_active ( GTK_COMBO_BOX ( button ), conf.transactions_list_primary_sorting );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
 
     /* Secondary sorting option for the transactions */
@@ -263,9 +264,10 @@ GtkWidget *onglet_affichage_operations ( void )
 
 	button = gsb_combo_box_blue_new_from_list (options_tri_secondaire,
 											   NULL,
+											   TRUE,
+											   conf.transactions_list_secondary_sorting,
 											   G_CALLBACK (gsb_transactions_list_display_sort_changed),
 											   GINT_TO_POINTER (SECONDARY_SORT));
-    gtk_combo_box_set_active ( GTK_COMBO_BOX ( button ), conf.transactions_list_secondary_sorting );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
 
     /* Account distinction */

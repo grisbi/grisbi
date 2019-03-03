@@ -11,6 +11,8 @@ gchar *			gsb_combo_box_get_active_text 				(GtkComboBox *combo_box);
 gint 			gsb_combo_box_get_index 					(GtkWidget *combo_box);
 GtkWidget *		gsb_combo_box_blue_new_from_list 			(gchar **string,
 															 const gchar *first_str,
+															 gboolean set_activ,
+															 gint value,
 															 GCallback func,
 															 gpointer data);
 GtkWidget *		gsb_combo_box_new_with_index 				(gchar **string,

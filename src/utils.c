@@ -46,6 +46,10 @@
 #include "grisbi_osx.h"
 #endif  /* GTKOSXAPPLICATION */
 
+#ifdef G_OS_WIN32
+#include <windows.h>
+#endif  /* G_OS_WIN32 */
+
 /*START_STATIC*/
 /*END_STATIC*/
 
@@ -206,7 +210,6 @@ gboolean lance_navigateur_web (const gchar *url)
     }
 #endif /* G_OS_WIN32 */
 
-
 #ifdef G_OS_WIN32
     if (!use_default_browser)
     {
@@ -244,14 +247,13 @@ gboolean lance_navigateur_web (const gchar *url)
 
 #ifdef G_OS_WIN32
     }
-/*    else
+    else
     {
-        win32_shell_execute_open (url);
-    }*/
-#endif
+                ShellExecute(0, "open", url, 0, 0, SW_SHOWNORMAL);
+    }
+#endif /* G_OS_WIN32 */
 
-/* G_OS_WIN32 */
-    g_free(chaine);
+	g_free(chaine);
 
     return FALSE;
 }

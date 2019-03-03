@@ -1225,13 +1225,13 @@ void gsb_form_create_widgets (void)
     gtk_box_pack_start (GTK_BOX (hbox_buttons_inner), form_button_recover_split, FALSE, FALSE, 0);
 
     /* create the valid/cancel buttons */
-    form_button_valid = utils_buttons_button_new_from_stock ("gtk-ok", _("Validate"));
+    form_button_valid = utils_buttons_button_new_from_stock ("gtk-ok", _("_Validate"));
     gtk_button_set_relief (GTK_BUTTON (form_button_valid), GTK_RELIEF_NONE);
     g_signal_connect (G_OBJECT (form_button_valid), "clicked",
 					  G_CALLBACK (gsb_form_finish_edition), NULL);
     gtk_box_pack_end (GTK_BOX (hbox_buttons_inner), form_button_valid, FALSE, FALSE, 0);
 
-    form_button_cancel = utils_buttons_button_new_from_stock ("gtk-cancel", _("Cancel"));
+    form_button_cancel = utils_buttons_button_new_from_stock ("gtk-cancel", _("_Cancel"));
     gtk_button_set_relief (GTK_BUTTON (form_button_cancel), GTK_RELIEF_NONE);
     g_signal_connect (G_OBJECT (form_button_cancel), "clicked",
 					  G_CALLBACK (gsb_form_escape_form), NULL);
@@ -1504,6 +1504,7 @@ void gsb_form_fill_element (gint element_number,
     GtkWidget *tmp_widget;
     gchar *char_tmp;
     gint number;
+	gint payment_number;
 
     widget = gsb_form_widget_get_widget (element_number);
     if (!widget)
@@ -1667,47 +1668,48 @@ void gsb_form_fill_element (gint element_number,
 
 			/* ok, now number contains either the transaction_number, either the mother transaction number,
 			 * we can check the sign with it */
+			payment_number = gsb_data_mix_get_method_of_payment_number (transaction_number, is_transaction);
 			if (gsb_data_mix_get_amount (number, is_transaction).mantissa < 0)
 			{
-				if (gsb_payment_method_get_combo_sign (widget) != GSB_PAYMENT_DEBIT
-				 || (gsb_payment_method_get_selected_number (widget)
-					 != gsb_data_account_get_default_debit (account_number)))
+				gsb_payment_method_create_combo_list (widget, GSB_PAYMENT_DEBIT, account_number, 0, FALSE);
+				if (payment_number)
 				{
-					gsb_payment_method_create_combo_list (widget, GSB_PAYMENT_DEBIT, account_number, 0, FALSE);
+					gsb_payment_method_set_combobox_history (widget, payment_number, FALSE);
 				}
 			}
 			else
 			{
-				if (gsb_payment_method_get_combo_sign (widget) != GSB_PAYMENT_CREDIT
-				 || (gsb_payment_method_get_selected_number (widget)
-					 != gsb_data_account_get_default_debit (account_number)))
+				gsb_payment_method_create_combo_list (widget, GSB_PAYMENT_CREDIT, account_number, 0, FALSE);
+				if (payment_number)
 				{
-					gsb_payment_method_create_combo_list (widget, GSB_PAYMENT_CREDIT, account_number, 0, FALSE);
+					gsb_payment_method_set_combobox_history (widget, payment_number, FALSE);
 				}
 			}
-
 			/* don't show the cheque entry for a child of split */
 			tmp_widget = gsb_form_widget_get_widget (TRANSACTION_FORM_CHEQUE);
 			if (gtk_widget_get_visible (widget))
 			{
-				gboolean check_entry = FALSE;
-
-				number = gsb_data_mix_get_method_of_payment_number (transaction_number, is_transaction);
-				if (transaction_number == - 1)
-					check_entry = TRUE;
-
 				/* we show the cheque entry only for transactions */
-				if (gsb_payment_method_set_combobox_history (widget, number, check_entry)
-					&& gsb_data_payment_get_show_entry (number)
-					&& is_transaction
-					&& !gsb_data_mix_get_mother_transaction_number (transaction_number, is_transaction))
+				if (payment_number && is_transaction)
 				{
-					gsb_form_entry_get_focus (tmp_widget);
-					if (gsb_data_transaction_get_method_of_payment_content (transaction_number))
-						gtk_entry_set_text (GTK_ENTRY (tmp_widget),
-											gsb_data_transaction_get_method_of_payment_content (transaction_number));
+					gboolean check_entry = FALSE;
 
-					gtk_widget_show (tmp_widget);
+					if (transaction_number == - 1)
+						check_entry = TRUE;
+
+					if (gsb_payment_method_set_combobox_history (widget, payment_number, check_entry)
+						&& gsb_data_payment_get_show_entry (payment_number)
+						&& !gsb_data_mix_get_mother_transaction_number (transaction_number, is_transaction))
+					{
+						const gchar *tmp_content;
+
+						tmp_content = gsb_data_transaction_get_method_of_payment_content (transaction_number);
+						gsb_form_entry_get_focus (tmp_widget);
+						if (tmp_content)
+							gtk_entry_set_text (GTK_ENTRY (tmp_widget), tmp_content);
+
+						gtk_widget_show (tmp_widget);
+					}
 				}
 				else
 					gtk_widget_hide (tmp_widget);

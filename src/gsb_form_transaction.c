@@ -532,8 +532,11 @@ gint gsb_form_transaction_validate_transfer ( gint transaction_number,
         const GDate *date;
 
         date = gsb_data_transaction_get_date ( transaction_number );
-        gsb_data_transaction_set_date ( contra_mother_number, date );
-        gsb_transactions_list_update_transaction ( contra_mother_number );
+		if (g_date_valid (date))
+		{
+			gsb_data_transaction_set_date ( contra_mother_number, date );
+			gsb_transactions_list_update_transaction ( contra_mother_number );
+		}
     }
 
     /* If this is not a new transaction it restores the marked statement */

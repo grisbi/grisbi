@@ -113,11 +113,10 @@ devel_debug (NULL);
 
 	    while ( children_numbers_list )
 	    {
-		gint child_number;
+			gint child_number;
 
-		child_number = GPOINTER_TO_INT ( children_numbers_list -> data );
+			child_number = GPOINTER_TO_INT ( children_numbers_list -> data );
 
-printf ("set new date and amount = %s\n", gsb_format_gdate(new_date));
 			gsb_data_scheduled_set_date (child_number, new_date);
 			if (init_sch_with_loan)
 			{
@@ -125,7 +124,7 @@ printf ("set new date and amount = %s\n", gsb_format_gdate(new_date));
 				gsb_data_scheduled_set_amount (child_number, amount);
 			}
 
-		children_numbers_list = children_numbers_list -> next;
+			children_numbers_list = children_numbers_list -> next;
 	    }
 	    g_slist_free (children_numbers_list);
 	}

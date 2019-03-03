@@ -39,6 +39,7 @@
 #include "meta_categories.h"
 #include "gsb_category.h"
 #include "gsb_data_account.h"
+#include "gsb_data_scheduled.h"
 #include "gsb_data_form.h"
 #include "gsb_data_mix.h"
 #include "gsb_data_transaction.h"
@@ -1772,6 +1773,78 @@ gint gsb_data_category_get_sub_category_list_length ( gint no_category )
     return g_slist_length ( category->sub_category_list );
 }
 
+
+/**
+ * fill the category of the transaction from the string given in param
+ * create the category if necessary
+ * if string is NULL, free the category of the transaction
+ *
+ * \param transaction_number
+ * \param string a string like "category : sub_category"
+ * \param is_transaction TRUE if it's for a transaction, FALSE for a scheduled transaction
+ *
+ * \return
+ * */
+void gsb_data_category_set_category_from_string (gint transaction_number,
+												 const gchar *string,
+												 gboolean is_transaction)
+{
+    gchar **tab_char;
+    gint category_number;
+
+    /* the simpliest is to split in 2 parts, transaction and scheduled,
+     * but the 2 parts are exactly the same, exept the call to the functions */
+    if (is_transaction)
+    {
+        if (!string || strlen (string) == 0)
+        {
+            gsb_data_transaction_set_category_number (transaction_number, 0);
+            gsb_data_transaction_set_sub_category_number (transaction_number, 0);
+            return;
+        }
+
+        tab_char = g_strsplit (string, " : ", 2);
+
+        /* we don't mind if tab_char exists and others, all the checks will be done in ...get_number_by_name */
+        category_number = gsb_data_category_get_number_by_name (g_strstrip (tab_char[0]),
+																!etat.combofix_force_category,
+																gsb_data_transaction_get_amount
+																(transaction_number).mantissa < 0);
+        gsb_data_transaction_set_category_number (transaction_number, category_number);
+
+        if (tab_char[1])
+            gsb_data_transaction_set_sub_category_number (transaction_number,
+														  gsb_data_category_get_sub_category_number_by_name
+														  (category_number,
+														   g_strstrip (tab_char[1]),
+														   !etat.combofix_force_category));
+    }
+    else
+    {
+        if (!string)
+        {
+            gsb_data_scheduled_set_category_number (transaction_number, 0);
+            gsb_data_scheduled_set_sub_category_number (transaction_number, 0);
+            return;
+        }
+
+        tab_char = g_strsplit (string, " : ", 2);
+
+        /* we don't mind if tab_char exists and others, all the checks will be done in ...get_number_by_name */
+        category_number = gsb_data_category_get_number_by_name (tab_char[0],
+																!etat.combofix_force_category,
+																gsb_data_scheduled_get_amount
+																(transaction_number).mantissa <0);
+        gsb_data_scheduled_set_category_number (transaction_number, category_number);
+        if (tab_char[1])
+            gsb_data_scheduled_set_sub_category_number (transaction_number,
+														gsb_data_category_get_sub_category_number_by_name
+														(category_number,
+														 tab_char[1],
+														 !etat.combofix_force_category));
+    }
+    g_strfreev (tab_char);
+}
 
 /**
  *
