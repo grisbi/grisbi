@@ -96,8 +96,8 @@ Section "" SecBin
   WriteUninstaller "$INSTDIR\Uninstall.exe"
 
   createDirectory "$SMPROGRAMS\${COMPANYNAME}"
-  createShortCut "$SMPROGRAMS\${COMPANYNAME}\Gribi @NSIS_BITS@-@VERSION@@NSIS_DATE@.lnk" "$INSTDIR\bin\Grisbi.exe" "" "$INSTDIR\bin\grisbi.ico"
-  createShortCut "$SMPROGRAMS\${COMPANYNAME}\Uninstall Gribi @NSIS_BITS@-@VERSION@@NSIS_DATE@.lnk" "$INSTDIR\Uninstall.exe"
+  createShortCut "$SMPROGRAMS\${COMPANYNAME}\Grisbi @NSIS_BITS@-@VERSION@@NSIS_DATE@.lnk" "$INSTDIR\bin\Grisbi.exe" "" "$INSTDIR\bin\grisbi.ico"
+  createShortCut "$SMPROGRAMS\${COMPANYNAME}\Uninstall Grisbi @NSIS_BITS@-@VERSION@@NSIS_DATE@.lnk" "$INSTDIR\Uninstall.exe"
 
   # Registry information for add/remove programs
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}" "DisplayName" "Grisbi @NSIS_BITS@"
@@ -133,7 +133,7 @@ SectionEnd
 Section "Uninstall"
   Delete "$INSTDIR\Uninstall.exe"
   Delete "$DESKTOP\Grisbi-1.2.lnk"
-  Delete "$SMPROGRAMS\${COMPANYNAME}\Gribi @NSIS_BITS@-bit @VERSION@.lnk"
+  Delete "$SMPROGRAMS\${COMPANYNAME}\Grisbi @NSIS_BITS@-bit @VERSION@.lnk"
   DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}"
 
   RMDir /r "$INSTDIR"
