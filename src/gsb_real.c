@@ -49,7 +49,6 @@
 #endif /*G_OS_WIN32 */
 
 /*START_STATIC*/
-static glong gsb_real_power_10[] = {1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000};
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -58,6 +57,26 @@ static glong gsb_real_power_10[] = {1, 10, 100, 1000, 10000, 100000, 1000000, 10
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
+/**
+ * remplace le tableau gsb_real_power_10[]
+ *
+ * \param	exposant
+ *
+ * \return
+ **/
+static glong gsb_real_get_power_10 (gint exponent)
+{
+	glong power_10 = 1;
+
+    while (exponent > 0)
+    {
+		power_10 *= 10;
+		exponent--;
+	}
+
+	return power_10;
+}
+
 /**
  * ajoute le séparateur des milliers passé en paramètre
  *
@@ -332,6 +351,7 @@ gchar *gsb_real_raw_format_string (GsbReal number,
     const gchar *cs_end_space;
     const gchar *cs_end;
     gint nbre_char;
+	long long denominateur = 1;
 	lldiv_t units;
 
     cs_start = (currency_symbol && locale->p_cs_precedes) ? currency_symbol : "";
@@ -341,7 +361,8 @@ gchar *gsb_real_raw_format_string (GsbReal number,
     cs_end_space = (currency_symbol && !locale->p_cs_precedes && locale->p_sep_by_space) ? " " : "";
     cs_end = (currency_symbol && !locale->p_cs_precedes) ? currency_symbol : "";
 
-    units = lldiv (llabs (number.mantissa), gsb_real_power_10[number.exponent]);
+	denominateur = gsb_real_get_power_10 (number.exponent);
+	units = lldiv (llabs (number.mantissa), denominateur);
 
     nbre_char = g_sprintf (buffer, "%.0f", (gdouble) units.quot);
 
@@ -696,11 +717,11 @@ GsbReal gsb_real_adjust_exponent (GsbReal number,
 */
     exponent = abs (number.exponent - return_exponent);
 /*
-    printf ("exponent = %d gsb_real_power_10[exponent] = %ld\n", exponent, gsb_real_power_10[exponent]);
+    printf ("exponent = %d gsb_real_get_power_10 (exponent) = %ld\n", exponent, gsb_real_get_power_10 (exponent));
 */
 	if (number.exponent < return_exponent)
 	{
-        number.mantissa = number.mantissa * gsb_real_power_10[exponent];
+        number.mantissa = number.mantissa * gsb_real_get_power_10 (exponent);
         number.exponent = return_exponent;
 	}
 	else
@@ -710,9 +731,9 @@ GsbReal gsb_real_adjust_exponent (GsbReal number,
 
         sign = (number.mantissa < 0) ? -1 : 1;
 
-        tmp_num = lldiv (llabs (number.mantissa), gsb_real_power_10[exponent]);
+        tmp_num = lldiv (llabs (number.mantissa), gsb_real_get_power_10 (exponent));
 
-        if (tmp_num.rem > (0.5 * gsb_real_power_10[exponent]))
+        if (tmp_num.rem > (0.5 * gsb_real_get_power_10 (exponent)))
             number.mantissa = (tmp_num.quot + 1) * sign;
         else
             number.mantissa = tmp_num.quot * sign;
@@ -911,7 +932,7 @@ gchar *gsb_real_safe_real_to_string (GsbReal number,
     sign = (number.mantissa < 0) ? "-" : "";
     mon_decimal_point = ".";
 
-    units = lldiv (llabs (number.mantissa), gsb_real_power_10[number.exponent]);
+    units = lldiv (llabs (number.mantissa), gsb_real_get_power_10 (number.exponent));
 
     nbre_char = g_sprintf (buffer, "%.0f", (gdouble) units.quot);
 

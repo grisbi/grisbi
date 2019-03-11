@@ -4,7 +4,7 @@
 #include <locale.h>
 #include <glib.h>
 
-#define EXPONENT_MAX 10
+#define EXPONENT_MAX 15
 #define ERROR_REAL_STRING "###ERR###"
 
 /* structure describe a real number. */
