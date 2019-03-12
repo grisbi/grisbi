@@ -2236,6 +2236,9 @@ void grisbi_win_headings_update_title (gchar *title)
 {
 	GrisbiWinPrivate *priv;
 
+	if (!conf.show_headings_bar)
+		return;
+
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (grisbi_app_get_active_window (NULL)));
 
     grisbi_win_headings_private_update_label_markup (GTK_LABEL (priv->headings_title), title, TRUE);
@@ -2250,6 +2253,9 @@ void grisbi_win_headings_update_title (gchar *title)
 void grisbi_win_headings_update_suffix (const gchar *suffix)
 {
 	GrisbiWinPrivate *priv;
+
+	if (!conf.show_headings_bar)
+		return;
 
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (grisbi_app_get_active_window (NULL)));
     grisbi_win_headings_private_update_label_markup (GTK_LABEL (priv->headings_suffix), suffix, FALSE);

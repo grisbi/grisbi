@@ -5,5 +5,6 @@
 
 
 /* START_DECLARATION */
+void	etats_gtktable_free_table_etat (void);
 /* END_DECLARATION */
 #endif
