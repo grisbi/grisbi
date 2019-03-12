@@ -42,6 +42,7 @@
 #include "accueil.h"
 #include "affichage_liste.h"
 #include "dialog.h"
+#include "etats_gtktable.h"
 #include "grisbi_app.h"
 #include "grisbi_settings.h"
 #include "gsb_account_property.h"
@@ -937,6 +938,7 @@ gboolean gsb_file_close (void)
 		}
 
 	    /* free all the variables */
+		etats_gtktable_free_table_etat (); /* set table_etat = NULL: fix crash loading a multiple accounts files */
  	    init_variables ();
         grisbi_win_free_general_vbox ();
         gsb_account_property_clear_config ();

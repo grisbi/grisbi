@@ -326,6 +326,22 @@ void gtktable_click_sur_ope_etat ( gint transaction_number )
     }
 }
 
+
+/**
+ *	Set table_etat = NULL
+ *
+ * \param
+ *
+ * \return
+ **/
+void etats_gtktable_free_table_etat (void)
+{
+	if (table_etat)
+	{
+		table_etat = NULL;
+	}
+}
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
