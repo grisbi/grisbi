@@ -56,7 +56,7 @@ esac
 if [ "$TRAVIS_OS_NAME" = "osx" ]
 then
 	# from brew
-	export PKG_CONFIG_PATH=/usr/local/opt/libxml2/lib/pkgconfig:/usr/local/opt/openssl/lib/pkgconfig
+	export PKG_CONFIG_PATH=/usr/local/opt/libxml2/lib/pkgconfig:/usr/local/opt/openssl/lib/pkgconfig:/usr/local/opt/libffi/lib/pkgconfig
 	export PATH="$PATH:/usr/local/opt/gettext/bin"
 
 	mkdir m4
