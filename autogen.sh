@@ -55,7 +55,7 @@ LTVER=$(glibtool --version 2>/dev/null | grep ' libtool)' | \
     sed 's/.*libtool) \([0-9][0-9.]*\)[^ ]* .*/\1/')
 if test -z "$LTVER"
 then
-	LTVER=$(libtool --version | grep ' libtool)' | \
+	LTVER=$(libtoolize --version | grep ' libtool)' | \
 	    sed 's/.*) \([0-9][0-9.]*\)[^ ]* .*/\1/' )
 	LIBTOOLIZE=libtoolize
 else
