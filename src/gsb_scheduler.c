@@ -590,8 +590,6 @@ void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
     {
 		gint last_day;
 
-		last_day = g_date_get_days_in_month (g_date_get_month (date),
-											 g_date_get_year (date));
 		if (conf.scheduler_set_fixed_day
 			&&
 			g_date_get_day (date) >= conf.scheduler_fixed_day )
@@ -600,6 +598,8 @@ void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
 			g_date_add_months (date, 1);
 		}
 
+		last_day = g_date_get_days_in_month (g_date_get_month (date),
+											 g_date_get_year (date));
 		g_date_set_day (date, last_day);
     }
 	else
