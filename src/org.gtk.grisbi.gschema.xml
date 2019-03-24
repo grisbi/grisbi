@@ -557,7 +557,7 @@
 	    </description>
 	  </key>
 	  <key name="scheduler-fixed-day" type="i">
-	    <default>0</default>
+	    <default>1</default>
 	    <summary>fixed day for sheduled transactions</summary>
 	    <description>
 	    Jour fixe du lancement mensuel des opérations planifiées.
