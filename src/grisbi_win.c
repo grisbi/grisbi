@@ -1682,7 +1682,7 @@ void grisbi_win_set_size_and_position (GtkWindow *win)
 {
 	GrisbiWinPrivate *priv;
     GdkGeometry size_hints = {
-    1200, 600, -1, -1, 1240, 640, 10, 10, 1.5, 1.5, GDK_GRAVITY_NORTH_WEST
+    1024, 768, -1, -1, 1024, 768, 10, 10, 1.5, 1.5, GDK_GRAVITY_NORTH_WEST
   };
 
     priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
@@ -1699,7 +1699,7 @@ void grisbi_win_set_size_and_position (GtkWindow *win)
     if (conf.main_width && conf.main_height)
         gtk_window_set_default_size (GTK_WINDOW (win), conf.main_width, conf.main_height);
     else
-        gtk_window_set_default_size (GTK_WINDOW (win), 900, 600);
+        gtk_window_set_default_size (GTK_WINDOW (win), 1024, 768);
 
     /* display window at position */
     gtk_window_move (GTK_WINDOW (win), conf.x_position, conf.y_position);
