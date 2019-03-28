@@ -355,12 +355,12 @@
       </description>
     </key>
 	  <key name="main-width" type="i">
-	    <default>1300</default>
+	    <default>1000</default>
 	    <summary>Width of the main window</summary>
 	    <description>The width of the main window.</description>
 	  </key>
 	  <key name="main-height" type="i">
-	    <default>900</default>
+	    <default>700</default>
 	    <summary>Height of main window</summary>
 	    <description>The height of the main window.</description>
 	  </key>
