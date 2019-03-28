@@ -1682,7 +1682,7 @@ void grisbi_win_set_size_and_position (GtkWindow *win)
 {
 	GrisbiWinPrivate *priv;
     GdkGeometry size_hints = {
-    1024, 768, -1, -1, 1024, 768, 10, 10, 1.5, 1.5, GDK_GRAVITY_NORTH_WEST
+    1000, 700, -1, -1, 1000, 700, 10, 10, 1.5, 1.5, GDK_GRAVITY_NORTH_WEST
   };
 
     priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
