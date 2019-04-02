@@ -568,7 +568,6 @@ static GtkWidget *grisbi_win_create_general_notebook (GrisbiWin *win)
 {
 	GtkWidget *sw_general;
 	GtkWidget *grid;
-	GtkWidget *sw;
 	GrisbiWinPrivate *priv;
 
     devel_debug ("create_main_notebook");
@@ -583,21 +582,12 @@ static GtkWidget *grisbi_win_create_general_notebook (GrisbiWin *win)
 	grid = gtk_grid_new ();
 	gtk_container_add (GTK_CONTAINER(sw_general), grid);
 
-	/* adding a scrolled window for low resolution */
-    sw = gtk_scrolled_window_new (NULL, NULL);
-    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
-                                    GTK_POLICY_AUTOMATIC,
-                                    GTK_POLICY_AUTOMATIC);
-
-  	gtk_grid_attach (GTK_GRID (grid), sw, 0,0,1,1);
-
 	/* append the notebook */
     priv->notebook_general = gtk_notebook_new ();
     gtk_notebook_set_show_tabs (GTK_NOTEBOOK (priv->notebook_general), FALSE);
     gtk_notebook_set_show_border (GTK_NOTEBOOK (priv->notebook_general), FALSE);
-	gtk_container_add (GTK_CONTAINER(sw), priv->notebook_general);
+  	gtk_grid_attach (GTK_GRID (grid), priv->notebook_general, 0,0,1,1);
 
-    gtk_widget_show (priv->notebook_general);
 
     /* append the form */
     priv->form_general = grisbi_win_form_new (win);
@@ -611,8 +601,8 @@ static GtkWidget *grisbi_win_create_general_notebook (GrisbiWin *win)
 
 	/* show widgets */
 	gtk_widget_show (sw_general);
-	gtk_widget_show (sw);
     gtk_widget_show (grid);
+    gtk_widget_show (priv->notebook_general);
 
     return sw_general;
 }
