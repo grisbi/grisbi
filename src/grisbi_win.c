@@ -1437,7 +1437,7 @@ void grisbi_win_menu_move_to_acc_new (void)
     GMenuItem *menu_item;
     GSList *tmp_list;
 
-    win = grisbi_app_get_active_window (NULL);
+	win = grisbi_app_get_active_window (NULL);
     priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
     menu = grisbi_app_get_menu_edit ();
@@ -1484,8 +1484,6 @@ void grisbi_win_menu_move_to_acc_new (void)
 
     menu_item = g_menu_item_new_submenu (_("Move transaction to another account"), (GMenuModel*) submenu);
     g_menu_item_set_detailed_action (menu_item, "win.move-to-acc");
-    action = g_action_map_lookup_action (G_ACTION_MAP (win), "move-to-acc");
-    g_simple_action_set_enabled (G_SIMPLE_ACTION (action), FALSE);
 
     g_menu_insert_item (G_MENU (menu), 3, menu_item);
     g_object_unref (menu_item);
@@ -1505,10 +1503,6 @@ void grisbi_win_menu_move_to_acc_update (gboolean active)
     GrisbiWin *win;
     GAction *action;
     GSList *tmp_list;
-    static gboolean flag_active = FALSE;
-
-    if (flag_active == active)
-        return;
 
     win = grisbi_app_get_active_window (NULL);
 
@@ -1541,7 +1535,6 @@ void grisbi_win_menu_move_to_acc_update (gboolean active)
         }
         tmp_list = tmp_list->next;
     }
-    flag_active = active;
 }
 
 /* MAIN WINDOW */
