@@ -19,7 +19,7 @@ addons:
 before_install:
     # Linux: create Docker image
     - export DIST_NAME=debian DIST_VERS=testing TAG=grisbi
-    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then docker pull ${DIST_NAME}:${DIST_VERS} ; fi
+    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then docker pull i386/${DIST_NAME}:${DIST_VERS} ; fi
     - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then docker build --rm=true --file=travis-ci/Dockerfile.${DIST_NAME}-${DIST_VERS} --tag=${DIST_NAME}-${DIST_VERS}:${TAG} travis-ci ; fi
 
 script:

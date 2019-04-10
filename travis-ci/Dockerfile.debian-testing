@@ -1,4 +1,4 @@
-FROM debian:testing
+FROM i386/debian:testing
 MAINTAINER Ludovic Rousseau
 
 RUN apt-get -y update \
