@@ -22,9 +22,6 @@
 /* Define if libxml2 support is enabled */
 #define HAVE_XML2 1
 
-/* Defined if Grisbi is a developmeent version */
-#define IS_DEVELOPMENT_VERSION 1
-
 /* Defined if system is Mac OS X */
 #define OS_OSX 1
 
