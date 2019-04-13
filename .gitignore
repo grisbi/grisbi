@@ -5,6 +5,7 @@
 *.new
 *.o
 *.ok
+*.sha256sum
 *.swp
 *~
 .anjuta/
