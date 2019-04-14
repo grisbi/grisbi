@@ -1181,7 +1181,7 @@ static GSList *gsb_import_create_file_chooser (const char *enc,
     GSList *filenames = NULL;
     gchar *old_str;
     gchar *tmp_str;
-    gchar *tmp_char;
+    const gchar *tmp_char;
     gchar *tmp_last_directory;
 
     dialog = gtk_file_chooser_dialog_new (_("Choose files to import."),
