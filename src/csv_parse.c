@@ -54,7 +54,7 @@ static gchar *sanitize_field (gchar *begin,
  *
  */
 GSList *csv_parse_line (gchar **contents,
-						gchar *separator)
+						const gchar *separator)
 {
     gchar *tmp;
     gchar *begin;

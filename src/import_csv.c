@@ -418,7 +418,7 @@ static void csv_import_button_rule_clicked (GtkButton *button,
  * \return			Parsed list or NULL upon failure (last line).
  **/
 static GSList *csv_get_next_line (gchar **contents,
-								  gchar *separator)
+								  const gchar *separator)
 {
     GSList *list;
 
@@ -505,7 +505,7 @@ static gint csv_import_count_columns (GArray *lines_tab,
  **/
 static gint csv_skip_lines (gchar **contents,
 							gint num_lines,
-							gchar *separator)
+							const gchar *separator)
 {
     GSList *list;
     int i;
@@ -1091,7 +1091,7 @@ static GtkTreeModel *csv_import_create_model (GtkTreeView *tree_preview,
  * \return			FALSE on failure, number of columns otherwise.
  **/
 static gint csv_import_try_separator (gchar *contents,
-									  gchar *separator)
+									  const gchar *separator)
 {
     GSList *list;
     int cols, i = 0;
@@ -1140,7 +1140,7 @@ static gint csv_import_try_separator (gchar *contents,
  **/
 static gchar *csv_import_guess_separator (gchar *contents)
 {
-    gchar *separators[5] = { ",", ";", "	", " ", NULL }, *cmax = NULL;
+    const gchar *separators[5] = { ",", ";", "	", " ", NULL }, *cmax = NULL;
     gint i, max = 0;
 
     for (i = 0 ; separators[i] ; i++)
