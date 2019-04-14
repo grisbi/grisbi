@@ -160,7 +160,7 @@ gint current_tree_view_width = 0;
 GSList *orphan_child_transactions = NULL;
 
 /* names of the data for transactions list */
-static gchar *labels_titres_colonnes_liste_ope[] = {
+static const gchar *labels_titres_colonnes_liste_ope[] = {
     N_("Date"),
     N_("Value date"),
     N_("Payee"),
