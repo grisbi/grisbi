@@ -117,9 +117,9 @@ struct ImportFile
 
 struct ImportFormat
 {
-    gchar * name;
-    gchar * complete_name;
-    gchar * extension;
+    const gchar * name;
+    const gchar * complete_name;
+    const gchar * extension;
     gboolean (* import) (GtkWidget * assistant, struct ImportFile *);
 };
 
