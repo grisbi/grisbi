@@ -280,7 +280,7 @@ static gboolean prefs_widget_loan_combofix_lose_focus (GtkWidget *entry,
 													   GdkEventFocus *ev,
 													   GtkWidget *combo)
 {
-    gchar *string;
+    const gchar *string;
     gint element_number;
 	gpointer ptr_origin;
 
