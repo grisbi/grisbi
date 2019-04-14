@@ -8,7 +8,7 @@
 /* END_INCLUDE_H */
 
 struct csv_field {
-    gchar * 	name;
+    const gchar * 	name;
     gfloat 		alignment;
     gboolean 	(*validate) (gchar *);
     gboolean 	(*parse) (struct ImportTransaction *, gchar *);
