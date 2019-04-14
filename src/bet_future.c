@@ -904,7 +904,7 @@ gboolean bet_form_entry_lose_focus ( GtkWidget *entry,
                         gint *ptr_origin )
 {
     GtkWidget *widget;
-    gchar *string;
+    const gchar *string;
     gint element_number;
     gint account_number;
 
@@ -979,15 +979,16 @@ gboolean bet_form_entry_lose_focus ( GtkWidget *entry,
         else
         {
             /* si pas de nouveau débit on essaie de remettre l'ancien crédit */
-            if ( (string = gsb_form_widget_get_old_credit ( ) ) )
+            gchar *vstring = gsb_form_widget_get_old_credit ( );
+            if ( vstring )
             {
                 GtkWidget *widget_prov;
 
                 widget_prov = bet_form_widget_get_widget ( TRANSACTION_FORM_CREDIT );
 
-                gtk_entry_set_text ( GTK_ENTRY ( widget_prov ), string );
+                gtk_entry_set_text ( GTK_ENTRY ( widget_prov ), vstring );
                 gsb_form_widget_set_empty ( widget_prov, FALSE );
-                g_free ( string );
+                g_free ( vstring );
 
                 widget = bet_form_widget_get_widget ( TRANSACTION_FORM_TYPE );
                 if ( widget
@@ -1040,15 +1041,16 @@ gboolean bet_form_entry_lose_focus ( GtkWidget *entry,
         else
         {
             /* si pas de nouveau credit on essaie de remettre l'ancien débit */
-            if ( (string = gsb_form_widget_get_old_debit ( ) ) )
+            gchar *vstring = gsb_form_widget_get_old_debit ( );
+            if ( vstring )
             {
                 GtkWidget * widget_prov;
 
                 widget_prov = bet_form_widget_get_widget ( TRANSACTION_FORM_DEBIT );
 
-                gtk_entry_set_text ( GTK_ENTRY ( widget_prov ), string );
+                gtk_entry_set_text ( GTK_ENTRY ( widget_prov ), vstring );
                 gsb_form_widget_set_empty ( widget_prov, FALSE );
-                g_free ( string );
+                g_free ( vstring );
 
                 widget = bet_form_widget_get_widget ( TRANSACTION_FORM_TYPE );
                 if ( widget
@@ -3069,7 +3071,7 @@ gboolean bet_transfert_entry_lose_focus ( GtkWidget *entry,
                         gint *ptr_origin )
 {
     GtkWidget *widget;
-    gchar *string;
+    const gchar *string;
     gint element_number;
 
     /* still not found, if change the content of the form, something come in entry
