@@ -1944,7 +1944,7 @@ static gboolean gsb_import_enter_resume_page (GtkWidget *assistant)
     GSList *list;
     GtkTextBuffer *buffer;
     GtkTextIter iter;
-    gchar *error_message = "";
+    const gchar *error_message = "";
 	gchar *tmp_str;
 
     liste_comptes_importes_error = NULL;
