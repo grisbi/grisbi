@@ -3026,7 +3026,7 @@ static void etats_config_initialise_onglet_data_separation ( gint report_number 
     /* on initialise le combo bouton_debut_semaine */
     combo_2 = etats_prefs_widget_get_widget_by_name ( "bouton_debut_semaine", NULL );
     gtk_combo_box_set_active ( GTK_COMBO_BOX ( combo_2 ),
-                        gsb_data_report_get_period_split_day ( report_number ) );
+                        gsb_data_report_get_period_split_day ( report_number ) - G_DATE_MONDAY);
 
     if ( gsb_data_report_get_period_split ( report_number ) )
     {

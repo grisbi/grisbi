@@ -1973,16 +1973,16 @@ gboolean gsb_data_report_set_period_split_type ( gint report_number,
  *
  * \return the period_split_day  of the report, -1 if problem
  * */
-gint gsb_data_report_get_period_split_day ( gint report_number )
+GDateWeekday gsb_data_report_get_period_split_day ( gint report_number )
 {
     ReportStruct *report;
 
     report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
-	return -1;
+	return G_DATE_BAD_WEEKDAY;
 
-    return report -> period_split_day;
+    return report -> period_split_day + G_DATE_MONDAY;
 }
 
 /**

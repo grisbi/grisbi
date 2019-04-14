@@ -84,7 +84,7 @@ gint 		gsb_data_report_get_payee_show_name 						(gint report_number);
 gint 		gsb_data_report_get_payee_show_payee_amount 				(gint report_number);
 gint 		gsb_data_report_get_payee_used 								(gint report_number);
 gint 		gsb_data_report_get_period_split 							(gint report_number);
-gint 		gsb_data_report_get_period_split_day 						(gint report_number);
+GDateWeekday	gsb_data_report_get_period_split_day 						(gint report_number);
 gint 		gsb_data_report_get_period_split_type 						(gint report_number);
 GDate *		gsb_data_report_get_personal_date_end 						(gint report_number);
 GDate *		gsb_data_report_get_personal_date_start						(gint report_number);

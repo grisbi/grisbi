@@ -851,7 +851,7 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 			date = gsb_data_transaction_get_date (transaction_number);
 
     /* on récupère ici le premier jour de la semaine */
-    jour_debut_semaine = gsb_data_report_get_period_split_day ( current_report_number ) + 1;
+    jour_debut_semaine = gsb_data_report_get_period_split_day ( current_report_number );
 
 	/* si la date de début de période est nulle, on la met au début de la période la date de l'opération */
 	if ( !date_debut_periode )
@@ -968,7 +968,7 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 
 	    if ( !force
 		 &&
-		 ( g_date_get_weekday(date)  != (gsb_data_report_get_period_split_day (current_report_number)+ 1 )
+		 ( g_date_get_weekday(date)  != gsb_data_report_get_period_split_day (current_report_number)
 		   &&
 		   g_date_compare ( date, date_tmp ) < 0 ))
 		return ( ligne );
