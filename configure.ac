@@ -96,9 +96,9 @@ dnl ================================================================
 dnl Defined if Grisbi is a development version
 dnl ================================================================
 
-if expr ${GRISBI_MINOR_VERSION} % 2 > /dev/null; then
-	AC_DEFINE(IS_DEVELOPMENT_VERSION,1,[Defined if Grisbi is a developmeent version])
-fi
+AC_ARG_ENABLE(debug,
+	AS_HELP_STRING([--enable-debug],[enable extra debug code]),
+	AC_DEFINE(DEBUG,1,[Defined if Grisbi is a developmeent version]))
 
 dnl ================================================================
 dnl XML2

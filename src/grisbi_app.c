@@ -765,16 +765,16 @@ static gboolean grisbi_app_cmdline (GApplication *application,
 			priv->debug_level = (gint)number;
 	}
 
-	if (IS_DEVELOPMENT_VERSION == 1)
-    {
-		if (priv->debug_level >= 0 && priv->debug_level < 5)
-			debug_set_cmd_line_debug_level (priv->debug_level);
-    }
-	else if (priv->debug_level > 0)
+#ifdef DEBUG
+	if (priv->debug_level >= 0 && priv->debug_level < 5)
+		debug_set_cmd_line_debug_level (priv->debug_level);
+#else
+	if (priv->debug_level > 0)
 	{
 		debug_initialize_debugging (priv->debug_level);
         grisbi_app_print_environment_var ();
 	}
+#endif
 
 	if (priv->new_window)
 		grisbi_app_create_window (GRISBI_APP (application), NULL);
@@ -929,10 +929,9 @@ static void grisbi_app_startup (GApplication *application)
 	gsb_locale_init_lconv_struct ();
 
 	/* Print variables if necessary */
-	if (IS_DEVELOPMENT_VERSION == 1)
-    {
-        grisbi_app_print_environment_var ();
-    }
+#ifdef DEBUG
+	grisbi_app_print_environment_var ();
+#endif
 
 	/* MAJ de has_app_menu */
     if (conf.force_classic_menu)
@@ -1108,8 +1107,9 @@ static void grisbi_app_shutdown (GApplication *application)
 static void grisbi_app_init (GrisbiApp *app)
 {
     /* initialize debugging */
-    if (IS_DEVELOPMENT_VERSION == 1)
-        debug_initialize_debugging (5);
+#ifdef DEBUG
+	debug_initialize_debugging (5);
+#endif
 
     g_set_application_name ("Grisbi");
 

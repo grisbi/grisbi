@@ -201,7 +201,7 @@ NULL};
     extra = extra_support ( );
     version_to_string = get_gtk_run_version ( );
 
-    if ( IS_DEVELOPMENT_VERSION == 1 )
+#ifdef DEBUG
     {
         gchar *compiled_time;
 
@@ -221,12 +221,13 @@ NULL};
 
         g_free ( compiled_time );
     }
-    else
+#else
         comments = g_strconcat ( _("Personal finance manager for everyone\n"),
                         extra,
                         "Version de GTK : ",
                         version_to_string,
                         NULL );
+#endif
 
     /* Logo */
     logo = gsb_select_icon_get_logo_pixbuf ( );
