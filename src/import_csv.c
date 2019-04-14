@@ -533,7 +533,7 @@ static gint csv_skip_lines (gchar **contents,
  *
  * \return			TRUE if substring is contained into original.
  **/
-static gboolean safe_contains (gchar *original,
+static gboolean safe_contains (const gchar *original,
 							   gchar *substring)
 {
 	gchar *tmp_original;
