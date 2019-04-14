@@ -1459,7 +1459,7 @@ gint gsb_account_property_iban_control_iban ( gchar *iban )
     while ( gstring -> len > 0 )
     {
         substr = g_strndup ( gstring -> str, 9 );
-        lnum = ( gulong ) utils_str_safe_strtod ( substr, NULL );
+        lnum = utils_str_safe_strtod ( substr, NULL );
         reste = lnum % 97;
 
         g_free ( substr );
