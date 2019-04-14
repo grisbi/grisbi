@@ -960,7 +960,7 @@ static const gchar *gsb_import_autodetect_file_type (gchar *filename,
 													 gchar *pointeur_char)
 {
     gchar *extension;
-    gchar *type;
+    const gchar *type;
 
     extension = strrchr (filename, '.');
     if (extension)
