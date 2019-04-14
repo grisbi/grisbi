@@ -224,7 +224,7 @@ static gint gsb_file_dialog_save (const gchar *filename,
 			gint difference;
 
 			now = time (NULL);
-			difference = (gint) difftime (now, run.file_modification);
+			difference = (int) (difftime (now, run.file_modification));
 			hint = g_strdup_printf (_("Save changes to document '%s' before closing?"),
 									(filename ? g_path_get_basename(filename) : _("unnamed")));
 
