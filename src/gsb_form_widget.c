@@ -527,7 +527,7 @@ GtkWidget *gsb_form_widget_get_widget (gint element_number)
  *
  * \return the name of the element or NULL if problem
  **/
-gchar *gsb_form_widget_get_name (gint element_number)
+const gchar *gsb_form_widget_get_name (gint element_number)
 {
     switch (element_number)
     {

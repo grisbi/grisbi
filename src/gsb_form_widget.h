@@ -30,7 +30,7 @@ gboolean		gsb_form_widget_entry_get_focus					(GtkWidget *entry,
 																 gint *ptr_origin);
 gboolean		gsb_form_widget_free_list						(void);
 GSList *		gsb_form_widget_get_list						(void);
-gchar *			gsb_form_widget_get_name						(gint element_number);
+const gchar *	gsb_form_widget_get_name						(gint element_number);
 gchar *			gsb_form_widget_get_old_credit					(void);
 gint			gsb_form_widget_get_old_credit_payment_number	(void);
 const gchar *	gsb_form_widget_get_old_credit_payment_content	(void);
