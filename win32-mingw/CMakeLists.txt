@@ -89,8 +89,8 @@ LINK_DIRECTORIES(
 ADD_DEFINITIONS(-D_CRT_SECURE_NO_WARNINGS)
 ADD_DEFINITIONS(-D__PRETTY_FUNCTION__="")
 
-#version de dev
-ADD_DEFINITIONS(-D_IS_DEVELOPMENT_VERSION=1)
+# version de dev
+ADD_DEFINITIONS(-D_DEBUG=1)
 
 # Define to 1 if translation of program messages to the user's native language is requested.
 option (HELLO_NLS_ENABLED "Native Language Support" ON)
