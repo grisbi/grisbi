@@ -519,8 +519,8 @@ gint my_strcasecmp (const gchar *string_1,
  *
  * \return
  **/
-gint my_strncasecmp (gchar *string_1,
-					 gchar *string_2,
+gint my_strncasecmp (const gchar *string_1,
+					 const gchar *string_2,
 					 gint longueur)
 {
     if (!string_1 && string_2)

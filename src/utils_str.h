@@ -40,8 +40,8 @@ gchar *		my_strdelimit 											(const gchar *string,
 																	 const gchar *delimiters,
 																	 const gchar *new_delimiters);
 gchar *		my_strdup 												(const gchar *string);
-gint 		my_strncasecmp 											(gchar *string_1,
-																	 gchar *string_2,
+gint 		my_strncasecmp 											(const gchar *string_1,
+																	 const gchar *string_2,
 												                     gint longueur);
 gint 		utils_str_atoi 											(const gchar *chaine);
 gchar *		utils_str_break_filename 								(const gchar *string,
