@@ -660,7 +660,7 @@ static gboolean bet_graph_on_motion ( GtkWidget *event_box,
             GogAxisMap *x_map;
 
             x_map = gog_chart_map_get_axis_map (map, 0);
-            index = (gint) gog_axis_map_from_view (x_map, event->x);
+            index = gog_axis_map_from_view (x_map, event->x);
 
             buf = g_strdup_printf ( _("date %s : value %s"), self->tab_vue_libelle[index-1],
                         utils_real_get_string_with_currency_from_double (
@@ -947,7 +947,7 @@ static void bet_graph_gap_spinner_changed ( GtkSpinButton *spinbutton,
     struct_bet_graph_prefs *prefs;
 
     prefs = self->prefs;
-    prefs->gap_spinner = (gint) gtk_spin_button_get_value ( spinbutton );
+    prefs->gap_spinner = gtk_spin_button_get_value ( spinbutton );
 
     /* on met à jour le graph */
     bet_graph_update_graph ( self );
