@@ -2180,7 +2180,7 @@ gboolean gsb_form_entry_lose_focus (GtkWidget *entry,
                         GdkEventFocus *ev,
                         gint *ptr_origin)
 {
-    gchar *string;
+    const gchar *string;
     gint element_number;
     GtkWidget *widget;
     GtkWidget *tmp_widget;
@@ -2219,12 +2219,13 @@ gboolean gsb_form_entry_lose_focus (GtkWidget *entry,
 		case TRANSACTION_FORM_VALUE_DATE:
 			if (!strlen (gtk_entry_get_text (GTK_ENTRY (entry))))
 			{
+				gchar *vstring;
 				if (save_form_date)
-					string = gsb_format_gdate (save_form_date);
+					vstring = gsb_format_gdate (save_form_date);
 				else
-					string = gsb_date_today ();
-				gtk_entry_set_text (GTK_ENTRY (entry), string);
-				g_free (string);
+					vstring = gsb_date_today ();
+				gtk_entry_set_text (GTK_ENTRY (entry), vstring);
+				g_free (vstring);
 				string = NULL;
 			}
 			break;
@@ -2285,12 +2286,13 @@ gboolean gsb_form_entry_lose_focus (GtkWidget *entry,
 			else
 			{
 				/* si pas de nouveau débit on essaie de remettre l'ancien crédit */
-				if ((string = gsb_form_widget_get_old_credit ()))
+				gchar *vstring = gsb_form_widget_get_old_credit ();
+				if (vstring)
 				{
 					tmp_widget = gsb_form_widget_get_widget (TRANSACTION_FORM_CREDIT);
-					gtk_entry_set_text (GTK_ENTRY (tmp_widget), string);
+					gtk_entry_set_text (GTK_ENTRY (tmp_widget), vstring);
 					gsb_form_widget_set_empty (tmp_widget, FALSE);
-					g_free (string);
+					g_free (vstring);
 
 					widget = gsb_form_widget_get_widget (TRANSACTION_FORM_TYPE);
 					if (widget && gtk_widget_get_sensitive (widget))
@@ -2376,13 +2378,14 @@ gboolean gsb_form_entry_lose_focus (GtkWidget *entry,
 			else
 			{
 				/* si pas de nouveau credit on essaie de remettre l'ancien débit */
-				if ((string = gsb_form_widget_get_old_debit ()))
+				gchar *vstring = gsb_form_widget_get_old_debit ();
+				if (vstring)
 				{
 					tmp_widget = gsb_form_widget_get_widget (TRANSACTION_FORM_DEBIT);
 
-					gtk_entry_set_text (GTK_ENTRY (tmp_widget), string);
+					gtk_entry_set_text (GTK_ENTRY (tmp_widget), vstring);
 					gsb_form_widget_set_empty (tmp_widget, FALSE);
-					g_free (string);
+					g_free (vstring);
 
 					widget = gsb_form_widget_get_widget (TRANSACTION_FORM_TYPE);
 					if (widget
