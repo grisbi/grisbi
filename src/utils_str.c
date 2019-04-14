@@ -747,8 +747,8 @@ gchar * gsb_string_truncate (gchar * string)
  * \return
  **/
 gchar *gsb_string_remplace_string (const gchar *str,
-								   gchar *old_str,
-								   gchar *new_str)
+								   const gchar *old_str,
+								   const gchar *new_str)
 {
     gchar *ptr_debut;
     size_t long_old, str_len;
