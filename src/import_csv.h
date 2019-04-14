@@ -12,7 +12,7 @@ struct csv_field {
     gfloat 		alignment;
     gboolean 	(*validate) (gchar *);
     gboolean 	(*parse) (struct ImportTransaction *, gchar *);
-    gchar *		alias;
+    const gchar *		alias;
 };
 
 /* START_DECLARATION */
