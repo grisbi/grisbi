@@ -4,7 +4,7 @@
 #include "gsb_real.h"
 /* END_INCLUDE_H */
 
-/* constantes definissant le niveau de debug */
+/* constantes definissant le niveau de debug 1 = alertes les plus graves */
 #define DEBUG_NO_DEBUG				0		/* pas de de débug */
 #define	DEBUG_LEVEL_ALERT			1		/* grave probleme */
 #define DEBUG_LEVEL_IMPORTANT		2		/* probleme moins grave */

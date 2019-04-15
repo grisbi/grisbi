@@ -754,27 +754,31 @@ static gboolean grisbi_app_cmdline (GApplication *application,
 	/* modification du niveau de débug si besoin */
 	if (tmp_str && strlen (tmp_str) > 0)
 	{
-		gchar *endptr;
 		gint64 number;
 
 		errno = 0;
-		number = g_ascii_strtoll (tmp_str, &endptr, 10);
-		if (endptr == NULL)
+		number = g_ascii_strtoll (tmp_str, NULL, 10);
+		if (number > 0)
 			priv->debug_level = (gint)number;
 		else if (errno == 0 && number == 0)
 			priv->debug_level = (gint)number;
 	}
 
-#ifdef DEBUG
-	if (priv->debug_level >= 0 && priv->debug_level < 5)
-		debug_set_cmd_line_debug_level (priv->debug_level);
-#else
-	if (priv->debug_level > 0)
+	if (DEBUG)
 	{
-		debug_initialize_debugging (priv->debug_level);
-        grisbi_app_print_environment_var ();
+		if (priv->debug_level == 0 && priv->debug_level < 5)
+		{
+			debug_set_cmd_line_debug_level (priv->debug_level);
+		}
 	}
-#endif
+	else
+	{
+		if (priv->debug_level > 0)
+		{
+			debug_initialize_debugging (priv->debug_level);
+			grisbi_app_print_environment_var ();
+		}
+	}
 
 	if (priv->new_window)
 		grisbi_app_create_window (GRISBI_APP (application), NULL);
@@ -929,7 +933,7 @@ static void grisbi_app_startup (GApplication *application)
 	gsb_locale_init_lconv_struct ();
 
 	/* Print variables if necessary */
-#ifdef DEBUG
+#if DEBUG ==1
 	grisbi_app_print_environment_var ();
 #endif
 
@@ -1107,7 +1111,7 @@ static void grisbi_app_shutdown (GApplication *application)
 static void grisbi_app_init (GrisbiApp *app)
 {
     /* initialize debugging */
-#ifdef DEBUG
+#if DEBUG ==1
 	debug_initialize_debugging (5);
 #endif
 

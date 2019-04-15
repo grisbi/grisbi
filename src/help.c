@@ -201,7 +201,7 @@ NULL};
     extra = extra_support ( );
     version_to_string = get_gtk_run_version ( );
 
-#ifdef DEBUG
+#if DEBUG ==1
     {
         gchar *compiled_time;
 

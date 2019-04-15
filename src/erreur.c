@@ -279,65 +279,51 @@ void debug_initialize_debugging ( gint level )
 	gchar* tmp_str1;
 	gchar* tmp_str2;
 
+    /* on choppe la variable d'environnement en priorité */
 	if (getenv ("DEBUG_GRISBI"))
-    {
-        /* on choppe la variable d'environnement */
         debug_variable = utils_str_atoi (getenv ("DEBUG_GRISBI"));
+	else
+		debug_variable = level;
 
-        /* on verifie que la variable est cohérente */
-        if (debug_variable > 0 && debug_variable <= MAX_DEBUG_LEVEL)
-        {
-            /* on renseigne le texte du level de debug */
-            debugging_grisbi = debug_variable;
-            switch(debug_variable)
-            {
-            case DEBUG_LEVEL_ALERT: { debug_level="Alert"; break; }
-            case DEBUG_LEVEL_IMPORTANT: { debug_level="Important"; break; }
-            case DEBUG_LEVEL_NOTICE: { debug_level="Notice"; break; }
-            case DEBUG_LEVEL_INFO: { debug_level="Info"; break; }
-            case DEBUG_LEVEL_DEBUG: { debug_level="Debug"; break; }
-            }
+	/* on verifie que la variable est cohérente sinon on se met en mode debug max */
+	if (debug_variable > 0 && debug_variable <= MAX_DEBUG_LEVEL)
+	{
+		/* on renseigne le texte du level de debug */
+		debugging_grisbi = debug_variable;
+		switch(debug_variable)
+		{
+		case DEBUG_LEVEL_ALERT: { debug_level="Alert"; break; }
+		case DEBUG_LEVEL_IMPORTANT: { debug_level="Important"; break; }
+		case DEBUG_LEVEL_NOTICE: { debug_level="Notice"; break; }
+		case DEBUG_LEVEL_INFO: { debug_level="Info"; break; }
+		case DEBUG_LEVEL_DEBUG: { debug_level="Debug"; break; }
+		}
 
-            /* on affiche un message de debug pour indiquer que le debug est actif */
-            tmp_str1 = g_strdup_printf ( _("GRISBI %s Debug"), VERSION );
-            tmp_str2 = g_strdup_printf ( _("Debug enabled, level is '%s'"),debug_level);
-			g_print ("%s, %2f : %s - %s\n",
-					 debug_get_debug_time (),
-					 (clock() + 0.0)/ CLOCKS_PER_SEC,
-					 tmp_str1,
-					 tmp_str2);
-            g_free ( tmp_str1 );
-            g_free ( tmp_str2 );
-        }
-        else
-        {
-            gchar* tmp_str;
+		/* on affiche un message de debug pour indiquer que le debug est actif */
+		tmp_str1 = g_strdup_printf ( _("GRISBI %s Debug"), VERSION );
+		tmp_str2 = g_strdup_printf ( _("Debug enabled, level is '%s'"),debug_level);
+		g_print ("%s, %2f : %s - %s\n",
+				 debug_get_debug_time (),
+				 (clock() + 0.0)/ CLOCKS_PER_SEC,
+				 tmp_str1,
+				 tmp_str2);
+		g_free ( tmp_str1 );
+		g_free ( tmp_str2 );
+	}
+	else
+	{
+		gchar* tmp_str;
 
-            debugging_grisbi = DEBUG_LEVEL_DEBUG;
-            /* on affiche un message de debug pour indiquer que le debug est actif */
-            tmp_str = g_strdup_printf (_("GRISBI %s Debug"),VERSION);
-			g_print ("%s, %2f : %s - initialize_debugging - %s\n",
-					 debug_get_debug_time (),
-					 (clock() + 0.0)/ CLOCKS_PER_SEC,
-					 tmp_str,
-					 _("Default debug level: Debug"));
-            g_free (tmp_str);
-        }
-    }
-    else
-    {
-        gchar* tmp_str;
-
-        debugging_grisbi = DEBUG_LEVEL_DEBUG;
-        /* on affiche un message de debug pour indiquer que le debug est actif */
-        tmp_str = g_strdup_printf (_("GRISBI %s Debug"),VERSION);
+		debugging_grisbi = DEBUG_LEVEL_DEBUG;
+		/* on affiche un message de debug pour indiquer que le debug est actif */
+		tmp_str = g_strdup_printf (_("GRISBI %s Debug"),VERSION);
 		g_print ("%s, %2f : %s - initialize_debugging - %s\n",
 				 debug_get_debug_time (),
 				 (clock() + 0.0)/ CLOCKS_PER_SEC,
 				 tmp_str,
 				 _("Default debug level: Debug"));
-        g_free (tmp_str);
-    }
+		g_free (tmp_str);
+	}
 }
 
 /**
@@ -406,7 +392,7 @@ void debug_message_string ( const gchar *prefixe,
 {
 
 	/* il faut bien entendu que le mode debug soit actif ou que l'on force l'affichage */
-    if (debugging_grisbi || force_debug_display || conf.debug_mode)
+    if (level <= debugging_grisbi || force_debug_display || conf.debug_mode)
     {
         gchar* tmp_str;
 
