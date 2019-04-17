@@ -106,8 +106,6 @@ else
 # make DEBUG = 1 for master
 	if expr ${GRISBI_MINOR_VERSION} % 2 > /dev/null; then
 		AC_DEFINE(DEBUG,1,[Defined if Grisbi is a developmeent version])
-	else
-		AC_DEFINE(DEBUG,0,[Defined when Grisbi is not a developmeent version])
 	fi
 fi
 
