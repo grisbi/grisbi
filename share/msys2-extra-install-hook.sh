@@ -59,6 +59,7 @@ install_data() {
 	cp /mingw$bits/share/glib-2.0/schemas/gschema.dtd \
 	/mingw$bits/share/glib-2.0/schemas/org.gtk.Settings.FileChooser.gschema.xml \
 	/mingw$bits/share/glib-2.0/schemas/org.gtk.Settings.ColorChooser.gschema.xml \
+	/mingw$bits/share/glib-2.0/schemas/org.gtk.Settings.EmojiChooser.gschema.xml \
 	$prefix/share/glib-2.0/schemas/; \
 	glib-compile-schemas $prefix/share/glib-2.0/schemas/; \
 	gdk_pixbuf_ver=$(pkg-config.exe gdk-pixbuf-2.0 --variable=gdk_pixbuf_binary_version); \
