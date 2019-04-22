@@ -15,6 +15,7 @@ share/icons/Adwaita/16x16/actions/go-bottom.png
 share/icons/Adwaita/16x16/actions/go-down.png
 share/icons/Adwaita/16x16/actions/go-top.png
 share/icons/Adwaita/16x16/actions/go-up.png
+share/icons/Adwaita/16x16/mimetypes/text-x-generic.png
 share/icons/Adwaita/scalable/actions/bookmark-new-symbolic.svg
 share/icons/Adwaita/scalable/actions/document-open-recent-symbolic.svg
 share/icons/Adwaita/scalable/actions/document-open-symbolic.svg
