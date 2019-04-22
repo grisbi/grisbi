@@ -247,7 +247,8 @@ gboolean gsb_file_util_modify_lock (const gchar *filename,
 									gboolean create_lock)
 {
     gchar *lock_filename;
-	gchar *tmp_str;
+    gchar *dir_part;
+    gchar *file_part;
 
     devel_debug_int (create_lock);
 	if (!filename)
@@ -262,17 +263,19 @@ gboolean gsb_file_util_modify_lock (const gchar *filename,
     if (!g_file_test (filename, G_FILE_TEST_EXISTS))
         return FALSE;
 
+    dir_part = g_path_get_dirname(filename);
+    file_part = g_path_get_basename(filename);
+
     /* Create the name of the lock file */
-	tmp_str = g_path_get_basename (filename);
-    lock_filename = g_strconcat (g_get_tmp_dir (),
-								 G_DIR_SEPARATOR_S,
-#ifndef G_OS_WIN32
-								 ".",
-#endif /* G_OS_WIN32 */
-								 tmp_str,
-								 ".lock",
-								 NULL);
-    g_free (tmp_str);
+    lock_filename = g_strconcat (dir_part,
+            G_DIR_SEPARATOR_S,
+            ".",
+            file_part,
+            ".lock",
+            NULL);
+
+    g_free(dir_part);
+    g_free(file_part);
 
     if (create_lock)
     {
@@ -296,6 +299,7 @@ gboolean gsb_file_util_modify_lock (const gchar *filename,
 
         if (!fichier)
         {
+            gchar *tmp_str;
             tmp_str = g_strdup_printf (_("Cannot write lock file: '%s': %s"),
 									   filename,
 									   g_strerror (errno));
