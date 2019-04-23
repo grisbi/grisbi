@@ -114,7 +114,6 @@ gboolean gsb_file_util_get_contents (const gchar *filename,
     gulong alloc_size;
     gulong orig_size;
     gchar *content;
-	gchar *tmp_str;
     int iterator = 0;
     gboolean eof = 0;
 	gchar *os_filename;
@@ -136,6 +135,7 @@ gboolean gsb_file_util_get_contents (const gchar *filename,
     /* use stat to get the size of the file, windows ? */
     if (stat (os_filename, &stat_buf))
     {
+		gchar *tmp_str;
 		tmp_str = g_strdup_printf (_("Grisbi cannot stat file %s, please check the file."),
 								   os_filename);
 		dialogue_error (tmp_str);
