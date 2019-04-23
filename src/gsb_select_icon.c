@@ -60,7 +60,7 @@ static gchar *new_icon;
 enum {
         PIXBUF_COLUMN,
         TEXT_COLUMN,
-        DATA_COLUMN
+        FILENAME_COLUMN	/* On conserve le nom du fichier de l'icône */
 };
 
 /******************************************************************************/
@@ -94,12 +94,11 @@ static void gsb_select_icon_selection_changed (GtkIconView *icon_view,
 
     model = gtk_icon_view_get_model (GTK_ICON_VIEW (icon_view));
     if (gtk_tree_model_get_iter (GTK_TREE_MODEL (model), &iter, path))
-        gtk_tree_model_get (model, &iter, TEXT_COLUMN, &name_icon, -1);
-    name_icon = my_strdelimit (name_icon, "\n", "");
+        gtk_tree_model_get (model, &iter, FILENAME_COLUMN, &name_icon, -1);
     devel_debug (name_icon);
     if (name_icon && strlen (name_icon) > 0)
     {
-        new_icon = g_build_filename (path_icon, name_icon, NULL);
+        new_icon = g_strdup (name_icon);
         gtk_entry_set_text (GTK_ENTRY (gtk_bin_get_child (GTK_BIN (entry_text))), new_icon);
         gtk_widget_set_sensitive (bouton_OK, TRUE);
         g_free (name_icon);
@@ -193,7 +192,7 @@ static GtkTreePath *gsb_select_icon_fill_icon_view (gchar *name_icon)
 		printf ("nbre elements = %u\n", g_slist_length (liste));
         liste = g_slist_sort (liste, (GCompareFunc) my_strcasecmp);
 
-        store = gtk_list_store_new (3, GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_POINTER);
+        store = gtk_list_store_new (3, GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_STRING);
         while (liste)
         {
 			gchar *tmp_filename;
@@ -216,6 +215,11 @@ static GtkTreePath *gsb_select_icon_fill_icon_view (gchar *name_icon)
                 gtk_list_store_append (store, &iter);
                 tmp_str = gsb_select_icon_troncate_name_icon (liste->data, 10);
                 gtk_list_store_set (store, &iter, PIXBUF_COLUMN, pixbuf, TEXT_COLUMN, tmp_str, -1);
+                gtk_list_store_set (store, &iter,
+									PIXBUF_COLUMN, pixbuf,
+									TEXT_COLUMN, tmp_str,
+									FILENAME_COLUMN, tmp_filename,
+									-1);
                 g_free (tmp_str);
                 g_object_unref (pixbuf);
             }
