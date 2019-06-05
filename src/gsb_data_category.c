@@ -604,18 +604,23 @@ gint gsb_data_category_new_sub_category ( gint category_number,
 {
     gint sub_category_number;
 
-    sub_category_number = gsb_data_category_new_sub_category_with_number ( gsb_data_category_max_sub_category_number (category_number) + 1,
-									   category_number );
+    sub_category_number = gsb_data_category_new_sub_category_with_number_and_name ( gsb_data_category_max_sub_category_number (category_number) + 1,
+																				   category_number,
+                                                                                   name );
 
-    /* append the name if necessary */
-
-    if (name)
-	gsb_data_category_set_sub_category_name ( category_number,
-						  sub_category_number,
-						  name );
     return sub_category_number;
 }
 
+/**
+ * compare the name of two sub-categories
+ * */
+static gint gsb_sub_category_cmp(gconstpointer a,
+                                 gconstpointer b)
+{
+    const SubCategoryStruct *elt1 = a;
+    const SubCategoryStruct *elt2 = b;
+    return strcmp(elt1 -> sub_category_name, elt2 -> sub_category_name);
+}
 
 /**
  * create a new sub-category with a number, append it to the list
@@ -626,8 +631,9 @@ gint gsb_data_category_new_sub_category ( gint category_number,
  *
  * \return the number of the new sub-category or 0 if problem
  * */
-gint gsb_data_category_new_sub_category_with_number ( gint number,
-                        gint category_number)
+gint gsb_data_category_new_sub_category_with_number_and_name ( gint number,
+                        gint category_number,
+                        const gchar * name)
 {
     CategoryStruct *category;
     SubCategoryStruct *sub_category;
@@ -640,9 +646,12 @@ gint gsb_data_category_new_sub_category_with_number ( gint number,
     sub_category = g_malloc0 ( sizeof (SubCategoryStruct));
     sub_category -> sub_category_number = number;
     sub_category -> mother_category_number = category_number;
+	if (name)
+		sub_category -> sub_category_name = strdup(name);
 
-    category -> sub_category_list = g_slist_append ( category -> sub_category_list,
-						     sub_category );
+    category -> sub_category_list = g_slist_insert_sorted ( category -> sub_category_list,
+                            sub_category,
+                            gsb_sub_category_cmp);
 
     sub_category_buffer = sub_category;
 
@@ -1740,8 +1749,7 @@ gboolean gsb_data_category_test_create_sub_category ( gint no_category,
                         no_sub_category );
         if ( !sub_category )
         {
-            gsb_data_category_new_sub_category_with_number (no_sub_category, no_category);
-            gsb_data_category_set_sub_category_name ( no_category, no_sub_category, name );
+            gsb_data_category_new_sub_category_with_number_and_name (no_sub_category, no_category, name);
         }
         else
         {

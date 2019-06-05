@@ -57,8 +57,9 @@ gpointer 	gsb_data_category_get_sub_category_structure 		(gint no_category,
 																 gint no_sub_category);
 gint 		gsb_data_category_get_type 							(gint no_category);
 gboolean 	gsb_data_category_init_variables 					(void);
-gint 		gsb_data_category_new_sub_category_with_number 		(gint number,
-																 gint category_number);
+gint 		gsb_data_category_new_sub_category_with_number_and_name 		(gint number,
+																 gint category_number,
+                                                                 const gchar *name);
 gint 		gsb_data_category_new_with_number 					(gint number);
 gboolean 	gsb_data_category_remove 							(gint no_category);
 void 		gsb_data_category_remove_transaction_from_category 	(gint transaction_number);
