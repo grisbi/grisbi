@@ -102,13 +102,13 @@ static gchar *debug_get_debug_time ( void )
  **/
 static GtkWidget *debug_print_backtrace ( void )
 {
-    void *backtrace_content[15];
+    void *backtrace_content[50];
     int backtrace_size;
     gint i;
     gchar **backtrace_strings, *text = g_strdup("");
     GtkWidget * label;
 
-    backtrace_size = backtrace (backtrace_content, 15);
+    backtrace_size = backtrace (backtrace_content, 50);
     backtrace_strings = backtrace_symbols (backtrace_content, backtrace_size);
 
 	text = g_strconcat(text, "Grisbi version: " VERSION "\n", NULL);
