@@ -424,7 +424,7 @@ GtkWidget *dialogue_special_no_run (GtkMessageType param,
     if (hint)
     {
         gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG (dialog), make_hint (primary_text, NULL));
-        gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog), "%s", text);
+        gtk_message_dialog_format_secondary_markup (GTK_MESSAGE_DIALOG (dialog), "%s", text);
     }
     else
          gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG (dialog), primary_text);
