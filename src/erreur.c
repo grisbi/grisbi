@@ -164,7 +164,7 @@ void debug_traitement_sigsegv ( gint signal_nb )
 			printf ("signal number: %d\n", signal_nb );
 	}
 
-	printf ("signal name = %s\n", tmp_str );
+	printf ("\nsignal name = %s\n", tmp_str );
 
 	/* on récupère le nom du fichier si possible */
 	filename = grisbi_win_get_filename (NULL);
