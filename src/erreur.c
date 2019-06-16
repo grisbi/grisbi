@@ -146,6 +146,7 @@ void debug_traitement_sigsegv ( gint signal_nb )
 	const gchar *filename;
     gchar *errmsg = g_strdup ( "" );
 	gchar *old_errmsg;
+    const gchar *signal_name;
     gchar *tmp_str;
 #ifdef HAVE_BACKTRACE
     GtkWidget *expander;
@@ -154,20 +155,20 @@ void debug_traitement_sigsegv ( gint signal_nb )
 	switch ( signal_nb )
 	{
 		case 2:
-			tmp_str = "SIGINT";
+			signal_name = "SIGINT";
 			break;
 		case 11:
-			tmp_str = "SIGSEGV";
+			signal_name = "SIGSEGV";
 			break;
 		case 15:
-			tmp_str = "SIGTERM";
+			signal_name = "SIGTERM";
 			break;
 		default:
-			tmp_str = "NA";
+			signal_name = "NA";
 			printf ("signal number: %d\n", signal_nb );
 	}
 
-	printf ("\nsignal name = %s\n", tmp_str );
+	printf ("\nsignal name = %s\n", signal_name );
 
 	/* on récupère le nom du fichier si possible */
 	filename = grisbi_win_get_filename (NULL);
