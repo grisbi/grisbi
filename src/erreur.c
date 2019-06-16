@@ -254,6 +254,7 @@ void debug_traitement_sigsegv ( gint signal_nb )
     g_free ( tmp_str );
 
     gtk_expander_set_use_markup ( GTK_EXPANDER ( expander ), TRUE );
+    gtk_expander_set_expanded( GTK_EXPANDER ( expander ), TRUE );
     gtk_container_add ( GTK_CONTAINER ( expander ), debug_print_backtrace() );
     gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), expander, FALSE, FALSE, 6 );
 
