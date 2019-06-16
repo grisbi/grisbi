@@ -111,6 +111,9 @@ static GtkWidget *debug_print_backtrace ( void )
     backtrace_size = backtrace (backtrace_content, 15);
     backtrace_strings = backtrace_symbols (backtrace_content, backtrace_size);
 
+	text = g_strconcat(text, "Grisbi version: " VERSION "\n", NULL);
+	g_print ("%s", text);
+
     g_print ("%s : %d elements in stack.\n", debug_get_debug_time(), backtrace_size);
 
     for (i = 0; i < backtrace_size; i++)
