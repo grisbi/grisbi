@@ -188,6 +188,7 @@ static gboolean bet_array_list_replace_line_by_transfert ( GtkTreeModel *tab_mod
         GDate *date_debut_comparaison;
         GDate *date_fin_comparaison;
         GDate *date;
+		gint tmp_payee_number = 0;
         gint transaction_number;
         gint origine;
         gboolean trouve = FALSE;
@@ -245,79 +246,25 @@ static gboolean bet_array_list_replace_line_by_transfert ( GtkTreeModel *tab_mod
                 continue;
             }
 
-            if ( transfert->main_category_number )
-            {
-                /* on cherche une opération par sa catégorie */
-                gint tmp_category_number = 0;
-                gint tmp_sub_category_number = 0;
+			/* On cherche une opération par tiers */
+			if (origin_data == SPP_ORIGIN_TRANSACTION)
+				tmp_payee_number = gsb_data_transaction_get_party_number (transaction_number);
+			else
+				tmp_payee_number = gsb_data_scheduled_get_party_number (transaction_number);
 
-                if ( origin_data == SPP_ORIGIN_TRANSACTION )
-                {
-                    tmp_category_number = gsb_data_transaction_get_category_number ( transaction_number );
-                    if ( transfert->main_sub_category_number )
-                        tmp_sub_category_number = gsb_data_transaction_get_sub_category_number (
-                                                    transaction_number );
-                }
-                else
-                {
-                    tmp_category_number = gsb_data_scheduled_get_category_number ( transaction_number );
-                    if ( transfert->main_sub_category_number )
-                        tmp_sub_category_number = gsb_data_scheduled_get_sub_category_number (
-                                                    transaction_number );
-                }
+			if (transfert->main_payee_number == tmp_payee_number)
+			{
+				gtk_tree_store_remove (GTK_TREE_STORE (tab_model), &iter);
 
-                if ( transfert->main_category_number == tmp_category_number
-                 &&
-                    transfert->main_sub_category_number == tmp_sub_category_number )
-                {
-                    if ( g_date_compare ( date, transfert -> date ) == 0 )
-                    {
-                        gtk_tree_store_remove ( GTK_TREE_STORE ( tab_model ), &iter );
-
-                        g_date_free ( date );
-                        trouve = TRUE;
-                        break;
-                    }
-                    tmp_iter = gtk_tree_iter_copy ( &iter );
-                }
-            }
-            else if ( transfert->main_budgetary_number )
-            {
-                /* on cherche une opération par son IB */
-                gint tmp_budget_number;
-                gint tmp_sub_budget_number = 0;
-
-                if ( origin_data == SPP_ORIGIN_TRANSACTION )
-                {
-                    tmp_budget_number = gsb_data_transaction_get_budgetary_number ( transaction_number );
-                    if ( transfert->main_sub_budgetary_number )
-                        tmp_sub_budget_number = gsb_data_transaction_get_sub_budgetary_number (
-                                                    transaction_number );
-                }
-                else
-                {
-                    tmp_budget_number = gsb_data_scheduled_get_budgetary_number ( transaction_number );
-                    if ( transfert->main_sub_budgetary_number )
-                        tmp_sub_budget_number = gsb_data_scheduled_get_sub_budgetary_number (
-                                                    transaction_number );
-                }
-
-                if ( transfert->main_budgetary_number == tmp_budget_number
-                 &&
-                    transfert->main_sub_budgetary_number == tmp_sub_budget_number )
-                {
-                    if ( g_date_compare ( date, transfert -> date ) == 0 )
-                    {
-                        gtk_tree_store_remove ( GTK_TREE_STORE ( tab_model ), &iter );
-
-                        g_date_free ( date );
-                        trouve = TRUE;
-                        break;
-                    }
-                    tmp_iter = gtk_tree_iter_copy ( &iter );
-                }
-            }
-            g_date_free ( date );
+				g_date_free (date);
+				trouve = TRUE;
+				break;
+			}
+			else
+			{
+				g_date_free (date);
+				continue;
+			}
         }
         while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( tab_model ), &iter ) );
 
