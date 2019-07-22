@@ -1081,7 +1081,12 @@ gboolean gsb_form_widget_get_valide_amout_entry (const gchar *string)
 
         if (!g_ascii_isdigit (ch))
         {
-            if (g_unichar_isdefined (thousands_sep))
+			if (ch == 0x00A0 || ch == 0x202F/* NON-BREAK SPACE || ESPACE INSÉCABLE ÉTROITE */)
+			{
+				 ptr = g_utf8_next_char (ptr);
+				continue;
+			}
+            else if (g_unichar_isdefined (thousands_sep))
             {
                 if (ch != '.' && ch != ',' && ch != '+' && ch != '-'
                  && ch != '*' && ch != '/' && ch != thousands_sep)
