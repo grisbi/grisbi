@@ -2749,6 +2749,11 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
     GtkWidget *scrolled_window;
     GtkWidget *label;
     GtkWidget *frame;
+    GtkWidget *frame_alert;
+	GtkWidget *vbox_alert;
+	GtkWidget *hbox_alert;
+	GtkWidget *image;
+	GList *list_ope_correspondantes = NULL;
     gchar *tmp_str;
     gchar *tmp_str2;
     gint return_exponent;
@@ -2831,105 +2836,150 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
     gtk_container_set_border_width (GTK_CONTAINER (vbox), BOX_BORDER_WIDTH);
     gtk_widget_show (vbox);
 
+	/* On crée la boite d'alerte quand plusieurs transactions sont fusionnées avec une transaction existante */
+    frame_alert = gtk_frame_new (NULL);
+	gtk_frame_set_shadow_type (GTK_FRAME (frame_alert), GTK_SHADOW_OUT);
+    gtk_box_pack_start (GTK_BOX (dialog_get_content_area (dialog)), frame_alert, FALSE, FALSE, MARGIN_BOX);
+
+	vbox_alert = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
+	gtk_container_add (GTK_CONTAINER (frame_alert), vbox_alert);
+	gtk_container_set_border_width (GTK_CONTAINER (vbox_alert), BOX_BORDER_WIDTH);
+	gtk_widget_show (vbox_alert);
+
+	hbox_alert = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
+	gtk_box_pack_start (GTK_BOX (vbox_alert), hbox_alert, TRUE, TRUE, 0);
+    gtk_widget_show (hbox_alert);
+	image = gtk_image_new_from_icon_name ("gtk-dialog-warning", GTK_ICON_SIZE_LARGE_TOOLBAR);
+	gtk_box_pack_start (GTK_BOX (hbox_alert), image, FALSE, FALSE, 0);
+    gtk_widget_show (image);
+	label = gtk_label_new (NULL);
+	tmp_str = make_pango_attribut ("weight=\"bold\"", _("Duplicate transactions"));
+    gtk_label_set_markup_with_mnemonic (GTK_LABEL (label), tmp_str);
+    g_free (tmp_str);
+
+	gtk_label_set_xalign (GTK_LABEL (label), GSB_CENTER);
+	gtk_box_pack_start (GTK_BOX (hbox_alert), label, TRUE, TRUE, 0);
+	gtk_widget_show (label);
+
+
     /* on fait maintenant le tour des opés importées et affichent celles à problème */
-
     tmp_list = imported_account->operations_importees;
-
     while (tmp_list)
     {
-	struct ImportTransaction *ope_import;
+		struct ImportTransaction *ope_import;
 
-	ope_import = tmp_list->data;
+		ope_import = tmp_list->data;
 
-	/* on n'affiche pas si c'est des opés de ventil, si la mère est cochée, les filles
-     * seront alors cochées on ne teste pas ici car ça a été testé avant */
-	if (ope_import->action == IMPORT_TRANSACTION_ASK_FOR_TRANSACTION
-	     &&
-	     !ope_import->ope_de_ventilation)
-	{
-	    const gchar *tiers;
+		/* on n'affiche pas si c'est des opés de ventil, si la mère est cochée, les filles
+		 * seront alors cochées on ne teste pas ici car ça a été testé avant */
+		if (ope_import->action == IMPORT_TRANSACTION_ASK_FOR_TRANSACTION
+			 &&
+			 !ope_import->ope_de_ventilation)
+		{
+			const gchar *tiers;
 
-        /* on est certain d'afficher une opération au moins */
-        ope_visible = TRUE;
+			/* on est certain d'afficher une opération au moins */
+			ope_visible = TRUE;
 
-	    hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
-	    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
-	    gtk_widget_show (hbox);
+			hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
+			gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
+			gtk_widget_show (hbox);
 
-	    ope_import->bouton = gtk_check_button_new ();
-        if (etat.fusion_import_transactions)
-            gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ope_import->bouton), TRUE);
-        g_object_set_data (G_OBJECT (ope_import->bouton), "dialog", dialog);
-        g_signal_connect (ope_import->bouton,
-                        "toggled",
-                        G_CALLBACK (gsb_import_ope_import_toggled),
-                        vbox);
-	    gtk_box_pack_start (GTK_BOX (hbox), ope_import->bouton, FALSE, FALSE, 0);
-	    gtk_widget_show (ope_import->bouton);
+			ope_import->bouton = gtk_check_button_new ();
+			if (etat.fusion_import_transactions)
+				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ope_import->bouton), TRUE);
+			g_object_set_data (G_OBJECT (ope_import->bouton), "dialog", dialog);
+			g_signal_connect (ope_import->bouton,
+							"toggled",
+							G_CALLBACK (gsb_import_ope_import_toggled),
+							vbox);
+			gtk_box_pack_start (GTK_BOX (hbox), ope_import->bouton, FALSE, FALSE, 0);
+			gtk_widget_show (ope_import->bouton);
 
-        return_exponent = gsb_data_account_get_currency_floating_point (account_number);
-	    tmp_str2 = utils_real_get_string (gsb_real_adjust_exponent (ope_import->montant,
-                        return_exponent));
-        if (etat.fusion_import_transactions)
-            tmp_str = g_strdup_printf (_("Transaction to be merged: %s ; %s ; %s"),
-                        gsb_format_gdate (ope_import->date),
-                        ope_import->tiers,
-                        tmp_str2);
-        else
-            tmp_str = g_strdup_printf (_("Transaction to import: %s ; %s ; %s"),
-                        gsb_format_gdate (ope_import->date),
-                        ope_import->tiers,
-                        tmp_str2);
-		g_free (tmp_str2);
-	    label = gtk_label_new (tmp_str);
-	    g_free (tmp_str);
-	    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
-	    gtk_widget_show (label);
+			return_exponent = gsb_data_account_get_currency_floating_point (account_number);
+			tmp_str2 = utils_real_get_string (gsb_real_adjust_exponent (ope_import->montant,
+							return_exponent));
+			if (etat.fusion_import_transactions)
+				tmp_str = g_strdup_printf (_("Transaction to be merged: %s ; %s ; %s"),
+							gsb_format_gdate (ope_import->date),
+							ope_import->tiers,
+							tmp_str2);
+			else
+				tmp_str = g_strdup_printf (_("Transaction to import: %s ; %s ; %s"),
+							gsb_format_gdate (ope_import->date),
+							ope_import->tiers,
+							tmp_str2);
+			g_free (tmp_str2);
+			label = gtk_label_new (tmp_str);
+			g_free (tmp_str);
+			gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+			gtk_widget_show (label);
 
+			hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
+			gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
+			gtk_widget_show (hbox);
 
-	    hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
-	    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
-	    gtk_widget_show (hbox);
+			label = gtk_label_new ("       ");
+			gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+			gtk_widget_show (label);
 
-	    label = gtk_label_new ("       ");
-	    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
-	    gtk_widget_show (label);
+			/* on garde trace des opérations correspondantes pour avertir l'utilisateur d'un problème de fusion */
+			if (g_list_find (list_ope_correspondantes,GINT_TO_POINTER (ope_import->ope_correspondante)))
+			{
+				tmp_str2 = utils_real_get_string (gsb_data_transaction_get_amount (ope_import->ope_correspondante));
+				tmp_str = g_strdup_printf (_("N° %d of %s for %s Payee: %s"),
+										   ope_import->ope_correspondante,
+										   gsb_format_gdate (ope_import->date),
+										   tmp_str2,
+										   ope_import->tiers);
+				label = gtk_label_new (tmp_str);
+				gtk_label_set_xalign (GTK_LABEL (label), GSB_LEFT);
+				gtk_box_pack_start (GTK_BOX (vbox_alert), label, FALSE, FALSE, 0);
+				gtk_widget_show (label);
+				gtk_widget_show (frame_alert);
+				g_free (tmp_str2);
+				g_free (tmp_str);
+			}
+			else
+			{
+				list_ope_correspondantes = g_list_append (list_ope_correspondantes,
+														  GINT_TO_POINTER (ope_import->ope_correspondante));
+			}
 
-	    tiers = gsb_data_payee_get_name (gsb_data_transaction_get_party_number (
-                        ope_import->ope_correspondante), FALSE);
+			tiers = gsb_data_payee_get_name (gsb_data_transaction_get_party_number (
+							ope_import->ope_correspondante), FALSE);
+			if (gsb_data_transaction_get_notes (ope_import->ope_correspondante))
+			{
+				tmp_str2 = utils_real_get_string (gsb_data_transaction_get_amount (
+									ope_import->ope_correspondante));
+				tmp_str = g_strdup_printf (_("Transaction found: %s ; %s ; %s ; %s"),
+							gsb_format_gdate (gsb_data_transaction_get_date (
+							ope_import->ope_correspondante)),
+							tiers,
+							tmp_str2,
+							gsb_data_transaction_get_notes (ope_import->ope_correspondante));
+				g_free (tmp_str2);
+				label = gtk_label_new (tmp_str);
+				g_free (tmp_str);
+			}
+			else
+			{
+				tmp_str2 = utils_real_get_string (gsb_data_transaction_get_amount (
+									ope_import->ope_correspondante));
+				tmp_str = g_strdup_printf (_("Transaction found: %s ; %s ; %s"),
+							gsb_format_gdate (gsb_data_transaction_get_date (
+							ope_import->ope_correspondante)),
+							tiers,
+							tmp_str2);
+				g_free (tmp_str2);
+				label = gtk_label_new (tmp_str);
+				g_free (tmp_str);
+			}
 
-	    if (gsb_data_transaction_get_notes (ope_import->ope_correspondante))
-	    {
-            tmp_str2 = utils_real_get_string (gsb_data_transaction_get_amount (
-                                ope_import->ope_correspondante));
-            tmp_str = g_strdup_printf (_("Transaction found: %s ; %s ; %s ; %s"),
-                        gsb_format_gdate (gsb_data_transaction_get_date (
-                        ope_import->ope_correspondante)),
-                        tiers,
-                        tmp_str2,
-                        gsb_data_transaction_get_notes (ope_import->ope_correspondante));
-            g_free (tmp_str2);
-            label = gtk_label_new (tmp_str);
-            g_free (tmp_str);
-	    }
-	    else
-	    {
-            tmp_str2 = utils_real_get_string (gsb_data_transaction_get_amount (
-                                ope_import->ope_correspondante));
-            tmp_str = g_strdup_printf (_("Transaction found: %s ; %s ; %s"),
-                        gsb_format_gdate (gsb_data_transaction_get_date (
-                        ope_import->ope_correspondante)),
-                        tiers,
-                        tmp_str2);
-            g_free (tmp_str2);
-            label = gtk_label_new (tmp_str);
-            g_free (tmp_str);
-	    }
-
-	    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
-	    gtk_widget_show (label);
-	}
-	tmp_list = tmp_list->next;
+			gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+			gtk_widget_show (label);
+		}
+		tmp_list = tmp_list->next;
     }
 
     /* si on n'a rien a afficher on sort */
