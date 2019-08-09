@@ -307,6 +307,7 @@ struct _GrisbiWinRun
     /* initialisation variables */
     gboolean	new_crypted_file;							/* 0 à l'exécution de init_variables () 1 si new crypted file*/
 	gboolean	new_account_file;							/* 0 à l'exécution de init_variables () 1 si new account file */
+	gboolean		import_remove_file;						/* remove the imported file */
 
     /* file stuff */
     time_t		file_modification;
