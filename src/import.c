@@ -4699,12 +4699,8 @@ static gboolean gsb_import_by_rule_get_file (GtkWidget *button,
     GSList *filenames;
     GSList *tmp_list;
     gchar *string = NULL;
-    const gchar *enc;
-    gint rule;
 
-    rule = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (entry), "rule"));
-    enc = gsb_data_import_rule_get_charmap (rule);
-    filenames = gsb_import_create_file_chooser (enc, GTK_WIDGET (grisbi_app_get_active_window (NULL)));
+	filenames = gsb_import_create_file_chooser (charmap_imported, GTK_WIDGET (grisbi_app_get_active_window (NULL)));
     if (!filenames)
 		return FALSE;
 
