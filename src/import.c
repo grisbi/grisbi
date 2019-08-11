@@ -4845,7 +4845,7 @@ static gchar **gsb_import_by_rule_ask_filename (gint rule)
 
 	/* Add check_button to remove the file */
 	w_run = grisbi_win_get_w_run ();
-	check_button = gtk_check_button_new_with_label (_("Remove the file"));
+	check_button = gtk_check_button_new_with_label (_("Remove the imported file"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check_button), w_run->import_remove_file);
 	gtk_grid_attach (GTK_GRID (table), check_button, 0, 2, 3, 1);
 
