@@ -227,6 +227,7 @@ struct GrisbiAppConf
     gboolean    sauvegarde_auto;                            /* utilisé pour enregistrer le fichier automatiquementà la fermeture */
 	gboolean	force_import_directory;						/* force l'utilisation d'un répertoire pour l'importation des fichiers */
 	gchar *     import_directory;                          	/* répertoire par défaut pour l'importation des fichiers */
+	gboolean	import_remove_file;							/* remove file after import */
 
 /* archive stuff */
     gboolean    archives_check_auto;                  		/* TRUE if we want to check the number of non archived transactions at the opening */
@@ -307,7 +308,6 @@ struct _GrisbiWinRun
     /* initialisation variables */
     gboolean	new_crypted_file;							/* 0 à l'exécution de init_variables () 1 si new crypted file*/
 	gboolean	new_account_file;							/* 0 à l'exécution de init_variables () 1 si new account file */
-	gboolean		import_remove_file;						/* remove the imported file */
 
     /* file stuff */
     time_t		file_modification;

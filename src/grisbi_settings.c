@@ -184,6 +184,7 @@ static void grisbi_settings_init_settings_file (GSettings *settings)
     conf.force_enregistrement = g_settings_get_boolean (settings, "force-enregistrement");
     conf.force_import_directory = g_settings_get_boolean (settings, "force-import-directory");
     conf.nb_max_derniers_fichiers_ouverts = g_settings_get_int (settings, "nb-max-derniers-fichiers-ouverts");
+	conf.import_remove_file = g_settings_get_boolean (settings, "import-remove-file");
     conf.sauvegarde_auto = g_settings_get_boolean (settings, "sauvegarde-auto");
 
 	if (conf.force_import_directory)
@@ -697,6 +698,9 @@ void grisbi_settings_save_app_config (void)
 										   "import-directory",
 										   conf.import_directory);
 	}
+    g_settings_set_boolean (G_SETTINGS (priv->settings_file),
+                        "import-remove-file",
+                        conf.import_remove_file);
 
     g_settings_set_boolean (G_SETTINGS (priv->settings_file),
                         "compress-file",

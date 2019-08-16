@@ -4751,7 +4751,6 @@ static gchar **gsb_import_by_rule_ask_filename (gint rule)
 	const gchar *filename = NULL;
     gchar *tmp_str;
     gchar *tmp_str2;
-	GrisbiWinRun *w_run;
 
     if (!rule)
     return NULL;
@@ -4844,9 +4843,8 @@ static gchar **gsb_import_by_rule_ask_filename (gint rule)
     gtk_grid_attach (GTK_GRID (table), button, 2, 1, 1, 1);
 
 	/* Add check_button to remove the file */
-	w_run = grisbi_win_get_w_run ();
 	check_button = gtk_check_button_new_with_label (_("Remove the imported file"));
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check_button), w_run->import_remove_file);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check_button), conf.import_remove_file);
 	gtk_grid_attach (GTK_GRID (table), check_button, 0, 2, 3, 1);
 
     g_object_set_data (G_OBJECT(entry), "rule", GINT_TO_POINTER (rule));
@@ -4856,7 +4854,7 @@ static gchar **gsb_import_by_rule_ask_filename (gint rule)
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
 	{
 		array = g_strsplit (gtk_entry_get_text (GTK_ENTRY (entry)), ";", 0);
-		w_run->import_remove_file = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check_button));
+		conf.import_remove_file = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check_button));
 	}
 
     gtk_widget_destroy (dialog);
@@ -4878,7 +4876,6 @@ gboolean gsb_import_by_rule (gint rule)
     gint account_number;
     gchar **array;
     gint i=0;
-	GrisbiWinRun *w_run;
 
     devel_debug (NULL);
     charmap_imported = my_strdup (gsb_data_import_rule_get_charmap (rule));
@@ -4886,9 +4883,7 @@ gboolean gsb_import_by_rule (gint rule)
     if (!array)
 		return FALSE;
 
-	w_run = grisbi_win_get_w_run ();
 	account_number = gsb_data_import_rule_get_account (rule);
-
     while (array[i])
     {
         gchar *filename = array[i];
@@ -4992,7 +4987,7 @@ gboolean gsb_import_by_rule (gint rule)
 
         /* save the last file used */
         gsb_data_import_rule_set_last_file_name (rule, filename);
-		if (w_run->import_remove_file)
+		if (conf.import_remove_file)
 		{
 			g_remove (filename);
 		}

@@ -153,6 +153,13 @@
       <summary>Import directory</summary>
       <description>The directory for the import files.</description>
     </key>
+	  <key name="import-remove-file" type="b">
+      <default>false</default>
+	    <summary>Remove imported file</summary>
+	    <description>
+	        TRUE if you want to remove the file after import.
+	    </description>
+	  </key>
     <key name="names-last-files" type="as">
       <default>[]</default>
       <summary>The last files opened by Grisbi</summary>
