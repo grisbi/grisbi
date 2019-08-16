@@ -1293,6 +1293,7 @@ gulong gsb_file_save_transaction_part ( gulong iterator,
 	gchar *value_date;
 	gint transaction_archive_number;
     gint floating_point;
+    gint floating_fees;
 
 	transaction_number = gsb_data_transaction_get_transaction_number ( list_tmp -> data );
 
@@ -1321,9 +1322,10 @@ gulong gsb_file_save_transaction_part ( gulong iterator,
                         floating_point );
 	exchange_rate = gsb_real_safe_real_to_string (
                         gsb_data_transaction_get_exchange_rate ( transaction_number ), -1 );
+	floating_fees = gsb_data_account_get_currency_floating_point (gsb_data_transaction_get_account_number (transaction_number));
 	exchange_fees = gsb_real_safe_real_to_string (
                         gsb_data_transaction_get_exchange_fees ( transaction_number ),
-                        floating_point );
+                        floating_fees );
 
 	/* set the dates */
 	date = gsb_format_gdate_safe ( gsb_data_transaction_get_date ( transaction_number ));
