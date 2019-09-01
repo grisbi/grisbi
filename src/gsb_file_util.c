@@ -140,6 +140,7 @@ gboolean gsb_file_util_get_contents (const gchar *filename,
 								   os_filename);
 		dialogue_error (tmp_str);
 		g_free (tmp_str);
+		gzclose (file);
 		g_free (os_filename);
 
 		return FALSE;
@@ -164,6 +165,7 @@ gboolean gsb_file_util_get_contents (const gchar *filename,
     if (!content)
     {
 		dialogue_error_memory ();
+		gzclose (file);
 		g_free (os_filename);
 
 		return FALSE;
@@ -185,6 +187,7 @@ gboolean gsb_file_util_get_contents (const gchar *filename,
 								   g_strerror (save_errno));
 		dialogue_error (tmp_str);
 		g_free (tmp_str);
+		gzclose (file);
 		g_free (os_filename);
 
 		return FALSE;
