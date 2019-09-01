@@ -215,6 +215,7 @@ gboolean gsb_file_util_get_contents (const gchar *filename,
 				if (!content)
 				{
 					dialogue_error_memory ();
+					gzclose (file);
 					g_free (os_filename);
 
 					return FALSE;
