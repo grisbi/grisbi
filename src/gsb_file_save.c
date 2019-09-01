@@ -432,6 +432,8 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
             dialogue_error ( tmpstr );
             g_free ( tmpstr );
             g_free ( file_content);
+            if (grisbi_file)
+                gzclose (grisbi_file);
 
             return ( FALSE );
         }
