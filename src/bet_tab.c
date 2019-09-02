@@ -183,7 +183,6 @@ static gboolean bet_array_list_replace_line_by_transfert ( GtkTreeModel *tab_mod
 
     if ( gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( tab_model ), &iter ) )
     {
-        GtkTreeIter *tmp_iter = NULL;
         gchar *str_date = NULL;
         GDate *date_debut_comparaison;
         GDate *date_fin_comparaison;
@@ -230,12 +229,6 @@ static gboolean bet_array_list_replace_line_by_transfert ( GtkTreeModel *tab_mod
 
             if ( g_date_compare ( date, date_fin_comparaison ) > 0 )
             {
-                if ( tmp_iter )
-                {
-                    gtk_tree_store_remove ( GTK_TREE_STORE ( tab_model ), tmp_iter );
-                    trouve = TRUE;
-                }
-
                 g_date_free ( date );
                 break;
             }
