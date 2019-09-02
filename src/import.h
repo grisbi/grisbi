@@ -81,6 +81,7 @@ struct ImportTransaction
     gint action;		        /* IMPORT_TRANSACTION_GET_TRANSACTION, IMPORT_TRANSACTION_ASK_FOR_TRANSACTION, IMPORT_TRANSACTION_LEAVE_TRANSACTION*/
     gint ope_correspondante;    /* contient l'adr de l'opé qui correspond peut être à l'opé importée pour la présentation à l'utilisateur */
     GtkWidget *bouton;          /*  adr du bouton si cette opé est douteuse et vérifiée par l'utilisateur */
+	GtkWidget *label_ope_find;	/* label de l'opération trouvée peut être remplacé par l'utilisateur */
 
     gchar *tiers;
     gchar *notes;
