@@ -12,14 +12,14 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-08-11 18:10+0200\n"
-"PO-Revision-Date: 2019-01-06 12:55+0100\n"
+"PO-Revision-Date: 2019-09-06 20:31+0200\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 18.12.2\n"
+"X-Generator: Lokalize 19.08.1\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../src/accueil.c:129
@@ -1910,12 +1910,12 @@ msgid "Grisbi made a backup file at '%s'."
 msgstr "Grisbi hat eine Sicherung im Verzeichnis '%s' erstellt."
 
 #: ../src/erreur.c:234
-#, fuzzy
 msgid ""
 "Please report this problem to <a href=\"http://www.grisbi.org/bugsreports/"
 "\">http://www.grisbi.org/bugsreports/</a>.\n"
 msgstr ""
-"Bitte den Fehler unter <tt>http://www.grisbi.org/bugsreports/</tt> melden.  "
+"Bitte den Fehler auf <a href=\"http://www.grisbi.org/bugsreports/\""
+">http://www.grisbi.org/bugsreports/</a> melden.\n"
 
 #: ../src/erreur.c:240
 msgid "Copy and paste the following backtrace with your bug report."
@@ -9472,9 +9472,8 @@ msgstr ""
 "Auswahl welche Buchungen importiert werden sollen."
 
 #: ../src/import.c:2856
-#, fuzzy
 msgid "Duplicate transactions"
-msgstr "Buchungen Aufruf"
+msgstr "Buchungen duplizieren"
 
 #: ../src/import.c:2903
 #, c-format
@@ -9489,7 +9488,7 @@ msgstr "Buchung für Import: %s ; %s ; %s"
 #: ../src/import.c:2930
 #, c-format
 msgid "N° %d of %s for %s Payee: %s"
-msgstr ""
+msgstr "N° %d von %s für %s Empfänger: %s"
 
 #: ../src/import.c:2955
 #, c-format
@@ -9662,9 +9661,8 @@ msgid "Select a new file"
 msgstr "Eine neue Datei auswählen"
 
 #: ../src/import.c:4848
-#, fuzzy
 msgid "Remove the imported file"
-msgstr "Regel entfernen"
+msgstr "Importierte Datei entfernen"
 
 #: ../src/import.c:4905
 #, c-format
@@ -12377,9 +12375,8 @@ msgid "Display a sub-total for each payee"
 msgstr "Eine Zwischensumme für jeden Empfänger anzeigen"
 
 #: ../src/ui/etats_prefs.ui.h:54
-#, fuzzy
 msgid "Display categories"
-msgstr "Unterkategorien anzeigen"
+msgstr "Kategorien anzeigen"
 
 #: ../src/ui/etats_prefs.ui.h:55
 msgid "Display a sub-total for each category"
