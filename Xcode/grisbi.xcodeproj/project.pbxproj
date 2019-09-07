@@ -1372,23 +1372,6 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					"/usr/local/opt/gtk+3/include/gtk-3.0",
-					"/usr/local/opt/glib/include/glib-2.0",
-					"/usr/local/opt/glib/lib/glib-2.0/include",
-					"/usr/local/opt/pango/include/pango-1.0",
-					/usr/local/opt/cairo/include/cairo,
-					"/usr/local/opt/gdk-pixbuf/include/gdk-pixbuf-2.0",
-					"/usr/local/opt/atk/include/atk-1.0",
-					/usr/local/opt/gettext/include,
-					"/usr/local/opt/libgsf/include/libgsf-1",
-					/usr/local/opt/libxml2/include/libxml2,
-					/usr/local/opt/libofx/include,
-				);
-				LIBRARY_SEARCH_PATHS = (
-					/usr/local/lib,
-					/usr/local/opt/gettext/lib,
-				);
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1444,23 +1427,6 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					"/usr/local/opt/gtk+3/include/gtk-3.0",
-					"/usr/local/opt/glib/include/glib-2.0",
-					"/usr/local/opt/glib/lib/glib-2.0/include",
-					"/usr/local/opt/pango/include/pango-1.0",
-					/usr/local/opt/cairo/include/cairo,
-					"/usr/local/opt/gdk-pixbuf/include/gdk-pixbuf-2.0",
-					"/usr/local/opt/atk/include/atk-1.0",
-					/usr/local/opt/gettext/include,
-					"/usr/local/opt/libgsf/include/libgsf-1",
-					/usr/local/opt/libxml2/include/libxml2,
-					/usr/local/opt/libofx/include,
-				);
-				LIBRARY_SEARCH_PATHS = (
-					/usr/local/lib,
-					/usr/local/opt/gettext/lib,
-				);
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_CFLAGS = "-DHAVE_CONFIG_H";
@@ -1487,6 +1453,7 @@
 					/usr/local/opt/cairo/include,
 					/usr/local/opt/openssl/include,
 					"/usr/local/opt/gtk-mac-integration/include/gtkmacintegration",
+					/usr/local/opt/harfbuzz/include/harfbuzz,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1518,6 +1485,7 @@
 					/usr/local/opt/cairo/include,
 					/usr/local/opt/openssl/include,
 					"/usr/local/opt/gtk-mac-integration/include/gtkmacintegration",
+					/usr/local/opt/harfbuzz/include/harfbuzz,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
