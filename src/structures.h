@@ -313,6 +313,7 @@ struct _GrisbiWinRun
     time_t		file_modification;
     gboolean	file_is_saving;
     gboolean	file_is_loading;
+    gboolean	menu_save;
 
     /* reconciliation */
     gint		equilibrage;

@@ -299,6 +299,10 @@ static void grisbi_app_quit (GSimpleAction *action,
 
     app = GRISBI_APP (user_data);
 
+	/* do not exit while saving. See bug #1969 */
+	if (run.menu_save)
+		return;
+
     /* Remove all windows registered in the application */
     while ((l = gtk_application_get_windows (GTK_APPLICATION (app))))
     {

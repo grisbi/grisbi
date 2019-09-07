@@ -444,7 +444,10 @@ void grisbi_cmd_file_save (GSimpleAction *action,
 						   GVariant *parameter,
 						   gpointer app)
 {
+	/* disable quit. See bug #1969 */
+	run.menu_save = TRUE;
 	gsb_file_save ();
+	run.menu_save = FALSE;
 }
 
 /**
@@ -460,7 +463,9 @@ void grisbi_cmd_file_save_as (GSimpleAction *action,
 							  GVariant *parameter,
 							  gpointer app)
 {
+	run.menu_save = TRUE;
 	gsb_file_save_as ();
+	run.menu_save = FALSE;
 }
 
 /**
