@@ -1460,6 +1460,13 @@
 					/usr/local/opt/openssl/lib,
 					/usr/local/opt/gettext/lib,
 					"/usr/local/opt/gtk-mac-integration/lib",
+					/usr/local/opt/goffice/lib,
+					/usr/local/opt/pango/lib,
+					/usr/local/opt/libofx/lib,
+					"/usr/local/opt/gdk-pixbuf/lib",
+					"/usr/local/opt/gtk+3/lib",
+					/usr/local/opt/glib/lib,
+					/usr/local/opt/cairo/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -1492,6 +1499,13 @@
 					/usr/local/opt/openssl/lib,
 					/usr/local/opt/gettext/lib,
 					"/usr/local/opt/gtk-mac-integration/lib",
+					/usr/local/opt/goffice/lib,
+					/usr/local/opt/pango/lib,
+					/usr/local/opt/libofx/lib,
+					"/usr/local/opt/gdk-pixbuf/lib",
+					"/usr/local/opt/gtk+3/lib",
+					/usr/local/opt/glib/lib,
+					/usr/local/opt/cairo/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
