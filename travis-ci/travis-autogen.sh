@@ -42,6 +42,14 @@ case "$CONF" in
 		# fail on warning
 		configure_args+=" --enable-real-werror"
 
+		if [ "$TRAVIS_OS_NAME" = "osx" ]
+		then
+			# disable deprecated warnings since gdk-pixbuf fails to
+			# build with:
+			# /usr/local/Cellar/gdk-pixbuf/2.38.1_1/include/gdk-pixbuf-2.0/gdk-pixbuf/gdk-pixbuf-animation.h:122:85: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+			configure_args+="-Wno-deprecated-declarations"
+		fi
+
 		# disable goffice since it uses -pthread that generate warnings and then
 		# errors
 		configure_args+=" --without-goffice"
