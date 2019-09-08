@@ -73,15 +73,15 @@ encrypt_v2(gchar *password, gchar **file_content, gulong length)
     /* Create a temporary buffer that will hold data to be encrypted. */
     to_encrypt_length = V2_MARKER_SIZE + length;
     to_encrypt_content = g_malloc ( to_encrypt_length );
-    g_memmove ( to_encrypt_content, V2_MARKER, V2_MARKER_SIZE );
-    g_memmove ( to_encrypt_content + V2_MARKER_SIZE, *file_content, length );
+    memmove ( to_encrypt_content, V2_MARKER, V2_MARKER_SIZE );
+    memmove ( to_encrypt_content + V2_MARKER_SIZE, *file_content, length );
 
     /* Allocate the output file and copy the special marker at its beginning.
      * DES_cbc_encrypt output is always a multiple of 8 bytes. Adjust the
      * length of the allocation accordingly. */
     output_length = V2_MARKER_SIZE + ALIGN_TO_8_BYTES ( to_encrypt_length );
     output_content = g_malloc ( output_length );
-    g_memmove ( output_content, V2_MARKER , V2_MARKER_SIZE );
+    memmove ( output_content, V2_MARKER , V2_MARKER_SIZE );
 
     /* Encrypt the data and put it in the right place in the output buffer. */
     DES_string_to_key ( password, &key );
@@ -171,7 +171,7 @@ decrypt_v1(gchar *password, gchar **file_content, gulong length)
     DES_set_odd_parity ( &key );
     /* Set the DES key the WRONG AND BROKEN way. DO NOT REUSE THIS CODE EVER! */
     memset ( &key, 0, sizeof ( DES_cblock ) );
-    g_memmove ( &key, password, MIN(sizeof(DES_cblock), strlen(password)) );
+    memmove ( &key, password, MIN(sizeof(DES_cblock), strlen(password)) );
 
     DES_cbc_encrypt ( (guchar *) (* file_content + V1_MARKER_SIZE),
         (guchar *) decrypted_buf,
