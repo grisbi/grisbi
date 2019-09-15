@@ -11,7 +11,7 @@ init:
     c:\msys64\usr\bin\bash -lc "pacman -S unzip --noconfirm"
 
 
-    c:\msys64\usr\bin\bash -lc "wget -O /nsis.zip \"https://kent.dl.sourceforge.net/project/nsis/NSIS 3/3.03/nsis-3.03.zip\""
+    c:\msys64\usr\bin\bash -lc "wget -O /nsis.zip 'https://downloads.sourceforge.net/project/nsis/NSIS 3/3.04/nsis-3.04.zip'"
 
     c:\msys64\usr\bin\bash -lc "cd / && unzip nsis.zip"
 environment:
