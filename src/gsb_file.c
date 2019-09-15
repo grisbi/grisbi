@@ -857,7 +857,7 @@ gboolean gsb_file_automatic_backup_start (GtkWidget *checkbutton,
     /* launch the timeout only if active and if there is some minutes */
     if (conf.make_backup_every_minutes && conf.make_backup_nb_minutes)
 		id_timeout = g_timeout_add_seconds (conf.make_backup_nb_minutes * 60,
-											(GSourceFunc) (gsb_file_automatic_backup),
+											gsb_file_automatic_backup,
 											NULL);
     return FALSE;
 }
@@ -885,7 +885,7 @@ gboolean gsb_file_automatic_backup_change_time (GtkWidget *spinbutton,
     /* set a new timeout only if there is an interval */
     if (conf.make_backup_nb_minutes)
 	id_timeout = g_timeout_add_seconds (conf.make_backup_nb_minutes * 60,
-					     (GSourceFunc) (gsb_file_automatic_backup),
+					     gsb_file_automatic_backup,
 					     NULL);
 
     return FALSE;
