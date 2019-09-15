@@ -124,12 +124,6 @@ static void grisbi_settings_init_settings_backup (GSettings *settings)
     conf.make_backup_every_minutes = g_settings_get_boolean (settings, "make-backup-every-minutes");
     conf.make_backup_nb_minutes = g_settings_get_int (settings, "make-backup-nb-minutes");
     conf.sauvegarde_demarrage = g_settings_get_boolean (settings, "sauvegarde-ouverture");
-
-    /* Si sauvegarde automatique on la lance ici */
-    if (conf.make_backup_every_minutes
-     &&
-     conf.make_backup_nb_minutes)
-        gsb_file_automatic_backup_start (NULL, NULL);
 }
 
 /**
