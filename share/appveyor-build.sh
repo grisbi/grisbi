@@ -81,7 +81,7 @@ make -j 2
 
 make install
 
-cd /nsis-3.03
+cd /nsis-3.04
 ./makensis.exe /c/projects/grisbi-src/share/grisbi.nsi
 
 cd /c/projects/grisbi-src
