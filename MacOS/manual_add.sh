@@ -29,6 +29,7 @@ share/icons/Adwaita/scalable/actions/pan-end-symbolic.svg
 share/icons/Adwaita/scalable/actions/pan-start-symbolic-rtl.svg
 share/icons/Adwaita/scalable/actions/pan-start-symbolic.svg
 share/icons/Adwaita/scalable/actions/pan-up-symbolic.svg
+share/icons/Adwaita/scalable/actions/folder-new-symbolic.svg
 share/icons/Adwaita/scalable/devices/drive-harddisk-symbolic.svg
 share/icons/Adwaita/scalable/mimetypes/inode-directory-symbolic.svg
 share/icons/Adwaita/scalable/mimetypes/text-x-generic-symbolic.svg
