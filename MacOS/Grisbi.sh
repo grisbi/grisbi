@@ -50,7 +50,7 @@ unset LANG LC_MESSAGES LC_MONETARY LC_COLLATE
 # Has a language ordering been set?
 # If so, set LC_MESSAGES and LANG accordingly; otherwise skip it.
 # First step uses sed to clean off the quotes and commas, to change - to _, and change the names for the chinese scripts from "Hans" to CN and "Hant" to TW.
-if `defaults read org.grisbi.Grisbi AppleLanguages > /dev/null`; then
+if `defaults read org.grisbi.Grisbi AppleLanguages > /dev/null 2>&1`; then
     DEFAULTS_DOM="org.grisbi.Grisbi"
 else
     DEFAULTS_DOM=".GlobalPreferences"
