@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-11 18:10+0200\n"
+"POT-Creation-Date: 2019-09-30 10:20+0200\n"
 "PO-Revision-Date: 2018-11-21 21:39+0100\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: français <>\n"
@@ -239,11 +239,11 @@ msgstr "Ouvrir l'opération sélectionnée avec un simple clic"
 msgid "Highlights the transaction that gives the balance today"
 msgstr "Surligner l'opération qui donne le solde à aujourd'hui"
 
-#: ../src/affichage_liste.c:245 ../src/org.gtk.grisbi.gschema.xml.h:80
+#: ../src/affichage_liste.c:245 ../src/org.gtk.grisbi.gschema.xml.h:82
 msgid "Primary sorting option"
 msgstr "Option de tri primaire"
 
-#: ../src/affichage_liste.c:260 ../src/org.gtk.grisbi.gschema.xml.h:82
+#: ../src/affichage_liste.c:260 ../src/org.gtk.grisbi.gschema.xml.h:84
 msgid "Secondary sorting option"
 msgstr "Option de tri secondaire"
 
@@ -564,7 +564,7 @@ msgstr "Afficher le tableau d'amortissement depuis le début"
 
 #. Export list
 #: ../src/bet_finance_ui.c:775 ../src/bet_finance_ui.c:897
-#: ../src/bet_finance_ui.c:2072 ../src/bet_hist.c:1958 ../src/bet_tab.c:1713
+#: ../src/bet_finance_ui.c:2072 ../src/bet_hist.c:1958 ../src/bet_tab.c:1706
 msgid "Export the array"
 msgstr "Exporter le tableau"
 
@@ -572,7 +572,7 @@ msgstr "Exporter le tableau"
 msgid "credit.csv"
 msgstr "credit.csv"
 
-#: ../src/bet_finance_ui.c:801 ../src/bet_hist.c:2040 ../src/bet_tab.c:3099
+#: ../src/bet_finance_ui.c:801 ../src/bet_hist.c:2040 ../src/bet_tab.c:3092
 #: ../src/imputation_budgetaire.c:471
 msgid "Cannot save file."
 msgstr "Impossible d'enregistrer le fichier."
@@ -587,7 +587,7 @@ msgstr "Afficher le simulateur de crédits"
 
 #. Print list
 #: ../src/bet_finance_ui.c:889 ../src/bet_finance_ui.c:2063
-#: ../src/bet_hist.c:1949 ../src/bet_tab.c:1705 ../src/bet_tab.c:2962
+#: ../src/bet_hist.c:1949 ../src/bet_tab.c:1698 ../src/bet_tab.c:2955
 msgid "Print the array"
 msgstr "Imprimer le tableau"
 
@@ -707,11 +707,11 @@ msgid "Number"
 msgstr "N°"
 
 #. 1
-#: ../src/bet_finance_ui.c:1844 ../src/bet_future.c:739 ../src/bet_tab.c:853
+#: ../src/bet_finance_ui.c:1844 ../src/bet_future.c:739 ../src/bet_tab.c:846
 #: ../src/etats_affiche.c:2464 ../src/export_csv.c:368
 #: ../src/gsb_assistant_reconcile_config.c:590 ../src/gsb_form.c:1981
 #: ../src/gsb_form_widget.c:544 ../src/gsb_reconcile.c:214
-#: ../src/gsb_transactions_list.c:164 ../src/import.c:1856 ../src/import.c:3873
+#: ../src/gsb_transactions_list.c:164 ../src/import.c:1856 ../src/import.c:4241
 #: ../src/import_csv.c:69 ../src/ui/etats_prefs.ui.h:9
 msgid "Date"
 msgstr "Date"
@@ -743,13 +743,13 @@ msgstr "Crédits"
 
 #. création du bouton print
 #. print button
-#: ../src/bet_finance_ui.c:2062 ../src/bet_hist.c:1948 ../src/bet_tab.c:2961
+#: ../src/bet_finance_ui.c:2062 ../src/bet_hist.c:1948 ../src/bet_tab.c:2954
 #: ../src/etats_onglet.c:574 ../src/gsb_transactions_list.c:294
 msgid "Print"
 msgstr "Imprimer"
 
 #. Export button
-#: ../src/bet_finance_ui.c:2071 ../src/bet_hist.c:1957 ../src/bet_tab.c:2970
+#: ../src/bet_finance_ui.c:2071 ../src/bet_hist.c:1957 ../src/bet_tab.c:2963
 #: ../src/categories_onglet.c:590 ../src/etats_onglet.c:564 ../src/export.c:503
 #: ../src/imputation_budgetaire.c:635
 msgid "Export"
@@ -875,13 +875,13 @@ msgstr "Choix du mode de règlement"
 #: ../src/etats_prefs.c:679 ../src/export_csv.c:383 ../src/grisbi_win.c:526
 #: ../src/gsb_assistant_reconcile_config.c:590 ../src/gsb_form.c:2001
 #: ../src/gsb_form_widget.c:564 ../src/gsb_scheduler_list.c:854
-#: ../src/gsb_transactions_list.c:166 ../src/import.c:3880
+#: ../src/gsb_transactions_list.c:166 ../src/import.c:4248
 #: ../src/import_csv.c:71 ../src/meta_payee.c:79
 #: ../src/prefs/prefs_widget_loan.c:947 ../src/ui/etats_prefs.ui.h:50
 msgid "Payee"
 msgstr "Tiers"
 
-#: ../src/bet_future.c:762 ../src/bet_tab.c:887 ../src/categories_onglet.c:784
+#: ../src/bet_future.c:762 ../src/bet_tab.c:880 ../src/categories_onglet.c:784
 #: ../src/export_csv.c:389 ../src/gsb_form.c:2006 ../src/gsb_form_widget.c:548
 #: ../src/gsb_payment_method_config.c:107
 #: ../src/gsb_payment_method_config.c:332
@@ -891,7 +891,7 @@ msgid "Debit"
 msgstr "Débit"
 
 #. 11
-#: ../src/bet_future.c:769 ../src/bet_tab.c:905 ../src/categories_onglet.c:784
+#: ../src/bet_future.c:769 ../src/bet_tab.c:898 ../src/categories_onglet.c:784
 #: ../src/export_csv.c:386 ../src/gsb_form.c:2011 ../src/gsb_form_widget.c:552
 #: ../src/gsb_payment_method_config.c:108
 #: ../src/gsb_payment_method_config.c:345
@@ -1261,7 +1261,7 @@ msgstr "Sélectionner"
 #: ../src/bet_hist.c:588 ../src/categories_onglet.c:203
 #: ../src/etats_affiche.c:2547 ../src/etats_prefs.c:2162
 #: ../src/gsb_assistant_reconcile_config.c:590 ../src/gsb_scheduler_list.c:854
-#: ../src/gsb_transactions_list.c:171 ../src/import.c:3887
+#: ../src/gsb_transactions_list.c:171 ../src/import.c:4255
 #: ../src/import_csv.c:78 ../src/imputation_budgetaire.c:206
 #: ../src/tiers_onglet.c:738
 msgid "Amount"
@@ -1320,41 +1320,41 @@ msgstr "Afficher le camembert"
 msgid "Export the historical data"
 msgstr "Exporter les données historiques"
 
-#: ../src/bet_tab.c:613
+#: ../src/bet_tab.c:606
 #, c-format
 msgid "Balance estimate of the account \"%s\" from %s to %s"
 msgstr "Solde estimé du compte «%s» du %s au %s"
 
-#: ../src/bet_tab.c:634
+#: ../src/bet_tab.c:627
 msgid "balance beginning of period"
 msgstr "Solde initial de la période"
 
 #. set the start date and the automatic change of month
-#: ../src/bet_tab.c:743
+#: ../src/bet_tab.c:736
 msgid "Start date: "
 msgstr "Date de départ : "
 
-#: ../src/bet_tab.c:759 ../src/gsb_form_scheduler.c:142
+#: ../src/bet_tab.c:752 ../src/gsb_form_scheduler.c:142
 #: ../src/gsb_scheduler_list.c:1519
 msgid "Automatic"
 msgstr "Automatique"
 
-#: ../src/bet_tab.c:762
+#: ../src/bet_tab.c:755
 msgid "Check the box to automatically change start date"
 msgstr "Cochez la case pour changer automatiquement de date de début"
 
 #. on ajoute maintenant la frame pour la description
-#: ../src/bet_tab.c:870 ../src/etats_onglet.c:857
+#: ../src/bet_tab.c:863 ../src/etats_onglet.c:857
 msgid "Description"
 msgstr "Description"
 
-#: ../src/bet_tab.c:924 ../src/export_csv.c:392 ../src/gsb_reconcile.c:217
+#: ../src/bet_tab.c:917 ../src/export_csv.c:392 ../src/gsb_reconcile.c:217
 #: ../src/gsb_transactions_list.c:170 ../src/gsb_transactions_list.c:3366
 msgid "Balance"
 msgstr "Solde"
 
-#: ../src/bet_tab.c:1023 ../src/bet_tab.c:1036 ../src/bet_tab.c:1240
-#: ../src/bet_tab.c:2686 ../src/bet_tab.c:2691
+#: ../src/bet_tab.c:1016 ../src/bet_tab.c:1029 ../src/bet_tab.c:1233
+#: ../src/bet_tab.c:2679 ../src/bet_tab.c:2684
 #, c-format
 msgid ""
 "Transfer between account: %s\n"
@@ -1363,100 +1363,100 @@ msgstr ""
 "Virement entre le compte : %s\n"
 "et le compte : %s"
 
-#: ../src/bet_tab.c:1577
+#: ../src/bet_tab.c:1570
 msgid "Subtract to the balance"
 msgstr "Soustraire au solde"
 
-#: ../src/bet_tab.c:1582
+#: ../src/bet_tab.c:1575
 msgid "Adding to the balance"
 msgstr "Ajouter au solde"
 
 #. Insert Row
-#: ../src/bet_tab.c:1596
+#: ../src/bet_tab.c:1589
 msgid "Insert row"
 msgstr "Insérer une ligne"
 
-#: ../src/bet_tab.c:1609 ../src/bet_tab.c:1620 ../src/bet_tab.c:1635
-#: ../src/bet_tab.c:1681
+#: ../src/bet_tab.c:1602 ../src/bet_tab.c:1613 ../src/bet_tab.c:1628
+#: ../src/bet_tab.c:1674
 msgid "Delete selection"
 msgstr "Supprimer la ligne"
 
-#: ../src/bet_tab.c:1628
+#: ../src/bet_tab.c:1621
 msgid "Change selection"
 msgstr "Modifier la ligne"
 
-#: ../src/bet_tab.c:1643
+#: ../src/bet_tab.c:1636
 msgid "Delete all occurrences of the selection"
 msgstr "Supprimer toutes les occurrences de la ligne"
 
-#: ../src/bet_tab.c:1655
+#: ../src/bet_tab.c:1648
 msgid "Convert selection to scheduled transaction"
 msgstr "Convertir la ligne en opération planifiée"
 
-#: ../src/bet_tab.c:1672
+#: ../src/bet_tab.c:1665
 msgid "Insert the balance of a deferred debit account"
 msgstr "Insérez le solde d'un compte à débit différé"
 
 #. redo item
-#: ../src/bet_tab.c:1694
+#: ../src/bet_tab.c:1687
 msgid "Reset data"
 msgstr "Réinitialiser les données"
 
-#: ../src/bet_tab.c:2037
+#: ../src/bet_tab.c:2030
 msgid " (still available)"
 msgstr " (reste à utiliser)"
 
-#: ../src/bet_tab.c:2046 ../src/bet_tab.c:2067
+#: ../src/bet_tab.c:2039 ../src/bet_tab.c:2060
 msgid " (budget exceeded)"
 msgstr " (budget dépassé)"
 
-#: ../src/bet_tab.c:2058
+#: ../src/bet_tab.c:2051
 msgid " (yet to receive)"
 msgstr " (reste à recevoir)"
 
-#: ../src/bet_tab.c:2609 ../src/bet_tab.c:2659 ../src/bet_tab.c:2719
+#: ../src/bet_tab.c:2602 ../src/bet_tab.c:2652 ../src/bet_tab.c:2712
 msgid "No data by default"
 msgstr "Pas de donnée disponible par défaut"
 
-#: ../src/bet_tab.c:2617 ../src/bet_tab.c:2667 ../src/bet_tab.c:2725
+#: ../src/bet_tab.c:2610 ../src/bet_tab.c:2660 ../src/bet_tab.c:2718
 #: ../src/etats_affiche.c:1902 ../src/etats_config.c:773
 #: ../src/gsb_data_category.c:160 ../src/meta_categories.c:70
 msgid "No category"
 msgstr "Pas de catégorie"
 
-#: ../src/bet_tab.c:2625 ../src/bet_tab.c:2675 ../src/bet_tab.c:2731
+#: ../src/bet_tab.c:2618 ../src/bet_tab.c:2668 ../src/bet_tab.c:2724
 #: ../src/etats_affiche.c:2066 ../src/etats_config.c:781
 #: ../src/meta_budgetary.c:91
 msgid "No budgetary line"
 msgstr "Pas d'imputation budgétaire"
 
-#: ../src/bet_tab.c:2741
+#: ../src/bet_tab.c:2734
 #, c-format
 msgid "Balance of account: %s"
 msgstr "Solde du compte : %s"
 
-#: ../src/bet_tab.c:2744
+#: ../src/bet_tab.c:2737
 #, c-format
 msgid "Partial balance: %s"
 msgstr "Solde partiel : %s"
 
-#: ../src/bet_tab.c:2971 ../src/bet_tab.c:3073
+#: ../src/bet_tab.c:2964 ../src/bet_tab.c:3066
 msgid "Export the array of forecast"
 msgstr "Exporter les prévisions"
 
-#: ../src/bet_tab.c:2980 ../src/gsb_scheduler_list.c:1133
+#: ../src/bet_tab.c:2973 ../src/gsb_scheduler_list.c:1133
 msgid "Execute"
 msgstr "Exécuter"
 
-#: ../src/bet_tab.c:2981
+#: ../src/bet_tab.c:2974
 msgid "Execute the balance of a deferred debit account"
 msgstr "Exécuter le solde d'un compte à débit différé"
 
-#: ../src/bet_tab.c:3030
+#: ../src/bet_tab.c:3023
 msgid "Balance at "
 msgstr "Solde au "
 
-#: ../src/bet_tab.c:3080
+#: ../src/bet_tab.c:3073
 msgid "forecast.csv"
 msgstr "previsions.csv"
 
@@ -2958,7 +2958,7 @@ msgid "Payees"
 msgstr "Tiers"
 
 #. ajoute le bouton (dé)sélectionne tout
-#: ../src/etats_prefs.c:1866 ../src/export.c:417 ../src/import.c:2785
+#: ../src/etats_prefs.c:1866 ../src/export.c:417 ../src/import.c:3148
 #: ../src/tiers_onglet.c:1380 ../src/tiers_onglet.c:1561
 #: ../src/utils_buttons.c:268
 msgid "Unselect all"
@@ -3992,54 +3992,54 @@ msgstr "Manuel"
 msgid "Full screen"
 msgstr "Plein écran"
 
-#: ../src/grisbi_app.c:643
+#: ../src/grisbi_app.c:647
 msgid "Show the application's version"
 msgstr "Montrer la version de Grisbi"
 
-#: ../src/grisbi_app.c:649
+#: ../src/grisbi_app.c:653
 msgid "Create a new top-level window in an existing instance of grisbi"
 msgstr "Créer une nouvelle fenêtre de Grisbi dans l'instance en cours"
 
-#: ../src/grisbi_app.c:656
+#: ../src/grisbi_app.c:660
 msgid "Debug mode: level 0-5"
 msgstr "Mode de débogage : niveau de 0 à 5"
 
-#: ../src/grisbi_app.c:657
+#: ../src/grisbi_app.c:661
 msgid "DEBUG"
 msgstr "DEBUG"
 
-#: ../src/grisbi_app.c:670
+#: ../src/grisbi_app.c:674
 msgid "[FILE...]"
 msgstr "[FILE...]"
 
-#: ../src/grisbi_app.c:825
+#: ../src/grisbi_app.c:829
 #, c-format
 msgid "Error on sigaction: SIGINT won't be trapped\n"
 msgstr "Erreur sur sigaction, le signal SIGINT ne sera pas détourné\n"
 
-#: ../src/grisbi_app.c:828
+#: ../src/grisbi_app.c:832
 #, c-format
 msgid "Error on sigaction: SIGTERM won't be trapped\n"
 msgstr "Erreur sur sigaction, le signal SIGTERM ne sera pas détourné\n"
 
-#: ../src/grisbi_app.c:831
+#: ../src/grisbi_app.c:835
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Erreur sur sigaction, le signal SIGSEGV ne sera pas détourné\n"
 
-#: ../src/grisbi_app.c:1000 ../src/menu.c:628
+#: ../src/grisbi_app.c:1004 ../src/menu.c:633
 msgid "Start an action!"
 msgstr "Choisissez une action !"
 
-#: ../src/grisbi_app.c:1197
+#: ../src/grisbi_app.c:1207
 msgid "<b>Actions in transaction list :</b>"
 msgstr "<b>Actions de la liste des opérations :</b>"
 
-#: ../src/grisbi_app.c:1199
+#: ../src/grisbi_app.c:1209
 msgid "(Un)Pointing a transaction\t\t-> <Primary>p, <Primary>F12\n"
 msgstr "(Dé)Pointe une opération\t-> <Primary>p, <Primary>F12\n"
 
-#: ../src/grisbi_app.c:1200
+#: ../src/grisbi_app.c:1210
 msgid "(Un)Reconcile a transaction\t\t-> <Primary>r\n"
 msgstr "(Dé)Rapproche une opération\t-> <Primary>r\n"
 
@@ -4170,7 +4170,7 @@ msgstr "Développer tout"
 msgid "Collapse all"
 msgstr "Regrouper tout"
 
-#: ../src/grisbi_settings.c:261
+#: ../src/grisbi_settings.c:256
 msgid "No font defined"
 msgstr "Aucune police définie"
 
@@ -7774,7 +7774,7 @@ msgstr "Il n'y a pas de catégorie à enregistrer. Retour."
 
 #: ../src/gsb_file_others.c:159 ../src/gsb_file_others.c:252
 #: ../src/gsb_file_others.c:343 ../src/gsb_file_save.c:429
-#: ../src/gsb_file_save.c:448
+#: ../src/gsb_file_save.c:450
 #, c-format
 msgid "Cannot save file '%s': %s"
 msgstr ""
@@ -7871,21 +7871,21 @@ msgstr "Le fichier existe déjà"
 msgid "Grisbi cannot stat file %s, please check the file."
 msgstr "Grisbi ne trouve pas le fichier %s, vérifiez qu'il existe."
 
-#: ../src/gsb_file_util.c:183
+#: ../src/gsb_file_util.c:185
 #, c-format
 msgid "Failed to read from file '%s': %s"
 msgstr ""
 "Impossible de lire le fichier « %s »\n"
 "%s"
 
-#: ../src/gsb_file_util.c:303
+#: ../src/gsb_file_util.c:307
 #, c-format
 msgid "Cannot write lock file: '%s': %s"
 msgstr ""
 "Impossible d'écrire le fichier : « %s »\n"
 "%s"
 
-#: ../src/gsb_file_util.c:332
+#: ../src/gsb_file_util.c:336
 #, c-format
 msgid "Cannot erase lock file: '%s': %s"
 msgstr ""
@@ -9452,21 +9452,82 @@ msgstr ""
 "Attention, le numéro du chèque %s est déjà utilisé.\n"
 "Nous le sautons"
 
-#: ../src/import.c:2768
+#: ../src/import.c:2773
+#, c-format
+msgid ""
+"Choose from the list below that which will be selected \n"
+"for the payee: \"%s\""
+msgstr ""
+"Choisir dans la liste ci-dessous celle qui sera retenue \n"
+"pour le tiers : « %s »"
+
+#: ../src/import.c:2779
+msgid "Several transactions have been found"
+msgstr "Plusieurs opérations ont été trouvées"
+
+#: ../src/import.c:2819
+#, c-format
+msgid "Transaction N° %d found: %s ; %s ; %s"
+msgstr "Opération trouvée : %s ; %s ; %s"
+
+#: ../src/import.c:2936
+msgid ""
+"No other operation was found.\n"
+"In this case it is a new operation and\n"
+"the associated box has been unchecked"
+msgstr ""
+"Aucune autre opération n'a été trouvée.\n"
+".Dans ce cas c'est une nouvelle opération et\n"
+"la case associée a été décochée"
+
+#: ../src/import.c:2951
+msgid ""
+"Only one operation was found. \n"
+"The correction has been made."
+msgstr ""
+"Une seule opération a été trouvée.\n"
+"La correction a été apportée."
+
+#: ../src/import.c:2969 ../src/import.c:3318
+#, c-format
+msgid "Transaction found: %s ; %s ; %s ; %s"
+msgstr "Opération trouvée : %s ; %s ; %s ; %s"
+
+#: ../src/import.c:2983 ../src/import.c:3045 ../src/import.c:3332
+#, c-format
+msgid "Transaction found: %s ; %s ; %s"
+msgstr "Opération trouvée : %s ; %s ; %s"
+
+#: ../src/import.c:3058 ../src/import.c:3267
+#, c-format
+msgid "Transaction to be merged: %s ; %s ; %s"
+msgstr "Opération à fusionner : %s ; %s ; %s"
+
+#: ../src/import.c:3063 ../src/import.c:3272
+#, c-format
+msgid "Transaction to import: %s ; %s ; %s"
+msgstr "Opération à importer : %s ; %s ; %s"
+
+#. Ajout du bouton de traitement
+#: ../src/import.c:3079
+msgid "Find other transaction"
+msgstr "Trouver une autre opération :"
+
+#: ../src/import.c:3131
 #, c-format
 msgid "Confirmation of transactions to be merged in: %s"
 msgstr "Confirmation des opérations à fusionner dans : %s"
 
-#: ../src/import.c:2774
+#: ../src/import.c:3137
 #, c-format
 msgid "Confirmation of importation of transactions in: %s"
 msgstr "Confirmation de l'importation d'opérations dans : %s"
 
-#: ../src/import.c:2799
+#: ../src/import.c:3162
 msgid "Please select the transactions to be merged"
 msgstr "Sélectionnez les opérations à fusionner"
 
-#: ../src/import.c:2805
+#: ../src/import.c:3168
 msgid ""
 "Some imported transactions seem to be already saved.Please select the "
 "transactions to import."
@@ -9474,36 +9535,11 @@ msgstr ""
 "Certaines opérations à importer semblent déjà écrites. Sélectionnez les "
 "opérations à importer."
 
-#: ../src/import.c:2856
+#: ../src/import.c:3221
 msgid "Duplicate transactions"
 msgstr "Opérations dupliquées"
 
-#: ../src/import.c:2903
-#, c-format
-msgid "Transaction to be merged: %s ; %s ; %s"
-msgstr "Opération à fusionner : %s ; %s ; %s"
-
-#: ../src/import.c:2908
-#, c-format
-msgid "Transaction to import: %s ; %s ; %s"
-msgstr "Opération à importer : %s ; %s ; %s"
-
-#: ../src/import.c:2930
-#, c-format
-msgid "N° %d of %s for %s Payee: %s"
-msgstr "N° %d du %s pour %s Tiers : %s"
-
-#: ../src/import.c:2955
-#, c-format
-msgid "Transaction found: %s ; %s ; %s ; %s"
-msgstr "Opération trouvée : %s ; %s ; %s ; %s"
-
-#: ../src/import.c:2969
-#, c-format
-msgid "Transaction found: %s ; %s ; %s"
-msgstr "Opération trouvée : %s ; %s ; %s"
-
-#: ../src/import.c:3234
+#: ../src/import.c:3602
 #, c-format
 msgid ""
 "Perhaps you choose a wrong account?\n"
@@ -9520,26 +9556,26 @@ msgstr ""
 "\n"
 "Voulez-vous continuer ?"
 
-#: ../src/import.c:3240
+#: ../src/import.c:3608
 msgid "The id of the imported and chosen accounts are different"
 msgstr "Les identifiants du compte importé et du compte choisi sont différents"
 
-#: ../src/import.c:3783
+#: ../src/import.c:4151
 #, c-format
 msgid "Orphaned transactions for: %s"
 msgstr "Opérations orphelines pour : %s"
 
-#: ../src/import.c:3801
+#: ../src/import.c:4169
 msgid "Mark transactions you want to add to the list and click the OK button"
 msgstr ""
 "Marquez les opérations que vous voulez ajouter à la liste et cliquez sur le "
 "bouton «Valider»"
 
-#: ../src/import.c:3866
+#: ../src/import.c:4234
 msgid "Mark"
 msgstr "Marqué"
 
-#: ../src/import.c:4274
+#: ../src/import.c:4642
 #, c-format
 msgid ""
 "An error occurred while creating the new account %s,\n"
@@ -9549,7 +9585,7 @@ msgstr ""
 "Vous pouvez continuer l'opération mais des incohérences pourront "
 "apparaître..."
 
-#: ../src/import.c:4335
+#: ../src/import.c:4703
 #, c-format
 msgid ""
 "You want to create an import rule for the account %s but didn't give a name "
@@ -9559,15 +9595,15 @@ msgstr ""
 "n'avez pas donné de nom à cette règle. Définissez un nom ou laissez vide la "
 "zone pour annuler la création de la règle."
 
-#: ../src/import.c:4339
+#: ../src/import.c:4707
 msgid "No name for the import rule"
 msgstr "La règle d'importation n'a pas de nom"
 
-#: ../src/import.c:4340 ../src/ui/csv_template_rule.ui.h:3
+#: ../src/import.c:4708 ../src/ui/csv_template_rule.ui.h:3
 msgid "Name of the rule: "
 msgstr "Nom de la règle : "
 
-#: ../src/import.c:4380
+#: ../src/import.c:4748
 msgid ""
 "No account in memory now, this is bad...\n"
 "Better to leave the import before a crash.\n"
@@ -9579,11 +9615,11 @@ msgstr ""
 "\n"
 "Veuillez contacter l'équipe Grisbi pour trouver le problème."
 
-#: ../src/import.c:4390
+#: ../src/import.c:4758
 msgid "Please wait"
 msgstr "Veuillez patienter"
 
-#: ../src/import.c:4416
+#: ../src/import.c:4784
 msgid ""
 "You have just imported reconciled transactions but they not associated with "
 "any reconcile number yet.  You may associate them with a reconcilation later "
@@ -9593,7 +9629,7 @@ msgstr ""
 "associées avec un numéro de rapprochement. Vous pourrez le faire plus tard "
 "dans les «Préférences»."
 
-#: ../src/import.c:4453
+#: ../src/import.c:4821
 msgid ""
 "This assistant will help you import one or several files into Grisbi.\n"
 "\n"
@@ -9610,67 +9646,68 @@ msgstr ""
 "Pour l'instant les formats suivants sont supportés :\n"
 "\n"
 
-#: ../src/import.c:4461
+#: ../src/import.c:4829
 msgid "Importing transactions into Grisbi"
 msgstr "Importation des opérations par Grisbi"
 
-#: ../src/import.c:4671
+#: ../src/import.c:5039
 #, c-format
 msgid "%s #%d"
 msgstr "%s #%d"
 
-#: ../src/import.c:4759
+#: ../src/import.c:5126
 msgid "Import a file with a rule"
 msgstr "Importer un fichier à partir d'une règle"
 
 #. text for paddingbox
-#: ../src/import.c:4770
+#: ../src/import.c:5137
 #, c-format
 msgid "Properties of the rule: %s\n"
 msgstr "Propriétés de la règle : %s\n"
 
-#: ../src/import.c:4789
+#: ../src/import.c:5156
 #, c-format
 msgid "Imported transactions will be added to the account %s.\n"
 msgstr "Les opérations importées seront ajoutées au compte : %s.\n"
 
-#: ../src/import.c:4792
+#: ../src/import.c:5159
 #, c-format
 msgid "Imported transactions will mark transactions in the account %s.\n"
 msgstr "Les opérations importées seront marquées dans le compte %s.\n"
 
 #. textstring 2
-#: ../src/import.c:4797
+#: ../src/import.c:5164
 #, c-format
 msgid "Currency to import is %s.\n"
 msgstr "La devise des opérations importées est : %s.\n"
 
-#: ../src/import.c:4806
+#: ../src/import.c:5173
 #, c-format
 msgid "Amounts of the transactions will be inverted.\n"
 msgstr "Le montant des opérations sera inversé.\n"
 
 #. label filename
-#: ../src/import.c:4818
+#: ../src/import.c:5185
 msgid "Name of the file to import: "
 msgstr "Nom du fichier à importer : "
 
-#: ../src/import.c:4835
+#: ../src/import.c:5202
 msgid "Select a new file"
 msgstr "Sélectionnez un nouveau fichier"
 
-#: ../src/import.c:4848
+#. Add check_button to remove the file
+#: ../src/import.c:5214
 msgid "Remove the imported file"
 msgstr "Effacer le fichier importé"
 
-#: ../src/import.c:4905
+#: ../src/import.c:5268
 #, c-format
 msgid ""
 "%s is neither an OFX file, neither a QIF file. Nothing will be done for that "
 "file."
 msgstr "%s n'est pas un fichier OFX ou QIF. Il ne peut pas être importé"
 
-#: ../src/import.c:4949
+#: ../src/import.c:5312
 #, c-format
 msgid ""
 "%s was not imported successfully. An error occurred while getting the "
@@ -11715,26 +11752,35 @@ msgid "The directory for the import files."
 msgstr "Le répertoire pour l'importation"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:41
+msgid "Remove imported file"
+msgstr "Effacer le fichier importé"
+
+#: ../src/org.gtk.grisbi.gschema.xml.h:42
+msgid "TRUE if you want to remove the file after import."
+msgstr ""
+"Cochez si vous voulez forcer l'utilisation du répertoire pour l'importation."
+
+#: ../src/org.gtk.grisbi.gschema.xml.h:43
 msgid "The last files opened by Grisbi"
 msgstr "Le dernier fichier de comptes ouvert par Grisbi"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:42
+#: ../src/org.gtk.grisbi.gschema.xml.h:44
 msgid "A list of the last files opened by Grisbi."
 msgstr "Liste des derniers fichiers ouverts par grisbi."
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:43
+#: ../src/org.gtk.grisbi.gschema.xml.h:45
 msgid "Maximum of files in list of recently files"
 msgstr "Maximum de fichiers dans la liste des fichiers récents"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:44
+#: ../src/org.gtk.grisbi.gschema.xml.h:46
 msgid "Maximum number of files in the list of recently opened files."
 msgstr "Nombre maximum de fichiers dans la liste des fichiers récents."
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:45
+#: ../src/org.gtk.grisbi.gschema.xml.h:47
 msgid "Selecting the date that determines the fiscal year"
 msgstr "Sélection du type de date pour les exercices"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:46
+#: ../src/org.gtk.grisbi.gschema.xml.h:48
 msgid ""
 "If TRUE, the value date determines the financial year, otherwise this is the "
 "date of transaction."
@@ -11742,19 +11788,19 @@ msgstr ""
 "Si coché, les exercices sont déterminés par les dates de valeur. Autrement "
 "c'est par la dat de l'opération."
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:47
+#: ../src/org.gtk.grisbi.gschema.xml.h:49
 msgid "Allow automatic completion of payees"
 msgstr "Autoriser le remplissage automatique des tiers"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:48
+#: ../src/org.gtk.grisbi.gschema.xml.h:50
 msgid "TRUE to allow automatic completion of payees in transactions."
 msgstr "Cochez pour le remplissage automatique de l'opération."
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:49
+#: ../src/org.gtk.grisbi.gschema.xml.h:51
 msgid "Erase debit and credit"
 msgstr "Efface le champ Crédit ou Débit"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:50
+#: ../src/org.gtk.grisbi.gschema.xml.h:52
 msgid ""
 "If TRUE, the fields Credit and Debit are not initialized during the "
 "completion of payee."
@@ -11762,11 +11808,11 @@ msgstr ""
 "Si coché, les champs Crédit et Débit ne sont pas remplis lors du remplissage "
 "automatique des tiers."
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:51
+#: ../src/org.gtk.grisbi.gschema.xml.h:53
 msgid "Recover splits in payee completion"
 msgstr "Récupération automatique des opérations filles"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:52
+#: ../src/org.gtk.grisbi.gschema.xml.h:54
 msgid ""
 "If TRUE, splits transactions are recovered along with the parent during the "
 "completion of payee."
@@ -11774,36 +11820,36 @@ msgstr ""
 "Si coché, les opérations filles sont récupérées lors du remplissage "
 "automatique du tiers parent."
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:53
+#: ../src/org.gtk.grisbi.gschema.xml.h:55
 msgid "Minimum length of the search key in characters"
 msgstr "Longueur minimale de la clé de recherche en caractères"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:54
+#: ../src/org.gtk.grisbi.gschema.xml.h:56
 msgid "Minimum length of the search key in characters for completion."
 msgstr ""
 "Longueur minimale de la clé de recherche en caractères pour la completion"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:55
+#: ../src/org.gtk.grisbi.gschema.xml.h:57
 msgid "Last width of the expander label"
 msgstr "Dernière largeur du formulaire"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:56
+#: ../src/org.gtk.grisbi.gschema.xml.h:58
 msgid "Last width of the expander label."
 msgstr "La dernière largeur du formulaire des opérations"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:57
+#: ../src/org.gtk.grisbi.gschema.xml.h:59
 msgid "\"Enter\" key finishes the transaction"
 msgstr "\"Entrée\" termine l'opération"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:58
+#: ../src/org.gtk.grisbi.gschema.xml.h:60
 msgid "If TRUE, the \"Enter\" key finishes the transaction."
 msgstr "Si coché, la touche \"Entrée\" valide l'opération."
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:59
+#: ../src/org.gtk.grisbi.gschema.xml.h:61
 msgid "Sort order for the fyear combobox"
 msgstr "Ordre de tri pour les exercices dans la boite de saisie d formulaire"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:60
+#: ../src/org.gtk.grisbi.gschema.xml.h:62
 msgid ""
 "Sort order for the fyear combobox : GTK_SORT_ASCENDING (0) by default, sort "
 "by GTK_SORT_DESCENDING: a number different of 0."
@@ -11811,11 +11857,11 @@ msgstr ""
 "Ordre de tri pour les exercices dans la boite de saisie d formulaire : "
 "ascendant (0) par défaut, tri descendant (un nombre différent de 0)"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:61
+#: ../src/org.gtk.grisbi.gschema.xml.h:63
 msgid "Limit completion to current account"
 msgstr "Limite la complétion des tiers au compte courant"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:62
+#: ../src/org.gtk.grisbi.gschema.xml.h:64
 msgid ""
 "If TRUE, limit the payee completion to the current account, otherwise do a "
 "full search."
@@ -11823,53 +11869,53 @@ msgstr ""
 "Si coché, la recherche des tiers est limitée au compte courant sinon "
 "recherche dans tous les comptes."
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:63
+#: ../src/org.gtk.grisbi.gschema.xml.h:65
 msgid "Use custom fonts for lists"
 msgstr "Choisir une police pour les opérations"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:64
+#: ../src/org.gtk.grisbi.gschema.xml.h:66
 msgid "If TRUE, Grisbi uses custom fonts for lists."
 msgstr ""
 "Si coché, Grisbi utilisera une police spécifique au lieu de la police par "
 "défaut du thème."
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:65
+#: ../src/org.gtk.grisbi.gschema.xml.h:67
 msgid "Font name"
 msgstr "Nom de la police"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:66
+#: ../src/org.gtk.grisbi.gschema.xml.h:68
 msgid "If utilise-fonte-listes = TRUE, this is the name of the custom font."
 msgstr "C'est le nom de la police si Choisir une police est coché."
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:67
+#: ../src/org.gtk.grisbi.gschema.xml.h:69
 msgid "Browser command"
 msgstr "Navigateur Web"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:68
+#: ../src/org.gtk.grisbi.gschema.xml.h:70
 msgid "Browser command."
 msgstr "Commande de lancement du Navigateur Web."
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:69
+#: ../src/org.gtk.grisbi.gschema.xml.h:71
 msgid "Language for interface"
 msgstr "Langue de l'interface"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:70
+#: ../src/org.gtk.grisbi.gschema.xml.h:72
 msgid "Choose the language of interface."
 msgstr "Choisir la langue de l'interface"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:71
+#: ../src/org.gtk.grisbi.gschema.xml.h:73
 msgid "Last path used by Grisbi"
 msgstr "Dernier répertoire utilisé"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:72
+#: ../src/org.gtk.grisbi.gschema.xml.h:74
 msgid "This is the last path used by Grisbi to open a file."
 msgstr "C'est le dernier répertoire utilisé pour ouvrir un fichier."
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:73
+#: ../src/org.gtk.grisbi.gschema.xml.h:75
 msgid "Fixe orthographe pluriel"
 msgstr "Fixe l'orthographe de pluriel"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:74
+#: ../src/org.gtk.grisbi.gschema.xml.h:76
 msgid ""
 "Specific in french : Fixe l'orthographe de pluriel : FALSE = finals, TRUE = "
 "finaux."
@@ -11877,11 +11923,11 @@ msgstr ""
 "Spécifique au français : Fixe l'orthographe de pluriel : Non coché = finals, "
 "Coché = finaux."
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:75
+#: ../src/org.gtk.grisbi.gschema.xml.h:77
 msgid "Right-click action on a sub-category"
 msgstr "Action du clic droit sur une sous-catégorie"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:76
+#: ../src/org.gtk.grisbi.gschema.xml.h:78
 msgid ""
 "Right-click action on a sub-category: gtk default, Edit Category, manage "
 "division if possible."
@@ -11889,7 +11935,7 @@ msgstr ""
 "Action du double clic de la souris sur une catégorie : Gtk Défaut, Editer "
 "catégorie, Gérer la catégorie si c'est possible."
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:77
+#: ../src/org.gtk.grisbi.gschema.xml.h:79
 msgid ""
 "\n"
 "\n"
@@ -11897,13 +11943,13 @@ msgstr ""
 "\n"
 "\n"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:81
+#: ../src/org.gtk.grisbi.gschema.xml.h:83
 msgid ""
 "Sort by value date, if fail, try with the date, Sort by value date and then "
 "by date. Forced sort by transaction date."
 msgstr "Tri par date de valeur ou par date de l'opération si non présente"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:83
+#: ../src/org.gtk.grisbi.gschema.xml.h:85
 msgid ""
 "Sort by transaction number, Sort by type of amount : credit, debit, Sort by "
 "payee name, if fail, by transaction number, Sort by date and then by "
@@ -11913,93 +11959,93 @@ msgstr ""
 "Tiers, si défaillant remplacé par numéro d'opération, Tri par date puis par "
 "numéro d'opération."
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:84
+#: ../src/org.gtk.grisbi.gschema.xml.h:86
 msgid "Main window maximized state"
 msgstr "Etat maximisé de la fenêtre principale"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:85
+#: ../src/org.gtk.grisbi.gschema.xml.h:87
 msgid "Whether the main window should start maximized."
 msgstr "Grisbi démarre avec la fenêtre principle en mode maximisé."
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:86
+#: ../src/org.gtk.grisbi.gschema.xml.h:88
 msgid "Main window fullscreen state"
 msgstr "État plein écran pour la fenêtre principale"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:87
+#: ../src/org.gtk.grisbi.gschema.xml.h:89
 msgid "Whether the main window should start in fullscreen."
 msgstr "Grisbi démarre en plein écran pour la fenêtre principale."
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:88
+#: ../src/org.gtk.grisbi.gschema.xml.h:90
 msgid "Width of the main window"
 msgstr "Largeur de la fenêtre principale"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:89
+#: ../src/org.gtk.grisbi.gschema.xml.h:91
 msgid "The width of the main window."
 msgstr "La largeur de la fenêtre principale"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:90
+#: ../src/org.gtk.grisbi.gschema.xml.h:92
 msgid "Height of main window"
 msgstr "Hauteur de la fenêtre principale"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:91
+#: ../src/org.gtk.grisbi.gschema.xml.h:93
 msgid "The height of the main window."
 msgstr "La hauteur de la fenêtre principale"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:92
+#: ../src/org.gtk.grisbi.gschema.xml.h:94
 msgid "X position of main window"
 msgstr "Position en X de la fenêtre principale"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:93
+#: ../src/org.gtk.grisbi.gschema.xml.h:95
 msgid "The X position of the main window."
 msgstr "Position en X de la fenêtre principale"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:94
+#: ../src/org.gtk.grisbi.gschema.xml.h:96
 msgid "Y position of main window"
 msgstr "Position en Y de la fenêtre principale"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:95
+#: ../src/org.gtk.grisbi.gschema.xml.h:97
 msgid "The Y position of the main window."
 msgstr "Position en Y de la fenêtre principale"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:96
+#: ../src/org.gtk.grisbi.gschema.xml.h:98
 msgid "Last tip"
 msgstr "Dernière astuce"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:97
+#: ../src/org.gtk.grisbi.gschema.xml.h:99
 msgid "The last visited tip ."
 msgstr "La dernière astuce vue."
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:98
+#: ../src/org.gtk.grisbi.gschema.xml.h:100
 msgid "Show tip"
 msgstr "Montrer les astuces"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:99
+#: ../src/org.gtk.grisbi.gschema.xml.h:101
 msgid "True if we show the tips."
 msgstr "Coché si on montre les astuces."
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:100
+#: ../src/org.gtk.grisbi.gschema.xml.h:102
 msgid "Active mouse scrolling in the left_panel."
 msgstr "Ajouter le défilement avec la souris dans le panneau de navigation"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:101
+#: ../src/org.gtk.grisbi.gschema.xml.h:103
 msgid "If TRUE, the scrolling with the mouse is actived in the left panel."
 msgstr ""
 "Si coché, le déplacement des items avec la souris est activé dans le panneau "
 "de navigation."
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:102
+#: ../src/org.gtk.grisbi.gschema.xml.h:104
 msgid "Width of the navigation panel"
 msgstr "Largeur du Panneau de navigation"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:103
+#: ../src/org.gtk.grisbi.gschema.xml.h:105
 msgid "The width of the navigation panel."
 msgstr "Largeur du Panneau de navigation"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:104
+#: ../src/org.gtk.grisbi.gschema.xml.h:106
 msgid "Sort order of the archives"
 msgstr "Ordre de tri des archives"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:105
+#: ../src/org.gtk.grisbi.gschema.xml.h:107
 msgid ""
 "Sort order of the archives : GTK_SORT_ASCENDING (0) by default, sort by "
 "GTK_SORT_DESCENDING: a number different of 0."
@@ -12007,11 +12053,11 @@ msgstr ""
 "Ordre de tri pour les archives: ascendant (0) par défaut, tri descendant (un "
 "nombre différent de 0)"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:106
+#: ../src/org.gtk.grisbi.gschema.xml.h:108
 msgid "Sort order of the financial years"
 msgstr "Ordre de tri pour les exercices"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:107
+#: ../src/org.gtk.grisbi.gschema.xml.h:109
 msgid ""
 "Sort order of the financial years : GTK_SORT_ASCENDING (0) by default, sort "
 "by GTK_SORT_DESCENDING: a number different of 0."
@@ -12019,35 +12065,35 @@ msgstr ""
 "Ordre de tri pour les exercices : ascendant (0) par défaut, tri descendant "
 "(un nombre différent de 0)"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:108
+#: ../src/org.gtk.grisbi.gschema.xml.h:110
 msgid "Height of the preference window"
 msgstr "Hauteur de la fenêtre des préférences"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:109
+#: ../src/org.gtk.grisbi.gschema.xml.h:111
 msgid "The height of the preference window."
 msgstr "La hauteur de la fenêtre des préférences"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:110
+#: ../src/org.gtk.grisbi.gschema.xml.h:112
 msgid "Width of the preference panel"
 msgstr "Largeur de la fenêtre des préférences"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:111
+#: ../src/org.gtk.grisbi.gschema.xml.h:113
 msgid "The width of the preference panel."
 msgstr "La largeur de la fenêtre des préférences"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:112
+#: ../src/org.gtk.grisbi.gschema.xml.h:114
 msgid "Width of the preference window"
 msgstr "Largeur de la fenêtre des préférences"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:113
+#: ../src/org.gtk.grisbi.gschema.xml.h:115
 msgid "The width of the preference window."
 msgstr "Largeur de la fenêtre des préférences"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:114
+#: ../src/org.gtk.grisbi.gschema.xml.h:116
 msgid "if TRUE Execute the scheduled transactions of the month"
 msgstr "Alerter/Exécuter les opérations planifiées du mois"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:115
+#: ../src/org.gtk.grisbi.gschema.xml.h:117
 msgid ""
 "Si coché toutes les opérations planifiées sont lancées en début de mois "
 "sinon au fil de l'eau. La date effective dépend du nombre de jours avant "
@@ -12057,11 +12103,11 @@ msgstr ""
 "sinon au fil de l'eau. La date effective dépend du nombre de jours avant "
 "lancement."
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:116
+#: ../src/org.gtk.grisbi.gschema.xml.h:118
 msgid "Number of days before scheduled operations start"
 msgstr "Nombre de jours avant l'alerte ou l'exécution des opérations : "
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:117
+#: ../src/org.gtk.grisbi.gschema.xml.h:119
 msgid ""
 "Nombre de jours avant le lancement des opérations planifiées par rapport à "
 "leur date d'exécution."
@@ -12069,21 +12115,21 @@ msgstr ""
 "Nombre de jours avant le lancement des opérations planifiées par rapport à "
 "leur date d'exécution."
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:118
+#: ../src/org.gtk.grisbi.gschema.xml.h:120
 msgid "Fixed day to initiate scheduled transactions on a monthly basis"
 msgstr "Jour fixe pour initier les opérations planifiées mensuellement"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:119
+#: ../src/org.gtk.grisbi.gschema.xml.h:121
 msgid ""
 "Utiliser un jour fixe pour lancer mensuellement les opérations planifiées."
 msgstr ""
 "Utiliser un jour fixe pour lancer mensuellement les opérations planifiées."
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:120
+#: ../src/org.gtk.grisbi.gschema.xml.h:122
 msgid "fixed day for sheduled transactions"
 msgstr "Jour fixe pour les opérations planifiées :"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:121
+#: ../src/org.gtk.grisbi.gschema.xml.h:123
 msgid "Jour fixe du lancement mensuel des opérations planifiées."
 msgstr "Jour fixe du lancement mensuel des opérations planifiées."
 
@@ -13255,6 +13301,3 @@ msgstr "Gestionnaire de finances personnelles"
 #: ../share/grisbi.desktop.in.h:3
 msgid "finance"
 msgstr "finance"
-
-#~ msgid "Display the (sub)category's name"
-#~ msgstr "Afficher le nom de la (sous-)catégorie"
