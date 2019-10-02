@@ -3001,29 +3001,15 @@ static void gsb_import_correct_opes_import_button_find_clicked (GtkWidget *butto
  *
  * \return
  **/
-static GtkWidget *gsb_import_correct_opes_import_create_box_doublons (GtkWidget *vbox_alert,
+static GtkWidget *gsb_import_correct_opes_import_create_box_doublons (GtkWidget *vbox,
                                                                       GSList *list_ope_importees,
                                                                       gint transaction_number)
 {
 	GtkWidget *button_change;
 	GtkWidget *hbox;
     GtkWidget *label;
-    GtkWidget *scrolled_window;
-    GtkWidget *vbox;
 	GSList *tmp_list_ope;
     gchar *tmp_str2;
-
-	scrolled_window = gtk_scrolled_window_new (FALSE, FALSE);
-    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
-                        GTK_POLICY_AUTOMATIC,
-                        GTK_POLICY_AUTOMATIC);
-    gtk_container_add (GTK_CONTAINER (vbox_alert), scrolled_window);
-    gtk_widget_show (scrolled_window);
-
-    vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
-    gtk_container_add (GTK_CONTAINER (scrolled_window), vbox);
-    gtk_container_set_border_width (GTK_CONTAINER (vbox), BOX_BORDER_WIDTH);
-    gtk_widget_show (vbox);
 
 	/* traitement des opérations */
 	tmp_str2 = utils_real_get_string (gsb_data_transaction_get_amount (transaction_number));
@@ -3113,6 +3099,7 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
     GtkWidget *frame;
     GtkWidget *frame_alert;
 	GtkWidget *vbox_alert;
+    GtkWidget *vbox_alert_lignes;
 	GtkWidget *hbox_alert;
 	GtkWidget *image;
 	GSList *list_ope_correspondantes = NULL;
@@ -3226,6 +3213,18 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
 	gtk_box_pack_start (GTK_BOX (hbox_alert), label, TRUE, TRUE, 0);
 	gtk_widget_show (label);
 
+	scrolled_window = gtk_scrolled_window_new (FALSE, FALSE);
+    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
+                        GTK_POLICY_AUTOMATIC,
+                        GTK_POLICY_AUTOMATIC);
+    gtk_container_add (GTK_CONTAINER (vbox_alert), scrolled_window);
+    gtk_widget_show (scrolled_window);
+
+    vbox_alert_lignes = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
+    gtk_container_add (GTK_CONTAINER (scrolled_window), vbox_alert_lignes);
+    gtk_container_set_border_width (GTK_CONTAINER (vbox_alert_lignes), BOX_BORDER_WIDTH);
+    gtk_widget_show (vbox_alert_lignes);
+
     /* on fait maintenant le tour des opés importées et affichent celles à problème */
     tmp_list = imported_account->operations_importees;
     while (tmp_list)
@@ -3297,7 +3296,7 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
 														GINT_TO_POINTER (ope_import->ope_correspondante));
 
 					/* on ajoute le widget de traitement de la ligne */
-					gsb_import_correct_opes_import_create_box_doublons (vbox_alert,
+					gsb_import_correct_opes_import_create_box_doublons (vbox_alert_lignes,
 																		imported_account->operations_importees,
 																		ope_import->ope_correspondante);
 					gtk_widget_show (frame_alert);
