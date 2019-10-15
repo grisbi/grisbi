@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-30 10:20+0200\n"
+"POT-Creation-Date: 2019-10-15 22:56+0200\n"
 "PO-Revision-Date: 2018-11-21 21:39+0100\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: français <>\n"
@@ -1923,12 +1923,13 @@ msgid "Grisbi made a backup file at '%s'."
 msgstr "Grisbi a effectué une copie de sauvegarde dans '%s'."
 
 #: ../src/erreur.c:234
+#, fuzzy
 msgid ""
-"Please report this problem to <a href=\"http://www.grisbi.org/bugsreports/"
-"\">http://www.grisbi.org/bugsreports/</a>.\n"
+"Please report this problem to <a href=\"https://www.grisbi.org/bugsreports/"
+"\">https://www.grisbi.org/bugsreports/</a>.\n"
 msgstr ""
-"Veuillez rapporter cette erreur à <a href=\"http://www.grisbi.org/"
-"bugsreports/\">http://www.grisbi.org/bugsreports/</a>.\n"
+"Veuillez rapporter cette erreur à <a href=\"https://www.grisbi.org/"
+"bugsreports/\">https://www.grisbi.org/bugsreports/</a>.\n"
 
 #: ../src/erreur.c:240
 msgid "Copy and paste the following backtrace with your bug report."
@@ -4963,6 +4964,7 @@ msgstr ""
 "Merci d'utiliser Grisbi et amusez-vous bien avec !"
 
 #: ../src/gsb_assistant_first.c:144
+#, fuzzy
 msgid ""
 "You are using Grisbi for the first time.  While most of the interface has "
 "not changed, you will notice a lot of improvements. Do not hesitate to read "
@@ -4978,7 +4980,7 @@ msgid ""
 "If you want to make backups of your Grisbi file in case you want to revert "
 "to old version of Grisbi, we would advise you to do that right now.\n"
 "\n"
-"You can find out other improvements on http://www.grisbi.org/."
+"You can find out other improvements on https://www.grisbi.org/."
 msgstr ""
 "Vous utilisez Grisbi pour la première fois. Vous allez trouver beaucoup "
 "d'améliorations alors que la plupart des fonctionnalités n'a pas changé. "

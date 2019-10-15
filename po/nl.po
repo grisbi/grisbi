@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-30 10:20+0200\n"
+"POT-Creation-Date: 2019-10-15 22:56+0200\n"
 "PO-Revision-Date: 2007-02-11 22:04+0100\n"
 "Last-Translator: E.Huijsing <lighthous@users.sourceforge.net>\n"
 "Language-Team: Dutch <en@li.org>\n"
@@ -2023,10 +2023,10 @@ msgstr "Grisbi maakt zijn reservebestand in '%s'."
 #: ../src/erreur.c:234
 #, fuzzy
 msgid ""
-"Please report this problem to <a href=\"http://www.grisbi.org/bugsreports/"
-"\">http://www.grisbi.org/bugsreports/</a>.\n"
+"Please report this problem to <a href=\"https://www.grisbi.org/bugsreports/"
+"\">https://www.grisbi.org/bugsreports/</a>.\n"
 msgstr ""
-"Maak a.u.b. melding van dit probleem via http://www.grisbi.org/bugsreports/"
+"Maak a.u.b. melding van dit probleem via https://www.grisbi.org/bugsreports/"
 
 #: ../src/erreur.c:240
 msgid "Copy and paste the following backtrace with your bug report."
@@ -5098,7 +5098,7 @@ msgid ""
 "If you want to make backups of your Grisbi file in case you want to revert "
 "to old version of Grisbi, we would advise you to do that right now.\n"
 "\n"
-"You can find out other improvements on http://www.grisbi.org/."
+"You can find out other improvements on https://www.grisbi.org/."
 msgstr ""
 
 #: ../src/gsb_assistant_first.c:211

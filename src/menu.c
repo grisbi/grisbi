@@ -3,7 +3,7 @@
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2004-2009 Benjamin Drieu (bdrieu@april.org)                       */
 /*          2009-2017 Pierre Biava (grisbi@pierre.biava.name)                 */
-/*          http://www.grisbi.org                                             */
+/*          https://www.grisbi.org/                                            */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -81,7 +81,7 @@
  */
 static gboolean gsb_menu_help_bugreport (void)
 {
-    lance_navigateur_web ("http://www.grisbi.org/bugsreports/");
+    lance_navigateur_web ("https://www.grisbi.org/bugsreports/");
 
     return FALSE;
 }
@@ -140,7 +140,7 @@ static gboolean gsb_menu_help_manual (void)
  */
 static gboolean gsb_menu_help_website (void)
 {
-    lance_navigateur_web ("http://www.grisbi.org/");
+    lance_navigateur_web ("https://www.grisbi.org/");
 
     return TRUE;
 }

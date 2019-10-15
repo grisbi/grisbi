@@ -3,7 +3,7 @@
 /*     Copyright (C)	2000-2008 Cedric Auger (cedric@grisbi.org)	          */
 /*			2003-2009 Benjamin Drieu (bdrieu@april.org)	                      */
 /*      2009 Thomas Peel (thomas.peel@live.fr)                                */
-/* 			http://www.grisbi.org				                              */
+/* 			https://www.grisbi.org				                              */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */

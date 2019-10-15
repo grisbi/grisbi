@@ -20,9 +20,9 @@ Grisbi is free software, any contribution is welcome.
 This product includes software developed by the OpenSSL Project for
 use in the OpenSSL Toolkit (http://www.openssl.org/).
 
-Website :     http://www.grisbi.org/
+Website :     https://www.grisbi.org/
 
-Bug reports : http://www.grisbi.org/bugsreports/
+Bug reports : https://www.grisbi.org/bugsreports/
 
 [![Linux/MacOSX](https://travis-ci.org/grisbi/grisbi.svg?branch=master)](https://travis-ci.org/grisbi/grisbi)
 [![Windows 64-bit](https://ci.appveyor.com/api/projects/status/k0hlhmde559ju7e2?svg=true)](https://ci.appveyor.com/project/LudovicRousseau/grisbi)

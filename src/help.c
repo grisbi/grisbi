@@ -3,7 +3,7 @@
 /*     copyright (c)    2000-2003 Cédric Auger (cedric@grisbi.org)            */
 /*          2008 Benjamin Drieu (bdrieu@april.org)                            */
 /*          2008-2010 Pierre Biava (grisbi@pierre.biava.name)                 */
-/*          http://www.grisbi.org                                             */
+/*          https://www.grisbi.org/                                            */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -243,7 +243,7 @@ NULL};
     gtk_about_dialog_set_program_name ( GTK_ABOUT_DIALOG (about), "Grisbi" );
     gtk_about_dialog_set_logo ( GTK_ABOUT_DIALOG (about), logo );
     gtk_about_dialog_set_comments ( GTK_ABOUT_DIALOG (about), comments );
-    gtk_about_dialog_set_website ( GTK_ABOUT_DIALOG (about), "http://www.grisbi.org/");
+    gtk_about_dialog_set_website ( GTK_ABOUT_DIALOG (about), "https://www.grisbi.org/");
     gtk_about_dialog_set_license ( GTK_ABOUT_DIALOG (about), license );
     gtk_about_dialog_set_wrap_license ( GTK_ABOUT_DIALOG (about), TRUE );
     gtk_about_dialog_set_version ( GTK_ABOUT_DIALOG (about), VERSION );

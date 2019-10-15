@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*     Copyright (C)    2000-2006 Cédric Auger (cedric@grisbi.org)            */
-/*          http://www.grisbi.org                                             */
+/*          https://www.grisbi.org/                                            */
 /*                      2009 Pierre Biava (grisbi@pierre.biava.name)          */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */

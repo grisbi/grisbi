@@ -4,7 +4,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
-/*          http://www.grisbi.org                                             */
+/*          https://www.grisbi.org/                                            */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -231,7 +231,7 @@ void debug_traitement_sigsegv ( gint signal_nb )
     old_errmsg = errmsg;
     errmsg = g_strconcat ( errmsg,
 			   "\n\n",
-			   _("Please report this problem to <a href=\"http://www.grisbi.org/bugsreports/\">http://www.grisbi.org/bugsreports/</a>.\n"),
+			   _("Please report this problem to <a href=\"https://www.grisbi.org/bugsreports/\">https://www.grisbi.org/bugsreports/</a>.\n"),
 			   NULL );
      g_free ( old_errmsg );
 

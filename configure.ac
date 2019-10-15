@@ -7,7 +7,7 @@ m4_define(grisbi_version, grisbi_major_version.grisbi_minor_version.grisbi_micro
 
 m4_pattern_allow([AM_PROG_AR])
 
-AC_INIT([grisbi],[grisbi_version],[http://www.grisbi.org/mantis/login_select_proj_page.php?ref=bug_report_page.php],[grisbi],[http://www.grisbi.org/index.php])
+AC_INIT([grisbi],[grisbi_version],[https://www.grisbi.org/mantis/],[grisbi],[https://www.grisbi.org/])
 
 AC_CONFIG_SRCDIR(src/main.c)
 AC_CONFIG_AUX_DIR(.)

@@ -10,7 +10,7 @@ Name:           %{name}
 Version:        %{version}
 Release:        %{release}
 License:        GPLv2
-Url:            http://www.grisbi.org/
+Url:            https://www.grisbi.org/
 Source0:        http://switch.dl.sourceforge.net/sourceforge/grisbi/%{name}-%{version}.tar.bz2
 
 Group:          Office

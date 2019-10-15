@@ -5,7 +5,7 @@
 /*          2003-2004 Benjamin Drieu (bdrieu@april.org)                       */
 /*          2003-2004 Alain Portal (aportal@univ-montp2.fr)                   */
 /*          2008-2009 Pierre Biava (grisbi@pierre.biava.name)                 */
-/*          http://www.grisbi.org                                             */
+/*          https://www.grisbi.org/                                            */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */

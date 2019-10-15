@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zh_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-30 10:20+0200\n"
+"POT-Creation-Date: 2019-10-15 22:56+0200\n"
 "PO-Revision-Date: 2005-12-19 11:25+0100\n"
 "Last-Translator: Jianyu Tang <jianyunet@gmail.com>\n"
 "Language-Team: zh_CN <LL@li.org>\n"
@@ -1996,9 +1996,9 @@ msgstr "Grisbi在 '%s'生成了一个备份文件。"
 #: ../src/erreur.c:234
 #, fuzzy
 msgid ""
-"Please report this problem to <a href=\"http://www.grisbi.org/bugsreports/"
-"\">http://www.grisbi.org/bugsreports/</a>.\n"
-msgstr "请到 http://www.grisbi.org/bugsreports/报告错误"
+"Please report this problem to <a href=\"https://www.grisbi.org/bugsreports/"
+"\">https://www.grisbi.org/bugsreports/</a>.\n"
+msgstr "请到 https://www.grisbi.org/bugsreports/报告错误"
 
 #: ../src/erreur.c:240
 msgid "Copy and paste the following backtrace with your bug report."
@@ -5041,7 +5041,7 @@ msgid ""
 "If you want to make backups of your Grisbi file in case you want to revert "
 "to old version of Grisbi, we would advise you to do that right now.\n"
 "\n"
-"You can find out other improvements on http://www.grisbi.org/."
+"You can find out other improvements on https://www.grisbi.org/."
 msgstr ""
 
 #: ../src/gsb_assistant_first.c:211

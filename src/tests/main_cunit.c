@@ -5,7 +5,7 @@
 /*                                                                               */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)               */
 /*                      2003-2008 Benjamin Drieu (bdrieu@april.org)              */
-/*                      http://www.grisbi.org                                    */
+/*                      https://www.grisbi.org/                                   */
 /*      Version : 0.6.0                                                          */
 /*                                                                               */
 /* *******************************************************************************/

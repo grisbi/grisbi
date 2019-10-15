@@ -21,7 +21,7 @@ long_description  Grisbi is a personnal accounting application. \
 maintainers	grisbi.org:gerald
 categories	gnome
 platforms	darwin
-homepage	http://www.grisbi.org
+homepage	https://www.grisbi.org/
 master_sites	http://www.gegeweb.org/grisbi/src/ \
                 sourceforge
 distname        grisbi-${betaversion}.${cvsversion}

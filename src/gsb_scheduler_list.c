@@ -4,7 +4,7 @@
 /*          2004-2008 Benjamin Drieu (bdrieu@april.org)                       */
 /*      2009 Thomas Peel (thomas.peel@live.fr)                                */
 /*          2008-2018 Pierre Biava (grisbi@pierre.biava.name)                 */
-/*          http://www.grisbi.org                                             */
+/*          https://www.grisbi.org/                                            */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
