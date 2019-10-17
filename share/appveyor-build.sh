@@ -3,21 +3,27 @@
 source /appveyor.environment
 export MSYSTEM
 
-libofx_version="0.9.13"
-libgoffice_version="2018.05.28-16"
+libofx_version="0.9.15"
+libgoffice_version="2019.10.16-19"
 
-git_src="https://github.com/LudovicRousseau"
-
-cd /
-wget -m --no-verbose -O /libofx.zip "$git_src/libofx/releases/download/0.9.13/libofx_$MSYSTEM.zip"
-unzip libofx.zip
+bits="32bit"
+if [ $MSYSTEM = "MINGW64" ]; then
+	bits="64bit"
+fi
 
 git_src="https://github.com/xfred81"
 
-wget -m --no-verbose -O /goffice.zip "$git_src/goffice/releases/download/v-2018.05.28-16/goffice-$MSYSTEM-$libgoffice_version-archive.zip"
+pwd
+cd /
+wget -m --no-verbose -O /libofx.zip "$git_src/libofx/releases/download/$libofx_version/libofx_$MSYSTEM.zip"
+unzip /libofx.zip
+
+git_src="https://github.com/xfred81"
+
+wget -m --no-verbose -O /goffice.zip "$git_src/goffice/releases/download/v-$libgoffice_version/goffice-$bits-$libgoffice_version-archive.zip"
 unzip /goffice.zip
 
-PATH=$PATH:/inst/bin
+PATH=$PATH:/tmp/inst/bin
 export PATH
 
 cd /c/projects/grisbi-src
@@ -57,7 +63,7 @@ CFLAGS+=" -Wno-unused-parameter"
 export CFLAGS
 echo "CFLAGS: $CFLAGS"
 
-PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/inst/lib/pkgconfig
+PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/tmp/inst/lib/pkgconfig
 export PKG_CONFIG_PATH
 
 ./configure \
@@ -85,10 +91,5 @@ cd /nsis-3.04
 ./makensis.exe /c/projects/grisbi-src/share/grisbi.nsi
 
 cd /c/projects/grisbi-src
-
-bits="32bit"
-if [ $MSYSTEM = "MINGW64" ]; then
-	bits="64bit"
-fi
 
 powershell.exe -command "Push-AppveyorArtifact \"share/Grisbi-$bits-$v-setup.exe\" -DeploymentName \"grisbi-compil\""
