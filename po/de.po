@@ -12,14 +12,14 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-10-15 22:56+0200\n"
-"PO-Revision-Date: 2019-09-06 20:31+0200\n"
+"PO-Revision-Date: 2019-10-20 11:13+0200\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 19.08.1\n"
+"X-Generator: Lokalize 19.08.2\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../src/accueil.c:129
@@ -1910,13 +1910,12 @@ msgid "Grisbi made a backup file at '%s'."
 msgstr "Grisbi hat eine Sicherung im Verzeichnis '%s' erstellt."
 
 #: ../src/erreur.c:234
-#, fuzzy
 msgid ""
 "Please report this problem to <a href=\"https://www.grisbi.org/bugsreports/"
 "\">https://www.grisbi.org/bugsreports/</a>.\n"
 msgstr ""
-"Bitte den Fehler auf <a href=\"https://www.grisbi.org/bugsreports/\">https://"
-"www.grisbi.org/bugsreports/</a> melden.\n"
+"Bitte den Fehler auf <a href=\"https://www.grisbi.org/bugsreports/"
+"\">https://www.grisbi.org/bugsreports/</a> melden.\n"
 
 #: ../src/erreur.c:240
 msgid "Copy and paste the following backtrace with your bug report."
@@ -4967,7 +4966,6 @@ msgstr ""
 "Danke das Sie Grisbi verwenden, viel Spaß dabei!"
 
 #: ../src/gsb_assistant_first.c:144
-#, fuzzy
 msgid ""
 "You are using Grisbi for the first time.  While most of the interface has "
 "not changed, you will notice a lot of improvements. Do not hesitate to read "
@@ -9455,16 +9453,17 @@ msgid ""
 "Choose from the list below that which will be selected \n"
 "for the payee: \"%s\""
 msgstr ""
+"Eine Auswahl in der Liste treffen welche für den \n"
+"Empfänger: \"%s\" angewandt wird"
 
 #: ../src/import.c:2779
-#, fuzzy
 msgid "Several transactions have been found"
-msgstr "Buchungen nach Beträgen auswählen"
+msgstr "Es wurden mehrere Buchungen gefunden"
 
 #: ../src/import.c:2819
-#, fuzzy, c-format
+#, c-format
 msgid "Transaction N° %d found: %s ; %s ; %s"
-msgstr "Buchung gefunden : %s ; %s ; %s"
+msgstr "Buchung N° %d gefunden: %s ; %s ; %s"
 
 #: ../src/import.c:2936
 msgid ""
@@ -9472,12 +9471,17 @@ msgid ""
 "In this case it is a new operation and\n"
 "the associated box has been unchecked"
 msgstr ""
+"Es wurde keine weitere Buchung gefunden.\n"
+"In diesem Fall handelt es sich um eine neuen Buchung, \n"
+"die dazugehörige Auswahl wird deselektiert."
 
 #: ../src/import.c:2951
 msgid ""
 "Only one operation was found. \n"
 "The correction has been made."
 msgstr ""
+"Es wurde eine Buchung gefunden, \n"
+"die Korrektur wurde durchgeführt."
 
 #: ../src/import.c:2969 ../src/import.c:3318
 #, c-format
@@ -9501,9 +9505,8 @@ msgstr "Buchung für Import: %s ; %s ; %s"
 
 #. Ajout du bouton de traitement
 #: ../src/import.c:3079
-#, fuzzy
 msgid "Find other transaction"
-msgstr "Hauptbuchung:"
+msgstr "Andere Buchung suchen"
 
 #: ../src/import.c:3131
 #, c-format
@@ -11754,14 +11757,12 @@ msgid "The directory for the import files."
 msgstr "Import Verzeichnis."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:41
-#, fuzzy
 msgid "Remove imported file"
-msgstr "Importierte Datei entfernen"
+msgstr "Importierte Datei löschen"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:42
-#, fuzzy
 msgid "TRUE if you want to remove the file after import."
-msgstr "Verzeichnis für Import."
+msgstr "Importierte Datei löschen"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:43
 msgid "The last files opened by Grisbi"
