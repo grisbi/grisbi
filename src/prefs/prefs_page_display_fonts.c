@@ -40,7 +40,9 @@
 #include "prefs_page_display_fonts.h"
 #include "accueil.h"
 #include "custom_list.h"
+#include "dialog.h"
 #include "grisbi_settings.h"
+#include "grisbi_win.h"
 #include "gsb_data_account.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
@@ -75,6 +77,8 @@ struct _PrefsPageDisplayFontsPrivate
 	GtkWidget *			eventbox_display_fonts;
     GtkWidget *         hbox_display_fonts;
 
+	GtkWidget *			checkbutton_use_dark_theme;
+	GtkWidget *			eventbox_use_dark_theme;
     GtkWidget *         button_select_colors;
     GtkWidget *         colorbutton_select_colors;
     GtkWidget *         grid_select_colors;
@@ -86,6 +90,49 @@ G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageDisplayFonts, prefs_page_display_fonts, GTK
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
+/**
+ * Signal triggered when user configure choice of colors
+ *
+ * \param button	Radio button that triggered event.
+ * \param grid		widget to set sensitive
+ *
+ * \return FALSE
+ */
+static gboolean prefs_page_display_fonts_choice_colors_toggled (GtkRadioButton *button,
+																GtkWidget *grid)
+{
+	GSettings *settings;
+	gchar *tmp_str;
+	gchar *hint;
+	gboolean etat;
+
+	settings = grisbi_settings_get_settings (SETTINGS_GENERAL);
+	etat = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button));
+	if (etat == conf.use_dark_theme)
+		return FALSE;
+	else if (etat == TRUE)
+	{
+		conf.tmp_use_dark_theme = TRUE;
+		g_settings_set_boolean (G_SETTINGS (settings), "use-dark-theme", conf.tmp_use_dark_theme);
+		tmp_str = g_strdup (_("You will have to restart Grisbi for the new colors to take effect."));
+		hint = g_strdup (_("Changes the colors of Grisbi for dark theme colors!"));
+	}
+	else
+	{
+		conf.tmp_use_dark_theme = FALSE;
+		g_settings_reset (G_SETTINGS (settings), "use-dark-theme");
+		tmp_str = g_strdup (_("You will have to restart Grisbi for the new colors to take effect."));
+		hint = g_strdup (_("Changes the colors of Grisbi for default colors!"));
+	}
+
+	gtk_widget_set_sensitive (grid, FALSE);
+	dialogue_warning_hint (tmp_str , hint);
+	g_free (tmp_str);
+	g_free (hint);
+
+    return FALSE;
+}
+
 /**
  * revert to default the selected color into the combobox
  *
@@ -592,6 +639,14 @@ static void prefs_page_display_fonts_setup_display_fonts_page (PrefsPageDisplayF
 	g_object_set_data (G_OBJECT (font_button), "font-string", "font-string");
 
 	/* set the elements for colors */
+	if (conf.use_dark_theme)
+	{
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_use_dark_theme), TRUE);
+	}
+	else
+	{
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_use_dark_theme), FALSE);
+	}
 	combobox_select_colors = gsb_rgba_create_color_combobox ();
     gtk_widget_set_margin_end (combobox_select_colors, MARGIN_END);
     gtk_grid_attach (GTK_GRID (priv->grid_select_colors), combobox_select_colors, 0, 0, 1, 1);
@@ -600,6 +655,16 @@ static void prefs_page_display_fonts_setup_display_fonts_page (PrefsPageDisplayF
 								gsb_rgba_get_couleur_with_indice ("couleur_fond", 0));
 
 	/* Connect signal */
+	g_signal_connect (G_OBJECT (priv->checkbutton_use_dark_theme),
+					  "toggled",
+					  G_CALLBACK (prefs_page_display_fonts_choice_colors_toggled),
+					  priv->grid_select_colors);
+
+    g_signal_connect (priv->eventbox_use_dark_theme,
+					  "button-press-event",
+					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
+					  priv->checkbutton_use_dark_theme);
+
     g_signal_connect (G_OBJECT (priv->colorbutton_select_colors),
 					  "color-set",
 					  G_CALLBACK (prefs_page_display_fonts_view_color_changed),
@@ -655,6 +720,8 @@ static void prefs_page_display_fonts_class_init (PrefsPageDisplayFontsClass *kla
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, eventbox_display_fonts);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, hbox_display_fonts);
 
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, checkbutton_use_dark_theme);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, eventbox_use_dark_theme);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, button_select_colors);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, colorbutton_select_colors);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, grid_select_colors);

@@ -250,6 +250,8 @@ struct GrisbiAppConf
     gint        custom_fonte_listes;                        /* TRUE to use a custom font for the lists */
     gchar *     font_string;                                /* contain the description of the font, or NULL */
 	gchar *		language_chosen;							/* choix de la langue : NULL par défaut = langue système */
+	gboolean	tmp_use_dark_theme;							/* utilisée pour forcer la sortie de grisbi */
+	gboolean	use_dark_theme;								/* TRUE if a dark theme is used */
 
     /* Home page */
     gint        pluriel_final;                              /* 0 = finals 1 = finaux */

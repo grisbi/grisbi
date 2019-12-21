@@ -270,6 +270,9 @@ static void grisbi_settings_init_settings_general (GSettings *settings)
         g_free (tmp_str);
     }
 
+    conf.use_dark_theme = g_settings_get_boolean (settings, "use-dark-theme");
+	conf.tmp_use_dark_theme = conf.use_dark_theme;
+
     tmp_str = g_settings_get_string (settings, "language-chosen");
     if (tmp_str == NULL)
     {
