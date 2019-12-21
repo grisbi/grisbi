@@ -1020,7 +1020,7 @@ GtkWidget *utils_widget_csv_separators_new (GtkSizeGroup *size_group,
 					  G_CALLBACK (utils_widget_csv_separators_combo_changed),
 					  entry);
 
-	gtk_combo_box_set_active(G_OBJECT (combobox), 0);
+	gtk_combo_box_set_active(GTK_COMBO_BOX (combobox), 0);
 
 	gtk_widget_show_all (hbox);
 
