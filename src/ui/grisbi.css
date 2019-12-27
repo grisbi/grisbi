@@ -1,8 +1,5 @@
 /* Default color scheme */
 /* Couleurs de base */
-@define-color couleur_blanche white;
-@define-color couleur_bleue blue;
-@define-color couleur_jaune yellow;
 @define-color couleur_grey_box rgba(192,192,192,1.0);
 @define-color couleur_insensitive_text rgb (80,80,80);
 
@@ -20,23 +17,10 @@
 @define-color default_entry_error_color rgb(255,0,0);
 
 /* Couleurs des tree_view */
-@define-color background_archive rgb(58,117,39);
-@define-color background_scheduled rgb(186,189,182);
-@define-color background_split rgb(239,197,197);
-@define-color couleur_fond_0 rgb(215,215,255);
-@define-color couleur_fond_1 rgb(255,255,255);
-@define-color couleur_jour rgb(179,174,174);
-@define-color couleur_selection rgb(245,156,156);
+@define-color couleur_selection rgb(245,155,155);
 @define-color text_color_0 rgb(0,0,0);
-@define-color text_color_1 rgb(195,195,195);
-@define-color text_color_2 rgb(255,0,0);
-@define-color couleur_column_header rgb(141,177,221);
-
-/* colors for the balance estimate module */
-@define-color couleur_bet_division rgb(0,0,0);
-@define-color couleur_bet_future rgb(0,0,0);
-@define-color couleur_bet_solde rgb(0,0,0);
-@define-color couleur_bet_transfert rgb(0,0,0);
+@define-color text_color_1 rgb(255,0,0);
+@define-color text_color_2 rgb(195,195,195);
 
 /***********
  * default *
@@ -62,19 +46,6 @@
 .cell:selected,
 .cell:selected:focus {
 	background-color: @couleur_selection;
-}
-
-row:selected,
-row:selected:focus {
-	background-color: @couleur_selection;
-    background-image: none;
-}
-
-/*****************
- * column-header *
- *****************/
-
-column-header .button {
 }
 
 /**************
@@ -110,18 +81,6 @@ combobox arrow {
     background-image: none;
 }
 
-/************
- * treeview *
- ************/
-
-/*GtkTreeView row:nth-child(even) {
-	background-color: @couleur_fond_0;
-}
-
-GtkTreeView row:nth-child(odd) {
-	background-color: @couleur_fond_1;
-}
-*/
 /************
  * viewport *
  ************/
