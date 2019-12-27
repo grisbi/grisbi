@@ -149,11 +149,11 @@ combobox arrow {
 }
 
 #form_entry_empty {
-  color: @text_color_1;
+  color: @text_color_2;
 }
 
 #form_entry_error {
-  color: @text_color_2;
+  color: @text_color_1;
 }
 
 #etat_event_box {
