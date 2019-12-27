@@ -6,7 +6,7 @@
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)               */
 /*                      2003-2008 Benjamin Drieu (bdrieu@april.org)              */
 /*          2008-2017 Pierre Biava (grisbi@pierre.biava.name)                    */
-/*          https://www.grisbi.org/                                               */
+/*          https://www.grisbi.org/                                              */
 /*                                                                               */
 /*     This program is free software; you can redistribute it and/or modify      */
 /*     it under the terms of the GNU General Public License as published by      */
@@ -55,6 +55,9 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static GtkCssProvider *	css_provider = NULL;    /* css provider */
+static gchar *			css_data = NULL;		/* fichier css sous forme de string */
+
 static GrisbiWin *grisbi_app_create_window (GrisbiApp *app,
                                              GdkScreen *screen);
 /*END_STATIC*/
@@ -92,7 +95,6 @@ struct AcceleratorStruct
 
 /* global variable, see structures.h */
 struct GrisbiAppConf    conf;                   /* conf structure Provisoire */
-GtkCssProvider *        css_provider = NULL;    /* css provider */
 
 static struct AcceleratorStruct accels[] = {
 		{ "app.new-window", { "<Alt>n", NULL }, N_("New_window")},

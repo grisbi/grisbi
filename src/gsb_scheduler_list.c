@@ -2172,7 +2172,6 @@ gboolean gsb_scheduler_list_append_new_scheduled (gint scheduled_number,
 	gboolean first_is_different = FALSE;
 
     /* devel_debug_int (scheduled_number); */
-    devel_debug_int (scheduled_number);
     if (!tree_model_scheduler_list)
         return FALSE;
 
