@@ -636,21 +636,18 @@ static gboolean qif_traite_champs_n ( struct ImportTransaction *imported_transac
 
     if ( ! imported_transaction->cheque )
     {
-        if ( etat.qif_use_field_extract_method_payment )
-        {
-            if ( strncmp ( imported_transaction->tiers, "VIR RECU", 8 ) == 0 )
-            {
-                gchar *tmp_str;
+		if ( strncmp ( imported_transaction->tiers, "VIR RECU", 8 ) == 0 )
+		{
+			gchar *tmp_str;
 
-                imported_transaction->type_de_transaction = GSB_DIRECTDEP;
-                tmp_str = gsb_string_extract_int ( imported_transaction->tiers );
-                if ( tmp_str && strlen ( tmp_str ) > 0 )
-                {
-                    g_free ( imported_transaction->cheque );
-                    imported_transaction->cheque = tmp_str;
-                }
-            }
-        }
+			imported_transaction->type_de_transaction = GSB_DIRECTDEP;
+			tmp_str = gsb_string_extract_int ( imported_transaction->tiers );
+			if ( tmp_str && strlen ( tmp_str ) > 0 )
+			{
+				g_free ( imported_transaction->cheque );
+				imported_transaction->cheque = tmp_str;
+			}
+		}
         return FALSE;
     }
 
@@ -672,7 +669,7 @@ static gboolean qif_traite_champs_n ( struct ImportTransaction *imported_transac
         imported_transaction->type_de_transaction = GSB_XFER;
     }
 
-    /* Ici on traie le fichuier type SG voir si généralisable */
+    /* Ici on traie le fichier type SG voir si généralisable */
     if ( etat.qif_use_field_extract_method_payment )
     {
         if ( strcmp ( imported_transaction->cheque, "Prélvmt" ) == 0 )
@@ -1264,7 +1261,8 @@ gint gsb_qif_recupere_operations_from_account ( FILE *qif_file,
             {
                 imported_transaction -> tiers = my_strdup ( string + 1 );
                 /* ici on appelle la fonction de traitement du champs N qui dépend de P */
-                qif_traite_champs_n ( imported_transaction );
+				if (etat.qif_use_field_extract_method_payment)
+                	qif_traite_champs_n ( imported_transaction );
             }
 
             /* récupération des catég */

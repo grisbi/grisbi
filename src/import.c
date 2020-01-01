@@ -2399,7 +2399,8 @@ static gint gsb_import_create_transaction (struct ImportTransaction *imported_tr
 
     /* définition des moyens de payement des fichiers OFX et QIF*/
     if (origine
-		&& (g_ascii_strcasecmp (origine, "OFX") == 0 || g_ascii_strcasecmp (origine, "QIF") == 0))
+		&& (g_ascii_strcasecmp (origine, "OFX") == 0
+			|| (g_ascii_strcasecmp (origine, "QIF") == 0 && etat.qif_use_field_extract_method_payment)))
     {
         switch (imported_transaction->type_de_transaction)
         {
