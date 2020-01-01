@@ -1035,6 +1035,7 @@ gchar *gsb_transactions_list_grep_cell_content (gint transaction_number,
 	    case ELEMENT_CATEGORY:
 	    case ELEMENT_DEBIT:
 	    case ELEMENT_CREDIT:
+		case ELEMENT_EXERCICE:		/* See Bug 1992 */
 		break;
 
 	    default:

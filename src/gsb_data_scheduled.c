@@ -976,10 +976,12 @@ gint gsb_data_scheduled_get_financial_year_number (gint scheduled_number)
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
 
-    if (!scheduled)
+	if (!scheduled)
 		return -1;
-
-    return scheduled->financial_year_number;
+	else if (scheduled->split_of_scheduled)
+		return 0;
+	else
+		return scheduled->financial_year_number;
 }
 
 /**

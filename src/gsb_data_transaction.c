@@ -1708,10 +1708,12 @@ gint gsb_data_transaction_get_financial_year_number ( gint transaction_number )
 
     transaction = gsb_data_transaction_get_transaction_by_no ( transaction_number);
 
-    if ( !transaction )
-	return -1;
-
-    return transaction -> financial_year_number;
+	if (!transaction)
+		return -1;
+	else if (transaction->split_of_transaction)
+		return 0;
+	else
+		return transaction->financial_year_number;
 }
 
 
