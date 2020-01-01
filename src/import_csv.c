@@ -1268,7 +1268,7 @@ static gboolean csv_import_change_separator (GtkEntry *entry,
 
 	if (strlen (separator) > 0)
     {
-		gchar *contents;
+		gchar *contents = NULL;
 		GArray *lines_tab;
 
         g_object_set_data (G_OBJECT(assistant), "separator", separator);
@@ -1276,9 +1276,14 @@ static gboolean csv_import_change_separator (GtkEntry *entry,
 			g_free (etat.csv_separator);
 		etat.csv_separator = separator;
 		contents = g_object_get_data (G_OBJECT(assistant), "contents");
+		if (!contents)
+			return FALSE;
+
 		lines_tab = g_object_get_data (G_OBJECT(assistant), "lines_tab");
-		if (lines_tab)
-			csv_import_free_lines_tab (lines_tab);
+		if (!lines_tab)
+			return FALSE;
+
+		csv_import_free_lines_tab (lines_tab);
 		lines_tab = csv_import_init_lines_tab (&contents, etat.csv_separator);
 		g_object_set_data (G_OBJECT(assistant), "lines-tab", lines_tab);
 		first_line_with_cols = 0;
