@@ -770,15 +770,24 @@ void gsb_data_payee_update_counters (void)
 void gsb_data_payee_add_transaction_to_payee (gint transaction_number)
 {
     PayeeStruct *payee;
+	gint contra_number;
 
-	/* if the transaction is a split transaction, don't take it */
+	/* if the transaction is a split transaction or a contra transaction don't take it */
 	if (gsb_data_transaction_get_mother_transaction_number (transaction_number))
 	{
 		return;
 	}
-    payee = gsb_data_payee_get_structure (gsb_data_transaction_get_party_number (transaction_number));
+	else if ((contra_number = gsb_data_transaction_get_contra_transaction_number (transaction_number)) > 0)
+	{
+		gint tmp_number;
 
-    /* if no payee in that transaction and it's neither a split transaction, we work with empty_payee */
+		tmp_number = gsb_data_transaction_get_contra_transaction_number (contra_number);
+		if (tmp_number > contra_number)
+			return;
+	}
+
+	/* if no payee in that transaction and it's neither a split transaction, we work with empty_payee */
+    payee = gsb_data_payee_get_structure (gsb_data_transaction_get_party_number (transaction_number));
 
     /* should not happen, this is if the transaction has a payee which doesn't exists
      * we show a debug warning and get without payee */
@@ -795,11 +804,10 @@ void gsb_data_payee_add_transaction_to_payee (gint transaction_number)
     }
 
     payee->payee_nb_transactions ++;
-    if (! gsb_data_transaction_get_split_of_transaction (transaction_number))
-        payee->payee_balance = gsb_real_add (payee->payee_balance,
-											 gsb_data_transaction_get_adjusted_amount_for_currency
-											 (transaction_number, payee_tree_currency (),
-											  -1));
+	payee->payee_balance = gsb_real_add (payee->payee_balance,
+										 gsb_data_transaction_get_adjusted_amount_for_currency
+										 (transaction_number, payee_tree_currency (),
+										  -1));
 }
 
 /**
