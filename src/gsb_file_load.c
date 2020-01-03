@@ -634,7 +634,17 @@ static void gsb_file_load_rgba_part ( const gchar **attribute_names,
         /* Nothing */
     }
 
-    else if ( !strcmp ( attribute_names[i], "Background_color_0" ) )
+    else if (!strcmp (attribute_names[i], "Couleur_grey_box" ) )
+    {
+        gsb_rgba_set_couleur ( "couleur_grey_box", attribute_values[i] );
+    }
+
+	else if (!strcmp (attribute_names[i], "Couleur_insensitive_text" ) )
+    {
+        gsb_rgba_set_couleur ( "couleur_insensitive_text", attribute_values[i] );
+    }
+
+	else if ( !strcmp ( attribute_names[i], "Background_color_0" ) )
     {
         gsb_rgba_set_couleur_with_indice ( "couleur_fond", 0, attribute_values[i] );
     }
@@ -659,7 +669,7 @@ static void gsb_file_load_rgba_part ( const gchar **attribute_names,
         gsb_rgba_set_couleur ( "background_archive", attribute_values[i] );
     }
 
-    else if ( !strcmp ( attribute_names[i], "Selection" ) )
+    else if ( !strcmp ( attribute_names[i], "Couleur_selection" ) )
     {
         gsb_rgba_set_couleur ( "couleur_selection", attribute_values[i] );
     }
@@ -703,7 +713,17 @@ static void gsb_file_load_rgba_part ( const gchar **attribute_names,
     {
         gsb_rgba_set_couleur ( "couleur_bet_transfert", attribute_values[i] );
     }
+
 	/* Récupération des couleurs alternatives */
+    else if (!strcmp (attribute_names[i], "Alt_Couleur_grey_box" ) )
+    {
+        gsb_rgba_set_couleur ( "alt_couleur_grey_box", attribute_values[i] );
+    }
+
+	else if (!strcmp (attribute_names[i], "Alt_Couleur_insensitive_text" ) )
+    {
+        gsb_rgba_set_couleur ( "alt_couleur_insensitive_text", attribute_values[i] );
+    }
 
     else if ( !strcmp ( attribute_names[i], "Alt_Background_color_0" ) )
     {
@@ -730,7 +750,7 @@ static void gsb_file_load_rgba_part ( const gchar **attribute_names,
         gsb_rgba_set_couleur ( "alt_background_archive", attribute_values[i] );
     }
 
-    else if ( !strcmp ( attribute_names[i], "Alt_Selection" ) )
+    else if ( !strcmp ( attribute_names[i], "Alt_Couleur_selection" ) )
     {
         gsb_rgba_set_couleur ( "alt_couleur_selection", attribute_values[i] );
     }

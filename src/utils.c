@@ -499,6 +499,9 @@ gboolean utils_set_list_store_background_color (GtkWidget *tree_view,
     GtkTreeModel *model;
     GtkTreeIter iter;
 
+	if (conf.use_dark_theme)
+		return FALSE;
+
     if (!tree_view)
         return FALSE;
 
@@ -536,6 +539,9 @@ gboolean utils_set_tree_store_background_color (GtkWidget *tree_view,
 {
     GtkTreeModel *model;
     GtkTreeIter iter;
+
+	if (conf.use_dark_theme)
+		return FALSE;
 
     if (!tree_view)
         return FALSE;

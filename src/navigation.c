@@ -55,6 +55,7 @@
 #include "gsb_real.h"
 #include "gsb_reconcile.h"
 #include "gsb_report.h"
+#include "gsb_rgba.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
 #include "imputation_budgetaire.h"
@@ -145,7 +146,7 @@ enum navigation_cols {
     NAVIGATION_PAGE,
     NAVIGATION_ACCOUNT,
     NAVIGATION_REPORT,
-    NAVIGATION_SENSITIVE,
+    NAVIGATION_COLOR_TEXT,
     NAVIGATION_ORDRE,        /* ordre des pages dans le modèle */
     NAVIGATION_TOTAL
 };
@@ -269,7 +270,7 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
                                 G_TYPE_INT,             /* NAVIGATION_PAGE */
 							    G_TYPE_INT,             /* NAVIGATION_ACCOUNT */
                                 G_TYPE_INT,             /* NAVIGATION_REPORT */
-							    G_TYPE_STRING,          /* NAVIGATION_SENSITIVE */
+							    G_TYPE_STRING,          /* NAVIGATION_COLOR_TEXT */
                                 G_TYPE_INT ) );         /* NAVIGATION_ORDRE */
 
     gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE ( navigation_model ),
@@ -353,7 +354,7 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
     gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(column), renderer,
 				       "weight", NAVIGATION_FONT);
     gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(column), renderer,
-				       "foreground", NAVIGATION_SENSITIVE);
+				       "foreground", NAVIGATION_COLOR_TEXT);
 
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( navigation_tree_view ),
 				  GTK_TREE_VIEW_COLUMN ( column ) );
@@ -594,6 +595,7 @@ void gsb_gui_navigation_create_report_list ( GtkTreeModel *model )
     GSList *tmp_list;
     GtkTreeIter parent, child;
     GtkTreePath *path;
+	gchar *str_color = "black";
 
     path = gsb_gui_navigation_get_page_path ( model, GSB_REPORTS_PAGE );
     gtk_tree_model_get_iter ( GTK_TREE_MODEL( model ), &parent, path );
@@ -605,7 +607,9 @@ void gsb_gui_navigation_create_report_list ( GtkTreeModel *model )
         gtk_tree_store_remove ( GTK_TREE_STORE ( model ), &child );
     }
 
-    /* Fill in with reports */
+	str_color = gsb_rgba_get_couleur_with_indice_to_str ("color_text", 0);
+
+	/* Fill in with reports */
     tmp_list = gsb_data_report_get_report_list ();
 
     while ( tmp_list )
@@ -621,7 +625,7 @@ void gsb_gui_navigation_create_report_list ( GtkTreeModel *model )
                         NAVIGATION_FONT, 400,
                         NAVIGATION_PAGE, GSB_REPORTS_PAGE,
                         NAVIGATION_ACCOUNT, -1,
-                        NAVIGATION_SENSITIVE, "black",
+                        NAVIGATION_COLOR_TEXT, str_color,
                         NAVIGATION_REPORT, report_number,
                         -1 );
 
@@ -781,12 +785,15 @@ void gsb_gui_navigation_update_report_iter ( GtkTreeModel *model,
                         GtkTreeIter * report_iter,
                         gint report_number )
 {
-    gtk_tree_store_set(GTK_TREE_STORE(model), report_iter,
+	gchar *str_color = "black";
+
+	str_color = gsb_rgba_get_couleur_with_indice_to_str ("color_text", 0);
+	gtk_tree_store_set(GTK_TREE_STORE(model), report_iter,
 		       NAVIGATION_TEXT, gsb_data_report_get_report_name (report_number),
 		       NAVIGATION_PAGE, GSB_REPORTS_PAGE,
 		       NAVIGATION_REPORT, report_number,
 		       NAVIGATION_ACCOUNT, -1,
-		       NAVIGATION_SENSITIVE, "black",
+		       NAVIGATION_COLOR_TEXT, str_color,
 		       -1 );
 }
 
@@ -899,6 +906,8 @@ void gsb_gui_navigation_update_account_iter ( GtkTreeModel *model,
 	closed_account = gsb_data_account_get_closed_account (account_number);
 	if (closed_account)
 		str_color = "grey";
+	else
+		str_color = gsb_rgba_get_couleur_with_indice_to_str ("color_text", 0);
 
 	pixbuf = gsb_data_account_get_account_icon_pixbuf ( account_number );
 
@@ -909,7 +918,7 @@ void gsb_gui_navigation_update_account_iter ( GtkTreeModel *model,
                         NAVIGATION_FONT, 400,
                         NAVIGATION_PAGE, GSB_ACCOUNT_PAGE,
                         NAVIGATION_ACCOUNT, account_number,
-                        NAVIGATION_SENSITIVE, str_color,
+                        NAVIGATION_COLOR_TEXT, str_color,
                         NAVIGATION_REPORT, -1,
                         -1 );
 
@@ -2048,6 +2057,7 @@ void gsb_gui_navigation_set_navigation_pages ( GtkTreeModel *model,
 {
     GdkPixbuf *pixbuf;
     GtkTreeIter iter;
+	gchar *str_color = "black";
     gchar *title = NULL;
     gchar *tmp_str = NULL;
 
@@ -2083,7 +2093,9 @@ void gsb_gui_navigation_set_navigation_pages ( GtkTreeModel *model,
         break;
     }
 
-    pixbuf = gdk_pixbuf_new_from_file ( tmp_str , NULL );
+	str_color = gsb_rgba_get_couleur_with_indice_to_str ("color_text", 0);
+
+	pixbuf = gdk_pixbuf_new_from_file ( tmp_str , NULL );
     gtk_tree_store_append ( GTK_TREE_STORE ( model ), &iter, NULL );
     gtk_tree_store_set( GTK_TREE_STORE ( navigation_model ), &iter,
                         NAVIGATION_PIX, pixbuf,
@@ -2093,7 +2105,7 @@ void gsb_gui_navigation_set_navigation_pages ( GtkTreeModel *model,
                         NAVIGATION_PAGE, type_page,
                         NAVIGATION_ACCOUNT, -1,
                         NAVIGATION_REPORT, -1,
-                        NAVIGATION_SENSITIVE, "black",
+                        NAVIGATION_COLOR_TEXT, str_color,
                         NAVIGATION_ORDRE, ordre,
                         -1);
 

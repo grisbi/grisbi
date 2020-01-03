@@ -279,6 +279,7 @@ struct GrisbiAppConf
 
 /* prefs part */
 	gint		prefs_archives_sort_order;					/* archive sort order, GTK_SORT_ASCENDING by default */
+	gboolean	prefs_change_css_data;						/* TRUE si modification d'une couleur OPTION NON SAUVEGARDEE */
     gint        prefs_fyear_sort_order;                     /* fyear type sort, GTK_SORT_ASCENDING by default */
 	gint		prefs_height;								/* preferences height */
 	gint		prefs_panel_width;							/* preferences paned width */

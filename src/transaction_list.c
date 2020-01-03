@@ -971,9 +971,9 @@ void transaction_list_set_balances ( void )
         record -> visible_col[column_balance] = utils_real_get_string_with_currency ( current_total,
                                                  currency_number , TRUE);
         if (current_total.mantissa >= 0)
-            record -> amount_color = NULL;
+            record -> amount_color = gsb_rgba_get_couleur_with_indice_to_str ("text_color", 0);
         else
-            record -> amount_color = "red";
+            record -> amount_color = gsb_rgba_get_couleur_with_indice_to_str ("text_color", 1);
 
         /* inform the tree view the row has changed */
         /* set the iter */

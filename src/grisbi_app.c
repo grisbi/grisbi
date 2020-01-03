@@ -36,6 +36,7 @@
 
 /*START_INCLUDE*/
 #include "grisbi_app.h"
+#include "dialog.h"
 #include "grisbi_settings.h"
 #include "gsb_assistant_first.h"
 #include "gsb_dirs.h"
@@ -908,26 +909,31 @@ static void grisbi_app_startup (GApplication *application)
 {
 	GrisbiApp *app = GRISBI_APP (application);
     GFile *file = NULL;
-    gchar *tmp_dir;
+	gchar *css_filename;
     GtkSettings* settings;
 	gboolean has_app_menu = FALSE;
 
 	/* Chain up parent's startup */
     G_APPLICATION_CLASS (grisbi_app_parent_class)->startup (application);
 
-	settings = gtk_settings_get_default ();
-    if (settings)
-    {
-        g_object_get (G_OBJECT (settings),
-                      "gtk-shell-shows-app-menu", &has_app_menu,
-                      NULL);
-    }
-
     /* on commence par détourner le signal SIGSEGV */
     grisbi_app_trappe_signaux ();
 
     /* initialisation des variables de configuration globales */
     grisbi_settings_get ();
+
+	settings = gtk_settings_get_default ();
+    if (settings)
+    {
+        g_object_get (G_OBJECT (settings),
+                      "gtk-shell-shows-app-menu",
+					  &has_app_menu,
+					  NULL);
+		g_object_set (G_OBJECT (settings),
+					  "gtk-application-prefer-dark-theme",
+					  conf.use_dark_theme,
+					  NULL);
+    }
 
 	/* set language and init locale parameters */
 	gsb_locale_init_language (conf.language_chosen);
@@ -944,12 +950,19 @@ static void grisbi_app_startup (GApplication *application)
 
     /* load the CSS properties */
     css_provider = gtk_css_provider_new ();
-    tmp_dir = g_strconcat (gsb_dirs_get_ui_dir (), "/grisbi.css", NULL);
-    file = g_file_new_for_path (tmp_dir);
-    if (!gtk_css_provider_load_from_file (css_provider, file, NULL))
-        warning_debug (tmp_dir);
-    g_free (tmp_dir);
+	css_filename = g_build_filename (gsb_dirs_get_user_config_dir (), "grisbi.css", NULL);
+	if (g_file_test (css_filename, G_FILE_TEST_EXISTS) == FALSE)
+	{
+		g_free (css_filename);
+    	css_filename = g_strconcat (gsb_dirs_get_ui_dir (), "/grisbi.css", NULL);
+	}
+    file = g_file_new_for_path (css_filename);
+    gtk_css_provider_load_from_file (css_provider, file, NULL);
+    g_free (css_filename);
 	g_object_unref (file);
+
+	/* récupération des données du fichier grisbi.css*/
+	css_data = gtk_css_provider_to_string (css_provider);
 
     /* initialise les couleurs */
     gsb_rgba_initialise_couleurs_par_defaut ();
@@ -1089,6 +1102,27 @@ static void grisbi_app_shutdown (GApplication *application)
 		conf.debug_mode = FALSE;
         debug_finish_log ();
 	}
+
+	/* on sauvegarde éventuellement le fichier CSS local */
+	if (conf.prefs_change_css_data)
+	{
+		gchar *css_filename;
+		GError *error = NULL;
+
+		css_filename = g_build_filename (gsb_dirs_get_user_config_dir (), "grisbi.css", NULL);
+		if (!g_file_set_contents (css_filename, css_data, -1, &error))
+		{
+		 	gchar *tmp_str;
+
+			tmp_str = g_strdup_printf (_("cannot save CSS file '%s': %s"), css_filename, error->message);
+            dialogue_error (tmp_str);
+			g_free (tmp_str);
+            g_error_free (error);
+		}
+	}
+
+	/* on libère la mémoire utilisée par css_data */
+	g_free (css_data);
 
     /* on libère la mémoire utilisée par etat */
     free_variables ();
@@ -1402,6 +1436,43 @@ void grisbi_app_update_recent_files_menu (void)
 		g_free (detailled_action);
 		g_object_unref (menu_item);
 	}
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+GtkCssProvider *grisbi_app_get_css_provider (void)
+{
+	return css_provider;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+const gchar *grisbi_app_get_css_data (void)
+{
+	return css_data;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void grisbi_app_set_css_data (const gchar *new_css_data)
+{
+	g_free (css_data);
+	css_data = g_strdup (new_css_data);
 }
 
 /**

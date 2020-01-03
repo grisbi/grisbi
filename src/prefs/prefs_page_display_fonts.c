@@ -98,7 +98,7 @@ G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageDisplayFonts, prefs_page_display_fonts, GTK
  *
  * \return FALSE
  */
-static gboolean prefs_page_display_fonts_choice_colors_toggled (GtkRadioButton *button,
+static gboolean prefs_page_display_fonts_use_dark_theme_toggled (GtkRadioButton *button,
 																GtkWidget *grid)
 {
 	GSettings *settings;
@@ -217,9 +217,10 @@ static gboolean prefs_page_display_fonts_view_color_changed (GtkWidget *color_bu
     {
 		GtkTreeModel *model;
 		GdkRGBA *color;
+		gchar *couleur;
 
 		model = gtk_combo_box_get_model (GTK_COMBO_BOX (combobox));
-		gtk_tree_model_get (GTK_TREE_MODEL (model), &iter, 1, &color, -1);
+		gtk_tree_model_get (GTK_TREE_MODEL (model), &iter, 0, &couleur, 1, &color, -1);
 		if (color)
 		{
 			gtk_color_chooser_get_rgba (GTK_COLOR_CHOOSER (color_button), color);
@@ -231,6 +232,8 @@ static gboolean prefs_page_display_fonts_view_color_changed (GtkWidget *color_bu
 			gsb_scheduler_list_fill_list (gsb_scheduler_list_get_tree_view ());
 			gsb_scheduler_list_set_background_color (gsb_scheduler_list_get_tree_view ());
 			gsb_scheduler_list_select (-1);
+			if (strcmp (couleur, "couleur_selection") == 0 || strcmp (couleur, "text_color_0") == 0)
+				gsb_rgba_set_css_color_property (color, couleur);
 		}
     }
     return FALSE;
@@ -657,7 +660,7 @@ static void prefs_page_display_fonts_setup_display_fonts_page (PrefsPageDisplayF
 	/* Connect signal */
 	g_signal_connect (G_OBJECT (priv->checkbutton_use_dark_theme),
 					  "toggled",
-					  G_CALLBACK (prefs_page_display_fonts_choice_colors_toggled),
+					  G_CALLBACK (prefs_page_display_fonts_use_dark_theme_toggled),
 					  priv->grid_select_colors);
 
     g_signal_connect (priv->eventbox_use_dark_theme,
