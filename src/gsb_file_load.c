@@ -621,6 +621,7 @@ static void gsb_file_load_rgba_part ( const gchar **attribute_names,
 {
     gint i=0;
 
+	/* ce traitement ne sert plus qu'à la compatibilité descendante de grisbi. Remplacé par un fichier CSS */
     if ( !attribute_names[i] )
     return;
 
@@ -634,163 +635,72 @@ static void gsb_file_load_rgba_part ( const gchar **attribute_names,
         /* Nothing */
     }
 
-    else if (!strcmp (attribute_names[i], "Couleur_grey_box" ) )
-    {
-        gsb_rgba_set_couleur ( "couleur_grey_box", attribute_values[i] );
-    }
-
-	else if (!strcmp (attribute_names[i], "Couleur_insensitive_text" ) )
-    {
-        gsb_rgba_set_couleur ( "couleur_insensitive_text", attribute_values[i] );
-    }
-
 	else if ( !strcmp ( attribute_names[i], "Background_color_0" ) )
-    {
-        gsb_rgba_set_couleur_with_indice ( "couleur_fond", 0, attribute_values[i] );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Background_color_1" ) )
-    {
-        gsb_rgba_set_couleur_with_indice ( "couleur_fond", 1, attribute_values[i] );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Couleur_jour" ) )
-    {
-        gsb_rgba_set_couleur ( "couleur_jour", attribute_values[i] );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Background_scheduled" ) )
-    {
-        gsb_rgba_set_couleur ( "background_scheduled", attribute_values[i] );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Background_archive" ) )
-    {
-        gsb_rgba_set_couleur ( "background_archive", attribute_values[i] );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Couleur_selection" ) )
-    {
-        gsb_rgba_set_couleur ( "couleur_selection", attribute_values[i] );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Background_split" ) )
-    {
-        gsb_rgba_set_couleur ( "background_split", attribute_values[i] );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Text_color_0" ) )
-    {
-        gsb_rgba_set_couleur_with_indice ( "text_color", 0, attribute_values[i] );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Text_color_1" ) )
-    {
-        gsb_rgba_set_couleur_with_indice ( "text_color", 1, attribute_values[i] );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Entry_error_color" ) )
-    {
-        gsb_rgba_set_couleur ( "entry_error_color", attribute_values[i] );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Couleur_bet_division" ) )
-    {
-        gsb_rgba_set_couleur ( "couleur_bet_division", attribute_values[i] );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Couleur_bet_future" ) )
-    {
-        gsb_rgba_set_couleur ( "couleur_bet_future", attribute_values[i] );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Couleur_bet_solde" ) )
-    {
-        gsb_rgba_set_couleur ( "couleur_bet_solde", attribute_values[i] );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Couleur_bet_transfert" ) )
-    {
-        gsb_rgba_set_couleur ( "couleur_bet_transfert", attribute_values[i] );
-    }
-
-	/* Récupération des couleurs alternatives */
-    else if (!strcmp (attribute_names[i], "Alt_Couleur_grey_box" ) )
-    {
-        gsb_rgba_set_couleur ( "alt_couleur_grey_box", attribute_values[i] );
-    }
-
-	else if (!strcmp (attribute_names[i], "Alt_Couleur_insensitive_text" ) )
-    {
-        gsb_rgba_set_couleur ( "alt_couleur_insensitive_text", attribute_values[i] );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Alt_Background_color_0" ) )
     {
         gsb_rgba_set_couleur_with_indice ( "alt_couleur_fond", 0, attribute_values[i] );
     }
 
-    else if ( !strcmp ( attribute_names[i], "Alt_Background_color_1" ) )
+    else if ( !strcmp ( attribute_names[i], "Background_color_1" ) )
     {
         gsb_rgba_set_couleur_with_indice ( "alt_couleur_fond", 1, attribute_values[i] );
     }
 
-    else if ( !strcmp ( attribute_names[i], "Alt_Couleur_jour" ) )
+    else if ( !strcmp ( attribute_names[i], "Couleur_jour" ) )
     {
         gsb_rgba_set_couleur ( "alt_couleur_jour", attribute_values[i] );
     }
 
-    else if ( !strcmp ( attribute_names[i], "Alt_Background_scheduled" ) )
+    else if ( !strcmp ( attribute_names[i], "Background_scheduled" ) )
     {
         gsb_rgba_set_couleur ( "alt_background_scheduled", attribute_values[i] );
     }
 
-    else if ( !strcmp ( attribute_names[i], "Alt_Background_archive" ) )
+    else if ( !strcmp ( attribute_names[i], "Background_archive" ) )
     {
         gsb_rgba_set_couleur ( "alt_background_archive", attribute_values[i] );
     }
 
-    else if ( !strcmp ( attribute_names[i], "Alt_Couleur_selection" ) )
+    else if ( !strcmp ( attribute_names[i], "Couleur_selection" ) )
     {
         gsb_rgba_set_couleur ( "alt_couleur_selection", attribute_values[i] );
     }
 
-    else if ( !strcmp ( attribute_names[i], "Alt_Background_split" ) )
+    else if ( !strcmp ( attribute_names[i], "Background_split" ) )
     {
         gsb_rgba_set_couleur ( "alt_background_split", attribute_values[i] );
     }
 
-    else if ( !strcmp ( attribute_names[i], "Alt_Text_color_0" ) )
+    else if ( !strcmp ( attribute_names[i], "Text_color_0" ) )
     {
         gsb_rgba_set_couleur_with_indice ( "alt_text_color", 0, attribute_values[i] );
     }
 
-    else if ( !strcmp ( attribute_names[i], "Alt_Text_color_1" ) )
+    else if ( !strcmp ( attribute_names[i], "Text_color_1" ) )
     {
         gsb_rgba_set_couleur_with_indice ( "alt_text_color", 1, attribute_values[i] );
     }
 
-    else if ( !strcmp ( attribute_names[i], "Alt_Entry_error_color" ) )
+    else if ( !strcmp ( attribute_names[i], "Entry_error_color" ) )
     {
         gsb_rgba_set_couleur ( "alt_entry_error_color", attribute_values[i] );
     }
 
-    else if ( !strcmp ( attribute_names[i], "Alt_Couleur_bet_division" ) )
+    else if ( !strcmp ( attribute_names[i], "Couleur_bet_division" ) )
     {
         gsb_rgba_set_couleur ( "alt_couleur_bet_division", attribute_values[i] );
     }
 
-    else if ( !strcmp ( attribute_names[i], "Alt_Couleur_bet_future" ) )
+    else if ( !strcmp ( attribute_names[i], "Couleur_bet_future" ) )
     {
         gsb_rgba_set_couleur ( "alt_couleur_bet_future", attribute_values[i] );
     }
 
-    else if ( !strcmp ( attribute_names[i], "Alt_Couleur_bet_solde" ) )
+    else if ( !strcmp ( attribute_names[i], "Couleur_bet_solde" ) )
     {
         gsb_rgba_set_couleur ( "alt_couleur_bet_solde", attribute_values[i] );
     }
 
-    else if ( !strcmp ( attribute_names[i], "Alt_Couleur_bet_transfert" ) )
+    else if ( !strcmp ( attribute_names[i], "Couleur_bet_transfert" ) )
     {
         gsb_rgba_set_couleur ( "alt_couleur_bet_transfert", attribute_values[i] );
     }
