@@ -76,6 +76,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
+                                <property name="halign">start</property>
                                 <property name="draw_indicator">True</property>
                               </object>
                               <packing>
@@ -92,6 +93,7 @@
                                   <object class="GtkLabel" id="label101">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
+                                    <property name="halign">start</property>
                                     <property name="label" translatable="yes">Case sensitive completion</property>
                                   </object>
                                 </child>
@@ -116,12 +118,11 @@
                             <property name="spacing">5</property>
                             <child>
                               <object class="GtkLabel" id="label102">
+                                <property name="name">label_gsetting_option</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">Minimum number of characters before proposals in the input fields:</property>
-                                <attributes>
-                                  <attribute name="foreground" value="#00000000ffff"/>
-                                </attributes>
+                                <property name="selectable">True</property>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -131,7 +132,7 @@
                             </child>
                             <child>
                               <object class="GtkSpinButton" id="spinbutton_completion_minimum_key_length">
-                                <property name="name">spinbutton_completion_minimum_key_length</property>
+                                <property name="name">label_gsetting_option</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="tooltip_text" translatable="yes">one by default</property>
@@ -237,49 +238,14 @@
                             <property name="orientation">vertical</property>
                             <property name="spacing">5</property>
                             <child>
-                              <object class="GtkBox" id="hbox_blue210">
+                              <object class="GtkCheckButton" id="checkbutton_automatic_completion_payee">
+                                <property name="label" translatable="yes">Automatic filling transactions from payee</property>
+                                <property name="name">label_gsetting_option</property>
                                 <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="spacing">1</property>
-                                <child>
-                                  <object class="GtkCheckButton" id="checkbutton_automatic_completion_payee">
-                                    <property name="name">checkbutton_automatic_completion_payee</property>
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="receives_default">False</property>
-                                    <property name="draw_indicator">True</property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="position">0</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkEventBox" id="eventbox_automatic_completion_payee">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <child>
-                                      <object class="GtkLabel" id="label210">
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes">Automatic filling transactions from payee</property>
-                                        <property name="xalign">0</property>
-                                        <attributes>
-                                          <attribute name="foreground" value="#00000000ffff"/>
-                                        </attributes>
-                                        <style>
-                                          <class name="#label_blue"/>
-                                        </style>
-                                      </object>
-                                    </child>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="position">1</property>
-                                  </packing>
-                                </child>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">False</property>
+                                <property name="halign">start</property>
+                                <property name="draw_indicator">True</property>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -311,48 +277,14 @@
                                     <property name="orientation">vertical</property>
                                     <property name="spacing">5</property>
                                     <child>
-                                      <object class="GtkBox" id="hbox_blue220">
+                                      <object class="GtkCheckButton" id="checkbutton_automatic_erase_credit_debit">
+                                        <property name="label" translatable="yes">Erase the credit and debit fields</property>
+                                        <property name="name">label_gsetting_option</property>
                                         <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
-                                        <child>
-                                          <object class="GtkCheckButton" id="checkbutton_automatic_erase_credit_debit">
-                                            <property name="name">checkbutton_automatic_erase_credit_debit</property>
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="receives_default">False</property>
-                                            <property name="draw_indicator">True</property>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">0</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkEventBox" id="eventbox_automatic_erase_credit_debit">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <child>
-                                              <object class="GtkLabel" id="label220">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
-                                                <property name="label" translatable="yes">Erase the credit and debit fields</property>
-                                                <property name="xalign">0</property>
-                                                <attributes>
-                                                  <attribute name="foreground" value="#00000000ffff"/>
-                                                </attributes>
-                                                <style>
-                                                  <class name="#label_blue"/>
-                                                </style>
-                                              </object>
-                                            </child>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">1</property>
-                                          </packing>
-                                        </child>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">False</property>
+                                        <property name="halign">start</property>
+                                        <property name="draw_indicator">True</property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -361,49 +293,14 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkBox" id="hbox_blue230">
+                                      <object class="GtkCheckButton" id="checkbutton_automatic_recover_splits">
+                                        <property name="label" translatable="yes">Automatically recover the children of the associated transaction</property>
+                                        <property name="name">label_gsetting_option</property>
                                         <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
-                                        <property name="spacing">1</property>
-                                        <child>
-                                          <object class="GtkCheckButton" id="checkbutton_automatic_recover_splits">
-                                            <property name="name">checkbutton_automatic_recover_splits</property>
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="receives_default">False</property>
-                                            <property name="draw_indicator">True</property>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">0</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkEventBox" id="eventbox_automatic_recover_splits">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <child>
-                                              <object class="GtkLabel" id="label230">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
-                                                <property name="label" translatable="yes">Automatically recover the children of the associated transaction</property>
-                                                <property name="xalign">0</property>
-                                                <attributes>
-                                                  <attribute name="foreground" value="#00000000ffff"/>
-                                                </attributes>
-                                                <style>
-                                                  <class name="#label_blue"/>
-                                                </style>
-                                              </object>
-                                            </child>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">1</property>
-                                          </packing>
-                                        </child>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">False</property>
+                                        <property name="halign">start</property>
+                                        <property name="draw_indicator">True</property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -412,49 +309,14 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkBox" id="hbox_blue240">
+                                      <object class="GtkCheckButton" id="checkbutton_limit_completion_to_current_account">
+                                        <property name="label" translatable="yes">Limit the filling with payees belonging to the current account</property>
+                                        <property name="name">label_gsetting_option</property>
                                         <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
-                                        <property name="spacing">1</property>
-                                        <child>
-                                          <object class="GtkCheckButton" id="checkbutton_limit_completion_to_current_account">
-                                            <property name="name">checkbutton_limit_completion_to_current_account</property>
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="receives_default">False</property>
-                                            <property name="draw_indicator">True</property>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">0</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkEventBox" id="eventbox_limit_completion_to_current_account">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <child>
-                                              <object class="GtkLabel" id="label240">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
-                                                <property name="label" translatable="yes">Limit the filling with payees belonging to the current account</property>
-                                                <property name="xalign">0</property>
-                                                <attributes>
-                                                  <attribute name="foreground" value="#00000000ffff"/>
-                                                </attributes>
-                                                <style>
-                                                  <class name="#label_blue"/>
-                                                </style>
-                                              </object>
-                                            </child>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">1</property>
-                                          </packing>
-                                        </child>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">False</property>
+                                        <property name="halign">start</property>
+                                        <property name="draw_indicator">True</property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -492,6 +354,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
+                                <property name="halign">start</property>
                                 <property name="draw_indicator">True</property>
                               </object>
                               <packing>
@@ -612,6 +475,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
+                                <property name="halign">start</property>
                                 <property name="draw_indicator">True</property>
                               </object>
                               <packing>
@@ -654,6 +518,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
+                                <property name="halign">start</property>
                                 <property name="draw_indicator">True</property>
                               </object>
                               <packing>
@@ -752,49 +617,6 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="label" translatable="yes">label</property>
-          </object>
-        </child>
-      </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">1</property>
-      </packing>
-    </child>
-  </object>
-  <object class="GtkBox" id="hbox_blue">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="spacing">1</property>
-    <child>
-      <object class="GtkCheckButton" id="checkbutton1">
-        <property name="visible">True</property>
-        <property name="can_focus">True</property>
-        <property name="receives_default">False</property>
-        <property name="draw_indicator">True</property>
-      </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">0</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkEventBox" id="eventbox1">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <child>
-          <object class="GtkLabel" id="label1">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="label" translatable="yes">label</property>
-            <property name="xalign">0</property>
-            <attributes>
-              <attribute name="foreground" value="#00000000ffff"/>
-            </attributes>
-            <style>
-              <class name="#label_blue"/>
-            </style>
           </object>
         </child>
       </object>

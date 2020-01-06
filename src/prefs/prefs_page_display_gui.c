@@ -6,7 +6,7 @@
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)               */
 /*                      2003-2008 Benjamin Drieu (bdrieu@april.org)              */
 /*          2008-2017 Pierre Biava (grisbi@pierre.biava.name)                    */
-/*          https://www.grisbi.org/                                               */
+/*          https://www.grisbi.org/                                              */
 /*                                                                               */
 /*     This program is free software; you can redistribute it and/or modify      */
 /*     it under the terms of the GNU General Public License as published by      */
@@ -58,10 +58,8 @@ struct _PrefsPageDisplayGuiPrivate
 	GtkWidget *			vbox_display_gui;
 
     GtkWidget *			checkbutton_show_headings_bar;
-	GtkWidget *			eventbox_show_headings_bar;
 
 	GtkWidget *			checkbutton_active_scrolling_left_pane;
-	GtkWidget *			eventbox_active_scrolling_left_pane;
 
     GtkWidget *			radiobutton_display_both;
     GtkWidget *			radiobutton_display_both_horiz;
@@ -203,11 +201,6 @@ static void prefs_page_display_gui_setup_display_gui_page (PrefsPageDisplayGui *
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_show_headings_bar),
 								  conf.show_headings_bar);
     /* Connect signal */
-    g_signal_connect (priv->eventbox_show_headings_bar,
-					  "button-press-event",
-					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
-					  priv->checkbutton_show_headings_bar);
-
     g_signal_connect (priv->checkbutton_show_headings_bar,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
@@ -223,11 +216,6 @@ static void prefs_page_display_gui_setup_display_gui_page (PrefsPageDisplayGui *
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_active_scrolling_left_pane),
 								  conf.active_scrolling_left_pane);
     /* Connect signal */
-    g_signal_connect (priv->eventbox_active_scrolling_left_pane,
-					  "button-press-event",
-					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
-					  priv->checkbutton_active_scrolling_left_pane);
-
     g_signal_connect (priv->checkbutton_active_scrolling_left_pane,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
@@ -334,9 +322,7 @@ static void prefs_page_display_gui_class_init (PrefsPageDisplayGuiClass *klass)
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayGui, vbox_display_gui);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayGui, checkbutton_show_headings_bar);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayGui, eventbox_show_headings_bar);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayGui, checkbutton_active_scrolling_left_pane);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayGui, eventbox_active_scrolling_left_pane);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayGui, radiobutton_display_both);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayGui, radiobutton_display_both_horiz);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayGui, radiobutton_display_icon);

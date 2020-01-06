@@ -6,7 +6,7 @@
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)               */
 /*                      2003-2008 Benjamin Drieu (bdrieu@april.org)              */
 /*          2008-2017 Pierre Biava (grisbi@pierre.biava.name)                    */
-/*          https://www.grisbi.org/                                               */
+/*          https://www.grisbi.org/                                              */
 /*                                                                               */
 /*     This program is free software; you can redistribute it and/or modify      */
 /*     it under the terms of the GNU General Public License as published by      */
@@ -71,7 +71,6 @@ struct _PrefsPageArchivesPrivate
 
 	GtkWidget *			treeview_archives;
     GtkWidget *			checkbutton_archives_sort_order;
-	GtkWidget *			eventbox_archives_sort_order;
 
 	GtkWidget *			grid_archives_modification;
 	GtkWidget *			entry_archives_name;
@@ -79,7 +78,6 @@ struct _PrefsPageArchivesPrivate
 	GtkWidget * 		button_archives_destroy;
 
 	GtkWidget *			checkbutton_archives_check_auto;
-	GtkWidget *			eventbox_archives_check_auto;
     GtkWidget *         spinbutton_archives_check_auto;
 
 };
@@ -583,11 +581,6 @@ static void prefs_page_archives_setup_archives_page (PrefsPageArchives *page)
 								  conf.prefs_archives_sort_order);
 
     /* Connect signal */
-    g_signal_connect (priv->eventbox_archives_sort_order,
-					  "button-press-event",
-					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
-					  priv->checkbutton_archives_sort_order);
-
     g_signal_connect (priv->checkbutton_archives_sort_order,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
@@ -623,11 +616,6 @@ static void prefs_page_archives_setup_archives_page (PrefsPageArchives *page)
 								  conf.archives_check_auto);
 
 	/* Connect signal */
-    g_signal_connect (priv->eventbox_archives_check_auto,
-					  "button-press-event",
-					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
-					  priv->checkbutton_archives_check_auto);
-
     g_signal_connect (priv->checkbutton_archives_check_auto,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
@@ -678,14 +666,12 @@ static void prefs_page_archives_class_init (PrefsPageArchivesClass *klass)
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageArchives, treeview_archives);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageArchives, checkbutton_archives_sort_order);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageArchives, eventbox_archives_sort_order);
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageArchives, grid_archives_modification);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageArchives, button_archives_delete);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageArchives, button_archives_destroy);
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageArchives, checkbutton_archives_check_auto);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageArchives, eventbox_archives_check_auto);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageArchives, spinbutton_archives_check_auto);
 }
 

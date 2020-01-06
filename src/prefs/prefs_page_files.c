@@ -6,7 +6,7 @@
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)               */
 /*                      2003-2008 Benjamin Drieu (bdrieu@april.org)              */
 /*          2008-2018 Pierre Biava (grisbi@pierre.biava.name)                    */
-/*          https://www.grisbi.org/                                               */
+/*          https://www.grisbi.org/                                              */
 /*                                                                               */
 /*     This program is free software; you can redistribute it and/or modify      */
 /*     it under the terms of the GNU General Public License as published by      */
@@ -58,32 +58,22 @@ struct _PrefsPageFilesPrivate
 	GtkWidget *			vbox_files;
 
     GtkWidget *			checkbutton_load_last_file;
-	GtkWidget *			eventbox_load_last_file;
     GtkWidget *         checkbutton_sauvegarde_auto;
-	GtkWidget *			eventbox_sauvegarde_auto;
     GtkWidget *         checkbutton_force_enregistrement;
-	GtkWidget *			eventbox_force_enregistrement;
     GtkWidget *         checkbutton_compress_file;
-	GtkWidget *			eventbox_compress_file;
     GtkWidget *         checkbutton_crypt_file;
-	GtkWidget *			eventbox_crypt_file;
+	GtkWidget *			label_nb_max_derniers_fichiers;
 	GtkWidget *         spinbutton_nb_max_derniers_fichiers;
 
     GtkWidget *         checkbutton_make_bakup_single_file;
-	GtkWidget *			eventbox_make_bakup_single_file;
     GtkWidget *         checkbutton_compress_backup;
-	GtkWidget *			eventbox_compress_backup;
     GtkWidget *         checkbutton_sauvegarde_demarrage;
-	GtkWidget *			eventbox_sauvegarde_demarrage;
     GtkWidget *         checkbutton_make_backup;
-	GtkWidget *			eventbox_make_backup;
     GtkWidget *         checkbutton_make_backup_every_minutes;
-	GtkWidget *			eventbox_make_backup_every_minutes;
     GtkWidget *         spinbutton_make_backup_nb_minutes;
     GtkWidget *         filechooserbutton_backup;
 
     GtkWidget *			checkbutton_force_import_directory;
-	GtkWidget *			eventbox_force_import_directory;
     GtkWidget *         filechooserbutton_force_import_directory;
 };
 
@@ -135,40 +125,20 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
 							   conf.nb_max_derniers_fichiers_ouverts);
 
     /* Connect signal */
-    g_signal_connect (priv->eventbox_load_last_file,
-					  "button-press-event",
-					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
-					  priv->checkbutton_load_last_file);
-
     g_signal_connect (priv->checkbutton_load_last_file,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
 					  &conf.dernier_fichier_auto);
-
-    g_signal_connect (priv->eventbox_sauvegarde_auto,
-                      "button-press-event",
-					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
-                      priv->checkbutton_sauvegarde_auto);
 
     g_signal_connect (priv->checkbutton_sauvegarde_auto,
                       "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
                       &conf.sauvegarde_auto);
 
-    g_signal_connect (priv->eventbox_force_enregistrement,
-                      "button-press-event",
-					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
-                      priv->checkbutton_force_enregistrement);
-
     g_signal_connect (priv->checkbutton_force_enregistrement,
                       "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
                       &conf.force_enregistrement);
-
-    g_signal_connect (priv->eventbox_compress_file,
-                      "button-press-event",
-					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
-                      priv->checkbutton_compress_file);
 
     g_signal_connect (priv->checkbutton_compress_file,
                       "toggled",
@@ -180,11 +150,6 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
 					  &w_etat->crypt_file);
-
-	g_signal_connect (priv->eventbox_crypt_file,
-                      "button-press-event",
-					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
-                      priv->checkbutton_crypt_file);
 
 	g_signal_connect_after (priv->checkbutton_crypt_file,
 							"toggled",
@@ -237,50 +202,25 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
 					   priv->filechooserbutton_force_import_directory);
 
     /* Connect signal */
-    g_signal_connect (priv->eventbox_make_bakup_single_file,
-					  "button-press-event",
-					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
-					  priv->checkbutton_make_bakup_single_file);
-
     g_signal_connect (priv->checkbutton_make_bakup_single_file,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
 					  &conf.make_bakup_single_file);
-
-    g_signal_connect (priv->eventbox_compress_backup,
-					  "button-press-event",
-					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
-					  priv->checkbutton_compress_backup);
 
     g_signal_connect (priv->checkbutton_compress_backup,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
                       &conf.compress_backup);
 
-    g_signal_connect (priv->eventbox_sauvegarde_demarrage,
-					  "button-press-event",
-					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
-                      priv->checkbutton_sauvegarde_demarrage);
-
     g_signal_connect (priv->checkbutton_sauvegarde_demarrage,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
                       &conf.sauvegarde_demarrage);
 
-    g_signal_connect (priv->eventbox_make_backup,
-					  "button-press-event",
-					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
-                      priv->checkbutton_make_backup);
-
     g_signal_connect (priv->checkbutton_make_backup,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
                       &conf.make_backup);
-
-    g_signal_connect (priv->eventbox_make_backup_every_minutes,
-					  "button-press-event",
-					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
-                      priv->checkbutton_make_backup_every_minutes);
 
     g_signal_connect (priv->checkbutton_make_backup_every_minutes,
                       "toggled",
@@ -306,10 +246,6 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
                       G_CALLBACK (utils_prefs_page_dir_chosen),
                       "backup_path");
 
-    g_signal_connect (priv->eventbox_force_import_directory,
-					  "button-press-event",
-					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
-					  priv->checkbutton_force_import_directory);
     g_signal_connect (priv->checkbutton_force_import_directory,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
@@ -346,32 +282,22 @@ static void prefs_page_files_class_init (PrefsPageFilesClass *klass)
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, vbox_files);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, checkbutton_load_last_file);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, eventbox_load_last_file);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, checkbutton_sauvegarde_auto);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, eventbox_sauvegarde_auto);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, checkbutton_force_enregistrement);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, eventbox_force_enregistrement);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, checkbutton_compress_file);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, eventbox_compress_file);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, checkbutton_crypt_file);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, eventbox_crypt_file);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, label_nb_max_derniers_fichiers);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, spinbutton_nb_max_derniers_fichiers);
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, checkbutton_make_bakup_single_file);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, eventbox_make_bakup_single_file);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, checkbutton_compress_backup);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, eventbox_compress_backup);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, checkbutton_sauvegarde_demarrage);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, eventbox_sauvegarde_demarrage);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, checkbutton_make_backup);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, eventbox_make_backup);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, checkbutton_make_backup_every_minutes);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, eventbox_make_backup_every_minutes);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, spinbutton_make_backup_nb_minutes);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, filechooserbutton_backup);
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, checkbutton_force_import_directory);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, eventbox_force_import_directory);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, filechooserbutton_force_import_directory);
 }
 

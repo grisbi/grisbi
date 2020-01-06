@@ -6,7 +6,7 @@
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)               */
 /*                      2003-2008 Benjamin Drieu (bdrieu@april.org)              */
 /*          2008-2018 Pierre Biava (grisbi@pierre.biava.name)                    */
-/*          https://www.grisbi.org/                                               */
+/*          https://www.grisbi.org/                                              */
 /*                                                                               */
 /*     This program is free software; you can redistribute it and/or modify      */
 /*     it under the terms of the GNU General Public License as published by      */
@@ -62,7 +62,6 @@ struct _PrefsPageAccueilPrivate
 
 	GtkWidget *			box_lang_fr;
     GtkWidget *			checkbutton_balances_with_scheduled;
-	GtkWidget *			eventbox_balances_with_scheduled;
     GtkWidget *			hbox_paddingbox_lang_fr;
     GtkWidget *         hbox_paddingbox_partial_balance;
 	GtkWidget *			vbox_loading_partial_balance;
@@ -71,7 +70,6 @@ struct _PrefsPageAccueilPrivate
 	GtkWidget *			button_partial_balance_remove;
     GtkWidget *         treeview_partial_balance;
     GtkWidget *			checkbutton_partial_balance;
-	GtkWidget *			eventbox_partial_balance;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageAccueil, prefs_page_accueil, GTK_TYPE_BOX)
@@ -240,22 +238,12 @@ static void prefs_page_accueil_setup_accueil_page (PrefsPageAccueil *page)
     g_object_set_data (G_OBJECT (priv->vbox_accueil), "remove_button", priv->button_partial_balance_remove);
 
 	/* Connect signal checkbutton_balances_with_scheduled */
-    g_signal_connect (priv->eventbox_balances_with_scheduled,
-					  "button-press-event",
-					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
-					  priv->checkbutton_balances_with_scheduled);
-
     g_signal_connect (priv->checkbutton_balances_with_scheduled,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
 					  &conf.balances_with_scheduled);
 
 	/* Connect signal checkbutton_partial_balance */
-    g_signal_connect (priv->eventbox_partial_balance,
-					  "button-press-event",
-					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
-					  priv->checkbutton_partial_balance);
-
     g_signal_connect (priv->checkbutton_partial_balance,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
@@ -411,7 +399,6 @@ static void prefs_page_accueil_class_init (PrefsPageAccueilClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageAccueil, box_lang_fr);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageAccueil, hbox_paddingbox_lang_fr);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageAccueil, checkbutton_balances_with_scheduled);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageAccueil, eventbox_balances_with_scheduled);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageAccueil, hbox_paddingbox_partial_balance);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageAccueil, treeview_partial_balance);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageAccueil, vbox_loading_partial_balance);
@@ -419,7 +406,6 @@ static void prefs_page_accueil_class_init (PrefsPageAccueilClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageAccueil, button_partial_balance_edit);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageAccueil, button_partial_balance_remove);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageAccueil, checkbutton_partial_balance);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageAccueil, eventbox_partial_balance);
 
 	/* set callback functions */
 	gtk_widget_class_bind_template_callback (GTK_WIDGET_CLASS (klass), gsb_partial_balance_add);

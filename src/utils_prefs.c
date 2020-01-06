@@ -129,7 +129,6 @@ static void utils_prefs_fonts_update_labels (GtkWidget *button,
     GtkWidget *font_size_label;
 	gchar *font_name;
     gchar *font_size;
-	gchar *label_str;
 
     font_name_label = g_object_get_data (G_OBJECT (button), "name_label");
     font_size_label = g_object_get_data (G_OBJECT (button), "size_label");
@@ -178,18 +177,12 @@ static void utils_prefs_fonts_update_labels (GtkWidget *button,
 		conf.custom_fonte_listes = FALSE;
     }
 
-	label_str = make_blue (font_name);
-    gtk_label_set_text (GTK_LABEL(font_name_label), label_str);
-	gtk_label_set_use_markup (GTK_LABEL(font_name_label), TRUE);
-	g_free (label_str);
+    gtk_label_set_text (GTK_LABEL(font_name_label), font_name);
 	g_free (font_name);
 
 	if (font_size && strlen (font_size))
 	{
-		label_str = make_blue (font_size);
-		gtk_label_set_text (GTK_LABEL(font_size_label), label_str);
-		gtk_label_set_use_markup (GTK_LABEL(font_size_label), TRUE);
-		g_free (label_str);
+		gtk_label_set_text (GTK_LABEL(font_size_label), font_size);
 		g_free (font_size);
 	}
 }
@@ -764,10 +757,11 @@ GtkWidget *utils_prefs_fonts_create_button (gchar **fontname,
     gtk_container_add (GTK_CONTAINER(font_button), hbox_font);
 
     font_name_label = gtk_label_new (NULL);
-	gtk_widget_set_name (font_name_label, "font_label");
+	gtk_widget_set_name (font_name_label, "label_gsetting_option");
     gtk_box_pack_start (GTK_BOX (hbox_font), font_name_label, TRUE, TRUE, 5);
 
     font_size_label = gtk_label_new (NULL);
+	gtk_widget_set_name (font_size_label, "label_gsetting_option");
     gtk_box_pack_start (GTK_BOX (hbox_font), font_size_label, FALSE, FALSE, 5);
     g_object_set_data (G_OBJECT (font_button), "hook", hook);
     g_object_set_data (G_OBJECT (font_button), "data", data);

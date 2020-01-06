@@ -41,6 +41,7 @@
 #include "accueil.h"
 #include "custom_list.h"
 #include "dialog.h"
+#include "grisbi_app.h"
 #include "grisbi_settings.h"
 #include "grisbi_win.h"
 #include "gsb_data_account.h"
@@ -67,18 +68,15 @@ struct _PrefsPageDisplayFontsPrivate
 	GtkWidget *			vbox_display_fonts;
 
     GtkWidget *			checkbutton_display_logo;
-	GtkWidget *			eventbox_display_logo;
     GtkWidget *         hbox_display_logo;
     GtkWidget *         button_display_logo;
 	GtkWidget *			preview_display_logo;
     GtkWidget *         vbox_display_logo;				/* sert à invalider le choix quand pas de fichier chargé */
 
     GtkWidget *			checkbutton_display_fonts;
-	GtkWidget *			eventbox_display_fonts;
     GtkWidget *         hbox_display_fonts;
 
 	GtkWidget *			checkbutton_use_dark_theme;
-	GtkWidget *			eventbox_use_dark_theme;
     GtkWidget *         button_select_colors;
     GtkWidget *         colorbutton_select_colors;
     GtkWidget *         grid_select_colors;
@@ -232,7 +230,7 @@ static gboolean prefs_page_display_fonts_view_color_changed (GtkWidget *color_bu
 			gsb_scheduler_list_fill_list (gsb_scheduler_list_get_tree_view ());
 			gsb_scheduler_list_set_background_color (gsb_scheduler_list_get_tree_view ());
 			gsb_scheduler_list_select (-1);
-			if (strcmp (couleur, "couleur_selection") == 0 || strcmp (couleur, "text_color_0") == 0)
+			if (strcmp (couleur, "couleur_selection_bg") == 0 || strcmp (couleur, "text_color_0") == 0)
 				gsb_rgba_set_css_color_property (color, couleur);
 		}
     }
@@ -587,11 +585,6 @@ static void prefs_page_display_fonts_setup_display_fonts_page (PrefsPageDisplayF
 							  page);
 
     /* Connect signal */
-    g_signal_connect (priv->eventbox_display_logo,
-					  "button-press-event",
-					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
-					  priv->checkbutton_display_logo);
-
     g_signal_connect (priv->checkbutton_display_logo,
 					  "toggled",
 					  G_CALLBACK (prefs_page_display_fonts_utilise_logo_checked),
@@ -603,11 +596,6 @@ static void prefs_page_display_fonts_setup_display_fonts_page (PrefsPageDisplayF
 
 
 	/* Connect signal */
-    g_signal_connect (priv->eventbox_display_fonts,
-					  "button-press-event",
-					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
-					  priv->checkbutton_display_fonts);
-
 	/* Create font button */
     font_button = utils_prefs_fonts_create_button (&conf.font_string,
                                                    G_CALLBACK (prefs_page_display_fonts_update_fonte_listes),
@@ -663,11 +651,6 @@ static void prefs_page_display_fonts_setup_display_fonts_page (PrefsPageDisplayF
 					  G_CALLBACK (prefs_page_display_fonts_use_dark_theme_toggled),
 					  priv->grid_select_colors);
 
-    g_signal_connect (priv->eventbox_use_dark_theme,
-					  "button-press-event",
-					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
-					  priv->checkbutton_use_dark_theme);
-
     g_signal_connect (G_OBJECT (priv->colorbutton_select_colors),
 					  "color-set",
 					  G_CALLBACK (prefs_page_display_fonts_view_color_changed),
@@ -714,17 +697,14 @@ static void prefs_page_display_fonts_class_init (PrefsPageDisplayFontsClass *kla
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, vbox_display_fonts);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, checkbutton_display_logo);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, eventbox_display_logo);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, hbox_display_logo);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, vbox_display_logo);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, button_display_logo);
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, checkbutton_display_fonts);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, eventbox_display_fonts);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, hbox_display_fonts);
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, checkbutton_use_dark_theme);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, eventbox_use_dark_theme);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, button_select_colors);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, colorbutton_select_colors);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, grid_select_colors);

@@ -72,16 +72,9 @@ struct _PrefsPageFormCompletionPrivate
 
 	GtkWidget *			hbox_automatic_completion_payee;
 	GtkWidget *			checkbutton_automatic_completion_payee;
-	GtkWidget *			eventbox_automatic_completion_payee;
-
 	GtkWidget *			checkbutton_automatic_erase_credit_debit;
-	GtkWidget *			eventbox_automatic_erase_credit_debit;
-
 	GtkWidget *			checkbutton_automatic_recover_splits;
-	GtkWidget *			eventbox_automatic_recover_splits;
-
 	GtkWidget *			checkbutton_limit_completion_to_current_account;
-	GtkWidget *			eventbox_limit_completion_to_current_account;
 
 	GtkWidget *			hbox_combofix_force_payee;
 	GtkWidget *			checkbutton_combofix_force_payee;
@@ -393,11 +386,6 @@ static void prefs_page_form_completion_setup_form_completion_page (PrefsPageForm
 							NULL);
 
 	/* Connect signal checkbutton_automatic_completion_payee */
-    g_signal_connect (priv->eventbox_automatic_completion_payee,
-					  "button-press-event",
-					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
-					  priv->checkbutton_automatic_completion_payee);
-
     g_signal_connect (priv->checkbutton_automatic_completion_payee,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
@@ -409,11 +397,6 @@ static void prefs_page_form_completion_setup_form_completion_page (PrefsPageForm
 							page);
 
     /* Connect signal checkbutton_checkbutton_automatic_erase_credit_debit */
-    g_signal_connect (priv->eventbox_automatic_erase_credit_debit,
-					  "button-press-event",
-					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
-					  priv->checkbutton_automatic_erase_credit_debit);
-
     g_signal_connect (priv->checkbutton_automatic_erase_credit_debit,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
@@ -425,11 +408,6 @@ static void prefs_page_form_completion_setup_form_completion_page (PrefsPageForm
 							NULL);
 
 	/* Connect signal checkbutton_checkbutton_automatic_recover_splits */
-    g_signal_connect (priv->eventbox_automatic_recover_splits,
-					  "button-press-event",
-					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
-					  priv->checkbutton_automatic_recover_splits);
-
 	g_signal_connect (priv->checkbutton_automatic_recover_splits,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
@@ -441,11 +419,6 @@ static void prefs_page_form_completion_setup_form_completion_page (PrefsPageForm
 							NULL);
 
     /* Connect signal checkbutton_checkbutton_limit_completion_to_current_account */
-    g_signal_connect (priv->eventbox_limit_completion_to_current_account,
-					  "button-press-event",
-					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
-					  priv->checkbutton_limit_completion_to_current_account);
-
     g_signal_connect (priv->checkbutton_limit_completion_to_current_account,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
@@ -534,14 +507,10 @@ static void prefs_page_form_completion_class_init (PrefsPageFormCompletionClass 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFormCompletion, hbox_combofix_case_sensitive);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFormCompletion, spinbutton_completion_minimum_key_length);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFormCompletion, checkbutton_automatic_completion_payee);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFormCompletion, eventbox_automatic_completion_payee);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFormCompletion, hbox_automatic_completion_payee);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFormCompletion, checkbutton_automatic_erase_credit_debit);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFormCompletion, eventbox_automatic_erase_credit_debit);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFormCompletion, checkbutton_automatic_recover_splits);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFormCompletion, eventbox_automatic_recover_splits);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFormCompletion, checkbutton_limit_completion_to_current_account);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFormCompletion, eventbox_limit_completion_to_current_account);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFormCompletion, checkbutton_combofix_force_payee);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFormCompletion, eventbox_combofix_force_payee);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFormCompletion, hbox_combofix_force_payee);

@@ -6,7 +6,7 @@
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)               */
 /*                      2003-2008 Benjamin Drieu (bdrieu@april.org)              */
 /*          2008-2017 Pierre Biava (grisbi@pierre.biava.name)                    */
-/*          https://www.grisbi.org/                                               */
+/*          https://www.grisbi.org/                                              */
 /*                                                                               */
 /*     This program is free software; you can redistribute it and/or modify      */
 /*     it under the terms of the GNU General Public License as published by      */
@@ -43,6 +43,7 @@
 #include "gsb_account.h"
 #include "gsb_automem.h"
 #include "gsb_dirs.h"
+#include "gsb_rgba.h"
 #include "parametres.h"
 #include "structures.h"
 #include "utils_prefs.h"
@@ -68,7 +69,6 @@ struct _PrefsPageDiversPrivate
 	GtkWidget *			checkbutton_scheduler_set_fixed_date;
 	GtkWidget *         hbox_divers_scheduler_set_fixed_day;
 	GtkWidget *			checkbutton_scheduler_set_fixed_day;
-	GtkWidget *			eventbox_scheduler_set_fixed_day;
 	GtkWidget *         spinbutton_scheduler_fixed_day;
 	GtkWidget *			hbox_divers_scheduler_nb_days_before_scheduled;
     GtkWidget *         spinbutton_nb_days_before_scheduled;
@@ -206,6 +206,7 @@ static gint prefs_page_divers_choose_language_list_new (GtkWidget *combo)
 	GSList *list = NULL;
 	GSList *tmp_list;
 	GDir *dir;
+	const gchar *str_color;
 	const gchar *dirname;
 	const gchar *locale_dir;
 	gint i = 0;
@@ -217,6 +218,7 @@ static gint prefs_page_divers_choose_language_list_new (GtkWidget *combo)
 		return 0;
 
 	store = gtk_list_store_new (3, G_TYPE_STRING, G_TYPE_INT, G_TYPE_STRING);
+	str_color = gsb_rgba_get_couleur_to_string ("couleur_gsetting_option");
 
 	while ((dirname = g_dir_read_name (dir)) != NULL)
     {
@@ -239,7 +241,7 @@ static gint prefs_page_divers_choose_language_list_new (GtkWidget *combo)
 	tmp_list = list;
 
 	gtk_list_store_append (store, &iter);
-	gtk_list_store_set (store, &iter, 0, _("System Language"), 1, i, 2, "#00000000ffff", -1);
+	gtk_list_store_set (store, &iter, 0, _("System Language"), 1, i, 2, str_color, -1);
 
 	i++;
 
@@ -248,7 +250,7 @@ static gint prefs_page_divers_choose_language_list_new (GtkWidget *combo)
 		if (g_strcmp0 (conf.language_chosen, tmp_list->data) == 0)
 			activ_index = i;
         gtk_list_store_append (store, &iter);
-        gtk_list_store_set (store, &iter, 0, (gchar *) tmp_list->data, 1, i, 2, "#00000000ffff", -1);
+        gtk_list_store_set (store, &iter, 0, (gchar *) tmp_list->data, 1, i, 2, str_color, -1);
 
         i++;
 		tmp_list = tmp_list->next;
@@ -300,7 +302,7 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page)
 	gtk_grid_attach (GTK_GRID (priv->grid_divers_programs), entry_divers_programs, 1, 0, 1, 1);
 
 	/* set the scheduled variables */
-	vbox_button = gsb_automem_radiobutton_blue_new (_("Warn/Execute the scheduled transactions arriving at expiration date"),
+	vbox_button = gsb_automem_radiobutton_gsettings_new (_("Warn/Execute the scheduled transactions arriving at expiration date"),
 													_("Warn/Execute the scheduled transactions of the month"),
 													&conf.execute_scheduled_of_month,
 													(GCallback) prefs_page_divers_scheduler_warm_button_changed,
@@ -370,11 +372,6 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page)
 					  &conf.nb_days_before_scheduled);
 
     /* callback for checkbutton_scheduler_set_fixed_day */
-    g_signal_connect (priv->eventbox_scheduler_set_fixed_day,
-					  "button-press-event",
-					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
-					  priv->checkbutton_scheduler_set_fixed_day);
-
     g_signal_connect (priv->checkbutton_scheduler_set_fixed_day,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
@@ -458,7 +455,6 @@ static void prefs_page_divers_class_init (PrefsPageDiversClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, checkbutton_scheduler_set_fixed_date);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, hbox_divers_scheduler_set_fixed_day);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, checkbutton_scheduler_set_fixed_day);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, eventbox_scheduler_set_fixed_day);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, spinbutton_scheduler_fixed_day);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, hbox_divers_scheduler_nb_days_before_scheduled);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, spinbutton_nb_days_before_scheduled);
