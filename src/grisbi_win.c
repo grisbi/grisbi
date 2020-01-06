@@ -1253,9 +1253,11 @@ void grisbi_win_set_prefs_dialog (GrisbiWin *win,
 
 	if (!win)
         win = grisbi_app_get_active_window (NULL);
-
-	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
-	priv->prefs_dialog = prefs_dialog;
+	if (win)
+	{
+		priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+		priv->prefs_dialog = prefs_dialog;
+	}
 }
 
 /**
