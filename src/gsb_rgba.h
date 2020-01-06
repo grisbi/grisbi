@@ -10,7 +10,6 @@
 
 /* START_DECLARATION */
 GtkWidget * gsb_rgba_create_color_combobox          (void);
-void        gsb_rgba_initialise_couleurs_par_defaut (void);
 GdkRGBA *   gsb_rgba_get_couleur                    (const gchar *couleur);
 gchar *     gsb_rgba_get_couleur_to_hexa_string     (const gchar *couleur);
 gchar *     gsb_rgba_get_couleur_to_string          (const gchar *couleur);
@@ -19,8 +18,8 @@ GdkRGBA *   gsb_rgba_get_couleur_with_indice        (const gchar *couleur,
 gchar *		gsb_rgba_get_couleur_with_indice_to_str	(const gchar *couleur,
                                                      gint indice);
 gchar *     gsb_rgba_get_string_to_save             (void);
-void		gsb_rgba_set_alt_colors					(void);
-gboolean	gsb_rgba_set_css_color_property			(GdkRGBA *color,
+void        gsb_rgba_initialise_couleurs_par_defaut (const gchar *css_data);
+void		gsb_rgba_set_css_color_property			(GdkRGBA *color,
 													 gchar *property);
 gboolean    gsb_rgba_set_couleur                    (const gchar *couleur,
                                                      const gchar *value);

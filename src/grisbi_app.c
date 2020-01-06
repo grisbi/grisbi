@@ -954,7 +954,10 @@ static void grisbi_app_startup (GApplication *application)
 	if (g_file_test (css_filename, G_FILE_TEST_EXISTS) == FALSE)
 	{
 		g_free (css_filename);
-    	css_filename = g_strconcat (gsb_dirs_get_ui_dir (), "/grisbi.css", NULL);
+		if (conf.use_dark_theme)
+    		css_filename = g_strconcat (gsb_dirs_get_ui_dir (), "/grisbi-dark.css", NULL);
+		else
+    		css_filename = g_strconcat (gsb_dirs_get_ui_dir (), "/grisbi.css", NULL);
 	}
     file = g_file_new_for_path (css_filename);
     gtk_css_provider_load_from_file (css_provider, file, NULL);
@@ -965,7 +968,7 @@ static void grisbi_app_startup (GApplication *application)
 	css_data = gtk_css_provider_to_string (css_provider);
 
     /* initialise les couleurs */
-    gsb_rgba_initialise_couleurs_par_defaut ();
+    gsb_rgba_initialise_couleurs_par_defaut (css_data);
 
 	/* enregistre les formats d'importation */
     gsb_import_register_import_formats ();
