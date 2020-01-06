@@ -62,6 +62,7 @@
 #include "gsb_reconcile_config.h"
 #include "gsb_reconcile_sort_config.h"
 #include "gsb_regex.h"
+#include "gsb_rgba.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
 #include "import.h"
@@ -122,6 +123,7 @@ GtkWidget *onglet_messages_and_warnings ( void )
     GtkCellRenderer * cell;
     GtkTreeViewColumn * column;
     gchar *tmpstr;
+	const gchar *str_color;
 	const gchar *filename;
     int i;
 	gboolean is_loading;
@@ -129,11 +131,13 @@ GtkWidget *onglet_messages_and_warnings ( void )
 	vbox_pref = new_vbox_with_title_and_icon ( _("Messages & warnings"), "gsb-warnings-32.png" );
 	is_loading = grisbi_win_file_is_loading ();
 
+	str_color = gsb_rgba_get_couleur_to_string ("couleur_gsetting_option");
+
     /* Tip of the day */
     paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("Tip of the day"));
 
     /* Display or not tips */
-    tip_checkbox = gsb_automem_checkbutton_blue_new ( _("Display tip of the day"), &(conf.show_tip), NULL, NULL );
+    tip_checkbox = gsb_automem_checkbutton_gsettings_new ( _("Display tip of the day"), &(conf.show_tip), NULL, NULL );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), tip_checkbox, FALSE, FALSE, 0 );
 
     /* Warnings */
@@ -191,7 +195,7 @@ GtkWidget *onglet_messages_and_warnings ( void )
 								0, !messages[i] . hidden,
 								1, tmpstr,
 								2, i,
-								3, "#00000000ffff",
+								3, str_color,
 								-1);
 
 			g_free ( tmpstr );
@@ -223,12 +227,15 @@ GtkWidget *onglet_delete_messages ( void )
     GtkTreeModel * model;
     GtkCellRenderer * cell;
     GtkTreeViewColumn * column;
+	const gchar *str_color;
     gchar *tmpstr;
     int i;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Messages before deleting"), "gtk-corbeille-32.png" );
 
-    /* Delete messages */
+	str_color = gsb_rgba_get_couleur_to_string ("couleur_gsetting_option");
+
+	/* Delete messages */
     paddinggrid = utils_prefs_paddinggrid_new_with_title (vbox_pref, _("Display following messages") );
 
     sw = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, 450);
@@ -272,7 +279,7 @@ GtkWidget *onglet_delete_messages ( void )
 							0, !delete_msg[i] . hidden,
 							1, tmpstr,
 							2, i,
-							3, "#00000000ffff",
+							3, str_color,
 							-1);
 
         g_free ( tmpstr );

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.20.0 -->
+<!-- Generated with glade 3.22.1 -->
 <interface>
   <requires lib="gtk+" version="3.16"/>
   <object class="GtkAdjustment" id="adjustment">
@@ -96,47 +96,14 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkBox" id="hbox_blue1">
+                          <object class="GtkCheckButton" id="checkbutton_archives_sort_order">
+                            <property name="label" translatable="yes">Sort the archives by descending date</property>
+                            <property name="name">label_gsetting_option</property>
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <child>
-                              <object class="GtkCheckButton" id="checkbutton_archives_sort_order">
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">False</property>
-                                <property name="draw_indicator">True</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkEventBox" id="eventbox_archives_sort_order">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="visible_window">False</property>
-                                <child>
-                                  <object class="GtkLabel" id="label2">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">Sort the archives by descending date</property>
-                                    <attributes>
-                                      <attribute name="foreground" value="#00000000ffff"/>
-                                    </attributes>
-                                    <style>
-                                      <class name="#label_blue"/>
-                                    </style>
-                                  </object>
-                                </child>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">1</property>
-                              </packing>
-                            </child>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="halign">start</property>
+                            <property name="draw_indicator">True</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -357,47 +324,14 @@
                         <property name="orientation">vertical</property>
                         <property name="spacing">5</property>
                         <child>
-                          <object class="GtkBox" id="hbox_blue2">
+                          <object class="GtkCheckButton" id="checkbutton_archives_check_auto">
+                            <property name="label" translatable="yes">Check at opening if creating archive is needed.</property>
+                            <property name="name">label_gsetting_option</property>
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="spacing">1</property>
-                            <child>
-                              <object class="GtkCheckButton" id="checkbutton_archives_check_auto">
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">False</property>
-                                <property name="draw_indicator">True</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkEventBox" id="eventbox_archives_check_auto">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <child>
-                                  <object class="GtkLabel" id="label5">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">Check at opening if creating archive is needed.</property>
-                                    <attributes>
-                                      <attribute name="foreground" value="#00000000ffff"/>
-                                    </attributes>
-                                    <style>
-                                      <class name="#label_blue"/>
-                                    </style>
-                                  </object>
-                                </child>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">1</property>
-                              </packing>
-                            </child>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="halign">start</property>
+                            <property name="draw_indicator">True</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -411,15 +345,10 @@
                             <property name="can_focus">False</property>
                             <child>
                               <object class="GtkLabel" id="label6">
+                                <property name="name">label_gsetting_option</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">Warn if more than </property>
-                                <attributes>
-                                  <attribute name="foreground" value="#00000000ffff"/>
-                                </attributes>
-                                <style>
-                                  <class name="#label_blue"/>
-                                </style>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -429,6 +358,7 @@
                             </child>
                             <child>
                               <object class="GtkSpinButton" id="spinbutton_archives_check_auto">
+                                <property name="name">label_gsetting_option</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="max_width_chars">6</property>
@@ -442,15 +372,10 @@
                             </child>
                             <child>
                               <object class="GtkLabel" id="label7">
+                                <property name="name">label_gsetting_option</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes"> transactions are not archived.</property>
-                                <attributes>
-                                  <attribute name="foreground" value="#00000000ffff"/>
-                                </attributes>
-                                <style>
-                                  <class name="#label_blue"/>
-                                </style>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -502,49 +427,6 @@
       </packing>
     </child>
   </template>
-  <object class="GtkBox" id="hbox_blue">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="spacing">1</property>
-    <child>
-      <object class="GtkCheckButton" id="checkbutton1">
-        <property name="visible">True</property>
-        <property name="can_focus">True</property>
-        <property name="receives_default">False</property>
-        <property name="halign">start</property>
-        <property name="draw_indicator">True</property>
-      </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">0</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkEventBox" id="eventbox1">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <child>
-          <object class="GtkLabel" id="label1">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="label" translatable="yes">label</property>
-            <attributes>
-              <attribute name="foreground" value="#00000000ffff"/>
-            </attributes>
-            <style>
-              <class name="#label_blue"/>
-            </style>
-          </object>
-        </child>
-      </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">1</property>
-      </packing>
-    </child>
-  </object>
   <object class="GtkBox" id="hbox_paddingbox">
     <property name="visible">True</property>
     <property name="can_focus">False</property>

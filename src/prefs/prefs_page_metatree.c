@@ -343,7 +343,7 @@ static void prefs_page_metatree_setup_metatree_page (PrefsPageMetatree *page)
 	gtk_box_pack_start (GTK_BOX (priv->box_metatree_sort_transactions), vbox_button, FALSE, FALSE, 0);
 
 	/* gestion des divisions*/
-	vbox_button = gsb_automem_radiobutton3_blue_new (_("Expand the line"),
+	vbox_button = gsb_automem_radiobutton3_gsettings_new (_("Expand the line"),
 													 _("Edit the line"),
 													 _("Manage the line"),
 													 &conf.metatree_action_2button_press,

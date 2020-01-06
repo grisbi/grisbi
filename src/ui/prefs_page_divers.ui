@@ -25,16 +25,11 @@
     </child>
     <child>
       <object class="GtkLabel" id="label8">
+        <property name="name">label_gsetting_option</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="halign">start</property>
         <property name="label" translatable="yes">Number of days before the warning or the execution: </property>
-        <attributes>
-          <attribute name="foreground" value="#00000000ffff"/>
-        </attributes>
-        <style>
-          <class name="#label_blue"/>
-        </style>
       </object>
       <packing>
         <property name="expand">False</property>
@@ -44,6 +39,7 @@
     </child>
     <child>
       <object class="GtkSpinButton" id="spinbutton_nb_days_before_scheduled">
+        <property name="name">label_gsetting_option</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="text" translatable="yes">0</property>
@@ -128,15 +124,10 @@
                             <property name="can_focus">False</property>
                             <child>
                               <object class="GtkLabel" id="label5">
+                                <property name="name">label_gsetting_option</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">Web browser command: </property>
-                                <attributes>
-                                  <attribute name="foreground" value="#00000000ffff"/>
-                                </attributes>
-                                <style>
-                                  <class name="#label_blue"/>
-                                </style>
                               </object>
                               <packing>
                                 <property name="left_attach">0</property>
@@ -269,6 +260,8 @@
                             </child>
                             <child>
                               <object class="GtkCheckButton" id="checkbutton_scheduler_set_fixed_day">
+                                <property name="label" translatable="yes">Launch day for scheduled operations performed monthly: </property>
+                                <property name="name">label_gsetting_option</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
@@ -282,32 +275,11 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkEventBox" id="eventbox_scheduler_set_fixed_day">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <child>
-                                  <object class="GtkLabel" id="label11">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="halign">start</property>
-                                    <property name="label" translatable="yes">Launch day for scheduled operations performed monthly: </property>
-                                    <attributes>
-                                      <attribute name="foreground" value="#00000000ffff"/>
-                                    </attributes>
-                                    <style>
-                                      <class name="#label_blue"/>
-                                    </style>
-                                  </object>
-                                </child>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">2</property>
-                              </packing>
+                              <placeholder/>
                             </child>
                             <child>
                               <object class="GtkSpinButton" id="spinbutton_scheduler_fixed_day">
+                                <property name="name">label_gsetting_option</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="text" translatable="yes">1</property>
@@ -618,50 +590,6 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="label" translatable="yes">label</property>
-          </object>
-        </child>
-      </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">1</property>
-      </packing>
-    </child>
-  </object>
-  <object class="GtkBox" id="hbox_blue">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="spacing">1</property>
-    <child>
-      <object class="GtkCheckButton" id="checkbutton1">
-        <property name="visible">True</property>
-        <property name="can_focus">True</property>
-        <property name="receives_default">False</property>
-        <property name="halign">start</property>
-        <property name="draw_indicator">True</property>
-      </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">0</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkEventBox" id="eventbox1">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <child>
-          <object class="GtkLabel" id="label1">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="halign">start</property>
-            <property name="label" translatable="yes">label</property>
-            <attributes>
-              <attribute name="foreground" value="#00000000ffff"/>
-            </attributes>
-            <style>
-              <class name="#label_blue"/>
-            </style>
           </object>
         </child>
       </object>

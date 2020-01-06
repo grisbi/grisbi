@@ -227,14 +227,14 @@ GtkWidget *onglet_affichage_operations ( void )
     /* do we show the content of the selected transaction in the form for
      * each selection ? */
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
-                        gsb_automem_checkbutton_blue_new (
+                        gsb_automem_checkbutton_gsettings_new (
                         _("Use simple click to select transactions"),
                         &conf.show_transaction_selected_in_form,
                         NULL, NULL ),
                         FALSE, FALSE, 0 );
 
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
-                        gsb_automem_checkbutton_blue_new (
+                        gsb_automem_checkbutton_gsettings_new (
                         _("Highlights the transaction that gives the balance today"),
                         &conf.show_transaction_gives_balance,
                         G_CALLBACK ( gsb_transactions_list_display_show_gives_balance ), NULL ),
@@ -247,7 +247,7 @@ GtkWidget *onglet_affichage_operations ( void )
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
-	button = gsb_combo_box_blue_new_from_list (options_tri_primaire,
+	button = gsb_combo_box_gsettings_new_from_list (options_tri_primaire,
 											   NULL,
 											   TRUE,
 											   conf.transactions_list_primary_sorting,
@@ -262,7 +262,7 @@ GtkWidget *onglet_affichage_operations ( void )
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
-	button = gsb_combo_box_blue_new_from_list (options_tri_secondaire,
+	button = gsb_combo_box_gsettings_new_from_list (options_tri_secondaire,
 											   NULL,
 											   TRUE,
 											   conf.transactions_list_secondary_sorting,
@@ -587,7 +587,7 @@ GtkWidget *onglet_diverse_form_and_lists ( void )
 
     /* What to do if RETURN is pressed into transaction form */
 	paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("Pressing RETURN in transaction form"));
-	button = gsb_automem_radiobutton_blue_new (_("selects next field"),
+	button = gsb_automem_radiobutton_gsettings_new (_("selects next field"),
 											   _("terminates transaction"),
 											   &conf.form_enter_key,
 											   NULL,
@@ -610,7 +610,7 @@ GtkWidget *onglet_diverse_form_and_lists ( void )
 
     /* How to display financial year */
 	paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("Automatic financial year is set"));
-    button = gsb_automem_radiobutton_blue_new (_("according to transaction date"),
+    button = gsb_automem_radiobutton_gsettings_new (_("according to transaction date"),
 											   _("according to transaction value date"),
 											   &conf.affichage_exercice_automatique,
 											   NULL,
@@ -619,7 +619,7 @@ GtkWidget *onglet_diverse_form_and_lists ( void )
 
     /* How to sort the financial year */
 	paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("Sorting the exercises in the button of the form"));
-	button = gsb_automem_checkbutton_blue_new (_("Sorting descending of the exercises"),
+	button = gsb_automem_checkbutton_gsettings_new (_("Sorting descending of the exercises"),
 											   &conf.fyear_combobox_sort_order,
 											   G_CALLBACK (fyear_combobox_sort_order_changed),
 											   "fyear-combobox-sort-order");

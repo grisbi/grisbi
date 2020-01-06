@@ -41,6 +41,7 @@
 #include "gsb_data_payee.h"
 #include "gsb_form.h"
 #include "gsb_form_widget.h"
+#include "gsb_rgba.h"
 #include "structures.h"
 #include "utils_str.h"
 #include "erreur.h"
@@ -318,7 +319,7 @@ gchar *gsb_combo_box_get_active_text (GtkComboBox *combo_box)
     return string;
 }
 
-GtkWidget *gsb_combo_box_blue_new_from_list (gchar **string,
+GtkWidget *gsb_combo_box_gsettings_new_from_list (gchar **string,
 											 const gchar *first_str,
 											 gboolean set_activ,
 											 gint value,
@@ -329,16 +330,18 @@ GtkWidget *gsb_combo_box_blue_new_from_list (gchar **string,
 	GtkListStore *store = NULL;
 	GtkTreeIter iter;
 	GtkCellRenderer *renderer;
+	const gchar *str_color;
 	gint i = 0;
 	gint j = 0;
 
 	combo = gtk_combo_box_new ();
+	str_color = gsb_rgba_get_couleur_to_string ("couleur_gsetting_option");
 	store = gtk_list_store_new (3, G_TYPE_STRING, G_TYPE_INT, G_TYPE_STRING);
 
 	if (first_str && strlen (first_str))
 	{
 		gtk_list_store_append (store, &iter);
-		gtk_list_store_set (store, &iter, 0, first_str, 1, i, 2, "#00000000ffff", -1);
+		gtk_list_store_set (store, &iter, 0, first_str, 1, i, 2, str_color, -1);
 
 		i++;
 	}
@@ -346,7 +349,7 @@ GtkWidget *gsb_combo_box_blue_new_from_list (gchar **string,
     while (string[j])
     {
         gtk_list_store_append (store, &iter);
-        gtk_list_store_set (store, &iter, 0, string[j], 1, i, 2, "#00000000ffff", -1);
+        gtk_list_store_set (store, &iter, 0, string[j], 1, i, 2, str_color, -1);
 
         i++;
 		j++;

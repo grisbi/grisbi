@@ -148,7 +148,7 @@ GtkWidget *gsb_fyear_config_create_page ( void )
     gtk_grid_attach (GTK_GRID (paddinggrid), scrolled_window, 0, 0, 2, 3);
 
 	/* Create button for sort variable */
-	button = gsb_automem_checkbutton_blue_new (_("Sort the exercises by descending name"),
+	button = gsb_automem_checkbutton_gsettings_new (_("Sort the exercises by descending name"),
                         &(conf.prefs_fyear_sort_order),
                         G_CALLBACK (gsb_fyear_config_button_sort_order_clicked),
                         "prefs-fyear-sort-order");

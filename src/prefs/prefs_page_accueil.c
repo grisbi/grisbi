@@ -216,7 +216,7 @@ static void prefs_page_accueil_setup_accueil_page (PrefsPageAccueil *page)
     {
 		GtkWidget *vbox_button;
 
-		vbox_button = gsb_automem_radiobutton_blue_new ("Soldes finals",
+		vbox_button = gsb_automem_radiobutton_gsettings_new ("Soldes finals",
 														"Soldes finaux",
 														&conf.pluriel_final,
 														G_CALLBACK (prefs_page_accueil_checkbutton_pluriel_final_toggle),

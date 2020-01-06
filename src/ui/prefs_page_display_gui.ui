@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.20.0 -->
+<!-- Generated with glade 3.22.1 -->
 <interface>
   <requires lib="gtk+" version="3.12"/>
   <template class="PrefsPageDisplayGui" parent="GtkBox">
@@ -62,48 +62,14 @@
                         <property name="orientation">vertical</property>
                         <property name="spacing">5</property>
                         <child>
-                          <object class="GtkBox" id="hbox_blue100">
+                          <object class="GtkCheckButton" id="checkbutton_show_headings_bar">
+                            <property name="label" translatable="yes">Display headings bar</property>
+                            <property name="name">label_gsetting_option</property>
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="spacing">1</property>
-                            <child>
-                              <object class="GtkCheckButton" id="checkbutton_show_headings_bar">
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">False</property>
-                                <property name="draw_indicator">True</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkEventBox" id="eventbox_show_headings_bar">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <child>
-                                  <object class="GtkLabel" id="label101">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="halign">start</property>
-                                    <property name="label" translatable="yes">Display headings bar</property>
-                                    <attributes>
-                                      <attribute name="foreground" value="#00000000ffff"/>
-                                    </attributes>
-                                    <style>
-                                      <class name="#label_blue"/>
-                                    </style>
-                                  </object>
-                                </child>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">1</property>
-                              </packing>
-                            </child>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="halign">start</property>
+                            <property name="draw_indicator">True</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -190,48 +156,14 @@
                         <property name="orientation">vertical</property>
                         <property name="spacing">5</property>
                         <child>
-                          <object class="GtkBox" id="hbox_blue200">
+                          <object class="GtkCheckButton" id="checkbutton_active_scrolling_left_pane">
+                            <property name="label" translatable="yes">Add mouse scrolling support on the navigation pane</property>
+                            <property name="name">label_gsetting_option</property>
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="spacing">1</property>
-                            <child>
-                              <object class="GtkCheckButton" id="checkbutton_active_scrolling_left_pane">
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">False</property>
-                                <property name="draw_indicator">True</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkEventBox" id="eventbox_active_scrolling_left_pane">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <child>
-                                  <object class="GtkLabel" id="label201">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="halign">start</property>
-                                    <property name="label" translatable="yes">Add mouse scrolling support on the navigation pane</property>
-                                    <attributes>
-                                      <attribute name="foreground" value="#00000000ffff"/>
-                                    </attributes>
-                                    <style>
-                                      <class name="#label_blue"/>
-                                    </style>
-                                  </object>
-                                </child>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">1</property>
-                              </packing>
-                            </child>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="halign">start</property>
+                            <property name="draw_indicator">True</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -323,15 +255,11 @@
                             <property name="can_focus">False</property>
                             <child>
                               <object class="GtkLabel" id="label301">
+                                <property name="name">label_gsetting_option</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="halign">start</property>
                                 <property name="label" translatable="yes">Display toolbar buttons as</property>
-                                <attributes>
-                                  <attribute name="foreground" value="#00000000ffff"/>
-                                </attributes>
-                                <style>
-                                  <class name="#label_blue"/>
-                                </style>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -366,6 +294,7 @@
                                 <child>
                                   <object class="GtkRadioButton" id="radiobutton_display_text">
                                     <property name="label" translatable="yes">Text only</property>
+                                    <property name="name">label_gsetting_option</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
@@ -382,9 +311,11 @@
                                 <child>
                                   <object class="GtkRadioButton" id="radiobutton_display_icon">
                                     <property name="label" translatable="yes">Icons only</property>
+                                    <property name="name">label_gsetting_option</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
+                                    <property name="halign">start</property>
                                     <property name="active">True</property>
                                     <property name="draw_indicator">True</property>
                                     <property name="group">radiobutton_display_text</property>
@@ -398,9 +329,11 @@
                                 <child>
                                   <object class="GtkRadioButton" id="radiobutton_display_both">
                                     <property name="label" translatable="yes">Text below items</property>
+                                    <property name="name">label_gsetting_option</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
+                                    <property name="halign">start</property>
                                     <property name="active">True</property>
                                     <property name="draw_indicator">True</property>
                                     <property name="group">radiobutton_display_text</property>
@@ -414,9 +347,11 @@
                                 <child>
                                   <object class="GtkRadioButton" id="radiobutton_display_both_horiz">
                                     <property name="label" translatable="yes">Text beside items</property>
+                                    <property name="name">label_gsetting_option</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
+                                    <property name="halign">start</property>
                                     <property name="active">True</property>
                                     <property name="draw_indicator">True</property>
                                     <property name="group">radiobutton_display_text</property>
@@ -604,48 +539,6 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="label" translatable="yes">label</property>
-          </object>
-        </child>
-      </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">1</property>
-      </packing>
-    </child>
-  </object>
-  <object class="GtkBox" id="hbox_blue">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="spacing">1</property>
-    <child>
-      <object class="GtkCheckButton" id="checkbutton1">
-        <property name="visible">True</property>
-        <property name="can_focus">True</property>
-        <property name="receives_default">False</property>
-        <property name="draw_indicator">True</property>
-      </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">0</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkEventBox" id="eventbox1">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <child>
-          <object class="GtkLabel" id="label1">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="label" translatable="yes">label</property>
-            <attributes>
-              <attribute name="foreground" value="#00000000ffff"/>
-            </attributes>
-            <style>
-              <class name="#label_blue"/>
-            </style>
           </object>
         </child>
       </object>
