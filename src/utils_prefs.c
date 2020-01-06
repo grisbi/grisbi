@@ -803,6 +803,41 @@ GtkWidget *utils_prefs_create_combo_list_indisponible (void)
 }
 
 /**
+ * sert à afficher un message de sortie directe de grisbi à partir des préférences
+ *
+ * \param msg		message secondaire de la boite de dialogue
+ * \param hint		message principal en gras de la fenêtre de dialogue
+ *
+ * \return			GTK_RESPONSE_CLOSE, GTK_RESPONSE_CANCEL or GTK_RESPONSE_OK
+ **/
+gint utils_prefs_dialog_msg_close_cancel_ok (const gchar *msg,
+											 const gchar *hint)
+{
+    GtkWidget *dialog;
+    gint result;
+
+    dialog = gtk_message_dialog_new (GTK_WINDOW (grisbi_win_get_prefs_dialog (NULL)),
+									 GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+									 GTK_MESSAGE_WARNING,
+									 GTK_BUTTONS_NONE,
+									 " ");
+
+	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
+							"gtk-close", GTK_RESPONSE_CLOSE,
+							"gtk-cancel", GTK_RESPONSE_CANCEL,
+							"gtk-quit", GTK_RESPONSE_OK,
+							NULL);
+
+	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
+	g_object_set (G_OBJECT (dialog), "text", hint, "secondary-text", msg, NULL);
+
+    result = gtk_dialog_run (GTK_DIALOG (dialog));
+    gtk_widget_destroy (dialog);
+
+    return result;
+}
+
+/**
  *
  *
  * \param
