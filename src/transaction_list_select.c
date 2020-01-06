@@ -509,7 +509,7 @@ static gboolean transaction_list_select_record ( CustomRecord *record )
     for (i=0 ; i < custom_list -> nb_rows_by_transaction ; i++)
     {
 	record -> row_bg_save = record -> row_bg;
-	record -> row_bg = gsb_rgba_get_couleur ( "couleur_selection" );
+	record -> row_bg = gsb_rgba_get_couleur ( "couleur_selection_bg" );
 
 	/* inform the world that the row has changed */
 	iter.user_data = record;

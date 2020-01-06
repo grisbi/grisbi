@@ -43,37 +43,33 @@
 
 /* Couleurs actives peuvent être celles de grisbi ou pour un thème sombre */
 /* Couleurs non modifiables */
-static GdkRGBA couleur_grey_box;
-static GdkRGBA couleur_insensitive_text;
+static GdkRGBA couleur_gsetting_option;
 
 /* Couleurs modifiables dans les préférences */
-/* Couleurs des tree_view */
 static GdkRGBA background_archive;
+static GdkRGBA background_scheduled;
+static GdkRGBA background_split;
 static GdkRGBA couleur_fond[2];
 static GdkRGBA couleur_jour;
-static GdkRGBA couleur_selection;
-static GdkRGBA background_split;
+static GdkRGBA couleur_selection_bg;
+static GdkRGBA couleur_selection_fg;
 static GdkRGBA text_color[2];
-static GdkRGBA background_scheduled;
 
 /* colors for the balance estimate module */
-static GdkRGBA couleur_bet_division;
-static GdkRGBA couleur_bet_future;
-static GdkRGBA couleur_bet_solde;
-static GdkRGBA couleur_bet_transfert;
+static GdkRGBA background_bet_division;
+static GdkRGBA background_bet_future;
+static GdkRGBA background_bet_solde;
+static GdkRGBA background_bet_transfert;
 
-/* Couleurs alternatives. Sert à mémoriser les couleurs en cas de changement pour un thème sombre */
-static GdkRGBA alt_couleur_grey_box;
-static GdkRGBA alt_couleur_insensitive_text;
-
+/* Couleurs alternatives. Sert à mémoriser les anciennes couleurs de grisbi pour compatibilité descendante */
 /* Couleurs des tree_view */
 static GdkRGBA alt_background_archive;
+static GdkRGBA alt_background_scheduled;
+static GdkRGBA alt_background_split;
 static GdkRGBA alt_couleur_fond[2];
 static GdkRGBA alt_couleur_jour;
 static GdkRGBA alt_couleur_selection;
-static GdkRGBA alt_background_split;
 static GdkRGBA alt_text_color[2];
-static GdkRGBA alt_background_scheduled;
 
 /* colors for the balance estimate module */
 static GdkRGBA alt_couleur_bet_division;
@@ -83,23 +79,23 @@ static GdkRGBA alt_couleur_bet_transfert;
 
 
 /* Couleurs par défaut servent à l'initialisation de grisbi */
-static GdkRGBA default_couleur_grey_box;
-static GdkRGBA default_couleur_insensitive_text;
+static GdkRGBA default_couleur_gsetting_option;
 
  /* Couleurs des tree_view */
 static GdkRGBA default_background_archive;
 static GdkRGBA default_couleur_fond[2];
 static GdkRGBA default_couleur_jour;
-static GdkRGBA default_couleur_selection;
+static GdkRGBA default_couleur_selection_bg;
+static GdkRGBA default_couleur_selection_fg;
 static GdkRGBA default_background_split;
 static GdkRGBA default_text_color[2];
 static GdkRGBA default_background_scheduled;
 
 /* colors for the balance estimate module */
-static GdkRGBA default_couleur_bet_division;
-static GdkRGBA default_couleur_bet_future;
-static GdkRGBA default_couleur_bet_solde;
-static GdkRGBA default_couleur_bet_transfert;
+static GdkRGBA default_background_bet_division;
+static GdkRGBA default_background_bet_future;
+static GdkRGBA default_background_bet_solde;
+static GdkRGBA default_background_bet_transfert;
 
 /******************************************************************************/
 /* Private functions                                                          */
