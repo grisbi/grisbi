@@ -1485,6 +1485,21 @@ void grisbi_app_set_css_data (const gchar *new_css_data)
 }
 
 /**
+ *	fonction utilisée pour forcer la fermeture de grisbi à partir des préférences
+ *
+ * \param
+ *
+ * \return
+ **/
+void grisbi_app_quit_from_prefs (void)
+{
+	GrisbiApp *app;
+
+	app = GRISBI_APP (g_application_get_default ());
+	grisbi_app_quit (NULL, NULL, app);
+}
+
+/**
  *
  *
  * \param
