@@ -22,6 +22,7 @@ void            gsb_file_init_last_path                 (const gchar *last_path)
 gboolean        gsb_file_new_finish                     (void);
 gboolean        gsb_file_open_file                      (const gchar *filename);
 gboolean        gsb_file_open_menu                      (void);
+gboolean        gsb_file_quit							(void);
 gboolean        gsb_file_save                           (void);
 gboolean        gsb_file_save_as                        (void);
 void            gsb_file_set_backup_path                (const gchar *path);

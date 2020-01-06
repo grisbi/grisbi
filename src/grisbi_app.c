@@ -321,7 +321,7 @@ static void grisbi_app_quit (GSimpleAction *action,
             }
             first_win = FALSE;
         }
-        if (gsb_file_close ())
+        if (gsb_file_quit ())
 		{
 			gtk_window_close (GTK_WINDOW (l->data));
 			gtk_application_remove_window (GTK_APPLICATION (app), GTK_WINDOW (l->data));
@@ -539,6 +539,7 @@ static gboolean grisbi_app_window_delete_event (GrisbiWin *win,
 {
 	GList *l;
 	gboolean last_win = FALSE;
+	gboolean result = FALSE;
 
 	devel_debug (NULL);
 	l = gtk_application_get_windows (GTK_APPLICATION (app));
@@ -556,7 +557,12 @@ static gboolean grisbi_app_window_delete_event (GrisbiWin *win,
         gtk_window_get_size (GTK_WINDOW (win), &conf.main_width, &conf.main_height);
     }
 
-    if (gsb_file_close ())
+	if (last_win)
+		result = gsb_file_quit ();
+	else
+		result = gsb_file_close ();
+
+	if (result)
 	{
 		gtk_window_close (GTK_WINDOW (win));
 		gtk_application_remove_window (GTK_APPLICATION (app), GTK_WINDOW (win));

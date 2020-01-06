@@ -1081,6 +1081,68 @@ void gsb_file_copy_old_file (const gchar *filename)
     }
 }
 /**
+ * Fonction de fermeture de grisbi sans appeler la fonction init_variables ().
+ * Demandera une clarification de la libération des variables.
+ *
+ * \param
+ *
+ * \return
+ **/
+gboolean gsb_file_quit (void)
+{
+	gchar *filename;
+    devel_debug (NULL);
+
+    if (!assert_account_loaded ())
+	{
+        return TRUE;
+	}
+
+	/* on récupère le nom du fichier */
+	filename = g_strdup (grisbi_win_get_filename (NULL));
+
+	if (gsb_file_get_modified ())
+    {
+        /* try to save */
+	    if (!gsb_file_save_file (-1))
+            return FALSE;
+    }
+    else if (conf.sauvegarde_auto && filename)
+    {
+        /* try to save */
+	    if (!gsb_file_save_file (-1))
+            return FALSE;
+    }
+
+    if (!gsb_file_get_modified ())
+    {
+	     /* remove the lock */
+	    if (!etat.fichier_deja_ouvert
+			&&
+			gsb_data_account_get_accounts_amount ()
+			&&
+			filename)
+		{
+			gsb_file_util_modify_lock (filename, FALSE);
+		}
+
+	    /* free all the variables */
+		etats_gtktable_free_table_etat (); /* set table_etat = NULL: fix crash loading a multiple accounts files */
+        grisbi_win_free_general_vbox ();
+        gsb_account_property_clear_config ();
+		grisbi_win_set_filename (NULL, NULL);
+
+        grisbi_win_set_window_title (-1);
+        grisbi_win_menu_move_to_acc_delete ();
+
+		g_free (filename);
+	    return TRUE;
+    }
+
+    return FALSE;
+}
+
+/**
  *
  *
  * \param
