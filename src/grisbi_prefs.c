@@ -2,8 +2,8 @@
 /*                                                                            */
 /*     Copyright (C)    2001-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
-/*          2009-2018 Pierre Biava (grisbi@pierre.biava.name)                 */
-/*          https://www.grisbi.org/                                            */
+/*          2009-2020 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          https://www.grisbi.org/                                           */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -117,7 +117,7 @@ G_DEFINE_TYPE_WITH_PRIVATE (GrisbiPrefs, grisbi_prefs, GTK_TYPE_DIALOG)
  * \return
  */
 static gboolean grisbi_prefs_left_panel_tree_view_selection_changed (GtkTreeSelection *selection,
-																	GtkWidget *notebook)
+																	 GtkWidget *notebook)
 {
     GtkTreeModel *model;
     GtkTreeIter iter;
@@ -279,46 +279,6 @@ static void grisbi_prefs_collapse_expand_all_rows (GtkToggleButton *togglebutton
 		gtk_tree_view_collapse_all (GTK_TREE_VIEW (tree_view));
 		w_run->prefs_expand_tree = FALSE;
 	}
-}
-
-/**
- * callback pour la fermeture des preferences
- *
- * \param prefs_dialog
- * \param result_id
- *
- * \return
- **/
-void grisbi_prefs_dialog_response  (GtkDialog *prefs,
-                                    gint result_id)
-{
-	GSettings *settings;
-
-    devel_debug (NULL);
-	if (!prefs)
-	{
-        return;
-	}
-
-	/* on récupère la dimension de la fenêtre */
-	gtk_window_get_size (GTK_WINDOW (prefs), &conf.prefs_width, &conf.prefs_height);
-
-	settings = grisbi_settings_get_settings (SETTINGS_PREFS);
-
-    g_settings_set_int (G_SETTINGS (settings),
-                        "prefs-height",
-                        conf.prefs_height);
-
-    g_settings_set_int (G_SETTINGS (settings),
-                        "prefs-panel-width",
-                        conf.prefs_panel_width);
-
-    g_settings_set_int (G_SETTINGS (settings),
-                        "prefs-width",
-                        conf.prefs_width);
-
-	gtk_widget_destroy (GTK_WIDGET (prefs));
-	grisbi_win_set_prefs_dialog (NULL, NULL);
 }
 
 /**
@@ -736,7 +696,6 @@ static void grisbi_prefs_init (GrisbiPrefs *prefs)
 
 	g_signal_connect (G_OBJECT (prefs), "size-allocate", (GCallback) grisbi_prefs_size_allocate, NULL);
 
-	gtk_window_set_transient_for (GTK_WINDOW (prefs), GTK_WINDOW (grisbi_app_get_active_window (NULL)));
     gtk_window_set_destroy_with_parent (GTK_WINDOW (prefs), TRUE);
 
 	/* construct the prefs archi */
@@ -942,6 +901,46 @@ void grisbi_prefs_set_page_by_name (gchar *page_name)
 	}
 	result = gtk_dialog_run (GTK_DIALOG (prefs));
 	grisbi_prefs_dialog_response (GTK_DIALOG (prefs), result);
+}
+
+/**
+ * callback pour la fermeture des preferences
+ *
+ * \param prefs_dialog
+ * \param result_id
+ *
+ * \return
+ **/
+void grisbi_prefs_dialog_response  (GtkDialog *prefs,
+                                    gint result_id)
+{
+	GSettings *settings;
+
+    devel_debug (NULL);
+	if (!prefs)
+	{
+        return;
+	}
+
+	/* on récupère la dimension de la fenêtre */
+	gtk_window_get_size (GTK_WINDOW (prefs), &conf.prefs_width, &conf.prefs_height);
+
+	settings = grisbi_settings_get_settings (SETTINGS_PREFS);
+
+    g_settings_set_int (G_SETTINGS (settings),
+                        "prefs-height",
+                        conf.prefs_height);
+
+    g_settings_set_int (G_SETTINGS (settings),
+                        "prefs-panel-width",
+                        conf.prefs_panel_width);
+
+    g_settings_set_int (G_SETTINGS (settings),
+                        "prefs-width",
+                        conf.prefs_width);
+
+	gtk_widget_destroy (GTK_WIDGET (prefs));
+	grisbi_win_set_prefs_dialog (NULL, NULL);
 }
 
 /**
