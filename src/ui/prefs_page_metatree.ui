@@ -568,7 +568,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkBox" id="box600">
+                  <object class="GtkBox" id="box_metatree_unarchived_payees">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>

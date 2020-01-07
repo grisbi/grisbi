@@ -160,9 +160,11 @@ GtkWidget *onglet_affichage_operations ( void )
 		NULL
     };
     gint i;
+	gboolean is_loading;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Transaction list behavior"),
                         "gsb-transaction-list-32.png" );
+	is_loading = grisbi_win_file_is_loading ();
 
     /* heading and boxes for layout */
     paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE, _( "Display modes" ) );
@@ -216,7 +218,7 @@ GtkWidget *onglet_affichage_operations ( void )
         j++;
     }
     gtk_combo_box_set_active ( GTK_COMBO_BOX (button), position);
-		if (i == 0)
+		if (i == 0 || !is_loading)
 			gtk_widget_set_sensitive (button, FALSE);
     }
 
@@ -231,7 +233,7 @@ GtkWidget *onglet_affichage_operations ( void )
                         _("Use simple click to select transactions"),
                         &conf.show_transaction_selected_in_form,
                         NULL, NULL ),
-                        FALSE, FALSE, 0 );
+                        FALSE, FALSE, MARGIN_BOX );
 
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
                         gsb_automem_checkbutton_gsettings_new (
@@ -281,12 +283,10 @@ GtkWidget *onglet_affichage_operations ( void )
                         NULL, NULL ),
                         FALSE, FALSE, 0 );
 
-    if ( !gsb_data_account_get_accounts_amount () )
-    {
-        gtk_widget_set_sensitive ( vbox_pref, FALSE );
-    }
+	if (!is_loading)
+			gtk_widget_set_sensitive (paddingbox, FALSE);
 
-    return ( vbox_pref );
+	return ( vbox_pref );
 }
 
 
@@ -579,9 +579,11 @@ GtkWidget *onglet_diverse_form_and_lists ( void )
 	GtkWidget *button;
 	GtkWidget *label;
 	GtkWidget *paddingbox;
+	gboolean is_loading;
 	GrisbiWinEtat *w_etat;
 
 	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
+	is_loading = grisbi_win_file_is_loading ();
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Form behavior"), "gsb-form-32.png" );
 
@@ -608,7 +610,10 @@ GtkWidget *onglet_diverse_form_and_lists ( void )
 	gtk_label_set_xalign (GTK_LABEL (label), GSB_LEFT);
 	gtk_box_pack_start (GTK_BOX (paddingbox), label, FALSE, FALSE, 0);
 
-    /* How to display financial year */
+	if (!is_loading)
+		gtk_widget_set_sensitive (paddingbox, FALSE);
+
+	/* How to display financial year */
 	paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("Automatic financial year is set"));
     button = gsb_automem_radiobutton_gsettings_new (_("according to transaction date"),
 											   _("according to transaction value date"),
@@ -635,10 +640,8 @@ GtkWidget *onglet_diverse_form_and_lists ( void )
 						      NULL, NULL),
 			 FALSE, FALSE, 0 );
 
-    if ( !gsb_data_account_get_accounts_amount () )
-    {
-	gtk_widget_set_sensitive ( vbox_pref, FALSE );
-    }
+	if (!is_loading)
+		gtk_widget_set_sensitive (paddingbox, FALSE);
 
     return vbox_pref;
 }

@@ -5,8 +5,8 @@
 /*                                                                               */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)               */
 /*                      2003-2008 Benjamin Drieu (bdrieu@april.org)              */
-/*          2008-2018 Pierre Biava (grisbi@pierre.biava.name)                    */
-/*          https://www.grisbi.org/                                               */
+/*          2008-2020 Pierre Biava (grisbi@pierre.biava.name)                    */
+/*          https://www.grisbi.org/                                              */
 /*                                                                               */
 /*     This program is free software; you can redistribute it and/or modify      */
 /*     it under the terms of the GNU General Public License as published by      */
@@ -66,6 +66,7 @@ struct _PrefsPageMetatreePrivate
 
     GtkWidget *         box_metatree_action_2button;
 	GtkWidget *			box_metatree_sort_transactions;
+	GtkWidget *			box_metatree_unarchived_payees;
 	GtkWidget *			checkbutton_metatree_assoc_mode;
     GtkWidget *			checkbutton_metatree_totals;
 	GtkWidget *			checkbutton_metatree_unarchived_payees;
@@ -301,6 +302,7 @@ static void prefs_page_metatree_setup_metatree_page (PrefsPageMetatree *page)
 {
 	GtkWidget *head_page;
 	GtkWidget *vbox_button;
+	gboolean is_loading;
 	GrisbiWinEtat *w_etat;
 	PrefsPageMetatreePrivate *priv;
 
@@ -308,6 +310,7 @@ static void prefs_page_metatree_setup_metatree_page (PrefsPageMetatree *page)
 
 	priv = prefs_page_metatree_get_instance_private (page);
 	w_etat = grisbi_win_get_w_etat ();
+	is_loading = grisbi_win_file_is_loading ();
 
 	/* On récupère le nom de la page */
 	head_page = utils_prefs_head_page_new_with_title_and_icon (_("Payees, categories and budgetaries"),
@@ -315,24 +318,7 @@ static void prefs_page_metatree_setup_metatree_page (PrefsPageMetatree *page)
 	gtk_box_pack_start (GTK_BOX (priv->vbox_metatree), head_page, FALSE, FALSE, 0);
 	gtk_box_reorder_child (GTK_BOX (priv->vbox_metatree), head_page, 0);
 
-    /* set the variables for totals currencies */
-    priv->combo_devise_totaux_tiers = gsb_currency_config_new_combobox (&w_etat->no_devise_totaux_tiers,
-																		payees_fill_list);
-    gtk_grid_attach (GTK_GRID (priv->grid_metatree_currencies), priv->combo_devise_totaux_tiers, 1, 0, 1, 1);
-
-    priv->combo_devise_totaux_categ = gsb_currency_config_new_combobox (&w_etat->no_devise_totaux_categ,
-																		categories_fill_list);
-    gtk_grid_attach (GTK_GRID (priv->grid_metatree_currencies), priv->combo_devise_totaux_categ, 1, 1, 1, 1);
-
-    priv->combo_devise_totaux_ib = gsb_currency_config_new_combobox (&w_etat->no_devise_totaux_ib,
-																	 budgetary_lines_fill_list);
-    gtk_grid_attach (GTK_GRID (priv->grid_metatree_currencies), priv->combo_devise_totaux_ib, 1, 2, 1, 1);
-
-    /* set the variables for totals currencies */
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_metatree_totals),
-								  w_etat->metatree_add_archive_in_totals);
-
-    /* tri des opérations */
+	/* tri des opérations */
 	vbox_button = gsb_automem_radiobutton3_new (_("by number"),
 												_("by increasing date"),
 												_("by date descending"),
@@ -340,31 +326,62 @@ static void prefs_page_metatree_setup_metatree_page (PrefsPageMetatree *page)
 												G_CALLBACK (prefs_page_metatree_sort_transactions_changed),
                         						&w_etat->metatree_sort_transactions,
 												GTK_ORIENTATION_HORIZONTAL);
+	/* set other widgets sensitives */
+	if (is_loading)
+	{
+		/* set the variables for totals currencies */
+		priv->combo_devise_totaux_tiers = gsb_currency_config_new_combobox (&w_etat->no_devise_totaux_tiers,
+																			payees_fill_list);
+		priv->combo_devise_totaux_categ = gsb_currency_config_new_combobox (&w_etat->no_devise_totaux_categ,
+																			categories_fill_list);
+		priv->combo_devise_totaux_ib = gsb_currency_config_new_combobox (&w_etat->no_devise_totaux_ib,
+																		 budgetary_lines_fill_list);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_metatree_totals),
+									  w_etat->metatree_add_archive_in_totals);
+		/* set option for french associations */
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_metatree_assoc_mode),
+									  w_etat->metatree_assoc_mode);
+
+		/* set for metatree_unarchived_payees */
+		if (etat.combofix_force_payee)
+		{
+			gtk_widget_set_sensitive (priv->checkbutton_metatree_unarchived_payees, FALSE);
+			w_etat->metatree_unarchived_payees = FALSE;
+		}
+		else
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_metatree_unarchived_payees),
+										  w_etat->metatree_unarchived_payees);
+
+	}
+	else
+	{
+		priv->combo_devise_totaux_tiers = utils_prefs_create_combo_list_indisponible ();
+		priv->combo_devise_totaux_categ = utils_prefs_create_combo_list_indisponible ();
+		priv->combo_devise_totaux_ib = utils_prefs_create_combo_list_indisponible ();
+
+		gtk_widget_set_sensitive (priv->grid_metatree_currencies, FALSE);
+		gtk_widget_set_sensitive (priv->checkbutton_metatree_totals, FALSE);
+		gtk_widget_set_sensitive (priv->eventbox_metatree_totals, FALSE);
+		gtk_widget_set_sensitive (priv->checkbutton_metatree_assoc_mode, FALSE);
+		gtk_widget_set_sensitive (priv->eventbox_metatree_assoc_mode, FALSE);
+		gtk_widget_set_sensitive (priv->box_metatree_sort_transactions, FALSE);
+		gtk_widget_set_sensitive (priv->box_metatree_unarchived_payees, FALSE);
+
+	}
+    gtk_grid_attach (GTK_GRID (priv->grid_metatree_currencies), priv->combo_devise_totaux_tiers, 1, 0, 1, 1);
+    gtk_grid_attach (GTK_GRID (priv->grid_metatree_currencies), priv->combo_devise_totaux_categ, 1, 1, 1, 1);
+    gtk_grid_attach (GTK_GRID (priv->grid_metatree_currencies), priv->combo_devise_totaux_ib, 1, 2, 1, 1);
 	gtk_box_pack_start (GTK_BOX (priv->box_metatree_sort_transactions), vbox_button, FALSE, FALSE, 0);
 
 	/* gestion des divisions*/
 	vbox_button = gsb_automem_radiobutton3_gsettings_new (_("Expand the line"),
-													 _("Edit the line"),
-													 _("Manage the line"),
-													 &conf.metatree_action_2button_press,
-													 G_CALLBACK (prefs_page_onglet_metatree_action_changed),
-													 &conf.metatree_action_2button_press,
-													 GTK_ORIENTATION_HORIZONTAL);
+														  _("Edit the line"),
+														  ("Manage the line"),
+														  &conf.metatree_action_2button_press,
+													 	  G_CALLBACK (prefs_page_onglet_metatree_action_changed),
+													 	  &conf.metatree_action_2button_press,
+													 	  GTK_ORIENTATION_HORIZONTAL);
 	gtk_box_pack_start (GTK_BOX (priv->box_metatree_action_2button), vbox_button, FALSE, FALSE, 0);
-
-    /* set option for french associations */
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_metatree_assoc_mode),
-								  w_etat->metatree_assoc_mode);
-
-    /* set for metatree_unarchived_payees */
-	if (etat.combofix_force_payee)
-	{
-		gtk_widget_set_sensitive (priv->checkbutton_metatree_unarchived_payees, FALSE);
-		w_etat->metatree_unarchived_payees = FALSE;
-	}
-	else
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_metatree_unarchived_payees),
-									  w_etat->metatree_unarchived_payees);
 
 	/* Connect signal */
     /* callback for checkbutton_metatree_assoc_mode */
@@ -440,6 +457,7 @@ static void prefs_page_metatree_class_init (PrefsPageMetatreeClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageMetatree, eventbox_metatree_assoc_mode);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageMetatree, eventbox_metatree_totals);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageMetatree, eventbox_metatree_unarchived_payees);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageMetatree, box_metatree_unarchived_payees);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageMetatree, box_metatree_sort_transactions);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageMetatree, box_metatree_action_2button);
 }

@@ -128,8 +128,8 @@ GtkWidget *onglet_messages_and_warnings ( void )
     int i;
 	gboolean is_loading;
 
-	vbox_pref = new_vbox_with_title_and_icon ( _("Messages & warnings"), "gsb-warnings-32.png" );
 	is_loading = grisbi_win_file_is_loading ();
+	vbox_pref = new_vbox_with_title_and_icon ( _("Messages & warnings"), "gsb-warnings-32.png" );
 
 	str_color = gsb_rgba_get_couleur_to_string ("couleur_gsetting_option");
 
@@ -171,45 +171,47 @@ GtkWidget *onglet_messages_and_warnings ( void )
 													   NULL);
     gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), GTK_TREE_VIEW_COLUMN (column));
 
-	if (is_loading)
+	/* remplit le modèle */
+	for  ( i = 0; messages[i].name; i++ )
 	{
-		/* on récupère le nom du fichier */
-		filename = grisbi_win_get_filename (NULL);
+		GtkTreeIter iter;
 
-		/* remplit le modèle */
-		for  ( i = 0; messages[i].name; i++ )
+		if ( g_utf8_collate ( messages[i].name, "account-already-opened" ) == 0 )
 		{
-			GtkTreeIter iter;
-
-			if ( g_utf8_collate ( messages[i].name, "account-already-opened" ) == 0 )
-				tmpstr = g_strdup_printf ( _(messages[i] . hint),
-							g_path_get_basename (filename) );
-			else if ( g_utf8_collate ( messages[i].name, "development-version" ) == 0 )
-				tmpstr = g_strdup_printf ( _(messages[i] . hint), VERSION );
+			/* on récupère le nom du fichier si un fichier est chargé */
+			if (is_loading)
+			{
+				filename = g_path_get_basename (grisbi_win_get_filename (NULL));
+				tmpstr = g_strdup_printf ( _(messages[i] . hint), filename);
+				g_free (filename);
+			}
 			else
-				tmpstr = g_strdup ( _(messages[i] . hint) );
-
-			gtk_tree_store_append (GTK_TREE_STORE (model), &iter, NULL);
-			gtk_tree_store_set (GTK_TREE_STORE (model),
-								&iter,
-								0, !messages[i] . hidden,
-								1, tmpstr,
-								2, i,
-								3, str_color,
-								-1);
-
-			g_free ( tmpstr );
+			{
+				tmpstr = g_strdup (_("No file loading"));
+			}
 		}
-		/* set column color */
-		utils_set_tree_store_background_color (tree_view, 4);
-	}
-    /* Show everything */
-    gtk_widget_show_all ( vbox_pref );
+		else if ( g_utf8_collate ( messages[i].name, "development-version" ) == 0 )
+			tmpstr = g_strdup_printf ( _(messages[i] . hint), VERSION );
+		else
+			tmpstr = g_strdup ( _(messages[i] . hint) );
 
-    if ( !gsb_data_account_get_accounts_amount () )
-    {
-        gtk_widget_set_sensitive (paddinggrid, FALSE);
-    }
+		gtk_tree_store_append (GTK_TREE_STORE (model), &iter, NULL);
+		gtk_tree_store_set (GTK_TREE_STORE (model),
+							&iter,
+							0, !messages[i] . hidden,
+							1, tmpstr,
+							2, i,
+							3, str_color,
+							-1);
+
+		g_free ( tmpstr );
+	}
+
+	/* set column color */
+	utils_set_tree_store_background_color (tree_view, 4);
+
+	/* Show everything */
+    gtk_widget_show_all ( vbox_pref );
 
     return ( vbox_pref );
 }
@@ -289,11 +291,6 @@ GtkWidget *onglet_delete_messages ( void )
 
     /* Show everything */
     gtk_widget_show_all ( vbox_pref );
-
-    if ( !gsb_data_account_get_accounts_amount () )
-    {
-        gtk_widget_set_sensitive ( vbox_pref, FALSE );
-    }
 
     return ( vbox_pref );
 }

@@ -255,9 +255,6 @@ void init_variables ( void )
     gsb_form_widget_free_list ();
     gsb_form_scheduler_free_list ();
 
-    /* set colors to default */
-    gsb_rgba_set_colors_to_default ();
-
     /* divers */
     etat.get_fyear_by_value_date = 0;           /* By default use transaction-date */
 
