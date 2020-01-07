@@ -2,8 +2,8 @@
 /*                                                                            */
 /*     Copyright (C) 2007 Dominique Parisot                                   */
 /*          zionly@free.org                                                   */
-/*          2008-2015 Pierre Biava (grisbi@pierre.biava.name)                 */
-/*          https://www.grisbi.org/                                            */
+/*          2008-2020 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          https://www.grisbi.org/                                           */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -2242,13 +2242,15 @@ gboolean bet_array_list_set_background_color ( GtkWidget *tree_view )
             {
 				case SPP_ORIGIN_TRANSACTION:
 				case SPP_ORIGIN_SCHEDULED:
-
-					gtk_tree_store_set ( GTK_TREE_STORE ( model ),
-							&iter,
-							SPP_ESTIMATE_TREE_BACKGROUND_COLOR,
-							gsb_rgba_get_couleur_with_indice ( "couleur_fond", current_color ),
-							-1 );
-					current_color = !current_color;
+					if (!conf.use_dark_theme)
+					{
+						gtk_tree_store_set ( GTK_TREE_STORE ( model ),
+								&iter,
+								SPP_ESTIMATE_TREE_BACKGROUND_COLOR,
+								gsb_rgba_get_couleur_with_indice ( "couleur_fond", current_color ),
+								-1 );
+						current_color = !current_color;
+					}
 					break;
 				case SPP_ORIGIN_HISTORICAL:
 					color_str = gsb_rgba_get_couleur_to_string ("background_bet_division");

@@ -9,9 +9,130 @@ combobox arrow {
 /************/
 /* private  */
 /************/
+#accueil_nom_compte {
+	background-color:@background_ligne_compte;
+	background-image: none;
+	color: @couleur_nom_compte_normal;
+}
+
+#accueil_nom_compte:hover {
+	background-color:@background_ligne_compte;
+	background-image: none;
+	color: @couleur_nom_compte_hover;
+}
+
+#accueil_solde_alarme_verte {
+	background-color:@background_ligne_compte;
+	background-image: none;
+	color: @couleur_solde_alarme_verte_normal;
+}
+
+#accueil_solde_alarme_verte:hover {
+	background-color:@background_ligne_compte;
+	background-image: none;
+	color: @couleur_solde_alarme_verte_hover;
+}
+
+#accueil_solde_alarme_orange {
+	background-color:@background_ligne_compte;
+	background-image: none;
+	color: @couleur_solde_alarme_orange_normal;
+}
+
+#accueil_solde_alarme_orange:hover {
+	background-color:@background_ligne_compte;
+	background-image: none;
+	color: @couleur_solde_alarme_orange_hover;
+}
+
+#accueil_solde_alarme_rouge {
+	background-color:@background_ligne_compte;
+	background-image: none;
+	color: @couleur_solde_alarme_rouge_normal;
+}
+
+#accueil_solde_alarme_rouge:hover {
+	background-color:@background_ligne_compte;
+	background-image: none;
+	color: @couleur_solde_alarme_rouge_hover;
+}
+
+#etat_event_box {
+	color: @text_color_0;
+}
+
+#etat_event_box:hover {
+	color: @couleur_solde_alarme_rouge_hover;
+}
+
+#form_entry {
+	color: @text_color_0;
+}
+
+#form_entry_empty {
+	color: @text_color_2;
+}
+
+#form_entry_error {
+	color: @text_color_1;
+}
+
+#grey_box {
+	background-color: @couleur_grey_box;
+	background-image: none;
+}
+
+#label_gsetting_option {
+	color: @couleur_gsetting_option;
+}
+
+#label_gsetting_option.file {
+	color: @couleur_gsetting_option;
+}
+
+#list_config_buttons {
+	color: red;
+	background-color: @couleur_grey_box;
+	background-image: none;
+}
+
+#list_config_buttons:checked {
+	color: green;
+	background-color: @couleur_selection_bg;
+	background-image: none;
+}
+
+#reconcile_old_entry {
+	color: @text_color_0;
+}
+
+#reconcile_old_entry_insensitive {
+	background-color: transparent;
+	background-image: none;
+	color: @couleur_insensitive_text;
+}
+
+#gsettings_tree_view.view {
+	background-color: transparent;
+	background-image: none;
+	color: @couleur_gsetting_option;
+}
+
+#gsettings_tree_view.view:hover {
+	background-color: mix(@couleur_selection_bg, white, 0.5);
+	background-image: none;
+	color: @couleur_selection_fg;
+}
+
+#gsettings_tree_view.view:selected {
+	background-color: @couleur_selection_bg;
+	background-image: none;
+	color: @couleur_selection_fg;
+}
 #tree_view.view:hover {
 	background-color: mix(@couleur_selection_bg, white, 0.5);
 	background-image: none;
+	color: @couleur_selection_fg;
 }
 
 #tree_view.view:selected {
@@ -19,88 +140,3 @@ combobox arrow {
 	background-image: none;
 	color: @couleur_selection_fg;
 }
-
-#grey_box {
-  background-color: @couleur_grey_box;
-}
-
-#accueil_nom_compte {
-  color: @couleur_nom_compte_normal;
-}
-
-#accueil_nom_compte:hover {
-  color: @couleur_nom_compte_hover;
-}
-
-#accueil_solde_alarme_verte {
-  color: @couleur_solde_alarme_verte_normal;
-}
-
-#accueil_solde_alarme_verte:hover {
-  color: @couleur_solde_alarme_verte_hover;
-}
-
-#accueil_solde_alarme_orange {
-  color: @couleur_solde_alarme_orange_normal;
-}
-
-#accueil_solde_alarme_orange:hover {
-  color: @couleur_solde_alarme_orange_hover;
-}
-
-#accueil_solde_alarme_rouge {
-  color: @couleur_solde_alarme_rouge_normal;
-}
-
-#accueil_solde_alarme_rouge:hover {
-  color: @couleur_solde_alarme_rouge_hover;
-}
-
-#form_entry {
-  color: @text_color_0;
-}
-
-#form_entry_empty {
-  color: @text_color_2;
-}
-
-#form_entry_error {
-  color: @text_color_1;
-}
-
-#etat_event_box {
-  color: @text_color_0;
-}
-
-#etat_event_box:hover {
-  color: @couleur_solde_alarme_rouge_hover;
-}
-
-#label_gsetting_option {
-  color: @couleur_gsetting_option;
-}
-
-#label_gsetting_option.file {
-  color: @couleur_gsetting_option;
-}
-
-#list_config_buttons {
-  color: red;
-  background-color: @couleur_grey_box;
-}
-
-#list_config_buttons:checked {
-  color: green;
-  background-color: @couleur_selection_bg;
-}
-
-#reconcile_old_entry {
-  color: @text_color_0;
-}
-
-#reconcile_old_entry_insensitive {
-  background-color: transparent;
-  background-image: none;
-  color: @couleur_insensitive_text;
-}
-

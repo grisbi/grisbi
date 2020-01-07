@@ -9,6 +9,7 @@
 @define-color couleur_solde_alarme_orange_hover rgb(255,200,0);
 @define-color couleur_solde_alarme_rouge_normal rgb(153,0,0);
 @define-color couleur_solde_alarme_rouge_hover rgb(255,0,0);
+@define-color background_ligne_compte rgb(192,192,192);
 
 /* Couleurs spécifiques des tree_view et des entry*/
 @define-color background_archive rgb(60,120,40);

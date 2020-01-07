@@ -2,8 +2,8 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2003-2009 Benjamin Drieu (bdrieu@april.org)                       */
-/*            2008-2013 Pierre Biava (grisbi@pierre.biava.name)               */
-/*          https://www.grisbi.org/                                            */
+/*            2008-2020 Pierre Biava (grisbi@pierre.biava.name)               */
+/*          https://www.grisbi.org/                                           */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -123,15 +123,12 @@ GtkWidget *onglet_messages_and_warnings ( void )
     GtkCellRenderer * cell;
     GtkTreeViewColumn * column;
     gchar *tmpstr;
-	const gchar *str_color;
 	const gchar *filename;
     int i;
 	gboolean is_loading;
 
 	is_loading = grisbi_win_file_is_loading ();
 	vbox_pref = new_vbox_with_title_and_icon ( _("Messages & warnings"), "gsb-warnings-32.png" );
-
-	str_color = gsb_rgba_get_couleur_to_string ("couleur_gsetting_option");
 
     /* Tip of the day */
     paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("Tip of the day"));
@@ -148,17 +145,17 @@ GtkWidget *onglet_messages_and_warnings ( void )
     gtk_grid_attach (GTK_GRID (paddinggrid), sw, 0, 0, 1, 1);
 
     /* create the model */
-    model = GTK_TREE_MODEL(gtk_tree_store_new (5, G_TYPE_INT, G_TYPE_STRING, G_TYPE_INT, G_TYPE_STRING, GDK_TYPE_RGBA));
+    model = GTK_TREE_MODEL(gtk_tree_store_new (4, G_TYPE_INT, G_TYPE_STRING, G_TYPE_INT, GDK_TYPE_RGBA));
 
     /* create the treeview */
     tree_view = gtk_tree_view_new();
-	gtk_widget_set_name (tree_view, "tree_view");
+	gtk_widget_set_name (tree_view, "gsettings_tree_view");
     gtk_tree_view_set_model ( GTK_TREE_VIEW (tree_view), GTK_TREE_MODEL (model) );
     g_object_unref (G_OBJECT(model));
     gtk_container_add (GTK_CONTAINER (sw), tree_view);
 
     cell = gtk_cell_renderer_toggle_new ();
-    column = gtk_tree_view_column_new_with_attributes ("", cell, "active", 0, "cell-background-rgba", 4, NULL);
+    column = gtk_tree_view_column_new_with_attributes ("", cell, "active", 0, "cell-background-rgba", 3, NULL);
     gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), GTK_TREE_VIEW_COLUMN (column));
     g_signal_connect (cell, "toggled", G_CALLBACK (gsb_gui_messages_toggled), model);
 
@@ -166,8 +163,7 @@ GtkWidget *onglet_messages_and_warnings ( void )
     column = gtk_tree_view_column_new_with_attributes (_("Message"),
 													   cell,
 													   "text", 1,
-													   "foreground", 3,
-													   "cell-background-rgba", 4,
+													   "cell-background-rgba", 3,
 													   NULL);
     gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), GTK_TREE_VIEW_COLUMN (column));
 
@@ -201,14 +197,13 @@ GtkWidget *onglet_messages_and_warnings ( void )
 							0, !messages[i] . hidden,
 							1, tmpstr,
 							2, i,
-							3, str_color,
 							-1);
 
 		g_free ( tmpstr );
 	}
 
 	/* set column color */
-	utils_set_tree_store_background_color (tree_view, 4);
+	utils_set_tree_store_background_color (tree_view, 3);
 
 	/* Show everything */
     gtk_widget_show_all ( vbox_pref );
@@ -229,13 +224,10 @@ GtkWidget *onglet_delete_messages ( void )
     GtkTreeModel * model;
     GtkCellRenderer * cell;
     GtkTreeViewColumn * column;
-	const gchar *str_color;
     gchar *tmpstr;
     int i;
 
-    vbox_pref = new_vbox_with_title_and_icon ( _("Messages before deleting"), "gtk-corbeille-32.png" );
-
-	str_color = gsb_rgba_get_couleur_to_string ("couleur_gsetting_option");
+	vbox_pref = new_vbox_with_title_and_icon ( _("Messages before deleting"), "gtk-corbeille-32.png" );
 
 	/* Delete messages */
     paddinggrid = utils_prefs_paddinggrid_new_with_title (vbox_pref, _("Display following messages") );
@@ -244,16 +236,16 @@ GtkWidget *onglet_delete_messages ( void )
 	gtk_widget_set_vexpand (paddinggrid, TRUE);
     gtk_grid_attach (GTK_GRID (paddinggrid), sw, 0, 0, 1, 1);
 
-    model = GTK_TREE_MODEL(gtk_tree_store_new (5, G_TYPE_INT, G_TYPE_STRING, G_TYPE_INT, G_TYPE_STRING, GDK_TYPE_RGBA));
+    model = GTK_TREE_MODEL(gtk_tree_store_new (4, G_TYPE_INT, G_TYPE_STRING, G_TYPE_INT, GDK_TYPE_RGBA));
 
     tree_view = gtk_tree_view_new();
-	gtk_widget_set_name (tree_view, "tree_view");
+	gtk_widget_set_name (tree_view, "gsettings_tree_view");
     gtk_tree_view_set_model ( GTK_TREE_VIEW (tree_view), GTK_TREE_MODEL (model) );
     g_object_unref (G_OBJECT(model));
     gtk_container_add (GTK_CONTAINER (sw), tree_view);
 
     cell = gtk_cell_renderer_toggle_new ();
-    column = gtk_tree_view_column_new_with_attributes ("", cell, "active", 0, "cell-background-rgba", 4, NULL);
+    column = gtk_tree_view_column_new_with_attributes ("", cell, "active", 0, "cell-background-rgba", 3, NULL);
     gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), GTK_TREE_VIEW_COLUMN (column));
     g_signal_connect (cell,
                         "toggled",
@@ -264,8 +256,7 @@ GtkWidget *onglet_delete_messages ( void )
     column = gtk_tree_view_column_new_with_attributes (_("Message"),
 													   cell,
 													   "text", 1,
-													   "foreground", 3,
-													   "cell-background-rgba", 4,
+													   "cell-background-rgba", 3,
 													   NULL);
     gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), GTK_TREE_VIEW_COLUMN (column));
 
@@ -281,13 +272,12 @@ GtkWidget *onglet_delete_messages ( void )
 							0, !delete_msg[i] . hidden,
 							1, tmpstr,
 							2, i,
-							3, str_color,
 							-1);
 
         g_free ( tmpstr );
     }
 	/* set column color */
-	utils_set_tree_store_background_color (tree_view, 4);
+	utils_set_tree_store_background_color (tree_view, 3);
 
     /* Show everything */
     gtk_widget_show_all ( vbox_pref );

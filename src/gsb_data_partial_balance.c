@@ -2,8 +2,8 @@
 /*                                                                            */
 /*     copyright (c)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2004-2008 Benjamin Drieu (bdrieu@april.org)                       */
-/*                      2008-2009 Pierre Biava (grisbi@pierre.biava.name)     */
-/*          https://www.grisbi.org/                                            */
+/*                      2008-2020 Pierre Biava (grisbi@pierre.biava.name)     */
+/*          https://www.grisbi.org/                                           */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -1091,7 +1091,7 @@ gchar *gsb_data_partial_balance_get_marked_balance ( gint partial_balance_number
         if (solde.mantissa < 0)
             color = g_strdup ("red");
         else
-            color = g_strdup ("blue");
+            color = g_strdup (gsb_rgba_get_couleur_to_hexa_string ("couleur_gsetting_option"));
 
 		tmp_str = utils_real_get_string_with_currency (solde, partial_balance -> currency, TRUE);
         string = g_strdup_printf ("<span color=\"%s\">%s</span>", color, tmp_str);
@@ -1185,7 +1185,7 @@ gchar *gsb_data_partial_balance_get_current_balance ( gint partial_balance_numbe
         if (solde.mantissa < 0)
             color = g_strdup ("red");
         else
-            color = g_strdup ("blue");
+            color = g_strdup (gsb_rgba_get_couleur_to_hexa_string ("couleur_gsetting_option"));
 
 		tmp_str = utils_real_get_string_with_currency (solde, partial_balance -> currency, TRUE);
         string = g_strdup_printf ( "<span color=\"%s\">%s</span>", color, tmp_str);

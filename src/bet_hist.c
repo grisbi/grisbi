@@ -2,8 +2,8 @@
 /*                                                                            */
 /*     Copyright (C) 2007 Dominique Parisot                                   */
 /*          zionly@free.org                                                   */
-/*          2008-2011 Pierre Biava (grisbi@pierre.biava.name)                 */
-/*          https://www.grisbi.org/                                            */
+/*          2008-2020 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          https://www.grisbi.org/                                           */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -1693,6 +1693,9 @@ gboolean bet_historical_set_background_color ( GtkWidget *tree_view )
 
     if ( !tree_view )
 	    return FALSE;
+
+	if (conf.use_dark_theme)
+		return FALSE;
 
     model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
 

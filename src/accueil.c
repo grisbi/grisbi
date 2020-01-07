@@ -2,8 +2,8 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*            2003-2008 Benjamin Drieu (bdrieu@april.org)                     */
-/*            2008-2018 Pierre Biava (grisbi@pierre.biava.name)               */
-/*             https://www.grisbi.org/                                         */
+/*            2008-2020 Pierre Biava (grisbi@pierre.biava.name)               */
+/*             https://www.grisbi.org/                                        */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -137,11 +137,9 @@ static void gsb_main_page_affiche_ligne_solde_partiel (GtkWidget *table,
 	{
 		tmp_str = g_strconcat (gsb_data_partial_balance_get_name (partial_number), " : ", NULL);
 	}
-	tmp_str2 = make_blue (tmp_str);
-	label = gtk_label_new (tmp_str2);
-    gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
-    g_free (tmp_str);
-    g_free (tmp_str2);
+	label = gtk_label_new (tmp_str);
+	gtk_widget_set_name (label, "label_gsetting_option");
+	g_free (tmp_str);
     utils_labels_set_alignment (GTK_LABEL (label), MISC_LEFT, MISC_VERT_CENTER);
     gtk_size_group_add_widget (GTK_SIZE_GROUP (size_group_accueil), label);
     gtk_grid_attach (GTK_GRID (table), label, 0, i, 1, 1);
@@ -158,7 +156,7 @@ static void gsb_main_page_affiche_ligne_solde_partiel (GtkWidget *table,
 
     /* Troisième colonne : elle contient le solde courant du solde partiel */
     tmp_str = gsb_data_partial_balance_get_current_balance (partial_number);
-    label = gtk_label_new (NULL);
+    label = gtk_label_new (tmp_str);
     gtk_label_set_markup (GTK_LABEL (label), tmp_str);
     g_free (tmp_str);
     utils_labels_set_alignment (GTK_LABEL (label), MISC_RIGHT, MISC_VERT_CENTER);
