@@ -147,6 +147,7 @@ GtkWidget *gsb_currency_link_config_create_page ( void )
 
     /* Create it. */
     tree_view = GTK_TREE_VIEW ( gsb_currency_link_config_create_list () );
+ 	gtk_widget_set_name (GTK_WIDGET (tree_view), "colorized_tree_view");
     tree_model = gtk_tree_view_get_model ( tree_view );
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ), GTK_WIDGET(tree_view) );
     g_signal_connect ( gtk_tree_view_get_selection (GTK_TREE_VIEW ( tree_view ) ),

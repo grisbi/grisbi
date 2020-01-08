@@ -370,7 +370,7 @@ static GtkWidget *gsb_currency_config_create_list (void)
 
     /* Create tree tree_view */
     tree_view = gtk_tree_view_new_with_model (GTK_TREE_MODEL(model));
- 	gtk_widget_set_name (tree_view, "tree_view");
+ 	gtk_widget_set_name (tree_view, "colorized_tree_view");
     g_object_unref (G_OBJECT(model));
 
     /* connect the selection */

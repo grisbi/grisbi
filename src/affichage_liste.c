@@ -709,6 +709,7 @@ GtkWidget *onglet_affichage_liste ( void )
 
     /* create the tree_view */
     tree_view = gsb_transaction_list_config_create_tree_view ( list_store );
+	gtk_widget_set_name (tree_view, "tree_view");
     g_object_unref ( G_OBJECT ( list_store ) );
     gtk_container_add ( GTK_CONTAINER ( sw ), tree_view );
 

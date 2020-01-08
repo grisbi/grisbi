@@ -1040,7 +1040,6 @@ static GtkWidget *bet_finance_ui_create_data_tree_view (GtkWidget *container)
     gchar *title;
 
     tree_view = gtk_tree_view_new ();
-	gtk_widget_set_name (tree_view, "tree_view");
 
     /* Create the tree store */
     tree_model = gtk_tree_store_new (BET_FINANCE_NBRE_COLUMNS,
@@ -1526,7 +1525,7 @@ static GtkWidget *bet_finance_ui_create_simulator_page (void)
     g_object_set_data (G_OBJECT (tree_view), "label_title", label_title);
 
     /* set the color of selected row */
-	gtk_widget_set_name (tree_view, "tree_view");
+	gtk_widget_set_name (tree_view, "colorized_tree_view");
 
     /* on y ajoute la barre d'outils */
     simulator_toolbar = bet_finance_ui_create_simulator_toolbar (page, tree_view, TRUE, FALSE);
@@ -1693,7 +1692,7 @@ GtkWidget *bet_finance_ui_create_account_amortization_page (void)
     g_object_set_data (G_OBJECT (tree_view), "label_title", label_title);
 
     /* set the color of selected row */
-	gtk_widget_set_name (tree_view, "tree_view");
+	gtk_widget_set_name (tree_view, "colorized_tree_view");
 
     /* on y ajoute la barre d'outils */
 	frame = g_object_get_data (G_OBJECT (account_page), "frame");
@@ -1802,7 +1801,6 @@ GtkWidget *bet_finance_ui_create_amortization_tree_view (GtkWidget *container,
 
     devel_debug (NULL);
     tree_view = gtk_tree_view_new ();
-	gtk_widget_set_name (tree_view, "tree_view");
     g_object_set_data (G_OBJECT (tree_view), "amortization_initial_date", GINT_TO_POINTER (FALSE));
 
     /* Create the tree store */

@@ -20,6 +20,7 @@
 @define-color couleur_jour rgb(180,180,180);
 @define-color couleur_selection_bg rgb(245,155,155);
 @define-color couleur_selection_fg rgb(0,0,0);
+@define-color couleur_colorized_treeview_hover_fg rgb(0,0,0);
 @define-color text_color_0 black;
 @define-color text_color_1 red;
 @define-color text_color_2 rgb(195,195,195);

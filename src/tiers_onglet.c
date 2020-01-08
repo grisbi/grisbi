@@ -668,7 +668,7 @@ GtkWidget *payees_create_list (void)
     payee_tree = gtk_tree_view_new();
 
     /* set the color of selected row */
-	gtk_widget_set_name (payee_tree, "tree_view");
+	gtk_widget_set_name (payee_tree, "colorized_tree_view");
 
     payee_tree_model = gtk_tree_store_new (META_TREE_NUM_COLUMNS, META_TREE_COLUMN_TYPES);
 

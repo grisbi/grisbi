@@ -155,6 +155,7 @@ GtkWidget *gsb_fyear_config_create_page ( void )
     gtk_grid_attach (GTK_GRID (paddinggrid), button, 0, 3, 2, 1);
 
     fyear_config_treeview = gsb_fyear_config_create_list ();
+	gtk_widget_set_name (fyear_config_treeview, "colorized_tree_view");
     tree_model = gtk_tree_view_get_model (GTK_TREE_VIEW (fyear_config_treeview));
     gtk_container_add (GTK_CONTAINER ( scrolled_window ), fyear_config_treeview);
     g_signal_connect ( gtk_tree_view_get_selection (GTK_TREE_VIEW (fyear_config_treeview)),

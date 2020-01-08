@@ -228,7 +228,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
 					   GDK_TYPE_RGBA);
 
 	reconcile_treeview = gtk_tree_view_new_with_model ( GTK_TREE_MODEL (reconcile_model) );
-	gtk_widget_set_name (reconcile_treeview, "tree_view");
+	gtk_widget_set_name (reconcile_treeview, "colorized_tree_view");
     g_object_unref (G_OBJECT(reconcile_model));
     gtk_tree_selection_set_mode ( gtk_tree_view_get_selection (GTK_TREE_VIEW (reconcile_treeview)),
 				  GTK_SELECTION_SINGLE );

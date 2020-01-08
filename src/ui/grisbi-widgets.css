@@ -119,12 +119,23 @@ combobox arrow {
 }
 
 #gsettings_tree_view.view:hover {
-	background-color: mix(@couleur_selection_bg, white, 0.5);
+	background-color: transparent;
 	background-image: none;
-	color: @couleur_selection_fg;
+	color: @couleur_colorized_treeview_hover_fg;
 }
 
 #gsettings_tree_view.view:selected {
+	background-color: @couleur_selection_bg;
+	background-image: none;
+	color: @couleur_selection_fg;
+}
+#colorized_tree_view.view:hover {
+	background-color: transparent;
+	background-image: none;
+	color: @couleur_colorized_treeview_hover_fg;
+}
+
+#colorized_tree_view.view:selected {
 	background-color: @couleur_selection_bg;
 	background-image: none;
 	color: @couleur_selection_fg;

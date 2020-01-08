@@ -234,7 +234,7 @@ GtkWidget *bet_historical_create_page ( void )
     g_object_set_data ( G_OBJECT ( tree_view ), "label_title", label_title );
 
     /* set the color of selected row */
-	gtk_widget_set_name (tree_view, "tree_view");
+	gtk_widget_set_name (tree_view, "colorized_tree_view");
 
     /* on y ajoute la barre d'outils */
     bet_historical_toolbar = bet_historical_create_toolbar ( page, tree_view );
@@ -504,7 +504,6 @@ GtkWidget *bet_historical_get_data_tree_view ( GtkWidget *container )
     /* devel_debug (NULL); */
     account_page = grisbi_win_get_account_page ();
     tree_view = gtk_tree_view_new ( );
-	gtk_widget_set_name (tree_view, "tree_view");
 	gtk_widget_set_tooltip_text (tree_view, _("Amount retained: Enter a negative number for a debit\n"
 											  "a positive number for a credit"));
     g_object_set_data ( G_OBJECT ( account_page ), "hist_tree_view", tree_view );
@@ -1693,9 +1692,6 @@ gboolean bet_historical_set_background_color ( GtkWidget *tree_view )
 
     if ( !tree_view )
 	    return FALSE;
-
-	if (conf.use_dark_theme)
-		return FALSE;
 
     model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
 

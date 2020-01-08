@@ -797,7 +797,7 @@ GtkWidget *bet_array_create_tree_view ( GtkWidget *container )
                         GINT_TO_POINTER ( SPP_ESTIMATE_TREE_COLOR_STRING ) );
 
     /* set the color of selected row */
-	gtk_widget_set_name (tree_view, "tree_view");
+	gtk_widget_set_name (tree_view, "colorized_tree_view");
 
     /* create the model */
     tree_model = gtk_tree_store_new ( SPP_ESTIMATE_TREE_NUM_COLUMNS,
@@ -2242,15 +2242,12 @@ gboolean bet_array_list_set_background_color ( GtkWidget *tree_view )
             {
 				case SPP_ORIGIN_TRANSACTION:
 				case SPP_ORIGIN_SCHEDULED:
-					if (!conf.use_dark_theme)
-					{
-						gtk_tree_store_set ( GTK_TREE_STORE ( model ),
-								&iter,
-								SPP_ESTIMATE_TREE_BACKGROUND_COLOR,
-								gsb_rgba_get_couleur_with_indice ( "couleur_fond", current_color ),
-								-1 );
-						current_color = !current_color;
-					}
+					gtk_tree_store_set ( GTK_TREE_STORE ( model ),
+							&iter,
+							SPP_ESTIMATE_TREE_BACKGROUND_COLOR,
+							gsb_rgba_get_couleur_with_indice ( "couleur_fond", current_color ),
+							-1 );
+					current_color = !current_color;
 					break;
 				case SPP_ORIGIN_HISTORICAL:
 					color_str = gsb_rgba_get_couleur_to_string ("background_bet_division");

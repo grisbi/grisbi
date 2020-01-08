@@ -273,7 +273,7 @@ static void prefs_page_accueil_setup_accueil_page (PrefsPageAccueil *page)
 		/* init the treeview */
 		treeview = priv->treeview_partial_balance;
 		gtk_tree_view_set_model (GTK_TREE_VIEW (treeview), GTK_TREE_MODEL (list_store));
-		gtk_widget_set_name (treeview, "tree_view");
+		gtk_widget_set_name (treeview, "colorized_tree_view");
 		g_object_set_data (G_OBJECT (priv->vbox_accueil), "treeview", treeview);
 		g_object_unref (list_store);
 

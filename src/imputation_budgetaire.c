@@ -131,7 +131,7 @@ GtkWidget *budgetary_lines_create_list ( void )
     budgetary_line_tree = gtk_tree_view_new();
 
 	/* set the color of selected row */
-	gtk_widget_set_name (budgetary_line_tree, "tree_view");
+	gtk_widget_set_name (budgetary_line_tree, "colorized_tree_view");
 
     budgetary_line_tree_model = gtk_tree_store_new ( META_TREE_NUM_COLUMNS,
 						     META_TREE_COLUMN_TYPES );
