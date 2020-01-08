@@ -1,5 +1,6 @@
 /* Default color scheme */
 /* colors of home page elements */
+@define-color background_ligne_compte rgba(192,192,192,0);
 @define-color couleur_grey_box rgb(192,192,192);
 @define-color couleur_nom_compte_normal rgb(0,0,0);
 @define-color couleur_nom_compte_hover rgb(156,156,156);
@@ -9,7 +10,6 @@
 @define-color couleur_solde_alarme_orange_hover rgb(255,200,0);
 @define-color couleur_solde_alarme_rouge_normal rgb(153,0,0);
 @define-color couleur_solde_alarme_rouge_hover rgb(255,0,0);
-@define-color background_ligne_compte rgb(192,192,192);
 
 /* Couleurs spécifiques des tree_view et des entry*/
 @define-color background_archive rgb(60,120,40);
