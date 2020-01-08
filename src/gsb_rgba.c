@@ -111,7 +111,7 @@ static GdkRGBA default_background_bet_transfert;
 static gchar *gsb_rgba_css_color_get_data_with_new_color (const gchar *line_needle,
 														  const gchar *new_color_value)
 {
-	gchar *css_data;
+	const gchar *css_data;
 	gchar *first_part = NULL;
 	gchar *new_data = NULL;
 	gchar **tab_property;
