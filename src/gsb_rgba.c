@@ -31,6 +31,7 @@
  /*START_INCLUDE*/
 #include "gsb_rgba.h"
 #include "grisbi_app.h"
+#include "gsb_dirs.h"
 #include "structures.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -659,6 +660,35 @@ void gsb_rgba_set_css_color_property (GdkRGBA *color,
  *
  * \return
  **/
+gboolean gsb_rgba_is_dark_theme (const gchar *theme_name)
+{
+	gchar *tmp_name;
+	gboolean dark = FALSE;
+devel_debug (NULL);
+	tmp_name = g_ascii_strdown (theme_name, -1);
+
+	if (g_strstr_len (tmp_name, -1, "dark"))
+		dark = TRUE;
+	else
+	{
+		/* A partir du nom du thème on recherche si le fichier gtk-dark.css */
+		gchar *css_dirname = NULL;
+		gchar *css_filename;
+
+		css_dirname = g_build_filename (gsb_dirs_get_themes_dir (), theme_name, "gtk-3.0", NULL);
+		css_filename = g_strconcat (css_dirname, "/gtk-dark.css", NULL);
+		//~ printf ("css_dirname = %s css_filename = %s\n", css_dirname, css_filename);
+		if (g_file_test (css_filename, G_FILE_TEST_EXISTS))
+			dark = TRUE;
+
+		g_free (css_dirname);
+		g_free (css_filename);
+	}
+	g_free (tmp_name);
+
+	return dark;
+}
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

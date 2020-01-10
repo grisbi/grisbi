@@ -10,6 +10,7 @@ const gchar *	gsb_dirs_get_help_dir 				(void);
 const gchar *	gsb_dirs_get_default_dir 			(void);
 const gchar *	gsb_dirs_get_locale_dir 			(void);
 const gchar *	gsb_dirs_get_pixmaps_dir 			(void);
+const gchar *	gsb_dirs_get_themes_dir				(void);
 const gchar *	gsb_dirs_get_ui_dir 				(void);
 const gchar *	gsb_dirs_get_user_config_dir 		(void);
 const gchar *	gsb_dirs_get_user_data_dir 			(void);

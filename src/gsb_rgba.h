@@ -19,6 +19,7 @@ gchar *		gsb_rgba_get_couleur_with_indice_to_str	(const gchar *couleur,
                                                      gint indice);
 gchar *     gsb_rgba_get_string_to_save             (void);
 void        gsb_rgba_initialise_couleurs_par_defaut (const gchar *css_data);
+gboolean	gsb_rgba_is_dark_theme					(const gchar *theme_name);
 void		gsb_rgba_set_css_color_property			(GdkRGBA *color,
 													 gchar *property);
 gboolean    gsb_rgba_set_couleur                    (const gchar *couleur,

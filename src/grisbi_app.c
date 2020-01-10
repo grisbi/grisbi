@@ -931,14 +931,18 @@ static void grisbi_app_startup (GApplication *application)
 	settings = gtk_settings_get_default ();
     if (settings)
     {
+		gchar *theme_name = NULL;
+
         g_object_get (G_OBJECT (settings),
-                      "gtk-shell-shows-app-menu",
-					  &has_app_menu,
+                      "gtk-shell-shows-app-menu", &has_app_menu,
+					  "gtk-theme-name", &theme_name,
 					  NULL);
 		g_object_set (G_OBJECT (settings),
 					  "gtk-application-prefer-dark-theme",
 					  conf.use_dark_theme,
 					  NULL);
+		conf.use_dark_theme = gsb_rgba_is_dark_theme (theme_name);
+		//~ printf ("theme_name = %s conf.use_dark_theme = %d\n", theme_name, conf.use_dark_theme);
     }
 
 	/* set language and init locale parameters */

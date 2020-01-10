@@ -35,6 +35,7 @@ static gchar *help_dir;
 static gchar *locale_dir;
 static gchar *pixmaps_dir;
 static gchar *categories_dir;
+static gchar *themes_dir;
 static gchar *ui_dir;
 static gchar *user_config_dir;
 static gchar *user_data_dir;
@@ -71,6 +72,7 @@ void gsb_dirs_init (char* gsb_bin_path)
     help_dir = g_build_filename (dir, "\\share\\doc\\grisbi", NULL);
     locale_dir = g_strconcat (dir, "\\share\\locale", NULL);
     pixmaps_dir = g_strconcat (dir, "\\share\\pixmaps\\grisbi", NULL);
+	themes_dir = g_build_filename (dir, "\\share\\themes", NULL);
     ui_dir = g_strconcat (dir, "\\share\\grisbi\\ui", NULL);
 
     g_free (dir);
@@ -99,6 +101,7 @@ void gsb_dirs_init (char* gsb_bin_path)
                 help_dir = g_build_filename (res_path, "share/doc/grisbi", NULL);
                 locale_dir = g_build_filename (res_path, "/share/locale", NULL);
                 pixmaps_dir = g_build_filename (res_path, "/share/pixmaps/grisbi", NULL);
+				themes_dir = g_build_filename (res_path, "/share/themes", NULL);
                 ui_dir = g_build_filename (res_path, "/share/grisbi/ui", NULL);
 
                 g_free (res_path);
@@ -120,6 +123,7 @@ void gsb_dirs_init (char* gsb_bin_path)
         help_dir = g_strdup (HELP_PATH);
         locale_dir = g_strdup (LOCALEDIR);
         pixmaps_dir = g_strdup (PIXMAPS_DIR);
+		themes_dir = g_build_filename ("/usr/share/themes", NULL);
         ui_dir = g_strdup (UI_DIR);
 
         user_config_dir = g_build_filename (g_get_user_config_dir (), "grisbi", NULL);
@@ -299,6 +303,17 @@ gchar *gsb_dirs_get_print_dir_var (void)
     return path_str;
 }
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+const gchar *gsb_dirs_get_themes_dir (void)
+{
+	return themes_dir;
+}
 /**
  *
  *
