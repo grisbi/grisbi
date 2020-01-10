@@ -660,7 +660,7 @@ static void gsb_file_load_rgba_part ( const gchar **attribute_names,
         gsb_rgba_set_couleur ( "alt_background_archive", attribute_values[i] );
     }
 
-    else if ( !strcmp ( attribute_names[i], "Couleur_selection" ) )
+    else if ( !strcmp ( attribute_names[i], "Selection" ) )
     {
         gsb_rgba_set_couleur ( "alt_couleur_selection", attribute_values[i] );
     }

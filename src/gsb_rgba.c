@@ -293,8 +293,8 @@ GdkRGBA *gsb_rgba_get_couleur (const gchar *couleur)
         return &alt_background_split;
     else if (strcmp (couleur, "alt_couleur_jour") == 0)
         return &alt_couleur_jour;
-    else if (strcmp (couleur, "couleur_selection_bg") == 0)
-        return &couleur_selection_bg;
+    else if (strcmp (couleur, "alt_couleur_selection") == 0)
+        return &alt_couleur_selection;
     else if (strcmp (couleur, "alt_couleur_bet_division") == 0)
         return &alt_couleur_bet_division;
     else if (strcmp (couleur, "alt_couleur_bet_future") == 0)
@@ -365,6 +365,13 @@ GdkRGBA *gsb_rgba_get_couleur_with_indice (const gchar *couleur,
         return &couleur_fond[indice];
     else if (strcmp (couleur, "text_color") == 0)
         return &text_color[indice];
+
+	/* anciennes couleurs juste pour compatibilité descendante */
+    if (strcmp (couleur, "alt_couleur_fond") == 0)
+        return &alt_couleur_fond[indice];
+    else if (strcmp (couleur, "alt_text_color") == 0)
+        return &alt_text_color[indice];
+
 
     return NULL;
 }
@@ -557,7 +564,7 @@ gchar *gsb_rgba_get_string_to_save (void)
                         				  "\t\tCouleur_jour=\"%s\"\n"
                         				  "\t\tBackground_scheduled=\"%s\"\n"
 				                          "\t\tBackground_archive=\"%s\"\n"
-				                          "\t\tCouleur_selection=\"%s\"\n"
+				                          "\t\tSelection=\"%s\"\n"
 				                          "\t\tBackground_split=\"%s\"\n"
 				                          "\t\tText_color_0=\"%s\"\n"
 				                          "\t\tText_color_1=\"%s\"\n"
