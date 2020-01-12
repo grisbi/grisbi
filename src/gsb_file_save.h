@@ -18,6 +18,7 @@ gulong			gsb_file_save_budgetary_part	(gulong iterator,
 gulong			gsb_file_save_category_part		(gulong iterator,
                         						 gulong *length_calculated,
                         						 gchar **file_content);
+gboolean		gsb_file_save_css_local_file	(const gchar *css_data);
 gulong			gsb_file_save_report_part		(gulong iterator,
                         						 gulong *length_calculated,
                         						 gchar **file_content,

@@ -264,11 +264,11 @@
         If utilise-fonte-listes = TRUE, this is the name of the custom font.
       </description>
     </key>
-    <key name="use-dark-theme" type="b">
+    <key name="force-dark-theme" type="b">
       <default>false</default>
       <summary>Use a dark theme</summary>
       <description>
-        Use a dark theme
+        Force the use a dark theme when the automatic selection is not available
       </description>
     </key>
     <key name="browser-command" type="s">

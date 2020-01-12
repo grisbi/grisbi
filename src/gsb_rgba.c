@@ -548,16 +548,6 @@ gchar *gsb_rgba_get_string_to_save (void)
 
     devel_debug (NULL);
 
-	if (conf.tmp_use_dark_theme != conf.use_dark_theme)
-	{
-		conf.use_dark_theme = conf.tmp_use_dark_theme;
-		//~ gsb_rgba_initialise_couleurs_par_defaut ();
-		//~ gsb_rgba_set_colors_to_default ();
-		gsb_rgba_set_css_color_property (&couleur_selection_bg, "couleur_selection_bg");
-		gsb_rgba_set_css_color_property (&couleur_gsetting_option, "couleur_gsetting_option");
-		gsb_rgba_set_css_color_property (&text_color[0], "text_color_0");
-	}
-
     /* save all colors */
     new_string = g_markup_printf_escaped ("\t<RGBA\n"
 										  "\t\tBackground_color_0=\"%s\"\n"
@@ -689,6 +679,42 @@ devel_debug (NULL);
 	return dark;
 }
 
+/**
+ * retourne le nom du fichier css actif : soit local si il existe
+ * sinon le fichier de base de grisbi
+ *
+ * \param
+ *
+ * \return string must be freed
+ **/
+gchar *gsb_rgba_get_css_filename (void)
+{
+	gchar *css_filename = NULL;
+
+	if (conf.use_dark_theme)
+		css_filename = g_build_filename (gsb_dirs_get_user_config_dir (), "grisbi-dark.css", NULL);
+	else
+		css_filename = g_build_filename (gsb_dirs_get_user_config_dir (), "grisbi.css", NULL);
+
+	if (g_file_test (css_filename, G_FILE_TEST_EXISTS) == FALSE)
+	{
+		g_free (css_filename);
+		if (conf.use_dark_theme)
+    		css_filename = g_build_filename (gsb_dirs_get_ui_dir (), "grisbi-dark.css", NULL);
+		else
+    		css_filename = g_build_filename (gsb_dirs_get_ui_dir (), "grisbi.css", NULL);
+	}
+
+	return css_filename;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

@@ -2920,6 +2920,47 @@ gulong gsb_file_save_bet_graph_part ( gulong iterator,
 }
 #endif /* HAVE_GOFFICE */
 
+/**
+ * sauvegarde du fichier local en cours
+ *
+ * \param	données à sauvegarder dans un fichier local si modification des couleurs de base
+ *
+ * \return	FALSE si problème de sauvegarde sinon TRUE
+ **/
+gboolean gsb_file_save_css_local_file (const gchar *css_data)
+{
+
+	/* on sauvegarde le fichier CSS en local qu'en cas de modification */
+	if (conf.prefs_change_css_data)
+	{
+		const gchar *css_filename;
+		GError *error = NULL;
+
+		css_filename = gsb_rgba_get_css_filename ();
+		if (!g_file_set_contents (css_filename, css_data, -1, &error))
+		{
+		 	gchar *tmp_str;
+
+			tmp_str = g_strdup_printf (_("cannot save CSS file '%s': %s"), css_filename, error->message);
+            dialogue_error (tmp_str);
+			g_free (tmp_str);
+            g_error_free (error);
+
+			return FALSE;
+		}
+		return TRUE;
+	}
+
+	return TRUE;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

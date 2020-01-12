@@ -950,6 +950,26 @@ void grisbi_prefs_dialog_response  (GtkDialog *prefs,
  *
  * \return
  **/
+GtkWidget *grisbi_prefs_get_left_treeview (void)
+{
+	GrisbiPrefs *prefs;
+	GrisbiWin *win;
+	GrisbiPrefsPrivate *priv;
+
+	win = grisbi_app_get_active_window (NULL);
+	prefs = GRISBI_PREFS (grisbi_win_get_prefs_dialog (win));
+	priv = grisbi_prefs_get_instance_private (prefs);
+
+	return priv->left_treeview;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

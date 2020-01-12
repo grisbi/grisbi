@@ -41,6 +41,7 @@
 #include "gsb_assistant_first.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
+#include "gsb_file_save.h"
 #include "gsb_locale.h"
 #include "gsb_rgba.h"
 #include "gsb_select_icon.h"
@@ -937,12 +938,16 @@ static void grisbi_app_startup (GApplication *application)
                       "gtk-shell-shows-app-menu", &has_app_menu,
 					  "gtk-theme-name", &theme_name,
 					  NULL);
-		g_object_set (G_OBJECT (settings),
-					  "gtk-application-prefer-dark-theme",
-					  conf.use_dark_theme,
-					  NULL);
-		conf.use_dark_theme = gsb_rgba_is_dark_theme (theme_name);
-		//~ printf ("theme_name = %s conf.use_dark_theme = %d\n", theme_name, conf.use_dark_theme);
+		if (conf.force_dark_theme)
+			conf.use_dark_theme = TRUE;
+		else	/* mode automatique */
+			conf.use_dark_theme = gsb_rgba_is_dark_theme (theme_name);
+
+		if (conf.use_dark_theme)
+			g_object_set (G_OBJECT (settings),
+						  "gtk-application-prefer-dark-theme",
+						  conf.use_dark_theme,
+						  NULL);
     }
 
 	/* set language and init locale parameters */
@@ -960,15 +965,7 @@ static void grisbi_app_startup (GApplication *application)
 
     /* load the CSS properties */
     css_provider = gtk_css_provider_new ();
-	css_filename = g_build_filename (gsb_dirs_get_user_config_dir (), "grisbi.css", NULL);
-	if (g_file_test (css_filename, G_FILE_TEST_EXISTS) == FALSE)
-	{
-		g_free (css_filename);
-		if (conf.use_dark_theme)
-    		css_filename = g_strconcat (gsb_dirs_get_ui_dir (), "/grisbi-dark.css", NULL);
-		else
-    		css_filename = g_strconcat (gsb_dirs_get_ui_dir (), "/grisbi.css", NULL);
-	}
+	css_filename = gsb_rgba_get_css_filename ();
     file = g_file_new_for_path (css_filename);
     gtk_css_provider_load_from_file (css_provider, file, NULL);
     g_free (css_filename);
@@ -1118,22 +1115,7 @@ static void grisbi_app_shutdown (GApplication *application)
 	}
 
 	/* on sauvegarde éventuellement le fichier CSS local */
-	if (conf.prefs_change_css_data)
-	{
-		gchar *css_filename;
-		GError *error = NULL;
-
-		css_filename = g_build_filename (gsb_dirs_get_user_config_dir (), "grisbi.css", NULL);
-		if (!g_file_set_contents (css_filename, css_data, -1, &error))
-		{
-		 	gchar *tmp_str;
-
-			tmp_str = g_strdup_printf (_("cannot save CSS file '%s': %s"), css_filename, error->message);
-            dialogue_error (tmp_str);
-			g_free (tmp_str);
-            g_error_free (error);
-		}
-	}
+	gsb_file_save_css_local_file (css_data);
 
 	/* on libère la mémoire utilisée par css_data */
 	g_free (css_data);
