@@ -642,7 +642,7 @@ GtkWidget *gsb_automem_radiobutton3_gsettings_new (const gchar *choice1,
 
 	/* button 2 */
     button2 = gtk_radio_button_new (gtk_radio_button_get_group (GTK_RADIO_BUTTON (button1)));
-	label = gtk_label_new (choice1);
+	label = gtk_label_new (choice2);
 	gtk_widget_set_name (label, "label_gsetting_option");
 	gtk_widget_show (label);
     gtk_container_add (GTK_CONTAINER (button2), label);
