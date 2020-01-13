@@ -49,5 +49,6 @@ void 			utils_prefs_spinbutton_changed 							(GtkSpinButton *spinbutton,
 																		 gboolean *value);
 
 
+void 			utils_prefs_close_prefs_from_theme						(void);
 /* END_DECLARATION */
 #endif

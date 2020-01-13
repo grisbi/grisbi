@@ -2533,6 +2533,22 @@ void gsb_gui_navigation_select_reports_page (void)
 }
 
 /**
+ * En cas de changement de theme on revient sur la HOME PAGE
+ *
+ * \param
+ *
+ * \return
+ **/
+void gsb_gui_navigation_update_home_page_from_theme	(void)
+{
+	GtkTreePath *path;
+
+	gsb_gui_navigation_set_selection (GSB_HOME_PAGE, 0, 0);
+	path = gtk_tree_path_new_first ();
+	gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (navigation_tree_view), path, NULL, TRUE, 0.0, 0.0);
+}
+
+/**
  *
  *
  * \param

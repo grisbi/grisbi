@@ -34,6 +34,7 @@
 #include "utils_prefs.h"
 #include "dialog.h"
 #include "grisbi_app.h"
+#include "grisbi_prefs.h"
 #include "grisbi_settings.h"
 #include "gsb_file.h"
 #include "gsb_dirs.h"
@@ -835,6 +836,24 @@ gint utils_prefs_dialog_msg_close_cancel_ok (const gchar *msg,
     gtk_widget_destroy (dialog);
 
     return result;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void utils_prefs_close_prefs_from_theme (void)
+{
+	GtkWidget *prefs;
+
+	prefs = grisbi_win_get_prefs_dialog (NULL);
+	if (GRISBI_IS_PREFS (prefs))
+	{
+		grisbi_prefs_dialog_response (GTK_DIALOG (prefs), GTK_RESPONSE_CLOSE);
+	}
 }
 
 /**
