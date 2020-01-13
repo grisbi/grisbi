@@ -4,7 +4,7 @@
 /*          2003-2004 Alain Portal (aportal@univ-montp2.fr)                   */
 /*          2003-2004 Francois Terrot (francois.terrot@grisbi.org)            */
 /*          2008-2017 Pierre Biava (grisbi@pierre.biava.name)                 */
-/*          https://www.grisbi.org/                                            */
+/*          https://www.grisbi.org/                                           */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */

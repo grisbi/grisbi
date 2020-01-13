@@ -283,6 +283,15 @@ static void grisbi_app_change_radio_state (GSimpleAction *action,
     g_simple_action_set_state (action, state);
 }
 
+/**
+ *
+ *
+ * \param GSimpleAction     action
+ * \param GVariant          parameter
+ * \param gpointer          user_data
+ *
+ * \return
+ **/
 static void grisbi_app_new_window (GSimpleAction *action,
                                    GVariant      *parameter,
                                    gpointer       user_data)
@@ -535,8 +544,8 @@ static void grisbi_app_set_main_menu (GrisbiApp *app,
  * \return
  **/
 static gboolean grisbi_app_window_delete_event (GrisbiWin *win,
-                        GdkEvent *event,
-                        GrisbiApp *app)
+												GdkEvent *event,
+												GrisbiApp *app)
 {
 	GList *l;
 	gboolean last_win = FALSE;

@@ -14,6 +14,7 @@ gint 			utils_prefs_dialog_msg_close_cancel_ok					(const gchar *msg,
 GtkWidget *		utils_prefs_fonts_create_button 						(gchar **fontname,
 																		 GCallback hook,
 																		 gpointer data);
+void 			utils_prefs_gsb_file_set_modified						(void);
 void			utils_prefs_left_panel_add_line 						(GtkTreeStore *tree_model,
 																		 GtkWidget *notebook,
 																		 GtkWidget *child,
@@ -44,7 +45,6 @@ GtkWidget *     utils_prefs_scrolled_window_new                         (GtkSize
                                                                          GtkShadowType type,
                                                                          gint coeff_util,
                                                                          gint height);
-void 			utils_prefs_gsb_file_set_modified						(void);
 void 			utils_prefs_spinbutton_changed 							(GtkSpinButton *spinbutton,
 																		 gboolean *value);
 
