@@ -336,7 +336,7 @@ static void grisbi_app_quit (GSimpleAction *action,
         }
         if (gsb_file_quit ())
 		{
-			gtk_window_close (GTK_WINDOW (l->data));
+			grisbi_win_close_window (GTK_WINDOW (l->data));
 			gtk_application_remove_window (GTK_APPLICATION (app), GTK_WINDOW (l->data));
 		}
 		else

@@ -1698,6 +1698,42 @@ void grisbi_win_set_size_and_position (GtkWindow *win)
         gtk_window_maximize (GTK_WINDOW (win));
 }
 
+/**
+ * Remplace la fonction gtk_window_close () en libérant la mémoire utilisée
+ * par la fenêtre quand on quitte l'application par le menu quitter.
+ *
+ * \param
+ *
+ * \return
+ **/
+void grisbi_win_close_window (GtkWindow *win)
+{
+	GrisbiWinPrivate *priv;
+
+    devel_debug (NULL);
+    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+
+    g_free (priv->filename);
+    priv->filename = NULL;
+
+    g_free (priv->window_title);
+    priv->window_title = NULL;
+
+	g_free (priv->form_organization);
+
+    g_clear_object (&priv->builder);
+    g_clear_object (&priv->menu);
+
+    /* libération de la mémoiré utilisée par w_etat */
+	grisbi_win_free_w_etat (priv->w_etat);
+
+	/* libération mémoire de la structure run */
+	grisbi_win_free_w_run (priv->w_run);
+
+	gtk_window_close (GTK_WINDOW (win));
+
+}
+
 /* NO_FILE_PAGE */
 /**
  * update page d'accueil si on ferme le fichier
