@@ -79,7 +79,7 @@ struct _PrefsPageDisplayFontsPrivate
     GtkWidget *			checkbutton_display_fonts;
     GtkWidget *         hbox_display_fonts;
 
-    GtkWidget *         box_select_colors;
+    GtkWidget *         box_select_theme;
     GtkWidget *         button_select_colors;
     GtkWidget *         colorbutton_select_colors;
     GtkWidget *         grid_select_colors;
@@ -685,15 +685,15 @@ static void prefs_page_display_fonts_setup_display_fonts_page (PrefsPageDisplayF
 
 	/* set the elements for colors */
 	/* set the themes buttons */
-	theme_buttons = gsb_automem_radiobutton3_gsettings_new (_("Automatic"),
-															_("Force dark theme"),
+	theme_buttons = gsb_automem_radiobutton3_gsettings_new (_("Automatic selection"),
+															_("Force the use of dark theme"),
 															NULL,
 															&conf.force_dark_theme,
 															(GCallback) prefs_page_display_fonts_theme_action_changed,
 															page,
 															GTK_ORIENTATION_HORIZONTAL);
-	gtk_box_pack_start (GTK_BOX (priv->box_select_colors), theme_buttons, FALSE, FALSE, 0);
-	gtk_box_reorder_child (GTK_BOX (priv->box_select_colors), theme_buttons, 0);
+	gtk_box_pack_start (GTK_BOX (priv->box_select_theme), theme_buttons, FALSE, FALSE, 0);
+	gtk_box_reorder_child (GTK_BOX (priv->box_select_theme), theme_buttons, 0);
 
 	combobox_select_colors = gsb_rgba_create_color_combobox ();
     gtk_widget_set_margin_end (combobox_select_colors, MARGIN_END);
@@ -762,7 +762,7 @@ static void prefs_page_display_fonts_class_init (PrefsPageDisplayFontsClass *kla
 	//~ gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, checkbutton_force_dark_theme);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, button_select_colors);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, colorbutton_select_colors);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, box_select_colors);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, box_select_theme);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, grid_select_colors);
 }
 
