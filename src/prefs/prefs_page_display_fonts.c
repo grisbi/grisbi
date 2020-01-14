@@ -101,69 +101,87 @@ G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageDisplayFonts, prefs_page_display_fonts, GTK
  *
  * \return FALSE
  **/
-static gboolean prefs_page_display_fonts_theme_action_changed (GtkWidget *checkbutton,
+static gboolean prefs_page_display_fonts_theme_action_changed (GtkWidget *radio_button,
 															   GdkEventButton *event,
 															   PrefsPageDisplayFonts *page)
 {
-	GtkWidget *left_treeview;
-	GFile *file = NULL;
-	GSettings *settings;
-	GtkCssProvider *css_provider;
-	GtkStyleContext* context;
-	const gchar *css_data = NULL;
-	const gchar *css_filename;
+	gchar *tmp_str;
+	gchar *hint;
+	gint result = 0;
 	gint value = 0;
-	PrefsPageDisplayFontsPrivate *priv;
 
-	priv = prefs_page_display_fonts_get_instance_private (page);
-	settings = grisbi_settings_get_settings (SETTINGS_GENERAL);
-	css_provider = grisbi_app_get_css_provider ();
-    value = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (checkbutton), "pointer"));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radio_button), TRUE);
+    value = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (radio_button), "pointer"));
     if (value == 1)
     {
-		conf.force_dark_theme = TRUE;
-		conf.use_dark_theme = TRUE;
-		g_settings_set_boolean (G_SETTINGS (settings), "force-dark-theme", TRUE);
+		tmp_str = g_strdup (_("You will have to restart Grisbi for the new theme to take effect.\n"
+							  "If you have unsaved data, it will be saved before leaving."));
+		hint = g_strdup (_("Force Grisbi to use a dark theme!"));
     }
 	else
 	{
-		conf.force_dark_theme = FALSE;
-		conf.use_dark_theme = FALSE;
-		g_settings_reset (G_SETTINGS (settings), "force-dark-theme");
+		tmp_str = g_strdup (_("You must restart to return to the default operation.\n"
+							  "If you have unsaved data, it will be saved before leaving."));
+		hint = g_strdup (_("Return to automatic theme detection"));
 	}
 
-	/* on sauvegarde éventuellement les données locales */
-	gsb_file_save_css_local_file (grisbi_app_get_css_data ());
+	result = utils_prefs_dialog_msg_cancel_quit (tmp_str , hint);
 
-	/* on charge nouvelles données */
-	css_filename = gsb_rgba_get_css_filename ();
-    file = g_file_new_for_path (css_filename);
-    gtk_css_provider_load_from_file (css_provider, file, NULL);
+	if (result == GTK_RESPONSE_OK)
+	{
+		GtkWidget *prefs;
+		GSettings *settings;
 
-	css_data = gtk_css_provider_to_string (css_provider);
-	grisbi_app_set_css_data (css_data);
-    gsb_rgba_initialise_couleurs_par_defaut (css_data);
-	gsb_rgba_set_colors_to_default ();
+		settings = grisbi_settings_get_settings (SETTINGS_GENERAL);
 
-	/* MAJ des couleurs */
-	/* Home page */
-	gsb_gui_navigation_set_selection (GSB_HOME_PAGE, 0, 0);
-	left_treeview = gsb_gui_navigation_get_tree_view ();
-	context = gtk_widget_get_style_context (left_treeview);
-	gtk_style_context_set_state (context, GTK_STATE_FLAG_SELECTED);
+		/* on sauvegarde éventuellement les données locales */
+		gsb_file_save_css_local_file (grisbi_app_get_css_data ());
 
-	/* page des préférences */
-	gtk_color_chooser_set_rgba (GTK_COLOR_CHOOSER (priv->colorbutton_select_colors),
-								gsb_rgba_get_couleur_with_indice ("couleur_fond", 0));
+		if (value == 1)
+		{
+			g_settings_set_boolean (G_SETTINGS (settings), "force-dark-theme", TRUE);
+		}
+		else
+		{
+			g_settings_reset (G_SETTINGS (settings), "force-dark-theme");
+		}
 
-	left_treeview = grisbi_prefs_get_left_treeview ();
-	context = gtk_widget_get_style_context (left_treeview);
-	gtk_style_context_set_state (context, GTK_STATE_FLAG_SELECTED);
+		g_free (tmp_str);
+		g_free (hint);
 
-	utils_prefs_gsb_file_set_modified ();
+		prefs = grisbi_win_get_prefs_dialog (NULL);
+		if (prefs)
+		{
+			gtk_widget_hide (prefs);
+			grisbi_app_quit_from_prefs ();
+		}
+	}
+	else if (result == GTK_RESPONSE_CANCEL)
+	{
+		GtkWidget *other_button;
+		GSList *group;
 
-	g_free (css_filename);
-	g_object_unref (file);
+		group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radio_button));
+
+		if (value == 1)
+		{
+			other_button = GTK_WIDGET (g_slist_nth_data (group, 1));
+		}
+		else
+		{
+			other_button = GTK_WIDGET (g_slist_nth_data (group, 0));
+		}
+
+		g_signal_handlers_block_by_func (G_OBJECT (other_button),
+										 G_CALLBACK (prefs_page_display_fonts_theme_action_changed),
+										 page);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (other_button), TRUE);
+		g_signal_handlers_unblock_by_func (G_OBJECT (other_button),
+										   G_CALLBACK (prefs_page_display_fonts_theme_action_changed),
+										   page);
+		g_free (tmp_str);
+		g_free (hint);
+	}
 
 	return FALSE;
 }

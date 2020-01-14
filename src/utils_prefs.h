@@ -9,7 +9,7 @@
 
 /* START_DECLARATION */
 GtkWidget *		utils_prefs_create_combo_list_indisponible 				(void);
-gint 			utils_prefs_dialog_msg_close_cancel_ok					(const gchar *msg,
+gint 			utils_prefs_dialog_msg_cancel_quit						(const gchar *msg,
 																		 const gchar *hint);
 GtkWidget *		utils_prefs_fonts_create_button 						(gchar **fontname,
 																		 GCallback hook,

@@ -811,8 +811,8 @@ GtkWidget *utils_prefs_create_combo_list_indisponible (void)
  *
  * \return			GTK_RESPONSE_CLOSE, GTK_RESPONSE_CANCEL or GTK_RESPONSE_OK
  **/
-gint utils_prefs_dialog_msg_close_cancel_ok (const gchar *msg,
-											 const gchar *hint)
+gint utils_prefs_dialog_msg_cancel_quit (const gchar *msg,
+										 const gchar *hint)
 {
     GtkWidget *dialog;
     gint result;
@@ -824,7 +824,6 @@ gint utils_prefs_dialog_msg_close_cancel_ok (const gchar *msg,
 									 " ");
 
 	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
-							"gtk-close", GTK_RESPONSE_CLOSE,
 							"gtk-cancel", GTK_RESPONSE_CANCEL,
 							"gtk-quit", GTK_RESPONSE_OK,
 							NULL);
