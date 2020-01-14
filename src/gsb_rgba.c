@@ -494,7 +494,7 @@ GtkWidget *gsb_rgba_create_color_combobox (void)
     { N_("Color of transaction's text"), &text_color[0], &default_text_color[0]},
     { N_("Text of unfinished split transaction"), &text_color[1], &default_text_color[1]},
     { N_("Children of split transaction"), &background_split, &default_background_split},
-    { N_("Selection color_bg"), &couleur_selection_bg, &default_couleur_selection_bg},
+    { N_("Selection color"), &couleur_selection_bg, &default_couleur_selection_bg},
     { N_("Background of non selectable scheduled transactions"), &background_scheduled, &default_background_scheduled},
     { N_("Archive color"), &background_archive, &default_background_archive},
     { N_("Background of bet division"), &background_bet_division, &default_background_bet_division },
