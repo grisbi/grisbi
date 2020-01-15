@@ -1871,7 +1871,7 @@ static void prefs_widget_loan_setup_widget (PrefsWidgetLoan *w_loan,
 					  G_CALLBACK (prefs_widget_loan_checkbutton_init_sch_with_loan_toggle),
 					  w_loan);
 
-	/* callback for button_amortization_table */
+	/* callback for button_init_scheduled */
 	if (s_loan && s_loan->associated_account)
 		g_signal_connect (priv->button_init_scheduled,
 						  "clicked",
