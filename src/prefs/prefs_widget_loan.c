@@ -758,7 +758,6 @@ static void prefs_widget_loan_button_amortization_table_clicked (GtkButton *butt
 	GtkWidget *account_toolbar;
 	GtkWidget *item;
 	GtkWidget *label_title;
-
 	PrefsWidgetLoanPrivate *priv;
 	LoanStruct *s_loan;
 
@@ -782,7 +781,11 @@ static void prefs_widget_loan_button_amortization_table_clicked (GtkButton *butt
 
 	/* création de la liste des données */
 	label_title = g_object_get_data (G_OBJECT (popup), "label_title");
-    tree_view = bet_finance_ui_create_amortization_tree_view (page, SPP_ORIGIN_FINANCE);
+	if (s_loan->invers_cols_cap_ech)
+    	tree_view = bet_finance_ui_create_amortization_tree_view (page, SPP_ORIGIN_INVERSE_FINANCE);
+	else
+    	tree_view = bet_finance_ui_create_amortization_tree_view (page, SPP_ORIGIN_FINANCE);
+
     g_object_set_data (G_OBJECT (tree_view), "origin", GINT_TO_POINTER (SPP_ORIGIN_CONFIG));
     g_object_set_data (G_OBJECT (popup), "bet_finance_tree_view", tree_view);
     g_object_set_data (G_OBJECT (tree_view), "label_title", label_title);

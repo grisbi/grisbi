@@ -380,10 +380,12 @@ enum BetArrayOriginData
     SPP_ORIGIN_FUTURE,                  /* Ligne issue d'une opération future */
     SPP_ORIGIN_HISTORICAL,              /* Ligne issue d'une donnée historique */
     SPP_ORIGIN_ACCOUNT,                 /* Ligne issue d'un compte */
-    SPP_ORIGIN_ARRAY,                   /* Donnée provenant du tableau de prévision */
-    SPP_ORIGIN_CONFIG,                  /* Donnée provenant de la page des préférences */
+    SPP_ORIGIN_ARRAY,                   /* Donnée provenant du tableau de prévision (duration_widget) */
+    SPP_ORIGIN_CONFIG,                  /* Donnée provenant de la page des préférences (duration_widget) */
     SPP_ORIGIN_SIMULATOR,               /* Donnée provenant du tableau du simulateur de crédit */
     SPP_ORIGIN_FINANCE,                 /* Donnée provenant du tableau d'amortissement du simulateur */
+	SPP_ORIGIN_INVERSE_FINANCE,			/* Donnée provenant du tableau d'amortissement du simulateur */
+	 									/* AVEC INVERSION de colonnes */
     SPP_ORIGIN_SOLDE                    /* Ligne de solde au premier du mois  */
 };
 
