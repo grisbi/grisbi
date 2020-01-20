@@ -695,7 +695,8 @@ static void prefs_page_display_fonts_setup_display_fonts_page (PrefsPageDisplayF
 	gtk_box_pack_start (GTK_BOX (priv->box_select_theme), theme_buttons, FALSE, FALSE, 0);
 	gtk_box_reorder_child (GTK_BOX (priv->box_select_theme), theme_buttons, 0);
 
-	combobox_select_colors = gsb_rgba_create_color_combobox ();
+	//~ combobox_select_colors = gsb_rgba_create_color_combobox ();
+	combobox_select_colors = utils_prefs_create_combo_list_indisponible ();
     gtk_widget_set_margin_end (combobox_select_colors, MARGIN_END);
     gtk_grid_attach (GTK_GRID (priv->grid_select_colors), combobox_select_colors, 0, 0, 1, 1);
 	gtk_combo_box_set_active (GTK_COMBO_BOX (combobox_select_colors), 0);
@@ -703,6 +704,7 @@ static void prefs_page_display_fonts_setup_display_fonts_page (PrefsPageDisplayF
 								gsb_rgba_get_couleur_with_indice ("couleur_fond", 0));
 
 	/* TODO : Remettre la possibilité de changer les couleurs de base */
+	gtk_widget_set_sensitive (priv->colorbutton_select_colors, FALSE);
 	gtk_widget_set_sensitive (priv->grid_select_colors, FALSE);
 
 	/* Connect signal */
