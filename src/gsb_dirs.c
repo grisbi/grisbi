@@ -139,6 +139,7 @@ void gsb_dirs_init (char* gsb_bin_path)
     {
         g_free (ui_dir);
         ui_dir = local_ui_dir;
+		g_dir_close (local_ui_handle);
     }
 	else
 		g_free (local_ui_dir);
