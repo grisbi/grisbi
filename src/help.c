@@ -2,8 +2,8 @@
 /*                                                                            */
 /*     copyright (c)    2000-2003 Cédric Auger (cedric@grisbi.org)            */
 /*          2008 Benjamin Drieu (bdrieu@april.org)                            */
-/*          2008-2010 Pierre Biava (grisbi@pierre.biava.name)                 */
-/*          https://www.grisbi.org/                                            */
+/*          2008-2020 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          https://www.grisbi.org/                                           */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -122,7 +122,7 @@ _("Programming"),
 "Benjamin Drieu <bdrieu@april.org>",
 "Cedric Auger <cedric@grisbi.org>",
 "Francois Terrot <grisbi@terrot.net>",
-"Pierre Biava <pierre.biava@nerim.net>",
+"Pierre Biava <pierre@pierre.biava.name>",
 "Mickaël Remars <grisbi@remars.com>",
 "William Ollivier <guneeyoufix@gmail.com>",
 "Rémi Cardona <remi@gentoo.org>",
