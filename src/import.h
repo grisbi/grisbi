@@ -114,9 +114,10 @@ struct ImportTransaction
 
 struct ImportFile
 {
-    gchar * name;
-    const gchar * coding_system;
-    const gchar * type;
+    gchar * 		name;
+    const gchar * 	coding_system;
+    const gchar * 	type;
+	gboolean		import_categories;
 };
 
 

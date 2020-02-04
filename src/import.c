@@ -1946,6 +1946,7 @@ static gboolean gsb_import_enter_resume_page (GtkWidget *assistant)
     GtkTextIter iter;
     const gchar *error_message = "";
 	gchar *tmp_str;
+	gboolean import_categories = FALSE;
 
     liste_comptes_importes_error = NULL;
     liste_comptes_importes = NULL;
@@ -1966,6 +1967,9 @@ static gboolean gsb_import_enter_resume_page (GtkWidget *assistant)
                 devel_print_str (imported->type);
 				/* importation du fichier sélectionné */
                 format->import (assistant, imported);
+				if (imported->import_categories)
+					import_categories = TRUE;
+
                 tmp_list = tmp_list->next;
                 continue;
             }
@@ -2027,6 +2031,15 @@ static gboolean gsb_import_enter_resume_page (GtkWidget *assistant)
         }
         gsb_import_affichage_recapitulatif_importation (assistant);
     }
+	else if (import_categories)
+	{
+		printf ("Importation de catégories\n");
+        gtk_text_buffer_insert_with_tags_by_name (buffer, &iter, _("Congratulations!"), -1, "x-large", NULL);
+        gtk_text_buffer_insert (buffer, &iter, "\n\n", -1);
+
+        gtk_text_buffer_insert (buffer, &iter, _("You successfully imported categories file into Grisbi."), -1);
+        gtk_text_buffer_insert (buffer, &iter, "\n\n", -1);
+	}
     else
     {
         gtk_text_buffer_insert_with_tags_by_name (buffer, &iter,
