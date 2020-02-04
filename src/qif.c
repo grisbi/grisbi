@@ -1240,9 +1240,9 @@ gboolean recuperation_donnees_qif (GtkWidget *assistant,
 							gchar *msg;
 
 							msg = g_strdup_printf (_("Grisbi found an investment account:\n%s\n"
-											"which is not implemented yet.  Nevertheless, Grisbi will try "
-											"to import it as a bank account."),
-											imported->name);
+													 "which is not implemented yet.  Nevertheless, Grisbi will try "
+													 "to import it as a bank account."),
+												   imported->name);
 							dialogue_warning (msg);
 							g_free (msg);
 
@@ -1339,8 +1339,8 @@ gboolean recuperation_donnees_qif (GtkWidget *assistant,
 				order = gsb_qif_get_date_order (imported_account->operations_importees);
 				if (order == -1)
 					dialogue_error (_("Grisbi couldn't determine the format of the date into the qif file.\n"
-											"Please contact the Grisbi team (devel@listes.grisbi.org) to find "
-											"the problem.\nFor now, all the dates will be imported as 01.01.2000"));
+									  "Please contact the Grisbi team (devel@listes.grisbi.org) to find "
+									  "the problem.\nFor now, all the dates will be imported as 01.01.2000"));
 			}
 		}
 
@@ -1477,17 +1477,18 @@ gboolean qif_export (const gchar *filename,
 {
     FILE * fichier_qif;
     GSList *list_tmp_transactions;
+	const gchar *account_name;
+	gchar *tmp_str;
+	gint account_type;
     gint beginning;
     gint floating_point;
-	gint account_type;
+	gint payment_number;
 
     if (!gsb_file_util_test_overwrite (filename))
 		return FALSE;
 
     if (!(fichier_qif = utils_files_utf8_fopen (filename, "w")))
     {
-		gchar *tmp_str;
-
 		tmp_str = g_strdup_printf (_("Error opening file '%s'"), filename);
 		dialogue_error_hint (g_strerror(errno), tmp_str);
 		g_free (tmp_str);
@@ -1498,6 +1499,11 @@ gboolean qif_export (const gchar *filename,
     /* get the floating point of the currency of the amount,
      * ie the number of digits after the . */
     floating_point = gsb_data_currency_get_floating_point (gsb_data_account_get_currency (account_nb));
+
+	/* account header */
+	fprintf (fichier_qif, "!Account\n");
+	account_name = gsb_data_account_get_name (account_nb);
+	fprintf (fichier_qif, "N%s\n^\n", account_name);
 
     /* kind of account */
 	account_type = gsb_data_account_get_kind (account_nb);
@@ -1532,7 +1538,6 @@ gboolean qif_export (const gchar *filename,
 			  gsb_data_transaction_get_archive_number (transaction_number_tmp) == archive_number))
 		{
 			const GDate *date;
-			gchar *tmp_str;
 
 			if (beginning)
 			{
@@ -1568,7 +1573,7 @@ gboolean qif_export (const gchar *filename,
 				fprintf (fichier_qif, "CX\nPOpening Balance\n");
 
 				/* met le nom du imported_account */
-				tmp_str = g_strconcat ("[", gsb_data_account_get_name (account_nb), "]", NULL);
+				tmp_str = g_strconcat ("[", account_name, "]", NULL);
 				fprintf (fichier_qif, "L%s\n^\n", tmp_str);
 				g_free (tmp_str);
 				beginning = 0;
@@ -1627,10 +1632,15 @@ gboolean qif_export (const gchar *filename,
 				g_free (tmp_str);
 
 				/* met le chèque si c'est un type à numérotation automatique */
-				if (gsb_data_payment_get_automatic_numbering (gsb_data_transaction_get_method_of_payment_number (transaction_number_tmp)))
-					fprintf (fichier_qif,
-							 "N%s\n",
-							 gsb_data_transaction_get_method_of_payment_content (transaction_number_tmp));
+				payment_number = gsb_data_transaction_get_method_of_payment_number (transaction_number_tmp);
+				if (gsb_data_payment_get_automatic_numbering (payment_number))
+				{
+					const gchar *content;
+
+					content = gsb_data_transaction_get_method_of_payment_content (transaction_number_tmp);
+					if (content && strlen (content))
+						fprintf (fichier_qif, "N%s\n", tmp_str);
+				}
 
 				/* met le tiers */
 				fprintf (fichier_qif,
@@ -1781,7 +1791,7 @@ gboolean qif_export (const gchar *filename,
 		fprintf (fichier_qif, "CX\nPOpening Balance\n");
 
 		/* met le nom du imported_account */
-		tmp_str = g_strconcat ("[", gsb_data_account_get_name (account_nb), "]", NULL);
+		tmp_str = g_strconcat ("[", account_name, "]", NULL);
 		fprintf (fichier_qif, "L%s\n^\n", tmp_str);
 		g_free (tmp_str);
     }
