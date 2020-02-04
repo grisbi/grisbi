@@ -95,9 +95,13 @@ struct ImportTransaction
     gint p_r;					/* OPERATION_NORMALE = 0, OPERATION_POINTEE, OPERATION_TELEPOINTEE, OPERATION_RAPPROCHEE */
 
     gint type_de_transaction;   /* Utilisé pour les fichiers OFX étendu à certains fichiers QIF (Champs N du fichier QIF) */
+	gboolean ope_memorized;		/* memorized transaction voir à quoi ça sert */
 
-    gint operation_ventilee;  /* à 1 si c'est une ventil, dans ce cas les opés de ventil suivent et ont ope_de_ventilation à 1 */
+    gint operation_ventilee;	/* à 1 si c'est une ventil, dans ce cas les opés de ventil suivent et ont ope_de_ventilation à 1 */
     gint ope_de_ventilation;
+
+	gboolean transfert;			/* Pour fichier QIF */
+	gchar *dest_account_name;	/* Nom du compte destinataire */
 
     /* Used by gnucash import */
     gchar * guid;
