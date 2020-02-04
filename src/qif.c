@@ -74,6 +74,70 @@ extern GSList *liste_comptes_importes_error;
 /* Private functions                                                          */
 /******************************************************************************/
 /**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+static void gsb_qif_free_struct_account (struct ImportAccount *imported_account)
+{
+    g_free (imported_account->origine);
+	g_free (imported_account->real_filename);
+	g_free (imported_account->filename);
+	g_free (imported_account->nom_de_compte);
+
+	g_free (imported_account);
+}
+
+/**
+ *	Initialise structure de compte importé
+ *
+ * \param	account name
+ * \param	filename
+ *
+ * \return an account structure
+ **/
+static struct ImportAccount *gsb_qif_init_struct_account (const gchar *account_name,
+														  const gchar *filename)
+{
+	struct ImportAccount *imported_account;
+
+	/* create and fill the new account */
+    imported_account = g_malloc0 (sizeof (struct ImportAccount));
+    imported_account->origine = my_strdup ("QIF");
+
+	/* save filename */
+	imported_account->real_filename = my_strdup (filename);
+	imported_account->filename = my_strdup (filename);
+
+	/* save account_name */
+	if (account_name)
+		imported_account->nom_de_compte = gsb_import_unique_imported_name (account_name);
+	else
+    	imported_account->nom_de_compte = gsb_import_unique_imported_name (_("Invalid QIF file"));
+
+	return imported_account;
+}
+
+/**
+ * fonction de comparaison pour la recherche d'un compte
+ *
+ * \param 	structure contenant le nom des comptes de la liste
+ * \param	nom recherché
+ *
+ * \return 0 si trouvé
+ **/
+static gint gsb_qif_name_compare (struct ImportAccount *imported_account,
+								  const gchar *name)
+{
+    if (!imported_account->nom_de_compte || !name )
+		return 1;
+
+    return my_strcasecmp (imported_account->nom_de_compte, name);
+}
+
+/**
  * get a string representing a date in qif format and return
  * a newly-allocated NULL-terminated array of strings.
  * * the order in the array is the same as in the string
@@ -492,7 +556,10 @@ static gint gsb_qif_get_account_type (gchar *header)
     gchar *ptr;
 
     ptr = g_utf8_strchr (header, -1, ':');
-    ptr++;
+	if (ptr)
+    	ptr++;
+	else
+		ptr = header;
 
     if (g_ascii_strncasecmp (ptr, "bank", 4) == 0 || my_strcasecmp (ptr, _("bank")) == 0)
         account_type = 0;
@@ -510,6 +577,123 @@ static gint gsb_qif_get_account_type (gchar *header)
         account_type = -1;
 
     return account_type;
+}
+
+/**
+ * Crée une liste de comptes commence par :	!Option:AutoSwitch
+ *											!Account
+ *	et termine par :						!Clear:AutoSwitch
+ *
+ * \param
+ * \param
+ * \param
+ *
+ * \return 0 si OK
+ **/
+static gint gsb_qif_cree_liste_comptes (FILE *qif_file,
+										const gchar *coding_system,
+										const gchar *filename)
+{
+	GSList *tmp_list;
+    gchar *tmp_str;
+    gint returned_value;
+
+	devel_debug (NULL);
+	returned_value = utils_files_get_utf8_line_from_file (qif_file, &tmp_str, coding_system);
+	if (tmp_str && tmp_str[0] != '!')
+	{
+		do
+		{
+			if (tmp_str
+			 &&
+			 returned_value != EOF
+			 &&
+			 tmp_str[0] == 'N'
+			 &&
+			 tmp_str[0] != '^'
+			 &&
+			 tmp_str[0] != '!')
+			{
+				gchar *name;
+
+				name = g_strdup (tmp_str+1);
+				g_free (tmp_str);
+
+				/* on regarde si le compte existe déjà */
+				tmp_list = g_slist_find_custom (liste_comptes_importes, name, (GCompareFunc) gsb_qif_name_compare);
+				if (!tmp_list)
+				{
+					struct ImportAccount *imported_account;
+
+					imported_account = gsb_qif_init_struct_account (name, filename);
+					returned_value = utils_files_get_utf8_line_from_file (qif_file, &tmp_str, coding_system);
+					do
+					{
+						if (tmp_str
+						 &&
+						 returned_value != EOF
+						 &&
+						 tmp_str[0] != '^'
+						 &&
+						 tmp_str[0] != '!')
+						{
+							if (tmp_str[0] == 'T')
+							{
+								gint type;
+								type = gsb_qif_get_account_type (tmp_str + 1);
+								if (type >= 0)
+									imported_account->type_de_compte = type;
+							}
+						}
+						g_free (tmp_str);
+						returned_value = utils_files_get_utf8_line_from_file (qif_file, &tmp_str, coding_system);
+					}
+					while (tmp_str && tmp_str[0] != '^' && returned_value != EOF && tmp_str[0] != '!');
+
+					liste_comptes_importes = g_slist_append (liste_comptes_importes, imported_account);
+				}
+				else
+				{
+					struct ImportAccount *imported_account;
+
+					imported_account = tmp_list->data;
+					returned_value = utils_files_get_utf8_line_from_file (qif_file, &tmp_str, coding_system);
+					if (tmp_str[0] == 'T')
+					{
+						gint type;
+
+						type = gsb_qif_get_account_type (tmp_str+1);
+						if (type >= 0)
+						{
+							imported_account->type_de_compte = type;
+							returned_value = utils_files_get_utf8_line_from_file (qif_file, &tmp_str, coding_system);
+						}
+					}
+				}
+			}
+			if (tmp_str[0] == '!'|| returned_value == EOF)
+				break;
+
+			returned_value = utils_files_get_utf8_line_from_file (qif_file, &tmp_str, coding_system);
+		}
+		while (tmp_str && returned_value != EOF && tmp_str[0] != '!');
+	}
+	//~ printf ("tmp_str en fin de liste = %s returned_value= %d\n", tmp_str, returned_value);
+
+	if (g_ascii_strncasecmp (tmp_str, "!Clear:AutoSwitch", 18) == 0)
+    {
+		returned_value = utils_files_get_utf8_line_from_file (qif_file, &tmp_str, coding_system);
+        if (last_header && strlen (last_header))
+            g_free (last_header);
+        last_header = g_strdup (tmp_str);
+    }
+
+    if (returned_value != EOF  && tmp_str && tmp_str[0] != '!')
+        return 1;
+    else if (returned_value == EOF)
+		return EOF;
+    else
+        return 0;
 }
 
 /**
@@ -593,8 +777,22 @@ static gint gsb_qif_recupere_operations_from_account (FILE *qif_file,
 
             /* récupération des catég */
             if (string[0] == 'L')
-                imported_transaction->categ = my_strdup (string + 1);
+			{
+				if (string[1] == '[')
+				{
+					gchar *tmp_str;
 
+					/* C'est peut-être un transfert ou le nom du compte si 'Opening Balance' est présent */
+					imported_transaction->transfert = TRUE;
+					tmp_str = my_strdelimit (string+1, "[]", "");
+					imported_transaction->dest_account_name = gsb_import_unique_imported_name (tmp_str);
+					g_free (tmp_str);
+				}
+				else
+				{
+                	imported_transaction->categ = my_strdup (string + 1);
+				}
+			}
             /* get the splitted transaction */
             if (string[0] == 'S')
             {
@@ -737,47 +935,51 @@ static gint gsb_qif_recupere_operations_from_account (FILE *qif_file,
 static gint gsb_qif_recupere_categories (FILE *qif_file,
 										 const gchar *coding_system)
 {
-    gchar *string;
+    gchar *tmp_str;
     gint returned_value;
 
+	devel_debug (NULL);
+
+	returned_value = utils_files_get_utf8_line_from_file (qif_file, &tmp_str, coding_system);
     do
     {
-        returned_value = utils_files_get_utf8_line_from_file (qif_file, &string, coding_system);
-
         /* a category never begin with ^ and !*/
-        if (strlen (string)
+        if (tmp_str
          &&
          returned_value != EOF
          &&
-         string[0] != '^'
+         tmp_str[0] == 'N'
          &&
-         string[0] != '!')
+         tmp_str[0] != '^'
+         &&
+         tmp_str[0] != '!')
         {
             gint category_number;
             gint type_category = 1;
             gchar **tab_str = NULL;
 
-            tab_str = g_strsplit (string + 1, ":", 2);
-            g_free (string);
+            tab_str = g_strsplit (tmp_str + 1, ":", 2);
+            g_free (tmp_str);
+			returned_value = utils_files_get_utf8_line_from_file (qif_file, &tmp_str, coding_system);
 
-            do
+			do
             {
-                returned_value = utils_files_get_utf8_line_from_file (qif_file, &string, coding_system);
-                if (strlen (string)
+                if (tmp_str
                  &&
                  returned_value != EOF
                  &&
-                 string[0] != '^'
+                 tmp_str[0] != '^'
                  &&
-                 string[0] != '!')
+                 tmp_str[0] != '!')
                 {
-                    if (strcmp (string, "I") == 0)
+                    if (strcmp (tmp_str, "I") == 0)
                         type_category = 0;
-                    g_free (string);
-                    string = NULL;
+                    g_free (tmp_str);
+                    tmp_str = NULL;
                 }
-            }
-            while (string && string[0] != '^' && returned_value != EOF && string[0] != '!');
+				returned_value = utils_files_get_utf8_line_from_file (qif_file, &tmp_str, coding_system);
+			}
+            while (tmp_str && tmp_str[0] != '^' && returned_value != EOF && tmp_str[0] != '!');
 
             /* get the category and create it if doesn't exist */
             if (tab_str[0])
@@ -798,18 +1000,68 @@ static gint gsb_qif_recupere_categories (FILE *qif_file,
             }
 
             g_strfreev(tab_str);
-        }
-    }
-    while (string && string[0] != '^' && returned_value != EOF && string[0] != '!');
 
-    if (string && string[0] == '!')
+        }
+		if (tmp_str && tmp_str[0] == '!')
+			break;
+
+		returned_value = utils_files_get_utf8_line_from_file (qif_file, &tmp_str, coding_system);
+    }
+    while (tmp_str && tmp_str[0] != '^' && returned_value != EOF && tmp_str[0] != '!');
+
+	if (tmp_str[0] == '!')
     {
         if (last_header && strlen (last_header))
             g_free (last_header);
-        last_header = g_strdup (string);
+        last_header = g_strdup (tmp_str);
     }
 
-    if (returned_value != EOF  && string && string[0] != '!')
+    if (returned_value != EOF  && tmp_str && tmp_str[0] != '!')
+        return 1;
+    else if (returned_value == EOF)
+        return EOF;
+    else
+        return 0;
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static gint gsb_qif_passe_ligne (FILE *qif_file,
+								 const gchar *coding_system)
+{
+    gchar *tmp_str;
+    gint returned_value = 0;
+
+	devel_debug (NULL);
+
+	returned_value = utils_files_get_utf8_line_from_file (qif_file, &tmp_str, coding_system);
+	//~ printf ("tmp_str = %s returned_value = %d\n", tmp_str, returned_value);
+
+	if (tmp_str && tmp_str[0] != '!')
+	{
+
+		do
+		{
+			returned_value = utils_files_get_utf8_line_from_file (qif_file, &tmp_str, coding_system);
+			//~ printf ("tmp_str = %s returned_value = %d\n", tmp_str, returned_value);
+		}
+		while (returned_value != EOF && tmp_str[0] != '!');
+	}
+
+	if (tmp_str[0] == '!')
+    {
+        if (last_header && strlen (last_header))
+            g_free (last_header);
+        last_header = g_strdup (tmp_str);
+    }
+
+	if (returned_value != EOF  && tmp_str && tmp_str[0] != '!')
         return 1;
     else if (returned_value == EOF)
         return EOF;
@@ -836,9 +1088,11 @@ gboolean recuperation_donnees_qif (GtkWidget *assistant,
 								   struct ImportFile *imported)
 {
     gchar *tmp_str;
-    struct ImportAccount *imported_account;
+    struct ImportAccount *imported_account = NULL;
     gint returned_value = 0;
-    gboolean premier_compte = TRUE;
+	gboolean accounts_liste = FALSE;
+	gboolean premier_compte = TRUE;
+	gboolean no_save_account = FALSE;
     FILE *qif_file;
 
 	devel_debug (NULL);
@@ -852,13 +1106,7 @@ gboolean recuperation_donnees_qif (GtkWidget *assistant,
     /* qif_file pointe sur le qif_file qui a été reconnu comme qif */
     rewind (qif_file);
 
-    imported_account = g_malloc0 (sizeof (struct ImportAccount));
-    imported_account->nom_de_compte = gsb_import_unique_imported_name (_("Invalid QIF file"));
-    imported_account->filename = my_strdup (imported->name);
-    imported_account->origine = my_strdup ("QIF");
-
-    /* save filename */
-    imported_account->real_filename = my_strdup (imported->name);
+    imported_account = gsb_qif_init_struct_account (NULL, imported->name);
 
     /* It is positioned on the first line of file */
     returned_value = utils_files_get_utf8_line_from_file (qif_file, &tmp_str, imported->coding_system);
@@ -874,36 +1122,96 @@ gboolean recuperation_donnees_qif (GtkWidget *assistant,
         {
 			if (returned_value != EOF && tmp_str)
 			{
-				if (g_ascii_strncasecmp (tmp_str, "!Account", 8) == 0)
+				//~ printf ("tmp_str en début de boucle = %s\n", tmp_str);
+				if (g_ascii_strncasecmp (tmp_str, "!Option:AutoSwitch", 18) == 0)
 				{
-					/* create and fill the new account */
-					imported_account = g_malloc0 (sizeof (struct ImportAccount));
-					imported_account->origine = my_strdup ("QIF");
-
-					/* save filename and account_name */
-					imported_account->real_filename = my_strdup (imported->name);
-					imported_account->filename = my_strdup (imported->name);
-
+					/* On est dans une liste de comptes */
+					returned_value = utils_files_get_utf8_line_from_file (qif_file, &tmp_str, imported->coding_system);
+					if (g_ascii_strncasecmp (tmp_str, "!Account", 8) == 0)
+					{
+						returned_value = gsb_qif_cree_liste_comptes (qif_file, imported->coding_system, imported->name);
+						accounts_liste = TRUE;
+						if (premier_compte)
+						{
+							gsb_qif_free_struct_account (imported_account);
+							premier_compte = FALSE;
+						}
+					}
+					else
+					{
+						returned_value = gsb_qif_passe_ligne (qif_file, imported->coding_system);
+						if (returned_value == 0)
+							tmp_str = last_header;
+					}
+				}
+				else if (g_ascii_strncasecmp (tmp_str, "!Account", 8 ) == 0)
+				{
+					/* on regarde si le compte existe déjà */
 					account_name = gsb_qif_get_account_name (qif_file, imported->coding_system);
 					imported_account->nom_de_compte = gsb_import_unique_imported_name (account_name);
-					g_free (account_name);
-
+					if (accounts_liste)
+					{
+						tmp_list = g_slist_find_custom (liste_comptes_importes,
+														account_name,
+														(GCompareFunc) gsb_qif_name_compare);
+						if (tmp_list)
+						{
+							imported_account = tmp_list->data;
+							no_save_account = TRUE;
+						}
+						else
+						{
+							/* create and fill the new account */
+							if (premier_compte)
+							{
+								gsb_qif_free_struct_account (imported_account);
+								premier_compte = FALSE;
+							}
+							imported_account = gsb_qif_init_struct_account (account_name, imported->name);
+							g_free (account_name);
+						}
+					}
+					else
+					{
+						/* create and fill the new account */
+						if (premier_compte)
+						{
+							gsb_qif_free_struct_account (imported_account);
+							premier_compte = FALSE;
+						}
+						imported_account = gsb_qif_init_struct_account (account_name, imported->name);
+						g_free (account_name);
+					}
 					name_preced = TRUE;
-					premier_compte = FALSE;
 					returned_value = utils_files_get_utf8_line_from_file (qif_file, &tmp_str, imported->coding_system);
 				}
 				else if (g_ascii_strncasecmp (tmp_str, "!Type:Cat", 9) == 0)
 				{
 					do
 					{
-						returned_value = gsb_qif_recupere_categories (qif_file,
-											imported->coding_system);
-
+						returned_value = gsb_qif_recupere_categories (qif_file, imported->coding_system);
 						if (returned_value == 0)
 							tmp_str = last_header;
 					}
 					/* continue untill the end of the file or a change of account */
 					while (returned_value != EOF && returned_value != 0);
+					imported->import_categories = TRUE;
+
+				}
+				else if (g_ascii_strncasecmp (tmp_str, "!Type:Memorized", 15) == 0)
+				{
+					/* il s'agit d'opérations mémorisées dont l'utilisation n'est pas connue */
+					/* pour l'instant on passe à la ligne suivante pour traiter normalement les opérations*/
+					returned_value = gsb_qif_recupere_categories (qif_file, imported->coding_system);
+					name_preced = FALSE;
+					returned_value = -2;
+				}
+				else if (g_ascii_strncasecmp (tmp_str, "!Type:Tag", 15) == 0)
+				{
+					/* les tags sont ignorés */
+					returned_value = gsb_qif_passe_ligne (qif_file, imported->coding_system);
+					if (returned_value == 0)
+						tmp_str = last_header;
 				}
 				else if (g_ascii_strncasecmp (tmp_str, "!Type", 5) == 0)
 				{
@@ -920,15 +1228,9 @@ gboolean recuperation_donnees_qif (GtkWidget *assistant,
 						if (name_preced == FALSE)
 						{
 							/* create and fill the new account */
-							imported_account = g_malloc0 (sizeof (struct ImportAccount));
-							imported_account->origine = my_strdup ("QIF");
-
-							/* save filename and account_name */
-							imported_account->real_filename = my_strdup (imported->name);
-							imported_account->filename = my_strdup (imported->name);
-							imported_account->nom_de_compte = gsb_import_unique_imported_name (
-																	my_strdup (_("Imported QIF account")));
+							imported_account = gsb_qif_init_struct_account (_("Imported QIF account"), imported->name);
 							premier_compte = FALSE;
+							no_save_account = FALSE;
 						}
 
 						if (account_type == 6)
@@ -946,7 +1248,6 @@ gboolean recuperation_donnees_qif (GtkWidget *assistant,
 
 							account_type = 0;
 						}
-
 						imported_account->type_de_compte = account_type;
 						returned_value = -2;
 					}
@@ -967,7 +1268,7 @@ gboolean recuperation_donnees_qif (GtkWidget *assistant,
 
         if (returned_value == EOF)
         {
-            if (premier_compte)
+            if (premier_compte && !imported->import_categories)
             {
             /* no account already saved, so send an error */
                 liste_comptes_importes_error = g_slist_append (liste_comptes_importes_error,
@@ -1016,11 +1317,13 @@ gboolean recuperation_donnees_qif (GtkWidget *assistant,
 					imported_account->solde = imported_transaction->montant;
 
 					/* get the name of account */
-					tmp_str = my_strdelimit (imported_transaction->categ, "[]", "");
-					if (imported_account->nom_de_compte)
-						g_free (imported_account->nom_de_compte);
-					imported_account->nom_de_compte = gsb_import_unique_imported_name (tmp_str);
-					g_free (tmp_str);
+					if (!account_name)
+					{
+						tmp_str = my_strdelimit (imported_transaction->dest_account_name, "[]", "");
+						imported_account->nom_de_compte = gsb_import_unique_imported_name (tmp_str);
+
+						g_free (tmp_str);
+					}
 
 					/* get the date of the file */
 					imported_account->date_solde_qif = my_strdup (imported_transaction->date_tmp);
@@ -1059,7 +1362,8 @@ gboolean recuperation_donnees_qif (GtkWidget *assistant,
             imported_account->date_fin = gsb_qif_get_date (imported_account->date_solde_qif, order);
 
         /* add that account to the others */
-        liste_comptes_importes = g_slist_append (liste_comptes_importes, imported_account);
+		if (!no_save_account)
+        	liste_comptes_importes = g_slist_append (liste_comptes_importes, imported_account);
     }
     /* go to the next account */
     while (returned_value != EOF);
