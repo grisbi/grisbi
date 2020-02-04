@@ -488,56 +488,57 @@ gint utils_files_get_utf8_line_from_file (FILE *fichier,
 
     if (!pointeur_char)
     {
-	/* ouch, not enough memory */
-	dialogue_error (_("Memory allocation error"));
-	return 0;
-    }
-
-    /* get the string untill \n or \r (windows format) */
-    c =(gchar)fgetc(fichier);
-    while ((c != '\n') && (c != '\r') && !feof (fichier))
-    {
-	pointeur_char[j++] = c;
-
-	if (++i == 29)
-	{
-	    pointeur_char = (gchar*)g_realloc(pointeur_char, j + 1 + 30*sizeof(gchar));
-
-	    if (!pointeur_char)
-	    {
 		/* ouch, not enough memory */
 		dialogue_error (_("Memory allocation error"));
 		return 0;
-	    }
-	    i = 0;
-	}
-	c =(gchar)fgetc(fichier);
+    }
+
+    /* get the string untill \n or \r (windows format) */
+debut:
+    c =(gchar)fgetc(fichier);
+    while ((c != '\n') && (c != '\r') && !feof (fichier))
+    {
+		pointeur_char[j++] = c;
+
+		if (++i == 29)
+		{
+			pointeur_char = (gchar*)g_realloc(pointeur_char, j + 1 + 30*sizeof(gchar));
+
+			if (!pointeur_char)
+			{
+				/* ouch, not enough memory */
+				dialogue_error (_("Memory allocation error"));
+				return 0;
+			}
+			i = 0;
+		}
+		c =(gchar)fgetc(fichier);
     }
     pointeur_char[j] = 0;
+
+	if (i == 0 && j == 0 && !feof (fichier))
+		goto debut;
 
     /* if we finished on \r, jump the \n after it */
     if (c == '\r')
     {
-	c =(gchar)fgetc(fichier);
-	if (c != '\n')
-	{
-	    ungetc (c, fichier);
-	}
+		c =(gchar)fgetc(fichier);
+		if (c != '\n')
+		{
+			ungetc (c, fichier);
+		}
     }
 
-    tmp_string = g_convert (pointeur_char, -1, "UTF-8",
-			     coding_system, NULL, NULL,
-			     NULL);
+	tmp_string = g_convert (pointeur_char, -1, "UTF-8", coding_system, NULL, NULL, NULL);
     if (!tmp_string)
     {
         devel_debug ("convert to utf8 failed, will use latin2utf8");
         tmp_string = latin2utf8 (pointeur_char);
         if (tmp_string == NULL)
         {
-            dialogue_error_hint (
-                            _("If the result is not correct, try again by selecting the "
-                            "correct character set in the window for selecting files."),
-                            _("Convert to utf8 failed."));
+            dialogue_error_hint (_("If the result is not correct, try again by selecting the "
+								   "correct character set in the window for selecting files."),
+								 _("Convert to utf8 failed."));
             g_free (pointeur_char);
             return 0;
         }
