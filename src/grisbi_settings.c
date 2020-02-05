@@ -120,7 +120,7 @@ static void grisbi_settings_init_settings_backup (GSettings *settings)
 
     conf.compress_backup = g_settings_get_boolean (settings, "compress-backup");
     conf.make_bakup_single_file = g_settings_get_boolean (settings, "make-backup-single-file");
-    conf.make_backup = g_settings_get_boolean (settings, "sauvegarde-fermeture");
+    conf.sauvegarde_fermeture = g_settings_get_boolean (settings, "sauvegarde-fermeture");
     conf.make_backup_every_minutes = g_settings_get_boolean (settings, "make-backup-every-minutes");
     conf.make_backup_nb_minutes = g_settings_get_int (settings, "make-backup-nb-minutes");
     conf.sauvegarde_demarrage = g_settings_get_boolean (settings, "sauvegarde-ouverture");
@@ -438,8 +438,8 @@ static void grisbi_settings_init_settings_panel (GSettings *settings)
  **/
 static void grisbi_settings_init_settings_prefs (GSettings *settings)
 {
-    conf.prefs_archives_sort_order = g_settings_get_int (settings, "prefs-archives-sort-order");
-    conf.prefs_fyear_sort_order = g_settings_get_int (settings, "prefs-fyear-sort-order");
+    conf.prefs_archives_sort_order = g_settings_get_boolean (settings, "prefs-archives-sort-order");
+    conf.prefs_fyear_sort_order = g_settings_get_boolean (settings, "prefs-fyear-sort-order");
     conf.prefs_height = g_settings_get_int (settings, "prefs-height");
     conf.prefs_panel_width = g_settings_get_int (settings, "prefs-panel-width");
     conf.prefs_width = g_settings_get_int (settings, "prefs-width");
@@ -644,7 +644,7 @@ void grisbi_settings_save_app_config (void)
                         conf.sauvegarde_demarrage);
     g_settings_set_boolean (G_SETTINGS (priv->settings_backup),
                         "sauvegarde-fermeture",
-                        conf.make_backup);
+                        conf.sauvegarde_fermeture);
     g_settings_set_boolean (G_SETTINGS (priv->settings_backup),
                         "make-backup-every-minutes",
                         conf.make_backup_every_minutes);

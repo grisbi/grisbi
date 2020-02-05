@@ -106,9 +106,9 @@ static void gsb_fyear_config_button_sort_order_clicked (GtkWidget *toggle_button
     GtkTreeModel *model;
 
 	settings = grisbi_settings_get_settings (SETTINGS_PREFS);
-	g_settings_set_int ( G_SETTINGS (settings),
-                        "prefs-fyear-sort-order",
-                        conf.prefs_fyear_sort_order);
+	g_settings_set_boolean ( G_SETTINGS (settings),
+                        	"prefs-fyear-sort-order",
+                        	conf.prefs_fyear_sort_order);
 
     model = gtk_tree_view_get_model (GTK_TREE_VIEW (fyear_config_treeview));
     gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE(model),

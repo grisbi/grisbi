@@ -446,7 +446,7 @@ static gboolean gsb_file_save_file (gint origine)
         return FALSE;
 
     /* make backup before saving if asked */
-    if (conf.make_backup)
+    if (conf.sauvegarde_fermeture)
         gsb_file_save_backup();
 
     /*  on a maintenant un nom de fichier et on sait qu'on peut sauvegarder */
@@ -746,7 +746,7 @@ gboolean gsb_file_open_file (const gchar *filename)
 
 		tmp_str1 = g_strdup_printf (_("Error loading file '%s'"), filename);
 
-        if (conf.sauvegarde_demarrage || conf.make_backup || conf.make_backup_every_minutes)
+        if (conf.sauvegarde_demarrage || conf.sauvegarde_fermeture || conf.make_backup_every_minutes)
         {
             tmp_str2 = g_strdup_printf (_("Grisbi was unable to load file. You should find the last "
 										  "backups in '%s', they are saved with date and time into "

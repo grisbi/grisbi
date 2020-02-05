@@ -203,11 +203,11 @@ struct GrisbiAppConf
 
 /* backup part */
     gboolean    compress_backup;                            /* TRUE if we want to compress the backup */
-    gboolean    make_backup;                                /* TRUE for create a backup when save file */
     gboolean    make_backup_every_minutes;                  /* TRUE to make backup every x mn */
     gint        make_backup_nb_minutes;                     /* the number of minutes we want to make a backup */
     gboolean    make_bakup_single_file;                     /* TRUE if a single backup file */
     gboolean    sauvegarde_demarrage;                       /* utilisé pour enregistrer le fichier s'il s'est bien ouvert */
+	gboolean	sauvegarde_fermeture;						/* TRUE to create a backup when save file */
 
 /* display part */
     gint        display_window_title;                       /* selection du titre principal de grisbi */
@@ -247,7 +247,7 @@ struct GrisbiAppConf
 
 /* general part */
     gchar *     browser_command;
-    gint        custom_fonte_listes;                        /* TRUE to use a custom font for the lists */
+    gboolean    custom_fonte_listes;                        /* TRUE to use a custom font for the lists */
     gchar *     font_string;                                /* contain the description of the font, or NULL */
 	gchar *		language_chosen;							/* choix de la langue : NULL par défaut = langue système */
 	gboolean	force_dark_theme;							/* utilisée pour forcer la sortie de grisbi */
@@ -278,9 +278,9 @@ struct GrisbiAppConf
     gint        panel_width;                                /* navigation paned width */
 
 /* prefs part */
-	gint		prefs_archives_sort_order;					/* archive sort order, GTK_SORT_ASCENDING by default */
+	gboolean	prefs_archives_sort_order;					/* archive sort order, GTK_SORT_ASCENDING by default */
 	gboolean	prefs_change_css_data;						/* TRUE si modification d'une couleur OPTION NON SAUVEGARDEE */
-    gint        prefs_fyear_sort_order;                     /* fyear type sort, GTK_SORT_ASCENDING by default */
+    gboolean	prefs_fyear_sort_order;                     /* fyear type sort, GTK_SORT_ASCENDING by default */
 	gint		prefs_height;								/* preferences height */
 	gint		prefs_panel_width;							/* preferences paned width */
     gint        prefs_width;                                /* preferences width */

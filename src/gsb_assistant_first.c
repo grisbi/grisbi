@@ -268,7 +268,7 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
     }
 #endif
     button = gsb_automem_checkbutton_new (_("Make a backup copy before saving files"),
-					  &conf.make_backup, NULL, NULL);
+					  &conf.sauvegarde_fermeture, NULL, NULL);
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     /* Automatic backup every x minutes */

@@ -433,9 +433,9 @@ static void prefs_page_archives_button_sort_order_clicked (GtkWidget *toggle_but
 	gboolean is_loading;
 
 	settings = grisbi_settings_get_settings (SETTINGS_PREFS);
-	g_settings_set_int ( G_SETTINGS (settings),
-                        "prefs-archives-sort-order",
-                        conf.prefs_archives_sort_order);
+	g_settings_set_boolean (G_SETTINGS (settings),
+                        	"prefs-archives-sort-order",
+                        	conf.prefs_archives_sort_order);
 
 	is_loading = grisbi_win_file_is_loading ();
 	if (is_loading)
