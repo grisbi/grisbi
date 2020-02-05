@@ -12,10 +12,10 @@
       </description>
     </key>
     <key name="force-classic-menu" type="b">
-      <default>false</default>
+      <default>true</default>
       <summary>Force used classic menu</summary>
       <description>
-          If TRUE the classic menu is displayed otherwise the menu type is
+          By default the classic menu is displayed otherwise the menu type is
           determined by the window manager. This option requires restarting Grisbi.
       </description>
     </key>
