@@ -335,6 +335,13 @@ libgrisbi_la_SOURCES = \
 	utils_str.h		\
 	grisbi.gresource.xml
 
+if USE_CONFIG_FILE
+libgrisbi_la_SOURCES += \
+	gsb_file_config.c \
+	gsb_file_config.h
+endif
+
+
 grisbi_SOURCES = 		\
 	main.c				\
 	grisbi_resources.c
