@@ -110,6 +110,19 @@ else
 fi
 
 dnl ================================================================
+dnl Defined if Grisbi use a configuration file instead of gsettings
+dnl ================================================================
+
+AC_ARG_ENABLE(config-file,
+	AS_HELP_STRING([--enable-config-file],[enable config file instead of gsettings ]),
+	[enable_config_file=yes])
+
+if test "x$enable_config_file" = xyes; then
+	AC_DEFINE(USE_CONFIG_FILE,1,[Defined if Grisbi use a configuration file instead of gsettings])
+fi
+AM_CONDITIONAL(USE_CONFIG_FILE, [test "$enable_config_file" = yes])
+
+dnl ================================================================
 dnl XML2
 dnl ================================================================
 
