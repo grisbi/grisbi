@@ -3112,9 +3112,10 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
     GtkWidget *label;
     GtkWidget *frame;
     GtkWidget *frame_alert;
+	GtkWidget *hbox_alert;
+	GtkWidget *label_alert;
 	GtkWidget *vbox_alert;
     GtkWidget *vbox_alert_lignes;
-	GtkWidget *hbox_alert;
 	GtkWidget *image;
 	GSList *list_ope_correspondantes = NULL;
 	GSList *list_ope_doublons = NULL;
@@ -3218,14 +3219,14 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
 	gtk_box_pack_start (GTK_BOX (hbox_alert), image, FALSE, FALSE, 0);
     gtk_widget_show (image);
 
-	label = gtk_label_new (NULL);
+	label_alert = gtk_label_new (NULL);
 	tmp_str = make_pango_attribut ("weight=\"bold\"", _("Duplicate transactions"));
-    gtk_label_set_markup_with_mnemonic (GTK_LABEL (label), tmp_str);
+    gtk_label_set_markup_with_mnemonic (GTK_LABEL (label_alert), tmp_str);
     g_free (tmp_str);
 
-	gtk_label_set_xalign (GTK_LABEL (label), GSB_CENTER);
-	gtk_box_pack_start (GTK_BOX (hbox_alert), label, TRUE, TRUE, 0);
-	gtk_widget_show (label);
+	gtk_label_set_xalign (GTK_LABEL (label_alert), GSB_CENTER);
+	gtk_box_pack_start (GTK_BOX (hbox_alert), label_alert, TRUE, TRUE, 0);
+	gtk_widget_show (label_alert);
 
 	scrolled_window = gtk_scrolled_window_new (FALSE, FALSE);
     gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
@@ -3305,6 +3306,8 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
 			{
 				if (!g_slist_find (list_ope_doublons, GINT_TO_POINTER (ope_import->ope_correspondante)))
 				{
+					gchar *tmp_str2;
+					gchar *tmp_str3;
 
 					list_ope_doublons = g_slist_append (list_ope_doublons,
 														GINT_TO_POINTER (ope_import->ope_correspondante));
@@ -3313,6 +3316,11 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
 					gsb_import_correct_opes_import_create_box_doublons (vbox_alert_lignes,
 																		imported_account->operations_importees,
 																		ope_import->ope_correspondante);
+					tmp_str2 = g_strdup_printf (" : %d", 2*g_slist_length (list_ope_doublons));
+					tmp_str3 = g_strconcat (_("Duplicate transactions"), tmp_str2, NULL);
+					tmp_str = make_pango_attribut ("weight=\"bold\"", tmp_str3);
+					gtk_label_set_markup_with_mnemonic (GTK_LABEL (label_alert), tmp_str);
+					g_free (tmp_str);
 					gtk_widget_show (frame_alert);
 				}
 			}
