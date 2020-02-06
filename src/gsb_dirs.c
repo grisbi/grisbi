@@ -315,6 +315,28 @@ const gchar *gsb_dirs_get_themes_dir (void)
 {
 	return themes_dir;
 }
+
+#ifdef USE_CONFIG_FILE
+/**
+ *
+ *
+ * \param
+ *
+ * \return must be freed
+ **/
+const gchar *gsb_dirs_get_grisbirc_filename (void)
+{
+    gchar *filename;
+	gchar *grisbirc_filename;
+
+    filename = g_strconcat (PACKAGE, ".conf", NULL);
+    grisbirc_filename = g_build_filename (user_config_dir, filename, NULL);
+    g_free (filename);
+
+    return grisbirc_filename;
+}
+#endif
+
 /**
  *
  *

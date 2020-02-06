@@ -41,6 +41,9 @@
 #include "gsb_assistant_first.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
+#ifdef USE_CONFIG_FILE
+#include "gsb_file_config.h"
+#endif
 #include "gsb_file_save.h"
 #include "gsb_locale.h"
 #include "gsb_rgba.h"
@@ -996,7 +999,11 @@ static void grisbi_app_startup (GApplication *application)
     grisbi_app_trappe_signaux ();
 
     /* initialisation des variables de configuration globales */
-    grisbi_settings_get ();
+#ifdef USE_CONFIG_FILE
+	gsb_file_config_load_app_config ();
+#else
+	grisbi_settings_load_app_config ();
+#endif
 
 	settings = gtk_settings_get_default ();
     if (settings)
@@ -1194,11 +1201,15 @@ static void grisbi_app_shutdown (GApplication *application)
 	/* libération de mémoire utilisée par locale*/
     gsb_locale_shutdown ();
 
+    /* Sauvegarde de la configuration générale */
+#ifdef USE_CONFIG_FILE
+	gsb_file_config_save_app_config ();
+#else
+	grisbi_settings_save_app_config ();
+#endif
+
 	/* libération de mémoire utilisée par gsb_dirs*/
     gsb_dirs_shutdown ();
-
-    /* Sauvegarde de la configuration générale */
-    grisbi_settings_save_app_config ();
 
 	/* on libère la mémoire utilisée par conf */
     grisbi_app_struct_conf_free ();
@@ -1457,6 +1468,8 @@ void grisbi_app_set_recent_files_array (gchar **recent_array)
 	priv = grisbi_app_get_instance_private (GRISBI_APP (app));
 
 	priv->recent_array = recent_array;
+
+	printf ("nbre de fichiers = %d\n", g_strv_length (recent_array));
 }
 
 /**

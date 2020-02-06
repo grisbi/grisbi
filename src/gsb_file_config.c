@@ -59,6 +59,9 @@ extern struct ConditionalMessage delete_msg[];
 extern struct ConditionalMessage messages[];
 /*END_EXTERN*/
 
+/******************************************************************************/
+/* Private functions                                                          */
+/******************************************************************************/
 /**
  * Set all the config variables to their default values.
  * called before loading the config
@@ -70,331 +73,117 @@ extern struct ConditionalMessage messages[];
  **/
 static void gsb_file_config_clean_config (void)
 {
+	gchar * tmp_str;
+	gint i = 0;
+
     devel_debug (NULL);
 
-	//~ conf.force_classic_menu = TRUE;
+	/* set settings root */
+	conf.first_use = TRUE;
+	conf.force_classic_menu = TRUE;
 
-    //~ conf.main_width = 0;
-    //~ conf.main_height = 0;
-    //~ conf.prefs_width = 600;
+	/* set settings_backup */
+    conf.compress_backup = FALSE;
+    conf.make_backup_every_minutes = FALSE;
+    conf.make_backup_nb_minutes = 5;
+	conf.make_bakup_single_file = FALSE;
+    conf.sauvegarde_demarrage = FALSE;
+	conf.sauvegarde_fermeture = TRUE;
 
-    //~ conf.force_enregistrement = 1;
+	/* priv->settings_display */
+    conf.display_toolbar = GSB_BUTTON_BOTH;				/* "Text + Icons" */
+	conf.display_window_title = 0;						/* "Entity name" */
+	conf.formulaire_toujours_affiche = TRUE;
+	conf.group_partial_balance_under_accounts = TRUE;
+	conf.show_closed_accounts = FALSE;
+	conf.show_headings_bar = TRUE;
 
-    //~ conf.r_modifiable = 0;       /* we can not change the reconciled transaction */
-    //~ conf.dernier_fichier_auto = 1;   /*  on n'ouvre pas directement le dernier fichier */
-    //~ conf.sauvegarde_auto = 0;    /* on NE sauvegarde PAS * automatiquement par défaut */
-    //~ conf.entree = 1;    /* la touche entree provoque l'enregistrement de l'opération */
-    //~ nb_days_before_scheduled = 0;     /* nb de jours avant l'échéance pour prévenir */
-    //~ conf.execute_scheduled_of_month = FALSE;
-    //~ conf.balances_with_scheduled = TRUE;
-    //~ conf.formulaire_toujours_affiche = 0;           /* le formulaire ne s'affiche que lors de l'edition d'1 opé */
-    //~ conf.affichage_exercice_automatique = 0;        /* l'exercice est choisi en fonction de la date */
-    //~ conf.automatic_completion_payee = 1;            /* by default automatic completion */
-    //~ conf.limit_completion_to_current_account = 0;   /* By default, do full search */
-    //~ conf.automatic_recover_splits = 1;
-    //~ conf.automatic_erase_credit_debit = 0;
+    /* settings_file */
+	conf.archives_check_auto = TRUE;
+	conf.compress_file = FALSE;
+	conf.dernier_fichier_auto = FALSE;
+	conf.force_enregistrement = FALSE;
+    conf.force_import_directory = FALSE;
+	conf.import_remove_file = FALSE;
+	conf.max_non_archived_transactions_for_check = 3000;
+	grisbi_app_set_recent_files_array (NULL);
+	conf.nb_max_derniers_fichiers_ouverts = 3;
+	conf.sauvegarde_auto = FALSE;
 
-    //~ conf.display_grisbi_title = GSB_ACCOUNTS_TITLE; /* show Accounts file title par défaut */
-    //~ conf.display_toolbar = GSB_BUTTON_BOTH;         /* How to display toolbar icons. */
-    //~ conf.active_scrolling_left_pane = FALSE;        /* Active_scrolling_left_pane or not. */
-    //~ conf.show_headings_bar = TRUE;                  /* Show toolbar or not. */
-    //~ conf.show_transaction_selected_in_form = 1;     /* show selected transaction in form */
-    //~ conf.show_transaction_gives_balance = 1;        /* show transaction that gives the balance of the day */
-    //~ conf.transactions_list_primary_sorting = 1;     /* Primary sorting option for the transactions */
-    //~ conf.transactions_list_secondary_sorting = 0;   /* Secondary sorting option for the transactions */
-    //~ conf.show_closed_accounts = FALSE;
+    /* settings_form */
+    conf.affichage_exercice_automatique = FALSE;
+    conf.automatic_completion_payee = FALSE;
+    conf.automatic_erase_credit_debit = FALSE;
+    conf.automatic_recover_splits = FALSE;
+	conf.completion_minimum_key_length = 1;
+	conf.form_enter_key = FALSE;
+	conf.form_expander_label_width = 600;
+	conf.fyear_combobox_sort_order = 0;
+    conf.limit_completion_to_current_account = FALSE;
 
-    //~ if (conf.font_string)
-    //~ {
-    //~ g_free (conf.font_string);
-    //~ conf.font_string = NULL;
-    //~ }
+    /* settings_general */
+    conf.custom_fonte_listes = FALSE;
+    conf.force_dark_theme = FALSE;
+	conf.metatree_action_2button_press = 0;				/* "gtk-default" */
+    tmp_str = g_strdup (g_get_user_special_dir (G_USER_DIRECTORY_DOCUMENTS));
+	gsb_file_init_last_path (tmp_str);
+    g_free (tmp_str);
 
-    //~ conf.force_enregistrement = 1;     /* par défaut, on force l'enregistrement */
-    //~ gsb_file_update_last_path (g_get_home_dir ());
-    //~ gsb_file_set_backup_path (gsb_dirs_get_user_data_dir ());
-    //~ conf.sauvegarde_fermeture = 1;
-    //~ conf.make_backup_every_minutes = FALSE;
-    //~ conf.make_backup_nb_minutes = 0;
+    /* Home page */
+    conf.pluriel_final = FALSE;
 
-//~ #if IS_DEVELOPMENT_VERSION == 1
-    //~ conf.stable_config_file_model = 0;
-//~ #endif
+	/* variables for the list of transactions */
+	conf.show_transaction_gives_balance = FALSE;
+    conf.show_transaction_selected_in_form = TRUE;
+    conf.transactions_list_primary_sorting = 0, 		/* "Sort by value date" */
+    conf.transactions_list_secondary_sorting = 0;		/* "Sort by transaction number" */
 
-    //~ conf.nb_derniers_fichiers_ouverts = 0;
-    //~ conf.nb_max_derniers_fichiers_ouverts = 3;
-    //~ tab_noms_derniers_fichiers_ouverts = NULL;
+    /* settings_geometry */
+	conf.full_screen = TRUE;
+    conf.main_height = 700;
+    conf.main_width = 1000;
+    conf.maximize_screen = TRUE;
+    conf.x_position = 100;
+   	conf.y_position= 100;
 
-    //~ /* no compress by default */
-    //~ conf.compress_file = 0;
-    //~ conf.compress_backup = 0;
+    /* settings_messages_delete */
+    for (i = 0; delete_msg[i].name; i ++)
+    {
+        delete_msg[i].hidden = TRUE;
+    }
 
-    //~ /* archive data */
-    //~ conf.check_for_archival = TRUE;
-    //~ conf.max_non_archived_transactions_for_check = 3000;
+    /* settings_messages_tips */
+    conf.last_tip = 0;
+    conf.show_tip = TRUE;
 
-    //~ conf.last_tip = -1;
-    //~ conf.show_tip = FALSE;
+    /* settings_messages_warnings */
+    for (i = 0; messages[i].name; i++)
+    {
+        messages[i].hidden = TRUE;
+    }
 
-    //~ /* mise en conformité avec les recommandations FreeDesktop. */
-    //~ if (conf.browser_command)
-        //~ g_free (conf.browser_command);
-    //~ conf.browser_command = g_strdup (ETAT_WWW_BROWSER);
+    /* settings_panel */
+    conf.active_scrolling_left_pane = FALSE;
+    conf.panel_width = 250;
 
-    //~ conf.metatree_action_2button_press = 0;     /* action par défaut pour le double clic sur division */
+	/* settings_prefs */
+    conf.prefs_archives_sort_order = FALSE;
+    conf.prefs_fyear_sort_order = FALSE;
+    conf.prefs_height = 600;
+	conf.prefs_panel_width = 360;
+    conf.prefs_width = 1050;
 
-    //~ memset (etat.csv_skipped_lines, '\0', sizeof(gboolean) * CSV_MAX_TOP_LINES);
+	/* settings_scheduled */
+    conf.balances_with_scheduled = TRUE;
+    conf.execute_scheduled_of_month = FALSE;
+    conf.nb_days_before_scheduled = 0;
+    conf.scheduler_fixed_day = 1;
+    conf.scheduler_set_fixed_day = FALSE;
 }
 
-/**
- * called for each new element in the last xml config file
- * see the g_lib doc for the description of param
- *
- * \param context
- * \param text
- * \param text_len
- * \param user_data
- * \param error
- *
- * \return
- **/
-//~ static void gsb_file_config_get_xml_text_element (GMarkupParseContext *context,
-												  //~ const gchar *text,
-												  //~ gsize text_len,
-												  //~ gpointer user_data,
-												  //~ GError **error)
-//~ {
-    //~ const gchar *element_name;
-    //~ gint i;
-
-    //~ element_name = g_markup_parse_context_get_element (context);
-
-    //~ if (!strcmp (element_name,
-		   //~ "Width"))
-    //~ {
-	//~ conf.main_width = utils_str_atoi (text);
-	//~ return;
-    //~ }
-
-    //~ if (!strcmp (element_name,
-		   //~ "Height"))
-    //~ {
-	//~ conf.main_height = utils_str_atoi (text);
-	//~ return;
-    //~ }
-
-    //~ if (!strcmp (element_name,
-		   //~ "Modification_operations_rapprochees"))
-    //~ {
-	//~ conf.r_modifiable = utils_str_atoi (text);
-	//~ return;
-    //~ }
-
-    //~ if (!strcmp (element_name,
-		   //~ "Dernier_chemin_de_travail"))
-    //~ {
-	//~ gsb_file_update_last_path (text);
-
-	//~ if (!gsb_file_get_last_path ()
-	     //~ ||
-	     //~ !strlen (gsb_file_get_last_path ()))
-	    //~ gsb_file_update_last_path (g_get_home_dir ());
-	//~ return;
-    //~ }
-
-    //~ if (!strcmp (element_name,
-		   //~ "Affichage_alerte_permission"))
-    //~ {
-	 //~ conf.alerte_permission = utils_str_atoi (text);
-	//~ return;
-    //~ }
-
-    //~ if (!strcmp (element_name,
-		   //~ "Force_enregistrement"))
-    //~ {
-	//~ conf.force_enregistrement = utils_str_atoi (text);
-	//~ return;
-    //~ }
-
-    //~ if (!strcmp (element_name,
-		   //~ "Fonction_touche_entree"))
-    //~ {
-	//~ conf.entree = utils_str_atoi (text);
-	//~ return;
-    //~ }
-
-    //~ if (!strcmp (element_name,
-		   //~ "Affichage_messages_alertes"))
-    //~ {
-	//~ conf.alerte_mini = utils_str_atoi (text);
-	//~ return;
-    //~ }
-
-    //~ if (!strcmp (element_name,
-		   //~ "Utilise_fonte_des_listes"))
-    //~ {
-	//~ conf.utilise_fonte_listes = utils_str_atoi (text);
-	//~ return;
-    //~ }
-
-    //~ if (!strcmp (element_name,
-		   //~ "Fonte_des_listes"))
-    //~ {
-	//~ conf.font_string = my_strdup (text);
-	//~ return;
-    //~ }
-     //~ if (!strcmp (element_name,
-		   //~ "Navigateur_web"))
-    //~ {
-        //~ if (conf.browser_command)
-            //~ g_free (conf.browser_command);
-	//~ conf.browser_command = my_strdelimit (text,
-					      //~ "\\e",
-					      //~ "&");
-	//~ return;
-    //~ }
-
-    //~ if (!strcmp (element_name,
-		   //~ "Largeur_colonne_echeancier"))
-    //~ {
-	//~ etat.largeur_colonne_echeancier = utils_str_atoi (text);
-	//~ return;
-    //~ }
-
-    //~ if (!strcmp (element_name,
-		   //~ "Largeur_colonne_comptes_comptes"))
-    //~ {
-	//~ etat.largeur_colonne_comptes_comptes = utils_str_atoi (text);
-	//~ return;
-    //~ }
-
-    //~ if (!strcmp (element_name,
-		   //~ "Largeur_colonne_etats"))
-    //~ {
-	//~ etat.largeur_colonne_etat = utils_str_atoi (text);
-	//~ return;
-    //~ }
-
-    //~ if (!strcmp (element_name,
-		   //~ "Chargement_auto_dernier_fichier"))
-    //~ {
-	//~ conf.dernier_fichier_auto = utils_str_atoi (text);
-	//~ return;
-    //~ }
-
-    //~ if (!strcmp (element_name,
-		   //~ "Nom_dernier_fichier"))
-    //~ {
-	//~ nom_fichier_comptes = my_strdup (text);
-	//~ return;
-    //~ }
-
-    //~ if (!strcmp (element_name,
-		   //~ "Enregistrement_automatique"))
-    //~ {
-	//~ conf.sauvegarde_auto = utils_str_atoi (text);
-	//~ return;
-    //~ }
-
-    //~ if (!strcmp (element_name,
-		   //~ "Enregistrement_au_demarrage"))
-    //~ {
-	//~ conf.sauvegarde_demarrage = utils_str_atoi (text);
-	//~ return;
-    //~ }
-
-    //~ if (!strcmp (element_name,
-		   //~ "Nb_max_derniers_fichiers_ouverts"))
-    //~ {
-	//~ conf.nb_max_derniers_fichiers_ouverts = utils_str_atoi (text);
-	//~ return;
-    //~ }
-
-    //~ if (!strcmp (element_name,
-		   //~ "Compression_fichier"))
-    //~ {
-	//~ conf.compress_file = utils_str_atoi (text);
-	//~ return;
-    //~ }
-
-    //~ if (!strcmp (element_name,
-		   //~ "Compression_backup"))
-    //~ {
-	//~ conf.compress_backup = utils_str_atoi (text);
-	//~ return;
-    //~ }
-
-    //~ if (!strcmp (element_name,
-		   //~ "fichier"))
-    //~ {
-	//~ if (!tab_noms_derniers_fichiers_ouverts)
-	    //~ tab_noms_derniers_fichiers_ouverts = g_malloc0 (conf.nb_max_derniers_fichiers_ouverts * sizeof(gchar *));
-
-	//~ tab_noms_derniers_fichiers_ouverts[conf.nb_derniers_fichiers_ouverts] = my_strdup (text);
-	//~ conf.nb_derniers_fichiers_ouverts++;
-	//~ return;
-    //~ }
-
-    //~ if (!strcmp (element_name,
-		   //~ "Delai_rappel_echeances"))
-    //~ {
-	//~ nb_days_before_scheduled = utils_str_atoi (text);
-	//~ conf.execute_scheduled_of_month = FALSE;
-	//~ return;
-    //~ }
-
-    //~ if (!strcmp (element_name,
-		   //~ "Affichage_formulaire"))
-    //~ {
-	//~ conf.formulaire_toujours_affiche = utils_str_atoi (text);
-	//~ return;
-    //~ }
-
-    //~ if (!strcmp (element_name,
-		   //~ "Affichage_exercice_automatique"))
-    //~ {
-	//~ conf.affichage_exercice_automatique = utils_str_atoi (text);
-	//~ return;
-    //~ }
-
-    //~ if (!strcmp (element_name,
-		   //~ "display_toolbar"))
-    //~ {
-	//~ conf.display_toolbar = utils_str_atoi (text);
-	//~ return;
-    //~ }
-
-    //~ if (!strcmp (element_name,
-		   //~ "show_closed_accounts"))
-    //~ {
-	//~ conf.show_closed_accounts = utils_str_atoi (text);
-	//~ return;
-    //~ }
-
-    //~ if (!strcmp (element_name,
-		   //~ "show_tip"))
-    //~ {
-	//~ conf.show_tip = utils_str_atoi (text);
-	//~ return;
-    //~ }
-
-    //~ if (!strcmp (element_name,
-		   //~ "last_tip"))
-    //~ {
-	//~ conf.last_tip = utils_str_atoi (text);
-	//~ return;
-    //~ }
-
-    //~ for (i = 0; messages[i].name; i++)
-    //~ {
-	//~ if (!strcmp (element_name, messages[i].name))
-	//~ {
-	    //~ messages[i].hidden = utils_str_atoi (text);
-	//~ }
-    //~ }
-//~ }
-
-
+/******************************************************************************/
+/* Public functions                                                           */
+/******************************************************************************/
 /**
  * load the config file
  * it uses the glib config utils after 0.6.0
@@ -412,10 +201,7 @@ gboolean gsb_file_config_load_app_config (void)
 	gchar **recent_array;
 	gchar *tmp_path;
 	gchar *tmp_str;
-    //~ gchar *name;
     gint i;
-    //~ gint int_ret;
-    //~ GError* err = NULL;
 
     gsb_file_config_clean_config ();
 
@@ -426,7 +212,6 @@ gboolean gsb_file_config_load_app_config (void)
 										filename,
 										G_KEY_FILE_KEEP_COMMENTS,
 										NULL);
-
 	if (!result)
 		return FALSE;
 
@@ -446,7 +231,6 @@ gboolean gsb_file_config_load_app_config (void)
 								      "Backup",
 								      "backup-path",
 								      NULL);
-
     if (tmp_path == NULL || strlen (tmp_path) == 0)
     {
         tmp_path = g_strdup (gsb_dirs_get_user_data_dir ());
@@ -478,8 +262,6 @@ gboolean gsb_file_config_load_app_config (void)
 														"Backup",
 														"sauvegarde-fermeture",
 														NULL);
-
-
 
 	/* priv->settings_display */
 	tmp_str = g_key_file_get_string (config,
@@ -658,7 +440,7 @@ gboolean gsb_file_config_load_app_config (void)
 											      NULL);
 		if (strlen (conf.font_string) == 0)
 		{
-			conf.font_string = my_strdup (_("No font defined"));
+			conf.font_string = my_strdup (_("Monospace 10"));
 			conf.custom_fonte_listes = FALSE;
 		}
     }
@@ -824,7 +606,7 @@ gboolean gsb_file_config_load_app_config (void)
 															  "Panel",
 															  "active-scrolling-left-pane",
 															  NULL);
-    conf.panel_width = g_key_file_get_boolean (config,
+    conf.panel_width = g_key_file_get_integer (config,
 											   "Panel",
 											   "panel-width",
 											   NULL);
@@ -843,10 +625,10 @@ gboolean gsb_file_config_load_app_config (void)
 											    "prefs-height",
 											    NULL);
 
-   conf.prefs_panel_width = g_key_file_get_integer (config,
-												    "Prefs",
-												    "prefs-panel-width",
-												    NULL);
+   	conf.prefs_panel_width = g_key_file_get_integer (config,
+												     "Prefs",
+												     "prefs-panel-width",
+												     NULL);
 
     conf.prefs_width = g_key_file_get_integer (config,
 											   "Prefs",
@@ -1245,7 +1027,7 @@ gboolean gsb_file_config_save_app_config (void)
 							"Panel",
 							"active-scrolling-left-pane",
 							conf.active_scrolling_left_pane);
-    g_key_file_set_boolean (config,
+    g_key_file_set_integer (config,
 							"Panel",
                         	"panel-width",
                         	conf.panel_width);

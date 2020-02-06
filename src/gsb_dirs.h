@@ -7,6 +7,9 @@ void 			gsb_dirs_init 						(char* gsb_bin_path);
 const gchar *	gsb_dirs_get_categories_dir 		(void);
 const gchar *	gsb_dirs_get_help_dir 				(void);
 const gchar *	gsb_dirs_get_default_dir 			(void);
+#ifdef USE_CONFIG_FILE
+const gchar *	gsb_dirs_get_grisbirc_filename 		(void);
+#endif
 const gchar *	gsb_dirs_get_locale_dir 			(void);
 const gchar *	gsb_dirs_get_pixmaps_dir 			(void);
 gchar *			gsb_dirs_get_print_dir_var 			(void);
