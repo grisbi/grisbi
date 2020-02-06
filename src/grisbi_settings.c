@@ -591,7 +591,7 @@ static void grisbi_settings_class_init (GrisbiSettingsClass *klass)
  *
  * \return
  **/
-GrisbiSettings *grisbi_settings_get (void)
+GrisbiSettings *grisbi_settings_load_app_config (void)
 {
     if (!singleton)
     {
@@ -622,7 +622,7 @@ void grisbi_settings_save_app_config (void)
 
     devel_debug (NULL);
 
-    priv = grisbi_settings_get_instance_private (grisbi_settings_get ());
+    priv = grisbi_settings_get_instance_private (grisbi_settings_load_app_config ());
 
     /* priv->settings_root */
     g_settings_set_boolean (G_SETTINGS (priv->settings_root),
@@ -825,7 +825,7 @@ GSettings *grisbi_settings_get_settings (gint schema)
     GSettings *settings = NULL;
     GrisbiSettingsPrivate *priv = NULL;
 
-    priv = grisbi_settings_get_instance_private (grisbi_settings_get());
+    priv = grisbi_settings_get_instance_private (grisbi_settings_load_app_config());
 
     switch (schema)
     {
