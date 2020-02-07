@@ -349,11 +349,6 @@ gboolean gsb_file_config_load_app_config (void)
 	if (recent_array)
 	{
         conf.nb_derniers_fichiers_ouverts = g_strv_length (recent_array);
-		//~ guint i = 0;
-
-		//~ for (i=0; i< g_strv_length (recent_array); i++)
-			//~ printf ("file = %s\n", recent_array[i]);
-
         if (conf.nb_derniers_fichiers_ouverts > 0)
         {
 			if (conf.nb_derniers_fichiers_ouverts > conf.nb_max_derniers_fichiers_ouverts)
@@ -677,7 +672,6 @@ gboolean gsb_file_config_save_app_config (void)
 	const gchar* backup_path = NULL;
 	const gchar *filename;
 	gchar *file_content;
-	//~ gchar *name;
 	gchar **recent_array;
 	gchar *tmp_str;
 	gsize length;
@@ -819,10 +813,6 @@ gboolean gsb_file_config_save_app_config (void)
 	recent_array = grisbi_app_get_recent_files_array ();
 	if (recent_array && g_strv_length (recent_array))
 	{
-		//~ guint i = 0;
-
-		//~ for (i=0; i< g_strv_length (recent_array); i++)
-			//~ printf ("file = %s\n", recent_array[i]);
 		 g_key_file_set_string_list (config,
 									 "File",
 									 "names-last-files",

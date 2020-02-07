@@ -1468,8 +1468,6 @@ void grisbi_app_set_recent_files_array (gchar **recent_array)
 	priv = grisbi_app_get_instance_private (GRISBI_APP (app));
 
 	priv->recent_array = recent_array;
-
-	printf ("nbre de fichiers = %d\n", g_strv_length (recent_array));
 }
 
 /**
