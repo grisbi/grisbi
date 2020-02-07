@@ -70,6 +70,7 @@ export PKG_CONFIG_PATH
 	--prefix /c/projects/grisbi-inst/ \
 	--with-ofx \
 	--with-goffice
+	--enable-config-file
 
 v=$(grep PACKAGE_VERSION config.h | cut -f2 -d '"')
 minor=$(echo $v|cut -f2 -d.)
