@@ -2067,7 +2067,10 @@ gboolean gsb_scheduler_list_fill_list (GtkWidget *tree_view)
     /* get the last date we want to see the transactions */
     end_date = gsb_scheduler_list_get_end_date_scheduled_showed ();
 
-    gtk_tree_store_clear (GTK_TREE_STORE (tree_model_scheduler_list));
+	if (!tree_model_scheduler_list || !GTK_IS_TREE_STORE (tree_model_scheduler_list))
+		return  FALSE;
+	else
+	    gtk_tree_store_clear (GTK_TREE_STORE (tree_model_scheduler_list));
 
     /* fill the list */
     tmp_list = gsb_data_scheduled_get_scheduled_list ();

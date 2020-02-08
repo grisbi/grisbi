@@ -301,7 +301,10 @@ void gsb_payment_method_config_fill_list ( GtkTreeModel *model)
 {
     GSList *list_tmp;
 
-    gtk_tree_store_clear ( GTK_TREE_STORE (model) );
+	if (!model || !GTK_IS_TREE_STORE (model))
+		return;
+	else
+	    gtk_tree_store_clear (GTK_TREE_STORE (model));
 
     /* Fill tree, iter over with accounts */
     list_tmp = gsb_data_account_get_list_accounts ();

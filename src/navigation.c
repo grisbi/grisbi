@@ -1900,7 +1900,10 @@ gboolean gsb_gui_navigation_move_ordre ( gint src_ordre,
         g_queue_push_tail ( tmp_queue, page );
 
     /* on reconstruit le modèle */
-    gtk_tree_store_clear ( GTK_TREE_STORE ( navigation_model ) );
+	if (!navigation_model || !GTK_IS_TREE_STORE (navigation_model))
+		return  FALSE;
+	else
+	    gtk_tree_store_clear (GTK_TREE_STORE (navigation_model));
 
     tmp_queue = pages_list;
 

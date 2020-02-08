@@ -2222,7 +2222,10 @@ gboolean gtk_combofix_set_list (GtkComboFix *combofix,
     g_return_val_if_fail (list, FALSE);
 
     priv = gtk_combofix_get_instance_private (combofix);
-    gtk_tree_store_clear (priv->store);
+	if (!priv->store || !GTK_IS_TREE_STORE (priv->store))
+		return  FALSE;
+	else
+	    gtk_tree_store_clear (priv->store);
 
 	completion = gtk_entry_get_completion (GTK_ENTRY (priv->entry));
 	completion_store = gtk_entry_completion_get_model (completion);

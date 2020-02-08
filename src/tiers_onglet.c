@@ -879,7 +879,10 @@ void payees_fill_list (void)
     gtk_tree_view_set_model (GTK_TREE_VIEW (payee_tree), NULL);
 
     /** First, remove previous tree */
-    gtk_tree_store_clear (GTK_TREE_STORE (payee_tree_model));
+	if (!payee_tree_model || !GTK_IS_TREE_STORE (payee_tree_model))
+		return;
+	else
+   		gtk_tree_store_clear (GTK_TREE_STORE (payee_tree_model));
 
     /* Compute payee balances. */
     gsb_data_payee_update_counters ();

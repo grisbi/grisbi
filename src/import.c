@@ -1460,7 +1460,10 @@ static void gsb_import_select_file (GSList *filenames,
 
 	devel_debug (charmap_imported);
     model = g_object_get_data (G_OBJECT (assistant), "model");
-	gtk_tree_store_clear (GTK_TREE_STORE (model));
+	if (!model || !GTK_IS_TREE_STORE (model))
+		return;
+	else
+		gtk_tree_store_clear (GTK_TREE_STORE (model));
 
 	if (conf.force_import_directory)
 	{

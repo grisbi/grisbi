@@ -284,7 +284,10 @@ void budgetary_lines_fill_list ( void )
     devel_debug (NULL);
 
     /** First, remove previous tree */
-    gtk_tree_store_clear ( GTK_TREE_STORE (budgetary_line_tree_model));
+	if (!budgetary_line_tree_model || !GTK_IS_TREE_STORE (budgetary_line_tree_model))
+		return;
+	else
+	    gtk_tree_store_clear (GTK_TREE_STORE (budgetary_line_tree_model));
 
     /* Compute budget balances. */
     gsb_data_budget_update_counters ();
