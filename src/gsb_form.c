@@ -3386,7 +3386,10 @@ gboolean gsb_form_finish_edition (void)
 			gsb_form_widget_set_focus (TRANSACTION_FORM_DATE);
 	}
 	else
+	{
+		gsb_scheduler_check_scheduled_transactions_time_limit ();
 		gsb_scheduler_list_edit_transaction (gsb_scheduler_list_get_current_scheduled_number ());
+	}
 
     return FALSE;
 }
