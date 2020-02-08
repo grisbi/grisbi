@@ -6,20 +6,20 @@
 # Martin Stromberger <ma.stromberger@gmx.at>, 2007, 2008.
 # Martin Stromberger <ma.stromberger@gmx.at>, 2008, 2009, 2010, 2011.
 # Martin Stromberger <ma.stromberger@gmx.at>, 2012, 2013, 2018.
-# Martin Stromberger <mstromberger@aon.at>, 2018, 2019.
+# Martin Stromberger <mstromberger@aon.at>, 2018, 2019, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-01-14 21:55+0100\n"
-"PO-Revision-Date: 2019-10-20 11:13+0200\n"
+"PO-Revision-Date: 2020-02-08 10:11+0100\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 19.08.2\n"
+"X-Generator: Lokalize 19.12.2\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../src/accueil.c:129
@@ -7840,9 +7840,9 @@ msgid "Cannot save encrypted file '%s'"
 msgstr "Die verschlüsselte Datei kann nicht gespeichert werden '%s'"
 
 #: ../src/gsb_file_save.c:2944
-#, fuzzy, c-format
+#, c-format
 msgid "cannot save CSS file '%s': %s"
-msgstr "Die Datei kann nicht gespeichert werden '%s': %s"
+msgstr "Die CSS-Datei kann nicht gespeichert werden '%s': %s"
 
 #: ../src/gsb_file_util.c:72
 msgid "No name to the file !"
@@ -8596,9 +8596,8 @@ msgid "Children of split transaction"
 msgstr "Teilbuchungen von Splittbuchungen"
 
 #: ../src/gsb_rgba.c:497
-#, fuzzy
 msgid "Selection color"
-msgstr "Hintergrund ausgewählte Buchung"
+msgstr "Farbauswahl"
 
 #: ../src/gsb_rgba.c:498
 msgid "Background of non selectable scheduled transactions"
@@ -10306,9 +10305,8 @@ msgid "Message"
 msgstr "Meldung"
 
 #: ../src/parametres.c:186
-#, fuzzy
 msgid "No file loading"
-msgstr "Dateien"
+msgstr "Keine Datei geladen"
 
 #. Delete messages
 #: ../src/parametres.c:233
@@ -11418,25 +11416,29 @@ msgid "Form completion"
 msgstr "Automatische Vervollständigung"
 
 #: ../src/prefs/prefs_page_display_fonts.c:117
-#, fuzzy
 msgid ""
 "You will have to restart Grisbi for the new theme to take effect.\n"
 "If you have unsaved data, it will be saved before leaving."
-msgstr "Damit die Änderung wirksam wird muss Grisbi neu gestartet werden."
+msgstr ""
+"Damit die Änderung vom Design wirksam wird muss Grisbi neu gestartet werden.\n"
+"Nicht gespeicherte Änderungen werden beim Neustart gespeichert."
 
 #: ../src/prefs/prefs_page_display_fonts.c:119
 msgid "Force Grisbi to use a dark theme!"
-msgstr ""
+msgstr "Dunkles Design erzwingen"
 
 #: ../src/prefs/prefs_page_display_fonts.c:123
 msgid ""
 "You must restart to return to the default operation.\n"
 "If you have unsaved data, it will be saved before leaving."
 msgstr ""
+"Damit die Änderungen zurückgesetzt  werden wird muss Grisbi neu gestartet"
+" werden.\n"
+"Nicht gespeicherte Änderungen werden beim Neustart gespeichert."
 
 #: ../src/prefs/prefs_page_display_fonts.c:125
 msgid "Return to automatic theme detection"
-msgstr ""
+msgstr "Zurück zur automatischen Auswahl"
 
 #: ../src/prefs/prefs_page_display_fonts.c:492
 msgid "Select a new logo"
@@ -11450,14 +11452,12 @@ msgstr "Schriften & Logo"
 #. set the elements for colors
 #. set the themes buttons
 #: ../src/prefs/prefs_page_display_fonts.c:688
-#, fuzzy
 msgid "Automatic selection"
-msgstr "Daten Auswahl"
+msgstr "Automatische Auswahl"
 
 #: ../src/prefs/prefs_page_display_fonts.c:689
-#, fuzzy
 msgid "Force the use of dark theme"
-msgstr "Amerikanisches Datumsformat verwenden"
+msgstr "Dunkles Design erzwingen"
 
 #: ../src/prefs/prefs_page_divers.c:188
 msgid "You will have to restart Grisbi for the new language to take effect."
@@ -11923,14 +11923,13 @@ msgid "If utilise-fonte-listes = TRUE, this is the name of the custom font."
 msgstr "Schrift Name."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:69
-#, fuzzy
 msgid "Use a dark theme"
-msgstr "Valutadatum verwenden"
+msgstr "Dunkles Design verwenden"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:70
 msgid ""
 "Force the use a dark theme when the automatic selection is not available"
-msgstr ""
+msgstr "Dunkles Design erzwingen wenn automatische Auswahl nicht verfügbar ist"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:71
 msgid "Browser command"
@@ -13063,15 +13062,15 @@ msgstr "Eine benutzerdefinierte Schrift für Buchungen verwenden: "
 
 #: ../src/ui/prefs_page_display_fonts.ui.h:7
 msgid "Theme and Colors"
-msgstr ""
+msgstr "Design und Farben"
 
 #: ../src/ui/prefs_page_display_fonts.ui.h:8
 msgid "Theme"
-msgstr ""
+msgstr "Design"
 
 #: ../src/ui/prefs_page_display_fonts.ui.h:9
 msgid "(If a dark theme is not detected automatically, check the other option)"
-msgstr ""
+msgstr "Wenn Dunkel nicht erkannt wird die andere Möglichkeit auswählen"
 
 #: ../src/ui/prefs_page_display_fonts.ui.h:10
 msgid "Colors"
