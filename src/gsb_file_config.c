@@ -139,10 +139,10 @@ static void gsb_file_config_clean_config (void)
     conf.transactions_list_secondary_sorting = 0;		/* "Sort by transaction number" */
 
     /* settings_geometry */
-	conf.full_screen = TRUE;
-    conf.main_height = 700;
+	conf.full_screen = FALSE;
+    conf.main_height = 600;
     conf.main_width = 1000;
-    conf.maximize_screen = TRUE;
+    conf.maximize_screen = FALSE;
     conf.x_position = 100;
    	conf.y_position= 100;
 
