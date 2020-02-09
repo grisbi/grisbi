@@ -69,7 +69,7 @@ export PKG_CONFIG_PATH
 ./configure \
 	--prefix /c/projects/grisbi-inst/ \
 	--with-ofx \
-	--with-goffice
+	--with-goffice \
 	--enable-config-file
 
 v=$(grep PACKAGE_VERSION config.h | cut -f2 -d '"')
