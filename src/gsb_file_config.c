@@ -220,10 +220,7 @@ gboolean gsb_file_config_load_app_config (void)
 											 "Root",
 											 "first-use",
 											 NULL);
-	conf.force_classic_menu = g_key_file_get_boolean (config,
-													  "Root",
-													  "force-classic-menu",
-											 		  NULL);
+	conf.force_classic_menu = TRUE;
 
 	/* set settings_backup */
     /* on fixe le backup path s'il n'est pas initialisé */
@@ -691,7 +688,7 @@ gboolean gsb_file_config_save_app_config (void)
 	g_key_file_set_boolean (config,
 							"Root",
 							"force-classic-menu",
-							conf.force_classic_menu);
+							TRUE);
 
 	/* settings_backup */
 	backup_path = gsb_file_get_backup_path ();
