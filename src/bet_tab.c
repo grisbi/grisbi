@@ -3276,13 +3276,13 @@ gboolean bet_array_list_select_path (GtkWidget *tree_view, GtkTreePath *path)
 }
 
 /**
- *
+ * fonction de définition de la largeur des colonnes du tableau des prévisions
  *
  * \param
  *
  * \return
  **/
-gboolean bet_array_list_set_largeur_col (void)
+gboolean bet_array_list_set_largeur_col_treeview (void)
 {
     gint i;
     gint width;
