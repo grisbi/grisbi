@@ -82,7 +82,6 @@ static GtkTreeViewColumn *	bet_array_tree_view_columns[BET_ARRAY_COLUMNS];	/* ta
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern const gdouble prev_month_max;
 /*END_EXTERN*/
 
 /******************************************************************************/
@@ -428,6 +427,7 @@ static gboolean bet_array_initializes_account_settings (gint account_number)
     gpointer pointeur;
     gint param;
     gint months;
+	gdouble prev_month_max;
 
     /* devel_debug_int (account_number); */
     account_page = grisbi_win_get_account_page ();
@@ -440,6 +440,7 @@ static gboolean bet_array_initializes_account_settings (gint account_number)
                         			 G_CALLBACK (bet_config_duration_number_changed),
                         			 GINT_TO_POINTER (1));
 
+	prev_month_max = bet_config_get_prev_month_max ();
     if (param == 0)
     {
         widget = g_object_get_data (G_OBJECT (account_page), "bet_account_previous");

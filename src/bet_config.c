@@ -1079,6 +1079,18 @@ GtkWidget *bet_config_get_finance_widget ( GtkWidget *parent )
  *
  * \return
  **/
+gdouble bet_config_get_prev_month_max (void)
+{
+	return prev_month_max;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

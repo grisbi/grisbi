@@ -18,6 +18,7 @@ void 		bet_config_fyear_clicked 						(GtkWidget *combo,
 															 gpointer data);
 GtkWidget *	bet_config_general_create_general_page 			(void);
 GtkWidget *	bet_config_get_duration_widget 					(gint origin);
+gdouble		bet_config_get_prev_month_max					(void);
 GtkWidget *	bet_config_get_select_historical_data 			(GtkWidget *container,
 															 GtkWidget *notebook);
 GtkWidget *	bet_config_get_select_labels_widget 			(GtkWidget *container);
