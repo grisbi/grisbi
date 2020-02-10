@@ -127,7 +127,7 @@ enum BetEstimationTreeColumns
 };
 
 /* noms des colonnes du tree_view des données historiques */
-enum BetHistoricalDataColumns {
+enum BetHistoricalTreeColumns {
     SPP_HISTORICAL_SELECT_COLUMN,
     SPP_HISTORICAL_DESC_COLUMN,
     SPP_HISTORICAL_CURRENT_COLUMN,				/* Accumulation of the current year */
