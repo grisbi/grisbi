@@ -168,7 +168,7 @@ static gboolean gsb_menu_reinit_largeur_col_menu (void)
 
 		if (bet_show_onglets == BET_ONGLETS_PREV)
 		{
-			initialise_largeur_colonnes_prev_tab ();
+			bet_array_init_largeur_col_treeview (NULL);
 			bet_array_list_set_largeur_col_treeview ();
 		}
 		else

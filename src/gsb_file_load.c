@@ -38,6 +38,7 @@
 #include "bet_data.h"
 #include "bet_data_finance.h"
 #include "bet_graph.h"
+#include "bet_tab.h"
 #include "custom_list.h"
 #include "dialog.h"
 #include "export_csv.h"
@@ -220,18 +221,7 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
                     w_etat->no_devise_totaux_ib = utils_str_atoi ( attribute_values[i]);
 
                 else if ( !strcmp ( attribute_names[i], "Bet_array_column_width" ))
-                {
-                    gchar **pointeur_char;
-                    gint j;
-
-                    /* the bet_array columns are xx-xx-xx-xx-xx and we want to set in bet_array_col_width[1-2-3...] */
-                    pointeur_char = g_strsplit ( attribute_values[i], "-", 0 );
-
-                    for ( j = 0; j < BET_ARRAY_COLUMNS; j++ )
-                        bet_array_col_width[j] = utils_str_atoi ( pointeur_char[j] );
-
-                    g_strfreev ( pointeur_char );
-                }
+                    bet_array_init_largeur_col_treeview (attribute_values[i]);
 
                 else
                     unknown = 1;

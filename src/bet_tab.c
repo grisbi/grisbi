@@ -71,6 +71,11 @@
 
 
 /*START_STATIC*/
+/* largeur des colonnes effectives */
+static gint 				bet_array_col_width[BET_ARRAY_COLUMNS];
+/* the initial width of each column */
+static gint 				bet_array_col_width_init[BET_ARRAY_COLUMNS] = {15, 45, 12, 12, 14};
+/* variable qui sert au redimensionnement du tableau des prévisions */
 static gint 				bet_array_current_tree_view_width = 0;
 static GtkWidget *			bet_array_toolbar;								/* toolbar */
 static GtkTreeViewColumn *	bet_array_tree_view_columns[BET_ARRAY_COLUMNS];	/* tableau des colonnes */
@@ -79,11 +84,6 @@ static GtkTreeViewColumn *	bet_array_tree_view_columns[BET_ARRAY_COLUMNS];	/* ta
 /*START_EXTERN*/
 extern const gdouble prev_month_max;
 /*END_EXTERN*/
-
-/* the initial width of each column */
-gint bet_array_col_width[BET_ARRAY_COLUMNS];
-
-
 
 /******************************************************************************/
 /* Private functions                                                          */
@@ -3142,6 +3142,69 @@ void bet_array_create_transaction_from_transfert (TransfertData *transfert)
     g_date_free (date_exec);
     g_date_free (date_debut_comparaison);
     g_date_free (date_fin_comparaison);
+}
+
+/**
+ * retourne une chaine formatée des largeurs de colonnes du treeview prévisions
+ *
+ * \param
+ *
+ * \return a newly allocated chain to be released
+ **/
+gchar *bet_array_get_largeur_col_treeview_to_string	(void)
+{
+    gchar *first_string_to_free;
+    gchar *second_string_to_free;
+	gchar *tmp_str = NULL;
+	gint i = 0;
+
+    for (i=0 ; i < BET_ARRAY_COLUMNS ; i++)
+    {
+        if (tmp_str)
+        {
+			first_string_to_free = tmp_str;
+			second_string_to_free = utils_str_itoa (bet_array_col_width[i]);
+            tmp_str = g_strconcat (first_string_to_free, "-", second_string_to_free,  NULL);
+            g_free (first_string_to_free);
+            g_free (second_string_to_free);
+        }
+        else
+            tmp_str  = utils_str_itoa (bet_array_col_width[i]);
+    }
+
+	return tmp_str;
+}
+
+/**
+ * Iniialise le tableau des largeurs de colonnes du treeview des prévisions
+ *
+ * \param	string 	Chaine contenant les largeurs des colonnes
+ * 					Si NULL utilse les donnes par défaut.
+ *
+ * \return
+ **/
+void bet_array_init_largeur_col_treeview (const gchar* string)
+{
+	gint i = 0;
+
+	if (string && strlen (string))
+	{
+		gchar **pointeur_char;
+
+		/* the bet_array columns are xx-xx-xx-xx-xx and we want to set in bet_array_col_width[1-2-3...] */
+		pointeur_char = g_strsplit (string, "-", 5);
+
+		for (i = 0; i < BET_ARRAY_COLUMNS; i++ )
+			bet_array_col_width[i] = utils_str_atoi ( pointeur_char[i] );
+
+		g_strfreev ( pointeur_char );
+    }
+	else
+	{
+		/* defaut value for width of columns */
+    	for (i = 0 ; i < BET_ARRAY_COLUMNS ; i++)
+        	bet_array_col_width[i] = bet_array_col_width_init[i];
+	}
 }
 
 /**

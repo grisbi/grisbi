@@ -40,6 +40,7 @@
 #include "bet_data_finance.h"
 #include "bet_future.h"
 #include "bet_graph.h"
+#include "bet_tab.h"
 #include "categories_onglet.h"
 #include "custom_list.h"
 #include "export_csv.h"
@@ -93,7 +94,6 @@
 /* the total of % of scheduled columns can be > 100 because all the columns are not showed at the same time */
 static const gchar *	scheduler_col_width_init = "10-12-36-12-12-12-12";
 static const gchar *	transaction_col_width_init = "10-12-30-12-12-12-12";
-static gint 			bet_array_col_width_init[BET_ARRAY_COLUMNS] = {15, 45, 12, 12, 14};
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -305,8 +305,7 @@ void init_variables (void)
     bet_future_initialise_dialog ();
     etat.bet_deb_period = 1;
     /* defaut value for width of columns */
-    for (i = 0 ; i < BET_ARRAY_COLUMNS ; i++)
-        bet_array_col_width[i] = bet_array_col_width_init[i];
+    bet_array_init_largeur_col_treeview (NULL);
 
     bet_data_finance_data_simulator_init ();
 	bet_data_loan_delete_all_loans ();
@@ -355,7 +354,8 @@ void free_variables (void)
  *
  * \return
  **/
-void initialise_largeur_colonnes_tab_affichage_ope (gint type_operation, const gchar *description)
+void initialise_largeur_colonnes_tab_affichage_ope (gint type_operation,
+													const gchar *description)
 {
     gchar **pointeur_char;
     gint j;
@@ -383,24 +383,6 @@ void initialise_largeur_colonnes_tab_affichage_ope (gint type_operation, const g
    }
 
     g_strfreev (pointeur_char);
-}
-
-/**
- *	Initialise la largeur des colonnes du tableau des prévisions
- *
- * \param
- *
- * \return
- **/
-void initialise_largeur_colonnes_prev_tab (void)
-{
-	gint i;
-
-    for (i = 0; i < BET_ARRAY_COLUMNS - 1; i++)
-    {
-        bet_array_col_width[i] = bet_array_col_width_init[i];
-   }
-
 }
 
 /**

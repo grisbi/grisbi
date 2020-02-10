@@ -43,6 +43,7 @@
 #include "bet_data.h"
 #include "bet_data_finance.h"
 #include "bet_graph.h"
+#include "bet_tab.h"
 #include "custom_list.h"
 #include "dialog.h"
 #include "grisbi_app.h"
@@ -717,22 +718,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
 		form_columns_width = utils_str_itoa ( gsb_data_form_get_width_column (k));
 
 	/* prepare bet_array_column_width_write */
-    bet_array_column_width_write = NULL;
-
-    for ( i=0 ; i < BET_ARRAY_COLUMNS ; i++ )
-    {
-        if ( bet_array_column_width_write )
-        {
-            bet_array_column_width_write = g_strconcat ( first_string_to_free = bet_array_column_width_write,
-                                 "-",
-                                 second_string_to_free = utils_str_itoa ( bet_array_col_width[i] ),
-                                 NULL );
-            g_free ( first_string_to_free );
-            g_free ( second_string_to_free );
-        }
-        else
-            bet_array_column_width_write  = utils_str_itoa ( bet_array_col_width[i] );
-    }
+    bet_array_column_width_write = bet_array_get_largeur_col_treeview_to_string ();
 
     /* save localization data */
     date_format = gsb_date_get_format_date ( );
