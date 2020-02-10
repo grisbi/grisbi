@@ -2,8 +2,8 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
-/*                      2009-2011 Pierre Biava (grisbi@pierre.biava.name)     */
-/*          https://www.grisbi.org/                                            */
+/*                      2009-2020 Pierre Biava (grisbi@pierre.biava.name)     */
+/*          https://www.grisbi.org/                                           */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -90,31 +90,64 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void initialise_tab_affichage_ope ( void );
+/* the total of % of scheduled columns can be > 100 because all the columns are not showed at the same time */
+static const gchar *	scheduler_col_width_init = "10-12-36-12-12-12-12";
+static const gchar *	transaction_col_width_init = "10-12-30-12-12-12-12";
+static gint 			bet_array_col_width_init[BET_ARRAY_COLUMNS] = {15, 45, 12, 12, 14};
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkTreeModel *bank_list_model;
-extern gint bet_array_col_width[BET_ARRAY_COLUMNS];
-extern gint current_tree_view_width;
-extern GtkWidget *detail_devise_compte;
-extern gint display_one_line;
-extern gint display_three_lines;
-extern gint display_two_lines;
-extern gint id_timeout;
-extern GSList *orphan_child_transactions;
-extern gint scheduler_col_width[SCHEDULER_COL_VISIBLE_COLUMNS];
-extern gint scheduler_current_tree_view_width;
-extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
-extern gint transaction_col_align[CUSTOM_MODEL_VISIBLE_COLUMNS];
-extern gint transaction_col_width[CUSTOM_MODEL_VISIBLE_COLUMNS];
+extern GtkTreeModel *	bank_list_model;
+extern gint 			bet_array_col_width[BET_ARRAY_COLUMNS];
+extern gint 			current_tree_view_width;
+extern GtkWidget *		detail_devise_compte;
+extern gint 			display_one_line;
+extern gint 			display_three_lines;
+extern gint 			display_two_lines;
+extern gint 			id_timeout;
+extern GSList *			orphan_child_transactions;
+extern gint 			scheduler_col_width[SCHEDULER_COL_VISIBLE_COLUMNS];
+extern gint 			scheduler_current_tree_view_width;
+extern gint 			tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
+extern gint 			transaction_col_align[CUSTOM_MODEL_VISIBLE_COLUMNS];
+extern gint 			transaction_col_width[CUSTOM_MODEL_VISIBLE_COLUMNS];
 /*END_EXTERN*/
 
-/* the total of % of scheduled columns can be > 100 because all the columns are not showed at the same time */
-static const gchar *scheduler_col_width_init = "10-12-36-12-12-12-12";
-static const gchar *transaction_col_width_init = "10-12-30-12-12-12-12";
-static gint bet_array_col_width_init[BET_ARRAY_COLUMNS] = {15, 45, 12, 12, 14};
+/******************************************************************************/
+/* Private functions                                                          */
+/******************************************************************************/
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+static void initialise_tab_affichage_ope (void)
+{
+    gint tab[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS] = {
+    {ELEMENT_CHQ, ELEMENT_DATE, ELEMENT_PARTY, ELEMENT_MARK, ELEMENT_DEBIT, ELEMENT_CREDIT, ELEMENT_BALANCE},
+    {0, 0, ELEMENT_CATEGORY, 0, ELEMENT_PAYMENT_TYPE, ELEMENT_AMOUNT, 0},
+    {0, 0, ELEMENT_NOTES, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0}
+	};
+    gint i, j;
 
+    devel_debug (NULL);
+
+    for (i = 0 ; i<TRANSACTION_LIST_ROWS_NB ; i++)
+    for (j = 0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++)
+        tab_affichage_ope[i][j] = tab[i][j];
+
+    /* by default, the display of lines is 1, 1-2, 1-2-3 */
+    display_one_line = 0;
+    display_two_lines = 0;
+    display_three_lines = 0;
+}
+
+/******************************************************************************/
+/* Public functions                                                           */
+/******************************************************************************/
 /**
  * initialisation of all the variables of grisbi
  * if some are not empty, free them before set it to NULL
@@ -123,7 +156,7 @@ static gint bet_array_col_width_init[BET_ARRAY_COLUMNS] = {15, 45, 12, 12, 14};
  *
  * \return
  * */
-void init_variables ( void )
+void init_variables (void)
 {
     gint transaction_col_align_init[CUSTOM_MODEL_VISIBLE_COLUMNS] = { 1, 1, 0, 1, 2, 2, 2 };
     gint i;
@@ -140,11 +173,11 @@ void init_variables ( void )
 	w_run->prefs_selected_row = g_strdup ("0:0");
 
 	/* initialise l'ordre des pages du panneau de gauche */
-    gsb_gui_navigation_init_pages_list ( );
+    gsb_gui_navigation_init_pages_list ();
 
     /* if ever there is still something from the previous list,
      * erase now */
-    transaction_model_set_model ( NULL );
+    transaction_model_set_model (NULL);
 
     gsb_data_account_init_variables ();
     gsb_data_transaction_init_variables ();
@@ -168,8 +201,8 @@ void init_variables ( void )
     gsb_data_archive_init_variables ();
     gsb_data_archive_store_init_variables ();
     gsb_data_import_rule_init_variables ();
-    gsb_import_associations_init_variables ( );
-    gsb_data_partial_balance_init_variables ( );
+    gsb_import_associations_init_variables ();
+    gsb_data_partial_balance_init_variables ();
 
     gsb_currency_init_variables ();
     gsb_fyear_init_variables ();
@@ -193,8 +226,8 @@ void init_variables ( void )
     etat.affichage_echeances_perso_nb_libre = 0;
     etat.affichage_echeances_perso_j_m_a = PERIODICITY_DAYS;
 
-    if ( etat.name_logo && strlen ( etat.name_logo ) )
-        g_free ( etat.name_logo );
+    if (etat.name_logo && strlen (etat.name_logo))
+        g_free (etat.name_logo);
     etat.name_logo = NULL;
     etat.utilise_logo = 1;
     gsb_select_icon_init_logo_variables ();
@@ -203,9 +236,9 @@ void init_variables ( void )
 
     /* reconcile (etat) */
     run.reconcile_account_number = -1;
-    g_free ( run.reconcile_final_balance );
-    if ( run.reconcile_new_date )
-        g_date_free ( run.reconcile_new_date );
+    g_free (run.reconcile_final_balance);
+    if (run.reconcile_new_date)
+        g_date_free (run.reconcile_new_date);
     run.reconcile_final_balance = NULL;
     run.reconcile_new_date = NULL;
 
@@ -233,23 +266,23 @@ void init_variables ( void )
     grisbi_win_free_general_notebook ();
 
     /* defaut value for width and align of columns */
-    initialise_largeur_colonnes_tab_affichage_ope ( GSB_ACCOUNT_PAGE, transaction_col_width_init );
-    initialise_largeur_colonnes_tab_affichage_ope ( GSB_SCHEDULER_PAGE, scheduler_col_width_init );
-    for ( i = 0 ; i < CUSTOM_MODEL_VISIBLE_COLUMNS ; i++ )
+    initialise_largeur_colonnes_tab_affichage_ope (GSB_ACCOUNT_PAGE, transaction_col_width_init);
+    initialise_largeur_colonnes_tab_affichage_ope (GSB_SCHEDULER_PAGE, scheduler_col_width_init);
+    for (i = 0 ; i < CUSTOM_MODEL_VISIBLE_COLUMNS ; i++)
         transaction_col_align[i] = transaction_col_align_init[i];
 
-    if ( etat.transaction_column_width && strlen ( etat.transaction_column_width ) )
+    if (etat.transaction_column_width && strlen (etat.transaction_column_width))
     {
-        g_free ( etat.transaction_column_width );
+        g_free (etat.transaction_column_width);
         etat.transaction_column_width = NULL;
-    }
-    if ( etat.scheduler_column_width && strlen ( etat.scheduler_column_width ) )
+   }
+    if (etat.scheduler_column_width && strlen (etat.scheduler_column_width))
     {
-        g_free ( etat.scheduler_column_width );
+        g_free (etat.scheduler_column_width);
         etat.scheduler_column_width = NULL;
-    }
+   }
 
-    gsb_gui_navigation_init_tree_view ( );
+    gsb_gui_navigation_init_tree_view ();
 
     /* free the form */
     gsb_form_widget_free_list ();
@@ -263,23 +296,23 @@ void init_variables ( void )
     {
     g_source_remove (id_timeout);
     id_timeout = 0;
-    }
+   }
 
     /* initializes the variables for the estimate balance module */
     /* création de la liste des données à utiliser dans le tableau de résultats */
-    bet_data_init_variables ( );
+    bet_data_init_variables ();
     /* initialisation des boites de dialogue */
-    bet_future_initialise_dialog ( );
+    bet_future_initialise_dialog ();
     etat.bet_deb_period = 1;
     /* defaut value for width of columns */
-    for ( i = 0 ; i < BET_ARRAY_COLUMNS ; i++ )
+    for (i = 0 ; i < BET_ARRAY_COLUMNS ; i++)
         bet_array_col_width[i] = bet_array_col_width_init[i];
 
-    bet_data_finance_data_simulator_init ( );
+    bet_data_finance_data_simulator_init ();
 	bet_data_loan_delete_all_loans ();
 
 #ifdef HAVE_GOFFICE
-    bet_graph_set_configuration_variables ( NULL );
+    bet_graph_set_configuration_variables (NULL);
 #endif /* HAVE_GOFFICE */
 
 }
@@ -317,67 +350,43 @@ void free_variables (void)
  * initialise la largeur des colonnes du tableau d'affichage des opérations.
  * ou des opérations planifiées.
  *
- * */
-void initialise_largeur_colonnes_tab_affichage_ope ( gint type_operation, const gchar *description )
+ * \param	GSB_ACCOUNT_PAGE ou GSB_SCHEDULER_PAGE
+ * \param	chaine contenant la largeur des colonnes séparées par un tiret
+ *
+ * \return
+ **/
+void initialise_largeur_colonnes_tab_affichage_ope (gint type_operation, const gchar *description)
 {
     gchar **pointeur_char;
     gint j;
 
-    if ( description == NULL )
+    if (description == NULL)
     {
-        if ( type_operation == GSB_ACCOUNT_PAGE )
+        if (type_operation == GSB_ACCOUNT_PAGE)
             description = transaction_col_width_init;
-        else if ( type_operation == GSB_SCHEDULER_PAGE )
+        else if (type_operation == GSB_SCHEDULER_PAGE)
             description = scheduler_col_width_init;
-    }
+	}
 
     /* the transactions columns are xx-xx-xx-xx and we want to set in transaction_col_width[1-2-3...] */
-    pointeur_char = g_strsplit ( description, "-", 0 );
+    pointeur_char = g_strsplit (description, "-", 0);
 
-    if ( type_operation == GSB_ACCOUNT_PAGE )
+    if (type_operation == GSB_ACCOUNT_PAGE)
     {
-        for ( j = 0 ; j < CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
-            transaction_col_width[j] = utils_str_atoi ( pointeur_char[j] );
-    }
-    else if ( type_operation == GSB_SCHEDULER_PAGE )
+        for (j = 0 ; j < CUSTOM_MODEL_VISIBLE_COLUMNS ; j++)
+            transaction_col_width[j] = utils_str_atoi (pointeur_char[j]);
+	}
+    else if (type_operation == GSB_SCHEDULER_PAGE)
     {
-        for ( j = 0 ; j < SCHEDULER_COL_VISIBLE_COLUMNS ; j++ )
-            scheduler_col_width[j] = utils_str_atoi ( pointeur_char[j] );
-    }
+        for (j = 0 ; j < SCHEDULER_COL_VISIBLE_COLUMNS ; j++)
+            scheduler_col_width[j] = utils_str_atoi (pointeur_char[j]);
+   }
 
-        g_strfreev ( pointeur_char );
+    g_strfreev (pointeur_char);
 }
 
-
 /**
- * initialise le contenu du tableau d'affichage des opérations.
- *
- * */
-void initialise_tab_affichage_ope ( void )
-{
-    gint tab[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS] = {
-    { ELEMENT_CHQ, ELEMENT_DATE, ELEMENT_PARTY, ELEMENT_MARK, ELEMENT_DEBIT, ELEMENT_CREDIT, ELEMENT_BALANCE },
-    {0, 0, ELEMENT_CATEGORY, 0, ELEMENT_PAYMENT_TYPE, ELEMENT_AMOUNT, 0 },
-    {0, 0, ELEMENT_NOTES, 0, 0, 0, 0 },
-    {0, 0, 0, 0, 0, 0, 0 }
-    };
-    gint i, j;
-
-    devel_debug (NULL);
-
-    for ( i = 0 ; i<TRANSACTION_LIST_ROWS_NB ; i++ )
-    for ( j = 0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
-        tab_affichage_ope[i][j] = tab[i][j];
-
-    /* by default, the display of lines is 1, 1-2, 1-2-3 */
-    display_one_line = 0;
-    display_two_lines = 0;
-    display_three_lines = 0;
-}
-
-
-/**
- *
+ *	Initialise la largeur des colonnes du tableau des prévisions
  *
  * \param
  *
@@ -390,7 +399,7 @@ void initialise_largeur_colonnes_prev_tab (void)
     for (i = 0; i < BET_ARRAY_COLUMNS - 1; i++)
     {
         bet_array_col_width[i] = bet_array_col_width_init[i];
-    }
+   }
 
 }
 
