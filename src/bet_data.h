@@ -152,18 +152,24 @@ void 						bet_data_free_variables 					(void);
 GDate *						bet_data_array_get_date_max 				(gint account_number);
 gboolean 					bet_data_future_add_lines 					(FuturData *scheduled);
 GHashTable *				bet_data_future_get_list 					(void);
-FuturData *					bet_data_future_get_struct 					(gint account_number, gint number);
+FuturData *					bet_data_future_get_struct 					(gint account_number,
+																		 gint number);
 gboolean 					bet_data_future_modify_lines 				(FuturData *scheduled);
-gboolean 					bet_data_future_remove_line 				(gint account_number, gint number, gboolean maj);
+gboolean 					bet_data_future_remove_line 				(gint account_number,
+																		 gint number,
+																		 gboolean maj);
 gboolean 					bet_data_future_remove_lines 				(gint account_number,
 																		 gint number,
 																		 gint mother_row);
 gboolean 					bet_data_future_set_lines_from_file 		(FuturData *scheduled);
-gboolean 					bet_data_get_div_edited 					(gint account_number, gint div_number, gint sub_div_nb);
+gboolean 					bet_data_get_div_edited 					(gint account_number,
+																		 gint div_number,
+																		 gint sub_div_nb);
 gchar *						bet_data_get_div_name 						(gint div_num,
 																		 gint sub_div,
 																		 const gchar *return_value_error);
-gint 						bet_data_get_div_number 					(gint transaction_number, gboolean is_transaction);
+gint 						bet_data_get_div_number 					(gint transaction_number,
+																		 gboolean is_transaction);
 gint 						bet_data_get_div_type 						(gint div_number);
 gint 						bet_data_get_selected_currency 				(void);
 gchar *						bet_data_get_str_amount_in_account_currency	(GsbReal amount,
@@ -217,7 +223,8 @@ gboolean 					bet_data_transfert_remove_line 				(gint account_number,
 																		 gint number);
 gboolean 					bet_data_transfert_set_line_from_file 		(TransfertData *transfert);
 void 						bet_data_transfert_update_date_if_necessary	(TransfertData *transfert);
-void 						bet_data_update_bet_module 					(gint account_number, gint page);
+void 						bet_data_update_bet_module 					(gint account_number,
+																		 gint page);
 void 						struct_free_bet_historical 					(BetHist *sh);
 FuturData *					struct_initialise_bet_future 				(void);
 BetRange *					struct_initialise_bet_range 				(void);
