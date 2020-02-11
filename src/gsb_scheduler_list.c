@@ -74,8 +74,11 @@
 GSList *scheduled_transactions_to_take;
 GSList *scheduled_transactions_taken;
 
+/* the total of % of scheduled columns can be > 100 because all the columns are not showed at the same time */
+static const gchar *scheduler_col_width_init = "10-12-36-12-12-12-12";
+
 /* used to save and restore the width of the scheduled list */
-gint scheduler_col_width[SCHEDULER_COL_VISIBLE_COLUMNS];
+static gint scheduler_col_width[SCHEDULER_COL_VISIBLE_COLUMNS];
 gint scheduler_current_tree_view_width = 0;
 /*END_GLOBAL*/
 
@@ -3056,6 +3059,61 @@ GSList *gsb_scheduler_list_get_scheduled_transactions_taken (void)
 GSList *gsb_scheduler_list_get_scheduled_transactions_to_take (void)
 {
 	return scheduled_transactions_to_take;
+}
+
+/**
+ * Initialise le tableau des largeurs de colonnes du treeview des opérations
+ *
+ * \param description 	Chaine contenant la largeurs des colonnes
+ * 						Si NULL utilise les donnes par défaut.
+ *
+ * \return
+ **/
+void gsb_scheduler_list_init_tab_width_col_treeview (const gchar *description)
+{
+    gchar **pointeur_char;
+    gint i;
+
+    if (description == NULL)
+    {
+        description = scheduler_col_width_init;
+	}
+
+    /* the transactions columns are xx-xx-xx-xx and we want to set in scheduler_col_width[1-2-3...] */
+    pointeur_char = g_strsplit (description, "-", 7);
+
+	for (i = 0 ; i < SCHEDULER_COL_VISIBLE_COLUMNS ; i++)
+		scheduler_col_width[i] = utils_str_atoi (pointeur_char[i]);
+}
+/**
+ * retourne une chaine formatée des largeurs de colonnes du treeview prévisions
+ *
+ * \param
+ *
+ * \return a newly allocated chain to be released
+ **/
+gchar *gsb_scheduler_list_get_largeur_col_treeview_to_string (void)
+{
+    gchar *first_string_to_free;
+    gchar *second_string_to_free;
+	gchar *tmp_str = NULL;
+	gint i = 0;
+
+    for (i=0 ; i < SCHEDULER_COL_VISIBLE_COLUMNS ; i++)
+    {
+        if (tmp_str)
+        {
+			first_string_to_free = tmp_str;
+			second_string_to_free = utils_str_itoa (scheduler_col_width[i]);
+            tmp_str = g_strconcat (first_string_to_free, "-", second_string_to_free,  NULL);
+            g_free (first_string_to_free);
+            g_free (second_string_to_free);
+        }
+        else
+            tmp_str  = utils_str_itoa (scheduler_col_width[i]);
+    }
+
+	return tmp_str;
 }
 
 /**

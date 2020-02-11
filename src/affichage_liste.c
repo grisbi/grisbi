@@ -103,7 +103,6 @@ static gint start_drag_row;
 /*START_EXTERN*/
 extern gchar *tips_col_liste_operations[CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern gchar *titres_colonnes_liste_operations[CUSTOM_MODEL_VISIBLE_COLUMNS];
-extern gint transaction_col_width[CUSTOM_MODEL_VISIBLE_COLUMNS];
 /*END_EXTERN*/
 
 /**

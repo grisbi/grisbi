@@ -3177,23 +3177,23 @@ gchar *bet_array_get_largeur_col_treeview_to_string	(void)
 }
 
 /**
- * Iniialise le tableau des largeurs de colonnes du treeview des prévisions
+ * Initialise le tableau des largeurs de colonnes du treeview des prévisions
  *
- * \param	string 	Chaine contenant les largeurs des colonnes
- * 					Si NULL utilse les donnes par défaut.
+ * \param description 	Chaine contenant la largeurs des colonnes
+ * 						Si NULL utilise les donnes par défaut.
  *
  * \return
  **/
-void bet_array_init_largeur_col_treeview (const gchar* string)
+void bet_array_init_largeur_col_treeview (const gchar* description)
 {
 	gint i = 0;
 
-	if (string && strlen (string))
+	if (description && strlen (description))
 	{
 		gchar **pointeur_char;
 
 		/* the bet_array columns are xx-xx-xx-xx-xx and we want to set in bet_array_col_width[1-2-3...] */
-		pointeur_char = g_strsplit (string, "-", 5);
+		pointeur_char = g_strsplit (description, "-", 5);
 
 		for (i = 0; i < BET_ARRAY_COLUMNS; i++ )
 			bet_array_col_width[i] = utils_str_atoi ( pointeur_char[i] );

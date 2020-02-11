@@ -75,6 +75,7 @@
 #include "gsb_rgba.h"
 #include "gsb_select_icon.h"
 #include "gsb_scheduler_list.h"
+#include "gsb_transactions_list.h"
 #include "import.h"
 #include "menu.h"
 #include "navigation.h"
@@ -95,14 +96,11 @@
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gint bet_array_col_width[BET_ARRAY_COLUMNS];
 //~ extern gint display_one_line;	/* fixes bug 1875 */
 extern gint display_three_lines;
 extern gint display_two_lines;
 extern struct Iso4217Currency iso_4217_currencies[];
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
-extern gint transaction_col_align[CUSTOM_MODEL_VISIBLE_COLUMNS];
-extern gint transaction_col_width[CUSTOM_MODEL_VISIBLE_COLUMNS];
 /*END_EXTERN*/
 
 static struct		/* structure download_tmp_values */
@@ -481,9 +479,7 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
                 {
                     /* initialise la réinitialisation des colonnes */
                     etat.scheduler_column_width = my_strdup ( attribute_values[i] );
-
-                    initialise_largeur_colonnes_tab_affichage_ope ( GSB_SCHEDULER_PAGE,
-                            etat.scheduler_column_width );
+                    gsb_scheduler_list_init_tab_width_col_treeview (etat.scheduler_column_width);
                 }
 
                 else if ( !strcmp ( attribute_names[i], "Scheduler_view" ))
@@ -547,23 +543,13 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
                 {
                     /* initialise la réinitialisation des colonnes */
                     etat.transaction_column_width = my_strdup ( attribute_values[i] );
-
-                    initialise_largeur_colonnes_tab_affichage_ope ( GSB_ACCOUNT_PAGE,
-                            etat.transaction_column_width );
+                    gsb_transactions_list_init_tab_width_col_treeview (etat.transaction_column_width);
                 }
 
                 else if ( !strcmp ( attribute_names[i], "Transaction_column_align" ) )
                 {
-                    gchar **pointeur_char;
-                    gint j;
-
-                    /* the transactions columns are xx-xx-xx-xx and we want to set in transaction_col_width[1-2-3...] */
-                    pointeur_char = g_strsplit ( attribute_values[i], "-", 0 );
-
-                    for ( j = 0 ; j < CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
-                        transaction_col_align[j] = utils_str_atoi ( pointeur_char[j] );
-
-                    g_strfreev ( pointeur_char );
+                    /* the transactions columns are xx-xx-xx-xx and we want to set in transaction_col_align[1-2-3...] */
+                    gsb_transactions_list_init_tab_align_col_treeview (attribute_values[i]);
                 }
 
                 else

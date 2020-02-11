@@ -74,6 +74,7 @@
 #include "gsb_rgba.h"
 #include "gsb_select_icon.h"
 #include "gsb_scheduler_list.h"
+#include "gsb_transactions_list.h"
 #include "import_csv.h"
 #include "navigation.h"
 #include "structures.h"
@@ -146,14 +147,10 @@ static gulong gsb_file_save_transaction_part ( gulong iterator,
 
 
 /*START_EXTERN*/
-extern gint bet_array_col_width[BET_ARRAY_COLUMNS];
 extern gint display_one_line;
 extern gint display_three_lines;
 extern gint display_two_lines;
-extern gint scheduler_col_width[SCHEDULER_COL_VISIBLE_COLUMNS];
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
-extern gint transaction_col_align[CUSTOM_MODEL_VISIBLE_COLUMNS];
-extern gint transaction_col_width[CUSTOM_MODEL_VISIBLE_COLUMNS];
 /*END_EXTERN*/
 
 /******************************************************************************/
@@ -613,54 +610,15 @@ gulong gsb_file_save_general_part ( gulong iterator,
 		transactions_view = utils_str_itoa ( tab_affichage_ope[i][j] );
 
     /* prepare transaction_column_width_write */
-    transaction_column_width_write = NULL;
+    transaction_column_width_write = gsb_transactions_list_get_tab_width_col_treeview_to_string ();
 
-    for ( i=0 ; i<CUSTOM_MODEL_VISIBLE_COLUMNS ; i++ )
-	if ( transaction_column_width_write )
-	{
-	    transaction_column_width_write = g_strconcat ( first_string_to_free = transaction_column_width_write,
-							 "-",
-							 second_string_to_free = utils_str_itoa ( transaction_col_width[i] ),
-							 NULL );
-	    g_free (first_string_to_free);
-	    g_free (second_string_to_free);
-	}
-	else
-	    transaction_column_width_write  = utils_str_itoa ( transaction_col_width[i] );
-
-    scheduler_column_width_write = NULL;
-
-    for ( i=0 ; i<SCHEDULER_COL_VISIBLE_COLUMNS ; i++ )
-	if ( scheduler_column_width_write )
-	{
-	    scheduler_column_width_write = g_strconcat ( first_string_to_free = scheduler_column_width_write,
-							 "-",
-							 second_string_to_free = utils_str_itoa ( scheduler_col_width[i] ),
-							 NULL );
-	    g_free (first_string_to_free);
-	    g_free (second_string_to_free);
-	}
-	else
-	    scheduler_column_width_write  = utils_str_itoa ( scheduler_col_width[i] );
+    /* prepare scheduler_column_width_write */
+    scheduler_column_width_write = gsb_scheduler_list_get_largeur_col_treeview_to_string ();
 
     /* prepare transaction_column_align_write */
-    transaction_column_align_write = NULL;
+    transaction_column_align_write = gsb_transactions_list_get_tab_align_col_treeview_to_string ();
 
-    for ( i=0 ; i<CUSTOM_MODEL_VISIBLE_COLUMNS ; i++ )
-	if ( transaction_column_align_write )
-	{
-	    transaction_column_align_write = g_strconcat (
-                        first_string_to_free = transaction_column_align_write,
-                        "-",
-                        second_string_to_free = utils_str_itoa ( transaction_col_align[i] ),
-                        NULL );
-	    g_free ( first_string_to_free );
-	    g_free ( second_string_to_free );
-	}
-	else
-	    transaction_column_align_write  = utils_str_itoa ( transaction_col_align[i] );
-
-    /* prépare l'ordre des pages dans le panneau de gauche */
+	/* prépare l'ordre des pages dans le panneau de gauche */
     tmp_queue = gsb_gui_navigation_get_pages_list ( );
 
     for ( i = 0 ; i < (gint) tmp_queue->length ; i++ )

@@ -40,6 +40,7 @@
 #include "gsb_data_print_config.h"
 #include "gsb_data_transaction.h"
 #include "gsb_rgba.h"
+#include "gsb_transactions_list.h"
 #include "utils.h"
 #include "print_dialog_config.h"
 #include "transaction_model.h"
@@ -79,7 +80,6 @@ static GtkWidget * print_transactions_list_layout_config ( GtkPrintOperation * o
 
 /*START_EXTERN*/
 extern gchar *titres_colonnes_liste_operations[CUSTOM_MODEL_VISIBLE_COLUMNS];
-extern gint transaction_col_width[CUSTOM_MODEL_VISIBLE_COLUMNS];
 /*END_EXTERN*/
 
 
@@ -689,20 +689,27 @@ static void print_transactions_list_calculate_columns ( gdouble page_width )
 {
     gint total_text_width = 0;
     gint column;
+	gint *width_pointer;
+;
 
     /* set the positions of the columns */
+	width_pointer = gsb_transactions_list_get_tab_width_col_treeview ();
     columns_position[0] = 0.0;
     for ( column=1 ; column<CUSTOM_MODEL_VISIBLE_COLUMNS ; column++)
-	columns_position[column] = (gdouble) (transaction_col_width[column - 1]*page_width/100) + columns_position[column - 1];
+	{
+		columns_position[column] = (gdouble) (*(width_pointer+(column-1))*page_width/100) + columns_position[column - 1];
+	}
 
     /* set the page_width of the columns */
     for (column = 0 ; column < (CUSTOM_MODEL_VISIBLE_COLUMNS  - 1); column++ )
     {
-	columns_width[column] = (columns_position[column + 1] - columns_position[column] - 3*gsb_data_print_config_get_draw_column ()) * PANGO_SCALE;
-	total_text_width = total_text_width + columns_width[column];
+		columns_width[column] = (columns_position[column + 1] - columns_position[column]
+								 - 3*gsb_data_print_config_get_draw_column ()) * PANGO_SCALE;
+		total_text_width = total_text_width + columns_width[column];
     }
     /* last column is the rest of the line */
-    columns_width[CUSTOM_MODEL_VISIBLE_COLUMNS - 1] = (page_width -3*gsb_data_print_config_get_draw_column ()*(CUSTOM_MODEL_VISIBLE_COLUMNS)) * PANGO_SCALE - total_text_width;
+    columns_width[CUSTOM_MODEL_VISIBLE_COLUMNS - 1] = (page_width -3*gsb_data_print_config_get_draw_column ()
+													   *(CUSTOM_MODEL_VISIBLE_COLUMNS)) * PANGO_SCALE - total_text_width;
 }
 
 /**

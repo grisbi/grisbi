@@ -56,13 +56,18 @@ gboolean	gsb_transactions_list_edit_current_transaction				(void);
 gboolean	gsb_transactions_list_edit_transaction						(gint transaction_number);
 gboolean	gsb_transactions_list_edit_transaction_by_pointer			(gint *transaction_number);
 gboolean	gsb_transactions_list_fill_archive_store					(void);
+gchar *		gsb_transactions_list_get_tab_align_col_treeview_to_string	(void);
 gint		gsb_transactions_list_get_current_tree_view_width 			(void);
 gfloat		gsb_transactions_list_get_row_align							(void);
+gint *		gsb_transactions_list_get_tab_width_col_treeview			(void);
+gchar *		gsb_transactions_list_get_tab_width_col_treeview_to_string	(void);
 GtkWidget *	gsb_transactions_list_get_toolbar							(void);
 gchar *		gsb_transaction_list_get_titre_colonne_liste_ope			(gint element);
 GtkWidget *	gsb_transactions_list_get_tree_view							(void);
 gchar *		gsb_transactions_list_grep_cell_content						(gint transaction_number,
 																		 gint cell_content_number);
+void 		gsb_transactions_list_init_tab_align_col_treeview			(const gchar *description);
+void 		gsb_transactions_list_init_tab_width_col_treeview			(const gchar *description);
 GtkWidget *	gsb_transactions_list_make_gui_list							(void);
 gboolean	gsb_transactions_list_restore_archive						(gint archive_number,
 																		 gboolean show_warning);

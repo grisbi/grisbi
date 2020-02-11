@@ -91,14 +91,10 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-/* the total of % of scheduled columns can be > 100 because all the columns are not showed at the same time */
-static const gchar *	scheduler_col_width_init = "10-12-36-12-12-12-12";
-static const gchar *	transaction_col_width_init = "10-12-30-12-12-12-12";
 /*END_STATIC*/
 
 /*START_EXTERN*/
 extern GtkTreeModel *	bank_list_model;
-extern gint 			bet_array_col_width[BET_ARRAY_COLUMNS];
 extern gint 			current_tree_view_width;
 extern GtkWidget *		detail_devise_compte;
 extern gint 			display_one_line;
@@ -106,11 +102,8 @@ extern gint 			display_three_lines;
 extern gint 			display_two_lines;
 extern gint 			id_timeout;
 extern GSList *			orphan_child_transactions;
-extern gint 			scheduler_col_width[SCHEDULER_COL_VISIBLE_COLUMNS];
 extern gint 			scheduler_current_tree_view_width;
 extern gint 			tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
-extern gint 			transaction_col_align[CUSTOM_MODEL_VISIBLE_COLUMNS];
-extern gint 			transaction_col_width[CUSTOM_MODEL_VISIBLE_COLUMNS];
 /*END_EXTERN*/
 
 /******************************************************************************/
@@ -158,8 +151,6 @@ static void initialise_tab_affichage_ope (void)
  * */
 void init_variables (void)
 {
-    gint transaction_col_align_init[CUSTOM_MODEL_VISIBLE_COLUMNS] = { 1, 1, 0, 1, 2, 2, 2 };
-    gint i;
 	GrisbiWinRun *w_run;
 
     devel_debug (NULL);
@@ -266,10 +257,9 @@ void init_variables (void)
     grisbi_win_free_general_notebook ();
 
     /* defaut value for width and align of columns */
-    initialise_largeur_colonnes_tab_affichage_ope (GSB_ACCOUNT_PAGE, transaction_col_width_init);
-    initialise_largeur_colonnes_tab_affichage_ope (GSB_SCHEDULER_PAGE, scheduler_col_width_init);
-    for (i = 0 ; i < CUSTOM_MODEL_VISIBLE_COLUMNS ; i++)
-        transaction_col_align[i] = transaction_col_align_init[i];
+    gsb_transactions_list_init_tab_align_col_treeview (NULL);
+    gsb_transactions_list_init_tab_width_col_treeview (NULL);
+    gsb_scheduler_list_init_tab_width_col_treeview (NULL);
 
     if (etat.transaction_column_width && strlen (etat.transaction_column_width))
     {
@@ -342,47 +332,6 @@ void free_variables (void)
 #ifdef HAVE_GOFFICE
     struct_free_bet_graph_prefs ();
 #endif /* HAVE_GOFFICE */
-}
-
-
-/**
- * initialise la largeur des colonnes du tableau d'affichage des opérations.
- * ou des opérations planifiées.
- *
- * \param	GSB_ACCOUNT_PAGE ou GSB_SCHEDULER_PAGE
- * \param	chaine contenant la largeur des colonnes séparées par un tiret
- *
- * \return
- **/
-void initialise_largeur_colonnes_tab_affichage_ope (gint type_operation,
-													const gchar *description)
-{
-    gchar **pointeur_char;
-    gint j;
-
-    if (description == NULL)
-    {
-        if (type_operation == GSB_ACCOUNT_PAGE)
-            description = transaction_col_width_init;
-        else if (type_operation == GSB_SCHEDULER_PAGE)
-            description = scheduler_col_width_init;
-	}
-
-    /* the transactions columns are xx-xx-xx-xx and we want to set in transaction_col_width[1-2-3...] */
-    pointeur_char = g_strsplit (description, "-", 0);
-
-    if (type_operation == GSB_ACCOUNT_PAGE)
-    {
-        for (j = 0 ; j < CUSTOM_MODEL_VISIBLE_COLUMNS ; j++)
-            transaction_col_width[j] = utils_str_atoi (pointeur_char[j]);
-	}
-    else if (type_operation == GSB_SCHEDULER_PAGE)
-    {
-        for (j = 0 ; j < SCHEDULER_COL_VISIBLE_COLUMNS ; j++)
-            scheduler_col_width[j] = utils_str_atoi (pointeur_char[j]);
-   }
-
-    g_strfreev (pointeur_char);
 }
 
 /**

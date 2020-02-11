@@ -160,27 +160,26 @@ static gboolean gsb_menu_reinit_largeur_col_menu (void)
 
     if (current_page == GSB_ACCOUNT_PAGE)
     {
-		gint account_number;
-		BetTypeOnglets bet_show_onglets;
+		GtkWidget *account_page;
+		gint page_number;
 
-		account_number = gsb_gui_navigation_get_current_account ();
-		bet_show_onglets = gsb_data_account_get_bet_show_onglets (account_number);
+		account_page = grisbi_win_get_account_page ();
+		page_number = gtk_notebook_get_current_page (GTK_NOTEBOOK (account_page));
+		if (page_number == GSB_TRANSACTIONS_PAGE)
+		{
+			gsb_transactions_list_init_tab_width_col_treeview (NULL);
+			gsb_transactions_list_set_largeur_col ();
+		}
 
-		if (bet_show_onglets == BET_ONGLETS_PREV)
+		else if (page_number == GSB_ESTIMATE_PAGE)
 		{
 			bet_array_init_largeur_col_treeview (NULL);
 			bet_array_list_set_largeur_col_treeview ();
 		}
-		else
-		{
-			initialise_largeur_colonnes_tab_affichage_ope (GSB_ACCOUNT_PAGE, NULL);
-			gsb_transactions_list_set_largeur_col ();
-		}
     }
     else if (current_page == GSB_SCHEDULER_PAGE)
     {
-        initialise_largeur_colonnes_tab_affichage_ope (GSB_SCHEDULER_PAGE, NULL);
-
+        gsb_scheduler_list_init_tab_width_col_treeview (NULL);
         gsb_scheduler_list_set_largeur_col ();
     }
 

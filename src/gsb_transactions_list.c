@@ -135,10 +135,14 @@ static gint schedule_transaction (gint transaction_number);
 /* the columns of the tree_view */
 GtkTreeViewColumn *transactions_tree_view_columns[CUSTOM_MODEL_VISIBLE_COLUMNS];
 
+/* valeurs par défaut des largeurs des colonnes du treeview des opérations */
+static const gchar *transaction_col_width_init = "10-12-30-12-12-12-12";
+
 /* the initial width of each column */
-gint transaction_col_width[CUSTOM_MODEL_VISIBLE_COLUMNS];
+static gint transaction_col_width[CUSTOM_MODEL_VISIBLE_COLUMNS];
 
 /* the initial alignment of each column */
+static gint transaction_col_align_init[CUSTOM_MODEL_VISIBLE_COLUMNS] = { 1, 1, 0, 1, 2, 2, 2 };
 gint transaction_col_align[CUSTOM_MODEL_VISIBLE_COLUMNS];
 
 /* Barre d'outils */
@@ -4616,6 +4620,175 @@ void gsb_transactions_list_process_orphan_list (GSList *orphan_list)
 gint gsb_transactions_list_get_current_tree_view_width (void)
 {
 	return current_tree_view_width;
+}
+
+/**
+ * Initialise le tableau des alignements de colonne du treeview des transactions
+ *
+ * \param description 	Chaine contenant la largeurs des colonnes
+ * 						Si NULL utilise les donnes par défaut.
+ *
+ * \return
+ **/
+void gsb_transactions_list_init_tab_align_col_treeview (const gchar *description)
+{
+    gint i;
+
+	if (description && strlen (description))
+	{
+		gchar **pointeur_char;
+
+		/* the transactions columns are xx-xx-xx-xx and we want to set in transaction_col_align[1-2-3...] */
+		pointeur_char = g_strsplit (description, "-", 7);
+
+		for (i = 0 ; i < CUSTOM_MODEL_VISIBLE_COLUMNS ; i++)
+			transaction_col_align[i] = utils_str_atoi (pointeur_char[i]);
+
+		g_strfreev ( pointeur_char );
+    }
+	else
+	{
+		/* defaut value for width of columns */
+		for (i = 0 ; i < CUSTOM_MODEL_VISIBLE_COLUMNS ; i++)
+			transaction_col_align[i] = 	transaction_col_align_init[i];
+	}
+}
+
+/**
+ * Initialise le tableau des largeurs de colonne du treeview des transactions
+ *
+ * \param description 	Chaine contenant la largeurs des colonnes
+ * 						Si NULL utilise les donnes par défaut.
+ *
+ * \return
+ **/
+void gsb_transactions_list_init_tab_width_col_treeview (const gchar *description)
+{
+    gchar **pointeur_char;
+    gint i;
+
+    if (description == NULL)
+    {
+		printf ("description = NULL\n");
+        description = transaction_col_width_init;
+	}
+
+    /* the transactions columns are xx-xx-xx-xx and we want to set in transaction_col_width[1-2-3...] */
+    pointeur_char = g_strsplit (description, "-", 7);
+
+	for (i = 0 ; i < CUSTOM_MODEL_VISIBLE_COLUMNS ; i++)
+	{
+		transaction_col_width[i] = utils_str_atoi (pointeur_char[i]);
+	}
+}
+
+/**
+ * retourne une chaine formatée des alignements de colonne du treeview transactions
+ *
+ * \param
+ *
+ * \return a newly allocated chain to be released
+ **/
+gchar *gsb_transactions_list_get_tab_align_col_treeview_to_string	(void)
+{
+    gchar *first_string_to_free;
+    gchar *second_string_to_free;
+	gchar *tmp_str = NULL;
+	gint i = 0;
+
+    for (i=0 ; i < CUSTOM_MODEL_VISIBLE_COLUMNS ; i++)
+    {
+        if (tmp_str)
+        {
+			first_string_to_free = tmp_str;
+			second_string_to_free = utils_str_itoa (transaction_col_align[i]);
+            tmp_str = g_strconcat (first_string_to_free, "-", second_string_to_free,  NULL);
+            g_free (first_string_to_free);
+            g_free (second_string_to_free);
+        }
+        else
+            tmp_str  = utils_str_itoa (transaction_col_align[i]);
+    }
+
+	return tmp_str;
+}
+
+/**
+ * retourne une chaine formatée des alignements de colonne du treeview transactions
+ *
+ * \param
+ *
+ * \return a newly allocated chain to be released
+ **/
+gchar *gsb_transactions_list_get_tab_align_col_treeview_to_string (void)
+{
+    gchar *first_string_to_free;
+    gchar *second_string_to_free;
+	gchar *tmp_str = NULL;
+	gint i = 0;
+
+    for (i=0 ; i < CUSTOM_MODEL_VISIBLE_COLUMNS ; i++)
+    {
+        if (tmp_str)
+        {
+			first_string_to_free = tmp_str;
+			second_string_to_free = utils_str_itoa (transaction_col_align[i]);
+            tmp_str = g_strconcat (first_string_to_free, "-", second_string_to_free,  NULL);
+            g_free (first_string_to_free);
+            g_free (second_string_to_free);
+        }
+        else
+            tmp_str  = utils_str_itoa (transaction_col_align[i]);
+    }
+
+	return tmp_str;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+gint *gsb_transactions_list_get_tab_width_col_treeview (void)
+{
+	gint *pointer;
+
+	pointer = transaction_col_width;
+
+	return pointer;
+}
+
+/**
+ * retourne une chaine formatée des largeurs de colonne du treeview transactions
+ *
+ * \param
+ *
+ * \return a newly allocated chain to be released
+ **/
+gchar *gsb_transactions_list_get_tab_width_col_treeview_to_string (void)
+{
+    gchar *first_string_to_free;
+    gchar *second_string_to_free;
+	gchar *tmp_str = NULL;
+	gint i = 0;
+
+    for (i=0 ; i < CUSTOM_MODEL_VISIBLE_COLUMNS ; i++)
+    {
+        if (tmp_str)
+        {
+			first_string_to_free = tmp_str;
+			second_string_to_free = utils_str_itoa (transaction_col_width[i]);
+            tmp_str = g_strconcat (first_string_to_free, "-", second_string_to_free,  NULL);
+            g_free (first_string_to_free);
+            g_free (second_string_to_free);
+        }
+        else
+            tmp_str  = utils_str_itoa (transaction_col_width[i]);
+    }
+
+	return tmp_str;
 }
 
 /**
