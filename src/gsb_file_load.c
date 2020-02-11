@@ -100,7 +100,6 @@
 extern gint display_three_lines;
 extern gint display_two_lines;
 extern struct Iso4217Currency iso_4217_currencies[];
-extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 /*END_EXTERN*/
 
 static struct		/* structure download_tmp_values */
@@ -521,19 +520,7 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
 
                 else if ( !strcmp ( attribute_names[i], "Transactions_view" ))
                 {
-                    gchar **pointeur_char;
-                    gint j, k;
-
-                    pointeur_char = g_strsplit ( attribute_values[i],
-                            "-",
-                            0 );
-
-                    for ( j = 0 ; j<TRANSACTION_LIST_ROWS_NB ; j++ )
-                        for ( k = 0 ; k<CUSTOM_MODEL_VISIBLE_COLUMNS ; k++ )
-                            tab_affichage_ope[j][k] = utils_str_atoi (
-                                    pointeur_char[k + j*CUSTOM_MODEL_VISIBLE_COLUMNS]);
-
-                    g_strfreev ( pointeur_char );
+					gsb_transactions_list_init_tab_affichage_ope (attribute_values[i]);
                 }
 
                 else if ( !strcmp ( attribute_names[i], "Three_lines_showed" ))

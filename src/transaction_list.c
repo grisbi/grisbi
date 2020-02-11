@@ -74,7 +74,6 @@ extern gint display_one_line;
 extern gint display_three_lines;
 extern gint display_two_lines;
 extern GSList *orphan_child_transactions;
-extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 /*END_EXTERN*/
 
 
@@ -1373,7 +1372,7 @@ gboolean transaction_list_update_cell ( gint cell_col,
 
     custom_list = transaction_model_get_model ();
 
-    element_number = tab_affichage_ope[cell_line][cell_col];
+	element_number = gsb_transactions_list_get_element_tab_affichage_ope (cell_line, cell_col);
 
     /* the element exists in the view, find the column of the split if exists (-1 if don't exist) */
     column_element_split = find_element_col_split (element_number);
@@ -1910,8 +1909,13 @@ static CustomRecord *transaction_list_create_record ( gint transaction_number,
 
     /* fill the row with the visibles columns */
     for ( column = 0 ; column < CUSTOM_MODEL_VISIBLE_COLUMNS ; column++ )
-	newrecord -> visible_col[column] = gsb_transactions_list_grep_cell_content ( transaction_number,
-										     tab_affichage_ope[line_in_transaction][column]);
+	{
+		gint element_number;
+
+		element_number = gsb_transactions_list_get_element_tab_affichage_ope (line_in_transaction, column);
+		newrecord -> visible_col[column] = gsb_transactions_list_grep_cell_content (transaction_number,
+																					element_number);
+	}
 
     if ( conf.custom_fonte_listes )
 	    newrecord -> font = conf.font_string;

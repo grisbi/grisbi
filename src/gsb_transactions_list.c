@@ -163,6 +163,15 @@ gint current_tree_view_width = 0;
 /* when some children didn't find their mother */
 GSList *orphan_child_transactions = NULL;
 
+/* Liste des champs de la fenêtre d'affichage des tansactions */
+static gint tab[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS] = {		/* Liste par défaut */
+    {ELEMENT_CHQ, ELEMENT_DATE, ELEMENT_PARTY, ELEMENT_MARK, ELEMENT_DEBIT, ELEMENT_CREDIT, ELEMENT_BALANCE},
+    {0, 0, ELEMENT_CATEGORY, 0, ELEMENT_PAYMENT_TYPE, ELEMENT_AMOUNT, 0},
+    {0, 0, ELEMENT_NOTES, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0}
+	};
+static gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];	/* Liste effective */
+
 /* names of the data for transactions list */
 static const gchar *labels_titres_colonnes_liste_ope[] = {
     N_("Date"),
@@ -188,7 +197,6 @@ static const gchar *labels_titres_colonnes_liste_ope[] = {
 /*START_EXTERN*/
 extern struct ConditionalMessage messages[];
 extern GtkWidget *reconcile_sort_list_button;
-extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 /*END_EXTERN*/
 
 /** All delete messages */
@@ -4623,6 +4631,47 @@ gint gsb_transactions_list_get_current_tree_view_width (void)
 }
 
 /**
+ * Initialise le tableau d'affichage des champs de la liste des opérations
+ *
+ * \param description 	Chaine contenant la liste des champs
+ * 						Si NULL utilise les donnes par défaut.
+ *
+ * \return
+ **/
+void gsb_transactions_list_init_tab_affichage_ope (const gchar *description)
+{
+    gint i, j;
+
+    devel_debug (description);
+	if (description && strlen (description))
+	{
+		gchar **pointeur_char;
+
+		/* the transactions columns are xx-xx-xx-xx and we want to set in transaction_col_align[1-2-3...] */
+		pointeur_char = g_strsplit (description, "-", 0);
+
+		for (i = 0 ; i<TRANSACTION_LIST_ROWS_NB ; i++)
+		{
+			for (j = 0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++)
+			{
+				tab_affichage_ope[i][j] = utils_str_atoi (pointeur_char[j + i*CUSTOM_MODEL_VISIBLE_COLUMNS]);
+			}
+		}
+	}
+	else
+	{
+		for (i = 0 ; i<TRANSACTION_LIST_ROWS_NB ; i++)
+		{
+			for (j = 0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++)
+			{
+				tab_affichage_ope[i][j] = tab[i][j];
+			}
+		}
+
+	}
+}
+
+/**
  * Initialise le tableau des alignements de colonne du treeview des transactions
  *
  * \param description 	Chaine contenant la largeurs des colonnes
@@ -4683,32 +4732,38 @@ void gsb_transactions_list_init_tab_width_col_treeview (const gchar *description
 }
 
 /**
- * retourne une chaine formatée des alignements de colonne du treeview transactions
+ * retourne une chaine formatée des champs de la liste des opérations
  *
  * \param
  *
  * \return a newly allocated chain to be released
  **/
-gchar *gsb_transactions_list_get_tab_align_col_treeview_to_string	(void)
+gchar *gsb_transactions_list_get_tab_affichage_ope_to_string (void)
 {
     gchar *first_string_to_free;
     gchar *second_string_to_free;
 	gchar *tmp_str = NULL;
 	gint i = 0;
+	gint j = 0;
 
-    for (i=0 ; i < CUSTOM_MODEL_VISIBLE_COLUMNS ; i++)
-    {
-        if (tmp_str)
-        {
-			first_string_to_free = tmp_str;
-			second_string_to_free = utils_str_itoa (transaction_col_align[i]);
-            tmp_str = g_strconcat (first_string_to_free, "-", second_string_to_free,  NULL);
-            g_free (first_string_to_free);
-            g_free (second_string_to_free);
-        }
-        else
-            tmp_str  = utils_str_itoa (transaction_col_align[i]);
-    }
+    for (i=0 ; i<TRANSACTION_LIST_ROWS_NB ; i++)
+	{
+		for (j=0 ; j< CUSTOM_MODEL_VISIBLE_COLUMNS ; j++)
+		{
+			if (tmp_str)
+			{
+				first_string_to_free = tmp_str;
+				second_string_to_free = utils_str_itoa (tab_affichage_ope[i][j]);
+				tmp_str = g_strconcat ( first_string_to_free,  "-", second_string_to_free, NULL);
+				g_free (first_string_to_free);
+				g_free (second_string_to_free);
+			}
+			else
+			{
+				tmp_str = utils_str_itoa (tab_affichage_ope[i][j]);
+			}
+		}
+	}
 
 	return tmp_str;
 }
@@ -4789,6 +4844,84 @@ gchar *gsb_transactions_list_get_tab_width_col_treeview_to_string (void)
     }
 
 	return tmp_str;
+}
+
+/**
+ * retourne un élément du tableau d'affichage des opérations
+ *
+ * \param	dim_1	première dimension du tableau
+ * \param	dim_2 	deuxième dimension du tableau
+ *
+ * \return 			element number
+ **/
+gint gsb_transactions_list_get_element_tab_affichage_ope (gint dim_1,
+														  gint dim_2)
+{
+	gint element = 0;
+
+	element = tab_affichage_ope[dim_1][dim_2];
+
+	return element;
+}
+
+/**
+ *
+ *
+ * \param			élément à mettre
+ * \param	dim_1	première dimension du tableau
+ * \param	dim_2 	deuxième dimension du tableau
+ *
+ * \return
+ **/
+void gsb_transactions_list_set_element_tab_affichage_ope (gint element_number,
+														  gint dim_1,
+														  gint dim_2)
+{
+	tab_affichage_ope[dim_1][dim_2] = element_number;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+gint *gsb_transactions_list_get_tab_affichage_ope (void)
+{
+	gint *pointer;
+
+	pointer = tab_affichage_ope[0];
+
+	return pointer;
+}
+
+/**
+ * retourne le nom de la colonne
+ *
+ * \param dim1	row number
+ * \param dim1	column number
+ *
+ * \return		column name must be freed
+ **/
+gchar *gsb_transactions_list_get_column_title (gint dim_1,
+											   gint dim_2)
+{
+	gchar *column_name = NULL;
+	gint element_number = 0;
+	gint title_number = -1;
+
+	element_number = tab_affichage_ope[dim_1][dim_2];
+
+	if (element_number)
+	{
+		title_number = element_number - 1;		/* décalage du tableau des types de champs qui commence à 1 */
+		column_name = g_strdup (gettext (labels_titres_colonnes_liste_ope[title_number]));
+
+		return column_name;
+	}
+	else
+		return NULL;
 }
 
 /**

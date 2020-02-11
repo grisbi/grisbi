@@ -150,7 +150,6 @@ static gulong gsb_file_save_transaction_part ( gulong iterator,
 extern gint display_one_line;
 extern gint display_three_lines;
 extern gint display_two_lines;
-extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 /*END_EXTERN*/
 
 /******************************************************************************/
@@ -593,21 +592,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
 
 	/* prepare transactions_view */
-    transactions_view = NULL;
-
-    for ( i=0 ; i<TRANSACTION_LIST_ROWS_NB ; i++ )
-	for ( j=0 ; j< CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
-	    if ( transactions_view )
-	    {
-		transactions_view = g_strconcat ( first_string_to_free = transactions_view,
-						  "-",
-						  second_string_to_free = utils_str_itoa ( tab_affichage_ope[i][j] ),
-						  NULL );
-		g_free (first_string_to_free);
-		g_free (second_string_to_free);
-	    }
-	    else
-		transactions_view = utils_str_itoa ( tab_affichage_ope[i][j] );
+    transactions_view = gsb_transactions_list_get_tab_affichage_ope_to_string ();
 
     /* prepare transaction_column_width_write */
     transaction_column_width_write = gsb_transactions_list_get_tab_width_col_treeview_to_string ();

@@ -103,41 +103,11 @@ extern gint 			display_two_lines;
 extern gint 			id_timeout;
 extern GSList *			orphan_child_transactions;
 extern gint 			scheduler_current_tree_view_width;
-extern gint 			tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 /*END_EXTERN*/
 
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
-/**
- *
- *
- * \param
- *
- * \return
- **/
-static void initialise_tab_affichage_ope (void)
-{
-    gint tab[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS] = {
-    {ELEMENT_CHQ, ELEMENT_DATE, ELEMENT_PARTY, ELEMENT_MARK, ELEMENT_DEBIT, ELEMENT_CREDIT, ELEMENT_BALANCE},
-    {0, 0, ELEMENT_CATEGORY, 0, ELEMENT_PAYMENT_TYPE, ELEMENT_AMOUNT, 0},
-    {0, 0, ELEMENT_NOTES, 0, 0, 0, 0},
-    {0, 0, 0, 0, 0, 0, 0}
-	};
-    gint i, j;
-
-    devel_debug (NULL);
-
-    for (i = 0 ; i<TRANSACTION_LIST_ROWS_NB ; i++)
-    for (j = 0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++)
-        tab_affichage_ope[i][j] = tab[i][j];
-
-    /* by default, the display of lines is 1, 1-2, 1-2-3 */
-    display_one_line = 0;
-    display_two_lines = 0;
-    display_three_lines = 0;
-}
-
 /******************************************************************************/
 /* Public functions                                                           */
 /******************************************************************************/
@@ -236,7 +206,12 @@ void init_variables (void)
     current_tree_view_width = 0;
     scheduler_current_tree_view_width = 0;
 
-    initialise_tab_affichage_ope();
+    gsb_transactions_list_init_tab_affichage_ope (NULL);
+
+	/* by default, the display of lines is 1, 1-2, 1-2-3 */
+    display_one_line = 0;
+    display_two_lines = 0;
+    display_three_lines = 0;
 
     etat.import_files_nb_days = 2;
     etat.get_fyear_by_value_date = FALSE;

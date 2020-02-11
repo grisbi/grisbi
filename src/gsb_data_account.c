@@ -162,7 +162,6 @@ static gboolean gsb_data_account_dup_sort_values ( gint origin_account,
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 /*END_EXTERN*/
 
 /** contains a g_slist of struct_account in the good order */
@@ -2447,9 +2446,11 @@ gboolean gsb_data_account_move_account ( gint account_number,
 gboolean gsb_data_account_set_default_sort_values ( gint account_number )
 {
     gint i, j;
+	gint *ptr;
     AccountStruct *account;
 
     account = gsb_data_account_get_structure ( account_number );
+	ptr = gsb_transactions_list_get_tab_affichage_ope ();
 
     if ( !account )
 	return FALSE;
@@ -2457,13 +2458,12 @@ gboolean gsb_data_account_set_default_sort_values ( gint account_number )
     for ( i = 0 ; i<TRANSACTION_LIST_ROWS_NB ; i++ )
 	for ( j = 0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
 	{
+		gint element_number;
+
+		element_number = *(ptr + (i * CUSTOM_MODEL_VISIBLE_COLUMNS) + j);
 	    /* by default the sorting element will be the first found for each column */
-	    if ( !account -> column_element_sort[j]
-		 &&
-		 tab_affichage_ope[i][j]
-		 &&
-		 tab_affichage_ope[i][j] != ELEMENT_BALANCE )
-		account -> column_element_sort[j] = tab_affichage_ope[i][j];
+	    if (!account->column_element_sort[j] && element_number && element_number != ELEMENT_BALANCE)
+		account -> column_element_sort[j] = element_number;
 	}
 
     /* the default sort is by date and ascending */

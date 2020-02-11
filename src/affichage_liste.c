@@ -78,9 +78,6 @@ static gboolean gsb_transactions_list_display_sort_changed ( GtkComboBox *widget
                         gint *pointeur );
 /*END_STATIC*/
 
-/* tableau qui contient les numéros des éléments affichés (voir gsb_transactions_list.h) */
-gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
-
 /* line displayed when the list show 1 line */
 gint display_one_line = 0;		/* fixes bug 1875 */
 
@@ -524,8 +521,9 @@ void free_noms_colonnes_et_tips (void)
  **/
 void recuperation_noms_colonnes_et_tips ( void )
 {
-    gint i, j;
     gchar *row[CUSTOM_MODEL_VISIBLE_COLUMNS];
+    gint i;
+    gint j;
 
     /* unset the titles and tips */
 	free_noms_colonnes_et_tips ();
@@ -534,8 +532,7 @@ void recuperation_noms_colonnes_et_tips ( void )
 	for ( j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
 	{
 	    /* 	    xxx changer ça pour faire une fonction comme gsb_form_widget_get_name */
-	    row[j] = gsb_transaction_list_get_titre_colonne_liste_ope ( tab_affichage_ope[i][j] - 1 );
-
+		row[j] = gsb_transactions_list_get_column_title (i, j);
 	    /* on the first row, set for titles and tips, for others row, only for tips */
 	    if ( i )
 	    {
@@ -906,6 +903,7 @@ gboolean gsb_transaction_list_config_drag_end ( GtkWidget *tree_view,
     gint end_drag_column;
     gint element;
     gint old_element;
+	gint *ptr;
 
     /* get the cell position */
     device = gdk_drag_context_get_device (drag_context);
@@ -930,15 +928,16 @@ gboolean gsb_transaction_list_config_drag_end ( GtkWidget *tree_view,
     end_drag_row = utils_str_atoi ( gtk_tree_path_to_string ( path ) );
 
     /* if we are on the same cell, go away */
-    if ( start_drag_row == end_drag_row
-	 &&
-	 start_drag_column == end_drag_column )
-        return ( FALSE );
+    if (start_drag_row == end_drag_row && start_drag_column == end_drag_column)
+		return ( FALSE );
 
-    element = tab_affichage_ope[start_drag_row][start_drag_column];
+	ptr = gsb_transactions_list_get_tab_affichage_ope ();
+
+    element = *(ptr + (start_drag_row * CUSTOM_MODEL_VISIBLE_COLUMNS) + start_drag_column);
 
     /* save the old position et désensitive le bouton correspondant */
-    old_element = tab_affichage_ope[end_drag_row][end_drag_column];
+    old_element = *(ptr + (end_drag_row * CUSTOM_MODEL_VISIBLE_COLUMNS) + end_drag_column);
+
     if ( old_element )
     {
         string = gsb_transaction_list_get_titre_colonne_liste_ope ( old_element - 1 );
@@ -948,10 +947,11 @@ gboolean gsb_transaction_list_config_drag_end ( GtkWidget *tree_view,
     }
 
     /* positionne le nouvel élément */
-    tab_affichage_ope[end_drag_row][end_drag_column] = element;
+	*(ptr + (end_drag_row * CUSTOM_MODEL_VISIBLE_COLUMNS) + end_drag_column) = element;
 
     /* the element was already showed, we need to erase the last cell first */
-    tab_affichage_ope[start_drag_row][start_drag_column] = 0;
+	*(ptr + (start_drag_row * CUSTOM_MODEL_VISIBLE_COLUMNS) + start_drag_column) = 0;
+
     transaction_list_update_cell ( start_drag_column, start_drag_row );
 
     /* modifie le titre de la colonne si nécessaire */
@@ -1060,11 +1060,13 @@ gboolean gsb_transaction_list_config_fill_store ( GtkWidget *tree_view )
     gchar *row[CUSTOM_MODEL_VISIBLE_COLUMNS];
     gint i;
     gint j;
+	gint *ptr;
 
     store = GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) ) );
 
     gtk_list_store_clear ( store );
 
+	ptr = gsb_transactions_list_get_tab_affichage_ope ();
     for ( i=0 ; i<TRANSACTION_LIST_ROWS_NB ; i++ )
     {
         GtkTreeIter iter;
@@ -1073,11 +1075,14 @@ gboolean gsb_transaction_list_config_fill_store ( GtkWidget *tree_view )
 
         for ( j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
         {
-            row[j] = gsb_transaction_list_get_titre_colonne_liste_ope ( tab_affichage_ope[i][j] - 1 );
-            /* on met le nom dans les lignes paires et le numéro de l'élément dans las lignes impaires */
+			gint element_number;
+
+			element_number = *(ptr + (i * CUSTOM_MODEL_VISIBLE_COLUMNS) + j);
+            row[j] = gsb_transaction_list_get_titre_colonne_liste_ope (element_number-1);
+            /* on met le nom dans les lignes paires et le numéro de l'élément dans les lignes impaires */
             gtk_list_store_set ( GTK_LIST_STORE ( store ), &iter,
                         2*j, row[j],
-                        2*j+1, tab_affichage_ope[i][j],
+                        2*j+1, element_number,
                         -1 );
 
             if ( row[j] )
@@ -1160,9 +1165,11 @@ void gsb_transaction_list_config_toggle_element_button ( GtkWidget *toggle_butto
                         GtkWidget *tree_view )
 {
     gint element;
+	gint *ptr;
 
     /* get the element number */
     element = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( toggle_button ), "element_number" ) );
+	ptr = gsb_transactions_list_get_tab_affichage_ope ();
 
     if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( toggle_button ) ) )
     {
@@ -1176,7 +1183,7 @@ void gsb_transaction_list_config_toggle_element_button ( GtkWidget *toggle_butto
             {
                 gint tmp_element;
 
-                tmp_element = tab_affichage_ope[row][column];
+                tmp_element = *(ptr + (row * CUSTOM_MODEL_VISIBLE_COLUMNS) + column);
                 if (tmp_element == 0 )
                 {
                     place_trouvee = TRUE;
@@ -1190,9 +1197,9 @@ void gsb_transaction_list_config_toggle_element_button ( GtkWidget *toggle_butto
         if ( place_trouvee )
         {
             /* on sauvegarde la position du nouvel élément */
-            tab_affichage_ope[row][column] = element;
+			gsb_transactions_list_set_element_tab_affichage_ope (element, row, column);
 
-            /* met à jour la liste des opérations */
+			/* met à jour la liste des opérations */
             transaction_list_update_element ( element );
         }
     }
@@ -1216,9 +1223,11 @@ void gsb_transaction_list_config_toggle_element_button ( GtkWidget *toggle_butto
                     gtk_tree_model_get ( GTK_TREE_MODEL ( store ), &iter, 2*j+1, &num, -1 );
                     if ( element == num )
                     {
-                        tab_affichage_ope[i][j] = 0;
+						gsb_transactions_list_set_element_tab_affichage_ope (0, i, j);
                         /* met à jour la liste des opérations */
                         transaction_list_update_cell (j, i);
+
+						break;
                     }
                 }
                 i++;
