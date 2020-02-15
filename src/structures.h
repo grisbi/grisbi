@@ -74,6 +74,10 @@
 #define GSB_NBRE_CHAR_TRUNC		15
 #define GSB_NBRE_LIGNES_BOUTON	 6
 
+/* définitions pour les tableaux des transactions */
+#define CUSTOM_MODEL_VISIBLE_COLUMNS	7		/* number of visible columns */
+#define TRANSACTION_LIST_ROWS_NB 		4		/* definition of the number of max rows for a line, for now limit to 4 */
+
 /* variables initialisées lors de l'ouverture de grisbi par gsettings */
 /* declared in grisbi_app.c */
 extern struct GrisbiAppConf conf;
@@ -84,10 +88,12 @@ extern struct _GrisbiWinRun run;
 extern struct _GrisbiWinEtat etat;
 
 typedef enum 	_ComboColumns			ComboColumns;
+typedef enum	_CustomModelOpeColumns	CustomModelOpeColumns;
 typedef enum 	_GsbTransactionType		GsbTransactionType;
 typedef enum 	_GsbTitleType	 		GsbTitleType;
 typedef enum 	_MetatreeContent		MetatreeContent;
 typedef enum 	_SettingsSchema 		SettingsSchema;
+typedef enum	_TransactionsField		TransactionsField;
 
 typedef struct _GrisbiWinEtat			GrisbiWinEtat;
 typedef struct _GrisbiWinRun			GrisbiWinRun;
@@ -350,6 +356,13 @@ struct _GrisbiWinRun
 };
 
 /* structure contenant les variables utilisées par un fichier de compte */
+/** Contain pre-defined CSV separators */
+struct CsvSeparators
+{
+    const gchar *name;		/** Visible name of CSV separator */
+    const gchar *value; 		/** Real value */
+};
+
 /* définition du titre de grisbi */
 enum _GsbTitleType
 {
@@ -357,9 +370,6 @@ enum _GsbTitleType
     GSB_ACCOUNT_HOLDER,
     GSB_ACCOUNT_FILENAME
 };
-
-
-/* définition de l'alignement */
 
 /* definition of the columns of model for the left panel  */
 enum LeftPanelTreeColumns
@@ -452,13 +462,6 @@ enum FormatDateOrder
     ORDER_MAX
 };
 
-/** Contain pre-defined CSV separators */
-struct CsvSeparators
-{
-    const gchar *name;		/** Visible name of CSV separator */
-    const gchar *value; 		/** Real value */
-};
-
 enum _ComboColumns
 {
     COMBO_COL_VISIBLE_STRING = 0,    /* string : what we see in the combofix */
@@ -469,10 +472,62 @@ enum _ComboColumns
     COMBO_N_COLUMNS
 };
 
+enum _CustomModelOpeColumns			/* The data columns that we export via the tree model interface */
+{
+    /* for the 6 first col, this can be changed by user,
+     * so juste name col_x, and comment the by default */
+    CUSTOM_MODEL_COL_0 = 0,	/* by default, check */
+    CUSTOM_MODEL_COL_1,		/* by default, date */
+    CUSTOM_MODEL_COL_2,		/* by default, payee */
+    CUSTOM_MODEL_COL_3,		/* by default, P/R */
+    CUSTOM_MODEL_COL_4,		/* by default, debit */
+    CUSTOM_MODEL_COL_5,		/* by default, credit */
+    CUSTOM_MODEL_COL_6,		/* by default, balance */
+
+    CUSTOM_MODEL_BACKGROUND,			/*< color of the background (a GdkRGBA) */
+    CUSTOM_MODEL_SAVE_BACKGROUND, 		/*< when selection, save of the normal color of background (a GdkRGBA) */
+    CUSTOM_MODEL_AMOUNT_COLOR,			/*< color of the amount (a string like "red" or NULL)*/
+    CUSTOM_MODEL_TEXT_COLOR,			/*< color of the text */
+    CUSTOM_MODEL_TRANSACTION_ADDRESS,		/* pointer to the transaction structure */
+    CUSTOM_MODEL_WHAT_IS_LINE,			/*< on what the address point to ? IS_TRANSACTION, IS_ARCHIVE (see below) */
+    CUSTOM_MODEL_FONT, 				/*< PangoFontDescription if used */
+    CUSTOM_MODEL_TRANSACTION_LINE, 		/*< the line in the transaction (0, 1, 2 or 3) */
+    CUSTOM_MODEL_VISIBLE, 			/*< whether that transaction is visible or not */
+    CUSTOM_MODEL_CHECKBOX_VISIBLE,   		/*< whether the checkbox is visible or not */
+    CUSTOM_MODEL_CHECKBOX_VISIBLE_RECONCILE,   	/*< whether the checkbox is visible or not during reconciliation */
+    CUSTOM_MODEL_CHECKBOX_ACTIVE,   		/*< whether the checkbox is active or not */
+
+    CUSTOM_MODEL_N_COLUMNS
+};
+
 enum _MetatreeContent				/* content of the metatree : 0 : payee, 1 : category, 2 : budget */
 {
 	METATREE_PAYEE,
 	METATREE_CATEGORY,
 	METATREE_BUDGET
 };
+
+enum _TransactionsField				/* the element number for each showable in the list */
+{
+    ELEMENT_DATE = 1,
+    ELEMENT_VALUE_DATE,
+    ELEMENT_PARTY,
+    ELEMENT_BUDGET,
+    ELEMENT_DEBIT,
+    ELEMENT_CREDIT,
+    ELEMENT_BALANCE,
+    ELEMENT_AMOUNT,
+    ELEMENT_PAYMENT_TYPE,
+    ELEMENT_RECONCILE_NB,
+    ELEMENT_EXERCICE,
+    ELEMENT_CATEGORY,
+    ELEMENT_MARK,
+    ELEMENT_VOUCHER,
+    ELEMENT_NOTES,
+    ELEMENT_BANK,
+    ELEMENT_NO,
+    ELEMENT_CHQ
+};
+
+
 #endif

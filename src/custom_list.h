@@ -2,6 +2,8 @@
 #define _CUSTOM_LIST_H (1)
 
 #include <gtk/gtk.h>
+#include "structures.h"
+
 
 #define CUSTOM_TYPE_LIST            (custom_list_get_type ())
 #define CUSTOM_LIST(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), CUSTOM_TYPE_LIST, CustomList))
@@ -9,41 +11,6 @@
 #define CUSTOM_IS_LIST(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), CUSTOM_TYPE_LIST))
 #define CUSTOM_IS_LIST_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass),  CUSTOM_TYPE_LIST))
 #define CUSTOM_LIST_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj),  CUSTOM_TYPE_LIST, CustomListClass))
-
-/* The data columns that we export via the tree model interface */
-enum
-{
-    /* for the 6 first col, this can be changed by user,
-     * so juste name col_x, and comment the by default */
-    CUSTOM_MODEL_COL_0 = 0,	/* by default, check */
-    CUSTOM_MODEL_COL_1,		/* by default, date */
-    CUSTOM_MODEL_COL_2,		/* by default, payee */
-    CUSTOM_MODEL_COL_3,		/* by default, P/R */
-    CUSTOM_MODEL_COL_4,		/* by default, debit */
-    CUSTOM_MODEL_COL_5,		/* by default, credit */
-    CUSTOM_MODEL_COL_6,		/* by default, balance */
-
-    CUSTOM_MODEL_BACKGROUND,			/*< color of the background (a GdkRGBA) */
-    CUSTOM_MODEL_SAVE_BACKGROUND, 		/*< when selection, save of the normal color of background (a GdkRGBA) */
-    CUSTOM_MODEL_AMOUNT_COLOR,			/*< color of the amount (a string like "red" or NULL)*/
-    CUSTOM_MODEL_TEXT_COLOR,			/*< color of the text */
-    CUSTOM_MODEL_TRANSACTION_ADDRESS,		/* pointer to the transaction structure */
-    CUSTOM_MODEL_WHAT_IS_LINE,			/*< on what the address point to ? IS_TRANSACTION, IS_ARCHIVE (see below) */
-    CUSTOM_MODEL_FONT, 				/*< PangoFontDescription if used */
-    CUSTOM_MODEL_TRANSACTION_LINE, 		/*< the line in the transaction (0, 1, 2 or 3) */
-    CUSTOM_MODEL_VISIBLE, 			/*< whether that transaction is visible or not */
-    CUSTOM_MODEL_CHECKBOX_VISIBLE,   		/*< whether the checkbox is visible or not */
-    CUSTOM_MODEL_CHECKBOX_VISIBLE_RECONCILE,   	/*< whether the checkbox is visible or not during reconciliation */
-    CUSTOM_MODEL_CHECKBOX_ACTIVE,   		/*< whether the checkbox is active or not */
-
-    CUSTOM_MODEL_N_COLUMNS
-};
-
-/* number of visible columns */
-#define CUSTOM_MODEL_VISIBLE_COLUMNS	7
-
-/* definition of the number of max rows for a line, for now limit to 4 */
-#define TRANSACTION_LIST_ROWS_NB 4
 
 /* possible values to CUSTOM_MODEL_WHAT_IS_LINE */
 #define IS_TRANSACTION 0

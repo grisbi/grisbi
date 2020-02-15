@@ -43,6 +43,7 @@
 #include "gsb_transactions_list.h"
 #include "gsb_transactions_list_sort.h"
 #include "navigation.h"
+#include "structures.h"
 #include "transaction_model.h"
 #include "utils_dates.h"
 #include "erreur.h"

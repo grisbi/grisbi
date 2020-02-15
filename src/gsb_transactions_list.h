@@ -3,29 +3,6 @@
 
 #include <gtk/gtk.h>
 
-/* the element number for each showable in the list */
-enum
-{
-    ELEMENT_DATE = 1,
-    ELEMENT_VALUE_DATE,
-    ELEMENT_PARTY,
-    ELEMENT_BUDGET,
-    ELEMENT_DEBIT,
-    ELEMENT_CREDIT,
-    ELEMENT_BALANCE,
-    ELEMENT_AMOUNT,
-    ELEMENT_PAYMENT_TYPE,
-    ELEMENT_RECONCILE_NB,
-    ELEMENT_EXERCICE,
-    ELEMENT_CATEGORY,
-    ELEMENT_MARK,
-    ELEMENT_VOUCHER,
-    ELEMENT_NOTES,
-    ELEMENT_BANK,
-    ELEMENT_NO,
-    ELEMENT_CHQ
-};
-
 /* START_INCLUDE_H */
 #include "gsb_real.h"
 /* END_INCLUDE_H */
