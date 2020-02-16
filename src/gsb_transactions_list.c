@@ -79,57 +79,6 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gboolean assert_selected_transaction (void);
-static gboolean gsb_gui_change_cell_content (GtkWidget * item, gint *element_ptr);
-static GtkWidget *gsb_gui_create_cell_contents_menu (int x, int y);
-static gboolean gsb_transactions_list_button_press (GtkWidget *tree_view,
-                        GdkEventButton *ev,
-                        gpointer null);
-static gboolean gsb_transactions_list_change_alignment (GtkWidget *menu_item,
-                        gint *no_column);
-static gboolean gsb_transactions_list_change_sort_column (GtkTreeViewColumn *tree_view_column,
-                        gint *column_ptr);
-static gboolean gsb_transactions_list_change_sort_type (GtkWidget *menu_item,
-                        gint *no_column);
-static gboolean gsb_transactions_list_check_mark (gint transaction_number);
-static gint gsb_transactions_list_choose_reconcile (gint account_number,
-                        gint transaction_number);
-static gint gsb_transactions_list_clone_transaction (gint transaction_number,
-                        gint mother_transaction_number);
-static GtkWidget *gsb_transactions_list_create_tree_view (GtkTreeModel *model);
-static void gsb_transactions_list_create_tree_view_columns (void);
-static gboolean gsb_transactions_list_delete_archived_transactions (gint account_number,
-                        gint archive_number);
-static gboolean gsb_transactions_list_delete_import_rule (gint import_rule_number);
-static void gsb_transactions_list_display_contra_transaction (gint *transaction_number);
-static gboolean gsb_transactions_list_fill_model (void);
-static gboolean gsb_transactions_list_hide_transactions_in_archive_line (GtkWidget *button,
-                        gpointer null);
-static gint gsb_transactions_list_get_valid_element_sort (gint account_number,
-                        gint column_number,
-                        gint element_number);
-static gboolean gsb_transactions_list_key_press (GtkWidget *widget,
-                        GdkEventKey *ev);
-static gboolean gsb_transactions_list_move_transaction_to_account (gint transaction_number,
-                        gint target_account);
-static void gsb_transactions_list_process_orphan_list (GSList *orphan_list);
-static void gsb_transactions_list_set_tree_view (GtkWidget *tree_view);
-static gboolean gsb_transactions_list_size_allocate (GtkWidget *tree_view,
-                        GtkAllocation *allocation,
-                        gpointer null);
-static gboolean gsb_transactions_list_switch_R_mark (gint transaction_number);
-static gboolean gsb_transactions_list_switch_mark (gint transaction_number);
-static gboolean gsb_transactions_list_title_column_button_press (GtkWidget *button,
-                        GdkEventButton *ev,
-                        gint *no_column);
-static gboolean move_selected_operation_to_account (GtkMenuItem * menu_item,
-                        gpointer null);
-static void popup_transaction_context_menu (gboolean full, int x, int y);
-static gboolean popup_transaction_rules_menu (GtkWidget * button,
-                        gpointer null);
-static gboolean popup_transaction_view_mode_menu (GtkWidget * button,
-                        gpointer null);
-static gint schedule_transaction (gint transaction_number);
 /*END_STATIC*/
 
 /* the columns of the tree_view */
@@ -238,6 +187,57 @@ struct ConditionalMessage delete_msg[] =
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
+static gboolean assert_selected_transaction (void);
+static gboolean gsb_gui_change_cell_content (GtkWidget * item, gint *element_ptr);
+static GtkWidget *gsb_gui_create_cell_contents_menu (int x, int y);
+static gboolean gsb_transactions_list_button_press (GtkWidget *tree_view,
+                        GdkEventButton *ev,
+                        gpointer null);
+static gboolean gsb_transactions_list_change_alignment (GtkWidget *menu_item,
+                        gint *no_column);
+static gboolean gsb_transactions_list_change_sort_column (GtkTreeViewColumn *tree_view_column,
+                        gint *column_ptr);
+static gboolean gsb_transactions_list_change_sort_type (GtkWidget *menu_item,
+                        gint *no_column);
+static gboolean gsb_transactions_list_check_mark (gint transaction_number);
+static gint gsb_transactions_list_choose_reconcile (gint account_number,
+                        gint transaction_number);
+static gint gsb_transactions_list_clone_transaction (gint transaction_number,
+                        gint mother_transaction_number);
+static GtkWidget *gsb_transactions_list_create_tree_view (GtkTreeModel *model);
+static void gsb_transactions_list_create_tree_view_columns (void);
+static gboolean gsb_transactions_list_delete_archived_transactions (gint account_number,
+                        gint archive_number);
+static gboolean gsb_transactions_list_delete_import_rule (gint import_rule_number);
+static void gsb_transactions_list_display_contra_transaction (gint *transaction_number);
+static gboolean gsb_transactions_list_fill_model (void);
+static gboolean gsb_transactions_list_hide_transactions_in_archive_line (GtkWidget *button,
+                        gpointer null);
+static gint gsb_transactions_list_get_valid_element_sort (gint account_number,
+                        gint column_number,
+                        gint element_number);
+static gboolean gsb_transactions_list_key_press (GtkWidget *widget,
+                        GdkEventKey *ev);
+static gboolean gsb_transactions_list_move_transaction_to_account (gint transaction_number,
+                        gint target_account);
+static void gsb_transactions_list_process_orphan_list (GSList *orphan_list);
+static void gsb_transactions_list_set_tree_view (GtkWidget *tree_view);
+static gboolean gsb_transactions_list_size_allocate (GtkWidget *tree_view,
+                        GtkAllocation *allocation,
+                        gpointer null);
+static gboolean gsb_transactions_list_switch_R_mark (gint transaction_number);
+static gboolean gsb_transactions_list_switch_mark (gint transaction_number);
+static gboolean gsb_transactions_list_title_column_button_press (GtkWidget *button,
+                        GdkEventButton *ev,
+                        gint *no_column);
+static gboolean move_selected_operation_to_account (GtkMenuItem * menu_item,
+                        gpointer null);
+static void popup_transaction_context_menu (gboolean full, int x, int y);
+static gboolean popup_transaction_rules_menu (GtkWidget * button,
+                        gpointer null);
+static gboolean popup_transaction_view_mode_menu (GtkWidget * button,
+                        gpointer null);
+static gint gsb_transactions_get_scheduled_transaction (gint transaction_number);
 /**
  *
  *
@@ -4693,7 +4693,7 @@ void gsb_transactions_list_init_tab_align_col_treeview (const gchar *description
 		for (i = 0 ; i < CUSTOM_MODEL_VISIBLE_COLUMNS ; i++)
 			transaction_col_align[i] = utils_str_atoi (pointeur_char[i]);
 
-		g_strfreev ( pointeur_char );
+		g_strfreev (pointeur_char);
     }
 	else
 	{
@@ -4754,7 +4754,7 @@ gchar *gsb_transactions_list_get_tab_affichage_ope_to_string (void)
 			{
 				first_string_to_free = tmp_str;
 				second_string_to_free = utils_str_itoa (tab_affichage_ope[i][j]);
-				tmp_str = g_strconcat ( first_string_to_free,  "-", second_string_to_free, NULL);
+				tmp_str = g_strconcat (first_string_to_free,  "-", second_string_to_free, NULL);
 				g_free (first_string_to_free);
 				g_free (second_string_to_free);
 			}
@@ -4958,36 +4958,36 @@ void gsb_transactions_list_set_titles_tips_col_list_ope (void)
     /* unset the titles and tips */
 	gsb_transactions_list_free_titles_tips_col_list_ope ();
 
-    for ( i=0 ; i<TRANSACTION_LIST_ROWS_NB ; i++ )
-	for ( j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
+    for (i=0 ; i<TRANSACTION_LIST_ROWS_NB ; i++)
+	for (j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++)
 	{
 		row[j] = gsb_transactions_list_get_column_title (i, j);
 
 		/* on the first row, set for titles and tips, for others row, only for tips */
-	    if ( i )
+	    if (i)
 	    {
-            if ( row[j] )
+            if (row[j])
             {
-                if ( tips_col_liste_operations[j] )
-                    tips_col_liste_operations[j] = g_strconcat ( tips_col_liste_operations[j],
+                if (tips_col_liste_operations[j])
+                    tips_col_liste_operations[j] = g_strconcat (tips_col_liste_operations[j],
                                                     "- ",
                                                     row[j], " ",
-                                                    NULL );
+                                                    NULL);
                 else
-                    tips_col_liste_operations[j] = g_strconcat ( " ", row[j], " ", NULL );
+                    tips_col_liste_operations[j] = g_strconcat (" ", row[j], " ", NULL);
 
-                if ( !titres_colonnes_liste_operations[j] )
+                if (!titres_colonnes_liste_operations[j])
                     titres_colonnes_liste_operations[j] = row[j];
                 else
-                    g_free ( row[j] );
+                    g_free (row[j]);
             }
 	    }
 	    else
 	    {
-            if ( row[j] )
+            if (row[j])
             {
                 titres_colonnes_liste_operations[j] = row[j];
-                tips_col_liste_operations[j] = g_strconcat ( " ", row[j], " ", NULL );
+                tips_col_liste_operations[j] = g_strconcat (" ", row[j], " ", NULL);
             }
 	    }
 	}
@@ -5004,7 +5004,7 @@ void gsb_transactions_list_free_titles_tips_col_list_ope (void)
 {
     gint j;
 
-    for ( j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
+    for (j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++)
     {
 		if (titres_colonnes_liste_operations[j])
 			g_free (titres_colonnes_liste_operations[j]);
