@@ -206,6 +206,7 @@ void init_variables (void)
     current_tree_view_width = 0;
     scheduler_current_tree_view_width = 0;
 
+	/* initialisations des tableaux de la liste des opérations */
     gsb_transactions_list_init_tab_affichage_ope (NULL);
 
 	/* by default, the display of lines is 1, 1-2, 1-2-3 */
@@ -299,7 +300,7 @@ void free_variables (void)
     gsb_regex_destroy ();
 	gsb_scheduler_list_free_variables ();
     gsb_select_icon_init_logo_variables ();
-
+	gsb_transactions_list_free_titles_tips_col_list_ope ();
 	/* free variables */
 	if (etat.csv_separator)
 		g_free (etat.csv_separator);

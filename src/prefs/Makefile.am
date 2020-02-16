@@ -12,6 +12,7 @@ libprefspages_la_SOURCES = \
 	prefs_page_display_adr.c	\
 	prefs_page_display_fonts.c	\
 	prefs_page_display_gui.c \
+	prefs_page_display_ope.c \
 	prefs_page_divers.c	\
 	prefs_page_files.c	\
 	prefs_page_import_asso.c	\
@@ -25,6 +26,7 @@ libprefspages_la_SOURCES = \
 	prefs_page_display_adr.h	\
 	prefs_page_display_fonts.h	\
 	prefs_page_display_gui.h \
+	prefs_page_display_ope.h \
 	prefs_page_divers.h \
 	prefs_page_files.h \
 	prefs_page_import_asso.h \

@@ -33,6 +33,7 @@ gboolean	gsb_transactions_list_edit_current_transaction				(void);
 gboolean	gsb_transactions_list_edit_transaction						(gint transaction_number);
 gboolean	gsb_transactions_list_edit_transaction_by_pointer			(gint *transaction_number);
 gboolean	gsb_transactions_list_fill_archive_store					(void);
+void 		gsb_transactions_list_free_titles_tips_col_list_ope			(void);
 gint 		gsb_transactions_list_get_element_tab_affichage_ope			(gint dim_1,
 																		 gint dim_2);
 gchar *		gsb_transactions_list_get_column_title						(gint dim_1,
@@ -41,6 +42,7 @@ gint		gsb_transactions_list_get_current_tree_view_width 			(void);
 gfloat		gsb_transactions_list_get_row_align							(void);
 gint *		gsb_transactions_list_get_tab_affichage_ope					(void);
 gchar *		gsb_transactions_list_get_tab_affichage_ope_to_string		(void);
+gint *		gsb_transactions_list_get_tab_align_col_treeview			(void);
 gchar *		gsb_transactions_list_get_tab_align_col_treeview_to_string	(void);
 gint *		gsb_transactions_list_get_tab_width_col_treeview			(void);
 gchar *		gsb_transactions_list_get_tab_width_col_treeview_to_string	(void);
@@ -61,6 +63,7 @@ void 		gsb_transactions_list_set_element_tab_affichage_ope			(gint element_numbe
 																		 gint dim_2);
 gboolean	gsb_transactions_list_set_largeur_col						(void);
 gboolean	gsb_transactions_list_set_row_align							(gfloat row_align);
+void		gsb_transactions_list_set_titles_tips_col_list_ope			(void);
 void		gsb_transaction_list_set_visible_archived_button			(gboolean visible);
 void		gsb_transactions_list_set_visible_rows_number				(gint rows_number);
 void		gsb_transactions_list_show_archives_lines					(gboolean show_l);

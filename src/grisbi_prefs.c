@@ -61,6 +61,7 @@
 #include "prefs/prefs_page_display_adr.h"
 #include "prefs/prefs_page_display_fonts.h"
 #include "prefs/prefs_page_display_gui.h"
+#include "prefs/prefs_page_display_ope.h"
 #include "prefs/prefs_page_divers.h"
 #include "prefs/prefs_page_files.h"
 #include "prefs/prefs_page_import_asso.h"
@@ -477,10 +478,7 @@ static void grisbi_prefs_left_panel_populate_tree_model (GrisbiPrefs *prefs)
 	page++;
 
 	/* append page Transactions list cells */
-	widget = GTK_WIDGET (onglet_affichage_liste ());
-	utils_widget_set_padding (widget, MARGIN_BOX, 0);
-	if (is_loading == FALSE)
-		gtk_widget_set_sensitive (widget, FALSE);
+	widget = GTK_WIDGET (prefs_page_display_ope_new (prefs));
 	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Transactions list cells"), page);
 	page++;
 

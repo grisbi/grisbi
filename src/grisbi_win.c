@@ -2023,7 +2023,7 @@ void grisbi_win_new_file_gui (void)
     gsb_menu_set_menus_with_file_sensitive (TRUE);
 
     /* récupère l'organisation des colonnes */
-    recuperation_noms_colonnes_et_tips ();
+	gsb_transactions_list_set_titles_tips_col_list_ope ();
 
     /* Create main widget. */
     grisbi_win_status_bar_message (_("Creating main window"));

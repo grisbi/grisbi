@@ -2760,7 +2760,7 @@ gboolean gsb_gui_change_cell_content (GtkWidget * item,
     else
         transaction_list_update_cell (col, line);
 
-    recuperation_noms_colonnes_et_tips ();
+    gsb_transactions_list_set_titles_tips_col_list_ope ();
     update_titres_tree_view ();
 
     /* update the sort column */
@@ -4769,6 +4769,22 @@ gchar *gsb_transactions_list_get_tab_affichage_ope_to_string (void)
 }
 
 /**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+gint *gsb_transactions_list_get_tab_align_col_treeview (void)
+{
+	gint *pointer;
+
+	pointer = transaction_col_align;
+
+	return pointer;
+}
+
+/**
  * retourne une chaine formatée des alignements de colonne du treeview transactions
  *
  * \param
@@ -4922,6 +4938,82 @@ gchar *gsb_transactions_list_get_column_title (gint dim_1,
 	}
 	else
 		return NULL;
+}
+
+/**
+ * fill the titres_colonnes_liste_operations variable and the associated tips
+ * so get the first row element name and set it for title
+ * fill the tips with all the elements of the column
+ *
+ * \param
+ *
+ * \return
+ **/
+void gsb_transactions_list_set_titles_tips_col_list_ope (void)
+{
+    gchar *row[CUSTOM_MODEL_VISIBLE_COLUMNS];
+    gint i;
+    gint j;
+
+    /* unset the titles and tips */
+	gsb_transactions_list_free_titles_tips_col_list_ope ();
+
+    for ( i=0 ; i<TRANSACTION_LIST_ROWS_NB ; i++ )
+	for ( j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
+	{
+		row[j] = gsb_transactions_list_get_column_title (i, j);
+
+		/* on the first row, set for titles and tips, for others row, only for tips */
+	    if ( i )
+	    {
+            if ( row[j] )
+            {
+                if ( tips_col_liste_operations[j] )
+                    tips_col_liste_operations[j] = g_strconcat ( tips_col_liste_operations[j],
+                                                    "- ",
+                                                    row[j], " ",
+                                                    NULL );
+                else
+                    tips_col_liste_operations[j] = g_strconcat ( " ", row[j], " ", NULL );
+
+                if ( !titres_colonnes_liste_operations[j] )
+                    titres_colonnes_liste_operations[j] = row[j];
+                else
+                    g_free ( row[j] );
+            }
+	    }
+	    else
+	    {
+            if ( row[j] )
+            {
+                titres_colonnes_liste_operations[j] = row[j];
+                tips_col_liste_operations[j] = g_strconcat ( " ", row[j], " ", NULL );
+            }
+	    }
+	}
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void gsb_transactions_list_free_titles_tips_col_list_ope (void)
+{
+    gint j;
+
+    for ( j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
+    {
+		if (titres_colonnes_liste_operations[j])
+			g_free (titres_colonnes_liste_operations[j]);
+        titres_colonnes_liste_operations[j] = NULL;
+
+		if (tips_col_liste_operations[j])
+			g_free (tips_col_liste_operations[j]);
+        tips_col_liste_operations[j] = NULL;
+    }
 }
 
 /**
