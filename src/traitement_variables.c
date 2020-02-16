@@ -290,7 +290,6 @@ void free_variables (void)
 {
 	/* free functions */
     bet_data_free_variables ();
-	free_noms_colonnes_et_tips ();
 	gsb_csv_export_set_csv_separator (NULL);
 	gsb_data_bank_init_variables ();
 	gsb_data_import_rule_free_list ();
