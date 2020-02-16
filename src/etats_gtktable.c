@@ -314,7 +314,7 @@ void gtktable_click_sur_ope_etat ( gint transaction_number )
     {
         gsb_data_account_set_r ( account_number, TRUE );
         gsb_menu_update_view_menu ( account_number );
-        mise_a_jour_affichage_r ( TRUE );
+        gsb_transactions_list_mise_a_jour_affichage_r ( TRUE );
     }
 
 	/* if it's a child, open the mother */

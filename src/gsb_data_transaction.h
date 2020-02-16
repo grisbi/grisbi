@@ -38,6 +38,7 @@ gint 			gsb_data_transaction_get_automatic_transaction 					(gint transaction_nu
 const gchar *	gsb_data_transaction_get_bank_references 						(gint transaction_number);
 gint 			gsb_data_transaction_get_budgetary_number 						(gint transaction_number);
 gint 			gsb_data_transaction_get_category_number 						(gint transaction_number);
+gchar *			gsb_data_transaction_get_category_real_name						(gint transaction_number);
 gint 			gsb_data_transaction_get_change_between 						(gint transaction_number);
 GSList *		gsb_data_transaction_get_children 								(gint transaction_number,
 																				 gboolean return_number);

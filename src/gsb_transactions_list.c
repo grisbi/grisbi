@@ -218,8 +218,65 @@ static gint gsb_transactions_list_get_valid_element_sort (gint account_number,
                         gint element_number);
 static gboolean gsb_transactions_list_key_press (GtkWidget *widget,
                         GdkEventKey *ev);
+/**
+ * Move transaction to another account
+ *
+ * \param transaction_number Transaction to move to other account
+ * \param target_account Account to move the transaction to
+ *
+ * return TRUE if ok
+ **/
 static gboolean gsb_transactions_list_move_transaction_to_account (gint transaction_number,
-                        gint target_account);
+																   gint target_account)
+{
+    gint source_account;
+    gint contra_transaction_number;
+    gint current_account;
+
+    devel_debug_int (target_account);
+
+    source_account = gsb_data_transaction_get_account_number (transaction_number);
+    contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (transaction_number);
+
+    /* if it's a transfer, update the contra-transaction category line */
+    if (contra_transaction_number > 0)
+    {
+        /* the transaction is a transfer, we check if the contra-transaction is not on
+         * the target account */
+        if (gsb_data_transaction_get_account_number (contra_transaction_number) == target_account)
+        {
+            dialogue_error (_("Cannot move a transfer on his contra-account"));
+            return FALSE;
+        }
+    }
+
+    /* we change now the account of the transaction */
+    gsb_data_transaction_set_account_number (transaction_number, target_account);
+
+    /* update the field of the contra transaction if necessary. Ce transfert ne doit pas
+     * modifier la balance du compte */
+    if (contra_transaction_number > 0)
+        transaction_list_update_transaction (contra_transaction_number);
+
+
+    /* normally we can change the account only by right click button
+     * so the current transaction is selected,
+     * so move the selection down */
+    transaction_list_select_down (FALSE);
+
+    /* normally we are on the source account, if ever we are not, check here
+     * what we have to update */
+    current_account = gsb_gui_navigation_get_current_account ();
+    if (current_account == source_account || current_account == target_account)
+        gsb_transactions_list_update_tree_view (current_account, FALSE);
+
+    /* update the first page */
+    run.mise_a_jour_liste_comptes_accueil = TRUE;
+    run.mise_a_jour_soldes_minimaux = TRUE;
+
+    return TRUE;
+}
+
 static void gsb_transactions_list_process_orphan_list (GSList *orphan_list);
 static void gsb_transactions_list_set_tree_view (GtkWidget *tree_view);
 static gboolean gsb_transactions_list_size_allocate (GtkWidget *tree_view,
@@ -230,8 +287,41 @@ static gboolean gsb_transactions_list_switch_mark (gint transaction_number);
 static gboolean gsb_transactions_list_title_column_button_press (GtkWidget *button,
                         GdkEventButton *ev,
                         gint *no_column);
-static gboolean move_selected_operation_to_account (GtkMenuItem * menu_item,
-                        gpointer null);
+/**
+ * Move selected transaction to another account.  Normally called as a
+ * handler.
+ *
+ * \param menu_item The GtkMenuItem that triggered this handler.
+ * \param
+ *
+ * \return FALSE
+ **/
+static gboolean gsb_transactions_list_move_transaction_to_account_from_sub_menu (GtkMenuItem *menu_item,
+																  				 gpointer null)
+{
+    gint source_account;
+    gint target_account;
+	gint current_transaction;
+
+    if (!assert_selected_transaction ())
+		return FALSE;
+
+    source_account = gsb_gui_navigation_get_current_account ();
+    target_account = GPOINTER_TO_INT (g_object_get_data (G_OBJECT(menu_item), "account_number"));
+	current_transaction = gsb_data_account_get_current_transaction_number (source_account);
+
+    if (gsb_transactions_list_move_transaction_to_account (current_transaction, target_account))
+    {
+		gtk_notebook_set_current_page (GTK_NOTEBOOK (grisbi_win_get_notebook_general ()), 1);
+		update_transaction_in_trees (gsb_data_account_get_current_transaction_number (source_account));
+		gsb_data_account_colorize_current_balance (source_account);
+		mise_a_jour_accueil (FALSE);
+        gsb_file_set_modified (TRUE);
+    }
+
+    return FALSE;
+}
+
 static void popup_transaction_context_menu (gboolean full, int x, int y);
 static gboolean popup_transaction_rules_menu (GtkWidget * button,
                         gpointer null);
@@ -271,7 +361,7 @@ static GtkWidget *gsb_transactions_list_new_toolbar (void)
     gtk_widget_set_tooltip_text (GTK_WIDGET (item), _("Blank the form to create a new transaction"));
     g_signal_connect (G_OBJECT (item),
                         "clicked",
-                        G_CALLBACK (new_transaction),
+                        G_CALLBACK (gsb_transactions_list_select_new_transaction),
                         NULL);
     gtk_toolbar_insert (GTK_TOOLBAR (toolbar), item, -1);
 
@@ -280,7 +370,7 @@ static GtkWidget *gsb_transactions_list_new_toolbar (void)
     gtk_widget_set_tooltip_text (GTK_WIDGET (item), _("Delete selected transaction"));
     g_signal_connect (G_OBJECT (item),
                         "clicked",
-                        G_CALLBACK (remove_transaction),
+                        G_CALLBACK (gsb_transactions_list_remove_transaction),
                         NULL);
     gtk_toolbar_insert (GTK_TOOLBAR (toolbar), item, -1);
 
@@ -807,7 +897,7 @@ void gsb_transactions_list_create_tree_view_columns (void)
  *
  * \return
  **/
-void update_titres_tree_view (void)
+void gsb_transactions_list_update_titres_tree_view (void)
 {
     gint i;
 
@@ -1146,7 +1236,7 @@ gchar *gsb_transactions_list_grep_cell_content (gint transaction_number,
 
 	case ELEMENT_CATEGORY:
 
-	    return (gsb_transactions_get_category_real_name (transaction_number));
+	    return (gsb_data_transaction_get_category_real_name (transaction_number));
 
 	    /* mise en forme R/P */
 
@@ -1406,7 +1496,7 @@ gint gsb_transactions_list_find_element_line (gint element_number)
  *
  * \return
  **/
-GsbReal solde_debut_affichage (gint account_number,
+GsbReal gsb_transactions_list_get_solde_debut_affichage (gint account_number,
 								gint floating_point)
 {
     GsbReal solde;
@@ -1996,7 +2086,7 @@ gboolean gsb_transactions_list_switch_R_mark (gint transaction_number)
 	    gsb_transactions_list_update_tree_view (account_number, TRUE);
 
 	    /* we warn the user the transaction disappear
-	     * don't laugh ! there were several bugs reports about a transaction which disappear :-) */
+	     * don't laugh !there were several bugs reports about a transaction which disappear :-) */
 	    dialogue_hint (_("The transaction has disappear from the list...\nDon't worry, it's because you marked it as R, and you choosed not to show the R transactions into the list ; show them if you want to check what you did."),
 			   _("Marking a transaction as R"));
 	}
@@ -2542,12 +2632,15 @@ void popup_transaction_context_menu (gboolean full
     /* New transaction */
     menu_item = GTK_WIDGET (utils_menu_item_new_from_image_label  ("gsb-new-transaction-16.png",
 																   _("New transaction")));
-    g_signal_connect (G_OBJECT(menu_item), "activate", G_CALLBACK (new_transaction), NULL);
+    g_signal_connect (G_OBJECT(menu_item),
+					  "activate",
+					  G_CALLBACK (gsb_transactions_list_select_new_transaction),
+					  NULL);
     gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
 
     /* Delete transaction */
     menu_item = GTK_WIDGET (utils_menu_item_new_from_image_label ("gtk-delete-16.png", _("Delete transaction")));
-    g_signal_connect (G_OBJECT(menu_item), "activate", G_CALLBACK(remove_transaction), NULL);
+    g_signal_connect (G_OBJECT(menu_item), "activate", G_CALLBACK(gsb_transactions_list_remove_transaction), NULL);
     if (!full
 	 ||
 	 gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_RAPPROCHEE
@@ -2577,7 +2670,10 @@ void popup_transaction_context_menu (gboolean full
     /* Convert to scheduled transaction */
     menu_item = GTK_WIDGET (utils_menu_item_new_from_image_label ("gsb-convert-16.png",
 																  _("Convert transaction to scheduled transaction")));
-    g_signal_connect (G_OBJECT(menu_item), "activate", G_CALLBACK(schedule_selected_transaction), NULL);
+    g_signal_connect (G_OBJECT(menu_item),
+					  "activate",
+					  G_CALLBACK(gsb_transactions_list_convert_transaction_to_sheduled),
+					  NULL);
     gtk_widget_set_sensitive (menu_item, full && mi_full);
     gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
 
@@ -2595,8 +2691,11 @@ void popup_transaction_context_menu (gboolean full
     gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
 
     /* Add accounts submenu */
-    gtk_menu_item_set_submenu (GTK_MENU_ITEM(menu_item),
-				GTK_WIDGET(gsb_account_create_menu_list (G_CALLBACK(move_selected_operation_to_account), FALSE, FALSE)));
+    gtk_menu_item_set_submenu (GTK_MENU_ITEM (menu_item),
+							   GTK_WIDGET (gsb_account_create_menu_list
+										   (G_CALLBACK (gsb_transactions_list_move_transaction_to_account_from_sub_menu),
+											FALSE,
+											FALSE)));
 
 
     /* Separator */
@@ -2736,7 +2835,7 @@ gboolean gsb_gui_change_cell_content (GtkWidget * item,
         transaction_list_update_cell (col, line);
 
     gsb_transactions_list_set_titles_tips_col_list_ope ();
-    update_titres_tree_view ();
+    gsb_transactions_list_update_titres_tree_view ();
 
     /* update the sort column */
     gsb_data_account_set_element_sort (current_account, col, element);
@@ -2774,7 +2873,7 @@ gboolean assert_selected_transaction (void)
  *
  * \return
  **/
-gboolean new_transaction (void)
+gboolean gsb_transactions_list_select_new_transaction (void)
 {
 	if (gsb_gui_navigation_get_current_account () == -1)
 		return FALSE;
@@ -2795,12 +2894,15 @@ gboolean new_transaction (void)
  *
  * \return
  **/
-void remove_transaction (void)
+void gsb_transactions_list_remove_transaction (void)
 {
-    if (! assert_selected_transaction()) return;
+	gint current_transaction;
 
-    gsb_transactions_list_delete_transaction (gsb_data_account_get_current_transaction_number (gsb_gui_navigation_get_current_account ()),
-					      TRUE);
+    if (!assert_selected_transaction())
+		return;
+
+	current_transaction = gsb_data_account_get_current_transaction_number (gsb_gui_navigation_get_current_account ());
+    gsb_transactions_list_delete_transaction (current_transaction, TRUE);
     gtk_notebook_set_current_page (GTK_NOTEBOOK (grisbi_win_get_notebook_general ()), 1);
 }
 
@@ -2817,7 +2919,7 @@ gboolean gsb_transactions_list_clone_selected_transaction (GtkWidget *menu_item,
 {
     gint new_transaction_number;
 
-    if (! assert_selected_transaction())
+    if (!assert_selected_transaction())
         return FALSE;
 
     new_transaction_number = gsb_transactions_list_clone_transaction (
@@ -2970,125 +3072,24 @@ gint gsb_transactions_list_clone_transaction (gint transaction_number,
  * \param menu_item The GtkMenuItem that triggered this handler.
  * \param
  *
- * \return FALSE
- **/
-gboolean move_selected_operation_to_account (GtkMenuItem * menu_item,
-											 gpointer null)
-{
-    gint target_account, source_account;
-
-    if (! assert_selected_transaction()) return FALSE;
-
-    source_account = gsb_gui_navigation_get_current_account ();
-    target_account = GPOINTER_TO_INT (g_object_get_data (G_OBJECT(menu_item),
-							     "account_number"));
-
-    if (gsb_transactions_list_move_transaction_to_account (gsb_data_account_get_current_transaction_number (source_account),
-							     target_account))
-    {
-	gtk_notebook_set_current_page (GTK_NOTEBOOK (grisbi_win_get_notebook_general ()), 1);
-
-	update_transaction_in_trees (gsb_data_account_get_current_transaction_number (source_account));
-
-    gsb_data_account_colorize_current_balance (source_account);
-
-    mise_a_jour_accueil (FALSE);
-
-        gsb_file_set_modified (TRUE);
-    }
-    return FALSE;
-}
-
-/**
- * Move selected transaction to another account.  Normally called as a
- * handler.
- *
- * \param menu_item The GtkMenuItem that triggered this handler.
- * \param
- *
  * \return
  **/
-void move_selected_operation_to_account_nb (gint source_account,
-                                            gint target_account)
+void gsb_transactions_list_move_transaction_to_account_from_menu (gint source_account,
+																  gint target_account)
 {
-    if (!assert_selected_transaction())
+	gint current_transaction;
+
+    if (!assert_selected_transaction ())
 		return;
 
-    if (gsb_transactions_list_move_transaction_to_account (gsb_data_account_get_current_transaction_number (source_account),
-                                                           target_account))
+	current_transaction = gsb_data_account_get_current_transaction_number (source_account);
+    if (gsb_transactions_list_move_transaction_to_account (current_transaction, target_account))
     {
 		gtk_notebook_set_current_page (GTK_NOTEBOOK (grisbi_win_get_notebook_general ()), 1);
-
 		update_transaction_in_trees (gsb_data_account_get_current_transaction_number (source_account)) ;
-
 		gsb_data_account_colorize_current_balance (source_account);
-
         gsb_file_set_modified (TRUE);
     }
-}
-
-/**
- * Move transaction to another account
- *
- * \param transaction_number Transaction to move to other account
- * \param target_account Account to move the transaction to
- *
- * return TRUE if ok
- **/
-gboolean gsb_transactions_list_move_transaction_to_account (gint transaction_number,
-															gint target_account)
-{
-    gint source_account;
-    gint contra_transaction_number;
-    gint current_account;
-
-    devel_debug_int (target_account);
-
-    source_account = gsb_data_transaction_get_account_number (transaction_number);
-    contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (
-                        transaction_number);
-
-    /* if it's a transfer, update the contra-transaction category line */
-    if (contra_transaction_number > 0)
-    {
-        /* the transaction is a transfer, we check if the contra-transaction is not on
-         * the target account */
-        if (gsb_data_transaction_get_account_number (
-                        contra_transaction_number) == target_account)
-        {
-            dialogue_error (_("Cannot move a transfer on his contra-account"));
-            return FALSE;
-        }
-    }
-
-    /* we change now the account of the transaction */
-    gsb_data_transaction_set_account_number (transaction_number,
-					      target_account);
-
-    /* update the field of the contra transaction if necessary. Ce transfert ne doit pas
-     * modifier la balance du compte */
-    if (contra_transaction_number > 0)
-        transaction_list_update_transaction (contra_transaction_number);
-
-
-    /* normally we can change the account only by right click button
-     * so the current transaction is selected,
-     * so move the selection down */
-    transaction_list_select_down (FALSE);
-
-    /* normally we are on the source account, if ever we are not, check here
-     * what we have to update */
-    current_account = gsb_gui_navigation_get_current_account ();
-    if (current_account == source_account
-	||
-	current_account == target_account)
-        gsb_transactions_list_update_tree_view (current_account, FALSE);
-
-    /* update the first page */
-    run.mise_a_jour_liste_comptes_accueil = TRUE;
-    run.mise_a_jour_soldes_minimaux = TRUE;
-
-    return TRUE;
 }
 
 /**
@@ -3099,7 +3100,7 @@ gboolean gsb_transactions_list_move_transaction_to_account (gint transaction_num
  *
  * \return
  **/
-void schedule_selected_transaction (void)
+void gsb_transactions_list_convert_transaction_to_sheduled (void)
 {
     gint scheduled_number;
 
@@ -3621,7 +3622,7 @@ gboolean gsb_transactions_list_change_sort_column (GtkTreeViewColumn *tree_view_
  *
  * \return
  **/
-void mise_a_jour_affichage_r (gboolean show_r)
+void gsb_transactions_list_mise_a_jour_affichage_r (gboolean show_r)
 {
     gint current_account;
 
@@ -3818,53 +3819,6 @@ gboolean gsb_transactions_list_transaction_visible (gpointer transaction_ptr,
 
     /* 	    now we check if we show 1, 2, 3 or 4 lines */
     return display_mode_check_line (line_in_transaction, nb_rows);
-}
-
-/*
- * get the real name of the category of the transaction
- * so return split of transaction, transfer : ..., categ : under_categ
- *
- * \param transaction the adr of the transaction
- *
- * \return the real name. It returns a newly allocated string which must be
- * freed when no more used.
- **/
-gchar *gsb_transactions_get_category_real_name (gint transaction_number)
-{
-    gchar *tmp;
-    gint contra_transaction_number;
-
-    if (gsb_data_transaction_get_split_of_transaction (transaction_number))
-	tmp = g_strdup(_("Split of transaction"));
-    else
-    {
-	contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (transaction_number);
-	switch (contra_transaction_number)
-	{
-	    case -1:
-		/* transfer to deleted account */
-		if (gsb_data_transaction_get_amount (transaction_number).mantissa < 0)
-		    tmp = g_strdup(_("Transfer to a deleted account"));
-		else
-		    tmp = g_strdup(_("Transfer from a deleted account"));
-		break;
-	    case 0:
-		/* normal category */
-		tmp = gsb_data_category_get_name (gsb_data_transaction_get_category_number (transaction_number),
-						   gsb_data_transaction_get_sub_category_number (transaction_number),
-						   NULL);
-		break;
-	    default:
-		/* transfer */
-		if (gsb_data_transaction_get_amount (transaction_number).mantissa < 0)
-		    tmp = g_strdup_printf (_("Transfer to %s"),
-					    gsb_data_account_get_name (gsb_data_transaction_get_account_number (contra_transaction_number)));
-		else
-		    tmp = g_strdup_printf (_("Transfer from %s"),
-					    gsb_data_account_get_name (gsb_data_transaction_get_account_number (contra_transaction_number)));
-	}
-    }
-    return tmp;
 }
 
 /**
@@ -4195,7 +4149,7 @@ void gsb_transactions_list_display_contra_transaction (gint *element_ptr)
          &&
          !gsb_data_account_get_r (target_account))
         {
-            mise_a_jour_affichage_r (TRUE);
+            gsb_transactions_list_mise_a_jour_affichage_r (TRUE);
         }
 
         transaction_list_select (transaction_number);
@@ -4314,12 +4268,12 @@ gboolean gsb_transactions_list_change_aspect_liste (gint demande)
 
         case 5 :
             /* ope avec r */
-            mise_a_jour_affichage_r (1);
+            gsb_transactions_list_mise_a_jour_affichage_r (1);
             break;
 
         case 6 :
             /* ope sans r */
-            mise_a_jour_affichage_r (0);
+            gsb_transactions_list_mise_a_jour_affichage_r (0);
             break;
 
         case 7 :

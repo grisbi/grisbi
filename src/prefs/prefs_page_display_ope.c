@@ -216,7 +216,7 @@ static void prefs_page_display_ope_toggle_element_button (GtkWidget *toggle_butt
 
     /* on finit de mettre à jour la liste des opérations */
 	gsb_transactions_list_set_titles_tips_col_list_ope ();
-	update_titres_tree_view ();
+	gsb_transactions_list_update_titres_tree_view ();
 
     gsb_file_set_modified (TRUE);
 }
@@ -544,7 +544,7 @@ static gboolean prefs_page_display_ope_drag_end (GtkWidget *tree_view,
     /* met à jour la liste des opérations */
     transaction_list_update_element (element);
     gsb_transactions_list_set_titles_tips_col_list_ope ();
-    update_titres_tree_view ();
+    gsb_transactions_list_update_titres_tree_view ();
 
     gsb_file_set_modified (TRUE);
     return (FALSE);

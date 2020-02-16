@@ -555,7 +555,7 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
     if (reconcile_save_show_marked)
     {
         gsb_data_account_set_r (account_number, FALSE );
-        mise_a_jour_affichage_r (FALSE);
+        gsb_transactions_list_mise_a_jour_affichage_r (FALSE);
     }
 
     /* 1 line on the transaction list */
@@ -827,7 +827,7 @@ gboolean gsb_reconcile_cancel ( GtkWidget *button,
     if (reconcile_save_show_marked)
     {
         gsb_data_account_set_r (gsb_gui_navigation_get_current_account (), TRUE );
-        mise_a_jour_affichage_r (TRUE);
+        gsb_transactions_list_mise_a_jour_affichage_r (TRUE);
     }
 
     /* Don't display uneeded widget for now. */

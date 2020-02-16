@@ -16,7 +16,6 @@ gboolean	gsb_transactions_list_clone_selected_transaction			(GtkWidget *menu_ite
 GtkWidget *	gsb_transactions_list_creation_fenetre_operations			(void);
 gint		gsb_transactions_list_find_element_col						(gint element_number);
 gint		gsb_transactions_list_find_element_line						(gint element_number);
-gchar *		gsb_transactions_get_category_real_name						(gint transaction_number);
 gboolean	gsb_transactions_list_add_transactions_from_archive			(gint archive_number,
 																		 gint account_number,
 																		 gboolean show_warning);
@@ -53,6 +52,8 @@ void		gsb_transactions_list_init_tab_affichage_ope				(const gchar *description)
 void 		gsb_transactions_list_init_tab_align_col_treeview			(const gchar *description);
 void 		gsb_transactions_list_init_tab_width_col_treeview			(const gchar *description);
 GtkWidget *	gsb_transactions_list_make_gui_list							(void);
+void		gsb_transactions_list_move_transaction_to_account_from_menu (gint source_account,
+																		 gint target_account);
 gboolean	gsb_transactions_list_restore_archive						(gint archive_number,
 																		 gboolean show_warning);
 void		gsb_transactions_list_selection_changed						(gint new_selected_transaction);
@@ -75,15 +76,12 @@ gboolean	gsb_transactions_list_transaction_visible					(gpointer transaction_ptr
 gboolean	gsb_transactions_list_update_transaction					(gint transaction_number);
 void		gsb_transactions_list_update_tree_view						(gint account_number,
 																		 gboolean keep_selected_transaction);
-void		mise_a_jour_affichage_r										(gboolean show_r);
-void		move_selected_operation_to_account_nb						(gint source_account,
-																		 gint target_account);
-gboolean	new_transaction												(void);
-void		remove_transaction											(void);
-void		schedule_selected_transaction								(void);
-GsbReal		solde_debut_affichage										(gint account_number,
+void		gsb_transactions_list_mise_a_jour_affichage_r				(gboolean show_r);
+gboolean	gsb_transactions_list_select_new_transaction				(void);
+void		gsb_transactions_list_remove_transaction					(void);
+void		gsb_transactions_list_convert_transaction_to_sheduled		(void);
+GsbReal		gsb_transactions_list_get_solde_debut_affichage				(gint account_number,
 																		 gint floating_point);
-void		update_titres_tree_view										(void);
-
+void		gsb_transactions_list_update_titres_tree_view				(void);
 /* END_DECLARATION */
 #endif

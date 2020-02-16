@@ -511,7 +511,7 @@ void gsb_data_mix_delete_current_transaction ( void )
     current_page = gsb_gui_navigation_get_current_page ( );
 
     if ( current_page == GSB_ACCOUNT_PAGE )
-        remove_transaction ();
+        gsb_transactions_list_remove_transaction ();
     else if ( current_page == GSB_SCHEDULER_PAGE )
         gsb_scheduler_list_delete_scheduled_transaction ( 0, TRUE );
 }
@@ -551,7 +551,7 @@ void gsb_data_mix_new_transaction_by_menu ( void )
     current_page = gsb_gui_navigation_get_current_page ( );
 
     if ( current_page == GSB_ACCOUNT_PAGE )
-        new_transaction ();
+	gsb_transactions_list_select_new_transaction ();
     else if ( current_page == GSB_SCHEDULER_PAGE )
         gsb_scheduler_list_edit_transaction ( -1 );
 }

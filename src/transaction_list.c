@@ -984,7 +984,7 @@ void transaction_list_set_balances ( void )
     floating_point = gsb_data_currency_get_floating_point ( currency_number );
 
     /* get the beginning balance */
-    current_total = solde_debut_affichage ( account_number, floating_point);
+    current_total = gsb_transactions_list_get_solde_debut_affichage ( account_number, floating_point);
 
     for (i=0 ; i < custom_list -> num_visibles_rows ; i++)
     {

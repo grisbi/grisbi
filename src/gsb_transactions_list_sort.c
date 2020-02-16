@@ -926,8 +926,8 @@ gint gsb_transactions_list_sort_by_category ( gint transaction_number_1,
      * and after, we sort by str
      * */
 
-    temp_1 = gsb_transactions_get_category_real_name ( transaction_number_1);
-    temp_2 = gsb_transactions_get_category_real_name ( transaction_number_2);
+    temp_1 = gsb_data_transaction_get_category_real_name ( transaction_number_1);
+    temp_2 = gsb_data_transaction_get_category_real_name ( transaction_number_2);
 
     /* g_utf8_collate is said not very fast, must try with big big account to check
      * if it's enough, for me it's ok (cedric), eventually, change with gsb_strcasecmp */

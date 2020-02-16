@@ -2779,6 +2779,53 @@ GSList *gsb_import_get_transactions_list_for_import ( gint account_number,
 }
 
 
+/*
+ * get the real name of the category of the transaction
+ * so return split of transaction, transfer : ..., categ : under_categ
+ *
+ * \param transaction the adr of the transaction
+ *
+ * \return the real name. It returns a newly allocated string which must be
+ * freed when no more used.
+ **/
+gchar *gsb_data_transaction_get_category_real_name (gint transaction_number)
+{
+    gchar *tmp;
+    gint contra_transaction_number;
+
+    if (gsb_data_transaction_get_split_of_transaction (transaction_number))
+	tmp = g_strdup(_("Split of transaction"));
+    else
+    {
+	contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (transaction_number);
+	switch (contra_transaction_number)
+	{
+	    case -1:
+		/* transfer to deleted account */
+		if (gsb_data_transaction_get_amount (transaction_number).mantissa < 0)
+		    tmp = g_strdup(_("Transfer to a deleted account"));
+		else
+		    tmp = g_strdup(_("Transfer from a deleted account"));
+		break;
+	    case 0:
+		/* normal category */
+		tmp = gsb_data_category_get_name (gsb_data_transaction_get_category_number (transaction_number),
+						   gsb_data_transaction_get_sub_category_number (transaction_number),
+						   NULL);
+		break;
+	    default:
+		/* transfer */
+		if (gsb_data_transaction_get_amount (transaction_number).mantissa < 0)
+		    tmp = g_strdup_printf (_("Transfer to %s"),
+					    gsb_data_account_get_name (gsb_data_transaction_get_account_number (contra_transaction_number)));
+		else
+		    tmp = g_strdup_printf (_("Transfer from %s"),
+					    gsb_data_account_get_name (gsb_data_transaction_get_account_number (contra_transaction_number)));
+	}
+    }
+    return tmp;
+}
+
 /**
  *
  *

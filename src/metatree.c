@@ -1201,7 +1201,7 @@ gboolean division_activated ( GtkTreeView * treeview, GtkTreePath * path,
          &&
 		 gsb_data_account_get_r ( account_number ) == FALSE )
 	    {
-            mise_a_jour_affichage_r ( TRUE );
+            gsb_transactions_list_mise_a_jour_affichage_r ( TRUE );
 	    }
 
 	    gsb_gui_navigation_change_account ( account_number );

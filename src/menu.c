@@ -727,7 +727,7 @@ void grisbi_cmd_convert_ope (GSimpleAction *action,
 						GVariant *parameter,
 						gpointer app)
 {
-	schedule_selected_transaction ();
+	gsb_transactions_list_convert_transaction_to_sheduled ();
 }
 
 /**
@@ -757,7 +757,7 @@ void grisbi_cmd_move_to_account_menu (GSimpleAction *action,
 		target_account = atoi (tmp_str);
 
 		source_account = gsb_gui_navigation_get_current_account ();
-		move_selected_operation_to_account_nb (source_account, target_account);
+		gsb_transactions_list_move_transaction_to_account_from_menu (source_account, target_account);
 		g_free (tmp_str);
 	}
 }
@@ -837,12 +837,12 @@ void grisbi_cmd_show_reconciled_toggle (GSimpleAction *action,
 
     if (gsb_data_account_get_r (current_account))
     {
-	    mise_a_jour_affichage_r (FALSE);
+	    gsb_transactions_list_mise_a_jour_affichage_r (FALSE);
         g_action_change_state (G_ACTION (action), g_variant_new_boolean (FALSE));
     }
     else
     {
-	    mise_a_jour_affichage_r (TRUE);
+	    gsb_transactions_list_mise_a_jour_affichage_r (TRUE);
         g_action_change_state (G_ACTION (action), g_variant_new_boolean (TRUE));
     }
 }
