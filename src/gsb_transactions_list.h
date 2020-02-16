@@ -23,6 +23,7 @@ gboolean	gsb_transactions_list_append_new_transaction				(gint transaction_numbe
 																		 gboolean update_tree_view);
 gboolean	gsb_transactions_list_clone_template						(GtkWidget *menu_item,
 																		 gpointer null);
+void		gsb_transactions_list_convert_transaction_to_sheduled		(void);
 gboolean	gsb_transactions_list_delete_transaction					(gint transaction_number,
 																		 gint show_warning);
 gboolean	gsb_transactions_list_delete_transaction_from_tree_view		(gint transaction_number);
@@ -38,6 +39,8 @@ gchar *		gsb_transactions_list_get_column_title						(gint dim_1,
 gchar *		gsb_transactions_list_get_column_title_from_element			(gint element);
 gint		gsb_transactions_list_get_current_tree_view_width 			(void);
 gfloat		gsb_transactions_list_get_row_align							(void);
+GsbReal		gsb_transactions_list_get_solde_debut_affichage				(gint account_number,
+																		 gint floating_point);
 gint *		gsb_transactions_list_get_tab_affichage_ope					(void);
 gchar *		gsb_transactions_list_get_tab_affichage_ope_to_string		(void);
 gint *		gsb_transactions_list_get_tab_align_col_treeview			(void);
@@ -79,9 +82,6 @@ void		gsb_transactions_list_update_tree_view						(gint account_number,
 void		gsb_transactions_list_mise_a_jour_affichage_r				(gboolean show_r);
 gboolean	gsb_transactions_list_select_new_transaction				(void);
 void		gsb_transactions_list_remove_transaction					(void);
-void		gsb_transactions_list_convert_transaction_to_sheduled		(void);
-GsbReal		gsb_transactions_list_get_solde_debut_affichage				(gint account_number,
-																		 gint floating_point);
 void		gsb_transactions_list_update_titres_tree_view				(void);
 /* END_DECLARATION */
 #endif

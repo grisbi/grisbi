@@ -51,10 +51,8 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-//~ static gboolean prefs_page_display_ope_update_list_config (PrefsPageDisplayOpe *page);
-/** tmp for drag'n drop */
-static gint start_drag_column;
-static gint start_drag_row;
+static gint start_drag_column;		/** tmp for drag'n drop */
+static gint start_drag_row;			/** tmp for drag'n drop */
 /*END_STATIC*/
 
 /*START_EXTERN*/
