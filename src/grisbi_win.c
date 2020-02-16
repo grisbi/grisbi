@@ -581,6 +581,7 @@ static GtkWidget *grisbi_win_create_general_notebook (GrisbiWin *win)
     /* the main right page is a grid with a notebook on the top and the form on the bottom */
 	grid = gtk_grid_new ();
 	gtk_container_add (GTK_CONTAINER(sw_general), grid);
+	gtk_grid_set_column_homogeneous (GTK_GRID (grid), TRUE);
 
 	/* append the notebook */
     priv->notebook_general = gtk_notebook_new ();
