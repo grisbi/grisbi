@@ -1235,9 +1235,9 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 				gsb_account_property_fill_page ();
 				clear_suffix = FALSE;
 				if ( gsb_data_archive_store_account_have_transactions_visibles ( account_number ) )
-					gsb_transaction_list_set_visible_archived_button ( TRUE );
+					gsb_transactions_list_set_visible_archived_button ( TRUE );
 				else
-					gsb_transaction_list_set_visible_archived_button ( FALSE );
+					gsb_transactions_list_set_visible_archived_button ( FALSE );
 			}
 			grisbi_win_menu_move_to_acc_update (FALSE);
 			gsb_menu_update_view_menu ( account_number );

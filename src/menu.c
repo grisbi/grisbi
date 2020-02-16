@@ -957,9 +957,9 @@ gboolean gsb_menu_gui_toggle_show_reconciled (void)
         return FALSE;
 
     if (gsb_data_account_get_r (current_account))
-	    change_aspect_liste (6);
+	    gsb_transactions_list_change_aspect_liste (6);
     else
-	    change_aspect_liste (5);
+	    gsb_transactions_list_change_aspect_liste (5);
 
     return FALSE;
 }
@@ -979,9 +979,9 @@ gboolean gsb_menu_gui_toggle_show_archived (void)
         return FALSE;
 
     if (gsb_data_account_get_l (current_account))
-	    change_aspect_liste (8);
+	    gsb_transactions_list_change_aspect_liste (8);
     else
-	    change_aspect_liste (7);
+	    gsb_transactions_list_change_aspect_liste (7);
 
     return FALSE;
 }

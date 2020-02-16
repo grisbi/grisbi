@@ -81,8 +81,61 @@ extern GSList *orphan_child_transactions;
  * the speed when filling the list and adding children */
 static CustomRecord *last_mother_appended = NULL;
 
+/******************************************************************************/
+/* Private functions                                                          */
+/******************************************************************************/
+/**
+ * Cherche le premier élément disponible pour nommer une archive
+ * parmi un des éléments obligatoires
+ *
+ * \param
+ *
+ * \return column number or another element
+ **/
+static gint transaction_list_find_element_col_for_archive (void)
+{
+    gint retour;
 
+    if ((retour = gsb_transactions_list_find_element_col (ELEMENT_PARTY)) >= 0)
+        return retour;
+    if ((retour = gsb_transactions_list_find_element_col (ELEMENT_CATEGORY)) >= 0)
+        return retour;
+    if ((retour = gsb_transactions_list_find_element_col (ELEMENT_BUDGET)) >= 0)
+        return retour;
+    if ((retour = gsb_transactions_list_find_element_col (ELEMENT_NOTES)) >= 0)
+        return retour;
 
+    return -1;
+}
+
+/**
+ * find column number for the element, but for split transaction
+ * there is no line find because only 1 line
+ * for now, only payee, debit and credit are shown in a split child
+ *
+ * \param element_number the element we look for in a split child
+ *
+ * \return column number or -1 if the element is not shown
+ **/
+static gint transaction_list_find_element_col_split (gint element_number)
+{
+    switch (element_number)
+    {
+	case ELEMENT_CATEGORY:
+	    return CUSTOM_MODEL_COL_2;
+
+	case ELEMENT_CREDIT:
+	    return CUSTOM_MODEL_COL_4;
+
+	case ELEMENT_DEBIT:
+	    return CUSTOM_MODEL_COL_5;
+    }
+    return -1;
+}
+
+/******************************************************************************/
+/* Public functions                                                           */
+/******************************************************************************/
 /**
  * create the new custom list
  *
@@ -172,7 +225,7 @@ void transaction_list_append_transaction ( gint transaction_number )
     /* get the P position if the transaction is marked */
     marked_transaction = gsb_data_transaction_get_marked_transaction (
                         transaction_number) != OPERATION_NORMALE;
-    line_p = find_element_line (ELEMENT_MARK);
+    line_p = gsb_transactions_list_find_element_line (ELEMENT_MARK);
 
     /* get the new number of the first row in the complete list of row */
     pos = custom_list->num_rows;
@@ -321,9 +374,9 @@ void transaction_list_append_archive ( gint archive_store_number )
 
     archive_number = gsb_data_archive_store_get_archive_number ( archive_store_number );
 
-    if ( find_element_col ( ELEMENT_DATE ) == 0 )
+    if ( gsb_transactions_list_find_element_col ( ELEMENT_DATE ) == 0 )
     {
-        element_date = find_element_col_for_archive ( );
+        element_date = transaction_list_find_element_col_for_archive ();
         if (element_date < 0)
 		{
 			g_free(newrecord);
@@ -334,7 +387,7 @@ void transaction_list_append_archive ( gint archive_store_number )
     newrecord -> visible_col[element_date] = gsb_format_gdate (
                         gsb_data_archive_get_beginning_date ( archive_number ) );
 
-    if ( ( col_archive = find_element_col_for_archive ( ) ) >= 0 )
+    if ( ( col_archive = transaction_list_find_element_col_for_archive () ) >= 0 )
         newrecord -> visible_col[col_archive] = g_strdup_printf (
                         _("%s (%d transactions)"),
                         gsb_data_archive_get_name (archive_number),
@@ -342,9 +395,9 @@ void transaction_list_append_archive ( gint archive_store_number )
                         archive_store_number ) );
 
     if ((gsb_data_archive_store_get_balance (archive_store_number)).mantissa < 0)
-        amount_col = find_element_col (ELEMENT_DEBIT);
+        amount_col = gsb_transactions_list_find_element_col (ELEMENT_DEBIT);
     else
-        amount_col = find_element_col (ELEMENT_CREDIT);
+        amount_col = gsb_transactions_list_find_element_col (ELEMENT_CREDIT);
 
     if ( amount_col > 0 )
         newrecord -> visible_col[amount_col] = utils_real_get_string_with_currency (
@@ -908,10 +961,10 @@ void transaction_list_set_balances ( void )
     g_return_if_fail ( custom_list != NULL );
 
     /* column and line of balance are user defined */
-    column_balance = find_element_col (ELEMENT_BALANCE);
+    column_balance = gsb_transactions_list_find_element_col (ELEMENT_BALANCE);
     if (column_balance < 0)
         return;
-    line_balance = find_element_line (ELEMENT_BALANCE);
+    line_balance = gsb_transactions_list_find_element_line (ELEMENT_BALANCE);
 
     /* check if the balance is visible */
     account_number = gsb_gui_navigation_get_current_account ();
@@ -1076,7 +1129,7 @@ gboolean transaction_list_update_transaction ( gint transaction_number )
 
     /* get the P position if the transaction is marked */
     marked_transaction = gsb_data_transaction_get_marked_transaction (transaction_number) != OPERATION_NORMALE;
-    line_p = find_element_line (ELEMENT_MARK);
+    line_p = gsb_transactions_list_find_element_line (ELEMENT_MARK);
 
     /* if we update a child, only 1 line */
     if ( record -> mother_row )
@@ -1241,8 +1294,8 @@ gboolean transaction_list_update_element ( gint element_number )
     /* for now, this is the same position for all accounts, so no problem */
 
     /* get the position of the element */
-    column_element = find_element_col (element_number);        /*  0 to CUSTOM_MODEL_VISIBLE_COLUMNS */
-    line_element = find_element_line (element_number);        /*  0 to TRANSACTION_LIST_ROWS_NB */
+    column_element = gsb_transactions_list_find_element_col (element_number);	/*  0 to CUSTOM_MODEL_VISIBLE_COLUMNS */
+    line_element = gsb_transactions_list_find_element_line (element_number);	/*  0 to TRANSACTION_LIST_ROWS_NB */
 
     if ( column_element == -1
 	 ||
@@ -1375,7 +1428,7 @@ gboolean transaction_list_update_cell ( gint cell_col,
 	element_number = gsb_transactions_list_get_element_tab_affichage_ope (cell_line, cell_col);
 
     /* the element exists in the view, find the column of the split if exists (-1 if don't exist) */
-    column_element_split = find_element_col_split (element_number);
+    column_element_split = transaction_list_find_element_col_split (element_number);
 
     /* begin to fill the iter for later */
     iter.stamp = custom_list->stamp;
@@ -1481,8 +1534,8 @@ gboolean transaction_list_show_toggle_mark ( gboolean show )
 
     custom_list = transaction_model_get_model ();
 
-    line_p = find_element_line (ELEMENT_MARK);
-    col_p = find_element_col (ELEMENT_MARK);
+    line_p = gsb_transactions_list_find_element_line (ELEMENT_MARK);
+    col_p = gsb_transactions_list_find_element_col (ELEMENT_MARK);
     if (line_p == -1 || col_p == -1)
 	return FALSE;
 

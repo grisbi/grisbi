@@ -531,7 +531,7 @@ void gsb_data_mix_clone_current_transaction ( void )
     current_page = gsb_gui_navigation_get_current_page ( );
 
     if ( current_page == GSB_ACCOUNT_PAGE )
-        clone_selected_transaction ( NULL, NULL );
+        gsb_transactions_list_clone_selected_transaction ( NULL, NULL );
     else if ( current_page == GSB_SCHEDULER_PAGE )
         gsb_scheduler_list_clone_selected_scheduled ( NULL, NULL );
 }

@@ -489,7 +489,7 @@ static gboolean grisbi_win_fill_general_notebook (GrisbiWin *win)
                         gtk_label_new (_("Accounts")));
 
     gtk_notebook_append_page (GTK_NOTEBOOK (priv->account_page),
-                        creation_fenetre_operations (),
+                        gsb_transactions_list_creation_fenetre_operations (),
                         gtk_label_new (_("Transactions")));
 
     /* append the balance estimate pages */

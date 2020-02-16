@@ -237,7 +237,7 @@ static gboolean popup_transaction_rules_menu (GtkWidget * button,
                         gpointer null);
 static gboolean popup_transaction_view_mode_menu (GtkWidget * button,
                         gpointer null);
-static gint gsb_transactions_get_scheduled_transaction (gint transaction_number);
+static gint gsb_transactions_list_get_scheduled_transaction (gint transaction_number);
 /**
  *
  *
@@ -438,7 +438,7 @@ void gsb_transactions_list_update_tree_view (gint account_number,
  *
  * \return
  **/
-GtkWidget *creation_fenetre_operations (void)
+GtkWidget *gsb_transactions_list_creation_fenetre_operations (void)
 {
 
     GtkWidget *win_operations;
@@ -574,7 +574,7 @@ static void gsb_transaction_list_radio_button_activate (GtkMenuItem *menu_item,
 
         if (data)
             demande = GPOINTER_TO_INT (data);
-        change_aspect_liste (demande);
+        gsb_transactions_list_change_aspect_liste (demande);
     }
 }
 
@@ -736,7 +736,7 @@ void gsb_transactions_list_create_tree_view_columns (void)
     gint column_balance;
 
     /* get the position of the amount column to set it in red */
-    column_balance = find_element_col (ELEMENT_BALANCE);
+    column_balance = gsb_transactions_list_find_element_col (ELEMENT_BALANCE);
 
     /* create the columns */
     for (i = 0 ; i < CUSTOM_MODEL_VISIBLE_COLUMNS ; i++)
@@ -768,7 +768,7 @@ void gsb_transactions_list_create_tree_view_columns (void)
 						"foreground-rgba", CUSTOM_MODEL_TEXT_COLOR);
 
 
-	if (i == find_element_col (ELEMENT_MARK))
+	if (i == gsb_transactions_list_find_element_col (ELEMENT_MARK))
 	{
 	    GtkCellRenderer * radio_renderer = gtk_cell_renderer_toggle_new ();
 	    gtk_tree_view_column_pack_start (transactions_tree_view_columns[i],
@@ -1356,7 +1356,7 @@ gboolean gsb_transactions_list_set_row_align (gfloat row_align)
  *
  * \return column number or -1 if the element is not shown
  **/
-gint find_element_col (gint element_number)
+gint gsb_transactions_list_find_element_col (gint element_number)
 {
     gint i, j;
 
@@ -1379,7 +1379,7 @@ gint find_element_col (gint element_number)
  *
  * \return line number or -1 if the element is not shown
  **/
-gint find_element_line (gint element_number)
+gint gsb_transactions_list_find_element_line (gint element_number)
 {
     gint i, j;
 
@@ -1392,31 +1392,6 @@ gint find_element_line (gint element_number)
 	}
     }
 
-    return -1;
-}
-
-/**
- * find column number for the element, but for split transaction
- * there is no line find because only 1 line
- * for now, only payee, debit and credit are shown in a split child
- *
- * \param element_number the element we look for in a split child
- *
- * \return column number or -1 if the element is not shown
- **/
-gint find_element_col_split (gint element_number)
-{
-    switch (element_number)
-    {
-	case ELEMENT_CATEGORY:
-	    return CUSTOM_MODEL_COL_2;
-
-	case ELEMENT_CREDIT:
-	    return CUSTOM_MODEL_COL_4;
-
-	case ELEMENT_DEBIT:
-	    return CUSTOM_MODEL_COL_5;
-    }
     return -1;
 }
 
@@ -1590,11 +1565,11 @@ gboolean gsb_transactions_list_button_press (GtkWidget *tree_view,
     /*     check if we press on the mark */
     if (transaction_number != -1
 	 &&
-	 column == find_element_col (ELEMENT_MARK)
+	 column == gsb_transactions_list_find_element_col (ELEMENT_MARK)
 	 &&
 	 ((run.equilibrage
 	    &&
-	    line_in_transaction == find_element_line (ELEMENT_MARK))
+	    line_in_transaction == gsb_transactions_list_find_element_line (ELEMENT_MARK))
 	  ||
 	  ((ev->state & GDK_CONTROL_MASK) == GDK_CONTROL_MASK)))
     {
@@ -1844,7 +1819,7 @@ gboolean gsb_transactions_list_switch_mark (gint transaction_number)
     devel_debug_int (transaction_number);
 
     /* if no P/R column, cannot really mark/unmark the transaction... */
-    col = find_element_col (ELEMENT_MARK);
+    col = gsb_transactions_list_find_element_col (ELEMENT_MARK);
     if (col == -1)
 	    return FALSE;
 
@@ -1929,7 +1904,7 @@ gboolean gsb_transactions_list_switch_R_mark (gint transaction_number)
     gint msg_no = 0;
     gchar *tmp_str;
 
-    r_column = find_element_col (ELEMENT_MARK);
+    r_column = gsb_transactions_list_find_element_col (ELEMENT_MARK);
     if (r_column == -1)
 	return FALSE;
 
@@ -2592,7 +2567,7 @@ void popup_transaction_context_menu (gboolean full
     /* Clone transaction */
     menu_item = GTK_WIDGET (utils_menu_item_new_from_image_label ("gtk-copy-16.png", _("Clone transaction")));
     g_signal_connect (G_OBJECT(menu_item), "activate",
-		       G_CALLBACK (clone_selected_transaction), NULL);
+		       G_CALLBACK (gsb_transactions_list_clone_selected_transaction), NULL);
     gtk_widget_set_sensitive (menu_item, full);
     gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
 
@@ -2670,7 +2645,7 @@ GtkWidget *gsb_gui_create_cell_contents_menu (int x,
     {
         gchar *tmp_str;
 
-        tmp_str = gsb_transaction_list_get_titre_colonne_liste_ope (i);
+        tmp_str = gsb_transactions_list_get_column_title_from_element (i);
         item = gtk_check_menu_item_new_with_label (tmp_str);
         g_free (tmp_str);
 
@@ -2730,8 +2705,8 @@ gboolean gsb_gui_change_cell_content (GtkWidget * item,
 
     if (element)
     {
-        last_col = find_element_col (element);
-        last_line = find_element_line (element);
+        last_col = gsb_transactions_list_find_element_col (element);
+        last_line = gsb_transactions_list_find_element_line (element);
     }
 
     current_account = gsb_gui_navigation_get_current_account ();
@@ -2837,7 +2812,7 @@ void remove_transaction (void)
  *
  * \return FALSE
  **/
-gboolean clone_selected_transaction (GtkWidget *menu_item,
+gboolean gsb_transactions_list_clone_selected_transaction (GtkWidget *menu_item,
 									 gpointer null)
 {
     gint new_transaction_number;
@@ -3118,7 +3093,7 @@ gboolean gsb_transactions_list_move_transaction_to_account (gint transaction_num
 
 /**
  * Convert selected transaction to a template of scheduled transaction
- * via schedule_transaction().
+ * via gsb_transactions_list_get_scheduled_transaction().
  *
  * \param
  *
@@ -3131,7 +3106,7 @@ void schedule_selected_transaction (void)
     if (!assert_selected_transaction())
         return;
 
-    scheduled_number = schedule_transaction (gsb_data_account_get_current_transaction_number (
+    scheduled_number = gsb_transactions_list_get_scheduled_transaction (gsb_data_account_get_current_transaction_number (
                                     gsb_gui_navigation_get_current_account ()));
 
     run.mise_a_jour_liste_echeances_auto_accueil = TRUE;
@@ -3155,7 +3130,7 @@ void schedule_selected_transaction (void)
  *
  * \return the number of the scheduled transaction
  **/
-gint schedule_transaction (gint transaction_number)
+gint gsb_transactions_list_get_scheduled_transaction (gint transaction_number)
 {
     gint scheduled_number;
 
@@ -3373,7 +3348,7 @@ gboolean gsb_transactions_list_title_column_button_press (GtkWidget *button,
                 break;
 
                 default:
-                temp = gsb_transaction_list_get_titre_colonne_liste_ope (tab_affichage_ope[i][column_number] - 1);
+                temp = gsb_transactions_list_get_column_title (i,column_number);
             }
 
             if (temp && strcmp (temp, _("Balance")))
@@ -4144,7 +4119,7 @@ gboolean gsb_transactions_list_add_transactions_from_archive (gint archive_numbe
                             "Show the R transactions to make them visible."));
     }
 
-    gsb_transaction_list_set_visible_archived_button (TRUE);
+    gsb_transactions_list_set_visible_archived_button (TRUE);
 
     return FALSE;
 }
@@ -4196,30 +4171,6 @@ gboolean gsb_transactions_list_size_allocate (GtkWidget *tree_view,
             gtk_tree_view_column_set_fixed_width (transactions_tree_view_columns[i], width);
     }
     return FALSE;
-}
-
-/**
- * Cherche le premier élément disponible pour nommer une archive
- * parmi un des éléments obligatoires
- *
- * \param
- *
- * \return column number or another element
- **/
-gint find_element_col_for_archive (void)
-{
-    gint retour;
-
-    if ((retour = find_element_col (ELEMENT_PARTY)) >= 0)
-        return retour;
-    if ((retour = find_element_col (ELEMENT_CATEGORY)) >= 0)
-        return retour;
-    if ((retour = find_element_col (ELEMENT_BUDGET)) >= 0)
-        return retour;
-    if ((retour = find_element_col (ELEMENT_NOTES)) >= 0)
-        return retour;
-
-    return -1;
 }
 
 /**
@@ -4345,7 +4296,7 @@ GtkWidget *gsb_transactions_list_get_toolbar (void)
  *
  * \return
  **/
-gboolean change_aspect_liste (gint demande)
+gboolean gsb_transactions_list_change_aspect_liste (gint demande)
 {
     switch (demande)
     {
@@ -4425,7 +4376,7 @@ gboolean gsb_transactions_list_hide_transactions_in_archive_line (GtkWidget *but
         tmp_list = tmp_list->next;
     }
 
-    gsb_transaction_list_set_visible_archived_button (FALSE);
+    gsb_transactions_list_set_visible_archived_button (FALSE);
 
     gsb_transactions_list_update_tree_view (account_number, TRUE);
 
@@ -4473,7 +4424,7 @@ gboolean gsb_transactions_list_delete_archived_transactions (gint account_number
  *
  * \return
  **/
-void gsb_transaction_list_set_visible_archived_button (gboolean visible)
+void gsb_transactions_list_set_visible_archived_button (gboolean visible)
 {
     GtkWidget *button;
 
@@ -4489,7 +4440,7 @@ void gsb_transaction_list_set_visible_archived_button (gboolean visible)
  *
  *\return une chaine traduite qui doit être libérée.
  **/
-gchar *gsb_transaction_list_get_titre_colonne_liste_ope (gint element)
+gchar *gsb_transactions_list_get_column_title_from_element (gint element)
 {
     if (element < 0)
         return NULL;
@@ -4925,7 +4876,7 @@ gchar *gsb_transactions_list_get_column_title (gint dim_1,
 {
 	gchar *column_name = NULL;
 	gint element_number = 0;
-	gint title_number = -1;
+	gint title_number = 0;
 
 	element_number = tab_affichage_ope[dim_1][dim_2];
 

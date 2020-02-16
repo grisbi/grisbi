@@ -9,15 +9,13 @@
 
 
 /* START_DECLARATION */
-gboolean	change_aspect_liste											(gint demande);
-gboolean	clone_selected_transaction									(GtkWidget *menu_item,
-																		 gpointer null);
-GtkWidget *	creation_fenetre_operations									(void);
-gint		find_element_col											(gint element_number);
-gint		find_element_col_for_archive								(void);
-gint		find_element_col_split										(gint element_number);
-gint		find_element_line											(gint element_number);
 void		gsb_gui_transaction_toolbar_set_style						(gint toolbar_style);
+gboolean	gsb_transactions_list_change_aspect_liste					(gint demande);
+gboolean	gsb_transactions_list_clone_selected_transaction			(GtkWidget *menu_item,
+																		 gpointer null);
+GtkWidget *	gsb_transactions_list_creation_fenetre_operations			(void);
+gint		gsb_transactions_list_find_element_col						(gint element_number);
+gint		gsb_transactions_list_find_element_line						(gint element_number);
 gchar *		gsb_transactions_get_category_real_name						(gint transaction_number);
 gboolean	gsb_transactions_list_add_transactions_from_archive			(gint archive_number,
 																		 gint account_number,
@@ -38,6 +36,7 @@ gint 		gsb_transactions_list_get_element_tab_affichage_ope			(gint dim_1,
 																		 gint dim_2);
 gchar *		gsb_transactions_list_get_column_title						(gint dim_1,
 																		 gint dim_2);
+gchar *		gsb_transactions_list_get_column_title_from_element			(gint element);
 gint		gsb_transactions_list_get_current_tree_view_width 			(void);
 gfloat		gsb_transactions_list_get_row_align							(void);
 gint *		gsb_transactions_list_get_tab_affichage_ope					(void);
@@ -47,7 +46,6 @@ gchar *		gsb_transactions_list_get_tab_align_col_treeview_to_string	(void);
 gint *		gsb_transactions_list_get_tab_width_col_treeview			(void);
 gchar *		gsb_transactions_list_get_tab_width_col_treeview_to_string	(void);
 GtkWidget *	gsb_transactions_list_get_toolbar							(void);
-gchar *		gsb_transaction_list_get_titre_colonne_liste_ope			(gint element);
 GtkWidget *	gsb_transactions_list_get_tree_view							(void);
 gchar *		gsb_transactions_list_grep_cell_content						(gint transaction_number,
 																		 gint cell_content_number);
@@ -64,7 +62,7 @@ void 		gsb_transactions_list_set_element_tab_affichage_ope			(gint element_numbe
 gboolean	gsb_transactions_list_set_largeur_col						(void);
 gboolean	gsb_transactions_list_set_row_align							(gfloat row_align);
 void		gsb_transactions_list_set_titles_tips_col_list_ope			(void);
-void		gsb_transaction_list_set_visible_archived_button			(gboolean visible);
+void		gsb_transactions_list_set_visible_archived_button			(gboolean visible);
 void		gsb_transactions_list_set_visible_rows_number				(gint rows_number);
 void		gsb_transactions_list_show_archives_lines					(gboolean show_l);
 void		gsb_transactions_list_splitted_to_scheduled					(gint transaction_number,

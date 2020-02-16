@@ -109,7 +109,7 @@ static gboolean prefs_page_display_ope_fill_store (GtkListStore *store)
 			gint element_number;
 
 			element_number = *(ptr + (i * CUSTOM_MODEL_VISIBLE_COLUMNS) + j);
-            row[j] = gsb_transaction_list_get_titre_colonne_liste_ope (element_number-1);
+            row[j] = gsb_transactions_list_get_column_title_from_element (element_number-1);
 
 			/* on met le nom dans les lignes paires et le numéro de l'élément dans les lignes impaires */
             gtk_list_store_set (GTK_LIST_STORE (store), &iter, 2*j, row[j], 2*j+1, element_number, -1);
@@ -366,7 +366,7 @@ static void prefs_page_display_ope_create_buttons_table (PrefsPageDisplayOpe *pa
 	    gchar *string;
 	    gchar *changed_string;
 
-	    string = gsb_transaction_list_get_titre_colonne_liste_ope (current_number);
+	    string = gsb_transactions_list_get_column_title_from_element (current_number);
 	    if (string)
 	    {
             /* the max string in the button is 10 characters */
@@ -514,7 +514,7 @@ static gboolean prefs_page_display_ope_drag_end (GtkWidget *tree_view,
 
     if (old_element)
     {
-        string = gsb_transaction_list_get_titre_colonne_liste_ope (old_element - 1);
+        string = gsb_transactions_list_get_column_title_from_element (old_element - 1);
         prefs_page_display_ope_button_set_active_from_string (page, string, FALSE);
 
         g_free (string);
@@ -531,7 +531,7 @@ static gboolean prefs_page_display_ope_drag_end (GtkWidget *tree_view,
     /* modifie le titre de la colonne si nécessaire */
     if (end_drag_row == 0)
     {
-        string = gsb_transaction_list_get_titre_colonne_liste_ope (element - 1);
+        string = gsb_transactions_list_get_column_title_from_element (element - 1);
         gtk_tree_view_column_set_title  (tree_column, string);
 
         g_free (string);
