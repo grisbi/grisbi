@@ -96,9 +96,6 @@
 /*END_STATIC*/
 
 /*START_EXTERN*/
-//~ extern gint display_one_line;	/* fixes bug 1875 */
-extern gint display_three_lines;
-extern gint display_two_lines;
 extern struct Iso4217Currency iso_4217_currencies[];
 /*END_EXTERN*/
 
@@ -158,9 +155,10 @@ static gboolean gsb_file_load_check_new_structure ( gchar *file_content )
 static  void gsb_file_load_general_part ( const gchar **attribute_names,
                         const gchar **attribute_values )
 {
-	GrisbiWinEtat *w_etat;
     gint unknown;
     gint i=0;
+	GrisbiWinEtat *w_etat;
+	GrisbiWinRun *w_run;
 
     if (!attribute_names[i])
 	{
@@ -168,6 +166,7 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
 	}
 
 	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
 
 	do
     {
@@ -508,7 +507,7 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
 
             case 'T':
                 if ( !strcmp ( attribute_names[i], "Two_lines_showed" ))
-                    display_two_lines = utils_str_atoi ( attribute_values[i]);
+                    w_run->display_two_lines = utils_str_atoi ( attribute_values[i]);
 
                 else if ( !strcmp ( attribute_names[i], "Thousands_separator" ) )
                 {
@@ -524,7 +523,7 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
                 }
 
                 else if ( !strcmp ( attribute_names[i], "Three_lines_showed" ))
-                    display_three_lines = utils_str_atoi ( attribute_values[i]);
+                    w_run->display_three_lines = utils_str_atoi ( attribute_values[i]);
 
                 else if ( !strcmp ( attribute_names[i], "Transaction_column_width" ) )
                 {

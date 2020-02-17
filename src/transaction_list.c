@@ -42,6 +42,7 @@
 #include "affichage_liste.h"
 #include "custom_list.h"
 #include "dialog.h"
+#include "grisbi_win.h"
 #include "gsb_data_account.h"
 #include "gsb_data_archive.h"
 #include "gsb_data_archive_store.h"
@@ -70,9 +71,6 @@ static gboolean transaction_list_update_white_child ( CustomRecord *white_record
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gint display_one_line;
-extern gint display_three_lines;
-extern gint display_two_lines;
 extern GSList *orphan_child_transactions;
 /*END_EXTERN*/
 
@@ -974,7 +972,7 @@ void transaction_list_set_balances ( void )
 	 ||
 	 line_balance == -1
 	 ||
-	 !display_mode_check_line ( line_balance, nb_rows ) )
+	 !transaction_list_check_line_is_visible ( line_balance, nb_rows ) )
 	return;
 
     /* begin to fill the iter for later */
@@ -2064,46 +2062,40 @@ static gboolean transaction_list_update_white_child ( CustomRecord *white_record
  * */
 gint transaction_list_get_last_line ( gint nb_rows )
 {
+	GrisbiWinRun *w_run;
+
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
 
     switch (nb_rows)
     {
 	case 1:
 	    /* 1 line visible mode */
-	    return display_one_line;
+	    return w_run->display_one_line;
 	    break;
 	case 2:
 	    /* 2 lines visibles mode */
-	    switch (display_two_lines)
+	    switch (w_run->display_two_lines)
 	    {
 		case 0:
 		    /* show lines 1-2 */
+				printf ("show lines 1-2\n");
 		    return 1;
 		    break;
 		case 1:
 		    /* show lines 1-3 */
+				printf ("show lines 1-3\n");
 		    return 2;
 		    break;
 		case 2:
 		    /* show lines 1-4 */
-		    return 3;
-		    break;
-		case 3:
-		    /* show lines 2-3 */
-		    return 2;
-		    break;
-		case 4:
-		    /* show lines 2-4 */
-		    return 3;
-		    break;
-		case 5:
-		    /* show lines 3-4 */
+				printf ("show lines 1-4\n");
 		    return 3;
 		    break;
 	    }
 	    break;
 	case 3:
 	    /* 3 lines visibles mode */
-	    switch (display_three_lines)
+	    switch (w_run->display_three_lines)
 	    {
 		case 0:
 		    /* show lines 1-2-3 */
@@ -2115,10 +2107,6 @@ gint transaction_list_get_last_line ( gint nb_rows )
 		    break;
 		case 2:
 		    /* show lines 1-3-4 */
-		    return 3;
-		    break;
-		case 3:
-		    /* show lines 2-3-4 */
 		    return 3;
 		    break;
 	    }
@@ -2323,6 +2311,76 @@ gboolean transaction_list_remove_archive_line ( gint archive_number,
     return return_val;
 }
 
+/**
+ * check if the line given in param, according to the number of visible lines
+ * if visibles_lines is 4, that function returns always TRUE
+ *
+ * \param line_in_transaction	the line in the transaction we want to check
+ * \param visibles_lines	the number of visibles lines (1, 2, 3 or 4)
+ *
+ * \return TRUE : the line should be showed, FALSE : the line must be hidden
+ * */
+gboolean transaction_list_check_line_is_visible (gint line_in_transaction,
+												 gint visibles_lines)
+{
+	GrisbiWinRun *w_run;
+
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+    switch (visibles_lines)
+    {
+	case 1:
+	    /* 1 line visible mode */
+	    if (line_in_transaction == w_run->display_one_line)
+		return TRUE;
+	    break;
+	case 2:
+	    /* 2 lines visibles mode */
+	    switch (w_run->display_two_lines)
+	    {
+		case 0:
+		    /* show lines 1-2 */
+		    if (line_in_transaction == 0 || line_in_transaction == 1)
+			return TRUE;
+		    break;
+		case 1:
+		    /* show lines 1-3 */
+		    if (line_in_transaction == 0 || line_in_transaction == 2)
+			return TRUE;
+		    break;
+		case 2:
+		    /* show lines 1-4 */
+		    if (line_in_transaction == 0 || line_in_transaction == 3)
+			return TRUE;
+		    break;
+	    }
+	    break;
+	case 3:
+	    /* 3 lines visibles mode */
+	    switch (w_run->display_three_lines)
+	    {
+		case 0:
+		    /* show lines 1-2-3 */
+		    if (line_in_transaction == 0 || line_in_transaction == 1 || line_in_transaction == 2)
+			return TRUE;
+		    break;
+		case 1:
+		    /* show lines 1-2-4 */
+		    if (line_in_transaction == 0 || line_in_transaction == 1 || line_in_transaction == 3)
+			return TRUE;
+		    break;
+		case 2:
+		    /* show lines 1-3-4 */
+		    if (line_in_transaction == 0 || line_in_transaction == 2 || line_in_transaction == 3)
+			return TRUE;
+		    break;
+	    }
+	    break;
+	default:
+	    /* here all the lines should be visible (visibles_lines = 4) */
+	    return TRUE;
+    }
+    return FALSE;
+}
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

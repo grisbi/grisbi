@@ -97,9 +97,6 @@
 extern GtkTreeModel *	bank_list_model;
 extern gint 			current_tree_view_width;
 extern GtkWidget *		detail_devise_compte;
-extern gint 			display_one_line;
-extern gint 			display_three_lines;
-extern gint 			display_two_lines;
 extern gint 			id_timeout;
 extern GSList *			orphan_child_transactions;
 extern gint 			scheduler_current_tree_view_width;
@@ -210,9 +207,9 @@ void init_variables (void)
     gsb_transactions_list_init_tab_affichage_ope (NULL);
 
 	/* by default, the display of lines is 1, 1-2, 1-2-3 */
-    display_one_line = 0;
-    display_two_lines = 0;
-    display_three_lines = 0;
+    w_run->display_one_line = 0;
+    w_run->display_two_lines = 0;
+    w_run->display_three_lines = 0;
 
     etat.import_files_nb_days = 2;
     etat.get_fyear_by_value_date = FALSE;

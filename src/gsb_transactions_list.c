@@ -3805,7 +3805,7 @@ gboolean gsb_transactions_list_transaction_visible (gpointer transaction_ptr,
 
     /* check the general white line (one for all the list, so no account number) */
     if (transaction_number == -1)
-	    return (display_mode_check_line (line_in_transaction, nb_rows));
+	    return (transaction_list_check_line_is_visible (line_in_transaction, nb_rows));
 
     /* check the account */
     if (gsb_data_transaction_get_account_number (transaction_number) != account_number)
@@ -3818,7 +3818,7 @@ gboolean gsb_transactions_list_transaction_visible (gpointer transaction_ptr,
 	return FALSE;
 
     /* 	    now we check if we show 1, 2, 3 or 4 lines */
-    return display_mode_check_line (line_in_transaction, nb_rows);
+    return transaction_list_check_line_is_visible (line_in_transaction, nb_rows);
 }
 
 /**

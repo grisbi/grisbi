@@ -353,6 +353,12 @@ struct _GrisbiWinRun
 	gboolean	no_show_prefs;								/* si VRAI = ne pas montrer les préférences de l'état */
 	gboolean	empty_report;								/* Si VRAI remplace la mise à jour de l'état sélectionné par un état vide */
 															/* permet de gagner du temps exemple état vide et état recherche */
+
+	/* Transactions */
+	gint		display_one_line;			/* 1 fixes bug 1875 */
+	gint		display_two_lines;			/* 1-2, 1-3, "1-4 */
+	gint		display_three_lines;		/* 1-2-3, 1-2-4, 1-3-4 */
+
 };
 
 /* structure contenant les variables utilisées par un fichier de compte */

@@ -9,6 +9,8 @@
 /* START_DECLARATION */
 void		transaction_list_append_archive			(gint archive_store_number);
 void		transaction_list_append_transaction		(gint transaction_number);
+gboolean 	transaction_list_check_line_is_visible	(gint line_in_transaction,
+													 gint visibles_lines);
 void		transaction_list_colorize				(void);
 gboolean	transaction_list_create					(void);
 void		transaction_list_filter					(gint account_number);

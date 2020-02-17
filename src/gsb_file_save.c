@@ -147,9 +147,6 @@ static gulong gsb_file_save_transaction_part ( gulong iterator,
 
 
 /*START_EXTERN*/
-extern gint display_one_line;
-extern gint display_three_lines;
-extern gint display_two_lines;
 /*END_EXTERN*/
 
 /******************************************************************************/
@@ -587,9 +584,11 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	gchar *form_columns_width;
     gboolean is_archive = FALSE;
 	GrisbiWinEtat *w_etat;
+	GrisbiWinRun *w_run;
 
     /* prepare stuff to save general information */
 	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
 
 	/* prepare transactions_view */
     transactions_view = gsb_transactions_list_get_tab_affichage_ope_to_string ();
@@ -795,8 +794,8 @@ gulong gsb_file_save_general_part ( gulong iterator,
     my_safe_null_str( etat.name_logo ),
 	etat.retient_affichage_par_compte,
 	my_safe_null_str(transactions_view),
-	display_two_lines,
-	display_three_lines,
+	w_run->display_two_lines,
+	w_run->display_three_lines,
 	my_safe_null_str(transaction_column_width_write),
 	my_safe_null_str ( transaction_column_align_write ),
 	my_safe_null_str(scheduler_column_width_write),

@@ -934,6 +934,7 @@ static void grisbi_win_init (GrisbiWin *win)
     /* creation et initialisation de la structure w_run */
     priv->w_run = g_malloc0 (sizeof (GrisbiWinRun));
 	(priv->w_run)->account_number_is_0 = FALSE;
+	(priv->w_run)->display_one_line = 0;					/* fixes bug 1875 */
 	(priv->w_run)->new_account_file = FALSE;
 	(priv->w_run)->prefs_expand_tree = TRUE;
 	(priv->w_run)->prefs_selected_row = g_strdup ("0:0");
