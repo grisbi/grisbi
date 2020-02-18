@@ -816,10 +816,7 @@ static void print_transactions_list_draw_background ( CustomRecord *record,
 
         color = gsb_rgba_get_couleur ( "background_archive" );
         cairo_rectangle ( cr, 0, line_position, page_width, size_row + 2*gsb_data_print_config_get_draw_lines ( ) );
-        cairo_set_source_rgb ( cr,
-                        (gdouble) color -> red/65535,
-                        (gdouble) color -> green/65535,
-                        (gdouble) color -> blue/65535 );
+        cairo_set_source_rgb (cr, (gdouble) color->red, (gdouble) color->green, (gdouble) color->blue);
     }
     else
     {
@@ -833,10 +830,7 @@ static void print_transactions_list_draw_background ( CustomRecord *record,
 
         cairo_rectangle (cr, 0, line_position, page_width,
                         custom_list -> nb_rows_by_transaction * size_row + 2*gsb_data_print_config_get_draw_lines ( ) );
-        cairo_set_source_rgb (cr,
-                        (gdouble) color -> red/65535,
-                        (gdouble) color -> green/65535,
-                        (gdouble) color -> blue/65535 );
+        cairo_set_source_rgb (cr, (gdouble) color->red, (gdouble) color->green, (gdouble) color->blue);
     }
     cairo_fill ( cr );
     cairo_set_source_rgb ( cr, 0.0, 0.0, 0.0 );
