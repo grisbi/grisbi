@@ -91,7 +91,7 @@ static gint transaction_col_width[CUSTOM_MODEL_VISIBLE_COLUMNS];
 
 /* the initial alignment of each column */
 static gint transaction_col_align_init[CUSTOM_MODEL_VISIBLE_COLUMNS] = { 1, 1, 0, 1, 2, 2, 2 };
-gint transaction_col_align[CUSTOM_MODEL_VISIBLE_COLUMNS];
+static gint transaction_col_align[CUSTOM_MODEL_VISIBLE_COLUMNS];
 
 /* Barre d'outils */
 static GtkWidget *transaction_toolbar;
@@ -100,7 +100,7 @@ static GtkWidget *transaction_toolbar;
 static GtkWidget *menu_import_rules;
 
 /* contient les tips et titres des colonnes des listes d'opé */
-gchar *tips_col_liste_operations[CUSTOM_MODEL_VISIBLE_COLUMNS];
+static gchar *tips_col_liste_operations[CUSTOM_MODEL_VISIBLE_COLUMNS];
 static gchar *titres_colonnes_liste_operations[CUSTOM_MODEL_VISIBLE_COLUMNS];
 
 static GtkWidget *transactions_tree_view = NULL;
