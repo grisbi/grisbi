@@ -57,13 +57,14 @@
 #include "prefs/prefs_page_accueil.h"
 #include "prefs/prefs_page_archives.h"
 #include "prefs/prefs_page_bet_account.h"
-#include "prefs/prefs_page_form_completion.h"
 #include "prefs/prefs_page_display_adr.h"
 #include "prefs/prefs_page_display_fonts.h"
 #include "prefs/prefs_page_display_gui.h"
 #include "prefs/prefs_page_display_ope.h"
 #include "prefs/prefs_page_divers.h"
 #include "prefs/prefs_page_files.h"
+#include "prefs/prefs_page_form_completion.h"
+#include "prefs/prefs_page_form_options.h"
 #include "prefs/prefs_page_import_asso.h"
 #include "prefs/prefs_page_import_files.h"
 #include "prefs/prefs_page_metatree.h"
@@ -503,17 +504,16 @@ static void grisbi_prefs_left_panel_populate_tree_model (GrisbiPrefs *prefs)
     /* append group page "Transaction form" */
     utils_prefs_left_panel_add_line (tree_model, NULL, NULL, _("Transaction form"), -1);
 
+	/* append page Form behavior */
+	widget = GTK_WIDGET (prefs_page_form_options_new (prefs));
+	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Form behavior"), page);
+	page++;
+
 	/* append page Content of form */
 	widget = GTK_WIDGET (gsb_form_config_create_page ());
 	utils_widget_set_padding (widget, MARGIN_BOX, 0);
 	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Content"), page);
 	priv->form_num_page = page;
-	page++;
-
-	/* append page Behavior */
-	widget = GTK_WIDGET (onglet_diverse_form_and_lists ());
-	utils_widget_set_padding (widget, MARGIN_BOX, 0);
-	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Behavior"), page);
 	page++;
 
 	/* append page Completion */

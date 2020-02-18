@@ -8,13 +8,14 @@ libprefspages_la_SOURCES = \
 	prefs_page_accueil.c	\
 	prefs_page_archives.c	\
 	prefs_page_bet_account.c	\
-	prefs_page_form_completion.c \
 	prefs_page_display_adr.c	\
 	prefs_page_display_fonts.c	\
 	prefs_page_display_gui.c \
 	prefs_page_display_ope.c \
 	prefs_page_divers.c	\
 	prefs_page_files.c	\
+	prefs_page_form_completion.c \
+	prefs_page_form_options.c \
 	prefs_page_import_asso.c	\
 	prefs_page_import_files.c	\
 	prefs_page_metatree.c \
@@ -23,13 +24,14 @@ libprefspages_la_SOURCES = \
 	prefs_page_accueil.h	\
 	prefs_page_archives.h	\
 	prefs_page_bet_account.h	\
-	prefs_page_form_completion.h \
 	prefs_page_display_adr.h	\
 	prefs_page_display_fonts.h	\
 	prefs_page_display_gui.h \
 	prefs_page_display_ope.h \
 	prefs_page_divers.h \
 	prefs_page_files.h \
+	prefs_page_form_completion.h \
+	prefs_page_form_options.h \
 	prefs_page_import_asso.h \
 	prefs_page_import_files.h \
 	prefs_page_metatree.h \

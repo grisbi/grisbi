@@ -8,13 +8,14 @@
 		<file preprocess="xml-stripblanks">prefs_page_accueil.ui</file>
 		<file preprocess="xml-stripblanks">prefs_page_archives.ui</file>
 		<file preprocess="xml-stripblanks">prefs_page_bet_account.ui</file>
-		<file preprocess="xml-stripblanks">prefs_page_form_completion.ui</file>
 		<file preprocess="xml-stripblanks">prefs_page_display_adr.ui</file>
 		<file preprocess="xml-stripblanks">prefs_page_display_fonts.ui</file>
 		<file preprocess="xml-stripblanks">prefs_page_display_gui.ui</file>
 		<file preprocess="xml-stripblanks">prefs_page_display_ope.ui</file>
 		<file preprocess="xml-stripblanks">prefs_page_divers.ui</file>
 		<file preprocess="xml-stripblanks">prefs_page_files.ui</file>
+		<file preprocess="xml-stripblanks">prefs_page_form_completion.ui</file>
+		<file preprocess="xml-stripblanks">prefs_page_form_options.ui</file>
 		<file preprocess="xml-stripblanks">prefs_page_import_asso.ui</file>
 		<file preprocess="xml-stripblanks">prefs_page_import_files.ui</file>
 		<file preprocess="xml-stripblanks">prefs_page_metatree.ui</file>
