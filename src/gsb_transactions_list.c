@@ -97,7 +97,7 @@ gint transaction_col_align[CUSTOM_MODEL_VISIBLE_COLUMNS];
 static GtkWidget *transaction_toolbar;
 /* the import rules button is showed or hidden if account have or no some rules */
 /* so need to set in global variables */
-GtkWidget *menu_import_rules;
+static GtkWidget *menu_import_rules;
 
 /* contient les tips et titres des colonnes des listes d'opé */
 gchar *tips_col_liste_operations[CUSTOM_MODEL_VISIBLE_COLUMNS];
@@ -437,10 +437,7 @@ static GtkWidget *gsb_transactions_list_new_toolbar (void)
     g_object_set_data (G_OBJECT (toolbar), "archived_button", item);
 
     account_number = gsb_gui_navigation_get_current_account ();
-    if (gsb_data_import_rule_account_has_rule (account_number))
-	    gtk_widget_show (menu_import_rules);
-    else
-	    gtk_widget_hide (menu_import_rules);
+	gsb_transactions_list_show_menu_import_rule (account_number);
 
     if (gsb_data_archive_store_account_have_transactions_visibles (account_number))
         gtk_widget_set_visible (GTK_WIDGET (item), TRUE);
@@ -4926,6 +4923,24 @@ void gsb_transactions_list_free_titles_tips_col_list_ope (void)
 			g_free (tips_col_liste_operations[j]);
         tips_col_liste_operations[j] = NULL;
     }
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void gsb_transactions_list_show_menu_import_rule (gint account_number)
+{
+	gboolean show_menu_import_rules;
+
+	show_menu_import_rules = gsb_data_import_rule_account_has_rule (account_number);
+	if (show_menu_import_rules)
+		gtk_widget_show (menu_import_rules);
+    else
+        gtk_widget_hide (menu_import_rules);
 }
 
 /**

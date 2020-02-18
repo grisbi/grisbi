@@ -133,7 +133,6 @@ static gboolean navigation_tree_drag_data_get ( GtkTreeDragSource *drag_source,
 
 
 /*START_EXTERN*/
-extern GtkWidget *menu_import_rules;
 /*END_EXTERN*/
 
 
@@ -1029,12 +1028,9 @@ gboolean gsb_gui_navigation_change_account ( gint new_account )
     gsb_gui_navigation_update_statement_label ( new_account );
 
     /* show or hide the rules button in toolbar */
-    if ( gsb_data_import_rule_account_has_rule ( new_account ) )
-        gtk_widget_show ( menu_import_rules );
-    else
-        gtk_widget_hide ( menu_import_rules );
+	gsb_transactions_list_show_menu_import_rule (new_account);
 
-    /* Update the title of the file if needed */
+	/* Update the title of the file if needed */
     if ( conf.display_window_title == GSB_ACCOUNT_HOLDER )
         grisbi_win_set_window_title ( new_account );
 

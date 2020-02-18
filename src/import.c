@@ -97,7 +97,6 @@
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget *	menu_import_rules;
 /*END_EXTERN*/
 
 /** Suppported import formats.  Plugins may register themselves. */
@@ -4787,10 +4786,7 @@ static void traitement_operations_importees (GtkWindow *parent)
                         FALSE);
 
     /* set the rule button if necessary */
-    if (gsb_data_import_rule_account_has_rule (gsb_gui_navigation_get_current_account ()))
-        gtk_widget_show (menu_import_rules);
-    else
-        gtk_widget_hide (menu_import_rules);
+	gsb_transactions_list_show_menu_import_rule (gsb_gui_navigation_get_current_account ());
 
     /* show the account list */
 	grisbi_win_menu_move_to_acc_delete ();

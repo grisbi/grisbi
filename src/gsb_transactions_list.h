@@ -69,6 +69,7 @@ void		gsb_transactions_list_set_titles_tips_col_list_ope			(void);
 void		gsb_transactions_list_set_visible_archived_button			(gboolean visible);
 void		gsb_transactions_list_set_visible_rows_number				(gint rows_number);
 void		gsb_transactions_list_show_archives_lines					(gboolean show_l);
+void		gsb_transactions_list_show_menu_import_rule					(gint account_number);
 void		gsb_transactions_list_splitted_to_scheduled					(gint transaction_number,
 																		 gint scheduled_number);
 gboolean	gsb_transactions_list_switch_expander						(gint transaction_number);
