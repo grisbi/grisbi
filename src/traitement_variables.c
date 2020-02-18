@@ -118,6 +118,7 @@ extern gint 			scheduler_current_tree_view_width;
  * */
 void init_variables (void)
 {
+	GrisbiWinEtat *w_etat;
 	GrisbiWinRun *w_run;
 
     devel_debug (NULL);
@@ -184,13 +185,15 @@ void init_variables (void)
     etat.affichage_echeances_perso_nb_libre = 0;
     etat.affichage_echeances_perso_j_m_a = PERIODICITY_DAYS;
 
+	/* raz variables of etat and w_etat */
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
     if (etat.name_logo && strlen (etat.name_logo))
         g_free (etat.name_logo);
     etat.name_logo = NULL;
     etat.utilise_logo = 1;
     gsb_select_icon_init_logo_variables ();
 
-    etat.retient_affichage_par_compte = 0;
+    w_etat->retient_affichage_par_compte = 0;
 
     /* reconcile (etat) */
     run.reconcile_account_number = -1;

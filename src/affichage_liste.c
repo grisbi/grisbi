@@ -245,12 +245,12 @@ GtkWidget *onglet_affichage_operations ( void )
     paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,
                         _("Account differentiation"));
 
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ),
-                        gsb_automem_checkbutton_new (
-                        _("Remember display settings for each account separately"),
-                        &etat.retient_affichage_par_compte,
-                        NULL, NULL ),
-                        FALSE, FALSE, 0 );
+    //~ gtk_box_pack_start ( GTK_BOX ( paddingbox ),
+                        //~ gsb_automem_checkbutton_new (
+                        //~ _("Remember display settings for each account separately"),
+                        //~ &etat.retient_affichage_par_compte,
+                        //~ NULL, NULL ),
+                        //~ FALSE, FALSE, 0 );
 
 	if (!is_loading)
 			gtk_widget_set_sensitive (paddingbox, FALSE);

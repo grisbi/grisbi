@@ -462,8 +462,9 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
                     w_etat->reconcile_sort = utils_str_atoi ( attribute_values[i] );
 
                 else if ( !strcmp ( attribute_names[i], "Remind_display_per_account" ) )
-                    etat.retient_affichage_par_compte = utils_str_atoi ( attribute_values[i] );
-                else
+                    w_etat->retient_affichage_par_compte = utils_str_atoi ( attribute_values[i] );
+
+				else
                     unknown = 1;
                 break;
 

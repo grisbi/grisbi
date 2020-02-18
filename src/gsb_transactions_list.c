@@ -3523,8 +3523,10 @@ gboolean gsb_transactions_list_change_sort_column (GtkTreeViewColumn *tree_view_
     GSList *tmp_list;
     gint selected_transaction;
     gint element_number;
+	GrisbiWinEtat *w_etat;
 
     devel_debug (NULL);
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
 
     account_number = gsb_gui_navigation_get_current_account ();
     transaction_list_sort_get_column (&current_column, &sort_type);
@@ -3589,7 +3591,7 @@ gboolean gsb_transactions_list_change_sort_column (GtkTreeViewColumn *tree_view_
 
         if (tmp_account == account_number
             ||
-            !etat.retient_affichage_par_compte)
+            !w_etat->retient_affichage_par_compte)
         {
             /* set the new column to sort */
             gsb_data_account_set_sort_column (tmp_account, new_column);
@@ -3625,8 +3627,10 @@ gboolean gsb_transactions_list_change_sort_column (GtkTreeViewColumn *tree_view_
 void gsb_transactions_list_mise_a_jour_affichage_r (gboolean show_r)
 {
     gint current_account;
+	GrisbiWinEtat *w_etat;
 
     devel_debug_int (show_r);
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
 
     current_account = gsb_gui_navigation_get_current_account ();
 
@@ -3639,10 +3643,10 @@ void gsb_transactions_list_mise_a_jour_affichage_r (gboolean show_r)
     }
 
     /*  we check all the accounts */
-    /* 	if etat.retient_affichage_par_compte is set, only gsb_gui_navigation_get_current_account () will change */
+    /* 	if w_etat->retient_affichage_par_compte is set, only gsb_gui_navigation_get_current_account () will change */
     /* 	else, all the accounts change */
 
-    if (etat.retient_affichage_par_compte)
+    if (w_etat->retient_affichage_par_compte)
         gsb_data_account_set_r (current_account, show_r);
     else
     {
@@ -3677,13 +3681,15 @@ void gsb_transactions_list_mise_a_jour_affichage_r (gboolean show_r)
 void gsb_transactions_list_show_archives_lines (gboolean show_l)
 {
     gint current_account;
+	GrisbiWinEtat *w_etat;
 
     devel_debug_int (show_l);
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
 
     current_account = gsb_gui_navigation_get_current_account ();
 
     /*  we check all the accounts */
-    /* 	if etat.retient_affichage_par_compte is set, only gsb_gui_navigation_get_current_account () will change */
+    /* 	if w_etat->retient_affichage_par_compte is set, only gsb_gui_navigation_get_current_account () will change */
     /* 	else, all the accounts change */
 
     if (show_l == gsb_data_account_get_l (current_account))
@@ -3694,7 +3700,7 @@ void gsb_transactions_list_show_archives_lines (gboolean show_l)
 
     gsb_data_account_set_l (current_account, show_l);
 
-    if (!etat.retient_affichage_par_compte)
+    if (!w_etat->retient_affichage_par_compte)
     {
         GSList *list_tmp;
 
@@ -3731,15 +3737,17 @@ void gsb_transactions_list_set_visible_rows_number (gint rows_number)
 {
     GSList *list_tmp;
     gint current_account;
+	GrisbiWinEtat *w_etat;
 
     devel_debug_int (rows_number);
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
 
     current_account = gsb_gui_navigation_get_current_account ();
     if (rows_number == gsb_data_account_get_nb_rows (current_account) && rows_number > 1)
 	return;
 
     /*     we check all the accounts */
-    /* 	if etat.retient_affichage_par_compte is set, only the current account changes */
+    /* 	if w_etat->retient_affichage_par_compte is set, only the current account changes */
     /* 	else, all the accounts change */
     list_tmp = gsb_data_account_get_list_accounts ();
 
@@ -3749,7 +3757,7 @@ void gsb_transactions_list_set_visible_rows_number (gint rows_number)
 
 	i = gsb_data_account_get_no_account (list_tmp->data);
 
-	if (!etat.retient_affichage_par_compte
+	if (!w_etat->retient_affichage_par_compte
 	     ||
 	     i == current_account)
 	{
