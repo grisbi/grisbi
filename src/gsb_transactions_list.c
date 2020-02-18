@@ -101,7 +101,7 @@ static GtkWidget *menu_import_rules;
 
 /* contient les tips et titres des colonnes des listes d'opé */
 gchar *tips_col_liste_operations[CUSTOM_MODEL_VISIBLE_COLUMNS];
-gchar *titres_colonnes_liste_operations[CUSTOM_MODEL_VISIBLE_COLUMNS];
+static gchar *titres_colonnes_liste_operations[CUSTOM_MODEL_VISIBLE_COLUMNS];
 
 static GtkWidget *transactions_tree_view = NULL;
 

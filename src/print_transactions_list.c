@@ -79,7 +79,6 @@ static GtkWidget * print_transactions_list_layout_config ( GtkPrintOperation * o
 
 
 /*START_EXTERN*/
-extern gchar *titres_colonnes_liste_operations[CUSTOM_MODEL_VISIBLE_COLUMNS];
 /*END_EXTERN*/
 
 
@@ -770,7 +769,7 @@ static gint print_transactions_list_draw_columns_title ( GtkPrintContext *contex
 	column_position = columns_position[column];
 
 	/* get the text */
-	text = _(titres_colonnes_liste_operations[column]);
+	text = gsb_transactions_list_get_column_title (0, column);
 	if (!text)
 	    continue;
 
