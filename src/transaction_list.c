@@ -2078,17 +2078,14 @@ gint transaction_list_get_last_line ( gint nb_rows )
 	    {
 		case 0:
 		    /* show lines 1-2 */
-				printf ("show lines 1-2\n");
 		    return 1;
 		    break;
 		case 1:
 		    /* show lines 1-3 */
-				printf ("show lines 1-3\n");
 		    return 2;
 		    break;
 		case 2:
 		    /* show lines 1-4 */
-				printf ("show lines 1-4\n");
 		    return 3;
 		    break;
 	    }

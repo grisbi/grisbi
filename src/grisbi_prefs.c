@@ -67,6 +67,7 @@
 #include "prefs/prefs_page_import_asso.h"
 #include "prefs/prefs_page_import_files.h"
 #include "prefs/prefs_page_metatree.h"
+#include "prefs/prefs_page_options_ope.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -472,8 +473,7 @@ static void grisbi_prefs_left_panel_populate_tree_model (GrisbiPrefs *prefs)
     utils_prefs_left_panel_add_line (tree_model, NULL, NULL, _("Transactions"), -1);
 
 	/* append page List behavior */
-	widget = GTK_WIDGET (onglet_affichage_operations ());
-	utils_widget_set_padding (widget, MARGIN_BOX, 0);
+	widget = GTK_WIDGET (prefs_page_options_ope_new (prefs));
 	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("List behavior"), page);
 	page++;
 

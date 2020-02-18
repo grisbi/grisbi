@@ -18,6 +18,7 @@
 		<file preprocess="xml-stripblanks">prefs_page_import_asso.ui</file>
 		<file preprocess="xml-stripblanks">prefs_page_import_files.ui</file>
 		<file preprocess="xml-stripblanks">prefs_page_metatree.ui</file>
+		<file preprocess="xml-stripblanks">prefs_page_options_ope.ui</file>
 		<file preprocess="xml-stripblanks">prefs_widget_loan.ui</file>
   </gresource>
 </gresources>
