@@ -1,5 +1,4 @@
 src/accueil.c
-src/affichage_liste.c
 src/bet_config.c
 src/bet_data.c
 src/bet_data_finance.c

@@ -38,7 +38,6 @@
 /*START_INCLUDE*/
 #include "grisbi_app.h"
 #include "accueil.h"
-#include "affichage_liste.h"
 #include "bet_data.h"
 #include "bet_data_finance.h"
 #include "bet_finance_ui.h"

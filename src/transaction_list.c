@@ -39,7 +39,6 @@
 
 /*START_INCLUDE*/
 #include "transaction_list.h"
-#include "affichage_liste.h"
 #include "custom_list.h"
 #include "dialog.h"
 #include "grisbi_win.h"

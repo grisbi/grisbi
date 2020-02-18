@@ -36,7 +36,6 @@
 /*START_INCLUDE*/
 #include "parametres.h"
 #include "accueil.h"
-#include "affichage_liste.h"
 #include "bet_config.h"
 #include "bet_data.h"
 #include "bet_finance_ui.h"

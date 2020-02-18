@@ -40,7 +40,6 @@
 /*START_INCLUDE*/
 #include "gsb_file.h"
 #include "accueil.h"
-#include "affichage_liste.h"
 #include "dialog.h"
 #include "etats_gtktable.h"
 #include "grisbi_app.h"

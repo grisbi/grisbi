@@ -33,7 +33,6 @@
 
 /*START_INCLUDE*/
 #include "grisbi_prefs.h"
-#include "affichage_liste.h"
 #include "bet_config.h"
 #include "dialog.h"
 #include "grisbi_app.h"

@@ -32,7 +32,6 @@
 /*START_INCLUDE*/
 #include "gsb_transactions_list.h"
 #include "accueil.h"
-#include "affichage_liste.h"
 #include "bet_data.h"
 #include "custom_list.h"
 #include "dialog.h"
