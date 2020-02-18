@@ -79,6 +79,7 @@
 
 /*START_STATIC*/
 /*END_STATIC*/
+static gint current_tree_view_width = 0;			/* largeur courante du tree_view */
 
 /* the columns of the tree_view */
 GtkTreeViewColumn *transactions_tree_view_columns[CUSTOM_MODEL_VISIBLE_COLUMNS];
@@ -4943,6 +4944,10 @@ void gsb_transactions_list_show_menu_import_rule (gint account_number)
         gtk_widget_hide (menu_import_rules);
 }
 
+void gsb_transactions_list_set_current_tree_view_width (gint new_tree_view_width)
+{
+	current_tree_view_width = new_tree_view_width;
+}
 /**
  *
  *

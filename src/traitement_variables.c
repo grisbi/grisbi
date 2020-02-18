@@ -94,7 +94,6 @@
 
 /*START_EXTERN*/
 extern GtkTreeModel *	bank_list_model;
-extern gint 			current_tree_view_width;
 extern GtkWidget *		detail_devise_compte;
 extern gint 			id_timeout;
 extern GSList *			orphan_child_transactions;
@@ -202,7 +201,7 @@ void init_variables (void)
     run.reconcile_final_balance = NULL;
     run.reconcile_new_date = NULL;
 
-    current_tree_view_width = 0;
+    gsb_transactions_list_set_current_tree_view_width (0);
     scheduler_current_tree_view_width = 0;
 
 	/* initialisations des tableaux de la liste des opérations */

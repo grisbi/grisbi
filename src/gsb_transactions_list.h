@@ -60,6 +60,7 @@ void		gsb_transactions_list_move_transaction_to_account_from_menu (gint source_a
 gboolean	gsb_transactions_list_restore_archive						(gint archive_number,
 																		 gboolean show_warning);
 void		gsb_transactions_list_selection_changed						(gint new_selected_transaction);
+void		gsb_transactions_list_set_current_tree_view_width 			(gint new_tree_view_width);
 void 		gsb_transactions_list_set_element_tab_affichage_ope			(gint element_number,
 																		 gint dim_1,
 																		 gint dim_2);
