@@ -33,6 +33,16 @@
 	    <summary>Compress the backup file</summary>
 	    <description>TRUE if you want to compress the backup file.</description>
 	  </key>
+	  <key name="remove-backup-files" type="b">
+      <default>false</default>
+	    <summary>removing backup files</summary>
+	    <description>TRUE if you want to remove backup files.</description>
+	  </key>
+	  <key name="remove-backup-months" type="i">
+	    <default>12</default>
+	    <summary>Months before deleting backup files</summary>
+	    <description>Number of months before removing backup files.</description>
+	  </key>
     <key name="sauvegarde-ouverture" type="b">
       <default>true</default>
       <summary>Backup before using file</summary>

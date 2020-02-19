@@ -71,6 +71,8 @@ struct _PrefsPageFilesPrivate
     GtkWidget *         checkbutton_make_backup;
     GtkWidget *         checkbutton_make_backup_every_minutes;
     GtkWidget *         spinbutton_make_backup_nb_minutes;
+    GtkWidget *         checkbutton_remove_backup_files;
+    GtkWidget *         spinbutton_remove_backup_months;
     GtkWidget *         filechooserbutton_backup;
 
     GtkWidget *			checkbutton_force_import_directory;
@@ -179,10 +181,15 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
 								  conf.sauvegarde_fermeture);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_make_backup_every_minutes),
 								  conf.make_backup_every_minutes);
-
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_remove_backup_files),
+								  conf.remove_backup_files);
     /* set minutes */
     gtk_spin_button_set_value (GTK_SPIN_BUTTON (priv->spinbutton_make_backup_nb_minutes),
 							   conf.make_backup_nb_minutes);
+
+	/* set months */
+    gtk_spin_button_set_value (GTK_SPIN_BUTTON (priv->spinbutton_remove_backup_months),
+							   conf.remove_backup_months);
 
     /* set current folder for backup files */
     gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (priv->filechooserbutton_backup),
@@ -227,6 +234,11 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
                       G_CALLBACK (utils_prefs_page_checkbutton_changed),
                       &conf.make_backup_every_minutes);
 
+    g_signal_connect (priv->checkbutton_remove_backup_files,
+                      "toggled",
+                      G_CALLBACK (utils_prefs_page_checkbutton_changed),
+                      &conf.remove_backup_files);
+
     /* callback for spinbutton_make_backup_nb_minutes */
     g_object_set_data (G_OBJECT (priv->spinbutton_make_backup_nb_minutes),
                        "button", priv->checkbutton_make_backup_every_minutes);
@@ -239,6 +251,19 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
 					  "value-changed",
 					  G_CALLBACK (utils_prefs_spinbutton_changed),
 					  &conf.make_backup_nb_minutes);
+
+    /* callback for spinbutton_remove_backup_months */
+    g_object_set_data (G_OBJECT (priv->spinbutton_remove_backup_months),
+                       "button", priv->checkbutton_remove_backup_files);
+	g_object_set_data (G_OBJECT (priv->checkbutton_remove_backup_files),
+                       "widget", priv->spinbutton_remove_backup_months);
+	if (!conf.remove_backup_files)
+		gtk_widget_set_sensitive (GTK_WIDGET (priv->spinbutton_remove_backup_months), FALSE);
+
+    g_signal_connect (priv->spinbutton_remove_backup_months,
+					  "value-changed",
+					  G_CALLBACK (utils_prefs_spinbutton_changed),
+					  &conf.remove_backup_months);
 
     /* connect the signal for filechooserbutton_backup */
     g_signal_connect (G_OBJECT (priv->filechooserbutton_backup),
@@ -295,6 +320,8 @@ static void prefs_page_files_class_init (PrefsPageFilesClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, checkbutton_make_backup);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, checkbutton_make_backup_every_minutes);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, spinbutton_make_backup_nb_minutes);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, checkbutton_remove_backup_files);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, spinbutton_remove_backup_months);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, filechooserbutton_backup);
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, checkbutton_force_import_directory);

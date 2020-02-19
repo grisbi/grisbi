@@ -214,6 +214,8 @@ struct GrisbiAppConf
     gboolean    make_bakup_single_file;                     /* TRUE if a single backup file */
     gboolean    sauvegarde_demarrage;                       /* utilisé pour enregistrer le fichier s'il s'est bien ouvert */
 	gboolean	sauvegarde_fermeture;						/* TRUE to create a backup when save file */
+	gboolean	remove_backup_files;						/* removing automatically backup files */
+	guint		remove_backup_months;						/* Number of months before removing backup files */
 
 /* display part */
     gint        display_window_title;                       /* selection du titre principal de grisbi */

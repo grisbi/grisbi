@@ -87,6 +87,8 @@ static void gsb_file_config_clean_config (void)
     conf.make_backup_every_minutes = FALSE;
     conf.make_backup_nb_minutes = 5;
 	conf.make_bakup_single_file = FALSE;
+	conf.remove_backup_files = FALSE;
+	conf.remove_backup_months = 12;
     conf.sauvegarde_demarrage = FALSE;
 	conf.sauvegarde_fermeture = TRUE;
 
@@ -251,6 +253,14 @@ gboolean gsb_file_config_load_app_config (void)
 														  "Backup",
 														  "make-backup-single-file",
 														  NULL);
+	conf.remove_backup_files = g_key_file_get_boolean (config,
+													   "Backup",
+													   "remove-backup-files",
+													   NULL);
+    conf.remove_backup_months = g_key_file_get_integer (config,
+														"Backup",
+														"remove-backup-months",
+														NULL);
     conf.sauvegarde_demarrage = g_key_file_get_boolean (config,
 														"Backup",
 														"sauvegarde-ouverture",
@@ -714,6 +724,14 @@ gboolean gsb_file_config_save_app_config (void)
 							"Backup",
 							"make-backup-single-file",
 							conf.make_bakup_single_file);
+	g_key_file_set_boolean (config,
+						    "Backup",
+						    "remove-backup-files",
+						    conf.remove_backup_files);
+    g_key_file_set_integer (config,
+							"Backup",
+							"remove-backup-months",
+							conf.remove_backup_months);
 	g_key_file_set_boolean (config,
 							"Backup",
 							"sauvegarde-fermeture",

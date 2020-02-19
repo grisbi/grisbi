@@ -5,8 +5,8 @@
 /*                                                                               */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)               */
 /*                      2003-2008 Benjamin Drieu (bdrieu@april.org)              */
-/*          2008-2017 Pierre Biava (grisbi@pierre.biava.name)                    */
-/*          https://www.grisbi.org/                                               */
+/*          2008-2020 Pierre Biava (grisbi@pierre.biava.name)                    */
+/*          https://www.grisbi.org/                                              */
 /*                                                                               */
 /*     This program is free software; you can redistribute it and/or modify      */
 /*     it under the terms of the GNU General Public License as published by      */
@@ -119,10 +119,12 @@ static void grisbi_settings_init_settings_backup (GSettings *settings)
     g_free (tmp_path);
 
     conf.compress_backup = g_settings_get_boolean (settings, "compress-backup");
-    conf.make_bakup_single_file = g_settings_get_boolean (settings, "make-backup-single-file");
-    conf.sauvegarde_fermeture = g_settings_get_boolean (settings, "sauvegarde-fermeture");
     conf.make_backup_every_minutes = g_settings_get_boolean (settings, "make-backup-every-minutes");
     conf.make_backup_nb_minutes = g_settings_get_int (settings, "make-backup-nb-minutes");
+    conf.make_bakup_single_file = g_settings_get_boolean (settings, "make-backup-single-file");
+    conf.remove_backup_files = g_settings_get_boolean (settings, "remove-backup-files");
+    conf.remove_backup_months = g_settings_get_int (settings, "remove-backup-months");
+    conf.sauvegarde_fermeture = g_settings_get_boolean (settings, "sauvegarde-fermeture");
     conf.sauvegarde_demarrage = g_settings_get_boolean (settings, "sauvegarde-ouverture");
 }
 
@@ -639,6 +641,12 @@ void grisbi_settings_save_app_config (void)
     g_settings_set_boolean (G_SETTINGS (priv->settings_backup),
                         "compress-backup",
                         conf.compress_backup);
+    g_settings_set_boolean (G_SETTINGS (priv->settings_backup),
+                        "remove-backup-files",
+                        conf.remove_backup_files);
+    g_settings_set_int (G_SETTINGS (priv->settings_backup),
+                        "remove-backup-months",
+                        conf.remove_backup_months);
     g_settings_set_boolean (G_SETTINGS (priv->settings_backup),
                         "sauvegarde-ouverture",
                         conf.sauvegarde_demarrage);
