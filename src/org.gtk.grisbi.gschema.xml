@@ -497,6 +497,11 @@
 	    <summary></summary>
 	    <description></description>
 	  </key>
+	  <key name="remove-backup-files" type="b">
+	    <default>true</default>
+	    <summary>Removing automatically backup files</summary>
+	    <description></description>
+	  </key>
 	  <key name="development-version" type="b">
 	    <default>true</default>
 	    <summary></summary>

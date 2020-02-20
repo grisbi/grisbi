@@ -61,6 +61,7 @@
 #include "traitement_variables.h"
 #include "transaction_list.h"
 #include "utils.h"
+#include "utils_dates.h"
 #include "utils_files.h"
 #include "utils_str.h"
 #include "erreur.h"
@@ -81,6 +82,142 @@ gint id_timeout = 0;
 /******************************************************************************/
 /* Private Methods                                                            */
 /******************************************************************************/
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+static void gsb_file_remove_old_backup (const gchar *filename)
+{
+	GFileEnumerator *direnum;
+	GFile *dir;
+	GDate *first_old_date;
+    GSList *filenames = NULL;
+    GSList *iterator;
+	gchar *basename;
+	gchar *name = NULL;
+	gint i = 0;
+
+	devel_debug (filename);
+
+	/* get name of file without extension */
+	basename = g_path_get_basename (filename);
+	if (g_str_has_suffix (basename, ".gsb"))
+	{
+		name = g_strndup (basename, strlen (basename) - 4);
+		g_free (basename);
+	}
+	else
+	{
+		g_free (basename);
+
+		return;
+	}
+
+	if (!name)
+		return;
+
+	/* get today date and first_old_date */
+	first_old_date = gdate_today ();
+	g_date_subtract_months (first_old_date, conf.remove_backup_months);
+
+	/* balayage du répertoire de sauvegarde */
+	dir =  g_file_new_for_path (backup_path);
+	direnum = g_file_enumerate_children (dir,
+										"standard::*",
+										G_FILE_QUERY_INFO_NONE,
+										NULL,
+										NULL);
+	if (!direnum)
+		return;
+
+	while (TRUE)
+	{
+		GFileInfo *info = NULL;
+		const gchar *old_filename;
+
+		if (!g_file_enumerator_iterate (direnum, &info, NULL, NULL, NULL))
+			break;
+
+		if (!info)
+		  break;
+
+		old_filename = g_file_info_get_name (info);
+		if (old_filename && strlen (old_filename))
+		{
+			if (g_str_has_suffix (old_filename, ".gsb"))
+			{
+				if (name && g_str_has_prefix (old_filename, name))
+				{
+					GDate *date;
+					gchar *str_date;
+					gchar *tmp_year;
+					gchar *tmp_month;
+					gchar *tmp_day;
+					gint long_name;
+
+					long_name = strlen (name);
+					str_date = g_strndup (old_filename+long_name+1, 8);
+					tmp_year = g_strndup (str_date, 4);
+					tmp_month = g_strndup (str_date+4, 2);
+					tmp_day = g_strndup (str_date+6, 2);
+					date = g_date_new_dmy (utils_str_atoi (tmp_day),
+										   utils_str_atoi (tmp_month),
+										   utils_str_atoi (tmp_year));
+					if (g_date_compare (date, first_old_date) < 0)
+					{
+						gchar *tmp_filename;
+
+						tmp_filename = g_build_filename (backup_path, G_DIR_SEPARATOR_S, old_filename, NULL);
+						filenames = g_slist_append (filenames, tmp_filename);
+					}
+					g_date_free (date);
+					g_free (str_date);
+					g_free (tmp_year);
+					g_free (tmp_month);
+					g_free (tmp_day);
+				}
+			}
+		}
+		else
+		{
+			continue;
+		}
+		i++;
+	}
+	g_object_unref (direnum);
+	g_object_unref (dir);
+	g_free (name);
+
+	if (!filenames)
+	{
+		g_date_free (first_old_date);
+
+		return;
+	}
+
+	dialog_message ("remove-backup-files", g_slist_length (filenames), gsb_format_gdate (first_old_date));
+
+	g_date_free (first_old_date);
+
+	iterator = filenames;
+	while (iterator)
+    {
+		GFile *file;
+		gchar *path;
+
+		path = iterator->data;
+
+		file = g_file_new_for_path (path);
+		g_file_delete (file, FALSE, NULL);
+		iterator = iterator->next;
+	}
+
+	g_slist_free_full (filenames, g_free);
+}
+
 /**
  * teste la validité d'un fichier
  *
@@ -471,6 +608,19 @@ static gboolean gsb_file_save_file (gint origine)
         etat.fichier_deja_ouvert = 0;
         gsb_file_set_modified (FALSE);
         grisbi_win_set_window_title (gsb_gui_navigation_get_current_account ());
+
+		/* Si nettoyage des fichiers de backup on le fait ici */
+		if (conf.remove_backup_files)
+		{
+			GrisbiWinRun *w_run;
+
+			w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+			if (!w_run->remove_backup_files)
+			{
+				gsb_file_remove_old_backup (nouveau_nom_enregistrement);
+				w_run->remove_backup_files = TRUE;
+			}
+		}
     }
 
 	g_free (filename);

@@ -320,6 +320,9 @@ struct _GrisbiWinRun
     gboolean	new_crypted_file;							/* 0 à l'exécution de init_variables () 1 si new crypted file*/
 	gboolean	new_account_file;							/* 0 à l'exécution de init_variables () 1 si new account file */
 
+	/* backup */
+	gboolean	remove_backup_files;						/* on ne fait cette sauvegarde qu'une fois par session */
+
     /* file stuff */
     time_t		file_modification;
     gboolean	file_is_saving;
