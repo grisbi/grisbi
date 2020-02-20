@@ -1687,6 +1687,7 @@ static gboolean gsb_import_enter_force_dir_page (GtkWidget *assistant)
 		}
 	}
 	g_object_unref (direnum);
+	g_object_unref (dir);
 
 	if (!filenames)
 		return FALSE;
