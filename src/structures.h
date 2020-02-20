@@ -55,9 +55,9 @@
 #define SW_MIN_HEIGHT			150
 
 /* used for gtk_tree_view_column_set_alignment() */
-#define COLUMN_LEFT 0.0
-#define COLUMN_CENTER 0.5
-#define COLUMN_RIGHT 1.0
+#define COLUMN_LEFT				0.0
+#define COLUMN_CENTER			0.5
+#define COLUMN_RIGHT			1.0
 
 /* used for labels alignment */
 #define GSB_LEFT 				0
@@ -78,23 +78,20 @@
 #define CUSTOM_MODEL_VISIBLE_COLUMNS	7		/* number of visible columns */
 #define TRANSACTION_LIST_ROWS_NB 		4		/* definition of the number of max rows for a line, for now limit to 4 */
 
-/* variables initialisées lors de l'ouverture de grisbi par gsettings */
-/* declared in grisbi_app.c */
-extern struct GrisbiAppConf conf;
+/*START_EXTERN*/
+/* variables initialisées lors de l'ouverture de grisbi par gsettings ou grisbi.conf
+ * remplacées à terme par w_etat et w_run
+ */
+extern struct GrisbiAppConf conf;				/* declared in grisbi_app.c */
 
 /* variables initialisées lors de l'exécution de grisbi PROVISOIRE */
-/* declared in grisbi_win.c */
-extern struct _GrisbiWinRun run;
-extern struct _GrisbiWinEtat etat;
+extern struct _GrisbiWinRun run;				/* declared in grisbi_win.c */
+extern struct _GrisbiWinEtat etat;				/* declared in grisbi_win.c */
+/*END_EXTERN*/
 
-typedef enum 	_ComboColumns			ComboColumns;
-typedef enum	_CustomModelOpeColumns	CustomModelOpeColumns;
-typedef enum 	_GsbTransactionType		GsbTransactionType;
-typedef enum 	_GsbTitleType	 		GsbTitleType;
-typedef enum 	_MetatreeContent		MetatreeContent;
-typedef enum 	_SettingsSchema 		SettingsSchema;
-typedef enum	_TransactionsField		TransactionsField;
-
+/******************************************************************************/
+/* Structures                                                                 */
+/******************************************************************************/
 typedef struct _GrisbiWinEtat			GrisbiWinEtat;
 typedef struct _GrisbiWinRun			GrisbiWinRun;
 
@@ -197,7 +194,7 @@ struct _GrisbiWinEtat
     gchar *		scheduler_column_width;
 };
 
-/** structure conf variables configured by gsettings */
+/* structure conf variables configured by gsettings or grisbi.conf */
 struct GrisbiAppConf
 {
 /* NO SAVE IN GSETTINGS */
@@ -305,7 +302,7 @@ struct GrisbiAppConf
     gboolean    show_tip;
 };
 
-/** structure run
+/* structure run
  * variables containing just 0 or 1
  * générées pendant l'exécution du programme
  *
@@ -366,13 +363,23 @@ struct _GrisbiWinRun
 
 };
 
-/* structure contenant les variables utilisées par un fichier de compte */
 /** Contain pre-defined CSV separators */
 struct CsvSeparators
 {
     const gchar *name;		/** Visible name of CSV separator */
-    const gchar *value; 		/** Real value */
+    const gchar *value; 	/** Real value */
 };
+
+/******************************************************************************/
+/* Enum                                                                       */
+/******************************************************************************/
+typedef enum 	_ComboColumns			ComboColumns;
+typedef enum	_CustomModelOpeColumns	CustomModelOpeColumns;
+typedef enum 	_GsbTransactionType		GsbTransactionType;
+typedef enum 	_GsbTitleType	 		GsbTitleType;
+typedef enum 	_MetatreeContent		MetatreeContent;
+typedef enum 	_SettingsSchema 		SettingsSchema;
+typedef enum	_TransactionsField		TransactionsField;
 
 /* définition du titre de grisbi */
 enum _GsbTitleType
