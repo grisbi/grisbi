@@ -2,8 +2,8 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
-/*                      2008-2018 Pierre Biava (grisbi@pierre.biava.name)     */
-/*          https://www.grisbi.org/                                            */
+/*                      2008-2020 Pierre Biava (grisbi@pierre.biava.name)     */
+/*          https://www.grisbi.org/                                           */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -33,6 +33,7 @@
 #include "grisbi_app.h"
 #include "parametres.h"
 #include "structures.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -44,11 +45,6 @@
 /** All messages */
 struct ConditionalMessage messages[] =
 {
-    { "ofx-security-not-implemented", N_("Security feature not implemented"),
-      N_("This file contains security information, which processing is not implemented at "
-      "this moment."),
-      FALSE, FALSE, },
-
     { "encryption-is-irreversible", N_("Encryption is irreversible."),
       N_("Grisbi encrypts files in a very secure way that does not allow recovery without "
       "original password. It means that if you forget your password, you will lose all "
@@ -71,31 +67,10 @@ struct ConditionalMessage messages[] =
       N_("Grisbi detected that an account is under a desired balance: %s"),
       FALSE, FALSE, },
 
-    { "no-budgetary-line", N_("No budgetary line was entered"),
-      N_("This transaction has no budgetary line entered.  You should use them to "
-      "easily produce budgets and make reports on them."),
-      FALSE, FALSE, },
-
-    { "recover-split", N_("Recover split?"),
-      N_("This is a split of transaction, associated transactions can be recovered as "
-      "in last transaction with this payee.  Do you want to recover them?"),
-      FALSE, FALSE, },
-
-    { "no-inconsistency-found", N_("No inconsistency found."),
-      N_("Grisbi found no known inconsistency in accounts processed."),
-      FALSE, FALSE, },
-
     { "reconcile-transaction", N_("Confirmation of manual (un)reconciliation"),
       N_("You are trying to reconcile or unreconcile a transaction manually, "
 	  "which is not a recommended action.\n"
       "Are you really sure you know what you are doing?"),
-      FALSE, FALSE, },
-
-    { "reconcile-start-end-dates", N_("Reconcile start and end dates."),
-      N_("In previous versions, Grisbi did not save start date, end date and balance for "
-      "reconciliation. This is now done, so Grisbi will try to guess values from your "
-      "accounts. Thought this can not harm data coherence, false values can be guessed. "
-      "Please check in the Preferences window for more information."),
       FALSE, FALSE, },
 
     { "development-version", N_("You are running Grisbi version %s"),
@@ -219,6 +194,7 @@ static GtkDialog *dialogue_conditional_new (const gchar *text,
     GtkWidget *checkbox;
     GtkWidget *dialog = NULL;
     GtkWidget *vbox;
+	gchar *label;
     gint i;
 
     if (!var || !strlen (var))
@@ -245,7 +221,20 @@ static GtkDialog *dialogue_conditional_new (const gchar *text,
 
     vbox = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 
-    checkbox = gtk_check_button_new_with_label (_("Keep this choice permanently?"));
+	switch (buttons)
+	{
+		case GTK_BUTTONS_NONE:
+		case GTK_BUTTONS_OK:
+		case GTK_BUTTONS_CANCEL:
+		case GTK_BUTTONS_CLOSE:
+			label = _("Do not show this message again");
+			break;
+		case GTK_BUTTONS_YES_NO:
+		case GTK_BUTTONS_OK_CANCEL:
+			label = _("Keep this choice permanently?");
+			break;
+	}
+    checkbox = gtk_check_button_new_with_label (label);
     g_signal_connect (G_OBJECT (checkbox),
 					  "toggled",
 					  G_CALLBACK (dialogue_update_var),
@@ -588,7 +577,7 @@ gboolean question_conditional_yes_no_with_struct (struct ConditionalMessage *mes
 
     vbox = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 
-    checkbox = gtk_check_button_new_with_label (_("Do not show this message again"));
+    checkbox = gtk_check_button_new_with_label (_("Keep this choice permanently?"));
     g_signal_connect (G_OBJECT (checkbox),
 					  "toggled",
                       G_CALLBACK (dialogue_update_struct_message),

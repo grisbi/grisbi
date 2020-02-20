@@ -447,16 +447,6 @@
   </schema>
 
   <schema path="/org/gtk/grisbi/messages/warnings/" id='org.gtk.grisbi.messages.warnings'>
-	  <key name="ofx-security-not-implemented" type="b">
-	    <default>true</default>
-	    <summary></summary>
-	    <description></description>
-	  </key>
-	  <key name="encryption-is-irreversible" type="b">
-	    <default>true</default>
-	    <summary></summary>
-	    <description></description>
-	  </key>
 	  <key name="account-file-readable" type="b">
 	    <default>true</default>
 	    <summary></summary>
@@ -467,22 +457,17 @@
 	    <summary></summary>
 	    <description></description>
 	  </key>
+	  <key name="development-version" type="b">
+	    <default>true</default>
+	    <summary></summary>
+	    <description></description>
+	  </key>
+	  <key name="encryption-is-irreversible" type="b">
+	    <default>true</default>
+	    <summary></summary>
+	    <description></description>
+	  </key>
 	  <key name="minimum-balance-alert" type="b">
-	    <default>true</default>
-	    <summary></summary>
-	    <description></description>
-	  </key>
-	  <key name="no-budgetary-line" type="b">
-	    <default>true</default>
-	    <summary></summary>
-	    <description></description>
-	  </key>
-	  <key name="recover-split" type="b">
-	    <default>true</default>
-	    <summary></summary>
-	    <description></description>
-	  </key>
-	  <key name="no-inconsistency-found" type="b">
 	    <default>true</default>
 	    <summary></summary>
 	    <description></description>
@@ -492,19 +477,9 @@
 	    <summary></summary>
 	    <description></description>
 	  </key>
-	  <key name="reconcile-start-end-dates" type="b">
-	    <default>true</default>
-	    <summary></summary>
-	    <description></description>
-	  </key>
 	  <key name="remove-backup-files" type="b">
 	    <default>true</default>
 	    <summary>Removing automatically backup files</summary>
-	    <description></description>
-	  </key>
-	  <key name="development-version" type="b">
-	    <default>true</default>
-	    <summary></summary>
 	    <description></description>
 	  </key>
   </schema>
