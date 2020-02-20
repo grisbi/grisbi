@@ -79,7 +79,7 @@ struct ConditionalMessage messages[] =
       "Make a copy now."),
       FALSE, FALSE },
 
-    { "remove-backup-files", N_("Suppression de sauvegardes du fichier de comptes"),
+    { "remove-backup-files", N_("Removing backups from the account file"),
       N_("You will delete %d backups from your account file that are older than %s."),
       FALSE, FALSE, },
 
