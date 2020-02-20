@@ -554,7 +554,7 @@ gboolean question_conditional_yes_no (const gchar *var)
  *
  * \return	TRUE if user pressed 'YES'. FALSE otherwise.
  **/
-gboolean question_conditional_yes_no_with_struct (struct ConditionalMessage *message)
+gboolean question_conditional_yes_no_with_struct (struct ConditionalMessage *msg)
 {
     GtkWidget *checkbox;
     GtkWidget *dialog;
@@ -562,10 +562,10 @@ gboolean question_conditional_yes_no_with_struct (struct ConditionalMessage *mes
     gchar *text;
     gint response;
 
-    if (message->hidden)
-        return message->default_answer;
+    if (msg->hidden)
+        return msg->default_answer;
 
-    text = make_hint (gettext (message->hint), message->message);
+    text = make_hint (gettext (msg->hint), msg->message);
     dialog = gtk_message_dialog_new (GTK_WINDOW (grisbi_app_get_active_window (NULL)),
 									 GTK_DIALOG_DESTROY_WITH_PARENT,
 									 GTK_MESSAGE_WARNING,
@@ -581,19 +581,20 @@ gboolean question_conditional_yes_no_with_struct (struct ConditionalMessage *mes
     g_signal_connect (G_OBJECT (checkbox),
 					  "toggled",
                       G_CALLBACK (dialogue_update_struct_message),
-                      message);
+                      msg);
     gtk_box_pack_start (GTK_BOX (vbox), checkbox, TRUE, TRUE, MARGIN_BOX);
     gtk_widget_show_all (checkbox);
 
     response = gtk_dialog_run (GTK_DIALOG (dialog));
 
     if (response == GTK_RESPONSE_YES)
-        message->default_answer = TRUE;
+        msg->default_answer = TRUE;
     else
-        message->default_answer = FALSE;
+        msg->default_answer = FALSE;
 
     gtk_widget_destroy (GTK_WIDGET (dialog));
-    return message->default_answer;
+
+	return msg->default_answer;
 }
 
 /**

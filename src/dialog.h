@@ -50,7 +50,7 @@ gchar *		make_red 									(const gchar *text);
 gboolean 	question_conditional_yes_no 				(const gchar *var);
 gint 		question_conditional_yes_no_get_no_struct 	(struct ConditionalMessage *msg,
 														 const gchar *name);
-gboolean 	question_conditional_yes_no_with_struct 	(struct ConditionalMessage *message);
+gboolean 	question_conditional_yes_no_with_struct 	(struct ConditionalMessage *msg);
 gboolean 	question_yes_no 							(const gchar *text,
 														 const gchar *hint,
 														 gint default_answer);
