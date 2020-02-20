@@ -436,6 +436,7 @@
                             </child>
                             <child>
                               <object class="GtkLabel" id="label_remove_backup_months">
+                                <property name="name">label_gsetting_option</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="halign">start</property>
