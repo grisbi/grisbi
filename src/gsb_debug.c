@@ -113,7 +113,7 @@ static void gsb_debug_add_report_page (GtkWidget *assistant,
     gtk_container_add (GTK_CONTAINER (scrolled_window), vbox);
 
     label = gtk_label_new (NULL);
-    tmp_str = g_strconcat (make_pango_attribut ("size=\"larger\" weight=\"bold\"", _(test->name)),
+    tmp_str = g_strconcat (dialogue_make_pango_attribut ("size=\"larger\" weight=\"bold\"", _(test->name)),
 						   "\n\n",
 						   summary,
 						   NULL);

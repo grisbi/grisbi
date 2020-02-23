@@ -2091,7 +2091,7 @@ void bet_graph_line_graph_new ( GtkWidget *button,
 
     /* set the title */
     label = GTK_WIDGET ( g_object_get_data ( G_OBJECT ( tree_view ), "label_title") );
-    title = make_pango_attribut ( "weight=\"bold\" size=\"x-large\"",
+    title = dialogue_make_pango_attribut ( "weight=\"bold\" size=\"x-large\"",
                     gtk_label_get_text ( GTK_LABEL ( label ) ) );
 
     label = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "label_canvas" ) );
@@ -2225,7 +2225,7 @@ void bet_graph_montly_graph_new ( GtkWidget *button,
                         G_CALLBACK ( bet_graph_show_grid_button_changed ),
                         self );
 
-    title = make_pango_attribut ( "weight=\"bold\" size=\"x-large\"", title );
+    title = dialogue_make_pango_attribut ( "weight=\"bold\" size=\"x-large\"", title );
 
     label = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "label_canvas" ) );
     gtk_label_set_markup ( GTK_LABEL ( label ), title );
@@ -2310,7 +2310,7 @@ void bet_graph_sectors_graph_new ( GtkWidget *button,
 
     /* set the title */
     label = GTK_WIDGET ( g_object_get_data ( G_OBJECT ( tree_view ), "label_title") );
-    title = make_pango_attribut ( "weight=\"bold\" size=\"x-large\"",
+    title = dialogue_make_pango_attribut ( "weight=\"bold\" size=\"x-large\"",
                     gtk_label_get_text ( GTK_LABEL ( label ) ) );
 
     label = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "label_canvas" ) );

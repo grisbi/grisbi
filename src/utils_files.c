@@ -717,7 +717,7 @@ gchar *utils_files_create_sel_charset (GtkWidget *assistant,
                         " can't be imported directly into Grisbi.\n%s"),
                         filename);
     gtk_label_set_markup (GTK_LABEL (label),
-                        make_pango_attribut ("weight=\"bold\"",tmpstr));
+                        dialogue_make_pango_attribut ("weight=\"bold\"",tmpstr));
     utils_labels_set_alignment (GTK_LABEL (label), 0, 0.5);
     gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
     gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);

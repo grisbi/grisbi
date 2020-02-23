@@ -438,7 +438,7 @@ static GtkWidget *grisbi_win_form_new (GrisbiWin *win)
 
     /* set the label transaction form */
     label = gtk_label_new (NULL);
-    tmp_str = make_pango_attribut ("weight=\"bold\"", _("Transaction/Scheduled _form"));
+    tmp_str = dialogue_make_pango_attribut ("weight=\"bold\"", _("Transaction/Scheduled _form"));
     gtk_label_set_markup_with_mnemonic (GTK_LABEL (label), tmp_str);
     g_free (tmp_str);
     gtk_box_pack_start (GTK_BOX (priv->form_hbox_label), label, FALSE, FALSE, 0);

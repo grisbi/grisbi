@@ -644,7 +644,7 @@ gchar *dialogue_make_red (const gchar *text)
  * \return			a pango formated string It returns a newly allocated string which must
  *					be freed when no more used.
  */
-gchar *make_pango_attribut (const gchar *attribut,
+gchar *dialogue_make_pango_attribut (const gchar *attribut,
 							const gchar *text)
 {
     gchar *span_format;

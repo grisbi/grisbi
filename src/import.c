@@ -3223,7 +3223,7 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
     gtk_widget_show (image);
 
 	label_alert = gtk_label_new (NULL);
-	tmp_str = make_pango_attribut ("weight=\"bold\"", _("Duplicate transactions"));
+	tmp_str = dialogue_make_pango_attribut ("weight=\"bold\"", _("Duplicate transactions"));
     gtk_label_set_markup_with_mnemonic (GTK_LABEL (label_alert), tmp_str);
     g_free (tmp_str);
 
@@ -3321,7 +3321,7 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
 																		ope_import->ope_correspondante);
 					tmp_str2 = g_strdup_printf (" : %d", 2*g_slist_length (list_ope_doublons));
 					tmp_str3 = g_strconcat (_("Duplicate transactions"), tmp_str2, NULL);
-					tmp_str = make_pango_attribut ("weight=\"bold\"", tmp_str3);
+					tmp_str = dialogue_make_pango_attribut ("weight=\"bold\"", tmp_str3);
 					gtk_label_set_markup_with_mnemonic (GTK_LABEL (label_alert), tmp_str);
 					g_free (tmp_str);
 					gtk_widget_show (frame_alert);
