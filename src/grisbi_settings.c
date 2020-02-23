@@ -52,7 +52,6 @@
 
 /* START_EXTERN Variables externes PROVISOIRE */
 extern struct ConditionalMessage delete_msg[];
-extern struct ConditionalMessage messages[];
 /*END_EXTERN*/
 
 struct _GrisbiSettingsPrivate
@@ -408,13 +407,14 @@ static void grisbi_settings_init_settings_messages_tips (GSettings *settings)
 static void grisbi_settings_init_settings_messages_warnings (GSettings *settings)
 {
     gint i;
+	ConditionalMsg *warning;
 
-    for (i = 0; messages[i].name; i ++)
+	warning = (ConditionalMsg*) dialogue_get_tab_warning_msg ();
+	for (i = 0; (warning+i)->name; i ++)
     {
-        messages[i].hidden = !g_settings_get_boolean (G_SETTINGS (settings),
-                        messages[i].name);
-        if (messages[i].hidden == 1)
-            messages[i].default_answer = 1;
+        (warning+i)->hidden = !g_settings_get_boolean (G_SETTINGS (settings), (warning+i)->name);
+        if ((warning+i)->hidden == 1)
+            (warning+i)->default_answer = 1;
     }
 }
 
@@ -799,14 +799,6 @@ void grisbi_settings_save_app_config (void)
     g_settings_set_boolean (G_SETTINGS (priv->settings_messages_tips),
                          "show-tip",
                          conf.show_tip);
-
-    /* priv->settings_messages_warnings */
-    for (i = 0; messages[i].name; i ++)
-    {
-        g_settings_set_boolean (G_SETTINGS (priv->settings_messages_warnings),
-                        messages[i].name,
-                        !messages[i].hidden);
-    }
 
     /* priv->settings_panel */
     g_settings_set_int (G_SETTINGS (priv->settings_panel),

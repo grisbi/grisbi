@@ -67,6 +67,7 @@
 #include "prefs/prefs_page_import_asso.h"
 #include "prefs/prefs_page_import_files.h"
 #include "prefs/prefs_page_metatree.h"
+#include "prefs/prefs_page_msg_warning.h"
 #include "prefs/prefs_page_options_ope.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -447,8 +448,7 @@ static void grisbi_prefs_left_panel_populate_tree_model (GrisbiPrefs *prefs)
 	page++;
 
 	/* append page Messages & warnings */
-	widget = GTK_WIDGET (onglet_messages_and_warnings ());
-	utils_widget_set_padding (widget, MARGIN_BOX, 0);
+	widget = GTK_WIDGET (prefs_page_msg_warning_new (prefs));
 	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Messages & warnings"), page);
 	page++;
 

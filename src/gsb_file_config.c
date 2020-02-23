@@ -56,7 +56,6 @@
 
 /*START_EXTERN*/
 extern struct ConditionalMessage delete_msg[];
-extern struct ConditionalMessage messages[];
 /*END_EXTERN*/
 
 /******************************************************************************/
@@ -75,6 +74,7 @@ static void gsb_file_config_clean_config (void)
 {
 	gchar * tmp_str;
 	gint i = 0;
+	ConditionalMsg *warning;
 
     devel_debug (NULL);
 
@@ -159,9 +159,10 @@ static void gsb_file_config_clean_config (void)
     conf.show_tip = TRUE;
 
     /* settings_messages_warnings */
-    for (i = 0; messages[i].name; i++)
+	warning = (ConditionalMsg*) dialogue_get_tab_warning_msg ();
+	for (i = 0; (warning+i)->name; i ++)
     {
-        messages[i].hidden = TRUE;
+		(warning+i)->hidden = TRUE;
     }
 
     /* settings_panel */
@@ -204,6 +205,7 @@ gboolean gsb_file_config_load_app_config (void)
 	gchar *tmp_path;
 	gchar *tmp_str;
     gint i;
+	ConditionalMsg *warning;
 
     gsb_file_config_clean_config ();
 
@@ -592,14 +594,15 @@ gboolean gsb_file_config_load_app_config (void)
 											NULL);
 
     /* settings_messages_warnings */
-    for (i = 0; messages[i].name; i ++)
+	warning = (ConditionalMsg*) dialogue_get_tab_warning_msg ();
+    for (i = 0; (warning+i)->name; i ++)
     {
-        messages[i].hidden = !g_key_file_get_boolean (config,
-								"Warnings_msg",
-                        		messages[i].name,
-                        		NULL);
-		if (messages[i].hidden == 1)
-			messages[i].default_answer = 1;
+        (warning+i)->hidden = !g_key_file_get_boolean (config,
+													   "Warnings_msg",
+													   (warning+i)->name,
+													   NULL);
+		if ((warning+i)->hidden == 1)
+			(warning+i)->default_answer = 1;
 
     }
 
@@ -684,6 +687,7 @@ gboolean gsb_file_config_save_app_config (void)
 	gsize length;
 	FILE *conf_file;
 	gint i;
+	ConditionalMsg *warning;
 
 	devel_debug (NULL);
 
@@ -1019,12 +1023,13 @@ gboolean gsb_file_config_save_app_config (void)
                         	conf.show_tip);
 
     /* settings_messages_warnings */
-    for (i = 0; messages[i].name; i ++)
+	warning = (ConditionalMsg*) dialogue_get_tab_warning_msg ();
+    for (i = 0; (warning+i)->name; i ++)
     {
         g_key_file_set_boolean (config,
 								"Warnings_msg",
-                        		messages[i].name,
-                        		!messages[i].hidden);
+                        		(warning+i)->name,
+                        		!(warning+i)->hidden);
     }
 
     /* settings_panel */

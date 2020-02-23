@@ -29,6 +29,10 @@
 
 #define ETATS_MAX_OPES			3000				/* Nombre d'opérations sélectionnées avant avertissement */
 
+/* Nbre de messages de delete et de warnings */
+#define NBRE_MSG_WARNINGS		8
+#define NBRE_MSG_DELETE			7
+
 /* Sorting option for the transactions. Used in gsb_transactions_list_display_sort_changed () */
 #define PRIMARY_SORT            0
 #define SECONDARY_SORT          1

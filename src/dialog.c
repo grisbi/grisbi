@@ -86,8 +86,51 @@ struct ConditionalMessage messages[] =
     { NULL, NULL, NULL, FALSE, FALSE },
 };
 
+ConditionalMsg tab_warning_msg[NBRE_MSG_WARNINGS] =
+{
+    { "account-already-opened", N_("File \"%s\" is already opened"),
+      N_("Either this file is already opened by another user or it wasn't closed correctly "
+      "(maybe Grisbi crashed?).\nGrisbi can't save the file unless you activate the "
+      "\"Force saving locked files\" option in setup."),
+      FALSE, FALSE, },
+
+    { "account-file-readable",  N_("Account file is world readable."),
+      N_("Your account file should not be readable by anybody else, but it is. You should "
+      "change its permissions."),
+      FALSE, FALSE, },
+
+    { "development-version", N_("You are running Grisbi version %s"),
+      N_("Warning, please be aware that the version you run is a DEVELOPMENT version. "
+      "Never use your original file Grisbi: you could make it unusable.\n"
+      "Make a copy now."),
+      FALSE, FALSE },
+
+    { "encryption-is-irreversible", N_("Encryption is irreversible."),
+      N_("Grisbi encrypts files in a very secure way that does not allow recovery without "
+      "original password. It means that if you forget your password, you will lose all "
+      "your data. Use with caution.\n\nI repeat: if you ever forget your password, there "
+      "is no coming back, we cannot help you."),
+      FALSE, FALSE, },
+
+    { "minimum-balance-alert", N_("Account under desired balance"),
+      N_("Grisbi detected that an account is under a desired balance: %s"),
+      FALSE, FALSE, },
+
+    { "reconcile-transaction", N_("Confirmation of manual (un)reconciliation"),
+      N_("You are trying to reconcile or unreconcile a transaction manually, "
+	  "which is not a recommended action.\n"
+      "Are you really sure you know what you are doing?"),
+      FALSE, FALSE, },
+
+    { "remove-backup-files", N_("Removing backups from the account file"),
+      N_("You will delete %d backups from your account file that are older than %s."),
+      FALSE, FALSE, },
+
+    { NULL, NULL, NULL, FALSE, FALSE },
+};
+
 /******************************************************************************/
-/* Private functions                                                            */
+/* Private functions                                                          */
 /******************************************************************************/
 /**
  * Concatenate two strings and use pango layout to produce a string
@@ -168,7 +211,7 @@ static void dialogue_special (GtkMessageType param,
 static gboolean dialogue_update_var (GtkWidget *checkbox,
 									 gint message)
 {
-    messages[message].hidden = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(checkbox));
+    tab_warning_msg[message].hidden = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(checkbox));
 
     return FALSE;
 }
@@ -200,11 +243,11 @@ static GtkDialog *dialogue_conditional_new (const gchar *text,
     if (!var || !strlen (var))
         return NULL;
 
-    for  (i = 0; messages[i].name; i++)
+    for  (i = 0; tab_warning_msg[i].name; i++)
     {
-        if (!strcmp (messages[i].name, var))
+        if (!strcmp (tab_warning_msg[i].name, var))
         {
-            if (messages[i].hidden)
+            if (tab_warning_msg[i].hidden)
             {
                 return NULL;
             }
@@ -431,9 +474,9 @@ GtkWidget *dialogue_special_no_run (GtkMessageType param,
  * \return      	FALSE.
  **/
 gboolean dialogue_update_struct_message (GtkWidget *checkbox,
-										 struct ConditionalMessage *message)
+										 ConditionalMsg *msg)
 {
-    message->hidden = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbox));
+    msg->hidden = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbox));
 
     return FALSE;
 }
@@ -554,7 +597,7 @@ gboolean dialogue_conditional_yes_no (const gchar *var)
  *
  * \return	TRUE if user pressed 'YES'. FALSE otherwise.
  **/
-gboolean dialogue_conditional_yes_no_with_struct (struct ConditionalMessage *msg)
+gboolean dialogue_conditional_yes_no_with_struct (ConditionalMsg *msg)
 {
     GtkWidget *checkbox;
     GtkWidget *dialog;
@@ -605,7 +648,7 @@ gboolean dialogue_conditional_yes_no_with_struct (struct ConditionalMessage *msg
  *
  * \return	message number or -1 is not present.
  */
-gint dialogue_conditional_yes_no_get_no_struct (struct ConditionalMessage *msg,
+gint dialogue_conditional_yes_no_get_no_struct (ConditionalMsg *msg,
 												const gchar *name)
 {
     gint i;
@@ -804,6 +847,18 @@ gchar *dialogue_hint_with_entry (const gchar *text,
 GtkWidget *dialog_get_content_area (GtkWidget *dialog)
 {
     return gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+gpointer dialogue_get_tab_warning_msg (void)
+{
+	return &tab_warning_msg[0];
 }
 
 /**
