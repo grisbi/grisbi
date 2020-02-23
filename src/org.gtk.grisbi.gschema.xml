@@ -403,33 +403,33 @@
   <schema path="/org/gtk/grisbi/messages/delete/" id='org.gtk.grisbi.messages.delete'>
 	  <key name="delete-child-transaction" type="b">
 	    <default>true</default>
-	    <summary></summary>
-	    <description></description>
+	    <summary>Display warning</summary>
+	    <description>TRUE to display message</description>
 	  </key>
 	  <key name="delete-transaction" type="b">
 	    <default>true</default>
-	    <summary></summary>
-	    <description></description>
+	    <summary>Display warning</summary>
+	    <description>TRUE to display message</description>
 	  </key>
 	  <key name="delete-child-scheduled" type="b">
 	    <default>true</default>
-	    <summary></summary>
-	    <description></description>
+	    <summary>Display warning</summary>
+	    <description>TRUE to display message</description>
 	  </key>
 	  <key name="delete-scheduled" type="b">
 	    <default>true</default>
-	    <summary></summary>
-	    <description></description>
+	    <summary>Display warning</summary>
+	    <description>TRUE to display message</description>
 	  </key>
 	  <key name="delete-scheduled-occurrences" type="b">
 	    <default>true</default>
-	    <summary></summary>
-	    <description></description>
+	    <summary>Display warning</summary>
+	    <description>TRUE to display message</description>
 	  </key>
 	  <key name="delete-rule" type="b">
 	    <default>true</default>
-	    <summary></summary>
-	    <description></description>
+	    <summary>Display warning</summary>
+	    <description>TRUE to display message</description>
 	  </key>
   </schema>
 
@@ -449,38 +449,38 @@
   <schema path="/org/gtk/grisbi/messages/warnings/" id='org.gtk.grisbi.messages.warnings'>
 	  <key name="account-file-readable" type="b">
 	    <default>true</default>
-	    <summary></summary>
-	    <description></description>
+	    <summary>Display warning</summary>
+	    <description>TRUE to display message</description>
 	  </key>
 	  <key name="account-already-opened" type="b">
 	    <default>true</default>
-	    <summary></summary>
-	    <description></description>
+	    <summary>Display warning</summary>
+	    <description>TRUE to display message</description>
 	  </key>
 	  <key name="development-version" type="b">
 	    <default>true</default>
-	    <summary></summary>
-	    <description></description>
+	    <summary>Display warning</summary>
+	    <description>TRUE to display message</description>
 	  </key>
 	  <key name="encryption-is-irreversible" type="b">
 	    <default>true</default>
-	    <summary></summary>
-	    <description></description>
+	    <summary>Display warning</summary>
+	    <description>TRUE to display message</description>
 	  </key>
 	  <key name="minimum-balance-alert" type="b">
 	    <default>true</default>
-	    <summary></summary>
-	    <description></description>
+	    <summary>Display warning</summary>
+	    <description>TRUE to display message</description>
 	  </key>
 	  <key name="reconcile-transaction" type="b">
 	    <default>true</default>
-	    <summary></summary>
-	    <description></description>
+	    <summary>Display warning</summary>
+	    <description>TRUE to display message</description>
 	  </key>
 	  <key name="remove-backup-files" type="b">
 	    <default>true</default>
-	    <summary>Removing automatically backup files</summary>
-	    <description></description>
+	    <summary>Display warning</summary>
+	    <description>TRUE to display message</description>
 	  </key>
   </schema>
 
