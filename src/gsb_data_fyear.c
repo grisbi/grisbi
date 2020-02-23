@@ -539,13 +539,13 @@ const gchar *gsb_data_fyear_get_invalid_message ( gint fyear_number )
     switch ( fyear -> invalid_fyear )
     {
     case FYEAR_INVALID_DATE_ORDER:
-        string = make_red ( _("Warning : the dates are not in good order.") );
+        string = dialogue_make_red ( _("Warning : the dates are not in good order.") );
         break;
     case FYEAR_INVALID_CROSS:
-        string = make_red ( _("Warning : that financial year cross with another one.") );
+        string = dialogue_make_red ( _("Warning : that financial year cross with another one.") );
         break;
     case FYEAR_INVALID_DATE:
-        string = make_red ( _("Warning : Invalid date.") );
+        string = dialogue_make_red ( _("Warning : Invalid date.") );
         break;
     }
 

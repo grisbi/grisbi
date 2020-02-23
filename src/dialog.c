@@ -626,7 +626,7 @@ gint dialogue_conditional_yes_no_get_no_struct (struct ConditionalMessage *msg,
  * \return	a pango formated string It returns a newly allocated string which must
  *			be freed when no more used.
  **/
-gchar *make_red (const gchar *text)
+gchar *dialogue_make_red (const gchar *text)
 {
     gchar *tmp_str;
 

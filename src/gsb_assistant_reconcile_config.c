@@ -760,7 +760,7 @@ static gboolean gsb_assistant_reconcile_config_page_add_new_reconcile ( GtkWidge
     /* first, we check the date are valid */
     if ( !gsb_date_check_entry ( reconcile_init_date_entry ) )
     {
-        string = make_red ( _("The initial date is not valid, please check it.") );
+        string = dialogue_make_red ( _("The initial date is not valid, please check it.") );
         gtk_label_set_markup ( GTK_LABEL ( label) , string );
         gtk_widget_grab_focus (reconcile_init_date_entry);
         g_free ( string );
@@ -769,7 +769,7 @@ static gboolean gsb_assistant_reconcile_config_page_add_new_reconcile ( GtkWidge
 
     if ( !gsb_date_check_entry ( reconcile_final_date_entry ) )
     {
-        string = make_red ( _("The final date is not valid, please check it.") );
+        string = dialogue_make_red ( _("The final date is not valid, please check it.") );
         gtk_label_set_markup ( GTK_LABEL ( label) , string );
         gtk_widget_grab_focus ( reconcile_final_date_entry );
         g_free ( string );
@@ -779,7 +779,7 @@ static gboolean gsb_assistant_reconcile_config_page_add_new_reconcile ( GtkWidge
     /* check there is a name */
     if ( !strlen (gtk_entry_get_text ( GTK_ENTRY ( reconcile_name_entry ) ) ) )
     {
-        string = make_red ( _("Please give a name to the new reconciliation.") );
+        string = dialogue_make_red ( _("Please give a name to the new reconciliation.") );
         gtk_label_set_markup ( GTK_LABEL ( label) , string );
         gtk_widget_grab_focus ( reconcile_name_entry );
         g_free ( string );
@@ -790,7 +790,7 @@ static gboolean gsb_assistant_reconcile_config_page_add_new_reconcile ( GtkWidge
     if ( gsb_data_reconcile_get_number_by_name (
      gtk_entry_get_text (GTK_ENTRY (reconcile_name_entry) ) ) )
     {
-        string = make_red ( _("That name already exists, please find another one.") );
+        string = dialogue_make_red ( _("That name already exists, please find another one.") );
         gtk_label_set_markup ( GTK_LABEL ( label) , string );
         gtk_widget_grab_focus ( reconcile_name_entry );
         g_free ( string );
@@ -804,7 +804,7 @@ static gboolean gsb_assistant_reconcile_config_page_add_new_reconcile ( GtkWidge
     if (gsb_data_reconcile_get_number_by_name ( gtk_entry_get_text (
      GTK_ENTRY ( reconcile_name_entry ) ) ) )
     {
-        string = make_red ( _("Cannot allocate memory : Bad things will happen soon.") );
+        string = dialogue_make_red ( _("Cannot allocate memory : Bad things will happen soon.") );
         gtk_label_set_markup ( GTK_LABEL ( label) , string );
         gtk_widget_grab_focus ( reconcile_name_entry );
         g_free ( string );
@@ -831,7 +831,7 @@ static gboolean gsb_assistant_reconcile_config_page_add_new_reconcile ( GtkWidge
     gtk_entry_set_text ( GTK_ENTRY (reconcile_init_balance_entry), "" );
     gtk_entry_set_text ( GTK_ENTRY (reconcile_final_balance_entry), "" );
 
-    string = make_blue ( g_strdup_printf ( _("Reconciliation %s successfully appended!"),
+    string = dialogue_make_blue ( g_strdup_printf ( _("Reconciliation %s successfully appended!"),
                         gsb_data_reconcile_get_name ( reconcile_number ) ) );
     gtk_label_set_markup ( GTK_LABEL ( label ), string );
     g_free ( string );

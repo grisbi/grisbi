@@ -826,11 +826,11 @@ static gboolean gsb_assistant_archive_update_labels ( GtkWidget *assistant )
             string = NULL;
 
             if ( !strlen ( gtk_entry_get_text ( GTK_ENTRY ( initial_date ) ) ) )
-                string = make_red ( _("Please fill the initial date."));
+                string = dialogue_make_red ( _("Please fill the initial date."));
             if ( !string
                 &&
                 !strlen ( gtk_entry_get_text ( GTK_ENTRY ( final_date ) ) ) )
-                string = make_red ( _("Please fill the final date.") );
+                string = dialogue_make_red ( _("Please fill the final date.") );
             if ( !string
                  &&
                  init_gdate
@@ -838,23 +838,23 @@ static gboolean gsb_assistant_archive_update_labels ( GtkWidget *assistant )
                  final_gdate
                  &&
                  g_date_compare (init_gdate, final_gdate) > 0 )
-                string = make_red (_("The initial date is after the final date."));
+                string = dialogue_make_red (_("The initial date is after the final date."));
             if ( !string
                  &&
                  !init_gdate)
-                string = make_red (_("The initial date is not valid."));
+                string = dialogue_make_red (_("The initial date is not valid."));
             if ( !string
                  &&
                  !final_gdate )
-                string = make_red (_("The final date is not valid."));
+                string = dialogue_make_red (_("The final date is not valid."));
             if ( !string
                  &&
                  gsb_data_archive_get_from_date (init_gdate) )
-                string = make_red (_("The initial date belongs already to an archive."));
+                string = dialogue_make_red (_("The initial date belongs already to an archive."));
             if ( !string
                  &&
                  gsb_data_archive_get_from_date (final_gdate) )
-                string = make_red (_("The final date belongs already to an archive."));
+                string = dialogue_make_red (_("The final date belongs already to an archive."));
 
             if (string)
             {
@@ -898,12 +898,12 @@ static gboolean gsb_assistant_archive_update_labels ( GtkWidget *assistant )
             fyear_number = gsb_fyear_get_fyear_from_combobox ( financial_year_button, NULL );
 
             if (!fyear_number)
-                string = make_red (_("Please choose a financial year."));
+                string = dialogue_make_red (_("Please choose a financial year."));
 
             if ( !string
              &&
              gsb_data_archive_get_from_fyear ( fyear_number ) )
-                string = make_red (_("There is already an archive for that financial year."));
+                string = dialogue_make_red (_("There is already an archive for that financial year."));
 
             if (string)
             {
@@ -939,7 +939,7 @@ static gboolean gsb_assistant_archive_update_labels ( GtkWidget *assistant )
             report_number = gsb_report_get_report_from_combobox (report_button);
 
             if (!report_number)
-                string = make_red (_("Please choose a report."));
+                string = dialogue_make_red (_("Please choose a report."));
 
             if (string)
             {

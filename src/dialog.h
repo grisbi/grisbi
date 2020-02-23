@@ -38,6 +38,7 @@ void 		dialogue_hint 								(const gchar *text,
 gchar *		dialogue_hint_with_entry 					(const gchar *text,
 														 const gchar *hint,
 														 const gchar *entry_description);
+gchar *		dialogue_make_red 							(const gchar *text);
 GtkWidget *	dialogue_special_no_run 					(GtkMessageType param,
 														 GtkButtonsType buttons,
 														 const gchar *text,

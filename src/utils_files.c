@@ -356,7 +356,7 @@ static void utils_files_go_charmap_sel_changed (GtkWidget *go_charmap_sel,
     {
         gtk_label_set_text (GTK_LABEL (label), "");
         gtk_label_set_markup (GTK_LABEL (label),
-                        make_red (_("The conversion failed, try another set of characters")));
+                        dialogue_make_red (_("The conversion failed, try another set of characters")));
         gtk_dialog_set_response_sensitive   (GTK_DIALOG (dialog), GTK_RESPONSE_OK, FALSE);
     }
 }
