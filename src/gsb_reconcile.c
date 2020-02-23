@@ -643,7 +643,7 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
     transactions_max_date = gsb_reconcile_get_pointed_transactions_max_date (account_number);
     if (g_date_compare (transactions_max_date, date) > 0)
     {
-		if (!question_yes_no (_("There are pointed transactions that occur later than "
+		if (!dialogue_yes_no (_("There are pointed transactions that occur later than "
 								"the reconciliation end date.\n"
 							    "If you continue these transactions will be ignored.\n\n"
 								"Do you want to continue?"),

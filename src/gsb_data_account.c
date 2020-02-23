@@ -3910,7 +3910,7 @@ gboolean gsb_data_account_renum_account_number_0 (const gchar *filename)
 							   gsb_data_account_get_name (0),
 							   account_number);
 
-	result = question_yes_no (tmp_str, _("Rename account \"0\""), GTK_RESPONSE_YES );
+	result = dialogue_yes_no (tmp_str, _("Rename account \"0\""), GTK_RESPONSE_YES );
     g_free (tmp_str);
 	if (!result)
 	{

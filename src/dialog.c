@@ -470,7 +470,7 @@ void dialogue_conditional_hint (const gchar *text,
  *
  * \return 					TRUE if user pressed 'YES'. FALSE otherwise.
  **/
-gboolean question_yes_no (const gchar *text,
+gboolean dialogue_yes_no (const gchar *text,
 						  const gchar *hint,
 						  gint default_answer)
 {
@@ -511,7 +511,7 @@ gboolean question_yes_no (const gchar *text,
  *
  * \return TRUE if user pressed 'YES'.  FALSE otherwise.
  */
-gboolean question_conditional_yes_no (const gchar *var)
+gboolean dialogue_conditional_yes_no (const gchar *var)
 {
     GtkDialog *dialog;
     gchar *text;
@@ -554,7 +554,7 @@ gboolean question_conditional_yes_no (const gchar *var)
  *
  * \return	TRUE if user pressed 'YES'. FALSE otherwise.
  **/
-gboolean question_conditional_yes_no_with_struct (struct ConditionalMessage *msg)
+gboolean dialogue_conditional_yes_no_with_struct (struct ConditionalMessage *msg)
 {
     GtkWidget *checkbox;
     GtkWidget *dialog;
@@ -605,7 +605,7 @@ gboolean question_conditional_yes_no_with_struct (struct ConditionalMessage *msg
  *
  * \return	message number or -1 is not present.
  */
-gint question_conditional_yes_no_get_no_struct (struct ConditionalMessage *msg,
+gint dialogue_conditional_yes_no_get_no_struct (struct ConditionalMessage *msg,
 												const gchar *name)
 {
     gint i;

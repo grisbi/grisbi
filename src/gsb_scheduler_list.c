@@ -1667,7 +1667,7 @@ static void gsb_scheduler_list_remove_orphan_list (GSList *orphan_scheduled,
 									 "Do you want to delete it"),
 								   string);
 
-        result = question_yes_no (message, _("Remove orphan children"), GTK_RESPONSE_CANCEL);
+        result = dialogue_yes_no (message, _("Remove orphan children"), GTK_RESPONSE_CANCEL);
 
         if (result == TRUE)
         {
@@ -2801,7 +2801,7 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction (gint scheduled_number,
         if (mother_number)
         {
             /* ask all the time for a child */
-            msg_no = question_conditional_yes_no_get_no_struct (&delete_msg[0], "delete-child-scheduled");
+            msg_no = dialogue_conditional_yes_no_get_no_struct (&delete_msg[0], "delete-child-scheduled");
             if (msg_no < 0)
                 return FALSE;
 
@@ -2811,7 +2811,7 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction (gint scheduled_number,
 															    (scheduled_number),
 															    FALSE));
             delete_msg[msg_no].message = tmp_str;
-            if (!question_conditional_yes_no_with_struct (&delete_msg[msg_no]))
+            if (!dialogue_conditional_yes_no_with_struct (&delete_msg[msg_no]))
             {
                 g_free (tmp_str);
                 return FALSE;
@@ -2822,7 +2822,7 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction (gint scheduled_number,
         {
             /* for a normal scheduled, ask only if no frequency, else, it will
              * have another dialog to delete the occurence or the transaction */
-            msg_no = question_conditional_yes_no_get_no_struct (&delete_msg[0], "delete-scheduled");
+            msg_no = dialogue_conditional_yes_no_get_no_struct (&delete_msg[0], "delete-scheduled");
             if (msg_no < 0)
                 return FALSE;
 
@@ -2833,7 +2833,7 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction (gint scheduled_number,
 															    FALSE));
             delete_msg[msg_no].message = tmp_str;
             if (!gsb_data_scheduled_get_frequency (scheduled_number)
-				&& !question_conditional_yes_no_with_struct (&delete_msg[msg_no]))
+				&& !dialogue_conditional_yes_no_with_struct (&delete_msg[msg_no]))
             {
                 g_free (tmp_str);
                 return FALSE;
@@ -2868,7 +2868,7 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction (gint scheduled_number,
             GtkWidget *vbox;
             gchar *occurrences;
 
-            msg_no = question_conditional_yes_no_get_no_struct (&delete_msg[0],
+            msg_no = dialogue_conditional_yes_no_get_no_struct (&delete_msg[0],
 																"delete-scheduled-occurrences");
 
             if (msg_no < 0)

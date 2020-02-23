@@ -757,7 +757,7 @@ static gboolean gsb_transactions_list_button_press (GtkWidget *tree_view,
 				tmp_str = g_strdup_printf (_("Do you want to add the transactions of the archive %s "
 												   "into the list?"),
 												 name);
-				if (question_yes_no (tmp_str, NULL, GTK_RESPONSE_CANCEL))
+				if (dialogue_yes_no (tmp_str, NULL, GTK_RESPONSE_CANCEL))
 					gsb_transactions_list_add_transactions_from_archive (archive_number,
 																		 gsb_data_archive_store_get_account_number
 																		 (archive_store_number),
@@ -1495,7 +1495,7 @@ static gboolean gsb_transactions_list_switch_R_mark (gint transaction_number)
     /* if it's a child, we ask if we want to work with the mother */
     if (gsb_data_transaction_get_mother_transaction_number (transaction_number))
     {
-        msg_no = question_conditional_yes_no_get_no_struct (&messages[0],
+        msg_no = dialogue_conditional_yes_no_get_no_struct (&messages[0],
                         "reconcile-transaction");
         if (msg_no < 0)
             return FALSE;
@@ -1507,7 +1507,7 @@ static gboolean gsb_transactions_list_switch_R_mark (gint transaction_number)
 				     "the modification will be done on the mother and all its children.\n\n"
 				     "Are you really sure to know what you do?"));
         messages[msg_no].message = tmp_str;
-        if (question_conditional_yes_no_with_struct (&messages[msg_no]))
+        if (dialogue_conditional_yes_no_with_struct (&messages[msg_no]))
         {
             /* he says ok, so transaction_number becomes the mother */
             transaction_number = gsb_data_transaction_get_mother_transaction_number (
@@ -1522,7 +1522,7 @@ static gboolean gsb_transactions_list_switch_R_mark (gint transaction_number)
     }
     else
 	    /* it's a normal transaction, ask to be sure */
-        if (!question_conditional_yes_no ("reconcile-transaction"))
+        if (!dialogue_conditional_yes_no ("reconcile-transaction"))
 	        return FALSE;
 
 
@@ -2041,14 +2041,14 @@ static gboolean gsb_transactions_list_delete_import_rule (gint import_rule_numbe
     gint msg_no = 0;
     gchar *tmp_str;
 
-    msg_no = question_conditional_yes_no_get_no_struct (&delete_msg[0], "delete-rule");
+    msg_no = dialogue_conditional_yes_no_get_no_struct (&delete_msg[0], "delete-rule");
 	if (msg_no < 0)
 		return FALSE;
 
 	tmp_str = g_strdup (_("Do you really want to delete this file import rule?"));
     delete_msg[msg_no].message = tmp_str;
 
-    if (!question_conditional_yes_no_with_struct (&delete_msg[msg_no]))
+    if (!dialogue_conditional_yes_no_with_struct (&delete_msg[msg_no]))
     {
         g_free(tmp_str);
 
@@ -2111,7 +2111,7 @@ static void gsb_transactions_list_process_orphan_list (GSList *orphan_list)
                         "Do you want to delete it"),
                         string);
 
-        result = question_yes_no (message, _("Remove orphan children"), GTK_RESPONSE_CANCEL);
+        result = dialogue_yes_no (message, _("Remove orphan children"), GTK_RESPONSE_CANCEL);
 
         if (result == TRUE)
         {
@@ -3468,7 +3468,7 @@ gboolean gsb_transactions_list_delete_transaction (gint transaction_number,
     {
         if (gsb_data_transaction_get_mother_transaction_number (transaction_number))
         {
-            msg_no = question_conditional_yes_no_get_no_struct (&delete_msg[0],
+            msg_no = dialogue_conditional_yes_no_get_no_struct (&delete_msg[0],
 																"delete-child-transaction");
             if (msg_no < 0)
                 return FALSE;
@@ -3481,7 +3481,7 @@ gboolean gsb_transactions_list_delete_transaction (gint transaction_number,
         }
         else
         {
-            msg_no = question_conditional_yes_no_get_no_struct (&delete_msg[0], "delete-transaction");
+            msg_no = dialogue_conditional_yes_no_get_no_struct (&delete_msg[0], "delete-transaction");
         	if (msg_no < 0)
                 return FALSE;
             tmp_str = g_strdup_printf (_("Do you really want to delete transaction with party '%s' ?"),
@@ -3490,7 +3490,7 @@ gboolean gsb_transactions_list_delete_transaction (gint transaction_number,
 																 FALSE));
             delete_msg[msg_no].message = tmp_str;
         }
-		if (!question_conditional_yes_no_with_struct (&delete_msg[msg_no]))
+		if (!dialogue_conditional_yes_no_with_struct (&delete_msg[msg_no]))
         {
             g_free(tmp_str);
 

@@ -821,7 +821,7 @@ void payees_remove_unused_payees (void)
 {
     gint result;
 
-    result = question_yes_no (_("This will remove all the payees which are not used in any transactions.  "
+    result = dialogue_yes_no (_("This will remove all the payees which are not used in any transactions.  "
                                  "Payees linked to an archived transactions will not be removed, even if not "
                                  "used outside the archive.\n\nAre you sure you want to do that?"),
                                _("Remove orphan payees"),
@@ -1817,7 +1817,7 @@ static void gsb_assistant_payees_modifie_operations (GSList *sup_payees,
 															 " replaced by %s."),
 														   gsb_data_payee_get_name (payee_number, TRUE));
 
-                if (question_conditional_yes_no_with_struct (&overwrite_payee) == FALSE)
+                if (dialogue_conditional_yes_no_with_struct (&overwrite_payee) == FALSE)
 				{
                     overwrite_payee.default_answer = FALSE;
 					question = FALSE;

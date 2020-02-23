@@ -1215,7 +1215,7 @@ static gboolean gsb_bank_delete ( GtkWidget *button,
     {
 	gchar* tmpstr = g_strdup_printf ( _("Bank \"%s\" is used by one or several accounts.\nDo you really want to remove it?"),
 							  gsb_data_bank_get_name (bank_number));
-	result = question_yes_no (tmpstr, _("Confirmation of bank removal"),
+	result = dialogue_yes_no (tmpstr, _("Confirmation of bank removal"),
 					GTK_RESPONSE_NO );
        g_free ( tmpstr );
     }
@@ -1223,7 +1223,7 @@ static gboolean gsb_bank_delete ( GtkWidget *button,
     {
         gchar* tmpstr = g_strdup_printf ( _("Are you sure you want to remove bank \"%s\"?\n"),
 							  gsb_data_bank_get_name (bank_number));
-	result = question_yes_no (tmpstr, _("Confirmation of bank removal"),
+	result = dialogue_yes_no (tmpstr, _("Confirmation of bank removal"),
 					GTK_RESPONSE_NO );
        g_free ( tmpstr );
     }

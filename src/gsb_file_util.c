@@ -86,7 +86,7 @@ gboolean gsb_file_util_test_overwrite (const gchar *filename)
 		}
 
 		tmp_str = g_strdup_printf (_("Do you want to overwrite file \"%s\"?"), filename);
-		response = question_yes_no (tmp_str,
+		response = dialogue_yes_no (tmp_str,
 									_("File already exists"),
 									GTK_RESPONSE_NO);
 		g_free (tmp_str);
@@ -369,7 +369,7 @@ void gsb_file_util_change_permissions (void)
     devel_debug (NULL);
 
 #ifndef G_OS_WIN32
-    if (question_conditional_yes_no ("account-file-readable") == TRUE)
+    if (dialogue_conditional_yes_no ("account-file-readable") == TRUE)
     {
 		const gchar *filename;
 
@@ -394,7 +394,7 @@ void gsb_file_util_display_warning_permissions (void)
 
     devel_debug (NULL);
 
-    msg_no = question_conditional_yes_no_get_no_struct (&messages[0], "account-file-readable");
+    msg_no = dialogue_conditional_yes_no_get_no_struct (&messages[0], "account-file-readable");
     if (msg_no < 0)
         return;
 

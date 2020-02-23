@@ -274,7 +274,7 @@ static void prefs_page_metatree_unarchived_payees_toggled (GtkWidget *checkbutto
 			reponse_id = GTK_RESPONSE_NO;
 		}
 
-		if (question_yes_no (text, hint, reponse_id))
+		if (dialogue_yes_no (text, hint, reponse_id))
 		{
 			payees_update_combofix (FALSE);
 		}

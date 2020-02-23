@@ -3628,7 +3628,7 @@ static gboolean gsb_import_set_id_compte (gint account_nb,
 										 " for: %s\n"
 										 "If not, the account will be ignored.\n\n"
 										 "Do you want to continue?"), tmp_str2);
-            if (question_yes_no (tmp_str,
+            if (dialogue_yes_no (tmp_str,
 								 _("The id of the imported and chosen accounts are different"),
 								 GTK_RESPONSE_NO))
 			{

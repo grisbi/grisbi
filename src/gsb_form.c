@@ -267,7 +267,7 @@ static gboolean gsb_form_get_categories (gint transaction_number,
 				{
 					GSList *save_children_list;
 
-					if (!question_yes_no (_("You are trying to change a split of transaction to another "
+					if (!dialogue_yes_no (_("You are trying to change a split of transaction to another "
 											"kind of transaction.\n"
 											"There is some children to that transaction, if you continue, "
 											"the children will  be deleted.\nAre you sure?"),
@@ -982,7 +982,7 @@ static gboolean gsb_form_validate_form_transaction (gint transaction_number,
 			if (gsb_form_widget_check_empty (widget))
 			{
 
-				if (!question_yes_no (_("Selected method of payment has an automatic incremental number\n"
+				if (!dialogue_yes_no (_("Selected method of payment has an automatic incremental number\n"
 										"but doesn't contain any number.\n"
 										"Continue anyway?"),
 									  NULL,
@@ -1002,7 +1002,7 @@ static gboolean gsb_form_validate_form_transaction (gint transaction_number,
 
 				if (tmp_transaction_number
 					&& tmp_transaction_number != transaction_number
-					&& !question_yes_no (_("Warning: this cheque number is already used.\nContinue anyway?"),
+					&& !dialogue_yes_no (_("Warning: this cheque number is already used.\nContinue anyway?"),
 										 NULL,
 										 GTK_RESPONSE_CANCEL))
 				{

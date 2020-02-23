@@ -708,7 +708,7 @@ gboolean gsb_fyear_config_remove_fyear ( GtkWidget *tree_view )
 	    {
 		gint result;
 
-		result = question_yes_no ( _("If you really remove it, all the associated transactions will be without financial year.\nAre you sure?"),
+		result = dialogue_yes_no ( _("If you really remove it, all the associated transactions will be without financial year.\nAre you sure?"),
 		                           _("The selected financial year is used in the file"),
 		                           GTK_RESPONSE_NO );
 		if (result)
@@ -763,7 +763,7 @@ gboolean gsb_fyear_config_associate_transactions ( void )
     GSList *list_tmp;
     gint modification_number = 0;
 
-    if (!question_yes_no ( _("This function assigns each transaction without a financial year to the one related to its transaction date.  If no financial year matches, the transaction will not be changed."),
+    if (!dialogue_yes_no ( _("This function assigns each transaction without a financial year to the one related to its transaction date.  If no financial year matches, the transaction will not be changed."),
                            _("Automatic association of financial years?"),
                            GTK_RESPONSE_NO ))
 	return FALSE;

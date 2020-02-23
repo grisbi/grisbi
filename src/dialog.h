@@ -23,6 +23,10 @@ void 		dialogue 									(const gchar *texte_dialogue);
 void 		dialogue_conditional_hint 					(const gchar *text,
 														 const gchar *hint,
 														 const gchar *var);
+gboolean 	dialogue_conditional_yes_no 				(const gchar *var);
+gint 		dialogue_conditional_yes_no_get_no_struct 	(struct ConditionalMessage *msg,
+														 const gchar *name);
+gboolean 	dialogue_conditional_yes_no_with_struct 	(struct ConditionalMessage *msg);
 void 		dialogue_error 								(const gchar *text);
 void 		dialogue_error_brain_damage 				(void);
 void 		dialogue_error_hint 						(const gchar *text,
@@ -43,7 +47,7 @@ gboolean 	dialogue_update_struct_message 				(GtkWidget *checkbox,
 void 		dialogue_warning 							(const gchar *text);
 void 		dialogue_warning_hint 						(const gchar *text,
 														 const gchar *hint);
-gchar *		make_blue 									(const gchar *text);
+gboolean 	dialogue_yes_no 							(const gchar *text,
 gchar *		make_pango_attribut 						(const gchar *attribut,
 														 const gchar *text);
 gchar *		make_red 									(const gchar *text);

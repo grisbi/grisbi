@@ -636,7 +636,7 @@ gboolean gsb_reconcile_config_delete ( GtkWidget *button,
 	     * we ask if the user want to continue and warn him */
 	    gchar* tmpstr = g_strdup_printf (_("Caution, you are about to delete a reconciliation.\nIf you continue, the reconciliation %s will be erased and all the transactions marked by this reconciliation will be un-reconciled and marked P.\nAre you sure you want to continue?"),
 							 gsb_data_reconcile_get_name (reconcile_number));
-	    if (!question_yes_no (tmpstr, _("Delete reconciliation"),
+	    if (!dialogue_yes_no (tmpstr, _("Delete reconciliation"),
 					GTK_RESPONSE_NO ))
 	    {
 		g_free ( tmpstr );
