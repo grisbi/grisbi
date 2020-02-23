@@ -37,6 +37,7 @@ gchar *		dialogue_hint_with_entry 					(const gchar *text,
 														 const gchar *hint,
 														 const gchar *entry_description);
 void 		dialogue_message 							(const gchar *label, ...);
+gchar *		dialogue_make_blue 							(const gchar *text);
 gchar *		dialogue_make_pango_attribut 				(const gchar *attribut,
 														 const gchar *text);
 gchar *		dialogue_make_red 							(const gchar *text);

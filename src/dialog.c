@@ -665,7 +665,7 @@ gchar *dialogue_make_pango_attribut (const gchar *attribut,
  * \return a pango formated string It returns a newly allocated string which must
  *         be freed when no more used.
  **/
-gchar *make_blue (const gchar *text)
+gchar *dialogue_make_blue (const gchar *text)
 {
     gchar *tmp_str;
 

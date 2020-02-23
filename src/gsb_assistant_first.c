@@ -227,7 +227,7 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
     entry = gsb_automem_entry_new ( &conf.browser_command, NULL, NULL );
     gtk_grid_attach (GTK_GRID (table), entry, 1, 1, 1, 1);
 
-    text = make_blue ( _("You may use %s to expand the URL - I.e: 'firefox %s' ") );
+    text = dialogue_make_blue ( _("You may use %s to expand the URL - I.e: 'firefox %s' ") );
     label = gtk_label_new ( text );
     gtk_label_set_use_markup ( GTK_LABEL(label), TRUE );
     utils_labels_set_alignment ( GTK_LABEL ( label ), 0.0, 0.5 );
