@@ -16,9 +16,7 @@ struct ConditionalMessage
     gboolean default_answer;	/** Useful for yes/no questions. */
 };
 
-
 /* START_DECLARATION */
-void 		dialog_message 								(const gchar *label, ...);
 void 		dialogue 									(const gchar *texte_dialogue);
 void 		dialogue_conditional_hint 					(const gchar *text,
 														 const gchar *hint,
@@ -38,6 +36,7 @@ void 		dialogue_hint 								(const gchar *text,
 gchar *		dialogue_hint_with_entry 					(const gchar *text,
 														 const gchar *hint,
 														 const gchar *entry_description);
+void 		dialogue_message 							(const gchar *label, ...);
 gchar *		dialogue_make_pango_attribut 				(const gchar *attribut,
 														 const gchar *text);
 gchar *		dialogue_make_red 							(const gchar *text);

@@ -198,7 +198,7 @@ static void gsb_file_remove_old_backup (const gchar *filename)
 		return;
 	}
 
-	dialog_message ("remove-backup-files", g_slist_length (filenames), gsb_format_gdate (first_old_date));
+	dialogue_message ("remove-backup-files", g_slist_length (filenames), gsb_format_gdate (first_old_date));
 
 	g_date_free (first_old_date);
 

@@ -715,7 +715,7 @@ void dialogue_error_memory (void)
  *
  * \return
  **/
-void dialog_message (const gchar *label, ...)
+void dialogue_message (const gchar *label, ...)
 {
     va_list ap;
     gint i = 0;

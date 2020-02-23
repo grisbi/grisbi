@@ -290,7 +290,7 @@ gboolean gsb_file_util_modify_lock (const gchar *filename,
         /* check if the file lock exists */
         if (g_file_test (lock_filename, G_FILE_TEST_EXISTS))
         {
-            dialog_message ("account-already-opened", filename);
+            dialogue_message ("account-already-opened", filename);
 
             /* the lock is already created, return TRUE */
             etat.fichier_deja_ouvert = 1;

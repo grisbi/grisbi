@@ -2038,7 +2038,7 @@ void affiche_dialogue_soldes_minimaux (void)
     }
 
     if (strlen (texte_affiche))
-		dialog_message ("minimum-balance-alert", texte_affiche);
+		dialogue_message ("minimum-balance-alert", texte_affiche);
     g_free (texte_affiche);
 }
 
