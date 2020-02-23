@@ -6,7 +6,6 @@
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */
 
-
 struct ConditionalMessage
 {
     const gchar * name;
@@ -51,14 +50,6 @@ void 		dialogue_warning 							(const gchar *text);
 void 		dialogue_warning_hint 						(const gchar *text,
 														 const gchar *hint);
 gboolean 	dialogue_yes_no 							(const gchar *text,
-gchar *		make_pango_attribut 						(const gchar *attribut,
-														 const gchar *text);
-gchar *		make_red 									(const gchar *text);
-gboolean 	question_conditional_yes_no 				(const gchar *var);
-gint 		question_conditional_yes_no_get_no_struct 	(struct ConditionalMessage *msg,
-														 const gchar *name);
-gboolean 	question_conditional_yes_no_with_struct 	(struct ConditionalMessage *msg);
-gboolean 	question_yes_no 							(const gchar *text,
 														 const gchar *hint,
 														 gint default_answer);
 /* END_DECLARATION */
