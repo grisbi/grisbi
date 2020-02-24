@@ -51,7 +51,6 @@
 /*END_INCLUDE*/
 
 /* START_EXTERN Variables externes PROVISOIRE */
-extern struct ConditionalMessage delete_msg[];
 /*END_EXTERN*/
 
 struct _GrisbiSettingsPrivate
@@ -374,13 +373,14 @@ static void grisbi_settings_init_settings_geometry (GSettings *settings)
 static void grisbi_settings_init_settings_messages_delete (GSettings *settings)
 {
     gint i;
+	ConditionalMsg *warning;
 
-    for (i = 0; delete_msg[i].name; i ++)
+	warning = (ConditionalMsg*) dialogue_get_tab_delete_msg ();
+    for (i = 0; (warning+i)->name; i ++)
     {
-        delete_msg[i].hidden = !g_settings_get_boolean (G_SETTINGS (settings),
-                        delete_msg[i].name);
-        if (delete_msg[i].hidden == 1)
-            delete_msg[i].default_answer = 1;
+        (warning+i)->hidden = !g_settings_get_boolean (G_SETTINGS (settings), (warning+i)->name);
+        if ((warning+i)->hidden == 1)
+            (warning+i)->default_answer = 1;
     }
 }
 
@@ -620,7 +620,6 @@ void grisbi_settings_save_app_config (void)
     GrisbiSettingsPrivate *priv;
 	gchar **recent_array;
     const gchar *tmp_str;
-    gint i;
 
     devel_debug (NULL);
 
@@ -783,14 +782,6 @@ void grisbi_settings_save_app_config (void)
     g_settings_set_boolean (G_SETTINGS (priv->settings_geometry),
                         "maximized",
                         conf.maximize_screen);
-
-    /* priv->settings_messages_delete */
-    for (i = 0; delete_msg[i].name; i ++)
-    {
-        g_settings_set_boolean (G_SETTINGS (priv->settings_messages_delete),
-                        delete_msg[i].name,
-                        !delete_msg[i].hidden);
-    }
 
     /* priv->settings_messages_tips */
     g_settings_set_int (G_SETTINGS (priv->settings_messages_tips),

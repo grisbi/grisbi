@@ -41,6 +41,7 @@ void 		dialogue_error_hint 						(const gchar *text,
 														 const gchar *hint);
 void 		dialogue_error_memory 						(void);
 GtkWidget *	dialog_get_content_area 					(GtkWidget *dialog);
+gpointer	dialogue_get_tab_delete_msg					(void);
 gpointer 	dialogue_get_tab_warning_msg				(void);
 void 		dialogue_hint 								(const gchar *text,
 														 const gchar *hint);

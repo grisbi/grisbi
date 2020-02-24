@@ -86,6 +86,38 @@ struct ConditionalMessage messages[] =
     { NULL, NULL, NULL, FALSE, FALSE },
 };
 
+/** All delete messages */
+ConditionalMsg tab_delete_msg[NBRE_MSG_DELETE] =
+{
+    { "delete-child-transaction", N_("Delete a child transaction."),
+      NULL,
+      FALSE, FALSE, },
+
+    { "delete-transaction",  N_("Delete a transaction."),
+      NULL,
+      FALSE, FALSE, },
+
+    { "delete-child-scheduled", N_("Delete a child of scheduled transaction."),
+      NULL,
+      FALSE, FALSE, },
+
+    { "delete-scheduled", N_("Delete a scheduled transaction."),
+      NULL,
+      FALSE, FALSE, },
+
+    { "delete-scheduled-occurrences", N_("Delete one or all occurrences of scheduled "
+      "transaction."),
+      NULL,
+      FALSE, FALSE, },
+
+    { "delete-rule",  N_("Delete a rule file import."),
+      NULL,
+      FALSE, FALSE, },
+
+    { NULL, NULL, NULL, FALSE, FALSE },
+};
+
+/** All messages */
 ConditionalMsg tab_warning_msg[NBRE_MSG_WARNINGS] =
 {
     { "account-already-opened", N_("File \"%s\" is already opened"),
@@ -847,6 +879,18 @@ gchar *dialogue_hint_with_entry (const gchar *text,
 GtkWidget *dialog_get_content_area (GtkWidget *dialog)
 {
     return gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+gpointer dialogue_get_tab_delete_msg (void)
+{
+	return &tab_delete_msg[0];
 }
 
 /**

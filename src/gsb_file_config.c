@@ -55,7 +55,6 @@
 
 
 /*START_EXTERN*/
-extern struct ConditionalMessage delete_msg[];
 /*END_EXTERN*/
 
 /******************************************************************************/
@@ -149,9 +148,10 @@ static void gsb_file_config_clean_config (void)
    	conf.y_position= 100;
 
     /* settings_messages_delete */
-    for (i = 0; delete_msg[i].name; i ++)
+	warning = (ConditionalMsg*) dialogue_get_tab_delete_msg ();
+	for (i = 0; (warning+i)->name; i ++)
     {
-        delete_msg[i].hidden = TRUE;
+		(warning+i)->hidden = TRUE;
     }
 
     /* settings_messages_tips */
@@ -573,14 +573,15 @@ gboolean gsb_file_config_load_app_config (void)
 											 NULL);
 
     /* settings_messages_delete */
-    for (i = 0; delete_msg[i].name; i ++)
+	warning = (ConditionalMsg*) dialogue_get_tab_delete_msg ();
+    for (i = 0; (warning+i)->name; i ++)
     {
-        delete_msg[i].hidden = !g_key_file_get_boolean (config,
+        (warning+i)->hidden = !g_key_file_get_boolean (config,
 													   "Delete_msg",
-													   delete_msg[i].name,
+													   (warning+i)->name,
 													   NULL);
-        if (delete_msg[i].hidden == 1)
-            delete_msg[i].default_answer = 1;
+        if ((warning+i)->hidden == 1)
+            (warning+i)->default_answer = 1;
     }
 
     /* settings_messages_tips */
@@ -1004,12 +1005,13 @@ gboolean gsb_file_config_save_app_config (void)
                         	conf.y_position);
 
     /* settings_messages_delete */
-    for (i = 0; delete_msg[i].name; i ++)
+	warning = (ConditionalMsg*) dialogue_get_tab_delete_msg ();
+    for (i = 0; (warning+i)->name; i ++)
     {
         g_key_file_set_boolean (config,
 								"Delete_msg",
-                        		delete_msg[i].name,
-                        		!delete_msg[i].hidden);
+                        		(warning+i)->name,
+                        		!(warning+i)->hidden);
     }
 
     /* settings_messages_tips */
