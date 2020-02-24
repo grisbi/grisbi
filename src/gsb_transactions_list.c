@@ -137,45 +137,8 @@ GSList *orphan_child_transactions = NULL;
 /*END_GLOBAL*/
 
 /*START_EXTERN*/
-extern struct ConditionalMessage messages[];
 extern GtkWidget *reconcile_sort_list_button;
 /*END_EXTERN*/
-
-/** All delete messages */
-struct ConditionalMessage delete_msg[] =
-{
-    { "delete-child-transaction", N_("Delete a child transaction."),
-      NULL,
-      FALSE, FALSE, },
-
-    { "delete-transaction",  N_("Delete a transaction."),
-      NULL,
-      FALSE, FALSE, },
-
-    { "delete-child-scheduled", N_("Delete a child of scheduled transaction."),
-      NULL,
-      FALSE, FALSE, },
-
-    { "delete-scheduled", N_("Delete a scheduled transaction."),
-      NULL,
-      FALSE, FALSE, },
-
-    { "delete-scheduled-occurrences", N_("Delete one or all occurrences of scheduled "
-      "transaction."),
-      NULL,
-      FALSE, FALSE, },
-
-    { "delete-rule",  N_("Delete a rule file import."),
-      NULL,
-      FALSE, FALSE, },
-
-/*
-    { "", N_(),
-      N_(),
-      FALSE, FALSE, },
-*/
-    { NULL, NULL, NULL, FALSE, FALSE },
-};
 
 /******************************************************************************/
 /* Private functions                                                          */
@@ -1472,7 +1435,6 @@ static gboolean gsb_transactions_list_switch_R_mark (gint transaction_number)
     gint account_number;
     GtkTreeIter iter;
     gint r_column;
-    gint msg_no = 0;
     gchar *tmp_str;
 
     r_column = gsb_transactions_list_find_element_col (ELEMENT_MARK);
@@ -1495,23 +1457,17 @@ static gboolean gsb_transactions_list_switch_R_mark (gint transaction_number)
     /* if it's a child, we ask if we want to work with the mother */
     if (gsb_data_transaction_get_mother_transaction_number (transaction_number))
     {
-        msg_no = dialogue_conditional_yes_no_get_no_struct (&messages[0],
-                        "reconcile-transaction");
-        if (msg_no < 0)
-            return FALSE;
-
     	tmp_str = g_strdup_printf (
 				   _("You are trying to reconcile or unreconcile a transaction manually, "
 				     "which is not a recommended action.This is the wrong approach.\n\n"
 				     "And moreover the transaction you try to reconcile is a child of split, so "
 				     "the modification will be done on the mother and all its children.\n\n"
 				     "Are you really sure to know what you do?"));
-        messages[msg_no].message = tmp_str;
-        if (dialogue_conditional_yes_no_with_struct (&messages[msg_no]))
+
+		if (dialogue_conditional_yes_no_with_items ("tab_warning_msg", "reconcile-transaction", tmp_str))
         {
             /* he says ok, so transaction_number becomes the mother */
-            transaction_number = gsb_data_transaction_get_mother_transaction_number (
-                        transaction_number);
+            transaction_number = gsb_data_transaction_get_mother_transaction_number (transaction_number);
             g_free (tmp_str);
         }
 	    else
@@ -2038,19 +1994,13 @@ static gboolean gsb_transactions_list_delete_archived_transactions (gint account
  **/
 static gboolean gsb_transactions_list_delete_import_rule (gint import_rule_number)
 {
-    gint msg_no = 0;
-    gchar *tmp_str;
-
-    msg_no = dialogue_conditional_yes_no_get_no_struct (&delete_msg[0], "delete-rule");
-	if (msg_no < 0)
-		return FALSE;
+	gchar *tmp_str;
 
 	tmp_str = g_strdup (_("Do you really want to delete this file import rule?"));
-    delete_msg[msg_no].message = tmp_str;
 
-    if (!dialogue_conditional_yes_no_with_struct (&delete_msg[msg_no]))
+    if (!dialogue_conditional_yes_no_with_items ("tab_delete_msg", "delete-rule", tmp_str))
     {
-        g_free(tmp_str);
+        g_free (tmp_str);
 
 		return FALSE;
     }
@@ -3429,7 +3379,6 @@ gboolean gsb_transactions_list_delete_transaction (gint transaction_number,
 {
     gchar *tmp_str;
     gint account_number;
-    gint msg_no = 0;
 
     devel_debug_int (transaction_number);
 
@@ -3466,31 +3415,26 @@ gboolean gsb_transactions_list_delete_transaction (gint transaction_number,
     /* show a warning */
     if (show_warning)
     {
-        if (gsb_data_transaction_get_mother_transaction_number (transaction_number))
+		const gchar *tmp_struct_name;
+
+		if (gsb_data_transaction_get_mother_transaction_number (transaction_number))
         {
-            msg_no = dialogue_conditional_yes_no_get_no_struct (&delete_msg[0],
-																"delete-child-transaction");
-            if (msg_no < 0)
-                return FALSE;
+			tmp_struct_name = "delete-child-transaction";
             tmp_str = g_strdup_printf (_("Do you really want to delete the child of the transaction "
 										"with party '%s' ?"),
 									  gsb_data_payee_get_name (gsb_data_transaction_get_party_number
 															   (transaction_number),
 															   FALSE));
-            delete_msg[msg_no].message = tmp_str;
         }
         else
         {
-            msg_no = dialogue_conditional_yes_no_get_no_struct (&delete_msg[0], "delete-transaction");
-        	if (msg_no < 0)
-                return FALSE;
+			tmp_struct_name = "delete-transaction";
             tmp_str = g_strdup_printf (_("Do you really want to delete transaction with party '%s' ?"),
                          			   gsb_data_payee_get_name (gsb_data_transaction_get_party_number
-																 (transaction_number),
-																 FALSE));
-            delete_msg[msg_no].message = tmp_str;
+																(transaction_number),
+																FALSE));
         }
-		if (!dialogue_conditional_yes_no_with_struct (&delete_msg[msg_no]))
+		if (!dialogue_conditional_yes_no_with_items ("tab_delete_msg", tmp_struct_name, tmp_str))
         {
             g_free(tmp_str);
 

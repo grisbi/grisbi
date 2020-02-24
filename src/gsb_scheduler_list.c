@@ -83,7 +83,6 @@ gint scheduler_current_tree_view_width = 0;
 /*END_GLOBAL*/
 
 /*START_EXTERN*/
-extern struct ConditionalMessage delete_msg[];
 /*END_EXTERN*/
 
 /*START_STATIC*/
@@ -2798,23 +2797,19 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction (gint scheduled_number,
     /* show a warning */
     if (show_warning)
     {
-        if (mother_number)
+		if (mother_number)
         {
             /* ask all the time for a child */
-            msg_no = dialogue_conditional_yes_no_get_no_struct (&delete_msg[0], "delete-child-scheduled");
-            if (msg_no < 0)
-                return FALSE;
-
             tmp_str = g_strdup_printf (_("Do you really want to delete the child of the "
 										 "scheduled transaction with party '%s' ?"),
 									   gsb_data_payee_get_name (gsb_data_scheduled_get_party_number
 															    (scheduled_number),
 															    FALSE));
-            delete_msg[msg_no].message = tmp_str;
-            if (!dialogue_conditional_yes_no_with_struct (&delete_msg[msg_no]))
+            if (!dialogue_conditional_yes_no_with_items ("tab_delete_msg", "delete-child-scheduled", tmp_str))
             {
                 g_free (tmp_str);
-                return FALSE;
+
+				return FALSE;
             }
             g_free (tmp_str);
         }
@@ -2822,21 +2817,17 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction (gint scheduled_number,
         {
             /* for a normal scheduled, ask only if no frequency, else, it will
              * have another dialog to delete the occurence or the transaction */
-            msg_no = dialogue_conditional_yes_no_get_no_struct (&delete_msg[0], "delete-scheduled");
-            if (msg_no < 0)
-                return FALSE;
-
             tmp_str = g_strdup_printf (_("Do you really want to delete the scheduled "
 										 "transaction with party '%s' ?"),
 									   gsb_data_payee_get_name (gsb_data_scheduled_get_party_number
 															    (scheduled_number),
 															    FALSE));
-            delete_msg[msg_no].message = tmp_str;
             if (!gsb_data_scheduled_get_frequency (scheduled_number)
-				&& !dialogue_conditional_yes_no_with_struct (&delete_msg[msg_no]))
+				&& !dialogue_conditional_yes_no_with_items ("tab_delete_msg", "delete-scheduled", tmp_str))
             {
                 g_free (tmp_str);
-                return FALSE;
+
+				return FALSE;
             }
             g_free (tmp_str);
         }
@@ -2860,22 +2851,23 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction (gint scheduled_number,
     {
         /* ask if we want to remove only the current one (so only change the date
          * for the next) or all (so remove the transaction */
-
         if (gsb_data_scheduled_get_frequency (scheduled_number))
         {
             GtkWidget *checkbox;
             GtkWidget *dialog = NULL;
             GtkWidget *vbox;
             gchar *occurrences;
+			ConditionalMsg *warning;
 
-            msg_no = dialogue_conditional_yes_no_get_no_struct (&delete_msg[0],
+			warning = (ConditionalMsg*) dialogue_get_tab_delete_msg ();
+            msg_no = dialogue_conditional_yes_no_get_no_struct (warning,
 																"delete-scheduled-occurrences");
 
             if (msg_no < 0)
 				return FALSE;
 
-            if (delete_msg[msg_no].hidden)
-				result = delete_msg[msg_no].default_answer;
+            if ((warning+msg_no)->hidden)
+				result = (warning+msg_no)->default_answer;
             else
             {
 				tmp_str = utils_real_get_string (gsb_data_scheduled_get_amount (scheduled_number));
@@ -2907,13 +2899,13 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction (gint scheduled_number,
 				g_signal_connect (G_OBJECT (checkbox),
 								  "toggled",
 								  G_CALLBACK (dialogue_update_struct_message),
-								  &delete_msg[msg_no]);
+								  (warning+msg_no));
 				gtk_box_pack_start (GTK_BOX (vbox), checkbox, TRUE, TRUE, MARGIN_BOX);
 				gtk_widget_show_all (checkbox);
 
 				result = gtk_dialog_run (GTK_DIALOG (dialog));
 
-				delete_msg[msg_no].default_answer = result;
+				(warning+msg_no)->default_answer = result;
 				g_free (occurrences);
 				gtk_widget_destroy (dialog);
             }

@@ -31,6 +31,7 @@
 /*START_INCLUDE*/
 #include "dialog.h"
 #include "grisbi_app.h"
+#include "grisbi_settings.h"
 #include "parametres.h"
 #include "structures.h"
 #include "erreur.h"
@@ -41,50 +42,6 @@
 
 /*START_EXTERN*/
 /*END_EXTERN*/
-
-/** All messages */
-struct ConditionalMessage messages[] =
-{
-    { "encryption-is-irreversible", N_("Encryption is irreversible."),
-      N_("Grisbi encrypts files in a very secure way that does not allow recovery without "
-      "original password. It means that if you forget your password, you will lose all "
-      "your data. Use with caution.\n\nI repeat: if you ever forget your password, there "
-      "is no coming back, we cannot help you."),
-      FALSE, FALSE, },
-
-    { "account-file-readable",  N_("Account file is world readable."),
-      N_("Your account file should not be readable by anybody else, but it is. You should "
-      "change its permissions."),
-      FALSE, FALSE, },
-
-    { "account-already-opened", N_("File \"%s\" is already opened"),
-      N_("Either this file is already opened by another user or it wasn't closed correctly "
-      "(maybe Grisbi crashed?).\nGrisbi can't save the file unless you activate the "
-      "\"Force saving locked files\" option in setup."),
-      FALSE, FALSE, },
-
-    { "minimum-balance-alert", N_("Account under desired balance"),
-      N_("Grisbi detected that an account is under a desired balance: %s"),
-      FALSE, FALSE, },
-
-    { "reconcile-transaction", N_("Confirmation of manual (un)reconciliation"),
-      N_("You are trying to reconcile or unreconcile a transaction manually, "
-	  "which is not a recommended action.\n"
-      "Are you really sure you know what you are doing?"),
-      FALSE, FALSE, },
-
-    { "development-version", N_("You are running Grisbi version %s"),
-      N_("Warning, please be aware that the version you run is a DEVELOPMENT version. "
-      "Never use your original file Grisbi: you could make it unusable.\n"
-      "Make a copy now."),
-      FALSE, FALSE },
-
-    { "remove-backup-files", N_("Removing backups from the account file"),
-      N_("You will delete %d backups from your account file that are older than %s."),
-      FALSE, FALSE, },
-
-    { NULL, NULL, NULL, FALSE, FALSE },
-};
 
 /** All delete messages */
 ConditionalMsg tab_delete_msg[NBRE_MSG_DELETE] =
@@ -243,9 +200,21 @@ static void dialogue_special (GtkMessageType param,
 static gboolean dialogue_update_var (GtkWidget *checkbox,
 									 gint message)
 {
+	GSettings *settings;
+
     tab_warning_msg[message].hidden = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(checkbox));
 
-    return FALSE;
+	/* set g_settings */
+	settings = grisbi_settings_get_settings (SETTINGS_MESSAGES_WARNINGS);
+	if (tab_warning_msg[message].hidden)
+		g_settings_set_boolean (G_SETTINGS (settings),
+								tab_warning_msg[message].name,
+								FALSE);
+	else
+		g_settings_reset (G_SETTINGS (settings),
+						  tab_warning_msg[message].name);
+
+	return FALSE;
 }
 
 /**
@@ -272,7 +241,7 @@ static GtkDialog *dialogue_conditional_new (const gchar *text,
 	gchar *label;
     gint i;
 
-    if (!var || !strlen (var))
+	if (!var || !strlen (var))
         return NULL;
 
     for  (i = 0; tab_warning_msg[i].name; i++)
@@ -593,31 +562,107 @@ gboolean dialogue_conditional_yes_no (const gchar *var)
     gint i;
     gint response;
 
-    for  (i = 0; messages[i].name; i++)
+    for  (i = 0; tab_warning_msg[i].name; i++)
     {
-        if (!strcmp (messages[i].name, var))
+        if (!strcmp (tab_warning_msg[i].name, var))
         {
-            if (messages[i].hidden)
+            if (tab_warning_msg[i].hidden)
             {
-                return messages[i].default_answer;
+                return tab_warning_msg[i].default_answer;
             }
             break;
         }
     }
 
-	text = make_hint (messages[i].hint, messages[i].message);
+	text = make_hint (tab_warning_msg[i].hint, tab_warning_msg[i].message);
     dialog = dialogue_conditional_new (text, var, GTK_MESSAGE_WARNING, GTK_BUTTONS_YES_NO);
 	g_free (text);
 
     response = gtk_dialog_run (GTK_DIALOG (dialog));
 
     if (response == GTK_RESPONSE_YES)
-        messages[i].default_answer = TRUE;
+        tab_warning_msg[i].default_answer = TRUE;
     else
-        messages[i].default_answer = FALSE;
+        tab_warning_msg[i].default_answer = FALSE;
 
     gtk_widget_destroy (GTK_WIDGET (dialog));
-    return messages[i].default_answer;
+
+	return tab_warning_msg[i].default_answer;
+}
+
+/**
+ * Pop up a warning dialog window with a question and a checkbox that allow
+ * this message not to be displayed again thanks to preferences and wait
+ * for user to press 'YES' or 'NO'.
+ *
+ * \param 	struct ConditionalMessage
+ *
+ * \return	TRUE if user pressed 'YES'. FALSE otherwise.
+ **/
+gboolean dialogue_conditional_yes_no_with_items (const gchar *tab_name,
+												 const gchar *struct_name,
+												 const gchar *tmp_msg)
+{
+    GtkWidget *checkbox;
+    GtkWidget *dialog;
+    GtkWidget *vbox;
+	gint i;
+    gchar *text;
+    gint response;
+	ConditionalMsg msg = {NULL, NULL, NULL, FALSE, FALSE};
+
+	if (g_strcmp0 (tab_name, "tab_delete_msg") == 0)
+	{
+		for  (i = 0; tab_delete_msg[i].name; i++)
+		{
+			msg = tab_delete_msg[i];
+			if (strcmp (msg.name, struct_name) == 0)
+				break;
+		}
+	}
+	else
+	{
+		for  (i = 0; tab_warning_msg[i].name; i++)
+		{
+			msg = tab_warning_msg[i];
+			if (strcmp (msg.name, struct_name) == 0)
+				break;
+		}
+	}
+
+    if (msg.hidden)
+        return msg.default_answer;
+
+    text = make_hint (gettext (msg.hint), tmp_msg);
+    dialog = gtk_message_dialog_new (GTK_WINDOW (grisbi_app_get_active_window (NULL)),
+									 GTK_DIALOG_DESTROY_WITH_PARENT,
+									 GTK_MESSAGE_WARNING,
+									 GTK_BUTTONS_YES_NO,
+									 NULL);
+    gtk_dialog_set_default_response (GTK_DIALOG(dialog), GTK_RESPONSE_NO);
+    gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG (dialog), text);
+	g_free (text);
+
+    vbox = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+
+    checkbox = gtk_check_button_new_with_label (_("Keep this choice permanently?"));
+    g_signal_connect (G_OBJECT (checkbox),
+					  "toggled",
+                      G_CALLBACK (dialogue_update_struct_message),
+                      &msg);
+    gtk_box_pack_start (GTK_BOX (vbox), checkbox, TRUE, TRUE, MARGIN_BOX);
+    gtk_widget_show_all (checkbox);
+
+    response = gtk_dialog_run (GTK_DIALOG (dialog));
+
+    if (response == GTK_RESPONSE_YES)
+        msg.default_answer = TRUE;
+    else
+        msg.default_answer = FALSE;
+
+    gtk_widget_destroy (GTK_WIDGET (dialog));
+
+	return msg.default_answer;
 }
 
 /**
@@ -795,20 +840,20 @@ void dialogue_message (const gchar *label, ...)
     va_list ap;
     gint i = 0;
 
-    while (messages[i].name)
+    while (tab_warning_msg[i].name)
     {
-		if (!strcmp (messages[i].name, label))
+		if (!strcmp (tab_warning_msg[i].name, label))
 		{
-			if (! messages[i].hidden)
+			if (! tab_warning_msg[i].hidden)
 			{
 				gchar hint_buffer[1024];
 				gchar message_buffer[1024];
 
 				va_start (ap, label);
-				vsnprintf (hint_buffer, sizeof hint_buffer, _(messages[i].hint), ap);
-				vsnprintf (message_buffer, sizeof message_buffer, _(messages[i].message), ap);
+				vsnprintf (hint_buffer, sizeof hint_buffer, _(tab_warning_msg[i].hint), ap);
+				vsnprintf (message_buffer, sizeof message_buffer, _(tab_warning_msg[i].message), ap);
 
-				dialogue_conditional_hint (message_buffer,hint_buffer, messages[i].name);
+				dialogue_conditional_hint (message_buffer,hint_buffer, tab_warning_msg[i].name);
 				va_end(ap);
 			}
 			return;

@@ -46,7 +46,6 @@
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern struct ConditionalMessage messages[];
 /*END_EXTERN*/
 
 /******************************************************************************/
@@ -391,14 +390,15 @@ void gsb_file_util_change_permissions (void)
 void gsb_file_util_display_warning_permissions (void)
 {
     gint msg_no = 0;
+	ConditionalMsg *warning;
 
     devel_debug (NULL);
-
-    msg_no = dialogue_conditional_yes_no_get_no_struct (&messages[0], "account-file-readable");
+	warning = (ConditionalMsg*) dialogue_get_tab_warning_msg ();
+    msg_no = dialogue_conditional_yes_no_get_no_struct (warning, "account-file-readable");
     if (msg_no < 0)
         return;
 
-    dialogue_conditional_hint (_(messages[msg_no].message), _(messages[msg_no].hint), "account-file-readable");
+    dialogue_conditional_hint (_((warning+msg_no)->message), _((warning+msg_no)->hint), "account-file-readable");
 }
 
 /**

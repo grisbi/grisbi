@@ -80,7 +80,7 @@ static gboolean sortie_edit_payee = FALSE;
 static struct MetatreeHoldPosition *payee_hold_position;
 
 /* structure pour la sauvegarde de la valeur default_answer */
-static struct ConditionalMessage overwrite_payee;
+static ConditionalMsg overwrite_payee = {NULL, NULL, NULL, FALSE, FALSE};
 /*END_STATIC*/
 
 /*START_EXTERN*/

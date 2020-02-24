@@ -34,6 +34,9 @@ void 		dialogue_conditional_hint 					(const gchar *text,
 gboolean 	dialogue_conditional_yes_no 				(const gchar *var);
 gint 		dialogue_conditional_yes_no_get_no_struct 	(ConditionalMsg *msg,
 														 const gchar *name);
+gboolean 	dialogue_conditional_yes_no_with_items 		(const gchar *tab_name,
+														 const gchar *struct_name,
+														 const gchar *tmp_msg);
 gboolean 	dialogue_conditional_yes_no_with_struct 	(ConditionalMsg *msg);
 void 		dialogue_error 								(const gchar *text);
 void 		dialogue_error_brain_damage 				(void);

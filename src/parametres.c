@@ -95,7 +95,6 @@ GtkWidget *fenetre_preferences = NULL;
 
 
 /*START_EXTERN*/
-extern struct ConditionalMessage delete_msg[];
 /*END_EXTERN*/
 
 /******************************************************************************/
