@@ -131,7 +131,7 @@ ConditionalMsg tab_warning_msg[NBRE_MSG_WARNINGS] =
  * \return		a pango formated string with the two arguments concatenated.
  * 				It returns a newly allocated string which must be freed when no more used.
  **/
-static gchar *make_hint (const gchar *hint,
+static gchar *dialogue_make_hint (const gchar *hint,
 						 const gchar *text)
 {
     gchar *tmp_str = NULL;
@@ -176,7 +176,7 @@ static void dialogue_special (GtkMessageType param,
 
     if (hint)
     {
-        gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG (dialog), make_hint (primary_text, NULL));
+        gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG (dialog), dialogue_make_hint (primary_text, NULL));
         gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog), "%s", text);
     }
     else
@@ -455,7 +455,7 @@ GtkWidget *dialogue_special_no_run (GtkMessageType param,
 
     if (hint)
     {
-        gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG (dialog), make_hint (primary_text, NULL));
+        gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG (dialog), dialogue_make_hint (primary_text, NULL));
         gtk_message_dialog_format_secondary_markup (GTK_MESSAGE_DIALOG (dialog), "%s", text);
     }
     else
@@ -500,7 +500,7 @@ void dialogue_conditional_hint (const gchar *text,
 								const gchar *hint,
 								const gchar *var)
 {
-    dialogue_conditional (make_hint(hint, text), var);
+    dialogue_conditional (dialogue_make_hint(hint, text), var);
 }
 
 /**
@@ -574,7 +574,7 @@ gboolean dialogue_conditional_yes_no (const gchar *var)
         }
     }
 
-	text = make_hint (tab_warning_msg[i].hint, tab_warning_msg[i].message);
+	text = dialogue_make_hint (tab_warning_msg[i].hint, tab_warning_msg[i].message);
     dialog = dialogue_conditional_new (text, var, GTK_MESSAGE_WARNING, GTK_BUTTONS_YES_NO);
 	g_free (text);
 
@@ -633,7 +633,7 @@ gboolean dialogue_conditional_yes_no_with_items (const gchar *tab_name,
     if (msg.hidden)
         return msg.default_answer;
 
-    text = make_hint (gettext (msg.hint), tmp_msg);
+    text = dialogue_make_hint (gettext (msg.hint), tmp_msg);
     dialog = gtk_message_dialog_new (GTK_WINDOW (grisbi_app_get_active_window (NULL)),
 									 GTK_DIALOG_DESTROY_WITH_PARENT,
 									 GTK_MESSAGE_WARNING,
@@ -685,7 +685,7 @@ gboolean dialogue_conditional_yes_no_with_struct (ConditionalMsg *msg)
     if (msg->hidden)
         return msg->default_answer;
 
-    text = make_hint (gettext (msg->hint), msg->message);
+    text = dialogue_make_hint (gettext (msg->hint), msg->message);
     dialog = gtk_message_dialog_new (GTK_WINDOW (grisbi_app_get_active_window (NULL)),
 									 GTK_DIALOG_DESTROY_WITH_PARENT,
 									 GTK_MESSAGE_WARNING,
