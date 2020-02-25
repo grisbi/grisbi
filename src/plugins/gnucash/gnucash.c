@@ -296,122 +296,121 @@ void recuperation_donnees_gnucash_categorie ( xmlNodePtr categ_node )
  */
 void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node )
 {
-  struct ImportTransaction * transaction;
-  struct ImportAccount * account = NULL;
-  struct gnucash_split * split;
-  gchar * date_string, *space, *tiers;
-  GDate * date;
-  xmlNodePtr splits, split_node, date_node;
-  GSList * split_list = NULL;
-  GsbReal total = { 0 , 0 };
+	struct ImportTransaction * transaction;
+	struct ImportAccount * account = NULL;
+	struct gnucash_split * split;
+	gchar * date_string, *space, *tiers;
+	GDate * date;
+	xmlNodePtr splits, split_node, date_node;
+	GSList * split_list = NULL;
+	GsbReal total = { 0 , 0 };
 
-  /* Transaction amount, category, account, etc.. */
-  splits = get_child ( transaction_node, "splits" );
-  split_node = splits -> children;
+	/* Transaction amount, category, account, etc.. */
+	splits = get_child ( transaction_node, "splits" );
+	split_node = splits -> children;
 
-  while ( split_node )
+	while ( split_node )
     {
-      struct ImportAccount * split_account = NULL;
-      struct gnucash_category * categ = NULL;
-      gint p_r = OPERATION_NORMALE;
-      GsbReal amount;
+		struct ImportAccount * split_account = NULL;
+		struct gnucash_category * categ = NULL;
+		gint p_r = OPERATION_NORMALE;
+		GsbReal amount;
 
-      /**
-       * Gnucash transactions are in fact "splits", much like grisbi's
-       * splits of transactions.  We need to parse all splits and
-       * see whether they are transfers to real accounts or transfers
-       * to category accounts.  In that case, we only create one
-       * transactions.  The other is discarded as grisbi is not a
-       * double part financial engine.
-       */
-      if ( node_strcmp ( split_node, "split" ) )
-	{
-	  gchar * account_name = NULL, * categ_name = NULL;
+		/**
+		* Gnucash transactions are in fact "splits", much like grisbi's
+		* splits of transactions.  We need to parse all splits and
+		* see whether they are transfers to real accounts or transfers
+		* to category accounts.  In that case, we only create one
+		* transactions.  The other is discarded as grisbi is not a
+		* double part financial engine.
+		*/
+		if ( node_strcmp ( split_node, "split" ) )
+		{
+			gchar * account_name = NULL, * categ_name = NULL;
 
-	  split_account = find_imported_account_by_uid ( child_content ( split_node,
-									"account" ) );
-	  categ = find_imported_categ_by_uid ( child_content ( split_node, "account" ) );
-	  amount = gnucash_value ( child_content(split_node, "value") );
+			split_account = find_imported_account_by_uid ( child_content ( split_node, "account" ) );
+			categ = find_imported_categ_by_uid ( child_content ( split_node, "account" ) );
+			amount = gnucash_value ( child_content(split_node, "value") );
 
-	  if ( categ )
-	    categ_name = categ -> name;
-	  if ( split_account )
-	    {
-	      /* All of this stuff is here since we are dealing with
-		 the account split, not the category one */
-	      account_name = split_account -> nom_de_compte;
-	      total = gsb_real_add ( total,
-				     amount );
-	      if ( strcmp(child_content(split_node, "reconciled-state"), "n") )
-		p_r = OPERATION_RAPPROCHEE;
-	    }
+			if ( categ )
+				categ_name = categ -> name;
+			if ( split_account )
+			{
+				/* All of this stuff is here since we are dealing with
+				the account split, not the category one */
+				account_name = split_account -> nom_de_compte;
+				total = gsb_real_add ( total,
+						 amount );
+				if ( strcmp(child_content(split_node, "reconciled-state"), "n") )
+					p_r = OPERATION_RAPPROCHEE;
+			}
 
-	  split = find_split ( split_list, amount, split_account, categ );
-	  if ( split )
-	    {
-	      update_split ( split, amount, account_name, categ_name );
-	    }
-	  else
-	    {
-	      split = new_split ( amount, account_name, categ_name );
-	      split_list = g_slist_append ( split_list, split );
-	      split -> notes = child_content(split_node, "memo");
-	    }
-	  if ( p_r != OPERATION_NORMALE )
-	      split -> p_r = p_r;
-	}
+			split = find_split ( split_list, amount, split_account, categ );
+			if ( split )
+			{
+				update_split ( split, amount, account_name, categ_name );
+			}
+			else
+			{
+				split = new_split ( amount, account_name, categ_name );
+				split_list = g_slist_append ( split_list, split );
+				split -> notes = child_content(split_node, "memo");
+			}
+			if ( p_r != OPERATION_NORMALE )
+				split -> p_r = p_r;
+		}
 
-      split_node = split_node -> next;
+		split_node = split_node -> next;
     }
 
-  if ( ! split_list )
-    return;
+	if ( ! split_list )
+		return;
 
-  /* Transaction date */
-  date_node = get_child ( transaction_node, "date-posted" );
-  date_string = child_content (date_node, "date");
-  space = strchr ( date_string, ' ' );
-  if ( space )
-    *space = 0;
-  date = g_date_new ();
-  g_date_set_parse ( date, date_string );
-  if ( !g_date_valid ( date ))
-    fprintf ( stderr, "grisbi: Can't parse date %s\n", date_string );
+	/* Transaction date */
+	date_node = get_child ( transaction_node, "date-posted" );
+	date_string = child_content (date_node, "date");
+	space = strchr ( date_string, ' ' );
+	if ( space )
+		*space = 0;
+	date = g_date_new ();
+	g_date_set_parse ( date, date_string );
+	if ( !g_date_valid ( date ))
+		fprintf ( stderr, "grisbi: Can't parse date %s\n", date_string );
 
-  /* Tiers */
-  tiers = child_content ( transaction_node, "description" );
+	/* Tiers */
+	tiers = child_content ( transaction_node, "description" );
 
-  /* Create transaction */
-  split = split_list -> data;
-  transaction = new_transaction_from_split ( split, tiers, date );
-  transaction -> operation_ventilee = 0;
-  transaction -> ope_de_ventilation = 0;
-  account = find_imported_account_by_name ( split -> account );
-  if ( account )
-    account -> operations_importees = g_slist_append ( account -> operations_importees, transaction );
+	/* Create transaction */
+	split = split_list -> data;
+	transaction = new_transaction_from_split ( split, tiers, date );
+	transaction -> operation_ventilee = 0;
+	transaction -> ope_de_ventilation = 0;
+	account = find_imported_account_by_name ( split -> account );
+	if ( account )
+		account -> operations_importees = g_slist_append ( account -> operations_importees, transaction );
 
-  /** Splits of transactions are handled the same way, we process
-      them if we find more than one split in transaction node. */
-  if ( g_slist_length ( split_list ) > 1 )
-    {
-      transaction -> operation_ventilee = 1;
-      transaction -> montant = total;
-
-      while ( split_list )
+	/** Splits of transactions are handled the same way, we process
+	  them if we find more than one split in transaction node. */
+	if ( g_slist_length ( split_list ) > 1 )
 	{
-	  split = split_list -> data;
-	  account = NULL;
+		transaction -> operation_ventilee = 1;
+		transaction -> montant = total;
 
-	  transaction = new_transaction_from_split ( split, tiers, date );
-	  transaction -> ope_de_ventilation = 1;
+		while ( split_list )
+		{
+			split = split_list -> data;
+			account = NULL;
 
-	  account = find_imported_account_by_name ( split -> account );
-	  if ( account )
-	    account -> operations_importees = g_slist_append ( account -> operations_importees, transaction );
+			transaction = new_transaction_from_split ( split, tiers, date );
+			transaction -> ope_de_ventilation = 1;
 
-	  split_list = split_list -> next;
+			account = find_imported_account_by_name ( split -> account );
+			if ( account )
+				account -> operations_importees = g_slist_append ( account -> operations_importees, transaction );
+
+			split_list = split_list -> next;
+		}
 	}
-    }
 }
 
 
