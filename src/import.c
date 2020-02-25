@@ -5067,6 +5067,46 @@ gchar *gsb_import_unique_imported_name (gchar *account_name)
     return basename;
 }
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void gsb_import_free_transaction (struct ImportTransaction *transaction)
+{
+	if (transaction->id_operation)
+		g_free (transaction->id_operation);
+
+	if (transaction->date)
+		g_date_free (transaction->date);
+	if (transaction->date_de_valeur)
+		g_date_free (transaction->date_de_valeur);
+	if (transaction->date_tmp)
+		g_free (transaction->date_tmp);
+
+	if (transaction->tiers)
+		g_free (transaction->tiers);
+	if (transaction->notes)
+		g_free (transaction->notes);
+	if (transaction->cheque)
+		g_free (transaction->cheque);
+
+	if (transaction->categ)
+		g_free (transaction->categ);
+	if (transaction->budget)
+		g_free (transaction->budget);
+
+	if (transaction->dest_account_name)
+		g_free (transaction->dest_account_name);
+
+	if (transaction->guid)
+		g_free (transaction->guid);
+
+	g_free (transaction);
+}
+
 /******************************************************************************/
 /* Fonctions de gestion des règles d'importation directe                      */
 /******************************************************************************/

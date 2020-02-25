@@ -388,6 +388,8 @@ void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node )
 	account = find_imported_account_by_name ( split -> account );
 	if ( account )
 		account -> operations_importees = g_slist_append ( account -> operations_importees, transaction );
+	else
+		gsb_import_free_transaction (transaction);
 
 	/** Splits of transactions are handled the same way, we process
 	  them if we find more than one split in transaction node. */
@@ -407,6 +409,8 @@ void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node )
 			account = find_imported_account_by_name ( split -> account );
 			if ( account )
 				account -> operations_importees = g_slist_append ( account -> operations_importees, transaction );
+			else
+				gsb_import_free_transaction (transaction);
 
 			split_list = split_list -> next;
 		}
