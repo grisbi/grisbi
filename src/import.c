@@ -2036,7 +2036,6 @@ static gboolean gsb_import_enter_resume_page (GtkWidget *assistant)
     }
 	else if (import_categories)
 	{
-		printf ("Importation de catégories\n");
         gtk_text_buffer_insert_with_tags_by_name (buffer, &iter, _("Congratulations!"), -1, "x-large", NULL);
         gtk_text_buffer_insert (buffer, &iter, "\n\n", -1);
 
