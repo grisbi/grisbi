@@ -42,24 +42,6 @@
 
 
 /**
- * returns the full name of the GUI file
- *
- * \param name  name of Xml file
- *
- * \return      full filename
- *
- * */
-gchar *utils_gtkbuilder_get_full_path ( const gchar *name )
-{
-    gchar *filename;
-
-    filename = g_build_filename ( gsb_dirs_get_ui_dir ( ), name, NULL );
-
-    return filename;
-}
-
-
-/**
  * returns the desired widget from an ui file
  *
  * \param builder
@@ -95,75 +77,26 @@ GtkWidget *utils_gtkbuilder_get_widget_by_name ( GtkBuilder *builder,
  *
  * \return
  * */
-gint utils_gtkbuilder_merge_ui_data_in_builder ( GtkBuilder *builder,
-                    const gchar *ui_name )
+gint utils_gtkbuilder_merge_ui_data_in_builder (GtkBuilder *builder,
+												const gchar *ui_name)
 {
-    gchar *filename;
-    gint result;
+    gchar *ressource;
+    guint result;
     GError *error = NULL;
 
+	ressource = g_strconcat ("/org/gtk/grisbi/ui/", ui_name, NULL);
+
     /* Chargement du XML dans bet_graph_builder */
-    filename = utils_gtkbuilder_get_full_path ( ui_name );
-    if ( !g_file_test ( filename, G_FILE_TEST_EXISTS ) )
-    {
-        gchar* tmpstr;
-
-        tmpstr = g_strdup_printf ( _("Cannot open file '%s': %s"),
-                        filename,
-                        _("File does not exist") );
-        dialogue_error ( tmpstr );
-        g_free ( tmpstr );
-        g_free ( filename );
-        return 0;
-    }
-
-    result = gtk_builder_add_from_file ( builder, filename, &error );
+    result = gtk_builder_add_from_resource (builder, ressource, &error );
     if ( result == 0 )
     {
         g_error ("%s", error->message);
         g_error_free ( error );
     }
-    g_free ( filename );
+    g_free (ressource);
 
-    return result;
+    return (gint) result;
 }
-
-
-/**
- *  return a new GtkBuilder initiate with a file
- *
- * \param gchar         short name of UI file
- *
- * \return GtkBuilder    new GtkBuildeR
- * */
-GtkBuilder *utils_gtk_builder_new_from_file ( const gchar *ui_name )
-{
-    GtkBuilder *builder;
-    gchar *filename;
-
-    /* obtention du nom long du fichier UI */
-    filename = utils_gtkbuilder_get_full_path ( ui_name );
-    if ( !g_file_test ( filename, G_FILE_TEST_EXISTS ) )
-    {
-        gchar* tmpstr;
-
-        tmpstr = g_strdup_printf ( _("Cannot open file '%s': %s"),
-                        filename,
-                        _("File does not exist") );
-        dialogue_error ( tmpstr );
-        g_free ( tmpstr );
-        g_free ( filename );
-
-        return NULL;
-    }
-
-    builder = gtk_builder_new_from_file ( filename );
-
-    g_free ( filename );
-
-    return builder;
-}
-
 
 /**
  *

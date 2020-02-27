@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
 	<gresource prefix="/org/gtk/grisbi/ui">
+		<file preprocess="xml-stripblanks">bet_graph.ui</file>
 		<file preprocess="xml-stripblanks">csv_template_rule.ui</file>
+		<file preprocess="xml-stripblanks">etats_prefs.ui</file>
 		<file preprocess="xml-stripblanks">grisbi_menu.ui</file>
 		<file preprocess="xml-stripblanks">grisbi_prefs.ui</file>
 		<file preprocess="xml-stripblanks">grisbi_win.ui</file>
