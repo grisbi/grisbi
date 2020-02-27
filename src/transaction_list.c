@@ -1152,7 +1152,11 @@ gboolean transaction_list_update_transaction ( gint transaction_number )
             record = record -> transaction_records[i];
 
         if ( !record )
+		{
+			g_free (children_rows);
+
             return FALSE;
+		}
 
         /* the tmp record will contain the new gchars of columns */
         tmp_record = transaction_list_create_record (transaction_number, i);

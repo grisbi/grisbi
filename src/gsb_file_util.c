@@ -207,6 +207,11 @@ gboolean gsb_file_util_get_contents (const gchar *filename,
 
 			if (iterator >= (gint) alloc_size)
 			{
+				gchar *old_content;
+
+				/* on mémorise le dernier contenu valide */
+				old_content = content;
+
 				/* we need more space, should be rare,
 				 * show a warning to prevent and correct if necessary */
 				devel_debug ("Realloc is needed, if this message comes often, "
@@ -216,6 +221,7 @@ gboolean gsb_file_util_get_contents (const gchar *filename,
 
 				if (!content)
 				{
+					g_free (old_content);
 					dialogue_error_memory ();
 					gzclose (file);
 					g_free (os_filename);

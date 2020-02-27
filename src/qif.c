@@ -671,29 +671,36 @@ static gint gsb_qif_cree_liste_comptes (FILE *qif_file,
 					}
 				}
 			}
-			if (tmp_str[0] == '!'|| returned_value == EOF)
+			if (returned_value == EOF)
 				break;
-
-			returned_value = utils_files_get_utf8_line_from_file (qif_file, &tmp_str, coding_system);
+			else if (tmp_str && tmp_str[0] == '!')
+				break;
+			else
+				returned_value = utils_files_get_utf8_line_from_file (qif_file, &tmp_str, coding_system);
 		}
 		while (tmp_str && returned_value != EOF && tmp_str[0] != '!');
 	}
 	//~ printf ("tmp_str en fin de liste = %s returned_value= %d\n", tmp_str, returned_value);
 
-	if (g_ascii_strncasecmp (tmp_str, "!Clear:AutoSwitch", 18) == 0)
-    {
-		returned_value = utils_files_get_utf8_line_from_file (qif_file, &tmp_str, coding_system);
-        if (last_header && strlen (last_header))
-            g_free (last_header);
-        last_header = g_strdup (tmp_str);
-    }
-
-    if (returned_value != EOF  && tmp_str && tmp_str[0] != '!')
-        return 1;
-    else if (returned_value == EOF)
+    if (returned_value == EOF)
 		return EOF;
-    else
-        return 0;
+    else																	/* tmp_str[0] = '!' */
+	{
+		if (g_ascii_strncasecmp (tmp_str, "!Clear:AutoSwitch", 18) == 0)
+		{
+			returned_value = utils_files_get_utf8_line_from_file (qif_file, &tmp_str, coding_system);
+			if (returned_value == EOF)
+				return EOF;
+			else if (tmp_str[0] != '!')
+				return 1;
+		}
+
+		if (last_header && strlen (last_header))
+			g_free (last_header);
+		last_header = g_strdup (tmp_str);
+
+		return 0;
+	}
 }
 
 /**
@@ -908,20 +915,24 @@ static gint gsb_qif_recupere_operations_from_account (FILE *qif_file,
         }
     }
 
-    if (string[0] == '!')
+	if (!imported_transaction->date_tmp)
+	{
+		g_free (imported_transaction);
+	}
+    if (returned_value != EOF  && string[0] != '!')
+	{
+		return 1;
+	}
+    else if (returned_value == EOF)
+        return EOF;
+    else													/* string[0] = '!' */
     {
         if (last_header && strlen (last_header))
             g_free (last_header);
         last_header = g_strdup (string);
-		g_free (imported_transaction);
-    }
 
-    if (returned_value != EOF  && string[0] != '!')
-        return 1;
-    else if (returned_value == EOF)
-        return EOF;
-    else
-        return 0;
+		return 0;
+	}
 }
 
 /**
@@ -1009,19 +1020,18 @@ static gint gsb_qif_recupere_categories (FILE *qif_file,
     }
     while (tmp_str && tmp_str[0] != '^' && returned_value != EOF && tmp_str[0] != '!');
 
-	if (tmp_str[0] == '!')
+    if (returned_value != EOF  && tmp_str && tmp_str[0] != '!')		/* tmp_str[0] = '^' */
+        return 1;
+    else if (returned_value == EOF)
+        return EOF;
+    else															/* tmp_str[0] = '!' */
     {
         if (last_header && strlen (last_header))
             g_free (last_header);
         last_header = g_strdup (tmp_str);
-    }
 
-    if (returned_value != EOF  && tmp_str && tmp_str[0] != '!')
-        return 1;
-    else if (returned_value == EOF)
-        return EOF;
-    else
-        return 0;
+		return 0;
+    }
 }
 
 /**
@@ -1054,19 +1064,16 @@ static gint gsb_qif_passe_ligne (FILE *qif_file,
 		while (returned_value != EOF && tmp_str[0] != '!');
 	}
 
-	if (tmp_str[0] == '!')
+    if (returned_value == EOF)
+        return EOF;
+    else 		/* tmp_str[0] == '!' */
     {
         if (last_header && strlen (last_header))
             g_free (last_header);
         last_header = g_strdup (tmp_str);
-    }
 
-	if (returned_value != EOF  && tmp_str && tmp_str[0] != '!')
-        return 1;
-    else if (returned_value == EOF)
-        return EOF;
-    else
-        return 0;
+		return 0;
+    }
 }
 
 /******************************************************************************/
@@ -1127,6 +1134,9 @@ gboolean recuperation_donnees_qif (GtkWidget *assistant,
 				{
 					/* On est dans une liste de comptes */
 					returned_value = utils_files_get_utf8_line_from_file (qif_file, &tmp_str, imported->coding_system);
+					if (returned_value == EOF)
+						break;
+
 					if (g_ascii_strncasecmp (tmp_str, "!Account", 8) == 0)
 					{
 						returned_value = gsb_qif_cree_liste_comptes (qif_file, imported->coding_system, imported->name);
@@ -1135,6 +1145,7 @@ gboolean recuperation_donnees_qif (GtkWidget *assistant,
 						{
 							gsb_qif_free_struct_account (imported_account);
 							premier_compte = FALSE;
+							tmp_str = last_header;
 						}
 					}
 					else
@@ -1148,7 +1159,6 @@ gboolean recuperation_donnees_qif (GtkWidget *assistant,
 				{
 					/* on regarde si le compte existe déjà */
 					account_name = gsb_qif_get_account_name (qif_file, imported->coding_system);
-					imported_account->nom_de_compte = gsb_import_unique_imported_name (account_name);
 					if (accounts_liste)
 					{
 						tmp_list = g_slist_find_custom (liste_comptes_importes,
@@ -1201,8 +1211,7 @@ gboolean recuperation_donnees_qif (GtkWidget *assistant,
 				else if (g_ascii_strncasecmp (tmp_str, "!Type:Memorized", 15) == 0)
 				{
 					/* il s'agit d'opérations mémorisées dont l'utilisation n'est pas connue */
-					/* pour l'instant on passe à la ligne suivante pour traiter normalement les opérations*/
-					returned_value = gsb_qif_recupere_categories (qif_file, imported->coding_system);
+					/* pour l'instant on sort pour traiter normalement les opérations */
 					name_preced = FALSE;
 					returned_value = -2;
 				}
@@ -1274,13 +1283,15 @@ gboolean recuperation_donnees_qif (GtkWidget *assistant,
                 liste_comptes_importes_error = g_slist_append (liste_comptes_importes_error,
 															   imported_account);
                 fclose (qif_file);
-                return FALSE;
+
+				return FALSE;
             }
             else
             {
                 /* we have at least saved an account before, ok, enough for me */
                 fclose (qif_file);
-                return TRUE;
+
+				return TRUE;
             }
         }
 
@@ -1323,6 +1334,7 @@ gboolean recuperation_donnees_qif (GtkWidget *assistant,
 						imported_account->nom_de_compte = gsb_import_unique_imported_name (tmp_str);
 
 						g_free (tmp_str);
+						tmp_str = NULL;		/* remove Memory error	Use-after-free */
 					}
 
 					/* get the date of the file */
@@ -1639,7 +1651,7 @@ gboolean qif_export (const gchar *filename,
 
 					content = gsb_data_transaction_get_method_of_payment_content (transaction_number_tmp);
 					if (content && strlen (content))
-						fprintf (fichier_qif, "N%s\n", tmp_str);
+						fprintf (fichier_qif, "N%s\n", content);
 				}
 
 				/* met le tiers */

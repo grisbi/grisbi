@@ -1176,7 +1176,11 @@ gboolean gsb_account_property_iban_set_bank_from_iban ( gchar *iban )
     model = my_strdelimit ( s_iban -> iban, " -", "" );
     tmpstr = my_strdelimit ( iban, " -", "" );
     if ( g_utf8_strlen (model, -1) != g_utf8_strlen (tmpstr, -1) )
+	{
+		g_free (tmpstr);
+
         return FALSE;
+	}
 
     code = g_malloc0 ( 36 * sizeof (gunichar) );
 
@@ -1233,9 +1237,12 @@ gboolean gsb_account_property_iban_set_bank_from_iban ( gchar *iban )
     }
     else
 	{
-        code = g_strdup ( "" );
-		gtk_label_set_text ( GTK_LABEL (label_guichet), code );
+		gchar *tmp_str2;
+
+		tmp_str2 = g_strdup ( "" );
+		gtk_label_set_text ( GTK_LABEL (label_guichet), tmp_str2);
 		gtk_widget_show ( label_guichet );
+		g_free (tmp_str2);
 	}
 
     /* set bank_account_number */
@@ -1268,7 +1275,10 @@ gboolean gsb_account_property_iban_set_bank_from_iban ( gchar *iban )
         code = g_utf8_strncpy ( code, ptr_1, (pos_char_2 - pos_char_1) + 1 );
     }
     else
+	{
+		g_free (code);
         code = g_strdup ( "" );
+	}
     gtk_label_set_text ( GTK_LABEL (label_cle_compte), code );
     gtk_widget_show ( label_cle_compte );
 
