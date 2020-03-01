@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-02-18 16:42+0100\n"
-"PO-Revision-Date: 2020-02-08 10:11+0100\n"
+"PO-Revision-Date: 2020-03-01 11:55+0100\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -9286,7 +9286,7 @@ msgstr "Importiertes Konto ohne Namen"
 
 #: ../src/import.c:2043
 msgid "You successfully imported categories file into Grisbi."
-msgstr ""
+msgstr "Die Kategorien wurden erfolgreich importiert."
 
 #: ../src/import.c:2049
 msgid "Error!"
@@ -10540,7 +10540,6 @@ msgid "Opening Balance"
 msgstr "Saldo Anfang"
 
 #: ../src/qif.c:1341
-#, fuzzy
 msgid ""
 "Grisbi couldn't determine the format of the date into the qif file.\n"
 "Please contact the Grisbi team (devel@listes.grisbi.org) to find the "
@@ -10551,7 +10550,7 @@ msgstr ""
 "werden.\n"
 "Bitte kontaktieren Sie das Grisbi-Team (devel@listes.grisbi.org) um die "
 "Ursache für den Fehler zu finden.\n"
-"Die Buchungen werden mit dem Standarddatum 01.01.1970 importiert"
+"Die Buchungen werden mit dem Standarddatum 01.01.2000 importiert"
 
 #: ../src/qif.c:1430
 #, c-format
@@ -11524,12 +11523,11 @@ msgid "Force used classic menu"
 msgstr "Klassisches Menü für verwenden"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:4
-#, fuzzy
 msgid ""
 "By default the classic menu is displayed otherwise the menu type is "
 "determined by the window manager. This option requires restarting Grisbi."
 msgstr ""
-"Das klassische Menü oder das Menü vom Betriebssystem verwenden.Nach der "
+"Das klassische Menü oder das Menü vom Betriebssystem verwenden. Nach der "
 "Auswahl muss Grisbi neu gestartet werden."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:5
@@ -13264,9 +13262,8 @@ msgid "In three lines visibles, show the lines: "
 msgstr "Dreizeilig - Zeilen: "
 
 #: ../src/ui/prefs_page_options_ope.ui.h:7
-#, fuzzy
 msgid "Transactions options"
-msgstr "Schrift Buchungen"
+msgstr "Buchungen Einstellungen"
 
 #: ../src/ui/prefs_page_options_ope.ui.h:8
 msgid "Use simple click to select transactions"
