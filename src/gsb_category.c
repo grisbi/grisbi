@@ -52,8 +52,8 @@
 
 /*START_STATIC*/
 static gint compare_basename ( gchar * file1, gchar * file2 );
-static void gsb_category_assistant_parse_file ( gchar * filename, GtkTreeModel * model );
-static GSList * gsb_category_assistant_scan_directory ( gchar * basename, GtkTreeModel * model );
+static void gsb_category_assistant_parse_file (const gchar *filename, GtkTreeModel * model );
+static GSList * gsb_category_assistant_scan_directory (const gchar *basename, GtkTreeModel * model );
 static void gsb_category_assistant_start_element ( GMarkupParseContext *context, const gchar * element_name,
 					    const gchar ** attribute_names, const gchar ** attribute_values,
 					    gchar ** return_string, GError ** error );
@@ -113,10 +113,9 @@ void gsb_category_fill_sets ( GtkTreeView * view, GtkTreeModel * model, gboolean
 	GSList * list;
 
 	if ( show_foreign ||
-	     ( strlen ( (gchar *) *languages ) && strcmp ( (gchar *) *languages, "C" ) ) )
+	     ( strlen (*languages) && strcmp (*languages, "C")))
 	{
-	    list = gsb_category_assistant_scan_directory ( (gchar *) * languages,
-							   model );
+	    list = gsb_category_assistant_scan_directory (*languages, model );
 	    while ( list )
 	    {
 		if ( ! g_slist_find_custom ( category_files, list -> data,
@@ -139,8 +138,7 @@ void gsb_category_fill_sets ( GtkTreeView * view, GtkTreeModel * model, gboolean
 
     while ( category_files )
     {
-	gsb_category_assistant_parse_file ( (gchar * ) category_files -> data,
-					    model );
+	gsb_category_assistant_parse_file (category_files -> data, model );
 
 	category_files = category_files -> next;
     }
@@ -317,7 +315,7 @@ gboolean gsb_category_update_combofix ( gboolean force )
  *
  * \return A newly allocated list of files found.
  */
-GSList * gsb_category_assistant_scan_directory ( gchar * basename, GtkTreeModel * model )
+GSList * gsb_category_assistant_scan_directory (const gchar *basename, GtkTreeModel * model )
 {
     gchar * dirname;
     GDir * dir;
@@ -369,7 +367,7 @@ GSList * gsb_category_assistant_scan_directory ( gchar * basename, GtkTreeModel 
  * \param filename	Filename to parse
  * \param model		A GtkTreeModel to fill with information found.
  */
-void gsb_category_assistant_parse_file ( gchar * filename, GtkTreeModel * model )
+void gsb_category_assistant_parse_file (const gchar *filename, GtkTreeModel * model )
 {
     GMarkupParser *markup_parser;
     GMarkupParseContext * context;

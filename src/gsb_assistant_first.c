@@ -304,7 +304,7 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
     g_signal_connect (G_OBJECT (button),
                       "selection-changed",
                       G_CALLBACK (utils_prefs_page_dir_chosen),
-                      "backup_path");
+                      (gpointer) "backup_path");
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0);
 
     gtk_widget_show_all (page);

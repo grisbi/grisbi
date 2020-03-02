@@ -675,13 +675,15 @@ static void prefs_page_display_fonts_setup_display_fonts_page (PrefsPageDisplayF
 							G_CALLBACK (prefs_page_display_fonts_checkbutton_checked),
 							&conf.custom_fonte_listes);
 
-	g_object_set_data (G_OBJECT (priv->checkbutton_display_fonts), "custom-fonte-listes", "custom-fonte-listes");
+	g_object_set_data (G_OBJECT (priv->checkbutton_display_fonts),
+					   "custom-fonte-listes",
+					   (gpointer) "custom-fonte-listes");
 
 	g_signal_connect_after (font_button,
 							"clicked",
 							G_CALLBACK (prefs_page_display_fonts_font_button_clicked),
 							&conf.font_string);
-	g_object_set_data (G_OBJECT (font_button), "font-string", "font-string");
+	g_object_set_data (G_OBJECT (font_button), "font-string", (gpointer) "font-string");
 
 	/* set the elements for colors */
 	/* set the themes buttons */

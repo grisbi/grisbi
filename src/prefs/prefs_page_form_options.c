@@ -140,7 +140,7 @@ static void prefs_page_form_options_setup_form_options_page (PrefsPageFormOption
 	button = gsb_automem_checkbutton_gsettings_new (_("Sorting descending of the exercises"),
 													&conf.fyear_combobox_sort_order,
 													G_CALLBACK (prefs_page_form_options_fyear_combobox_sort_order_changed),
-													"fyear-combobox-sort-order");
+													(gpointer) "fyear-combobox-sort-order");
 	gtk_box_pack_start (GTK_BOX (priv->box_fyear_combobox_sort_order), button, FALSE, FALSE, 0);
 
 	/* set automatic_separator variable */

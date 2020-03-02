@@ -811,7 +811,7 @@ static GtkWidget *etats_prefs_left_panel_create_tree_view ( void )
     g_signal_connect ( tree_view,
                         "realize",
                         G_CALLBACK ( utils_tree_view_set_expand_all_and_select_path_realize ),
-                        "0:0" );
+                        (gpointer) "0:0" );
 
     /* remplissage du paned gauche */
     etats_prefs_left_panel_populate_tree_model ( model, notebook );

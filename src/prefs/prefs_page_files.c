@@ -269,7 +269,7 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
     g_signal_connect (G_OBJECT (priv->filechooserbutton_backup),
                       "selection-changed",
                       G_CALLBACK (utils_prefs_page_dir_chosen),
-                      "backup_path");
+                      (gpointer) "backup_path");
 
     g_signal_connect (priv->checkbutton_force_import_directory,
 					  "toggled",
@@ -280,7 +280,7 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
     g_signal_connect (G_OBJECT (priv->filechooserbutton_force_import_directory),
                       "selection-changed",
                       G_CALLBACK (utils_prefs_page_dir_chosen),
-                      "import_directory");
+                      (gpointer) "import_directory");
 }
 
 /******************************************************************************/
