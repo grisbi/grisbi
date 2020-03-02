@@ -58,7 +58,7 @@ struct _PrefsPageMsgWarningPrivate
 	GtkWidget *			vbox_msg_warning;
 
     GtkWidget *			checkbutton_show_tip;
-	GtkWidget *			grid_display_msg;
+	//~ GtkWidget *			grid_display_msg;
     GtkWidget *         sw_display_msg;
     GtkWidget *         treeview_display_msg;
 
@@ -185,6 +185,9 @@ static GtkWidget *prefs_page_msg_warning_create_tree_view (PrefsPageMsgWarning *
     /* create the treeview */
     treeview = gtk_tree_view_new();
 	gtk_widget_set_name (treeview, "gsettings_tree_view");
+	gtk_widget_set_hexpand (treeview, TRUE);
+	gtk_widget_set_vexpand (treeview, TRUE);
+
     gtk_tree_view_set_model (GTK_TREE_VIEW (treeview), GTK_TREE_MODEL (model));
     g_object_unref (G_OBJECT(model));
 
@@ -237,10 +240,6 @@ static void prefs_page_msg_warning_setup_page (PrefsPageMsgWarning *page)
     /* set variable for checkbutton_show_tip */
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_show_tip), conf.show_tip);
 
-	/* set sw widget */
-	priv->sw_display_msg = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, 400);
-    gtk_grid_attach (GTK_GRID (priv->grid_display_msg), priv->sw_display_msg, 0, 0, 1, 1);
-
 	/* set treeview */
 	priv->treeview_display_msg = prefs_page_msg_warning_create_tree_view (page);
 	gtk_container_add (GTK_CONTAINER (priv->sw_display_msg), priv->treeview_display_msg);
@@ -276,7 +275,7 @@ static void prefs_page_msg_warning_class_init (PrefsPageMsgWarningClass *klass)
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageMsgWarning, vbox_msg_warning);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageMsgWarning, checkbutton_show_tip);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageMsgWarning, grid_display_msg);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageMsgWarning, sw_display_msg);
 }
 
 /******************************************************************************/

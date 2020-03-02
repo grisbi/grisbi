@@ -556,7 +556,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="halign">start</property>
-                    <property name="label" translatable="yes">Display a short list of entries in the payees selection box (in testing)</property>
+                    <property name="label" translatable="yes">Display a short list of entries in the payees selection box</property>
                     <attributes>
                       <attribute name="weight" value="bold"/>
                     </attributes>
@@ -638,7 +638,10 @@
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="halign">start</property>
-                            <property name="label" translatable="yes">This option limits the list to payees used by the no archived transactions</property>
+                            <property name="label" translatable="yes">(This option limits the list to payees used by the no archived transactions)</property>
+                            <property name="justify">fill</property>
+                            <property name="wrap">True</property>
+                            <property name="selectable">True</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>

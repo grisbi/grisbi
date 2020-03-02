@@ -58,7 +58,6 @@ struct _PrefsPageMsgDeletePrivate
 {
 	GtkWidget *			vbox_msg_delete;
 
-	GtkWidget *			grid_display_msg;
     GtkWidget *         sw_display_msg;
     GtkWidget *         treeview_display_msg;
 
@@ -178,6 +177,8 @@ static GtkWidget *prefs_page_msg_delete_create_tree_view (PrefsPageMsgDelete *pr
     /* create the treeview */
     treeview = gtk_tree_view_new();
 	gtk_widget_set_name (treeview, "gsettings_tree_view");
+	gtk_widget_set_hexpand (treeview, TRUE);
+	gtk_widget_set_vexpand (treeview, TRUE);
     gtk_tree_view_set_model (GTK_TREE_VIEW (treeview), GTK_TREE_MODEL (model));
     g_object_unref (G_OBJECT(model));
 
@@ -227,10 +228,6 @@ static void prefs_page_msg_delete_setup_page (PrefsPageMsgDelete *page)
 	gtk_box_pack_start (GTK_BOX (priv->vbox_msg_delete), head_page, FALSE, FALSE, 0);
 	gtk_box_reorder_child (GTK_BOX (priv->vbox_msg_delete), head_page, 0);
 
-		/* set sw widget */
-	priv->sw_display_msg = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, 400);
-    gtk_grid_attach (GTK_GRID (priv->grid_display_msg), priv->sw_display_msg, 0, 0, 1, 1);
-
 	/* set treeview */
 	priv->treeview_display_msg = prefs_page_msg_delete_create_tree_view (page);
 	gtk_container_add (GTK_CONTAINER (priv->sw_display_msg), priv->treeview_display_msg);
@@ -259,7 +256,7 @@ static void prefs_page_msg_delete_class_init (PrefsPageMsgDeleteClass *klass)
 												 "/org/gtk/grisbi/ui/prefs_page_msg_delete.ui");
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageMsgDelete, vbox_msg_delete);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageMsgDelete, grid_display_msg);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageMsgDelete, sw_display_msg);
 }
 
 /******************************************************************************/

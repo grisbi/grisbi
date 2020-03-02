@@ -208,6 +208,7 @@
                               <object class="GtkBox" id="box302">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="margin_top">5</property>
                                 <property name="spacing">5</property>
                                 <child>
                                   <object class="GtkButton" id="button_partial_balance_add">
@@ -269,18 +270,12 @@
                                 <property name="position">1</property>
                               </packing>
                             </child>
-                            <child>
-                              <placeholder/>
-                            </child>
                           </object>
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">True</property>
                             <property name="position">1</property>
                           </packing>
-                        </child>
-                        <child>
-                          <placeholder/>
                         </child>
                       </object>
                       <packing>

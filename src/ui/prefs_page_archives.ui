@@ -69,11 +69,8 @@
                         <property name="spacing">5</property>
                         <child>
                           <object class="GtkScrolledWindow" id="scrolledwindow_archives">
-                            <property name="height_request">250</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="hscrollbar_policy">always</property>
-                            <property name="vscrollbar_policy">always</property>
                             <property name="shadow_type">in</property>
                             <property name="kinetic_scrolling">False</property>
                             <property name="overlay_scrolling">False</property>
@@ -129,14 +126,13 @@
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
-                <property name="padding">5</property>
                 <property name="position">0</property>
               </packing>
             </child>
           </object>
           <packing>
             <property name="expand">False</property>
-            <property name="fill">False</property>
+            <property name="fill">True</property>
             <property name="position">0</property>
           </packing>
         </child>

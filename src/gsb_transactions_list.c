@@ -1160,7 +1160,7 @@ static gint gsb_transactions_list_choose_reconcile (gint account_number,
     {
 		GtkTreeViewColumn *column;
 		GtkCellRenderer *cell;
-		gchar *titles[] = {("Name"), _("Init date"), _("Final date")};
+		gchar *titles[] = {_("Name"), _("Init date"), _("Final date")};
 		gfloat alignment[] = {COLUMN_LEFT, COLUMN_CENTER, COLUMN_CENTER};
 
 		cell = gtk_cell_renderer_text_new ();

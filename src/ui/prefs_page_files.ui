@@ -479,6 +479,7 @@
                                 <property name="name">label_gsetting_option</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="margin_bottom">5</property>
                                 <property name="action">select-folder</property>
                                 <property name="local_only">False</property>
                                 <property name="title" translatable="yes">Sélectionner un répertoire</property>
@@ -540,7 +541,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="halign">start</property>
-                    <property name="label" translatable="yes">Directory for import</property>
+                    <property name="label" translatable="yes">Directory for files import</property>
                     <attributes>
                       <attribute name="weight" value="bold"/>
                     </attributes>
@@ -575,7 +576,7 @@
                         <property name="spacing">5</property>
                         <child>
                           <object class="GtkCheckButton" id="checkbutton_force_import_directory">
-                            <property name="label" translatable="yes">Use a fixed directory for importing files: </property>
+                            <property name="label" translatable="yes">Use a fixed directory: </property>
                             <property name="name">label_gsetting_option</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>

@@ -65,7 +65,6 @@ struct _PrefsPageDisplayOpePrivate
 	GtkWidget *			vbox_display_ope;
 
     GtkWidget *         grid_list_buttons;
-	GtkWidget *			grid_list_ope;
     GtkWidget *			sw_list_ope;
 	GtkWidget *			treeview_list_ope;
 
@@ -315,11 +314,12 @@ static gboolean prefs_page_display_ope_set_buttons_table (PrefsPageDisplayOpe *p
 									-1);
 
                 if (current_number == num_1 ||
-                 current_number == num_2 ||
-                 current_number == num_3 ||
-                 current_number == num_4 ||
-                 current_number == num_5 ||
-                 current_number == num_6)
+					current_number == num_2 ||
+					current_number == num_3 ||
+					current_number == num_4 ||
+					current_number == num_5 ||
+					current_number == num_6 ||
+					current_number == num_7)
                 {
                     g_signal_handlers_block_by_func (G_OBJECT (priv->tab_list_buttons[i]),
 													 G_CALLBACK (prefs_page_display_ope_toggle_element_button),
@@ -563,7 +563,7 @@ static GtkWidget *prefs_page_display_ope_create_tree_view (PrefsPageDisplayOpe *
 	GtkListStore *store = NULL;
 	GtkTreeSelection *selection;
     gint column;
-    GtkTargetEntry target_entry[] = { { "text", GTK_TARGET_SAME_WIDGET, 0 } };
+    GtkTargetEntry target_entry[] = { {(gchar*) "text", GTK_TARGET_SAME_WIDGET, 0 } };
 	gint *pointer;
 
 	pointer = gsb_transactions_list_get_tab_align_col_treeview ();
@@ -677,9 +677,6 @@ static void prefs_page_display_ope_setup_page (PrefsPageDisplayOpe *page)
 	    gsb_transactions_list_init_tab_affichage_ope (NULL);
 
 	/* set treeview */
-	priv->sw_list_ope = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, SW_MIN_HEIGHT);
-    gtk_grid_attach (GTK_GRID (priv->grid_list_ope), priv->sw_list_ope, 0, 0, 1, 1);
-
 	priv->treeview_list_ope = prefs_page_display_ope_create_tree_view (page);
 	gtk_container_add (GTK_CONTAINER (priv->sw_list_ope), priv->treeview_list_ope);
 
@@ -723,7 +720,7 @@ static void prefs_page_display_ope_class_init (PrefsPageDisplayOpeClass *klass)
 												 "/org/gtk/grisbi/ui/prefs_page_display_ope.ui");
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayOpe, vbox_display_ope);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayOpe, grid_list_ope);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayOpe, sw_list_ope);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayOpe, grid_list_buttons);
 }
 

@@ -168,6 +168,7 @@ static void gsb_reconcile_config_sort_reconcile (GtkToggleButton *togglebutton,
 GtkWidget *gsb_reconcile_config_create ( void )
 {
     GtkWidget *scrolled_window;
+	GtkWidget *hbox;
     GtkWidget *vbox_pref;
     GtkWidget *paddinggrid;
     GtkTreeViewColumn *column;
@@ -203,12 +204,14 @@ GtkWidget *gsb_reconcile_config_create ( void )
                         NULL,
                         GTK_ORIENTATION_HORIZONTAL );
 
-    paddinggrid = utils_prefs_paddinggrid_new_with_title (vbox_pref, _("List of reconciliations"));
-	gtk_widget_set_vexpand (paddinggrid, TRUE);
+    //~ paddinggrid = utils_prefs_paddinggrid_new_with_title (vbox_pref, _("List of reconciliations"));
+	//~ gtk_widget_set_vexpand (paddinggrid, TRUE);
+	paddinggrid = new_paddingbox_with_title (vbox_pref, FALSE, _("List of reconciliations"));
 
     /* set the list */
     scrolled_window = utils_prefs_scrolled_window_new ( NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, 200);
-    gtk_grid_attach (GTK_GRID (paddinggrid), scrolled_window, 0, 0, 3, 3);
+    //~ gtk_grid_attach (GTK_GRID (paddinggrid), scrolled_window, 0, 0, 3, 3);
+	gtk_box_pack_start (GTK_BOX (paddinggrid), scrolled_window, TRUE, TRUE, 0 );
 
     /* need to create first the table to set it in the arg of the changed signal of selection */
     table_selection = gtk_grid_new ();
@@ -269,12 +272,16 @@ GtkWidget *gsb_reconcile_config_create ( void )
     gsb_reconcile_config_fill();
 
     /* Set the reconcile_sort */
-    button = gsb_automem_checkbutton_new (_("Sort by descending date the reconciliations"),
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
+	gtk_box_pack_start (GTK_BOX (paddinggrid), hbox, TRUE, TRUE, 0 );
+
+	button = gsb_automem_checkbutton_new (_("Sort by descending date the reconciliations"),
                                           &w_etat->reconcile_sort,
                                           G_CALLBACK (gsb_reconcile_config_sort_reconcile),
                                           NULL);
     gtk_widget_set_margin_top (button, MARGIN_TOP);
-    gtk_grid_attach (GTK_GRID (paddinggrid), button, 0, 3, 1, 1);
+    //~ gtk_grid_attach (GTK_GRID (paddinggrid), button, 0, 3, 1, 1);
+	gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 0 );
 
 	button = gtk_button_new_with_label (_("Collapse row"));
 	gtk_widget_set_sensitive (button, FALSE);
@@ -282,7 +289,8 @@ GtkWidget *gsb_reconcile_config_create ( void )
 					  "clicked",
 					  G_CALLBACK (gsb_reconcile_button_collapse_row_clicked),
 					  reconcile_selection);
-	gtk_grid_attach (GTK_GRID (paddinggrid), button, 1, 3, 1, 1);
+	//~ gtk_grid_attach (GTK_GRID (paddinggrid), button, 1, 3, 1, 1);
+	gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 0 );
 
 	/* set signal here because data is button */
     g_signal_connect (reconcile_treeview,
@@ -297,6 +305,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
 
     /* set the modifying part under the list */
     paddinggrid = utils_prefs_paddinggrid_new_with_title (vbox_pref,_("Selected reconcile") );
+	gtk_widget_set_hexpand (paddinggrid, TRUE);
 
     /* for that we make a table 2x3 but with the names 4x3,
      * the table has been set before to accept as arg on the changed selection */

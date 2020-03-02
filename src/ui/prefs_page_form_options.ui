@@ -151,7 +151,9 @@
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="halign">start</property>
-                            <property name="label" translatable="yes">This option allows all future dates to be considered as dates from the previous calendar year</property>
+                            <property name="label" translatable="yes">(This option allows all future dates to be considered as dates from the previous calendar year)</property>
+                            <property name="justify">fill</property>
+                            <property name="wrap">True</property>
                             <property name="selectable">True</property>
                           </object>
                           <packing>

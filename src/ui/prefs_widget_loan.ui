@@ -222,6 +222,8 @@
                 <property name="can_focus">False</property>
                 <property name="halign">start</property>
                 <property name="label" translatable="yes">Date of first repayment: </property>
+                <property name="justify">fill</property>
+                <property name="wrap">True</property>
               </object>
               <packing>
                 <property name="left_attach">0</property>

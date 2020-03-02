@@ -364,7 +364,7 @@ static GtkWidget *grisbi_prefs_setup_import_page (GrisbiPrefs *prefs)
 	notebook_import_pages = gtk_notebook_new ();
 	utils_widget_set_padding (notebook_import_pages, MARGIN_BOX, 0);
 	gtk_notebook_set_show_border (GTK_NOTEBOOK (notebook_import_pages), FALSE);
-	gtk_box_pack_start (GTK_BOX (priv->vbox_import_page), notebook_import_pages, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (priv->vbox_import_page), notebook_import_pages, TRUE, TRUE, 0);
 
 	/* set import settings */
 	vbox_import_files = GTK_WIDGET (prefs_page_import_files_new (prefs));
