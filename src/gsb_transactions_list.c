@@ -2628,9 +2628,9 @@ void gsb_transactions_list_update_tree_view (gint account_number,
 {
     gint selected_transaction = 0;
 
-    /* called sometimes with gsb_gui_navigation_get_current_account, so check we are
+	/* called sometimes with gsb_gui_navigation_get_current_account, so check we are
      * on an account */
-    if (account_number == -1)
+    if (account_number <= 0)
         return;
 
     if (keep_selected_transaction)
