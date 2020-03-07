@@ -58,6 +58,7 @@
 #include "prefs/prefs_page_bet_account.h"
 #include "prefs/prefs_page_display_adr.h"
 #include "prefs/prefs_page_display_fonts.h"
+#include "prefs/prefs_page_display_form.h"
 #include "prefs/prefs_page_display_gui.h"
 #include "prefs/prefs_page_display_ope.h"
 #include "prefs/prefs_page_divers.h"
@@ -509,8 +510,7 @@ static void grisbi_prefs_left_panel_populate_tree_model (GrisbiPrefs *prefs)
 	page++;
 
 	/* append page Content of form */
-	widget = GTK_WIDGET (gsb_form_config_create_page ());
-	utils_widget_set_padding (widget, MARGIN_BOX, 0);
+	widget = GTK_WIDGET (prefs_page_display_form_new (prefs));
 	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Content"), page);
 	priv->form_num_page = page;
 	page++;

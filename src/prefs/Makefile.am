@@ -10,6 +10,7 @@ libprefspages_la_SOURCES = \
 	prefs_page_bet_account.c	\
 	prefs_page_display_adr.c	\
 	prefs_page_display_fonts.c	\
+	prefs_page_display_form.c	\
 	prefs_page_display_gui.c \
 	prefs_page_display_ope.c \
 	prefs_page_divers.c	\
@@ -28,6 +29,7 @@ libprefspages_la_SOURCES = \
 	prefs_page_bet_account.h	\
 	prefs_page_display_adr.h	\
 	prefs_page_display_fonts.h	\
+	prefs_page_display_form.h	\
 	prefs_page_display_gui.h \
 	prefs_page_display_ope.h \
 	prefs_page_divers.h \

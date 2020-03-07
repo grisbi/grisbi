@@ -172,6 +172,7 @@ src/prefs/prefs_widget_loan.c
 [type: gettext/glade]src/ui/prefs_page_form_completion.ui
 [type: gettext/glade]src/ui/prefs_page_display_adr.ui
 [type: gettext/glade]src/ui/prefs_page_display_fonts.ui
+[type: gettext/glade]src/ui/prefs_page_display_form.ui
 [type: gettext/glade]src/ui/prefs_page_display_gui.ui
 [type: gettext/glade]src/ui/prefs_page_display_ope.ui
 [type: gettext/glade]src/ui/prefs_page_divers.ui
