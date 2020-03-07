@@ -66,7 +66,7 @@ struct _PrefsPageDisplayOpePrivate
 
     GtkWidget *         grid_list_buttons;
     GtkWidget *			sw_list_ope;
-	GtkWidget *			treeview_list_ope;
+	GtkWidget *			tree_view_list_ope;
 
 	GtkWidget *			tab_list_buttons[18];
 };
@@ -103,10 +103,13 @@ static gboolean prefs_page_display_ope_fill_store (GtkListStore *store)
 
         for (j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++)
         {
+			gchar *tmp_str;
 			gint element_number;
 
 			element_number = *(ptr + (i * CUSTOM_MODEL_VISIBLE_COLUMNS) + j);
-            row[j] = gsb_transactions_list_get_column_title_from_element (element_number-1);
+			tmp_str = gsb_transactions_list_get_column_title_from_element (element_number-1);
+            row[j] = utils_str_break_form_name_field (tmp_str, TRUNC_LIST_COL_NAME);
+			g_free (tmp_str);
 
 			/* on met le nom dans les lignes paires et le numéro de l'élément dans les lignes impaires */
             gtk_list_store_set (GTK_LIST_STORE (store), &iter, 2*j, row[j], 2*j+1, element_number, -1);
@@ -129,7 +132,7 @@ static gboolean prefs_page_display_ope_fill_store (GtkListStore *store)
  * \return FALSE
  **/
 static void prefs_page_display_ope_toggle_element_button (GtkWidget *toggle_button,
-														  GtkWidget *treeview)
+														  GtkWidget *tree_view)
 {
     GtkTreeModel *store;
 	gint element;
@@ -138,7 +141,7 @@ static void prefs_page_display_ope_toggle_element_button (GtkWidget *toggle_butt
 	devel_debug (NULL);
 
 	/* get store */
-    store = gtk_tree_view_get_model (GTK_TREE_VIEW (treeview));
+    store = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
 
     /* get the element number */
     element = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (toggle_button), "element_number"));
@@ -246,11 +249,11 @@ static gboolean prefs_page_display_ope_button_set_active_from_string (PrefsPageD
         {
             g_signal_handlers_block_by_func (G_OBJECT (priv->tab_list_buttons[i]),
 											 G_CALLBACK (prefs_page_display_ope_toggle_element_button),
-											 priv->treeview_list_ope);
+											 priv->tree_view_list_ope);
             gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->tab_list_buttons[i]), active);
             g_signal_handlers_unblock_by_func (G_OBJECT (priv->tab_list_buttons[i]),
 											   G_CALLBACK (prefs_page_display_ope_toggle_element_button),
-											   priv->treeview_list_ope);
+											   priv->tree_view_list_ope);
 
             g_free (tmp_str);
 
@@ -279,7 +282,7 @@ static gboolean prefs_page_display_ope_set_buttons_table (PrefsPageDisplayOpe *p
 	priv = prefs_page_display_ope_get_instance_private (page);
 
     /* get the store */
-    store = gtk_tree_view_get_model (GTK_TREE_VIEW (priv->treeview_list_ope));
+    store = gtk_tree_view_get_model (GTK_TREE_VIEW (priv->tree_view_list_ope));
 
     /* active/unactive the buttons */
     for (i = 0 ; i < 18 ; i++)
@@ -323,12 +326,12 @@ static gboolean prefs_page_display_ope_set_buttons_table (PrefsPageDisplayOpe *p
                 {
                     g_signal_handlers_block_by_func (G_OBJECT (priv->tab_list_buttons[i]),
 													 G_CALLBACK (prefs_page_display_ope_toggle_element_button),
-													 priv->treeview_list_ope);
+													 priv->tree_view_list_ope);
                     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->tab_list_buttons[i]), TRUE);
 
                     g_signal_handlers_unblock_by_func (G_OBJECT (priv->tab_list_buttons[i]),
 													   G_CALLBACK (prefs_page_display_ope_toggle_element_button),
-													   priv->treeview_list_ope);
+													   priv->tree_view_list_ope);
                 }
             }
             while (gtk_tree_model_iter_next (GTK_TREE_MODEL (store), &iter));
@@ -374,13 +377,14 @@ static void prefs_page_display_ope_create_buttons_table (PrefsPageDisplayOpe *pa
             gtk_widget_set_size_request (priv->tab_list_buttons[current_number], button_width, -1);
             gtk_widget_set_name (priv->tab_list_buttons[current_number], "list_config_buttons");
             utils_widget_set_padding (priv->tab_list_buttons[current_number], 2, 2);
+			gtk_widget_set_hexpand (priv->tab_list_buttons[column + row*6], TRUE);
             g_object_set_data (G_OBJECT (priv->tab_list_buttons[current_number]),
 							   "element_number",
 							   GINT_TO_POINTER (current_number + 1));
             g_signal_connect (G_OBJECT (priv->tab_list_buttons[current_number]),
 							  "toggled",
 							  G_CALLBACK (prefs_page_display_ope_toggle_element_button),
-							  priv->treeview_list_ope);
+							  priv->tree_view_list_ope);
             gtk_grid_attach (GTK_GRID (priv->grid_list_buttons),
 							 priv->tab_list_buttons[current_number],
 							 column, row, 1,1);
@@ -559,19 +563,19 @@ static gboolean prefs_page_display_ope_drag_end (GtkWidget *tree_view,
  **/
 static GtkWidget *prefs_page_display_ope_create_tree_view (PrefsPageDisplayOpe *page)
 {
-	GtkWidget *treeview;
+	GtkWidget *tree_view;
 	GtkListStore *store = NULL;
 	GtkTreeSelection *selection;
     gint column;
     GtkTargetEntry target_entry[] = { {(gchar*) "text", GTK_TARGET_SAME_WIDGET, 0 } };
 	gint *pointer;
 
-	pointer = gsb_transactions_list_get_tab_align_col_treeview ();
 	devel_debug (NULL);
+	pointer = gsb_transactions_list_get_tab_align_col_treeview ();
 
-	treeview = gtk_tree_view_new ();
-	gtk_widget_set_name (treeview, "tree_view");
-    gtk_tree_view_set_grid_lines (GTK_TREE_VIEW (treeview), GTK_TREE_VIEW_GRID_LINES_BOTH);
+	tree_view = gtk_tree_view_new ();
+	gtk_widget_set_name (tree_view, "tree_view");
+    gtk_tree_view_set_grid_lines (GTK_TREE_VIEW (tree_view), GTK_TREE_VIEW_GRID_LINES_BOTH);
 
 	/* create store */
 	store = gtk_list_store_new (2 * CUSTOM_MODEL_VISIBLE_COLUMNS,
@@ -590,13 +594,13 @@ static GtkWidget *prefs_page_display_ope_create_tree_view (PrefsPageDisplayOpe *
 							G_TYPE_STRING,	/* seventh name */
 							G_TYPE_INT);	/* ... */
 
-	gtk_tree_view_set_model (GTK_TREE_VIEW (treeview), GTK_TREE_MODEL (store));
+	gtk_tree_view_set_model (GTK_TREE_VIEW (tree_view), GTK_TREE_MODEL (store));
     g_object_unref (G_OBJECT(store));
 
     /* set the columns */
     for (column=0 ; column < CUSTOM_MODEL_VISIBLE_COLUMNS ; column++)
     {
-        GtkTreeViewColumn *treeview_column;
+        GtkTreeViewColumn *tree_view_column;
 		GtkCellRenderer *cell_renderer;
 		gchar *title_col = NULL;
 
@@ -607,46 +611,46 @@ static GtkWidget *prefs_page_display_ope_create_tree_view (PrefsPageDisplayOpe *
 					  (gfloat)pointer[column]/2,
 					  NULL);
 
-        treeview_column = gtk_tree_view_column_new_with_attributes (title_col,
+        tree_view_column = gtk_tree_view_column_new_with_attributes (title_col,
 																	cell_renderer,
 																	"text", 2*column,
 																	NULL);
-        gtk_tree_view_append_column (GTK_TREE_VIEW (treeview),
-									 GTK_TREE_VIEW_COLUMN (treeview_column));
-		gtk_tree_view_column_set_alignment (GTK_TREE_VIEW_COLUMN (treeview_column),
+        gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view),
+									 GTK_TREE_VIEW_COLUMN (tree_view_column));
+		gtk_tree_view_column_set_alignment (GTK_TREE_VIEW_COLUMN (tree_view_column),
 											(gfloat)pointer[column]/2);
-        gtk_tree_view_column_set_sizing (GTK_TREE_VIEW_COLUMN (treeview_column),
+        gtk_tree_view_column_set_sizing (GTK_TREE_VIEW_COLUMN (tree_view_column),
 										 GTK_TREE_VIEW_COLUMN_FIXED);
-        gtk_tree_view_column_set_resizable (GTK_TREE_VIEW_COLUMN (treeview_column), TRUE);
+        gtk_tree_view_column_set_resizable (GTK_TREE_VIEW_COLUMN (tree_view_column), TRUE);
     }
 
     /* enable the drag'n drop, we need to use low-level api because
      * gtk_tree_view api can only move the entire row, not only a cell
      * (at least, didn't find how...) */
-    gtk_drag_source_set (treeview,
+    gtk_drag_source_set (tree_view,
                         GDK_BUTTON1_MASK,
                         target_entry, 1,
                         GDK_ACTION_MOVE);
-    g_signal_connect (G_OBJECT (treeview),
+    g_signal_connect (G_OBJECT (tree_view),
                         "drag-begin",
                         G_CALLBACK (prefs_page_display_ope_drag_begin),
                         NULL);
 
-    gtk_drag_dest_set (treeview,
+    gtk_drag_dest_set (tree_view,
                         GTK_DEST_DEFAULT_ALL,
                         target_entry, 1,
                         GDK_ACTION_MOVE);
-    g_signal_connect (G_OBJECT (treeview),
+    g_signal_connect (G_OBJECT (tree_view),
                         "drag-end",
                         G_CALLBACK (prefs_page_display_ope_drag_end),
                         page);
 
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview));
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
     gtk_tree_selection_set_mode (GTK_TREE_SELECTION (selection), GTK_SELECTION_NONE);
 
 	prefs_page_display_ope_fill_store (store);
 
-	return treeview;
+	return tree_view;
 }
 
 /**
@@ -676,9 +680,9 @@ static void prefs_page_display_ope_setup_page (PrefsPageDisplayOpe *page)
 	if (!is_loading)
 	    gsb_transactions_list_init_tab_affichage_ope (NULL);
 
-	/* set treeview */
-	priv->treeview_list_ope = prefs_page_display_ope_create_tree_view (page);
-	gtk_container_add (GTK_CONTAINER (priv->sw_list_ope), priv->treeview_list_ope);
+	/* set tree_view */
+	priv->tree_view_list_ope = prefs_page_display_ope_create_tree_view (page);
+	gtk_container_add (GTK_CONTAINER (priv->sw_list_ope), priv->tree_view_list_ope);
 
 	/* set table des boutons */
 	prefs_page_display_ope_create_buttons_table (page);
@@ -686,12 +690,12 @@ static void prefs_page_display_ope_setup_page (PrefsPageDisplayOpe *page)
 
 	if (is_loading)
 	{
-		gtk_widget_set_sensitive (priv->treeview_list_ope, TRUE);
+		gtk_widget_set_sensitive (priv->tree_view_list_ope, TRUE);
 		gtk_widget_set_sensitive (priv->grid_list_buttons, TRUE);
 	}
 	else
 	{
-		gtk_widget_set_sensitive (priv->treeview_list_ope, FALSE);
+		gtk_widget_set_sensitive (priv->tree_view_list_ope, FALSE);
 		gtk_widget_set_sensitive (priv->grid_list_buttons, FALSE);
 	}
 

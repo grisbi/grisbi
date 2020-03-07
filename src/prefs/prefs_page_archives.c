@@ -56,6 +56,7 @@
 #include "utils.h"
 #include "utils_dates.h"
 #include "utils_prefs.h"
+#include "utils_str.h"
 #include "erreur.h"
 
 /*END_INCLUDE*/
@@ -382,6 +383,7 @@ static void prefs_page_archives_fill_list (GtkListStore *store)
 {
     GSList *tmp_list;
 
+	devel_debug (NULL);
     gtk_list_store_clear (GTK_LIST_STORE (store));
     tmp_list = gsb_data_archive_get_archives_list ();
 
@@ -391,20 +393,33 @@ static void prefs_page_archives_fill_list (GtkListStore *store)
 		GtkTreeIter iter;
 		gchar *init_date;
 		gchar *final_date;
+		const gchar *arch_name;
+		const gchar *report_name;
+		gchar *tmp_str1;
+		gchar *tmp_str2;
 
 		archive_number = gsb_data_archive_get_no_archive (tmp_list->data);
 
 		init_date = gsb_format_gdate (gsb_data_archive_get_beginning_date (archive_number));
 		final_date = gsb_format_gdate (gsb_data_archive_get_end_date (archive_number));
 
+		arch_name = gsb_data_archive_get_name (archive_number);
+		tmp_str1 = utils_str_break_form_name_field (arch_name, TRUNC_FORM_FIELD);
+
+		report_name = gsb_data_archive_get_report_title (archive_number);
+		if (report_name)
+			tmp_str2 = utils_str_break_form_name_field (report_name, TRUNC_FORM_FIELD);
+		else
+			tmp_str2 = NULL;
+
 		gtk_list_store_append (GTK_LIST_STORE (store), &iter);
 		gtk_list_store_set (GTK_LIST_STORE (store),
 							&iter,
-							ARCHIVES_NAME_COLUMN, gsb_data_archive_get_name (archive_number),
+							ARCHIVES_NAME_COLUMN, tmp_str1,
 							ARCHIVES_INIT_DATE, init_date,
 							ARCHIVES_FINAL_DATE, final_date,
 							ARCHIVES_FYEAR_NAME, gsb_data_fyear_get_name (gsb_data_archive_get_fyear (archive_number)),
-							ARCHIVES_REPORT_TITLE, gsb_data_archive_get_report_title (archive_number),
+							ARCHIVES_REPORT_TITLE, tmp_str2,
 							ARCHIVES_NUMBER, archive_number,
 							-1);
 
@@ -412,6 +427,10 @@ static void prefs_page_archives_fill_list (GtkListStore *store)
 			g_free (init_date);
 		if (final_date)
 			g_free (final_date);
+		if (tmp_str1)
+			g_free (tmp_str1);
+		if (tmp_str2)
+			g_free (tmp_str2);
 
 		tmp_list = tmp_list->next;
     }
