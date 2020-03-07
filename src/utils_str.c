@@ -1298,6 +1298,174 @@ gchar *utils_str_my_case_strstr (const gchar *haystack,
 }
 
 /**
+ * Remplace un espace par un "\n" à partir de nbre de caractères
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+gchar *utils_str_break_form_name_field (const gchar *text,
+										gint trunc)
+{
+	gchar *tmp_str = NULL;
+	glong nbre_char;
+
+	if (!text)
+		return NULL;
+
+	if (g_utf8_validate (text, -1, NULL))
+	{
+		nbre_char = g_utf8_strlen (text, -1);
+		if (nbre_char <= trunc)
+			return g_strdup (text);
+
+		if (g_utf8_strchr (text, -1, ':'))
+		{
+			gchar **tab;
+
+			tab= g_strsplit (text, ":", 2);
+			tmp_str = g_strconcat (tab[0], ":\n", tab[1]+1, NULL);
+		}
+		else if (g_utf8_strchr (text, -1, '|'))
+		{
+			gchar **tab;
+
+			tab= g_strsplit (text, "||", 0);
+			tmp_str = g_strjoinv ("||\n", tab);
+			g_strfreev (tab);
+		}
+		else if (g_utf8_strchr (text, -1, ' '))
+		{
+			gchar *tmp_str2 = NULL;
+			gchar *ptr_free;
+			gchar *ptr_free2;
+			gchar **tab;
+			gint i;
+			gint nbre_champs;
+
+			tab= g_strsplit (text, " ", 0);
+			nbre_champs = g_strv_length (tab);
+
+			for (i = 0; tab[i]; i++)
+			{
+				if (i == 0)
+				{
+					tmp_str = g_strdup (tab[i]);
+					nbre_char = g_utf8_strlen (tmp_str, -1);
+					if (nbre_char > trunc-1)
+					{
+						ptr_free = tmp_str;
+						tmp_str = g_strconcat (tmp_str, "\n", NULL);
+						g_free (ptr_free);
+					}
+					else
+					{
+						if (tab[i+1])
+						{
+							nbre_char = g_utf8_strlen (tmp_str, -1) + g_utf8_strlen (tab[i+1], -1) + 1;
+							if (nbre_char < trunc)
+								i++;
+							while (nbre_char < trunc)
+							{
+								ptr_free = tmp_str;
+								if (g_utf8_strlen (tab[i], -1) == 0)
+									i++;
+								else
+								{
+									tmp_str = g_strconcat (tmp_str, " ", tab[i], NULL);
+									g_free (ptr_free);
+								}
+								if (!tab[i+1])
+									break;
+
+								nbre_char = g_utf8_strlen (tmp_str, -1) + g_utf8_strlen (tab[i+1], -1) + 1;
+								if (nbre_char < trunc)
+									i++;
+							};
+						}
+						if (i < nbre_champs-1)
+						{
+							tmp_str = g_strconcat (tmp_str, "\n", NULL);
+						}
+					}
+				}
+				else
+				{
+					tmp_str2 = g_strdup (tab[i]);
+					nbre_char = g_utf8_strlen (tmp_str2, -1);
+					if (nbre_char > trunc-1)
+					{
+						ptr_free = tmp_str;
+						ptr_free2 = tmp_str2;
+						tmp_str = g_strconcat (tmp_str, tmp_str2, "\n", NULL);
+						g_free (ptr_free);
+						g_free (ptr_free2);
+					}
+					else
+					{
+						if (tab[i+1])
+						{
+							nbre_char = g_utf8_strlen (tmp_str2, -1) + g_utf8_strlen (tab[i+1], -1) + 1;
+							if (nbre_char < trunc)
+								i++;
+							while (nbre_char < trunc)
+							{
+								ptr_free2 = tmp_str2;
+								if (g_utf8_strlen (tab[i], -1) == 0)
+									i++;
+								else
+								{
+									tmp_str2 = g_strconcat (tmp_str2, " ", tab[i], NULL);
+									g_free (ptr_free2);
+								}
+								if (!tab[i+1])
+									break;
+
+								nbre_char = g_utf8_strlen (tmp_str2, -1) + g_utf8_strlen (tab[i+1], -1) + 1;
+								if (nbre_char < trunc)
+									i++;
+							};
+						}
+						ptr_free = tmp_str;
+						ptr_free2 = tmp_str2;
+						if (i < nbre_champs-1)
+						{
+							tmp_str = g_strconcat (tmp_str, tmp_str2, "\n", NULL);
+						}
+						else
+						{
+							tmp_str = g_strconcat (tmp_str, tmp_str2, NULL);
+						}
+						g_free (ptr_free);
+						g_free (ptr_free2);
+					}
+				}
+			}
+			g_strfreev (tab);
+		}
+		else if (g_utf8_strchr (text, -1, '/'))
+		{
+			gchar *ptr;
+
+			/* on recherche le dernier slash */
+			ptr = g_utf8_strrchr (text, -1, '/');
+			ptr[0] = '\n';
+		}
+		else
+		{
+			tmp_str = g_strdup (text);
+		}
+	}
+	else
+	{
+		tmp_str = g_strdup (text);
+	}
+
+	return tmp_str;
+}
+
+/**
  *
  *
  * \param
