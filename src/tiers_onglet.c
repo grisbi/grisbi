@@ -55,6 +55,7 @@
 #include "import.h"
 #include "meta_payee.h"
 #include "metatree.h"
+#include "navigation.h"
 #include "structures.h"
 #include "traitement_variables.h"
 #include "transaction_list.h"
@@ -1179,6 +1180,7 @@ static GtkWidget *gsb_assistant_payees_page_2 (GtkWidget *assistant)
     GtkWidget *check_option;
 	GSList *tmp_list;
     gchar *texte;
+	gchar *data;
 	gboolean metatree_unarchived_payees = FALSE;
 	GrisbiWinEtat *w_etat;
 	GrisbiWinRun *w_run;
@@ -1218,6 +1220,10 @@ static GtkWidget *gsb_assistant_payees_page_2 (GtkWidget *assistant)
 											  METATREE_PAYEE);
     gtk_box_pack_start (GTK_BOX (paddingbox), combo, FALSE, FALSE, MARGIN_BOX);
     g_object_set_data (G_OBJECT (assistant), "payee", combo);
+
+	data = g_object_get_data (G_OBJECT (assistant), "rule");
+	if (data)
+		gtk_combofix_set_text (GTK_COMBOFIX (combo), data);
 
 	/* get new payee */
 	paddingbox = new_paddingbox_with_title (page, TRUE, _("Enter the new payee"));
@@ -1863,7 +1869,7 @@ static void gsb_assistant_payees_modifie_operations (GSList *sup_payees,
  *
  * \return
  **/
-void payees_manage_payees (void)
+void payees_manage_payees_with_rule (const gchar *rule)
 {
     GtkWidget *assistant;
     GtkResponseType return_value;
@@ -1876,8 +1882,11 @@ void payees_manage_payees (void)
                         "It is better to make a backup of your Grisbi file if you have not yet done. "),
                         "gsb-payees-32.png",
                         NULL);
+	/* récupère le paramètre rule si il existe */
+	if (rule)
+		g_object_set_data_full (G_OBJECT (assistant), "rule", g_strdup (rule),(GDestroyNotify) g_free);
 
-    gsb_assistant_add_page (assistant,
+	gsb_assistant_add_page (assistant,
                         gsb_assistant_payees_page_2 (assistant),
                         PAYEES_ASSISTANT_PAGE_2,
                         PAYEES_ASSISTANT_INTRO,
@@ -1935,7 +1944,7 @@ void payees_manage_payees (void)
             new_payee_number = gsb_data_payee_get_number_by_name (text, TRUE);
 		}
 
-        /* on sauvegarde la chaine de recherche */
+		/* on sauvegarde la chaine de recherche */
         combo = g_object_get_data (G_OBJECT (assistant), "payee");
         str_cherche = gtk_combofix_get_text (GTK_COMBOFIX (combo));
         extract_num = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (
@@ -2038,21 +2047,37 @@ void payees_manage_payees (void)
 
         gsb_file_set_modified (TRUE);
 
-        /* On sélectionne le nouveau tiers */
-        iter = get_iter_from_div (GTK_TREE_MODEL (payee_tree_model), new_payee_number, 0);
-        path = gtk_tree_model_get_path (GTK_TREE_MODEL (payee_tree_model), iter);
+		if (gsb_gui_navigation_get_current_page () == GSB_PAYEES_PAGE)
+		{
+			/* On sélectionne le nouveau tiers */
+			iter = get_iter_from_div (GTK_TREE_MODEL (payee_tree_model), new_payee_number, 0);
+			path = gtk_tree_model_get_path (GTK_TREE_MODEL (payee_tree_model), iter);
 
-        /* et on centre l'affichage dessus */
-        selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (payee_tree));
-        gtk_tree_selection_select_iter (selection, iter);
-        gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (payee_tree), path,
-                        NULL, TRUE, 0.5, 0.5);
-        gtk_tree_path_free (path);
-        grisbi_win_status_bar_stop_wait (TRUE);
+			/* et on centre l'affichage dessus */
+			selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (payee_tree));
+			gtk_tree_selection_select_iter (selection, iter);
+			gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (payee_tree), path,
+							NULL, TRUE, 0.5, 0.5);
+			gtk_tree_path_free (path);
+			grisbi_win_status_bar_stop_wait (TRUE);
+		}
     }
 
     g_slist_free (g_object_get_data (G_OBJECT (assistant), "sup_payees"));
     gtk_widget_destroy (assistant);
+}
+
+/**
+ * cette fonction ne sert qu'aux appels à partir d'un (sous-) menu
+ * donc sans paramètres à récupérer.
+ *
+ * \param
+ *
+ * \return
+ **/
+void payees_manage_payees (void)
+{
+	payees_manage_payees_with_rule (NULL);
 }
 
 /**

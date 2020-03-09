@@ -5,7 +5,7 @@
 /*                                                                               */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)               */
 /*                      2003-2008 Benjamin Drieu (bdrieu@april.org)              */
-/*          2008-2017 Pierre Biava (grisbi@pierre.biava.name)                    */
+/*          2008-2020 Pierre Biava (grisbi@pierre.biava.name)                    */
 /*          https://www.grisbi.org/                                               */
 /*                                                                               */
 /*     This program is free software; you can redistribute it and/or modify      */
@@ -46,10 +46,11 @@
 #include "gtk_combofix.h"
 #include "import.h"
 #include "structures.h"
+#include "tiers_onglet.h"
 #include "utils.h"
 #include "utils_prefs.h"
+#include "utils_str.h"
 #include "erreur.h"
-
 /*END_INCLUDE*/
 
 /*START_EXTERN*/
@@ -77,7 +78,17 @@ G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageImportAsso, prefs_page_import_asso, GTK_TYP
 
 static GtkTreePath *path_selected;
 
-#define ASSO_BACKGROUND_COLOR 3
+enum AssoListColumns
+{
+	ASSO_LIST_PAYEE_NAME,
+	ASSO_LIST_SEARCH_STR,
+	ASSO_PAYEE_NUMBER,
+	ASSO_BACKGROUND_COLOR,
+	ASSO_REAL_PAYEE_NAME,
+	ASSO_REAL_SEARCH_STR,
+	ASSO_MODEL_N_COLUMNS
+};
+
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
@@ -115,16 +126,17 @@ static void prefs_page_import_asso_checkbutton_import_asso_case_insensitive_togg
  *
  * \return TRUE if find
  **/
-static gboolean prefs_page_import_asso_select_row (GtkTreeModel *model,
-												   GtkTreePath *path,
-												   GtkTreeIter *iter,
-												   gpointer data)
+static gboolean prefs_page_import_asso_path_selected (GtkTreeModel *model,
+												   	  GtkTreePath *path,
+												  	  GtkTreeIter *iter,
+												  	  gpointer data)
 {
 	gint payee_number;
 	gint tmp_payee_number;
 
 	payee_number = GPOINTER_TO_INT (data);
-	gtk_tree_model_get (model, iter, 2, &tmp_payee_number, -1);
+	gtk_tree_model_get (model, iter, ASSO_PAYEE_NUMBER, &tmp_payee_number, -1);
+
 	if (tmp_payee_number == payee_number)
 	{
 		if (path_selected)
@@ -141,72 +153,32 @@ static gboolean prefs_page_import_asso_select_row (GtkTreeModel *model,
 }
 
 /**
+ * fonction itérative pour sélectionner une association dans la liste
+ * suite à création ou suite à sélection par le combobox des tiers
  *
- *
+ * \param
  * \param
  * \param
  *
  * \return
  **/
-static void prefs_page_import_asso_foreach_asso (GtkTreeModel *model,
-												 gint payee_number)
+static void prefs_page_import_asso_select_row (GtkWidget* tree_view,
+											   GtkTreeModel *model,
+											   gint payee_number)
 {
+	GtkTreeSelection *selection;
+
+	/* set the path to selected */
 	gtk_tree_model_foreach (model,
-							(GtkTreeModelForeachFunc) prefs_page_import_asso_select_row,
+							(GtkTreeModelForeachFunc) prefs_page_import_asso_path_selected,
 							GINT_TO_POINTER (payee_number));
-}
 
-/**
- *
- *
- * \param
- * \param
- * \param
- * \param
- *
- * \return
- **/
-static void prefs_page_import_asso_cell_edited (GtkCellRendererText *cell,
-												const gchar *path_string,
-												const gchar *new_text,
-												PrefsPageImportAsso *page)
-{
-    GtkTreeModel *model;
-    GtkTreePath *path = gtk_tree_path_new_from_string (path_string);
-    GtkTreeIter iter;
-    GSList *list_tmp;
-    gchar *search_str;
-    gint payee_number;
-	PrefsPageImportAssoPrivate *priv;
-
-	priv = prefs_page_import_asso_get_instance_private (page);
-
-    model = gtk_tree_view_get_model (GTK_TREE_VIEW (priv->treeview_import_asso));
-    gtk_tree_model_get_iter (model, &iter, path);
-    gtk_tree_model_get (model, &iter, 1, &search_str, 2, &payee_number, -1);
-    if (g_utf8_collate (search_str, new_text) != 0)
-    {
-        devel_debug (new_text);
-        gtk_list_store_set (GTK_LIST_STORE (model), &iter, 1, new_text, -1);
-
-		list_tmp = gsb_import_associations_get_liste_associations ();
-        while (list_tmp)
-        {
-            struct ImportPayeeAsso *assoc;
-
-            assoc = list_tmp -> data;
-            if (assoc -> payee_number == payee_number)
-            {
-                if (assoc -> search_str && strlen (assoc -> search_str))
-                    g_free (assoc -> search_str);
-                assoc -> search_str = g_strdup (new_text);
-                gtk_entry_set_text (GTK_ENTRY (priv->entry_import_asso_search_string), new_text);
-                break;
-            }
-            list_tmp = list_tmp -> next;
-        }
-        gsb_data_payee_set_search_string (payee_number, new_text);
-    }
+	/* select the good row */
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
+	gtk_tree_selection_select_path (selection, path_selected);
+	gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (tree_view), path_selected, NULL, FALSE, 0,0);
+	gtk_tree_path_free (path_selected);
+	path_selected = NULL;
 }
 
 /**
@@ -246,7 +218,6 @@ static gboolean prefs_page_import_asso_check_add_button (PrefsPageImportAsso *pa
     return FALSE;
 }
 
-
 /**
  *
  *
@@ -258,35 +229,37 @@ static gboolean prefs_page_import_asso_check_add_button (PrefsPageImportAsso *pa
 static void prefs_page_import_asso_combo_changed (GtkEditable *editable,
 												  PrefsPageImportAsso *page)
 {
+	GtkTreeSelection *selection;
     const gchar *tmp_str;
     gint payee_number;
 	PrefsPageImportAssoPrivate *priv;
 
 	priv = prefs_page_import_asso_get_instance_private (page);
 
-    payee_number = gsb_data_payee_get_number_by_name (gtk_editable_get_chars
-													  (editable, 0, -1),
-													  FALSE);
+	/* on supprime la sélection */
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->treeview_import_asso));
+	gtk_tree_selection_unselect_all (selection);
+
+	/* on récupère le nom du tiers entré et son numero */
+    payee_number = gsb_data_payee_get_number_by_name (gtk_editable_get_chars (editable, 0, -1), FALSE);
+
+	if (payee_number == 0)
+	{
+		/* on est en phase de création d'un nouveau tiers */
+		return;
+	}
     tmp_str = gsb_data_payee_get_search_string (payee_number);
+    gtk_entry_set_text (GTK_ENTRY (priv->entry_import_asso_search_string), tmp_str);
+    gtk_widget_set_sensitive (priv->entry_import_asso_search_string, TRUE);
 
-    if (g_utf8_strlen (tmp_str, -1) == 0)
+    if (g_utf8_strlen (tmp_str, -1) > 0)
     {
-        gtk_entry_set_text (GTK_ENTRY (priv->entry_import_asso_search_string), tmp_str);
-        gtk_widget_set_sensitive (priv->entry_import_asso_search_string, TRUE);
-    }
-    else
-    {
-        gchar *str;
+		GtkTreeModel *model;
 
-        str = g_strdup_printf (_("You cannot choose this payee because it "
-								  "already has an association"));
-        dialogue_warning (str);
-        gtk_editable_delete_text (editable, 0, -1);
-        if (strlen (gtk_entry_get_text (GTK_ENTRY (priv->entry_import_asso_search_string))))
-        {
-            gtk_entry_set_text (GTK_ENTRY (priv->entry_import_asso_search_string), "");
-        }
-        g_free (str);
+		model = gtk_tree_view_get_model (GTK_TREE_VIEW (priv->treeview_import_asso));
+		prefs_page_import_asso_select_row (priv->treeview_import_asso,
+										   model,
+										   payee_number);
     }
 
     /* on empeche la suppression par inadvertance d'une association */
@@ -323,7 +296,12 @@ static gboolean prefs_page_import_asso_select_asso (GtkTreeSelection *selection,
 
 		entry = gtk_combofix_get_entry (GTK_COMBOFIX (priv->combo_import_asso_payee));
 		model = gtk_tree_view_get_model (GTK_TREE_VIEW (priv->treeview_import_asso));
-		gtk_tree_model_get (model, &iter, 0, &payee_str, 1, &search_str, 2, &payee_number, -1);
+		gtk_tree_model_get (model,
+							&iter,
+							ASSO_REAL_PAYEE_NAME, &payee_str,
+							ASSO_REAL_SEARCH_STR, &search_str,
+							ASSO_PAYEE_NUMBER, &payee_number,
+							-1);
 
 		g_signal_handlers_block_by_func (G_OBJECT (entry),
 										 G_CALLBACK (prefs_page_import_asso_combo_changed),
@@ -333,7 +311,6 @@ static gboolean prefs_page_import_asso_select_asso (GtkTreeSelection *selection,
 										   G_CALLBACK (prefs_page_import_asso_combo_changed),
 										   page);
 		gtk_entry_set_text (GTK_ENTRY (priv->entry_import_asso_search_string), search_str);
-		gtk_widget_set_sensitive (priv->entry_import_asso_search_string, FALSE);
 		gtk_widget_set_sensitive (priv->button_import_asso_remove, TRUE);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_import_asso_case_insensitive),
 									  gsb_data_payee_get_ignore_case (payee_number));
@@ -362,21 +339,86 @@ static void prefs_page_import_asso_fill_model (GtkListStore *list_store)
 
     while (list_tmp)
     {
-        gchar *tmp_str;
+		const gchar *payee_name;
+        gchar *tmp_str1;
+        gchar *tmp_str2;
         struct ImportPayeeAsso *assoc;
 
         assoc = list_tmp->data;
-        tmp_str = g_strdup (gsb_data_payee_get_name (assoc->payee_number, TRUE));
+        payee_name = g_strdup (gsb_data_payee_get_name (assoc->payee_number, TRUE));
+		tmp_str1 = utils_str_break_form_name_field (payee_name, TRUNC_FORM_FIELD);
+		if (assoc->search_str)
+			tmp_str2 = utils_str_break_form_name_field (assoc->search_str, TRUNC_FORM_FIELD);
+		else
+			tmp_str2 = NULL;
         gtk_list_store_append (GTK_LIST_STORE (list_store), &iter);
         gtk_list_store_set (GTK_LIST_STORE (list_store),
 							&iter,
-							0, tmp_str,
-							1, assoc->search_str,
-							2, assoc->payee_number,
+							ASSO_LIST_PAYEE_NAME, tmp_str1,
+							ASSO_LIST_SEARCH_STR, tmp_str2,
+							ASSO_PAYEE_NUMBER, assoc->payee_number,
+							ASSO_REAL_PAYEE_NAME, payee_name,
+							ASSO_REAL_SEARCH_STR, assoc->search_str,
 							-1);
-        g_free (tmp_str);
+		if (tmp_str1)
+			g_free (tmp_str1);
+		if (tmp_str2)
+			g_free (tmp_str2);
         list_tmp = list_tmp->next;
     }
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void prefs_page_import_asso_add_button_clicked (GtkWidget *button,
+													   PrefsPageImportAsso *page)
+{
+	gchar *hint;
+	gchar *tmp_markup_str;
+	PrefsPageImportAssoPrivate *priv;
+
+	devel_debug (NULL);
+	priv = prefs_page_import_asso_get_instance_private (page);
+
+	hint = g_strdup (_("You are creating a new payee with a rule"));
+	tmp_markup_str = g_markup_printf_escaped ("<span size=\"larger\" weight=\"bold\">%s</span>\n\n", hint);
+	if (dialogue_yes_no (_("If you continue, you will use the payee management module to create "
+						   "a new third party and its rule.\n"
+						   "Continue anyway?"),
+						 tmp_markup_str,
+						 GTK_RESPONSE_YES))
+	{
+		GtkTreeModel *model;
+    	gint payee_number;
+
+		payees_manage_payees ();
+		payee_number = gsb_import_associations_get_last_payee_number ();
+		model = gtk_tree_view_get_model (GTK_TREE_VIEW (priv->treeview_import_asso));
+
+		/* Fill the model */
+		g_signal_handlers_block_by_func (G_OBJECT (gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->treeview_import_asso))),
+										 G_CALLBACK (prefs_page_import_asso_select_asso),
+										 page);
+
+		prefs_page_import_asso_fill_model (GTK_LIST_STORE (model));
+		g_signal_handlers_unblock_by_func (G_OBJECT (gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->treeview_import_asso))),
+										   G_CALLBACK (prefs_page_import_asso_select_asso),
+										   page);
+
+		/*colorize the tree_view */
+		utils_set_list_store_background_color (priv->treeview_import_asso, ASSO_BACKGROUND_COLOR);
+
+		/* select the new ruls */
+		prefs_page_import_asso_select_row (priv->treeview_import_asso, model, payee_number);
+	}
+	g_free (hint);
+	g_free (tmp_markup_str);
 }
 
 /**
@@ -406,7 +448,7 @@ static void prefs_page_import_asso_del_assoc (GtkWidget *button,
 	}
 
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (priv->treeview_import_asso));
-    gtk_tree_model_get (model, &iter, 2, &payee_number, -1);
+    gtk_tree_model_get (model, &iter, ASSO_PAYEE_NUMBER, &payee_number, -1);
     if (payee_number > 0)
     {
 		gsb_import_associations_remove_assoc (payee_number);
@@ -435,46 +477,171 @@ static void prefs_page_import_asso_add_assoc (GtkWidget *button,
 	gint ignore_case = 0;
 	gint use_regex = 0;
 	gboolean result = FALSE;
-	static gboolean etat = FALSE;
 	PrefsPageImportAssoPrivate *priv;
 
 	priv = prefs_page_import_asso_get_instance_private (page);
 
+	/* on autorise l'édition du combobox tiers */
 	payee = g_strstrip (g_strdup (gtk_combofix_get_text (GTK_COMBOFIX (priv->combo_import_asso_payee))));
     search_str = g_strstrip (g_strdup (gtk_entry_get_text (GTK_ENTRY (priv->entry_import_asso_search_string))));
-    if (!etat && (strlen (payee) > 0 || strlen (search_str) > 0))
+
+	/* crée si besoin le tiers */
+    payee_number = gsb_data_payee_get_number_by_name (payee, FALSE);
+	if (payee_number == 0)
 	{
-		gtk_combofix_set_text (GTK_COMBOFIX (priv->combo_import_asso_payee), "");
-		gtk_entry_set_text (GTK_ENTRY (priv->entry_import_asso_search_string), "");
-		etat = TRUE;
+		gchar *hint;
+		gchar *text;
+		gchar *tmp_markup_str;
 
-        return;
+		hint = g_strdup (_("You will be redirected to the payee management module"));
+		text = g_strdup (_("You cannot directly create a new payee and its rule like this.\n"
+						   "If you continue, you will use the payee management module "
+						   "to do so.\n"
+						   "Continue anyway?"));
+
+		tmp_markup_str = g_markup_printf_escaped ("<span size=\"larger\" weight=\"bold\">%s</span>\n\n", hint);
+		if (dialogue_yes_no (text, tmp_markup_str, GTK_RESPONSE_YES))
+		{
+			payees_manage_payees_with_rule (search_str);
+			payee_number = gsb_import_associations_get_last_payee_number ();
+			result = TRUE;
+		}
+		g_free (hint);
+		g_free (text);
+		g_free (tmp_markup_str);
 	}
+	else
+		result = gsb_import_associations_add_assoc (payee_number, search_str, ignore_case, use_regex);
 
-	etat = FALSE;
-
-    payee_number = gsb_data_payee_get_number_by_name  (payee, TRUE);
 	g_free(payee);
+	g_free(search_str);
 
-	result = gsb_import_associations_add_assoc (payee_number, search_str, ignore_case, use_regex);
 	if (result)
 	{
 		GtkTreeModel *model;
-		GtkTreeSelection *selection;
 
+		/* on remplit le modèle et on se positionne sur la nouvelle association */
 		model = gtk_tree_view_get_model (GTK_TREE_VIEW (priv->treeview_import_asso));
-        prefs_page_import_asso_fill_model (GTK_LIST_STORE (model));
-		prefs_page_import_asso_foreach_asso (model, payee_number);
-		selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->treeview_import_asso));
-		gtk_tree_selection_select_path (selection, path_selected);
-		gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (priv->treeview_import_asso), path_selected, NULL, FALSE, 0,0);
-		gtk_tree_path_free (path_selected);
-		path_selected = NULL;
+		g_signal_handlers_block_by_func (G_OBJECT (gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->treeview_import_asso))),
+										 G_CALLBACK (prefs_page_import_asso_select_asso),
+										 page);
+
+		prefs_page_import_asso_fill_model (GTK_LIST_STORE (model));
+		g_signal_handlers_unblock_by_func (G_OBJECT (gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->treeview_import_asso))),
+										   G_CALLBACK (prefs_page_import_asso_select_asso),
+										   page);
+		prefs_page_import_asso_select_row (priv->treeview_import_asso,
+										   model,
+										   payee_number);
 		utils_set_list_store_background_color (priv->treeview_import_asso, ASSO_BACKGROUND_COLOR);
 
 		utils_prefs_gsb_file_set_modified ();
 	}
-	g_free(search_str);
+}
+
+/**
+ * update une association existante
+ *
+ * \param text		nouvelle version de la règle.
+ * \param
+ *
+ * \return
+ **/
+static void prefs_page_import_asso_update_assoc (const gchar *rule,
+												 PrefsPageImportAsso *page)
+{
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	gint payee_number;
+	PrefsPageImportAssoPrivate *priv;
+
+	priv = prefs_page_import_asso_get_instance_private (page);
+
+    if (!gtk_tree_selection_get_selected (gtk_tree_view_get_selection
+										  (GTK_TREE_VIEW (priv->treeview_import_asso)),
+										  NULL,
+										  &iter))
+	{
+		/* on est dans une nouvelle association pour un tiers existant */
+		prefs_page_import_asso_add_assoc (NULL, page);
+
+		return;
+	}
+
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (priv->treeview_import_asso));
+    gtk_tree_model_get (model, &iter, ASSO_PAYEE_NUMBER, &payee_number, -1);
+    if (payee_number > 0)
+    {
+    	GSList *list_tmp;
+		gchar *tmp_str;
+		GrisbiWinRun *w_run;
+
+		w_run = grisbi_win_get_w_run ();
+
+		tmp_str = utils_str_break_form_name_field (rule, TRUNC_FORM_FIELD);
+		gtk_list_store_set (GTK_LIST_STORE (model),
+							&iter,
+							ASSO_LIST_SEARCH_STR, tmp_str,
+							ASSO_REAL_SEARCH_STR, rule,
+							-1);
+		g_free (tmp_str);
+
+		list_tmp = gsb_import_associations_get_liste_associations ();
+	    while (list_tmp)
+		{
+			struct ImportPayeeAsso *assoc;
+
+			assoc = list_tmp->data;
+			if (assoc->payee_number == payee_number)
+			{
+				if (assoc->search_str)
+					g_free (assoc->search_str);
+				assoc->search_str = g_strdup (rule);
+				assoc->ignore_case = w_run->import_asso_case_insensitive;
+				assoc->use_regex = w_run->import_asso_use_regex;
+				break;
+			}
+	        list_tmp = list_tmp->next;
+		}
+		gsb_data_payee_set_search_string (payee_number, rule);
+		gsb_data_payee_set_ignore_case (payee_number, w_run->import_asso_case_insensitive);
+		gsb_data_payee_set_use_regex (payee_number, w_run->import_asso_use_regex);
+
+		utils_prefs_gsb_file_set_modified ();
+    }
+}
+
+/**
+ * called when we press a key in the search str entry
+ *
+ * \param widget	entry for search string
+ * \param ev
+ * \param page
+ *
+ * \return FALSE
+ **/
+static gboolean prefs_page_import_asso_key_press_event (GtkWidget *widget,
+														GdkEventKey *ev,
+												 		PrefsPageImportAsso *page)
+{
+	const gchar *tmp_str;
+
+	switch (ev->keyval)
+	{
+		case GDK_KEY_KP_Enter :
+		case GDK_KEY_Return :
+			tmp_str = gtk_entry_get_text (GTK_ENTRY (widget));
+			if (strlen (tmp_str) == 0)
+				return FALSE;
+			else
+				prefs_page_import_asso_update_assoc (tmp_str, page);
+			return TRUE;
+			break;
+
+		default:
+			break;
+	}
+    return FALSE;
 }
 
 /**
@@ -490,6 +657,7 @@ static void prefs_page_import_asso_setup_treeview_asso (PrefsPageImportAsso *pag
     GtkListStore *list_store;
     GtkTreeViewColumn *column;
     GtkCellRenderer *cell;
+	GtkCellRenderer *search_cell;
     GtkTreeSelection *selection;
 
 	priv = prefs_page_import_asso_get_instance_private (page);
@@ -497,7 +665,13 @@ static void prefs_page_import_asso_setup_treeview_asso (PrefsPageImportAsso *pag
 	gtk_widget_set_name (priv->treeview_import_asso, "tree_view");
 
 	/* create the model */
-    list_store = gtk_list_store_new (4, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INT, GDK_TYPE_RGBA);
+    list_store = gtk_list_store_new (ASSO_MODEL_N_COLUMNS,
+									 G_TYPE_STRING,			/* ASSO_LIST_PAYEE_NAME */
+									 G_TYPE_STRING,			/* ASSO_LIST_SEARCH_STR */
+									 G_TYPE_INT,			/* ASSO_PAYEE_NUMBER */
+									 GDK_TYPE_RGBA,			/* ASSO_BACKGROUND_COLOR */
+									 G_TYPE_STRING,			/* ASSO_REAL_PAYEE_NAME */
+									 G_TYPE_STRING);		/* ASSO_REAL_SEARCH_STR */
 
     /* create the treeview */
 	gtk_tree_view_set_model (GTK_TREE_VIEW (priv->treeview_import_asso), GTK_TREE_MODEL (list_store));
@@ -507,7 +681,7 @@ static void prefs_page_import_asso_setup_treeview_asso (PrefsPageImportAsso *pag
     cell = gtk_cell_renderer_text_new ();
     column = gtk_tree_view_column_new_with_attributes (_("Payee name"),
 													   cell,
-													   "text", 0,
+													   "text", ASSO_LIST_PAYEE_NAME,
 													   "cell-background-rgba", ASSO_BACKGROUND_COLOR,
 													   NULL);
     gtk_tree_view_column_set_expand (column, TRUE);
@@ -516,16 +690,11 @@ static void prefs_page_import_asso_setup_treeview_asso (PrefsPageImportAsso *pag
     gtk_tree_view_append_column (GTK_TREE_VIEW (priv->treeview_import_asso), column);
 
     /* set the Search string column */
-    cell = gtk_cell_renderer_text_new ();
-    g_object_set (cell, "editable", TRUE, NULL);
-    g_signal_connect (cell,
-					  "edited",
-					  G_CALLBACK (prefs_page_import_asso_cell_edited),
-					  page);
+    search_cell = gtk_cell_renderer_text_new ();
 
     column = gtk_tree_view_column_new_with_attributes (_("Search string"),
-													   cell,
-													   "text", 1,
+													   search_cell,
+													   "text", ASSO_LIST_SEARCH_STR,
 													   "cell-background-rgba", ASSO_BACKGROUND_COLOR,
 													   NULL);
     gtk_tree_view_column_set_expand (column, TRUE);
@@ -566,21 +735,10 @@ static void prefs_page_import_asso_setup_import_asso_page (PrefsPageImportAsso *
 	PrefsPageImportAssoPrivate *priv;
 
 	devel_debug (NULL);
-
 	priv = prefs_page_import_asso_get_instance_private (page);
 	w_run = grisbi_win_get_w_run ();
 
-    /* set signal button "Add" */
-    g_signal_connect (G_OBJECT (priv->button_import_asso_add),
-                      "clicked",
-                      G_CALLBACK  (prefs_page_import_asso_add_assoc),
-                      page);
-
-    /* set signal button "Remove" */
-    g_signal_connect (G_OBJECT (priv->button_import_asso_remove),
-                       "clicked",
-                       G_CALLBACK (prefs_page_import_asso_del_assoc),
-                       page);
+	/* set sensitive button_import_asso_remove */
     gtk_widget_set_sensitive (priv->button_import_asso_remove, FALSE);
 
 	/* Create entry liste des tiers */
@@ -595,24 +753,46 @@ static void prefs_page_import_asso_setup_import_asso_page (PrefsPageImportAsso *
     gtk_widget_set_hexpand (priv->combo_import_asso_payee, TRUE);
     gtk_grid_attach (GTK_GRID (priv->grid_import_asso_details), priv->combo_import_asso_payee, 1, 0, 1, 1);
 
-	/* Connect signal combo_import_asso_payee entry */
+	/* Get combo_import_asso_payee entry */
 	entry = gtk_combofix_get_entry (GTK_COMBOFIX (priv->combo_import_asso_payee));
+
+	/* init entry search string */
+    gtk_entry_set_text (GTK_ENTRY (priv->entry_import_asso_search_string), "");
+
+	/* init check buttons case_insensitive and use regex */
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_import_asso_case_insensitive),
+								  w_run->import_asso_case_insensitive);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_import_asso_use_regex),
+								  w_run->import_asso_use_regex);
+	gtk_widget_set_sensitive (priv->hbox_import_asso_use_regex, FALSE); /* unused */
+
+	/* setup treeview_associations */
+	prefs_page_import_asso_setup_treeview_asso (page);
+	prefs_page_import_asso_check_add_button (page);
+
+    /* set signal button "Add" */
+    g_signal_connect (G_OBJECT (priv->button_import_asso_add),
+                      "clicked",
+                      G_CALLBACK  (prefs_page_import_asso_add_button_clicked),
+                      page);
+
+    /* set signal button "Remove" */
+    g_signal_connect (G_OBJECT (priv->button_import_asso_remove),
+                       "clicked",
+                       G_CALLBACK (prefs_page_import_asso_del_assoc),
+                       page);
+
+    /* set signal combo_import_asso_payee entry */
     g_signal_connect (G_OBJECT (entry),
 					  "changed",
 					  G_CALLBACK (prefs_page_import_asso_combo_changed),
 					  page);
 
-    /* init entry search string */
-    gtk_entry_set_text (GTK_ENTRY (priv->entry_import_asso_search_string), "");
-    g_signal_connect_swapped (priv->entry_import_asso_search_string,
-							  "changed",
-							  G_CALLBACK (prefs_page_import_asso_check_add_button),
-							  page);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_import_asso_case_insensitive),
-								  w_run->import_asso_case_insensitive);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_import_asso_use_regex),
-								  w_run->import_asso_use_regex);
-	gtk_widget_set_sensitive (priv->hbox_import_asso_use_regex, FALSE);
+	/* set signal search string entry */
+	g_signal_connect (G_OBJECT (priv->entry_import_asso_search_string),
+					  "key-press-event",
+					  G_CALLBACK (prefs_page_import_asso_key_press_event),
+					  page);
 
 	/* Connect signal checkbutton_import_asso_case_insensitive */
     g_signal_connect (priv->checkbutton_import_asso_case_insensitive,
@@ -637,11 +817,6 @@ static void prefs_page_import_asso_setup_import_asso_page (PrefsPageImportAsso *
 					  "button-press-event",
 					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
 					  priv->checkbutton_import_asso_use_regex);
-
-	/* setup treeview_associations */
-	prefs_page_import_asso_setup_treeview_asso (page);
-
-	prefs_page_import_asso_check_add_button (page);
 }
 
 /******************************************************************************/

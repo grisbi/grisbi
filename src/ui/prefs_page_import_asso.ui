@@ -260,6 +260,7 @@ For instance, all QIF labels containing 'Rent' could be associated with a specif
                               <object class="GtkEntry" id="entry_import_asso_search_string">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="placeholder_text" translatable="yes">Rule</property>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>

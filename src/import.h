@@ -149,6 +149,7 @@ gboolean 	gsb_import_associations_add_assoc 				(gint payee_number,
 															 gint use_regex);
 gint 		gsb_import_associations_cmp_assoc 				(struct ImportPayeeAsso *assoc_1,
 															 struct ImportPayeeAsso *assoc_2);
+gint		gsb_import_associations_get_last_payee_number	(void);
 GSList *	gsb_import_associations_get_liste_associations	(void);
 void 		gsb_import_associations_free_liste				(void);
 void 		gsb_import_associations_init_variables 			(void);

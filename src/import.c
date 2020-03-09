@@ -120,6 +120,7 @@ static gboolean		add_csv_page = FALSE;
 
 /* gestion des associations entre un tiers et sa chaine de recherche */
 GSList *			liste_associations_tiers = NULL;
+struct ImportPayeeAsso *last_added_assoc;
 
 /* nombre de transaction à importer qui affiche une barre de progression */
 #define NBRE_TRANSACTION_FOR_PROGRESS_BAR 250
@@ -266,6 +267,8 @@ gboolean gsb_import_associations_add_assoc (gint payee_number,
 	assoc->ignore_case = ignore_case;
 	assoc->use_regex = use_regex;
 
+	last_added_assoc = assoc;
+
     /* add association in liste_associations_tiers */
     if (g_slist_length (liste_associations_tiers) == 0)
     {
@@ -386,6 +389,20 @@ void gsb_import_associations_free_liste (void)
 
 	g_slist_foreach (liste_associations_tiers, (GFunc) gsb_import_associations_free_assoc, NULL);
 	g_slist_free (liste_associations_tiers);
+}
+
+/**
+ * retourne le dernier numéro de tiers ajouté à la liste
+ * utilisé pour la création d'une nouvelle association
+ * dans la page associations des préférences
+ *
+ * \param
+ *
+ * \return
+ **/
+gint gsb_import_associations_get_last_payee_number (void)
+{
+	return last_added_assoc->payee_number;
 }
 
 /******************************************************************************/

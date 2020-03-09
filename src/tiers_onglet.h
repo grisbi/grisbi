@@ -19,6 +19,7 @@ gboolean 		payees_hold_position_set_expand 	(gboolean expand);
 gboolean 		payees_hold_position_set_path 		(GtkTreePath *path);
 void 			payees_init_variables_list 			(void);
 void 			payees_manage_payees 				(void);
+void 			payees_manage_payees_with_rule		(const gchar *rule);
 void 			payees_new_payee 					(void);
 void 			payees_remove_unused_payees 		(void);
 gboolean 		payees_update_combofix 				(gboolean force);
