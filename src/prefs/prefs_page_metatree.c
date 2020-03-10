@@ -376,7 +376,7 @@ static void prefs_page_metatree_setup_metatree_page (PrefsPageMetatree *page)
 	/* gestion des divisions*/
 	vbox_button = gsb_automem_radiobutton3_gsettings_new (_("Expand the line"),
 														  _("Edit the line"),
-														  ("Manage the line"),
+														  _("Manage the line"),
 														  &conf.metatree_action_2button_press,
 													 	  G_CALLBACK (prefs_page_onglet_metatree_action_changed),
 													 	  &conf.metatree_action_2button_press,
