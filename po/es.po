@@ -11128,7 +11128,7 @@ msgid ""
 "org so that we can include them in next version for all users."
 msgstr ""
 "¡ No hay más consejos disponibles !  Por favor envíe los consejos que se le "
-"ocurran a grisbi-devel@lists.sourceforge.net para que podamos incluirlos en "
+"ocurran a devel@listes.grisbi.org para que podamos incluirlos en "
 "la siguiente versión para todos los usuarios."
 
 #: ../src/tip.c:136

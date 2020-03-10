@@ -10952,8 +10952,8 @@ msgid ""
 msgstr ""
 "Plus d'astuce disponible !\n"
 "\n"
-"Si vous en avez, envoyez les astuces que vous connaissez à grisbi-"
-"devel@listes.grisbi pour que nous puissions les inclure dans la prochaine "
+"Si vous en avez, envoyez les astuces que vous connaissez à "
+"devel@listes.grisbi.org pour que nous puissions les inclure dans la prochaine "
 "version et en faire profiter tous les utilisateurs de Grisbi."
 
 #: ../src/tip.c:136

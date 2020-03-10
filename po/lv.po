@@ -10918,8 +10918,8 @@ msgid ""
 "No more tip available!  Please send any tips you know to devel@listes.grisbi."
 "org so that we can include them in next version for all users."
 msgstr ""
-"Tie ir visi padomi! Iesūtiet papildu padomus grisbi-devel@lists.sourceforge."
-"net, ja vēlaties, lai par tiem uzzina arī citi lietotāji."
+"Tie ir visi padomi! Iesūtiet papildu padomus devel@listes.grisbi.org, "
+"ja vēlaties, lai par tiem uzzina arī citi lietotāji."
 
 #: ../src/tip.c:136
 msgid "Did you know that..."

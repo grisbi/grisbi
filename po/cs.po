@@ -10979,8 +10979,8 @@ msgid ""
 "org so that we can include them in next version for all users."
 msgstr ""
 "Další tipy nejsou k dispozici. Pokud máte další tipy, o které byste se rádi "
-"podělili s ostatními uživateli, pošlete je na adresu grisbi-devel@lists."
-"sourceforge.net a my je zařadíme do další verze."
+"podělili s ostatními uživateli, pošlete je na adresu "
+"devel@listes.grisbi.org a my je zařadíme do další verze."
 
 #: ../src/tip.c:136
 msgid "Did you know that..."
