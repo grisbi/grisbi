@@ -164,7 +164,7 @@ GSList *	gsb_import_import_selected_files 				(GtkWidget *assistant);
 void 		gsb_import_register_account 					(struct ImportAccount *account);
 void 		gsb_import_register_account_error 				(struct ImportAccount *account);
 void 		gsb_import_register_import_formats 				(void);
-gchar * 	gsb_import_unique_imported_name 				(gchar *account_name);
+gchar * 	gsb_import_unique_imported_name 				(const gchar *account_name);
 /* END_DECLARATION */
 
 

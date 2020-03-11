@@ -5048,7 +5048,7 @@ void gsb_import_register_import_formats (void)
  *
  * return a newly allocated string or NULL
  **/
-gchar *gsb_import_unique_imported_name (gchar *account_name)
+gchar *gsb_import_unique_imported_name (const gchar *account_name)
 {
     GSList *tmp_list;
     gchar *basename;
