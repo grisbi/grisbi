@@ -30,7 +30,7 @@ gchar * 	gsb_string_truncate 									(gchar * string);
 gchar *		gsb_string_uniform_new_line 							(const gchar *chaine,
 																	 gssize nbre_char);
 gchar * 	latin2utf8 												(const gchar * inchar);
-gchar *		limit_string 											(gchar *string,
+gchar *		limit_string 											(const gchar *string,
 												                     gint length);
 gint 		my_strcasecmp 										    (const gchar *string_1,
 																	 const gchar *string_2);

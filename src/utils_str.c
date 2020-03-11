@@ -581,7 +581,7 @@ gchar *my_strdup (const gchar *string)
  *
  * \return a duplicate version of the string with max length character (must to be freed)
  **/
-gchar *limit_string (gchar *string,
+gchar *limit_string (const gchar *string,
 					 gint length)
 {
     gchar *string_return;
