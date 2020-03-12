@@ -156,7 +156,7 @@ static void gsb_file_remove_old_backup (const gchar *filename)
 					gchar *tmp_year;
 					gchar *tmp_month;
 					gchar *tmp_day;
-					gint long_name;
+					size_t long_name;
 
 					long_name = strlen (name);
 					str_date = g_strndup (old_filename+long_name+1, 8);
