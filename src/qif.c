@@ -1171,12 +1171,6 @@ gboolean recuperation_donnees_qif (GtkWidget *assistant,
 						}
 						else
 						{
-							/* create and fill the new account */
-							if (premier_compte)
-							{
-								gsb_qif_free_struct_account (imported_account);
-								premier_compte = FALSE;
-							}
 							imported_account = gsb_qif_init_struct_account (account_name, imported->name);
 							g_free (account_name);
 						}
