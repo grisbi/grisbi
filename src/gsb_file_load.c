@@ -2112,6 +2112,7 @@ static  void gsb_file_load_party ( const gchar **attribute_names,
         if ( attribute_values[i] && strlen (attribute_values[i]) > 0 )
         {
             gsb_data_payee_set_search_string ( payee_number, attribute_values[i]);
+			g_free(assoc); /* in case it was already allocated */
 			assoc = g_malloc (sizeof (struct ImportPayeeAsso));
 			assoc->payee_number = payee_number;
 			assoc->search_str = g_strdup (attribute_values[i]);
