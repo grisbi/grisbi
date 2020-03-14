@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-10 19:39+0100\n"
+"POT-Creation-Date: 2020-03-14 08:56+0100\n"
 "PO-Revision-Date: 2020-03-01 11:55+0100\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -1475,7 +1475,7 @@ msgstr "Eigenschaften von %s"
 msgid "No sub-category defined"
 msgstr "Keine Unterkategorie definiert"
 
-#: ../src/categories_onglet.c:730 ../src/qif.c:1720 ../src/qif.c:1729
+#: ../src/categories_onglet.c:730 ../src/qif.c:1714 ../src/qif.c:1723
 msgid "No category defined"
 msgstr "Keine Kategorie definiert"
 
@@ -7514,11 +7514,11 @@ msgstr ""
 "Ausgangsdatei gespeichert als:\n"
 "\"%s\"."
 
-#: ../src/gsb_file_load.c:3788
+#: ../src/gsb_file_load.c:3789
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Diese Datei ist kein Grisbi Datei... der Ladevorgang wird abgebrochen."
 
-#: ../src/gsb_file_load.c:4096 ../src/gsb_file_save.c:396
+#: ../src/gsb_file_load.c:4097 ../src/gsb_file_save.c:396
 #: ../src/parametres.c:548
 #, c-format
 msgid ""
@@ -7528,17 +7528,17 @@ msgstr ""
 "Diese Version von Grisbi unterstützt keine Verschlüsselung.\n"
 "Bitte rekompilieren Sie Grisbi mit OpenSSL Unterstützung."
 
-#: ../src/gsb_file_load.c:4099
+#: ../src/gsb_file_load.c:4100
 #, c-format
 msgid "Cannot open encrypted file '%s'"
 msgstr "Die verschlüsselte Datei kann nicht geöffnet werden '%s'"
 
-#: ../src/gsb_file_load.c:4115
+#: ../src/gsb_file_load.c:4116
 #, c-format
 msgid "'%s' is not a valid UTF8 file"
 msgstr "'%s' ist keine gültige UTF-8 Datei"
 
-#: ../src/gsb_file_load.c:4120
+#: ../src/gsb_file_load.c:4121
 #, c-format
 msgid ""
 "You can choose to fix the file with the substitution character? or return to "
@@ -7547,20 +7547,20 @@ msgstr ""
 "Bitte Auswählen ob die Datei korrigiert oder ob eine andere Datei geöffnet "
 "werden soll.\n"
 
-#: ../src/gsb_file_load.c:4126
+#: ../src/gsb_file_load.c:4127
 msgid "Load another file"
 msgstr "Andere Datei öffnen"
 
-#: ../src/gsb_file_load.c:4127
+#: ../src/gsb_file_load.c:4128
 msgid "Correct the file"
 msgstr "Datei korrigieren"
 
-#: ../src/gsb_file_load.c:4141
+#: ../src/gsb_file_load.c:4142
 #, c-format
 msgid "You will go back to the choice of the file.\n"
 msgstr "Eine andere Datei auswählen.\n"
 
-#: ../src/gsb_file_load.c:4220
+#: ../src/gsb_file_load.c:4221
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -7571,11 +7571,11 @@ msgstr ""
 "Bevor Buchungen oder wichtige Informationen geändert werden sollten Sie "
 "beachten, dass es sich um ein Archiv handelt."
 
-#: ../src/gsb_file_load.c:4224
+#: ../src/gsb_file_load.c:4225
 msgid "Grisbi archive opened"
 msgstr "Grisbi Archiv geöffnet"
 
-#: ../src/gsb_file_load.c:4234
+#: ../src/gsb_file_load.c:4235
 #, c-format
 msgid ""
 "You import a file from version %s of Grisbi. After updating your file will "
@@ -7590,12 +7590,12 @@ msgstr ""
 "Die Symbole und Farben müssen neu angepasst werden, die Verschlüsselung kann "
 "nicht weiterverwendet werden."
 
-#: ../src/gsb_file_load.c:4240
+#: ../src/gsb_file_load.c:4241
 #, c-format
 msgid "Importing a file whose version is for an earlier version of Grisbi"
 msgstr "Grisbi Datei aus einer Vorversion öffnen"
 
-#: ../src/gsb_file_load.c:4681
+#: ../src/gsb_file_load.c:4682
 #, c-format
 msgid ""
 "An error occurred while parsing the file :\n"
@@ -10449,11 +10449,11 @@ msgid " [Transaction imported without date]"
 msgstr " [Importierte Buchungen ohne Datum]"
 
 #. create and fill the new account
-#: ../src/qif.c:1240
+#: ../src/qif.c:1234
 msgid "Imported QIF account"
 msgstr "Importiertes QIF Konto"
 
-#: ../src/qif.c:1251
+#: ../src/qif.c:1245
 #, c-format
 msgid ""
 "Grisbi found an investment account:\n"
@@ -10466,11 +10466,11 @@ msgstr ""
 "Diese Funktionalität ist derzeit nicht implementiert. Grisbi wird versuchen, "
 "dieses Konto als Bankkonto zu importieren."
 
-#: ../src/qif.c:1322
+#: ../src/qif.c:1316
 msgid "Opening Balance"
 msgstr "Saldo Anfang"
 
-#: ../src/qif.c:1353
+#: ../src/qif.c:1347
 msgid ""
 "Grisbi couldn't determine the format of the date into the qif file.\n"
 "Please contact the Grisbi team (devel@listes.grisbi.org) to find the "
@@ -10483,7 +10483,7 @@ msgstr ""
 "Ursache für den Fehler zu finden.\n"
 "Die Buchungen werden mit dem Standarddatum 01.01.2000 importiert"
 
-#: ../src/qif.c:1442
+#: ../src/qif.c:1436
 #, c-format
 msgid ""
 "There were many accounts to export in the archive,\n"
@@ -10494,7 +10494,7 @@ msgstr ""
 "Das QIF Format unterstützt nur eine Datei pro Konto,\n"
 "deshalb hat Grisbi %d Dateien erstellt - jeweils eine pro Konto:\n"
 
-#: ../src/qif.c:1504
+#: ../src/qif.c:1498
 #, c-format
 msgid "Error opening file '%s'"
 msgstr "Fehler beim Öffnen der Datei '%s'"

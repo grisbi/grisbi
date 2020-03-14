@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Grisbi 0.5.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-10 19:39+0100\n"
+"POT-Creation-Date: 2020-03-14 08:56+0100\n"
 "PO-Revision-Date: 2009-04-13 14:53+0200\n"
 "Last-Translator: \n"
 "Language-Team: KASKAS <ttnfy17@yahoo.gr>\n"
@@ -1547,7 +1547,7 @@ msgstr "Ιδιότητες για %s"
 msgid "No sub-category defined"
 msgstr "Υποκατηγορία που καθορίζεται καμία"
 
-#: ../src/categories_onglet.c:730 ../src/qif.c:1720 ../src/qif.c:1729
+#: ../src/categories_onglet.c:730 ../src/qif.c:1714 ../src/qif.c:1723
 msgid "No category defined"
 msgstr "Κατηγορία που καθορίζεται καμία"
 
@@ -7816,11 +7816,11 @@ msgstr ""
 "\n"
 "%s"
 
-#: ../src/gsb_file_load.c:3788
+#: ../src/gsb_file_load.c:3789
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Αυτό δεν είναι ένα αρχείο Grisbi… Η φόρτωση αναβάλλεται."
 
-#: ../src/gsb_file_load.c:4096 ../src/gsb_file_save.c:396
+#: ../src/gsb_file_load.c:4097 ../src/gsb_file_save.c:396
 #: ../src/parametres.c:548
 #, c-format
 msgid ""
@@ -7830,39 +7830,39 @@ msgstr ""
 "Αυτή η έκδοση του Grisbi δεν υποστηρίζει κρυπτογράφηση.\n"
 "Παρακαλώ ξαναμεταγλωττίστε το Grisbi με κρυπτογράφηση OpenSSL ενεργοποιημένη."
 
-#: ../src/gsb_file_load.c:4099
+#: ../src/gsb_file_load.c:4100
 #, c-format
 msgid "Cannot open encrypted file '%s'"
 msgstr "Αδύνατο το άνοιγμα του κρυπτογραφημένου αρχείου '%s'"
 
-#: ../src/gsb_file_load.c:4115
+#: ../src/gsb_file_load.c:4116
 #, c-format
 msgid "'%s' is not a valid UTF8 file"
 msgstr ""
 
-#: ../src/gsb_file_load.c:4120
+#: ../src/gsb_file_load.c:4121
 #, c-format
 msgid ""
 "You can choose to fix the file with the substitution character? or return to "
 "the file choice.\n"
 msgstr ""
 
-#: ../src/gsb_file_load.c:4126
+#: ../src/gsb_file_load.c:4127
 #, fuzzy
 msgid "Load another file"
 msgstr "Αποκρυπτογραφημένο αρχείο"
 
-#: ../src/gsb_file_load.c:4127
+#: ../src/gsb_file_load.c:4128
 #, fuzzy
 msgid "Correct the file"
 msgstr "Συμπίεση αντιγράφων Grisbi"
 
-#: ../src/gsb_file_load.c:4141
+#: ../src/gsb_file_load.c:4142
 #, c-format
 msgid "You will go back to the choice of the file.\n"
 msgstr ""
 
-#: ../src/gsb_file_load.c:4220
+#: ../src/gsb_file_load.c:4221
 #, fuzzy
 msgid ""
 "You have opened an archive.\n"
@@ -7875,11 +7875,11 @@ msgstr ""
 "θέλετε και σώζετε αργότερα (νέες εκθέσεις…) αλλά θυμηθείτε ότι είναι ένα "
 "αρχείο πριν τροποποιηθούν  μερικές συναλλαγές ή σημαντικές πληροφορίες."
 
-#: ../src/gsb_file_load.c:4224
+#: ../src/gsb_file_load.c:4225
 msgid "Grisbi archive opened"
 msgstr "Αρχείο Grisbi που ανοίγουν"
 
-#: ../src/gsb_file_load.c:4234
+#: ../src/gsb_file_load.c:4235
 #, c-format
 msgid ""
 "You import a file from version %s of Grisbi. After updating your file will "
@@ -7888,12 +7888,12 @@ msgid ""
 "You will have to re-customize the icons and colors."
 msgstr ""
 
-#: ../src/gsb_file_load.c:4240
+#: ../src/gsb_file_load.c:4241
 #, c-format
 msgid "Importing a file whose version is for an earlier version of Grisbi"
 msgstr ""
 
-#: ../src/gsb_file_load.c:4681
+#: ../src/gsb_file_load.c:4682
 #, fuzzy, c-format
 msgid ""
 "An error occurred while parsing the file :\n"
@@ -10815,11 +10815,11 @@ msgid " [Transaction imported without date]"
 msgstr " [Συναλλαγή που εισάγεται χωρίς ημερομηνία]"
 
 #. create and fill the new account
-#: ../src/qif.c:1240
+#: ../src/qif.c:1234
 msgid "Imported QIF account"
 msgstr "Εισαγόμενος λογαριασμός QIF"
 
-#: ../src/qif.c:1251
+#: ../src/qif.c:1245
 #, fuzzy, c-format
 msgid ""
 "Grisbi found an investment account:\n"
@@ -10831,11 +10831,11 @@ msgstr ""
 "ακόμα.  Εντούτοις, το Grisbi θα προσπαθήσει να το εισαγάγει ως τραπεζικό "
 "λογαριασμό"
 
-#: ../src/qif.c:1322
+#: ../src/qif.c:1316
 msgid "Opening Balance"
 msgstr "Ισορροπία ανοίγματος"
 
-#: ../src/qif.c:1353
+#: ../src/qif.c:1347
 #, fuzzy
 msgid ""
 "Grisbi couldn't determine the format of the date into the qif file.\n"
@@ -10848,7 +10848,7 @@ msgstr ""
 "να βρείτε λύση στο πρόβλημα.\n"
 "Για τώρα, όλες οι ημερομηνίες θα εισαχθούν ως 01.01.1970"
 
-#: ../src/qif.c:1442
+#: ../src/qif.c:1436
 #, c-format
 msgid ""
 "There were many accounts to export in the archive,\n"
@@ -10859,7 +10859,7 @@ msgstr ""
 "αλλά ένα αρχείο QIF υποστηρίζει μόνο αρχείο ανά λογαριασμό,\n"
 "έτσι το Grisbi δημιούργησε %d τα αρχεία, ένα ανά λογαριασμό:\n"
 
-#: ../src/qif.c:1504
+#: ../src/qif.c:1498
 #, c-format
 msgid "Error opening file '%s'"
 msgstr "Λάθος κατά το άνοιγμα του αρχείου '%s'"

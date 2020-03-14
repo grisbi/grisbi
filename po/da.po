@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-10 19:39+0100\n"
+"POT-Creation-Date: 2020-03-14 08:56+0100\n"
 "PO-Revision-Date: 2006-03-25 13:23+0100\n"
 "Last-Translator: Dmitri Popov <dmpop@openoffice.org>\n"
 "Language-Team: \n"
@@ -1526,7 +1526,7 @@ msgstr ""
 msgid "No sub-category defined"
 msgstr "Ingen underkategori (%d)"
 
-#: ../src/categories_onglet.c:730 ../src/qif.c:1720 ../src/qif.c:1729
+#: ../src/categories_onglet.c:730 ../src/qif.c:1714 ../src/qif.c:1723
 #, fuzzy
 msgid "No category defined"
 msgstr "Ingen kategori  (%d)"
@@ -7388,12 +7388,12 @@ msgid ""
 "\"%s\"."
 msgstr ""
 
-#: ../src/gsb_file_load.c:3788
+#: ../src/gsb_file_load.c:3789
 #, fuzzy
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Denne fil er ikke en Grisbi-rapport"
 
-#: ../src/gsb_file_load.c:4096 ../src/gsb_file_save.c:396
+#: ../src/gsb_file_load.c:4097 ../src/gsb_file_save.c:396
 #: ../src/parametres.c:548
 #, c-format
 msgid ""
@@ -7401,39 +7401,39 @@ msgid ""
 "Please recompile Grisbi with OpenSSL encryption enabled."
 msgstr ""
 
-#: ../src/gsb_file_load.c:4099
+#: ../src/gsb_file_load.c:4100
 #, fuzzy, c-format
 msgid "Cannot open encrypted file '%s'"
 msgstr "Kan ikke importerer fil."
 
-#: ../src/gsb_file_load.c:4115
+#: ../src/gsb_file_load.c:4116
 #, c-format
 msgid "'%s' is not a valid UTF8 file"
 msgstr ""
 
-#: ../src/gsb_file_load.c:4120
+#: ../src/gsb_file_load.c:4121
 #, c-format
 msgid ""
 "You can choose to fix the file with the substitution character? or return to "
 "the file choice.\n"
 msgstr ""
 
-#: ../src/gsb_file_load.c:4126
+#: ../src/gsb_file_load.c:4127
 #, fuzzy
 msgid "Load another file"
 msgstr "Postscript-fil"
 
-#: ../src/gsb_file_load.c:4127
+#: ../src/gsb_file_load.c:4128
 #, fuzzy
 msgid "Correct the file"
 msgstr "LaTeX-fil"
 
-#: ../src/gsb_file_load.c:4141
+#: ../src/gsb_file_load.c:4142
 #, c-format
 msgid "You will go back to the choice of the file.\n"
 msgstr ""
 
-#: ../src/gsb_file_load.c:4220
+#: ../src/gsb_file_load.c:4221
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -7441,11 +7441,11 @@ msgid ""
 "transactions or important information."
 msgstr ""
 
-#: ../src/gsb_file_load.c:4224
+#: ../src/gsb_file_load.c:4225
 msgid "Grisbi archive opened"
 msgstr ""
 
-#: ../src/gsb_file_load.c:4234
+#: ../src/gsb_file_load.c:4235
 #, c-format
 msgid ""
 "You import a file from version %s of Grisbi. After updating your file will "
@@ -7454,12 +7454,12 @@ msgid ""
 "You will have to re-customize the icons and colors."
 msgstr ""
 
-#: ../src/gsb_file_load.c:4240
+#: ../src/gsb_file_load.c:4241
 #, c-format
 msgid "Importing a file whose version is for an earlier version of Grisbi"
 msgstr ""
 
-#: ../src/gsb_file_load.c:4681
+#: ../src/gsb_file_load.c:4682
 #, c-format
 msgid ""
 "An error occurred while parsing the file :\n"
@@ -10204,12 +10204,12 @@ msgid " [Transaction imported without date]"
 msgstr ""
 
 #. create and fill the new account
-#: ../src/qif.c:1240
+#: ../src/qif.c:1234
 #, fuzzy
 msgid "Imported QIF account"
 msgstr "Fjern en konto"
 
-#: ../src/qif.c:1251
+#: ../src/qif.c:1245
 #, c-format
 msgid ""
 "Grisbi found an investment account:\n"
@@ -10218,12 +10218,12 @@ msgid ""
 "a bank account."
 msgstr ""
 
-#: ../src/qif.c:1322
+#: ../src/qif.c:1316
 #, fuzzy
 msgid "Opening Balance"
 msgstr "Betalingsbalance"
 
-#: ../src/qif.c:1353
+#: ../src/qif.c:1347
 msgid ""
 "Grisbi couldn't determine the format of the date into the qif file.\n"
 "Please contact the Grisbi team (devel@listes.grisbi.org) to find the "
@@ -10231,7 +10231,7 @@ msgid ""
 "For now, all the dates will be imported as 01.01.2000"
 msgstr ""
 
-#: ../src/qif.c:1442
+#: ../src/qif.c:1436
 #, c-format
 msgid ""
 "There were many accounts to export in the archive,\n"
@@ -10239,7 +10239,7 @@ msgid ""
 "so Grisbi created %d files, one per account :\n"
 msgstr ""
 
-#: ../src/qif.c:1504
+#: ../src/qif.c:1498
 #, c-format
 msgid "Error opening file '%s'"
 msgstr ""
