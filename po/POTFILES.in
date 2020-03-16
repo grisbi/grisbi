@@ -78,6 +78,7 @@ src/gsb_data_scheduled.c
 src/gsb_data_transaction.c
 src/gsb_debug.c
 src/gsb_file.c
+src/gsb_file_config.c
 src/gsb_file_load.c
 src/gsb_file_others.c
 src/gsb_file_save.c
@@ -146,6 +147,7 @@ src/prefs/prefs_page_archives.c
 src/prefs/prefs_page_bet_account.c
 src/prefs/prefs_page_display_adr.c
 src/prefs/prefs_page_display_fonts.c
+src/prefs/prefs_page_display_form.c
 src/prefs/prefs_page_display_gui.c
 src/prefs/prefs_page_display_ope.c
 src/prefs/prefs_page_divers.c
