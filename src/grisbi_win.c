@@ -953,6 +953,9 @@ static void grisbi_win_init (GrisbiWin *win)
 	gtk_widget_show (priv->stack_box);
 	gtk_box_pack_start (GTK_BOX (priv->main_box), priv->stack_box, TRUE, TRUE, 0);
 
+	/* set font size of statusbar */
+	gtk_widget_set_name (priv->statusbar, "global_statusbar");
+
 	/* adding accueil_page */
 	grisbi_win_no_file_page_new (win);
 	if ((conf.dernier_fichier_auto && conf.last_open_file))

@@ -77,6 +77,10 @@ combobox arrow {
 	color: @text_color_1;
 }
 
+#global_statusbar {
+	font-size: 20px;
+}
+
 #grey_box {
 	background-color: @couleur_grey_box;
 	background-image: none;
