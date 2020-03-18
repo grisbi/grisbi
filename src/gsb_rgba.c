@@ -654,7 +654,7 @@ gboolean gsb_rgba_is_dark_theme (const gchar *theme_name)
 {
 	gchar *tmp_name;
 	gboolean dark = FALSE;
-devel_debug (NULL);
+	devel_debug (theme_name);
 	tmp_name = g_ascii_strdown (theme_name, -1);
 
 	if (g_strstr_len (tmp_name, -1, "dark"))
