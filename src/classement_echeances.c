@@ -129,6 +129,42 @@ gint classement_sliste_transactions_par_date_decroissante ( gpointer transaction
 }
 
 
+/**
+ *
+ *
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ **/
+gint classement_sliste_transactions_par_number (gpointer number_pointer_1,
+												gpointer number_pointer_2,
+												GtkSortType sens)
+{
+	gint transaction_number_1;
+	gint transaction_number_2;
+
+	transaction_number_1 = GPOINTER_TO_INT (number_pointer_1);
+	transaction_number_2 = GPOINTER_TO_INT (number_pointer_2 );
+
+	if (sens == GTK_SORT_ASCENDING)
+	{
+		return transaction_number_1 - transaction_number_2;
+	}
+	else
+	{
+		return transaction_number_2 - transaction_number_1;
+	}
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

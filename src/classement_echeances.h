@@ -1,7 +1,7 @@
 #ifndef _CLASSEMENT_ECHEANCES_H
 #define _CLASSEMENT_ECHEANCES_H (1)
 
-#include <glib.h>
+#include <gtk/gtk.h>
 
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */
@@ -15,5 +15,8 @@ gint 	classement_sliste_transactions_par_date 				(gpointer transaction_pointer_
 																 gpointer transaction_pointer_2);
 gint 	classement_sliste_transactions_par_date_decroissante 	(gpointer transaction_pointer_1,
 																 gpointer transaction_pointer_2);
+gint	classement_sliste_transactions_par_number				(gpointer number_pointer_1,
+																 gpointer number_pointer_2,
+																 GtkSortType sens);
 /* END_DECLARATION */
 #endif

@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
-/*          https://www.grisbi.org/                                            */
+/*          https://www.grisbi.org/                                           */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -51,6 +51,7 @@
 #include "gsb_file.h"
 #include "gsb_real.h"
 #include "gsb_transactions_list.h"
+#include "gsb_transactions_list_sort.h"
 #include "structures.h"
 #include "utils_dates.h"
 #include "utils_str.h"
@@ -2741,43 +2742,55 @@ gboolean gsb_data_transaction_remove_transaction_in_transaction_list ( gint tran
  * \param first_date_import     date de début de recherche
  *
  * \return
- * */
-GSList *gsb_import_get_transactions_list_for_import ( gint account_number,
-                        GDate *first_date_import )
+ **/
+GSList *gsb_import_get_transactions_list_for_import (gint account_number,
+													 GDate *first_date_import)
 {
     GSList *tmp_list;
     GSList *ope_list = NULL;
+	GSList *return_list = NULL;
 
-    tmp_list = g_slist_copy ( transactions_list );
-    tmp_list = g_slist_sort ( tmp_list, (GCompareFunc) classement_sliste_transactions_par_date_decroissante );
+	devel_debug (NULL);
 
-    while ( tmp_list )
+	tmp_list = transactions_list;
+    while (tmp_list)
     {
         struct_transaction *transaction;
         GDate *ope_date;
 
         transaction = tmp_list->data;
 
-        if ( transaction->value_date && g_date_valid ( transaction->value_date ) )
+        if ( transaction->value_date && g_date_valid (transaction->value_date))
             ope_date = transaction->value_date;
         else
             ope_date = transaction->date;
 
-        if ( transaction->account_number == account_number
-         &&
-         g_date_compare ( ope_date, first_date_import ) >= 0 )
+        if (transaction->account_number == account_number
+			&&
+			g_date_compare (ope_date, first_date_import) >= 0)
         {
-            ope_list = g_slist_append ( ope_list,  GINT_TO_POINTER ( transaction->transaction_number ) );
+            ope_list = g_slist_insert_sorted (ope_list,
+											  transaction,
+											  (GCompareFunc) classement_sliste_transactions_par_date_decroissante);
         }
 
         tmp_list = tmp_list->next;
     }
 
-    g_slist_free ( tmp_list );
+	tmp_list = ope_list;
+    while (tmp_list)
+    {
+        struct_transaction *transaction;
 
-    return ope_list;
+        transaction = tmp_list->data;
+		return_list = g_slist_append (return_list, GINT_TO_POINTER (transaction->transaction_number));
+		tmp_list = tmp_list->next;
+    }
+
+    g_slist_free (ope_list);
+
+    return return_list;
 }
-
 
 /*
  * get the real name of the category of the transaction
