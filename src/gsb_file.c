@@ -564,7 +564,7 @@ static gboolean gsb_file_save_file (gint origine)
 			gsb_file_set_modified (FALSE);
             return (TRUE);
 		}
-		else if (result == GTK_RESPONSE_REJECT)
+		else if (result != GTK_RESPONSE_OK)
 		{
 			//~ gsb_file_set_modified (FALSE);
             return (FALSE);
