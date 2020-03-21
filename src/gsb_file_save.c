@@ -824,6 +824,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
     g_free (transactions_view);
     g_free (scheduler_column_width_write);
     g_free (transaction_column_width_write);
+	g_free (transaction_column_align_write);
 
     g_free ( date_format );
     g_free ( mon_decimal_point );
@@ -836,6 +837,8 @@ gulong gsb_file_save_general_part ( gulong iterator,
 
  	g_free (form_organization);
 	g_free (form_columns_width);
+
+	g_free (bet_array_column_width_write);
 
 	/* append the new string to the file content
      * and return the new iterator */
@@ -1084,6 +1087,7 @@ gulong gsb_file_save_account_part ( gulong iterator,
 											   gsb_data_account_get_bet_credit_card (account_number));
             new_string = g_strconcat ( first_string_to_free, "\n", bet_str, NULL );
             g_free (bet_str);
+            g_free ( first_string_to_free );
             break;
         case BET_ONGLETS_ASSET:
         case BET_ONGLETS_SANS:
