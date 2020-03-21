@@ -431,67 +431,70 @@ void gsb_reconcile_config_fill ( void )
     tmp_list = gsb_data_account_get_list_accounts ();
     while (tmp_list)
     {
-	gint account_number;
-	GtkTreeIter account_iter;
-	GList *reconcile_list;
+		gint account_number;
+		GtkTreeIter account_iter;
+		GList *reconcile_list;
+		GList *tmp_reconcile_list;
 
-	account_number = gsb_data_account_get_no_account (tmp_list -> data);
-
-	gtk_tree_store_append ( GTK_TREE_STORE (model),
-				&account_iter,
-				NULL );
-	gtk_tree_store_set ( GTK_TREE_STORE (model),
-			     &account_iter,
-			     RECONCILIATION_NAME_COLUMN, gsb_data_account_get_name (account_number),
-			     RECONCILIATION_WEIGHT_COLUMN, 800,
-			     RECONCILIATION_ACCOUNT_COLUMN, account_number,
-			     -1 );
-
-	/* for each account, get the concerned reconciles */
-	reconcile_list = gsb_data_reconcile_get_sort_reconcile_list (account_number);
-    if (w_etat->reconcile_sort)
-		reconcile_list = g_list_reverse (reconcile_list);
-
-	while (reconcile_list)
-	{
-	    gint reconcile_number;
-
-	    reconcile_number = GPOINTER_TO_INT (reconcile_list->data);
-
-	    if (gsb_data_reconcile_get_account (reconcile_number) == account_number)
-	    {
-		GtkTreeIter reconcile_iter;
-		gchar *init_date, *final_date;
-		gchar *init_balance, *final_balance;
-
-		init_date = gsb_format_gdate (gsb_data_reconcile_get_init_date (reconcile_number));
-		final_date = gsb_format_gdate (gsb_data_reconcile_get_final_date (reconcile_number));
-		init_balance = utils_real_get_string (gsb_data_reconcile_get_init_balance (reconcile_number));
-		final_balance = utils_real_get_string (gsb_data_reconcile_get_final_balance (reconcile_number));
+		account_number = gsb_data_account_get_no_account (tmp_list -> data);
 
 		gtk_tree_store_append ( GTK_TREE_STORE (model),
-					&reconcile_iter,
-					&account_iter );
+					&account_iter,
+					NULL );
 		gtk_tree_store_set ( GTK_TREE_STORE (model),
-				     &reconcile_iter,
-				     RECONCILIATION_NAME_COLUMN, gsb_data_reconcile_get_name (reconcile_number),
-				     RECONCILIATION_WEIGHT_COLUMN, 400,
-				     RECONCILIATION_INIT_DATE_COLUMN, init_date,
-				     RECONCILIATION_FINAL_DATE_COLUMN, final_date,
-				     RECONCILIATION_INIT_BALANCE_COLUMN, init_balance,
-				     RECONCILIATION_FINAL_BALANCE_COLUMN, final_balance,
-				     RECONCILIATION_RECONCILE_COLUMN, reconcile_number,
-				     RECONCILIATION_ACCOUNT_COLUMN, account_number,
-				     -1 );
-		g_free (init_date);
-		g_free (final_date);
-		g_free (init_balance);
-		g_free (final_balance);
-	    }
-	    reconcile_list = reconcile_list -> next;
-	}
+					 &account_iter,
+					 RECONCILIATION_NAME_COLUMN, gsb_data_account_get_name (account_number),
+					 RECONCILIATION_WEIGHT_COLUMN, 800,
+					 RECONCILIATION_ACCOUNT_COLUMN, account_number,
+					 -1 );
 
-	tmp_list = tmp_list -> next;
+		/* for each account, get the concerned reconciles */
+		reconcile_list = gsb_data_reconcile_get_sort_reconcile_list (account_number);
+		if (w_etat->reconcile_sort)
+			reconcile_list = g_list_reverse (reconcile_list);
+
+		tmp_reconcile_list = reconcile_list;
+		while (tmp_reconcile_list)
+		{
+			gint reconcile_number;
+
+			reconcile_number = GPOINTER_TO_INT (tmp_reconcile_list->data);
+
+			if (gsb_data_reconcile_get_account (reconcile_number) == account_number)
+			{
+				GtkTreeIter reconcile_iter;
+				gchar *init_date, *final_date;
+				gchar *init_balance, *final_balance;
+
+				init_date = gsb_format_gdate (gsb_data_reconcile_get_init_date (reconcile_number));
+				final_date = gsb_format_gdate (gsb_data_reconcile_get_final_date (reconcile_number));
+				init_balance = utils_real_get_string (gsb_data_reconcile_get_init_balance (reconcile_number));
+				final_balance = utils_real_get_string (gsb_data_reconcile_get_final_balance (reconcile_number));
+
+				gtk_tree_store_append ( GTK_TREE_STORE (model),
+							&reconcile_iter,
+							&account_iter );
+				gtk_tree_store_set ( GTK_TREE_STORE (model),
+							 &reconcile_iter,
+							 RECONCILIATION_NAME_COLUMN, gsb_data_reconcile_get_name (reconcile_number),
+							 RECONCILIATION_WEIGHT_COLUMN, 400,
+							 RECONCILIATION_INIT_DATE_COLUMN, init_date,
+							 RECONCILIATION_FINAL_DATE_COLUMN, final_date,
+							 RECONCILIATION_INIT_BALANCE_COLUMN, init_balance,
+							 RECONCILIATION_FINAL_BALANCE_COLUMN, final_balance,
+							 RECONCILIATION_RECONCILE_COLUMN, reconcile_number,
+							 RECONCILIATION_ACCOUNT_COLUMN, account_number,
+							 -1 );
+				g_free (init_date);
+				g_free (final_date);
+				g_free (init_balance);
+				g_free (final_balance);
+			}
+			tmp_reconcile_list = tmp_reconcile_list->next;
+		}
+		g_list_free (reconcile_list);
+
+		tmp_list = tmp_list -> next;
     }
 }
 
