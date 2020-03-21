@@ -286,6 +286,8 @@ void init_variables (void)
  * */
 void free_variables (void)
 {
+	devel_debug (NULL);
+
 	/* free functions */
     bet_data_free_variables ();
 	gsb_csv_export_set_csv_separator (NULL);
