@@ -148,6 +148,7 @@ void debug_traitement_sigsegv ( gint signal_nb )
 	gchar *old_errmsg;
     const gchar *signal_name;
     gchar *tmp_str;
+	gboolean file_is_loading;
 #ifdef HAVE_BACKTRACE
     GtkWidget *expander;
 #endif
@@ -172,15 +173,19 @@ void debug_traitement_sigsegv ( gint signal_nb )
 
 	/* on récupère le nom du fichier si possible */
 	filename = grisbi_win_get_filename (NULL);
+	if (filename)
+		file_is_loading = TRUE;
+	else
+		file_is_loading = FALSE;
 
     /*   il y a 3 possibilités : */
     /*     soit on était en train de charger un fichier, c'est que celui-ci est corrompu */
     /* soit on était en train de sauver un fichier, et là on peut rien faire */
     /* sinon on essaie de sauver le fichier sous le nom entouré de # */
 
-    if ( run.file_is_loading || run.file_is_saving || !gsb_file_get_modified ())
+    if (file_is_loading || run.file_is_saving || !gsb_file_get_modified ())
     {
-		if ( run.file_is_loading )
+		if (file_is_loading )
 		{
 			old_errmsg = errmsg;
 			errmsg = g_strconcat ( errmsg, _("File is corrupted."), NULL );
