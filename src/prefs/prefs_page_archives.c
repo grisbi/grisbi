@@ -465,6 +465,7 @@ static void prefs_page_archives_button_sort_order_clicked (GtkWidget *toggle_but
 											  conf.prefs_archives_sort_order);
 		gtk_tree_sortable_sort_column_changed (GTK_TREE_SORTABLE (model));
 		prefs_page_archives_fill_list (GTK_LIST_STORE (model));
+    	utils_set_list_store_background_color (treeview, ARCHIVES_BACKGROUND_COLOR);
 	}
 }
 
