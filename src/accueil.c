@@ -147,7 +147,7 @@ static void gsb_main_page_affiche_ligne_solde_partiel (GtkWidget *table,
 
     /* Deuxième colonne : elle contient le solde pointé du solde partiel */
     tmp_str = gsb_data_partial_balance_get_marked_balance (partial_number);
-    label = gtk_label_new (tmp_str);
+    label = gtk_label_new (NULL);
     gtk_label_set_markup (GTK_LABEL (label), tmp_str);
     g_free (tmp_str);
     utils_labels_set_alignment (GTK_LABEL (label), MISC_RIGHT, MISC_VERT_CENTER);
@@ -156,7 +156,7 @@ static void gsb_main_page_affiche_ligne_solde_partiel (GtkWidget *table,
 
     /* Troisième colonne : elle contient le solde courant du solde partiel */
     tmp_str = gsb_data_partial_balance_get_current_balance (partial_number);
-    label = gtk_label_new (tmp_str);
+    label = gtk_label_new (NULL);
     gtk_label_set_markup (GTK_LABEL (label), tmp_str);
     g_free (tmp_str);
     utils_labels_set_alignment (GTK_LABEL (label), MISC_RIGHT, MISC_VERT_CENTER);
