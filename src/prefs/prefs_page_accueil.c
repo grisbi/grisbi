@@ -195,6 +195,7 @@ static void prefs_page_accueil_setup_accueil_page (PrefsPageAccueil *page)
 {
 	GtkWidget *head_page;
 	const gchar *langue;
+	gchar *tmp_str;
 	gboolean is_loading;
 	PrefsPageAccueilPrivate *priv;
 
@@ -210,7 +211,8 @@ static void prefs_page_accueil_setup_accueil_page (PrefsPageAccueil *page)
 
     /* set the box for french langage*/
 	langue = gsb_locale_get_language ();
-    if (langue && g_strstr_len ((g_ascii_strup (langue, -1)), -1, "FR"))
+	tmp_str = g_ascii_strup (langue, -1);
+    if (langue && g_strstr_len (tmp_str, -1, "FR"))
     {
 		GtkWidget *vbox_button;
 
@@ -223,6 +225,7 @@ static void prefs_page_accueil_setup_accueil_page (PrefsPageAccueil *page)
 		gtk_box_pack_start (GTK_BOX (priv->vbox_accueil), priv->hbox_paddingbox_lang_fr, FALSE, FALSE, 0);
 		gtk_box_reorder_child (GTK_BOX (priv->vbox_accueil), priv->hbox_paddingbox_lang_fr, 1);
     }
+	g_free (tmp_str);
 
 	/* set conf.balances_with_scheduled */
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_balances_with_scheduled),
