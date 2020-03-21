@@ -663,13 +663,16 @@ gboolean gsb_data_reconcile_set_final_balance (gint reconcile_number,
 gint gsb_data_reconcile_get_account_last_number (gint account_number)
 {
     GList *tmp_list;
+	gint result = 0;
 
     tmp_list = g_list_last (gsb_data_reconcile_get_sort_reconcile_list (
                                         account_number));
-    if (tmp_list)
-        return GPOINTER_TO_INT (tmp_list->data);
-    else
-        return 0;
+	if (tmp_list)
+		result = GPOINTER_TO_INT (tmp_list->data);
+
+	g_list_free (tmp_list);
+
+	return result;
 }
 
 /**
@@ -746,6 +749,9 @@ GList *gsb_data_reconcile_get_sort_reconcile_list (gint account_number)
         new_list = g_list_append (new_list, GINT_TO_POINTER (reconcile->reconcile_number));
         tmp_list = tmp_list->next;
     }
+
+	g_list_free (rec_list);
+
     return new_list;
 }
 
