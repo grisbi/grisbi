@@ -155,6 +155,7 @@ static void gsb_reconcile_config_sort_reconcile (GtkToggleButton *togglebutton,
                                                  gpointer user_data)
 {
     gsb_reconcile_config_fill ();
+	utils_set_tree_store_background_color (reconcile_treeview, RECONCILIATION_BACKGROUND_COLOR);
 }
 
  /**
