@@ -1210,6 +1210,7 @@ gchar *utils_str_protect_unprotect_multilines_text (const gchar *text,
 		if (g_strstr_len (tmp_str, -1, "\\n" ) )
 		{
 			tmp_tab = g_strsplit (tmp_str, "\\n", 0);
+			g_free (tmp_str);
 			tmp_str = g_strjoinv (NEW_LINE, tmp_tab);
 
 			g_strfreev (tmp_tab);
@@ -1386,7 +1387,9 @@ gchar *utils_str_break_form_name_field (const gchar *text,
 						}
 						if (i < nbre_champs-1)
 						{
+							ptr_free = tmp_str;
 							tmp_str = g_strconcat (tmp_str, "\n", NULL);
+							g_free (ptr_free);
 						}
 					}
 				}
