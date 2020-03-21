@@ -1144,6 +1144,7 @@ gboolean recuperation_donnees_qif (GtkWidget *assistant,
 						if (premier_compte)
 						{
 							gsb_qif_free_struct_account (imported_account);
+							imported_account = NULL;
 							premier_compte = FALSE;
 							tmp_str = last_header;
 						}
@@ -1181,6 +1182,7 @@ gboolean recuperation_donnees_qif (GtkWidget *assistant,
 						if (premier_compte)
 						{
 							gsb_qif_free_struct_account (imported_account);
+							imported_account = NULL;
 							premier_compte = FALSE;
 						}
 						imported_account = gsb_qif_init_struct_account (account_name, imported->name);
@@ -1230,6 +1232,12 @@ gboolean recuperation_donnees_qif (GtkWidget *assistant,
 					{
 						if (name_preced == FALSE)
 						{
+							if (premier_compte)
+							{
+								gsb_qif_free_struct_account (imported_account);
+								imported_account = NULL;
+							}
+
 							/* create and fill the new account */
 							imported_account = gsb_qif_init_struct_account (_("Imported QIF account"), imported->name);
 							premier_compte = FALSE;
@@ -1271,18 +1279,31 @@ gboolean recuperation_donnees_qif (GtkWidget *assistant,
 
         if (returned_value == EOF)
         {
-            if (premier_compte && !imported->import_categories)
-            {
-            /* no account already saved, so send an error */
-                liste_comptes_importes_error = g_slist_append (liste_comptes_importes_error,
-															   imported_account);
-                fclose (qif_file);
+            if (premier_compte)
+			{
+				if (imported->import_categories)
+				{
+					/* On a juste importé un fichier de catégories */
+					gsb_qif_free_struct_account (imported_account);
+					fclose (qif_file);
 
-				return FALSE;
-            }
+					return TRUE;
+				}
+				else
+				{
+					/* no account already saved, so send an error */
+					liste_comptes_importes_error = g_slist_append (liste_comptes_importes_error,
+																   imported_account);
+					fclose (qif_file);
+
+					return FALSE;
+				}
+			}
             else
             {
                 /* we have at least saved an account before, ok, enough for me */
+				if (imported_account)
+					gsb_qif_free_struct_account (imported_account);
                 fclose (qif_file);
 
 				return TRUE;
