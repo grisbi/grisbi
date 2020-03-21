@@ -3076,6 +3076,7 @@ void gsb_scheduler_list_init_tab_width_col_treeview (const gchar *description)
 
 	for (i = 0 ; i < SCHEDULER_COL_VISIBLE_COLUMNS ; i++)
 		scheduler_col_width[i] = utils_str_atoi (pointeur_char[i]);
+	g_strfreev (pointeur_char);
 }
 /**
  * retourne une chaine formatée des largeurs de colonnes du treeview prévisions
