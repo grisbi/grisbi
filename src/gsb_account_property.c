@@ -950,7 +950,10 @@ void gsb_account_property_iban_insert_text ( GtkEditable *entry,
     /* on contrôle l'existence d'un modèle pour le numéro IBAN */
     if ( g_utf8_strlen (iban, -1) >= 2 )
     {
-        if ( g_utf8_collate ( s_iban -> locale, g_strndup (iban, 2)) != 0)
+		gchar *free_str;
+
+		free_str = g_strndup (iban, 2);
+        if ( g_utf8_collate ( s_iban -> locale, free_str) != 0)
         {
             s_iban = gsb_account_property_iban_get_struc ( iban );
 
@@ -960,6 +963,7 @@ void gsb_account_property_iban_insert_text ( GtkEditable *entry,
                 nbre_char = s_iban -> nbre_char + (s_iban -> nbre_char / 4);
             gtk_entry_set_max_length ( GTK_ENTRY (entry), nbre_char );
         }
+		g_free (free_str);
     }
 
     g_free ( iban );
@@ -1131,6 +1135,7 @@ gboolean gsb_account_property_iban_focus_out_event ( GtkWidget *entry,
 gboolean gsb_account_property_iban_set_bank_from_iban ( gchar *iban )
 {
     struct Iso13616Iban *s_iban;
+	gchar *free_str;
     gchar *model;
     gchar *tmpstr;
     gchar *ptr_1;
@@ -1162,7 +1167,9 @@ gboolean gsb_account_property_iban_set_bank_from_iban ( gchar *iban )
         return FALSE;
     }
 
-    s_iban = gsb_account_property_iban_get_struc ( g_strndup (iban, 2) );
+	free_str = g_strndup (iban, 2);
+    s_iban = gsb_account_property_iban_get_struc (free_str);
+	g_free (free_str);
 
     /* on affiche les données banquaires pour un IBAN sans modèle */
     if ( g_strcmp0 (s_iban -> locale, "XX") == 0 )
