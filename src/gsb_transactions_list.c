@@ -4441,6 +4441,7 @@ void gsb_transactions_list_init_tab_affichage_ope (const gchar *description)
 				tab_affichage_ope[i][j] = utils_str_atoi (pointeur_char[j + i*CUSTOM_MODEL_VISIBLE_COLUMNS]);
 			}
 		}
+		g_strfreev (pointeur_char);
 	}
 	else
 	{
@@ -4512,6 +4513,7 @@ void gsb_transactions_list_init_tab_width_col_treeview (const gchar *description
 	{
 		transaction_col_width[i] = utils_str_atoi (pointeur_char[i]);
 	}
+	g_strfreev (pointeur_char);
 }
 
 /**
