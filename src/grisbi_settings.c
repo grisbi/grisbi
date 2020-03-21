@@ -472,50 +472,54 @@ static void grisbi_settings_init_settings_scheduled (GSettings *settings)
  **/
 static void grisbi_settings_init (GrisbiSettings *self)
 {
+	gchar *path;
     GrisbiSettingsPrivate *priv;
 
     devel_debug (NULL);
 
     priv = grisbi_settings_get_instance_private (self);
+	path = g_strdup_printf ("/org/gtk/grisbi/%s/%s/", g_get_user_name (), VERSION);
 
-    priv->settings_root = g_settings_new ("org.gtk.grisbi");
+	priv->settings_root = g_settings_new_with_path ("org.gtk.grisbi", path);
     grisbi_settings_init_settings_root (priv->settings_root);
 
-    priv->settings_backup = g_settings_new ("org.gtk.grisbi.files.backup");
+    priv->settings_backup = g_settings_new_with_path ("org.gtk.grisbi.files.backup", path);
     grisbi_settings_init_settings_backup (priv->settings_backup);
 
-    priv->settings_display = g_settings_new ("org.gtk.grisbi.display");
+    priv->settings_display = g_settings_new_with_path ("org.gtk.grisbi.display", path);
     grisbi_settings_init_settings_display (priv->settings_display);
 
-    priv->settings_file = g_settings_new ("org.gtk.grisbi.files.file");
+    priv->settings_file = g_settings_new_with_path ("org.gtk.grisbi.files.file", path);
     grisbi_settings_init_settings_file (priv->settings_file);
 
-    priv->settings_form = g_settings_new ("org.gtk.grisbi.form");
+    priv->settings_form = g_settings_new_with_path ("org.gtk.grisbi.form", path);
     grisbi_settings_init_settings_form (priv->settings_form);
 
-    priv->settings_general = g_settings_new ("org.gtk.grisbi.general");
+    priv->settings_general = g_settings_new_with_path ("org.gtk.grisbi.general", path);
     grisbi_settings_init_settings_general (priv->settings_general);
 
-    priv->settings_geometry = g_settings_new ("org.gtk.grisbi.geometry");
+    priv->settings_geometry = g_settings_new_with_path ("org.gtk.grisbi.geometry", path);
     grisbi_settings_init_settings_geometry (priv->settings_geometry);
 
-    priv->settings_messages_delete = g_settings_new ("org.gtk.grisbi.messages.delete");
+    priv->settings_messages_delete = g_settings_new_with_path ("org.gtk.grisbi.messages.delete", path);
     grisbi_settings_init_settings_messages_delete (priv->settings_messages_delete);
 
-    priv->settings_messages_tips = g_settings_new ("org.gtk.grisbi.messages.tips");
+    priv->settings_messages_tips = g_settings_new_with_path ("org.gtk.grisbi.messages.tips", path);
     grisbi_settings_init_settings_messages_tips (priv->settings_messages_tips);
 
-    priv->settings_messages_warnings = g_settings_new ("org.gtk.grisbi.messages.warnings");
+    priv->settings_messages_warnings = g_settings_new_with_path ("org.gtk.grisbi.messages.warnings", path);
     grisbi_settings_init_settings_messages_warnings (priv->settings_messages_warnings);
 
-    priv->settings_panel = g_settings_new ("org.gtk.grisbi.panel");
+    priv->settings_panel = g_settings_new_with_path ("org.gtk.grisbi.panel", path);
     grisbi_settings_init_settings_panel (priv->settings_panel);
 
-    priv->settings_prefs = g_settings_new ("org.gtk.grisbi.prefs");
+    priv->settings_prefs = g_settings_new_with_path ("org.gtk.grisbi.prefs", path);
     grisbi_settings_init_settings_prefs (priv->settings_prefs);
 
-    priv->settings_scheduled = g_settings_new ("org.gtk.grisbi.scheduled");
+    priv->settings_scheduled = g_settings_new_with_path ("org.gtk.grisbi.scheduled", path);
     grisbi_settings_init_settings_scheduled (priv->settings_scheduled);
+
+	g_free (path);
 }
 
 

@@ -2,7 +2,7 @@
 
 <schemalist gettext-domain="@GETTEXT_PACKAGE@">
 
-  <schema path="/org/gtk/grisbi/" id='org.gtk.grisbi'>
+  <schema id='org.gtk.grisbi'>
   <!-- options niveau root -->
     <key name="first-use" type="b">
       <default>true</default>
@@ -21,7 +21,7 @@
     </key>
   </schema>
 
-  <schema path="/org/gtk/grisbi/files/backup/" id='org.gtk.grisbi.files.backup'>
+  <schema id='org.gtk.grisbi.files.backup'>
   <!-- options de l'onglet Fichiers -->
 	  <key name="backup-path" type="s">
       <default>""</default>
@@ -73,7 +73,7 @@
 	  </key>
   </schema>
 
-  <schema path="/org/gtk/grisbi/display/" id='org.gtk.grisbi.display'>
+  <schema id='org.gtk.grisbi.display'>
   <!-- options des onglets Adresse et titre, Eléments de l'interface et menu Affichage-->
 	  <key name="display-window-title" type="s">
 	    <choices>
@@ -122,7 +122,7 @@
 	  </key>
   </schema>
 
-  <schema path="/org/gtk/grisbi/files/file/" id='org.gtk.grisbi.files.file'>
+  <schema id='org.gtk.grisbi.files.file'>
   <!-- options de l'onglet Fichiers -->
     <key name="dernier-fichier-auto" type="b">
       <default>false</default>
@@ -194,7 +194,7 @@
 	  </key>
   </schema>
 
-  <schema path="/org/gtk/grisbi/form/" id='org.gtk.grisbi.form'>
+  <schema id='org.gtk.grisbi.form'>
   <!-- options de l'onglet Formulaire des opérations -->
 	  <key name="affichage-exercice-automatique" type="b">
       <default>false</default>
@@ -261,7 +261,7 @@
 	  </key>
   </schema>
 
-  <schema path="/org/gtk/grisbi/general/" id='org.gtk.grisbi.general'>
+  <schema id='org.gtk.grisbi.general'>
     <key name="custom-fonte-listes" type="b">
       <default>false</default>
       <summary>Use custom fonts for lists</summary>
@@ -365,7 +365,7 @@
     </key>
   </schema>
 
-  <schema path="/org/gtk/grisbi/geometry/" id='org.gtk.grisbi.geometry'>
+  <schema id='org.gtk.grisbi.geometry'>
     <key name="maximized" type="b">
       <default>false</default>
       <summary>Main window maximized state</summary>
@@ -400,7 +400,7 @@
 	  </key>
   </schema>
 
-  <schema path="/org/gtk/grisbi/messages/delete/" id='org.gtk.grisbi.messages.delete'>
+  <schema id='org.gtk.grisbi.messages.delete'>
 	  <key name="delete-child-transaction" type="b">
 	    <default>true</default>
 	    <summary>Display warning</summary>
@@ -433,7 +433,7 @@
 	  </key>
   </schema>
 
-  <schema path="/org/gtk/grisbi/messages/tips/" id='org.gtk.grisbi.messages.tips'>
+  <schema id='org.gtk.grisbi.messages.tips'>
 	  <key name="last-tip" type="i">
 	    <default>0</default>
 	    <summary>Last tip</summary>
@@ -446,7 +446,7 @@
 	  </key>
   </schema>
 
-  <schema path="/org/gtk/grisbi/messages/warnings/" id='org.gtk.grisbi.messages.warnings'>
+  <schema id='org.gtk.grisbi.messages.warnings'>
 	  <key name="account-file-readable" type="b">
 	    <default>true</default>
 	    <summary>Display warning</summary>
@@ -484,7 +484,7 @@
 	  </key>
   </schema>
 
-  <schema path="/org/gtk/grisbi/panel/" id='org.gtk.grisbi.panel'>
+  <schema id='org.gtk.grisbi.panel'>
     <key name="active-scrolling-left-pane" type="b">
       <default>false</default>
       <summary>Active mouse scrolling in the left_panel.</summary>
@@ -498,7 +498,7 @@
 	    <description>The width of the navigation panel.</description>
 	  </key>
   </schema>
-  <schema path="/org/gtk/grisbi/prefs/" id='org.gtk.grisbi.prefs'>
+  <schema id='org.gtk.grisbi.prefs'>
 	  <key name="prefs-archives-sort-order" type="b">
 	    <default>false</default>
 	    <summary>Sort order of the archives</summary>
@@ -532,7 +532,7 @@
 	  </key>
   </schema>
 
-  <schema path="/org/gtk/grisbi/scheduled/" id='org.gtk.grisbi.scheduled'>
+  <schema id='org.gtk.grisbi.scheduled'>
 	  <key name="execute-scheduled-of-month" type="b">
 	    <default>false</default>
 	    <summary>if TRUE Execute the scheduled transactions of the month</summary>
