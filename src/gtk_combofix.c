@@ -565,6 +565,7 @@ static gboolean gtk_combofix_fill_store (GtkComboFix *combofix,
 	GtkEntryCompletion *completion;
 	GtkTreeModel *completion_store;
     GtkTreeIter iter_parent;
+	gchar *free_str1;
     gchar *last_parent = NULL;
     GtkComboFixPrivate *priv;
 
@@ -586,6 +587,7 @@ static gboolean gtk_combofix_fill_store (GtkComboFix *combofix,
 	completion = gtk_entry_get_completion (GTK_ENTRY (priv->entry));
 	completion_store = gtk_entry_completion_get_model (completion);
 
+	free_str1 = g_utf8_casefold (_("Report"), -1);
     tmp_list = list;
 
     while (tmp_list)
@@ -618,11 +620,15 @@ static gboolean gtk_combofix_fill_store (GtkComboFix *combofix,
 				/* append a row in the completion ignore reports for payees */
 				if (priv->type == METATREE_PAYEE)
 				{
-					if (g_utf8_collate (g_utf8_casefold (_("Report"), -1), g_utf8_casefold (string, -1)))
+					gchar *free_str2;
+
+					free_str2 = g_utf8_casefold (string, -1);
+					if (g_utf8_collate (free_str1, free_str2))
 					{
 						gtk_list_store_append (GTK_LIST_STORE (completion_store), &new_iter);
 						gtk_list_store_set (GTK_LIST_STORE (completion_store), &new_iter, 0, string, -1);
 					}
+					g_free (free_str2);
 				}
 				else
 				{
