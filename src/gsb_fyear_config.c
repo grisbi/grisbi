@@ -116,6 +116,8 @@ static void gsb_fyear_config_button_sort_order_clicked (GtkWidget *toggle_button
                                           conf.prefs_fyear_sort_order);
     gtk_tree_sortable_sort_column_changed (GTK_TREE_SORTABLE(model));
     gsb_fyear_config_fill_list (model);
+
+	utils_set_list_store_background_color (fyear_config_treeview, FYEAR_ROW_COLOR);
 }
 
 /******************************************************************************/
