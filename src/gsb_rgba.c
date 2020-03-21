@@ -251,6 +251,7 @@ void gsb_rgba_initialise_couleurs_par_defaut (const gchar *css_data)
 			g_strfreev (tab);
 		}
 	}
+	g_strfreev (tab_colors);
 }
 
 /**
