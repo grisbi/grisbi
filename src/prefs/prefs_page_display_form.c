@@ -412,6 +412,7 @@ static void prefs_page_display_form_create_buttons_table (PrefsPageDisplayForm *
 	{
 	    const gchar *string;
 	    gchar *changed_string;
+		gchar *tmp_str;
 
 	    string = _(gsb_form_widget_get_name (current_element_number));
 
@@ -440,9 +441,10 @@ static void prefs_page_display_form_create_buttons_table (PrefsPageDisplayForm *
 							 1);
 
 			/* set the tooltip with the real name */
-			string = g_strconcat (" ", string, " ", NULL);
-			gtk_widget_set_tooltip_text (GTK_WIDGET (priv->tab_list_buttons[column + row*6]), string);
+			tmp_str = g_strconcat (" ", string, " ", NULL);
+			gtk_widget_set_tooltip_text (GTK_WIDGET (priv->tab_list_buttons[column + row*6]), tmp_str);
 			g_free (changed_string);
+			g_free (tmp_str);
 	    }
 
 	    current_element_number++;
