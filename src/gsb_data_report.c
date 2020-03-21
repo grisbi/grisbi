@@ -404,6 +404,7 @@ static void _gsb_data_report_free ( ReportStruct *report )
 	gsb_data_report_text_comparison_remove ( GPOINTER_TO_INT (list_tmp -> data));
 	list_tmp = list_tmp -> next;
     }
+	g_slist_free (report->text_comparison_list);
 
     list_tmp = report -> amount_comparison_list;
     while ( list_tmp )
@@ -411,6 +412,7 @@ static void _gsb_data_report_free ( ReportStruct *report )
 	gsb_data_report_amount_comparison_remove ( GPOINTER_TO_INT (list_tmp -> data));
 	list_tmp = list_tmp -> next;
     }
+	g_slist_free (report->amount_comparison_list);
 
     g_slist_free (report -> financial_year_list);
     g_slist_free (report -> sorting_type);
