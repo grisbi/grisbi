@@ -279,6 +279,8 @@ static void prefs_page_options_ope_init_combo_sorting (PrefsPageOptionsOpe *page
 					  "changed",
 					  G_CALLBACK (prefs_page_options_ope_display_sort_changed),
 					  GINT_TO_POINTER (SECONDARY_SORT));
+
+	g_free (str_color);
 }
 
 /**
