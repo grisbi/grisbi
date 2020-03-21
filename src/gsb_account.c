@@ -102,8 +102,11 @@ gboolean gsb_account_new ( KindAccount account_type,
 
         gsb_data_account_set_name_icon ( account_number, name_icon );
         pixbuf = gdk_pixbuf_new_from_file_at_size ( name_icon , LOGO_WIDTH, LOGO_HEIGHT, NULL );
-        if ( pixbuf )
+        if (pixbuf)
+		{
             gsb_data_account_set_account_icon_pixbuf ( account_number, pixbuf );
+			g_object_unref (G_OBJECT (pixbuf));
+		}
     }
 
     gsb_data_account_set_currency ( account_number, currency_number);
