@@ -685,6 +685,7 @@ static void grisbi_prefs_init (GrisbiPrefs *prefs)
 	GrisbiPrefsPrivate *priv;
 
 	devel_debug (NULL);
+	grisbi_win_status_bar_message (_("Preferences start"));
 
 	priv = grisbi_prefs_get_instance_private (prefs);
 	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
@@ -795,6 +796,8 @@ static void grisbi_prefs_init (GrisbiPrefs *prefs)
 
 	/* remplissage du paned gauche */
     grisbi_prefs_left_panel_populate_tree_model (prefs);
+
+	grisbi_win_status_bar_message (_("Done"));
 }
 
 /**
@@ -914,11 +917,13 @@ void grisbi_prefs_dialog_response  (GtkDialog *prefs,
 	GSettings *settings;
 
     devel_debug (NULL);
+	grisbi_win_status_bar_message (_("Preferences stop"));
 	if (!prefs)
 	{
-        return;
-	}
+    	grisbi_win_status_bar_message (_("Done"));
 
+		return;
+	}
 	/* on récupère la dimension de la fenêtre */
 	gtk_window_get_size (GTK_WINDOW (prefs), &conf.prefs_width, &conf.prefs_height);
 
@@ -938,6 +943,7 @@ void grisbi_prefs_dialog_response  (GtkDialog *prefs,
 
 	gtk_widget_destroy (GTK_WIDGET (prefs));
 	grisbi_win_set_prefs_dialog (NULL, NULL);
+	grisbi_win_status_bar_message (_("Done"));
 }
 
 /**
