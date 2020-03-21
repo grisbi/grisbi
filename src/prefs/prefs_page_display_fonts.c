@@ -455,21 +455,22 @@ static gboolean prefs_page_display_fonts_update_preview_logo (GtkFileChooser *fi
 {
   gchar *filename;
   GdkPixbuf *pixbuf;
-  gboolean have_preview;
+  gboolean have_preview = FALSE;
 
   filename = gtk_file_chooser_get_preview_filename (file_chooser);
   if (!filename)
       return FALSE;
 
   pixbuf = gdk_pixbuf_new_from_file_at_size (filename, LOGO_WIDTH, LOGO_HEIGHT, NULL);
-  have_preview = (pixbuf != NULL);
   g_free (filename);
 
-  gtk_image_set_from_pixbuf (GTK_IMAGE (preview), pixbuf);
-  if (pixbuf)
-    g_object_unref (pixbuf);
-
-  gtk_file_chooser_set_preview_widget_active (file_chooser, have_preview);
+	if (pixbuf)
+	{
+	  	have_preview = TRUE;
+		gtk_image_set_from_pixbuf (GTK_IMAGE (preview), pixbuf);
+		g_object_unref (pixbuf);
+	}
+	gtk_file_chooser_set_preview_widget_active (file_chooser, have_preview);
 
 	return FALSE;
 }
@@ -576,6 +577,8 @@ static gboolean prefs_page_display_fonts_utilise_logo_checked (GtkWidget *check_
 				gsb_main_page_set_logo_accueil (logo_accueil);
 			else
 				gsb_main_page_set_logo_accueil (NULL);
+
+			g_object_unref (G_OBJECT (pixbuf));
         }
     }
 	else
