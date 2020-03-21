@@ -224,6 +224,8 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
 {
     GtkWidget *page, *label, *button, *table;
     GtkWidget *image;
+    GdkPixbuf *pixbuf;
+
     struct lconv *locale = gsb_locale_get_locale ( );
 
     page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
@@ -291,8 +293,9 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
     /* Récupération de l'icône par défaut */
     button = gtk_button_new ( );
     gtk_widget_set_size_request ( button, 80, 80 );
-    image = gtk_image_new_from_pixbuf (
-                gsb_data_account_get_account_standard_pixbuf ( 0 ) );
+	pixbuf = gsb_data_account_get_account_standard_pixbuf (0);
+    image = gtk_image_new_from_pixbuf (pixbuf);
+	g_object_unref (G_OBJECT (pixbuf));
     gtk_button_set_image ( GTK_BUTTON ( button ), image);
     gtk_button_set_relief ( GTK_BUTTON ( button ), GTK_RELIEF_NORMAL );
     gtk_grid_attach (GTK_GRID (table), button, 3, 0, 1, 3);
@@ -430,6 +433,8 @@ gboolean gsb_assistant_account_toggled_kind_account ( GtkWidget *button,
 						      GtkWidget *assistant )
 {
     GtkWidget *bouton_icon, *image;
+    GdkPixbuf *pixbuf;
+
     KindAccount account_kind;
 
     account_kind = GPOINTER_TO_INT ( g_object_get_data
@@ -438,8 +443,9 @@ gboolean gsb_assistant_account_toggled_kind_account ( GtkWidget *button,
                 "account_kind", GINT_TO_POINTER ( account_kind ) );
 
     bouton_icon = g_object_get_data ( G_OBJECT (assistant), "bouton_icon" );
-    image = gtk_image_new_from_pixbuf (
-                gsb_data_account_get_account_standard_pixbuf ( account_kind ) );
+	pixbuf = gsb_data_account_get_account_standard_pixbuf (account_kind);
+    image = gtk_image_new_from_pixbuf (pixbuf);
+	g_object_unref (G_OBJECT (pixbuf));
     gtk_button_set_image ( GTK_BUTTON ( bouton_icon ), image);
     return FALSE;
 }
@@ -469,8 +475,9 @@ void gsb_assistant_account_change_account_icon ( GtkWidget *button, gpointer dat
     }
     else
     {
-    image = gtk_image_new_from_pixbuf ( pixbuf );
-        if ( image )
-            gtk_button_set_image ( GTK_BUTTON ( button ), image );
+		image = gtk_image_new_from_pixbuf ( pixbuf );
+		g_object_unref (G_OBJECT (pixbuf));
+		if ( image )
+			gtk_button_set_image ( GTK_BUTTON ( button ), image );
     }
 }
