@@ -248,6 +248,8 @@ static void _gsb_data_bank_free ( struct_bank* bank)
     g_free ( bank -> bank_code );
     g_free ( bank -> bank_BIC );
     g_free ( bank -> bank_address );
+	g_free (bank->bank_tel);
+	g_free (bank->bank_mail);
     g_free ( bank -> bank_web );
     g_free ( bank -> bank_note );
     g_free ( bank -> correspondent_name );
@@ -409,13 +411,20 @@ const gchar *gsb_data_bank_get_bank_tel ( gint bank_number )
 /**
  * Setter for the bank_tel
  */
-gboolean gsb_data_bank_set_bank_tel ( gint bank_number,
-				      const gchar *bank_tel )
+gboolean gsb_data_bank_set_bank_tel (gint bank_number,
+				      				 const gchar *bank_tel)
 {
     struct_bank *bank;
-    BANK_GET_OR_RETURN(bank, bank_number, FALSE);
-    BANK_SET_FIELD(bank, bank_tel, bank_tel);
-    return TRUE;
+
+	bank = gsb_data_bank_get_structure (bank_number);
+    if (!bank)
+		return FALSE;
+
+	if (bank->bank_tel)
+		g_free (bank->bank_tel);
+    bank->bank_tel = my_strdup (bank_tel);
+
+	return TRUE;
 }
 
 
