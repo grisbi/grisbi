@@ -345,7 +345,7 @@ static void prefs_page_import_asso_fill_model (GtkListStore *list_store)
         struct ImportPayeeAsso *assoc;
 
         assoc = list_tmp->data;
-        payee_name = g_strdup (gsb_data_payee_get_name (assoc->payee_number, TRUE));
+        payee_name = gsb_data_payee_get_name (assoc->payee_number, TRUE);
 		tmp_str1 = utils_str_break_form_name_field (payee_name, TRUNC_FORM_FIELD);
 		if (assoc->search_str)
 			tmp_str2 = utils_str_break_form_name_field (assoc->search_str, TRUNC_FORM_FIELD);
