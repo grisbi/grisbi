@@ -548,7 +548,15 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
 				{
                     etat.utilise_logo = utils_str_atoi ( attribute_values[i]);
 					if (etat.utilise_logo)
-						gsb_select_icon_set_logo_pixbuf (gsb_select_icon_get_default_logo_pixbuf ());
+					{
+						GdkPixbuf *pixbuf;
+
+						/* initialise le logo accueil */
+						pixbuf = gsb_select_icon_get_default_logo_pixbuf ();
+						gsb_select_icon_set_logo_pixbuf (pixbuf);
+						g_object_unref (G_OBJECT (pixbuf));
+					}
+
 				}
                 else
                     unknown = 1;
@@ -1403,6 +1411,8 @@ static  void gsb_file_load_account_part ( const gchar **attribute_names,
 		bet_data_loan_add_item (s_loan);
 		gsb_file_set_modified (TRUE);
 	}
+	 else if (date)
+		g_date_free (date);
 }
 
 /**
@@ -1837,9 +1847,12 @@ static  void gsb_file_load_scheduled_transactions ( const gchar **attribute_name
     if ( !strcmp ( attribute_names[i],
                "Dt" ))
     {
-        gsb_data_scheduled_set_date ( scheduled_number,
-                      gsb_parse_date_string_safe (attribute_values[i]));
+		GDate *date;
+
+		date = gsb_parse_date_string_safe (attribute_values[i]);
+        gsb_data_scheduled_set_date (scheduled_number, date);
         i++;
+		g_date_free (date);
         continue;
     }
 
