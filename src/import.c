@@ -2954,6 +2954,8 @@ static void gsb_import_correct_opes_import_button_find_clicked (GtkWidget *butto
 			}
 		}
 	}
+	if (ope_list)
+		g_slist_free (ope_list);
 
 	if (nbre_resultat == 0)
 	{
