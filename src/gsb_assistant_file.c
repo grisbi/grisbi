@@ -105,6 +105,7 @@ GtkResponseType gsb_assistant_file_run ( gboolean first_opening,
 					 gboolean import )
 {
     GtkWidget *assistant;
+    GdkPixbuf *pixbuf;
     GtkTreeIter iter;
 	GtkTreeSelection *selection;
 	GtkTreeView *tree_view;
@@ -240,8 +241,9 @@ GtkResponseType gsb_assistant_file_run ( gboolean first_opening,
     gtk_widget_destroy (assistant);
 
     /* initialise le logo accueil */
-    gsb_select_icon_set_logo_pixbuf (
-                        gsb_select_icon_get_default_logo_pixbuf ( ) );
+	pixbuf = gsb_select_icon_get_default_logo_pixbuf ();
+    gsb_select_icon_set_logo_pixbuf (pixbuf);
+    g_object_unref (G_OBJECT (pixbuf));
 
 	/* set the new filename */
 	grisbi_win_set_filename (NULL, nom_fichier_comptes);
