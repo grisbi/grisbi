@@ -2625,7 +2625,7 @@ gboolean gsb_data_account_set_account_icon_pixbuf ( gint account_number,
         g_object_unref ( account -> pixbuf );
 
     if ( pixbuf )
-        account -> pixbuf = g_object_ref ( pixbuf );
+        account -> pixbuf = pixbuf;
     else
         account -> pixbuf = NULL;
 
@@ -2738,6 +2738,7 @@ void gsb_data_account_change_account_icon ( GtkWidget *button, gpointer data )
             gsb_data_account_set_name_icon ( current_account, new_icon );
             pixbuf = gsb_select_icon_new_account_pixbuf_from_file (new_icon);
             gsb_data_account_set_account_icon_pixbuf ( current_account, pixbuf );
+			g_object_unref (G_OBJECT (pixbuf));
         }
 
         image = gsb_data_account_get_account_icon_image ( current_account );
@@ -3228,7 +3229,7 @@ gboolean gsb_data_account_bet_update_initial_date_if_necessary ( gint account_nu
     GDate *tmp_date;
 
     date_jour = gdate_today ( );
-    tmp_date = gsb_date_copy ( gsb_data_account_get_bet_start_date ( account_number ) );
+    tmp_date = gsb_data_account_get_bet_start_date (account_number);
     g_date_add_months ( tmp_date, 1 );
 
     if ( g_date_compare ( date_jour, tmp_date ) >= 0 )
