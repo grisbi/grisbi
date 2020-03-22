@@ -28,7 +28,7 @@ gpointer 		gsb_data_payee_get_structure 					(gint no_payee);
 GSList *		gsb_data_payee_get_unarchived_payees_list		(void);
 gint 			gsb_data_payee_get_unused_payees 				(void);
 gint			gsb_data_payee_get_use_regex 					(gint no_payee);
-gboolean 		gsb_data_payee_init_variables 					(void);
+gboolean 		gsb_data_payee_init_variables 					(gboolean cleanup);
 gint 			gsb_data_payee_new 								(const gchar *name);
 gboolean 		gsb_data_payee_remove 							(gint no_payee);
 void 			gsb_data_payee_remove_transaction_from_payee 	(gint transaction_number);

@@ -527,7 +527,7 @@ void categories_importer_list ( void )
 		case 2 :
 			/* we want to replace the list */
 			if ( !last_transaction_number )
-				gsb_data_category_init_variables ();
+				gsb_data_category_init_variables (TRUE);
 			gsb_file_others_load_category ( category_name );
 
 		default :

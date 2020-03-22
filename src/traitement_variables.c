@@ -138,11 +138,11 @@ void init_variables (void)
 
     gsb_data_account_init_variables ();
     gsb_data_transaction_init_variables ();
-    gsb_data_payee_init_variables ();
+    gsb_data_payee_init_variables (TRUE);
     payees_init_variables_list ();
-    gsb_data_category_init_variables ();
+    gsb_data_category_init_variables (TRUE);
     categories_init_variables_list ();
-    gsb_data_budget_init_variables ();
+    gsb_data_budget_init_variables (TRUE);
     budgetary_lines_init_variables_list ();
     gsb_data_report_init_variables ();
     gsb_data_report_amount_comparison_init_variables ();
@@ -165,6 +165,7 @@ void init_variables (void)
     gsb_fyear_init_variables ();
     gsb_report_init_variables ();
     gsb_regex_init_variables ();
+	gsb_transactions_list_free_titles_tips_col_list_ope ();
 
     gsb_data_print_config_init ();
 
@@ -266,7 +267,7 @@ void init_variables (void)
     /* création de la liste des données à utiliser dans le tableau de résultats */
     bet_data_init_variables ();
     /* initialisation des boites de dialogue */
-    bet_future_initialise_dialog ();
+    bet_future_initialise_dialog (TRUE);
     etat.bet_deb_period = 1;
     /* defaut value for width of columns */
     bet_array_init_largeur_col_treeview (NULL);
@@ -289,23 +290,65 @@ void free_variables (void)
 	devel_debug (NULL);
 
 	/* free functions */
-    bet_data_free_variables ();
-	gsb_csv_export_set_csv_separator (NULL);
-	gsb_data_bank_init_variables ();
-	gsb_data_import_rule_free_list ();
-	gsb_data_print_config_free ();
+    gsb_data_archive_init_variables ();
+    gsb_data_archive_store_init_variables ();
+    gsb_data_bank_init_variables ();
+    gsb_data_budget_init_variables (FALSE);
+    gsb_data_category_init_variables (FALSE);
+    gsb_data_currency_init_variables ();
+    gsb_data_currency_link_init_variables ();
+    gsb_data_fyear_init_variables ();
+    gsb_data_import_rule_init_variables ();
+    gsb_data_partial_balance_init_variables ();
+    gsb_data_payee_init_variables (FALSE);
+    gsb_data_payment_init_variables ();
+    gsb_data_print_config_free ();
+    gsb_data_reconcile_init_variables ();
+    gsb_data_report_amount_comparison_init_variables ();
+    gsb_data_report_init_variables ();
+    gsb_data_report_text_comparison_init_variables ();
+    gsb_data_scheduled_init_variables ();
+	gsb_data_transaction_init_variables ();
+    gsb_currency_init_variables ();
+    gsb_fyear_init_variables ();
 	gsb_gui_navigation_free_pages_list ();
-	gsb_import_associations_free_liste ();
-    gsb_regex_destroy ();
-	gsb_scheduler_list_free_variables ();
-    gsb_select_icon_init_logo_variables ();
+    gsb_import_associations_init_variables ();
+    gsb_report_init_variables ();
+	gsb_regex_destroy ();
+    gsb_scheduler_list_init_variables ();
+	gsb_select_icon_init_logo_variables ();
 	gsb_transactions_list_free_titles_tips_col_list_ope ();
-	/* free variables */
+
+	/* free account list */
+	gsb_data_account_init_variables ();
+
+	/* free the form */
+    gsb_form_widget_free_list_without_widgets ();
+    gsb_form_scheduler_free_list ();
+
+	/* reset csv separator */
+	gsb_csv_export_set_csv_separator (NULL);
 	if (etat.csv_separator)
 		g_free (etat.csv_separator);
 
+	/* raz variables of etat and w_etat */
+	if (etat.name_logo && strlen (etat.name_logo))
+		g_free (etat.name_logo);
+
+    /* reconcile (etat) */
+	if (run.reconcile_final_balance)
+	    g_free (run.reconcile_final_balance);
+    if (run.reconcile_new_date)
+        g_date_free (run.reconcile_new_date);
+
+    /* initializes the variables for the estimate balance module */
+    bet_data_free_variables ();
+    bet_future_initialise_dialog (FALSE);
+    bet_array_init_largeur_col_treeview (NULL);
+	bet_data_loan_delete_all_loans ();
+
 #ifdef HAVE_GOFFICE
-    struct_free_bet_graph_prefs ();
+    bet_graph_set_configuration_variables (NULL);
 #endif /* HAVE_GOFFICE */
 }
 

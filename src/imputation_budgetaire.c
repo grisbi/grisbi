@@ -567,7 +567,7 @@ void budgetary_lines_importer_list ( void )
 	    case 2 :
             /* we want to replace the list */
             if ( !last_transaction_number )
-                gsb_data_budget_init_variables ();
+                gsb_data_budget_init_variables (TRUE);
 
 		/* FALLTHRU */
         case 1 :

@@ -132,32 +132,38 @@ static CategoryStruct *empty_category = NULL;
  *
  * \return FALSE
  * */
-gboolean gsb_data_category_init_variables ( void )
+gboolean gsb_data_category_init_variables (gboolean cleanup)
 {
     /* free the memory used by the category list */
     if ( category_list )
     {
 	    GSList* cat_tmp_list = category_list;
-	    while ( cat_tmp_list )
+
+		while ( cat_tmp_list )
 	    {
-		CategoryStruct *category;
-		category = cat_tmp_list -> data;
-		cat_tmp_list = cat_tmp_list -> next;
-		_gsb_data_category_free ( category );
+			CategoryStruct *category;
+
+			category = cat_tmp_list -> data;
+			cat_tmp_list = cat_tmp_list -> next;
+			_gsb_data_category_free ( category );
 	    }
 	    g_slist_free (category_list);
     }
-    category_list = NULL;
 
-    category_buffer = NULL;
-    sub_category_buffer = NULL;
+	if (cleanup)
+	{
+		category_list = NULL;
 
-    /* recreate the empty category */
-    /* set an empty name for that empty categ, else every transaction
-     * without category will have that name */
-    _gsb_data_category_free ( empty_category );
-    empty_category = g_malloc0 ( sizeof ( CategoryStruct ));
-    empty_category -> category_name = g_strdup(_("No category"));
+		category_buffer = NULL;
+		sub_category_buffer = NULL;
+
+		/* recreate the empty category */
+		/* set an empty name for that empty categ, else every transaction
+		 * without category will have that name */
+		_gsb_data_category_free ( empty_category );
+		empty_category = g_malloc0 ( sizeof ( CategoryStruct ));
+		empty_category -> category_name = g_strdup(_("No category"));
+	}
 
     return FALSE;
 }

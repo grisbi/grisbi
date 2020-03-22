@@ -245,7 +245,7 @@ static void gsb_data_payee_reset_counters (void)
  *
  * \return FALSE
  **/
-gboolean gsb_data_payee_init_variables (void)
+gboolean gsb_data_payee_init_variables (gboolean cleanup)
 {
     /* free the memory used by the actual list */
     GSList *tmp_list;
@@ -259,18 +259,22 @@ gboolean gsb_data_payee_init_variables (void)
 		_gsb_data_payee_free (payee);
     }
     g_slist_free (payee_list);
-    payee_list = NULL;
-    payee_buffer = NULL;
+	if (cleanup)
+	{
+		payee_list = NULL;
+		payee_buffer = NULL;
 
-    /* create the blank payee */
-    if (empty_payee)
-    {
-        g_free (empty_payee->payee_name);
-		g_free (empty_payee);
-    }
-    empty_payee = g_malloc0 (sizeof (PayeeStruct));
-    empty_payee->payee_name = g_strdup(_("No payee"));
-    return FALSE;
+		/* create the blank payee */
+		if (empty_payee)
+		{
+			g_free (empty_payee->payee_name);
+			g_free (empty_payee);
+		}
+		empty_payee = g_malloc0 (sizeof (PayeeStruct));
+		empty_payee->payee_name = g_strdup(_("No payee"));
+	}
+
+	return FALSE;
 }
 
 /**

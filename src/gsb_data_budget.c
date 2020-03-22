@@ -129,22 +129,24 @@ static BudgetStruct *empty_budget = NULL;
  *
  * \return FALSE
  * */
-gboolean gsb_data_budget_init_variables ( void )
+gboolean gsb_data_budget_init_variables (gboolean cleanup)
 {
     if ( budget_list )
     {
         g_slist_free_full ( budget_list, (GDestroyNotify) _gsb_data_budget_free );
-        budget_list = NULL;
     }
 
-    /* recreate the empty budget */
-    _gsb_data_budget_free ( empty_budget );
-    empty_budget = g_malloc0 ( sizeof ( BudgetStruct ));
-    empty_budget -> budget_name = g_strdup(_("No budget line"));
+	if (cleanup)
+	{
+        budget_list = NULL;
+		/* recreate the empty budget */
+		_gsb_data_budget_free ( empty_budget );
+		empty_budget = g_malloc0 ( sizeof ( BudgetStruct ));
+		empty_budget -> budget_name = g_strdup(_("No budget line"));
 
-    budget_buffer = NULL;
-    sub_budget_buffer = NULL;
-
+		budget_buffer = NULL;
+		sub_budget_buffer = NULL;
+	}
     return FALSE;
 }
 

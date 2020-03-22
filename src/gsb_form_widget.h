@@ -29,6 +29,7 @@ gboolean		gsb_form_widget_entry_get_focus					(GtkWidget *entry,
 																 GdkEventFocus *ev,
 																 gint *ptr_origin);
 gboolean		gsb_form_widget_free_list						(void);
+gboolean		gsb_form_widget_free_list_without_widgets		(void);
 GSList *		gsb_form_widget_get_list						(void);
 const gchar *	gsb_form_widget_get_name						(gint element_number);
 gchar *			gsb_form_widget_get_old_credit					(void);

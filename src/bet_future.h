@@ -10,7 +10,7 @@
 
 
 /* START_DECLARATION */
-void 		bet_future_initialise_dialog 	(void);
+void 		bet_future_initialise_dialog 	(gboolean cleanup);
 gboolean 	bet_future_modify_line 			(gint account_number,
 											 gint number,
 											 gint mother_row);

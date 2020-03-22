@@ -1280,6 +1280,37 @@ gboolean gsb_form_widget_update_payee_combofix (gint report_number,
 }
 
 /**
+ * free the content of the list of structures of the form
+ *
+ * \param
+ *
+ * \return FALSE
+ **/
+gboolean gsb_form_widget_free_list_without_widgets (void)
+{
+	GSList *tmp_list;
+
+    devel_debug (NULL);
+
+    if (!form_list_widgets)
+        return FALSE;
+
+    tmp_list = form_list_widgets;
+    while (tmp_list)
+    {
+        struct_element *element;
+
+        element = tmp_list->data;
+        g_free (element);
+        tmp_list = tmp_list->next;
+    }
+    g_slist_free (form_list_widgets);
+    form_list_widgets = NULL;
+
+	return FALSE;
+}
+
+/**
  *
  *
  * \param

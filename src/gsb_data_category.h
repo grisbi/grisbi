@@ -56,7 +56,7 @@ gint 		gsb_data_category_get_sub_category_number_by_name 	(gint category_number,
 gpointer 	gsb_data_category_get_sub_category_structure 		(gint no_category,
 																 gint no_sub_category);
 gint 		gsb_data_category_get_type 							(gint no_category);
-gboolean 	gsb_data_category_init_variables 					(void);
+gboolean 	gsb_data_category_init_variables 					(gboolean cleanup);
 gint 		gsb_data_category_new_sub_category_with_number_and_name 		(gint number,
 																 gint category_number,
                                                                  const gchar *name);

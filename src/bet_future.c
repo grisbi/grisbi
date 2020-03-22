@@ -133,8 +133,8 @@ static struct BetFormOrganization *bfo;
  *
  *
  * */
-void bet_future_initialise_dialog ( void )
- {
+void bet_future_initialise_dialog (gboolean cleanup)
+{
     gint tab[BET_FUTURE_FORM_HEIGHT][BET_FUTURE_FORM_WIDTH] = {
         { SCHEDULED_FORM_FREQUENCY_BUTTON, SCHEDULED_FORM_LIMIT_DATE, SCHEDULED_FORM_FREQUENCY_USER_ENTRY,
           SCHEDULED_FORM_FREQUENCY_USER_BUTTON },
@@ -157,21 +157,30 @@ void bet_future_initialise_dialog ( void )
         bet_transfert_dialog = NULL;
     }
 
-    bfo = g_malloc0 ( sizeof ( struct BetFormOrganization ) );
+	if (bfo)
+	{
+		g_free (bfo);
+		bfo = NULL;
+	}
 
-    if ( !bfo )
-    {
-        dialogue_error_memory ();
-        return;
-    }
+	if (cleanup)
+	{
+		bfo = g_malloc0 ( sizeof ( struct BetFormOrganization ) );
 
-    bfo->columns = BET_FUTURE_FORM_WIDTH;
-    bfo->rows = BET_FUTURE_FORM_HEIGHT;
+		if ( !bfo )
+		{
+			dialogue_error_memory ();
+			return;
+		}
 
-    for ( i = 0 ; i<BET_FUTURE_FORM_HEIGHT ; i++ )
-    for ( j = 0 ; j<BET_FUTURE_FORM_WIDTH ; j++ )
-        bfo->form_table[i][j] = tab[i][j];
- }
+		bfo->columns = BET_FUTURE_FORM_WIDTH;
+		bfo->rows = BET_FUTURE_FORM_HEIGHT;
+
+		for ( i = 0 ; i<BET_FUTURE_FORM_HEIGHT ; i++ )
+		for ( j = 0 ; j<BET_FUTURE_FORM_WIDTH ; j++ )
+			bfo->form_table[i][j] = tab[i][j];
+	}
+}
 
 
 /**
