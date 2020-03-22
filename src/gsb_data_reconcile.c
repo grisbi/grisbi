@@ -662,15 +662,16 @@ gboolean gsb_data_reconcile_set_final_balance (gint reconcile_number,
  **/
 gint gsb_data_reconcile_get_account_last_number (gint account_number)
 {
+	GList *rec_list;
     GList *tmp_list;
 	gint result = 0;
 
-    tmp_list = g_list_last (gsb_data_reconcile_get_sort_reconcile_list (
-                                        account_number));
+	rec_list = gsb_data_reconcile_get_sort_reconcile_list (account_number);
+    tmp_list = g_list_last (rec_list);
 	if (tmp_list)
 		result = GPOINTER_TO_INT (tmp_list->data);
 
-	g_list_free (tmp_list);
+	g_list_free (rec_list);
 
 	return result;
 }
