@@ -198,6 +198,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     GtkWidget *onglet, *vbox, *scrolled_window, *hbox, *vbox2;
     GtkWidget *label, *scrolled_window_text, *paddingbox;
     GtkSizeGroup *size_group;
+	GSList *list;
 
     devel_debug ( NULL );
 
@@ -261,13 +262,15 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_box_pack_start ( GTK_BOX(hbox), label, FALSE, FALSE, 0);
 
     /* create the list of the kind of account combobox */
-    detail_type_compte = gsb_autofunc_combobox_new ( gsb_account_property_create_combobox_list (),
+	list = gsb_account_property_create_combobox_list ();
+    detail_type_compte = gsb_autofunc_combobox_new ( list,
                         0,
                         G_CALLBACK (gsb_account_property_changed),
                         GINT_TO_POINTER (PROPERTY_KIND),
                         G_CALLBACK (gsb_data_account_set_kind),
                         0 );
     gtk_box_pack_start ( GTK_BOX(hbox), detail_type_compte, TRUE, TRUE, 0);
+	g_slist_free (list);
 
     /* create the currency line */
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
@@ -927,7 +930,7 @@ void gsb_account_property_iban_insert_text ( GtkEditable *entry,
     gchar *iban;
     gint nbre_char;
 
-    iban = g_utf8_strup (text, length);
+	iban = g_utf8_strup (text, length);
 
     /* on bloque l'appel de la fonction */
     g_signal_handlers_block_by_func ( G_OBJECT (entry),
@@ -1307,10 +1310,17 @@ void gsb_account_property_iban_set_iban ( const gchar *iban )
 {
     gint position = 0;
 
+	g_signal_handlers_block_by_func (G_OBJECT (detail_IBAN),
+									 G_CALLBACK (gsb_account_property_iban_insert_text),
+									 bank_list_combobox);
+
     gtk_editable_delete_text ( GTK_EDITABLE (detail_IBAN), 0, -1 );
     if ( iban && strlen (iban) > 0 )
         gtk_editable_insert_text ( GTK_EDITABLE (detail_IBAN),
                             iban, -1, &position );
+	g_signal_handlers_unblock_by_func (G_OBJECT (detail_IBAN),
+									   G_CALLBACK (gsb_account_property_iban_insert_text),
+									   bank_list_combobox);
 }
 
 /**
