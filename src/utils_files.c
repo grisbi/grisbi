@@ -565,11 +565,18 @@ debut:
 FILE* utils_files_utf8_fopen (const gchar *utf8filename,
 							  const gchar *mode)
 {
+	FILE* file;
+	gchar *tmp_str;
+
 #ifdef G_OS_WIN32
-    return fopen (g_locale_from_utf8 (utf8filename, -1, NULL, NULL, NULL), mode);
+	tmp_str = g_locale_from_utf8 (utf8filename, -1, NULL, NULL, NULL);
 #else
-	return fopen (g_filename_from_utf8 (utf8filename, -1, NULL, NULL, NULL), mode);
+	tmp_str = g_filename_from_utf8 (utf8filename, -1, NULL, NULL, NULL);
 #endif
+	file = fopen (tmp_str, mode);
+	g_free (tmp_str);
+
+	return file;
 }
 
 
