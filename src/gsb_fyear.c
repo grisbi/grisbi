@@ -245,7 +245,8 @@ gboolean gsb_fyear_update_fyear_list_new ( GtkTreeModel *model,
                         GtkTreeModel *model_filter,
                         gchar *title )
 {
-    GSList *list_tmp;
+	GSList *copy_list = NULL;
+	GSList *tmp_list;
     GtkTreeIter iter;
 
     /* if no filter, thats because not created, but don't create here
@@ -265,14 +266,23 @@ gboolean gsb_fyear_update_fyear_list_new ( GtkTreeModel *model,
                         -1 );
 
     /* fill the list with the copy of fyears_list */
-    list_tmp = g_slist_sort ( g_slist_copy ( gsb_data_fyear_get_fyears_list ( ) ),
-                        ( GCompareFunc ) gsb_data_fyear_compare_from_struct );
+	tmp_list = gsb_data_fyear_get_fyears_list ();
+    while (tmp_list)
+    {
+	    FyearStruct *fyear;
 
-    while ( list_tmp )
+		fyear = tmp_list ->data;
+		copy_list = g_slist_insert_sorted (copy_list, fyear, (GCompareFunc) gsb_data_fyear_compare_from_struct);
+
+        tmp_list = tmp_list->next;
+    }
+
+	tmp_list = copy_list;
+    while (tmp_list)
     {
         gint fyear_number;
 
-        fyear_number = gsb_data_fyear_get_no_fyear (list_tmp -> data);
+        fyear_number = gsb_data_fyear_get_no_fyear (tmp_list->data);
 
         gtk_list_store_append ( GTK_LIST_STORE ( model ), &iter );
         gtk_list_store_set ( GTK_LIST_STORE ( model ),
@@ -281,8 +291,9 @@ gboolean gsb_fyear_update_fyear_list_new ( GtkTreeModel *model,
                             FYEAR_COL_NUMBER, fyear_number,
                             FYEAR_COL_VIEW, gsb_data_fyear_get_form_show ( fyear_number ),
                             -1 );
-        list_tmp = list_tmp -> next;
+        tmp_list = tmp_list->next;
     }
+	g_slist_free (copy_list);
 
     return FALSE;
 }
