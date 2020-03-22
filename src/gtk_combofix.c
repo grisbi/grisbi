@@ -669,6 +669,7 @@ static gboolean gtk_combofix_fill_store (GtkComboFix *combofix,
 
         tmp_list = tmp_list->next;
     }
+	g_free (free_str1);
 
     priv->visible_items += g_slist_length (list);
 
