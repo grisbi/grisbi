@@ -4754,10 +4754,16 @@ void gsb_transactions_list_set_titles_tips_col_list_ope (void)
             if (row[j])
             {
                 if (tips_col_liste_operations[j])
+				{
+					gchar *free_str;
+
+					free_str = tips_col_liste_operations[j];
                     tips_col_liste_operations[j] = g_strconcat (tips_col_liste_operations[j],
                                                     "- ",
                                                     row[j], " ",
                                                     NULL);
+					g_free (free_str);
+				}
                 else
                     tips_col_liste_operations[j] = g_strconcat (" ", row[j], " ", NULL);
 
