@@ -395,9 +395,12 @@ static gboolean gsb_bank_list_check_separator ( GtkTreeModel *model,
 			 -1 );
 
     if (value)
-	return FALSE;
-
-    return TRUE;
+	{
+		g_free (value);
+		return FALSE;
+	}
+	else
+    	return TRUE;
 }
 
 /**
