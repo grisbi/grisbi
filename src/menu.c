@@ -399,11 +399,13 @@ void grisbi_cmd_file_open_direct_menu (GSimpleAction *action,
 	const gchar *target;
 	gchar *tmp_str;
     gint index_target = 0;
+	GrisbiWinRun *w_run;
 
 	devel_debug (NULL);
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
 
     /* continue only if can close the current file */
-    if (!gsb_file_close ())
+    if (w_run->file_is_loading && !gsb_file_close ())
 		return;
 
 	target = g_variant_get_string (parameter, NULL);
@@ -416,9 +418,6 @@ void grisbi_cmd_file_open_direct_menu (GSimpleAction *action,
 	{
 		if (gsb_file_open_file (tmp_str))
 		{
-			GrisbiWinRun *w_run;
-
-			w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
 			if (!w_run->file_is_loading)
 			{
 				gsb_gui_navigation_select_line (NULL, NULL);
