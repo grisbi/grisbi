@@ -185,6 +185,22 @@ static struct_bet_graph_button *struct_initialise_bet_graph_button ( void )
  *
  * \param
  *
+ * \return
+ * */
+static void struct_free_bet_graph_button (struct_bet_graph_button *self)
+{
+    g_free (self->name);
+    g_free (self->filename);
+    g_free (self->service_id);
+
+	g_free (self);
+}
+
+/**
+ *
+ *
+ * \param
+ *
  * \return TRUE
  * */
 static struct_bet_graph_data *struct_initialise_bet_graph_data ( void )
@@ -1864,6 +1880,29 @@ static GDate *bet_graph_get_date_debut_periode ( void )
     return date_debut_periode;
 }
 
+static void bet_graph_button_menu_destroy (GtkWidget *button,
+										   GList *liste)
+{
+    GList *tmp_list;
+	gboolean free_prefs = TRUE;
+
+	tmp_list = liste;
+	while (tmp_list)
+	{
+		struct_bet_graph_button *self;
+
+		self = tmp_list -> data;
+		if (free_prefs)
+		{
+			g_free (self->prefs);
+			free_prefs = FALSE;
+		}
+		struct_free_bet_graph_button (self);
+
+		tmp_list = tmp_list -> next;
+	}
+	g_list_free (liste);
+}
 
 /**
  * retourne un bouton pour choisir entre un graph ligne ou colonne
@@ -1966,9 +2005,14 @@ GtkToolItem *bet_graph_button_menu_new ( GtkWidget *toolbar,
 
     gtk_menu_tool_button_set_menu ( GTK_MENU_TOOL_BUTTON ( item ), gtk_menu_new () );
 
-    g_signal_connect ( G_OBJECT ( item ),
+	g_signal_connect ( G_OBJECT ( item ),
                         "show-menu",
                         G_CALLBACK ( bet_graph_popup_choix_graph_menu ),
+                        liste );
+
+    g_signal_connect (G_OBJECT (item),
+                        "destroy",
+                        G_CALLBACK (bet_graph_button_menu_destroy),
                         liste );
 
     return item;
