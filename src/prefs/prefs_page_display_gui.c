@@ -143,9 +143,9 @@ static gboolean prefs_page_display_gui_change_toolbar_display_mode (GtkRadioButt
 						   "display-toolbar",
 						   tmp_str);
 
-
     /* update toolbars */
-    grisbi_win_update_all_toolbars ();
+	if (grisbi_win_file_is_loading ())
+    	grisbi_win_update_all_toolbars ();
 
     return FALSE;
 }
