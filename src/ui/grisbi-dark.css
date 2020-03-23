@@ -14,7 +14,7 @@
 /* Couleurs spécifiques des tree_view et des entry*/
 @define-color background_archive rgb(60,120,40);
 @define-color background_scheduled gray;
-@define-color background_split rgb(240,200,200);
+@define-color background_split rgb(50,150,50);
 @define-color couleur_fond_0 rgb(75,75,75);
 @define-color couleur_fond_1 rgb(120,120,120);
 @define-color couleur_jour rgb(180,180,180);
