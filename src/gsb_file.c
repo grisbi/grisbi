@@ -98,7 +98,6 @@ static void gsb_file_remove_old_backup (const gchar *filename)
     GSList *iterator;
 	gchar *basename;
 	gchar *name = NULL;
-	gint i = 0;
 
 	devel_debug (filename);
 
@@ -185,7 +184,6 @@ static void gsb_file_remove_old_backup (const gchar *filename)
 		{
 			continue;
 		}
-		i++;
 	}
 	g_object_unref (direnum);
 	g_object_unref (dir);
@@ -1051,8 +1049,8 @@ gboolean gsb_file_automatic_backup_change_time (GtkWidget *spinbutton,
 gboolean gsb_file_close (void)
 {
 	gchar *filename;
-    devel_debug (NULL);
 
+	devel_debug (NULL);
     if (!assert_account_loaded ())
 	{
         return TRUE;
@@ -1240,8 +1238,8 @@ void gsb_file_copy_old_file (const gchar *filename)
 gboolean gsb_file_quit (void)
 {
 	gchar *filename;
-    devel_debug (NULL);
 
+	devel_debug (NULL);
     if (!assert_account_loaded ())
 	{
         return TRUE;
