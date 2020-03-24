@@ -229,13 +229,19 @@
                             <property name="spacing">1</property>
                             <child>
                               <object class="GtkCheckButton" id="checkbutton_display_fonts">
-                                <property name="label" translatable="yes">Use a custom font for the transactions: </property>
-                                <property name="name">label_gsetting_option</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
                                 <property name="halign">start</property>
                                 <property name="draw_indicator">True</property>
+                                <child>
+                                  <object class="GtkLabel" id="label201">
+                                    <property name="name">label_gsetting_option</property>
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">Use a custom font for the transactions: </property>
+                                  </object>
+                                </child>
                               </object>
                               <packing>
                                 <property name="expand">False</property>

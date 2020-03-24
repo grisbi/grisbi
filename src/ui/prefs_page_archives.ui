@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.22.1 -->
+<!-- Generated with glade 3.22.2 -->
 <interface>
   <requires lib="gtk+" version="3.16"/>
   <object class="GtkAdjustment" id="adjustment">
@@ -94,13 +94,20 @@
                         </child>
                         <child>
                           <object class="GtkCheckButton" id="checkbutton_archives_sort_order">
-                            <property name="label" translatable="yes">Sort the archives by descending date</property>
-                            <property name="name">label_gsetting_option</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
                             <property name="halign">start</property>
                             <property name="draw_indicator">True</property>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="name">label_gsetting_option</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="halign">start</property>
+                                <property name="label" translatable="yes">Sort the archives by descending date</property>
+                              </object>
+                            </child>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -321,13 +328,20 @@
                         <property name="spacing">5</property>
                         <child>
                           <object class="GtkCheckButton" id="checkbutton_archives_check_auto">
-                            <property name="label" translatable="yes">Check at opening if creating archive is needed.</property>
-                            <property name="name">label_gsetting_option</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
                             <property name="halign">start</property>
                             <property name="draw_indicator">True</property>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="name">label_gsetting_option</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="halign">start</property>
+                                <property name="label" translatable="yes">Check at opening if creating archive is needed.</property>
+                              </object>
+                            </child>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -339,11 +353,13 @@
                           <object class="GtkBox" id="box1">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
+                            <property name="spacing">5</property>
                             <child>
                               <object class="GtkLabel" id="label6">
                                 <property name="name">label_gsetting_option</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="halign">start</property>
                                 <property name="label" translatable="yes">Warn if more than </property>
                               </object>
                               <packing>
@@ -371,6 +387,7 @@
                                 <property name="name">label_gsetting_option</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="halign">start</property>
                                 <property name="label" translatable="yes"> transactions are not archived.</property>
                               </object>
                               <packing>

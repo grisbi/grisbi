@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.22.1 -->
+<!-- Generated with glade 3.22.2 -->
 <interface>
   <requires lib="gtk+" version="3.16"/>
   <object class="GtkAdjustment" id="adjustment_completion_minimum_key_length">
@@ -121,6 +121,7 @@
                                 <property name="name">label_gsetting_option</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="halign">start</property>
                                 <property name="label" translatable="yes">Minimum number of characters before proposals in the input fields:</property>
                                 <property name="wrap">True</property>
                                 <property name="selectable">True</property>
@@ -240,13 +241,20 @@
                             <property name="spacing">5</property>
                             <child>
                               <object class="GtkCheckButton" id="checkbutton_automatic_completion_payee">
-                                <property name="label" translatable="yes">Automatic filling transactions from payee</property>
-                                <property name="name">label_gsetting_option</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
                                 <property name="halign">start</property>
                                 <property name="draw_indicator">True</property>
+                                <child>
+                                  <object class="GtkLabel">
+                                    <property name="name">label_gsetting_option</property>
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="halign">start</property>
+                                    <property name="label" translatable="yes">Automatic filling transactions from payee</property>
+                                  </object>
+                                </child>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -279,13 +287,20 @@
                                     <property name="spacing">5</property>
                                     <child>
                                       <object class="GtkCheckButton" id="checkbutton_automatic_erase_credit_debit">
-                                        <property name="label" translatable="yes">Erase the credit and debit fields</property>
-                                        <property name="name">label_gsetting_option</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
                                         <property name="halign">start</property>
                                         <property name="draw_indicator">True</property>
+                                        <child>
+                                          <object class="GtkLabel">
+                                            <property name="name">label_gsetting_option</property>
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="halign">start</property>
+                                            <property name="label" translatable="yes">Erase the credit and debit fields</property>
+                                          </object>
+                                        </child>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -295,13 +310,20 @@
                                     </child>
                                     <child>
                                       <object class="GtkCheckButton" id="checkbutton_automatic_recover_splits">
-                                        <property name="label" translatable="yes">Automatically recover the children of the associated transaction</property>
-                                        <property name="name">label_gsetting_option</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
                                         <property name="halign">start</property>
                                         <property name="draw_indicator">True</property>
+                                        <child>
+                                          <object class="GtkLabel">
+                                            <property name="name">label_gsetting_option</property>
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="halign">start</property>
+                                            <property name="label" translatable="yes">Automatically recover the children of the associated transaction</property>
+                                          </object>
+                                        </child>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -311,13 +333,20 @@
                                     </child>
                                     <child>
                                       <object class="GtkCheckButton" id="checkbutton_limit_completion_to_current_account">
-                                        <property name="label" translatable="yes">Limit the filling with payees belonging to the current account</property>
-                                        <property name="name">label_gsetting_option</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
                                         <property name="halign">start</property>
                                         <property name="draw_indicator">True</property>
+                                        <child>
+                                          <object class="GtkLabel">
+                                            <property name="name">label_gsetting_option</property>
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="halign">start</property>
+                                            <property name="label" translatable="yes">Limit the filling with payees belonging to the current account</property>
+                                          </object>
+                                        </child>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>

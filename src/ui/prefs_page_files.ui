@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.22.1 -->
+<!-- Generated with glade 3.22.2 -->
 <interface>
   <requires lib="gtk+" version="3.16"/>
   <object class="GtkAdjustment" id="adjustment1">
@@ -81,13 +81,20 @@
                         <property name="spacing">5</property>
                         <child>
                           <object class="GtkCheckButton" id="checkbutton_load_last_file">
-                            <property name="label" translatable="yes">Automatically load last file on startup</property>
-                            <property name="name">label_gsetting_option</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
                             <property name="halign">start</property>
                             <property name="draw_indicator">True</property>
+                            <child>
+                              <object class="GtkLabel" id="label1">
+                                <property name="name">label_gsetting_option</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="halign">start</property>
+                                <property name="label" translatable="yes">Automatically load last file on startup</property>
+                              </object>
+                            </child>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -97,13 +104,20 @@
                         </child>
                         <child>
                           <object class="GtkCheckButton" id="checkbutton_sauvegarde_auto">
-                            <property name="label" translatable="yes">Automatically save on exit</property>
-                            <property name="name">label_gsetting_option</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
                             <property name="halign">start</property>
                             <property name="draw_indicator">True</property>
+                            <child>
+                              <object class="GtkLabel" id="label2">
+                                <property name="name">label_gsetting_option</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="halign">start</property>
+                                <property name="label" translatable="yes">Automatically save on exit</property>
+                              </object>
+                            </child>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -113,13 +127,20 @@
                         </child>
                         <child>
                           <object class="GtkCheckButton" id="checkbutton_force_enregistrement">
-                            <property name="label" translatable="yes">Force saving of locked files</property>
-                            <property name="name">label_gsetting_option</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
                             <property name="halign">start</property>
                             <property name="draw_indicator">True</property>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="name">label_gsetting_option</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="halign">start</property>
+                                <property name="label" translatable="yes">Force saving of locked files</property>
+                              </object>
+                            </child>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -144,13 +165,20 @@
                         </child>
                         <child>
                           <object class="GtkCheckButton" id="checkbutton_compress_file">
-                            <property name="label" translatable="yes">Compress Grisbi file</property>
-                            <property name="name">label_gsetting_option</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
                             <property name="halign">start</property>
                             <property name="draw_indicator">True</property>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="name">label_gsetting_option</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="halign">start</property>
+                                <property name="label" translatable="yes">Compress Grisbi file</property>
+                              </object>
+                            </child>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -168,6 +196,7 @@
                                 <property name="name">label_gsetting_option</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="halign">start</property>
                                 <property name="label" translatable="yes">Memorise last opened files: </property>
                                 <property name="selectable">True</property>
                               </object>
@@ -279,13 +308,20 @@
                         <property name="spacing">5</property>
                         <child>
                           <object class="GtkCheckButton" id="checkbutton_make_bakup_single_file">
-                            <property name="label" translatable="yes">Make a single backup file</property>
-                            <property name="name">label_gsetting_option</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
                             <property name="halign">start</property>
                             <property name="draw_indicator">True</property>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="name">label_gsetting_option</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="halign">start</property>
+                                <property name="label" translatable="yes">Make a single backup file</property>
+                              </object>
+                            </child>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -295,13 +331,20 @@
                         </child>
                         <child>
                           <object class="GtkCheckButton" id="checkbutton_compress_backup">
-                            <property name="label" translatable="yes">Compress Grisbi backup</property>
-                            <property name="name">label_gsetting_option</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
                             <property name="halign">start</property>
                             <property name="draw_indicator">True</property>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="name">label_gsetting_option</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="halign">start</property>
+                                <property name="label" translatable="yes">Compress Grisbi backup</property>
+                              </object>
+                            </child>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -311,13 +354,20 @@
                         </child>
                         <child>
                           <object class="GtkCheckButton" id="checkbutton_sauvegarde_demarrage">
-                            <property name="label" translatable="yes">Make a backup copy after opening files</property>
-                            <property name="name">label_gsetting_option</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
                             <property name="halign">start</property>
                             <property name="draw_indicator">True</property>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="name">label_gsetting_option</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="halign">start</property>
+                                <property name="label" translatable="yes">Make a backup copy after opening files</property>
+                              </object>
+                            </child>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -327,13 +377,20 @@
                         </child>
                         <child>
                           <object class="GtkCheckButton" id="checkbutton_make_backup">
-                            <property name="label" translatable="yes">Make a backup copy before saving files</property>
-                            <property name="name">label_gsetting_option</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
                             <property name="halign">start</property>
                             <property name="draw_indicator">True</property>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="name">label_gsetting_option</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="halign">start</property>
+                                <property name="label" translatable="yes">Make a backup copy before saving files</property>
+                              </object>
+                            </child>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -348,13 +405,20 @@
                             <property name="spacing">5</property>
                             <child>
                               <object class="GtkCheckButton" id="checkbutton_make_backup_every_minutes">
-                                <property name="label" translatable="yes">Make a backup copy every </property>
-                                <property name="name">label_gsetting_option</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
                                 <property name="halign">start</property>
                                 <property name="draw_indicator">True</property>
+                                <child>
+                                  <object class="GtkLabel">
+                                    <property name="name">label_gsetting_option</property>
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="halign">start</property>
+                                    <property name="label" translatable="yes">Make a backup copy every </property>
+                                  </object>
+                                </child>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -364,7 +428,6 @@
                             </child>
                             <child>
                               <object class="GtkSpinButton" id="spinbutton_make_backup_nb_minutes">
-                                <property name="name">label_gsetting_option</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="max_width_chars">3</property>
@@ -406,13 +469,20 @@
                             <property name="spacing">5</property>
                             <child>
                               <object class="GtkCheckButton" id="checkbutton_remove_backup_files">
-                                <property name="label" translatable="yes">Remove backup files older than </property>
-                                <property name="name">label_gsetting_option</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
                                 <property name="halign">start</property>
                                 <property name="draw_indicator">True</property>
+                                <child>
+                                  <object class="GtkLabel">
+                                    <property name="name">label_gsetting_option</property>
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="halign">start</property>
+                                    <property name="label" translatable="yes">Remove backup files older than </property>
+                                  </object>
+                                </child>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -465,6 +535,7 @@
                                 <property name="name">label_gsetting_option</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="halign">start</property>
                                 <property name="label" translatable="yes">Backup directory: </property>
                                 <property name="selectable">True</property>
                               </object>
@@ -576,13 +647,20 @@
                         <property name="spacing">5</property>
                         <child>
                           <object class="GtkCheckButton" id="checkbutton_force_import_directory">
-                            <property name="label" translatable="yes">Use a fixed directory: </property>
-                            <property name="name">label_gsetting_option</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
                             <property name="halign">start</property>
                             <property name="draw_indicator">True</property>
+                            <child>
+                              <object class="GtkAccelLabel">
+                                <property name="name">label_gsetting_option</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="halign">start</property>
+                                <property name="label" translatable="yes">Use a fixed directory: </property>
+                              </object>
+                            </child>
                           </object>
                           <packing>
                             <property name="expand">False</property>

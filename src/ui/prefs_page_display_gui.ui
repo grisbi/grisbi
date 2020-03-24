@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.22.1 -->
+<!-- Generated with glade 3.22.2 -->
 <interface>
   <requires lib="gtk+" version="3.12"/>
   <template class="PrefsPageDisplayGui" parent="GtkBox">
@@ -293,14 +293,21 @@
                                 <property name="orientation">vertical</property>
                                 <child>
                                   <object class="GtkRadioButton" id="radiobutton_display_text">
-                                    <property name="label" translatable="yes">Text only</property>
-                                    <property name="name">label_gsetting_option</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
                                     <property name="halign">start</property>
                                     <property name="active">True</property>
                                     <property name="draw_indicator">True</property>
+                                    <child>
+                                      <object class="GtkLabel">
+                                        <property name="name">label_gsetting_option</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="halign">start</property>
+                                        <property name="label" translatable="yes">Text only</property>
+                                      </object>
+                                    </child>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -310,8 +317,6 @@
                                 </child>
                                 <child>
                                   <object class="GtkRadioButton" id="radiobutton_display_icon">
-                                    <property name="label" translatable="yes">Icons only</property>
-                                    <property name="name">label_gsetting_option</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
@@ -319,6 +324,15 @@
                                     <property name="active">True</property>
                                     <property name="draw_indicator">True</property>
                                     <property name="group">radiobutton_display_text</property>
+                                    <child>
+                                      <object class="GtkLabel">
+                                        <property name="name">label_gsetting_option</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="halign">start</property>
+                                        <property name="label" translatable="yes">Icons only</property>
+                                      </object>
+                                    </child>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -328,8 +342,6 @@
                                 </child>
                                 <child>
                                   <object class="GtkRadioButton" id="radiobutton_display_both">
-                                    <property name="label" translatable="yes">Text below items</property>
-                                    <property name="name">label_gsetting_option</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
@@ -337,6 +349,15 @@
                                     <property name="active">True</property>
                                     <property name="draw_indicator">True</property>
                                     <property name="group">radiobutton_display_text</property>
+                                    <child>
+                                      <object class="GtkLabel">
+                                        <property name="name">label_gsetting_option</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="halign">start</property>
+                                        <property name="label" translatable="yes">Text below items</property>
+                                      </object>
+                                    </child>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -346,8 +367,6 @@
                                 </child>
                                 <child>
                                   <object class="GtkRadioButton" id="radiobutton_display_both_horiz">
-                                    <property name="label" translatable="yes">Text beside items</property>
-                                    <property name="name">label_gsetting_option</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
@@ -355,6 +374,15 @@
                                     <property name="active">True</property>
                                     <property name="draw_indicator">True</property>
                                     <property name="group">radiobutton_display_text</property>
+                                    <child>
+                                      <object class="GtkLabel">
+                                        <property name="name">label_gsetting_option</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="halign">start</property>
+                                        <property name="label" translatable="yes">Text beside items</property>
+                                      </object>
+                                    </child>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>

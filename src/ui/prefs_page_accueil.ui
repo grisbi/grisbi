@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.22.1 -->
+<!-- Generated with glade 3.22.2 -->
 <interface>
   <requires lib="gtk+" version="3.16"/>
   <template class="PrefsPageAccueil" parent="GtkBox">
@@ -63,14 +63,22 @@
                         <property name="spacing">5</property>
                         <child>
                           <object class="GtkCheckButton" id="checkbutton_balances_with_scheduled">
-                            <property name="label" translatable="yes">Take into account the scheduled operations in the calculation of balances</property>
-                            <property name="name">label_gsetting_option</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
                             <property name="halign">start</property>
                             <property name="draw_indicator">True</property>
                             <signal name="toggled" handler="prefs_page_accueil_checkbutton_balances_with_scheduled_toggle" after="yes" swapped="no"/>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="name">label_gsetting_option</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="halign">start</property>
+                                <property name="label" translatable="yes">Take into account the scheduled operations in the calculation of balances</property>
+                                <property name="selectable">True</property>
+                              </object>
+                            </child>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -160,14 +168,22 @@
                         <property name="spacing">5</property>
                         <child>
                           <object class="GtkCheckButton" id="checkbutton_partial_balance">
-                            <property name="label" translatable="yes">Place the partial balance  under its accounts if it's possible</property>
-                            <property name="name">label_gsetting_option</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
                             <property name="halign">start</property>
                             <property name="draw_indicator">True</property>
                             <signal name="toggled" handler="prefs_page_accueil_checkbutton_partial_balance_toggle" after="yes" swapped="no"/>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="name">label_gsetting_option</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="halign">start</property>
+                                <property name="label" translatable="yes">Place the partial balance  under its accounts if it's possible</property>
+                                <property name="selectable">True</property>
+                              </object>
+                            </child>
                           </object>
                           <packing>
                             <property name="expand">False</property>
