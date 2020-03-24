@@ -124,7 +124,7 @@ static void gsb_file_config_clean_config (void)
 
     /* settings_general */
     conf.custom_fonte_listes = FALSE;
-    conf.force_dark_theme = FALSE;
+    conf.force_type_theme = 0;
 	conf.metatree_action_2button_press = 0;				/* "gtk-default" */
     tmp_str = g_strdup (g_get_user_special_dir (G_USER_DIRECTORY_DOCUMENTS));
 	gsb_file_init_last_path (tmp_str);
@@ -432,6 +432,20 @@ gboolean gsb_file_config_load_app_config (void)
         g_free (tmp_str);
     }
 
+    tmp_str = g_key_file_get_string (config,
+									 "General",
+									 "current-theme",
+									 NULL);
+	if (tmp_str == NULL || strlen (tmp_str) == 0)
+    {
+        conf.current_theme = g_strdup ("null");
+    }
+    else
+    {
+        conf.current_theme = g_strdup (tmp_str);
+        g_free (tmp_str);
+    }
+
     conf.custom_fonte_listes = g_key_file_get_boolean (config,
 													   "General",
 													   "custom-fonte-listes",
@@ -449,9 +463,9 @@ gboolean gsb_file_config_load_app_config (void)
 		}
     }
 
-    conf.force_dark_theme = g_key_file_get_boolean (config,
-												    "General",
-													"force-dark-theme",
+    conf.force_type_theme = g_key_file_get_integer (config,
+													"General",
+													"force-type-theme",
 													NULL);
     tmp_str = g_key_file_get_string (config,
 								     "General",
@@ -892,6 +906,11 @@ gboolean gsb_file_config_save_app_config (void)
 							   "General",
 							   "browser-command",
 							   conf.browser_command);
+    g_key_file_set_string (config,
+						   "General",
+						   "current-theme",
+						   conf.current_theme);
+
     g_key_file_set_boolean (config,
 							"General",
                         	"custom-fonte-listes",
@@ -901,10 +920,10 @@ gboolean gsb_file_config_save_app_config (void)
 							   "General",
                         	   "font-string",
                         	   conf.font_string);
-    g_key_file_set_boolean (config,
+    g_key_file_set_integer (config,
 						   	"General",
-							"force-dark-theme",
-							conf.force_dark_theme);
+							"force-type-theme",
+							conf.force_type_theme);
 	if (conf.language_chosen)
 		g_key_file_set_string (config,
 							   "General",

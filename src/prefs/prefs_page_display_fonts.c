@@ -79,10 +79,16 @@ struct _PrefsPageDisplayFontsPrivate
     GtkWidget *			checkbutton_display_fonts;
     GtkWidget *         hbox_display_fonts;
 
+	GtkWidget *			box_radiobuttons_theme;
     GtkWidget *         box_select_theme;
     GtkWidget *         button_select_colors;
     GtkWidget *         colorbutton_select_colors;
     GtkWidget *         grid_select_colors;
+	GtkWidget *			label_theme_selected;
+	GtkWidget *			radiobutton_automatic_theme;
+	GtkWidget *			radiobutton_force_dark;
+	GtkWidget *			radiobutton_force_light;
+	GtkWidget *			radiobutton_force_std;
 
 };
 
@@ -105,85 +111,162 @@ static gboolean prefs_page_display_fonts_theme_action_changed (GtkWidget *radio_
 															   GdkEventButton *event,
 															   PrefsPageDisplayFonts *page)
 {
-	gchar *tmp_str;
-	gchar *hint;
-	gint result = 0;
+	GSettings *settings;
 	gint value = 0;
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radio_button), TRUE);
     value = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (radio_button), "pointer"));
-    if (value == 1)
-    {
-		tmp_str = g_strdup (_("You will have to restart Grisbi for the new theme to take effect.\n"
-							  "If you have unsaved data, it will be saved before leaving."));
-		hint = g_strdup (_("Force Grisbi to use a dark theme!"));
-    }
+
+	settings = grisbi_settings_get_settings (SETTINGS_GENERAL);
+
+	/* on sauvegarde éventuellement les données locales */
+	gsb_file_save_css_local_file (grisbi_app_get_css_data ());
+
+	if (value)
+	{
+		if (value == 1)						/* c'est un theme standard */
+			conf.force_type_theme = 0;
+		else
+			conf.force_type_theme = value;	/* dark theme ou light theme */
+		g_settings_set_int (G_SETTINGS (settings), "force-type-theme", conf.force_type_theme);
+		conf.use_type_theme = value;
+
+		grisbi_app_window_style_updated (GTK_WIDGET (grisbi_app_get_active_window (NULL)), GINT_TO_POINTER (TRUE));
+	}
 	else
 	{
-		tmp_str = g_strdup (_("You must restart to return to the default operation.\n"
-							  "If you have unsaved data, it will be saved before leaving."));
-		hint = g_strdup (_("Return to automatic theme detection"));
-	}
-
-	result = utils_prefs_dialog_msg_cancel_quit (tmp_str , hint);
-
-	if (result == GTK_RESPONSE_OK)
-	{
-		GtkWidget *prefs;
-		GSettings *settings;
-
-		settings = grisbi_settings_get_settings (SETTINGS_GENERAL);
-
-		/* on sauvegarde éventuellement les données locales */
-		gsb_file_save_css_local_file (grisbi_app_get_css_data ());
-
-		if (value == 1)
-		{
-			g_settings_set_boolean (G_SETTINGS (settings), "force-dark-theme", TRUE);
-		}
-		else
-		{
-			g_settings_reset (G_SETTINGS (settings), "force-dark-theme");
-		}
-
-		g_free (tmp_str);
-		g_free (hint);
-
-		prefs = grisbi_win_get_prefs_dialog (NULL);
-		if (prefs)
-		{
-			gtk_widget_hide (prefs);
-			grisbi_app_quit_from_prefs ();
-		}
-	}
-	else if (result == GTK_RESPONSE_CANCEL)
-	{
-		GtkWidget *other_button;
-		GSList *group;
-
-		group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radio_button));
-
-		if (value == 1)
-		{
-			other_button = GTK_WIDGET (g_slist_nth_data (group, 1));
-		}
-		else
-		{
-			other_button = GTK_WIDGET (g_slist_nth_data (group, 0));
-		}
-
-		g_signal_handlers_block_by_func (G_OBJECT (other_button),
-										 G_CALLBACK (prefs_page_display_fonts_theme_action_changed),
-										 page);
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (other_button), TRUE);
-		g_signal_handlers_unblock_by_func (G_OBJECT (other_button),
-										   G_CALLBACK (prefs_page_display_fonts_theme_action_changed),
-										   page);
-		g_free (tmp_str);
-		g_free (hint);
+		g_settings_reset (G_SETTINGS (settings), "force-type-theme");
+		conf.force_type_theme = 0;
+		conf.use_type_theme = 0;
 	}
 
 	return FALSE;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+static GtkWidget *prefs_page_display_fonts_button_new (GtkWidget *group,
+													   const gchar *label_str)
+{
+	GtkWidget *button;
+	GtkWidget * label;
+
+	button = gtk_radio_button_new_from_widget (GTK_RADIO_BUTTON (group));
+	label = gtk_label_new (label_str);
+	gtk_widget_set_name (label, "label_gsetting_option");
+	gtk_container_add (GTK_CONTAINER (button), label);
+
+	gtk_widget_show_all (button);
+
+	return button;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+static void prefs_page_display_fonts_get_radiobuttons_for_themes (PrefsPageDisplayFonts *page)
+{
+	gchar *tmp_label;
+	gchar *tmp_name = NULL;
+	gchar *tmp_theme_name;
+	gboolean dark = FALSE;
+	gboolean light = FALSE;
+	PrefsPageDisplayFontsPrivate *priv;
+
+	devel_debug (NULL);
+	priv = prefs_page_display_fonts_get_instance_private (page);
+
+	tmp_label = g_strdup_printf (_("The automatically selected theme is: '%s'"), conf.current_theme);
+	gtk_label_set_label (GTK_LABEL (priv->label_theme_selected), tmp_label);
+	g_free (tmp_label);
+
+	tmp_theme_name = g_ascii_strdown (conf.current_theme, -1);
+
+	if (g_strstr_len (tmp_theme_name, -1, "dark"))
+	{
+		dark = TRUE;
+	}
+	else if (g_strstr_len (tmp_theme_name, -1, "light"))
+	{
+		light = TRUE;
+	}
+	else
+	{
+		/* A partir du nom du thème on recherche si le fichier gtk-dark.css ou gtk-light.css existe */
+		gchar *css_dirname = NULL;
+		gchar *css_filename;
+
+		css_dirname = g_build_filename (gsb_dirs_get_themes_dir (), conf.current_theme, "gtk-3.0", NULL);
+		css_filename = g_strconcat (css_dirname, "/gtk-dark.css", NULL);
+		if (g_file_test (css_filename, G_FILE_TEST_EXISTS))
+		{
+			dark = TRUE;
+		}
+		g_free (css_filename);
+		css_filename = g_strconcat (css_dirname, "/gtk-light.css", NULL);
+		if (g_file_test (css_filename, G_FILE_TEST_EXISTS))
+		{
+			light = TRUE;
+		}
+		g_free (css_dirname);
+		g_free (css_filename);
+	}
+
+	if (!dark && !light)
+	{
+		priv->radiobutton_force_std = prefs_page_display_fonts_button_new (priv->radiobutton_automatic_theme,
+																		   (gpointer) _("Force the use of standard theme"));
+		g_object_set_data (G_OBJECT (priv->radiobutton_force_std), "pointer", GINT_TO_POINTER (1));
+		gtk_box_pack_start (GTK_BOX (priv->box_radiobuttons_theme), priv->radiobutton_force_std, FALSE, FALSE, 0);
+		g_signal_connect (priv->radiobutton_force_std,
+						  "button-release-event",
+						  G_CALLBACK (prefs_page_display_fonts_theme_action_changed),
+						  page);
+	}
+	else if (dark)
+	{
+		priv->radiobutton_force_dark = prefs_page_display_fonts_button_new (priv->radiobutton_automatic_theme,
+																		   	(gpointer) _("Force the use of dark theme"));
+		g_object_set_data (G_OBJECT (priv->radiobutton_force_dark), "pointer", GINT_TO_POINTER (2));
+		gtk_box_pack_start (GTK_BOX (priv->box_radiobuttons_theme), priv->radiobutton_force_dark, FALSE, FALSE, 0);
+		if (conf.force_type_theme == 2)
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->radiobutton_force_dark), TRUE);
+		g_signal_connect (priv->radiobutton_force_dark,
+						  "button-release-event",
+						  G_CALLBACK (prefs_page_display_fonts_theme_action_changed),
+						  page);
+	}
+	else if (light)
+	{
+		priv->radiobutton_force_light = prefs_page_display_fonts_button_new (priv->radiobutton_automatic_theme,
+																		   	 (gpointer) _("Force the use of light theme"));
+		g_object_set_data (G_OBJECT (priv->radiobutton_force_light), "pointer", GINT_TO_POINTER (3));
+		gtk_box_pack_start (GTK_BOX (priv->box_radiobuttons_theme), priv->radiobutton_force_light, FALSE, FALSE, 0);
+		if (conf.force_type_theme == 3)
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->radiobutton_force_light), TRUE);
+		g_signal_connect (priv->radiobutton_force_light,
+						  "button-release-event",
+						  G_CALLBACK (prefs_page_display_fonts_theme_action_changed),
+						  page);
+	}
+
+	/* Connect signals */
+    g_signal_connect (priv->radiobutton_automatic_theme,
+					  "button-release-event",
+					  G_CALLBACK (prefs_page_display_fonts_theme_action_changed),
+					  page);
+
+	g_free (tmp_theme_name);
+	g_free (tmp_name);
 }
 
 /**
@@ -571,14 +654,17 @@ static gboolean prefs_page_display_fonts_utilise_logo_checked (GtkWidget *check_
             if (pixbuf == NULL)
             {
                 pixbuf = gsb_select_icon_get_default_logo_pixbuf ();
+				logo_accueil =  gtk_image_new_from_pixbuf (pixbuf);
+				g_object_unref (G_OBJECT (pixbuf));
             }
-            logo_accueil =  gtk_image_new_from_pixbuf (pixbuf);
+			else
+			{
+            	logo_accueil =  gtk_image_new_from_pixbuf (pixbuf);
+			}
             if (logo_accueil)
 				gsb_main_page_set_logo_accueil (logo_accueil);
 			else
 				gsb_main_page_set_logo_accueil (NULL);
-
-			g_object_unref (G_OBJECT (pixbuf));
         }
     }
 	else
@@ -596,19 +682,17 @@ static gboolean prefs_page_display_fonts_utilise_logo_checked (GtkWidget *check_
  *
  * \return
  **/
-static void prefs_page_display_fonts_setup_display_fonts_page (PrefsPageDisplayFonts *page)
+static void prefs_page_display_fonts_setup_page (PrefsPageDisplayFonts *page)
 {
 	GtkWidget *head_page;
 	GtkWidget *preview;
 	GtkWidget *font_button;
 	GdkPixbuf * pixbuf = NULL;
 	GtkWidget *combobox_select_colors;
-	GtkWidget *theme_buttons;
 	gboolean is_loading;
 	PrefsPageDisplayFontsPrivate *priv;
 
 	devel_debug (NULL);
-
 	priv = prefs_page_display_fonts_get_instance_private (page);
 	is_loading = grisbi_win_file_is_loading ();
 
@@ -629,7 +713,9 @@ static void prefs_page_display_fonts_setup_display_fonts_page (PrefsPageDisplayF
 
     if (!pixbuf)
     {
-        preview = gtk_image_new_from_pixbuf (gsb_select_icon_get_default_logo_pixbuf ());
+		pixbuf = gsb_select_icon_get_default_logo_pixbuf ();
+        preview = gtk_image_new_from_pixbuf (pixbuf);
+		g_object_unref (pixbuf);
     }
     else
     {
@@ -690,15 +776,7 @@ static void prefs_page_display_fonts_setup_display_fonts_page (PrefsPageDisplayF
 
 	/* set the elements for colors */
 	/* set the themes buttons */
-	theme_buttons = gsb_automem_radiobutton3_gsettings_new (_("Automatic selection"),
-															_("Force the use of dark theme"),
-															NULL,
-															&conf.force_dark_theme,
-															(GCallback) prefs_page_display_fonts_theme_action_changed,
-															page,
-															GTK_ORIENTATION_HORIZONTAL);
-	gtk_box_pack_start (GTK_BOX (priv->box_select_theme), theme_buttons, FALSE, FALSE, 0);
-	gtk_box_reorder_child (GTK_BOX (priv->box_select_theme), theme_buttons, 0);
+	prefs_page_display_fonts_get_radiobuttons_for_themes (page);
 
 	//~ combobox_select_colors = gsb_rgba_create_color_combobox ();
 	combobox_select_colors = utils_prefs_create_combo_list_indisponible ();
@@ -742,7 +820,7 @@ static void prefs_page_display_fonts_init (PrefsPageDisplayFonts *page)
 {
 	gtk_widget_init_template (GTK_WIDGET (page));
 
-	prefs_page_display_fonts_setup_display_fonts_page (page);
+	prefs_page_display_fonts_setup_page (page);
 }
 
 static void prefs_page_display_fonts_dispose (GObject *object)
@@ -770,7 +848,10 @@ static void prefs_page_display_fonts_class_init (PrefsPageDisplayFontsClass *kla
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, button_select_colors);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, colorbutton_select_colors);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, box_select_theme);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, box_radiobuttons_theme);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, grid_select_colors);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, label_theme_selected);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, radiobutton_automatic_theme);
 }
 
 /******************************************************************************/

@@ -247,6 +247,7 @@ static void grisbi_settings_init_settings_general (GSettings *settings)
 {
     gchar *tmp_str;
 
+	conf.current_theme = g_settings_get_string (settings, "current-theme");
     conf.custom_fonte_listes = g_settings_get_boolean (settings, "custom-fonte-listes");
     if (conf.custom_fonte_listes)
     {
@@ -270,7 +271,8 @@ static void grisbi_settings_init_settings_general (GSettings *settings)
         g_free (tmp_str);
     }
 
-    conf.force_dark_theme = g_settings_get_boolean (settings, "force-dark-theme");
+    conf.force_type_theme = g_settings_get_int (settings, "force-type-theme");
+	printf ("conf.force_type_theme = %d\n", conf.force_type_theme);
 
     tmp_str = g_settings_get_string (settings, "language-chosen");
     if (tmp_str == NULL)
@@ -866,6 +868,29 @@ GSettings *grisbi_settings_get_settings (gint schema)
     }
 
     return settings;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void grisbi_settings_set_current_theme (const gchar *current_theme,
+										gint force_type_theme)
+{
+    GSettings *settings = NULL;
+    GrisbiSettingsPrivate *priv = NULL;
+
+    priv = grisbi_settings_get_instance_private (grisbi_settings_load_app_config());
+
+	settings = priv->settings_general;
+	g_settings_set_string (settings, "current-theme", current_theme);
+	if (force_type_theme)
+		g_settings_set_int (settings, "force-type-theme", force_type_theme);
+	else
+		g_settings_reset (G_SETTINGS (settings), "force-type-theme");
 }
 
 /**

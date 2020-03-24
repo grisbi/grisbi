@@ -64,7 +64,6 @@
 /*START_STATIC*/
 static GtkCssProvider *	css_provider = NULL;    /* css provider */
 static gchar *			css_data = NULL;		/* fichier css sous forme de string */
-static gchar *			theme_name = NULL;		/* theme en cours */
 
 static GrisbiWin *grisbi_app_create_window (GrisbiApp *app,
                                              GdkScreen *screen);
@@ -154,8 +153,9 @@ static void grisbi_app_struct_conf_init (void)
 {
     devel_debug (NULL);
 
-    conf.font_string = NULL;
     conf.browser_command = NULL;
+	conf.current_theme = g_strdup ("null");
+    conf.font_string = NULL;
 	conf.import_directory = NULL;
 	conf.language_chosen = NULL;
     conf.last_open_file = NULL;
@@ -172,6 +172,7 @@ static void grisbi_app_struct_conf_free (void)
 {
     devel_debug (NULL);
 
+	g_free (conf.current_theme);
 	if (conf.font_string)
     {
 		g_free (conf.font_string);
@@ -542,57 +543,6 @@ static void grisbi_app_set_main_menu (GrisbiApp *app,
 }
 
 /* WINDOWS */
-static void grisbi_app_window_style_updated (GtkWidget *widget,
-											 gpointer user_data)
-{
-    GtkSettings* settings;
-
-	devel_debug (NULL);
-	settings = gtk_settings_get_default ();
-    if (settings)
-    {
-		GFile *file = NULL;
-		gchar *tmp_theme_name;
-		const gchar *css_filename;
-
-		g_object_get (G_OBJECT (settings),
-					  "gtk-theme-name", &tmp_theme_name,
-					  NULL);
-
-		if (g_strcmp0 (tmp_theme_name, theme_name))
-		{
-			g_free (theme_name);
-			theme_name = tmp_theme_name;
-
-			conf.use_dark_theme = gsb_rgba_is_dark_theme (theme_name);
-			g_object_set (G_OBJECT (settings),
-						  "gtk-application-prefer-dark-theme",
-						  conf.use_dark_theme,
-						  NULL);
-
-			/* on sauvegarde éventuellement les données locales */
-			gsb_file_save_css_local_file (css_data);
-
-			/* on charge les nouvelles données */
-			css_filename = gsb_rgba_get_css_filename ();
-			file = g_file_new_for_path (css_filename);
-			gtk_css_provider_load_from_file (css_provider, file, NULL);
-
-			/* on met à jour css_data et les couleurs de base */
-			g_free (css_data);
-			css_data = gtk_css_provider_to_string (css_provider);
-			gsb_rgba_initialise_couleurs_par_defaut (css_data);
-			gsb_rgba_set_colors_to_default ();
-
-			/* MAJ Home page */
-			gsb_gui_navigation_update_home_page_from_theme ();
-
-			/* on ferme les preferences si necessaire */
-			utils_prefs_close_prefs_from_theme ();
-		}
-	}
-}
-
 /**
  *
  *
@@ -670,7 +620,7 @@ static GrisbiWin *grisbi_app_create_window (GrisbiApp *app,
     g_signal_connect (win,
 					  "style-updated",
 					  G_CALLBACK (grisbi_app_window_style_updated),
-					  app);
+					  GINT_TO_POINTER (FALSE));
 
 	gtk_application_add_window (GTK_APPLICATION (app), GTK_WINDOW (win));
 
@@ -988,8 +938,9 @@ static void grisbi_app_startup (GApplication *application)
 {
 	GrisbiApp *app = GRISBI_APP (application);
     GFile *file = NULL;
-	gchar *css_filename;
     GtkSettings* settings;
+	gchar *css_filename;
+	gchar *theme_name = NULL;
 	gboolean has_app_menu = FALSE;
 
 	/* Chain up parent's startup */
@@ -1012,16 +963,26 @@ static void grisbi_app_startup (GApplication *application)
                       "gtk-shell-shows-app-menu", &has_app_menu,
 					  "gtk-theme-name", &theme_name,
 					  NULL);
-		if (conf.force_dark_theme)
-			conf.use_dark_theme = TRUE;
-		else	/* mode automatique */
-			conf.use_dark_theme = gsb_rgba_is_dark_theme (theme_name);
 
-		if (conf.use_dark_theme)
-			g_object_set (G_OBJECT (settings),
-						  "gtk-application-prefer-dark-theme",
-						  conf.use_dark_theme,
-						  NULL);
+		if (g_strcmp0 (conf.current_theme, theme_name) == 0)
+		{
+
+			if (conf.force_type_theme)
+				conf.use_type_theme = conf.force_type_theme;
+			else	/* mode automatique */
+				conf.use_type_theme = gsb_rgba_get_type_theme (theme_name);
+
+			g_free (theme_name);
+		}
+		else
+		{
+
+			g_free (conf.current_theme);
+			conf.current_theme = theme_name;
+			grisbi_settings_set_current_theme (theme_name, 0);
+			conf.use_type_theme = gsb_rgba_get_type_theme (theme_name);
+			conf.force_type_theme = 0;
+		}
     }
 
 	/* set language and init locale parameters */
@@ -1193,7 +1154,6 @@ static void grisbi_app_shutdown (GApplication *application)
 
 	/* on libère la mémoire utilisée par css_data */
 	g_free (css_data);
-	g_free (theme_name);
 
     /* on libère la mémoire utilisée par etat */
     free_variables ();
@@ -1265,6 +1225,78 @@ static void grisbi_app_class_init (GrisbiAppClass *klass)
 /******************************************************************************/
 /* Public functions                                                           */
 /******************************************************************************/
+void grisbi_app_window_style_updated (GtkWidget *win,
+									  gpointer force)
+{
+    GtkSettings* settings;
+	gint forced = 0;
+
+	devel_debug (NULL);
+	g_signal_handlers_block_by_func (G_OBJECT (win),
+									 G_CALLBACK (grisbi_app_window_style_updated),
+									 force);
+
+	forced = GPOINTER_TO_INT (force);
+	settings = gtk_settings_get_default ();
+    if (settings)
+    {
+		GFile *file = NULL;
+		gchar *tmp_theme_name;
+		const gchar *css_filename;
+
+		g_object_get (G_OBJECT (settings),
+					  "gtk-theme-name", &tmp_theme_name,
+					  NULL);
+
+		if (g_strcmp0 (tmp_theme_name, conf.current_theme) || forced)
+		{
+			g_free (conf.current_theme);
+			conf.current_theme = tmp_theme_name;
+
+			/* set force_type_theme en automatique sauf si commande forcée */
+			if (!forced)
+			{
+				conf.use_type_theme = gsb_rgba_get_type_theme (tmp_theme_name);
+				conf.force_type_theme = 0;
+			}
+			else
+			{
+				conf.use_type_theme = conf.force_type_theme;
+			}
+
+			grisbi_settings_set_current_theme (tmp_theme_name, conf.force_type_theme);
+
+			/* on sauvegarde éventuellement les données locales */
+			gsb_file_save_css_local_file (css_data);
+
+			/* on charge les nouvelles données */
+			css_filename = gsb_rgba_get_css_filename ();
+			file = g_file_new_for_path (css_filename);
+			gtk_css_provider_load_from_file (css_provider, file, NULL);
+
+			/* on met à jour css_data et les couleurs de base */
+			g_free (css_data);
+			css_data = gtk_css_provider_to_string (css_provider);
+			gsb_rgba_initialise_couleurs_par_defaut (css_data);
+			gsb_rgba_set_colors_to_default ();
+
+			/* MAJ Home page */
+			if (grisbi_win_file_is_loading ())
+				gsb_gui_navigation_update_home_page_from_theme ();
+
+			/* on ferme les preferences si necessaire */
+			utils_prefs_close_prefs_from_theme ();
+		}
+		else
+		{
+			g_free (tmp_theme_name);
+		}
+	}
+	g_signal_handlers_unblock_by_func (G_OBJECT (win),
+									   G_CALLBACK (grisbi_app_window_style_updated),
+									   force);
+}
+
 /**
  * Affiche les raccourcis claviers dans un text view
  *
@@ -1548,21 +1580,6 @@ void grisbi_app_set_css_data (const gchar *new_css_data)
 {
 	g_free (css_data);
 	css_data = g_strdup (new_css_data);
-}
-
-/**
- *	fonction utilisée pour forcer la fermeture de grisbi à partir des préférences
- *
- * \param
- *
- * \return
- **/
-void grisbi_app_quit_from_prefs (void)
-{
-	GrisbiApp *app;
-
-	app = GRISBI_APP (g_application_get_default ());
-	grisbi_app_quit (NULL, NULL, app);
 }
 
 /**

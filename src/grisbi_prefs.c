@@ -917,30 +917,32 @@ void grisbi_prefs_dialog_response  (GtkDialog *prefs,
 	GSettings *settings;
 
     devel_debug (NULL);
-	grisbi_win_status_bar_message (_("Preferences stop"));
-	if (!prefs)
+	if (result_id == GTK_RESPONSE_CLOSE)
 	{
-    	grisbi_win_status_bar_message (_("Done"));
+		grisbi_win_status_bar_message (_("Preferences stop"));
+		if (!prefs)
+		{
+			grisbi_win_status_bar_message (_("Done"));
 
-		return;
+			return;
+		}
+		/* on récupère la dimension de la fenêtre */
+		gtk_window_get_size (GTK_WINDOW (prefs), &conf.prefs_width, &conf.prefs_height);
+
+		settings = grisbi_settings_get_settings (SETTINGS_PREFS);
+
+		g_settings_set_int (G_SETTINGS (settings),
+							"prefs-height",
+							conf.prefs_height);
+
+		g_settings_set_int (G_SETTINGS (settings),
+							"prefs-panel-width",
+							conf.prefs_panel_width);
+
+		g_settings_set_int (G_SETTINGS (settings),
+							"prefs-width",
+							conf.prefs_width);
 	}
-	/* on récupère la dimension de la fenêtre */
-	gtk_window_get_size (GTK_WINDOW (prefs), &conf.prefs_width, &conf.prefs_height);
-
-	settings = grisbi_settings_get_settings (SETTINGS_PREFS);
-
-    g_settings_set_int (G_SETTINGS (settings),
-                        "prefs-height",
-                        conf.prefs_height);
-
-    g_settings_set_int (G_SETTINGS (settings),
-                        "prefs-panel-width",
-                        conf.prefs_panel_width);
-
-    g_settings_set_int (G_SETTINGS (settings),
-                        "prefs-width",
-                        conf.prefs_width);
-
 	gtk_widget_destroy (GTK_WIDGET (prefs));
 	grisbi_win_set_prefs_dialog (NULL, NULL);
 	grisbi_win_status_bar_message (_("Done"));

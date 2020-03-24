@@ -262,6 +262,16 @@
   </schema>
 
   <schema id='org.gtk.grisbi.general'>
+    <key name="browser-command" type="s">
+      <default>""</default>
+      <summary>Browser command</summary>
+      <description>Browser command.</description>
+    </key>
+    <key name="current-theme" type="s">
+      <default>""</default>
+      <summary>Current theme</summary>
+      <description>Current theme.</description>
+    </key>
     <key name="custom-fonte-listes" type="b">
       <default>false</default>
       <summary>Use custom fonts for lists</summary>
@@ -274,17 +284,13 @@
         If utilise-fonte-listes = TRUE, this is the name of the custom font.
       </description>
     </key>
-    <key name="force-dark-theme" type="b">
-      <default>false</default>
-      <summary>Use a dark theme</summary>
+    <key name="force-type-theme" type="i">
+      <default>0</default>
+      <summary>Force type of theme</summary>
       <description>
-        Force the use a dark theme when the automatic selection is not available
+        Force the use a type of theme when the automatic selection is not available.
+		0 = auto 1 = standard 2 = dark theme 3 = light theme.
       </description>
-    </key>
-    <key name="browser-command" type="s">
-      <default>""</default>
-      <summary>Browser command</summary>
-      <description>Browser command.</description>
     </key>
     <key name="language-chosen" type="s">
       <default>""</default>
