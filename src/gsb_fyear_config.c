@@ -36,6 +36,7 @@
 /*START_INCLUDE*/
 #include "gsb_fyear_config.h"
 #include "dialog.h"
+#include "grisbi_win.h"
 #include "grisbi_settings.h"
 #include "gsb_autofunc.h"
 #include "gsb_automem.h"
@@ -140,7 +141,9 @@ GtkWidget *gsb_fyear_config_create_page ( void )
     GtkWidget *entry;
     GtkWidget *button;
     GtkTreeModel *tree_model;
+	gboolean is_loading;
 
+	is_loading = grisbi_win_file_is_loading ();
     vbox_pref = new_vbox_with_title_and_icon (_("Financial years"), "gsb-financial-years-32.png");
 
     paddinggrid = utils_prefs_paddinggrid_new_with_title (vbox_pref, _("Known financial years"));
@@ -148,13 +151,6 @@ GtkWidget *gsb_fyear_config_create_page ( void )
     /* Create financial years list */
     scrolled_window = utils_prefs_scrolled_window_new (NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, SW_MIN_HEIGHT);
     gtk_grid_attach (GTK_GRID (paddinggrid), scrolled_window, 0, 0, 2, 3);
-
-	/* Create button for sort variable */
-	button = gsb_automem_checkbutton_gsettings_new (_("Sort the exercises by descending name"),
-                        &(conf.prefs_fyear_sort_order),
-                        G_CALLBACK (gsb_fyear_config_button_sort_order_clicked),
-                        "prefs-fyear-sort-order");
-    gtk_grid_attach (GTK_GRID (paddinggrid), button, 0, 3, 2, 1);
 
     fyear_config_treeview = gsb_fyear_config_create_list ();
 	gtk_widget_set_name (fyear_config_treeview, "colorized_tree_view");
@@ -165,15 +161,25 @@ GtkWidget *gsb_fyear_config_create_page ( void )
 		       G_CALLBACK (gsb_fyear_config_select),
 		       NULL );
 
-    /* Do not activate unless an account is opened */
-    if ( gsb_data_account_get_accounts_amount () )
+	/* Do not activate unless an account is opened */
+    if (is_loading)
 	{
 		gsb_fyear_config_fill_list (tree_model);
+
 		/* set column color */
 		utils_set_list_store_background_color (fyear_config_treeview, FYEAR_ROW_COLOR);
 	}
     else
-		gtk_widget_set_sensitive ( vbox_pref, FALSE );
+	{
+		gtk_widget_set_sensitive (scrolled_window, FALSE);
+	}
+
+	/* Create button for sort variable */
+	button = gsb_automem_checkbutton_gsettings_new (_("Sort the exercises by descending name"),
+                        &(conf.prefs_fyear_sort_order),
+                        G_CALLBACK (gsb_fyear_config_button_sort_order_clicked),
+                        "prefs-fyear-sort-order");
+    gtk_grid_attach (GTK_GRID (paddinggrid), button, 0, 3, 2, 1);
 
     /* Add button */
     button = utils_buttons_button_new_from_stock ("gtk-add", _("Add"));
@@ -184,6 +190,8 @@ GtkWidget *gsb_fyear_config_create_page ( void )
 			       G_CALLBACK  (gsb_fyear_config_add_fyear),
 			       fyear_config_treeview );
     gtk_grid_attach (GTK_GRID (paddinggrid), button, 0, 4, 1, 1);
+    if (!is_loading)
+		gtk_widget_set_sensitive (button, FALSE);
 
     /* Button "Remove" */
     button = utils_buttons_button_new_from_stock ("gtk-remove", _("Remove"));
@@ -195,6 +203,8 @@ GtkWidget *gsb_fyear_config_create_page ( void )
 			       G_CALLBACK  (gsb_fyear_config_remove_fyear),
 			       fyear_config_treeview);
     gtk_grid_attach (GTK_GRID (paddinggrid), button, 1, 4, 1, 1);
+    if (!is_loading)
+		gtk_widget_set_sensitive (button, FALSE);
 
     /* Associate operations : under the list */
     button = gtk_button_new_with_label ( _("Associate operations without financial years") );
@@ -204,6 +214,8 @@ GtkWidget *gsb_fyear_config_create_page ( void )
 			 NULL);
     gtk_grid_attach (GTK_GRID (paddinggrid), button, 0, 5, 2, 1);
     gtk_widget_show ( button );
+    if (!is_loading)
+		gtk_widget_set_sensitive (button, FALSE);
 
     /* Financial year details */
     paddinggrid = utils_prefs_paddinggrid_new_with_title ( vbox_pref, _("Financial year details") );
