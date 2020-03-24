@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.22.1 -->
+<!-- Generated with glade 3.22.2 -->
 <interface>
   <requires lib="gtk+" version="3.16"/>
   <object class="GtkAdjustment" id="adjustment1">
@@ -517,7 +517,7 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="halign">start</property>
-                                    <property name="label" translatable="yes">If possible use the field « N » to define the methods of payment</property>
+                                    <property name="label" translatable="yes">If possible use the field 'N' to define the methods of payment</property>
                                   </object>
                                 </child>
                               </object>
@@ -539,7 +539,7 @@
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="halign">start</property>
-                            <property name="label" translatable="yes">(Adding the import of QIF files of the « Société Générale » french bank)</property>
+                            <property name="label" translatable="yes">(Adding the import of QIF files of the 'Société Générale' french bank)</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
