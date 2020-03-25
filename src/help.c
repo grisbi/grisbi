@@ -207,7 +207,7 @@ NULL};
 					version_to_string,
 #ifdef DEBUG
 					"\n",
-					_("Grisbi git tag: "),
+					_("Grisbi git hash: "),
 					GIT_HASH,
 #endif
 					NULL );
