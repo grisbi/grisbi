@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-24 21:12+0100\n"
+"POT-Creation-Date: 2020-03-25 11:39+0100\n"
 "PO-Revision-Date: 2010-02-11 19:06+0300\n"
 "Last-Translator: Alexandre Prokoudine <alexandre.prokoudine@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -8231,59 +8231,59 @@ msgstr ""
 msgid "Unable to compile regex: %s\n"
 msgstr "Не удалось прочитать файл: %s\n"
 
-#: ../src/gsb_rgba.c:492
+#: ../src/gsb_rgba.c:495
 msgid "Transaction list background 1"
 msgstr "Фон списка проводок №1"
 
-#: ../src/gsb_rgba.c:493
+#: ../src/gsb_rgba.c:496
 msgid "Transaction list background 2"
 msgstr "Фон списка проводок №2"
 
-#: ../src/gsb_rgba.c:494
+#: ../src/gsb_rgba.c:497
 msgid "Color for the operation that gives the balance today"
 msgstr "Цвет операции, которая выводит текущий баланс"
 
-#: ../src/gsb_rgba.c:495
+#: ../src/gsb_rgba.c:498
 msgid "Color of transaction's text"
 msgstr "Цвет текста проводок"
 
-#: ../src/gsb_rgba.c:496
+#: ../src/gsb_rgba.c:499
 msgid "Text of unfinished split transaction"
 msgstr "Текст незавершённой разделённой проводки"
 
-#: ../src/gsb_rgba.c:497
+#: ../src/gsb_rgba.c:500
 msgid "Children of split transaction"
 msgstr "Потомки разделённой проводки"
 
-#: ../src/gsb_rgba.c:498
+#: ../src/gsb_rgba.c:501
 #, fuzzy
 msgid "Selection color"
 msgstr "Цвет выделения"
 
-#: ../src/gsb_rgba.c:499
+#: ../src/gsb_rgba.c:502
 msgid "Background of non selectable scheduled transactions"
 msgstr "Фон невыбранных запланированных проводок"
 
-#: ../src/gsb_rgba.c:500
+#: ../src/gsb_rgba.c:503
 msgid "Archive color"
 msgstr "Цвет архива"
 
-#: ../src/gsb_rgba.c:501
+#: ../src/gsb_rgba.c:504
 #, fuzzy
 msgid "Background of bet division"
 msgstr "Фон некорректной записи о дате"
 
-#: ../src/gsb_rgba.c:502
+#: ../src/gsb_rgba.c:505
 #, fuzzy
 msgid "Background of bet futur"
 msgstr "Фон некорректной записи о дате"
 
-#: ../src/gsb_rgba.c:503
+#: ../src/gsb_rgba.c:506
 #, fuzzy
 msgid "Background of bet solde"
 msgstr "Фон некорректной записи о дате"
 
-#: ../src/gsb_rgba.c:504
+#: ../src/gsb_rgba.c:507
 #, fuzzy
 msgid "Background of bet transfer"
 msgstr "Фон некорректной записи о дате"
@@ -10095,7 +10095,7 @@ msgstr ""
 
 #: ../src/prefs/prefs_page_display_fonts.c:227
 #, fuzzy
-msgid "Force the use of standard theme"
+msgid "Force the use of clear theme"
 msgstr "Архивация по дате"
 
 #: ../src/prefs/prefs_page_display_fonts.c:238
@@ -13094,6 +13094,10 @@ msgstr "Общедоступное управление личными фина�
 #, fuzzy
 msgid "finance"
 msgstr "финансовый год"
+
+#, fuzzy
+#~ msgid "Force the use of standard theme"
+#~ msgstr "Архивация по дате"
 
 #, fuzzy
 #~ msgid "Use a dark theme"

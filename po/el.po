@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Grisbi 0.5.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-24 21:12+0100\n"
+"POT-Creation-Date: 2020-03-25 11:39+0100\n"
 "PO-Revision-Date: 2009-04-13 14:53+0200\n"
 "Last-Translator: \n"
 "Language-Team: KASKAS <ttnfy17@yahoo.gr>\n"
@@ -8754,61 +8754,61 @@ msgstr ""
 msgid "Unable to compile regex: %s\n"
 msgstr "Αδύνατη η δημιουργία αρχείου tmp: %s\n"
 
-#: ../src/gsb_rgba.c:492
+#: ../src/gsb_rgba.c:495
 msgid "Transaction list background 1"
 msgstr "Υπόβαθρο 1 καταλόγων συναλλαγής"
 
-#: ../src/gsb_rgba.c:493
+#: ../src/gsb_rgba.c:496
 msgid "Transaction list background 2"
 msgstr "Υπόβαθρο 2 καταλόγων συναλλαγής"
 
-#: ../src/gsb_rgba.c:494
+#: ../src/gsb_rgba.c:497
 msgid "Color for the operation that gives the balance today"
 msgstr ""
 
-#: ../src/gsb_rgba.c:495
+#: ../src/gsb_rgba.c:498
 msgid "Color of transaction's text"
 msgstr "Χρώμα του κειμένου της συναλλαγής"
 
-#: ../src/gsb_rgba.c:496
+#: ../src/gsb_rgba.c:499
 #, fuzzy
 msgid "Text of unfinished split transaction"
 msgstr " κείμενο ατελούς  συναλλαγής"
 
-#: ../src/gsb_rgba.c:497
+#: ../src/gsb_rgba.c:500
 #, fuzzy
 msgid "Children of split transaction"
 msgstr "Αποτελέσματα διασπασμένης συναλλαγής"
 
-#: ../src/gsb_rgba.c:498
+#: ../src/gsb_rgba.c:501
 #, fuzzy
 msgid "Selection color"
 msgstr "Χρώμα επιλογής"
 
-#: ../src/gsb_rgba.c:499
+#: ../src/gsb_rgba.c:502
 msgid "Background of non selectable scheduled transactions"
 msgstr "Υπόβαθρο των μη επιλέξιμων σχεδιασμένων συναλλαγών"
 
-#: ../src/gsb_rgba.c:500
+#: ../src/gsb_rgba.c:503
 msgid "Archive color"
 msgstr "Χρώμα αρχείων"
 
-#: ../src/gsb_rgba.c:501
+#: ../src/gsb_rgba.c:504
 #, fuzzy
 msgid "Background of bet division"
 msgstr "Υπόβαθρο της άκυρης εισόδου ημερομηνίας"
 
-#: ../src/gsb_rgba.c:502
+#: ../src/gsb_rgba.c:505
 #, fuzzy
 msgid "Background of bet futur"
 msgstr "Υπόβαθρο της άκυρης εισόδου ημερομηνίας"
 
-#: ../src/gsb_rgba.c:503
+#: ../src/gsb_rgba.c:506
 #, fuzzy
 msgid "Background of bet solde"
 msgstr "Υπόβαθρο της άκυρης εισόδου ημερομηνίας"
 
-#: ../src/gsb_rgba.c:504
+#: ../src/gsb_rgba.c:507
 #, fuzzy
 msgid "Background of bet transfer"
 msgstr "Υπόβαθρο της άκυρης εισόδου ημερομηνίας"
@@ -10791,7 +10791,7 @@ msgstr ""
 
 #: ../src/prefs/prefs_page_display_fonts.c:227
 #, fuzzy
-msgid "Force the use of standard theme"
+msgid "Force the use of clear theme"
 msgstr "Αρχείο κατά την ημερομηνία"
 
 #: ../src/prefs/prefs_page_display_fonts.c:238
@@ -13864,6 +13864,10 @@ msgstr "Προσωπικός διευθυντής χρηματοδότησης �
 #, fuzzy
 msgid "finance"
 msgstr "οικονομικό έτος"
+
+#, fuzzy
+#~ msgid "Force the use of standard theme"
+#~ msgstr "Αρχείο κατά την ημερομηνία"
 
 #, fuzzy
 #~ msgid "Use a dark theme"

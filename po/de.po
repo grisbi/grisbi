@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-24 21:12+0100\n"
+"POT-Creation-Date: 2020-03-25 11:39+0100\n"
 "PO-Revision-Date: 2020-03-01 11:55+0100\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -8437,55 +8437,55 @@ msgstr "Hinunter"
 msgid "Unable to compile regex: %s\n"
 msgstr "Der reguläre Ausdruck kann nicht ausgewertet werden: %s\n"
 
-#: ../src/gsb_rgba.c:492
+#: ../src/gsb_rgba.c:495
 msgid "Transaction list background 1"
 msgstr "Hintergrund gerade Zeilen"
 
-#: ../src/gsb_rgba.c:493
+#: ../src/gsb_rgba.c:496
 msgid "Transaction list background 2"
 msgstr "Hintergrund ungerade Zeilen"
 
-#: ../src/gsb_rgba.c:494
+#: ../src/gsb_rgba.c:497
 msgid "Color for the operation that gives the balance today"
 msgstr "Hintergrund aktueller Saldo"
 
-#: ../src/gsb_rgba.c:495
+#: ../src/gsb_rgba.c:498
 msgid "Color of transaction's text"
 msgstr "Textfarbe Buchungen"
 
-#: ../src/gsb_rgba.c:496
+#: ../src/gsb_rgba.c:499
 msgid "Text of unfinished split transaction"
 msgstr "Textfarbe unvollständige Splittbuchungen"
 
-#: ../src/gsb_rgba.c:497
+#: ../src/gsb_rgba.c:500
 msgid "Children of split transaction"
 msgstr "Teilbuchungen von Splittbuchungen"
 
-#: ../src/gsb_rgba.c:498
+#: ../src/gsb_rgba.c:501
 msgid "Selection color"
 msgstr "Farbauswahl"
 
-#: ../src/gsb_rgba.c:499
+#: ../src/gsb_rgba.c:502
 msgid "Background of non selectable scheduled transactions"
 msgstr "Hintergrund nicht auswählbarer geplanter Buchungen"
 
-#: ../src/gsb_rgba.c:500
+#: ../src/gsb_rgba.c:503
 msgid "Archive color"
 msgstr "Hintergrund archivierte Buchungen"
 
-#: ../src/gsb_rgba.c:501
+#: ../src/gsb_rgba.c:504
 msgid "Background of bet division"
 msgstr "Hintergrund prognostizierte berechnete Buchungen"
 
-#: ../src/gsb_rgba.c:502
+#: ../src/gsb_rgba.c:505
 msgid "Background of bet futur"
 msgstr "Hintergrund prognostizierte hinzugefügte Buchungen"
 
-#: ../src/gsb_rgba.c:503
+#: ../src/gsb_rgba.c:506
 msgid "Background of bet solde"
 msgstr "Hintergrund prognostizierter Saldo"
 
-#: ../src/gsb_rgba.c:504
+#: ../src/gsb_rgba.c:507
 msgid "Background of bet transfer"
 msgstr "Hintergrund prognostizierte Umbuchungen"
 
@@ -10419,7 +10419,7 @@ msgstr ""
 
 #: ../src/prefs/prefs_page_display_fonts.c:227
 #, fuzzy
-msgid "Force the use of standard theme"
+msgid "Force the use of clear theme"
 msgstr "Dunkles Design erzwingen"
 
 #: ../src/prefs/prefs_page_display_fonts.c:238
@@ -13413,6 +13413,10 @@ msgstr "Finanzprogramm für Privatpersonen"
 #: ../share/grisbi.desktop.in.h:3
 msgid "finance"
 msgstr "Finanzen"
+
+#, fuzzy
+#~ msgid "Force the use of standard theme"
+#~ msgstr "Dunkles Design erzwingen"
 
 #~ msgid ""
 #~ "You will have to restart Grisbi for the new theme to take effect.\n"
