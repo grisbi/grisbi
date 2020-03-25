@@ -182,7 +182,7 @@ static void prefs_page_display_fonts_get_radiobuttons_for_themes (PrefsPageDispl
 	gboolean light = FALSE;
 	PrefsPageDisplayFontsPrivate *priv;
 
-	devel_debug (NULL);
+	//~ devel_debug (NULL);
 	priv = prefs_page_display_fonts_get_instance_private (page);
 
 	tmp_label = g_strdup_printf (_("The automatically selected theme is: '%s'"), conf.current_theme);

@@ -150,7 +150,7 @@ void gsb_rgba_initialise_couleurs_par_defaut (const gchar *css_data)
 	gchar **tab_colors;
 	guint i = 0;
 
-    devel_debug (css_data);
+    devel_debug (NULL);
 
     if (0 == strlen(css_data))
 	    return;
@@ -659,8 +659,6 @@ gint gsb_rgba_get_type_theme (const gchar *theme_name)
 	gchar *tmp_theme_name;
 	gint type_theme;
 
-	devel_debug (theme_name);
-
 	tmp_theme_name = g_ascii_strdown (theme_name, -1);
 
 	if (g_strstr_len (tmp_theme_name, -1, "dark"))
@@ -693,7 +691,6 @@ gchar *gsb_rgba_get_css_filename (void)
 	gchar *css_filename = NULL;
 	gchar *tmp_str = NULL;
 
-	devel_debug (NULL);
 	if (conf.use_type_theme == 2)
 		tmp_str = g_strdup ("grisbi-dark.css");
 	else
