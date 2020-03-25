@@ -224,7 +224,7 @@ static void prefs_page_display_fonts_get_radiobuttons_for_themes (PrefsPageDispl
 	if (!dark && !light)
 	{
 		priv->radiobutton_force_std = prefs_page_display_fonts_button_new (priv->radiobutton_automatic_theme,
-																		   (gpointer) _("Force the use of standard theme"));
+																		   (gpointer) _("Force the use of clear theme"));
 		g_object_set_data (G_OBJECT (priv->radiobutton_force_std), "pointer", GINT_TO_POINTER (1));
 		gtk_box_pack_start (GTK_BOX (priv->box_radiobuttons_theme), priv->radiobutton_force_std, FALSE, FALSE, 0);
 		g_signal_connect (priv->radiobutton_force_std,
