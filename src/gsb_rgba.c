@@ -150,7 +150,10 @@ void gsb_rgba_initialise_couleurs_par_defaut (const gchar *css_data)
 	gchar **tab_colors;
 	guint i = 0;
 
-    devel_debug (NULL);
+    devel_debug (css_data);
+
+    if (0 == strlen(css_data))
+	    return;
 
 	tab_colors = g_strsplit (css_data, ";", -1);
 	for (i = 0; i < g_strv_length (tab_colors) -1; i++)
