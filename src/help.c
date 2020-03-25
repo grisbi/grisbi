@@ -203,23 +203,14 @@ NULL};
 
 #ifdef DEBUG
     {
-        gchar *compiled_time;
-
-        compiled_time = gsb_date_get_compiled_time ( );
         comments = g_strconcat ( _("Personal finance manager for everyone\n"),
                         extra,
                         "Version de GTK : ",
                         version_to_string,
                         "\n",
-                        _("This instance of Grisbi was compiled on\n"),
-                        compiled_time,
-                        " ",
-                        _("at"),
-                        " ",
-                        __TIME__,
+                        _("Grisbi git tag: "),
+                        GIT_TAG,
                         NULL );
-
-        g_free ( compiled_time );
     }
 #else
 	comments = g_strconcat ( _("Personal finance manager for everyone\n"),
