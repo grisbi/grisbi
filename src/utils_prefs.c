@@ -851,7 +851,7 @@ void utils_prefs_close_prefs_from_theme (void)
 	prefs = grisbi_win_get_prefs_dialog (NULL);
 	if (GRISBI_IS_PREFS (prefs))
 	{
-		grisbi_prefs_dialog_response (GTK_DIALOG (prefs), GTK_RESPONSE_CANCEL);
+		gtk_dialog_response (GTK_DIALOG (prefs), GTK_RESPONSE_CANCEL);
 	}
 }
 

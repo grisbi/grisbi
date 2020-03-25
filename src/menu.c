@@ -241,8 +241,7 @@ void grisbi_cmd_prefs (GSimpleAction *action,
 	gtk_window_present (GTK_WINDOW (prefs));
 	gtk_widget_show_all (GTK_WIDGET (prefs));
 	result = gtk_dialog_run (GTK_DIALOG (prefs));
-	if (GTK_IS_DIALOG (prefs))
-		grisbi_prefs_dialog_response (GTK_DIALOG (prefs), result);
+	grisbi_prefs_dialog_response (GTK_DIALOG (prefs), result);
 }
 
 /* HELP MENU */
