@@ -632,40 +632,6 @@ GDate *gsb_date_get_last_entry_date (const gchar *string)
 }
 
 /**
- * retourne la date de compilation conforme à la locale
- *
- * \param
- *
- * \return
- **/
-gchar *gsb_date_get_compiled_time (void)
-{
-    GDate *date;
-    gchar **tab;
-    gchar *str;
-    gint mois = 0;
-
-    str = g_strdup (__DATE__);
-    if (g_strstr_len (str, -1, "  "))
-    {
-        tab = g_strsplit (str, "  ", -1);
-        str = g_strjoinv  (" ", tab);
-        g_strfreev (tab);
-    }
-    tab = g_strsplit (str, " ", -1);
-    g_free (str);
-
-    mois = gsb_date_get_month_from_string (tab[0]);
-
-    date = g_date_new_dmy (atoi (tab[1]), mois, atoi (tab[2]));
-    g_strfreev (tab);
-    str = gsb_format_gdate (date);
-    g_date_free (date);
-
-    return str;
-}
-
-/**
  * returns a date with the last day of the month.
  *
  * \param
