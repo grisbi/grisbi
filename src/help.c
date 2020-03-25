@@ -201,24 +201,16 @@ NULL};
     extra = extra_support ( );
     version_to_string = get_gtk_run_version ( );
 
-#ifdef DEBUG
-    {
-        comments = g_strconcat ( _("Personal finance manager for everyone\n"),
-                        extra,
-                        "Version de GTK : ",
-                        version_to_string,
-                        "\n",
-                        _("Grisbi git tag: "),
-                        GIT_TAG,
-                        NULL );
-    }
-#else
 	comments = g_strconcat ( _("Personal finance manager for everyone\n"),
 					extra,
 					"Version de GTK : ",
 					version_to_string,
-					NULL );
+#ifdef DEBUG
+					"\n",
+					_("Grisbi git tag: "),
+					GIT_TAG,
 #endif
+					NULL );
 
     /* Logo */
     logo = gsb_select_icon_get_logo_pixbuf ( );
