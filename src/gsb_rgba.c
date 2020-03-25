@@ -694,18 +694,10 @@ gchar *gsb_rgba_get_css_filename (void)
 	gchar *tmp_str = NULL;
 
 	devel_debug (NULL);
-	switch (conf.use_type_theme)
-	{
-		case 1:
-			tmp_str = g_strdup ("grisbi.css");
-			break;
-		case 2:
-			tmp_str = g_strdup ("grisbi-dark.css");
-			break;
-		case 3:
-			tmp_str = g_strdup ("grisbi.css");
-			break;
-	}
+	if (conf.use_type_theme == 2)
+		tmp_str = g_strdup ("grisbi-dark.css");
+	else
+		tmp_str = g_strdup ("grisbi.css");
 
 	css_filename = g_build_filename (gsb_dirs_get_user_config_dir (), tmp_str, NULL);
 	if (g_file_test (css_filename, G_FILE_TEST_EXISTS) == FALSE)
