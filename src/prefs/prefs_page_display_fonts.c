@@ -191,15 +191,7 @@ static void prefs_page_display_fonts_get_radiobuttons_for_themes (PrefsPageDispl
 
 	tmp_theme_name = g_ascii_strdown (conf.current_theme, -1);
 
-	if (g_strstr_len (tmp_theme_name, -1, "dark"))
-	{
-		dark = TRUE;
-	}
-	else if (g_strstr_len (tmp_theme_name, -1, "light"))
-	{
-		light = TRUE;
-	}
-	else
+	if (!(g_strstr_len (tmp_theme_name, -1, "dark") || g_strstr_len (tmp_theme_name, -1, "light")))
 	{
 		/* A partir du nom du thème on recherche si le fichier gtk-dark.css ou gtk-light.css existe */
 		gchar *css_dirname = NULL;
@@ -221,7 +213,7 @@ static void prefs_page_display_fonts_get_radiobuttons_for_themes (PrefsPageDispl
 		g_free (css_filename);
 	}
 
-	if (!dark && !light)
+	if ((!dark && !light) ||(dark && light))
 	{
 		priv->radiobutton_force_std = prefs_page_display_fonts_button_new (priv->radiobutton_automatic_theme,
 																		   (gpointer) _("Force the use of clear theme"));
