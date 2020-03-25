@@ -203,7 +203,7 @@ NULL};
 
 	comments = g_strconcat ( _("Personal finance manager for everyone\n"),
 					extra,
-					"Version de GTK : ",
+					_("GTK+ version: "),
 					version_to_string,
 #ifdef DEBUG
 					"\n",
