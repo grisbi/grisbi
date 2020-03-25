@@ -280,7 +280,7 @@ static void prefs_page_options_ope_init_combo_sorting (PrefsPageOptionsOpe *page
 					  G_CALLBACK (prefs_page_options_ope_display_sort_changed),
 					  GINT_TO_POINTER (SECONDARY_SORT));
 
-	g_free (str_color);
+	g_free ((gpointer)str_color);
 }
 
 /**

@@ -265,7 +265,7 @@ static gint prefs_page_divers_choose_language_list_new (GtkWidget *combo)
 									"foreground", 2,
 									NULL);
 
-	g_free (str_color);
+	g_free ((gpointer)str_color);
 
 	return activ_index;
 }
