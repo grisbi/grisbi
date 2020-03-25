@@ -208,7 +208,7 @@ NULL};
 #ifdef DEBUG
 					"\n",
 					_("Grisbi git tag: "),
-					GIT_TAG,
+					GIT_HASH,
 #endif
 					NULL );
 

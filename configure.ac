@@ -106,8 +106,8 @@ else
 # make DEBUG = 1 for master
 	if expr ${GRISBI_MINOR_VERSION} % 2 > /dev/null; then
 		AC_DEFINE(DEBUG,1,[Defined if Grisbi is a developmeent version])
-		git_tag=`git rev-parse --short HEAD`
-		AC_DEFINE_UNQUOTED(GIT_TAG, ["$git_tag"], [git tag])
+		git_hash=`git rev-parse --short HEAD`
+		AC_DEFINE_UNQUOTED(GIT_HASH, ["$git_hash"], [git head short hash])
 	fi
 fi
 
