@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-25 11:39+0100\n"
+"POT-Creation-Date: 2020-03-26 09:19+0100\n"
 "PO-Revision-Date: 2011-02-19 01:39+0100\n"
 "Last-Translator: Markus7cz <markus7cz@gmail.com>\n"
 "Language-Team: \n"
@@ -2416,7 +2416,7 @@ msgid "to"
 msgstr "až"
 
 #: ../src/etats_config.c:1661 ../src/etats_config.c:3124
-#: ../src/etats_support.c:68 ../src/help.c:217
+#: ../src/etats_support.c:68
 msgid "at"
 msgstr "na"
 
@@ -3898,7 +3898,7 @@ msgstr "Chyba sigaction: SIGSEGV nebude zachycen\n"
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Chyba sigaction: SIGSEGV nebude zachycen\n"
 
-#: ../src/grisbi_app.c:1065 ../src/menu.c:632
+#: ../src/grisbi_app.c:1065 ../src/menu.c:631
 #, fuzzy
 msgid "Start an action!"
 msgstr "Řadit transakce podle"
@@ -3972,7 +3972,7 @@ msgid "Payees, categories and budgetaries"
 msgstr "Plátci/příjemci, kategorie a rozpočty"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:471 ../src/prefs/prefs_page_display_gui.c:196
+#: ../src/grisbi_prefs.c:471 ../src/prefs/prefs_page_display_gui.c:223
 msgid "Elements of interface"
 msgstr ""
 
@@ -4070,7 +4070,7 @@ msgstr ""
 msgid "Preferences stop"
 msgstr "_Možnosti"
 
-#: ../src/grisbi_settings.c:257
+#: ../src/grisbi_settings.c:261
 msgid "No font defined"
 msgstr "Není zvoleno písmo"
 
@@ -7573,11 +7573,11 @@ msgid ""
 "\"%s\"."
 msgstr ""
 
-#: ../src/gsb_file_config.c:461
+#: ../src/gsb_file_config.c:469
 msgid "Monospace 10"
 msgstr ""
 
-#: ../src/gsb_file_config.c:1129
+#: ../src/gsb_file_config.c:1139
 #, c-format
 msgid "Cannot save configuration file '%s': %s"
 msgstr "Nelze uložit konfigurační soubor '%s': %s"
@@ -9117,13 +9117,18 @@ msgstr "Německy"
 msgid "Polish"
 msgstr "Polsky"
 
-#: ../src/help.c:209 ../src/help.c:225
+#: ../src/help.c:204
 msgid "Personal finance manager for everyone\n"
 msgstr "Osobní správce financí pro každého\n"
 
-#: ../src/help.c:214
-msgid "This instance of Grisbi was compiled on\n"
-msgstr "Tato instance Grisbi byla zkompilována\n"
+#: ../src/help.c:206
+#, fuzzy
+msgid "GTK+ version: "
+msgstr "Verze Grisbi %s, %s\n"
+
+#: ../src/help.c:210
+msgid "Grisbi git hash: "
+msgstr ""
 
 #: ../src/import.c:131
 msgid "Comma Separated Values"
@@ -10443,27 +10448,27 @@ msgstr ""
 msgid "The automatically selected theme is: '%s'"
 msgstr ""
 
-#: ../src/prefs/prefs_page_display_fonts.c:227
+#: ../src/prefs/prefs_page_display_fonts.c:219
 #, fuzzy
 msgid "Force the use of clear theme"
 msgstr "Archivovat podle data"
 
-#: ../src/prefs/prefs_page_display_fonts.c:238
+#: ../src/prefs/prefs_page_display_fonts.c:230
 #, fuzzy
 msgid "Force the use of dark theme"
 msgstr "Archivovat podle data"
 
-#: ../src/prefs/prefs_page_display_fonts.c:251
+#: ../src/prefs/prefs_page_display_fonts.c:243
 #, fuzzy
 msgid "Force the use of light theme"
 msgstr "Archivovat podle data"
 
-#: ../src/prefs/prefs_page_display_fonts.c:576
+#: ../src/prefs/prefs_page_display_fonts.c:568
 msgid "Select a new logo"
 msgstr "Vyberte nové logo"
 
 #. On récupère le nom de la page
-#: ../src/prefs/prefs_page_display_fonts.c:700
+#: ../src/prefs/prefs_page_display_fonts.c:692
 msgid "Fonts & logo"
 msgstr "Písma a loga"
 
@@ -10806,7 +10811,7 @@ msgstr "Písma a rozložení"
 msgid "Invalid QIF file"
 msgstr "Chybný soubor QIF"
 
-#: ../src/qif.c:204 ../src/utils_dates.c:1139
+#: ../src/qif.c:204 ../src/utils_dates.c:1105
 msgid ""
 "Warning the date has three fields of two numbers. In these circumstances the "
 "date might be wrong."
@@ -10825,11 +10830,11 @@ msgstr ""
 "To by se stát nemělo. Prosím zkontaktujte vývojový tým, abychom přidali váš "
 "neobvyklý formát data do Grisbi."
 
-#: ../src/qif.c:335 ../src/utils_dates.c:972
+#: ../src/qif.c:335 ../src/utils_dates.c:938
 msgid "The order cannot be determined,\n"
 msgstr "Pořadí nemůže být určeno,\n"
 
-#: ../src/qif.c:340 ../src/utils_dates.c:978
+#: ../src/qif.c:340 ../src/utils_dates.c:944
 msgid "Date wrong for the order "
 msgstr "Špatné datum pro pořadí"
 
@@ -12308,7 +12313,7 @@ msgstr "Základní nastavení"
 #: ../src/ui/prefs_page_form_completion.ui.h:15
 #: ../src/ui/prefs_page_display_adr.ui.h:10
 #: ../src/ui/prefs_page_display_fonts.ui.h:9
-#: ../src/ui/prefs_page_display_gui.ui.h:14
+#: ../src/ui/prefs_page_display_gui.ui.h:18
 #: ../src/ui/prefs_page_display_ope.ui.h:4 ../src/ui/prefs_page_divers.ui.h:15
 #: ../src/ui/prefs_page_import_asso.ui.h:11
 #: ../src/ui/prefs_page_import_files.ui.h:14
@@ -12323,7 +12328,7 @@ msgstr ""
 #: ../src/ui/prefs_page_display_adr.ui.h:11
 #: ../src/ui/prefs_page_display_fonts.ui.h:14
 #: ../src/ui/prefs_page_display_form.ui.h:6
-#: ../src/ui/prefs_page_display_gui.ui.h:15
+#: ../src/ui/prefs_page_display_gui.ui.h:19
 #: ../src/ui/prefs_page_display_ope.ui.h:5 ../src/ui/prefs_page_divers.ui.h:16
 #: ../src/ui/prefs_page_files.ui.h:23 ../src/ui/prefs_page_form_options.ui.h:9
 #: ../src/ui/prefs_page_import_asso.ui.h:12
@@ -13143,53 +13148,70 @@ msgstr ""
 
 #: ../src/ui/prefs_page_display_gui.ui.h:1
 #, fuzzy
-msgid "Headings bar"
-msgstr "Zobrazit panel záhlaví"
+msgid "Application Menu"
+msgstr "Znepřehledění souboru Grisbi"
 
 #: ../src/ui/prefs_page_display_gui.ui.h:3
-msgid "Display headings bar"
-msgstr "Zobrazit panel záhlaví"
+msgid "Force classic menu"
+msgstr ""
 
 #: ../src/ui/prefs_page_display_gui.ui.h:4
-msgid "Navigation pane"
+msgid "(Check the box to find the classic Grisbi menu)"
 msgstr ""
 
 #: ../src/ui/prefs_page_display_gui.ui.h:5
-msgid "Add mouse scrolling support on the navigation pane"
+msgid "(This option requires restarting Grisbi)"
 msgstr ""
 
 #: ../src/ui/prefs_page_display_gui.ui.h:6
+#, fuzzy
+msgid "Headings bar"
+msgstr "Zobrazit panel záhlaví"
+
+#: ../src/ui/prefs_page_display_gui.ui.h:7
+msgid "Display headings bar"
+msgstr "Zobrazit panel záhlaví"
+
+#: ../src/ui/prefs_page_display_gui.ui.h:8
+msgid "Navigation pane"
+msgstr ""
+
+#: ../src/ui/prefs_page_display_gui.ui.h:9
+msgid "Add mouse scrolling support on the navigation pane"
+msgstr ""
+
+#: ../src/ui/prefs_page_display_gui.ui.h:10
 msgid "Toolbars"
 msgstr "Panely nástrojů"
 
-#: ../src/ui/prefs_page_display_gui.ui.h:7
+#: ../src/ui/prefs_page_display_gui.ui.h:11
 msgid "Display toolbar buttons as"
 msgstr "Zobrazit tlačítka panelu nástrojů jako"
 
-#: ../src/ui/prefs_page_display_gui.ui.h:8
+#: ../src/ui/prefs_page_display_gui.ui.h:12
 #, fuzzy
 msgid " : "
 msgstr " = "
 
-#: ../src/ui/prefs_page_display_gui.ui.h:9
+#: ../src/ui/prefs_page_display_gui.ui.h:13
 #, fuzzy
 msgid "Text only"
 msgstr "Text"
 
-#: ../src/ui/prefs_page_display_gui.ui.h:10
+#: ../src/ui/prefs_page_display_gui.ui.h:14
 #, fuzzy
 msgid "Icons only"
 msgstr "Ikony"
 
-#: ../src/ui/prefs_page_display_gui.ui.h:11
+#: ../src/ui/prefs_page_display_gui.ui.h:15
 msgid "Text below items"
 msgstr ""
 
-#: ../src/ui/prefs_page_display_gui.ui.h:12
+#: ../src/ui/prefs_page_display_gui.ui.h:16
 msgid "Text beside items"
 msgstr ""
 
-#: ../src/ui/prefs_page_display_gui.ui.h:13
+#: ../src/ui/prefs_page_display_gui.ui.h:17
 msgid "Shortcuts"
 msgstr ""
 
@@ -13520,6 +13542,9 @@ msgstr "Osobní správce financí"
 msgid "finance"
 msgstr "fiskální rok"
 
+#~ msgid "This instance of Grisbi was compiled on\n"
+#~ msgstr "Tato instance Grisbi byla zkompilována\n"
+
 #, fuzzy
 #~ msgid "Force the use of standard theme"
 #~ msgstr "Archivovat podle data"
@@ -13829,10 +13854,6 @@ msgstr "fiskální rok"
 #~ "grisbi [volby] [soubor]\n"
 #~ "  --help                    Zobrazit tuto zprávu a skončit\n"
 #~ "  -v, --version             Zobrazit číslo verze a skončit\n"
-
-#, fuzzy
-#~ msgid "Grisbi version %s"
-#~ msgstr "Verze Grisbi %s, %s\n"
 
 #~ msgid ""
 #~ "Missing parameter for option %s\n"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-25 11:39+0100\n"
+"POT-Creation-Date: 2020-03-26 09:19+0100\n"
 "PO-Revision-Date: 2010-05-09 11:48+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <cmcamara@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -2451,7 +2451,7 @@ msgid "to"
 msgstr "a"
 
 #: ../src/etats_config.c:1661 ../src/etats_config.c:3124
-#: ../src/etats_support.c:68 ../src/help.c:217
+#: ../src/etats_support.c:68
 msgid "at"
 msgstr "en"
 
@@ -3942,7 +3942,7 @@ msgstr "Error en sigaction: SIGSEGV no será interrumpido\n"
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Error en sigaction: SIGSEGV no será interrumpido\n"
 
-#: ../src/grisbi_app.c:1065 ../src/menu.c:632
+#: ../src/grisbi_app.c:1065 ../src/menu.c:631
 #, fuzzy
 msgid "Start an action!"
 msgstr "Ordenar las transacciones por"
@@ -4016,7 +4016,7 @@ msgid "Payees, categories and budgetaries"
 msgstr "Terceros, categorías y presupuestos"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:471 ../src/prefs/prefs_page_display_gui.c:196
+#: ../src/grisbi_prefs.c:471 ../src/prefs/prefs_page_display_gui.c:223
 msgid "Elements of interface"
 msgstr ""
 
@@ -4114,7 +4114,7 @@ msgstr ""
 msgid "Preferences stop"
 msgstr "_Preferencias"
 
-#: ../src/grisbi_settings.c:257
+#: ../src/grisbi_settings.c:261
 msgid "No font defined"
 msgstr "No se definión ninguna fuente"
 
@@ -7673,11 +7673,11 @@ msgid ""
 "\"%s\"."
 msgstr ""
 
-#: ../src/gsb_file_config.c:461
+#: ../src/gsb_file_config.c:469
 msgid "Monospace 10"
 msgstr ""
 
-#: ../src/gsb_file_config.c:1129
+#: ../src/gsb_file_config.c:1139
 #, c-format
 msgid "Cannot save configuration file '%s': %s"
 msgstr "No se puede guardar el fichero de configuración '%s': %s"
@@ -9256,13 +9256,18 @@ msgstr "Alemania"
 msgid "Polish"
 msgstr "Polaco"
 
-#: ../src/help.c:209 ../src/help.c:225
+#: ../src/help.c:204
 msgid "Personal finance manager for everyone\n"
 msgstr "Gestor de finanzas personal para todo el mundo\n"
 
-#: ../src/help.c:214
-msgid "This instance of Grisbi was compiled on\n"
-msgstr "Esta version de Grisbi fue compilada en\n"
+#: ../src/help.c:206
+#, fuzzy
+msgid "GTK+ version: "
+msgstr "Grisbi versión %s, %s\n"
+
+#: ../src/help.c:210
+msgid "Grisbi git hash: "
+msgstr ""
 
 #: ../src/import.c:131
 msgid "Comma Separated Values"
@@ -10596,27 +10601,27 @@ msgstr ""
 msgid "The automatically selected theme is: '%s'"
 msgstr ""
 
-#: ../src/prefs/prefs_page_display_fonts.c:227
+#: ../src/prefs/prefs_page_display_fonts.c:219
 #, fuzzy
 msgid "Force the use of clear theme"
 msgstr "Archivar por fecha"
 
-#: ../src/prefs/prefs_page_display_fonts.c:238
+#: ../src/prefs/prefs_page_display_fonts.c:230
 #, fuzzy
 msgid "Force the use of dark theme"
 msgstr "Archivar por fecha"
 
-#: ../src/prefs/prefs_page_display_fonts.c:251
+#: ../src/prefs/prefs_page_display_fonts.c:243
 #, fuzzy
 msgid "Force the use of light theme"
 msgstr "Archivar por fecha"
 
-#: ../src/prefs/prefs_page_display_fonts.c:576
+#: ../src/prefs/prefs_page_display_fonts.c:568
 msgid "Select a new logo"
 msgstr "Seleccione un nuevo logotipo"
 
 #. On récupère le nom de la page
-#: ../src/prefs/prefs_page_display_fonts.c:700
+#: ../src/prefs/prefs_page_display_fonts.c:692
 msgid "Fonts & logo"
 msgstr "Fuentes y logotipo"
 
@@ -10968,7 +10973,7 @@ msgstr "Tipos de letra y presentación"
 msgid "Invalid QIF file"
 msgstr "Archivo WIF no válido"
 
-#: ../src/qif.c:204 ../src/utils_dates.c:1139
+#: ../src/qif.c:204 ../src/utils_dates.c:1105
 msgid ""
 "Warning the date has three fields of two numbers. In these circumstances the "
 "date might be wrong."
@@ -10985,11 +10990,11 @@ msgstr ""
 "Esto no debería pasar. Por favor póngase en contacto con el Equipo de Grisbi "
 "para intentar añadir su formato a Grisbi."
 
-#: ../src/qif.c:335 ../src/utils_dates.c:972
+#: ../src/qif.c:335 ../src/utils_dates.c:938
 msgid "The order cannot be determined,\n"
 msgstr "El pedido no puede determinarse,\n"
 
-#: ../src/qif.c:340 ../src/utils_dates.c:978
+#: ../src/qif.c:340 ../src/utils_dates.c:944
 msgid "Date wrong for the order "
 msgstr "Fecha errónea para el pedido "
 
@@ -12469,7 +12474,7 @@ msgstr "Configuración general"
 #: ../src/ui/prefs_page_form_completion.ui.h:15
 #: ../src/ui/prefs_page_display_adr.ui.h:10
 #: ../src/ui/prefs_page_display_fonts.ui.h:9
-#: ../src/ui/prefs_page_display_gui.ui.h:14
+#: ../src/ui/prefs_page_display_gui.ui.h:18
 #: ../src/ui/prefs_page_display_ope.ui.h:4 ../src/ui/prefs_page_divers.ui.h:15
 #: ../src/ui/prefs_page_import_asso.ui.h:11
 #: ../src/ui/prefs_page_import_files.ui.h:14
@@ -12484,7 +12489,7 @@ msgstr ""
 #: ../src/ui/prefs_page_display_adr.ui.h:11
 #: ../src/ui/prefs_page_display_fonts.ui.h:14
 #: ../src/ui/prefs_page_display_form.ui.h:6
-#: ../src/ui/prefs_page_display_gui.ui.h:15
+#: ../src/ui/prefs_page_display_gui.ui.h:19
 #: ../src/ui/prefs_page_display_ope.ui.h:5 ../src/ui/prefs_page_divers.ui.h:16
 #: ../src/ui/prefs_page_files.ui.h:23 ../src/ui/prefs_page_form_options.ui.h:9
 #: ../src/ui/prefs_page_import_asso.ui.h:12
@@ -13312,53 +13317,70 @@ msgstr ""
 
 #: ../src/ui/prefs_page_display_gui.ui.h:1
 #, fuzzy
-msgid "Headings bar"
-msgstr "Mostrar la barra de cabecera"
+msgid "Application Menu"
+msgstr "Truncamiento de fichero Grisbi"
 
 #: ../src/ui/prefs_page_display_gui.ui.h:3
-msgid "Display headings bar"
-msgstr "Mostrar la barra de cabecera"
+msgid "Force classic menu"
+msgstr ""
 
 #: ../src/ui/prefs_page_display_gui.ui.h:4
-msgid "Navigation pane"
+msgid "(Check the box to find the classic Grisbi menu)"
 msgstr ""
 
 #: ../src/ui/prefs_page_display_gui.ui.h:5
-msgid "Add mouse scrolling support on the navigation pane"
+msgid "(This option requires restarting Grisbi)"
 msgstr ""
 
 #: ../src/ui/prefs_page_display_gui.ui.h:6
+#, fuzzy
+msgid "Headings bar"
+msgstr "Mostrar la barra de cabecera"
+
+#: ../src/ui/prefs_page_display_gui.ui.h:7
+msgid "Display headings bar"
+msgstr "Mostrar la barra de cabecera"
+
+#: ../src/ui/prefs_page_display_gui.ui.h:8
+msgid "Navigation pane"
+msgstr ""
+
+#: ../src/ui/prefs_page_display_gui.ui.h:9
+msgid "Add mouse scrolling support on the navigation pane"
+msgstr ""
+
+#: ../src/ui/prefs_page_display_gui.ui.h:10
 msgid "Toolbars"
 msgstr "Barra de herramientas"
 
-#: ../src/ui/prefs_page_display_gui.ui.h:7
+#: ../src/ui/prefs_page_display_gui.ui.h:11
 msgid "Display toolbar buttons as"
 msgstr "Mostrar los botones de la barra de herramientas como"
 
-#: ../src/ui/prefs_page_display_gui.ui.h:8
+#: ../src/ui/prefs_page_display_gui.ui.h:12
 #, fuzzy
 msgid " : "
 msgstr " = "
 
-#: ../src/ui/prefs_page_display_gui.ui.h:9
+#: ../src/ui/prefs_page_display_gui.ui.h:13
 #, fuzzy
 msgid "Text only"
 msgstr "Texto"
 
-#: ../src/ui/prefs_page_display_gui.ui.h:10
+#: ../src/ui/prefs_page_display_gui.ui.h:14
 #, fuzzy
 msgid "Icons only"
 msgstr "Iconos"
 
-#: ../src/ui/prefs_page_display_gui.ui.h:11
+#: ../src/ui/prefs_page_display_gui.ui.h:15
 msgid "Text below items"
 msgstr ""
 
-#: ../src/ui/prefs_page_display_gui.ui.h:12
+#: ../src/ui/prefs_page_display_gui.ui.h:16
 msgid "Text beside items"
 msgstr ""
 
-#: ../src/ui/prefs_page_display_gui.ui.h:13
+#: ../src/ui/prefs_page_display_gui.ui.h:17
 msgid "Shortcuts"
 msgstr ""
 
@@ -13694,6 +13716,9 @@ msgstr "Gestor de finanzas personal para todo el mundo\n"
 msgid "finance"
 msgstr "años financiero"
 
+#~ msgid "This instance of Grisbi was compiled on\n"
+#~ msgstr "Esta version de Grisbi fue compilada en\n"
+
 #, fuzzy
 #~ msgid "Force the use of standard theme"
 #~ msgstr "Archivar por fecha"
@@ -14022,10 +14047,6 @@ msgstr "años financiero"
 #~ "grisbi [opciones] [fichero]\n"
 #~ "  --help                    Mostrar este mensaje de ayuda y terminar\n"
 #~ "  -v, --version                 Mostrar el número de versión y terminar\n"
-
-#, fuzzy
-#~ msgid "Grisbi version %s"
-#~ msgstr "Grisbi versión %s, %s\n"
 
 #~ msgid ""
 #~ "Missing parameter for option %s\n"
