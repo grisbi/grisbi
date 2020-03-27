@@ -994,11 +994,13 @@ static void grisbi_app_startup (GApplication *application)
 	grisbi_app_print_environment_var ();
 #endif
 
-	/* MAJ de has_app_menu */
-    if (conf.force_classic_menu)
-        has_app_menu = FALSE;
+#ifdef OS_OSX
+	has_app_menu = TRUE;
+#else
+	has_app_menu = FALSE;
+#endif /* OS_OSX */
 
-    /* load the CSS properties */
+	/* load the CSS properties */
     css_provider = gtk_css_provider_new ();
 	css_filename = gsb_rgba_get_css_filename ();
     file = g_file_new_for_path (css_filename);

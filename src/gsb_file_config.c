@@ -79,7 +79,6 @@ static void gsb_file_config_clean_config (void)
 
 	/* set settings root */
 	conf.first_use = TRUE;
-	conf.force_classic_menu = TRUE;
 
 	/* set settings_backup */
     conf.compress_backup = FALSE;
@@ -224,7 +223,6 @@ gboolean gsb_file_config_load_app_config (void)
 											 "Root",
 											 "first-use",
 											 NULL);
-	conf.force_classic_menu = TRUE;
 
 	/* set settings_backup */
     /* on fixe le backup path s'il n'est pas initialisé */
