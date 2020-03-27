@@ -42,6 +42,7 @@
 #include "structures.h"
 #include "utils_buttons.h"
 #include "utils_prefs.h"
+#include "utils_str.h"
 #include "erreur.h"
 
 /*END_INCLUDE*/
@@ -79,36 +80,49 @@ G_DEFINE_TYPE_WITH_PRIVATE (CsvTemplateRule, csv_template_rule, GTK_TYPE_DIALOG)
 struct _SpecWidgetLine
 {
 	gint			index;
+	gchar *			label_str;
 	GtkWidget *		grid;
 	GtkWidget *		checkbutton;
 	GtkWidget *		combobox_action;
 	GtkWidget *		combobox_used_data;
 	GtkWidget *		combobox_action_data;
 	GtkWidget *		entry_used_text;
+	GtkWidget *		tab_label;
 };
 
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
 /**
- * autorise le changement du bouton modifier après la première modification
  *
- * \param
+ *
  * \param
  *
  * \return
  **/
-static void csv_template_rule_spec_conf_edit_widget_changed (GtkWidget *widget,
-															 CsvTemplateRule *template_rule)
+static void csv_template_rule_structure_free (CsvTemplateRule *template_rule)
 {
+	GSList *list;
 	CsvTemplateRulePrivate *priv;
 
 	priv = csv_template_rule_get_instance_private ((CsvTemplateRule *) template_rule);
-	if (!priv->edit_modif)
+
+	list = priv->list_spec_lines;
+	while (list)
 	{
-		priv->edit_modif = TRUE;
-		gtk_dialog_set_response_sensitive (GTK_DIALOG (template_rule), GSB_RESPONSE_EDIT, TRUE);
+		SpecWidgetLine *line_struct;
+
+		line_struct = (SpecWidgetLine *) list->data;
+		g_free (line_struct->label_str);
+		g_free (line_struct);
+
+		list = list->next;
 	}
+	g_slist_free (priv->list_spec_lines);
+	priv->list_spec_lines = NULL;
+
+	g_free (priv->combobox_cols_name);
+	priv->combobox_cols_name = NULL;
 }
 
 /**
@@ -119,7 +133,7 @@ static void csv_template_rule_spec_conf_edit_widget_changed (GtkWidget *widget,
  *
  * \return
  **/
-static void csv_template_rule_notebook_tab_renumber_pages (GtkWidget *notebook,
+static void csv_template_rule_notebook_tab_renum_pages (GtkWidget *notebook,
 														   gint page_removed,
 														   CsvTemplateRule *template_rule)
 {
@@ -127,6 +141,7 @@ static void csv_template_rule_notebook_tab_renumber_pages (GtkWidget *notebook,
 	gint index = 1;
 	CsvTemplateRulePrivate *priv;
 
+	devel_debug_int (page_removed);
 	priv = csv_template_rule_get_instance_private (template_rule);
 
 	list = priv->list_spec_lines;
@@ -164,6 +179,74 @@ static void csv_template_rule_notebook_tab_renumber_pages (GtkWidget *notebook,
  *
  * \param
  * \param
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void csv_template_rule_notebook_page_reordered (GtkNotebook *notebook,
+													   GtkWidget *child,
+               										   guint page_num,
+            										  	CsvTemplateRule *template_rule)
+{
+	GSList *tmp_list;
+	const gchar *tmp_str;
+	gint tmp_number;
+	CsvTemplateRulePrivate *priv;
+
+	devel_debug_int (page_num);
+	priv = csv_template_rule_get_instance_private (template_rule);
+
+	/* on regarde quel onglet à bougé */
+	tmp_str = gtk_notebook_get_tab_label_text (notebook, child);
+	tmp_number = utils_str_atoi (gsb_string_extract_int (tmp_str));
+
+	/* on balaie la liste des lignes pour placer la ligne modifiée au bon endroit */
+	tmp_list = priv->list_spec_lines;
+	while (tmp_list)
+	{
+		SpecWidgetLine *line_struct;
+
+		line_struct = tmp_list->data;
+		if (line_struct->index == tmp_number)
+		{
+			priv->list_spec_lines = g_slist_remove_link (priv->list_spec_lines, tmp_list);
+			priv->list_spec_lines = g_slist_insert (priv->list_spec_lines, line_struct, (gint) page_num);
+			break;
+		}
+		tmp_list = tmp_list->next;
+	}
+
+	/* on renomme les structures pour correspondre au novel ordre */
+	csv_template_rule_notebook_tab_renum_pages (GTK_WIDGET (notebook), 0, template_rule);
+}
+
+/**
+ * autorise le changement du bouton modifier après la première modification
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void csv_template_rule_spec_conf_edit_widget_changed (GtkWidget *widget,
+															 CsvTemplateRule *template_rule)
+{
+	CsvTemplateRulePrivate *priv;
+
+	priv = csv_template_rule_get_instance_private ((CsvTemplateRule *) template_rule);
+	if (!priv->edit_modif)
+	{
+		priv->edit_modif = TRUE;
+		gtk_dialog_set_response_sensitive (GTK_DIALOG (template_rule), GSB_RESPONSE_EDIT, TRUE);
+	}
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
  *
  * \return
  **/
@@ -186,7 +269,7 @@ static void csv_template_rule_notebook_tab_close_button_clicked (GtkButton *butt
 
 	/* on renumerote les lignes si ce n'est pas le dernier onglet qui est supprimé */
 	if (page_num < nbre_pages - 1)
-		csv_template_rule_notebook_tab_renumber_pages (priv->notebook_csv_spec, page_num, template_rule);
+		csv_template_rule_notebook_tab_renum_pages (priv->notebook_csv_spec, page_num, template_rule);
 }
 
 /**
@@ -323,6 +406,7 @@ static void csv_template_rule_spec_conf_set_actions (GtkComboBoxText *combobox)
 {
 	gtk_combo_box_text_append ((GtkComboBoxText *) combobox, NULL, _("Skip lines"));
 	gtk_combo_box_text_append ((GtkComboBoxText *) combobox, NULL, _("Invert the amount"));
+	gtk_combo_box_text_append ((GtkComboBoxText *) combobox, NULL, _("Force line processing"));
 
 	gtk_combo_box_set_active ((GtkComboBox *) combobox,0);
 }
@@ -585,7 +669,7 @@ static void csv_template_rule_notebook_switch_page (GtkNotebook *notebook,
 	gboolean page_removed = FALSE;
 	CsvTemplateRulePrivate *priv;
 
-	//~ devel_debug_int (page_num);
+	devel_debug_int (page_num);
 	priv = csv_template_rule_get_instance_private (template_rule);
 
 	g_signal_handlers_block_by_func (GTK_NOTEBOOK (priv->notebook_csv_spec),
@@ -603,6 +687,7 @@ static void csv_template_rule_notebook_switch_page (GtkNotebook *notebook,
 		{
 			if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (line_struct->checkbutton)) == FALSE)
 			{
+				printf ("remove page %d\n", page_num);
 				/* remove the page */
 				gtk_notebook_remove_page (GTK_NOTEBOOK (priv->notebook_csv_spec), line_struct->index -1);
 				priv->list_spec_lines = g_slist_remove (priv->list_spec_lines, (gpointer) line_struct);
@@ -612,7 +697,7 @@ static void csv_template_rule_notebook_switch_page (GtkNotebook *notebook,
 	}
 	if (page_removed)
 	{
-		csv_template_rule_notebook_tab_renumber_pages (priv->notebook_csv_spec, 0, template_rule);
+		csv_template_rule_notebook_tab_renum_pages (priv->notebook_csv_spec, 0, template_rule);
 	}
 	g_signal_handlers_unblock_by_func (GTK_NOTEBOOK (priv->notebook_csv_spec),
 									   csv_template_rule_notebook_switch_page,
@@ -1014,7 +1099,6 @@ static void csv_template_rule_edit_dialog (CsvTemplateRule *template_rule,
 		list = gsb_data_import_rule_get_csv_spec_lines_list (rule_number);
 		while (list)
 		{
-			gchar *label_str;
 			SpecWidgetLine *line_struct;
 			SpecConfData *spec_conf_data;
 
@@ -1023,11 +1107,13 @@ static void csv_template_rule_edit_dialog (CsvTemplateRule *template_rule,
 			/* set the spec line */
 			line_struct = csv_template_rule_spec_conf_new_line (template_rule, index);
 			gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_csv_spec), line_struct->grid, NULL);
+			gtk_notebook_set_tab_reorderable (GTK_NOTEBOOK (priv->notebook_csv_spec), line_struct->grid, TRUE);
+
 			/* set the tab_label */
-			label_str = g_strdup_printf(_("Condition %d"), index);
-			tab_label = gtk_label_new (label_str);
-			gtk_notebook_set_tab_label (GTK_NOTEBOOK (priv->notebook_csv_spec), line_struct->grid, tab_label);
-			g_free (label_str);
+			line_struct->label_str = g_strdup_printf(_("Condition %d"), index);
+			line_struct->tab_label = gtk_label_new (line_struct->label_str);
+			gtk_notebook_set_tab_label (GTK_NOTEBOOK (priv->notebook_csv_spec), line_struct->grid, line_struct->tab_label);
+
 			/* init line_struct */
 			priv->combobox_cols_name = g_strdup (gsb_data_import_rule_get_csv_spec_cols_name (rule_number));
 			csv_template_rule_spec_conf_set_cols_name (line_struct->combobox_used_data, priv->combobox_cols_name);
@@ -1062,6 +1148,10 @@ static void csv_template_rule_edit_dialog (CsvTemplateRule *template_rule,
 			index++;
 			list = list->next;
 		};
+		g_signal_connect (priv->notebook_csv_spec,
+						  "page-reordered",
+						  G_CALLBACK (csv_template_rule_notebook_page_reordered),
+						  template_rule);
 	}
 	else
 	{
@@ -1087,7 +1177,6 @@ static void csv_template_rule_edit_dialog (CsvTemplateRule *template_rule,
 					  "switch-page",
 					  G_CALLBACK (csv_template_rule_notebook_switch_page),
 					  template_rule);
-
 	g_signal_connect (priv->button_csv_spec_add_line,
 					  "clicked",
 					  G_CALLBACK (csv_template_rule_button_add_line_clicked),
@@ -1114,6 +1203,8 @@ static void csv_template_rule_init (CsvTemplateRule *template_rule)
 
 static void csv_template_rule_dispose (GObject *object)
 {
+	csv_template_rule_structure_free ((CsvTemplateRule *) object);
+
 	G_OBJECT_CLASS (csv_template_rule_parent_class)->dispose (object);
 }
 
@@ -1220,7 +1311,7 @@ void csv_template_rule_csv_import_rule_struct_free	(CSVImportRule *rule)
  *
  * \return
  **/
-SpecConfData * csv_template_rule_spec_conf_data_struct_copy (SpecConfData *spec_conf_data,
+SpecConfData *csv_template_rule_spec_conf_data_struct_copy (SpecConfData *spec_conf_data,
 															 gpointer data)
 {
 	SpecConfData *new_struct;

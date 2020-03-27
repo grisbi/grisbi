@@ -52,6 +52,9 @@ extern GSList *liste_comptes_importes_error;
 /*START_STATIC*/
 /*END_STATIC*/
 
+/* list des lignes à conserver action = 2 */
+GSList * liste_lines_to_keep = NULL;
+
 /** Array of pointers to fields.  */
 static gint *csv_fields_config = NULL;
 
@@ -287,8 +290,21 @@ static GArray *csv_import_button_rule_traite_spec_line (SpecConfData *spec_conf_
 		{
 			if (action == 0) 		/* suppression de la ligne */
 			{
-				g_array_remove_index (lines_tab, index);
-				index--;
+				GSList *link;
+
+				if (g_slist_length (liste_lines_to_keep) > 1)
+				{
+					link = g_slist_find (liste_lines_to_keep, GINT_TO_POINTER (index));
+					if (link)
+						link = g_slist_delete_link (liste_lines_to_keep, link);
+					if (!link)
+						notice_debug ("Warning: Invalid data");
+				}
+				else
+				{
+					g_array_remove_index (lines_tab, index);
+					index--;
+				}
 			}
 			else if (action == 1)	/* inversion du montant */
 			{
@@ -319,6 +335,10 @@ static GArray *csv_import_button_rule_traite_spec_line (SpecConfData *spec_conf_
 				list = g_slist_insert (list, g_strdup (str_montant), spec_conf_data->csv_spec_conf_action_data);
 				if (!list)
 					notice_debug ("Warning: Invalid data");
+			}
+			else if (action == 2)
+			{
+				liste_lines_to_keep = g_slist_append (liste_lines_to_keep, GINT_TO_POINTER (index));
 			}
 		}
 
