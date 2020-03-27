@@ -55,6 +55,7 @@
 
 /* Version number of package */
 #define VERSION "1.9.0"
+#define GIT_HASH "Xcode-build"
 
 #define HELP_PATH ""
 #define LOGO_PATH ""
