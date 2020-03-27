@@ -702,6 +702,7 @@ gchar *gsb_rgba_get_css_filename (void)
 		g_free (css_filename);
     	css_filename = g_build_filename (gsb_dirs_get_ui_dir (), tmp_str, NULL);
 	}
+	g_free (tmp_str);
 
 	return css_filename;
 }
