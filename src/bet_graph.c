@@ -2456,7 +2456,7 @@ void bet_graph_set_configuration_variables ( const gchar *string )
     gchar **tab;
     struct_bet_graph_prefs *prefs = NULL;
 
-    if ( string == NULL )
+	if ( string == NULL )
         return;
 
     tab = g_strsplit ( string, ":", 0 );
@@ -2476,17 +2476,41 @@ void bet_graph_set_configuration_variables ( const gchar *string )
 
     /* initialisation des variables */
     prefs->type_graph = utils_str_atoi ( tab[1] );
+	if (prefs->type_graph > 1)
+		prefs->type_graph = 1;
     prefs->major_tick_out = utils_str_atoi ( tab[2] );
+	if (prefs->major_tick_out > 1)
+		prefs->major_tick_out = TRUE;
     prefs->major_tick_in = utils_str_atoi ( tab[3] );
+	if (prefs->major_tick_in > 1)
+		prefs->major_tick_in = FALSE;
     prefs->major_tick_labeled = utils_str_atoi ( tab[4] );
+	if (prefs->major_tick_labeled > 1)
+		prefs->major_tick_labeled = TRUE;
     prefs->position = utils_str_atoi ( tab[5] );
+	if (prefs->position > 2)
+		prefs->position = 0;
     prefs->new_axis_line = utils_str_atoi ( tab[6] );
+	if (prefs->new_axis_line > 1)
+		prefs->new_axis_line = TRUE;
     prefs->cross_entry = utils_str_atoi ( tab[7] );
+	if (prefs->cross_entry > 1)
+		prefs->cross_entry = 0;
     prefs->degrees = utils_str_atoi ( tab[8] );
+	if (prefs->degrees > 180)
+		prefs->degrees = 90;
     prefs->gap_spinner = utils_str_atoi ( tab[9] );
+	if (prefs->gap_spinner > 1)
+		prefs->gap_spinner = FALSE;
     prefs->before_grid = utils_str_atoi ( tab[10] );
+	if (prefs->before_grid > 1)
+		prefs->before_grid = FALSE;
     prefs->major_grid_y = utils_str_atoi ( tab[11] );
+	if (prefs->major_grid_y > 1)
+		prefs->major_grid_y = FALSE;
     prefs->minor_grid_y = utils_str_atoi ( tab[12] );
+	if (prefs->minor_grid_y > 1)
+		prefs->minor_grid_y = FALSE;
 
     g_strfreev ( tab );
 }
