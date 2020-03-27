@@ -247,8 +247,11 @@ static void grisbi_settings_init_settings_general (GSettings *settings)
 {
     gchar *tmp_str;
 
+	if (conf.current_theme)
+		g_free (conf.current_theme);
 	conf.current_theme = g_settings_get_string (settings, "current-theme");
-    conf.custom_fonte_listes = g_settings_get_boolean (settings, "custom-fonte-listes");
+
+	conf.custom_fonte_listes = g_settings_get_boolean (settings, "custom-fonte-listes");
     if (conf.custom_fonte_listes)
     {
         conf.font_string = g_settings_get_string (settings, "font-string");
