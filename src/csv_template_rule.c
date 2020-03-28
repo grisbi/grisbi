@@ -406,7 +406,7 @@ static void csv_template_rule_spec_conf_set_actions (GtkComboBoxText *combobox)
 {
 	gtk_combo_box_text_append ((GtkComboBoxText *) combobox, NULL, _("Skip lines"));
 	gtk_combo_box_text_append ((GtkComboBoxText *) combobox, NULL, _("Invert the amount"));
-	gtk_combo_box_text_append ((GtkComboBoxText *) combobox, NULL, _("Force line processing"));
+	gtk_combo_box_text_append ((GtkComboBoxText *) combobox, NULL, _("Forcing Grisbi to keep the line"));
 
 	gtk_combo_box_set_active ((GtkComboBox *) combobox,0);
 }
