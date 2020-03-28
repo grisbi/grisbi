@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-26 09:19+0100\n"
+"POT-Creation-Date: 2020-03-28 07:32+0100\n"
 "PO-Revision-Date: 2018-11-21 21:39+0100\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: français <>\n"
@@ -252,7 +252,7 @@ msgstr "Catégories"
 #: ../src/bet_config.c:426 ../src/bet_config.c:445 ../src/bet_config.c:463
 #: ../src/bet_config.c:511 ../src/bet_hist.c:193 ../src/bet_hist.c:2093
 #: ../src/etats_prefs.c:689 ../src/etats_prefs.c:2069 ../src/export_csv.c:404
-#: ../src/grisbi_win.c:540 ../src/import_csv.c:76
+#: ../src/grisbi_win.c:540 ../src/import_csv.c:79
 #: ../src/imputation_budgetaire.c:379 ../src/navigation.c:2087
 #: ../src/ui/etats_prefs.ui.h:59
 msgid "Budgetary lines"
@@ -283,7 +283,7 @@ msgstr "Choix de l'exercice ou 12 mois glissants"
 #: ../src/bet_config.c:740 ../src/bet_hist.c:566 ../src/bet_hist.c:1650
 #: ../src/categories_onglet.c:182 ../src/etats_affiche.c:2492
 #: ../src/etats_config.c:2902 ../src/export_csv.c:395
-#: ../src/gsb_transactions_list.c:120 ../src/import_csv.c:74
+#: ../src/gsb_transactions_list.c:120 ../src/import_csv.c:77
 #: ../src/meta_categories.c:67
 msgid "Category"
 msgstr "Catégorie"
@@ -560,7 +560,7 @@ msgstr "N°"
 #: ../src/gsb_assistant_reconcile_config.c:590 ../src/gsb_form.c:1981
 #: ../src/gsb_form_widget.c:544 ../src/gsb_reconcile.c:214
 #: ../src/gsb_transactions_list.c:109 ../src/import.c:1876 ../src/import.c:4283
-#: ../src/import_csv.c:69 ../src/ui/etats_prefs.ui.h:9
+#: ../src/import_csv.c:72 ../src/ui/etats_prefs.ui.h:9
 msgid "Date"
 msgstr "Date"
 
@@ -724,7 +724,7 @@ msgstr "Choix du mode de règlement"
 #: ../src/gsb_assistant_reconcile_config.c:590 ../src/gsb_form.c:2001
 #: ../src/gsb_form_widget.c:564 ../src/gsb_scheduler_list.c:856
 #: ../src/gsb_transactions_list.c:111 ../src/import.c:4290
-#: ../src/import_csv.c:71 ../src/meta_payee.c:79
+#: ../src/import_csv.c:74 ../src/meta_payee.c:79
 #: ../src/prefs/prefs_widget_loan.c:950 ../src/ui/etats_prefs.ui.h:50
 msgid "Payee"
 msgstr "Tiers"
@@ -734,7 +734,7 @@ msgstr "Tiers"
 #: ../src/gsb_payment_method_config.c:107
 #: ../src/gsb_payment_method_config.c:335
 #: ../src/gsb_payment_method_config.c:1043 ../src/gsb_transactions_list.c:113
-#: ../src/import_csv.c:80 ../src/imputation_budgetaire.c:831
+#: ../src/import_csv.c:83 ../src/imputation_budgetaire.c:831
 msgid "Debit"
 msgstr "Débit"
 
@@ -744,7 +744,7 @@ msgstr "Débit"
 #: ../src/gsb_payment_method_config.c:108
 #: ../src/gsb_payment_method_config.c:348
 #: ../src/gsb_payment_method_config.c:1039 ../src/gsb_transactions_list.c:114
-#: ../src/import_csv.c:79 ../src/imputation_budgetaire.c:831
+#: ../src/import_csv.c:82 ../src/imputation_budgetaire.c:831
 msgid "Credit"
 msgstr "Crédit"
 
@@ -762,7 +762,7 @@ msgstr "Catégories : Sous-catégories"
 #: ../src/gsb_bank.c:882 ../src/gsb_form.c:2029 ../src/gsb_form_widget.c:580
 #: ../src/gsb_scheduler_list.c:270 ../src/gsb_scheduler_list.c:856
 #: ../src/gsb_scheduler_list.c:1124 ../src/gsb_transactions_list.c:123
-#: ../src/import_csv.c:72
+#: ../src/import_csv.c:75
 msgid "Notes"
 msgstr "Remarques"
 
@@ -1110,7 +1110,7 @@ msgstr "Sélectionner"
 #: ../src/etats_affiche.c:2547 ../src/etats_prefs.c:2162
 #: ../src/gsb_assistant_reconcile_config.c:590 ../src/gsb_scheduler_list.c:856
 #: ../src/gsb_transactions_list.c:116 ../src/import.c:4297
-#: ../src/import_csv.c:78 ../src/imputation_budgetaire.c:206
+#: ../src/import_csv.c:81 ../src/imputation_budgetaire.c:206
 #: ../src/tiers_onglet.c:739
 msgid "Amount"
 msgstr "Montant"
@@ -1528,44 +1528,48 @@ msgid "Transfer all transactions in another sub-category"
 msgstr "Transférer les opérations dans une autre sous-catégorie"
 
 #. set the tab_label
-#: ../src/csv_template_rule.c:153 ../src/csv_template_rule.c:655
-#: ../src/csv_template_rule.c:868 ../src/csv_template_rule.c:1027
-#: ../src/csv_template_rule.c:1075
+#: ../src/csv_template_rule.c:168 ../src/csv_template_rule.c:740
+#: ../src/csv_template_rule.c:953 ../src/csv_template_rule.c:1113
+#: ../src/csv_template_rule.c:1165
 #, c-format
 msgid "Condition %d"
 msgstr "Condition %d"
 
-#: ../src/csv_template_rule.c:324
+#: ../src/csv_template_rule.c:407
 msgid "Skip lines"
 msgstr "Ignorer les lignes"
 
-#: ../src/csv_template_rule.c:325
+#: ../src/csv_template_rule.c:408
 msgid "Invert the amount"
 msgstr "Inverser le montant"
 
-#: ../src/csv_template_rule.c:509
+#: ../src/csv_template_rule.c:409
+msgid "Forcing Grisbi to keep the line"
+msgstr "Forcer Grisbi à garder la ligne"
+
+#: ../src/csv_template_rule.c:593
 msgid "Data to be used"
 msgstr "Données à utiliser"
 
-#: ../src/csv_template_rule.c:511
+#: ../src/csv_template_rule.c:595
 msgid "Value"
 msgstr "Valeur"
 
-#: ../src/csv_template_rule.c:513
+#: ../src/csv_template_rule.c:597
 msgid "Action"
 msgstr "Action"
 
-#: ../src/csv_template_rule.c:515
+#: ../src/csv_template_rule.c:599
 msgid "Data of action"
 msgstr "Données de l'action"
 
 #. window title
-#: ../src/csv_template_rule.c:833
+#: ../src/csv_template_rule.c:918
 msgid "Create an import rule for CSV file"
 msgstr "Créer une règle pour fichier CSV."
 
 #. window title
-#: ../src/csv_template_rule.c:938
+#: ../src/csv_template_rule.c:1023
 msgid "Edit an import rule for CSV file"
 msgstr "Editer une règle pour fichier CSV."
 
@@ -2107,7 +2111,7 @@ msgstr "Dépenses"
 #. 2
 #: ../src/etats_affiche.c:2471 ../src/export_csv.c:371 ../src/gsb_form.c:1986
 #: ../src/gsb_form.c:2779 ../src/gsb_form.c:2806 ../src/gsb_form_widget.c:556
-#: ../src/gsb_transactions_list.c:110 ../src/import_csv.c:70
+#: ../src/gsb_transactions_list.c:110 ../src/import_csv.c:73
 #: ../src/ui/etats_prefs.ui.h:17
 msgid "Value date"
 msgstr "Date de valeur"
@@ -3082,7 +3086,7 @@ msgstr ""
 "compte respectif."
 
 #. 15
-#: ../src/export_csv.c:365 ../src/import_csv.c:83
+#: ../src/export_csv.c:365 ../src/import_csv.c:86
 msgid "Split"
 msgstr "Ventilation"
 
@@ -3092,17 +3096,17 @@ msgstr "Chèques"
 
 #. 14
 #: ../src/export_csv.c:380 ../src/gsb_transactions_list.c:121
-#: ../src/import_csv.c:82
+#: ../src/import_csv.c:85
 msgid "C/R"
 msgstr "P/R"
 
 #. 7
-#: ../src/export_csv.c:398 ../src/import_csv.c:75
+#: ../src/export_csv.c:398 ../src/import_csv.c:78
 msgid "Sub-categories"
 msgstr "Sous-catégories"
 
 #. 9
-#: ../src/export_csv.c:407 ../src/import_csv.c:77
+#: ../src/export_csv.c:407 ../src/import_csv.c:80
 msgid "Sub-budgetary lines"
 msgstr "Sous-imputations budgétaires"
 
@@ -3851,19 +3855,19 @@ msgstr "Erreur sur sigaction, le signal SIGTERM ne sera pas détourné\n"
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Erreur sur sigaction, le signal SIGSEGV ne sera pas détourné\n"
 
-#: ../src/grisbi_app.c:1065 ../src/menu.c:631
+#: ../src/grisbi_app.c:1067 ../src/menu.c:631
 msgid "Start an action!"
 msgstr "Choisissez une action !"
 
-#: ../src/grisbi_app.c:1350
+#: ../src/grisbi_app.c:1352
 msgid "<b>Actions in transaction list :</b>"
 msgstr "<b>Actions de la liste des opérations :</b>"
 
-#: ../src/grisbi_app.c:1352
+#: ../src/grisbi_app.c:1354
 msgid "(Un)Pointing a transaction\t\t-> <Primary>p, <Primary>F12\n"
 msgstr "(Dé)Pointe une opération\t-> <Primary>p, <Primary>F12\n"
 
-#: ../src/grisbi_app.c:1353
+#: ../src/grisbi_app.c:1355
 msgid "(Un)Reconcile a transaction\t\t-> <Primary>r\n"
 msgstr "(Dé)Rapproche une opération\t-> <Primary>r\n"
 
@@ -3918,7 +3922,7 @@ msgid "Payees, categories and budgetaries"
 msgstr "Tiers, catégories et imputations budgétaires"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:471 ../src/prefs/prefs_page_display_gui.c:223
+#: ../src/grisbi_prefs.c:471 ../src/prefs/prefs_page_display_gui.c:196
 msgid "Elements of interface"
 msgstr "Eléments de l'interface"
 
@@ -4012,7 +4016,7 @@ msgstr "Regrouper tout"
 msgid "Preferences stop"
 msgstr "Arrêt des préférences"
 
-#: ../src/grisbi_settings.c:261
+#: ../src/grisbi_settings.c:257
 msgid "No font defined"
 msgstr "Aucune police définie"
 
@@ -7522,11 +7526,11 @@ msgstr ""
 "Le fichier original a été sauvegardé sous  le nom :\n"
 "« %s »."
 
-#: ../src/gsb_file_config.c:469
+#: ../src/gsb_file_config.c:459
 msgid "Monospace 10"
 msgstr "Monospace 10"
 
-#: ../src/gsb_file_config.c:1139
+#: ../src/gsb_file_config.c:1127
 #, c-format
 msgid "Cannot save configuration file '%s': %s"
 msgstr "Impossible de sauvegarder le fichier « %s » : %s"
@@ -8061,7 +8065,7 @@ msgid "Method of payment"
 msgstr "Moyen de paiement"
 
 #. 0
-#: ../src/gsb_form_widget.c:592 ../src/import_csv.c:68
+#: ../src/gsb_form_widget.c:592 ../src/import_csv.c:71
 #: ../src/prefs/prefs_page_accueil.c:349
 msgid "Currency"
 msgstr "Devise"
@@ -8730,7 +8734,7 @@ msgid "Browse"
 msgstr "Parcourir"
 
 #. 5
-#: ../src/gsb_transactions_list.c:126 ../src/import_csv.c:73
+#: ../src/gsb_transactions_list.c:126 ../src/import_csv.c:76
 msgid "Cheque number"
 msgstr "N° de chèque"
 
@@ -9221,8 +9225,8 @@ msgstr "Impossible de décompresser le fichier « %s » : %s"
 msgid "Adding '%s' as an import format"
 msgstr "Ajouter «%s» en tant que format d'importation"
 
-#: ../src/import.c:1430 ../src/import.c:1540 ../src/import_csv.c:171
-#: ../src/import_csv.c:217
+#: ../src/import.c:1430 ../src/import.c:1540 ../src/import_csv.c:174
+#: ../src/import_csv.c:220
 #, c-format
 msgid "Unable to read file: %s\n"
 msgstr "Impossible d'ouvrir le fichier '%s'.\n"
@@ -9560,34 +9564,34 @@ msgstr ""
 "%s n'a pas été importé avec succès. Une erreur est survenue durant "
 "l'importation."
 
-#: ../src/import_csv.c:67
+#: ../src/import_csv.c:70
 msgid "Unknown field"
 msgstr "Champ Inconnu"
 
-#: ../src/import_csv.c:71
+#: ../src/import_csv.c:74
 msgid "Wording"
 msgstr "Texte"
 
 #. 12
-#: ../src/import_csv.c:80
+#: ../src/import_csv.c:83
 msgid "Debit (absolute)"
 msgstr "Débit (absolu)"
 
 #. 13
-#: ../src/import_csv.c:81
+#: ../src/import_csv.c:84
 msgid "Debit (negative)"
 msgstr "Débit (signé)"
 
-#: ../src/import_csv.c:183
+#: ../src/import_csv.c:186
 #, c-format
 msgid "The file %s is empty. Please choose another file."
 msgstr "Le fichier %s est vide. Choisissez un autre fichier."
 
-#: ../src/import_csv.c:184
+#: ../src/import_csv.c:187
 msgid "File empty."
 msgstr "Fichier vide"
 
-#: ../src/import_csv.c:207
+#: ../src/import_csv.c:210
 msgid ""
 "If the result does not suit you, try again by selecting the correct "
 "character set in the window for selecting files."
@@ -9595,11 +9599,11 @@ msgstr ""
 "Si le résultat ne vous convient pas, essayez de nouveau en sélectionnant le "
 "jeu de caractères dans la fenêtre de sélection des fichiers"
 
-#: ../src/import_csv.c:209
+#: ../src/import_csv.c:212
 msgid "The conversion to utf8 went wrong."
 msgstr "La conversion en utf8 s'est mal passée."
 
-#: ../src/import_csv.c:309
+#: ../src/import_csv.c:325
 #, c-format
 msgid ""
 "The data associated with action \"%s\" are invalid.\n"
@@ -9608,42 +9612,42 @@ msgstr ""
 "Les données associées à l'action « %s » ne sont pas valides\n"
 ".Cette règle ne sera pas appliquée et vous devrez la modifier"
 
-#: ../src/import_csv.c:312
+#: ../src/import_csv.c:328
 msgid "Warning: Invalid data"
 msgstr "Attention : Date invalide"
 
-#: ../src/import_csv.c:811 ../src/import_csv.c:815
+#: ../src/import_csv.c:831 ../src/import_csv.c:835
 msgid "transaction amount"
 msgstr "Montant de l'opération"
 
-#: ../src/import_csv.c:825
+#: ../src/import_csv.c:845
 #, c-format
 msgid "<b>The following fields are missing or inconsistent:</b> %s"
 msgstr "<b>Les champs suivants manquent ou sont incompatibles :</b> %s"
 
-#: ../src/import_csv.c:835
+#: ../src/import_csv.c:855
 msgid "All mandatory fields are filed in."
 msgstr "Tous les champs obligatoires sont remplis."
 
-#: ../src/import_csv.c:1028
+#: ../src/import_csv.c:1048
 msgid "Skip"
 msgstr "Sauter"
 
-#: ../src/import_csv.c:1342 ../src/import_csv.c:1495
+#: ../src/import_csv.c:1362 ../src/import_csv.c:1515
 msgid "Imported CSV account"
 msgstr "Compte CSV importé"
 
 #. set choose csv separators
-#: ../src/import_csv.c:1679
+#: ../src/import_csv.c:1699
 msgid "Choose CSV separator"
 msgstr "Choisissez le séparateur CSV"
 
 #. set select csv fields
-#: ../src/import_csv.c:1686
+#: ../src/import_csv.c:1706
 msgid "Select CSV fields"
 msgstr "sélectionnez les champs"
 
-#: ../src/import_csv.c:1713
+#: ../src/import_csv.c:1733
 msgid "Create a rule for this import."
 msgstr "Créer une règle pour cet import."
 
@@ -12269,7 +12273,7 @@ msgstr "Configuration spécifique"
 #: ../src/ui/prefs_page_form_completion.ui.h:15
 #: ../src/ui/prefs_page_display_adr.ui.h:10
 #: ../src/ui/prefs_page_display_fonts.ui.h:9
-#: ../src/ui/prefs_page_display_gui.ui.h:18
+#: ../src/ui/prefs_page_display_gui.ui.h:14
 #: ../src/ui/prefs_page_display_ope.ui.h:4 ../src/ui/prefs_page_divers.ui.h:15
 #: ../src/ui/prefs_page_import_asso.ui.h:11
 #: ../src/ui/prefs_page_import_files.ui.h:14
@@ -12284,7 +12288,7 @@ msgstr "label"
 #: ../src/ui/prefs_page_display_adr.ui.h:11
 #: ../src/ui/prefs_page_display_fonts.ui.h:14
 #: ../src/ui/prefs_page_display_form.ui.h:6
-#: ../src/ui/prefs_page_display_gui.ui.h:19
+#: ../src/ui/prefs_page_display_gui.ui.h:15
 #: ../src/ui/prefs_page_display_ope.ui.h:5 ../src/ui/prefs_page_divers.ui.h:16
 #: ../src/ui/prefs_page_files.ui.h:23 ../src/ui/prefs_page_form_options.ui.h:9
 #: ../src/ui/prefs_page_import_asso.ui.h:12
@@ -13060,66 +13064,50 @@ msgid "Rows"
 msgstr "Lignes"
 
 #: ../src/ui/prefs_page_display_gui.ui.h:1
-msgid "Application Menu"
-msgstr "Menu application"
-
-#: ../src/ui/prefs_page_display_gui.ui.h:3
-msgid "Force classic menu"
-msgstr "Forcer le menu classique"
-
-#: ../src/ui/prefs_page_display_gui.ui.h:4
-msgid "(Check the box to find the classic Grisbi menu)"
-msgstr "Cocher l'option pour retrouver le menu classique de Grisbi "
-
-#: ../src/ui/prefs_page_display_gui.ui.h:5
-msgid "(This option requires restarting Grisbi)"
-msgstr "Cette option requiert le redémarrage de Grisbi"
-
-#: ../src/ui/prefs_page_display_gui.ui.h:6
 msgid "Headings bar"
 msgstr "Barre d'information"
 
-#: ../src/ui/prefs_page_display_gui.ui.h:7
+#: ../src/ui/prefs_page_display_gui.ui.h:3
 msgid "Display headings bar"
 msgstr "Afficher la barre d'information"
 
-#: ../src/ui/prefs_page_display_gui.ui.h:8
+#: ../src/ui/prefs_page_display_gui.ui.h:4
 msgid "Navigation pane"
 msgstr "Panneau de navigation"
 
-#: ../src/ui/prefs_page_display_gui.ui.h:9
+#: ../src/ui/prefs_page_display_gui.ui.h:5
 msgid "Add mouse scrolling support on the navigation pane"
 msgstr "Ajouter le défilement avec la souris dans le panneau de navigation"
 
-#: ../src/ui/prefs_page_display_gui.ui.h:10
+#: ../src/ui/prefs_page_display_gui.ui.h:6
 msgid "Toolbars"
 msgstr "Barres d'outils"
 
-#: ../src/ui/prefs_page_display_gui.ui.h:11
+#: ../src/ui/prefs_page_display_gui.ui.h:7
 msgid "Display toolbar buttons as"
 msgstr "Afficher les boutons des barres d'outils comme"
 
-#: ../src/ui/prefs_page_display_gui.ui.h:12
+#: ../src/ui/prefs_page_display_gui.ui.h:8
 msgid " : "
 msgstr " : "
 
-#: ../src/ui/prefs_page_display_gui.ui.h:13
+#: ../src/ui/prefs_page_display_gui.ui.h:9
 msgid "Text only"
 msgstr "Texte seul"
 
-#: ../src/ui/prefs_page_display_gui.ui.h:14
+#: ../src/ui/prefs_page_display_gui.ui.h:10
 msgid "Icons only"
 msgstr "Icônes seules"
 
-#: ../src/ui/prefs_page_display_gui.ui.h:15
+#: ../src/ui/prefs_page_display_gui.ui.h:11
 msgid "Text below items"
 msgstr "Texte sous les icônes"
 
-#: ../src/ui/prefs_page_display_gui.ui.h:16
+#: ../src/ui/prefs_page_display_gui.ui.h:12
 msgid "Text beside items"
 msgstr "Texte à côté des Icônes"
 
-#: ../src/ui/prefs_page_display_gui.ui.h:17
+#: ../src/ui/prefs_page_display_gui.ui.h:13
 msgid "Shortcuts"
 msgstr "Raccourcis clavier"
 
@@ -13438,6 +13426,18 @@ msgstr "Gestionnaire de finances personnelles"
 #: ../share/grisbi.desktop.in.h:3
 msgid "finance"
 msgstr "finance"
+
+#~ msgid "Application Menu"
+#~ msgstr "Menu application"
+
+#~ msgid "Force classic menu"
+#~ msgstr "Forcer le menu classique"
+
+#~ msgid "(Check the box to find the classic Grisbi menu)"
+#~ msgstr "Cocher l'option pour retrouver le menu classique de Grisbi "
+
+#~ msgid "(This option requires restarting Grisbi)"
+#~ msgstr "Cette option requiert le redémarrage de Grisbi"
 
 #~ msgid "This instance of Grisbi was compiled on\n"
 #~ msgstr "Cette version de Grisbi a été compilée le\n"
