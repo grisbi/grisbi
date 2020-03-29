@@ -73,9 +73,6 @@ struct _PrefsPageMetatreePrivate
 	GtkWidget *			combo_devise_totaux_categ;
 	GtkWidget *			combo_devise_totaux_ib;
 	GtkWidget *			combo_devise_totaux_tiers;
-	GtkWidget *			eventbox_metatree_assoc_mode;
-	GtkWidget *			eventbox_metatree_totals;
-	GtkWidget *			eventbox_metatree_unarchived_payees;
 	GtkWidget *			grid_metatree_currencies;
 };
 
@@ -361,9 +358,7 @@ static void prefs_page_metatree_setup_metatree_page (PrefsPageMetatree *page)
 
 		gtk_widget_set_sensitive (priv->grid_metatree_currencies, FALSE);
 		gtk_widget_set_sensitive (priv->checkbutton_metatree_totals, FALSE);
-		gtk_widget_set_sensitive (priv->eventbox_metatree_totals, FALSE);
 		gtk_widget_set_sensitive (priv->checkbutton_metatree_assoc_mode, FALSE);
-		gtk_widget_set_sensitive (priv->eventbox_metatree_assoc_mode, FALSE);
 		gtk_widget_set_sensitive (priv->box_metatree_sort_transactions, FALSE);
 		gtk_widget_set_sensitive (priv->box_metatree_unarchived_payees, FALSE);
 
@@ -385,22 +380,12 @@ static void prefs_page_metatree_setup_metatree_page (PrefsPageMetatree *page)
 
 	/* Connect signal */
     /* callback for checkbutton_metatree_assoc_mode */
-    g_signal_connect (priv->eventbox_metatree_assoc_mode,
-					  "button-press-event",
-					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
-					  priv->checkbutton_metatree_assoc_mode);
-
     g_signal_connect (priv->checkbutton_metatree_assoc_mode,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
 					  &w_etat->metatree_assoc_mode);
 
 	/* callback for checkbutton_metatree_totals */
-    g_signal_connect (priv->eventbox_metatree_totals,
-					  "button-press-event",
-					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
-					  priv->checkbutton_metatree_totals);
-
     g_signal_connect (priv->checkbutton_metatree_totals,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
@@ -411,11 +396,6 @@ static void prefs_page_metatree_setup_metatree_page (PrefsPageMetatree *page)
 							G_CALLBACK (prefs_page_metatree_re_sort_divisions),
 							NULL);
     /* callback for checkbutton_metatree_unarchived_payees */
-    g_signal_connect (priv->eventbox_metatree_unarchived_payees,
-					  "button-press-event",
-					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
-					  priv->checkbutton_metatree_unarchived_payees);
-
     g_signal_connect (priv->checkbutton_metatree_unarchived_payees,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
@@ -454,9 +434,6 @@ static void prefs_page_metatree_class_init (PrefsPageMetatreeClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageMetatree, checkbutton_metatree_assoc_mode);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageMetatree, checkbutton_metatree_totals);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageMetatree, checkbutton_metatree_unarchived_payees);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageMetatree, eventbox_metatree_assoc_mode);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageMetatree, eventbox_metatree_totals);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageMetatree, eventbox_metatree_unarchived_payees);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageMetatree, box_metatree_unarchived_payees);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageMetatree, box_metatree_sort_transactions);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageMetatree, box_metatree_action_2button);
@@ -507,7 +484,6 @@ void prefs_page_metatree_sensitive_widget (const gchar *widget_name,
 			}
 
 			gtk_widget_set_sensitive (priv->checkbutton_metatree_unarchived_payees, !sensitive);
-			gtk_widget_set_sensitive (priv->eventbox_metatree_unarchived_payees, !sensitive);
 		}
 	}
 }

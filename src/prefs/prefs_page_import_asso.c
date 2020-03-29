@@ -68,10 +68,7 @@ struct _PrefsPageImportAssoPrivate
     GtkWidget *         button_import_asso_add;
     GtkWidget *         button_import_asso_remove;
 	GtkWidget *			checkbutton_import_asso_case_insensitive;
-	GtkWidget *			eventbox_import_asso_case_insensitive;
-	GtkWidget *			hbox_import_asso_use_regex;
 	GtkWidget *			checkbutton_import_asso_use_regex;
-	GtkWidget *			eventbox_import_asso_use_regex;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageImportAsso, prefs_page_import_asso, GTK_TYPE_BOX)
@@ -764,7 +761,7 @@ static void prefs_page_import_asso_setup_import_asso_page (PrefsPageImportAsso *
 								  w_run->import_asso_case_insensitive);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_import_asso_use_regex),
 								  w_run->import_asso_use_regex);
-	gtk_widget_set_sensitive (priv->hbox_import_asso_use_regex, FALSE); /* unused */
+	gtk_widget_set_sensitive (priv->checkbutton_import_asso_use_regex, FALSE); /* unused */
 
 	/* setup treeview_associations */
 	prefs_page_import_asso_setup_treeview_asso (page);
@@ -799,10 +796,6 @@ static void prefs_page_import_asso_setup_import_asso_page (PrefsPageImportAsso *
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
 					  &w_run->import_asso_case_insensitive);
-    g_signal_connect (priv->eventbox_import_asso_case_insensitive,
-					  "button-press-event",
-					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
-					  priv->checkbutton_import_asso_case_insensitive);
     g_signal_connect_after (priv->checkbutton_import_asso_case_insensitive,
 							"toggled",
 							G_CALLBACK (prefs_page_import_asso_checkbutton_import_asso_case_insensitive_toggle),
@@ -813,10 +806,6 @@ static void prefs_page_import_asso_setup_import_asso_page (PrefsPageImportAsso *
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
 					  &w_run->import_asso_use_regex);
-    g_signal_connect (priv->eventbox_import_asso_use_regex,
-					  "button-press-event",
-					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
-					  priv->checkbutton_import_asso_use_regex);
 }
 
 /******************************************************************************/
@@ -871,10 +860,7 @@ static void prefs_page_import_asso_class_init (PrefsPageImportAssoClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageImportAsso, button_import_asso_add);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageImportAsso, button_import_asso_remove);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageImportAsso, checkbutton_import_asso_case_insensitive);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageImportAsso, eventbox_import_asso_case_insensitive);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageImportAsso, checkbutton_import_asso_use_regex);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageImportAsso, eventbox_import_asso_use_regex);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageImportAsso, hbox_import_asso_use_regex);
 }
 
 /******************************************************************************/

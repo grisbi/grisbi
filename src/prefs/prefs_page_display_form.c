@@ -65,6 +65,7 @@ struct _PrefsPageDisplayFormPrivate
 {
 	GtkWidget *			vbox_display_form;
 
+	GtkWidget *			grid_buttons_cols_rows;
 	GtkWidget *			button_add_col;
 	GtkWidget *			button_add_row;
 	GtkWidget *			button_remove_col;
@@ -923,11 +924,13 @@ static void prefs_page_display_form_setup_page (PrefsPageDisplayForm *page)
 	if (is_loading)
 	{
 		gtk_widget_set_sensitive (priv->tree_view_list_form, TRUE);
+		gtk_widget_set_sensitive (priv->grid_buttons_cols_rows, TRUE);
 		gtk_widget_set_sensitive (priv->grid_list_buttons, TRUE);
 	}
 	else
 	{
 		gtk_widget_set_sensitive (priv->tree_view_list_form, FALSE);
+		gtk_widget_set_sensitive (priv->grid_buttons_cols_rows, FALSE);
 		gtk_widget_set_sensitive (priv->grid_list_buttons, FALSE);
 	}
 		gtk_widget_show_all (priv->vbox_display_form);
@@ -957,6 +960,7 @@ static void prefs_page_display_form_class_init (PrefsPageDisplayFormClass *klass
 												 "/org/gtk/grisbi/ui/prefs_page_display_form.ui");
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayForm, vbox_display_form);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayForm, grid_buttons_cols_rows);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayForm, button_add_col);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayForm, button_add_row);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayForm, button_remove_col);

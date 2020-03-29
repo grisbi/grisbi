@@ -64,9 +64,7 @@ struct _PrefsPageFormCompletionPrivate
 {
 	GtkWidget *			vbox_form_completion;
 
-	GtkWidget *			hbox_combofix_case_sensitive;
     GtkWidget *			checkbutton_combofix_case_sensitive;
-	GtkWidget *			eventbox_combofix_case_sensitive;
 
 	GtkWidget *			spinbutton_completion_minimum_key_length;
 
@@ -76,17 +74,10 @@ struct _PrefsPageFormCompletionPrivate
 	GtkWidget *			checkbutton_automatic_recover_splits;
 	GtkWidget *			checkbutton_limit_completion_to_current_account;
 
-	GtkWidget *			hbox_combofix_force_payee;
 	GtkWidget *			checkbutton_combofix_force_payee;
-	GtkWidget *			eventbox_combofix_force_payee;
-
-	GtkWidget *			hbox_combofix_mixed_sort;
 	GtkWidget *			checkbutton_combofix_mixed_sort;
-	GtkWidget *			eventbox_combofix_mixed_sort;
 
-	GtkWidget *			hbox_combofix_force_category;
 	GtkWidget *			checkbutton_combofix_force_category;
-	GtkWidget *			eventbox_combofix_force_category;
 
 };
 
@@ -335,10 +326,9 @@ static void prefs_page_form_completion_setup_form_completion_page (PrefsPageForm
 	}
 	else
 	{
-		gtk_widget_set_sensitive (priv->hbox_combofix_mixed_sort, FALSE);
-		gtk_widget_set_sensitive (priv->hbox_combofix_case_sensitive, FALSE);
-		gtk_widget_set_sensitive (priv->hbox_combofix_force_payee, FALSE);
-		gtk_widget_set_sensitive (priv->hbox_combofix_force_category, FALSE);
+		gtk_widget_set_sensitive (priv->checkbutton_combofix_mixed_sort, FALSE);
+		gtk_widget_set_sensitive (priv->checkbutton_combofix_force_payee, FALSE);
+		gtk_widget_set_sensitive (priv->checkbutton_combofix_force_category, FALSE);
 	}
 
 	/* set conf.automatic_completion_payee */
@@ -359,11 +349,6 @@ static void prefs_page_form_completion_setup_form_completion_page (PrefsPageForm
 	}
 
     /* Connect signal checkbutton_combofix_case_sensitive */
-    g_signal_connect (priv->eventbox_combofix_case_sensitive,
-					  "button-press-event",
-					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
-					  priv->checkbutton_combofix_case_sensitive);
-
     g_signal_connect (priv->checkbutton_combofix_case_sensitive,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
@@ -430,11 +415,6 @@ static void prefs_page_form_completion_setup_form_completion_page (PrefsPageForm
 							NULL);
 
     /* Connect signal checkbutton_combofix_force_payee */
-    g_signal_connect (priv->eventbox_combofix_force_payee,
-					  "button-press-event",
-					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
-					  priv->checkbutton_combofix_force_payee);
-
     g_signal_connect (priv->checkbutton_combofix_force_payee,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
@@ -446,11 +426,6 @@ static void prefs_page_form_completion_setup_form_completion_page (PrefsPageForm
 							GINT_TO_POINTER (METATREE_PAYEE));
 
     /* Connect signal checkbutton_combofix_mixed_sort */
-    g_signal_connect (priv->eventbox_combofix_mixed_sort,
-					  "button-press-event",
-					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
-					  priv->checkbutton_combofix_mixed_sort);
-
     g_signal_connect (priv->checkbutton_combofix_mixed_sort,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
@@ -462,11 +437,6 @@ static void prefs_page_form_completion_setup_form_completion_page (PrefsPageForm
 							GINT_TO_POINTER (METATREE_CATEGORY));
 
     /* Connect signal checkbutton_combofix_force_category */
-    g_signal_connect (priv->eventbox_combofix_force_category,
-					  "button-press-event",
-					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
-					  priv->checkbutton_combofix_force_category);
-
     g_signal_connect (priv->checkbutton_combofix_force_category,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
@@ -503,8 +473,6 @@ static void prefs_page_form_completion_class_init (PrefsPageFormCompletionClass 
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFormCompletion, vbox_form_completion);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFormCompletion, checkbutton_combofix_case_sensitive);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFormCompletion, eventbox_combofix_case_sensitive);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFormCompletion, hbox_combofix_case_sensitive);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFormCompletion, spinbutton_completion_minimum_key_length);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFormCompletion, checkbutton_automatic_completion_payee);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFormCompletion, hbox_automatic_completion_payee);
@@ -512,14 +480,8 @@ static void prefs_page_form_completion_class_init (PrefsPageFormCompletionClass 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFormCompletion, checkbutton_automatic_recover_splits);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFormCompletion, checkbutton_limit_completion_to_current_account);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFormCompletion, checkbutton_combofix_force_payee);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFormCompletion, eventbox_combofix_force_payee);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFormCompletion, hbox_combofix_force_payee);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFormCompletion, checkbutton_combofix_mixed_sort);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFormCompletion, eventbox_combofix_mixed_sort);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFormCompletion, hbox_combofix_mixed_sort);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFormCompletion, checkbutton_combofix_force_category);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFormCompletion, eventbox_combofix_force_category);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFormCompletion, hbox_combofix_force_category);
 }
 
 /******************************************************************************/
