@@ -272,7 +272,6 @@ static void grisbi_settings_init_settings_general (GSettings *settings)
     }
 
     conf.force_type_theme = g_settings_get_int (settings, "force-type-theme");
-	printf ("conf.force_type_theme = %d\n", conf.force_type_theme);
 
     tmp_str = g_settings_get_string (settings, "language-chosen");
     if (tmp_str == NULL)
