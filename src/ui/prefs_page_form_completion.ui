@@ -70,6 +70,7 @@
                         <child>
                           <object class="GtkCheckButton" id="checkbutton_combofix_case_sensitive">
                             <property name="label" translatable="yes">Case sensitive completion</property>
+                            <property name="name">checkbutton_combofix_case_sensitive</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -212,6 +213,7 @@
                             <property name="spacing">5</property>
                             <child>
                               <object class="GtkCheckButton" id="checkbutton_automatic_completion_payee">
+                                <property name="name">checkbutton_automatic_completion_payee</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
@@ -258,6 +260,7 @@
                                     <property name="spacing">5</property>
                                     <child>
                                       <object class="GtkCheckButton" id="checkbutton_automatic_erase_credit_debit">
+                                        <property name="name">checkbutton_automatic_erase_credit_debit</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
@@ -281,6 +284,7 @@
                                     </child>
                                     <child>
                                       <object class="GtkCheckButton" id="checkbutton_automatic_recover_splits">
+                                        <property name="name">checkbutton_automatic_recover_splits</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
@@ -304,6 +308,7 @@
                                     </child>
                                     <child>
                                       <object class="GtkCheckButton" id="checkbutton_limit_completion_to_current_account">
+                                        <property name="name">checkbutton_limit_completion_to_current_account</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
@@ -349,6 +354,7 @@
                         <child>
                           <object class="GtkCheckButton" id="checkbutton_combofix_force_payee">
                             <property name="label" translatable="yes">Don't allow new payee creation</property>
+                            <property name="name">checkbutton_combofix_force_payee</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -442,6 +448,7 @@
                         <child>
                           <object class="GtkCheckButton" id="checkbutton_combofix_mixed_sort">
                             <property name="label" translatable="yes">Mix credit/debit categories</property>
+                            <property name="name">checkbutton_combofix_mixed_sort</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -457,6 +464,7 @@
                         <child>
                           <object class="GtkCheckButton" id="checkbutton_combofix_force_category">
                             <property name="label" translatable="yes">Don't allow new category/budget creation</property>
+                            <property name="name">checkbutton_combofix_force_category</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>

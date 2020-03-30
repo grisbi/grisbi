@@ -198,17 +198,6 @@ static void prefs_page_form_completion_save_checkbuton_value (GtkWidget *button)
 
 		return;
 	}
-	if (strcmp (tmp_name, "spinbutton_completion_minimum_key_length") == 0)
-	{
-		if (conf.completion_minimum_key_length > 1)
-			g_settings_set_int (G_SETTINGS (settings),
-								"completion-minimum-key-length",
-								conf.completion_minimum_key_length);
-		else
-			g_settings_reset (G_SETTINGS (settings), "completion-minimum-key-length");
-
-		return;
-	}
 }
 
 /**
@@ -256,7 +245,9 @@ static void prefs_page_form_completion_spinbutton_completion_minimum_key_length_
     GtkWidget *combofix;
 	GtkWidget *entry;
 	GtkEntryCompletion *completion;
+	GSettings *settings;
 
+	settings = grisbi_settings_get_settings (SETTINGS_FORM);
 	combofix = gsb_form_widget_get_widget (TRANSACTION_FORM_PARTY);
 	if (combofix && GTK_IS_COMBOFIX (combofix))
 	{
@@ -278,8 +269,12 @@ static void prefs_page_form_completion_spinbutton_completion_minimum_key_length_
 		completion = gtk_entry_get_completion (GTK_ENTRY (entry));
 		gtk_entry_completion_set_minimum_key_length (completion, conf.completion_minimum_key_length);
 	}
-	prefs_page_form_completion_save_checkbuton_value (spinbutton);
-}
+	if (conf.completion_minimum_key_length > 1)
+		g_settings_set_int (G_SETTINGS (settings),
+							"completion-minimum-key-length",
+							conf.completion_minimum_key_length);
+	else
+		g_settings_reset (G_SETTINGS (settings), "completion-minimum-key-length");}
 
 /**
  * Création de la page de gestion des form_completion
