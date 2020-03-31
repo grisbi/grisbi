@@ -1884,7 +1884,6 @@ static void bet_graph_button_menu_destroy (GtkWidget *button,
 										   GList *liste)
 {
     GList *tmp_list;
-	gboolean free_prefs = TRUE;
 
 	tmp_list = liste;
 	while (tmp_list)
@@ -1892,11 +1891,6 @@ static void bet_graph_button_menu_destroy (GtkWidget *button,
 		struct_bet_graph_button *self;
 
 		self = tmp_list -> data;
-		if (free_prefs)
-		{
-			g_free (self->prefs);
-			free_prefs = FALSE;
-		}
 		struct_free_bet_graph_button (self);
 
 		tmp_list = tmp_list -> next;
