@@ -2451,7 +2451,32 @@ void bet_graph_set_configuration_variables ( const gchar *string )
     struct_bet_graph_prefs *prefs = NULL;
 
 	if ( string == NULL )
-        return;
+	if (string == NULL)
+	{
+		if (prefs_prev == NULL)
+		{
+            prefs_prev = struct_initialise_bet_graph_prefs ();
+		}
+		else
+		{
+			g_free (prefs_prev);
+			prefs_prev =struct_initialise_bet_graph_prefs ();
+		}
+        prefs = prefs_prev;
+
+		if ( prefs_hist == NULL )
+		{
+			prefs_hist = struct_initialise_bet_graph_prefs ();
+		}
+		else
+		{
+			g_free (prefs_hist);
+			prefs_hist = struct_initialise_bet_graph_prefs ();
+		}
+		prefs = prefs_hist;
+
+		return;
+	}
 
     tab = g_strsplit ( string, ":", 0 );
 
@@ -2483,10 +2508,10 @@ void bet_graph_set_configuration_variables ( const gchar *string )
 		prefs->major_tick_labeled = TRUE;
     prefs->position = utils_str_atoi ( tab[5] );
 	if (prefs->position > 2)
-		prefs->position = 0;
+		prefs->position = 2;
     prefs->new_axis_line = utils_str_atoi ( tab[6] );
 	if (prefs->new_axis_line > 1)
-		prefs->new_axis_line = TRUE;
+		prefs->new_axis_line = FALSE;
     prefs->cross_entry = utils_str_atoi ( tab[7] );
 	if (prefs->cross_entry > 1)
 		prefs->cross_entry = 0;
@@ -2494,11 +2519,11 @@ void bet_graph_set_configuration_variables ( const gchar *string )
 	if (prefs->degrees > 180)
 		prefs->degrees = 90;
     prefs->gap_spinner = utils_str_atoi ( tab[9] );
-	if (prefs->gap_spinner > 1)
-		prefs->gap_spinner = FALSE;
+	if (prefs->gap_spinner > 100)
+		prefs->gap_spinner = 50;
     prefs->before_grid = utils_str_atoi ( tab[10] );
 	if (prefs->before_grid > 1)
-		prefs->before_grid = FALSE;
+		prefs->before_grid = TRUE;
     prefs->major_grid_y = utils_str_atoi ( tab[11] );
 	if (prefs->major_grid_y > 1)
 		prefs->major_grid_y = FALSE;
@@ -2531,6 +2556,21 @@ void struct_free_bet_graph_prefs ( void )
     }
 }
 
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return TRUE
+ * */
+void bet_graph_free_configuration_variables (void)
+{
+	if (prefs_prev)
+		g_free (prefs_prev);
+	if (prefs_hist )
+		g_free (prefs_hist);
+}
 
 #endif /* HAVE_GOFFICE */
 /**

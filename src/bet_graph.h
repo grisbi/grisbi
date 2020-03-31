@@ -25,6 +25,7 @@ GtkToolItem *	bet_graph_button_menu_new 				(GtkWidget *toolbar,
 														 const gchar *type_graph,
 														 GCallback callback,
 														 GtkWidget *tree_view);
+void 			bet_graph_free_configuration_variables 	(void);
 gchar *			bet_graph_get_configuration_string 		(gint origin_tab);
 void 			bet_graph_line_graph_new 				(GtkWidget *button,
 														 GtkTreeView *tree_view);
