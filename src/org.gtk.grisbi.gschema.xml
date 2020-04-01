@@ -11,14 +11,6 @@
           If TRUE, a wizard starts to configure Grisbi at its first use.
       </description>
     </key>
-    <key name="force-classic-menu" type="b">
-      <default>true</default>
-      <summary>Force used classic menu</summary>
-      <description>
-          By default the classic menu is displayed otherwise the menu type is
-          determined by the window manager. This option requires restarting Grisbi.
-      </description>
-    </key>
   </schema>
 
   <schema path="/org/gtk/grisbi/files/backup/" id='org.gtk.grisbi.files.backup'>
