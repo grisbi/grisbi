@@ -712,11 +712,6 @@ gboolean gsb_file_config_save_app_config (void)
 							"Root",
 							"first-use",
 							conf.first_use);
-	g_key_file_set_boolean (config,
-							"Root",
-							"force-classic-menu",
-							TRUE);
-
 	/* settings_backup */
 	backup_path = gsb_file_get_backup_path ();
 	if (backup_path && strlen (backup_path) > 0)
