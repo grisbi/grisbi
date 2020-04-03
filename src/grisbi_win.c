@@ -434,7 +434,8 @@ static GtkWidget *grisbi_win_form_new (GrisbiWin *win)
     priv->form_hbox_label = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
     gtk_widget_set_margin_end (priv->form_hbox_label, MARGIN_END);
     gtk_expander_set_label_widget (GTK_EXPANDER(priv->form_expander), priv->form_hbox_label);
-    gtk_expander_set_label_fill (GTK_EXPANDER(priv->form_expander), TRUE);
+    gtk_expander_set_label_fill (GTK_EXPANDER(priv->form_expander), FALSE);
+	gtk_expander_set_resize_toplevel (GTK_EXPANDER(priv->form_expander), FALSE);
 
     /* set the label transaction form */
     label = gtk_label_new (NULL);
