@@ -14,6 +14,7 @@ libprefspages_la_SOURCES = \
 	prefs_page_display_gui.c \
 	prefs_page_display_ope.c \
 	prefs_page_divers.c	\
+	prefs_page_exer.c \
 	prefs_page_files.c	\
 	prefs_page_form_completion.c \
 	prefs_page_form_options.c \
@@ -33,6 +34,7 @@ libprefspages_la_SOURCES = \
 	prefs_page_display_gui.h \
 	prefs_page_display_ope.h \
 	prefs_page_divers.h \
+	prefs_page_exer.h \
 	prefs_page_files.h \
 	prefs_page_form_completion.h \
 	prefs_page_form_options.h \

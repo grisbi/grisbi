@@ -130,6 +130,7 @@ src/prefs/prefs_page_display_form.c
 src/prefs/prefs_page_display_gui.c
 src/prefs/prefs_page_display_ope.c
 src/prefs/prefs_page_divers.c
+src/prefs/prefs_page_exer.c
 src/prefs/prefs_page_files.c
 src/prefs/prefs_page_form_completion.c
 src/prefs/prefs_page_form_options.c
@@ -178,6 +179,7 @@ src/utils_str.c
 [type: gettext/glade]src/ui/prefs_page_display_gui.ui
 [type: gettext/glade]src/ui/prefs_page_display_ope.ui
 [type: gettext/glade]src/ui/prefs_page_divers.ui
+[type: gettext/glade]src/ui/prefs_page_exer.ui
 [type: gettext/glade]src/ui/prefs_page_files.ui
 [type: gettext/glade]src/ui/prefs_page_form_options.ui
 [type: gettext/glade]src/ui/prefs_page_import_asso.ui
