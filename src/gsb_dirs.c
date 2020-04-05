@@ -316,7 +316,6 @@ const gchar *gsb_dirs_get_themes_dir (void)
 	return themes_dir;
 }
 
-#ifdef USE_CONFIG_FILE
 /**
  *
  *
@@ -335,7 +334,6 @@ const gchar *gsb_dirs_get_grisbirc_filename (void)
 
     return grisbirc_filename;
 }
-#endif
 
 /**
  *
