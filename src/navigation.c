@@ -89,7 +89,6 @@ static gboolean gsb_gui_navigation_check_key_press ( GtkWidget *tree_view,
 static void gsb_gui_navigation_clear_pages_list ( void );
 static void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
                         GtkTreePath *path );
-static void gsb_gui_navigation_create_report_list ( GtkTreeModel *model );
 static GtkTreePath *gsb_gui_navigation_get_page_path ( GtkTreeModel *model,
                         gint type_page );
 static gboolean gsb_gui_navigation_move_ordre ( gint src_ordre,
@@ -614,19 +613,23 @@ void gsb_gui_navigation_create_report_list ( GtkTreeModel *model )
     while ( tmp_list )
     {
         gint report_number;
+		gchar *tmp_name;
 
         report_number = gsb_data_report_get_report_number ( tmp_list -> data );
+		tmp_name = utils_str_break_form_name_field (gsb_data_report_get_report_name (report_number),
+													TRUNC_FORM_FIELD);
 
         gtk_tree_store_append ( GTK_TREE_STORE ( model ), &child, &parent);
         gtk_tree_store_set(GTK_TREE_STORE(model), &child,
                         NAVIGATION_PIX_VISIBLE, FALSE,
-                        NAVIGATION_TEXT, gsb_data_report_get_report_name ( report_number ),
+                        NAVIGATION_TEXT, tmp_name,
                         NAVIGATION_FONT, 400,
                         NAVIGATION_PAGE, GSB_REPORTS_PAGE,
                         NAVIGATION_ACCOUNT, -1,
                         NAVIGATION_COLOR_TEXT, str_color,
                         NAVIGATION_REPORT, report_number,
                         -1 );
+		g_free  (tmp_name);
 
         tmp_list = tmp_list -> next;
     }
@@ -901,6 +904,7 @@ void gsb_gui_navigation_update_account_iter ( GtkTreeModel *model,
     GdkPixbuf * pixbuf = NULL;
 	gboolean closed_account;
 	gchar *str_color = "black";
+	gchar *tmp_name;
 
 	closed_account = gsb_data_account_get_closed_account (account_number);
 	if (closed_account)
@@ -909,17 +913,20 @@ void gsb_gui_navigation_update_account_iter ( GtkTreeModel *model,
 		str_color = gsb_rgba_get_couleur_with_indice_to_str ("color_text", 0);
 
 	pixbuf = gsb_data_account_get_account_icon_pixbuf ( account_number );
+	tmp_name = utils_str_break_form_name_field (gsb_data_account_get_name (account_number),
+												TRUNC_FORM_FIELD);
 
     gtk_tree_store_set ( GTK_TREE_STORE ( model ), account_iter,
                         NAVIGATION_PIX, pixbuf,
                         NAVIGATION_PIX_VISIBLE, TRUE,
-                        NAVIGATION_TEXT, gsb_data_account_get_name ( account_number ),
+                        NAVIGATION_TEXT, tmp_name,
                         NAVIGATION_FONT, 400,
                         NAVIGATION_PAGE, GSB_ACCOUNT_PAGE,
                         NAVIGATION_ACCOUNT, account_number,
                         NAVIGATION_COLOR_TEXT, str_color,
                         NAVIGATION_REPORT, -1,
                         -1 );
+	g_free (tmp_name);
 
     g_object_unref ( G_OBJECT ( pixbuf ) );
 }

@@ -51,6 +51,7 @@ gboolean 		gsb_gui_navigation_check_scroll 				(GtkWidget *tree_view,
 																 gpointer user_data);
 void 			gsb_gui_navigation_create_account_list 			(GtkTreeModel *model);
 GtkWidget *		gsb_gui_navigation_create_navigation_pane 		(void);
+void			gsb_gui_navigation_create_report_list			(GtkTreeModel *model);
 gboolean 		gsb_gui_navigation_drag_data_received 			(GtkTreeDragDest *drag_dest,
 																 GtkTreePath *dest_path,
 																 GtkSelectionData *selection_data);
@@ -86,6 +87,7 @@ gboolean 		gsb_gui_navigation_row_drop_possible 			(GtkTreeDragDest *drag_dest,
 gulong 			gsb_gui_navigation_tree_view_selection_changed 	(void);
 
 void 			gsb_gui_navigation_select_reports_page			(void);
+
 /* END_DECLARATION */
 
 #endif

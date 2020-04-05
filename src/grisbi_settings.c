@@ -354,7 +354,7 @@ static void grisbi_settings_init_settings_general (GSettings *settings)
  **/
 static void grisbi_settings_init_settings_geometry (GSettings *settings)
 {
-    /* fenetre : 1300x900 100+100 fullscreen et maximize FALSE par défaut */
+    conf.low_resolution_screen = g_settings_get_boolean (settings, "low-resolution-screen");
     conf.x_position = g_settings_get_int (settings, "x-position");
     conf.y_position = g_settings_get_int (settings, "y-position");
     conf.main_height = g_settings_get_int (settings, "main-height");

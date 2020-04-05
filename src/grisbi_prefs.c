@@ -919,6 +919,8 @@ void grisbi_prefs_dialog_response  (GtkDialog *prefs,
     devel_debug (NULL);
 	if (result_id == GTK_RESPONSE_CLOSE)
 	{
+		GrisbiWinRun *w_run;
+
 		grisbi_win_status_bar_message (_("Preferences stop"));
 		if (!prefs)
 		{
@@ -926,22 +928,35 @@ void grisbi_prefs_dialog_response  (GtkDialog *prefs,
 
 			return;
 		}
-		/* on récupère la dimension de la fenêtre */
-		gtk_window_get_size (GTK_WINDOW (prefs), &conf.prefs_width, &conf.prefs_height);
-
+		/* on récupère éventuellement la dimension de la fenêtre */
+		w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
 		settings = grisbi_settings_get_settings (SETTINGS_PREFS);
+		if (w_run->resolution_screen_toggled == FALSE)
+		{
+			gtk_window_get_size (GTK_WINDOW (prefs), &conf.prefs_width, &conf.prefs_height);
+			g_settings_set_int (G_SETTINGS (settings),
+								"prefs-height",
+								conf.prefs_height);
 
-		g_settings_set_int (G_SETTINGS (settings),
-							"prefs-height",
-							conf.prefs_height);
+			g_settings_set_int (G_SETTINGS (settings),
+								"prefs-panel-width",
+								conf.prefs_panel_width);
 
-		g_settings_set_int (G_SETTINGS (settings),
-							"prefs-panel-width",
-							conf.prefs_panel_width);
+			g_settings_set_int (G_SETTINGS (settings),
+								"prefs-width",
+								conf.prefs_width);
+		}
+		else
+		{
+			w_run->resolution_screen_toggled = FALSE;
+			g_settings_reset (G_SETTINGS (settings), "prefs-height");
+			g_settings_reset (G_SETTINGS (settings), "prefs-panel-width");
+			g_settings_reset (G_SETTINGS (settings), "prefs-width");
 
-		g_settings_set_int (G_SETTINGS (settings),
-							"prefs-width",
-							conf.prefs_width);
+			conf.prefs_height = g_settings_get_int (settings, "prefs-height");
+			conf.prefs_panel_width = g_settings_get_int (settings, "prefs-panel-width");
+			conf.prefs_width = g_settings_get_int (settings, "prefs-width");
+		}
 	}
 	gtk_widget_destroy (GTK_WIDGET (prefs));
 	grisbi_win_set_prefs_dialog (NULL, NULL);

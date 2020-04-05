@@ -1315,6 +1315,12 @@ gchar *utils_str_break_form_name_field (const gchar *text,
 	if (!text)
 		return NULL;
 
+	if (conf.low_resolution_screen == FALSE)
+	{
+		tmp_str = g_strdup (text);
+		return (tmp_str);
+	}
+
 	if (g_utf8_validate (text, -1, NULL))
 	{
 		nbre_char = g_utf8_strlen (text, -1);

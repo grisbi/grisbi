@@ -554,6 +554,10 @@ gboolean grisbi_conf_load_app_config (void)
     g_free (tmp_str);
 
     /* settings_geometry */
+    conf.low_resolution_screen = g_key_file_get_boolean (config,
+														 "Geometry",
+													     "low-resolution-screen",
+													     NULL);
 	conf.full_screen = g_key_file_get_boolean (config,
 											   "Geometry",
 											   "fullscreen",
@@ -982,6 +986,10 @@ gboolean grisbi_conf_save_app_config (void)
 						   tmp_str);
 
     /* settings_geometry */
+    g_key_file_set_boolean (config,
+							"Geometry",
+							"low-resolution-screen",
+							conf.low_resolution_screen);
 	g_key_file_set_boolean (config,
 							"Geometry",
 							"fullscreen",

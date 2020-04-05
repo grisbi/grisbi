@@ -285,6 +285,7 @@ GtkWidget *new_paddingbox_with_title (GtkWidget *parent,
     /* Creating label */
     label = gtk_label_new (NULL);
     utils_labels_set_alignment (GTK_LABEL (label), 0, 1);
+	gtk_widget_set_margin_start (label, MARGIN_BOX);
     tmp_str = g_markup_printf_escaped ("<span weight=\"bold\">%s</span>", title);
     gtk_label_set_markup (GTK_LABEL (label), tmp_str);
     g_free(tmp_str);

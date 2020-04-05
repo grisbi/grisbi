@@ -5,7 +5,7 @@
 /*                                                                               */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)               */
 /*                      2003-2008 Benjamin Drieu (bdrieu@april.org)              */
-/*          2008-2017 Pierre Biava (grisbi@pierre.biava.name)                    */
+/*          2008-2020 Pierre Biava (grisbi@pierre.biava.name)                    */
 /*          https://www.grisbi.org/                                              */
 /*                                                                               */
 /*     This program is free software; you can redistribute it and/or modify      */
@@ -38,15 +38,20 @@
 
 /*START_INCLUDE*/
 #include "prefs_page_divers.h"
+#include "bet_finance_ui.h"
 #include "dialog.h"
 #include "grisbi_settings.h"
 #include "gsb_account.h"
 #include "gsb_automem.h"
 #include "gsb_dirs.h"
+#include "gsb_locale.h"
+#include "gsb_regex.h"
 #include "gsb_rgba.h"
-#include "parametres.h"
+#include "navigation.h"
 #include "structures.h"
+#include "utils_dates.h"
 #include "utils_prefs.h"
+#include "utils_real.h"
 #include "erreur.h"
 
 /*END_INCLUDE*/
@@ -60,20 +65,41 @@ struct _PrefsPageDiversPrivate
 {
 	GtkWidget *			vbox_divers;
 
+	/* programs */
     GtkWidget *			grid_divers_programs;
 
+	/* notebbok low resolution */
+	GtkWidget *			notebook_others_options;
+
+	/* pages pour notebook */
+	GtkWidget *			divers_localization_paddingbox;
+	GtkWidget *			divers_scheduler_paddingbox;
+	GtkWidget *			title_divers_localization;
+	GtkWidget *			title_divers_scheduler;
+
+	/* scheduler */
 	GtkWidget *         vbox_divers_scheduler;
 	GtkWidget *         hbox_divers_scheduler_set_default_account;
 	GtkWidget *			checkbutton_scheduler_set_default_account;
-	GtkWidget *         hbox_divers_scheduler_set_fixed_date;
 	GtkWidget *			checkbutton_scheduler_set_fixed_date;
-	GtkWidget *         hbox_divers_scheduler_set_fixed_day;
 	GtkWidget *			checkbutton_scheduler_set_fixed_day;
-	GtkWidget *         spinbutton_scheduler_fixed_day;
 	GtkWidget *			hbox_divers_scheduler_nb_days_before_scheduled;
+	GtkWidget *         hbox_divers_scheduler_set_fixed_date;
+	GtkWidget *         hbox_divers_scheduler_set_fixed_day;
     GtkWidget *         spinbutton_nb_days_before_scheduled;
-	GtkWidget *			box_divers_localisation;
+	GtkWidget *         spinbutton_scheduler_fixed_day;
+
+	/* localization */
+	GtkWidget *			box_choose_date_format;
+	GtkWidget *			box_choose_numbers_format;
 	GtkWidget *			combo_choose_language;
+	GtkWidget *			combo_choose_decimal_point;
+	GtkWidget *			combo_choose_thousands_separator;
+	GtkWidget *			radiobutton_choose_date_1;
+	GtkWidget *			radiobutton_choose_date_2;
+	GtkWidget *			radiobutton_choose_date_3;
+	GtkWidget *			radiobutton_choose_date_4;
+
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageDivers, prefs_page_divers, GTK_TYPE_BOX)
@@ -81,6 +107,223 @@ G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageDivers, prefs_page_divers, GTK_TYPE_BOX)
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
+static void prefs_page_divers_choose_thousands_sep_changed (GtkComboBoxText *widget,
+															gpointer null)
+{
+    GtkWidget *combo_box;
+    GtkWidget *entry;
+    gchar *str_capital;
+    const gchar *text;
+
+    text = gtk_combo_box_text_get_active_text (widget);
+    combo_box = g_object_get_data (G_OBJECT (widget), "separator");
+
+    if (g_strcmp0 (text, "' '") == 0)
+    {
+        gsb_locale_set_mon_thousands_sep (" ");
+    }
+    else if (g_strcmp0 (text, ".") == 0)
+    {
+
+        gsb_locale_set_mon_thousands_sep (".");
+        if (g_strcmp0 (gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (combo_box)), ".") == 0)
+        {
+            gsb_locale_set_mon_decimal_point (",");
+            gtk_combo_box_set_active (GTK_COMBO_BOX (combo_box), 1);
+        }
+    }
+    else if (g_strcmp0 (text, ",") == 0)
+    {
+
+        gsb_locale_set_mon_thousands_sep (",");
+        if (g_strcmp0 (gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (combo_box)), ",") == 0)
+        {
+            gsb_locale_set_mon_decimal_point (".");
+            gtk_combo_box_set_active (GTK_COMBO_BOX (combo_box), 0);
+        }
+    }
+    else
+        gsb_locale_set_mon_thousands_sep (NULL);
+
+    /* reset capital */
+    entry = bet_finance_ui_get_capital_entry ();
+    str_capital = utils_real_get_string_with_currency (gsb_real_double_to_real (
+                    etat.bet_capital),
+                    etat.bet_currency,
+                    FALSE);
+
+    gtk_entry_set_text (GTK_ENTRY (entry), str_capital);
+    g_free (str_capital);
+
+    gsb_gui_navigation_update_localisation (1);
+}
+
+static void prefs_page_divers_choose_decimal_point_changed (GtkComboBoxText *widget,
+															gpointer null)
+{
+    GtkWidget *combo_box;
+    GtkWidget *entry;
+    gchar *str_capital;
+    const gchar *text;
+
+    text = gtk_combo_box_text_get_active_text (widget);
+    combo_box = g_object_get_data (G_OBJECT (widget), "separator");
+
+    if (g_strcmp0 (text, ",") == 0)
+    {
+        gsb_locale_set_mon_decimal_point (",");
+
+        if (g_strcmp0 (gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (combo_box)), ",") == 0)
+        {
+            gsb_locale_set_mon_thousands_sep (" ");
+            gtk_combo_box_set_active (GTK_COMBO_BOX (combo_box), 0);
+        }
+    }
+    else
+    {
+        gsb_locale_set_mon_decimal_point (".");
+        if (g_strcmp0 (gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (combo_box)), ".") == 0)
+        {
+            gsb_locale_set_mon_thousands_sep (",");
+            gtk_combo_box_set_active (GTK_COMBO_BOX (combo_box), 2);
+        }
+    }
+
+    /* reset capital */
+    entry = bet_finance_ui_get_capital_entry ();
+    str_capital = utils_real_get_string_with_currency (gsb_real_double_to_real (
+                    etat.bet_capital),
+                    etat.bet_currency,
+                    FALSE);
+
+    gtk_entry_set_text (GTK_ENTRY (entry), str_capital);
+    g_free (str_capital);
+
+    gsb_gui_navigation_update_localisation (1);
+}
+
+static void prefs_page_divers_choose__number_format_init (PrefsPageDivers *page)
+{
+    gchar *mon_decimal_point;
+    gchar *mon_thousands_sep;
+	PrefsPageDiversPrivate *priv;
+
+	priv = prefs_page_divers_get_instance_private (page);
+
+	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (priv->combo_choose_thousands_separator), "' '");
+    gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (priv->combo_choose_thousands_separator), ".");
+    gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (priv->combo_choose_thousands_separator), ",");
+    gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (priv->combo_choose_thousands_separator), "''");
+
+    mon_decimal_point = gsb_locale_get_mon_decimal_point ();
+    if (strcmp (mon_decimal_point, ",") == 0)
+        gtk_combo_box_set_active (GTK_COMBO_BOX (priv->combo_choose_decimal_point), 1);
+    else
+        gtk_combo_box_set_active (GTK_COMBO_BOX (priv->combo_choose_decimal_point), 0);
+    g_free (mon_decimal_point);
+
+    mon_thousands_sep = gsb_locale_get_mon_thousands_sep ();
+    if (mon_thousands_sep == NULL)
+        gtk_combo_box_set_active (GTK_COMBO_BOX (priv->combo_choose_thousands_separator), 3);
+    else if (strcmp (mon_thousands_sep, ".") == 0)
+        gtk_combo_box_set_active (GTK_COMBO_BOX (priv->combo_choose_thousands_separator), 1);
+    else if (strcmp (mon_thousands_sep, ",") == 0)
+        gtk_combo_box_set_active (GTK_COMBO_BOX (priv->combo_choose_thousands_separator), 2);
+    else
+        gtk_combo_box_set_active (GTK_COMBO_BOX (priv->combo_choose_thousands_separator), 0);
+
+    if (mon_thousands_sep)
+        g_free (mon_thousands_sep);
+
+    g_object_set_data (G_OBJECT (priv->combo_choose_decimal_point), "separator", priv->combo_choose_thousands_separator);
+    g_object_set_data (G_OBJECT (priv->combo_choose_thousands_separator), "separator", priv->combo_choose_decimal_point);
+
+	g_signal_connect (G_OBJECT (priv->combo_choose_decimal_point),
+					  "changed",
+					  G_CALLBACK (prefs_page_divers_choose_decimal_point_changed),
+					  NULL);
+    g_signal_connect (G_OBJECT (priv->combo_choose_thousands_separator),
+                        "changed",
+                        G_CALLBACK (prefs_page_divers_choose_thousands_sep_changed),
+                        NULL);
+}
+
+static gboolean prefs_page_divers_choose_date_format_toggle (GtkToggleButton *togglebutton,
+															 GdkEventButton *event,
+															 gpointer null)
+{
+    const gchar *format_date;
+	GrisbiWinRun *w_run;
+
+	w_run = grisbi_win_get_w_run ();
+
+    format_date = g_object_get_data (G_OBJECT (togglebutton), "pointer");
+    gsb_date_set_format_date (format_date);
+	gsb_regex_init_variables ();
+
+	if (grisbi_win_file_is_loading () && !w_run->new_account_file)
+		gsb_gui_navigation_update_localisation (0);
+
+    return FALSE;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+static void  prefs_page_divers_choose_date_format_init (PrefsPageDivers *page)
+{
+    gchar *format_date;
+	PrefsPageDiversPrivate *priv;
+
+	priv = prefs_page_divers_get_instance_private (page);
+
+    format_date = g_strdup ("%d/%m/%Y");
+    g_object_set_data_full (G_OBJECT (priv->radiobutton_choose_date_1), "pointer", format_date, g_free);
+
+    format_date = g_strdup ("%m/%d/%Y");
+    g_object_set_data_full (G_OBJECT (priv->radiobutton_choose_date_2), "pointer", format_date, g_free);
+
+    format_date = g_strdup ("%d.%m.%Y");
+    g_object_set_data_full (G_OBJECT (priv->radiobutton_choose_date_3), "pointer", format_date, g_free);
+
+    format_date = g_strdup ("%Y-%m-%d");
+    g_object_set_data_full (G_OBJECT (priv->radiobutton_choose_date_4), "pointer", format_date, g_free);
+
+    format_date = gsb_date_get_format_date ();
+    if (format_date)
+    {
+        if (strcmp (format_date, "%m/%d/%Y") == 0)
+            gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->radiobutton_choose_date_2), TRUE);
+        else if (strcmp (format_date, "%d.%m.%Y") == 0)
+            gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->radiobutton_choose_date_3), TRUE);
+        else if (strcmp (format_date, "%Y-%m-%d") == 0)
+            gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->radiobutton_choose_date_4), TRUE);
+
+        g_free (format_date);
+    }
+
+    g_signal_connect (G_OBJECT (priv->radiobutton_choose_date_1),
+                        "button-release-event",
+                        G_CALLBACK (prefs_page_divers_choose_date_format_toggle),
+                        NULL);
+    g_signal_connect (G_OBJECT (priv->radiobutton_choose_date_2),
+                        "button-release-event",
+                        G_CALLBACK (prefs_page_divers_choose_date_format_toggle),
+                        NULL);
+    g_signal_connect (G_OBJECT (priv->radiobutton_choose_date_3),
+                        "button-release-event",
+                        G_CALLBACK (prefs_page_divers_choose_date_format_toggle),
+                        NULL);
+    g_signal_connect (G_OBJECT (priv->radiobutton_choose_date_4),
+                        "button-release-event",
+                        G_CALLBACK (prefs_page_divers_choose_date_format_toggle),
+                        NULL);
+}
+
 /**
  *
  *
@@ -186,7 +429,7 @@ static void prefs_page_divers_choose_language_changed (GtkComboBox *combo,
 		}
 
 		tmp_str = g_strdup (_("You will have to restart Grisbi for the new language to take effect."));
-		hint = g_strdup_printf ( _("Changes the language of Grisbi for \"%s\"!"), string );
+		hint = g_strdup_printf (_("Changes the language of Grisbi for \"%s\"!"), string);
         dialogue_warning_hint (tmp_str , hint);
 	}
 }
@@ -283,8 +526,6 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page)
 	GtkWidget *entry_divers_programs;
     GtkWidget *vbox_button;
     GtkWidget *combo;
-	GtkWidget *date_widget;
-	GtkWidget *number_widget;
 	gint combo_index;
 	gboolean is_loading;
 	PrefsPageDiversPrivate *priv;
@@ -300,9 +541,36 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page)
 	gtk_box_reorder_child (GTK_BOX (priv->vbox_divers), head_page, 0);
 
     /* set the variables for programs */
-	entry_divers_programs = gsb_automem_entry_new ( &conf.browser_command, NULL, NULL);
+	entry_divers_programs = gsb_automem_entry_new (&conf.browser_command, NULL, NULL);
 	gtk_grid_attach (GTK_GRID (priv->grid_divers_programs), entry_divers_programs, 1, 0, 1, 1);
+	if (conf.low_resolution_screen)
+	{
+		GtkWidget *label;
 
+		label = gtk_label_new ((gpointer) _("Scheduler"));
+		gtk_widget_set_vexpand (priv->notebook_others_options, TRUE);
+		priv->notebook_others_options = gtk_notebook_new ();
+		gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_others_options),
+								  priv->divers_scheduler_paddingbox,
+								  label);
+		
+		label = gtk_label_new ((gpointer) _("Localization"));
+		gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_others_options),
+								  priv->divers_localization_paddingbox,
+								  label);
+		gtk_box_pack_start (GTK_BOX (priv->vbox_divers), priv->notebook_others_options, FALSE, FALSE, 0);
+
+		gtk_widget_show_all (priv->notebook_others_options);
+	}
+	else
+	{
+		gtk_label_set_text (GTK_LABEL (priv->title_divers_scheduler), (gpointer) _("Scheduler"));
+		gtk_label_set_text (GTK_LABEL (priv->title_divers_localization), (gpointer) _("Localization"));
+		
+		gtk_box_pack_start (GTK_BOX (priv->vbox_divers), priv->divers_scheduler_paddingbox, FALSE, FALSE, 0);
+		gtk_box_pack_start (GTK_BOX (priv->vbox_divers), priv->divers_localization_paddingbox, FALSE, FALSE, 0);
+	}
+	
 	/* set the scheduled variables */
 	vbox_button = gsb_automem_radiobutton_gsettings_new (_("Warn/Execute the scheduled transactions arriving at expiration date"),
 													_("Warn/Execute the scheduled transactions of the month"),
@@ -341,6 +609,7 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page)
 	else
 		combo = utils_prefs_create_combo_list_indisponible ();
 
+	gtk_widget_set_size_request (combo, FORM_COURT_WIDTH, -1);
 	gtk_box_pack_start (GTK_BOX (priv->hbox_divers_scheduler_set_default_account), combo, FALSE, FALSE, 0);
 	g_object_set_data (G_OBJECT (priv->checkbutton_scheduler_set_default_account),
                        "widget", combo);
@@ -413,15 +682,15 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page)
 					  NULL);
 
 	/* set the others parameters */
-	date_widget = gsb_config_date_format_chosen (priv->box_divers_localisation, GTK_ORIENTATION_HORIZONTAL);
-    number_widget = gsb_config_number_format_chosen (priv->box_divers_localisation, GTK_ORIENTATION_VERTICAL);
+	prefs_page_divers_choose_date_format_init (page);
+	prefs_page_divers_choose__number_format_init (page);
 
 	if (is_loading == FALSE)
 	{
 		gtk_widget_set_sensitive (priv->hbox_divers_scheduler_set_default_account, FALSE);
 		gtk_widget_set_sensitive (GTK_WIDGET (combo), FALSE);
-		gtk_widget_set_sensitive (GTK_WIDGET (date_widget), FALSE);
-		gtk_widget_set_sensitive (GTK_WIDGET (number_widget), FALSE);
+		gtk_widget_set_sensitive (GTK_WIDGET (priv->box_choose_date_format), FALSE);
+		gtk_widget_set_sensitive (GTK_WIDGET (priv->box_choose_numbers_format), FALSE);
 	}
 }
 
@@ -450,6 +719,11 @@ static void prefs_page_divers_class_init (PrefsPageDiversClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, vbox_divers);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, grid_divers_programs);
 
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, divers_localization_paddingbox);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, divers_scheduler_paddingbox);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, title_divers_localization);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, title_divers_scheduler);
+
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, vbox_divers_scheduler);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, hbox_divers_scheduler_set_default_account);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, checkbutton_scheduler_set_default_account);
@@ -461,8 +735,15 @@ static void prefs_page_divers_class_init (PrefsPageDiversClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, hbox_divers_scheduler_nb_days_before_scheduled);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, spinbutton_nb_days_before_scheduled);
 
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, box_divers_localisation);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, box_choose_date_format);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, combo_choose_language);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, box_choose_numbers_format);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, combo_choose_decimal_point);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, combo_choose_thousands_separator);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, radiobutton_choose_date_1);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, radiobutton_choose_date_2);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, radiobutton_choose_date_3);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, radiobutton_choose_date_4);
 }
 
 /******************************************************************************/

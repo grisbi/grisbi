@@ -297,6 +297,7 @@
                                             <property name="can_focus">False</property>
                                             <property name="halign">start</property>
                                             <property name="label" translatable="yes">Automatically recover the children of the associated transaction</property>
+                                            <property name="wrap">True</property>
                                           </object>
                                         </child>
                                       </object>

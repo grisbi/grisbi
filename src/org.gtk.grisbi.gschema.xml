@@ -371,13 +371,20 @@
         Whether the main window should start in fullscreen.
       </description>
     </key>
+    <key name="low-resolution-screen" type="b">
+      <default>false</default>
+      <summary>Use low resolution screen</summary>
+      <description>
+        TRUE when use a low resolution screen.
+      </description>
+    </key>
 	  <key name="main-width" type="i">
-	    <default>1000</default>
+	    <default>1020</default>
 	    <summary>Width of the main window</summary>
 	    <description>The width of the main window.</description>
 	  </key>
 	  <key name="main-height" type="i">
-	    <default>700</default>
+	    <default>750</default>
 	    <summary>Height of main window</summary>
 	    <description>The height of the main window.</description>
 	  </key>
@@ -514,12 +521,12 @@
 	    <description>The height of the preference window.</description>
 	  </key>
 	  <key name="prefs-panel-width" type="i">
-	    <default>260</default>
+	    <default>215</default>
 	    <summary>Width of the preference panel</summary>
 	    <description>The width of the preference panel.</description>
 	  </key>
 	  <key name="prefs-width" type="i">
-	    <default>1000</default>
+	    <default>820</default>
 	    <summary>Width of the preference window</summary>
 	    <description>The width of the preference window.</description>
 	  </key>

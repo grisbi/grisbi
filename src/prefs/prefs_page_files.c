@@ -155,7 +155,7 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
 
 	g_signal_connect_after (priv->checkbutton_crypt_file,
 							"toggled",
-							G_CALLBACK (gsb_gui_encryption_toggled),
+							G_CALLBACK (utils_prefs_encryption_toggled),
 							NULL);
 #endif
 

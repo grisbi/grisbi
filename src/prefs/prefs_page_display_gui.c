@@ -5,7 +5,7 @@
 /*                                                                               */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)               */
 /*                      2003-2008 Benjamin Drieu (bdrieu@april.org)              */
-/*          2008-2017 Pierre Biava (grisbi@pierre.biava.name)                    */
+/*          2008-2020 Pierre Biava (grisbi@pierre.biava.name)                    */
 /*          https://www.grisbi.org/                                              */
 /*                                                                               */
 /*     This program is free software; you can redistribute it and/or modify      */
@@ -60,6 +60,7 @@ struct _PrefsPageDisplayGuiPrivate
     GtkWidget *			checkbutton_show_headings_bar;
 
 	GtkWidget *			checkbutton_active_scrolling_left_pane;
+	GtkWidget *			checkbutton_low_resolution_screen;
 
     GtkWidget *			radiobutton_display_both;
     GtkWidget *			radiobutton_display_both_horiz;
@@ -151,6 +152,52 @@ static gboolean prefs_page_display_gui_change_toolbar_display_mode (GtkRadioButt
 }
 
 /**
+ * called when check the preference low resoltion screen button
+ *
+ * \param toggle button
+ * \param null
+ *
+ * \return FALSE
+ **/
+static gboolean prefs_page_display_gui_resolution_screen_toggled (GtkWidget *toggle_button,
+																  GrisbiWinRun *w_run)
+
+{
+	GtkTreeModel *model;
+	GSettings *settings;
+	gint etat;
+
+	devel_debug (NULL);
+	etat = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (toggle_button));
+	w_run->resolution_screen_toggled = etat;
+
+	settings = grisbi_settings_get_settings (SETTINGS_GEOMETRY);
+    g_settings_set_boolean (G_SETTINGS (settings),
+							"low-resolution-screen",
+							conf.low_resolution_screen);
+	if (etat)
+	{
+		/*reset all geometry keys */
+		g_settings_reset (G_SETTINGS (settings), "main-height");
+		g_settings_reset (G_SETTINGS (settings), "main-width");
+		conf.main_height = g_settings_get_int (settings, "main-height");
+		conf.main_width = g_settings_get_int (settings, "main-width");
+
+		settings = grisbi_settings_get_settings (SETTINGS_PANEL);
+		g_settings_reset (G_SETTINGS (settings), "panel-width");
+		conf.panel_width = g_settings_get_int (settings, "panel-width");
+
+		gtk_window_resize (GTK_WINDOW (grisbi_app_get_active_window (NULL)), conf.main_width, conf.main_height);
+	}		
+	/* update navigation pane */
+	model = gsb_gui_navigation_get_model ();
+	gsb_gui_navigation_create_account_list (model);
+	gsb_gui_navigation_create_report_list (model);
+
+	return FALSE;
+}
+
+/**
  * called when switch the preferences heading bar button
  * to show/hide the headings bar
  *
@@ -174,7 +221,6 @@ static gboolean prefs_page_display_gui_switch_headings_bar (GtkWidget *toggle_bu
 	return FALSE;
 }
 
-
 /**
  * Création de la page de gestion des display_gui
  *
@@ -187,18 +233,35 @@ static void prefs_page_display_gui_setup_display_gui_page (PrefsPageDisplayGui *
 	GtkWidget *head_page;
 	PangoTabArray *tabs;
 	PrefsPageDisplayGuiPrivate *priv;
+	GrisbiWinRun *w_run;
 
 	devel_debug (NULL);
 
 	priv = prefs_page_display_gui_get_instance_private (page);
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
 
 	/* On récupère le nom de la page */
 	head_page = utils_prefs_head_page_new_with_title_and_icon (_("Elements of interface"), "gsb-display-gui-32.png");
 	gtk_box_pack_start (GTK_BOX (priv->vbox_display_gui), head_page, FALSE, FALSE, 0);
 	gtk_box_reorder_child (GTK_BOX (priv->vbox_display_gui), head_page, 0);
 
-    /* set the variables for show_headings_bar */
-    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_show_headings_bar),
+    /* set the variables for low_resolution_screen */
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_low_resolution_screen),
+								  conf.low_resolution_screen);
+
+    /* Connect signal */
+    g_signal_connect (priv->checkbutton_low_resolution_screen,
+					  "toggled",
+					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
+					  &conf.low_resolution_screen);
+
+	g_signal_connect_after (priv->checkbutton_low_resolution_screen,
+							"toggled",
+							G_CALLBACK (prefs_page_display_gui_resolution_screen_toggled),
+							w_run);
+
+	/* set the variables for show_headings_bar */
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_show_headings_bar),
 								  conf.show_headings_bar);
     /* Connect signal */
     g_signal_connect (priv->checkbutton_show_headings_bar,
@@ -210,7 +273,6 @@ static void prefs_page_display_gui_setup_display_gui_page (PrefsPageDisplayGui *
 							"toggled",
 							G_CALLBACK (prefs_page_display_gui_switch_headings_bar),
 							NULL);
-
 
     /* set the variables for active_scrolling_left_pane */
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_active_scrolling_left_pane),
@@ -323,6 +385,7 @@ static void prefs_page_display_gui_class_init (PrefsPageDisplayGuiClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayGui, vbox_display_gui);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayGui, checkbutton_show_headings_bar);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayGui, checkbutton_active_scrolling_left_pane);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayGui, checkbutton_low_resolution_screen);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayGui, radiobutton_display_both);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayGui, radiobutton_display_both_horiz);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayGui, radiobutton_display_icon);

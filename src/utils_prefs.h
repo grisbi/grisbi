@@ -6,9 +6,6 @@
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */
 
-/* troncature des titres de colonnes pour l'affichage de la composition */
-#define	TRUNC_FORM_FIELD		20 		/* du formulaire */
-#define TRUNC_LIST_COL_NAME		 8		/* de la liste des ope */
 
 /* START_DECLARATION */
 GtkWidget *		utils_prefs_create_combo_list_indisponible 				(void);

@@ -80,6 +80,10 @@
 #define GSB_NBRE_CHAR_TRUNC		15
 #define GSB_NBRE_LIGNES_BOUTON	 6
 
+/* troncature des titres de colonnes pour l'affichage de la composition */
+#define	TRUNC_FORM_FIELD		20 		/* du formulaire */
+#define TRUNC_LIST_COL_NAME		 8		/* de la liste des ope */
+
 /* définitions pour les tableaux des transactions */
 #define CUSTOM_MODEL_VISIBLE_COLUMNS	7		/* number of visible columns */
 #define TRANSACTION_LIST_ROWS_NB 		4		/* definition of the number of max rows for a line, for now limit to 4 */
@@ -280,6 +284,7 @@ struct GrisbiAppConf
     gint        y_position;                                 /* main_window y position */
     gint        main_width;                                 /* main_window width */
     gint        main_height;                                /* main_window height */
+	gboolean	low_resolution_screen;						/* TRUE use a low resolution screen */
     gboolean    full_screen;                                /* TRUE to full screen, 0 else */
     gboolean    maximize_screen;                            /* TRUE to maximize screen, 0 else */
 
@@ -316,6 +321,7 @@ struct _GrisbiWinRun
 {
 	/* width of transaction list */
 	gint		transaction_list_width;
+	gboolean	resolution_screen_toggled;					/* force l'utilisation des dimensions par defaut */
 
 	/* old version of file */
     gboolean	old_version;								/* TRUE if file version < 0.6 */

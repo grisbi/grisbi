@@ -367,19 +367,22 @@ void utils_prefs_left_panel_add_line (GtkTreeStore *tree_model,
     else
     {
         /* append page onglet*/
+		gchar *tmp_title;
 
+		tmp_title = utils_str_break_form_name_field (title, TRUNC_FORM_FIELD);
 		if (child)
 		{
-            gtk_notebook_append_page (GTK_NOTEBOOK (notebook), child, gtk_label_new (title));
+            gtk_notebook_append_page (GTK_NOTEBOOK (notebook), child, gtk_label_new (tmp_title));
 		}
 
         gtk_tree_store_append (GTK_TREE_STORE (tree_model), &iter2, page_parent_iter);
         gtk_tree_store_set (GTK_TREE_STORE (tree_model),
 							&iter2,
-							LEFT_PANEL_TREE_TEXT_COLUMN, title,
+							LEFT_PANEL_TREE_TEXT_COLUMN, tmp_title,
 							LEFT_PANEL_TREE_PAGE_COLUMN, page,
 							LEFT_PANEL_TREE_BOLD_COLUMN, 400,
 							-1);
+		g_free (tmp_title);
     }
 }
 
@@ -522,6 +525,7 @@ GtkWidget *utils_prefs_paddinggrid_new_with_title (GtkWidget *parent,
     /* Creating label */
     label = gtk_label_new (NULL);
     utils_labels_set_alignment (GTK_LABEL (label), 0, 1);
+	gtk_widget_set_margin_start (label, MARGIN_BOX);
     gtk_widget_show (label);
 
     tmp_str = g_markup_printf_escaped ("<span weight=\"bold\">%s</span>", title);
