@@ -48,6 +48,8 @@
 /* width for widget */
 #define BOX_BORDER_WIDTH		10
 #define ENTRY_MIN_WIDTH_1		100
+#define FORM_COURT_WIDTH		120				/* largeur minimale demandée pour les champs courts du formulaire */
+#define FORM_LONG_WIDTH			200				/* largeur minimale demandée pour les champs longs du formulaire */
 
 /* constants for Preferences */
 #define PREFS_MIN_WIN_HEIGHT	600				/* Hauteur Min de la fenetre des preferences */
@@ -249,7 +251,6 @@ struct GrisbiAppConf
 	gint		completion_minimum_key_length;				/* Minimum length of the search key in characters */
 	gboolean	completion_ignore_accents;
     gboolean    form_enter_key;								/* si TRUE, la touche entrée finit l'opération */
-	gint 		form_expander_label_width;					/* largeur du label de l'expander du formulaire */
     gint        fyear_combobox_sort_order;                  /* fyear combobox type sort, GTK_SORT_ASCENDING by default */
     gboolean    limit_completion_to_current_account;        /* Limit payee completion to current account or do a full search. */
 
@@ -313,6 +314,9 @@ struct GrisbiAppConf
  */
 struct _GrisbiWinRun
 {
+	/* width of transaction list */
+	gint		transaction_list_width;
+
 	/* old version of file */
     gboolean	old_version;								/* TRUE if file version < 0.6 */
 	gboolean	account_number_is_0;						/* TRUE si an account has 0 for number */

@@ -2893,6 +2893,7 @@ GtkWidget *bet_array_create_page (void)
     gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
 
     initial_date = gsb_calendar_entry_new (FALSE);
+	gtk_widget_set_size_request (initial_date, FORM_COURT_WIDTH,-1);
     g_signal_connect (G_OBJECT (initial_date),
                         "focus-out-event",
                         G_CALLBACK (bet_array_start_date_focus_out),
@@ -2904,7 +2905,7 @@ GtkWidget *bet_array_create_page (void)
     g_object_set_data (G_OBJECT (account_page), "bet_initial_date", initial_date);
     gtk_box_pack_start (GTK_BOX (hbox), initial_date, FALSE, FALSE, 0);
 
-    widget = gtk_check_button_new_with_label (_("Automatic"));
+    widget = gtk_check_button_new_with_label (_("Auto"));
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), FALSE);
     gtk_widget_set_tooltip_text (GTK_WIDGET (widget),
                         _("Check the box to automatically change start date"));

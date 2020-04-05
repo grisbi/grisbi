@@ -228,7 +228,6 @@ static void grisbi_settings_init_settings_form (GSettings *settings)
     conf.automatic_recover_splits = g_settings_get_boolean (settings, "automatic-recover-splits");
 	conf.completion_minimum_key_length = g_settings_get_int (settings, "completion-minimum-key-length");
     conf.form_enter_key = g_settings_get_boolean (settings, "form-enter-key");
-    conf.form_expander_label_width = g_settings_get_int (settings, "form-expander-label-width");
 	conf.fyear_combobox_sort_order = g_settings_get_int (settings, "fyear-combobox-sort-order");
     conf.limit_completion_to_current_account = g_settings_get_boolean (settings, "limit-completion-current-account");
 }
@@ -732,9 +731,6 @@ void grisbi_settings_save_app_config (void)
                         conf.affichage_exercice_automatique);
     g_settings_set_boolean ( G_SETTINGS (priv->settings_form),
                             "form-enter-key", conf.form_enter_key);
-    g_settings_set_int (G_SETTINGS (priv->settings_form),
-                        "form-expander-label-width",
-                        conf.form_expander_label_width);
 
     /* priv->settings_general */
     if (conf.browser_command)

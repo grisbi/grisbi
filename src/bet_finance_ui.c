@@ -1323,48 +1323,63 @@ static void bet_finance_ui_type_taux_changed (GtkWidget *togglebutton,
  *
  * \return
  **/
-static GtkWidget *bet_finance_ui_create_saisie_widget (GtkWidget *parent)
+static void bet_finance_ui_create_saisie_widget (GtkWidget *page,
+												 GtkWidget *grid)
 {
-    GtkWidget *vbox;
     GtkWidget *hbox;
     GtkWidget *label;
     GtkWidget *spin_button = NULL;
     GtkWidget *button_1, *button_2;
     gchar *tmp_str;
 
-    vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
+    /* taux */
+    label = gtk_label_new (_("Annual interest: "));
+    utils_labels_set_alignment (GTK_LABEL (label), GSB_LEFT, GSB_CENTER);
+    gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
+	gtk_grid_attach (GTK_GRID (grid), label, 0, 1, 1 ,1);
+
+    spin_button = gtk_spin_button_new_with_range (0.0, 100,
+                        bet_data_finance_get_bet_taux_step (BET_TAUX_DIGITS));
+    gtk_spin_button_set_value (GTK_SPIN_BUTTON (spin_button), etat.bet_taux_annuel);
+    g_object_set_data (G_OBJECT (page), "taux", spin_button);
+	gtk_grid_attach (GTK_GRID (grid), spin_button, 1, 1, 1 ,1);
+    g_signal_connect (spin_button,
+					  "value-changed",
+					  G_CALLBACK (bet_finance_ui_spin_button_taux_changed),
+					  page);
+
+    label = gtk_label_new (_("%"));
+    gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
+	gtk_widget_set_halign (label, GTK_ALIGN_START);
+	gtk_grid_attach (GTK_GRID (grid), label, 2, 1, 1 ,1);
 
     /* Frais */
-    hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
-	gtk_widget_set_halign (hbox, GTK_ALIGN_CENTER);
-	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
-
     label = gtk_label_new (_("Fees: "));
     utils_labels_set_alignment (GTK_LABEL (label), GSB_LEFT, GSB_CENTER);
     gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
-    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 5);
+    gtk_grid_attach (GTK_GRID (grid), label, 3, 1, 1 ,1);
 
     spin_button = gtk_spin_button_new_with_range (0.0,
 												  100,
 												  bet_data_finance_get_bet_taux_step (BET_TAUX_DIGITS));
     gtk_spin_button_set_value (GTK_SPIN_BUTTON (spin_button), etat.bet_frais);
-    g_object_set_data (G_OBJECT (parent), "frais", spin_button);
-    gtk_box_pack_start (GTK_BOX (hbox), spin_button, FALSE, FALSE, 0);
+    g_object_set_data (G_OBJECT (page), "frais", spin_button);
+	gtk_grid_attach (GTK_GRID (grid), spin_button, 4, 1, 1 ,1);
     g_signal_connect (spin_button,
 					  "value-changed",
 					  G_CALLBACK (bet_finance_ui_spin_button_fees_changed),
-					  parent);
+					  page);
 
-    tmp_str = g_strconcat (_("%"), _(" of borrowed capital"), NULL);
+    tmp_str = g_strconcat (_("%"), _(" of capital"), NULL);
     label = gtk_label_new (tmp_str);
     gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
-    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, MARGIN_BOX);
+    gtk_grid_attach (GTK_GRID (grid), label, 5, 1, 1 ,1);
     g_free (tmp_str);
 
     /* Type de taux */
     hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
 	gtk_widget_set_halign (hbox, GTK_ALIGN_CENTER);
-	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
+    gtk_grid_attach (GTK_GRID (grid), hbox, 0, 2, 6 ,1);
 
     label = gtk_label_new (_("Rate Type: "));
     utils_labels_set_alignment (GTK_LABEL (label), GSB_LEFT, GSB_CENTER);
@@ -1374,7 +1389,7 @@ static GtkWidget *bet_finance_ui_create_saisie_widget (GtkWidget *parent)
 
     button_2 = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (button_1),
 															_("Proportional rate"));
-    g_object_set_data (G_OBJECT (parent), "type_taux", button_2);
+    g_object_set_data (G_OBJECT (page), "type_taux", button_2);
 
     if (etat.bet_type_taux)
         gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button_2), TRUE);
@@ -1386,15 +1401,11 @@ static GtkWidget *bet_finance_ui_create_saisie_widget (GtkWidget *parent)
     g_signal_connect (button_1,
 					  "button-release-event",
 					  G_CALLBACK (bet_finance_ui_type_taux_changed),
-					  parent);
+					  page);
     g_signal_connect (button_2,
 					  "button-release-event",
 					  G_CALLBACK (bet_finance_ui_type_taux_changed),
-					  parent);
-
-    gtk_widget_show_all (vbox);
-
-    return vbox;
+					  page);
 }
 
 /**
@@ -1424,10 +1435,9 @@ static GtkWidget *bet_finance_ui_create_simulator_page (void)
     GtkWidget *page;
     GtkWidget *frame;
     GtkWidget *widget;
-    GtkWidget *hbox;
+    GtkWidget *grid;
     GtkWidget *label_title;
     GtkWidget *label;
-    GtkWidget *spin_button = NULL;
     GtkWidget *tree_view;
     gchar *str_capital;
 
@@ -1445,15 +1455,17 @@ static GtkWidget *bet_finance_ui_create_simulator_page (void)
     gtk_box_pack_start (GTK_BOX (page), label_title, FALSE, FALSE, MARGIN_BOX);
 
     /* Choix des données sources */
-    hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
-	gtk_widget_set_halign (hbox, GTK_ALIGN_CENTER);
-    gtk_box_pack_start (GTK_BOX (page), hbox, FALSE, FALSE, MARGIN_BOX);
+	grid = gtk_grid_new ();
+	gtk_grid_set_column_spacing (GTK_GRID (grid), MARGIN_BOX);
+	gtk_grid_set_row_spacing (GTK_GRID (grid), MARGIN_BOX);
+	gtk_widget_set_margin_start (grid, MARGIN_BOX);
+    gtk_box_pack_start (GTK_BOX (page), grid, FALSE, FALSE, MARGIN_BOX);
 
     /* capital */
     label = gtk_label_new (_("Loan capital: "));
     utils_labels_set_alignment (GTK_LABEL (label), GSB_LEFT, GSB_CENTER);
     gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
-    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, MARGIN_BOX);
+	gtk_grid_attach (GTK_GRID (grid), label, 0, 0, 1 ,1);
 
     str_capital = utils_real_get_string_with_currency (gsb_real_double_to_real (etat.bet_capital),
 													   etat.bet_currency,
@@ -1462,7 +1474,7 @@ static GtkWidget *bet_finance_ui_create_simulator_page (void)
     widget = gtk_entry_new ();
     gtk_entry_set_text (GTK_ENTRY (widget), str_capital);
     g_object_set_data (G_OBJECT (page), "capital", widget);
-    gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, FALSE, MARGIN_BOX);
+	gtk_grid_attach (GTK_GRID (grid), widget, 1, 0, 1 ,1);
     g_signal_connect (G_OBJECT (widget),
 					  "changed",
 					  G_CALLBACK (bet_finance_ui_capital_entry_changed),
@@ -1478,45 +1490,24 @@ static GtkWidget *bet_finance_ui_create_simulator_page (void)
     widget = gsb_currency_make_combobox (FALSE);
     gsb_currency_set_combobox_history (widget, etat.bet_currency);
     g_object_set_data (G_OBJECT (page), "devise", widget);
-    gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, FALSE, 0);
+	gtk_grid_attach (GTK_GRID (grid), widget, 2, 0, 1 ,1);
     g_signal_connect (G_OBJECT ( widget),
 					  "changed",
 					  G_CALLBACK (bet_finance_ui_currency_changed),
 					  page);
 
-    /* taux */
-    label = gtk_label_new (_("Annual interest: "));
-    utils_labels_set_alignment (GTK_LABEL (label), GSB_LEFT, GSB_CENTER);
-    gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
-    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, MARGIN_BOX);
-
-    spin_button = gtk_spin_button_new_with_range (0.0, 100,
-                        bet_data_finance_get_bet_taux_step (BET_TAUX_DIGITS));
-    gtk_spin_button_set_value (GTK_SPIN_BUTTON (spin_button), etat.bet_taux_annuel);
-    g_object_set_data (G_OBJECT (page), "taux", spin_button);
-    gtk_box_pack_start (GTK_BOX (hbox), spin_button, FALSE, FALSE, 0);
-    g_signal_connect (spin_button,
-					  "value-changed",
-					  G_CALLBACK (bet_finance_ui_spin_button_taux_changed),
-					  page);
-
-    label = gtk_label_new (_("%"));
-    gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
-    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, MARGIN_BOX);
-
     /* Duration */
     label = gtk_label_new (_("Duration: "));
     utils_labels_set_alignment (GTK_LABEL (label), GSB_LEFT, GSB_CENTER);
     gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
-    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, MARGIN_BOX);
+	gtk_grid_attach (GTK_GRID (grid), label, 3, 0, 1 ,1);
 
     widget = bet_finance_ui_create_duration_widget (page);
     g_object_set_data (G_OBJECT (page), "duree", widget);
-    gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, FALSE, 0);
+	gtk_grid_attach (GTK_GRID (grid), widget, 4, 0, 1 ,1);
 
     /* création du widget saisie détaillée */
-    widget = bet_finance_ui_create_saisie_widget (page);
-    gtk_box_pack_start (GTK_BOX (page), widget, FALSE, FALSE, MARGIN_BOX);
+	bet_finance_ui_create_saisie_widget (page, grid);
 
     /* création de la liste des données */
     tree_view = bet_finance_ui_create_data_tree_view (page);

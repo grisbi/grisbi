@@ -251,7 +251,7 @@ GtkWidget *bet_config_get_duration_widget ( gint origin )
     account_page = grisbi_win_get_account_page ();
 
     /* partie mensuelle */
-    label = gtk_label_new ( _("Duration estimation:") );
+    label = gtk_label_new ( _("Duration:") );
     utils_labels_set_alignment ( GTK_LABEL ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( box ), label, FALSE, FALSE, 5 ) ;

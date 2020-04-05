@@ -433,6 +433,9 @@ GtkWidget *gsb_form_widget_create (gint element_number,
 
     if (widget)
     {
+		/* force minimum width */
+		gtk_widget_set_size_request (widget, FORM_COURT_WIDTH, -1);
+
 		/* first, append the widget to the list */
 		struct_element *element;
 
@@ -470,6 +473,8 @@ GtkWidget *gsb_form_widget_create (gint element_number,
 				entry = gtk_combofix_get_entry (GTK_COMBOFIX (widget));
 				if (GTK_IS_ENTRY (entry))
 				{
+					gtk_widget_set_size_request (widget, FORM_LONG_WIDTH, -1);
+
 					g_signal_connect (G_OBJECT (entry),
 									  "focus-in-event",
 									  G_CALLBACK (gsb_form_entry_get_focus),

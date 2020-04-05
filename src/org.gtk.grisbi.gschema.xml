@@ -223,11 +223,6 @@
 	    <summary>Minimum length of the search key in characters</summary>
 	    <description>Minimum length of the search key in characters for completion.</description>
 	  </key>
-	  <key name="form-expander-label-width" type="i">
-	    <default>600</default>
-	    <summary>Last width of the expander label</summary>
-	    <description>Last width of the expander label.</description>
-	  </key>
 	  <key name="form-enter-key" type="b">
       <default>false</default>
 	    <summary>"Enter" key finishes the transaction</summary>

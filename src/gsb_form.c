@@ -1175,7 +1175,7 @@ void gsb_form_create_widgets (void)
     /* the scheduled part is a table of SCHEDULED_WIDTH col x SCHEDULED_HEIGHT rows */
 
     form_scheduled_part = gtk_grid_new ();
-    gtk_grid_set_column_spacing (GTK_GRID (form_scheduled_part), 6);
+    gtk_grid_set_column_spacing (GTK_GRID (form_scheduled_part), MARGIN_BOX);
     gtk_box_pack_start (GTK_BOX (transaction_form), form_scheduled_part, FALSE, FALSE, 0);
 
     gsb_form_scheduler_create (form_scheduled_part);
@@ -1197,7 +1197,7 @@ void gsb_form_create_widgets (void)
 					  NULL);
 
     form_transaction_part = gtk_grid_new ();
-    gtk_grid_set_column_spacing (GTK_GRID (form_transaction_part), 6);
+    gtk_grid_set_column_spacing (GTK_GRID (form_transaction_part), MARGIN_BOX);
 
     gtk_container_add (GTK_CONTAINER (event_box), form_transaction_part);
 
@@ -1979,11 +1979,13 @@ gboolean gsb_form_clean (gint account_number)
 				case TRANSACTION_FORM_DATE:
 					gsb_form_widget_set_empty (element->element_widget, TRUE);
 					gtk_entry_set_text (GTK_ENTRY (element->element_widget), _("Date"));
+					gtk_widget_set_size_request (element->element_widget, FORM_COURT_WIDTH, -1);
 					break;
 
 				case TRANSACTION_FORM_VALUE_DATE:
 					gsb_form_widget_set_empty (element->element_widget, TRUE);
 					gtk_entry_set_text (GTK_ENTRY (element->element_widget), _("Value date"));
+					gtk_widget_set_size_request (element->element_widget, FORM_COURT_WIDTH, -1);
 					break;
 
 				case TRANSACTION_FORM_EXERCICE:
@@ -1994,26 +1996,31 @@ gboolean gsb_form_clean (gint account_number)
 					/* set the combo_box on 'Automatic' */
 					gsb_fyear_set_combobox_history (element->element_widget, 0);
 					gtk_widget_set_sensitive (GTK_WIDGET (element->element_widget), FALSE);
+					gtk_widget_set_size_request (element->element_widget, FORM_COURT_WIDTH, -1);
 					break;
 
 				case TRANSACTION_FORM_PARTY:
-						gsb_form_widget_set_empty (element->element_widget, TRUE);
-						gtk_combofix_set_text (GTK_COMBOFIX (element->element_widget), _("Payee"));
+					gsb_form_widget_set_empty (element->element_widget, TRUE);
+					gtk_combofix_set_text (GTK_COMBOFIX (element->element_widget), _("Payee"));
+					gtk_widget_set_size_request (element->element_widget, FORM_LONG_WIDTH, -1);
 					break;
 
 				case TRANSACTION_FORM_DEBIT:
 					gsb_form_widget_set_empty (element->element_widget, TRUE);
 					gtk_entry_set_text (GTK_ENTRY (element->element_widget), _("Debit"));
+					gtk_widget_set_size_request (element->element_widget, FORM_COURT_WIDTH, -1);
 					break;
 
 				case TRANSACTION_FORM_CREDIT:
 					gsb_form_widget_set_empty (element->element_widget, TRUE);
 					gtk_entry_set_text (GTK_ENTRY (element->element_widget), _("Credit"));
+					gtk_widget_set_size_request (element->element_widget, FORM_COURT_WIDTH, -1);
 					break;
 
 				case TRANSACTION_FORM_CATEGORY:
 					gsb_form_widget_set_empty (element->element_widget, TRUE);
 					gtk_combofix_set_text (GTK_COMBOFIX (element->element_widget), _("Categories : Sub-categories"));
+					gtk_widget_set_size_request (element->element_widget, FORM_LONG_WIDTH, -1);
 					break;
 
 				case TRANSACTION_FORM_FREE:
@@ -2022,11 +2029,13 @@ gboolean gsb_form_clean (gint account_number)
 				case TRANSACTION_FORM_BUDGET:
 					gsb_form_widget_set_empty (element->element_widget, TRUE);
 					gtk_combofix_set_text (GTK_COMBOFIX (element->element_widget), _("Budgetary line"));
+					gtk_widget_set_size_request (element->element_widget, FORM_LONG_WIDTH, -1);
 					break;
 
 				case TRANSACTION_FORM_NOTES:
 					gsb_form_widget_set_empty (element->element_widget, TRUE);
 					gtk_entry_set_text (GTK_ENTRY (element->element_widget), _("Notes"));
+					gtk_widget_set_size_request (element->element_widget, FORM_LONG_WIDTH, -1);
 					break;
 
 				case TRANSACTION_FORM_TYPE:
@@ -2042,11 +2051,13 @@ gboolean gsb_form_clean (gint account_number)
 						gsb_payment_method_set_payment_position (element->element_widget, payment_number);
 						gtk_widget_set_sensitive (GTK_WIDGET (element->element_widget), FALSE);
 						gsb_payment_method_show_cheque_entry_if_necessary (payment_number);
+						gtk_widget_set_size_request (element->element_widget, FORM_COURT_WIDTH, -1);
 						break;
 					}
 
 				case TRANSACTION_FORM_CONTRA:
 					gtk_widget_hide (element->element_widget);
+				gtk_widget_set_size_request (element->element_widget, FORM_COURT_WIDTH, -1);
 					break;
 
 				case TRANSACTION_FORM_CHEQUE:
@@ -2059,6 +2070,7 @@ gboolean gsb_form_clean (gint account_number)
 							gtk_entry_set_text (GTK_ENTRY (element->element_widget), _("Cheque/Transfer number"));
 							gsb_form_widget_set_empty (element->element_widget, TRUE);
 						}
+						gtk_widget_set_size_request (element->element_widget, FORM_COURT_WIDTH, -1);
 						break;
 					}
 
@@ -2072,28 +2084,34 @@ gboolean gsb_form_clean (gint account_number)
 					g_signal_handlers_unblock_by_func (G_OBJECT (element->element_widget),
 													   G_CALLBACK (gsb_form_transaction_currency_changed),
 													   NULL);
+			gtk_widget_set_size_request (element->element_widget, FORM_COURT_WIDTH, -1);
 					break;
 
 				case TRANSACTION_FORM_CHANGE:
 					gtk_widget_hide (element->element_widget);
+			gtk_widget_set_size_request (element->element_widget, FORM_COURT_WIDTH, -1);
 					break;
 
 				case TRANSACTION_FORM_BANK:
 					gsb_form_widget_set_empty (element->element_widget, TRUE);
 					gtk_entry_set_text (GTK_ENTRY (element->element_widget), _("Bank references"));
+			gtk_widget_set_size_request (element->element_widget, FORM_COURT_WIDTH, -1);
 					break;
 
 				case TRANSACTION_FORM_VOUCHER:
 					gsb_form_widget_set_empty (element->element_widget, TRUE);
 					gtk_entry_set_text (GTK_ENTRY (element->element_widget), _("Voucher"));
+			gtk_widget_set_size_request (element->element_widget, FORM_COURT_WIDTH, -1);
 					break;
 
 				case TRANSACTION_FORM_OP_NB:
 					gtk_label_set_text (GTK_LABEL (element->element_widget), NULL);
+			gtk_widget_set_size_request (element->element_widget, FORM_COURT_WIDTH, -1);
 					break;
 
 				case TRANSACTION_FORM_MODE:
 					gtk_label_set_text (GTK_LABEL (element->element_widget), NULL);
+			gtk_widget_set_size_request (element->element_widget, FORM_COURT_WIDTH, -1);
 					break;
 			}
 		}

@@ -347,31 +347,16 @@ static gboolean grisbi_win_form_size_allocate (GtkWidget *form_expander,
 	{
 		GtkWidget *expander_label;
 		gint new_width;
+		GrisbiWinPrivate *priv;
 
-		new_width = 0.93*(conf.main_width - conf.panel_width);
-
-		conf.form_expander_label_width = new_width;
+		priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+		new_width = 0.95*(priv->w_run->transaction_list_width);
 
 		expander_label = gtk_expander_get_label_widget (GTK_EXPANDER(form_expander));
-		gtk_widget_set_size_request (expander_label, conf.form_expander_label_width, -1);
+		gtk_widget_set_size_request (expander_label, new_width, -1);
 	}
 
     return FALSE;
-}
-
-/**
- * Init the width of expander
- *
- * \param expander	Expanded.
- *
- * \return
- **/
-static void grisbi_win_expander_label_set_initial_width (GtkWidget *form_expander)
-{
-	GtkWidget *expander_label;
-
-	expander_label = gtk_expander_get_label_widget (GTK_EXPANDER(form_expander));
-	gtk_widget_set_size_request (expander_label, conf.form_expander_label_width, -1);
 }
 
 /**
@@ -593,7 +578,6 @@ static GtkWidget *grisbi_win_create_general_notebook (GrisbiWin *win)
     /* append the form */
     priv->form_general = grisbi_win_form_new (win);
 	gtk_grid_attach (GTK_GRID (grid), priv->form_general, 0,1,1,1);
-	grisbi_win_expander_label_set_initial_width (priv->form_expander);
     gtk_widget_hide (priv->form_general);
     g_signal_connect (G_OBJECT (priv->form_expander),
                       "size_allocate",
@@ -1672,7 +1656,7 @@ void grisbi_win_set_size_and_position (GtkWindow *win)
 {
 	GrisbiWinPrivate *priv;
     GdkGeometry size_hints = {
-    1000, 700, -1, -1, 1000, 700, 10, 10, 1.5, 1.5, GDK_GRAVITY_NORTH_WEST
+    1020, 750, -1, -1, 1020, 750, 10, 10, 1.5, 1.5, GDK_GRAVITY_NORTH_WEST
   };
 
     priv = grisbi_win_get_instance_private (GRISBI_WIN (win));

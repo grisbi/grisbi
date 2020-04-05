@@ -117,7 +117,6 @@ static void gsb_file_config_clean_config (void)
     conf.automatic_recover_splits = FALSE;
 	conf.completion_minimum_key_length = 1;
 	conf.form_enter_key = FALSE;
-	conf.form_expander_label_width = 600;
 	conf.fyear_combobox_sort_order = 0;
     conf.limit_completion_to_current_account = FALSE;
 
@@ -402,10 +401,6 @@ gboolean gsb_file_config_load_app_config (void)
 												 "Form",
 												 "form-enter-key",
 												 NULL);
-	conf.form_expander_label_width = g_key_file_get_integer (config,
-															 "Form",
-															 "form-expander-label-width",
-															 NULL);
 	conf.fyear_combobox_sort_order = g_key_file_get_integer (config,
 															 "Form",
 															 "fyear-combobox-sort-order",
@@ -880,10 +875,6 @@ gboolean gsb_file_config_save_app_config (void)
 	g_key_file_set_boolean (config,
 							"Form",
 							"form-enter-key", conf.form_enter_key);
-    g_key_file_set_integer (config,
-							"Form",
-                        	"form-expander-label-width",
-                        	conf.form_expander_label_width);
     g_key_file_set_integer (config,
 							"Form",
 							"fyear-combobox-sort-order",

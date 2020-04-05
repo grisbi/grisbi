@@ -1732,10 +1732,11 @@ static gboolean gsb_transactions_list_title_column_button_press (GtkWidget *butt
  **/
 static gboolean gsb_transactions_list_size_allocate (GtkWidget *tree_view,
 													 GtkAllocation *allocation,
-													 gpointer null)
+													 GrisbiWinRun *w_run)
 {
     gint i;
 
+	w_run->transaction_list_width = allocation->width;
     if (allocation->width == current_tree_view_width)
     {
         /* size of the tree view didn't change, but we received an allocated signal
@@ -1889,6 +1890,9 @@ static GtkWidget *gsb_transactions_list_create_tree_view (GtkTreeModel *model)
 {
     GtkWidget *tree_view;
     gint i;
+	GrisbiWinRun *w_run;
+
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
 
     tree_view = gtk_tree_view_new ();
 
@@ -1914,7 +1918,7 @@ static GtkWidget *gsb_transactions_list_create_tree_view (GtkTreeModel *model)
     g_signal_connect (G_OBJECT (tree_view),
 		              "size_allocate",
 		              G_CALLBACK (gsb_transactions_list_size_allocate),
-		              NULL);
+		              w_run);
 
     /* we create the columns of the tree view */
     gsb_transactions_list_create_tree_view_columns ();
