@@ -42,7 +42,7 @@
 #include "gsb_dirs.h"
 #include "gsb_file.h"
 #ifdef USE_CONFIG_FILE
-#include "gsb_file_config.h"
+#include "grisbi_conf.h"
 #endif
 #include "gsb_file_save.h"
 #include "gsb_locale.h"
@@ -951,7 +951,7 @@ static void grisbi_app_startup (GApplication *application)
 
     /* initialisation des variables de configuration globales */
 #ifdef USE_CONFIG_FILE
-	gsb_file_config_load_app_config ();
+	grisbi_conf_load_app_config ();
 #else
 	grisbi_settings_load_app_config ();
 #endif

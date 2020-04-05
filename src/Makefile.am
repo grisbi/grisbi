@@ -77,6 +77,7 @@ libgrisbi_la_SOURCES = \
 	go-charmap-sel.c	\
 	go-optionmenu.c		\
 	grisbi_app.c		\
+	grisbi_conf.c		\
 	grisbi_osx.c \
 	grisbi_prefs.c \
 	grisbi_settings.c		\
@@ -219,6 +220,7 @@ libgrisbi_la_SOURCES = \
 	go-charmap-sel.h        \
 	go-optionmenu.h         \
 	grisbi_app.h		\
+	grisbi_conf.h		\
 	grisbi_osx.h \
 	grisbi_prefs.h \
 	grisbi_settings.h		\

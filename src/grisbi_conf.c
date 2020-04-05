@@ -38,7 +38,7 @@
 #include <glib/gi18n.h>
 
 /*START_INCLUDE*/
-#include "gsb_file_config.h"
+#include "grisbi_conf.h"
 #include "dialog.h"
 #include "grisbi_app.h"
 #include "gsb_dirs.h"
@@ -69,7 +69,7 @@
  *
  * \return
  **/
-static void gsb_file_config_clean_config (void)
+static void grisbi_conf_clean_config (void)
 {
 	gchar * tmp_str;
 	gint i = 0;
@@ -194,7 +194,7 @@ static void gsb_file_config_clean_config (void)
  *
  * \return TRUE if ok, FALSE if not found, usually for a new opening
  **/
-gboolean gsb_file_config_load_app_config (void)
+gboolean grisbi_conf_load_app_config (void)
 {
     GKeyFile *config;
     gboolean result;
@@ -205,7 +205,7 @@ gboolean gsb_file_config_load_app_config (void)
     gint i;
 	ConditionalMsg *warning;
 
-    gsb_file_config_clean_config ();
+    grisbi_conf_clean_config ();
 
     filename = gsb_dirs_get_grisbirc_filename ();
     config = g_key_file_new ();
@@ -684,7 +684,7 @@ gboolean gsb_file_config_load_app_config (void)
  *
  * \return TRUE if ok
  **/
-gboolean gsb_file_config_save_app_config (void)
+gboolean grisbi_conf_save_app_config (void)
 {
 	GKeyFile *config;
 	const gchar* backup_path = NULL;
