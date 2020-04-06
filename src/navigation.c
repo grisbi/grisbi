@@ -65,6 +65,7 @@
 #include "structures.h"
 #include "tiers_onglet.h"
 #include "traitement_variables.h"
+#include "transaction_list.h"
 #include "transaction_list_select.h"
 #include "transaction_list_sort.h"
 #include "utils.h"
@@ -2552,6 +2553,88 @@ void gsb_gui_navigation_update_home_page_from_theme	(void)
 	gsb_gui_navigation_set_selection (GSB_HOME_PAGE, 0, 0);
 	path = gtk_tree_path_new_first ();
 	gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (navigation_tree_view), path, NULL, TRUE, 0.0, 0.0);
+}
+
+/**
+ * met à jour l'affichage suite à modification des données de localisation
+ *
+ * \param type_maj 	0 = ELEMENT_DATE, 1 = ELEMENT_CREDIT && ELEMENT_DEBIT
+ *
+ * \return
+ **/
+void gsb_gui_navigation_update_localisation (gint type_maj)
+{
+    gint current_page;
+
+    current_page = gsb_gui_navigation_get_current_page ();
+
+    /* update home page */
+    if (current_page == GSB_HOME_PAGE)
+        mise_a_jour_accueil (TRUE);
+    else
+        run.mise_a_jour_liste_comptes_accueil = TRUE;
+
+    /* update sheduled liste */
+    gsb_scheduler_list_fill_list (gsb_scheduler_list_get_tree_view ());
+    gsb_scheduler_list_set_background_color (gsb_scheduler_list_get_tree_view ());
+    if (current_page == GSB_SCHEDULER_PAGE)
+        gsb_scheduler_list_select (-1);
+
+    /* update transaction liste */
+    if (type_maj == 0)
+    {
+        transaction_list_update_element (ELEMENT_DATE);
+    }
+    else
+    {
+        transaction_list_update_element (ELEMENT_CREDIT);
+        transaction_list_update_element (ELEMENT_DEBIT);
+        gsb_transactions_list_update_tree_view (gsb_gui_navigation_get_current_account (), FALSE);
+    }
+
+    /* update home page */
+    if (current_page == GSB_ACCOUNT_PAGE)
+    {
+        gint account_number;
+        gint account_current_page;
+        KindAccount kind;
+
+        account_number = gsb_gui_navigation_get_current_account ();
+        account_current_page = gtk_notebook_get_current_page (GTK_NOTEBOOK (grisbi_win_get_account_page ()));
+
+        kind = gsb_data_account_get_kind (account_number);
+        switch (kind)
+        {
+            case GSB_TYPE_BALANCE:
+                break;
+            case GSB_TYPE_BANK:
+            case GSB_TYPE_CASH:
+                if (account_current_page == 1 || account_current_page == 2)
+                {
+                    gsb_data_account_set_bet_maj (account_number, BET_MAJ_ALL);
+                    bet_data_update_bet_module (account_number, -1);
+                }
+                break;
+            case GSB_TYPE_LIABILITIES:
+                if (account_current_page == 3)
+                    bet_finance_update_amortization_tab (account_number);
+                break;
+            case GSB_TYPE_ASSET:
+                break;
+        }
+    }
+
+    /* update payees, categories and budgetary lines */
+    if (current_page == GSB_PAYEES_PAGE)
+        payees_fill_list ();
+    else if (current_page == GSB_CATEGORIES_PAGE)
+        categories_fill_list ();
+    else if (current_page == GSB_BUDGETARY_LINES_PAGE)
+        budgetary_lines_fill_list ();
+
+    /* update simulator page */
+    if (current_page == GSB_SIMULATOR_PAGE)
+        bet_finance_ui_switch_simulator_page ();
 }
 
 /**

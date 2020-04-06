@@ -79,6 +79,7 @@ void 			gsb_gui_navigation_update_account 				(gint account_number);
 void 			gsb_gui_navigation_update_account_label 		(gint account_number);
 void 			gsb_gui_navigation_update_home_page 			(void);
 void 			gsb_gui_navigation_update_home_page_from_theme	(void);
+void			gsb_gui_navigation_update_localisation			(gint type_maj);
 void 			gsb_gui_navigation_update_report 				(gint report_number) ;
 void 			gsb_gui_navigation_update_statement_label 		(gint account_number);
 gboolean 		gsb_gui_navigation_row_drop_possible 			(GtkTreeDragDest *drag_dest,
