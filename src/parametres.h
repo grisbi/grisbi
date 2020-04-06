@@ -12,12 +12,6 @@ GtkWidget * gsb_config_date_format_chosen               (GtkWidget *parent,
                                                          gint sens);
 GtkWidget * gsb_config_number_format_chosen             (GtkWidget *parent,
                                                          gint sens);
-/* PROVISOIRE */
-GtkWidget *	onglet_accueil 								(void);
-GtkWidget * onglet_delete_messages 						(void);
-GtkWidget *	onglet_messages_and_warnings 				(void);
-GtkWidget * onglet_metatree 							(void);
-														 gpointer data);
 /*END_DECLARATION*/
 
 #endif
