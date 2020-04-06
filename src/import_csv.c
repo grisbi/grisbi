@@ -1298,14 +1298,13 @@ static gboolean csv_import_change_separator (GtkEntry *entry,
 			g_free (etat.csv_separator);
 		etat.csv_separator = separator;
 		contents = g_object_get_data (G_OBJECT(assistant), "contents");
-		if (!contents)
+		if (!contents || strlen (contents) == 0)
 			return FALSE;
 
 		lines_tab = g_object_get_data (G_OBJECT(assistant), "lines_tab");
-		if (!lines_tab)
-			return FALSE;
+		if (lines_tab)
+			csv_import_free_lines_tab (lines_tab);
 
-		csv_import_free_lines_tab (lines_tab);
 		lines_tab = csv_import_init_lines_tab (&contents, etat.csv_separator);
 		g_object_set_data (G_OBJECT(assistant), "lines-tab", lines_tab);
 		first_line_with_cols = 0;
@@ -1355,7 +1354,7 @@ gboolean csv_import_file_by_rule (gint rule,
 
 	devel_debug (imported->name);
 	contents = gsb_file_test_and_load_csv_file (imported);
-	if (!contents)
+		if (!contents || strlen (contents) == 0)
 		return FALSE;
 
 	compte = g_malloc0 (sizeof (struct ImportAccount));
