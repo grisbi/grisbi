@@ -877,6 +877,12 @@ static void csv_template_dialog_response  (GtkDialog *dialog,
 						spec_conf_data->csv_spec_conf_used_text = g_strdup (gtk_entry_get_text (GTK_ENTRY (widget)));
 						new_csv_spec_lines_list = g_slist_append (new_csv_spec_lines_list, spec_conf_data);
 					}
+					else
+					{
+						g_free (line_struct->label_str);
+						g_free (line_struct);
+					}
+
 					list = list->next;
 				}
 				utils_prefs_gsb_file_set_modified ();
@@ -1171,6 +1177,9 @@ static void csv_template_rule_edit_dialog (CsvTemplateRule *template_rule,
 		csv_template_rule_spec_conf_set_cols_name (line_struct->combobox_used_data, priv->combobox_cols_name);
 		csv_template_rule_spec_conf_set_cols_name (line_struct->combobox_action_data, priv->combobox_cols_name);
 		csv_template_rule_spec_conf_set_actions (GTK_COMBO_BOX_TEXT (line_struct->combobox_action));
+
+		/* add line */
+		priv->list_spec_lines = g_slist_append (priv->list_spec_lines, line_struct);
 	}
 	/* set signals */
 	g_signal_connect (priv->notebook_csv_spec,

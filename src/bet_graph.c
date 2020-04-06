@@ -2450,7 +2450,6 @@ void bet_graph_set_configuration_variables ( const gchar *string )
     gchar **tab;
     struct_bet_graph_prefs *prefs = NULL;
 
-	if ( string == NULL )
 	if (string == NULL)
 	{
 		if (prefs_prev == NULL)
@@ -2462,7 +2461,6 @@ void bet_graph_set_configuration_variables ( const gchar *string )
 			g_free (prefs_prev);
 			prefs_prev =struct_initialise_bet_graph_prefs ();
 		}
-        prefs = prefs_prev;
 
 		if ( prefs_hist == NULL )
 		{
@@ -2473,7 +2471,6 @@ void bet_graph_set_configuration_variables ( const gchar *string )
 			g_free (prefs_hist);
 			prefs_hist = struct_initialise_bet_graph_prefs ();
 		}
-		prefs = prefs_hist;
 
 		return;
 	}
