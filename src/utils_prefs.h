@@ -6,11 +6,12 @@
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */
 
-
 /* START_DECLARATION */
 GtkWidget *		utils_prefs_create_combo_list_indisponible 				(void);
 gint 			utils_prefs_dialog_msg_cancel_quit						(const gchar *msg,
 																		 const gchar *hint);
+gboolean		utils_prefs_encryption_toggled							(GtkWidget *checkbox,
+																		 gpointer data);
 GtkWidget *		utils_prefs_fonts_create_button 						(gchar **fontname,
 																		 GCallback hook,
 																		 gpointer data);

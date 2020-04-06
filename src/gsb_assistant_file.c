@@ -51,6 +51,7 @@
 #include "structures.h"
 #include "traitement_variables.h"
 #include "utils.h"
+#include "utils_prefs.h"
 #include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -358,7 +359,7 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
     {
         button = gsb_automem_checkbutton_new (_("Encrypt Grisbi file"),
 											  &w_etat->crypt_file,
-											  G_CALLBACK (gsb_gui_encryption_toggled),
+											  G_CALLBACK (utils_prefs_encryption_toggled),
 											  NULL);
         gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
                              FALSE, FALSE, 0 );
