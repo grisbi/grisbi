@@ -548,7 +548,6 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page)
 		GtkWidget *label;
 
 		label = gtk_label_new ((gpointer) _("Scheduler"));
-		gtk_widget_set_vexpand (priv->notebook_others_options, TRUE);
 		priv->notebook_others_options = gtk_notebook_new ();
 		gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_others_options),
 								  priv->divers_scheduler_paddingbox,
@@ -559,6 +558,8 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page)
 								  priv->divers_localization_paddingbox,
 								  label);
 		gtk_box_pack_start (GTK_BOX (priv->vbox_divers), priv->notebook_others_options, FALSE, FALSE, 0);
+		gtk_widget_set_vexpand (priv->vbox_divers, TRUE);
+		gtk_widget_set_vexpand (priv->notebook_others_options, TRUE);
 
 		gtk_widget_show_all (priv->notebook_others_options);
 	}

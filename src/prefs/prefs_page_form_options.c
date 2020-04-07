@@ -152,30 +152,12 @@ static void prefs_page_form_options_setup_form_options_page (PrefsPageFormOption
 		gtk_widget_set_sensitive (priv->box_form_date_force_prev_year, FALSE);
 		gtk_widget_set_sensitive (priv->checkbutton_automatic_separator, FALSE);
 	}
-				   //~ conf.);
 
     /* Connect signal */
     g_signal_connect (priv->checkbutton_automatic_separator,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
 					  &etat.automatic_separator);
-
-    /* callback for spinbutton_ */
-    //~ g_object_set_data (G_OBJECT (priv->spinbutton_),
-                       //~ "button", priv->checkbutton_);
-	//~ g_object_set_data (G_OBJECT (priv->checkbutton_),
-                       //~ "spinbutton", priv->spinbutton_);
-
-    //~ g_signal_connect (priv->spinbutton_,
-					  //~ "value-changed",
-					  //~ G_CALLBACK (utils_prefs_spinbutton_changed),
-					  //~ &conf.);
-
-    /* connect the signal for filechooserbutton_backup */
-    //~ g_signal_connect (G_OBJECT (priv->filechooserbutton_backup),
-                      //~ "selection-changed",
-                      //~ G_CALLBACK (utils_prefs_page_dir_chosen),
-                      //~ "backup_path");
 }
 
 /******************************************************************************/

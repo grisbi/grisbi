@@ -5,8 +5,8 @@
 /*                                                                               */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)               */
 /*                      2003-2008 Benjamin Drieu (bdrieu@april.org)              */
-/*          2008-2018 Pierre Biava (grisbi@pierre.biava.name)                    */
-/*          https://www.grisbi.org/                                               */
+/*          2008-2020 Pierre Biava (grisbi@pierre.biava.name)                    */
+/*          https://www.grisbi.org/                                              */
 /*                                                                               */
 /*     This program is free software; you can redistribute it and/or modify      */
 /*     it under the terms of the GNU General Public License as published by      */
@@ -71,7 +71,6 @@ struct _PrefsPageBetAccountPrivate
 	GtkWidget *			hbox_bet_select_account;
     GtkWidget *			checkbutton_use_bet_module;
 	GtkWidget *			eventbox_use_bet_module;
-	GtkWidget *			vbox_bet_selected_account;
 	GtkWidget *			hbox_bet_credit_card;
     GtkWidget *			checkbutton_bet_credit_card;
 	GtkWidget *			eventbox_bet_credit_card;
@@ -252,7 +251,7 @@ static gboolean prefs_page_bet_account_changed (GtkWidget *combo,
     account_number = gsb_account_get_combo_account_number (combo);
 	devel_debug_int (account_number);
 
-    account_page = grisbi_win_get_account_page ();
+	account_page = grisbi_win_get_account_page ();
 
     /* on bloque l'appel aux fonctions de callback */
     g_signal_handlers_block_by_func (G_OBJECT (combo),
@@ -398,7 +397,8 @@ static void prefs_page_bet_account_use_budget_toggle (GtkToggleButton *button,
         gsb_data_account_set_bet_use_budget (account_number, 1);
         gsb_data_account_set_bet_show_onglets (account_number);
         prefs_page_bet_account_changed (priv->combo_bet_account, page);
-		gtk_widget_show (priv->vbox_bet_selected_account);
+		gtk_widget_show (priv->hbox_bet_credit_card);
+		gtk_widget_show (priv->notebook_bet_account);		
         gsb_data_account_set_bet_maj (account_number, BET_MAJ_ALL);
     }
     else
@@ -407,7 +407,8 @@ static void prefs_page_bet_account_use_budget_toggle (GtkToggleButton *button,
         gsb_data_account_set_bet_use_budget (account_number, 0);
 		gsb_data_account_set_bet_show_onglets (account_number);
         prefs_page_bet_account_show_hide_parameters (account_number, FALSE, page);
-		gtk_widget_hide (priv->vbox_bet_selected_account);
+		gtk_widget_hide (priv->hbox_bet_credit_card);
+		gtk_widget_hide (priv->notebook_bet_account);
     }
 
     if (gsb_gui_navigation_get_current_account () == account_number)
@@ -451,8 +452,8 @@ static void prefs_page_bet_account_setup_account_page (PrefsPageBetAccount *page
 		return;
 	}
 
+	/* set the choice of account */
 	account_page = grisbi_win_get_account_page ();
-    /* set the choice of account */
 	combo = gsb_account_create_combo_list (NULL, NULL, FALSE);
     g_object_set_data (G_OBJECT (account_page), "account_combo", combo);
 	if ((account_number = gsb_gui_navigation_get_current_account ()) == -1)
@@ -467,25 +468,12 @@ static void prefs_page_bet_account_setup_account_page (PrefsPageBetAccount *page
 	gtk_box_reorder_child (GTK_BOX (priv->hbox_bet_select_account), combo, 1);
 	priv->combo_bet_account = combo;
 
-	/* init_use_bet_module */
-	bet_use_budget = gsb_data_account_get_bet_use_budget (account_number);
-	if (bet_use_budget == 1)
-	{
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_use_bet_module), TRUE);
-		gtk_widget_show (priv->vbox_bet_selected_account);
-	}
-	else
-	{
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_use_bet_module), FALSE);
-		gtk_widget_hide (priv->vbox_bet_selected_account);
-	}
-
     /* sélectionne un compte carte bancaire à débit différé */
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_bet_credit_card), FALSE);
 
 	/* set notebbok */
 	gtk_notebook_set_scrollable (GTK_NOTEBOOK (priv->notebook_bet_account), TRUE);
-	gtk_box_pack_start (GTK_BOX (priv->vbox_bet_selected_account), priv->notebook_bet_account, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (priv->vbox_bet_account), priv->notebook_bet_account, FALSE, FALSE, 0);
 
     /* Data for the accounts of type GSB_TYPE_BANK, GSB_TYPE_CASH */
     gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_bet_account), priv->vbox_bank_cash_account, NULL);
@@ -520,6 +508,24 @@ static void prefs_page_bet_account_setup_account_page (PrefsPageBetAccount *page
 	utils_widget_set_padding (label, MARGIN_BOX, 0);
 	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_credit_data), priv->vbox_loan_data, label);
 
+	/* init_use_bet_module */
+	bet_use_budget = gsb_data_account_get_bet_use_budget (account_number);
+	if (bet_use_budget == 1)
+	{
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_use_bet_module), TRUE);
+		gtk_widget_show (priv->hbox_bet_credit_card);
+		gtk_widget_show (priv->notebook_bet_account);
+	}
+	else
+	{
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_use_bet_module), FALSE);
+		gtk_widget_hide (priv->hbox_bet_credit_card);
+		gtk_widget_hide (priv->notebook_bet_account);
+	}
+
+	/* mettre à jour les données du compte */
+    prefs_page_bet_account_changed (combo, page);
+
 	/* set signals */
 	/* Connect signal account combo */
     g_signal_connect (G_OBJECT (combo),
@@ -546,9 +552,6 @@ static void prefs_page_bet_account_setup_account_page (PrefsPageBetAccount *page
 					  "button-press-event",
 					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
 					  priv->checkbutton_bet_credit_card);
-
-	/* mettre à jour les données du compte */
-    prefs_page_bet_account_changed (combo, page);
 }
 
 /******************************************************************************/
@@ -575,7 +578,6 @@ static void prefs_page_bet_account_class_init (PrefsPageBetAccountClass *klass)
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageBetAccount, vbox_bet_account);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageBetAccount, hbox_bet_select_account);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageBetAccount, vbox_bet_selected_account);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageBetAccount, notebook_bet_account);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageBetAccount, checkbutton_use_bet_module);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageBetAccount, eventbox_use_bet_module);

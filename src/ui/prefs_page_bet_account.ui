@@ -77,9 +77,6 @@
                               </packing>
                             </child>
                             <child>
-                              <placeholder/>
-                            </child>
-                            <child>
                               <object class="GtkBox" id="hbox_black2">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
@@ -130,46 +127,15 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkBox" id="vbox_bet_selected_account">
+                          <object class="GtkBox" id="hbox_bet_credit_card">
                             <property name="can_focus">False</property>
                             <property name="no_show_all">True</property>
-                            <property name="orientation">vertical</property>
-                            <property name="spacing">5</property>
                             <child>
-                              <object class="GtkBox" id="hbox_bet_credit_card">
+                              <object class="GtkCheckButton" id="checkbutton_bet_credit_card">
                                 <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <child>
-                                  <object class="GtkCheckButton" id="checkbutton_bet_credit_card">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="receives_default">False</property>
-                                    <property name="draw_indicator">True</property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="position">0</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkEventBox" id="eventbox_bet_credit_card">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <child>
-                                      <object class="GtkLabel" id="label6">
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes">Account with deferred debit card</property>
-                                      </object>
-                                    </child>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="position">1</property>
-                                  </packing>
-                                </child>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">False</property>
+                                <property name="draw_indicator">True</property>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -178,7 +144,22 @@
                               </packing>
                             </child>
                             <child>
-                              <placeholder/>
+                              <object class="GtkEventBox" id="eventbox_bet_credit_card">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <child>
+                                  <object class="GtkLabel" id="label6">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">Account with deferred debit card</property>
+                                  </object>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
                             </child>
                           </object>
                           <packing>
@@ -186,6 +167,9 @@
                             <property name="fill">True</property>
                             <property name="position">1</property>
                           </packing>
+                        </child>
+                        <child>
+                          <placeholder/>
                         </child>
                       </object>
                       <packing>
@@ -345,8 +329,8 @@
     </child>
   </object>
   <object class="GtkNotebook" id="notebook_bet_account">
-    <property name="visible">True</property>
     <property name="can_focus">True</property>
+    <property name="no_show_all">True</property>
     <property name="margin_top">5</property>
     <property name="show_tabs">False</property>
     <property name="show_border">False</property>

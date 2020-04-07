@@ -53,10 +53,10 @@
 
 /* constants for Preferences */
 #define PREFS_MIN_WIN_HEIGHT	600				/* Hauteur Min de la fenetre des preferences */
-#define PREFS_MIN_WIN_WIDTH		800				/* Largeur Min de la fenetre des preferences */
-#define PREFS_MIN_PANED_WIDTH	120				/* Largeur Min du panel gauche des preferences */
+#define PREFS_MIN_WIN_WIDTH		885				/* Largeur Min de la fenetre des preferences */
+#define PREFS_MIN_PANED_WIDTH	235				/* Largeur Min du panel gauche des preferences */
 #define SW_COEFF_UTIL_PG        90             	/* Scrolled Window in paddinggrid in prefs */
-#define SW_COEFF_UTIL_SW        93				/* Scrolled Window in prefs */
+#define SW_COEFF_UTIL_SW        93				/* Scrolled Window in paddingbox in prefs */
 #define SW_MAX_CONTENT_WIDTH	600				/* Since Gtk-3.22 */
 #define SW_MIN_HEIGHT			150
 

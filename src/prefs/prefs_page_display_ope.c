@@ -351,18 +351,33 @@ static gboolean prefs_page_display_ope_set_buttons_table (PrefsPageDisplayOpe *p
 static void prefs_page_display_ope_create_buttons_table (PrefsPageDisplayOpe *page)
 {
     gint current_number = 0;
-    gint row, column;
+    gint column;
+    gint max_column;
+    gint max_row;
+    gint row;
 	gint button_width;
 	PrefsPageDisplayOpePrivate *priv;
 
 	devel_debug (NULL);
 	priv = prefs_page_display_ope_get_instance_private (page);
 
-	/* calcul de la largeur du bouton */
-	button_width = (SW_MAX_CONTENT_WIDTH - 24)/6;
+	/* calcul du nombre de colonnes et de lignes */
+	if (conf.low_resolution_screen)
+	{
+		max_column = 5;
+		max_row = 6;
+	}
+	else
+	{
+		max_column = 7;
+		max_row = 4;
+	}
 
-    for (row=0 ; row < 3 ; row++)
-	for (column = 0 ; column < 6 ; column++)
+	/* calcul de la largeur du bouton */
+	button_width = (SW_MAX_CONTENT_WIDTH - 24)/max_column-1;
+
+    for (row = 0 ; row < max_row-1 ; row++)
+	for (column = 0 ; column < max_column-1 ; column++)
 	{
 	    gchar *string;
 	    gchar *changed_string;
@@ -377,7 +392,7 @@ static void prefs_page_display_ope_create_buttons_table (PrefsPageDisplayOpe *pa
             gtk_widget_set_size_request (priv->tab_list_buttons[current_number], button_width, -1);
             gtk_widget_set_name (priv->tab_list_buttons[current_number], "list_config_buttons");
             utils_widget_set_padding (priv->tab_list_buttons[current_number], 2, 2);
-			gtk_widget_set_hexpand (priv->tab_list_buttons[column + row*6], TRUE);
+			gtk_widget_set_hexpand (priv->tab_list_buttons[current_number], TRUE);
             g_object_set_data (G_OBJECT (priv->tab_list_buttons[current_number]),
 							   "element_number",
 							   GINT_TO_POINTER (current_number + 1));
@@ -395,6 +410,8 @@ static void prefs_page_display_ope_create_buttons_table (PrefsPageDisplayOpe *pa
             g_free (string);
             g_free (changed_string);
 	    }
+		else
+			break;
 
 	    current_number++;
 	}

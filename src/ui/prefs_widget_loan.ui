@@ -318,70 +318,12 @@
             <child>
               <object class="GtkSeparator" id="gtkseparator500">
                 <property name="visible">True</property>
+                <property name="sensitive">False</property>
                 <property name="can_focus">False</property>
               </object>
               <packing>
                 <property name="left_attach">0</property>
-                <property name="top_attach">9</property>
-                <property name="width">6</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkCheckButton" id="checkbutton_init_sch_with_loan">
-                <property name="label" translatable="yes">Use the depreciation schedule for planned operations</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">False</property>
-                <property name="halign">start</property>
-                <property name="draw_indicator">True</property>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
                 <property name="top_attach">7</property>
-                <property name="width">6</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="button_amortization_table">
-                <property name="label" translatable="yes">Amortization table</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="halign">center</property>
-                <property name="margin_top">5</property>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">11</property>
-                <property name="width">6</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="button_init_scheduled">
-                <property name="visible">True</property>
-                <property name="sensitive">False</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="halign">center</property>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">8</property>
-                <property name="width">6</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkCheckButton" id="checkbutton_invers_cols_cap_ech">
-                <property name="label" translatable="yes">Invert the columns "Remaining capital" and "Due date"</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">False</property>
-                <property name="halign">start</property>
-                <property name="draw_indicator">True</property>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">10</property>
                 <property name="width">6</property>
               </packing>
             </child>
@@ -433,6 +375,56 @@
       </packing>
     </child>
   </template>
+  <object class="GtkButton" id="button_amortization_table">
+    <property name="label" translatable="yes">Amortization table</property>
+    <property name="visible">True</property>
+    <property name="can_focus">True</property>
+    <property name="receives_default">True</property>
+    <property name="halign">center</property>
+  </object>
+  <object class="GtkButton" id="button_init_scheduled">
+    <property name="label" translatable="yes">button</property>
+    <property name="visible">True</property>
+    <property name="can_focus">True</property>
+    <property name="receives_default">True</property>
+    <property name="halign">center</property>
+  </object>
+  <object class="GtkSizeGroup" id="buttons_scheduled_amortization">
+    <widgets>
+      <widget name="button_init_scheduled"/>
+      <widget name="button_amortization_table"/>
+    </widgets>
+  </object>
+  <object class="GtkCheckButton" id="checkbutton_init_sch_with_loan">
+    <property name="visible">True</property>
+    <property name="can_focus">True</property>
+    <property name="receives_default">False</property>
+    <property name="halign">start</property>
+    <property name="draw_indicator">True</property>
+    <child>
+      <object class="GtkLabel" id="label513">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Use the depreciation schedule for planned operations</property>
+        <property name="wrap">True</property>
+      </object>
+    </child>
+  </object>
+  <object class="GtkCheckButton" id="checkbutton_invers_cols_cap_ech">
+    <property name="visible">True</property>
+    <property name="can_focus">True</property>
+    <property name="receives_default">False</property>
+    <property name="halign">start</property>
+    <property name="draw_indicator">True</property>
+    <child>
+      <object class="GtkLabel" id="label514">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Invert the columns "Remaining capital" and "Due date"</property>
+        <property name="wrap">True</property>
+      </object>
+    </child>
+  </object>
   <object class="GtkBox" id="hbox_black">
     <property name="visible">True</property>
     <property name="can_focus">False</property>

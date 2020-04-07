@@ -1635,6 +1635,7 @@ static void prefs_widget_loan_checkbutton_init_sch_with_loan_toggle (GtkToggleBu
 static void prefs_widget_loan_setup_widget (PrefsWidgetLoan *w_loan,
 											LoanStruct *s_loan)
 {
+	GtkWidget *separator;
 	gchar *tmp_str = NULL;
 	gchar *code_devise;
 	gint devise;
@@ -1648,6 +1649,28 @@ static void prefs_widget_loan_setup_widget (PrefsWidgetLoan *w_loan,
 	priv->s_loan = s_loan;
 
 	/* set widgets */
+
+	/* fix geometry with conf.low_resolution_screen */
+	separator = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
+	if (conf.low_resolution_screen)
+	{
+		gtk_grid_attach (GTK_GRID (priv->grid_loan_data), priv->checkbutton_init_sch_with_loan, 0, 8, 3, 1);
+		gtk_grid_attach (GTK_GRID (priv->grid_loan_data), priv->button_init_scheduled, 3, 8, 3, 1);
+		gtk_grid_attach (GTK_GRID (priv->grid_loan_data), separator, 0, 9, 6, 1);
+		gtk_grid_attach (GTK_GRID (priv->grid_loan_data), priv->checkbutton_invers_cols_cap_ech, 0, 10, 3, 1);
+		gtk_grid_attach (GTK_GRID (priv->grid_loan_data), priv->button_amortization_table, 3, 10, 3, 1);
+		gtk_widget_show (separator);
+	}
+	else
+	{
+		gtk_grid_attach (GTK_GRID (priv->grid_loan_data), priv->checkbutton_init_sch_with_loan, 0, 8, 3, 1);
+		gtk_grid_attach (GTK_GRID (priv->grid_loan_data), priv->button_init_scheduled, 0, 9, 6, 1);
+		gtk_grid_attach (GTK_GRID (priv->grid_loan_data), separator, 0, 10, 6, 1);
+		gtk_grid_attach (GTK_GRID (priv->grid_loan_data), priv->checkbutton_invers_cols_cap_ech, 0, 11, 3, 1);
+		gtk_grid_attach (GTK_GRID (priv->grid_loan_data), priv->button_amortization_table, 0, 12, 6, 1);
+		gtk_widget_show (separator);
+	}
+	
 	/* Date of first Repayment */
 	priv->calendar_entry = gsb_calendar_entry_new (FALSE);
 	gtk_widget_show (priv->calendar_entry);

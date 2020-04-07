@@ -394,7 +394,10 @@ static gboolean prefs_page_display_form_set_buttons_table (PrefsPageDisplayForm 
 static void prefs_page_display_form_create_buttons_table (PrefsPageDisplayForm *page)
 {
     gint current_element_number;
-    gint row, column;
+    gint column;
+    gint max_column;
+    gint max_row;
+    gint row;
 	gint button_width;
 	PrefsPageDisplayFormPrivate *priv;
 
@@ -402,40 +405,51 @@ static void prefs_page_display_form_create_buttons_table (PrefsPageDisplayForm *
 
 	priv = prefs_page_display_form_get_instance_private (page);
 
+	/* calcul du nombre de colonnes et de lignes */
+	if (conf.low_resolution_screen)
+	{
+		max_column = 5;
+		max_row = 6;
+	}
+	else
+	{
+		max_column = 7;
+		max_row = 4;
+	}
+
 	/* calcul de la largeur du bouton */
-	button_width = (SW_MAX_CONTENT_WIDTH - 24)/6;
+	button_width = (SW_MAX_CONTENT_WIDTH - 24)/max_column-1;
 
     /* the date, debit and credit are obligatory, so begin to number 4 */
     current_element_number = 4;
 
-    for (row=0 ; row < 3 ; row++)
-	for (column = 0 ; column < 6 ; column++)
+    for (row = 0 ; row < max_row-1 ; row++)
+	for (column = 0 ; column < max_column-1 ; column++)
 	{
 	    const gchar *string;
 	    gchar *changed_string;
 		gchar *tmp_str;
 
 	    string = _(gsb_form_widget_get_name (current_element_number));
-
 	    if (string)
 	    {
 			/* the max string in the button is 10 characters */
 			changed_string = limit_string (string, 10);
 
-			priv->tab_list_buttons[column + row*6] = gtk_toggle_button_new_with_label (changed_string);
-			gtk_widget_set_size_request (priv->tab_list_buttons[column + row*6], button_width, -1);
-			utils_widget_set_padding (priv->tab_list_buttons[column + row*6], 2, 2);
-			gtk_widget_set_hexpand (priv->tab_list_buttons[column + row*6], TRUE);
-			gtk_widget_set_name (priv->tab_list_buttons[column + row*6], "list_config_buttons");
-			g_object_set_data (G_OBJECT (priv->tab_list_buttons[column + row*6]),
+			priv->tab_list_buttons[current_element_number-4] = gtk_toggle_button_new_with_label (changed_string);
+			gtk_widget_set_size_request (priv->tab_list_buttons[current_element_number-4], button_width, -1);
+			utils_widget_set_padding (priv->tab_list_buttons[current_element_number-4], 2, 2);
+			gtk_widget_set_hexpand (priv->tab_list_buttons[current_element_number-4], TRUE);
+			gtk_widget_set_name (priv->tab_list_buttons[current_element_number-4], "list_config_buttons");
+			g_object_set_data (G_OBJECT (priv->tab_list_buttons[current_element_number-4]),
 							   "element_number",
 							   GINT_TO_POINTER (current_element_number));
-			g_signal_connect (G_OBJECT (priv->tab_list_buttons[column + row*6]),
+			g_signal_connect (G_OBJECT (priv->tab_list_buttons[current_element_number-4]),
 							  "toggled",
 							  G_CALLBACK (prefs_page_display_form_toggle_element_button),
 							  page);
 			gtk_grid_attach (GTK_GRID (priv->grid_list_buttons),
-							 priv->tab_list_buttons[column + row*6],
+							 priv->tab_list_buttons[current_element_number-4],
 							 column,
 							 row,
 							 1,
@@ -443,10 +457,12 @@ static void prefs_page_display_form_create_buttons_table (PrefsPageDisplayForm *
 
 			/* set the tooltip with the real name */
 			tmp_str = g_strconcat (" ", string, " ", NULL);
-			gtk_widget_set_tooltip_text (GTK_WIDGET (priv->tab_list_buttons[column + row*6]), tmp_str);
+			gtk_widget_set_tooltip_text (GTK_WIDGET (priv->tab_list_buttons[current_element_number-4]), tmp_str);
 			g_free (changed_string);
 			g_free (tmp_str);
 	    }
+		else
+			break;
 
 	    current_element_number++;
 	}

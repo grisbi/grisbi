@@ -322,6 +322,7 @@
                                             <property name="can_focus">False</property>
                                             <property name="halign">start</property>
                                             <property name="label" translatable="yes">Limit the filling with payees belonging to the current account</property>
+                                            <property name="wrap">True</property>
                                           </object>
                                         </child>
                                       </object>
