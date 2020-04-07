@@ -65,6 +65,7 @@
 #include "prefs/prefs_page_files.h"
 #include "prefs/prefs_page_form_completion.h"
 #include "prefs/prefs_page_form_options.h"
+#include "prefs/prefs_page_fyear.h"
 #include "prefs/prefs_page_import_asso.h"
 #include "prefs/prefs_page_import_files.h"
 #include "prefs/prefs_page_metatree.h"

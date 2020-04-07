@@ -37,7 +37,7 @@
 #include <glib/gi18n.h>
 
 /*START_INCLUDE*/
-#include "prefs_page_exer.h"
+#include "prefs_page_fyear.h"
 #include "gsb_file.h"
 #include "structures.h"
 #include "utils_prefs.h"
@@ -48,46 +48,46 @@
 /*START_EXTERN*/
 /*END_EXTERN*/
 
-typedef struct _PrefsPageExerPrivate   PrefsPageExerPrivate;
+typedef struct _PrefsPageFyearPrivate   PrefsPageFyearPrivate;
 
-struct _PrefsPageExerPrivate
+struct _PrefsPageFyearPrivate
 {
-	GtkWidget *			vbox_exer;
+	GtkWidget *			vbox_fyear;
 
     //~ GtkWidget *			checkbutton_;
-	//~ GtkWidget *			eventbox_;
+	GtkWidget *			sw_fyear;
     //~ GtkWidget *         spinbutton_n;
     //~ GtkWidget *         filechooserbutton_;
 
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageExer, prefs_page_exer, GTK_TYPE_BOX)
+G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageFyear, prefs_page_fyear, GTK_TYPE_BOX)
 
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
 /**
- * Création de la page de gestion des exer
+ * Création de la page de gestion des fyear
  *
  * \param prefs
  *
  * \return
  **/
-static void prefs_page_exer_setup_page (PrefsPageExer *page)
+static void prefs_page_fyear_setup_page (PrefsPageFyear *page)
 {
 	GtkWidget *head_page;
 	gboolean is_loading;
-	PrefsPageExerPrivate *priv;
+	PrefsPageFyearPrivate *priv;
 
 	devel_debug (NULL);
 
-	priv = prefs_page_exer_get_instance_private (page);
+	priv = prefs_page_fyear_get_instance_private (page);
 	is_loading = grisbi_win_file_is_loading ();
 
 	/* On récupère le nom de la page */
-	head_page = utils_prefs_head_page_new_with_title_and_icon (_("Exer"), "exer.png");
-	gtk_box_pack_start (GTK_BOX (priv->vbox_exer), head_page, FALSE, FALSE, 0);
-	gtk_box_reorder_child (GTK_BOX (priv->vbox_exer), head_page, 0);
+	head_page = utils_prefs_head_page_new_with_title_and_icon (_("Financial years"), "gsb-financial-years-32.png");
+	gtk_box_pack_start (GTK_BOX (priv->vbox_fyear), head_page, FALSE, FALSE, 0);
+	gtk_box_reorder_child (GTK_BOX (priv->vbox_fyear), head_page, 0);
 
     /* set the variables for account */
     //~ gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_),
@@ -134,30 +134,29 @@ static void prefs_page_exer_setup_page (PrefsPageExer *page)
 /******************************************************************************/
 /* Fonctions propres à l'initialisation des fenêtres                          */
 /******************************************************************************/
-static void prefs_page_exer_init (PrefsPageExer *page)
+static void prefs_page_fyear_init (PrefsPageFyear *page)
 {
 	gtk_widget_init_template (GTK_WIDGET (page));
 
-	prefs_page_exer_setup_page (page);
+	prefs_page_fyear_setup_page (page);
 }
 
-static void prefs_page_exer_dispose (GObject *object)
+static void prefs_page_fyear_dispose (GObject *object)
 {
-	G_OBJECT_CLASS (prefs_page_exer_parent_class)->dispose (object);
+	G_OBJECT_CLASS (prefs_page_fyear_parent_class)->dispose (object);
 }
 
-static void prefs_page_exer_class_init (PrefsPageExerClass *klass)
+static void prefs_page_fyear_class_init (PrefsPageFyearClass *klass)
 {
-	G_OBJECT_CLASS (klass)->dispose = prefs_page_exer_dispose;
+	G_OBJECT_CLASS (klass)->dispose = prefs_page_fyear_dispose;
 
 	gtk_widget_class_set_template_from_resource (GTK_WIDGET_CLASS (klass),
-												 "/org/gtk/grisbi/ui/prefs_page_exer.ui");
+												 "/org/gtk/grisbi/ui/prefs_page_fyear.ui");
 
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageExer, vbox_exer);
-	//~ gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageExer, checkbutton_);
-	//~ gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageExer, eventbox_);
-	//~ gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageExer, spinbutton_);
-	//~ gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageExer, filechooserbutton_);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFyear, vbox_fyear);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFyear, sw_fyear);
+	//~ gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFyear, spinbutton_);
+	//~ gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFyear, filechooserbutton_);
 }
 
 /******************************************************************************/
@@ -170,9 +169,9 @@ static void prefs_page_exer_class_init (PrefsPageExerClass *klass)
  *
  * \return
  **/
-PrefsPageExer *prefs_page_exer_new (GrisbiPrefs *win)
+PrefsPageFyear *prefs_page_fyear_new (GrisbiPrefs *win)
 {
-  return g_object_new (PREFS_PAGE_EXER_TYPE, NULL);
+  return g_object_new (PREFS_PAGE_FYEAR_TYPE, NULL);
 }
 
 /**
