@@ -98,10 +98,17 @@ static void gsb_reconcile_button_collapse_row_clicked (GtkButton *button,
     GtkTreeModel *model;
     GtkTreeIter iter;
 	GtkTreePath *path;
+	gint indice;
 
 	if ( !gtk_tree_selection_get_selected (selection, &model, &iter))
         return;
 	path = gtk_tree_model_get_path (model, &iter);
+
+	/* on rgarde si on est sur un rapprochement pour regrouper le compte */
+	indice = gtk_tree_path_get_depth (path);
+	if (indice == 2)
+		gtk_tree_path_up (path);
+	
 	tree_view = gtk_tree_selection_get_tree_view (selection);
 	gtk_tree_view_collapse_row (tree_view, path);
 }
@@ -205,13 +212,10 @@ GtkWidget *gsb_reconcile_config_create ( void )
                         NULL,
                         GTK_ORIENTATION_HORIZONTAL );
 
-    //~ paddinggrid = utils_prefs_paddinggrid_new_with_title (vbox_pref, _("List of reconciliations"));
-	//~ gtk_widget_set_vexpand (paddinggrid, TRUE);
 	paddinggrid = new_paddingbox_with_title (vbox_pref, FALSE, _("List of reconciliations"));
 
     /* set the list */
-    scrolled_window = utils_prefs_scrolled_window_new ( NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, 200);
-    //~ gtk_grid_attach (GTK_GRID (paddinggrid), scrolled_window, 0, 0, 3, 3);
+    scrolled_window = utils_prefs_scrolled_window_new ( NULL, GTK_SHADOW_IN, SW_COEFF_UTIL_PG, SW_MIN_HEIGHT);
 	gtk_box_pack_start (GTK_BOX (paddinggrid), scrolled_window, TRUE, TRUE, 0 );
 
     /* need to create first the table to set it in the arg of the changed signal of selection */
