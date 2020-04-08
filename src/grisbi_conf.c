@@ -134,7 +134,7 @@ static void grisbi_conf_clean_config (void)
 	/* variables for the list of transactions */
 	conf.show_transaction_gives_balance = FALSE;
     conf.show_transaction_selected_in_form = TRUE;
-    conf.transactions_list_primary_sorting = 0, 		/* "Sort by value date" */
+    conf.transactions_list_primary_sorting = 0; 		/* "Sort by value date" */
     conf.transactions_list_secondary_sorting = 0;		/* "Sort by transaction number" */
 
     /* settings_geometry */
