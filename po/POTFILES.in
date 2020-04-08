@@ -31,6 +31,7 @@ src/file_obfuscate_qif.c
 src/go-charmap-sel.c
 src/go-optionmenu.c
 src/grisbi_app.c
+src/grisbi_conf.c
 src/grisbi_osx.c
 src/grisbi_prefs.c
 src/grisbi_settings.c
@@ -78,7 +79,6 @@ src/gsb_data_scheduled.c
 src/gsb_data_transaction.c
 src/gsb_debug.c
 src/gsb_file.c
-src/gsb_file_config.c
 src/gsb_file_load.c
 src/gsb_file_others.c
 src/gsb_file_save.c

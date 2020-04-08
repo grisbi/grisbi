@@ -337,8 +337,8 @@ libgrisbi_la_SOURCES = \
 
 if USE_CONFIG_FILE
 libgrisbi_la_SOURCES += \
-	gsb_file_config.c \
-	gsb_file_config.h
+	grisbi_conf.c \
+	grisbi_conf.h
 endif
 
 
