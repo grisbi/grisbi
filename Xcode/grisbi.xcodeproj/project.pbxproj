@@ -32,6 +32,8 @@
 		003AC2381F49E06D007DA275 /* prefs_page_import_asso.c in Sources */ = {isa = PBXBuildFile; fileRef = 003AC2321F49E06D007DA275 /* prefs_page_import_asso.c */; };
 		003AC2391F49E06D007DA275 /* prefs_page_import_files.c in Sources */ = {isa = PBXBuildFile; fileRef = 003AC2331F49E06D007DA275 /* prefs_page_import_files.c */; };
 		003AC23C1F49E0A8007DA275 /* csv_template_rule.c in Sources */ = {isa = PBXBuildFile; fileRef = 003AC23B1F49E0A8007DA275 /* csv_template_rule.c */; };
+		004BCAAE243DC571002999B6 /* prefs_page_fyear.c in Sources */ = {isa = PBXBuildFile; fileRef = 004BCAAC243DC571002999B6 /* prefs_page_fyear.c */; };
+		004BCAB1243DC5F9002999B6 /* grisbi_conf.c in Sources */ = {isa = PBXBuildFile; fileRef = 004BCAB0243DC5F8002999B6 /* grisbi_conf.c */; };
 		005BC3401F6C1943006DB25E /* prefs_page_display_adr.c in Sources */ = {isa = PBXBuildFile; fileRef = 005BC33F1F6C1943006DB25E /* prefs_page_display_adr.c */; };
 		005BC3431F6C196D006DB25E /* prefs_page_display_gui.c in Sources */ = {isa = PBXBuildFile; fileRef = 005BC3421F6C196D006DB25E /* prefs_page_display_gui.c */; };
 		006E682D1DB3E7AD0038B1F0 /* accueil.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E67011DB3E7AC0038B1F0 /* accueil.c */; };
@@ -265,6 +267,11 @@
 		003AC2331F49E06D007DA275 /* prefs_page_import_files.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = prefs_page_import_files.c; path = prefs/prefs_page_import_files.c; sourceTree = "<group>"; };
 		003AC23A1F49E0A8007DA275 /* csv_template_rule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = csv_template_rule.h; sourceTree = "<group>"; };
 		003AC23B1F49E0A8007DA275 /* csv_template_rule.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = csv_template_rule.c; sourceTree = "<group>"; };
+		004BCAAC243DC571002999B6 /* prefs_page_fyear.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = prefs_page_fyear.c; path = prefs/prefs_page_fyear.c; sourceTree = "<group>"; };
+		004BCAAD243DC571002999B6 /* prefs_page_fyear.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = prefs_page_fyear.h; path = prefs/prefs_page_fyear.h; sourceTree = "<group>"; };
+		004BCAAF243DC5F8002999B6 /* grisbi_conf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = grisbi_conf.h; sourceTree = "<group>"; };
+		004BCAB0243DC5F8002999B6 /* grisbi_conf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = grisbi_conf.c; sourceTree = "<group>"; };
+		004BCAB2243DC60D002999B6 /* prefs_page_fyear.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = prefs_page_fyear.ui; path = src/ui/prefs_page_fyear.ui; sourceTree = "<group>"; };
 		005BC33E1F6C1943006DB25E /* prefs_page_display_adr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = prefs_page_display_adr.h; path = prefs/prefs_page_display_adr.h; sourceTree = "<group>"; };
 		005BC33F1F6C1943006DB25E /* prefs_page_display_adr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = prefs_page_display_adr.c; path = prefs/prefs_page_display_adr.c; sourceTree = "<group>"; };
 		005BC3411F6C196D006DB25E /* prefs_page_display_gui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = prefs_page_display_gui.h; path = prefs/prefs_page_display_gui.h; sourceTree = "<group>"; };
@@ -673,6 +680,8 @@
 				002D171F21CEE83900B461E8 /* prefs_page_form_completion.h */,
 				00285A5B24197FB6004828B4 /* prefs_page_form_options.c */,
 				00285A5C24197FB6004828B4 /* prefs_page_form_options.h */,
+				004BCAAC243DC571002999B6 /* prefs_page_fyear.c */,
+				004BCAAD243DC571002999B6 /* prefs_page_fyear.h */,
 				003AC2321F49E06D007DA275 /* prefs_page_import_asso.c */,
 				003AC22C1F49E06D007DA275 /* prefs_page_import_asso.h */,
 				003AC2331F49E06D007DA275 /* prefs_page_import_files.c */,
@@ -847,6 +856,8 @@
 				006E67441DB3E7AC0038B1F0 /* go-optionmenu.h */,
 				006E67451DB3E7AC0038B1F0 /* grisbi_app.c */,
 				006E67471DB3E7AC0038B1F0 /* grisbi_app.h */,
+				004BCAB0243DC5F8002999B6 /* grisbi_conf.c */,
+				004BCAAF243DC5F8002999B6 /* grisbi_conf.h */,
 				006E67481DB3E7AC0038B1F0 /* grisbi_osx.c */,
 				006E67491DB3E7AC0038B1F0 /* grisbi_osx.h */,
 				003AC2241F49DFE1007DA275 /* grisbi_prefs.c */,
@@ -1104,6 +1115,7 @@
 				00EA60F61F91503000569C19 /* prefs_page_files.ui */,
 				00285A6024198012004828B4 /* prefs_page_form_completion.ui */,
 				00285A6524198012004828B4 /* prefs_page_form_options.ui */,
+				004BCAB2243DC60D002999B6 /* prefs_page_fyear.ui */,
 				00EA60F31F91503000569C19 /* prefs_page_import_asso.ui */,
 				00EA60EE1F91502F00569C19 /* prefs_page_import_files.ui */,
 				00285A6224198012004828B4 /* prefs_page_metatree.ui */,
@@ -1318,6 +1330,7 @@
 				006E683F1DB3E7AD0038B1F0 /* etats_calculs.c in Sources */,
 				006E68331DB3E7AD0038B1F0 /* bet_finance_ui.c in Sources */,
 				006E68341DB3E7AD0038B1F0 /* bet_future.c in Sources */,
+				004BCAAE243DC571002999B6 /* prefs_page_fyear.c in Sources */,
 				006E68581DB3E7AD0038B1F0 /* gsb_assistant_file.c in Sources */,
 				00285A4B24197F15004828B4 /* prefs_page_display_form.c in Sources */,
 				006E688A1DB3E7AD0038B1F0 /* gsb_fyear.c in Sources */,
@@ -1347,6 +1360,7 @@
 				006E68711DB3E7AD0038B1F0 /* gsb_data_import_rule.c in Sources */,
 				006E68851DB3E7AD0038B1F0 /* gsb_form_scheduler.c in Sources */,
 				006E687E1DB3E7AD0038B1F0 /* gsb_dirs.c in Sources */,
+				004BCAB1243DC5F9002999B6 /* grisbi_conf.c in Sources */,
 				006E68311DB3E7AD0038B1F0 /* bet_data_finance.c in Sources */,
 				006E68B01DB3E7AD0038B1F0 /* transaction_list_sort.c in Sources */,
 				006E683D1DB3E7AD0038B1F0 /* erreur.c in Sources */,
