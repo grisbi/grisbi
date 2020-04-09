@@ -160,11 +160,45 @@ static void gsb_file_remove_old_backup (const gchar *filename)
 					long_name = strlen (name);
 					str_date = g_strndup (old_filename+long_name+1, 8);
 					tmp_year = g_strndup (str_date, 4);
+					if (g_date_valid_year (utils_str_atoi (tmp_year)) == FALSE)
+					{
+						g_free (str_date);
+						g_free (tmp_year);
+
+						continue;
+					}
 					tmp_month = g_strndup (str_date+4, 2);
+					if (g_date_valid_month (utils_str_atoi (tmp_month)) == FALSE)
+					{
+						g_free (str_date);
+						g_free (tmp_year);
+						g_free (tmp_month);
+
+						continue;
+					}
 					tmp_day = g_strndup (str_date+6, 2);
+					if (g_date_valid_day (utils_str_atoi (tmp_day)) == FALSE)
+					{
+						g_free (str_date);
+						g_free (tmp_year);
+						g_free (tmp_month);
+						g_free (tmp_day);
+
+						continue;
+					}
 					date = g_date_new_dmy (utils_str_atoi (tmp_day),
 										   utils_str_atoi (tmp_month),
 										   utils_str_atoi (tmp_year));
+					if (g_date_valid (date) == FALSE)
+					{
+						g_date_free (date);
+						g_free (str_date);
+						g_free (tmp_year);
+						g_free (tmp_month);
+						g_free (tmp_day);
+
+						continue;
+					}
 					if (g_date_compare (date, first_old_date) < 0)
 					{
 						gchar *tmp_filename;
