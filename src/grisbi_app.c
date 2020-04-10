@@ -1165,7 +1165,7 @@ static void grisbi_app_shutdown (GApplication *application)
 
     /* Sauvegarde de la configuration générale */
 #ifdef USE_CONFIG_FILE
-	gsb_file_config_save_app_config ();
+	grisbi_conf_save_app_config ();
 #else
 	grisbi_settings_save_app_config ();
 #endif
