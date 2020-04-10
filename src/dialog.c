@@ -105,8 +105,14 @@ ConditionalMsg tab_warning_msg[NBRE_MSG_WARNINGS] =
       N_("Grisbi detected that an account is under a desired balance: %s"),
       FALSE, FALSE, },
 
-    { "reconcile-transaction", N_("Confirmation of manual (un)reconciliation"),
-      N_("You are trying to reconcile or unreconcile a transaction manually, "
+    { "reconcile-transaction", N_("Confirmation of manual reconciliation"),
+      N_("You are trying to reconcile a transaction manually, "
+	  "which is not a recommended action.\n"
+      "Are you really sure you know what you are doing?"),
+      FALSE, FALSE, },
+
+    { "unreconcile-transaction", N_("Confirmation of manual unreconciliation"),
+      N_("You are trying to unreconcile a transaction manually, "
 	  "which is not a recommended action.\n"
       "Are you really sure you know what you are doing?"),
       FALSE, FALSE, },

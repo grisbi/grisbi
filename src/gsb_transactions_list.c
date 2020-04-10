@@ -1435,7 +1435,8 @@ static gboolean gsb_transactions_list_switch_R_mark (gint transaction_number)
     gint account_number;
     GtkTreeIter iter;
     gint r_column;
-    gchar *tmp_str;
+    gchar *tmp_str1;
+    gchar *tmp_str2;
 
     r_column = gsb_transactions_list_find_element_col (ELEMENT_MARK);
     if (r_column == -1)
@@ -1453,34 +1454,60 @@ static gboolean gsb_transactions_list_switch_R_mark (gint transaction_number)
                          "reconciliation first."));
         return FALSE;
     }
-
+		
     /* if it's a child, we ask if we want to work with the mother */
     if (gsb_data_transaction_get_mother_transaction_number (transaction_number))
     {
-    	tmp_str = g_strdup_printf (
-				   _("You are trying to reconcile or unreconcile a transaction manually, "
-				     "which is not a recommended action.This is the wrong approach.\n\n"
-				     "And moreover the transaction you try to reconcile is a child of split, so "
-				     "the modification will be done on the mother and all its children.\n\n"
-				     "Are you really sure to know what you do?"));
+		if (gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_RAPPROCHEE)
+		{
+			tmp_str1 = g_strdup (_("You are trying to unreconcile a transaction manually, "
+								   "which is not a recommended action. This is the wrong approach.\n\n"
+								   "And moreover the transaction you try to reconcile is a child of split, so "
+								   "the modification will be done on the mother and all its children.\n\n"
+								   "Are you really sure to know what you do?"));
+			tmp_str2 = g_strdup ("unreconcile-transaction");
+		}
+		else
+		{
+			tmp_str1 = g_strdup (_("You are trying to reconcile a transaction manually, "
+								   "which is not a recommended action. This is the wrong approach.\n\n"
+								   "And moreover the transaction you try to reconcile is a child of split, so "
+								   "the modification will be done on the mother and all its children.\n\n"
+								   "Are you really sure to know what you do?"));
+			tmp_str2 = g_strdup ("reconcile-transaction");
+		}
 
-		if (dialogue_conditional_yes_no_with_items ("tab_warning_msg", "reconcile-transaction", tmp_str))
+		if (dialogue_conditional_yes_no_with_items ("tab_warning_msg", tmp_str2, tmp_str1))
         {
             /* he says ok, so transaction_number becomes the mother */
             transaction_number = gsb_data_transaction_get_mother_transaction_number (transaction_number);
-            g_free (tmp_str);
+			g_free (tmp_str1);
+			g_free (tmp_str2);
         }
 	    else
         {
-            g_free (tmp_str);
-	        return FALSE;
+			g_free (tmp_str1);
+			g_free (tmp_str2);
+
+			return FALSE;
         }
     }
     else
+	{
 	    /* it's a normal transaction, ask to be sure */
-        if (!dialogue_conditional_yes_no ("reconcile-transaction"))
-	        return FALSE;
+		if (gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_RAPPROCHEE)
+			tmp_str2 = g_strdup ("unreconcile-transaction");
+		else
+			tmp_str2 = g_strdup ("reconcile-transaction");
 
+        if (!dialogue_conditional_yes_no (tmp_str2))
+		{
+            g_free (tmp_str2);
+
+			return FALSE;
+		}
+		g_free (tmp_str2);
+	}
 
     if (!transaction_model_get_transaction_iter (&iter,
 						  transaction_number, 0))

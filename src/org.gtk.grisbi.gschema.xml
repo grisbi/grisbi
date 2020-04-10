@@ -477,6 +477,11 @@
 	    <summary>Display warning</summary>
 	    <description>TRUE to display message</description>
 	  </key>
+	  <key name="unreconcile-transaction" type="b">
+	    <default>true</default>
+	    <summary>Display warning</summary>
+	    <description>TRUE to display message</description>
+	  </key>
 	  <key name="remove-backup-files" type="b">
 	    <default>true</default>
 	    <summary>Display warning</summary>
