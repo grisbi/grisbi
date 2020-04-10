@@ -376,14 +376,14 @@
     </child>
   </template>
   <object class="GtkButton" id="button_amortization_table">
-    <property name="label" translatable="yes">Amortization table</property>
+    <property name="label">Amortization table</property>
     <property name="visible">True</property>
     <property name="can_focus">True</property>
     <property name="receives_default">True</property>
     <property name="halign">center</property>
   </object>
   <object class="GtkButton" id="button_init_scheduled">
-    <property name="label" translatable="yes">button</property>
+    <property name="label">button</property>
     <property name="visible">True</property>
     <property name="can_focus">True</property>
     <property name="receives_default">True</property>

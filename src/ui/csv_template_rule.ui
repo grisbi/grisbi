@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.20.0 -->
+<!-- Generated with glade 3.22.1 -->
 <interface>
   <requires lib="gtk+" version="3.16"/>
   <object class="GtkAdjustment" id="adjustment200">
@@ -28,6 +28,9 @@
     <property name="can_focus">False</property>
     <property name="type_hint">dialog</property>
     <signal name="response" handler="csv_template_dialog_response" swapped="no"/>
+    <child>
+      <placeholder/>
+    </child>
     <child internal-child="vbox">
       <object class="GtkBox" id="dialog-csv_template">
         <property name="visible">True</property>
@@ -839,7 +842,6 @@
             </child>
             <child>
               <object class="GtkCheckButton" id="checkbutton4">
-                <property name="label" translatable="yes">checkbutton</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
