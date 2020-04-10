@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-10 08:55+0200\n"
+"POT-Creation-Date: 2020-04-10 17:25+0200\n"
 "PO-Revision-Date: 2010-05-09 11:48+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <cmcamara@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -119,7 +119,7 @@ msgid "Display the grids above the plot"
 msgstr "Mostrar el consejo del día"
 
 #: ../src/ui/csv_template_rule.ui.h:1 ../src/bet_config.c:101
-#: ../src/grisbi_prefs.c:566
+#: ../src/grisbi_prefs.c:564
 msgid "General Options"
 msgstr "Opciones Generales"
 
@@ -569,12 +569,12 @@ msgstr "Categorías de ingresos"
 msgid "Outgoing categories"
 msgstr "Categorías salientes"
 
-#: ../src/ui/etats_prefs.ui.h:70 ../src/grisbi_prefs.c:735
+#: ../src/ui/etats_prefs.ui.h:70 ../src/grisbi_prefs.c:733
 #, fuzzy
 msgid "Expand all"
 msgstr "Cambiar selección"
 
-#: ../src/ui/etats_prefs.ui.h:71 ../src/grisbi_prefs.c:745
+#: ../src/ui/etats_prefs.ui.h:71 ../src/grisbi_prefs.c:743
 msgid "Collapse all"
 msgstr ""
 
@@ -947,7 +947,7 @@ msgstr "Editar la transacción"
 #. new transaction button
 #: ../src/ui/grisbi_menu.ui.h:22 ../src/grisbi_app.c:116
 #: ../src/grisbi_app.c:133 ../src/gsb_scheduler_list.c:351
-#: ../src/gsb_transactions_list.c:475 ../src/gsb_transactions_list.c:2421
+#: ../src/gsb_transactions_list.c:475 ../src/gsb_transactions_list.c:2448
 msgid "New transaction"
 msgstr "Nueva transacción"
 
@@ -987,7 +987,7 @@ msgstr "_Borrar la cuenta actual"
 #. View button
 #. Change view mode button
 #: ../src/ui/grisbi_menu.ui.h:29 ../src/categories_onglet.c:623
-#: ../src/gsb_scheduler_list.c:1145 ../src/gsb_transactions_list.c:2466
+#: ../src/gsb_scheduler_list.c:1145 ../src/gsb_transactions_list.c:2493
 #: ../src/imputation_budgetaire.c:672 ../src/tiers_onglet.c:560
 msgid "View"
 msgstr "Vista"
@@ -1004,7 +1004,7 @@ msgid "Show reconciled"
 msgstr "Mostrar _reconciliados"
 
 #: ../src/ui/grisbi_menu.ui.h:32 ../src/grisbi_app.c:119
-#: ../src/grisbi_app.c:136 ../src/gsb_transactions_list.c:2374
+#: ../src/grisbi_app.c:136 ../src/gsb_transactions_list.c:2401
 msgid "Show lines archives"
 msgstr "Mostrar archivos de líneas"
 
@@ -1083,7 +1083,7 @@ msgstr "_Exportar Cuentas como archivo QIF/CSV ..."
 #. Properties button
 #. edit button
 #: ../src/ui/grisbi_menu.ui.h:47 ../src/categories_onglet.c:611
-#: ../src/gsb_scheduler_list.c:1113 ../src/gsb_transactions_list.c:2439
+#: ../src/gsb_scheduler_list.c:1113 ../src/gsb_transactions_list.c:2466
 #: ../src/imputation_budgetaire.c:660 ../src/tiers_onglet.c:548
 msgid "Edit"
 msgstr "Editar"
@@ -3045,7 +3045,7 @@ msgstr "Crédito"
 #. création du bouton print
 #. print button
 #: ../src/bet_finance_ui.c:2098 ../src/bet_hist.c:1947 ../src/bet_tab.c:2091
-#: ../src/etats_onglet.c:574 ../src/gsb_transactions_list.c:2457
+#: ../src/etats_onglet.c:574 ../src/gsb_transactions_list.c:2484
 msgid "Print"
 msgstr "Imprimir"
 
@@ -3732,7 +3732,7 @@ msgid "Description"
 msgstr "Descripción"
 
 #: ../src/bet_tab.c:2039 ../src/export_csv.c:392 ../src/gsb_reconcile.c:217
-#: ../src/gsb_transactions_list.c:115 ../src/gsb_transactions_list.c:1609
+#: ../src/gsb_transactions_list.c:115 ../src/gsb_transactions_list.c:1636
 msgid "Balance"
 msgstr "Balance"
 
@@ -3877,7 +3877,7 @@ msgstr "Exportar un archivo de categorías de Grisbi (.cgsb)"
 #. Delete button
 #. delete button
 #: ../src/categories_onglet.c:599 ../src/etats_onglet.c:583
-#: ../src/gsb_scheduler_list.c:1102 ../src/gsb_transactions_list.c:2430
+#: ../src/gsb_scheduler_list.c:1102 ../src/gsb_transactions_list.c:2457
 #: ../src/imputation_budgetaire.c:648 ../src/tiers_onglet.c:536
 msgid "Delete"
 msgstr "Borrar"
@@ -3904,7 +3904,7 @@ msgstr "Vista de categorías"
 msgid "Subcategory view"
 msgstr "Vista de subcategorías"
 
-#: ../src/categories_onglet.c:675 ../src/gsb_transactions_list.c:2333
+#: ../src/categories_onglet.c:675 ../src/gsb_transactions_list.c:2360
 #: ../src/imputation_budgetaire.c:724 ../src/tiers_onglet.c:463
 msgid "Complete view"
 msgstr "Vista completa"
@@ -4132,13 +4132,15 @@ msgstr ""
 "Grisbi ha detectado que una cuenta está por debajo del balance deseado: %s"
 
 #: ../src/dialog.c:108
-msgid "Confirmation of manual (un)reconciliation"
+#, fuzzy
+msgid "Confirmation of manual reconciliation"
 msgstr "Confirmación de (ir)reconciliación manual"
 
 #: ../src/dialog.c:109
+#, fuzzy
 msgid ""
-"You are trying to reconcile or unreconcile a transaction manually, which is "
-"not a recommended action.\n"
+"You are trying to reconcile a transaction manually, which is not a "
+"recommended action.\n"
 "Are you really sure you know what you are doing?"
 msgstr ""
 "Está intentando reconciliar o irreconciliar manualmente una transacción y no "
@@ -4147,25 +4149,41 @@ msgstr ""
 
 #: ../src/dialog.c:114
 #, fuzzy
+msgid "Confirmation of manual unreconciliation"
+msgstr "Confirmación de (ir)reconciliación manual"
+
+#: ../src/dialog.c:115
+#, fuzzy
+msgid ""
+"You are trying to unreconcile a transaction manually, which is not a "
+"recommended action.\n"
+"Are you really sure you know what you are doing?"
+msgstr ""
+"Está intentando reconciliar o irreconciliar manualmente una transacción y no "
+"es una acción aconsejable.\n"
+"¿Está seguro de que sabe lo que está haciendo?"
+
+#: ../src/dialog.c:120
+#, fuzzy
 msgid "Removing backups from the account file"
 msgstr "Hacer un único fichero de respaldo"
 
-#: ../src/dialog.c:115
+#: ../src/dialog.c:121
 #, c-format
 msgid ""
 "You will delete %d backups from your account file that are older than %s."
 msgstr ""
 
-#: ../src/dialog.c:274
+#: ../src/dialog.c:280
 msgid "Do not show this message again"
 msgstr "No volver a mostrar este mensaje"
 
-#: ../src/dialog.c:278 ../src/dialog.c:648 ../src/dialog.c:700
+#: ../src/dialog.c:284 ../src/dialog.c:654 ../src/dialog.c:706
 #: ../src/gsb_scheduler_list.c:2898
 msgid "Keep this choice permanently?"
 msgstr ""
 
-#: ../src/dialog.c:808
+#: ../src/dialog.c:814
 msgid ""
 "Hi, you are in the middle of nowhere, between two lines of code. Grisbi is "
 "expected to crash very soon. Have a nice day."
@@ -4174,11 +4192,11 @@ msgstr ""
 "Probablemente Grisbi se cerrará debido a un fallo muy pronto.  Que tenga un "
 "buen día."
 
-#: ../src/dialog.c:810
+#: ../src/dialog.c:816
 msgid "Serious brain damage expected."
 msgstr "Se esperan daños cerebrales severos."
 
-#: ../src/dialog.c:824
+#: ../src/dialog.c:830
 msgid ""
 "Bad things will happen soon.  Be sure to save any modification in a separate "
 "file in case Grisbi would corrupt files."
@@ -4186,7 +4204,7 @@ msgstr ""
 "Cosas malas ocurrirán pronto.  Asegúrese de guardar cualquier modificación "
 "en otro archivo por que es posible que Grisbi corrompa los archivos."
 
-#: ../src/dialog.c:826
+#: ../src/dialog.c:832
 msgid "Cannot allocate memory"
 msgstr "No se puede reservar memoria"
 
@@ -4574,7 +4592,7 @@ msgstr "Año financiero"
 
 #. Now we have a model, create view
 #: ../src/etats_affiche.c:2513 ../src/etats_prefs.c:704
-#: ../src/etats_prefs.c:2298 ../src/grisbi_prefs.c:555
+#: ../src/etats_prefs.c:2298 ../src/grisbi_prefs.c:553
 #: ../src/gsb_payment_method_config.c:132
 msgid "Payment methods"
 msgstr "Formas de pago"
@@ -4963,8 +4981,8 @@ msgstr "Archivo CSV"
 msgid "Exporting report..."
 msgstr "Exportando el informe ..."
 
-#: ../src/etats_onglet.c:417 ../src/grisbi_prefs.c:802
-#: ../src/grisbi_prefs.c:929 ../src/grisbi_prefs.c:965 ../src/gsb_debug.c:848
+#: ../src/etats_onglet.c:417 ../src/grisbi_prefs.c:800
+#: ../src/grisbi_prefs.c:927 ../src/grisbi_prefs.c:963 ../src/gsb_debug.c:848
 #: ../src/gsb_file.c:517 ../src/gsb_file.c:660 ../src/gsb_file.c:986
 msgid "Done"
 msgstr "Hecho"
@@ -6319,34 +6337,32 @@ msgstr "Tasas de cambio entre monedas"
 msgid "Banks"
 msgstr "Bancos"
 
-#. ~ widget = GTK_WIDGET (gsb_fyear_config_create_page ());
-#. ~ utils_widget_set_padding (widget, MARGIN_BOX, 0);
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:549 ../src/gsb_fyear_config.c:147
+#: ../src/grisbi_prefs.c:547 ../src/gsb_fyear_config.c:147
 #: ../src/prefs/prefs_page_fyear.c:689
 msgid "Financial years"
 msgstr "Años financieros"
 
 #. append group page "Balance estimate"
-#: ../src/grisbi_prefs.c:559
+#: ../src/grisbi_prefs.c:557
 msgid "Balance estimate"
 msgstr "Balance estimado"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:571 ../src/prefs/prefs_page_bet_account.c:442
+#: ../src/grisbi_prefs.c:569 ../src/prefs/prefs_page_bet_account.c:442
 msgid "Accounts data"
 msgstr "Datos de la cuenta"
 
-#: ../src/grisbi_prefs.c:690
+#: ../src/grisbi_prefs.c:688
 #, fuzzy
 msgid "Preferences start"
 msgstr "_Preferencias"
 
-#: ../src/grisbi_prefs.c:723
+#: ../src/grisbi_prefs.c:721
 msgid "This state will be kept for the duration of this session"
 msgstr ""
 
-#: ../src/grisbi_prefs.c:926
+#: ../src/grisbi_prefs.c:924
 #, fuzzy
 msgid "Preferences stop"
 msgstr "_Preferencias"
@@ -10857,7 +10873,7 @@ msgstr ""
 "\n"
 "Los números de hijos implicados son :\n"
 
-#: ../src/gsb_scheduler_list.c:1669 ../src/gsb_transactions_list.c:2068
+#: ../src/gsb_scheduler_list.c:1669 ../src/gsb_transactions_list.c:2095
 #, fuzzy
 msgid "Remove orphan children"
 msgstr "Recuperar los hijos"
@@ -11002,7 +11018,7 @@ msgstr ""
 msgid "Grisbi couldn't get the selection, operation canceled..."
 msgstr "Grisbi no puedo obtener la selección, se ha cancelado la operación..."
 
-#: ../src/gsb_transactions_list.c:1451
+#: ../src/gsb_transactions_list.c:1452
 msgid ""
 "You cannot switch a transaction between R and non R while reconciling.\n"
 "Please finish or cancel the reconciliation first."
@@ -11011,11 +11027,31 @@ msgstr ""
 "el balance.\n"
 "Por favor, primero termine o cancele la reconciliación."
 
-#: ../src/gsb_transactions_list.c:1461
-#, c-format
+#: ../src/gsb_transactions_list.c:1463
+#, fuzzy
 msgid ""
-"You are trying to reconcile or unreconcile a transaction manually, which is "
-"not a recommended action.This is the wrong approach.\n"
+"You are trying to unreconcile a transaction manually, which is not a "
+"recommended action. This is the wrong approach.\n"
+"\n"
+"And moreover the transaction you try to reconcile is a child of split, so "
+"the modification will be done on the mother and all its children.\n"
+"\n"
+"Are you really sure to know what you do?"
+msgstr ""
+"Está intentando reconciliar o irreconciliar manualmente una transacción y "
+"eso no es una acción recomendable. Esta aproximación no es la correcta\n"
+"\n"
+"Y además la transacción que está intentando reconciliar es la hija de una "
+"dividida, por lo que la modificación será hecha en la madre y en todos sus "
+"hijos.\n"
+"\n"
+"¿ Está seguro de que sabe lo que está haciendo ?"
+
+#: ../src/gsb_transactions_list.c:1472
+#, fuzzy
+msgid ""
+"You are trying to reconcile a transaction manually, which is not a "
+"recommended action. This is the wrong approach.\n"
 "\n"
 "And moreover the transaction you try to reconcile is a child of split, so "
 "the modification will be done on the mother and all its children.\n"
@@ -11032,13 +11068,13 @@ msgstr ""
 "¿ Está seguro de que sabe lo que está haciendo ?"
 
 #. set the R on the transaction
-#: ../src/gsb_transactions_list.c:1515 ../src/gsb_transactions_list.c:2988
+#: ../src/gsb_transactions_list.c:1542 ../src/gsb_transactions_list.c:3015
 msgid "R"
 msgstr "R"
 
 #. we warn the user the transaction disappear
 #. * don't laugh !there were several bugs reports about a transaction which disappear :-)
-#: ../src/gsb_transactions_list.c:1527
+#: ../src/gsb_transactions_list.c:1554
 msgid ""
 "The transaction has disappear from the list...\n"
 "Don't worry, it's because you marked it as R, and you choosed not to show "
@@ -11050,40 +11086,40 @@ msgstr ""
 "lastransacciones R en la lista; Eliga mostrarlas si quiere comprobar lo que "
 "hizo."
 
-#: ../src/gsb_transactions_list.c:1528
+#: ../src/gsb_transactions_list.c:1555
 msgid "Marking a transaction as R"
 msgstr "Marcar las transacciones como R"
 
 #. sort by line
-#: ../src/gsb_transactions_list.c:1615
+#: ../src/gsb_transactions_list.c:1642
 #, fuzzy
 msgid "Sort list by: "
 msgstr "Ordenar la lista por :"
 
-#: ../src/gsb_transactions_list.c:1660
+#: ../src/gsb_transactions_list.c:1687
 msgid "alignment: "
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:1668
+#: ../src/gsb_transactions_list.c:1695
 msgid "LEFT"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:1683
+#: ../src/gsb_transactions_list.c:1710
 #, fuzzy
 msgid "CENTER"
 msgstr "CEE"
 
-#: ../src/gsb_transactions_list.c:1698
+#: ../src/gsb_transactions_list.c:1725
 msgid "RIGHT"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:2003
+#: ../src/gsb_transactions_list.c:2030
 #, fuzzy
 msgid "Do you really want to delete this file import rule?"
 msgstr ""
 "¿ Está seguro de que quiere borrar la transacción con la tercera parte '%s' ?"
 
-#: ../src/gsb_transactions_list.c:2062
+#: ../src/gsb_transactions_list.c:2089
 #, fuzzy, c-format
 msgid ""
 "Some children didn't find their mother in the list, this shouldn't happen "
@@ -11100,93 +11136,93 @@ msgstr ""
 "\n"
 "Los números de hijos implicados son : \n"
 
-#: ../src/gsb_transactions_list.c:2240
+#: ../src/gsb_transactions_list.c:2267
 #, fuzzy
 msgid "Edit the rule"
 msgstr "Añadiendo al balance"
 
-#: ../src/gsb_transactions_list.c:2248
+#: ../src/gsb_transactions_list.c:2275
 msgid "Remove the rule"
 msgstr "Eliminar la regla"
 
-#: ../src/gsb_transactions_list.c:2315
+#: ../src/gsb_transactions_list.c:2342
 msgid "Simple view"
 msgstr "Vista Simple"
 
-#: ../src/gsb_transactions_list.c:2321
+#: ../src/gsb_transactions_list.c:2348
 msgid "Two lines view"
 msgstr "Vista de dos líneas"
 
-#: ../src/gsb_transactions_list.c:2327
+#: ../src/gsb_transactions_list.c:2354
 msgid "Three lines view"
 msgstr "Vista de tres líneas"
 
-#: ../src/gsb_transactions_list.c:2360
+#: ../src/gsb_transactions_list.c:2387
 msgid "Show reconciled transactions"
 msgstr "Mostrar transacciones reconciliadas"
 
-#: ../src/gsb_transactions_list.c:2422
+#: ../src/gsb_transactions_list.c:2449
 msgid "Blank the form to create a new transaction"
 msgstr "Limpia el formulario para crear una nueva transacción"
 
-#: ../src/gsb_transactions_list.c:2431
+#: ../src/gsb_transactions_list.c:2458
 msgid "Delete selected transaction"
 msgstr "Borrar la transacción seleccionada"
 
-#: ../src/gsb_transactions_list.c:2440
+#: ../src/gsb_transactions_list.c:2467
 msgid "Edit current transaction"
 msgstr "Editar la transacción actual"
 
 #. reconcile button
-#: ../src/gsb_transactions_list.c:2448
+#: ../src/gsb_transactions_list.c:2475
 msgid "Reconcile"
 msgstr "Reconciliar"
 
-#: ../src/gsb_transactions_list.c:2449
+#: ../src/gsb_transactions_list.c:2476
 msgid "Start account reconciliation"
 msgstr "Comenzar la reconciliación de la cuenta"
 
-#: ../src/gsb_transactions_list.c:2458
+#: ../src/gsb_transactions_list.c:2485
 msgid "Print the transactions list"
 msgstr "Imprimir la lista de transacciones"
 
-#: ../src/gsb_transactions_list.c:2467
+#: ../src/gsb_transactions_list.c:2494
 msgid "Change display mode of the list"
 msgstr "Cambia el modo de presentación de la lista"
 
 #. select the rule
-#: ../src/gsb_transactions_list.c:2475
+#: ../src/gsb_transactions_list.c:2502
 msgid "Import rules"
 msgstr "Importar reglas"
 
-#: ../src/gsb_transactions_list.c:2476
+#: ../src/gsb_transactions_list.c:2503
 msgid "Quick file import by rules"
 msgstr "Importación rápida de fichero por reglas"
 
 #. archive button
-#: ../src/gsb_transactions_list.c:2491
+#: ../src/gsb_transactions_list.c:2518
 #, fuzzy
 msgid "Recreates archive"
 msgstr "Borrar el fichero"
 
-#: ../src/gsb_transactions_list.c:2493
+#: ../src/gsb_transactions_list.c:2520
 #, fuzzy
 msgid "Recreates the line of the archive and hiding the transactions"
 msgstr "Borrar el archivo y las transacciones"
 
-#: ../src/gsb_transactions_list.c:2980
+#: ../src/gsb_transactions_list.c:3007
 msgid "P"
 msgstr "P"
 
-#: ../src/gsb_transactions_list.c:2984
+#: ../src/gsb_transactions_list.c:3011
 msgid "T"
 msgstr "T"
 
-#: ../src/gsb_transactions_list.c:3402
+#: ../src/gsb_transactions_list.c:3429
 msgid "Impossible to delete an archived transaction."
 msgstr "Es imposible borrar una transacción archivada."
 
-#: ../src/gsb_transactions_list.c:3411
+#: ../src/gsb_transactions_list.c:3438
 msgid ""
 "Impossible to delete a reconciled transaction.\n"
 "The transaction, the contra-transaction or the children if it is a split are "
@@ -11198,7 +11234,7 @@ msgstr ""
 "reconciliados. Puede eliminar la reconciliación con Ctrl R si es realmente "
 "necesario."
 
-#: ../src/gsb_transactions_list.c:3427
+#: ../src/gsb_transactions_list.c:3454
 #, c-format
 msgid ""
 "Do you really want to delete the child of the transaction with party '%s' ?"
@@ -11206,13 +11242,13 @@ msgstr ""
 "¿Está seguro de que quiere borrar el hijo de la transacción con la tercera "
 "parte '%s' ?"
 
-#: ../src/gsb_transactions_list.c:3436
+#: ../src/gsb_transactions_list.c:3463
 #, c-format
 msgid "Do you really want to delete transaction with party '%s' ?"
 msgstr ""
 "¿ Está seguro de que quiere borrar la transacción con la tercera parte '%s' ?"
 
-#: ../src/gsb_transactions_list.c:4145 ../src/gsb_transactions_list.c:4260
+#: ../src/gsb_transactions_list.c:4172 ../src/gsb_transactions_list.c:4287
 #, fuzzy
 msgid ""
 "Some children didn't find their mother in the list, this shouldn't happen "
@@ -11226,7 +11262,7 @@ msgstr ""
 "\n"
 "Los números de hijos implicados son : \n"
 
-#: ../src/gsb_transactions_list.c:4177 ../src/gsb_transactions_list.c:4286
+#: ../src/gsb_transactions_list.c:4204 ../src/gsb_transactions_list.c:4313
 msgid ""
 "You have just recovered an archive, if you don't see any new transaction, "
 "remember that the R transactions are not showed so the archived transactions "
