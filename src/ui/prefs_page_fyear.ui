@@ -55,108 +55,96 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkBox">
+                      <object class="GtkGrid" id="grid_fyear_list">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="orientation">vertical</property>
-                        <property name="spacing">5</property>
+                        <property name="row_spacing">5</property>
+                        <property name="column_spacing">5</property>
+                        <property name="column_homogeneous">True</property>
                         <child>
-                          <object class="GtkGrid" id="grid_fyear">
+                          <object class="GtkScrolledWindow" id="sw_fyear">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="row_spacing">5</property>
-                            <property name="column_spacing">5</property>
-                            <property name="column_homogeneous">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="hexpand">True</property>
+                            <property name="vexpand">True</property>
+                            <property name="shadow_type">in</property>
                             <child>
-                              <object class="GtkScrolledWindow" id="sw_fyear">
+                              <object class="GtkTreeView" id="treeview_fyear">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="hexpand">True</property>
-                                <property name="vexpand">True</property>
-                                <property name="shadow_type">in</property>
-                                <child>
-                                  <object class="GtkTreeView" id="treeview_fyear">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <child internal-child="selection">
-                                      <object class="GtkTreeSelection"/>
-                                    </child>
-                                  </object>
+                                <child internal-child="selection">
+                                  <object class="GtkTreeSelection"/>
                                 </child>
                               </object>
-                              <packing>
-                                <property name="left_attach">0</property>
-                                <property name="top_attach">0</property>
-                                <property name="width">2</property>
-                                <property name="height">4</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkCheckButton" id="checkbutton_prefs-fyear-sort-order">
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">False</property>
-                                <property name="draw_indicator">True</property>
-                                <child>
-                                  <object class="GtkLabel" id="label101">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">Sort the exercises by descending name</property>
-                                  </object>
-                                </child>
-                              </object>
-                              <packing>
-                                <property name="left_attach">0</property>
-                                <property name="top_attach">4</property>
-                                <property name="width">2</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkButton" id="button_associate_fyear">
-                                <property name="label">gtk-add</property>
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">True</property>
-                                <property name="use_stock">True</property>
-                                <property name="always_show_image">True</property>
-                              </object>
-                              <packing>
-                                <property name="left_attach">0</property>
-                                <property name="top_attach">5</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkButton">
-                                <property name="label">gtk-remove</property>
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">True</property>
-                                <property name="use_stock">True</property>
-                                <property name="always_show_image">True</property>
-                              </object>
-                              <packing>
-                                <property name="left_attach">1</property>
-                                <property name="top_attach">5</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkButton">
-                                <property name="label" translatable="yes">Associate operations without financial years</property>
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">True</property>
-                              </object>
-                              <packing>
-                                <property name="left_attach">0</property>
-                                <property name="top_attach">6</property>
-                                <property name="width">2</property>
-                              </packing>
                             </child>
                           </object>
                           <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
+                            <property name="left_attach">0</property>
+                            <property name="top_attach">0</property>
+                            <property name="width">2</property>
+                            <property name="height">4</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkCheckButton" id="checkbutton_fyear_sort_order">
+                            <property name="name">label_gsetting_option</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="draw_indicator">True</property>
+                            <child>
+                              <object class="GtkLabel" id="label101">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">Sort the exercises by descending name</property>
+                              </object>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="left_attach">0</property>
+                            <property name="top_attach">4</property>
+                            <property name="width">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="button_fyear_add">
+                            <property name="label">gtk-add</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                            <property name="use_stock">True</property>
+                            <property name="always_show_image">True</property>
+                          </object>
+                          <packing>
+                            <property name="left_attach">0</property>
+                            <property name="top_attach">5</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="button_fyear_remove">
+                            <property name="label">gtk-remove</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                            <property name="use_stock">True</property>
+                            <property name="always_show_image">True</property>
+                          </object>
+                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="top_attach">5</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="button_fyear_associate">
+                            <property name="label" translatable="yes">Associate operations without financial years</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                          </object>
+                          <packing>
+                            <property name="left_attach">0</property>
+                            <property name="top_attach">6</property>
+                            <property name="width">2</property>
                           </packing>
                         </child>
                       </object>
@@ -233,7 +221,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkGrid" id="grid_detail_fyear">
+                      <object class="GtkGrid" id="grid_fyear_details">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="row_spacing">5</property>
@@ -255,11 +243,11 @@
                           <packing>
                             <property name="left_attach">0</property>
                             <property name="top_attach">3</property>
-                            <property name="width">2</property>
+                            <property name="width">3</property>
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkLabel">
+                          <object class="GtkLabel" id="label201">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="halign">start</property>
@@ -271,7 +259,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkLabel">
+                          <object class="GtkLabel" id="label202">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="halign">start</property>
@@ -283,7 +271,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkLabel">
+                          <object class="GtkLabel" id="label203">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="halign">start</property>
@@ -295,34 +283,30 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkEntry" id="entry_fyear_name">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
+                          <object class="GtkLabel" id="label_fyear_invalid">
+                            <property name="can_focus">False</property>
+                            <property name="no_show_all">True</property>
+                            <property name="label">invalid_label</property>
                           </object>
                           <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkEntry" id="entry_fyear_begin_date">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                          </object>
-                          <packing>
-                            <property name="left_attach">1</property>
+                            <property name="left_attach">2</property>
                             <property name="top_attach">1</property>
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkEntry" id="entry_end_date">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                          </object>
-                          <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">2</property>
-                          </packing>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
                         </child>
                       </object>
                       <packing>
@@ -361,18 +345,13 @@
       </packing>
     </child>
   </template>
-  <object class="GtkSizeGroup" id="groupe_grid">
-    <widgets>
-      <widget name="grid_fyear"/>
-      <widget name="grid_detail_fyear"/>
-    </widgets>
-  </object>
   <object class="GtkAdjustment" id="adjustment1">
     <property name="lower">1</property>
     <property name="upper">100</property>
     <property name="step_increment">1</property>
     <property name="page_increment">1</property>
   </object>
+  <object class="GtkSizeGroup" id="groupe_grid"/>
   <object class="GtkBox" id="hbox_paddingbox">
     <property name="visible">True</property>
     <property name="can_focus">False</property>

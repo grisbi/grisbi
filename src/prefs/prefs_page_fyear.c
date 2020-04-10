@@ -38,8 +38,18 @@
 
 /*START_INCLUDE*/
 #include "prefs_page_fyear.h"
+#include "dialog.h"
+#include "grisbi_settings.h"
+#include "gsb_autofunc.h"
+#include "gsb_calendar_entry.h"
+#include "gsb_data_fyear.h"
+#include "gsb_data_transaction.h"
 #include "gsb_file.h"
+#include "gsb_fyear.h"
 #include "structures.h"
+#include "transaction_list.h"
+#include "utils.h"
+#include "utils_dates.h"
 #include "utils_prefs.h"
 #include "erreur.h"
 
@@ -54,18 +64,610 @@ struct _PrefsPageFyearPrivate
 {
 	GtkWidget *			vbox_fyear;
 
-    //~ GtkWidget *			checkbutton_;
+	GtkWidget *			grid_fyear_details;
 	GtkWidget *			sw_fyear;
-    //~ GtkWidget *         spinbutton_n;
-    //~ GtkWidget *         filechooserbutton_;
+    GtkWidget *         treeview_fyear;
 
+    GtkWidget *         button_fyear_add;
+    GtkWidget *         button_fyear_associate;
+    GtkWidget *         button_fyear_remove;
+	GtkWidget *			checkbutton_fyear_show;
+    GtkWidget *         checkbutton_fyear_sort_order;
+    GtkWidget *         label_fyear_invalid;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageFyear, prefs_page_fyear, GTK_TYPE_BOX)
 
+enum prefs_fyear_list_column {
+    FYEAR_NAME_COLUMN = 0,
+    FYEAR_BEGIN_DATE_COLUMN,
+    FYEAR_END_DATE_COLUMN,
+    FYEAR_INVALID_COLUMN,
+    FYEAR_NUMBER_COLUMN,
+	FYEAR_ROW_COLOR,
+    NUM_FYEARS_COLUMNS
+};
+
+
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
+/**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void prefs_page_fyear_button_fyear_show_toggled (GtkWidget *toggle_button,
+													    GtkWidget *tree_view)
+{
+	GtkTreeModel *model;
+    GtkTreeIter iter;
+	GtkTreeSelection *selection;
+	gint etat = 0;
+    gint fyear_number = 0;
+	
+	etat = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (toggle_button));
+	devel_debug_int (etat);
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
+	if (!gtk_tree_selection_get_selected (GTK_TREE_SELECTION (selection), &model, &iter))
+		return;
+
+    gtk_tree_model_get (GTK_TREE_MODEL (model), &iter, FYEAR_NUMBER_COLUMN, &fyear_number, -1);
+
+	if (fyear_number)
+		gsb_data_fyear_set_form_show (fyear_number, etat);		
+}
+
+/**
+ * called when change the selection of the fyear
+ *
+ * \param tree_selection
+ * \param null
+ *
+ * \return FALSE
+ **/
+static gboolean prefs_page_fyear_select (GtkTreeSelection *tree_selection,
+										 GtkWidget *tree_view)
+{
+	GtkWidget *widget;
+	GtkTreeModel *model;
+    GtkTreeIter iter;
+    gint fyear_number;
+
+	if (!gtk_tree_selection_get_selected (GTK_TREE_SELECTION (tree_selection), &model, &iter))
+		return FALSE;
+
+    gtk_tree_model_get (GTK_TREE_MODEL (model), &iter, FYEAR_NUMBER_COLUMN, &fyear_number, -1);
+    /* set the name */
+    widget = g_object_get_data (G_OBJECT (model), "entry_fyear_name");
+    gsb_autofunc_entry_set_value (widget, gsb_data_fyear_get_name (fyear_number), fyear_number);
+
+    /* set the beginning date */
+    widget = g_object_get_data (G_OBJECT (model), "entry_fyear_begin_date");
+    gsb_calendar_entry_set_color (widget, TRUE);
+    gsb_autofunc_date_set (widget, gsb_data_fyear_get_beginning_date (fyear_number), fyear_number);
+
+    /* set the end date */
+    widget = g_object_get_data (G_OBJECT (model), "entry_fyear_end_date");
+    gsb_calendar_entry_set_color (widget, TRUE);
+    gsb_autofunc_date_set (widget, gsb_data_fyear_get_end_date (fyear_number), fyear_number);
+
+    /* set the button */
+    widget = g_object_get_data (G_OBJECT (model), "checkbutton_fyear_show");
+	g_signal_handlers_block_by_func (widget, prefs_page_fyear_button_fyear_show_toggled, tree_view);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget),
+								  gsb_data_fyear_get_form_show (fyear_number));
+	g_signal_handlers_unblock_by_func (widget, prefs_page_fyear_button_fyear_show_toggled, tree_view);
+
+    /* set the invalid label */
+    widget = g_object_get_data (G_OBJECT (model), "label_fyear_invalid");
+    if (gsb_data_fyear_get_invalid (fyear_number))
+    {
+		gtk_label_set_markup (GTK_LABEL (widget), gsb_data_fyear_get_invalid_message (fyear_number));
+		gtk_widget_show (widget);
+    }
+    else
+		gtk_widget_hide (widget);
+
+    /* sensitive what is needed */
+    gtk_widget_set_sensitive (g_object_get_data (G_OBJECT (model), "grid_fyear_details"), TRUE);
+    gtk_widget_set_sensitive (g_object_get_data (G_OBJECT (model), "button_fyear_remove"), TRUE);
+
+    return FALSE;
+}
+
+/**
+ * append a new line to the tree_view and fill it with the
+ * link given in param
+ *
+ * \param model
+ * \param fyear_number
+ * \param iter 				a pointer to an iter to fill it with the position of the new link, or NULL
+ *
+ * \return
+ **/
+static void prefs_page_fyear_append_line (GtkTreeModel *model,
+										  gint fyear_number,
+										  GtkTreeIter *iter_to_fill)
+{
+    gchar *invalid;
+    GtkTreeIter local_iter;
+    GtkTreeIter *iter_ptr;
+	gchar *begin_date;
+	gchar *end_date;
+
+    if (iter_to_fill)
+		iter_ptr = iter_to_fill;
+    else
+		iter_ptr = &local_iter;
+
+    if (gsb_data_fyear_get_invalid (fyear_number))
+		invalid = "gtk-dialog-warning";
+    else
+		invalid = NULL;
+
+	begin_date = gsb_format_gdate (gsb_data_fyear_get_beginning_date (fyear_number));
+	end_date = gsb_format_gdate (gsb_data_fyear_get_end_date (fyear_number));
+
+    gtk_list_store_append (GTK_LIST_STORE (model), iter_ptr);
+    gtk_list_store_set (GTK_LIST_STORE (model),
+						iter_ptr,
+						FYEAR_NAME_COLUMN, gsb_data_fyear_get_name (fyear_number),
+						FYEAR_BEGIN_DATE_COLUMN, begin_date,
+						FYEAR_END_DATE_COLUMN, end_date,
+						FYEAR_INVALID_COLUMN, invalid,
+						FYEAR_NUMBER_COLUMN, fyear_number,
+						-1);
+	g_free  (begin_date);
+	g_free (end_date);
+}
+
+/**
+ * called for add a new financial year
+ *
+ * \param tree_view
+ *
+ * \return FALSE
+ **/
+static gboolean prefs_page_fyear_button_add_clicked (GtkWidget *tree_view)
+{
+    GtkWidget *entry;
+    GtkTreeIter iter;
+    GtkTreeModel *model;
+    GtkTreeSelection *selection;
+    GDate *date;
+    gint fyear_number;
+	static gboolean add_mod = FALSE;
+
+	devel_debug_int (add_mod);
+	if (add_mod)
+	{
+		add_mod = FALSE;
+
+		/* Update various menus */
+		gsb_fyear_update_fyear_list ();
+    	gsb_file_set_modified (TRUE);
+		
+		return FALSE;
+	}
+
+    fyear_number = gsb_data_fyear_new (_("New financial year"));
+
+    /* if bad things will append soon ... */
+    if (!fyear_number)
+		return FALSE;
+
+	date = gdate_today ();
+    gsb_data_fyear_set_form_show (fyear_number, TRUE);
+    gsb_data_fyear_set_beginning_date (fyear_number, date);
+    gsb_data_fyear_set_end_date (fyear_number, date);
+    g_date_free (date);
+
+    model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
+    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
+
+		/* append to the list and get back the iter */
+		prefs_page_fyear_append_line (model, fyear_number, &iter);
+
+		/* select it */
+		gtk_tree_selection_select_iter (GTK_TREE_SELECTION (selection), &iter);
+
+		/* select the new name and give it the focus */
+		entry = g_object_get_data (G_OBJECT (model), "entry_fyear_name");
+		gtk_editable_select_region (GTK_EDITABLE (entry), 0, -1);
+		gtk_widget_grab_focus (entry);
+
+		add_mod = TRUE;
+
+	return FALSE;
+}
+
+/**
+ * called to remove a financial year, check before if
+ * some transactions are associated with it and warn if yes
+ *
+ * \param tree_view
+ *
+ * \return FALSE
+ **/
+static gboolean prefs_page_fyear_button_remove_clicked (GtkWidget *tree_view)
+{
+    GtkTreeIter iter;
+    GtkTreeModel *model;
+    GtkTreeSelection *selection;
+    gint fyear_number;
+    gboolean warning_showed = FALSE;
+    GSList *tmp_list;
+
+    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
+    if (! gtk_tree_selection_get_selected (GTK_TREE_SELECTION (selection), &model, &iter))
+        return FALSE;
+    gtk_tree_model_get (GTK_TREE_MODEL (model), &iter, FYEAR_NUMBER_COLUMN, &fyear_number, -1);
+	if (!fyear_number)
+		return FALSE;
+
+    /* first, we check if one transaction uses that financial year */
+    tmp_list = gsb_data_transaction_get_complete_transactions_list ();
+
+    while (tmp_list)
+    {
+		gint transaction_number;
+
+		transaction_number = gsb_data_transaction_get_transaction_number (tmp_list -> data);
+		if (fyear_number == gsb_data_transaction_get_financial_year_number (transaction_number))
+		{
+			/* at the beginning warning_showed is FALSE and we show a warning,
+			 * if the user doesn't want to continue, we go out of the while so cannot come
+			 * here again ; but if he wants to continue, warning_showed is set to TRUE, we delete
+			 * the financial year and continue to come here to set the fyear of the
+			 * transactions to 0 */
+			if (warning_showed)
+				gsb_data_transaction_set_financial_year_number (transaction_number, 0);
+			else
+			{
+				gint result;
+
+				result = dialogue_yes_no (_("If you really remove it, all the associated transactions "
+											 "will be without financial year.\n"
+											 "Are you sure?"),
+										   _("The selected financial year is used in the file"),
+										   GTK_RESPONSE_NO);
+				if (result)
+				{
+					gsb_data_transaction_set_financial_year_number (transaction_number, 0);
+					warning_showed = TRUE;
+				}
+				else
+					break;
+			}
+		}
+		tmp_list = tmp_list -> next;
+    }
+
+    /* if warning_showed is FALSE, it's because none transaction have that fyear,
+     * or we answer NO to the warning but in that case, tmp_list is non NULL */
+    if (warning_showed || !tmp_list)
+    {
+        gsb_data_fyear_remove (fyear_number);
+
+        gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
+
+        if (g_slist_length (gsb_data_fyear_get_fyears_list ()) == 0)
+        {
+            gtk_widget_set_sensitive (g_object_get_data (G_OBJECT (model), "grid_fyear_details"), FALSE);
+            gtk_widget_set_sensitive (g_object_get_data (G_OBJECT (model), "button_fyear_remove"), FALSE);
+        }
+
+        /* Update various menus */
+        gsb_file_set_modified (TRUE);
+    }
+	
+    return FALSE;
+}
+
+/**
+ * associate all transactions without fyear to the corresponding
+ * fyear
+ *
+ * \param
+ *
+ * \return FALSE
+ **/
+static gboolean prefs_page_fyear_button_associate_clicked (GtkWidget *button,
+														   gpointer null)
+{
+    GSList *list_tmp;
+    gint modification_number = 0;
+
+    if (!dialogue_yes_no (_("This function assigns each transaction without a financial year "
+							"to the one related to its transaction date.  If no financial "
+							"year matches, the transaction will not be changed."),
+						  _("Automatic association of financial years?"),
+						  GTK_RESPONSE_NO))
+		return FALSE;
+
+    list_tmp = gsb_data_transaction_get_complete_transactions_list ();
+
+    while (list_tmp)
+    {
+		gint transaction_number;
+
+		transaction_number = gsb_data_transaction_get_transaction_number (list_tmp -> data);
+		if (!gsb_data_transaction_get_financial_year_number (transaction_number))
+		{
+			gint fyear_number;
+
+			fyear_number = gsb_data_fyear_get_from_date (gsb_data_transaction_get_date (transaction_number));
+			if (fyear_number)
+			{
+				gsb_data_transaction_set_financial_year_number (transaction_number, fyear_number);
+				modification_number++;
+			}
+		}
+		list_tmp = list_tmp -> next;
+    }
+
+    if (modification_number)
+    {
+		gchar* tmp_str;
+		
+		tmp_str = g_strdup_printf (_("%d transactions associated"), modification_number);
+		dialogue (tmp_str);
+		g_free (tmp_str);
+		transaction_list_update_element (ELEMENT_EXERCICE);
+		gsb_file_set_modified (TRUE);
+    }
+    else
+		dialogue (_("no transaction to associate"));
+
+	return FALSE;
+}
+
+/**
+ * update the invalid fyears in the list view
+ *
+ * \param tree_view the tree_view
+ *
+ * \return
+ **/
+static void prefs_page_fyear_update_invalid (GtkWidget *tree_view)
+{
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+
+    /* first update all the invalids flags for the fyears */
+    gsb_data_fyear_check_all_for_invalid ();
+    model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
+
+    /* now go throw the list and show/hide the invalid flag */
+	if (!gtk_tree_model_get_iter_first (model, &iter))
+		return;
+
+    do
+    {
+		gint fyear_number;
+		gchar *invalid;
+
+		gtk_tree_model_get (model, &iter, FYEAR_NUMBER_COLUMN, &fyear_number, -1);
+		if (gsb_data_fyear_get_invalid (fyear_number))
+			invalid = "gtk-dialog-warning";
+		else
+			invalid = NULL;
+
+		gtk_list_store_set (GTK_LIST_STORE (model), &iter, FYEAR_INVALID_COLUMN, invalid, -1);
+	}
+    while (gtk_tree_model_iter_next (model, &iter));
+}
+
+/**
+ * called when something change for a fyear
+ * update the list and the invalid
+ *
+ * \param entry the entry which change
+ * \param tree_view the tree_view
+ *
+ * \return FALSE
+ **/
+static gboolean prefs_page_fyear_modify_fyear (GtkWidget *entry,
+											   GtkWidget *tree_view)
+{
+    GtkTreeModel *model;
+	GtkTreeSelection *selection;
+    GtkTreeIter iter;
+    gint fyear_number;
+    GtkWidget *widget;
+    gchar *invalid;
+
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
+    if (!gtk_tree_selection_get_selected (GTK_TREE_SELECTION (selection), &model, &iter))
+		return FALSE;
+
+    gtk_tree_model_get (GTK_TREE_MODEL (model), &iter, FYEAR_NUMBER_COLUMN, &fyear_number, -1);
+
+    /* normally should not happen */
+    if (!fyear_number)
+		return FALSE;
+
+	/* check the invalid and show the message if needed */
+	widget = g_object_get_data (G_OBJECT (model), "label_fyear_invalid");
+
+	/* check all the fyear to set them invalid if need */
+	prefs_page_fyear_update_invalid (tree_view);
+
+     /* and check if the current fyear was set as invalid */
+     if (gsb_data_fyear_get_invalid (fyear_number))
+     {
+		 /* and now focus on the current fyear */
+		 invalid = g_strdup ("gtk-dialog-warning");
+		 gtk_label_set_markup (GTK_LABEL (widget), gsb_data_fyear_get_invalid_message (fyear_number));
+		 gtk_widget_show (widget);
+	 }
+	 else
+	 {
+		 invalid = NULL;
+		 gtk_widget_hide (widget);
+     }
+
+	gtk_list_store_set (GTK_LIST_STORE (model),
+						&iter,
+						FYEAR_NAME_COLUMN, gsb_data_fyear_get_name (fyear_number),
+						FYEAR_BEGIN_DATE_COLUMN, gsb_format_gdate (gsb_data_fyear_get_beginning_date (fyear_number)),
+						FYEAR_END_DATE_COLUMN, gsb_format_gdate (gsb_data_fyear_get_end_date (fyear_number)),
+						FYEAR_INVALID_COLUMN, invalid,
+						FYEAR_NUMBER_COLUMN, fyear_number,
+						-1);
+	if (invalid)
+		g_free (invalid);
+
+     gsb_file_set_modified (TRUE);
+
+     return FALSE;
+}
+
+/**
+ * fill the list of links
+ *
+ * \param model the tree_model to fill
+ *
+ * \return
+ **/
+static void prefs_page_fyear_fill_list (GtkTreeModel *store)
+{
+    GSList *tmp_list;
+
+    gtk_list_store_clear (GTK_LIST_STORE (store));
+    tmp_list = gsb_data_fyear_get_fyears_list ();
+
+    while (tmp_list)
+    {
+		gint fyear_number;
+
+		fyear_number = gsb_data_fyear_get_no_fyear (tmp_list -> data);
+		prefs_page_fyear_append_line (store, fyear_number, NULL);
+
+		tmp_list = tmp_list -> next;
+    }
+}
+
+/**
+ * Init the tree_view for the fyears list configuration
+ * set the model given in param
+ * set the columns and all the connections
+ *
+ * \param model the model to set in the tree_view
+ *
+ * \return the tree_view
+ **/
+static void prefs_page_fyear_setup_tree_view (PrefsPageFyear *page)
+{
+    GtkCellRenderer *cell_renderer;
+	GtkListStore *store = NULL;
+	GtkTreeSelection *selection;
+    gchar *title[] = {_("Name"), _("Begin date"), _("End date"), _("Invalid")};
+    gint i;
+	PrefsPageFyearPrivate *priv;
+
+	devel_debug (NULL);
+	priv = prefs_page_fyear_get_instance_private (page);
+	
+	/* Create tree store */
+    store = gtk_list_store_new (NUM_FYEARS_COLUMNS,
+								G_TYPE_STRING,			/* FYEAR_NAME_COLUMN */
+								G_TYPE_STRING,			/* FYEAR_BEGIN_DATE_COLUMN */
+								G_TYPE_STRING,			/* FYEAR_END_DATE_COLUMN */
+								G_TYPE_STRING,			/* FYEAR_INVALID_COLUMN */
+								G_TYPE_INT,				/* FYEAR_NUMBER_COLUMN */
+								GDK_TYPE_RGBA);			/* FYEAR_ROW_COLOR */
+
+    /* Create tree tree_view */
+	gtk_tree_view_set_model (GTK_TREE_VIEW (priv->treeview_fyear), GTK_TREE_MODEL (store));
+	gtk_widget_set_name (priv->treeview_fyear, "tree_view");
+    g_object_unref (G_OBJECT (store));
+
+    /* for all the columns it's a text */
+    cell_renderer = gtk_cell_renderer_text_new ();
+    g_object_set (G_OBJECT (cell_renderer), "xalign", 0.5, NULL);
+
+    /* fill the columns : set FYEAR_NUMBER_COLUMN and not NUM_FYEARS_COLUMNS because */
+    /* the last value of the model mustn't be to text...							 */
+    /* so FYEAR_NUMBER_COLUMN must be the first column after the last column showed  */
+
+    for (i=0 ; i<FYEAR_NUMBER_COLUMN - 1; i++)
+    {
+		GtkTreeViewColumn *column;
+
+		if (i == FYEAR_INVALID_COLUMN)
+		{
+			column = gtk_tree_view_column_new_with_attributes (title[i],
+															   gtk_cell_renderer_pixbuf_new (),
+															   "stock-id", i,
+															   "cell-background-rgba", FYEAR_ROW_COLOR,
+															   NULL);
+		}
+		else
+		{
+			column = gtk_tree_view_column_new_with_attributes (title[i],
+															   cell_renderer,
+															   "text", i,
+															   "cell-background-rgba", FYEAR_ROW_COLOR,
+															   NULL);
+			gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);
+			gtk_tree_view_column_set_expand (column, TRUE);
+		}
+		gtk_tree_view_append_column (GTK_TREE_VIEW (priv->treeview_fyear), column);
+    }
+
+    /* Sort columns accordingly */
+    gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (store), FYEAR_NAME_COLUMN, conf.prefs_fyear_sort_order);
+	prefs_page_fyear_fill_list (GTK_TREE_MODEL (store));
+
+	/* set signal */
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->treeview_fyear));
+    g_signal_connect (selection, 
+					  "changed",
+					  G_CALLBACK (prefs_page_fyear_select),
+					  priv->treeview_fyear);
+
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void prefs_page_fyear_button_sort_order_toggled (GtkWidget *toggle_button,
+													    GtkWidget *tree_view)
+{
+	GSettings *settings;
+    GtkTreeModel *model;
+	gboolean is_loading;
+devel_debug (NULL);
+
+	is_loading = grisbi_win_file_is_loading ();
+	settings = grisbi_settings_get_settings (SETTINGS_PREFS);
+	g_settings_set_boolean (G_SETTINGS (settings),
+                        	"prefs-fyear-sort-order",
+                        	conf.prefs_fyear_sort_order);
+
+	if (is_loading)
+	{
+		model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
+		gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE(model),
+											  FYEAR_NAME_COLUMN,
+											  conf.prefs_fyear_sort_order);
+		gtk_tree_sortable_sort_column_changed (GTK_TREE_SORTABLE(model));
+		prefs_page_fyear_fill_list (model);
+
+		utils_set_list_store_background_color (tree_view, FYEAR_ROW_COLOR);
+	}
+}
+
 /**
  * Création de la page de gestion des fyear
  *
@@ -80,7 +682,6 @@ static void prefs_page_fyear_setup_page (PrefsPageFyear *page)
 	PrefsPageFyearPrivate *priv;
 
 	devel_debug (NULL);
-
 	priv = prefs_page_fyear_get_instance_private (page);
 	is_loading = grisbi_win_file_is_loading ();
 
@@ -89,46 +690,94 @@ static void prefs_page_fyear_setup_page (PrefsPageFyear *page)
 	gtk_box_pack_start (GTK_BOX (priv->vbox_fyear), head_page, FALSE, FALSE, 0);
 	gtk_box_reorder_child (GTK_BOX (priv->vbox_fyear), head_page, 0);
 
-    /* set the variables for account */
-    //~ gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_),
-								  //~ conf.);
-	/* set spinbutton value */
-	//~ gtk_spin_button_set_value (GTK_SPIN_BUTTON (priv->spinbutton_),
-			
-	if (!is_loading)
-	{
-		//~ gtk_widget_set_sensitive (priv->grid_display_modes, FALSE);
+    /* set the checkbutton_fyear_sort_order  */
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_fyear_sort_order),
+								  conf.prefs_fyear_sort_order);
 
+	if (is_loading)
+	{
+		GtkWidget *entry;
+		GtkTreeModel *model;
+
+		prefs_page_fyear_setup_tree_view (page);
+		model = gtk_tree_view_get_model (GTK_TREE_VIEW (priv->treeview_fyear));
+
+		g_object_set_data (G_OBJECT (model), "button_fyear_associate", priv->button_fyear_associate);
+    	g_object_set_data (G_OBJECT (model), "button_fyear_remove", priv->button_fyear_remove);
+
+		/* set entry name */
+		entry = gsb_autofunc_entry_new (NULL,
+									    G_CALLBACK (prefs_page_fyear_modify_fyear), priv->treeview_fyear,
+									    G_CALLBACK (gsb_data_fyear_set_name), 0);
+		g_object_set_data (G_OBJECT (model), "entry_fyear_name",  entry);
+		gtk_widget_set_margin_end (entry, MARGIN_END);
+		gtk_grid_attach (GTK_GRID (priv->grid_fyear_details), entry, 1, 0, 1, 1);
+
+		/* set entry date */
+		entry = gsb_autofunc_date_new (NULL,
+									   G_CALLBACK (prefs_page_fyear_modify_fyear), priv->treeview_fyear,
+									   G_CALLBACK (gsb_data_fyear_set_beginning_date), 0);
+		g_object_set_data (G_OBJECT (model), "entry_fyear_begin_date", entry);
+		gtk_widget_set_margin_end (entry, MARGIN_END);
+		gtk_grid_attach (GTK_GRID (priv->grid_fyear_details), entry, 1, 1, 1, 1);
+
+		/* set end date */
+		entry = gsb_autofunc_date_new (NULL,
+									   G_CALLBACK (prefs_page_fyear_modify_fyear), priv->treeview_fyear,
+									   G_CALLBACK (gsb_data_fyear_set_end_date), 0);
+		g_object_set_data (G_OBJECT (model), "entry_fyear_end_date", entry);
+		gtk_widget_set_margin_end (entry, MARGIN_END);
+		gtk_grid_attach (GTK_GRID (priv->grid_fyear_details), entry, 1, 2, 1, 1);
+
+		g_object_set_data (G_OBJECT (model), "checkbutton_fyear_show", priv->checkbutton_fyear_show);
+		g_object_set_data (G_OBJECT (model), "grid_fyear_details", priv->grid_fyear_details);
+		g_object_set_data (G_OBJECT (model), "label_fyear_invalid", priv->label_fyear_invalid);
+		utils_set_list_store_background_color (priv->treeview_fyear, FYEAR_ROW_COLOR);
+
+		/* initialise  button_fyear_associate */
+		if (gsb_data_fyear_get_fyears_list () == NULL)
+			gtk_widget_set_sensitive (priv->button_fyear_associate, FALSE);
+		else
+			gtk_widget_set_sensitive (priv->button_fyear_associate, TRUE);
+
+		/* set signals */
+		g_signal_connect_swapped (G_OBJECT (priv->button_fyear_add),
+								  "clicked",
+								  G_CALLBACK  (prefs_page_fyear_button_add_clicked),
+								  priv->treeview_fyear);
+		g_signal_connect_swapped (G_OBJECT (priv->button_fyear_remove),
+								  "clicked",
+								  G_CALLBACK  (prefs_page_fyear_button_remove_clicked),
+								  priv->treeview_fyear);
+    	g_signal_connect (G_OBJECT (priv->button_fyear_associate),
+						  "clicked",
+						  G_CALLBACK (prefs_page_fyear_button_associate_clicked),
+						  NULL);
+		g_signal_connect (priv->checkbutton_fyear_show,
+						  "toggled",
+						  G_CALLBACK (prefs_page_fyear_button_fyear_show_toggled),
+						  priv->treeview_fyear);
 	}
-				   //~ conf.);
+	else
+	{
+		gtk_widget_set_sensitive (priv->sw_fyear, FALSE);
+		gtk_widget_set_sensitive (priv->button_fyear_add, FALSE);
+	}
+
+	/* insensibilise les autres widgets inutilisés */
+	gtk_widget_set_sensitive (priv->button_fyear_remove, FALSE);		
+	gtk_widget_set_sensitive (priv->grid_fyear_details, FALSE);
 
     /* Connect signal */
-    //~ g_signal_connect (priv->eventbox_,
-					  //~ "button-press-event",
-					  //~ G_CALLBACK (utils_prefs_page_eventbox_clicked),
-					  //~ priv->checkbutton_);
+    g_signal_connect (priv->checkbutton_fyear_sort_order,
+					  "toggled",
+					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
+					  &conf.prefs_fyear_sort_order);
 
-    //~ g_signal_connect (priv->checkbutton_,
-					  //~ "toggled",
-					  //~ G_CALLBACK (utils_prefs_page_checkbutton_changed),
-					  //~ &conf.);
-
-    /* callback for spinbutton_ */
-    //~ g_object_set_data (G_OBJECT (priv->spinbutton_),
-                       //~ "button", priv->checkbutton_);
-	//~ g_object_set_data (G_OBJECT (priv->checkbutton_),
-                       //~ "spinbutton", priv->spinbutton_);
-
-    //~ g_signal_connect (priv->spinbutton_,
-					  //~ "value-changed",
-					  //~ G_CALLBACK (utils_prefs_spinbutton_changed),
-					  //~ &conf.);
-
-    /* connect the signal for filechooserbutton_backup */
-    //~ g_signal_connect (G_OBJECT (priv->filechooserbutton_backup),
-                      //~ "selection-changed",
-                      //~ G_CALLBACK (utils_prefs_page_dir_chosen),
-                      //~ "backup_path");
+    g_signal_connect_after (priv->checkbutton_fyear_sort_order,
+							"toggled",
+							G_CALLBACK (prefs_page_fyear_button_sort_order_toggled),
+							priv->treeview_fyear);
 }
 
 /******************************************************************************/
@@ -154,9 +803,17 @@ static void prefs_page_fyear_class_init (PrefsPageFyearClass *klass)
 												 "/org/gtk/grisbi/ui/prefs_page_fyear.ui");
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFyear, vbox_fyear);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFyear, grid_fyear_details);
+
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFyear, sw_fyear);
-	//~ gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFyear, spinbutton_);
-	//~ gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFyear, filechooserbutton_);
+    gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFyear, treeview_fyear);
+
+    gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFyear, button_fyear_add);
+    gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFyear, button_fyear_associate);
+    gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFyear, button_fyear_remove);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFyear, checkbutton_fyear_show);
+    gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFyear, checkbutton_fyear_sort_order);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFyear, label_fyear_invalid);
 }
 
 /******************************************************************************/

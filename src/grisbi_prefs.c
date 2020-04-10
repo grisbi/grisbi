@@ -544,8 +544,6 @@ static void grisbi_prefs_left_panel_populate_tree_model (GrisbiPrefs *prefs)
 
 	/* append page Financial years */
 	widget = GTK_WIDGET (prefs_page_fyear_new (prefs));
-	//~ widget = GTK_WIDGET (gsb_fyear_config_create_page ());
-	//~ utils_widget_set_padding (widget, MARGIN_BOX, 0);
 	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Financial years"), page);
 	page++;
 
