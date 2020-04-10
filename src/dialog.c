@@ -574,7 +574,7 @@ gboolean dialogue_conditional_yes_no (const gchar *var)
         }
     }
 
-	text = dialogue_make_hint (tab_warning_msg[i].hint, tab_warning_msg[i].message);
+	text = dialogue_make_hint (gettext (tab_warning_msg[i].hint), gettext (tab_warning_msg[i].message));
     dialog = dialogue_conditional_new (text, var, GTK_MESSAGE_WARNING, GTK_BUTTONS_YES_NO);
 	g_free (text);
 
