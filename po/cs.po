@@ -7935,7 +7935,7 @@ msgstr "Obnovit nepřiřazené položky"
 #. create the valid/cancel buttons
 #: ../src/gsb_form.c:1228 ../src/gsb_reconcile.c:327
 #, fuzzy
-msgid "_Validate"
+msgid "V_alidate"
 msgstr "Datum pohybu"
 
 #: ../src/gsb_form.c:1605

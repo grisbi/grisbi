@@ -869,7 +869,7 @@ void utils_prefs_close_prefs_from_theme (void)
  * \return          FALSE
  **/
 gboolean utils_prefs_encryption_toggled (GtkWidget *checkbox,
-										 gpointer null)
+										 gpointer data)
 {
 #ifdef HAVE_SSL
 	GrisbiWinRun *w_run;

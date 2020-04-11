@@ -7992,7 +7992,7 @@ msgstr ""
 #. create the valid/cancel buttons
 #: ../src/gsb_form.c:1228 ../src/gsb_reconcile.c:327
 #, fuzzy
-msgid "_Validate"
+msgid "V_alidate"
 msgstr "Valuta datum"
 
 # als er een overschrijfing is naar een rekening die nu verwijderd is komt er

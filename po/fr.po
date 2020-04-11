@@ -7902,7 +7902,7 @@ msgstr "Restaurer les sous-opérations"
 
 #. create the valid/cancel buttons
 #: ../src/gsb_form.c:1228 ../src/gsb_reconcile.c:327
-msgid "_Validate"
+msgid "V_alidate"
 msgstr "_Valider"
 
 #: ../src/gsb_form.c:1605
