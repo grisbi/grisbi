@@ -21,6 +21,7 @@
           <object class="GtkBox" id="hbox_paddingbox1">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="margin_bottom">5</property>
             <child>
               <object class="GtkBox" id="vbox_paddingbox1">
                 <property name="visible">True</property>
@@ -309,6 +310,7 @@
           <object class="GtkBox" id="hbox_paddingbox2">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="margin_bottom">5</property>
             <child>
               <object class="GtkBox" id="vbox_paddingbox2">
                 <property name="visible">True</property>
@@ -546,9 +548,6 @@
             <property name="fill">True</property>
             <property name="position">2</property>
           </packing>
-        </child>
-        <child>
-          <placeholder/>
         </child>
       </object>
       <packing>

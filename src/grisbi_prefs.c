@@ -364,7 +364,6 @@ static GtkWidget *grisbi_prefs_setup_import_page (GrisbiPrefs *prefs)
 
 	/* set notebook for import */
 	notebook_import_pages = gtk_notebook_new ();
-	utils_widget_set_padding (notebook_import_pages, MARGIN_BOX, 0);
 	gtk_notebook_set_show_border (GTK_NOTEBOOK (notebook_import_pages), FALSE);
 	gtk_box_pack_start (GTK_BOX (priv->vbox_import_page), notebook_import_pages, TRUE, TRUE, 0);
 
@@ -373,7 +372,6 @@ static GtkWidget *grisbi_prefs_setup_import_page (GrisbiPrefs *prefs)
 	gtk_widget_set_margin_top (vbox_import_files, MARGIN_TOP);
 	gtk_notebook_append_page (GTK_NOTEBOOK (notebook_import_pages), vbox_import_files, NULL);
 	label = gtk_label_new (_("Files import"));
-	utils_widget_set_padding (label, MARGIN_BOX, 0);
 	gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook_import_pages), vbox_import_files, label);
 
 	/* set manage associations */
@@ -381,7 +379,6 @@ static GtkWidget *grisbi_prefs_setup_import_page (GrisbiPrefs *prefs)
 	gtk_widget_set_margin_top (vbox_import_asso, MARGIN_TOP);
 	gtk_notebook_append_page (GTK_NOTEBOOK (notebook_import_pages), vbox_import_asso, NULL);
 	label = gtk_label_new (_("Associations for import"));
-	utils_widget_set_padding (label, MARGIN_BOX, 0);
 	gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook_import_pages), vbox_import_asso, label);
 	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_prefs), priv->vbox_import_page, NULL);
 	gtk_widget_show (notebook_import_pages);
@@ -457,7 +454,6 @@ static void grisbi_prefs_left_panel_populate_tree_model (GrisbiPrefs *prefs)
 
 	/* append page Addresses & titles */
 	widget = GTK_WIDGET (prefs_page_display_adr_new (prefs));
-	utils_widget_set_padding (widget, MARGIN_BOX, 0);
 	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Addresses & titles"), page);
 	page++;
 

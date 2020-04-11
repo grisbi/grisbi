@@ -15,6 +15,7 @@
           <object class="GtkBox" id="hbox_paddingbox200">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="margin_bottom">5</property>
             <child>
               <object class="GtkBox" id="vbox_paddingbox200">
                 <property name="visible">True</property>
@@ -120,7 +121,6 @@
           <object class="GtkBox" id="hbox_paddingbox_partial_balance">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="margin_top">5</property>
             <child>
               <object class="GtkBox" id="vbox_paddingbox300">
                 <property name="visible">True</property>
@@ -332,41 +332,6 @@
       </packing>
     </child>
   </template>
-  <object class="GtkBox" id="hbox_black">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <child>
-      <object class="GtkCheckButton" id="checkbutton2">
-        <property name="visible">True</property>
-        <property name="can_focus">True</property>
-        <property name="receives_default">False</property>
-        <property name="draw_indicator">True</property>
-      </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">0</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkEventBox" id="eventbox2">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <child>
-          <object class="GtkLabel" id="label2">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="label" translatable="yes">label</property>
-          </object>
-        </child>
-      </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">1</property>
-      </packing>
-    </child>
-  </object>
   <object class="GtkBox" id="hbox_paddingbox">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -449,6 +414,7 @@
   <object class="GtkBox" id="hbox_paddingbox_lang_fr">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
+    <property name="margin_bottom">5</property>
     <child>
       <object class="GtkBox" id="vbox_paddingbox100">
         <property name="visible">True</property>
