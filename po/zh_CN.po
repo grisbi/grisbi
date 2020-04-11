@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zh_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-10 17:25+0200\n"
+"POT-Creation-Date: 2020-04-11 07:38+0200\n"
 "PO-Revision-Date: 2005-12-19 11:25+0100\n"
 "Last-Translator: Jianyu Tang <jianyunet@gmail.com>\n"
 "Language-Team: zh_CN <LL@li.org>\n"
@@ -10066,7 +10066,7 @@ msgstr ""
 #. create the valid/cancel buttons
 #: ../src/gsb_form.c:1228 ../src/gsb_reconcile.c:327
 #, fuzzy
-msgid "_Validate"
+msgid "V_alidate"
 msgstr "有效日期"
 
 #: ../src/gsb_form.c:1605

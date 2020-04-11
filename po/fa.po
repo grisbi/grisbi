@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: girisbi VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-10 17:25+0200\n"
+"POT-Creation-Date: 2020-04-11 07:38+0200\n"
 "PO-Revision-Date: 2008-10-02 10:07+0330\n"
 "Last-Translator: hadi <hadi60@gmail.com>\n"
 "Language-Team: farsi <en@li.org>\n"
@@ -9736,7 +9736,7 @@ msgstr ""
 #. create the valid/cancel buttons
 #: ../src/gsb_form.c:1228 ../src/gsb_reconcile.c:327
 #, fuzzy
-msgid "_Validate"
+msgid "V_alidate"
 msgstr "تمام تاریخ ها"
 
 #: ../src/gsb_form.c:1605

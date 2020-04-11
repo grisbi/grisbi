@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Grisbi 0.5.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-10 17:25+0200\n"
+"POT-Creation-Date: 2020-04-11 07:38+0200\n"
 "PO-Revision-Date: 2009-04-13 14:53+0200\n"
 "Last-Translator: \n"
 "Language-Team: KASKAS <ttnfy17@yahoo.gr>\n"
@@ -10371,7 +10371,7 @@ msgstr "Ανάκτηση των απογόνων"
 #. create the valid/cancel buttons
 #: ../src/gsb_form.c:1228 ../src/gsb_reconcile.c:327
 #, fuzzy
-msgid "_Validate"
+msgid "V_alidate"
 msgstr "Τοκοφόρος ημερομηνία"
 
 #: ../src/gsb_form.c:1605

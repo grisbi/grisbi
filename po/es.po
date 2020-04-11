@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-10 17:25+0200\n"
+"POT-Creation-Date: 2020-04-11 07:38+0200\n"
 "PO-Revision-Date: 2010-05-09 11:48+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <cmcamara@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -10165,8 +10165,7 @@ msgstr "Recuperar los hijos"
 
 #. create the valid/cancel buttons
 #: ../src/gsb_form.c:1228 ../src/gsb_reconcile.c:327
-#, fuzzy
-msgid "_Validate"
+msgid "V_alidate"
 msgstr "Fecha Valor"
 
 #: ../src/gsb_form.c:1605

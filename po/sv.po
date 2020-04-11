@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-10 17:25+0200\n"
+"POT-Creation-Date: 2020-04-11 07:38+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -9311,7 +9311,7 @@ msgstr ""
 
 #. create the valid/cancel buttons
 #: ../src/gsb_form.c:1228 ../src/gsb_reconcile.c:327
-msgid "_Validate"
+msgid "V_alidate"
 msgstr ""
 
 #: ../src/gsb_form.c:1605

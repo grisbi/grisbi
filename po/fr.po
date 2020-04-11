@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-10 17:25+0200\n"
+"POT-Creation-Date: 2020-04-11 07:38+0200\n"
 "PO-Revision-Date: 2020-04-10 09:12+0200\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: français <>\n"
@@ -9930,8 +9930,8 @@ msgstr "Restaurer les sous-opérations"
 
 #. create the valid/cancel buttons
 #: ../src/gsb_form.c:1228 ../src/gsb_reconcile.c:327
-msgid "_Validate"
-msgstr "_Valider"
+msgid "V_alidate"
+msgstr "V_alider"
 
 #: ../src/gsb_form.c:1605
 msgid "Transfer : Deleted account"

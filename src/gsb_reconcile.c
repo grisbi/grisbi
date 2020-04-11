@@ -324,7 +324,7 @@ GtkWidget *gsb_reconcile_create_box ( void )
 		       G_CALLBACK (gsb_reconcile_cancel), NULL );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0);
 
-    reconcile_ok_button = utils_buttons_button_new_from_stock ("gtk-ok", _("_Validate"));
+    reconcile_ok_button = utils_buttons_button_new_from_stock ("gtk-ok", _("V_alidate"));
     gtk_button_set_relief ( GTK_BUTTON ( reconcile_ok_button), GTK_RELIEF_NONE);
     g_signal_connect ( G_OBJECT ( reconcile_ok_button ), "clicked",
 		       G_CALLBACK (gsb_reconcile_finish_reconciliation), NULL );
