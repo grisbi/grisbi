@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
-/*          https://www.grisbi.org/                                            */
+/*          https://www.grisbi.org/                                           */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -43,14 +43,14 @@
 #include "gsb_data_payee.h"
 #include "gsb_data_reconcile.h"
 #include "gsb_data_transaction.h"
-#include "utils_dates.h"
 #include "gsb_real.h"
-#include "gsb_reconcile_config.h"
+#include "gsb_transactions_list.h"
+#include "prefs/prefs_page_reconcile.h"
+#include "structures.h"
+#include "utils.h"
+#include "utils_dates.h"
 #include "utils_real.h"
 #include "utils_str.h"
-#include "utils.h"
-#include "structures.h"
-#include "gsb_transactions_list.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -125,6 +125,10 @@ static GSList *list_association = NULL;
 /* variables for the page to manually associate */
 static GtkWidget *label_transactions_to_link_3 = NULL;
 static GtkWidget *treeview_transactions_to_link = NULL;
+
+/* transitoire variable */
+static GtkWidget *treeview_reconcile = NULL;
+
 enum transactions_column {
     TRANSACTION_DATE = 0,
     TRANSACTION_PAYEE,
@@ -143,7 +147,7 @@ enum transactions_column {
  *
  * \return GtkResponseType, the returned value from the assistant
  * */
-GtkResponseType gsb_assistant_reconcile_config_run ( void )
+GtkResponseType gsb_assistant_reconcile_config_run (GtkWidget *tree_view)
 {
     GtkResponseType return_value;
     GSList *transactions_list = NULL;
@@ -190,6 +194,9 @@ GtkResponseType gsb_assistant_reconcile_config_run ( void )
      * 		and set the good date for all the reconciles (because grisbi set them automatically
      * 		at the first update to grisbi 0.6.0 )*/
 
+	/* set treeview_reconcile */
+	treeview_reconcile = tree_view;
+	
     /* first, create the assistant */
     tmpstr = g_strdup_printf (_("Grisbi found %d marked transactions not associated with a reconciliation number, "
 						       "this can happen for old users of Grisbi or from a misuse of the Ctrl-R shortcut.\n\n"
@@ -837,7 +844,7 @@ static gboolean gsb_assistant_reconcile_config_page_add_new_reconcile ( GtkWidge
     g_free ( string );
 
     /* update the list of reconcile in the configuration list */
-    gsb_reconcile_config_fill ( );
+    prefs_page_reconcile_fill (treeview_reconcile);
 
     gtk_widget_grab_focus ( reconcile_name_entry );
 

@@ -44,7 +44,6 @@
 #include "gsb_form_config.h"
 #include "gsb_fyear_config.h"
 #include "gsb_payment_method_config.h"
-#include "gsb_reconcile_config.h"
 #include "gsb_reconcile_sort_config.h"
 #include "mouse.h"
 #include "parametres.h"
@@ -72,6 +71,7 @@
 #include "prefs/prefs_page_msg_delete.h"
 #include "prefs/prefs_page_msg_warning.h"
 #include "prefs/prefs_page_options_ope.h"
+#include "prefs/prefs_page_reconcile.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -487,8 +487,9 @@ static void grisbi_prefs_left_panel_populate_tree_model (GrisbiPrefs *prefs)
 	page++;
 
 	/* append page Reconciliation */
-	widget = GTK_WIDGET (gsb_reconcile_config_create ());
-	utils_widget_set_padding (widget, MARGIN_BOX, 0);
+	widget = GTK_WIDGET (prefs_page_reconcile_new (prefs));
+	if (is_loading == FALSE)
+		gtk_widget_set_sensitive (widget, FALSE);
 	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Reconciliation"), page);
 	page++;
 

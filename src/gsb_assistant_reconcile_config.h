@@ -8,6 +8,6 @@
 
 
 /* START_DECLARATION */
-GtkResponseType 	gsb_assistant_reconcile_config_run 	(void);
+GtkResponseType 	gsb_assistant_reconcile_config_run 	(GtkWidget *tree_view);
 /* END_DECLARATION */
 #endif
