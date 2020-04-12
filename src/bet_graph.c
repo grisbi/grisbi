@@ -456,7 +456,7 @@ static void bet_graph_affiche_sub_divisions ( struct_bet_graph_data *parent,
     self->currency_number = parent->currency_number;
     self->service_id = g_strdup ( parent->service_id );
     self->type_infos = parent->type_infos;
-    self->title = g_strconcat ( _("total amount: "), total_div, NULL );
+    self->title = g_strconcat ( _("Total amount: "), total_div, NULL );
     self->is_legend = TRUE;
 
     dialog = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "bet_graph_sub_div_dialog" ) );

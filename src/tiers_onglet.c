@@ -1230,7 +1230,7 @@ static GtkWidget *gsb_assistant_payees_page_2 (GtkWidget *assistant)
 	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
     gtk_box_pack_start (GTK_BOX (paddingbox), hbox, FALSE, FALSE, 0);
 
-    texte = g_strdup (_("Enter the name of the new payee"));
+    texte = g_strdup (_("Enter the name of the new payee: "));
     label = gtk_label_new (texte);
 	utils_labels_set_alignment (GTK_LABEL (label), 0, 0);
 	gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
@@ -1480,7 +1480,7 @@ static GtkWidget *gsb_assistant_payees_page_3 (GtkWidget *assistant)
     gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, MARGIN_BOX);
     g_object_set_data (G_OBJECT (assistant), "old_rule_label", label);
 
-    button = gtk_check_button_new_with_label (_("do you want replace the current rule?"));
+    button = gtk_check_button_new_with_label (_("Do you want replace the current rule?"));
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), w_run->import_asso_replace_rule);
     gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, MARGIN_BOX);
     g_object_set_data (G_OBJECT (assistant), "check_option_5", button);
@@ -1879,7 +1879,7 @@ void payees_manage_payees_with_rule (const gchar *rule)
     assistant = gsb_assistant_new (_("Manage the payees"),
                         _("This wizard will help you to simplify the list of payees.\n\n"
                         "Warning the changes you will make be irreparable.\n\n"
-                        "It is better to make a backup of your Grisbi file if you have not yet done. "),
+                        "It is better to make a backup of your Grisbi file if you have not yet done."),
                         "gsb-payees-32.png",
                         NULL);
 	/* récupère le paramètre rule si il existe */

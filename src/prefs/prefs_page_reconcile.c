@@ -51,6 +51,7 @@
 #include "utils_dates.h"
 #include "utils_prefs.h"
 #include "utils_real.h"
+#include "utils_str.h"
 #include "erreur.h"
 
 /*END_INCLUDE*/
@@ -127,6 +128,7 @@ static void prefs_page_reconcile_button_collapse_row_clicked (GtkButton *button,
 
 	tree_view = gtk_tree_selection_get_tree_view (selection);
 	gtk_tree_view_collapse_row (tree_view, path);
+	gtk_tree_view_set_cursor_on_cell (tree_view, path, NULL, NULL, FALSE);
 	utils_set_tree_store_background_color (GTK_WIDGET (tree_view), RECONCILIATION_BACKGROUND_COLOR);
 }
 
@@ -145,6 +147,10 @@ static void prefs_page_reconcile_treeview_row_collapsed (GtkTreeView *tree_view,
 														 GtkTreePath *path,
 														 GtkWidget *button)
 {
+	GtkTreeSelection *selection;
+devel_debug (NULL);
+	selection = gtk_tree_view_get_selection (tree_view);
+	gtk_tree_selection_select_iter (selection, iter);
 	utils_set_tree_store_background_color (GTK_WIDGET (tree_view), RECONCILIATION_BACKGROUND_COLOR);
 	gtk_widget_set_sensitive (button, FALSE);
 }
@@ -164,6 +170,11 @@ static void prefs_page_reconcile_treeview_row_expanded (GtkTreeView *tree_view,
 													    GtkTreePath *path,
 													    GtkWidget *button)
 {
+	//~ GtkTreeSelection *selection;
+devel_debug (NULL);
+
+	//~ selection = gtk_tree_view_get_selection (tree_view);
+	//~ gtk_tree_selection_select_iter (selection, iter);
 	utils_set_tree_store_background_color (GTK_WIDGET (tree_view), RECONCILIATION_BACKGROUND_COLOR);
 	gtk_widget_set_sensitive (button, TRUE);
 }
@@ -680,16 +691,21 @@ void prefs_page_reconcile_fill (GtkWidget *tree_view)
 		GtkTreeIter account_iter;
 		GList *reconcile_list;
 		GList *tmp_reconcile_list;
+		gchar *tmp_name;
 		gint account_number;
 
 		account_number = gsb_data_account_get_no_account (tmp_list -> data);
+		tmp_name = utils_str_break_form_name_field (gsb_data_account_get_name (account_number),
+													TRUNC_FORM_FIELD);
+
 		gtk_tree_store_append (GTK_TREE_STORE (model), &account_iter, NULL);
 		gtk_tree_store_set (GTK_TREE_STORE (model),
 							&account_iter,
-							RECONCILIATION_NAME_COLUMN, gsb_data_account_get_name (account_number),
+							RECONCILIATION_NAME_COLUMN, tmp_name,
 					 		RECONCILIATION_WEIGHT_COLUMN, 600,
 							RECONCILIATION_ACCOUNT_COLUMN, account_number,
 							-1);
+		g_free (tmp_name);
 
 		/* for each account, get the concerned reconciles */
 		reconcile_list = gsb_data_reconcile_get_sort_reconcile_list (account_number);
@@ -712,10 +728,12 @@ void prefs_page_reconcile_fill (GtkWidget *tree_view)
 				final_date = gsb_format_gdate (gsb_data_reconcile_get_final_date (reconcile_number));
 				init_balance = utils_real_get_string (gsb_data_reconcile_get_init_balance (reconcile_number));
 				final_balance = utils_real_get_string (gsb_data_reconcile_get_final_balance (reconcile_number));
+				tmp_name = utils_str_break_form_name_field (gsb_data_reconcile_get_name (reconcile_number),
+															TRUNC_FORM_FIELD);
 				gtk_tree_store_append (GTK_TREE_STORE (model), &reconcile_iter, &account_iter);
 				gtk_tree_store_set (GTK_TREE_STORE (model),
 									&reconcile_iter,
-									RECONCILIATION_NAME_COLUMN, gsb_data_reconcile_get_name (reconcile_number),
+									RECONCILIATION_NAME_COLUMN, tmp_name,
 							 		RECONCILIATION_WEIGHT_COLUMN, 400,
 									RECONCILIATION_INIT_DATE_COLUMN, init_date,
 									RECONCILIATION_FINAL_DATE_COLUMN, final_date,
@@ -728,6 +746,7 @@ void prefs_page_reconcile_fill (GtkWidget *tree_view)
 				g_free (final_date);
 				g_free (init_balance);
 				g_free (final_balance);
+				g_free (tmp_name);
 			}
 			tmp_reconcile_list = tmp_reconcile_list->next;
 		}

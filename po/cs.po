@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-11 07:38+0200\n"
+"POT-Creation-Date: 2020-04-13 07:54+0200\n"
 "PO-Revision-Date: 2011-02-19 01:39+0100\n"
 "Last-Translator: Markus7cz <markus7cz@gmail.com>\n"
 "Language-Team: \n"
@@ -119,7 +119,7 @@ msgid "Display the grids above the plot"
 msgstr "Zobrazit tip dne"
 
 #: ../src/ui/csv_template_rule.ui.h:1 ../src/bet_config.c:101
-#: ../src/grisbi_prefs.c:564
+#: ../src/grisbi_prefs.c:561
 msgid "General Options"
 msgstr "Obecné volby"
 
@@ -137,7 +137,8 @@ msgstr "Obecné volby"
 #: ../src/ui/prefs_page_import_files.ui.h:2
 #: ../src/ui/prefs_page_metatree.ui.h:2 ../src/ui/prefs_page_msg_delete.ui.h:2
 #: ../src/ui/prefs_page_msg_warning.ui.h:2
-#: ../src/ui/prefs_page_options_ope.ui.h:2 ../src/ui/prefs_widget_loan.ui.h:23
+#: ../src/ui/prefs_page_options_ope.ui.h:2
+#: ../src/ui/prefs_page_reconcile.ui.h:2 ../src/ui/prefs_widget_loan.ui.h:23
 msgid "    "
 msgstr ""
 
@@ -184,7 +185,6 @@ msgid "Line number: "
 msgstr "Číslo IBAN: "
 
 #: ../src/ui/csv_template_rule.ui.h:12 ../src/ui/prefs_page_divers.ui.h:10
-#: ../src/ui/prefs_page_options_ope.ui.h:6
 #, fuzzy
 msgid "1"
 msgstr "1 "
@@ -202,22 +202,20 @@ msgstr ""
 msgid "Specific configuration"
 msgstr "Základní nastavení"
 
-#: ../src/ui/csv_template_rule.ui.h:16 ../src/ui/prefs_page_accueil.ui.h:6
-#: ../src/ui/prefs_page_bet_account.ui.h:6
-#: ../src/ui/prefs_page_display_adr.ui.h:10
+#: ../src/ui/csv_template_rule.ui.h:16 ../src/ui/prefs_page_bet_account.ui.h:6
 #: ../src/ui/prefs_page_display_fonts.ui.h:9
-#: ../src/ui/prefs_page_display_ope.ui.h:4 ../src/ui/prefs_widget_loan.ui.h:21
+#: ../src/ui/prefs_widget_loan.ui.h:21
 msgid "label"
 msgstr ""
 
-#: ../src/ui/csv_template_rule.ui.h:17 ../src/ui/prefs_page_accueil.ui.h:7
+#: ../src/ui/csv_template_rule.ui.h:17 ../src/ui/prefs_page_accueil.ui.h:6
 #: ../src/ui/prefs_page_archives.ui.h:12
 #: ../src/ui/prefs_page_bet_account.ui.h:7
-#: ../src/ui/prefs_page_display_adr.ui.h:11
+#: ../src/ui/prefs_page_display_adr.ui.h:10
 #: ../src/ui/prefs_page_display_fonts.ui.h:14
 #: ../src/ui/prefs_page_display_form.ui.h:6
 #: ../src/ui/prefs_page_display_gui.ui.h:16
-#: ../src/ui/prefs_page_display_ope.ui.h:5 ../src/ui/prefs_page_divers.ui.h:18
+#: ../src/ui/prefs_page_display_ope.ui.h:4 ../src/ui/prefs_page_divers.ui.h:18
 #: ../src/ui/prefs_page_files.ui.h:23
 #: ../src/ui/prefs_page_form_completion.ui.h:15
 #: ../src/ui/prefs_page_form_options.ui.h:9 ../src/ui/prefs_page_fyear.ui.h:10
@@ -225,7 +223,8 @@ msgstr ""
 #: ../src/ui/prefs_page_import_files.ui.h:14
 #: ../src/ui/prefs_page_metatree.ui.h:15 ../src/ui/prefs_page_msg_delete.ui.h:3
 #: ../src/ui/prefs_page_msg_warning.ui.h:5
-#: ../src/ui/prefs_page_options_ope.ui.h:14 ../src/ui/prefs_widget_loan.ui.h:22
+#: ../src/ui/prefs_page_options_ope.ui.h:13
+#: ../src/ui/prefs_page_reconcile.ui.h:16 ../src/ui/prefs_widget_loan.ui.h:22
 #, fuzzy
 msgid "Title"
 msgstr "Názvy"
@@ -280,7 +279,7 @@ msgstr ""
 #. 1
 #: ../src/ui/etats_prefs.ui.h:9 ../src/bet_finance_ui.c:1833
 #: ../src/bet_future.c:748 ../src/bet_tab.c:1968 ../src/etats_affiche.c:2464
-#: ../src/export_csv.c:368 ../src/gsb_assistant_reconcile_config.c:590
+#: ../src/export_csv.c:368 ../src/gsb_assistant_reconcile_config.c:597
 #: ../src/gsb_form.c:1981 ../src/gsb_form_widget.c:549
 #: ../src/gsb_reconcile.c:214 ../src/gsb_transactions_list.c:109
 #: ../src/import.c:1876 ../src/import.c:4283 ../src/import_csv.c:72
@@ -470,7 +469,7 @@ msgstr "Zobrazit mezisoučet pro každý účet"
 #: ../src/bet_future.c:2314 ../src/bet_future.c:2464 ../src/bet_future.c:2776
 #: ../src/bet_future.c:2846 ../src/etats_affiche.c:2485
 #: ../src/etats_config.c:2914 ../src/etats_prefs.c:679 ../src/export_csv.c:383
-#: ../src/grisbi_win.c:511 ../src/gsb_assistant_reconcile_config.c:590
+#: ../src/grisbi_win.c:511 ../src/gsb_assistant_reconcile_config.c:597
 #: ../src/gsb_form.c:2004 ../src/gsb_form_widget.c:569
 #: ../src/gsb_scheduler_list.c:856 ../src/gsb_transactions_list.c:111
 #: ../src/import.c:4290 ../src/import_csv.c:74 ../src/meta_payee.c:79
@@ -569,12 +568,12 @@ msgstr "Příjmové kategorie"
 msgid "Outgoing categories"
 msgstr "Výdajové kategorie"
 
-#: ../src/ui/etats_prefs.ui.h:70 ../src/grisbi_prefs.c:733
+#: ../src/ui/etats_prefs.ui.h:70 ../src/grisbi_prefs.c:730
 #, fuzzy
 msgid "Expand all"
 msgstr "Zobrazit detail"
 
-#: ../src/ui/etats_prefs.ui.h:71 ../src/grisbi_prefs.c:743
+#: ../src/ui/etats_prefs.ui.h:71 ../src/grisbi_prefs.c:740
 msgid "Collapse all"
 msgstr ""
 
@@ -683,16 +682,18 @@ msgid "Use dates ranges"
 msgstr "Použít rozsah datumů"
 
 #. set the initial date
-#: ../src/ui/etats_prefs.ui.h:97 ../src/gsb_assistant_archive.c:236
-#: ../src/gsb_assistant_reconcile_config.c:413
-#: ../src/gsb_reconcile_config.c:332 ../src/print_transactions_list.c:183
+#: ../src/ui/etats_prefs.ui.h:97 ../src/ui/prefs_page_reconcile.ui.h:9
+#: ../src/gsb_assistant_archive.c:236
+#: ../src/gsb_assistant_reconcile_config.c:420
+#: ../src/print_transactions_list.c:183
 msgid "Initial date: "
 msgstr "Počáteční datum: "
 
 #. set the final date
-#: ../src/ui/etats_prefs.ui.h:98 ../src/gsb_assistant_archive.c:248
-#: ../src/gsb_assistant_reconcile_config.c:422
-#: ../src/gsb_reconcile_config.c:344 ../src/print_transactions_list.c:195
+#: ../src/ui/etats_prefs.ui.h:98 ../src/ui/prefs_page_reconcile.ui.h:10
+#: ../src/gsb_assistant_archive.c:248
+#: ../src/gsb_assistant_reconcile_config.c:429
+#: ../src/print_transactions_list.c:195
 msgid "Final date: "
 msgstr "Koncové datum: "
 
@@ -1124,7 +1125,7 @@ msgstr "Souhrnné zůstatky v seznamu účtů"
 msgid "Place the partial balance  under its accounts if it's possible"
 msgstr "Název souhrnného zůstatku a seznamu účtů musí být vyplněn."
 
-#: ../src/ui/prefs_page_accueil.ui.h:8
+#: ../src/ui/prefs_page_accueil.ui.h:7
 msgid "Pluriel de final"
 msgstr ""
 
@@ -1171,7 +1172,7 @@ msgstr "Vyberte účet"
 
 #. set the choice of account
 #: ../src/ui/prefs_page_bet_account.ui.h:3
-#: ../src/gsb_assistant_reconcile_config.c:403
+#: ../src/gsb_assistant_reconcile_config.c:410
 msgid "Account: "
 msgstr "Účet: "
 
@@ -1415,8 +1416,8 @@ msgstr ""
 msgid "Choose the language"
 msgstr "Zvolte účet"
 
-#: ../src/ui/prefs_page_divers.ui.h:14 ../src/parametres.c:153
-#: ../src/parametres.c:161
+#: ../src/ui/prefs_page_divers.ui.h:14 ../src/parametres.c:152
+#: ../src/parametres.c:160
 msgid "Choose the date format"
 msgstr "Zvolte formát data"
 
@@ -1425,11 +1426,11 @@ msgstr "Zvolte formát data"
 msgid "Choose decimal and thousands separator"
 msgstr "Zvolte oddělovače desetin a tisíců"
 
-#: ../src/ui/prefs_page_divers.ui.h:16 ../src/parametres.c:246
+#: ../src/ui/prefs_page_divers.ui.h:16 ../src/parametres.c:245
 msgid "Decimal point: "
 msgstr "Oddělovač desetin: "
 
-#: ../src/ui/prefs_page_divers.ui.h:17 ../src/parametres.c:259
+#: ../src/ui/prefs_page_divers.ui.h:17 ../src/parametres.c:258
 msgid "Thousands separator: "
 msgstr "Oddělovač tisíců: "
 
@@ -1822,36 +1823,94 @@ msgstr "Pokud jsou vidět dva řádky, zobrazit řádky: "
 msgid "In three lines visibles, show the lines: "
 msgstr "Pokud jsou vidět tři řádky, zobrazit řádky: "
 
-#: ../src/ui/prefs_page_options_ope.ui.h:7
+#: ../src/ui/prefs_page_options_ope.ui.h:6
 #, fuzzy
 msgid "Transactions options"
 msgstr "Písmo transakcí"
 
-#: ../src/ui/prefs_page_options_ope.ui.h:8
+#: ../src/ui/prefs_page_options_ope.ui.h:7
 msgid "Use simple click to select transactions"
 msgstr "Vybírat transakce jednoduchým kliknutím"
 
-#: ../src/ui/prefs_page_options_ope.ui.h:9
+#: ../src/ui/prefs_page_options_ope.ui.h:8
 msgid "Highlights the transaction that gives the balance today"
 msgstr "Zvýraznit transakce, které dávají dnešní součet"
 
-#: ../src/ui/prefs_page_options_ope.ui.h:10
+#: ../src/ui/prefs_page_options_ope.ui.h:9
 #: ../src/org.gtk.grisbi.gschema.xml.h:86
 msgid "Primary sorting option"
 msgstr "Řadit primárně podle"
 
-#: ../src/ui/prefs_page_options_ope.ui.h:11
+#: ../src/ui/prefs_page_options_ope.ui.h:10
 #: ../src/org.gtk.grisbi.gschema.xml.h:88
 msgid "Secondary sorting option"
 msgstr "Následně řadit podle"
 
-#: ../src/ui/prefs_page_options_ope.ui.h:12
+#: ../src/ui/prefs_page_options_ope.ui.h:11
 msgid "Account differentiation"
 msgstr "Rozdílné nastavení účtů"
 
-#: ../src/ui/prefs_page_options_ope.ui.h:13
+#: ../src/ui/prefs_page_options_ope.ui.h:12
 msgid "Remember display settings for each account separately"
 msgstr "Pamatovat si nastavení pro každý účet zvlášť"
+
+#: ../src/ui/prefs_page_reconcile.ui.h:1
+#, fuzzy
+msgid "Select the end date of reconciliation"
+msgstr "Zvolte konečné datum odsouhlasení: "
+
+#: ../src/ui/prefs_page_reconcile.ui.h:3
+#, fuzzy
+msgid "Start date + one month"
+msgstr "Počáteční datum + jeden měsíc"
+
+#: ../src/ui/prefs_page_reconcile.ui.h:4
+msgid "Today's date"
+msgstr "Dnešní datum"
+
+#: ../src/ui/prefs_page_reconcile.ui.h:5
+msgid "List of reconciliations"
+msgstr "Seznam odsouhlasení"
+
+#: ../src/ui/prefs_page_reconcile.ui.h:6
+#, fuzzy
+msgid "Sort by descending date the reconciliations"
+msgstr "Zvolte konečné datum odsouhlasení: "
+
+#: ../src/ui/prefs_page_reconcile.ui.h:7
+msgid "Selected reconcile"
+msgstr "Vybrané odsouhlasení"
+
+#: ../src/ui/prefs_page_reconcile.ui.h:8
+#, fuzzy
+msgid "Reconciliation number: "
+msgstr "Číslo odsouhlasení"
+
+#. set the final balance
+#: ../src/ui/prefs_page_reconcile.ui.h:11
+#: ../src/gsb_assistant_reconcile_config.c:447 ../src/gsb_reconcile.c:273
+msgid "Final balance: "
+msgstr "Konečný zůstatek: "
+
+#. set the initial balance
+#: ../src/ui/prefs_page_reconcile.ui.h:12 ../src/gsb_account_property.c:516
+#: ../src/gsb_assistant_reconcile_config.c:438 ../src/gsb_reconcile.c:263
+msgid "Initial balance: "
+msgstr "Počáteční zůstatek: "
+
+#: ../src/ui/prefs_page_reconcile.ui.h:13
+msgid "Delete the reconcile"
+msgstr "Odstranit odsouhlasení"
+
+#: ../src/ui/prefs_page_reconcile.ui.h:14
+#, fuzzy
+msgid "Find all marked transactions not associated with a reconciliation"
+msgstr ""
+"Najít všechny označené transakce které nejsou přiřazeny k číslu odsouhlasení"
+
+#: ../src/ui/prefs_page_reconcile.ui.h:15
+msgid "Collapse row"
+msgstr ""
 
 #: ../src/ui/prefs_widget_loan.ui.h:1 ../src/bet_config.c:973
 msgid "Loan Capital: "
@@ -3109,9 +3168,9 @@ msgid "Limit date"
 msgstr "Poslední datum"
 
 #: ../src/bet_future.c:389 ../src/gsb_assistant_archive_export.c:153
-#: ../src/gsb_assistant_reconcile_config.c:1222
-#: ../src/gsb_reconcile_config.c:193 ../src/gsb_transactions_list.c:1163
-#: ../src/prefs/prefs_page_archives.c:486
+#: ../src/gsb_assistant_reconcile_config.c:1229
+#: ../src/gsb_transactions_list.c:1163 ../src/prefs/prefs_page_archives.c:486
+#: ../src/prefs/prefs_page_reconcile.c:333
 msgid "Final date"
 msgstr "Koncové datum"
 
@@ -3420,7 +3479,7 @@ msgstr "Číslo plátce/příjemce"
 
 #: ../src/bet_graph.c:459
 #, fuzzy
-msgid "total amount: "
+msgid "Total amount: "
 msgstr "Částka půjčky: "
 
 #: ../src/bet_graph.c:479
@@ -3520,7 +3579,7 @@ msgstr "Vybrat"
 #. 10
 #: ../src/bet_hist.c:587 ../src/categories_onglet.c:203
 #: ../src/etats_affiche.c:2547 ../src/etats_prefs.c:2162
-#: ../src/gsb_assistant_reconcile_config.c:590 ../src/gsb_scheduler_list.c:856
+#: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_scheduler_list.c:856
 #: ../src/gsb_transactions_list.c:116 ../src/import.c:4297
 #: ../src/import_csv.c:81 ../src/imputation_budgetaire.c:206
 #: ../src/tiers_onglet.c:739
@@ -3728,10 +3787,10 @@ msgid "Check the box to automatically change start date"
 msgstr "Zaškrtněte pro automatickou změnu počátečního data"
 
 #: ../src/categories_onglet.c:192 ../src/etats_config.c:2910
-#: ../src/gsb_assistant_reconcile_config.c:590
-#: ../src/gsb_payment_method_config.c:163 ../src/gsb_reconcile_config.c:193
-#: ../src/gsb_scheduler_list.c:856 ../src/imputation_budgetaire.c:195
-#: ../src/navigation.c:1142 ../src/tiers_onglet.c:728
+#: ../src/gsb_assistant_reconcile_config.c:597
+#: ../src/gsb_payment_method_config.c:163 ../src/gsb_scheduler_list.c:856
+#: ../src/imputation_budgetaire.c:195 ../src/navigation.c:1142
+#: ../src/prefs/prefs_page_reconcile.c:333 ../src/tiers_onglet.c:728
 msgid "Account"
 msgstr "Účet"
 
@@ -3815,7 +3874,7 @@ msgstr "Vytvořit novou podkategorii"
 #. On récupère le nom de la page
 #. Import button
 #: ../src/categories_onglet.c:581 ../src/etats_onglet.c:555
-#: ../src/grisbi_prefs.c:361 ../src/grisbi_prefs.c:432 ../src/grisbi_win.c:672
+#: ../src/grisbi_prefs.c:361 ../src/grisbi_prefs.c:429 ../src/grisbi_win.c:672
 #: ../src/import.c:1828 ../src/imputation_budgetaire.c:627
 #: ../src/utils_files.c:757
 msgid "Import"
@@ -4541,7 +4600,7 @@ msgstr "Fiskální rok"
 
 #. Now we have a model, create view
 #: ../src/etats_affiche.c:2513 ../src/etats_prefs.c:704
-#: ../src/etats_prefs.c:2298 ../src/grisbi_prefs.c:553
+#: ../src/etats_prefs.c:2298 ../src/grisbi_prefs.c:550
 #: ../src/gsb_payment_method_config.c:132
 msgid "Payment methods"
 msgstr "Metoda platby"
@@ -4923,8 +4982,8 @@ msgstr "Soubor CSV"
 msgid "Exporting report..."
 msgstr "Exportování sestavy..."
 
-#: ../src/etats_onglet.c:417 ../src/grisbi_prefs.c:800
-#: ../src/grisbi_prefs.c:927 ../src/grisbi_prefs.c:963 ../src/gsb_debug.c:848
+#: ../src/etats_onglet.c:417 ../src/grisbi_prefs.c:797
+#: ../src/grisbi_prefs.c:924 ../src/grisbi_prefs.c:960 ../src/gsb_debug.c:848
 #: ../src/gsb_file.c:517 ../src/gsb_file.c:660 ../src/gsb_file.c:986
 msgid "Done"
 msgstr "Hotovo"
@@ -5109,7 +5168,7 @@ msgstr "Zobrazení dat"
 
 #. append group page "Generalities"
 #. Bank details
-#: ../src/etats_prefs.c:730 ../src/etats_prefs.c:2879 ../src/grisbi_prefs.c:416
+#: ../src/etats_prefs.c:730 ../src/etats_prefs.c:2879 ../src/grisbi_prefs.c:413
 #: ../src/gsb_bank.c:678
 msgid "Generalities"
 msgstr "Hlavní"
@@ -5119,13 +5178,13 @@ msgid "Titles"
 msgstr "Názvy"
 
 #. append group page "Transactions"
-#: ../src/etats_prefs.c:740 ../src/export_csv.c:359 ../src/grisbi_prefs.c:476
+#: ../src/etats_prefs.c:740 ../src/export_csv.c:359 ../src/grisbi_prefs.c:472
 #: ../src/grisbi_win.c:478
 msgid "Transactions"
 msgstr "Transakce"
 
 #. echange line label
-#: ../src/etats_prefs.c:745 ../src/grisbi_prefs.c:530 ../src/gsb_currency.c:565
+#: ../src/etats_prefs.c:745 ../src/grisbi_prefs.c:527 ../src/gsb_currency.c:565
 #: ../src/gsb_currency_config.c:909
 msgid "Currencies"
 msgstr "Měny"
@@ -5592,7 +5651,7 @@ msgid ""
 "\n"
 "The account is saved in text, you may double check with a text editor if "
 "there is no personal information anymore in this file.Grisbi will close "
-"immediately after saving the obfuscated file"
+"immediately after saving the obfuscated file."
 msgstr ""
 "Prosím stiskněte tlačítko 'Zavřít' pro znepřehlednění vašeho souboru\n"
 "\n"
@@ -6160,147 +6219,148 @@ msgstr ""
 msgid "Cannot save configuration file '%s': %s"
 msgstr "Nelze uložit konfigurační soubor '%s': %s"
 
-#: ../src/grisbi_prefs.c:375
+#: ../src/grisbi_prefs.c:374
 #, fuzzy
 msgid "Files import"
 msgstr "Formát souboru: "
 
-#: ../src/grisbi_prefs.c:383
+#: ../src/grisbi_prefs.c:381
 msgid "Associations for import"
 msgstr ""
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:420 ../src/prefs/prefs_page_files.c:108
+#: ../src/grisbi_prefs.c:417 ../src/prefs/prefs_page_files.c:108
 msgid "Files"
 msgstr "Soubory"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:425 ../src/prefs/prefs_page_archives.c:573
+#: ../src/grisbi_prefs.c:422 ../src/prefs/prefs_page_archives.c:573
 msgid "Archives"
 msgstr "Archivy"
 
-#: ../src/grisbi_prefs.c:437
+#: ../src/grisbi_prefs.c:434
 #, fuzzy
 msgid "Various settings"
 msgstr "Nastavení importu"
 
-#: ../src/grisbi_prefs.c:442 ../src/grisbi_win.c:464
+#: ../src/grisbi_prefs.c:439 ../src/grisbi_win.c:464
 msgid "Main page"
 msgstr "Přehled"
 
 #. append group page "Display"
-#: ../src/grisbi_prefs.c:446
+#: ../src/grisbi_prefs.c:443
 msgid "Display"
 msgstr "Zobrazení"
 
-#: ../src/grisbi_prefs.c:450
+#: ../src/grisbi_prefs.c:447
 #, fuzzy
 msgid "Fonts & Logo"
 msgstr "Písma a loga"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:455 ../src/prefs/prefs_page_msg_warning.c:236
+#: ../src/grisbi_prefs.c:452 ../src/prefs/prefs_page_msg_warning.c:236
 msgid "Messages & warnings"
 msgstr "Zprávy a varování"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:461 ../src/prefs/prefs_page_display_adr.c:191
+#: ../src/grisbi_prefs.c:457 ../src/prefs/prefs_page_display_adr.c:191
 msgid "Addresses & titles"
 msgstr "Adresy a názvy"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:466 ../src/prefs/prefs_page_metatree.c:313
+#: ../src/grisbi_prefs.c:462 ../src/prefs/prefs_page_metatree.c:313
 msgid "Payees, categories and budgetaries"
 msgstr "Plátci/příjemci, kategorie a rozpočty"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:472 ../src/prefs/prefs_page_display_gui.c:244
+#: ../src/grisbi_prefs.c:468 ../src/prefs/prefs_page_display_gui.c:244
 msgid "Elements of interface"
 msgstr ""
 
-#: ../src/grisbi_prefs.c:480
+#: ../src/grisbi_prefs.c:476
 msgid "List behavior"
 msgstr "Chování seznamu"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:485 ../src/prefs/prefs_page_display_ope.c:692
+#: ../src/grisbi_prefs.c:481 ../src/prefs/prefs_page_display_ope.c:692
 #, fuzzy
 msgid "Transactions list cells"
 msgstr "Chování seznamu transakcí"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:490 ../src/prefs/prefs_page_msg_delete.c:227
+#: ../src/grisbi_prefs.c:486 ../src/prefs/prefs_page_msg_delete.c:227
 msgid "Messages before deleting"
 msgstr "Dotazy před odstraněním"
 
-#: ../src/grisbi_prefs.c:496 ../src/gsb_assistant_first.c:335
-#: ../src/gsb_reconcile_config.c:202
+#. On récupère le nom de la page
+#: ../src/grisbi_prefs.c:493 ../src/gsb_assistant_first.c:335
+#: ../src/prefs/prefs_page_reconcile.c:554
 msgid "Reconciliation"
 msgstr "Odsouhlasení"
 
-#: ../src/grisbi_prefs.c:502 ../src/gsb_reconcile_sort_config.c:94
+#: ../src/grisbi_prefs.c:499 ../src/gsb_reconcile_sort_config.c:94
 msgid "Sort for reconciliation"
 msgstr "Řadit pro odsouhlasení"
 
 #. append group page "Transaction form"
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:506 ../src/gsb_form_config.c:108
+#: ../src/grisbi_prefs.c:503 ../src/gsb_form_config.c:108
 #: ../src/prefs/prefs_page_display_form.c:909
 msgid "Transaction form"
 msgstr "Formulář transakcí"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:510 ../src/prefs/prefs_page_form_options.c:111
+#: ../src/grisbi_prefs.c:507 ../src/prefs/prefs_page_form_options.c:111
 msgid "Form behavior"
 msgstr "Chování formuláře"
 
-#: ../src/grisbi_prefs.c:515
+#: ../src/grisbi_prefs.c:512
 msgid "Content"
 msgstr "Obsah"
 
-#: ../src/grisbi_prefs.c:521
+#: ../src/grisbi_prefs.c:518
 msgid "Completion"
 msgstr "Dokončování"
 
 #. append group page "Resources subtree"
-#: ../src/grisbi_prefs.c:525
+#: ../src/grisbi_prefs.c:522
 msgid "Resources"
 msgstr "Zdroje"
 
-#: ../src/grisbi_prefs.c:536
+#: ../src/grisbi_prefs.c:533
 msgid "Currencies links"
 msgstr "Směnné kurzy"
 
-#: ../src/grisbi_prefs.c:542 ../src/gsb_bank.c:471
+#: ../src/grisbi_prefs.c:539 ../src/gsb_bank.c:471
 msgid "Banks"
 msgstr "Banky"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:547 ../src/gsb_fyear_config.c:147
+#: ../src/grisbi_prefs.c:544 ../src/gsb_fyear_config.c:147
 #: ../src/prefs/prefs_page_fyear.c:689
 msgid "Financial years"
 msgstr "Fiskální roky"
 
 #. append group page "Balance estimate"
-#: ../src/grisbi_prefs.c:557
+#: ../src/grisbi_prefs.c:554
 msgid "Balance estimate"
 msgstr "Odhadovaný zůstatek"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:569 ../src/prefs/prefs_page_bet_account.c:442
+#: ../src/grisbi_prefs.c:566 ../src/prefs/prefs_page_bet_account.c:442
 msgid "Accounts data"
 msgstr "Detaily účtu"
 
-#: ../src/grisbi_prefs.c:688
+#: ../src/grisbi_prefs.c:685
 #, fuzzy
 msgid "Preferences start"
 msgstr "_Možnosti"
 
-#: ../src/grisbi_prefs.c:721
+#: ../src/grisbi_prefs.c:718
 msgid "This state will be kept for the duration of this session"
 msgstr ""
 
-#: ../src/grisbi_prefs.c:924
+#: ../src/grisbi_prefs.c:921
 #, fuzzy
 msgid "Preferences stop"
 msgstr "_Možnosti"
@@ -6459,13 +6519,6 @@ msgstr "Číslo účtu / klíč: "
 #: ../src/gsb_account_property.c:511
 msgid "Balances"
 msgstr "Zůstatky"
-
-#. set the initial balance
-#: ../src/gsb_account_property.c:516
-#: ../src/gsb_assistant_reconcile_config.c:431 ../src/gsb_reconcile.c:263
-#: ../src/gsb_reconcile_config.c:364
-msgid "Initial balance: "
-msgstr "Počáteční zůstatek: "
 
 #: ../src/gsb_account_property.c:531
 msgid "Minimum authorised balance: "
@@ -6859,7 +6912,7 @@ msgstr ""
 "odstranit, lze to provést z okna 'Možnosti'."
 
 #: ../src/gsb_assistant_archive_export.c:153
-#: ../src/gsb_assistant_reconcile_config.c:1222
+#: ../src/gsb_assistant_reconcile_config.c:1229
 #: ../src/prefs/prefs_page_archives.c:486
 msgid "Initial date"
 msgstr "Počáteční datum"
@@ -7130,28 +7183,13 @@ msgstr ""
 "\n"
 "Podrobnější informace naleznete v okně \"Možnosti\"."
 
-#: ../src/gsb_assistant_reconcile_config.c:170
+#: ../src/gsb_assistant_reconcile_config.c:174
 #, fuzzy
 msgid "No marked transactions without reconciliation found!"
 msgstr "Nebyly nalazeny označené transakce bez odsouhlasení!"
 
-#. come here if we have some orphan transactions
-#. * this can happen by 2 ways :
-#. * for old users of Grisbi, before i don't remember what version, there were no reconcile number,
-#. * 		the reconciled transactions were juste marked R
-#. * before the 0.6.0, ctrl R didn't permit to choose a reconciliation
-#. *
-#. * for the 2nd item, no problem, we show a list of reconciles and the user can choose what reconcile he wants
-#. * for the first item the problem is there is no reconcile number to go with that transactions...
-#. * so we will use the assistant to
-#. * 	-permit to create a reconcile directly (not possible normaly in the configuration
-#. * 	-permit to choose a reconcile number for each transactions without reconcile
-#. * 	- do an automatic find for reconcile, usefull in the first item, when very much
-#. * 		transactions without reconcile, but we need to make the old reconciles before,
-#. * 		and set the good date for all the reconciles (because grisbi set them automatically
-#. * 		at the first update to grisbi 0.6.0 )
 #. first, create the assistant
-#: ../src/gsb_assistant_reconcile_config.c:194
+#: ../src/gsb_assistant_reconcile_config.c:201
 #, fuzzy, c-format
 msgid ""
 "Grisbi found %d marked transactions not associated with a reconciliation "
@@ -7178,7 +7216,7 @@ msgstr ""
 "správně (nová odsouhlasení můžete vytvořit v následujícím kroku). Předchozí "
 "odsouhlasení budou také k dispozici."
 
-#: ../src/gsb_assistant_reconcile_config.c:202
+#: ../src/gsb_assistant_reconcile_config.c:209
 msgid "Associate orphan transactions to a reconciliation"
 msgstr "Přiřadit osiřelé transakce k odsouhlasení"
 
@@ -7186,25 +7224,25 @@ msgstr "Přiřadit osiřelé transakce k odsouhlasení"
 #. update the labels
 #. update the string containing the number of transactions to link
 #. update the labels
-#: ../src/gsb_assistant_reconcile_config.c:267
-#: ../src/gsb_assistant_reconcile_config.c:881
-#: ../src/gsb_assistant_reconcile_config.c:1000
-#: ../src/gsb_assistant_reconcile_config.c:1043
-#: ../src/gsb_assistant_reconcile_config.c:1343
+#: ../src/gsb_assistant_reconcile_config.c:274
+#: ../src/gsb_assistant_reconcile_config.c:888
+#: ../src/gsb_assistant_reconcile_config.c:1007
+#: ../src/gsb_assistant_reconcile_config.c:1050
+#: ../src/gsb_assistant_reconcile_config.c:1350
 #, c-format
 msgid "Still %d transactions to link with a reconciliation."
 msgstr "Stále je potřeba přiřadit %d transakcí k odsouhlasení."
 
 #. set up the menu
-#: ../src/gsb_assistant_reconcile_config.c:284
+#: ../src/gsb_assistant_reconcile_config.c:291
 msgid "Choose the next operation to do: "
 msgstr "Zvolte další operaci: "
 
-#: ../src/gsb_assistant_reconcile_config.c:293
+#: ../src/gsb_assistant_reconcile_config.c:300
 msgid "Manually create a new reconciliation"
 msgstr "Ručně vytvořit nové odsouhlasení"
 
-#: ../src/gsb_assistant_reconcile_config.c:304
+#: ../src/gsb_assistant_reconcile_config.c:311
 msgid ""
 "\tAfter a long use, some transactions may be before the first known "
 "reconciliation.\n"
@@ -7214,14 +7252,14 @@ msgstr ""
 "odsouhlasením.\n"
 "\tVšechna potřebná odsouhlasení v minulosti můžete vytvořit zde."
 
-#: ../src/gsb_assistant_reconcile_config.c:314
+#: ../src/gsb_assistant_reconcile_config.c:321
 msgid ""
 "Automatically associate transactions without reconciliation number with the "
 "known reconciliations"
 msgstr ""
 "Automaticky přiřadit transakce bez čísla odsouhlasení ke známým odsouhlasením"
 
-#: ../src/gsb_assistant_reconcile_config.c:325
+#: ../src/gsb_assistant_reconcile_config.c:332
 #, fuzzy
 msgid ""
 "\tThis will make all the work for you if you create previously all the "
@@ -7232,7 +7270,7 @@ msgstr ""
 "data již existujících odsouhlasení,\n"
 "\tudělá tato akce všechnu práci za vás."
 
-#: ../src/gsb_assistant_reconcile_config.c:336
+#: ../src/gsb_assistant_reconcile_config.c:343
 #, fuzzy
 msgid ""
 "Associate by hands the transactions without reconciliation number with the "
@@ -7240,7 +7278,7 @@ msgid ""
 msgstr ""
 "Ručně přiřadit transakce bez čísla odsouhlasení ke známým odsouhlasením"
 
-#: ../src/gsb_assistant_reconcile_config.c:348
+#: ../src/gsb_assistant_reconcile_config.c:355
 msgid ""
 "\tYou control all and have a lot of time to spend on your computer !\n"
 "\t(you will be able to choose a reconciliation for each orphan transaction)."
@@ -7248,28 +7286,21 @@ msgstr ""
 "\tMáte vše plně pod kontrolou a snad máte i velmi mnoho času!\n"
 "\t(budete moci přiřadit odsouhlasení ke každé osiřelé transakci)."
 
-#: ../src/gsb_assistant_reconcile_config.c:384
+#: ../src/gsb_assistant_reconcile_config.c:391
 #, fuzzy
 msgid "Fill the fields and click the button \"Create the new reconciliation\""
 msgstr "Vyplňte pole a klikněte na tlačítko \"Vytvořit nové odsouhlasení\""
 
 #. set the name
-#: ../src/gsb_assistant_reconcile_config.c:394 ../src/gsb_reconcile.c:181
-#: ../src/gsb_reconcile_config.c:320
+#: ../src/gsb_assistant_reconcile_config.c:401 ../src/gsb_reconcile.c:181
 msgid "Reconciliation reference: "
 msgstr "Reference odsouhlasení: "
 
-#. set the final balance
-#: ../src/gsb_assistant_reconcile_config.c:440 ../src/gsb_reconcile.c:273
-#: ../src/gsb_reconcile_config.c:376
-msgid "Final balance: "
-msgstr "Konečný zůstatek: "
-
-#: ../src/gsb_assistant_reconcile_config.c:456
+#: ../src/gsb_assistant_reconcile_config.c:463
 msgid "Create the new reconciliation"
 msgstr "Vytvořit nové odsouhlasení"
 
-#: ../src/gsb_assistant_reconcile_config.c:531
+#: ../src/gsb_assistant_reconcile_config.c:538
 #, fuzzy
 msgid ""
 "This assistant try to find a bank reconciliation to each orphan "
@@ -7287,21 +7318,21 @@ msgstr ""
 "zda jsou vytvořena všechna potřebná odsouhlasení (první volba v nabídce\n"
 "asistenta) nebo zkontrolvat nepřiřazené transakce."
 
-#: ../src/gsb_assistant_reconcile_config.c:555
+#: ../src/gsb_assistant_reconcile_config.c:562
 msgid "Launch automatic association"
 msgstr "Spustit automatické párování"
 
 #. now we can show the list of orphans transactions
-#: ../src/gsb_assistant_reconcile_config.c:612
+#: ../src/gsb_assistant_reconcile_config.c:619
 msgid "Select the transaction(s) you want to associate with a reconciliation: "
 msgstr "Vyberte transakce, které chcete přiřadit k odsouhlasení: "
 
-#: ../src/gsb_assistant_reconcile_config.c:675
+#: ../src/gsb_assistant_reconcile_config.c:682
 #, fuzzy
 msgid "Link the selection to a reconciliation..."
 msgstr "Připojit vybrané k odsouhlasení..."
 
-#: ../src/gsb_assistant_reconcile_config.c:704
+#: ../src/gsb_assistant_reconcile_config.c:711
 #, fuzzy
 msgid ""
 "Congratulations!\n"
@@ -7318,33 +7349,33 @@ msgstr ""
 "odsouhlasní,\n"
 "\tproto by nemělo být potřeba se k tomuto pomocníkovi vracet."
 
-#: ../src/gsb_assistant_reconcile_config.c:763
+#: ../src/gsb_assistant_reconcile_config.c:770
 msgid "The initial date is not valid, please check it."
 msgstr "Počáteční datum není platné, prosím zkontrolujte ho."
 
-#: ../src/gsb_assistant_reconcile_config.c:772
+#: ../src/gsb_assistant_reconcile_config.c:779
 msgid "The final date is not valid, please check it."
 msgstr "Koncové datum není platné, prosím zkontrolujte ho."
 
-#: ../src/gsb_assistant_reconcile_config.c:782
+#: ../src/gsb_assistant_reconcile_config.c:789
 #, fuzzy
 msgid "Please give a name to the new reconciliation."
 msgstr "Prosím zvolte jméno nového odsouhlasení."
 
-#: ../src/gsb_assistant_reconcile_config.c:793
+#: ../src/gsb_assistant_reconcile_config.c:800
 msgid "That name already exists, please find another one."
 msgstr "Tento název již existuje, prosím zvolte jiný."
 
-#: ../src/gsb_assistant_reconcile_config.c:807
+#: ../src/gsb_assistant_reconcile_config.c:814
 msgid "Cannot allocate memory : Bad things will happen soon."
 msgstr "Nelze alokovat paměť. Brzy dojde k chybě."
 
-#: ../src/gsb_assistant_reconcile_config.c:834
+#: ../src/gsb_assistant_reconcile_config.c:841
 #, fuzzy, c-format
 msgid "Reconciliation %s successfully appended!"
 msgstr "Odsouhlasení %s bylo úspěšně připojeno!"
 
-#: ../src/gsb_assistant_reconcile_config.c:940
+#: ../src/gsb_assistant_reconcile_config.c:947
 #, fuzzy, c-format
 msgid ""
 "Grisbi can associate %d transactions to a reconciliation.\n"
@@ -7353,8 +7384,8 @@ msgstr ""
 "Grisbi může připojit %d transakcí k odsouhlasení.\n"
 "Prosím klikněte na potvrzovací tlačítko pro vytvoření vazeb."
 
-#: ../src/gsb_assistant_reconcile_config.c:948
-#: ../src/gsb_assistant_reconcile_config.c:1009
+#: ../src/gsb_assistant_reconcile_config.c:955
+#: ../src/gsb_assistant_reconcile_config.c:1016
 #, fuzzy
 msgid ""
 "There is no transaction that Grisbi can link.\n"
@@ -7363,27 +7394,27 @@ msgstr ""
 "Grisbi nemůže připojit žádnou transakci.\n"
 "Zkontrolujte, zda jste vytvořil(a) všechna potřebná odsouhlasení."
 
-#: ../src/gsb_assistant_reconcile_config.c:1157
+#: ../src/gsb_assistant_reconcile_config.c:1164
 msgid "All the selected transactions have to belong to the same account !"
 msgstr "Všechny vybrané transakce musí náležet ke stejnému účtu!"
 
 #. ok, all the transactions belong to the same account, we can
 #. * show a dialog to select the reconcile
-#: ../src/gsb_assistant_reconcile_config.c:1176
+#: ../src/gsb_assistant_reconcile_config.c:1183
 #: ../src/gsb_transactions_list.c:1118
 msgid "Selection of a reconciliation"
 msgstr "Výběr odsouhlasení"
 
-#: ../src/gsb_assistant_reconcile_config.c:1188
+#: ../src/gsb_assistant_reconcile_config.c:1195
 msgid "Select the reconciliation to associate to the selected transactions: "
 msgstr "Vyberte odsouhlasení pro připojení k vybraným transakcím: "
 
-#: ../src/gsb_assistant_reconcile_config.c:1222
+#: ../src/gsb_assistant_reconcile_config.c:1229
 #: ../src/gsb_transactions_list.c:118
 msgid "Reconciliation reference"
 msgstr "Reference odsouhlasení"
 
-#: ../src/gsb_assistant_reconcile_config.c:1295
+#: ../src/gsb_assistant_reconcile_config.c:1302
 msgid "No selection found, the transactions are not modified."
 msgstr "Nic nebylo vybráno, žádné transakce nebyly změněny."
 
@@ -10432,79 +10463,6 @@ msgstr ""
 msgid "Last statement: %s"
 msgstr "Poslední výpis: %s"
 
-#: ../src/gsb_reconcile_config.c:193 ../src/gsb_transactions_list.c:1163
-msgid "Init date"
-msgstr "Počáteční datum"
-
-#: ../src/gsb_reconcile_config.c:194
-msgid "Init balance"
-msgstr "Počáteční zůstatek"
-
-#: ../src/gsb_reconcile_config.c:194
-msgid "Final balance"
-msgstr "Konečný zůstatek"
-
-#: ../src/gsb_reconcile_config.c:206
-msgid "Select the end date of reconciliation: "
-msgstr "Zvolte konečné datum odsouhlasení: "
-
-#: ../src/gsb_reconcile_config.c:207
-msgid "Start Date + one month"
-msgstr "Počáteční datum + jeden měsíc"
-
-#: ../src/gsb_reconcile_config.c:208
-msgid "Today's date"
-msgstr "Dnešní datum"
-
-#: ../src/gsb_reconcile_config.c:215
-msgid "List of reconciliations"
-msgstr "Seznam odsouhlasení"
-
-#: ../src/gsb_reconcile_config.c:283
-#, fuzzy
-msgid "Sort by descending date the reconciliations"
-msgstr "Zvolte konečné datum odsouhlasení: "
-
-#: ../src/gsb_reconcile_config.c:291
-msgid "Collapse row"
-msgstr ""
-
-#. set the modifying part under the list
-#: ../src/gsb_reconcile_config.c:312
-msgid "Selected reconcile"
-msgstr "Vybrané odsouhlasení"
-
-#. set the delete button
-#: ../src/gsb_reconcile_config.c:356
-msgid "Delete the reconcile"
-msgstr "Odstranit odsouhlasení"
-
-#: ../src/gsb_reconcile_config.c:392
-#, fuzzy
-msgid "Find all marked transactions not associated with a reconciliation"
-msgstr ""
-"Najít všechny označené transakce které nejsou přiřazeny k číslu odsouhlasení"
-
-#. we are on a reconcile,
-#. * we ask if the user want to continue and warn him
-#: ../src/gsb_reconcile_config.c:654
-#, c-format
-msgid ""
-"Caution, you are about to delete a reconciliation.\n"
-"If you continue, the reconciliation %s will be erased and all the "
-"transactions marked by this reconciliation will be un-reconciled and marked "
-"P.\n"
-"Are you sure you want to continue?"
-msgstr ""
-"Pozor, právě se chystáte odstranit odsouhlasení.\n"
-"Pokud budete pokračovat, odsouhlasení %s bude odstraněno a všechny transakce "
-"v tomto odsouhlasení budou opět neodsouhlasené a označené jako P.\n"
-"Přejete si pokračovat?"
-
-#: ../src/gsb_reconcile_config.c:656
-msgid "Delete reconciliation"
-msgstr "Odstranit odsouhlasení"
-
 #: ../src/gsb_reconcile_sort_config.c:97
 msgid "Reconciliation: sort transactions"
 msgstr "Odsouhlasení: řadit transakce"
@@ -10729,7 +10687,7 @@ msgid ""
 "The concerned children number are:\n"
 " %s\n"
 "\n"
-"Do you want to delete it"
+"Do you want to delete it?"
 msgstr ""
 "Některé plánované detailní transakce nemají v seznamu hlavní transakci, toto "
 "by se nemělo stát a je to zřejmě způsobeno chybou. Prosím kontaktujte "
@@ -10870,6 +10828,10 @@ msgstr ""
 msgid "Select the reconciliation to associate to the selected transaction: "
 msgstr "Vyberte odsouhlasení ke kterému budou připojeny vybrané tranaskce: "
 
+#: ../src/gsb_transactions_list.c:1163 ../src/prefs/prefs_page_reconcile.c:333
+msgid "Init date"
+msgstr "Počáteční datum"
+
 #: ../src/gsb_transactions_list.c:1269
 msgid "Grisbi couldn't get the selection, operation canceled..."
 msgstr "Grisbi nemohlo dokončit výběr, operace byla zrušena..."
@@ -10978,7 +10940,7 @@ msgid ""
 "The concerned children number are:\n"
 " %s\n"
 "\n"
-"Do you want to delete it"
+"Do you want to delete it?"
 msgstr ""
 "Některé detaily nemají v seznamu hlavní transakci, toto by se nemělo stát a "
 "je to zřejmě způsobeno chybou. Prosím kontaktujte vývojový tým Grisbi.\n"
@@ -12222,11 +12184,11 @@ msgstr "Exportovat soubor rozpočtů Grisbi (.igsb)"
 msgid "Remove this report"
 msgstr "Odstranit pravidlo"
 
-#: ../src/parametres.c:276
+#: ../src/parametres.c:275
 msgid "Choose the decimal and thousands separator"
 msgstr "Zvolte oddělovače desetin a tisíců"
 
-#: ../src/parametres.c:282
+#: ../src/parametres.c:281
 msgid "Decimal and thousands separator"
 msgstr "Oddělovače desetin a tisíců"
 
@@ -12725,6 +12687,34 @@ msgstr "Řadit podle čísla transakce"
 msgid "Transaction list behavior"
 msgstr "Chování seznamu transakcí"
 
+#: ../src/prefs/prefs_page_reconcile.c:333
+msgid "Init balance"
+msgstr "Počáteční zůstatek"
+
+#: ../src/prefs/prefs_page_reconcile.c:333
+msgid "Final balance"
+msgstr "Konečný zůstatek"
+
+#. we are on a reconcile,
+#. * we ask if the user want to continue and warn him
+#: ../src/prefs/prefs_page_reconcile.c:502
+#, fuzzy, c-format
+msgid ""
+"Caution, you are about to delete a reconciliation.\n"
+"If you continue, the reconciliation '%s' will be erased and all the "
+"transactions marked by this reconciliation will be un-reconciled and marked "
+"P.\n"
+"Are you sure you want to continue?"
+msgstr ""
+"Pozor, právě se chystáte odstranit odsouhlasení.\n"
+"Pokud budete pokračovat, odsouhlasení %s bude odstraněno a všechny transakce "
+"v tomto odsouhlasení budou opět neodsouhlasené a označené jako P.\n"
+"Přejete si pokračovat?"
+
+#: ../src/prefs/prefs_page_reconcile.c:508
+msgid "Delete reconciliation"
+msgstr "Odstranit odsouhlasení"
+
 #. Main account
 #: ../src/prefs/prefs_widget_loan.c:880
 #, fuzzy
@@ -13056,7 +13046,8 @@ msgid "Enter the new payee"
 msgstr "Zadejte nového plátce/příjemce"
 
 #: ../src/tiers_onglet.c:1233
-msgid "Enter the name of the new payee"
+#, fuzzy
+msgid "Enter the name of the new payee: "
 msgstr "Zadejte jméno nového plátce/příjemce"
 
 #: ../src/tiers_onglet.c:1267
@@ -13069,7 +13060,7 @@ msgstr "Seznam plátců/příjemců, kteří budou upraveni"
 
 #: ../src/tiers_onglet.c:1483
 #, fuzzy
-msgid "do you want replace the current rule?"
+msgid "Do you want replace the current rule?"
 msgstr "Opravdu chcete odstranit transakci s třetí stranou '%s' ?"
 
 #: ../src/tiers_onglet.c:1528
@@ -13135,12 +13126,13 @@ msgstr ""
 "Pokud odpovíte Ano, existující poznámka bude nahrazena za %s."
 
 #: ../src/tiers_onglet.c:1880
+#, fuzzy
 msgid ""
 "This wizard will help you to simplify the list of payees.\n"
 "\n"
 "Warning the changes you will make be irreparable.\n"
 "\n"
-"It is better to make a backup of your Grisbi file if you have not yet done. "
+"It is better to make a backup of your Grisbi file if you have not yet done."
 msgstr ""
 "Tento pomocník vám pomůže zjednodušit seznam plátců/příjemců.\n"
 "\n"

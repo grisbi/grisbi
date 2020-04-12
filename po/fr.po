@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-11 07:38+0200\n"
-"PO-Revision-Date: 2020-04-10 09:12+0200\n"
+"POT-Creation-Date: 2020-04-13 07:54+0200\n"
+"PO-Revision-Date: 2020-04-12 15:40+0200\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: français <>\n"
 "Language: fr\n"
@@ -118,7 +118,7 @@ msgid "Display the grids above the plot"
 msgstr "Afficher la grille sur les barres"
 
 #: ../src/ui/csv_template_rule.ui.h:1 ../src/bet_config.c:101
-#: ../src/grisbi_prefs.c:564
+#: ../src/grisbi_prefs.c:561
 msgid "General Options"
 msgstr "Généralités"
 
@@ -136,7 +136,8 @@ msgstr "Généralités"
 #: ../src/ui/prefs_page_import_files.ui.h:2
 #: ../src/ui/prefs_page_metatree.ui.h:2 ../src/ui/prefs_page_msg_delete.ui.h:2
 #: ../src/ui/prefs_page_msg_warning.ui.h:2
-#: ../src/ui/prefs_page_options_ope.ui.h:2 ../src/ui/prefs_widget_loan.ui.h:23
+#: ../src/ui/prefs_page_options_ope.ui.h:2
+#: ../src/ui/prefs_page_reconcile.ui.h:2 ../src/ui/prefs_widget_loan.ui.h:23
 msgid "    "
 msgstr "    "
 
@@ -177,7 +178,6 @@ msgid "Line number: "
 msgstr "N° de ligne : "
 
 #: ../src/ui/csv_template_rule.ui.h:12 ../src/ui/prefs_page_divers.ui.h:10
-#: ../src/ui/prefs_page_options_ope.ui.h:6
 msgid "1"
 msgstr "1"
 
@@ -195,22 +195,20 @@ msgstr "titres des colonnes présentes"
 msgid "Specific configuration"
 msgstr "Configuration spécifique"
 
-#: ../src/ui/csv_template_rule.ui.h:16 ../src/ui/prefs_page_accueil.ui.h:6
-#: ../src/ui/prefs_page_bet_account.ui.h:6
-#: ../src/ui/prefs_page_display_adr.ui.h:10
+#: ../src/ui/csv_template_rule.ui.h:16 ../src/ui/prefs_page_bet_account.ui.h:6
 #: ../src/ui/prefs_page_display_fonts.ui.h:9
-#: ../src/ui/prefs_page_display_ope.ui.h:4 ../src/ui/prefs_widget_loan.ui.h:21
+#: ../src/ui/prefs_widget_loan.ui.h:21
 msgid "label"
 msgstr "label"
 
-#: ../src/ui/csv_template_rule.ui.h:17 ../src/ui/prefs_page_accueil.ui.h:7
+#: ../src/ui/csv_template_rule.ui.h:17 ../src/ui/prefs_page_accueil.ui.h:6
 #: ../src/ui/prefs_page_archives.ui.h:12
 #: ../src/ui/prefs_page_bet_account.ui.h:7
-#: ../src/ui/prefs_page_display_adr.ui.h:11
+#: ../src/ui/prefs_page_display_adr.ui.h:10
 #: ../src/ui/prefs_page_display_fonts.ui.h:14
 #: ../src/ui/prefs_page_display_form.ui.h:6
 #: ../src/ui/prefs_page_display_gui.ui.h:16
-#: ../src/ui/prefs_page_display_ope.ui.h:5 ../src/ui/prefs_page_divers.ui.h:18
+#: ../src/ui/prefs_page_display_ope.ui.h:4 ../src/ui/prefs_page_divers.ui.h:18
 #: ../src/ui/prefs_page_files.ui.h:23
 #: ../src/ui/prefs_page_form_completion.ui.h:15
 #: ../src/ui/prefs_page_form_options.ui.h:9 ../src/ui/prefs_page_fyear.ui.h:10
@@ -218,7 +216,8 @@ msgstr "label"
 #: ../src/ui/prefs_page_import_files.ui.h:14
 #: ../src/ui/prefs_page_metatree.ui.h:15 ../src/ui/prefs_page_msg_delete.ui.h:3
 #: ../src/ui/prefs_page_msg_warning.ui.h:5
-#: ../src/ui/prefs_page_options_ope.ui.h:14 ../src/ui/prefs_widget_loan.ui.h:22
+#: ../src/ui/prefs_page_options_ope.ui.h:13
+#: ../src/ui/prefs_page_reconcile.ui.h:16 ../src/ui/prefs_widget_loan.ui.h:22
 msgid "Title"
 msgstr "Titre"
 
@@ -272,7 +271,7 @@ msgstr "Ajouter une donnée complémentaire : "
 #. 1
 #: ../src/ui/etats_prefs.ui.h:9 ../src/bet_finance_ui.c:1833
 #: ../src/bet_future.c:748 ../src/bet_tab.c:1968 ../src/etats_affiche.c:2464
-#: ../src/export_csv.c:368 ../src/gsb_assistant_reconcile_config.c:590
+#: ../src/export_csv.c:368 ../src/gsb_assistant_reconcile_config.c:597
 #: ../src/gsb_form.c:1981 ../src/gsb_form_widget.c:549
 #: ../src/gsb_reconcile.c:214 ../src/gsb_transactions_list.c:109
 #: ../src/import.c:1876 ../src/import.c:4283 ../src/import_csv.c:72
@@ -457,7 +456,7 @@ msgstr "Afficher un sous-total lors d'un changement de compte"
 #: ../src/bet_future.c:2314 ../src/bet_future.c:2464 ../src/bet_future.c:2776
 #: ../src/bet_future.c:2846 ../src/etats_affiche.c:2485
 #: ../src/etats_config.c:2914 ../src/etats_prefs.c:679 ../src/export_csv.c:383
-#: ../src/grisbi_win.c:511 ../src/gsb_assistant_reconcile_config.c:590
+#: ../src/grisbi_win.c:511 ../src/gsb_assistant_reconcile_config.c:597
 #: ../src/gsb_form.c:2004 ../src/gsb_form_widget.c:569
 #: ../src/gsb_scheduler_list.c:856 ../src/gsb_transactions_list.c:111
 #: ../src/import.c:4290 ../src/import_csv.c:74 ../src/meta_payee.c:79
@@ -553,11 +552,11 @@ msgstr "Catégories de revenus"
 msgid "Outgoing categories"
 msgstr "Catégories de dépenses"
 
-#: ../src/ui/etats_prefs.ui.h:70 ../src/grisbi_prefs.c:733
+#: ../src/ui/etats_prefs.ui.h:70 ../src/grisbi_prefs.c:730
 msgid "Expand all"
 msgstr "Développer tout"
 
-#: ../src/ui/etats_prefs.ui.h:71 ../src/grisbi_prefs.c:743
+#: ../src/ui/etats_prefs.ui.h:71 ../src/grisbi_prefs.c:740
 msgid "Collapse all"
 msgstr "Regrouper tout"
 
@@ -662,16 +661,18 @@ msgid "Use dates ranges"
 msgstr "Utiliser des plages de dates"
 
 #. set the initial date
-#: ../src/ui/etats_prefs.ui.h:97 ../src/gsb_assistant_archive.c:236
-#: ../src/gsb_assistant_reconcile_config.c:413
-#: ../src/gsb_reconcile_config.c:332 ../src/print_transactions_list.c:183
+#: ../src/ui/etats_prefs.ui.h:97 ../src/ui/prefs_page_reconcile.ui.h:9
+#: ../src/gsb_assistant_archive.c:236
+#: ../src/gsb_assistant_reconcile_config.c:420
+#: ../src/print_transactions_list.c:183
 msgid "Initial date: "
 msgstr "Date initiale : "
 
 #. set the final date
-#: ../src/ui/etats_prefs.ui.h:98 ../src/gsb_assistant_archive.c:248
-#: ../src/gsb_assistant_reconcile_config.c:422
-#: ../src/gsb_reconcile_config.c:344 ../src/print_transactions_list.c:195
+#: ../src/ui/etats_prefs.ui.h:98 ../src/ui/prefs_page_reconcile.ui.h:10
+#: ../src/gsb_assistant_archive.c:248
+#: ../src/gsb_assistant_reconcile_config.c:429
+#: ../src/print_transactions_list.c:195
 msgid "Final date: "
 msgstr "Date finale : "
 
@@ -1068,7 +1069,7 @@ msgstr "Position dans la liste des soldes partiels"
 msgid "Place the partial balance  under its accounts if it's possible"
 msgstr "Placer si possible le solde partiel sous ses comptes"
 
-#: ../src/ui/prefs_page_accueil.ui.h:8
+#: ../src/ui/prefs_page_accueil.ui.h:7
 msgid "Pluriel de final"
 msgstr "Pluriel de final"
 
@@ -1114,7 +1115,7 @@ msgstr "Sélectionnez un compte"
 
 #. set the choice of account
 #: ../src/ui/prefs_page_bet_account.ui.h:3
-#: ../src/gsb_assistant_reconcile_config.c:403
+#: ../src/gsb_assistant_reconcile_config.c:410
 msgid "Account: "
 msgstr "Compte : "
 
@@ -1346,8 +1347,8 @@ msgstr "Utiliser un compte par défaut dans le planificateur : "
 msgid "Choose the language"
 msgstr "Choisir la langue"
 
-#: ../src/ui/prefs_page_divers.ui.h:14 ../src/parametres.c:153
-#: ../src/parametres.c:161
+#: ../src/ui/prefs_page_divers.ui.h:14 ../src/parametres.c:152
+#: ../src/parametres.c:160
 msgid "Choose the date format"
 msgstr "Choisir le format de la date"
 
@@ -1355,11 +1356,11 @@ msgstr "Choisir le format de la date"
 msgid "Choose decimal and thousands separator"
 msgstr "Choisir le séparateur décimal et le séparateur de milliers"
 
-#: ../src/ui/prefs_page_divers.ui.h:16 ../src/parametres.c:246
+#: ../src/ui/prefs_page_divers.ui.h:16 ../src/parametres.c:245
 msgid "Decimal point: "
 msgstr "Séparateur décimal : "
 
-#: ../src/ui/prefs_page_divers.ui.h:17 ../src/parametres.c:259
+#: ../src/ui/prefs_page_divers.ui.h:17 ../src/parametres.c:258
 msgid "Thousands separator: "
 msgstr "Séparateur de milliers : "
 
@@ -1748,35 +1749,87 @@ msgstr "En mode affichage deux lignes montrer les lignes : "
 msgid "In three lines visibles, show the lines: "
 msgstr "En mode affichage trois lignes montrer les lignes : "
 
-#: ../src/ui/prefs_page_options_ope.ui.h:7
+#: ../src/ui/prefs_page_options_ope.ui.h:6
 msgid "Transactions options"
 msgstr "Options de la liste des opérations"
 
-#: ../src/ui/prefs_page_options_ope.ui.h:8
+#: ../src/ui/prefs_page_options_ope.ui.h:7
 msgid "Use simple click to select transactions"
 msgstr "Ouvrir l'opération sélectionnée avec un simple clic"
 
-#: ../src/ui/prefs_page_options_ope.ui.h:9
+#: ../src/ui/prefs_page_options_ope.ui.h:8
 msgid "Highlights the transaction that gives the balance today"
 msgstr "Surligner l'opération qui donne le solde à aujourd'hui"
 
-#: ../src/ui/prefs_page_options_ope.ui.h:10
+#: ../src/ui/prefs_page_options_ope.ui.h:9
 #: ../src/org.gtk.grisbi.gschema.xml.h:86
 msgid "Primary sorting option"
 msgstr "Option de tri primaire"
 
-#: ../src/ui/prefs_page_options_ope.ui.h:11
+#: ../src/ui/prefs_page_options_ope.ui.h:10
 #: ../src/org.gtk.grisbi.gschema.xml.h:88
 msgid "Secondary sorting option"
 msgstr "Option de tri secondaire"
 
-#: ../src/ui/prefs_page_options_ope.ui.h:12
+#: ../src/ui/prefs_page_options_ope.ui.h:11
 msgid "Account differentiation"
 msgstr "Différenciation des comptes"
 
-#: ../src/ui/prefs_page_options_ope.ui.h:13
+#: ../src/ui/prefs_page_options_ope.ui.h:12
 msgid "Remember display settings for each account separately"
 msgstr "Retenir les réglages de l'affichage séparément pour chaque compte"
+
+#: ../src/ui/prefs_page_reconcile.ui.h:1
+msgid "Select the end date of reconciliation"
+msgstr "Sélection de la date de fin du rapprochement"
+
+#: ../src/ui/prefs_page_reconcile.ui.h:3
+msgid "Start date + one month"
+msgstr "Date de début plus un mois"
+
+#: ../src/ui/prefs_page_reconcile.ui.h:4
+msgid "Today's date"
+msgstr "Date du jour"
+
+#: ../src/ui/prefs_page_reconcile.ui.h:5
+msgid "List of reconciliations"
+msgstr "Liste des rapprochements"
+
+#: ../src/ui/prefs_page_reconcile.ui.h:6
+msgid "Sort by descending date the reconciliations"
+msgstr "Tri des rapprochements par date décroissante"
+
+#: ../src/ui/prefs_page_reconcile.ui.h:7
+msgid "Selected reconcile"
+msgstr "Rapprochement sélectionné"
+
+#: ../src/ui/prefs_page_reconcile.ui.h:8
+msgid "Reconciliation number: "
+msgstr "N° de rapprochement"
+
+#. set the final balance
+#: ../src/ui/prefs_page_reconcile.ui.h:11
+#: ../src/gsb_assistant_reconcile_config.c:447 ../src/gsb_reconcile.c:273
+msgid "Final balance: "
+msgstr "Solde final : "
+
+#. set the initial balance
+#: ../src/ui/prefs_page_reconcile.ui.h:12 ../src/gsb_account_property.c:516
+#: ../src/gsb_assistant_reconcile_config.c:438 ../src/gsb_reconcile.c:263
+msgid "Initial balance: "
+msgstr "Solde initial : "
+
+#: ../src/ui/prefs_page_reconcile.ui.h:13
+msgid "Delete the reconcile"
+msgstr "Supprimer le rapprochement"
+
+#: ../src/ui/prefs_page_reconcile.ui.h:14
+msgid "Find all marked transactions not associated with a reconciliation"
+msgstr "Trouver les opérations marquées et non associées à un rapprochement"
+
+#: ../src/ui/prefs_page_reconcile.ui.h:15
+msgid "Collapse row"
+msgstr "Regrouper la ligne"
 
 #: ../src/ui/prefs_widget_loan.ui.h:1 ../src/bet_config.c:973
 msgid "Loan Capital: "
@@ -3029,9 +3082,9 @@ msgid "Limit date"
 msgstr "Date limite"
 
 #: ../src/bet_future.c:389 ../src/gsb_assistant_archive_export.c:153
-#: ../src/gsb_assistant_reconcile_config.c:1222
-#: ../src/gsb_reconcile_config.c:193 ../src/gsb_transactions_list.c:1163
-#: ../src/prefs/prefs_page_archives.c:486
+#: ../src/gsb_assistant_reconcile_config.c:1229
+#: ../src/gsb_transactions_list.c:1163 ../src/prefs/prefs_page_archives.c:486
+#: ../src/prefs/prefs_page_reconcile.c:333
 msgid "Final date"
 msgstr "Date finale"
 
@@ -3325,7 +3378,7 @@ msgid "December"
 msgstr "Décembre"
 
 #: ../src/bet_graph.c:459
-msgid "total amount: "
+msgid "Total amount: "
 msgstr "Montant total : "
 
 #: ../src/bet_graph.c:479
@@ -3422,7 +3475,7 @@ msgstr "Sélectionner"
 #. 10
 #: ../src/bet_hist.c:587 ../src/categories_onglet.c:203
 #: ../src/etats_affiche.c:2547 ../src/etats_prefs.c:2162
-#: ../src/gsb_assistant_reconcile_config.c:590 ../src/gsb_scheduler_list.c:856
+#: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_scheduler_list.c:856
 #: ../src/gsb_transactions_list.c:116 ../src/import.c:4297
 #: ../src/import_csv.c:81 ../src/imputation_budgetaire.c:206
 #: ../src/tiers_onglet.c:739
@@ -3623,10 +3676,10 @@ msgid "Check the box to automatically change start date"
 msgstr "Cochez la case pour changer automatiquement de date de début"
 
 #: ../src/categories_onglet.c:192 ../src/etats_config.c:2910
-#: ../src/gsb_assistant_reconcile_config.c:590
-#: ../src/gsb_payment_method_config.c:163 ../src/gsb_reconcile_config.c:193
-#: ../src/gsb_scheduler_list.c:856 ../src/imputation_budgetaire.c:195
-#: ../src/navigation.c:1142 ../src/tiers_onglet.c:728
+#: ../src/gsb_assistant_reconcile_config.c:597
+#: ../src/gsb_payment_method_config.c:163 ../src/gsb_scheduler_list.c:856
+#: ../src/imputation_budgetaire.c:195 ../src/navigation.c:1142
+#: ../src/prefs/prefs_page_reconcile.c:333 ../src/tiers_onglet.c:728
 msgid "Account"
 msgstr "Compte"
 
@@ -3711,7 +3764,7 @@ msgstr "Créer une nouvelle sous-catégorie"
 #. On récupère le nom de la page
 #. Import button
 #: ../src/categories_onglet.c:581 ../src/etats_onglet.c:555
-#: ../src/grisbi_prefs.c:361 ../src/grisbi_prefs.c:432 ../src/grisbi_win.c:672
+#: ../src/grisbi_prefs.c:361 ../src/grisbi_prefs.c:429 ../src/grisbi_win.c:672
 #: ../src/import.c:1828 ../src/imputation_budgetaire.c:627
 #: ../src/utils_files.c:757
 msgid "Import"
@@ -4423,7 +4476,7 @@ msgstr "Exercice"
 
 #. Now we have a model, create view
 #: ../src/etats_affiche.c:2513 ../src/etats_prefs.c:704
-#: ../src/etats_prefs.c:2298 ../src/grisbi_prefs.c:553
+#: ../src/etats_prefs.c:2298 ../src/grisbi_prefs.c:550
 #: ../src/gsb_payment_method_config.c:132
 msgid "Payment methods"
 msgstr "Modes de règlement"
@@ -4803,8 +4856,8 @@ msgstr "Fichier CSV"
 msgid "Exporting report..."
 msgstr "Exporter un état..."
 
-#: ../src/etats_onglet.c:417 ../src/grisbi_prefs.c:800
-#: ../src/grisbi_prefs.c:927 ../src/grisbi_prefs.c:963 ../src/gsb_debug.c:848
+#: ../src/etats_onglet.c:417 ../src/grisbi_prefs.c:797
+#: ../src/grisbi_prefs.c:924 ../src/grisbi_prefs.c:960 ../src/gsb_debug.c:848
 #: ../src/gsb_file.c:517 ../src/gsb_file.c:660 ../src/gsb_file.c:986
 msgid "Done"
 msgstr "Terminé"
@@ -4988,7 +5041,7 @@ msgstr "Affichage des données"
 
 #. append group page "Generalities"
 #. Bank details
-#: ../src/etats_prefs.c:730 ../src/etats_prefs.c:2879 ../src/grisbi_prefs.c:416
+#: ../src/etats_prefs.c:730 ../src/etats_prefs.c:2879 ../src/grisbi_prefs.c:413
 #: ../src/gsb_bank.c:678
 msgid "Generalities"
 msgstr "Généralités"
@@ -4998,13 +5051,13 @@ msgid "Titles"
 msgstr "Titres"
 
 #. append group page "Transactions"
-#: ../src/etats_prefs.c:740 ../src/export_csv.c:359 ../src/grisbi_prefs.c:476
+#: ../src/etats_prefs.c:740 ../src/export_csv.c:359 ../src/grisbi_prefs.c:472
 #: ../src/grisbi_win.c:478
 msgid "Transactions"
 msgstr "Opérations"
 
 #. echange line label
-#: ../src/etats_prefs.c:745 ../src/grisbi_prefs.c:530 ../src/gsb_currency.c:565
+#: ../src/etats_prefs.c:745 ../src/grisbi_prefs.c:527 ../src/gsb_currency.c:565
 #: ../src/gsb_currency_config.c:909
 msgid "Currencies"
 msgstr "Devises"
@@ -5463,7 +5516,7 @@ msgid ""
 "\n"
 "The account is saved in text, you may double check with a text editor if "
 "there is no personal information anymore in this file.Grisbi will close "
-"immediately after saving the obfuscated file"
+"immediately after saving the obfuscated file."
 msgstr ""
 "Appuyez sur le bouton «Fermer» pour anonymiser le fichier.\n"
 "\n"
@@ -6029,142 +6082,143 @@ msgstr "Monospace 10"
 msgid "Cannot save configuration file '%s': %s"
 msgstr "Impossible de sauvegarder le fichier « %s » : %s"
 
-#: ../src/grisbi_prefs.c:375
+#: ../src/grisbi_prefs.c:374
 msgid "Files import"
 msgstr "Importation des fichiers"
 
-#: ../src/grisbi_prefs.c:383
+#: ../src/grisbi_prefs.c:381
 msgid "Associations for import"
 msgstr "Associations pour l'importation"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:420 ../src/prefs/prefs_page_files.c:108
+#: ../src/grisbi_prefs.c:417 ../src/prefs/prefs_page_files.c:108
 msgid "Files"
 msgstr "Fichiers"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:425 ../src/prefs/prefs_page_archives.c:573
+#: ../src/grisbi_prefs.c:422 ../src/prefs/prefs_page_archives.c:573
 msgid "Archives"
 msgstr "Archives"
 
-#: ../src/grisbi_prefs.c:437
+#: ../src/grisbi_prefs.c:434
 msgid "Various settings"
 msgstr "Paramètres divers"
 
-#: ../src/grisbi_prefs.c:442 ../src/grisbi_win.c:464
+#: ../src/grisbi_prefs.c:439 ../src/grisbi_win.c:464
 msgid "Main page"
 msgstr "Accueil"
 
 #. append group page "Display"
-#: ../src/grisbi_prefs.c:446
+#: ../src/grisbi_prefs.c:443
 msgid "Display"
 msgstr "Affichage"
 
-#: ../src/grisbi_prefs.c:450
+#: ../src/grisbi_prefs.c:447
 msgid "Fonts & Logo"
 msgstr "Polices et Logo"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:455 ../src/prefs/prefs_page_msg_warning.c:236
+#: ../src/grisbi_prefs.c:452 ../src/prefs/prefs_page_msg_warning.c:236
 msgid "Messages & warnings"
 msgstr "Messages et alertes"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:461 ../src/prefs/prefs_page_display_adr.c:191
+#: ../src/grisbi_prefs.c:457 ../src/prefs/prefs_page_display_adr.c:191
 msgid "Addresses & titles"
 msgstr "Adresses et titres"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:466 ../src/prefs/prefs_page_metatree.c:313
+#: ../src/grisbi_prefs.c:462 ../src/prefs/prefs_page_metatree.c:313
 msgid "Payees, categories and budgetaries"
 msgstr "Tiers, catégories et imputations budgétaires"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:472 ../src/prefs/prefs_page_display_gui.c:244
+#: ../src/grisbi_prefs.c:468 ../src/prefs/prefs_page_display_gui.c:244
 msgid "Elements of interface"
 msgstr "Eléments de l'interface"
 
-#: ../src/grisbi_prefs.c:480
+#: ../src/grisbi_prefs.c:476
 msgid "List behavior"
 msgstr "Comportement de la liste"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:485 ../src/prefs/prefs_page_display_ope.c:692
+#: ../src/grisbi_prefs.c:481 ../src/prefs/prefs_page_display_ope.c:692
 msgid "Transactions list cells"
 msgstr "Cellules de la liste des opérations"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:490 ../src/prefs/prefs_page_msg_delete.c:227
+#: ../src/grisbi_prefs.c:486 ../src/prefs/prefs_page_msg_delete.c:227
 msgid "Messages before deleting"
 msgstr "Messages avant suppression"
 
-#: ../src/grisbi_prefs.c:496 ../src/gsb_assistant_first.c:335
-#: ../src/gsb_reconcile_config.c:202
+#. On récupère le nom de la page
+#: ../src/grisbi_prefs.c:493 ../src/gsb_assistant_first.c:335
+#: ../src/prefs/prefs_page_reconcile.c:554
 msgid "Reconciliation"
 msgstr "Rapprochement"
 
-#: ../src/grisbi_prefs.c:502 ../src/gsb_reconcile_sort_config.c:94
+#: ../src/grisbi_prefs.c:499 ../src/gsb_reconcile_sort_config.c:94
 msgid "Sort for reconciliation"
 msgstr "Options de tri pour les rapprochements"
 
 #. append group page "Transaction form"
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:506 ../src/gsb_form_config.c:108
+#: ../src/grisbi_prefs.c:503 ../src/gsb_form_config.c:108
 #: ../src/prefs/prefs_page_display_form.c:909
 msgid "Transaction form"
 msgstr "Formulaire des opérations"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:510 ../src/prefs/prefs_page_form_options.c:111
+#: ../src/grisbi_prefs.c:507 ../src/prefs/prefs_page_form_options.c:111
 msgid "Form behavior"
 msgstr "Comportement du formulaire"
 
-#: ../src/grisbi_prefs.c:515
+#: ../src/grisbi_prefs.c:512
 msgid "Content"
 msgstr "Contenu"
 
-#: ../src/grisbi_prefs.c:521
+#: ../src/grisbi_prefs.c:518
 msgid "Completion"
 msgstr "Aide à la saisie"
 
 #. append group page "Resources subtree"
-#: ../src/grisbi_prefs.c:525
+#: ../src/grisbi_prefs.c:522
 msgid "Resources"
 msgstr "Ressources"
 
-#: ../src/grisbi_prefs.c:536
+#: ../src/grisbi_prefs.c:533
 msgid "Currencies links"
 msgstr "Liens entre devises"
 
-#: ../src/grisbi_prefs.c:542 ../src/gsb_bank.c:471
+#: ../src/grisbi_prefs.c:539 ../src/gsb_bank.c:471
 msgid "Banks"
 msgstr "Banques"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:547 ../src/gsb_fyear_config.c:147
+#: ../src/grisbi_prefs.c:544 ../src/gsb_fyear_config.c:147
 #: ../src/prefs/prefs_page_fyear.c:689
 msgid "Financial years"
 msgstr "Exercices"
 
 #. append group page "Balance estimate"
-#: ../src/grisbi_prefs.c:557
+#: ../src/grisbi_prefs.c:554
 msgid "Balance estimate"
 msgstr "Budget prévisionnel"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:569 ../src/prefs/prefs_page_bet_account.c:442
+#: ../src/grisbi_prefs.c:566 ../src/prefs/prefs_page_bet_account.c:442
 msgid "Accounts data"
 msgstr "Données des comptes"
 
-#: ../src/grisbi_prefs.c:688
+#: ../src/grisbi_prefs.c:685
 msgid "Preferences start"
 msgstr "Démarrage des préférences"
 
-#: ../src/grisbi_prefs.c:721
+#: ../src/grisbi_prefs.c:718
 msgid "This state will be kept for the duration of this session"
 msgstr "Cet état sera conservé pour la durée de cette session"
 
-#: ../src/grisbi_prefs.c:924
+#: ../src/grisbi_prefs.c:921
 msgid "Preferences stop"
 msgstr "Arrêt des préférences"
 
@@ -6320,13 +6374,6 @@ msgstr "N° de compte / Clé : "
 #: ../src/gsb_account_property.c:511
 msgid "Balances"
 msgstr "Soldes"
-
-#. set the initial balance
-#: ../src/gsb_account_property.c:516
-#: ../src/gsb_assistant_reconcile_config.c:431 ../src/gsb_reconcile.c:263
-#: ../src/gsb_reconcile_config.c:364
-msgid "Initial balance: "
-msgstr "Solde initial : "
 
 #: ../src/gsb_account_property.c:531
 msgid "Minimum authorised balance: "
@@ -6720,7 +6767,7 @@ msgstr ""
 "d'archive vous devez le faire à partir du menu Préférences."
 
 #: ../src/gsb_assistant_archive_export.c:153
-#: ../src/gsb_assistant_reconcile_config.c:1222
+#: ../src/gsb_assistant_reconcile_config.c:1229
 #: ../src/prefs/prefs_page_archives.c:486
 msgid "Initial date"
 msgstr "Date initiale"
@@ -6989,29 +7036,14 @@ msgstr ""
 "\n"
 "Vous aurez plus d'information en allant dans les «Préférences»."
 
-#: ../src/gsb_assistant_reconcile_config.c:170
+#: ../src/gsb_assistant_reconcile_config.c:174
 msgid "No marked transactions without reconciliation found!"
 msgstr ""
 "Il n'y a aucune opération marquée qui n'appartienne pas déjà à un "
 "rapprochement !"
 
-#. come here if we have some orphan transactions
-#. * this can happen by 2 ways :
-#. * for old users of Grisbi, before i don't remember what version, there were no reconcile number,
-#. * 		the reconciled transactions were juste marked R
-#. * before the 0.6.0, ctrl R didn't permit to choose a reconciliation
-#. *
-#. * for the 2nd item, no problem, we show a list of reconciles and the user can choose what reconcile he wants
-#. * for the first item the problem is there is no reconcile number to go with that transactions...
-#. * so we will use the assistant to
-#. * 	-permit to create a reconcile directly (not possible normaly in the configuration
-#. * 	-permit to choose a reconcile number for each transactions without reconcile
-#. * 	- do an automatic find for reconcile, usefull in the first item, when very much
-#. * 		transactions without reconcile, but we need to make the old reconciles before,
-#. * 		and set the good date for all the reconciles (because grisbi set them automatically
-#. * 		at the first update to grisbi 0.6.0 )
 #. first, create the assistant
-#: ../src/gsb_assistant_reconcile_config.c:194
+#: ../src/gsb_assistant_reconcile_config.c:201
 #, c-format
 msgid ""
 "Grisbi found %d marked transactions not associated with a reconciliation "
@@ -7037,7 +7069,7 @@ msgstr ""
 "rapprochements (vous pourrez créer de nouveaux rapprochements à l'étape "
 "suivante ). Les rapprochements précédents seront aussi disponibles."
 
-#: ../src/gsb_assistant_reconcile_config.c:202
+#: ../src/gsb_assistant_reconcile_config.c:209
 msgid "Associate orphan transactions to a reconciliation"
 msgstr "Associer des opérations orphelines à un rapprochement"
 
@@ -7045,25 +7077,25 @@ msgstr "Associer des opérations orphelines à un rapprochement"
 #. update the labels
 #. update the string containing the number of transactions to link
 #. update the labels
-#: ../src/gsb_assistant_reconcile_config.c:267
-#: ../src/gsb_assistant_reconcile_config.c:881
-#: ../src/gsb_assistant_reconcile_config.c:1000
-#: ../src/gsb_assistant_reconcile_config.c:1043
-#: ../src/gsb_assistant_reconcile_config.c:1343
+#: ../src/gsb_assistant_reconcile_config.c:274
+#: ../src/gsb_assistant_reconcile_config.c:888
+#: ../src/gsb_assistant_reconcile_config.c:1007
+#: ../src/gsb_assistant_reconcile_config.c:1050
+#: ../src/gsb_assistant_reconcile_config.c:1350
 #, c-format
 msgid "Still %d transactions to link with a reconciliation."
 msgstr "Il reste %d opérations à rapprocher."
 
 #. set up the menu
-#: ../src/gsb_assistant_reconcile_config.c:284
+#: ../src/gsb_assistant_reconcile_config.c:291
 msgid "Choose the next operation to do: "
 msgstr "Choisir la prochaine action : "
 
-#: ../src/gsb_assistant_reconcile_config.c:293
+#: ../src/gsb_assistant_reconcile_config.c:300
 msgid "Manually create a new reconciliation"
 msgstr "Créer un nouveau rapprochement"
 
-#: ../src/gsb_assistant_reconcile_config.c:304
+#: ../src/gsb_assistant_reconcile_config.c:311
 msgid ""
 "\tAfter a long use, some transactions may be before the first known "
 "reconciliation.\n"
@@ -7073,7 +7105,7 @@ msgstr ""
 "connu.\n"
 "\tVous allez pouvoir créer ici tous les rapprochements nécessaires."
 
-#: ../src/gsb_assistant_reconcile_config.c:314
+#: ../src/gsb_assistant_reconcile_config.c:321
 msgid ""
 "Automatically associate transactions without reconciliation number with the "
 "known reconciliations"
@@ -7081,7 +7113,7 @@ msgstr ""
 "Associer automatiquement chaque opération orpheline avec un rapprochement "
 "connu"
 
-#: ../src/gsb_assistant_reconcile_config.c:325
+#: ../src/gsb_assistant_reconcile_config.c:332
 msgid ""
 "\tThis will make all the work for you if you create previously all the "
 "needed reconciliations\n"
@@ -7091,13 +7123,13 @@ msgstr ""
 "rapprochements nécessaires\n"
 "\tet si vous ajustez la date des rapprochements connus."
 
-#: ../src/gsb_assistant_reconcile_config.c:336
+#: ../src/gsb_assistant_reconcile_config.c:343
 msgid ""
 "Associate by hands the transactions without reconciliation number with the "
 "known reconciliation"
 msgstr "Associer manuellement ces opérations avec les rapprochements connus"
 
-#: ../src/gsb_assistant_reconcile_config.c:348
+#: ../src/gsb_assistant_reconcile_config.c:355
 msgid ""
 "\tYou control all and have a lot of time to spend on your computer !\n"
 "\t(you will be able to choose a reconciliation for each orphan transaction)."
@@ -7107,29 +7139,22 @@ msgstr ""
 "\t(vous allez pouvoir choisir un rapprochement pour chaque opération "
 "orpheline)."
 
-#: ../src/gsb_assistant_reconcile_config.c:384
+#: ../src/gsb_assistant_reconcile_config.c:391
 msgid "Fill the fields and click the button \"Create the new reconciliation\""
 msgstr ""
 "Remplissez les champs et cliquez sur le bouton \"Créer un nouveau "
 "rapprochement\""
 
 #. set the name
-#: ../src/gsb_assistant_reconcile_config.c:394 ../src/gsb_reconcile.c:181
-#: ../src/gsb_reconcile_config.c:320
+#: ../src/gsb_assistant_reconcile_config.c:401 ../src/gsb_reconcile.c:181
 msgid "Reconciliation reference: "
 msgstr "N° rapprochement : "
 
-#. set the final balance
-#: ../src/gsb_assistant_reconcile_config.c:440 ../src/gsb_reconcile.c:273
-#: ../src/gsb_reconcile_config.c:376
-msgid "Final balance: "
-msgstr "Solde final : "
-
-#: ../src/gsb_assistant_reconcile_config.c:456
+#: ../src/gsb_assistant_reconcile_config.c:463
 msgid "Create the new reconciliation"
 msgstr "Créer un nouveau rapprochement"
 
-#: ../src/gsb_assistant_reconcile_config.c:531
+#: ../src/gsb_assistant_reconcile_config.c:538
 msgid ""
 "This assistant try to find a bank reconciliation to each orphan "
 "transaction,\n"
@@ -7148,22 +7173,22 @@ msgstr ""
 "que vous avez créé les rapprochements nécessaires (premier choix de l'étape\n"
 "précédente) ou contrôler les opérations elles-mêmes."
 
-#: ../src/gsb_assistant_reconcile_config.c:555
+#: ../src/gsb_assistant_reconcile_config.c:562
 msgid "Launch automatic association"
 msgstr "Lancer l'association automatique"
 
 #. now we can show the list of orphans transactions
-#: ../src/gsb_assistant_reconcile_config.c:612
+#: ../src/gsb_assistant_reconcile_config.c:619
 msgid "Select the transaction(s) you want to associate with a reconciliation: "
 msgstr ""
 "Sélectionnez l'(es) opération(s) que vous voulez associer à un "
 "rapprochement : "
 
-#: ../src/gsb_assistant_reconcile_config.c:675
+#: ../src/gsb_assistant_reconcile_config.c:682
 msgid "Link the selection to a reconciliation..."
 msgstr "Associer l'opération à un rapprochement..."
 
-#: ../src/gsb_assistant_reconcile_config.c:704
+#: ../src/gsb_assistant_reconcile_config.c:711
 msgid ""
 "Congratulations!\n"
 "\n"
@@ -7178,32 +7203,32 @@ msgstr ""
 "Normalement vous ne devriez plus avoir besoin de cet assistant ;\n"
 "Il ne devrait plus rester d'opérations non rapprochées."
 
-#: ../src/gsb_assistant_reconcile_config.c:763
+#: ../src/gsb_assistant_reconcile_config.c:770
 msgid "The initial date is not valid, please check it."
 msgstr "La date initiale n'est pas valide."
 
-#: ../src/gsb_assistant_reconcile_config.c:772
+#: ../src/gsb_assistant_reconcile_config.c:779
 msgid "The final date is not valid, please check it."
 msgstr "La date finale n'est pas valide."
 
-#: ../src/gsb_assistant_reconcile_config.c:782
+#: ../src/gsb_assistant_reconcile_config.c:789
 msgid "Please give a name to the new reconciliation."
 msgstr "Donnez un nom au nouveau rapprochement."
 
-#: ../src/gsb_assistant_reconcile_config.c:793
+#: ../src/gsb_assistant_reconcile_config.c:800
 msgid "That name already exists, please find another one."
 msgstr "Ce nom existe déjà, trouvez-en un autre."
 
-#: ../src/gsb_assistant_reconcile_config.c:807
+#: ../src/gsb_assistant_reconcile_config.c:814
 msgid "Cannot allocate memory : Bad things will happen soon."
 msgstr "Erreur dans l'allocation de mémoire, ça va très mal se passer."
 
-#: ../src/gsb_assistant_reconcile_config.c:834
+#: ../src/gsb_assistant_reconcile_config.c:841
 #, c-format
 msgid "Reconciliation %s successfully appended!"
 msgstr "Le rapprochement «%s» a été ajouté !"
 
-#: ../src/gsb_assistant_reconcile_config.c:940
+#: ../src/gsb_assistant_reconcile_config.c:947
 #, c-format
 msgid ""
 "Grisbi can associate %d transactions to a reconciliation.\n"
@@ -7212,8 +7237,8 @@ msgstr ""
 "Grisbi peut associer %d opérations à un rapprochement\n"
 "Cliquez sur le bouton pour créer les associations."
 
-#: ../src/gsb_assistant_reconcile_config.c:948
-#: ../src/gsb_assistant_reconcile_config.c:1009
+#: ../src/gsb_assistant_reconcile_config.c:955
+#: ../src/gsb_assistant_reconcile_config.c:1016
 msgid ""
 "There is no transaction that Grisbi can link.\n"
 "Check if you created all the necesssary reconciliations."
@@ -7221,28 +7246,28 @@ msgstr ""
 "Grisbi ne peut associer aucune opération à un rapprochement.\n"
 "Vérifiez que vous avez créé le(s) rapprochement(s) nécessaire(s)."
 
-#: ../src/gsb_assistant_reconcile_config.c:1157
+#: ../src/gsb_assistant_reconcile_config.c:1164
 msgid "All the selected transactions have to belong to the same account !"
 msgstr "Toutes les opérations choisies doivent appartenir au même compte !"
 
 #. ok, all the transactions belong to the same account, we can
 #. * show a dialog to select the reconcile
-#: ../src/gsb_assistant_reconcile_config.c:1176
+#: ../src/gsb_assistant_reconcile_config.c:1183
 #: ../src/gsb_transactions_list.c:1118
 msgid "Selection of a reconciliation"
 msgstr "Sélectionner un rapprochement"
 
-#: ../src/gsb_assistant_reconcile_config.c:1188
+#: ../src/gsb_assistant_reconcile_config.c:1195
 msgid "Select the reconciliation to associate to the selected transactions: "
 msgstr ""
 "Sélectionnez le rapprochement à associer aux opérations sélectionnées : "
 
-#: ../src/gsb_assistant_reconcile_config.c:1222
+#: ../src/gsb_assistant_reconcile_config.c:1229
 #: ../src/gsb_transactions_list.c:118
 msgid "Reconciliation reference"
 msgstr "N° rapprochement"
 
-#: ../src/gsb_assistant_reconcile_config.c:1295
+#: ../src/gsb_assistant_reconcile_config.c:1302
 msgid "No selection found, the transactions are not modified."
 msgstr "Aucune opération sélectionnée, elles ne sont pas modifiées."
 
@@ -7446,7 +7471,7 @@ msgstr "Togo"
 #: ../src/gsb_currency_config.c:84 ../src/gsb_currency_config.c:85
 #: ../src/gsb_currency_config.c:86
 msgid "CFA Franc BEAC"
-msgstr "Franc CFA (BEAC)"
+msgstr "Franc CFA BEAC"
 
 #: ../src/gsb_currency_config.c:84
 msgid "Cameroon"
@@ -8511,7 +8536,7 @@ msgstr "Jamaïque"
 
 #: ../src/gsb_currency_config.c:226
 msgid "Netherlands Antillian Guilder"
-msgstr "Florin des Antilles néerl."
+msgstr "Florin des Antilles néerlandaises"
 
 #: ../src/gsb_currency_config.c:226
 msgid "Netherlands Antilles"
@@ -8845,7 +8870,7 @@ msgstr ""
 #: ../src/gsb_currency_config.c:1252 ../src/gsb_data_partial_balance.c:327
 #: ../src/gsb_data_partial_balance.c:437
 msgid "All fields are not filled in"
-msgstr "Tous les champs ne sont pas remplis !"
+msgstr "Tous les champs ne sont pas remplis"
 
 #: ../src/gsb_currency_config.c:1374
 msgid "Include obsolete currencies"
@@ -10327,76 +10352,6 @@ msgstr ""
 msgid "Last statement: %s"
 msgstr "Dernier relevé : %s"
 
-#: ../src/gsb_reconcile_config.c:193 ../src/gsb_transactions_list.c:1163
-msgid "Init date"
-msgstr "Date initiale"
-
-#: ../src/gsb_reconcile_config.c:194
-msgid "Init balance"
-msgstr "Solde initial"
-
-#: ../src/gsb_reconcile_config.c:194
-msgid "Final balance"
-msgstr "Solde final"
-
-#: ../src/gsb_reconcile_config.c:206
-msgid "Select the end date of reconciliation: "
-msgstr "Sélection de la date de fin du rapprochement : "
-
-#: ../src/gsb_reconcile_config.c:207
-msgid "Start Date + one month"
-msgstr "Date de début plus un mois"
-
-#: ../src/gsb_reconcile_config.c:208
-msgid "Today's date"
-msgstr "Date du jour"
-
-#: ../src/gsb_reconcile_config.c:215
-msgid "List of reconciliations"
-msgstr "Liste des rapprochements"
-
-#: ../src/gsb_reconcile_config.c:283
-msgid "Sort by descending date the reconciliations"
-msgstr "Tri des rapprochements par date décroissante"
-
-#: ../src/gsb_reconcile_config.c:291
-msgid "Collapse row"
-msgstr "Regrouper la ligne"
-
-#. set the modifying part under the list
-#: ../src/gsb_reconcile_config.c:312
-msgid "Selected reconcile"
-msgstr "Rapprochement sélectionné"
-
-#. set the delete button
-#: ../src/gsb_reconcile_config.c:356
-msgid "Delete the reconcile"
-msgstr "Supprimer le rapprochement"
-
-#: ../src/gsb_reconcile_config.c:392
-msgid "Find all marked transactions not associated with a reconciliation"
-msgstr "Trouver les opérations marquées et non associées à un rapprochement"
-
-#. we are on a reconcile,
-#. * we ask if the user want to continue and warn him
-#: ../src/gsb_reconcile_config.c:654
-#, c-format
-msgid ""
-"Caution, you are about to delete a reconciliation.\n"
-"If you continue, the reconciliation %s will be erased and all the "
-"transactions marked by this reconciliation will be un-reconciled and marked "
-"P.\n"
-"Are you sure you want to continue?"
-msgstr ""
-"Attention vous êtes sur le point de supprimer un rapprochement.\n"
-"Si vous continuez, le rapprochement «%s» sera supprimé et toutes les "
-"opérations liées seront marquées P.\n"
-"Voulez-vous continuer ?"
-
-#: ../src/gsb_reconcile_config.c:656
-msgid "Delete reconciliation"
-msgstr "Supprimer un rapprochement"
-
 #: ../src/gsb_reconcile_sort_config.c:97
 msgid "Reconciliation: sort transactions"
 msgstr "Rapprochement : tri des opérations"
@@ -10615,7 +10570,7 @@ msgid ""
 "The concerned children number are:\n"
 " %s\n"
 "\n"
-"Do you want to delete it"
+"Do you want to delete it?"
 msgstr ""
 "Certaines sous-opérations n'ont pas trouvé leur opération mère dans la "
 "liste, cela ne devrait pas se produire et il s'agit probablement d'un bogue. "
@@ -10759,6 +10714,10 @@ msgid "Select the reconciliation to associate to the selected transaction: "
 msgstr ""
 "Sélectionnez le rapprochement à associer aux opérations sélectionnées : "
 
+#: ../src/gsb_transactions_list.c:1163 ../src/prefs/prefs_page_reconcile.c:333
+msgid "Init date"
+msgstr "Date initiale"
+
 #: ../src/gsb_transactions_list.c:1269
 msgid "Grisbi couldn't get the selection, operation canceled..."
 msgstr "Grisbi ne trouve pas le rapprochement sélectionné, action annulée..."
@@ -10865,7 +10824,7 @@ msgid ""
 "The concerned children number are:\n"
 " %s\n"
 "\n"
-"Do you want to delete it"
+"Do you want to delete it?"
 msgstr ""
 "Certaines sous-opérations n'ont pas trouvé leur opération mère dans la "
 "liste, cela ne devrait pas se produire et il s'agit probablement d'un bogue. "
@@ -11164,7 +11123,7 @@ msgstr "Marquer les opérations d'un compte"
 #. invert amount of transactions
 #: ../src/import.c:888
 msgid "Invert the amount of the imported transactions"
-msgstr "Inverse le montant de l'opération importée."
+msgstr "Inverse le montant de l'opération importée"
 
 #: ../src/import.c:897
 msgid "Create a rule for this import. Name of the rule: "
@@ -11338,7 +11297,7 @@ msgstr "Opération à importer : %s ; %s ; %s"
 #. Ajout du bouton de traitement
 #: ../src/import.c:3100
 msgid "Find other transaction"
-msgstr "Trouver une autre opération :"
+msgstr "Trouver une autre opération"
 
 #: ../src/import.c:3154
 #, c-format
@@ -11528,7 +11487,7 @@ msgstr "Effacer le fichier importé"
 msgid ""
 "%s is neither an OFX file, neither a QIF file. Nothing will be done for that "
 "file."
-msgstr "%s n'est pas un fichier OFX ou QIF. Il ne peut pas être importé"
+msgstr "%s n'est pas un fichier OFX ou QIF. Il ne peut pas être importé."
 
 #: ../src/import.c:5391
 #, c-format
@@ -11564,7 +11523,7 @@ msgstr "Le fichier %s est vide. Choisissez un autre fichier."
 
 #: ../src/import_csv.c:187
 msgid "File empty."
-msgstr "Fichier vide"
+msgstr "Fichier vide."
 
 #: ../src/import_csv.c:210
 msgid ""
@@ -11572,7 +11531,7 @@ msgid ""
 "character set in the window for selecting files."
 msgstr ""
 "Si le résultat ne vous convient pas, essayez de nouveau en sélectionnant le "
-"jeu de caractères dans la fenêtre de sélection des fichiers"
+"jeu de caractères dans la fenêtre de sélection des fichiers."
 
 #: ../src/import_csv.c:212
 msgid "The conversion to utf8 went wrong."
@@ -11620,7 +11579,7 @@ msgstr "Choisissez le séparateur CSV"
 #. set select csv fields
 #: ../src/import_csv.c:1705
 msgid "Select CSV fields"
-msgstr "sélectionnez les champs"
+msgstr "Sélectionnez les champs"
 
 #: ../src/import_csv.c:1732
 msgid "Create a rule for this import."
@@ -11667,7 +11626,7 @@ msgstr ""
 msgid "Merge imported budgetary lines with existing?"
 msgstr ""
 "Fusionner une liste d'imputations budgétaires importée avec la liste "
-"existante"
+"existante ?"
 
 #. New budgetary line button
 #: ../src/imputation_budgetaire.c:601
@@ -11848,7 +11807,7 @@ msgstr "Cela ne devrait théoriquement pas arriver."
 
 #: ../src/metatree.c:777
 msgid "Can't remove selected division."
-msgstr "Impossible de supprimer la division sélectionnée"
+msgstr "Impossible de supprimer la division sélectionnée."
 
 #: ../src/metatree.c:1181
 #, c-format
@@ -11961,12 +11920,12 @@ msgid ""
 msgstr ""
 "Vous pouvez transférer les opérations de «%s» dans une %s ou une %s\n"
 "Autrement vous pouvez transférer «%s» dans une autre %s ou transformer \"%s"
-"\" en %s"
+"\" en %s."
 
 #: ../src/metatree.c:2913
 #, c-format
 msgid "Transfer the transactions in a %s or %s"
-msgstr "Transférer les opérations dans une %s ou une %s."
+msgstr "Transférer les opérations dans une %s ou une %s"
 
 #: ../src/metatree.c:2916
 #, c-format
@@ -12020,7 +11979,7 @@ msgstr "Utiliser la remarque : « %s » pour trouver les opérations"
 
 #: ../src/metatree.c:3877
 msgid "You must select at least one search element"
-msgstr "Vous devez sélectionner au moins un élément de recherche."
+msgstr "Vous devez sélectionner au moins un élément de recherche"
 
 #: ../src/metatree.c:3878
 msgid "WARNING"
@@ -12102,11 +12061,11 @@ msgstr "Exporter la liste des imputations budgétaires (.igsb)"
 msgid "Remove this report"
 msgstr "Supprimer cet état"
 
-#: ../src/parametres.c:276
+#: ../src/parametres.c:275
 msgid "Choose the decimal and thousands separator"
 msgstr "Choisir le séparateur décimal et le séparateur de milliers"
 
-#: ../src/parametres.c:282
+#: ../src/parametres.c:281
 msgid "Decimal and thousands separator"
 msgstr "Séparateur décimal et séparateur de milliers"
 
@@ -12203,7 +12162,7 @@ msgstr "Paiement répété"
 
 #: ../src/plugins/ofx/ofx.c:476
 msgid "Invalid OFX file"
-msgstr "Fichier OFX invalide."
+msgstr "Fichier OFX invalide"
 
 #. it seems that it was not the correct password
 #: ../src/plugins/openssl/openssl.c:268
@@ -12544,7 +12503,7 @@ msgstr ""
 #. tri des opérations
 #: ../src/prefs/prefs_page_metatree.c:319
 msgid "by number"
-msgstr "Par numéro"
+msgstr "par numéro"
 
 #: ../src/prefs/prefs_page_metatree.c:320
 msgid "by increasing date"
@@ -12609,6 +12568,34 @@ msgstr "Tri par date puis par N° d'opération"
 #: ../src/prefs/prefs_page_options_ope.c:308
 msgid "Transaction list behavior"
 msgstr "Comportement de la liste des opérations"
+
+#: ../src/prefs/prefs_page_reconcile.c:333
+msgid "Init balance"
+msgstr "Solde initial"
+
+#: ../src/prefs/prefs_page_reconcile.c:333
+msgid "Final balance"
+msgstr "Solde final"
+
+#. we are on a reconcile,
+#. * we ask if the user want to continue and warn him
+#: ../src/prefs/prefs_page_reconcile.c:502
+#, c-format
+msgid ""
+"Caution, you are about to delete a reconciliation.\n"
+"If you continue, the reconciliation '%s' will be erased and all the "
+"transactions marked by this reconciliation will be un-reconciled and marked "
+"P.\n"
+"Are you sure you want to continue?"
+msgstr ""
+"Attention vous êtes sur le point de supprimer un rapprochement.\n"
+"Si vous continuez, le rapprochement «%s» sera supprimé et toutes les "
+"opérations liées seront marquées P.\n"
+"Voulez-vous continuer ?"
+
+#: ../src/prefs/prefs_page_reconcile.c:508
+msgid "Delete reconciliation"
+msgstr "Supprimer un rapprochement"
 
 #. Main account
 #: ../src/prefs/prefs_widget_loan.c:880
@@ -12700,7 +12687,7 @@ msgstr "Bordures : séparer les colonnes par un trait"
 
 #: ../src/print_transactions_list.c:237
 msgid "Fill the background as the transactions list"
-msgstr "Utiliser le même fond d'écran que la liste des opérations."
+msgstr "Utiliser le même fond d'écran que la liste des opérations"
 
 #: ../src/print_transactions_list.c:245
 msgid "Print the archives lines"
@@ -12755,7 +12742,7 @@ msgstr "La date ne correspond pas avec le modèle "
 
 #: ../src/qif.c:564
 msgid "bank"
-msgstr "Banque"
+msgstr "banque"
 
 #: ../src/qif.c:566
 msgid "invst)"
@@ -12779,7 +12766,7 @@ msgstr "ccard)"
 
 #: ../src/qif.c:907 ../src/qif.c:910
 msgid " [Transaction imported without date]"
-msgstr "[Opération importée sans date]"
+msgstr " [Opération importée sans date]"
 
 #. create and fill the new account
 #: ../src/qif.c:1242
@@ -12797,7 +12784,7 @@ msgstr ""
 "Grisbi a trouvé un compte d'investissement :\n"
 "(%s)\n"
 "qui n'est pas encore implémenté. Cependant, Grisbi va tenter de l'importer "
-"comme un simple compte bancaire"
+"comme un simple compte bancaire."
 
 #: ../src/qif.c:1337
 msgid "Opening Balance"
@@ -12834,7 +12821,7 @@ msgstr "Erreur lors de l'ouverture du fichier « %s »"
 #. Description entry
 #: ../src/tiers_onglet.c:225
 msgid "Description: "
-msgstr "Description :"
+msgstr "Description : "
 
 #: ../src/tiers_onglet.c:286
 #, c-format
@@ -12927,7 +12914,7 @@ msgid "Enter the new payee"
 msgstr "Entrez le nouveau tiers"
 
 #: ../src/tiers_onglet.c:1233
-msgid "Enter the name of the new payee"
+msgid "Enter the name of the new payee: "
 msgstr "Entrez le nom du nouveau tiers : "
 
 #: ../src/tiers_onglet.c:1267
@@ -12939,7 +12926,7 @@ msgid "List of payees who will be modified"
 msgstr "Liste des tiers qui seront modifiés"
 
 #: ../src/tiers_onglet.c:1483
-msgid "do you want replace the current rule?"
+msgid "Do you want replace the current rule?"
 msgstr "Voulez vous remplacer cette règle d'importation ?"
 
 #: ../src/tiers_onglet.c:1528
@@ -12980,7 +12967,7 @@ msgstr ""
 "Vous êtes sur le point de remplacer un tiers contenant %s\n"
 "par %s\n"
 "\n"
-"<span weight=\"bold\">Êtes-vous sûr ?</span>"
+"Êtes-vous sûr ?"
 
 #: ../src/tiers_onglet.c:1778
 #, c-format
@@ -13011,7 +12998,7 @@ msgid ""
 "\n"
 "Warning the changes you will make be irreparable.\n"
 "\n"
-"It is better to make a backup of your Grisbi file if you have not yet done. "
+"It is better to make a backup of your Grisbi file if you have not yet done."
 msgstr ""
 "Cet assistant vous aide à simplifier la liste des tiers.\n"
 "\n"

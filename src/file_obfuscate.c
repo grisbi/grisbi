@@ -570,7 +570,7 @@ GtkWidget *file_obfuscate_page_2 ( void )
                         "at http://grisbi.tuxfamily.org/mantis/main_page.php\n\n"
                         "The account is saved in text, you may double check with a text editor if there "
                         "is no personal information anymore in this file."
-                        "Grisbi will close immediately after saving the obfuscated file"),
+                        "Grisbi will close immediately after saving the obfuscated file."),
                         filename );
     gtk_text_buffer_insert ( buffer, &iter, text, -1 );
 
