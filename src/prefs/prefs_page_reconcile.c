@@ -74,7 +74,7 @@ struct _PrefsPageReconcilePrivate
 	GtkWidget *			entry_reconcile_final_balance;
 	GtkWidget *			entry_reconcile_final_date;
 	GtkWidget *			entry_reconcile_name;
-	GtkWidget *			grid_reconcile_selected;
+	GtkWidget *			grid_reconcile;
 	GtkWidget *			label_collapse_row;
 	GtkWidget * 		radiobutton_end_date_1;
 	GtkWidget * 		radiobutton_end_date_2;
@@ -100,7 +100,32 @@ enum ReconciliationColumns
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
- /**
+/**
+ * sensitive unsensitive details of reconcile
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void prefs_page_reconcile_sensitive_details (PrefsPageReconcile *page,
+													gboolean sensitive)
+{
+	PrefsPageReconcilePrivate *priv;
+
+	priv = prefs_page_reconcile_get_instance_private (page);
+
+	gtk_widget_set_sensitive (priv->button_reconcile_delete, sensitive);
+	gtk_widget_set_sensitive (priv->button_reconcile_find, sensitive);
+    gtk_widget_set_sensitive (priv->checkbutton_reconcile_sort, sensitive);
+	gtk_widget_set_sensitive (priv->entry_reconcile_init_balance, sensitive);
+	gtk_widget_set_sensitive (priv->entry_reconcile_init_date, sensitive);
+	gtk_widget_set_sensitive (priv->entry_reconcile_final_balance, sensitive);
+	gtk_widget_set_sensitive (priv->entry_reconcile_final_date, sensitive);
+	gtk_widget_set_sensitive (priv->entry_reconcile_name, sensitive);
+}
+
+/**
  *
  *
  * \param
@@ -148,7 +173,7 @@ static void prefs_page_reconcile_treeview_row_collapsed (GtkTreeView *tree_view,
 														 GtkWidget *button)
 {
 	GtkTreeSelection *selection;
-devel_debug (NULL);
+
 	selection = gtk_tree_view_get_selection (tree_view);
 	gtk_tree_selection_select_iter (selection, iter);
 	utils_set_tree_store_background_color (GTK_WIDGET (tree_view), RECONCILIATION_BACKGROUND_COLOR);
@@ -170,11 +195,10 @@ static void prefs_page_reconcile_treeview_row_expanded (GtkTreeView *tree_view,
 													    GtkTreePath *path,
 													    GtkWidget *button)
 {
-	//~ GtkTreeSelection *selection;
-devel_debug (NULL);
+	GtkTreeSelection *selection;
 
-	//~ selection = gtk_tree_view_get_selection (tree_view);
-	//~ gtk_tree_selection_select_iter (selection, iter);
+	selection = gtk_tree_view_get_selection (tree_view);
+	gtk_tree_selection_select_iter (selection, iter);
 	utils_set_tree_store_background_color (GTK_WIDGET (tree_view), RECONCILIATION_BACKGROUND_COLOR);
 	gtk_widget_set_sensitive (button, TRUE);
 }
@@ -225,13 +249,13 @@ static gboolean prefs_page_reconcile_row_selected (GtkTreeSelection *selection,
 								   reconcile_number);
 
 			/* we make the table sensitive */
-			gtk_widget_set_sensitive (priv->grid_reconcile_selected, TRUE);
+			prefs_page_reconcile_sensitive_details (page, TRUE);
 		}
 		else
-			gtk_widget_set_sensitive (priv->grid_reconcile_selected, FALSE);
+			prefs_page_reconcile_sensitive_details (page, FALSE);
     }
     else
-		gtk_widget_set_sensitive (priv->grid_reconcile_selected, FALSE);
+		prefs_page_reconcile_sensitive_details (page, FALSE);
 
 	return FALSE;
 }
@@ -303,6 +327,7 @@ static gboolean prefs_page_reconcile_update_line (GtkWidget *entry,
 static void prefs_page_reconcile_setup_tree_view (PrefsPageReconcile *page)
 {
 	GtkTreeStore *store = NULL;
+	GtkTreePath *path;
 	GtkTreeSelection *selection;
     gfloat alignment[] = {COLUMN_LEFT, COLUMN_CENTER, COLUMN_CENTER, COLUMN_RIGHT, COLUMN_RIGHT};
     const gchar *titles[] = {N_("Account"), N_("Init date"), N_("Final date"),N_("Init balance"), N_("Final balance") };
@@ -355,7 +380,13 @@ static void prefs_page_reconcile_setup_tree_view (PrefsPageReconcile *page)
 	/* set colors */
 	utils_set_tree_store_background_color (priv->treeview_reconcile, RECONCILIATION_BACKGROUND_COLOR);
 
+	/* select the first item */
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->treeview_reconcile));
+	path = gtk_tree_path_new_from_indices (0, -1);
+	gtk_tree_selection_select_path (selection, path);
+	gtk_tree_path_free (path);
+
+	/* set signals */
 	g_signal_connect (G_OBJECT (priv->button_collapse_row),
 					  "clicked",
 					  G_CALLBACK (prefs_page_reconcile_button_collapse_row_clicked),
@@ -540,7 +571,7 @@ static void prefs_page_reconcile_setup_page (PrefsPageReconcile *page)
 													     G_CALLBACK (gsb_data_reconcile_set_name),
 													     0);
     gtk_widget_set_size_request (priv->entry_reconcile_name, ENTRY_MIN_WIDTH_1, -1);
-	gtk_grid_attach (GTK_GRID (priv->grid_reconcile_selected), priv->entry_reconcile_name, 1, 0, 1, 1);
+	gtk_grid_attach (GTK_GRID (priv->grid_reconcile), priv->entry_reconcile_name, 2, 6, 1, 1);
 
 	priv->entry_reconcile_init_date = gsb_autofunc_date_new (NULL,
 															 G_CALLBACK (prefs_page_reconcile_update_line),
@@ -548,7 +579,7 @@ static void prefs_page_reconcile_setup_page (PrefsPageReconcile *page)
 															 G_CALLBACK (gsb_data_reconcile_set_init_date),
 															 0);
     gtk_widget_set_size_request (priv->entry_reconcile_init_date, ENTRY_MIN_WIDTH_1, -1);
-	gtk_grid_attach (GTK_GRID (priv->grid_reconcile_selected), priv->entry_reconcile_init_date, 1, 1, 1, 1);
+	gtk_grid_attach (GTK_GRID (priv->grid_reconcile), priv->entry_reconcile_init_date, 2, 7, 1, 1);
 
 	priv->entry_reconcile_final_date = gsb_autofunc_date_new (NULL,
 															  G_CALLBACK (prefs_page_reconcile_update_line),
@@ -556,7 +587,7 @@ static void prefs_page_reconcile_setup_page (PrefsPageReconcile *page)
 															  G_CALLBACK (gsb_data_reconcile_set_final_date),
 															  0);
     gtk_widget_set_size_request (priv->entry_reconcile_final_date, ENTRY_MIN_WIDTH_1, -1);
-	gtk_grid_attach (GTK_GRID (priv->grid_reconcile_selected), priv->entry_reconcile_final_date, 1, 2, 1, 1);
+	gtk_grid_attach (GTK_GRID (priv->grid_reconcile), priv->entry_reconcile_final_date, 2, 8, 1, 1);
 
 	priv->entry_reconcile_init_balance = gsb_autofunc_real_new (null_real,
 																G_CALLBACK (prefs_page_reconcile_update_line),
@@ -564,7 +595,7 @@ static void prefs_page_reconcile_setup_page (PrefsPageReconcile *page)
 																G_CALLBACK (gsb_data_reconcile_set_init_balance),
 																0);
     gtk_widget_set_size_request (priv->entry_reconcile_init_balance, ENTRY_MIN_WIDTH_1, -1);
-	gtk_grid_attach (GTK_GRID (priv->grid_reconcile_selected), priv->entry_reconcile_init_balance, 3, 1, 1, 1);
+	gtk_grid_attach (GTK_GRID (priv->grid_reconcile), priv->entry_reconcile_init_balance, 4, 7, 1, 1);
 
 	priv->entry_reconcile_final_balance = gsb_autofunc_real_new (null_real,
 																 G_CALLBACK (prefs_page_reconcile_update_line),
@@ -572,11 +603,15 @@ static void prefs_page_reconcile_setup_page (PrefsPageReconcile *page)
 																 G_CALLBACK (gsb_data_reconcile_set_final_balance),
 																 0);
     gtk_widget_set_size_request (priv->entry_reconcile_final_balance, ENTRY_MIN_WIDTH_1, -1);
-    gtk_grid_attach (GTK_GRID (priv->grid_reconcile_selected), priv->entry_reconcile_final_balance, 3, 2, 1, 1);
+    gtk_grid_attach (GTK_GRID (priv->grid_reconcile), priv->entry_reconcile_final_balance, 4, 8, 1, 1);
 
-    /* set the checkbutton_reconcile_sort */
+	/* set the checkbutton_reconcile_sort */
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_reconcile_sort),
 								  w_etat->reconcile_sort);
+
+	/* set unsensitive details */
+	prefs_page_reconcile_sensitive_details (page, FALSE);
+	gtk_widget_set_sensitive (priv->button_collapse_row, FALSE);
 
     /* Connect signal */
     g_signal_connect (G_OBJECT (priv->radiobutton_end_date_2),
@@ -638,7 +673,7 @@ static void prefs_page_reconcile_class_init (PrefsPageReconcileClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageReconcile, button_reconcile_find);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageReconcile, checkbutton_reconcile_sort);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageReconcile, label_collapse_row);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageReconcile, grid_reconcile_selected);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageReconcile, grid_reconcile);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageReconcile, radiobutton_end_date_1);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageReconcile, radiobutton_end_date_2);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageReconcile, treeview_reconcile);
