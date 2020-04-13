@@ -25,6 +25,7 @@ libprefspages_la_SOURCES = \
 	prefs_page_msg_warning.c \
 	prefs_page_options_ope.c \
 	prefs_page_reconcile.c \
+	prefs_page_reconcile_sort.c \
 	prefs_widget_loan.c \
 	prefs_page_accueil.h	\
 	prefs_page_archives.h	\
@@ -46,6 +47,7 @@ libprefspages_la_SOURCES = \
 	prefs_page_msg_warning.h \
 	prefs_page_options_ope.h \
 	prefs_page_reconcile.h \
+	prefs_page_reconcile_sort.h \
 	prefs_widget_loan.h
 
 libprefspages_la_LIBADD= $(LIBPREFSPAGES_LIBS)
