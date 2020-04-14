@@ -8,6 +8,7 @@ libprefspages_la_SOURCES = \
 	prefs_page_accueil.c	\
 	prefs_page_archives.c	\
 	prefs_page_bet_account.c	\
+	prefs_page_bet_general.c	\
 	prefs_page_display_adr.c	\
 	prefs_page_display_fonts.c	\
 	prefs_page_display_form.c	\
@@ -30,6 +31,7 @@ libprefspages_la_SOURCES = \
 	prefs_page_accueil.h	\
 	prefs_page_archives.h	\
 	prefs_page_bet_account.h	\
+	prefs_page_bet_general.h	\
 	prefs_page_display_adr.h	\
 	prefs_page_display_fonts.h	\
 	prefs_page_display_form.h	\
