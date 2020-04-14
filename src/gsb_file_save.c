@@ -2783,10 +2783,13 @@ gulong gsb_file_save_bet_part ( gulong iterator,
     gchar *new_string;
     GPtrArray *tab;
     gint i;
+	GrisbiWinEtat *w_etat;
+
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
 
     /* save the general informations */
     new_string = g_markup_printf_escaped ( "\t<Bet Ddte=\"%d\" Bet_deb_cash_account_option=\"%d\"/>\n",
-                        etat.bet_deb_period, etat.bet_deb_cash_account_option );
+                        w_etat->bet_debut_period, w_etat->bet_cash_account_option );
 
     /* append the new string to the file content */
     iterator = gsb_file_save_append_part ( iterator,

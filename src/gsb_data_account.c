@@ -2920,7 +2920,7 @@ GDate *gsb_data_account_get_bet_start_date ( gint account_number )
     else
     {
         date = gdate_today ( );
-        if ( etat.bet_deb_period == 1 )
+        if ( etat.bet_debut_period == 1 )
             g_date_set_day ( date, 1 );
 
         return date;
@@ -2952,7 +2952,7 @@ gboolean gsb_data_account_set_bet_start_date ( gint account_number, const GDate 
         GDate *date_new;
 
         date_new = gdate_today ( );
-        if ( etat.bet_deb_period == 1 )
+        if ( etat.bet_debut_period == 1 )
             g_date_set_day ( date_new, 1 );
         account -> bet_start_date = date_new;
         return FALSE;
@@ -3634,7 +3634,9 @@ gboolean gsb_data_account_set_bet_show_onglets ( gint account_number )
     AccountStruct *account;
     gint bet_use_budget;
     KindAccount kind;
+	GrisbiWinEtat *w_etat;
 
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
     account = gsb_data_account_get_structure ( account_number );
 
     if ( !account )
@@ -3659,7 +3661,7 @@ gboolean gsb_data_account_set_bet_show_onglets ( gint account_number )
         account->bet_show_onglets = BET_ONGLETS_PREV;
         break;
     case GSB_TYPE_CASH:
-        if ( etat.bet_deb_cash_account_option == 1 )
+        if ( w_etat->bet_cash_account_option == 1 )
             account->bet_show_onglets = BET_ONGLETS_PREV;
         else
             account->bet_show_onglets = BET_ONGLETS_HIST;
@@ -3667,7 +3669,7 @@ gboolean gsb_data_account_set_bet_show_onglets ( gint account_number )
     case GSB_TYPE_LIABILITIES:
         if ( account->bet_credit_card )
         {
-            if ( etat.bet_deb_cash_account_option == 1 )
+            if ( w_etat->bet_cash_account_option == 1 )
                 account->bet_show_onglets = BET_ONGLETS_PREV;
             else
                 account->bet_show_onglets = BET_ONGLETS_HIST;

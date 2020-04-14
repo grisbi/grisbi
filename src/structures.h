@@ -188,8 +188,8 @@ struct _GrisbiWinEtat
 	gboolean	metatree_unarchived_payees;					/* TRUE = limit the list of payees for combofix */
 
     /* variables for the module estimate balance */
-    gint		bet_deb_period;
-    gint		bet_deb_cash_account_option;				/* ajoute l'onglet prévision aux comptes de caisse */
+    gint		bet_debut_period;
+    gint		bet_cash_account_option;				/* ajoute l'onglet prévision aux comptes de caisse */
 
     /* variables pour le simulateur de crédits */
     gdouble		bet_capital;

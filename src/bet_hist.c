@@ -859,12 +859,15 @@ void bet_historical_populate_div_model ( gpointer key,
     GsbReal retained;
     GsbReal amount;
     KindAccount kind;
+	GrisbiWinEtat *w_etat;
+
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
 
     div_number = sh -> div;
     div_name = bet_data_get_div_name ( div_number, 0, NULL );
     account_nb = sh -> account_nb;
     kind = gsb_data_account_get_kind ( account_nb );
-    if ( kind == GSB_TYPE_CASH && etat.bet_deb_cash_account_option == 0 )
+    if ( kind == GSB_TYPE_CASH && w_etat->bet_cash_account_option == 0 )
         edited = FALSE;
 
     currency_number = gsb_data_account_get_currency ( account_nb );

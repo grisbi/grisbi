@@ -3056,6 +3056,9 @@ static  void gsb_file_load_bet_part ( const gchar **attribute_names,
                         const gchar **attribute_values )
 {
     gint i=0;
+	GrisbiWinEtat *w_etat;
+
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
 
     if ( !attribute_names[i] )
     return;
@@ -3072,14 +3075,14 @@ static  void gsb_file_load_bet_part ( const gchar **attribute_names,
 
     if ( !strcmp ( attribute_names[i], "Ddte" ) )
     {
-        etat.bet_deb_period = utils_str_atoi ( attribute_values[i] );
+        w_etat->bet_debut_period = utils_str_atoi ( attribute_values[i] );
         i++;
         continue;
     }
 
     if ( !strcmp ( attribute_names[i], "Bet_deb_cash_account_option" ) )
     {
-        etat.bet_deb_cash_account_option = utils_str_atoi ( attribute_values[i] );
+        w_etat->bet_cash_account_option = utils_str_atoi ( attribute_values[i] );
         i++;
         continue;
     }

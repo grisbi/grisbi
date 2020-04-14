@@ -244,9 +244,11 @@ static gboolean prefs_page_bet_account_changed (GtkWidget *combo,
     gint bet_use_budget;
     gint active;
 	KindAccount kind;
+	GrisbiWinEtat *w_etat;
 	PrefsPageBetAccountPrivate *priv;
 
 	priv = prefs_page_bet_account_get_instance_private (page);
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
 
     account_number = gsb_account_get_combo_account_number (combo);
 	devel_debug_int (account_number);
@@ -292,7 +294,7 @@ static gboolean prefs_page_bet_account_changed (GtkWidget *combo,
             bet_config_initialise_select_historical_data (account_number, account_page);
 			break;
 		case GSB_TYPE_CASH:
-			if (etat.bet_deb_cash_account_option == 1)
+			if (w_etat->bet_cash_account_option == 1)
 			{
 				gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook_bet_account), 0);
 				bet_config_initialise_duration_widget (account_number, account_page);
@@ -311,7 +313,7 @@ static gboolean prefs_page_bet_account_changed (GtkWidget *combo,
 			if (active)
 			{
 				gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook_bet_account), 0);
-				if (etat.bet_deb_cash_account_option == 1)
+				if (w_etat->bet_cash_account_option == 1)
 				{
 					bet_config_initialise_duration_widget (account_number, account_page);
 				}
@@ -398,7 +400,7 @@ static void prefs_page_bet_account_use_budget_toggle (GtkToggleButton *button,
         gsb_data_account_set_bet_show_onglets (account_number);
         prefs_page_bet_account_changed (priv->combo_bet_account, page);
 		gtk_widget_show (priv->hbox_bet_credit_card);
-		gtk_widget_show (priv->notebook_bet_account);		
+		gtk_widget_show (priv->notebook_bet_account);
         gsb_data_account_set_bet_maj (account_number, BET_MAJ_ALL);
     }
     else

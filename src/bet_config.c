@@ -112,13 +112,13 @@ GtkWidget *bet_config_general_create_general_page ( void )
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Option for cash accounts") );
 
     widget = gsb_automem_checkbutton_new ( _("Add the forecast tab for cash accounts"),
-                        &etat.bet_deb_cash_account_option,
+                        &etat.bet_cash_account_option,
                         G_CALLBACK ( bet_config_general_cash_account_option_clicked ),
                         NULL);
 
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), widget, FALSE, FALSE, 0 );
 
-    if ( etat.bet_deb_cash_account_option == 1 )
+    if ( etat.bet_cash_account_option == 1 )
         gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( widget ), TRUE );
 
     gtk_widget_show_all ( vbox );
@@ -163,7 +163,7 @@ GtkWidget *bet_config_general_get_period_widget ( GtkWidget *container )
                         GTK_RADIO_BUTTON ( button_1 ),
                         _("date today") );
 
-    if ( etat.bet_deb_period == 1 )
+    if ( etat.bet_debut_period == 1 )
         gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button_1 ), TRUE );
     else
         gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button_2 ), TRUE );
@@ -596,11 +596,11 @@ void bet_config_period_clicked ( GtkWidget *togglebutton, GdkEventButton *event,
 
     if ( g_strcmp0 ( name, "bet_period_button_1" ) == 0 )
     {
-        etat.bet_deb_period = 1;
+        etat.bet_debut_period = 1;
     }
     else
     {
-        etat.bet_deb_period = 2;
+        etat.bet_debut_period = 2;
     }
     if ( button )
         g_signal_handlers_unblock_by_func ( G_OBJECT ( button ),

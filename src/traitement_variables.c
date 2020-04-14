@@ -268,7 +268,7 @@ void init_variables (void)
     bet_data_init_variables ();
     /* initialisation des boites de dialogue */
     bet_future_initialise_dialog (TRUE);
-    etat.bet_deb_period = 1;
+    etat.bet_debut_period = 1;
     /* defaut value for width of columns */
     bet_array_init_largeur_col_treeview (NULL);
 
