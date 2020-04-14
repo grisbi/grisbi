@@ -125,7 +125,6 @@ src/gsb_payment_method_config.c
 src/gsb_real.c
 src/gsb_reconcile.c
 src/gsb_reconcile_list.c
-src/gsb_reconcile_sort_config.c
 src/gsb_regex.c
 src/gsb_report.c
 src/gsb_rgba.c

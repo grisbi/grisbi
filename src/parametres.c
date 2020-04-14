@@ -58,7 +58,6 @@
 #include "gsb_locale.h"
 #include "gsb_payment_method_config.h"
 #include "gsb_real.h"
-#include "gsb_reconcile_sort_config.h"
 #include "gsb_regex.h"
 #include "gsb_rgba.h"
 #include "gsb_scheduler_list.h"

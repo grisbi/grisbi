@@ -44,7 +44,6 @@
 #include "gsb_form_config.h"
 #include "gsb_fyear_config.h"
 #include "gsb_payment_method_config.h"
-#include "gsb_reconcile_sort_config.h"
 #include "mouse.h"
 #include "parametres.h"
 #include "structures.h"
@@ -72,6 +71,7 @@
 #include "prefs/prefs_page_msg_warning.h"
 #include "prefs/prefs_page_options_ope.h"
 #include "prefs/prefs_page_reconcile.h"
+#include "prefs/prefs_page_reconcile_sort.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -106,6 +106,7 @@ struct _GrisbiPrefsPrivate
 	/* pages num */
 	gint 				form_num_page;
 	gint				metatree_num_page;
+	gint				reconcile_sort_page_num;
  };
 
 
@@ -494,9 +495,11 @@ static void grisbi_prefs_left_panel_populate_tree_model (GrisbiPrefs *prefs)
 	page++;
 
 	/* append page Sort for reconciliation */
-	widget = GTK_WIDGET (gsb_reconcile_sort_config_create ());
-	utils_widget_set_padding (widget, MARGIN_BOX, 0);
+	widget = GTK_WIDGET (prefs_page_reconcile_sort_new (prefs));
+	if (is_loading == FALSE)
+		gtk_widget_set_sensitive (widget, FALSE);
 	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Sort for reconciliation"), page);
+	priv->reconcile_sort_page_num = page;
 	page++;
 
     /* append group page "Transaction form" */
@@ -864,6 +867,10 @@ GtkWidget *grisbi_prefs_get_child_by_page_name (const gchar *page_name)
 	if (strcmp (page_name, "metatree_num_page") == 0)
 	{
 		widget = gtk_notebook_get_nth_page (GTK_NOTEBOOK (priv->notebook_prefs), priv->metatree_num_page);
+	}
+	else if (strcmp (page_name, "reconcile_sort_page_num") == 0)
+	{
+		widget = gtk_notebook_get_nth_page (GTK_NOTEBOOK (priv->notebook_prefs), priv->reconcile_sort_page_num);
 	}
 
 	return widget;
