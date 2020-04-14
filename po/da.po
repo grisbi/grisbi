@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-13 07:54+0200\n"
+"POT-Creation-Date: 2020-04-14 07:53+0200\n"
 "PO-Revision-Date: 2006-03-25 13:23+0100\n"
 "Last-Translator: Dmitri Popov <dmpop@openoffice.org>\n"
 "Language-Team: \n"
@@ -118,7 +118,7 @@ msgid "Display the grids above the plot"
 msgstr "Vis gitter"
 
 #: ../src/ui/csv_template_rule.ui.h:1 ../src/bet_config.c:101
-#: ../src/grisbi_prefs.c:561
+#: ../src/grisbi_prefs.c:564
 #, fuzzy
 msgid "General Options"
 msgstr "Generelt"
@@ -138,7 +138,9 @@ msgstr "Generelt"
 #: ../src/ui/prefs_page_metatree.ui.h:2 ../src/ui/prefs_page_msg_delete.ui.h:2
 #: ../src/ui/prefs_page_msg_warning.ui.h:2
 #: ../src/ui/prefs_page_options_ope.ui.h:2
-#: ../src/ui/prefs_page_reconcile.ui.h:2 ../src/ui/prefs_widget_loan.ui.h:23
+#: ../src/ui/prefs_page_reconcile.ui.h:2
+#: ../src/ui/prefs_page_reconcile_sort.ui.h:2
+#: ../src/ui/prefs_widget_loan.ui.h:23
 msgid "    "
 msgstr ""
 
@@ -224,7 +226,9 @@ msgstr ""
 #: ../src/ui/prefs_page_metatree.ui.h:15 ../src/ui/prefs_page_msg_delete.ui.h:3
 #: ../src/ui/prefs_page_msg_warning.ui.h:5
 #: ../src/ui/prefs_page_options_ope.ui.h:13
-#: ../src/ui/prefs_page_reconcile.ui.h:16 ../src/ui/prefs_widget_loan.ui.h:22
+#: ../src/ui/prefs_page_reconcile.ui.h:16
+#: ../src/ui/prefs_page_reconcile_sort.ui.h:4
+#: ../src/ui/prefs_widget_loan.ui.h:22
 #, fuzzy
 msgid "Title"
 msgstr "Overskrifter"
@@ -585,12 +589,13 @@ msgstr ""
 msgid "Outgoing categories"
 msgstr ""
 
-#: ../src/ui/etats_prefs.ui.h:70 ../src/grisbi_prefs.c:730
+#: ../src/ui/etats_prefs.ui.h:70 ../src/grisbi_prefs.c:733
 #, fuzzy
 msgid "Expand all"
 msgstr "Lukkede planlagte transaktioner"
 
-#: ../src/ui/etats_prefs.ui.h:71 ../src/grisbi_prefs.c:740
+#: ../src/ui/etats_prefs.ui.h:71 ../src/ui/prefs_page_reconcile_sort.ui.h:3
+#: ../src/grisbi_prefs.c:743
 msgid "Collapse all"
 msgstr ""
 
@@ -1468,8 +1473,8 @@ msgstr ""
 msgid "Choose the language"
 msgstr "Vælg konto"
 
-#: ../src/ui/prefs_page_divers.ui.h:14 ../src/parametres.c:152
-#: ../src/parametres.c:160
+#: ../src/ui/prefs_page_divers.ui.h:14 ../src/parametres.c:151
+#: ../src/parametres.c:159
 #, fuzzy
 msgid "Choose the date format"
 msgstr "Vælg konto"
@@ -1478,11 +1483,11 @@ msgstr "Vælg konto"
 msgid "Choose decimal and thousands separator"
 msgstr ""
 
-#: ../src/ui/prefs_page_divers.ui.h:16 ../src/parametres.c:245
+#: ../src/ui/prefs_page_divers.ui.h:16 ../src/parametres.c:244
 msgid "Decimal point: "
 msgstr ""
 
-#: ../src/ui/prefs_page_divers.ui.h:17 ../src/parametres.c:258
+#: ../src/ui/prefs_page_divers.ui.h:17 ../src/parametres.c:257
 msgid "Thousands separator: "
 msgstr ""
 
@@ -1981,6 +1986,10 @@ msgstr "Skrifttype i liste over transaktioner"
 
 #: ../src/ui/prefs_page_reconcile.ui.h:15
 msgid "Collapse row"
+msgstr ""
+
+#: ../src/ui/prefs_page_reconcile_sort.ui.h:1
+msgid "Reconciliation: sort transactions"
 msgstr ""
 
 #: ../src/ui/prefs_widget_loan.ui.h:1 ../src/bet_config.c:973
@@ -3244,7 +3253,7 @@ msgstr ""
 #: ../src/bet_future.c:389 ../src/gsb_assistant_archive_export.c:153
 #: ../src/gsb_assistant_reconcile_config.c:1229
 #: ../src/gsb_transactions_list.c:1163 ../src/prefs/prefs_page_archives.c:486
-#: ../src/prefs/prefs_page_reconcile.c:333
+#: ../src/prefs/prefs_page_reconcile.c:352
 msgid "Final date"
 msgstr ""
 
@@ -3861,7 +3870,7 @@ msgstr ""
 #: ../src/gsb_assistant_reconcile_config.c:597
 #: ../src/gsb_payment_method_config.c:163 ../src/gsb_scheduler_list.c:856
 #: ../src/imputation_budgetaire.c:195 ../src/navigation.c:1142
-#: ../src/prefs/prefs_page_reconcile.c:333 ../src/tiers_onglet.c:728
+#: ../src/prefs/prefs_page_reconcile.c:352 ../src/tiers_onglet.c:728
 msgid "Account"
 msgstr "Konto"
 
@@ -3941,7 +3950,7 @@ msgstr "Giv den nye underkategori et navn"
 #. On récupère le nom de la page
 #. Import button
 #: ../src/categories_onglet.c:581 ../src/etats_onglet.c:555
-#: ../src/grisbi_prefs.c:361 ../src/grisbi_prefs.c:429 ../src/grisbi_win.c:672
+#: ../src/grisbi_prefs.c:362 ../src/grisbi_prefs.c:430 ../src/grisbi_win.c:672
 #: ../src/import.c:1828 ../src/imputation_budgetaire.c:627
 #: ../src/utils_files.c:757
 msgid "Import"
@@ -4655,7 +4664,7 @@ msgstr "Regnskabsår"
 
 #. Now we have a model, create view
 #: ../src/etats_affiche.c:2513 ../src/etats_prefs.c:704
-#: ../src/etats_prefs.c:2298 ../src/grisbi_prefs.c:550
+#: ../src/etats_prefs.c:2298 ../src/grisbi_prefs.c:553
 #: ../src/gsb_payment_method_config.c:132
 msgid "Payment methods"
 msgstr ""
@@ -5005,8 +5014,8 @@ msgstr "Gem fil"
 msgid "Exporting report..."
 msgstr "Eksportér QIF-fil"
 
-#: ../src/etats_onglet.c:417 ../src/grisbi_prefs.c:797
-#: ../src/grisbi_prefs.c:924 ../src/grisbi_prefs.c:960 ../src/gsb_debug.c:848
+#: ../src/etats_onglet.c:417 ../src/grisbi_prefs.c:800
+#: ../src/grisbi_prefs.c:931 ../src/grisbi_prefs.c:967 ../src/gsb_debug.c:848
 #: ../src/gsb_file.c:517 ../src/gsb_file.c:660 ../src/gsb_file.c:986
 #, fuzzy
 msgid "Done"
@@ -5189,7 +5198,7 @@ msgstr ""
 
 #. append group page "Generalities"
 #. Bank details
-#: ../src/etats_prefs.c:730 ../src/etats_prefs.c:2879 ../src/grisbi_prefs.c:413
+#: ../src/etats_prefs.c:730 ../src/etats_prefs.c:2879 ../src/grisbi_prefs.c:414
 #: ../src/gsb_bank.c:678
 msgid "Generalities"
 msgstr ""
@@ -5199,13 +5208,13 @@ msgid "Titles"
 msgstr "Overskrifter"
 
 #. append group page "Transactions"
-#: ../src/etats_prefs.c:740 ../src/export_csv.c:359 ../src/grisbi_prefs.c:472
+#: ../src/etats_prefs.c:740 ../src/export_csv.c:359 ../src/grisbi_prefs.c:473
 #: ../src/grisbi_win.c:478
 msgid "Transactions"
 msgstr ""
 
 #. echange line label
-#: ../src/etats_prefs.c:745 ../src/grisbi_prefs.c:527 ../src/gsb_currency.c:565
+#: ../src/etats_prefs.c:745 ../src/grisbi_prefs.c:530 ../src/gsb_currency.c:565
 #: ../src/gsb_currency_config.c:909
 msgid "Currencies"
 msgstr "Valutaer"
@@ -6221,155 +6230,156 @@ msgstr ""
 msgid "Cannot save configuration file '%s': %s"
 msgstr "Kan ikke importerer fil."
 
-#: ../src/grisbi_prefs.c:374
+#: ../src/grisbi_prefs.c:375
 #, fuzzy
 msgid "Files import"
 msgstr "Information:"
 
-#: ../src/grisbi_prefs.c:381
+#: ../src/grisbi_prefs.c:382
 msgid "Associations for import"
 msgstr ""
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:417 ../src/prefs/prefs_page_files.c:108
+#: ../src/grisbi_prefs.c:418 ../src/prefs/prefs_page_files.c:108
 msgid "Files"
 msgstr "Filer"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:422 ../src/prefs/prefs_page_archives.c:573
+#: ../src/grisbi_prefs.c:423 ../src/prefs/prefs_page_archives.c:573
 msgid "Archives"
 msgstr ""
 
-#: ../src/grisbi_prefs.c:434
+#: ../src/grisbi_prefs.c:435
 #, fuzzy
 msgid "Various settings"
 msgstr "Eksportér kategorier"
 
-#: ../src/grisbi_prefs.c:439 ../src/grisbi_win.c:464
+#: ../src/grisbi_prefs.c:440 ../src/grisbi_win.c:464
 msgid "Main page"
 msgstr "Hovedside"
 
 #. append group page "Display"
-#: ../src/grisbi_prefs.c:443
+#: ../src/grisbi_prefs.c:444
 #, fuzzy
 msgid "Display"
 msgstr "Visninger"
 
-#: ../src/grisbi_prefs.c:447
+#: ../src/grisbi_prefs.c:448
 #, fuzzy
 msgid "Fonts & Logo"
 msgstr "Skrifttyper & logoer"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:452 ../src/prefs/prefs_page_msg_warning.c:236
+#: ../src/grisbi_prefs.c:453 ../src/prefs/prefs_page_msg_warning.c:236
 msgid "Messages & warnings"
 msgstr "Beskeder og advarsler"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:457 ../src/prefs/prefs_page_display_adr.c:191
+#: ../src/grisbi_prefs.c:458 ../src/prefs/prefs_page_display_adr.c:191
 msgid "Addresses & titles"
 msgstr "Adresser og overskrifter"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:462 ../src/prefs/prefs_page_metatree.c:313
+#: ../src/grisbi_prefs.c:463 ../src/prefs/prefs_page_metatree.c:313
 msgid "Payees, categories and budgetaries"
 msgstr ""
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:468 ../src/prefs/prefs_page_display_gui.c:244
+#: ../src/grisbi_prefs.c:469 ../src/prefs/prefs_page_display_gui.c:244
 msgid "Elements of interface"
 msgstr ""
 
-#: ../src/grisbi_prefs.c:476
+#: ../src/grisbi_prefs.c:477
 msgid "List behavior"
 msgstr ""
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:481 ../src/prefs/prefs_page_display_ope.c:692
+#: ../src/grisbi_prefs.c:482 ../src/prefs/prefs_page_display_ope.c:692
 #, fuzzy
 msgid "Transactions list cells"
 msgstr "Overførselsformular"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:486 ../src/prefs/prefs_page_msg_delete.c:227
+#: ../src/grisbi_prefs.c:487 ../src/prefs/prefs_page_msg_delete.c:227
 #, fuzzy
 msgid "Messages before deleting"
 msgstr "Beskeder og advarsler"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:493 ../src/gsb_assistant_first.c:335
-#: ../src/prefs/prefs_page_reconcile.c:554
+#: ../src/grisbi_prefs.c:494 ../src/gsb_assistant_first.c:335
+#: ../src/prefs/prefs_page_reconcile.c:573
 msgid "Reconciliation"
 msgstr ""
 
-#: ../src/grisbi_prefs.c:499 ../src/gsb_reconcile_sort_config.c:94
+#. On récupère le nom de la page
+#: ../src/grisbi_prefs.c:501 ../src/prefs/prefs_page_reconcile_sort.c:743
 #, fuzzy
 msgid "Sort for reconciliation"
 msgstr "Vis afstemte transaktioner"
 
 #. append group page "Transaction form"
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:503 ../src/gsb_form_config.c:108
+#: ../src/grisbi_prefs.c:506 ../src/gsb_form_config.c:108
 #: ../src/prefs/prefs_page_display_form.c:909
 msgid "Transaction form"
 msgstr "Overførselsformular"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:507 ../src/prefs/prefs_page_form_options.c:111
+#: ../src/grisbi_prefs.c:510 ../src/prefs/prefs_page_form_options.c:111
 msgid "Form behavior"
 msgstr ""
 
-#: ../src/grisbi_prefs.c:512
+#: ../src/grisbi_prefs.c:515
 #, fuzzy
 msgid "Content"
 msgstr "Kontaktperson"
 
-#: ../src/grisbi_prefs.c:518
+#: ../src/grisbi_prefs.c:521
 msgid "Completion"
 msgstr ""
 
 #. append group page "Resources subtree"
-#: ../src/grisbi_prefs.c:522
+#: ../src/grisbi_prefs.c:525
 msgid "Resources"
 msgstr "Ressourcer"
 
-#: ../src/grisbi_prefs.c:533
+#: ../src/grisbi_prefs.c:536
 #, fuzzy
 msgid "Currencies links"
 msgstr "Valutaer"
 
-#: ../src/grisbi_prefs.c:539 ../src/gsb_bank.c:471
+#: ../src/grisbi_prefs.c:542 ../src/gsb_bank.c:471
 msgid "Banks"
 msgstr "Banker"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:544 ../src/gsb_fyear_config.c:147
+#: ../src/grisbi_prefs.c:547 ../src/gsb_fyear_config.c:147
 #: ../src/prefs/prefs_page_fyear.c:689
 msgid "Financial years"
 msgstr ""
 
 #. append group page "Balance estimate"
-#: ../src/grisbi_prefs.c:554
+#: ../src/grisbi_prefs.c:557
 #, fuzzy
 msgid "Balance estimate"
 msgstr "Balance"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:566 ../src/prefs/prefs_page_bet_account.c:442
+#: ../src/grisbi_prefs.c:569 ../src/prefs/prefs_page_bet_account.c:442
 #, fuzzy
 msgid "Accounts data"
 msgstr "Kontooplysninger"
 
-#: ../src/grisbi_prefs.c:685
+#: ../src/grisbi_prefs.c:688
 #, fuzzy
 msgid "Preferences start"
 msgstr "Indstillinger"
 
-#: ../src/grisbi_prefs.c:718
+#: ../src/grisbi_prefs.c:721
 msgid "This state will be kept for the duration of this session"
 msgstr ""
 
-#: ../src/grisbi_prefs.c:921
+#: ../src/grisbi_prefs.c:928
 #, fuzzy
 msgid "Preferences stop"
 msgstr "Indstillinger"
@@ -10269,31 +10279,6 @@ msgstr ""
 msgid "Last statement: %s"
 msgstr ""
 
-#: ../src/gsb_reconcile_sort_config.c:97
-msgid "Reconciliation: sort transactions"
-msgstr ""
-
-#: ../src/gsb_reconcile_sort_config.c:128
-msgid "Payment method"
-msgstr "Betalingsmåde"
-
-#: ../src/gsb_reconcile_sort_config.c:145
-#, fuzzy
-msgid "Sort by payment method"
-msgstr "Betalingsmåde"
-
-#: ../src/gsb_reconcile_sort_config.c:163
-msgid "Split neutral payment methods"
-msgstr ""
-
-#: ../src/gsb_reconcile_sort_config.c:177
-msgid "Go up"
-msgstr ""
-
-#: ../src/gsb_reconcile_sort_config.c:187
-msgid "Go down"
-msgstr ""
-
 #: ../src/gsb_regex.c:99
 #, c-format
 msgid "Unable to compile regex: %s\n"
@@ -10641,7 +10626,7 @@ msgstr ""
 msgid "Select the reconciliation to associate to the selected transaction: "
 msgstr "Skjul afstemte transaktioner:"
 
-#: ../src/gsb_transactions_list.c:1163 ../src/prefs/prefs_page_reconcile.c:333
+#: ../src/gsb_transactions_list.c:1163 ../src/prefs/prefs_page_reconcile.c:352
 #, fuzzy
 msgid "Init date"
 msgstr "Forkert dato"
@@ -11921,11 +11906,11 @@ msgstr "Eksportér kategorier"
 msgid "Remove this report"
 msgstr "Fjern kategori"
 
-#: ../src/parametres.c:275
+#: ../src/parametres.c:274
 msgid "Choose the decimal and thousands separator"
 msgstr ""
 
-#: ../src/parametres.c:281
+#: ../src/parametres.c:280
 msgid "Decimal and thousands separator"
 msgstr ""
 
@@ -12426,18 +12411,18 @@ msgstr "Sorter transaktionsliste"
 msgid "Transaction list behavior"
 msgstr "Overførselsformular"
 
-#: ../src/prefs/prefs_page_reconcile.c:333
+#: ../src/prefs/prefs_page_reconcile.c:352
 #, fuzzy
 msgid "Init balance"
 msgstr "Betalingsbalance"
 
-#: ../src/prefs/prefs_page_reconcile.c:333
+#: ../src/prefs/prefs_page_reconcile.c:352
 msgid "Final balance"
 msgstr ""
 
 #. we are on a reconcile,
 #. * we ask if the user want to continue and warn him
-#: ../src/prefs/prefs_page_reconcile.c:502
+#: ../src/prefs/prefs_page_reconcile.c:521
 #, c-format
 msgid ""
 "Caution, you are about to delete a reconciliation.\n"
@@ -12447,10 +12432,23 @@ msgid ""
 "Are you sure you want to continue?"
 msgstr ""
 
-#: ../src/prefs/prefs_page_reconcile.c:508
+#: ../src/prefs/prefs_page_reconcile.c:527
 #, fuzzy
 msgid "Delete reconciliation"
 msgstr "Vis afstemte transaktioner"
+
+#: ../src/prefs/prefs_page_reconcile_sort.c:658
+msgid "Payment method"
+msgstr "Betalingsmåde"
+
+#: ../src/prefs/prefs_page_reconcile_sort.c:673
+#, fuzzy
+msgid "Sort by payment method"
+msgstr "Betalingsmåde"
+
+#: ../src/prefs/prefs_page_reconcile_sort.c:693
+msgid "Split neutral payment methods"
+msgstr ""
 
 #. Main account
 #: ../src/prefs/prefs_widget_loan.c:880

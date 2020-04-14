@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-13 07:54+0200\n"
+"POT-Creation-Date: 2020-04-14 07:53+0200\n"
 "PO-Revision-Date: 2018-01-08 16:37+0100\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: \n"
@@ -111,7 +111,7 @@ msgid "Display the grids above the plot"
 msgstr ""
 
 #: ../src/ui/csv_template_rule.ui.h:1 ../src/bet_config.c:101
-#: ../src/grisbi_prefs.c:561
+#: ../src/grisbi_prefs.c:564
 msgid "General Options"
 msgstr ""
 
@@ -130,7 +130,9 @@ msgstr ""
 #: ../src/ui/prefs_page_metatree.ui.h:2 ../src/ui/prefs_page_msg_delete.ui.h:2
 #: ../src/ui/prefs_page_msg_warning.ui.h:2
 #: ../src/ui/prefs_page_options_ope.ui.h:2
-#: ../src/ui/prefs_page_reconcile.ui.h:2 ../src/ui/prefs_widget_loan.ui.h:23
+#: ../src/ui/prefs_page_reconcile.ui.h:2
+#: ../src/ui/prefs_page_reconcile_sort.ui.h:2
+#: ../src/ui/prefs_widget_loan.ui.h:23
 msgid "    "
 msgstr ""
 
@@ -208,7 +210,9 @@ msgstr ""
 #: ../src/ui/prefs_page_metatree.ui.h:15 ../src/ui/prefs_page_msg_delete.ui.h:3
 #: ../src/ui/prefs_page_msg_warning.ui.h:5
 #: ../src/ui/prefs_page_options_ope.ui.h:13
-#: ../src/ui/prefs_page_reconcile.ui.h:16 ../src/ui/prefs_widget_loan.ui.h:22
+#: ../src/ui/prefs_page_reconcile.ui.h:16
+#: ../src/ui/prefs_page_reconcile_sort.ui.h:4
+#: ../src/ui/prefs_widget_loan.ui.h:22
 msgid "Title"
 msgstr ""
 
@@ -541,11 +545,12 @@ msgstr ""
 msgid "Outgoing categories"
 msgstr ""
 
-#: ../src/ui/etats_prefs.ui.h:70 ../src/grisbi_prefs.c:730
+#: ../src/ui/etats_prefs.ui.h:70 ../src/grisbi_prefs.c:733
 msgid "Expand all"
 msgstr ""
 
-#: ../src/ui/etats_prefs.ui.h:71 ../src/grisbi_prefs.c:740
+#: ../src/ui/etats_prefs.ui.h:71 ../src/ui/prefs_page_reconcile_sort.ui.h:3
+#: ../src/grisbi_prefs.c:743
 msgid "Collapse all"
 msgstr ""
 
@@ -1329,8 +1334,8 @@ msgstr ""
 msgid "Choose the language"
 msgstr ""
 
-#: ../src/ui/prefs_page_divers.ui.h:14 ../src/parametres.c:152
-#: ../src/parametres.c:160
+#: ../src/ui/prefs_page_divers.ui.h:14 ../src/parametres.c:151
+#: ../src/parametres.c:159
 msgid "Choose the date format"
 msgstr ""
 
@@ -1338,11 +1343,11 @@ msgstr ""
 msgid "Choose decimal and thousands separator"
 msgstr ""
 
-#: ../src/ui/prefs_page_divers.ui.h:16 ../src/parametres.c:245
+#: ../src/ui/prefs_page_divers.ui.h:16 ../src/parametres.c:244
 msgid "Decimal point: "
 msgstr ""
 
-#: ../src/ui/prefs_page_divers.ui.h:17 ../src/parametres.c:258
+#: ../src/ui/prefs_page_divers.ui.h:17 ../src/parametres.c:257
 msgid "Thousands separator: "
 msgstr ""
 
@@ -1795,6 +1800,10 @@ msgstr ""
 
 #: ../src/ui/prefs_page_reconcile.ui.h:15
 msgid "Collapse row"
+msgstr ""
+
+#: ../src/ui/prefs_page_reconcile_sort.ui.h:1
+msgid "Reconciliation: sort transactions"
 msgstr ""
 
 #: ../src/ui/prefs_widget_loan.ui.h:1 ../src/bet_config.c:973
@@ -2973,7 +2982,7 @@ msgstr ""
 #: ../src/bet_future.c:389 ../src/gsb_assistant_archive_export.c:153
 #: ../src/gsb_assistant_reconcile_config.c:1229
 #: ../src/gsb_transactions_list.c:1163 ../src/prefs/prefs_page_archives.c:486
-#: ../src/prefs/prefs_page_reconcile.c:333
+#: ../src/prefs/prefs_page_reconcile.c:352
 msgid "Final date"
 msgstr ""
 
@@ -3556,7 +3565,7 @@ msgstr ""
 #: ../src/gsb_assistant_reconcile_config.c:597
 #: ../src/gsb_payment_method_config.c:163 ../src/gsb_scheduler_list.c:856
 #: ../src/imputation_budgetaire.c:195 ../src/navigation.c:1142
-#: ../src/prefs/prefs_page_reconcile.c:333 ../src/tiers_onglet.c:728
+#: ../src/prefs/prefs_page_reconcile.c:352 ../src/tiers_onglet.c:728
 msgid "Account"
 msgstr ""
 
@@ -3630,7 +3639,7 @@ msgstr ""
 #. On récupère le nom de la page
 #. Import button
 #: ../src/categories_onglet.c:581 ../src/etats_onglet.c:555
-#: ../src/grisbi_prefs.c:361 ../src/grisbi_prefs.c:429 ../src/grisbi_win.c:672
+#: ../src/grisbi_prefs.c:362 ../src/grisbi_prefs.c:430 ../src/grisbi_win.c:672
 #: ../src/import.c:1828 ../src/imputation_budgetaire.c:627
 #: ../src/utils_files.c:757
 msgid "Import"
@@ -4301,7 +4310,7 @@ msgstr ""
 
 #. Now we have a model, create view
 #: ../src/etats_affiche.c:2513 ../src/etats_prefs.c:704
-#: ../src/etats_prefs.c:2298 ../src/grisbi_prefs.c:550
+#: ../src/etats_prefs.c:2298 ../src/grisbi_prefs.c:553
 #: ../src/gsb_payment_method_config.c:132
 msgid "Payment methods"
 msgstr ""
@@ -4641,8 +4650,8 @@ msgstr ""
 msgid "Exporting report..."
 msgstr ""
 
-#: ../src/etats_onglet.c:417 ../src/grisbi_prefs.c:797
-#: ../src/grisbi_prefs.c:924 ../src/grisbi_prefs.c:960 ../src/gsb_debug.c:848
+#: ../src/etats_onglet.c:417 ../src/grisbi_prefs.c:800
+#: ../src/grisbi_prefs.c:931 ../src/grisbi_prefs.c:967 ../src/gsb_debug.c:848
 #: ../src/gsb_file.c:517 ../src/gsb_file.c:660 ../src/gsb_file.c:986
 msgid "Done"
 msgstr ""
@@ -4821,7 +4830,7 @@ msgstr ""
 
 #. append group page "Generalities"
 #. Bank details
-#: ../src/etats_prefs.c:730 ../src/etats_prefs.c:2879 ../src/grisbi_prefs.c:413
+#: ../src/etats_prefs.c:730 ../src/etats_prefs.c:2879 ../src/grisbi_prefs.c:414
 #: ../src/gsb_bank.c:678
 msgid "Generalities"
 msgstr ""
@@ -4831,13 +4840,13 @@ msgid "Titles"
 msgstr ""
 
 #. append group page "Transactions"
-#: ../src/etats_prefs.c:740 ../src/export_csv.c:359 ../src/grisbi_prefs.c:472
+#: ../src/etats_prefs.c:740 ../src/export_csv.c:359 ../src/grisbi_prefs.c:473
 #: ../src/grisbi_win.c:478
 msgid "Transactions"
 msgstr ""
 
 #. echange line label
-#: ../src/etats_prefs.c:745 ../src/grisbi_prefs.c:527 ../src/gsb_currency.c:565
+#: ../src/etats_prefs.c:745 ../src/grisbi_prefs.c:530 ../src/gsb_currency.c:565
 #: ../src/gsb_currency_config.c:909
 msgid "Currencies"
 msgstr ""
@@ -5806,143 +5815,144 @@ msgstr ""
 msgid "Cannot save configuration file '%s': %s"
 msgstr ""
 
-#: ../src/grisbi_prefs.c:374
+#: ../src/grisbi_prefs.c:375
 msgid "Files import"
 msgstr ""
 
-#: ../src/grisbi_prefs.c:381
+#: ../src/grisbi_prefs.c:382
 msgid "Associations for import"
 msgstr ""
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:417 ../src/prefs/prefs_page_files.c:108
+#: ../src/grisbi_prefs.c:418 ../src/prefs/prefs_page_files.c:108
 msgid "Files"
 msgstr ""
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:422 ../src/prefs/prefs_page_archives.c:573
+#: ../src/grisbi_prefs.c:423 ../src/prefs/prefs_page_archives.c:573
 msgid "Archives"
 msgstr ""
 
-#: ../src/grisbi_prefs.c:434
+#: ../src/grisbi_prefs.c:435
 msgid "Various settings"
 msgstr ""
 
-#: ../src/grisbi_prefs.c:439 ../src/grisbi_win.c:464
+#: ../src/grisbi_prefs.c:440 ../src/grisbi_win.c:464
 msgid "Main page"
 msgstr ""
 
 #. append group page "Display"
-#: ../src/grisbi_prefs.c:443
+#: ../src/grisbi_prefs.c:444
 msgid "Display"
 msgstr ""
 
-#: ../src/grisbi_prefs.c:447
+#: ../src/grisbi_prefs.c:448
 msgid "Fonts & Logo"
 msgstr ""
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:452 ../src/prefs/prefs_page_msg_warning.c:236
+#: ../src/grisbi_prefs.c:453 ../src/prefs/prefs_page_msg_warning.c:236
 msgid "Messages & warnings"
 msgstr ""
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:457 ../src/prefs/prefs_page_display_adr.c:191
+#: ../src/grisbi_prefs.c:458 ../src/prefs/prefs_page_display_adr.c:191
 msgid "Addresses & titles"
 msgstr ""
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:462 ../src/prefs/prefs_page_metatree.c:313
+#: ../src/grisbi_prefs.c:463 ../src/prefs/prefs_page_metatree.c:313
 msgid "Payees, categories and budgetaries"
 msgstr ""
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:468 ../src/prefs/prefs_page_display_gui.c:244
+#: ../src/grisbi_prefs.c:469 ../src/prefs/prefs_page_display_gui.c:244
 msgid "Elements of interface"
 msgstr ""
 
-#: ../src/grisbi_prefs.c:476
+#: ../src/grisbi_prefs.c:477
 msgid "List behavior"
 msgstr ""
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:481 ../src/prefs/prefs_page_display_ope.c:692
+#: ../src/grisbi_prefs.c:482 ../src/prefs/prefs_page_display_ope.c:692
 msgid "Transactions list cells"
 msgstr ""
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:486 ../src/prefs/prefs_page_msg_delete.c:227
+#: ../src/grisbi_prefs.c:487 ../src/prefs/prefs_page_msg_delete.c:227
 msgid "Messages before deleting"
 msgstr ""
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:493 ../src/gsb_assistant_first.c:335
-#: ../src/prefs/prefs_page_reconcile.c:554
+#: ../src/grisbi_prefs.c:494 ../src/gsb_assistant_first.c:335
+#: ../src/prefs/prefs_page_reconcile.c:573
 msgid "Reconciliation"
 msgstr ""
 
-#: ../src/grisbi_prefs.c:499 ../src/gsb_reconcile_sort_config.c:94
+#. On récupère le nom de la page
+#: ../src/grisbi_prefs.c:501 ../src/prefs/prefs_page_reconcile_sort.c:743
 msgid "Sort for reconciliation"
 msgstr ""
 
 #. append group page "Transaction form"
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:503 ../src/gsb_form_config.c:108
+#: ../src/grisbi_prefs.c:506 ../src/gsb_form_config.c:108
 #: ../src/prefs/prefs_page_display_form.c:909
 msgid "Transaction form"
 msgstr ""
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:507 ../src/prefs/prefs_page_form_options.c:111
+#: ../src/grisbi_prefs.c:510 ../src/prefs/prefs_page_form_options.c:111
 msgid "Form behavior"
 msgstr ""
 
-#: ../src/grisbi_prefs.c:512
+#: ../src/grisbi_prefs.c:515
 msgid "Content"
 msgstr ""
 
-#: ../src/grisbi_prefs.c:518
+#: ../src/grisbi_prefs.c:521
 msgid "Completion"
 msgstr ""
 
 #. append group page "Resources subtree"
-#: ../src/grisbi_prefs.c:522
+#: ../src/grisbi_prefs.c:525
 msgid "Resources"
 msgstr ""
 
-#: ../src/grisbi_prefs.c:533
+#: ../src/grisbi_prefs.c:536
 msgid "Currencies links"
 msgstr ""
 
-#: ../src/grisbi_prefs.c:539 ../src/gsb_bank.c:471
+#: ../src/grisbi_prefs.c:542 ../src/gsb_bank.c:471
 msgid "Banks"
 msgstr ""
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:544 ../src/gsb_fyear_config.c:147
+#: ../src/grisbi_prefs.c:547 ../src/gsb_fyear_config.c:147
 #: ../src/prefs/prefs_page_fyear.c:689
 msgid "Financial years"
 msgstr ""
 
 #. append group page "Balance estimate"
-#: ../src/grisbi_prefs.c:554
+#: ../src/grisbi_prefs.c:557
 msgid "Balance estimate"
 msgstr ""
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:566 ../src/prefs/prefs_page_bet_account.c:442
+#: ../src/grisbi_prefs.c:569 ../src/prefs/prefs_page_bet_account.c:442
 msgid "Accounts data"
 msgstr ""
 
-#: ../src/grisbi_prefs.c:685
+#: ../src/grisbi_prefs.c:688
 msgid "Preferences start"
 msgstr ""
 
-#: ../src/grisbi_prefs.c:718
+#: ../src/grisbi_prefs.c:721
 msgid "This state will be kept for the duration of this session"
 msgstr ""
 
-#: ../src/grisbi_prefs.c:921
+#: ../src/grisbi_prefs.c:928
 msgid "Preferences stop"
 msgstr ""
 
@@ -9694,30 +9704,6 @@ msgstr ""
 msgid "Last statement: %s"
 msgstr ""
 
-#: ../src/gsb_reconcile_sort_config.c:97
-msgid "Reconciliation: sort transactions"
-msgstr ""
-
-#: ../src/gsb_reconcile_sort_config.c:128
-msgid "Payment method"
-msgstr ""
-
-#: ../src/gsb_reconcile_sort_config.c:145
-msgid "Sort by payment method"
-msgstr ""
-
-#: ../src/gsb_reconcile_sort_config.c:163
-msgid "Split neutral payment methods"
-msgstr ""
-
-#: ../src/gsb_reconcile_sort_config.c:177
-msgid "Go up"
-msgstr ""
-
-#: ../src/gsb_reconcile_sort_config.c:187
-msgid "Go down"
-msgstr ""
-
 #: ../src/gsb_regex.c:99
 #, c-format
 msgid "Unable to compile regex: %s\n"
@@ -10033,7 +10019,7 @@ msgstr ""
 msgid "Select the reconciliation to associate to the selected transaction: "
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:1163 ../src/prefs/prefs_page_reconcile.c:333
+#: ../src/gsb_transactions_list.c:1163 ../src/prefs/prefs_page_reconcile.c:352
 msgid "Init date"
 msgstr ""
 
@@ -11235,11 +11221,11 @@ msgstr ""
 msgid "Remove this report"
 msgstr ""
 
-#: ../src/parametres.c:275
+#: ../src/parametres.c:274
 msgid "Choose the decimal and thousands separator"
 msgstr ""
 
-#: ../src/parametres.c:281
+#: ../src/parametres.c:280
 msgid "Decimal and thousands separator"
 msgstr ""
 
@@ -11697,17 +11683,17 @@ msgstr ""
 msgid "Transaction list behavior"
 msgstr ""
 
-#: ../src/prefs/prefs_page_reconcile.c:333
+#: ../src/prefs/prefs_page_reconcile.c:352
 msgid "Init balance"
 msgstr ""
 
-#: ../src/prefs/prefs_page_reconcile.c:333
+#: ../src/prefs/prefs_page_reconcile.c:352
 msgid "Final balance"
 msgstr ""
 
 #. we are on a reconcile,
 #. * we ask if the user want to continue and warn him
-#: ../src/prefs/prefs_page_reconcile.c:502
+#: ../src/prefs/prefs_page_reconcile.c:521
 #, c-format
 msgid ""
 "Caution, you are about to delete a reconciliation.\n"
@@ -11717,8 +11703,20 @@ msgid ""
 "Are you sure you want to continue?"
 msgstr ""
 
-#: ../src/prefs/prefs_page_reconcile.c:508
+#: ../src/prefs/prefs_page_reconcile.c:527
 msgid "Delete reconciliation"
+msgstr ""
+
+#: ../src/prefs/prefs_page_reconcile_sort.c:658
+msgid "Payment method"
+msgstr ""
+
+#: ../src/prefs/prefs_page_reconcile_sort.c:673
+msgid "Sort by payment method"
+msgstr ""
+
+#: ../src/prefs/prefs_page_reconcile_sort.c:693
+msgid "Split neutral payment methods"
 msgstr ""
 
 #. Main account
