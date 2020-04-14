@@ -284,17 +284,11 @@
             </child>
             <child>
               <object class="GtkButton" id="button_collapse_row">
+                <property name="label" translatable="yes">Collapse row</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="hexpand">True</property>
-                <child>
-                  <object class="GtkLabel" id="label_collapse_row">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Collapse row</property>
-                  </object>
-                </child>
               </object>
               <packing>
                 <property name="left_attach">4</property>

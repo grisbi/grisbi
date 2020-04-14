@@ -43,6 +43,7 @@
 #include "gsb_autofunc.h"
 #include "gsb_data_account.h"
 #include "gsb_data_reconcile.h"
+#include "gsb_dirs.h"
 #include "gsb_file.h"
 #include "gsb_transactions_list.h"
 #include "navigation.h"
@@ -75,7 +76,6 @@ struct _PrefsPageReconcilePrivate
 	GtkWidget *			entry_reconcile_final_date;
 	GtkWidget *			entry_reconcile_name;
 	GtkWidget *			grid_reconcile;
-	GtkWidget *			label_collapse_row;
 	GtkWidget * 		radiobutton_end_date_1;
 	GtkWidget * 		radiobutton_end_date_2;
 	GtkWidget *			treeview_reconcile;
@@ -100,6 +100,27 @@ enum ReconciliationColumns
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+static void prefs_page_reconcile_setup_button_collapse_row (GtkWidget *button)
+{
+	GtkWidget *image;
+    gchar *filename;
+
+    filename = g_build_filename (gsb_dirs_get_pixmaps_dir (), "gsb-up-16.png", NULL);
+	image = gtk_image_new_from_file (filename);
+	g_free (filename);
+
+	gtk_button_set_image (GTK_BUTTON (button), image);
+	gtk_button_set_always_show_image (GTK_BUTTON (button), TRUE);
+	gtk_widget_set_sensitive (button, FALSE);
+}
+
 /**
  * sensitive unsensitive details of reconcile
  *
@@ -212,8 +233,8 @@ static void prefs_page_reconcile_treeview_row_expanded (GtkTreeView *tree_view,
  *
  * \return FALSE
  **/
-static gboolean prefs_page_reconcile_row_selected (GtkTreeSelection *selection,
-												   PrefsPageReconcile *page)
+static void prefs_page_reconcile_row_selected (GtkTreeSelection *selection,
+											   PrefsPageReconcile *page)
 {
     GtkTreeModel *model;
     GtkTreeIter iter;
@@ -256,8 +277,6 @@ static gboolean prefs_page_reconcile_row_selected (GtkTreeSelection *selection,
     }
     else
 		prefs_page_reconcile_sensitive_details (page, FALSE);
-
-	return FALSE;
 }
 
 /**
@@ -559,7 +578,7 @@ static void prefs_page_reconcile_setup_page (PrefsPageReconcile *page)
 	if (w_etat->reconcile_end_date)
 		 gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->radiobutton_end_date_2), TRUE);
 	else
-		 gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->radiobutton_end_date_1), FALSE);
+		 gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->radiobutton_end_date_1), TRUE);
 
 	/* set the list of reconcile */
 	prefs_page_reconcile_setup_tree_view (page);
@@ -611,7 +630,7 @@ static void prefs_page_reconcile_setup_page (PrefsPageReconcile *page)
 
 	/* set unsensitive details */
 	prefs_page_reconcile_sensitive_details (page, FALSE);
-	gtk_widget_set_sensitive (priv->button_collapse_row, FALSE);
+	prefs_page_reconcile_setup_button_collapse_row (priv->button_collapse_row);
 
     /* Connect signal */
     g_signal_connect (G_OBJECT (priv->radiobutton_end_date_2),
@@ -672,7 +691,6 @@ static void prefs_page_reconcile_class_init (PrefsPageReconcileClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageReconcile, button_reconcile_delete);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageReconcile, button_reconcile_find);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageReconcile, checkbutton_reconcile_sort);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageReconcile, label_collapse_row);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageReconcile, grid_reconcile);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageReconcile, radiobutton_end_date_1);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageReconcile, radiobutton_end_date_2);
@@ -729,7 +747,7 @@ void prefs_page_reconcile_fill (GtkWidget *tree_view)
 		gchar *tmp_name;
 		gint account_number;
 
-		account_number = gsb_data_account_get_no_account (tmp_list -> data);
+		account_number = gsb_data_account_get_no_account (tmp_list->data);
 		tmp_name = utils_str_break_form_name_field (gsb_data_account_get_name (account_number),
 													TRUNC_FORM_FIELD);
 
@@ -787,7 +805,7 @@ void prefs_page_reconcile_fill (GtkWidget *tree_view)
 		}
 		g_list_free (reconcile_list);
 
-		tmp_list = tmp_list -> next;
+		tmp_list = tmp_list->next;
     }
 }
 
