@@ -1185,7 +1185,10 @@ gboolean recuperation_donnees_qif (GtkWidget *assistant,
 							imported_account = NULL;
 							premier_compte = FALSE;
 						}
+						else if (name_preced)
+							gsb_qif_free_struct_account (imported_account);
 						imported_account = gsb_qif_init_struct_account (account_name, imported->name);
+
 						g_free (account_name);
 					}
 					name_preced = TRUE;
