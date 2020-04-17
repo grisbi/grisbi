@@ -28,6 +28,7 @@ grisbi_LDADD = \
 libgrisbi_la_LIBADD =
 
 libgrisbi_la_LIBADD += prefs/libprefspages.la
+libgrisbi_la_LIBADD += widgets/libwidgets.la
 
 if HAVE_XML2
 libgrisbi_la_LIBADD += plugins/gnucash/gnucash.la
@@ -351,8 +352,8 @@ if WIN32
 grisbi_LDADD += win-main.res
 endif
 
-grisbi_resources.c: grisbi.gresource.xml $(shell $(GLIB_COMPILE_RESOURCES) --sourcedir=$(srcdir)/ui --generate-dependencies $(srcdir)/grisbi.gresource.xml)
-	$(AM_V_GEN) $(GLIB_COMPILE_RESOURCES) --target=$@ --sourcedir=$(srcdir)/ui --generate-source $(srcdir)/grisbi.gresource.xml
+grisbi_resources.c: grisbi.gresource.xml $(shell $(GLIB_COMPILE_RESOURCES) --generate-dependencies --sourcedir=$(srcdir) $(srcdir)/grisbi.gresource.xml)
+	$(AM_V_GEN) $(GLIB_COMPILE_RESOURCES) --target=$@ --generate-source --c-name grisbi --sourcedir=$(srcdir) $<
 
 gsettings_SCHEMAS = org.gtk.grisbi.gschema.xml
 @GSETTINGS_RULES@
@@ -363,7 +364,7 @@ if WIN32
 grisbi_LDFLAGS = -mwindows
 endif
 
-SUBDIRS = ui prefs plugins/gnucash plugins/ofx plugins/openssl
+SUBDIRS = ui prefs widgets plugins/gnucash plugins/ofx plugins/openssl
 
 if HAVE_CUNIT
 SUBDIRS += tests
