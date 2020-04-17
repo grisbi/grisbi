@@ -130,7 +130,7 @@ GtkResponseType gsb_assistant_account_run ( void )
 	/* Ok, we create the new account */
 	gsb_account_new ( GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT (assistant), "account_kind")),
 			  gsb_currency_get_currency_from_combobox (account_combobox_currency),
-			  gsb_bank_list_get_bank_number (account_combobox_bank),
+			  gsb_bank_combo_list_get_bank_number (account_combobox_bank),
 			  utils_real_get_from_string (gtk_entry_get_text (GTK_ENTRY (account_entry_initial_amount))),
 			  gtk_entry_get_text (GTK_ENTRY (account_entry_name)),
               new_icon );
@@ -273,11 +273,11 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
 
     if ( gsb_data_bank_max_number() != 0 )
     {
-	gsb_bank_list_set_bank ( account_combobox_bank, 1 );
+	gsb_bank_combo_list_set_bank ( account_combobox_bank, 1 );
     }
     else
     {
-	gsb_bank_list_set_bank ( account_combobox_bank, 0 );
+	gsb_bank_combo_list_set_bank ( account_combobox_bank, 0 );
     }
     gtk_grid_attach (GTK_GRID (table), account_combobox_bank, 1, 1, 1, 1);
 
@@ -385,11 +385,11 @@ static gboolean gsb_assistant_account_enter_page_finish ( GtkWidget * assistant,
     switch ( account_type )
     {
 	case GSB_TYPE_BANK:
-	    if ( gsb_bank_list_get_bank_number ( account_combobox_bank ) >= 0 )
+	    if ( gsb_bank_combo_list_get_bank_number ( account_combobox_bank ) >= 0 )
 	    {
 		const gchar * bank_name;
 
-		bank_name = gsb_data_bank_get_name ( gsb_bank_list_get_bank_number ( account_combobox_bank ) );
+		bank_name = gsb_data_bank_get_name ( gsb_bank_combo_list_get_bank_number ( account_combobox_bank ) );
 		/* Do not use a bank name if no bank is set or if its
 		 * name has not been changed. */
 		if ( bank_name && strcmp ( bank_name, _("New bank") ) )

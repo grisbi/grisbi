@@ -684,7 +684,7 @@ gboolean gsb_account_property_changed_bank_label ( GtkWidget *combobox,
     if (!combobox)
         return FALSE;
 
-    bank_number = gsb_bank_list_get_bank_number (combobox);
+    bank_number = gsb_bank_combo_list_get_bank_number (combobox);
     if ( bank_number == 0 )
         gtk_widget_set_sensitive ( GTK_WIDGET (edit_bank_button), FALSE );
     else
@@ -1158,7 +1158,7 @@ gboolean gsb_account_property_iban_set_bank_from_iban ( gchar *iban )
     g_signal_handlers_block_by_func ( G_OBJECT ( bank_list_combobox ),
                         G_CALLBACK ( gsb_account_property_changed_bank_label ),
                         NULL );
-    gsb_bank_list_set_bank ( bank_list_combobox, bank_number );
+    gsb_bank_combo_list_set_bank ( bank_list_combobox, bank_number );
     g_signal_handlers_unblock_by_func ( G_OBJECT ( bank_list_combobox ),
                         G_CALLBACK ( gsb_account_property_changed_bank_label ),
                         NULL );
@@ -1597,6 +1597,26 @@ gboolean gsb_account_property_focus_out ( GtkWidget *widget,
 
     return FALSE;
 }
+
+/**
+ * retour le bank_combobox used in prefs_page_bank
+ *
+ * \param
+ *
+ * \return
+ **/
+GtkWidget * gsb_account_property_get_bank_list_combobox (void)
+{
+	return bank_list_combobox;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

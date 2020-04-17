@@ -8,13 +8,13 @@
 
 
 /* START_DECLARATION */
-GtkWidget *	gsb_bank_create_combobox 		(gint index);
-GtkWidget *	gsb_bank_create_page 			(gboolean default_sensitive,
-											 gint bank_details_height);
-gboolean 	gsb_bank_edit_from_button 		(GtkWidget *button,
-											 GtkWidget *combobox);
-gint 		gsb_bank_list_get_bank_number 	(GtkWidget *combobox);
-gboolean 	gsb_bank_list_set_bank 			(GtkWidget *combobox,
-											 gint bank_number);
+gint 		gsb_bank_combo_list_get_bank_number		(GtkWidget *combobox);
+gboolean 	gsb_bank_combo_list_set_bank 			(GtkWidget *combobox,
+													 gint bank_number);
+GtkWidget *	gsb_bank_create_combobox 				(gint index);
+gboolean 	gsb_bank_edit_from_button 				(GtkWidget *button,
+													 GtkWidget *combobox);
+void		gsb_bank_free_combo_list_model			(void);
+gboolean 	gsb_bank_update_combo_list_model		(GtkWidget *combobox);
 /* END_DECLARATION */
 #endif

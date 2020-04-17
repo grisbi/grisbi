@@ -53,6 +53,7 @@
 #include "utils_prefs.h"
 #include "prefs/prefs_page_accueil.h"
 #include "prefs/prefs_page_archives.h"
+#include "prefs/prefs_page_bank.h"
 #include "prefs/prefs_page_bet_account.h"
 #include "prefs/prefs_page_bet_general.h"
 #include "prefs/prefs_page_display_adr.h"
@@ -538,8 +539,9 @@ static void grisbi_prefs_left_panel_populate_tree_model (GrisbiPrefs *prefs)
 	page++;
 
 	/* append page Banks */
-	widget = GTK_WIDGET (gsb_bank_create_page (FALSE, 230));
-	utils_widget_set_padding (widget, MARGIN_BOX, 0);
+	widget = GTK_WIDGET (prefs_page_bank_new (prefs));
+	if (is_loading == FALSE)
+		gtk_widget_set_sensitive (widget, FALSE);
 	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Banks"), page);
 	page++;
 
@@ -558,8 +560,6 @@ static void grisbi_prefs_left_panel_populate_tree_model (GrisbiPrefs *prefs)
     utils_prefs_left_panel_add_line (tree_model, NULL, NULL, _("Balance estimate"), -1);
 
 	/* append page General Options */
-	//~ widget = GTK_WIDGET (bet_config_general_create_general_page ());
-	//~ utils_widget_set_padding (widget, MARGIN_BOX, 0);
 	widget = GTK_WIDGET (prefs_page_bet_general_new (prefs));
 	if (is_loading == FALSE)
 		gtk_widget_set_sensitive (widget, FALSE);

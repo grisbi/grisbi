@@ -44,6 +44,7 @@
 #include "custom_list.h"
 #include "export_csv.h"
 #include "grisbi_win.h"
+#include "gsb_bank.h"
 #include "gsb_calendar.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
@@ -170,7 +171,7 @@ void init_variables (void)
     gsb_data_print_config_init ();
 
     /* no bank in memory for now */
-    bank_list_model = NULL;
+    gsb_bank_free_combo_list_model ();
 
     run.mise_a_jour_liste_comptes_accueil = FALSE;
     run.mise_a_jour_liste_echeances_manuelles_accueil = FALSE;

@@ -48,6 +48,7 @@
 #include "gsb_select_icon.h"
 #include "import.h"
 #include "parametres.h"
+#include "prefs/prefs_page_bank.h"
 #include "structures.h"
 #include "traitement_variables.h"
 #include "utils.h"
@@ -489,10 +490,8 @@ static GtkWidget *gsb_assistant_file_page_5 ( GtkWidget *assistant )
     gtk_container_set_border_width ( GTK_CONTAINER (page), BOX_BORDER_WIDTH );
 
     /* the configuration page is very good, keep it */
-    bank_page = gsb_bank_create_page (TRUE, 130);
-    gtk_box_pack_start ( GTK_BOX (page),
-			 bank_page,
-			 TRUE, TRUE, 0 );
+    bank_page = GTK_WIDGET (prefs_page_bank_new (NULL));
+    gtk_box_pack_start (GTK_BOX (page), bank_page, TRUE, TRUE, 0);
 
     gtk_widget_show_all (page);
     return page;
