@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zh_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-14 21:45+0200\n"
+"POT-Creation-Date: 2020-04-18 06:14+0200\n"
 "PO-Revision-Date: 2005-12-19 11:25+0100\n"
 "Last-Translator: Jianyu Tang <jianyunet@gmail.com>\n"
 "Language-Team: zh_CN <LL@li.org>\n"
@@ -125,7 +125,8 @@ msgid "General Options"
 msgstr "普遍性"
 
 #: ../src/ui/csv_template_rule.ui.h:2 ../src/ui/prefs_page_accueil.ui.h:2
-#: ../src/ui/prefs_page_archives.ui.h:2 ../src/ui/prefs_page_bet_account.ui.h:2
+#: ../src/ui/prefs_page_archives.ui.h:2 ../src/ui/prefs_page_bank.ui.h:4
+#: ../src/ui/prefs_page_bet_account.ui.h:2
 #: ../src/ui/prefs_page_bet_general.ui.h:2
 #: ../src/ui/prefs_page_display_adr.ui.h:2
 #: ../src/ui/prefs_page_display_fonts.ui.h:2
@@ -140,9 +141,10 @@ msgstr "普遍性"
 #: ../src/ui/prefs_page_metatree.ui.h:2 ../src/ui/prefs_page_msg_delete.ui.h:2
 #: ../src/ui/prefs_page_msg_warning.ui.h:2
 #: ../src/ui/prefs_page_options_ope.ui.h:2
-#: ../src/ui/prefs_page_reconcile.ui.h:2
+#: ../src/ui/prefs_page_reconcile.ui.h:16
 #: ../src/ui/prefs_page_reconcile_sort.ui.h:2
 #: ../src/ui/prefs_widget_loan.ui.h:23
+#: ../src/widgets/widget_bank_details.ui.h:13
 msgid "    "
 msgstr ""
 
@@ -213,7 +215,7 @@ msgid "label"
 msgstr ""
 
 #: ../src/ui/csv_template_rule.ui.h:17 ../src/ui/prefs_page_accueil.ui.h:6
-#: ../src/ui/prefs_page_archives.ui.h:12
+#: ../src/ui/prefs_page_archives.ui.h:12 ../src/ui/prefs_page_bank.ui.h:3
 #: ../src/ui/prefs_page_bet_account.ui.h:7
 #: ../src/ui/prefs_page_display_adr.ui.h:10
 #: ../src/ui/prefs_page_display_fonts.ui.h:14
@@ -228,9 +230,10 @@ msgstr ""
 #: ../src/ui/prefs_page_metatree.ui.h:15 ../src/ui/prefs_page_msg_delete.ui.h:3
 #: ../src/ui/prefs_page_msg_warning.ui.h:5
 #: ../src/ui/prefs_page_options_ope.ui.h:13
-#: ../src/ui/prefs_page_reconcile.ui.h:16
+#: ../src/ui/prefs_page_reconcile.ui.h:15
 #: ../src/ui/prefs_page_reconcile_sort.ui.h:4
 #: ../src/ui/prefs_widget_loan.ui.h:22
+#: ../src/widgets/widget_bank_details.ui.h:12
 #, fuzzy
 msgid "Title"
 msgstr "名称抬头"
@@ -266,18 +269,16 @@ msgstr "货币总额比较:"
 msgid "Report name"
 msgstr "报表名"
 
-#. Bank name item
-#. Name
 #. Create currency name entry
 #. Partial balance name
 #. Financial year name
 #. Payment method name
 #. Name entry
 #: ../src/ui/etats_prefs.ui.h:7 ../src/ui/prefs_page_archives.ui.h:5
-#: ../src/ui/prefs_page_fyear.ui.h:7 ../src/gsb_bank.c:685
-#: ../src/gsb_bank.c:816 ../src/gsb_currency_config.c:960
-#: ../src/gsb_data_partial_balance.c:1785 ../src/gsb_fyear_config.c:225
-#: ../src/gsb_payment_method_config.c:230 ../src/tiers_onglet.c:213
+#: ../src/ui/prefs_page_fyear.ui.h:7 ../src/widgets/widget_bank_details.ui.h:2
+#: ../src/gsb_currency_config.c:960 ../src/gsb_data_partial_balance.c:1785
+#: ../src/gsb_fyear_config.c:225 ../src/gsb_payment_method_config.c:230
+#: ../src/tiers_onglet.c:213
 #, fuzzy
 msgid "Name: "
 msgstr "名称:"
@@ -714,7 +715,7 @@ msgid "Use dates ranges"
 msgstr "使用日期范围"
 
 #. set the initial date
-#: ../src/ui/etats_prefs.ui.h:97 ../src/ui/prefs_page_reconcile.ui.h:9
+#: ../src/ui/etats_prefs.ui.h:97 ../src/ui/prefs_page_reconcile.ui.h:8
 #: ../src/gsb_assistant_archive.c:236
 #: ../src/gsb_assistant_reconcile_config.c:420
 #: ../src/print_transactions_list.c:183
@@ -723,7 +724,7 @@ msgid "Initial date: "
 msgstr "初始日期"
 
 #. set the final date
-#: ../src/ui/etats_prefs.ui.h:98 ../src/ui/prefs_page_reconcile.ui.h:10
+#: ../src/ui/etats_prefs.ui.h:98 ../src/ui/prefs_page_reconcile.ui.h:9
 #: ../src/gsb_assistant_archive.c:248
 #: ../src/gsb_assistant_reconcile_config.c:429
 #: ../src/print_transactions_list.c:195
@@ -1227,6 +1228,14 @@ msgstr ""
 msgid " transactions are not archived."
 msgstr "不包含不是转帐的交易"
 
+#: ../src/ui/prefs_page_bank.ui.h:1
+msgid "Known banks"
+msgstr "已知银行"
+
+#: ../src/ui/prefs_page_bank.ui.h:2
+msgid "Bank details"
+msgstr "银行明细"
+
 #: ../src/ui/prefs_page_bet_account.ui.h:1
 #, fuzzy
 msgid "Select an account"
@@ -1320,7 +1329,7 @@ msgid "Filename"
 msgstr "文件"
 
 #. label account name
-#: ../src/ui/prefs_page_display_adr.ui.h:6 ../src/gsb_assistant_file.c:315
+#: ../src/ui/prefs_page_display_adr.ui.h:6 ../src/gsb_assistant_file.c:316
 #, fuzzy
 msgid "Name of accounting entity: "
 msgstr "银行账户:"
@@ -1568,7 +1577,7 @@ msgstr "退出时自动保存"
 msgid "Force saving of locked files"
 msgstr "强制保存加锁的文件"
 
-#: ../src/ui/prefs_page_files.ui.h:6 ../src/gsb_assistant_file.c:360
+#: ../src/ui/prefs_page_files.ui.h:6 ../src/gsb_assistant_file.c:361
 #: ../src/gsb_assistant_first.c:255
 #, fuzzy
 msgid "Encrypt Grisbi file"
@@ -1998,61 +2007,61 @@ msgstr "为每个账户记住显示设定"
 msgid "Select the end date of reconciliation"
 msgstr "手工对账（取消对账）确认:"
 
-#: ../src/ui/prefs_page_reconcile.ui.h:3
+#: ../src/ui/prefs_page_reconcile.ui.h:2
 #, fuzzy
 msgid "Start date + one month"
 msgstr "开始:"
 
-#: ../src/ui/prefs_page_reconcile.ui.h:4
+#: ../src/ui/prefs_page_reconcile.ui.h:3
 #, fuzzy
 msgid "Today's date"
 msgstr "按日期"
 
-#: ../src/ui/prefs_page_reconcile.ui.h:5
+#: ../src/ui/prefs_page_reconcile.ui.h:4
 #, fuzzy
 msgid "List of reconciliations"
 msgstr "调整"
 
-#: ../src/ui/prefs_page_reconcile.ui.h:6
+#: ../src/ui/prefs_page_reconcile.ui.h:5
 #, fuzzy
 msgid "Sort by descending date the reconciliations"
 msgstr "手工对账（取消对账）确认:"
 
-#: ../src/ui/prefs_page_reconcile.ui.h:7
+#: ../src/ui/prefs_page_reconcile.ui.h:6
 #, fuzzy
 msgid "Selected reconcile"
 msgstr "选择包含的类别"
 
-#: ../src/ui/prefs_page_reconcile.ui.h:8
+#: ../src/ui/prefs_page_reconcile.ui.h:7
 #, fuzzy
 msgid "Reconciliation number: "
 msgstr "调整数量"
 
 #. set the final balance
-#: ../src/ui/prefs_page_reconcile.ui.h:11
+#: ../src/ui/prefs_page_reconcile.ui.h:10
 #: ../src/gsb_assistant_reconcile_config.c:447 ../src/gsb_reconcile.c:273
 #, fuzzy
 msgid "Final balance: "
 msgstr "最终余额:"
 
 #. set the initial balance
-#: ../src/ui/prefs_page_reconcile.ui.h:12 ../src/gsb_account_property.c:516
+#: ../src/ui/prefs_page_reconcile.ui.h:11 ../src/gsb_account_property.c:516
 #: ../src/gsb_assistant_reconcile_config.c:438 ../src/gsb_reconcile.c:263
 #, fuzzy
 msgid "Initial balance: "
 msgstr "初始余额:"
 
-#: ../src/ui/prefs_page_reconcile.ui.h:13
+#: ../src/ui/prefs_page_reconcile.ui.h:12
 #, fuzzy
 msgid "Delete the reconcile"
 msgstr "删除交易"
 
-#: ../src/ui/prefs_page_reconcile.ui.h:14
+#: ../src/ui/prefs_page_reconcile.ui.h:13
 #, fuzzy
 msgid "Find all marked transactions not associated with a reconciliation"
 msgstr "标记您想增加到清单的交易，点击增加按钮:"
 
-#: ../src/ui/prefs_page_reconcile.ui.h:15
+#: ../src/ui/prefs_page_reconcile.ui.h:14
 msgid "Collapse row"
 msgstr ""
 
@@ -2140,6 +2149,60 @@ msgstr ""
 #: ../src/ui/prefs_widget_loan.ui.h:20
 msgid "Invert the columns \"Remaining capital\" and \"Due date\""
 msgstr ""
+
+#. append group page "Generalities"
+#: ../src/widgets/widget_bank_details.ui.h:1 ../src/etats_prefs.c:730
+#: ../src/etats_prefs.c:2879 ../src/grisbi_prefs.c:416
+msgid "Generalities"
+msgstr "普遍性"
+
+#: ../src/widgets/widget_bank_details.ui.h:3
+#, fuzzy
+msgid "Sort code: "
+msgstr "排序编号:"
+
+#: ../src/widgets/widget_bank_details.ui.h:4 ../src/gsb_account_property.c:402
+#, fuzzy
+msgid "BIC code: "
+msgstr "ISO编号:"
+
+#: ../src/widgets/widget_bank_details.ui.h:5
+#, fuzzy
+msgid "Address: "
+msgstr "地址:"
+
+#: ../src/widgets/widget_bank_details.ui.h:6
+#, fuzzy
+msgid "Phone: "
+msgstr "电话:"
+
+#: ../src/widgets/widget_bank_details.ui.h:7
+#, fuzzy
+msgid "E-Mail: "
+msgstr "电子邮件:"
+
+#: ../src/widgets/widget_bank_details.ui.h:8
+#, fuzzy
+msgid "Website: "
+msgstr "网站:"
+
+#: ../src/widgets/widget_bank_details.ui.h:9
+msgid "Contact"
+msgstr "联系方式"
+
+#: ../src/widgets/widget_bank_details.ui.h:10
+#, fuzzy
+msgid "Fax: "
+msgstr "传真"
+
+#. 4
+#: ../src/widgets/widget_bank_details.ui.h:11 ../src/bet_future.c:797
+#: ../src/etats_affiche.c:2506 ../src/export_csv.c:401 ../src/gsb_form.c:2037
+#: ../src/gsb_form_widget.c:585 ../src/gsb_scheduler_list.c:270
+#: ../src/gsb_scheduler_list.c:856 ../src/gsb_scheduler_list.c:1124
+#: ../src/gsb_transactions_list.c:123 ../src/import_csv.c:75
+msgid "Notes"
+msgstr "备注"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:1
 msgid "First use of Grisbi"
@@ -3361,16 +3424,6 @@ msgstr "贷方"
 msgid "Categories : Sub-categories"
 msgstr "类别 : 子类别"
 
-#. Notes
-#. 4
-#: ../src/bet_future.c:797 ../src/etats_affiche.c:2506 ../src/export_csv.c:401
-#: ../src/gsb_bank.c:882 ../src/gsb_form.c:2037 ../src/gsb_form_widget.c:585
-#: ../src/gsb_scheduler_list.c:270 ../src/gsb_scheduler_list.c:856
-#: ../src/gsb_scheduler_list.c:1124 ../src/gsb_transactions_list.c:123
-#: ../src/import_csv.c:75
-msgid "Notes"
-msgstr "备注"
-
 #. create the method of payment for a bank account
 #. create the method of payment for a liabilities account
 #. Transfer = Virement
@@ -4033,7 +4086,7 @@ msgstr "请输入新增子类的名称"
 #. On récupère le nom de la page
 #. Import button
 #: ../src/categories_onglet.c:581 ../src/etats_onglet.c:555
-#: ../src/grisbi_prefs.c:363 ../src/grisbi_prefs.c:431 ../src/grisbi_win.c:672
+#: ../src/grisbi_prefs.c:364 ../src/grisbi_prefs.c:432 ../src/grisbi_win.c:672
 #: ../src/import.c:1828 ../src/imputation_budgetaire.c:627
 #: ../src/utils_files.c:757
 msgid "Import"
@@ -4105,7 +4158,7 @@ msgstr "%s 的结果"
 msgid "No sub-category defined"
 msgstr "子类 (%d) 不存在"
 
-#: ../src/categories_onglet.c:730 ../src/qif.c:1735 ../src/qif.c:1744
+#: ../src/categories_onglet.c:730 ../src/qif.c:1738 ../src/qif.c:1747
 #, fuzzy
 msgid "No category defined"
 msgstr "类别 (%d) 不存在"
@@ -4768,7 +4821,7 @@ msgstr "财年"
 
 #. Now we have a model, create view
 #: ../src/etats_affiche.c:2513 ../src/etats_prefs.c:704
-#: ../src/etats_prefs.c:2298 ../src/grisbi_prefs.c:554
+#: ../src/etats_prefs.c:2298 ../src/grisbi_prefs.c:556
 #: ../src/gsb_payment_method_config.c:132
 msgid "Payment methods"
 msgstr "支付方式"
@@ -5000,22 +5053,20 @@ msgstr "到"
 msgid "at"
 msgstr "日期"
 
-#. Add button
 #. Create Add/Remove buttons
 #. Button "Add"
 #. Add button
 #. "Add payment method" button
-#: ../src/etats_config.c:1990 ../src/etats_config.c:2426 ../src/gsb_bank.c:584
+#: ../src/etats_config.c:1990 ../src/etats_config.c:2426
 #: ../src/gsb_currency_config.c:937 ../src/gsb_currency_link_config.c:172
 #: ../src/gsb_form_config.c:322 ../src/gsb_form_config.c:368
 #: ../src/gsb_fyear_config.c:185 ../src/gsb_payment_method_config.c:205
 msgid "Add"
 msgstr "增加"
 
-#. Remove button
 #. Button "Remove"
 #. "Remove payment method" button
-#: ../src/etats_config.c:2001 ../src/etats_config.c:2437 ../src/gsb_bank.c:594
+#: ../src/etats_config.c:2001 ../src/etats_config.c:2437
 #: ../src/gsb_currency_config.c:947 ../src/gsb_currency_link_config.c:182
 #: ../src/gsb_form_config.c:300 ../src/gsb_form_config.c:346
 #: ../src/gsb_fyear_config.c:197 ../src/gsb_payment_method_config.c:215
@@ -5345,25 +5396,18 @@ msgstr ""
 msgid "Data display"
 msgstr "数据显示"
 
-#. append group page "Generalities"
-#. Bank details
-#: ../src/etats_prefs.c:730 ../src/etats_prefs.c:2879 ../src/grisbi_prefs.c:415
-#: ../src/gsb_bank.c:678
-msgid "Generalities"
-msgstr "普遍性"
-
 #: ../src/etats_prefs.c:735 ../src/etats_prefs.c:2907
 msgid "Titles"
 msgstr "名称抬头"
 
 #. append group page "Transactions"
-#: ../src/etats_prefs.c:740 ../src/export_csv.c:359 ../src/grisbi_prefs.c:474
+#: ../src/etats_prefs.c:740 ../src/export_csv.c:359 ../src/grisbi_prefs.c:475
 #: ../src/grisbi_win.c:478
 msgid "Transactions"
 msgstr "交易"
 
 #. echange line label
-#: ../src/etats_prefs.c:745 ../src/grisbi_prefs.c:531 ../src/gsb_currency.c:565
+#: ../src/etats_prefs.c:745 ../src/grisbi_prefs.c:532 ../src/gsb_currency.c:565
 #: ../src/gsb_currency_config.c:909
 msgid "Currencies"
 msgstr "货币"
@@ -6385,137 +6429,138 @@ msgstr ""
 msgid "Cannot save configuration file '%s': %s"
 msgstr "不能保存文件 '%s': %s"
 
-#: ../src/grisbi_prefs.c:376
+#: ../src/grisbi_prefs.c:377
 #, fuzzy
 msgid "Files import"
 msgstr "信息:"
 
-#: ../src/grisbi_prefs.c:383
+#: ../src/grisbi_prefs.c:384
 #, fuzzy
 msgid "Associations for import"
 msgstr "账户明细"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:419 ../src/prefs/prefs_page_files.c:108
+#: ../src/grisbi_prefs.c:420 ../src/prefs/prefs_page_files.c:108
 msgid "Files"
 msgstr "文件"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:424 ../src/prefs/prefs_page_archives.c:573
+#: ../src/grisbi_prefs.c:425 ../src/prefs/prefs_page_archives.c:573
 #, fuzzy
 msgid "Archives"
 msgstr "活动"
 
-#: ../src/grisbi_prefs.c:436
+#: ../src/grisbi_prefs.c:437
 #, fuzzy
 msgid "Various settings"
 msgstr "导入"
 
-#: ../src/grisbi_prefs.c:441 ../src/grisbi_win.c:464
+#: ../src/grisbi_prefs.c:442 ../src/grisbi_win.c:464
 msgid "Main page"
 msgstr "首页"
 
 #. append group page "Display"
-#: ../src/grisbi_prefs.c:445
+#: ../src/grisbi_prefs.c:446
 msgid "Display"
 msgstr "显示"
 
-#: ../src/grisbi_prefs.c:449
+#: ../src/grisbi_prefs.c:450
 #, fuzzy
 msgid "Fonts & Logo"
 msgstr "字体和标志"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:454 ../src/prefs/prefs_page_msg_warning.c:236
+#: ../src/grisbi_prefs.c:455 ../src/prefs/prefs_page_msg_warning.c:236
 msgid "Messages & warnings"
 msgstr "消息和警告"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:459 ../src/prefs/prefs_page_display_adr.c:191
+#: ../src/grisbi_prefs.c:460 ../src/prefs/prefs_page_display_adr.c:191
 msgid "Addresses & titles"
 msgstr "地址和名称抬头"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:464 ../src/prefs/prefs_page_metatree.c:313
+#: ../src/grisbi_prefs.c:465 ../src/prefs/prefs_page_metatree.c:313
 #, fuzzy
 msgid "Payees, categories and budgetaries"
 msgstr "请输入一个预算行！"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:470 ../src/prefs/prefs_page_display_gui.c:244
+#: ../src/grisbi_prefs.c:471 ../src/prefs/prefs_page_display_gui.c:244
 msgid "Elements of interface"
 msgstr ""
 
-#: ../src/grisbi_prefs.c:478
+#: ../src/grisbi_prefs.c:479
 msgid "List behavior"
 msgstr ""
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:483 ../src/prefs/prefs_page_display_ope.c:692
+#: ../src/grisbi_prefs.c:484 ../src/prefs/prefs_page_display_ope.c:692
 msgid "Transactions list cells"
 msgstr "交易清单单元格"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:488 ../src/prefs/prefs_page_msg_delete.c:227
+#: ../src/grisbi_prefs.c:489 ../src/prefs/prefs_page_msg_delete.c:227
 #, fuzzy
 msgid "Messages before deleting"
 msgstr "消息和警告"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:495 ../src/gsb_assistant_first.c:335
+#: ../src/grisbi_prefs.c:496 ../src/gsb_assistant_first.c:335
 #: ../src/prefs/prefs_page_reconcile.c:573
 msgid "Reconciliation"
 msgstr "调整"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:502 ../src/prefs/prefs_page_reconcile_sort.c:743
+#: ../src/grisbi_prefs.c:503 ../src/prefs/prefs_page_reconcile_sort.c:743
 #, fuzzy
 msgid "Sort for reconciliation"
 msgstr "调整"
 
 #. append group page "Transaction form"
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:507 ../src/gsb_form_config.c:108
+#: ../src/grisbi_prefs.c:508 ../src/gsb_form_config.c:108
 #: ../src/prefs/prefs_page_display_form.c:909
 msgid "Transaction form"
 msgstr "交易表格"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:511 ../src/prefs/prefs_page_form_options.c:111
+#: ../src/grisbi_prefs.c:512 ../src/prefs/prefs_page_form_options.c:111
 msgid "Form behavior"
 msgstr ""
 
-#: ../src/grisbi_prefs.c:516
+#: ../src/grisbi_prefs.c:517
 #, fuzzy
 msgid "Content"
 msgstr "联系方式"
 
-#: ../src/grisbi_prefs.c:522
+#: ../src/grisbi_prefs.c:523
 msgid "Completion"
 msgstr ""
 
 #. append group page "Resources subtree"
-#: ../src/grisbi_prefs.c:526
+#: ../src/grisbi_prefs.c:527
 msgid "Resources"
 msgstr "资源"
 
-#: ../src/grisbi_prefs.c:537
+#: ../src/grisbi_prefs.c:538
 #, fuzzy
 msgid "Currencies links"
 msgstr "货币"
 
-#: ../src/grisbi_prefs.c:543 ../src/gsb_bank.c:471
+#. On récupère le nom de la page
+#: ../src/grisbi_prefs.c:545 ../src/prefs/prefs_page_bank.c:389
 msgid "Banks"
 msgstr "银行"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:548 ../src/gsb_fyear_config.c:147
+#: ../src/grisbi_prefs.c:550 ../src/gsb_fyear_config.c:147
 #: ../src/prefs/prefs_page_fyear.c:689
 msgid "Financial years"
 msgstr "财年"
 
 #. append group page "Balance estimate"
-#: ../src/grisbi_prefs.c:558
+#: ../src/grisbi_prefs.c:560
 #, fuzzy
 msgid "Balance estimate"
 msgstr "结余"
@@ -6665,7 +6710,7 @@ msgid "Holder's own address: "
 msgstr "所有者有单独的地址:"
 
 #. création de la ligne de l'établissement financier
-#: ../src/gsb_account_property.c:374 ../src/gsb_bank.c:468
+#: ../src/gsb_account_property.c:374 ../src/prefs/prefs_page_bank.c:283
 msgid "Bank"
 msgstr "银行"
 
@@ -6677,12 +6722,6 @@ msgstr "财务制度:"
 #: ../src/gsb_account_property.c:390
 msgid "Modify"
 msgstr ""
-
-#. Bank BIC code item
-#: ../src/gsb_account_property.c:402 ../src/gsb_bank.c:717
-#, fuzzy
-msgid "BIC code: "
-msgstr "ISO编号:"
 
 #: ../src/gsb_account_property.c:416
 #, fuzzy
@@ -6852,8 +6891,9 @@ msgstr "输入新预算行的名称"
 #. Do not use a bank name if no bank is set or if its
 #. * name has not been changed.
 #. create the new bank
-#: ../src/gsb_assistant_account.c:395 ../src/gsb_bank.c:1003
-#: ../src/gsb_bank.c:1016 ../src/gsb_bank.c:1119 ../src/gsb_bank.c:1304
+#: ../src/gsb_assistant_account.c:395 ../src/gsb_bank.c:166
+#: ../src/prefs/prefs_page_bank.c:110 ../src/widgets/widget_bank_details.c:385
+#: ../src/widgets/widget_bank_details.c:514
 msgid "New bank"
 msgstr "新增银行"
 
@@ -7099,13 +7139,13 @@ msgid ""
 msgstr ""
 
 #. create the assistant
-#: ../src/gsb_assistant_file.c:126 ../src/gsb_assistant_first.c:88
+#: ../src/gsb_assistant_file.c:127 ../src/gsb_assistant_first.c:88
 #: ../src/gsb_assistant_first.c:143
 #, fuzzy
 msgid "Welcome to Grisbi!"
 msgstr "关于Grisbi"
 
-#: ../src/gsb_assistant_file.c:127
+#: ../src/gsb_assistant_file.c:128
 msgid ""
 "General configuration of Grisbi is done.\n"
 "\n"
@@ -7118,12 +7158,12 @@ msgid ""
 "some previous datas"
 msgstr ""
 
-#: ../src/gsb_assistant_file.c:137
+#: ../src/gsb_assistant_file.c:138
 #, fuzzy
 msgid "New file Assistant to import"
 msgstr "选择导入的文件"
 
-#: ../src/gsb_assistant_file.c:138
+#: ../src/gsb_assistant_file.c:139
 msgid ""
 "Before importing files, you need to create a new file and fill some default "
 "values as created a new currency.\n"
@@ -7136,11 +7176,11 @@ msgid ""
 "accounting software or your bank website."
 msgstr ""
 
-#: ../src/gsb_assistant_file.c:149
+#: ../src/gsb_assistant_file.c:150
 msgid "New file Assistant"
 msgstr ""
 
-#: ../src/gsb_assistant_file.c:150
+#: ../src/gsb_assistant_file.c:151
 msgid ""
 "This assistant will help you to create a new account file.\n"
 "\n"
@@ -7151,52 +7191,52 @@ msgid ""
 "accounting software or your bank website."
 msgstr ""
 
-#: ../src/gsb_assistant_file.c:299
+#: ../src/gsb_assistant_file.c:300
 #, fuzzy
 msgid "General configuration"
 msgstr "普遍性"
 
 #. Account file title
-#: ../src/gsb_assistant_file.c:311
+#: ../src/gsb_assistant_file.c:312
 msgid "Titles and filenames"
 msgstr ""
 
-#: ../src/gsb_assistant_file.c:325 ../src/gsb_assistant_file.c:330
-#: ../src/gsb_assistant_file.c:331 ../src/gsb_assistant_file.c:625
+#: ../src/gsb_assistant_file.c:326 ../src/gsb_assistant_file.c:331
+#: ../src/gsb_assistant_file.c:332 ../src/gsb_assistant_file.c:624
 #: ../src/navigation.c:1217
 #, fuzzy
 msgid "My accounts"
 msgstr "显示账户"
 
 #. filename
-#: ../src/gsb_assistant_file.c:343
+#: ../src/gsb_assistant_file.c:344
 #, fuzzy
 msgid "Filename: "
 msgstr "文件:"
 
 #. Address
-#: ../src/gsb_assistant_file.c:383
+#: ../src/gsb_assistant_file.c:384
 #, fuzzy
 msgid "Your address"
 msgstr "地址"
 
-#: ../src/gsb_assistant_file.c:422
+#: ../src/gsb_assistant_file.c:423
 #, fuzzy
 msgid "Select base currency"
 msgstr "选择资产账户"
 
-#: ../src/gsb_assistant_file.c:460
+#: ../src/gsb_assistant_file.c:461
 #, fuzzy
 msgid "Select the list of categories you will use"
 msgstr "选择包含的类别"
 
-#: ../src/gsb_assistant_file.c:521
+#: ../src/gsb_assistant_file.c:520
 #, fuzzy
 msgid "Configuration finished!"
 msgstr "确认删除银行"
 
 #. set up the menu
-#: ../src/gsb_assistant_file.c:528
+#: ../src/gsb_assistant_file.c:527
 msgid ""
 "Default values are now configured for your account file. Next assistant will "
 "help you creating a new account.\n"
@@ -7206,16 +7246,16 @@ msgid ""
 "Select a way to populate your account file and press the 'Close' button."
 msgstr ""
 
-#: ../src/gsb_assistant_file.c:539
+#: ../src/gsb_assistant_file.c:538
 #, fuzzy
 msgid "Create a new account from scratch"
 msgstr "新增账户"
 
-#: ../src/gsb_assistant_file.c:545
+#: ../src/gsb_assistant_file.c:544
 msgid "Import data from online bank services or from accounting software"
 msgstr ""
 
-#: ../src/gsb_assistant_file.c:652
+#: ../src/gsb_assistant_file.c:651
 msgid "Create filename"
 msgstr ""
 
@@ -7482,90 +7522,18 @@ msgstr "相关调整"
 msgid "No selection found, the transactions are not modified."
 msgstr "不包含不是转帐的交易"
 
-#: ../src/gsb_bank.c:332 ../src/gsb_reconcile.c:510
-msgid "None"
-msgstr "无"
-
-#: ../src/gsb_bank.c:365
-#, fuzzy
-msgid "Add new bank"
-msgstr "新增银行"
-
-#: ../src/gsb_bank.c:468
-msgid "Contact name"
-msgstr "联系人"
-
-#: ../src/gsb_bank.c:480
-msgid "Known banks"
-msgstr "已知银行"
-
-#: ../src/gsb_bank.c:607
-msgid "Bank details"
-msgstr "银行明细"
-
-#. Bank Sort code item
-#: ../src/gsb_bank.c:701
-#, fuzzy
-msgid "Sort code: "
-msgstr "排序编号:"
-
-#. Bank address
-#: ../src/gsb_bank.c:733
-#, fuzzy
-msgid "Address: "
-msgstr "地址:"
-
-#. Phone number
-#: ../src/gsb_bank.c:761 ../src/gsb_bank.c:834
-#, fuzzy
-msgid "Phone: "
-msgstr "电话:"
-
-#. E-mail
-#. E-Mail
-#: ../src/gsb_bank.c:777 ../src/gsb_bank.c:850
-#, fuzzy
-msgid "E-Mail: "
-msgstr "电子邮件:"
-
-#. Website
-#: ../src/gsb_bank.c:793
-#, fuzzy
-msgid "Website: "
-msgstr "网站:"
-
-#. Contact
-#: ../src/gsb_bank.c:811
-msgid "Contact"
-msgstr "联系方式"
-
-#. Fax
-#: ../src/gsb_bank.c:866
-#, fuzzy
-msgid "Fax: "
-msgstr "传真"
-
-#: ../src/gsb_bank.c:974
+#: ../src/gsb_bank.c:129
 msgid "Edit bank"
 msgstr "更改银行信息"
 
-#: ../src/gsb_bank.c:1219
-#, c-format
-msgid ""
-"Bank \"%s\" is used by one or several accounts.\n"
-"Do you really want to remove it?"
-msgstr ""
-"有其他账户在使用银行 \"%s\" 。\n"
-"您确定要删除吗？"
+#: ../src/gsb_bank.c:387 ../src/gsb_reconcile.c:510
+msgid "None"
+msgstr "无"
 
-#: ../src/gsb_bank.c:1221 ../src/gsb_bank.c:1229
-msgid "Confirmation of bank removal"
-msgstr "确认删除银行"
-
-#: ../src/gsb_bank.c:1227
-#, c-format
-msgid "Are you sure you want to remove bank \"%s\"?\n"
-msgstr "您确定要删除银行 \"%s\"吗？\n"
+#: ../src/gsb_bank.c:420
+#, fuzzy
+msgid "Add new bank"
+msgstr "新增银行"
 
 #. cancel button
 #: ../src/gsb_calendar_entry.c:504 ../src/gsb_form.c:1234
@@ -12436,6 +12404,28 @@ msgstr ""
 msgid "Deleting an archive and its transactions"
 msgstr "删除一条定期交易"
 
+#: ../src/prefs/prefs_page_bank.c:228
+#, c-format
+msgid ""
+"Bank \"%s\" is used by one or several accounts.\n"
+"Do you really want to remove it?"
+msgstr ""
+"有其他账户在使用银行 \"%s\" 。\n"
+"您确定要删除吗？"
+
+#: ../src/prefs/prefs_page_bank.c:230 ../src/prefs/prefs_page_bank.c:237
+msgid "Confirmation of bank removal"
+msgstr "确认删除银行"
+
+#: ../src/prefs/prefs_page_bank.c:235
+#, c-format
+msgid "Are you sure you want to remove bank \"%s\"?\n"
+msgstr "您确定要删除银行 \"%s\"吗？\n"
+
+#: ../src/prefs/prefs_page_bank.c:283
+msgid "Contact name"
+msgstr "联系人"
+
 #: ../src/prefs/prefs_page_bet_account.c:137
 #: ../src/prefs/prefs_page_bet_account.c:155
 #: ../src/prefs/prefs_page_bet_account.c:509
@@ -12941,12 +12931,12 @@ msgid " [Transaction imported without date]"
 msgstr " [导入的交易没有日期]"
 
 #. create and fill the new account
-#: ../src/qif.c:1242
+#: ../src/qif.c:1245
 #, fuzzy
 msgid "Imported QIF account"
 msgstr "已导入的账户"
 
-#: ../src/qif.c:1253
+#: ../src/qif.c:1256
 #, fuzzy, c-format
 msgid ""
 "Grisbi found an investment account:\n"
@@ -12957,12 +12947,12 @@ msgstr ""
 "Grisbi 发现了一个投资账户，但相关的功能还没有实现。因此， Grisbi 将按银行账户"
 "导入。"
 
-#: ../src/qif.c:1337
+#: ../src/qif.c:1340
 #, fuzzy
 msgid "Opening Balance"
 msgstr "最终余额"
 
-#: ../src/qif.c:1368
+#: ../src/qif.c:1371
 msgid ""
 "Grisbi couldn't determine the format of the date into the qif file.\n"
 "Please contact the Grisbi team (devel@listes.grisbi.org) to find the "
@@ -12970,7 +12960,7 @@ msgid ""
 "For now, all the dates will be imported as 01.01.2000"
 msgstr ""
 
-#: ../src/qif.c:1457
+#: ../src/qif.c:1460
 #, c-format
 msgid ""
 "There were many accounts to export in the archive,\n"
@@ -12978,7 +12968,7 @@ msgid ""
 "so Grisbi created %d files, one per account :\n"
 msgstr ""
 
-#: ../src/qif.c:1519
+#: ../src/qif.c:1522
 #, fuzzy, c-format
 msgid "Error opening file '%s'"
 msgstr "打开文件 '%s'.发生错误"
