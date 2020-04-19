@@ -45,7 +45,7 @@
 #include "gsb_data_account.h"
 #include "gsb_file.h"
 #include "navigation.h"
-#include "./widgets/widget_bank_details.h"
+#include "widget_bank_details.h"
 #include "structures.h"
 #include "utils.h"
 #include "utils_prefs.h"

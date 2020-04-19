@@ -1,6 +1,9 @@
 # OpenSSL plugin
 
-AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/src $(GLIB_CFLAGS) $(GTK_CFLAGS) $(OPENSSL_CFLAGS)
+AM_CPPFLAGS = -I$(top_srcdir) \
+			  -I$(top_srcdir)/src \
+			  -I$(top_srcdir)/src/prefs \
+			  $(GLIB_CFLAGS) $(GTK_CFLAGS) $(OPENSSL_CFLAGS)
 
 if HAVE_SSL
 

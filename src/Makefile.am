@@ -1,18 +1,18 @@
 # Process this file with automake to produce Makefile.in
 
-AM_CPPFLAGS =	\
-							-I$(top_srcdir) \
-							$(GLIB_CFLAGS) \
-							$(GTK_CFLAGS) \
-							$(LIBGSF_CFLAGS) \
-							$(GTK_MAC_CFLAGS) \
-							$(GOFFICE_CFLAGS)	\
-							-DLOCALEDIR="\"$(localedir)\""	\
-							-DPIXMAPS_DIR="\"$(datadir)/pixmaps/@PACKAGE@\""	\
-							-DLOGO_PATH="\"$(datadir)/pixmaps/@PACKAGE@/grisbi-logo.png\""	\
-							-DDATA_PATH="\"$(datadir)/@PACKAGE@\""	\
-							-DHELP_PATH="\"$(docdir)\""	\
-							-DUI_DIR="\"$(datadir)/@PACKAGE@/ui\""
+AM_CPPFLAGS = -I$(top_srcdir) \
+	      -I$(top_srcdir)/src/prefs \
+	      $(GLIB_CFLAGS) \
+	      $(GTK_CFLAGS) \
+	      $(LIBGSF_CFLAGS) \
+	      $(GTK_MAC_CFLAGS) \
+	      $(GOFFICE_CFLAGS)	\
+	      -DLOCALEDIR="\"$(localedir)\""	\
+	      -DPIXMAPS_DIR="\"$(datadir)/pixmaps/@PACKAGE@\""	\
+	      -DLOGO_PATH="\"$(datadir)/pixmaps/@PACKAGE@/grisbi-logo.png\""	\
+	      -DDATA_PATH="\"$(datadir)/@PACKAGE@\""	\
+	      -DHELP_PATH="\"$(docdir)\""	\
+	      -DUI_DIR="\"$(datadir)/@PACKAGE@/ui\""
 
 bin_PROGRAMS = grisbi
 noinst_LTLIBRARIES = libgrisbi.la

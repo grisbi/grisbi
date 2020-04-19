@@ -5,7 +5,7 @@
 #include <glib.h>
 
 /*START_INCLUDE*/
-#include "./prefs/prefs_page_bank.h"
+#include "prefs_page_bank.h"
 /*END_INCLUDE*/
 
 G_BEGIN_DECLS
