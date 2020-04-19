@@ -1,6 +1,8 @@
 #ifndef ETATS_CONFIG_H
 #define ETATS_CONFIG_H
 
+#include <gtk/gtk.h>
+
 #define TEXT_NORMAL (0<<0)
 #define TEXT_BOLD   (1<<0)
 #define TEXT_ITALIC (1<<1)
