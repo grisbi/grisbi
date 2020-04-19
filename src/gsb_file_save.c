@@ -1646,7 +1646,7 @@ gulong gsb_file_save_currency_part ( gulong iterator,
                            "\t<Currency Nb=\"%d\" Na=\"%s\" Co=\"%s\" Ico=\"%s\" Fl=\"%d\" />\n",
 					       currency_number,
 					       my_safe_null_str(gsb_data_currency_get_name (currency_number)),
-					       my_safe_null_str(gsb_data_currency_get_code (currency_number)),
+					       my_safe_null_str(gsb_data_currency_get_nickname (currency_number)),
 					       my_safe_null_str(gsb_data_currency_get_code_iso4217 (currency_number)),
 					       gsb_data_currency_get_floating_point (currency_number));
 

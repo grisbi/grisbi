@@ -2970,7 +2970,7 @@ gchar *gsb_transactions_list_grep_cell_content (gint transaction_number,
 				result = g_strconcat ("(",
 									  tmp_str,
 									  " ",
-									  gsb_data_currency_get_code_or_isocode (account_currency),
+									  gsb_data_currency_get_nickname_or_code_iso (account_currency),
 									  ")",
 										NULL);
 				g_free (tmp_str);

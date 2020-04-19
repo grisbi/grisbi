@@ -42,6 +42,7 @@
 #include "gsb_category.h"
 #include "gsb_currency_config.h"
 #include "gsb_currency.h"
+#include "gsb_data_currency.h"
 #include "gsb_data_form.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
@@ -221,7 +222,7 @@ GtkResponseType gsb_assistant_file_run ( gboolean first_opening,
 							CURRENCY_NICKNAME_COLUMN, &currency_nickname,
 							CURRENCY_FLOATING_COLUMN, &currency_floating,
 							-1);
-		gsb_currency_config_create_currency (currency_name,
+		gsb_data_currency_new_with_data (currency_name,
 											 currency_nickname,
 											 currency_iso_code,
 											 currency_floating);

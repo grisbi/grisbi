@@ -72,193 +72,6 @@ GtkWidget *combo_devise_totaux_ib;
 GtkWidget *combo_devise_totaux_categ;
 /*END_GLOBAL*/
 
-/* struct Iso4217Currency; */
-struct Iso4217Currency iso_4217_currencies[] =
-{
-	/* continent,   currency_name,        country_name,code_iso,nickname .......*/
-    { N_("Africa"), N_("Algerian Dinar"), N_("Algeria"), "DZD", NULL, TRUE, "DZD.png", 3, 1 },
-    { N_("Africa"), N_("Botswana Pula"), N_("Botswana"), "BWP", NULL, TRUE, "BWP.png", 2, 1 },
-    { N_("Africa"), N_("Burundi Franc"), N_("Burundi"), "BIF", NULL, TRUE, "BIF.png", 2, 1 },
-    { N_("Africa"), N_("CFA Franc BCEAO"), N_("Niger"), "XOF", NULL, TRUE, "NIG.png", 2, 1 },
-    { N_("Africa"), N_("CFA Franc BCEAO"), N_("Senegal"), "XOF", NULL, TRUE, "SEN.png", 2, 1 },
-	{ N_("Africa"), N_("CFA Franc BCEAO"), N_("Togo"), "XOF", NULL, TRUE, "TOG.png", 2, 1 },
-    { N_("Africa"), N_("CFA Franc BEAC"), N_("Cameroon"), "XAF", NULL, TRUE, "CAM.png", 2, 1 },
-    { N_("Africa"), N_("CFA Franc BEAC"), N_("Chad"), "XAF", NULL, TRUE, "CHA.png", 2, 1 },
-    { N_("Africa"), N_("CFA Franc BEAC"), N_("Congo"), "XAF", NULL, TRUE, "CO_.png", 2, 1 },
-    { N_("Africa"), N_("Comoro Franc"), N_("Comoros"), "KMF", NULL, TRUE, "KMF.png", 2, 1 },
-    { N_("Africa"), N_("Egyptian Pound"), N_("Egypt"), "EGP", "£", TRUE, "EGP.png", 3, 1 },
-    { N_("Africa"), N_("Ethiopian Birr"), N_("Ethiopia"), "ETB", NULL, TRUE, "ETB.png", 0, 1 },
-    { N_("Africa"), N_("Gambian Dalasi"), N_("Gambia"), "GMD", NULL, TRUE, "GMD.png", 2, 1 },
-    { N_("Africa"), N_("Ghana Cedi"), N_("Ghana"), "GHC", NULL, TRUE, "GHC.png", 2, 1 },
-    { N_("Africa"), N_("Guinea-Bissau Peso"), N_("Guinea-Bissau"), "GWP", NULL, TRUE, "GWP.png", 2, 1 },
-    { N_("Africa"), N_("Kenyan Shilling"), N_("Kenya"), "KES", NULL, TRUE, "KES.png", 2, 1 },
-    { N_("Africa"), N_("Liberian Dollar"), N_("Liberia"), "LRD", "$", TRUE, "LRD.png", 2, 1 },
-    { N_("Africa"), N_("Libyan Dinar"), N_("Libyan Arab Jamahiriya"), "LYD", NULL, TRUE, "LYD.png", 3, 1 },
-    { N_("Africa"), N_("Malagasy Franc"), N_("Madagascar"), "MGF", NULL, TRUE, "MGF.png", 3, 1 },
-    { N_("Africa"), N_("Malawi Kwacha"), N_("Malawi"), "MWK", NULL, TRUE, "MWK.png", 2, 1 },
-    { N_("Africa"), N_("Mauritania Ouguiya"), N_("Mauritania"), "MRO", NULL, TRUE, "MRO.png", 2, 1 },
-    { N_("Africa"), N_("Moazambique Metical"), N_("Mozambique"), "MZM", NULL, TRUE, "MZM.png", 2, 1 },
-    { N_("Africa"), N_("Moroccan Dirham"), N_("Morocco"), "MAD", NULL, TRUE, "MAD.png", 2, 1 },
-    { N_("Africa"), N_("Nigerian Naira"), N_("Nigeria"), "NGN", "₦", TRUE, "NGN.png", 2, 1 },
-    { N_("Africa"), N_("Rwanda Franc"), N_("Rwanda"), "RWF", NULL, TRUE, "RWF.png", 2, 1 },
-    { N_("Africa"), N_("Sao Tome and Principe Dobra"), N_("Sao Tome and Principe"), "STD", NULL, TRUE, "STD.png", 2, 1 },
-    { N_("Africa"), N_("Seychelles Rupee"), N_("Seychelles"), "SCR", "₨", TRUE, "SCR.png", 2, 1 },
-    { N_("Africa"), N_("Sierra Leonean Leone"), N_("Sierra Leone"), "SLL", NULL, TRUE, "SLL.png", 2, 1 },
-    { N_("Africa"), N_("Somali Shilling"), N_("Somalia"), "SOS", NULL, TRUE, "SOS.png", 2, 1 },
-    { N_("Africa"), N_("South African Rand"), N_("Lesotho"), "ZAR", "R", TRUE, "LSL.png", 2, 1 },
-    { N_("Africa"), N_("South African Rand"), N_("Namibia"), "ZAR", "R", TRUE, "NAD.png", 2, 1 },
-    { N_("Africa"), N_("South African Rand"), N_("South Africa"), "ZAR", "R", TRUE, "ZAR.png", 2, 1 },
-    { N_("Africa"), N_("Swaziland Lilangeni"), N_("Swaziland"), "SZL", NULL, TRUE, "SZL.png", 2, 1 },
-    { N_("Africa"), N_("Tanzanian Shilling"), N_("United Republic of Tanzania"), "TZS", NULL, TRUE, "TZS.png", 2, 1 },
-    { N_("Africa"), N_("Tunisian Dinar"), N_("Tunisia"), "TND", NULL, TRUE, "TND.png", 3, 1 },
-    { N_("Africa"), N_("Zambian Kwacha"), N_("Zambia"), "ZMK", NULL, TRUE, "ZMK.png", 2, 1 },
-    { N_("Africa"), N_("Zimbabwe Dollar"), N_("Zimbabwe"), "ZWD", "$", TRUE, "ZWD.png", 2, 1 },
-    { N_("Asia"), N_("Afghani"), N_("Afghanistan"), "AFA", NULL, TRUE, "AFN.png", 2, 1 },
-    { N_("Asia"), N_("Bahraini Dinar"), N_("Bahrain"), "BHD", NULL, TRUE, "BHD.png", 3, 1 },
-    { N_("Asia"), N_("Bangladesh Taka"), N_("Bangladesh"), "BDT", NULL, TRUE, "BDT.png", 2, 1 },
-    { N_("Asia"), N_("Brunei Dollar"), N_("Brunei Darussalam"), "BND", "$", TRUE, "BND.png", 2, 1 },
-    { N_("Asia"), N_("Cambodian Riel"), N_("Cambodia"), "KHR", "៛", TRUE, "KHR.png", 2, 1 },
-    { N_("Asia"), N_("Cyprus Pound"), N_("Cyprus"), "CYP", "£", FALSE, "CYP.png", 2, 1 },
-    { N_("Asia"), N_("Hong Kong Dollar"), N_("Hong Kong"), "HKD", "$", TRUE, "HKD.png", 2, 1 },
-    { N_("Asia"), N_("Indian Rupee"), N_("Bhutan"), "INR", "₨", TRUE, "BHU.png", 2, 1 },
-    { N_("Asia"), N_("Indian Rupee"), N_("India"), "INR", "₨", TRUE, "INR.png", 2, 1 },
-    { N_("Asia"), N_("Indonesian Rupiah"), N_("Indonesia"), "IDR", NULL, TRUE, "IDR.png", 2, 1 },
-    { N_("Asia"), N_("Iranian Rial"), N_("Iran"), "IRR", "﷼", TRUE, "IRR.png", 2, 1 },
-    { N_("Asia"), N_("Iraqi Dinar"), N_("Iraq"), "IQD", NULL, TRUE, "IQD.png", 3, 1 },
-    { N_("Asia"), N_("Japanese Yen"), N_("Japan"), "JPY", "¥", TRUE, "JPY.png", 0, 1 },
-    { N_("Asia"), N_("Jordanian Dinar"), N_("Jordan"), "JOD", NULL, TRUE, "JOD.png", 3, 1 },
-    { N_("Asia"), N_("Kazakhstan Tenge"), N_("Kazakhstan"), "KZT", NULL, TRUE, "KZT.png", 2, 1 },
-    { N_("Asia"), N_("Kuwaiti Dinar"), N_("Kuwait"), "KWD", NULL, TRUE, "KWD.png", 3, 1 },
-    { N_("Asia"), N_("Lao Kip"), N_("Lao People's Democratic Republic"), "LAK", "₭", TRUE, "LAK.png", 2, 1 },
-    { N_("Asia"), N_("Lebanese Pound"), N_("Lebanon"), "LBP", "£", TRUE, "LBP.png", 3, 1 },
-    { N_("Asia"), N_("Macau Pataca"), N_("Macao"), "MOP", NULL, TRUE, "MOP.png", 2, 1 },
-    { N_("Asia"), N_("Malaysian Ringgit"), N_("Malaysia"), "MYR", NULL, TRUE, "MYR.png", 2, 1 },
-    { N_("Asia"), N_("Mongolian Tugrik"), N_("Mongolia"), "MNT", "₮", TRUE, "MNT.png", 2, 1 },
-    { N_("Asia"), N_("Nepalese Rupee"), N_("Nepal"), "NPR", "₨", TRUE, "NPR.png", 2, 1 },
-    { N_("Asia"), N_("New Israeli Shekel"), N_("Israel"), "ILS", "₪", TRUE, "ILS.png", 2, 1 },
-    { N_("Asia"), N_("New Taiwan Dollar"), N_("Taiwan, Province of China"), "TWD", "元", TRUE, "TWD.png", 2, 1 },
-    { N_("Asia"), N_("North Korean Won"), N_("Democratic People's Republic of Korea"), "KPW", "₩", TRUE, "KPW.png", 2, 1 },
-    { N_("Asia"), N_("Pakistan Rupee"), N_("Pakistan"), "PKR", "₨", TRUE, "PKR.png", 2, 1 },
-    { N_("Asia"), N_("Philippine peso"), N_("Philippines"), "PHP", "₱", TRUE, "PHP.png", 2, 1 },
-    { N_("Asia"), N_("Qatari Rial"), N_("Qatar"), "QAR", "﷼", TRUE, "QAR.png", 3, 1 },
-    { N_("Asia"), N_("Rial Omani"), N_("Oman"), "OMR", "﷼", TRUE, "OMR.png", 3, 1 },
-    { N_("Asia"), N_("Russian Ruble"), N_("Russia"), "RUR", "руб", TRUE, "RUR.png", 2, 1 },
-    { N_("Asia"), N_("Saudi Riyal"), N_("Saudi Arabia"), "SAR", "﷼", TRUE, "SAR.png", 2, 1 },
-    { N_("Asia"), N_("Singapore Dollar"), N_("Singapore"), "SGD", "$", TRUE, "SGD.png", 2, 1 },
-    { N_("Asia"), N_("South Korean Won"), N_("Republic of Korea"), "KRW", "₩", TRUE, "KRW.png", 2, 1 },
-    { N_("Asia"), N_("Sri Lanka Rupee"), N_("Sri Lanka"), "LKR", "௹", TRUE, "LKR.png", 2, 1 },
-    { N_("Asia"), N_("Syrian Pound"), N_("Syrian Arab Republic"), "SYP", "£", TRUE, "SYP.png", 3, 1 },
-    { N_("Asia"), N_("Thai Baht"), N_("Thailand"), "THB", "฿", TRUE, "THB.png", 2, 1 },
-    { N_("Asia"), N_("Turkish Lira"), N_("Turkey"), "TRL", "₤", TRUE, "TRL.png", 2, 1 },
-    { N_("Asia"), N_("United Arab Emirates Dirham"), N_("United Arab Emirates"), "AED", NULL, TRUE, "AED.png", 3, 1 },
-    { N_("Asia"), N_("Viet Nam Dong"), N_("Viet Nam"), "VND", "₫", TRUE, "VND.png", 2, 1 },
-    { N_("Asia"), N_("Yemeni Rial"), N_("Yemen"), "YER", "﷼", TRUE, "YER.png", 3, 1 },
-    { N_("Asia"), N_("Yuan Renminbi"), N_("China"), "CNY", "元", TRUE, "CNY.png", 2, 1 },
-    { N_("Central America"), N_("Belize Dollar"), N_("Belize"), "BZD", "$", TRUE, "BZD.png", 2, 1 },
-    { N_("Central America"), N_("Costa Rican Colon"), N_("Costa Rica"), "CRC", "₡", TRUE, "CRC.png", 2, 1 },
-    { N_("Central America"), N_("Guatemalan Quetzal"), N_("Guatemala"), "GTQ", NULL, TRUE, "GTQ.png", 2, 1 },
-    { N_("Central America"), N_("Honduran Lempira"), N_("Honduras"), "HNL", NULL, TRUE, "HNL.png", 2, 1 },
-    { N_("Central America"), N_("Mexican Peso"), N_("Mexico"), "MXP", "$", TRUE, "MXP.png", 2, 1 },
-    { N_("Central America"), N_("Panama Balboa"), N_("Panama"), "PAB", NULL, TRUE, "PAB.png", 2, 1 },
-    { N_("Europe"), N_("Euro"), N_("Germany"), "EUR", "€", TRUE, "DEM.png", 2, 0 },
-    { N_("Europe"), N_("Euro"), N_("Austria"), "EUR", "€", TRUE, "ATS.png", 2, 0 },
-    { N_("Europe"), N_("Euro"), N_("Belgium"), "EUR", "€", TRUE, "BEF.png", 2, 0 },
-    { N_("Europe"), N_("Euro"), N_("Cyprus"), "EUR", "€", TRUE, "CYP.png", 2, 0 },
-    { N_("Europe"), N_("Euro"), N_("Spain"), "EUR", "€", TRUE, "ESP.png", 2, 0 },
-    { N_("Europe"), N_("Euro"), N_("Finland"), "EUR", "€", TRUE, "FIM.png", 2, 0 },
-    { N_("Europe"), N_("Euro"), N_("France"), "EUR", "€", TRUE, "FRF.png", 2, 0 },
-    { N_("Europe"), N_("Euro"), N_("Greece"), "EUR", "€", TRUE, "GRD.png", 2, 0 },
-    { N_("Europe"), N_("Euro"), N_("Ireland"), "EUR", "€", TRUE, "IEP.png", 2, 0 },
-    { N_("Europe"), N_("Euro"), N_("Italy"), "EUR", "€", TRUE, "VAT.png", 2, 0 },
-    { N_("Europe"), N_("Euro"), N_("Luxembourg"), "EUR", "€", TRUE, "LUF.png", 2, 0 },
-    { N_("Europe"), N_("Euro"), N_("Netherlands"), "EUR", "€", TRUE, "NLG.png", 2, 0 },
-    { N_("Europe"), N_("Euro"), N_("Portugal"), "EUR", "€", TRUE, "PTE.png", 2, 0 },
-    { N_("Europe"), N_("Euro"), N_("Slovenia"), "EUR", "€", TRUE, "SIT.png", 2, 0 },
-    { N_("Europe"), N_("Albanian Lek"), N_("Albania"), "ALL", NULL, TRUE, "ALL.png", 3, 1 },
-    { N_("Europe"), N_("Austrian Schilling"), N_("Austria"), "ATS", NULL, FALSE, "ATS.png", 2, 1 },
-    { N_("Europe"), N_("Belgian Franc"), N_("Belgium"), "BEF", NULL, FALSE, "BEF.png", 2, 1 },
-    { N_("Europe"), N_("Bulgarian Lev"), N_("Bulgaria"), "BGL", NULL, FALSE, "BGN.png", 2, 1 },
-    { N_("Europe"), N_("Croatian kuna"), N_("Croatia"), "HRK", "kn", TRUE, "HRK.png", 2, 1 },
-    { N_("Europe"), N_("Czech Koruna"), N_("Czech Republic"), "CZK", NULL, TRUE, "CZK.png", 2, 1 },
-    { N_("Europe"), N_("Danish Krone"), N_("Denmark"), "DKK", NULL, TRUE, "DKK.png", 2, 1 },
-    { N_("Europe"), N_("Deutsche Mark"), N_("Germany"), "DEM", NULL, FALSE, "DEM.png", 2, 1 },
-    { N_("Europe"), N_("Estonian Kroon"), N_("Estonia"), "EEK", NULL, TRUE, "EEK.png", 2, 1 },
-    { N_("Europe"), N_("Euro"), N_("UE (Europe)"), "EUR", "€", TRUE, "EUR.png", 2, 1 },
-    { N_("Europe"), N_("Finnish Markka"), N_("Finland"), "FIM", NULL, FALSE, "FIM.png", 2, 1 },
-    { N_("Europe"), N_("French Franc"), N_("France"), "FRF", "₣", FALSE, "FRF.png", 2, 1 },
-    { N_("Europe"), N_("Gibraltar Pound"), N_("Gibraltar"), "GIP", "£", TRUE, "GIP.png", 2, 1 },
-    { N_("Europe"), N_("Greek Drachma"), N_("Greece"), "GRD", "₯", FALSE, "GRD.png", 2, 1 },
-    { N_("Europe"), N_("Hungarian Forint"), N_("Hungary"), "HUF", NULL, TRUE, "HUF.png", 2, 1 },
-    { N_("Europe"), N_("Iceland Krona"), N_("Iceland"), "ISK", NULL, TRUE, "ISK.png", 0, 1 },
-    { N_("Europe"), N_("Irish Pound"), N_("Ireland"), "IEP", "£", FALSE, "IEP.png", 2, 1 },
-    { N_("Europe"), N_("Italian Lira"), N_("Holy See"), "ITL", "₤", FALSE, "VAT.png", 2, 1 },
-    { N_("Europe"), N_("Italian Lira"), N_("Italy"), "ITL", "₤", FALSE, "ITL.png", 2, 1 },
-    { N_("Europe"), N_("Italian Lira"), N_("San Marino"), "ITL", "₤", FALSE, "SAN.png", 2, 1 },
-    { N_("Europe"), N_("Latvian Lats"), N_("Latvia"), "LVL", NULL, TRUE, "LVL.png", 2, 1 },
-    { N_("Europe"), N_("Lithuanian Litas"), N_("Lietuva"), "LTL", NULL, TRUE, "LTL.png", 2, 1 },
-    { N_("Europe"), N_("Luxembourg Franc"), N_("Luxembourg"), "LUF", "₣", FALSE, "LUF.png", 2, 1 },
-    { N_("Europe"), N_("Moldovenesc Leu"), N_("Moldova"), "MDL", NULL, TRUE, "MDL.png", 2, 1 },
-    { N_("Europe"), N_("Netherlands Guilder"), N_("Netherlands"), "NLG", "ƒ", FALSE, "NLG.png", 2, 1 },
-    { N_("Europe"), N_("New Yugoslavian Dinar"), N_("Serbia and Montenegro"), "YUD", NULL, FALSE, "YUV.png", 2, 1 },
-    { N_("Europe"), N_("Norwegian Krone"), N_("Norway"), "NOK", NULL, TRUE, "NOK.png", 2, 1 },
-    { N_("Europe"), N_("Polish Zloty"), N_("Poland"), "PLN", NULL, TRUE, "PLN.png", 2, 1 },
-    { N_("Europe"), N_("Portuguese Escudo"), N_("Portugal"), "PTE", NULL, FALSE, "PTE.png", 2, 1 },
-    { N_("Europe"), N_("Pound Sterling"), N_("United Kingdom"), "GBP", "£", TRUE, "GBP.png", 2, 1 },
-    { N_("Europe"), N_("Romanian Leu"), N_("Romania"), "ROL", NULL, TRUE, "ROL.png", 2, 1 },
-    { N_("Europe"), N_("Slovak Koruna"), N_("Slovakia"), "SKK", NULL, TRUE, "SKK.png", 2, 1 },
-    { N_("Europe"), N_("Slovene Tolar"), N_("Slovenia"), "SIT", NULL, TRUE, "SIT.png", 2, 1 },
-    { N_("Europe"), N_("Spanish Peseta"), N_("Spain"), "ESP", "₧", FALSE, "ESP.png", 2, 1 },
-    { N_("Europe"), N_("Swedish Krona"), N_("Sweden"), "SEK", "kr", TRUE, "SEK.png", 2, 1 },
-    { N_("Europe"), N_("Swiss Franc"), N_("Liechtenstein"), "CHF", NULL, TRUE, "LIE.png", 2, 1 },
-    { N_("Europe"), N_("Swiss Franc"), N_("Switzerland"), "CHF", NULL, TRUE, "CHF.png", 2, 1 },
-    { N_("Europe"), N_("Hryvnia"), N_("Ukraine"), "UAH", NULL, TRUE, "UAH.png", 2, 1 },
-    { N_("Northern America"), N_("Bahamian Dollar"), N_("Bahamas"), "BSD", "$", TRUE, "BSD.png", 0, 1 },
-    { N_("Northern America"), N_("Barbados Dollar"), N_("Barbados"), "BBD", "$", TRUE, "BBD.png", 2, 1 },
-    { N_("Northern America"), N_("Bermuda Dollar"), N_("Bermuda"), "BMD", "$", TRUE, "BMD.png", 2, 1 },
-    { N_("Northern America"), N_("Canadian Dollar"), N_("Canada"), "CAD", "$", TRUE, "CAD.png", 2, 1 },
-    { N_("Northern America"), N_("Cayman Islands Dollar"), N_("Cayman Islands"), "KYD", NULL, TRUE, "KYD.png", 2, 1 },
-    { N_("Northern America"), N_("Cuban Convertible Peso"), N_("Cuba"), "CUC", "$", TRUE, "CUP.png", 2, 1 },
-    { N_("Northern America"), N_("Cuban Peso"), N_("Cuba"), "CUP", "₱ 	", TRUE, "CUP.png", 2, 1 },
-    { N_("Northern America"), N_("Dominican Peso"), N_("Dominican Republic"), "DOP", "₱", TRUE, "DOP.png", 2, 1 },
-    { N_("Northern America"), N_("East Caribbean Dollar"), N_("Grenada"), "XCD", "$", TRUE, "GRE.png", 2, 1 },
-    { N_("Northern America"), N_("East Caribbean Dollar"), N_("Saint Lucia"), "XCD", "$", TRUE, "SLC.png", 2, 1 },
-    { N_("Northern America"), N_("Haitian Gourde"), N_("Haiti"), "HTG", NULL, TRUE, "HTG.png", 2, 1 },
-    { N_("Northern America"), N_("Jamaican Dollar"), N_("Jamaica"), "JMD", "$", TRUE, "JMD.png", 2, 1 },
-    { N_("Northern America"), N_("Netherlands Antillian Guilder"), N_("Netherlands Antilles"), "ANG", "ƒ", TRUE, "ANG.png", 2, 1 },
-    { N_("Northern America"), N_("Trinidad and Tobago Dollar"), N_("Trinidad and Tobago"), "TTD", "$ 	", TRUE, "TTD.png", 2, 1 },
-    { N_("Northern America"), N_("United States Dollar"), N_("United States"), "USD", "$", TRUE, "USD.png", 2, 1 },
-    { N_("Pacific Ocean"), N_("Australian Dollar"), N_("Australia"), "AUD", "$", TRUE, "AUD.png", 2, 1 },
-    { N_("Pacific Ocean"), N_("Australian Dollar"), N_("Kiribati"), "AUD", "$", TRUE, "KIR.png", 2, 1 },
-    { N_("Pacific Ocean"), N_("Australian Dollar"), N_("Nauru"), "AUD", "$", TRUE, "NAU.png", 2, 1 },
-    { N_("Pacific Ocean"), N_("Australian Dollar"), N_("Tuvalu"), "AUD", "$", TRUE, "TUV.png", 2, 1 },
-    { N_("Pacific Ocean"), N_("CFP Franc"), N_("French Polynesia"), "XPF", NULL, TRUE, "FRF.png", 2, 1 },
-    { N_("Pacific Ocean"), N_("CFP Franc"), N_("New Caledonia"), "XPF", NULL, TRUE, "FRF.png", 2, 1 },
-    { N_("Pacific Ocean"), N_("CFP Franc"), N_("Wallis and Futuna"), "XPF", NULL, TRUE, "FRF.png", 2, 1 },
-    { N_("Pacific Ocean"), N_("Fiji Dollar"), N_("Fiji"), "FJD", "$", TRUE, "FJD.png", 2, 1 },
-    { N_("Pacific Ocean"), N_("New Zealand Dollar"), N_("Cook Islands"), "NZD", "$", TRUE, "COO.png", 2, 1 },
-    { N_("Pacific Ocean"), N_("New Zealand Dollar"), N_("New Zealand"), "NZD", NULL, TRUE, "NZD.png", 2, 1 },
-    { N_("Pacific Ocean"), N_("Papua New Guinea Kina"), N_("Papua New Guinea"), "PGK", NULL, TRUE, "PGK.png", 2, 1 },
-    { N_("Pacific Ocean"), N_("Samoa Tala"), N_("Samoa"), "WST", NULL, TRUE, "WST.png", 2, 1 },
-    { N_("Pacific Ocean"), N_("Solomon Islands Dollar"), N_("Solomon Islands"), "SBD", NULL, TRUE, "SBD.png", 2, 1 },
-    { N_("Pacific Ocean"), N_("Timor Escudo"), N_("Timor"), "TPE", NULL, TRUE, "TPE.png", 2, 1 },
-    { N_("Pacific Ocean"), N_("Tongan Pa'anga"), N_("Tonga"), "TOP", NULL, TRUE, "TOP.png", 2, 1 },
-    { N_("Pacific Ocean"), N_("United States Dollar"), N_("Panama"), "USD", "$", TRUE, "PAB.png", 2, 0 },
-    { N_("Pacific Ocean"), N_("Vanuatu Vatu"), N_("Vanuatu"), "VUV", NULL, TRUE, "VUV.png", 2, 1 },
-    { N_("Southern America"), N_("Peso"), N_("Argentina"), "ARP", "$", TRUE, "ARS.png", 2, 1 },
-    { N_("Southern America"), N_("Boliviano"), N_("Bolivia"), "BOB", "$", TRUE, "BOB.png", 2, 1 },
-    { N_("Southern America"), N_("Peso"), N_("Chile"), "CLP", "$", TRUE, "CLP.png", 2, 1 },
-    { N_("Southern America"), N_("Peso"), N_("Colombia"), "COP", "₱", TRUE, "COP.png", 2, 1 },
-    { N_("Southern America"), N_("Ecuador Sucre"), N_("Ecuador"), "ECS", NULL, FALSE, "ECS.png", 2, 1 },
-    { N_("Southern America"), N_("Guyana Dollar"), N_("Guyana"), "GYD", NULL, TRUE, "GYD.png", 2, 1 },
-    { N_("Southern America"), N_("Paraguay Guarani"), N_("Paraguay"), "PYG", NULL, TRUE, "PYG.png", 2, 1 },
-    { N_("Southern America"), N_("Nuevos Soles"), N_("Peru"), "PEN", "S/.", TRUE, "PEN.png", 2, 1 },
-    { N_("Southern America"), N_("Real"), N_("Brazil"), "BRL", "R$", TRUE, "BRL.png", 2, 1 },
-    { N_("Southern America"), N_("Suriname Guilder"), N_("Suriname"), "SRG", NULL, TRUE, "SRD.png", 2, 1 },
-    { N_("Southern America"), N_("Peso"), N_("Uruguay"), "UYU", "₱", TRUE, "UYU.png", 2, 1 },
-    { N_("Southern America"), N_("Venezuelan Bolivar"), N_("Venezuela"), "VEB", NULL, TRUE, "VEB.png", 2, 1 },
-    { NULL, NULL, NULL, NULL, NULL, FALSE, NULL, 0, 0 },
-};
-
 /******************************************************************************/
 /* Private Functions                                                          */
 /******************************************************************************/
@@ -295,7 +108,7 @@ static void gsb_currency_append_currency_to_list (GtkListStore *model,
 						CURRENCY_FLAG_COLUMN, pixbuf,
 						CURRENCY_NAME_COLUMN, gsb_data_currency_get_name (currency_number),
 						CURRENCY_CODE_ISO_COLUMN, gsb_data_currency_get_code_iso4217 (currency_number),
-						CURRENCY_NICKNAME_COLUMN, gsb_data_currency_get_code (currency_number),
+						CURRENCY_NICKNAME_COLUMN, gsb_data_currency_get_nickname (currency_number),
 						CURRENCY_FLOATING_COLUMN, gsb_data_currency_get_floating_point (currency_number),
 						CURRENCY_NUMBER_COLUMN, currency_number,
 						CURRENCY_HAS_FLAG, TRUE,
@@ -515,7 +328,7 @@ static gboolean gsb_currency_config_entry_changed (GtkWidget *entry,
 						&iter,
 						CURRENCY_NAME_COLUMN, gsb_data_currency_get_name (currency_number),
 						CURRENCY_CODE_ISO_COLUMN, gsb_data_currency_get_code_iso4217 (currency_number),
-						CURRENCY_NICKNAME_COLUMN, gsb_data_currency_get_code (currency_number),
+						CURRENCY_NICKNAME_COLUMN, gsb_data_currency_get_nickname (currency_number),
 						CURRENCY_FLOATING_COLUMN,  gsb_data_currency_get_floating_point (currency_number),
 						-1);
     gsb_currency_update_combobox_currency_list ();
@@ -976,7 +789,7 @@ GtkWidget *gsb_currency_config_create_page (void)
     entry = gsb_autofunc_entry_new (NULL,
 									G_CALLBACK (gsb_currency_config_entry_changed),
 									currency_list_view,
-									G_CALLBACK (gsb_data_currency_set_code),
+									G_CALLBACK (gsb_data_currency_set_nickname),
 									0);
     gtk_grid_attach (GTK_GRID (paddinggrid), entry, 1, 1, 1, 1);
     g_object_set_data (G_OBJECT(currency_tree_model), "entry_code", entry);
@@ -1102,7 +915,7 @@ GtkWidget *gsb_currency_config_new_combobox (gint *value,
 /* ********************************************************************************************************************************** */
 /**
  * Pop up a dialog to create a new currency, do some sanity checks and
- * call the gsb_currency_config_create_currency() function to do the grunt work.
+ * call the gsb_data_currency_new_with_data() function to do the grunt work.
  *
  * \param button				GtkButton that triggered event.
  * \param currency_tree_model 	the treemodel to add the new currency (can be NULL)
@@ -1226,7 +1039,7 @@ dialog_return:
 			if (!gsb_data_currency_get_number_by_name (currency_name)
 				&& !gsb_data_currency_get_number_by_code_iso4217 (currency_iso_code))
 			{
-				currency_number = gsb_currency_config_create_currency (currency_name,
+				currency_number = gsb_data_currency_new_with_data (currency_name,
 																	   currency_code,
 																	   currency_iso_code,
 																	   floating_point);
@@ -1275,66 +1088,6 @@ gboolean gsb_currency_config_add_currency_set_combobox (GtkWidget *button,
 
     return FALSE;
 }
-
-
-/**
- * create a new currency according to the param
- *
- * \param currency_name
- * \param currency_code
- * \param currency_isocode
- * \param floating_point
- *
- * \return the number of the new currency
- **/
-gint gsb_currency_config_create_currency (const gchar *currency_name,
-										  const gchar *currency_code,
-										  const gchar *currency_isocode,
-										  gint floating_point)
-{
-    gint currency_number;
-
-    currency_number = gsb_data_currency_new (currency_name);
-    gsb_data_currency_set_code (currency_number, currency_code);
-    gsb_data_currency_set_code_iso4217 (currency_number, currency_isocode);
-    gsb_data_currency_set_floating_point (currency_number, floating_point);
-
-	return currency_number;
-}
-
-
-/**
- * look for a currency with its code name in the iso list
- * and create it
- *
- * \param currency_name the currency code we look for
- *
- * \return the number of the new currency or FALSE if not found
- **/
-gint gsb_currency_config_create_currency_from_iso4217list (const gchar *currency_name)
-{
-    struct Iso4217Currency *currency = iso_4217_currencies;
-    gchar *tmp = g_strdup (currency_name);
-    g_strchomp (tmp);
-
-    while (currency->country_name)
-    {
-	if (!strcmp (currency->currency_code_iso, tmp) && currency->main_currency)
-	{
-	    g_free (tmp);
-	    return gsb_currency_config_create_currency (currency->currency_name,
-							 currency->currency_nickname,
-							 currency->currency_code_iso,
-							 currency->floating_point);
-	}
-	currency++;
-    }
-
-    g_free (tmp);
-
-    return FALSE;
-}
-
 
 
 /**

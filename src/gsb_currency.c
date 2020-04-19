@@ -336,12 +336,12 @@ gboolean gsb_currency_update_combobox_currency_list ( void )
         gtk_list_store_append ( GTK_LIST_STORE (combobox_currency_store), &iter );
         tmpstr = g_strconcat ( gsb_data_currency_get_name (currency_number),
                     " (",
-                    gsb_data_currency_get_code_or_isocode (currency_number),
+                    gsb_data_currency_get_nickname_or_code_iso (currency_number),
                     ")",
                     NULL );
         gtk_list_store_set ( combobox_currency_store, &iter,
                     CURRENCY_COL_FLAG, pixbuf,
-                    CURRENCY_COL_CODE, gsb_data_currency_get_code_or_isocode (currency_number),
+                    CURRENCY_COL_CODE, gsb_data_currency_get_nickname_or_code_iso (currency_number),
                     CURRENCY_COL_NAME, tmpstr,
                     CURRENCY_COL_NUMBER, currency_number,
                     -1 );

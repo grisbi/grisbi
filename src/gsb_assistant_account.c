@@ -247,9 +247,9 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
      * this would confuse US folks while rest of the world is used to
      * configure stuff to their locale.  */
     if ( ! gsb_data_currency_get_default_currency () &&
-	 ! gsb_currency_config_create_currency_from_iso4217list ( locale -> int_curr_symbol ) )
+	 ! gsb_data_currency_new_from_iso4217_list ( locale -> int_curr_symbol ) )
     {
-	gsb_currency_config_create_currency_from_iso4217list ( "USD" );
+	gsb_data_currency_new_from_iso4217_list ( "USD" );
     }
 
     /* create the currency combobox */

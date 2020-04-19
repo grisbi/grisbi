@@ -104,7 +104,7 @@ gchar *utils_real_get_string_with_currency ( GsbReal number,
     gint floating_point;
 
     const gchar *currency_symbol = (currency_number && show_symbol)
-                                   ? gsb_data_currency_get_code_or_isocode (currency_number)
+                                   ? gsb_data_currency_get_nickname_or_code_iso (currency_number)
                                    : NULL;
 
     /* First of all if number = 0 I return 0 with the symbol of the currency if necessary */
