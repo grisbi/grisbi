@@ -96,7 +96,7 @@
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern struct Iso4217Currency iso_4217_currencies[];
+extern Iso4217Currency iso_4217_currencies[];
 /*END_EXTERN*/
 
 static struct		/* structure download_tmp_values */
@@ -842,19 +842,18 @@ static  void gsb_file_load_currency ( const gchar **attribute_names,
     if ( !strcmp ( attribute_names[i],
                                    "Co" ))
     {
-        struct Iso4217Currency * currency = iso_4217_currencies;
+        Iso4217Currency * currency = iso_4217_currencies;
 
         gsb_data_currency_set_code ( currency_number, attribute_values[i]);
 
         /* Check if a iso code is the same as currency code (old import).  */
         while ( currency -> country_name )
         {
-                            if ( !strcmp ( currency -> currency_code, attribute_values[i] ) )
-                            {
-                                gsb_data_currency_set_code_iso4217 ( currency_number,
-                            attribute_values[i]);
-                            }
-                            currency++;
+			if ( !strcmp ( currency -> currency_code_iso, attribute_values[i] ) )
+			{
+				gsb_data_currency_set_code_iso4217 ( currency_number, attribute_values[i]);
+			}
+			currency++;
         }
 
         i++;

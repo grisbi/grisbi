@@ -75,6 +75,7 @@ GtkWidget *combo_devise_totaux_categ;
 /* struct Iso4217Currency; */
 struct Iso4217Currency iso_4217_currencies[] =
 {
+	/* continent,   currency_name,        country_name,code_iso,nickname .......*/
     { N_("Africa"), N_("Algerian Dinar"), N_("Algeria"), "DZD", NULL, TRUE, "DZD.png", 3, 1 },
     { N_("Africa"), N_("Botswana Pula"), N_("Botswana"), "BWP", NULL, TRUE, "BWP.png", 2, 1 },
     { N_("Africa"), N_("Burundi Franc"), N_("Burundi"), "BIF", NULL, TRUE, "BIF.png", 2, 1 },
@@ -293,7 +294,7 @@ static void gsb_currency_append_currency_to_list (GtkListStore *model,
 						&iter,
 						CURRENCY_FLAG_COLUMN, pixbuf,
 						CURRENCY_NAME_COLUMN, gsb_data_currency_get_name (currency_number),
-						CURRENCY_ISO_CODE_COLUMN, gsb_data_currency_get_code_iso4217 (currency_number),
+						CURRENCY_CODE_ISO_COLUMN, gsb_data_currency_get_code_iso4217 (currency_number),
 						CURRENCY_NICKNAME_COLUMN, gsb_data_currency_get_code (currency_number),
 						CURRENCY_FLOATING_COLUMN, gsb_data_currency_get_floating_point (currency_number),
 						CURRENCY_NUMBER_COLUMN, currency_number,
@@ -349,7 +350,7 @@ static GtkWidget *gsb_currency_config_create_list (void)
        CURRENCY_HAS_FLAG,
        COUNTRY_NAME_COLUMN,
        CURRENCY_NAME_COLUMN,
-       CURRENCY_ISO_CODE_COLUMN,
+       CURRENCY_CODE_ISO_COLUMN,
        CURRENCY_NICKNAME_COLUMN,
        CURRENCY_FLOATING_COLUMN,
        CURRENCY_NUMBER_COLUMN,
@@ -422,7 +423,7 @@ static GtkWidget *gsb_currency_config_create_list (void)
 															  -1,
 															  _("ISO Code"),
 															  cell,
-															  "text", CURRENCY_ISO_CODE_COLUMN,
+															  "text", CURRENCY_CODE_ISO_COLUMN,
 															  "cell-background-rgba", CURRENCY_BACKGROUND_COLOR,
 															  NULL);
     column = gtk_tree_view_get_column (GTK_TREE_VIEW (tree_view), col_offset - 1);
@@ -513,7 +514,7 @@ static gboolean gsb_currency_config_entry_changed (GtkWidget *entry,
     gtk_list_store_set (GTK_LIST_STORE (tree_model),
 						&iter,
 						CURRENCY_NAME_COLUMN, gsb_data_currency_get_name (currency_number),
-						CURRENCY_ISO_CODE_COLUMN, gsb_data_currency_get_code_iso4217 (currency_number),
+						CURRENCY_CODE_ISO_COLUMN, gsb_data_currency_get_code_iso4217 (currency_number),
 						CURRENCY_NICKNAME_COLUMN, gsb_data_currency_get_code (currency_number),
 						CURRENCY_FLOATING_COLUMN,  gsb_data_currency_get_floating_point (currency_number),
 						-1);
@@ -559,7 +560,7 @@ static void gsb_currency_config_fill_popup_list (GtkTreeView *tree_view,
 								CURRENCY_FLAG_COLUMN, pixbuf,
 								COUNTRY_NAME_COLUMN, string,
 								CURRENCY_NAME_COLUMN, _(currency->currency_name),
-								CURRENCY_ISO_CODE_COLUMN, _(currency->currency_code),
+								CURRENCY_CODE_ISO_COLUMN, _(currency->currency_code_iso),
 								CURRENCY_NICKNAME_COLUMN, _(currency->currency_nickname),
 								CURRENCY_FLOATING_COLUMN, currency->floating_point,
 								CURRENCY_NUMBER_COLUMN, currency,
@@ -755,7 +756,7 @@ static gboolean gsb_currency_config_select_currency (GtkTreeSelection *selection
     gtk_tree_model_get (model,
 						&iter,
 						CURRENCY_NAME_COLUMN, &currency_name,
-						CURRENCY_ISO_CODE_COLUMN, &currency_iso_code,
+						CURRENCY_CODE_ISO_COLUMN, &currency_iso_code,
 						CURRENCY_NICKNAME_COLUMN, &currency_nickname,
 						CURRENCY_FLOATING_COLUMN, &currency_floating,
 						CURRENCY_NUMBER_COLUMN, &currency_number,
@@ -804,7 +805,7 @@ static gboolean gsb_currency_config_select_currency_popup (GtkTreeSelection *sel
     gtk_tree_model_get (model,
 						&iter,
 						CURRENCY_NAME_COLUMN, &currency_name,
-						CURRENCY_ISO_CODE_COLUMN, &currency_iso_code,
+						CURRENCY_CODE_ISO_COLUMN, &currency_iso_code,
 						CURRENCY_NICKNAME_COLUMN, &currency_nickname,
 						CURRENCY_FLOATING_COLUMN, &currency_floating,
 						-1);
@@ -1318,12 +1319,12 @@ gint gsb_currency_config_create_currency_from_iso4217list (const gchar *currency
 
     while (currency->country_name)
     {
-	if (!strcmp (currency->currency_code, tmp) && currency->main_currency)
+	if (!strcmp (currency->currency_code_iso, tmp) && currency->main_currency)
 	{
 	    g_free (tmp);
 	    return gsb_currency_config_create_currency (currency->currency_name,
 							 currency->currency_nickname,
-							 currency->currency_code,
+							 currency->currency_code_iso,
 							 currency->floating_point);
 	}
 	currency++;
@@ -1415,7 +1416,7 @@ gboolean gsb_currency_config_select_default (GtkTreeModel *tree_model,
 	locale = gsb_locale_get_locale ();
     gtk_tree_model_get (GTK_TREE_MODEL (tree_model),
 						iter,
-						CURRENCY_ISO_CODE_COLUMN, &code,
+						CURRENCY_CODE_ISO_COLUMN, &code,
 						COUNTRY_NAME_COLUMN, &country,
 						CURRENCY_MAIN_CURRENCY_COLUMN, &main_currency,
 						-1);

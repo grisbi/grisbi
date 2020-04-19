@@ -217,7 +217,7 @@ GtkResponseType gsb_assistant_file_run ( gboolean first_opening,
 		gtk_tree_model_get (model,
 							&iter,
 							CURRENCY_NAME_COLUMN, &currency_name,
-							CURRENCY_ISO_CODE_COLUMN, &currency_iso_code,
+							CURRENCY_CODE_ISO_COLUMN, &currency_iso_code,
 							CURRENCY_NICKNAME_COLUMN, &currency_nickname,
 							CURRENCY_FLOATING_COLUMN, &currency_floating,
 							-1);
