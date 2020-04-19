@@ -45,7 +45,9 @@
  * \struct
  * Describe a currency_link
  */
-typedef struct
+typedef struct	_CurrencyLink		 CurrencyLink;
+
+struct _CurrencyLink
 {
     gint currency_link_number;
 
@@ -61,10 +63,10 @@ typedef struct
      * it's set invalid while the configuration */
     gboolean invalid_link;
 
-} struct_currency_link;
+};
 
 /*START_STATIC*/
-static void _g_data_currency_link_free ( struct_currency_link *currency_link );
+static void _g_data_currency_link_free ( CurrencyLink *currency_link );
 static gboolean gsb_data_currency_link_check_for_invalid ( gint currency_link_number );
 static gpointer gsb_data_currency_link_get_structure ( gint currency_link_number );
 static gint gsb_data_currency_link_max_number ( void );
@@ -73,11 +75,11 @@ static gint gsb_data_currency_link_max_number ( void );
 /*START_EXTERN*/
 /*END_EXTERN*/
 
-/** contains the g_slist of struct_currency_link */
+/** contains the g_slist of CurrencyLink */
 static GSList *currency_link_list = NULL;
 
 /** a pointer to the last currency_link used (to increase the speed) */
-static struct_currency_link *currency_link_buffer;
+static CurrencyLink *currency_link_buffer;
 
 
 /**
@@ -94,7 +96,7 @@ gboolean gsb_data_currency_link_init_variables ( void )
         GSList* tmp_list = currency_link_list;
         while ( tmp_list )
         {
-	    struct_currency_link *currency_link;
+	    CurrencyLink *currency_link;
 	    currency_link = tmp_list -> data;
 	    tmp_list = tmp_list -> next;
             _g_data_currency_link_free ( currency_link );
@@ -132,7 +134,7 @@ gpointer gsb_data_currency_link_get_structure ( gint currency_link_number )
 
     while ( tmp )
     {
-	struct_currency_link *currency_link;
+	CurrencyLink *currency_link;
 
 	currency_link = tmp -> data;
 
@@ -155,7 +157,7 @@ gpointer gsb_data_currency_link_get_structure ( gint currency_link_number )
  * */
 gint gsb_data_currency_link_get_no_currency_link ( gpointer currency_link_ptr )
 {
-    struct_currency_link *currency_link;
+    CurrencyLink *currency_link;
 
     if ( !currency_link_ptr )
 	return 0;
@@ -197,7 +199,7 @@ gint gsb_data_currency_link_max_number ( void )
 
     while ( tmp )
     {
-	struct_currency_link *currency_link;
+	CurrencyLink *currency_link;
 
 	currency_link = tmp -> data;
 
@@ -221,9 +223,9 @@ gint gsb_data_currency_link_max_number ( void )
  * */
 gint gsb_data_currency_link_new ( gint currency_link_number )
 {
-    struct_currency_link *currency_link;
+    CurrencyLink *currency_link;
 
-    currency_link = g_malloc0 ( sizeof ( struct_currency_link ));
+    currency_link = g_malloc0 ( sizeof ( CurrencyLink ));
 
     if (currency_link_number)
 	currency_link -> currency_link_number = currency_link_number;
@@ -239,9 +241,9 @@ gint gsb_data_currency_link_new ( gint currency_link_number )
 
 
 /**
- * This internal function is called to free the memory used by a struct_currency_link structure.
+ * This internal function is called to free the memory used by a CurrencyLink structure.
  */
-static void _g_data_currency_link_free ( struct_currency_link *currency_link )
+static void _g_data_currency_link_free ( CurrencyLink *currency_link )
 {
     if ( ! currency_link )
         return ;
@@ -263,7 +265,7 @@ static void _g_data_currency_link_free ( struct_currency_link *currency_link )
  * */
 gboolean gsb_data_currency_link_remove ( gint currency_link_number )
 {
-    struct_currency_link *currency_link;
+    CurrencyLink *currency_link;
 
     currency_link = gsb_data_currency_link_get_structure ( currency_link_number );
 
@@ -292,7 +294,7 @@ gboolean gsb_data_currency_link_remove ( gint currency_link_number )
 gint gsb_data_currency_link_set_new_number ( gint currency_link_number,
                         gint new_no_currency_link )
 {
-    struct_currency_link *currency_link;
+    CurrencyLink *currency_link;
 
     currency_link = gsb_data_currency_link_get_structure ( currency_link_number );
 
@@ -314,7 +316,7 @@ gint gsb_data_currency_link_set_new_number ( gint currency_link_number,
  * */
 gint gsb_data_currency_link_get_first_currency ( gint currency_link_number )
 {
-    struct_currency_link *currency_link;
+    CurrencyLink *currency_link;
 
     currency_link = gsb_data_currency_link_get_structure ( currency_link_number );
 
@@ -337,7 +339,7 @@ gint gsb_data_currency_link_get_first_currency ( gint currency_link_number )
 gboolean gsb_data_currency_link_set_first_currency ( gint currency_link_number,
                         gint first_currency )
 {
-    struct_currency_link *currency_link;
+    CurrencyLink *currency_link;
 
     currency_link = gsb_data_currency_link_get_structure ( currency_link_number );
 
@@ -360,7 +362,7 @@ gboolean gsb_data_currency_link_set_first_currency ( gint currency_link_number,
  * */
 gint gsb_data_currency_link_get_second_currency ( gint currency_link_number )
 {
-    struct_currency_link *currency_link;
+    CurrencyLink *currency_link;
 
     currency_link = gsb_data_currency_link_get_structure ( currency_link_number );
 
@@ -383,7 +385,7 @@ gint gsb_data_currency_link_get_second_currency ( gint currency_link_number )
 gboolean gsb_data_currency_link_set_second_currency ( gint currency_link_number,
                         gint second_currency )
 {
-    struct_currency_link *currency_link;
+    CurrencyLink *currency_link;
 
     currency_link = gsb_data_currency_link_get_structure ( currency_link_number );
 
@@ -405,7 +407,7 @@ gboolean gsb_data_currency_link_set_second_currency ( gint currency_link_number,
  * */
 GsbReal gsb_data_currency_link_get_change_rate ( gint currency_link_number )
 {
-    struct_currency_link *currency_link;
+    CurrencyLink *currency_link;
 
     currency_link = gsb_data_currency_link_get_structure ( currency_link_number );
 
@@ -427,7 +429,7 @@ GsbReal gsb_data_currency_link_get_change_rate ( gint currency_link_number )
 gboolean gsb_data_currency_link_set_change_rate ( gint currency_link_number,
                         GsbReal change_rate )
 {
-    struct_currency_link *currency_link;
+    CurrencyLink *currency_link;
 
     currency_link = gsb_data_currency_link_get_structure ( currency_link_number );
 
@@ -452,7 +454,7 @@ gboolean gsb_data_currency_link_set_change_rate ( gint currency_link_number,
  * */
 gint gsb_data_currency_link_get_invalid_link ( gint currency_link_number )
 {
-    struct_currency_link *currency_link;
+    CurrencyLink *currency_link;
 
     currency_link = gsb_data_currency_link_get_structure ( currency_link_number );
 
@@ -473,7 +475,7 @@ gint gsb_data_currency_link_get_invalid_link ( gint currency_link_number )
  * */
 const gchar *gsb_data_currency_link_get_invalid_message ( gint currency_link_number )
 {
-    struct_currency_link *currency_link;
+    CurrencyLink *currency_link;
 
     currency_link = gsb_data_currency_link_get_structure ( currency_link_number );
 
@@ -503,7 +505,7 @@ const gchar *gsb_data_currency_link_get_invalid_message ( gint currency_link_num
  * */
 gboolean gsb_data_currency_link_check_for_invalid ( gint currency_link_number )
 {
-    struct_currency_link *currency_link;
+    CurrencyLink *currency_link;
     GSList *tmp_list;
 
     currency_link = gsb_data_currency_link_get_structure ( currency_link_number );
@@ -525,7 +527,7 @@ gboolean gsb_data_currency_link_check_for_invalid ( gint currency_link_number )
 
     while (tmp_list)
     {
-	struct_currency_link *tmp_currency_link;
+	CurrencyLink *tmp_currency_link;
 
 	tmp_currency_link = tmp_list -> data;
 
@@ -578,7 +580,7 @@ gint gsb_data_currency_link_search ( gint currency_1,
 
     while (tmp_list)
     {
-	struct_currency_link *tmp_currency_link;
+	CurrencyLink *tmp_currency_link;
 
 	tmp_currency_link = tmp_list -> data;
 
@@ -608,7 +610,7 @@ gint gsb_data_currency_link_search ( gint currency_1,
  * */
 GDate *gsb_data_currency_link_get_modified_date ( gint currency_link_number )
 {
-    struct_currency_link *currency_link;
+    CurrencyLink *currency_link;
 
     currency_link = gsb_data_currency_link_get_structure ( currency_link_number );
 
@@ -630,7 +632,7 @@ GDate *gsb_data_currency_link_get_modified_date ( gint currency_link_number )
 gboolean gsb_data_currency_link_set_modified_date ( gint currency_link_number,
                         GDate *date )
 {
-    struct_currency_link *currency_link;
+    CurrencyLink *currency_link;
 
     currency_link = gsb_data_currency_link_get_structure ( currency_link_number );
 
@@ -658,7 +660,7 @@ gboolean gsb_data_currency_link_set_modified_date ( gint currency_link_number,
  * */
 gboolean gsb_data_currency_link_get_fixed_link ( gint currency_link_number )
 {
-    struct_currency_link *currency_link;
+    CurrencyLink *currency_link;
 
     currency_link = gsb_data_currency_link_get_structure ( currency_link_number );
 
@@ -680,7 +682,7 @@ gboolean gsb_data_currency_link_get_fixed_link ( gint currency_link_number )
 gboolean gsb_data_currency_link_set_fixed_link ( gint currency_link_number,
                         gboolean fixed_link )
 {
-    struct_currency_link *currency_link;
+    CurrencyLink *currency_link;
 
     currency_link = gsb_data_currency_link_get_structure ( currency_link_number );
 
