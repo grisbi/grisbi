@@ -2,6 +2,7 @@
 #define _ETATS_PREFS_PRIVATE_H
 
 #include <gtk/gtk.h>
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 /*END_INCLUDE*/
