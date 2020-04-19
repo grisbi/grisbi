@@ -85,7 +85,7 @@ GRegex *gsb_regex_insert ( const gchar *key,
     GRegex *regex;
     GError *error = NULL;
 
-    devel_debug (pattern);
+    //~ devel_debug (pattern);
     if ( ! regex_store )
         return NULL;
 

@@ -2205,7 +2205,8 @@ gboolean gsb_form_entry_lose_focus (GtkWidget *entry,
     gint account_number;
     gint transaction_number;
     gint payment_number;
-    devel_debug (NULL);
+
+    //~ devel_debug (NULL);
 
 	/* still not found, if change the content of the form, something come in entry
      * which is nothing, so protect here */
