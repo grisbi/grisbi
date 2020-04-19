@@ -12,14 +12,14 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-18 06:14+0200\n"
-"PO-Revision-Date: 2020-03-01 11:55+0100\n"
+"PO-Revision-Date: 2020-04-19 11:34+0200\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 19.12.2\n"
+"X-Generator: Lokalize 19.12.3\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../src/ui/bet_graph.ui.h:1
@@ -1155,9 +1155,8 @@ msgid "Common data"
 msgstr "Gemeinsame Einstellungen"
 
 #: ../src/ui/prefs_page_bet_general.ui.h:3
-#, fuzzy
 msgid "Beginning of period: "
-msgstr "Beginndatum"
+msgstr "Beginndatum:"
 
 #: ../src/ui/prefs_page_bet_general.ui.h:4 ../src/bet_config.c:158
 msgid "1st day of month"
@@ -1168,7 +1167,6 @@ msgid "date today"
 msgstr "aktuelles Datum"
 
 #: ../src/ui/prefs_page_bet_general.ui.h:6
-#, fuzzy
 msgid "(This option is used if no starting date for forecasts)"
 msgstr ""
 "Anmerkung: Diese Einstellung wird bei einem fehlenden Datum für die Prognose "
@@ -1250,7 +1248,7 @@ msgstr "Design"
 msgid ""
 "(If the rendering is not correct, you can force the type of theme by "
 "selecting the option below)"
-msgstr ""
+msgstr "Wenn die Darstellung nicht korrekt ist folgendes Design verwenden"
 
 #: ../src/ui/prefs_page_display_fonts.ui.h:11
 msgid "Automatic selection"
@@ -1271,7 +1269,7 @@ msgstr "Buchungsformular Vorschau"
 
 #: ../src/ui/prefs_page_display_form.ui.h:4
 msgid "Rows"
-msgstr ""
+msgstr "Zeilen"
 
 #. set the box with the buttons
 #: ../src/ui/prefs_page_display_form.ui.h:5 ../src/gsb_form_config.c:155
@@ -1279,13 +1277,13 @@ msgid "Form structure content"
 msgstr "Buchungsformular Inhalt"
 
 #: ../src/ui/prefs_page_display_gui.ui.h:1
-#, fuzzy
 msgid "Resolution screen"
-msgstr "Abstimmung Nr."
+msgstr "Auflösung"
 
 #: ../src/ui/prefs_page_display_gui.ui.h:3
 msgid "Use a low resolution screen (Close and reopen preferences)"
 msgstr ""
+"Niedrige Auflösung verwenden (Einstellungen schließen und erneut aufrufen)"
 
 #: ../src/ui/prefs_page_display_gui.ui.h:4
 msgid "Headings bar"
@@ -1395,7 +1393,6 @@ msgid "Choose the date format"
 msgstr "Datumsformat auswählen"
 
 #: ../src/ui/prefs_page_divers.ui.h:15
-#, fuzzy
 msgid "Choose decimal and thousands separator"
 msgstr "Dezimal-/Tausender Zeichen auswählen"
 
@@ -1468,7 +1465,7 @@ msgstr " Minuten"
 
 #: ../src/ui/prefs_page_files.ui.h:17
 msgid "Remove backup files older than "
-msgstr ""
+msgstr "Sicherungen löschen welche älter sind als"
 
 #: ../src/ui/prefs_page_files.ui.h:18 ../src/ui/prefs_widget_loan.ui.h:2
 #: ../src/bet_finance_ui.c:280 ../src/gsb_scheduler_list.c:118
@@ -1484,12 +1481,10 @@ msgid "Sélectionner un répertoire"
 msgstr "Verzeichnis auswählen - Grisbi"
 
 #: ../src/ui/prefs_page_files.ui.h:21
-#, fuzzy
 msgid "Directory for files import"
 msgstr "Verzeichnis für Import"
 
 #: ../src/ui/prefs_page_files.ui.h:22
-#, fuzzy
 msgid "Use a fixed directory: "
 msgstr "Definiertes Verzeichnis für Import verwenden: "
 
@@ -1554,7 +1549,6 @@ msgid "Interpretation of future dates"
 msgstr "Buchungsdatum in der Zukunft"
 
 #: ../src/ui/prefs_page_form_options.ui.h:4
-#, fuzzy
 msgid ""
 "(This option allows all future dates to be considered as dates from the "
 "previous calendar year)"
@@ -1641,9 +1635,8 @@ msgid "Search string: "
 msgstr "Suchkriterium: "
 
 #: ../src/ui/prefs_page_import_asso.ui.h:8
-#, fuzzy
 msgid "Rule"
-msgstr "Regel Name"
+msgstr "Regel"
 
 #. others options for search
 #: ../src/ui/prefs_page_import_asso.ui.h:9 ../src/tiers_onglet.c:249
@@ -1697,15 +1690,13 @@ msgid "Don't imported the categories"
 msgstr "Kategorien nicht importieren"
 
 #: ../src/ui/prefs_page_import_files.ui.h:12
-#, fuzzy
 msgid "If possible use the field 'N' to define the methods of payment"
 msgstr ""
-"Wenn vorhanden das Feld « N » für die Festlegung von Zahlungsweisen verwenden"
+"Wenn vorhanden das Feld 'N' für Festlegung von Zahlungsweisen verwenden"
 
 #: ../src/ui/prefs_page_import_files.ui.h:13
-#, fuzzy
 msgid "(Adding the import of QIF files of the 'Société Générale' french bank)"
-msgstr "(Das Feld « N » wird nicht von allen Banken unterstützt)"
+msgstr "(Das Feld 'N' wird nicht von allen Banken unterstützt)"
 
 #: ../src/ui/prefs_page_metatree.ui.h:1 ../src/etats_prefs.c:3083
 msgid "Totals currencies"
@@ -1748,24 +1739,21 @@ msgid "Sort option for transactions"
 msgstr "Sortierung"
 
 #: ../src/ui/prefs_page_metatree.ui.h:12
-#, fuzzy
 msgid "Display a short list of entries in the payees selection box"
-msgstr "Auswahlliste für Empfänger"
+msgstr "Reduzierte Auswahlliste für Empfänger"
 
 #: ../src/ui/prefs_page_metatree.ui.h:13
 msgid "Limits the payees for the payee entry form"
 msgstr "Reduzierte Auswahlliste für Empfänger"
 
 #: ../src/ui/prefs_page_metatree.ui.h:14
-#, fuzzy
 msgid ""
 "(This option limits the list to payees used by the no archived transactions)"
 msgstr "Empfänger von archivierten Buchungen werden nicht angezeigt"
 
 #: ../src/ui/prefs_page_msg_delete.ui.h:1
-#, fuzzy
 msgid "Display following deleting messages"
-msgstr "Folgende Warnungen anzeigen"
+msgstr "Folgende Löschrückfragen anzeigen"
 
 #: ../src/ui/prefs_page_msg_warning.ui.h:3
 msgid "Display tip of the day"
@@ -1822,12 +1810,10 @@ msgid "Remember display settings for each account separately"
 msgstr "Die Anzeigeoptionen für jedes Konto gesondert speichern"
 
 #: ../src/ui/prefs_page_reconcile.ui.h:1
-#, fuzzy
 msgid "Select the end date of reconciliation"
-msgstr "Enddatum für Abstimmungen: "
+msgstr "Enddatum für Abstimmungen"
 
 #: ../src/ui/prefs_page_reconcile.ui.h:2
-#, fuzzy
 msgid "Start date + one month"
 msgstr "Anfangsdatum + ein Monat"
 
@@ -1848,9 +1834,8 @@ msgid "Selected reconcile"
 msgstr "Abstimmung Details"
 
 #: ../src/ui/prefs_page_reconcile.ui.h:7
-#, fuzzy
 msgid "Reconciliation number: "
-msgstr "Abstimmung Nr."
+msgstr "Abstimmung Nummer:"
 
 #. set the final balance
 #: ../src/ui/prefs_page_reconcile.ui.h:10
@@ -2027,24 +2012,20 @@ msgid "TRUE if you want to compress the backup file."
 msgstr "Sicherung komprimieren."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:7
-#, fuzzy
 msgid "removing backup files"
-msgstr "Für Sicherungen nur eine Datei anlegen"
+msgstr "Sicherungen löschen"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:8
-#, fuzzy
 msgid "TRUE if you want to remove backup files."
-msgstr "Sicherung komprimieren."
+msgstr "Sicherungen löschen"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:9
-#, fuzzy
 msgid "Months before deleting backup files"
-msgstr "Für Sicherungen nur eine Datei anlegen"
+msgstr "Monate bevor eine Sicherung gelöscht wird"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:10
-#, fuzzy
 msgid "Number of months before removing backup files."
-msgstr "Intervall in Minuten für Sicherung"
+msgstr "Anzahl von Monaten bevor eine Sicherung gelöscht wird"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:11
 msgid "Backup before using file"
@@ -2292,14 +2273,12 @@ msgid "Browser command."
 msgstr "Browser Befehl."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:67
-#, fuzzy
 msgid "Current theme"
-msgstr "aktueller Monat"
+msgstr "Aktuelles Design"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:68
-#, fuzzy
 msgid "Current theme."
-msgstr "aktueller Monat"
+msgstr "Aktuelles Design."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:69
 msgid "Use custom fonts for lists"
@@ -2318,16 +2297,16 @@ msgid "If utilise-fonte-listes = TRUE, this is the name of the custom font."
 msgstr "Schrift Name."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:73
-#, fuzzy
 msgid "Force type of theme"
-msgstr "Dunkles Design erzwingen"
+msgstr "Design erzwingen"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:74
-#, fuzzy
 msgid ""
 "Force the use a type of theme when the automatic selection is not available. "
 "0 = auto 1 = standard 2 = dark theme 3 = light theme."
-msgstr "Dunkles Design erzwingen wenn automatische Auswahl nicht verfügbar ist"
+msgstr ""
+"Design erzwingen wenn automatische Auswahl nicht verfügbar ist. "
+"0 = automatisch 1 = Standard 2 = dunkles Design 3 = helles Design"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:75
 msgid "Language for interface"
@@ -2409,11 +2388,11 @@ msgstr "Hauptfenster im Vollbild Modus anzeigen."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:94
 msgid "Use low resolution screen"
-msgstr ""
+msgstr "Niedrige Auflösung verwenden"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:95
 msgid "TRUE when use a low resolution screen."
-msgstr ""
+msgstr "Niedrige Auflösung verwenden"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:96
 msgid "Width of the main window"
@@ -2448,13 +2427,12 @@ msgid "The Y position of the main window."
 msgstr "Die Y Position vom Hauptfenster."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:104
-#, fuzzy
 msgid "Display warning"
-msgstr "Das Logo anzeigen"
+msgstr "Warnung anzeigen"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:105
 msgid "TRUE to display message"
-msgstr ""
+msgstr "diese Meldung anzeigen"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:106
 msgid "Last tip"
@@ -2574,7 +2552,6 @@ msgstr ""
 "Basis auszuführen."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:130
-#, fuzzy
 msgid "Fixed day for sheduled transactions"
 msgstr "Festgelegter Tag für geplante Buchungen"
 
@@ -3001,9 +2978,8 @@ msgid "Fees: "
 msgstr "Gebühren: "
 
 #: ../src/bet_finance_ui.c:1373
-#, fuzzy
 msgid " of capital"
-msgstr "Kredit Betrag: "
+msgstr " vom Kapital"
 
 #. titre de la page
 #: ../src/bet_finance_ui.c:1453 ../src/grisbi_win.c:516
@@ -3435,9 +3411,8 @@ msgid "December"
 msgstr "Dezember"
 
 #: ../src/bet_graph.c:459
-#, fuzzy
 msgid "Total amount: "
-msgstr "Gesamtbetrag: "
+msgstr "Gesamtbetrag:"
 
 #: ../src/bet_graph.c:479
 #, c-format
@@ -3946,9 +3921,8 @@ msgid "Invert the amount"
 msgstr "Betrag invertieren"
 
 #: ../src/csv_template_rule.c:409
-#, fuzzy
 msgid "Forcing Grisbi to keep the line"
-msgstr "Beim Saldo berücksichtigen"
+msgstr "Anzeige von Zeile erzwingen"
 
 #: ../src/csv_template_rule.c:593
 msgid "Data to be used"
@@ -4074,12 +4048,10 @@ msgid "Grisbi detected that an account is under a desired balance: %s"
 msgstr "Das Konto ist unter dem festgelegten Saldo: %s"
 
 #: ../src/dialog.c:108
-#, fuzzy
 msgid "Confirmation of manual reconciliation"
 msgstr "Manuelle Abstimmung bestätigen"
 
 #: ../src/dialog.c:109
-#, fuzzy
 msgid ""
 "You are trying to reconcile a transaction manually, which is not a "
 "recommended action.\n"
@@ -4090,12 +4062,10 @@ msgstr ""
 "Vorgehensweise. Soll der Vorgang fortgesetzt werden?"
 
 #: ../src/dialog.c:114
-#, fuzzy
 msgid "Confirmation of manual unreconciliation"
 msgstr "Manuelle Abstimmung bestätigen"
 
 #: ../src/dialog.c:115
-#, fuzzy
 msgid ""
 "You are trying to unreconcile a transaction manually, which is not a "
 "recommended action.\n"
@@ -4106,15 +4076,14 @@ msgstr ""
 "Vorgehensweise. Soll der Vorgang fortgesetzt werden?"
 
 #: ../src/dialog.c:120
-#, fuzzy
 msgid "Removing backups from the account file"
-msgstr "Automatische Sicherung bevor die Datei geschlossen wird"
+msgstr "Sicherung löschen"
 
 #: ../src/dialog.c:121
 #, c-format
 msgid ""
 "You will delete %d backups from your account file that are older than %s."
-msgstr ""
+msgstr "Es werden %d Sicherungen gelöscht welche älter sind als %s."
 
 #: ../src/dialog.c:280
 msgid "Do not show this message again"
@@ -5555,7 +5524,7 @@ msgid "Hide reconciliation names and amounts"
 msgstr "Namen und Beträge von Abstimmungen"
 
 #: ../src/file_obfuscate.c:566
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Please press the 'Close' button to obfuscate your file\n"
 "\n"
@@ -6126,10 +6095,10 @@ msgstr "Buchung abstimmen\t-> Strg + R\n"
 
 #: ../src/grisbi_conf.c:454
 msgid "Monospace 10"
-msgstr ""
+msgstr "Monospace 10"
 
 #: ../src/grisbi_conf.c:1121
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot save configuration file '%s': %s"
 msgstr "Die Datei kann nicht gespeichert werden '%s': %s"
 
@@ -6264,18 +6233,16 @@ msgid "Accounts data"
 msgstr "Konten Einstellungen"
 
 #: ../src/grisbi_prefs.c:690
-#, fuzzy
 msgid "Preferences start"
-msgstr "Einstellungen"
+msgstr "Einstellungen Anfang"
 
 #: ../src/grisbi_prefs.c:723
 msgid "This state will be kept for the duration of this session"
 msgstr "Auswahl wird bis Programmende beibehalten"
 
 #: ../src/grisbi_prefs.c:930
-#, fuzzy
 msgid "Preferences stop"
-msgstr "Einstellungen"
+msgstr "Einstellungen Ende"
 
 #: ../src/grisbi_settings.c:256
 msgid "No font defined"
@@ -10523,7 +10490,7 @@ msgid "%d years"
 msgstr "%d Jahre"
 
 #: ../src/gsb_scheduler_list.c:1663
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Some scheduled children didn't find their mother in the list, this shouldn't "
 "happen and there is probably a bug behind that.\n"
@@ -10697,7 +10664,6 @@ msgstr ""
 "Die Abstimmung muss beendet oder abgebrochen werden damit dies möglich ist."
 
 #: ../src/gsb_transactions_list.c:1463
-#, fuzzy
 msgid ""
 "You are trying to unreconcile a transaction manually, which is not a "
 "recommended action. This is the wrong approach.\n"
@@ -10717,7 +10683,6 @@ msgstr ""
 "Soll der Vorgang fortgesetzt werden?"
 
 #: ../src/gsb_transactions_list.c:1472
-#, fuzzy
 msgid ""
 "You are trying to reconcile a transaction manually, which is not a "
 "recommended action. This is the wrong approach.\n"
@@ -10786,7 +10751,7 @@ msgid "Do you really want to delete this file import rule?"
 msgstr "Soll die Importregel gelöscht werden?"
 
 #: ../src/gsb_transactions_list.c:2089
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Some children didn't find their mother in the list, this shouldn't happen "
 "and there is probably a bug behind that.\n"
@@ -11004,11 +10969,11 @@ msgstr "Finanzprogramm für Privatpersonen\n"
 
 #: ../src/help.c:206
 msgid "GTK+ version: "
-msgstr ""
+msgstr "GTK+ version: "
 
 #: ../src/help.c:210
 msgid "Grisbi git hash: "
-msgstr ""
+msgstr "Grisbi git hash: "
 
 #: ../src/import.c:131
 msgid "Comma Separated Values"
@@ -12329,21 +12294,19 @@ msgstr "Neuberechnung N° %d"
 #: ../src/prefs/prefs_page_display_fonts.c:188
 #, c-format
 msgid "The automatically selected theme is: '%s'"
-msgstr ""
+msgstr "Das automatisch gewählte Design ist: '%s'"
 
 #: ../src/prefs/prefs_page_display_fonts.c:219
-#, fuzzy
 msgid "Force the use of clear theme"
-msgstr "Dunkles Design erzwingen"
+msgstr "Klares Design erzwingen"
 
 #: ../src/prefs/prefs_page_display_fonts.c:230
 msgid "Force the use of dark theme"
 msgstr "Dunkles Design erzwingen"
 
 #: ../src/prefs/prefs_page_display_fonts.c:243
-#, fuzzy
 msgid "Force the use of light theme"
-msgstr "Dunkles Design erzwingen"
+msgstr "Helles Design erzwingen"
 
 #: ../src/prefs/prefs_page_display_fonts.c:568
 msgid "Select a new logo"
@@ -12423,7 +12386,7 @@ msgstr "nach Name absteigend sortieren"
 
 #: ../src/prefs/prefs_page_import_asso.c:386
 msgid "You are creating a new payee with a rule"
-msgstr ""
+msgstr "Einen neuen Empfänger mit einer Regel erstellen"
 
 #: ../src/prefs/prefs_page_import_asso.c:388
 msgid ""
@@ -12431,10 +12394,13 @@ msgid ""
 "third party and its rule.\n"
 "Continue anyway?"
 msgstr ""
+"Wenn dieser Vorgang fortgesetzt wird erfolgt die Anlage von einem neuen"
+" Empfänger und einer Regel.\n"
+"Soll dieser Vorgang fortgesetzt werden?"
 
 #: ../src/prefs/prefs_page_import_asso.c:493
 msgid "You will be redirected to the payee management module"
-msgstr ""
+msgstr "Es erfolgt eine Weiterleitung zu der Empfänger Verwaltung"
 
 #: ../src/prefs/prefs_page_import_asso.c:494
 msgid ""
@@ -12442,6 +12408,11 @@ msgid ""
 "If you continue, you will use the payee management module to do so.\n"
 "Continue anyway?"
 msgstr ""
+"Ein Empfänger und die Regel können auf diese Art und Weise nicht erstellt"
+" werden.\n"
+"Wenn Sie diesen Vorgang fortsetzen wird der restliche Vorgang in der"
+" Empfängerverwaltung ausgeführt.\n"
+"Soll dieser Vorgang fortgesetzt werden?"
 
 #: ../src/prefs/prefs_page_import_asso.c:679 ../src/tiers_onglet.c:1537
 msgid "Payee name"
@@ -12580,7 +12551,7 @@ msgstr "Saldo Ende"
 #. we are on a reconcile,
 #. * we ask if the user want to continue and warn him
 #: ../src/prefs/prefs_page_reconcile.c:521
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Caution, you are about to delete a reconciliation.\n"
 "If you continue, the reconciliation '%s' will be erased and all the "
@@ -12930,9 +12901,8 @@ msgid "Enter the new payee"
 msgstr "Empfänger eingeben"
 
 #: ../src/tiers_onglet.c:1233
-#, fuzzy
 msgid "Enter the name of the new payee: "
-msgstr "Den Namen vom neuen Empfänger eingeben"
+msgstr "Den Namen vom neuen Empfänger eingeben:"
 
 #: ../src/tiers_onglet.c:1267
 msgid "Save the payees in the notes"
@@ -12943,7 +12913,6 @@ msgid "List of payees who will be modified"
 msgstr "Auflistung der Änderungen"
 
 #: ../src/tiers_onglet.c:1483
-#, fuzzy
 msgid "Do you want replace the current rule?"
 msgstr "Soll die Importregel ersetzt werden?"
 
@@ -13009,7 +12978,6 @@ msgstr ""
 "Bei der Auswahl von 'Ja' wird die vorhandene Notiz mit %s überschrieben."
 
 #: ../src/tiers_onglet.c:1880
-#, fuzzy
 msgid ""
 "This wizard will help you to simplify the list of payees.\n"
 "\n"
