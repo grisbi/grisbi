@@ -39,22 +39,23 @@
 #include "utils_str.h"
 /*END_INCLUDE*/
 
-
 /**
  * \struct
  * Describe a currency
  */
-typedef struct
-{
+typedef struct _CurrencyStruct		CurrencyStruct;
+
+struct _CurrencyStruct
+{									/* correspondance avec struct Iso4217Currency */
     gint currency_number;
-    gchar *currency_name;
-    gchar *currency_code;
-    gchar *currency_code_iso4217;
-    gint currency_floating_point;	 /* number of digits after the point */
-} struct_currency;
+    gchar *currency_name;			/* -> currency_name */
+    gchar *currency_code;			/* -> currency_nickname */
+    gchar *currency_code_iso4217;	/* -> currency_code */
+    gint currency_floating_point;	/* -> floating_point (number of digits after the point) */
+};
 
 /*START_STATIC*/
-static void _gsb_data_currency_free ( struct_currency *currency );
+static void _gsb_data_currency_free ( CurrencyStruct *currency );
 static gpointer gsb_data_currency_get_structure ( gint currency_number );
 static gboolean gsb_data_currency_set_default_currency ( gint currency_number );
 /*END_STATIC*/
@@ -62,11 +63,11 @@ static gboolean gsb_data_currency_set_default_currency ( gint currency_number );
 /*START_EXTERN*/
 /*END_EXTERN*/
 
-/** contains the g_slist of struct_currency */
+/** contains the g_slist of CurrencyStruct */
 static GSList *currency_list = NULL;
 
 /** a pointer to the last currency used (to increase the speed) */
-static struct_currency *currency_buffer;
+static CurrencyStruct *currency_buffer;
 
 /** the number of the default currency */
 static gint default_currency_number;
@@ -85,7 +86,7 @@ gboolean gsb_data_currency_init_variables ( void )
         GSList* tmp_list = currency_list;
         while ( tmp_list )
         {
-	    struct_currency *currency;
+	    CurrencyStruct *currency;
 	    currency = tmp_list -> data;
 	    tmp_list = tmp_list -> next;
             _gsb_data_currency_free ( currency );
@@ -124,7 +125,7 @@ gpointer gsb_data_currency_get_structure ( gint currency_number )
 
     while ( tmp )
     {
-	struct_currency *currency;
+	CurrencyStruct *currency;
 
 	currency = tmp -> data;
 
@@ -147,7 +148,7 @@ gpointer gsb_data_currency_get_structure ( gint currency_number )
  * */
 gint gsb_data_currency_get_no_currency ( gpointer currency_ptr )
 {
-    struct_currency *currency;
+    CurrencyStruct *currency;
 
     if ( !currency_ptr )
 	return 0;
@@ -189,7 +190,7 @@ gint gsb_data_currency_max_number ( void )
 
     while ( tmp )
     {
-	struct_currency *currency;
+	CurrencyStruct *currency;
 
 	currency = tmp -> data;
 
@@ -213,9 +214,9 @@ gint gsb_data_currency_max_number ( void )
  * */
 gint gsb_data_currency_new ( const gchar *name )
 {
-    struct_currency *currency;
+    CurrencyStruct *currency;
 
-    currency = g_malloc0 ( sizeof ( struct_currency ));
+    currency = g_malloc0 ( sizeof ( CurrencyStruct ));
     currency -> currency_number = gsb_data_currency_max_number () + 1;
 
     if (name)
@@ -232,9 +233,9 @@ gint gsb_data_currency_new ( const gchar *name )
 }
 
 /**
- * This internal function is called to free the memory used by a struct_currency structure
+ * This internal function is called to free the memory used by a CurrencyStruct structure
  */
-static void _gsb_data_currency_free ( struct_currency *currency )
+static void _gsb_data_currency_free ( CurrencyStruct *currency )
 {
     if ( ! currency )
         return;
@@ -260,7 +261,7 @@ static void _gsb_data_currency_free ( struct_currency *currency )
  * */
 gboolean gsb_data_currency_remove ( gint currency_number )
 {
-    struct_currency *currency;
+    CurrencyStruct *currency;
 
     currency = gsb_data_currency_get_structure ( currency_number );
 
@@ -289,14 +290,14 @@ gboolean gsb_data_currency_remove ( gint currency_number )
 gint gsb_data_currency_load_currency (gint new_no_currency)
 {
 	GSList *tmp_list;
-    struct_currency *currency;
+    CurrencyStruct *currency;
 
 	/* test existence de la devise */
     tmp_list = currency_list;
 
     while (tmp_list)
     {
-		struct_currency *tmp_currency;
+		CurrencyStruct *tmp_currency;
 
 		tmp_currency = tmp_list->data;
 		if (tmp_currency->currency_number == new_no_currency)
@@ -309,7 +310,7 @@ gint gsb_data_currency_load_currency (gint new_no_currency)
 		tmp_list = tmp_list->next;
     }
 
-    currency = g_malloc0 (sizeof (struct_currency));
+    currency = g_malloc0 (sizeof (CurrencyStruct));
     currency->currency_number = new_no_currency;
 	currency->currency_name = NULL;
 	currency->currency_floating_point = 2;
@@ -341,7 +342,7 @@ gint gsb_data_currency_get_default_currency (void)
  * */
 gboolean gsb_data_currency_set_default_currency ( gint currency_number )
 {
-    struct_currency *currency;
+    CurrencyStruct *currency;
 
     currency = gsb_data_currency_get_structure ( currency_number );
 
@@ -363,7 +364,7 @@ gboolean gsb_data_currency_set_default_currency ( gint currency_number )
  * */
 gchar *gsb_data_currency_get_name ( gint currency_number )
 {
-    struct_currency *currency;
+    CurrencyStruct *currency;
 
     currency = gsb_data_currency_get_structure ( currency_number );
 
@@ -386,7 +387,7 @@ gchar *gsb_data_currency_get_name ( gint currency_number )
 gboolean gsb_data_currency_set_name ( gint currency_number,
 				      const gchar *name )
 {
-    struct_currency *currency;
+    CurrencyStruct *currency;
 
     currency = gsb_data_currency_get_structure ( currency_number );
 
@@ -416,7 +417,7 @@ gboolean gsb_data_currency_set_name ( gint currency_number,
  * */
 const gchar *gsb_data_currency_get_code ( gint currency_number )
 {
-    struct_currency *currency;
+    CurrencyStruct *currency;
 
     currency = gsb_data_currency_get_structure ( currency_number );
 
@@ -439,7 +440,7 @@ const gchar *gsb_data_currency_get_code ( gint currency_number )
 gboolean gsb_data_currency_set_code ( gint currency_number,
 				      const gchar *currency_code )
 {
-    struct_currency *currency;
+    CurrencyStruct *currency;
 
     currency = gsb_data_currency_get_structure ( currency_number );
 
@@ -469,7 +470,7 @@ gboolean gsb_data_currency_set_code ( gint currency_number,
  * */
 gchar *gsb_data_currency_get_code_iso4217 ( gint currency_number )
 {
-    struct_currency *currency;
+    CurrencyStruct *currency;
 
     currency = gsb_data_currency_get_structure ( currency_number );
 
@@ -492,7 +493,7 @@ gchar *gsb_data_currency_get_code_iso4217 ( gint currency_number )
 gboolean gsb_data_currency_set_code_iso4217 ( gint currency_number,
 					      const gchar *currency_code_iso4217 )
 {
-    struct_currency *currency;
+    CurrencyStruct *currency;
 
     currency = gsb_data_currency_get_structure ( currency_number );
 
@@ -522,7 +523,7 @@ gboolean gsb_data_currency_set_code_iso4217 ( gint currency_number,
  * */
 gint gsb_data_currency_get_floating_point ( gint currency_number )
 {
-    struct_currency *currency;
+    CurrencyStruct *currency;
 
     currency = gsb_data_currency_get_structure ( currency_number );
 
@@ -544,7 +545,7 @@ gint gsb_data_currency_get_floating_point ( gint currency_number )
 gboolean gsb_data_currency_set_floating_point ( gint currency_number,
 						gint floating_point )
 {
-    struct_currency *currency;
+    CurrencyStruct *currency;
 
     currency = gsb_data_currency_get_structure ( currency_number );
 
@@ -576,7 +577,7 @@ gint gsb_data_currency_get_number_by_name ( const gchar *name )
 
     while (list_tmp)
     {
-	struct_currency *currency;
+	CurrencyStruct *currency;
 
 	currency = list_tmp -> data;
 
@@ -608,7 +609,7 @@ gint gsb_data_currency_get_number_by_code_iso4217 ( const gchar *code )
 
     while (list_tmp)
     {
-	struct_currency *currency;
+	CurrencyStruct *currency;
 
 	currency = list_tmp -> data;
 
@@ -633,7 +634,7 @@ gint gsb_data_currency_get_number_by_code_iso4217 ( const gchar *code )
  * */
 gchar *gsb_data_currency_get_code_or_isocode ( gint currency_number )
 {
-    struct_currency *currency;
+    CurrencyStruct *currency;
 
     currency = gsb_data_currency_get_structure ( currency_number );
 
