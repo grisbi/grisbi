@@ -108,7 +108,7 @@ static void prefs_page_fyear_button_fyear_show_toggled (GtkWidget *toggle_button
 	GtkTreeSelection *selection;
 	gint etat = 0;
     gint fyear_number = 0;
-	
+
 	etat = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (toggle_button));
 	devel_debug_int (etat);
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
@@ -118,7 +118,7 @@ static void prefs_page_fyear_button_fyear_show_toggled (GtkWidget *toggle_button
     gtk_tree_model_get (GTK_TREE_MODEL (model), &iter, FYEAR_NUMBER_COLUMN, &fyear_number, -1);
 
 	if (fyear_number)
-		gsb_data_fyear_set_form_show (fyear_number, etat);		
+		gsb_data_fyear_set_form_show (fyear_number, etat);
 }
 
 /**
@@ -250,7 +250,7 @@ static gboolean prefs_page_fyear_button_add_clicked (GtkWidget *tree_view)
 		/* Update various menus */
 		gsb_fyear_update_fyear_list ();
     	gsb_file_set_modified (TRUE);
-		
+
 		return FALSE;
 	}
 
@@ -364,7 +364,7 @@ static gboolean prefs_page_fyear_button_remove_clicked (GtkWidget *tree_view)
         /* Update various menus */
         gsb_file_set_modified (TRUE);
     }
-	
+
     return FALSE;
 }
 
@@ -413,7 +413,7 @@ static gboolean prefs_page_fyear_button_associate_clicked (GtkWidget *button,
     if (modification_number)
     {
 		gchar* tmp_str;
-		
+
 		tmp_str = g_strdup_printf (_("%d transactions associated"), modification_number);
 		dialogue (tmp_str);
 		g_free (tmp_str);
@@ -572,7 +572,7 @@ static void prefs_page_fyear_setup_tree_view (PrefsPageFyear *page)
 
 	devel_debug (NULL);
 	priv = prefs_page_fyear_get_instance_private (page);
-	
+
 	/* Create tree store */
     store = gtk_list_store_new (NUM_FYEARS_COLUMNS,
 								G_TYPE_STRING,			/* FYEAR_NAME_COLUMN */
@@ -595,7 +595,7 @@ static void prefs_page_fyear_setup_tree_view (PrefsPageFyear *page)
     /* the last value of the model mustn't be to text...							 */
     /* so FYEAR_NUMBER_COLUMN must be the first column after the last column showed  */
 
-    for (i=0 ; i<FYEAR_NUMBER_COLUMN - 1; i++)
+    for (i=0 ; i<FYEAR_NUMBER_COLUMN; i++)
     {
 		GtkTreeViewColumn *column;
 
@@ -626,7 +626,7 @@ static void prefs_page_fyear_setup_tree_view (PrefsPageFyear *page)
 
 	/* set signal */
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->treeview_fyear));
-    g_signal_connect (selection, 
+    g_signal_connect (selection,
 					  "changed",
 					  G_CALLBACK (prefs_page_fyear_select),
 					  priv->treeview_fyear);
@@ -765,7 +765,7 @@ static void prefs_page_fyear_setup_page (PrefsPageFyear *page)
 	}
 
 	/* insensibilise les autres widgets inutilisés */
-	gtk_widget_set_sensitive (priv->button_fyear_remove, FALSE);		
+	gtk_widget_set_sensitive (priv->button_fyear_remove, FALSE);
 	gtk_widget_set_sensitive (priv->grid_fyear_details, FALSE);
 
     /* Connect signal */
