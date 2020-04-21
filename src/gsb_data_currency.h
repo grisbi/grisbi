@@ -24,6 +24,20 @@ struct _Iso4217Currency
 	 									 * like USA and Panama sharing USD as official currency..  */
 };
 
+enum CurrencyConfigListColumns {
+    CURRENCY_FLAG_COLUMN,
+    CURRENCY_HAS_FLAG,
+    COUNTRY_NAME_COLUMN,
+    CURRENCY_NAME_COLUMN,
+    CURRENCY_CODE_ISO_COLUMN,
+    CURRENCY_NICKNAME_COLUMN,
+    CURRENCY_FLOATING_COLUMN,
+    CURRENCY_NUMBER_COLUMN,
+    CURRENCY_MAIN_CURRENCY_COLUMN,
+	CURRENCY_BACKGROUND_COLOR,
+    NUM_CURRENCIES_COLUMNS
+};
+
 /* START_DECLARATION */
 const gchar *		gsb_data_currency_get_nickname 					(gint currency_number);
 gchar *				gsb_data_currency_get_code_iso4217 				(gint currency_number);

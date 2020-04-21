@@ -1680,7 +1680,7 @@ static void prefs_widget_loan_setup_widget (PrefsWidgetLoan *w_loan,
 	{
 		/* set devises */
 		devise = gsb_data_account_get_currency (s_loan->account_number);
-		code_devise = gsb_data_currency_get_code_or_isocode (devise);
+		code_devise = gsb_data_currency_get_nickname_or_code_iso (devise);
 		gtk_label_set_text (GTK_LABEL (priv->label_loan_capital_devise), code_devise);
 		gtk_label_set_text (GTK_LABEL (priv->label_fees_per_month_devise), code_devise);
 		if (!s_loan->currency_number)
