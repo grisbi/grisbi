@@ -29,10 +29,11 @@ struct _PrefsPageMetatreeClass
 };
 
 /* START_DECLARATION */
-GType               	prefs_page_metatree_get_type            (void) G_GNUC_CONST;
+GType               	prefs_page_metatree_get_type            	(void) G_GNUC_CONST;
 
-PrefsPageMetatree * 	prefs_page_metatree_new					(GrisbiPrefs *prefs);
-void 					prefs_page_metatree_sensitive_widget	(const gchar *widget_name,
+PrefsPageMetatree * 	prefs_page_metatree_new						(GrisbiPrefs *prefs);
+GtkWidget *				prefs_page_metatree_get_currency_combobox	(const gchar *widget_name);
+void 					prefs_page_metatree_sensitive_widget		(const gchar *widget_name,
 																 gboolean sensitive);
 /* END_DECLARATION */
 

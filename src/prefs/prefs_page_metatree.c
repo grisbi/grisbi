@@ -495,6 +495,42 @@ void prefs_page_metatree_sensitive_widget (const gchar *widget_name,
  *
  * \return
  **/
+GtkWidget *prefs_page_metatree_get_currency_combobox (const gchar *widget_name)
+{
+	GtkWidget *page;
+
+	//~ devel_debug (widget_name);
+	page = grisbi_prefs_get_child_by_page_name ("metatree_num_page");
+	if (page && PREFS_IS_PAGE_METATREE (page))
+	{
+		PrefsPageMetatreePrivate *priv;
+
+		priv = prefs_page_metatree_get_instance_private (PREFS_PAGE_METATREE (page));
+
+		if (strcmp (widget_name, "combo_totaux_categ") == 0)
+		{
+			return priv->combo_devise_totaux_categ;
+		}
+		else if (strcmp (widget_name, "combo_totaux_ib") == 0)
+		{
+			return priv->combo_devise_totaux_ib;
+		}
+		if (strcmp (widget_name, "combo_totaux_tiers") == 0)
+		{
+			return priv->combo_devise_totaux_tiers;
+		}
+	}
+
+	return NULL;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
