@@ -16,21 +16,6 @@ struct CachedExchangeRate {
     GsbReal fees;			/** Fees associated with exchange rate */
 };
 
-/** Columns numbers for currencies list  */
-enum CurrencyConfigListColumns {
-    CURRENCY_FLAG_COLUMN,
-    CURRENCY_HAS_FLAG,
-    COUNTRY_NAME_COLUMN,
-    CURRENCY_NAME_COLUMN,
-    CURRENCY_CODE_ISO_COLUMN,
-    CURRENCY_NICKNAME_COLUMN,
-    CURRENCY_FLOATING_COLUMN,
-    CURRENCY_NUMBER_COLUMN,
-    CURRENCY_MAIN_CURRENCY_COLUMN,
-	CURRENCY_BACKGROUND_COLOR,
-    NUM_CURRENCIES_COLUMNS
-};
-
 
 /* START_DECLARATION */
 gboolean 	gsb_currency_config_add_currency 						(GtkWidget *button,
@@ -38,12 +23,6 @@ gboolean 	gsb_currency_config_add_currency 						(GtkWidget *button,
 gboolean 	gsb_currency_config_add_currency_set_combobox 			(GtkWidget *button,
 																	 GtkWidget *combobox);
 GtkWidget *	gsb_currency_config_create_box_popup 					(GCallback select_callback);
-//~ gint 		gsb_currency_config_create_currency 					(const gchar *currency_name,
-																	 //~ const gchar *currency_code,
-																	 //~ const gchar *currency_isocode,
-																	 //~ gint floating_point);
-GtkWidget *	gsb_currency_config_create_page 						(void);
-GtkWidget *	gsb_currency_config_create_totals_page 					(void);
 GtkWidget * gsb_currency_config_new_combobox						(gint *value,
 																	 GCallback hook);
 gboolean 	gsb_currency_config_select_default 						(GtkTreeModel *tree_model,
