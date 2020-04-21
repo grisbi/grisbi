@@ -405,7 +405,6 @@ static void prefs_page_bank_setup_page (PrefsPageBank *page)
 					  priv->w_bank_details);
 
 	/* select the first item */
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->treeview_bank));
 	path = gtk_tree_path_new_from_indices (0, -1);
 	gtk_tree_selection_select_path (selection, path);
 	gtk_tree_path_free (path);
