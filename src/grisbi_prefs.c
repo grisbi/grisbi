@@ -862,9 +862,11 @@ GtkWidget *grisbi_prefs_get_child_by_page_name (const gchar *page_name)
 	GrisbiWin *win;
 	GrisbiPrefsPrivate *priv;
 
-	devel_debug (page_name);
 	win = grisbi_app_get_active_window (NULL);
 	prefs = GRISBI_PREFS (grisbi_win_get_prefs_dialog (win));
+	if (!prefs)
+		return NULL;
+
 	priv = grisbi_prefs_get_instance_private (prefs);
 
 	if (strcmp (page_name, "metatree_num_page") == 0)
