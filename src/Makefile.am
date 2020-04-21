@@ -2,6 +2,7 @@
 
 AM_CPPFLAGS = -I$(top_srcdir) \
 	      -I$(top_srcdir)/src/prefs \
+	      -I$(top_srcdir)/src/widgets \
 	      $(GLIB_CFLAGS) \
 	      $(GTK_CFLAGS) \
 	      $(LIBGSF_CFLAGS) \

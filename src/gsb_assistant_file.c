@@ -55,6 +55,7 @@
 #include "utils.h"
 #include "utils_prefs.h"
 #include "utils_str.h"
+#include "widget_currency_popup.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
