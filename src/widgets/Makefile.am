@@ -10,7 +10,10 @@ noinst_LTLIBRARIES = libwidgets.la
 libwidgets_la_SOURCES = \
 	widget_bank_details.c \
 	widget_bank_details.h \
-	widget_bank_details.ui
+	widget_bank_details.ui \
+	widget_currency_details.c \
+	widget_currency_details.h \
+	widget_currency_details.ui \
 	widget_currency_popup.c \
 	widget_currency_popup.h \
 	widget_currency_popup.ui
