@@ -47,7 +47,7 @@
 #include "gsb_form_widget.h"
 #include "gsb_payment_method.h"
 #include "gsb_transactions_list.h"
-#include "prefs/prefs_page_reconcile_sort.h"
+#include "prefs_page_reconcile_sort.h"
 #include "structures.h"
 #include "traitement_variables.h"
 #include "transaction_list.h"

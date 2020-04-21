@@ -49,7 +49,7 @@
 #include "gsb_select_icon.h"
 #include "import.h"
 #include "parametres.h"
-#include "prefs/prefs_page_bank.h"
+#include "prefs_page_bank.h"
 #include "structures.h"
 #include "traitement_variables.h"
 #include "utils.h"

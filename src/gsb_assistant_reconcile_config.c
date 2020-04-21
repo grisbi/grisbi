@@ -45,7 +45,7 @@
 #include "gsb_data_transaction.h"
 #include "gsb_real.h"
 #include "gsb_transactions_list.h"
-#include "prefs/prefs_page_reconcile.h"
+#include "prefs_page_reconcile.h"
 #include "structures.h"
 #include "utils.h"
 #include "utils_dates.h"
