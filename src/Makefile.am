@@ -186,6 +186,7 @@ libgrisbi_la_SOURCES = \
 	utils_prefs.c	\
 	utils_real.c		\
 	utils_str.c		\
+	utils_widgets.c \
 	accueil.h		\
 	bet_config.h \
 	bet_data.h \
@@ -329,6 +330,7 @@ libgrisbi_la_SOURCES = \
 	utils_prefs.h	\
 	utils_real.h		\
 	utils_str.h		\
+	utils_widgets.h \
 	grisbi.gresource.xml
 
 if USE_CONFIG_FILE
