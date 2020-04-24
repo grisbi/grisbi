@@ -84,7 +84,7 @@ static void widget_currency_details_setup_page (WidgetCurrencyDetails *page,
     size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
 
     /* Create entries */
-	if (no_callback)
+	if (page_currency == NULL || no_callback)
 	{
         priv->entry_currency_name = gsb_autofunc_entry_new (NULL, NULL, NULL, NULL, 0);
         priv->entry_currency_nickname = gsb_autofunc_entry_new (NULL, NULL, NULL, NULL, 0);
