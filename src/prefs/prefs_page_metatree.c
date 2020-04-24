@@ -28,10 +28,6 @@
 #include "config.h"
 #endif
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
 #include <errno.h>
 #include <glib/gstdio.h>
 #include <glib/gi18n.h>
@@ -39,10 +35,10 @@
 /*START_INCLUDE*/
 #include "prefs_page_metatree.h"
 #include "categories_onglet.h"
+#include "gsb_currency.h"
 #include "dialog.h"
 #include "grisbi_win.h"
 #include "gsb_automem.h"
-#include "gsb_currency_config.h"
 #include "gsb_data_payee.h"
 #include "gsb_file.h"
 #include "imputation_budgetaire.h"
@@ -51,6 +47,7 @@
 #include "structures.h"
 #include "tiers_onglet.h"
 #include "utils_prefs.h"
+#include "utils_widgets.h"
 #include "erreur.h"
 
 /*END_INCLUDE*/
@@ -327,12 +324,12 @@ static void prefs_page_metatree_setup_metatree_page (PrefsPageMetatree *page)
 	if (is_loading)
 	{
 		/* set the variables for totals currencies */
-		priv->combo_devise_totaux_tiers = gsb_currency_config_new_combobox (&w_etat->no_devise_totaux_tiers,
-																			payees_fill_list);
-		priv->combo_devise_totaux_categ = gsb_currency_config_new_combobox (&w_etat->no_devise_totaux_categ,
-																			categories_fill_list);
-		priv->combo_devise_totaux_ib = gsb_currency_config_new_combobox (&w_etat->no_devise_totaux_ib,
-																		 budgetary_lines_fill_list);
+		priv->combo_devise_totaux_tiers = gsb_currency_combobox_new (&w_etat->no_devise_totaux_tiers,
+																	   payees_fill_list);
+		priv->combo_devise_totaux_categ = gsb_currency_combobox_new (&w_etat->no_devise_totaux_categ,
+																	   categories_fill_list);
+		priv->combo_devise_totaux_ib = gsb_currency_combobox_new (&w_etat->no_devise_totaux_ib,
+																	budgetary_lines_fill_list);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_metatree_totals),
 									  w_etat->metatree_add_archive_in_totals);
 		/* set option for french associations */

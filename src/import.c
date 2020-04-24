@@ -50,7 +50,6 @@
 #include "gsb_automem.h"
 #include "gsb_combo_box.h"
 #include "gsb_currency.h"
-#include "gsb_currency_config.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
@@ -552,13 +551,10 @@ static gint gsb_import_add_currency (struct ImportAccount *compte)
 
     response = gtk_dialog_run (GTK_DIALOG (dialog));
 
-    if (response == GTK_RESPONSE_YES
-     &&
-     gsb_currency_config_add_currency (NULL, NULL))
+    if (response == GTK_RESPONSE_YES)
     {
-        currency_number = gsb_data_currency_get_number_by_code_iso4217 (
-                        compte->devise);
-        if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbox)))
+		currency_number = gsb_currency_dialog_list_iso_4217_new (NULL, TRUE);
+		if (currency_number && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbox)))
         {
 			GrisbiWinEtat *w_etat;
 
@@ -566,7 +562,7 @@ static gint gsb_import_add_currency (struct ImportAccount *compte)
             w_etat->no_devise_totaux_tiers = currency_number;
             w_etat->no_devise_totaux_categ = currency_number;
             w_etat->no_devise_totaux_ib = currency_number;
-        }
+		}
     }
     gtk_widget_destroy (dialog);
 
@@ -871,15 +867,10 @@ static GtkWidget *gsb_import_cree_ligne_recapitulatif (struct ImportAccount *com
         if (!currency_number)
         {
             currency_number = gsb_import_add_currency (compte);
-            if (currency_number == 0)
-                currency_number = gsb_data_currency_get_number_by_name (compte->devise);
         }
 
         if (currency_number)
-            gsb_currency_set_combobox_history (compte->bouton_devise,
-                        currency_number);
-        else
-            gsb_import_add_currency (compte);
+            gsb_currency_set_combobox_history (compte->bouton_devise, currency_number);
     }
 
     gtk_box_pack_start (GTK_BOX (hbox), compte->bouton_devise, FALSE, FALSE, 0);

@@ -28,16 +28,21 @@ struct _WidgetCurrencyDetailsClass
 };
 
 /* START_DECLARATION */
-GType						widget_currency_details_get_type			(void) G_GNUC_CONST;
+GType					widget_currency_details_get_type				(void) G_GNUC_CONST;
 
-WidgetCurrencyDetails * 	widget_currency_details_new					(GtkWidget *page_currency,
+WidgetCurrencyDetails * widget_currency_details_new						(GtkWidget *page_currency,
 																		 gboolean no_callback);
-GtkWidget *					widget_currency_details_get_entry			(GtkWidget *w_currency_details,
+GtkWidget *				widget_currency_details_get_entry				(GtkWidget *w_currency_details,
 																		 const gchar *entry_name);
-void						widget_currency_details_set_entry_editable	(GtkWidget *w_currency_details,
+void					widget_currency_details_set_entry_editable		(GtkWidget *w_currency_details,
 																		 gboolean editable);
-void 						widget_currency_details_update_currency		(gint currency_number,
+void 					widget_currency_details_update_currency			(gint currency_number,
 																		 GtkWidget *w_currency_details);
+void 					widget_currency_details_update_from_iso__4217	(GtkWidget *w_currency_details,
+																		 const gchar *name,
+																		 const gchar *iso_code,
+																		 const gchar *nickname,
+																		 gint floating_point);
 /* END_DECLARATION */
 
 G_END_DECLS

@@ -28,12 +28,6 @@
 #include "config.h"
 #endif
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include <errno.h>
-#include <glib/gstdio.h>
 #include <glib/gi18n.h>
 
 /*START_INCLUDE*/
@@ -44,6 +38,7 @@
 #include "prefs_page_currency.h"
 #include "structures.h"
 #include "utils_prefs.h"
+#include "utils_str.h"
 #include "erreur.h"
 
 /*END_INCLUDE*/
@@ -164,9 +159,6 @@ static void widget_currency_details_class_init (WidgetCurrencyDetailsClass *klas
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetCurrencyDetails, vbox_currency_details);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetCurrencyDetails, grid_currency_details);
-	//~ gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetCurrencyDetails, eventbox_);
-	//~ gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetCurrencyDetails, spinbutton_);
-	//~ gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetCurrencyDetails, filechooserbutton_);
 }
 
 /******************************************************************************/
@@ -276,6 +268,39 @@ void widget_currency_details_update_currency (gint currency_number,
 		gsb_autofunc_int_erase_entry (priv->entry_currency_nickname);
 		gsb_autofunc_int_erase_entry (priv->entry_currency_floating_point);
 	}
+}
+
+/**
+ * met à jour les détails d'une devise issue du tableau des devises
+ *
+ * \param
+ * \param
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ **/
+void widget_currency_details_update_from_iso__4217 (GtkWidget *w_currency_details,
+												    const gchar *name,
+												    const gchar *iso_code,
+												    const gchar *nickname,
+												    gint floating_point)
+{
+	gchar *tmp_str;
+	WidgetCurrencyDetailsPrivate *priv;
+
+	devel_debug (NULL);
+	priv = widget_currency_details_get_instance_private (WIDGET_CURRENCY_DETAILS (w_currency_details));
+
+    gtk_entry_set_text (GTK_ENTRY (priv->entry_currency_name), name);
+    gtk_entry_set_text (GTK_ENTRY (priv->entry_currency_iso_code), iso_code);
+    gtk_entry_set_text (GTK_ENTRY (priv->entry_currency_nickname), nickname);
+    tmp_str = utils_str_itoa (floating_point);
+    gtk_entry_set_text (GTK_ENTRY (priv->entry_currency_floating_point), tmp_str);
+    g_free (tmp_str);
+
+
 }
 
 /**

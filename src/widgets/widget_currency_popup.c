@@ -28,16 +28,11 @@
 #include "config.h"
 #endif
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include <errno.h>
-#include <glib/gstdio.h>
 #include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "widget_currency_popup.h"
+#include "gsb_currency_popup.h"
 #include "gsb_data_currency.h"
 #include "gsb_file.h"
 #include "structures.h"
@@ -73,14 +68,19 @@ G_DEFINE_TYPE_WITH_PRIVATE (WidgetCurrencyPopup, widget_currency_popup, GTK_TYPE
  * \return
  **/
 static void widget_currency_popup_checkbutton_toggled (GtkToggleButton *button,
-													   GtkWidget *page_parent)
+													   GtkWidget *tree_view)
 {
-	GtkWidget * tree_view;
+	;
 	gint etat;
 
 	etat = gtk_toggle_button_get_active (button);
-	tree_view = prefs_page_currency_popup_get_treeview (page_parent);
 	prefs_page_currency_popup_fill_list (GTK_TREE_VIEW (tree_view), etat);
+
+    /* Select default currency. */
+    gtk_tree_model_foreach (GTK_TREE_MODEL (gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view))),
+										   (GtkTreeModelForeachFunc) gsb_popup_list_select_default,
+										   tree_view);
+
 }
 
 /**
@@ -91,7 +91,6 @@ static void widget_currency_popup_checkbutton_toggled (GtkToggleButton *button,
  * \return
  **/
 static void widget_currency_popup_setup_page (WidgetCurrencyPopup *page,
-											  GtkWidget *page_parent,
 											  GtkTreeModel *model)
 {
     GtkTreeViewColumn *column;
@@ -187,7 +186,7 @@ static void widget_currency_popup_setup_page (WidgetCurrencyPopup *page,
 	g_signal_connect (G_OBJECT(priv->checkbutton_currency_popup),
                       "toggled",
                       (GCallback) widget_currency_popup_checkbutton_toggled,
-                      page_parent);
+                      priv->treeview_currency_popup);
 }
 
 /******************************************************************************/
@@ -225,13 +224,12 @@ static void widget_currency_popup_class_init (WidgetCurrencyPopupClass *klass)
  *
  * \return
  **/
-WidgetCurrencyPopup *widget_currency_popup_new (GtkWidget *page_parent,
-												GtkTreeModel *model)
+WidgetCurrencyPopup *widget_currency_popup_new (GtkTreeModel *model)
 {
 	WidgetCurrencyPopup *w_currency_popup;
 
 	w_currency_popup = g_object_new (WIDGET_CURRENCY_POPUP_TYPE, NULL);
-	widget_currency_popup_setup_page (w_currency_popup, page_parent, model);
+	widget_currency_popup_setup_page (w_currency_popup, model);
 
 	return w_currency_popup;
 }

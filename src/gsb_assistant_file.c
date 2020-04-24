@@ -40,7 +40,7 @@
 #include "gsb_automem.h"
 #include "gsb_bank.h"
 #include "gsb_category.h"
-#include "gsb_currency_config.h"
+#include "gsb_currency_popup.h"
 #include "gsb_currency.h"
 #include "gsb_data_currency.h"
 #include "gsb_data_form.h"
@@ -417,30 +417,27 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
 static GtkWidget *gsb_assistant_file_page_3 ( GtkWidget *assistant )
 {
     GtkWidget *page;
+	GtkWidget *tree_view;
     GtkWidget *vbox;
 
-    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
+	page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_container_set_border_width ( GTK_CONTAINER (page), BOX_BORDER_WIDTH );
 
-    vbox = new_vbox_with_title_and_icon ( _("Select base currency"),
-					  "gsb-currencies-32.png" );
-    gtk_box_pack_start ( GTK_BOX (page),
-			 vbox,
-			 TRUE, TRUE, 0 );
+	vbox = gsb_popup_list_iso_4217_new (page, NULL);
 
     /* set up the menu */
-    currency_list_box = gsb_currency_config_create_box_popup (NULL);
-    gtk_box_pack_start ( GTK_BOX (vbox),
-			 currency_list_box,
-			 TRUE, TRUE, 0 );
+     currency_list_box = g_object_get_data (G_OBJECT (vbox), "w_currency_popup" );
 
     /* Select default currency. */
-    gtk_tree_model_foreach ( GTK_TREE_MODEL(g_object_get_data ( G_OBJECT(currency_list_box), "model" )),
-			     (GtkTreeModelForeachFunc) gsb_currency_config_select_default,
-			     g_object_get_data ( G_OBJECT(currency_list_box), "tree_view" ) );
+	tree_view = g_object_get_data (G_OBJECT (vbox), "tree_view" );
+    gtk_tree_model_foreach (GTK_TREE_MODEL (gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view))),
+										   (GtkTreeModelForeachFunc) gsb_popup_list_select_default,
+										   tree_view);
 
     gtk_widget_show_all (page);
     return page;
+
+	return page;
 }
 
 /**

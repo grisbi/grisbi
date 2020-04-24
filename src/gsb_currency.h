@@ -9,7 +9,13 @@
 
 
 /* START_DECLARATION */
+gboolean 	gsb_currency_add_currency_set_combobox		(GtkWidget *button,
+														 GtkWidget *combobox);
 void 		gsb_currency_check_for_change 				(gint transaction_number);
+GtkWidget *	gsb_currency_combobox_new					(gint *value,
+														 GCallback hook);
+gint		gsb_currency_dialog_list_iso_4217_new		(GtkWidget *page_currency,
+														 gboolean no_callback);
 void 		gsb_currency_exchange_dialog 				(gint account_currency_number,
 														 gint transaction_currency_number ,
 														 gboolean link_currency,

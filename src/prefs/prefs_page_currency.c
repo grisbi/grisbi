@@ -28,10 +28,6 @@
 #include "config.h"
 #endif
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
 #include <errno.h>
 #include <glib/gstdio.h>
 #include <glib/gi18n.h>
@@ -181,7 +177,6 @@ static void prefs_page_currency_popup_selection_changed (GtkTreeSelection *selec
     const gchar *currency_iso_code;
     const gchar *currency_name;
     const gchar *currency_nickname;
-	gchar *tmp_str;
     gint currency_floating;
 	PrefsPageCurrencyPrivate *priv;
 
@@ -205,14 +200,21 @@ static void prefs_page_currency_popup_selection_changed (GtkTreeSelection *selec
     if (!currency_iso_code)
 		currency_iso_code = "";
 
-    gtk_entry_set_text (GTK_ENTRY (priv->entry_popup_name), currency_name);
-    gtk_entry_set_text (GTK_ENTRY (priv->entry_popup_iso_code), currency_iso_code);
-    gtk_entry_set_text (GTK_ENTRY (priv->entry_popup_nickname), currency_nickname);
-    tmp_str = utils_str_itoa (currency_floating);
-    gtk_entry_set_text (GTK_ENTRY (priv->entry_popup_floating_point), tmp_str);
-    g_free (tmp_str);
+	/* update details */
+	widget_currency_details_update_from_iso__4217 (priv->w_popup_details,
+												   currency_name,
+												   currency_iso_code,
+												   currency_nickname,
+												   currency_floating);
 }
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 static void prefs_page_currency_popup_init_dialog (PrefsPageCurrency *page)
 {
 	GtkWidget *head_titre;
@@ -248,7 +250,7 @@ static void prefs_page_currency_popup_init_dialog (PrefsPageCurrency *page)
 								G_TYPE_INT,					/* CURRENCY_MAIN_CURRENCY_COLUMN */
 								GDK_TYPE_RGBA);				/* CURRENCY_BACKGROUND_COLOR */
 	/* set popup */
-	w_currency_popup = GTK_WIDGET (widget_currency_popup_new (GTK_WIDGET (page), GTK_TREE_MODEL (model)));
+	w_currency_popup = GTK_WIDGET (widget_currency_popup_new (GTK_TREE_MODEL (model)));
 	gtk_box_pack_start (GTK_BOX (priv->box_for_popup), w_currency_popup, TRUE, TRUE, 0);
 
 	/* fill model */
@@ -261,12 +263,6 @@ static void prefs_page_currency_popup_init_dialog (PrefsPageCurrency *page)
 
 	/* set editable to FALSE */
 	widget_currency_details_set_entry_editable (priv->w_popup_details, FALSE);
-
-	/* on récupère les entry pour la suite */
-	priv->entry_popup_name = widget_currency_details_get_entry (priv->w_popup_details, "entry_name");
-    priv->entry_popup_iso_code = widget_currency_details_get_entry (priv->w_popup_details, "entry_iso_code");
-    priv->entry_popup_nickname = widget_currency_details_get_entry (priv->w_popup_details, "entry_nickname");
-    priv->entry_popup_floating_point = widget_currency_details_get_entry (priv->w_popup_details, "entry_floating_point");
 
 	/* colorise le tree_view */
 	utils_set_list_store_background_color (GTK_WIDGET (priv->treeview_popup), CURRENCY_BACKGROUND_COLOR);
@@ -626,7 +622,7 @@ static void prefs_page_currency_setup_treeview (PrefsPageCurrency *page)
 								GDK_TYPE_RGBA);				/* CURRENCY_BACKGROUND_COLOR */
 
     /* get tree priv->treeview_currency */
-	priv->w_currency_popup = GTK_WIDGET (widget_currency_popup_new (GTK_WIDGET (page), GTK_TREE_MODEL (model)));
+	priv->w_currency_popup = GTK_WIDGET (widget_currency_popup_new (GTK_TREE_MODEL (model)));
 	gtk_grid_attach (GTK_GRID (priv->grid_currency), priv->w_currency_popup, 0, 0, 2, 1);
 	priv->treeview_currency = widget_currency_popup_get_tree_view (priv->w_currency_popup);
 
