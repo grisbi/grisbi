@@ -77,10 +77,6 @@ struct _PrefsPageCurrencyPrivate
 	GtkWidget *			dialog_currency_add;
 	GtkWidget *			box_dialog_titre;
 	GtkWidget *			box_for_popup;
-	GtkWidget *			entry_popup_floating_point;
-	GtkWidget *			entry_popup_iso_code;
-	GtkWidget *			entry_popup_name;
-	GtkWidget *			entry_popup_nickname;
 	GtkWidget *			treeview_popup;
 	GtkWidget *			w_popup_details;
 };
@@ -325,11 +321,7 @@ static void prefs_page_currency_button_add_clicked (GtkWidget *button,
 {
 	GtkTreeModel *currency_tree_model;
 	GtkTreeModel *popup_model;
-    const gchar *currency_code;
-    const gchar *currency_iso_code;
-    const gchar *currency_name;
     gint currency_number;
-    gint floating_point;
 	gint result;
 	PrefsPageCurrencyPrivate *priv;
 
@@ -348,20 +340,34 @@ static void prefs_page_currency_button_add_clicked (GtkWidget *button,
     result = gtk_dialog_run (GTK_DIALOG (priv->dialog_currency_add));
 	if (result == GTK_RESPONSE_OK)
 	{
-		currency_name = gtk_entry_get_text (GTK_ENTRY (priv->entry_popup_name));
-		currency_code = gtk_entry_get_text (GTK_ENTRY (priv->entry_popup_nickname));
-		currency_iso_code = gtk_entry_get_text (GTK_ENTRY (priv->entry_popup_iso_code));
-		floating_point = utils_str_atoi (gtk_entry_get_text (GTK_ENTRY (priv->entry_popup_floating_point)));
+		GtkWidget *entry_popup_floating_point;
+		GtkWidget *entry_popup_iso_code;
+		GtkWidget *entry_popup_name;
+		GtkWidget *entry_popup_nickname;
+		const gchar *currency_nickname;
+		const gchar *currency_iso_code;
+		const gchar *currency_name;
+    	gint floating_point;
+
+		entry_popup_name = widget_currency_details_get_entry (priv->w_popup_details, "entry_name");
+		entry_popup_iso_code = widget_currency_details_get_entry (priv->w_popup_details, "entry_iso_code");
+		entry_popup_nickname = widget_currency_details_get_entry (priv->w_popup_details, "entry_nickname");
+		entry_popup_floating_point = widget_currency_details_get_entry (priv->w_popup_details, "entry_floating_point");
+
+		currency_name = gtk_entry_get_text (GTK_ENTRY (entry_popup_name));
+		currency_nickname = gtk_entry_get_text (GTK_ENTRY (entry_popup_nickname));
+		currency_iso_code = gtk_entry_get_text (GTK_ENTRY (entry_popup_iso_code));
+		floating_point = utils_str_atoi (gtk_entry_get_text (GTK_ENTRY (entry_popup_floating_point)));
 
 		if (strlen (currency_name)
-			&& (strlen (currency_code) || strlen (currency_iso_code)))
+			&& (strlen (currency_nickname) || strlen (currency_iso_code)))
 		{
 			/* check if the currency exists si la devise existe on ne fait rien */
 			if (!gsb_data_currency_get_number_by_name (currency_name)
 				&& !gsb_data_currency_get_number_by_code_iso4217 (currency_iso_code))
 			{
 				currency_number = gsb_data_currency_new_with_data (currency_name,
-																   currency_code,
+																   currency_nickname,
 																   currency_iso_code,
 																   floating_point);
 
@@ -372,10 +378,7 @@ static void prefs_page_currency_button_add_clicked (GtkWidget *button,
 				if (currency_tree_model && currency_number > 0)
 				{
 					prefs_page_currency_append_currency_to_model (GTK_LIST_STORE (currency_tree_model), currency_number);
-					gtk_widget_destroy (GTK_WIDGET (priv->dialog_currency_add));
 					gsb_file_set_modified (TRUE);
-
-					return;
 				}
 			}
 		}
