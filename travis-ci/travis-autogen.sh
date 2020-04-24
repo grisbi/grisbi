@@ -47,10 +47,12 @@ case "$CONF" in
 			# disable deprecated warnings since gdk-pixbuf fails to
 			# build with:
 			# /usr/local/Cellar/gdk-pixbuf/2.38.1_1/include/gdk-pixbuf-2.0/gdk-pixbuf/gdk-pixbuf-animation.h:122:85: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
-			configure_args+=" -Wno-deprecated-declarations"
+			CFLAGS+=" -Wno-deprecated-declarations"
+			export CFLAGS
 		else
 			# /usr/include/libgsf-1/gsf/gsf-utils.h:303:9: error: 'GParameter' is deprecated [-Werror=deprecated-declarations]
-			configure_args+=" -Wno-deprecated-declarations"
+			CFLAGS+=" -Wno-deprecated-declarations"
+			export CFLAGS
 		fi
 
 		# disable goffice since it uses -pthread that generate warnings and then
