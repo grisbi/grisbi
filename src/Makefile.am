@@ -101,7 +101,6 @@ libgrisbi_la_SOURCES = \
 	gsb_calendar.c		\
 	gsb_calendar_entry.c	\
 	gsb_currency.c		\
-	gsb_currency_config.c	\
 	gsb_currency_link_config.c	\
 	gsb_data_account.c	\
 	gsb_data_archive.c	\
@@ -242,7 +241,6 @@ libgrisbi_la_SOURCES = \
 	gsb_calendar.h		\
 	gsb_calendar_entry.h	\
 	gsb_currency.h		\
-	gsb_currency_config.h	\
 	gsb_currency_link_config.h	\
 	gsb_data_account.h	\
 	gsb_data_archive.h	\

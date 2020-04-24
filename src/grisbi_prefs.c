@@ -38,7 +38,6 @@
 #include "grisbi_app.h"
 #include "grisbi_settings.h"
 #include "gsb_bank.h"
-#include "gsb_currency_config.h"
 #include "gsb_currency_link_config.h"
 #include "gsb_dirs.h"
 #include "gsb_form_config.h"

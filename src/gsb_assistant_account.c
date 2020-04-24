@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
-/*          https://www.grisbi.org/                                            */
+/*          https://www.grisbi.org/                                           */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -39,7 +39,6 @@
 #include "gsb_account.h"
 #include "gsb_assistant.h"
 #include "gsb_bank.h"
-#include "gsb_currency_config.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
 #include "gsb_data_bank.h"
@@ -260,7 +259,7 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
     button = gtk_button_new_with_label (_("Add/Change..."));
     g_signal_connect ( G_OBJECT (button),
 		       "clicked",
-		       G_CALLBACK (gsb_currency_config_add_currency_set_combobox),
+		       G_CALLBACK (gsb_currency_add_currency_set_combobox),
 		       account_combobox_currency );
     gtk_grid_attach (GTK_GRID (table), button, 2, 0, 1, 1);
 

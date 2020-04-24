@@ -37,7 +37,6 @@
 #include "gsb_data_partial_balance.h"
 #include "dialog.h"
 #include "grisbi_app.h"
-#include "gsb_currency_config.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
 #include "gsb_data_currency.h"
@@ -51,6 +50,7 @@
 #include "utils.h"
 #include "structures.h"
 #include "utils_prefs.h"
+#include "utils_widgets.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -1859,7 +1859,7 @@ gint gsb_partial_balance_request_currency ( GtkWidget *parent )
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, TRUE, TRUE, 0 );
 
-    combo_devise = gsb_currency_config_new_combobox ( &currency_nb, NULL );
+    combo_devise = gsb_currency_combobox_new ( &currency_nb, NULL );
     gtk_box_pack_start ( GTK_BOX ( hbox ), combo_devise, FALSE, FALSE, 10 );
 
     gtk_widget_show_all ( GTK_WIDGET ( dialog ) );

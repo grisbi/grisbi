@@ -45,7 +45,6 @@
 #include "grisbi_settings.h"
 #include "gsb_automem.h"
 #include "gsb_bank.h"
-#include "gsb_currency_config.h"
 #include "gsb_currency_link_config.h"
 #include "gsb_data_account.h"
 #include "gsb_data_partial_balance.h"
