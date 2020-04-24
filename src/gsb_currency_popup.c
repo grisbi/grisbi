@@ -288,7 +288,7 @@ void gsb_popup_list_selection_changed (GtkTreeSelection *selection,
 		currency_iso_code = "";
 
 	/* update details */
-	widget_currency_details_update_from_iso__4217 (w_currency_details,
+	widget_currency_details_update_from_iso_4217 (w_currency_details,
 												   currency_name,
 												   currency_iso_code,
 												   currency_nickname,

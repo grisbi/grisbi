@@ -281,11 +281,11 @@ void widget_currency_details_update_currency (gint currency_number,
  *
  * \return
  **/
-void widget_currency_details_update_from_iso__4217 (GtkWidget *w_currency_details,
-												    const gchar *name,
-												    const gchar *iso_code,
-												    const gchar *nickname,
-												    gint floating_point)
+void widget_currency_details_update_from_iso_4217 (GtkWidget *w_currency_details,
+												   const gchar *name,
+												   const gchar *iso_code,
+												   const gchar *nickname,
+												   gint floating_point)
 {
 	gchar *tmp_str;
 	WidgetCurrencyDetailsPrivate *priv;

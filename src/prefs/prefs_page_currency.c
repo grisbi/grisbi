@@ -197,7 +197,7 @@ static void prefs_page_currency_popup_selection_changed (GtkTreeSelection *selec
 		currency_iso_code = "";
 
 	/* update details */
-	widget_currency_details_update_from_iso__4217 (priv->w_popup_details,
+	widget_currency_details_update_from_iso_4217 (priv->w_popup_details,
 												   currency_name,
 												   currency_iso_code,
 												   currency_nickname,
