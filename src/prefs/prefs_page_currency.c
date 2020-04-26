@@ -38,6 +38,7 @@
 #include "grisbi_app.h"
 #include "gsb_currency.h"
 #include "gsb_data_currency.h"
+#include "gsb_data_currency_link.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "gsb_dirs.h"
@@ -449,6 +450,9 @@ static void prefs_page_currency_button_remove_clicked (GtkWidget *button,
 {
     GSList *list_tmp;
     gint currency_number;
+	gchar *tmp_str1 = NULL;
+	gchar *tmp_str2 = NULL;
+	gboolean trouve = FALSE;
 	PrefsPageCurrencyPrivate *priv;
 
 	devel_debug (NULL);
@@ -459,29 +463,22 @@ static void prefs_page_currency_button_remove_clicked (GtkWidget *button,
 
     /* we look for that currency in all the transactions,
      * if we find it, we cannot delete it */
-
     list_tmp = gsb_data_transaction_get_complete_transactions_list ();
-
     while (list_tmp)
     {
 		gint transaction_number;
-		transaction_number = gsb_data_transaction_get_transaction_number (list_tmp->data);
 
+		transaction_number = gsb_data_transaction_get_transaction_number (list_tmp->data);
 		if (gsb_data_transaction_get_currency_number (transaction_number) == currency_number)
 		{
-			gchar *tmp_str1;
-			gchar *tmp_str2;
 
 			tmp_str1 = g_strdup_printf (_("Currency '%s' is used in current "
 										  "file.  Grisbi can't delete it."),
 										gsb_data_currency_get_name (currency_number));
 			tmp_str2 = g_strdup_printf (_("Impossible to remove currency '%s'"),
 										gsb_data_currency_get_name (currency_number));
-			dialogue_error_hint (tmp_str1, tmp_str2);
-			g_free (tmp_str1);
-			g_free (tmp_str2);
-
-			return;
+			trouve = TRUE;
+			break;
 		}
 		else
 			list_tmp = list_tmp->next;
@@ -489,7 +486,6 @@ static void prefs_page_currency_button_remove_clicked (GtkWidget *button,
 
     /* check the currency in the scheduled transactions */
     list_tmp = gsb_data_scheduled_get_scheduled_list ();
-
     while (list_tmp)
     {
 		gint scheduled_number;
@@ -497,23 +493,61 @@ static void prefs_page_currency_button_remove_clicked (GtkWidget *button,
 		scheduled_number = gsb_data_scheduled_get_scheduled_number (list_tmp->data);
 		if (gsb_data_scheduled_get_currency_number (scheduled_number) == currency_number)
 		{
-			gchar *tmp_str1;
-			gchar *tmp_str2;
-
 			tmp_str1 = g_strdup_printf (_("Currency '%s' is used in current "
 										  "file. Grisbi can't delete it."),
 										gsb_data_currency_get_name (currency_number));
 			tmp_str2 = g_strdup_printf (_("Impossible to remove currency '%s'"),
 										gsb_data_currency_get_name (currency_number));
-			dialogue_error_hint (tmp_str1, tmp_str2);
-			g_free (tmp_str1);
-			g_free (tmp_str2);
-
-			return;
+			trouve = TRUE;
+			break;
 		}
 		else
 			list_tmp = list_tmp->next;
     }
+
+	/* check if a currency link exists */
+	list_tmp = gsb_data_currency_link_get_currency_link_list ();
+    while (list_tmp)
+    {
+		gint currency_link_number;
+		gint currency_number_1;
+		gint currency_number_2;
+
+		currency_link_number = gsb_data_currency_get_no_currency (list_tmp -> data);
+
+		currency_number_1 = gsb_data_currency_link_get_first_currency (currency_link_number);
+		if (currency_number_1 == currency_number)
+		{
+			trouve = TRUE;
+			break;
+		}
+		else
+			currency_number_2 = gsb_data_currency_link_get_second_currency (currency_link_number);
+		if (currency_number_2 == currency_number)
+		{
+			trouve = TRUE;
+			break;
+		}
+		else
+			list_tmp = list_tmp->next;
+	}
+
+	/* trouve = TRUE */
+	if (trouve)
+	{
+		if (tmp_str1 == NULL)
+		{
+			tmp_str1 = g_strdup (_("There is a link between this currency and another currency.\n"
+										  "Please delete this link first."));
+			tmp_str2 = g_strdup_printf (_("Impossible to remove currency '%s'"),
+										gsb_data_currency_get_name (currency_number));
+		}
+		dialogue_error_hint (tmp_str1, tmp_str2);
+		g_free (tmp_str1);
+		g_free (tmp_str2);
+
+		return;
+	}
 
 	widget_currency_details_update_currency (0, priv->w_currency_details);
     gsb_data_currency_remove (currency_number);
