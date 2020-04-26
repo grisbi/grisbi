@@ -211,7 +211,8 @@ static void prefs_page_currency_popup_selection_changed (GtkTreeSelection *selec
  *
  * \return
  **/
-static void prefs_page_currency_popup_init_dialog (PrefsPageCurrency *page)
+static void prefs_page_currency_popup_init_dialog (PrefsPageCurrency *page,
+												   GrisbiPrefs *win)
 {
 	GtkWidget *head_titre;
     GtkWidget *w_currency_popup;
@@ -224,7 +225,8 @@ static void prefs_page_currency_popup_init_dialog (PrefsPageCurrency *page)
 	priv = prefs_page_currency_get_instance_private (page);
 
 	gtk_window_set_destroy_with_parent (GTK_WINDOW (priv->dialog_currency_add), TRUE);
-	gtk_window_set_transient_for (GTK_WINDOW (priv->dialog_currency_add), GTK_WINDOW (grisbi_app_get_active_window (NULL)));
+	gtk_window_set_transient_for (GTK_WINDOW (priv->dialog_currency_add), GTK_WINDOW (win));
+	gtk_window_set_modal (GTK_WINDOW (priv->dialog_currency_add), TRUE);
     gtk_window_set_resizable (GTK_WINDOW (priv->dialog_currency_add), TRUE);
 
 	head_titre = utils_prefs_head_page_new_with_title_and_icon (_("Select base currency for your account"),
@@ -681,7 +683,8 @@ static void prefs_page_currency_setup_treeview (PrefsPageCurrency *page)
  *
  * \return
  **/
-static void prefs_page_currency_setup_page (PrefsPageCurrency *page)
+static void prefs_page_currency_setup_page (PrefsPageCurrency *page,
+											GrisbiPrefs *win)
 {
 	GtkWidget *head_page;
     GtkTreeSelection *selection;
@@ -707,7 +710,7 @@ static void prefs_page_currency_setup_page (PrefsPageCurrency *page)
 	gtk_box_pack_start (GTK_BOX (priv->vbox_currency), priv->w_currency_details, FALSE, FALSE, 0);
 
 	/* init add dialog */
-	prefs_page_currency_popup_init_dialog (page);
+	prefs_page_currency_popup_init_dialog (page, win);
 
 	/* set selection signal to update first currency */
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->treeview_currency));
@@ -739,8 +742,6 @@ static void prefs_page_currency_setup_page (PrefsPageCurrency *page)
 static void prefs_page_currency_init (PrefsPageCurrency *page)
 {
 	gtk_widget_init_template (GTK_WIDGET (page));
-
-	prefs_page_currency_setup_page (page);
 }
 
 static void prefs_page_currency_dispose (GObject *object)
@@ -777,7 +778,12 @@ static void prefs_page_currency_class_init (PrefsPageCurrencyClass *klass)
  **/
 PrefsPageCurrency *prefs_page_currency_new (GrisbiPrefs *win)
 {
-  return g_object_new (PREFS_PAGE_CURRENCY_TYPE, NULL);
+	PrefsPageCurrency *page;
+
+	page = g_object_new (PREFS_PAGE_CURRENCY_TYPE, NULL);
+	prefs_page_currency_setup_page (page, win);
+
+	return page;
 }
 
 /**
