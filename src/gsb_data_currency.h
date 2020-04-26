@@ -24,6 +24,7 @@ struct _Iso4217Currency
 	 									 * like USA and Panama sharing USD as official currency..  */
 };
 
+/* Columns numbers for currency list  */
 enum CurrencyConfigListColumns {
     CURRENCY_FLAG_COLUMN,
     CURRENCY_HAS_FLAG,

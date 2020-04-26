@@ -38,7 +38,7 @@ void					widget_currency_details_set_entry_editable		(GtkWidget *w_currency_deta
 																		 gboolean editable);
 void 					widget_currency_details_update_currency			(gint currency_number,
 																		 GtkWidget *w_currency_details);
-void 					widget_currency_details_update_from_iso__4217	(GtkWidget *w_currency_details,
+void 					widget_currency_details_update_from_iso_4217	(GtkWidget *w_currency_details,
 																		 const gchar *name,
 																		 const gchar *iso_code,
 																		 const gchar *nickname,

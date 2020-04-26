@@ -221,7 +221,6 @@ void widget_currency_details_set_entry_editable (GtkWidget *w_currency_details,
 {
 	WidgetCurrencyDetailsPrivate *priv;
 
-	devel_debug (NULL);
 	priv = widget_currency_details_get_instance_private (WIDGET_CURRENCY_DETAILS (w_currency_details));
 
 		gtk_editable_set_editable (GTK_EDITABLE (priv->entry_currency_name), editable);
@@ -243,7 +242,6 @@ void widget_currency_details_update_currency (gint currency_number,
 {
 	WidgetCurrencyDetailsPrivate *priv;
 
-	devel_debug (NULL);
 	priv = widget_currency_details_get_instance_private (WIDGET_CURRENCY_DETAILS (w_currency_details));
 
 	if (currency_number)
@@ -290,7 +288,6 @@ void widget_currency_details_update_from_iso_4217 (GtkWidget *w_currency_details
 	gchar *tmp_str;
 	WidgetCurrencyDetailsPrivate *priv;
 
-	devel_debug (NULL);
 	priv = widget_currency_details_get_instance_private (WIDGET_CURRENCY_DETAILS (w_currency_details));
 
     gtk_entry_set_text (GTK_ENTRY (priv->entry_currency_name), name);

@@ -42,7 +42,6 @@
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "gsb_dirs.h"
-#include "gsb_file.h"
 #include "gsb_locale.h"
 #include "structures.h"
 #include "utils.h"
@@ -326,7 +325,6 @@ static void prefs_page_currency_button_add_clicked (GtkWidget *button,
 	gint result;
 	PrefsPageCurrencyPrivate *priv;
 
-	devel_debug (NULL);
 	priv = prefs_page_currency_get_instance_private (page);
 
 	popup_model = gtk_tree_view_get_model (GTK_TREE_VIEW (priv->treeview_popup));
@@ -379,7 +377,7 @@ static void prefs_page_currency_button_add_clicked (GtkWidget *button,
 				if (currency_tree_model && currency_number > 0)
 				{
 					prefs_page_currency_append_currency_to_model (GTK_LIST_STORE (currency_tree_model), currency_number);
-					gsb_file_set_modified (TRUE);
+					utils_prefs_gsb_file_set_modified ();
 				}
 			}
 		}
@@ -600,7 +598,6 @@ static void prefs_page_currency_selection_changed (GtkTreeSelection *selection,
     gint currency_number;
 	PrefsPageCurrencyPrivate *priv;
 
-	devel_debug (NULL);
 	priv = prefs_page_currency_get_instance_private (page);
     if (!selection || !gtk_tree_selection_get_selected (selection, &model, &iter))
 	{
@@ -819,7 +816,7 @@ void prefs_page_currency_entry_changed (GtkWidget *entry,
 						CURRENCY_FLOATING_COLUMN,  gsb_data_currency_get_floating_point (currency_number),
 						-1);
     gsb_currency_update_combobox_currency_list ();
-    gsb_file_set_modified (TRUE);
+    utils_prefs_gsb_file_set_modified ();
 }
 
 /**
