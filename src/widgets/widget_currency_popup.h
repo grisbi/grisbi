@@ -35,6 +35,8 @@ WidgetCurrencyPopup * 	widget_currency_popup_new						(GtkTreeModel *model);
 GtkWidget *				widget_currency_popup_get_tree_view				(GtkWidget *w_currency_popup);
 void					widget_currency_popup_display_old_currencies	(GtkWidget *w_currency_popup,
 																		 gboolean display);
+void					widget_currency_popup_show_hide_search_entry	(GtkWidget *w_currency_popup,
+																		 gboolean show);
 /* END_DECLARATION */
 
 G_END_DECLS

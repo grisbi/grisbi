@@ -276,6 +276,9 @@ static void prefs_page_currency_popup_init_dialog (PrefsPageCurrency *page,
 	path = gtk_tree_path_new_from_indices (0, -1);
 	gtk_tree_selection_select_path (selection, path);
 	gtk_tree_path_free (path);
+
+	/* hide search entry */
+	widget_currency_popup_show_hide_search_entry (priv->w_currency_popup, FALSE);
 }
 
 /**
@@ -336,9 +339,12 @@ static void prefs_page_currency_button_add_clicked (GtkWidget *button,
 							(GtkTreeModelForeachFunc) prefs_page_currency_select_default,
 							priv->treeview_popup);
 
+	/* show search entry */
+	widget_currency_popup_show_hide_search_entry (priv->w_currency_popup, TRUE);
+
 	gtk_widget_show_all (priv->dialog_currency_add);
 
-    result = gtk_dialog_run (GTK_DIALOG (priv->dialog_currency_add));
+	result = gtk_dialog_run (GTK_DIALOG (priv->dialog_currency_add));
 	if (result == GTK_RESPONSE_OK)
 	{
 		GtkWidget *entry_popup_floating_point;
@@ -385,6 +391,7 @@ static void prefs_page_currency_button_add_clicked (GtkWidget *button,
 		}
 	}
 
+	widget_currency_popup_show_hide_search_entry (priv->w_currency_popup, FALSE);
 	gtk_widget_hide (GTK_WIDGET (priv->dialog_currency_add));
 }
 
