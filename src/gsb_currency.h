@@ -28,6 +28,8 @@ GsbReal		gsb_currency_get_current_exchange_fees		(void);
 void 		gsb_currency_init_exchanges 				(void);
 void 		gsb_currency_init_variables 				(void);
 GtkWidget *	gsb_currency_make_combobox 					(gboolean set_name);
+void		gsb_currency_make_combobox_from_ui			(GtkWidget *combo_box,
+														 gboolean set_name);
 gboolean 	gsb_currency_set_combobox_history 			(GtkWidget *combo_box,
 														 gint currency_number);
 gboolean 	gsb_currency_set_current_exchange 			(GsbReal exchange);

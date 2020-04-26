@@ -81,7 +81,7 @@ static GtkWidget *gsb_currency_make_combobox_exchange_dialog (gint transaction_c
  * used to be set in the combobox */
 static GtkListStore *combobox_currency_store;
 
-enum CurrencyListColumns
+enum CurrencyComboColumns
 {
     CURRENCY_COL_CODE = 0,
     CURRENCY_COL_NAME,
@@ -528,6 +528,54 @@ GtkWidget *gsb_currency_make_combobox (gboolean set_name)
     return (combo_box);
 }
 
+/**
+ * create and return a combobox with the currencies
+ * for automatic value changed in memory, see gsb_autofunc_currency_new
+ *
+ * \param combo		a combobox
+ * \param set_name if TRUE, the currencies in the combobox will be name(code), else it will be only the code
+ *
+ * \return a widget combobox or NULL
+ **/
+void gsb_currency_make_combobox_from_ui (GtkWidget *combo_box,
+										 gboolean set_name)
+{
+    GtkCellRenderer *text_renderer, *flag_renderer;
+    gint xpad;
+    gint ypad;
+
+    if (!combobox_currency_store)
+        gsb_currency_create_combobox_store ();
+
+     gtk_combo_box_set_model (GTK_COMBO_BOX (combo_box), GTK_TREE_MODEL (combobox_currency_store));
+
+    /* Flag renderer */
+    flag_renderer = gtk_cell_renderer_pixbuf_new ();
+    gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo_box), flag_renderer, FALSE);
+    gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo_box),
+									flag_renderer,
+									"pixbuf", CURRENCY_COL_FLAG,
+									NULL);
+
+    gtk_cell_renderer_get_padding (GTK_CELL_RENDERER (flag_renderer), &xpad, &ypad);
+    gtk_cell_renderer_set_padding (GTK_CELL_RENDERER (flag_renderer), 3, ypad);
+
+    text_renderer = gtk_cell_renderer_text_new ();
+    gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo_box), text_renderer, FALSE);
+
+    if (set_name)
+		gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo_box),
+										text_renderer,
+										"text", CURRENCY_COL_NAME,
+										NULL);
+    else
+		gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo_box),
+										text_renderer,
+										"text", CURRENCY_COL_CODE,
+										NULL);
+
+    gtk_combo_box_set_active (GTK_COMBO_BOX (combo_box), 0);
+}
 
 /**
  * set the combobox on the currency given in param
