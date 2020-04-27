@@ -81,7 +81,7 @@ static gboolean widget_currency_popup_search_function  (GtkTreeModel *model,
 														GtkTreeIter *iter,
 														gpointer search_data)
 {
-	const gchar *entry;
+	gchar *entry;
 	gchar *tmp_key;
 	gchar *tmp_entry;
 	gint result = TRUE;
@@ -89,7 +89,6 @@ static gboolean widget_currency_popup_search_function  (GtkTreeModel *model,
 	gtk_tree_model_get (GTK_TREE_MODEL (model), iter, column, &entry, -1);
 	tmp_entry = g_strstrip (g_utf8_strup (entry, -1));
 	tmp_key = g_strstrip (g_utf8_strup (key, -1));
-
 
 	if (g_str_has_prefix (tmp_entry, tmp_key))
 	{
@@ -99,6 +98,7 @@ static gboolean widget_currency_popup_search_function  (GtkTreeModel *model,
 	{
 		result = TRUE;
 	}
+	g_free (entry);
 	g_free (tmp_key);
 	g_free (tmp_entry);
 
