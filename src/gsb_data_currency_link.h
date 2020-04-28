@@ -6,6 +6,20 @@
 #include "gsb_real.h"
 /* END_INCLUDE_H */
 
+/* Columns numbers for links list  */
+enum LinkListColumns {
+    LINK_1_COLUMN = 0,
+    LINK_CURRENCY1_COLUMN,
+    LINK_EQUAL_COLUMN,
+    LINK_EXCHANGE_COLUMN,
+    LINK_CURRENCY2_COLUMN,
+    LINK_DATE_COLUMN,
+    LINK_INVALID_COLUMN,
+    LINK_NUMBER_COLUMN,
+	LINK_BACKGROUND_COLOR,
+    NUM_LINKS_COLUMNS
+};
+
 /* START_DECLARATION */
 GsbReal 		gsb_data_currency_link_get_change_rate 			(gint currency_link_number);
 GSList *		gsb_data_currency_link_get_currency_link_list 	(void);

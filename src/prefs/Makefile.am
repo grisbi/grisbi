@@ -14,6 +14,7 @@ libprefspages_la_SOURCES = \
 	prefs_page_bet_account.c	\
 	prefs_page_bet_general.c	\
 	prefs_page_currency.c	\
+	prefs_page_currency_link.c	\
 	prefs_page_display_adr.c	\
 	prefs_page_display_fonts.c	\
 	prefs_page_display_form.c	\
@@ -39,6 +40,7 @@ libprefspages_la_SOURCES = \
 	prefs_page_bet_account.h	\
 	prefs_page_bet_general.h	\
 	prefs_page_currency.h	\
+	prefs_page_currency_link.h	\
 	prefs_page_display_adr.h	\
 	prefs_page_display_fonts.h	\
 	prefs_page_display_form.h	\

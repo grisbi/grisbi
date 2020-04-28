@@ -74,20 +74,6 @@ static gboolean gsb_currency_link_config_select_currency ( GtkTreeSelection *tre
 
 static GtkWidget *delete_link_button;
 
-/** Columns numbers for links list  */
-enum LinkListColumns {
-    LINK_1_COLUMN = 0,
-    LINK_CURRENCY1_COLUMN,
-    LINK_EQUAL_COLUMN,
-    LINK_EXCHANGE_COLUMN,
-    LINK_CURRENCY2_COLUMN,
-    LINK_DATE_COLUMN,
-    LINK_INVALID_COLUMN,
-    LINK_NUMBER_COLUMN,
-	LINK_BACKGROUND_COLOR,
-    NUM_LINKS_COLUMNS
-};
-
 /******************************************************************************/
 /* Private Functions                                                          */
 /******************************************************************************/

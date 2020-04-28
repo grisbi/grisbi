@@ -56,6 +56,7 @@
 #include "prefs_page_bet_account.h"
 #include "prefs_page_bet_general.h"
 #include "prefs_page_currency.h"
+#include "prefs_page_currency_link.h"
 #include "prefs_page_display_adr.h"
 #include "prefs_page_display_fonts.h"
 #include "prefs_page_display_form.h"
@@ -528,12 +529,15 @@ static void grisbi_prefs_left_panel_populate_tree_model (GrisbiPrefs *prefs)
 
 	/* append page Currencies */
 	widget = GTK_WIDGET (prefs_page_currency_new (prefs));
+	if (is_loading == FALSE)
+		gtk_widget_set_sensitive (widget, FALSE);
 	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Currencies"), page);
 	page++;
 
 	/* append page Currencies links */
-	widget = GTK_WIDGET (gsb_currency_link_config_create_page ());
-	utils_widget_set_padding (widget, MARGIN_BOX, 0);
+	widget = GTK_WIDGET (prefs_page_currency_link_new (prefs));
+	if (is_loading == FALSE)
+		gtk_widget_set_sensitive (widget, FALSE);
 	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Currencies links"), page);
 	page++;
 
