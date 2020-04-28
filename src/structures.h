@@ -356,6 +356,9 @@ struct _GrisbiWinRun
     gboolean	mise_a_jour_soldes_minimaux;
     gboolean	mise_a_jour_fin_comptes_passifs;
 
+	/* MAJ des liens entre devises */
+	gboolean	block_update_links;							/* block la mise à jour des liens en cas d'ajout ou de suppression de devise */
+
 	/* payees: variables pour les associations de tiers */
 	gboolean 	import_asso_case_insensitive;				/* TRUE = ne tient pas compte de la casse */
 	gboolean	import_asso_use_regex;						/* TRUE = la chaine de recherche est une expression régulière */

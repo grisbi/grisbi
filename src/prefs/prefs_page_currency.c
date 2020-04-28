@@ -373,6 +373,11 @@ static void prefs_page_currency_button_add_clicked (GtkWidget *button,
 			if (!gsb_data_currency_get_number_by_name (currency_name)
 				&& !gsb_data_currency_get_number_by_code_iso4217 (currency_iso_code))
 			{
+				GrisbiWinRun *w_run;
+
+				w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+				w_run->block_update_links = TRUE;
+
 				currency_number = gsb_data_currency_new_with_data (currency_name,
 																   currency_nickname,
 																   currency_iso_code,
@@ -387,6 +392,7 @@ static void prefs_page_currency_button_add_clicked (GtkWidget *button,
 					prefs_page_currency_append_currency_to_model (GTK_LIST_STORE (currency_tree_model), currency_number);
 					utils_prefs_gsb_file_set_modified ();
 				}
+				w_run->block_update_links = FALSE;
 			}
 		}
 	}
@@ -460,6 +466,7 @@ static void prefs_page_currency_button_remove_clicked (GtkWidget *button,
 	gchar *tmp_str1 = NULL;
 	gchar *tmp_str2 = NULL;
 	gboolean trouve = FALSE;
+	GrisbiWinRun *w_run;
 	PrefsPageCurrencyPrivate *priv;
 
 	devel_debug (NULL);
@@ -555,11 +562,15 @@ static void prefs_page_currency_button_remove_clicked (GtkWidget *button,
 
 		return;
 	}
+	/* bloque la MAJ des liens */
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+	w_run->block_update_links = TRUE;
 
 	widget_currency_details_update_currency (0, priv->w_currency_details);
     gsb_data_currency_remove (currency_number);
     prefs_page_currency_remove_selected_from_view (GTK_TREE_VIEW(priv->treeview_currency));
     gsb_currency_update_combobox_currency_list ();
+	w_run->block_update_links = FALSE;
 }
 
 /**
