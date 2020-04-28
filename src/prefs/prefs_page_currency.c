@@ -488,7 +488,6 @@ static void prefs_page_currency_button_remove_clicked (GtkWidget *button,
 		transaction_number = gsb_data_transaction_get_transaction_number (list_tmp->data);
 		if (gsb_data_transaction_get_currency_number (transaction_number) == currency_number)
 		{
-
 			tmp_str1 = g_strdup_printf (_("Currency '%s' is used in current "
 										  "file.  Grisbi can't delete it."),
 										gsb_data_currency_get_name (currency_number));
