@@ -150,6 +150,9 @@ static gboolean prefs_page_currency_select_default (GtkTreeModel *tree_model,
 		gtk_tree_selection_select_path (gtk_tree_view_get_selection (tree_view), path);
 		gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (tree_view), path, NULL, TRUE, GSB_CENTER, 0);
 
+		g_free (code);
+		g_free (country);
+
 		return TRUE;
     }
 
