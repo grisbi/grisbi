@@ -14,6 +14,9 @@ libwidgets_la_SOURCES = \
 	widget_currency_details.c \
 	widget_currency_details.h \
 	widget_currency_details.ui \
+	widget_currency_link.c \
+	widget_currency_link.h \
+	widget_currency_link.ui \
 	widget_currency_popup.c \
 	widget_currency_popup.h \
 	widget_currency_popup.ui
