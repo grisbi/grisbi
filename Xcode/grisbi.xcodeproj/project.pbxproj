@@ -91,7 +91,6 @@
 		006E68601DB3E7AD0038B1F0 /* gsb_calendar.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E676D1DB3E7AC0038B1F0 /* gsb_calendar.c */; };
 		006E68611DB3E7AD0038B1F0 /* gsb_category.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E676F1DB3E7AC0038B1F0 /* gsb_category.c */; };
 		006E68631DB3E7AD0038B1F0 /* gsb_combo_box.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E67731DB3E7AC0038B1F0 /* gsb_combo_box.c */; };
-		006E68641DB3E7AD0038B1F0 /* gsb_currency_config.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E67751DB3E7AC0038B1F0 /* gsb_currency_config.c */; };
 		006E68651DB3E7AD0038B1F0 /* gsb_currency_link_config.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E67771DB3E7AC0038B1F0 /* gsb_currency_link_config.c */; };
 		006E68661DB3E7AD0038B1F0 /* gsb_currency.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E67791DB3E7AC0038B1F0 /* gsb_currency.c */; };
 		006E68671DB3E7AD0038B1F0 /* gsb_data_account.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E677B1DB3E7AC0038B1F0 /* gsb_data_account.c */; };
@@ -189,6 +188,11 @@
 		006E68DC1DB426EE0038B1F0 /* gnucash.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E68DA1DB426EE0038B1F0 /* gnucash.c */; };
 		006E68DE1DB427130038B1F0 /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 006E68DD1DB427130038B1F0 /* libxml2.tbd */; };
 		006E68E21DB4276C0038B1F0 /* ofx.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E68E01DB4276C0038B1F0 /* ofx.c */; };
+		00AAC22C245B743800993764 /* gsb_currency_popup.c in Sources */ = {isa = PBXBuildFile; fileRef = 00AAC22A245B743800993764 /* gsb_currency_popup.c */; };
+		00AAC22F245B744F00993764 /* utils_widgets.c in Sources */ = {isa = PBXBuildFile; fileRef = 00AAC22D245B744F00993764 /* utils_widgets.c */; };
+		00AAC232245B74E000993764 /* prefs_page_currency.c in Sources */ = {isa = PBXBuildFile; fileRef = 00AAC231245B74E000993764 /* prefs_page_currency.c */; };
+		00AAC239245B750C00993764 /* widget_currency_details.c in Sources */ = {isa = PBXBuildFile; fileRef = 00AAC237245B750C00993764 /* widget_currency_details.c */; };
+		00AAC23A245B750C00993764 /* widget_currency_popup.c in Sources */ = {isa = PBXBuildFile; fileRef = 00AAC238245B750C00993764 /* widget_currency_popup.c */; };
 		00AFB95620F2462C00506F2F /* prefs_widget_loan.c in Sources */ = {isa = PBXBuildFile; fileRef = 00AFB95420F2462C00506F2F /* prefs_widget_loan.c */; };
 		00B77C441DB2A17600A5D233 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 00B77C431DB2A17600A5D233 /* main.c */; };
 		00BCBD381E0701C100579172 /* grisbi.css in CopyFiles */ = {isa = PBXBuildFile; fileRef = 00BCBD331E07018400579172 /* grisbi.css */; };
@@ -395,8 +399,6 @@
 		006E67701DB3E7AC0038B1F0 /* gsb_category.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gsb_category.h; sourceTree = "<group>"; };
 		006E67731DB3E7AC0038B1F0 /* gsb_combo_box.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gsb_combo_box.c; sourceTree = "<group>"; };
 		006E67741DB3E7AC0038B1F0 /* gsb_combo_box.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gsb_combo_box.h; sourceTree = "<group>"; };
-		006E67751DB3E7AC0038B1F0 /* gsb_currency_config.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gsb_currency_config.c; sourceTree = "<group>"; };
-		006E67761DB3E7AC0038B1F0 /* gsb_currency_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gsb_currency_config.h; sourceTree = "<group>"; };
 		006E67771DB3E7AC0038B1F0 /* gsb_currency_link_config.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gsb_currency_link_config.c; sourceTree = "<group>"; };
 		006E67781DB3E7AC0038B1F0 /* gsb_currency_link_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gsb_currency_link_config.h; sourceTree = "<group>"; };
 		006E67791DB3E7AC0038B1F0 /* gsb_currency.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gsb_currency.c; sourceTree = "<group>"; };
@@ -589,6 +591,18 @@
 		006E68E01DB4276C0038B1F0 /* ofx.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ofx.c; sourceTree = "<group>"; };
 		006E68E11DB4276C0038B1F0 /* ofx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofx.h; sourceTree = "<group>"; };
 		006E68E31DB427DF0038B1F0 /* libofx.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libofx.a; path = ../../../usr_local/Cellar/libofx/0.9.10/lib/libofx.a; sourceTree = "<group>"; };
+		00AAC22A245B743800993764 /* gsb_currency_popup.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gsb_currency_popup.c; sourceTree = "<group>"; };
+		00AAC22B245B743800993764 /* gsb_currency_popup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gsb_currency_popup.h; sourceTree = "<group>"; };
+		00AAC22D245B744F00993764 /* utils_widgets.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = utils_widgets.c; sourceTree = "<group>"; };
+		00AAC22E245B744F00993764 /* utils_widgets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utils_widgets.h; sourceTree = "<group>"; };
+		00AAC230245B74E000993764 /* prefs_page_currency.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = prefs_page_currency.h; path = prefs/prefs_page_currency.h; sourceTree = "<group>"; };
+		00AAC231245B74E000993764 /* prefs_page_currency.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = prefs_page_currency.c; path = prefs/prefs_page_currency.c; sourceTree = "<group>"; };
+		00AAC233245B750C00993764 /* widget_currency_details.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = widget_currency_details.ui; sourceTree = "<group>"; };
+		00AAC234245B750C00993764 /* widget_currency_popup.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = widget_currency_popup.ui; sourceTree = "<group>"; };
+		00AAC235245B750C00993764 /* widget_currency_popup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = widget_currency_popup.h; sourceTree = "<group>"; };
+		00AAC236245B750C00993764 /* widget_currency_details.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = widget_currency_details.h; sourceTree = "<group>"; };
+		00AAC237245B750C00993764 /* widget_currency_details.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = widget_currency_details.c; sourceTree = "<group>"; };
+		00AAC238245B750C00993764 /* widget_currency_popup.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = widget_currency_popup.c; sourceTree = "<group>"; };
 		00AFB95420F2462C00506F2F /* prefs_widget_loan.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = prefs_widget_loan.c; path = prefs/prefs_widget_loan.c; sourceTree = "<group>"; };
 		00AFB95520F2462C00506F2F /* prefs_widget_loan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = prefs_widget_loan.h; path = prefs/prefs_widget_loan.h; sourceTree = "<group>"; };
 		00B77C381DB2A0EC00A5D233 /* grisbi */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = grisbi; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -669,6 +683,12 @@
 				000B8594244C787E00EE28BD /* widget_bank_details.c */,
 				000B8595244C787E00EE28BD /* widget_bank_details.h */,
 				000B8596244C787E00EE28BD /* widget_bank_details.ui */,
+				00AAC237245B750C00993764 /* widget_currency_details.c */,
+				00AAC236245B750C00993764 /* widget_currency_details.h */,
+				00AAC233245B750C00993764 /* widget_currency_details.ui */,
+				00AAC238245B750C00993764 /* widget_currency_popup.c */,
+				00AAC235245B750C00993764 /* widget_currency_popup.h */,
+				00AAC234245B750C00993764 /* widget_currency_popup.ui */,
 			);
 			path = widgets;
 			sourceTree = "<group>";
@@ -686,6 +706,8 @@
 				00272EAC20CABC7A00E9913C /* prefs_page_bet_account.h */,
 				000B8599244C78C400EE28BD /* prefs_page_bet_general.c */,
 				000B859B244C78C400EE28BD /* prefs_page_bet_general.h */,
+				00AAC231245B74E000993764 /* prefs_page_currency.c */,
+				00AAC230245B74E000993764 /* prefs_page_currency.h */,
 				005BC33F1F6C1943006DB25E /* prefs_page_display_adr.c */,
 				005BC33E1F6C1943006DB25E /* prefs_page_display_adr.h */,
 				003AC22F1F49E06D007DA275 /* prefs_page_display_fonts.c */,
@@ -930,10 +952,10 @@
 				006E67701DB3E7AC0038B1F0 /* gsb_category.h */,
 				006E67731DB3E7AC0038B1F0 /* gsb_combo_box.c */,
 				006E67741DB3E7AC0038B1F0 /* gsb_combo_box.h */,
-				006E67751DB3E7AC0038B1F0 /* gsb_currency_config.c */,
-				006E67761DB3E7AC0038B1F0 /* gsb_currency_config.h */,
 				006E67771DB3E7AC0038B1F0 /* gsb_currency_link_config.c */,
 				006E67781DB3E7AC0038B1F0 /* gsb_currency_link_config.h */,
+				00AAC22A245B743800993764 /* gsb_currency_popup.c */,
+				00AAC22B245B743800993764 /* gsb_currency_popup.h */,
 				006E67791DB3E7AC0038B1F0 /* gsb_currency.c */,
 				006E677A1DB3E7AC0038B1F0 /* gsb_currency.h */,
 				006E677B1DB3E7AC0038B1F0 /* gsb_data_account.c */,
@@ -1109,6 +1131,8 @@
 				006E68281DB3E7AD0038B1F0 /* utils_real.h */,
 				006E68291DB3E7AD0038B1F0 /* utils_str.c */,
 				006E682A1DB3E7AD0038B1F0 /* utils_str.h */,
+				00AAC22D245B744F00993764 /* utils_widgets.c */,
+				00AAC22E245B744F00993764 /* utils_widgets.h */,
 				006E682B1DB3E7AD0038B1F0 /* utils.c */,
 				006E682C1DB3E7AD0038B1F0 /* utils.h */,
 				000B8593244C784B00EE28BD /* widgets */,
@@ -1247,6 +1271,7 @@
 				006E686F1DB3E7AD0038B1F0 /* gsb_data_form.c in Sources */,
 				006E68731DB3E7AD0038B1F0 /* gsb_data_partial_balance.c in Sources */,
 				006E689E1DB3E7AD0038B1F0 /* import.c in Sources */,
+				00AAC22C245B743800993764 /* gsb_currency_popup.c in Sources */,
 				006E68741DB3E7AD0038B1F0 /* gsb_data_payee.c in Sources */,
 				006E68921DB3E7AD0038B1F0 /* gsb_reconcile.c in Sources */,
 				006E68B91DB3E7AD0038B1F0 /* utils_gtkbuilder.c in Sources */,
@@ -1322,6 +1347,7 @@
 				006E683B1DB3E7AD0038B1F0 /* custom_list.c in Sources */,
 				006E68661DB3E7AD0038B1F0 /* gsb_currency.c in Sources */,
 				006E688B1DB3E7AD0038B1F0 /* gsb_locale.c in Sources */,
+				00AAC22F245B744F00993764 /* utils_widgets.c in Sources */,
 				006E68A71DB3E7AD0038B1F0 /* print_dialog_config.c in Sources */,
 				006E68861DB3E7AD0038B1F0 /* gsb_form_transaction.c in Sources */,
 				000B859F244C78C400EE28BD /* prefs_page_reconcile.c in Sources */,
@@ -1338,6 +1364,7 @@
 				006E68631DB3E7AD0038B1F0 /* gsb_combo_box.c in Sources */,
 				006E68321DB3E7AD0038B1F0 /* bet_data.c in Sources */,
 				006E687B1DB3E7AD0038B1F0 /* gsb_data_scheduled.c in Sources */,
+				00AAC239245B750C00993764 /* widget_currency_details.c in Sources */,
 				00285A4E24197F2E004828B4 /* prefs_page_display_ope.c in Sources */,
 				006E68561DB3E7AD0038B1F0 /* gsb_assistant_archive_export.c in Sources */,
 				006E68841DB3E7AD0038B1F0 /* gsb_form_config.c in Sources */,
@@ -1346,7 +1373,6 @@
 				006E686A1DB3E7AD0038B1F0 /* gsb_data_bank.c in Sources */,
 				006E68611DB3E7AD0038B1F0 /* gsb_category.c in Sources */,
 				006E68441DB3E7AD0038B1F0 /* etats_onglet.c in Sources */,
-				006E68641DB3E7AD0038B1F0 /* gsb_currency_config.c in Sources */,
 				006E68881DB3E7AD0038B1F0 /* gsb_form.c in Sources */,
 				006E685E1DB3E7AD0038B1F0 /* gsb_bank.c in Sources */,
 				006E684D1DB3E7AD0038B1F0 /* go-optionmenu.c in Sources */,
@@ -1387,6 +1413,7 @@
 				006E68BC1DB3E7AD0038B1F0 /* utils_str.c in Sources */,
 				006E68711DB3E7AD0038B1F0 /* gsb_data_import_rule.c in Sources */,
 				006E68851DB3E7AD0038B1F0 /* gsb_form_scheduler.c in Sources */,
+				00AAC23A245B750C00993764 /* widget_currency_popup.c in Sources */,
 				006E687E1DB3E7AD0038B1F0 /* gsb_dirs.c in Sources */,
 				004BCAB1243DC5F9002999B6 /* grisbi_conf.c in Sources */,
 				006E68311DB3E7AD0038B1F0 /* bet_data_finance.c in Sources */,
@@ -1395,6 +1422,7 @@
 				006E68B31DB3E7AD0038B1F0 /* utils_buttons.c in Sources */,
 				00285A5724197F5B004828B4 /* prefs_page_options_ope.c in Sources */,
 				00EE9D061E01EAFB005BB1B0 /* openssl.c in Sources */,
+				00AAC232245B74E000993764 /* prefs_page_currency.c in Sources */,
 				006E68391DB3E7AD0038B1F0 /* classement_echeances.c in Sources */,
 				006E684B1DB3E7AD0038B1F0 /* file_obfuscate.c in Sources */,
 				006E689F1DB3E7AD0038B1F0 /* imputation_budgetaire.c in Sources */,
