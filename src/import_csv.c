@@ -52,8 +52,8 @@ extern GSList *liste_comptes_importes_error;
 /*START_STATIC*/
 /*END_STATIC*/
 
-/* list des lignes à conserver action = 2 */
-GSList * liste_lines_to_keep = NULL;
+/* liste des lignes à conserver action = 2 */
+static GSList *list_lines_to_keep = NULL;
 
 /** Array of pointers to fields.  */
 static gint *csv_fields_config = NULL;
@@ -270,6 +270,7 @@ static GArray *csv_import_button_rule_traite_spec_line (SpecConfData *spec_conf_
 {
     GSList *list;
 	gint action;
+	gint removed_line = 0;
 
 	devel_debug (NULL);
 	if (!csv_fields_config || !lines_tab)
@@ -292,18 +293,29 @@ static GArray *csv_import_button_rule_traite_spec_line (SpecConfData *spec_conf_
 			{
 				GSList *link;
 
-				if (g_slist_length (liste_lines_to_keep) > 1)
+				if (list_lines_to_keep)
 				{
-					link = g_slist_find (liste_lines_to_keep, GINT_TO_POINTER (index));
+					link = g_slist_find (list_lines_to_keep, GINT_TO_POINTER (index+removed_line));
 					if (link)
-						link = g_slist_delete_link (liste_lines_to_keep, link);
-					if (!link)
-						notice_debug ("Warning: Invalid data");
+					{
+						list_lines_to_keep = g_slist_delete_link (list_lines_to_keep, link);
+						if (!list_lines_to_keep)
+						{
+							list_lines_to_keep = NULL;
+						}
+					}
+					else
+					{
+						g_array_remove_index (lines_tab, index);
+						index--;
+						removed_line++;
+					}
 				}
 				else
 				{
 					g_array_remove_index (lines_tab, index);
 					index--;
+					removed_line++;
 				}
 			}
 			else if (action == 1)	/* inversion du montant */
@@ -338,7 +350,7 @@ static GArray *csv_import_button_rule_traite_spec_line (SpecConfData *spec_conf_
 			}
 			else if (action == 2)
 			{
-				liste_lines_to_keep = g_slist_append (liste_lines_to_keep, GINT_TO_POINTER (index));
+				list_lines_to_keep = g_slist_append (list_lines_to_keep, GINT_TO_POINTER (index));
 			}
 		}
 
