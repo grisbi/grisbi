@@ -2916,7 +2916,7 @@ gboolean metatree_find_destination_blob ( MetatreeInterface *iface,
         tmp_str_2 = g_strdup_printf(_("Transfer \"%s\" in other %s"),
                         iface -> sub_div_name ( division, sub_division ),
                         gettext ( iface -> meta_name_minus ) );
-        tmp_str_3 = tmp_str = g_strdup_printf(_("Convert \"%s\" in new %s"),
+        tmp_str_3 = g_strdup_printf(_("Convert \"%s\" in new %s"),
                         iface -> sub_div_name ( division, sub_division ),
                         gettext ( iface -> meta_name_minus ) );
 

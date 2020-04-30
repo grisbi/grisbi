@@ -223,7 +223,6 @@ gint gsb_data_payment_get_number_by_name ( const gchar *name,
 {
     GSList *tmp_list;
     gint payment_number = 0 ;
-    gint compare;
 
     tmp_list = payment_list;
 
@@ -235,7 +234,7 @@ gint gsb_data_payment_get_number_by_name ( const gchar *name,
 
 	if ( payment -> account_number == account_number )
     {
-        if ( (compare = my_strcasecmp (  (gchar *)name, payment -> payment_name ) ) == 0 )
+        if ( my_strcasecmp ((gchar *) name, payment -> payment_name ) == 0 )
             return payment -> payment_number;
     }
 	tmp_list = tmp_list -> next;

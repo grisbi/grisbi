@@ -210,9 +210,7 @@ static GsbReal gsb_real_double_to_real_add_exponent (gdouble number,
 	if(exp_add >=9)
 		return null_real;
 
-	while (((decimal = modf (number, &tmp_double)) ||
-		real_number.exponent < 0) &&
-		real_number.exponent < 9)
+	while ((modf (number, &tmp_double) || real_number.exponent < 0) && real_number.exponent < 9)
     {
         number = number * 10;
         real_number.exponent++;
