@@ -43,6 +43,7 @@ void 					widget_currency_details_update_from_iso_4217	(GtkWidget *w_currency_de
 																		 const gchar *iso_code,
 																		 const gchar *nickname,
 																		 gint floating_point);
+
 /* END_DECLARATION */
 
 G_END_DECLS
