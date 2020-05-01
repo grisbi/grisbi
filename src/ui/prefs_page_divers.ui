@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.22.1 -->
+<!-- Generated with glade 3.22.2 -->
 <interface>
   <requires lib="gtk+" version="3.16"/>
   <template class="PrefsPageDivers" parent="GtkBox">
@@ -42,12 +42,11 @@
                   <object class="GtkBox" id="box3">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="spacing">5</property>
                     <child>
                       <object class="GtkLabel" id="label3">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">    </property>
+                        <property name="label">    </property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -140,7 +139,7 @@
         </child>
       </object>
       <packing>
-        <property name="expand">True</property>
+        <property name="expand">False</property>
         <property name="fill">True</property>
         <property name="position">0</property>
       </packing>
@@ -154,11 +153,12 @@
   <object class="GtkBox" id="hbox_divers_scheduler_nb_days_before_scheduled">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
+    <property name="valign">start</property>
     <child>
       <object class="GtkLabel" id="label12">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="label" translatable="yes">    </property>
+        <property name="label">    </property>
       </object>
       <packing>
         <property name="expand">False</property>
@@ -173,6 +173,7 @@
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="halign">start</property>
+        <property name="valign">center</property>
         <property name="label" translatable="yes">Number of days before the warning or the execution: </property>
         <property name="wrap">True</property>
       </object>
@@ -187,6 +188,7 @@
         <property name="name">label_gsetting_option</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
+        <property name="valign">center</property>
         <property name="text" translatable="yes">0</property>
         <property name="adjustment">adjustment1</property>
       </object>
@@ -238,7 +240,7 @@
               <object class="GtkLabel" id="label20">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">    </property>
+                <property name="label">    </property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -450,7 +452,7 @@
               <object class="GtkLabel" id="label30">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">    </property>
+                <property name="label">    </property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -898,7 +900,7 @@
               <object class="GtkLabel" id="label4">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">    </property>
+                <property name="label">    </property>
               </object>
               <packing>
                 <property name="expand">False</property>

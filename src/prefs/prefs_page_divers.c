@@ -552,26 +552,23 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page)
 		gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_others_options),
 								  priv->divers_scheduler_paddingbox,
 								  label);
-		
+
 		label = gtk_label_new ((gpointer) _("Localization"));
 		gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_others_options),
 								  priv->divers_localization_paddingbox,
 								  label);
 		gtk_box_pack_start (GTK_BOX (priv->vbox_divers), priv->notebook_others_options, FALSE, FALSE, 0);
-		gtk_widget_set_vexpand (priv->vbox_divers, TRUE);
-		gtk_widget_set_vexpand (priv->notebook_others_options, TRUE);
-
 		gtk_widget_show_all (priv->notebook_others_options);
 	}
 	else
 	{
 		gtk_label_set_text (GTK_LABEL (priv->title_divers_scheduler), (gpointer) _("Scheduler"));
 		gtk_label_set_text (GTK_LABEL (priv->title_divers_localization), (gpointer) _("Localization"));
-		
+
 		gtk_box_pack_start (GTK_BOX (priv->vbox_divers), priv->divers_scheduler_paddingbox, FALSE, FALSE, 0);
 		gtk_box_pack_start (GTK_BOX (priv->vbox_divers), priv->divers_localization_paddingbox, FALSE, FALSE, 0);
 	}
-	
+
 	/* set the scheduled variables */
 	vbox_button = gsb_automem_radiobutton_gsettings_new (_("Warn/Execute the scheduled transactions arriving at expiration date"),
 													_("Warn/Execute the scheduled transactions of the month"),
