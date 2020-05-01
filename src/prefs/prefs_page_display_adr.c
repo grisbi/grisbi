@@ -194,7 +194,12 @@ static void prefs_page_display_adr_setup_display_adr_page (PrefsPageDisplayAdr *
 
 	if (is_loading == FALSE)
 	{
+		gtk_widget_set_hexpand (priv->sw_adr_common, TRUE);
+		gtk_widget_set_vexpand (priv->sw_adr_common, TRUE);
+		gtk_widget_set_hexpand (priv->sw_adr_secondary, TRUE);
+		gtk_widget_set_vexpand (priv->sw_adr_secondary, TRUE);
 		gtk_widget_set_sensitive (priv->vbox_display_adr, FALSE);
+
 		return;
 	}
 
