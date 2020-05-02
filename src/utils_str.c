@@ -385,18 +385,6 @@ gint utils_str_atoi (const gchar *chaine)
 }
 
 /**
- *
- *
- * \param
- *
- * \return
- **/
-gchar * latin2utf8 (const gchar *inchar)
-{
-    return g_locale_from_utf8 (inchar, -1, NULL, NULL, NULL);
-}
-
-/**
  * do the same as g_strdelimit but new_delimiters can containes several characters or none
  * ex	my_strdelimit ("a-b", "-", "123") returns a123b
  * 	my_strdelimit ("a-b", "-", "") returns ab
