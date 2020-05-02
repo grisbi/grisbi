@@ -50,6 +50,7 @@ static struct ImportAccount *	compte_ofx_importation_en_cours;
 static gchar *					ofx_filename;
 static gint						erreur_import_ofx;
 static gint						message_erreur_operation;
+static const gchar *			coding_system = NULL;
 
 static LibofxContextPtr			ofx_context;
 /*END_STATIC*/
@@ -88,8 +89,8 @@ static int ofx_proc_account_cb (struct OfxAccountData data,
 
 	if (data.account_id_valid)
 	{
-		compte_ofx_importation_en_cours->id_compte = latin2utf8 (data.account_id);
-		compte_ofx_importation_en_cours->nom_de_compte = gsb_import_unique_imported_name (latin2utf8 (data.account_name));
+		compte_ofx_importation_en_cours->id_compte = g_convert (data.account_id, -1, "UTF-8", coding_system, NULL, NULL, NULL);
+		compte_ofx_importation_en_cours->nom_de_compte = gsb_import_unique_imported_name (g_convert (data.account_name, -1, "UTF-8", coding_system, NULL, NULL, NULL));
 		compte_ofx_importation_en_cours->filename = ofx_filename;
 	}
 
@@ -100,7 +101,7 @@ static int ofx_proc_account_cb (struct OfxAccountData data,
 		compte_ofx_importation_en_cours->type_de_compte = data.account_type;
 
 	if (data.currency_valid)
-		compte_ofx_importation_en_cours->devise = latin2utf8 (data.currency);
+		compte_ofx_importation_en_cours->devise = g_convert (data.currency, -1, "UTF-8", coding_system, NULL, NULL, NULL);
 
 	return 0;
 }
@@ -297,7 +298,7 @@ static int ofx_proc_transaction_cb (struct OfxTransactionData data,
 	ope_import = g_malloc0 (sizeof (struct ImportTransaction));
 
 	if (data.fi_id_valid)
-		ope_import->id_operation = latin2utf8 (data.fi_id);
+		ope_import->id_operation = g_convert (data.fi_id, -1, "UTF-8", coding_system, NULL, NULL, NULL);
 
 	date = g_date_new ();
 	if (data.date_posted_valid)
@@ -321,13 +322,13 @@ static int ofx_proc_transaction_cb (struct OfxTransactionData data,
 		ope_import->date = ope_import->date_de_valeur;
 
 	if (data.name_valid)
-		ope_import->tiers = latin2utf8 (data.name);
+		ope_import->tiers = g_convert (data.name, -1, "UTF-8", coding_system, NULL, NULL, NULL);
 
 	if (data.memo_valid)
-		ope_import->notes = latin2utf8 (data.memo);
+		ope_import->notes = g_convert (data.memo, -1, "UTF-8", coding_system, NULL, NULL, NULL);
 
 	if (data.check_number_valid)
-		ope_import->cheque = latin2utf8 (data.check_number);
+		ope_import->cheque = g_convert (data.check_number, -1, "UTF-8", coding_system, NULL, NULL, NULL);
 
 	if (data.amount_valid)
 		ope_import->montant = gsb_real_double_to_real (data.amount);
@@ -453,6 +454,7 @@ gboolean recuperation_donnees_ofx (GtkWidget *assistant,
 	erreur_import_ofx = 0;
 	message_erreur_operation = 0;
 	ofx_filename = imported->name;
+	coding_system = imported->coding_system;
 
 	devel_print_str (imported->name);
 
