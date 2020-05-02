@@ -532,8 +532,8 @@ debut:
 	tmp_string = g_convert (pointeur_char, -1, "UTF-8", coding_system, NULL, NULL, NULL);
     if (!tmp_string)
     {
-        devel_debug ("convert to utf8 failed, will use latin2utf8");
-        tmp_string = latin2utf8 (pointeur_char);
+        devel_debug ("convert from coding_system failed, will use ISO-8859-1");
+        tmp_string = g_convert (pointeur_char, -1, "UTF-8", "ISO-8859-1", NULL, NULL, NULL);
         if (tmp_string == NULL)
         {
             dialogue_error_hint (_("If the result is not correct, try again by selecting the "
