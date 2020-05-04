@@ -113,6 +113,7 @@ static gboolean prefs_page_display_form_fill_store (GtkListStore *store)
 
 			gtk_list_store_set (GTK_LIST_STORE (store), &iter, column, tmp_name, -1);
 
+			g_free (name);
 			g_free (tmp_name);
 		}
     }
