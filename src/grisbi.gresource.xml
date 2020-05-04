@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
 	<gresource prefix="/org/gtk/grisbi">
+		<file>images/gsb_down_16.png</file>
+		<file>images/gsb_up_16.png</file>
 		<file preprocess="xml-stripblanks">ui/bet_graph.ui</file>
 		<file preprocess="xml-stripblanks">ui/csv_template_rule.ui</file>
 		<file preprocess="xml-stripblanks">ui/etats_prefs.ui</file>
