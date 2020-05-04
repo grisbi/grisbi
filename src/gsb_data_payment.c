@@ -946,6 +946,87 @@ gint gsb_data_payment_search_number_other_account_by_name ( gint payment_number,
 }
 
 
+/**
+ * This function looks for a method of payment which matches signe_type' and returns its number.
+ *
+ * \param account_number	The account to process.
+ * \param signe_type		A payment method sign to match against payment
+ *							methods of specified account.
+ *							(GSB_PAYMENT_NEUTRAL, GSB_PAYMENT_DEBIT, GSB_PAYMENT_CREDIT)
+ * \param exclude			A payment method that should not be checked,
+ *							as it may be the one which is to be removed.
+ *
+ * \return					The matching payment method number on success,
+ *							0 otherwise (for transfer).
+ **/
+gint gsb_data_payment_get_other_number_from_sign (gint account_number,
+                                                  gint signe_type,
+                                                  gint exclude_number)
+{
+    GSList *tmp_list;
+
+    tmp_list = gsb_data_payment_get_payments_list ();
+    while (tmp_list)
+    {
+		gint payment_number;
+
+		payment_number = gsb_data_payment_get_number (tmp_list -> data);
+
+		if (gsb_data_payment_get_account_number (payment_number) == account_number
+		    && payment_number != exclude_number
+		    && gsb_data_payment_get_sign (payment_number) == signe_type)
+		{
+			return payment_number;
+		}
+
+		tmp_list = tmp_list -> next;
+    };
+
+    /* Defaults to first method_ptr, whatever it may be */
+    return 0;
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ **/
+void gsb_data_payment_change_default_payment_method (gint payment_number,
+                                                     gint account_number)
+{
+	switch (gsb_data_payment_get_sign (payment_number))
+	{
+		case GSB_PAYMENT_DEBIT:
+			if ( gsb_data_account_get_default_debit (account_number) == payment_number)
+			{
+				gsb_data_account_set_default_debit (account_number,
+													gsb_data_payment_get_other_number_from_sign
+													(account_number, GSB_PAYMENT_DEBIT, payment_number));
+			}
+			break;
+
+		case GSB_PAYMENT_CREDIT:
+			if ( gsb_data_account_get_default_credit (account_number) == payment_number)
+			{
+				gsb_data_account_set_default_credit (account_number,
+													 gsb_data_payment_get_other_number_from_sign
+													 (account_number, GSB_PAYMENT_CREDIT, payment_number));
+			}
+			break;
+	}
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

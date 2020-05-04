@@ -141,7 +141,6 @@ libgrisbi_la_SOURCES = \
 	gsb_fyear_config.c	\
 	gsb_locale.c	\
 	gsb_payment_method.c	\
-	gsb_payment_method_config.c	\
 	gsb_real.c		\
 	gsb_reconcile.c		\
 	gsb_reconcile_list.c	\
@@ -283,7 +282,6 @@ libgrisbi_la_SOURCES = \
 	gsb_fyear_config.h	\
 	gsb_locale.h	\
 	gsb_payment_method.h	\
-	gsb_payment_method_config.h	\
 	gsb_real.h		\
 	gsb_reconcile.h		\
 	gsb_reconcile_list.h	\
@@ -367,7 +365,7 @@ if WIN32
 grisbi_LDFLAGS = -mwindows
 endif
 
-SUBDIRS = ui prefs widgets plugins/gnucash plugins/ofx plugins/openssl
+SUBDIRS = prefs ui widgets plugins/gnucash plugins/ofx plugins/openssl
 
 if HAVE_CUNIT
 SUBDIRS += tests

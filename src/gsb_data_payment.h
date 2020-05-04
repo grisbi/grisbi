@@ -12,6 +12,8 @@
 
 
 /* START_DECLARATION */
+void			gsb_data_payment_change_default_payment_method			(gint payment_number,
+                                                    					 gint account_number);
 gint 			gsb_data_payment_create_default  						(gint account_number);
 gint 			gsb_data_payment_get_account_number 					(gint payment_number);
 gint 			gsb_data_payment_get_automatic_numbering 				(gint payment_number);
@@ -22,6 +24,9 @@ const gchar *	gsb_data_payment_get_name 								(gint payment_number);
 gint 			gsb_data_payment_get_number 							(gpointer payment_ptr);
 gint 			gsb_data_payment_get_number_by_name 					(const gchar *name,
 																		 gint account_number);
+gint			gsb_data_payment_get_other_number_from_sign				(gint account_number,
+																	     gint signe_type,
+																	     gint exclude_number);
 GSList *		gsb_data_payment_get_payments_list 						(void);
 gint 			gsb_data_payment_get_show_entry 						(gint payment_number);
 gint 			gsb_data_payment_get_sign 								(gint payment_number);
