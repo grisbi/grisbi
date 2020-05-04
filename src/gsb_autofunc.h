@@ -48,6 +48,12 @@ GtkWidget *	gsb_autofunc_entry_new 						(const gchar *value,
 														 gpointer data,
 														 GCallback default_func,
 														 gint number_for_func);
+void		gsb_autofunc_entry_new_from_ui				(GtkWidget *entry,
+					                                     const gchar *value,
+														 GCallback hook,
+														 gpointer data,
+														 GCallback default_func,
+														 gint number_for_func);
 void 		gsb_autofunc_entry_set_value 				(GtkWidget *entry,
 														 const gchar *value,
 														 gint number_for_func);
@@ -76,6 +82,12 @@ void 		gsb_autofunc_real_set 						(GtkWidget *entry,
 														 GsbReal real,
 														 gint number_for_func);
 GtkWidget *	gsb_autofunc_spin_new 						(gint value,
+														 GCallback hook,
+														 gpointer data,
+														 GCallback default_func,
+														 gint number_for_func);
+GtkWidget *	gsb_autofunc_spin_new_from_ui 				(GtkWidget *spin_button,
+					                                     gint value,
 														 GCallback hook,
 														 gpointer data,
 														 GCallback default_func,

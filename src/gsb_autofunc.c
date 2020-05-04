@@ -794,6 +794,37 @@ GtkWidget *gsb_autofunc_entry_new (const gchar *value,
     return entry;
 }
 
+void gsb_autofunc_entry_new_from_ui (GtkWidget *entry,
+									 const gchar *value,
+									 GCallback hook,
+									 gpointer data,
+									 GCallback default_func,
+									 gint number_for_func)
+{
+    if (value)
+		gtk_entry_set_text (GTK_ENTRY(entry), value);
+
+    /* set the default func :
+     * the func will be send to gsb_editable_set_text by the data,
+     * the number_for_func will be set as data for object */
+    g_object_set_data (G_OBJECT (entry),
+					   "number_for_func",
+					   GINT_TO_POINTER (number_for_func));
+    if (default_func)
+		g_object_set_data (G_OBJECT (entry),
+						   "changed",
+						   GUINT_TO_POINTER (g_signal_connect_after (G_OBJECT(entry),
+																	 "changed",
+																	 G_CALLBACK (gsb_autofunc_entry_changed),
+																	 default_func)));
+    if (hook)
+		g_object_set_data (G_OBJECT (entry),
+						   "changed-hook",
+						   GUINT_TO_POINTER (g_signal_connect_after (G_OBJECT(entry),
+																	 "changed",
+																	 G_CALLBACK (hook), data)));
+}
+
 /**
  * set the value in a gsb_editable_entry
  * a value is in 2 parts :
@@ -1184,6 +1215,39 @@ GtkWidget *gsb_autofunc_spin_new (gint value,
     /* create and fill the spin button */
     spin_button = gtk_spin_button_new_with_range (0.0, GSB_MAX_SPIN_BUTTON, 1.0);
 
+    gtk_spin_button_set_value (GTK_SPIN_BUTTON (spin_button), (gdouble) value);
+
+    /* set the default func :
+     * the func will be send to gsb_editable_set_text by the data,
+     * the number_for_func will be set as data for object */
+    g_object_set_data (G_OBJECT (spin_button), "number_for_func", GINT_TO_POINTER (number_for_func));
+    if (default_func)
+		g_object_set_data (G_OBJECT (spin_button),
+						   "changed",
+						   GUINT_TO_POINTER (g_signal_connect_after (G_OBJECT(spin_button),
+																	 "value-changed",
+																	 G_CALLBACK (gsb_autofunc_spin_changed),
+																	 default_func)));
+    if (hook)
+		g_object_set_data (G_OBJECT (spin_button),
+						   "changed-hook",
+						   GUINT_TO_POINTER (g_signal_connect_after (G_OBJECT(spin_button),
+																	 "value-changed",
+																	 G_CALLBACK (hook),
+																	 data)));
+    return spin_button;
+}
+
+GtkWidget *gsb_autofunc_spin_new_from_ui (GtkWidget *spin_button,
+										  gint value,
+										  GCallback hook,
+										  gpointer data,
+										  GCallback default_func,
+										  gint number_for_func)
+{
+
+    /* set range and fill the spin button */
+	gtk_spin_button_set_range (GTK_SPIN_BUTTON (spin_button), 0.0, GSB_MAX_SPIN_BUTTON);
     gtk_spin_button_set_value (GTK_SPIN_BUTTON (spin_button), (gdouble) value);
 
     /* set the default func :
