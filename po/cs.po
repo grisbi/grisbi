@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-24 08:21+0200\n"
+"POT-Creation-Date: 2020-05-05 08:21+0200\n"
 "PO-Revision-Date: 2011-02-19 01:39+0100\n"
 "Last-Translator: Markus7cz <markus7cz@gmail.com>\n"
 "Language-Team: \n"
@@ -120,123 +120,103 @@ msgstr "Zobrazit tip dne"
 
 #. On récupère le nom de la page
 #: ../src/ui/csv_template_rule.ui.h:1 ../src/bet_config.c:101
-#: ../src/grisbi_prefs.c:565 ../src/prefs/prefs_page_bet_general.c:216
+#: ../src/grisbi_prefs.c:570 ../src/prefs/prefs_page_bet_general.c:216
 msgid "General Options"
 msgstr "Obecné volby"
 
-#: ../src/ui/csv_template_rule.ui.h:2 ../src/ui/prefs_page_accueil.ui.h:2
-#: ../src/ui/prefs_page_archives.ui.h:2 ../src/ui/prefs_page_bet_account.ui.h:2
-#: ../src/ui/prefs_page_bet_general.ui.h:2
-#: ../src/ui/prefs_page_display_adr.ui.h:2
-#: ../src/ui/prefs_page_display_fonts.ui.h:2
-#: ../src/ui/prefs_page_display_form.ui.h:2
-#: ../src/ui/prefs_page_display_gui.ui.h:2
-#: ../src/ui/prefs_page_display_ope.ui.h:2 ../src/ui/prefs_page_divers.ui.h:2
-#: ../src/ui/prefs_page_files.ui.h:2
-#: ../src/ui/prefs_page_form_completion.ui.h:2
-#: ../src/ui/prefs_page_form_options.ui.h:2 ../src/ui/prefs_page_fyear.ui.h:2
-#: ../src/ui/prefs_page_import_asso.ui.h:2
-#: ../src/ui/prefs_page_import_files.ui.h:2
-#: ../src/ui/prefs_page_metatree.ui.h:2 ../src/ui/prefs_page_msg_delete.ui.h:2
-#: ../src/ui/prefs_page_msg_warning.ui.h:2
-#: ../src/ui/prefs_page_options_ope.ui.h:2
-#: ../src/ui/prefs_page_reconcile.ui.h:16
-#: ../src/ui/prefs_page_reconcile_sort.ui.h:2
-#: ../src/ui/prefs_widget_loan.ui.h:23
-msgid "    "
-msgstr ""
-
-#: ../src/ui/csv_template_rule.ui.h:3 ../src/import.c:4742
+#: ../src/ui/csv_template_rule.ui.h:2 ../src/import.c:4741
 msgid "Name of the rule: "
 msgstr "Název pravidla: "
 
-#: ../src/ui/csv_template_rule.ui.h:4
+#: ../src/ui/csv_template_rule.ui.h:3
 #, fuzzy
 msgid "Rule name"
 msgstr "Název souboru"
 
-#: ../src/ui/csv_template_rule.ui.h:5
+#: ../src/ui/csv_template_rule.ui.h:4
 #, fuzzy
 msgid "Account data"
 msgstr "Detaily účtu"
 
-#: ../src/ui/csv_template_rule.ui.h:6
+#: ../src/ui/csv_template_rule.ui.h:5
 msgid "Row"
 msgstr ""
 
-#: ../src/ui/csv_template_rule.ui.h:7 ../src/bet_graph.c:1943
+#: ../src/ui/csv_template_rule.ui.h:6 ../src/bet_graph.c:1943
 #, fuzzy
 msgid "Column"
 msgstr "Sloupce"
 
-#: ../src/ui/csv_template_rule.ui.h:8
+#: ../src/ui/csv_template_rule.ui.h:7
 #, fuzzy
 msgid "Import account Id:"
 msgstr "Importovaný účet"
 
-#: ../src/ui/csv_template_rule.ui.h:9
+#: ../src/ui/csv_template_rule.ui.h:8
 #, fuzzy
 msgid "First line data"
 msgstr "Chybějící data"
 
-#: ../src/ui/csv_template_rule.ui.h:10
+#: ../src/ui/csv_template_rule.ui.h:9
 msgid "Indicates the first usable line of the file"
 msgstr ""
 
-#: ../src/ui/csv_template_rule.ui.h:11
+#: ../src/ui/csv_template_rule.ui.h:10
 #, fuzzy
 msgid "Line number: "
 msgstr "Číslo IBAN: "
 
-#: ../src/ui/csv_template_rule.ui.h:12 ../src/ui/prefs_page_divers.ui.h:10
+#: ../src/ui/csv_template_rule.ui.h:11 ../src/ui/prefs_page_divers.ui.h:9
+#: ../src/widgets/widget_currency_link.ui.h:2
 #, fuzzy
 msgid "1"
 msgstr "1 "
 
-#: ../src/ui/csv_template_rule.ui.h:13
+#: ../src/ui/csv_template_rule.ui.h:12
 msgid "Indicates whether the column headers are the first row of the file"
 msgstr ""
 
-#: ../src/ui/csv_template_rule.ui.h:14
+#: ../src/ui/csv_template_rule.ui.h:13
 msgid "headers of columns present"
 msgstr ""
 
-#: ../src/ui/csv_template_rule.ui.h:15
+#: ../src/ui/csv_template_rule.ui.h:14
 #, fuzzy
 msgid "Specific configuration"
 msgstr "Základní nastavení"
 
-#: ../src/ui/csv_template_rule.ui.h:16 ../src/ui/prefs_page_bet_account.ui.h:6
-#: ../src/ui/prefs_page_display_fonts.ui.h:9
-#: ../src/ui/prefs_widget_loan.ui.h:21
-msgid "label"
-msgstr ""
-
-#: ../src/ui/csv_template_rule.ui.h:17 ../src/ui/prefs_page_accueil.ui.h:6
-#: ../src/ui/prefs_page_archives.ui.h:12 ../src/ui/prefs_page_bank.ui.h:3
-#: ../src/ui/prefs_page_bet_account.ui.h:7 ../src/ui/prefs_page_currency.ui.h:4
-#: ../src/ui/prefs_page_display_adr.ui.h:10
-#: ../src/ui/prefs_page_display_fonts.ui.h:14
-#: ../src/ui/prefs_page_display_form.ui.h:6
-#: ../src/ui/prefs_page_display_gui.ui.h:16
-#: ../src/ui/prefs_page_display_ope.ui.h:4 ../src/ui/prefs_page_divers.ui.h:18
-#: ../src/ui/prefs_page_files.ui.h:23
-#: ../src/ui/prefs_page_form_completion.ui.h:15
-#: ../src/ui/prefs_page_form_options.ui.h:9 ../src/ui/prefs_page_fyear.ui.h:10
-#: ../src/ui/prefs_page_import_asso.ui.h:11
-#: ../src/ui/prefs_page_import_files.ui.h:14
-#: ../src/ui/prefs_page_metatree.ui.h:15 ../src/ui/prefs_page_msg_delete.ui.h:3
-#: ../src/ui/prefs_page_msg_warning.ui.h:5
-#: ../src/ui/prefs_page_options_ope.ui.h:13
+#: ../src/ui/csv_template_rule.ui.h:15 ../src/ui/prefs_page_accueil.ui.h:5
+#: ../src/ui/prefs_page_archives.ui.h:11 ../src/ui/prefs_page_bank.ui.h:3
+#: ../src/ui/prefs_page_bet_account.ui.h:6 ../src/ui/prefs_page_currency.ui.h:4
+#: ../src/ui/prefs_page_currency_link.ui.h:2
+#: ../src/ui/prefs_page_display_adr.ui.h:9
+#: ../src/ui/prefs_page_display_fonts.ui.h:13
+#: ../src/ui/prefs_page_display_form.ui.h:5
+#: ../src/ui/prefs_page_display_gui.ui.h:15
+#: ../src/ui/prefs_page_display_ope.ui.h:3 ../src/ui/prefs_page_divers.ui.h:17
+#: ../src/ui/prefs_page_files.ui.h:22
+#: ../src/ui/prefs_page_form_completion.ui.h:14
+#: ../src/ui/prefs_page_form_options.ui.h:8 ../src/ui/prefs_page_fyear.ui.h:9
+#: ../src/ui/prefs_page_import_asso.ui.h:10
+#: ../src/ui/prefs_page_import_files.ui.h:13
+#: ../src/ui/prefs_page_metatree.ui.h:14 ../src/ui/prefs_page_msg_delete.ui.h:2
+#: ../src/ui/prefs_page_msg_warning.ui.h:4
+#: ../src/ui/prefs_page_options_ope.ui.h:12
 #: ../src/ui/prefs_page_reconcile.ui.h:15
-#: ../src/ui/prefs_page_reconcile_sort.ui.h:4
-#: ../src/ui/prefs_widget_loan.ui.h:22
+#: ../src/ui/prefs_page_reconcile_sort.ui.h:3
+#: ../src/ui/prefs_widget_loan.ui.h:21
 #: ../src/widgets/widget_bank_details.ui.h:12
 #: ../src/widgets/widget_currency_details.ui.h:6
-#: ../src/widgets/widget_currency_popup.ui.h:2
+#: ../src/widgets/widget_currency_link.ui.h:4
+#: ../src/widgets/widget_currency_popup.ui.h:5
 #, fuzzy
 msgid "Title"
 msgstr "Názvy"
+
+#: ../src/ui/csv_template_rule.ui.h:16 ../src/ui/prefs_page_bet_account.ui.h:5
+#: ../src/ui/prefs_page_display_fonts.ui.h:8
+msgid "label"
+msgstr ""
 
 #: ../src/ui/etats_prefs.ui.h:1
 msgid "General totals currency: "
@@ -266,13 +246,13 @@ msgstr "Název sestavy"
 
 #. Partial balance name
 #. Financial year name
-#. Payment method name
 #. Name entry
-#: ../src/ui/etats_prefs.ui.h:7 ../src/ui/prefs_page_archives.ui.h:5
-#: ../src/ui/prefs_page_fyear.ui.h:7 ../src/widgets/widget_bank_details.ui.h:2
+#: ../src/ui/etats_prefs.ui.h:7 ../src/ui/prefs_page_archives.ui.h:4
+#: ../src/ui/prefs_page_fyear.ui.h:6 ../src/ui/prefs_page_payment_method.ui.h:1
+#: ../src/widgets/widget_bank_details.ui.h:2
 #: ../src/widgets/widget_currency_details.ui.h:1
-#: ../src/gsb_data_partial_balance.c:1785 ../src/gsb_fyear_config.c:225
-#: ../src/gsb_payment_method_config.c:230 ../src/tiers_onglet.c:213
+#: ../src/gsb_data_partial_balance.c:1788 ../src/gsb_fyear_config.c:225
+#: ../src/tiers_onglet.c:213
 msgid "Name: "
 msgstr "Název: "
 
@@ -288,7 +268,7 @@ msgstr ""
 #: ../src/export_csv.c:368 ../src/gsb_assistant_reconcile_config.c:597
 #: ../src/gsb_form.c:1981 ../src/gsb_form_widget.c:549
 #: ../src/gsb_reconcile.c:214 ../src/gsb_transactions_list.c:109
-#: ../src/import.c:1868 ../src/import.c:4275 ../src/import_csv.c:72
+#: ../src/import.c:1867 ../src/import.c:4274 ../src/import_csv.c:72
 msgid "Date"
 msgstr "Datum"
 
@@ -429,7 +409,7 @@ msgstr "bankovní reference"
 msgid "reconciliation reference"
 msgstr "reference odsouhlasení"
 
-#: ../src/ui/etats_prefs.ui.h:40 ../src/ui/prefs_page_display_form.ui.h:3
+#: ../src/ui/etats_prefs.ui.h:40 ../src/ui/prefs_page_display_form.ui.h:2
 msgid "Columns"
 msgstr "Sloupce"
 
@@ -478,7 +458,7 @@ msgstr "Zobrazit mezisoučet pro každý účet"
 #: ../src/grisbi_win.c:511 ../src/gsb_assistant_reconcile_config.c:597
 #: ../src/gsb_form.c:2004 ../src/gsb_form_widget.c:569
 #: ../src/gsb_scheduler_list.c:856 ../src/gsb_transactions_list.c:111
-#: ../src/import.c:4282 ../src/import_csv.c:74 ../src/meta_payee.c:79
+#: ../src/import.c:4281 ../src/import_csv.c:74 ../src/meta_payee.c:79
 #: ../src/prefs/prefs_widget_loan.c:950
 msgid "Payee"
 msgstr "Plátce/příjemce"
@@ -574,13 +554,14 @@ msgstr "Příjmové kategorie"
 msgid "Outgoing categories"
 msgstr "Výdajové kategorie"
 
-#: ../src/ui/etats_prefs.ui.h:70 ../src/grisbi_prefs.c:734
+#: ../src/ui/etats_prefs.ui.h:70 ../src/ui/prefs_page_payment_method.ui.h:9
+#: ../src/grisbi_prefs.c:739
 #, fuzzy
 msgid "Expand all"
 msgstr "Zobrazit detail"
 
-#: ../src/ui/etats_prefs.ui.h:71 ../src/ui/prefs_page_reconcile_sort.ui.h:3
-#: ../src/grisbi_prefs.c:744
+#: ../src/ui/etats_prefs.ui.h:71 ../src/ui/prefs_page_payment_method.ui.h:10
+#: ../src/ui/prefs_page_reconcile_sort.ui.h:2 ../src/grisbi_prefs.c:749
 msgid "Collapse all"
 msgstr ""
 
@@ -1118,21 +1099,21 @@ msgstr "Znepřehledění souboru Grisbi"
 msgid "Calculation of balances"
 msgstr "Výpočet zůstatků"
 
-#: ../src/ui/prefs_page_accueil.ui.h:3
+#: ../src/ui/prefs_page_accueil.ui.h:2
 msgid ""
 "Take into account the scheduled operations in the calculation of balances"
 msgstr "Při výpočtu zůstatků započítat do zůstatku i plánované operace"
 
-#: ../src/ui/prefs_page_accueil.ui.h:4
+#: ../src/ui/prefs_page_accueil.ui.h:3
 msgid "Balances partials of the list of accounts"
 msgstr "Souhrnné zůstatky v seznamu účtů"
 
-#: ../src/ui/prefs_page_accueil.ui.h:5
+#: ../src/ui/prefs_page_accueil.ui.h:4
 #, fuzzy
 msgid "Place the partial balance  under its accounts if it's possible"
 msgstr "Název souhrnného zůstatku a seznamu účtů musí být vyplněn."
 
-#: ../src/ui/prefs_page_accueil.ui.h:7
+#: ../src/ui/prefs_page_accueil.ui.h:6
 msgid "Pluriel de final"
 msgstr ""
 
@@ -1140,36 +1121,36 @@ msgstr ""
 msgid "Known archives"
 msgstr "Známé archivy"
 
-#: ../src/ui/prefs_page_archives.ui.h:3
+#: ../src/ui/prefs_page_archives.ui.h:2
 #, fuzzy
 msgid "Sort the archives by descending date"
 msgstr "Tisknout řádky z archivu"
 
-#: ../src/ui/prefs_page_archives.ui.h:4
+#: ../src/ui/prefs_page_archives.ui.h:3
 msgid "Archive modification"
 msgstr "Změna archivu"
 
-#: ../src/ui/prefs_page_archives.ui.h:6
+#: ../src/ui/prefs_page_archives.ui.h:5
 msgid "Delete the archive"
 msgstr "Odstranit archiv"
 
-#: ../src/ui/prefs_page_archives.ui.h:7
+#: ../src/ui/prefs_page_archives.ui.h:6
 msgid "Delete the archive and transactions"
 msgstr "Odstranit archiv včetně transakcí"
 
-#: ../src/ui/prefs_page_archives.ui.h:8
+#: ../src/ui/prefs_page_archives.ui.h:7
 msgid "Automatic check"
 msgstr "Automatická kontrola"
 
-#: ../src/ui/prefs_page_archives.ui.h:9
+#: ../src/ui/prefs_page_archives.ui.h:8
 msgid "Check at opening if creating archive is needed."
 msgstr "Zkontrolovat při startu, zda je potřeba vytvořit archiv"
 
-#: ../src/ui/prefs_page_archives.ui.h:10
+#: ../src/ui/prefs_page_archives.ui.h:9
 msgid "Warn if more than "
 msgstr "Varovat při hodnotě větší než "
 
-#: ../src/ui/prefs_page_archives.ui.h:11
+#: ../src/ui/prefs_page_archives.ui.h:10
 msgid " transactions are not archived."
 msgstr " transakcí nebylo archivováno."
 
@@ -1186,29 +1167,29 @@ msgid "Select an account"
 msgstr "Vyberte účet"
 
 #. set the choice of account
-#: ../src/ui/prefs_page_bet_account.ui.h:3
+#: ../src/ui/prefs_page_bet_account.ui.h:2
 #: ../src/gsb_assistant_reconcile_config.c:410
 msgid "Account: "
 msgstr "Účet: "
 
-#: ../src/ui/prefs_page_bet_account.ui.h:4
+#: ../src/ui/prefs_page_bet_account.ui.h:3
 msgid "Use the budget module"
 msgstr "Použít modul rozpočtů"
 
-#: ../src/ui/prefs_page_bet_account.ui.h:5
+#: ../src/ui/prefs_page_bet_account.ui.h:4
 #, fuzzy
 msgid "Account with deferred debit card"
 msgstr "Kreditní karta"
 
-#: ../src/ui/prefs_page_bet_account.ui.h:8
+#: ../src/ui/prefs_page_bet_account.ui.h:7
 msgid "Data for the forecast"
 msgstr "Data pro prognózu"
 
-#: ../src/ui/prefs_page_bet_account.ui.h:9
+#: ../src/ui/prefs_page_bet_account.ui.h:8
 msgid "Sources of historical data"
 msgstr "Zdroje historických dat"
 
-#: ../src/ui/prefs_page_bet_account.ui.h:10
+#: ../src/ui/prefs_page_bet_account.ui.h:9
 msgid "Credit Data"
 msgstr "Data půjčky"
 
@@ -1217,30 +1198,30 @@ msgstr "Data půjčky"
 msgid "Common data"
 msgstr "Běžná data"
 
-#: ../src/ui/prefs_page_bet_general.ui.h:3
+#: ../src/ui/prefs_page_bet_general.ui.h:2
 #, fuzzy
 msgid "Beginning of period: "
 msgstr "Začátek období"
 
-#: ../src/ui/prefs_page_bet_general.ui.h:4 ../src/bet_config.c:158
+#: ../src/ui/prefs_page_bet_general.ui.h:3 ../src/bet_config.c:158
 msgid "1st day of month"
 msgstr "první den v měsíci"
 
-#: ../src/ui/prefs_page_bet_general.ui.h:5 ../src/bet_config.c:164
+#: ../src/ui/prefs_page_bet_general.ui.h:4 ../src/bet_config.c:164
 msgid "date today"
 msgstr "dnešní datum"
 
-#: ../src/ui/prefs_page_bet_general.ui.h:6
+#: ../src/ui/prefs_page_bet_general.ui.h:5
 #, fuzzy
 msgid "(This option is used if no starting date for forecasts)"
 msgstr "Poznámka: toto nastavení platí pro prognózy bez počátečního data"
 
 #. option pour les comptes de caisse
-#: ../src/ui/prefs_page_bet_general.ui.h:7 ../src/bet_config.c:112
+#: ../src/ui/prefs_page_bet_general.ui.h:6 ../src/bet_config.c:112
 msgid "Option for cash accounts"
 msgstr "Možnosti účtů hotovosti"
 
-#: ../src/ui/prefs_page_bet_general.ui.h:8 ../src/bet_config.c:114
+#: ../src/ui/prefs_page_bet_general.ui.h:7 ../src/bet_config.c:114
 msgid "Add the forecast tab for cash accounts"
 msgstr "Přidat záložku prognóz k hotovostním účtům"
 
@@ -1248,7 +1229,7 @@ msgstr "Přidat záložku prognóz k hotovostním účtům"
 msgid "Known currencies"
 msgstr "Definované měny"
 
-#: ../src/ui/prefs_page_currency.ui.h:2
+#: ../src/ui/prefs_page_currency.ui.h:2 ../src/gsb_currency.c:1310
 msgid "Add a currency"
 msgstr "Přidat měnu"
 
@@ -1256,39 +1237,44 @@ msgstr "Přidat měnu"
 msgid "World currencies"
 msgstr "Světové měny"
 
+#: ../src/ui/prefs_page_currency_link.ui.h:1
+#: ../src/gsb_currency_link_config.c:127
+msgid "Known links"
+msgstr "Známé kurzy"
+
 #: ../src/ui/prefs_page_display_adr.ui.h:1
 #, fuzzy
 msgid "Window title of Grisbi"
 msgstr "Vítejte v Grisbi!"
 
-#: ../src/ui/prefs_page_display_adr.ui.h:3
+#: ../src/ui/prefs_page_display_adr.ui.h:2
 #, fuzzy
 msgid "Accounting entity"
 msgstr "Detaily účtu"
 
-#: ../src/ui/prefs_page_display_adr.ui.h:4
+#: ../src/ui/prefs_page_display_adr.ui.h:3
 msgid "Account owner name"
 msgstr "Jméno majitele účtu"
 
-#: ../src/ui/prefs_page_display_adr.ui.h:5
+#: ../src/ui/prefs_page_display_adr.ui.h:4
 msgid "Filename"
 msgstr "Název souboru"
 
 #. label account name
-#: ../src/ui/prefs_page_display_adr.ui.h:6 ../src/gsb_assistant_file.c:319
+#: ../src/ui/prefs_page_display_adr.ui.h:5 ../src/gsb_assistant_file.c:318
 #, fuzzy
 msgid "Name of accounting entity: "
 msgstr "Banka účtu: "
 
-#: ../src/ui/prefs_page_display_adr.ui.h:7
+#: ../src/ui/prefs_page_display_adr.ui.h:6
 msgid "Addresses"
 msgstr "Adresy"
 
-#: ../src/ui/prefs_page_display_adr.ui.h:8
+#: ../src/ui/prefs_page_display_adr.ui.h:7
 msgid "Common address: "
 msgstr "Běžná adresa: "
 
-#: ../src/ui/prefs_page_display_adr.ui.h:9
+#: ../src/ui/prefs_page_display_adr.ui.h:8
 msgid "Secondary address: "
 msgstr "Druhá adresa: "
 
@@ -1296,48 +1282,48 @@ msgstr "Druhá adresa: "
 msgid "Grisbi logo"
 msgstr "Logo Grisbi"
 
-#: ../src/ui/prefs_page_display_fonts.ui.h:3
+#: ../src/ui/prefs_page_display_fonts.ui.h:2
 msgid "Display a logo"
 msgstr "Zobrazit logo"
 
-#: ../src/ui/prefs_page_display_fonts.ui.h:4
+#: ../src/ui/prefs_page_display_fonts.ui.h:3
 msgid "Click on preview to change logo"
 msgstr "Kliknutím na náhled změníte logo"
 
-#: ../src/ui/prefs_page_display_fonts.ui.h:5 ../src/print_report.c:444
+#: ../src/ui/prefs_page_display_fonts.ui.h:4 ../src/print_report.c:444
 #: ../src/print_report.c:551 ../src/print_transactions_list.c:261
 #: ../src/print_tree_view_list.c:1014
 msgid "Fonts"
 msgstr "Písma"
 
-#: ../src/ui/prefs_page_display_fonts.ui.h:6
+#: ../src/ui/prefs_page_display_fonts.ui.h:5
 msgid "Use a custom font for the transactions: "
 msgstr "Použít vlastní písmo pro transakce: "
 
-#: ../src/ui/prefs_page_display_fonts.ui.h:7
+#: ../src/ui/prefs_page_display_fonts.ui.h:6
 msgid "Theme and Colors"
 msgstr ""
 
-#: ../src/ui/prefs_page_display_fonts.ui.h:8
+#: ../src/ui/prefs_page_display_fonts.ui.h:7
 msgid "Theme"
 msgstr ""
 
-#: ../src/ui/prefs_page_display_fonts.ui.h:10
+#: ../src/ui/prefs_page_display_fonts.ui.h:9
 msgid ""
 "(If the rendering is not correct, you can force the type of theme by "
 "selecting the option below)"
 msgstr ""
 
-#: ../src/ui/prefs_page_display_fonts.ui.h:11
+#: ../src/ui/prefs_page_display_fonts.ui.h:10
 #, fuzzy
 msgid "Automatic selection"
 msgstr "Výběr dat"
 
-#: ../src/ui/prefs_page_display_fonts.ui.h:12
+#: ../src/ui/prefs_page_display_fonts.ui.h:11
 msgid "Colors"
 msgstr "Barvy"
 
-#: ../src/ui/prefs_page_display_fonts.ui.h:13
+#: ../src/ui/prefs_page_display_fonts.ui.h:12
 msgid "Back to default"
 msgstr "Zpět k výchozím"
 
@@ -1346,12 +1332,12 @@ msgstr "Zpět k výchozím"
 msgid "Form structure preview"
 msgstr "Ukázka struktury formuláře"
 
-#: ../src/ui/prefs_page_display_form.ui.h:4
+#: ../src/ui/prefs_page_display_form.ui.h:3
 msgid "Rows"
 msgstr ""
 
 #. set the box with the buttons
-#: ../src/ui/prefs_page_display_form.ui.h:5 ../src/gsb_form_config.c:155
+#: ../src/ui/prefs_page_display_form.ui.h:4 ../src/gsb_form_config.c:155
 msgid "Form structure content"
 msgstr "Obsah struktury formuláře"
 
@@ -1360,59 +1346,59 @@ msgstr "Obsah struktury formuláře"
 msgid "Resolution screen"
 msgstr "Reference odsouhlasení"
 
-#: ../src/ui/prefs_page_display_gui.ui.h:3
+#: ../src/ui/prefs_page_display_gui.ui.h:2
 msgid "Use a low resolution screen (Close and reopen preferences)"
 msgstr ""
 
-#: ../src/ui/prefs_page_display_gui.ui.h:4
+#: ../src/ui/prefs_page_display_gui.ui.h:3
 #, fuzzy
 msgid "Headings bar"
 msgstr "Zobrazit panel záhlaví"
 
-#: ../src/ui/prefs_page_display_gui.ui.h:5
+#: ../src/ui/prefs_page_display_gui.ui.h:4
 msgid "Display headings bar"
 msgstr "Zobrazit panel záhlaví"
 
-#: ../src/ui/prefs_page_display_gui.ui.h:6
+#: ../src/ui/prefs_page_display_gui.ui.h:5
 msgid "Navigation pane"
 msgstr ""
 
-#: ../src/ui/prefs_page_display_gui.ui.h:7
+#: ../src/ui/prefs_page_display_gui.ui.h:6
 msgid "Add mouse scrolling support on the navigation pane"
 msgstr ""
 
-#: ../src/ui/prefs_page_display_gui.ui.h:8
+#: ../src/ui/prefs_page_display_gui.ui.h:7
 msgid "Toolbars"
 msgstr "Panely nástrojů"
 
-#: ../src/ui/prefs_page_display_gui.ui.h:9
+#: ../src/ui/prefs_page_display_gui.ui.h:8
 msgid "Display toolbar buttons as"
 msgstr "Zobrazit tlačítka panelu nástrojů jako"
 
-#: ../src/ui/prefs_page_display_gui.ui.h:10
+#: ../src/ui/prefs_page_display_gui.ui.h:9
 #, fuzzy
 msgid " : "
 msgstr " = "
 
-#: ../src/ui/prefs_page_display_gui.ui.h:11
+#: ../src/ui/prefs_page_display_gui.ui.h:10
 #, fuzzy
 msgid "Text only"
 msgstr "Text"
 
-#: ../src/ui/prefs_page_display_gui.ui.h:12
+#: ../src/ui/prefs_page_display_gui.ui.h:11
 #, fuzzy
 msgid "Icons only"
 msgstr "Ikony"
 
-#: ../src/ui/prefs_page_display_gui.ui.h:13
+#: ../src/ui/prefs_page_display_gui.ui.h:12
 msgid "Text below items"
 msgstr ""
 
-#: ../src/ui/prefs_page_display_gui.ui.h:14
+#: ../src/ui/prefs_page_display_gui.ui.h:13
 msgid "Text beside items"
 msgstr ""
 
-#: ../src/ui/prefs_page_display_gui.ui.h:15
+#: ../src/ui/prefs_page_display_gui.ui.h:14
 msgid "Shortcuts"
 msgstr ""
 
@@ -1421,7 +1407,7 @@ msgstr ""
 msgid "Transactions list preview"
 msgstr "Chování seznamu transakcí"
 
-#: ../src/ui/prefs_page_display_ope.ui.h:3
+#: ../src/ui/prefs_page_display_ope.ui.h:2
 #, fuzzy
 msgid "Transactions list contents"
 msgstr "Obsah seznamu transakcí"
@@ -1430,66 +1416,66 @@ msgstr "Obsah seznamu transakcí"
 msgid "Programs"
 msgstr "Programy"
 
-#: ../src/ui/prefs_page_divers.ui.h:3 ../src/gsb_assistant_first.c:223
+#: ../src/ui/prefs_page_divers.ui.h:2 ../src/gsb_assistant_first.c:223
 msgid "Web browser command: "
 msgstr "Příkaz webového prohlížeče: "
 
-#: ../src/ui/prefs_page_divers.ui.h:5 ../src/gsb_assistant_first.c:230
+#: ../src/ui/prefs_page_divers.ui.h:4 ../src/gsb_assistant_first.c:230
 #, fuzzy, no-c-format
 msgid "You may use %s to expand the URL - I.e: 'firefox %s' "
 msgstr "Můžete použít %s na určení URL např.: 'firefox -remote %s'"
 
-#: ../src/ui/prefs_page_divers.ui.h:6
+#: ../src/ui/prefs_page_divers.ui.h:5
 #, fuzzy
 msgid "Number of days before the warning or the execution: "
 msgstr "Počet dní před oznámením nebo provedením: "
 
-#: ../src/ui/prefs_page_divers.ui.h:7 ../src/ui/prefs_page_files.ui.h:15
+#: ../src/ui/prefs_page_divers.ui.h:6 ../src/ui/prefs_page_files.ui.h:14
 #: ../src/ui/prefs_widget_loan.ui.h:8
 msgid "0"
 msgstr ""
 
 #. set options
-#: ../src/ui/prefs_page_divers.ui.h:8 ../src/bet_graph.c:1358
+#: ../src/ui/prefs_page_divers.ui.h:7 ../src/bet_graph.c:1358
 #: ../src/tiers_onglet.c:1260
 msgid "Options"
 msgstr "Volby"
 
-#: ../src/ui/prefs_page_divers.ui.h:9
+#: ../src/ui/prefs_page_divers.ui.h:8
 #, fuzzy
 msgid "Launch day for scheduled operations performed monthly: "
 msgstr "Počet dní před oznámením nebo provedením: "
 
-#: ../src/ui/prefs_page_divers.ui.h:11
+#: ../src/ui/prefs_page_divers.ui.h:10
 #, fuzzy
 msgid ""
 "Fix the date for the scheduled transactions on 28, 29, 30 and 31 of the month"
 msgstr "Oznámit / provést plánované transakce pro měsíc"
 
-#: ../src/ui/prefs_page_divers.ui.h:12
+#: ../src/ui/prefs_page_divers.ui.h:11
 msgid "Use a default account for sheduler form: "
 msgstr ""
 
-#: ../src/ui/prefs_page_divers.ui.h:13
+#: ../src/ui/prefs_page_divers.ui.h:12
 #, fuzzy
 msgid "Choose the language"
 msgstr "Zvolte účet"
 
-#: ../src/ui/prefs_page_divers.ui.h:14 ../src/parametres.c:150
-#: ../src/parametres.c:158
+#: ../src/ui/prefs_page_divers.ui.h:13 ../src/parametres.c:149
+#: ../src/parametres.c:157
 msgid "Choose the date format"
 msgstr "Zvolte formát data"
 
-#: ../src/ui/prefs_page_divers.ui.h:15
+#: ../src/ui/prefs_page_divers.ui.h:14
 #, fuzzy
 msgid "Choose decimal and thousands separator"
 msgstr "Zvolte oddělovače desetin a tisíců"
 
-#: ../src/ui/prefs_page_divers.ui.h:16 ../src/parametres.c:243
+#: ../src/ui/prefs_page_divers.ui.h:15 ../src/parametres.c:242
 msgid "Decimal point: "
 msgstr "Oddělovač desetin: "
 
-#: ../src/ui/prefs_page_divers.ui.h:17 ../src/parametres.c:256
+#: ../src/ui/prefs_page_divers.ui.h:16 ../src/parametres.c:255
 msgid "Thousands separator: "
 msgstr "Oddělovač tisíců: "
 
@@ -1498,83 +1484,83 @@ msgid "Account files handling"
 msgstr "Operace se soubory"
 
 #. Automatically load last file on startup?
-#: ../src/ui/prefs_page_files.ui.h:3 ../src/gsb_assistant_first.c:242
+#: ../src/ui/prefs_page_files.ui.h:2 ../src/gsb_assistant_first.c:242
 msgid "Automatically load last file on startup"
 msgstr "Při startu automaticky načíst poslední soubor"
 
 #. automatically save file at closing
-#: ../src/ui/prefs_page_files.ui.h:4 ../src/gsb_assistant_first.c:247
+#: ../src/ui/prefs_page_files.ui.h:3 ../src/gsb_assistant_first.c:247
 msgid "Automatically save on exit"
 msgstr "Automaticky uložit při ukončení"
 
-#: ../src/ui/prefs_page_files.ui.h:5 ../src/gsb_file.c:581
+#: ../src/ui/prefs_page_files.ui.h:4 ../src/gsb_file.c:581
 msgid "Force saving of locked files"
 msgstr "Vynutit uložení uzamčených souborů"
 
-#: ../src/ui/prefs_page_files.ui.h:6 ../src/gsb_assistant_file.c:364
+#: ../src/ui/prefs_page_files.ui.h:5 ../src/gsb_assistant_file.c:363
 #: ../src/gsb_assistant_first.c:255
 msgid "Encrypt Grisbi file"
 msgstr "Zašifrovat soubor Grisbi"
 
-#: ../src/ui/prefs_page_files.ui.h:7
+#: ../src/ui/prefs_page_files.ui.h:6
 msgid "Compress Grisbi file"
 msgstr "Komprimovat soubor Grisbi"
 
-#: ../src/ui/prefs_page_files.ui.h:8
+#: ../src/ui/prefs_page_files.ui.h:7
 msgid "Memorise last opened files: "
 msgstr "Pamatovat si poslední otevřené soubory: "
 
-#: ../src/ui/prefs_page_files.ui.h:9
+#: ../src/ui/prefs_page_files.ui.h:8
 msgid "Backups"
 msgstr "Zálohování"
 
-#: ../src/ui/prefs_page_files.ui.h:10
+#: ../src/ui/prefs_page_files.ui.h:9
 msgid "Make a single backup file"
 msgstr "Vytvořit jeden záložní soubor"
 
-#: ../src/ui/prefs_page_files.ui.h:11
+#: ../src/ui/prefs_page_files.ui.h:10
 msgid "Compress Grisbi backup"
 msgstr "Komprimovat zálohu Grisbi"
 
-#: ../src/ui/prefs_page_files.ui.h:12
+#: ../src/ui/prefs_page_files.ui.h:11
 msgid "Make a backup copy after opening files"
 msgstr "Vytvořit záložní kopii po otevření souboru"
 
-#: ../src/ui/prefs_page_files.ui.h:13 ../src/gsb_assistant_first.c:270
+#: ../src/ui/prefs_page_files.ui.h:12 ../src/gsb_assistant_first.c:270
 msgid "Make a backup copy before saving files"
 msgstr "Vytvořit záložní kopii před otevřením souboru"
 
-#: ../src/ui/prefs_page_files.ui.h:14 ../src/gsb_assistant_first.c:278
+#: ../src/ui/prefs_page_files.ui.h:13 ../src/gsb_assistant_first.c:278
 msgid "Make a backup copy every "
 msgstr "Vytvořit záložní kopii každých "
 
-#: ../src/ui/prefs_page_files.ui.h:16 ../src/gsb_assistant_first.c:288
+#: ../src/ui/prefs_page_files.ui.h:15 ../src/gsb_assistant_first.c:288
 msgid " minutes"
 msgstr " minut"
 
-#: ../src/ui/prefs_page_files.ui.h:17
+#: ../src/ui/prefs_page_files.ui.h:16
 msgid "Remove backup files older than "
 msgstr ""
 
-#: ../src/ui/prefs_page_files.ui.h:18 ../src/ui/prefs_widget_loan.ui.h:2
+#: ../src/ui/prefs_page_files.ui.h:17 ../src/ui/prefs_widget_loan.ui.h:2
 #: ../src/bet_finance_ui.c:280 ../src/gsb_scheduler_list.c:118
 msgid "months"
 msgstr "měsíce"
 
-#: ../src/ui/prefs_page_files.ui.h:19 ../src/gsb_assistant_first.c:296
+#: ../src/ui/prefs_page_files.ui.h:18 ../src/gsb_assistant_first.c:296
 msgid "Backup directory: "
 msgstr "Složka zálohy: "
 
-#: ../src/ui/prefs_page_files.ui.h:20
+#: ../src/ui/prefs_page_files.ui.h:19
 msgid "Sélectionner un répertoire"
 msgstr ""
 
-#: ../src/ui/prefs_page_files.ui.h:21
+#: ../src/ui/prefs_page_files.ui.h:20
 #, fuzzy
 msgid "Directory for files import"
 msgstr "Pojmenujte soubor pravidel importu"
 
-#: ../src/ui/prefs_page_files.ui.h:22
+#: ../src/ui/prefs_page_files.ui.h:21
 #, fuzzy
 msgid "Use a fixed directory: "
 msgstr "Složka zálohy: "
@@ -1584,54 +1570,54 @@ msgstr "Složka zálohy: "
 msgid "Common options"
 msgstr "Dokončování"
 
-#: ../src/ui/prefs_page_form_completion.ui.h:3
+#: ../src/ui/prefs_page_form_completion.ui.h:2
 msgid "Case sensitive completion"
 msgstr "Doplňovat s rozlišením velikosti písmen"
 
-#: ../src/ui/prefs_page_form_completion.ui.h:4
+#: ../src/ui/prefs_page_form_completion.ui.h:3
 msgid "Minimum number of characters before proposals in the input fields:"
 msgstr ""
 
-#: ../src/ui/prefs_page_form_completion.ui.h:5
+#: ../src/ui/prefs_page_form_completion.ui.h:4
 #, fuzzy
 msgid "one by default"
 msgstr "Žádná výchozí data"
 
-#: ../src/ui/prefs_page_form_completion.ui.h:6
+#: ../src/ui/prefs_page_form_completion.ui.h:5
 #, fuzzy
 msgid "Options for payees"
 msgstr "Možnosti účtů hotovosti"
 
-#: ../src/ui/prefs_page_form_completion.ui.h:7
+#: ../src/ui/prefs_page_form_completion.ui.h:6
 msgid "Automatic filling transactions from payee"
 msgstr "Automaticky vyplnit transakci podle plátce/příjemce"
 
-#: ../src/ui/prefs_page_form_completion.ui.h:8
+#: ../src/ui/prefs_page_form_completion.ui.h:7
 msgid "Erase the credit and debit fields"
 msgstr ""
 
-#: ../src/ui/prefs_page_form_completion.ui.h:9
+#: ../src/ui/prefs_page_form_completion.ui.h:8
 msgid "Automatically recover the children of the associated transaction"
 msgstr "Automaticky opravit detaily připojené transakce"
 
-#: ../src/ui/prefs_page_form_completion.ui.h:10
+#: ../src/ui/prefs_page_form_completion.ui.h:9
 msgid "Limit the filling with payees belonging to the current account"
 msgstr "Omezit výběr plátců/příjemců na ty, kteří příslušejí danému účtu"
 
-#: ../src/ui/prefs_page_form_completion.ui.h:11
+#: ../src/ui/prefs_page_form_completion.ui.h:10
 msgid "Don't allow new payee creation"
 msgstr "Nepovolit vytvoření nového plátce/příjemce"
 
-#: ../src/ui/prefs_page_form_completion.ui.h:12
+#: ../src/ui/prefs_page_form_completion.ui.h:11
 #, fuzzy
 msgid "Options for categories/budgetaries"
 msgstr "Plátci/příjemci, kategorie a rozpočty"
 
-#: ../src/ui/prefs_page_form_completion.ui.h:13
+#: ../src/ui/prefs_page_form_completion.ui.h:12
 msgid "Mix credit/debit categories"
 msgstr "Sloučit kategorie kreditu / debetu"
 
-#: ../src/ui/prefs_page_form_completion.ui.h:14
+#: ../src/ui/prefs_page_form_completion.ui.h:13
 msgid "Don't allow new category/budget creation"
 msgstr "Nepovolit vytvoření nové kategorie / rozpočtu"
 
@@ -1639,29 +1625,29 @@ msgstr "Nepovolit vytvoření nové kategorie / rozpočtu"
 msgid "Pressing RETURN in transaction form"
 msgstr "Stisknutí ENTERu na formuláři transakce"
 
-#: ../src/ui/prefs_page_form_options.ui.h:3
+#: ../src/ui/prefs_page_form_options.ui.h:2
 msgid "Interpretation of future dates"
 msgstr ""
 
-#: ../src/ui/prefs_page_form_options.ui.h:4
+#: ../src/ui/prefs_page_form_options.ui.h:3
 msgid ""
 "(This option allows all future dates to be considered as dates from the "
 "previous calendar year)"
 msgstr ""
 
-#: ../src/ui/prefs_page_form_options.ui.h:5
+#: ../src/ui/prefs_page_form_options.ui.h:4
 msgid "Automatic financial year is set"
 msgstr "Automatický fiskální rok je nastaven"
 
-#: ../src/ui/prefs_page_form_options.ui.h:6
+#: ../src/ui/prefs_page_form_options.ui.h:5
 msgid "Sorting the exercises in the button of the form"
 msgstr ""
 
-#: ../src/ui/prefs_page_form_options.ui.h:7
+#: ../src/ui/prefs_page_form_options.ui.h:6
 msgid "Automatic amount separator"
 msgstr "Automatický oddělovač částky"
 
-#: ../src/ui/prefs_page_form_options.ui.h:8
+#: ../src/ui/prefs_page_form_options.ui.h:7
 msgid "Automagically add separator in amounts fields if unspecified"
 msgstr "Automagicky přidat oddělovač do polí částek, pokud není zadán"
 
@@ -1670,33 +1656,33 @@ msgid "Known financial years"
 msgstr "Definované fiskální roky"
 
 #. Create button for sort variable
-#: ../src/ui/prefs_page_fyear.ui.h:3 ../src/gsb_fyear_config.c:178
+#: ../src/ui/prefs_page_fyear.ui.h:2 ../src/gsb_fyear_config.c:178
 #, fuzzy
 msgid "Sort the exercises by descending name"
 msgstr "Tisknout řádky z archivu"
 
 #. Associate operations : under the list
-#: ../src/ui/prefs_page_fyear.ui.h:4 ../src/gsb_fyear_config.c:210
+#: ../src/ui/prefs_page_fyear.ui.h:3 ../src/gsb_fyear_config.c:210
 msgid "Associate operations without financial years"
 msgstr "Přiřadit transakce bez fiskálního roku"
 
 #. Financial year details
-#: ../src/ui/prefs_page_fyear.ui.h:5 ../src/gsb_fyear_config.c:221
+#: ../src/ui/prefs_page_fyear.ui.h:4 ../src/gsb_fyear_config.c:221
 msgid "Financial year details"
 msgstr "Detaily fiskálního roku"
 
 #. Activate in transaction form?
-#: ../src/ui/prefs_page_fyear.ui.h:6 ../src/gsb_fyear_config.c:268
+#: ../src/ui/prefs_page_fyear.ui.h:5 ../src/gsb_fyear_config.c:268
 msgid "Activate financial year in transaction form"
 msgstr "Aktivovat fiskální rok ve formuláři transakce"
 
 #. Start
-#: ../src/ui/prefs_page_fyear.ui.h:8 ../src/gsb_fyear_config.c:237
+#: ../src/ui/prefs_page_fyear.ui.h:7 ../src/gsb_fyear_config.c:237
 msgid "Start: "
 msgstr "Začátek: "
 
 #. End
-#: ../src/ui/prefs_page_fyear.ui.h:9 ../src/gsb_fyear_config.c:249
+#: ../src/ui/prefs_page_fyear.ui.h:8 ../src/gsb_fyear_config.c:249
 msgid "End: "
 msgstr "Konec: "
 
@@ -1704,7 +1690,7 @@ msgstr "Konec: "
 msgid "Import associations"
 msgstr "Párování při importu"
 
-#: ../src/ui/prefs_page_import_asso.ui.h:3
+#: ../src/ui/prefs_page_import_asso.ui.h:2
 #, fuzzy
 msgid ""
 "This will associate a search string to a payee every time you import a "
@@ -1717,31 +1703,31 @@ msgstr ""
 "mohou být přiřazeny určitému plátci/příjemci reprezentujícímu vašeho "
 "domácího."
 
-#: ../src/ui/prefs_page_import_asso.ui.h:5
+#: ../src/ui/prefs_page_import_asso.ui.h:4
 msgid "Details of associations"
 msgstr "Detail párování"
 
-#: ../src/ui/prefs_page_import_asso.ui.h:6
+#: ../src/ui/prefs_page_import_asso.ui.h:5
 msgid "Payee name: "
 msgstr "Jméno plátce/příjemce: "
 
 #. search string
-#: ../src/ui/prefs_page_import_asso.ui.h:7 ../src/tiers_onglet.c:239
+#: ../src/ui/prefs_page_import_asso.ui.h:6 ../src/tiers_onglet.c:239
 msgid "Search string: "
 msgstr "Vyhledávací řetězec: "
 
-#: ../src/ui/prefs_page_import_asso.ui.h:8
+#: ../src/ui/prefs_page_import_asso.ui.h:7
 #, fuzzy
 msgid "Rule"
 msgstr "Název souboru"
 
 #. others options for search
-#: ../src/ui/prefs_page_import_asso.ui.h:9 ../src/tiers_onglet.c:249
+#: ../src/ui/prefs_page_import_asso.ui.h:8 ../src/tiers_onglet.c:249
 #: ../src/tiers_onglet.c:1272
 msgid "Ignoring case sensitive"
 msgstr ""
 
-#: ../src/ui/prefs_page_import_asso.ui.h:10 ../src/tiers_onglet.c:253
+#: ../src/ui/prefs_page_import_asso.ui.h:9 ../src/tiers_onglet.c:253
 #: ../src/tiers_onglet.c:1277
 msgid "Use the regular expressions"
 msgstr ""
@@ -1750,51 +1736,51 @@ msgstr ""
 msgid "Import settings"
 msgstr "Nastavení importu"
 
-#: ../src/ui/prefs_page_import_files.ui.h:3
+#: ../src/ui/prefs_page_import_files.ui.h:2
 msgid "Threshold while matching transaction date during import (in days): "
 msgstr "Rozmezí pro datum při párování transakcí během importu (v dnech): "
 
-#: ../src/ui/prefs_page_import_files.ui.h:4
+#: ../src/ui/prefs_page_import_files.ui.h:3
 msgid "Merge the imported transactions with the transactions found"
 msgstr "Sloučit importované transakce s nalezenými transakcemi"
 
-#: ../src/ui/prefs_page_import_files.ui.h:5
+#: ../src/ui/prefs_page_import_files.ui.h:4
 msgid "Automatically associate the category of the payee if it is possible"
 msgstr "Automaticky přiřadit kategorii plátce/příjemce, pokud je to možné"
 
-#: ../src/ui/prefs_page_import_files.ui.h:6 ../src/tiers_onglet.c:1261
+#: ../src/ui/prefs_page_import_files.ui.h:5 ../src/tiers_onglet.c:1261
 msgid "Extracting a number and save it in the field No Cheque/Virement"
 msgstr "Rozpoznané číslo uložit do pole Číslo šeku/platby"
 
-#: ../src/ui/prefs_page_import_files.ui.h:7
+#: ../src/ui/prefs_page_import_files.ui.h:6
 #, fuzzy
 msgid "Coping the original payee in the notes"
 msgstr "Uložit plátce/příjemce do poznámek"
 
-#: ../src/ui/prefs_page_import_files.ui.h:8
+#: ../src/ui/prefs_page_import_files.ui.h:7
 #, fuzzy
 msgid "Import CSV files"
 msgstr "_Importovat soubor..."
 
-#: ../src/ui/prefs_page_import_files.ui.h:9
+#: ../src/ui/prefs_page_import_files.ui.h:8
 msgid "Forces the value date if not present with the date of the transaction"
 msgstr ""
 
-#: ../src/ui/prefs_page_import_files.ui.h:10
+#: ../src/ui/prefs_page_import_files.ui.h:9
 #, fuzzy
 msgid "Import QIF files"
 msgstr "_Importovat soubor..."
 
-#: ../src/ui/prefs_page_import_files.ui.h:11 ../src/import.c:1880
+#: ../src/ui/prefs_page_import_files.ui.h:10 ../src/import.c:1879
 #, fuzzy
 msgid "Don't imported the categories"
 msgstr "Importovat kategorie"
 
-#: ../src/ui/prefs_page_import_files.ui.h:12
+#: ../src/ui/prefs_page_import_files.ui.h:11
 msgid "If possible use the field 'N' to define the methods of payment"
 msgstr ""
 
-#: ../src/ui/prefs_page_import_files.ui.h:13
+#: ../src/ui/prefs_page_import_files.ui.h:12
 msgid "(Adding the import of QIF files of the 'Société Générale' french bank)"
 msgstr ""
 
@@ -1802,53 +1788,53 @@ msgstr ""
 msgid "Totals currencies"
 msgstr "Měny pro součty"
 
-#: ../src/ui/prefs_page_metatree.ui.h:3
+#: ../src/ui/prefs_page_metatree.ui.h:2
 msgid "Currency for payees tree: "
 msgstr "Měna ve stromu plátců/příjemců: "
 
-#: ../src/ui/prefs_page_metatree.ui.h:4
+#: ../src/ui/prefs_page_metatree.ui.h:3
 msgid "Currency for categories tree: "
 msgstr "Měna ve stromu kategorií: "
 
-#: ../src/ui/prefs_page_metatree.ui.h:5
+#: ../src/ui/prefs_page_metatree.ui.h:4
 msgid "Currency for budgetary lines tree: "
 msgstr "Měna ve stromu rozpočtů: "
 
-#: ../src/ui/prefs_page_metatree.ui.h:6
+#: ../src/ui/prefs_page_metatree.ui.h:5
 #, fuzzy
 msgid "Calculation of totals"
 msgstr "Výpočet zůstatků"
 
-#: ../src/ui/prefs_page_metatree.ui.h:7
+#: ../src/ui/prefs_page_metatree.ui.h:6
 msgid "Add transactions archived in the totals"
 msgstr "Zahrnout archivované transakce do součtů"
 
-#: ../src/ui/prefs_page_metatree.ui.h:8
+#: ../src/ui/prefs_page_metatree.ui.h:7
 msgid "Action associated with a double click on a subdivision"
 msgstr ""
 
-#: ../src/ui/prefs_page_metatree.ui.h:9
+#: ../src/ui/prefs_page_metatree.ui.h:8
 #, fuzzy
 msgid "Option for French associations"
 msgstr "Možnosti účtů hotovosti"
 
-#: ../src/ui/prefs_page_metatree.ui.h:10 ../src/gsb_category.c:235
+#: ../src/ui/prefs_page_metatree.ui.h:9 ../src/gsb_category.c:235
 msgid "Replace Incomes/Expenses in Revenues/Expenses"
 msgstr ""
 
-#: ../src/ui/prefs_page_metatree.ui.h:11
+#: ../src/ui/prefs_page_metatree.ui.h:10
 msgid "Sort option for transactions"
 msgstr "Možnosti řazení transakcí"
 
-#: ../src/ui/prefs_page_metatree.ui.h:12
+#: ../src/ui/prefs_page_metatree.ui.h:11
 msgid "Display a short list of entries in the payees selection box"
 msgstr ""
 
-#: ../src/ui/prefs_page_metatree.ui.h:13
+#: ../src/ui/prefs_page_metatree.ui.h:12
 msgid "Limits the payees for the payee entry form"
 msgstr ""
 
-#: ../src/ui/prefs_page_metatree.ui.h:14
+#: ../src/ui/prefs_page_metatree.ui.h:13
 msgid ""
 "(This option limits the list to payees used by the no archived transactions)"
 msgstr ""
@@ -1858,11 +1844,11 @@ msgstr ""
 msgid "Display following deleting messages"
 msgstr "Zobrazit následující varovné zprávy"
 
-#: ../src/ui/prefs_page_msg_warning.ui.h:3
+#: ../src/ui/prefs_page_msg_warning.ui.h:2
 msgid "Display tip of the day"
 msgstr "Zobrazit tip dne"
 
-#: ../src/ui/prefs_page_msg_warning.ui.h:4
+#: ../src/ui/prefs_page_msg_warning.ui.h:3
 msgid "Display following warnings messages"
 msgstr "Zobrazit následující varovné zprávy"
 
@@ -1870,48 +1856,118 @@ msgstr "Zobrazit následující varovné zprávy"
 msgid "Display modes"
 msgstr "Mód zobrazení"
 
-#: ../src/ui/prefs_page_options_ope.ui.h:3
+#: ../src/ui/prefs_page_options_ope.ui.h:2
 msgid "In one line visible, show the line: "
 msgstr "Pokud je vidět jeden řádek, zobrazit řádek: "
 
-#: ../src/ui/prefs_page_options_ope.ui.h:4
+#: ../src/ui/prefs_page_options_ope.ui.h:3
 msgid "In two lines visibles, show the lines: "
 msgstr "Pokud jsou vidět dva řádky, zobrazit řádky: "
 
-#: ../src/ui/prefs_page_options_ope.ui.h:5
+#: ../src/ui/prefs_page_options_ope.ui.h:4
 msgid "In three lines visibles, show the lines: "
 msgstr "Pokud jsou vidět tři řádky, zobrazit řádky: "
 
-#: ../src/ui/prefs_page_options_ope.ui.h:6
+#: ../src/ui/prefs_page_options_ope.ui.h:5
 #, fuzzy
 msgid "Transactions options"
 msgstr "Písmo transakcí"
 
-#: ../src/ui/prefs_page_options_ope.ui.h:7
+#: ../src/ui/prefs_page_options_ope.ui.h:6
 msgid "Use simple click to select transactions"
 msgstr "Vybírat transakce jednoduchým kliknutím"
 
-#: ../src/ui/prefs_page_options_ope.ui.h:8
+#: ../src/ui/prefs_page_options_ope.ui.h:7
 msgid "Highlights the transaction that gives the balance today"
 msgstr "Zvýraznit transakce, které dávají dnešní součet"
 
-#: ../src/ui/prefs_page_options_ope.ui.h:9
+#: ../src/ui/prefs_page_options_ope.ui.h:8
 #: ../src/org.gtk.grisbi.gschema.xml.h:86
 msgid "Primary sorting option"
 msgstr "Řadit primárně podle"
 
-#: ../src/ui/prefs_page_options_ope.ui.h:10
+#: ../src/ui/prefs_page_options_ope.ui.h:9
 #: ../src/org.gtk.grisbi.gschema.xml.h:88
 msgid "Secondary sorting option"
 msgstr "Následně řadit podle"
 
-#: ../src/ui/prefs_page_options_ope.ui.h:11
+#: ../src/ui/prefs_page_options_ope.ui.h:10
 msgid "Account differentiation"
 msgstr "Rozdílné nastavení účtů"
 
-#: ../src/ui/prefs_page_options_ope.ui.h:12
+#: ../src/ui/prefs_page_options_ope.ui.h:11
 msgid "Remember display settings for each account separately"
 msgstr "Pamatovat si nastavení pro každý účet zvlášť"
+
+#: ../src/ui/prefs_page_payment_method.ui.h:2
+msgid "Automatic numbering: "
+msgstr "Automatické číslování: "
+
+#: ../src/ui/prefs_page_payment_method.ui.h:3
+msgid "Type: "
+msgstr "Typ: "
+
+#: ../src/ui/prefs_page_payment_method.ui.h:4
+#, fuzzy
+msgid "Add a number"
+msgstr "podle čísla"
+
+#: ../src/ui/prefs_page_payment_method.ui.h:5
+msgid "Activate"
+msgstr "Aktivovat"
+
+#: ../src/ui/prefs_page_payment_method.ui.h:6
+msgid "Neutral"
+msgstr "Neutrální"
+
+#: ../src/ui/prefs_page_payment_method.ui.h:7 ../src/bet_future.c:771
+#: ../src/bet_tab.c:2002 ../src/categories_onglet.c:784 ../src/export_csv.c:389
+#: ../src/gsb_form.c:2010 ../src/gsb_form_widget.c:553
+#: ../src/gsb_transactions_list.c:113 ../src/import_csv.c:83
+#: ../src/imputation_budgetaire.c:831
+#: ../src/prefs/prefs_page_payment_method.c:507
+#: ../src/prefs/prefs_page_payment_method.c:966
+msgid "Debit"
+msgstr "Debet"
+
+#. 11
+#: ../src/ui/prefs_page_payment_method.ui.h:8 ../src/bet_future.c:778
+#: ../src/bet_tab.c:2020 ../src/categories_onglet.c:784 ../src/export_csv.c:386
+#: ../src/gsb_form.c:2016 ../src/gsb_form_widget.c:557
+#: ../src/gsb_transactions_list.c:114 ../src/import_csv.c:82
+#: ../src/imputation_budgetaire.c:831
+#: ../src/prefs/prefs_page_payment_method.c:521
+#: ../src/prefs/prefs_page_payment_method.c:962
+msgid "Credit"
+msgstr "Kredit"
+
+#: ../src/ui/prefs_page_payment_method.ui.h:11
+msgid "Delete a payment method"
+msgstr "Odstranit metodu platby"
+
+#: ../src/ui/prefs_page_payment_method.ui.h:12
+#, fuzzy
+msgid ""
+"Some transactions still use that payment method. As deletion of this method "
+"is irreversible, these transactions are to be associated with another "
+"payment method."
+msgstr ""
+"Některé transakce stále používají tuto metodu platby. Protože odstranění "
+"této metody je nevratné, k transakcím musí být přiřazena jiná metoda platby."
+
+#: ../src/ui/prefs_page_payment_method.ui.h:13
+msgid ""
+"No target method of payment to switch the transactions to another method of "
+"payment. If you continue, the transactions with this method of payment will "
+"have no new one."
+msgstr ""
+"Nebyla zvolená cílová metoda platby pro transakce. Pokud budete pokračovat, "
+"transakce s touto metodou platby nebudou mít po provedení akce nastavenu "
+"žádnou novou metodu platby."
+
+#: ../src/ui/prefs_page_payment_method.ui.h:14
+msgid "Associate transactions with: "
+msgstr "Přiřadit transakce k: "
 
 #: ../src/ui/prefs_page_reconcile.ui.h:1
 #, fuzzy
@@ -2054,7 +2110,7 @@ msgstr ""
 
 #. append group page "Generalities"
 #: ../src/widgets/widget_bank_details.ui.h:1 ../src/etats_prefs.c:730
-#: ../src/etats_prefs.c:2879 ../src/grisbi_prefs.c:416
+#: ../src/etats_prefs.c:2879 ../src/grisbi_prefs.c:417
 msgid "Generalities"
 msgstr "Hlavní"
 
@@ -2115,9 +2171,33 @@ msgstr "Desetinná místa: "
 msgid "Currency properties"
 msgstr "Vlastnosti měny"
 
+#. Input form for currencies
+#: ../src/widgets/widget_currency_link.ui.h:1
+#: ../src/gsb_currency_link_config.c:178
+msgid "Link properties"
+msgstr "Vlastnosti kurzu"
+
+#. create fixed exchange rate
+#: ../src/widgets/widget_currency_link.ui.h:3
+#: ../src/gsb_currency_link_config.c:225
+msgid "Fixed exchange rate"
+msgstr "Pevný směnný kurz"
+
 #: ../src/widgets/widget_currency_popup.ui.h:1
 msgid "Include obsolete currencies"
 msgstr "Zobrazit neplatné měny"
+
+#: ../src/widgets/widget_currency_popup.ui.h:2
+msgid ""
+"Right click to select the sort column.\n"
+"Sort by default country name."
+msgstr ""
+
+#: ../src/widgets/widget_currency_popup.ui.h:4
+#: ../src/widgets/widget_currency_popup.c:134
+#, fuzzy
+msgid "Country"
+msgstr "Název země"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:1
 msgid "First use of Grisbi"
@@ -2784,7 +2864,7 @@ msgstr "Zůstatky majetkových účtů v měně %s"
 msgid "Assets accounts balance in %s"
 msgstr "Zůstatky majetkových účtů v měně %s"
 
-#: ../src/accueil.c:1171 ../src/gsb_data_partial_balance.c:215
+#: ../src/accueil.c:1171 ../src/gsb_data_partial_balance.c:216
 msgid "Additional balance"
 msgstr "Další zůstatek"
 
@@ -3202,7 +3282,7 @@ msgstr ""
 "je neplatné datum."
 
 #: ../src/bet_future.c:262 ../src/bet_future.c:2010 ../src/bet_future.c:2979
-#: ../src/bet_future.c:3257 ../src/gsb_currency.c:743
+#: ../src/bet_future.c:3257 ../src/gsb_currency.c:1130
 msgid "One field is not filled in"
 msgstr "Jedno z polí není vyplněné"
 
@@ -3302,25 +3382,6 @@ msgstr "Zvolte fiskální rok"
 msgid "Choose the method of payment"
 msgstr "Zvolte metodu platby"
 
-#: ../src/bet_future.c:771 ../src/bet_tab.c:2002 ../src/categories_onglet.c:784
-#: ../src/export_csv.c:389 ../src/gsb_form.c:2010 ../src/gsb_form_widget.c:553
-#: ../src/gsb_payment_method_config.c:107
-#: ../src/gsb_payment_method_config.c:335
-#: ../src/gsb_payment_method_config.c:1043 ../src/gsb_transactions_list.c:113
-#: ../src/import_csv.c:83 ../src/imputation_budgetaire.c:831
-msgid "Debit"
-msgstr "Debet"
-
-#. 11
-#: ../src/bet_future.c:778 ../src/bet_tab.c:2020 ../src/categories_onglet.c:784
-#: ../src/export_csv.c:386 ../src/gsb_form.c:2016 ../src/gsb_form_widget.c:557
-#: ../src/gsb_payment_method_config.c:108
-#: ../src/gsb_payment_method_config.c:348
-#: ../src/gsb_payment_method_config.c:1039 ../src/gsb_transactions_list.c:114
-#: ../src/import_csv.c:82 ../src/imputation_budgetaire.c:831
-msgid "Credit"
-msgstr "Kredit"
-
 #: ../src/bet_future.c:784 ../src/bet_future.c:2350 ../src/bet_future.c:2510
 #: ../src/bet_future.c:2795 ../src/bet_future.c:2865 ../src/gsb_form.c:2022
 #: ../src/gsb_form_widget.c:573 ../src/prefs/prefs_widget_loan.c:1134
@@ -3336,24 +3397,24 @@ msgstr "Kategorie : Podkategorie"
 #: ../src/bet_future.c:1529 ../src/bet_future.c:1780
 #: ../src/etats_affiche.c:1886 ../src/export_csv.c:672 ../src/export_csv.c:803
 #: ../src/export_csv.c:815 ../src/gsb_data_category.c:1085
-#: ../src/gsb_data_payment.c:635 ../src/gsb_data_payment.c:719
-#: ../src/gsb_data_payment.c:758 ../src/gsb_form.c:2956 ../src/import.c:2472
-#: ../src/import.c:2493 ../src/plugins/ofx/ofx.c:379
+#: ../src/gsb_data_payment.c:634 ../src/gsb_data_payment.c:718
+#: ../src/gsb_data_payment.c:757 ../src/gsb_form.c:2956 ../src/import.c:2471
+#: ../src/import.c:2492 ../src/plugins/ofx/ofx.c:380
 msgid "Transfer"
 msgstr "Převod"
 
 #: ../src/bet_future.c:2139 ../src/gsb_account_property.c:710
-#: ../src/gsb_assistant_account.c:397 ../src/gsb_data_partial_balance.c:232
+#: ../src/gsb_assistant_account.c:397 ../src/gsb_data_partial_balance.c:233
 msgid "Bank account"
 msgstr "Bankovní účet"
 
 #: ../src/bet_future.c:2142 ../src/gsb_account_property.c:710
-#: ../src/gsb_data_partial_balance.c:219
+#: ../src/gsb_data_partial_balance.c:220
 msgid "Cash account"
 msgstr "Hotovostní účet"
 
 #: ../src/bet_future.c:2145 ../src/gsb_account_property.c:710
-#: ../src/gsb_assistant_account.c:410 ../src/gsb_data_partial_balance.c:223
+#: ../src/gsb_assistant_account.c:410 ../src/gsb_data_partial_balance.c:224
 #, c-format
 msgid "Liabilities account"
 msgstr "Účet závazků"
@@ -3453,7 +3514,7 @@ msgid "Name"
 msgstr "Název"
 
 #. Description entry
-#: ../src/bet_future.c:3034 ../src/categories_onglet.c:780 ../src/import.c:1854
+#: ../src/bet_future.c:3034 ../src/categories_onglet.c:780 ../src/import.c:1853
 #: ../src/imputation_budgetaire.c:827
 msgid "Type"
 msgstr "Typ"
@@ -3678,7 +3739,7 @@ msgstr "Vybrat"
 #: ../src/bet_hist.c:587 ../src/categories_onglet.c:203
 #: ../src/etats_affiche.c:2547 ../src/etats_prefs.c:2162
 #: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_scheduler_list.c:856
-#: ../src/gsb_transactions_list.c:116 ../src/import.c:4289
+#: ../src/gsb_transactions_list.c:116 ../src/import.c:4288
 #: ../src/import_csv.c:81 ../src/imputation_budgetaire.c:206
 #: ../src/tiers_onglet.c:739
 msgid "Amount"
@@ -3885,9 +3946,9 @@ msgid "Check the box to automatically change start date"
 msgstr "Zaškrtněte pro automatickou změnu počátečního data"
 
 #: ../src/categories_onglet.c:192 ../src/etats_config.c:2910
-#: ../src/gsb_assistant_reconcile_config.c:597
-#: ../src/gsb_payment_method_config.c:163 ../src/gsb_scheduler_list.c:856
+#: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_scheduler_list.c:856
 #: ../src/imputation_budgetaire.c:195 ../src/navigation.c:1142
+#: ../src/prefs/prefs_page_payment_method.c:1204
 #: ../src/prefs/prefs_page_reconcile.c:352 ../src/tiers_onglet.c:728
 msgid "Account"
 msgstr "Účet"
@@ -3909,7 +3970,7 @@ msgid "Grisbi category files (*.cgsb)"
 msgstr "Soubory kategorií Grisbi (*.cgsb)"
 
 #: ../src/categories_onglet.c:477 ../src/etats_onglet.c:462
-#: ../src/file_obfuscate_qif.c:109 ../src/gsb_file.c:736 ../src/import.c:1268
+#: ../src/file_obfuscate_qif.c:109 ../src/gsb_file.c:736 ../src/import.c:1267
 #: ../src/imputation_budgetaire.c:521
 msgid "All files"
 msgstr "Všechny soubory"
@@ -3972,8 +4033,8 @@ msgstr "Vytvořit novou podkategorii"
 #. On récupère le nom de la page
 #. Import button
 #: ../src/categories_onglet.c:581 ../src/etats_onglet.c:555
-#: ../src/grisbi_prefs.c:364 ../src/grisbi_prefs.c:432 ../src/grisbi_win.c:672
-#: ../src/import.c:1820 ../src/imputation_budgetaire.c:627
+#: ../src/grisbi_prefs.c:365 ../src/grisbi_prefs.c:433 ../src/grisbi_win.c:672
+#: ../src/import.c:1819 ../src/imputation_budgetaire.c:627
 #: ../src/utils_files.c:757
 msgid "Import"
 msgstr "Import"
@@ -4696,14 +4757,14 @@ msgstr "Výdaje"
 msgid "Financial year"
 msgstr "Fiskální rok"
 
-#. Now we have a model, create view
+#. On récupère le nom de la page
 #: ../src/etats_affiche.c:2513 ../src/etats_prefs.c:704
-#: ../src/etats_prefs.c:2298 ../src/grisbi_prefs.c:555
-#: ../src/gsb_payment_method_config.c:132
+#: ../src/etats_prefs.c:2298 ../src/grisbi_prefs.c:560
+#: ../src/prefs/prefs_page_payment_method.c:1279
 msgid "Payment methods"
 msgstr "Metoda platby"
 
-#: ../src/etats_affiche.c:2520 ../src/gsb_data_payment.c:747
+#: ../src/etats_affiche.c:2520 ../src/gsb_data_payment.c:746
 msgid "Cheque"
 msgstr "Šek"
 
@@ -4932,20 +4993,16 @@ msgstr "na"
 #. Create Add/Remove buttons
 #. Button "Add"
 #. Add button
-#. "Add payment method" button
 #: ../src/etats_config.c:1990 ../src/etats_config.c:2426
-#: ../src/gsb_currency_link_config.c:172 ../src/gsb_form_config.c:322
+#: ../src/gsb_currency_link_config.c:158 ../src/gsb_form_config.c:322
 #: ../src/gsb_form_config.c:368 ../src/gsb_fyear_config.c:185
-#: ../src/gsb_payment_method_config.c:205
 msgid "Add"
 msgstr "Přidat"
 
 #. Button "Remove"
-#. "Remove payment method" button
 #: ../src/etats_config.c:2001 ../src/etats_config.c:2437
-#: ../src/gsb_currency_link_config.c:182 ../src/gsb_form_config.c:300
+#: ../src/gsb_currency_link_config.c:168 ../src/gsb_form_config.c:300
 #: ../src/gsb_form_config.c:346 ../src/gsb_fyear_config.c:197
-#: ../src/gsb_payment_method_config.c:215
 msgid "Remove"
 msgstr "Odstranit"
 
@@ -5078,8 +5135,8 @@ msgstr "Soubor CSV"
 msgid "Exporting report..."
 msgstr "Exportování sestavy..."
 
-#: ../src/etats_onglet.c:417 ../src/grisbi_prefs.c:801
-#: ../src/grisbi_prefs.c:934 ../src/grisbi_prefs.c:970 ../src/gsb_debug.c:848
+#: ../src/etats_onglet.c:417 ../src/grisbi_prefs.c:806
+#: ../src/grisbi_prefs.c:939 ../src/grisbi_prefs.c:975 ../src/gsb_debug.c:848
 #: ../src/gsb_file.c:517 ../src/gsb_file.c:660 ../src/gsb_file.c:986
 msgid "Done"
 msgstr "Hotovo"
@@ -5267,15 +5324,15 @@ msgid "Titles"
 msgstr "Názvy"
 
 #. append group page "Transactions"
-#: ../src/etats_prefs.c:740 ../src/export_csv.c:359 ../src/grisbi_prefs.c:475
+#: ../src/etats_prefs.c:740 ../src/export_csv.c:359 ../src/grisbi_prefs.c:476
 #: ../src/grisbi_win.c:478
 msgid "Transactions"
 msgstr "Transakce"
 
 #. echange line label
 #. On récupère le nom de la page
-#: ../src/etats_prefs.c:745 ../src/grisbi_prefs.c:531 ../src/gsb_currency.c:566
-#: ../src/prefs/prefs_page_currency.c:661
+#: ../src/etats_prefs.c:745 ../src/grisbi_prefs.c:534 ../src/gsb_currency.c:953
+#: ../src/prefs/prefs_page_currency.c:718
 msgid "Currencies"
 msgstr "Měny"
 
@@ -5294,7 +5351,7 @@ msgid "Payees"
 msgstr "Plátci/příjemci"
 
 #. ajoute le bouton (dé)sélectionne tout
-#: ../src/etats_prefs.c:1866 ../src/export.c:417 ../src/import.c:3163
+#: ../src/etats_prefs.c:1866 ../src/export.c:417 ../src/import.c:3162
 #: ../src/tiers_onglet.c:1389 ../src/tiers_onglet.c:1570
 #: ../src/utils_buttons.c:268
 msgid "Unselect all"
@@ -5502,7 +5559,7 @@ msgid "Select accounts to export"
 msgstr "Vyberte účty pro export"
 
 #: ../src/export.c:512 ../src/export_csv.c:362
-#: ../src/gsb_data_partial_balance.c:1729
+#: ../src/gsb_data_partial_balance.c:1732
 msgid "Account name"
 msgstr "Jméno účtu"
 
@@ -6309,150 +6366,150 @@ msgstr ""
 msgid "Cannot save configuration file '%s': %s"
 msgstr "Nelze uložit konfigurační soubor '%s': %s"
 
-#: ../src/grisbi_prefs.c:377
+#: ../src/grisbi_prefs.c:378
 #, fuzzy
 msgid "Files import"
 msgstr "Formát souboru: "
 
-#: ../src/grisbi_prefs.c:384
+#: ../src/grisbi_prefs.c:385
 msgid "Associations for import"
 msgstr ""
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:420 ../src/prefs/prefs_page_files.c:108
+#: ../src/grisbi_prefs.c:421 ../src/prefs/prefs_page_files.c:108
 msgid "Files"
 msgstr "Soubory"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:425 ../src/prefs/prefs_page_archives.c:573
+#: ../src/grisbi_prefs.c:426 ../src/prefs/prefs_page_archives.c:573
 msgid "Archives"
 msgstr "Archivy"
 
-#: ../src/grisbi_prefs.c:437
+#: ../src/grisbi_prefs.c:438
 #, fuzzy
 msgid "Various settings"
 msgstr "Nastavení importu"
 
-#: ../src/grisbi_prefs.c:442 ../src/grisbi_win.c:464
+#: ../src/grisbi_prefs.c:443 ../src/grisbi_win.c:464
 msgid "Main page"
 msgstr "Přehled"
 
 #. append group page "Display"
-#: ../src/grisbi_prefs.c:446
+#: ../src/grisbi_prefs.c:447
 msgid "Display"
 msgstr "Zobrazení"
 
-#: ../src/grisbi_prefs.c:450
+#: ../src/grisbi_prefs.c:451
 #, fuzzy
 msgid "Fonts & Logo"
 msgstr "Písma a loga"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:455 ../src/prefs/prefs_page_msg_warning.c:236
+#: ../src/grisbi_prefs.c:456 ../src/prefs/prefs_page_msg_warning.c:236
 msgid "Messages & warnings"
 msgstr "Zprávy a varování"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:460 ../src/prefs/prefs_page_display_adr.c:191
+#: ../src/grisbi_prefs.c:461 ../src/prefs/prefs_page_display_adr.c:191
 msgid "Addresses & titles"
 msgstr "Adresy a názvy"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:465 ../src/prefs/prefs_page_metatree.c:309
+#: ../src/grisbi_prefs.c:466 ../src/prefs/prefs_page_metatree.c:310
 msgid "Payees, categories and budgetaries"
 msgstr "Plátci/příjemci, kategorie a rozpočty"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:471 ../src/prefs/prefs_page_display_gui.c:244
+#: ../src/grisbi_prefs.c:472 ../src/prefs/prefs_page_display_gui.c:244
 msgid "Elements of interface"
 msgstr ""
 
-#: ../src/grisbi_prefs.c:479
+#: ../src/grisbi_prefs.c:480
 msgid "List behavior"
 msgstr "Chování seznamu"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:484 ../src/prefs/prefs_page_display_ope.c:692
+#: ../src/grisbi_prefs.c:485 ../src/prefs/prefs_page_display_ope.c:692
 #, fuzzy
 msgid "Transactions list cells"
 msgstr "Chování seznamu transakcí"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:489 ../src/prefs/prefs_page_msg_delete.c:227
+#: ../src/grisbi_prefs.c:490 ../src/prefs/prefs_page_msg_delete.c:227
 msgid "Messages before deleting"
 msgstr "Dotazy před odstraněním"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:496 ../src/gsb_assistant_first.c:335
+#: ../src/grisbi_prefs.c:497 ../src/gsb_assistant_first.c:335
 #: ../src/prefs/prefs_page_reconcile.c:573
 msgid "Reconciliation"
 msgstr "Odsouhlasení"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:503 ../src/prefs/prefs_page_reconcile_sort.c:743
+#: ../src/grisbi_prefs.c:504 ../src/prefs/prefs_page_reconcile_sort.c:743
 msgid "Sort for reconciliation"
 msgstr "Řadit pro odsouhlasení"
 
 #. append group page "Transaction form"
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:508 ../src/gsb_form_config.c:108
-#: ../src/prefs/prefs_page_display_form.c:909
+#: ../src/grisbi_prefs.c:509 ../src/gsb_form_config.c:108
+#: ../src/prefs/prefs_page_display_form.c:910
 msgid "Transaction form"
 msgstr "Formulář transakcí"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:512 ../src/prefs/prefs_page_form_options.c:111
+#: ../src/grisbi_prefs.c:513 ../src/prefs/prefs_page_form_options.c:111
 msgid "Form behavior"
 msgstr "Chování formuláře"
 
-#: ../src/grisbi_prefs.c:517
+#: ../src/grisbi_prefs.c:518
 msgid "Content"
 msgstr "Obsah"
 
-#: ../src/grisbi_prefs.c:523
+#: ../src/grisbi_prefs.c:524
 msgid "Completion"
 msgstr "Dokončování"
 
 #. append group page "Resources subtree"
-#: ../src/grisbi_prefs.c:527
+#: ../src/grisbi_prefs.c:528
 msgid "Resources"
 msgstr "Zdroje"
 
-#: ../src/grisbi_prefs.c:537
+#: ../src/grisbi_prefs.c:541
 msgid "Currencies links"
 msgstr "Směnné kurzy"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:544 ../src/prefs/prefs_page_bank.c:389
+#: ../src/grisbi_prefs.c:548 ../src/prefs/prefs_page_bank.c:389
 msgid "Banks"
 msgstr "Banky"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:549 ../src/gsb_fyear_config.c:147
+#: ../src/grisbi_prefs.c:553 ../src/gsb_fyear_config.c:147
 #: ../src/prefs/prefs_page_fyear.c:689
 msgid "Financial years"
 msgstr "Fiskální roky"
 
 #. append group page "Balance estimate"
-#: ../src/grisbi_prefs.c:559
+#: ../src/grisbi_prefs.c:564
 msgid "Balance estimate"
 msgstr "Odhadovaný zůstatek"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:570 ../src/prefs/prefs_page_bet_account.c:444
+#: ../src/grisbi_prefs.c:575 ../src/prefs/prefs_page_bet_account.c:444
 msgid "Accounts data"
 msgstr "Detaily účtu"
 
-#: ../src/grisbi_prefs.c:689
+#: ../src/grisbi_prefs.c:694
 #, fuzzy
 msgid "Preferences start"
 msgstr "_Možnosti"
 
-#: ../src/grisbi_prefs.c:722
+#: ../src/grisbi_prefs.c:727
 msgid "This state will be kept for the duration of this session"
 msgstr ""
 
-#: ../src/grisbi_prefs.c:931
+#: ../src/grisbi_prefs.c:936
 #, fuzzy
 msgid "Preferences stop"
 msgstr "_Možnosti"
@@ -6478,7 +6535,7 @@ msgid "Amortization array"
 msgstr "Tabulka amortizace"
 
 #: ../src/grisbi_win.c:506 ../src/navigation.c:2079
-#: ../src/prefs/prefs_page_divers.c:550 ../src/prefs/prefs_page_divers.c:568
+#: ../src/prefs/prefs_page_divers.c:550 ../src/prefs/prefs_page_divers.c:565
 msgid "Scheduler"
 msgstr "Plánovač"
 
@@ -6543,15 +6600,15 @@ msgstr ""
 msgid "Account details"
 msgstr "Detaily účtu"
 
-#: ../src/gsb_account_property.c:238 ../src/import.c:805 ../src/import.c:827
+#: ../src/gsb_account_property.c:238 ../src/import.c:804 ../src/import.c:826
 msgid "Account name: "
 msgstr "Jméno účtu: "
 
-#: ../src/gsb_account_property.c:259 ../src/import.c:761
+#: ../src/gsb_account_property.c:259 ../src/import.c:760
 msgid "Account type: "
 msgstr "Typ účtu: "
 
-#: ../src/gsb_account_property.c:279 ../src/import.c:854
+#: ../src/gsb_account_property.c:279 ../src/import.c:853
 msgid "Account currency: "
 msgstr "Měna účtu: "
 
@@ -6621,7 +6678,7 @@ msgid "Comments"
 msgstr "Komentář"
 
 #: ../src/gsb_account_property.c:710 ../src/gsb_assistant_account.c:406
-#: ../src/gsb_data_partial_balance.c:227
+#: ../src/gsb_data_partial_balance.c:228
 #, c-format
 msgid "Assets account"
 msgstr "Majetkový účet"
@@ -6658,7 +6715,7 @@ msgid "%s (%d of %d)"
 msgstr "%s (%d z %d)"
 
 #. New account
-#: ../src/gsb_assistant_account.c:101 ../src/import.c:753
+#: ../src/gsb_assistant_account.c:101 ../src/import.c:752
 msgid "Create a new account"
 msgstr "Vytvořit nový účet"
 
@@ -6871,7 +6928,7 @@ msgstr "Sestava: "
 msgid "Please choose a name for archive: "
 msgstr "Prosím zvolte název archivu: "
 
-#: ../src/gsb_assistant_archive.c:430 ../src/import.c:2002 ../src/import.c:2048
+#: ../src/gsb_assistant_archive.c:430 ../src/import.c:2001 ../src/import.c:2047
 #, fuzzy
 msgid "Congratulations!"
 msgstr "Blahopřejeme!"
@@ -7047,12 +7104,12 @@ msgstr ""
 "nebo tlačítko Zpět pro zrušení akce."
 
 #. create the assistant
-#: ../src/gsb_assistant_file.c:130 ../src/gsb_assistant_first.c:88
+#: ../src/gsb_assistant_file.c:129 ../src/gsb_assistant_first.c:88
 #: ../src/gsb_assistant_first.c:143
 msgid "Welcome to Grisbi!"
 msgstr "Vítejte v Grisbi!"
 
-#: ../src/gsb_assistant_file.c:131
+#: ../src/gsb_assistant_file.c:130
 msgid ""
 "General configuration of Grisbi is done.\n"
 "\n"
@@ -7072,11 +7129,11 @@ msgstr ""
 "Až bude soubor vytvořený, budete moci vytvořit nové účty nebo naimportovat "
 "předchozí data."
 
-#: ../src/gsb_assistant_file.c:141
+#: ../src/gsb_assistant_file.c:140
 msgid "New file Assistant to import"
 msgstr "Pomocník s importem nového souboru"
 
-#: ../src/gsb_assistant_file.c:142
+#: ../src/gsb_assistant_file.c:141
 msgid ""
 "Before importing files, you need to create a new file and fill some default "
 "values as created a new currency.\n"
@@ -7098,11 +7155,11 @@ msgstr ""
 "naimportovat předchozí data, například z předchozího účetního programu nebo "
 "z webové stránky vaší banky."
 
-#: ../src/gsb_assistant_file.c:153
+#: ../src/gsb_assistant_file.c:152
 msgid "New file Assistant"
 msgstr "Průvodce novým souborem"
 
-#: ../src/gsb_assistant_file.c:154
+#: ../src/gsb_assistant_file.c:153
 msgid ""
 "This assistant will help you to create a new account file.\n"
 "\n"
@@ -7120,42 +7177,42 @@ msgstr ""
 "naimportovat předchozí data, například z předchozího účetního programu nebo "
 "z webové stránky vaší banky."
 
-#: ../src/gsb_assistant_file.c:303
+#: ../src/gsb_assistant_file.c:302
 msgid "General configuration"
 msgstr "Základní nastavení"
 
 #. Account file title
-#: ../src/gsb_assistant_file.c:315
+#: ../src/gsb_assistant_file.c:314
 msgid "Titles and filenames"
 msgstr "Názvy a soubory"
 
-#: ../src/gsb_assistant_file.c:329 ../src/gsb_assistant_file.c:334
-#: ../src/gsb_assistant_file.c:335 ../src/gsb_assistant_file.c:624
+#: ../src/gsb_assistant_file.c:328 ../src/gsb_assistant_file.c:333
+#: ../src/gsb_assistant_file.c:334 ../src/gsb_assistant_file.c:623
 #: ../src/navigation.c:1217
 msgid "My accounts"
 msgstr "Moje účty"
 
 #. filename
-#: ../src/gsb_assistant_file.c:347
+#: ../src/gsb_assistant_file.c:346
 msgid "Filename: "
 msgstr "Název souboru: "
 
 #. Address
-#: ../src/gsb_assistant_file.c:387
+#: ../src/gsb_assistant_file.c:386
 msgid "Your address"
 msgstr "Vaše adresa"
 
-#: ../src/gsb_assistant_file.c:461
+#: ../src/gsb_assistant_file.c:460
 msgid "Select the list of categories you will use"
 msgstr "Vyberte seznam kategorií které budete používat"
 
-#: ../src/gsb_assistant_file.c:520
+#: ../src/gsb_assistant_file.c:519
 #, fuzzy
 msgid "Configuration finished!"
 msgstr "Nastavení dokončeno!"
 
 #. set up the menu
-#: ../src/gsb_assistant_file.c:527
+#: ../src/gsb_assistant_file.c:526
 msgid ""
 "Default values are now configured for your account file. Next assistant will "
 "help you creating a new account.\n"
@@ -7171,15 +7228,15 @@ msgstr ""
 "\n"
 "Vyberte zpúsob naplnění souboru účtů a klikněte na tlačítko 'Zavřít'."
 
-#: ../src/gsb_assistant_file.c:538
+#: ../src/gsb_assistant_file.c:537
 msgid "Create a new account from scratch"
 msgstr "Vytvořit nový účet od základu"
 
-#: ../src/gsb_assistant_file.c:544
+#: ../src/gsb_assistant_file.c:543
 msgid "Import data from online bank services or from accounting software"
 msgstr "Importovat data z online bankovních služeb nebo z účetního software"
 
-#: ../src/gsb_assistant_file.c:651
+#: ../src/gsb_assistant_file.c:650
 msgid "Create filename"
 msgstr "Vytvořit soubor"
 
@@ -7536,95 +7593,81 @@ msgstr "Nelze otevřít soubor kategorií."
 msgid "Unnamed category list"
 msgstr "Nepojmenovaný seznam kategorií"
 
-#: ../src/gsb_currency.c:538
+#: ../src/gsb_currency.c:925
 msgid "Enter exchange rate"
 msgstr "Vložte směnný kurz"
 
 #. text for paddingbox
-#: ../src/gsb_currency.c:549
+#: ../src/gsb_currency.c:936
 #, c-format
 msgid "Please enter data for the transaction"
 msgstr "Prosím zadejte data transakce"
 
 #. echange line label
-#: ../src/gsb_currency.c:578
+#: ../src/gsb_currency.c:965
 msgid "Exchange rate"
 msgstr "Směnný kurz"
 
 #. amount line
-#: ../src/gsb_currency.c:599
+#: ../src/gsb_currency.c:986
 msgid "Amounts: "
 msgstr "Částky: "
 
 #. exchange fees line label
-#: ../src/gsb_currency.c:668
+#: ../src/gsb_currency.c:1055
 msgid "Exchange fees: "
 msgstr "Poplatky za výměnu: "
 
-#: ../src/gsb_currency.c:687
+#: ../src/gsb_currency.c:1074
 msgid "Change the link"
 msgstr "Změnit kurz"
 
-#: ../src/gsb_currency.c:740
+#: ../src/gsb_currency.c:1127
 #, c-format
 msgid "The exchange rate or the transaction amount in %s must be filled."
 msgstr "Musí být zadán směnný kurz nebo částka transakce v %s."
 
-#: ../src/gsb_currency_link_config.c:140
+#: ../src/gsb_currency_link_config.c:126
 msgid "Links between currencies"
 msgstr "Směnné kurzy měn"
 
-#: ../src/gsb_currency_link_config.c:141
-msgid "Known links"
-msgstr "Známé kurzy"
-
-#. Input form for currencies
-#: ../src/gsb_currency_link_config.c:192
-msgid "Link properties"
-msgstr "Vlastnosti kurzu"
-
 #. Create first currency link entry
-#: ../src/gsb_currency_link_config.c:203
+#: ../src/gsb_currency_link_config.c:189
 msgid "1 "
 msgstr "1 "
 
 #. create the exchange rate between the 2 currencies
-#: ../src/gsb_currency_link_config.c:216
+#: ../src/gsb_currency_link_config.c:202
 msgid " = "
 msgstr " = "
 
-#. create fixed exchange rate
-#: ../src/gsb_currency_link_config.c:239
-msgid "Fixed exchange rate"
-msgstr "Pevný směnný kurz"
-
-#: ../src/gsb_currency_link_config.c:279
+#: ../src/gsb_currency_link_config.c:265
 msgid "First currency"
 msgstr "První měna"
 
-#: ../src/gsb_currency_link_config.c:281
+#: ../src/gsb_currency_link_config.c:267
 msgid "Exchange"
 msgstr "Množství"
 
-#: ../src/gsb_currency_link_config.c:282
+#: ../src/gsb_currency_link_config.c:268
 msgid "Second currency"
 msgstr "Druhá měna"
 
-#: ../src/gsb_currency_link_config.c:283
+#: ../src/gsb_currency_link_config.c:269
 msgid "Modified date"
 msgstr "Datum změny"
 
-#: ../src/gsb_currency_link_config.c:284 ../src/gsb_fyear_config.c:298
+#: ../src/gsb_currency_link_config.c:270 ../src/gsb_fyear_config.c:298
 #: ../src/prefs/prefs_page_fyear.c:569
 msgid "Invalid"
 msgstr "Neplatné"
 
-#: ../src/gsb_currency_link_config.c:654
+#: ../src/gsb_currency_link_config.c:640
 #, fuzzy
 msgid "You must create at least another currency to continue."
 msgstr "Musíte vybrat nejméně dva účty."
 
-#: ../src/gsb_currency_link_config.c:655
+#: ../src/gsb_currency_link_config.c:641
 msgid "The number of currencies is insufficient"
 msgstr ""
 
@@ -7684,6 +7727,14 @@ msgstr "Žádné rozpočty"
 #, c-format
 msgid "In <i>%s</i>, <i>%s</i> is a duplicate of <i>%s</i>.\n"
 msgstr "V <i>%s</i>, <i>%s</i> je duplikát <i>%s</i>.\n"
+
+#: ../src/gsb_data_currency_link.c:489
+msgid "Warning : the two currencies of the link are identicals."
+msgstr "Varování: měny směnného kurzu nemohou být identické."
+
+#: ../src/gsb_data_currency_link.c:491
+msgid "Warning : that link is already defined."
+msgstr "Varování: tento směnný kurz je již definován."
 
 #. continent,   currency_name,        country_name,code_iso,nickname .......
 #: ../src/gsb_data_currency.c:63 ../src/gsb_data_currency.c:64
@@ -8835,7 +8886,7 @@ msgstr "Trinidad a Tobago"
 msgid "United States Dollar"
 msgstr "Dolar"
 
-#: ../src/gsb_data_currency.c:213 ../src/prefs/prefs_page_currency.c:139
+#: ../src/gsb_data_currency.c:213 ../src/prefs/prefs_page_currency.c:135
 msgid "United States"
 msgstr "Spojené Státy"
 
@@ -9051,14 +9102,6 @@ msgstr "Venezuelský bolívar"
 msgid "Venezuela"
 msgstr "Venezuela"
 
-#: ../src/gsb_data_currency_link.c:489
-msgid "Warning : the two currencies of the link are identicals."
-msgstr "Varování: měny směnného kurzu nemohou být identické."
-
-#: ../src/gsb_data_currency_link.c:491
-msgid "Warning : that link is already defined."
-msgstr "Varování: tento směnný kurz je již definován."
-
 #: ../src/gsb_data_fyear.c:542
 msgid "Warning : the dates are not in good order."
 msgstr "Varování: data nejsou ve správném pořadí."
@@ -9071,75 +9114,75 @@ msgstr "Varování: fiskální rok se překrývá s jiným."
 msgid "Warning : Invalid date."
 msgstr "Varování: neplatné datum."
 
-#: ../src/gsb_data_partial_balance.c:319 ../src/gsb_data_partial_balance.c:429
+#: ../src/gsb_data_partial_balance.c:322 ../src/gsb_data_partial_balance.c:432
 msgid "You must select at least two accounts."
 msgstr "Musíte vybrat nejméně dva účty."
 
-#: ../src/gsb_data_partial_balance.c:320 ../src/gsb_data_partial_balance.c:430
+#: ../src/gsb_data_partial_balance.c:323 ../src/gsb_data_partial_balance.c:433
 msgid "Only one account is selected."
 msgstr "Je vybrán pouze jeden účet."
 
-#: ../src/gsb_data_partial_balance.c:325 ../src/gsb_data_partial_balance.c:435
+#: ../src/gsb_data_partial_balance.c:328 ../src/gsb_data_partial_balance.c:438
 msgid ""
 "The name of the partial balance and the list of accounts must be completed."
 msgstr "Název souhrnného zůstatku a seznamu účtů musí být vyplněn."
 
-#: ../src/gsb_data_partial_balance.c:327 ../src/gsb_data_partial_balance.c:437
+#: ../src/gsb_data_partial_balance.c:330 ../src/gsb_data_partial_balance.c:440
 msgid "All fields are not filled in"
 msgstr "Nejsou vyplněna všechna pole"
 
-#: ../src/gsb_data_partial_balance.c:1332
+#: ../src/gsb_data_partial_balance.c:1335
 #, c-format
 msgid "You need to create a link between currency %s and %s."
 msgstr "Musíte zadat směnný kurz mezi měnami %s a %s."
 
-#: ../src/gsb_data_partial_balance.c:1336
+#: ../src/gsb_data_partial_balance.c:1339
 msgid "Attention missing link between currencies"
 msgstr "Pozor, mezi měnami chybí směnný kurz"
 
-#: ../src/gsb_data_partial_balance.c:1740
+#: ../src/gsb_data_partial_balance.c:1743
 #, fuzzy
 msgid "Account number"
 msgstr "Jméno účtu"
 
-#: ../src/gsb_data_partial_balance.c:1761
+#: ../src/gsb_data_partial_balance.c:1764
 msgid "Add a partial balance"
 msgstr "Přidat souhrnný zůstatek"
 
-#: ../src/gsb_data_partial_balance.c:1768
+#: ../src/gsb_data_partial_balance.c:1771
 msgid "Modify a partial balance"
 msgstr "Upravit souhrnný zůstatek"
 
-#: ../src/gsb_data_partial_balance.c:1776
+#: ../src/gsb_data_partial_balance.c:1779
 msgid "Partial balance details"
 msgstr "Detaily souhrnného zůstatku"
 
 #. Create paddinggrid
-#: ../src/gsb_data_partial_balance.c:1780 ../src/gsb_debug.c:135
+#: ../src/gsb_data_partial_balance.c:1783 ../src/gsb_debug.c:135
 msgid "Details"
 msgstr "Detaily"
 
 #. List of the accounts
-#: ../src/gsb_data_partial_balance.c:1795
+#: ../src/gsb_data_partial_balance.c:1798
 msgid "Accounts list: "
 msgstr "Seznam účtů: "
 
 #. create the position
-#: ../src/gsb_data_partial_balance.c:1809
+#: ../src/gsb_data_partial_balance.c:1812
 msgid "Position in the list of accounts: "
 msgstr "Pozice v seznamu účtů: "
 
 #. create the colorized button
-#: ../src/gsb_data_partial_balance.c:1823
+#: ../src/gsb_data_partial_balance.c:1826
 msgid "Colorized in red if the balance is negative"
 msgstr "Obarvit červeně, pokud je zůstatek záporný"
 
 #. Initialisation avec la première devise : fixe bug 1881
-#: ../src/gsb_data_partial_balance.c:1845
+#: ../src/gsb_data_partial_balance.c:1848
 msgid "Enter the currency of the balance part"
 msgstr "Zadejte měnu souhrnného zůstatku"
 
-#: ../src/gsb_data_partial_balance.c:1857
+#: ../src/gsb_data_partial_balance.c:1860
 msgid "Select the currency of the partial balance: "
 msgstr "Vyberte měnu souhrnného zůstatku: "
 
@@ -9156,22 +9199,22 @@ msgid "Report"
 msgstr "Sestava"
 
 #. Deposit = Dépôt
-#: ../src/gsb_data_payment.c:724 ../src/import.c:2451
-#: ../src/plugins/ofx/ofx.c:367
+#: ../src/gsb_data_payment.c:723 ../src/import.c:2450
+#: ../src/plugins/ofx/ofx.c:368
 msgid "Deposit"
 msgstr "Vklad"
 
 #. Retrait dans un distributeur de billets replacé par carte de crédit
 #. Point of sale = Point de vente remplacé par carte de crédit
-#: ../src/gsb_data_payment.c:733 ../src/gsb_form.c:2909 ../src/import.c:2458
-#: ../src/import.c:2465
+#: ../src/gsb_data_payment.c:732 ../src/gsb_form.c:2909 ../src/import.c:2457
+#: ../src/import.c:2464
 msgid "Credit card"
 msgstr "Kreditní karta"
 
 #. Electronic payment remplacé par Direct debit = Prélèvement
 #. Merchant initiated debit remplacé par Direct debit = Prélèvement
-#: ../src/gsb_data_payment.c:742 ../src/gsb_form.c:2945 ../src/import.c:2479
-#: ../src/import.c:2502 ../src/prefs/prefs_widget_loan.c:987
+#: ../src/gsb_data_payment.c:741 ../src/gsb_form.c:2945 ../src/import.c:2478
+#: ../src/import.c:2501 ../src/prefs/prefs_widget_loan.c:987
 #: ../src/prefs/prefs_widget_loan.c:990
 msgid "Direct debit"
 msgstr "Přímý výběr"
@@ -9811,7 +9854,7 @@ msgstr "Nelze otevřít šifrovaný soubor '%s'"
 
 #: ../src/gsb_file_save.c:2879
 #, fuzzy, c-format
-msgid "cannot save CSS file '%s': %s"
+msgid "Cannot save CSS file '%s': %s"
 msgstr "Nelze uložit soubor '%s': %s"
 
 #: ../src/gsb_file_util.c:71
@@ -10009,19 +10052,19 @@ msgstr "Ručně"
 msgid "Cheque/Transfer number"
 msgstr "Číslo převodu/šeku"
 
-#: ../src/gsb_form.c:2918 ../src/plugins/ofx/ofx.c:391
+#: ../src/gsb_form.c:2918 ../src/plugins/ofx/ofx.c:392
 msgid "Direct deposit"
 msgstr "Vklad"
 
 #. Check = Chèque
-#: ../src/gsb_form.c:2927 ../src/import.c:2285 ../src/import.c:2306
-#: ../src/import.c:2433 ../src/plugins/ofx/ofx.c:347
-#: ../src/plugins/ofx/ofx.c:408
+#: ../src/gsb_form.c:2927 ../src/import.c:2284 ../src/import.c:2305
+#: ../src/import.c:2432 ../src/plugins/ofx/ofx.c:348
+#: ../src/plugins/ofx/ofx.c:409
 msgid "Check"
 msgstr "Šek"
 
 #. Cash withdrawal = retrait en liquide
-#: ../src/gsb_form.c:2936 ../src/import.c:2486
+#: ../src/gsb_form.c:2936 ../src/import.c:2485
 msgid "Cash withdrawal"
 msgstr "Výběr hotovosti"
 
@@ -10029,27 +10072,27 @@ msgstr "Výběr hotovosti"
 msgid "No payee selected for this report."
 msgstr "Pro tuto sestavu nebyly vybrány žádní plátci/příjemci."
 
-#: ../src/gsb_form_config.c:202 ../src/prefs/prefs_page_display_form.c:826
+#: ../src/gsb_form_config.c:202 ../src/prefs/prefs_page_display_form.c:827
 msgid "Col 1"
 msgstr "Sl. 1"
 
-#: ../src/gsb_form_config.c:203 ../src/prefs/prefs_page_display_form.c:826
+#: ../src/gsb_form_config.c:203 ../src/prefs/prefs_page_display_form.c:827
 msgid "Col 2"
 msgstr "Sl. 2"
 
-#: ../src/gsb_form_config.c:204 ../src/prefs/prefs_page_display_form.c:826
+#: ../src/gsb_form_config.c:204 ../src/prefs/prefs_page_display_form.c:827
 msgid "Col 3"
 msgstr "Sl. 3"
 
-#: ../src/gsb_form_config.c:205 ../src/prefs/prefs_page_display_form.c:826
+#: ../src/gsb_form_config.c:205 ../src/prefs/prefs_page_display_form.c:827
 msgid "Col 4"
 msgstr "Sl. 4"
 
-#: ../src/gsb_form_config.c:206 ../src/prefs/prefs_page_display_form.c:826
+#: ../src/gsb_form_config.c:206 ../src/prefs/prefs_page_display_form.c:827
 msgid "Col 5"
 msgstr "Sl. 5"
 
-#: ../src/gsb_form_config.c:207 ../src/prefs/prefs_page_display_form.c:826
+#: ../src/gsb_form_config.c:207 ../src/prefs/prefs_page_display_form.c:827
 msgid "Col 6"
 msgstr "Sl. 6"
 
@@ -10061,7 +10104,7 @@ msgstr "řádky"
 msgid "columns"
 msgstr "sloupce"
 
-#: ../src/gsb_form_config.c:618 ../src/prefs/prefs_page_display_form.c:279
+#: ../src/gsb_form_config.c:618 ../src/prefs/prefs_page_display_form.c:280
 msgid ""
 "There is no place enough to put the element. You need to increase the number "
 "of rows or columns to add an element."
@@ -10070,12 +10113,12 @@ msgstr ""
 "zvýšit počet řádků nebo sloupců."
 
 #: ../src/gsb_form_config.c:620 ../src/gsb_form_config.c:625
-#: ../src/prefs/prefs_page_display_form.c:281
-#: ../src/prefs/prefs_page_display_form.c:286
+#: ../src/prefs/prefs_page_display_form.c:282
+#: ../src/prefs/prefs_page_display_form.c:287
 msgid "The table is full"
 msgstr "Tabulka je plná"
 
-#: ../src/gsb_form_config.c:622 ../src/prefs/prefs_page_display_form.c:283
+#: ../src/gsb_form_config.c:622 ../src/prefs/prefs_page_display_form.c:284
 msgid ""
 "There is no place enough to put the two elements (you have clicked on an "
 "element which contains two). You need to increase the number of rows or "
@@ -10146,6 +10189,7 @@ msgstr "Metoda platby"
 #. 0
 #: ../src/gsb_form_widget.c:597 ../src/import_csv.c:71
 #: ../src/prefs/prefs_page_accueil.c:349
+#: ../src/widgets/widget_currency_popup.c:140
 msgid "Currency"
 msgstr "Měna"
 
@@ -10204,95 +10248,9 @@ msgid "%d transactions associated"
 msgstr "%d transakcí přiřazeno"
 
 #: ../src/gsb_fyear_config.c:818 ../src/prefs/prefs_page_fyear.c:424
-msgid "no transaction to associate"
-msgstr "žádné transakce k přiřazení"
-
-#: ../src/gsb_payment_method_config.c:106
-msgid "Neutral"
-msgstr "Neutrální"
-
-#. Known payment methods
-#: ../src/gsb_payment_method_config.c:135
-msgid "Known payment methods"
-msgstr "Definované metody platby"
-
-#: ../src/gsb_payment_method_config.c:177
-msgid "Default"
-msgstr "Výchozí"
-
-#: ../src/gsb_payment_method_config.c:189
-msgid "Numbering"
-msgstr "Číslování"
-
-#. Payment method details
-#: ../src/gsb_payment_method_config.c:226
-msgid "Payment method details"
-msgstr "Detaily metody platby"
-
-#. button show entry, automatic numbering button will be shown only if entry is showed
-#: ../src/gsb_payment_method_config.c:242
-msgid "Need entry field"
-msgstr "Pole pro číslo"
-
-#. Automatic numbering
-#: ../src/gsb_payment_method_config.c:250
-msgid "Automatic numbering: "
-msgstr "Automatické číslování: "
-
-#. button automatic numbering, activate it sensitive the automatic numbering entry
-#: ../src/gsb_payment_method_config.c:263
-msgid "Activate"
-msgstr "Aktivovat"
-
-#. Payment method method_ptr
-#: ../src/gsb_payment_method_config.c:270
-msgid "Type: "
-msgstr "Typ: "
-
-#. create the new method of payment
-#: ../src/gsb_payment_method_config.c:1082
-msgid "New payment method"
-msgstr "Nová metoda platby"
-
-#: ../src/gsb_payment_method_config.c:1232
-msgid "Delete a payment method"
-msgstr "Odstranit metodu platby"
-
-#: ../src/gsb_payment_method_config.c:1245
-msgid "Payment method is used by transactions"
-msgstr "Metoda platby je použita v transakcích"
-
-#: ../src/gsb_payment_method_config.c:1259
 #, fuzzy
-msgid ""
-"Problem while filling the target method of payment to delete it.\n"
-"This is not normal, please contact the Grisbi team."
-msgstr ""
-"Problém s odstraněním při vyplňování cílové metody platby.\n"
-"Toto není běžné, prosím kontaktujte vývojový tým Grisbi."
-
-#: ../src/gsb_payment_method_config.c:1264
-msgid ""
-"Some transactions still use that payment method.  As deletion of this method "
-"is irreversible, these transactions are to be associated with another "
-"payment method."
-msgstr ""
-"Některé transakce stále používají tuto metodu platby. Protože odstranění "
-"této metody je nevratné, k transakcím musí být přiřazena jiná metoda platby."
-
-#: ../src/gsb_payment_method_config.c:1266
-msgid ""
-"No target method of payment to switch the transactions to another method of "
-"payment. If you continue, the transactions with this method of payment will "
-"have no new one."
-msgstr ""
-"Nebyla zvolená cílová metoda platby pro transakce. Pokud budete pokračovat, "
-"transakce s touto metodou platby nebudou mít po provedení akce nastavenu "
-"žádnou novou metodu platby."
-
-#: ../src/gsb_payment_method_config.c:1276
-msgid "Associate transactions with: "
-msgstr "Přiřadit transakce k: "
+msgid "No transaction to associate"
+msgstr "žádné transakce k přiřazení"
 
 #: ../src/gsb_reconcile.c:188
 msgid ""
@@ -10981,8 +10939,8 @@ msgstr ""
 "Zobrazte transakce R pod volbou Pohled na liště."
 
 #: ../src/gsb_transactions_list_sort.c:362
-#, c-format
-msgid "ask for the sort number %d which doesn't exist... return by date"
+#, fuzzy, c-format
+msgid "Ask for the sort number %d which doesn't exist... return by date"
 msgstr "požadováno řazení podle čísla %d které neexistuje... vrátit podle data"
 
 #: ../src/help.c:82
@@ -11056,23 +11014,23 @@ msgstr "Verze Grisbi %s, %s\n"
 msgid "Grisbi git hash: "
 msgstr ""
 
-#: ../src/import.c:131
+#: ../src/import.c:130
 msgid "Comma Separated Values"
 msgstr "Comma Separated Values"
 
-#: ../src/import.c:132
+#: ../src/import.c:131
 msgid "Quicken Interchange Format"
 msgstr "Quicken Interchange Format"
 
-#: ../src/import.c:134 ../src/plugins/gnucash/gnucash.c:133
+#: ../src/import.c:133 ../src/plugins/gnucash/gnucash.c:133
 msgid "Gnucash"
 msgstr "Gnucash"
 
-#: ../src/import.c:137
+#: ../src/import.c:136
 msgid "Open Financial Exchange"
 msgstr ""
 
-#: ../src/import.c:522
+#: ../src/import.c:521
 #, fuzzy, c-format
 msgid ""
 "The account currency imported %s is %s.\n"
@@ -11085,12 +11043,12 @@ msgstr ""
 "\n"
 "Chcete ji nyní vytvořit?"
 
-#: ../src/import.c:529
+#: ../src/import.c:528
 #, c-format
 msgid "Can't associate ISO 4217 code for currency '%s'."
 msgstr "Měně '%s' nelze přiřadit kód ISO 4217."
 
-#: ../src/import.c:546
+#: ../src/import.c:545
 msgid ""
 "Use this currency for totals for the payees categories\n"
 "and budgetary lines"
@@ -11098,26 +11056,26 @@ msgstr ""
 "Použít tuto měnu pro součty za plátce/příjemce,\n"
 "kategorie a rozpočty "
 
-#: ../src/import.c:601
+#: ../src/import.c:600
 msgid "Import settings completed successfully"
 msgstr ""
 
-#: ../src/import.c:605
+#: ../src/import.c:604
 #, fuzzy
 msgid "Press the 'Close' button to finish the import."
 msgstr ""
 "Úspěšně jste nastavil(a) export dat z Grisbi.  Klikněte na tlačítko 'Zavřít' "
 "pro zahájení exportu dat."
 
-#: ../src/import.c:695
+#: ../src/import.c:694
 msgid "Imported account"
 msgstr "Importovaný účet"
 
-#: ../src/import.c:737
+#: ../src/import.c:736
 msgid "file"
 msgstr "soubor"
 
-#: ../src/import.c:743
+#: ../src/import.c:742
 #, c-format
 msgid ""
 "<span size=\"x-large\">%s</span>\n"
@@ -11129,93 +11087,93 @@ msgstr ""
 "\n"
 "Co si přejete udělat s obsahem z <span foreground=\"blue\">%s</span> ?\n"
 
-#: ../src/import.c:798
+#: ../src/import.c:797
 msgid "Add transactions to an account"
 msgstr "Přidat transakce na účet"
 
-#: ../src/import.c:821
+#: ../src/import.c:820
 msgid "Mark transactions of an account"
 msgstr "Označit transakce na účtu"
 
 #. invert amount of transactions
-#: ../src/import.c:880
+#: ../src/import.c:879
 msgid "Invert the amount of the imported transactions"
 msgstr "U importovaných částek otočit znaménko"
 
-#: ../src/import.c:889
+#: ../src/import.c:888
 #, fuzzy
 msgid "Create a rule for this import. Name of the rule: "
 msgstr "Vytváření pravidla importu. Název pravidla: "
 
-#: ../src/import.c:993 ../src/import.c:1016 ../src/import.c:1054
-#: ../src/import.c:1604
+#: ../src/import.c:992 ../src/import.c:1015 ../src/import.c:1053
+#: ../src/import.c:1603
 msgid "Unknown"
 msgstr "Neznámý"
 
-#: ../src/import.c:1195
+#: ../src/import.c:1194
 msgid "Choose files to import."
 msgstr "Vyberte soubory pro import."
 
-#: ../src/import.c:1225
+#: ../src/import.c:1224
 #, c-format
 msgid "Known files (%s)"
 msgstr "Známé soubory (%s)"
 
-#: ../src/import.c:1237
+#: ../src/import.c:1236
 #, c-format
 msgid "%s files (*.%s)"
 msgstr "Soubory %s (*.%s)"
 
-#: ../src/import.c:1275
+#: ../src/import.c:1274
 msgid "Encoding: "
 msgstr "Kódování: "
 
-#: ../src/import.c:1299
+#: ../src/import.c:1298
 #, fuzzy, c-format
 msgid "Choose file to import in %s"
 msgstr "Vyberte soubor pro import"
 
-#: ../src/import.c:1333
-#, c-format
-msgid "cannot unzip file '%s': %s"
+#: ../src/import.c:1332
+#, fuzzy, c-format
+msgid "Cannot unzip file '%s': %s"
 msgstr "nelze rozbalit soubor '%s': %s"
 
-#: ../src/import.c:1360
+#: ../src/import.c:1359
 #, c-format
 msgid "Adding '%s' as an import format"
 msgstr "Přidán '%s' jako formát importu"
 
-#: ../src/import.c:1422 ../src/import.c:1532 ../src/import_csv.c:174
+#: ../src/import.c:1421 ../src/import.c:1531 ../src/import_csv.c:174
 #: ../src/import_csv.c:220
 #, c-format
 msgid "Unable to read file: %s\n"
 msgstr "Nelze načíst soubor: %s\n"
 
-#: ../src/import.c:1761
+#: ../src/import.c:1760
 #, fuzzy, c-format
 msgid "Choose file to import from the directory: %s"
 msgstr "Vyberte soubor pro import"
 
-#: ../src/import.c:1766
+#: ../src/import.c:1765
 msgid "Choose file to import"
 msgstr "Vyberte soubor pro import"
 
 #. Add select file button
-#: ../src/import.c:1773
+#: ../src/import.c:1772
 msgid "Add file to import..."
 msgstr "Přidat soubor do importu..."
 
-#: ../src/import.c:1861
+#: ../src/import.c:1860
 msgid "File name"
 msgstr "Název souboru"
 
 #. adding option for import of categories for qif files
-#: ../src/import.c:1879
+#: ../src/import.c:1878
 #, fuzzy
 msgid "Select options to import"
 msgstr "Vyberte účty pro export"
 
-#: ../src/import.c:2007
+#: ../src/import.c:2006
 msgid ""
 "You successfully imported files into Grisbi.  The following pages will help "
 "you set up imported data for the following files"
@@ -11223,20 +11181,20 @@ msgstr ""
 "Úspěšně jste naimportoval(a) soubory do Grisbi. Následující stránky vám "
 "pomohou nastavit data importovaná ze souborů"
 
-#: ../src/import.c:2022
+#: ../src/import.c:2021
 msgid "Unnamed Imported account"
 msgstr "Nepojmenovaný importovaný účet"
 
-#: ../src/import.c:2051
+#: ../src/import.c:2050
 msgid "You successfully imported categories file into Grisbi."
 msgstr ""
 
-#: ../src/import.c:2057
+#: ../src/import.c:2056
 #, fuzzy
 msgid "Error!"
 msgstr "Chyba!"
 
-#: ../src/import.c:2062
+#: ../src/import.c:2061
 msgid ""
 "No file has been imported, please double check that they are valid files.  "
 "Please make sure that they are not compressed and that their format is valid."
@@ -11244,11 +11202,11 @@ msgstr ""
 "Žádné soubory nebyly naimportovány. Prosím ověřte, že se jedná o správné "
 "soubory. Také ověřte, že nejsou komprimmovány a jsou ve správném formátu."
 
-#: ../src/import.c:2076
+#: ../src/import.c:2075
 msgid "The following files are in error: "
 msgstr "Následující soubory jsou chybné: "
 
-#: ../src/import.c:2596
+#: ../src/import.c:2595
 #, c-format
 msgid ""
 "Warning : the cheque number %s is already used.\n"
@@ -11257,77 +11215,77 @@ msgstr ""
 "Pozor: číslo šeku %s již bylo použito.\n"
 "Bude přeskočeno"
 
-#: ../src/import.c:2798
+#: ../src/import.c:2797
 #, c-format
 msgid ""
 "Choose from the list below that which will be selected \n"
 "for the payee: \"%s\""
 msgstr ""
 
-#: ../src/import.c:2804
+#: ../src/import.c:2803
 #, fuzzy
 msgid "Several transactions have been found"
 msgstr "Vybrat transakce podle částky"
 
-#: ../src/import.c:2844
+#: ../src/import.c:2843
 #, fuzzy, c-format
 msgid "Transaction N° %d found: %s ; %s ; %s"
 msgstr "Nalazena transakce: %s ; %s ; %s"
 
-#: ../src/import.c:2963
+#: ../src/import.c:2962
 msgid ""
 "No other operation was found.\n"
 "In this case it is a new operation and\n"
 "the associated box has been unchecked"
 msgstr ""
 
-#: ../src/import.c:2978
+#: ../src/import.c:2977
 msgid ""
 "Only one operation was found. \n"
 "The correction has been made."
 msgstr ""
 
-#: ../src/import.c:2996 ../src/import.c:3352
+#: ../src/import.c:2995 ../src/import.c:3351
 #, fuzzy, c-format
 msgid "Transaction found: %s ; %s ; %s ; %s"
 msgstr "Nalazena transakce: %s ; %s ; %s ; %s"
 
-#: ../src/import.c:3010 ../src/import.c:3058 ../src/import.c:3366
+#: ../src/import.c:3009 ../src/import.c:3057 ../src/import.c:3365
 #, fuzzy, c-format
 msgid "Transaction found: %s ; %s ; %s"
 msgstr "Nalazena transakce: %s ; %s ; %s"
 
-#: ../src/import.c:3071 ../src/import.c:3294
+#: ../src/import.c:3070 ../src/import.c:3293
 #, fuzzy, c-format
 msgid "Transaction to be merged: %s ; %s ; %s"
 msgstr "Transakce ke sloučení: %s ; %s ; %s"
 
-#: ../src/import.c:3076 ../src/import.c:3299
+#: ../src/import.c:3075 ../src/import.c:3298
 #, fuzzy, c-format
 msgid "Transaction to import: %s ; %s ; %s"
 msgstr "Transakce k importu : %s ; %s ; %s"
 
 #. Ajout du bouton de traitement
-#: ../src/import.c:3092
+#: ../src/import.c:3091
 #, fuzzy
 msgid "Find other transaction"
 msgstr "Duplikovat transakci"
 
-#: ../src/import.c:3146
+#: ../src/import.c:3145
 #, fuzzy, c-format
 msgid "Confirmation of transactions to be merged in: %s"
 msgstr "Potvrzení transakcí které budou sloučeny"
 
-#: ../src/import.c:3152
+#: ../src/import.c:3151
 #, fuzzy, c-format
 msgid "Confirmation of importation of transactions in: %s"
 msgstr "Potvrzení importovaných transakcí"
 
-#: ../src/import.c:3177
+#: ../src/import.c:3176
 msgid "Please select the transactions to be merged"
 msgstr "Vyberte transakce které budou sloučeny"
 
-#: ../src/import.c:3183
+#: ../src/import.c:3182
 msgid ""
 "Some imported transactions seem to be already saved.Please select the "
 "transactions to import."
@@ -11335,12 +11293,12 @@ msgstr ""
 "Některé importované transakce jsou již pravděpodobně uložené. Prosím označte "
 "transakce pro import."
 
-#: ../src/import.c:3236 ../src/import.c:3333
+#: ../src/import.c:3235 ../src/import.c:3332
 #, fuzzy
 msgid "Duplicate transactions"
 msgstr "Klikatelné transakce"
 
-#: ../src/import.c:3636
+#: ../src/import.c:3635
 #, fuzzy, c-format
 msgid ""
 "Perhaps you choose a wrong account?\n"
@@ -11353,25 +11311,25 @@ msgstr ""
 "Zřejmě byl vybrán chybný účet. Pokud zvolíte pokračovat, id účtu bude "
 "změněno. Chcete pokračovat?"
 
-#: ../src/import.c:3642
+#: ../src/import.c:3641
 msgid "The id of the imported and chosen accounts are different"
 msgstr "Id importovaného a vybraného účtu jsou různá"
 
-#: ../src/import.c:4185
+#: ../src/import.c:4184
 #, fuzzy, c-format
 msgid "Orphaned transactions for: %s"
 msgstr "Osiřelé transakce"
 
-#: ../src/import.c:4203
+#: ../src/import.c:4202
 msgid "Mark transactions you want to add to the list and click the OK button"
 msgstr ""
 "Označte transakce které chcete přidat do seznamu a klikněte na tlačítko OK"
 
-#: ../src/import.c:4268
+#: ../src/import.c:4267
 msgid "Mark"
 msgstr "Označit"
 
-#: ../src/import.c:4676
+#: ../src/import.c:4675
 #, fuzzy, c-format
 msgid ""
 "An error occurred while creating the new account %s,\n"
@@ -11380,7 +11338,7 @@ msgstr ""
 "Při vytváření nového účtu %s došlo k chybě.\n"
 "Zkusíme pokračovat v importu, nicméně se mohou vyskytnout další chyby..."
 
-#: ../src/import.c:4737
+#: ../src/import.c:4736
 #, c-format
 msgid ""
 "You want to create an import rule for the account %s but didn't give a name "
@@ -11390,11 +11348,11 @@ msgstr ""
 "tohoto pravidla. Prosím nastavte název nebo jej nechte prázdný pro zrušení "
 "vytváření pravidla."
 
-#: ../src/import.c:4741
+#: ../src/import.c:4740
 msgid "No name for the import rule"
 msgstr "Pojmenujte soubor pravidel importu"
 
-#: ../src/import.c:4782
+#: ../src/import.c:4781
 #, fuzzy
 msgid ""
 "No account in memory now, this is bad...\n"
@@ -11407,11 +11365,11 @@ msgstr ""
 "\n"
 "Prosím kontaktujte vývojový tým Grisbi pro nalezení problému."
 
-#: ../src/import.c:4792
+#: ../src/import.c:4791
 msgid "Please wait"
 msgstr "Prosím čekejte"
 
-#: ../src/import.c:4815
+#: ../src/import.c:4814
 msgid ""
 "You have just imported reconciled transactions but they not associated with "
 "any reconcile number yet.  You may associate them with a reconcilation later "
@@ -11421,7 +11379,7 @@ msgstr ""
 "propojené s žádným číslem odsouhlasení. Můžete je k odsouhlasení připojit "
 "později v okně Možnosti."
 
-#: ../src/import.c:4852
+#: ../src/import.c:4851
 msgid ""
 "This assistant will help you import one or several files into Grisbi.\n"
 "\n"
@@ -11437,63 +11395,63 @@ msgstr ""
 "následující formáty:\n"
 "\n"
 
-#: ../src/import.c:4860
+#: ../src/import.c:4859
 msgid "Importing transactions into Grisbi"
 msgstr "Importuji transakce do Grisbi"
 
-#: ../src/import.c:5070
+#: ../src/import.c:5069
 #, c-format
 msgid "%s #%d"
 msgstr "%s #%d"
 
-#: ../src/import.c:5197
+#: ../src/import.c:5196
 msgid "Import a file with a rule"
 msgstr "Importovat soubor s pravidlem"
 
 #. text for paddingbox
-#: ../src/import.c:5208
+#: ../src/import.c:5207
 #, c-format
 msgid "Properties of the rule: %s\n"
 msgstr "Vlastnosti pravidla: %s\n"
 
-#: ../src/import.c:5227
+#: ../src/import.c:5226
 #, c-format
 msgid "Imported transactions will be added to the account %s.\n"
 msgstr "Importované transakce budou přidány na účet %s.\n"
 
-#: ../src/import.c:5230
+#: ../src/import.c:5229
 #, c-format
 msgid "Imported transactions will mark transactions in the account %s.\n"
 msgstr "Importované transakce budou označeny s transakcemi na účtu %s.\n"
 
 #. textstring 2
-#: ../src/import.c:5235
+#: ../src/import.c:5234
 #, c-format
 msgid "Currency to import is %s.\n"
 msgstr "Měna pro import je %s.\n"
 
-#: ../src/import.c:5244
+#: ../src/import.c:5243
 #, c-format
 msgid "Amounts of the transactions will be inverted.\n"
 msgstr "Částky transakcí budou otočeny.\n"
 
 #. label filename
-#: ../src/import.c:5256
+#: ../src/import.c:5255
 msgid "Name of the file to import: "
 msgstr "Jméno importovaného souboru: "
 
-#: ../src/import.c:5273
+#: ../src/import.c:5272
 #, fuzzy
 msgid "Select a new file"
 msgstr "Vyberte nové logo"
 
 #. Add check_button to remove the file
-#: ../src/import.c:5285
+#: ../src/import.c:5284
 #, fuzzy
 msgid "Remove the imported file"
 msgstr "Odstranit pravidlo"
 
-#: ../src/import.c:5339
+#: ../src/import.c:5338
 #, c-format
 msgid ""
 "%s is neither an OFX file, neither a QIF file. Nothing will be done for that "
@@ -11501,7 +11459,7 @@ msgid ""
 msgstr ""
 "%s není ani OFX soubor, ani QIF soubor. Tento soubor nemůže být zpracován."
 
-#: ../src/import.c:5383
+#: ../src/import.c:5382
 #, fuzzy, c-format
 msgid ""
 "%s was not imported successfully. An error occurred while getting the "
@@ -11551,50 +11509,51 @@ msgstr ""
 msgid "The conversion to utf8 went wrong."
 msgstr "Konverze do utf8 se nazdařila."
 
-#: ../src/import_csv.c:325
+#: ../src/import_csv.c:337
 #, c-format
 msgid ""
 "The data associated with action \"%s\" are invalid.\n"
 "This rule will not be applied and you will have to modify it"
 msgstr ""
 
-#: ../src/import_csv.c:328
+#: ../src/import_csv.c:340
 #, fuzzy
 msgid "Warning: Invalid data"
 msgstr "Varování: neplatné datum."
 
-#: ../src/import_csv.c:831 ../src/import_csv.c:835
-msgid "transaction amount"
+#: ../src/import_csv.c:843 ../src/import_csv.c:847
+#, fuzzy
+msgid "Transaction amount"
 msgstr "částka transakce"
 
-#: ../src/import_csv.c:845
+#: ../src/import_csv.c:857
 #, c-format
 msgid "<b>The following fields are missing or inconsistent:</b> %s"
 msgstr "<b>Následující pole buď chybí nebo nejsou konzistentní:</b> %s"
 
-#: ../src/import_csv.c:855
+#: ../src/import_csv.c:867
 msgid "All mandatory fields are filed in."
 msgstr "Všechna povinná pole jsou vyplněna."
 
-#: ../src/import_csv.c:1048
+#: ../src/import_csv.c:1060
 msgid "Skip"
 msgstr "Přeskočit"
 
-#: ../src/import_csv.c:1361 ../src/import_csv.c:1514
+#: ../src/import_csv.c:1373 ../src/import_csv.c:1526
 msgid "Imported CSV account"
 msgstr "Importovaný účet CSV"
 
 #. set choose csv separators
-#: ../src/import_csv.c:1698
+#: ../src/import_csv.c:1710
 msgid "Choose CSV separator"
 msgstr "Vyberte oddělovač CSV"
 
 #. set select csv fields
-#: ../src/import_csv.c:1705
+#: ../src/import_csv.c:1717
 msgid "Select CSV fields"
 msgstr "Vyberte pole CSV"
 
-#: ../src/import_csv.c:1732
+#: ../src/import_csv.c:1744
 #, fuzzy
 msgid "Create a rule for this import."
 msgstr "Vytváření pravidla importu. Název pravidla: "
@@ -12081,11 +12040,11 @@ msgstr "Exportovat soubor rozpočtů Grisbi (.igsb)"
 msgid "Remove this report"
 msgstr "Odstranit pravidlo"
 
-#: ../src/parametres.c:273
+#: ../src/parametres.c:272
 msgid "Choose the decimal and thousands separator"
 msgstr "Zvolte oddělovače desetin a tisíců"
 
-#: ../src/parametres.c:279
+#: ../src/parametres.c:278
 msgid "Decimal and thousands separator"
 msgstr "Oddělovače desetin a tisíců"
 
@@ -12119,67 +12078,67 @@ msgstr ""
 msgid "Error opening temporary file '%s'."
 msgstr "Chyba při otevírání dočasného souboru '%s'."
 
-#: ../src/plugins/ofx/ofx.c:197
+#: ../src/plugins/ofx/ofx.c:198
 msgid "OFX processing returned following message:\n"
 msgstr "Zpracování OFX vrátilo následující zprávu:\n"
 
-#: ../src/plugins/ofx/ofx.c:203
+#: ../src/plugins/ofx/ofx.c:204
 msgid "OFX processing ended in a warning message which is not valid."
 msgstr "Zpracování OFX skončilo s varováním, které je neplatné."
 
-#: ../src/plugins/ofx/ofx.c:209
+#: ../src/plugins/ofx/ofx.c:210
 msgid "OFX processing returned following error message:\n"
 msgstr "Zpracování OFX vrátilo následující chybovou zprávu:\n"
 
-#: ../src/plugins/ofx/ofx.c:215
+#: ../src/plugins/ofx/ofx.c:216
 msgid "OFX processing returned an error message which is not valid."
 msgstr "Zpracování OFX vrátilo chybovou zprávu, která je neplatná."
 
-#: ../src/plugins/ofx/ofx.c:289
+#: ../src/plugins/ofx/ofx.c:290
 msgid "A transaction try to be saved but no account was created...\n"
 msgstr "Snažíte se uložit transakci, ale nebyl vytvořen žádný účet... \n"
 
-#: ../src/plugins/ofx/ofx.c:351
+#: ../src/plugins/ofx/ofx.c:352
 msgid "Interest"
 msgstr "Úrok"
 
-#: ../src/plugins/ofx/ofx.c:355
+#: ../src/plugins/ofx/ofx.c:356
 msgid "Dividend"
 msgstr "Dividenda"
 
-#: ../src/plugins/ofx/ofx.c:359
+#: ../src/plugins/ofx/ofx.c:360
 msgid "Service charge"
 msgstr "Manipulační poplatek"
 
-#: ../src/plugins/ofx/ofx.c:363
+#: ../src/plugins/ofx/ofx.c:364
 msgid "Fee"
 msgstr "Poplatek"
 
-#: ../src/plugins/ofx/ofx.c:371
+#: ../src/plugins/ofx/ofx.c:372
 msgid "Cash dispenser"
 msgstr "Bankomat"
 
-#: ../src/plugins/ofx/ofx.c:375
+#: ../src/plugins/ofx/ofx.c:376
 msgid "Point of sale"
 msgstr "Prodejní místo"
 
-#: ../src/plugins/ofx/ofx.c:383
+#: ../src/plugins/ofx/ofx.c:384
 msgid "Electronic payment"
 msgstr "Elektronická platba"
 
-#: ../src/plugins/ofx/ofx.c:387
+#: ../src/plugins/ofx/ofx.c:388
 msgid "Cash"
 msgstr "Hotovost"
 
-#: ../src/plugins/ofx/ofx.c:395
+#: ../src/plugins/ofx/ofx.c:396
 msgid "Merchant initiated debit"
 msgstr "Inkaso od obchodníka"
 
-#: ../src/plugins/ofx/ofx.c:399
+#: ../src/plugins/ofx/ofx.c:400
 msgid "Repeating payment/standing order"
 msgstr "Opakovaná platba / trvalý příkaz"
 
-#: ../src/plugins/ofx/ofx.c:476
+#: ../src/plugins/ofx/ofx.c:478
 msgid "Invalid OFX file"
 msgstr "Chybný soubor OFX"
 
@@ -12365,25 +12324,32 @@ msgstr "Počáteční zůstatek"
 msgid "Renegotiation N° %d"
 msgstr ""
 
-#: ../src/prefs/prefs_page_currency.c:234
+#: ../src/prefs/prefs_page_currency.c:235
 msgid "Select base currency for your account"
 msgstr "Zvolte výchozí měnu účtu"
 
-#: ../src/prefs/prefs_page_currency.c:472
+#: ../src/prefs/prefs_page_currency.c:491
 #, c-format
 msgid "Currency '%s' is used in current file.  Grisbi can't delete it."
 msgstr "Měna '%s' je použita v aktuálním souboru.  Grisbi ji nemůže odstranit."
 
-#: ../src/prefs/prefs_page_currency.c:475
-#: ../src/prefs/prefs_page_currency.c:503
+#: ../src/prefs/prefs_page_currency.c:494
+#: ../src/prefs/prefs_page_currency.c:515
+#: ../src/prefs/prefs_page_currency.c:558
 #, c-format
 msgid "Impossible to remove currency '%s'"
 msgstr "Nelze odebrat měnu '%s'"
 
-#: ../src/prefs/prefs_page_currency.c:500
+#: ../src/prefs/prefs_page_currency.c:512
 #, c-format
 msgid "Currency '%s' is used in current file. Grisbi can't delete it."
 msgstr "Měna '%s' je použita v aktuálním souboru. Grisbi ji nemůže odstranit."
+
+#: ../src/prefs/prefs_page_currency.c:556
+msgid ""
+"There is a link between this currency and another currency.\n"
+"Please delete this link first."
+msgstr ""
 
 #: ../src/prefs/prefs_page_display_fonts.c:188
 #, c-format
@@ -12433,16 +12399,16 @@ msgstr "Zvolte účet"
 msgid "Divers"
 msgstr ""
 
-#: ../src/prefs/prefs_page_divers.c:556 ../src/prefs/prefs_page_divers.c:569
+#: ../src/prefs/prefs_page_divers.c:556 ../src/prefs/prefs_page_divers.c:566
 msgid "Localization"
 msgstr "Lokalizace"
 
 #. set the scheduled variables
-#: ../src/prefs/prefs_page_divers.c:576
+#: ../src/prefs/prefs_page_divers.c:573
 msgid "Warn/Execute the scheduled transactions arriving at expiration date"
 msgstr "Oznámit / provést plánované transakce k datu splatnosti"
 
-#: ../src/prefs/prefs_page_divers.c:577
+#: ../src/prefs/prefs_page_divers.c:574
 #, fuzzy
 msgid "Warn/Execute the scheduled transactions of the month"
 msgstr "Oznámit / provést plánované transakce pro měsíc"
@@ -12523,17 +12489,17 @@ msgstr "Podle data"
 msgid "According to the value date (if fail, try with the date)"
 msgstr "Podle data pohybu (při neúspěchu zkusit datum transakce)"
 
-#: ../src/prefs/prefs_page_metatree.c:232
+#: ../src/prefs/prefs_page_metatree.c:233
 #, fuzzy
 msgid "There are no archived transactions."
 msgstr "Odstranit archiv včetně transakcí"
 
-#: ../src/prefs/prefs_page_metatree.c:233
-#: ../src/prefs/prefs_page_metatree.c:266
+#: ../src/prefs/prefs_page_metatree.c:234
+#: ../src/prefs/prefs_page_metatree.c:267
 msgid "This feature is useless"
 msgstr ""
 
-#: ../src/prefs/prefs_page_metatree.c:249
+#: ../src/prefs/prefs_page_metatree.c:250
 #, c-format
 msgid ""
 "The ratio of the number of payees of the archived transactions (%d) to the "
@@ -12542,11 +12508,11 @@ msgid ""
 "It is advisable to use this feature: Answer YES"
 msgstr ""
 
-#: ../src/prefs/prefs_page_metatree.c:255
+#: ../src/prefs/prefs_page_metatree.c:256
 msgid "This feature can be useful"
 msgstr ""
 
-#: ../src/prefs/prefs_page_metatree.c:260
+#: ../src/prefs/prefs_page_metatree.c:261
 #, c-format
 msgid ""
 "The ratio of the number of payees of the archived transactions (%d) to the "
@@ -12555,28 +12521,28 @@ msgid ""
 msgstr ""
 
 #. tri des opérations
-#: ../src/prefs/prefs_page_metatree.c:315
+#: ../src/prefs/prefs_page_metatree.c:316
 msgid "by number"
 msgstr "podle čísla"
 
-#: ../src/prefs/prefs_page_metatree.c:316
+#: ../src/prefs/prefs_page_metatree.c:317
 msgid "by increasing date"
 msgstr "vzestupně dle data"
 
-#: ../src/prefs/prefs_page_metatree.c:317
+#: ../src/prefs/prefs_page_metatree.c:318
 msgid "by date descending"
 msgstr "sestupně dle data"
 
 #. gestion des divisions
-#: ../src/prefs/prefs_page_metatree.c:368
+#: ../src/prefs/prefs_page_metatree.c:369
 msgid "Expand the line"
 msgstr "Zobrazit detail"
 
-#: ../src/prefs/prefs_page_metatree.c:369
+#: ../src/prefs/prefs_page_metatree.c:370
 msgid "Edit the line"
 msgstr "Upravovat řádek"
 
-#: ../src/prefs/prefs_page_metatree.c:370
+#: ../src/prefs/prefs_page_metatree.c:371
 msgid "Manage the line"
 msgstr "Změnit řádek"
 
@@ -12625,6 +12591,28 @@ msgstr "Řadit podle čísla transakce"
 #: ../src/prefs/prefs_page_options_ope.c:308
 msgid "Transaction list behavior"
 msgstr "Chování seznamu transakcí"
+
+#: ../src/prefs/prefs_page_payment_method.c:135
+#, fuzzy
+msgid ""
+"Problem while filling the target method of payment to delete it.\n"
+"This is not normal, please contact the Grisbi team."
+msgstr ""
+"Problém s odstraněním při vyplňování cílové metody platby.\n"
+"Toto není běžné, prosím kontaktujte vývojový tým Grisbi."
+
+#. create the new method of payment
+#: ../src/prefs/prefs_page_payment_method.c:1001
+msgid "New payment method"
+msgstr "Nová metoda platby"
+
+#: ../src/prefs/prefs_page_payment_method.c:1218
+msgid "Default"
+msgstr "Výchozí"
+
+#: ../src/prefs/prefs_page_payment_method.c:1235
+msgid "Numbering"
+msgstr "Číslování"
 
 #: ../src/prefs/prefs_page_reconcile.c:352
 msgid "Init balance"
@@ -13492,21 +13480,34 @@ msgstr "Pokud nejsou žádné návrhy správné, můžete vybrat jinou znakovou 
 msgid "Could not encrypt file"
 msgstr "Rozšifrovat soubor"
 
-#: ../src/widgets/widget_currency_popup.c:114
-msgid "Country name"
-msgstr "Název země"
-
-#: ../src/widgets/widget_currency_popup.c:138
-msgid "Currency name"
-msgstr "Název měny"
-
-#: ../src/widgets/widget_currency_popup.c:153
+#: ../src/widgets/widget_currency_popup.c:146
+#: ../src/widgets/widget_currency_popup.c:321
 msgid "ISO Code"
 msgstr "ISO kód"
 
-#: ../src/widgets/widget_currency_popup.c:169
+#: ../src/widgets/widget_currency_popup.c:282
+msgid "Country name"
+msgstr "Název země"
+
+#: ../src/widgets/widget_currency_popup.c:306
+msgid "Currency name"
+msgstr "Název měny"
+
+#: ../src/widgets/widget_currency_popup.c:337
 msgid "Sign"
 msgstr "Symbol"
+
+#~ msgid "Known payment methods"
+#~ msgstr "Definované metody platby"
+
+#~ msgid "Payment method details"
+#~ msgstr "Detaily metody platby"
+
+#~ msgid "Need entry field"
+#~ msgstr "Pole pro číslo"
+
+#~ msgid "Payment method is used by transactions"
+#~ msgstr "Metoda platby je použita v transakcích"
 
 #~ msgid "Select base currency"
 #~ msgstr "Zvolte základní měnu"
