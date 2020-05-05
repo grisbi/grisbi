@@ -138,7 +138,6 @@ libgrisbi_la_SOURCES = \
 	gsb_form_transaction.c	\
 	gsb_form_widget.c	\
 	gsb_fyear.c		\
-	gsb_fyear_config.c	\
 	gsb_locale.c	\
 	gsb_payment_method.c	\
 	gsb_real.c		\
@@ -274,7 +273,6 @@ libgrisbi_la_SOURCES = \
 	gsb_file_save.h		\
 	gsb_file_util.h		\
 	gsb_form.h		\
-	gsb_form_config.h	\
 	gsb_form_scheduler.h	\
 	gsb_form_transaction.h	\
 	gsb_form_widget.h	\

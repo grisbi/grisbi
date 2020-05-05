@@ -53,7 +53,6 @@
 #include "gsb_file.h"
 #include "gsb_form.h"
 #include "gsb_form_config.h"
-#include "gsb_fyear_config.h"
 #include "gsb_locale.h"
 #include "gsb_real.h"
 #include "gsb_regex.h"

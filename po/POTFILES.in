@@ -128,7 +128,6 @@ src/gsb_form_scheduler.c
 src/gsb_form_transaction.c
 src/gsb_form_widget.c
 src/gsb_fyear.c
-src/gsb_fyear_config.c
 src/gsb_payment_method.c
 src/gsb_real.c
 src/gsb_reconcile.c
