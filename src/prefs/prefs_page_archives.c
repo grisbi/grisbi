@@ -557,7 +557,7 @@ static void prefs_page_archives_setup_treeview_archives (PrefsPageArchives *page
  *
  * \return
  */
-static void prefs_page_archives_setup_archives_page (PrefsPageArchives *page)
+static void prefs_page_archives_setup_page (PrefsPageArchives *page)
 {
 	GtkWidget *head_page;
 	gchar* tmp_str;
@@ -575,13 +575,13 @@ static void prefs_page_archives_setup_archives_page (PrefsPageArchives *page)
 	gtk_box_reorder_child (GTK_BOX (priv->vbox_archives), head_page, 0);
 
 	/* set the entry widget entry_archives_name */
-	priv->entry_archives_name = gsb_autofunc_entry_new (NULL,
-												  G_CALLBACK (prefs_page_archives_name_changed),
-												  priv->treeview_archives,
-												  G_CALLBACK (gsb_data_archive_set_name),
-												  0);
-
-    gtk_grid_attach (GTK_GRID (priv->grid_archives_modification), priv->entry_archives_name, 1,0, 1, 1);
+	gsb_autofunc_entry_new_from_ui (priv->entry_archives_name,
+	                                NULL,
+								    G_CALLBACK (prefs_page_archives_name_changed),
+								    priv->treeview_archives,
+								    G_CALLBACK (gsb_data_archive_set_name),
+								    0);
+	gtk_widget_set_margin_bottom (priv->entry_archives_name, MARGIN_BOX);
 
 	/* setup treeview_archives */
 	if (is_loading)
@@ -667,7 +667,7 @@ static void prefs_page_archives_init (PrefsPageArchives *page)
 {
 	gtk_widget_init_template (GTK_WIDGET (page));
 
-	prefs_page_archives_setup_archives_page (page);
+	prefs_page_archives_setup_page (page);
 }
 
 static void prefs_page_archives_dispose (GObject *object)
@@ -690,6 +690,7 @@ static void prefs_page_archives_class_init (PrefsPageArchivesClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageArchives, grid_archives_modification);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageArchives, button_archives_delete);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageArchives, button_archives_destroy);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageArchives, entry_archives_name);
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageArchives, checkbutton_archives_check_auto);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageArchives, spinbutton_archives_check_auto);
