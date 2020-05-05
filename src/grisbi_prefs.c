@@ -685,7 +685,6 @@ static void grisbi_prefs_init (GrisbiPrefs *prefs)
 	GtkWidget *button_vbox;
 	GtkWidget *label;
 	GtkWidget *image;
-    gchar *filename;
 	GrisbiWinRun *w_run;
 	GrisbiPrefsPrivate *priv;
 
@@ -731,9 +730,7 @@ static void grisbi_prefs_init (GrisbiPrefs *prefs)
 	button_hbox1 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
 	gtk_widget_set_halign (button_hbox1, GTK_ALIGN_CENTER);
 	g_object_set_data (G_OBJECT (button), "hbox_expand", button_hbox1);
-    filename = g_build_filename (gsb_dirs_get_pixmaps_dir (), "gsb-down-16.png", NULL);
-	image = gtk_image_new_from_file (filename);
-	g_free (filename);
+	image = gtk_image_new_from_resource ("/org/gtk/grisbi/images/gsb-down-16.png");
 	gtk_box_pack_start (GTK_BOX (button_hbox1), image, FALSE, FALSE, 0);
 	label = gtk_label_new (_("Expand all"));
 	gtk_box_pack_start (GTK_BOX (button_hbox1), label, FALSE, FALSE, 0);
@@ -741,9 +738,7 @@ static void grisbi_prefs_init (GrisbiPrefs *prefs)
 	button_hbox2 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
 	gtk_widget_set_halign (button_hbox2, GTK_ALIGN_CENTER);
 	g_object_set_data (G_OBJECT (button), "hbox_collapse", button_hbox2);
-    filename = g_build_filename (gsb_dirs_get_pixmaps_dir (), "gsb-up-16.png", NULL);
-	image = gtk_image_new_from_file (filename);
-	g_free (filename);
+	image = gtk_image_new_from_resource ("/org/gtk/grisbi/images/gsb-up-16.png");
 	gtk_box_pack_start (GTK_BOX (button_hbox2), image, FALSE, FALSE, 0);
 	label = gtk_label_new (_("Collapse all"));
 	gtk_box_pack_start (GTK_BOX (button_hbox2), label, FALSE, FALSE, 0);
