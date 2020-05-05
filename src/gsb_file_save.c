@@ -2876,7 +2876,7 @@ gboolean gsb_file_save_css_local_file (const gchar *css_data)
 		{
 		 	gchar *tmp_str;
 
-			tmp_str = g_strdup_printf (_("cannot save CSS file '%s': %s"), css_filename, error->message);
+			tmp_str = g_strdup_printf (_("Cannot save CSS file '%s': %s"), css_filename, error->message);
             dialogue_error (tmp_str);
 			g_free (tmp_str);
             g_error_free (error);

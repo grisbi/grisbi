@@ -137,7 +137,7 @@ static void widget_currency_popup_set_search_menu_activate (GtkWidget *item,
 		{
 			radio_menu_index = 1;
 			gtk_tree_view_set_search_column (GTK_TREE_VIEW (tree_view), CURRENCY_NAME_COLUMN);
-			gtk_entry_set_placeholder_text (GTK_ENTRY (entry), _("Devise"));
+			gtk_entry_set_placeholder_text (GTK_ENTRY (entry), _("Currency"));
 		}
 		else if (g_strcmp0 (menu_label, "Search by code ISO") == 0)
 		{

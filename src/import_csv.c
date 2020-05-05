@@ -840,11 +840,11 @@ static void csv_import_update_validity_check (GtkWidget *assistant)
     {
         if (label)
         {
-            label = g_strconcat (label, ", ", _("transaction amount"), NULL);
+            label = g_strconcat (label, ", ", _("Transaction amount"), NULL);
         }
         else
         {
-            label = my_strdup (_("transaction amount"));
+            label = my_strdup (_("Transaction amount"));
         }
     }
 

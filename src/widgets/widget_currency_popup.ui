@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.22.1 -->
+<!-- Generated with glade 3.22.2 -->
 <interface>
   <requires lib="gtk+" version="3.12"/>
   <template class="WidgetCurrencyPopup" parent="GtkBox">
@@ -66,8 +66,8 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="no_show_all">True</property>
-                <property name="tooltip_text" translatable="yes">Click droit pour sélectionner la colonne de tri.
-Tri par nom de pays par défaut.</property>
+                <property name="tooltip_text" translatable="yes">Right click to select the sort column.
+Sort by default country name.</property>
                 <property name="halign">end</property>
                 <property name="primary_icon_name">edit-find-symbolic</property>
                 <property name="primary_icon_activatable">False</property>

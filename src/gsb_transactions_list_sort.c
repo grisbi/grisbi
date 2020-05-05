@@ -359,7 +359,8 @@ gint gsb_transactions_list_sort_by_no_sort (  gint transaction_number_1,
 							 transaction_number_2));
 	    break;
 	default :
-	    tmpstr = g_strdup_printf ( _("ask for the sort number %d which doesn't exist... return by date"), element_number );
+	    tmpstr = g_strdup_printf ( _("Ask for the sort number %d which doesn't exist... return by date"),
+	                              element_number );
 	    warning_debug (tmpstr);
 	    g_free(tmpstr);
 	    return ( gsb_transactions_list_sort_by_date ( transaction_number_1,

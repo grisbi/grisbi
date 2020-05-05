@@ -815,7 +815,7 @@ gboolean gsb_fyear_config_associate_transactions ( void )
         gsb_file_set_modified ( TRUE );
     }
     else
-	dialogue ( _("no transaction to associate"));
+	dialogue ( _("No transaction to associate"));
     return FALSE;
 }
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.22.1 -->
+<!-- Generated with glade 3.22.2 -->
 <interface>
   <requires lib="gtk+" version="3.12"/>
   <template class="PrefsPageBetAccount" parent="GtkBox">
@@ -45,7 +45,7 @@
                       <object class="GtkLabel" id="label100">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">    </property>
+                        <property name="label">    </property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -281,7 +281,7 @@
               <object class="GtkLabel" id="label4">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">    </property>
+                <property name="label">    </property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -392,7 +392,7 @@
                   <object class="GtkLabel" id="label200">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">    </property>
+                    <property name="label">    </property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -476,7 +476,7 @@
                   <object class="GtkLabel" id="label330">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">    </property>
+                    <property name="label">    </property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -562,7 +562,7 @@
                   <object class="GtkLabel" id="label400">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">    </property>
+                    <property name="label">    </property>
                   </object>
                   <packing>
                     <property name="expand">False</property>

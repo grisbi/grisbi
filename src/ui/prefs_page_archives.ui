@@ -53,7 +53,7 @@
                       <object class="GtkLabel" id="label17">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">    </property>
+                        <property name="label">    </property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -72,6 +72,7 @@
                           <object class="GtkScrolledWindow" id="scrolledwindow_archives">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
+                            <property name="hexpand">True</property>
                             <property name="shadow_type">in</property>
                             <property name="kinetic_scrolling">False</property>
                             <property name="overlay_scrolling">False</property>
@@ -181,7 +182,7 @@
                       <object class="GtkLabel" id="label18">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">    </property>
+                        <property name="label">    </property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -314,7 +315,7 @@
                       <object class="GtkLabel" id="label19">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">    </property>
+                        <property name="label">    </property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -477,7 +478,7 @@
               <object class="GtkLabel" id="label4">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">    </property>
+                <property name="label">    </property>
               </object>
               <packing>
                 <property name="expand">False</property>

@@ -421,7 +421,7 @@ static gboolean prefs_page_fyear_button_associate_clicked (GtkWidget *button,
 		gsb_file_set_modified (TRUE);
     }
     else
-		dialogue (_("no transaction to associate"));
+		dialogue (_("No transaction to associate"));
 
 	return FALSE;
 }
