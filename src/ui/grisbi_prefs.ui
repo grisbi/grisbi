@@ -2,78 +2,46 @@
 <!-- Generated with glade 3.22.2 -->
 <interface>
   <requires lib="gtk+" version="3.16"/>
-  <object class="GtkLabel" id="label_import_page_1">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="margin_left">5</property>
-    <property name="margin_right">5</property>
-    <property name="label" translatable="yes">Import files</property>
-  </object>
-  <object class="GtkLabel" id="label_import_page_2">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="margin_left">5</property>
-    <property name="margin_right">5</property>
-    <property name="label" translatable="yes">Manage import associations</property>
-  </object>
-  <object class="GtkBox" id="vbox_import_page">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="margin_left">5</property>
-    <property name="margin_right">5</property>
-    <property name="margin_top">5</property>
-    <property name="margin_bottom">5</property>
-    <property name="orientation">vertical</property>
-    <property name="baseline_position">top</property>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-  </object>
-  <object class="GtkWindow" id="win">
-    <property name="can_focus">False</property>
-    <property name="modal">True</property>
-    <property name="destroy_with_parent">True</property>
-    <property name="decorated">False</property>
-    <child type="titlebar">
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-  </object>
   <template class="GrisbiPrefs" parent="GtkDialog">
     <property name="can_focus">False</property>
-    <property name="valign">start</property>
+    <property name="border_width">0</property>
     <property name="title" translatable="yes">Grisbi preferences</property>
+    <property name="modal">True</property>
+    <property name="destroy_with_parent">True</property>
     <property name="type_hint">dialog</property>
-    <property name="transient_for">win</property>
-    <signal name="response" handler="grisbi_prefs_dialog_response" swapped="no"/>
-    <signal name="size-allocate" handler="grisbi_prefs_size_allocate" swapped="no"/>
     <child type="titlebar">
       <placeholder/>
     </child>
     <child internal-child="vbox">
-      <object class="GtkBox" id="dialog-vbox">
-        <property name="height_request">550</property>
+      <object class="GtkBox" id="vbox_prefs">
+        <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="valign">start</property>
+        <property name="hexpand">True</property>
+        <property name="vexpand">True</property>
         <property name="orientation">vertical</property>
-        <property name="spacing">2</property>
-        <property name="baseline_position">top</property>
         <child internal-child="action_area">
           <object class="GtkButtonBox" id="dialog-action_area">
-            <property name="width_request">880</property>
-            <property name="height_request">50</property>
+            <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="halign">end</property>
-            <property name="valign">baseline</property>
             <property name="resize_mode">immediate</property>
             <property name="layout_style">end</property>
             <child>
-              <placeholder/>
+              <object class="GtkButton" id="button1">
+                <property name="label">gtk-close</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="margin_right">5</property>
+                <property name="margin_top">5</property>
+                <property name="margin_bottom">5</property>
+                <property name="use_stock">True</property>
+                <property name="always_show_image">True</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
             </child>
           </object>
           <packing>
@@ -83,24 +51,33 @@
           </packing>
         </child>
         <child>
-          <object class="GtkPaned" id="prefs_paned">
-            <property name="height_request">500</property>
+          <object class="GtkPaned" id="paned_prefs">
+            <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <signal name="size-allocate" handler="grisbi_prefs_paned_size_allocate" swapped="no"/>
+            <property name="hexpand">True</property>
+            <property name="vexpand">True</property>
+            <property name="border_width">0</property>
+            <property name="position">230</property>
+            <property name="position_set">True</property>
             <child>
               <object class="GtkBox" id="box">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="orientation">vertical</property>
+                <property name="spacing">5</property>
                 <property name="baseline_position">top</property>
                 <child>
-                  <object class="GtkScrolledWindow" id="left_sw">
+                  <object class="GtkScrolledWindow" id="sw_left">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <property name="hexpand">True</property>
+                    <property name="vexpand">True</property>
                     <property name="shadow_type">in</property>
                     <child>
-                      <object class="GtkTreeView" id="left_treeview">
+                      <object class="GtkTreeView" id="treeview_left">
                         <property name="can_focus">True</property>
+                        <property name="hexpand">True</property>
+                        <property name="vexpand">True</property>
                         <child internal-child="selection">
                           <object class="GtkTreeSelection" id="treeview-selection"/>
                         </child>
@@ -114,7 +91,99 @@
                   </packing>
                 </child>
                 <child>
-                  <placeholder/>
+                  <object class="GtkToggleButton" id="button_left_collapse">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="tooltip_text" translatable="yes">This state will be kept for the duration of this session</property>
+                    <property name="active">True</property>
+                    <child>
+                      <object class="GtkBox">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="orientation">vertical</property>
+                        <child>
+                          <object class="GtkBox" id="button_expand_all">
+                            <property name="can_focus">False</property>
+                            <property name="no_show_all">True</property>
+                            <property name="halign">center</property>
+                            <property name="spacing">5</property>
+                            <child>
+                              <object class="GtkImage">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="resource">/org/gtk/grisbi/images/gsb-down-16.png</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">Expand all</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkBox" id="button_collapse_all">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="halign">center</property>
+                            <property name="spacing">5</property>
+                            <child>
+                              <object class="GtkImage">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="resource">/org/gtk/grisbi/images/gsb-up-16.png</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">Collapse all</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
                 </child>
               </object>
               <packing>
@@ -126,9 +195,8 @@
               <object class="GtkNotebook" id="notebook_prefs">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="halign">baseline</property>
-                <property name="valign">baseline</property>
                 <property name="show_tabs">False</property>
+                <property name="show_border">False</property>
                 <child>
                   <placeholder/>
                 </child>
@@ -156,5 +224,8 @@
         </child>
       </object>
     </child>
+    <action-widgets>
+      <action-widget response="-7">button1</action-widget>
+    </action-widgets>
   </template>
 </interface>

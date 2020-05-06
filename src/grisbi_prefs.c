@@ -33,20 +33,8 @@
 
 /*START_INCLUDE*/
 #include "grisbi_prefs.h"
-#include "bet_config.h"
-#include "dialog.h"
 #include "grisbi_app.h"
 #include "grisbi_settings.h"
-#include "gsb_bank.h"
-#include "gsb_currency_link_config.h"
-#include "gsb_dirs.h"
-#include "gsb_form_config.h"
-#include "mouse.h"
-#include "parametres.h"
-#include "structures.h"
-#include "utils.h"
-#include "utils_buttons.h"
-#include "utils_gtkbuilder.h"
 #include "utils_prefs.h"
 #include "prefs_page_accueil.h"
 #include "prefs_page_archives.h"
@@ -65,8 +53,7 @@
 #include "prefs_page_form_completion.h"
 #include "prefs_page_form_options.h"
 #include "prefs_page_fyear.h"
-#include "prefs_page_import_asso.h"
-#include "prefs_page_import_files.h"
+#include "prefs_page_import.h"
 #include "prefs_page_metatree.h"
 #include "prefs_page_msg_delete.h"
 #include "prefs_page_msg_warning.h"
@@ -74,6 +61,8 @@
 #include "prefs_page_payment_method.h"
 #include "prefs_page_reconcile.h"
 #include "prefs_page_reconcile_sort.h"
+#include "structures.h"
+#include "utils_prefs.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -96,14 +85,19 @@ typedef struct _GrisbiPrefsPrivate GrisbiPrefsPrivate;
 
 struct _GrisbiPrefsPrivate
 {
+	GtkWidget *			vbox_prefs;
+	GtkWidget *			paned_prefs;
 
-    /* panel de gauche */
-    GtkWidget *			left_sw;
-    GtkWidget *      	left_treeview;
+	/* panel de gauche */
+	GtkWidget *			button_collapse_all;
+	GtkWidget *			button_expand_all;
+	GtkWidget *			button_left_collapse;
+	GtkWidget *			sw_left;
+	GtkWidget *			treeview_left;
 
     /* notebook de droite */
-    GtkWidget *         notebook_prefs;
-	GtkWidget *     	vbox_import_page;
+    GtkWidget *			notebook_prefs;
+	//~ GtkWidget *			vbox_import_page;
 
 	/* pages num */
 	gint 				form_num_page;
@@ -117,132 +111,33 @@ G_DEFINE_TYPE_WITH_PRIVATE (GrisbiPrefs, grisbi_prefs, GTK_TYPE_DIALOG)
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
+/* LEFT PANED */
 /**
+ * set bouton in mode collapse when select an element
  *
- *
+ * \param
  * \param
  * \param
  *
  * \return
- */
-static gboolean grisbi_prefs_left_panel_tree_view_selection_changed (GtkTreeSelection *selection,
-																	 GtkWidget *notebook)
-{
-    GtkTreeModel *model;
-    GtkTreeIter iter;
-	GtkTreePath *path;
-    gint selected;
-	GrisbiWinRun *w_run;
-
-    if (! gtk_tree_selection_get_selected (selection, &model, &iter))
-	{
-        return (FALSE);
-	}
-
-	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
-	path = gtk_tree_model_get_path (model, &iter);
-	if (w_run->prefs_selected_row)
-		g_free (w_run->prefs_selected_row);
-
-	w_run->prefs_selected_row = gtk_tree_path_to_string (path);
-    gtk_tree_model_get (model, &iter, 1, &selected, -1);
-    gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), selected);
-	gtk_tree_path_free (path);
-
-    /* return */
-    return FALSE;
-}
-
-/**
- *  expand or collapse the tree_view and select thee path when the widget is realized
- *
- * \param		tree_view
- * \param		w_run->prefs_selected_row et w_run->prefs_expand_tree
- *
- * \return
  **/
-static void grisbi_prefs_left_tree_view_select_path_realize (GtkWidget *tree_view,
-															 GrisbiWinRun *w_run)
+static void grisbi_prefs_set_collapse_mode (GtkWidget *button,
+                                            GrisbiPrefs *prefs)
 {
-    GtkTreePath *path;
-	GtkTreeSelection *selection;
-	gchar *str_path;
-	gboolean first_path = TRUE;				/* cas où l'onglet fichiers est sélectionné vrai au démarrage */
+	GrisbiPrefsPrivate *priv;
 
-	/* set the path */
-	str_path = w_run->prefs_selected_row;
-
-	if (strcmp (str_path, "0:0") == 0)
+	priv = grisbi_prefs_get_instance_private (prefs);
+	if (gtk_widget_get_no_show_all (priv->button_expand_all))
 	{
-		first_path = TRUE;
+		gtk_widget_set_no_show_all (priv->button_expand_all, FALSE);
 	}
 	else
 	{
-		first_path = FALSE;
+		gtk_widget_set_no_show_all (priv->button_collapse_all, FALSE);
 	}
 
-    path = gtk_tree_path_new_from_string (str_path);
-
-	/* expand or collapse all */
-	if (w_run->prefs_expand_tree)
-	{
-		gtk_tree_view_expand_all (GTK_TREE_VIEW (tree_view));
-	}
-	else
-	{
-		gtk_tree_view_collapse_all (GTK_TREE_VIEW (tree_view));
-		gtk_tree_view_expand_to_path (GTK_TREE_VIEW (tree_view), path);
-	}
-
-    /* selection de l'item sélectionnable */
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
-	if (first_path)
-	{
-		GtkTreePath *tmp_path;
-
-		tmp_path = gtk_tree_path_new_from_string ("0");
-		gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (tree_view), tmp_path, NULL, TRUE, 0.0, 0.0 );
-		gtk_tree_path_free (tmp_path);
-	}
-	else
-	{
-		gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (tree_view), path, NULL, FALSE, 0.0, 0.0 );
-	}
-
-	gtk_tree_selection_select_path (GTK_TREE_SELECTION (selection), path);
-	gtk_tree_path_free (path);
-}
-
-/**
- * called when we press a button on the list
- *
- * \param tree_view
- * \param ev
- *
- * \return FALSE
- **/
-static gboolean grisbi_prefs_left_treeview_button_press (GtkWidget *tree_view,
-														 GdkEventButton *ev,
-														 gpointer null)
-{
-    if (ev->type == GDK_2BUTTON_PRESS)
-    {
-        GtkTreePath *path = NULL;
-
-        if (gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW (tree_view), ev->x, ev->y, &path, NULL, NULL, NULL))
-        {
-            if (gtk_tree_view_row_expanded (GTK_TREE_VIEW (tree_view), path))
-                gtk_tree_view_collapse_row (GTK_TREE_VIEW (tree_view), path);
-            else
-                gtk_tree_view_expand_row (GTK_TREE_VIEW (tree_view), path, FALSE);
-
-            gtk_tree_path_free (path);
-
-            return FALSE;
-        }
-    }
-
-    return FALSE;
+	gtk_widget_hide (priv->button_expand_all);
+	gtk_widget_show_all (priv->button_collapse_all);
 }
 
 /**
@@ -254,143 +149,41 @@ static gboolean grisbi_prefs_left_treeview_button_press (GtkWidget *tree_view,
  *
  * \return
  **/
-static void grisbi_prefs_collapse_expand_all_rows (GtkToggleButton *togglebutton,
-												   GtkWidget *tree_view)
+static void grisbi_prefs_collapse_expand_all_rows (GtkToggleButton *button,
+												   GrisbiPrefs *prefs)
 {
-    GtkWidget *hbox_expand;
-    GtkWidget *hbox_collapse;
 	GrisbiWinRun *w_run;
-	devel_debug (NULL);
+	GrisbiPrefsPrivate *priv;
 
-    hbox_expand = g_object_get_data (G_OBJECT (togglebutton), "hbox_expand");
-    hbox_collapse = g_object_get_data (G_OBJECT (togglebutton), "hbox_collapse");
+	priv = grisbi_prefs_get_instance_private (prefs);
 	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
 
-	/* on remet à FALSE la propriété "no-show-all" utilisée pour initialiser le bouton */
-	/* voir etats_prefs_toggle_button_init_button_expand () */
-	/* et grisbi_prefs_init () */
-	if (gtk_widget_get_no_show_all (hbox_expand))
-		gtk_widget_set_no_show_all (hbox_expand, FALSE);
-	else
-		gtk_widget_set_no_show_all (hbox_collapse, FALSE);
-
-	if (gtk_toggle_button_get_active (togglebutton))
+	if (gtk_widget_get_no_show_all (priv->button_expand_all))
 	{
-		gtk_widget_hide (hbox_expand);
-		gtk_widget_show_all (hbox_collapse);
-		gtk_tree_view_expand_all (GTK_TREE_VIEW (tree_view));
+		gtk_widget_set_no_show_all (priv->button_expand_all, FALSE);
+	}
+	else
+	{
+		gtk_widget_set_no_show_all (priv->button_collapse_all, FALSE);
+	}
+
+	if (gtk_toggle_button_get_active (button))
+	{
+		gtk_widget_hide (priv->button_expand_all);
+		gtk_widget_show_all (priv->button_collapse_all);
+		gtk_tree_view_expand_all (GTK_TREE_VIEW (priv->treeview_left));
 		w_run->prefs_expand_tree = TRUE;
 	}
 	else
 	{
-		gtk_widget_show_all (hbox_expand);
-		gtk_widget_hide (hbox_collapse);
-		gtk_tree_view_collapse_all (GTK_TREE_VIEW (tree_view));
+		gtk_widget_show_all (priv->button_expand_all);
+		gtk_widget_hide (priv->button_collapse_all);
+		gtk_tree_view_collapse_all (GTK_TREE_VIEW (priv->treeview_left));
 		w_run->prefs_expand_tree = FALSE;
 	}
 }
 
 /**
- * récupère la largeur des préférences
- *
- * \param GtkWidget     prefs
- * \param GtkAllocation   allocation
- * \param gpointer       null
- *
- * \return           FALSE
- **/
-static gboolean grisbi_prefs_size_allocate (GtkWidget *prefs,
-											GtkAllocation *allocation,
-											gpointer null)
-{
-
-	GSettings *settings;
-
-	settings = grisbi_settings_get_settings (SETTINGS_PREFS);
-    conf.prefs_height = allocation->height;
-	conf.prefs_width = allocation->width;
-
-    /* save settings_prefs */
-	g_settings_set_int (G_SETTINGS (settings), "prefs-height", conf.prefs_height);
-	g_settings_set_int (G_SETTINGS (settings), "prefs-width", conf.prefs_width);
-	g_settings_set_int (G_SETTINGS (settings), "prefs-panel-width", conf.prefs_panel_width);
-
-	return FALSE;
-}
-
-/**
- * save prefs hpahed width
- *
- * \param GtkWidget			hpaned
- * \param GtkAllocation 	allocation
- * \param gpointer			NULL
- *
- * \return FALSE
- **/
-static gboolean grisbi_prefs_paned_size_allocate (GtkWidget *prefs_hpaned,
-												  GtkAllocation *allocation,
-												  gpointer null)
-{
-    conf.prefs_panel_width = gtk_paned_get_position (GTK_PANED (prefs_hpaned));
-
-	return FALSE;
-}
-
-
-/* RIGHT PANED */
-/**
- * Création de la page pour l'importation. Cette page comporte deux onglets
- * - 1 pour les fichiers
- * - 1 pour les associations
- *
- * \param prefs
- *
- * \return
- **/
-static GtkWidget *grisbi_prefs_setup_import_page (GrisbiPrefs *prefs)
-{
-	GtkWidget *head_page;
-	GtkWidget *notebook_import_pages;
-	GtkWidget *vbox_import_files;
-	GtkWidget *vbox_import_asso;
-	GtkWidget *label;
-	GrisbiPrefsPrivate *priv;
-
-	devel_debug (NULL);
-
-	priv = grisbi_prefs_get_instance_private (prefs);
-
-	/* On récupère le nom de la page */
-	head_page = utils_prefs_head_page_new_with_title_and_icon (_("Import"), "gsb-import-32.png");
-
-	gtk_box_pack_start (GTK_BOX (priv->vbox_import_page), head_page, FALSE, FALSE, 0);
-
-	/* set notebook for import */
-	notebook_import_pages = gtk_notebook_new ();
-	gtk_notebook_set_show_border (GTK_NOTEBOOK (notebook_import_pages), FALSE);
-	gtk_box_pack_start (GTK_BOX (priv->vbox_import_page), notebook_import_pages, TRUE, TRUE, 0);
-
-	/* set import settings */
-	vbox_import_files = GTK_WIDGET (prefs_page_import_files_new (prefs));
-	gtk_widget_set_margin_top (vbox_import_files, MARGIN_TOP);
-	gtk_notebook_append_page (GTK_NOTEBOOK (notebook_import_pages), vbox_import_files, NULL);
-	label = gtk_label_new (_("Files import"));
-	gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook_import_pages), vbox_import_files, label);
-
-	/* set manage associations */
-	vbox_import_asso = GTK_WIDGET (prefs_page_import_asso_new (prefs));
-	gtk_widget_set_margin_top (vbox_import_asso, MARGIN_TOP);
-	gtk_notebook_append_page (GTK_NOTEBOOK (notebook_import_pages), vbox_import_asso, NULL);
-	label = gtk_label_new (_("Associations for import"));
-	gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook_import_pages), vbox_import_asso, label);
-	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_prefs), priv->vbox_import_page, NULL);
-	gtk_widget_show (notebook_import_pages);
-
-	return priv->vbox_import_page;
-}
-
-/* LEFT PANED */
- /**
  * remplit le model pour la configuration des états
  *
  * \param GtkTreeStore		model
@@ -400,9 +193,9 @@ static GtkWidget *grisbi_prefs_setup_import_page (GrisbiPrefs *prefs)
  **/
 static void grisbi_prefs_left_panel_populate_tree_model (GrisbiPrefs *prefs)
 {
-    GtkWidget *widget = NULL;
+	GtkWidget *widget = NULL;
 	GtkTreeStore *tree_model;
-    gint page = 0;
+	gint page = 0;
 	gboolean is_loading;
 	GrisbiPrefsPrivate *priv;
 
@@ -411,25 +204,26 @@ static void grisbi_prefs_left_panel_populate_tree_model (GrisbiPrefs *prefs)
 	priv = grisbi_prefs_get_instance_private (prefs);
 	is_loading = grisbi_win_file_is_loading ();
 
-	tree_model = GTK_TREE_STORE (gtk_tree_view_get_model (GTK_TREE_VIEW (priv->left_treeview)));
+	tree_model = GTK_TREE_STORE (gtk_tree_view_get_model (GTK_TREE_VIEW (priv->treeview_left)));
+
 	/* append group page "Generalities" */
-    utils_prefs_left_panel_add_line (tree_model, NULL, NULL, _("Generalities"), -1);
+	utils_prefs_left_panel_add_line (tree_model, NULL, NULL, _("Generalities"), -1);
 
     /* append page Fichiers */
 	widget = GTK_WIDGET (prefs_page_files_new (prefs));
-    utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Files"), page);
-    page++;
+	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Files"), page);
+	page++;
 
 	/* append page Archives */
 	widget = GTK_WIDGET (prefs_page_archives_new (prefs));
-    utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Archives"), page);
-    page++;
+	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Archives"), page);
+	page++;
 
 	/* append page Import */
-    widget = grisbi_prefs_setup_import_page (prefs);
+    widget = GTK_WIDGET (prefs_page_import_new (prefs));
 	if (is_loading == FALSE)
 		gtk_widget_set_sensitive (widget, FALSE);
-    utils_prefs_left_panel_add_line (tree_model, NULL, NULL, _("Import"), page);
+    utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Import"), page);
     page++;
 
 	/* append page Divers */
@@ -528,15 +322,11 @@ static void grisbi_prefs_left_panel_populate_tree_model (GrisbiPrefs *prefs)
 
 	/* append page Currencies */
 	widget = GTK_WIDGET (prefs_page_currency_new (prefs));
-	if (is_loading == FALSE)
-		gtk_widget_set_sensitive (widget, FALSE);
 	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Currencies"), page);
 	page++;
 
 	/* append page Currencies links */
 	widget = GTK_WIDGET (prefs_page_currency_link_new (prefs));
-	if (is_loading == FALSE)
-		gtk_widget_set_sensitive (widget, FALSE);
 	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Currencies links"), page);
 	page++;
 
@@ -554,8 +344,6 @@ static void grisbi_prefs_left_panel_populate_tree_model (GrisbiPrefs *prefs)
 
 	/* append page Payment methods */
 	widget = GTK_WIDGET (prefs_page_payment_method_new (prefs));
-	if (is_loading == FALSE)
-		gtk_widget_set_sensitive (widget, FALSE);
 	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Payment methods"), page);
 	page++;
 
@@ -576,26 +364,95 @@ static void grisbi_prefs_left_panel_populate_tree_model (GrisbiPrefs *prefs)
 }
 
 /**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ */
+static gboolean grisbi_prefs_left_panel_tree_view_selection_changed (GtkTreeSelection *selection,
+																	 GtkWidget *notebook)
+{
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+	GtkTreePath *path;
+    gint selected;
+	GrisbiWinRun *w_run;
+
+    if (! gtk_tree_selection_get_selected (selection, &model, &iter))
+	{
+        return (FALSE);
+	}
+
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+	path = gtk_tree_model_get_path (model, &iter);
+	if (w_run->prefs_selected_row)
+		g_free (w_run->prefs_selected_row);
+
+	w_run->prefs_selected_row = gtk_tree_path_to_string (path);
+    gtk_tree_model_get (model, &iter, 1, &selected, -1);
+    gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), selected);
+	gtk_tree_path_free (path);
+
+    /* return */
+    return FALSE;
+}
+
+/**
+ * called when we press a button on the list
+ *
+ * \param tree_view
+ * \param ev
+ *
+ * \return FALSE
+ **/
+static gboolean grisbi_prefs_left_treeview_button_press (GtkWidget *tree_view,
+														 GdkEventButton *ev,
+														 GrisbiPrefs *prefs)
+{
+    if (ev->type == GDK_2BUTTON_PRESS)
+    {
+        GtkTreePath *path = NULL;
+
+        if (gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW (tree_view), ev->x, ev->y, &path, NULL, NULL, NULL))
+        {
+            if (gtk_tree_view_row_expanded (GTK_TREE_VIEW (tree_view), path))
+                gtk_tree_view_collapse_row (GTK_TREE_VIEW (tree_view), path);
+            else
+			{
+                gtk_tree_view_expand_row (GTK_TREE_VIEW (tree_view), path, FALSE);
+				grisbi_prefs_set_collapse_mode (NULL, prefs);
+			}
+
+            gtk_tree_path_free (path);
+
+            return FALSE;
+        }
+    }
+
+    return FALSE;
+}
+
+/**
  * création du tree_view qui liste les onglets de la fenêtre de dialogue
  *
  *
  *\return tree_view or NULL;
  **/
-static GtkWidget *grisbi_prefs_left_tree_view_setup (GrisbiPrefs *prefs)
+static void grisbi_prefs_left_tree_view_setup (GrisbiPrefs *prefs,
+                                               GtkWidget *tree_view,
+                                               GrisbiWinRun *w_run)
 {
-	GtkWidget *sw;
-    GtkWidget *tree_view = NULL;
     GtkTreeStore *model = NULL;
-    GtkTreeViewColumn *column;
     GtkCellRenderer *cell;
+	GtkTreePath *path;
     GtkTreeSelection *selection;
-	GrisbiWinRun *w_run;
+    GtkTreeViewColumn *column;
 	GrisbiPrefsPrivate *priv;
 
 	devel_debug (NULL);
-
 	priv = grisbi_prefs_get_instance_private (prefs);
-	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
 
     /* Création du model */
     model = gtk_tree_store_new (LEFT_PANEL_TREE_NUM_COLUMNS,
@@ -603,13 +460,8 @@ static GtkWidget *grisbi_prefs_left_tree_view_setup (GrisbiPrefs *prefs)
 								G_TYPE_INT,     				/* LEFT_PANEL_TREE_PAGE_COLUMN */
 								G_TYPE_INT,     				/* LEFT_PANEL_TREE_BOLD_COLUMN */
 								G_TYPE_INT);    				/* LEFT_PANEL_TREE_ITALIC_COLUMN */
-    /* Create sw */
-	sw = gtk_scrolled_window_new (NULL, NULL);
-    gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw), GTK_SHADOW_IN);
-    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
-    /* Create treeView */
-    tree_view = gtk_tree_view_new ();
+	/* set tree_iew model */
     gtk_tree_view_set_model (GTK_TREE_VIEW (tree_view), GTK_TREE_MODEL (model));
     g_object_unref (G_OBJECT (model));
 
@@ -638,196 +490,184 @@ static GtkWidget *grisbi_prefs_left_tree_view_setup (GrisbiPrefs *prefs)
 	/* set headers hide */
 	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (tree_view), FALSE);
 
-	/* expand all rows after the treeview widget has been realized */
-    g_signal_connect (tree_view,
-					  "realize",
-					  G_CALLBACK (grisbi_prefs_left_tree_view_select_path_realize),
-					  w_run);
-    priv->left_treeview = tree_view;
+	/* fill model */
+	grisbi_prefs_left_panel_populate_tree_model (prefs);
+
+	/* select the first item */
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
+	path = gtk_tree_path_new_from_indices (0, -1);
+	gtk_tree_selection_select_path (selection, path);
+	gtk_tree_path_free (path);
+
+	/* expand all */
+	if (w_run->prefs_expand_tree)
+		gtk_tree_view_expand_all (GTK_TREE_VIEW (tree_view));
 
 	g_signal_connect (G_OBJECT (tree_view),
 					  "button-press-event",
 					  G_CALLBACK (grisbi_prefs_left_treeview_button_press),
-					  NULL);
+					  prefs);
 
     /* Handle select */
     g_signal_connect (selection,
 					  "changed",
 					  G_CALLBACK (grisbi_prefs_left_panel_tree_view_selection_changed),
 					  priv->notebook_prefs);
+}
 
-    /* Put the tree in the scroll */
-    gtk_container_add (GTK_CONTAINER (sw), tree_view);
+/**
+ * récupère la largeur des préférences
+ *
+ * \param GtkWidget			prefs
+ * \param GtkAllocation		allocation
+ * \param gpointer			null
+ *
+ * \return FALSE
+ **/
+static gboolean grisbi_prefs_size_allocate (GtkWidget *prefs,
+											GtkAllocation *allocation,
+											gpointer null)
+{
 
-	return sw;
+	GSettings *settings;
+
+	settings = grisbi_settings_get_settings (SETTINGS_PREFS);
+    conf.prefs_height = allocation->height;
+	conf.prefs_width = allocation->width;
+
+    /* save settings_prefs */
+	g_settings_set_int (G_SETTINGS (settings), "prefs-height", conf.prefs_height);
+	g_settings_set_int (G_SETTINGS (settings), "prefs-width", conf.prefs_width);
+	g_settings_set_int (G_SETTINGS (settings), "prefs-panel-width", conf.prefs_panel_width);
+
+	return FALSE;
+}
+
+/**
+ * save prefs hpahed width
+ *
+ * \param GtkWidget			hpaned
+ * \param GtkAllocation 	allocation
+ * \param gpointer			NULL
+ *
+ * \return FALSE
+ **/
+static gboolean grisbi_prefs_paned_size_allocate (GtkWidget *prefs_hpaned,
+												  GtkAllocation *allocation,
+												  gpointer null)
+{
+    conf.prefs_panel_width = gtk_paned_get_position (GTK_PANED (prefs_hpaned));
+
+	return FALSE;
+}
+
+/**
+ * Création de la page des preferences
+ *
+ * \param page
+ *
+ * \return
+ **/
+static void grisbi_prefs_setup_page (GrisbiPrefs *prefs,
+									 GrisbiWin *win)
+{
+	GrisbiWinRun *w_run;
+	GrisbiPrefsPrivate *priv;
+
+	devel_debug (NULL);
+	priv = grisbi_prefs_get_instance_private (prefs);
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+
+	/* initialise left_tree_view */
+	grisbi_prefs_left_tree_view_setup (prefs, priv->treeview_left, w_run);
+
+	/* set geometry */
+	if (conf.prefs_height && conf.prefs_width)
+	{
+        gtk_widget_set_size_request (GTK_WIDGET (prefs), conf.prefs_width, conf.prefs_height);
+	}
+    else
+	{
+        gtk_widget_set_size_request(GTK_WIDGET (prefs), PREFS_MIN_WIN_WIDTH, PREFS_MIN_WIN_HEIGHT);
+	}
+
+	if (conf.prefs_panel_width)
+	{
+        gtk_paned_set_position (GTK_PANED (priv->paned_prefs), conf.prefs_panel_width);
+	}
+    else
+	{
+		gtk_paned_set_position (GTK_PANED (priv->paned_prefs), PREFS_MIN_PANED_WIDTH);
+	}
+
+	/* positionne le button en fonction de run->prefs_expand_tree */
+	if (w_run->prefs_expand_tree)
+	{
+		gtk_widget_set_no_show_all (priv->button_expand_all, TRUE);
+		gtk_widget_hide (priv->button_expand_all);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->button_left_collapse), TRUE);
+	}
+	else
+	{
+		gtk_widget_set_no_show_all (priv->button_collapse_all, TRUE);
+		gtk_widget_hide (priv->button_collapse_all);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->button_left_collapse), FALSE);
+	}
+
+	/* set signal button collapse expand all */
+	g_signal_connect (G_OBJECT (priv->button_left_collapse),
+					  "clicked",
+					  G_CALLBACK (grisbi_prefs_collapse_expand_all_rows),
+					  prefs);
+
+	/* set signal prefs */
+	g_signal_connect (G_OBJECT (prefs),
+	                  "size-allocate",
+	                  (GCallback) grisbi_prefs_size_allocate,
+	                  NULL);
+
+	/* set signal paned_prefs */
+	g_signal_connect (G_OBJECT (priv->paned_prefs),
+	                  "size-allocate",
+	                  (GCallback) grisbi_prefs_paned_size_allocate,
+	                  NULL);
+
 }
 
 /******************************************************************************/
 /* Fonctions propres à l'initialisation des fenêtres                          */
 /******************************************************************************/
-/**
- *
- *
- * \param
- *
- * \return
- **/
 static void grisbi_prefs_init (GrisbiPrefs *prefs)
 {
-	GtkWidget *content_area;
-	GtkWidget *prefs_paned;
-	GtkWidget *tree;
-	GtkWidget *hbox;
-	GtkWidget *vbox;
-	GtkWidget *button;
-	GtkWidget *button_hbox1;
-	GtkWidget *button_hbox2;
-	GtkWidget *button_vbox;
-	GtkWidget *label;
-	GtkWidget *image;
-	GrisbiWinRun *w_run;
-	GrisbiPrefsPrivate *priv;
-
-	devel_debug (NULL);
-	grisbi_win_status_bar_message (_("Preferences start"));
-
-	priv = grisbi_prefs_get_instance_private (prefs);
-	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
-
-	gtk_dialog_add_buttons (GTK_DIALOG (prefs), "gtk-close", GTK_RESPONSE_CLOSE, NULL);
-
-	g_signal_connect (G_OBJECT (prefs), "size-allocate", (GCallback) grisbi_prefs_size_allocate, NULL);
-
-    gtk_window_set_destroy_with_parent (GTK_WINDOW (prefs), TRUE);
-
-	/* construct the prefs archi */
-	content_area = gtk_dialog_get_content_area (GTK_DIALOG (prefs));
-	prefs_paned = gtk_paned_new (GTK_ORIENTATION_HORIZONTAL);
-	g_signal_connect (G_OBJECT (prefs_paned), "size-allocate", (GCallback) grisbi_prefs_paned_size_allocate, NULL);
-
-    /* Frame for preferences */
-    hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-    priv->notebook_prefs = gtk_notebook_new ();
-    gtk_notebook_set_show_border (GTK_NOTEBOOK (priv->notebook_prefs), FALSE);
-    gtk_notebook_set_show_tabs  (GTK_NOTEBOOK (priv->notebook_prefs), FALSE);
-    gtk_notebook_set_scrollable (GTK_NOTEBOOK (priv->notebook_prefs), TRUE);
-    gtk_box_pack_start (GTK_BOX (hbox), priv->notebook_prefs, TRUE, TRUE, 0);
-
-	/* initialise left_tree_view */
-    vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-	tree = grisbi_prefs_left_tree_view_setup (prefs);
-	gtk_widget_set_vexpand (tree, TRUE);
-	gtk_box_pack_start (GTK_BOX (vbox), tree, TRUE, TRUE, 0);
-
-	/* set the expand collapse button */
-	button = gtk_toggle_button_new ();
-	gtk_widget_set_tooltip_text (button,
-								 _("This state will be kept for the duration of this session"));
-
-	/* construction du bouton */
-	button_vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-
-	button_hbox1 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
-	gtk_widget_set_halign (button_hbox1, GTK_ALIGN_CENTER);
-	g_object_set_data (G_OBJECT (button), "hbox_expand", button_hbox1);
-	image = gtk_image_new_from_resource ("/org/gtk/grisbi/images/gsb-down-16.png");
-	gtk_box_pack_start (GTK_BOX (button_hbox1), image, FALSE, FALSE, 0);
-	label = gtk_label_new (_("Expand all"));
-	gtk_box_pack_start (GTK_BOX (button_hbox1), label, FALSE, FALSE, 0);
-
-	button_hbox2 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
-	gtk_widget_set_halign (button_hbox2, GTK_ALIGN_CENTER);
-	g_object_set_data (G_OBJECT (button), "hbox_collapse", button_hbox2);
-	image = gtk_image_new_from_resource ("/org/gtk/grisbi/images/gsb-up-16.png");
-	gtk_box_pack_start (GTK_BOX (button_hbox2), image, FALSE, FALSE, 0);
-	label = gtk_label_new (_("Collapse all"));
-	gtk_box_pack_start (GTK_BOX (button_hbox2), label, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (button_vbox), button_hbox1, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (button_vbox), button_hbox2, FALSE, FALSE, 0);
-	gtk_container_add (GTK_CONTAINER (button), button_vbox);
-
-	gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 0);
-
-	/* positionne le button en fonction de run->prefs_expand_tree */
-	if (w_run->prefs_expand_tree)
-	{
-		gtk_widget_set_no_show_all (button_hbox1, TRUE);
-		gtk_widget_hide (button_hbox1);
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), TRUE);
-	}
-	else
-	{
-		gtk_widget_set_no_show_all (button_hbox2, TRUE);
-		gtk_widget_hide (button_hbox2);
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), FALSE);
-	}
-
-    g_signal_connect (G_OBJECT (button),
-					  "clicked",
-					  G_CALLBACK (grisbi_prefs_collapse_expand_all_rows),
-					  priv->left_treeview);
-
-	/* construct paned */
-    gtk_paned_pack1 (GTK_PANED (prefs_paned), vbox, TRUE, FALSE);
-    gtk_paned_pack2 (GTK_PANED (prefs_paned), hbox, TRUE, FALSE);
-
-	gtk_container_set_border_width (GTK_CONTAINER(prefs_paned), MARGIN_BOX);
-    gtk_box_pack_start (GTK_BOX (content_area), prefs_paned, TRUE, TRUE, 0);
-	if (conf.prefs_height && conf.prefs_width)
-	{
-        gtk_window_set_default_size (GTK_WINDOW (prefs), conf.prefs_width, conf.prefs_height);
-	}
-    else
-	{
-        gtk_window_set_default_size (GTK_WINDOW (prefs), PREFS_MIN_WIN_WIDTH, PREFS_MIN_WIN_HEIGHT);
-	}
-
-	if (conf.prefs_panel_width)
-	{
-        gtk_paned_set_position (GTK_PANED (prefs_paned), conf.prefs_panel_width);
-	}
-    else
-	{
-		gtk_paned_set_position (GTK_PANED (prefs_paned), PREFS_MIN_PANED_WIDTH);
-	}
-
-	/* creation de la vbox pour la page import */
-	priv->vbox_import_page = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-
-	/* remplissage du paned gauche */
-    grisbi_prefs_left_panel_populate_tree_model (prefs);
-
-	grisbi_win_status_bar_message (_("Done"));
+	gtk_widget_init_template (GTK_WIDGET (prefs));
 }
 
-/**
- * finalise GrisbiPrefs
- *
- * \param object
- *
- * \return
- **/
 static void grisbi_prefs_finalize (GObject *object)
 {
-/*     GrisbiPrefs *prefs = GRISBI_PREFS (object);  */
-
     /* libération de l'objet prefs */
     G_OBJECT_CLASS (grisbi_prefs_parent_class)->finalize (object);
 	grisbi_win_set_prefs_dialog (NULL, NULL);
 }
 
-/**
- * Initialise GrisbiPrefsClass
- *
- * \param
- *
- * \return
- **/
 static void grisbi_prefs_class_init (GrisbiPrefsClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
     object_class->finalize = grisbi_prefs_finalize;
+
+	gtk_widget_class_set_template_from_resource (GTK_WIDGET_CLASS (klass),
+												 "/org/gtk/grisbi/ui/grisbi_prefs.ui");
+
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiPrefs, vbox_prefs);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiPrefs, paned_prefs);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiPrefs, button_collapse_all);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiPrefs, button_expand_all);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiPrefs, button_left_collapse);
+
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiPrefs, sw_left);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiPrefs, treeview_left);
+
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiPrefs, notebook_prefs);
 }
 
 /******************************************************************************/
@@ -842,71 +682,13 @@ static void grisbi_prefs_class_init (GrisbiPrefsClass *klass)
  **/
 GrisbiPrefs *grisbi_prefs_new (GrisbiWin *win)
 {
-	return g_object_new (GRISBI_PREFS_TYPE, "transient-for", win, NULL);
-}
-
-/**
- * retourne le widget enfant de la page passée en paramètre
- *
- * \param page_name
- *
- * \return the child of notebook page
- **/
-GtkWidget *grisbi_prefs_get_child_by_page_name (const gchar *page_name)
-{
-	GtkWidget *widget = NULL;
 	GrisbiPrefs *prefs;
-	GrisbiWin *win;
-	GrisbiPrefsPrivate *priv;
 
-	win = grisbi_app_get_active_window (NULL);
-	prefs = GRISBI_PREFS (grisbi_win_get_prefs_dialog (win));
-	if (!prefs)
-		return NULL;
+	devel_debug (NULL);
+	prefs = g_object_new (GRISBI_PREFS_TYPE, "transient-for", win, NULL);
+	grisbi_prefs_setup_page (prefs, win);
 
-	priv = grisbi_prefs_get_instance_private (prefs);
-
-	if (strcmp (page_name, "metatree_num_page") == 0)
-	{
-		widget = gtk_notebook_get_nth_page (GTK_NOTEBOOK (priv->notebook_prefs), priv->metatree_num_page);
-	}
-	else if (strcmp (page_name, "reconcile_sort_page_num") == 0)
-	{
-		widget = gtk_notebook_get_nth_page (GTK_NOTEBOOK (priv->notebook_prefs), priv->reconcile_sort_page_num);
-	}
-
-	return widget;
-}
-
-/**
- *
- *
- * \param
- *
- * \return
- **/
-void grisbi_prefs_set_page_by_name (gchar *page_name)
-{
-	GrisbiPrefs *prefs;
-	GrisbiWin *win;
-	GrisbiPrefsPrivate *priv;
-	gint result;
-
-	devel_debug (page_name);
-	win = grisbi_app_get_active_window (NULL);
-	prefs = grisbi_prefs_new (win);
-	priv = grisbi_prefs_get_instance_private (prefs);
-	grisbi_win_set_prefs_dialog (win, GTK_WIDGET (prefs));
-
-	gtk_window_present (GTK_WINDOW (prefs));
-	gtk_widget_show_all (GTK_WIDGET (prefs));
-
-	if (strcmp (page_name, "form_num_page") == 0)
-	{
-		utils_prefs_left_panel_tree_view_select_page (priv->left_treeview, priv->notebook_prefs, priv->form_num_page);
-	}
-	result = gtk_dialog_run (GTK_DIALOG (prefs));
-	grisbi_prefs_dialog_response (GTK_DIALOG (prefs), result);
+	return prefs;
 }
 
 /**
@@ -970,23 +752,69 @@ void grisbi_prefs_dialog_response  (GtkDialog *prefs,
 }
 
 /**
+ * retourne le widget enfant de la page passée en paramètre
  *
+ * \param page_name
  *
- * \param
- *
- * \return
+ * \return the child of notebook page
  **/
-GtkWidget *grisbi_prefs_get_left_treeview (void)
+GtkWidget *grisbi_prefs_get_child_by_page_name (const gchar *page_name)
 {
+	GtkWidget *widget = NULL;
 	GrisbiPrefs *prefs;
 	GrisbiWin *win;
 	GrisbiPrefsPrivate *priv;
 
 	win = grisbi_app_get_active_window (NULL);
 	prefs = GRISBI_PREFS (grisbi_win_get_prefs_dialog (win));
+	if (!prefs)
+		return NULL;
+
 	priv = grisbi_prefs_get_instance_private (prefs);
 
-	return priv->left_treeview;
+	if (strcmp (page_name, "metatree_num_page") == 0)
+	{
+		widget = gtk_notebook_get_nth_page (GTK_NOTEBOOK (priv->notebook_prefs), priv->metatree_num_page);
+	}
+	else if (strcmp (page_name, "reconcile_sort_page_num") == 0)
+	{
+		widget = gtk_notebook_get_nth_page (GTK_NOTEBOOK (priv->notebook_prefs), priv->reconcile_sort_page_num);
+	}
+
+	return widget;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void grisbi_prefs_set_page_by_name (gchar *page_name)
+{
+	GrisbiPrefs *prefs;
+	GrisbiWin *win;
+	GrisbiPrefsPrivate *priv;
+	gint result;
+
+	devel_debug (page_name);
+	win = grisbi_app_get_active_window (NULL);
+	prefs = grisbi_prefs_new (win);
+	priv = grisbi_prefs_get_instance_private (prefs);
+	grisbi_win_set_prefs_dialog (win, GTK_WIDGET (prefs));
+
+	gtk_window_present (GTK_WINDOW (prefs));
+	gtk_widget_show_all (GTK_WIDGET (prefs));
+
+	if (strcmp (page_name, "form_num_page") == 0)
+	{
+		utils_prefs_left_panel_tree_view_select_page (priv->treeview_left,
+		                                              priv->notebook_prefs,
+		                                              priv->form_num_page);
+	}
+	result = gtk_dialog_run (GTK_DIALOG (prefs));
+	grisbi_prefs_dialog_response (GTK_DIALOG (prefs), result);
 }
 
 /**
