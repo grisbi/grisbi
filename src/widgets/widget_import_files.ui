@@ -8,7 +8,7 @@
     <property name="step_increment">1</property>
     <property name="page_increment">1</property>
   </object>
-  <template class="PrefsPageImportFiles" parent="GtkBox">
+  <template class="WidgetImportFiles" parent="GtkBox">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="orientation">vertical</property>
@@ -111,6 +111,7 @@
                             <property name="can_focus">False</property>
                             <child>
                               <object class="GtkCheckButton" id="checkbutton_fusion_import_transactions">
+                                <property name="label" translatable="yes">Merge the imported transactions with the transactions found</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
@@ -124,22 +125,7 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkEventBox" id="eventbox_fusion_import_transactions">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <child>
-                                  <object class="GtkLabel" id="label5">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">Merge the imported transactions with the transactions found</property>
-                                  </object>
-                                </child>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">1</property>
-                              </packing>
+                              <placeholder/>
                             </child>
                           </object>
                           <packing>
@@ -154,6 +140,7 @@
                             <property name="can_focus">False</property>
                             <child>
                               <object class="GtkCheckButton" id="checkbutton_associate_categorie_for_payee">
+                                <property name="label" translatable="yes">Automatically associate the category of the payee if it is possible</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
@@ -167,22 +154,7 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkEventBox" id="eventbox_associate_categorie_for_payee">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <child>
-                                  <object class="GtkLabel" id="label7">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">Automatically associate the category of the payee if it is possible</property>
-                                  </object>
-                                </child>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">1</property>
-                              </packing>
+                              <placeholder/>
                             </child>
                           </object>
                           <packing>
@@ -197,6 +169,7 @@
                             <property name="can_focus">False</property>
                             <child>
                               <object class="GtkCheckButton" id="checkbutton_extract_number_for_check">
+                                <property name="label" translatable="yes">Extracting a number and save it in the field No Cheque/Virement</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
@@ -210,22 +183,7 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkEventBox" id="eventbox_extract_number_for_check">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <child>
-                                  <object class="GtkLabel" id="label8">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">Extracting a number and save it in the field No Cheque/Virement</property>
-                                  </object>
-                                </child>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">1</property>
-                              </packing>
+                              <placeholder/>
                             </child>
                           </object>
                           <packing>
@@ -240,6 +198,7 @@
                             <property name="can_focus">False</property>
                             <child>
                               <object class="GtkCheckButton" id="checkbutton_copy_payee_in_note">
+                                <property name="label" translatable="yes">Coping the original payee in the notes</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
@@ -253,22 +212,7 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkEventBox" id="eventbox_copy_payee_in_note">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <child>
-                                  <object class="GtkLabel" id="label9">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">Coping the original payee in the notes</property>
-                                  </object>
-                                </child>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">1</property>
-                              </packing>
+                              <placeholder/>
                             </child>
                           </object>
                           <packing>
@@ -362,6 +306,7 @@
                             <property name="can_focus">False</property>
                             <child>
                               <object class="GtkCheckButton" id="checkbutton_csv_force_date_valeur_with_date">
+                                <property name="label" translatable="yes">Forces the value date if not present with the date of the transaction</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
@@ -375,22 +320,7 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkEventBox" id="eventbox_csv_force_date_valeur_with_date">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <child>
-                                  <object class="GtkLabel" id="label15">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">Forces the value date if not present with the date of the transaction</property>
-                                  </object>
-                                </child>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">1</property>
-                              </packing>
+                              <placeholder/>
                             </child>
                           </object>
                           <packing>

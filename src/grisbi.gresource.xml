@@ -26,8 +26,7 @@
 		<file preprocess="xml-stripblanks">ui/prefs_page_form_completion.ui</file>
 		<file preprocess="xml-stripblanks">ui/prefs_page_form_options.ui</file>
 		<file preprocess="xml-stripblanks">ui/prefs_page_fyear.ui</file>
-		<file preprocess="xml-stripblanks">ui/prefs_page_import_asso.ui</file>
-		<file preprocess="xml-stripblanks">ui/prefs_page_import_files.ui</file>
+		<file preprocess="xml-stripblanks">ui/prefs_page_import.ui</file>
 		<file preprocess="xml-stripblanks">ui/prefs_page_metatree.ui</file>
 		<file preprocess="xml-stripblanks">ui/prefs_page_msg_delete.ui</file>
 		<file preprocess="xml-stripblanks">ui/prefs_page_msg_warning.ui</file>
@@ -40,5 +39,7 @@
 		<file preprocess="xml-stripblanks">widgets/widget_currency_details.ui</file>
 		<file preprocess="xml-stripblanks">widgets/widget_currency_link.ui</file>
 		<file preprocess="xml-stripblanks">widgets/widget_currency_popup.ui</file>
+		<file preprocess="xml-stripblanks">widgets/widget_import_asso.ui</file>
+		<file preprocess="xml-stripblanks">widgets/widget_import_files.ui</file>
   </gresource>
 </gresources>

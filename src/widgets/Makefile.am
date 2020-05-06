@@ -19,7 +19,13 @@ libwidgets_la_SOURCES = \
 	widget_currency_link.ui \
 	widget_currency_popup.c \
 	widget_currency_popup.h \
-	widget_currency_popup.ui
+	widget_currency_popup.ui \
+	widget_import_asso.c \
+	widget_import_asso.h \
+	widget_import_asso.ui \
+	widget_import_files.c \
+	widget_import_files.h \
+	widget_import_files.ui
 
 libwidgets_la_LIBADD= $(LIBWIDGETS_LIBS)
 

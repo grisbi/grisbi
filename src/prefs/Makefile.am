@@ -25,8 +25,7 @@ libprefspages_la_SOURCES = \
 	prefs_page_form_completion.c \
 	prefs_page_form_options.c \
 	prefs_page_fyear.c \
-	prefs_page_import_asso.c	\
-	prefs_page_import_files.c	\
+	prefs_page_import.c	\
 	prefs_page_metatree.c \
 	prefs_page_msg_delete.c \
 	prefs_page_msg_warning.c \
@@ -52,8 +51,7 @@ libprefspages_la_SOURCES = \
 	prefs_page_form_completion.h \
 	prefs_page_form_options.h \
 	prefs_page_fyear.h \
-	prefs_page_import_asso.h \
-	prefs_page_import_files.h \
+	prefs_page_import.h \
 	prefs_page_metatree.h \
 	prefs_page_msg_delete.h \
 	prefs_page_msg_warning.h \

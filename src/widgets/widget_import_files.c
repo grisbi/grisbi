@@ -37,7 +37,7 @@
 #include <glib/gi18n.h>
 
 /*START_INCLUDE*/
-#include "prefs_page_import_files.h"
+#include "widget_import_files.h"
 #include "gsb_automem.h"
 #include "gsb_file.h"
 #include "structures.h"
@@ -49,28 +49,23 @@
 /*START_EXTERN*/
 /*END_EXTERN*/
 
-typedef struct _PrefsPageImportFilesPrivate   PrefsPageImportFilesPrivate;
+typedef struct _WidgetImportFilesPrivate   WidgetImportFilesPrivate;
 
-struct _PrefsPageImportFilesPrivate
+struct _WidgetImportFilesPrivate
 {
 	GtkWidget *			vbox_import_files;
 
     GtkWidget *         spinbutton_import_files_nb_days;
     GtkWidget *			checkbutton_fusion_import_transactions;
-	GtkWidget *			eventbox_fusion_import_transactions;
     GtkWidget *			checkbutton_associate_categorie_for_payee;
-	GtkWidget *			eventbox_associate_categorie_for_payee;
     GtkWidget *			checkbutton_extract_number_for_check;
-	GtkWidget *			eventbox_extract_number_for_check;
     GtkWidget *			checkbutton_copy_payee_in_note;
-	GtkWidget *			eventbox_copy_payee_in_note;
     GtkWidget *			checkbutton_csv_force_date_valeur_with_date;
-	GtkWidget *			eventbox_csv_force_date_valeur_with_date;
     GtkWidget *			checkbutton_qif_use_field_extract_method_payment;
 	GtkWidget *			checkbutton_qif_no_import_categories;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageImportFiles, prefs_page_import_files, GTK_TYPE_BOX)
+G_DEFINE_TYPE_WITH_PRIVATE (WidgetImportFiles, widget_import_files, GTK_TYPE_BOX)
 
 /******************************************************************************/
 /* Private functions                                                          */
@@ -83,7 +78,7 @@ G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageImportFiles, prefs_page_import_files, GTK_T
  *
  * \return
  **/
-static gboolean prefs_page_import_files_spinbutton_import_files_nb_days_changed (GtkWidget *spinbutton,
+static gboolean widget_import_files_spinbutton_import_files_nb_days_changed (GtkWidget *spinbutton,
 																				 gpointer null)
 {
     etat.import_files_nb_days = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (spinbutton));
@@ -100,13 +95,13 @@ static gboolean prefs_page_import_files_spinbutton_import_files_nb_days_changed 
  *
  * \return
  */
-static void prefs_page_import_files_setup_import_files_page (PrefsPageImportFiles *page)
+static void widget_import_files_setup_import_files_page (WidgetImportFiles *page)
 {
-	PrefsPageImportFilesPrivate *priv;
+	WidgetImportFilesPrivate *priv;
 
 	devel_debug (NULL);
 
-	priv = prefs_page_import_files_get_instance_private (page);
+	priv = widget_import_files_get_instance_private (page);
 
 	/* set the variables for import of files*/
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (priv->spinbutton_import_files_nb_days),
@@ -139,14 +134,10 @@ static void prefs_page_import_files_setup_import_files_page (PrefsPageImportFile
     /* Connect signal spinbutton_import_files_nb_days */
     g_signal_connect ( G_OBJECT (priv->spinbutton_import_files_nb_days),
 					  "value-changed",
-					  G_CALLBACK (prefs_page_import_files_spinbutton_import_files_nb_days_changed),
+					  G_CALLBACK (widget_import_files_spinbutton_import_files_nb_days_changed),
 					  NULL );
 
     /* Connect signal checkbutton_fusion_import_transactions */
-    g_signal_connect (priv->eventbox_fusion_import_transactions,
-					  "button-press-event",
-					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
-					  priv->checkbutton_fusion_import_transactions);
     g_signal_connect (priv->checkbutton_fusion_import_transactions,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
@@ -157,10 +148,6 @@ static void prefs_page_import_files_setup_import_files_page (PrefsPageImportFile
 							NULL);
 
     /* Connect signal checkbutton_associate_categorie_for_payee */
-    g_signal_connect (priv->eventbox_associate_categorie_for_payee,
-					  "button-press-event",
-					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
-					  priv->checkbutton_associate_categorie_for_payee);
     g_signal_connect (priv->checkbutton_associate_categorie_for_payee,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
@@ -171,10 +158,6 @@ static void prefs_page_import_files_setup_import_files_page (PrefsPageImportFile
 							NULL);
 
     /* Connect signal checkbutton_extract_number_for_check */
-    g_signal_connect (priv->eventbox_extract_number_for_check,
-					  "button-press-event",
-					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
-					  priv->checkbutton_extract_number_for_check);
     g_signal_connect (priv->checkbutton_extract_number_for_check,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
@@ -185,10 +168,6 @@ static void prefs_page_import_files_setup_import_files_page (PrefsPageImportFile
 							NULL);
 
     /* Connect signal checkbutton_copy_payee_in_note */
-    g_signal_connect (priv->eventbox_copy_payee_in_note,
-					  "button-press-event",
-					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
-					  priv->checkbutton_copy_payee_in_note);
     g_signal_connect (priv->checkbutton_copy_payee_in_note,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
@@ -199,10 +178,6 @@ static void prefs_page_import_files_setup_import_files_page (PrefsPageImportFile
 							NULL);
 
     /* Connect signal checkbutton_csv_force_date_valeur_with_date */
-    g_signal_connect (priv->eventbox_csv_force_date_valeur_with_date,
-					  "button-press-event",
-					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
-					  priv->checkbutton_csv_force_date_valeur_with_date);
     g_signal_connect (priv->checkbutton_csv_force_date_valeur_with_date,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
@@ -236,47 +211,42 @@ static void prefs_page_import_files_setup_import_files_page (PrefsPageImportFile
 /******************************************************************************/
 /* Fonctions propres à l'initialisation des fenêtres                          */
 /******************************************************************************/
-static void prefs_page_import_files_init (PrefsPageImportFiles *page)
+static void widget_import_files_init (WidgetImportFiles *page)
 {
 	gtk_widget_init_template (GTK_WIDGET (page));
 
-	prefs_page_import_files_setup_import_files_page (page);
+	widget_import_files_setup_import_files_page (page);
 }
 
-static void prefs_page_import_files_dispose (GObject *object)
+static void widget_import_files_dispose (GObject *object)
 {
-	G_OBJECT_CLASS (prefs_page_import_files_parent_class)->dispose (object);
+	G_OBJECT_CLASS (widget_import_files_parent_class)->dispose (object);
 }
 
-static void prefs_page_import_files_class_init (PrefsPageImportFilesClass *klass)
+static void widget_import_files_class_init (WidgetImportFilesClass *klass)
 {
-	G_OBJECT_CLASS (klass)->dispose = prefs_page_import_files_dispose;
+	G_OBJECT_CLASS (klass)->dispose = widget_import_files_dispose;
 
 	gtk_widget_class_set_template_from_resource (GTK_WIDGET_CLASS (klass),
-												 "/org/gtk/grisbi/ui/prefs_page_import_files.ui");
+												 "/org/gtk/grisbi/widgets/widget_import_files.ui");
 
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageImportFiles, vbox_import_files);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageImportFiles, spinbutton_import_files_nb_days);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageImportFiles, checkbutton_fusion_import_transactions);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageImportFiles, eventbox_fusion_import_transactions);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageImportFiles, checkbutton_associate_categorie_for_payee);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageImportFiles, eventbox_associate_categorie_for_payee);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageImportFiles, checkbutton_extract_number_for_check);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageImportFiles, eventbox_extract_number_for_check);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageImportFiles, checkbutton_copy_payee_in_note);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageImportFiles, eventbox_copy_payee_in_note);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageImportFiles, checkbutton_csv_force_date_valeur_with_date);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageImportFiles, eventbox_csv_force_date_valeur_with_date);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageImportFiles, checkbutton_qif_no_import_categories);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageImportFiles, checkbutton_qif_use_field_extract_method_payment);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetImportFiles, vbox_import_files);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetImportFiles, spinbutton_import_files_nb_days);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetImportFiles, checkbutton_fusion_import_transactions);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetImportFiles, checkbutton_associate_categorie_for_payee);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetImportFiles, checkbutton_extract_number_for_check);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetImportFiles, checkbutton_copy_payee_in_note);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetImportFiles, checkbutton_csv_force_date_valeur_with_date);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetImportFiles, checkbutton_qif_no_import_categories);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetImportFiles, checkbutton_qif_use_field_extract_method_payment);
 }
 
 /******************************************************************************/
 /* Public functions                                                           */
 /******************************************************************************/
-PrefsPageImportFiles * prefs_page_import_files_new (GrisbiPrefs *win)
+WidgetImportFiles * widget_import_files_new (GrisbiPrefs *win)
 {
-  return g_object_new (PREFS_PAGE_IMPORT_FILES_TYPE, NULL);
+  return g_object_new (WIDGET_IMPORT_FILES_TYPE, NULL);
 }
 
 /**
