@@ -111,6 +111,133 @@ G_DEFINE_TYPE_WITH_PRIVATE (GrisbiPrefs, grisbi_prefs, GTK_TYPE_DIALOG)
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
+/**
+ * récupère la largeur des préférences
+ *
+ * \param GtkWidget			prefs
+ * \param GtkAllocation		allocation
+ * \param gpointer			null
+ *
+ * \return FALSE
+ **/
+static gboolean grisbi_prefs_size_allocate (GtkWidget *prefs,
+											GtkAllocation *allocation,
+											gpointer null)
+{
+
+	GSettings *settings;
+
+	settings = grisbi_settings_get_settings (SETTINGS_PREFS);
+    conf.prefs_height = allocation->height;
+	conf.prefs_width = allocation->width;
+
+    /* save settings_prefs */
+	g_settings_set_int (G_SETTINGS (settings), "prefs-height", conf.prefs_height);
+	g_settings_set_int (G_SETTINGS (settings), "prefs-width", conf.prefs_width);
+	g_settings_set_int (G_SETTINGS (settings), "prefs-panel-width", conf.prefs_panel_width);
+
+	return FALSE;
+}
+
+/**
+ * save prefs hpahed width
+ *
+ * \param GtkWidget			hpaned
+ * \param GtkAllocation 	allocation
+ * \param gpointer			NULL
+ *
+ * \return FALSE
+ **/
+static gboolean grisbi_prefs_paned_size_allocate (GtkWidget *prefs_hpaned,
+												  GtkAllocation *allocation,
+												  gpointer null)
+{
+    conf.prefs_panel_width = gtk_paned_get_position (GTK_PANED (prefs_hpaned));
+
+	return FALSE;
+}
+
+/**
+ *  expand or collapse the tree_view and select thee path when the widget is realized
+ *
+ * \param		tree_view
+ * \param		w_run->prefs_selected_row et w_run->prefs_expand_tree
+ *
+ * \return
+ **/
+static void grisbi_prefs_left_tree_view_select_path (GtkWidget *tree_view,
+                                                     GrisbiWinRun *w_run)
+{
+    GtkTreePath *path;
+	GtkTreeSelection *selection;
+	gchar *str_path;
+	gboolean first_path = TRUE;				/* cas où l'onglet fichiers est sélectionné vrai au démarrage */
+
+	/* set the path */
+	str_path = w_run->prefs_selected_row;
+
+	if (strcmp (str_path, "0:0") == 0)
+	{
+		first_path = TRUE;
+	}
+	else
+	{
+		first_path = FALSE;
+	}
+
+    path = gtk_tree_path_new_from_string (str_path);
+
+	/* expand or collapse all */
+	if (w_run->prefs_expand_tree)
+	{
+		gtk_tree_view_expand_all (GTK_TREE_VIEW (tree_view));
+	}
+	else
+	{
+		gtk_tree_view_collapse_all (GTK_TREE_VIEW (tree_view));
+		gtk_tree_view_expand_to_path (GTK_TREE_VIEW (tree_view), path);
+	}
+
+    /* selection de l'item sélectionnable */
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
+	if (first_path)
+	{
+		GtkTreePath *tmp_path;
+
+		tmp_path = gtk_tree_path_new_from_string ("0");
+		gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (tree_view), tmp_path, NULL, TRUE, 0.0, 0.0 );
+		gtk_tree_path_free (tmp_path);
+	}
+	else
+	{
+		gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (tree_view), path, NULL, FALSE, 0.0, 0.0 );
+	}
+
+	gtk_tree_selection_select_path (GTK_TREE_SELECTION (selection), path);
+	gtk_tree_path_free (path);
+}
+
+/* RIGHT PANED */
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+static void grisbi_prefs_notebook_import_switch_page_cliked (GtkNotebook *notebook,
+                                                             GtkWidget *page,
+                                                             guint page_num,
+                                                             gpointer null)
+{
+	GrisbiWinRun *w_run;
+
+	devel_debug_int (page_num);
+		w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+
+	w_run->prefs_import_tab = page_num;
+}
+
 /* LEFT PANED */
 /**
  * set bouton in mode collapse when select an element
@@ -181,6 +308,77 @@ static void grisbi_prefs_collapse_expand_all_rows (GtkToggleButton *button,
 		gtk_tree_view_collapse_all (GTK_TREE_VIEW (priv->treeview_left));
 		w_run->prefs_expand_tree = FALSE;
 	}
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ */
+static gboolean grisbi_prefs_left_panel_tree_view_selection_changed (GtkTreeSelection *selection,
+																	 GtkWidget *notebook)
+{
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+	GtkTreePath *path;
+    gint selected;
+	GrisbiWinRun *w_run;
+
+    if (! gtk_tree_selection_get_selected (selection, &model, &iter))
+	{
+        return (FALSE);
+	}
+
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+	path = gtk_tree_model_get_path (model, &iter);
+	if (w_run->prefs_selected_row)
+		g_free (w_run->prefs_selected_row);
+
+	w_run->prefs_selected_row = gtk_tree_path_to_string (path);
+    gtk_tree_model_get (model, &iter, 1, &selected, -1);
+    gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), selected);
+	gtk_tree_path_free (path);
+
+    /* return */
+    return FALSE;
+}
+
+/**
+ * called when we press a button on the list
+ *
+ * \param tree_view
+ * \param ev
+ *
+ * \return FALSE
+ **/
+static gboolean grisbi_prefs_left_treeview_button_press (GtkWidget *tree_view,
+														 GdkEventButton *ev,
+														 GrisbiPrefs *prefs)
+{
+    if (ev->type == GDK_2BUTTON_PRESS)
+    {
+        GtkTreePath *path = NULL;
+
+        if (gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW (tree_view), ev->x, ev->y, &path, NULL, NULL, NULL))
+        {
+            if (gtk_tree_view_row_expanded (GTK_TREE_VIEW (tree_view), path))
+                gtk_tree_view_collapse_row (GTK_TREE_VIEW (tree_view), path);
+            else
+			{
+                gtk_tree_view_expand_row (GTK_TREE_VIEW (tree_view), path, FALSE);
+				grisbi_prefs_set_collapse_mode (NULL, prefs);
+			}
+
+            gtk_tree_path_free (path);
+
+            return FALSE;
+        }
+    }
+
+    return FALSE;
 }
 
 /**
@@ -364,77 +562,6 @@ static void grisbi_prefs_left_panel_populate_tree_model (GrisbiPrefs *prefs)
 }
 
 /**
- *
- *
- * \param
- * \param
- *
- * \return
- */
-static gboolean grisbi_prefs_left_panel_tree_view_selection_changed (GtkTreeSelection *selection,
-																	 GtkWidget *notebook)
-{
-    GtkTreeModel *model;
-    GtkTreeIter iter;
-	GtkTreePath *path;
-    gint selected;
-	GrisbiWinRun *w_run;
-
-    if (! gtk_tree_selection_get_selected (selection, &model, &iter))
-	{
-        return (FALSE);
-	}
-
-	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
-	path = gtk_tree_model_get_path (model, &iter);
-	if (w_run->prefs_selected_row)
-		g_free (w_run->prefs_selected_row);
-
-	w_run->prefs_selected_row = gtk_tree_path_to_string (path);
-    gtk_tree_model_get (model, &iter, 1, &selected, -1);
-    gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), selected);
-	gtk_tree_path_free (path);
-
-    /* return */
-    return FALSE;
-}
-
-/**
- * called when we press a button on the list
- *
- * \param tree_view
- * \param ev
- *
- * \return FALSE
- **/
-static gboolean grisbi_prefs_left_treeview_button_press (GtkWidget *tree_view,
-														 GdkEventButton *ev,
-														 GrisbiPrefs *prefs)
-{
-    if (ev->type == GDK_2BUTTON_PRESS)
-    {
-        GtkTreePath *path = NULL;
-
-        if (gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW (tree_view), ev->x, ev->y, &path, NULL, NULL, NULL))
-        {
-            if (gtk_tree_view_row_expanded (GTK_TREE_VIEW (tree_view), path))
-                gtk_tree_view_collapse_row (GTK_TREE_VIEW (tree_view), path);
-            else
-			{
-                gtk_tree_view_expand_row (GTK_TREE_VIEW (tree_view), path, FALSE);
-				grisbi_prefs_set_collapse_mode (NULL, prefs);
-			}
-
-            gtk_tree_path_free (path);
-
-            return FALSE;
-        }
-    }
-
-    return FALSE;
-}
-
-/**
  * création du tree_view qui liste les onglets de la fenêtre de dialogue
  *
  *
@@ -446,7 +573,6 @@ static void grisbi_prefs_left_tree_view_setup (GrisbiPrefs *prefs,
 {
     GtkTreeStore *model = NULL;
     GtkCellRenderer *cell;
-	GtkTreePath *path;
     GtkTreeSelection *selection;
     GtkTreeViewColumn *column;
 	GrisbiPrefsPrivate *priv;
@@ -464,9 +590,6 @@ static void grisbi_prefs_left_tree_view_setup (GrisbiPrefs *prefs,
 	/* set tree_iew model */
     gtk_tree_view_set_model (GTK_TREE_VIEW (tree_view), GTK_TREE_MODEL (model));
     g_object_unref (G_OBJECT (model));
-
-    /* set the color of selected row */
-	gtk_widget_set_name (tree_view, "tree_view");
 
     /* make column */
     cell = gtk_cell_renderer_text_new ();
@@ -493,12 +616,6 @@ static void grisbi_prefs_left_tree_view_setup (GrisbiPrefs *prefs,
 	/* fill model */
 	grisbi_prefs_left_panel_populate_tree_model (prefs);
 
-	/* select the first item */
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
-	path = gtk_tree_path_new_from_indices (0, -1);
-	gtk_tree_selection_select_path (selection, path);
-	gtk_tree_path_free (path);
-
 	/* expand all */
 	if (w_run->prefs_expand_tree)
 		gtk_tree_view_expand_all (GTK_TREE_VIEW (tree_view));
@@ -513,52 +630,6 @@ static void grisbi_prefs_left_tree_view_setup (GrisbiPrefs *prefs,
 					  "changed",
 					  G_CALLBACK (grisbi_prefs_left_panel_tree_view_selection_changed),
 					  priv->notebook_prefs);
-}
-
-/**
- * récupère la largeur des préférences
- *
- * \param GtkWidget			prefs
- * \param GtkAllocation		allocation
- * \param gpointer			null
- *
- * \return FALSE
- **/
-static gboolean grisbi_prefs_size_allocate (GtkWidget *prefs,
-											GtkAllocation *allocation,
-											gpointer null)
-{
-
-	GSettings *settings;
-
-	settings = grisbi_settings_get_settings (SETTINGS_PREFS);
-    conf.prefs_height = allocation->height;
-	conf.prefs_width = allocation->width;
-
-    /* save settings_prefs */
-	g_settings_set_int (G_SETTINGS (settings), "prefs-height", conf.prefs_height);
-	g_settings_set_int (G_SETTINGS (settings), "prefs-width", conf.prefs_width);
-	g_settings_set_int (G_SETTINGS (settings), "prefs-panel-width", conf.prefs_panel_width);
-
-	return FALSE;
-}
-
-/**
- * save prefs hpahed width
- *
- * \param GtkWidget			hpaned
- * \param GtkAllocation 	allocation
- * \param gpointer			NULL
- *
- * \return FALSE
- **/
-static gboolean grisbi_prefs_paned_size_allocate (GtkWidget *prefs_hpaned,
-												  GtkAllocation *allocation,
-												  gpointer null)
-{
-    conf.prefs_panel_width = gtk_paned_get_position (GTK_PANED (prefs_hpaned));
-
-	return FALSE;
 }
 
 /**
@@ -610,6 +681,7 @@ static void grisbi_prefs_setup_page (GrisbiPrefs *prefs,
 	else
 	{
 		gtk_widget_set_no_show_all (priv->button_collapse_all, TRUE);
+		gtk_widget_show (priv->button_expand_all);
 		gtk_widget_hide (priv->button_collapse_all);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->button_left_collapse), FALSE);
 	}

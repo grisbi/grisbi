@@ -75,6 +75,7 @@
                     <property name="shadow_type">in</property>
                     <child>
                       <object class="GtkTreeView" id="treeview_left">
+                        <property name="name">tree_view</property>
                         <property name="can_focus">True</property>
                         <property name="hexpand">True</property>
                         <property name="vexpand">True</property>
