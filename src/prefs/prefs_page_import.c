@@ -154,6 +154,22 @@ PrefsPageImport *prefs_page_import_new (GrisbiPrefs *win)
  *
  * \return
  **/
+GtkWidget *prefs_page_import_get_notebook (GtkWidget *page)
+{
+	PrefsPageImportPrivate *priv;
+
+	priv = prefs_page_import_get_instance_private (PREFS_PAGE_IMPORT (page));
+
+	return priv->notebook_import_pages;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

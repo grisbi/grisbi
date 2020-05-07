@@ -32,7 +32,7 @@ struct _PrefsPageImportClass
 GType				prefs_page_import_get_type				(void) G_GNUC_CONST;
 
 PrefsPageImport * 	prefs_page_import_new					(GrisbiPrefs *prefs);
-
+GtkWidget *			prefs_page_import_get_notebook			(GtkWidget *page);
 /* END_DECLARATION */
 
 G_END_DECLS

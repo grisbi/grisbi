@@ -97,7 +97,7 @@ struct _GrisbiPrefsPrivate
 
     /* notebook de droite */
     GtkWidget *			notebook_prefs;
-	//~ GtkWidget *			vbox_import_page;
+	GtkWidget *			notebook_import;
 
 	/* pages num */
 	gint 				form_num_page;
@@ -418,10 +418,10 @@ static void grisbi_prefs_left_panel_populate_tree_model (GrisbiPrefs *prefs)
 	page++;
 
 	/* append page Import */
-    widget = GTK_WIDGET (prefs_page_import_new (prefs));
+    priv->notebook_import = GTK_WIDGET (prefs_page_import_new (prefs));
 	if (is_loading == FALSE)
-		gtk_widget_set_sensitive (widget, FALSE);
-    utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Import"), page);
+		gtk_widget_set_sensitive (priv->notebook_import, FALSE);
+    utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, priv->notebook_import, _("Import"), page);
     page++;
 
 	/* append page Divers */
@@ -642,6 +642,7 @@ static void grisbi_prefs_left_tree_view_setup (GrisbiPrefs *prefs,
 static void grisbi_prefs_setup_page (GrisbiPrefs *prefs,
 									 GrisbiWin *win)
 {
+	GtkWidget *notebook;
 	GrisbiWinRun *w_run;
 	GrisbiPrefsPrivate *priv;
 
@@ -671,7 +672,15 @@ static void grisbi_prefs_setup_page (GrisbiPrefs *prefs,
 		gtk_paned_set_position (GTK_PANED (priv->paned_prefs), PREFS_MIN_PANED_WIDTH);
 	}
 
-	/* positionne le button en fonction de run->prefs_expand_tree */
+	/* positionne l'onglet import selectionné en fonction de run->prefs_import_tab */
+	notebook = prefs_page_import_get_notebook (priv->notebook_import);
+	if (w_run->prefs_import_tab)
+		gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook),  w_run->prefs_import_tab);
+
+	/* select the first item */
+	grisbi_prefs_left_tree_view_select_path (priv->treeview_left, w_run);
+
+	/* positionne le button collapse all en fonction de run->prefs_expand_tree */
 	if (w_run->prefs_expand_tree)
 	{
 		gtk_widget_set_no_show_all (priv->button_expand_all, TRUE);
@@ -704,6 +713,11 @@ static void grisbi_prefs_setup_page (GrisbiPrefs *prefs,
 	                  (GCallback) grisbi_prefs_paned_size_allocate,
 	                  NULL);
 
+	/* set signal notebook_impert */
+	g_signal_connect (G_OBJECT (notebook),
+	                  "switch-page",
+	                  (GCallback) grisbi_prefs_notebook_import_switch_page_cliked,
+	                  w_run);
 }
 
 /******************************************************************************/
