@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-05 08:21+0200\n"
+"POT-Creation-Date: 2020-05-07 19:32+0200\n"
 "PO-Revision-Date: 2005-12-19 09:07-0200\n"
 "Last-Translator: \n"
 "Language-Team: <pt@li.org>\n"
@@ -120,7 +120,7 @@ msgstr "Exibir o nome das (sub)categorias"
 
 #. On récupère le nom de la page
 #: ../src/ui/csv_template_rule.ui.h:1 ../src/bet_config.c:101
-#: ../src/grisbi_prefs.c:570 ../src/prefs/prefs_page_bet_general.c:216
+#: ../src/grisbi_prefs.c:555 ../src/prefs/prefs_page_bet_general.c:216
 #, fuzzy
 msgid "General Options"
 msgstr "Gerais"
@@ -188,7 +188,7 @@ msgstr "Gerais"
 
 #: ../src/ui/csv_template_rule.ui.h:15 ../src/ui/prefs_page_accueil.ui.h:5
 #: ../src/ui/prefs_page_archives.ui.h:11 ../src/ui/prefs_page_bank.ui.h:3
-#: ../src/ui/prefs_page_bet_account.ui.h:6 ../src/ui/prefs_page_currency.ui.h:4
+#: ../src/ui/prefs_page_bet_account.ui.h:5 ../src/ui/prefs_page_currency.ui.h:4
 #: ../src/ui/prefs_page_currency_link.ui.h:2
 #: ../src/ui/prefs_page_display_adr.ui.h:9
 #: ../src/ui/prefs_page_display_fonts.ui.h:13
@@ -198,9 +198,8 @@ msgstr "Gerais"
 #: ../src/ui/prefs_page_files.ui.h:22
 #: ../src/ui/prefs_page_form_completion.ui.h:14
 #: ../src/ui/prefs_page_form_options.ui.h:8 ../src/ui/prefs_page_fyear.ui.h:9
-#: ../src/ui/prefs_page_import_asso.ui.h:10
-#: ../src/ui/prefs_page_import_files.ui.h:13
-#: ../src/ui/prefs_page_metatree.ui.h:14 ../src/ui/prefs_page_msg_delete.ui.h:2
+#: ../src/ui/prefs_page_import.ui.h:1 ../src/ui/prefs_page_metatree.ui.h:14
+#: ../src/ui/prefs_page_msg_delete.ui.h:2
 #: ../src/ui/prefs_page_msg_warning.ui.h:4
 #: ../src/ui/prefs_page_options_ope.ui.h:12
 #: ../src/ui/prefs_page_reconcile.ui.h:15
@@ -210,11 +209,13 @@ msgstr "Gerais"
 #: ../src/widgets/widget_currency_details.ui.h:6
 #: ../src/widgets/widget_currency_link.ui.h:4
 #: ../src/widgets/widget_currency_popup.ui.h:5
+#: ../src/widgets/widget_import_asso.ui.h:10
+#: ../src/widgets/widget_import_files.ui.h:13
 #, fuzzy
 msgid "Title"
 msgstr "Títulos"
 
-#: ../src/ui/csv_template_rule.ui.h:16 ../src/ui/prefs_page_bet_account.ui.h:5
+#: ../src/ui/csv_template_rule.ui.h:16
 #: ../src/ui/prefs_page_display_fonts.ui.h:8
 msgid "label"
 msgstr ""
@@ -251,14 +252,12 @@ msgid "Report name"
 msgstr "Nome do relatório"
 
 #. Partial balance name
-#. Financial year name
 #. Name entry
-#: ../src/ui/etats_prefs.ui.h:7 ../src/ui/prefs_page_archives.ui.h:4
+#: ../src/ui/etats_prefs.ui.h:7 ../src/ui/prefs_page_archives.ui.h:10
 #: ../src/ui/prefs_page_fyear.ui.h:6 ../src/ui/prefs_page_payment_method.ui.h:1
 #: ../src/widgets/widget_bank_details.ui.h:2
 #: ../src/widgets/widget_currency_details.ui.h:1
-#: ../src/gsb_data_partial_balance.c:1788 ../src/gsb_fyear_config.c:225
-#: ../src/tiers_onglet.c:213
+#: ../src/gsb_data_partial_balance.c:1787 ../src/tiers_onglet.c:213
 #, fuzzy
 msgid "Name: "
 msgstr "Nome:"
@@ -575,14 +574,15 @@ msgstr "Categorias de receitas"
 msgid "Outgoing categories"
 msgstr "Categorias de Despesas"
 
-#: ../src/ui/etats_prefs.ui.h:70 ../src/ui/prefs_page_payment_method.ui.h:9
-#: ../src/grisbi_prefs.c:739
+#: ../src/ui/etats_prefs.ui.h:70 ../src/ui/grisbi_prefs.ui.h:3
+#: ../src/ui/prefs_page_payment_method.ui.h:10
 #, fuzzy
 msgid "Expand all"
 msgstr "Seleção por data"
 
-#: ../src/ui/etats_prefs.ui.h:71 ../src/ui/prefs_page_payment_method.ui.h:10
-#: ../src/ui/prefs_page_reconcile_sort.ui.h:2 ../src/grisbi_prefs.c:749
+#: ../src/ui/etats_prefs.ui.h:71 ../src/ui/grisbi_prefs.ui.h:4
+#: ../src/ui/prefs_page_payment_method.ui.h:11
+#: ../src/ui/prefs_page_reconcile_sort.ui.h:2
 msgid "Collapse all"
 msgstr ""
 
@@ -1127,18 +1127,12 @@ msgstr "Visualizar"
 
 #: ../src/ui/grisbi_prefs.ui.h:1
 #, fuzzy
-msgid "Import files"
-msgstr "Exportar para arquivos QIF"
-
-#: ../src/ui/grisbi_prefs.ui.h:2
-#, fuzzy
-msgid "Manage import associations"
-msgstr "Detalhes das categorias"
-
-#: ../src/ui/grisbi_prefs.ui.h:3
-#, fuzzy
 msgid "Grisbi preferences"
 msgstr "Preferências"
+
+#: ../src/ui/grisbi_prefs.ui.h:2
+msgid "This state will be kept for the duration of this session"
+msgstr ""
 
 #: ../src/ui/grisbi_win.ui.h:1
 #, fuzzy
@@ -1176,38 +1170,38 @@ msgstr "Moedas atuais"
 
 #: ../src/ui/prefs_page_archives.ui.h:2
 #, fuzzy
-msgid "Sort the archives by descending date"
-msgstr "Apagar um terceiro"
-
-#: ../src/ui/prefs_page_archives.ui.h:3
-#, fuzzy
 msgid "Archive modification"
 msgstr "Modificações"
 
-#: ../src/ui/prefs_page_archives.ui.h:5
-#, fuzzy
-msgid "Delete the archive"
-msgstr "Apagar um terceiro"
-
-#: ../src/ui/prefs_page_archives.ui.h:6
-#, fuzzy
-msgid "Delete the archive and transactions"
-msgstr "Apagar lançamento"
-
-#: ../src/ui/prefs_page_archives.ui.h:7
+#: ../src/ui/prefs_page_archives.ui.h:3
 #, fuzzy
 msgid "Automatic check"
 msgstr "Automática"
 
-#: ../src/ui/prefs_page_archives.ui.h:8
+#: ../src/ui/prefs_page_archives.ui.h:4
+#, fuzzy
+msgid "Delete the archive"
+msgstr "Apagar um terceiro"
+
+#: ../src/ui/prefs_page_archives.ui.h:5
+#, fuzzy
+msgid "Delete the archive and transactions"
+msgstr "Apagar lançamento"
+
+#: ../src/ui/prefs_page_archives.ui.h:6
+#, fuzzy
+msgid "Sort the archives by descending date"
+msgstr "Apagar um terceiro"
+
+#: ../src/ui/prefs_page_archives.ui.h:7
 msgid "Check at opening if creating archive is needed."
 msgstr ""
 
-#: ../src/ui/prefs_page_archives.ui.h:9
+#: ../src/ui/prefs_page_archives.ui.h:8
 msgid "Warn if more than "
 msgstr ""
 
-#: ../src/ui/prefs_page_archives.ui.h:10
+#: ../src/ui/prefs_page_archives.ui.h:9
 #, fuzzy
 msgid " transactions are not archived."
 msgstr "Excluir os lançamentos que não são de transferência"
@@ -1242,17 +1236,17 @@ msgstr "Adicionar um orçamento"
 msgid "Account with deferred debit card"
 msgstr "Cartão de crédito"
 
-#: ../src/ui/prefs_page_bet_account.ui.h:7
+#: ../src/ui/prefs_page_bet_account.ui.h:6
 #, fuzzy
 msgid "Data for the forecast"
 msgstr " no topo do relatório"
 
-#: ../src/ui/prefs_page_bet_account.ui.h:8
+#: ../src/ui/prefs_page_bet_account.ui.h:7
 #, fuzzy
 msgid "Sources of historical data"
 msgstr "Data inicial"
 
-#: ../src/ui/prefs_page_bet_account.ui.h:9
+#: ../src/ui/prefs_page_bet_account.ui.h:8
 #, fuzzy
 msgid "Credit Data"
 msgstr "Cartão de crédito"
@@ -1511,6 +1505,7 @@ msgid "Number of days before the warning or the execution: "
 msgstr "Número de dias antes de exibir mensagens de lançamentos agendados:"
 
 #: ../src/ui/prefs_page_divers.ui.h:6 ../src/ui/prefs_page_files.ui.h:14
+#: ../src/ui/prefs_page_payment_method.ui.h:6
 #: ../src/ui/prefs_widget_loan.ui.h:8
 msgid "0"
 msgstr ""
@@ -1542,8 +1537,8 @@ msgstr ""
 msgid "Choose the language"
 msgstr "Alterar a conta"
 
-#: ../src/ui/prefs_page_divers.ui.h:13 ../src/parametres.c:149
-#: ../src/parametres.c:157
+#: ../src/ui/prefs_page_divers.ui.h:13 ../src/parametres.c:148
+#: ../src/parametres.c:156
 #, fuzzy
 msgid "Choose the date format"
 msgstr "Alterar a conta"
@@ -1552,12 +1547,12 @@ msgstr "Alterar a conta"
 msgid "Choose decimal and thousands separator"
 msgstr ""
 
-#: ../src/ui/prefs_page_divers.ui.h:15 ../src/parametres.c:242
+#: ../src/ui/prefs_page_divers.ui.h:15 ../src/parametres.c:241
 #, fuzzy
 msgid "Decimal point: "
 msgstr "Seleção por data:"
 
-#: ../src/ui/prefs_page_divers.ui.h:16 ../src/parametres.c:255
+#: ../src/ui/prefs_page_divers.ui.h:16 ../src/parametres.c:254
 msgid "Thousands separator: "
 msgstr ""
 
@@ -1745,142 +1740,38 @@ msgstr "Salvar automaticamente ao sair"
 msgid "Automagically add separator in amounts fields if unspecified"
 msgstr ""
 
-#: ../src/ui/prefs_page_fyear.ui.h:1 ../src/gsb_fyear_config.c:149
+#: ../src/ui/prefs_page_fyear.ui.h:1
 msgid "Known financial years"
 msgstr "Anos contábeis conhecidos"
 
-#. Create button for sort variable
-#: ../src/ui/prefs_page_fyear.ui.h:2 ../src/gsb_fyear_config.c:178
+#: ../src/ui/prefs_page_fyear.ui.h:2
 #, fuzzy
 msgid "Sort the exercises by descending name"
 msgstr "Apagar um terceiro"
 
-#. Associate operations : under the list
-#: ../src/ui/prefs_page_fyear.ui.h:3 ../src/gsb_fyear_config.c:210
+#: ../src/ui/prefs_page_fyear.ui.h:3
 #, fuzzy
 msgid "Associate operations without financial years"
 msgstr "Operações sem associação de anos contábeis"
 
-#. Financial year details
-#: ../src/ui/prefs_page_fyear.ui.h:4 ../src/gsb_fyear_config.c:221
+#: ../src/ui/prefs_page_fyear.ui.h:4
 msgid "Financial year details"
 msgstr "Detalhes do ano contábil"
 
-#. Activate in transaction form?
-#: ../src/ui/prefs_page_fyear.ui.h:5 ../src/gsb_fyear_config.c:268
+#: ../src/ui/prefs_page_fyear.ui.h:5
 #, fuzzy
 msgid "Activate financial year in transaction form"
 msgstr "Ativar formulário de lançamentos"
 
-#. Start
-#: ../src/ui/prefs_page_fyear.ui.h:7 ../src/gsb_fyear_config.c:237
+#: ../src/ui/prefs_page_fyear.ui.h:7
 #, fuzzy
 msgid "Start: "
 msgstr "Inicio:"
 
-#. End
-#: ../src/ui/prefs_page_fyear.ui.h:8 ../src/gsb_fyear_config.c:249
+#: ../src/ui/prefs_page_fyear.ui.h:8
 #, fuzzy
 msgid "End: "
 msgstr "Fim"
-
-#: ../src/ui/prefs_page_import_asso.ui.h:1
-#, fuzzy
-msgid "Import associations"
-msgstr "Ação"
-
-#: ../src/ui/prefs_page_import_asso.ui.h:2
-msgid ""
-"This will associate a search string to a payee every time you import a "
-"file.\n"
-"For instance, all QIF labels containing 'Rent' could be associated with a "
-"specific payee representing your landlord."
-msgstr ""
-
-#: ../src/ui/prefs_page_import_asso.ui.h:4
-#, fuzzy
-msgid "Details of associations"
-msgstr "Não detalhar lançamentos reconciliados"
-
-#: ../src/ui/prefs_page_import_asso.ui.h:5
-#, fuzzy
-msgid "Payee name: "
-msgstr "Total geral:"
-
-#. search string
-#: ../src/ui/prefs_page_import_asso.ui.h:6 ../src/tiers_onglet.c:239
-#, fuzzy
-msgid "Search string: "
-msgstr "Procurar:"
-
-#: ../src/ui/prefs_page_import_asso.ui.h:7
-#, fuzzy
-msgid "Rule"
-msgstr "Nome do titular"
-
-#. others options for search
-#: ../src/ui/prefs_page_import_asso.ui.h:8 ../src/tiers_onglet.c:249
-#: ../src/tiers_onglet.c:1272
-msgid "Ignoring case sensitive"
-msgstr ""
-
-#: ../src/ui/prefs_page_import_asso.ui.h:9 ../src/tiers_onglet.c:253
-#: ../src/tiers_onglet.c:1277
-msgid "Use the regular expressions"
-msgstr ""
-
-#: ../src/ui/prefs_page_import_files.ui.h:1
-#, fuzzy
-msgid "Import settings"
-msgstr "Exportar categorias"
-
-#: ../src/ui/prefs_page_import_files.ui.h:2
-msgid "Threshold while matching transaction date during import (in days): "
-msgstr ""
-
-#: ../src/ui/prefs_page_import_files.ui.h:3
-#, fuzzy
-msgid "Merge the imported transactions with the transactions found"
-msgstr "Converter lançamento para lançamentos agendados"
-
-#: ../src/ui/prefs_page_import_files.ui.h:4
-msgid "Automatically associate the category of the payee if it is possible"
-msgstr ""
-
-#: ../src/ui/prefs_page_import_files.ui.h:5 ../src/tiers_onglet.c:1261
-msgid "Extracting a number and save it in the field No Cheque/Virement"
-msgstr ""
-
-#: ../src/ui/prefs_page_import_files.ui.h:6
-msgid "Coping the original payee in the notes"
-msgstr ""
-
-#: ../src/ui/prefs_page_import_files.ui.h:7
-#, fuzzy
-msgid "Import CSV files"
-msgstr "Exportar para arquivos QIF"
-
-#: ../src/ui/prefs_page_import_files.ui.h:8
-msgid "Forces the value date if not present with the date of the transaction"
-msgstr ""
-
-#: ../src/ui/prefs_page_import_files.ui.h:9
-#, fuzzy
-msgid "Import QIF files"
-msgstr "Exportar para arquivos QIF"
-
-#: ../src/ui/prefs_page_import_files.ui.h:10 ../src/import.c:1879
-#, fuzzy
-msgid "Don't imported the categories"
-msgstr "Exportar categorias"
-
-#: ../src/ui/prefs_page_import_files.ui.h:11
-msgid "If possible use the field 'N' to define the methods of payment"
-msgstr ""
-
-#: ../src/ui/prefs_page_import_files.ui.h:12
-msgid "(Adding the import of QIF files of the 'Société Générale' french bank)"
-msgstr ""
 
 #: ../src/ui/prefs_page_metatree.ui.h:1 ../src/etats_prefs.c:3083
 msgid "Totals currencies"
@@ -2024,11 +1915,11 @@ msgstr "o cheque número"
 msgid "Activate"
 msgstr "Ativado"
 
-#: ../src/ui/prefs_page_payment_method.ui.h:6
+#: ../src/ui/prefs_page_payment_method.ui.h:7
 msgid "Neutral"
 msgstr "Neutro"
 
-#: ../src/ui/prefs_page_payment_method.ui.h:7 ../src/bet_future.c:771
+#: ../src/ui/prefs_page_payment_method.ui.h:8 ../src/bet_future.c:771
 #: ../src/bet_tab.c:2002 ../src/categories_onglet.c:784 ../src/export_csv.c:389
 #: ../src/gsb_form.c:2010 ../src/gsb_form_widget.c:553
 #: ../src/gsb_transactions_list.c:113 ../src/import_csv.c:83
@@ -2039,7 +1930,7 @@ msgid "Debit"
 msgstr "Débito"
 
 #. 11
-#: ../src/ui/prefs_page_payment_method.ui.h:8 ../src/bet_future.c:778
+#: ../src/ui/prefs_page_payment_method.ui.h:9 ../src/bet_future.c:778
 #: ../src/bet_tab.c:2020 ../src/categories_onglet.c:784 ../src/export_csv.c:386
 #: ../src/gsb_form.c:2016 ../src/gsb_form_widget.c:557
 #: ../src/gsb_transactions_list.c:114 ../src/import_csv.c:82
@@ -2049,11 +1940,11 @@ msgstr "Débito"
 msgid "Credit"
 msgstr "Crédito"
 
-#: ../src/ui/prefs_page_payment_method.ui.h:11
+#: ../src/ui/prefs_page_payment_method.ui.h:12
 msgid "Delete a payment method"
 msgstr "Apagar uma forma de pagamento"
 
-#: ../src/ui/prefs_page_payment_method.ui.h:12
+#: ../src/ui/prefs_page_payment_method.ui.h:13
 #, fuzzy
 msgid ""
 "Some transactions still use that payment method. As deletion of this method "
@@ -2064,14 +1955,14 @@ msgstr ""
 "de pagamento, estes lançamentos não terão nenhuma forma de pagamento "
 "associada."
 
-#: ../src/ui/prefs_page_payment_method.ui.h:13
+#: ../src/ui/prefs_page_payment_method.ui.h:14
 msgid ""
 "No target method of payment to switch the transactions to another method of "
 "payment. If you continue, the transactions with this method of payment will "
 "have no new one."
 msgstr ""
 
-#: ../src/ui/prefs_page_payment_method.ui.h:14
+#: ../src/ui/prefs_page_payment_method.ui.h:15
 #, fuzzy
 msgid "Associate transactions with: "
 msgstr "Associar lançamentos com:"
@@ -2227,7 +2118,7 @@ msgstr ""
 
 #. append group page "Generalities"
 #: ../src/widgets/widget_bank_details.ui.h:1 ../src/etats_prefs.c:730
-#: ../src/etats_prefs.c:2879 ../src/grisbi_prefs.c:417
+#: ../src/etats_prefs.c:2879 ../src/grisbi_prefs.c:408
 msgid "Generalities"
 msgstr "Gerais"
 
@@ -2326,6 +2217,104 @@ msgstr ""
 #, fuzzy
 msgid "Country"
 msgstr "Nome do país"
+
+#: ../src/widgets/widget_import_asso.ui.h:1
+#, fuzzy
+msgid "Import associations"
+msgstr "Ação"
+
+#: ../src/widgets/widget_import_asso.ui.h:2
+msgid ""
+"This will associate a search string to a payee every time you import a "
+"file.\n"
+"For instance, all QIF labels containing 'Rent' could be associated with a "
+"specific payee representing your landlord."
+msgstr ""
+
+#: ../src/widgets/widget_import_asso.ui.h:4
+#, fuzzy
+msgid "Details of associations"
+msgstr "Não detalhar lançamentos reconciliados"
+
+#: ../src/widgets/widget_import_asso.ui.h:5
+#, fuzzy
+msgid "Payee name: "
+msgstr "Total geral:"
+
+#. search string
+#: ../src/widgets/widget_import_asso.ui.h:6 ../src/tiers_onglet.c:239
+#, fuzzy
+msgid "Search string: "
+msgstr "Procurar:"
+
+#: ../src/widgets/widget_import_asso.ui.h:7
+#, fuzzy
+msgid "Rule"
+msgstr "Nome do titular"
+
+#. others options for search
+#: ../src/widgets/widget_import_asso.ui.h:8 ../src/tiers_onglet.c:249
+#: ../src/tiers_onglet.c:1272
+msgid "Ignoring case sensitive"
+msgstr ""
+
+#: ../src/widgets/widget_import_asso.ui.h:9 ../src/tiers_onglet.c:253
+#: ../src/tiers_onglet.c:1277
+msgid "Use the regular expressions"
+msgstr ""
+
+#: ../src/widgets/widget_import_files.ui.h:1
+#, fuzzy
+msgid "Import settings"
+msgstr "Exportar categorias"
+
+#: ../src/widgets/widget_import_files.ui.h:2
+msgid "Threshold while matching transaction date during import (in days): "
+msgstr ""
+
+#: ../src/widgets/widget_import_files.ui.h:3
+#, fuzzy
+msgid "Merge the imported transactions with the transactions found"
+msgstr "Converter lançamento para lançamentos agendados"
+
+#: ../src/widgets/widget_import_files.ui.h:4
+msgid "Automatically associate the category of the payee if it is possible"
+msgstr ""
+
+#: ../src/widgets/widget_import_files.ui.h:5 ../src/tiers_onglet.c:1261
+msgid "Extracting a number and save it in the field No Cheque/Virement"
+msgstr ""
+
+#: ../src/widgets/widget_import_files.ui.h:6
+msgid "Coping the original payee in the notes"
+msgstr ""
+
+#: ../src/widgets/widget_import_files.ui.h:7
+#, fuzzy
+msgid "Import CSV files"
+msgstr "Exportar para arquivos QIF"
+
+#: ../src/widgets/widget_import_files.ui.h:8
+msgid "Forces the value date if not present with the date of the transaction"
+msgstr ""
+
+#: ../src/widgets/widget_import_files.ui.h:9
+#, fuzzy
+msgid "Import QIF files"
+msgstr "Exportar para arquivos QIF"
+
+#: ../src/widgets/widget_import_files.ui.h:10 ../src/import.c:1879
+#, fuzzy
+msgid "Don't imported the categories"
+msgstr "Exportar categorias"
+
+#: ../src/widgets/widget_import_files.ui.h:11
+msgid "If possible use the field 'N' to define the methods of payment"
+msgstr ""
+
+#: ../src/widgets/widget_import_files.ui.h:12
+msgid "(Adding the import of QIF files of the 'Société Générale' french bank)"
+msgstr ""
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:1
 msgid "First use of Grisbi"
@@ -2992,7 +2981,7 @@ msgstr "Saldo das contas de bens em %s"
 msgid "Assets accounts balance in %s"
 msgstr "Saldo das contas de bens em %s"
 
-#: ../src/accueil.c:1171 ../src/gsb_data_partial_balance.c:216
+#: ../src/accueil.c:1171 ../src/gsb_data_partial_balance.c:215
 #, fuzzy
 msgid "Additional balance"
 msgstr "Saldo inicial"
@@ -3544,17 +3533,17 @@ msgid "Transfer"
 msgstr "Transferir"
 
 #: ../src/bet_future.c:2139 ../src/gsb_account_property.c:710
-#: ../src/gsb_assistant_account.c:397 ../src/gsb_data_partial_balance.c:233
+#: ../src/gsb_assistant_account.c:397 ../src/gsb_data_partial_balance.c:232
 msgid "Bank account"
 msgstr "Conta bancária"
 
 #: ../src/bet_future.c:2142 ../src/gsb_account_property.c:710
-#: ../src/gsb_data_partial_balance.c:220
+#: ../src/gsb_data_partial_balance.c:219
 msgid "Cash account"
 msgstr "Conta de caixa"
 
 #: ../src/bet_future.c:2145 ../src/gsb_account_property.c:710
-#: ../src/gsb_assistant_account.c:410 ../src/gsb_data_partial_balance.c:224
+#: ../src/gsb_assistant_account.c:410 ../src/gsb_data_partial_balance.c:223
 #, c-format
 msgid "Liabilities account"
 msgstr "Conta de responsabilidades"
@@ -3649,7 +3638,7 @@ msgstr ""
 
 #. Name entry
 #: ../src/bet_future.c:3025 ../src/categories_onglet.c:756
-#: ../src/gsb_assistant_archive_export.c:153 ../src/gsb_fyear_config.c:295
+#: ../src/gsb_assistant_archive_export.c:153
 #: ../src/gsb_transactions_list.c:1163 ../src/imputation_budgetaire.c:803
 #: ../src/prefs/prefs_page_accueil.c:300 ../src/prefs/prefs_page_archives.c:486
 #: ../src/prefs/prefs_page_fyear.c:569
@@ -4190,10 +4179,9 @@ msgstr "Informe um nome para a nova sub-categoria"
 
 #. Import button
 #. On récupère le nom de la page
-#. Import button
 #: ../src/categories_onglet.c:581 ../src/etats_onglet.c:555
-#: ../src/grisbi_prefs.c:365 ../src/grisbi_prefs.c:433 ../src/grisbi_win.c:672
-#: ../src/import.c:1819 ../src/imputation_budgetaire.c:627
+#: ../src/grisbi_prefs.c:424 ../src/grisbi_win.c:672 ../src/import.c:1819
+#: ../src/imputation_budgetaire.c:627 ../src/prefs/prefs_page_import.c:87
 #: ../src/utils_files.c:757
 msgid "Import"
 msgstr "Importar"
@@ -4932,7 +4920,7 @@ msgstr "Ano Contábil"
 
 #. On récupère le nom de la page
 #: ../src/etats_affiche.c:2513 ../src/etats_prefs.c:704
-#: ../src/etats_prefs.c:2298 ../src/grisbi_prefs.c:560
+#: ../src/etats_prefs.c:2298 ../src/grisbi_prefs.c:545
 #: ../src/prefs/prefs_page_payment_method.c:1279
 msgid "Payment methods"
 msgstr "Formas de pagamento"
@@ -5170,17 +5158,16 @@ msgstr "Data"
 
 #. Create Add/Remove buttons
 #. Button "Add"
-#. Add button
 #: ../src/etats_config.c:1990 ../src/etats_config.c:2426
 #: ../src/gsb_currency_link_config.c:158 ../src/gsb_form_config.c:322
-#: ../src/gsb_form_config.c:368 ../src/gsb_fyear_config.c:185
+#: ../src/gsb_form_config.c:368
 msgid "Add"
 msgstr "Adicionar"
 
 #. Button "Remove"
 #: ../src/etats_config.c:2001 ../src/etats_config.c:2437
 #: ../src/gsb_currency_link_config.c:168 ../src/gsb_form_config.c:300
-#: ../src/gsb_form_config.c:346 ../src/gsb_fyear_config.c:197
+#: ../src/gsb_form_config.c:346
 msgid "Remove"
 msgstr "Remover"
 
@@ -5319,9 +5306,9 @@ msgstr "Salvar arquivo"
 msgid "Exporting report..."
 msgstr "Exportar relatório para CSV"
 
-#: ../src/etats_onglet.c:417 ../src/grisbi_prefs.c:806
-#: ../src/grisbi_prefs.c:939 ../src/grisbi_prefs.c:975 ../src/gsb_debug.c:848
-#: ../src/gsb_file.c:517 ../src/gsb_file.c:660 ../src/gsb_file.c:986
+#: ../src/etats_onglet.c:417 ../src/grisbi_prefs.c:801
+#: ../src/grisbi_prefs.c:837 ../src/gsb_debug.c:848 ../src/gsb_file.c:517
+#: ../src/gsb_file.c:660 ../src/gsb_file.c:986
 #, fuzzy
 msgid "Done"
 msgstr "Nenhum"
@@ -5522,14 +5509,14 @@ msgid "Titles"
 msgstr "Títulos"
 
 #. append group page "Transactions"
-#: ../src/etats_prefs.c:740 ../src/export_csv.c:359 ../src/grisbi_prefs.c:476
+#: ../src/etats_prefs.c:740 ../src/export_csv.c:359 ../src/grisbi_prefs.c:467
 #: ../src/grisbi_win.c:478
 msgid "Transactions"
 msgstr "Lançamentos"
 
 #. echange line label
 #. On récupère le nom de la page
-#: ../src/etats_prefs.c:745 ../src/grisbi_prefs.c:534 ../src/gsb_currency.c:953
+#: ../src/etats_prefs.c:745 ../src/grisbi_prefs.c:523 ../src/gsb_currency.c:953
 #: ../src/prefs/prefs_page_currency.c:718
 msgid "Currencies"
 msgstr "Moedas"
@@ -5765,7 +5752,7 @@ msgid "Select accounts to export"
 msgstr "Selecionar contas para exportar"
 
 #: ../src/export.c:512 ../src/export_csv.c:362
-#: ../src/gsb_data_partial_balance.c:1732
+#: ../src/gsb_data_partial_balance.c:1731
 msgid "Account name"
 msgstr "Nome da conta"
 
@@ -6556,158 +6543,139 @@ msgstr ""
 msgid "Cannot save configuration file '%s': %s"
 msgstr "Não posso salvar arquivo '%s': %s"
 
-#: ../src/grisbi_prefs.c:378
-#, fuzzy
-msgid "Files import"
-msgstr "Informações:"
-
-#: ../src/grisbi_prefs.c:385
-msgid "Associations for import"
-msgstr ""
-
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:421 ../src/prefs/prefs_page_files.c:108
+#: ../src/grisbi_prefs.c:412 ../src/prefs/prefs_page_files.c:108
 msgid "Files"
 msgstr "Arquivos"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:426 ../src/prefs/prefs_page_archives.c:573
+#: ../src/grisbi_prefs.c:417 ../src/prefs/prefs_page_archives.c:573
 #, fuzzy
 msgid "Archives"
 msgstr "Ativado"
 
-#: ../src/grisbi_prefs.c:438
+#: ../src/grisbi_prefs.c:429
 #, fuzzy
 msgid "Various settings"
 msgstr "Exportar categorias"
 
-#: ../src/grisbi_prefs.c:443 ../src/grisbi_win.c:464
+#: ../src/grisbi_prefs.c:434 ../src/grisbi_win.c:464
 msgid "Main page"
 msgstr "Página inicial"
 
 #. append group page "Display"
-#: ../src/grisbi_prefs.c:447
+#: ../src/grisbi_prefs.c:438
 msgid "Display"
 msgstr "Exibir"
 
-#: ../src/grisbi_prefs.c:451
+#: ../src/grisbi_prefs.c:442
 #, fuzzy
 msgid "Fonts & Logo"
 msgstr "Fontes & Logotipo"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:456 ../src/prefs/prefs_page_msg_warning.c:236
+#: ../src/grisbi_prefs.c:447 ../src/prefs/prefs_page_msg_warning.c:236
 msgid "Messages & warnings"
 msgstr "Mensagens & Avisos"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:461 ../src/prefs/prefs_page_display_adr.c:191
+#: ../src/grisbi_prefs.c:452 ../src/prefs/prefs_page_display_adr.c:191
 msgid "Addresses & titles"
 msgstr "Endereços & Títulos"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:466 ../src/prefs/prefs_page_metatree.c:310
+#: ../src/grisbi_prefs.c:457 ../src/prefs/prefs_page_metatree.c:310
 #, fuzzy
 msgid "Payees, categories and budgetaries"
 msgstr "Por favor, informe um orçamento!"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:472 ../src/prefs/prefs_page_display_gui.c:244
+#: ../src/grisbi_prefs.c:463 ../src/prefs/prefs_page_display_gui.c:244
 msgid "Elements of interface"
 msgstr ""
 
-#: ../src/grisbi_prefs.c:480
+#: ../src/grisbi_prefs.c:471
 msgid "List behavior"
 msgstr ""
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:485 ../src/prefs/prefs_page_display_ope.c:692
+#: ../src/grisbi_prefs.c:476 ../src/prefs/prefs_page_display_ope.c:692
 #, fuzzy
 msgid "Transactions list cells"
 msgstr "Prévia da lista de lançamentos"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:490 ../src/prefs/prefs_page_msg_delete.c:227
+#: ../src/grisbi_prefs.c:481 ../src/prefs/prefs_page_msg_delete.c:227
 #, fuzzy
 msgid "Messages before deleting"
 msgstr "Mensagens & Avisos"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:497 ../src/gsb_assistant_first.c:335
+#: ../src/grisbi_prefs.c:488 ../src/gsb_assistant_first.c:335
 #: ../src/prefs/prefs_page_reconcile.c:573
 msgid "Reconciliation"
 msgstr "Reconciliação"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:504 ../src/prefs/prefs_page_reconcile_sort.c:743
+#: ../src/grisbi_prefs.c:495 ../src/prefs/prefs_page_reconcile_sort.c:743
 #, fuzzy
 msgid "Sort for reconciliation"
 msgstr "Reconciliação"
 
 #. append group page "Transaction form"
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:509 ../src/gsb_form_config.c:108
+#: ../src/grisbi_prefs.c:500 ../src/gsb_form_config.c:108
 #: ../src/prefs/prefs_page_display_form.c:910
 msgid "Transaction form"
 msgstr "Formulário de lançamentos"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:513 ../src/prefs/prefs_page_form_options.c:111
+#: ../src/grisbi_prefs.c:504 ../src/prefs/prefs_page_form_options.c:111
 msgid "Form behavior"
 msgstr ""
 
-#: ../src/grisbi_prefs.c:518
+#: ../src/grisbi_prefs.c:509
 #, fuzzy
 msgid "Content"
 msgstr "Contato"
 
-#: ../src/grisbi_prefs.c:524
+#: ../src/grisbi_prefs.c:515
 msgid "Completion"
 msgstr ""
 
 #. append group page "Resources subtree"
-#: ../src/grisbi_prefs.c:528
+#: ../src/grisbi_prefs.c:519
 msgid "Resources"
 msgstr "Recursos"
 
-#: ../src/grisbi_prefs.c:541
+#: ../src/grisbi_prefs.c:528
 #, fuzzy
 msgid "Currencies links"
 msgstr "Moedas"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:548 ../src/prefs/prefs_page_bank.c:389
+#: ../src/grisbi_prefs.c:535 ../src/prefs/prefs_page_bank.c:389
 msgid "Banks"
 msgstr "Bancos"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:553 ../src/gsb_fyear_config.c:147
-#: ../src/prefs/prefs_page_fyear.c:689
+#: ../src/grisbi_prefs.c:540 ../src/prefs/prefs_page_fyear.c:689
 msgid "Financial years"
 msgstr "Anos contábeis"
 
 #. append group page "Balance estimate"
-#: ../src/grisbi_prefs.c:564
+#: ../src/grisbi_prefs.c:549
 #, fuzzy
 msgid "Balance estimate"
 msgstr "Saldos"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:575 ../src/prefs/prefs_page_bet_account.c:444
+#: ../src/grisbi_prefs.c:560 ../src/prefs/prefs_page_bet_account.c:444
 #, fuzzy
 msgid "Accounts data"
 msgstr "Detalhes da conta"
 
-#: ../src/grisbi_prefs.c:694
-#, fuzzy
-msgid "Preferences start"
-msgstr "Preferências"
-
-#: ../src/grisbi_prefs.c:727
-msgid "This state will be kept for the duration of this session"
-msgstr ""
-
-#: ../src/grisbi_prefs.c:936
+#: ../src/grisbi_prefs.c:798
 #, fuzzy
 msgid "Preferences stop"
 msgstr "Preferências"
@@ -6893,7 +6861,7 @@ msgid "Comments"
 msgstr "Comentários"
 
 #: ../src/gsb_account_property.c:710 ../src/gsb_assistant_account.c:406
-#: ../src/gsb_data_partial_balance.c:228
+#: ../src/gsb_data_partial_balance.c:227
 #, c-format
 msgid "Assets account"
 msgstr "Conta de bens"
@@ -7761,8 +7729,7 @@ msgstr "Moeda da conta"
 msgid "Modified date"
 msgstr "Data limite"
 
-#: ../src/gsb_currency_link_config.c:270 ../src/gsb_fyear_config.c:298
-#: ../src/prefs/prefs_page_fyear.c:569
+#: ../src/gsb_currency_link_config.c:270 ../src/prefs/prefs_page_fyear.c:569
 #, fuzzy
 msgid "Invalid"
 msgstr "Data inválida"
@@ -9220,85 +9187,85 @@ msgstr ""
 msgid "Warning : Invalid date."
 msgstr "Data inválida"
 
-#: ../src/gsb_data_partial_balance.c:322 ../src/gsb_data_partial_balance.c:432
+#: ../src/gsb_data_partial_balance.c:321 ../src/gsb_data_partial_balance.c:431
 #, fuzzy
 msgid "You must select at least two accounts."
 msgstr "Selecionar contas de bens"
 
-#: ../src/gsb_data_partial_balance.c:323 ../src/gsb_data_partial_balance.c:433
+#: ../src/gsb_data_partial_balance.c:322 ../src/gsb_data_partial_balance.c:432
 #, fuzzy
 msgid "Only one account is selected."
 msgstr "Abrir um arquivo de contas"
 
-#: ../src/gsb_data_partial_balance.c:328 ../src/gsb_data_partial_balance.c:438
+#: ../src/gsb_data_partial_balance.c:327 ../src/gsb_data_partial_balance.c:437
 msgid ""
 "The name of the partial balance and the list of accounts must be completed."
 msgstr ""
 
-#: ../src/gsb_data_partial_balance.c:330 ../src/gsb_data_partial_balance.c:440
+#: ../src/gsb_data_partial_balance.c:329 ../src/gsb_data_partial_balance.c:439
 #, fuzzy
 msgid "All fields are not filled in"
 msgstr "Nenhum campo foi preenchido!"
 
-#: ../src/gsb_data_partial_balance.c:1335
+#: ../src/gsb_data_partial_balance.c:1334
 #, c-format
 msgid "You need to create a link between currency %s and %s."
 msgstr ""
 
-#: ../src/gsb_data_partial_balance.c:1339
+#: ../src/gsb_data_partial_balance.c:1338
 #, fuzzy
 msgid "Attention missing link between currencies"
 msgstr "Moedas atuais"
 
-#: ../src/gsb_data_partial_balance.c:1743
+#: ../src/gsb_data_partial_balance.c:1742
 #, fuzzy
 msgid "Account number"
 msgstr "Nome da conta"
 
-#: ../src/gsb_data_partial_balance.c:1764
+#: ../src/gsb_data_partial_balance.c:1763
 #, fuzzy
 msgid "Add a partial balance"
 msgstr "Saldo inicial"
 
-#: ../src/gsb_data_partial_balance.c:1771
+#: ../src/gsb_data_partial_balance.c:1770
 #, fuzzy
 msgid "Modify a partial balance"
 msgstr "Saldo inicial"
 
-#: ../src/gsb_data_partial_balance.c:1779
+#: ../src/gsb_data_partial_balance.c:1778
 #, fuzzy
 msgid "Partial balance details"
 msgstr "Saldo inicial"
 
 #. Create paddinggrid
-#: ../src/gsb_data_partial_balance.c:1783 ../src/gsb_debug.c:135
+#: ../src/gsb_data_partial_balance.c:1782 ../src/gsb_debug.c:135
 msgid "Details"
 msgstr "Detalhes"
 
 #. List of the accounts
-#: ../src/gsb_data_partial_balance.c:1798
+#: ../src/gsb_data_partial_balance.c:1797
 #, fuzzy
 msgid "Accounts list: "
 msgstr "Contas:"
 
 #. create the position
-#: ../src/gsb_data_partial_balance.c:1812
+#: ../src/gsb_data_partial_balance.c:1811
 #, fuzzy
 msgid "Position in the list of accounts: "
 msgstr "Mover lançamento para outra conta:"
 
 #. create the colorized button
-#: ../src/gsb_data_partial_balance.c:1826
+#: ../src/gsb_data_partial_balance.c:1825
 msgid "Colorized in red if the balance is negative"
 msgstr ""
 
 #. Initialisation avec la première devise : fixe bug 1881
-#: ../src/gsb_data_partial_balance.c:1848
+#: ../src/gsb_data_partial_balance.c:1847
 #, fuzzy
 msgid "Enter the currency of the balance part"
 msgstr "Informe o nome para o novo sub-orçamento"
 
-#: ../src/gsb_data_partial_balance.c:1860
+#: ../src/gsb_data_partial_balance.c:1859
 #, fuzzy
 msgid "Select the currency of the partial balance: "
 msgstr "Selecionar contas bancárias:"
@@ -10290,58 +10257,6 @@ msgstr "Número da lançamento"
 #, fuzzy
 msgid "Automatic/Manual"
 msgstr "Automática"
-
-#: ../src/gsb_fyear_config.c:296 ../src/prefs/prefs_page_fyear.c:569
-#, fuzzy
-msgid "Begin date"
-msgstr "Data final"
-
-#: ../src/gsb_fyear_config.c:297 ../src/prefs/prefs_page_fyear.c:569
-#, fuzzy
-msgid "End date"
-msgstr "Data inválida"
-
-#: ../src/gsb_fyear_config.c:633 ../src/prefs/prefs_page_fyear.c:257
-msgid "New financial year"
-msgstr "Novo ano contábil"
-
-#: ../src/gsb_fyear_config.c:725 ../src/prefs/prefs_page_fyear.c:333
-msgid ""
-"If you really remove it, all the associated transactions will be without "
-"financial year.\n"
-"Are you sure?"
-msgstr ""
-
-#: ../src/gsb_fyear_config.c:726 ../src/prefs/prefs_page_fyear.c:336
-#, fuzzy
-msgid "The selected financial year is used in the file"
-msgstr "último ano contábil selecionado"
-
-#: ../src/gsb_fyear_config.c:780 ../src/prefs/prefs_page_fyear.c:385
-#, fuzzy
-msgid ""
-"This function assigns each transaction without a financial year to the one "
-"related to its transaction date.  If no financial year matches, the "
-"transaction will not be changed."
-msgstr ""
-"Esta função atribui cada lançamento sem um ano contábil ao\n"
-" ano  relacionado a sesta data do lançamento. Se nenhum ano contábil\n"
-" combinar,o lançamento não será mudada."
-
-#: ../src/gsb_fyear_config.c:781 ../src/prefs/prefs_page_fyear.c:388
-#, fuzzy
-msgid "Automatic association of financial years?"
-msgstr "Associação automática para o ano contábil"
-
-#: ../src/gsb_fyear_config.c:810 ../src/prefs/prefs_page_fyear.c:417
-#, fuzzy, c-format
-msgid "%d transactions associated"
-msgstr "Fazer lançamento clicáveis"
-
-#: ../src/gsb_fyear_config.c:818 ../src/prefs/prefs_page_fyear.c:424
-#, fuzzy
-msgid "No transaction to associate"
-msgstr "Transferir lançamentos entre categorias"
 
 #: ../src/gsb_reconcile.c:188
 #, fuzzy
@@ -12121,11 +12036,11 @@ msgstr "Este não é um arquivo de orçamentos do Grisbi."
 msgid "Remove this report"
 msgstr "Nome do arquivo de contas"
 
-#: ../src/parametres.c:272
+#: ../src/parametres.c:271
 msgid "Choose the decimal and thousands separator"
 msgstr ""
 
-#: ../src/parametres.c:278
+#: ../src/parametres.c:277
 msgid "Decimal and thousands separator"
 msgstr ""
 
@@ -12526,50 +12441,65 @@ msgstr "de acordo com a data da lançamento"
 msgid "Sorting descending of the exercises"
 msgstr "Apagar um terceiro"
 
-#: ../src/prefs/prefs_page_import_asso.c:386
-msgid "You are creating a new payee with a rule"
-msgstr ""
+#: ../src/prefs/prefs_page_fyear.c:257
+msgid "New financial year"
+msgstr "Novo ano contábil"
 
-#: ../src/prefs/prefs_page_import_asso.c:388
+#: ../src/prefs/prefs_page_fyear.c:333
 msgid ""
-"If you continue, you will use the payee management module to create a new "
-"third party and its rule.\n"
-"Continue anyway?"
+"If you really remove it, all the associated transactions will be without "
+"financial year.\n"
+"Are you sure?"
 msgstr ""
 
-#: ../src/prefs/prefs_page_import_asso.c:493
-msgid "You will be redirected to the payee management module"
-msgstr ""
+#: ../src/prefs/prefs_page_fyear.c:336
+#, fuzzy
+msgid "The selected financial year is used in the file"
+msgstr "último ano contábil selecionado"
 
-#: ../src/prefs/prefs_page_import_asso.c:494
+#: ../src/prefs/prefs_page_fyear.c:385
+#, fuzzy
 msgid ""
-"You cannot directly create a new payee and its rule like this.\n"
-"If you continue, you will use the payee management module to do so.\n"
-"Continue anyway?"
+"This function assigns each transaction without a financial year to the one "
+"related to its transaction date.  If no financial year matches, the "
+"transaction will not be changed."
 msgstr ""
+"Esta função atribui cada lançamento sem um ano contábil ao\n"
+" ano  relacionado a sesta data do lançamento. Se nenhum ano contábil\n"
+" combinar,o lançamento não será mudada."
 
-#: ../src/prefs/prefs_page_import_asso.c:679 ../src/tiers_onglet.c:1537
+#: ../src/prefs/prefs_page_fyear.c:388
 #, fuzzy
-msgid "Payee name"
-msgstr "Total geral"
+msgid "Automatic association of financial years?"
+msgstr "Associação automática para o ano contábil"
 
-#: ../src/prefs/prefs_page_import_asso.c:692
+#: ../src/prefs/prefs_page_fyear.c:417
+#, fuzzy, c-format
+msgid "%d transactions associated"
+msgstr "Fazer lançamento clicáveis"
+
+#: ../src/prefs/prefs_page_fyear.c:424
 #, fuzzy
-msgid "Search string"
-msgstr "Procurar"
+msgid "No transaction to associate"
+msgstr "Transferir lançamentos entre categorias"
 
-#: ../src/prefs/prefs_page_import_files.c:132
+#: ../src/prefs/prefs_page_fyear.c:569
 #, fuzzy
-msgid "Set the financial year"
-msgstr "Alterar o ano contábil"
+msgid "Begin date"
+msgstr "Data final"
 
-#: ../src/prefs/prefs_page_import_files.c:133
+#: ../src/prefs/prefs_page_fyear.c:569
 #, fuzzy
-msgid "According to the date"
-msgstr "de acordo com a data da lançamento"
+msgid "End date"
+msgstr "Data inválida"
 
-#: ../src/prefs/prefs_page_import_files.c:134
-msgid "According to the value date (if fail, try with the date)"
+#: ../src/prefs/prefs_page_import.c:94
+#, fuzzy
+msgid "Files import"
+msgstr "Informações:"
+
+#: ../src/prefs/prefs_page_import.c:101
+msgid "Associations for import"
 msgstr ""
 
 #: ../src/prefs/prefs_page_metatree.c:233
@@ -13098,6 +13028,11 @@ msgstr ""
 msgid "Payee number"
 msgstr "o cheque número"
 
+#: ../src/tiers_onglet.c:1537 ../src/widgets/widget_import_asso.c:679
+#, fuzzy
+msgid "Payee name"
+msgstr "Total geral"
+
 #: ../src/tiers_onglet.c:1552
 #, fuzzy
 msgid "Total number of payees: "
@@ -13485,6 +13420,59 @@ msgstr "Nome da moeda"
 #: ../src/widgets/widget_currency_popup.c:337
 msgid "Sign"
 msgstr "Símbolo"
+
+#: ../src/widgets/widget_import_asso.c:386
+msgid "You are creating a new payee with a rule"
+msgstr ""
+
+#: ../src/widgets/widget_import_asso.c:388
+msgid ""
+"If you continue, you will use the payee management module to create a new "
+"third party and its rule.\n"
+"Continue anyway?"
+msgstr ""
+
+#: ../src/widgets/widget_import_asso.c:493
+msgid "You will be redirected to the payee management module"
+msgstr ""
+
+#: ../src/widgets/widget_import_asso.c:494
+msgid ""
+"You cannot directly create a new payee and its rule like this.\n"
+"If you continue, you will use the payee management module to do so.\n"
+"Continue anyway?"
+msgstr ""
+
+#: ../src/widgets/widget_import_asso.c:692
+#, fuzzy
+msgid "Search string"
+msgstr "Procurar"
+
+#: ../src/widgets/widget_import_files.c:127
+#, fuzzy
+msgid "Set the financial year"
+msgstr "Alterar o ano contábil"
+
+#: ../src/widgets/widget_import_files.c:128
+#, fuzzy
+msgid "According to the date"
+msgstr "de acordo com a data da lançamento"
+
+#: ../src/widgets/widget_import_files.c:129
+msgid "According to the value date (if fail, try with the date)"
+msgstr ""
+
+#, fuzzy
+#~ msgid "Import files"
+#~ msgstr "Exportar para arquivos QIF"
+
+#, fuzzy
+#~ msgid "Manage import associations"
+#~ msgstr "Detalhes das categorias"
+
+#, fuzzy
+#~ msgid "Preferences start"
+#~ msgstr "Preferências"
 
 #~ msgid "Known payment methods"
 #~ msgstr "Formas de pagamento"
