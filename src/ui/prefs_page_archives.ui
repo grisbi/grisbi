@@ -310,7 +310,7 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="max_width_chars">6</property>
-                            <property name="text" translatable="yes">3000</property>
+                            <property name="text">3000</property>
                             <property name="adjustment">adjustment</property>
                             <property name="value">3000</property>
                           </object>

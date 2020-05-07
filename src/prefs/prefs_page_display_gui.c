@@ -188,7 +188,7 @@ static gboolean prefs_page_display_gui_resolution_screen_toggled (GtkWidget *tog
 		conf.panel_width = g_settings_get_int (settings, "panel-width");
 
 		gtk_window_resize (GTK_WINDOW (grisbi_app_get_active_window (NULL)), conf.main_width, conf.main_height);
-	}		
+	}
 	/* update navigation pane */
 	model = gsb_gui_navigation_get_model ();
 	gsb_gui_navigation_create_account_list (model);
@@ -289,7 +289,6 @@ static void prefs_page_display_gui_setup_display_gui_page (PrefsPageDisplayGui *
 							NULL);
 
     /* set the variables for display toolbar */
-	    /* set the variables for title */
 	switch (conf.display_toolbar)
 	{
 		case GSB_BUTTON_BOTH:
@@ -350,7 +349,7 @@ static void prefs_page_display_gui_setup_display_gui_page (PrefsPageDisplayGui *
 	/* set shortcuts text_view */
 	tabs = pango_tab_array_new (3, TRUE);
 	pango_tab_array_set_tab (tabs, 0, PANGO_TAB_LEFT, 0);
-	pango_tab_array_set_tab (tabs, 1, PANGO_TAB_LEFT, 300);
+	pango_tab_array_set_tab (tabs, 1, PANGO_TAB_LEFT, 350);
 	gtk_text_view_set_tabs (GTK_TEXT_VIEW (priv->text_view_display_shorcuts), tabs);
 	pango_tab_array_free (tabs);
 

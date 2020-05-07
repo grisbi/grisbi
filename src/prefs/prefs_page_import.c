@@ -38,7 +38,6 @@
 
 /*START_INCLUDE*/
 #include "prefs_page_import.h"
-//~ #include "gsb_file.h"
 #include "widget_import_asso.h"
 #include "widget_import_files.h"
 #include "structures.h"

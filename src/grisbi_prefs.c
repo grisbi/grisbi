@@ -327,7 +327,7 @@ static gboolean grisbi_prefs_left_panel_tree_view_selection_changed (GtkTreeSele
     gint selected;
 	GrisbiWinRun *w_run;
 
-    if (! gtk_tree_selection_get_selected (selection, &model, &iter))
+    if (!gtk_tree_selection_get_selected (selection, &model, &iter))
 	{
         return (FALSE);
 	}
