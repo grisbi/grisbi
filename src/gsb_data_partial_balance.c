@@ -207,7 +207,6 @@ void gsb_partial_balance_fill_model ( GtkListStore *list_store )
         gchar *kind_str;
         gchar *currency_str = "";
 
-		kind_str = g_strdup ("");
         partial_balance = list_tmp -> data;
 
         switch ( partial_balance -> kind )
