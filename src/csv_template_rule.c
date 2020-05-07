@@ -59,11 +59,9 @@ struct _CsvTemplateRulePrivate
 
 	GtkWidget *		entry_csv_rule_name;
 	GtkWidget *		checkbutton_csv_account_id;
-	GtkWidget *		eventbox_csv_account_id;
 	GtkWidget *		spinbutton_csv_account_id_col;
 	GtkWidget *		spinbutton_csv_account_id_row;
 	GtkWidget *		checkbutton_csv_header_col;
-	GtkWidget *		eventbox_csv_header_col;
 	GtkWidget *		spinbutton_csv_first_line;
 
 	GtkWidget *		button_csv_spec_add_line;			/* button add a new condition */
@@ -931,11 +929,6 @@ static void csv_template_rule_setup_dialog (CsvTemplateRule *template_rule,
 	gtk_widget_set_sensitive (GTK_WIDGET (priv->spinbutton_csv_account_id_row), FALSE);
 
 	/* Connect signal */
-    g_signal_connect (priv->eventbox_csv_account_id,
-					  "button-press-event",
-					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
-					  priv->checkbutton_csv_account_id);
-
 	g_signal_connect (priv->checkbutton_csv_account_id,
 					  "toggled",
 					  G_CALLBACK (csv_template_rule_checkbutton_account_changed),
@@ -944,12 +937,6 @@ static void csv_template_rule_setup_dialog (CsvTemplateRule *template_rule,
 	/* spinbutton_csv_first_line */
 	csv_first_line_data =  GPOINTER_TO_INT (g_object_get_data (G_OBJECT(assistant), "csv_first_line_data"));
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (priv->spinbutton_csv_first_line), csv_first_line_data);
-
-	/* Connect signal */
-    g_signal_connect (priv->eventbox_csv_header_col,
-					  "button-press-event",
-					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
-					  priv->checkbutton_csv_header_col);
 
 	/* specific configuration */
 	line_struct = csv_template_rule_spec_conf_new_line (template_rule, 1);
@@ -1061,20 +1048,11 @@ static void csv_template_rule_edit_dialog (CsvTemplateRule *template_rule,
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_csv_header_col), checked);
 
 	/* Connect signal */
-    g_signal_connect (priv->eventbox_csv_account_id,
-					  "button-press-event",
-					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
-					  priv->checkbutton_csv_account_id);
-
 	g_signal_connect (priv->checkbutton_csv_account_id,
 					  "toggled",
 					  G_CALLBACK (csv_template_rule_checkbutton_account_changed),
 					  template_rule);
 
-    g_signal_connect (priv->eventbox_csv_header_col,
-					  "button-press-event",
-					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
-					  priv->checkbutton_csv_header_col);
 
 	g_signal_connect_after (priv->spinbutton_csv_account_id_col,
 							"value-changed",
@@ -1190,6 +1168,8 @@ static void csv_template_rule_edit_dialog (CsvTemplateRule *template_rule,
 					  "clicked",
 					  G_CALLBACK (csv_template_rule_button_add_line_clicked),
 					  template_rule);
+
+	gtk_widget_show (GTK_WIDGET (template_rule));
 }
 
 /******************************************************************************/
@@ -1227,11 +1207,9 @@ static void csv_template_rule_class_init (CsvTemplateRuleClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), CsvTemplateRule, checkbutton_csv_account_id);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), CsvTemplateRule, checkbutton_csv_header_col);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), CsvTemplateRule, entry_csv_rule_name);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), CsvTemplateRule, eventbox_csv_account_id);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), CsvTemplateRule, spinbutton_csv_account_id_col);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), CsvTemplateRule, spinbutton_csv_account_id_row);
 
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), CsvTemplateRule, eventbox_csv_header_col);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), CsvTemplateRule, spinbutton_csv_first_line);
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), CsvTemplateRule, notebook_csv_spec);

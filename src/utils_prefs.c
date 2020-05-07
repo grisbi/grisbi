@@ -239,29 +239,6 @@ static gboolean utils_prefs_fonts_button_choose_font_clicked (GtkWidget *button,
 	return FALSE;
 }
 
-/**
- * set the size of scrolled_window in prefs tab
- *
- * \param table the table which receive the 'size-allocate' signal
- * \param allocation
- *
- * \return FALSE
- * */
-static gboolean utils_prefs_scrolled_window_allocate_size (GtkWidget *widget,
-                                                    GtkAllocation *allocation,
-                                                    gpointer height_ptr)
-{
-	gint height = SW_MIN_HEIGHT;
-
-    /* set the height value */
-    if (height_ptr)
-		height = GPOINTER_TO_INT (height_ptr);
-
-    gtk_widget_set_size_request (widget, SW_MAX_CONTENT_WIDTH, height);
-
-    return FALSE;
-}
-
 /******************************************************************************/
 /* Public functions                                                           */
 /******************************************************************************/
@@ -629,67 +606,6 @@ void utils_prefs_page_dir_chosen (GtkWidget *button,
 }
 
 /**
- * Set a boolean integer to the value of a checkbutton.  Normally called
- * via a GTK "toggled" signal handler.
- *
- * \param eventbox 			a pointer to a eventbox widget.
- * \param event
- * \param checkbutton		check button
- *
- * \return FALSE
-**/
-gboolean utils_prefs_page_eventbox_clicked (GObject *eventbox,
-											GdkEvent *event,
-											GtkToggleButton *checkbutton)
-{
-    gboolean state;
-
-    state = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton));
-    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton), !state);
-
-    return FALSE;
-}
-
-/**
- *
- *
- * \param
- *
- * \return
- * */
-GtkWidget *utils_prefs_scrolled_window_new (GtkSizeGroup *size_group,
-                                            GtkShadowType type,
-                                            gint coeff_util,
-                                            gint height)
-{
-    GtkWidget *sw = NULL;
-
-	sw = gtk_scrolled_window_new (NULL, NULL);
-    gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw), type);
-    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
-                                    GTK_POLICY_AUTOMATIC,
-                                    GTK_POLICY_AUTOMATIC);
-
-    /* set height */
-    if (!height)
-		height = SW_MIN_HEIGHT;
-
-	gtk_widget_set_size_request (sw, SW_MAX_CONTENT_WIDTH, height);
-
-    /* set signals */
-    g_signal_connect (G_OBJECT (sw),
-                      "size-allocate",
-                      G_CALLBACK (utils_prefs_scrolled_window_allocate_size),
-                      GINT_TO_POINTER (height));
-
-    /* set size_group */
-    if (size_group)
-        g_object_set_data (G_OBJECT (sw), "size_group", size_group);
-
-    return sw;
-}
-
-/**
  *
  *
  * \param
@@ -805,40 +721,6 @@ GtkWidget *utils_prefs_create_combo_list_indisponible (void)
     gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combobox), renderer, "text", 0, NULL);
 
     return combobox;
-}
-
-/**
- * sert à afficher un message de sortie directe de grisbi à partir des préférences
- *
- * \param msg		message secondaire de la boite de dialogue
- * \param hint		message principal en gras de la fenêtre de dialogue
- *
- * \return			GTK_RESPONSE_CLOSE, GTK_RESPONSE_CANCEL or GTK_RESPONSE_OK
- **/
-gint utils_prefs_dialog_msg_cancel_quit (const gchar *msg,
-										 const gchar *hint)
-{
-    GtkWidget *dialog;
-    gint result;
-
-    dialog = gtk_message_dialog_new (GTK_WINDOW (grisbi_win_get_prefs_dialog (NULL)),
-									 GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-									 GTK_MESSAGE_WARNING,
-									 GTK_BUTTONS_NONE,
-									 " ");
-
-	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
-							"gtk-cancel", GTK_RESPONSE_CANCEL,
-							"gtk-quit", GTK_RESPONSE_OK,
-							NULL);
-
-	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
-	g_object_set (G_OBJECT (dialog), "text", hint, "secondary-text", msg, NULL);
-
-    result = gtk_dialog_run (GTK_DIALOG (dialog));
-    gtk_widget_destroy (dialog);
-
-    return result;
 }
 
 /**

@@ -3243,10 +3243,6 @@ static void etats_config_initialise_onglet_affichage_generalites ( gint report_n
 	}
 
     /* Connect signal */
-    g_signal_connect (etats_prefs_widget_get_widget_by_name ("event_box_compl_name", NULL),
-					  "button-press-event",
-					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
-					  checkbutton);
     g_signal_connect (checkbutton,
 					  "toggled",
 					  G_CALLBACK (etats_config_check_button_compl_name_toggled),

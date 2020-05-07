@@ -38,7 +38,6 @@
 
 /*START_INCLUDE*/
 #include "prefs_page_bet_account.h"
-#include "bet_config.h"
 #include "bet_data.h"
 #include "bet_data_finance.h"
 #include "gsb_account.h"
@@ -70,10 +69,8 @@ struct _PrefsPageBetAccountPrivate
 	GtkWidget *			combo_bet_account;
 	GtkWidget *			hbox_bet_select_account;
     GtkWidget *			checkbutton_use_bet_module;
-	GtkWidget *			eventbox_use_bet_module;
 	GtkWidget *			hbox_bet_credit_card;
     GtkWidget *			checkbutton_bet_credit_card;
-	GtkWidget *			eventbox_bet_credit_card;
 	GtkWidget *			vbox_bank_cash_account;
 	GtkWidget *			hbox_forecast_data;
 	GtkWidget *			vbox_forecast_data;
@@ -540,20 +537,12 @@ static void prefs_page_bet_account_setup_account_page (PrefsPageBetAccount *page
 					  "toggled",
 					  G_CALLBACK (prefs_page_bet_account_use_budget_toggle),
 					  page);
-    g_signal_connect (priv->eventbox_use_bet_module,
-					  "button-press-event",
-					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
-					  priv->checkbutton_use_bet_module);
 
     /* set the signal checkbutton_bet_credit_card */
     g_signal_connect (G_OBJECT (priv->checkbutton_bet_credit_card),
 					  "toggled",
 					  G_CALLBACK (prefs_page_bet_account_select_bank_card_toggle),
 					  page);
-    g_signal_connect (priv->eventbox_bet_credit_card,
-					  "button-press-event",
-					  G_CALLBACK (utils_prefs_page_eventbox_clicked),
-					  priv->checkbutton_bet_credit_card);
 }
 
 /******************************************************************************/
@@ -582,10 +571,8 @@ static void prefs_page_bet_account_class_init (PrefsPageBetAccountClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageBetAccount, hbox_bet_select_account);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageBetAccount, notebook_bet_account);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageBetAccount, checkbutton_use_bet_module);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageBetAccount, eventbox_use_bet_module);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageBetAccount, hbox_bet_credit_card);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageBetAccount, checkbutton_bet_credit_card);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageBetAccount, eventbox_bet_credit_card);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageBetAccount, vbox_bank_cash_account);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageBetAccount, hbox_forecast_data);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageBetAccount, vbox_forecast_data);

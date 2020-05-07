@@ -8,8 +8,6 @@
 
 /* START_DECLARATION */
 GtkWidget *		utils_prefs_create_combo_list_indisponible 				(void);
-gint 			utils_prefs_dialog_msg_cancel_quit						(const gchar *msg,
-																		 const gchar *hint);
 gboolean		utils_prefs_encryption_toggled							(GtkWidget *checkbox,
 																		 gpointer data);
 GtkWidget *		utils_prefs_fonts_create_button 						(gchar **fontname,
@@ -39,13 +37,6 @@ void 			utils_prefs_page_checkbutton_changed 					(GtkToggleButton *checkbutton,
 																		 gboolean *value);
 void 			utils_prefs_page_dir_chosen 							(GtkWidget *button,
 																		 gchar *dirname);
-gboolean 		utils_prefs_page_eventbox_clicked 						(GObject *eventbox,
-																		 GdkEvent *event,
-																		 GtkToggleButton *checkbutton);
-GtkWidget *     utils_prefs_scrolled_window_new                         (GtkSizeGroup *size_group,
-                                                                         GtkShadowType type,
-                                                                         gint coeff_util,
-                                                                         gint height);
 void 			utils_prefs_spinbutton_changed 							(GtkSpinButton *spinbutton,
 																		 gboolean *value);
 

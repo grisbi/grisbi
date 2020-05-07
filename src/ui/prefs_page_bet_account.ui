@@ -82,6 +82,7 @@
                                 <property name="margin_left">5</property>
                                 <child>
                                   <object class="GtkCheckButton" id="checkbutton_use_bet_module">
+                                    <property name="label" translatable="yes">Use the budget module</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
@@ -94,22 +95,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkEventBox" id="eventbox_use_bet_module">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <child>
-                                      <object class="GtkLabel" id="label103">
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes">Use the budget module</property>
-                                      </object>
-                                    </child>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="position">1</property>
-                                  </packing>
+                                  <placeholder/>
                                 </child>
                               </object>
                               <packing>
@@ -131,6 +117,7 @@
                             <property name="no_show_all">True</property>
                             <child>
                               <object class="GtkCheckButton" id="checkbutton_bet_credit_card">
+                                <property name="label" translatable="yes">Account with deferred debit card</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
@@ -143,22 +130,7 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkEventBox" id="eventbox_bet_credit_card">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <child>
-                                  <object class="GtkLabel" id="label6">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">Account with deferred debit card</property>
-                                  </object>
-                                </child>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">1</property>
-                              </packing>
+                              <placeholder/>
                             </child>
                           </object>
                           <packing>

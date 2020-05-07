@@ -101,7 +101,6 @@ libgrisbi_la_SOURCES = \
 	gsb_calendar.c		\
 	gsb_calendar_entry.c	\
 	gsb_currency.c		\
-	gsb_currency_link_config.c	\
 	gsb_currency_popup.c \
 	gsb_data_account.c	\
 	gsb_data_archive.c	\
@@ -133,7 +132,6 @@ libgrisbi_la_SOURCES = \
 	gsb_file_save.c		\
 	gsb_file_util.c		\
 	gsb_form.c		\
-	gsb_form_config.c	\
 	gsb_form_scheduler.c	\
 	gsb_form_transaction.c	\
 	gsb_form_widget.c	\
@@ -241,7 +239,6 @@ libgrisbi_la_SOURCES = \
 	gsb_calendar.h		\
 	gsb_calendar_entry.h	\
 	gsb_currency.h		\
-	gsb_currency_link_config.h	\
 	gsb_currency_popup.h
 	gsb_data_account.h	\
 	gsb_data_archive.h	\
@@ -277,7 +274,6 @@ libgrisbi_la_SOURCES = \
 	gsb_form_transaction.h	\
 	gsb_form_widget.h	\
 	gsb_fyear.h		\
-	gsb_fyear_config.h	\
 	gsb_locale.h	\
 	gsb_payment_method.h	\
 	gsb_real.h		\

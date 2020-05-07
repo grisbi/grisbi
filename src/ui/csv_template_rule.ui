@@ -24,7 +24,6 @@
     <property name="page_increment">10</property>
   </object>
   <template class="CsvTemplateRule" parent="GtkDialog">
-    <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="type_hint">dialog</property>
     <signal name="response" handler="csv_template_dialog_response" swapped="no"/>
@@ -256,10 +255,12 @@
                           <packing>
                             <property name="left_attach">0</property>
                             <property name="top_attach">0</property>
+                            <property name="height">2</property>
                           </packing>
                         </child>
                         <child>
                           <object class="GtkCheckButton" id="checkbutton_csv_account_id">
+                            <property name="label" translatable="yes">Import account Id: </property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -269,6 +270,7 @@
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="top_attach">1</property>
+                            <property name="width">2</property>
                           </packing>
                         </child>
                         <child>
@@ -314,27 +316,6 @@
                             <property name="left_attach">4</property>
                             <property name="top_attach">1</property>
                           </packing>
-                        </child>
-                        <child>
-                          <object class="GtkEventBox" id="eventbox_csv_account_id">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <child>
-                              <object class="GtkLabel" id="label203">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="halign">start</property>
-                                <property name="label" translatable="yes">Import account Id:</property>
-                              </object>
-                            </child>
-                          </object>
-                          <packing>
-                            <property name="left_attach">2</property>
-                            <property name="top_attach">1</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <placeholder/>
                         </child>
                         <child>
                           <placeholder/>
@@ -455,6 +436,7 @@
                             <property name="tooltip_text" translatable="yes">Indicates whether the column headers are the first row of the file</property>
                             <child>
                               <object class="GtkCheckButton" id="checkbutton_csv_header_col">
+                                <property name="label" translatable="yes">headers of columns present</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
@@ -468,26 +450,7 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkEventBox" id="eventbox_csv_header_col">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <child>
-                                  <object class="GtkLabel" id="label302">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="halign">start</property>
-                                    <property name="label" translatable="yes">headers of columns present</property>
-                                    <property name="justify">right</property>
-                                    <property name="ellipsize">start</property>
-                                    <property name="single_line_mode">True</property>
-                                  </object>
-                                </child>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">1</property>
-                              </packing>
+                              <placeholder/>
                             </child>
                           </object>
                           <packing>
