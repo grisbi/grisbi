@@ -538,7 +538,7 @@ static void prefs_page_payment_method_fill (GtkWidget *tree_view)
 			GtkTreeIter *parent_iter = NULL;
 			GtkTreeIter method_iter;
 			gboolean isdefault;
-			const gchar *number;
+			gchar *number;
 
 			payment_number = gsb_data_payment_get_number (payment_list->data);
 
@@ -573,9 +573,9 @@ static void prefs_page_payment_method_fill (GtkWidget *tree_view)
 
 			/* set the last number */
 			if (gsb_data_payment_get_automatic_numbering (payment_number))
-				number = gsb_data_payment_get_last_number (payment_number);
+				number = g_strdup (gsb_data_payment_get_last_number (payment_number));
 			else
-				number = g_strdup("");
+				number = g_strdup ("");
 
 			/* Insert a child node */
 			gtk_tree_store_append (GTK_TREE_STORE (model), &method_iter, parent_iter);
@@ -590,6 +590,7 @@ static void prefs_page_payment_method_fill (GtkWidget *tree_view)
 								PAYMENT_METHOD_NUMBER_COLUMN, payment_number,
 								PAYMENT_METHOD_ACCOUNT_COLUMN, account_number,
 								-1);
+			g_free (number);
 
 			payment_list = payment_list->next;
 		}
