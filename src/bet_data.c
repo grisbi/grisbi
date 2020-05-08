@@ -914,6 +914,11 @@ GPtrArray *bet_data_get_strings_to_save ( void )
 
 			if ( g_hash_table_size ( shd -> sub_div_list ) == 0 )
 			{
+				gchar *str_to_free;
+
+				str_to_free = gsb_real_safe_real_to_string (shd -> amount,
+				                                            gsb_data_account_get_currency_floating_point
+				                                            (shd -> account_nb));
 				tmp_str = g_markup_printf_escaped ( "\t<Bet_historical Nb=\"%d\" Ac=\"%d\" "
 							"Ori=\"%d\" Div=\"%d\" Edit=\"%d\" Damount=\"%s\" SDiv=\"%d\" "
 							"SEdit=\"%d\" SDamount=\"%s\" />\n",
@@ -922,11 +927,11 @@ GPtrArray *bet_data_get_strings_to_save ( void )
 							shd -> origin,
 							shd -> div_number,
 							shd -> div_edited,
-							gsb_real_safe_real_to_string ( shd -> amount,
-							gsb_data_account_get_currency_floating_point ( shd -> account_nb ) ),
+							str_to_free,
 							0, 0, "0.00" );
 
 				g_ptr_array_add ( tab, tmp_str );
+				g_free (str_to_free);
 			}
 			else
 			{
@@ -936,9 +941,13 @@ GPtrArray *bet_data_get_strings_to_save ( void )
 				while ( g_hash_table_iter_next ( &new_iter, &key, &value ) )
 				{
 					HistDiv *sub_shd = ( HistDiv* ) value;
+					gchar *str_to_free_1;
+					gchar *str_to_free_2;
 					gint floating_point;
 
 					floating_point = gsb_data_account_get_currency_floating_point ( shd -> account_nb );
+					str_to_free_1 = gsb_real_safe_real_to_string (shd -> amount, floating_point);
+					str_to_free_2 = gsb_real_safe_real_to_string (sub_shd -> amount, floating_point);
 					tmp_str = g_markup_printf_escaped ( "\t<Bet_historical Nb=\"%d\" Ac=\"%d\" "
 							"Ori=\"%d\" Div=\"%d\" Edit=\"%d\" Damount=\"%s\" SDiv=\"%d\" "
 							"SEdit=\"%d\" SDamount=\"%s\" />\n",
@@ -947,12 +956,14 @@ GPtrArray *bet_data_get_strings_to_save ( void )
 							shd -> origin,
 							shd -> div_number,
 							shd -> div_edited,
-							gsb_real_safe_real_to_string ( shd -> amount, floating_point ),
+							str_to_free_1,
 							sub_shd -> div_number,
 							sub_shd -> div_edited,
-							gsb_real_safe_real_to_string ( sub_shd -> amount, floating_point ) );
+							str_to_free_2);
 
 					g_ptr_array_add ( tab, tmp_str );
+					g_free (str_to_free_1);
+					g_free (str_to_free_2);
 				}
 			}
 		}
