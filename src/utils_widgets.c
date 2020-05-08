@@ -60,6 +60,7 @@ static const gchar* bet_duration_array[] = {N_("Month"), N_("Year"), NULL};
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
+/* ORIGIN_DATA WIDGET */
 /**
  *
  *
@@ -334,7 +335,6 @@ void utils_widget_duration_number_changed (GtkWidget *spin_button,
     bet_data_update_bet_module (account_number, -1);
 }
 
-/* HISTORICAL_DATA WIDGET */
 /* ORIGIN_DATA WIDGET */
 /**
  * creation du widget origine data
