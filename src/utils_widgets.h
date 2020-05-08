@@ -8,5 +8,21 @@
 
 
 /* START_DECLARATION */
+/* DURATION WIDGET */
+GtkWidget *		utils_widget_get_duration_widget 			(gint origin);
+gboolean 		utils_widget_duration_button_released 		(GtkWidget *togglebutton,
+															 GdkEventButton	*event,
+															 GtkWidget *spin_button);
+void			utils_widget_duration_number_changed		(GtkWidget *spin_button,
+															 gpointer data);
+
+/* HISTORICAL_DATA WIDGET */
+GtkWidget *		utils_widget_get_historical_data_widget 	(GtkWidget *container,
+															 GtkWidget *notebook);
+/* ORIGIN_DATA WIDGET */
+GtkWidget *		utils_widget_origin_data_new				(GtkWidget *notebook,
+						                                     gint type);
+void			utils_widget_origin_fyear_clicked			(GtkWidget *combo,
+								                             gpointer data);
 /* END_DECLARATION */
 #endif

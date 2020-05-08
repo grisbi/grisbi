@@ -8,7 +8,8 @@
 /* END_INCLUDE_H */
 
 /* nombre de colonnes du tableau des prévisions */
-#define BET_ARRAY_COLUMNS 5
+#define BET_ARRAY_COLUMNS 		 5
+#define PREV_MONTH_MAX	 		60.0
 
 typedef struct _BetRange                    BetRange;
 typedef struct _BetHist                     BetHist;

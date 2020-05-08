@@ -14,6 +14,7 @@ GtkWidget *	gsb_account_create_menu_list 			(GCallback func,
 													 gboolean activate_currrent,
 													 gboolean include_closed);
 gboolean 	gsb_account_delete 						(void);
+gint 		gsb_account_get_account_from_combo		(void);
 gint 		gsb_account_get_combo_account_number 	(GtkWidget *combo_box);
 gboolean 	gsb_account_new 						(KindAccount account_type,
 												     gint currency_number,

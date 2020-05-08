@@ -48,7 +48,6 @@ libgrisbi_la_LIBADD += $(GRISBI_LIBS) $(GTK_MAC_LIBS)
 
 libgrisbi_la_SOURCES = \
 	accueil.c		\
-	bet_config.c \
 	bet_data.c \
 	bet_data_finance.c \
 	bet_finance_ui.c \
@@ -185,7 +184,6 @@ libgrisbi_la_SOURCES = \
 	utils_str.c		\
 	utils_widgets.c \
 	accueil.h		\
-	bet_config.h \
 	bet_data.h \
 	bet_data_finance.h \
 	bet_finance_ui.h \

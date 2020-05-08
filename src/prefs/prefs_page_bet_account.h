@@ -29,9 +29,12 @@ struct _PrefsPageBetAccountClass
 };
 
 /* START_DECLARATION */
-GType               	prefs_page_bet_account_get_type			(void) G_GNUC_CONST;
+GType               	prefs_page_bet_account_get_type				(void) G_GNUC_CONST;
 
-PrefsPageBetAccount * 	prefs_page_bet_account_new				(GrisbiPrefs *prefs);
+PrefsPageBetAccount * 	prefs_page_bet_account_new					(GrisbiPrefs *prefs);
+//~ gboolean				prefs_page_bet_account_origin_data_clicked	(GtkWidget *togglebutton,
+                                                            		 //~ GdkEventButton *event,
+                                                            		 //~ gpointer data);
 
 /* END_DECLARATION */
 

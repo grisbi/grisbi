@@ -39,7 +39,6 @@
 [type: gettext/gsettings]src/org.gtk.grisbi.gschema.xml
 share/grisbi.desktop.in
 src/accueil.c
-src/bet_config.c
 src/bet_data.c
 src/bet_data_finance.c
 src/bet_finance_ui.c
@@ -200,6 +199,7 @@ src/utils_gtkbuilder.c
 src/utils_operations.c
 src/utils_prefs.c
 src/utils_str.c
+src/utils_widgets.c
 src/widgets/widget_bank_details.c
 src/widgets/widget_currency_details.c
 src/widgets/widget_currency_link.c

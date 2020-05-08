@@ -39,15 +39,21 @@
 /*START_INCLUDE*/
 #include "prefs_page_bet_account.h"
 #include "bet_data.h"
+#include "gsb_data_account.h"
 #include "bet_data_finance.h"
+#include "bet_hist.h"
 #include "gsb_account.h"
+#include "gsb_automem.h"
 #include "gsb_calendar_entry.h"
-#include "gsb_file.h"
+#include "gsb_fyear.h"
 #include "navigation.h"
 #include "prefs_widget_loan.h"
 #include "structures.h"
 #include "utils.h"
+#include "utils_dates.h"
 #include "utils_prefs.h"
+#include "utils_str.h"
+#include "utils_widgets.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -89,6 +95,197 @@ G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageBetAccount, prefs_page_bet_account, GTK_TYP
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
+/**
+ * called for a change in automem_radiobutton3
+ *
+ * \param checkbutton	the button which changed
+ * \param value_ptr		a gint* which is the value to set in the memory (0, 1 or 2)
+ *
+ * \return FALSE
+ **/
+static gboolean prefs_page_bet_account_select_label_changed (GtkWidget *checkbutton,
+                                                			 GdkEventButton *event,
+                                                			 gpointer data)
+{
+    gint value;
+    gint origine;
+    gint account_number;
+
+    devel_debug (NULL);
+
+    /* we are on the active button, so save the value for it */
+    value = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (checkbutton), "pointer"));
+    origine = GPOINTER_TO_INT (data);
+    account_number = gsb_account_get_account_from_combo ();
+
+    gsb_data_account_set_bet_select_label (account_number, origine, value);
+
+    utils_prefs_gsb_file_set_modified ();
+
+    gsb_data_account_set_bet_maj (account_number, BET_MAJ_ESTIMATE);
+    bet_data_update_bet_module (account_number, -1);
+
+    return FALSE;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+static GtkWidget *prefs_page_bet_account_get_select_labels_widget (void)
+{
+    GtkWidget *vbox;
+    GtkWidget *label;
+    GtkWidget *button;
+    gint origine;
+    gint select;
+
+    vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+
+    /* set labels for transactions */
+    origine = SPP_ORIGIN_TRANSACTION;
+    select = gsb_data_account_get_bet_select_label (gsb_account_get_account_from_combo (), origine);
+    label = gtk_label_new (_("Labels for transactions:"));
+    utils_labels_set_alignment (GTK_LABEL (label), 0, 0.5);
+    gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
+    gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 5);
+
+    button = gsb_automem_radiobutton3_new (_("By default"),
+                                           _("Categories"),
+                                           _("Budgetary lines"),
+                                           &select,
+                                           G_CALLBACK (prefs_page_bet_account_select_label_changed),
+                                           GINT_TO_POINTER (origine),
+                                           GTK_ORIENTATION_HORIZONTAL);
+    gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 0);
+
+
+    /* set labels for scheduled */
+    origine = SPP_ORIGIN_SCHEDULED;
+    select = gsb_data_account_get_bet_select_label (gsb_account_get_account_from_combo (),
+                        origine);
+    label = gtk_label_new (_("Labels for scheduled transactions:"));
+    utils_labels_set_alignment (GTK_LABEL (label), 0, 0.5);
+    gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
+    gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 5);
+
+    button = gsb_automem_radiobutton3_new (_("By default"),
+					    _("Categories"),
+					    _("Budgetary lines"),
+					    &select,
+                        G_CALLBACK (prefs_page_bet_account_select_label_changed),
+                        GINT_TO_POINTER (origine),
+                        GTK_ORIENTATION_HORIZONTAL);
+    gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 0);
+
+    /* set labels for futur data */
+    origine = SPP_ORIGIN_FUTURE;
+    select = gsb_data_account_get_bet_select_label (gsb_account_get_account_from_combo (), origine);
+    label = gtk_label_new (_("Labels for futur data:"));
+    utils_labels_set_alignment (GTK_LABEL (label), 0, 0.5);
+    gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
+    gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 5);
+
+    button = gsb_automem_radiobutton3_new (_("By default"),
+					    _("Categories"),
+					    _("Budgetary lines"),
+					    &select,
+                        G_CALLBACK (prefs_page_bet_account_select_label_changed),
+                        GINT_TO_POINTER (origine),
+                        GTK_ORIENTATION_HORIZONTAL);
+    gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 0);
+
+    label = gtk_label_new (_("Order by default if the data are not zero:\n"
+							 "\tnotes, payee, category and budgetary line."));
+    gtk_label_set_use_markup (GTK_LABEL(label), TRUE);
+    utils_labels_set_alignment (GTK_LABEL (label), 0, 0.5);
+    gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
+    gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 5) ;
+
+    gtk_widget_show_all (vbox);
+
+    return vbox;
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void prefs_page_bet_account_initialise_duration_widget (gint account_number,
+                                                               GtkWidget *notebook)
+{
+    GtkWidget *widget = NULL;
+    GtkWidget *button = NULL;
+    GtkWidget *account_page;
+    gpointer ptr = NULL;
+    gint param;
+    gint months;
+
+    account_page = grisbi_win_get_account_page ();
+
+    param = gsb_data_account_get_bet_spin_range (account_number);
+    months = gsb_data_account_get_bet_months (account_number);
+    button = g_object_get_data (G_OBJECT (account_page), "bet_config_account_spin_button");
+
+    if (button && G_IS_OBJECT (button))
+    {
+        ptr = g_object_get_data (G_OBJECT (button), "pointer");
+        g_signal_handlers_block_by_func (G_OBJECT (button),
+                                         G_CALLBACK (utils_widget_duration_number_changed),
+                                         ptr);
+    }
+
+    if (param == 0)
+    {
+        widget = g_object_get_data (G_OBJECT (account_page), "bet_config_account_previous");
+        if (widget && G_IS_OBJECT (widget))
+        {
+            g_signal_handlers_block_by_func (G_OBJECT (widget),
+                                             G_CALLBACK (utils_widget_duration_button_released),
+                                             button);
+            gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), TRUE);
+        }
+        if (button)
+        {
+            gtk_spin_button_set_range (GTK_SPIN_BUTTON (button), 1.0, PREV_MONTH_MAX);
+            gtk_spin_button_set_value (GTK_SPIN_BUTTON (button), (gdouble) months);
+        }
+    }
+    else
+    {
+        widget = g_object_get_data (G_OBJECT (account_page), "bet_config_account_widget");
+        if (widget && G_IS_OBJECT (widget))
+        {
+            g_signal_handlers_block_by_func (G_OBJECT (widget),
+                                             G_CALLBACK (utils_widget_duration_button_released),
+                                             button);
+            gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), TRUE);
+        }
+        if (button)
+        {
+            gtk_spin_button_set_range (GTK_SPIN_BUTTON (button), 1.0, PREV_MONTH_MAX / 12.0);
+            gtk_spin_button_set_value (GTK_SPIN_BUTTON (button), (gdouble) months / 12.0);
+        }
+    }
+
+    if (widget && G_IS_OBJECT (widget))
+        g_signal_handlers_unblock_by_func (G_OBJECT (widget),
+                                           G_CALLBACK (utils_widget_duration_button_released),
+                                           button);
+    if (button && G_IS_OBJECT (button))
+        g_signal_handlers_unblock_by_func (G_OBJECT (button),
+                                           G_CALLBACK (utils_widget_duration_number_changed),
+                                           ptr);
+
+}
+
 /**
  *
  *
@@ -163,6 +360,28 @@ static void prefs_page_bet_account_initialise_loan_data (gint account_number,
 		tmp_list = tmp_list->next;
 	}
 }
+static void prefs_page_bet_account_initialise_select_historical_data (gint account_number,
+                                                                      GtkWidget *notebook)
+{
+    GtkWidget *widget;
+    GtkWidget *button = NULL;
+    gint param;
+
+    param = gsb_data_account_get_bet_hist_data (account_number);
+
+    if (param == 1)
+        button = g_object_get_data (G_OBJECT (notebook), "bet_config_hist_button_2");
+    else
+        button = g_object_get_data (G_OBJECT (notebook), "bet_config_hist_button_1");
+
+    if (button)
+        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), TRUE);
+
+    param = gsb_data_account_get_bet_hist_fyear (account_number);
+    widget = g_object_get_data (G_OBJECT (notebook), "bet_config_hist_fyear_combo");
+    bet_historical_set_fyear_from_combobox (widget, param);
+}
+
 /**
  * montre ou cache les paramètres en fonction du type d'onglet
  *
@@ -287,20 +506,20 @@ static gboolean prefs_page_bet_account_changed (GtkWidget *combo,
     {
 		case GSB_TYPE_BANK:
             gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook_bet_account), 0);
-            bet_config_initialise_duration_widget (account_number, account_page);
-            bet_config_initialise_select_historical_data (account_number, account_page);
+            prefs_page_bet_account_initialise_duration_widget (account_number, account_page);
+            prefs_page_bet_account_initialise_select_historical_data (account_number, account_page);
 			break;
 		case GSB_TYPE_CASH:
 			if (w_etat->bet_cash_account_option == 1)
 			{
 				gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook_bet_account), 0);
-				bet_config_initialise_duration_widget (account_number, account_page);
-				bet_config_initialise_select_historical_data (account_number, account_page);
+				prefs_page_bet_account_initialise_duration_widget (account_number, account_page);
+				prefs_page_bet_account_initialise_select_historical_data (account_number, account_page);
 			}
 			else
 			{
 				gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook_bet_account), 0);
-				bet_config_initialise_select_historical_data (account_number, account_page);
+				prefs_page_bet_account_initialise_select_historical_data (account_number, account_page);
 			}
 			break;
 		case GSB_TYPE_LIABILITIES:
@@ -312,9 +531,9 @@ static gboolean prefs_page_bet_account_changed (GtkWidget *combo,
 				gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook_bet_account), 0);
 				if (w_etat->bet_cash_account_option == 1)
 				{
-					bet_config_initialise_duration_widget (account_number, account_page);
+					prefs_page_bet_account_initialise_duration_widget (account_number, account_page);
 				}
-				bet_config_initialise_select_historical_data (account_number, account_page);
+				prefs_page_bet_account_initialise_select_historical_data (account_number, account_page);
 			}
 			else
 			{
@@ -485,14 +704,15 @@ static void prefs_page_bet_account_setup_account_page (PrefsPageBetAccount *page
 
     /* Data for the forecast */
 	/* Calculation of duration */
-    widget = bet_config_get_duration_widget (SPP_ORIGIN_CONFIG);
+    widget = utils_widget_get_duration_widget (SPP_ORIGIN_CONFIG);
     gtk_box_pack_start (GTK_BOX (priv->vbox_forecast_data), widget, FALSE, FALSE, 0);
 
     /* Select the labels of the list */
-    bet_config_get_select_labels_widget (priv->vbox_forecast_data);
+    widget = prefs_page_bet_account_get_select_labels_widget ();
+    gtk_box_pack_start (GTK_BOX (priv->vbox_forecast_data), widget, FALSE, FALSE, 0);
 
     /* Sources of historical data */
-	widget = bet_config_get_select_historical_data (priv->vbox_historical_data, account_page);
+	widget = utils_widget_origin_data_new (account_page, SPP_ORIGIN_CONFIG);
 	gtk_box_pack_start (GTK_BOX (priv->vbox_historical_data), widget, FALSE, FALSE, 0);
 
     /* Data for the account of type GSB_TYPE_LIABILITIES */

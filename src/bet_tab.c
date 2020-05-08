@@ -31,7 +31,6 @@
 
 /*START_INCLUDE*/
 #include "bet_tab.h"
-#include "bet_config.h"
 #include "bet_future.h"
 #include "bet_graph.h"
 #include "bet_hist.h"
@@ -66,6 +65,7 @@
 #include "utils_files.h"
 #include "utils_real.h"
 #include "utils_str.h"
+#include "utils_widgets.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -427,7 +427,6 @@ static gboolean bet_array_initializes_account_settings (gint account_number)
     gpointer pointeur;
     gint param;
     gint months;
-	gdouble prev_month_max;
 
     /* devel_debug_int (account_number); */
     account_page = grisbi_win_get_account_page ();
@@ -437,36 +436,35 @@ static gboolean bet_array_initializes_account_settings (gint account_number)
     months = gsb_data_account_get_bet_months (account_number);
 
     g_signal_handlers_block_by_func (G_OBJECT (button),
-                        			 G_CALLBACK (bet_config_duration_number_changed),
+                        			 G_CALLBACK (utils_widget_duration_number_changed),
                         			 GINT_TO_POINTER (1));
 
-	prev_month_max = bet_config_get_prev_month_max ();
     if (param == 0)
     {
         widget = g_object_get_data (G_OBJECT (account_page), "bet_account_previous");
         g_signal_handlers_block_by_func (G_OBJECT (widget),
-                        			 	 G_CALLBACK (bet_config_duration_button_clicked),
+                        			 	 G_CALLBACK (utils_widget_duration_button_released),
                         			 	 button);
         gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), TRUE);
-        gtk_spin_button_set_range (GTK_SPIN_BUTTON (button), 1.0, prev_month_max);
+        gtk_spin_button_set_range (GTK_SPIN_BUTTON (button), 1.0, PREV_MONTH_MAX);
         gtk_spin_button_set_value (GTK_SPIN_BUTTON (button), (gdouble) months);
     }
     else
     {
         widget = g_object_get_data (G_OBJECT (account_page), "bet_account_widget");
         g_signal_handlers_block_by_func (G_OBJECT (widget),
-                        			 	 G_CALLBACK (bet_config_duration_button_clicked),
+                        			 	 G_CALLBACK (utils_widget_duration_button_released),
                         			 	 button);
         gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), TRUE);
-        gtk_spin_button_set_range (GTK_SPIN_BUTTON (button), 1.0, prev_month_max / 12.0);
+        gtk_spin_button_set_range (GTK_SPIN_BUTTON (button), 1.0, PREV_MONTH_MAX / 12.0);
         gtk_spin_button_set_value (GTK_SPIN_BUTTON (button), (gdouble) months / 12.0);
     }
 
     g_signal_handlers_unblock_by_func (G_OBJECT (widget),
-                        			 G_CALLBACK (bet_config_duration_button_clicked),
+                        			 G_CALLBACK (utils_widget_duration_button_released),
                         			 button);
     g_signal_handlers_unblock_by_func (G_OBJECT (button),
-                        			   G_CALLBACK (bet_config_duration_number_changed),
+                        			   G_CALLBACK (utils_widget_duration_number_changed),
                         			   GINT_TO_POINTER (1));
 
     toggled = g_object_get_data (G_OBJECT (account_page), "bet_auto_inc_month");
@@ -494,12 +492,12 @@ static gboolean bet_array_initializes_account_settings (gint account_number)
     widget = g_object_get_data (G_OBJECT (account_page), "bet_hist_fyear_combo");
     pointeur = g_object_get_data (G_OBJECT (widget), "pointer");
     g_signal_handlers_block_by_func (G_OBJECT (widget),
-                        			 G_CALLBACK (bet_config_fyear_clicked),
+                        			 G_CALLBACK (utils_widget_origin_fyear_clicked),
                         			 pointeur);
 
     bet_historical_set_fyear_from_combobox (widget, param);
     g_signal_handlers_unblock_by_func (G_OBJECT (widget),
-                        			   G_CALLBACK (bet_config_fyear_clicked),
+                        			   G_CALLBACK (utils_widget_origin_fyear_clicked),
                         			   pointeur);
 
     return FALSE;
@@ -2883,7 +2881,7 @@ GtkWidget *bet_array_create_page (void)
                         label_title);
 
     /* set the duration widget */
-    hbox = bet_config_get_duration_widget (SPP_ORIGIN_ARRAY);
+    hbox = utils_widget_get_duration_widget (SPP_ORIGIN_ARRAY);
 	gtk_widget_set_halign (hbox, GTK_ALIGN_CENTER);
     gtk_box_pack_start (GTK_BOX (page), hbox, FALSE, FALSE, 5);
 

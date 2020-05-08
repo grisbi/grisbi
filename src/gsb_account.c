@@ -568,6 +568,24 @@ GtkWidget *gsb_account_create_menu_list ( GCallback func,
  * \param
  *
  * \return
+ **/
+gint gsb_account_get_account_from_combo (void)
+{
+    GtkWidget *combo;
+    gint account_number = -1;
+
+    combo = g_object_get_data (G_OBJECT (grisbi_win_get_account_page ()), "account_combo");
+    account_number = gsb_account_get_combo_account_number (combo);
+
+    return account_number;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
  * */
 /* Local Variables: */
 /* c-basic-offset: 4 */

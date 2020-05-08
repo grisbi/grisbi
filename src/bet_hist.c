@@ -30,7 +30,6 @@
 
 /*START_INCLUDE*/
 #include "bet_hist.h"
-#include "bet_config.h"
 #include "bet_data.h"
 #include "bet_graph.h"
 #include "bet_tab.h"
@@ -56,6 +55,7 @@
 #include "utils_files.h"
 #include "utils_real.h"
 #include "utils_str.h"
+#include "utils_widgets.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -85,8 +85,6 @@ static gboolean bet_historical_div_toggle_clicked ( GtkCellRendererToggle *rende
                         GtkTreeModel *model );
 static void bet_historical_export_tab ( GtkWidget *menu_item,
                         GtkTreeView *tree_view );
-static gboolean bet_historical_fyear_create_combobox_store ( void );
-static void bet_historical_fyear_hide_present_futures_fyears ( void );
 static GsbReal bet_historical_get_children_amount ( GtkTreeModel *model, GtkTreeIter *parent );
 static GtkWidget *bet_historical_get_data_tree_view ( GtkWidget *container );
 static gboolean bet_historical_get_full_div ( GtkTreeModel *model, GtkTreeIter *parent );
@@ -131,13 +129,13 @@ static GHashTable *list_trans_hist = NULL;
  * this is a tree model filter with 3 columns :
  * the name, the number and a boolean to show it or not
  * */
-GtkTreeModel *bet_fyear_model = NULL;
+static GtkTreeModel *bet_fyear_model = NULL;
 
 /**
  * this is a tree model filter from fyear_model_filter which
  * show only the financial years which must be showed
  * */
-GtkTreeModel *bet_fyear_model_filter = NULL;
+static GtkTreeModel *bet_fyear_model_filter = NULL;
 
 
 /**
@@ -148,15 +146,12 @@ GtkTreeModel *bet_fyear_model_filter = NULL;
  * */
 GtkWidget *bet_historical_create_page ( void )
 {
-    GtkWidget *widget;
     GtkWidget *page;
     GtkWidget *frame;
     GtkWidget *hbox;
     GtkWidget *label_title;
-    GtkWidget *button_1, *button_2;
     GtkWidget *tree_view;
     GtkWidget *account_page;
-    gpointer pointeur;
 
     devel_debug (NULL);
     page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, MARGIN_BOX );
@@ -175,58 +170,10 @@ GtkWidget *bet_historical_create_page ( void )
     g_object_set_data ( G_OBJECT ( grisbi_win_get_account_page () ), "bet_hist_title", label_title);
 
     /* Choix des données sources */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
+	hbox = utils_widget_origin_data_new (account_page, SPP_ORIGIN_HISTORICAL);
 	gtk_widget_set_halign (hbox, GTK_ALIGN_CENTER);
     gtk_box_pack_start ( GTK_BOX ( page ), hbox, FALSE, FALSE, 5);
     g_object_set_data ( G_OBJECT ( account_page ), "bet_historical_data", hbox );
-
-    button_1 = gtk_radio_button_new_with_label ( NULL,
-                        _("Categories") );
-    gtk_widget_set_name ( button_1, "bet_hist_button_1" );
-    g_signal_connect ( G_OBJECT ( button_1 ),
-                        "button-release-event",
-                        G_CALLBACK ( bet_config_origin_data_clicked ),
-                        GINT_TO_POINTER ( 1 ) );
-
-    button_2 = gtk_radio_button_new_with_label_from_widget (
-                        GTK_RADIO_BUTTON ( button_1 ),
-                        _("Budgetary lines") );
-    g_signal_connect ( G_OBJECT ( button_2 ),
-                        "button-release-event",
-                        G_CALLBACK ( bet_config_origin_data_clicked ),
-                        GINT_TO_POINTER ( 1 ) );
-
-    g_object_set_data ( G_OBJECT ( account_page ), "bet_hist_button_1", button_1 );
-    g_object_set_data ( G_OBJECT ( account_page ), "bet_hist_button_2", button_2 );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button_1, FALSE, FALSE, 5) ;
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button_2, FALSE, FALSE, 5) ;
-
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button_1 ), TRUE );
-    bet_data_set_div_ptr ( 0 );
-
-    /* création du sélecteur de périod */
-    if ( bet_historical_fyear_create_combobox_store ( ) )
-    {
-        widget = gsb_fyear_make_combobox_new ( bet_fyear_model_filter, TRUE );
-        gtk_widget_set_name ( GTK_WIDGET ( widget ), "bet_hist_fyear_combo" );
-        gtk_widget_set_tooltip_text ( GTK_WIDGET ( widget ),
-                        _("Choose the financial year or 12 months rolling") );
-
-        g_object_set_data ( G_OBJECT ( account_page ), "bet_hist_fyear_combo", widget );
-
-        gtk_box_pack_start ( GTK_BOX ( hbox ), widget, FALSE, FALSE, 5);
-
-        /* hide the present and futures financial years */
-        bet_historical_fyear_hide_present_futures_fyears ( );
-
-        /* set the signal */
-        pointeur = GINT_TO_POINTER ( 1 );
-        g_object_set_data ( G_OBJECT ( widget ), "pointer", pointeur );
-        g_signal_connect ( G_OBJECT ( widget ),
-                        "changed",
-                        G_CALLBACK (bet_config_fyear_clicked),
-                        pointeur );
-    }
 
     /* création de la liste des données */
     tree_view = bet_historical_get_data_tree_view ( page );
@@ -1664,7 +1611,7 @@ gboolean bet_historical_initializes_account_settings ( gint account_number )
 
     pointeur = g_object_get_data ( G_OBJECT ( combo ), "pointer" );
     g_signal_handlers_block_by_func ( G_OBJECT ( combo ),
-                        G_CALLBACK ( bet_config_fyear_clicked ),
+                        G_CALLBACK (utils_widget_origin_fyear_clicked),
                         pointeur );
 
     gsb_fyear_select_iter_by_number ( combo,
@@ -1673,7 +1620,7 @@ gboolean bet_historical_initializes_account_settings ( gint account_number )
                         fyear_number );
 
     g_signal_handlers_unblock_by_func ( G_OBJECT ( combo ),
-                        G_CALLBACK ( bet_config_fyear_clicked ),
+                        G_CALLBACK (utils_widget_origin_fyear_clicked),
                         pointeur );
 
     return FALSE;
@@ -2117,8 +2064,20 @@ GHashTable *bet_historical_get_list_trans_current_fyear ( void )
  *
  * \param
  *
- * \return TRUE
- * */
+ * \return
+ **/
+GtkTreeModel *bet_historical_get_bet_fyear_model_filter (void)
+{
+	return bet_fyear_model_filter;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
