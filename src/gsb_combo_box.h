@@ -15,7 +15,7 @@ GtkWidget *		gsb_combo_box_gsettings_new_from_list 			(gchar **string,
 															 gint value,
 															 GCallback func,
 															 gpointer data);
-GtkWidget *		gsb_combo_box_new_with_index 				(gchar **string,
+GtkWidget *		gsb_combo_box_new_with_index 				(const gchar **string,
 															 GCallback func,
 															 gpointer data);
 GtkWidget *		gsb_combo_box_new_with_index_from_list 		(GSList *list,

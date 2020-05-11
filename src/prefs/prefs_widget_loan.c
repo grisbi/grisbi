@@ -863,7 +863,7 @@ static DialogScheduled *prefs_widget_loan_dialog_scheduled_init (GtkWidget *page
 	GtkWidget *icon;
 	GSList *tmp_list;
 	gchar *tmp_str;
-	gchar *text_frequency [] = {_("Monthly"), _("Quarterly"), _("Yearly"), NULL};
+	const gchar *text_frequency [] = {N_("Monthly"), N_("Quarterly"), N_("Yearly"), NULL};
 	gint tmp_number = 0;
 	gint tmp_number2 = 0;
 	gint scheduled_number = 0;

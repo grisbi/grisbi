@@ -1247,11 +1247,10 @@ static gboolean bet_finance_ui_duration_button_changed (GtkWidget *combobox,
 static GtkWidget *bet_finance_ui_create_duration_widget (GtkWidget *parent)
 {
     GtkWidget *combobox;
-    gchar *text_duration [] = {
-    _("Between 3 and 18 months"),
-    _("Between 1 and 15 years"),
-    _("Between 15 and 30 years"),
-    NULL};
+    const gchar *text_duration [] = {N_("Between 3 and 18 months"),
+									 N_("Between 1 and 15 years"),
+    								 N_("Between 15 and 30 years"),
+    								 NULL};
 
     combobox = gsb_combo_box_new_with_index (text_duration,
 											 G_CALLBACK (bet_finance_ui_duration_button_changed),

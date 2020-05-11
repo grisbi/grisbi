@@ -63,7 +63,7 @@
  *
  * \return un GtkListStore.
  **/
-static GtkListStore *gsb_combo_box_list_store_new_from_array (gchar **array)
+static GtkListStore *gsb_combo_box_list_store_new_from_array (const gchar **array)
 {
     GtkListStore *store = NULL;
     gint i = 0;
@@ -166,7 +166,7 @@ static void gsb_combo_box_set_text_renderer (GtkComboBox *combo,
  *
  * \return a combo box widget
  **/
-GtkWidget *gsb_combo_box_new_with_index (gchar **string,
+GtkWidget *gsb_combo_box_new_with_index (const gchar **string,
 										 GCallback func,
 										 gpointer data)
 {

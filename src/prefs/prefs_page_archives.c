@@ -482,16 +482,14 @@ static void prefs_page_archives_setup_treeview_archives (PrefsPageArchives *page
     GtkListStore *archives_model;
 	GtkTreeSelection *selection;
     gint i;
-    gchar *titles[] = {
-	_("Name"), _("Initial date"), _("Final date"), _("Financial year"), _("Report name") };
+    const gchar *titles[] = {
+	N_("Name"), N_("Initial date"), N_("Final date"), N_("Financial year"), N_("Report name") };
     gfloat alignment[] = {
 	COLUMN_LEFT, COLUMN_CENTER, COLUMN_CENTER , COLUMN_CENTER, COLUMN_CENTER };
 
 	devel_debug (NULL);
 
 	priv = prefs_page_archives_get_instance_private (page);
-
-	gtk_widget_set_name (priv->treeview_archives, "colorized_tree_view");
 
 	/* Create tree model */
     archives_model = gtk_list_store_new (NUM_ARCHIVES_COLUMNS,
@@ -519,7 +517,7 @@ static void prefs_page_archives_setup_treeview_archives (PrefsPageArchives *page
         gtk_tree_view_column_set_alignment (column, alignment[i]);
 
         gtk_tree_view_column_pack_start (column, cell, TRUE);
-        gtk_tree_view_column_set_title (column, titles[i]);
+        gtk_tree_view_column_set_title (column, gettext (titles[i]));
         gtk_tree_view_column_set_attributes (column,
 											 cell,
 											 "text", i,
