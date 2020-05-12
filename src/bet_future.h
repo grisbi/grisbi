@@ -16,6 +16,7 @@ gboolean 	bet_future_modify_line 			(gint account_number,
 											 gint mother_row);
 gboolean 	bet_future_new_line_dialog 		(GtkTreeModel *tab_model,
 											 gchar *str_date);
+
 gboolean 	bet_transfert_modify_line 		(gint account_number,
 											 gint number);
 gboolean 	bet_transfert_new_line_dialog 	(GtkTreeModel *tab_model,
