@@ -357,7 +357,7 @@ if WIN32
 grisbi_LDFLAGS = -mwindows
 endif
 
-SUBDIRS = prefs ui widgets plugins/gnucash plugins/ofx plugins/openssl
+SUBDIRS = prefs ui widgets plugins/gnucash plugins/ofx plugins/openssl images
 
 if HAVE_CUNIT
 SUBDIRS += tests

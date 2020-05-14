@@ -417,6 +417,7 @@ share/categories/it/Makefile
 share/categories/ru/Makefile
 src/Makefile
 src/win-main.rc
+src/images/Makefile
 src/tests/Makefile
 src/plugins/gnucash/Makefile
 src/plugins/ofx/Makefile
