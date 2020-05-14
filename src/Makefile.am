@@ -237,7 +237,7 @@ libgrisbi_la_SOURCES = \
 	gsb_calendar.h		\
 	gsb_calendar_entry.h	\
 	gsb_currency.h		\
-	gsb_currency_popup.h
+	gsb_currency_popup.h \
 	gsb_data_account.h	\
 	gsb_data_archive.h	\
 	gsb_data_archive_store.h	\
