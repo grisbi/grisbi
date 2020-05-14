@@ -83,6 +83,7 @@ src/gsb_assistant_archive.c
 src/gsb_assistant_archive_export.c
 src/gsb_assistant_file.c
 src/gsb_assistant_first.c
+src/gsb_assistant_reconcile_config.c
 src/gsb_autofunc.c
 src/gsb_automem.c
 src/gsb_bank.c
@@ -91,14 +92,15 @@ src/gsb_calendar_entry.c
 src/gsb_category.c
 src/gsb_combo_box.c
 src/gsb_currency.c
+src/gsb_currency_popup.c
 src/gsb_data_account.c
 src/gsb_data_archive.c
 src/gsb_data_archive_store.c
 src/gsb_data_bank.c
 src/gsb_data_budget.c
 src/gsb_data_category.c
-src/gsb_data_currency_link.c
 src/gsb_data_currency.c
+src/gsb_data_currency_link.c
 src/gsb_data_currency_link.c
 src/gsb_data_form.c
 src/gsb_data_fyear.c
@@ -159,6 +161,7 @@ src/prefs/prefs_page_bank.c
 src/prefs/prefs_page_bet_account.c
 src/prefs/prefs_page_bet_general.c
 src/prefs/prefs_page_currency.c
+src/prefs/prefs_page_currency_link.c
 src/prefs/prefs_page_display_adr.c
 src/prefs/prefs_page_display_fonts.c
 src/prefs/prefs_page_display_form.c
