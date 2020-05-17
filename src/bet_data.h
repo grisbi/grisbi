@@ -90,6 +90,7 @@ struct _TransfertData
     gint 			main_budgetary_number;     	/* IB de l'opération du compte principal */
     gint 			main_sub_budgetary_number; 	/* sous IB de l'opération du compte principal */
     gint 			card_payee_number;         	/* tiers de l'opération du compte à débit différé */
+    gint 			card_payment_number;       	/* moyen de payement de l'opération du compte  à débit différé */
     gint 			card_category_number;      	/* catégorie de l'opération du compte à débit différé */
     gint 			card_sub_category_number;  	/* sous-catégorie de l'opération du compte à débit différé */
     gint 			card_budgetary_number;     	/* IB de l'opération du compte à débit différé */

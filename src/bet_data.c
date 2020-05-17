@@ -892,7 +892,6 @@ GPtrArray *bet_data_get_strings_to_save ( void )
     gchar *tmp_str = NULL;
     GHashTableIter iter;
     gpointer key, value;
-    gint index = 0;
 
     if ( g_hash_table_size ( bet_hist_div_list ) == 0
 		&& g_hash_table_size ( bet_future_list ) == 0
@@ -1023,7 +1022,6 @@ GPtrArray *bet_data_get_strings_to_save ( void )
 	if (g_hash_table_size (bet_transfert_list) > 0)
 	{
 		g_hash_table_iter_init ( &iter, bet_transfert_list );
-		index = 0;
 		while ( g_hash_table_iter_next ( &iter, &key, &value ) )
 		{
 			TransfertData *transfert = ( TransfertData* ) value;
@@ -1037,8 +1035,8 @@ GPtrArray *bet_data_get_strings_to_save ( void )
 			tmp_str = g_markup_printf_escaped ( "\t<Bet_transfert Nb=\"%d\" Dt=\"%s\" Ac=\"%d\" "
 							"Ty=\"%d\" Ra=\"%d\" Rt=\"%d\" Dd=\"%d\" Dtb=\"%s\" Mlbd=\"%d\" "
 							"Pa=\"%d\" Pn=\"%d\" Ca=\"%d\" Sca=\"%d\" Bu=\"%d\" Sbu=\"%d\" "
-							"CPa=\"%d\" CCa=\"%d\" CSca=\"%d\" CBu=\"%d\" CSbu=\"%d\" />\n",
-							++index,
+							"CPa=\"%d\" CCa=\"%d\" CSca=\"%d\" CBu=\"%d\" CSbu=\"%d\" CPn=\"%d\" />\n",
+							transfert->number,
 							my_safe_null_str ( date ),
 							transfert->account_number,
 							transfert->type,
@@ -1057,7 +1055,8 @@ GPtrArray *bet_data_get_strings_to_save ( void )
 							transfert->card_category_number,
 							transfert->card_sub_category_number,
 							transfert->card_budgetary_number,
-							transfert->card_sub_budgetary_number );
+							transfert->card_sub_budgetary_number,
+							transfert->card_payment_number);
 
 			g_ptr_array_add ( tab, tmp_str );
 

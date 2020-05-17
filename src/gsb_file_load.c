@@ -3426,8 +3426,8 @@ static  void gsb_file_load_bet_future_data ( const gchar **attribute_names,
  * \param attribute_values
  *
  * */
-static void gsb_file_load_bet_transfert_part ( const gchar **attribute_names,
-                        const gchar **attribute_values )
+static void gsb_file_load_bet_transfert_part (const gchar **attribute_names,
+											  const gchar **attribute_values )
 {
     gint i=0;
     TransfertData *transfert;
@@ -3594,6 +3594,12 @@ static void gsb_file_load_bet_transfert_part ( const gchar **attribute_names,
         continue;
     }
 
+    if ( !strcmp ( attribute_names[i], "CPn" ) )
+    {
+        transfert->card_payment_number = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
     /* normally, shouldn't come here */
     i++;
     }
