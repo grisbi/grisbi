@@ -51,7 +51,7 @@ InstType "full"
 ; !define MUI_FINISHPAGE_RUN_TEXT "$(launchAtEnd)"
 
 Function finishInstallDesktopShortcut
-	CreateShortCut "$DESKTOP\Grisbi-1.2.lnk" "$INSTDIR\bin\Grisbi.exe" "" "$INSTDIR\bin\grisbi.ico"
+	CreateShortCut "$DESKTOP\Grisbi.lnk" "$INSTDIR\bin\Grisbi.exe" "" "$INSTDIR\bin\grisbi.ico"
 FunctionEnd
 
 !define MUI_FINISHPAGE_SHOWREADME ""
