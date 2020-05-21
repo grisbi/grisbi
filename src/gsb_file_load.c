@@ -3,7 +3,7 @@
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2003-2009 Benjamin Drieu (bdrieu@april.org)                       */
 /*          2008-2018 Pierre Biava (grisbi@pierre.biava.name)                 */
-/*          https://www.grisbi.org/                                            */
+/*          https://www.grisbi.org/                                           */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -3463,7 +3463,7 @@ static void gsb_file_load_bet_transfert_part (const gchar **attribute_names,
 
     if ( !strcmp ( attribute_names[i], "Dt" ) )
     {
-        transfert -> date = gsb_parse_date_string_safe ( attribute_values[i] );
+        transfert->date_debit = gsb_parse_date_string_safe ( attribute_values[i] );
         i++;
         continue;
     }
@@ -3503,16 +3503,16 @@ static void gsb_file_load_bet_transfert_part (const gchar **attribute_names,
         continue;
     }
 
-    if ( !strcmp ( attribute_names[i], "Dtb" ) )
-    {
-        transfert->date_bascule = gsb_parse_date_string_safe ( attribute_values[i] );
-        i++;
-        continue;
-    }
+	if (!strcmp ( attribute_names[i], "MCbd"))
+	{
+		transfert->main_choice_debit_day = utils_str_atoi (attribute_values[i]);
+		i++;
+		continue;
+	}
 
-    if ( !strcmp ( attribute_names[i], "Mlbd" ) )
-    {
-        transfert->main_last_banking_date = utils_str_atoi ( attribute_values[i] );
+    if ( !strcmp ( attribute_names[i], "Mlbd" ) ) /* old option */
+	{
+        transfert->main_choice_debit_day = utils_str_atoi ( attribute_values[i] );
         i++;
         continue;
     }
@@ -3559,6 +3559,20 @@ static void gsb_file_load_bet_transfert_part (const gchar **attribute_names,
         continue;
     }
 
+    if ( !strcmp ( attribute_names[i], "Dtb" ) )
+    {
+        transfert->date_bascule = gsb_parse_date_string_safe ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+	if ( !strcmp ( attribute_names[i], "CCbd" ) )
+    {
+        transfert->card_choice_bascule_day = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
     if ( !strcmp ( attribute_names[i], "CPa" ) )
     {
         transfert->card_payee_number = utils_str_atoi ( attribute_values[i] );
@@ -3600,7 +3614,8 @@ static void gsb_file_load_bet_transfert_part (const gchar **attribute_names,
         i++;
         continue;
     }
-    /* normally, shouldn't come here */
+
+	/* normally, shouldn't come here */
     i++;
     }
     while ( attribute_names[i] );

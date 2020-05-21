@@ -70,7 +70,6 @@ static gboolean bet_data_update_div ( BetHist *sh,
                         gint type_de_transaction,
                         GsbReal amount );
 static void struct_free_bet_future ( FuturData *scheduled );
-static void struct_free_bet_transfert ( TransfertData *transfert );
 static void struct_free_hist_div ( HistDiv *shd );
 static BetHist *struct_initialise_bet_historical ( void );
 /*END_STATIC*/
@@ -1025,42 +1024,46 @@ GPtrArray *bet_data_get_strings_to_save ( void )
 		while ( g_hash_table_iter_next ( &iter, &key, &value ) )
 		{
 			TransfertData *transfert = ( TransfertData* ) value;
-			gchar *date;
+			gchar *date_debit;
 			gchar *date_bascule;
 
 			/* set the dates */
-			date = gsb_format_gdate_safe ( transfert->date );
-			date_bascule = gsb_format_gdate_safe ( transfert->date_bascule );
-
-			tmp_str = g_markup_printf_escaped ( "\t<Bet_transfert Nb=\"%d\" Dt=\"%s\" Ac=\"%d\" "
-							"Ty=\"%d\" Ra=\"%d\" Rt=\"%d\" Dd=\"%d\" Dtb=\"%s\" Mlbd=\"%d\" "
-							"Pa=\"%d\" Pn=\"%d\" Ca=\"%d\" Sca=\"%d\" Bu=\"%d\" Sbu=\"%d\" "
-							"CPa=\"%d\" CCa=\"%d\" CSca=\"%d\" CBu=\"%d\" CSbu=\"%d\" CPn=\"%d\" />\n",
+			date_debit = gsb_format_gdate_safe (transfert->date_debit);
+			date_bascule = gsb_format_gdate_safe (transfert->date_bascule);
+			tmp_str = g_markup_printf_escaped ("\t<Bet_transfert Nb=\"%d\" Ac=\"%d\" "
+											   "Ty=\"%d\" Ra=\"%d\" Rt=\"%d\" Dd=\"%d\" "
+											   "Dt=\"%s\" MCbd=\"%d\" Pa=\"%d\" Pn=\"%d\" Ca=\"%d\" "
+											   "Sca=\"%d\" Bu=\"%d\" Sbu=\"%d\" "
+											   "Dtb=\"%s\"  CCbd=\"%d\"CPa=\"%d\" CPn=\"%d\" CCa=\"%d\" "
+											   "CSca=\"%d\" CBu=\"%d\" CSbu=\"%d\" "
+											   "/>\n",
 							transfert->number,
-							my_safe_null_str ( date ),
 							transfert->account_number,
 							transfert->type,
 							transfert->replace_account,
 							transfert->replace_transaction,
 							transfert->direct_debit,
-							my_safe_null_str ( date_bascule ),
-							transfert->main_last_banking_date,
+							my_safe_null_str (date_debit),
+							transfert->main_choice_debit_day,
 							transfert->main_payee_number,
 							transfert->main_payment_number,
 							transfert->main_category_number,
 							transfert->main_sub_category_number,
 							transfert->main_budgetary_number,
 							transfert->main_sub_budgetary_number,
+							my_safe_null_str (date_bascule),
+							transfert->card_choice_bascule_day,
 							transfert->card_payee_number,
+							transfert->card_payment_number,
 							transfert->card_category_number,
 							transfert->card_sub_category_number,
 							transfert->card_budgetary_number,
-							transfert->card_sub_budgetary_number,
-							transfert->card_payment_number);
+							transfert->card_sub_budgetary_number);
 
 			g_ptr_array_add ( tab, tmp_str );
 
-			g_free (date);
+			g_free (date_debit);
+			g_free (date_bascule);
 		}
 	}
 
@@ -1744,7 +1747,7 @@ TransfertData *struct_initialise_bet_transfert ( void )
 
     transfert =  g_malloc0 ( sizeof ( TransfertData ) );
 
-    transfert->date = NULL;
+    transfert->date_debit = NULL;
     transfert->date_bascule = NULL;
 
     return transfert;
@@ -1759,8 +1762,8 @@ TransfertData *struct_initialise_bet_transfert ( void )
  * */
 void struct_free_bet_transfert ( TransfertData *transfert )
 {
-    if ( transfert->date )
-        g_date_free ( transfert->date );
+    if ( transfert->date_debit )
+        g_date_free ( transfert->date_debit );
     if ( transfert->date_bascule )
         g_date_free ( transfert->date_bascule );
 
@@ -2015,7 +2018,8 @@ static void bet_data_transfert_create_reset_credit_card ( TransfertData *transfe
  *
  * \return
  * */
-void bet_data_transfert_update_date_if_necessary ( TransfertData *transfert )
+void bet_data_transfert_update_date_if_necessary (TransfertData *transfert,
+												  GDate *date_bascule)
 {
     GDate *date_jour;
     GDate *tmp_date;
@@ -2058,19 +2062,19 @@ void bet_data_transfert_update_date_if_necessary ( TransfertData *transfert )
         bet_data_transfert_create_reset_credit_card ( transfert );
 
         /* on incrémente la date de prélèvement */
-        tmp_date = gsb_date_copy ( transfert->date );
+        tmp_date = gsb_date_copy ( transfert->date_debit);
 
-        g_date_free ( transfert->date );
+        g_date_free ( transfert->date_debit);
         g_date_add_months ( tmp_date, 1 );
 
-        if ( transfert->main_last_banking_date )
+        if ( transfert->main_choice_debit_day )
         {
-            transfert->date = gsb_date_get_last_banking_day_of_month ( tmp_date );
+            transfert->date_debit = gsb_date_get_last_banking_day_of_month ( tmp_date );
             g_date_free ( tmp_date );
         }
         else
         {
-            transfert->date = tmp_date;
+            transfert->date_debit = tmp_date;
         }
 
         /* on incrémente la date de bascule */
@@ -2276,7 +2280,7 @@ void bet_data_transfert_create_new_transaction ( TransfertData *transfert )
     transaction_number = gsb_data_transaction_new_transaction ( transfert->account_number );
 
     /* set the date */
-    gsb_data_transaction_set_date ( transaction_number, transfert->date );
+    gsb_data_transaction_set_date ( transaction_number, transfert->date_debit);
 
     /* set the amount soit celui du compte carte soit celui du solde partiel */
     if ( transfert -> type == 0 )
@@ -2415,6 +2419,33 @@ void bet_data_renum_account_number_0 (gint new_account_number)
 	g_hash_table_foreach (bet_hist_div_list, bet_data_hist_set_account_number, account_nb);
 	g_hash_table_foreach (bet_future_list, bet_data_future_set_account_number, account_nb);
 	g_hash_table_foreach (bet_transfert_list, bet_data_transfert_set_account_number, account_nb);
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+TransfertData *bet_data_transfert_get_struct_from_number (gint number)
+{
+    GHashTableIter iter;
+    gpointer key;
+    gpointer value;
+	TransfertData *transfert = NULL;
+
+    g_hash_table_iter_init ( &iter, bet_transfert_list);
+    while (g_hash_table_iter_next (&iter, &key, &value))
+    {
+        transfert = (TransfertData *) value;
+
+        if (number != transfert->number)
+            continue;
+        break;
+    }
+
+	return transfert;
 }
 
 /**

@@ -80,15 +80,16 @@ struct _TransfertData
     gint			replace_account;           	/* Account number or partial balance number */
     gint 			replace_transaction;       	/* remplace la transaction plannifiée dans le compte principal */
     gint 			direct_debit;              	/* si = 1 création de la transaction dans le compte principal */
-    GDate *			date;                    	/* date de l'opération du compte principal */
-    GDate *			date_bascule;            	/* date de début de nouveau de mois dans le compte à débit différé */
-    gint 			main_last_banking_date;    	/* force la date au dernier jour bancaire ouvrable du mois */
+    GDate *			date_debit;					/* date de l'opération du compte principal */
+    GDate *			date_bascule;            	/* date de début de nouveau mois dans le compte à débit différé */
+    gint 			main_choice_debit_day;    	/* selection du calcul de la date de prélèvement */
     gint 			main_payee_number;         	/* tiers de l'opération du compte principal */
     gint 			main_payment_number;       	/* moyen de payement de l'opération du compte principal */
     gint 			main_category_number;      	/* catégorie de l'opération du compte principal */
     gint 			main_sub_category_number;  	/* sous-catégorie de l'opération du compte principal */
     gint 			main_budgetary_number;     	/* IB de l'opération du compte principal */
     gint 			main_sub_budgetary_number; 	/* sous IB de l'opération du compte principal */
+	gint			card_choice_bascule_day;	/* si date de bascule est non ouvrable force le premier jour ouvrable suivant */
     gint 			card_payee_number;         	/* tiers de l'opération du compte à débit différé */
     gint 			card_payment_number;       	/* moyen de payement de l'opération du compte  à débit différé */
     gint 			card_category_number;      	/* catégorie de l'opération du compte à débit différé */
@@ -219,12 +220,14 @@ void 						bet_data_set_maj 							(gint account_number,
 void 						bet_data_synchronise_hist_div_list 			(GHashTable  *list_div);
 gboolean 					bet_data_transfert_add_line 				(TransfertData *transfert);
 void 						bet_data_transfert_create_new_transaction 	(TransfertData *transfert);
+TransfertData *				bet_data_transfert_get_struct_from_number	(gint number);
 GHashTable *				bet_data_transfert_get_list 				(void);
 gboolean 					bet_data_transfert_modify_line 				(TransfertData *transfert);
 gboolean 					bet_data_transfert_remove_line 				(gint account_number,
 																		 gint number);
 gboolean 					bet_data_transfert_set_line_from_file 		(TransfertData *transfert);
-void 						bet_data_transfert_update_date_if_necessary	(TransfertData *transfert);
+void 						bet_data_transfert_update_date_if_necessary	(TransfertData *transfert,
+												  						 GDate *date_bascule);
 void 						bet_data_update_bet_module 					(gint account_number,
 																		 gint page);
 void 						struct_free_bet_historical 					(BetHist *sh);
@@ -233,6 +236,7 @@ BetRange *					struct_initialise_bet_range 				(void);
 TransfertData *				struct_initialise_bet_transfert 			(void);
 HistDiv *					struct_initialise_hist_div 					(void);
 void						struct_free_bet_range						(BetRange *sbr);
+void						struct_free_bet_transfert					(TransfertData *transfert);
 
 void 						struct_free_bet_transaction_current_fyear 	(TransactionCurrentFyear *self);
 TransactionCurrentFyear *	struct_initialise_transaction_current_fyear (void);

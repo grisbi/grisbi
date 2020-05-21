@@ -1739,15 +1739,15 @@ static gboolean bet_array_list_replace_line_by_transfert (GtkTreeModel *tab_mode
         gint origine;
         gboolean trouve = FALSE;
 
-        date_debut_comparaison = g_date_new_dmy (g_date_get_day (transfert->date),
-                    g_date_get_month (transfert->date),
-                    g_date_get_year (transfert->date));
+        date_debut_comparaison = g_date_new_dmy (g_date_get_day (transfert->date_debit),
+                    g_date_get_month (transfert->date_debit),
+                    g_date_get_year (transfert->date_debit));
         g_date_subtract_days (date_debut_comparaison,
                     etat.import_files_nb_days);
 
-        date_fin_comparaison = g_date_new_dmy (g_date_get_day (transfert->date),
-                    g_date_get_month (transfert->date),
-                    g_date_get_year (transfert->date));
+        date_fin_comparaison = g_date_new_dmy (g_date_get_day (transfert->date_debit),
+                    g_date_get_month (transfert->date_debit),
+                    g_date_get_year (transfert->date_debit));
         g_date_add_days (date_fin_comparaison,
                     etat.import_files_nb_days);
 
@@ -2587,7 +2587,6 @@ static gboolean bet_array_refresh_transfert_data (GtkTreeModel *tab_model,
     gint account_number;
 
     /* devel_debug (NULL); */
-
     account_number = gsb_gui_navigation_get_current_account ();
     transfert_list = bet_data_transfert_get_list ();
 	if (g_hash_table_size (transfert_list) == 0)
@@ -2596,8 +2595,9 @@ static gboolean bet_array_refresh_transfert_data (GtkTreeModel *tab_model,
 	g_hash_table_iter_init (&iter, transfert_list);
     while (g_hash_table_iter_next (&iter, &key, &value))
     {
-        TransfertData *transfert = (TransfertData *) value;
         GtkTreeIter tab_iter;
+		GDate *date_bascule;
+		GDate *date_debit;
         GValue date_value = G_VALUE_INIT;
         gchar *str_debit = NULL;
         gchar *str_credit = NULL;
@@ -2607,20 +2607,40 @@ static gboolean bet_array_refresh_transfert_data (GtkTreeModel *tab_model,
         gchar *str_description;
         gchar *str_amount;
         GsbReal amount;
+        TransfertData *transfert = (TransfertData *) value;
 
         if (account_number != transfert->account_number)
             continue;
 
-        bet_data_transfert_update_date_if_necessary (transfert);
+		/* set date_bascule */
+		if (transfert->card_choice_bascule_day)
+			date_bascule = gsb_date_get_first_banking_day_after_date (transfert->date_bascule);
+		else
+			date_bascule = gsb_date_copy (transfert->date_bascule);
 
-        if (g_date_compare (transfert->date, date_max) > 0)
-            continue;
-        if (g_date_compare (transfert->date, date_min) < 0)
-            continue;
+		bet_data_transfert_update_date_if_necessary (transfert, date_bascule);
+		g_date_free (date_bascule);
+
+		/* set date debit */
+		if (transfert->main_choice_debit_day == 2)
+			date_debit = gsb_date_get_first_banking_day_before_date (transfert->date_debit);
+		else
+			date_debit = gsb_date_copy (transfert->date_debit);
+
+		if (g_date_compare (transfert->date_debit, date_max) > 0)
+		{
+			g_date_free (date_debit);
+			continue;
+		}
+		if (g_date_compare (transfert->date_debit, date_min) < 0)
+		{
+			g_date_free (date_debit);
+			continue;
+		}
 
         str_description = bet_array_list_get_description (transfert->replace_account,
-                        SPP_ORIGIN_ACCOUNT,
-                        value);
+														  SPP_ORIGIN_ACCOUNT,
+														  value);
 
         if (transfert->type == 0)
         {
@@ -2644,10 +2664,10 @@ static gboolean bet_array_refresh_transfert_data (GtkTreeModel *tab_model,
         else
             str_credit = utils_real_get_string_with_currency (amount, currency_number, TRUE);
 
-        str_date = gsb_format_gdate (transfert->date);
+        str_date = gsb_format_gdate (date_debit);
 
         g_value_init (&date_value, G_TYPE_DATE);
-        g_value_set_boxed (&date_value, transfert->date);
+        g_value_set_boxed (&date_value, date_debit);
 
         /* add a line in the estimate array */
         gtk_tree_store_append (GTK_TREE_STORE (tab_model), &tab_iter, NULL);
@@ -2665,6 +2685,7 @@ static gboolean bet_array_refresh_transfert_data (GtkTreeModel *tab_model,
                         -1);
 
         g_value_unset (&date_value);
+		g_date_free (date_debit);
         g_free (str_date);
         g_free (str_description);
         g_free (str_amount);
@@ -2947,9 +2968,9 @@ void bet_array_create_transaction_from_transfert (TransfertData *transfert)
     GDateYear year;
     gboolean find = FALSE;
 
-    day = g_date_get_day (transfert->date);
-    month = g_date_get_month (transfert->date);
-    year = g_date_get_year (transfert->date);
+    day = g_date_get_day (transfert->date_debit);
+    month = g_date_get_month (transfert->date_debit);
+    year = g_date_get_year (transfert->date_debit);
 
     date_debut_comparaison = g_date_new_dmy (day, month, year);
     g_date_subtract_days (date_debut_comparaison, etat.import_files_nb_days);
@@ -3018,7 +3039,7 @@ void bet_array_create_transaction_from_transfert (TransfertData *transfert)
                             amount = gsb_data_partial_balance_get_balance_at_date (transfert->replace_account, date_bascule);
                         }
                         gsb_data_transaction_set_amount (transaction_number, amount);
-                        gsb_data_transaction_set_date (transaction_number, transfert->date);
+                        gsb_data_transaction_set_date (transaction_number, transfert->date_debit);
                         gsb_transactions_list_update_transaction (transaction_number);
                         gsb_transactions_list_update_tree_view (transfert->account_number, FALSE);
                         find = TRUE;
@@ -3045,7 +3066,7 @@ void bet_array_create_transaction_from_transfert (TransfertData *transfert)
                             amount = gsb_data_partial_balance_get_balance_at_date (transfert->replace_account, date_bascule);
                         }
                         gsb_data_transaction_set_amount (transaction_number, amount);
-                        gsb_data_transaction_set_date (transaction_number, transfert->date);
+                        gsb_data_transaction_set_date (transaction_number, transfert->date_debit);
                         gsb_transactions_list_update_transaction (transaction_number);
                         gsb_transactions_list_update_tree_view (transfert->account_number, FALSE);
                         find = TRUE;
@@ -3129,7 +3150,7 @@ void bet_array_create_transaction_from_transfert (TransfertData *transfert)
         {
             GDate *tmp_date;
 
-            tmp_date = gsb_date_copy (transfert->date);
+            tmp_date = gsb_date_copy (transfert->date_debit);
             g_date_add_months (tmp_date, 1);
 
             gsb_data_scheduled_set_date (scheduled_number, tmp_date);

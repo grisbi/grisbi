@@ -1147,6 +1147,83 @@ gchar* gsb_date_initialise_format_date (void)
 		return g_strdup ("%d/%m/%Y");
 	}
 }
+
+/**
+ * Returns the first working day after the date
+ *
+ * \param a GDate   date
+ *
+ * \return a GDate  first banking day after the date must be freed
+ **/
+GDate *gsb_date_get_first_banking_day_after_date (const GDate *date)
+{
+    GDate *tmp_date;
+    GDateWeekday week_day = G_DATE_BAD_WEEKDAY;
+
+	if (!g_date_valid (date))
+		tmp_date = gsb_date_get_last_day_of_month (date);
+	else
+	    tmp_date = gsb_date_copy (date);
+
+    week_day = g_date_get_weekday (tmp_date);
+    switch (week_day)
+    {
+		case G_DATE_SUNDAY :
+			g_date_add_days (tmp_date, 1);
+			break;
+		case G_DATE_SATURDAY :
+			g_date_add_days (tmp_date, 2);
+			break;
+		case G_DATE_BAD_WEEKDAY:
+		case G_DATE_MONDAY:
+		case G_DATE_TUESDAY:
+		case G_DATE_WEDNESDAY:
+		case G_DATE_THURSDAY:
+		case G_DATE_FRIDAY:
+			break;
+    }
+
+    return tmp_date;
+}
+
+/**
+ * Returns the first working day before the date
+ *
+ * \param a GDate   date
+ *
+ * \return a GDate  first banking day before the date must be freed
+ **/
+GDate *gsb_date_get_first_banking_day_before_date (const GDate *date)
+{
+    GDate *tmp_date;
+    GDateWeekday week_day = G_DATE_BAD_WEEKDAY;
+
+	if (!g_date_valid (date))
+		tmp_date = gsb_date_get_last_day_of_month (date);
+	else
+	    tmp_date = gsb_date_copy (date);
+
+    week_day = g_date_get_weekday (tmp_date);
+    switch (week_day)
+    {
+		case G_DATE_SUNDAY :
+			g_date_subtract_days (tmp_date, 2);
+			break;
+		case G_DATE_SATURDAY :
+			g_date_subtract_days (tmp_date, 1);
+			break;
+		case G_DATE_BAD_WEEKDAY:
+		case G_DATE_MONDAY:
+		case G_DATE_TUESDAY:
+		case G_DATE_WEDNESDAY:
+		case G_DATE_THURSDAY:
+		case G_DATE_FRIDAY:
+			break;
+    }
+
+    return tmp_date;
+}
+
 /**
  *
  *
