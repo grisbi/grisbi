@@ -1233,7 +1233,6 @@ void grisbi_app_window_style_updated (GtkWidget *win,
     GtkSettings* settings;
 	gint forced = 0;
 
-	devel_debug (NULL);
 	g_signal_handlers_block_by_func (G_OBJECT (win),
 									 G_CALLBACK (grisbi_app_window_style_updated),
 									 force);
