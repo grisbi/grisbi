@@ -18,6 +18,8 @@
 /*START_DECLARATION*/
 GDate *		gsb_calendar_entry_get_date 	(GtkWidget *entry);
 GtkWidget *	gsb_calendar_entry_new 			(gint set_today);
+void		gsb_calendar_entry_new_from_ui	(GtkWidget *entry,
+											 gint set_today);
 gboolean 	gsb_calendar_entry_set_color 	(GtkWidget *entry,
 											 gboolean normal_color);
 gboolean 	gsb_calendar_entry_set_date 	(GtkWidget *entry,

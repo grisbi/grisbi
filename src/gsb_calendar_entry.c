@@ -84,31 +84,48 @@ static void gsb_calendar_entry_step_date ( GtkWidget *entry,
  *
  * \return a GtkEntry widget
  * */
-GtkWidget *gsb_calendar_entry_new ( gint set_today )
+GtkWidget *gsb_calendar_entry_new (gint set_today)
 {
     GtkWidget *entry;
 
     entry = gtk_entry_new ();
-    gtk_widget_set_size_request ( entry,
-			   100,
-			   -1 );
-    g_signal_connect ( G_OBJECT (entry),
-		       "button-press-event",
-		       G_CALLBACK (gsb_calendar_entry_button_press), NULL );
-    g_signal_connect_after ( G_OBJECT (entry),
-			     "focus-out-event",
-			     G_CALLBACK (gsb_calendar_entry_focus_out), GINT_TO_POINTER (set_today));
-    g_signal_connect ( G_OBJECT (entry),
-		       "key-press-event",
-		       G_CALLBACK (gsb_calendar_entry_key_press),
-		       NULL );
-    g_signal_connect ( G_OBJECT (entry),
-		       "changed",
-		       G_CALLBACK (gsb_calendar_entry_changed),
-		       NULL );
+	gsb_calendar_entry_new_from_ui (entry, set_today);
+
     return entry;
 }
 
+/**
+ * init a new entry for contain a date
+ * if double-click on that entry, popup a calendar
+ * when leave the entry, check the date and complete it
+ *
+ * \param entry		entry from ui
+ * \param set_today TRUE if we want to set the current day if the entry is left empty
+ *
+ * \return
+ **/
+void gsb_calendar_entry_new_from_ui (GtkWidget *entry,
+									 gint set_today)
+{
+    gtk_widget_set_size_request (entry, ENTRY_MIN_WIDTH_1, -1);
+
+    g_signal_connect ( G_OBJECT (entry),
+					  "button-press-event",
+					  G_CALLBACK (gsb_calendar_entry_button_press),
+					  NULL);
+    g_signal_connect_after (G_OBJECT (entry),
+							"focus-out-event",
+							G_CALLBACK (gsb_calendar_entry_focus_out),
+							GINT_TO_POINTER (set_today));
+    g_signal_connect (G_OBJECT (entry),
+					  "key-press-event",
+					  G_CALLBACK (gsb_calendar_entry_key_press),
+					  NULL);
+    g_signal_connect (G_OBJECT (entry),
+					  "changed",
+					  G_CALLBACK (gsb_calendar_entry_changed),
+					  NULL);
+}
 
 /**
  * set the date in the date entry
