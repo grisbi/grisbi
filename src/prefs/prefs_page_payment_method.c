@@ -935,6 +935,7 @@ static void prefs_page_payment_method_add_clicked (GtkWidget *button,
 	gint type_final;
     gboolean good;
 
+	devel_debug (NULL);
     selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
     good = gtk_tree_selection_get_selected (selection, &model, &iter);
 
@@ -955,7 +956,7 @@ static void prefs_page_payment_method_add_clicked (GtkWidget *button,
         {
             gchar *name;
 
-            gtk_tree_model_get (GTK_TREE_MODEL (model), &iter, PAYMENT_METHOD_NAME_COLUMN, &name, 1);
+            gtk_tree_model_get (GTK_TREE_MODEL (model), &iter, PAYMENT_METHOD_NAME_COLUMN, &name, -1);
             if (gtk_tree_model_iter_parent (GTK_TREE_MODEL (model), &root, &iter))
             {
                 /* We are on "Credit" or "Debit" or "Neutral" */
