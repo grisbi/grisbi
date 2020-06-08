@@ -2624,8 +2624,11 @@ static gint gsb_import_create_transaction (struct ImportTransaction *imported_tr
 
     /* si c'est une ope de ventilation, lui ajoute le no de l'opération précédente */
 	if (imported_transaction->ope_de_ventilation)
+	{
+		gsb_data_transaction_set_split_of_transaction (mother_transaction_number, 1);
 		gsb_data_transaction_set_mother_transaction_number (transaction_number,
 															mother_transaction_number);
+	}
 	else
 		mother_transaction_number  = transaction_number;
 
