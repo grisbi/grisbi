@@ -655,8 +655,8 @@ test:
     }
     else if (devise_name)
 	{
-		markup = g_strdup_printf (_("Attention : Il se peut que la devise '%s' soit utilisée par des opérations.\n"
-									"La prochaine fois que vous l'utiliserez, il faudra saisir un nouveau taux de change."),
+		markup = g_strdup_printf (_("Warning : The currency '%s' may be used for transactions.\n"
+									"The next time you use it, you will need to enter a new exchange rate."),
 								  devise_name);
 		gtk_label_set_markup (GTK_LABEL (label_warning), markup);
 		gtk_widget_show (label_warning);
