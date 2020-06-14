@@ -534,7 +534,7 @@ gboolean dialogue_yes_no (const gchar *text,
 									 GTK_MESSAGE_QUESTION,
 									 GTK_BUTTONS_YES_NO,
 									 NULL);
-    gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG (dialog), primary_text);
+    gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG (dialog), dialogue_make_hint (primary_text, NULL));
 
     if (hint)
         gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog), "%s", text);
