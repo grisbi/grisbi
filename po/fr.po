@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-14 18:38+0200\n"
+"POT-Creation-Date: 2020-06-14 21:27+0200\n"
 "PO-Revision-Date: 2020-06-14 18:21+0200\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: français <>\n"
@@ -182,7 +182,7 @@ msgstr "Configuration spécifique"
 #: ../src/ui/prefs_page_bet_account.ui.h:5 ../src/ui/prefs_page_currency.ui.h:4
 #: ../src/ui/prefs_page_currency_link.ui.h:2
 #: ../src/ui/prefs_page_display_adr.ui.h:9
-#: ../src/ui/prefs_page_display_fonts.ui.h:11
+#: ../src/ui/prefs_page_display_fonts.ui.h:10
 #: ../src/ui/prefs_page_display_form.ui.h:5
 #: ../src/ui/prefs_page_display_gui.ui.h:15
 #: ../src/ui/prefs_page_display_ope.ui.h:3 ../src/ui/prefs_page_divers.ui.h:17
@@ -1244,16 +1244,12 @@ msgstr "Thème"
 #: ../src/ui/prefs_page_display_fonts.ui.h:8
 msgid ""
 "(If the rendering is not correct, you can force the type of theme by "
-"selecting the option below)"
+"selecting one of options below)"
 msgstr ""
 "(Si le rendu n'est pas correct, vous pouvez forcer le type de thème en "
-"sélectionnant l'option ci-dessous)"
+"sélectionnant une des options ci-dessous)"
 
 #: ../src/ui/prefs_page_display_fonts.ui.h:9
-msgid "Automatic selection"
-msgstr "Sélection automatique"
-
-#: ../src/ui/prefs_page_display_fonts.ui.h:10
 msgid "CSS rules"
 msgstr "Règles CSS"
 
@@ -3369,7 +3365,7 @@ msgid ""
 "Warning: You are about to delete the deferred debit card: \"%s\"\n"
 "Are you sure?"
 msgstr ""
-"Vous êtes sur le point de supprimer la carte à débit différé «%s»\n"
+"Vous êtes sur le point de supprimer la carte à débit différé « %s »\n"
 "Êtes-vous sûr ?"
 
 #: ../src/bet_future.c:2173
@@ -3534,12 +3530,12 @@ msgstr "Ligne"
 #: ../src/bet_graph.c:2222
 #, c-format
 msgid "Amounts %s - %s for the account: '%s'"
-msgstr "Montants %s - %s pour le compte : «%s»"
+msgstr "Montants %s - %s pour le compte : « %s »"
 
 #: ../src/bet_graph.c:2235
 #, c-format
 msgid "Monthly amounts since %s for the account: '%s'"
-msgstr "Montants mensuels depuis le %s pour le compte : «%s»"
+msgstr "Montants mensuels depuis le %s pour le compte : « %s »"
 
 #: ../src/bet_graph.c:2380
 msgid "Expenses"
@@ -3615,12 +3611,12 @@ msgstr "Copier la valeur moyenne"
 #: ../src/bet_hist.c:1755
 #, c-format
 msgid "Amounts by %s on 12 months rolling for the account: '%s'"
-msgstr "Montants par %s sur 12 mois glissants pour le compte : «%s»"
+msgstr "Montants par %s sur 12 mois glissants pour le compte : « %s »"
 
 #: ../src/bet_hist.c:1760
 #, c-format
-msgid "Amounts by %s in %s for the account: «%s»"
-msgstr "Montants par %s en %s pour le compte : «%s»"
+msgid "Amounts by %s in %s for the account: « %s »"
+msgstr "Montants par %s en %s pour le compte : « %s »"
 
 #. sectors button
 #: ../src/bet_hist.c:1916
@@ -3756,7 +3752,7 @@ msgstr "Exécuter le solde d'un compte à débit différé"
 #: ../src/bet_tab.c:2775
 #, c-format
 msgid "Balance estimate of the account \"%s\" from %s to %s"
-msgstr "Solde estimé du compte «%s» du %s au %s"
+msgstr "Solde estimé du compte « %s » du %s au %s"
 
 #: ../src/bet_tab.c:2796
 msgid "balance beginning of period"
@@ -3949,7 +3945,7 @@ msgid ""
 "You tried to rename current sub-category to '%s' but this sub-category "
 "already exists. Please choose another name."
 msgstr ""
-"Vous avez tenté de renommer cette sous-catégorie en «%s» mais elle existe "
+"Vous avez tenté de renommer cette sous-catégorie en « %s » mais elle existe "
 "déjà. Veuillez choisir un autre nom."
 
 #: ../src/categories_onglet.c:825
@@ -3958,7 +3954,7 @@ msgid ""
 "You tried to rename current category to '%s' but this category already "
 "exists. Please choose another name."
 msgstr ""
-"Vous avez tenté de renommer cette catégorie en «%s» mais elle existe déjà. "
+"Vous avez tenté de renommer cette catégorie en « %s » mais elle existe déjà. "
 "Veuillez choisir un autre nom."
 
 #: ../src/categories_onglet.c:830
@@ -4251,7 +4247,7 @@ msgstr "Debug GRISBI %s"
 #: ../src/erreur.c:314
 #, c-format
 msgid "Debug enabled, level is '%s'"
-msgstr "Mode Debug actif : niveau «%s»"
+msgstr "Mode Debug actif : niveau « %s »"
 
 #: ../src/erreur.c:334
 msgid "Default debug level: Debug"
@@ -4260,7 +4256,7 @@ msgstr "Niveau de débogage : Débug"
 #: ../src/erreur.c:372
 #, c-format
 msgid "Debug updated by cmd line, level is '%s'"
-msgstr "Mode Debug modifié par l'utilisateur : niveau «%s»"
+msgstr "Mode Debug modifié par l'utilisateur : niveau « %s »"
 
 #: ../src/erreur.c:411 ../src/erreur.c:667
 #, c-format
@@ -7313,7 +7309,7 @@ msgstr "Erreur dans l'allocation de mémoire, ça va très mal se passer."
 #: ../src/gsb_assistant_reconcile_config.c:841
 #, c-format
 msgid "Reconciliation %s successfully appended!"
-msgstr "Le rapprochement «%s» a été ajouté !"
+msgstr "Le rapprochement « %s » a été ajouté !"
 
 #: ../src/gsb_assistant_reconcile_config.c:947
 #, c-format
@@ -9420,7 +9416,7 @@ msgid ""
 msgstr ""
 "Grisbi ne peut pas ouvrir le fichier et les sauvegardes ne semblent pas être "
 "activées... C'est une mauvaise chose.\n"
-"Le chemin des sauvegardes est «%s», essayez d'y trouver des copies de "
+"Le chemin des sauvegardes est « %s », essayez d'y trouver des copies de "
 "sauvegarde\n"
 "Contactez les développeurs de Grisbi sur devel@listes.grisbi.org pour leur "
 "expliquer ce qui s'est passé."
@@ -9624,7 +9620,7 @@ msgstr "Ce fichier n'est pas un fichier d'état Grisbi, action annulée..."
 #: ../src/gsb_file_save.c:402
 #, c-format
 msgid "Cannot save encrypted file '%s'"
-msgstr "Impossible d'enregistrer le fichier chiffré «%s»"
+msgstr "Impossible d'enregistrer le fichier chiffré « %s »"
 
 #: ../src/gsb_file_save.c:2886
 #, c-format
@@ -10874,7 +10870,7 @@ msgstr "Impossible de décompresser le fichier « %s » : %s"
 #: ../src/import.c:1359
 #, c-format
 msgid "Adding '%s' as an import format"
-msgstr "Ajouter «%s» en tant que format d'importation"
+msgstr "Ajouter « %s » en tant que format d'importation"
 
 #: ../src/import.c:1421 ../src/import.c:1531 ../src/import_csv.c:174
 #: ../src/import_csv.c:220
@@ -11543,7 +11539,7 @@ msgstr "«%s : %s» contient encore des opérations archivées ou non."
 #: ../src/metatree.c:1767
 #, c-format
 msgid "'%s' still contains transactions or archived transactions."
-msgstr "«%s» contient encore des opérations archivées ou non."
+msgstr "« %s » contient encore des opérations archivées ou non."
 
 #: ../src/metatree.c:1771
 #, c-format
@@ -11619,7 +11615,7 @@ msgstr ""
 #: ../src/metatree.c:2879
 #, c-format
 msgid "Choose action for \"%s\"."
-msgstr "Choisir une action pour «%s»."
+msgstr "Choisir une action pour « %s »."
 
 #: ../src/metatree.c:2885
 #, c-format
@@ -11627,8 +11623,8 @@ msgid ""
 "You can transfer content from \"%s\" in another %s or %s.\n"
 "Otherwise you can transfer \"%s\" in another %s or transform \"%s\" to %s."
 msgstr ""
-"Vous pouvez transférer les opérations de «%s» dans une %s ou une %s\n"
-"Autrement vous pouvez transférer «%s» dans une autre %s ou transformer \"%s"
+"Vous pouvez transférer les opérations de « %s » dans une %s ou une %s\n"
+"Autrement vous pouvez transférer « %s » dans une autre %s ou transformer \"%s"
 "\" en %s."
 
 #: ../src/metatree.c:2913
@@ -11639,12 +11635,12 @@ msgstr "Transférer les opérations dans une %s ou une %s"
 #: ../src/metatree.c:2916
 #, c-format
 msgid "Transfer \"%s\" in other %s"
-msgstr "Transférer «%s» dans une autre %s"
+msgstr "Transférer « %s » dans une autre %s"
 
 #: ../src/metatree.c:2919
 #, c-format
 msgid "Convert \"%s\" in new %s"
-msgstr "Convertir «%s» en nouvelle %s"
+msgstr "Convertir « %s » en nouvelle %s"
 
 #: ../src/metatree.c:2941 ../src/metatree.c:2962 ../src/metatree.c:3850
 msgid "Select the destination: "
@@ -11910,7 +11906,7 @@ msgid ""
 "<span foreground=\"blue\">%s</span>"
 msgstr ""
 "Entrer le mot de passe pour chiffrer le fichier\n"
-"<span foreground=\"blue\">« %s»</span>"
+"<span foreground=\"blue\">« %s »</span>"
 
 #: ../src/plugins/openssl/openssl.c:344
 #, c-format
@@ -11982,7 +11978,7 @@ msgid ""
 "\n"
 "Do you want to continue?"
 msgstr ""
-"Attention vous aller supprimer l'archive «%s».\n"
+"Attention vous aller supprimer l'archive « %s ».\n"
 "\n"
 "Si vous continuez les informations caractérisant cette archive seront "
 "perdues et toutes les opérations qui lui sont liées seront à nouveau "
@@ -12007,7 +12003,7 @@ msgid ""
 "\n"
 "Are you sure you want to continue ?"
 msgstr ""
-"Attention vous aller supprimer l'archive «%s» et toutes les opérations qui "
+"Attention vous aller supprimer l'archive « %s » et toutes les opérations qui "
 "lui sont liées.\n"
 "\n"
 "Si vous continuez toutes les opérations qui lui sont liées seront "
@@ -12153,33 +12149,38 @@ msgid ""
 "Warning : The currency '%s' may be used for transactions.\n"
 "The next time you use it, you will need to enter a new exchange rate."
 msgstr ""
-"Attention : Il se peut que la devise «%s» soit utilisée par des opérations.\n"
+"Attention : Il se peut que la devise « %s » soit utilisée par des opérations.\n"
 "La prochaine fois que vous l'utiliserez, il faudra saisir un nouveau taux de "
 "change."
 
-#: ../src/prefs/prefs_page_display_fonts.c:188
-#, c-format
-msgid "The automatically selected theme is: '%s'"
-msgstr "Le thème sélectionné automatiquement est : «%s»"
-
-#: ../src/prefs/prefs_page_display_fonts.c:219
-msgid "Force the use of clear theme"
-msgstr "Forcer l'utilisation d'un thème clair"
-
-#: ../src/prefs/prefs_page_display_fonts.c:230
-msgid "Force the use of dark theme"
-msgstr "Forcer l'utilisation d'un thème sombre"
-
-#: ../src/prefs/prefs_page_display_fonts.c:243
-msgid "Force the use of light theme"
-msgstr "Forcer l'utilisation d'un thème léger"
-
-#: ../src/prefs/prefs_page_display_fonts.c:462
+#: ../src/prefs/prefs_page_display_fonts.c:341
 msgid "Select a new logo"
 msgstr "Sélectionner un nouveau logo"
 
+#: ../src/prefs/prefs_page_display_fonts.c:401
+msgid "Automatic selection"
+msgstr "Sélection automatique"
+
+#: ../src/prefs/prefs_page_display_fonts.c:402
+msgid "Force the use of clear theme"
+msgstr "Forcer l'utilisation d'un thème clair"
+
+#: ../src/prefs/prefs_page_display_fonts.c:403
+msgid "Force the use of dark theme"
+msgstr "Forcer l'utilisation d'un thème sombre"
+
+#: ../src/prefs/prefs_page_display_fonts.c:404
+msgid "Force the use of light theme"
+msgstr "Forcer l'utilisation d'un thème léger"
+
+#. set label with the name of selected theme
+#: ../src/prefs/prefs_page_display_fonts.c:414
+#, c-format
+msgid "The automatically selected theme is: '%s'"
+msgstr "Le thème sélectionné automatiquement est : « %s »"
+
 #. On récupère le nom de la page
-#: ../src/prefs/prefs_page_display_fonts.c:585
+#: ../src/prefs/prefs_page_display_fonts.c:518
 msgid "Fonts & logo"
 msgstr "Polices et logo"
 
@@ -12237,7 +12238,7 @@ msgstr "Vous devez relancer Grisbi pour que la nouvelle langue prenne effet."
 #: ../src/prefs/prefs_page_divers.c:432
 #, c-format
 msgid "Changes the language of Grisbi for \"%s\"!"
-msgstr "Changer la langue de l'interface pour «%s» !"
+msgstr "Changer la langue de l'interface pour « %s » !"
 
 #: ../src/prefs/prefs_page_divers.c:487
 msgid "System Language"
@@ -12499,7 +12500,7 @@ msgid ""
 "Are you sure you want to continue?"
 msgstr ""
 "Attention vous êtes sur le point de supprimer un rapprochement.\n"
-"Si vous continuez, le rapprochement «%s» sera supprimé et toutes les "
+"Si vous continuez, le rapprochement « %s » sera supprimé et toutes les "
 "opérations liées seront marquées P.\n"
 "Voulez-vous continuer ?"
 
@@ -13454,91 +13455,3 @@ msgstr "Solde partiel"
 #: ../src/widgets/widget_transfer.c:938
 msgid "One of the two fields is recommended"
 msgstr "Il est recommandé d'utiliser un des deux champs"
-
-#~ msgid "Background of bet division"
-#~ msgstr "Couleur de fond des données historiques"
-
-#~ msgid "Background of bet futur"
-#~ msgstr "Couleur de fond des données futures"
-
-#~ msgid "Background of bet solde"
-#~ msgstr "Couleur de fond des lignes de solde de début de mois"
-
-#~ msgid ""
-#~ "Attention : vous allez supprimer votre fichier de réglage des couleurs de "
-#~ "grisbi. Cette opération sera définitive.\n"
-#~ "Voulez vous supprimer le fichier : %s ?\n"
-#~ msgstr ""
-#~ "Attention : vous allez supprimer votre fichier de réglage des couleurs de "
-#~ "grisbi. Cette opération sera définitive.\n"
-#~ "Voulez vous supprimer le fichier : %s ?\n"
-
-#~ msgid "Theme and Colors"
-#~ msgstr "Thème et couleurs"
-
-#~ msgid "Colors"
-#~ msgstr "Couleurs"
-
-#~ msgid "Transaction list background 1"
-#~ msgstr "Couleur de fond 1 de la liste des opérations"
-
-#~ msgid "Transaction list background 2"
-#~ msgstr "Couleur de fond 2 de la liste des opérations"
-
-#~ msgid "Color for the operation that gives the balance today"
-#~ msgstr "Couleur de l'opération qui donne le solde à aujourd'hui"
-
-#~ msgid "Children of split transaction"
-#~ msgstr "Couleur d'une sous-opération"
-
-#~ msgid "Selection color"
-#~ msgstr "Couleur d'une sélection"
-
-#~ msgid "Archive color"
-#~ msgstr "Couleur des lignes d'archive"
-
-#~ msgid ""
-#~ "Attention : Il se peut que la devise '%s' soit utilisée par des "
-#~ "opérations.\n"
-#~ "La prochaine fois que vous l'utiliserez, il faudra saisir un nouveau taux "
-#~ "de change."
-#~ msgstr ""
-#~ "Attention : Il se peut que la devise «%s» soit utilisée par des "
-#~ "opérations.\n"
-#~ "La prochaine fois que vous l'utiliserez, il faudra saisir un nouveau taux "
-#~ "de change."
-
-#~ msgid "Choix du jour de prélèvement : "
-#~ msgstr "Choix du jour de prélèvement : "
-
-#~ msgid "Date retenue : "
-#~ msgstr "Date de prélèvement : "
-
-#~ msgid "Date of beginning of period: "
-#~ msgstr "Date de début de la période : "
-
-#~ msgid "Error: You must select an account."
-#~ msgstr "Erreur : Vous devez sélectionner un compte."
-
-#~ msgid "Missing data"
-#~ msgstr "Données manquantes"
-
-#~ msgid "Beginning of period"
-#~ msgstr "Début de la période"
-
-#~ msgid "Note: This option is used if no starting date for forecasts."
-#~ msgstr ""
-#~ "Remarque : cette option est utilisée en l'absence d'une date de début "
-#~ "pour les prévisions."
-
-#~ msgid "1 "
-#~ msgstr "1 "
-
-#~ msgid " = "
-#~ msgstr " = "
-
-#~ msgid "rows"
-#~ msgstr "lignes"
-
-#~ msgid "columns"
-#~ msgstr "colonnes"

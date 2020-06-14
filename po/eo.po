@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eo\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-14 18:38+0200\n"
+"POT-Creation-Date: 2020-06-14 21:27+0200\n"
 "PO-Revision-Date: 2009-06-28 20:04+0200\n"
 "Last-Translator: Cyril Castelbou <cyril.castelbou@free.fr>\n"
 "Language-Team: esperanto <eo@li.org>\n"
@@ -172,7 +172,7 @@ msgstr ""
 #: ../src/ui/prefs_page_bet_account.ui.h:5 ../src/ui/prefs_page_currency.ui.h:4
 #: ../src/ui/prefs_page_currency_link.ui.h:2
 #: ../src/ui/prefs_page_display_adr.ui.h:9
-#: ../src/ui/prefs_page_display_fonts.ui.h:11
+#: ../src/ui/prefs_page_display_fonts.ui.h:10
 #: ../src/ui/prefs_page_display_form.ui.h:5
 #: ../src/ui/prefs_page_display_gui.ui.h:15
 #: ../src/ui/prefs_page_display_ope.ui.h:3 ../src/ui/prefs_page_divers.ui.h:17
@@ -1232,14 +1232,10 @@ msgstr ""
 #: ../src/ui/prefs_page_display_fonts.ui.h:8
 msgid ""
 "(If the rendering is not correct, you can force the type of theme by "
-"selecting the option below)"
+"selecting one of options below)"
 msgstr ""
 
 #: ../src/ui/prefs_page_display_fonts.ui.h:9
-msgid "Automatic selection"
-msgstr ""
-
-#: ../src/ui/prefs_page_display_fonts.ui.h:10
 msgid "CSS rules"
 msgstr ""
 
@@ -11345,32 +11341,37 @@ msgid ""
 "The next time you use it, you will need to enter a new exchange rate."
 msgstr ""
 
-#: ../src/prefs/prefs_page_display_fonts.c:188
-#, c-format
-msgid "The automatically selected theme is: '%s'"
+#: ../src/prefs/prefs_page_display_fonts.c:341
+msgid "Select a new logo"
 msgstr ""
 
-#: ../src/prefs/prefs_page_display_fonts.c:219
+#: ../src/prefs/prefs_page_display_fonts.c:401
+msgid "Automatic selection"
+msgstr ""
+
+#: ../src/prefs/prefs_page_display_fonts.c:402
 #, fuzzy
 msgid "Force the use of clear theme"
 msgstr "Clôture des comptes de passifs"
 
-#: ../src/prefs/prefs_page_display_fonts.c:230
+#: ../src/prefs/prefs_page_display_fonts.c:403
 #, fuzzy
 msgid "Force the use of dark theme"
 msgstr "Clôture des comptes de passifs"
 
-#: ../src/prefs/prefs_page_display_fonts.c:243
+#: ../src/prefs/prefs_page_display_fonts.c:404
 #, fuzzy
 msgid "Force the use of light theme"
 msgstr "Clôture des comptes de passifs"
 
-#: ../src/prefs/prefs_page_display_fonts.c:462
-msgid "Select a new logo"
+#. set label with the name of selected theme
+#: ../src/prefs/prefs_page_display_fonts.c:414
+#, c-format
+msgid "The automatically selected theme is: '%s'"
 msgstr ""
 
 #. On récupère le nom de la page
-#: ../src/prefs/prefs_page_display_fonts.c:585
+#: ../src/prefs/prefs_page_display_fonts.c:518
 msgid "Fonts & logo"
 msgstr ""
 
