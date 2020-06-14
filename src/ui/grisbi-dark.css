@@ -1,41 +1,38 @@
 /* Default color scheme */
 /* colors of home page elements */
 @define-color background_ligne_compte rgba(120,120,120,1);
-@define-color couleur_grey_box rgb(120,120,120);
+@define-color background_grey_box rgba(120,120,120,1);
 @define-color couleur_nom_compte_normal black;
 @define-color couleur_nom_compte_hover darkgray;
-@define-color couleur_solde_alarme_verte_normal darkgreen;
-@define-color couleur_solde_alarme_verte_hover green;
-@define-color couleur_solde_alarme_orange_normal rgb(230,155,0);
-@define-color couleur_solde_alarme_orange_hover rgb(255,200,0);
-@define-color couleur_solde_alarme_rouge_normal darkred;
-@define-color couleur_solde_alarme_rouge_hover red;
+@define-color couleur_solde_normal darkgreen;
+@define-color couleur_solde_hover green;
+@define-color couleur_solde_alarme_low_normal rgba(230,155,0,1);
+@define-color couleur_solde_alarme_low_hover rgba(255,200,0,1);
+@define-color couleur_solde_alarme_high_normal darkred;
+@define-color couleur_solde_alarme_high_hover red;
 
 /* Couleurs spécifiques des tree_view et des entry*/
-@define-color background_archive rgb(60,120,40);
+@define-color background_archive rgba(60,120,40,1);
+@define-color background_jour rgba(180,180,180,1);
 @define-color background_scheduled gray;
-@define-color background_split rgb(50,150,50);
-@define-color couleur_fond_0 rgb(75,75,75);
-@define-color couleur_fond_1 rgb(120,120,120);
-@define-color couleur_jour rgb(180,180,180);
-@define-color couleur_selection_bg rgb(135,165,80);
-@define-color couleur_selection_fg rgb(0,0,0);
-/*@define-color couleur_colorized_treeview_hover_fg rgb(255,255,255);*/
-@define-color couleur_colorized_treeview_hover_fg rgb(255,0,0);
-@define-color text_color_0 rgb(255,255,255);
-@define-color text_color_1 rgb(255,0,0);
-@define-color text_color_2 rgb(195,195,195);
-
-/* couleur d'un widget non actif (disabled) */
-@define-color couleur_insensitive_text rgb(175,175,175);
+@define-color background_selection rgba(135,165,80,1);
+@define-color background_split rgba(50,150,50,1);
+@define-color couleur_fond_0 rgba(75,75,75,1);
+@define-color couleur_fond_1 rgba(120,120,120,1);
+@define-color text_color_0 rgba(255,255,255,1);
+@define-color text_color_1 rgba(255,0,0,1);
+@define-color text_color_2 rgba(195,195,195,1);
+@define-color text_insensitive_entry rgba(175,175,175,1);
+@define-color text_selection rgba(0,0,0,1);
 
 /* colors for the balance estimate module */
-@define-color background_bet_division rgb(135,0,175);
-@define-color background_bet_future rgb(125,200,140);
-@define-color background_bet_solde rgb(152,115,10);
-@define-color background_bet_transfert rgb(102,176,50);
+@define-color background_bet_division rgba(135,0,175,1);
+@define-color background_bet_future rgba(125,200,140,1);
+@define-color background_bet_solde rgba(152,115,10,1);
+@define-color background_bet_transfert rgba(102,176,50,1);
 
 /* couleurs des options dans gsettings */
-@define-color couleur_gsetting_option rgb(250,185,20);
+@define-color text_gsetting_option_normal rgba(250,185,20,1);
+@define-color text_gsetting_option_hover rgba(255,0,0,1);
 
 @import url("grisbi-widgets.css");

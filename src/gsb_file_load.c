@@ -616,7 +616,7 @@ static void gsb_file_load_rgba_part ( const gchar **attribute_names,
 
     else if ( !strcmp ( attribute_names[i], "Couleur_jour" ) )
     {
-        gsb_rgba_set_couleur ( "alt_couleur_jour", attribute_values[i] );
+        gsb_rgba_set_couleur ( "alt_background_jour", attribute_values[i] );
     }
 
     else if ( !strcmp ( attribute_names[i], "Background_scheduled" ) )

@@ -1002,7 +1002,7 @@ static void grisbi_app_startup (GApplication *application)
 
 	/* load the CSS properties */
     css_provider = gtk_css_provider_new ();
-	css_filename = gsb_rgba_get_css_filename ();
+	css_filename = gsb_css_get_filename ();
     file = g_file_new_for_path (css_filename);
     gtk_css_provider_load_from_file (css_provider, file, NULL);
     g_free (css_filename);
@@ -1012,8 +1012,7 @@ static void grisbi_app_startup (GApplication *application)
 	css_data = gtk_css_provider_to_string (css_provider);
 
     /* initialise les couleurs */
-    gsb_rgba_initialise_couleurs_par_defaut (css_data);
-	gsb_rgba_set_colors_to_default ();
+    gsb_rgba_initialise_couleurs (css_data);
 
 	/* enregistre les formats d'importation */
     gsb_import_register_import_formats ();
@@ -1271,15 +1270,14 @@ void grisbi_app_window_style_updated (GtkWidget *win,
 			gsb_file_save_css_local_file (css_data);
 
 			/* on charge les nouvelles données */
-			css_filename = gsb_rgba_get_css_filename ();
+			css_filename = gsb_css_get_filename ();
 			file = g_file_new_for_path (css_filename);
 			gtk_css_provider_load_from_file (css_provider, file, NULL);
 
 			/* on met à jour css_data et les couleurs de base */
 			g_free (css_data);
 			css_data = gtk_css_provider_to_string (css_provider);
-			gsb_rgba_initialise_couleurs_par_defaut (css_data);
-			gsb_rgba_set_colors_to_default ();
+			gsb_rgba_initialise_couleurs (css_data);
 
 			/* MAJ Home page */
 			if (grisbi_win_file_is_loading ())

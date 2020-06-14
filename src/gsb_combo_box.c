@@ -335,7 +335,7 @@ GtkWidget *gsb_combo_box_gsettings_new_from_list (gchar **string,
 	gint j = 0;
 
 	combo = gtk_combo_box_new ();
-	str_color = gsb_rgba_get_couleur_to_string ("couleur_gsetting_option");
+	str_color = gsb_rgba_get_couleur_to_string ("text_gsetting_option_normal");
 	store = gtk_list_store_new (3, G_TYPE_STRING, G_TYPE_INT, G_TYPE_STRING);
 
 	if (first_str && strlen (first_str))

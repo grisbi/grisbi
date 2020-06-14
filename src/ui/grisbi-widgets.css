@@ -1,7 +1,6 @@
 /**************/
 /* ComboBoxes */
 /**************/
-
 combobox arrow {
     -gtk-icon-source: -gtk-icontheme("pan-down-symbolic");
 }
@@ -21,40 +20,40 @@ combobox arrow {
 	color: @couleur_nom_compte_hover;
 }
 
-#accueil_solde_alarme_verte {
+#accueil_solde_normal {
 	background-color:@background_ligne_compte;
 	background-image: none;
-	color: @couleur_solde_alarme_verte_normal;
+	color: @couleur_solde_normal;
 }
 
-#accueil_solde_alarme_verte:hover {
+#accueil_solde_normal:hover {
 	background-color:@background_ligne_compte;
 	background-image: none;
-	color: @couleur_solde_alarme_verte_hover;
+	color: @couleur_solde_hover;
 }
 
-#accueil_solde_alarme_orange {
+#accueil_solde_alarme_low {
 	background-color:@background_ligne_compte;
 	background-image: none;
-	color: @couleur_solde_alarme_orange_normal;
+	color: @couleur_solde_alarme_low_normal;
 }
 
-#accueil_solde_alarme_orange:hover {
+#accueil_solde_alarme_low:hover {
 	background-color:@background_ligne_compte;
 	background-image: none;
-	color: @couleur_solde_alarme_orange_hover;
+	color: @couleur_solde_alarme_low_hover;
 }
 
-#accueil_solde_alarme_rouge {
+#accueil_solde_alarme_high {
 	background-color:@background_ligne_compte;
 	background-image: none;
 	color: @couleur_solde_alarme_rouge_normal;
 }
 
-#accueil_solde_alarme_rouge:hover {
+#accueil_solde_alarme_high:hover {
 	background-color:@background_ligne_compte;
 	background-image: none;
-	color: @couleur_solde_alarme_rouge_hover;
+	color: @couleur_solde_alarme_high_hover;
 }
 
 #etat_event_box {
@@ -62,7 +61,7 @@ combobox arrow {
 }
 
 #etat_event_box:hover {
-	color: @couleur_solde_alarme_rouge_hover;
+	color: @couleur_solde_alarme_high_hover;
 }
 
 #form_entry {
@@ -82,27 +81,27 @@ combobox arrow {
 }
 
 #grey_box {
-	background-color: @couleur_grey_box;
+	background-color: @background_grey_box;
 	background-image: none;
 }
 
 #label_gsetting_option {
-	color: @couleur_gsetting_option;
+	color: @text_gsetting_option_normal;
 }
 
 #label_gsetting_option.file {
-	color: @couleur_gsetting_option;
+	color: @text_gsetting_option_normal;
 }
 
-#list_config_buttons {
+button#list_config_buttons {
 	color: red;
-	background-color: @couleur_grey_box;
+	background-color: @background_grey_box;
 	background-image: none;
 }
 
-#list_config_buttons:checked {
+button:checked#list_config_buttons {
 	color: green;
-	background-color: @couleur_selection_bg;
+	background-color: @background_selection;
 	background-image: none;
 }
 
@@ -113,45 +112,45 @@ combobox arrow {
 #reconcile_old_entry_insensitive {
 	background-color: transparent;
 	background-image: none;
-	color: @couleur_insensitive_text;
+	color: @text_insensitive_entry;
 }
 
 #gsettings_tree_view.view {
 	background-color: transparent;
 	background-image: none;
-	color: @couleur_gsetting_option;
+	color: @text_gsetting_option_normal;
 }
 
 #gsettings_tree_view.view:hover {
 	background-color: transparent;
 	background-image: none;
-	color: @couleur_colorized_treeview_hover_fg;
+	color: @text_gsetting_option_hover;
 }
 
 #gsettings_tree_view.view:selected {
-	background-color: @couleur_selection_bg;
+	background-color: @background_selection;
 	background-image: none;
-	color: @couleur_selection_fg;
+	color: @text_selection;
 }
 #colorized_tree_view.view:hover {
 	background-color: transparent;
 	background-image: none;
-	color: @couleur_colorized_treeview_hover_fg;
+	color: @text_gsetting_option_hover;
 }
 
 #colorized_tree_view.view:selected {
-	background-color: @couleur_selection_bg;
+	background-color: @background_selection;
 	background-image: none;
-	color: @couleur_selection_fg;
+	color: @text_selection;
 }
 #tree_view.view:hover {
-	background-color: mix(@couleur_selection_bg, white, 0.5);
+	background-color: mix(@background_selection, white, 0.5);
 	background-image: none;
-	color: @couleur_selection_fg;
+	color: @text_selection;
 }
 
 #tree_view.view:selected {
-	background-color: @couleur_selection_bg;
+	background-color: @background_selection;
 	background-image: none;
-	color: @couleur_selection_fg;
+	color: @text_selection;
 }

@@ -1,40 +1,38 @@
 /* Default color scheme */
 /* colors of home page elements */
 @define-color background_ligne_compte rgba(192,192,192,0);
-@define-color couleur_grey_box rgb(192,192,192);
-@define-color couleur_nom_compte_normal rgb(0,0,0);
-@define-color couleur_nom_compte_hover rgb(156,156,156);
-@define-color couleur_solde_alarme_verte_normal rgb(0,127,0);
-@define-color couleur_solde_alarme_verte_hover rgb(0,230,0);
-@define-color couleur_solde_alarme_orange_normal rgb(230,155,0);
-@define-color couleur_solde_alarme_orange_hover rgb(255,200,0);
-@define-color couleur_solde_alarme_rouge_normal rgb(153,0,0);
-@define-color couleur_solde_alarme_rouge_hover rgb(255,0,0);
+@define-color background_grey_box rgba(192,192,192,1);
+@define-color couleur_nom_compte_normal rgba(0,0,0,1);
+@define-color couleur_nom_compte_hover rgba(156,156,156,1);
+@define-color couleur_solde_normal rgba(0,127,0,1);
+@define-color couleur_solde_hover rgba(0,230,0,1);
+@define-color couleur_solde_alarme_low_normal rgba(230,155,0,1);
+@define-color couleur_solde_alarme_low_hover rgba(255,200,0,1);
+@define-color couleur_solde_alarme_high_normal rgba(153,0,0,1);
+@define-color couleur_solde_alarme_high_hover rgba(255,0,0,1);
 
 /* Couleurs spécifiques des tree_view et des entry*/
-@define-color background_archive rgb(60,120,40);
+@define-color background_archive rgba(60,120,40,1);
+@define-color background_jour rgba(180,180,180,1);
 @define-color background_scheduled gray;
-@define-color background_split rgb(240,200,200);
-@define-color couleur_fond_0 rgb(215,215,255);
-@define-color couleur_fond_1 rgb(255,255,255);
-@define-color couleur_jour rgb(180,180,180);
-@define-color couleur_selection_bg rgb(245,155,155);
-@define-color couleur_selection_fg rgb(0,0,0);
-@define-color couleur_colorized_treeview_hover_fg rgb(0,0,0);
+@define-color background_selection rgba(245,155,155,1);
+@define-color background_split rgba(240,200,200,1);
+@define-color couleur_fond_0 rgba(215,215,255,1);
+@define-color couleur_fond_1 rgba(255,255,255,1);
 @define-color text_color_0 black;
 @define-color text_color_1 red;
-@define-color text_color_2 rgb(195,195,195);
-
-/* couleur d'un widget non actif (disabled) */
-@define-color couleur_insensitive_text rgb (80,80,80);
+@define-color text_color_2 rgba(195,195,195,1);
+@define-color text_insensitive_entry rgba (80,80,80,1);
+@define-color text_selection rgba(0,0,0,1);
 
 /* colors for the balance estimate module */
-@define-color background_bet_division rgb(250,255,130);
-@define-color background_bet_future rgb(125,200,140);
-@define-color background_bet_solde rgb(0,255,235);
-@define-color background_bet_transfert rgb(255,146,233);
+@define-color background_bet_division rgba(250,255,130,1);
+@define-color background_bet_future rgba(125,200,140,1);
+@define-color background_bet_solde rgba(0,255,235,1);
+@define-color background_bet_transfert rgba(255,146,233,1);
 
 /* couleurs des options dans gsettings */
-@define-color couleur_gsetting_option blue;
+@define-color text_gsetting_option_normal blue;
+@define-color text_gsetting_option_hover rgba(0,0,0,1);
 
 @import url("grisbi-widgets.css");

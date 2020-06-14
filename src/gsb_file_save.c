@@ -68,6 +68,7 @@
 #include "gsb_data_report_text_comparison.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
+#include "gsb_dirs.h"
 #include "gsb_file.h"
 #include "gsb_locale.h"
 #include "gsb_real.h"
@@ -2864,14 +2865,20 @@ gulong gsb_file_save_bet_graph_part ( gulong iterator,
  **/
 gboolean gsb_file_save_css_local_file (const gchar *css_data)
 {
-
 	/* on sauvegarde le fichier CSS en local qu'en cas de modification */
 	if (conf.prefs_change_css_data)
 	{
-		const gchar *css_filename;
+		gchar *css_filename;
+		gchar *tmp_str = NULL;
 		GError *error = NULL;
 
-		css_filename = gsb_rgba_get_css_filename ();
+		if (conf.use_type_theme == 2)
+			tmp_str = g_strdup ("grisbi-dark.css");
+		else
+			tmp_str = g_strdup ("grisbi.css");
+
+		css_filename = g_build_filename (gsb_dirs_get_user_config_dir (), tmp_str, NULL);
+
 		if (!g_file_set_contents (css_filename, css_data, -1, &error))
 		{
 		 	gchar *tmp_str;

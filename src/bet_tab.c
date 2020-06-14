@@ -831,11 +831,11 @@ static gboolean bet_array_list_set_background_color (GtkWidget *tree_view)
                 if (g_date_compare (date, date_jour) > 0)
                 {
                     absent = FALSE;
-					color_str = gsb_rgba_get_couleur_to_string ("couleur_jour");
+					color_str = gsb_rgba_get_couleur_to_string ("background_jour");
                     gtk_tree_store_set (GTK_TREE_STORE (model),
 										prev,
                                     	SPP_ESTIMATE_TREE_BACKGROUND_COLOR,
-										gsb_rgba_get_couleur ("couleur_jour"),
+										gsb_rgba_get_couleur ("background_jour"),
                                     	SPP_ESTIMATE_TREE_COLOR_STRING,
 										color_str,
                                     	-1);

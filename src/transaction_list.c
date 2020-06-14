@@ -2164,7 +2164,7 @@ gint transaction_list_set_color_jour ( gint account_number )
                     /* colorize the record */
                     for (j=0 ; j < custom_list -> nb_rows_by_transaction ; j++)
                     {
-                        record -> row_bg = gsb_rgba_get_couleur ( "couleur_jour" );
+                        record -> row_bg = gsb_rgba_get_couleur ( "background_jour" );
                         i--;
                         if ( i >= 0 )
                             record = custom_list -> visibles_rows[i];

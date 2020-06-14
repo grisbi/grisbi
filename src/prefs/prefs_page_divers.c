@@ -461,7 +461,7 @@ static gint prefs_page_divers_choose_language_list_new (GtkWidget *combo)
 		return 0;
 
 	store = gtk_list_store_new (3, G_TYPE_STRING, G_TYPE_INT, G_TYPE_STRING);
-	str_color = gsb_rgba_get_couleur_to_string ("couleur_gsetting_option");
+	str_color = gsb_rgba_get_couleur_to_string ("text_gsetting_option_normal");
 
 	while ((dirname = g_dir_read_name (dir)) != NULL)
     {

@@ -80,7 +80,6 @@ static void custom_list_tree_model_init (GtkTreeModelIface *iface);
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GdkRGBA text_color[2];
 /*END_EXTERN*/
 
 

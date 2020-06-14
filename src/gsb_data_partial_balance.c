@@ -1096,7 +1096,7 @@ gchar *gsb_data_partial_balance_get_marked_balance ( gint partial_balance_number
 		{
 			gchar *str_to_free;
 
-			str_to_free = gsb_rgba_get_couleur_to_hexa_string ("couleur_gsetting_option");
+			str_to_free = gsb_rgba_get_couleur_to_hexa_string ("text_gsetting_option_normal");
             color = g_strdup (str_to_free);
 			g_free (str_to_free);
 		}
@@ -1196,7 +1196,7 @@ gchar *gsb_data_partial_balance_get_current_balance ( gint partial_balance_numbe
 		{
 			gchar *str_to_free;
 
-			str_to_free = gsb_rgba_get_couleur_to_hexa_string ("couleur_gsetting_option");
+			str_to_free = gsb_rgba_get_couleur_to_hexa_string ("text_gsetting_option_normal");
             color = g_strdup (str_to_free);
 			g_free (str_to_free);
 		}

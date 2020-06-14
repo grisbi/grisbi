@@ -36,31 +36,104 @@
 #include "erreur.h"
 /*END_INCLUDE*/
 
-/*START_STATIC*/
-/*END_STATIC*/
-
 /*START_EXTERN*/
 /*END_EXTERN*/
 
-/* Couleurs actives peuvent être celles de grisbi ou pour un thème sombre */
-/* Couleurs non modifiables */
-static GdkRGBA couleur_gsetting_option;
+typedef struct	_ComboColor		ComboColor;
 
-/* Couleurs modifiables dans les préférences */
+struct _ComboColor
+{
+    const gchar *name;
+	const gchar *css_name;
+    GdkRGBA *color;
+    GdkRGBA *old_color;
+};
+
+/*START_STATIC*/
+/*HOME_COLORS*/
+static GdkRGBA background_ligne_compte;
+static GdkRGBA background_grey_box;
+static GdkRGBA couleur_nom_compte_normal;
+static GdkRGBA couleur_nom_compte_hover;
+static GdkRGBA couleur_solde_normal;
+static GdkRGBA couleur_solde_hover;
+static GdkRGBA couleur_solde_alarme_low_normal;
+static GdkRGBA couleur_solde_alarme_low_hover;
+static GdkRGBA couleur_solde_alarme_high_normal;
+static GdkRGBA couleur_solde_alarme_high_hover;
+
+static ComboColor config_home_colors [] = {
+    {N_("Background color of account row"), "background_ligne_compte", &background_ligne_compte, 0},
+    {N_("Background color of logo title"), "background_grey_box", &background_grey_box, 0},
+    {N_("Color of account text"), "couleur_nom_compte_normal", &couleur_nom_compte_normal, 0},
+    {N_("Color of account text hovered"), "couleur_nom_compte_hover", &couleur_nom_compte_hover, 0},
+    {N_("Color of balance text"), "couleur_solde_normal", &couleur_solde_normal, 0},
+    {N_("Color of balance text hovered"), "couleur_solde_hover", &couleur_solde_hover, 0},
+    {N_("Color of balance text in low alarm"), "couleur_solde_alarme_low_normal", &couleur_solde_alarme_low_normal, 0},
+    {N_("Color of balance text hovered in low alarm"), "couleur_solde_alarme_low_hover", &couleur_solde_alarme_low_hover, 0},
+    {N_("Color of balance text in high alarm"), "couleur_solde_alarme_high_normal", &couleur_solde_alarme_high_normal, 0},
+    {N_("Color of balance text hovered in high alarm"), "couleur_solde_alarme_high_hover", &couleur_solde_alarme_high_hover, 0},
+    {NULL, 0, 0, 0},
+   };
+
+/*TRANSACTIONS_LIST_COLORS*/
 static GdkRGBA background_archive;
+static GdkRGBA background_jour;
 static GdkRGBA background_scheduled;
+static GdkRGBA background_selection;
 static GdkRGBA background_split;
-static GdkRGBA couleur_fond[2];
-static GdkRGBA couleur_jour;
-static GdkRGBA couleur_selection_bg;
-static GdkRGBA couleur_selection_fg;
-static GdkRGBA text_color[2];
+static GdkRGBA couleur_fond_0;
+static GdkRGBA couleur_fond_1;
+static GdkRGBA text_selection;
+static GdkRGBA text_color_0;
+static GdkRGBA text_color_1;
+static GdkRGBA text_color_2;
+static GdkRGBA text_insensitive_entry;
 
+static ComboColor config_transactions_colors [] = {
+    {N_("Background color 1 in lists of transactions"), "couleur_fond_0", &couleur_fond_0, 0},
+    {N_("Background color 2 in lists of transactions"), "couleur_fond_1", &couleur_fond_1, 0},
+    {N_("Background of the transaction that gives the balance today"), "background_jour", &background_jour, 0},
+    {N_("Background color of split transaction children"), "background_split", &background_split, 0},
+    {N_("Background color of selected transaction"), "background_selection", &background_selection, 0},
+    {N_("Background color of virtual scheduled transactions"), "background_scheduled", &background_scheduled, 0},
+    {N_("Background color of archives"), "background_archive", &background_archive, 0},
+    {N_("Color of transaction text"), "text_color_0", &text_color_0, 0},
+    {N_("Color of unfinished split transaction text"), "text_color_1", &text_color_1, 0},
+    {N_("Color of selected transaction text"), "text_selection", &text_selection, 0},
+    {N_("Color of unsensitive text"), "text_insensitive_entry", &text_insensitive_entry, 0},
+    {NULL, 0, 0, 0},
+   };
+
+/*BET_COLORS*/
 /* colors for the balance estimate module */
 static GdkRGBA background_bet_division;
 static GdkRGBA background_bet_future;
 static GdkRGBA background_bet_solde;
 static GdkRGBA background_bet_transfert;
+
+static ComboColor config_bet_colors [] = {
+    {N_("Background of bet division"), "background_bet_division", &background_bet_division, 0},
+    {N_("Background of bet futur"), "background_bet_future", &background_bet_future, 0},
+    {N_("Background of bet solde"), "background_bet_solde", &background_bet_solde, 0},
+    {N_("Background of bet transfer"), "background_bet_transfert", &background_bet_transfert, 0},
+    {NULL, 0, 0, 0},
+   };
+
+/*PREFS_RULES*/
+static GdkRGBA text_gsetting_option_normal;
+static GdkRGBA text_gsetting_option_hover;
+
+static ComboColor config_prefs_colors [] = {
+    {N_("Color of gsetting text"), "text_gsetting_option_normal", &text_gsetting_option_normal, 0},
+    {N_("Color of gsetting text hovered"), "text_gsetting_option_hover", &text_gsetting_option_hover, 0},
+    {NULL, 0, 0, 0},
+   };
+
+static ComboColor config_indiponible [] = {
+    {N_("Not available"), NULL, 0, 0},
+    {NULL, 0, 0, 0},
+   };
 
 /* Couleurs alternatives. Sert à mémoriser les anciennes couleurs de grisbi pour compatibilité descendante */
 /* Couleurs des tree_view */
@@ -68,7 +141,7 @@ static GdkRGBA alt_background_archive;
 static GdkRGBA alt_background_scheduled;
 static GdkRGBA alt_background_split;
 static GdkRGBA alt_couleur_fond[2];
-static GdkRGBA alt_couleur_jour;
+static GdkRGBA alt_background_jour;
 static GdkRGBA alt_couleur_selection;
 static GdkRGBA alt_text_color[2];
 
@@ -77,26 +150,7 @@ static GdkRGBA alt_couleur_bet_division;
 static GdkRGBA alt_couleur_bet_future;
 static GdkRGBA alt_couleur_bet_solde;
 static GdkRGBA alt_couleur_bet_transfert;
-
-
-/* Couleurs par défaut servent à l'initialisation de grisbi */
-static GdkRGBA default_couleur_gsetting_option;
-
- /* Couleurs des tree_view */
-static GdkRGBA default_background_archive;
-static GdkRGBA default_couleur_fond[2];
-static GdkRGBA default_couleur_jour;
-static GdkRGBA default_couleur_selection_bg;
-static GdkRGBA default_couleur_selection_fg;
-static GdkRGBA default_background_split;
-static GdkRGBA default_text_color[2];
-static GdkRGBA default_background_scheduled;
-
-/* colors for the balance estimate module */
-static GdkRGBA default_background_bet_division;
-static GdkRGBA default_background_bet_future;
-static GdkRGBA default_background_bet_solde;
-static GdkRGBA default_background_bet_transfert;
+/*END_STATIC*/
 
 /******************************************************************************/
 /* Private functions                                                          */
@@ -139,20 +193,20 @@ static gchar *gsb_rgba_css_color_get_data_with_new_color (const gchar *line_need
 /* Public functions                                                           */
 /******************************************************************************/
 /**
- * initialize the default colors for grisbi
+ * initialize the colors for grisbi from CSS data
  *
  * \param
  *
  * \return
- * */
-void gsb_rgba_initialise_couleurs_par_defaut (const gchar *css_data)
+ **/
+void gsb_rgba_initialise_couleurs (const gchar *css_data)
 {
 	gchar **tab_colors;
 	guint i = 0;
 
     devel_debug (NULL);
 
-    if (0 == strlen(css_data))
+    if (strlen(css_data) == 0)
 	    return;
 
 	tab_colors = g_strsplit (css_data, ";", -1);
@@ -160,97 +214,14 @@ void gsb_rgba_initialise_couleurs_par_defaut (const gchar *css_data)
 	{
 		if (g_strrstr (tab_colors[i], "@define-color"))
 		{
+			GdkRGBA *color;
 			gchar **tab;
 
-			tab = g_strsplit (tab_colors[i], " ", -1);
+			tab = g_strsplit (tab_colors[i], " ", 3);
 
-			if (strcmp (tab[1], "background_archive") == 0)
-			{
-				/* set the archive background color */
-				if (!gdk_rgba_parse (&default_background_archive, tab[2]))
-					notice_debug ("default_background_archive en erreur");
-			}
-			else if (strcmp (tab[1], "background_scheduled") == 0)
-			{
-				/* color of the non selectable transactions on scheduler */
-				if (!gdk_rgba_parse (&default_background_scheduled, tab[2]))
-					notice_debug ("default_background_scheduled en erreur");
-			}
-			else if (strcmp (tab[1], "background_split") == 0)
-			{
-				/* color for split children */
-				if (!gdk_rgba_parse (&default_background_split, tab[2]))
-					notice_debug ("default_background_split en erreur");
-			}
-			else if (strcmp (tab[1], "couleur_fond_0") == 0)
-			{
-				/* background color of the tree_view line */
-				if (!gdk_rgba_parse (&default_couleur_fond[0], tab[2]))
-					notice_debug ("default_couleur_fond[0] en erreur");
-			}
-			else if (strcmp (tab[1], "couleur_fond_1") == 0)
-			{
-				/* background color of the tree_view line */
-				if (!gdk_rgba_parse (&default_couleur_fond[1], tab[2]))
-					notice_debug ("default_couleur_fond[1] en erreur");
-			}
-			else if (strcmp (tab[1], "couleur_jour") == 0)
-			{
-				/* color of today */
-				if (!gdk_rgba_parse (&default_couleur_jour, tab[2]))
-					notice_debug ("default_couleur_jour en erreur");
-			}
-			else if (strcmp (tab[1], "couleur_selection_bg") == 0)
-			{
-				if (!gdk_rgba_parse (&default_couleur_selection_bg, tab[2]))
-					notice_debug ("default_couleur_selection_fg en erreur");
-			}
-			else if (strcmp (tab[1], "couleur_selection_fg") == 0)
-			{
-				if (!gdk_rgba_parse (&couleur_selection_fg, tab[2]))
-					notice_debug ("default_couleur_selection_fg en erreur");
-			}
-			else if (strcmp (tab[1], "text_color_0") == 0)
-			{
-				/* colors of the text */
-				if (!gdk_rgba_parse (&default_text_color[0], tab[2]))
-					notice_debug ("default_text_color[0] en erreur");
-			}
-			else if (strcmp (tab[1], "text_color_1") == 0)
-			{
-				/* colors of the text */
-				if (!gdk_rgba_parse (&default_text_color[1], tab[2]))
-					notice_debug ("default_text_color[1] en erreur");
-			}
-			else if (strcmp (tab[1], "background_bet_division") == 0)
-			{
-				/* colors of the background bet divisions */
-				if (!gdk_rgba_parse (&default_background_bet_division, tab[2]))
-					notice_debug ("default_background_bet_division en erreur");
-			}
-			else if (strcmp (tab[1], "background_bet_future") == 0)
-			{
-				/* colors of the background bet future data */
-				if (!gdk_rgba_parse (&default_background_bet_future, tab[2]))
-					notice_debug ("default_background_bet_future en erreur");
-			}
-			else if (strcmp (tab[1], "background_bet_solde") == 0)
-			{
-				/* colors of the background bet solde data */
-				if (!gdk_rgba_parse (&default_background_bet_solde, tab[2]))
-					notice_debug ("default_background_bet_solde en erreur");
-			}
-			else if (strcmp (tab[1], "background_bet_transfert") == 0)
-			{
-				/* colors of the background bet transfert data */
-				if (!gdk_rgba_parse (&default_background_bet_transfert, tab[2]))
-					notice_debug ("default_background_bet_transfert en erreur");
-			}
-			else if (strcmp (tab[1], "couleur_gsetting_option") == 0)
-			{
-				if (!gdk_rgba_parse (&default_couleur_gsetting_option, tab[2]))
-					notice_debug ("default_couleur_gsetting_option en erreur");
-			}
+			color = gsb_rgba_get_couleur (tab[1]);
+			if (!gdk_rgba_parse (color, tab[2]))
+					notice_debug (tab[1]);
 			g_strfreev (tab);
 		}
 	}
@@ -263,24 +234,59 @@ void gsb_rgba_initialise_couleurs_par_defaut (const gchar *css_data)
  * \param gchar couleur
  *
  * \return a GdkRGBA
- * */
+ **/
 GdkRGBA *gsb_rgba_get_couleur (const gchar *couleur)
 {
 	/* couleurs actives */
-	if (strcmp (couleur, "couleur_gsetting_option") == 0)
-        return &couleur_gsetting_option;
+	/* home colors */
+    if (strcmp (couleur, "background_ligne_compte") == 0)
+        return &background_ligne_compte;
+    else if (strcmp (couleur, "background_grey_box") == 0)
+        return &background_grey_box;
+    else if (strcmp (couleur, "couleur_nom_compte_normal") == 0)
+        return &couleur_nom_compte_normal;
+    else if (strcmp (couleur, "couleur_nom_compte_hover") == 0)
+        return &couleur_nom_compte_hover;
+    else if (strcmp (couleur, "couleur_solde_normal") == 0)
+        return &couleur_solde_normal;
+    else if (strcmp (couleur, "couleur_solde_hover") == 0)
+        return &couleur_solde_hover;
+    else if (strcmp (couleur, "couleur_solde_alarme_low_normal") == 0)
+        return &couleur_solde_alarme_low_normal;
+    else if (strcmp (couleur, "couleur_solde_alarme_low_hover") == 0)
+        return &couleur_solde_alarme_low_hover;
+    else if (strcmp (couleur, "couleur_solde_alarme_high_normal") == 0)
+        return &couleur_solde_alarme_high_normal;
+    else if (strcmp (couleur, "couleur_solde_alarme_high_hover") == 0)
+        return &couleur_solde_alarme_high_hover;
+
+	/* transactions colors */
     else if (strcmp (couleur, "background_archive") == 0)
         return &background_archive;
     else if (strcmp (couleur, "background_scheduled") == 0)
         return &background_scheduled;
     else if (strcmp (couleur, "background_split") == 0)
         return &background_split;
-    else if (strcmp (couleur, "couleur_jour") == 0)
-        return &couleur_jour;
-    else if (strcmp (couleur, "couleur_selection_bg") == 0)
-        return &couleur_selection_bg;
-    else if (strcmp (couleur, "couleur_selection_fg") == 0)
-        return &couleur_selection_fg;
+	else if (strcmp (couleur, "couleur_fond_0") == 0)
+		return &couleur_fond_0;
+	else if (strcmp (couleur, "couleur_fond_1") == 0)
+		return &couleur_fond_1;
+    else if (strcmp (couleur, "background_jour") == 0)
+        return &background_jour;
+    else if (strcmp (couleur, "background_selection") == 0)
+        return &background_selection;
+    else if (strcmp (couleur, "text_selection") == 0)
+        return &text_selection;
+	else if (strcmp (couleur, "text_color_0") == 0)
+		return &text_color_0;
+	else if (strcmp (couleur, "text_color_1") == 0)
+		return &text_color_1;
+	else if (strcmp (couleur, "text_color_2") == 0)
+		return &text_color_2;
+    else if (strcmp (couleur, "text_insensitive_entry") == 0)
+        return &text_insensitive_entry;
+
+	/* bet colors */
     else if (strcmp (couleur, "background_bet_division") == 0)
         return &background_bet_division;
     else if (strcmp (couleur, "background_bet_future") == 0)
@@ -289,6 +295,13 @@ GdkRGBA *gsb_rgba_get_couleur (const gchar *couleur)
         return &background_bet_solde;
     else if (strcmp (couleur, "background_bet_transfert") == 0)
         return &background_bet_transfert;
+
+	/* other colors */
+	else if (strcmp (couleur, "text_gsetting_option_normal") == 0)
+        return &text_gsetting_option_normal;
+	else if (strcmp (couleur, "text_gsetting_option_hover") == 0)
+		return &text_gsetting_option_hover;
+
 	/* anciennes couleurs juste pour compatibilité descendante */
     else if (strcmp (couleur, "alt_background_archive") == 0)
         return &alt_background_archive;
@@ -296,8 +309,8 @@ GdkRGBA *gsb_rgba_get_couleur (const gchar *couleur)
         return &alt_background_scheduled;
     else if (strcmp (couleur, "alt_background_split") == 0)
         return &alt_background_split;
-    else if (strcmp (couleur, "alt_couleur_jour") == 0)
-        return &alt_couleur_jour;
+    else if (strcmp (couleur, "alt_background_jour") == 0)
+        return &alt_background_jour;
     else if (strcmp (couleur, "alt_couleur_selection") == 0)
         return &alt_couleur_selection;
     else if (strcmp (couleur, "alt_couleur_bet_division") == 0)
@@ -319,7 +332,7 @@ GdkRGBA *gsb_rgba_get_couleur (const gchar *couleur)
  * \param gchar value
  *
  * \return TRUE
- * */
+ **/
 gboolean gsb_rgba_set_couleur (const gchar *couleur,
                                const gchar *value)
 {
@@ -343,7 +356,7 @@ gboolean gsb_rgba_set_couleur (const gchar *couleur,
  * \return textual specification of color where r, g, and b are represented as
  * integers in the range 0 to 255, and a is represented as floating point value
  * in the range 0 to 1.
- * */
+ **/
 gchar *gsb_rgba_get_couleur_to_string (const gchar *couleur)
 {
     GdkRGBA *color;
@@ -361,22 +374,33 @@ gchar *gsb_rgba_get_couleur_to_string (const gchar *couleur)
  *\param gchar couleur
  *\param gint indice du tableau
  *
- * */
+ **/
 GdkRGBA *gsb_rgba_get_couleur_with_indice (const gchar *couleur,
                         gint indice)
 {
 
     if (strcmp (couleur, "couleur_fond") == 0)
-        return &couleur_fond[indice];
+	{
+		if (indice == 0)
+        	return &couleur_fond_0;
+		else
+			return &couleur_fond_1;
+	}
     else if (strcmp (couleur, "text_color") == 0)
-        return &text_color[indice];
+	{
+		if (indice == 0)
+        	return &text_color_0;
+		else if (indice == 0)
+        	return &text_color_1;
+		else
+			return &text_color_2;
+	}
 
 	/* anciennes couleurs juste pour compatibilité descendante */
     if (strcmp (couleur, "alt_couleur_fond") == 0)
         return &alt_couleur_fond[indice];
     else if (strcmp (couleur, "alt_text_color") == 0)
         return &alt_text_color[indice];
-
 
     return NULL;
 }
@@ -389,7 +413,7 @@ GdkRGBA *gsb_rgba_get_couleur_with_indice (const gchar *couleur,
  * \param gchar composante de la couleur (ref, green, blue)
  *
  * \return TRUE
- * */
+ **/
 gboolean gsb_rgba_set_couleur_with_indice (const gchar *couleur,
                                            gint indice,
                                            const gchar *value)
@@ -423,121 +447,69 @@ gchar *gsb_rgba_get_couleur_with_indice_to_str	(const gchar *couleur,
 }
 
 /**
- * initialize the colors used in grisbi
- *
- * \param
- *
- * \return
- * */
-void gsb_rgba_set_colors_to_default (void)
-{
-	devel_debug (NULL);
-	/* couleur des options gérées par gsettings */
-	couleur_gsetting_option = default_couleur_gsetting_option;
-
-    /* colors of the background */
-    couleur_fond[0] = default_couleur_fond[0];
-    couleur_fond[1] = default_couleur_fond[1];
-
-    /* colors of the text */
-    text_color[0] = default_text_color[0];
-    text_color[1] = default_text_color[1];
-
-    /* color of today */
-    couleur_jour = default_couleur_jour;
-
-    /* selection color */
-    couleur_selection_bg = default_couleur_selection_bg;
-    couleur_selection_fg = default_couleur_selection_fg;
-
-    /* color of the non selectable transactions on scheduler */
-    background_scheduled = default_background_scheduled;
-
-    /* set the archive background color */
-    background_archive = default_background_archive;
-
-    /* color for split children */
-    background_split = default_background_split;
-
-    /* colors of the background bet divisions */
-    background_bet_division = default_background_bet_division;
-
-    /* colors of the background bet future data */
-    background_bet_future = default_background_bet_future;
-
-    /* colors of the background bet solde data */
-    background_bet_solde = default_background_bet_solde;
-
-    /* colors of the background bet transfert data */
-    background_bet_transfert = default_background_bet_transfert;
-}
-
-/**
  * create a list of customable colors
  *
  * \param
  *
  * \return a GtkComboBox
- * */
-GtkWidget *gsb_rgba_create_color_combobox (void)
+ **/
+void gsb_rgba_create_color_combobox_from_ui (GtkWidget *combo,
+											 gint type)
 {
-    GtkWidget *combobox;
     GtkListStore *store;
     gint i;
     GtkCellRenderer *renderer;
+	ComboColor *config_colors;
 
-    struct config_color {
-    const gchar *name;
-    GdkRGBA *color;
-    GdkRGBA *default_color;
+	switch (type)
+	{
+		case CSS_HOME_RULES:
+			config_colors = config_home_colors;
+		break;
 
-    } config_colors[] = {
-    { N_("Transaction list background 1"), &couleur_fond[0], &default_couleur_fond[0]},
-    { N_("Transaction list background 2"), &couleur_fond[1], &default_couleur_fond[1]},
-    { N_("Color for the operation that gives the balance today"), &couleur_jour, &default_couleur_jour},
-    { N_("Color of transaction's text"), &text_color[0], &default_text_color[0]},
-    { N_("Text of unfinished split transaction"), &text_color[1], &default_text_color[1]},
-    { N_("Children of split transaction"), &background_split, &default_background_split},
-    { N_("Selection color"), &couleur_selection_bg, &default_couleur_selection_bg},
-    { N_("Background of non selectable scheduled transactions"), &background_scheduled, &default_background_scheduled},
-    { N_("Archive color"), &background_archive, &default_background_archive},
-    { N_("Background of bet division"), &background_bet_division, &default_background_bet_division },
-    { N_("Background of bet futur"), &background_bet_future, &default_background_bet_future },
-    { N_("Background of bet solde"), &background_bet_solde, &default_background_bet_solde },
-    { N_("Background of bet transfer"), &background_bet_transfert, &default_background_bet_transfert },
-    { NULL, 0, 0},
-    };
+		case CSS_TRANSACTIONS_RULES:
+			config_colors = config_transactions_colors;
+		break;
+
+		case CSS_BET_RULES:
+			config_colors = config_bet_colors;
+		break;
+
+		case CSS_PREFS_RULES:
+			config_colors = config_prefs_colors;
+		break;
+		default:
+			config_colors = config_indiponible;
+	}
 
     /* the store contains the name of the color we can modify and
      * a pointer to the corresponding variable */
-    store = gtk_list_store_new (3,
-                        G_TYPE_STRING,
-                        G_TYPE_POINTER,
-                        G_TYPE_POINTER);
+    store = gtk_list_store_new (4,
+								G_TYPE_STRING,		/* combo name */
+								G_TYPE_STRING,		/* css name	*/
+								G_TYPE_POINTER,		/* rgba color */
+								G_TYPE_POINTER);	/* old rgba color */
     /* fill the store */
     for (i = 0 ; config_colors[i].name != NULL ; i++)
     {
-    GtkTreeIter iter;
+		GtkTreeIter iter;
 
-    gtk_list_store_append (GTK_LIST_STORE (store),
-                        &iter);
-    gtk_list_store_set (GTK_LIST_STORE (store),
-                        &iter,
-                        0, gettext (config_colors[i].name),
-                        1, config_colors[i].color,
-                        2, config_colors[i].default_color,
-                        -1);
+		gtk_list_store_append (GTK_LIST_STORE (store), &iter);
+		gtk_list_store_set (GTK_LIST_STORE (store),
+							&iter,
+							0, gettext (config_colors[i].name),
+							1, config_colors[i].css_name,
+							2, config_colors[i].color,
+							3, config_colors[i].old_color,
+							-1);
     }
 
     /* create the combobox */
-    combobox = gtk_combo_box_new_with_model (GTK_TREE_MODEL (store));
+    gtk_combo_box_set_model (GTK_COMBO_BOX (combo), GTK_TREE_MODEL (store));
 
     renderer = gtk_cell_renderer_text_new ();
-    gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combobox), renderer, TRUE);
-    gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combobox), renderer,
-                        "text", 0,
-                        NULL);
-    return combobox;
+    gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo), renderer, TRUE);
+    gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo), renderer, "text", 0, NULL);
 }
 
 /**
@@ -545,7 +517,7 @@ GtkWidget *gsb_rgba_create_color_combobox (void)
  *
  *
  * \return new_string;
- * */
+ **/
 gchar *gsb_rgba_get_string_to_save (void)
 {
     gchar *new_string = NULL;
@@ -569,7 +541,7 @@ gchar *gsb_rgba_get_string_to_save (void)
 				                          "\t\tCouleur_bet_transfert=\"%s\" />\n",
 										  gdk_rgba_to_string (&alt_couleur_fond[0]),
 										  gdk_rgba_to_string (&alt_couleur_fond[1]),
-										  gdk_rgba_to_string (&alt_couleur_jour),
+										  gdk_rgba_to_string (&alt_background_jour),
 										  gdk_rgba_to_string (&alt_background_scheduled),
 										  gdk_rgba_to_string (&alt_background_archive),
 										  gdk_rgba_to_string (&alt_couleur_selection),
@@ -590,61 +562,17 @@ gchar *gsb_rgba_get_string_to_save (void)
  * \param gchar     couleur à convertir
  *
  * \return
- * */
+ **/
 gchar *gsb_rgba_get_couleur_to_hexa_string  (const gchar *couleur)
 {
     GdkRGBA *rgba;
-
+devel_debug (couleur);
     rgba = gsb_rgba_get_couleur (couleur);
 
     return g_strdup_printf ("#%02X%02X%02X",
                               (int)(0.5 + CLAMP (rgba->red, 0., 1.) * 255.),
                               (int)(0.5 + CLAMP (rgba->green, 0., 1.) * 255.),
                               (int)(0.5 + CLAMP (rgba->blue, 0., 1.) * 255.));
-}
-
-/**
- *
- *
- * \param
- * \param
- *
- * \return
- **/
-void gsb_rgba_set_css_color_property (GdkRGBA *color,
-									  gchar *couleur)
-{
-	GtkCssProvider *css_provider = NULL;
-    gchar *new_color_string;
-	gchar *new_data = NULL;
-
-	css_provider = grisbi_app_get_css_provider ();
-	new_color_string = gdk_rgba_to_string (color);
-
-	if (strcmp (couleur, "couleur_selection_bg") == 0)
-	{
-		new_data = gsb_rgba_css_color_get_data_with_new_color ("@define-color couleur_selection_bg ", new_color_string);
-	}
-
-	else if (strcmp (couleur, "couleur_gsetting_option") == 0)
-	{
-		new_data = gsb_rgba_css_color_get_data_with_new_color ("@define-color couleur_gsetting_option ", new_color_string);
-	}
-
-	else if (strcmp (couleur, "text_color_0") == 0)
-	{
-		new_data = gsb_rgba_css_color_get_data_with_new_color ("@define-color text_color_0 ", new_color_string);
-	}
-
-	if (new_data)
-	{
-		gtk_css_provider_load_from_data (css_provider, new_data, -1, NULL);
-		grisbi_app_set_css_data (new_data);
-
-		g_free (new_data);
-	}
-
-	g_free (new_color_string);
 }
 
 /**
@@ -678,6 +606,7 @@ gint gsb_rgba_get_type_theme (const gchar *theme_name)
 	return type_theme;
 }
 
+/* CSS FUNCTIONS */
 /**
  * retourne le nom du fichier css actif : soit local si il existe
  * sinon le fichier de base de grisbi
@@ -686,7 +615,7 @@ gint gsb_rgba_get_type_theme (const gchar *theme_name)
  *
  * \return string must be freed
  **/
-gchar *gsb_rgba_get_css_filename (void)
+gchar *gsb_css_get_filename (void)
 {
 	gchar *css_filename = NULL;
 	gchar *tmp_str = NULL;
@@ -702,9 +631,188 @@ gchar *gsb_rgba_get_css_filename (void)
 		g_free (css_filename);
     	css_filename = g_build_filename (gsb_dirs_get_ui_dir (), tmp_str, NULL);
 	}
+
 	g_free (tmp_str);
 
 	return css_filename;
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+gchar *gsb_css_get_rule_from_name (const gchar *name,
+								   const gchar *property)
+{
+	const gchar *css_data;
+	gchar *tmp_str = NULL;
+
+	devel_debug (NULL);
+	css_data = grisbi_app_get_css_data ();
+	tmp_str = g_strrstr (css_data, name);
+	if (tmp_str)
+	{
+		gchar *start_str;
+		gchar *end_str;
+		gchar *rule;
+
+		start_str = g_strstr_len (tmp_str, -1, "{");
+		end_str = g_strstr_len (tmp_str, -1, "}");
+		rule = g_strndup (start_str+1, (end_str-start_str-1));
+		tmp_str = g_strrstr (rule, property);
+		if (tmp_str)
+		{
+			gchar **tab_property;
+			gint length;
+
+			tab_property = g_strsplit (tmp_str, ":", 2);
+
+			/* deleting ";" at the end of string */
+			length = strlen (tab_property[1]);
+			tmp_str = g_strndup (tab_property[1], length -2);
+
+			g_free (rule);
+			g_strfreev (tab_property);
+
+			return tmp_str;
+		}
+	}
+
+	return NULL;
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+void gsb_css_set_color_property (GdkRGBA *color,
+								 gchar *couleur)
+{
+	GtkCssProvider *css_provider = NULL;
+	gchar *line_needle;
+    gchar *new_color_string;
+	gchar *new_data = NULL;
+
+	css_provider = grisbi_app_get_css_provider ();
+	new_color_string = gdk_rgba_to_string (color);
+
+	line_needle = g_strconcat ("@define-color ", couleur, " ", NULL);
+	new_data = gsb_rgba_css_color_get_data_with_new_color (line_needle, new_color_string);
+	if (new_data)
+	{
+		gtk_css_provider_load_from_data (css_provider, new_data, -1, NULL);
+		grisbi_app_set_css_data (new_data);
+		conf.prefs_change_css_data = TRUE;
+
+		g_free (new_data);
+	}
+
+	g_free (new_color_string);
+	g_free (line_needle);
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+void gsb_css_set_rule_from_name (const gchar *name,
+								 const gchar *rule)
+{
+	const gchar *css_data;
+	gchar *tmp_str = NULL;
+
+	css_data = grisbi_app_get_css_data ();
+	tmp_str = g_strrstr (css_data, name);
+	if (tmp_str)
+	{
+		GtkCssProvider *css_provider = NULL;
+		gchar *first_part = NULL;
+		gchar *new_data = NULL;
+		gchar **tab_rule;
+
+		first_part = g_strndup (css_data, tmp_str - css_data);
+		tab_rule = g_strsplit (tmp_str, "#", 3);
+		new_data = g_strconcat (first_part, rule, "\n#", tab_rule[2], NULL);
+
+		css_provider = grisbi_app_get_css_provider ();
+		gtk_css_provider_load_from_data (css_provider, new_data, -1, NULL);
+		grisbi_app_set_css_data (new_data);
+		conf.prefs_change_css_data = TRUE;
+
+		g_free (first_part);
+		g_free (new_data);
+		g_strfreev (tab_rule);
+	}
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+gboolean gsb_css_test_user_css_file (void)
+{
+	gchar *css_filename = NULL;
+	gchar *tmp_str = NULL;
+
+	if (conf.use_type_theme == 2)
+		tmp_str = g_strdup ("grisbi-dark.css");
+	else
+		tmp_str = g_strdup ("grisbi.css");
+
+	css_filename = g_build_filename (gsb_dirs_get_user_config_dir (), tmp_str, NULL);
+	if (g_file_test (css_filename, G_FILE_TEST_EXISTS))
+	{
+		g_free (css_filename);
+		g_free (tmp_str);
+
+		return TRUE;
+	}
+
+	g_free (tmp_str);
+
+	return FALSE;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void gsb_css_load_css_data_from_file (GtkCssProvider *css_provider)
+{
+	GFile *file = NULL;
+	gchar *css_data = NULL;
+	gchar *css_filename;
+
+	if (!css_provider)
+	{
+		css_provider = gtk_css_provider_new ();
+	}
+	css_filename = gsb_css_get_filename ();
+	file = g_file_new_for_path (css_filename);
+	gtk_css_provider_load_from_file (css_provider, file, NULL);
+	g_free (css_filename);
+	g_object_unref (file);
+
+	css_data = gtk_css_provider_to_string (css_provider);
+	grisbi_app_set_css_data (css_data);
 }
 
 /**

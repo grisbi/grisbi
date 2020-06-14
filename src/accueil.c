@@ -391,18 +391,18 @@ static void gsb_main_page_affiche_ligne_du_compte (GtkWidget *pTable,
     if (gsb_real_cmp (gsb_data_account_get_marked_balance (account_number),
 					  gsb_data_account_get_mini_balance_wanted (account_number)) != -1)
     {
-        gtk_widget_set_name (pEventBox, "accueil_solde_alarme_verte");
+        gtk_widget_set_name (pEventBox, "accueil_solde_normal");
     }
     else
     {
         if (gsb_real_cmp (gsb_data_account_get_marked_balance (account_number),
 						  gsb_data_account_get_mini_balance_authorized (account_number)) != -1)
         {
-            gtk_widget_set_name (pEventBox, "accueil_solde_alarme_orange");
+            gtk_widget_set_name (pEventBox, "accueil_solde_alarme_low");
         }
         else
         {
-            gtk_widget_set_name (pEventBox, "accueil_solde_alarme_rouge");
+            gtk_widget_set_name (pEventBox, "accueil_solde_alarme_high");
         }
     }
 
@@ -441,18 +441,18 @@ static void gsb_main_page_affiche_ligne_du_compte (GtkWidget *pTable,
     if (gsb_real_cmp (gsb_data_account_get_current_balance (account_number),
 					  gsb_data_account_get_mini_balance_wanted (account_number)) != -1)
     {
-        gtk_widget_set_name (pEventBox, "accueil_solde_alarme_verte");
+        gtk_widget_set_name (pEventBox, "accueil_solde_normal");
     }
     else
     {
         if (gsb_real_cmp (gsb_data_account_get_current_balance (account_number),
 						  gsb_data_account_get_mini_balance_authorized (account_number)) != -1)
         {
-            gtk_widget_set_name (pEventBox, "accueil_solde_alarme_orange");
+            gtk_widget_set_name (pEventBox, "accueil_solde_alarme_low");
         }
         else
         {
-            gtk_widget_set_name (pEventBox, "accueil_solde_alarme_rouge");
+            gtk_widget_set_name (pEventBox, "accueil_solde_alarme_high");
         }
     }
 

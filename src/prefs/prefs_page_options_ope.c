@@ -228,7 +228,7 @@ static void prefs_page_options_ope_init_combo_sorting (PrefsPageOptionsOpe *page
 	devel_debug (NULL);
 	priv = prefs_page_options_ope_get_instance_private (page);
 
-	str_color = gsb_rgba_get_couleur_to_string ("couleur_gsetting_option");
+	str_color = gsb_rgba_get_couleur_to_string ("text_gsetting_option_normal");
 
 	/* Primary sorting option for the transactions */
 	store = gtk_list_store_new (3, G_TYPE_STRING, G_TYPE_INT, G_TYPE_STRING);
