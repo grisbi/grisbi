@@ -199,6 +199,7 @@
 		00EA61021F915CBA00569C19 /* grisbi_resources.c in Sources */ = {isa = PBXBuildFile; fileRef = 00EA61011F915CBA00569C19 /* grisbi_resources.c */; };
 		00EE9D061E01EAFB005BB1B0 /* openssl.c in Sources */ = {isa = PBXBuildFile; fileRef = 00EE9D041E01EAFB005BB1B0 /* openssl.c */; };
 		00FB5A4F21CA477F00A10B81 /* prefs_page_metatree.c in Sources */ = {isa = PBXBuildFile; fileRef = 00FB5A4E21CA477F00A10B81 /* prefs_page_metatree.c */; };
+		00FEBE1724965A5000F6405D /* widget_transfer.c in Sources */ = {isa = PBXBuildFile; fileRef = 00FEBE1624965A5000F6405D /* widget_transfer.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -654,6 +655,9 @@
 		00EE9D091E01EBB3005BB1B0 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../../../../../../usr/local/Cellar/openssl/1.0.2j/lib/libcrypto.a; sourceTree = "<group>"; };
 		00FB5A4D21CA477F00A10B81 /* prefs_page_metatree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = prefs_page_metatree.h; path = prefs/prefs_page_metatree.h; sourceTree = "<group>"; };
 		00FB5A4E21CA477F00A10B81 /* prefs_page_metatree.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = prefs_page_metatree.c; path = prefs/prefs_page_metatree.c; sourceTree = "<group>"; };
+		00FEBE1424965A5000F6405D /* widget_transfer.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = widget_transfer.ui; sourceTree = "<group>"; };
+		00FEBE1524965A5000F6405D /* widget_transfer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = widget_transfer.h; sourceTree = "<group>"; };
+		00FEBE1624965A5000F6405D /* widget_transfer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = widget_transfer.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -704,6 +708,9 @@
 				00C17BA4246DD19600D9E257 /* widget_import_files.c */,
 				00C17BA5246DD19600D9E257 /* widget_import_files.h */,
 				00C17BA6246DD19600D9E257 /* widget_import_files.ui */,
+				00FEBE1624965A5000F6405D /* widget_transfer.c */,
+				00FEBE1524965A5000F6405D /* widget_transfer.h */,
+				00FEBE1424965A5000F6405D /* widget_transfer.ui */,
 			);
 			path = widgets;
 			sourceTree = "<group>";
@@ -1353,6 +1360,7 @@
 				006E68831DB3E7AD0038B1F0 /* gsb_file.c in Sources */,
 				006E68871DB3E7AD0038B1F0 /* gsb_form_widget.c in Sources */,
 				006E688E1DB3E7AD0038B1F0 /* gsb_real.c in Sources */,
+				00FEBE1724965A5000F6405D /* widget_transfer.c in Sources */,
 				006E68601DB3E7AD0038B1F0 /* gsb_calendar.c in Sources */,
 				000B85A3244C791700EE28BD /* prefs_page_bank.c in Sources */,
 				006E686C1DB3E7AD0038B1F0 /* gsb_data_category.c in Sources */,
