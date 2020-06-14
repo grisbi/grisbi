@@ -136,7 +136,6 @@
                     <property name="can_focus">True</property>
                     <property name="hexpand">False</property>
                     <property name="max_width_chars">2</property>
-                    <property name="text" translatable="yes">15</property>
                     <property name="primary_icon_activatable">False</property>
                     <property name="secondary_icon_activatable">False</property>
                     <property name="primary_icon_sensitive">False</property>

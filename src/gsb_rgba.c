@@ -113,10 +113,10 @@ static GdkRGBA background_bet_solde;
 static GdkRGBA background_bet_transfert;
 
 static ComboColor config_bet_colors [] = {
-    {N_("Background of bet division"), "background_bet_division", &background_bet_division, 0},
-    {N_("Background of bet futur"), "background_bet_future", &background_bet_future, 0},
-    {N_("Background of bet solde"), "background_bet_solde", &background_bet_solde, 0},
-    {N_("Background of bet transfer"), "background_bet_transfert", &background_bet_transfert, 0},
+    {N_("Background color of historical data"), "background_bet_division", &background_bet_division, 0},
+    {N_("Background color of futur data"), "background_bet_future", &background_bet_future, 0},
+    {N_("Background color of month balance"), "background_bet_solde", &background_bet_solde, 0},
+    {N_("Background color of transfer data"), "background_bet_transfert", &background_bet_transfert, 0},
     {NULL, 0, 0, 0},
    };
 

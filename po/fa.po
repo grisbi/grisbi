@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: girisbi VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-08 20:50+0200\n"
+"POT-Creation-Date: 2020-06-14 18:38+0200\n"
 "PO-Revision-Date: 2008-10-02 10:07+0330\n"
 "Last-Translator: hadi <hadi60@gmail.com>\n"
 "Language-Team: farsi <en@li.org>\n"
@@ -183,7 +183,7 @@ msgstr ""
 #: ../src/ui/prefs_page_bet_account.ui.h:5 ../src/ui/prefs_page_currency.ui.h:4
 #: ../src/ui/prefs_page_currency_link.ui.h:2
 #: ../src/ui/prefs_page_display_adr.ui.h:9
-#: ../src/ui/prefs_page_display_fonts.ui.h:13
+#: ../src/ui/prefs_page_display_fonts.ui.h:11
 #: ../src/ui/prefs_page_display_form.ui.h:5
 #: ../src/ui/prefs_page_display_gui.ui.h:15
 #: ../src/ui/prefs_page_display_ope.ui.h:3 ../src/ui/prefs_page_divers.ui.h:17
@@ -198,6 +198,7 @@ msgstr ""
 #: ../src/ui/prefs_page_reconcile_sort.ui.h:3
 #: ../src/ui/prefs_widget_loan.ui.h:21
 #: ../src/widgets/widget_bank_details.ui.h:12
+#: ../src/widgets/widget_css_rules.ui.h:1
 #: ../src/widgets/widget_currency_details.ui.h:6
 #: ../src/widgets/widget_currency_link.ui.h:4
 #: ../src/widgets/widget_currency_popup.ui.h:5
@@ -209,7 +210,7 @@ msgid "Title"
 msgstr "عناوین"
 
 #: ../src/ui/csv_template_rule.ui.h:16
-#: ../src/ui/prefs_page_display_fonts.ui.h:8
+#: ../src/ui/prefs_page_display_fonts.ui.h:7
 msgid "label"
 msgstr ""
 
@@ -262,7 +263,7 @@ msgstr ""
 #. Liste effective
 #. names of the data for transactions list
 #. 1
-#: ../src/ui/etats_prefs.ui.h:9 ../src/widgets/widget_transfer.ui.h:8
+#: ../src/ui/etats_prefs.ui.h:9 ../src/widgets/widget_transfer.ui.h:5
 #: ../src/bet_finance_ui.c:1832 ../src/bet_future.c:525 ../src/bet_tab.c:1966
 #: ../src/etats_affiche.c:2464 ../src/export_csv.c:368
 #: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_form.c:1981
@@ -443,7 +444,7 @@ msgid "Make transactions clickable"
 msgstr ""
 
 #: ../src/ui/etats_prefs.ui.h:47 ../src/etats_prefs.c:674
-#: ../src/grisbi_win.c:474 ../src/navigation.c:2075
+#: ../src/grisbi_win.c:475 ../src/navigation.c:2075
 msgid "Accounts"
 msgstr "حسابها"
 
@@ -458,7 +459,7 @@ msgstr ""
 #. 3
 #: ../src/ui/etats_prefs.ui.h:50 ../src/bet_future.c:541
 #: ../src/etats_affiche.c:2485 ../src/etats_config.c:2914
-#: ../src/etats_prefs.c:679 ../src/export_csv.c:383 ../src/grisbi_win.c:511
+#: ../src/etats_prefs.c:679 ../src/export_csv.c:383 ../src/grisbi_win.c:512
 #: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_form.c:2004
 #: ../src/gsb_form_widget.c:569 ../src/gsb_scheduler_list.c:856
 #: ../src/gsb_transactions_list.c:111 ../src/import.c:4284
@@ -479,7 +480,7 @@ msgstr ""
 
 #: ../src/ui/etats_prefs.ui.h:53 ../src/bet_hist.c:2039 ../src/bet_hist.c:2045
 #: ../src/categories_onglet.c:372 ../src/etats_prefs.c:684
-#: ../src/etats_prefs.c:2017 ../src/grisbi_win.c:521 ../src/navigation.c:2091
+#: ../src/etats_prefs.c:2017 ../src/grisbi_win.c:522 ../src/navigation.c:2091
 #: ../src/prefs/prefs_page_bet_account.c:157
 #: ../src/prefs/prefs_page_bet_account.c:176
 #: ../src/prefs/prefs_page_bet_account.c:193 ../src/utils_widgets.c:359
@@ -510,7 +511,7 @@ msgstr ""
 #. 8
 #: ../src/ui/etats_prefs.ui.h:59 ../src/bet_hist.c:2043
 #: ../src/etats_prefs.c:689 ../src/etats_prefs.c:2069 ../src/export_csv.c:404
-#: ../src/grisbi_win.c:526 ../src/import_csv.c:79
+#: ../src/grisbi_win.c:527 ../src/import_csv.c:79
 #: ../src/imputation_budgetaire.c:379 ../src/navigation.c:2095
 #: ../src/prefs/prefs_page_bet_account.c:158
 #: ../src/prefs/prefs_page_bet_account.c:177
@@ -870,7 +871,7 @@ msgid "New account file"
 msgstr "حساب بسته شده"
 
 #: ../src/ui/grisbi_menu.ui.h:7 ../src/grisbi_app.c:111 ../src/grisbi_app.c:128
-#: ../src/grisbi_win.c:660 ../src/grisbi_win.c:1758
+#: ../src/grisbi_win.c:661 ../src/grisbi_win.c:1759
 msgid "Open"
 msgstr ""
 
@@ -1315,31 +1316,22 @@ msgid "Use a custom font for the transactions: "
 msgstr "جستجوی تراکنش"
 
 #: ../src/ui/prefs_page_display_fonts.ui.h:6
-msgid "Theme and Colors"
-msgstr ""
-
-#: ../src/ui/prefs_page_display_fonts.ui.h:7
 msgid "Theme"
 msgstr ""
 
-#: ../src/ui/prefs_page_display_fonts.ui.h:9
+#: ../src/ui/prefs_page_display_fonts.ui.h:8
 msgid ""
 "(If the rendering is not correct, you can force the type of theme by "
 "selecting the option below)"
 msgstr ""
 
-#: ../src/ui/prefs_page_display_fonts.ui.h:10
+#: ../src/ui/prefs_page_display_fonts.ui.h:9
 #, fuzzy
 msgid "Automatic selection"
 msgstr "توضیحات"
 
-#: ../src/ui/prefs_page_display_fonts.ui.h:11
-#, fuzzy
-msgid "Colors"
-msgstr "بستن"
-
-#: ../src/ui/prefs_page_display_fonts.ui.h:12
-msgid "Back to default"
+#: ../src/ui/prefs_page_display_fonts.ui.h:10
+msgid "CSS rules"
 msgstr ""
 
 #: ../src/ui/prefs_page_display_form.ui.h:1
@@ -2076,6 +2068,41 @@ msgstr "فاکس"
 msgid "Notes"
 msgstr ""
 
+#: ../src/widgets/widget_css_rules.ui.h:2
+msgid "Text height of status bar: "
+msgstr ""
+
+#: ../src/widgets/widget_css_rules.ui.h:3
+msgid "Home"
+msgstr ""
+
+#: ../src/widgets/widget_css_rules.ui.h:4
+#, fuzzy
+msgid "Transactions list"
+msgstr "تراکنش"
+
+#: ../src/widgets/widget_css_rules.ui.h:5 ../src/grisbi_win.c:484
+msgid "Forecast"
+msgstr ""
+
+#: ../src/widgets/widget_css_rules.ui.h:6 ../src/grisbi_app.c:108
+#: ../src/grisbi_app.c:125
+msgid "Preferences"
+msgstr ""
+
+#: ../src/widgets/widget_css_rules.ui.h:7
+#, fuzzy
+msgid "back to default"
+msgstr "ویش فرض"
+
+#: ../src/widgets/widget_css_rules.ui.h:8
+msgid "This action deletes the personal CSS file and resets all colors"
+msgstr ""
+
+#: ../src/widgets/widget_css_rules.ui.h:9
+msgid "(This action deletes the personal CSS file and resets all colors)"
+msgstr ""
+
 #: ../src/widgets/widget_currency_details.ui.h:2
 #, fuzzy
 msgid "Sign: "
@@ -2229,27 +2256,27 @@ msgid "Deferred debit card"
 msgstr ""
 
 #: ../src/widgets/widget_transfer.ui.h:4
-msgid "Choice of order day: "
-msgstr ""
-
-#: ../src/widgets/widget_transfer.ui.h:5
-#, fuzzy
-msgid "Fixed date"
-msgstr "به وسیله تاریخ"
-
-#: ../src/widgets/widget_transfer.ui.h:6
-msgid "First next working day if the date is not a working day"
-msgstr ""
-
-#: ../src/widgets/widget_transfer.ui.h:7
 #, fuzzy
 msgid "Order date: "
 msgstr "شروع:"
 
-#: ../src/widgets/widget_transfer.ui.h:9
+#: ../src/widgets/widget_transfer.ui.h:6
 #, fuzzy
 msgid "Date retained: "
 msgstr "حساب ها"
+
+#: ../src/widgets/widget_transfer.ui.h:7
+msgid "Choice of order day: "
+msgstr ""
+
+#: ../src/widgets/widget_transfer.ui.h:8
+#, fuzzy
+msgid "Fixed date"
+msgstr "به وسیله تاریخ"
+
+#: ../src/widgets/widget_transfer.ui.h:9
+msgid "First next working day if the date is not a working day"
+msgstr ""
 
 #: ../src/widgets/widget_transfer.ui.h:10
 #, fuzzy
@@ -2257,20 +2284,20 @@ msgid "Main account"
 msgstr "حساب بانک"
 
 #: ../src/widgets/widget_transfer.ui.h:11
-msgid "Choice of direct debit day: "
+msgid "Date of debit: "
 msgstr ""
 
 #: ../src/widgets/widget_transfer.ui.h:12
+msgid "Choice of direct debit day: "
+msgstr ""
+
+#: ../src/widgets/widget_transfer.ui.h:13
 #, fuzzy
 msgid "Last banking day of the month"
 msgstr "ماه ها"
 
-#: ../src/widgets/widget_transfer.ui.h:13
-msgid "First previous working day if the date is not a working day"
-msgstr ""
-
 #: ../src/widgets/widget_transfer.ui.h:14
-msgid "Date of debit: "
+msgid "First previous working day if the date is not a working day"
 msgstr ""
 
 #: ../src/widgets/widget_transfer.ui.h:15
@@ -2857,8 +2884,8 @@ msgstr "جستجوی تراکنش"
 msgid "Jour fixe du lancement mensuel des opérations planifiées."
 msgstr ""
 
-#: ../share/grisbi.desktop.in.h:1 ../src/grisbi_win.c:1579
-#: ../src/grisbi_win.c:1626
+#: ../share/grisbi.desktop.in.h:1 ../src/grisbi_win.c:1580
+#: ../src/grisbi_win.c:1627
 msgid "Grisbi"
 msgstr ""
 
@@ -3209,7 +3236,7 @@ msgid " of capital"
 msgstr "حساب بانک:"
 
 #. titre de la page
-#: ../src/bet_finance_ui.c:1452 ../src/grisbi_win.c:516
+#: ../src/bet_finance_ui.c:1452 ../src/grisbi_win.c:517
 #: ../src/navigation.c:1305 ../src/navigation.c:2087
 #, fuzzy
 msgid "Credits simulator"
@@ -3948,7 +3975,7 @@ msgstr ""
 #. Import button
 #. On récupère le nom de la page
 #: ../src/categories_onglet.c:581 ../src/etats_onglet.c:555
-#: ../src/grisbi_prefs.c:424 ../src/grisbi_win.c:672 ../src/import.c:1819
+#: ../src/grisbi_prefs.c:424 ../src/grisbi_win.c:673 ../src/import.c:1819
 #: ../src/imputation_budgetaire.c:627 ../src/prefs/prefs_page_import.c:87
 #: ../src/utils_files.c:757
 msgid "Import"
@@ -4842,7 +4869,7 @@ msgid ""
 "payees used\" option activated."
 msgstr ""
 
-#: ../src/etats_config.c:833 ../src/utils_prefs.c:714
+#: ../src/etats_config.c:833 ../src/gsb_rgba.c:134 ../src/utils_prefs.c:714
 msgid "Not available"
 msgstr ""
 
@@ -5043,7 +5070,7 @@ msgstr "چاپ گزارش ..."
 msgid "Delete selected report"
 msgstr ""
 
-#: ../src/etats_onglet.c:593 ../src/grisbi_win.c:496
+#: ../src/etats_onglet.c:593 ../src/grisbi_win.c:497
 msgid "Properties"
 msgstr ""
 
@@ -5120,7 +5147,7 @@ msgstr ""
 msgid "Unknown report type, creation cancelled"
 msgstr ""
 
-#: ../src/etats_onglet.c:1205 ../src/grisbi_win.c:531 ../src/navigation.c:1341
+#: ../src/etats_onglet.c:1205 ../src/grisbi_win.c:532 ../src/navigation.c:1341
 #: ../src/navigation.c:2099
 msgid "Reports"
 msgstr "گزارشات"
@@ -5185,7 +5212,7 @@ msgstr "عناوین"
 
 #. append group page "Transactions"
 #: ../src/etats_prefs.c:740 ../src/export_csv.c:359 ../src/grisbi_prefs.c:467
-#: ../src/grisbi_win.c:478
+#: ../src/grisbi_win.c:479
 msgid "Transactions"
 msgstr ""
 
@@ -6122,10 +6149,6 @@ msgstr ""
 msgid "New_window"
 msgstr ""
 
-#: ../src/grisbi_app.c:108 ../src/grisbi_app.c:125
-msgid "Preferences"
-msgstr ""
-
 #: ../src/grisbi_app.c:109 ../src/grisbi_app.c:126
 #, fuzzy
 msgid "Quit"
@@ -6170,22 +6193,22 @@ msgstr ""
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr ""
 
-#: ../src/grisbi_app.c:1067 ../src/menu.c:631
+#: ../src/grisbi_app.c:1066 ../src/menu.c:631
 #, fuzzy
 msgid "Start an action!"
 msgstr "جستجوی تراکنش"
 
-#: ../src/grisbi_app.c:1351
+#: ../src/grisbi_app.c:1349
 #, fuzzy
 msgid "<b>Actions in transaction list :</b>"
 msgstr "جستجوی تراکنش"
 
-#: ../src/grisbi_app.c:1353
+#: ../src/grisbi_app.c:1351
 #, fuzzy
 msgid "(Un)Pointing a transaction\t\t-> <Primary>p, <Primary>F12\n"
 msgstr "جستجوی تراکنش"
 
-#: ../src/grisbi_app.c:1354
+#: ../src/grisbi_app.c:1352
 #, fuzzy
 msgid "(Un)Reconcile a transaction\t\t-> <Primary>r\n"
 msgstr "جستجوی تراکنش"
@@ -6215,7 +6238,7 @@ msgstr "فعال سازی"
 msgid "Various settings"
 msgstr "توضیحات"
 
-#: ../src/grisbi_prefs.c:434 ../src/grisbi_win.c:464
+#: ../src/grisbi_prefs.c:434 ../src/grisbi_win.c:465
 msgid "Main page"
 msgstr ""
 
@@ -6334,65 +6357,61 @@ msgstr ""
 msgid "No font defined"
 msgstr ""
 
-#: ../src/grisbi_win.c:427
+#: ../src/grisbi_win.c:428
 msgid "Transaction/Scheduled _form"
 msgstr ""
 
-#: ../src/grisbi_win.c:483
-msgid "Forecast"
-msgstr ""
-
-#: ../src/grisbi_win.c:487
+#: ../src/grisbi_win.c:488
 msgid "Historical data"
 msgstr ""
 
-#: ../src/grisbi_win.c:492
+#: ../src/grisbi_win.c:493
 msgid "Amortization array"
 msgstr ""
 
-#: ../src/grisbi_win.c:506 ../src/navigation.c:2079
+#: ../src/grisbi_win.c:507 ../src/navigation.c:2079
 #: ../src/prefs/prefs_page_divers.c:550 ../src/prefs/prefs_page_divers.c:565
 msgid "Scheduler"
 msgstr ""
 
-#: ../src/grisbi_win.c:648
+#: ../src/grisbi_win.c:649
 msgid "New"
 msgstr ""
 
-#: ../src/grisbi_win.c:650
+#: ../src/grisbi_win.c:651
 #, fuzzy
 msgid "Create a new account file"
 msgstr "حساب بسته شده"
 
-#: ../src/grisbi_win.c:662
+#: ../src/grisbi_win.c:663
 #, fuzzy
 msgid "Open an existing account file"
 msgstr "حساب بسته شده"
 
-#: ../src/grisbi_win.c:674
+#: ../src/grisbi_win.c:675
 #, fuzzy
 msgid "Import a CSV, QIF, OFX file ..."
 msgstr "فایل CSV"
 
-#: ../src/grisbi_win.c:1454
+#: ../src/grisbi_win.c:1455
 #, fuzzy
 msgid "Unnamed account"
 msgstr "حساب بسته شده"
 
-#: ../src/grisbi_win.c:1476 ../src/gsb_transactions_list.c:523
+#: ../src/grisbi_win.c:1477 ../src/gsb_transactions_list.c:523
 msgid "Move transaction to another account"
 msgstr ""
 
-#: ../src/grisbi_win.c:1633 ../src/gsb_file.c:397 ../src/gsb_file.c:428
+#: ../src/grisbi_win.c:1634 ../src/gsb_file.c:397 ../src/gsb_file.c:428
 msgid "unnamed"
 msgstr "بی نام"
 
 #. Create main widget.
-#: ../src/grisbi_win.c:2015
+#: ../src/grisbi_win.c:2016
 msgid "Creating main window"
 msgstr ""
 
-#: ../src/grisbi_win.c:2027
+#: ../src/grisbi_win.c:2028
 msgid ""
 "The model of the list couldn't be created... Bad things will happen very "
 "soon..."
@@ -9305,7 +9324,7 @@ msgstr ""
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr ""
 
-#: ../src/gsb_file_load.c:4131 ../src/gsb_file_save.c:396
+#: ../src/gsb_file_load.c:4131 ../src/gsb_file_save.c:397
 #: ../src/utils_prefs.c:768
 #, c-format
 msgid ""
@@ -9384,8 +9403,8 @@ msgid "There is no category to record. Back."
 msgstr ""
 
 #: ../src/gsb_file_others.c:159 ../src/gsb_file_others.c:252
-#: ../src/gsb_file_others.c:343 ../src/gsb_file_save.c:423
-#: ../src/gsb_file_save.c:444
+#: ../src/gsb_file_others.c:343 ../src/gsb_file_save.c:424
+#: ../src/gsb_file_save.c:445
 #, c-format
 msgid "Cannot save file '%s': %s"
 msgstr ""
@@ -9440,12 +9459,12 @@ msgstr ""
 msgid "This is not a report file, loading canceled..."
 msgstr ""
 
-#: ../src/gsb_file_save.c:401
+#: ../src/gsb_file_save.c:402
 #, fuzzy, c-format
 msgid "Cannot save encrypted file '%s'"
 msgstr "فایل \"%s\" ذخیره نشد."
 
-#: ../src/gsb_file_save.c:2879
+#: ../src/gsb_file_save.c:2886
 #, fuzzy, c-format
 msgid "Cannot save CSS file '%s': %s"
 msgstr "فایل \"%s\" ذخیره نشد."
@@ -9814,65 +9833,133 @@ msgstr ""
 msgid "Unable to compile regex: %s\n"
 msgstr "خطا در هنگام خواندن '%s'"
 
-#: ../src/gsb_rgba.c:495
+#: ../src/gsb_rgba.c:66
 #, fuzzy
-msgid "Transaction list background 1"
-msgstr "تراکنش"
+msgid "Background color of account row"
+msgstr "حساب بانک:"
 
-#: ../src/gsb_rgba.c:496
-#, fuzzy
-msgid "Transaction list background 2"
-msgstr "تراکنش"
-
-#: ../src/gsb_rgba.c:497
-msgid "Color for the operation that gives the balance today"
+#: ../src/gsb_rgba.c:67
+msgid "Background color of logo title"
 msgstr ""
 
-#: ../src/gsb_rgba.c:498
+#: ../src/gsb_rgba.c:68
 #, fuzzy
-msgid "Color of transaction's text"
+msgid "Color of account text"
 msgstr "جستجوی تراکنش"
 
-#: ../src/gsb_rgba.c:499
+#: ../src/gsb_rgba.c:69
 #, fuzzy
-msgid "Text of unfinished split transaction"
+msgid "Color of account text hovered"
 msgstr "جستجوی تراکنش"
 
-#: ../src/gsb_rgba.c:500
+#: ../src/gsb_rgba.c:70
 #, fuzzy
-msgid "Children of split transaction"
+msgid "Color of balance text"
 msgstr "جستجوی تراکنش"
 
-#: ../src/gsb_rgba.c:501
+#: ../src/gsb_rgba.c:71
 #, fuzzy
-msgid "Selection color"
-msgstr "حساب حذف شده"
-
-#: ../src/gsb_rgba.c:502
-#, fuzzy
-msgid "Background of non selectable scheduled transactions"
+msgid "Color of balance text hovered"
 msgstr "جستجوی تراکنش"
 
-#: ../src/gsb_rgba.c:503
+#: ../src/gsb_rgba.c:72
+msgid "Color of balance text in low alarm"
+msgstr ""
+
+#: ../src/gsb_rgba.c:73
+msgid "Color of balance text hovered in low alarm"
+msgstr ""
+
+#: ../src/gsb_rgba.c:74
+msgid "Color of balance text in high alarm"
+msgstr ""
+
+#: ../src/gsb_rgba.c:75
+msgid "Color of balance text hovered in high alarm"
+msgstr ""
+
+#: ../src/gsb_rgba.c:94
 #, fuzzy
-msgid "Archive color"
-msgstr "فعال سازی"
+msgid "Background color 1 in lists of transactions"
+msgstr "جستجوی تراکنش"
 
-#: ../src/gsb_rgba.c:504
-msgid "Background of bet division"
+#: ../src/gsb_rgba.c:95
+#, fuzzy
+msgid "Background color 2 in lists of transactions"
+msgstr "جستجوی تراکنش"
+
+#: ../src/gsb_rgba.c:96
+msgid "Background of the transaction that gives the balance today"
 msgstr ""
 
-#: ../src/gsb_rgba.c:505
-msgid "Background of bet futur"
+#: ../src/gsb_rgba.c:97
+#, fuzzy
+msgid "Background color of split transaction children"
+msgstr "جستجوی تراکنش"
+
+#: ../src/gsb_rgba.c:98
+#, fuzzy
+msgid "Background color of selected transaction"
+msgstr "جستجوی تراکنش"
+
+#: ../src/gsb_rgba.c:99
+#, fuzzy
+msgid "Background color of virtual scheduled transactions"
+msgstr "جستجوی تراکنش"
+
+#: ../src/gsb_rgba.c:100
+msgid "Background color of archives"
 msgstr ""
 
-#: ../src/gsb_rgba.c:506
-msgid "Background of bet solde"
-msgstr ""
+#: ../src/gsb_rgba.c:101
+#, fuzzy
+msgid "Color of transaction text"
+msgstr "جستجوی تراکنش"
 
-#: ../src/gsb_rgba.c:507
-msgid "Background of bet transfer"
-msgstr ""
+#: ../src/gsb_rgba.c:102
+#, fuzzy
+msgid "Color of unfinished split transaction text"
+msgstr "جستجوی تراکنش"
+
+#: ../src/gsb_rgba.c:103
+#, fuzzy
+msgid "Color of selected transaction text"
+msgstr "جستجوی تراکنش"
+
+#: ../src/gsb_rgba.c:104
+#, fuzzy
+msgid "Color of unsensitive text"
+msgstr "جستجوی تراکنش"
+
+#: ../src/gsb_rgba.c:116
+#, fuzzy
+msgid "Background color of historical data"
+msgstr "پرینتر"
+
+#: ../src/gsb_rgba.c:117
+#, fuzzy
+msgid "Background color of futur data"
+msgstr "حساب بانک:"
+
+#: ../src/gsb_rgba.c:118
+#, fuzzy
+msgid "Background color of month balance"
+msgstr "حساب بانک:"
+
+#: ../src/gsb_rgba.c:119
+#, fuzzy
+msgid "Background color of transfer data"
+msgstr "جستجوی تراکنش"
+
+#: ../src/gsb_rgba.c:128
+#, fuzzy
+msgid "Color of gsetting text"
+msgstr "جستجوی تراکنش"
+
+#: ../src/gsb_rgba.c:129
+#, fuzzy
+msgid "Color of gsetting text hovered"
+msgstr "جستجوی تراکنش"
 
 #. popup view menu
 #: ../src/gsb_scheduler_list.c:112
@@ -11774,12 +11861,12 @@ msgstr "مرتب سازی بر اساس تاریخ"
 msgid "Force the use of light theme"
 msgstr "مرتب سازی بر اساس تاریخ"
 
-#: ../src/prefs/prefs_page_display_fonts.c:568
+#: ../src/prefs/prefs_page_display_fonts.c:462
 msgid "Select a new logo"
 msgstr ""
 
 #. On récupère le nom de la page
-#: ../src/prefs/prefs_page_display_fonts.c:692
+#: ../src/prefs/prefs_page_display_fonts.c:585
 msgid "Fonts & logo"
 msgstr ""
 
@@ -12837,6 +12924,19 @@ msgstr "فایل \"%s\" ذخیره نشد."
 msgid "Choose the financial year or 12 months rolling"
 msgstr ""
 
+#: ../src/widgets/widget_css_rules.c:131
+#, c-format
+msgid ""
+"Warning: you will delete your grisbi color adjustment file.\n"
+"This operation will be final.\n"
+"Do you want to delete the file: \"%s\"?"
+msgstr ""
+
+#: ../src/widgets/widget_css_rules.c:136
+#, fuzzy
+msgid "Delete CSS user file"
+msgstr "حساب حذف شده"
+
 #: ../src/widgets/widget_currency_popup.c:146
 #: ../src/widgets/widget_currency_popup.c:321
 msgid "ISO Code"
@@ -12900,6 +13000,30 @@ msgstr ""
 #: ../src/widgets/widget_transfer.c:938
 msgid "One of the two fields is recommended"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Colors"
+#~ msgstr "بستن"
+
+#, fuzzy
+#~ msgid "Transaction list background 1"
+#~ msgstr "تراکنش"
+
+#, fuzzy
+#~ msgid "Transaction list background 2"
+#~ msgstr "تراکنش"
+
+#, fuzzy
+#~ msgid "Children of split transaction"
+#~ msgstr "جستجوی تراکنش"
+
+#, fuzzy
+#~ msgid "Selection color"
+#~ msgstr "حساب حذف شده"
+
+#, fuzzy
+#~ msgid "Archive color"
+#~ msgstr "فعال سازی"
 
 #, fuzzy
 #~ msgid "Date of beginning of period: "

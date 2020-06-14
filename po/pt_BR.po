@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-08 20:50+0200\n"
+"POT-Creation-Date: 2020-06-14 18:38+0200\n"
 "PO-Revision-Date: 2005-12-19 09:07-0200\n"
 "Last-Translator: \n"
 "Language-Team: <pt@li.org>\n"
@@ -190,7 +190,7 @@ msgstr "Gerais"
 #: ../src/ui/prefs_page_bet_account.ui.h:5 ../src/ui/prefs_page_currency.ui.h:4
 #: ../src/ui/prefs_page_currency_link.ui.h:2
 #: ../src/ui/prefs_page_display_adr.ui.h:9
-#: ../src/ui/prefs_page_display_fonts.ui.h:13
+#: ../src/ui/prefs_page_display_fonts.ui.h:11
 #: ../src/ui/prefs_page_display_form.ui.h:5
 #: ../src/ui/prefs_page_display_gui.ui.h:15
 #: ../src/ui/prefs_page_display_ope.ui.h:3 ../src/ui/prefs_page_divers.ui.h:17
@@ -205,6 +205,7 @@ msgstr "Gerais"
 #: ../src/ui/prefs_page_reconcile_sort.ui.h:3
 #: ../src/ui/prefs_widget_loan.ui.h:21
 #: ../src/widgets/widget_bank_details.ui.h:12
+#: ../src/widgets/widget_css_rules.ui.h:1
 #: ../src/widgets/widget_currency_details.ui.h:6
 #: ../src/widgets/widget_currency_link.ui.h:4
 #: ../src/widgets/widget_currency_popup.ui.h:5
@@ -216,7 +217,7 @@ msgid "Title"
 msgstr "Títulos"
 
 #: ../src/ui/csv_template_rule.ui.h:16
-#: ../src/ui/prefs_page_display_fonts.ui.h:8
+#: ../src/ui/prefs_page_display_fonts.ui.h:7
 msgid "label"
 msgstr ""
 
@@ -269,7 +270,7 @@ msgstr ""
 #. Liste effective
 #. names of the data for transactions list
 #. 1
-#: ../src/ui/etats_prefs.ui.h:9 ../src/widgets/widget_transfer.ui.h:8
+#: ../src/ui/etats_prefs.ui.h:9 ../src/widgets/widget_transfer.ui.h:5
 #: ../src/bet_finance_ui.c:1832 ../src/bet_future.c:525 ../src/bet_tab.c:1966
 #: ../src/etats_affiche.c:2464 ../src/export_csv.c:368
 #: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_form.c:1981
@@ -455,7 +456,7 @@ msgid "Make transactions clickable"
 msgstr "Fazer lançamento clicáveis"
 
 #: ../src/ui/etats_prefs.ui.h:47 ../src/etats_prefs.c:674
-#: ../src/grisbi_win.c:474 ../src/navigation.c:2075
+#: ../src/grisbi_win.c:475 ../src/navigation.c:2075
 msgid "Accounts"
 msgstr "Contas"
 
@@ -470,7 +471,7 @@ msgstr "Mostrar o sub-total para cada conta"
 #. 3
 #: ../src/ui/etats_prefs.ui.h:50 ../src/bet_future.c:541
 #: ../src/etats_affiche.c:2485 ../src/etats_config.c:2914
-#: ../src/etats_prefs.c:679 ../src/export_csv.c:383 ../src/grisbi_win.c:511
+#: ../src/etats_prefs.c:679 ../src/export_csv.c:383 ../src/grisbi_win.c:512
 #: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_form.c:2004
 #: ../src/gsb_form_widget.c:569 ../src/gsb_scheduler_list.c:856
 #: ../src/gsb_transactions_list.c:111 ../src/import.c:4284
@@ -494,7 +495,7 @@ msgstr "Exibir um sub-total para cada terceiro"
 
 #: ../src/ui/etats_prefs.ui.h:53 ../src/bet_hist.c:2039 ../src/bet_hist.c:2045
 #: ../src/categories_onglet.c:372 ../src/etats_prefs.c:684
-#: ../src/etats_prefs.c:2017 ../src/grisbi_win.c:521 ../src/navigation.c:2091
+#: ../src/etats_prefs.c:2017 ../src/grisbi_win.c:522 ../src/navigation.c:2091
 #: ../src/prefs/prefs_page_bet_account.c:157
 #: ../src/prefs/prefs_page_bet_account.c:176
 #: ../src/prefs/prefs_page_bet_account.c:193 ../src/utils_widgets.c:359
@@ -526,7 +527,7 @@ msgstr "Exibir \"Sem sub-categorias\" se não existirem"
 #. 8
 #: ../src/ui/etats_prefs.ui.h:59 ../src/bet_hist.c:2043
 #: ../src/etats_prefs.c:689 ../src/etats_prefs.c:2069 ../src/export_csv.c:404
-#: ../src/grisbi_win.c:526 ../src/import_csv.c:79
+#: ../src/grisbi_win.c:527 ../src/import_csv.c:79
 #: ../src/imputation_budgetaire.c:379 ../src/navigation.c:2095
 #: ../src/prefs/prefs_page_bet_account.c:158
 #: ../src/prefs/prefs_page_bet_account.c:177
@@ -900,7 +901,7 @@ msgid "New account file"
 msgstr "Novo arquivo de conta"
 
 #: ../src/ui/grisbi_menu.ui.h:7 ../src/grisbi_app.c:111 ../src/grisbi_app.c:128
-#: ../src/grisbi_win.c:660 ../src/grisbi_win.c:1758
+#: ../src/grisbi_win.c:661 ../src/grisbi_win.c:1759
 #, fuzzy
 msgid "Open"
 msgstr "_Abrir"
@@ -1372,33 +1373,23 @@ msgid "Use a custom font for the transactions: "
 msgstr "Usar uma fonte específica para os lançamentos"
 
 #: ../src/ui/prefs_page_display_fonts.ui.h:6
-msgid "Theme and Colors"
-msgstr ""
-
-#: ../src/ui/prefs_page_display_fonts.ui.h:7
 msgid "Theme"
 msgstr ""
 
-#: ../src/ui/prefs_page_display_fonts.ui.h:9
+#: ../src/ui/prefs_page_display_fonts.ui.h:8
 msgid ""
 "(If the rendering is not correct, you can force the type of theme by "
 "selecting the option below)"
 msgstr ""
 
-#: ../src/ui/prefs_page_display_fonts.ui.h:10
+#: ../src/ui/prefs_page_display_fonts.ui.h:9
 #, fuzzy
 msgid "Automatic selection"
 msgstr "Seleção por data"
 
-#: ../src/ui/prefs_page_display_fonts.ui.h:11
-#, fuzzy
-msgid "Colors"
-msgstr "Comoros"
-
-#: ../src/ui/prefs_page_display_fonts.ui.h:12
-#, fuzzy
-msgid "Back to default"
-msgstr "Voltar para padrões"
+#: ../src/ui/prefs_page_display_fonts.ui.h:10
+msgid "CSS rules"
+msgstr ""
 
 #: ../src/ui/prefs_page_display_form.ui.h:1
 msgid "Form structure preview"
@@ -2166,6 +2157,42 @@ msgstr "Fax"
 msgid "Notes"
 msgstr "Notas"
 
+#: ../src/widgets/widget_css_rules.ui.h:2
+msgid "Text height of status bar: "
+msgstr ""
+
+#: ../src/widgets/widget_css_rules.ui.h:3
+msgid "Home"
+msgstr ""
+
+#: ../src/widgets/widget_css_rules.ui.h:4
+#, fuzzy
+msgid "Transactions list"
+msgstr "Prévia da lista de lançamentos"
+
+#: ../src/widgets/widget_css_rules.ui.h:5 ../src/grisbi_win.c:484
+msgid "Forecast"
+msgstr ""
+
+#: ../src/widgets/widget_css_rules.ui.h:6 ../src/grisbi_app.c:108
+#: ../src/grisbi_app.c:125
+#, fuzzy
+msgid "Preferences"
+msgstr "Preferências"
+
+#: ../src/widgets/widget_css_rules.ui.h:7
+#, fuzzy
+msgid "back to default"
+msgstr "Voltar para padrões"
+
+#: ../src/widgets/widget_css_rules.ui.h:8
+msgid "This action deletes the personal CSS file and resets all colors"
+msgstr ""
+
+#: ../src/widgets/widget_css_rules.ui.h:9
+msgid "(This action deletes the personal CSS file and resets all colors)"
+msgstr ""
+
 #: ../src/widgets/widget_currency_details.ui.h:2
 #, fuzzy
 msgid "Sign: "
@@ -2324,27 +2351,27 @@ msgid "Deferred debit card"
 msgstr "Cartão de crédito"
 
 #: ../src/widgets/widget_transfer.ui.h:4
-msgid "Choice of order day: "
-msgstr ""
-
-#: ../src/widgets/widget_transfer.ui.h:5
-#, fuzzy
-msgid "Fixed date"
-msgstr "Data final"
-
-#: ../src/widgets/widget_transfer.ui.h:6
-msgid "First next working day if the date is not a working day"
-msgstr ""
-
-#: ../src/widgets/widget_transfer.ui.h:7
 #, fuzzy
 msgid "Order date: "
 msgstr "Inicio:"
 
-#: ../src/widgets/widget_transfer.ui.h:9
+#: ../src/widgets/widget_transfer.ui.h:6
 #, fuzzy
 msgid "Date retained: "
 msgstr "forma de pagamento:"
+
+#: ../src/widgets/widget_transfer.ui.h:7
+msgid "Choice of order day: "
+msgstr ""
+
+#: ../src/widgets/widget_transfer.ui.h:8
+#, fuzzy
+msgid "Fixed date"
+msgstr "Data final"
+
+#: ../src/widgets/widget_transfer.ui.h:9
+msgid "First next working day if the date is not a working day"
+msgstr ""
 
 #: ../src/widgets/widget_transfer.ui.h:10
 #, fuzzy
@@ -2352,22 +2379,22 @@ msgid "Main account"
 msgstr "Conta bancária"
 
 #: ../src/widgets/widget_transfer.ui.h:11
+#, fuzzy
+msgid "Date of debit: "
+msgstr "forma de pagamento:"
+
+#: ../src/widgets/widget_transfer.ui.h:12
 msgid "Choice of direct debit day: "
 msgstr ""
 
-#: ../src/widgets/widget_transfer.ui.h:12
+#: ../src/widgets/widget_transfer.ui.h:13
 #, fuzzy
 msgid "Last banking day of the month"
 msgstr "Últimos 3 meses"
 
-#: ../src/widgets/widget_transfer.ui.h:13
+#: ../src/widgets/widget_transfer.ui.h:14
 msgid "First previous working day if the date is not a working day"
 msgstr ""
-
-#: ../src/widgets/widget_transfer.ui.h:14
-#, fuzzy
-msgid "Date of debit: "
-msgstr "forma de pagamento:"
 
 #: ../src/widgets/widget_transfer.ui.h:15
 #, fuzzy
@@ -2971,8 +2998,8 @@ msgstr "Lançamentos agendados fechados"
 msgid "Jour fixe du lancement mensuel des opérations planifiées."
 msgstr ""
 
-#: ../share/grisbi.desktop.in.h:1 ../src/grisbi_win.c:1579
-#: ../src/grisbi_win.c:1626
+#: ../share/grisbi.desktop.in.h:1 ../src/grisbi_win.c:1580
+#: ../src/grisbi_win.c:1627
 msgid "Grisbi"
 msgstr "Grisbi"
 
@@ -3330,7 +3357,7 @@ msgid " of capital"
 msgstr "Carregar um arquivo de contas:"
 
 #. titre de la page
-#: ../src/bet_finance_ui.c:1452 ../src/grisbi_win.c:516
+#: ../src/bet_finance_ui.c:1452 ../src/grisbi_win.c:517
 #: ../src/navigation.c:1305 ../src/navigation.c:2087
 #, fuzzy
 msgid "Credits simulator"
@@ -4101,7 +4128,7 @@ msgstr "Informe um nome para a nova sub-categoria"
 #. Import button
 #. On récupère le nom de la page
 #: ../src/categories_onglet.c:581 ../src/etats_onglet.c:555
-#: ../src/grisbi_prefs.c:424 ../src/grisbi_win.c:672 ../src/import.c:1819
+#: ../src/grisbi_prefs.c:424 ../src/grisbi_win.c:673 ../src/import.c:1819
 #: ../src/imputation_budgetaire.c:627 ../src/prefs/prefs_page_import.c:87
 #: ../src/utils_files.c:757
 msgid "Import"
@@ -5046,7 +5073,7 @@ msgstr ""
 "rapidamente\n"
 "sem a opção \"Detalhes das categorias usadas\""
 
-#: ../src/etats_config.c:833 ../src/utils_prefs.c:714
+#: ../src/etats_config.c:833 ../src/gsb_rgba.c:134 ../src/utils_prefs.c:714
 msgid "Not available"
 msgstr ""
 
@@ -5283,7 +5310,7 @@ msgstr "Imprimir relatório"
 msgid "Delete selected report"
 msgstr "Apagar relatório"
 
-#: ../src/etats_onglet.c:593 ../src/grisbi_win.c:496
+#: ../src/etats_onglet.c:593 ../src/grisbi_win.c:497
 #, fuzzy
 msgid "Properties"
 msgstr "Características da moeda"
@@ -5369,7 +5396,7 @@ msgstr "Despesas mensais por terceiros"
 msgid "Unknown report type, creation cancelled"
 msgstr "Tipo de relatório desconhecido, criação cancelada"
 
-#: ../src/etats_onglet.c:1205 ../src/grisbi_win.c:531 ../src/navigation.c:1341
+#: ../src/etats_onglet.c:1205 ../src/grisbi_win.c:532 ../src/navigation.c:1341
 #: ../src/navigation.c:2099
 msgid "Reports"
 msgstr "Relatórios"
@@ -5438,7 +5465,7 @@ msgstr "Títulos"
 
 #. append group page "Transactions"
 #: ../src/etats_prefs.c:740 ../src/export_csv.c:359 ../src/grisbi_prefs.c:467
-#: ../src/grisbi_win.c:478
+#: ../src/grisbi_win.c:479
 msgid "Transactions"
 msgstr "Lançamentos"
 
@@ -6403,11 +6430,6 @@ msgstr ""
 msgid "New_window"
 msgstr ""
 
-#: ../src/grisbi_app.c:108 ../src/grisbi_app.c:125
-#, fuzzy
-msgid "Preferences"
-msgstr "Preferências"
-
 #: ../src/grisbi_app.c:109 ../src/grisbi_app.c:126
 msgid "Quit"
 msgstr ""
@@ -6453,22 +6475,22 @@ msgstr "Erro em sigaction: SIGSEGV não será prendido\n"
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Erro em sigaction: SIGSEGV não será prendido\n"
 
-#: ../src/grisbi_app.c:1067 ../src/menu.c:631
+#: ../src/grisbi_app.c:1066 ../src/menu.c:631
 #, fuzzy
 msgid "Start an action!"
 msgstr "Organizar os lançamentos por"
 
-#: ../src/grisbi_app.c:1351
+#: ../src/grisbi_app.c:1349
 #, fuzzy
 msgid "<b>Actions in transaction list :</b>"
 msgstr "Apagar lançamento"
 
-#: ../src/grisbi_app.c:1353
+#: ../src/grisbi_app.c:1351
 #, fuzzy
 msgid "(Un)Pointing a transaction\t\t-> <Primary>p, <Primary>F12\n"
 msgstr "Lançamentos reconciliados"
 
-#: ../src/grisbi_app.c:1354
+#: ../src/grisbi_app.c:1352
 #, fuzzy
 msgid "(Un)Reconcile a transaction\t\t-> <Primary>r\n"
 msgstr "Lançamentos reconciliados"
@@ -6498,7 +6520,7 @@ msgstr "Ativado"
 msgid "Various settings"
 msgstr "Exportar categorias"
 
-#: ../src/grisbi_prefs.c:434 ../src/grisbi_win.c:464
+#: ../src/grisbi_prefs.c:434 ../src/grisbi_win.c:465
 msgid "Main page"
 msgstr "Página inicial"
 
@@ -6623,67 +6645,63 @@ msgstr "Preferências"
 msgid "No font defined"
 msgstr "Nenhum orçamento"
 
-#: ../src/grisbi_win.c:427
+#: ../src/grisbi_win.c:428
 #, fuzzy
 msgid "Transaction/Scheduled _form"
 msgstr "Formulário de lançamentos"
 
-#: ../src/grisbi_win.c:483
-msgid "Forecast"
-msgstr ""
-
-#: ../src/grisbi_win.c:487
+#: ../src/grisbi_win.c:488
 #, fuzzy
 msgid "Historical data"
 msgstr "Data inicial"
 
-#: ../src/grisbi_win.c:492
+#: ../src/grisbi_win.c:493
 msgid "Amortization array"
 msgstr ""
 
-#: ../src/grisbi_win.c:506 ../src/navigation.c:2079
+#: ../src/grisbi_win.c:507 ../src/navigation.c:2079
 #: ../src/prefs/prefs_page_divers.c:550 ../src/prefs/prefs_page_divers.c:565
 msgid "Scheduler"
 msgstr "Agenda"
 
-#: ../src/grisbi_win.c:648
+#: ../src/grisbi_win.c:649
 msgid "New"
 msgstr ""
 
-#: ../src/grisbi_win.c:650
+#: ../src/grisbi_win.c:651
 #, fuzzy
 msgid "Create a new account file"
 msgstr "Criar uma nova conta"
 
-#: ../src/grisbi_win.c:662
+#: ../src/grisbi_win.c:663
 #, fuzzy
 msgid "Open an existing account file"
 msgstr "Abrir um arquivo de contas"
 
-#: ../src/grisbi_win.c:674
+#: ../src/grisbi_win.c:675
 #, fuzzy
 msgid "Import a CSV, QIF, OFX file ..."
 msgstr "Exportar para arquivos QIF"
 
-#: ../src/grisbi_win.c:1454
+#: ../src/grisbi_win.c:1455
 #, fuzzy
 msgid "Unnamed account"
 msgstr "Importar conta"
 
-#: ../src/grisbi_win.c:1476 ../src/gsb_transactions_list.c:523
+#: ../src/grisbi_win.c:1477 ../src/gsb_transactions_list.c:523
 msgid "Move transaction to another account"
 msgstr "Mover lançamento para outra conta"
 
-#: ../src/grisbi_win.c:1633 ../src/gsb_file.c:397 ../src/gsb_file.c:428
+#: ../src/grisbi_win.c:1634 ../src/gsb_file.c:397 ../src/gsb_file.c:428
 msgid "unnamed"
 msgstr "sem nome"
 
 #. Create main widget.
-#: ../src/grisbi_win.c:2015
+#: ../src/grisbi_win.c:2016
 msgid "Creating main window"
 msgstr ""
 
-#: ../src/grisbi_win.c:2027
+#: ../src/grisbi_win.c:2028
 msgid ""
 "The model of the list couldn't be created... Bad things will happen very "
 "soon..."
@@ -9671,7 +9689,7 @@ msgstr ""
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Este arquivo não é um relatório do Grisbi"
 
-#: ../src/gsb_file_load.c:4131 ../src/gsb_file_save.c:396
+#: ../src/gsb_file_load.c:4131 ../src/gsb_file_save.c:397
 #: ../src/utils_prefs.c:768
 #, fuzzy, c-format
 msgid ""
@@ -9753,8 +9771,8 @@ msgid "There is no category to record. Back."
 msgstr ""
 
 #: ../src/gsb_file_others.c:159 ../src/gsb_file_others.c:252
-#: ../src/gsb_file_others.c:343 ../src/gsb_file_save.c:423
-#: ../src/gsb_file_save.c:444
+#: ../src/gsb_file_others.c:343 ../src/gsb_file_save.c:424
+#: ../src/gsb_file_save.c:445
 #, c-format
 msgid "Cannot save file '%s': %s"
 msgstr "Não posso salvar arquivo '%s': %s"
@@ -9812,12 +9830,12 @@ msgstr ""
 msgid "This is not a report file, loading canceled..."
 msgstr ""
 
-#: ../src/gsb_file_save.c:401
+#: ../src/gsb_file_save.c:402
 #, fuzzy, c-format
 msgid "Cannot save encrypted file '%s'"
 msgstr "Não posso abrir arquivo '%s': %s"
 
-#: ../src/gsb_file_save.c:2879
+#: ../src/gsb_file_save.c:2886
 #, fuzzy, c-format
 msgid "Cannot save CSS file '%s': %s"
 msgstr "Não posso salvar arquivo '%s': %s"
@@ -10204,67 +10222,145 @@ msgstr "Última atualização"
 msgid "Unable to compile regex: %s\n"
 msgstr "Não posso abrir arquivo '%s': %s"
 
-#: ../src/gsb_rgba.c:495
+#: ../src/gsb_rgba.c:66
 #, fuzzy
-msgid "Transaction list background 1"
-msgstr "Prévia da lista de lançamentos"
+msgid "Background color of account row"
+msgstr "Conta bancária:"
 
-#: ../src/gsb_rgba.c:496
-#, fuzzy
-msgid "Transaction list background 2"
-msgstr "Prévia da lista de lançamentos"
-
-#: ../src/gsb_rgba.c:497
-msgid "Color for the operation that gives the balance today"
+#: ../src/gsb_rgba.c:67
+msgid "Background color of logo title"
 msgstr ""
 
-#: ../src/gsb_rgba.c:498
+#: ../src/gsb_rgba.c:68
 #, fuzzy
-msgid "Color of transaction's text"
+msgid "Color of account text"
 msgstr "Divisão do lançamento"
 
-#: ../src/gsb_rgba.c:499
+#: ../src/gsb_rgba.c:69
 #, fuzzy
-msgid "Text of unfinished split transaction"
-msgstr "Informe um lançamento agendado"
-
-#: ../src/gsb_rgba.c:500
-#, fuzzy
-msgid "Children of split transaction"
+msgid "Color of account text hovered"
 msgstr "Divisão do lançamento"
 
-#: ../src/gsb_rgba.c:501
+#: ../src/gsb_rgba.c:70
 #, fuzzy
-msgid "Selection color"
-msgstr "Selecionar todas"
+msgid "Color of balance text"
+msgstr "Divisão do lançamento"
 
-#: ../src/gsb_rgba.c:502
+#: ../src/gsb_rgba.c:71
 #, fuzzy
-msgid "Background of non selectable scheduled transactions"
+msgid "Color of balance text hovered"
+msgstr "Divisão do lançamento"
+
+#: ../src/gsb_rgba.c:72
+msgid "Color of balance text in low alarm"
+msgstr ""
+
+#: ../src/gsb_rgba.c:73
+msgid "Color of balance text hovered in low alarm"
+msgstr ""
+
+#: ../src/gsb_rgba.c:74
+msgid "Color of balance text in high alarm"
+msgstr ""
+
+#: ../src/gsb_rgba.c:75
+msgid "Color of balance text hovered in high alarm"
+msgstr ""
+
+#: ../src/gsb_rgba.c:94
+#, fuzzy
+msgid "Background color 1 in lists of transactions"
 msgstr ""
 "Efetuar baixa do lançamento\n"
 "selecionado da agenda"
 
-#: ../src/gsb_rgba.c:503
+#: ../src/gsb_rgba.c:95
 #, fuzzy
-msgid "Archive color"
-msgstr "Ativado"
+msgid "Background color 2 in lists of transactions"
+msgstr ""
+"Efetuar baixa do lançamento\n"
+"selecionado da agenda"
 
-#: ../src/gsb_rgba.c:504
-msgid "Background of bet division"
+#: ../src/gsb_rgba.c:96
+msgid "Background of the transaction that gives the balance today"
 msgstr ""
 
-#: ../src/gsb_rgba.c:505
-msgid "Background of bet futur"
+#: ../src/gsb_rgba.c:97
+#, fuzzy
+msgid "Background color of split transaction children"
+msgstr ""
+"Efetuar baixa do lançamento\n"
+"selecionado da agenda"
+
+#: ../src/gsb_rgba.c:98
+#, fuzzy
+msgid "Background color of selected transaction"
+msgstr ""
+"Efetuar baixa do lançamento\n"
+"selecionado da agenda"
+
+#: ../src/gsb_rgba.c:99
+#, fuzzy
+msgid "Background color of virtual scheduled transactions"
+msgstr ""
+"Efetuar baixa do lançamento\n"
+"selecionado da agenda"
+
+#: ../src/gsb_rgba.c:100
+msgid "Background color of archives"
 msgstr ""
 
-#: ../src/gsb_rgba.c:506
-msgid "Background of bet solde"
-msgstr ""
+#: ../src/gsb_rgba.c:101
+#, fuzzy
+msgid "Color of transaction text"
+msgstr "Divisão do lançamento"
 
-#: ../src/gsb_rgba.c:507
-msgid "Background of bet transfer"
+#: ../src/gsb_rgba.c:102
+#, fuzzy
+msgid "Color of unfinished split transaction text"
+msgstr "Informe um lançamento agendado"
+
+#: ../src/gsb_rgba.c:103
+#, fuzzy
+msgid "Color of selected transaction text"
+msgstr "Divisão do lançamento"
+
+#: ../src/gsb_rgba.c:104
+#, fuzzy
+msgid "Color of unsensitive text"
+msgstr "Divisão do lançamento"
+
+#: ../src/gsb_rgba.c:116
+#, fuzzy
+msgid "Background color of historical data"
+msgstr "Data inicial"
+
+#: ../src/gsb_rgba.c:117
+#, fuzzy
+msgid "Background color of futur data"
+msgstr "Conta bancária:"
+
+#: ../src/gsb_rgba.c:118
+#, fuzzy
+msgid "Background color of month balance"
+msgstr "Conta bancária:"
+
+#: ../src/gsb_rgba.c:119
+#, fuzzy
+msgid "Background color of transfer data"
 msgstr ""
+"Efetuar baixa do lançamento\n"
+"selecionado da agenda"
+
+#: ../src/gsb_rgba.c:128
+#, fuzzy
+msgid "Color of gsetting text"
+msgstr "Divisão do lançamento"
+
+#: ../src/gsb_rgba.c:129
+#, fuzzy
+msgid "Color of gsetting text hovered"
+msgstr "Divisão do lançamento"
 
 #. popup view menu
 #: ../src/gsb_scheduler_list.c:112
@@ -12294,12 +12390,12 @@ msgstr "Organizar por data"
 msgid "Force the use of light theme"
 msgstr "Organizar por data"
 
-#: ../src/prefs/prefs_page_display_fonts.c:568
+#: ../src/prefs/prefs_page_display_fonts.c:462
 msgid "Select a new logo"
 msgstr "Selecione um novo logotipo"
 
 #. On récupère le nom de la page
-#: ../src/prefs/prefs_page_display_fonts.c:692
+#: ../src/prefs/prefs_page_display_fonts.c:585
 msgid "Fonts & logo"
 msgstr "Fontes & Logotipo"
 
@@ -13405,6 +13501,19 @@ msgstr "Arquivo postscript"
 msgid "Choose the financial year or 12 months rolling"
 msgstr "Alterar o ano contábil"
 
+#: ../src/widgets/widget_css_rules.c:131
+#, c-format
+msgid ""
+"Warning: you will delete your grisbi color adjustment file.\n"
+"This operation will be final.\n"
+"Do you want to delete the file: \"%s\"?"
+msgstr ""
+
+#: ../src/widgets/widget_css_rules.c:136
+#, fuzzy
+msgid "Delete CSS user file"
+msgstr "Apagar relatório"
+
 #: ../src/widgets/widget_currency_popup.c:146
 #: ../src/widgets/widget_currency_popup.c:321
 msgid "ISO Code"
@@ -13471,6 +13580,30 @@ msgstr "Saldo inicial"
 #: ../src/widgets/widget_transfer.c:938
 msgid "One of the two fields is recommended"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Colors"
+#~ msgstr "Comoros"
+
+#, fuzzy
+#~ msgid "Transaction list background 1"
+#~ msgstr "Prévia da lista de lançamentos"
+
+#, fuzzy
+#~ msgid "Transaction list background 2"
+#~ msgstr "Prévia da lista de lançamentos"
+
+#, fuzzy
+#~ msgid "Children of split transaction"
+#~ msgstr "Divisão do lançamento"
+
+#, fuzzy
+#~ msgid "Selection color"
+#~ msgstr "Selecionar todas"
+
+#, fuzzy
+#~ msgid "Archive color"
+#~ msgstr "Ativado"
 
 #, fuzzy
 #~ msgid "Date retenue : "

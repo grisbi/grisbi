@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Grisbi 0.5.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-08 20:50+0200\n"
+"POT-Creation-Date: 2020-06-14 18:38+0200\n"
 "PO-Revision-Date: 2009-04-13 14:53+0200\n"
 "Last-Translator: \n"
 "Language-Team: KASKAS <ttnfy17@yahoo.gr>\n"
@@ -190,7 +190,7 @@ msgstr "Γενική διαμόρφωση"
 #: ../src/ui/prefs_page_bet_account.ui.h:5 ../src/ui/prefs_page_currency.ui.h:4
 #: ../src/ui/prefs_page_currency_link.ui.h:2
 #: ../src/ui/prefs_page_display_adr.ui.h:9
-#: ../src/ui/prefs_page_display_fonts.ui.h:13
+#: ../src/ui/prefs_page_display_fonts.ui.h:11
 #: ../src/ui/prefs_page_display_form.ui.h:5
 #: ../src/ui/prefs_page_display_gui.ui.h:15
 #: ../src/ui/prefs_page_display_ope.ui.h:3 ../src/ui/prefs_page_divers.ui.h:17
@@ -205,6 +205,7 @@ msgstr "Γενική διαμόρφωση"
 #: ../src/ui/prefs_page_reconcile_sort.ui.h:3
 #: ../src/ui/prefs_widget_loan.ui.h:21
 #: ../src/widgets/widget_bank_details.ui.h:12
+#: ../src/widgets/widget_css_rules.ui.h:1
 #: ../src/widgets/widget_currency_details.ui.h:6
 #: ../src/widgets/widget_currency_link.ui.h:4
 #: ../src/widgets/widget_currency_popup.ui.h:5
@@ -216,7 +217,7 @@ msgid "Title"
 msgstr "Τίτλοι"
 
 #: ../src/ui/csv_template_rule.ui.h:16
-#: ../src/ui/prefs_page_display_fonts.ui.h:8
+#: ../src/ui/prefs_page_display_fonts.ui.h:7
 msgid "label"
 msgstr ""
 
@@ -269,7 +270,7 @@ msgstr ""
 #. Liste effective
 #. names of the data for transactions list
 #. 1
-#: ../src/ui/etats_prefs.ui.h:9 ../src/widgets/widget_transfer.ui.h:8
+#: ../src/ui/etats_prefs.ui.h:9 ../src/widgets/widget_transfer.ui.h:5
 #: ../src/bet_finance_ui.c:1832 ../src/bet_future.c:525 ../src/bet_tab.c:1966
 #: ../src/etats_affiche.c:2464 ../src/export_csv.c:368
 #: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_form.c:1981
@@ -449,7 +450,7 @@ msgid "Make transactions clickable"
 msgstr "Κάνετε τις συναλλαγές με ένα κλικ"
 
 #: ../src/ui/etats_prefs.ui.h:47 ../src/etats_prefs.c:674
-#: ../src/grisbi_win.c:474 ../src/navigation.c:2075
+#: ../src/grisbi_win.c:475 ../src/navigation.c:2075
 msgid "Accounts"
 msgstr "Λογαριασμοί"
 
@@ -464,7 +465,7 @@ msgstr "Επιδείξτε ένα υποσύνολο για κάθε λογαρ�
 #. 3
 #: ../src/ui/etats_prefs.ui.h:50 ../src/bet_future.c:541
 #: ../src/etats_affiche.c:2485 ../src/etats_config.c:2914
-#: ../src/etats_prefs.c:679 ../src/export_csv.c:383 ../src/grisbi_win.c:511
+#: ../src/etats_prefs.c:679 ../src/export_csv.c:383 ../src/grisbi_win.c:512
 #: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_form.c:2004
 #: ../src/gsb_form_widget.c:569 ../src/gsb_scheduler_list.c:856
 #: ../src/gsb_transactions_list.c:111 ../src/import.c:4284
@@ -486,7 +487,7 @@ msgstr "Εμφανίστε ένα υποσύνολο για κάθε δικαι�
 
 #: ../src/ui/etats_prefs.ui.h:53 ../src/bet_hist.c:2039 ../src/bet_hist.c:2045
 #: ../src/categories_onglet.c:372 ../src/etats_prefs.c:684
-#: ../src/etats_prefs.c:2017 ../src/grisbi_win.c:521 ../src/navigation.c:2091
+#: ../src/etats_prefs.c:2017 ../src/grisbi_win.c:522 ../src/navigation.c:2091
 #: ../src/prefs/prefs_page_bet_account.c:157
 #: ../src/prefs/prefs_page_bet_account.c:176
 #: ../src/prefs/prefs_page_bet_account.c:193 ../src/utils_widgets.c:359
@@ -518,7 +519,7 @@ msgstr "Εμφάνιση \"Kαμία υποκατηγορία\" εάν δεν υ
 #. 8
 #: ../src/ui/etats_prefs.ui.h:59 ../src/bet_hist.c:2043
 #: ../src/etats_prefs.c:689 ../src/etats_prefs.c:2069 ../src/export_csv.c:404
-#: ../src/grisbi_win.c:526 ../src/import_csv.c:79
+#: ../src/grisbi_win.c:527 ../src/import_csv.c:79
 #: ../src/imputation_budgetaire.c:379 ../src/navigation.c:2095
 #: ../src/prefs/prefs_page_bet_account.c:158
 #: ../src/prefs/prefs_page_bet_account.c:177
@@ -883,7 +884,7 @@ msgid "New account file"
 msgstr "_Αρχείο νέου λογαριασμού"
 
 #: ../src/ui/grisbi_menu.ui.h:7 ../src/grisbi_app.c:111 ../src/grisbi_app.c:128
-#: ../src/grisbi_win.c:660 ../src/grisbi_win.c:1758
+#: ../src/grisbi_win.c:661 ../src/grisbi_win.c:1759
 #, fuzzy
 msgid "Open"
 msgstr "_Άνοιγμα"
@@ -1339,31 +1340,23 @@ msgid "Use a custom font for the transactions: "
 msgstr "Χρησιμοποιήστε μια πηγή συνήθειας για τις συναλλαγές"
 
 #: ../src/ui/prefs_page_display_fonts.ui.h:6
-msgid "Theme and Colors"
-msgstr ""
-
-#: ../src/ui/prefs_page_display_fonts.ui.h:7
 msgid "Theme"
 msgstr ""
 
-#: ../src/ui/prefs_page_display_fonts.ui.h:9
+#: ../src/ui/prefs_page_display_fonts.ui.h:8
 msgid ""
 "(If the rendering is not correct, you can force the type of theme by "
 "selecting the option below)"
 msgstr ""
 
-#: ../src/ui/prefs_page_display_fonts.ui.h:10
+#: ../src/ui/prefs_page_display_fonts.ui.h:9
 #, fuzzy
 msgid "Automatic selection"
 msgstr "Επιλογή στοιχείων"
 
-#: ../src/ui/prefs_page_display_fonts.ui.h:11
-msgid "Colors"
-msgstr "Χρώματα"
-
-#: ../src/ui/prefs_page_display_fonts.ui.h:12
-msgid "Back to default"
-msgstr "Πίσω στην προεπιλογή"
+#: ../src/ui/prefs_page_display_fonts.ui.h:10
+msgid "CSS rules"
+msgstr ""
 
 #: ../src/ui/prefs_page_display_form.ui.h:1
 msgid "Form structure preview"
@@ -2128,6 +2121,42 @@ msgstr "Φαξ"
 msgid "Notes"
 msgstr "Σημειώσεις"
 
+#: ../src/widgets/widget_css_rules.ui.h:2
+msgid "Text height of status bar: "
+msgstr ""
+
+#: ../src/widgets/widget_css_rules.ui.h:3
+msgid "Home"
+msgstr ""
+
+#: ../src/widgets/widget_css_rules.ui.h:4
+#, fuzzy
+msgid "Transactions list"
+msgstr "Συμπεριφορά καταλόγων συναλλαγής"
+
+#: ../src/widgets/widget_css_rules.ui.h:5 ../src/grisbi_win.c:484
+msgid "Forecast"
+msgstr ""
+
+#: ../src/widgets/widget_css_rules.ui.h:6 ../src/grisbi_app.c:108
+#: ../src/grisbi_app.c:125
+#, fuzzy
+msgid "Preferences"
+msgstr "_Προτιμήσεις"
+
+#: ../src/widgets/widget_css_rules.ui.h:7
+#, fuzzy
+msgid "back to default"
+msgstr "Πίσω στην προεπιλογή"
+
+#: ../src/widgets/widget_css_rules.ui.h:8
+msgid "This action deletes the personal CSS file and resets all colors"
+msgstr ""
+
+#: ../src/widgets/widget_css_rules.ui.h:9
+msgid "(This action deletes the personal CSS file and resets all colors)"
+msgstr ""
+
 #: ../src/widgets/widget_currency_details.ui.h:2
 #, fuzzy
 msgid "Sign: "
@@ -2293,27 +2322,27 @@ msgid "Deferred debit card"
 msgstr "Πιστωτική κάρτα"
 
 #: ../src/widgets/widget_transfer.ui.h:4
-msgid "Choice of order day: "
-msgstr ""
-
-#: ../src/widgets/widget_transfer.ui.h:5
-#, fuzzy
-msgid "Fixed date"
-msgstr "Τελική ημερομηνία"
-
-#: ../src/widgets/widget_transfer.ui.h:6
-msgid "First next working day if the date is not a working day"
-msgstr ""
-
-#: ../src/widgets/widget_transfer.ui.h:7
 #, fuzzy
 msgid "Order date: "
 msgstr "Έναρξη:"
 
-#: ../src/widgets/widget_transfer.ui.h:9
+#: ../src/widgets/widget_transfer.ui.h:6
 #, fuzzy
 msgid "Date retained: "
 msgstr "μέθοδος πληρωμής:"
+
+#: ../src/widgets/widget_transfer.ui.h:7
+msgid "Choice of order day: "
+msgstr ""
+
+#: ../src/widgets/widget_transfer.ui.h:8
+#, fuzzy
+msgid "Fixed date"
+msgstr "Τελική ημερομηνία"
+
+#: ../src/widgets/widget_transfer.ui.h:9
+msgid "First next working day if the date is not a working day"
+msgstr ""
 
 #: ../src/widgets/widget_transfer.ui.h:10
 #, fuzzy
@@ -2321,22 +2350,22 @@ msgid "Main account"
 msgstr "Τραπεζικός λογαριασμός"
 
 #: ../src/widgets/widget_transfer.ui.h:11
+#, fuzzy
+msgid "Date of debit: "
+msgstr "μέθοδος πληρωμής:"
+
+#: ../src/widgets/widget_transfer.ui.h:12
 msgid "Choice of direct debit day: "
 msgstr ""
 
-#: ../src/widgets/widget_transfer.ui.h:12
+#: ../src/widgets/widget_transfer.ui.h:13
 #, fuzzy
 msgid "Last banking day of the month"
 msgstr "Τελευταίες 30 ημέρες"
 
-#: ../src/widgets/widget_transfer.ui.h:13
+#: ../src/widgets/widget_transfer.ui.h:14
 msgid "First previous working day if the date is not a working day"
 msgstr ""
-
-#: ../src/widgets/widget_transfer.ui.h:14
-#, fuzzy
-msgid "Date of debit: "
-msgstr "μέθοδος πληρωμής:"
 
 #: ../src/widgets/widget_transfer.ui.h:15
 #, fuzzy
@@ -2949,8 +2978,8 @@ msgstr "Κλειστές προγραμματισμένες συναλλαγές
 msgid "Jour fixe du lancement mensuel des opérations planifiées."
 msgstr ""
 
-#: ../share/grisbi.desktop.in.h:1 ../src/grisbi_win.c:1579
-#: ../src/grisbi_win.c:1626
+#: ../share/grisbi.desktop.in.h:1 ../src/grisbi_win.c:1580
+#: ../src/grisbi_win.c:1627
 msgid "Grisbi"
 msgstr "Grisbi"
 
@@ -3317,7 +3346,7 @@ msgid " of capital"
 msgstr "Σύνολο τοπικής προσαρμογής:"
 
 #. titre de la page
-#: ../src/bet_finance_ui.c:1452 ../src/grisbi_win.c:516
+#: ../src/bet_finance_ui.c:1452 ../src/grisbi_win.c:517
 #: ../src/navigation.c:1305 ../src/navigation.c:2087
 #, fuzzy
 msgid "Credits simulator"
@@ -4088,7 +4117,7 @@ msgstr "Δημιουργήστε μια νέα υποκατηγορία"
 #. Import button
 #. On récupère le nom de la page
 #: ../src/categories_onglet.c:581 ../src/etats_onglet.c:555
-#: ../src/grisbi_prefs.c:424 ../src/grisbi_win.c:672 ../src/import.c:1819
+#: ../src/grisbi_prefs.c:424 ../src/grisbi_win.c:673 ../src/import.c:1819
 #: ../src/imputation_budgetaire.c:627 ../src/prefs/prefs_page_import.c:87
 #: ../src/utils_files.c:757
 msgid "Import"
@@ -5043,7 +5072,7 @@ msgstr ""
 "γρηγορότερα χωρίς την ενεργοποίηση της επιλογής \"λεπτομέρειες  δικαιούχων "
 "πληρωμής\"."
 
-#: ../src/etats_config.c:833 ../src/utils_prefs.c:714
+#: ../src/etats_config.c:833 ../src/gsb_rgba.c:134 ../src/utils_prefs.c:714
 #, fuzzy
 msgid "Not available"
 msgstr "Καμία περιγραφή διαθέσιμη"
@@ -5274,7 +5303,7 @@ msgstr "Εκτυπώστε την επιλεγμένη αναφορά"
 msgid "Delete selected report"
 msgstr "Διαγράψτε την επιλεγμένη αναφορά"
 
-#: ../src/etats_onglet.c:593 ../src/grisbi_win.c:496
+#: ../src/etats_onglet.c:593 ../src/grisbi_win.c:497
 msgid "Properties"
 msgstr "Ιδιότητες"
 
@@ -5355,7 +5384,7 @@ msgstr "Μηνιαία έξοδα ανά δικαιούχο πληρωμής"
 msgid "Unknown report type, creation cancelled"
 msgstr "Άγνωστος τύπος εκθέσεων,η δημιουργία ακυρώνεται"
 
-#: ../src/etats_onglet.c:1205 ../src/grisbi_win.c:531 ../src/navigation.c:1341
+#: ../src/etats_onglet.c:1205 ../src/grisbi_win.c:532 ../src/navigation.c:1341
 #: ../src/navigation.c:2099
 msgid "Reports"
 msgstr "Αναφορές"
@@ -5422,7 +5451,7 @@ msgstr "Τίτλοι"
 
 #. append group page "Transactions"
 #: ../src/etats_prefs.c:740 ../src/export_csv.c:359 ../src/grisbi_prefs.c:467
-#: ../src/grisbi_win.c:478
+#: ../src/grisbi_win.c:479
 msgid "Transactions"
 msgstr "Συναλλαγές"
 
@@ -6396,11 +6425,6 @@ msgstr "Κατάλογος επιλογών"
 msgid "New_window"
 msgstr ""
 
-#: ../src/grisbi_app.c:108 ../src/grisbi_app.c:125
-#, fuzzy
-msgid "Preferences"
-msgstr "_Προτιμήσεις"
-
 #: ../src/grisbi_app.c:109 ../src/grisbi_app.c:126
 #, fuzzy
 msgid "Quit"
@@ -6447,22 +6471,22 @@ msgstr "Λάθος στο sigaction: SIGSEGV δεν  είναι παγιδευμ
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Λάθος στο sigaction: SIGSEGV δεν  είναι παγιδευμένο\n"
 
-#: ../src/grisbi_app.c:1067 ../src/menu.c:631
+#: ../src/grisbi_app.c:1066 ../src/menu.c:631
 #, fuzzy
 msgid "Start an action!"
 msgstr "Συναλλαγές είδους  κατά"
 
-#: ../src/grisbi_app.c:1351
+#: ../src/grisbi_app.c:1349
 #, fuzzy
 msgid "<b>Actions in transaction list :</b>"
 msgstr "Επιλέξτε όλες τις συναλλαγές"
 
-#: ../src/grisbi_app.c:1353
+#: ../src/grisbi_app.c:1351
 #, fuzzy
 msgid "(Un)Pointing a transaction\t\t-> <Primary>p, <Primary>F12\n"
 msgstr "Συμφωνημένες συναλλαγές"
 
-#: ../src/grisbi_app.c:1354
+#: ../src/grisbi_app.c:1352
 #, fuzzy
 msgid "(Un)Reconcile a transaction\t\t-> <Primary>r\n"
 msgstr "Συμφωνημένες συναλλαγές"
@@ -6491,7 +6515,7 @@ msgstr "Αρχεία"
 msgid "Various settings"
 msgstr "Εισαγωγή κανόνων"
 
-#: ../src/grisbi_prefs.c:434 ../src/grisbi_win.c:464
+#: ../src/grisbi_prefs.c:434 ../src/grisbi_win.c:465
 msgid "Main page"
 msgstr "Κύρια σελίδα"
 
@@ -6611,66 +6635,62 @@ msgstr "_Προτιμήσεις"
 msgid "No font defined"
 msgstr "Δεν καθορίστηκε γραμματοσειρά"
 
-#: ../src/grisbi_win.c:427
+#: ../src/grisbi_win.c:428
 msgid "Transaction/Scheduled _form"
 msgstr "Συναλλαγή/σχέδιο _form"
 
-#: ../src/grisbi_win.c:483
-msgid "Forecast"
-msgstr ""
-
-#: ../src/grisbi_win.c:487
+#: ../src/grisbi_win.c:488
 #, fuzzy
 msgid "Historical data"
 msgstr "Αρχική ημερομηνία"
 
-#: ../src/grisbi_win.c:492
+#: ../src/grisbi_win.c:493
 #, fuzzy
 msgid "Amortization array"
 msgstr "Σειρά εκτίμησης"
 
-#: ../src/grisbi_win.c:506 ../src/navigation.c:2079
+#: ../src/grisbi_win.c:507 ../src/navigation.c:2079
 #: ../src/prefs/prefs_page_divers.c:550 ../src/prefs/prefs_page_divers.c:565
 msgid "Scheduler"
 msgstr "Χρονοπρογραμματιστής"
 
-#: ../src/grisbi_win.c:648
+#: ../src/grisbi_win.c:649
 msgid "New"
 msgstr ""
 
-#: ../src/grisbi_win.c:650
+#: ../src/grisbi_win.c:651
 #, fuzzy
 msgid "Create a new account file"
 msgstr "Δημιουργία νέου λογαριασμού"
 
-#: ../src/grisbi_win.c:662
+#: ../src/grisbi_win.c:663
 #, fuzzy
 msgid "Open an existing account file"
 msgstr "Άνοιγμα αρχείου λογαριασμού"
 
-#: ../src/grisbi_win.c:674
+#: ../src/grisbi_win.c:675
 #, fuzzy
 msgid "Import a CSV, QIF, OFX file ..."
 msgstr "_Εισαγωγή αρχείου..."
 
-#: ../src/grisbi_win.c:1454
+#: ../src/grisbi_win.c:1455
 msgid "Unnamed account"
 msgstr "Απροσδιόριστος λογαριασμός"
 
-#: ../src/grisbi_win.c:1476 ../src/gsb_transactions_list.c:523
+#: ../src/grisbi_win.c:1477 ../src/gsb_transactions_list.c:523
 msgid "Move transaction to another account"
 msgstr "Μετακίνηση συναλλαγής σε άλλο λογαριασμό."
 
-#: ../src/grisbi_win.c:1633 ../src/gsb_file.c:397 ../src/gsb_file.c:428
+#: ../src/grisbi_win.c:1634 ../src/gsb_file.c:397 ../src/gsb_file.c:428
 msgid "unnamed"
 msgstr "απροσδιόριστος"
 
 #. Create main widget.
-#: ../src/grisbi_win.c:2015
+#: ../src/grisbi_win.c:2016
 msgid "Creating main window"
 msgstr "Δημιουργία του κύριου παραθύρου"
 
-#: ../src/grisbi_win.c:2027
+#: ../src/grisbi_win.c:2028
 msgid ""
 "The model of the list couldn't be created... Bad things will happen very "
 "soon..."
@@ -9893,7 +9913,7 @@ msgstr ""
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Αυτό δεν είναι ένα αρχείο Grisbi… Η φόρτωση αναβάλλεται."
 
-#: ../src/gsb_file_load.c:4131 ../src/gsb_file_save.c:396
+#: ../src/gsb_file_load.c:4131 ../src/gsb_file_save.c:397
 #: ../src/utils_prefs.c:768
 #, c-format
 msgid ""
@@ -9982,8 +10002,8 @@ msgid "There is no category to record. Back."
 msgstr ""
 
 #: ../src/gsb_file_others.c:159 ../src/gsb_file_others.c:252
-#: ../src/gsb_file_others.c:343 ../src/gsb_file_save.c:423
-#: ../src/gsb_file_save.c:444
+#: ../src/gsb_file_others.c:343 ../src/gsb_file_save.c:424
+#: ../src/gsb_file_save.c:445
 #, c-format
 msgid "Cannot save file '%s': %s"
 msgstr "Αδύνατη η αποθήκευση του αρχείου'%s': %s"
@@ -10049,12 +10069,12 @@ msgstr "Αυτό δεν είναι ένα αρχείο προϋπολογισμ�
 msgid "This is not a report file, loading canceled..."
 msgstr "Αυτό δεν είναι ένα αρχείο εκθέσεων, η φόρτωση  ακυρώνεται…"
 
-#: ../src/gsb_file_save.c:401
+#: ../src/gsb_file_save.c:402
 #, fuzzy, c-format
 msgid "Cannot save encrypted file '%s'"
 msgstr "Αδύνατο το άνοιγμα του κρυπτογραφημένου αρχείου '%s'"
 
-#: ../src/gsb_file_save.c:2879
+#: ../src/gsb_file_save.c:2886
 #, fuzzy, c-format
 msgid "Cannot save CSS file '%s': %s"
 msgstr "Αδύνατη η αποθήκευση του αρχείου'%s': %s"
@@ -10459,64 +10479,135 @@ msgstr "Τελευταία δήλωση: %s"
 msgid "Unable to compile regex: %s\n"
 msgstr "Αδύνατη η δημιουργία αρχείου tmp: %s\n"
 
-#: ../src/gsb_rgba.c:495
-msgid "Transaction list background 1"
-msgstr "Υπόβαθρο 1 καταλόγων συναλλαγής"
+#: ../src/gsb_rgba.c:66
+#, fuzzy
+msgid "Background color of account row"
+msgstr "Υπόβαθρο της άκυρης εισόδου ημερομηνίας"
 
-#: ../src/gsb_rgba.c:496
-msgid "Transaction list background 2"
-msgstr "Υπόβαθρο 2 καταλόγων συναλλαγής"
+#: ../src/gsb_rgba.c:67
+#, fuzzy
+msgid "Background color of logo title"
+msgstr "Υπόβαθρο της άκυρης εισόδου ημερομηνίας"
 
-#: ../src/gsb_rgba.c:497
-msgid "Color for the operation that gives the balance today"
-msgstr ""
-
-#: ../src/gsb_rgba.c:498
-msgid "Color of transaction's text"
+#: ../src/gsb_rgba.c:68
+#, fuzzy
+msgid "Color of account text"
 msgstr "Χρώμα του κειμένου της συναλλαγής"
 
-#: ../src/gsb_rgba.c:499
+#: ../src/gsb_rgba.c:69
 #, fuzzy
-msgid "Text of unfinished split transaction"
-msgstr " κείμενο ατελούς  συναλλαγής"
+msgid "Color of account text hovered"
+msgstr "Χρώμα του κειμένου της συναλλαγής"
 
-#: ../src/gsb_rgba.c:500
+#: ../src/gsb_rgba.c:70
 #, fuzzy
-msgid "Children of split transaction"
-msgstr "Αποτελέσματα διασπασμένης συναλλαγής"
+msgid "Color of balance text"
+msgstr "Χρώμα του κειμένου της συναλλαγής"
 
-#: ../src/gsb_rgba.c:501
+#: ../src/gsb_rgba.c:71
 #, fuzzy
-msgid "Selection color"
-msgstr "Χρώμα επιλογής"
+msgid "Color of balance text hovered"
+msgstr "Χρώμα του κειμένου της συναλλαγής"
 
-#: ../src/gsb_rgba.c:502
-msgid "Background of non selectable scheduled transactions"
+#: ../src/gsb_rgba.c:72
+msgid "Color of balance text in low alarm"
+msgstr ""
+
+#: ../src/gsb_rgba.c:73
+msgid "Color of balance text hovered in low alarm"
+msgstr ""
+
+#: ../src/gsb_rgba.c:74
+msgid "Color of balance text in high alarm"
+msgstr ""
+
+#: ../src/gsb_rgba.c:75
+msgid "Color of balance text hovered in high alarm"
+msgstr ""
+
+#: ../src/gsb_rgba.c:94
+#, fuzzy
+msgid "Background color 1 in lists of transactions"
 msgstr "Υπόβαθρο των μη επιλέξιμων σχεδιασμένων συναλλαγών"
 
-#: ../src/gsb_rgba.c:503
-msgid "Archive color"
-msgstr "Χρώμα αρχείων"
-
-#: ../src/gsb_rgba.c:504
+#: ../src/gsb_rgba.c:95
 #, fuzzy
-msgid "Background of bet division"
+msgid "Background color 2 in lists of transactions"
+msgstr "Υπόβαθρο των μη επιλέξιμων σχεδιασμένων συναλλαγών"
+
+#: ../src/gsb_rgba.c:96
+msgid "Background of the transaction that gives the balance today"
+msgstr ""
+
+#: ../src/gsb_rgba.c:97
+#, fuzzy
+msgid "Background color of split transaction children"
+msgstr "Υπόβαθρο των μη επιλέξιμων σχεδιασμένων συναλλαγών"
+
+#: ../src/gsb_rgba.c:98
+#, fuzzy
+msgid "Background color of selected transaction"
+msgstr "Υπόβαθρο των μη επιλέξιμων σχεδιασμένων συναλλαγών"
+
+#: ../src/gsb_rgba.c:99
+#, fuzzy
+msgid "Background color of virtual scheduled transactions"
+msgstr "Υπόβαθρο των μη επιλέξιμων σχεδιασμένων συναλλαγών"
+
+#: ../src/gsb_rgba.c:100
+#, fuzzy
+msgid "Background color of archives"
 msgstr "Υπόβαθρο της άκυρης εισόδου ημερομηνίας"
 
-#: ../src/gsb_rgba.c:505
+#: ../src/gsb_rgba.c:101
 #, fuzzy
-msgid "Background of bet futur"
+msgid "Color of transaction text"
+msgstr "Χρώμα του κειμένου της συναλλαγής"
+
+#: ../src/gsb_rgba.c:102
+#, fuzzy
+msgid "Color of unfinished split transaction text"
+msgstr " κείμενο ατελούς  συναλλαγής"
+
+#: ../src/gsb_rgba.c:103
+#, fuzzy
+msgid "Color of selected transaction text"
+msgstr "Χρώμα του κειμένου της συναλλαγής"
+
+#: ../src/gsb_rgba.c:104
+#, fuzzy
+msgid "Color of unsensitive text"
+msgstr "Χρώμα του κειμένου της συναλλαγής"
+
+#: ../src/gsb_rgba.c:116
+#, fuzzy
+msgid "Background color of historical data"
 msgstr "Υπόβαθρο της άκυρης εισόδου ημερομηνίας"
 
-#: ../src/gsb_rgba.c:506
+#: ../src/gsb_rgba.c:117
 #, fuzzy
-msgid "Background of bet solde"
+msgid "Background color of futur data"
 msgstr "Υπόβαθρο της άκυρης εισόδου ημερομηνίας"
 
-#: ../src/gsb_rgba.c:507
+#: ../src/gsb_rgba.c:118
 #, fuzzy
-msgid "Background of bet transfer"
+msgid "Background color of month balance"
 msgstr "Υπόβαθρο της άκυρης εισόδου ημερομηνίας"
+
+#: ../src/gsb_rgba.c:119
+#, fuzzy
+msgid "Background color of transfer data"
+msgstr "Υπόβαθρο της άκυρης εισόδου ημερομηνίας"
+
+#: ../src/gsb_rgba.c:128
+#, fuzzy
+msgid "Color of gsetting text"
+msgstr "Χρώμα του κειμένου της συναλλαγής"
+
+#: ../src/gsb_rgba.c:129
+#, fuzzy
+msgid "Color of gsetting text hovered"
+msgstr "Χρώμα του κειμένου της συναλλαγής"
 
 #. popup view menu
 #: ../src/gsb_scheduler_list.c:112
@@ -12617,12 +12708,12 @@ msgstr "Αρχείο κατά την ημερομηνία"
 msgid "Force the use of light theme"
 msgstr "Αρχείο κατά την ημερομηνία"
 
-#: ../src/prefs/prefs_page_display_fonts.c:568
+#: ../src/prefs/prefs_page_display_fonts.c:462
 msgid "Select a new logo"
 msgstr "Επιλέξτε ένα νέο λογότυπο"
 
 #. On récupère le nom de la page
-#: ../src/prefs/prefs_page_display_fonts.c:692
+#: ../src/prefs/prefs_page_display_fonts.c:585
 msgid "Fonts & logo"
 msgstr "Πηγές & λογότυπο"
 
@@ -13754,6 +13845,19 @@ msgstr "Αποκρυπτογραφημένο αρχείο"
 msgid "Choose the financial year or 12 months rolling"
 msgstr "Επιλέξτε το οικονομικό έτος"
 
+#: ../src/widgets/widget_css_rules.c:131
+#, c-format
+msgid ""
+"Warning: you will delete your grisbi color adjustment file.\n"
+"This operation will be final.\n"
+"Do you want to delete the file: \"%s\"?"
+msgstr ""
+
+#: ../src/widgets/widget_css_rules.c:136
+#, fuzzy
+msgid "Delete CSS user file"
+msgstr "Διαγράψτε την επιλεγμένη αναφορά"
+
 #: ../src/widgets/widget_currency_popup.c:146
 #: ../src/widgets/widget_currency_popup.c:321
 msgid "ISO Code"
@@ -13820,6 +13924,42 @@ msgstr "Αρχική ισορροπία"
 #: ../src/widgets/widget_transfer.c:938
 msgid "One of the two fields is recommended"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Background of bet division"
+#~ msgstr "Υπόβαθρο της άκυρης εισόδου ημερομηνίας"
+
+#, fuzzy
+#~ msgid "Background of bet futur"
+#~ msgstr "Υπόβαθρο της άκυρης εισόδου ημερομηνίας"
+
+#, fuzzy
+#~ msgid "Background of bet solde"
+#~ msgstr "Υπόβαθρο της άκυρης εισόδου ημερομηνίας"
+
+#, fuzzy
+#~ msgid "15"
+#~ msgstr "1"
+
+#~ msgid "Colors"
+#~ msgstr "Χρώματα"
+
+#~ msgid "Transaction list background 1"
+#~ msgstr "Υπόβαθρο 1 καταλόγων συναλλαγής"
+
+#~ msgid "Transaction list background 2"
+#~ msgstr "Υπόβαθρο 2 καταλόγων συναλλαγής"
+
+#, fuzzy
+#~ msgid "Children of split transaction"
+#~ msgstr "Αποτελέσματα διασπασμένης συναλλαγής"
+
+#, fuzzy
+#~ msgid "Selection color"
+#~ msgstr "Χρώμα επιλογής"
+
+#~ msgid "Archive color"
+#~ msgstr "Χρώμα αρχείων"
 
 #, fuzzy
 #~ msgid "Date retenue : "

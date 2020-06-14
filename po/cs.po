@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-08 20:50+0200\n"
+"POT-Creation-Date: 2020-06-14 18:38+0200\n"
 "PO-Revision-Date: 2011-02-19 01:39+0100\n"
 "Last-Translator: Markus7cz <markus7cz@gmail.com>\n"
 "Language-Team: \n"
@@ -189,7 +189,7 @@ msgstr "Základní nastavení"
 #: ../src/ui/prefs_page_bet_account.ui.h:5 ../src/ui/prefs_page_currency.ui.h:4
 #: ../src/ui/prefs_page_currency_link.ui.h:2
 #: ../src/ui/prefs_page_display_adr.ui.h:9
-#: ../src/ui/prefs_page_display_fonts.ui.h:13
+#: ../src/ui/prefs_page_display_fonts.ui.h:11
 #: ../src/ui/prefs_page_display_form.ui.h:5
 #: ../src/ui/prefs_page_display_gui.ui.h:15
 #: ../src/ui/prefs_page_display_ope.ui.h:3 ../src/ui/prefs_page_divers.ui.h:17
@@ -204,6 +204,7 @@ msgstr "Základní nastavení"
 #: ../src/ui/prefs_page_reconcile_sort.ui.h:3
 #: ../src/ui/prefs_widget_loan.ui.h:21
 #: ../src/widgets/widget_bank_details.ui.h:12
+#: ../src/widgets/widget_css_rules.ui.h:1
 #: ../src/widgets/widget_currency_details.ui.h:6
 #: ../src/widgets/widget_currency_link.ui.h:4
 #: ../src/widgets/widget_currency_popup.ui.h:5
@@ -215,7 +216,7 @@ msgid "Title"
 msgstr "Názvy"
 
 #: ../src/ui/csv_template_rule.ui.h:16
-#: ../src/ui/prefs_page_display_fonts.ui.h:8
+#: ../src/ui/prefs_page_display_fonts.ui.h:7
 msgid "label"
 msgstr ""
 
@@ -262,7 +263,7 @@ msgstr ""
 #. Liste effective
 #. names of the data for transactions list
 #. 1
-#: ../src/ui/etats_prefs.ui.h:9 ../src/widgets/widget_transfer.ui.h:8
+#: ../src/ui/etats_prefs.ui.h:9 ../src/widgets/widget_transfer.ui.h:5
 #: ../src/bet_finance_ui.c:1832 ../src/bet_future.c:525 ../src/bet_tab.c:1966
 #: ../src/etats_affiche.c:2464 ../src/export_csv.c:368
 #: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_form.c:1981
@@ -438,7 +439,7 @@ msgid "Make transactions clickable"
 msgstr "Transakce budou reagovat na kliknutí"
 
 #: ../src/ui/etats_prefs.ui.h:47 ../src/etats_prefs.c:674
-#: ../src/grisbi_win.c:474 ../src/navigation.c:2075
+#: ../src/grisbi_win.c:475 ../src/navigation.c:2075
 msgid "Accounts"
 msgstr "Účty"
 
@@ -453,7 +454,7 @@ msgstr "Zobrazit mezisoučet pro každý účet"
 #. 3
 #: ../src/ui/etats_prefs.ui.h:50 ../src/bet_future.c:541
 #: ../src/etats_affiche.c:2485 ../src/etats_config.c:2914
-#: ../src/etats_prefs.c:679 ../src/export_csv.c:383 ../src/grisbi_win.c:511
+#: ../src/etats_prefs.c:679 ../src/export_csv.c:383 ../src/grisbi_win.c:512
 #: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_form.c:2004
 #: ../src/gsb_form_widget.c:569 ../src/gsb_scheduler_list.c:856
 #: ../src/gsb_transactions_list.c:111 ../src/import.c:4284
@@ -474,7 +475,7 @@ msgstr "Zobrazit mezisoučty pro plátce/příjemce"
 
 #: ../src/ui/etats_prefs.ui.h:53 ../src/bet_hist.c:2039 ../src/bet_hist.c:2045
 #: ../src/categories_onglet.c:372 ../src/etats_prefs.c:684
-#: ../src/etats_prefs.c:2017 ../src/grisbi_win.c:521 ../src/navigation.c:2091
+#: ../src/etats_prefs.c:2017 ../src/grisbi_win.c:522 ../src/navigation.c:2091
 #: ../src/prefs/prefs_page_bet_account.c:157
 #: ../src/prefs/prefs_page_bet_account.c:176
 #: ../src/prefs/prefs_page_bet_account.c:193 ../src/utils_widgets.c:359
@@ -506,7 +507,7 @@ msgstr "Zobrazit \"Žádné podkategorie\" pokud žádné nebudou"
 #. 8
 #: ../src/ui/etats_prefs.ui.h:59 ../src/bet_hist.c:2043
 #: ../src/etats_prefs.c:689 ../src/etats_prefs.c:2069 ../src/export_csv.c:404
-#: ../src/grisbi_win.c:526 ../src/import_csv.c:79
+#: ../src/grisbi_win.c:527 ../src/import_csv.c:79
 #: ../src/imputation_budgetaire.c:379 ../src/navigation.c:2095
 #: ../src/prefs/prefs_page_bet_account.c:158
 #: ../src/prefs/prefs_page_bet_account.c:177
@@ -858,7 +859,7 @@ msgid "New account file"
 msgstr "_Nový soubor účtů..."
 
 #: ../src/ui/grisbi_menu.ui.h:7 ../src/grisbi_app.c:111 ../src/grisbi_app.c:128
-#: ../src/grisbi_win.c:660 ../src/grisbi_win.c:1758
+#: ../src/grisbi_win.c:661 ../src/grisbi_win.c:1759
 #, fuzzy
 msgid "Open"
 msgstr "_Otevřít..."
@@ -1297,31 +1298,23 @@ msgid "Use a custom font for the transactions: "
 msgstr "Použít vlastní písmo pro transakce: "
 
 #: ../src/ui/prefs_page_display_fonts.ui.h:6
-msgid "Theme and Colors"
-msgstr ""
-
-#: ../src/ui/prefs_page_display_fonts.ui.h:7
 msgid "Theme"
 msgstr ""
 
-#: ../src/ui/prefs_page_display_fonts.ui.h:9
+#: ../src/ui/prefs_page_display_fonts.ui.h:8
 msgid ""
 "(If the rendering is not correct, you can force the type of theme by "
 "selecting the option below)"
 msgstr ""
 
-#: ../src/ui/prefs_page_display_fonts.ui.h:10
+#: ../src/ui/prefs_page_display_fonts.ui.h:9
 #, fuzzy
 msgid "Automatic selection"
 msgstr "Výběr dat"
 
-#: ../src/ui/prefs_page_display_fonts.ui.h:11
-msgid "Colors"
-msgstr "Barvy"
-
-#: ../src/ui/prefs_page_display_fonts.ui.h:12
-msgid "Back to default"
-msgstr "Zpět k výchozím"
+#: ../src/ui/prefs_page_display_fonts.ui.h:10
+msgid "CSS rules"
+msgstr ""
 
 #: ../src/ui/prefs_page_display_form.ui.h:1
 msgid "Form structure preview"
@@ -2043,6 +2036,42 @@ msgstr "Fax: "
 msgid "Notes"
 msgstr "Pozn."
 
+#: ../src/widgets/widget_css_rules.ui.h:2
+msgid "Text height of status bar: "
+msgstr ""
+
+#: ../src/widgets/widget_css_rules.ui.h:3
+msgid "Home"
+msgstr ""
+
+#: ../src/widgets/widget_css_rules.ui.h:4
+#, fuzzy
+msgid "Transactions list"
+msgstr "Chování seznamu transakcí"
+
+#: ../src/widgets/widget_css_rules.ui.h:5 ../src/grisbi_win.c:484
+msgid "Forecast"
+msgstr "Prognóza"
+
+#: ../src/widgets/widget_css_rules.ui.h:6 ../src/grisbi_app.c:108
+#: ../src/grisbi_app.c:125
+#, fuzzy
+msgid "Preferences"
+msgstr "_Možnosti"
+
+#: ../src/widgets/widget_css_rules.ui.h:7
+#, fuzzy
+msgid "back to default"
+msgstr "Zpět k výchozím"
+
+#: ../src/widgets/widget_css_rules.ui.h:8
+msgid "This action deletes the personal CSS file and resets all colors"
+msgstr ""
+
+#: ../src/widgets/widget_css_rules.ui.h:9
+msgid "(This action deletes the personal CSS file and resets all colors)"
+msgstr ""
+
 #: ../src/widgets/widget_currency_details.ui.h:2
 msgid "Sign: "
 msgstr "Symbol: "
@@ -2196,27 +2225,27 @@ msgid "Deferred debit card"
 msgstr "Kreditní karta"
 
 #: ../src/widgets/widget_transfer.ui.h:4
-msgid "Choice of order day: "
-msgstr ""
-
-#: ../src/widgets/widget_transfer.ui.h:5
-#, fuzzy
-msgid "Fixed date"
-msgstr "Koncové datum"
-
-#: ../src/widgets/widget_transfer.ui.h:6
-msgid "First next working day if the date is not a working day"
-msgstr ""
-
-#: ../src/widgets/widget_transfer.ui.h:7
 #, fuzzy
 msgid "Order date: "
 msgstr "Počáteční datum: "
 
-#: ../src/widgets/widget_transfer.ui.h:9
+#: ../src/widgets/widget_transfer.ui.h:6
 #, fuzzy
 msgid "Date retained: "
 msgstr "Datum první splátky: "
+
+#: ../src/widgets/widget_transfer.ui.h:7
+msgid "Choice of order day: "
+msgstr ""
+
+#: ../src/widgets/widget_transfer.ui.h:8
+#, fuzzy
+msgid "Fixed date"
+msgstr "Koncové datum"
+
+#: ../src/widgets/widget_transfer.ui.h:9
+msgid "First next working day if the date is not a working day"
+msgstr ""
 
 #: ../src/widgets/widget_transfer.ui.h:10
 #, fuzzy
@@ -2224,22 +2253,22 @@ msgid "Main account"
 msgstr "Bankovní účet"
 
 #: ../src/widgets/widget_transfer.ui.h:11
+#, fuzzy
+msgid "Date of debit: "
+msgstr "Datum první splátky: "
+
+#: ../src/widgets/widget_transfer.ui.h:12
 msgid "Choice of direct debit day: "
 msgstr ""
 
-#: ../src/widgets/widget_transfer.ui.h:12
+#: ../src/widgets/widget_transfer.ui.h:13
 #, fuzzy
 msgid "Last banking day of the month"
 msgstr "první den v měsíci"
 
-#: ../src/widgets/widget_transfer.ui.h:13
+#: ../src/widgets/widget_transfer.ui.h:14
 msgid "First previous working day if the date is not a working day"
 msgstr ""
-
-#: ../src/widgets/widget_transfer.ui.h:14
-#, fuzzy
-msgid "Date of debit: "
-msgstr "Datum první splátky: "
 
 #: ../src/widgets/widget_transfer.ui.h:15
 #, fuzzy
@@ -2847,8 +2876,8 @@ msgstr "Popisky plánovaných transakcí"
 msgid "Jour fixe du lancement mensuel des opérations planifiées."
 msgstr ""
 
-#: ../share/grisbi.desktop.in.h:1 ../src/grisbi_win.c:1579
-#: ../src/grisbi_win.c:1626
+#: ../share/grisbi.desktop.in.h:1 ../src/grisbi_win.c:1580
+#: ../src/grisbi_win.c:1627
 msgid "Grisbi"
 msgstr "Grisbi"
 
@@ -3199,7 +3228,7 @@ msgid " of capital"
 msgstr "Výše jistiny: "
 
 #. titre de la page
-#: ../src/bet_finance_ui.c:1452 ../src/grisbi_win.c:516
+#: ../src/bet_finance_ui.c:1452 ../src/grisbi_win.c:517
 #: ../src/navigation.c:1305 ../src/navigation.c:2087
 msgid "Credits simulator"
 msgstr "Simulace půjčky"
@@ -3949,7 +3978,7 @@ msgstr "Vytvořit novou podkategorii"
 #. Import button
 #. On récupère le nom de la page
 #: ../src/categories_onglet.c:581 ../src/etats_onglet.c:555
-#: ../src/grisbi_prefs.c:424 ../src/grisbi_win.c:672 ../src/import.c:1819
+#: ../src/grisbi_prefs.c:424 ../src/grisbi_win.c:673 ../src/import.c:1819
 #: ../src/imputation_budgetaire.c:627 ../src/prefs/prefs_page_import.c:87
 #: ../src/utils_files.c:757
 msgid "Import"
@@ -4879,7 +4908,7 @@ msgstr ""
 "Jsou označeni všichni plátci/příjemci. Bez označení volby \"Detail plátců/"
 "příjemců\" dostanete výsledek rychleji."
 
-#: ../src/etats_config.c:833 ../src/utils_prefs.c:714
+#: ../src/etats_config.c:833 ../src/gsb_rgba.c:134 ../src/utils_prefs.c:714
 #, fuzzy
 msgid "Not available"
 msgstr " (stále k dispozici)"
@@ -5102,7 +5131,7 @@ msgstr "Vytisknout zvolenou sestavu"
 msgid "Delete selected report"
 msgstr "Odstranit zvolenou sestavu"
 
-#: ../src/etats_onglet.c:593 ../src/grisbi_win.c:496
+#: ../src/etats_onglet.c:593 ../src/grisbi_win.c:497
 msgid "Properties"
 msgstr "Vlastnosti"
 
@@ -5182,7 +5211,7 @@ msgstr "Měsíční výdaje dle plátce/příjemce"
 msgid "Unknown report type, creation cancelled"
 msgstr "Neznámý typ sestavy, vytváření bylo zrušeno"
 
-#: ../src/etats_onglet.c:1205 ../src/grisbi_win.c:531 ../src/navigation.c:1341
+#: ../src/etats_onglet.c:1205 ../src/grisbi_win.c:532 ../src/navigation.c:1341
 #: ../src/navigation.c:2099
 msgid "Reports"
 msgstr "Sestavy"
@@ -5247,7 +5276,7 @@ msgstr "Názvy"
 
 #. append group page "Transactions"
 #: ../src/etats_prefs.c:740 ../src/export_csv.c:359 ../src/grisbi_prefs.c:467
-#: ../src/grisbi_win.c:478
+#: ../src/grisbi_win.c:479
 msgid "Transactions"
 msgstr "Transakce"
 
@@ -6218,11 +6247,6 @@ msgstr "Nabídka voleb"
 msgid "New_window"
 msgstr ""
 
-#: ../src/grisbi_app.c:108 ../src/grisbi_app.c:125
-#, fuzzy
-msgid "Preferences"
-msgstr "_Možnosti"
-
 #: ../src/grisbi_app.c:109 ../src/grisbi_app.c:126
 #, fuzzy
 msgid "Quit"
@@ -6269,22 +6293,22 @@ msgstr "Chyba sigaction: SIGSEGV nebude zachycen\n"
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Chyba sigaction: SIGSEGV nebude zachycen\n"
 
-#: ../src/grisbi_app.c:1067 ../src/menu.c:631
+#: ../src/grisbi_app.c:1066 ../src/menu.c:631
 #, fuzzy
 msgid "Start an action!"
 msgstr "Řadit transakce podle"
 
-#: ../src/grisbi_app.c:1351
+#: ../src/grisbi_app.c:1349
 #, fuzzy
 msgid "<b>Actions in transaction list :</b>"
 msgstr "Vybrat všechny transakce"
 
-#: ../src/grisbi_app.c:1353
+#: ../src/grisbi_app.c:1351
 #, fuzzy
 msgid "(Un)Pointing a transaction\t\t-> <Primary>p, <Primary>F12\n"
 msgstr "Odsouhlasené transakce"
 
-#: ../src/grisbi_app.c:1354
+#: ../src/grisbi_app.c:1352
 #, fuzzy
 msgid "(Un)Reconcile a transaction\t\t-> <Primary>r\n"
 msgstr "Odsouhlasené transakce"
@@ -6313,7 +6337,7 @@ msgstr "Archivy"
 msgid "Various settings"
 msgstr "Nastavení importu"
 
-#: ../src/grisbi_prefs.c:434 ../src/grisbi_win.c:464
+#: ../src/grisbi_prefs.c:434 ../src/grisbi_win.c:465
 msgid "Main page"
 msgstr "Přehled"
 
@@ -6430,64 +6454,60 @@ msgstr "_Možnosti"
 msgid "No font defined"
 msgstr "Není zvoleno písmo"
 
-#: ../src/grisbi_win.c:427
+#: ../src/grisbi_win.c:428
 msgid "Transaction/Scheduled _form"
 msgstr "_Formulář transakce/plánovače"
 
-#: ../src/grisbi_win.c:483
-msgid "Forecast"
-msgstr "Prognóza"
-
-#: ../src/grisbi_win.c:487
+#: ../src/grisbi_win.c:488
 msgid "Historical data"
 msgstr "Historická data"
 
-#: ../src/grisbi_win.c:492
+#: ../src/grisbi_win.c:493
 msgid "Amortization array"
 msgstr "Tabulka amortizace"
 
-#: ../src/grisbi_win.c:506 ../src/navigation.c:2079
+#: ../src/grisbi_win.c:507 ../src/navigation.c:2079
 #: ../src/prefs/prefs_page_divers.c:550 ../src/prefs/prefs_page_divers.c:565
 msgid "Scheduler"
 msgstr "Plánovač"
 
-#: ../src/grisbi_win.c:648
+#: ../src/grisbi_win.c:649
 msgid "New"
 msgstr ""
 
-#: ../src/grisbi_win.c:650
+#: ../src/grisbi_win.c:651
 #, fuzzy
 msgid "Create a new account file"
 msgstr "Vytvořit nový účet"
 
-#: ../src/grisbi_win.c:662
+#: ../src/grisbi_win.c:663
 #, fuzzy
 msgid "Open an existing account file"
 msgstr "Otevřít soubor účtů"
 
-#: ../src/grisbi_win.c:674
+#: ../src/grisbi_win.c:675
 #, fuzzy
 msgid "Import a CSV, QIF, OFX file ..."
 msgstr "_Importovat soubor..."
 
-#: ../src/grisbi_win.c:1454
+#: ../src/grisbi_win.c:1455
 msgid "Unnamed account"
 msgstr "Nepojmenovaný účet"
 
-#: ../src/grisbi_win.c:1476 ../src/gsb_transactions_list.c:523
+#: ../src/grisbi_win.c:1477 ../src/gsb_transactions_list.c:523
 msgid "Move transaction to another account"
 msgstr "Přesunout transakci na jiný účet"
 
-#: ../src/grisbi_win.c:1633 ../src/gsb_file.c:397 ../src/gsb_file.c:428
+#: ../src/grisbi_win.c:1634 ../src/gsb_file.c:397 ../src/gsb_file.c:428
 msgid "unnamed"
 msgstr "nepojmenovaný"
 
 #. Create main widget.
-#: ../src/grisbi_win.c:2015
+#: ../src/grisbi_win.c:2016
 msgid "Creating main window"
 msgstr "Vytváření hlavního okna"
 
-#: ../src/grisbi_win.c:2027
+#: ../src/grisbi_win.c:2028
 msgid ""
 "The model of the list couldn't be created... Bad things will happen very "
 "soon..."
@@ -9581,7 +9601,7 @@ msgstr ""
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Toto není soubor Grisbi... Nahrávání bylo přerušeno."
 
-#: ../src/gsb_file_load.c:4131 ../src/gsb_file_save.c:396
+#: ../src/gsb_file_load.c:4131 ../src/gsb_file_save.c:397
 #: ../src/utils_prefs.c:768
 #, c-format
 msgid ""
@@ -9671,8 +9691,8 @@ msgid "There is no category to record. Back."
 msgstr "Žádný plátce / příjemce k odstranění."
 
 #: ../src/gsb_file_others.c:159 ../src/gsb_file_others.c:252
-#: ../src/gsb_file_others.c:343 ../src/gsb_file_save.c:423
-#: ../src/gsb_file_save.c:444
+#: ../src/gsb_file_others.c:343 ../src/gsb_file_save.c:424
+#: ../src/gsb_file_save.c:445
 #, c-format
 msgid "Cannot save file '%s': %s"
 msgstr "Nelze uložit soubor '%s': %s"
@@ -9736,12 +9756,12 @@ msgstr "Toto není soubor rozpočtů, nahrávání bylo zrušeno..."
 msgid "This is not a report file, loading canceled..."
 msgstr "Toto není soubor sestavy, nahrávání bylo zrušeno..."
 
-#: ../src/gsb_file_save.c:401
+#: ../src/gsb_file_save.c:402
 #, fuzzy, c-format
 msgid "Cannot save encrypted file '%s'"
 msgstr "Nelze otevřít šifrovaný soubor '%s'"
 
-#: ../src/gsb_file_save.c:2879
+#: ../src/gsb_file_save.c:2886
 #, fuzzy, c-format
 msgid "Cannot save CSS file '%s': %s"
 msgstr "Nelze uložit soubor '%s': %s"
@@ -10130,58 +10150,136 @@ msgstr "Poslední výpis: %s"
 msgid "Unable to compile regex: %s\n"
 msgstr "Nelze vytvořit dočasný soubor: %s\n"
 
-#: ../src/gsb_rgba.c:495
-msgid "Transaction list background 1"
-msgstr "Pozadí seznamu transakcí 1"
-
-#: ../src/gsb_rgba.c:496
-msgid "Transaction list background 2"
-msgstr "Pozadí seznamu transakcí 2"
-
-#: ../src/gsb_rgba.c:497
-msgid "Color for the operation that gives the balance today"
-msgstr "Barva pro transakce, které dávají dnešní součet"
-
-#: ../src/gsb_rgba.c:498
-msgid "Color of transaction's text"
-msgstr "Barva textu transakce"
-
-#: ../src/gsb_rgba.c:499
-msgid "Text of unfinished split transaction"
-msgstr "Text nedokončené rozdělené transakce"
-
-#: ../src/gsb_rgba.c:500
-msgid "Children of split transaction"
-msgstr "Detaily rozdělené transakce"
-
-#: ../src/gsb_rgba.c:501
+#: ../src/gsb_rgba.c:66
 #, fuzzy
-msgid "Selection color"
-msgstr "Barva výběru"
-
-#: ../src/gsb_rgba.c:502
-msgid "Background of non selectable scheduled transactions"
-msgstr "Pozadí plánovaných transakcí, které nejdou označit"
-
-#: ../src/gsb_rgba.c:503
-msgid "Archive color"
-msgstr "Barva archivu"
-
-#: ../src/gsb_rgba.c:504
-msgid "Background of bet division"
-msgstr "Pozadí oddělovačů v proznóze"
-
-#: ../src/gsb_rgba.c:505
-msgid "Background of bet futur"
+msgid "Background color of account row"
 msgstr "Pozadí dat v proznóze"
 
-#: ../src/gsb_rgba.c:506
-msgid "Background of bet solde"
+#: ../src/gsb_rgba.c:67
+#, fuzzy
+msgid "Background color of logo title"
 msgstr "Pozadí zůstatku"
 
-#: ../src/gsb_rgba.c:507
-msgid "Background of bet transfer"
+#: ../src/gsb_rgba.c:68
+#, fuzzy
+msgid "Color of account text"
+msgstr "Barva textu transakce"
+
+#: ../src/gsb_rgba.c:69
+#, fuzzy
+msgid "Color of account text hovered"
+msgstr "Barva textu transakce"
+
+#: ../src/gsb_rgba.c:70
+#, fuzzy
+msgid "Color of balance text"
+msgstr "Barva textu transakce"
+
+#: ../src/gsb_rgba.c:71
+#, fuzzy
+msgid "Color of balance text hovered"
+msgstr "Barva textu transakce"
+
+#: ../src/gsb_rgba.c:72
+msgid "Color of balance text in low alarm"
+msgstr ""
+
+#: ../src/gsb_rgba.c:73
+msgid "Color of balance text hovered in low alarm"
+msgstr ""
+
+#: ../src/gsb_rgba.c:74
+msgid "Color of balance text in high alarm"
+msgstr ""
+
+#: ../src/gsb_rgba.c:75
+msgid "Color of balance text hovered in high alarm"
+msgstr ""
+
+#: ../src/gsb_rgba.c:94
+#, fuzzy
+msgid "Background color 1 in lists of transactions"
+msgstr "Pozadí plánovaných transakcí, které nejdou označit"
+
+#: ../src/gsb_rgba.c:95
+#, fuzzy
+msgid "Background color 2 in lists of transactions"
+msgstr "Pozadí plánovaných transakcí, které nejdou označit"
+
+#: ../src/gsb_rgba.c:96
+#, fuzzy
+msgid "Background of the transaction that gives the balance today"
+msgstr "Zvýraznit transakce, které dávají dnešní součet"
+
+#: ../src/gsb_rgba.c:97
+#, fuzzy
+msgid "Background color of split transaction children"
+msgstr "Pozadí plánovaných transakcí, které nejdou označit"
+
+#: ../src/gsb_rgba.c:98
+#, fuzzy
+msgid "Background color of selected transaction"
+msgstr "Pozadí plánovaných transakcí, které nejdou označit"
+
+#: ../src/gsb_rgba.c:99
+#, fuzzy
+msgid "Background color of virtual scheduled transactions"
+msgstr "Pozadí plánovaných transakcí, které nejdou označit"
+
+#: ../src/gsb_rgba.c:100
+#, fuzzy
+msgid "Background color of archives"
+msgstr "Pozadí oddělovačů v proznóze"
+
+#: ../src/gsb_rgba.c:101
+#, fuzzy
+msgid "Color of transaction text"
+msgstr "Barva textu transakce"
+
+#: ../src/gsb_rgba.c:102
+#, fuzzy
+msgid "Color of unfinished split transaction text"
+msgstr "Text nedokončené rozdělené transakce"
+
+#: ../src/gsb_rgba.c:103
+#, fuzzy
+msgid "Color of selected transaction text"
+msgstr "Barva textu transakce"
+
+#: ../src/gsb_rgba.c:104
+#, fuzzy
+msgid "Color of unsensitive text"
+msgstr "Barva textu transakce"
+
+#: ../src/gsb_rgba.c:116
+#, fuzzy
+msgid "Background color of historical data"
+msgstr "Pozadí oddělovačů v proznóze"
+
+#: ../src/gsb_rgba.c:117
+#, fuzzy
+msgid "Background color of futur data"
+msgstr "Pozadí dat v proznóze"
+
+#: ../src/gsb_rgba.c:118
+#, fuzzy
+msgid "Background color of month balance"
+msgstr "Pozadí zůstatku"
+
+#: ../src/gsb_rgba.c:119
+#, fuzzy
+msgid "Background color of transfer data"
 msgstr "Pozadí transakce převodu"
+
+#: ../src/gsb_rgba.c:128
+#, fuzzy
+msgid "Color of gsetting text"
+msgstr "Barva textu transakce"
+
+#: ../src/gsb_rgba.c:129
+#, fuzzy
+msgid "Color of gsetting text hovered"
+msgstr "Barva textu transakce"
 
 #. popup view menu
 #: ../src/gsb_scheduler_list.c:112
@@ -12226,12 +12324,12 @@ msgstr "Archivovat podle data"
 msgid "Force the use of light theme"
 msgstr "Archivovat podle data"
 
-#: ../src/prefs/prefs_page_display_fonts.c:568
+#: ../src/prefs/prefs_page_display_fonts.c:462
 msgid "Select a new logo"
 msgstr "Vyberte nové logo"
 
 #. On récupère le nom de la page
-#: ../src/prefs/prefs_page_display_fonts.c:692
+#: ../src/prefs/prefs_page_display_fonts.c:585
 msgid "Fonts & logo"
 msgstr "Písma a loga"
 
@@ -13421,6 +13519,19 @@ msgstr "Rozšifrovat soubor"
 msgid "Choose the financial year or 12 months rolling"
 msgstr "Zvolte fiskální rok nebo pohyblivých 12 měsíců"
 
+#: ../src/widgets/widget_css_rules.c:131
+#, c-format
+msgid ""
+"Warning: you will delete your grisbi color adjustment file.\n"
+"This operation will be final.\n"
+"Do you want to delete the file: \"%s\"?"
+msgstr ""
+
+#: ../src/widgets/widget_css_rules.c:136
+#, fuzzy
+msgid "Delete CSS user file"
+msgstr "Odstranit zvolenou sestavu"
+
 #: ../src/widgets/widget_currency_popup.c:146
 #: ../src/widgets/widget_currency_popup.c:321
 msgid "ISO Code"
@@ -13483,6 +13594,41 @@ msgstr "Souhrnný zůstatek"
 #: ../src/widgets/widget_transfer.c:938
 msgid "One of the two fields is recommended"
 msgstr ""
+
+#~ msgid "Background of bet division"
+#~ msgstr "Pozadí oddělovačů v proznóze"
+
+#~ msgid "Background of bet futur"
+#~ msgstr "Pozadí dat v proznóze"
+
+#~ msgid "Background of bet solde"
+#~ msgstr "Pozadí zůstatku"
+
+#, fuzzy
+#~ msgid "15"
+#~ msgstr "1 "
+
+#~ msgid "Colors"
+#~ msgstr "Barvy"
+
+#~ msgid "Transaction list background 1"
+#~ msgstr "Pozadí seznamu transakcí 1"
+
+#~ msgid "Transaction list background 2"
+#~ msgstr "Pozadí seznamu transakcí 2"
+
+#~ msgid "Color for the operation that gives the balance today"
+#~ msgstr "Barva pro transakce, které dávají dnešní součet"
+
+#~ msgid "Children of split transaction"
+#~ msgstr "Detaily rozdělené transakce"
+
+#, fuzzy
+#~ msgid "Selection color"
+#~ msgstr "Barva výběru"
+
+#~ msgid "Archive color"
+#~ msgstr "Barva archivu"
 
 #, fuzzy
 #~ msgid "Date retenue : "

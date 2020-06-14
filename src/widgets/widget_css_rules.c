@@ -128,9 +128,9 @@ static void widget_css_rules_button_default_all_rules_clicked  (GtkWidget *butto
 	gchar *text;
 
 	css_filename = gsb_css_get_filename ();
-	text = g_strdup_printf (_("Attention : vous allez supprimer votre fichier de réglage "
-							  "des couleurs de grisbi. Cette opération sera définitive.\n"
-							  "Voulez vous supprimer le fichier : %s ?\n"),
+	text = g_strdup_printf (_("Warning: you will delete your grisbi color adjustment file.\n"
+							  "This operation will be final.\n"
+							  "Do you want to delete the file: \"%s\"?"),
 							css_filename);
 
 	if (!dialogue_yes_no (text, _("Delete CSS user file"), GTK_RESPONSE_NO))
