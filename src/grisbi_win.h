@@ -76,6 +76,7 @@ void 			grisbi_win_stack_box_show					(GrisbiWin *win,
 															 const gchar *page_name);
 void            grisbi_win_status_bar_clear                 (void);
 void            grisbi_win_status_bar_message               (gchar *message);
+void			grisbi_win_status_bar_set_font_size			(gint font_size);
 void            grisbi_win_status_bar_stop_wait             (gboolean force_update);
 void            grisbi_win_status_bar_wait                  (gboolean force_update);
 gboolean 		grisbi_win_switch_form_expander 			(void);

@@ -51,6 +51,7 @@
 #include "gsb_data_account.h"
 #include "gsb_dirs.h"
 #include "gsb_form.h"
+#include "gsb_rgba.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
 #include "imputation_budgetaire.h"
@@ -2409,6 +2410,26 @@ void grisbi_win_status_bar_stop_wait (gboolean force_update)
     if (force_update)
         update_gui ();
 }
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void grisbi_win_status_bar_set_font_size (gint font_size)
+{
+	gchar *data = NULL;
+	gchar *font_size_str;
+
+	font_size_str = utils_str_itoa (font_size);
+	data = g_strconcat ("#global_statusbar {\n\tfont-size: ", font_size_str, "px;\n}\n",  NULL);
+	gsb_css_set_rule_from_name ("#global_statusbar", data);
+
+	g_free (font_size_str);
+	g_free (data);
+}
+
 /* TOOLBARS */
 /**
  *

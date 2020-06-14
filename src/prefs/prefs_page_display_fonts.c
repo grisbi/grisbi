@@ -57,6 +57,7 @@
 #include "transaction_list.h"
 #include "utils_files.h"
 #include "utils_prefs.h"
+#include "widget_css_rules.h"
 #include "erreur.h"
 
 /*END_INCLUDE*/
@@ -81,15 +82,14 @@ struct _PrefsPageDisplayFontsPrivate
 
 	GtkWidget *			box_radiobuttons_theme;
     GtkWidget *         box_select_theme;
-    GtkWidget *         button_select_colors;
-    GtkWidget *         colorbutton_select_colors;
-    GtkWidget *         grid_select_colors;
 	GtkWidget *			label_theme_selected;
 	GtkWidget *			radiobutton_automatic_theme;
 	GtkWidget *			radiobutton_force_dark;
 	GtkWidget *			radiobutton_force_light;
 	GtkWidget *			radiobutton_force_std;
 
+    GtkWidget *         box_css_rules;
+	GtkWidget *			w_css_rules;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageDisplayFonts, prefs_page_display_fonts, GTK_TYPE_BOX)
@@ -259,112 +259,6 @@ static void prefs_page_display_fonts_get_radiobuttons_for_themes (PrefsPageDispl
 
 	g_free (tmp_theme_name);
 	g_free (tmp_name);
-}
-
-/**
- * revert to default the selected color into the combobox
- *
- * \param button
- * \param combobox
- *
- * \return FALSE
- * */
-static gboolean prefs_page_display_fonts_set_color_default (GtkWidget *button,
-                                                            GtkWidget *combobox)
-{
-    GtkTreeIter iter;
-
-    if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (combobox), &iter))
-    {
-		GtkTreeModel *model;
-		GdkRGBA *color;
-		GdkRGBA *default_color;
-
-		model = gtk_combo_box_get_model (GTK_COMBO_BOX (combobox));
-		gtk_tree_model_get (GTK_TREE_MODEL (model), &iter, 1, &color, 2, &default_color, -1);
-		if (color && default_color)
-		{
-			gboolean return_val;
-
-			color = default_color;
-
-			g_signal_emit_by_name (combobox, "changed", &return_val);
-
-			/* update the colors in the list */
-			transaction_list_redraw ();
-
-			/* update scheduled list */
-			gsb_scheduler_list_redraw ();
-		}
-    }
-    return FALSE;
-}
-
-/**
- * called when the color combobox changed,
- * update the GtkColorButton with the color of the combobox
- *
- * \param combobox
- * \param color_button
- *
- * \return FALSE
- * */
-static gboolean prefs_page_display_fonts_color_combobox_changed (GtkWidget *combobox,
-																 GtkWidget *color_button)
-{
-    GtkTreeIter iter;
-
-    if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (combobox), &iter))
-    {
-		GtkTreeModel *model;
-		GdkRGBA *color;
-
-		model = gtk_combo_box_get_model (GTK_COMBO_BOX (combobox));
-		gtk_tree_model_get (GTK_TREE_MODEL (model), &iter, 1, &color, -1);
-		if (color)
-			gtk_color_chooser_set_rgba (GTK_COLOR_CHOOSER (color_button), color);
-    }
-    return FALSE;
-}
-
-/**
- * called when a color is chosen in the GtkColorButton,
- * update the color selected
- *
- * \param color_button
- * \param combobox
- *
- * \return FALSE
- * */
-static gboolean prefs_page_display_fonts_view_color_changed (GtkWidget *color_button,
-															 GtkWidget *combobox)
-{
-    GtkTreeIter iter;
-
-    if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (combobox), &iter))
-    {
-		GtkTreeModel *model;
-		GdkRGBA *color;
-		gchar *couleur;
-
-		model = gtk_combo_box_get_model (GTK_COMBO_BOX (combobox));
-		gtk_tree_model_get (GTK_TREE_MODEL (model), &iter, 0, &couleur, 1, &color, -1);
-		if (color)
-		{
-			gtk_color_chooser_get_rgba (GTK_COLOR_CHOOSER (color_button), color);
-
-			/* update the colors in the transactions list */
-			transaction_list_redraw ();
-
-			/* update scheduled list */
-			gsb_scheduler_list_fill_list (gsb_scheduler_list_get_tree_view ());
-			gsb_scheduler_list_set_background_color (gsb_scheduler_list_get_tree_view ());
-			gsb_scheduler_list_select (-1);
-			if (strcmp (couleur, "couleur_selection_bg") == 0 || strcmp (couleur, "text_color_0") == 0)
-				gsb_rgba_set_css_color_property (color, couleur);
-		}
-    }
-    return FALSE;
 }
 
 /**
@@ -677,10 +571,9 @@ static gboolean prefs_page_display_fonts_utilise_logo_checked (GtkWidget *check_
 static void prefs_page_display_fonts_setup_page (PrefsPageDisplayFonts *page)
 {
 	GtkWidget *head_page;
-	GtkWidget *preview;
 	GtkWidget *font_button;
-	GdkPixbuf * pixbuf = NULL;
-	GtkWidget *combobox_select_colors;
+	GtkWidget *preview;
+	GdkPixbuf *pixbuf = NULL;
 	gboolean is_loading;
 	PrefsPageDisplayFontsPrivate *priv;
 
@@ -694,8 +587,7 @@ static void prefs_page_display_fonts_setup_page (PrefsPageDisplayFonts *page)
 	gtk_box_reorder_child (GTK_BOX (priv->vbox_display_fonts), head_page, 0);
 
     /* set the elements for logo */
-    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_display_logo),
-								  etat.utilise_logo);
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_display_logo), etat.utilise_logo);
 
 	/* le logo est grisé ou non suivant qu'on l'utilise ou pas */
     gtk_widget_set_sensitive (priv->hbox_display_logo, etat.utilise_logo);
@@ -766,42 +658,18 @@ static void prefs_page_display_fonts_setup_page (PrefsPageDisplayFonts *page)
 							&conf.font_string);
 	g_object_set_data (G_OBJECT (font_button), "font-string", (gpointer) "font-string");
 
-	/* set the elements for colors */
 	/* set the themes buttons */
 	prefs_page_display_fonts_get_radiobuttons_for_themes (page);
 
-	//~ combobox_select_colors = gsb_rgba_create_color_combobox ();
-	combobox_select_colors = utils_prefs_create_combo_list_indisponible ();
-    gtk_widget_set_margin_end (combobox_select_colors, MARGIN_END);
-    gtk_grid_attach (GTK_GRID (priv->grid_select_colors), combobox_select_colors, 0, 0, 1, 1);
-	gtk_combo_box_set_active (GTK_COMBO_BOX (combobox_select_colors), 0);
-	gtk_color_chooser_set_rgba (GTK_COLOR_CHOOSER (priv->colorbutton_select_colors),
-								gsb_rgba_get_couleur_with_indice ("couleur_fond", 0));
-
-	/* TODO : Remettre la possibilité de changer les couleurs de base */
-	gtk_widget_set_sensitive (priv->colorbutton_select_colors, FALSE);
-	gtk_widget_set_sensitive (priv->grid_select_colors, FALSE);
-
-	/* Connect signal */
-    g_signal_connect (G_OBJECT (priv->colorbutton_select_colors),
-					  "color-set",
-					  G_CALLBACK (prefs_page_display_fonts_view_color_changed),
-					  combobox_select_colors);
-
-	g_signal_connect (G_OBJECT (combobox_select_colors),
-					  "changed",
-					  G_CALLBACK (prefs_page_display_fonts_color_combobox_changed),
-					  priv->colorbutton_select_colors);
-
-	g_signal_connect (G_OBJECT (priv->button_select_colors),
-					  "clicked",
-					  G_CALLBACK (prefs_page_display_fonts_set_color_default),
-					  combobox_select_colors);
+	/* set css rules */
+	priv->w_css_rules = GTK_WIDGET (widget_css_rules_new (GTK_WIDGET (page)));
+	gtk_box_pack_start (GTK_BOX (priv->box_css_rules), priv->w_css_rules, TRUE, TRUE, 0);
 
 	if (is_loading == FALSE)
 	{
 		gtk_widget_set_sensitive (priv->vbox_display_logo, FALSE);
-		gtk_widget_set_sensitive (priv->grid_select_colors, FALSE);
+		gtk_widget_set_sensitive (priv->box_select_theme, FALSE);
+		gtk_widget_set_sensitive (priv->box_css_rules, FALSE);
 	}
 }
 
@@ -828,22 +696,20 @@ static void prefs_page_display_fonts_class_init (PrefsPageDisplayFontsClass *kla
 												 "/org/gtk/grisbi/ui/prefs_page_display_fonts.ui");
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, vbox_display_fonts);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, button_display_logo);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, checkbutton_display_logo);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, hbox_display_logo);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, vbox_display_logo);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, button_display_logo);
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, checkbutton_display_fonts);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, hbox_display_fonts);
 
-	//~ gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, checkbutton_force_dark_theme);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, button_select_colors);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, colorbutton_select_colors);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, box_select_theme);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, box_radiobuttons_theme);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, grid_select_colors);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, label_theme_selected);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, radiobutton_automatic_theme);
+
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, box_css_rules);
 }
 
 /******************************************************************************/
