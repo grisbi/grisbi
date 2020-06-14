@@ -80,13 +80,9 @@ struct _PrefsPageDisplayFontsPrivate
     GtkWidget *			checkbutton_display_fonts;
     GtkWidget *         hbox_display_fonts;
 
-	GtkWidget *			box_radiobuttons_theme;
-    GtkWidget *         box_select_theme;
+    //~ GtkWidget *         box_select_theme;
+	GtkWidget *			combo_force_theme;
 	GtkWidget *			label_theme_selected;
-	GtkWidget *			radiobutton_automatic_theme;
-	GtkWidget *			radiobutton_force_dark;
-	GtkWidget *			radiobutton_force_light;
-	GtkWidget *			radiobutton_force_std;
 
     GtkWidget *         box_css_rules;
 	GtkWidget *			w_css_rules;
@@ -107,158 +103,41 @@ G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageDisplayFonts, prefs_page_display_fonts, GTK
  *
  * \return FALSE
  **/
-static gboolean prefs_page_display_fonts_theme_action_changed (GtkWidget *radio_button,
-															   GdkEventButton *event,
-															   PrefsPageDisplayFonts *page)
+static void	prefs_page_display_fonts_combo_force_theme_changed (GtkWidget *combo,
+																PrefsPageDisplayFonts *page)
 {
-	GSettings *settings;
-	gint value = 0;
+	GtkTreeIter iter;
 
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radio_button), TRUE);
-    value = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (radio_button), "pointer"));
+	devel_debug (NULL);
+    if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (combo), &iter))
+    {
+		GtkTreeModel *model;
+		GSettings *settings;
+		gint value;
 
-	settings = grisbi_settings_get_settings (SETTINGS_GENERAL);
+		model = gtk_combo_box_get_model (GTK_COMBO_BOX (combo));
+		gtk_tree_model_get (GTK_TREE_MODEL (model), &iter, 1, &value, -1);
 
-	/* on sauvegarde éventuellement les données locales */
-	gsb_file_save_css_local_file (grisbi_app_get_css_data ());
+		settings = grisbi_settings_get_settings (SETTINGS_GENERAL);
+		if (value)
+		{
+			if (value == 1)						/* c'est un theme standard */
+				conf.force_type_theme = 0;
+			else
+				conf.force_type_theme = value;	/* dark theme ou light theme */
+			g_settings_set_int (G_SETTINGS (settings), "force-type-theme", conf.force_type_theme);
+			conf.use_type_theme = value;
 
-	if (value)
-	{
-		if (value == 1)						/* c'est un theme standard */
-			conf.force_type_theme = 0;
+			grisbi_app_window_style_updated (GTK_WIDGET (grisbi_app_get_active_window (NULL)), GINT_TO_POINTER (TRUE));
+		}
 		else
-			conf.force_type_theme = value;	/* dark theme ou light theme */
-		g_settings_set_int (G_SETTINGS (settings), "force-type-theme", conf.force_type_theme);
-		conf.use_type_theme = value;
-
-		grisbi_app_window_style_updated (GTK_WIDGET (grisbi_app_get_active_window (NULL)), GINT_TO_POINTER (TRUE));
-	}
-	else
-	{
-		g_settings_reset (G_SETTINGS (settings), "force-type-theme");
-		conf.force_type_theme = 0;
-		conf.use_type_theme = 0;
-	}
-
-	return FALSE;
-}
-
-/**
- *
- *
- * \param
- *
- * \return
- **/
-static GtkWidget *prefs_page_display_fonts_button_new (GtkWidget *group,
-													   const gchar *label_str)
-{
-	GtkWidget *button;
-	GtkWidget * label;
-
-	button = gtk_radio_button_new_from_widget (GTK_RADIO_BUTTON (group));
-	label = gtk_label_new (label_str);
-	gtk_widget_set_name (label, "label_gsetting_option");
-	gtk_container_add (GTK_CONTAINER (button), label);
-
-	gtk_widget_show_all (button);
-
-	return button;
-}
-
-/**
- *
- *
- * \param
- *
- * \return
- **/
-static void prefs_page_display_fonts_get_radiobuttons_for_themes (PrefsPageDisplayFonts *page)
-{
-	gchar *tmp_label;
-	gchar *tmp_name = NULL;
-	gchar *tmp_theme_name;
-	gboolean dark = FALSE;
-	gboolean light = FALSE;
-	PrefsPageDisplayFontsPrivate *priv;
-
-	//~ devel_debug (NULL);
-	priv = prefs_page_display_fonts_get_instance_private (page);
-
-	tmp_label = g_strdup_printf (_("The automatically selected theme is: '%s'"), conf.current_theme);
-	gtk_label_set_label (GTK_LABEL (priv->label_theme_selected), tmp_label);
-	g_free (tmp_label);
-
-	tmp_theme_name = g_ascii_strdown (conf.current_theme, -1);
-
-	if (!(g_strstr_len (tmp_theme_name, -1, "dark") || g_strstr_len (tmp_theme_name, -1, "light")))
-	{
-		/* A partir du nom du thème on recherche si le fichier gtk-dark.css ou gtk-light.css existe */
-		gchar *css_dirname = NULL;
-		gchar *css_filename;
-
-		css_dirname = g_build_filename (gsb_dirs_get_themes_dir (), conf.current_theme, "gtk-3.0", NULL);
-		css_filename = g_strconcat (css_dirname, "/gtk-dark.css", NULL);
-		if (g_file_test (css_filename, G_FILE_TEST_EXISTS))
 		{
-			dark = TRUE;
+			g_settings_reset (G_SETTINGS (settings), "force-type-theme");
+			conf.force_type_theme = 0;
+			conf.use_type_theme = 0;
 		}
-		g_free (css_filename);
-		css_filename = g_strconcat (css_dirname, "/gtk-light.css", NULL);
-		if (g_file_test (css_filename, G_FILE_TEST_EXISTS))
-		{
-			light = TRUE;
-		}
-		g_free (css_dirname);
-		g_free (css_filename);
-	}
 
-	if ((!dark && !light) ||(dark && light))
-	{
-		priv->radiobutton_force_std = prefs_page_display_fonts_button_new (priv->radiobutton_automatic_theme,
-																		   (gpointer) _("Force the use of clear theme"));
-		g_object_set_data (G_OBJECT (priv->radiobutton_force_std), "pointer", GINT_TO_POINTER (1));
-		gtk_box_pack_start (GTK_BOX (priv->box_radiobuttons_theme), priv->radiobutton_force_std, FALSE, FALSE, 0);
-		g_signal_connect (priv->radiobutton_force_std,
-						  "button-release-event",
-						  G_CALLBACK (prefs_page_display_fonts_theme_action_changed),
-						  page);
 	}
-	else if (dark)
-	{
-		priv->radiobutton_force_dark = prefs_page_display_fonts_button_new (priv->radiobutton_automatic_theme,
-																		   	(gpointer) _("Force the use of dark theme"));
-		g_object_set_data (G_OBJECT (priv->radiobutton_force_dark), "pointer", GINT_TO_POINTER (2));
-		gtk_box_pack_start (GTK_BOX (priv->box_radiobuttons_theme), priv->radiobutton_force_dark, FALSE, FALSE, 0);
-		if (conf.force_type_theme == 2)
-			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->radiobutton_force_dark), TRUE);
-		g_signal_connect (priv->radiobutton_force_dark,
-						  "button-release-event",
-						  G_CALLBACK (prefs_page_display_fonts_theme_action_changed),
-						  page);
-	}
-	else if (light)
-	{
-		priv->radiobutton_force_light = prefs_page_display_fonts_button_new (priv->radiobutton_automatic_theme,
-																		   	 (gpointer) _("Force the use of light theme"));
-		g_object_set_data (G_OBJECT (priv->radiobutton_force_light), "pointer", GINT_TO_POINTER (3));
-		gtk_box_pack_start (GTK_BOX (priv->box_radiobuttons_theme), priv->radiobutton_force_light, FALSE, FALSE, 0);
-		if (conf.force_type_theme == 3)
-			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->radiobutton_force_light), TRUE);
-		g_signal_connect (priv->radiobutton_force_light,
-						  "button-release-event",
-						  G_CALLBACK (prefs_page_display_fonts_theme_action_changed),
-						  page);
-	}
-
-	/* Connect signals */
-    g_signal_connect (priv->radiobutton_automatic_theme,
-					  "button-release-event",
-					  G_CALLBACK (prefs_page_display_fonts_theme_action_changed),
-					  page);
-
-	g_free (tmp_theme_name);
-	g_free (tmp_name);
 }
 
 /**
@@ -514,6 +393,62 @@ static gboolean prefs_page_display_fonts_logo_accueil_changed (PrefsPageDisplayF
  * \param
  *
  * \return
+ **/
+static void prefs_page_display_fonts_init_combo_force_theme (PrefsPageDisplayFonts *page)
+{
+    GtkListStore *store = NULL;
+    GtkCellRenderer *renderer;
+	const gchar *text_force_theme[] = {N_("Automatic selection"),
+									   N_("Force the use of clear theme"),
+									   N_("Force the use of dark theme"),
+									   N_("Force the use of light theme"),
+									   NULL};
+	gchar *tmp_label;
+	gint i = 0;
+	PrefsPageDisplayFontsPrivate *priv;
+
+	devel_debug (NULL);
+	priv = prefs_page_display_fonts_get_instance_private (page);
+
+	/* set label with the name of selected theme */
+	tmp_label = g_strdup_printf (_("The automatically selected theme is: '%s'"), conf.current_theme);
+	gtk_label_set_label (GTK_LABEL (priv->label_theme_selected), tmp_label);
+	g_free (tmp_label);
+
+	/* set store for combo */
+	store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_INT);
+    while (text_force_theme[i])
+    {
+        GtkTreeIter iter;
+        gchar *string;
+
+        string = gettext (text_force_theme[i]);
+        gtk_list_store_append (store, &iter);
+        gtk_list_store_set (store, &iter, 0, string, 1, i, -1);
+
+        i++;
+    }
+
+    gtk_combo_box_set_model (GTK_COMBO_BOX (priv->combo_force_theme), GTK_TREE_MODEL (store));
+
+	/* set properties of combo */
+    renderer = gtk_cell_renderer_text_new ();
+    gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (priv->combo_force_theme), renderer, TRUE);
+	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (priv->combo_force_theme),
+									renderer,
+                                    "text", 0,
+                                    NULL);
+
+    gtk_combo_box_set_active (GTK_COMBO_BOX (priv->combo_force_theme), conf.force_type_theme);
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
  * */
 static gboolean prefs_page_display_fonts_utilise_logo_checked (GtkWidget *check_button,
 															   GtkWidget *hbox)
@@ -574,12 +509,10 @@ static void prefs_page_display_fonts_setup_page (PrefsPageDisplayFonts *page)
 	GtkWidget *font_button;
 	GtkWidget *preview;
 	GdkPixbuf *pixbuf = NULL;
-	gboolean is_loading;
 	PrefsPageDisplayFontsPrivate *priv;
 
 	devel_debug (NULL);
 	priv = prefs_page_display_fonts_get_instance_private (page);
-	is_loading = grisbi_win_file_is_loading ();
 
 	/* On récupère le nom de la page */
 	head_page = utils_prefs_head_page_new_with_title_and_icon (_("Fonts & logo"), "gsb-fonts-32.png");
@@ -659,18 +592,17 @@ static void prefs_page_display_fonts_setup_page (PrefsPageDisplayFonts *page)
 	g_object_set_data (G_OBJECT (font_button), "font-string", (gpointer) "font-string");
 
 	/* set the themes buttons */
-	prefs_page_display_fonts_get_radiobuttons_for_themes (page);
+	prefs_page_display_fonts_init_combo_force_theme (page);
+
+	/* Connect signal combo_force_theme */
+    g_signal_connect (priv->combo_force_theme,
+					  "changed",
+					  G_CALLBACK (prefs_page_display_fonts_combo_force_theme_changed),
+					  page);
 
 	/* set css rules */
 	priv->w_css_rules = GTK_WIDGET (widget_css_rules_new (GTK_WIDGET (page)));
 	gtk_box_pack_start (GTK_BOX (priv->box_css_rules), priv->w_css_rules, TRUE, TRUE, 0);
-
-	if (is_loading == FALSE)
-	{
-		gtk_widget_set_sensitive (priv->vbox_display_logo, FALSE);
-		gtk_widget_set_sensitive (priv->box_select_theme, FALSE);
-		gtk_widget_set_sensitive (priv->box_css_rules, FALSE);
-	}
 }
 
 /******************************************************************************/
@@ -704,10 +636,9 @@ static void prefs_page_display_fonts_class_init (PrefsPageDisplayFontsClass *kla
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, checkbutton_display_fonts);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, hbox_display_fonts);
 
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, box_select_theme);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, box_radiobuttons_theme);
+	//~ gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, box_select_theme);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, label_theme_selected);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, radiobutton_automatic_theme);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, combo_force_theme);
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, box_css_rules);
 }
