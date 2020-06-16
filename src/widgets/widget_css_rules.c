@@ -183,13 +183,16 @@ static void widget_css_rules_button_select_colors_changed (GtkWidget *color_butt
 			gtk_color_chooser_get_rgba (GTK_COLOR_CHOOSER (color_button), color);
 			gtk_widget_set_sensitive (back_button, TRUE);
 
-			/* update the colors in the transactions list */
-			transaction_list_redraw ();
+			if (grisbi_win_file_is_loading ())
+			{
+				/* update the colors in the transactions list */
+				transaction_list_redraw ();
 
-			/* update scheduled list */
-			gsb_scheduler_list_fill_list (gsb_scheduler_list_get_tree_view ());
-			gsb_scheduler_list_set_background_color (gsb_scheduler_list_get_tree_view ());
-			gsb_scheduler_list_select (-1);
+				/* update scheduled list */
+				gsb_scheduler_list_fill_list (gsb_scheduler_list_get_tree_view ());
+				gsb_scheduler_list_set_background_color (gsb_scheduler_list_get_tree_view ());
+				gsb_scheduler_list_select (-1);
+			}
 			gsb_css_set_color_property (color, couleur);
 		}
 		else
