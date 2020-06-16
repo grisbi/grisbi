@@ -667,7 +667,7 @@ gchar *gsb_css_get_rule_from_name (const gchar *name,
 		if (tmp_str)
 		{
 			gchar **tab_property;
-			gint length;
+			gsize length;
 
 			tab_property = g_strsplit (tmp_str, ":", 2);
 
