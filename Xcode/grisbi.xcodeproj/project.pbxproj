@@ -39,6 +39,7 @@
 		004BCAB1243DC5F9002999B6 /* grisbi_conf.c in Sources */ = {isa = PBXBuildFile; fileRef = 004BCAB0243DC5F8002999B6 /* grisbi_conf.c */; };
 		005BC3401F6C1943006DB25E /* prefs_page_display_adr.c in Sources */ = {isa = PBXBuildFile; fileRef = 005BC33F1F6C1943006DB25E /* prefs_page_display_adr.c */; };
 		005BC3431F6C196D006DB25E /* prefs_page_display_gui.c in Sources */ = {isa = PBXBuildFile; fileRef = 005BC3421F6C196D006DB25E /* prefs_page_display_gui.c */; };
+		0069D0C02498C36600C4BDAB /* widget_css_rules.c in Sources */ = {isa = PBXBuildFile; fileRef = 0069D0BD2498C36600C4BDAB /* widget_css_rules.c */; };
 		006E682D1DB3E7AD0038B1F0 /* accueil.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E67011DB3E7AC0038B1F0 /* accueil.c */; };
 		006E68311DB3E7AD0038B1F0 /* bet_data_finance.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E67091DB3E7AC0038B1F0 /* bet_data_finance.c */; };
 		006E68321DB3E7AD0038B1F0 /* bet_data.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E670B1DB3E7AC0038B1F0 /* bet_data.c */; };
@@ -290,6 +291,9 @@
 		005BC33F1F6C1943006DB25E /* prefs_page_display_adr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = prefs_page_display_adr.c; path = prefs/prefs_page_display_adr.c; sourceTree = "<group>"; };
 		005BC3411F6C196D006DB25E /* prefs_page_display_gui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = prefs_page_display_gui.h; path = prefs/prefs_page_display_gui.h; sourceTree = "<group>"; };
 		005BC3421F6C196D006DB25E /* prefs_page_display_gui.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = prefs_page_display_gui.c; path = prefs/prefs_page_display_gui.c; sourceTree = "<group>"; };
+		0069D0BD2498C36600C4BDAB /* widget_css_rules.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = widget_css_rules.c; sourceTree = "<group>"; };
+		0069D0BE2498C36600C4BDAB /* widget_css_rules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = widget_css_rules.h; sourceTree = "<group>"; };
+		0069D0BF2498C36600C4BDAB /* widget_css_rules.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = widget_css_rules.ui; sourceTree = "<group>"; };
 		006E67001DB3E26B0038B1F0 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = SOURCE_ROOT; };
 		006E67011DB3E7AC0038B1F0 /* accueil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = accueil.c; sourceTree = "<group>"; };
 		006E67021DB3E7AC0038B1F0 /* accueil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = accueil.h; sourceTree = "<group>"; };
@@ -693,6 +697,9 @@
 				000B8594244C787E00EE28BD /* widget_bank_details.c */,
 				000B8595244C787E00EE28BD /* widget_bank_details.h */,
 				000B8596244C787E00EE28BD /* widget_bank_details.ui */,
+				0069D0BD2498C36600C4BDAB /* widget_css_rules.c */,
+				0069D0BE2498C36600C4BDAB /* widget_css_rules.h */,
+				0069D0BF2498C36600C4BDAB /* widget_css_rules.ui */,
 				00AAC237245B750C00993764 /* widget_currency_details.c */,
 				00AAC236245B750C00993764 /* widget_currency_details.h */,
 				00AAC233245B750C00993764 /* widget_currency_details.ui */,
@@ -1359,6 +1366,7 @@
 				006E68A11DB3E7AD0038B1F0 /* meta_budgetary.c in Sources */,
 				006E68831DB3E7AD0038B1F0 /* gsb_file.c in Sources */,
 				006E68871DB3E7AD0038B1F0 /* gsb_form_widget.c in Sources */,
+				0069D0C02498C36600C4BDAB /* widget_css_rules.c in Sources */,
 				006E688E1DB3E7AD0038B1F0 /* gsb_real.c in Sources */,
 				00FEBE1724965A5000F6405D /* widget_transfer.c in Sources */,
 				006E68601DB3E7AD0038B1F0 /* gsb_calendar.c in Sources */,
