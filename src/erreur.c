@@ -151,6 +151,7 @@ void debug_traitement_sigsegv ( gint signal_nb )
 	gboolean file_is_loading;
 #ifdef HAVE_BACKTRACE
     GtkWidget *expander;
+    GtkWidget *scrolled_window;
 #endif
 
 	switch ( signal_nb )
@@ -261,7 +262,10 @@ void debug_traitement_sigsegv ( gint signal_nb )
     gtk_expander_set_use_markup ( GTK_EXPANDER ( expander ), TRUE );
     gtk_expander_set_expanded( GTK_EXPANDER ( expander ), TRUE );
     gtk_container_add ( GTK_CONTAINER ( expander ), debug_print_backtrace() );
-    gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), expander, FALSE, FALSE, 6 );
+    scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+    gtk_scrolled_window_set_min_content_height(GTK_SCROLLED_WINDOW(scrolled_window), 400);
+    gtk_container_add (GTK_CONTAINER (scrolled_window), expander);
+    gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), scrolled_window, FALSE, FALSE, 6 );
 
     gtk_widget_show_all ( dialog );
 #endif
