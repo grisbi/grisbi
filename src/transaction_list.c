@@ -290,7 +290,7 @@ void transaction_list_append_transaction ( gint transaction_number )
             newrecord[i] -> has_expander = TRUE;
             white_record -> mother_row = newrecord[i];
             /* set the color of the mother */
-            mother_text_color = gsb_rgba_get_couleur_with_indice ( "text_color", 1 );
+            mother_text_color = gsb_rgba_get_couleur ("text_unfinished_split");
             newrecord[i] -> text_color = mother_text_color;
 	    }
 
@@ -909,8 +909,7 @@ void transaction_list_colorize (void)
             {
                 /* set the color of the mother */
                 for (j=0 ; j<TRANSACTION_LIST_ROWS_NB ; j++)
-                    record -> transaction_records[j] -> text_color =
-                                                            gsb_rgba_get_couleur_with_indice ( "text_color", 0 );
+                    record->transaction_records[j]->text_color = gsb_rgba_get_couleur ("text_unfinished_split");
             }
 
         }
@@ -2037,7 +2036,7 @@ static gboolean transaction_list_update_white_child ( CustomRecord *white_record
 	white_record -> visible_col[2] = g_strdup_printf ( _("Total: %s (variance : %s)"),
 							   amount_string,
 							   variance_string );
-	mother_text_color = gsb_rgba_get_couleur_with_indice ( "text_color", 1 );
+	mother_text_color = gsb_rgba_get_couleur ("text_unfinished_split");
     }
     else
     {

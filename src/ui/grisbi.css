@@ -20,10 +20,11 @@
 @define-color couleur_fond_0 rgba(215,215,255,1);
 @define-color couleur_fond_1 rgba(255,255,255,1);
 @define-color text_color_0 black;
-@define-color text_color_1 red;
+@define-color text_color_1 rgba(255,0,0,1);
 @define-color text_color_2 rgba(195,195,195,1);
 @define-color text_insensitive_entry rgba (80,80,80,1);
 @define-color text_selection rgba(0,0,0,1);
+@define-color text_unfinished_split rgba(255,0,0,1);
 
 /* colors for the balance estimate module */
 @define-color background_bet_division rgba(250,255,130,1);

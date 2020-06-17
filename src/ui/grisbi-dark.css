@@ -24,6 +24,7 @@
 @define-color text_color_2 rgba(195,195,195,1);
 @define-color text_insensitive_entry rgba(175,175,175,1);
 @define-color text_selection rgba(0,0,0,1);
+@define-color text_unfinished_split rgba(255,0,0,1);
 
 /* colors for the balance estimate module */
 @define-color background_bet_division rgba(135,0,175,1);

@@ -88,6 +88,7 @@ static GdkRGBA text_selection;
 static GdkRGBA text_color_0;
 static GdkRGBA text_color_1;
 static GdkRGBA text_color_2;
+static GdkRGBA text_unfinished_split;
 static GdkRGBA text_insensitive_entry;
 
 static ComboColor config_transactions_colors [] = {
@@ -99,7 +100,8 @@ static ComboColor config_transactions_colors [] = {
     {N_("Background color of virtual scheduled transactions"), "background_scheduled", &background_scheduled, 0},
     {N_("Background color of archives"), "background_archive", &background_archive, 0},
     {N_("Color of transaction text"), "text_color_0", &text_color_0, 0},
-    {N_("Color of unfinished split transaction text"), "text_color_1", &text_color_1, 0},
+    {N_("Color of unfinished split transaction text"), "text_unfinished_split", &text_unfinished_split, 0},
+    {N_("Text color of a negative balance"), "text_color_1", &text_color_1, 0},
     {N_("Color of selected transaction text"), "text_selection", &text_selection, 0},
     {N_("Color of unsensitive text"), "text_insensitive_entry", &text_insensitive_entry, 0},
     {NULL, 0, 0, 0},
@@ -285,6 +287,8 @@ GdkRGBA *gsb_rgba_get_couleur (const gchar *couleur)
 		return &text_color_2;
     else if (strcmp (couleur, "text_insensitive_entry") == 0)
         return &text_insensitive_entry;
+    else if (strcmp (couleur, "text_unfinished_split") == 0)
+        return &text_unfinished_split;
 
 	/* bet colors */
     else if (strcmp (couleur, "background_bet_division") == 0)
@@ -390,7 +394,7 @@ GdkRGBA *gsb_rgba_get_couleur_with_indice (const gchar *couleur,
 	{
 		if (indice == 0)
         	return &text_color_0;
-		else if (indice == 0)
+		else if (indice == 1)
         	return &text_color_1;
 		else
 			return &text_color_2;
