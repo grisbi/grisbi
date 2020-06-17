@@ -26,4 +26,4 @@ Bug reports : https://www.grisbi.org/bugsreports/
 
 [![Linux/MacOSX](https://travis-ci.org/grisbi/grisbi.svg?branch=master)](https://travis-ci.org/grisbi/grisbi)
 [![Windows 64-bit](https://ci.appveyor.com/api/projects/status/k0hlhmde559ju7e2?svg=true)](https://ci.appveyor.com/project/LudovicRousseau/grisbi)
-[![CodeFactor](https://www.codefactor.io/repository/github/xfred81/grisbi/badge)](https://www.codefactor.io/repository/github/xfred81/grisbi)
+[![CodeFactor](https://www.codefactor.io/repository/github/grisbi/grisbi/badge)](https://www.codefactor.io/repository/github/grisbi/grisbi)
