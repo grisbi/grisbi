@@ -442,6 +442,11 @@ static void grisbi_app_init_recent_files_menu (GrisbiApp *app)
 
     priv = grisbi_app_get_instance_private (GRISBI_APP (app));
 
+	if (priv->recent_array && g_strv_length (priv->recent_array) == 0)
+	{
+		return;
+	}
+
 	for (i = 0 ; i < conf.nb_derniers_fichiers_ouverts ; i++)
 	{
 		if (g_file_test (priv->recent_array[i], G_FILE_TEST_EXISTS))
