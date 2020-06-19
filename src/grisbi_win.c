@@ -107,7 +107,7 @@ struct _GrisbiWinPrivate
     GtkWidget *         hpaned_general;
 	GtkWidget *			navigation_sw;
     GtkWidget *         notebook_general;
-	GtkWidget *			account_page;			/* account_page est un notebook qui contient les onglets du compte */
+	GtkWidget *			account_page;					/* account_page est un notebook qui contient les onglets du compte */
 	GtkWidget *			scheduler_calendar;
     GtkWidget *         vbox_general;
 
@@ -552,42 +552,47 @@ static gboolean grisbi_win_fill_general_notebook (GrisbiWin *win)
  */
 static GtkWidget *grisbi_win_create_general_notebook (GrisbiWin *win)
 {
+	GtkWidget *vpaned_general;
 	GtkWidget *sw_general;
-	GtkWidget *grid;
 	GrisbiWinPrivate *priv;
 
     devel_debug ("create_main_notebook");
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
-
     sw_general = gtk_scrolled_window_new (NULL, NULL);
     gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw_general),
                                     GTK_POLICY_AUTOMATIC,
                                     GTK_POLICY_AUTOMATIC);
 
-    /* the main right page is a grid with a notebook on the top and the form on the bottom */
-	grid = gtk_grid_new ();
-	gtk_container_add (GTK_CONTAINER(sw_general), grid);
-	gtk_grid_set_column_homogeneous (GTK_GRID (grid), TRUE);
+    /* the main right page is a paned with a notebook on the top and the form on the bottom */
+
+	vpaned_general = gtk_paned_new (GTK_ORIENTATION_VERTICAL);
+	gtk_container_add (GTK_CONTAINER (sw_general), vpaned_general);
 
 	/* append the notebook */
     priv->notebook_general = gtk_notebook_new ();
     gtk_notebook_set_show_tabs (GTK_NOTEBOOK (priv->notebook_general), FALSE);
     gtk_notebook_set_show_border (GTK_NOTEBOOK (priv->notebook_general), FALSE);
-  	gtk_grid_attach (GTK_GRID (grid), priv->notebook_general, 0,0,1,1);
-
 
     /* append the form */
     priv->form_general = grisbi_win_form_new (win);
-	gtk_grid_attach (GTK_GRID (grid), priv->form_general, 0,1,1,1);
     gtk_widget_hide (priv->form_general);
     g_signal_connect (G_OBJECT (priv->form_expander),
                       "size_allocate",
                       G_CALLBACK (grisbi_win_form_size_allocate),
                       win);
 
+	gtk_paned_pack1 (GTK_PANED (vpaned_general),
+					 priv->notebook_general,
+					 TRUE,
+					 TRUE);
+    gtk_paned_pack2 (GTK_PANED (vpaned_general),
+					 priv->form_general,
+					 TRUE,
+					 FALSE);
+
 	/* show widgets */
 	gtk_widget_show (sw_general);
-    gtk_widget_show (grid);
+	gtk_widget_show (vpaned_general);
     gtk_widget_show (priv->notebook_general);
 
     return sw_general;
@@ -1004,13 +1009,6 @@ static void grisbi_win_init (GrisbiWin *win)
     /* init widgets in grisbi_win.ui */
 	gtk_widget_init_template (GTK_WIDGET (win));
 
-	/* creation du widget stack_box->GtkStack */
-	priv->stack_box = gtk_stack_new ();
-	gtk_stack_set_transition_type (GTK_STACK (priv->stack_box), GTK_STACK_TRANSITION_TYPE_NONE);
-	gtk_stack_set_vhomogeneous (GTK_STACK (priv->stack_box), TRUE);
-	gtk_widget_show (priv->stack_box);
-	gtk_box_pack_start (GTK_BOX (priv->main_box), priv->stack_box, TRUE, TRUE, 0);
-
 	/* set font size of statusbar */
 	gtk_widget_set_name (priv->statusbar, "global_statusbar");
 
@@ -1086,6 +1084,7 @@ static void grisbi_win_class_init (GrisbiWinClass *klass)
                                                  "/org/gtk/grisbi/ui/grisbi_win.ui");
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, main_box);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, stack_box);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, statusbar);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, no_file_page);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, no_file_sw);
@@ -1728,7 +1727,7 @@ gboolean grisbi_win_set_window_title (gint account_number)
 void grisbi_win_set_size_and_position (GtkWindow *win)
 {
     GdkGeometry size_hints = {
-    1020, 750, -1, -1, 1020, 750, 10, 10, 1.5, 1.5, GDK_GRAVITY_NORTH_WEST
+    1020, 700, -1, -1, 1020, 700, 10, 10, 1.5, 1.5, GDK_GRAVITY_NORTH_WEST
   };
 
     /* on fixe la taille mini remplacer main_box par plus pertinent.*/
