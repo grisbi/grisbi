@@ -442,7 +442,7 @@ static void grisbi_app_init_recent_files_menu (GrisbiApp *app)
 
     priv = grisbi_app_get_instance_private (GRISBI_APP (app));
 
-	if (priv->recent_array && g_strv_length (priv->recent_array) == 0)
+	if (!priv->recent_array || (priv->recent_array && g_strv_length (priv->recent_array) == 0))
 	{
 		return;
 	}
