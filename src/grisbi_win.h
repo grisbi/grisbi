@@ -18,7 +18,6 @@ typedef struct _GrisbiWinClass  GrisbiWinClass;
 GType 			grisbi_win_get_type (void) G_GNUC_CONST;
 
 void			grisbi_win_close_window					(GtkWindow *win);
-GtkWidget *     grisbi_win_create_general_widgets           (GrisbiWin *win);
 
 void 			grisbi_win_form_expander_hide_frame			(void);
 gboolean 		grisbi_win_form_expander_is_visible 		(void);

@@ -613,6 +613,78 @@ static void grisbi_win_init_general_widgets (GrisbiWin *win)
 	gtk_widget_show (priv->vbox_general);
 }
 
+/**
+ * create vbox_general
+ *
+ * \param
+ *
+ * \return
+ **/
+static void grisbi_win_create_general_widgets (GrisbiWin *win)
+{
+	GrisbiWinPrivate *priv;
+	GtkWidget *navigation_pane;
+
+    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+
+    /* création de vbox_general */
+	if (priv->vbox_general == NULL)
+	{
+		grisbi_win_init_general_widgets (win);
+		gtk_stack_add_named (GTK_STACK (priv->stack_box), priv->vbox_general, "file_page");
+	}
+
+    /* chargement de headings_eb */
+    /* initialisation de headings_eb */
+    grisbi_win_create_headings_eb (GRISBI_WIN (win));
+    gtk_box_pack_start (GTK_BOX (priv->vbox_general), priv->headings_eb, FALSE, FALSE, 0);
+    if (conf.show_headings_bar)
+        gtk_widget_show_all (priv->headings_eb);
+    else
+        gtk_widget_hide (priv->headings_eb);
+
+    /* Then create the main hpaned. */
+    priv->hpaned_general = gtk_paned_new (GTK_ORIENTATION_HORIZONTAL);
+    g_signal_connect (G_OBJECT (priv->hpaned_general),
+                      "size_allocate",
+                      G_CALLBACK (grisbi_win_hpaned_size_allocate),
+                      priv);
+    gtk_box_pack_start (GTK_BOX (priv->vbox_general), priv->hpaned_general, TRUE, TRUE, 0);
+
+	/* recuperation des enfants pour gestion dimmension */
+	navigation_pane = gsb_gui_navigation_create_navigation_pane ();
+	priv->navigation_sw = gtk_grid_get_child_at (GTK_GRID (navigation_pane), 0, 0);
+
+    /* fill the main hpaned. */
+	gtk_paned_pack1 (GTK_PANED (priv->hpaned_general),
+					 navigation_pane,
+					 TRUE,
+					 FALSE);
+    gtk_paned_pack2 (GTK_PANED (priv->hpaned_general),
+					 grisbi_win_create_general_notebook (win),
+					 TRUE,
+					 TRUE);
+    gtk_container_set_border_width (GTK_CONTAINER (priv->hpaned_general), MARGIN_BOX);
+
+    if (conf.panel_width > 250)
+        gtk_paned_set_position (GTK_PANED (priv->hpaned_general), conf.panel_width);
+    else
+    {
+        gint width, height;
+
+        gtk_window_get_size (GTK_WINDOW (win), &width, &height);
+        gtk_paned_set_position (GTK_PANED (priv->hpaned_general), (gint) width / 4);
+    }
+
+    /* show the widgets */
+    gtk_widget_show (priv->hpaned_general);
+    gtk_widget_show (priv->vbox_general);
+
+	/* set visible statusbar */
+	if (!gtk_widget_get_visible (priv->statusbar))
+		gtk_widget_show (priv->statusbar);
+}
+
 /* NO_FILE_PAGE */
 /**
  * page d'accueil si on ne charge pas un fichier automatiquement
@@ -1791,80 +1863,6 @@ void grisbi_win_no_file_page_update (GrisbiWin *win)
 }
 
 /* VBOX_GENERAL */
-/**
- * create vbox_general
- *
- * \param
- *
- * \return
- **/
-GtkWidget *grisbi_win_create_general_widgets (GrisbiWin *win)
-{
-	GrisbiWinPrivate *priv;
-	GtkWidget *navigation_pane;
-
-    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
-
-    /* création de vbox_general */
-	if (priv->vbox_general == NULL)
-	{
-		grisbi_win_init_general_widgets (win);
-		gtk_stack_add_named (GTK_STACK (priv->stack_box), priv->vbox_general, "file_page");
-	}
-
-    /* chargement de headings_eb */
-    /* initialisation de headings_eb */
-    grisbi_win_create_headings_eb (GRISBI_WIN (win));
-    gtk_box_pack_start (GTK_BOX (priv->vbox_general), priv->headings_eb, FALSE, FALSE, 0);
-    if (conf.show_headings_bar)
-        gtk_widget_show_all (priv->headings_eb);
-    else
-        gtk_widget_hide (priv->headings_eb);
-
-    /* Then create the main hpaned. */
-    priv->hpaned_general = gtk_paned_new (GTK_ORIENTATION_HORIZONTAL);
-    g_signal_connect (G_OBJECT (priv->hpaned_general),
-                      "size_allocate",
-                      G_CALLBACK (grisbi_win_hpaned_size_allocate),
-                      priv);
-    gtk_box_pack_start (GTK_BOX (priv->vbox_general), priv->hpaned_general, TRUE, TRUE, 0);
-
-	/* recuperation des enfants pour gestion dimmension */
-	navigation_pane = gsb_gui_navigation_create_navigation_pane ();
-	priv->navigation_sw = gtk_grid_get_child_at (GTK_GRID (navigation_pane), 0, 0);
-
-    /* fill the main hpaned. */
-	gtk_paned_pack1 (GTK_PANED (priv->hpaned_general),
-					 navigation_pane,
-					 TRUE,
-					 FALSE);
-    gtk_paned_pack2 (GTK_PANED (priv->hpaned_general),
-					 grisbi_win_create_general_notebook (win),
-					 TRUE,
-					 TRUE);
-    gtk_container_set_border_width (GTK_CONTAINER (priv->hpaned_general), MARGIN_BOX);
-
-    if (conf.panel_width > 250)
-        gtk_paned_set_position (GTK_PANED (priv->hpaned_general), conf.panel_width);
-    else
-    {
-        gint width, height;
-
-        gtk_window_get_size (GTK_WINDOW (win), &width, &height);
-        gtk_paned_set_position (GTK_PANED (priv->hpaned_general), (gint) width / 4);
-    }
-
-    /* show the widgets */
-    gtk_widget_show (priv->hpaned_general);
-    gtk_widget_show (priv->vbox_general);
-
-	/* set visible statusbar */
-	if (!gtk_widget_get_visible (priv->statusbar))
-		gtk_widget_show (priv->statusbar);
-
-    return priv->vbox_general;
-}
-
 /**
  * free vbox_general
  *
