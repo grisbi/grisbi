@@ -94,6 +94,23 @@ G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageDisplayFonts, prefs_page_display_fonts, GTK
 /* Private functions                                                          */
 /******************************************************************************/
 /**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+static void prefs_page_display_fonts_notebook_css_rules_switch_page_cliked (GtkNotebook *notebook,
+                                                            				GtkWidget *page,
+                                                            				guint page_num,
+                                                            				GrisbiWinRun *w_run)
+{
+	devel_debug_int (page_num);
+
+	w_run->prefs_css_rules_tab = page_num;
+}
+
+/**
  * Modifie manuellement le thème de grisbi quand la détection automatique
  * ne fonctionne pas.
  *
@@ -509,6 +526,8 @@ static void prefs_page_display_fonts_setup_page (PrefsPageDisplayFonts *page)
 	GtkWidget *font_button;
 	GtkWidget *preview;
 	GdkPixbuf *pixbuf = NULL;
+	gboolean is_loading;
+	GrisbiWinRun *w_run = NULL;
 	PrefsPageDisplayFontsPrivate *priv;
 
 	devel_debug (NULL);
@@ -603,6 +622,24 @@ static void prefs_page_display_fonts_setup_page (PrefsPageDisplayFonts *page)
 	/* set css rules */
 	priv->w_css_rules = GTK_WIDGET (widget_css_rules_new (GTK_WIDGET (page)));
 	gtk_box_pack_start (GTK_BOX (priv->box_css_rules), priv->w_css_rules, TRUE, TRUE, 0);
+
+	/* set memorisation de l'onglet selectionne si 1 fichier chargé */
+	is_loading = grisbi_win_file_is_loading ();
+	if (is_loading)
+	{
+		GtkWidget *notebook;
+
+		w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+		notebook = widget_css_rules_get_notebook (priv->w_css_rules);
+		if (w_run->prefs_css_rules_tab)
+			gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook),  w_run->prefs_css_rules_tab);
+
+		/* set signal notebook_css_rules */
+		g_signal_connect (G_OBJECT (notebook),
+						  "switch-page",
+						  (GCallback) prefs_page_display_fonts_notebook_css_rules_switch_page_cliked,
+						  w_run);
+	}
 }
 
 /******************************************************************************/

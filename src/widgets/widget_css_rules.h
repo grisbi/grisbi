@@ -32,6 +32,7 @@ struct _WidgetCssRulesClass
 GType				widget_css_rules_get_type				(void) G_GNUC_CONST;
 
 WidgetCssRules * 	widget_css_rules_new					(GtkWidget *page);
+GtkWidget *			widget_css_rules_get_notebook			(GtkWidget *w_css_rules);
 
 /* END_DECLARATION */
 

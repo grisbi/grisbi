@@ -365,6 +365,7 @@ struct _GrisbiWinRun
 	gboolean	import_asso_replace_rule;					/* TRUE = remplacela règle existante */
 
 	/* prefs */
+	guint		prefs_css_rules_tab;						/* mémorise l'onglet css rules sélectionné */
 	gboolean	prefs_expand_tree;							/* memorise le choix du bouton expand collapse du treeview des preferences */
 	guint		prefs_import_tab;							/* mémorise l'onglet import sélectionné */
 	gchar *		prefs_selected_row;							/* memorise l'onglet selectionné du treeview des preferences */

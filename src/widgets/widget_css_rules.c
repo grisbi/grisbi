@@ -477,6 +477,7 @@ static void widget_css_rules_class_init (WidgetCssRulesClass *klass)
 												 "/org/gtk/grisbi/widgets/widget_css_rules.ui");
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetCssRules, vbox_css_rules);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetCssRules, notebook_css_rules);
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetCssRules, button_back_home_rules);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetCssRules, button_home_rules);
@@ -516,6 +517,22 @@ WidgetCssRules *widget_css_rules_new (GtkWidget *page)
 	w_color = g_object_new (WIDGET_CSS_RULES_TYPE, NULL);
 
 	return w_color;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+GtkWidget *widget_css_rules_get_notebook (GtkWidget *w_css_rules)
+{
+	WidgetCssRulesPrivate *priv;
+
+	priv = widget_css_rules_get_instance_private (WIDGET_CSS_RULES (w_css_rules));
+
+	return priv->notebook_css_rules;
 }
 
 /**
