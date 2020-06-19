@@ -80,7 +80,6 @@ struct _PrefsPageDisplayFontsPrivate
     GtkWidget *			checkbutton_display_fonts;
     GtkWidget *         hbox_display_fonts;
 
-    //~ GtkWidget *         box_select_theme;
 	GtkWidget *			combo_force_theme;
 	GtkWidget *			label_theme_selected;
 
