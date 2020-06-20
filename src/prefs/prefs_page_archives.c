@@ -383,7 +383,6 @@ static void prefs_page_archives_fill_list (GtkListStore *store)
 {
     GSList *tmp_list;
 
-	devel_debug (NULL);
     gtk_list_store_clear (GTK_LIST_STORE (store));
     tmp_list = gsb_data_archive_get_archives_list ();
 
@@ -486,8 +485,6 @@ static void prefs_page_archives_setup_treeview_archives (PrefsPageArchives *page
 	N_("Name"), N_("Initial date"), N_("Final date"), N_("Financial year"), N_("Report name") };
     gfloat alignment[] = {
 	COLUMN_LEFT, COLUMN_CENTER, COLUMN_CENTER , COLUMN_CENTER, COLUMN_CENTER };
-
-	devel_debug (NULL);
 
 	priv = prefs_page_archives_get_instance_private (page);
 

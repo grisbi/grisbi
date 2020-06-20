@@ -860,8 +860,6 @@ static void gsb_scheduler_list_create_list_columns (GtkWidget *tree_view)
 		COLUMN_CENTER, COLUMN_LEFT, COLUMN_RIGHT, COLUMN_RIGHT
     };
 
-    devel_debug (NULL);
-
     for (i = 0 ; i < SCHEDULER_COL_VISIBLE_COLUMNS ; i++)
     {
         GtkCellRenderer *cell_renderer;
@@ -1041,8 +1039,6 @@ static GtkTreeModel *gsb_scheduler_list_create_model (void)
 {
     GtkTreeStore *store;
     GtkTreeModel *sortable;
-
-    devel_debug (NULL);
 
     store = gtk_tree_store_new (SCHEDULER_COL_NB_TOTAL,
 								G_TYPE_STRING,					/* COL_NB_DATE */

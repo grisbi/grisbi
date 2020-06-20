@@ -352,8 +352,6 @@ WidgetBankDetails *widget_bank_details_new (PrefsPageBank *page_bank,
 {
 	WidgetBankDetails *w_bank_details;
 
-	devel_debug (NULL);
-
 	w_bank_details = g_object_new (WIDGET_BANK_DETAILS_TYPE, NULL);
 	widget_bank_details_setup_widget (w_bank_details, page_bank, combobox);
 
@@ -375,7 +373,6 @@ void widget_bank_details_update_bank_data (gint bank_number,
     GtkTextBuffer *buffer;
 	WidgetBankDetailsPrivate *priv;
 
-	devel_debug_int (bank_number);
 	priv = widget_bank_details_get_instance_private (WIDGET_BANK_DETAILS (w_bank_details));
 
     /* set bank_name */
@@ -468,7 +465,6 @@ void widget_bank_details_update_form (gint bank_number,
 {
 	WidgetBankDetailsPrivate *priv;
 
-	devel_debug_int (bank_number);
 	priv = widget_bank_details_get_instance_private (WIDGET_BANK_DETAILS (w_bank_details));
 
 	/* we can let the defaults func even for -1 because with a bank_number of -1, all the gsb_data_bank_get_...
@@ -501,9 +497,7 @@ void widget_bank_details_select_name_entry (gint bank_number,
 											GtkWidget *w_bank_details)
 {
 	WidgetBankDetailsPrivate *priv;
-	devel_debug_int (bank_number);
 
-	devel_debug (NULL);
 	priv = widget_bank_details_get_instance_private (WIDGET_BANK_DETAILS (w_bank_details));
 
 	/* sert quand on crée une banque à partir des préférences du compte */

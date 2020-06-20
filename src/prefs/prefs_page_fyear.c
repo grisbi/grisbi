@@ -242,7 +242,6 @@ static gboolean prefs_page_fyear_button_add_clicked (GtkWidget *tree_view)
     gint fyear_number;
 	static gboolean add_mod = FALSE;
 
-	devel_debug_int (add_mod);
 	if (add_mod)
 	{
 		add_mod = FALSE;
@@ -570,7 +569,6 @@ static void prefs_page_fyear_setup_tree_view (PrefsPageFyear *page)
     gint i;
 	PrefsPageFyearPrivate *priv;
 
-	devel_debug (NULL);
 	priv = prefs_page_fyear_get_instance_private (page);
 
 	/* Create tree store */
@@ -647,7 +645,6 @@ static void prefs_page_fyear_button_sort_order_toggled (GtkWidget *toggle_button
 	GSettings *settings;
     GtkTreeModel *model;
 	gboolean is_loading;
-devel_debug (NULL);
 
 	is_loading = grisbi_win_file_is_loading ();
 	settings = grisbi_settings_get_settings (SETTINGS_PREFS);

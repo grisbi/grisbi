@@ -747,8 +747,6 @@ void grisbi_cmd_move_to_account_menu (GSimpleAction *action,
     gint target_account = 0;
 	gint source_account;
 
-	devel_debug (NULL);
-
 	target = g_action_get_name (G_ACTION (action));
 	tmp_str = gsb_string_extract_int (target);
 	if (tmp_str && strlen ( tmp_str ) > 0)
@@ -807,8 +805,6 @@ void grisbi_cmd_show_form_toggle (GSimpleAction *action,
 								  GVariant *parameter,
 								  gpointer app)
 {
-    devel_debug (NULL);
-
     grisbi_win_switch_form_expander ();
     conf.formulaire_toujours_affiche = !conf.formulaire_toujours_affiche;
 
@@ -915,8 +911,6 @@ void grisbi_cmd_show_ope_radio (GSimpleAction *action,
 	const gchar *target;
     gint index_target = 0;
 
-	devel_debug (NULL);
-
 	target = g_variant_get_string (parameter, NULL);
     index_target = atoi (target);
     gsb_transactions_list_set_visible_rows_number (index_target);
@@ -1017,8 +1011,6 @@ gboolean gsb_menu_update_view_menu (gint account_number)
     GAction *action;
     GVariant *parameter;
 
-    devel_debug_int (account_number);
-
     win = grisbi_app_get_active_window (NULL);
 
     /* update the showing of reconciled transactions */
@@ -1071,8 +1063,6 @@ void gsb_menu_gui_sensitive_win_menu_item (const gchar *item_name,
     GrisbiWin *win;
     GAction *action;
 
-    //~ printf ("gsb_menu_gui_sensitive_win_menu_item : \"%s\" sensitive = %d\n", item_name, state);
-
     win = grisbi_app_get_active_window (NULL);
     action = g_action_map_lookup_action (G_ACTION_MAP (win), item_name);
     g_simple_action_set_enabled (G_SIMPLE_ACTION (action), state);
@@ -1100,8 +1090,6 @@ void gsb_menu_set_menus_select_transaction_sensitive (gboolean sensitive)
         NULL
     };
     const gchar **tmp = items;
-
-    devel_debug_int (sensitive);
 
     if (flag_sensitive == sensitive)
         return;
@@ -1133,8 +1121,6 @@ void gsb_menu_set_menus_select_scheduled_sensitive (gboolean sensitive)
         NULL
     };
     const gchar **tmp = items;
-
-    devel_debug_int (sensitive);
 
     if (flag_sensitive == sensitive)
         return;
@@ -1172,8 +1158,6 @@ void gsb_menu_set_menus_with_file_sensitive (gboolean sensitive)
     };
     const gchar **tmp = items;
 
-    devel_debug_int (sensitive);
-
     if (sensitive)
     {
         grisbi_win_menu_move_to_acc_new ();
@@ -1206,7 +1190,6 @@ void gsb_menu_set_menus_view_account_sensitive (gboolean sensitive)
     };
     const gchar **tmp = items;
 
-    devel_debug_int (sensitive);
     while (*tmp)
     {
         gsb_menu_gui_sensitive_win_menu_item (*tmp, sensitive);

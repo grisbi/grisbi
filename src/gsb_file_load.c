@@ -2882,7 +2882,7 @@ static  void gsb_file_load_import_rule_spec_line (const gchar **attribute_names,
 	gint index =0;
     gint import_rule_number = 0;
 	SpecConfData *spec_conf_data;
-devel_debug (NULL);
+
 	if ( !attribute_names[i])
 		return;
 
@@ -3635,8 +3635,6 @@ static  void gsb_file_load_bet_loan_part (const gchar **attribute_names,
 {
     gint i=0;
 	LoanStruct *s_loan;
-
-	devel_debug (NULL);
 
     if (!attribute_names[i])
 		return;

@@ -663,7 +663,6 @@ gboolean gsb_currency_update_combobox_currency_list (void)
     gint old_currency_number = -1;
 	gchar* tmpstr;
 
-    devel_debug (NULL);
 	if (!combobox_currency_store || !gsb_data_currency_get_currency_list ())
 		return FALSE;
 

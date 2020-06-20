@@ -467,8 +467,6 @@ static gboolean prefs_page_bet_account_changed (GtkWidget *combo,
 	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
 
     account_number = gsb_account_get_combo_account_number (combo);
-	devel_debug_int (account_number);
-
 	account_page = grisbi_win_get_account_page ();
 
     /* on bloque l'appel aux fonctions de callback */

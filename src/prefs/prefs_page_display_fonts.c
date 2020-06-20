@@ -104,8 +104,6 @@ static void prefs_page_display_fonts_notebook_css_rules_switch_page_cliked (GtkN
                                                             				guint page_num,
                                                             				GrisbiWinRun *w_run)
 {
-	devel_debug_int (page_num);
-
 	w_run->prefs_css_rules_tab = page_num;
 }
 
@@ -124,7 +122,6 @@ static void	prefs_page_display_fonts_combo_force_theme_changed (GtkWidget *combo
 {
 	GtkTreeIter iter;
 
-	devel_debug (NULL);
     if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (combo), &iter))
     {
 		GtkTreeModel *model;
@@ -169,8 +166,6 @@ static void prefs_page_display_fonts_update_fonte_listes (gchar *fontname,
 {
     GValue value = G_VALUE_INIT;
     gchar *font;
-
-    devel_debug (NULL);
 
     if (conf.custom_fonte_listes)
 		font = fontname;
@@ -221,8 +216,6 @@ static void prefs_page_display_fonts_change_logo_accueil (GtkWidget *file_select
 	const gchar *selected_filename;
 	gchar *chemin_logo;
 	PrefsPageDisplayFontsPrivate *priv;
-
-	devel_debug (NULL);
 
 	if (!gsb_data_account_get_accounts_amount ())
 		return;

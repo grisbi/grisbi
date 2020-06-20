@@ -952,8 +952,6 @@ static GtkWidget *bet_finance_ui_create_amortization_page (void)
     GtkWidget *label;
     GtkWidget *tree_view;
 
-    devel_debug (NULL);
-
     page = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
 
     /* frame pour la barre d'outils */
@@ -1440,8 +1438,6 @@ static GtkWidget *bet_finance_ui_create_simulator_page (void)
     GtkWidget *tree_view;
     gchar *str_capital;
 
-    devel_debug (NULL);
-
     page = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
 
     /* frame pour la barre d'outils */
@@ -1666,7 +1662,6 @@ GtkWidget *bet_finance_ui_create_account_amortization_page (void)
     GtkWidget *account_page;
 
     devel_debug (NULL);
-
     account_page = grisbi_win_get_account_page ();
 
     /* frame pour la barre d'outils */
@@ -1709,7 +1704,6 @@ GtkWidget *bet_finance_ui_create_amortization_heading (GtkWidget *parent)
     GtkWidget *label_title;
     GtkWidget *label;
 
-    devel_debug (NULL);
     heading = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
 
     /* frame pour la barre d'outils */
@@ -1789,7 +1783,6 @@ GtkWidget *bet_finance_ui_create_amortization_tree_view (GtkWidget *container,
     GtkTreeViewColumn *column;
     gchar *title;
 
-    devel_debug (NULL);
     tree_view = gtk_tree_view_new ();
     g_object_set_data (G_OBJECT (tree_view), "amortization_initial_date", GINT_TO_POINTER (FALSE));
 

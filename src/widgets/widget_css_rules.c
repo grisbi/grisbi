@@ -284,7 +284,6 @@ static void widget_css_rules_spinbutton_value_changed (GtkSpinButton *spin_butto
 {
 	gint new_font_size;
 
-	devel_debug (NULL);
 	new_font_size = gtk_spin_button_get_value_as_int (spin_button);
 	if (old_font_size == new_font_size)
 	{

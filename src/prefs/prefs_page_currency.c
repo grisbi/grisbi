@@ -224,7 +224,6 @@ static void prefs_page_currency_popup_init_dialog (PrefsPageCurrency *page,
     GtkTreeSelection *selection;
 	PrefsPageCurrencyPrivate *priv;
 
-	devel_debug (NULL);
 	priv = prefs_page_currency_get_instance_private (page);
 
 	gtk_window_set_destroy_with_parent (GTK_WINDOW (priv->dialog_currency_add), TRUE);
@@ -472,7 +471,6 @@ static void prefs_page_currency_button_remove_clicked (GtkWidget *button,
 	GrisbiWinRun *w_run;
 	PrefsPageCurrencyPrivate *priv;
 
-	devel_debug (NULL);
 	priv = prefs_page_currency_get_instance_private (page);
     currency_number = prefs_page_currency_get_selected (GTK_TREE_VIEW (priv->treeview_currency));
     if (!currency_number)
@@ -663,7 +661,6 @@ static void prefs_page_currency_setup_treeview (PrefsPageCurrency *page)
     GtkTreeSelection *selection;
 	PrefsPageCurrencyPrivate *priv;
 
-	devel_debug (NULL);
 	priv = prefs_page_currency_get_instance_private (page);
 	model = gtk_list_store_new (NUM_CURRENCIES_COLUMNS,
 								GDK_TYPE_PIXBUF,			/* CURRENCY_FLAG_COLUMN */
@@ -825,7 +822,6 @@ void prefs_page_currency_entry_changed (GtkWidget *entry,
     gint currency_number;
 	PrefsPageCurrencyPrivate *priv;
 
-	devel_debug (NULL);
 	priv = prefs_page_currency_get_instance_private (page);
 
     selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->treeview_currency));
@@ -908,7 +904,6 @@ GtkWidget *prefs_page_currency_popup_get_treeview (GtkWidget *page)
 {
 	PrefsPageCurrencyPrivate *priv;
 
-	devel_debug (NULL);
 	priv = prefs_page_currency_get_instance_private (PREFS_PAGE_CURRENCY (page));
 
 	return priv->treeview_popup;

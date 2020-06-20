@@ -382,7 +382,6 @@ gchar *gsb_rgba_get_couleur_to_string (const gchar *couleur)
 GdkRGBA *gsb_rgba_get_couleur_with_indice (const gchar *couleur,
                         gint indice)
 {
-
     if (strcmp (couleur, "couleur_fond") == 0)
 	{
 		if (indice == 0)
@@ -570,8 +569,8 @@ gchar *gsb_rgba_get_string_to_save (void)
 gchar *gsb_rgba_get_couleur_to_hexa_string  (const gchar *couleur)
 {
     GdkRGBA *rgba;
-devel_debug (couleur);
-    rgba = gsb_rgba_get_couleur (couleur);
+
+	rgba = gsb_rgba_get_couleur (couleur);
 
     return g_strdup_printf ("#%02X%02X%02X",
                               (int)(0.5 + CLAMP (rgba->red, 0., 1.) * 255.),
@@ -655,7 +654,6 @@ gchar *gsb_css_get_rule_from_name (const gchar *name,
 	const gchar *css_data;
 	gchar *tmp_str = NULL;
 
-	devel_debug (NULL);
 	css_data = grisbi_app_get_css_data ();
 	tmp_str = g_strrstr (css_data, name);
 	if (tmp_str)

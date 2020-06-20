@@ -1558,14 +1558,12 @@ static void update_soldes_minimaux (gboolean force)
     GtkWidget *label;
     GSList *list_tmp;
 
-
     if (!force
 	 &&
 	 !run.mise_a_jour_soldes_minimaux)
 	return;
 
-    devel_debug ("update_soldes_minimaux");
-
+    devel_debug (NULL);
     run.mise_a_jour_soldes_minimaux = FALSE;
 
     /* s'il y avait déjà un fils dans la frame, le détruit */
