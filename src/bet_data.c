@@ -2029,7 +2029,7 @@ void bet_data_transfert_update_date_if_necessary (TransfertData *transfert,
 
     date_jour = gdate_today ( );
 
-    if ( g_date_compare ( date_jour, transfert -> date_bascule ) >= 0 )
+    if ( g_date_compare ( date_jour, date_bascule ) >= 0 )
     {
         gchar *msg;
         const gchar *tmp_str;
