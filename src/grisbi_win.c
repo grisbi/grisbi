@@ -170,27 +170,6 @@ struct _GrisbiWinEtat etat;
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
-/* STATUS_BAR */
-/**
- * initiate the GtkStatusBar to hold various status
- * information.
- *
- * \param GrisbiWin *win
- *
- * \return
- */
-static void grisbi_win_init_statusbar (GrisbiWin *win)
-{
-	GrisbiWinPrivate *priv;
-
-	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
-
-    /* set status_bar PROVISOIRE */
-    priv->context_id = gtk_statusbar_get_context_id (GTK_STATUSBAR (priv->statusbar), "Grisbi");
-    priv->message_id = G_MAXUINT;
-}
-
-
 /* HEADINGS_EB */
 static void grisbi_win_headings_private_update_label_markup (GtkLabel *label,
                                                              const gchar *text,
@@ -679,10 +658,6 @@ static void grisbi_win_create_general_widgets (GrisbiWin *win)
     /* show the widgets */
     gtk_widget_show (priv->hpaned_general);
     gtk_widget_show (priv->vbox_general);
-
-	/* set visible statusbar */
-	if (!gtk_widget_get_visible (priv->statusbar))
-		gtk_widget_show (priv->statusbar);
 }
 
 /* NO_FILE_PAGE */
@@ -1021,7 +996,8 @@ static void grisbi_win_init (GrisbiWin *win)
 	}
 
 	/* initialisation de la barre d'état */
-	grisbi_win_init_statusbar (GRISBI_WIN (win));
+	if (!conf.low_resolution_screen)
+		grisbi_win_init_statusbar (GRISBI_WIN (win));
 
 	/* initialisation du format de la date */
 	(priv->w_etat)->date_format = gsb_date_initialise_format_date ();
@@ -2267,6 +2243,35 @@ void grisbi_win_headings_update_suffix (const gchar *suffix)
 
 /* STATUS_BAR */
 /**
+ * initiate the GtkStatusBar to hold various status
+ * information.
+ *
+ * \param GrisbiWin *win
+ *
+ * \return
+ */
+void grisbi_win_init_statusbar (GrisbiWin *win)
+{
+	GrisbiWinPrivate *priv;
+
+	if (!win)
+		win = grisbi_app_get_active_window (NULL);
+
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+
+    /* set status_bar PROVISOIRE */
+    priv->context_id = gtk_statusbar_get_context_id (GTK_STATUSBAR (priv->statusbar), "Grisbi");
+    priv->message_id = G_MAXUINT;
+
+	/* set visible statusbar if necessary */
+	if (conf.low_resolution_screen)
+		gtk_widget_hide (priv->statusbar);
+	else
+		gtk_widget_show (priv->statusbar);
+}
+
+
+/**
  * Clear any message in the status bar.
  *
  * \param
@@ -2279,7 +2284,7 @@ void grisbi_win_status_bar_clear (void)
 
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (grisbi_app_get_active_window (NULL)));
 
-    if (!priv->statusbar || !GTK_IS_STATUSBAR (priv->statusbar))
+    if (conf.low_resolution_screen || !priv->statusbar || !GTK_IS_STATUSBAR (priv->statusbar))
         return;
 
     if (priv->message_id < G_MAXUINT)
@@ -2305,7 +2310,7 @@ void grisbi_win_status_bar_message (gchar *message)
 
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (grisbi_app_get_active_window (NULL)));
 
-    if (!priv->statusbar || !GTK_IS_STATUSBAR (priv->statusbar))
+    if (conf.low_resolution_screen || !priv->statusbar || !GTK_IS_STATUSBAR (priv->statusbar))
         return;
 
     if (priv->message_id < G_MAXUINT)
@@ -2336,6 +2341,9 @@ void grisbi_win_status_bar_wait (gboolean force_update)
     GdkDisplay *display;
     GdkWindow *current_window;
     GdkWindow *run_window;
+
+	if (conf.low_resolution_screen)
+		return;
 
     win = grisbi_app_get_active_window (NULL);
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
@@ -2390,6 +2398,9 @@ void grisbi_win_status_bar_stop_wait (gboolean force_update)
     GrisbiWin *win;
 	GrisbiWinPrivate *priv;
 
+	if (conf.low_resolution_screen)
+		return;
+
     win = grisbi_app_get_active_window (NULL);
     if (!win)
         return;
@@ -2406,6 +2417,7 @@ void grisbi_win_status_bar_stop_wait (gboolean force_update)
     if (force_update)
         update_gui ();
 }
+
 /**
  *
  *
@@ -2417,6 +2429,9 @@ void grisbi_win_status_bar_set_font_size (gint font_size)
 {
 	gchar *data = NULL;
 	gchar *font_size_str;
+
+	if (conf.low_resolution_screen)
+		return;
 
 	font_size_str = utils_str_itoa (font_size);
 	data = g_strconcat ("#global_statusbar {\n\tfont-size: ", font_size_str, "px;\n}\n",  NULL);
