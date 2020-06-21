@@ -189,13 +189,17 @@ static gboolean prefs_page_display_gui_resolution_screen_toggled (GtkWidget *tog
 
 		gtk_window_resize (GTK_WINDOW (grisbi_app_get_active_window (NULL)), conf.main_width, conf.main_height);
 	}
+
 	/* init status bar */
 	grisbi_win_init_statusbar (NULL);
 
 	/* update navigation pane */
-	model = gsb_gui_navigation_get_model ();
-	gsb_gui_navigation_create_account_list (model);
-	gsb_gui_navigation_create_report_list (model);
+	if (grisbi_win_file_is_loading ())
+	{
+		model = gsb_gui_navigation_get_model ();
+		gsb_gui_navigation_create_account_list (model);
+		gsb_gui_navigation_create_report_list (model);
+	}
 
 	return FALSE;
 }
