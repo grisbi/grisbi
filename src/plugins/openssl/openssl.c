@@ -46,6 +46,30 @@
 static gchar *gsb_file_util_ask_for_crypt_key ( const gchar * file_name, gchar * additional_message,
                         gboolean encrypt );
 static void gsb_file_util_show_hide_passwd ( GtkToggleButton *togglebutton, GtkWidget *entry );
+
+static void gsb_file_util_show_hide_passwd_from_icon (GtkEntry *entry,
+													  GtkEntryIconPosition icon_pos,
+													  GdkEvent *event,
+													  gpointer null)
+{
+	GdkPixbuf *pixbuf;
+	gint visibility;
+
+    visibility = gtk_entry_get_visibility (GTK_ENTRY (entry) );
+	if (visibility)
+	{
+		pixbuf = g_object_get_data (G_OBJECT (entry), "pixbuf_1");
+		gtk_entry_set_icon_from_pixbuf (GTK_ENTRY (entry), GTK_ENTRY_ICON_SECONDARY, pixbuf);
+	}
+	else
+	{
+		pixbuf = g_object_get_data (G_OBJECT (entry), "pixbuf_2");
+		gtk_entry_set_icon_from_pixbuf (GTK_ENTRY (entry), GTK_ENTRY_ICON_SECONDARY, pixbuf);
+	}
+    gtk_entry_set_visibility (GTK_ENTRY (entry), !visibility);
+
+}
+
 /*END_STATIC*/
 
 static gchar *saved_crypt_key = NULL;
@@ -290,6 +314,8 @@ return_bad_password:
 gchar *gsb_file_util_ask_for_crypt_key ( const gchar * file_name, gchar * additional_message,
                         gboolean encrypt )
 {
+	GdkPixbuf *pixbuf_1;
+	GdkPixbuf *pixbuf_2;
     gchar *key = NULL;
     GtkWidget *dialog, *button = NULL, *label, *entry, *hbox, *hbox2, *vbox, *icon;
 	gchar *tmp_msg;
@@ -365,8 +391,21 @@ gchar *gsb_file_util_ask_for_crypt_key ( const gchar * file_name, gchar * additi
     gtk_entry_set_activates_default ( GTK_ENTRY ( entry ), TRUE );
     gtk_entry_set_visibility ( GTK_ENTRY ( entry ), FALSE );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), entry, TRUE, TRUE, 0 );
+	pixbuf_1 = gdk_pixbuf_new_from_resource ("/org/gtk/grisbi/images/gtk-eye-not-looking.svg", NULL);
+	pixbuf_2 = gdk_pixbuf_new_from_resource ("/org/gtk/grisbi/images/gtk-eye-looking.svg", NULL);
 
-    if ( w_run->new_crypted_file )
+	if (pixbuf_1 && pixbuf_2)
+	{
+		gtk_entry_set_icon_from_pixbuf (GTK_ENTRY (entry), GTK_ENTRY_ICON_SECONDARY, pixbuf_1);
+		g_object_set_data_full (G_OBJECT (entry), "pixbuf_1", pixbuf_1, g_object_unref);
+		g_object_set_data_full (G_OBJECT (entry), "pixbuf_2", pixbuf_2, g_object_unref);
+
+        g_signal_connect (G_OBJECT (entry),
+						  "icon-press",
+						  G_CALLBACK (gsb_file_util_show_hide_passwd_from_icon),
+						  NULL);
+	}
+	else if (w_run->new_crypted_file)
     {
         button = gtk_check_button_new_with_label ( _("View password") );
         gtk_box_pack_start ( GTK_BOX ( vbox ), button, FALSE, FALSE, 5 );
