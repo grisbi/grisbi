@@ -1233,7 +1233,11 @@ gchar *utils_str_remove_accents (const gchar *text)
 	nbre_chars = g_utf8_strlen (new_text, -1);
 
 	if (nbre_bytes == nbre_chars)
+	{
+		g_free (new_text);
+
 		return g_strdup (text);
+	}
 
     tmp_str = g_malloc0 (nbre_bytes * sizeof (gchar));
     ptr = (gchar*) new_text;
@@ -1249,6 +1253,8 @@ gchar *utils_str_remove_accents (const gchar *text)
 		}
         ptr = g_utf8_next_char (ptr);
     }
+
+	g_free (new_text);
 
 	return tmp_str;
 }
