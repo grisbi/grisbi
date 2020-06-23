@@ -435,7 +435,6 @@ static GtkWidget *gsb_assistant_file_page_3 ( GtkWidget *assistant )
 										   tree_view);
 
     gtk_widget_show_all (page);
-    return page;
 
 	return page;
 }
