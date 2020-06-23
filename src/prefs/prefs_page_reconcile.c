@@ -515,6 +515,7 @@ static gboolean prefs_page_reconcile_delete_clicked (GtkWidget *button,
 		if (reconcile_number)
 		{
 			gchar* tmp_str;
+            gboolean result;
 
 			/* we are on a reconcile,
 			 * we ask if the user want to continue and warn him */
@@ -524,10 +525,10 @@ static gboolean prefs_page_reconcile_delete_clicked (GtkWidget *button,
 										 "be un-reconciled and marked P.\n"
 										 "Are you sure you want to continue?"),
 									   gsb_data_reconcile_get_name (reconcile_number));
-			if (!dialogue_yes_no (tmp_str, _("Delete reconciliation"), GTK_RESPONSE_NO))
+            result = dialogue_yes_no (tmp_str, _("Delete reconciliation"), GTK_RESPONSE_NO);
+            g_free (tmp_str);
+			if (!result)
 			{
-				g_free (tmp_str);
-
 				return FALSE;
 			}
 
