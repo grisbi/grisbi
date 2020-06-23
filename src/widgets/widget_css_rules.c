@@ -126,6 +126,7 @@ static void widget_css_rules_button_default_all_rules_clicked  (GtkWidget *butto
 	gchar *css_filename;
 	gchar *tmp_str = NULL;
 	gchar *text;
+	gboolean ret;
 
 	css_filename = gsb_css_get_filename ();
 	text = g_strdup_printf (_("Warning: you will delete your grisbi color adjustment file.\n"
@@ -133,12 +134,11 @@ static void widget_css_rules_button_default_all_rules_clicked  (GtkWidget *butto
 							  "Do you want to delete the file: \"%s\"?"),
 							css_filename);
 
-	if (!dialogue_yes_no (text, _("Delete CSS user file"), GTK_RESPONSE_NO))
-	{
-		g_free (text);
+	ret = dialogue_yes_no (text, _("Delete CSS user file"), GTK_RESPONSE_NO);
+	g_free (text);
 
+	if (!ret)
 		return;
-	}
 
 	if (conf.use_type_theme == 2)
 		tmp_str = g_strdup ("grisbi-dark.css");
