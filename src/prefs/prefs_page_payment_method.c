@@ -990,10 +990,14 @@ static void prefs_page_payment_method_add_clicked (GtkWidget *button,
     else
     {
 		/* No selection, we use first account, first method*/
-		gtk_tree_model_get_iter_first (GTK_TREE_MODEL(model), &iter);
-		gtk_tree_model_iter_children (GTK_TREE_MODEL(model), &child, &iter);
-		final = &child;
-		type_final = GSB_PAYMENT_DEBIT;
+		if (gtk_tree_model_get_iter_first (GTK_TREE_MODEL(model), &iter)
+			&& gtk_tree_model_iter_children (GTK_TREE_MODEL(model), &child, &iter))
+		{
+			final = &child;
+			type_final = GSB_PAYMENT_DEBIT;
+		}
+		else
+			return;
     }
 
     /* final is now set on debit or credit line where we want to set the method of payment */

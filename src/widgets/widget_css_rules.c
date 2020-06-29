@@ -123,7 +123,7 @@ static void widget_css_rules_button_back_rules_clicked (GtkWidget *back_button,
 static void widget_css_rules_button_default_all_rules_clicked  (GtkWidget *button,
 																gpointer null)
 {
-	gchar *css_filename;
+	gchar *css_filename = NULL;
 	gchar *tmp_str = NULL;
 	gchar *text;
 	gboolean ret;
@@ -146,8 +146,8 @@ static void widget_css_rules_button_default_all_rules_clicked  (GtkWidget *butto
 		tmp_str = g_strdup ("grisbi.css");
 
 	css_filename = g_build_filename (gsb_dirs_get_user_config_dir (), tmp_str, NULL);
-
-	g_remove (css_filename);
+	if (css_filename)
+		g_remove (css_filename);
 
 	/* set old css rules */
 	gsb_css_load_css_data_from_file (NULL);
