@@ -113,7 +113,7 @@ void a_propos ( GtkWidget *bouton, gint data )
 {
     GtkWidget *about;
     GdkPixbuf *logo;
-    gchar *chemin_logo ;
+	gboolean logo_is_local = FALSE;
 
 #define CSUFFIX "\n"
 
@@ -216,10 +216,10 @@ NULL};
     logo = gsb_select_icon_get_logo_pixbuf ( );
     if (logo == NULL )
     {
-        chemin_logo = my_strdup ( LOGO_PATH );
-        logo =  gdk_pixbuf_new_from_file ( chemin_logo, NULL );
+		GdkPixbuf *pixbuf;
 
-        g_free ( chemin_logo );
+        logo =  gsb_select_icon_get_default_logo_pixbuf ();
+		logo_is_local = TRUE;
     }
 
     about = gtk_about_dialog_new ( );
@@ -252,8 +252,8 @@ NULL};
 
     gtk_widget_destroy (about);
 
-    if (logo)
-    g_object_unref (logo);
+	if (logo_is_local)
+		g_object_unref (logo);
 
     return;
 }
